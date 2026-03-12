@@ -1,0 +1,32 @@
+#pragma once
+
+#include <vector>
+
+#include "GUI/UI/UIHouses.h"
+#include "GUI/UI/UIHouseEnums.h"
+
+class GUIWindow_Transport : public GUIWindow_House {
+ public:
+    explicit GUIWindow_Transport(HouseId houseId) : GUIWindow_House(houseId) {}
+    virtual ~GUIWindow_Transport() {}
+
+    virtual void houseDialogueOptionSelected(DialogueId option) override;
+    virtual void houseSpecificDialogue() override;
+    virtual std::vector<DialogueId> listDialogueOptions() override;
+
+ protected:
+    void mainDialogue();
+    void transportDialogue();
+
+ private:
+    /**
+     * @brief                               New function.
+     *
+     * @param schedule_id                   Index to transport_schedule.
+     *
+     * @return                              Number of days travel by transport will take with hireling modifiers.
+     */
+    int getTravelTimeTransportDays(int schedule_id);
+};
+
+bool isTravelAvailable(HouseId houseId);

@@ -1,0 +1,71 @@
+[submodule "thirdparty/luajit"]
+	path = thirdparty/luajit
+	url = https://github.com/LuaJIT/LuaJIT.git
+	branch = v2.1
+[submodule "thirdparty/glm"]
+	path = thirdparty/glm
+	url = https://github.com/g-truc/glm
+[submodule "thirdparty/googletest"]
+	path = thirdparty/googletest
+	url = https://github.com/google/googletest.git
+[submodule "thirdparty/cli11"]
+	path = thirdparty/cli11
+	url = https://github.com/CLIUtils/CLI11.git
+[submodule "thirdparty/fmt"]
+	path = thirdparty/fmt
+	url = https://github.com/fmtlib/fmt.git
+[submodule "thirdparty/nlohmann_json"]
+	path = thirdparty/nlohmann_json
+	url = https://github.com/nlohmann/json.git
+[submodule "thirdparty/magic_enum"]
+	path = thirdparty/magic_enum
+	url = https://github.com/Neargye/magic_enum.git
+[submodule "thirdparty/fast_float"]
+	path = thirdparty/fast_float
+	url = https://github.com/fastfloat/fast_float.git
+[submodule "thirdparty/mio"]
+	path = thirdparty/mio
+	url = https://github.com/mandreyel/mio
+[submodule "thirdparty/spdlog"]
+	path = thirdparty/spdlog
+	url = https://github.com/gabime/spdlog.git
+[submodule "thirdparty/cpplint"]
+	path = thirdparty/cpplint
+	url = https://github.com/cpplint/cpplint.git
+[submodule "thirdparty/sol2"]
+	path = thirdparty/sol2
+	url = https://github.com/ThePhD/sol2.git
+[submodule "thirdparty/imgui/imgui"]
+	path = thirdparty/imgui/imgui
+	url = https://github.com/ocornut/imgui.git
+	branch = docking
+[submodule "thirdparty/inifile_cpp"]
+	path = thirdparty/inifile_cpp
+	url = https://github.com/Rookfighter/inifile-cpp.git
+[submodule "thirdparty/backward_cpp"]
+	path = thirdparty/backward_cpp
+	url = https://github.com/OpenEnroth/backward-cpp.git
+[submodule "thirdparty/small_vector"]
+	path = thirdparty/small_vector
+	url = https://github.com/gharveymn/small_vector.git
+[submodule "thirdparty/cmrc"]
+	path = thirdparty/cmrc
+	url = https://github.com/vector-of-bool/cmrc.git
+[submodule "thirdparty/gtest_parallel"]
+	path = thirdparty/gtest_parallel
+	url = https://github.com/google/gtest-parallel.git
+[submodule "thirdparty/generator"]
+	path = thirdparty/generator
+	url = https://github.com/TartanLlama/generator.git
+[submodule "thirdparty/luajit-cmake"]
+	path = thirdparty/luajit-cmake
+	url = https://github.com/zhaozg/luajit-cmake.git
+[submodule "thirdparty/lambda2"]
+	path = thirdparty/lambda2
+	url = https://github.com/boostorg/lambda2.git
+[submodule "thirdparty/tcpp"]
+	path = thirdparty/tcpp
+	url = https://github.com/bnoazx005/tcpp.git
+[submodule "thirdparty/ztd_text"]
+	path = thirdparty/ztd_text
+	url = https://github.com/captainurist/ztd_text.git

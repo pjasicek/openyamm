@@ -1,0 +1,805 @@
+"1-199 equipable items, 200- potions, 300- scrolls, 400-books, 500- artifacts, 600 quest items 700- message scrolls "																
+Item #	Pic File	Name	Value	Equip Stat	Skill Group	Mod1	Mod2	material	ID/Rep/St	Not identified name	Sprite Index	VarA	VarB	Equip X	Equip Y	Notes
+0		0						0	0		0	0	0	0	0	
+1	item001	Longsword	50	Weapon	Sword	3d3	0	8	1	Longsword	1	0	0	14	131	"Produced in great numbers, these slightly overbalanced swords are the arms of militiamen across the land."
+2	item002	Trollish War Sword	200	Weapon	Sword	3d3	3	8	3	Longsword	1	0	0	16	132	"Though of primitive craftsmanship, the great weight of this weapon's blade gives it excellent striking power."
+3	item003	Dark Elven Longsword	350	Weapon	Sword	3d3	6	8	6	Longsword	1	0	0	14	136	The weapon of a merchantman from the Dark Elven city of Alvar. It's wavy edged blade holds a good edge.
+4	item004	Templar's Sword	500	Weapon	Sword	3d3	9	8	9	Longsword	1	0	0	14	136	A sword for a true swordsman. Its lack of ornamentation bespeaks of the singular purpose of its design.
+5	item005	Champion's Sword	650	Weapon	Sword	3d3	12	8	12	Longsword	1	0	0	18	138	"These are made exclusively for members of the Erathian Order of the Blade. Since by tradition they are buried with their fallen wielders on hallowed and guarded grounds, they are rare articles indeed."
+6	item006	Two-Handed Sword	400	Weapon2	Sword	4d5	0	8	1	Two-Handed Sword	2	0	0	16	162	"This blade's great weight and length give its blows greater reach and damage. Otherwise, it is unexceptional in quality."
+7	item007	Dark Elven Bastard Sword	500	Weapon2	Sword	4d5	2	8	4	Two-Handed Sword	2	0	0	18	155	"Often carried by Elven caravan guards, these slightly under-proportioned blades are nearly, but not quite, light enough to brandish single-handedly."
+8	item008	Minotaur Battlesword	800	Weapon2	Sword	4d5	6	8	7	Two-Handed Sword	2	0	0	20	169	Only those possessed of great strength and balance can gracefully swing these mighty blades let alone control them in the heat of combat.
+9	item009	Dragonning Blade	1250	Weapon2	Sword	4d5	9	8	9	Two-Handed Sword	2	0	0	21	171	"A deep biting, perfectly balanced weapon designed for one purpose - the slaying of dragons."
+10	item010	Headsman's Reaver	2000	Weapon2	Sword	4d5	12	8	13	Two-Handed Sword	2	0	0	17	171	"Crafted from purified erudine alloy and then tempered in a pool of roiling lava, this sword's practically undullable and perfectly balanced blade backs up its intimidating appearance."
+11	item011	Iron Broadsword	100	Weapon	Sword	3d4	0	8	1	Broadsword	3	0	0	21	132	Some swordsmen swear that the soft metal of an iron sword gives them certain combat advantages. Those swordsmen never seem to be very old.
+12	item012	Trollish Claymore	300	Weapon	Sword	3d4	2	8	4	Broadsword	3	0	0	19	138	"Though of primitive design and craftsmanship, these Troll forged weapons are effective in strong hands."
+13	item013	Lizardman Broadsword	600	Weapon	Sword	3d4	6	8	7	Broadsword	3	0	0	14	129	The Lizardmen produce a weapon capable of giving sturdy service.
+14	item014	Knightly Broadsword	800	Weapon	Sword	3d4	9	8	9	Broadsword	3	0	0	12	131	The weight of this sword's untapered blade would make it unwieldy if not for its exacting counterbalance.
+15	item015	Archangel Broadsword	1100	Weapon	Sword	3d4	12	8	13	Broadsword	3	0	0	20	145	"This blade of pure erudine steel can cut armor like butter and gleams with a starlight glow. There are finer swords available, but their numbers can be counted on a single hand."
+16	item016	Rusty Cutlass	40	Weapon	Sword	2d4	0	7	1	Cutlass	4	0	0	19	133	"This weapon may once have been of some quality, though it would be hard to tell through the apparent years of corrosion."
+17	item017	Goblin Scimitar	290	Weapon	Sword	2d4	2	7	3	Cutlass	4	0	0	20	134	"After the Gowdar Deep Goblins were wiped off the face of Jadame in the Goblin-Ogre Wars, thousands of these weapons appeared on the common market."
+18	item018	Regnan Cutlass	590	Weapon	Sword	2d4	6	7	5	Cutlass	4	0	0	19	140	"Issued to Regnan seamen as a basic side arm, these blades have gained a sturdy reputation."
+19	item019	Regnan Falchion	750	Weapon	Sword	2d4	8	7	9	Cutlass	4	0	0	18	143	"The extremely forward balance of this weapon's blade gives it extra striking power, but requires great strength and skill from its wielder."
+20	item020	Captain's Cutlass	1100	Weapon	Sword	2d4	11	7	12	Cutlass	4	0	0	25	136	"Given to Regnan captains upon gaining their first command, these superior weapons help them to dominate their foes and subordinate."
+21	item021	Crude Dagger	8	Weapon	Dagger	2d2	0	6	1	Dagger	5	0	0	16	77	"As much a cutting tool and eating implement as a weapon, this dagger of soft steel will take an edge, but will lose it through very little use."
+22	item022	Crystal Dagger	100	Weapon	Dagger	2d2	2	6	2	Dagger	5	0	0	12	75	"These daggers are often carried by members of the Necromancers' Guild. The crystals used for the blades are found in the Shadowspire mountains. They are incredibly sharp, but have a tendency to shatter."
+23	item023	Merchantman's Dagger	150	Weapon	Dagger	2d2	3	6	4	Dagger	5	0	0	14	80	This dagger is a typical example of those produced by the weaponsmiths of Alvar. It is made of hardened steel and has excellent balance.
+24	item024	Master's Dagger	250	Weapon	Dagger	2d2	5	6	6	Dagger	5	0	0	19	80	"Daggers of this quality are rare indeed. Made of erudine and rare woods, finished in gold, and set with a sizable ruby, this would be a rich man's extravagance if it were not also so effective a weapon."
+25	item025	Fanged Blade	300	Weapon	Dagger	2d2	6	6	9	Dagger	5	0	0	20	45	The grip on this blade has clearly been rewrapped many times. It is said that such blades were used by the first Vampires who appeared millennia before the Silence. Could this possibly be one of those ancient weapons?
+26	item026	Long Dagger	15	Weapon	Dagger	2d3	0	7	1	Long Dagger	6	0	0	15	102	"With a blade in length between sword and dagger, these weapons are meant for the knife fighter who desires a bit of extra reach. This particular weapon is of mediocre workmanship in soft steel."
+27	item027	Alvarian Poignard	200	Weapon	Dagger	2d3	2	7	4	Long Dagger	6	0	0	14	105	"At many social functions in Alvar, it is deemed inappropriate to carry a sword. It is common for Elven warriors to carry a smaller blade in case things become uncivil."
+28	item028	Regnan Fighting Knife	350	Weapon	Dagger	2d3	4	7	7	Long Dagger	6	0	0	13	103	"Not wishing to be encumbered by a shield, many Regnan pirate raiders fight with a cutlass in one hand and one of these shorter blades in the other."
+29	item030	Twilight Kris	500	Weapon	Dagger	2d3	6	7	9	Long Dagger	6	0	0	20	106	This wavy bladed long dagger of the best quality steel is the product of the Twilight weaponsmiths. The bat wing guard set with a blood red ruby marks it as the weapon of a Vampire.
+30	item029	Dueling Long Dagger	790	Weapon	Dagger	2d3	7	7	12	Long Dagger	6	0	0	19	103	"While they present a united front to the rest of the world, there is much internal strife among the Vampires of Shadowspire. By custom, very serious differences are settled in battle using these deadly blades of exquisite craftwork."
+31	item031	Stone Axe	30	Weapon	Axe	4d2	0	5	1	Axe	7	0	0	30	84	"Not much more than fire-hardened sticks lashed to sharp stones, these crude implements make for poor tools and weapons."
+32	item032	Battle Hatchet	100	Weapon	Axe	4d2	2	5	2	Axe	7	0	0	28	86	"Often carried by mounted knights as a secondary arm, battle hatchets are preferred by some who carry them to the exclusion to any sword."
+33	item033	Battleaxe	250	Weapon	Axe	4d2	5	5	4	Axe	7	0	0	27	96	These heavy axes are meant to be carried one-handed for use against both armored and unarmored foes.
+34	item034	Dwarven Battleaxe	550	Weapon	Axe	4d2	8	5	6	Axe	7	0	0	37	110	"While the blacksmiths of the Jadamean Dark Dwarves are not as skilled as their Erathian counterparts, they still produce a product superior to most of what is otherwise available."
+35	item035	Minotaur Battleaxe	775	Weapon	Axe	4d2	11	5	9	Axe	7	0	0	41	110	"Forged by the Minotaurs for their wars with the Ogres, these axes are forged of a secret alloy formula. Their edges are difficult to dull and even harder to sharpen."
+36	item036	Two-Handed Axe	225	Weapon2	Axe	3d7	0	6	1	Two-Handed Axe	8	0	0	40	92	"As much an implement for working wood as a weapon, this crude axe can still deliver a telling blow."
+37	item038	Footman's Axe	450	Weapon2	Axe	3d7	2	6	4	Two-Handed Axe	8	0	0	42	106	"Capable of splitting armor, these two-handed axes are a favorite among soldiers facing mounted knights."
+38	item037	Minotaur War Axe	900	Weapon2	Axe	3d7	5	6	7	Two-Handed Axe	8	0	0	48	87	These two-handed axes are commonly used by Minotaurs who have the strength necessary to handle their great weight.
+39	item039	Elite Minotaur Axe	1250	Weapon2	Axe	3d7	9	6	9	Two-Handed Axe	8	0	0	46	103	"These axes of superior workmanship are issued only to members of The Blackened Horn, the elite warriors who guard Minotaur holy sites."
+40	item040	Minotaur Herdsman Axe	1500	Weapon2	Axe	3d7	12	6	13	Two-Handed Axe	8	0	0	42	112	Minotaur herdsmen lead their troops into battle wielding these devastating war axes of superlative balance and workmanship.
+41	item041	Ogre Fighting Stick	15	Weapon1or2	Spear	1d9	0	6	1	Spear	9	0	0	17	116	"A fire-hardened and sharpened sapling studded with thorns, spears like these are used by Ogre troops for drill and basic combat training. "
+42	item042	Steel Spear	50	Weapon1or2	Spear	1d9	2	6	3	Spear	9	0	0	20	116	"Basic spears are found stockpiled in the armories of many races, and for good reason - they are effective and deadly weapons. This particular one is of Minotaur origin."
+43	item043	Elven Long Spear	250	Weapon1or2	Spear	1d9	5	6	6	Spear	9	0	0	13	119	The fine craftsmanship and balance of this alloy steel headed spear mark it as the work of the weaponsmiths of Alvar.
+44	item044	War Spear	450	Weapon1or2	Spear	1d9	9	6	9	Spear	9	0	0	25	124	"This spear is built for battle. Far to heavy to be wielded by the part-time militiaman, it is built for the professional warrior who prefers the spear to other weapons."
+45	item045	Dragon Harpoon	650	Weapon1or2	Spear	1d9	13	6	12	Spear	9	0	0	17	111	"The back-barbed stalt steel head of this weapon is designed to deal grievous damage to even the most ancient of dragons. Naturally, it is the spearfighter's choice for dispatching all foes."
+46	item046	Improvised Voulge	200	Weapon1or2	Spear	3d6	0	6	1	Halberd	10	0	0	34	93	This simple poleaxe appears to have been made by attaching the blade of a farm implement to a poorly crafted spear.
+47	item048	Halberd	400	Weapon1or2	Spear	3d6	3	6	3	Halberd	10	0	0	30	111	"A versatile weapon combining the qualities of an axe and a spear, the halberd is designed to perform in formation and individual close quarter fighting."
+48	item047	Beaked Halberd	700	Weapon1or2	Spear	3d6	6	6	5	Halberd	10	0	0	38	107	This improved halberd has a spiked blade opposite its axe face to provide both balance and a means of penetrating plate armor.
+49	item049	Minotaur Campaign Pole-axe	1300	Weapon1or2	Spear	3d6	10	6	8	Halberd	10	0	0	38	123	"When the Minotaurs went to war with the Frost Giants of faraway Vori, their king Balthazar commissioned this polearm to arm his troops. He reportedly said, ""Since they will be gone so long, arm them with something versatile."""
+50	item050	Labyrinth Grapple	1600	Weapon1or2	Spear	3d6	13	6	11	Halberd	10	0	0	24	135	Minotaurs have very little tolerance for intruders in their hallowed mazes. This fact is well evidenced in the attention paid to weapons constructed for the labyrinth guards.
+51	item051	Hayfork	100	Weapon1or2	Spear	2d6	0	6	1	Trident	11	0	0	25	113	"Though a common farming implement, this hayfork is of sturdy construction and could be an excellent, if improvised, weapon."
+52	item052	Infantry Fork	400	Weapon1or2	Spear	2d6	2	6	3	Trident	11	0	0	27	137	"A highly specialized piece of equipment intended to equalize contests between foot soldiers and mounted, armored opponents, these modified spears are effective if slightly clumsy weapons."
+53	item053	Lizardman Trident	650	Weapon1or2	Spear	2d6	6	6	6	Trident	11	0	0	22	141	The blacksmiths on the Dagger Wound Islands craft a wide variety of spearheads. This trident is one of their most unusual designs. The barbed tines cause extra damage during straight thrusting attacks.
+54	item054	Regnan Trident	900	Weapon1or2	Spear	2d6	9	6	9	Trident	11	0	0	23	130	No Regnan ship leaves port without a cache of tridents. Boarding attacks against their galleys seldom succeed against massed walls of their erudine tines.
+55	item055	Triton Trident	1250	Weapon1or2	Spear	2d6	13	6	12	Trident	11	0	0	26	125	The first thing one notices when first handling this trident is that it is unusually cool to the touch. The second is a sense that the dragon turtle bone tines seem to seek vulnerabilities in their targets' defenses as if guided by an unseen hand.
+56	item056	Hunting Bow	200	Missile	Bow	5d2	0	6	1	Bow	12	0	0	23	96	These lightweight bows of simple construction are meant for bringing down small game animals - not for direct combat. 
+57	item057	Recurve Bow	300	Missile	Bow	5d2	2	3	3	Bow	12	0	0	21	102	Recurved bowstaves allows an archer to pull a heavier bow than they might otherwise be able to. Greater pull weight means greater arrow speed for increase range and damage.
+58	item058	Snakewood Bow	400	Missile	Bow	5d2	4	3	6	Bow	12	0	0	24	100	"The human soldiers of Enroth carry bows made from the native snakewood tree. The strong, flexible wood makes a sturdy bow."
+59	item059	Elven Warbow	500	Missile	Bow	5d2	6	3	9	Bow	12	0	0	23	102	"By laminating together layers of wood, steel, and bone the bowsmiths of Alvar have created a bow of perfect balance, strength and accuracy. The process consumes a lot of time, craft and expensive materials which explains the steep price these bows command."
+60	item060	Devilbone Bow	750	Missile	Bow	5d2	7	3	12	Bow	12	0	0	30	100	Dark Elven bowsmiths have discovered that unusual characteristics of the Kreegan spinal column make it the best material for heavy bowstaves. A clever arrangement of composite pulleys make it possible for those of less than superhuman strength to pull these mighty weapons.
+61	item061	Light Crossbow	50	Missile	Bow	4d2	0	4	1	Crossbow	13	0	0	28	70	"Because of their ease of use, crossbows like these are stockpiled in militia armories everywhere. Their low pull strength and mediocre workmanship however, make them only moderately effective."
+62	item062	Blood Drop Crossbow	200	Missile	Bow	4d2	3	4	3	Crossbow	13	0	0	26	75	"A light crossbow of good quality, these weapons feature a grooved table, basic sights and a smooth releasing nut."
+63	item063	Hunting Crossbow	300	Missile	Bow	4d2	5	4	6	Crossbow	13	0	0	32	83	"Built for use in the field, this medium crossbow is designed for hunting, but is equally effective as a battle weapon."
+64	item064	Caravaner's Crossbow	400	Missile	Bow	4d2	7	4	9	Crossbow	13	0	0	38	85	The Merchants of Alvar like to see their caravan guards well armed. This well-crafted heavy crossbow has a cranked drawing mechanism.
+65	item065	Regnan Crossbow	550	Missile	Bow	4d2	8	4	12	Crossbow	13	0	0	37	92	The pirates of Regna Island have spent centuries perfecting their crossbow design. The resulting weapon has a crystal lensed sight and bowstaves of pure stalt - which would make the bow impossible to cock if not for the crank draw of erudine alloy.
+66	item066	Mace	50	Weapon	Mace	2d4	0	6	1	Mace	14	0	0	22	116	"A slight improvement over the common club, maces are better balanced, more durable, and deliver greater damage."
+67	item067	Flail	150	Weapon	Mace	2d4	2	6	3	Flail	14	0	0	58	113	"Though evolved from the farm implement which shares its name, the flail's great reach and striking power make it a fearsome weapon."
+68	item068	Temple Mace	300	Weapon	Mace	2d4	5	6	6	Mace	14	0	0	33	126	The sunray corona circling the head of this well made mace serves as a devotional declaration for Temple of the Sun clerics; it also greatly increases the damage of its blows. 
+69	item069	Reverend Sceptre	450	Weapon	Mace	2d4	7	6	9	Mace	14	0	0	12	159	"As much a symbol of office as weapon, these finely crafted maces are carried by inner circle Sun Temple priests. Its highly decorated shaft belies the effectiveness of the gilded erudine-steel head."
+70	item070	Trollish War Mace	600	Weapon	Mace	2d4	11	6	12	Mace	14	0	0	30	177	"While most races have concentrated on developing bladed weapons, the Trolls have always been content to refine the simple bludgeon. This brutal weapon forged as a single piece of stalt alloy is the finest example of their craft."
+71	item071	Sledgehammer	120	Weapon	Mace	2d5	0	6	1	Hammer	15	0	0	26	76	"This hammer is more a construction tool than a weapon. Still, it could deliver a telling, if clumsy, blow."
+72	item072	Field Hammer	300	Weapon	Mace	2d5	3	6	3	Hammer	15	0	0	21	107	This hammer was designed as secondary infantry arm designed to finish off armored opponents who have fallen to the ground.
+73	item073	Warhammer	450	Weapon	Mace	2d5	6	6	5	Hammer	15	0	0	26	103	"An improved version of the field hammer, this weapon is heavier, better balanced and more durable. While it requires strength to wield, it is a terrible sight to armored and unarmored foes alike."
+74	item074	Sun Hammer	650	Weapon	Mace	2d5	9	6	8	Hammer	15	0	0	19	107	"Clerics of the Sun are prohibited from using bladed weapons. That they carry such fine warhammers is the natural result of this restriction. As an added measure of devotion, a reverse image of their sun symbol is embossed on the striking face."
+75	item075	Trollish Maul	890	Weapon	Mace	2d5	12	6	12	Hammer	15	0	0	31	107	It is necessary to handle this weapon to appreciate its perfect grip and balance. The hammer's head is carved from a single mineral crystal. Trollish weaponsmiths spend a lifetime mastering the shaping technique to produce a head that retains incredible hardness without being shatter prone.
+76	item076	Club	1	Weapon	Club	1d3	0	3	0	Club	16	0	0	16	119	"A wooden head and handle studded with short iron spikes, the simple club's best attribute is that it can be constructed from found materials."
+77	item077	Thornbark Club	100	Weapon	Club	1d3	3	3	2	Club	16	0	0	31	148	The Trolls of the Ironsand Desert make these clubs by fire-hardening the fantastically tough root wood of the thornbark tree.
+78	item078	Overlord's Club	350	Weapon	Mace	3d3	6	3	5	Club	16	0	0	26	161	Troll tribal chieftains must win their position through trial by combat. The winner keeps his club as a symbol of office. The losers' clubs often find their way into the weapon marketplace.
+79	item079	Journey Staff	40	Weapon2	Staff	2d4	0	3	1	Staff	17	0	0	10	63	Many dangers face the Jadamean traveler. Even the least battle-minded carry some sort of weapon. These iron ended walking sticks are a common choice.
+80	item080	Orb Staff	150	Weapon2	Staff	2d4	2	3	3	Staff	17	0	0	14	88	This staff is topped with a head of polished turquoise to give it greater striking force.
+81	item081	Priestly Staff	250	Weapon2	Staff	2d4	4	3	5	Staff	17	0	0	14	95	"This finely decorated staff is the product of Lizardman craft. Wrapped with exotic leathers, and ended with a bronze footcap and striker, these staves are carried by Lizardman priests as a symbol of station."
+82	item082	Serpent Staff	400	Weapon2	Staff	2d4	6	3	8	Staff	17	0	0	18	100	"These rare staffs may appear unwieldy, but they are the product of sorcery. In combat they flex with animal intelligence to work in blows through their targets' defenses."
+83	item083	Bone Staff	600	Weapon2	Staff	2d4	8	3	12	Staff	17	0	0	35	118	"Fashioned from the spinal bones of wyverns and crowned by a dragon's lower spikeplate, these staves are the product of necromantic weaponcraft. It is unusual to find one of these deadly weapons that is not also carrying a powerful enchantment."
+84	item084	Leather Jerkin	150	Armor	Leather	4	0	3	1	Leather Armor	20	0	0	0	0	"This armor of thick, supple leather studded with brass offers minimal protection against blows."
+85	item085	Hardened Leather Vest	250	Armor	Leather	4	2	3	4	Leather Armor	20	0	0	0	0	This item of leather armor has been hardened to offer increased protection. It is comfortable and light though offers little coverage.
+86	item086	Caravaner's Leather	450	Armor	Leather	4	6	3	8	Leather Armor	20	0	0	0	0	"This is the type of armor worn most often by those guarding Alverian merchant caravans. A hardened and internally braced breastplate covers an undersuit of tough but supple hide, offering the wearer full body protection with a minimal hampering of movement."
+87	item087	Regnan Leather	750	Armor	Leather	4	12	3	10	Leather Armor	20	0	0	0	0	"Though seemingly too thin to offer solid protection, this armor of Regnan design holds a subtle enchantment which makes the leather nearly steel tough. Additionally, a secret process makes the suit resistant to salt water corrosion."
+88	item088	Alvarian Leather	1150	Armor	Leather	4	20	3	12	Leather Armor	20	0	0	0	0	Leather armor sets of this quality are of the finest produced by the Alvarian Armorers' Guild. The stalt-alloy edged panels are virtually inpenetrable; their clever interlockings give the wearer excellent freedom of movement.
+89	item089	Rusty Mail Vest	400	Armor	Chain	8	0	6	1	Chainmail	21	0	0	0	0	This corroded ring mail vest has seen better days. It has been field repaired in many places and even has a large patch of thinner mail salvaged from a piece of chain cowl.
+90	item090	Steel Chainmail	600	Armor	Chain	8	4	6	5	Chainmail	21	0	0	0	0	Constructed of strong steel this is the type of armor worn by the rank and file foot soldiers of many armies.
+91	item091	Minotaur Chainmail	900	Armor	Chain	8	10	6	10	Chainmail	21	0	0	0	0	"Of a design originally created by the Minotaurs for their Vori campaigns, this type of chainmail, with its good coverage and fine construction, has proven popular among other races. Now the armorsmiths of Bathazar Lair construct it in sizes for any with ready gold to spend."
+92	item092	Siertal Chainmail	1300	Armor	Chain	8	18	6	15	Chainmail	21	0	0	0	0	The Alvarian Dark Elves guard their siertal-alloy formula carefully. Chainmail made from this metal is both light and capable of turning the hardest blades.
+93	item093	Erudine Chainmail	1800	Armor	Chain	8	28	6	20	Chainmail	21	0	0	0	0	"Another master product of the Alvarian Armorers' Guild, this hybrid suit of plate and mail is made of siertal-alloy finished erudine with an attention to craftsmanship worthy of the precious materials."
+94	item094	Rusty Breastplate	1000	Armor	Plate	20	0	9	1	Plate Armor	22	0	0	0	0	This piece of plate armor salvaged from a larger suit is so corroded it is a question whether it is equipment for a warrior or junk for the scrap man.
+95	item095	Banded Plate	1400	Armor	Plate	20	8	9	8	Plate Armor	22	0	0	0	0	"Bands of steel cover the mid-torso of this chain and plate chest armor. While lighter and simpler to construct than continuously formed plate, this armor offers less protection than heavier plate."
+96	item096	Minotaur Plate	2000	Armor	Plate	20	18	9	15	Plate Armor	22	0	0	0	0	"An example of the work produced by the Minotaur armorers of Balthazar Lair, this plate armor provides excellent mid-section protection. The arms are left free in the Minotaur-style."
+97	item097	Dark Knight Plate	2700	Armor	Plate	20	30	9	20	Plate Armor	22	0	0	0	0	"Though lined with felt and red velvet, and decorated with enamel and gilding, this armor is no showpiece. The siertal-alloy plates are light, but tough enough that they must have been worked with tools with erudine working faces."
+98	item098	Dragoning Plate	3500	Armor	Plate	20	38	9	25	Plate Armor	22	0	0	0	0	"The technique for making plate armor of erudine sheets is not known on Jadame. In fact, it is only produced by the master armorer, Derrick Goreth of Erathia who spent a lifetime constructing his famed White Light Forgeworks."
+99	item099	Trollish Shield	200	Shield	Shield	6	0	4	1	Large Shield	23	0	0	32	57	"A simple wooden shield of Trollish make, the design is often copied by apprentice armorsmiths just learning their craft."
+100	item100	Thornbark Shield	300	Shield	Shield	6	1	4	4	Large Shield	23	0	0	43	39	"Made from thornbark tree heartwood and rimmed with iron, this shield is sturdy, if a bit heavy."
+101	item101	Regnan Tournament Shield	400	Shield	Shield	6	3	4	8	Large Shield	23	0	0	50	78	"Every ten moons, the Regnans hold a great festival which includes a tournament of arms. The noble class contestants spare no expense in the commissioning of shields that are light, but tough enough to shelter them from harm."
+102	item102	Veteran Shield	500	Shield	Shield	6	6	4	12	Large Shield	23	0	0	32	74	"In the Demon Wars of Erathia, the Humans found that only erudine armor was proof against the fiery attacks of their foes. Bit by bit, pieces of this armor - like this shield - have made their way to Jadame."
+103	item103	Dragon Hunter's Shield	800	Shield	Shield	6	13	4	16	Large Shield	23	0	0	64	85	"The town of Kriegspire in Enroth had a problem with Dragons. These shields were their answer. Magically bound layers of erudine, stalt-steel and hydra leather, make a nearly unbreakable material resistant to most Dragon breath weapons."
+104	item104	Wooden Buckler	100	Shield	Shield	4	0	4	1	Small Shield	24	0	0	32	32	This small shield is gripped in the off-weapon hand. The wielder is much dependent on agility to make use of its scant defensive coverage.
+105	item105	Caravaner's Small Shield	200	Shield	Shield	4	2	4	4	Small Shield	24	0	0	47	47	"Caravan guards traveling Merchant of Alvar trade routes must often cover long distances on foot. This shield, like the rest of their equipment is well made and lightweight."
+106	item106	Calvary Shield	300	Shield	Shield	4	4	4	8	Small Shield	24	0	0	50	50	"A favorite among mounted knights, these steel shields are strong enough to turn aside the points of pikemen."
+107	item107	Death Head Shield	450	Shield	Shield	4	8	4	12	Small Shield	24	0	0	43	43	The Necromancers' Guild likes to arm its undead armies well. Their elite infantry carry these erudine alloy shield of great strength.
+108	item108	Eldritch Shield	750	Shield	Shield	4	14	4	16	Small Shield	24	0	0	50	47	"There are only twelve of these shields in known existence. Their bodies are made of an alloy that appears to seethe with the color of coal fire. Their rims are made of another unknown metal that is soft enough to catch blades, but doesn't gouge or scratch."
+109	item109	Helm	60	Helm	Misc	2	0	6	1	Helm	25	0	0	0	0	This cap of soft iron and unhardened leather provides a small measure of protection from blows to the head.
+110	item110	Lizardman Helm	260	Helm	Misc	2	4	6	4	Helm	25	0	0	0	0	Iron and leather helms of this sort are produced by blacksmiths everywhere. This one is of Lizardman manufacture and sports genuine ram horns.
+111	item111	Full Helm	460	Helm	Misc	2	6	6	8	Helm	25	0	0	0	0	Steel helms of this design are commissioned in large numbers by the Merchants of Alvar who issue them to mounted caravan guards.
+112	item112	Battle Helm	660	Helm	Misc	2	8	6	10	Helm	25	0	0	0	0	This full helmet is of superior materials and workmanship. The structurally weaker areas around the eye and nose slits are reinforced with siertal.
+113	item113	Dragon Helm	860	Helm	Misc	2	10	6	12	Helm	25	0	0	0	0	The faceplate of this superior helmet hinges on nearly invisible seams so that when closed it provides a snug fit and full face coverage. Only the most well-aimed blows have a chance of penetrating through.
+114	item114	Cloth Hat	20	Helm	Misc	0	0	2	1	Hat	26	0	0	0	0	A loose fitting hat made of sturdy cloth.
+115	item257	Festival Hat	100	Helm	Misc	0	0	2	4	Hat	26	0	0	0	0	Hats decorated with cheap glass gems are worn by Regnans on festival occassions--of which they have many.
+116	item116	Merchantman's Hat	200	Helm	Misc	0	0	2	8	Hat	26	0	0	0	0	"This pleated cap of velvet, lined and edged with black rabbit fur is decorated with a small enameled medallion. "
+117	item117	Leather Belt	40	Belt	Misc	0	0	3	1	Belt	28	0	0	0	0	A simple belt of cured leather. It is decorated with iron studs and closes with a pinned hasp.
+118	item118	Sturdy Belt	100	Belt	Misc	0	0	3	3	Belt	28	0	0	0	0	A thick leather belt. The studs and buckle are made of brass.
+119	item119	Wyvern Leather Belt	225	Belt	Misc	0	0	3	6	Belt	28	0	0	0	0	Wyvern leather is very tough and difficult to obtain. It is prized by Shadowspire leathercrafters because it becomes black when tanned--a color favored by their vampire and necromancer clientele.
+120	item120	Steel Belt	450	Belt	Misc	0	0	3	9	Belt	28	0	0	0	0	This well crafted belt is made of enameled steel. It has two cleverly concealed side hinges and has a latching clasp in back.
+121	item121	Artificer's Belt	600	Belt	Misc	0	0	3	12	Belt	28	0	0	0	0	Finely crafted belts of dragon leather are made to hold enchantments. This one is worked in gold and circled by thin bands of siertal.
+122	item122	Traveler's Cloak	50	Cloak	Misc	1	0	2	2	Cloak	29	0	0	0	0	This warm cloak of dyed wool also offers a small amount of protection from weapon attacks.
+123	item123	Moon Temple Cloak	150	Cloak	Misc	1	2	2	5	Cloak	29	0	0	0	0	The blue dye used to color the glove leather cloaks worn by Moon Temple clerics is derived from the frond petal flowers which grow only in the Mount Nighon region of Erathia.
+124	item124	Alvar Cloak	250	Cloak	Misc	1	4	2	9	Cloak	29	0	0	0	0	"Made in Alvar, cloaks of this quality are often seen on the shoulders of the more wealthy members of the Alvarian Merchant Guild."
+125	item125	Necromancer Cloak	450	Cloak	Misc	1	6	2	15	Cloak	29	0	0	0	0	Clearly a cloak made for a practitioner of the dark arts. This fine cloak is worked with arcane designs embroidered in darkened silver thread.
+126	item126	Vampire Cloak	750	Cloak	Misc	1	8	2	20	Cloak	29	0	0	0	0	"This high collared, jet black cloak of wyvern leather is lined in red velvet--a style much favored by the elder vampires of Shadowspire."
+127	item127	Leather Gloves	100	Gauntlets	Misc	3	0	6	2	Gauntlets	30	0	0	0	0	These gloves of poorly cured leather are worn by workmen everywhere.
+128	item128	Troll Gauntlets	250	Gauntlets	Misc	3	3	6	5	Gauntlets	30	0	0	0	0	These leather gloves of Trollish make are studded with iron spikes at the knuckles.
+129	item131	Steel Gauntlets	450	Gauntlets	Misc	3	5	6	9	Gauntlets	30	0	0	0	0	"Made of hinged plates of steel, these gauntlets offer good protection, but have a tendency to pinch."
+130	item129	Minotaur Gauntlets	650	Gauntlets	Misc	3	7	6	14	Gauntlets	30	0	0	0	0	Siertal-alloy makes these gauntlets light and tough. Superior workmanship make them comfortable and flexible.
+131	item130	Crusader's Gauntlets	850	Gauntlets	Misc	3	9	6	20	Gauntlets	30	0	0	0	0	These gauntlets are master crafted from pure erudine marking them as the product of Derrick Goreth's White Light Forgeworks.
+132	item132	Walking Boots	50	Boots	Misc	2	0	3	2	Boots	31	0	0	0	0	"Built more for comfort than combat, these boots of soft leather offer good protection from mud and sharp stones, but are not meant to turn weapon blows."
+133	item133	Hardened Leather Boots	250	Boots	Misc	2	4	3	5	Boots	31	0	0	0	0	The leather of these boots has been stiffened for greater protection. They are thick soled and lined with a thin layer of softer leather.
+134	item134	Regnan Boots	450	Boots	Misc	2	6	3	9	Boots	31	0	0	0	0	These steel capped boots are commonly worn by Regnan warriors. The leather parts are treated to make them waterproof.
+135	item135	Alvarian Boots	650	Boots	Misc	2	8	3	15	Boots	31	0	0	0	0	"Made by the Alvarian Elves, these boots are internally reinforced by bands of siertal-alloy. Their soles are softer than most boots making them quieter stepping."
+136	item136	Dragonning Boots	850	Boots	Misc	2	10	3	21	Boots	31	0	0	0	0	"Dragon hunters require unusually hardy protective gear, their boots not excepting. These boots are constructed with erudine-alloy shells lined with wyvern leather."
+137	item137	Bronze Ring	100	Ring	Misc	0	0	7	2	Ring	32	0	0	0	0	A simple bauble of very little value.
+138	item138	Gold Ring	300	Ring	Misc	0	0	7	6	Ring	32	0	0	0	0	A ring of soft gold rendered with half-hearted craftsmanship as a means of conveniently carrying a small amount of wealth.
+139	item139	Pearl Ring	500	Ring	Misc	0	0	7	9	Ring	32	0	0	0	0	A silver ring set with a good quality pearl.
+140	item143	Gemstone Ring	700	Ring	Misc	0	0	7	12	Ring	32	0	0	0	0	This gold ring is decorated with a variety of tiny gems giving it a multicolored sparkle.
+141	item143	Amethyst Ring	900	Ring	Misc	0	0	7	15	Ring	32	0	0	0	0	A ring set with three amethysts. The largest is an excellent stone - richly and evenly purple with a perfect cut.
+142	item142	Necromatic Ring	1100	Ring	Misc	0	0	7	18	Ring	32	0	0	0	0	"Though made of semi-precious silver, this ring is highly valuable because it is well suited to holding enchantments of medium power."
+143	item141	Ruby Ring	1300	Ring	Misc	0	0	7	21	Ring	32	0	0	0	0	"This simply elegant ring is set with a single, oval ruby of high quality - pigeon blood red, perfectly cut and clear of imperfections."
+144	item144	Vampire's Ring	1500	Ring	Misc	0	0	7	24	Ring	32	0	0	0	0	"Worn only by elder Vampires of great power, it is said that a part of their life force is invested in the ring's creation. This would certainly explain their ability to hold powerful enchantments."
+145	item145	Sun Opal Ring	1700	Ring	Misc	0	0	7	27	Ring	32	0	0	0	0	Sun opals shine with a mild inner light. They are extremely rare and coveted by elemental magicians.
+146	item146	Focal Ring	2000	Ring	Misc	0	0	7	30	Ring	32	0	0	0	0	"The ""stone"" of this platinum ring is actually a tiny interplanar portal which draws power from realms beyond. The strength limit of the enchantments such rings can hold is the skill and knowledge of the enchanter."
+147	item147	Brass Charm	500	Amulet	Misc	0	0	4	2	Amulet	33	0	0	0	0	These stamp formed and lacquered baubles are cheap trinkets sold to pilgrims as keepsake mementos.
+148	item148	Jade Amulet	750	Amulet	Misc	0	0	4	5	Amulet	33	0	0	0	0	A large polished jade stone decorates and adds value to this simple amulet.
+149	item149	Blood Talisman	1000	Amulet	Misc	0	0	4	9	Amulet	33	0	0	0	0	"Made by necromancers to hold dark magics, other sorcerers have recognized their worth for other uses."
+150	item150	Shadow Sect Medallion	1250	Amulet	Misc	0	0	4	14	Amulet	33	0	0	0	0	"Formed in white and yellow gold, inlaid with jade, and studded with peridots, these amulets are worn by members of the secret Shadow Sect hidden beneath their clothing."
+151	item151	Locus Amulet	1500	Amulet	Misc	0	0	4	20	Amulet	33	0	0	0	0	"The pinnacle of artificer tradecraft, these amulets wrought in platinum and set with a perfect sapphire can contain enchantments of nearly unimaginable potency."
+152	item152	Witch's Wand of Fire	1000	WeaponW	Misc	S2	35	3	10	Wand	34	0	0	15	84	"The primitive materials of this wand is infused with dark spiritual energy. To use this wand, you must equip it as though you were equipping a weapon."
+153	item152	Witch's Wand of Sparks	1000	WeaponW	Misc	S15	35	3	10	Wand	34	0	0	15	84	"The primitive materials of this wand is infused with dark spiritual energy. To use this wand, you must equip it as though you were equipping a weapon."
+154	item152	Witch's Wand of Poison	1000	WeaponW	Misc	S24	35	3	10	Wand	34	0	0	15	84	"The primitive materials of this wand is infused with dark spiritual energy. To use this wand, you must equip it as though you were equipping a weapon."
+155	item152	Witch's Wand of Stunning	1000	WeaponW	Misc	S34	35	3	10	Wand	34	0	0	15	84	"The primitive materials of this wand is infused with dark spiritual energy. To use this wand, you must equip it as though you were equipping a weapon."
+156	item152	Witch's Wand of Harming	1000	WeaponW	Misc	S70	35	3	10	Wand	34	0	0	15	84	"The primitive materials of this wand is infused with dark spiritual energy. To use this wand, you must equip it as though you were equipping a weapon."
+157	item153	Shaman's Wand of Light	1500	WeaponW	Misc	S78	30	3	14	Wand	34	0	0	10	91	"Something rattles ominously within the gog skull topping this wand - product of Ogre mage magic. To use it, you must equip it like a weapon."
+158	item153	Shaman's Wand of Ice	1500	WeaponW	Misc	S26	30	3	14	Wand	34	0	0	10	91	"Something rattles ominously within the gog skull topping this wand - product of Ogre mage magic. To use it, you must equip it like a weapon."
+159	item153	Shaman's Wand of Lashing	1500	WeaponW	Misc	S52	30	3	14	Wand	34	0	0	10	91	"Something rattles ominously within the gog skull topping this wand - product of Ogre mage magic. To use it, you must equip it like a weapon."
+160	item153	Shaman's Wand of Mind	1500	WeaponW	Misc	S59	30	3	14	Wand	34	0	0	10	91	"Something rattles ominously within the gog skull topping this wand - product of Ogre mage magic. To use it, you must equip it like a weapon."
+161	item153	Shaman's Wand of Swarms	1500	WeaponW	Misc	S37	30	3	14	Wand	34	0	0	10	91	"Something rattles ominously within the gog skull topping this wand - product of Ogre mage magic. To use it, you must equip it like a weapon."
+162	item155	Wizard Wand of Fireballs	2000	WeaponW	Misc	S6	25	3	18	Wand	34	0	0	8	88	"A wand of highly polished thornbark wrapped with platinum wire. To use it, you must equip it like a weapon."
+163	item155	Wizard Wand of Acid	2000	WeaponW	Misc	S29	25	3	18	Wand	34	0	0	8	88	"A wand of highly polished thornbark wrapped with platinum wire. To use it, you must equip it like a weapon."
+164	item155	Wizard Wand of Lightning	2000	WeaponW	Misc	S18	25	3	18	Wand	34	0	0	8	88	"A wand of highly polished thornbark wrapped with platinum wire. To use it, you must equip it like a weapon."
+165	item155	Wizard Wand of Blades	2000	WeaponW	Misc	S39	25	3	18	Wand	34	0	0	8	88	"A wand of highly polished thornbark wrapped with platinum wire. To use it, you must equip it like a weapon."
+166	item155	Wizard Wand of Berzerking	2000	WeaponW	Misc	S62	25	3	18	Wand	34	0	0	8	88	"A wand of highly polished thornbark wrapped with platinum wire. To use it, you must equip it like a weapon."
+167	item154	Serpent Wand of Blasting	2500	WeaponW	Misc	S32	20	3	22	Wand	34	0	0	8	97	"Made from the braided bodies of three snakes, this wand pulses like a slow heartbeat. To use it you must equip it like a weapon."
+168	item154	Serpent Wand of the Fist	2500	WeaponW	Misc	S76	20	3	22	Wand	34	0	0	8	97	"Made from the braided bodies of three snakes, this wand pulses like a slow heartbeat. To use it you must equip it like a weapon."
+169	item154	Serpent Wand of Rocks	2500	WeaponW	Misc	S41	20	3	22	Wand	34	0	0	8	97	"Made from the braided bodies of three snakes, this wand pulses like a slow heartbeat. To use it you must equip it like a weapon."
+170	item154	Serpent Wand of Paralysis	2500	WeaponW	Misc	S81	20	3	22	Wand	34	0	0	8	97	"Made from the braided bodies of three snakes, this wand pulses like a slow heartbeat. To use it you must equip it like a weapon."
+171	item154	Arcane Wand of Clouds	2500	WeaponW	Misc	S90	20	3	22	Wand	34	0	0	8	97	"Made from the braided bodies of three snakes, this wand pulses like a slow heartbeat. To use it you must equip it like a weapon."
+172	item156	Necrotic Wand of Implosion	3000	WeaponW	Misc	S20	15	3	26	Wand	34	0	0	8	92	"A unicorn horn capped with a gold set ruby and crowned with a sculpted skull, this wand could only be the creation of the Necromancers' Guild. To use it you must equip it like a weapon."
+173	item156	Necrotic Wand of Distortion	3000	WeaponW	Misc	S44	15	3	26	Wand	34	0	0	8	92	"A unicorn horn capped with a gold set ruby and crowned with a sculpted skull, this wand could only be the creation of the Necromancers' Guild. To use it you must equip it like a weapon."
+174	item156	Necrotic Wand of Shrapnel	3000	WeaponW	Misc	S93	15	3	26	Wand	34	0	0	8	92	"A unicorn horn capped with a gold set ruby and crowned with a sculpted skull, this wand could only be the creation of the Necromancers' Guild. To use it you must equip it like a weapon."
+175	item156	Necrotic Wand of Shrinking	3000	WeaponW	Misc	S92	15	3	26	Wand	34	0	0	8	92	"A unicorn horn capped with a gold set ruby and crowned with a sculpted skull, this wand could only be the creation of the Necromancers' Guild. To use it you must equip it like a weapon."
+176	item156	Necrotic Wand of Incineration	3000	WeaponW	Misc	S11	15	3	26	Wand	34	0	0	8	92	"A unicorn horn capped with a gold set ruby and crowned with a sculpted skull, this wand could only be the creation of the Necromancers' Guild. To use it you must equip it like a weapon."
+177	item213	Zircon	250	Gem	Misc	0	0	0	0	Gemstone	144	0	0	0	0	"A gem quality stone. It has no magical properties, so you might as well sell it."
+178	item218	Iolite	500	Gem	Misc	0	0	0	0	Gemstone	146	0	0	0	0	"A gem quality stone. It has no magical properties, so you might as well sell it."
+179	item215	Citrine	750	Gem	Misc	0	0	0	0	Gemstone	147	0	0	0	0	"A gem quality stone. It has no magical properties, so you might as well sell it."
+180	item214	Amber	1000	Gem	Misc	0	0	0	0	Gemstone	148	0	0	0	0	"A gem quality stone. It has no magical properties, so you might as well sell it."
+181	item220	Amethyst	1250	Gem	Misc	0	0	0	0	Gemstone	149	0	0	0	0	"A gem quality stone. It has no magical properties, so you might as well sell it."
+182	item221	Topaz	1500	Gem	Misc	0	0	0	0	Gemstone	150	0	0	0	0	"A gem quality stone. It has no magical properties, so you might as well sell it."
+183	item219	Emerald	1750	Gem	Misc	0	0	0	0	Gemstone	151	0	0	0	0	"A gem quality stone. It has no magical properties, so you might as well sell it."
+184	item217	Sapphire	2000	Gem	Misc	0	0	0	0	Gemstone	152	0	0	0	0	"A gem quality stone. It has no magical properties, so you might as well sell it."
+185	item212	Ruby	2250	Gem	Misc	0	0	0	0	Gemstone	153	0	0	0	0	"A gem quality stone. It has no magical properties, so you might as well sell it."
+186	item216	Diamond	3000	Gem	Misc	0	0	0	0	Gemstone	154	0	0	0	0	"A gem quality stone. It has no magical properties, so you might as well sell it."
+187	item204	Gold	0	Gold	Misc	0	0	0	0	Gold	83	0	0	0	0	Gold
+188	item205	Gold	0	Gold	Misc	0	0	0	0	Gold	84	0	0	0	0	Gold
+189	item206	Gold	0	Gold	Misc	0	0	0	0	Gold	85	0	0	0	0	Gold
+190	null	_misc190	0	0	0	0	0	0	0	0	1	0	0	0	0	
+191	null	_misc191	0	0	0	0	0	0	0	0	1	0	0	0	0	
+192	null	_misc192	0	0	0	0	0	0	0	0	1	0	0	0	0	
+193	null	_misc193	0	0	0	0	0	0	0	0	1	0	0	0	0	
+194	null	_misc194	0	0	0	0	0	0	0	0	1	0	0	0	0	
+195	null	_misc195	0	0	0	0	0	0	0	0	1	0	0	0	0	
+196	null	_misc196	0	0	0	0	0	0	0	0	1	0	0	0	0	
+197	null	_misc197	0	0	0	0	0	0	0	0	1	0	0	0	0	
+198	null	_misc198	0	0	0	0	0	0	0	0	1	0	0	0	0	
+199	null	_misc199	0	0	0	0	0	0	0	0	1	0	0	0	0	
+200	item158	Widowsweep Berries	1	Reagent	Misc	1	0	1	0	Reagent	36	0	0	0	0	"An ingredient with alchemical properties, widowsweep berries can be used to mix red potions. (To use, pick it up and right-click over an empty potion bottle.)"
+201	item161	Wolf's Eye	10	Reagent	Misc	5	0	1	0	Reagent	42	0	0	0	0	"An ingredient with alchemical properties, wolf eyes can be used to mix red potions. (To use, pick it up and right-click over an empty potion bottle.)"
+202	item162	Phial of Gog Blood	50	Reagent	Misc	10	0	1	0	Reagent	40	0	0	0	0	"An ingredient with alchemical properties, gog blood can be used to mix red potions. (To use, pick it up and right-click over an empty potion bottle.)"
+203	item163	Ruby	100	Reagent	Misc	20	0	1	0	Reagent	41	0	0	0	0	"An ingredient with alchemical properties, rubies can be used to mix red potions. (To use, pick it up and right-click over an empty potion bottle.)"
+204	item164	Phoenix Feather	500	Reagent	Misc	50	1	1	0	Reagent	44	0	0	0	0	"An ingredient with alchemical properties, phoenix feathers can be used to mix red potions. (To use, pick it up and right-click over an empty potion bottle.)"
+205	item157	Phima Root	1	Reagent	Misc	1	1	1	0	Reagent	35	0	0	0	0	"An ingredient with alchemical properties, phima roots can be used to mix blue potions. (To use, pick it up and right-click over an empty potion bottle.)"
+206	item165	Meteor Fragment	10	Reagent	Misc	5	1	1	0	Reagent	43	0	0	0	0	"An ingredient with alchemical properties, meteor fragments can be used to mix blue potions. (To use, pick it up and right-click over an empty potion bottle.)"
+207	item166	Will O' Wisp Heart	50	Reagent	Misc	10	1	1	0	Reagent	81	0	0	0	0	"An ingredient with alchemical properties, will o' wisp hearts can be used to mix blue potions. (To use, pick it up and right-click over an empty potion bottle.)"
+208	item167	Datura	100	Reagent	Misc	20	1	1	0	Reagent	39	0	0	0	0	"An ingredient with alchemical properties, datura can be used to mix blue potions. (To use, pick it up and right-click over an empty potion bottle.)"
+209	item168	Dragon Turtle Fang	500	Reagent	Misc	50	1	1	0	Reagent	82	0	0	0	0	"An ingredient with alchemical properties, dragon turtle fangs can be used to mix blue potions. (To use, pick it up and right-click over an empty potion bottle.)"
+210	item160	Poppy Pod	1	Reagent	Misc	1	1	1	0	Reagent	38	0	0	0	0	"An ingredient with alchemical properties, poppy pods can be used to mix yellow potions. (To use, pick it up and right-click over an empty potion bottle.)"
+211	item169	Thornbark	10	Reagent	Misc	5	1	1	0	Reagent	48	0	0	0	0	"An ingredient with alchemical properties, thornbark can be used to mix yellow potions. (To use, pick it up and right-click over an empty potion bottle.)"
+212	item170	Sulfur	50	Reagent	Misc	10	1	1	0	Reagent	47	0	0	0	0	"An ingredient with alchemical properties, sulfur can be used to mix yellow potions. (To use, pick it up and right-click over an empty potion bottle.)"
+213	item171	Garnet	100	Reagent	Misc	20	1	1	0	Reagent	49	0	0	0	0	"An ingredient with alchemical properties, garnets can be used to mix yellow potions. (To use, pick it up and right-click over an empty potion bottle.)"
+214	item172	Unicorn Horn	500	Reagent	Misc	50	1	1	0	Reagent	50	0	0	0	0	"An ingredient with alchemical properties, unicorn horns can be used to mix yellow potions. (To use, pick it up and right-click over an empty potion bottle.)"
+215	item159	Mushroom	1	Reagent	Misc	1	1	1	0	Reagent	37	0	0	0	0	"An ingredient with alchemical properties, mushrooms can be used to mix gray catalyst potions. (To use, pick it up and right-click over an empty potion bottle.)"
+216	item173	Obsidian	10	Reagent	Misc	5	1	1	0	Reagent	51	0	0	0	0	"An ingredient with alchemical properties, obsidian can be used to mix gray catalyst potions. (To use, pick it up and right-click over an empty potion bottle.)"
+217	item174	Wasp Wing	50	Reagent	Misc	10	1	1	0	Reagent	53	0	0	0	0	"An ingredient with alchemical properties, wasp wings can be used to mix gray catalyst potions. (To use, pick it up and right-click over an empty potion bottle.)"
+218	item175	Mercury	100	Reagent	Misc	20	1	1	0	Reagent	52	0	0	0	0	"An ingredient with alchemical properties, mercury can be used to mix gray catalyst potions. (To use, pick it up and right-click over an empty potion bottle.)"
+219	item176	Philosopher's Stone	500	Reagent	Misc	75	1	1	0	Reagent	54	0	0	0	0	"An ingredient with alchemical properties, philosopher's stones can be used to mix gray catalyst potions. (To use, pick it up and right-click over an empty potion bottle.)"
+220	item198	Potion Bottle	1	Bottle	Misc	0	1	1	0	Potion Bottle	76	0	0	0	0	An empty bottle suitable for storing magic potions.
+221	item181	Catalyst	1	Bottle	Misc	0	1	1	0	Gray Potion	59	0	0	0	0	"You can mix catalysts with other potions to affect their strength. Mix a potion with a catalyst and the potion will take on the strength of the catalyst. (To mix two potions, pick up one and right-click it over the other.) "
+222	item178	Cure Wounds	5	Bottle	Misc	0	1	1	0	Red Potion	56	0	0	0	0	"Heals 10 plus the potion strength hit points.  (To drink, pick the potion up and right-click over a character's portrait.  To mix two potions, pick up one and right-click it over the other.)"
+223	item177	Magic Potion	5	Bottle	Misc	0	1	1	0	Blue Potion	55	0	0	0	0	"Restores 10 plus the potion strength spell points.  (To drink, pick the potion up and right-click over a character's portrait.  To mix two potions, pick up one and right-click it over the other.)"
+224	item179	Cure Weakness	5	Bottle	Misc	0	1	1	0	Yellow Potion	57	0	0	0	0	"Cures Weakness.  (To drink, pick the potion up and right-click over a character's portrait.  To mix two potions, pick up one and right-click it over the other.)"
+225	item185	Cure Disease	50	Bottle	Misc	0	1	1	0	Orange Potion	63	0	0	0	0	"Cures Disease. (To drink, pick the potion up and right-click over a character's portrait.  To mix two potions, pick up one and right-click it over the other.)"
+226	item183	Cure Poison	50	Bottle	Misc	0	1	1	0	Purple Potion	61	0	0	0	0	"Cures Poison.  (To drink, pick the potion up and right-click over a character's portrait.  To mix two potions, pick up one and right-click it over the other.)"
+227	item184	Awaken	50	Bottle	Misc	0	1	1	0	Green Potion	62	0	0	0	0	"Removes Sleep condition.  (To drink, pick the potion up and right-click over a character's portrait.  To mix two potions, pick up one and right-click it over the other.)"
+228	item186	Haste	150	Bottle	Misc	0	1	1	0	Layered Potion	64	0	0	0	0	"Grants Haste (as the spell) for 30 minutes per point of potion strength.  (To drink, pick the potion up and right-click over a character's portrait.  To mix two potions, pick up one and right-click it over the other.)"
+229	item187	Heroism	150	Bottle	Misc	0	0	1	0	Layered Potion	65	0	0	0	0	"Grants Heroism (as the spell) for 30 minutes per point of potion strength.  (To drink, pick the potion up and right-click over a character's portrait.  To mix two potions, pick up one and right-click it over the other.)"
+230	item188	Bless	150	Bottle	Misc	0	0	1	0	Layered Potion	66	0	0	0	0	"Grants Bless (as the spell) for 30 minutes per point of potion strength.  (To drink, pick the potion up and right-click over a character's portrait.  To mix two potions, pick up one and right-click it over the other.)"
+231	item189	Preservation	150	Bottle	Misc	0	0	1	0	Layered Potion	67	0	0	0	0	"Grants Preservation (as the spell) for 30 minutes per point of potion strength.  (To drink, pick the potion up and right-click over a character's portrait.  To mix two potions, pick up one and right-click it over the other.)"
+232	item190	Shield	150	Bottle	Misc	0	0	1	0	Layered Potion	68	0	0	0	0	"Grants Shield (as the spell) for 30 minutes per point of potion strength.  (To drink, pick the potion up and right-click over a character's portrait.  To mix two potions, pick up one and right-click it over the other.)"
+233	item191	Recharge Item	150	Bottle	Misc	0	0	1	0	Layered Potion	69	0	0	0	0	"Grants Recharge Item (as the spell).  The item permanently loses 70%-point of potion strength of its charges.   (To use, pick the potion up and right-click over an item with charges.  To mix, pick the potion up and right-click over another potion.)"
+234	item192	Stoneskin	150	Bottle	Misc	0	0	1	0	Layered Potion	70	0	0	0	0	"Grants Stone Skin (as the spell) for 30 minutes per point of potion strength.  (To drink, pick the potion up and right-click over a character's portrait.  To mix two potions, pick up one and right-click it over the other.)"
+235	item193	Water Breathing	150	Bottle	Misc	0	0	1	0	Layered Potion	71	0	0	0	0	"Prevents drowning damage.  (To drink, pick the potion up and right-click over a character's portrait.  To mix two potions, pick up one and right-click it over the other.)"
+236	item194	Harden Item	150	Bottle	Misc	0	0	1	0	Layered Potion	72	0	0	0	0	"Increases an item's toughness, making it more resistant to breaking.  (To use, pick the potion up and right-click over an item.  To mix, pick the potion up and right-click over another potion.)"
+237	item195	Remove Fear	150	Bottle	Misc	0	0	1	0	Layered Potion	73	0	0	0	0	"Cures Fear.  (To drink, pick the potion up and right-click over a character's portrait.  To mix two potions, pick up one and right-click it over the other.)"
+238	item196	Remove Curse	150	Bottle	Misc	0	0	1	0	Layered Potion	74	0	0	0	0	"Cures Curse.  (To drink, pick the potion up and right-click over a character's portrait.  To mix two potions, pick up one and right-click it over the other.)"
+239	item197	Cure Insanity	150	Bottle	Misc	0	0	1	0	Layered Potion	75	0	0	0	0	"Cures Insanity. (To drink, pick the potion up and right-click over a character's portrait.  To mix two potions, pick up one and right-click it over the other.)"
+240	item180	Might Boost	750	Bottle	Misc	0	0	1	0	White Potion	58	0	0	0	0	"Increases temporary Might by three times the strength of the potion for 30 minutes per point of strength of the potion.  (To drink, pick the potion up and right-click over a character's portrait.  To mix two potions, pick up one and right-click it over the other.)"
+241	item180	Intellect Boost	750	Bottle	Misc	0	0	1	0	White Potion	58	0	0	0	0	"Increases temporary Intellect by three times the strength of the potion for 30 minutes per point of strength of the potion.  (To drink, pick the potion up and right-click over a character's portrait.  To mix two potions, pick up one and right-click it over the other.)"
+242	item180	Personality Boost	750	Bottle	Misc	0	0	1	0	White Potion	58	0	0	0	0	"Increases temporary Personality by three times the strength of the potion for 30 minutes per point of strength of the potion.  (To drink, pick the potion up and right-click over a character's portrait.  To mix two potions, pick up one and right-click it over the other.)"
+243	item180	Endurance Boost	750	Bottle	Misc	0	0	1	0	White Potion	58	0	0	0	0	"Increases temporary Endurance by three times the strength of the potion for 30 minutes per point of strength of the potion.  (To drink, pick the potion up and right-click over a character's portrait.  To mix two potions, pick up one and right-click it over the other.)"
+244	item180	Speed Boost	750	Bottle	Misc	0	0	1	0	White Potion	58	0	0	0	0	"Increases temporary Speed by three times the strength of the potion for 30 minutes per point of strength of the potion.  (To drink, pick the potion up and right-click over a character's portrait.  To mix two potions, pick up one and right-click it over the other.)"
+245	item180	Accuracy Boost	750	Bottle	Misc	0	0	1	0	White Potion	58	0	0	0	0	"Increases temporary Accuracy by three times the strength of the potion for 30 minutes per point of strength of the potion.  (To drink, pick the potion up and right-click over a character's portrait.  To mix two potions, pick up one and right-click it over the other.)"
+246	item180	Flaming Potion	750	Bottle	Misc	0	0	1	0	White Potion	58	0	0	0	0	"Adds the ""of Flame"" property to a non-magic weapon for 30 minutes per point of strength of the potion.  (To use, pick the potion up and right-click over a non-magic weapon.  To mix, pick the potion up and right-click over another potion.)"
+247	item180	Freezing Potion	750	Bottle	Misc	0	0	1	0	White Potion	58	0	0	0	0	"Adds the ""of Frost"" property to a non-magic weapon for 30 minutes per point of strength of the potion.  (To use, pick the potion up and right-click over a non-magic weapon.  To mix, pick the potion up and right-click over another potion.)"
+248	item180	Noxious Potion	750	Bottle	Misc	0	0	1	0	White Potion	58	0	0	0	0	"Adds the ""of Poison"" property to a non-magic weapon for 30 minutes per point of strength of the potion.  (To use, pick the potion up and right-click over a non-magic weapon.  To mix, pick the potion up and right-click over another potion.)"
+249	item180	Shocking Potion	750	Bottle	Misc	0	0	1	0	White Potion	58	0	0	0	0	"Adds the ""of Sparks"" property to a non-magic weapon for 30 minutes per point of strength of the potion.  (To use, pick the potion up and right-click over a non-magic weapon.  To mix, pick the potion up and right-click over another potion.)"
+250	item180	Swift Potion	750	Bottle	Misc	0	0	1	0	White Potion	58	0	0	0	0	"Adds the ""of Swiftness"" property to a non-magic weapon for 30 minutes per point of strength of the potion.  (To use, pick the potion up and right-click over a non-magic weapon.  To mix, pick the potion up and right-click over another potion.)"
+251	item180	Cure Paralysis	750	Bottle	Misc	0	0	1	0	White Potion	58	0	0	0	0	"Cures Paralysis.  (To drink, pick the potion up and right-click over a character's portrait.  To mix, pick the potion up and right-click over another potion.)"
+252	item180	Divine Restoration	750	Bottle	Misc	0	0	1	0	White Potion	58	0	0	0	0	"Removes all adverse conditions (except Death, Stoned, or Eradicated).  (To drink, pick the potion up and right-click over a character's portrait.  To mix, pick the potion up and right-click over another potion.)"
+253	item180	Divine Cure	750	Bottle	Misc	0	0	1	0	White Potion	58	0	0	0	0	"Heals five times the potion's strength of hit points.  (To drink, pick the potion up and right-click over a character's portrait.  To mix, pick the potion up and right-click over another potion.)"
+254	item180	Divine Power	750	Bottle	Misc	0	0	1	0	White Potion	58	0	0	0	0	"Restores five times the potion's strength of spell points.  (To drink, pick the potion up and right-click over a character's portrait.  To mix, pick the potion up and right-click over another potion.)"
+255	item180	Luck Boost	750	Bottle	Misc	0	0	1	0	White Potion	58	0	0	0	0	"Increases temporary Luck by three times the strength of the potion for 30 minutes per point of strength of the potion.  (To drink, pick the potion up and right-click over a character's portrait.  To mix, pick the potion up and right-click over another potion.)"
+256	item180	Fire Resistance	750	Bottle	Misc	0	0	1	0	White Potion	58	0	0	0	0	"Increases temporary Fire Resistance by three times the strength of the potion for 30 minutes per point of strength of the potion.  (To drink, pick the potion up and right-click over a character's portrait.  To mix, pick the potion up and right-click over another potion.)"
+257	item180	Air Resistance	750	Bottle	Misc	0	0	1	0	White Potion	58	0	0	0	0	"Increases temporary Air Resistance by three times the strength of the potion for 30 minutes per point of strength of the potion.  (To drink, pick the potion up and right-click over a character's portrait.  To mix, pick the potion up and right-click over another potion.)"
+258	item180	Water Resistance	750	Bottle	Misc	0	0	1	0	White Potion	58	0	0	0	0	"Increases temporary Water Resistance by three times the strength of the potion for 30 minutes per point of strength of the potion.  (To drink, pick the potion up and right-click over a character's portrait.  To mix, pick the potion up and right-click over another potion.)"
+259	item180	Earth Resistance	750	Bottle	Misc	0	0	1	0	White Potion	58	0	0	0	0	"Increases temporary Earth Resistance by three times the strength of the potion for 30 minutes per point of strength of the potion.  (To drink, pick the potion up and right-click over a character's portrait.  To mix, pick the potion up and right-click over another potion.)"
+260	item180	Mind Resistance	750	Bottle	Misc	0	0	1	0	White Potion	58	0	0	0	0	"Increases temporary Mind Resistance by three times the strength of the potion for 30 minutes per point of strength of the potion.  (To drink, pick the potion up and right-click over a character's portrait.  To mix, pick the potion up and right-click over another potion.)"
+261	item180	Body Resistance	750	Bottle	Misc	0	0	1	0	White Potion	58	0	0	0	0	"Increases temporary Body Resistance by three times the strength of the potion for 30 minutes per point of strength of the potion.  (To drink, pick the potion up and right-click over a character's portrait.  To mix, pick the potion up and right-click over another potion.)"
+262	item182	Stone to Flesh	2000	Bottle	Misc	0	0	1	0	Black Potion	60	0	0	0	0	"Cures Stoned.  (To drink, pick the potion up and right-click over a character's portrait.  To mix, pick the potion up and right-click over another potion.)"
+263	item182	Slaying Potion	2000	Bottle	Misc	0	0	1	0	Black Potion	60	0	0	0	0	"Adds ""of Dragon Slaying"" to a non-magic weapon.  (To use, pick the potion up and right-click over a non-magic weapon.  To mix, pick the potion up and right-click over another potion.)"
+264	item182	Pure Luck	2000	Bottle	Misc	0	0	1	0	Black Potion	60	0	0	0	0	"Adds 50 to permanent Luck.  (To drink, pick the potion up and right-click over a character's portrait.  To mix, pick the potion up and right-click over another potion.)"
+265	item182	Pure Speed	2000	Bottle	Misc	0	0	1	0	Black Potion	60	0	0	0	0	"Adds 50 to permanent Speed.  (To drink, pick the potion up and right-click over a character's portrait.  To mix, pick the potion up and right-click over another potion.)"
+266	item182	Pure Intellect	2000	Bottle	Misc	0	0	1	0	Black Potion	60	0	0	0	0	"Adds 50 to permanent Intellect.  (To drink, pick the potion up and right-click over a character's portrait.  To mix, pick the potion up and right-click over another potion.)"
+267	item182	Pure Endurance	2000	Bottle	Misc	0	0	1	0	Black Potion	60	0	0	0	0	"Adds 50 to permanent Endurance.  (To drink, pick the potion up and right-click over a character's portrait.  To mix, pick the potion up and right-click over another potion.)"
+268	item182	Pure Personality	2000	Bottle	Misc	0	0	1	0	Black Potion	60	0	0	0	0	"Adds 50 to permanent Personality.  (To drink, pick the potion up and right-click over a character's portrait.  To mix, pick the potion up and right-click over another potion.)"
+269	item182	Pure Accuracy	2000	Bottle	Misc	0	0	1	0	Black Potion	60	0	0	0	0	"Adds 50 to permanent Accuracy.  (To drink, pick the potion up and right-click over a character's portrait.  To mix, pick the potion up and right-click over another potion.)"
+270	item182	Pure Might	2000	Bottle	Misc	0	0	1	0	Black Potion	60	0	0	0	0	"Adds 50 to permanent Might.  (To drink, pick the potion up and right-click over a character's portrait.  To mix, pick the potion up and right-click over another potion.)"
+271	item182	Rejuvenation	2000	Bottle	Misc	0	0	1	0	Black Potion	60	0	0	0	0	"Removes all unnatural aging.  (To drink, pick the potion up and right-click over a character's portrait.  To mix, pick the potion up and right-click over another potion.)"
+272	null	_potion/reagent272	0	0	0	0	0	0	0	0	1	0	0	0	0	_potion/reagent272
+273	null	_potion/reagent273	0	0	0	0	0	0	0	0	1	0	0	0	0	_potion/reagent273
+274	null	_potion/reagent274	0	0	0	0	0	0	0	0	1	0	0	0	0	_potion/reagent274
+275	null	_potion/reagent275	0	0	0	0	0	0	0	0	1	0	0	0	0	_potion/reagent275
+276	null	_potion/reagent276	0	0	0	0	0	0	0	0	1	0	0	0	0	_potion/reagent276
+277	null	_potion/reagent277	0	0	0	0	0	0	0	0	1	0	0	0	0	_potion/reagent277
+278	null	_potion/reagent278	0	0	0	0	0	0	0	0	1	0	0	0	0	_potion/reagent278
+279	null	_potion/reagent279	0	0	0	0	0	0	0	0	1	0	0	0	0	_potion/reagent279
+280	null	_potion/reagent280	0	0	0	0	0	0	0	0	1	0	0	0	0	_potion/reagent280
+281	null	_potion/reagent281	0	0	0	0	0	0	0	0	1	0	0	0	0	_potion/reagent281
+282	null	_potion/reagent282	0	0	0	0	0	0	0	0	1	0	0	0	0	_potion/reagent282
+283	null	_potion/reagent283	0	0	0	0	0	0	0	0	1	0	0	0	0	_potion/reagent283
+284	null	_potion/reagent284	0	0	0	0	0	0	0	0	1	0	0	0	0	_potion/reagent284
+285	null	_potion/reagent285	0	0	0	0	0	0	0	0	1	0	0	0	0	_potion/reagent285
+286	null	_potion/reagent286	0	0	0	0	0	0	0	0	1	0	0	0	0	_potion/reagent286
+287	null	_potion/reagent287	0	0	0	0	0	0	0	0	1	0	0	0	0	_potion/reagent287
+288	null	_potion/reagent288	0	0	0	0	0	0	0	0	1	0	0	0	0	_potion/reagent288
+289	null	_potion/reagent289	0	0	0	0	0	0	0	0	1	0	0	0	0	_potion/reagent289
+290	null	_potion/reagent290	0	0	0	0	0	0	0	0	1	0	0	0	0	_potion/reagent290
+291	null	_potion/reagent291	0	0	0	0	0	0	0	0	1	0	0	0	0	_potion/reagent291
+292	null	_potion/reagent292	0	0	0	0	0	0	0	0	1	0	0	0	0	_potion/reagent292
+293	null	_potion/reagent293	0	0	0	0	0	0	0	0	1	0	0	0	0	_potion/reagent293
+294	null	_potion/reagent294	0	0	0	0	0	0	0	0	1	0	0	0	0	_potion/reagent294
+295	null	_potion/reagent295	0	0	0	0	0	0	0	0	1	0	0	0	0	_potion/reagent295
+296	null	_potion/reagent296	0	0	0	0	0	0	0	0	1	0	0	0	0	_potion/reagent296
+297	null	_potion/reagent297	0	0	0	0	0	0	0	0	1	0	0	0	0	_potion/reagent297
+298	null	_potion/reagent298	0	0	0	0	0	0	0	0	1	0	0	0	0	_potion/reagent298
+299	null	_potion/reagent299	0	0	0	0	0	0	0	0	1	0	0	0	0	_potion/reagent299
+300	item199	Torch Light	10	Sscroll	Misc	S1	1	2	1	Scroll	77	0	0	0	0	"A spell scroll.  (To cast this spell, pick the scroll up and right-click over a character's portrait in the inventory screen.)"
+301	item199	Fire Bolt	20	Sscroll	Misc	S2	1	2	1	Scroll	77	0	0	0	0	"A spell scroll.  (To cast this spell, pick the scroll up and right-click over a character's portrait in the inventory screen.)"
+302	item199	Fire Resistance	30	Sscroll	Misc	S3	1	2	1	Scroll	77	0	0	0	0	"A spell scroll.  (To cast this spell, pick the scroll up and right-click over a character's portrait in the inventory screen.)"
+303	item199	Fire Aura	40	Sscroll	Misc	S4	1	2	1	Scroll	77	0	0	0	0	"A spell scroll.  (To cast this spell, pick the scroll up and right-click over a character's portrait in the inventory screen.)"
+304	item200	Haste	50	Sscroll	Misc	S5	1	2	2	Scroll	77	0	0	0	0	"A spell scroll.  (To cast this spell, pick the scroll up and right-click over a character's portrait in the inventory screen.)"
+305	item200	Fireball	75	Sscroll	Misc	S6	1	2	2	Scroll	77	0	0	0	0	"A spell scroll.  (To cast this spell, pick the scroll up and right-click over a character's portrait in the inventory screen.)"
+306	item200	Fire Spike	100	Sscroll	Misc	S7	1	2	2	Scroll	77	0	0	0	0	"A spell scroll.  (To cast this spell, pick the scroll up and right-click over a character's portrait in the inventory screen.)"
+307	item202	Immolation	150	Sscroll	Misc	S8	1	2	5	Scroll	77	0	0	0	0	"A spell scroll.  (To cast this spell, pick the scroll up and right-click over a character's portrait in the inventory screen.)"
+308	item202	Meteor Shower	200	Sscroll	Misc	S9	1	2	5	Scroll	77	0	0	0	0	"A spell scroll.  (To cast this spell, pick the scroll up and right-click over a character's portrait in the inventory screen.)"
+309	item202	Inferno	300	Sscroll	Misc	S10	1	2	5	Scroll	77	0	0	0	0	"A spell scroll.  (To cast this spell, pick the scroll up and right-click over a character's portrait in the inventory screen.)"
+310	item201	Incinerate	500	Sscroll	Misc	S11	1	2	10	Scroll	77	0	0	0	0	"A spell scroll.  (To cast this spell, pick the scroll up and right-click over a character's portrait in the inventory screen.)"
+311	item199	Wizard Eye	10	Sscroll	Misc	S12	1	2	1	Scroll	77	0	0	0	0	"A spell scroll.  (To cast this spell, pick the scroll up and right-click over a character's portrait in the inventory screen.)"
+312	item199	Feather Fall	20	Sscroll	Misc	S13	1	2	1	Scroll	77	0	0	0	0	"A spell scroll.  (To cast this spell, pick the scroll up and right-click over a character's portrait in the inventory screen.)"
+313	item199	Air Resistance	30	Sscroll	Misc	S14	1	2	1	Scroll	77	0	0	0	0	"A spell scroll.  (To cast this spell, pick the scroll up and right-click over a character's portrait in the inventory screen.)"
+314	item199	Sparks	40	Sscroll	Misc	S15	1	2	1	Scroll	77	0	0	0	0	"A spell scroll.  (To cast this spell, pick the scroll up and right-click over a character's portrait in the inventory screen.)"
+315	item200	Jump	50	Sscroll	Misc	S16	1	2	2	Scroll	77	0	0	0	0	"A spell scroll.  (To cast this spell, pick the scroll up and right-click over a character's portrait in the inventory screen.)"
+316	item200	Shield	75	Sscroll	Misc	S17	1	2	2	Scroll	77	0	0	0	0	"A spell scroll.  (To cast this spell, pick the scroll up and right-click over a character's portrait in the inventory screen.)"
+317	item200	Lightning Bolt	100	Sscroll	Misc	S18	1	2	2	Scroll	77	0	0	0	0	"A spell scroll.  (To cast this spell, pick the scroll up and right-click over a character's portrait in the inventory screen.)"
+318	item202	Invisibility	150	Sscroll	Misc	S19	1	2	5	Scroll	77	0	0	0	0	"A spell scroll.  (To cast this spell, pick the scroll up and right-click over a character's portrait in the inventory screen.)"
+319	item202	Implosion	200	Sscroll	Misc	S20	1	2	5	Scroll	77	0	0	0	0	"A spell scroll.  (To cast this spell, pick the scroll up and right-click over a character's portrait in the inventory screen.)"
+320	item202	Fly	300	Sscroll	Misc	S21	1	2	5	Scroll	77	0	0	0	0	"A spell scroll.  (To cast this spell, pick the scroll up and right-click over a character's portrait in the inventory screen.)"
+321	item201	Starburst	500	Sscroll	Misc	S22	1	2	10	Scroll	77	0	0	0	0	"A spell scroll.  (To cast this spell, pick the scroll up and right-click over a character's portrait in the inventory screen.)"
+322	item199	Awaken	10	Sscroll	Misc	S23	1	2	1	Scroll	77	0	0	0	0	"A spell scroll.  (To cast this spell, pick the scroll up and right-click over a character's portrait in the inventory screen.)"
+323	item199	Poison Spray	20	Sscroll	Misc	S24	1	2	1	Scroll	77	0	0	0	0	"A spell scroll.  (To cast this spell, pick the scroll up and right-click over a character's portrait in the inventory screen.)"
+324	item199	Water Resistance	30	Sscroll	Misc	S25	1	2	1	Scroll	77	0	0	0	0	"A spell scroll.  (To cast this spell, pick the scroll up and right-click over a character's portrait in the inventory screen.)"
+325	item199	Ice Bolt	40	Sscroll	Misc	S26	1	2	1	Scroll	77	0	0	0	0	"A spell scroll.  (To cast this spell, pick the scroll up and right-click over a character's portrait in the inventory screen.)"
+326	item200	Water Walk	50	Sscroll	Misc	S27	1	2	2	Scroll	77	0	0	0	0	"A spell scroll.  (To cast this spell, pick the scroll up and right-click over a character's portrait in the inventory screen.)"
+327	item200	Recharge Item	75	Sscroll	Misc	S28	1	2	2	Scroll	77	0	0	0	0	"A spell scroll.  (To cast this spell, pick the scroll up and right-click over a character's portrait in the inventory screen.)"
+328	item200	Acid Burst	100	Sscroll	Misc	S29	1	2	2	Scroll	77	0	0	0	0	"A spell scroll.  (To cast this spell, pick the scroll up and right-click over a character's portrait in the inventory screen.)"
+329	item202	Enchant Item	150	Sscroll	Misc	S30	1	2	5	Scroll	77	0	0	0	0	"A spell scroll.  (To cast this spell, pick the scroll up and right-click over a character's portrait in the inventory screen.)"
+330	item202	Town Portal	200	Sscroll	Misc	S31	1	2	5	Scroll	77	0	0	0	0	"A spell scroll.  (To cast this spell, pick the scroll up and right-click over a character's portrait in the inventory screen.)"
+331	item202	Ice Blast	300	Sscroll	Misc	S32	1	2	5	Scroll	77	0	0	0	0	"A spell scroll.  (To cast this spell, pick the scroll up and right-click over a character's portrait in the inventory screen.)"
+332	item201	Lloyd's Beacon	500	Sscroll	Misc	S33	1	2	10	Scroll	77	0	0	0	0	"A spell scroll.  (To cast this spell, pick the scroll up and right-click over a character's portrait in the inventory screen.)"
+333	item199	Stun	10	Sscroll	Misc	S34	1	2	1	Scroll	77	0	0	0	0	"A spell scroll.  (To cast this spell, pick the scroll up and right-click over a character's portrait in the inventory screen.)"
+334	item199	Slow	20	Sscroll	Misc	S35	1	2	1	Scroll	77	0	0	0	0	"A spell scroll.  (To cast this spell, pick the scroll up and right-click over a character's portrait in the inventory screen.)"
+335	item199	Earth Resistance	30	Sscroll	Misc	S36	1	2	1	Scroll	77	0	0	0	0	"A spell scroll.  (To cast this spell, pick the scroll up and right-click over a character's portrait in the inventory screen.)"
+336	item199	Deadly Swarm	40	Sscroll	Misc	S37	1	2	1	Scroll	77	0	0	0	0	"A spell scroll.  (To cast this spell, pick the scroll up and right-click over a character's portrait in the inventory screen.)"
+337	item200	Stone Skin	50	Sscroll	Misc	S38	1	2	2	Scroll	77	0	0	0	0	"A spell scroll.  (To cast this spell, pick the scroll up and right-click over a character's portrait in the inventory screen.)"
+338	item200	Blades	75	Sscroll	Misc	S39	1	2	2	Scroll	77	0	0	0	0	"A spell scroll.  (To cast this spell, pick the scroll up and right-click over a character's portrait in the inventory screen.)"
+339	item200	Stone to Flesh	100	Sscroll	Misc	S40	1	2	2	Scroll	77	0	0	0	0	"A spell scroll.  (To cast this spell, pick the scroll up and right-click over a character's portrait in the inventory screen.)"
+340	item202	Rock Blast	150	Sscroll	Misc	S41	1	2	5	Scroll	77	0	0	0	0	"A spell scroll.  (To cast this spell, pick the scroll up and right-click over a character's portrait in the inventory screen.)"
+341	item202	Telekinesis	200	Sscroll	Misc	S42	1	2	5	Scroll	77	0	0	0	0	"A spell scroll.  (To cast this spell, pick the scroll up and right-click over a character's portrait in the inventory screen.)"
+342	item202	Death Blossom	300	Sscroll	Misc	S43	1	2	5	Scroll	77	0	0	0	0	"A spell scroll.  (To cast this spell, pick the scroll up and right-click over a character's portrait in the inventory screen.)"
+343	item201	Mass Distortion	500	Sscroll	Misc	S44	1	2	10	Scroll	77	0	0	0	0	"A spell scroll.  (To cast this spell, pick the scroll up and right-click over a character's portrait in the inventory screen.)"
+344	item199	Detect Life	10	Sscroll	Misc	S45	1	2	1	Scroll	77	0	0	0	0	"A spell scroll.  (To cast this spell, pick the scroll up and right-click over a character's portrait in the inventory screen.)"
+345	item199	Bless	20	Sscroll	Misc	S46	1	2	1	Scroll	77	0	0	0	0	"A spell scroll.  (To cast this spell, pick the scroll up and right-click over a character's portrait in the inventory screen.)"
+346	item199	Fate	30	Sscroll	Misc	S47	1	2	1	Scroll	77	0	0	0	0	"A spell scroll.  (To cast this spell, pick the scroll up and right-click over a character's portrait in the inventory screen.)"
+347	item199	Turn Undead	40	Sscroll	Misc	S48	1	2	1	Scroll	77	0	0	0	0	"A spell scroll.  (To cast this spell, pick the scroll up and right-click over a character's portrait in the inventory screen.)"
+348	item200	Remove Curse	50	Sscroll	Misc	S49	1	2	2	Scroll	77	0	0	0	0	"A spell scroll.  (To cast this spell, pick the scroll up and right-click over a character's portrait in the inventory screen.)"
+349	item200	Preservation	75	Sscroll	Misc	S50	1	2	2	Scroll	77	0	0	0	0	"A spell scroll.  (To cast this spell, pick the scroll up and right-click over a character's portrait in the inventory screen.)"
+350	item200	Heroism	100	Sscroll	Misc	S51	1	2	2	Scroll	77	0	0	0	0	"A spell scroll.  (To cast this spell, pick the scroll up and right-click over a character's portrait in the inventory screen.)"
+351	item202	Spirit Lash	150	Sscroll	Misc	S52	1	2	5	Scroll	77	0	0	0	0	"A spell scroll.  (To cast this spell, pick the scroll up and right-click over a character's portrait in the inventory screen.)"
+352	item202	Raise Dead	200	Sscroll	Misc	S53	1	2	5	Scroll	77	0	0	0	0	"A spell scroll.  (To cast this spell, pick the scroll up and right-click over a character's portrait in the inventory screen.)"
+353	item202	Shared Life	300	Sscroll	Misc	S54	1	2	5	Scroll	77	0	0	0	0	"A spell scroll.  (To cast this spell, pick the scroll up and right-click over a character's portrait in the inventory screen.)"
+354	item201	Resurrection	500	Sscroll	Misc	S55	1	2	10	Scroll	77	0	0	0	0	"A spell scroll.  (To cast this spell, pick the scroll up and right-click over a character's portrait in the inventory screen.)"
+355	item199	Telepathy	10	Sscroll	Misc	S56	1	2	1	Scroll	77	0	0	0	0	"A spell scroll.  (To cast this spell, pick the scroll up and right-click over a character's portrait in the inventory screen.)"
+356	item199	Remove Fear	20	Sscroll	Misc	S57	1	2	1	Scroll	77	0	0	0	0	"A spell scroll.  (To cast this spell, pick the scroll up and right-click over a character's portrait in the inventory screen.)"
+357	item199	Mind Resistance	30	Sscroll	Misc	S58	1	2	1	Scroll	77	0	0	0	0	"A spell scroll.  (To cast this spell, pick the scroll up and right-click over a character's portrait in the inventory screen.)"
+358	item199	Mind Blast	40	Sscroll	Misc	S59	1	2	1	Scroll	77	0	0	0	0	"A spell scroll.  (To cast this spell, pick the scroll up and right-click over a character's portrait in the inventory screen.)"
+359	item200	Charm	50	Sscroll	Misc	S60	1	2	2	Scroll	77	0	0	0	0	"A spell scroll.  (To cast this spell, pick the scroll up and right-click over a character's portrait in the inventory screen.)"
+360	item200	Cure Paralysis	75	Sscroll	Misc	S61	1	2	2	Scroll	77	0	0	0	0	"A spell scroll.  (To cast this spell, pick the scroll up and right-click over a character's portrait in the inventory screen.)"
+361	item200	Berserk	100	Sscroll	Misc	S62	1	2	2	Scroll	77	0	0	0	0	"A spell scroll.  (To cast this spell, pick the scroll up and right-click over a character's portrait in the inventory screen.)"
+362	item202	Mass Fear	150	Sscroll	Misc	S63	1	2	5	Scroll	77	0	0	0	0	"A spell scroll.  (To cast this spell, pick the scroll up and right-click over a character's portrait in the inventory screen.)"
+363	item202	Cure Insanity	200	Sscroll	Misc	S64	1	2	5	Scroll	77	0	0	0	0	"A spell scroll.  (To cast this spell, pick the scroll up and right-click over a character's portrait in the inventory screen.)"
+364	item202	Psychic Shock	300	Sscroll	Misc	S65	1	2	5	Scroll	77	0	0	0	0	"A spell scroll.  (To cast this spell, pick the scroll up and right-click over a character's portrait in the inventory screen.)"
+365	item201	Enslave	500	Sscroll	Misc	S66	1	2	10	Scroll	77	0	0	0	0	"A spell scroll.  (To cast this spell, pick the scroll up and right-click over a character's portrait in the inventory screen.)"
+366	item199	Cure Weakness	10	Sscroll	Misc	S67	1	2	1	Scroll	77	0	0	0	0	"A spell scroll.  (To cast this spell, pick the scroll up and right-click over a character's portrait in the inventory screen.)"
+367	item199	Heal	20	Sscroll	Misc	S68	1	2	1	Scroll	77	0	0	0	0	"A spell scroll.  (To cast this spell, pick the scroll up and right-click over a character's portrait in the inventory screen.)"
+368	item199	Body Resistance	30	Sscroll	Misc	S69	1	2	1	Scroll	77	0	0	0	0	"A spell scroll.  (To cast this spell, pick the scroll up and right-click over a character's portrait in the inventory screen.)"
+369	item199	Harm	40	Sscroll	Misc	S70	1	2	1	Scroll	77	0	0	0	0	"A spell scroll.  (To cast this spell, pick the scroll up and right-click over a character's portrait in the inventory screen.)"
+370	item200	Regeneration	50	Sscroll	Misc	S71	1	2	2	Scroll	77	0	0	0	0	"A spell scroll.  (To cast this spell, pick the scroll up and right-click over a character's portrait in the inventory screen.)"
+371	item200	Cure Poison	75	Sscroll	Misc	S72	1	2	2	Scroll	77	0	0	0	0	"A spell scroll.  (To cast this spell, pick the scroll up and right-click over a character's portrait in the inventory screen.)"
+372	item200	Hammerhands	100	Sscroll	Misc	S73	1	2	2	Scroll	77	0	0	0	0	"A spell scroll.  (To cast this spell, pick the scroll up and right-click over a character's portrait in the inventory screen.)"
+373	item202	Cure Disease	150	Sscroll	Misc	S74	1	2	5	Scroll	77	0	0	0	0	"A spell scroll.  (To cast this spell, pick the scroll up and right-click over a character's portrait in the inventory screen.)"
+374	item202	Protection from Magic	200	Sscroll	Misc	S75	1	2	5	Scroll	77	0	0	0	0	"A spell scroll.  (To cast this spell, pick the scroll up and right-click over a character's portrait in the inventory screen.)"
+375	item202	Flying Fist	300	Sscroll	Misc	S76	1	2	5	Scroll	77	0	0	0	0	"A spell scroll.  (To cast this spell, pick the scroll up and right-click over a character's portrait in the inventory screen.)"
+376	item201	Power Cure	500	Sscroll	Misc	S77	1	2	10	Scroll	77	0	0	0	0	"A spell scroll.  (To cast this spell, pick the scroll up and right-click over a character's portrait in the inventory screen.)"
+377	item199	Light Bolt	100	Sscroll	Misc	S78	1	2	1	Scroll	77	0	0	0	0	"A spell scroll.  (To cast this spell, pick the scroll up and right-click over a character's portrait in the inventory screen.)"
+378	item199	Destroy Undead	150	Sscroll	Misc	S79	1	2	1	Scroll	77	0	0	0	0	"A spell scroll.  (To cast this spell, pick the scroll up and right-click over a character's portrait in the inventory screen.)"
+379	item199	Dispel Magic	200	Sscroll	Misc	S80	1	2	1	Scroll	77	0	0	0	0	"A spell scroll.  (To cast this spell, pick the scroll up and right-click over a character's portrait in the inventory screen.)"
+380	item199	Paralyze	250	Sscroll	Misc	S81	1	2	1	Scroll	77	0	0	0	0	"A spell scroll.  (To cast this spell, pick the scroll up and right-click over a character's portrait in the inventory screen.)"
+381	item200	Summon Wisp	300	Sscroll	Misc	S82	1	2	2	Scroll	77	0	0	0	0	"A spell scroll.  (To cast this spell, pick the scroll up and right-click over a character's portrait in the inventory screen.)"
+382	item200	Day of the Gods	350	Sscroll	Misc	S83	1	2	2	Scroll	77	0	0	0	0	"A spell scroll.  (To cast this spell, pick the scroll up and right-click over a character's portrait in the inventory screen.)"
+383	item200	Prismatic Light	400	Sscroll	Misc	S84	1	2	2	Scroll	77	0	0	0	0	"A spell scroll.  (To cast this spell, pick the scroll up and right-click over a character's portrait in the inventory screen.)"
+384	item202	Day of Protection	500	Sscroll	Misc	S85	1	2	5	Scroll	77	0	0	0	0	"A spell scroll.  (To cast this spell, pick the scroll up and right-click over a character's portrait in the inventory screen.)"
+385	item202	Hour of Power	600	Sscroll	Misc	S86	1	2	5	Scroll	77	0	0	0	0	"A spell scroll.  (To cast this spell, pick the scroll up and right-click over a character's portrait in the inventory screen.)"
+386	item202	Sunray	750	Sscroll	Misc	S87	1	2	5	Scroll	77	0	0	0	0	"A spell scroll.  (To cast this spell, pick the scroll up and right-click over a character's portrait in the inventory screen.)"
+387	item201	Divine Intervention	1000	Sscroll	Misc	S88	1	2	10	Scroll	77	0	0	0	0	"A spell scroll.  (To cast this spell, pick the scroll up and right-click over a character's portrait in the inventory screen.)"
+388	item199	Reanimate	100	Sscroll	Misc	S89	1	2	1	Scroll	77	0	0	0	0	"A spell scroll.  (To cast this spell, pick the scroll up and right-click over a character's portrait in the inventory screen.)"
+389	item199	Toxic Cloud	150	Sscroll	Misc	S90	1	2	1	Scroll	77	0	0	0	0	"A spell scroll.  (To cast this spell, pick the scroll up and right-click over a character's portrait in the inventory screen.)"
+390	item199	Vampiric Weapon	200	Sscroll	Misc	S91	1	2	1	Scroll	77	0	0	0	0	"A spell scroll.  (To cast this spell, pick the scroll up and right-click over a character's portrait in the inventory screen.)"
+391	item199	Shrinking Ray	250	Sscroll	Misc	S92	1	2	1	Scroll	77	0	0	0	0	"A spell scroll.  (To cast this spell, pick the scroll up and right-click over a character's portrait in the inventory screen.)"
+392	item200	Shrapmetal	300	Sscroll	Misc	S93	1	2	2	Scroll	77	0	0	0	0	"A spell scroll.  (To cast this spell, pick the scroll up and right-click over a character's portrait in the inventory screen.)"
+393	item200	Control Undead	350	Sscroll	Misc	S94	1	2	2	Scroll	77	0	0	0	0	"A spell scroll.  (To cast this spell, pick the scroll up and right-click over a character's portrait in the inventory screen.)"
+394	item200	Pain Reflection	400	Sscroll	Misc	S95	1	2	2	Scroll	77	0	0	0	0	"A spell scroll.  (To cast this spell, pick the scroll up and right-click over a character's portrait in the inventory screen.)"
+395	item202	Dark Grasp	500	Sscroll	Misc	S96	1	2	5	Scroll	77	0	0	0	0	"A spell scroll.  (To cast this spell, pick the scroll up and right-click over a character's portrait in the inventory screen.)"
+396	item202	Dragon Breath	600	Sscroll	Misc	S97	1	2	5	Scroll	77	0	0	0	0	"A spell scroll.  (To cast this spell, pick the scroll up and right-click over a character's portrait in the inventory screen.)"
+397	item202	Armageddon	750	Sscroll	Misc	S98	1	2	5	Scroll	77	0	0	0	0	"A spell scroll.  (To cast this spell, pick the scroll up and right-click over a character's portrait in the inventory screen.)"
+398	item201	Souldrinker	1000	Sscroll	Misc	S99	1	2	10	Scroll	77	0	0	0	0	"A spell scroll.  (To cast this spell, pick the scroll up and right-click over a character's portrait in the inventory screen.)"
+399	null	scroll 399	0	0	0	0	0	0	0	0	1	0	0	0	0	scroll 399
+400	item207	Torch Light	100	Book	Misc	S1	1	3	1	Learning Book	78	0	0	0	0	"A spell book.  (To learn this spell, pick the book up and right-click over a character's portrait in the inventory screen.  Your character must know the Fire magic skill to learn this spell.)"
+401	item207	Fire Bolt	200	Book	Misc	S2	1	3	1	Learning Book	78	0	0	0	0	"A spell book.  (To learn this spell, pick the book up and right-click over a character's portrait in the inventory screen.  Your character must know the Fire magic skill to learn this spell.)"
+402	item207	Fire Resistance	300	Book	Misc	S3	1	3	1	Learning Book	78	0	0	0	0	"A spell book.  (To learn this spell, pick the book up and right-click over a character's portrait in the inventory screen.  Your character must know the Fire magic skill to learn this spell.)"
+403	item207	Fire Aura	400	Book	Misc	S4	1	3	1	Learning Book	78	0	0	0	0	"A spell book.  (To learn this spell, pick the book up and right-click over a character's portrait in the inventory screen.  Your character must know the Fire magic skill to learn this spell.)"
+404	item208	Haste	500	Book	Misc	S5	1	3	5	Learning Book	78	0	0	0	0	"A spell book.  (To learn this spell, pick the book up and right-click over a character's portrait in the inventory screen.  Your character must know the Fire magic skill to learn this spell.)"
+405	item208	Fireball	750	Book	Misc	S6	1	3	5	Learning Book	78	0	0	0	0	"A spell book.  (To learn this spell, pick the book up and right-click over a character's portrait in the inventory screen.  Your character must know the Fire magic skill to learn this spell.)"
+406	item208	Fire Spike	1000	Book	Misc	S7	1	3	5	Learning Book	78	0	0	0	0	"A spell book.  (To learn this spell, pick the book up and right-click over a character's portrait in the inventory screen.  Your character must know the Fire magic skill to learn this spell.)"
+407	item210	Immolation	1500	Book	Misc	S8	1	3	10	Learning Book	78	0	0	0	0	"A spell book.  (To learn this spell, pick the book up and right-click over a character's portrait in the inventory screen.  Your character must know the Fire magic skill to learn this spell.)"
+408	item210	Meteor Shower	2000	Book	Misc	S9	1	3	10	Learning Book	78	0	0	0	0	"A spell book.  (To learn this spell, pick the book up and right-click over a character's portrait in the inventory screen.  Your character must know the Fire magic skill to learn this spell.)"
+409	item210	Inferno	3000	Book	Misc	S10	1	3	10	Learning Book	78	0	0	0	0	"A spell book.  (To learn this spell, pick the book up and right-click over a character's portrait in the inventory screen.  Your character must know the Fire magic skill to learn this spell.)"
+410	item209	Incinerate	5000	Book	Misc	S11	1	3	15	Learning Book	78	0	0	0	0	"A spell book.  (To learn this spell, pick the book up and right-click over a character's portrait in the inventory screen.  Your character must know the Fire magic skill to learn this spell.)"
+411	item207	Wizard Eye	100	Book	Misc	S12	1	3	1	Learning Book	78	0	0	0	0	"A spell book.  (To learn this spell, pick the book up and right-click over a character's portrait in the inventory screen.  Your character must know the Air magic skill to learn this spell.)"
+412	item207	Feather Fall	200	Book	Misc	S13	1	3	1	Learning Book	78	0	0	0	0	"A spell book.  (To learn this spell, pick the book up and right-click over a character's portrait in the inventory screen.  Your character must know the Air magic skill to learn this spell.)"
+413	item207	Air Resistance	300	Book	Misc	S14	1	3	1	Learning Book	78	0	0	0	0	"A spell book.  (To learn this spell, pick the book up and right-click over a character's portrait in the inventory screen.  Your character must know the Air magic skill to learn this spell.)"
+414	item207	Sparks	400	Book	Misc	S15	1	3	1	Learning Book	78	0	0	0	0	"A spell book.  (To learn this spell, pick the book up and right-click over a character's portrait in the inventory screen.  Your character must know the Air magic skill to learn this spell.)"
+415	item208	Jump	500	Book	Misc	S16	1	3	5	Learning Book	78	0	0	0	0	"A spell book.  (To learn this spell, pick the book up and right-click over a character's portrait in the inventory screen.  Your character must know the Air magic skill to learn this spell.)"
+416	item208	Shield	750	Book	Misc	S17	1	3	5	Learning Book	78	0	0	0	0	"A spell book.  (To learn this spell, pick the book up and right-click over a character's portrait in the inventory screen.  Your character must know the Air magic skill to learn this spell.)"
+417	item208	Lightning Bolt	1000	Book	Misc	S18	1	3	5	Learning Book	78	0	0	0	0	"A spell book.  (To learn this spell, pick the book up and right-click over a character's portrait in the inventory screen.  Your character must know the Air magic skill to learn this spell.)"
+418	item210	Invisibility	1500	Book	Misc	S19	1	3	10	Learning Book	78	0	0	0	0	"A spell book.  (To learn this spell, pick the book up and right-click over a character's portrait in the inventory screen.  Your character must know the Air magic skill to learn this spell.)"
+419	item210	Implosion	2000	Book	Misc	S20	1	3	10	Learning Book	78	0	0	0	0	"A spell book.  (To learn this spell, pick the book up and right-click over a character's portrait in the inventory screen.  Your character must know the Air magic skill to learn this spell.)"
+420	item210	Fly	3000	Book	Misc	S21	1	3	10	Learning Book	78	0	0	0	0	"A spell book.  (To learn this spell, pick the book up and right-click over a character's portrait in the inventory screen.  Your character must know the Air magic skill to learn this spell.)"
+421	item209	Starburst	5000	Book	Misc	S22	1	3	15	Learning Book	78	0	0	0	0	"A spell book.  (To learn this spell, pick the book up and right-click over a character's portrait in the inventory screen.  Your character must know the Air magic skill to learn this spell.)"
+422	item207	Awaken	100	Book	Misc	S23	1	3	1	Learning Book	78	0	0	0	0	"A spell book.  (To learn this spell, pick the book up and right-click over a character's portrait in the inventory screen.  Your character must know the Water magic skill to learn this spell.)"
+423	item207	Poison Spray	200	Book	Misc	S24	1	3	1	Learning Book	78	0	0	0	0	"A spell book.  (To learn this spell, pick the book up and right-click over a character's portrait in the inventory screen.  Your character must know the Water magic skill to learn this spell.)"
+424	item207	Water Resistance	300	Book	Misc	S25	1	3	1	Learning Book	78	0	0	0	0	"A spell book.  (To learn this spell, pick the book up and right-click over a character's portrait in the inventory screen.  Your character must know the Water magic skill to learn this spell.)"
+425	item207	Ice Bolt	400	Book	Misc	S26	1	3	1	Learning Book	78	0	0	0	0	"A spell book.  (To learn this spell, pick the book up and right-click over a character's portrait in the inventory screen.  Your character must know the Water magic skill to learn this spell.)"
+426	item208	Water Walk	500	Book	Misc	S27	1	3	5	Learning Book	78	0	0	0	0	"A spell book.  (To learn this spell, pick the book up and right-click over a character's portrait in the inventory screen.  Your character must know the Water magic skill to learn this spell.)"
+427	item208	Recharge Item	750	Book	Misc	S28	1	3	5	Learning Book	78	0	0	0	0	"A spell book.  (To learn this spell, pick the book up and right-click over a character's portrait in the inventory screen.  Your character must know the Water magic skill to learn this spell.)"
+428	item208	Acid Burst	1000	Book	Misc	S29	1	3	5	Learning Book	78	0	0	0	0	"A spell book.  (To learn this spell, pick the book up and right-click over a character's portrait in the inventory screen.  Your character must know the Water magic skill to learn this spell.)"
+429	item210	Enchant Item	1500	Book	Misc	S30	1	3	10	Learning Book	78	0	0	0	0	"A spell book.  (To learn this spell, pick the book up and right-click over a character's portrait in the inventory screen.  Your character must know the Water magic skill to learn this spell.)"
+430	item210	Town Portal	2000	Book	Misc	S31	1	3	10	Learning Book	78	0	0	0	0	"A spell book.  (To learn this spell, pick the book up and right-click over a character's portrait in the inventory screen.  Your character must know the Water magic skill to learn this spell.)"
+431	item210	Ice Blast	3000	Book	Misc	S32	1	3	10	Learning Book	78	0	0	0	0	"A spell book.  (To learn this spell, pick the book up and right-click over a character's portrait in the inventory screen.  Your character must know the Water magic skill to learn this spell.)"
+432	item209	Lloyd's Beacon	5000	Book	Misc	S33	1	3	15	Learning Book	78	0	0	0	0	"A spell book.  (To learn this spell, pick the book up and right-click over a character's portrait in the inventory screen.  Your character must know the Water magic skill to learn this spell.)"
+433	item207	Stun	100	Book	Misc	S34	1	3	1	Learning Book	78	0	0	0	0	"A spell book.  (To learn this spell, pick the book up and right-click over a character's portrait in the inventory screen.  Your character must know the Earth magic skill to learn this spell.)"
+434	item207	Slow	200	Book	Misc	S35	1	3	1	Learning Book	78	0	0	0	0	"A spell book.  (To learn this spell, pick the book up and right-click over a character's portrait in the inventory screen.  Your character must know the Earth magic skill to learn this spell.)"
+435	item207	Earth Resistance	300	Book	Misc	S36	1	3	1	Learning Book	78	0	0	0	0	"A spell book.  (To learn this spell, pick the book up and right-click over a character's portrait in the inventory screen.  Your character must know the Earth magic skill to learn this spell.)"
+436	item207	Deadly Swarm	400	Book	Misc	S37	1	3	1	Learning Book	78	0	0	0	0	"A spell book.  (To learn this spell, pick the book up and right-click over a character's portrait in the inventory screen.  Your character must know the Earth magic skill to learn this spell.)"
+437	item208	Stone Skin	500	Book	Misc	S38	1	3	5	Learning Book	78	0	0	0	0	"A spell book.  (To learn this spell, pick the book up and right-click over a character's portrait in the inventory screen.  Your character must know the Earth magic skill to learn this spell.)"
+438	item208	Blades	750	Book	Misc	S39	1	3	5	Learning Book	78	0	0	0	0	"A spell book.  (To learn this spell, pick the book up and right-click over a character's portrait in the inventory screen.  Your character must know the Earth magic skill to learn this spell.)"
+439	item208	Stone to Flesh	1000	Book	Misc	S40	1	3	5	Learning Book	78	0	0	0	0	"A spell book.  (To learn this spell, pick the book up and right-click over a character's portrait in the inventory screen.  Your character must know the Earth magic skill to learn this spell.)"
+440	item210	Rock Blast	1500	Book	Misc	S41	1	3	10	Learning Book	78	0	0	0	0	"A spell book.  (To learn this spell, pick the book up and right-click over a character's portrait in the inventory screen.  Your character must know the Earth magic skill to learn this spell.)"
+441	item210	Telekinesis	2000	Book	Misc	S42	1	3	10	Learning Book	78	0	0	0	0	"A spell book.  (To learn this spell, pick the book up and right-click over a character's portrait in the inventory screen.  Your character must know the Earth magic skill to learn this spell.)"
+442	item210	Death Blossom	3000	Book	Misc	S43	1	3	10	Learning Book	78	0	0	0	0	"A spell book.  (To learn this spell, pick the book up and right-click over a character's portrait in the inventory screen.  Your character must know the Earth magic skill to learn this spell.)"
+443	item209	Mass Distortion	5000	Book	Misc	S44	1	3	15	Learning Book	78	0	0	0	0	"A spell book.  (To learn this spell, pick the book up and right-click over a character's portrait in the inventory screen.  Your character must know the Earth magic skill to learn this spell.)"
+444	item207	Detect Life	100	Book	Misc	S45	1	3	1	Learning Book	78	0	0	0	0	"A spell book.  (To learn this spell, pick the book up and right-click over a character's portrait in the inventory screen.  Your character must know the Spirit magic skill to learn this spell.)"
+445	item207	Bless	200	Book	Misc	S46	1	3	1	Learning Book	78	0	0	0	0	"A spell book.  (To learn this spell, pick the book up and right-click over a character's portrait in the inventory screen.  Your character must know the Spirit magic skill to learn this spell.)"
+446	item207	Fate	300	Book	Misc	S47	1	3	1	Learning Book	78	0	0	0	0	"A spell book.  (To learn this spell, pick the book up and right-click over a character's portrait in the inventory screen.  Your character must know the Spirit magic skill to learn this spell.)"
+447	item207	Turn Undead	400	Book	Misc	S48	1	3	1	Learning Book	78	0	0	0	0	"A spell book.  (To learn this spell, pick the book up and right-click over a character's portrait in the inventory screen.  Your character must know the Spirit magic skill to learn this spell.)"
+448	item208	Remove Curse	500	Book	Misc	S49	1	3	5	Learning Book	78	0	0	0	0	"A spell book.  (To learn this spell, pick the book up and right-click over a character's portrait in the inventory screen.  Your character must know the Spirit magic skill to learn this spell.)"
+449	item208	Preservation	750	Book	Misc	S50	1	3	5	Learning Book	78	0	0	0	0	"A spell book.  (To learn this spell, pick the book up and right-click over a character's portrait in the inventory screen.  Your character must know the Spirit magic skill to learn this spell.)"
+450	item208	Heroism	1000	Book	Misc	S51	1	3	5	Learning Book	78	0	0	0	0	"A spell book.  (To learn this spell, pick the book up and right-click over a character's portrait in the inventory screen.  Your character must know the Spirit magic skill to learn this spell.)"
+451	item210	Spirit Lash	1500	Book	Misc	S52	1	3	10	Learning Book	78	0	0	0	0	"A spell book.  (To learn this spell, pick the book up and right-click over a character's portrait in the inventory screen.  Your character must know the Spirit magic skill to learn this spell.)"
+452	item210	Raise Dead	2000	Book	Misc	S53	1	3	10	Learning Book	78	0	0	0	0	"A spell book.  (To learn this spell, pick the book up and right-click over a character's portrait in the inventory screen.  Your character must know the Spirit magic skill to learn this spell.)"
+453	item210	Shared Life	3000	Book	Misc	S54	1	3	10	Learning Book	78	0	0	0	0	"A spell book.  (To learn this spell, pick the book up and right-click over a character's portrait in the inventory screen.  Your character must know the Spirit magic skill to learn this spell.)"
+454	item209	Resurrection	5000	Book	Misc	S55	1	3	15	Learning Book	78	0	0	0	0	"A spell book.  (To learn this spell, pick the book up and right-click over a character's portrait in the inventory screen.  Your character must know the Spirit magic skill to learn this spell.)"
+455	item207	Telepathy	100	Book	Misc	S56	1	3	1	Learning Book	78	0	0	0	0	"A spell book.  (To learn this spell, pick the book up and right-click over a character's portrait in the inventory screen.  Your character must know the Mind magic skill to learn this spell.)"
+456	item207	Remove Fear	200	Book	Misc	S57	1	3	1	Learning Book	78	0	0	0	0	"A spell book.  (To learn this spell, pick the book up and right-click over a character's portrait in the inventory screen.  Your character must know the Mind magic skill to learn this spell.)"
+457	item207	Mind Resistance	300	Book	Misc	S58	1	3	1	Learning Book	78	0	0	0	0	"A spell book.  (To learn this spell, pick the book up and right-click over a character's portrait in the inventory screen.  Your character must know the Mind magic skill to learn this spell.)"
+458	item207	Mind Blast	400	Book	Misc	S59	1	3	1	Learning Book	78	0	0	0	0	"A spell book.  (To learn this spell, pick the book up and right-click over a character's portrait in the inventory screen.  Your character must know the Mind magic skill to learn this spell.)"
+459	item208	Charm	500	Book	Misc	S60	1	3	5	Learning Book	78	0	0	0	0	"A spell book.  (To learn this spell, pick the book up and right-click over a character's portrait in the inventory screen.  Your character must know the Mind magic skill to learn this spell.)"
+460	item208	Cure Paralysis	750	Book	Misc	S61	1	3	5	Learning Book	78	0	0	0	0	"A spell book.  (To learn this spell, pick the book up and right-click over a character's portrait in the inventory screen.  Your character must know the Mind magic skill to learn this spell.)"
+461	item208	Berserk	1000	Book	Misc	S62	1	3	5	Learning Book	78	0	0	0	0	"A spell book.  (To learn this spell, pick the book up and right-click over a character's portrait in the inventory screen.  Your character must know the Mind magic skill to learn this spell.)"
+462	item210	Mass Fear	1500	Book	Misc	S63	1	3	10	Learning Book	78	0	0	0	0	"A spell book.  (To learn this spell, pick the book up and right-click over a character's portrait in the inventory screen.  Your character must know the Mind magic skill to learn this spell.)"
+463	item210	Cure Insanity	2000	Book	Misc	S64	1	3	10	Learning Book	78	0	0	0	0	"A spell book.  (To learn this spell, pick the book up and right-click over a character's portrait in the inventory screen.  Your character must know the Mind magic skill to learn this spell.)"
+464	item210	Psychic Shock	3000	Book	Misc	S65	1	3	10	Learning Book	78	0	0	0	0	"A spell book.  (To learn this spell, pick the book up and right-click over a character's portrait in the inventory screen.  Your character must know the Mind magic skill to learn this spell.)"
+465	item209	Enslave	5000	Book	Misc	S66	1	3	15	Learning Book	78	0	0	0	0	"A spell book.  (To learn this spell, pick the book up and right-click over a character's portrait in the inventory screen.  Your character must know the Mind magic skill to learn this spell.)"
+466	item207	Cure Weakness	100	Book	Misc	S67	1	3	1	Learning Book	78	0	0	0	0	"A spell book.  (To learn this spell, pick the book up and right-click over a character's portrait in the inventory screen.  Your character must know the Body magic skill to learn this spell.)"
+467	item207	Heal	200	Book	Misc	S68	1	3	1	Learning Book	78	0	0	0	0	"A spell book.  (To learn this spell, pick the book up and right-click over a character's portrait in the inventory screen.  Your character must know the Body magic skill to learn this spell.)"
+468	item207	Body Resistance	300	Book	Misc	S69	1	3	1	Learning Book	78	0	0	0	0	"A spell book.  (To learn this spell, pick the book up and right-click over a character's portrait in the inventory screen.  Your character must know the Body magic skill to learn this spell.)"
+469	item207	Harm	400	Book	Misc	S70	1	3	1	Learning Book	78	0	0	0	0	"A spell book.  (To learn this spell, pick the book up and right-click over a character's portrait in the inventory screen.  Your character must know the Body magic skill to learn this spell.)"
+470	item208	Regeneration	500	Book	Misc	S71	1	3	5	Learning Book	78	0	0	0	0	"A spell book.  (To learn this spell, pick the book up and right-click over a character's portrait in the inventory screen.  Your character must know the Body magic skill to learn this spell.)"
+471	item208	Cure Poison	750	Book	Misc	S72	1	3	5	Learning Book	78	0	0	0	0	"A spell book.  (To learn this spell, pick the book up and right-click over a character's portrait in the inventory screen.  Your character must know the Body magic skill to learn this spell.)"
+472	item208	Hammerhands	1000	Book	Misc	S73	1	3	5	Learning Book	78	0	0	0	0	"A spell book.  (To learn this spell, pick the book up and right-click over a character's portrait in the inventory screen.  Your character must know the Body magic skill to learn this spell.)"
+473	item210	Cure Disease	1500	Book	Misc	S74	1	3	10	Learning Book	78	0	0	0	0	"A spell book.  (To learn this spell, pick the book up and right-click over a character's portrait in the inventory screen.  Your character must know the Body magic skill to learn this spell.)"
+474	item210	Protection from Magic	2000	Book	Misc	S75	1	3	10	Learning Book	78	0	0	0	0	"A spell book.  (To learn this spell, pick the book up and right-click over a character's portrait in the inventory screen.  Your character must know the Body magic skill to learn this spell.)"
+475	item210	Flying Fist	3000	Book	Misc	S76	1	3	10	Learning Book	78	0	0	0	0	"A spell book.  (To learn this spell, pick the book up and right-click over a character's portrait in the inventory screen.  Your character must know the Body magic skill to learn this spell.)"
+476	item209	Power Cure	5000	Book	Misc	S77	1	3	15	Learning Book	78	0	0	0	0	"A spell book.  (To learn this spell, pick the book up and right-click over a character's portrait in the inventory screen.  Your character must know the Body magic skill to learn this spell.)"
+477	item207	Light Bolt	1000	Book	Misc	S78	1	3	3	Learning Book	78	0	0	0	0	"A spell book.  (To learn this spell, pick the book up and right-click over a character's portrait in the inventory screen.  Your character must know the Light magic skill to learn this spell.)"
+478	item207	Destroy Undead	1500	Book	Misc	S79	1	3	3	Learning Book	78	0	0	0	0	"A spell book.  (To learn this spell, pick the book up and right-click over a character's portrait in the inventory screen.  Your character must know the Light magic skill to learn this spell.)"
+479	item207	Dispel Magic	2000	Book	Misc	S80	1	3	3	Learning Book	78	0	0	0	0	"A spell book.  (To learn this spell, pick the book up and right-click over a character's portrait in the inventory screen.  Your character must know the Light magic skill to learn this spell.)"
+480	item207	Paralyze	2500	Book	Misc	S81	1	3	3	Learning Book	78	0	0	0	0	"A spell book.  (To learn this spell, pick the book up and right-click over a character's portrait in the inventory screen.  Your character must know the Light magic skill to learn this spell.)"
+481	item208	Summon Wisp	3000	Book	Misc	S82	1	3	8	Learning Book	78	0	0	0	0	"A spell book.  (To learn this spell, pick the book up and right-click over a character's portrait in the inventory screen.  Your character must know the Light magic skill to learn this spell.)"
+482	item208	Day of the Gods	3500	Book	Misc	S83	1	3	8	Learning Book	78	0	0	0	0	"A spell book.  (To learn this spell, pick the book up and right-click over a character's portrait in the inventory screen.  Your character must know the Light magic skill to learn this spell.)"
+483	item208	Prismatic Light	4000	Book	Misc	S84	1	3	8	Learning Book	78	0	0	0	0	"A spell book.  (To learn this spell, pick the book up and right-click over a character's portrait in the inventory screen.  Your character must know the Light magic skill to learn this spell.)"
+484	item210	Day of Protection	5000	Book	Misc	S85	1	3	14	Learning Book	78	0	0	0	0	"A spell book.  (To learn this spell, pick the book up and right-click over a character's portrait in the inventory screen.  Your character must know the Light magic skill to learn this spell.)"
+485	item210	Hour of Power	6000	Book	Misc	S86	1	3	14	Learning Book	78	0	0	0	0	"A spell book.  (To learn this spell, pick the book up and right-click over a character's portrait in the inventory screen.  Your character must know the Light magic skill to learn this spell.)"
+486	item210	Sunray	7500	Book	Misc	S87	1	3	14	Learning Book	78	0	0	0	0	"A spell book.  (To learn this spell, pick the book up and right-click over a character's portrait in the inventory screen.  Your character must know the Light magic skill to learn this spell.)"
+487	item209	Divine Intervention	10000	Book	Misc	S88	1	3	19	Learning Book	78	0	0	0	0	"A spell book.  (To learn this spell, pick the book up and right-click over a character's portrait in the inventory screen.  Your character must know the Light magic skill to learn this spell.)"
+488	item207	Reanimate	1000	Book	Misc	S89	1	3	3	Learning Book	78	0	0	0	0	"A spell book.  (To learn this spell, pick the book up and right-click over a character's portrait in the inventory screen.  Your character must know the Dark magic skill to learn this spell.)"
+489	item207	Toxic Cloud	1500	Book	Misc	S90	1	3	3	Learning Book	78	0	0	0	0	"A spell book.  (To learn this spell, pick the book up and right-click over a character's portrait in the inventory screen.  Your character must know the Dark magic skill to learn this spell.)"
+490	item207	Vampiric Weapon	2000	Book	Misc	S91	1	3	3	Learning Book	78	0	0	0	0	"A spell book.  (To learn this spell, pick the book up and right-click over a character's portrait in the inventory screen.  Your character must know the Dark magic skill to learn this spell.)"
+491	item207	Shrinking Ray	2500	Book	Misc	S92	1	3	3	Learning Book	78	0	0	0	0	"A spell book.  (To learn this spell, pick the book up and right-click over a character's portrait in the inventory screen.  Your character must know the Dark magic skill to learn this spell.)"
+492	item208	Shrapmetal	3000	Book	Misc	S93	1	3	8	Learning Book	78	0	0	0	0	"A spell book.  (To learn this spell, pick the book up and right-click over a character's portrait in the inventory screen.  Your character must know the Dark magic skill to learn this spell.)"
+493	item208	Control Undead	3500	Book	Misc	S94	1	3	8	Learning Book	78	0	0	0	0	"A spell book.  (To learn this spell, pick the book up and right-click over a character's portrait in the inventory screen.  Your character must know the Dark magic skill to learn this spell.)"
+494	item208	Pain Reflection	4000	Book	Misc	S95	1	3	8	Learning Book	78	0	0	0	0	"A spell book.  (To learn this spell, pick the book up and right-click over a character's portrait in the inventory screen.  Your character must know the Dark magic skill to learn this spell.)"
+495	item210	Dark Grasp	5000	Book	Misc	S96	1	3	14	Learning Book	78	0	0	0	0	"A spell book.  (To learn this spell, pick the book up and right-click over a character's portrait in the inventory screen.  Your character must know the Dark magic skill to learn this spell.)"
+496	item210	Dragon Breath	6000	Book	Misc	S97	1	3	14	Learning Book	78	0	0	0	0	"A spell book.  (To learn this spell, pick the book up and right-click over a character's portrait in the inventory screen.  Your character must know the Dark magic skill to learn this spell.)"
+497	item210	Armageddon	7500	Book	Misc	S98	1	3	14	Learning Book	78	0	0	0	0	"A spell book.  (To learn this spell, pick the book up and right-click over a character's portrait in the inventory screen.  Your character must know the Dark magic skill to learn this spell.)"
+498	item209	Souldrinker	10000	Book	Misc	S99	1	3	19	Learning Book	78	0	0	0	0	"A spell book.  (To learn this spell, pick the book up and right-click over a character's portrait in the inventory screen.  Your character must know the Dark magic skill to learn this spell.)"
+499	null	book 499	0	0	0	0	0	0	0	0	1	0	0	0	0	book 499
+500	item235	Elsenrail	20000	Weapon	Sword	3d3	14	Artifact	20	Longsword	1	0	0	29	159	"(Accuracy +40, 10-20 points of Light damage) The Forge of Chaos was destroyed in the making of the Swords of Balance. Legend says the Blade of Light, Elsenrail, and the Blade of Dark, Glomenthal, will play major roles in the last act of the universe."
+501	item296	Glomenthal	20000	Weapon	Sword	3d3	14	Artifact	20	Longsword	1	0	0	29	159	"(Might +40, 10-20 points of Dark damage) The Forge of Chaos was destroyed in the making of the Swords of Balance. Legend says the Blade of Light, Elsenrail, and the Blade of Dark, Glomenthal, will play major roles in the last act of the universe."
+502	item236	Terminus	15000	Weapon	Sword	3d4	14	Artifact	20	Broadsword	3	0	0	22	141	"(Armsmaster skill +7, Air Resistance +30) As a child, before he carved his barbarian kingdom in Vori, Lars Eilief found this sword deep in an ice cave. When he died, it was set adrift with him on his funeral barge. How it ended up in Jadame is a mystery."
+503	item237	Judicious Measure	20000	Weapon	Sword	2d4	13	Artifact	20	Cutlass	4	0	0	33	136	"(Endurance +40, Luck +40, Ogre Slaying) Before there was a Regnan Empire, the ancestors of the Trolls of Ironsand lived on Regna Island. With this blade and a horde of sea raiders, Hareck I ousted the Trolls and formed his pirate nation."
+504	item240	Elderaxe	20000	Weapon	Axe	4d2	12	Artifact	20	Axe	7	0	0	43	129	"(Might +20, Swift, 6-12 points of Cold damage, Minotaur) When the Dark Dwarves carved the first Minotaur labyrinth into the heart of Mt. Ashenbane they forged this axe for Xaxius, the first herdmaster."
+505	item241	Volcano	15000	Weapon2	Axe	3d7	15	Artifact	20	Two-Handed Axe	8	0	0	43	157	"(10-20 points of Fire damage, Fire Resistance +40) The mad artificer, Cornelius of Blackshire, built this axe for the purpose of clearing the trees around his country estate. ""A single blow will both fell a tree and render it into firewood!"" he was heard to exclaim. That he was soon found slain and the axe gone missing is proof that someone saw a better use for the tool."
+506	item045	Wyrm Spitter	20000	Weapon1or2	Spear	1d9	14	Artifact	20	Spear	9	0	0	17	141	"(Endurance +20, Dragon Slaying, Swift) Arguably the best dragon hunter of all times, Sir Ryan Smedly carried this mighty spear with him on all his expeditions, claiming that with it in hand, he could best any dragon in single combat. This proved true, but nevertheless he was slain by no less than a dozen dragons who ambushed him at Shadowmarsh Pass."
+507	item243	Guardian	15000	Weapon1or2	Spear	3d6	15	Artifact	20	Halberd	10	0	0	48	160	"(+10 to all attributes, 10-20 points of Body damage) The great Vampire, Korbu was known to use living men to guard his crypt during daylight hours. Compelled by a spell of enslavement, these sorry souls would walk their rounds carrying these mighty halberds. When Korbu mysteriously vanished, and the slave spell failed, a few of these weapons appeared in the larger world."
+508	item239	Foulfang	20000	Weapon	Dagger	2d3	10	Artifact	20	Long Dagger	6	0	0	20	94	"(Vampiric, 10 points of Poison damage, Vampire) At the conclusion of the Vampires' War of the Chalice, Korbu exacted horrific retribution on his defeated enemy, Calden Fain. It is better for the world that knowledge of the necromantic arts which rendered Fain--body and soul--into this living blade, is lost."
+509	item249	Scepter of Kings	20000	Weapon	Mace	2d4	14	Artifact	20	Mace	14	0	0	20	95	"(Personality + 40, Regenerate Hit Points) Uri Hossana, King of the Western Elves, also called ""The Drunken King,"" was deposed the day he carelessly misplaced his scepter of office while on a hunting trip. This proved to be the last blunder of an incapable ruler. His advisors relieved him of his crown and left him to fend for himself in the Howling Marsh. He was never seen again."
+510	item247	Breaker	20000	Weapon	Mace	3d3	12	Artifact	20	Club	16	0	0	36	187	"(Might +20, Endurance +20, 10-20 points of Body damage) Trollish folklore is full of the fables of Sevenstrong Burlfist who with Biter, his faithful wolf companion, and his mighty club, Breaker, endlessly quested for the Silver Rose. Fables? One must wonder, if Breaker exists, then why not too, the Silver Rose?"
+511	item250	Staff of the Swamp	20000	Weapon2	Staff	3d4	10	Artifact	20	Staff	17	0	0	31	113	"(of Shielding; Immune to disease, paralysis, and poison) Nemerit, an otherwise unremarkable witch of the last era, was renown for her staff artificing skill. She created a staff for every conceivable use. It is said she carried this staff on reagent collecting trips into the swamplands."
+512	item245	Longseeker	20000	Missile	Bow	5d2	10	Artifact	20	Bow	12	0	0	26	101	"(Accuracy +50, Swift, Bow skill +4) Legends tell of many great archer heroes, but none greater than Brennan Morland of whom it was said once pierced a gold sovereign at 300 paces in an archery tournament. Now, holding his bow you must wonder if the legend owes more to the bow than the man."
+513	item251	Serendine's Preservation	20000	Armor	Leather	4	30	Artifact	20	Leather Armor	20	0	0	0	0	"(Regenerates Spell Points, Endurance +30) A mage known as much for frailty of body as for magical prowess, Serendine of Freehaven built this armor to make the most of his strengths and the least of his weaknesses."
+514	item252	Glomenmail	20000	Armor	Chain	8	40	Artifact	20	Chainmail	21	0	0	0	0	"(+10 to all statistics, +10 to all resistances, Dark Elf) Dark and Light Elven dealings have been peaceable, if uneasy, for centuries. Before that there was nothing but war. Few suits of this Dark Elven war armor have survived the ravages of time. Those that have are understandably, coveted."
+515	item253	Supreme Plate	20000	Armor	Plate	20	50	Artifact	20	Plate Armor	22	0	0	0	0	"(Swift, +15 Speed, +15 Accuracy, Knight) Each grandmaster of the Blackshire Armorers' Guild creates a masterpiece suit of plate as proof of his right to hold his station. It is not unusual for a guild member to spend ten to twenty years in the creation of one of these suits."
+516	item254	Eclipse	0	Shield	Shield	6	15	Artifact	20	Large Shield	23	0	0	38	73	"Quest Item: (of Spirit, of Body, of Mind, Cleric) When the First Temple of the Sun was burned in the War of Dove and Crow fought between the Sun and Moon temples, the holy altar was melted. The altar's metal was later collected and incorporated into this shield carried by Sun Priest Derico during his final deciding campaign of the war."
+517	item261	Fleetfingers	20000	Gauntlets	Misc	3	0	Artifact	20	Gauntlets	30	0	0	0	0	"(+8 to Disarm Trap, Bow, and Armsmaster skills) That she would actually have a name for her gloves, is evidence of the flamboyant, if deserved, conceit of Darcie Darby--most widely known for her theft of the bejeweled Rod of Right, part of the royal regalia of Enroth."
+518	item262	Herald's Boots	20000	Boots	Misc	2	8	Artifact	20	Boots	31	0	0	0	0	"(Speed + 30, Swift, Immunity to Sleep) When Jerico Ironfist secured the throne in the First War of Enrothian Succession, he sent forth heralds to spread the news. They were given pairs of these boots so the news would be spread quickly and thus soonest end widespread civil unrest."
+519	item140	Ring of Planes	20000	Ring	Misc	0	0	Artifact	20	Ring	32	0	0	0	0	"(+40 to Fire, Earth, Water and Air resistances) When the cartographer Alvia Morrania went to chart the terrain of the elemental planes she went well prepared. This ring of general protection was among the many special items commissioned by the Enrothian courts in support of her expedition."
+520	item256	Drogg's Helm	20000	Helm	Misc	2	10	Artifact	20	Helm	25	0	0	0	0	"(Personality +15, Intellect +15, Regenerates Hit Points) In the history of the barbarian tribes of Vori, it is rare to find a long reigning chieftain. Rarer still is one who held his position through magic rather than might. Drogg was such--a warrior mage who survived many years of rival challenges. It is said that he wore his helmet, even in sleep. Now that you possess it, you understand why."
+521	item258	Crown of Final Dominion	20000	Helm	Misc	0	0	Artifact	30	Crown	27	0	0	0	0	"(Intellect +50, of Dark Magic, Lich) So named by its creator and only sovereign wearer, Mederon, the first and last Lich Emperor of Nighon. The everlasting dynasty he hoped to found lasted barely a dozen years. Mederon escaped the fate of his kingdom. It is said he still lives as a madman and searches the world for his lost crown."
+522	item260	Archangel Wings	20000	Cloak	Misc	1	9	Artifact	20	Cloak	29	0	0	0	0	"(Feather Falling, Intellect + 30, All magic resistances + 10) When Angels fall from grace, they lose their wings. Since this is an event of extreme infrequency, angel wings are a very rare commodity. Archangel wings are almost never seen. When used as a material, they imbue the resulting item with fantastic powers."
+523	item234	Snake	30000	Weapon	Sword	3d4	12	Relic	30	Longsword	1	0	0	23	169	"(Slows target, Water Resistance -50, Personality -15) The pommel of this sword is gruesomely butted by a shrunken medusa's head. Though greatly diminished, the medusa's power flows along Snake's blade and into its targets--a good design, but poorly implemented, for some of the negative energies flow into the sword's wielder as well."
+524	item004	Havoc	30000	Weapon	Sword	3d3	15	Relic	30	Longsword	1	0	0	15	136	"(Speed +70, Accuracy +70, Armor Class -20) Havoc's enchantment makes it able to readily defeat any target's defenses. Unfortunately, its aggressive spirit makes it indifferent to parrying movements."
+525	item010	Finality	30000	Weapon2	Sword	4d5	15	Relic	30	Two-Handed Sword	2	0	0	17	161	"(10-20 points of Fire damage, Slow, Speed -20) When the arch assassin, Demetri Razen was finally brought to justice, it was found that his skin was granted unusual hardness by a permanent enchantment. Normal blades would not cut him, so Finality was forged to deliver the death blow sentenced by the Enrothian courts. "
+526	item248	Hell's Cleaver	30000	Weapon	Axe	4d2	12	Relic	30	Axe	7	0	0	24	124	"(Might + 70, Accuracy +70, Personality -50, Intellect -50) So called because of its power to demonize its wielder, nevertheless, there are many who would willingly pay the price for the power offered by ""Hell's Cleaver."""
+527	item242	Spiritslayer	30000	Weapon1or2	Spear	1d9	13	Relic	30	Spear	9	0	0	17	124	"(Vampiric, Might +50, Luck -40) Many under the rule of Luthiner the Severe saw the existence of his spear Spiritslayer as proof of the existence of evil. The injuries caused by the spear go beyond the physical as Spiritslayer takes a strike as an opportunity to drink its target's very essence."
+528	item244	Trident of Rulership	30000	Weapon1or2	Spear	2d6	13	Relic	30	Spear	9	0	0	20	133	"(Water Breathing, +70 Water Resistance, -70 Fire Resistance) The Trident of Rulership was never meant to be on dry land, yet when the once mighty, ocean to ocean, Triton empire collapsed, many of its greatest artifacts including those of its royal treasure were looted and made their way to the surface."
+529	item238	Blade of Mercy	30000	Weapon	Dagger	2d2	15	Relic	30	Dagger	5	0	0	17	84	"(Might +40, 4-10 points Electrical damage, Accuracy -40, Necromancer) Though generally considered unfashionable among current necromantic customs, live sacrifice was once widely practiced. To reduce the cruelty inflicted on his victims, the Necromancer Ferredine the Merciful created a blade capable of bringing about a quicker and less suffered end."
+530	item083	Staff of Elements	30000	Weapon2	Staff	2d4	4	Relic	30	Staff	17	0	0	34	108	"(of Air Magic, of Fire Magic, of Water Magic, of Earth Magic, -40 Armor Class) By imposing upon its wielder a deepened state of concentration, the Staff of Elements increases his or her affinity with elemental magic to a profound degree. Of course, it is not always a good thing to have one's attention taken away from one's immediate concerns."
+531	item059	Tournament Bow	30000	Missile	Bow	5d2	10	Relic	30	Bow	12	0	0	19	87	"(Accuracy +100, Bow skill + 5, Armor Class -20) This bow was built to the specifications of the great Elven tournament archer, Terin Tourfeather. More concerned with fancy shooting than with the realities of the battlefield, the bow's detrimental effects were of no concern to Tourfeather--more workaday wielders should pay more heed."
+532	item246	Lightning Crossbow	30000	Missile	Bow	4d2	12	Relic	30	Crossbow	13	0	0	36	87	"(Swift, Accuracy -50, Dark Elf) An ingenious combination of the mechanical and magical went into the creation of this self-cocking crossbow which launches its quarrels with incredible force. That the same launching force causes it to kick like a mule means only the most skilled can use it to any good effect."
+533	item251	Last Stage Cuirass	30000	Armor	Leather	4	15	Relic	30	Leather Armor	20	0	0	0	0	"(Personality +80, Intellect +70, -30 Mind and Spirit resistances) The final stage of degeneration from their human form leaves a Lich completely soulless and thus immune to certain magics. Such liches often curse their personal items with vulnerabilities to these magics to dissuade others from using them."
+534	item255	Herondale's Lost Shield	30000	Shield	Shield	4	10	Relic	30	Small Shield	24	0	0	61	52	"(Immune to Fear, Stone, Paralysis, and Sleep; Personality -15, Luck -15) The great knight Gerrald Herondale abandoned this shield after it took the brunt of a dark and deadly curse. Though it still retained its great powers, the shield was also weighed down with malevolent energies."
+535	item141	Ring of Fusion	30000	Ring	Misc	0	0	Relic	30	Ring	32	0	0	0	0	"(of Water, Alchemy skill + 5, Intellect +40, Endurance -20) A lost relic of the Freehaven Alchemists' Guild, until its disappearance, this ring was the signet of the guildmaster. It was meant to be worn only during the mixing of the most powerful potions for it drew much energy from the user."
+536	item115	Lucky Hat	30000	Helm	Misc	0	0	Relic	30	Hat	26	0	0	0	0	"(Luck + 90, Personality -50) The only reason someone would wear this hat is for the luck it conveys. It is the farthest thing from flattering!"
+537	item121	Berserker Belt	30000	Belt	Misc	0	0	Relic	30	Belt	28	0	0	0	0	"(Might +100, Immune to Fear, Accuracy -30, Armor Class -15) An experiment of the Blackshire Artificers' Guild, this belt was designed to turn its wearer into the perfect warrior--mighty and fearless. No more were made when in field tests it became apparent that ""foolhardy"" and ""careless"" were not virtues of the perfect warrior."
+538	item068	Mace of the Sun	12000	Weapon	Mace	3d4	7	Special	0	Mace	14	Elemental Slaying	0	33	124	"Though at first it appears to be the same type of mace carried by Sun Temple clerics everywhere, this item seems to thrum with conflicting energies."
+539	item045	Ebonest	0	Weapon1or2	Spear	2d9	13	Special	0	Spear	9	Dragon Slaying	0	17	139	"Quest Item: Charles Quixote's personal spear of Dragon slaying, Ebonest is a fine weapon indeed. When used against a Dragon, it seems to aim unerringly for the chinks between its target's tough scales."
+540	item010	Sword of Whistlebone	0	Weapon2	Sword	4d5	12	Special	0	Two-Handed Sword	2	Dragon Slaying	0	17	159	Quest Item: That the Whistlebones would settle upon such a fierce weapon for their heirloom speaks much of their commitment to the family business of Dragon hunting.
+541	item040	Axe of Balthazar	0	Weapon2	Axe	3d7	15	Special	0	Two-Handed Axe	8	of Ice	0	41	110	Quest Item: No Minotaur kings wear a crown. Instead as their badge of office they carry great axes of the finest workmanship. This axe was lost when Balthazar was betrayed by the Vori Frost Giants. That it is strongly enchanted is clear; when used in battle its blows deliver both normal damage and impart a numbing bite of freezing cold.
+542	item060	Noblebone Bow	15000	Missile	Bow	5d4	12	Special	30	Bow	12	of Carnage	0	30	100	Bows of Kreegan bone are highly sought after; the material is strong and takes enchantments easily. The most sought after bone comes from Kreegans of the devil race's former ruling class.
+543	null	artifact 543	0	0	0	0	0	0	0	0	1	0	0	0	0	artifact 543
+544	null	artifact 544	0	0	0	0	0	0	0	0	1	0	0	0	0	artifact 544
+545	null	artifact 545	0	0	0	0	0	0	0	0	1	0	0	0	0	artifact 545
+546	null	artifact 546	0	0	0	0	0	0	0	0	1	0	0	0	0	artifact 546
+547	null	artifact 547	0	0	0	0	0	0	0	0	1	0	0	0	0	artifact 547
+548	null	artifact 548	0	0	0	0	0	0	0	0	1	0	0	0	0	artifact 548
+549	null	artifact 549	0	0	0	0	0	0	0	0	1	0	0	0	0	artifact 549
+550	null	artifact 550	0	0	0	0	0	0	0	0	1	0	0	0	0	artifact 550
+551	null	artifact 551	0	0	0	0	0	0	0	0	1	0	0	0	0	artifact 551
+552	null	artifact 552	0	0	0	0	0	0	0	0	1	0	0	0	0	artifact 552
+553	null	artifact 553	0	0	0	0	0	0	0	0	1	0	0	0	0	artifact 553
+554	null	artifact 554	0	0	0	0	0	0	0	0	1	0	0	0	0	artifact 554
+555	null	artifact 555	0	0	0	0	0	0	0	0	1	0	0	0	0	artifact 555
+556	null	artifact 556	0	0	0	0	0	0	0	0	1	0	0	0	0	artifact 556
+557	null	artifact 557	0	0	0	0	0	0	0	0	1	0	0	0	0	artifact 557
+558	null	artifact 558	0	0	0	0	0	0	0	0	1	0	0	0	0	artifact 558
+559	null	artifact 559	0	0	0	0	0	0	0	0	1	0	0	0	0	artifact 559
+560	null	artifact 560	0	0	0	0	0	0	0	0	1	0	0	0	0	artifact 560
+561	null	artifact 561	0	0	0	0	0	0	0	0	1	0	0	0	0	artifact 561
+562	null	artifact 562	0	0	0	0	0	0	0	0	1	0	0	0	0	artifact 562
+563	null	artifact 563	0	0	0	0	0	0	0	0	1	0	0	0	0	artifact 563
+564	null	artifact 564	0	0	0	0	0	0	0	0	1	0	0	0	0	artifact 564
+565	null	artifact 565	0	0	0	0	0	0	0	0	1	0	0	0	0	artifact 565
+566	null	artifact 566	0	0	0	0	0	0	0	0	1	0	0	0	0	artifact 566
+567	null	artifact 567	0	0	0	0	0	0	0	0	1	0	0	0	0	artifact 567
+568	null	artifact 568	0	0	0	0	0	0	0	0	1	0	0	0	0	artifact 568
+569	null	artifact 569	0	0	0	0	0	0	0	0	1	0	0	0	0	artifact 569
+570	null	artifact 570	0	0	0	0	0	0	0	0	1	0	0	0	0	artifact 570
+571	null	artifact 571	0	0	0	0	0	0	0	0	1	0	0	0	0	artifact 571
+572	null	artifact 572	0	0	0	0	0	0	0	0	1	0	0	0	0	artifact 572
+573	null	artifact 573	0	0	0	0	0	0	0	0	1	0	0	0	0	artifact 573
+574	null	artifact 574	0	0	0	0	0	0	0	0	1	0	0	0	0	artifact 574
+575	null	artifact 575	0	0	0	0	0	0	0	0	1	0	0	0	0	artifact 575
+576	null	artifact 576	0	0	0	0	0	0	0	0	1	0	0	0	0	artifact 576
+577	null	artifact 577	0	0	0	0	0	0	0	0	1	0	0	0	0	artifact 577
+578	null	artifact 578	0	0	0	0	0	0	0	0	1	0	0	0	0	artifact 578
+579	null	artifact 579	0	0	0	0	0	0	0	0	1	0	0	0	0	artifact 579
+580	null	artifact 580	0	0	0	0	0	0	0	0	1	0	0	0	0	artifact 580
+581	null	artifact 581	0	0	0	0	0	0	0	0	1	0	0	0	0	artifact 581
+582	null	artifact 582	0	0	0	0	0	0	0	0	1	0	0	0	0	artifact 582
+583	null	artifact 583	0	0	0	0	0	0	0	0	1	0	0	0	0	artifact 583
+584	null	artifact 584	0	0	0	0	0	0	0	0	1	0	0	0	0	artifact 584
+585	null	artifact 585	0	0	0	0	0	0	0	0	1	0	0	0	0	artifact 585
+586	null	artifact 586	0	0	0	0	0	0	0	0	1	0	0	0	0	artifact 586
+587	null	artifact 587	0	0	0	0	0	0	0	0	1	0	0	0	0	artifact 587
+588	null	artifact 588	0	0	0	0	0	0	0	0	1	0	0	0	0	artifact 588
+589	null	artifact 589	0	0	0	0	0	0	0	0	1	0	0	0	0	artifact 589
+590	null	artifact 590	0	0	0	0	0	0	0	0	1	0	0	0	0	artifact 590
+591	null	artifact 591	0	0	0	0	0	0	0	0	1	0	0	0	0	artifact 591
+592	null	artifact 592	0	0	0	0	0	0	0	0	1	0	0	0	0	artifact 592
+593	null	artifact 593	0	0	0	0	0	0	0	0	1	0	0	0	0	artifact 593
+594	null	artifact 594	0	0	0	0	0	0	0	0	1	0	0	0	0	artifact 594
+595	null	artifact 595	0	0	0	0	0	0	0	0	1	0	0	0	0	artifact 595
+596	null	artifact 596	0	0	0	0	0	0	0	0	1	0	0	0	0	artifact 596
+597	null	artifact 597	0	0	0	0	0	0	0	0	1	0	0	0	0	artifact 597
+598	null	artifact 598	0	0	0	0	0	0	0	0	1	0	0	0	0	artifact 598
+599	null	artifact 599	0	0	0	0	0	0	0	0	1	0	0	0	0	artifact 599
+600	null	quest item 600	0	N / A	Misc	0	0	0	0	0	1	0	0	0	0	quest item 600
+601	null	quest item 601	0	N / A	Misc	0	0	0	0	0	1	0	0	0	0	quest item 601
+602	item266	False Report	0	N / A	Misc	0	0	0	0	Report	86	0	0	0	0	Quest Item: A letter given to you by Arion Hunter for delivery to the Dread Pirate Stanley on Regna.
+603	item267	Urn of Ashes	0	N / A	Misc	0	0	0	0	Urn	87	0	0	0	0	"Quest Item: A funerary urn entrusted to your care by the Troll, Overdune Snapfinger. It contains the ashes of his brother, Vilebite."
+604	item268	Nightshade Brazier	0	N / A	Misc	0	0	0	0	Brazier	88	0	0	0	0	Quest Item: This brazier emanates the unsettling vibrancy of dark magic. It smells strongly of pitch and sulfur.
+605	item269	Dragon Leader's Egg	0	N / A	Misc	0	0	0	0	Egg	89	0	0	0	0	Quest Item: This Dragon egg is nearly ready to hatch. The small life inside makes its presence known with an occasional rustle.
+606	item270	Heart of Fire	0	N / A	Misc	0	0	0	0	Heartstone	92	0	0	0	0	"Quest Item: The Heart of Fire is a gem of pure elemental force clear of imperfections and weighing at least a hundred carets. No doubt, a magic item made from it would be incredibly potent."
+607	item271	Heart of Water	0	N / A	Misc	0	0	0	0	Heartstone	93	0	0	0	0	"Quest Item: The Heart of Water is a gem of pure elemental force clear of imperfections and weighing at least a hundred carets. No doubt, a magic item made from it would be incredibly potent."
+608	item272	Heart of Air	0	N / A	Misc	0	0	0	0	Heartstone	94	0	0	0	0	"Quest Item: The Heart of Air is a gem of pure elemental force clear of imperfections and weighing at least a hundred carets. No doubt, a magic item made from it would be incredibly potent."
+609	item273	Heart of Earth	0	N / A	Misc	0	0	0	0	Heartstone	95	0	0	0	0	"Quest Item: The Heart of Earth is a gem of pure elemental force clear of imperfections and weighing at least a hundred carets. No doubt, a magic item made from it would be incredibly potent."
+610	item274	Conflux Key	0	N / A	Misc	0	0	0	0	Key	96	0	0	0	0	"Quest Item: Using the four elemental heart gems, Xanthor made you this interplaner key of extreme power. He tells you it will open the crystal gateway which connects Ravenshore to the mysterious Plane Between Planes."
+611	item275	Lost Book of Kehl	0	N / A	Misc	0	0	0	0	Book	97	0	0	0	0	"Quest Item: The formerly ""Lost"" Book of Kehl. Some say he was the greatest necromancer of the last age. Staring at the intricately embossed cover is a disquieting experience as the design seems to writhe with evil energy."
+612	item276	Sarcophagus of Korbu	0	N / A	Misc	0	0	0	0	Sarcophagus	98	0	0	0	0	"Quest Item: Though painstakingly carved from a single slab of gray stone, Korbu's sarcophagus is inexplicably, much lighter in weight than seems possible. Removal of the snug fitting lid produces a powerful exhalation of myrrh and stale crypt air."
+613	item277	Puzzle Box	0	N / A	Misc	0	0	0	0	Box	145	0	0	0	0	"Quest Item: No matter how you move the shifting panels of this small inlaid box, its lid remains shut. When you shake it, you can hear something rattling around inside. It sounds like a large nut or bead."
+614	item278	Vial of Grave Earth	0	N / A	Misc	0	0	0	0	Vial	100	0	0	0	0	Quest Item: This is the vial of dirt you stole from the vampire crypt in Shadowspire.
+615	item279	Drum of Victory	0	N / A	Misc	0	0	0	0	Drum	101	0	0	0	0	"Quest Item: This magical items properties are unknown to you. When you tap the drum's head with one of its sticks, the resulting beat resonates with echoes that seem to reflect from the ceiling of the sky."
+616	item280	Anointed Herb Potion	0	N / A	Misc	0	0	0	0	Potion Bottle	132	0	0	0	0	"Quest Item: Though possessing no magical properties, this potion's ingredients have been gathered under the most stringent ritual conditions. The thornbark powder, for example, was ground in a silver mortar from bark stripped during the peak of a high noon eclipse. The whole concoction has sat in the seer's personal shrine for more than a hundred years."
+617	item281	Power Stone	0	N / A	Misc	0	0	0	0	Stone	139	0	0	0	0	Quest Item: A facet carved stone of dark glassy rock. When tapped it produces a high bell tone.
+618	item297	Power Stone	0	N / A	Misc	0	0	0	0	Stone	140	0	0	0	0	Quest Item: A facet carved stone of dark glassy rock. When tapped it produces a medium bell tone.
+619	item224	Pirate Leader's Key	0	N / A	Misc	0	0	0	0	Key	80	0	0	0	0	Quest Item: The key you took from Blackwell Cooper's body.
+620	Item232	Prison Key	0	N / A	Misc	0	0	0	0	Key	80	0	0	0	0	Quest Item: A key of the type commonly used for dungeon cell door locks.
+621	item233	Prison Key	0	N / A	Misc	0	0	0	0	Key	80	0	0	0	0	Quest Item: A key of the type commonly used for dungeon cell door locks.
+622	null	quest item 622	0	N / A	Misc	0	0	0	0	0	1	0	0	0	0	quest item 622
+623	item212	Gem of Restoration	0	N / A	Misc	0	0	0	0	Gem	143	0	0	0	0	"Quest Item: This large ruby is of perfect quality, clear throughout with an even pigeon blood red. It contains a powerful enchantment and pulses with a slumbering heartbeat rhythm."
+624	null	quest item 624	0	N / A	Misc	0	0	0	0	0	1	0	0	0	0	quest item 624
+625	null	quest item 625	0	N / A	Misc	0	0	0	0	0	1	0	0	0	0	quest item 625
+626	item207	Prophecies of the Sun	0	N / A	Misc	0	0	0	0	Book	78	0	0	0	0	"Quest Item: The writing inside this book reads like the ranting of a madman. Still, someone must have thought highly of it. The text is entirely hand scribed in a florid style. Inset illuminations bring to life scenes from the story which are, in turn, disturbing, outlandish or seemingly drawn from nightmare."
+627	item293	Remains of Korbu	0	N / A	Misc	0	0	0	0	Remains	102	0	0	0	0	"Quest Item: The remains of Korbu who some claim was the most powerful vampire of all times. He's not much to look at now, however. His skeleton has been almost completely dismantled--either by design or the ravages of time, and a wooden stake is nestled entirely within the ribcage."
+628	item294	Lich Jar	0	N / A	Misc	0	0	0	0	Jar	103	0	0	0	0	Quest Item: A well made jar.
+629	item295	Ring of Keys	0	N / A	Misc	0	0	0	0	Ring of Keys	104	0	0	0	0	Quest Item: Both the keys and ring are made of a metal you've never encountered before. The gemstones inset in the key heads are familiar to you. They are elemental heartstones like those incorporated in the conflux key Xanthor made for you.
+630	item298	Idol of the Snake	0	N / A	Misc	0	0	0	0	Idol	105	0	0	0	0	Quest Item: An Idol of the ancient snake god who was worshipped by the Serpentmen who used to dwell on the Dagger Wound Islands.
+631	item299	Big Brass Ring	0	N / A	Misc	0	0	0	0	Ring	106	0	0	0	0	Quest Item: A large ring of polished brass. It seems to be part of a door knocker.
+632	item300	Naga Hide	0	N / A	Misc	0	0	0	0	Hide	107	0	0	0	0	The skinned and scraped hide of a naga.
+633	item301	Dire Wolf Pelt	0	N / A	Misc	0	0	0	0	Pelt	108	0	0	0	0	The skinned and scraped hide of a dire wolf.
+634	item302	Flute	0	N / A	Misc	0	0	0	0	Flute	109	0	0	0	0	Quest Item: A well crafted instrument.
+635	item303	Royal Wasp Jelly	0	N / A	Misc	0	0	0	0	Jelly	110	0	0	0	0	A jar of royal wasp jelly.
+636	item304	Dragonbane Flower	0	N / A	Misc	0	0	0	0	Dragonbane Flower	111	0	0	0	0	Quest Item: A fresh dragonbane flower. The petals are thick and waxy.
+637	item305	Bone of Doom	0	N / A	Misc	0	0	0	0	Bone	112	0	0	0	0	"Quest Item: The arm bone of the legendary necromancer, Zacharia. It is infused with the death magician's evil energy."
+638	item306	Druid Circlet of Power	0	N / A	Misc	0	0	0	0	Circlet	113	0	0	0	0	A legendary item rumored to be from the time of the Ancients.  Only someone with the power of a Grand Druid can wear this item.
+639	item307	Arcane Key	0	N / A	Misc	0	0	0	0	Key	141	0	0	0	0	Quest Item: A gem containing an unfocused magical energy.
+640	item308	Wyvern Horn	0	N / A	Misc	0	0	0	0	Horn	114	0	0	0	0	A horn taken from a wyvern.
+641	item309	Ogre Key	0	N / A	Misc	0	0	0	0	Key	142	0	0	0	0	Quest Item: A gem containing an unfocused magical energy.
+642	item310	Pirate Hat	0	N / A	Misc	0	0	0	0	Hat	115	0	0	0	0	"Quest Item: A sea raider captain's hat. Inside the band are stitched the words ""D. P. Stanley."""
+643	item311	Tobersk Fruit	0	N / A	Misc	0	0	0	0	Fruit	116	0	0	0	0	The fruit of the tobersk bush which only grows on the Dagger Wound Islands. It is the main export item of the islands' Lizardmen.
+644	item312	Tobersk Pulp	0	N / A	Misc	0	0	0	0	Pulp	117	0	0	0	0	Pulp made from Dagger Wound Islands grown tobersk fruit.
+645	item313	Tobersk Brandy	0	N / A	Misc	0	0	0	0	Brandy	118	0	0	0	0	Brandy made from the processed pulp of Dagger Wound Islands grown tobersk fruit.
+646	item314	Heartwood of Jadame	0	N / A	Misc	0	0	0	0	Wood	119	0	0	0	0	The cooler climate of the Murmurwood forest causes the trees there to grow with a tight grain. These lumbered planks are of the clear grained heartwood.
+647	item315	Flawed Amulets	0	N / A	Misc	0	0	0	0	Crate	120	0	0	0	0	A crate of from the Shadowspire artificers. Small flaws in workmanship have made them incapable of holding enchantments.
+648	item316	Dried Sunfish	0	N / A	Misc	0	0	0	0	Crate	121	0	0	0	0	"A crate of dried sunfish harvested from the Ifarine Sea. Some find the chewy, salty fish a delicacy."
+649	item317	Silver Dust of the Sea	0	N / A	Misc	0	0	0	0	Crate	122	0	0	0	0	"A crate full of bagged Silver Dust. Made by the Necromancers' Guild, it is said to have value to some sea travelers."
+650	item318	Forged Vouchers	0	N / A	Misc	0	0	0	0	Vouchers	86	0	0	0	0	Forged credit documents used by the ogre mage Zog to embezzle gold from Alvarian merchant customers.
+651	item319	Ground Wyvern Horn	0	N / A	Misc	0	0	0	0	Ground Wyvern Horn	123	0	0	0	0	A powerful potion reagent used by the Necromancers of Shadowspire.
+652	item320	Prophecies of the Snake	0	N / A	Misc	0	0	0	0	Book	78	0	0	0	0	"Quest Item: One of many books of prophecy circulating recently, the Prophecies of the Snake may indeed tell the future of Jadame."
+653	item321	Ogre Ear	0	N / A	Misc	0	0	0	0	Ear	124	0	0	0	0	"Used to keep track of kills, some bounty hunters collect these gruesome reminders of battles past."
+654	item322	Wasp Stingers	0	N / A	Misc	0	0	0	0	Stinger	125	0	0	0	0	The stinger of a giant wasp.
+655	item329	Green Apple	0	N / A	Misc	0	0	0	0	Apple	126	0	0	0	0	"Jadamean green apples are crunchy, slightly tart and a good source of nutrition.  (To use the apple, pick it up and left-click over a character's portrait in the inventory screen.)"
+656	item326	Horseshoe	0	N / A	Misc	0	0	0	0	Horseshoe	127	0	0	0	0	"This flawless horseshoe is made of silver.  (To use, pick the horseshoe up and right-click over a character's portrait.)"
+657	item327	Enchanted Amulet	0	N / A	Misc	0	0	0	0	Amulet	128	0	0	0	0	"A pretty bauble favored by the Pirates of Regna for it appearance, not for any magical enchantment it may have."
+658	item323	Wheel of Frelandeau	0	N / A	Misc	0	0	0	0	Cheese	129	0	0	0	0	"Quest Item: A wheel of prized unicorn's-milk frelandeau cheese. Sliced onto crackers, it is the perfect compliment to a snifter of fine tobersk brandy."
+659	item324	Log of Eldenbrie	0	N / A	Misc	0	0	0	0	Cheese	130	0	0	0	0	"Quest Item: A log of Vori eldenbrie cheese. Though many have tried to duplicate its subtle, smoky flavor, only the master Frost Giant cheese masters of the frozen Vori wastes know the secrets of its formulation."
+660	item325	Ball of Dunduck	0	N / A	Misc	0	0	0	0	Cheese	131	0	0	0	0	"Quest Item: A ball of dunduck cheese. Made in small batches by the goblins of Erathia, most consider it an acquired taste."
+661	item230	Emperor Thorn's Key	0	N / A	Misc	0	0	0	0	Key	80	0	0	0	0	Quest Item: The key you took from the Unicorn King's body.
+662	item376	Cannonball of Dominion	0	N / A	Misc	0	0	0	0	Cannonball	155	0	0	0	0	Quest Item: The strange cannonball you took from the Regnan fortress. It is unlike any ammunition you've seen before.
+663	null	quest item 663	0	0	0	0	0	0	0	0	1	0	0	0	0	quest item 663
+664	null	quest item 664	0	0	0	0	0	0	0	0	1	0	0	0	0	quest item 664
+665	null	quest item 665	0	0	0	0	0	0	0	0	1	0	0	0	0	quest item 665
+666	null	quest item 666	0	0	0	0	0	0	0	0	1	0	0	0	0	quest item 666
+667	null	quest item 667	0	0	0	0	0	0	0	0	1	0	0	0	0	quest item 667
+668	null	quest item 668	0	0	0	0	0	0	0	0	1	0	0	0	0	quest item 668
+669	null	quest item 669	0	0	0	0	0	0	0	0	1	0	0	0	0	quest item 669
+670	null	quest item 670	0	0	0	0	0	0	0	0	1	0	0	0	0	quest item 670
+671	null	quest item 671	0	0	0	0	0	0	0	0	1	0	0	0	0	quest item 671
+672	null	quest item 672	0	0	0	0	0	0	0	0	1	0	0	0	0	quest item 672
+673	null	quest item 673	0	0	0	0	0	0	0	0	1	0	0	0	0	quest item 673
+674	null	quest item 674	0	0	0	0	0	0	0	0	1	0	0	0	0	quest item 674
+675	null	quest item 675	0	0	0	0	0	0	0	0	1	0	0	0	0	quest item 675
+676	null	quest item 676	0	0	0	0	0	0	0	0	1	0	0	0	0	quest item 676
+677	null	quest item 677	0	0	0	0	0	0	0	0	1	0	0	0	0	quest item 677
+678	null	quest item 678	0	0	0	0	0	0	0	0	1	0	0	0	0	quest item 678
+679	null	quest item 679	0	0	0	0	0	0	0	0	1	0	0	0	0	quest item 679
+680	null	quest item 680	0	0	0	0	0	0	0	0	1	0	0	0	0	quest item 680
+681	null	quest item 681	0	0	0	0	0	0	0	0	1	0	0	0	0	quest item 681
+682	null	quest item 682	0	0	0	0	0	0	0	0	1	0	0	0	0	quest item 682
+683	null	quest item 683	0	0	0	0	0	0	0	0	1	0	0	0	0	quest item 683
+684	null	quest item 684	0	0	0	0	0	0	0	0	1	0	0	0	0	quest item 684
+685	null	quest item 685	0	0	0	0	0	0	0	0	1	0	0	0	0	quest item 685
+686	item353	Iron-laced ore	5	Ore	Misc	0	1	2	0	Lump of Ore	133	0	0	0	0	"A small chunk of iron-laced ore.  In the hands of a skilled craftsman, this could make a weapon, an amulet, a ring, armor, or almost any other useful item."
+687	item354	Siertal-laced ore	50	Ore	Misc	0	1	2	0	Lump of Ore	134	0	0	0	0	"A small chunk of siertal-laced ore.  Stronger and lighter than steel, in the hands of a skilled craftsman siertal could make an exceptional weapon, an amulet, a ring, armor, or almost any other useful item."
+688	item355	Phylt-laced ore	100	Ore	Misc	0	1	2	0	Lump of Ore	135	0	0	0	0	"A small chunk of phylt-laced ore.  Phylt is often used in steel alloys to increase the durability and enchantability of steel.  In the hands of a skilled craftsman phylt could make a weapon, an amulet, a ring, armor, or almost any other useful item."
+689	item356	Kergar-laced ore	500	Ore	Misc	0	1	2	0	Lump of Ore	136	0	0	0	0	"A small chunk of kergar-laced ore.  Kergar shares many properties of steel, but is much easier to enchant.  In the hands of a skilled craftsman kergar could easily make a magical weapon, an amulet, a ring, armor, or almost any other item."
+690	item357	Erudine-laced ore	1000	Ore	Misc	0	1	2	0	Lump of Ore	137	0	0	0	0	"A small chunk of erudine-laced ore.  A rare magical ore found in few regions of Erathia, in the hands of a skilled craftsman erudine could make a powerful weapon, an amulet, a ring, armor, or almost any other item."
+691	item358	Stalt-laced ore	2000	Ore	Misc	0	1	2	0	Lump of Ore	138	0	0	0	0	"A small chunk of stalt-laced ore.  Easy to enchant and as hard as obsidian, in the hands of a skilled craftsman stalt could make an incredibly powerful weapon, an amulet, a ring, armor, or almost any other item."
+692	null	quest item 692	0	0	0	0	0	0	0	0	1	0	0	0	0	quest item 692
+693	null	quest item 693	0	0	0	0	0	0	0	0	1	0	0	0	0	quest item 693
+694	null	quest item 694	0	0	0	0	0	0	0	0	1	0	0	0	0	quest item 694
+695	null	quest item 695	0	0	0	0	0	0	0	0	1	0	0	0	0	quest item 695
+696	null	quest item 696	0	0	0	0	0	0	0	0	1	0	0	0	0	quest item 696
+697	null	quest item 697	0	0	0	0	0	0	0	0	1	0	0	0	0	quest item 697
+698	null	quest item 698	0	0	0	0	0	0	0	0	1	0	0	0	0	quest item 698
+699	null	quest item 699	0	0	0	0	0	0	0	0	1	0	0	0	0	quest item 699
+700	item199	Rejuvenation Recipe	1000	Mscroll	Misc	0	0	0	0	Rejuvenation Recipe	77	0	0	0	0	"A message scroll.  (To read this message, pick the scroll up and right-click over a character's portrait.)"
+701	item199	Pure Might Recipe	1000	Mscroll	Misc	0	0	0	0	Pure Might Recipe	77	0	0	0	0	"A message scroll.  (To read this message, pick the scroll up and right-click over a character's portrait.)"
+702	item199	Pure Accuracy Recipe	1000	Mscroll	Misc	0	0	0	0	Pure Accuracy Recipe	77	0	0	0	0	"A message scroll.  (To read this message, pick the scroll up and right-click over a character's portrait.)"
+703	item199	Pure Personality Recipe	1000	Mscroll	Misc	0	0	0	0	Pure Personality Recipe	77	0	0	0	0	"A message scroll.  (To read this message, pick the scroll up and right-click over a character's portrait.)"
+704	item199	Pure Endurance Recipe	1000	Mscroll	Misc	0	0	0	0	Pure Endurance Recipe	77	0	0	0	0	"A message scroll.  (To read this message, pick the scroll up and right-click over a character's portrait.)"
+705	item199	Pure Intellect Recipe	1000	Mscroll	Misc	0	0	0	0	Pure Intellect Recipe	77	0	0	0	0	"A message scroll.  (To read this message, pick the scroll up and right-click over a character's portrait.)"
+706	item199	Pure Speed Recipe	1000	Mscroll	Misc	0	0	0	0	Pure Speed Recipe	77	0	0	0	0	"A message scroll.  (To read this message, pick the scroll up and right-click over a character's portrait.)"
+707	item199	Pure Luck Recipe	1000	Mscroll	Misc	0	0	0	0	Pure Luck Recipe	77	0	0	0	0	"A message scroll.  (To read this message, pick the scroll up and right-click over a character's portrait.)"
+708	item199	Slaying Potion Recipe	750	Mscroll	Misc	0	0	0	0	Slaying Potion Recipe	77	0	0	0	0	"A message scroll.  (To read this message, pick the scroll up and right-click over a character's portrait.)"
+709	item199	Stone To Flesh Recipe	750	Mscroll	Misc	0	0	0	0	Stone To Flesh Recipe	77	0	0	0	0	"A message scroll.  (To read this message, pick the scroll up and right-click over a character's portrait.)"
+710	item199	Might Boost Recipe	750	Mscroll	Misc	0	0	0	0	Might Boost Recipe	77	0	0	0	0	"A message scroll.  (To read this message, pick the scroll up and right-click over a character's portrait.)"
+711	item199	Intellect Boost Recipe	750	Mscroll	Misc	0	0	0	0	Intellect Boost Recipe	77	0	0	0	0	"A message scroll.  (To read this message, pick the scroll up and right-click over a character's portrait.)"
+712	item199	Personality Boost Recipe	750	Mscroll	Misc	0	0	0	0	Personality Boost Recipe	77	0	0	0	0	"A message scroll.  (To read this message, pick the scroll up and right-click over a character's portrait.)"
+713	item199	Endurance Boost Recipe	750	Mscroll	Misc	0	0	0	0	Endurance Boost Recipe	77	0	0	0	0	"A message scroll.  (To read this message, pick the scroll up and right-click over a character's portrait.)"
+714	item199	Speed Boost Recipe	750	Mscroll	Misc	0	0	0	0	Speed Boost Recipe	77	0	0	0	0	"A message scroll.  (To read this message, pick the scroll up and right-click over a character's portrait.)"
+715	item199	Accuracy Boost Recipe	750	Mscroll	Misc	0	0	0	0	Accuracy Boost Recipe	77	0	0	0	0	"A message scroll.  (To read this message, pick the scroll up and right-click over a character's portrait.)"
+716	item199	Flaming Potion Recipe	750	Mscroll	Misc	0	0	0	0	Flaming Potion Recipe	77	0	0	0	0	"A message scroll.  (To read this message, pick the scroll up and right-click over a character's portrait.)"
+717	item199	Freezing Potion Recipe	750	Mscroll	Misc	0	0	0	0	Freezing Potion Recipe	77	0	0	0	0	"A message scroll.  (To read this message, pick the scroll up and right-click over a character's portrait.)"
+718	item199	Noxious Potion Recipe	750	Mscroll	Misc	0	0	0	0	Noxious Potion Recipe	77	0	0	0	0	"A message scroll.  (To read this message, pick the scroll up and right-click over a character's portrait.)"
+719	item199	Shocking Potion Recipe	750	Mscroll	Misc	0	0	0	0	Shocking Potion Recipe	77	0	0	0	0	"A message scroll.  (To read this message, pick the scroll up and right-click over a character's portrait.)"
+720	item199	Swift Potion Recipe	750	Mscroll	Misc	0	0	0	0	Swift Potion Recipe	77	0	0	0	0	"A message scroll.  (To read this message, pick the scroll up and right-click over a character's portrait.)"
+721	item199	Cure Paralysis Recipe	750	Mscroll	Misc	0	0	0	0	Cure Paralysis Recipe	77	0	0	0	0	"A message scroll.  (To read this message, pick the scroll up and right-click over a character's portrait.)"
+722	item199	Divine Restoration Recipe	750	Mscroll	Misc	0	0	0	0	Divine Restoration Recipe	77	0	0	0	0	"A message scroll.  (To read this message, pick the scroll up and right-click over a character's portrait.)"
+723	item199	Divine Cure Recipe	750	Mscroll	Misc	0	0	0	0	Divine Cure Recipe	77	0	0	0	0	"A message scroll.  (To read this message, pick the scroll up and right-click over a character's portrait.)"
+724	item199	Divine Power Recipe	750	Mscroll	Misc	0	0	0	0	Divine Power Recipe	77	0	0	0	0	"A message scroll.  (To read this message, pick the scroll up and right-click over a character's portrait.)"
+725	item199	Luck Boost Recipe	750	Mscroll	Misc	0	0	0	0	Luck Boost Recipe	77	0	0	0	0	"A message scroll.  (To read this message, pick the scroll up and right-click over a character's portrait.)"
+726	item199	Fire Resistance Recipe	750	Mscroll	Misc	0	0	0	0	Fire Resistance Recipe	77	0	0	0	0	"A message scroll.  (To read this message, pick the scroll up and right-click over a character's portrait.)"
+727	item199	Air Resistance Recipe	750	Mscroll	Misc	0	0	0	0	Air Resistance Recipe	77	0	0	0	0	"A message scroll.  (To read this message, pick the scroll up and right-click over a character's portrait.)"
+728	item199	Water Resistance Recipe	750	Mscroll	Misc	0	0	0	0	Water Resistance Recipe	77	0	0	0	0	"A message scroll.  (To read this message, pick the scroll up and right-click over a character's portrait.)"
+729	item199	Earth Resistance Recipe	750	Mscroll	Misc	0	0	0	0	Earth Resistance Recipe	77	0	0	0	0	"A message scroll.  (To read this message, pick the scroll up and right-click over a character's portrait.)"
+730	item199	Mind Resistance Recipe	750	Mscroll	Misc	0	0	0	0	Mind Resistance Recipe	77	0	0	0	0	"A message scroll.  (To read this message, pick the scroll up and right-click over a character's portrait.)"
+731	item199	Body Resistance Recipe	750	Mscroll	Misc	0	0	0	0	Body Resistance Recipe	77	0	0	0	0	"A message scroll.  (To read this message, pick the scroll up and right-click over a character's portrait.)"
+732	item199	Certificate of Authentication	0	Mscroll	Misc	0	0	0	0	Certificate	77	0	0	0	0	"A certificate written by Dadeross. (To read it, pick up the certificate and right-click over a character's portrait.)"
+733	item199	Journal Scrap	0	Mscroll	Misc	0	0	0	0	Journal Scrap	77	0	0	0	0	"A page torn from a travel journal. (To read it, pick it up and right-click over a character's portrait.)"
+734	item199	Journal Scrap	0	Mscroll	Misc	0	0	0	0	Journal Scrap	77	0	0	0	0	"A page torn from a travel journal. (To read it, pick it up and right-click over a character's portrait.)"
+735	item199	Journal Scrap	0	Mscroll	Misc	0	0	0	0	Journal Scrap	77	0	0	0	0	"A page torn from a travel journal. (To read it, pick it up and right-click over a character's portrait.)"
+736	item199	Journal Scrap	0	Mscroll	Misc	0	0	0	0	Journal Scrap	77	0	0	0	0	"A page torn from a travel journal. (To read it, pick it up and right-click over a character's portrait.)"
+737	item199	Journal Scrap	0	Mscroll	Misc	0	0	0	0	Journal Scrap	77	0	0	0	0	"A page torn from a travel journal. (To read it, pick it up and right-click over a character's portrait.)"
+738	item199	Journal Scrap	0	Mscroll	Misc	0	0	0	0	Journal Scrap	77	0	0	0	0	"A page torn from a travel journal. (To read it, pick it up and right-click over a character's portrait.)"
+739	item199	Journal Scrap	0	Mscroll	Misc	0	0	0	0	Journal Scrap	77	0	0	0	0	"A page torn from a travel journal. (To read it, pick it up and right-click over a character's portrait.)"
+740	item199	Journal Scrap	0	Mscroll	Misc	0	0	0	0	Journal Scrap	77	0	0	0	0	"A page torn from a travel journal. (To read it, pick it up and right-click over a character's portrait.)"
+741	item264	Dadeross' Letter to Fellmoon	0	Mscroll	Misc	0	0	0	0	Letter	86	0	0	0	0	"Quest Item: A letter from Dadeross to Elgar Fellmoon.  (To read the letter, pick it up and right-click over a character's portrait.)"
+742	item265	Blackmail Letter	0	Mscroll	Misc	0	0	0	0	Letter	86	0	0	0	0	"Quest Item: A letter from Elgar Fellmoon to Arion Hunter.  (To read the letter, pick it up and right-click over a character's portrait.)"
+743	item199	Journal Scrap	0	Mscroll	Misc	0	0	0	0	Journal Scrap	86	0	0	0	0	"A page from an otherwise ruined journal found in an abandoned camp in Alvar. (To read, pick it up and right-click over a character's portrait.)"
+744	item207	History of the Vault of Time	0	Mscroll	Misc	0	0	0	0	History Book	78	0	0	0	0	"A book about The Vault of Time. (To read, pick it up and right-click over a character's portrait.)"
+745	item199	Dagger Wound Oddities	0	Mscroll	Misc	0	0	0	0	Journal Notes	86	0	0	0	0	"Journal notes written in Frederick Talimere's hand. (To read, pick it up and right-click over a character's portrait.)"
+746	item265	Letter to Arion Hunter	0	Mscroll	Misc	0	0	0	0	Letter	86	0	0	0	0	"A letter to Arion Hunter from Zog (To read, pick it up and right-click over a character's portrait.)"
+747	item265	Page Torn from a Book	0	Mscroll	Misc	0	0	0	0	Torn Page	77	0	0	0	0	"A page torn from a book. You found it in the Merchant House Library. (To read, pick it up and right-click over a character's portrait.)"
+748	item199	Notes - Emergency Meeting	0	Mscroll	Misc	0	0	0	0	Notes	77	0	0	0	0	"A rolled parchment of hastily scrawled notes. (To read, pick up the scroll and right-click over a character's portrait.)"
+749	item199	Cannon Design Notes	0	Mscroll	Misc	0	0	0	0	Notes	77	0	0	0	0	"Notes you found in the Regnan fortress. (To read, pick up the scroll and right-click over a character's portrait.)"
+750	item202	Old Scroll	0	Mscroll	Misc	0	0	0	0	Scroll	77	0	0	0	0	"The scroll you found in the Abandoned Temple seems centuries old. (To read, pick it up and right-click over a character's portrait.)"
+751	null	message scroll 751	0	0	0	0	0	0	0	0	1	0	0	0	0	0
+752	null	message scroll 752	0	0	0	0	0	0	0	0	1	0	0	0	0	0
+753	null	message scroll 753	0	0	0	0	0	0	0	0	1	0	0	0	0	0
+754	null	message scroll 754	0	0	0	0	0	0	0	0	1	0	0	0	0	0
+755	null	message scroll 755	0	0	0	0	0	0	0	0	1	0	0	0	0	0
+756	null	message scroll 756	0	0	0	0	0	0	0	0	1	0	0	0	0	0
+757	null	message scroll 757	0	0	0	0	0	0	0	0	1	0	0	0	0	0
+758	null	message scroll 758	0	0	0	0	0	0	0	0	1	0	0	0	0	0
+759	null	message scroll 759	0	0	0	0	0	0	0	0	1	0	0	0	0	0
+760	null	message scroll 760	0	0	0	0	0	0	0	0	1	0	0	0	0	0
+761	null	message scroll 761	0	0	0	0	0	0	0	0	1	0	0	0	0	0
+762	null	message scroll 762	0	0	0	0	0	0	0	0	1	0	0	0	0	0
+763	null	message scroll 763	0	0	0	0	0	0	0	0	1	0	0	0	0	0
+764	null	message scroll 764	0	0	0	0	0	0	0	0	1	0	0	0	0	0
+765	null	message scroll 765	0	0	0	0	0	0	0	0	1	0	0	0	0	0
+766	null	message scroll 766	0	0	0	0	0	0	0	0	1	0	0	0	0	0
+767	null	message scroll 767	0	0	0	0	0	0	0	0	1	0	0	0	0	0
+768	null	message scroll 768	0	0	0	0	0	0	0	0	1	0	0	0	0	0
+769	null	message scroll 769	0	0	0	0	0	0	0	0	1	0	0	0	0	0
+770	null	message scroll 770	0	0	0	0	0	0	0	0	1	0	0	0	0	0
+771	null	message scroll 771	0	0	0	0	0	0	0	0	1	0	0	0	0	0
+772	null	message scroll 772	0	0	0	0	0	0	0	0	1	0	0	0	0	0
+773	null	message scroll 773	0	0	0	0	0	0	0	0	1	0	0	0	0	0
+774	null	message scroll 774	0	0	0	0	0	0	0	0	1	0	0	0	0	0
+775	null	message scroll 775	0	0	0	0	0	0	0	0	1	0	0	0	0	0
+776	null	message scroll 776	0	0	0	0	0	0	0	0	1	0	0	0	0	0
+777	null	message scroll 777	0	0	0	0	0	0	0	0	1	0	0	0	0	0
+778	null	message scroll 778	0	0	0	0	0	0	0	0	1	0	0	0	0	0
+779	null	message scroll 779	0	0	0	0	0	0	0	0	1	0	0	0	0	0
+780	null	message scroll 780	0	0	0	0	0	0	0	0	1	0	0	0	0	0
+781	null	message scroll 781	0	0	0	0	0	0	0	0	1	0	0	0	0	0
+782	null	message scroll 782	0	0	0	0	0	0	0	0	1	0	0	0	0	0
+783	null	message scroll 783	0	0	0	0	0	0	0	0	1	0	0	0	0	0
+784	null	message scroll 784	0	0	0	0	0	0	0	0	1	0	0	0	0	0
+785	null	message scroll 785	0	0	0	0	0	0	0	0	1	0	0	0	0	0
+786	null	message scroll 786	0	0	0	0	0	0	0	0	1	0	0	0	0	0
+787	null	message scroll 787	0	0	0	0	0	0	0	0	1	0	0	0	0	0
+788	null	message scroll 788	0	0	0	0	0	0	0	0	1	0	0	0	0	0
+789	null	message scroll 789	0	0	0	0	0	0	0	0	1	0	0	0	0	0
+790	null	message scroll 790	0	0	0	0	0	0	0	0	1	0	0	0	0	0
+791	null	message scroll 791	0	0	0	0	0	0	0	0	1	0	0	0	0	0
+792	null	message scroll 792	0	0	0	0	0	0	0	0	1	0	0	0	0	0
+793	null	message scroll 793	0	0	0	0	0	0	0	0	1	0	0	0	0	0
+794	null	message scroll 794	0	0	0	0	0	0	0	0	1	0	0	0	0	0
+795	null	message scroll 795	0	0	0	0	0	0	0	0	1	0	0	0	0	0
+796	null	message scroll 796	0	0	0	0	0	0	0	0	1	0	0	0	0	0
+797	null	message scroll 797	0	0	0	0	0	0	0	0	1	0	0	0	0	0
+798	null	message scroll 798	0	0	0	0	0	0	0	0	1	0	0	0	0	
+799	null	message scroll 799	0	0	0	0	0	0	0	0	1	0	0	0	0	
+800	item323	Wheel of Frelandeau	0	0	0	0	0	0	0	Wheel of Frelandeau	129	0	0	0	0	"A wheel of prized unicorn's-milk frelandeau cheese. Sliced onto crackers, it is the perfect compliment to a snifter of fine tobersk brandy."
+801	item324	Log of Eldenbrie	0	0	0	0	0	0	0	Log of Eldenbrie	130	0	0	0	0	"A log of Vori eldenbrie cheese. Though many have tried to duplicate its subtle, smoky flavor, only the master Frost Giant cheese masters of the frozen Vori wastes know the secrets of its formulation."
+802	item325	Ball of Dunduck	0	0	0	0	0	0	0	Ball of Dunduck	131	0	0	0	0	"A ball of dunduck cheese. Made in small batches by the goblins of Erathia, most consider it an acquired taste."

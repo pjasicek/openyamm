@@ -1,0 +1,87 @@
+name: Build Release
+
+on:
+  schedule:
+    - cron: 6 11 * * *
+  workflow_dispatch:
+    inputs:
+      myCommit:
+        description: Commit SHA1
+        required: false
+        default: ''
+        type: string
+  push:
+    branches:
+      - 'master'
+
+env:
+  TAG_NAME: nightly
+
+jobs:
+  advanceNightlyTag:
+    name: Advance Nightly
+    runs-on: ubuntu-latest
+    outputs:
+      tagName: ${{steps.outputReleaseTag.outputs.tagName }}
+    steps:
+      - name: Advance nightly tag
+        uses: actions/github-script@v3
+        with:
+          github-token: '${{secrets.GITHUB_TOKEN}}'
+          script: |
+            try {
+                await github.git.deleteRef({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  ref: "tags/nightly"
+                })
+            } catch (e) {
+              console.log("The nightly tag doesn't exist yet: " + e)
+            }
+            await github.git.createRef({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: "refs/tags/nightly",
+              sha: context.sha
+            })
+
+      - name: Sleep for 10 seconds
+        run: sleep 10s
+        shell: bash
+
+      - name: Get latest release
+        id: latest_release
+        uses: kaliber5/action-get-release@v1
+        with:
+          token: '${{ github.token }}'
+          tag_name: nightly
+          draft: true
+
+      - name: Publish release
+        uses: eregon/publish-release@v1
+        env:
+          GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+        with:
+          release_id: '${{ steps.latest_release.outputs.id }}'
+
+      - name: Output Release Tag
+        id: outputReleaseTag
+        run: |
+          echo "tagName=${{env.TAG_NAME}}" >> "$GITHUB_OUTPUT"
+
+
+  build_all:
+    needs: advanceNightlyTag
+    uses: ./.github/workflows/build_all.yml
+    secrets: inherit
+    with:
+      releaseTag: '${{needs.advanceNightlyTag.outputs.tagName}}'
+      myCommit: '${{inputs.myCommit}}'
+
+  build_linux_flatpak:
+    needs: advanceNightlyTag
+    uses: ./.github/workflows/linux_flatpak.yml
+    secrets: inherit
+    with:
+      releaseTag: '${{needs.advanceNightlyTag.outputs.tagName}}'
+      myCommit: '${{inputs.myCommit}}'

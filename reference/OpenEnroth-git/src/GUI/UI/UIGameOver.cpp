@@ -1,0 +1,54 @@
+#include "GUI/UI/UIGameOver.h"
+
+#include "GUI/GUIMessageQueue.h"
+
+#include "Engine/Engine.h"
+#include "Engine/EngineGlobals.h"
+#include "Engine/Localization.h"
+#include "Engine/Time/Timer.h"
+#include "Engine/AssetsManager.h"
+#include "Engine/Graphics/Renderer/Renderer.h"
+
+#include "Application/GameOver.h"
+
+GUIWindow_GameOver::GUIWindow_GameOver(UIMessageType releaseEvent) : GUIWindow(WINDOW_GameOverWindow, {0, 0}, render->GetRenderDimensions()), _releaseEvent(releaseEvent) {
+    pEventTimer->setPaused(true);
+    prev_screen_type = current_screen_type;
+    current_screen_type = SCREEN_GAMEOVER_WINDOW;
+    GameOver_Setup();
+    _winnerCert = CreateWinnerCertificate();
+    this->sHint = fmt::format(
+        "{}\n \n{}\n \n{}",
+        localization->str(LSTR_CONGRATULATIONS_ADVENTURER),
+        localization->str(LSTR_WE_HOPE_THAT_YOUVE_ENJOYED_PLAYING_MIGHT),
+        localization->str(LSTR_THE_MIGHT_AND_MAGIC_VII_DEVELOPMENT_TEAM));
+}
+
+void GUIWindow_GameOver::Update() {
+    // draw winners certificate background
+    assert(_winnerCert);
+    render->DrawQuad2D(_winnerCert, {0, 0});
+
+    // draw pop up box
+    if (_showPopUp) {
+        Recti popupRect(120, 140, 400, 100);
+        DrawMessageBox(0, popupRect, fmt::format("{}\n \n{}", sHint, localization->str(LSTR_PRESS_ESCAPE)));
+    }
+}
+
+GUIWindow_GameOver::~GUIWindow_GameOver() {
+    engine->_messageQueue->addMessageCurrentFrame(_releaseEvent, 0, 0);
+
+    current_screen_type = prev_screen_type;
+    GameOverNoSound = false;
+    pEventTimer->setPaused(false);
+
+    _winnerCert->release();
+}
+
+bool GUIWindow_GameOver::toggleAndTestFinished() {
+    if (_showPopUp) return true;
+
+    _showPopUp = true;
+    return false;
+}

@@ -1,0 +1,527 @@
+2D Events by Type ( NPC's present are from NPC database)																		Schedules		Other Exits		Questbit	Enter																																										
+#	#	Type	Map	Picture	Name	Proprieter Name	Title	Picture	State	Rep	Per	Val	A	B	C	Notes:	Notes(2):	Open	Closed	Pic	Map	Restrictions	Text																																										
+1	1	Weapon Shop	1	6	True Mettle	Kervin	Blacksmith	2109	0	0	0	1.5	1		7			6	18	0	0	0	0																																										
+2	2	Weapon Shop	2	36	Keen Edge	Reaver	Blacksmith	2130	0	0	0	1.5	1		14			6	18	0	0	0	0																																										
+3	3	Weapon Shop	3	20	Polished Steel	Kashue	Blacksmith	2119	0	0	0	2.5	1		14			6	18	0	0	0	0																																										
+4	4	Weapon Shop	5	49	Lance's Spears	Lance	Blacksmith	2139	0	0	0	3	1.5		21			6	18	0	0	0	0																																										
+5	5	Weapon Shop	6	63	Blooded Daggers and Blades	Eldrich	Blacksmith	2146	0	0	0	3	2		21			6	18	0	0	0	0																																										
+6	6	Weapon Shop	35	36	Ayzar's Axes	Ayzar	Blacksmith	2130	0	0	0	4	2		28			6	18	0	0	0	0																																										
+7	7	Weapon Shop	13	86	Custom Cutlass	Critias	Blacksmith	2177	0	0	0	4	2		28			6	18	0	0	0	0																																										
+8	8	Weapon Shop	0	0	Placeholder	Placeholder	Blacksmith	0	0	0	0	0	0		0			6	18	0	0	0	0																																										
+9	9	Weapon Shop	0	0	Placeholder	Placeholder	Blacksmith	0	0	0	0	0	0		0			6	18	0	0	0	0																																										
+10	10	Weapon Shop	0	0	Placeholder	Placeholder	Blacksmith	0	0	0	0	0	0		0			6	18	0	0	0	0																																										
+11	11	Weapon Shop	0	0	Placeholder	Placeholder	Blacksmith	0	0	0	0	0	0		0			6	18	0	0	0	0																																										
+12	12	Weapon Shop	0	0	Placeholder	Placeholder	Blacksmith	0	0	0	0	0	0		0			6	18	0	0	0	0																																										
+13	13	Weapon Shop	0	0	Placeholder	Placeholder	Blacksmith	0	0	0	0	0	0		0			6	18	0	0	0	0																																										
+14	14	Weapon Shop	0	0	Placeholder	Placeholder	Blacksmith	0	0	0	0	0	0		0			6	18	0	0	0	0																																										
+15	1	Armor Shop	1	7	The Tannery	Lishnak	Armorsmith	2110	0	0	0	1.5	1		7			6	18	0	0	0	0																																										
+16	2	Armor Shop	2	50	The Polished Shield	Walvis	Armorsmith	2140	0	0	0	1.5	1		14			6	18	0	0	0	0																																										
+17	3	Armor Shop	3	21	Armory	Chaynal	Armorsmith	2128	0	0	0	2.5	1		14			6	18	0	0	0	0																																										
+18	4	Armor Shop	5	50	Plated Protection	Balfour	Armorsmith	2140	0	0	0	3	1.5		21			6	18	0	0	0	0																																										
+19	5	Armor Shop	6	64	Supple Leather	Prospero	Armorsmith	2147	0	0	0	3	1.5		21			6	18	0	0	0	0																																										
+20	6	Armor Shop	35	37	Linked Mail	Delios	Armorsmith	2131	0	0	0	4	2		28			6	18	0	0	0	0																																										
+21	7	Armor Shop	13	87	Karr Battlegear	Karr	Armorsmith	2173	0	0	0	4	2		28			6	18	0	0	0	0																																										
+22	8	Armor Shop	0	0	Placeholder	Placeholder	Armorsmith	0	0	0	0	0	0		0			6	18	0	0	0	0																																										
+23	9	Armor Shop	0	0	Placeholder	Placeholder	Armorsmith	0	0	0	0	0	0		0			6	18	0	0	0	0																																										
+24	10	Armor Shop	0	0	Placeholder	Placeholder	Armorsmith	0	0	0	0	0	0		0			6	18	0	0	0	0																																										
+25	11	Armor Shop	0	0	Placeholder	Placeholder	Armorsmith	0	0	0	0	0	0		0			6	18	0	0	0	0																																										
+26	12	Armor Shop	0	0	Placeholder	Placeholder	Armorsmith	0	0	0	0	0	0		0			6	18	0	0	0	0																																										
+27	13	Armor Shop	0	0	Placeholder	Placeholder	Armorsmith	0	0	0	0	0	0		0			6	18	0	0	0	0																																										
+28	14	Armor Shop	0	0	Placeholder	Placeholder	Armorsmith	0	0	0	0	0	0		0			6	18	0	0	0	0																																										
+29	1	Magic Shop	1	9	Fearsome Fetishes	Zith	Magician	2112	0	0	0	1.5	1		7			6	18	0	0	0	0																																										
+30	2	Magic Shop	2	66	Needful Things	Jed	Magician	2149	0	0	0	1.5	1		14			6	18	0	0	0	0																																										
+31	3	Magic Shop	3	23	Arcane Items	Allanya	Magician	2102	0	0	0	2	1		14			6	18	0	0	0	0																																										
+32	4	Magic Shop	5	51	Wards and Pendants	Korxius	Magician	2141	0	0	0	3	1		21			6	18	0	0	0	0																																										
+33	5	Magic Shop	6	66	Mystical Mayhem	Ned	Magician	2149	0	0	0	3	1.5		21			6	18	0	0	0	0																																										
+34	6	Magic Shop	35	39	Amulets of Power	Thurl	Magician	2167	0	0	0	4	1.5		28			6	18	0	0	0	0																																										
+35	7	Magic Shop	13	89	Gifts of Regna	Flynn	Magician	2174	0	0	0	4	1.5		28			6	18	0	0	0	0																																										
+36	8	Magic Shop	2	23	Caori's Curios	Caori	Magician	2102	0	0	0	2	1		14			6	18	0	0	0	0																																										
+37	9	Magic Shop	0	0	Placeholder	Placeholder	Magician	0	0	0	0	0	0		0			6	18	0	0	0	0																																										
+38	10	Magic Shop	0	0	Placeholder	Placeholder	Magician	0	0	0	0	0	0		0			6	18	0	0	0	0																																										
+39	11	Magic Shop	0	0	Placeholder	Placeholder	Magician	0	0	0	0	0	0		0			6	18	0	0	0	0																																										
+40	12	Magic Shop	0	0	Placeholder	Placeholder	Magician	0	0	0	0	0	0		0			6	18	0	0	0	0																																										
+41	13	Magic Shop	0	0	Placeholder	Placeholder	Magician	0	0	0	0	0	0		0			6	18	0	0	0	0																																										
+42	1	Alchemist	1	8	Herbal Elixirs	Shelvin	Alchemist	2111	0	0	0	2	1		7			6	18	0	0	0	0																																										
+43	2	Alchemist	2	8	Apothecary	Tristan	Alchemist	2111	0	0	0	3	1		7			6	18	0	0	0	0																																										
+44	3	Alchemist	3	22	Prepared Potions	Navarre	Alchemist	2121	0	0	0	3	1		7			6	18	0	0	0	0																																										
+45	4	Alchemist	6	65	Wolves' Bane	Melantha	Alchemist	2148	0	0	0	4	1		7			6	18	0	0	0	0																																										
+46	5	Alchemist	13	88	Poultices and Cures	Olesia	Alchemist	2172	0	0	0	5	1.5		14			6	18	0	0	0	0																																										
+47	6	Alchemist	35	38	Perius' Powders	Perius	Alchemist	2166	0	0	0	5	1.5		14			6	18	0	0	0	0																																										
+48	7	Alchemist	0	0	Placeholder	Placeholder	Alchemist	0	0	0	0	0	0		0			6	18	0	0	0	0																																										
+49	8	Alchemist	0	0	Placeholder	Placeholder	Alchemist	0	0	0	0	0	0		0			6	18	0	0	0	0																																										
+50	9	Alchemist	0	0	Placeholder	Placeholder	Alchemist	0	0	0	0	0	0		0			6	18	0	0	0	0																																										
+51	10	Alchemist	0	0	Placeholder	Placeholder	Alchemist	0	0	0	0	0	0		0			6	18	0	0	0	0																																										
+52	11	Alchemist	0	0	Placeholder	Placeholder	Alchemist	0	0	0	0	0	0		0			6	18	0	0	0	0																																										
+53	12	Alchemist	0	0	Placeholder	Placeholder	Alchemist	0	0	0	0	0	0		0			6	18	0	0	0	0																																										
+54	1	Stables	2	94	Guild Caravans	Wayland	Stablemaster	1249	0	0	0	2	1					6	18	0	0	0	0																																										
+55	2	Stables	3	94	Guild Caravans	Templeton	Stablemaster	1249	0	0	0	3	1					6	18	0	0	0	0																																										
+56	3	Stables	4	94	Guild Caravans	Elsinar	Stablemaster	1249	0	0	0	3	1					6	18	0	0	0	0																																										
+57	4	Stables	5	94	Guild Caravans	Dalas	Stablemaster	1249	0	0	0	5	1					6	18	0	0	0	0																																										
+58	5	Stables	6	94	Guild Caravans	Troy	Stablemaster	1249	0	0	0	5	1					6	18	0	0	0	0																																										
+59	6	Stables	0	94	Guild Caravans	Placeholder	Stablemaster	0	0	0	0	10	1					6	18	0	0	0	0																																										
+60	7	Stables	0	94	Guild Caravans	Placeholder	Stablemaster	0	0	0	0	10	1					6	18	0	0	0	0																																										
+61	8	Stables	0	94	Guild Caravans	Placeholder	Stablemaster	0	0	0	0	1.5	1					6	18	0	0	0	0																																										
+62	9	Stables	0	94	Guild Caravans	Placeholder	Stablemaster	0	0	0	0	1.5	1					6	18	0	0	0	0																																										
+63	1	Boats	1	29	The Windling	Calamar	Captain	2127	0	0	0	1.5	1					6	18	0	0	0	0																																										
+64	2	Boats	2	29	The Dauntless	Alinor	Captain	2127	0	0	0	2	1					6	18	0	0	0	0																																										
+65	3	Boats	6	80	Smoke	Misk	Smuggler	2180	0	0	0	2	1					6	18	0	0	0	0																																										
+66	4	Boats	8	80	Mist	Barr	Smuggler	2180	0	0	0	5	1					6	18	0	0	0	0																																										
+67	5	Boats	2	80	Wind	Peel	Smuggler	2180	0	0	0	10	1					6	18	0	0	0	0																																										
+68	6	Boats	13	29	Spindrift	Marty	Captain	2127	0	0	0	1.5	1					6	18	0	0	0	0																																										
+69	7	Boats	0	0	Placeholder	Placeholder	Captain	0	0	0	0	5	1					6	18	0	0	0	0																																										
+70	8	Boats	0	0	Placeholder	Placeholder	Captain	0	0	0	0	5	1					6	18	0	0	0	0																																										
+71	9	Boats	0	0	Placeholder	Placeholder	Captain	0	0	0	0	10	1					6	18	0	0	0	0																																										
+72	10	Boats	0	0	Placeholder	Placeholder	Captain	0	0	0	0	1.5	1					6	18	0	0	0	0																																										
+73	11	Boats	0	0	Placeholder	Placeholder	Captain	0	0	0	0	1.5	1					6	18	0	0	0	0																																										
+74	1	Temple	1	5	Mystic Medicine	Pish	Healer	2108	0	0	0	10	1					1	24	0	0	0	0																																										
+75	2	Temple	2	48	Sanctum	Maricia	Healer	1138	0	0	0	25	1					1	24	0	0	0	0																																										
+76	3	Temple	3	19	House of Healing	Meaglan	Healer	2118	0	0	0	30	1.5					1	24	0	0	0	0																																										
+77	4	Temple	5	48	Sacred Steel	Laudra	Healer	1138	0	0	0	30	1.5					1	24	0	0	0	0																																										
+78	5	Temple	6	62	Cathedral of Night	Evania	Healer	2145	0	0	0	40	1.5					1	24	0	0	0	0																																										
+79	6	Temple	35	35	The Shaman	Wyx	Healer	2171	0	0	0	40	1.5					1	24	0	0	0	0																																										
+80	7	Temple	13	85	The Blessed Sea	Enid	Healer	1228	0	0	0	50	2					1	24	0	0	0	0																																										
+81	8	Temple	0	0	Placeholder	Placeholder	Healer	0	0	0	0	50	2					1	24	0	0	0	0																																										
+82	9	Temple	0	0	Placeholder	Placeholder	Healer	0	0	0	0	100	2.5					1	24	0	0	0	0																																										
+83	10	Temple	0	0	Placeholder	Placeholder	Healer	0	0	0	0	30	1.5					1	24	0	0	0	0																																										
+84	11	Temple	0	0	Placeholder	Placeholder	Healer	0	0	0	0	30	1.5					1	24	0	0	0	0																																										
+85	12	Temple	0	0	Placeholder	Placeholder	Healer	0	0	0	0	40	1.5					1	24	0	0	0	0																																										
+86	13	Temple	0	0	Placeholder	Placeholder	Healer	0	0	0	0	5	1					1	24	0	0	0	0																																										
+87	14	Temple	0	0	Placeholder	Placeholder	Healer	0	0	0	0	1.5	1					1	24	0	0	0	0																																										
+88	15	Temple	0	0	Placeholder	Placeholder	Healer	0	0	0	0	1.5	1					1	24	0	0	0	0																																										
+89	1	Training	1	11	Rites of Passage	Nishton	Instructor	2114	0	0	0	10	1				5	6	18	0	0	0	0																																										
+90	2	Training	2	25	Gymnasium	Yarin	Instructor	2124	0	0	0	20	1				15	6	18	0	0	0	0																																										
+91	3	Training	3	25	Guild Training Hall	Barin	Instructor	2124	0	0	0	25	1				25	6	18	0	0	0	0																																										
+92	4	Training	5	52	Godric's Gauntlet	Godric	Instructor	2142	0	0	0	25	1				25	6	18	0	0	0	0																																										
+93	5	Training	6	68	Assassin's School	Lehava	Instructor	1149	0	0	0	30	1.5				200	6	18	0	0	0	0																																										
+94	6	Training	35	41	Balthazar Academy	Gierd	Instructor	2170	0	0	0	30	1.5				200	6	18	0	0	0	0																																										
+95	7	Training	0	0	Placeholder	Placeholder	Instructor	0	0	0	0	50	2.5				No Max	6	18	0	0	0	0																																										
+96	8	Training	0	0	Placeholder	Placeholder	Instructor	0	0	0	0	40	2				50	6	18	0	0	0	0																																										
+97	9	Training	0	0	Placeholder	Placeholder	Instructor	0	0	0	0	80	2				50	6	18	0	0	0	0																																										
+98	10	Training	0	0	Placeholder	Placeholder	Instructor	0	0	0	0	40	3				100	6	18	0	0	0	0																																										
+99	11	Training	0	0	Placeholder	Placeholder	Instructor	0	0	0	0	1.5	1					6	18	0	0	0	0																																										
+100	12	Training	0	0	Placeholder	Placeholder	Instructor	0	0	0	0	1.5	1					6	18	0	0	0	0																																										
+101	13	Training	0	0	Placeholder	Placeholder	Instructor	0	0	0	0	1.5	1					6	18	0	0	0	0																																										
+102	1	Town Hall	2	0	Placeholder	Placeholder	Clerk	0	0	0	0	1.5	1					6	18	0	0	0	0																																										
+103	2	Town Hall	3	0	Placeholder	Placeholder	Clerk	0	0	0	0	1.5	1					6	18	0	0	0	0																																										
+104	3	Town Hall	4	0	Placeholder	Placeholder	Clerk	0	0	0	0	1.5	1					6	18	0	0	0	0																																										
+105	4	Town Hall	7	0	Placeholder	Placeholder	Clerk	0	0	0	0	1.5	1					6	18	0	0	0	0																																										
+106	5	Town Hall	8	0	Placeholder	Placeholder	Clerk	0	0	0	0	1.5	1					6	18	0	0	0	0																																										
+107	1	Tavern	1	13	The Grog and Grub	Tubrict	Innkeep	2116	0	0	0	6	1					5	2	0	0	0	0																																										
+108	2	Tavern	2	27	Kessel's Kantina	Kessel	Innkeep	2126	0	0	0	10	1					5	2	0	0	0	0																																										
+109	3	Tavern	3	27	Profit House	Dantilion	Innkeep	2126	0	0	0	15	1					5	2	0	0	0	0																																										
+110	4	Tavern	4	79	Parched Throat	Rethnar	Innkeep	2158	0	0	0	15	1					5	2	0	0	0	0																																										
+111	5	Tavern	5	53	Dragon's Blood Inn	Melody	Barmaid	1138	0	0	0	25	1					1	24	0	0	0	0																																										
+112	6	Tavern	6	70	Black Company	Fetish	Innkeep	2153	0	0	0	50	1					1	24	0	0	0	0																																										
+113	7	Tavern	7	95	Traveler's Rest	Walvis	Innkeep	2178	0	0	0	35	1.5					5	2	0	0	0	0																																										
+114	8	Tavern	8	43	Bull's Eye Inn	Gurney	Innkeep	2169	0	0	0	40	1.5					1	24	0	0	0	0																																										
+115	9	Tavern	13	91	Pirate's Rest	Longbeard	Innkeep	2176	0	0	0	60	1					5	2	0	0	0	0																																										
+116	10	Tavern	2	53	The Dancing Ogre	Trishia	Barmaid	1138	0	0	0	17	2					1	24	0	0	0	0																																										
+117	11	Tavern	3	27	Miho's Roadhouse	Miho	Innkeep	2126	0	0	0	20	1					5	2	0	0	0	0																																										
+118	12	Tavern	0	0	Placeholder	Placeholder	Innkeep	0	0	0	0	1	1.5					5	2	0	0	0	0																																										
+119	13	Tavern	0	0	Placeholder	Placeholder	Innkeep	0	0	0	0	1	1.5					5	2	0	0	0	0																																										
+120	14	Tavern	0	0	Placeholder	Placeholder	Innkeep	0	0	0	0	1	1.5					5	2	0	0	0	0																																										
+121	15	Tavern	0	0	Placeholder	Placeholder	Innkeep	0	0	0	0	1	1					8	2	0	0	0	0																																										
+122	16	Tavern	0	0	Placeholder	Placeholder	Innkeep	0	0	0	0	1	1					8	2	0	0	0	0																																										
+123	17	Tavern	0	0	Placeholder	Placeholder	Innkeep	0	0	0	0	1	1					8	2	0	0	0	0																																										
+124	18	Tavern	0	0	Placeholder	Placeholder	Innkeep	0	0	0	0	1	1					8	2	0	0	0	0																																										
+125	19	Tavern	0	0	Placeholder	Placeholder	Innkeep	0	0	0	0	1	1					8	2	0	0	0	0																																										
+126	20	Tavern	0	0	Placeholder	Placeholder	Innkeep	0	0	0	0	1	1					8	2	0	0	0	0																																										
+127	21	Tavern	0	0	Placeholder	Placeholder	Innkeep	0	0	0	0	1	1					8	2	0	0	0	0																																										
+128	1	Bank	1	12	The Some Place Safe	Ish	Banker	2115	0	0	0	1	1					6	18	0	0	0	0																																										
+129	2	Bank	2	26	Steele's Vault	Steele	Banker	2125	0	0	0	1	1					6	18	0	0	0	0																																										
+130	3	Bank	3	26	Guild House of Finance	Isram	Banker	2125	0	0	0	1	1					6	18	0	0	0	0																																										
+131	4	Bank	6	69	The Blood Bank	Vijay	Banker	2152	0	0	0	1	1					6	18	0	0	0	0																																										
+132	5	Bank	35	42	Bank of Balthazar	Ignus	Banker	2136	0	0	0	1	1					6	18	0	0	0	0																																										
+133	6	Bank	0	0	Placeholder	Placeholder	Banker	0	0	0	0	1	1					6	18	0	0	0	0																																										
+134	7	Bank	0	0	Placeholder	Placeholder	Banker	0	0	0	0	1	1					6	18	0	0	0	0																																										
+135	8	Bank	0	0	Placeholder	Placeholder	Banker	0	0	0	0	1	1					6	18	0	0	0	0																																										
+136	9	Bank	0	0	Placeholder	Placeholder	Banker	0	0	0	0	1	1					6	18	0	0	0	0																																										
+137	10	Bank	0	0	Placeholder	Placeholder	Banker	0	0	0	0	1	1					6	18	0	0	0	0																																										
+138	11	Bank	0	0	Placeholder	Placeholder	Banker	0	0	0	0	1	1					6	18	0	0	0	0																																										
+139	1	Elemental Guild	1	139	Cures and Curses	Yeshin	Scribe	2113	0	0	0	2	1		14	4		6	18	0	0	0	0																																										
+140	2	Elemental Guild	2	143	Vexation's Hexes	Vexation	Scribe	2123	0	0	0	3	1.5		14	7		6	18	0	0	0	0																																										
+141	3	Self Guild	3	148	Self Study	Larin	Scribe	2168	0	0	0	4	2		28	4		6	18	0	0	0	0																																										
+142	4	Light Guild	5	145	Guild of Light	Sheivi	Scribe	2123	0	0	0	5	2.5		28	"4,7,10,11"		6	18	0	0	0	0																																										
+143	1	Dark Guild	6	154	Guild of Dark	Raziah	Scribe	2150	0	0	0	2	1		14	"4,7,10,11"		6	18	0	0	0	0																																										
+144	2	Spell Shop	0	0	Placeholder	Placeholder	Scribe	0	0	0	0	3	1.5		14			6	18	0	0	0	0																																										
+145	3	Self Guild	35	148	Guild of Mind	Didos	Scribe	2168	0	0	0	4	2		28	7		6	18	0	0	0	0																																										
+146	4	Elemental Guild	13	155	Protective Magic	Quiana	Scribe	2175	0	0	0	5	2.5		28	10		6	18	0	0	0	0																																										
+147	1	Elemental Guild	3	143	Elemental Guild	Yiadia	Scribe	2123	0	0	0	2	1		14	11		6	18	0	0	0	0																																										
+148	2	Self Guild	2	148	Self Guild	Kojo	Scribe	2168	0	0	0	3	1.5		14	"10,11"		6	18	0	0	0	0																																										
+149	3	Spell Shop	0	0	Placeholder	Placeholder	Scribe	0	0	0	0	4	2		28			6	18	0	0	0	0																																										
+150	4	Spell Shop	0	0	Placeholder	Placeholder	Scribe	0	0	0	0	5	2.5		28			6	18	0	0	0	0																																										
+151	1	Spell Shop	0	0	Placeholder	Placeholder	Scribe	0	0	0	0	2	1		14			6	18	0	0	0	0																																										
+152	2	Spell Shop	0	0	Placeholder	Placeholder	Scribe	0	0	0	0	3	1.5		14			6	18	0	0	0	0																																										
+153	3	Spell Shop	0	0	Placeholder	Placeholder	Scribe	0	0	0	0	4	2		28			6	18	0	0	0	0																																										
+154	4	Spell Shop	0	0	Placeholder	Placeholder	Scribe	0	0	0	0	5	2.5		28			6	18	0	0	0	0																																										
+155	1	Spell Shop	0	0	Placeholder	Placeholder	Scribe	0	0	0	0	2	1		14			6	18	0	0	0	0																																										
+156	2	Spell Shop	0	0	Placeholder	Placeholder	Scribe	0	0	0	0	3	1.5		14			6	18	0	0	0	0																																										
+157	3	Spell Shop	0	0	Placeholder	Placeholder	Scribe	0	0	0	0	4	2		28			6	18	0	0	0	0																																										
+158	4	Spell Shop	0	0	Placeholder	Placeholder	Scribe	0	0	0	0	5	2.5		28			6	18	0	0	0	0																																										
+159	1	Spell Shop	0	0	Placeholder	Placeholder	Scribe	0	0	0	0	2	1		14			6	18	0	0	0	0																																										
+160	2	Spell Shop	0	0	Placeholder	Placeholder	Scribe	0	0	0	0	3	1.5		14			6	18	0	0	0	0																																										
+161	3	Spell Shop	0	0	Placeholder	Placeholder	Scribe	0	0	0	0	4	2		28			6	18	0	0	0	0																																										
+162	4	Spell Shop	0	0	Placeholder	Placeholder	Scribe	0	0	0	0	5	2.5		28			6	18	0	0	0	0																																										
+163	1	Spell Shop	0	0	Placeholder	Placeholder	Scribe	0	0	0	0	2	1		14			6	18	0	0	0	0																																										
+164	2	Spell Shop	0	0	Placeholder	Placeholder	Scribe	0	0	0	0	3	1.5		14			6	18	0	0	0	0																																										
+165	3	Spell Shop	0	0	Placeholder	Placeholder	Scribe	0	0	0	0	4	2		28			6	18	0	0	0	0																																										
+166	4	Spell Shop	0	0	Placeholder	Placeholder	Scribe	0	0	0	0	5	2.5		28			6	18	0	0	0	0																																										
+167	1	Spell Shop	0	0	Placeholder	Placeholder	Scribe	0	0	0	0	4	2		14			6	18	0	0	0	0																																										
+168	2	Spell Shop	0	0	Placeholder	Placeholder	Scribe	0	0	0	0	5	2.5		14			6	18	0	0	0	0																																										
+169	1	Spell Shop	0	0	Placeholder	Placeholder	Scribe	0	0	0	0	4	2		14			6	18	0	0	0	0																																										
+170	2	Spell Shop	0	0	Placeholder	Placeholder	Scribe	0	0	0	0	5	2.5		14			6	18	0	0	0	0																																										
+171	1	Spell Shop	0	0	Placeholder	Placeholder	Scribe	0	0	0	0	1.5	1		14			6	18	0	0	0	0																																										
+172	2	Spell Shop	0	0	Placeholder	Placeholder	Scribe	0	0	0	0	1.5	1		14			6	18	0	0	0	0																																										
+173	1	Castle Entrance	1	14	Clan Leader's Hall	Placeholder	Brekish One-Fang	117	0	0	0	1.5				129		 	 	0	0	0	0																																										
+174	2	Castle Entrance	2	81	Wererat Smuggler Leader	Placeholder	Wererat Smuggler	160	0	0	0	1.5				168		  	 	0	0	0	0																																										
+175	1	Castle Entrance	2	30	Council Chamber Door	Placeholder	Merchant	102	0	0	0	1.5				133		 	 	0	0	0	0																																										
+176	2	Castle Entrance	3	28	Merchant Guildhouse	Placeholder	Merchant	0	0	0	0	1.5				169		 	 	0	0	0	0																																										
+177	1	Castle Entrance	4	77	Overdune's House	Placeholder	Overdune	101	0	0	0	1.5				134		 	 	0	0	0	0																																										
+178	2	Castle Entrance	5	72	Dragon Leader's Cavern 	Placeholder	Dragon	104	0	0	0	1.5				170		 	 	0	0	0	0																																										
+179	1	Castle Entrance	5	54	Charles Quixote's House	Placeholder	Charles Quixote	105	0	0	0	1.5				1		 	 	0	0	0	0																																										
+180	2	Castle Entrance	6	71	Sandro/Thant's Throne Room	Placeholder	Sandro	0	0	0	0	1.5				172		 	 	0	0	0	0																																										
+181	1	Castle Entrance	6	61	Dyson Leland's Room	Placeholder	Dyson Leland	0	0	0	0	1.5				1		 	 	0	0	0	0																																										
+182	2	Castle Entrance	7	57	Temple of the Sun Leader Room	Placeholder	Placeholder	0	0	0	0	1.5				171		 	 	0	0	0	0																																										
+183	1	Castle Entrance	8	44	Minotaur Leader's Room	Placeholder	Placeholder	106	0	0	0	1.5				1		 	 	0	0	0	0																																										
+184	2	Castle Entrance	14	93	Escaton's Throne Room	Placeholder	Escaton	100	0	0	0	1.5				Kastore		 	 	0	0	0	0																																										
+185	1	The Adventurer's Inn	2	96	The Adventurer's Inn	Placeholder		0	0	0	0	1.5				1		  	  	0	0	0	0																																										
+186	1	The Adventurer's Inn	1	0	The Adventurer's Inn	Placeholder		0	0	0	0	1.5						 	 	0	0	0	0																																										
+187	1	Seer	2	0	Oracle	Placeholder		0	0	0	0	1.5								0	0	0	0																																										
+188	1	The Adventurer's Inn	6	0	The Adventurer's Inn	Placeholder		0	0	0	0	1.5				1				0	0	0	0																																										
+189	1	The Adventurer's Inn	13	0	The Adventurer's Inn	Placeholder		0	0	0	0	1.5				1				0	0	0	0																																										
+190	1	The Adventurer's Inn	35	0	The Adventurer's Inn	Placeholder		0	0	0	0	1.5				1				0	0	0	0																																										
+191	1	Dungeon Ent	1	102	Abandoned Temple	Placeholder		0	0	0	0	1.5						 	 	3	0	0	0																																										
+192	2	Dungeon Ent	1	103	Pirate Outpost	Placeholder		0	0	0	0	1.5						 	 	3	0	0	0																																										
+193	3	Dungeon Ent	2	104	Smuggler's Cove	Placeholder		0	0	0	0	1.5						 	 	0	0	0	0																																										
+194	4	Dungeon Ent	2	105	Dire Wolf Den	Placeholder		0	0	0	0	1.5						 	 	0	0	0	0																																										
+195	5	Dungeon Ent	2	106	Merchanthouse of Alvar	Placeholder		0	0	0	0	1.5						 	 	0	0	0	0																																										
+196	6	Dungeon Ent	2	107	Inside the Crystal	Placeholder		0	0	0	0	1.5						 	 	0	0	0	0																																										
+197	7	Dungeon Ent	3	108	Wasp Nest	Placeholder		0	0	0	0	1.5						 	 	0	0	0	0																																										
+198	8	Dungeon Ent	3	109	Ogre Raiding Fort	Placeholder		0	0	0	0	1.5						 	 	0	0	0	0																																										
+199	9	Dungeon Ent	4	110	Troll Tomb	Placeholder		0	0	0	0	1.5						 	 	0	0	0	0																																										
+200	10	Dungeon Ent	4	111	Cyclops Larder	Placeholder		0	0	0	0	1.5						 	 	0	0	0	0																																										
+201	11	Dungeon Ent	4	112	Chain of Fire	Placeholder		0	0	0	0	1.5						 	 	0	0	0	0																																										
+202	12	Dungeon Ent	5	113	Dragon Hunter Camp	Placeholder		0	0	0	0	1.5						 	 	0	0	0	0																																										
+203	13	Dungeon Ent	5	114	Dragon Cave	Placeholder		0	0	0	0	1.5						 	 	0	0	0	0																																										
+204	14	Dungeon Ent	5	115	Naga Vault	Placeholder		0	0	0	0	1.5						 	 	0	0	0	0																																										
+205	15	Dungeon Ent	7	116	Temple of the Sun	Placeholder		0	0	0	0	1.5						 	 	0	0	0	0																																										
+206	16	Dungeon Ent	7	117	Abandoned Druid Circle	Placeholder		0	0	0	0	1.5						 	 	0	0	0	0																																										
+207	17	Dungeon Ent	8	118	Minotaur Lair	Placeholder		0	0	0	0	1.5						 	 	0	0	0	0																																										
+208	18	Dungeon Ent	8	119	Barbarian Fortress	Placeholder		0	0	0	0	1.5						 	 	0	0	0	0																																										
+209	19	Dungeon Ent	13	120	Pirate Stronghold	Placeholder		0	0	0	0	1.5						 	 	0	0	0	0																																										
+210	20	Dungeon Ent	13	121	Abandoned Pirate Keep	Placeholder		0	0	0	0	1.5						 	 	0	0	0	0																																										
+211	21	Dungeon Ent	13	122	Small Sub Pen	Placeholder		0	0	0	0	1.5						 	 	0	0	0	0																																										
+212	22	Dungeon Ent	6	123	Necromancers' Guild	Placeholder		0	0	0	0	1.5						 	 	0	0	0	0																																										
+213	23	Dungeon Ent	6	124	Mad Necromancer's Lab	Placeholder		0	0	0	0	1.5						 	 	0	0	0	0																																										
+214	24	Dungeon Ent	9	125	Castle of Air	Placeholder		0	0	0	0	1.5						 	 	0	0	0	0																																										
+215	25	Dungeon Ent	9	126	Tribute Tomb	Placeholder		0	0	0	0	1.5						 	 	0	0	0	0																																										
+216	26	Dungeon Ent	11	127	Castle of Fire	Placeholder		0	0	0	0	1.5						 	 	0	0	0	0																																										
+217	27	Dungeon Ent	11	128	War Camp	Placeholder		0	0	0	0	1.5						 	 	0	0	0	0																																										
+218	28	Dungeon Ent	14	129	Escaton's Palace	Placeholder		0	0	0	0	1.5						 	 	0	0	0	0																																										
+219	29	Dungeon Ent	14	130	Prison of the Lord of Air	Placeholder		0	0	0	0	1.5						 	 	0	0	0	0																																										
+220	2	Dungeon Ent	4	131	Gateway to the Plane of Fire	Placeholder		0	0	0	0	1.5						 	 	0	0	0	0																																										
+221	3	Dungeon Ent	1	132	Gateway to the Plane of Earth	Placeholder		0	0	0	0	1.5						 	 	0	0	0	0																																										
+222	1	Dungeon Ent	7	133	Gateway to the Plane of Air	Placeholder		0	0	0	0	1.5						 	 	0	0	0	0																																										
+223	1	Dungeon Ent	8	134	Gateway to the Plane of Water	Placeholder		0	0	0	0	1.5						 	 	0	0	0	0																																										
+224	1	L_Poor 224	1	3	Hiss' Hut	Placeholder		0	0	0	0	1.5																																																					
+225	2	L_Poor 225	1	3	Rohtnax's House	Placeholder		0	0	0	0	1.5																																																					
+226	3	L_Poor 226	1	3	Tisk's Hut	Placeholder		0	0	0	0	1.5																																																					
+227	4	L_Poor 227	1	3	Thadin's House	Placeholder		0	0	0	0	1.5																																																					
+228	5	L_Poor 228	1	3	House of Ich	Placeholder		0	0	0	0	1.5																																																					
+229	6	L_Poor 229	1	3	Languid's Hut	Placeholder		0	0	0	0	1.5																																																					
+230	7	L_Poor 230	1	3	House of Thistle	Placeholder		0	0	0	0	1.5																																																					
+231	8	L_Poor 231	1	3	Zevah's Hut	Placeholder		0	0	0	0	1.5																																																					
+232	9	L_Poor 232	1	3	Isthric's House	Placeholder		0	0	0	0	1.5																																																					
+233	10	L_Poor 233	1	3	Bone's House	Placeholder		0	0	0	0	1.5																																																					
+234	11	L_Poor 234	1	3	Lasatin's Hut	Placeholder		0	0	0	0	1.5																																																					
+235	12	L_Poor 235	1	3	Menasaur's House	Placeholder		0	0	0	0	1.5																																																					
+236	13	L_Poor 236	1	3	Husk's Hut	Placeholder		0	0	0	0	1.5																																																					
+237	14	L_Medium 237	1	56	Talimere's Hut	Placeholder		0	0	0	0	1.5																																																					
+238	15	L_Medium 238	1	1	House of Reshie	Placeholder	 	0	0	0	0	1.5						 	 	0	0	0	0																																										
+239	16	L_Medium 239	1	1	House	Placeholder		0	0	0	0	1.5				76
+240	17	L_Medium 240	1	1	Long-Tail's Hut	Placeholder		0	0	0	0	1.5				76
+241	18	L_Medium 241	1	1	Aislen's House	Placeholder		0	0	0	0	1.5				76
+242	19	L_Medium 242	1	1	House of Grivic	Placeholder		0	0	0	0	1.5				76
+243	20	L_Medium 243	1	1	Ush's Hut	Placeholder		0	0	0	0	1.5				76
+244	0	T_Poor 244	2	77	Wilburt's Hovel	Placeholder		0	0	0	0	1.5				76
+245	1	T_Poor 245	2	77	Jack's Hovel	Placeholder		0	0	0	0	1.5				76
+246	2	DE_Rich 246	2	15	Iver's Estate	Placeholder		0	0	0	0	1.5				76
+247	3	C_Poor 247	2	56	Pederton Place	Placeholder		0	0	0	0	1.5				76
+248	4	T_Poor 248	2	77	Puddle's Hovel	Placeholder		0	0	0	0	1.5				76
+249	5	DE_Rich 249	2	15	Forgewright Estate	Placeholder		0	0	0	0	1.5				76
+250	6	DE_Rich 250	2	15	Apple Home	Placeholder		0	0	0	0	1.5				76
+251	7	C_Poor 251	2	56	Treblid's Home	Placeholder		0	0	0	0	1.5				76
+252	8	T_Poor 252	2	77	Holden's Hovel	Placeholder		0	0	0	0	1.5				76
+253	9	T_Poor 253	2	77	Aznog's Hovel	Placeholder		0	0	0	0	1.5				76
+254	10	DE_Medium 254	2	17	Luodrin House	Placeholder		0	0	0	0	1.5				79
+255	11	DE_Rich 255	2	15	Applebee Estate	Placeholder		0	0	0	0	1.5				79
+256	12	C_Poor 256	2	56	Archibald's Home	Placeholder		0	0	0	0	1.5				79
+257	13	MIN_Rich 257	2	31	Arius' House	Placeholder		0	0	0	0	1.5				79
+258	14	DE_Medium 258	2	17	Deerhunter's House	Placeholder		0	0	0	0	1.5				79
+259	15	DH_Rich 259	2	15	Townsaver Hall	Placeholder		0	0	0	0	1.5				79
+260	16	C_Poor 260	2	56	Jobber's Home	Placeholder		0	0	0	0	1.5				79
+261	17	C_Poor 261	2	56	Maylander's House	Placeholder		0	0	0	0	1.5				79
+262	18	DH_Medium 262	2	46	Bluesawn Home	Placeholder		0	0	0	0	1.5				79
+263	19	DE_Rich 263	2	15	Quicktongue Estate	Placeholder		0	0	0	0	1.5				79
+264	20	DE_Rich 264	2	15	Laraselle Estate	Placeholder		0	0	0	0	1.5				79
+265	21	DE_Rich 265	2	15	Hillsman Cottage	Placeholder		0	0	0	0	1.5				79
+266	22	DE_Rich 266	2	15	Caverhill Estate	Placeholder		0	0	0	0	1.5				79
+267	23	DH_Medium 267	2	46	Reaver's Home	Placeholder		0	0	0	0	1.5				79
+268	24	DE_Rich 268	2	15	Temper Hall	Placeholder		0	0	0	0	1.5				79
+269	25	DH_Medium 269	2	46	Putnam's Home	Placeholder		0	0	0	0	1.5				73
+270	26	DE_Medium 270	2	17	Karrand's Cottage	Placeholder		0	0	0	0	1.5				73
+271	27	C_Poor 271	2	56	Lathius' Home	Placeholder		0	0	0	0	1.5				73
+272	28	DE_Rich 272	2	15	Guild of Bounty Hunters	Placeholder		0	0	0	0	1.5				73
+273	29	DH_Medium 273	2	46	Botham Hall	Placeholder		0	0	0	0	1.5				73
+274	30	DE_Rich 274	2	15	Neblick's House	Placeholder		0	0	0	0	1.5				73
+275	31	DH_Medium 275	2	46	Stonecleaver Hall	Placeholder		0	0	0	0	1.5				73
+276	32	DE_Rich 276	2	15	Hostel	Placeholder		107	0	0	0	1.5				73
+277	33	DH_Medium 277	2	46	Hostel	Placeholder		170	0	0	0	1.5				73
+278	34	DE_Medium 278	2	17	Brigham's Home	Placeholder		0	0	0	0	1.5				73
+279	35	NEC_Rich 279	2	58	House Memoria	Placeholder		0	0	0	0	1.5				73
+280	36	C_Poor 280	2	56	House of Hawthorne 	Placeholder		0	0	0	0	1.5				73
+281	37	C_Poor 281	2	56	Lott's Family Home	Placeholder		0	0	0	0	1.5				73
+282	38	DE_Rich 282	2	15	House of Nosewort	Placeholder		0	0	0	0	1.5				73
+283	39	DH_Poor 283	2	47	Hall of the Tracker	Placeholder		0	0	0	0	1.5				73
+284	40	T_Poor 284	2	77	Hunter's Hovel	Placeholder		0	0	0	0	1.5				73
+285	41	C_Poor 285	2	56	Dervish's Cottage	Placeholder		0	0	0	0	1.5				73
+286	42	T_Poor 286	2	77	Dotes Family Hovel	Placeholder		0	0	0	0	1.5				73
+287		DE_Rich 287	3	15	Withersmythe Estate	Placeholder		0	0	0	0	1.5				73
+288		DE_Med 288	3	17	Vespers Hall	Placeholder		0	0	0	0	1.5				73
+289		DE_Rich 289	3	17	Hall of Solis	Placeholder		0	0	0	0	1.5				73
+290		DE_Med 290	3	17	Eversmyle Hall	Placeholder		0	0	0	0	1.5				73
+291		DE_Med 291	3	17	Moore Cottage	Placeholder		0	0	0	0	1.5				76
+292		DE_Med 292	3	17	House of Krewlen	Placeholder		0	0	0	0	1.5				76
+293		DE_Rich 293	3	15	Darkenmoore Hall	Placeholder		0	0	0	0	1.5				76
+294		DE_Rich 294	3	15	Dervish Estate	Placeholder		0	0	0	0	1.5				76
+295		DE_Rich 295	3	15	Agraynel Hall	Placeholder		0	0	0	0	1.5				76
+296		DE_Med 296	3	17	House of Lightfinger	Placeholder		0	0	0	0	1.5				76
+297		DE_Med 297	3	17	Nightwalker Cottage	Placeholder		0	0	0	0	1.5				76
+298		DE_Med 298	3	17	Sparkman Home	Placeholder		0	0	0	0	1.5				76
+299		DE_Med 299	3	17	Sablewood Hall	Placeholder		0	0	0	0	1.5				76
+300		DE_Rich 300	3	15	Steele Estate	Placeholder		0	0	0	0	1.5				76
+301		DE_Med 301	3	17	Guild of Bounty Hunters	Placeholder		0	0	0	0	1.5				76
+302		DE_Med 302	3	17	Watershed Cottage	Placeholder		0	0	0	0	1.5				76
+303		DE_Rich 303	3	15	Fromago Manor	Placeholder		0	0	0	0	1.5				79
+304		DE_Rich 304	3	15	Blackthorne Estate	Placeholder		0	0	0	0	1.5				79
+305		DE_Med 305	3	17	House of Nevermore	Placeholder		0	0	0	0	1.5				79
+306		DE_Med 306	3	17	Ittalle Cottage	Placeholder		0	0	0	0	1.5				79
+307		DE_Med 307	3	17	Havest Hall	Placeholder		0	0	0	0	1.5				79
+308		DE_Med 308	3	17	Iverson Estate	Placeholder		0	0	0	0	1.5				82
+309		DE_Med 309	3	17	Oscleton Residence	Placeholder		0	0	0	0	1.5				82
+310		DE_Med 310	3	17	Thelbourne Residence	Placeholder		0	0	0	0	1.5				82
+311		DE_Med 311	3	17	Greydawn Residence	Placeholder		0	0	0	0	1.5				82
+312		DE_Med 312	3	17	House Stellare	Placeholder		0	0	0	0	1.5				82
+313		DE_Med 313	3	17	House of Brandy	Placeholder		0	0	0	0	1.5				82
+314		DE_Med 314	3	17	Bowes Residence	Placeholder		0	0	0	0	1.5				82
+315		DE_Med 315	3	17	Breman Residence	Placeholder		0	0	0	0	1.5				82
+316	 	DH_Med 316	5	46	Stormlance Residence	Placeholder		0	0	0	0	1.5				82
+317	 	DH_Med 317	5	47	Morningstar Residence	Placeholder		0	0	0	0	1.5				82
+318	 	DH_Med 318	5	46	Foestryke Residence	Placeholder		0	0	0	0	1.5				82
+319	 	DH_Med 319	5	47	Ironfist Residence	Placeholder		0	0	0	0	1.5				85
+320	 	DH_Med 320	5	46	Reaverston Residence	Placeholder		0	0	0	0	1.5				85
+321	 	GM_Fire 321	11	98	Burn's House	Placeholder		0	0	0	0	1.5				85
+322	 	GM_Earth 322	10	100	House 322	Placeholder		0	0	0	0	1.5				85
+323	  	GM_Water 323	12	99	Black Current's House	Placeholder		0	0	0	0	1.5				85
+324	 	GM_Air 324	9	101	House 324	Placeholder		0	0	0	0	1.5				85
+325		DE_Med 325	3	17	 Home of Rihansi 	Placeholder		0	0	0	0	1.5				85
+326		DE_Med 326	3	17	Bombah Hall	Placeholder		0	0	0	0	1.5				85
+327		DE_Med 327	3	17	Keldon's Cottage	Placeholder		0	0	0	0	1.5				88
+328		DE_Med 328	3	17	Veldon's Cottage	Placeholder		0	0	0	0	1.5				88
+329		DE_Med 329	3	17	House Farswell	Placeholder		0	0	0	0	1.5				88
+330		DE_Med 330	3	17	Featherwind's House	Placeholder		0	0	0	0	1.5				88
+331		T_Poor 331	4	77	Stone's Hovel	Placeholder		0	0	0	0	1.5				109
+332		T_Poor 332	4	77	Hearthsworn Hovel	Placeholder		0	0	0	0	1.5				109
+333		T_Poor 333	4	77	Talion's Hovel	Placeholder		0	0	0	0	1.5				109
+334		T_Poor 334	4	77	Hovel of Mist	Placeholder		0	0	0	0	1.5				109
+335		T_Poor 335	4	77	Hobert's Hovel	Placeholder		0	0	0	0	1.5				109
+336		T_Poor 336	4	77	Hovel of Greenstorm	Placeholder		0	0	0	0	1.5				109
+337		T_Poor 337	4	77	Pole's Hovel	Placeholder		0	0	0	0	1.5				112
+338		T_Poor 338	4	77	Tarent Hovel	Placeholder		0	0	0	0	1.5				112
+339		T_Poor 339	4	77	Schmecker's Hovel	Placeholder		0	0	0	0	1.5				112
+340		DH_Medium 340	5	47	Avalon's Residence	Placeholder		0	0	0	0	1.5				112
+341		DH_Medium 341	5	46	Arin Residence	Placeholder		0	0	0	0	1.5				112
+342		DH_Medium 342	5	47	Lightsworn Residence	Placeholder		0	0	0	0	1.5				112
+343		DH_Medium 343	5	46	Otterton Residence	Placeholder		0	0	0	0	1.5				112
+344		DH_Medium 344	5	47	Calandril's Residence	Placeholder		0	0	0	0	1.5				112
+345		DH_Medium 345	5	46	Maker Residence	Placeholder		0	0	0	0	1.5				115
+346		DH_Medium 346	5	47	Slayer Residence	Placeholder		0	0	0	0	1.5				115
+347		DH_Medium 347	5	46	Kern Residence	Placeholder		0	0	0	0	1.5				115
+348		DH_Medium 348	5	47	Jeni Residence	Placeholder		0	0	0	0	1.5				
+349		DH_Medium 349	5	46	Weldrick's Home	Placeholder		0	0	0	0	1.5				
+350		Dragon 350	28	160	Ishton's Cave	Placeholder		0	0	0	0	1.5				
+351		Dragon 351	28	160	Ithilgore's Cave	Placeholder		0	0	0	0	1.5				
+352		Dragon 352	28	160	Scarwing's Cave	Placeholder		0	0	0	0	1.5				118
+353		House 353	0	0	Tell James you see this 353	Placeholder		0	0	0	0	1.5				118
+354		House 354	0	0	Tell James you see this 354	Placeholder		0	0	0	0	1.5				118
+355		NEC_Rich 355	6	58	Taleshire Hall	Placeholder		0	0	0	0	1.5				118
+356		NEC_Rich 356	6	61	Nightcrawler Estate	Placeholder		0	0	0	0	1.5				118
+357		NEC_Rich 357	6	58	Mistspring Residence	Placeholder		0	0	0	0	1.5				121
+358		NEC_Rich 358	6	58	House Arachnia	Placeholder		0	0	0	0	1.5				121
+359		NEC_Rich 359	6	58	Dirthmoore Cottage	Placeholder		0	0	0	0	1.5				121
+360		NEC_Rich 360	6	61	House of Lathaen	Placeholder		0	0	0	0	1.5				121
+361		NEC_Rich 361	6	61	Brightsprear Hall	Placeholder		0	0	0	0	1.5				121
+362		NEC_Rich 362	6	58	Nightwood Estate	Placeholder		0	0	0	0	1.5				121
+363		NEC_Rich 363	6	58	House Shador	Placeholder		0	0	0	0	1.5				121
+364		NEC_Rich 364	6	61	House Mercutura	Placeholder		0	0	0	0	1.5				124
+365		NEC_Rich 365	6	58	Roggen Hall	Placeholder		0	0	0	0	1.5				124
+366		NEC_Rich 366	6	61	Hallien's Cottage	Placeholder		0	0	0	0	1.5				124
+367		NEC_Rich 367	6	58	Roberts Residence	Placeholder		0	0	0	0	1.5				
+368		NEC_Rich 368	6	58	Infaustus' House	Placeholder		0	0	0	0	1.5				
+369		NEC_Rich 369	6	58	House of Journey	Placeholder		0	0	0	0	1.5				
+370		NEC_Rich 370	6	61	Whisper Hall	Placeholder		0	0	0	0	1.5				82
+371		NEC_Rich 371	6	61	Steeleye Estate	Placeholder		0	0	0	0	1.5				82
+372		NEC_Rich 372	6	58	House of Benefice	Placeholder		0	0	0	0	1.5				82
+373		NEC_Rich 373	6	58	House Umberpool	Placeholder		0	0	0	0	1.5				82
+374		NEC_Rich 374	6	58	Kelvin's Home	Placeholder		0	0	0	0	1.5				82
+375		NEC_Rich 375	6	61	Caverhill Hall	Placeholder		0	0	0	0	1.5				82
+376		NEC_Rich 376	6	58	Veritas Estate	Placeholder		0	0	0	0	1.5				85
+377		NEC_Rich 377	6	61	Stillwater Estate	Placeholder		0	0	0	0	1.5				85
+378		NEC_Rich 378	6	61	Crane Cottage	Placeholder		0	0	0	0	1.5				85
+379		NEC_Rich 379	6	58	Bith Estate	Placeholder		0	0	0	0	1.5				85
+380		NEC_Rich 380	6	58	Fellburn Residence	Placeholder		0	0	0	0	1.5				85
+381		NEC_Rich 381	6	58	Gallowswell Manor	Placeholder		0	0	0	0	1.5				85
+382		NEC_Rich 382	6	61	House Fiddlebone	Placeholder		0	0	0	0	1.5				88
+383		NEC_Rich 383	6	58	Deverbero Residence	Placeholder		0	0	0	0	1.5				88
+384		NEC_Rich 384	6	58	Tantilion's House	Placeholder		0	0	0	0	1.5				88
+385		NEC_Rich 385	6	58	Fist Residence	Placeholder		0	0	0	0	1.5				88
+386		NEC_Rich 386	6	61	Wargreen's Lab	Placeholder		0	0	0	0	1.5				88
+387		NEC_Rich 387	6	58	House Wallace	Placeholder		0	0	0	0	1.5				73
+388		C_Rich 388	7	56	Ravensight Residence	Placeholder		0	0	0	0	1.5				73
+389		C_Rich 389	7	56	Dreamwright Residence	Placeholder		0	0	0	0	1.5				73
+390		C_Rich 390	7	56	Snowtree Residence	Placeholder		0	0	0	0	1.5				73
+391		C_Rich 391	7	56	Dantillion's Residence	Placeholder		0	0	0	0	1.5				73
+392		C_Rich 392	7	56	Mithrit Residence	Placeholder		0	0	0	0	1.5				73
+393		C_Rich 393	7	56	Tonk Residence	Placeholder		0	0	0	0	1.5				73
+394		C_Rich 394	7	56	Keenedge Residence	Placeholder		0	0	0	0	1.5				73
+395		C_Rich 395	7	56	Treasurestone Residence	Placeholder		0	0	0	0	1.5				73
+396		C_Rich 396	7	56	Sampson Residence	Placeholder		0	0	0	0	1.5				73
+397		T_Poor 397	8	77	Xevius's Residence	Placeholder		0	0	0	0	1.5				73
+398		T_Poor 398	8	77	Vish's House	Placeholder		0	0	0	0	1.5				73
+399		T_Poor 399	8	77	Sail's Shack	Placeholder		0	0	0	0	1.5				73
+400		T_Poor 400	8	77	Pordo's Hovel	Placeholder		0	0	0	0	1.5				73
+401		T_Poor 401	8	77	Galvinus's Home	Placeholder		0	0	0	0	1.5				73
+402		MIN_Rich 402	35	33	Thanys' House	Placeholder		0	0	0	0	1.5				76
+403		MIN_Rich 403	35	33	Ferris' House	Placeholder		0	0	0	0	1.5				76
+404		MIN_Rich 404	35	34	Flooded House	Placeholder		0	0	0	0	1.5				76
+405		MIN_Rich 405	35	34	Flooded Shop	Placeholder		0	0	0	0	1.5				76
+406		MIN_Rich 406	35	31	Weapon shop placeholder	Placeholder		0	0	0	0	1.5				76
+407		MIN_Rich 407	35	31	Suretail House	Placeholder		0	0	0	0	1.5				76
+408		MIN_Rich 408	35	31	Rionel's House	Placeholder		0	0	0	0	1.5				76
+409		MIN_Rich 409	35	31	Armor shop placeholder	Placeholder		0	0	0	0	1.5				76
+410		MIN_Rich 410	35	31	Magic shop placeholder	Placeholder		0	0	0	0	1.5				79
+411		MIN_Rich 411	35	31	Spell shop placeholder	Placeholder		0	0	0	0	1.5				79
+412		MIN_Rich 412	35	31	Ulbrecht's House	Placeholder		0	0	0	0	1.5				79
+413		MIN_Rich 413	35	33	Senjac's House	Placeholder		0	0	0	0	1.5				91
+414		MIN_Rich 414	35	31	Alchemist placeholder	Placeholder		0	0	0	0	1.5				91
+415		MIN_Rich 415	35	31	Temple placeholder	Placeholder		0	0	0	0	1.5				91
+416		MIN_Rich 416	35	31	Lotts' House	Placeholder		0	0	0	0	1.5				91
+417		MIN_Rich 417	35	31	Hollyfield House	Placeholder		0	0	0	0	1.5				94
+418		MIN_Rich 418	35	33	Tessalar's House	Placeholder		0	0	0	0	1.5				94
+419		MIN_Rich 419	35	31	Stormeye's House	Placeholder		0	0	0	0	1.5				94
+420		MIN_Rich 420	35	31	Bank placeholder	Placeholder		0	0	0	0	1.5				97
+421		MIN_Rich 421	35	31	Training hall placeholder	Placeholder		0	0	0	0	1.5				97
+422		MIN_Rich 422	35	34	Flooded House	Placeholder		0	0	0	0	1.5				100
+423		Pirate 423	13	84	Dragontracker Hall	Placeholder		0	0	0	0	1.5				100
+424		Pirate 424	13	82	Nirses Loot	Placeholder		0	0	0	0	1.5				103
+425		Pirate 425	13	84	Burnkindle's Spoils	Placeholder		0	0	0	0	1.5				103
+426		Pirate 426	13	82	Cleareye Hall	Placeholder		0	0	0	0	1.5				103
+427		Pirate 427	13	84	Shadowrunner's Vault	Placeholder		0	0	0	0	1.5				103
+428		Pirate 428	13	82	Lifter's Lockup	Placeholder		0	0	0	0	1.5				103
+429		Pirate 429	13	84	Steelcoif Hall	Placeholder		0	0	0	0	1.5				103
+430		Pirate 430	13	82	Jawblower Manor	Placeholder		0	0	0	0	1.5				106
+431		Pirate 431	13	84	Marmon Domicile	Placeholder		0	0	0	0	1.5				106																																																	
+432		Pirate 432	13	82	One-eye's Lair	Placeholder		0	0	0	0	1.5				106																																																	
+433		Pirate 433	13	84	Paul's Estate	Placeholder		0	0	0	0	1.5				109																																																	
+434		Pirate 434	13	82	Terrence's Home	Placeholder		0	0	0	0	1.5				109																																																	
+435		Pirate 435	13	84	Ferne Lair	Placeholder		0	0	0	0	1.5				109																																																	
+436		Pirate 436	13	82	Pavel's Place	Placeholder		0	0	0	0	1.5				109																																																	
+437		Pirate 437	13	84	Nalani's Hall	Placeholder		0	0	0	0	1.5				109																																																	
+438		Pirate 438	13	82	Mercer Domicile	Placeholder		0	0	0	0	1.5				109																																																	
+439		House 439	14	76	Air Lord's Cell	Placeholder		0	0	0	0	1.5				109	For Tomo																																																
+440		House 440	14	75	Water Lord's Cell	Placeholder		0	0	0	0	1.5				109	For Tomo																																																
+441		House 441	14	74	Earth Lord's Cell	Placeholder		0	0	0	0	1.5				112	For Tomo																																																
+442		House 442	14	73	Fire Lord's Cell	Placeholder		0	0	0	0	1.5				112	For Tomo																																																
+443		House 443	9	101	Wingsail's House	Placeholder		0	0	0	0	1.5				115																																																	
+444		House 444	9	101	Vapor's House	Placeholder		0	0	0	0	1.5				115																																																	
+445	 	House 445	9	101	Zephyr's House	Placeholder		0	0	0	0	1.5																																																					
+446		House 446	9	101	Empty House	Placeholder		0	0	0	0	1.5																																																					
+447		House 447	9	101	Empty House	Placeholder		0	0	0	0	1.5																																																					
+448		House 448	9	101	Empty House	Placeholder		0	0	0	0	1.5																																																					
+449		House 449	9	101	Empty House	Placeholder		0	0	0	0	1.5																																																					
+450		House 450	9	101	Nedlon's House	Placeholder		0	0	0	0	1.5																																																					
+451		House 451	8	0	Tell James if you see this 451	Placeholder		0	0	0	0	1.5																																																					
+452		House 452	8	0	Cagnor's Shop	Placeholder		0	0	0	0	1.5																																																					
+453		House 453	8	0	Tell James if you see this 453	Placeholder		0	0	0	0	1.5																																																					
+454		Dungeon Ent	14	136	Prison of the Lord of Earth	Placeholder		0	0	0	0	1.5																																																					
+455		Dungeon Ent	14	137	Prison of the Lord of Fire	Placeholder		0	0	0	0	1.5																																																					
+456		Dungeon Ent	14	138	Prison of the Lord of Water	Placeholder		0	0	0	0	1.5																																																					
+457		House 457	10	100	Loamwalker's House	Placeholder		0	0	0	0	1.5																																																					
+458		Hosue 458	10	100	Soil's House	Placeholder		0	0	0	0	1.5																																																					
+459		House 459	10	100	Empty House	Placeholder		0	0	0	0	1.5																																																					
+460		House 460	10	100	Empty House	Placeholder		0	0	0	0	1.5																																																					
+461		House 461	10	100	Empty House	Placeholder		0	0	0	0	1.5																																																					
+462		House 462	10	100	Empty House	Placeholder		0	0	0	0	1.5																																																					
+463		House 463	10	100	Empty House	Placeholder		0	0	0	0	1.5																																																					
+464		House 464	10	100	Empty House	Placeholder		0	0	0	0	1.5																																																					
+465		House 465	10	100	Empty House	Placeholder		0	0	0	0	1.5																																																					
+466		House 466	10	100	Empty House	Placeholder		0	0	0	0	1.5																																																					
+467		House 467	11	98	Ember's House	Placeholder		0	0	0	0	1.5																																																					
+468		House 468	11	98	Evenblaze's House	Placeholder		0	0	0	0	1.5																																																					
+469		House 469	11	98	Empty House	Placeholder		0	0	0	0	1.5																																																					
+470		House 470	11	98	Empty House	Placeholder		0	0	0	0	1.5																																																					
+471		House 471	11	98	Empty House	Placeholder		0	0	0	0	1.5																																																					
+472		House 472	12	99	Riverglass' House	Placeholder		0	0	0	0	1.5																																																					
+473		House 473	12	99	Clearcreek's House	Placeholder		0	0	0	0	1.5																																																					
+474		House 474	12	99	Empty House	Placeholder		0	0	0	0	1.5																																																					
+475		House 475	12	99	Empty House	Placeholder		0	0	0	0	1.5																																																					
+476		House 476	12	99	Empty House	Placeholder		0	0	0	0	1.5																																																					
+477		House 477	10	100	Griven's House	Placeholder		0	0	0	0	1.5																																																					
+478		House 478	2	77	House Understone	Placeholder		0	0	0	0	1.5																																																					
+479		House 479	4	77	Thistlebone Residence	Placeholder		0	0	0	0	1.5
+480		House 480	5	46	Nelix's House	Placeholder		0	0	0	0	1.5
+481		House 481	5	46	Tempus' House	Placeholder		0	0	0	0	1.5
+482		House 482	7	56	Verish's House	Placeholder		0	0	0	0	1.5
+483		House 483	59	160	Flamdring's Cave	Placeholder		0	0	0	0	1.5
+484		House 484	60	160	Brimstone's Cave	Placeholder		0	0	0	0	1.5
+485		House 485	58	160	Duroth's Cave	Placeholder		0	0	0	0	1.5
+486		House 486	0	0	PLACEHOLDER	Placeholder		0	0	0	0	1.5
+487		House 487	0	0	House 487	Placeholder		0	0	0	0	1.5
+488		House 488	0	0	House 488	Placeholder		0	0	0	0	1.5
+489		House 489	0	0	House 489	Placeholder		0	0	0	0	1.5
+490		House 490	0	0	House 490	Placeholder		0	0	0	0	1.5
+491		House 491	0	0	House 491	Placeholder		0	0	0	0	1.5
+492		House 492	0	0	House 492	Placeholder		0	0	0	0	1.5
+493		House 493	0	0	House 493	Placeholder		0	0	0	0	1.5
+494		House 494	0	0	House 494	Placeholder		0	0	0	0	1.5
+495		House 495	0	0	House 495	Placeholder		0	0	0	0	1.5
+496		House 496	0	0	House 496	Placeholder		0	0	0	0	1.5
+497		House 497	0	0	House 497	Placeholder		0	0	0	0	1.5
+498		House 498	0	0	House 498	Placeholder		0	0	0	0	1.5
+499		Dungeon Ent	8	159	Balthazar Lair	Placeholder		0	0	0	0	1.5
+500		Dungeon Ent	1	135	Backdoor of Abandoned Temple	Placeholder		0	0	0	0	1.5
+501		House 501	0	0	House 501	Placeholder		0	0	0	0	1.5
+502		House 502	0	0	House 502	Placeholder		0	0	0	0	1.5
+503		House 503	0	0	House 503	Placeholder		0	0	0	0	1.5
+504		House 504	0	0	House 504	Placeholder		0	0	0	0	1.5
+505		House 505	0	0	House 505	Placeholder		0	0	0	0	1.5
+506		House 506	0	0	House 506	Placeholder		0	0	0	0	1.5
+507		House 507	0	0	House 507	Placeholder		0	0	0	0	1.5
+508		House 508	0	0	House 508	Placeholder		0	0	0	0	1.5
+509		House 509	0	0	House 509	Placeholder		0	0	0	0	1.5
+510		House 510	0	0	House 510	Placeholder		0	0	0	0	1.5
+511		House 511	0	0	House 511	Placeholder		0	0	0	0	1.5
+512		House 512	0	0	House 512	Placeholder		0	0	0	0	1.5
+513		House 513	0	0	House 513	Placeholder		0	0	0	0	1.5
+514		House 514	0	0	House 514	Placeholder		0	0	0	0	1.5
+515		House 515	0	0	House 515	Placeholder		0	0	0	0	1.5
+516		House 516	0	0	House 516	Placeholder		0	0	0	0	1.5
+517		House 517	0	0	House 517	Placeholder		0	0	0	0	1.5
+518		House 518	0	0	House 518	Placeholder		0	0	0	0	1.5
+519		House 519	0	0	House 519	Placeholder		0	0	0	0	1.5
+520		House 520	0	0	House 520	Placeholder		0	0	0	0	1.5
+521		House 521	0	0	House 521	Placeholder		0	0	0	0	1.5
+522		House 522	0	0	House 522	Placeholder		0	0	0	0	1.5
+523		House 523	0	0	House 523	Placeholder		0	0	0	0	1.5
+524		House 524	0	0	House 524	Placeholder		0	0	0	0	1.5
+525		House 525	0	0	House 525	Placeholder		0	0	0	0	1.5
