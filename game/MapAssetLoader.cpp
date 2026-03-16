@@ -24,6 +24,112 @@ constexpr size_t TileDescriptorRecordSize = 26;
 constexpr uint8_t WaterTileName[] = {'w', 't', 'r', 't', 'y', 'l', 0};
 constexpr int TerrainTextureTileSize = 128;
 constexpr int TerrainTextureAtlasColumns = 16;
+constexpr uint16_t DecorationDescMoveThrough = 0x0001;
+constexpr uint16_t DecorationDescDontDraw = 0x0002;
+constexpr uint16_t LevelDecorationInvisible = 0x0020;
+constexpr uint16_t ObjectDescNoCollision = 0x0002;
+constexpr uint16_t ObjectDescTemporary = 0x0004;
+constexpr uint16_t ObjectDescUnpickable = 0x0010;
+constexpr uint16_t ObjectDescTrailParticle = 0x0100;
+constexpr uint16_t ObjectDescTrailFire = 0x0200;
+constexpr uint16_t ObjectDescTrailLine = 0x0400;
+constexpr uint16_t SpriteAttrTemporary = 0x0002;
+constexpr uint16_t SpriteAttrMissile = 0x0100;
+constexpr uint16_t SpriteAttrRemoved = 0x0200;
+
+std::optional<std::string> resolveMonsterNameForSpawn(const MapStatsEntry &map, uint16_t typeId, uint16_t index);
+int sampleOutdoorHeightAtWorldPosition(const OutdoorMapData &outdoorMapData, int x, int y);
+
+template <typename EntityType>
+const DecorationEntry *resolveDecorationEntry(
+    const DecorationTable &decorationTable,
+    const EntityType &entity)
+{
+    const DecorationEntry *pDecoration = decorationTable.get(entity.decorationListId);
+
+    if ((pDecoration == nullptr || pDecoration->spriteId == 0) && !entity.name.empty())
+    {
+        pDecoration = decorationTable.findByInternalName(entity.name);
+    }
+
+    return pDecoration;
+}
+
+template <typename EntityType>
+bool shouldSkipDecorationCollision(const EntityType &entity, const DecorationEntry &decoration)
+{
+    if ((entity.aiAttributes & LevelDecorationInvisible) != 0)
+    {
+        return true;
+    }
+
+    if ((decoration.flags & (DecorationDescMoveThrough | DecorationDescDontDraw)) != 0)
+    {
+        return true;
+    }
+
+    // Entries like "smoke" are effect emitters with no base sprite and should not block movement.
+    if (decoration.spriteId == 0)
+    {
+        return true;
+    }
+
+    return decoration.radius <= 0 || decoration.height == 0;
+}
+
+bool hasContainingItemPayload(const std::vector<uint8_t> &rawContainingItem)
+{
+    for (uint8_t value : rawContainingItem)
+    {
+        if (value != 0)
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+bool shouldSkipSpriteObjectCollision(const MapDeltaSpriteObject &spriteObject, const ObjectEntry &objectEntry)
+{
+    if (spriteObject.objectDescriptionId == 0)
+    {
+        return true;
+    }
+
+    if (objectEntry.radius <= 0 || objectEntry.height <= 0)
+    {
+        return true;
+    }
+
+    if ((objectEntry.flags & ObjectDescNoCollision) != 0)
+    {
+        return true;
+    }
+
+    if ((spriteObject.attributes & (SpriteAttrTemporary | SpriteAttrMissile | SpriteAttrRemoved)) != 0)
+    {
+        return true;
+    }
+
+    if ((objectEntry.flags & (ObjectDescTemporary | ObjectDescTrailParticle | ObjectDescTrailFire | ObjectDescTrailLine))
+        != 0)
+    {
+        return true;
+    }
+
+    if (spriteObject.spellId != 0)
+    {
+        return true;
+    }
+
+    if (hasContainingItemPayload(spriteObject.rawContainingItem) && (objectEntry.flags & ObjectDescUnpickable) == 0)
+    {
+        return true;
+    }
+
+    return false;
+}
 
 uint32_t makeAbgr(uint8_t red, uint8_t green, uint8_t blue)
 {
@@ -339,12 +445,7 @@ std::optional<DecorationBillboardSet> buildDecorationBillboardSet(
     for (size_t entityIndex = 0; entityIndex < entities.size(); ++entityIndex)
     {
         const EntityType &entity = entities[entityIndex];
-        const DecorationEntry *pDecoration = billboardSet.decorationTable.get(entity.decorationListId);
-
-        if ((pDecoration == nullptr || pDecoration->spriteId == 0) && !entity.name.empty())
-        {
-            pDecoration = billboardSet.decorationTable.findByInternalName(entity.name);
-        }
+        const DecorationEntry *pDecoration = resolveDecorationEntry(billboardSet.decorationTable, entity);
 
         if (pDecoration == nullptr || pDecoration->spriteId == 0)
         {
@@ -411,6 +512,179 @@ std::optional<DecorationBillboardSet> buildDecorationBillboardSet(
     }
 
     return billboardSet;
+}
+
+template <typename EntityType>
+std::optional<OutdoorDecorationCollisionSet> buildOutdoorDecorationCollisionSet(
+    const Engine::AssetFileSystem &assetFileSystem,
+    const std::vector<EntityType> &entities
+)
+{
+    const std::optional<std::vector<uint8_t>> decorationTableBytes =
+        assetFileSystem.readBinaryFile("Data/EnglishT/ddeclist.bin");
+
+    if (!decorationTableBytes)
+    {
+        return std::nullopt;
+    }
+
+    DecorationTable decorationTable;
+
+    if (!decorationTable.loadFromBytes(*decorationTableBytes))
+    {
+        return std::nullopt;
+    }
+
+    OutdoorDecorationCollisionSet collisionSet = {};
+
+    for (size_t entityIndex = 0; entityIndex < entities.size(); ++entityIndex)
+    {
+        const EntityType &entity = entities[entityIndex];
+        const DecorationEntry *pDecoration = resolveDecorationEntry(decorationTable, entity);
+
+        if (pDecoration == nullptr)
+        {
+            continue;
+        }
+
+        if (shouldSkipDecorationCollision(entity, *pDecoration))
+        {
+            continue;
+        }
+
+        OutdoorDecorationCollision collision = {};
+        collision.entityIndex = entityIndex;
+        collision.decorationId = entity.decorationListId;
+        collision.descriptionFlags = pDecoration->flags;
+        collision.instanceFlags = entity.aiAttributes;
+        collision.radius = pDecoration->radius;
+        collision.height = pDecoration->height;
+        collision.worldX = -entity.x;
+        collision.worldY = entity.y;
+        collision.worldZ = entity.z;
+        collision.name = entity.name.empty() ? pDecoration->internalName : entity.name;
+        collisionSet.colliders.push_back(std::move(collision));
+    }
+
+    if (collisionSet.colliders.empty())
+    {
+        return std::nullopt;
+    }
+
+    return collisionSet;
+}
+
+void appendMapDeltaActorCollisions(
+    OutdoorActorCollisionSet &collisionSet,
+    const MapDeltaData &mapDeltaData,
+    const OutdoorMapData *pOutdoorMapData
+)
+{
+    for (size_t actorIndex = 0; actorIndex < mapDeltaData.actors.size(); ++actorIndex)
+    {
+        const MapDeltaActor &actor = mapDeltaData.actors[actorIndex];
+
+        if (actor.radius == 0 || actor.height == 0)
+        {
+            continue;
+        }
+
+        int actorZ = actor.z;
+
+        if (pOutdoorMapData != nullptr)
+        {
+            const int terrainZ = sampleOutdoorHeightAtWorldPosition(*pOutdoorMapData, actor.x, actor.y);
+            actorZ = std::max(actorZ, terrainZ);
+        }
+
+        OutdoorActorCollision collision = {};
+        collision.sourceIndex = actorIndex;
+        collision.source = OutdoorActorCollisionSource::MapDelta;
+        collision.radius = actor.radius;
+        collision.height = actor.height;
+        collision.worldX = -actor.x;
+        collision.worldY = actor.y;
+        collision.worldZ = actorZ;
+        collision.attributes = actor.attributes;
+        collision.group = actor.group;
+        collision.name = actor.name;
+        collisionSet.colliders.push_back(std::move(collision));
+    }
+}
+
+template <typename SpawnType>
+void appendSpawnActorCollisions(
+    OutdoorActorCollisionSet &collisionSet,
+    const MapStatsEntry &map,
+    const MonsterTable &monsterTable,
+    const std::vector<SpawnType> &spawns,
+    const OutdoorMapData *pOutdoorMapData
+)
+{
+    for (size_t spawnIndex = 0; spawnIndex < spawns.size(); ++spawnIndex)
+    {
+        const SpawnType &spawn = spawns[spawnIndex];
+        const std::optional<std::string> monsterName = resolveMonsterNameForSpawn(map, spawn.typeId, spawn.index);
+
+        if (!monsterName)
+        {
+            continue;
+        }
+
+        const MonsterEntry *pMonsterEntry = monsterTable.findByInternalName(*monsterName);
+
+        if (pMonsterEntry == nullptr || pMonsterEntry->radius == 0 || pMonsterEntry->height == 0)
+        {
+            continue;
+        }
+
+        int actorZ = spawn.z;
+
+        if (pOutdoorMapData != nullptr)
+        {
+            const int terrainZ = sampleOutdoorHeightAtWorldPosition(*pOutdoorMapData, spawn.x, spawn.y);
+            actorZ = std::max(actorZ, terrainZ);
+        }
+
+        OutdoorActorCollision collision = {};
+        collision.sourceIndex = spawnIndex;
+        collision.source = OutdoorActorCollisionSource::Spawn;
+        collision.radius = pMonsterEntry->radius;
+        collision.height = pMonsterEntry->height;
+        collision.worldX = -spawn.x;
+        collision.worldY = spawn.y;
+        collision.worldZ = actorZ;
+        collision.attributes = spawn.attributes;
+        collision.group = spawn.group;
+        collision.name = *monsterName;
+        collisionSet.colliders.push_back(std::move(collision));
+    }
+}
+
+template <typename SpawnType>
+std::optional<OutdoorActorCollisionSet> buildOutdoorActorCollisionSet(
+    const MapStatsEntry &map,
+    const MonsterTable &monsterTable,
+    const std::optional<MapDeltaData> &mapDeltaData,
+    const std::vector<SpawnType> &spawns,
+    const OutdoorMapData *pOutdoorMapData
+)
+{
+    OutdoorActorCollisionSet collisionSet = {};
+
+    if (mapDeltaData)
+    {
+        appendMapDeltaActorCollisions(collisionSet, *mapDeltaData, pOutdoorMapData);
+    }
+
+    appendSpawnActorCollisions(collisionSet, map, monsterTable, spawns, pOutdoorMapData);
+
+    if (collisionSet.colliders.empty())
+    {
+        return std::nullopt;
+    }
+
+    return collisionSet;
 }
 
 std::optional<DecorationBillboardSet> buildOutdoorDecorationBillboardSet(
@@ -565,6 +839,51 @@ std::optional<SpriteObjectBillboardSet> buildSpriteObjectBillboardSet(
     }
 
     return billboardSet;
+}
+
+std::optional<OutdoorSpriteObjectCollisionSet> buildOutdoorSpriteObjectCollisionSet(
+    const ObjectTable &objectTable,
+    const std::optional<MapDeltaData> &mapDeltaData
+)
+{
+    if (!mapDeltaData || mapDeltaData->spriteObjects.empty())
+    {
+        return std::nullopt;
+    }
+
+    OutdoorSpriteObjectCollisionSet collisionSet = {};
+
+    for (size_t objectIndex = 0; objectIndex < mapDeltaData->spriteObjects.size(); ++objectIndex)
+    {
+        const MapDeltaSpriteObject &spriteObject = mapDeltaData->spriteObjects[objectIndex];
+        const ObjectEntry *pObjectEntry = objectTable.get(spriteObject.objectDescriptionId);
+
+        if (pObjectEntry == nullptr || shouldSkipSpriteObjectCollision(spriteObject, *pObjectEntry))
+        {
+            continue;
+        }
+
+        OutdoorSpriteObjectCollision collision = {};
+        collision.sourceIndex = objectIndex;
+        collision.objectDescriptionId = spriteObject.objectDescriptionId;
+        collision.objectAttributes = spriteObject.attributes;
+        collision.objectFlags = pObjectEntry->flags;
+        collision.radius = static_cast<uint16_t>(pObjectEntry->radius);
+        collision.height = static_cast<uint16_t>(pObjectEntry->height);
+        collision.worldX = -spriteObject.x;
+        collision.worldY = spriteObject.y;
+        collision.worldZ = spriteObject.z;
+        collision.spellId = spriteObject.spellId;
+        collision.name = pObjectEntry->internalName;
+        collisionSet.colliders.push_back(std::move(collision));
+    }
+
+    if (collisionSet.colliders.empty())
+    {
+        return std::nullopt;
+    }
+
+    return collisionSet;
 }
 
 std::optional<std::string> resolveMonsterNameForSpawn(const MapStatsEntry &map, uint16_t typeId, uint16_t index)
@@ -1318,6 +1637,21 @@ std::optional<MapAssetInfo> MapAssetLoader::load(
             logStageComplete("outdoor terrain textures built");
             assetInfo.outdoorBModelTextureSet = buildOutdoorBModelTextureSet(assetFileSystem, *assetInfo.outdoorMapData);
             logStageComplete("outdoor bmodel textures built");
+            assetInfo.outdoorDecorationCollisionSet =
+                buildOutdoorDecorationCollisionSet(assetFileSystem, assetInfo.outdoorMapData->entities);
+            logStageComplete("outdoor decoration collisions built");
+            assetInfo.outdoorActorCollisionSet =
+                buildOutdoorActorCollisionSet(
+                    map,
+                    monsterTable,
+                    assetInfo.outdoorMapDeltaData,
+                    assetInfo.outdoorMapData->spawns,
+                    &*assetInfo.outdoorMapData
+                );
+            logStageComplete("outdoor actor collisions built");
+            assetInfo.outdoorSpriteObjectCollisionSet =
+                buildOutdoorSpriteObjectCollisionSet(objectTable, assetInfo.outdoorMapDeltaData);
+            logStageComplete("outdoor sprite object collisions built");
             assetInfo.outdoorDecorationBillboardSet =
                 buildOutdoorDecorationBillboardSet(assetFileSystem, *assetInfo.outdoorMapData);
             logStageComplete("outdoor decoration billboards built");

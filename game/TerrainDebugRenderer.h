@@ -1,5 +1,6 @@
 #pragma once
 
+#include "game/OutdoorCollisionData.h"
 #include "game/MapAssetLoader.h"
 #include "game/MapStats.h"
 #include "game/MonsterTable.h"
@@ -34,9 +35,13 @@ public:
         const MapStatsEntry &map,
         const MonsterTable &monsterTable,
         const OutdoorMapData &outdoorMapData,
+        const std::optional<std::vector<uint8_t>> &outdoorLandMask,
         const std::optional<std::vector<uint32_t>> &outdoorTileColors,
         const std::optional<OutdoorTerrainTextureAtlas> &outdoorTerrainTextureAtlas,
         const std::optional<OutdoorBModelTextureSet> &outdoorBModelTextureSet,
+        const std::optional<OutdoorDecorationCollisionSet> &outdoorDecorationCollisionSet,
+        const std::optional<OutdoorActorCollisionSet> &outdoorActorCollisionSet,
+        const std::optional<OutdoorSpriteObjectCollisionSet> &outdoorSpriteObjectCollisionSet,
         const std::optional<DecorationBillboardSet> &outdoorDecorationBillboardSet,
         const std::optional<ActorPreviewBillboardSet> &outdoorActorPreviewBillboardSet,
         const std::optional<SpriteObjectBillboardSet> &outdoorSpriteObjectBillboardSet,
@@ -151,7 +156,13 @@ private:
         const bx::Vec3 &rayDirection
     );
     void updateCameraFromInput();
-    void renderDecorationBillboards(uint16_t viewId, const float *pViewMatrix, const bx::Vec3 &cameraPosition);
+    void renderDecorationBillboards(
+        uint16_t viewId,
+        uint16_t viewWidth,
+        uint16_t viewHeight,
+        const float *pViewMatrix,
+        const bx::Vec3 &cameraPosition
+    );
     void renderActorPreviewBillboards(uint16_t viewId, const float *pViewMatrix, const bx::Vec3 &cameraPosition);
     void renderSpriteObjectBillboards(uint16_t viewId, const float *pViewMatrix, const bx::Vec3 &cameraPosition);
     const BillboardTextureHandle *findBillboardTexture(const std::string &textureName) const;
@@ -224,6 +235,10 @@ private:
     bool m_toggleEntitiesLatch;
     bool m_toggleSpawnsLatch;
     bool m_toggleInspectLatch;
+    bool m_toggleRunningLatch;
+    bool m_toggleFlyingLatch;
+    bool m_toggleWaterWalkLatch;
+    bool m_toggleFeatherFallLatch;
     std::unique_ptr<OutdoorMovementDriver> m_pOutdoorMovementDriver;
 };
 }

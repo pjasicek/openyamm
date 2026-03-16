@@ -9,6 +9,7 @@
 #include "game/MapStats.h"
 #include "game/MonsterTable.h"
 #include "game/ObjectTable.h"
+#include "game/OutdoorCollisionData.h"
 #include "game/OutdoorMapData.h"
 #include "game/SpriteTables.h"
 #include "game/StrTable.h"
@@ -174,6 +175,9 @@ struct MapAssetInfo
     std::optional<std::vector<uint32_t>> outdoorTileColors;
     std::optional<OutdoorTerrainTextureAtlas> outdoorTerrainTextureAtlas;
     std::optional<OutdoorBModelTextureSet> outdoorBModelTextureSet;
+    std::optional<OutdoorDecorationCollisionSet> outdoorDecorationCollisionSet;
+    std::optional<OutdoorActorCollisionSet> outdoorActorCollisionSet;
+    std::optional<OutdoorSpriteObjectCollisionSet> outdoorSpriteObjectCollisionSet;
     std::optional<DecorationBillboardSet> outdoorDecorationBillboardSet;
     std::optional<ActorPreviewBillboardSet> outdoorActorPreviewBillboardSet;
     std::optional<SpriteObjectBillboardSet> outdoorSpriteObjectBillboardSet;

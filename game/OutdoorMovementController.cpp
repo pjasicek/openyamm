@@ -24,6 +24,7 @@ constexpr float CloseToGroundHeight = 32.0f;
 constexpr float GravityPerSecond = 10000.0f;
 constexpr uint8_t PolygonFloor = 0x3;
 constexpr uint8_t PolygonInBetweenFloorAndWall = 0x4;
+constexpr uint32_t FaceAttributeFluid = 0x00000010u;
 
 struct FloorSample
 {
@@ -31,14 +32,26 @@ struct FloorSample
     float height = 0.0f;
     float normalZ = 1.0f;
     bool fromBModel = false;
+    bool isFluid = false;
+    bool isBurning = false;
     size_t bModelIndex = 0;
     size_t faceIndex = 0;
 };
 
 struct CollisionHit
 {
+    enum class Kind
+    {
+        Face,
+        Decoration,
+        Actor,
+        SpriteObject,
+    };
+
+    Kind kind = Kind::Face;
     size_t bModelIndex = 0;
     size_t faceIndex = 0;
+    size_t colliderIndex = 0;
     uint8_t polygonType = 0;
     float floorHeight = 0.0f;
     float moveDistance = 0.0f;
@@ -185,6 +198,28 @@ bool terrainSlopeTooHigh(const OutdoorMapData &outdoorMapData, float x, float y)
     const int minZ = std::min({triangleZ1, triangleZ2, triangleZ3});
     const int maxZ = std::max({triangleZ1, triangleZ2, triangleZ3});
     return (maxZ - minZ) > OutdoorMapData::TerrainTileSize;
+}
+
+bool isOutdoorLandMaskWater(const std::optional<std::vector<uint8_t>> &outdoorLandMask, float x, float y)
+{
+    if (!outdoorLandMask || outdoorLandMask->empty())
+    {
+        return false;
+    }
+
+    const float gridX = 64.0f - (x / static_cast<float>(OutdoorMapData::TerrainTileSize));
+    const float gridY = 64.0f - (y / static_cast<float>(OutdoorMapData::TerrainTileSize));
+    const int tileX = std::clamp(static_cast<int>(std::floor(gridX)), 0, OutdoorMapData::TerrainWidth - 2);
+    const int tileY = std::clamp(static_cast<int>(std::floor(gridY)), 0, OutdoorMapData::TerrainHeight - 2);
+    const int landMaskWidth = OutdoorMapData::TerrainWidth - 1;
+    const size_t tileIndex = static_cast<size_t>(tileY * landMaskWidth + tileX);
+
+    if (tileIndex >= outdoorLandMask->size())
+    {
+        return false;
+    }
+
+    return (*outdoorLandMask)[tileIndex] == 0;
 }
 
 float pointSegmentDistanceSquared2d(
@@ -455,6 +490,72 @@ bool collideSphereWithFace(
     return true;
 }
 
+bool collideSphereWithCylinder(
+    const bx::Vec3 &centerLo,
+    float cylinderRadius,
+    float cylinderHeight,
+    const bx::Vec3 &position,
+    float sphereRadius,
+    const bx::Vec3 &direction,
+    float currentMoveDistance,
+    float &moveDistance,
+    bx::Vec3 &collisionPoint
+)
+{
+    const float combinedRadius = cylinderRadius + sphereRadius;
+    const float relativeX = position.x - centerLo.x;
+    const float relativeY = position.y - centerLo.y;
+    const float dirX = direction.x;
+    const float dirY = direction.y;
+    const float a = dirX * dirX + dirY * dirY;
+
+    if (a <= CollisionEpsilon)
+    {
+        return false;
+    }
+
+    const float b = 2.0f * (relativeX * dirX + relativeY * dirY);
+    const float c = relativeX * relativeX + relativeY * relativeY - combinedRadius * combinedRadius;
+    float candidateMoveDistance = 0.0f;
+
+    if (!hasShorterSolution(a, b, c, currentMoveDistance, candidateMoveDistance))
+    {
+        return false;
+    }
+
+    const float centerZ = position.z + direction.z * candidateMoveDistance;
+    const float sphereMinZ = centerZ - sphereRadius;
+    const float sphereMaxZ = centerZ + sphereRadius;
+    const float cylinderMinZ = centerLo.z;
+    const float cylinderMaxZ = centerLo.z + cylinderHeight;
+
+    if (sphereMaxZ < cylinderMinZ || sphereMinZ > cylinderMaxZ)
+    {
+        return false;
+    }
+
+    const bx::Vec3 centerAtHit = vecAdd(position, vecScale(direction, candidateMoveDistance));
+    bx::Vec3 outward = {
+        centerAtHit.x - centerLo.x,
+        centerAtHit.y - centerLo.y,
+        0.0f
+    };
+    outward = vecNormalize(outward);
+
+    if (vecLength(outward) <= CollisionEpsilon)
+    {
+        return false;
+    }
+
+    collisionPoint = {
+        centerLo.x + outward.x * cylinderRadius,
+        centerLo.y + outward.y * cylinderRadius,
+        std::clamp(centerAtHit.z, cylinderMinZ, cylinderMaxZ)
+    };
+    moveDistance = candidateMoveDistance;
+    return true;
+}
+
 bool prepareCollisionState(CollisionState &collisionState, float deltaSeconds)
 {
     collisionState.speed = vecLength(collisionState.velocity);
@@ -550,8 +651,10 @@ void collideBodyWithFace(CollisionState &collisionState, const OutdoorFaceGeomet
         collisionState.collisionPoint = collisionPoint;
         collisionState.heightOffset = heightOffset;
         collisionState.hit = CollisionHit{
+            CollisionHit::Kind::Face,
             geometry.bModelIndex,
             geometry.faceIndex,
+            0,
             geometry.polygonType,
             floorHeight,
             moveDistance,
@@ -620,6 +723,330 @@ void collideOutdoorWithModels(
     }
 }
 
+void collideOutdoorWithDecorations(
+    CollisionState &collisionState,
+    const std::vector<OutdoorDecorationCollision> &decorationColliders)
+{
+    auto collideOnce = [&collisionState, &decorationColliders](
+                           const bx::Vec3 &position,
+                           float radius,
+                           float heightOffset)
+    {
+        for (size_t decorationIndex = 0; decorationIndex < decorationColliders.size(); ++decorationIndex)
+        {
+            const OutdoorDecorationCollision &collider = decorationColliders[decorationIndex];
+            const bx::Vec3 centerLo = {
+                static_cast<float>(collider.worldX),
+                static_cast<float>(collider.worldY),
+                static_cast<float>(collider.worldZ)
+            };
+            const float colliderRadius = static_cast<float>(collider.radius);
+            const float colliderHeight = static_cast<float>(collider.height);
+            const float cylinderMinX = centerLo.x - colliderRadius;
+            const float cylinderMinY = centerLo.y - colliderRadius;
+            const float cylinderMinZ = centerLo.z;
+            const float cylinderMaxX = centerLo.x + colliderRadius;
+            const float cylinderMaxY = centerLo.y + colliderRadius;
+            const float cylinderMaxZ = centerLo.z + colliderHeight;
+
+            if (!bboxIntersects(
+                    collisionState.bboxMinX,
+                    collisionState.bboxMinY,
+                    collisionState.bboxMinZ,
+                    collisionState.bboxMaxX,
+                    collisionState.bboxMaxY,
+                    collisionState.bboxMaxZ,
+                    cylinderMinX,
+                    cylinderMinY,
+                    cylinderMinZ,
+                    cylinderMaxX,
+                    cylinderMaxY,
+                    cylinderMaxZ))
+            {
+                continue;
+            }
+
+            float moveDistance = collisionState.adjustedMoveDistance;
+            bx::Vec3 collisionPoint = {0.0f, 0.0f, 0.0f};
+
+            if (!collideSphereWithCylinder(
+                    centerLo,
+                    colliderRadius,
+                    colliderHeight,
+                    position,
+                    radius,
+                    collisionState.direction,
+                    collisionState.adjustedMoveDistance,
+                    moveDistance,
+                    collisionPoint))
+            {
+                continue;
+            }
+
+            if (moveDistance <= AllowedCollisionOvershoot || moveDistance >= collisionState.adjustedMoveDistance)
+            {
+                continue;
+            }
+
+            const bx::Vec3 outward = vecNormalize(
+                bx::Vec3{
+                    collisionPoint.x - centerLo.x,
+                    collisionPoint.y - centerLo.y,
+                    0.0f
+                });
+
+            collisionState.adjustedMoveDistance = moveDistance;
+            collisionState.collisionPoint = collisionPoint;
+            collisionState.heightOffset = heightOffset;
+            collisionState.hit = CollisionHit{
+                CollisionHit::Kind::Decoration,
+                0,
+                0,
+                decorationIndex,
+                0,
+                0.0f,
+                moveDistance,
+                heightOffset,
+                collisionPoint,
+                outward,
+                centerLo.z,
+                centerLo.z + colliderHeight
+            };
+        }
+    };
+
+    collideOnce(collisionState.positionLo, collisionState.radiusLo, 0.0f);
+
+    if (!collisionState.checkHi)
+    {
+        return;
+    }
+
+    collideOnce(
+        collisionState.positionHi,
+        collisionState.radiusHi,
+        collisionState.positionHi.z - collisionState.positionLo.z);
+
+    const bx::Vec3 midPosition = vecScale(vecAdd(collisionState.positionLo, collisionState.positionHi), 0.5f);
+    collideOnce(midPosition, collisionState.radiusHi, midPosition.z - collisionState.positionLo.z);
+}
+
+void collideOutdoorWithActors(
+    CollisionState &collisionState,
+    const std::vector<OutdoorActorCollision> &actorColliders)
+{
+    auto collideOnce = [&collisionState, &actorColliders](
+                           const bx::Vec3 &position,
+                           float radius,
+                           float heightOffset)
+    {
+        for (size_t actorIndex = 0; actorIndex < actorColliders.size(); ++actorIndex)
+        {
+            const OutdoorActorCollision &collider = actorColliders[actorIndex];
+            const bx::Vec3 centerLo = {
+                static_cast<float>(collider.worldX),
+                static_cast<float>(collider.worldY),
+                static_cast<float>(collider.worldZ)
+            };
+            const float colliderRadius = static_cast<float>(collider.radius);
+            const float colliderHeight = static_cast<float>(collider.height);
+            const float cylinderMinX = centerLo.x - colliderRadius;
+            const float cylinderMinY = centerLo.y - colliderRadius;
+            const float cylinderMinZ = centerLo.z;
+            const float cylinderMaxX = centerLo.x + colliderRadius;
+            const float cylinderMaxY = centerLo.y + colliderRadius;
+            const float cylinderMaxZ = centerLo.z + colliderHeight;
+
+            if (!bboxIntersects(
+                    collisionState.bboxMinX,
+                    collisionState.bboxMinY,
+                    collisionState.bboxMinZ,
+                    collisionState.bboxMaxX,
+                    collisionState.bboxMaxY,
+                    collisionState.bboxMaxZ,
+                    cylinderMinX,
+                    cylinderMinY,
+                    cylinderMinZ,
+                    cylinderMaxX,
+                    cylinderMaxY,
+                    cylinderMaxZ))
+            {
+                continue;
+            }
+
+            float moveDistance = collisionState.adjustedMoveDistance;
+            bx::Vec3 collisionPoint = {0.0f, 0.0f, 0.0f};
+
+            if (!collideSphereWithCylinder(
+                    centerLo,
+                    colliderRadius,
+                    colliderHeight,
+                    position,
+                    radius,
+                    collisionState.direction,
+                    collisionState.adjustedMoveDistance,
+                    moveDistance,
+                    collisionPoint))
+            {
+                continue;
+            }
+
+            if (moveDistance <= AllowedCollisionOvershoot || moveDistance >= collisionState.adjustedMoveDistance)
+            {
+                continue;
+            }
+
+            const bx::Vec3 outward = vecNormalize(
+                bx::Vec3{
+                    collisionPoint.x - centerLo.x,
+                    collisionPoint.y - centerLo.y,
+                    0.0f
+                });
+
+            collisionState.adjustedMoveDistance = moveDistance;
+            collisionState.collisionPoint = collisionPoint;
+            collisionState.heightOffset = heightOffset;
+            collisionState.hit = CollisionHit{
+                CollisionHit::Kind::Actor,
+                0,
+                0,
+                actorIndex,
+                0,
+                0.0f,
+                moveDistance,
+                heightOffset,
+                collisionPoint,
+                outward,
+                centerLo.z,
+                centerLo.z + colliderHeight
+            };
+        }
+    };
+
+    collideOnce(collisionState.positionLo, collisionState.radiusLo, 0.0f);
+
+    if (!collisionState.checkHi)
+    {
+        return;
+    }
+
+    collideOnce(
+        collisionState.positionHi,
+        collisionState.radiusHi,
+        collisionState.positionHi.z - collisionState.positionLo.z);
+
+    const bx::Vec3 midPosition = vecScale(vecAdd(collisionState.positionLo, collisionState.positionHi), 0.5f);
+    collideOnce(midPosition, collisionState.radiusHi, midPosition.z - collisionState.positionLo.z);
+}
+
+void collideOutdoorWithSpriteObjects(
+    CollisionState &collisionState,
+    const std::vector<OutdoorSpriteObjectCollision> &spriteObjectColliders)
+{
+    auto collideOnce = [&collisionState, &spriteObjectColliders](
+                           const bx::Vec3 &position,
+                           float radius,
+                           float heightOffset)
+    {
+        for (size_t objectIndex = 0; objectIndex < spriteObjectColliders.size(); ++objectIndex)
+        {
+            const OutdoorSpriteObjectCollision &collider = spriteObjectColliders[objectIndex];
+            const bx::Vec3 centerLo = {
+                static_cast<float>(collider.worldX),
+                static_cast<float>(collider.worldY),
+                static_cast<float>(collider.worldZ)
+            };
+            const float colliderRadius = static_cast<float>(collider.radius);
+            const float colliderHeight = static_cast<float>(collider.height);
+            const float cylinderMinX = centerLo.x - colliderRadius;
+            const float cylinderMinY = centerLo.y - colliderRadius;
+            const float cylinderMinZ = centerLo.z;
+            const float cylinderMaxX = centerLo.x + colliderRadius;
+            const float cylinderMaxY = centerLo.y + colliderRadius;
+            const float cylinderMaxZ = centerLo.z + colliderHeight;
+
+            if (!bboxIntersects(
+                    collisionState.bboxMinX,
+                    collisionState.bboxMinY,
+                    collisionState.bboxMinZ,
+                    collisionState.bboxMaxX,
+                    collisionState.bboxMaxY,
+                    collisionState.bboxMaxZ,
+                    cylinderMinX,
+                    cylinderMinY,
+                    cylinderMinZ,
+                    cylinderMaxX,
+                    cylinderMaxY,
+                    cylinderMaxZ))
+            {
+                continue;
+            }
+
+            float moveDistance = collisionState.adjustedMoveDistance;
+            bx::Vec3 collisionPoint = {0.0f, 0.0f, 0.0f};
+
+            if (!collideSphereWithCylinder(
+                    centerLo,
+                    colliderRadius,
+                    colliderHeight,
+                    position,
+                    radius,
+                    collisionState.direction,
+                    collisionState.adjustedMoveDistance,
+                    moveDistance,
+                    collisionPoint))
+            {
+                continue;
+            }
+
+            if (moveDistance <= AllowedCollisionOvershoot || moveDistance >= collisionState.adjustedMoveDistance)
+            {
+                continue;
+            }
+
+            const bx::Vec3 outward = vecNormalize(
+                bx::Vec3{
+                    collisionPoint.x - centerLo.x,
+                    collisionPoint.y - centerLo.y,
+                    0.0f
+                });
+
+            collisionState.adjustedMoveDistance = moveDistance;
+            collisionState.collisionPoint = collisionPoint;
+            collisionState.heightOffset = heightOffset;
+            collisionState.hit = CollisionHit{
+                CollisionHit::Kind::SpriteObject,
+                0,
+                0,
+                objectIndex,
+                0,
+                0.0f,
+                moveDistance,
+                heightOffset,
+                collisionPoint,
+                outward,
+                centerLo.z,
+                centerLo.z + colliderHeight
+            };
+        }
+    };
+
+    collideOnce(collisionState.positionLo, collisionState.radiusLo, 0.0f);
+
+    if (!collisionState.checkHi)
+    {
+        return;
+    }
+
+    collideOnce(
+        collisionState.positionHi,
+        collisionState.radiusHi,
+        collisionState.positionHi.z - collisionState.positionLo.z);
+
+    const bx::Vec3 midPosition = vecScale(vecAdd(collisionState.positionLo, collisionState.positionHi), 0.5f);
+    collideOnce(midPosition, collisionState.radiusHi, midPosition.z - collisionState.positionLo.z);
+}
+
 FloorSample chooseBestFloorSample(const FloorSample &terrainSample, const std::vector<FloorSample> &samples, float z)
 {
     FloorSample bestSample = terrainSample;
@@ -650,18 +1077,83 @@ FloorSample chooseBestFloorSample(const FloorSample &terrainSample, const std::v
     return bestSample;
 }
 
-FloorSample queryFloorLevel(
-    const OutdoorMapData &outdoorMapData,
+const OutdoorFaceGeometryData *findFaceGeometry(
     const std::vector<OutdoorFaceGeometryData> &faces,
+    size_t bModelIndex,
+    size_t faceIndex)
+{
+    for (const OutdoorFaceGeometryData &geometry : faces)
+    {
+        if (geometry.bModelIndex == bModelIndex && geometry.faceIndex == faceIndex)
+        {
+            return &geometry;
+        }
+    }
+
+    return nullptr;
+}
+
+std::optional<FloorSample> queryPreferredSupportFloor(
+    const std::vector<OutdoorFaceGeometryData> &faces,
+    const OutdoorMoveState &state,
     float x,
     float y,
     float z)
 {
+    if (state.supportKind != OutdoorSupportKind::BModelFace)
+    {
+        return std::nullopt;
+    }
+
+    const OutdoorFaceGeometryData *pGeometry =
+        findFaceGeometry(faces, state.supportBModelIndex, state.supportFaceIndex);
+
+    if (pGeometry == nullptr
+        || !pGeometry->isWalkable
+        || x < pGeometry->minX - PartyRadius
+        || x > pGeometry->maxX + PartyRadius
+        || y < pGeometry->minY - PartyRadius
+        || y > pGeometry->maxY + PartyRadius
+        || !isPointInsideOrNearPolygon(x, y, pGeometry->vertices, PartyRadius))
+    {
+        return std::nullopt;
+    }
+
+    float height = 0.0f;
+
+    if (!calculateFaceHeight(*pGeometry, x, y, height) || height > z + FloorSelectionHeightTolerance)
+    {
+        return std::nullopt;
+    }
+
+    return FloorSample{
+        true,
+        height,
+        std::fabs(pGeometry->normal.z),
+        true,
+        (pGeometry->attributes & FaceAttributeFluid) != 0,
+        false,
+        pGeometry->bModelIndex,
+        pGeometry->faceIndex
+    };
+}
+
+FloorSample queryFloorLevel(
+    const OutdoorMapData &outdoorMapData,
+    const std::vector<OutdoorFaceGeometryData> &faces,
+    const std::optional<OutdoorMoveState> &preferredState,
+    float x,
+    float y,
+    float z)
+{
+    const uint8_t terrainFlags = sampleOutdoorTerrainTileAttributes(outdoorMapData, x, y);
     const FloorSample terrainSample = {
         true,
         sampleOutdoorTerrainHeight(outdoorMapData, x, y),
         sampleOutdoorTerrainNormalZ(outdoorMapData, x, y),
         false,
+        (terrainFlags & 0x02) != 0,
+        (terrainFlags & 0x01) != 0,
         0,
         0
     };
@@ -691,40 +1183,100 @@ FloorSample queryFloorLevel(
             height,
             std::fabs(geometry.normal.z),
             true,
+            (geometry.attributes & FaceAttributeFluid) != 0,
+            false,
             geometry.bModelIndex,
             geometry.faceIndex
         });
     }
 
-    return chooseBestFloorSample(terrainSample, samples, z);
+    FloorSample bestSample = chooseBestFloorSample(terrainSample, samples, z);
+
+    if (preferredState)
+    {
+        const std::optional<FloorSample> preferredSample =
+            queryPreferredSupportFloor(faces, *preferredState, x, y, z);
+
+        if (preferredSample
+            && preferredSample->height >= bestSample.height
+            && preferredSample->height <= z + FloorSelectionHeightTolerance)
+        {
+            bestSample = *preferredSample;
+        }
+    }
+
+    return bestSample;
 }
 
 }
 
-OutdoorMovementController::OutdoorMovementController(const OutdoorMapData &outdoorMapData)
+OutdoorMovementController::OutdoorMovementController(
+    const OutdoorMapData &outdoorMapData,
+    const std::optional<std::vector<uint8_t>> &outdoorLandMask,
+    const std::optional<OutdoorDecorationCollisionSet> &outdoorDecorationCollisionSet,
+    const std::optional<OutdoorActorCollisionSet> &outdoorActorCollisionSet,
+    const std::optional<OutdoorSpriteObjectCollisionSet> &outdoorSpriteObjectCollisionSet
+)
     : m_pOutdoorMapData(&outdoorMapData)
+    , m_outdoorLandMask(outdoorLandMask)
 {
     buildFaceCache();
+    buildDecorationColliderCache(outdoorDecorationCollisionSet);
+    buildActorColliderCache(outdoorActorCollisionSet);
+    buildSpriteObjectColliderCache(outdoorSpriteObjectCollisionSet);
 }
 
 OutdoorMoveState OutdoorMovementController::initializeState(float x, float y, float footZHint) const
 {
-    const FloorSample floor = queryFloorLevel(*m_pOutdoorMapData, m_faces, x, y, footZHint);
-    return {x, y, floor.height + GroundSnapHeight, 0.0f};
+    const FloorSample floor = queryFloorLevel(*m_pOutdoorMapData, m_faces, std::nullopt, x, y, footZHint);
+    OutdoorMoveState state = {};
+    state.x = x;
+    state.y = y;
+    state.footZ = floor.height + GroundSnapHeight;
+    state.verticalVelocity = 0.0f;
+    state.supportKind = floor.fromBModel ? OutdoorSupportKind::BModelFace : OutdoorSupportKind::Terrain;
+    state.supportBModelIndex = floor.bModelIndex;
+    state.supportFaceIndex = floor.faceIndex;
+    state.supportIsFluid = floor.isFluid;
+    state.supportOnWater = floor.isFluid
+        || (!floor.fromBModel
+            && (isOutdoorTerrainWater(*m_pOutdoorMapData, x, y) || isOutdoorLandMaskWater(m_outdoorLandMask, x, y)));
+    state.supportOnBurning = floor.isBurning;
+    state.airborne = false;
+    state.landedThisFrame = false;
+    state.fallStartZ = state.footZ;
+    state.fallDistance = 0.0f;
+    return state;
 }
 
 OutdoorMoveState OutdoorMovementController::resolveMove(
     const OutdoorMoveState &state,
     float desiredVelocityX,
     float desiredVelocityY,
+    bool jumpRequested,
+    bool flyDownRequested,
+    bool flyingActive,
+    float jumpVelocity,
+    float flyVerticalSpeed,
     float deltaSeconds
 ) const
 {
-    const FloorSample currentFloor = queryFloorLevel(*m_pOutdoorMapData, m_faces, state.x, state.y, state.footZ);
+    const FloorSample currentFloor = queryFloorLevel(*m_pOutdoorMapData, m_faces, state, state.x, state.y, state.footZ);
     const float currentGroundLevel = currentFloor.height + GroundSnapHeight;
     const bool partyAtHighSlope = !currentFloor.fromBModel && terrainSlopeTooHigh(*m_pOutdoorMapData, state.x, state.y);
-    bool partyNotOnModel = !currentFloor.fromBModel;
     bool partyNotTouchingFloor = state.footZ > currentGroundLevel + GroundSnapHeight;
+    const bool partyCloseToGround = state.footZ <= currentGroundLevel + CloseToGroundHeight;
+    const bool wasAirborne = state.airborne || partyNotTouchingFloor;
+    float fallStartZ = state.fallStartZ;
+
+    if (wasAirborne)
+    {
+        fallStartZ = std::max(fallStartZ, state.footZ);
+    }
+    else
+    {
+        fallStartZ = state.footZ;
+    }
 
     bx::Vec3 partyNewPosition = {state.x, state.y, state.footZ};
     bx::Vec3 partyInputSpeed = {desiredVelocityX, desiredVelocityY, state.verticalVelocity};
@@ -735,7 +1287,31 @@ OutdoorMoveState OutdoorMovementController::resolveMove(
         partyInputSpeed.z = 0.0f;
     }
 
-    if (partyNotTouchingFloor)
+    if (flyingActive)
+    {
+        if (jumpRequested)
+        {
+            partyInputSpeed.z = flyVerticalSpeed;
+        }
+        else if (flyDownRequested)
+        {
+            partyInputSpeed.z = -flyVerticalSpeed;
+        }
+        else
+        {
+            partyInputSpeed.z = 0.0f;
+        }
+    }
+    else if ((!partyAtHighSlope || currentFloor.fromBModel) &&
+             (!partyNotTouchingFloor || (partyCloseToGround && partyInputSpeed.z <= 0.0f)) &&
+             !state.supportOnWater &&
+             !state.supportOnBurning &&
+             jumpRequested)
+    {
+        partyInputSpeed.z = jumpVelocity;
+        partyNewPosition.z += 1.0f;
+    }
+    else if (partyNotTouchingFloor)
     {
         partyInputSpeed.z -= GravityPerSecond * deltaSeconds;
     }
@@ -745,7 +1321,7 @@ OutdoorMoveState OutdoorMovementController::resolveMove(
     }
 
     const auto runCollisionPass =
-        [this, deltaSeconds](
+        [this, deltaSeconds, &state](
             bx::Vec3 &passPosition,
             bx::Vec3 &passInputSpeed,
             bool &passPartyNotOnModel)
@@ -769,6 +1345,9 @@ OutdoorMoveState OutdoorMovementController::resolveMove(
             }
 
             collideOutdoorWithModels(collisionState, m_faces);
+            collideOutdoorWithDecorations(collisionState, m_decorationColliders);
+            collideOutdoorWithActors(collisionState, m_actorColliders);
+            collideOutdoorWithSpriteObjects(collisionState, m_spriteObjectColliders);
 
             bx::Vec3 newPosLow = {0.0f, 0.0f, 0.0f};
 
@@ -792,18 +1371,21 @@ OutdoorMoveState OutdoorMovementController::resolveMove(
             const FloorSample allNewFloor = queryFloorLevel(
                 *m_pOutdoorMapData,
                 m_faces,
+                state,
                 newPosLow.x,
                 newPosLow.y,
                 newPosLow.z);
             const FloorSample xAdvanceFloor = queryFloorLevel(
                 *m_pOutdoorMapData,
                 m_faces,
+                state,
                 newPosLow.x,
                 passPosition.y,
                 newPosLow.z);
             const FloorSample yAdvanceFloor = queryFloorLevel(
                 *m_pOutdoorMapData,
                 m_faces,
+                state,
                 passPosition.x,
                 newPosLow.y,
                 newPosLow.z);
@@ -876,6 +1458,82 @@ OutdoorMoveState OutdoorMovementController::resolveMove(
             }
 
             const CollisionHit &hit = *collisionState.hit;
+
+            if (hit.kind == CollisionHit::Kind::Decoration
+                || hit.kind == CollisionHit::Kind::Actor
+                || hit.kind == CollisionHit::Kind::SpriteObject)
+            {
+                bx::Vec3 colliderCenter = {0.0f, 0.0f, 0.0f};
+
+                if (hit.kind == CollisionHit::Kind::Decoration)
+                {
+                if (hit.colliderIndex >= m_decorationColliders.size())
+                {
+                    passInputSpeed = vecScale(passInputSpeed, 0.89263916f);
+                    continue;
+                }
+
+                    colliderCenter = {
+                        static_cast<float>(m_decorationColliders[hit.colliderIndex].worldX),
+                        static_cast<float>(m_decorationColliders[hit.colliderIndex].worldY),
+                        static_cast<float>(m_decorationColliders[hit.colliderIndex].worldZ)
+                    };
+                }
+                else if (hit.kind == CollisionHit::Kind::Actor)
+                {
+                    if (hit.colliderIndex >= m_actorColliders.size())
+                    {
+                        passInputSpeed = vecScale(passInputSpeed, 0.89263916f);
+                        continue;
+                    }
+
+                    colliderCenter = {
+                        static_cast<float>(m_actorColliders[hit.colliderIndex].worldX),
+                        static_cast<float>(m_actorColliders[hit.colliderIndex].worldY),
+                        static_cast<float>(m_actorColliders[hit.colliderIndex].worldZ)
+                    };
+                }
+                else
+                {
+                    if (hit.colliderIndex >= m_spriteObjectColliders.size())
+                    {
+                        passInputSpeed = vecScale(passInputSpeed, 0.89263916f);
+                        continue;
+                    }
+
+                    colliderCenter = {
+                        static_cast<float>(m_spriteObjectColliders[hit.colliderIndex].worldX),
+                        static_cast<float>(m_spriteObjectColliders[hit.colliderIndex].worldY),
+                        static_cast<float>(m_spriteObjectColliders[hit.colliderIndex].worldZ)
+                    };
+                }
+
+                const bx::Vec3 slidePlaneOrigin = collisionState.collisionPoint;
+                bx::Vec3 slidePlaneNormal = {
+                    slidePlaneOrigin.x - colliderCenter.x,
+                    slidePlaneOrigin.y - colliderCenter.y,
+                    0.0f
+                };
+                slidePlaneNormal = vecNormalize(slidePlaneNormal);
+
+                if (vecLength(slidePlaneNormal) <= CollisionEpsilon)
+                {
+                    passInputSpeed = vecScale(passInputSpeed, 0.89263916f);
+                    continue;
+                }
+
+                const float destinationPlaneDistance =
+                    vecDot(vecSubtract(collisionState.newPositionLo, slidePlaneOrigin), slidePlaneNormal);
+                const bx::Vec3 newDestination = vecSubtract(
+                    collisionState.newPositionLo,
+                    vecScale(slidePlaneNormal, destinationPlaneDistance));
+                bx::Vec3 newDirection = vecSubtract(newDestination, collisionState.collisionPoint);
+                newDirection.z = 0.0f;
+                newDirection = vecNormalize(newDirection);
+                passInputSpeed = vecScale(newDirection, vecDot(newDirection, passInputSpeed));
+                continue;
+            }
+
             const OutdoorFaceGeometryData *pGeometry = nullptr;
 
             for (const OutdoorFaceGeometryData &geometry : m_faces)
@@ -961,6 +1619,7 @@ OutdoorMoveState OutdoorMovementController::resolveMove(
 
     const float savedZSpeed = partyInputSpeed.z;
     bx::Vec3 horizontalInputSpeed = {partyInputSpeed.x, partyInputSpeed.y, 0.0f};
+    bool partyNotOnModel = !currentFloor.fromBModel;
     runCollisionPass(partyNewPosition, horizontalInputSpeed, partyNotOnModel);
 
     if (partyNewPosition.z <= state.footZ)
@@ -977,18 +1636,51 @@ OutdoorMoveState OutdoorMovementController::resolveMove(
     const FloorSample finalFloor = queryFloorLevel(
         *m_pOutdoorMapData,
         m_faces,
+        state,
         partyNewPosition.x,
         partyNewPosition.y,
         partyNewPosition.z);
     const float finalGroundLevel = finalFloor.height + GroundSnapHeight;
+    bool landedThisFrame = false;
+    float fallDistance = 0.0f;
 
     if (partyNewPosition.z <= finalGroundLevel)
     {
+        landedThisFrame = wasAirborne && partyInputSpeed.z <= 0.0f;
+        fallDistance = std::max(0.0f, fallStartZ - finalGroundLevel);
         partyNewPosition.z = finalGroundLevel;
         partyInputSpeed.z = 0.0f;
     }
 
-    return {partyNewPosition.x, partyNewPosition.y, partyNewPosition.z, partyInputSpeed.z};
+    OutdoorMoveState result = {};
+    result.x = partyNewPosition.x;
+    result.y = partyNewPosition.y;
+    result.footZ = partyNewPosition.z;
+    result.verticalVelocity = partyInputSpeed.z;
+    result.supportKind = finalFloor.fromBModel ? OutdoorSupportKind::BModelFace : OutdoorSupportKind::Terrain;
+    result.supportBModelIndex = finalFloor.bModelIndex;
+    result.supportFaceIndex = finalFloor.faceIndex;
+    result.supportIsFluid = finalFloor.isFluid;
+    if (state.airborne)
+    {
+        result.airborne = result.footZ > finalGroundLevel + GroundSnapHeight;
+    }
+    else
+    {
+        result.airborne = result.footZ > finalGroundLevel + CloseToGroundHeight;
+    }
+    result.supportOnWater = !result.airborne
+        && (finalFloor.isFluid
+            || (!finalFloor.fromBModel
+                && (isOutdoorTerrainWater(*m_pOutdoorMapData, partyNewPosition.x, partyNewPosition.y)
+                    || isOutdoorLandMaskWater(m_outdoorLandMask, partyNewPosition.x, partyNewPosition.y))));
+    result.supportOnBurning = !result.airborne
+        && !finalFloor.fromBModel
+        && isOutdoorTerrainBurning(*m_pOutdoorMapData, partyNewPosition.x, partyNewPosition.y);
+    result.landedThisFrame = landedThisFrame;
+    result.fallDistance = landedThisFrame ? fallDistance : 0.0f;
+    result.fallStartZ = result.airborne ? std::max(fallStartZ, result.footZ) : result.footZ;
+    return result;
 }
 
 void OutdoorMovementController::buildFaceCache()
@@ -1018,6 +1710,60 @@ void OutdoorMovementController::buildFaceCache()
             geometry.normal = vecScale(geometry.normal, -1.0f);
             m_faces.push_back(std::move(geometry));
         }
+    }
+}
+
+void OutdoorMovementController::buildDecorationColliderCache(
+    const std::optional<OutdoorDecorationCollisionSet> &outdoorDecorationCollisionSet)
+{
+    m_decorationColliders.clear();
+
+    if (!outdoorDecorationCollisionSet)
+    {
+        return;
+    }
+
+    m_decorationColliders.reserve(outdoorDecorationCollisionSet->colliders.size());
+
+    for (const OutdoorDecorationCollision &collision : outdoorDecorationCollisionSet->colliders)
+    {
+        m_decorationColliders.push_back(collision);
+    }
+}
+
+void OutdoorMovementController::buildActorColliderCache(
+    const std::optional<OutdoorActorCollisionSet> &outdoorActorCollisionSet)
+{
+    m_actorColliders.clear();
+
+    if (!outdoorActorCollisionSet)
+    {
+        return;
+    }
+
+    m_actorColliders.reserve(outdoorActorCollisionSet->colliders.size());
+
+    for (const OutdoorActorCollision &collision : outdoorActorCollisionSet->colliders)
+    {
+        m_actorColliders.push_back(collision);
+    }
+}
+
+void OutdoorMovementController::buildSpriteObjectColliderCache(
+    const std::optional<OutdoorSpriteObjectCollisionSet> &outdoorSpriteObjectSet)
+{
+    m_spriteObjectColliders.clear();
+
+    if (!outdoorSpriteObjectSet)
+    {
+        return;
+    }
+
+    m_spriteObjectColliders.reserve(outdoorSpriteObjectSet->colliders.size());
+
+    for (const OutdoorSpriteObjectCollision &collision : outdoorSpriteObjectSet->colliders)
+    {
+        m_spriteObjectColliders.push_back(collision);
     }
 }
 }

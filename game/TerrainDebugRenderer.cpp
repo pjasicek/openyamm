@@ -29,6 +29,9 @@ namespace
 {
 constexpr uint16_t MainViewId = 0;
 constexpr float Pi = 3.14159265358979323846f;
+constexpr float CameraVerticalFovDegrees = 60.0f;
+constexpr float CameraVerticalFovRadians = CameraVerticalFovDegrees * (Pi / 180.0f);
+constexpr float BillboardNearDepth = 0.1f;
 constexpr float InspectRayEpsilon = 0.0001f;
 constexpr float OutdoorWalkableNormalZ = 0.70710678f;
 constexpr float OutdoorMaxStepHeight = 128.0f;
@@ -41,6 +44,20 @@ uint32_t currentAnimationTicks()
 }
 
 using OutdoorFaceGeometry = OutdoorFaceGeometryData;
+
+const char *outdoorSupportKindName(OutdoorSupportKind supportKind)
+{
+    switch (supportKind)
+    {
+        case OutdoorSupportKind::Terrain:
+            return "terrain";
+        case OutdoorSupportKind::BModelFace:
+            return "bmodel";
+        case OutdoorSupportKind::None:
+        default:
+            return "none";
+    }
+}
 
 bool isOutdoorFaceSlopeTooSteep(const OutdoorFaceGeometry &geometry)
 {
@@ -529,6 +546,10 @@ TerrainDebugRenderer::TerrainDebugRenderer()
     , m_toggleEntitiesLatch(false)
     , m_toggleSpawnsLatch(false)
     , m_toggleInspectLatch(false)
+    , m_toggleRunningLatch(false)
+    , m_toggleFlyingLatch(false)
+    , m_toggleWaterWalkLatch(false)
+    , m_toggleFeatherFallLatch(false)
 {
 }
 
@@ -541,9 +562,13 @@ bool TerrainDebugRenderer::initialize(
     const MapStatsEntry &map,
     const MonsterTable &monsterTable,
     const OutdoorMapData &outdoorMapData,
+    const std::optional<std::vector<uint8_t>> &outdoorLandMask,
     const std::optional<std::vector<uint32_t>> &outdoorTileColors,
     const std::optional<OutdoorTerrainTextureAtlas> &outdoorTerrainTextureAtlas,
     const std::optional<OutdoorBModelTextureSet> &outdoorBModelTextureSet,
+    const std::optional<OutdoorDecorationCollisionSet> &outdoorDecorationCollisionSet,
+    const std::optional<OutdoorActorCollisionSet> &outdoorActorCollisionSet,
+    const std::optional<OutdoorSpriteObjectCollisionSet> &outdoorSpriteObjectCollisionSet,
     const std::optional<DecorationBillboardSet> &outdoorDecorationBillboardSet,
     const std::optional<ActorPreviewBillboardSet> &outdoorActorPreviewBillboardSet,
     const std::optional<SpriteObjectBillboardSet> &outdoorSpriteObjectBillboardSet,
@@ -570,7 +595,14 @@ bool TerrainDebugRenderer::initialize(
     m_localStrTable = localStrTable;
     m_localEvtProgram = localEvtProgram;
     m_globalEvtProgram = globalEvtProgram;
-    m_pOutdoorMovementDriver = std::make_unique<OutdoorMovementDriver>(outdoorMapData);
+    m_pOutdoorMovementDriver =
+        std::make_unique<OutdoorMovementDriver>(
+            outdoorMapData,
+            outdoorLandMask,
+            outdoorDecorationCollisionSet,
+            outdoorActorCollisionSet,
+            outdoorSpriteObjectCollisionSet
+        );
 
     const int centerGridX = OutdoorMapData::TerrainWidth / 2;
     const int centerGridY = OutdoorMapData::TerrainHeight / 2;
@@ -909,7 +941,7 @@ void TerrainDebugRenderer::render(int width, int height, float mouseWheelDelta)
     bx::mtxLookAt(wireframeViewMatrix, wireframeEye, wireframeAt, wireframeUp);
     bx::mtxProj(
         wireframeProjectionMatrix,
-        60.0f,
+        CameraVerticalFovDegrees,
         wireframeAspectRatio,
         0.1f,
         200000.0f,
@@ -1046,7 +1078,7 @@ void TerrainDebugRenderer::render(int width, int height, float mouseWheelDelta)
 
     if (m_showDecorationBillboards)
     {
-        renderDecorationBillboards(MainViewId, wireframeViewMatrix, wireframeEye);
+        renderDecorationBillboards(MainViewId, viewWidth, viewHeight, wireframeViewMatrix, wireframeEye);
     }
 
     if (m_showEntities && bgfx::isValid(m_entityMarkerVertexBufferHandle) && m_entityMarkerVertexCount > 0)
@@ -1117,8 +1149,68 @@ void TerrainDebugRenderer::render(int width, int height, float mouseWheelDelta)
         bgfx::isValid(m_terrainTextureAtlasHandle) ? "yes" : "no",
         m_texturedBModelBatches.empty() ? "no" : "yes"
     );
-    bgfx::dbgTextPrintf(0, 6, 0x0f, "Move: WASD  Fast: Shift  Look: RMB drag");
-    bgfx::dbgTextPrintf(0, 7, 0x0f, "Pos: %.0f %.0f %.0f", m_cameraTargetX, m_cameraTargetY, m_cameraTargetZ);
+    bgfx::dbgTextPrintf(0, 6, 0x0f, "Move: WASD Space jump Ctrl down Shift turbo  R run F fly T waterwalk G feather");
+    if (m_pOutdoorMovementDriver)
+    {
+        const OutdoorMoveState &moveState = m_pOutdoorMovementDriver->state();
+        const OutdoorMovementEvents &moveEvents = m_pOutdoorMovementDriver->lastEvents();
+        const OutdoorMovementConsequences &moveConsequences = m_pOutdoorMovementDriver->lastConsequences();
+        const OutdoorMovementModifiers &movementModifiers = m_pOutdoorMovementDriver->modifiers();
+        bgfx::dbgTextPrintf(
+            0,
+            7,
+            0x0f,
+            "Pos: %.0f %.0f %.0f  support=%s  water=%s  burn=%s  air=%s  land=%s  fall=%.0f",
+            m_cameraTargetX,
+            m_cameraTargetY,
+            m_cameraTargetZ,
+            outdoorSupportKindName(moveState.supportKind),
+            moveState.supportOnWater ? "on" : "off",
+            moveState.supportOnBurning ? "on" : "off",
+            moveState.airborne ? "on" : "off",
+            moveState.landedThisFrame ? "yes" : "no",
+            moveState.fallDistance
+        );
+        bgfx::dbgTextPrintf(
+            0,
+            8,
+            0x0f,
+            "Mods: run=%s fly=%s waterwalk=%s feather=%s",
+            movementModifiers.running ? "on" : "off",
+            movementModifiers.flying ? "on" : "off",
+            movementModifiers.waterWalk ? "on" : "off",
+            movementModifiers.featherFall ? "on" : "off"
+        );
+        bgfx::dbgTextPrintf(
+            0,
+            9,
+            0x0f,
+            "Events: fall=%s land=%s hard=%s water=%s/%s burn=%s/%s",
+            moveEvents.startedFalling ? "yes" : "no",
+            moveEvents.landed ? "yes" : "no",
+            moveEvents.hardLanding ? "yes" : "no",
+            moveEvents.enteredWater ? "in" : "-",
+            moveEvents.leftWater ? "out" : "-",
+            moveEvents.enteredBurning ? "in" : "-",
+            moveEvents.leftBurning ? "out" : "-"
+        );
+        bgfx::dbgTextPrintf(
+            0,
+            10,
+            0x0f,
+            "Fx: waterDmg=%s burnDmg=%s fallDmg=%s splash=%s land=%s hard=%s",
+            moveConsequences.applyWaterDamage ? "yes" : "no",
+            moveConsequences.applyBurningDamage ? "yes" : "no",
+            moveConsequences.applyFallDamage ? "yes" : "no",
+            moveConsequences.playSplashSound ? "yes" : "no",
+            moveConsequences.playLandingSound ? "yes" : "no",
+            moveConsequences.playHardLandingSound ? "yes" : "no"
+        );
+    }
+    else
+    {
+        bgfx::dbgTextPrintf(0, 7, 0x0f, "Pos: %.0f %.0f %.0f", m_cameraTargetX, m_cameraTargetY, m_cameraTargetZ);
+    }
 
     if (m_inspectMode)
     {
@@ -1532,6 +1624,8 @@ const TerrainDebugRenderer::BillboardTextureHandle *TerrainDebugRenderer::findBi
 
 void TerrainDebugRenderer::renderDecorationBillboards(
     uint16_t viewId,
+    uint16_t viewWidth,
+    uint16_t viewHeight,
     const float *pViewMatrix,
     const bx::Vec3 &cameraPosition
 )
@@ -1545,6 +1639,17 @@ void TerrainDebugRenderer::renderDecorationBillboards(
 
     const bx::Vec3 cameraRight = {pViewMatrix[0], pViewMatrix[4], pViewMatrix[8]};
     const bx::Vec3 cameraUp = {pViewMatrix[1], pViewMatrix[5], pViewMatrix[9]};
+    const float cosPitch = std::cos(m_cameraPitchRadians);
+    const bx::Vec3 cameraForward = {
+        std::cos(m_cameraYawRadians) * cosPitch,
+        -std::sin(m_cameraYawRadians) * cosPitch,
+        std::sin(m_cameraPitchRadians)
+    };
+    const float aspectRatio = static_cast<float>(std::max<uint16_t>(viewWidth, 1))
+        / static_cast<float>(std::max<uint16_t>(viewHeight, 1));
+    const float tanHalfFovY = std::tan(CameraVerticalFovRadians * 0.5f);
+    const float tanHalfFovX = tanHalfFovY * aspectRatio;
+    const float viewPlaneDistPixels = (static_cast<float>(viewHeight) * 0.5f) / tanHalfFovY;
     const uint32_t animationTimeTicks = currentAnimationTicks();
     struct BillboardDrawItem
     {
@@ -1619,31 +1724,70 @@ void TerrainDebugRenderer::renderDecorationBillboards(
         const BillboardTextureHandle &texture = *drawItem.pTexture;
 
         const float spriteScale = std::max(frame.scale, 0.01f);
-        const float worldWidth = static_cast<float>(texture.width) * spriteScale;
-        const float worldHeight = static_cast<float>(texture.height) * spriteScale;
-        const float halfWidth = worldWidth * 0.5f;
-        const float centerOffset = SpriteFrameTable::hasFlag(frame.flags, SpriteFrameFlag::Center)
-            ? (worldHeight * 0.5f)
-            : (worldHeight * 0.5f);
-        const bx::Vec3 center = {
+        const bx::Vec3 basePosition = {
             static_cast<float>(-billboard.x),
             static_cast<float>(billboard.y),
-            static_cast<float>(billboard.z) + centerOffset
+            static_cast<float>(billboard.z)
         };
-        const bx::Vec3 right = {cameraRight.x * halfWidth, cameraRight.y * halfWidth, cameraRight.z * halfWidth};
-        const bx::Vec3 up = {cameraUp.x * worldHeight * 0.5f, cameraUp.y * worldHeight * 0.5f, cameraUp.z * worldHeight * 0.5f};
+        const bx::Vec3 cameraToBase = vecSubtract(basePosition, cameraPosition);
+        const float forwardDistance = vecDot(cameraToBase, cameraForward);
+
+        if (forwardDistance <= BillboardNearDepth)
+        {
+            continue;
+        }
+
+        const float cameraRightDistance = vecDot(cameraToBase, cameraRight);
+        const float cameraUpDistance = vecDot(cameraToBase, cameraUp);
+        const float centerNdcX = cameraRightDistance / (forwardDistance * tanHalfFovX);
+        const float baseNdcY = cameraUpDistance / (forwardDistance * tanHalfFovY);
+        const float billboardWidthPixels =
+            spriteScale * static_cast<float>(texture.width) * viewPlaneDistPixels / forwardDistance;
+        const float billboardHeightPixels =
+            spriteScale * static_cast<float>(texture.height) * viewPlaneDistPixels / forwardDistance;
+        const float halfWidthNdc =
+            billboardWidthPixels / static_cast<float>(std::max<uint16_t>(viewWidth, 1));
+        const float heightNdc =
+            (2.0f * billboardHeightPixels) / static_cast<float>(std::max<uint16_t>(viewHeight, 1));
+
+        if (centerNdcX + halfWidthNdc < -1.0f
+            || centerNdcX - halfWidthNdc > 1.0f
+            || baseNdcY > 1.0f
+            || (baseNdcY + heightNdc) < -1.0f)
+        {
+            continue;
+        }
+
+        const auto unprojectBillboardPoint =
+            [&cameraPosition, &cameraForward, &cameraRight, &cameraUp, forwardDistance, tanHalfFovX, tanHalfFovY](
+                float ndcX,
+                float ndcY
+            )
+        {
+            const float offsetRight = ndcX * forwardDistance * tanHalfFovX;
+            const float offsetUp = ndcY * forwardDistance * tanHalfFovY;
+            bx::Vec3 position = vecAdd(cameraPosition, vecScale(cameraForward, forwardDistance));
+            position = vecAdd(position, vecScale(cameraRight, offsetRight));
+            position = vecAdd(position, vecScale(cameraUp, offsetUp));
+            return position;
+        };
+
         const float u0 = drawItem.mirrored ? 1.0f : 0.0f;
         const float u1 = drawItem.mirrored ? 0.0f : 1.0f;
         const float v0 = 0.0f;
         const float v1 = 1.0f;
+        const bx::Vec3 bottomLeft = unprojectBillboardPoint(centerNdcX - halfWidthNdc, baseNdcY);
+        const bx::Vec3 topLeft = unprojectBillboardPoint(centerNdcX - halfWidthNdc, baseNdcY + heightNdc);
+        const bx::Vec3 topRight = unprojectBillboardPoint(centerNdcX + halfWidthNdc, baseNdcY + heightNdc);
+        const bx::Vec3 bottomRight = unprojectBillboardPoint(centerNdcX + halfWidthNdc, baseNdcY);
 
         std::array<TexturedTerrainVertex, 6> vertices = {{
-            {center.x - right.x - up.x, center.y - right.y - up.y, center.z - right.z - up.z, u0, v1},
-            {center.x - right.x + up.x, center.y - right.y + up.y, center.z - right.z + up.z, u0, v0},
-            {center.x + right.x + up.x, center.y + right.y + up.y, center.z + right.z + up.z, u1, v0},
-            {center.x - right.x - up.x, center.y - right.y - up.y, center.z - right.z - up.z, u0, v1},
-            {center.x + right.x + up.x, center.y + right.y + up.y, center.z + right.z + up.z, u1, v0},
-            {center.x + right.x - up.x, center.y + right.y - up.y, center.z + right.z - up.z, u1, v1}
+            {bottomLeft.x, bottomLeft.y, bottomLeft.z, u0, v1},
+            {topLeft.x, topLeft.y, topLeft.z, u0, v0},
+            {topRight.x, topRight.y, topRight.z, u1, v0},
+            {bottomLeft.x, bottomLeft.y, bottomLeft.z, u0, v1},
+            {topRight.x, topRight.y, topRight.z, u1, v0},
+            {bottomRight.x, bottomRight.y, bottomRight.z, u1, v1}
         }};
 
         if (bgfx::getAvailTransientVertexBuffer(
@@ -2773,6 +2917,8 @@ void TerrainDebugRenderer::updateCameraFromInput()
                 pKeyboardState[SDL_SCANCODE_S],
                 pKeyboardState[SDL_SCANCODE_A],
                 pKeyboardState[SDL_SCANCODE_D],
+                pKeyboardState[SDL_SCANCODE_SPACE],
+                pKeyboardState[SDL_SCANCODE_LCTRL] || pKeyboardState[SDL_SCANCODE_RCTRL],
                 turboSpeed,
                 m_cameraYawRadians
             };
@@ -2957,6 +3103,63 @@ void TerrainDebugRenderer::updateCameraFromInput()
     else
     {
         m_toggleInspectLatch = false;
+    }
+
+    if (m_pOutdoorMovementDriver)
+    {
+        OutdoorMovementModifiers &movementModifiers = m_pOutdoorMovementDriver->modifiers();
+
+        if (pKeyboardState[SDL_SCANCODE_R])
+        {
+            if (!m_toggleRunningLatch)
+            {
+                movementModifiers.running = !movementModifiers.running;
+                m_toggleRunningLatch = true;
+            }
+        }
+        else
+        {
+            m_toggleRunningLatch = false;
+        }
+
+        if (pKeyboardState[SDL_SCANCODE_F])
+        {
+            if (!m_toggleFlyingLatch)
+            {
+                movementModifiers.flying = !movementModifiers.flying;
+                m_toggleFlyingLatch = true;
+            }
+        }
+        else
+        {
+            m_toggleFlyingLatch = false;
+        }
+
+        if (pKeyboardState[SDL_SCANCODE_T])
+        {
+            if (!m_toggleWaterWalkLatch)
+            {
+                movementModifiers.waterWalk = !movementModifiers.waterWalk;
+                m_toggleWaterWalkLatch = true;
+            }
+        }
+        else
+        {
+            m_toggleWaterWalkLatch = false;
+        }
+
+        if (pKeyboardState[SDL_SCANCODE_G])
+        {
+            if (!m_toggleFeatherFallLatch)
+            {
+                movementModifiers.featherFall = !movementModifiers.featherFall;
+                m_toggleFeatherFallLatch = true;
+            }
+        }
+        else
+        {
+            m_toggleFeatherFallLatch = false;
+        }
     }
 
     if (m_cameraYawRadians > Pi)

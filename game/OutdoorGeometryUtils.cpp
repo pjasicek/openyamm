@@ -10,6 +10,8 @@ namespace
 constexpr float GeometryEpsilon = 0.0001f;
 constexpr uint8_t OutdoorPolygonFloor = 0x3;
 constexpr uint8_t OutdoorPolygonInBetweenFloorAndWall = 0x4;
+constexpr uint8_t TerrainTileBurn = 0x01;
+constexpr uint8_t TerrainTileWater = 0x02;
 
 bx::Vec3 vecSubtract(const bx::Vec3 &left, const bx::Vec3 &right)
 {
@@ -105,6 +107,37 @@ float sampleOutdoorTerrainNormalZ(const OutdoorMapData &outdoorMapData, float x,
     const float gradientX = (heightRight - heightLeft) / (sampleOffset * 2.0f);
     const float gradientY = (heightUp - heightDown) / (sampleOffset * 2.0f);
     return 1.0f / std::sqrt(gradientX * gradientX + gradientY * gradientY + 1.0f);
+}
+
+uint8_t sampleOutdoorTerrainTileAttributes(const OutdoorMapData &outdoorMapData, float x, float y)
+{
+    if (outdoorMapData.attributeMap.empty())
+    {
+        return 0;
+    }
+
+    const float gridX = 64.0f - (x / static_cast<float>(OutdoorMapData::TerrainTileSize));
+    const float gridY = 64.0f - (y / static_cast<float>(OutdoorMapData::TerrainTileSize));
+    const int tileX = std::clamp(static_cast<int>(std::floor(gridX)), 0, OutdoorMapData::TerrainWidth - 2);
+    const int tileY = std::clamp(static_cast<int>(std::floor(gridY)), 0, OutdoorMapData::TerrainHeight - 2);
+    const size_t tileIndex = static_cast<size_t>(tileY * OutdoorMapData::TerrainWidth + tileX);
+
+    if (tileIndex >= outdoorMapData.attributeMap.size())
+    {
+        return 0;
+    }
+
+    return outdoorMapData.attributeMap[tileIndex];
+}
+
+bool isOutdoorTerrainWater(const OutdoorMapData &outdoorMapData, float x, float y)
+{
+    return (sampleOutdoorTerrainTileAttributes(outdoorMapData, x, y) & TerrainTileWater) != 0;
+}
+
+bool isOutdoorTerrainBurning(const OutdoorMapData &outdoorMapData, float x, float y)
+{
+    return (sampleOutdoorTerrainTileAttributes(outdoorMapData, x, y) & TerrainTileBurn) != 0;
 }
 
 bool buildOutdoorFaceGeometry(

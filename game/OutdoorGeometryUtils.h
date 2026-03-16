@@ -35,6 +35,9 @@ bx::Vec3 outdoorBModelPointToWorld(int x, int y, int z);
 bx::Vec3 outdoorBModelVertexToWorld(const OutdoorBModelVertex &vertex);
 float sampleOutdoorTerrainHeight(const OutdoorMapData &outdoorMapData, float x, float y);
 float sampleOutdoorTerrainNormalZ(const OutdoorMapData &outdoorMapData, float x, float y);
+uint8_t sampleOutdoorTerrainTileAttributes(const OutdoorMapData &outdoorMapData, float x, float y);
+bool isOutdoorTerrainWater(const OutdoorMapData &outdoorMapData, float x, float y);
+bool isOutdoorTerrainBurning(const OutdoorMapData &outdoorMapData, float x, float y);
 bool buildOutdoorFaceGeometry(
     const OutdoorBModel &bModel,
     size_t bModelIndex,
