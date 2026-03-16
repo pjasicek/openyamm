@@ -1,7 +1,7 @@
 #include "game/TerrainDebugRenderer.h"
 
 #include "game/OutdoorGeometryUtils.h"
-#include "game/OutdoorMovementDriver.h"
+#include "game/OutdoorPartyRuntime.h"
 #include "game/SpawnPreview.h"
 
 #include <bx/math.h>
@@ -546,6 +546,7 @@ TerrainDebugRenderer::TerrainDebugRenderer()
     , m_toggleEntitiesLatch(false)
     , m_toggleSpawnsLatch(false)
     , m_toggleInspectLatch(false)
+    , m_activateInspectLatch(false)
     , m_toggleRunningLatch(false)
     , m_toggleFlyingLatch(false)
     , m_toggleWaterWalkLatch(false)
@@ -577,7 +578,11 @@ bool TerrainDebugRenderer::initialize(
     const HouseTable &houseTable,
     const std::optional<StrTable> &localStrTable,
     const std::optional<EvtProgram> &localEvtProgram,
-    const std::optional<EvtProgram> &globalEvtProgram
+    const std::optional<EvtProgram> &globalEvtProgram,
+    const std::optional<EventRuntimeState> &eventRuntimeState,
+    const std::optional<EventIrProgram> &localEventIrProgram,
+    const std::optional<EventIrProgram> &globalEventIrProgram,
+    OutdoorPartyRuntime *pOutdoorPartyRuntime
 )
 {
     shutdown();
@@ -595,14 +600,10 @@ bool TerrainDebugRenderer::initialize(
     m_localStrTable = localStrTable;
     m_localEvtProgram = localEvtProgram;
     m_globalEvtProgram = globalEvtProgram;
-    m_pOutdoorMovementDriver =
-        std::make_unique<OutdoorMovementDriver>(
-            outdoorMapData,
-            outdoorLandMask,
-            outdoorDecorationCollisionSet,
-            outdoorActorCollisionSet,
-            outdoorSpriteObjectCollisionSet
-        );
+    m_eventRuntimeState = eventRuntimeState;
+    m_localEventIrProgram = localEventIrProgram;
+    m_globalEventIrProgram = globalEventIrProgram;
+    m_pOutdoorPartyRuntime = pOutdoorPartyRuntime;
 
     const int centerGridX = OutdoorMapData::TerrainWidth / 2;
     const int centerGridY = OutdoorMapData::TerrainHeight / 2;
@@ -612,8 +613,15 @@ bool TerrainDebugRenderer::initialize(
         static_cast<float>(outdoorMapData.heightMap[centerSampleIndex] * OutdoorMapData::TerrainHeightScale);
     m_cameraTargetX = 0.0f;
     m_cameraTargetY = 0.0f;
-    m_pOutdoorMovementDriver->initialize(m_cameraTargetX, m_cameraTargetY, centerHeightWorld);
-    m_cameraTargetZ = m_pOutdoorMovementDriver->state().footZ + m_cameraEyeHeight;
+    if (m_pOutdoorPartyRuntime)
+    {
+        m_pOutdoorPartyRuntime->initialize(m_cameraTargetX, m_cameraTargetY, centerHeightWorld);
+        m_cameraTargetZ = m_pOutdoorPartyRuntime->movementState().footZ + m_cameraEyeHeight;
+    }
+    else
+    {
+        m_cameraTargetZ = centerHeightWorld + m_cameraEyeHeight;
+    }
     m_cameraYawRadians = -Pi * 0.5f;
     m_cameraPitchRadians = -0.15f;
     m_cameraDistance = 0.0f;
@@ -970,6 +978,32 @@ void TerrainDebugRenderer::render(int width, int height, float mouseWheelDelta)
         const bx::Vec3 rayTarget = bx::mulH({normalizedMouseX, normalizedMouseY, 1.0f}, inverseViewProjectionMatrix);
         const bx::Vec3 rayDirection = vecNormalize(vecSubtract(rayTarget, rayOrigin));
         inspectHit = inspectBModelFace(*m_outdoorMapData, rayOrigin, rayDirection);
+
+        const bool *pKeyboardState = SDL_GetKeyboardState(nullptr);
+        const SDL_MouseButtonFlags mouseButtons = SDL_GetMouseState(nullptr, nullptr);
+        const bool isActivationPressed =
+            pKeyboardState != nullptr
+            && pKeyboardState[SDL_SCANCODE_E]
+            && (mouseButtons & SDL_BUTTON_RMASK) == 0;
+        const bool isLeftMousePressed = (mouseButtons & SDL_BUTTON_LMASK) != 0;
+
+        if ((isActivationPressed || isLeftMousePressed) && !m_activateInspectLatch)
+        {
+            if (tryActivateInspectEvent(inspectHit))
+            {
+                inspectHit = inspectBModelFace(*m_outdoorMapData, rayOrigin, rayDirection);
+            }
+
+            m_activateInspectLatch = true;
+        }
+        else if (!isActivationPressed && !isLeftMousePressed)
+        {
+            m_activateInspectLatch = false;
+        }
+    }
+    else
+    {
+        m_activateInspectLatch = false;
     }
 
     float modelMatrix[16] = {};
@@ -1150,15 +1184,19 @@ void TerrainDebugRenderer::render(int width, int height, float mouseWheelDelta)
         m_texturedBModelBatches.empty() ? "no" : "yes"
     );
     bgfx::dbgTextPrintf(0, 6, 0x0f, "Move: WASD Space jump Ctrl down Shift turbo  R run F fly T waterwalk G feather");
-    if (m_pOutdoorMovementDriver)
+
+    int nextHudLine = 7;
+
+    if (m_pOutdoorPartyRuntime)
     {
-        const OutdoorMoveState &moveState = m_pOutdoorMovementDriver->state();
-        const OutdoorMovementEvents &moveEvents = m_pOutdoorMovementDriver->lastEvents();
-        const OutdoorMovementConsequences &moveConsequences = m_pOutdoorMovementDriver->lastConsequences();
-        const OutdoorMovementModifiers &movementModifiers = m_pOutdoorMovementDriver->modifiers();
+        const OutdoorMoveState &moveState = m_pOutdoorPartyRuntime->movementState();
+        const OutdoorMovementEvents &moveEvents = m_pOutdoorPartyRuntime->movementEvents();
+        const OutdoorMovementConsequences &moveConsequences = m_pOutdoorPartyRuntime->movementConsequences();
+        const OutdoorPartyMovementState &partyMovementState = m_pOutdoorPartyRuntime->partyMovementState();
+        const OutdoorPartyState &partyState = m_pOutdoorPartyRuntime->partyState();
         bgfx::dbgTextPrintf(
             0,
-            7,
+            nextHudLine++,
             0x0f,
             "Pos: %.0f %.0f %.0f  support=%s  water=%s  burn=%s  air=%s  land=%s  fall=%.0f",
             m_cameraTargetX,
@@ -1173,17 +1211,17 @@ void TerrainDebugRenderer::render(int width, int height, float mouseWheelDelta)
         );
         bgfx::dbgTextPrintf(
             0,
-            8,
+            nextHudLine++,
             0x0f,
             "Mods: run=%s fly=%s waterwalk=%s feather=%s",
-            movementModifiers.running ? "on" : "off",
-            movementModifiers.flying ? "on" : "off",
-            movementModifiers.waterWalk ? "on" : "off",
-            movementModifiers.featherFall ? "on" : "off"
+            partyMovementState.running ? "on" : "off",
+            partyMovementState.flying ? "on" : "off",
+            partyMovementState.waterWalk ? "on" : "off",
+            partyMovementState.featherFall ? "on" : "off"
         );
         bgfx::dbgTextPrintf(
             0,
-            9,
+            nextHudLine++,
             0x0f,
             "Events: fall=%s land=%s hard=%s water=%s/%s burn=%s/%s",
             moveEvents.startedFalling ? "yes" : "no",
@@ -1196,7 +1234,7 @@ void TerrainDebugRenderer::render(int width, int height, float mouseWheelDelta)
         );
         bgfx::dbgTextPrintf(
             0,
-            10,
+            nextHudLine++,
             0x0f,
             "Fx: waterDmg=%s burnDmg=%s fallDmg=%s splash=%s land=%s hard=%s",
             moveConsequences.applyWaterDamage ? "yes" : "no",
@@ -1206,14 +1244,81 @@ void TerrainDebugRenderer::render(int width, int height, float mouseWheelDelta)
             moveConsequences.playLandingSound ? "yes" : "no",
             moveConsequences.playHardLandingSound ? "yes" : "no"
         );
+
+        bgfx::dbgTextPrintf(
+            0,
+            nextHudLine++,
+            0x0f,
+            "Party: hp=%d/%d waterTicks=%u burnTicks=%u fall=%.0f status=%s",
+            partyState.totalHealth(),
+            partyState.totalMaxHealth(),
+            partyState.waterDamageTicks(),
+            partyState.burningDamageTicks(),
+            partyState.lastFallDamageDistance(),
+            partyState.lastStatus().c_str()
+        );
+
+        if (m_eventRuntimeState && m_eventRuntimeState->lastActivationResult)
+        {
+            bgfx::dbgTextPrintf(
+                0,
+                nextHudLine++,
+                0x0f,
+                "Activate: %s",
+                m_eventRuntimeState->lastActivationResult->c_str()
+            );
+        }
+
+        if (m_eventRuntimeState)
+        {
+            std::string runtimeSummary;
+
+            if (m_eventRuntimeState->pendingHouseId)
+            {
+                runtimeSummary += " house=" + std::to_string(*m_eventRuntimeState->pendingHouseId);
+            }
+
+            if (m_eventRuntimeState->pendingNpcId)
+            {
+                runtimeSummary += " npc=" + std::to_string(*m_eventRuntimeState->pendingNpcId);
+            }
+
+            if (m_eventRuntimeState->pendingMapMove)
+            {
+                runtimeSummary += " map=" + std::to_string(m_eventRuntimeState->pendingMapMove->mapId);
+
+                if (m_eventRuntimeState->pendingMapMove->mapName
+                    && !m_eventRuntimeState->pendingMapMove->mapName->empty())
+                {
+                    runtimeSummary += ":" + *m_eventRuntimeState->pendingMapMove->mapName;
+                }
+            }
+
+            if (!m_eventRuntimeState->openedChestIds.empty())
+            {
+                runtimeSummary += " chest=" + std::to_string(m_eventRuntimeState->openedChestIds.back());
+            }
+
+            if (!m_eventRuntimeState->grantedItemIds.empty())
+            {
+                runtimeSummary += " give=" + std::to_string(m_eventRuntimeState->grantedItemIds.back());
+            }
+
+            if (!runtimeSummary.empty())
+            {
+                bgfx::dbgTextPrintf(0, nextHudLine++, 0x0f, "Event:%s", runtimeSummary.c_str());
+            }
+        }
     }
     else
     {
-        bgfx::dbgTextPrintf(0, 7, 0x0f, "Pos: %.0f %.0f %.0f", m_cameraTargetX, m_cameraTargetY, m_cameraTargetZ);
+        bgfx::dbgTextPrintf(0, nextHudLine++, 0x0f, "Pos: %.0f %.0f %.0f", m_cameraTargetX, m_cameraTargetY, m_cameraTargetZ);
     }
 
     if (m_inspectMode)
     {
+        const int inspectBaseLine = nextHudLine + 1;
+
         if (inspectHit.hasHit)
         {
             if (inspectHit.kind == "entity")
@@ -1248,7 +1353,7 @@ void TerrainDebugRenderer::render(int width, int height, float mouseWheelDelta)
                 );
                 bgfx::dbgTextPrintf(
                     0,
-                    8,
+                    inspectBaseLine,
                     0x0f,
                     "Inspect: entity=%u dist=%.0f name=%s",
                     static_cast<unsigned>(inspectHit.bModelIndex),
@@ -1257,7 +1362,7 @@ void TerrainDebugRenderer::render(int width, int height, float mouseWheelDelta)
                 );
                 bgfx::dbgTextPrintf(
                     0,
-                    9,
+                    inspectBaseLine + 1,
                     0x0f,
                     "Entity: dec=%u evt=%u/%u var=%u/%u trig=%u",
                     inspectHit.decorationListId,
@@ -1267,12 +1372,19 @@ void TerrainDebugRenderer::render(int width, int height, float mouseWheelDelta)
                     inspectHit.variableSecondary,
                     inspectHit.specialTrigger
                 );
-                bgfx::dbgTextPrintf(0, 10, 0x0f, "Script: P %s | S %s", primaryEventSummary.c_str(), secondaryEventSummary.c_str());
+                bgfx::dbgTextPrintf(
+                    0,
+                    inspectBaseLine + 2,
+                    0x0f,
+                    "Script: P %s | S %s",
+                    primaryEventSummary.c_str(),
+                    secondaryEventSummary.c_str()
+                );
                 if (!primaryChestSummary.empty() || !secondaryChestSummary.empty())
                 {
                     bgfx::dbgTextPrintf(
                         0,
-                        11,
+                        inspectBaseLine + 3,
                         0x0f,
                         "Chest: P %s | S %s",
                         primaryChestSummary.empty() ? "-" : primaryChestSummary.c_str(),
@@ -1284,7 +1396,7 @@ void TerrainDebugRenderer::render(int width, int height, float mouseWheelDelta)
             {
                 bgfx::dbgTextPrintf(
                     0,
-                    8,
+                    inspectBaseLine,
                     0x0f,
                     "Inspect: actor=%u dist=%.0f name=%s %s",
                     static_cast<unsigned>(inspectHit.bModelIndex),
@@ -1292,14 +1404,26 @@ void TerrainDebugRenderer::render(int width, int height, float mouseWheelDelta)
                     inspectHit.name.empty() ? "-" : inspectHit.name.c_str(),
                     inspectHit.isFriendly ? "[friendly]" : "[hostile]"
                 );
-                bgfx::dbgTextPrintf(0, 9, 0x0f, "%s", inspectHit.spawnSummary.empty() ? "-" : inspectHit.spawnSummary.c_str());
-                bgfx::dbgTextPrintf(0, 10, 0x0f, "%s", inspectHit.spawnDetail.empty() ? "-" : inspectHit.spawnDetail.c_str());
+                bgfx::dbgTextPrintf(
+                    0,
+                    inspectBaseLine + 1,
+                    0x0f,
+                    "%s",
+                    inspectHit.spawnSummary.empty() ? "-" : inspectHit.spawnSummary.c_str()
+                );
+                bgfx::dbgTextPrintf(
+                    0,
+                    inspectBaseLine + 2,
+                    0x0f,
+                    "%s",
+                    inspectHit.spawnDetail.empty() ? "-" : inspectHit.spawnDetail.c_str()
+                );
             }
             else if (inspectHit.kind == "spawn")
             {
                 bgfx::dbgTextPrintf(
                     0,
-                    8,
+                    inspectBaseLine,
                     0x0f,
                     "Inspect: spawn=%u dist=%.0f type=%u %s",
                     static_cast<unsigned>(inspectHit.bModelIndex),
@@ -1307,14 +1431,20 @@ void TerrainDebugRenderer::render(int width, int height, float mouseWheelDelta)
                     inspectHit.spawnTypeId,
                     inspectHit.spawnSummary.empty() ? "-" : inspectHit.spawnSummary.c_str()
                 );
-                bgfx::dbgTextPrintf(0, 9, 0x0f, "%s", inspectHit.spawnDetail.empty() ? "-" : inspectHit.spawnDetail.c_str());
-                bgfx::dbgTextPrintf(0, 10, 0x0f, "Cursor: %.0f %.0f", mouseX, mouseY);
+                bgfx::dbgTextPrintf(
+                    0,
+                    inspectBaseLine + 1,
+                    0x0f,
+                    "%s",
+                    inspectHit.spawnDetail.empty() ? "-" : inspectHit.spawnDetail.c_str()
+                );
+                bgfx::dbgTextPrintf(0, inspectBaseLine + 2, 0x0f, "Cursor: %.0f %.0f", mouseX, mouseY);
             }
             else if (inspectHit.kind == "object")
             {
                 bgfx::dbgTextPrintf(
                     0,
-                    8,
+                    inspectBaseLine,
                     0x0f,
                     "Inspect: object=%u dist=%.0f name=%s",
                     static_cast<unsigned>(inspectHit.bModelIndex),
@@ -1323,7 +1453,7 @@ void TerrainDebugRenderer::render(int width, int height, float mouseWheelDelta)
                 );
                 bgfx::dbgTextPrintf(
                     0,
-                    9,
+                    inspectBaseLine + 1,
                     0x0f,
                     "Object: desc=%u sprite=%u attr=0x%04x spell=%d",
                     inspectHit.objectDescriptionId,
@@ -1331,7 +1461,7 @@ void TerrainDebugRenderer::render(int width, int height, float mouseWheelDelta)
                     inspectHit.attributes,
                     inspectHit.spellId
                 );
-                bgfx::dbgTextPrintf(0, 10, 0x0f, "Cursor: %.0f %.0f", mouseX, mouseY);
+                bgfx::dbgTextPrintf(0, inspectBaseLine + 2, 0x0f, "Cursor: %.0f %.0f", mouseX, mouseY);
             }
             else
             {
@@ -1351,7 +1481,7 @@ void TerrainDebugRenderer::render(int width, int height, float mouseWheelDelta)
                 );
                 bgfx::dbgTextPrintf(
                     0,
-                    8,
+                    inspectBaseLine,
                     0x0f,
                     "Inspect: bmodel=%u face=%u distance=%.0f tex=%s",
                     static_cast<unsigned>(inspectHit.bModelIndex),
@@ -1361,7 +1491,7 @@ void TerrainDebugRenderer::render(int width, int height, float mouseWheelDelta)
                 );
                 bgfx::dbgTextPrintf(
                     0,
-                    9,
+                    inspectBaseLine + 1,
                     0x0f,
                     "Face: attr=0x%08x bmp=%d cog=%u evt=%u trig=%u",
                     inspectHit.attributes,
@@ -1372,7 +1502,7 @@ void TerrainDebugRenderer::render(int width, int height, float mouseWheelDelta)
                 );
                 bgfx::dbgTextPrintf(
                     0,
-                    10,
+                    inspectBaseLine + 2,
                     0x0f,
                     "Type: poly=%u shade=%u vis=%u  Script: %s",
                     static_cast<unsigned>(inspectHit.polygonType),
@@ -1382,14 +1512,14 @@ void TerrainDebugRenderer::render(int width, int height, float mouseWheelDelta)
                 );
                 if (!faceChestSummary.empty())
                 {
-                    bgfx::dbgTextPrintf(0, 11, 0x0f, "%s", faceChestSummary.c_str());
+                    bgfx::dbgTextPrintf(0, inspectBaseLine + 3, 0x0f, "%s", faceChestSummary.c_str());
                 }
             }
         }
         else
         {
-            bgfx::dbgTextPrintf(0, 8, 0x0f, "Inspect: no outdoor object under cursor");
-            bgfx::dbgTextPrintf(0, 9, 0x0f, "Cursor: %.0f %.0f", mouseX, mouseY);
+            bgfx::dbgTextPrintf(0, inspectBaseLine, 0x0f, "Inspect: no outdoor object under cursor");
+            bgfx::dbgTextPrintf(0, inspectBaseLine + 1, 0x0f, "Cursor: %.0f %.0f", mouseX, mouseY);
         }
     }
 }
@@ -1501,7 +1631,10 @@ void TerrainDebugRenderer::shutdown()
     m_map.reset();
     m_monsterTable.reset();
     m_outdoorMapData.reset();
-    m_pOutdoorMovementDriver.reset();
+    m_pOutdoorPartyRuntime = nullptr;
+    m_eventRuntimeState.reset();
+    m_localEventIrProgram.reset();
+    m_globalEventIrProgram.reset();
     m_outdoorDecorationBillboardSet.reset();
     m_outdoorActorPreviewBillboardSet.reset();
     m_outdoorSpriteObjectBillboardSet.reset();
@@ -2657,6 +2790,7 @@ TerrainDebugRenderer::InspectHit TerrainDebugRenderer::inspectBModelFace(
                 if (!bestHit.hasHit || distance < bestHit.distance)
                 {
                     bestHit.hasHit = true;
+                    bestHit.kind = "face";
                     bestHit.bModelIndex = bModelIndex;
                     bestHit.faceIndex = faceIndex;
                     bestHit.textureName = face.textureName;
@@ -2844,6 +2978,62 @@ TerrainDebugRenderer::InspectHit TerrainDebugRenderer::inspectBModelFace(
     return bestHit;
 }
 
+bool TerrainDebugRenderer::tryActivateInspectEvent(const InspectHit &inspectHit)
+{
+    if (!m_outdoorMapData || !m_eventRuntimeState)
+    {
+        std::cout << "Outdoor inspect activation ignored: runtime not available\n";
+        return false;
+    }
+
+    uint16_t eventId = 0;
+
+    if (inspectHit.kind == "entity")
+    {
+        eventId = inspectHit.eventIdPrimary != 0 ? inspectHit.eventIdPrimary : inspectHit.eventIdSecondary;
+    }
+    else if (inspectHit.kind == "face")
+    {
+        eventId = inspectHit.cogTriggeredNumber;
+    }
+    else
+    {
+        m_eventRuntimeState->lastActivationResult = "no activatable event on hovered target";
+        std::cout << "Outdoor inspect activation ignored: unsupported target kind '"
+                  << inspectHit.kind << "'\n";
+        return false;
+    }
+
+    if (eventId == 0)
+    {
+        m_eventRuntimeState->lastActivationResult = "no event on hovered target";
+        std::cout << "Outdoor inspect activation ignored: target has no event id\n";
+        return false;
+    }
+
+    std::cout << "Activating outdoor event " << eventId
+              << " from " << inspectHit.kind
+              << " index=" << inspectHit.bModelIndex << '\n';
+
+    const bool executed = m_eventRuntime.executeEventById(
+        m_localEventIrProgram,
+        m_globalEventIrProgram,
+        eventId,
+        *m_eventRuntimeState
+    );
+
+    if (!executed)
+    {
+        m_eventRuntimeState->lastActivationResult = "event " + std::to_string(eventId) + " unresolved";
+        std::cout << "Outdoor event " << eventId << " unresolved\n";
+        return false;
+    }
+
+    m_eventRuntimeState->lastActivationResult = "event " + std::to_string(eventId) + " executed";
+    std::cout << "Outdoor event " << eventId << " executed\n";
+    return true;
+}
+
 void TerrainDebugRenderer::updateCameraFromInput()
 {
     const uint64_t currentTickCount = SDL_GetTicksNS();
@@ -2910,7 +3100,7 @@ void TerrainDebugRenderer::updateCameraFromInput()
 
     if (m_outdoorMapData)
     {
-        if (m_pOutdoorMovementDriver)
+        if (m_pOutdoorPartyRuntime)
         {
             const OutdoorMovementInput movementInput = {
                 pKeyboardState[SDL_SCANCODE_W],
@@ -2922,10 +3112,10 @@ void TerrainDebugRenderer::updateCameraFromInput()
                 turboSpeed,
                 m_cameraYawRadians
             };
-            m_pOutdoorMovementDriver->update(movementInput, deltaSeconds);
-            m_cameraTargetX = m_pOutdoorMovementDriver->state().x;
-            m_cameraTargetY = m_pOutdoorMovementDriver->state().y;
-            m_cameraTargetZ = m_pOutdoorMovementDriver->state().footZ + m_cameraEyeHeight;
+            m_pOutdoorPartyRuntime->update(movementInput, deltaSeconds);
+            m_cameraTargetX = m_pOutdoorPartyRuntime->movementState().x;
+            m_cameraTargetY = m_pOutdoorPartyRuntime->movementState().y;
+            m_cameraTargetZ = m_pOutdoorPartyRuntime->movementState().footZ + m_cameraEyeHeight;
         }
     }
     else
@@ -3105,15 +3295,13 @@ void TerrainDebugRenderer::updateCameraFromInput()
         m_toggleInspectLatch = false;
     }
 
-    if (m_pOutdoorMovementDriver)
+    if (m_pOutdoorPartyRuntime)
     {
-        OutdoorMovementModifiers &movementModifiers = m_pOutdoorMovementDriver->modifiers();
-
         if (pKeyboardState[SDL_SCANCODE_R])
         {
             if (!m_toggleRunningLatch)
             {
-                movementModifiers.running = !movementModifiers.running;
+                m_pOutdoorPartyRuntime->toggleRunning();
                 m_toggleRunningLatch = true;
             }
         }
@@ -3126,7 +3314,7 @@ void TerrainDebugRenderer::updateCameraFromInput()
         {
             if (!m_toggleFlyingLatch)
             {
-                movementModifiers.flying = !movementModifiers.flying;
+                m_pOutdoorPartyRuntime->toggleFlying();
                 m_toggleFlyingLatch = true;
             }
         }
@@ -3139,7 +3327,7 @@ void TerrainDebugRenderer::updateCameraFromInput()
         {
             if (!m_toggleWaterWalkLatch)
             {
-                movementModifiers.waterWalk = !movementModifiers.waterWalk;
+                m_pOutdoorPartyRuntime->toggleWaterWalk();
                 m_toggleWaterWalkLatch = true;
             }
         }
@@ -3152,7 +3340,7 @@ void TerrainDebugRenderer::updateCameraFromInput()
         {
             if (!m_toggleFeatherFallLatch)
             {
-                movementModifiers.featherFall = !movementModifiers.featherFall;
+                m_pOutdoorPartyRuntime->toggleFeatherFall();
                 m_toggleFeatherFallLatch = true;
             }
         }

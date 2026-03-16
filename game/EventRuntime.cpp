@@ -387,6 +387,12 @@ void EventRuntime::applyMechanismAction(
 bool EventRuntime::executeEvent(const EventIrEvent &event, EventRuntimeState &runtimeState)
 {
     runtimeState.lastAffectedMechanismIds.clear();
+    runtimeState.openedChestIds.clear();
+    runtimeState.grantedItemIds.clear();
+    runtimeState.removedItemIds.clear();
+    runtimeState.pendingHouseId.reset();
+    runtimeState.pendingNpcId.reset();
+    runtimeState.pendingMapMove.reset();
 
     std::unordered_map<uint8_t, size_t> stepToInstructionIndex;
 
@@ -418,22 +424,69 @@ bool EventRuntime::executeEvent(const EventIrEvent &event, EventRuntimeState &ru
             case EventIrOperation::EndCanShowTopic:
             case EventIrOperation::ForPartyMember:
             case EventIrOperation::CheckItemsCount:
-            case EventIrOperation::RemoveItems:
             case EventIrOperation::CheckSkill:
-            case EventIrOperation::SpeakInHouse:
-            case EventIrOperation::SpeakNpc:
-            case EventIrOperation::MoveToMap:
             case EventIrOperation::MoveNpc:
             case EventIrOperation::ChangeEvent:
             case EventIrOperation::RandomJump:
             case EventIrOperation::SummonMonsters:
             case EventIrOperation::SummonItem:
-            case EventIrOperation::GiveItem:
             case EventIrOperation::CastSpell:
             case EventIrOperation::SetNpcGreeting:
             case EventIrOperation::CharacterAnimation:
             case EventIrOperation::IsActorKilled:
                 break;
+
+            case EventIrOperation::SpeakInHouse:
+            {
+                if (!instruction.arguments.empty())
+                {
+                    runtimeState.pendingHouseId = instruction.arguments[0];
+                    std::cout << "  house=" << instruction.arguments[0];
+
+                    if (instruction.text && !instruction.text->empty())
+                    {
+                        std::cout << " name=\"" << *instruction.text << "\"";
+                    }
+
+                    std::cout << '\n';
+                }
+                break;
+            }
+
+            case EventIrOperation::SpeakNpc:
+            {
+                if (!instruction.arguments.empty())
+                {
+                    runtimeState.pendingNpcId = instruction.arguments[0];
+                    std::cout << "  npc=" << instruction.arguments[0] << '\n';
+                }
+                break;
+            }
+
+            case EventIrOperation::MoveToMap:
+            {
+                if (!instruction.arguments.empty())
+                {
+                    EventRuntimeState::PendingMapMove pendingMapMove = {};
+                    pendingMapMove.mapId = instruction.arguments[0];
+
+                    if (instruction.text && !instruction.text->empty())
+                    {
+                        pendingMapMove.mapName = *instruction.text;
+                    }
+
+                    runtimeState.pendingMapMove = pendingMapMove;
+                    std::cout << "  move_to_map=" << pendingMapMove.mapId;
+
+                    if (pendingMapMove.mapName && !pendingMapMove.mapName->empty())
+                    {
+                        std::cout << " name=\"" << *pendingMapMove.mapName << "\"";
+                    }
+
+                    std::cout << '\n';
+                }
+                break;
+            }
 
             case EventIrOperation::Compare:
             {
@@ -550,7 +603,34 @@ bool EventRuntime::executeEvent(const EventIrEvent &event, EventRuntimeState &ru
             }
 
             case EventIrOperation::OpenChest:
+            {
+                if (!instruction.arguments.empty())
+                {
+                    runtimeState.openedChestIds.push_back(instruction.arguments[0]);
+                    std::cout << "  open_chest=" << instruction.arguments[0] << '\n';
+                }
                 break;
+            }
+
+            case EventIrOperation::GiveItem:
+            {
+                if (!instruction.arguments.empty())
+                {
+                    runtimeState.grantedItemIds.push_back(instruction.arguments[0]);
+                    std::cout << "  give_item=" << instruction.arguments[0] << '\n';
+                }
+                break;
+            }
+
+            case EventIrOperation::RemoveItems:
+            {
+                if (!instruction.arguments.empty())
+                {
+                    runtimeState.removedItemIds.push_back(instruction.arguments[0]);
+                    std::cout << "  remove_item=" << instruction.arguments[0] << '\n';
+                }
+                break;
+            }
 
             case EventIrOperation::ChangeDoorState:
             {

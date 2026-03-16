@@ -28,6 +28,12 @@ struct RuntimeMechanismState
 
 struct EventRuntimeState
 {
+    struct PendingMapMove
+    {
+        uint32_t mapId = 0;
+        std::optional<std::string> mapName;
+    };
+
     std::unordered_map<uint32_t, int32_t> variables;
     std::unordered_map<uint32_t, uint32_t> facetSetMasks;
     std::unordered_map<uint32_t, uint32_t> facetClearMasks;
@@ -36,6 +42,12 @@ struct EventRuntimeState
     std::unordered_map<uint32_t, bool> indoorLightsEnabled;
     std::unordered_map<uint32_t, std::unordered_map<uint32_t, bool>> npcTopics;
     std::vector<std::string> messages;
+    std::vector<uint32_t> openedChestIds;
+    std::vector<uint32_t> grantedItemIds;
+    std::vector<uint32_t> removedItemIds;
+    std::optional<uint32_t> pendingHouseId;
+    std::optional<uint32_t> pendingNpcId;
+    std::optional<PendingMapMove> pendingMapMove;
     std::vector<uint32_t> lastAffectedMechanismIds;
     std::optional<std::string> lastActivationResult;
     size_t localOnLoadEventsExecuted = 0;

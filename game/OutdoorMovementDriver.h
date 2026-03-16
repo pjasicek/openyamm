@@ -19,19 +19,12 @@ struct OutdoorMovementInput
     float yawRadians = 0.0f;
 };
 
-struct OutdoorMovementModifiers
+struct OutdoorPartyMovementState
 {
     bool running = true;
     bool flying = false;
     bool featherFall = false;
     bool waterWalk = false;
-    float walkSpeed = 384.0f;
-    float runForwardMultiplier = 2.0f;
-    float backwardWalkMultiplier = 1.0f;
-    float strafeMultiplier = 0.75f;
-    float turboMoveSpeed = 4000.0f;
-    float jumpVelocity = 1000.0f;
-    float flyVerticalSpeed = 900.0f;
 };
 
 struct OutdoorMovementConsequences
@@ -43,6 +36,27 @@ struct OutdoorMovementConsequences
     bool playSplashSound = false;
     bool playLandingSound = false;
     bool playHardLandingSound = false;
+};
+
+struct OutdoorMovementEffects
+{
+    uint32_t waterDamageTicks = 0;
+    uint32_t burningDamageTicks = 0;
+    float maxFallDamageDistance = 0.0f;
+    bool playSplashSound = false;
+    bool playLandingSound = false;
+    bool playHardLandingSound = false;
+};
+
+struct OutdoorMovementTuning
+{
+    float walkSpeed = 384.0f;
+    float runForwardMultiplier = 2.0f;
+    float backwardWalkMultiplier = 1.0f;
+    float strafeMultiplier = 0.75f;
+    float turboMoveSpeed = 4000.0f;
+    float jumpVelocity = 480.0f;
+    float flyVerticalSpeed = 900.0f;
 };
 
 struct OutdoorMovementEvents
@@ -73,15 +87,23 @@ public:
     const OutdoorMoveState &state() const;
     const OutdoorMovementEvents &lastEvents() const;
     const OutdoorMovementConsequences &lastConsequences() const;
-    OutdoorMovementModifiers &modifiers();
-    const OutdoorMovementModifiers &modifiers() const;
+    const OutdoorPartyMovementState &partyMovementState() const;
+    const OutdoorMovementTuning &tuning() const;
+    const OutdoorMovementEffects &pendingEffects() const;
+    OutdoorMovementEffects consumePendingEffects();
+    void toggleRunning();
+    void toggleFlying();
+    void toggleWaterWalk();
+    void toggleFeatherFall();
 
 private:
     OutdoorMovementController m_movementController;
     OutdoorMoveState m_state;
-    OutdoorMovementModifiers m_modifiers;
+    OutdoorPartyMovementState m_partyMovementState;
+    OutdoorMovementTuning m_tuning;
     OutdoorMovementEvents m_lastEvents;
     OutdoorMovementConsequences m_lastConsequences;
+    OutdoorMovementEffects m_pendingEffects;
     bool m_jumpHeld = false;
     bool m_pendingJumpPress = false;
     float m_movementAccumulatorSeconds = 0.0f;

@@ -20,13 +20,13 @@ set(OPENYAMM_DEV_ASSETS_DIR
 )
 
 set(OPENYAMM_WINDOW_WIDTH
-    1280
+    1600
     CACHE STRING
     "Default application window width."
 )
 
 set(OPENYAMM_WINDOW_HEIGHT
-    720
+    900
     CACHE STRING
     "Default application window height."
 )

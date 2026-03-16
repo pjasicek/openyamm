@@ -17,6 +17,8 @@ add_executable(openyamm
     OutdoorGeometryUtils.cpp
     OutdoorMovementController.cpp
     OutdoorMovementDriver.cpp
+    OutdoorPartyRuntime.cpp
+    OutdoorPartyState.cpp
     SpawnPreview.cpp
     SpriteTables.cpp
     StrTable.cpp

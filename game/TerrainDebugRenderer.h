@@ -7,6 +7,8 @@
 #include "game/OutdoorMapData.h"
 #include "game/ChestTable.h"
 #include "game/EvtProgram.h"
+#include "game/EventIr.h"
+#include "game/EventRuntime.h"
 #include "game/HouseTable.h"
 #include "game/StrTable.h"
 
@@ -20,7 +22,7 @@
 
 namespace OpenYAMM::Game
 {
-class OutdoorMovementDriver;
+class OutdoorPartyRuntime;
 
 class TerrainDebugRenderer
 {
@@ -50,7 +52,11 @@ public:
         const HouseTable &houseTable,
         const std::optional<StrTable> &localStrTable,
         const std::optional<EvtProgram> &localEvtProgram,
-        const std::optional<EvtProgram> &globalEvtProgram
+        const std::optional<EvtProgram> &globalEvtProgram,
+        const std::optional<EventRuntimeState> &eventRuntimeState,
+        const std::optional<EventIrProgram> &localEventIrProgram,
+        const std::optional<EventIrProgram> &globalEventIrProgram,
+        OutdoorPartyRuntime *pOutdoorPartyRuntime
     );
     void render(int width, int height, float mouseWheelDelta);
     void shutdown();
@@ -155,6 +161,7 @@ private:
         const bx::Vec3 &rayOrigin,
         const bx::Vec3 &rayDirection
     );
+    bool tryActivateInspectEvent(const InspectHit &inspectHit);
     void updateCameraFromInput();
     void renderDecorationBillboards(
         uint16_t viewId,
@@ -180,6 +187,10 @@ private:
     std::optional<StrTable> m_localStrTable;
     std::optional<EvtProgram> m_localEvtProgram;
     std::optional<EvtProgram> m_globalEvtProgram;
+    std::optional<EventRuntimeState> m_eventRuntimeState;
+    EventRuntime m_eventRuntime;
+    std::optional<EventIrProgram> m_localEventIrProgram;
+    std::optional<EventIrProgram> m_globalEventIrProgram;
     bgfx::VertexBufferHandle m_vertexBufferHandle;
     bgfx::IndexBufferHandle m_indexBufferHandle;
     bgfx::VertexBufferHandle m_texturedTerrainVertexBufferHandle;
@@ -235,10 +246,11 @@ private:
     bool m_toggleEntitiesLatch;
     bool m_toggleSpawnsLatch;
     bool m_toggleInspectLatch;
+    bool m_activateInspectLatch;
     bool m_toggleRunningLatch;
     bool m_toggleFlyingLatch;
     bool m_toggleWaterWalkLatch;
     bool m_toggleFeatherFallLatch;
-    std::unique_ptr<OutdoorMovementDriver> m_pOutdoorMovementDriver;
+    OutdoorPartyRuntime *m_pOutdoorPartyRuntime;
 };
 }

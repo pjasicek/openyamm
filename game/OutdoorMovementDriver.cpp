@@ -34,9 +34,11 @@ OutdoorMovementDriver::OutdoorMovementDriver(
 void OutdoorMovementDriver::initialize(float x, float y, float footZHint)
 {
     m_state = m_movementController.initializeState(x, y, footZHint);
-    m_modifiers = {};
+    m_partyMovementState = {};
+    m_tuning = {};
     m_lastEvents = {};
     m_lastConsequences = {};
+    m_pendingEffects = {};
     m_jumpHeld = false;
     m_pendingJumpPress = false;
     m_movementAccumulatorSeconds = 0.0f;
@@ -72,54 +74,54 @@ void OutdoorMovementDriver::update(const OutdoorMovementInput &input, float delt
     {
         if (input.forward)
         {
-            moveVelocityX += forward.x * m_modifiers.turboMoveSpeed;
-            moveVelocityY += forward.y * m_modifiers.turboMoveSpeed;
+            moveVelocityX += forward.x * m_tuning.turboMoveSpeed;
+            moveVelocityY += forward.y * m_tuning.turboMoveSpeed;
         }
 
         if (input.backward)
         {
-            moveVelocityX -= forward.x * m_modifiers.turboMoveSpeed;
-            moveVelocityY -= forward.y * m_modifiers.turboMoveSpeed;
+            moveVelocityX -= forward.x * m_tuning.turboMoveSpeed;
+            moveVelocityY -= forward.y * m_tuning.turboMoveSpeed;
         }
 
         if (input.left)
         {
-            moveVelocityX -= right.x * m_modifiers.turboMoveSpeed;
-            moveVelocityY -= right.y * m_modifiers.turboMoveSpeed;
+            moveVelocityX -= right.x * m_tuning.turboMoveSpeed;
+            moveVelocityY -= right.y * m_tuning.turboMoveSpeed;
         }
 
         if (input.right)
         {
-            moveVelocityX += right.x * m_modifiers.turboMoveSpeed;
-            moveVelocityY += right.y * m_modifiers.turboMoveSpeed;
+            moveVelocityX += right.x * m_tuning.turboMoveSpeed;
+            moveVelocityY += right.y * m_tuning.turboMoveSpeed;
         }
     }
     else
     {
-        const float forwardSpeedMultiplier = m_modifiers.running ? m_modifiers.runForwardMultiplier : 1.0f;
+        const float forwardSpeedMultiplier = m_partyMovementState.running ? m_tuning.runForwardMultiplier : 1.0f;
 
         if (input.left)
         {
-            moveVelocityX -= right.x * m_modifiers.walkSpeed * m_modifiers.strafeMultiplier;
-            moveVelocityY -= right.y * m_modifiers.walkSpeed * m_modifiers.strafeMultiplier;
+            moveVelocityX -= right.x * m_tuning.walkSpeed * m_tuning.strafeMultiplier;
+            moveVelocityY -= right.y * m_tuning.walkSpeed * m_tuning.strafeMultiplier;
         }
 
         if (input.right)
         {
-            moveVelocityX += right.x * m_modifiers.walkSpeed * m_modifiers.strafeMultiplier;
-            moveVelocityY += right.y * m_modifiers.walkSpeed * m_modifiers.strafeMultiplier;
+            moveVelocityX += right.x * m_tuning.walkSpeed * m_tuning.strafeMultiplier;
+            moveVelocityY += right.y * m_tuning.walkSpeed * m_tuning.strafeMultiplier;
         }
 
         if (input.forward)
         {
-            moveVelocityX += forward.x * m_modifiers.walkSpeed * forwardSpeedMultiplier;
-            moveVelocityY += forward.y * m_modifiers.walkSpeed * forwardSpeedMultiplier;
+            moveVelocityX += forward.x * m_tuning.walkSpeed * forwardSpeedMultiplier;
+            moveVelocityY += forward.y * m_tuning.walkSpeed * forwardSpeedMultiplier;
         }
 
         if (input.backward)
         {
-            moveVelocityX -= forward.x * m_modifiers.walkSpeed * m_modifiers.backwardWalkMultiplier;
-            moveVelocityY -= forward.y * m_modifiers.walkSpeed * m_modifiers.backwardWalkMultiplier;
+            moveVelocityX -= forward.x * m_tuning.walkSpeed * m_tuning.backwardWalkMultiplier;
+            moveVelocityY -= forward.y * m_tuning.walkSpeed * m_tuning.backwardWalkMultiplier;
         }
     }
 
@@ -150,9 +152,9 @@ void OutdoorMovementDriver::update(const OutdoorMovementInput &input, float delt
             moveVelocityY,
             jumpRequestedThisStep,
             input.flyDown,
-            m_modifiers.flying,
-            m_modifiers.jumpVelocity,
-            m_modifiers.flyVerticalSpeed,
+            m_partyMovementState.flying,
+            m_tuning.jumpVelocity,
+            m_tuning.flyVerticalSpeed,
             OutdoorMovementStepSeconds
         );
         m_pendingJumpPress = false;
@@ -202,13 +204,20 @@ void OutdoorMovementDriver::update(const OutdoorMovementInput &input, float delt
     m_lastEvents.leftBurning = m_leftBurningEventSeconds > 0.0f;
     m_lastEvents.hardLanding = m_lastEvents.landed && m_lastEvents.landingFallDistance > HardLandingDistance;
 
-    if (m_state.supportOnWater && !m_modifiers.waterWalk && !m_modifiers.flying)
+    if (m_partyMovementState.flying || m_partyMovementState.featherFall)
+    {
+        m_state.fallStartZ = m_state.footZ;
+        m_state.fallDistance = 0.0f;
+    }
+
+    if (m_state.supportOnWater && !m_partyMovementState.waterWalk && !m_partyMovementState.flying)
     {
         m_waterDamageTimerSeconds += deltaSeconds;
 
         while (m_waterDamageTimerSeconds >= DamageTickSeconds)
         {
             m_waterDamageConsequenceSeconds = EventHoldSeconds;
+            m_pendingEffects.waterDamageTicks += 1;
             m_waterDamageTimerSeconds -= DamageTickSeconds;
         }
     }
@@ -217,13 +226,14 @@ void OutdoorMovementDriver::update(const OutdoorMovementInput &input, float delt
         m_waterDamageTimerSeconds = 0.0f;
     }
 
-    if (m_state.supportOnBurning && !m_modifiers.flying)
+    if (m_state.supportOnBurning && !m_partyMovementState.flying)
     {
         m_burningDamageTimerSeconds += deltaSeconds;
 
         while (m_burningDamageTimerSeconds >= DamageTickSeconds)
         {
             m_burningDamageConsequenceSeconds = EventHoldSeconds;
+            m_pendingEffects.burningDamageTicks += 1;
             m_burningDamageTimerSeconds -= DamageTickSeconds;
         }
     }
@@ -236,22 +246,30 @@ void OutdoorMovementDriver::update(const OutdoorMovementInput &input, float delt
     {
         m_landingSoundConsequenceSeconds = EventHoldSeconds;
         m_lastConsequences.fallDamageDistance = m_lastEvents.landingFallDistance;
+        m_pendingEffects.playLandingSound = true;
     }
 
     if (m_lastEvents.hardLanding)
     {
         m_hardLandingSoundConsequenceSeconds = EventHoldSeconds;
+        m_pendingEffects.playHardLandingSound = true;
     }
 
     if (m_lastEvents.landed && m_state.supportOnWater && m_lastEvents.landingFallDistance > 0.0f)
     {
         m_splashSoundConsequenceSeconds = EventHoldSeconds;
+        m_pendingEffects.playSplashSound = true;
     }
 
-    if (m_lastEvents.hardLanding && !m_modifiers.featherFall && !m_modifiers.flying && !m_state.supportOnWater)
+    if (m_lastEvents.hardLanding
+        && !m_partyMovementState.featherFall
+        && !m_partyMovementState.flying
+        && !m_state.supportOnWater)
     {
         m_fallDamageConsequenceSeconds = EventHoldSeconds;
         m_lastConsequences.fallDamageDistance = m_lastEvents.landingFallDistance;
+        m_pendingEffects.maxFallDamageDistance =
+            std::max(m_pendingEffects.maxFallDamageDistance, m_lastEvents.landingFallDistance);
     }
 
     m_lastConsequences.applyWaterDamage = m_waterDamageConsequenceSeconds > 0.0f;
@@ -277,13 +295,58 @@ const OutdoorMovementConsequences &OutdoorMovementDriver::lastConsequences() con
     return m_lastConsequences;
 }
 
-OutdoorMovementModifiers &OutdoorMovementDriver::modifiers()
+const OutdoorPartyMovementState &OutdoorMovementDriver::partyMovementState() const
 {
-    return m_modifiers;
+    return m_partyMovementState;
 }
 
-const OutdoorMovementModifiers &OutdoorMovementDriver::modifiers() const
+const OutdoorMovementTuning &OutdoorMovementDriver::tuning() const
 {
-    return m_modifiers;
+    return m_tuning;
+}
+
+const OutdoorMovementEffects &OutdoorMovementDriver::pendingEffects() const
+{
+    return m_pendingEffects;
+}
+
+OutdoorMovementEffects OutdoorMovementDriver::consumePendingEffects()
+{
+    const OutdoorMovementEffects effects = m_pendingEffects;
+    m_pendingEffects = {};
+    return effects;
+}
+
+void OutdoorMovementDriver::toggleRunning()
+{
+    m_partyMovementState.running = !m_partyMovementState.running;
+}
+
+void OutdoorMovementDriver::toggleFlying()
+{
+    m_partyMovementState.flying = !m_partyMovementState.flying;
+
+    if (m_partyMovementState.flying)
+    {
+        m_state.verticalVelocity = 0.0f;
+        m_state.fallStartZ = m_state.footZ;
+        m_state.fallDistance = 0.0f;
+    }
+}
+
+void OutdoorMovementDriver::toggleWaterWalk()
+{
+    m_partyMovementState.waterWalk = !m_partyMovementState.waterWalk;
+}
+
+void OutdoorMovementDriver::toggleFeatherFall()
+{
+    m_partyMovementState.featherFall = !m_partyMovementState.featherFall;
+
+    if (m_partyMovementState.featherFall)
+    {
+        m_state.fallStartZ = m_state.footZ;
+        m_state.fallDistance = 0.0f;
+    }
 }
 }

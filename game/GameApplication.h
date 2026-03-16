@@ -4,10 +4,12 @@
 #include "engine/EngineApplication.h"
 #include "game/GameDataLoader.h"
 #include "game/IndoorDebugRenderer.h"
+#include "game/OutdoorPartyRuntime.h"
 #include "game/TerrainDebugRenderer.h"
 
 #include <cstddef>
 #include <cstdint>
+#include <memory>
 
 namespace OpenYAMM::Game
 {
@@ -30,6 +32,7 @@ private:
     GameDataLoader m_gameDataLoader;
     IndoorDebugRenderer m_indoorDebugRenderer;
     TerrainDebugRenderer m_terrainDebugRenderer;
+    std::unique_ptr<OutdoorPartyRuntime> m_pOutdoorPartyRuntime;
     const Engine::AssetFileSystem *m_pAssetFileSystem;
     size_t m_mapPickerIndex;
     bool m_showMapPicker;

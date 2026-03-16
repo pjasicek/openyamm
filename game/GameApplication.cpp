@@ -67,6 +67,7 @@ bool GameApplication::initializeRenderer()
 {
     m_terrainDebugRenderer.shutdown();
     m_indoorDebugRenderer.shutdown();
+    m_pOutdoorPartyRuntime.reset();
 
     const std::optional<MapAssetInfo> &selectedMap = m_gameDataLoader.getSelectedMap();
 
@@ -77,6 +78,16 @@ bool GameApplication::initializeRenderer()
 
     if (selectedMap->outdoorMapData)
     {
+        m_pOutdoorPartyRuntime = std::make_unique<OutdoorPartyRuntime>(
+            OutdoorMovementDriver(
+                *selectedMap->outdoorMapData,
+                selectedMap->outdoorLandMask,
+                selectedMap->outdoorDecorationCollisionSet,
+                selectedMap->outdoorActorCollisionSet,
+                selectedMap->outdoorSpriteObjectCollisionSet
+            )
+        );
+
         return m_terrainDebugRenderer.initialize(
             selectedMap->map,
             m_gameDataLoader.getMonsterTable(),
@@ -96,7 +107,11 @@ bool GameApplication::initializeRenderer()
             m_gameDataLoader.getHouseTable(),
             selectedMap->localStrTable,
             selectedMap->localEvtProgram,
-            selectedMap->globalEvtProgram
+            selectedMap->globalEvtProgram,
+            selectedMap->eventRuntimeState,
+            selectedMap->localEventIrProgram,
+            selectedMap->globalEventIrProgram,
+            m_pOutdoorPartyRuntime.get()
         );
     }
 
