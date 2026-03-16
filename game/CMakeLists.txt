@@ -14,7 +14,9 @@ add_executable(openyamm
     MonsterTable.cpp
     ObjectTable.cpp
     OutdoorMapData.cpp
+    OutdoorGeometryUtils.cpp
     OutdoorMovementController.cpp
+    OutdoorMovementDriver.cpp
     SpawnPreview.cpp
     SpriteTables.cpp
     StrTable.cpp

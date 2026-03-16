@@ -1,6 +1,7 @@
 #include "game/TerrainDebugRenderer.h"
 
-#include "game/OutdoorMovementController.h"
+#include "game/OutdoorGeometryUtils.h"
+#include "game/OutdoorMovementDriver.h"
 #include "game/SpawnPreview.h"
 
 #include <bx/math.h>
@@ -39,29 +40,7 @@ uint32_t currentAnimationTicks()
     return static_cast<uint32_t>((static_cast<uint64_t>(SDL_GetTicks()) * 128ULL) / 1000ULL);
 }
 
-struct OutdoorFaceGeometry
-{
-    size_t bModelIndex = 0;
-    size_t faceIndex = 0;
-    std::string modelName;
-    uint8_t polygonType = 0;
-    uint32_t attributes = 0;
-    std::vector<bx::Vec3> vertices;
-    bx::Vec3 normal = {0.0f, 0.0f, 0.0f};
-    bool hasPlane = false;
-    bool isWalkable = false;
-    float minX = 0.0f;
-    float maxX = 0.0f;
-    float minY = 0.0f;
-    float maxY = 0.0f;
-    float minZ = 0.0f;
-    float maxZ = 0.0f;
-};
-
-bool isOutdoorWalkablePolygonType(uint8_t polygonType)
-{
-    return polygonType == OutdoorPolygonFloor || polygonType == OutdoorPolygonInBetweenFloorAndWall;
-}
+using OutdoorFaceGeometry = OutdoorFaceGeometryData;
 
 bool isOutdoorFaceSlopeTooSteep(const OutdoorFaceGeometry &geometry)
 {
@@ -78,48 +57,6 @@ bool isOutdoorFaceSlopeTooSteep(const OutdoorFaceGeometry &geometry)
     }
 
     return (geometry.maxZ - geometry.minZ) >= OutdoorMaxStepHeight;
-}
-
-float sampleOutdoorHeightAtWorldPosition(const OutdoorMapData &outdoorMapData, float x, float y)
-{
-    const float gridX = 64.0f - (x / static_cast<float>(OutdoorMapData::TerrainTileSize));
-    const float gridY = 64.0f - (y / static_cast<float>(OutdoorMapData::TerrainTileSize));
-    const int sampleX0 = std::clamp(static_cast<int>(std::floor(gridX)), 0, OutdoorMapData::TerrainWidth - 1);
-    const int sampleY0 = std::clamp(static_cast<int>(std::floor(gridY)), 0, OutdoorMapData::TerrainHeight - 1);
-    const int sampleX1 = std::clamp(sampleX0 + 1, 0, OutdoorMapData::TerrainWidth - 1);
-    const int sampleY1 = std::clamp(sampleY0 + 1, 0, OutdoorMapData::TerrainHeight - 1);
-    const float fractionX = std::clamp(gridX - static_cast<float>(sampleX0), 0.0f, 1.0f);
-    const float fractionY = std::clamp(gridY - static_cast<float>(sampleY0), 0.0f, 1.0f);
-
-    const size_t index00 = static_cast<size_t>(sampleY0 * OutdoorMapData::TerrainWidth + sampleX0);
-    const size_t index10 = static_cast<size_t>(sampleY0 * OutdoorMapData::TerrainWidth + sampleX1);
-    const size_t index01 = static_cast<size_t>(sampleY1 * OutdoorMapData::TerrainWidth + sampleX0);
-    const size_t index11 = static_cast<size_t>(sampleY1 * OutdoorMapData::TerrainWidth + sampleX1);
-
-    const float height00 = static_cast<float>(outdoorMapData.heightMap[index00]);
-    const float height10 = static_cast<float>(outdoorMapData.heightMap[index10]);
-    const float height01 = static_cast<float>(outdoorMapData.heightMap[index01]);
-    const float height11 = static_cast<float>(outdoorMapData.heightMap[index11]);
-
-    const float heightTop = height00 + (height10 - height00) * fractionX;
-    const float heightBottom = height01 + (height11 - height01) * fractionX;
-    const float heightSample = heightTop + (heightBottom - heightTop) * fractionY;
-
-    return heightSample * static_cast<float>(OutdoorMapData::TerrainHeightScale);
-}
-
-float sampleOutdoorTerrainNormalZ(const OutdoorMapData &outdoorMapData, float x, float y)
-{
-    const float sampleOffset = static_cast<float>(OutdoorMapData::TerrainTileSize);
-    const float heightLeft = sampleOutdoorHeightAtWorldPosition(outdoorMapData, x - sampleOffset, y);
-    const float heightRight = sampleOutdoorHeightAtWorldPosition(outdoorMapData, x + sampleOffset, y);
-    const float heightDown = sampleOutdoorHeightAtWorldPosition(outdoorMapData, x, y - sampleOffset);
-    const float heightUp = sampleOutdoorHeightAtWorldPosition(outdoorMapData, x, y + sampleOffset);
-    const float gradientX = (heightRight - heightLeft) / (sampleOffset * 2.0f);
-    const float gradientY = (heightUp - heightDown) / (sampleOffset * 2.0f);
-    const float inverseLength = 1.0f / std::sqrt(gradientX * gradientX + gradientY * gradientY + 1.0f);
-
-    return inverseLength;
 }
 
 bx::Vec3 vecSubtract(const bx::Vec3 &left, const bx::Vec3 &right)
@@ -176,172 +113,6 @@ bx::Vec3 vecNormalize(const bx::Vec3 &vector)
     }
 
     return {vector.x / vectorLength, vector.y / vectorLength, vector.z / vectorLength};
-}
-
-bx::Vec3 outdoorBModelPointToWorld(int x, int y, int z)
-{
-    return {
-        static_cast<float>(-x),
-        static_cast<float>(y),
-        static_cast<float>(z)
-    };
-}
-
-bx::Vec3 outdoorBModelVertexToWorld(const OutdoorBModelVertex &vertex)
-{
-    return outdoorBModelPointToWorld(vertex.x, vertex.y, vertex.z);
-}
-
-bool buildOutdoorFaceGeometry(
-    const OutdoorBModel &bModel,
-    size_t bModelIndex,
-    const OutdoorBModelFace &face,
-    size_t faceIndex,
-    OutdoorFaceGeometry &geometry
-)
-{
-    if (face.vertexIndices.size() < 3)
-    {
-        return false;
-    }
-
-    geometry = {};
-    geometry.bModelIndex = bModelIndex;
-    geometry.faceIndex = faceIndex;
-    geometry.modelName = bModel.name;
-    geometry.polygonType = face.polygonType;
-    geometry.attributes = face.attributes;
-    geometry.isWalkable = isOutdoorWalkablePolygonType(face.polygonType);
-    geometry.vertices.reserve(face.vertexIndices.size());
-
-    for (uint16_t vertexIndex : face.vertexIndices)
-    {
-        if (vertexIndex >= bModel.vertices.size())
-        {
-            geometry.vertices.clear();
-            return false;
-        }
-
-        geometry.vertices.push_back(outdoorBModelVertexToWorld(bModel.vertices[vertexIndex]));
-    }
-
-    if (geometry.vertices.size() < 3)
-    {
-        return false;
-    }
-
-    geometry.minX = geometry.vertices[0].x;
-    geometry.maxX = geometry.vertices[0].x;
-    geometry.minY = geometry.vertices[0].y;
-    geometry.maxY = geometry.vertices[0].y;
-    geometry.minZ = geometry.vertices[0].z;
-    geometry.maxZ = geometry.vertices[0].z;
-
-    for (const bx::Vec3 &vertex : geometry.vertices)
-    {
-        geometry.minX = std::min(geometry.minX, vertex.x);
-        geometry.maxX = std::max(geometry.maxX, vertex.x);
-        geometry.minY = std::min(geometry.minY, vertex.y);
-        geometry.maxY = std::max(geometry.maxY, vertex.y);
-        geometry.minZ = std::min(geometry.minZ, vertex.z);
-        geometry.maxZ = std::max(geometry.maxZ, vertex.z);
-    }
-
-    const bx::Vec3 edge1 = vecSubtract(geometry.vertices[1], geometry.vertices[0]);
-    const bx::Vec3 edge2 = vecSubtract(geometry.vertices[2], geometry.vertices[0]);
-    geometry.normal = vecNormalize(vecCross(edge1, edge2));
-    geometry.hasPlane = vecLength(geometry.normal) > InspectRayEpsilon;
-    return true;
-}
-
-bool isPointInsideOutdoorPolygon(float x, float y, const std::vector<bx::Vec3> &vertices)
-{
-    if (vertices.size() < 3)
-    {
-        return false;
-    }
-
-    bool isInside = false;
-    size_t previousIndex = vertices.size() - 1;
-
-    for (size_t currentIndex = 0; currentIndex < vertices.size(); ++currentIndex)
-    {
-        const bx::Vec3 &currentVertex = vertices[currentIndex];
-        const bx::Vec3 &previousVertex = vertices[previousIndex];
-        const bool intersects =
-            ((currentVertex.y > y) != (previousVertex.y > y))
-            && (x < (previousVertex.x - currentVertex.x) * (y - currentVertex.y)
-                    / ((previousVertex.y - currentVertex.y) + InspectRayEpsilon)
-                + currentVertex.x);
-
-        if (intersects)
-        {
-            isInside = !isInside;
-        }
-
-        previousIndex = currentIndex;
-    }
-
-    return isInside;
-}
-
-bool isPointInsideOutdoorPolygonProjected(
-    const bx::Vec3 &point,
-    const std::vector<bx::Vec3> &vertices,
-    const bx::Vec3 &normal
-)
-{
-    if (vertices.size() < 3)
-    {
-        return false;
-    }
-
-    const float absNormalX = std::fabs(normal.x);
-    const float absNormalY = std::fabs(normal.y);
-    const float absNormalZ = std::fabs(normal.z);
-    enum class ProjectionAxis
-    {
-        X,
-        Y,
-        Z
-    };
-
-    ProjectionAxis projectionAxis = ProjectionAxis::Z;
-
-    if (absNormalX >= absNormalY && absNormalX >= absNormalZ)
-    {
-        projectionAxis = ProjectionAxis::X;
-    }
-    else if (absNormalY >= absNormalX && absNormalY >= absNormalZ)
-    {
-        projectionAxis = ProjectionAxis::Y;
-    }
-
-    auto projectVertex = [projectionAxis](const bx::Vec3 &vertex) -> bx::Vec3
-    {
-        if (projectionAxis == ProjectionAxis::X)
-        {
-            return {vertex.y, vertex.z, 0.0f};
-        }
-
-        if (projectionAxis == ProjectionAxis::Y)
-        {
-            return {vertex.x, vertex.z, 0.0f};
-        }
-
-        return {vertex.x, vertex.y, 0.0f};
-    };
-
-    std::vector<bx::Vec3> projectedVertices;
-    projectedVertices.reserve(vertices.size());
-
-    for (const bx::Vec3 &vertex : vertices)
-    {
-        projectedVertices.push_back(projectVertex(vertex));
-    }
-
-    const bx::Vec3 projectedPoint = projectVertex(point);
-    return isPointInsideOutdoorPolygon(projectedPoint.x, projectedPoint.y, projectedVertices);
 }
 
 float pointSegmentDistanceSquared2d(
@@ -727,8 +498,6 @@ TerrainDebugRenderer::TerrainDebugRenderer()
     , m_cameraTargetX(-80000.0f)
     , m_cameraTargetY(0.0f)
     , m_cameraTargetZ(28000.0f)
-    , m_cameraVerticalVelocity(0.0f)
-    , m_movementAccumulatorSeconds(0.0f)
     , m_cameraYawRadians(0.0f)
     , m_cameraPitchRadians(0.30f)
     , m_cameraEyeHeight(176.0f)
@@ -801,7 +570,7 @@ bool TerrainDebugRenderer::initialize(
     m_localStrTable = localStrTable;
     m_localEvtProgram = localEvtProgram;
     m_globalEvtProgram = globalEvtProgram;
-    m_pOutdoorMovementController = std::make_unique<OutdoorMovementController>(outdoorMapData);
+    m_pOutdoorMovementDriver = std::make_unique<OutdoorMovementDriver>(outdoorMapData);
 
     const int centerGridX = OutdoorMapData::TerrainWidth / 2;
     const int centerGridY = OutdoorMapData::TerrainHeight / 2;
@@ -811,10 +580,8 @@ bool TerrainDebugRenderer::initialize(
         static_cast<float>(outdoorMapData.heightMap[centerSampleIndex] * OutdoorMapData::TerrainHeightScale);
     m_cameraTargetX = 0.0f;
     m_cameraTargetY = 0.0f;
-    const OutdoorMoveState initialMoveState =
-        m_pOutdoorMovementController->initializeState(m_cameraTargetX, m_cameraTargetY, centerHeightWorld);
-    m_cameraTargetZ = initialMoveState.footZ + m_cameraEyeHeight;
-    m_cameraVerticalVelocity = initialMoveState.verticalVelocity;
+    m_pOutdoorMovementDriver->initialize(m_cameraTargetX, m_cameraTargetY, centerHeightWorld);
+    m_cameraTargetZ = m_pOutdoorMovementDriver->state().footZ + m_cameraEyeHeight;
     m_cameraYawRadians = -Pi * 0.5f;
     m_cameraPitchRadians = -0.15f;
     m_cameraDistance = 0.0f;
@@ -1642,7 +1409,7 @@ void TerrainDebugRenderer::shutdown()
     m_map.reset();
     m_monsterTable.reset();
     m_outdoorMapData.reset();
-    m_pOutdoorMovementController.reset();
+    m_pOutdoorMovementDriver.reset();
     m_outdoorDecorationBillboardSet.reset();
     m_outdoorActorPreviewBillboardSet.reset();
     m_outdoorSpriteObjectBillboardSet.reset();
@@ -2656,7 +2423,7 @@ std::vector<TerrainDebugRenderer::TerrainVertex> TerrainDebugRenderer::buildSpaw
         const float centerX = static_cast<float>(-spawn.x);
         const float centerY = static_cast<float>(spawn.y);
         const float halfExtent = static_cast<float>(std::max<uint16_t>(spawn.radius, 64));
-        const float groundHeight = sampleOutdoorHeightAtWorldPosition(
+        const float groundHeight = sampleOutdoorTerrainHeight(
             outdoorMapData,
             static_cast<float>(spawn.x),
             static_cast<float>(spawn.y)
@@ -2802,7 +2569,7 @@ TerrainDebugRenderer::InspectHit TerrainDebugRenderer::inspectBModelFace(
     {
         const OutdoorSpawn &spawn = outdoorMapData.spawns[spawnIndex];
         const float halfExtent = static_cast<float>(std::max<uint16_t>(spawn.radius, 64));
-        const float groundHeight = sampleOutdoorHeightAtWorldPosition(
+        const float groundHeight = sampleOutdoorTerrainHeight(
             outdoorMapData,
             static_cast<float>(spawn.x),
             static_cast<float>(spawn.y)
@@ -2935,9 +2702,6 @@ TerrainDebugRenderer::InspectHit TerrainDebugRenderer::inspectBModelFace(
 
 void TerrainDebugRenderer::updateCameraFromInput()
 {
-    constexpr float OutdoorMovementStepSeconds = 1.0f / 128.0f;
-    constexpr float MaxAccumulatedMovementSeconds = 0.1f;
-
     const uint64_t currentTickCount = SDL_GetTicksNS();
     float deltaSeconds = 1.0f / 60.0f;
 
@@ -2962,8 +2726,6 @@ void TerrainDebugRenderer::updateCameraFromInput()
     }
 
     const bool turboSpeed = pKeyboardState[SDL_SCANCODE_LSHIFT] || pKeyboardState[SDL_SCANCODE_RSHIFT];
-    const float baseWalkSpeed = 576.0f;
-    const float turboMoveSpeed = 4000.0f;
     const float mouseRotateSpeed = 0.0045f;
     float mouseX = 0.0f;
     float mouseY = 0.0f;
@@ -3002,93 +2764,54 @@ void TerrainDebugRenderer::updateCameraFromInput()
         0.0f
     };
 
-    float moveVelocityX = 0.0f;
-    float moveVelocityY = 0.0f;
-    if (turboSpeed)
-    {
-        if (pKeyboardState[SDL_SCANCODE_W])
-        {
-            moveVelocityX += forward.x * turboMoveSpeed;
-            moveVelocityY += forward.y * turboMoveSpeed;
-        }
-
-        if (pKeyboardState[SDL_SCANCODE_S])
-        {
-            moveVelocityX -= forward.x * turboMoveSpeed;
-            moveVelocityY -= forward.y * turboMoveSpeed;
-        }
-
-        if (pKeyboardState[SDL_SCANCODE_A])
-        {
-            moveVelocityX -= right.x * turboMoveSpeed;
-            moveVelocityY -= right.y * turboMoveSpeed;
-        }
-
-        if (pKeyboardState[SDL_SCANCODE_D])
-        {
-            moveVelocityX += right.x * turboMoveSpeed;
-            moveVelocityY += right.y * turboMoveSpeed;
-        }
-    }
-    else
-    {
-        if (pKeyboardState[SDL_SCANCODE_A])
-        {
-            moveVelocityX -= right.x * baseWalkSpeed;
-            moveVelocityY -= right.y * baseWalkSpeed;
-        }
-
-        if (pKeyboardState[SDL_SCANCODE_D])
-        {
-            moveVelocityX += right.x * baseWalkSpeed;
-            moveVelocityY += right.y * baseWalkSpeed;
-        }
-
-        if (pKeyboardState[SDL_SCANCODE_W])
-        {
-            moveVelocityX += forward.x * baseWalkSpeed;
-            moveVelocityY += forward.y * baseWalkSpeed;
-        }
-
-        if (pKeyboardState[SDL_SCANCODE_S])
-        {
-            moveVelocityX -= forward.x * baseWalkSpeed;
-            moveVelocityY -= forward.y * baseWalkSpeed;
-        }
-    }
-
     if (m_outdoorMapData)
     {
-        if (m_pOutdoorMovementController)
+        if (m_pOutdoorMovementDriver)
         {
-            m_movementAccumulatorSeconds =
-                std::min(m_movementAccumulatorSeconds + deltaSeconds, MaxAccumulatedMovementSeconds);
-
-            while (m_movementAccumulatorSeconds >= OutdoorMovementStepSeconds)
-            {
-                const float currentFootZ = m_cameraTargetZ - m_cameraEyeHeight;
-                const OutdoorMoveState startState = {
-                    m_cameraTargetX,
-                    m_cameraTargetY,
-                    currentFootZ,
-                    m_cameraVerticalVelocity
-                };
-                const OutdoorMoveState resolvedState = m_pOutdoorMovementController->resolveMove(
-                    startState,
-                    moveVelocityX,
-                    moveVelocityY,
-                    OutdoorMovementStepSeconds
-                );
-                m_cameraTargetX = resolvedState.x;
-                m_cameraTargetY = resolvedState.y;
-                m_cameraTargetZ = resolvedState.footZ + m_cameraEyeHeight;
-                m_cameraVerticalVelocity = resolvedState.verticalVelocity;
-                m_movementAccumulatorSeconds -= OutdoorMovementStepSeconds;
-            }
+            const OutdoorMovementInput movementInput = {
+                pKeyboardState[SDL_SCANCODE_W],
+                pKeyboardState[SDL_SCANCODE_S],
+                pKeyboardState[SDL_SCANCODE_A],
+                pKeyboardState[SDL_SCANCODE_D],
+                turboSpeed,
+                m_cameraYawRadians
+            };
+            m_pOutdoorMovementDriver->update(movementInput, deltaSeconds);
+            m_cameraTargetX = m_pOutdoorMovementDriver->state().x;
+            m_cameraTargetY = m_pOutdoorMovementDriver->state().y;
+            m_cameraTargetZ = m_pOutdoorMovementDriver->state().footZ + m_cameraEyeHeight;
         }
     }
     else
     {
+        float moveVelocityX = 0.0f;
+        float moveVelocityY = 0.0f;
+        const float freeMoveSpeed = turboSpeed ? 4000.0f : 576.0f;
+
+        if (pKeyboardState[SDL_SCANCODE_A])
+        {
+            moveVelocityX -= right.x * freeMoveSpeed;
+            moveVelocityY -= right.y * freeMoveSpeed;
+        }
+
+        if (pKeyboardState[SDL_SCANCODE_D])
+        {
+            moveVelocityX += right.x * freeMoveSpeed;
+            moveVelocityY += right.y * freeMoveSpeed;
+        }
+
+        if (pKeyboardState[SDL_SCANCODE_W])
+        {
+            moveVelocityX += forward.x * freeMoveSpeed;
+            moveVelocityY += forward.y * freeMoveSpeed;
+        }
+
+        if (pKeyboardState[SDL_SCANCODE_S])
+        {
+            moveVelocityX -= forward.x * freeMoveSpeed;
+            moveVelocityY -= forward.y * freeMoveSpeed;
+        }
+
         m_cameraTargetX += moveVelocityX * deltaSeconds;
         m_cameraTargetY += moveVelocityY * deltaSeconds;
     }

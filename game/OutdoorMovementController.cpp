@@ -45,7 +45,6 @@ struct CollisionHit
     float heightOffset = 0.0f;
     bx::Vec3 collisionPoint = {0.0f, 0.0f, 0.0f};
     bx::Vec3 normal = {0.0f, 0.0f, 0.0f};
-    bool slopeTooSteep = false;
     float minZ = 0.0f;
     float maxZ = 0.0f;
 };
@@ -145,122 +144,47 @@ bool bboxIntersects(
         || minAz > maxBz);
 }
 
-bx::Vec3 outdoorBModelVertexToWorld(const OutdoorBModelVertex &vertex)
-{
-    return {
-        static_cast<float>(-vertex.x),
-        static_cast<float>(vertex.y),
-        static_cast<float>(vertex.z)
-    };
-}
-
-bool isWalkablePolygonType(uint8_t polygonType)
-{
-    return polygonType == PolygonFloor || polygonType == PolygonInBetweenFloorAndWall;
-}
-
 bool terrainSlopeTooHigh(const OutdoorMapData &outdoorMapData, float x, float y)
 {
-    const float sampleOffset = static_cast<float>(OutdoorMapData::TerrainTileSize);
-    const auto sampleHeight = [&outdoorMapData](float sampleX, float sampleY) -> float
+    const float gridXFloat = 64.0f - (x / static_cast<float>(OutdoorMapData::TerrainTileSize));
+    const float gridYFloat = 64.0f - (y / static_cast<float>(OutdoorMapData::TerrainTileSize));
+    const int gridX = std::clamp(static_cast<int>(std::floor(gridXFloat)), 0, OutdoorMapData::TerrainWidth - 2);
+    const int gridY = std::clamp(static_cast<int>(std::floor(gridYFloat)), 0, OutdoorMapData::TerrainHeight - 2);
+    const size_t index00 = static_cast<size_t>(gridY * OutdoorMapData::TerrainWidth + gridX);
+    const size_t index01 = static_cast<size_t>((gridY + 1) * OutdoorMapData::TerrainWidth + gridX);
+    const size_t index10 = static_cast<size_t>(gridY * OutdoorMapData::TerrainWidth + (gridX + 1));
+    const size_t index11 = static_cast<size_t>((gridY + 1) * OutdoorMapData::TerrainWidth + (gridX + 1));
+    const int z00 = static_cast<int>(outdoorMapData.heightMap[index00]) * OutdoorMapData::TerrainHeightScale;
+    const int z01 = static_cast<int>(outdoorMapData.heightMap[index01]) * OutdoorMapData::TerrainHeightScale;
+    const int z10 = static_cast<int>(outdoorMapData.heightMap[index10]) * OutdoorMapData::TerrainHeightScale;
+    const int z11 = static_cast<int>(outdoorMapData.heightMap[index11]) * OutdoorMapData::TerrainHeightScale;
+
+    const float tileMinWorldX =
+        static_cast<float>((64 - gridX - 1) * OutdoorMapData::TerrainTileSize);
+    const float tileTopWorldY =
+        static_cast<float>((64 - gridY) * OutdoorMapData::TerrainTileSize);
+    const int dx = static_cast<int>(std::clamp(x - tileMinWorldX, 0.0f, 511.999f));
+    const int dy = static_cast<int>(std::clamp(tileTopWorldY - y, 0.0f, 511.999f));
+    int triangleZ1 = 0;
+    int triangleZ2 = 0;
+    int triangleZ3 = 0;
+
+    if (dy >= dx)
     {
-        const float gridX = 64.0f - (sampleX / static_cast<float>(OutdoorMapData::TerrainTileSize));
-        const float gridY = 64.0f - (sampleY / static_cast<float>(OutdoorMapData::TerrainTileSize));
-        const int sampleX0 = std::clamp(static_cast<int>(std::floor(gridX)), 0, OutdoorMapData::TerrainWidth - 1);
-        const int sampleY0 = std::clamp(static_cast<int>(std::floor(gridY)), 0, OutdoorMapData::TerrainHeight - 1);
-        const int sampleX1 = std::clamp(sampleX0 + 1, 0, OutdoorMapData::TerrainWidth - 1);
-        const int sampleY1 = std::clamp(sampleY0 + 1, 0, OutdoorMapData::TerrainHeight - 1);
-        const float fractionX = std::clamp(gridX - static_cast<float>(sampleX0), 0.0f, 1.0f);
-        const float fractionY = std::clamp(gridY - static_cast<float>(sampleY0), 0.0f, 1.0f);
-        const size_t index00 = static_cast<size_t>(sampleY0 * OutdoorMapData::TerrainWidth + sampleX0);
-        const size_t index10 = static_cast<size_t>(sampleY0 * OutdoorMapData::TerrainWidth + sampleX1);
-        const size_t index01 = static_cast<size_t>(sampleY1 * OutdoorMapData::TerrainWidth + sampleX0);
-        const size_t index11 = static_cast<size_t>(sampleY1 * OutdoorMapData::TerrainWidth + sampleX1);
-        const float height00 = static_cast<float>(outdoorMapData.heightMap[index00]);
-        const float height10 = static_cast<float>(outdoorMapData.heightMap[index10]);
-        const float height01 = static_cast<float>(outdoorMapData.heightMap[index01]);
-        const float height11 = static_cast<float>(outdoorMapData.heightMap[index11]);
-        const float topHeight = height00 + (height10 - height00) * fractionX;
-        const float bottomHeight = height01 + (height11 - height01) * fractionX;
-        const float heightSample = topHeight + (bottomHeight - topHeight) * fractionY;
-        return heightSample * static_cast<float>(OutdoorMapData::TerrainHeightScale);
-    };
-
-    const float heightLeft = sampleHeight(x - sampleOffset, y);
-    const float heightRight = sampleHeight(x + sampleOffset, y);
-    const float heightDown = sampleHeight(x, y - sampleOffset);
-    const float heightUp = sampleHeight(x, y + sampleOffset);
-    const float gradientX = (heightRight - heightLeft) / (sampleOffset * 2.0f);
-    const float gradientY = (heightUp - heightDown) / (sampleOffset * 2.0f);
-    const float normalZ = 1.0f / std::sqrt(gradientX * gradientX + gradientY * gradientY + 1.0f);
-    return normalZ < WalkableNormalZ;
-}
-
-float sampleTerrainHeightAtWorldPosition(const OutdoorMapData &outdoorMapData, float x, float y)
-{
-    const float gridX = 64.0f - (x / static_cast<float>(OutdoorMapData::TerrainTileSize));
-    const float gridY = 64.0f - (y / static_cast<float>(OutdoorMapData::TerrainTileSize));
-    const int sampleX0 = std::clamp(static_cast<int>(std::floor(gridX)), 0, OutdoorMapData::TerrainWidth - 1);
-    const int sampleY0 = std::clamp(static_cast<int>(std::floor(gridY)), 0, OutdoorMapData::TerrainHeight - 1);
-    const int sampleX1 = std::clamp(sampleX0 + 1, 0, OutdoorMapData::TerrainWidth - 1);
-    const int sampleY1 = std::clamp(sampleY0 + 1, 0, OutdoorMapData::TerrainHeight - 1);
-    const float fractionX = std::clamp(gridX - static_cast<float>(sampleX0), 0.0f, 1.0f);
-    const float fractionY = std::clamp(gridY - static_cast<float>(sampleY0), 0.0f, 1.0f);
-    const size_t index00 = static_cast<size_t>(sampleY0 * OutdoorMapData::TerrainWidth + sampleX0);
-    const size_t index10 = static_cast<size_t>(sampleY0 * OutdoorMapData::TerrainWidth + sampleX1);
-    const size_t index01 = static_cast<size_t>(sampleY1 * OutdoorMapData::TerrainWidth + sampleX0);
-    const size_t index11 = static_cast<size_t>(sampleY1 * OutdoorMapData::TerrainWidth + sampleX1);
-    const float height00 = static_cast<float>(outdoorMapData.heightMap[index00]);
-    const float height10 = static_cast<float>(outdoorMapData.heightMap[index10]);
-    const float height01 = static_cast<float>(outdoorMapData.heightMap[index01]);
-    const float height11 = static_cast<float>(outdoorMapData.heightMap[index11]);
-    const float topHeight = height00 + (height10 - height00) * fractionX;
-    const float bottomHeight = height01 + (height11 - height01) * fractionX;
-    const float heightSample = topHeight + (bottomHeight - topHeight) * fractionY;
-    return heightSample * static_cast<float>(OutdoorMapData::TerrainHeightScale);
-}
-
-float sampleTerrainNormalZ(const OutdoorMapData &outdoorMapData, float x, float y)
-{
-    const float sampleOffset = static_cast<float>(OutdoorMapData::TerrainTileSize);
-    const float heightLeft = sampleTerrainHeightAtWorldPosition(outdoorMapData, x - sampleOffset, y);
-    const float heightRight = sampleTerrainHeightAtWorldPosition(outdoorMapData, x + sampleOffset, y);
-    const float heightDown = sampleTerrainHeightAtWorldPosition(outdoorMapData, x, y - sampleOffset);
-    const float heightUp = sampleTerrainHeightAtWorldPosition(outdoorMapData, x, y + sampleOffset);
-    const float gradientX = (heightRight - heightLeft) / (sampleOffset * 2.0f);
-    const float gradientY = (heightUp - heightDown) / (sampleOffset * 2.0f);
-    return 1.0f / std::sqrt(gradientX * gradientX + gradientY * gradientY + 1.0f);
-}
-
-bool isPointInsidePolygon(float x, float y, const std::vector<bx::Vec3> &vertices)
-{
-    if (vertices.size() < 3)
+        triangleZ1 = z01;
+        triangleZ2 = z11;
+        triangleZ3 = z00;
+    }
+    else
     {
-        return false;
+        triangleZ1 = z10;
+        triangleZ2 = z00;
+        triangleZ3 = z11;
     }
 
-    bool isInside = false;
-    size_t previousIndex = vertices.size() - 1;
-
-    for (size_t currentIndex = 0; currentIndex < vertices.size(); ++currentIndex)
-    {
-        const bx::Vec3 &currentVertex = vertices[currentIndex];
-        const bx::Vec3 &previousVertex = vertices[previousIndex];
-        const bool intersects =
-            ((currentVertex.y > y) != (previousVertex.y > y))
-            && (x < (previousVertex.x - currentVertex.x) * (y - currentVertex.y)
-                    / ((previousVertex.y - currentVertex.y) + CollisionEpsilon)
-                + currentVertex.x);
-
-        if (intersects)
-        {
-            isInside = !isInside;
-        }
-
-        previousIndex = currentIndex;
-    }
-
-    return isInside;
+    const int minZ = std::min({triangleZ1, triangleZ2, triangleZ3});
+    const int maxZ = std::max({triangleZ1, triangleZ2, triangleZ3});
+    return (maxZ - minZ) > OutdoorMapData::TerrainTileSize;
 }
 
 float pointSegmentDistanceSquared2d(
@@ -295,7 +219,7 @@ float pointSegmentDistanceSquared2d(
 
 bool isPointInsideOrNearPolygon(float x, float y, const std::vector<bx::Vec3> &vertices, float slack)
 {
-    if (isPointInsidePolygon(x, y, vertices))
+    if (isPointInsideOutdoorPolygon(x, y, vertices))
     {
         return true;
     }
@@ -323,61 +247,7 @@ bool isPointInsideOrNearPolygon(float x, float y, const std::vector<bx::Vec3> &v
     return false;
 }
 
-bool isPointInsidePolygonProjected(
-    const bx::Vec3 &point,
-    const std::vector<bx::Vec3> &vertices,
-    const bx::Vec3 &normal
-)
-{
-    enum class ProjectionAxis
-    {
-        X,
-        Y,
-        Z
-    };
-
-    const float absNormalX = std::fabs(normal.x);
-    const float absNormalY = std::fabs(normal.y);
-    const float absNormalZ = std::fabs(normal.z);
-    ProjectionAxis axis = ProjectionAxis::Z;
-
-    if (absNormalX >= absNormalY && absNormalX >= absNormalZ)
-    {
-        axis = ProjectionAxis::X;
-    }
-    else if (absNormalY >= absNormalX && absNormalY >= absNormalZ)
-    {
-        axis = ProjectionAxis::Y;
-    }
-
-    auto project = [axis](const bx::Vec3 &value) -> bx::Vec3
-    {
-        if (axis == ProjectionAxis::X)
-        {
-            return {value.y, value.z, 0.0f};
-        }
-
-        if (axis == ProjectionAxis::Y)
-        {
-            return {value.x, value.z, 0.0f};
-        }
-
-        return {value.x, value.y, 0.0f};
-    };
-
-    std::vector<bx::Vec3> projectedVertices;
-    projectedVertices.reserve(vertices.size());
-
-    for (const bx::Vec3 &vertex : vertices)
-    {
-        projectedVertices.push_back(project(vertex));
-    }
-
-    const bx::Vec3 projectedPoint = project(point);
-    return isPointInsidePolygon(projectedPoint.x, projectedPoint.y, projectedVertices);
-}
-
-bool calculateFaceHeight(const OutdoorMovementController::FaceGeometry &geometry, float x, float y, float &height)
+bool calculateFaceHeight(const OutdoorFaceGeometryData &geometry, float x, float y, float &height)
 {
     if (geometry.polygonType == PolygonFloor)
     {
@@ -473,7 +343,7 @@ bool collideWithLine(
 }
 
 bool collideSphereWithFace(
-    const OutdoorMovementController::FaceGeometry &geometry,
+    const OutdoorFaceGeometryData &geometry,
     const bx::Vec3 &position,
     float radius,
     const bx::Vec3 &direction,
@@ -521,7 +391,7 @@ bool collideSphereWithFace(
         projectedPosition = vecSubtract(projectedPosition, vecScale(geometry.normal, radius));
     }
 
-    if (!sphereInPlane && isPointInsidePolygonProjected(projectedPosition, geometry.vertices, geometry.normal))
+    if (!sphereInPlane && isPointInsideOutdoorPolygonProjected(projectedPosition, geometry.vertices, geometry.normal))
     {
         moveDistance = candidateMoveDistance;
         collisionPoint = projectedPosition;
@@ -635,7 +505,7 @@ bool prepareCollisionState(CollisionState &collisionState, float deltaSeconds)
     return false;
 }
 
-void collideBodyWithFace(CollisionState &collisionState, const OutdoorMovementController::FaceGeometry &geometry)
+void collideBodyWithFace(CollisionState &collisionState, const OutdoorFaceGeometryData &geometry)
 {
     auto collideOnce = [&collisionState, &geometry](
                            const bx::Vec3 &oldPosition,
@@ -688,7 +558,6 @@ void collideBodyWithFace(CollisionState &collisionState, const OutdoorMovementCo
             heightOffset,
             collisionPoint,
             geometry.normal,
-            geometry.slopeTooSteep,
             geometry.minZ,
             geometry.maxZ
         };
@@ -726,9 +595,9 @@ void collideBodyWithFace(CollisionState &collisionState, const OutdoorMovementCo
 
 void collideOutdoorWithModels(
     CollisionState &collisionState,
-    const std::vector<OutdoorMovementController::FaceGeometry> &faces)
+    const std::vector<OutdoorFaceGeometryData> &faces)
 {
-    for (const OutdoorMovementController::FaceGeometry &geometry : faces)
+    for (const OutdoorFaceGeometryData &geometry : faces)
     {
         if (!bboxIntersects(
                 collisionState.bboxMinX,
@@ -783,22 +652,22 @@ FloorSample chooseBestFloorSample(const FloorSample &terrainSample, const std::v
 
 FloorSample queryFloorLevel(
     const OutdoorMapData &outdoorMapData,
-    const std::vector<OutdoorMovementController::FaceGeometry> &faces,
+    const std::vector<OutdoorFaceGeometryData> &faces,
     float x,
     float y,
     float z)
 {
     const FloorSample terrainSample = {
         true,
-        sampleTerrainHeightAtWorldPosition(outdoorMapData, x, y),
-        sampleTerrainNormalZ(outdoorMapData, x, y),
+        sampleOutdoorTerrainHeight(outdoorMapData, x, y),
+        sampleOutdoorTerrainNormalZ(outdoorMapData, x, y),
         false,
         0,
         0
     };
     std::vector<FloorSample> samples;
 
-    for (const OutdoorMovementController::FaceGeometry &geometry : faces)
+    for (const OutdoorFaceGeometryData &geometry : faces)
     {
         if (!geometry.isWalkable
             || x < geometry.minX
@@ -854,10 +723,8 @@ OutdoorMoveState OutdoorMovementController::resolveMove(
     const FloorSample currentFloor = queryFloorLevel(*m_pOutdoorMapData, m_faces, state.x, state.y, state.footZ);
     const float currentGroundLevel = currentFloor.height + GroundSnapHeight;
     const bool partyAtHighSlope = !currentFloor.fromBModel && terrainSlopeTooHigh(*m_pOutdoorMapData, state.x, state.y);
-    const bool partyCloseToGround = (state.footZ - currentGroundLevel) <= CloseToGroundHeight;
     bool partyNotOnModel = !currentFloor.fromBModel;
     bool partyNotTouchingFloor = state.footZ > currentGroundLevel + GroundSnapHeight;
-    bool partyHasHitModel = false;
 
     bx::Vec3 partyNewPosition = {state.x, state.y, state.footZ};
     bx::Vec3 partyInputSpeed = {desiredVelocityX, desiredVelocityY, state.verticalVelocity};
@@ -878,7 +745,7 @@ OutdoorMoveState OutdoorMovementController::resolveMove(
     }
 
     const auto runCollisionPass =
-        [this, &partyHasHitModel, deltaSeconds](
+        [this, deltaSeconds](
             bx::Vec3 &passPosition,
             bx::Vec3 &passInputSpeed,
             bool &passPartyNotOnModel)
@@ -1009,9 +876,9 @@ OutdoorMoveState OutdoorMovementController::resolveMove(
             }
 
             const CollisionHit &hit = *collisionState.hit;
-            const FaceGeometry *pGeometry = nullptr;
+            const OutdoorFaceGeometryData *pGeometry = nullptr;
 
-            for (const FaceGeometry &geometry : m_faces)
+            for (const OutdoorFaceGeometryData &geometry : m_faces)
             {
                 if (geometry.bModelIndex == hit.bModelIndex && geometry.faceIndex == hit.faceIndex)
                 {
@@ -1033,11 +900,6 @@ OutdoorMoveState OutdoorMovementController::resolveMove(
             if (faceSlopeTooSteep && (pGeometry->maxZ - pGeometry->minZ) < MaxSmallSlopeHeight)
             {
                 faceSlopeTooSteep = false;
-            }
-
-            if (pGeometry->normal.z > 0.0f && !faceSlopeTooSteep)
-            {
-                partyHasHitModel = true;
             }
 
             const bx::Vec3 slidePlaneOrigin = vecSubtract(
@@ -1146,54 +1008,14 @@ void OutdoorMovementController::buildFaceCache()
                 continue;
             }
 
-            FaceGeometry geometry = {};
-            geometry.bModelIndex = bModelIndex;
-            geometry.faceIndex = faceIndex;
-            geometry.polygonType = face.polygonType;
-            geometry.attributes = face.attributes;
-            geometry.isWalkable = isWalkablePolygonType(face.polygonType);
-            geometry.vertices.reserve(face.vertexIndices.size());
+            OutdoorFaceGeometryData geometry = {};
 
-            bool validFace = true;
-
-            for (uint16_t vertexIndex : face.vertexIndices)
-            {
-                if (vertexIndex >= bModel.vertices.size())
-                {
-                    validFace = false;
-                    break;
-                }
-
-                geometry.vertices.push_back(outdoorBModelVertexToWorld(bModel.vertices[vertexIndex]));
-            }
-
-            if (!validFace || geometry.vertices.size() < 3)
+            if (!buildOutdoorFaceGeometry(bModel, bModelIndex, face, faceIndex, geometry))
             {
                 continue;
             }
 
-            geometry.minX = geometry.maxX = geometry.vertices[0].x;
-            geometry.minY = geometry.maxY = geometry.vertices[0].y;
-            geometry.minZ = geometry.maxZ = geometry.vertices[0].z;
-
-            for (const bx::Vec3 &vertex : geometry.vertices)
-            {
-                geometry.minX = std::min(geometry.minX, vertex.x);
-                geometry.maxX = std::max(geometry.maxX, vertex.x);
-                geometry.minY = std::min(geometry.minY, vertex.y);
-                geometry.maxY = std::max(geometry.maxY, vertex.y);
-                geometry.minZ = std::min(geometry.minZ, vertex.z);
-                geometry.maxZ = std::max(geometry.maxZ, vertex.z);
-            }
-
-            const bx::Vec3 edge1 = vecSubtract(geometry.vertices[1], geometry.vertices[0]);
-            const bx::Vec3 edge2 = vecSubtract(geometry.vertices[2], geometry.vertices[0]);
-            geometry.normal = vecNormalize(vecScale(vecCross(edge1, edge2), -1.0f));
-            geometry.hasPlane = vecLength(geometry.normal) > CollisionEpsilon;
-            geometry.slopeTooSteep =
-                geometry.normal.z > 0.0f
-                && geometry.normal.z < WalkableNormalZ
-                && (geometry.maxZ - geometry.minZ) >= MaxSmallSlopeHeight;
+            geometry.normal = vecScale(geometry.normal, -1.0f);
             m_faces.push_back(std::move(geometry));
         }
     }

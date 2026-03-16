@@ -19,7 +19,7 @@
 
 namespace OpenYAMM::Game
 {
-class OutdoorMovementController;
+class OutdoorMovementDriver;
 
 class TerrainDebugRenderer
 {
@@ -193,8 +193,6 @@ private:
     float m_cameraTargetX;
     float m_cameraTargetY;
     float m_cameraTargetZ;
-    float m_cameraVerticalVelocity;
-    float m_movementAccumulatorSeconds;
     float m_cameraYawRadians;
     float m_cameraPitchRadians;
     float m_cameraEyeHeight;
@@ -226,6 +224,6 @@ private:
     bool m_toggleEntitiesLatch;
     bool m_toggleSpawnsLatch;
     bool m_toggleInspectLatch;
-    std::unique_ptr<OutdoorMovementController> m_pOutdoorMovementController;
+    std::unique_ptr<OutdoorMovementDriver> m_pOutdoorMovementDriver;
 };
 }
