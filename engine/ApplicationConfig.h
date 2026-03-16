@@ -8,7 +8,9 @@ struct ApplicationConfig
 {
     std::string appName;
     std::string assetRoot;
+    int windowWidth;
+    int windowHeight;
 
-    [[nodiscard]] static ApplicationConfig createDefault();
+    static ApplicationConfig createDefault();
 };
 }

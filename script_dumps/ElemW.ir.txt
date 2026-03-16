@@ -1,0 +1,287 @@
+event 1
+  0: Trigger.MouseOver
+  0: Trigger.OnLoadMap ; raw=1 bytes
+  1: Exit ; raw=1 bytes
+end
+
+event 2
+  0: Trigger.MouseOver
+  0: Trigger.OnLoadMap ; raw=1 bytes
+  1: Exit ; raw=1 bytes
+end
+
+event 3
+  0: Trigger.MouseOver
+  0: Trigger.OnLoadMap ; raw=1 bytes
+  1: Exit ; raw=1 bytes
+end
+
+event 4
+  0: Trigger.MouseOver
+  0: Trigger.OnLoadMap ; raw=1 bytes
+  1: Exit ; raw=1 bytes
+end
+
+event 5
+  0: Trigger.MouseOver
+  0: Trigger.OnLoadMap ; raw=1 bytes
+  1: Exit ; raw=1 bytes
+end
+
+event 6
+  0: Trigger.MouseOver
+  0: Trigger.OnLeaveMap ; raw=1 bytes
+  1: Compare [15794192, 241] -> 8 ; QBits[241] value=241
+  2: ForPartyMember ; raw=1 bytes
+  3: Compare [39780369, 607] -> 5 ; Var(tag=0x11, index=607) value=607
+  4: Jump -> 8
+  5: Add [15794192, 241] ; QBits[241] value=241
+  6: Add [2258632717, 100000] ; Var(tag=0xd, index=34464) value=100000
+  7: Add [13500432, 206] ; QBits[206] value=206
+  8: Exit ; raw=1 bytes
+end
+
+event 7
+  0: Trigger.MouseOver
+  0: Trigger.OnLeaveMap ; raw=1 bytes
+  1: Exit ; raw=1 bytes
+end
+
+event 8
+  0: Trigger.MouseOver
+  0: Trigger.OnLeaveMap ; raw=1 bytes
+  1: Exit ; raw=1 bytes
+end
+
+event 9
+  0: Trigger.MouseOver
+  0: Trigger.OnLeaveMap ; raw=1 bytes
+  1: Exit ; raw=1 bytes
+end
+
+event 10
+  0: Trigger.MouseOver
+  0: Trigger.OnLeaveMap ; raw=1 bytes
+  1: Exit ; raw=1 bytes
+end
+
+event 11
+  0: Trigger.MouseOver
+  0: SpeakInHouse [472] "Riverglass' House"
+  1: Exit ; raw=1 bytes
+end
+
+event 12
+  0: Trigger.MouseOver
+  0: Exit ; raw=1 bytes
+  1: SpeakInHouse [472] "Riverglass' House"
+  2: Exit ; raw=1 bytes
+end
+
+event 13
+  0: Trigger.MouseOver
+  0: SpeakInHouse [473] "Clearcreek's House"
+  1: Exit ; raw=1 bytes
+end
+
+event 14
+  0: Trigger.MouseOver
+  0: Exit ; raw=1 bytes
+  1: SpeakInHouse [473] "Clearcreek's House"
+  2: Exit ; raw=1 bytes
+end
+
+event 15
+  0: Trigger.MouseOver
+  0: SpeakInHouse [474] "Empty House"
+  1: Exit ; raw=1 bytes
+end
+
+event 16
+  0: Trigger.MouseOver
+  0: Exit ; raw=1 bytes
+  1: SpeakInHouse [474] "Empty House"
+  2: Exit ; raw=1 bytes
+end
+
+event 17
+  0: Trigger.MouseOver
+  0: SpeakInHouse [475] "Empty House"
+  1: Exit ; raw=1 bytes
+end
+
+event 18
+  0: Trigger.MouseOver
+  0: Exit ; raw=1 bytes
+  1: SpeakInHouse [475] "Empty House"
+  2: Exit ; raw=1 bytes
+end
+
+event 19
+  0: Trigger.MouseOver
+  0: SpeakInHouse [476] "Empty House"
+  1: Exit ; raw=1 bytes
+end
+
+event 20
+  0: Trigger.MouseOver
+  0: Exit ; raw=1 bytes
+  1: SpeakInHouse [476] "Empty House"
+  2: Exit ; raw=1 bytes
+end
+
+event 21
+  0: Trigger.MouseOver
+  0: SpeakInHouse [323] "Black Current's House"
+  1: Exit ; raw=1 bytes
+end
+
+event 22
+  0: Trigger.MouseOver
+  0: Exit ; raw=1 bytes
+  1: SpeakInHouse [323] "Black Current's House"
+  2: Exit ; raw=1 bytes
+end
+
+event 81
+  0: Trigger.MouseOver
+  0: OpenChest [0] ; chest=0
+  1: Exit ; raw=1 bytes
+end
+
+event 82
+  0: Trigger.MouseOver
+  0: OpenChest [1] ; chest=1
+  1: Exit ; raw=1 bytes
+end
+
+event 83
+  0: Trigger.MouseOver
+  0: OpenChest [2] ; chest=2
+  1: Exit ; raw=1 bytes
+end
+
+event 84
+  0: Trigger.MouseOver
+  0: OpenChest [3] ; chest=3
+  1: Exit ; raw=1 bytes
+end
+
+event 85
+  0: Trigger.MouseOver
+  0: OpenChest [4] ; chest=4
+  1: Exit ; raw=1 bytes
+end
+
+event 86
+  0: Trigger.MouseOver
+  0: OpenChest [5] ; chest=5
+  1: Exit ; raw=1 bytes
+end
+
+event 87
+  0: Trigger.MouseOver
+  0: OpenChest [6] ; chest=6
+  1: Exit ; raw=1 bytes
+end
+
+event 88
+  0: Trigger.MouseOver
+  0: OpenChest [7] ; chest=7
+  1: Exit ; raw=1 bytes
+end
+
+event 89
+  0: Trigger.MouseOver
+  0: OpenChest [8] ; chest=8
+  1: Exit ; raw=1 bytes
+end
+
+event 90
+  0: Trigger.MouseOver
+  0: OpenChest [9] ; chest=9
+  1: Exit ; raw=1 bytes
+end
+
+event 91
+  0: Trigger.MouseOver
+  0: OpenChest [10] ; chest=10
+  1: Exit ; raw=1 bytes
+end
+
+event 92
+  0: Trigger.MouseOver
+  0: OpenChest [11] ; chest=11
+  1: Exit ; raw=1 bytes
+end
+
+event 93
+  0: Trigger.MouseOver
+  0: OpenChest [12] ; chest=12
+  1: Exit ; raw=1 bytes
+end
+
+event 94
+  0: Trigger.MouseOver
+  0: OpenChest [13] ; chest=13
+  1: Exit ; raw=1 bytes
+end
+
+event 95
+  0: Trigger.MouseOver
+  0: OpenChest [14] ; chest=14
+  1: Exit ; raw=1 bytes
+end
+
+event 96
+  0: Trigger.MouseOver
+  0: OpenChest [15] ; chest=15
+  1: Exit ; raw=1 bytes
+end
+
+event 97
+  0: Trigger.MouseOver
+  0: OpenChest [16] ; chest=16
+  1: Exit ; raw=1 bytes
+end
+
+event 98
+  0: Trigger.MouseOver
+  0: OpenChest [17] ; chest=17
+  1: Exit ; raw=1 bytes
+end
+
+event 99
+  0: Trigger.MouseOver
+  0: OpenChest [18] ; chest=18
+  1: Exit ; raw=1 bytes
+end
+
+event 100
+  0: Trigger.MouseOver
+  0: OpenChest [19] ; chest=19
+  1: Exit ; raw=1 bytes
+end
+
+event 401
+  0: Trigger.MouseOver "Gate out of the Plane of Water"
+  0: Exit ; raw=1 bytes
+end
+
+event 451
+  0: Trigger.MouseOver "Take a Drink"
+  0: Compare [655408, 10] -> 5 ; Var(tag=0x30, index=10) value=10
+  1: Add [131120, 2] ; Var(tag=0x30, index=2) value=2
+  2: StatusText [30] "Water Resistance +10 (Permanent)"
+  3: Add [17629409, 269] ; Var(tag=0xe1, index=269) value=269
+  4: Jump -> 6
+  5: StatusText [29] "Refreshing"
+  6: Exit ; raw=1 bytes
+end
+
+event 505
+  0: Trigger.MouseOver "Leave the Plane of Water"
+  0: MoveToMap [4294945134, 2886, 689] "Out08.odm"
+  1: Exit ; raw=1 bytes
+end
+

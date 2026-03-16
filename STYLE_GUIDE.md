@@ -43,6 +43,23 @@ Good examples:
 auto it = items.begin();
 auto result = visitor(node);
 
+Do not use `[[nodiscard]]`.
+
+Prefer unqualified standard integer and size types:
+
+uint32_t
+int16_t
+size_t
+
+Avoid:
+
+std::uint32_t
+std::int16_t
+std::size_t
+
+Use `static_cast` only when it is actually required for correctness.
+Do not add it by default for routine arithmetic or obvious conversions.
+
 Example:
 
 class Monster

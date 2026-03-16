@@ -1,0 +1,1103 @@
+event 1
+  0: Trigger.MouseOver
+  0: Trigger.OnLoadMap ; raw=1 bytes
+  1: Compare [131088, 2] -> 3 ; QBits[2] value=2
+  2: Jump -> 5
+  3: SetFacetBit [10, 8192, 0] ; facet=10 bit=Invisible on=0
+  4: SetFacetBit [10, 536870912, 0] ; facet=10 bit=Untouchable on=0
+  5: Exit ; raw=1 bytes
+end
+
+event 2
+  0: Trigger.OnLoadMap ; raw=1 bytes
+  0: Trigger.MouseOver
+  1: Compare [393232, 6] -> 5 ; QBits[6] value=6
+  2: SetNpcGroupNews [12, 12] ; group=12 news=12
+  3: SetNpcGroupNews [13, 12] ; group=13 news=12
+  4: Jump -> 14
+  5: SetFacetBit [20, 8192, 1] ; facet=20 bit=Invisible on=1
+  6: SetFacetBit [20, 536870912, 1] ; facet=20 bit=Untouchable on=1
+  7: SetActorGroupFlag [14, 65536, 1] ; target=14 bit=Invisible on=1
+  8: SetActorGroupFlag [10, 65536, 1] ; target=10 bit=Invisible on=1
+  9: SetActorGroupFlag [11, 65536, 1] ; target=11 bit=Invisible on=1
+  10: SetNpcGroupNews [12, 13] ; group=12 news=13
+  11: SetNpcGroupNews [13, 13] ; group=13 news=13
+  12: SetNpcGroupNews [1, 2] ; group=1 news=2
+  13: Jump -> 17
+  14: Compare [2359312, 36] -> 17 ; QBits[36] value=36
+  15: Compare [2490384, 38] -> 17 ; QBits[38] value=38
+  16: Jump -> 21
+  17: SetFacetBit [25, 8192, 0] ; facet=25 bit=Invisible on=0
+  18: SetFacetBit [25, 536870912, 0] ; facet=25 bit=Untouchable on=0
+  19: SetFacetBit [26, 536870912, 1] ; facet=26 bit=Untouchable on=1
+  20: Jump -> 23
+  21: SetFacetBit [25, 8192, 1] ; facet=25 bit=Invisible on=1
+  22: SetFacetBit [25, 536870912, 1] ; facet=25 bit=Untouchable on=1
+  23: Exit ; raw=1 bytes
+end
+
+event 3
+  0: Trigger.MouseOver
+  0: Trigger.OnLoadMap ; raw=1 bytes
+  1: Compare [14811152, 226] -> 6 ; QBits[226] value=226
+  2: Add [14811152, 226] ; QBits[226] value=226
+  3: Add [12124176, 185] ; QBits[185] value=185
+  4: Add [26279952, 401] ; QBits[401] value=401
+  5: Add [26673168, 407] ; QBits[407] value=407
+  6: Exit ; raw=1 bytes
+end
+
+event 4
+  0: Trigger.MouseOver
+  0: Trigger.OnLoadMap ; raw=1 bytes
+  1: Exit ; raw=1 bytes
+end
+
+event 6
+  0: Trigger.MouseOver
+  0: Trigger.OnLeaveMap ; raw=1 bytes
+  1: Exit ; raw=1 bytes
+end
+
+event 7
+  0: Trigger.MouseOver
+  0: Trigger.OnLeaveMap ; raw=1 bytes
+  1: Exit ; raw=1 bytes
+end
+
+event 8
+  0: Trigger.MouseOver
+  0: Trigger.OnLeaveMap ; raw=1 bytes
+  1: Exit ; raw=1 bytes
+end
+
+event 9
+  0: Trigger.MouseOver
+  0: Trigger.OnLeaveMap ; raw=1 bytes
+  1: Exit ; raw=1 bytes
+end
+
+event 10
+  0: Trigger.MouseOver
+  0: Trigger.OnLeaveMap ; raw=1 bytes
+  1: Exit ; raw=1 bytes
+end
+
+event 11
+  0: Trigger.MouseOver
+  0: SpeakInHouse [224] "Hiss' Hut"
+  1: Exit ; raw=1 bytes
+end
+
+event 12
+  0: Trigger.MouseOver
+  0: Exit ; raw=1 bytes
+  1: SpeakInHouse [224] "Hiss' Hut"
+  2: Exit ; raw=1 bytes
+end
+
+event 13
+  0: Trigger.MouseOver
+  0: SpeakInHouse [225] "Rohtnax's House"
+  1: Exit ; raw=1 bytes
+end
+
+event 14
+  0: Trigger.MouseOver
+  0: Exit ; raw=1 bytes
+  1: SpeakInHouse [225] "Rohtnax's House"
+  2: Exit ; raw=1 bytes
+end
+
+event 15
+  0: Trigger.MouseOver
+  0: SpeakInHouse [226] "Tisk's Hut"
+  1: Exit ; raw=1 bytes
+end
+
+event 16
+  0: Trigger.MouseOver
+  0: Exit ; raw=1 bytes
+  1: SpeakInHouse [226] "Tisk's Hut"
+  2: Exit ; raw=1 bytes
+end
+
+event 17
+  0: Trigger.MouseOver
+  0: SpeakInHouse [227] "Thadin's House"
+  1: Exit ; raw=1 bytes
+end
+
+event 18
+  0: Trigger.MouseOver
+  0: Exit ; raw=1 bytes
+  1: SpeakInHouse [227] "Thadin's House"
+  2: Exit ; raw=1 bytes
+end
+
+event 19
+  0: Trigger.MouseOver
+  0: SpeakInHouse [228] "House of Ich"
+  1: Exit ; raw=1 bytes
+end
+
+event 20
+  0: Trigger.MouseOver
+  0: Exit ; raw=1 bytes
+  1: SpeakInHouse [228] "House of Ich"
+  2: Exit ; raw=1 bytes
+end
+
+event 21
+  0: Trigger.MouseOver
+  0: SpeakInHouse [229] "Languid's Hut"
+  1: Exit ; raw=1 bytes
+end
+
+event 22
+  0: Trigger.MouseOver
+  0: Exit ; raw=1 bytes
+  1: SpeakInHouse [229] "Languid's Hut"
+  2: Exit ; raw=1 bytes
+end
+
+event 23
+  0: Trigger.MouseOver
+  0: SpeakInHouse [230] "House of Thistle"
+  1: Exit ; raw=1 bytes
+end
+
+event 24
+  0: Trigger.MouseOver
+  0: Exit ; raw=1 bytes
+  1: SpeakInHouse [230] "House of Thistle"
+  2: Exit ; raw=1 bytes
+end
+
+event 25
+  0: Trigger.MouseOver
+  0: SpeakInHouse [231] "Zevah's Hut"
+  1: Exit ; raw=1 bytes
+end
+
+event 26
+  0: Trigger.MouseOver
+  0: Exit ; raw=1 bytes
+  1: SpeakInHouse [231] "Zevah's Hut"
+  2: Exit ; raw=1 bytes
+end
+
+event 27
+  0: Trigger.MouseOver
+  0: SpeakInHouse [232] "Isthric's House"
+  1: Exit ; raw=1 bytes
+end
+
+event 28
+  0: Trigger.MouseOver
+  0: Exit ; raw=1 bytes
+  1: SpeakInHouse [232] "Isthric's House"
+  2: Exit ; raw=1 bytes
+end
+
+event 29
+  0: Trigger.MouseOver
+  0: SpeakInHouse [233] "Bone's House"
+  1: Exit ; raw=1 bytes
+end
+
+event 30
+  0: Trigger.MouseOver
+  0: Exit ; raw=1 bytes
+  1: SpeakInHouse [233] "Bone's House"
+  2: Exit ; raw=1 bytes
+end
+
+event 31
+  0: Trigger.MouseOver
+  0: SpeakInHouse [234] "Lasatin's Hut"
+  1: Exit ; raw=1 bytes
+end
+
+event 32
+  0: Trigger.MouseOver
+  0: Exit ; raw=1 bytes
+  1: SpeakInHouse [234] "Lasatin's Hut"
+  2: Exit ; raw=1 bytes
+end
+
+event 33
+  0: Trigger.MouseOver
+  0: SpeakInHouse [235] "Menasaur's House"
+  1: Exit ; raw=1 bytes
+end
+
+event 34
+  0: Trigger.MouseOver
+  0: Exit ; raw=1 bytes
+  1: SpeakInHouse [235] "Menasaur's House"
+  2: Exit ; raw=1 bytes
+end
+
+event 35
+  0: Trigger.MouseOver
+  0: SpeakInHouse [236] "Husk's Hut"
+  1: Exit ; raw=1 bytes
+end
+
+event 36
+  0: Trigger.MouseOver
+  0: Exit ; raw=1 bytes
+  1: SpeakInHouse [236] "Husk's Hut"
+  2: Exit ; raw=1 bytes
+end
+
+event 37
+  0: Trigger.MouseOver
+  0: SpeakInHouse [237] "Talimere's Hut"
+  1: Exit ; raw=1 bytes
+end
+
+event 38
+  0: Trigger.MouseOver
+  0: Exit ; raw=1 bytes
+  1: SpeakInHouse [237] "Talimere's Hut"
+  2: Exit ; raw=1 bytes
+end
+
+event 39
+  0: Trigger.MouseOver
+  0: SpeakInHouse [238] "House of Reshie"
+  1: Exit ; raw=1 bytes
+end
+
+event 40
+  0: Trigger.MouseOver
+  0: Exit ; raw=1 bytes
+  1: SpeakInHouse [238] "House of Reshie"
+  2: Exit ; raw=1 bytes
+end
+
+event 41
+  0: Trigger.MouseOver
+  0: SpeakInHouse [239] "House"
+  1: Exit ; raw=1 bytes
+end
+
+event 42
+  0: Trigger.MouseOver
+  0: Exit ; raw=1 bytes
+  1: SpeakInHouse [239] "House"
+  2: Exit ; raw=1 bytes
+end
+
+event 43
+  0: Trigger.MouseOver
+  0: SpeakInHouse [240] "Long-Tail's Hut"
+  1: Exit ; raw=1 bytes
+end
+
+event 44
+  0: Trigger.MouseOver
+  0: Exit ; raw=1 bytes
+  1: SpeakInHouse [240] "Long-Tail's Hut"
+  2: Exit ; raw=1 bytes
+end
+
+event 45
+  0: Trigger.MouseOver
+  0: SpeakInHouse [241] "Aislen's House"
+  1: Exit ; raw=1 bytes
+end
+
+event 46
+  0: Trigger.MouseOver
+  0: Exit ; raw=1 bytes
+  1: SpeakInHouse [241] "Aislen's House"
+  2: Exit ; raw=1 bytes
+end
+
+event 47
+  0: Trigger.MouseOver
+  0: SpeakInHouse [242] "House of Grivic"
+  1: Exit ; raw=1 bytes
+end
+
+event 48
+  0: Trigger.MouseOver
+  0: Exit ; raw=1 bytes
+  1: SpeakInHouse [242] "House of Grivic"
+  2: Exit ; raw=1 bytes
+end
+
+event 49
+  0: Trigger.MouseOver
+  0: SpeakInHouse [243] "Ush's Hut"
+  1: Exit ; raw=1 bytes
+end
+
+event 50
+  0: Trigger.MouseOver
+  0: Exit ; raw=1 bytes
+  1: SpeakInHouse [243] "Ush's Hut"
+  2: Exit ; raw=1 bytes
+end
+
+event 81
+  0: Trigger.MouseOver "Chest"
+  0: Compare [131390, 2] -> 3 ; Var(tag=0x13e, index=2) value=2
+  1: OpenChest [0] ; chest=0
+  2: Jump -> 4
+  3: OpenChest [3] ; chest=3
+  4: Exit ; raw=1 bytes
+end
+
+event 82
+  0: Trigger.MouseOver "Chest"
+  0: OpenChest [1] ; chest=1
+  1: Exit ; raw=1 bytes
+end
+
+event 83
+  0: Trigger.MouseOver "Chest"
+  0: OpenChest [2] ; chest=2
+  1: Exit ; raw=1 bytes
+end
+
+event 85
+  0: Trigger.MouseOver "Chest"
+  0: OpenChest [4] ; chest=4
+  1: Exit ; raw=1 bytes
+end
+
+event 86
+  0: Trigger.MouseOver "Chest"
+  0: OpenChest [5] ; chest=5
+  1: Exit ; raw=1 bytes
+end
+
+event 87
+  0: Trigger.MouseOver "Chest"
+  0: OpenChest [6] ; chest=6
+  1: Exit ; raw=1 bytes
+end
+
+event 88
+  0: Trigger.MouseOver "Chest"
+  0: OpenChest [7] ; chest=7
+  1: Exit ; raw=1 bytes
+end
+
+event 89
+  0: Trigger.MouseOver "Chest"
+  0: OpenChest [8] ; chest=8
+  1: Exit ; raw=1 bytes
+end
+
+event 90
+  0: Trigger.MouseOver "Chest"
+  0: OpenChest [9] ; chest=9
+  1: Exit ; raw=1 bytes
+end
+
+event 91
+  0: Trigger.MouseOver "Chest"
+  0: OpenChest [10] ; chest=10
+  1: Exit ; raw=1 bytes
+end
+
+event 92
+  0: Trigger.MouseOver "Chest"
+  0: OpenChest [11] ; chest=11
+  1: Exit ; raw=1 bytes
+end
+
+event 93
+  0: Trigger.MouseOver "Open Crate"
+  0: OpenChest [12] ; chest=12
+  1: Exit ; raw=1 bytes
+end
+
+event 94
+  0: Trigger.MouseOver "Open Crate"
+  0: OpenChest [13] ; chest=13
+  1: Exit ; raw=1 bytes
+end
+
+event 95
+  0: Trigger.MouseOver "Open Crate"
+  0: OpenChest [14] ; chest=14
+  1: Exit ; raw=1 bytes
+end
+
+event 96
+  0: Trigger.MouseOver "Open Crate"
+  0: OpenChest [15] ; chest=15
+  1: Exit ; raw=1 bytes
+end
+
+event 97
+  0: Trigger.MouseOver "Open Crate"
+  0: OpenChest [16] ; chest=16
+  1: Exit ; raw=1 bytes
+end
+
+event 98
+  0: Trigger.MouseOver "Open Crate"
+  0: OpenChest [17] ; chest=17
+  1: Exit ; raw=1 bytes
+end
+
+event 99
+  0: Trigger.MouseOver "Open Crate"
+  0: OpenChest [18] ; chest=18
+  1: Exit ; raw=1 bytes
+end
+
+event 100
+  0: Trigger.MouseOver "Open Crate"
+  0: OpenChest [19] ; chest=19
+  1: Exit ; raw=1 bytes
+end
+
+event 101
+  0: Trigger.MouseOver "Drink from the well"
+  0: Compare [983066, 15] -> 5 ; Var(tag=0x1a, index=15) value=15
+  1: Add [983066, 15] ; Var(tag=0x1a, index=15) value=15
+  2: StatusText [60] "Intellect +15 (Temporary)"
+  3: Add [16056545, 245] ; Var(tag=0xe1, index=245) value=245
+  4: Jump -> 6
+  5: StatusText [9] "Refreshing"
+  6: Exit ; raw=1 bytes
+end
+
+event 102
+  0: Trigger.MouseOver "Drink from the well"
+  0: Compare [1048614, 16] -> 5 ; Var(tag=0x26, index=16) value=16
+  1: Add [131110, 2] ; Var(tag=0x26, index=2) value=2
+  2: StatusText [61] "Luck +2 (Permanent)"
+  3: Add [16122081, 246] ; Var(tag=0xe1, index=246) value=246
+  4: Jump -> 6
+  5: StatusText [9] "Refreshing"
+  6: Exit ; raw=1 bytes
+end
+
+event 103
+  0: Trigger.MouseOver "Drink from the well"
+  0: Compare [131226, 2] -> 9 ; Var(tag=0x9a, index=2) value=2
+  1: Compare [6488085, 99] -> 9 ; Var(tag=0x15, index=99) value=99
+  2: Compare [6488372, 99] -> 9 ; Var(tag=0x134, index=99) value=99
+  3: Compare [917542, 14] -> 5 ; Var(tag=0x26, index=14) value=14
+  4: Jump -> 9
+  5: Add [65536021, 1000] ; Var(tag=0x15, index=1000) value=1000
+  6: Add [65690, 1] ; Var(tag=0x9a, index=1) value=1
+  7: Add [16187617, 247] ; Var(tag=0xe1, index=247) value=247
+  8: Jump -> 10
+  9: StatusText [9] "Refreshing"
+  10: Exit ; raw=1 bytes
+end
+
+event 104
+  0: Trigger.MouseOver "Drink from the fountain"
+  0: Compare [4, 0] -> 5 ; Var(tag=0x4, index=0) value=0
+  1: Add [1638403, 25] ; Var(tag=0x3, index=25) value=25
+  2: StatusText [62] "Your Wounds begin to Heal"
+  3: Add [16253153, 248] ; Var(tag=0xe1, index=248) value=248
+  4: Jump -> 6
+  5: StatusText [9] "Refreshing"
+  6: Exit ; raw=1 bytes
+end
+
+event 150
+  0: Trigger.MouseOver "Obelisk"
+  0: Compare [12189712, 186] -> 4 ; QBits[186] value=186
+  1: StatusText [12] "summerday"
+  2: Add [1638625, 25] ; Var(tag=0xe1, index=25) value=25
+  3: Add [12189712, 186] ; QBits[186] value=186
+  4: Exit ; raw=1 bytes
+end
+
+event 171
+  0: Trigger.MouseOver
+  0: SpeakInHouse [1] "True Mettle"
+  1: Exit ; raw=1 bytes
+end
+
+event 172
+  0: Trigger.MouseOver
+  0: Exit ; raw=1 bytes
+  1: SpeakInHouse [1] "True Mettle"
+  2: Exit ; raw=1 bytes
+end
+
+event 173
+  0: Trigger.MouseOver
+  0: SpeakInHouse [15] "The Tannery"
+  1: Exit ; raw=1 bytes
+end
+
+event 174
+  0: Trigger.MouseOver
+  0: Exit ; raw=1 bytes
+  1: SpeakInHouse [15] "The Tannery"
+  2: Exit ; raw=1 bytes
+end
+
+event 175
+  0: Trigger.MouseOver
+  0: SpeakInHouse [29] "Fearsome Fetishes"
+  1: Exit ; raw=1 bytes
+end
+
+event 176
+  0: Trigger.MouseOver
+  0: Exit ; raw=1 bytes
+  1: SpeakInHouse [29] "Fearsome Fetishes"
+  2: Exit ; raw=1 bytes
+end
+
+event 177
+  0: Trigger.MouseOver
+  0: SpeakInHouse [42] "Herbal Elixirs"
+  1: Exit ; raw=1 bytes
+end
+
+event 178
+  0: Trigger.MouseOver
+  0: Exit ; raw=1 bytes
+  1: SpeakInHouse [42] "Herbal Elixirs"
+  2: Exit ; raw=1 bytes
+end
+
+event 179
+  0: Trigger.MouseOver
+  0: SpeakInHouse [139] "Cures and Curses"
+  1: Exit ; raw=1 bytes
+end
+
+event 180
+  0: Trigger.MouseOver
+  0: Exit ; raw=1 bytes
+  1: SpeakInHouse [139] "Cures and Curses"
+  2: Exit ; raw=1 bytes
+end
+
+event 183
+  0: Trigger.MouseOver
+  0: SpeakInHouse [63] "The Windling"
+  1: Exit ; raw=1 bytes
+end
+
+event 184
+  0: Trigger.MouseOver
+  0: Exit ; raw=1 bytes
+  1: SpeakInHouse [63] "The Windling"
+  2: Exit ; raw=1 bytes
+end
+
+event 185
+  0: Trigger.MouseOver
+  0: SpeakInHouse [74] "Mystic Medicine"
+  1: Exit ; raw=1 bytes
+end
+
+event 186
+  0: Trigger.MouseOver
+  0: Exit ; raw=1 bytes
+  1: SpeakInHouse [74] "Mystic Medicine"
+  2: Exit ; raw=1 bytes
+end
+
+event 187
+  0: Trigger.MouseOver
+  0: SpeakInHouse [89] "Rites of Passage"
+  1: Exit ; raw=1 bytes
+end
+
+event 188
+  0: Trigger.MouseOver
+  0: Exit ; raw=1 bytes
+  1: SpeakInHouse [89] "Rites of Passage"
+  2: Exit ; raw=1 bytes
+end
+
+event 191
+  0: Trigger.MouseOver
+  0: SpeakInHouse [107] "The Grog and Grub"
+  1: Exit ; raw=1 bytes
+end
+
+event 192
+  0: Trigger.MouseOver
+  0: Exit ; raw=1 bytes
+  1: SpeakInHouse [107] "The Grog and Grub"
+  2: Exit ; raw=1 bytes
+end
+
+event 193
+  0: Trigger.MouseOver
+  0: SpeakInHouse [128] "The Some Place Safe"
+  1: Exit ; raw=1 bytes
+end
+
+event 194
+  0: Trigger.MouseOver
+  0: Exit ; raw=1 bytes
+  1: SpeakInHouse [128] "The Some Place Safe"
+  2: Exit ; raw=1 bytes
+end
+
+event 197
+  0: Trigger.MouseOver
+  0: SpeakInHouse [173] "Clan Leader's Hall"
+  1: Exit ; raw=1 bytes
+end
+
+event 198
+  0: Trigger.MouseOver
+  0: Exit ; raw=1 bytes
+  1: SpeakInHouse [173] "Clan Leader's Hall"
+  2: Exit ; raw=1 bytes
+end
+
+event 199
+  0: Trigger.MouseOver
+  0: SpeakInHouse [185] "The Adventurer's Inn"
+  1: Exit ; raw=1 bytes
+end
+
+event 200
+  0: Trigger.MouseOver
+  0: Exit ; raw=1 bytes
+  1: SpeakInHouse [185] "The Adventurer's Inn"
+  2: Exit ; raw=1 bytes
+end
+
+event 401
+  0: Trigger.MouseOver "Abandoned Temple"
+  0: Exit ; raw=1 bytes
+end
+
+event 402
+  0: Trigger.MouseOver "Regnan Pirate Outpost"
+  0: Exit ; raw=1 bytes
+end
+
+event 403
+  0: Trigger.MouseOver "Uplifted Library"
+  0: Exit ; raw=1 bytes
+end
+
+event 404
+  0: Trigger.MouseOver "Gate to the Plane of Earth"
+  0: Exit ; raw=1 bytes
+end
+
+event 405
+  0: Trigger.MouseOver "Pirate Ship"
+  0: Exit ; raw=1 bytes
+end
+
+event 406
+  0: Trigger.MouseOver "Pirate Ship"
+  0: Exit ; raw=1 bytes
+end
+
+event 407
+  0: Trigger.MouseOver "Pirate Ship"
+  0: Exit ; raw=1 bytes
+end
+
+event 408
+  0: Trigger.MouseOver "Landing Craft"
+  0: Exit ; raw=1 bytes
+end
+
+event 449
+  0: Trigger.MouseOver "Fountain"
+  0: Exit ; raw=1 bytes
+end
+
+event 450
+  0: Trigger.MouseOver "Well"
+  0: Exit ; raw=1 bytes
+end
+
+event 451
+  0: Trigger.MouseOver
+  0: MoveToMap [4294966816, 5432, 384]
+  1: Exit ; raw=1 bytes
+end
+
+event 452
+  0: Trigger.MouseOver
+  0: MoveToMap [10123, 4488, 736]
+  1: Exit ; raw=1 bytes
+end
+
+event 453
+  0: Trigger.MouseOver
+  0: Compare [65552, 1] -> 9 ; QBits[1] value=1
+  1: ForPartyMember ; raw=1 bytes
+  2: Compare [40435729, 617] -> 5 ; Var(tag=0x11, index=617) value=617
+  3: StatusText [14] "You need a power stone to operate this teleporter"
+  4: Jump -> 10
+  5: Compare [524304, 8] -> 7 ; QBits[8] value=8
+  6: Jump -> 10
+  7: Subtract [40435729, 617] ; Var(tag=0x11, index=617) value=617
+  8: Add [65552, 1] ; QBits[1] value=1
+  9: MoveToMap [4294945768, 4294965912, 0]
+  10: Exit ; raw=1 bytes
+end
+
+event 454
+  0: Trigger.MouseOver "Abandoned Temple"
+  0: CharacterAnimation [7]
+  1: Exit ; raw=1 bytes
+end
+
+event 455
+  0: Trigger.MouseOver
+  0: ForPartyMember ; raw=1 bytes
+  1: Set [121, 0] ; Var(tag=0x79, index=0) value=0
+  2: Exit ; raw=1 bytes
+end
+
+event 456
+  0: Trigger.OnTimer ; 0,0,0,0,0,0,30,0,0,0
+  0: Trigger.MouseOver
+  1: RandomJump ; targets=2,4,6,8,10,12
+  2: CastSpell ; raw=27 bytes
+  3: Jump -> 13
+  4: CastSpell ; raw=27 bytes
+  5: Jump -> 13
+  6: CastSpell ; raw=27 bytes
+  7: Jump -> 13
+  8: CastSpell ; raw=27 bytes
+  9: Jump -> 13
+  10: CastSpell ; raw=27 bytes
+  11: Jump -> 13
+  12: CastSpell ; raw=27 bytes
+  13: RandomJump ; targets=14,16,18,22,24,26
+  14: CastSpell ; raw=27 bytes
+  15: Jump -> 27
+  16: CastSpell ; raw=27 bytes
+  17: Jump -> 27
+  18: CastSpell ; raw=27 bytes
+  19: Jump -> 27
+  20: CastSpell ; raw=27 bytes
+  21: Jump -> 27
+  22: CastSpell ; raw=27 bytes
+  23: Jump -> 27
+  24: CastSpell ; raw=27 bytes
+  25: Jump -> 27
+  26: CastSpell ; raw=27 bytes
+  27: RandomJump ; targets=28,30,32,34,36,38
+  28: CastSpell ; raw=27 bytes
+  29: Jump -> 39
+  30: CastSpell ; raw=27 bytes
+  31: Jump -> 39
+  32: CastSpell ; raw=27 bytes
+  33: Jump -> 39
+  34: CastSpell ; raw=27 bytes
+  35: Jump -> 39
+  36: CastSpell ; raw=27 bytes
+  37: Jump -> 39
+  38: CastSpell ; raw=27 bytes
+  39: Exit ; raw=1 bytes
+end
+
+event 457
+  0: Trigger.MouseOver "Fire the Cannon !"
+  0: CastSpell ; raw=27 bytes
+  1: CastSpell ; raw=27 bytes
+  2: Exit ; raw=1 bytes
+end
+
+event 458
+  0: Trigger.MouseOver "Fire the Cannon !"
+  0: CastSpell ; raw=27 bytes
+  1: CastSpell ; raw=27 bytes
+  2: Exit ; raw=1 bytes
+end
+
+event 459
+  0: Trigger.MouseOver "Fire the Cannon !"
+  0: CastSpell ; raw=27 bytes
+  1: CastSpell ; raw=27 bytes
+  2: Exit ; raw=1 bytes
+end
+
+event 460
+  0: Trigger.MouseOver
+  0: Trigger.OnTimer ; 0,0,0,0,0,0,30,0,0,0
+  1: Compare [393232, 6] -> 8 ; QBits[6] value=6
+  2: IsActorKilled ; raw=8 bytes
+  3: CastSpell ; raw=27 bytes
+  4: CastSpell ; raw=27 bytes
+  5: IsActorKilled ; raw=8 bytes
+  6: CastSpell ; raw=27 bytes
+  7: CastSpell ; raw=27 bytes
+  8: Exit ; raw=1 bytes
+end
+
+event 461
+  0: Trigger.MouseOver "Fire the Cannon !"
+  0: CastSpell ; raw=27 bytes
+  1: CastSpell ; raw=27 bytes
+  2: Exit ; raw=1 bytes
+end
+
+event 462
+  0: Trigger.MouseOver "Fire the Cannon !"
+  0: CastSpell ; raw=27 bytes
+  1: CastSpell ; raw=27 bytes
+  2: Exit ; raw=1 bytes
+end
+
+event 463
+  0: Trigger.OnTimer ; 0,0,0,0,0,0,20,0,0,0
+  0: Trigger.MouseOver
+  1: Compare [393232, 6] -> 26 ; QBits[6] value=6
+  2: IsActorKilled ; raw=8 bytes
+  3: IsActorKilled ; raw=8 bytes
+  4: IsActorKilled ; raw=8 bytes
+  5: IsActorKilled ; raw=8 bytes
+  6: Jump -> 26
+  7: SummonMonsters ; raw=23 bytes
+  8: SummonMonsters ; raw=23 bytes
+  9: SummonMonsters ; raw=23 bytes
+  10: SummonMonsters ; raw=23 bytes
+  11: Jump -> 3
+  12: SummonMonsters ; raw=23 bytes
+  13: SummonMonsters ; raw=23 bytes
+  14: SummonMonsters ; raw=23 bytes
+  15: SummonMonsters ; raw=23 bytes
+  16: Jump -> 4
+  17: SummonMonsters ; raw=23 bytes
+  18: SummonMonsters ; raw=23 bytes
+  19: SummonMonsters ; raw=23 bytes
+  20: SummonMonsters ; raw=23 bytes
+  21: Jump -> 5
+  22: SummonMonsters ; raw=23 bytes
+  23: SummonMonsters ; raw=23 bytes
+  24: SummonMonsters ; raw=23 bytes
+  25: SummonMonsters ; raw=23 bytes
+  26: Exit ; raw=1 bytes
+end
+
+event 464
+  0: Trigger.MouseOver "Sealed Crate"
+  0: Exit ; raw=1 bytes
+end
+
+event 465
+  0: Trigger.MouseOver
+  0: Compare [65552, 1] -> 9 ; QBits[1] value=1
+  1: ForPartyMember ; raw=1 bytes
+  2: Compare [40435729, 617] -> 5 ; Var(tag=0x11, index=617) value=617
+  3: StatusText [14] "You need a power stone to operate this teleporter"
+  4: Jump -> 10
+  5: Compare [524304, 8] -> 7 ; QBits[8] value=8
+  6: Jump -> 10
+  7: Subtract [40435729, 617] ; Var(tag=0x11, index=617) value=617
+  8: Add [65552, 1] ; QBits[1] value=1
+  9: MoveToMap [4294954800, 4294957568, 160]
+  10: Exit ; raw=1 bytes
+end
+
+event 466
+  0: Trigger.MouseOver
+  0: Compare [131088, 2] -> 7 ; QBits[2] value=2
+  1: ForPartyMember ; raw=1 bytes
+  2: Compare [40501265, 618] -> 5 ; Var(tag=0x11, index=618) value=618
+  3: StatusText [14] "You need a power stone to operate this teleporter"
+  4: Jump -> 8
+  5: Subtract [40501265, 618] ; Var(tag=0x11, index=618) value=618
+  6: Add [131088, 2] ; QBits[2] value=2
+  7: MoveToMap [4294953384, 14096, 0]
+  8: Exit ; raw=1 bytes
+end
+
+event 467
+  0: Trigger.MouseOver
+  0: Compare [131088, 2] -> 7 ; QBits[2] value=2
+  1: ForPartyMember ; raw=1 bytes
+  2: Compare [40501265, 618] -> 5 ; Var(tag=0x11, index=618) value=618
+  3: StatusText [14] "You need a power stone to operate this teleporter"
+  4: Jump -> 8
+  5: Subtract [40501265, 618] ; Var(tag=0x11, index=618) value=618
+  6: Add [131088, 2] ; QBits[2] value=2
+  7: MoveToMap [4294948344, 8608, 96]
+  8: Exit ; raw=1 bytes
+end
+
+event 468
+  0: Trigger.MouseOver
+  0: Trigger.OnTimer ; 0,0,0,0,0,0,40,0,0,0
+  1: Compare [393232, 6] -> 11 ; QBits[6] value=6
+  2: RandomJump ; targets=3,5,7,9,11,0
+  3: CastSpell ; raw=27 bytes
+  4: Jump -> 11
+  5: CastSpell ; raw=27 bytes
+  6: Jump -> 11
+  7: CastSpell ; raw=27 bytes
+  8: Jump -> 11
+  9: CastSpell ; raw=27 bytes
+  10: Jump -> 11
+  11: Exit ; raw=1 bytes
+end
+
+event 469
+  0: Trigger.MouseOver
+  0: Trigger.OnTimer ; 0,0,0,0,0,0,40,0,0,0
+  1: Compare [393232, 6] -> 11 ; QBits[6] value=6
+  2: RandomJump ; targets=3,5,7,9,11,0
+  3: CastSpell ; raw=27 bytes
+  4: Jump -> 11
+  5: CastSpell ; raw=27 bytes
+  6: Jump -> 11
+  7: CastSpell ; raw=27 bytes
+  8: Jump -> 11
+  9: CastSpell ; raw=27 bytes
+  10: Jump -> 11
+  11: Exit ; raw=1 bytes
+end
+
+event 470
+  0: Trigger.MouseOver
+  0: Exit ; raw=1 bytes
+end
+
+event 471
+  0: Trigger.MouseOver
+  0: MoveToMap [8760, 4408, 736]
+  1: Compare [14876688, 227] -> 3 ; QBits[227] value=227
+  2: Add [14876688, 227] ; QBits[227] value=227
+  3: Exit ; raw=1 bytes
+end
+
+event 472
+  0: Trigger.MouseOver
+  0: Compare [14876688, 227] -> 2 ; QBits[227] value=227
+  1: Jump -> 3
+  2: MoveToMap [21216, 18680, 0]
+  3: Exit ; raw=1 bytes
+end
+
+event 479
+  0: Trigger.MouseOver
+  0: Trigger.OnTimer ; 0,0,0,0,0,0,20,0,0,0
+  1: RandomJump ; targets=2,4,6,8,10,12
+  2: Jump -> 3
+  3: Jump -> 12
+  4: Jump -> 5
+  5: Jump -> 12
+  6: Jump -> 7
+  7: Jump -> 12
+  8: Jump -> 9
+  9: Jump -> 12
+  10: Jump -> 11
+  11: Jump -> 12
+  12: Exit ; raw=1 bytes
+end
+
+event 494
+  0: Compare [17694736, 270] -> 16 ; QBits[270] value=270
+  0: Trigger.MouseOver "Palm tree"
+  1: Compare [196702, 3] -> 3 ; Var(tag=0x5e, index=3) value=3
+  2: Jump -> 16
+  3: RandomJump ; targets=5,7,9,11,13,0
+  4: Jump -> 16
+  5: SummonItem ; raw=22 bytes
+  6: Jump -> 15
+  7: SummonItem ; raw=22 bytes
+  8: Jump -> 15
+  9: SummonItem ; raw=22 bytes
+  10: Jump -> 15
+  11: SummonItem ; raw=22 bytes
+  12: Jump -> 15
+  13: SummonItem ; raw=22 bytes
+  14: Jump -> 15
+  15: Add [17694736, 270] ; QBits[270] value=270
+  16: Exit ; raw=1 bytes
+end
+
+event 495
+  0: Trigger.MouseOver "Flower"
+  0: Compare [17760272, 271] -> 14 ; QBits[271] value=271
+  1: Compare [327774, 5] -> 3 ; Var(tag=0x5e, index=5) value=5
+  2: Jump -> 14
+  3: RandomJump ; targets=5,7,9,11,0,0
+  4: Jump -> 14
+  5: SummonItem ; raw=22 bytes
+  6: Jump -> 13
+  7: SummonItem ; raw=22 bytes
+  8: Jump -> 13
+  9: SummonItem ; raw=22 bytes
+  10: Jump -> 13
+  11: SummonItem ; raw=22 bytes
+  12: Jump -> 13
+  13: Add [17760272, 271] ; QBits[271] value=271
+  14: Exit ; raw=1 bytes
+end
+
+event 497
+  0: Trigger.MouseOver "Buoy"
+  0: Compare [17563664, 268] -> 5 ; QBits[268] value=268
+  1: Compare [852006, 13] -> 3 ; Var(tag=0x26, index=13) value=13
+  2: Jump -> 5
+  3: Add [17563664, 268] ; QBits[268] value=268
+  4: Add [131317, 2] ; Var(tag=0xf5, index=2) value=2
+  5: Exit ; raw=1 bytes
+end
+
+event 498
+  0: Trigger.MouseOver "Buoy"
+  0: Compare [17629200, 269] -> 5 ; QBits[269] value=269
+  1: Compare [1310758, 20] -> 3 ; Var(tag=0x26, index=20) value=20
+  2: Jump -> 5
+  3: Add [17629200, 269] ; QBits[269] value=269
+  4: Add [327925, 5] ; Var(tag=0xf5, index=5) value=5
+  5: Exit ; raw=1 bytes
+end
+
+event 500
+  0: Trigger.MouseOver
+  0: Trigger.OnTimer ; 0,0,0,10,0,0,0,0,0,0
+  1: Compare [15204368, 232] -> 4 ; QBits[232] value=232
+  2: SpeakNpc [31]
+  3: Add [15204368, 232] ; QBits[232] value=232
+  4: Exit ; raw=1 bytes
+end
+
+event 501
+  0: Trigger.MouseOver "Enter the Abandoned Temple"
+  0: MoveToMap [4294964288, 4294965600, 2464] "D05.blv"
+  1: Exit ; raw=1 bytes
+end
+
+event 502
+  0: Trigger.MouseOver "Enter the Regnan Pirate Outpost"
+  0: MoveToMap [4294967289, 4294966582, 1] "D06.blv"
+  1: Exit ; raw=1 bytes
+end
+
+event 503
+  0: Trigger.MouseOver "Enter the Uplifted Library"
+  0: MoveToMap [4294966704, 624, 0] "d40.blv"
+  1: Exit ; raw=1 bytes
+end
+
+event 504
+  0: Trigger.MouseOver "Enter the Abandoned Temple"
+  0: MoveToMap [12704, 2432, 385] "d05.blv"
+  1: Exit ; raw=1 bytes
+end
+
+event 505
+  0: Trigger.MouseOver "Enter the Plane of Earth"
+  0: MoveToMap [0, 0, 49] "ElemE.blv"
+  1: Exit ; raw=1 bytes
+end
+

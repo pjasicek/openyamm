@@ -1,0 +1,550 @@
+event 1
+  0: MouseOver {Str=100 ""}
+  0: OnLoadMap {raw=1 bytes}
+  1: Exit {raw=1 bytes}
+end
+
+event 2
+  0: MouseOver {Str=100 ""}
+  0: OnLoadMap {raw=1 bytes}
+  1: Exit {raw=1 bytes}
+end
+
+event 3
+  0: MouseOver {Str=100 ""}
+  0: OnLoadMap {raw=1 bytes}
+  1: Exit {raw=1 bytes}
+end
+
+event 4
+  0: MouseOver {Str=100 ""}
+  0: OnLoadMap {raw=1 bytes}
+  1: Exit {raw=1 bytes}
+end
+
+event 5
+  0: MouseOver {Str=100 ""}
+  0: OnLoadMap {raw=1 bytes}
+  1: Exit {raw=1 bytes}
+end
+
+event 6
+  0: MouseOver {Str=100 ""}
+  0: OnLeaveMap {raw=1 bytes}
+  1: Cmp {Var=393232 Value=6 jump=6}
+  2: IsActorKilled {raw=8 bytes}
+  3: Exit {raw=1 bytes}
+  4: Set {Var=247 Value=0}
+  5: Add {Var=393232 Value=6}
+  6: Exit {raw=1 bytes}
+end
+
+event 7
+  0: MouseOver {Str=100 ""}
+  0: OnLeaveMap {raw=1 bytes}
+  1: ForPartyMember {raw=1 bytes}
+  2: Cmp {Var=40566801 Value=619 jump=4}
+  3: GoTo {jump=5}
+  4: Set {Var=14024720 Value=214}
+  5: Exit {raw=1 bytes}
+end
+
+event 8
+  0: MouseOver {Str=100 ""}
+  0: OnLeaveMap {raw=1 bytes}
+  1: Exit {raw=1 bytes}
+end
+
+event 9
+  0: MouseOver {Str=100 ""}
+  0: OnLeaveMap {raw=1 bytes}
+  1: Exit {raw=1 bytes}
+end
+
+event 10
+  0: MouseOver {Str=100 ""}
+  0: OnLeaveMap {raw=1 bytes}
+  1: Exit {raw=1 bytes}
+end
+
+event 11  -- "Door"
+  0: MouseOver {Str=2 "Door"}
+  0: ChangeDoorState {Id=1 Action=0}
+  1: Exit {raw=1 bytes}
+end
+
+event 12  -- "Door"
+  0: MouseOver {Str=2 "Door"}
+  0: ChangeDoorState {Id=2 Action=0}
+  1: Exit {raw=1 bytes}
+end
+
+event 13  -- "Door"
+  0: MouseOver {Str=2 "Door"}
+  0: ChangeDoorState {Id=3 Action=0}
+  1: CastSpell {raw=27 bytes}
+  2: Exit {raw=1 bytes}
+end
+
+event 14
+  0: ChangeDoorState {Id=5 Action=2}
+  1: ChangeDoorState {Id=4 Action=2}
+  2: Exit {raw=1 bytes}
+end
+
+event 15  -- "Door"
+  0: MouseOver {Str=2 "Door"}
+  0: ChangeDoorState {Id=5 Action=0}
+  1: Exit {raw=1 bytes}
+end
+
+event 16  -- "Door"
+  0: MouseOver {Str=2 "Door"}
+  0: ChangeDoorState {Id=6 Action=0}
+  1: Exit {raw=1 bytes}
+end
+
+event 17  -- "Door"
+  0: MouseOver {Str=2 "Door"}
+  0: ChangeDoorState {Id=7 Action=0}
+  1: Exit {raw=1 bytes}
+end
+
+event 18  -- "Door"
+  0: MouseOver {Str=2 "Door"}
+  0: ChangeDoorState {Id=8 Action=0}
+  1: Exit {raw=1 bytes}
+end
+
+event 19  -- "Door"
+  0: MouseOver {Str=2 "Door"}
+  0: ChangeDoorState {Id=9 Action=0}
+  1: Exit {raw=1 bytes}
+end
+
+event 20  -- "Door"
+  0: MouseOver {Str=2 "Door"}
+  0: ChangeDoorState {Id=9 Action=2}
+  1: ChangeDoorState {Id=8 Action=0}
+  2: Exit {raw=1 bytes}
+end
+
+event 21  -- "Door"
+  0: MouseOver {Str=2 "Door"}
+  0: ChangeDoorState {Id=11 Action=0}
+  1: Exit {raw=1 bytes}
+end
+
+event 22  -- "Door"
+  0: MouseOver {Str=2 "Door"}
+  0: ChangeDoorState {Id=12 Action=0}
+  1: Exit {raw=1 bytes}
+end
+
+event 23  -- "Door"
+  0: MouseOver {Str=2 "Door"}
+  0: ChangeDoorState {Id=13 Action=0}
+  1: Exit {raw=1 bytes}
+end
+
+event 24  -- "Door"
+  0: MouseOver {Str=2 "Door"}
+  0: ChangeDoorState {Id=14 Action=0}
+  1: Exit {raw=1 bytes}
+end
+
+event 25  -- "Door"
+  0: MouseOver {Str=2 "Door"}
+  0: ChangeDoorState {Id=15 Action=0}
+  1: Exit {raw=1 bytes}
+end
+
+event 26  -- "Door"
+  0: MouseOver {Str=2 "Door"}
+  0: ChangeDoorState {Id=16 Action=0}
+  1: Exit {raw=1 bytes}
+end
+
+event 27  -- "Door"
+  0: MouseOver {Str=2 "Door"}
+  0: ChangeDoorState {Id=17 Action=0}
+  1: Exit {raw=1 bytes}
+end
+
+event 28  -- "Door"
+  0: MouseOver {Str=2 "Door"}
+  0: ChangeDoorState {Id=18 Action=0}
+  1: Exit {raw=1 bytes}
+end
+
+event 29  -- "Door"
+  0: MouseOver {Str=2 "Door"}
+  0: ChangeDoorState {Id=19 Action=0}
+  1: Exit {raw=1 bytes}
+end
+
+event 30  -- "Door"
+  0: MouseOver {Str=2 "Door"}
+  0: ChangeDoorState {Id=20 Action=0}
+  1: Exit {raw=1 bytes}
+end
+
+event 31  -- "Door"
+  0: MouseOver {Str=2 "Door"}
+  0: ChangeDoorState {Id=21 Action=0}
+  1: Exit {raw=1 bytes}
+end
+
+event 32  -- "Door"
+  0: MouseOver {Str=2 "Door"}
+  0: ChangeDoorState {Id=22 Action=0}
+  1: Exit {raw=1 bytes}
+end
+
+event 33  -- "Door"
+  0: MouseOver {Str=2 "Door"}
+  0: ChangeDoorState {Id=23 Action=0}
+  1: Exit {raw=1 bytes}
+end
+
+event 34  -- "Door"
+  0: MouseOver {Str=2 "Door"}
+  0: ChangeDoorState {Id=24 Action=0}
+  1: Exit {raw=1 bytes}
+end
+
+event 35  -- "Door"
+  0: MouseOver {Str=2 "Door"}
+  0: ChangeDoorState {Id=25 Action=0}
+  1: Exit {raw=1 bytes}
+end
+
+event 36  -- "Door"
+  0: MouseOver {Str=2 "Door"}
+  0: ChangeDoorState {Id=26 Action=0}
+  1: Exit {raw=1 bytes}
+end
+
+event 37  -- "Door"
+  0: MouseOver {Str=2 "Door"}
+  0: ChangeDoorState {Id=27 Action=0}
+  1: Exit {raw=1 bytes}
+end
+
+event 38  -- "Door"
+  0: MouseOver {Str=2 "Door"}
+  0: ChangeDoorState {Id=28 Action=0}
+  1: Exit {raw=1 bytes}
+end
+
+event 39  -- "Door"
+  0: MouseOver {Str=2 "Door"}
+  0: ChangeDoorState {Id=29 Action=0}
+  1: Exit {raw=1 bytes}
+end
+
+event 40  -- "Door"
+  0: MouseOver {Str=2 "Door"}
+  0: ChangeDoorState {Id=30 Action=0}
+  1: Exit {raw=1 bytes}
+end
+
+event 41  -- "Door"
+  0: MouseOver {Str=2 "Door"}
+  0: ChangeDoorState {Id=31 Action=0}
+  1: Exit {raw=1 bytes}
+end
+
+event 42  -- "Door"
+  0: MouseOver {Str=2 "Door"}
+  0: ChangeDoorState {Id=32 Action=0}
+  1: Exit {raw=1 bytes}
+end
+
+event 43  -- "Door"
+  0: MouseOver {Str=2 "Door"}
+  0: ChangeDoorState {Id=33 Action=0}
+  1: Exit {raw=1 bytes}
+end
+
+event 44  -- "Door"
+  0: MouseOver {Str=2 "Door"}
+  0: ChangeDoorState {Id=34 Action=0}
+  1: Exit {raw=1 bytes}
+end
+
+event 45  -- "Door"
+  0: MouseOver {Str=2 "Door"}
+  0: ChangeDoorState {Id=35 Action=0}
+  1: Exit {raw=1 bytes}
+end
+
+event 46  -- "Door"
+  0: MouseOver {Str=2 "Door"}
+  0: ChangeDoorState {Id=36 Action=0}
+  1: Exit {raw=1 bytes}
+end
+
+event 47  -- "Door"
+  0: MouseOver {Str=2 "Door"}
+  0: ChangeDoorState {Id=37 Action=0}
+  1: Exit {raw=1 bytes}
+end
+
+event 48  -- "Door"
+  0: MouseOver {Str=2 "Door"}
+  0: ChangeDoorState {Id=38 Action=0}
+  1: Exit {raw=1 bytes}
+end
+
+event 49  -- "Door"
+  0: MouseOver {Str=2 "Door"}
+  0: ChangeDoorState {Id=39 Action=0}
+  1: Exit {raw=1 bytes}
+end
+
+event 50  -- "Door"
+  0: MouseOver {Str=2 "Door"}
+  0: ChangeDoorState {Id=40 Action=0}
+  1: Exit {raw=1 bytes}
+end
+
+event 51  -- "Door"
+  0: MouseOver {Str=2 "Door"}
+  0: ChangeDoorState {Id=41 Action=0}
+  1: Exit {raw=1 bytes}
+end
+
+event 52  -- "Door"
+  0: MouseOver {Str=2 "Door"}
+  0: ChangeDoorState {Id=42 Action=0}
+  1: Exit {raw=1 bytes}
+end
+
+event 53  -- "Door"
+  0: MouseOver {Str=2 "Door"}
+  0: ChangeDoorState {Id=43 Action=0}
+  1: Exit {raw=1 bytes}
+end
+
+event 54  -- "Door"
+  0: MouseOver {Str=2 "Door"}
+  0: ChangeDoorState {Id=44 Action=0}
+  1: Exit {raw=1 bytes}
+end
+
+event 55  -- "Door"
+  0: MouseOver {Str=2 "Door"}
+  0: ChangeDoorState {Id=45 Action=0}
+  1: Exit {raw=1 bytes}
+end
+
+event 56  -- "Door"
+  0: MouseOver {Str=2 "Door"}
+  0: ChangeDoorState {Id=46 Action=0}
+  1: Exit {raw=1 bytes}
+end
+
+event 57  -- "Door"
+  0: MouseOver {Str=2 "Door"}
+  0: ChangeDoorState {Id=47 Action=0}
+  1: Exit {raw=1 bytes}
+end
+
+event 58  -- "Door"
+  0: MouseOver {Str=2 "Door"}
+  0: ChangeDoorState {Id=48 Action=0}
+  1: Exit {raw=1 bytes}
+end
+
+event 59  -- "Door"
+  0: MouseOver {Str=2 "Door"}
+  0: ChangeDoorState {Id=49 Action=0}
+  1: Exit {raw=1 bytes}
+end
+
+event 60  -- "Door"
+  0: MouseOver {Str=2 "Door"}
+  0: ChangeDoorState {Id=50 Action=0}
+  1: Exit {raw=1 bytes}
+end
+
+event 61  -- "Key Hole"
+  0: MouseOver {Str=13 "Key Hole"}
+  0: ForPartyMember {raw=1 bytes}
+  1: Cmp {Var=40566801 Value=619 jump=4}
+  2: StatusText {14}
+  3: GoTo {jump=6}
+  4: ChangeDoorState {Id=51 Action=0}
+  5: ChangeDoorState {Id=52 Action=0}
+  6: Exit {raw=1 bytes}
+end
+
+event 81  -- "Chest"
+  0: MouseOver {Str=3 "Chest"}
+  0: OpenChest {0}
+  1: Exit {raw=1 bytes}
+end
+
+event 82  -- "Chest"
+  0: MouseOver {Str=3 "Chest"}
+  0: OpenChest {1}
+  1: Exit {raw=1 bytes}
+end
+
+event 83  -- "Chest"
+  0: MouseOver {Str=3 "Chest"}
+  0: OpenChest {2}
+  1: Exit {raw=1 bytes}
+end
+
+event 84  -- "Chest"
+  0: MouseOver {Str=3 "Chest"}
+  0: OpenChest {3}
+  1: Exit {raw=1 bytes}
+end
+
+event 85  -- "Chest"
+  0: MouseOver {Str=3 "Chest"}
+  0: OpenChest {4}
+  1: Exit {raw=1 bytes}
+end
+
+event 86  -- "Chest"
+  0: MouseOver {Str=3 "Chest"}
+  0: OpenChest {5}
+  1: Exit {raw=1 bytes}
+end
+
+event 87  -- "Chest"
+  0: MouseOver {Str=3 "Chest"}
+  0: OpenChest {6}
+  1: Exit {raw=1 bytes}
+end
+
+event 88  -- "Chest"
+  0: MouseOver {Str=3 "Chest"}
+  0: ForPartyMember {raw=1 bytes}
+  1: Cmp {Var=40566801 Value=619 jump=4}
+  2: StatusText {14}
+  3: GoTo {jump=5}
+  4: OpenChest {7}
+  5: Exit {raw=1 bytes}
+end
+
+event 89  -- "Chest"
+  0: MouseOver {Str=3 "Chest"}
+  0: OpenChest {8}
+  1: Exit {raw=1 bytes}
+end
+
+event 90  -- "Chest"
+  0: MouseOver {Str=3 "Chest"}
+  0: OpenChest {9}
+  1: Exit {raw=1 bytes}
+end
+
+event 91  -- "Chest"
+  0: MouseOver {Str=3 "Chest"}
+  0: OpenChest {10}
+  1: Exit {raw=1 bytes}
+end
+
+event 92  -- "Chest"
+  0: MouseOver {Str=3 "Chest"}
+  0: OpenChest {11}
+  1: Exit {raw=1 bytes}
+end
+
+event 93  -- "Chest"
+  0: MouseOver {Str=3 "Chest"}
+  0: OpenChest {12}
+  1: Exit {raw=1 bytes}
+end
+
+event 94  -- "Chest"
+  0: MouseOver {Str=3 "Chest"}
+  0: OpenChest {13}
+  1: Exit {raw=1 bytes}
+end
+
+event 95  -- "Chest"
+  0: MouseOver {Str=3 "Chest"}
+  0: OpenChest {14}
+  1: Exit {raw=1 bytes}
+end
+
+event 96  -- "Chest"
+  0: MouseOver {Str=3 "Chest"}
+  0: OpenChest {15}
+  1: Exit {raw=1 bytes}
+end
+
+event 97  -- "Chest"
+  0: MouseOver {Str=3 "Chest"}
+  0: OpenChest {16}
+  1: Exit {raw=1 bytes}
+end
+
+event 98  -- "Chest"
+  0: MouseOver {Str=3 "Chest"}
+  0: OpenChest {17}
+  1: Exit {raw=1 bytes}
+end
+
+event 99  -- "Chest"
+  0: MouseOver {Str=3 "Chest"}
+  0: OpenChest {18}
+  1: Exit {raw=1 bytes}
+end
+
+event 100  -- "Chest"
+  0: MouseOver {Str=3 "Chest"}
+  0: OpenChest {19}
+  1: Exit {raw=1 bytes}
+end
+
+event 401  -- "Submarine"
+  0: MouseOver {Str=12 "Submarine"}
+  0: Exit {raw=1 bytes}
+end
+
+event 451  -- "Enter the Submarine"
+  0: MouseOver {Str=11 "Enter the Submarine"}
+  0: ForPartyMember {raw=1 bytes}
+  1: Cmp {Var=40566801 Value=619 jump=3}
+  2: GoTo {jump=6}
+  3: ShowMovie {Id=1394737153 ""Subcut" "}
+  4: MoveToMap {x=4294964880 y=1850 z=4294966609 map=""}
+  5: Exit {raw=1 bytes}
+  6: CharacterAnimation {7}
+  7: Exit {raw=1 bytes}
+end
+
+event 452
+  0: MouseOver {Str=100 ""}
+  0: ChangeDoorState {Id=27 Action=2}
+  1: CastSpell {raw=27 bytes}
+  2: Exit {raw=1 bytes}
+end
+
+event 453
+  0: MouseOver {Str=100 ""}
+  0: ChangeDoorState {Id=28 Action=2}
+  1: ChangeDoorState {Id=6 Action=0}
+  2: Exit {raw=1 bytes}
+end
+
+event 454
+  0: MouseOver {Str=100 ""}
+  0: ChangeDoorState {Id=29 Action=2}
+  1: CastSpell {raw=27 bytes}
+  2: Exit {raw=1 bytes}
+end
+
+event 501  -- "Leave the Regnan Pirate Outpost"
+  0: MouseOver {Str=1 "Leave the Regnan Pirate Outpost"}
+  0: MoveToMap {x=4217 y=4294949921 z=146 map="out01.odm"}
+  1: Exit {raw=1 bytes}
+end
+

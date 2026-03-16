@@ -81,6 +81,13 @@ Examples:
 * long or dependent template types
 * obvious lambda-heavy expressions
 
+Do not use `[[nodiscard]]`.
+
+Prefer unqualified standard integer and size types such as `uint32_t`, `int16_t`, and `size_t`.
+Do not prefix them with `std::`.
+
+Do not use `static_cast` unless it is actually necessary for correctness or to resolve an overload/implicit conversion issue.
+
 ---
 
 # Engine Architecture

@@ -3,7 +3,7 @@
 
 int main()
 {
-    const auto config = OpenYAMM::Engine::ApplicationConfig::createDefault();
-    const OpenYAMM::Game::GameApplication application(config);
+    const OpenYAMM::Engine::ApplicationConfig config = OpenYAMM::Engine::ApplicationConfig::createDefault();
+    OpenYAMM::Game::GameApplication application(config);
     return application.run();
 }

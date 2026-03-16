@@ -1,0 +1,1103 @@
+event 1
+  0: MouseOver {Str=100 ""}
+  0: OnLoadMap {raw=1 bytes}
+  1: Cmp {Var=131088 Value=2 jump=3}
+  2: GoTo {jump=5}
+  3: SetFacetBit {A=10 B=8192 On=0}
+  4: SetFacetBit {A=10 B=536870912 On=0}
+  5: Exit {raw=1 bytes}
+end
+
+event 2
+  0: OnLoadMap {raw=1 bytes}
+  0: MouseOver {Str=100 ""}
+  1: Cmp {Var=393232 Value=6 jump=5}
+  2: SetNPCGroupNews {A=12 B=12 On=0}
+  3: SetNPCGroupNews {A=13 B=12 On=0}
+  4: GoTo {jump=14}
+  5: SetFacetBit {A=20 B=8192 On=1}
+  6: SetFacetBit {A=20 B=536870912 On=1}
+  7: SetMonGroupBit {A=14 B=65536 On=1}
+  8: SetMonGroupBit {A=10 B=65536 On=1}
+  9: SetMonGroupBit {A=11 B=65536 On=1}
+  10: SetNPCGroupNews {A=12 B=13 On=0}
+  11: SetNPCGroupNews {A=13 B=13 On=0}
+  12: SetNPCGroupNews {A=1 B=2 On=0}
+  13: GoTo {jump=17}
+  14: Cmp {Var=2359312 Value=36 jump=17}
+  15: Cmp {Var=2490384 Value=38 jump=17}
+  16: GoTo {jump=21}
+  17: SetFacetBit {A=25 B=8192 On=0}
+  18: SetFacetBit {A=25 B=536870912 On=0}
+  19: SetFacetBit {A=26 B=536870912 On=1}
+  20: GoTo {jump=23}
+  21: SetFacetBit {A=25 B=8192 On=1}
+  22: SetFacetBit {A=25 B=536870912 On=1}
+  23: Exit {raw=1 bytes}
+end
+
+event 3
+  0: MouseOver {Str=100 ""}
+  0: OnLoadMap {raw=1 bytes}
+  1: Cmp {Var=14811152 Value=226 jump=6}
+  2: Add {Var=14811152 Value=226}
+  3: Add {Var=12124176 Value=185}
+  4: Add {Var=26279952 Value=401}
+  5: Add {Var=26673168 Value=407}
+  6: Exit {raw=1 bytes}
+end
+
+event 4
+  0: MouseOver {Str=100 ""}
+  0: OnLoadMap {raw=1 bytes}
+  1: Exit {raw=1 bytes}
+end
+
+event 6
+  0: MouseOver {Str=100 ""}
+  0: OnLeaveMap {raw=1 bytes}
+  1: Exit {raw=1 bytes}
+end
+
+event 7
+  0: MouseOver {Str=100 ""}
+  0: OnLeaveMap {raw=1 bytes}
+  1: Exit {raw=1 bytes}
+end
+
+event 8
+  0: MouseOver {Str=100 ""}
+  0: OnLeaveMap {raw=1 bytes}
+  1: Exit {raw=1 bytes}
+end
+
+event 9
+  0: MouseOver {Str=100 ""}
+  0: OnLeaveMap {raw=1 bytes}
+  1: Exit {raw=1 bytes}
+end
+
+event 10
+  0: MouseOver {Str=100 ""}
+  0: OnLeaveMap {raw=1 bytes}
+  1: Exit {raw=1 bytes}
+end
+
+event 11
+  0: MouseOver {Str=100 ""}
+  0: SpeakInHouse {Id=224}
+  1: Exit {raw=1 bytes}
+end
+
+event 12
+  0: MouseOver {Str=100 ""}
+  0: Exit {raw=1 bytes}
+  1: SpeakInHouse {Id=224}
+  2: Exit {raw=1 bytes}
+end
+
+event 13
+  0: MouseOver {Str=100 ""}
+  0: SpeakInHouse {Id=225}
+  1: Exit {raw=1 bytes}
+end
+
+event 14
+  0: MouseOver {Str=100 ""}
+  0: Exit {raw=1 bytes}
+  1: SpeakInHouse {Id=225}
+  2: Exit {raw=1 bytes}
+end
+
+event 15
+  0: MouseOver {Str=100 ""}
+  0: SpeakInHouse {Id=226}
+  1: Exit {raw=1 bytes}
+end
+
+event 16
+  0: MouseOver {Str=100 ""}
+  0: Exit {raw=1 bytes}
+  1: SpeakInHouse {Id=226}
+  2: Exit {raw=1 bytes}
+end
+
+event 17
+  0: MouseOver {Str=100 ""}
+  0: SpeakInHouse {Id=227}
+  1: Exit {raw=1 bytes}
+end
+
+event 18
+  0: MouseOver {Str=100 ""}
+  0: Exit {raw=1 bytes}
+  1: SpeakInHouse {Id=227}
+  2: Exit {raw=1 bytes}
+end
+
+event 19
+  0: MouseOver {Str=100 ""}
+  0: SpeakInHouse {Id=228}
+  1: Exit {raw=1 bytes}
+end
+
+event 20
+  0: MouseOver {Str=100 ""}
+  0: Exit {raw=1 bytes}
+  1: SpeakInHouse {Id=228}
+  2: Exit {raw=1 bytes}
+end
+
+event 21
+  0: MouseOver {Str=100 ""}
+  0: SpeakInHouse {Id=229}
+  1: Exit {raw=1 bytes}
+end
+
+event 22
+  0: MouseOver {Str=100 ""}
+  0: Exit {raw=1 bytes}
+  1: SpeakInHouse {Id=229}
+  2: Exit {raw=1 bytes}
+end
+
+event 23
+  0: MouseOver {Str=100 ""}
+  0: SpeakInHouse {Id=230}
+  1: Exit {raw=1 bytes}
+end
+
+event 24
+  0: MouseOver {Str=100 ""}
+  0: Exit {raw=1 bytes}
+  1: SpeakInHouse {Id=230}
+  2: Exit {raw=1 bytes}
+end
+
+event 25
+  0: MouseOver {Str=100 ""}
+  0: SpeakInHouse {Id=231}
+  1: Exit {raw=1 bytes}
+end
+
+event 26
+  0: MouseOver {Str=100 ""}
+  0: Exit {raw=1 bytes}
+  1: SpeakInHouse {Id=231}
+  2: Exit {raw=1 bytes}
+end
+
+event 27
+  0: MouseOver {Str=100 ""}
+  0: SpeakInHouse {Id=232}
+  1: Exit {raw=1 bytes}
+end
+
+event 28
+  0: MouseOver {Str=100 ""}
+  0: Exit {raw=1 bytes}
+  1: SpeakInHouse {Id=232}
+  2: Exit {raw=1 bytes}
+end
+
+event 29
+  0: MouseOver {Str=100 ""}
+  0: SpeakInHouse {Id=233}
+  1: Exit {raw=1 bytes}
+end
+
+event 30
+  0: MouseOver {Str=100 ""}
+  0: Exit {raw=1 bytes}
+  1: SpeakInHouse {Id=233}
+  2: Exit {raw=1 bytes}
+end
+
+event 31
+  0: MouseOver {Str=100 ""}
+  0: SpeakInHouse {Id=234}
+  1: Exit {raw=1 bytes}
+end
+
+event 32
+  0: MouseOver {Str=100 ""}
+  0: Exit {raw=1 bytes}
+  1: SpeakInHouse {Id=234}
+  2: Exit {raw=1 bytes}
+end
+
+event 33
+  0: MouseOver {Str=100 ""}
+  0: SpeakInHouse {Id=235}
+  1: Exit {raw=1 bytes}
+end
+
+event 34
+  0: MouseOver {Str=100 ""}
+  0: Exit {raw=1 bytes}
+  1: SpeakInHouse {Id=235}
+  2: Exit {raw=1 bytes}
+end
+
+event 35
+  0: MouseOver {Str=100 ""}
+  0: SpeakInHouse {Id=236}
+  1: Exit {raw=1 bytes}
+end
+
+event 36
+  0: MouseOver {Str=100 ""}
+  0: Exit {raw=1 bytes}
+  1: SpeakInHouse {Id=236}
+  2: Exit {raw=1 bytes}
+end
+
+event 37
+  0: MouseOver {Str=100 ""}
+  0: SpeakInHouse {Id=237}
+  1: Exit {raw=1 bytes}
+end
+
+event 38
+  0: MouseOver {Str=100 ""}
+  0: Exit {raw=1 bytes}
+  1: SpeakInHouse {Id=237}
+  2: Exit {raw=1 bytes}
+end
+
+event 39
+  0: MouseOver {Str=100 ""}
+  0: SpeakInHouse {Id=238}
+  1: Exit {raw=1 bytes}
+end
+
+event 40
+  0: MouseOver {Str=100 ""}
+  0: Exit {raw=1 bytes}
+  1: SpeakInHouse {Id=238}
+  2: Exit {raw=1 bytes}
+end
+
+event 41
+  0: MouseOver {Str=100 ""}
+  0: SpeakInHouse {Id=239}
+  1: Exit {raw=1 bytes}
+end
+
+event 42
+  0: MouseOver {Str=100 ""}
+  0: Exit {raw=1 bytes}
+  1: SpeakInHouse {Id=239}
+  2: Exit {raw=1 bytes}
+end
+
+event 43
+  0: MouseOver {Str=100 ""}
+  0: SpeakInHouse {Id=240}
+  1: Exit {raw=1 bytes}
+end
+
+event 44
+  0: MouseOver {Str=100 ""}
+  0: Exit {raw=1 bytes}
+  1: SpeakInHouse {Id=240}
+  2: Exit {raw=1 bytes}
+end
+
+event 45
+  0: MouseOver {Str=100 ""}
+  0: SpeakInHouse {Id=241}
+  1: Exit {raw=1 bytes}
+end
+
+event 46
+  0: MouseOver {Str=100 ""}
+  0: Exit {raw=1 bytes}
+  1: SpeakInHouse {Id=241}
+  2: Exit {raw=1 bytes}
+end
+
+event 47
+  0: MouseOver {Str=100 ""}
+  0: SpeakInHouse {Id=242}
+  1: Exit {raw=1 bytes}
+end
+
+event 48
+  0: MouseOver {Str=100 ""}
+  0: Exit {raw=1 bytes}
+  1: SpeakInHouse {Id=242}
+  2: Exit {raw=1 bytes}
+end
+
+event 49
+  0: MouseOver {Str=100 ""}
+  0: SpeakInHouse {Id=243}
+  1: Exit {raw=1 bytes}
+end
+
+event 50
+  0: MouseOver {Str=100 ""}
+  0: Exit {raw=1 bytes}
+  1: SpeakInHouse {Id=243}
+  2: Exit {raw=1 bytes}
+end
+
+event 81  -- "Chest"
+  0: MouseOver {Str=3 "Chest"}
+  0: Cmp {Var=131390 Value=2 jump=3}
+  1: OpenChest {0}
+  2: GoTo {jump=4}
+  3: OpenChest {3}
+  4: Exit {raw=1 bytes}
+end
+
+event 82  -- "Chest"
+  0: MouseOver {Str=3 "Chest"}
+  0: OpenChest {1}
+  1: Exit {raw=1 bytes}
+end
+
+event 83  -- "Chest"
+  0: MouseOver {Str=3 "Chest"}
+  0: OpenChest {2}
+  1: Exit {raw=1 bytes}
+end
+
+event 85  -- "Chest"
+  0: MouseOver {Str=3 "Chest"}
+  0: OpenChest {4}
+  1: Exit {raw=1 bytes}
+end
+
+event 86  -- "Chest"
+  0: MouseOver {Str=3 "Chest"}
+  0: OpenChest {5}
+  1: Exit {raw=1 bytes}
+end
+
+event 87  -- "Chest"
+  0: MouseOver {Str=3 "Chest"}
+  0: OpenChest {6}
+  1: Exit {raw=1 bytes}
+end
+
+event 88  -- "Chest"
+  0: MouseOver {Str=3 "Chest"}
+  0: OpenChest {7}
+  1: Exit {raw=1 bytes}
+end
+
+event 89  -- "Chest"
+  0: MouseOver {Str=3 "Chest"}
+  0: OpenChest {8}
+  1: Exit {raw=1 bytes}
+end
+
+event 90  -- "Chest"
+  0: MouseOver {Str=3 "Chest"}
+  0: OpenChest {9}
+  1: Exit {raw=1 bytes}
+end
+
+event 91  -- "Chest"
+  0: MouseOver {Str=3 "Chest"}
+  0: OpenChest {10}
+  1: Exit {raw=1 bytes}
+end
+
+event 92  -- "Chest"
+  0: MouseOver {Str=3 "Chest"}
+  0: OpenChest {11}
+  1: Exit {raw=1 bytes}
+end
+
+event 93  -- "Open Crate"
+  0: MouseOver {Str=4 "Open Crate"}
+  0: OpenChest {12}
+  1: Exit {raw=1 bytes}
+end
+
+event 94  -- "Open Crate"
+  0: MouseOver {Str=4 "Open Crate"}
+  0: OpenChest {13}
+  1: Exit {raw=1 bytes}
+end
+
+event 95  -- "Open Crate"
+  0: MouseOver {Str=4 "Open Crate"}
+  0: OpenChest {14}
+  1: Exit {raw=1 bytes}
+end
+
+event 96  -- "Open Crate"
+  0: MouseOver {Str=4 "Open Crate"}
+  0: OpenChest {15}
+  1: Exit {raw=1 bytes}
+end
+
+event 97  -- "Open Crate"
+  0: MouseOver {Str=4 "Open Crate"}
+  0: OpenChest {16}
+  1: Exit {raw=1 bytes}
+end
+
+event 98  -- "Open Crate"
+  0: MouseOver {Str=4 "Open Crate"}
+  0: OpenChest {17}
+  1: Exit {raw=1 bytes}
+end
+
+event 99  -- "Open Crate"
+  0: MouseOver {Str=4 "Open Crate"}
+  0: OpenChest {18}
+  1: Exit {raw=1 bytes}
+end
+
+event 100  -- "Open Crate"
+  0: MouseOver {Str=4 "Open Crate"}
+  0: OpenChest {19}
+  1: Exit {raw=1 bytes}
+end
+
+event 101  -- "Drink from the well"
+  0: MouseOver {Str=6 "Drink from the well"}
+  0: Cmp {Var=983066 Value=15 jump=5}
+  1: Add {Var=983066 Value=15}
+  2: StatusText {60}
+  3: Add {Var=16056545 Value=245}
+  4: GoTo {jump=6}
+  5: StatusText {9}
+  6: Exit {raw=1 bytes}
+end
+
+event 102  -- "Drink from the well"
+  0: MouseOver {Str=6 "Drink from the well"}
+  0: Cmp {Var=1048614 Value=16 jump=5}
+  1: Add {Var=131110 Value=2}
+  2: StatusText {61}
+  3: Add {Var=16122081 Value=246}
+  4: GoTo {jump=6}
+  5: StatusText {9}
+  6: Exit {raw=1 bytes}
+end
+
+event 103  -- "Drink from the well"
+  0: MouseOver {Str=6 "Drink from the well"}
+  0: Cmp {Var=131226 Value=2 jump=9}
+  1: Cmp {Var=6488085 Value=99 jump=9}
+  2: Cmp {Var=6488372 Value=99 jump=9}
+  3: Cmp {Var=917542 Value=14 jump=5}
+  4: GoTo {jump=9}
+  5: Add {Var=65536021 Value=1000}
+  6: Add {Var=65690 Value=1}
+  7: Add {Var=16187617 Value=247}
+  8: GoTo {jump=10}
+  9: StatusText {9}
+  10: Exit {raw=1 bytes}
+end
+
+event 104  -- "Drink from the fountain"
+  0: MouseOver {Str=8 "Drink from the fountain"}
+  0: Cmp {Var=4 Value=0 jump=5}
+  1: Add {Var=1638403 Value=25}
+  2: StatusText {62}
+  3: Add {Var=16253153 Value=248}
+  4: GoTo {jump=6}
+  5: StatusText {9}
+  6: Exit {raw=1 bytes}
+end
+
+event 150  -- "Obelisk"
+  0: MouseOver {Str=33 "Obelisk"}
+  0: Cmp {Var=12189712 Value=186 jump=4}
+  1: StatusText {12}
+  2: Add {Var=1638625 Value=25}
+  3: Add {Var=12189712 Value=186}
+  4: Exit {raw=1 bytes}
+end
+
+event 171
+  0: MouseOver {Str=100 ""}
+  0: SpeakInHouse {Id=1}
+  1: Exit {raw=1 bytes}
+end
+
+event 172
+  0: MouseOver {Str=100 ""}
+  0: Exit {raw=1 bytes}
+  1: SpeakInHouse {Id=1}
+  2: Exit {raw=1 bytes}
+end
+
+event 173
+  0: MouseOver {Str=100 ""}
+  0: SpeakInHouse {Id=15}
+  1: Exit {raw=1 bytes}
+end
+
+event 174
+  0: MouseOver {Str=100 ""}
+  0: Exit {raw=1 bytes}
+  1: SpeakInHouse {Id=15}
+  2: Exit {raw=1 bytes}
+end
+
+event 175
+  0: MouseOver {Str=100 ""}
+  0: SpeakInHouse {Id=29}
+  1: Exit {raw=1 bytes}
+end
+
+event 176
+  0: MouseOver {Str=100 ""}
+  0: Exit {raw=1 bytes}
+  1: SpeakInHouse {Id=29}
+  2: Exit {raw=1 bytes}
+end
+
+event 177
+  0: MouseOver {Str=100 ""}
+  0: SpeakInHouse {Id=42}
+  1: Exit {raw=1 bytes}
+end
+
+event 178
+  0: MouseOver {Str=100 ""}
+  0: Exit {raw=1 bytes}
+  1: SpeakInHouse {Id=42}
+  2: Exit {raw=1 bytes}
+end
+
+event 179
+  0: MouseOver {Str=100 ""}
+  0: SpeakInHouse {Id=139}
+  1: Exit {raw=1 bytes}
+end
+
+event 180
+  0: MouseOver {Str=100 ""}
+  0: Exit {raw=1 bytes}
+  1: SpeakInHouse {Id=139}
+  2: Exit {raw=1 bytes}
+end
+
+event 183
+  0: MouseOver {Str=100 ""}
+  0: SpeakInHouse {Id=63}
+  1: Exit {raw=1 bytes}
+end
+
+event 184
+  0: MouseOver {Str=100 ""}
+  0: Exit {raw=1 bytes}
+  1: SpeakInHouse {Id=63}
+  2: Exit {raw=1 bytes}
+end
+
+event 185
+  0: MouseOver {Str=100 ""}
+  0: SpeakInHouse {Id=74}
+  1: Exit {raw=1 bytes}
+end
+
+event 186
+  0: MouseOver {Str=100 ""}
+  0: Exit {raw=1 bytes}
+  1: SpeakInHouse {Id=74}
+  2: Exit {raw=1 bytes}
+end
+
+event 187
+  0: MouseOver {Str=100 ""}
+  0: SpeakInHouse {Id=89}
+  1: Exit {raw=1 bytes}
+end
+
+event 188
+  0: MouseOver {Str=100 ""}
+  0: Exit {raw=1 bytes}
+  1: SpeakInHouse {Id=89}
+  2: Exit {raw=1 bytes}
+end
+
+event 191
+  0: MouseOver {Str=100 ""}
+  0: SpeakInHouse {Id=107}
+  1: Exit {raw=1 bytes}
+end
+
+event 192
+  0: MouseOver {Str=100 ""}
+  0: Exit {raw=1 bytes}
+  1: SpeakInHouse {Id=107}
+  2: Exit {raw=1 bytes}
+end
+
+event 193
+  0: MouseOver {Str=100 ""}
+  0: SpeakInHouse {Id=128}
+  1: Exit {raw=1 bytes}
+end
+
+event 194
+  0: MouseOver {Str=100 ""}
+  0: Exit {raw=1 bytes}
+  1: SpeakInHouse {Id=128}
+  2: Exit {raw=1 bytes}
+end
+
+event 197
+  0: MouseOver {Str=100 ""}
+  0: SpeakInHouse {Id=173}
+  1: Exit {raw=1 bytes}
+end
+
+event 198
+  0: MouseOver {Str=100 ""}
+  0: Exit {raw=1 bytes}
+  1: SpeakInHouse {Id=173}
+  2: Exit {raw=1 bytes}
+end
+
+event 199
+  0: MouseOver {Str=100 ""}
+  0: SpeakInHouse {Id=185}
+  1: Exit {raw=1 bytes}
+end
+
+event 200
+  0: MouseOver {Str=100 ""}
+  0: Exit {raw=1 bytes}
+  1: SpeakInHouse {Id=185}
+  2: Exit {raw=1 bytes}
+end
+
+event 401  -- "Abandoned Temple"
+  0: MouseOver {Str=45 "Abandoned Temple"}
+  0: Exit {raw=1 bytes}
+end
+
+event 402  -- "Regnan Pirate Outpost"
+  0: MouseOver {Str=46 "Regnan Pirate Outpost"}
+  0: Exit {raw=1 bytes}
+end
+
+event 403  -- "Uplifted Library"
+  0: MouseOver {Str=47 "Uplifted Library"}
+  0: Exit {raw=1 bytes}
+end
+
+event 404  -- "Gate to the Plane of Earth"
+  0: MouseOver {Str=48 "Gate to the Plane of Earth"}
+  0: Exit {raw=1 bytes}
+end
+
+event 405  -- "Pirate Ship"
+  0: MouseOver {Str=35 "Pirate Ship"}
+  0: Exit {raw=1 bytes}
+end
+
+event 406  -- "Pirate Ship"
+  0: MouseOver {Str=36 "Pirate Ship"}
+  0: Exit {raw=1 bytes}
+end
+
+event 407  -- "Pirate Ship"
+  0: MouseOver {Str=37 "Pirate Ship"}
+  0: Exit {raw=1 bytes}
+end
+
+event 408  -- "Landing Craft"
+  0: MouseOver {Str=34 "Landing Craft"}
+  0: Exit {raw=1 bytes}
+end
+
+event 449  -- "Fountain"
+  0: MouseOver {Str=7 "Fountain"}
+  0: Exit {raw=1 bytes}
+end
+
+event 450  -- "Well"
+  0: MouseOver {Str=5 "Well"}
+  0: Exit {raw=1 bytes}
+end
+
+event 451
+  0: MouseOver {Str=100 ""}
+  0: MoveToMap {x=4294966816 y=5432 z=384 map=""}
+  1: Exit {raw=1 bytes}
+end
+
+event 452
+  0: MouseOver {Str=100 ""}
+  0: MoveToMap {x=10123 y=4488 z=736 map=""}
+  1: Exit {raw=1 bytes}
+end
+
+event 453
+  0: MouseOver {Str=100 ""}
+  0: Cmp {Var=65552 Value=1 jump=9}
+  1: ForPartyMember {raw=1 bytes}
+  2: Cmp {Var=40435729 Value=617 jump=5}
+  3: StatusText {14}
+  4: GoTo {jump=10}
+  5: Cmp {Var=524304 Value=8 jump=7}
+  6: GoTo {jump=10}
+  7: Subtract {Var=40435729 Value=617}
+  8: Add {Var=65552 Value=1}
+  9: MoveToMap {x=4294945768 y=4294965912 z=0 map=""}
+  10: Exit {raw=1 bytes}
+end
+
+event 454  -- "Abandoned Temple"
+  0: MouseOver {Str=45 "Abandoned Temple"}
+  0: CharacterAnimation {7}
+  1: Exit {raw=1 bytes}
+end
+
+event 455
+  0: MouseOver {Str=100 ""}
+  0: ForPartyMember {raw=1 bytes}
+  1: Set {Var=121 Value=0}
+  2: Exit {raw=1 bytes}
+end
+
+event 456
+  0: OnTimer {0,0,0,0,0,0,30,0,0,0}
+  0: MouseOver {Str=100 ""}
+  1: RandomGoTo {2,4,6,8,10,12}
+  2: CastSpell {raw=27 bytes}
+  3: GoTo {jump=13}
+  4: CastSpell {raw=27 bytes}
+  5: GoTo {jump=13}
+  6: CastSpell {raw=27 bytes}
+  7: GoTo {jump=13}
+  8: CastSpell {raw=27 bytes}
+  9: GoTo {jump=13}
+  10: CastSpell {raw=27 bytes}
+  11: GoTo {jump=13}
+  12: CastSpell {raw=27 bytes}
+  13: RandomGoTo {14,16,18,22,24,26}
+  14: CastSpell {raw=27 bytes}
+  15: GoTo {jump=27}
+  16: CastSpell {raw=27 bytes}
+  17: GoTo {jump=27}
+  18: CastSpell {raw=27 bytes}
+  19: GoTo {jump=27}
+  20: CastSpell {raw=27 bytes}
+  21: GoTo {jump=27}
+  22: CastSpell {raw=27 bytes}
+  23: GoTo {jump=27}
+  24: CastSpell {raw=27 bytes}
+  25: GoTo {jump=27}
+  26: CastSpell {raw=27 bytes}
+  27: RandomGoTo {28,30,32,34,36,38}
+  28: CastSpell {raw=27 bytes}
+  29: GoTo {jump=39}
+  30: CastSpell {raw=27 bytes}
+  31: GoTo {jump=39}
+  32: CastSpell {raw=27 bytes}
+  33: GoTo {jump=39}
+  34: CastSpell {raw=27 bytes}
+  35: GoTo {jump=39}
+  36: CastSpell {raw=27 bytes}
+  37: GoTo {jump=39}
+  38: CastSpell {raw=27 bytes}
+  39: Exit {raw=1 bytes}
+end
+
+event 457  -- "Fire the Cannon !"
+  0: MouseOver {Str=13 "Fire the Cannon !"}
+  0: CastSpell {raw=27 bytes}
+  1: CastSpell {raw=27 bytes}
+  2: Exit {raw=1 bytes}
+end
+
+event 458  -- "Fire the Cannon !"
+  0: MouseOver {Str=13 "Fire the Cannon !"}
+  0: CastSpell {raw=27 bytes}
+  1: CastSpell {raw=27 bytes}
+  2: Exit {raw=1 bytes}
+end
+
+event 459  -- "Fire the Cannon !"
+  0: MouseOver {Str=13 "Fire the Cannon !"}
+  0: CastSpell {raw=27 bytes}
+  1: CastSpell {raw=27 bytes}
+  2: Exit {raw=1 bytes}
+end
+
+event 460
+  0: MouseOver {Str=100 ""}
+  0: OnTimer {0,0,0,0,0,0,30,0,0,0}
+  1: Cmp {Var=393232 Value=6 jump=8}
+  2: IsActorKilled {raw=8 bytes}
+  3: CastSpell {raw=27 bytes}
+  4: CastSpell {raw=27 bytes}
+  5: IsActorKilled {raw=8 bytes}
+  6: CastSpell {raw=27 bytes}
+  7: CastSpell {raw=27 bytes}
+  8: Exit {raw=1 bytes}
+end
+
+event 461  -- "Fire the Cannon !"
+  0: MouseOver {Str=13 "Fire the Cannon !"}
+  0: CastSpell {raw=27 bytes}
+  1: CastSpell {raw=27 bytes}
+  2: Exit {raw=1 bytes}
+end
+
+event 462  -- "Fire the Cannon !"
+  0: MouseOver {Str=13 "Fire the Cannon !"}
+  0: CastSpell {raw=27 bytes}
+  1: CastSpell {raw=27 bytes}
+  2: Exit {raw=1 bytes}
+end
+
+event 463
+  0: OnTimer {0,0,0,0,0,0,20,0,0,0}
+  0: MouseOver {Str=100 ""}
+  1: Cmp {Var=393232 Value=6 jump=26}
+  2: IsActorKilled {raw=8 bytes}
+  3: IsActorKilled {raw=8 bytes}
+  4: IsActorKilled {raw=8 bytes}
+  5: IsActorKilled {raw=8 bytes}
+  6: GoTo {jump=26}
+  7: SummonMonsters {raw=23 bytes}
+  8: SummonMonsters {raw=23 bytes}
+  9: SummonMonsters {raw=23 bytes}
+  10: SummonMonsters {raw=23 bytes}
+  11: GoTo {jump=3}
+  12: SummonMonsters {raw=23 bytes}
+  13: SummonMonsters {raw=23 bytes}
+  14: SummonMonsters {raw=23 bytes}
+  15: SummonMonsters {raw=23 bytes}
+  16: GoTo {jump=4}
+  17: SummonMonsters {raw=23 bytes}
+  18: SummonMonsters {raw=23 bytes}
+  19: SummonMonsters {raw=23 bytes}
+  20: SummonMonsters {raw=23 bytes}
+  21: GoTo {jump=5}
+  22: SummonMonsters {raw=23 bytes}
+  23: SummonMonsters {raw=23 bytes}
+  24: SummonMonsters {raw=23 bytes}
+  25: SummonMonsters {raw=23 bytes}
+  26: Exit {raw=1 bytes}
+end
+
+event 464  -- "Sealed Crate"
+  0: MouseOver {Str=11 "Sealed Crate"}
+  0: Exit {raw=1 bytes}
+end
+
+event 465
+  0: MouseOver {Str=100 ""}
+  0: Cmp {Var=65552 Value=1 jump=9}
+  1: ForPartyMember {raw=1 bytes}
+  2: Cmp {Var=40435729 Value=617 jump=5}
+  3: StatusText {14}
+  4: GoTo {jump=10}
+  5: Cmp {Var=524304 Value=8 jump=7}
+  6: GoTo {jump=10}
+  7: Subtract {Var=40435729 Value=617}
+  8: Add {Var=65552 Value=1}
+  9: MoveToMap {x=4294954800 y=4294957568 z=160 map=""}
+  10: Exit {raw=1 bytes}
+end
+
+event 466
+  0: MouseOver {Str=100 ""}
+  0: Cmp {Var=131088 Value=2 jump=7}
+  1: ForPartyMember {raw=1 bytes}
+  2: Cmp {Var=40501265 Value=618 jump=5}
+  3: StatusText {14}
+  4: GoTo {jump=8}
+  5: Subtract {Var=40501265 Value=618}
+  6: Add {Var=131088 Value=2}
+  7: MoveToMap {x=4294953384 y=14096 z=0 map=""}
+  8: Exit {raw=1 bytes}
+end
+
+event 467
+  0: MouseOver {Str=100 ""}
+  0: Cmp {Var=131088 Value=2 jump=7}
+  1: ForPartyMember {raw=1 bytes}
+  2: Cmp {Var=40501265 Value=618 jump=5}
+  3: StatusText {14}
+  4: GoTo {jump=8}
+  5: Subtract {Var=40501265 Value=618}
+  6: Add {Var=131088 Value=2}
+  7: MoveToMap {x=4294948344 y=8608 z=96 map=""}
+  8: Exit {raw=1 bytes}
+end
+
+event 468
+  0: MouseOver {Str=100 ""}
+  0: OnTimer {0,0,0,0,0,0,40,0,0,0}
+  1: Cmp {Var=393232 Value=6 jump=11}
+  2: RandomGoTo {3,5,7,9,11,0}
+  3: CastSpell {raw=27 bytes}
+  4: GoTo {jump=11}
+  5: CastSpell {raw=27 bytes}
+  6: GoTo {jump=11}
+  7: CastSpell {raw=27 bytes}
+  8: GoTo {jump=11}
+  9: CastSpell {raw=27 bytes}
+  10: GoTo {jump=11}
+  11: Exit {raw=1 bytes}
+end
+
+event 469
+  0: MouseOver {Str=100 ""}
+  0: OnTimer {0,0,0,0,0,0,40,0,0,0}
+  1: Cmp {Var=393232 Value=6 jump=11}
+  2: RandomGoTo {3,5,7,9,11,0}
+  3: CastSpell {raw=27 bytes}
+  4: GoTo {jump=11}
+  5: CastSpell {raw=27 bytes}
+  6: GoTo {jump=11}
+  7: CastSpell {raw=27 bytes}
+  8: GoTo {jump=11}
+  9: CastSpell {raw=27 bytes}
+  10: GoTo {jump=11}
+  11: Exit {raw=1 bytes}
+end
+
+event 470
+  0: MouseOver {Str=100 ""}
+  0: Exit {raw=1 bytes}
+end
+
+event 471
+  0: MouseOver {Str=100 ""}
+  0: MoveToMap {x=8760 y=4408 z=736 map=""}
+  1: Cmp {Var=14876688 Value=227 jump=3}
+  2: Add {Var=14876688 Value=227}
+  3: Exit {raw=1 bytes}
+end
+
+event 472
+  0: MouseOver {Str=100 ""}
+  0: Cmp {Var=14876688 Value=227 jump=2}
+  1: GoTo {jump=3}
+  2: MoveToMap {x=21216 y=18680 z=0 map=""}
+  3: Exit {raw=1 bytes}
+end
+
+event 479
+  0: MouseOver {Str=100 ""}
+  0: OnTimer {0,0,0,0,0,0,20,0,0,0}
+  1: RandomGoTo {2,4,6,8,10,12}
+  2: GoTo {jump=3}
+  3: GoTo {jump=12}
+  4: GoTo {jump=5}
+  5: GoTo {jump=12}
+  6: GoTo {jump=7}
+  7: GoTo {jump=12}
+  8: GoTo {jump=9}
+  9: GoTo {jump=12}
+  10: GoTo {jump=11}
+  11: GoTo {jump=12}
+  12: Exit {raw=1 bytes}
+end
+
+event 494  -- "Palm tree"
+  0: Cmp {Var=17694736 Value=270 jump=16}
+  0: MouseOver {Str=41 "Palm tree"}
+  1: Cmp {Var=196702 Value=3 jump=3}
+  2: GoTo {jump=16}
+  3: RandomGoTo {5,7,9,11,13,0}
+  4: GoTo {jump=16}
+  5: SummonItem {raw=22 bytes}
+  6: GoTo {jump=15}
+  7: SummonItem {raw=22 bytes}
+  8: GoTo {jump=15}
+  9: SummonItem {raw=22 bytes}
+  10: GoTo {jump=15}
+  11: SummonItem {raw=22 bytes}
+  12: GoTo {jump=15}
+  13: SummonItem {raw=22 bytes}
+  14: GoTo {jump=15}
+  15: Add {Var=17694736 Value=270}
+  16: Exit {raw=1 bytes}
+end
+
+event 495  -- "Flower"
+  0: MouseOver {Str=42 "Flower"}
+  0: Cmp {Var=17760272 Value=271 jump=14}
+  1: Cmp {Var=327774 Value=5 jump=3}
+  2: GoTo {jump=14}
+  3: RandomGoTo {5,7,9,11,0,0}
+  4: GoTo {jump=14}
+  5: SummonItem {raw=22 bytes}
+  6: GoTo {jump=13}
+  7: SummonItem {raw=22 bytes}
+  8: GoTo {jump=13}
+  9: SummonItem {raw=22 bytes}
+  10: GoTo {jump=13}
+  11: SummonItem {raw=22 bytes}
+  12: GoTo {jump=13}
+  13: Add {Var=17760272 Value=271}
+  14: Exit {raw=1 bytes}
+end
+
+event 497  -- "Buoy"
+  0: MouseOver {Str=40 "Buoy"}
+  0: Cmp {Var=17563664 Value=268 jump=5}
+  1: Cmp {Var=852006 Value=13 jump=3}
+  2: GoTo {jump=5}
+  3: Add {Var=17563664 Value=268}
+  4: Add {Var=131317 Value=2}
+  5: Exit {raw=1 bytes}
+end
+
+event 498  -- "Buoy"
+  0: MouseOver {Str=40 "Buoy"}
+  0: Cmp {Var=17629200 Value=269 jump=5}
+  1: Cmp {Var=1310758 Value=20 jump=3}
+  2: GoTo {jump=5}
+  3: Add {Var=17629200 Value=269}
+  4: Add {Var=327925 Value=5}
+  5: Exit {raw=1 bytes}
+end
+
+event 500
+  0: MouseOver {Str=100 ""}
+  0: OnTimer {0,0,0,10,0,0,0,0,0,0}
+  1: Cmp {Var=15204368 Value=232 jump=4}
+  2: SpeakNPC {Id=31}
+  3: Add {Var=15204368 Value=232}
+  4: Exit {raw=1 bytes}
+end
+
+event 501  -- "Enter the Abandoned Temple"
+  0: MouseOver {Str=50 "Enter the Abandoned Temple"}
+  0: MoveToMap {x=4294964288 y=4294965600 z=2464 map="D05.blv"}
+  1: Exit {raw=1 bytes}
+end
+
+event 502  -- "Enter the Regnan Pirate Outpost"
+  0: MouseOver {Str=51 "Enter the Regnan Pirate Outpost"}
+  0: MoveToMap {x=4294967289 y=4294966582 z=1 map="D06.blv"}
+  1: Exit {raw=1 bytes}
+end
+
+event 503  -- "Enter the Uplifted Library"
+  0: MouseOver {Str=52 "Enter the Uplifted Library"}
+  0: MoveToMap {x=4294966704 y=624 z=0 map="d40.blv"}
+  1: Exit {raw=1 bytes}
+end
+
+event 504  -- "Enter the Abandoned Temple"
+  0: MouseOver {Str=50 "Enter the Abandoned Temple"}
+  0: MoveToMap {x=12704 y=2432 z=385 map="d05.blv"}
+  1: Exit {raw=1 bytes}
+end
+
+event 505  -- "Enter the Plane of Earth"
+  0: MouseOver {Str=53 "Enter the Plane of Earth"}
+  0: MoveToMap {x=0 y=0 z=49 map="ElemE.blv"}
+  1: Exit {raw=1 bytes}
+end
+

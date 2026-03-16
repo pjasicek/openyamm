@@ -1,0 +1,1207 @@
+event 1
+  0: MouseOver {Str=100 ""}
+  0: OnLoadMap {raw=1 bytes}
+  1: Cmp {Var=26411024 Value=403 jump=3}
+  2: SpeakNPC {Id=452}
+  3: Exit {raw=1 bytes}
+end
+
+event 2
+  0: OnLoadMap {raw=1 bytes}
+  0: MouseOver {Str=100 ""}
+  1: Cmp {Var=983175 Value=15 jump=14}
+  2: ChangeDoorState {Id=108 Action=1}
+  3: ChangeDoorState {Id=109 Action=1}
+  4: Set {Var=125 Value=0}
+  5: Set {Var=126 Value=0}
+  6: Set {Var=127 Value=0}
+  7: Set {Var=128 Value=0}
+  8: Set {Var=129 Value=0}
+  9: Set {Var=130 Value=0}
+  10: Set {Var=131 Value=0}
+  11: Set {Var=132 Value=0}
+  12: Set {Var=135 Value=0}
+  13: GoTo {jump=16}
+  14: ChangeDoorState {Id=108 Action=0}
+  15: ChangeDoorState {Id=109 Action=0}
+  16: ChangeDoorState {Id=110 Action=1}
+  17: ChangeDoorState {Id=111 Action=1}
+  18: ChangeDoorState {Id=112 Action=1}
+  19: ChangeDoorState {Id=113 Action=1}
+  20: GoTo {jump=21}
+  21: Exit {raw=1 bytes}
+end
+
+event 3
+  0: MouseOver {Str=100 ""}
+  0: OnLoadMap {raw=1 bytes}
+  1: Exit {raw=1 bytes}
+end
+
+event 4
+  0: MouseOver {Str=100 ""}
+  0: OnLoadMap {raw=1 bytes}
+  1: Exit {raw=1 bytes}
+end
+
+event 5
+  0: MouseOver {Str=100 ""}
+  0: OnLoadMap {raw=1 bytes}
+  1: Exit {raw=1 bytes}
+end
+
+event 6
+  0: MouseOver {Str=100 ""}
+  0: OnLeaveMap {raw=1 bytes}
+  1: ForPartyMember {raw=1 bytes}
+  2: Cmp {Var=41025553 Value=626 jump=4}
+  3: GoTo {jump=5}
+  4: Add {Var=14286864 Value=218}
+  5: Exit {raw=1 bytes}
+end
+
+event 7
+  0: MouseOver {Str=100 ""}
+  0: OnLeaveMap {raw=1 bytes}
+  1: Exit {raw=1 bytes}
+end
+
+event 8
+  0: MouseOver {Str=100 ""}
+  0: OnLeaveMap {raw=1 bytes}
+  1: Exit {raw=1 bytes}
+end
+
+event 9
+  0: MouseOver {Str=100 ""}
+  0: OnLeaveMap {raw=1 bytes}
+  1: Exit {raw=1 bytes}
+end
+
+event 10
+  0: MouseOver {Str=100 ""}
+  0: OnLeaveMap {raw=1 bytes}
+  1: Cmp {Var=8912912 Value=136 jump=6}
+  2: Cmp {Var=42729489 Value=652 jump=4}
+  3: GoTo {jump=6}
+  4: Set {Var=8912912 Value=136}
+  5: Subtract {Var=8847376 Value=135}
+  6: Exit {raw=1 bytes}
+end
+
+event 11  -- "Door"
+  0: MouseOver {Str=2 "Door"}
+  0: ChangeDoorState {Id=1 Action=0}
+  1: SetTexture {Id=10 "t65a05bl"}
+  2: SetTexture {Id=11 "t65a05br"}
+  3: Exit {raw=1 bytes}
+end
+
+event 12
+  0: MouseOver {Str=100 ""}
+  0: ChangeDoorState {Id=2 Action=0}
+  1: Exit {raw=1 bytes}
+end
+
+event 13  -- "Door"
+  0: MouseOver {Str=2 "Door"}
+  0: ChangeDoorState {Id=3 Action=0}
+  1: Exit {raw=1 bytes}
+end
+
+event 14  -- "Door"
+  0: MouseOver {Str=2 "Door"}
+  0: ChangeDoorState {Id=4 Action=0}
+  1: Exit {raw=1 bytes}
+end
+
+event 15  -- "Door"
+  0: MouseOver {Str=2 "Door"}
+  0: ChangeDoorState {Id=5 Action=0}
+  1: Exit {raw=1 bytes}
+end
+
+event 16  -- "Door"
+  0: MouseOver {Str=2 "Door"}
+  0: ChangeDoorState {Id=6 Action=0}
+  1: Exit {raw=1 bytes}
+end
+
+event 17  -- "Door"
+  0: MouseOver {Str=2 "Door"}
+  0: ChangeDoorState {Id=7 Action=0}
+  1: Exit {raw=1 bytes}
+end
+
+event 18  -- "Door"
+  0: MouseOver {Str=2 "Door"}
+  0: ChangeDoorState {Id=8 Action=0}
+  1: Exit {raw=1 bytes}
+end
+
+event 19  -- "Door"
+  0: MouseOver {Str=2 "Door"}
+  0: ChangeDoorState {Id=9 Action=0}
+  1: Exit {raw=1 bytes}
+end
+
+event 20  -- "Button"
+  0: MouseOver {Str=5 "Button"}
+  0: ChangeDoorState {Id=10 Action=0}
+  1: ChangeDoorState {Id=52 Action=0}
+  2: ChangeDoorState {Id=11 Action=1}
+  3: ChangeDoorState {Id=53 Action=1}
+  4: Exit {raw=1 bytes}
+end
+
+event 21  -- "Button"
+  0: MouseOver {Str=5 "Button"}
+  0: ChangeDoorState {Id=11 Action=0}
+  1: ChangeDoorState {Id=53 Action=0}
+  2: ChangeDoorState {Id=10 Action=1}
+  3: ChangeDoorState {Id=52 Action=1}
+  4: Exit {raw=1 bytes}
+end
+
+event 22  -- "Button"
+  0: MouseOver {Str=5 "Button"}
+  0: ChangeDoorState {Id=12 Action=0}
+  1: ChangeDoorState {Id=54 Action=0}
+  2: ChangeDoorState {Id=13 Action=1}
+  3: ChangeDoorState {Id=55 Action=1}
+  4: Exit {raw=1 bytes}
+end
+
+event 23  -- "Button"
+  0: MouseOver {Str=5 "Button"}
+  0: Cmp {Var=65681 Value=1 jump=2}
+  1: SummonMonsters {raw=23 bytes}
+  2: ChangeDoorState {Id=13 Action=0}
+  3: ChangeDoorState {Id=55 Action=0}
+  4: ChangeDoorState {Id=12 Action=1}
+  5: ChangeDoorState {Id=54 Action=1}
+  6: Set {Var=65681 Value=1}
+  7: GoTo {jump=8}
+  8: Exit {raw=1 bytes}
+end
+
+event 24  -- "Button"
+  0: MouseOver {Str=5 "Button"}
+  0: ChangeDoorState {Id=14 Action=0}
+  1: ChangeDoorState {Id=56 Action=0}
+  2: ChangeDoorState {Id=15 Action=1}
+  3: ChangeDoorState {Id=57 Action=1}
+  4: Exit {raw=1 bytes}
+end
+
+event 25  -- "Button"
+  0: MouseOver {Str=5 "Button"}
+  0: ChangeDoorState {Id=15 Action=0}
+  1: ChangeDoorState {Id=57 Action=0}
+  2: ChangeDoorState {Id=14 Action=1}
+  3: ChangeDoorState {Id=56 Action=1}
+  4: Exit {raw=1 bytes}
+end
+
+event 26  -- "Button"
+  0: MouseOver {Str=5 "Button"}
+  0: ChangeDoorState {Id=16 Action=0}
+  1: ChangeDoorState {Id=58 Action=0}
+  2: ChangeDoorState {Id=17 Action=1}
+  3: ChangeDoorState {Id=59 Action=1}
+  4: Exit {raw=1 bytes}
+end
+
+event 27  -- "Button"
+  0: MouseOver {Str=5 "Button"}
+  0: ChangeDoorState {Id=17 Action=0}
+  1: ChangeDoorState {Id=59 Action=0}
+  2: ChangeDoorState {Id=16 Action=1}
+  3: ChangeDoorState {Id=58 Action=1}
+  4: Exit {raw=1 bytes}
+end
+
+event 28  -- "Button"
+  0: MouseOver {Str=5 "Button"}
+  0: Cmp {Var=65680 Value=1 jump=2}
+  1: SummonMonsters {raw=23 bytes}
+  2: ChangeDoorState {Id=18 Action=0}
+  3: ChangeDoorState {Id=60 Action=0}
+  4: ChangeDoorState {Id=19 Action=1}
+  5: ChangeDoorState {Id=61 Action=1}
+  6: Set {Var=65680 Value=1}
+  7: GoTo {jump=8}
+  8: Exit {raw=1 bytes}
+end
+
+event 29  -- "Button"
+  0: MouseOver {Str=5 "Button"}
+  0: ChangeDoorState {Id=19 Action=0}
+  1: ChangeDoorState {Id=61 Action=0}
+  2: ChangeDoorState {Id=18 Action=1}
+  3: ChangeDoorState {Id=60 Action=1}
+  4: Exit {raw=1 bytes}
+end
+
+event 30  -- "Button"
+  0: MouseOver {Str=5 "Button"}
+  0: ChangeDoorState {Id=20 Action=0}
+  1: ChangeDoorState {Id=62 Action=0}
+  2: ChangeDoorState {Id=21 Action=1}
+  3: ChangeDoorState {Id=63 Action=1}
+  4: Exit {raw=1 bytes}
+end
+
+event 31  -- "Button"
+  0: MouseOver {Str=5 "Button"}
+  0: Cmp {Var=65682 Value=1 jump=2}
+  1: SummonMonsters {raw=23 bytes}
+  2: ChangeDoorState {Id=21 Action=0}
+  3: ChangeDoorState {Id=63 Action=0}
+  4: ChangeDoorState {Id=20 Action=1}
+  5: ChangeDoorState {Id=62 Action=1}
+  6: Set {Var=65682 Value=1}
+  7: GoTo {jump=8}
+  8: Exit {raw=1 bytes}
+end
+
+event 32  -- "Button"
+  0: MouseOver {Str=5 "Button"}
+  0: ChangeDoorState {Id=22 Action=0}
+  1: ChangeDoorState {Id=64 Action=0}
+  2: ChangeDoorState {Id=23 Action=1}
+  3: ChangeDoorState {Id=65 Action=1}
+  4: Exit {raw=1 bytes}
+end
+
+event 33  -- "Button"
+  0: MouseOver {Str=5 "Button"}
+  0: Cmp {Var=65683 Value=1 jump=2}
+  1: SummonMonsters {raw=23 bytes}
+  2: ChangeDoorState {Id=23 Action=0}
+  3: ChangeDoorState {Id=65 Action=0}
+  4: ChangeDoorState {Id=22 Action=1}
+  5: ChangeDoorState {Id=64 Action=1}
+  6: Set {Var=65683 Value=1}
+  7: GoTo {jump=8}
+  8: Exit {raw=1 bytes}
+end
+
+event 34  -- "Button"
+  0: MouseOver {Str=5 "Button"}
+  0: Cmp {Var=65684 Value=1 jump=2}
+  1: SummonMonsters {raw=23 bytes}
+  2: ChangeDoorState {Id=24 Action=0}
+  3: ChangeDoorState {Id=66 Action=0}
+  4: ChangeDoorState {Id=25 Action=1}
+  5: ChangeDoorState {Id=67 Action=1}
+  6: Set {Var=65684 Value=1}
+  7: GoTo {jump=8}
+  8: Exit {raw=1 bytes}
+end
+
+event 35  -- "Button"
+  0: MouseOver {Str=5 "Button"}
+  0: ChangeDoorState {Id=25 Action=0}
+  1: ChangeDoorState {Id=67 Action=0}
+  2: ChangeDoorState {Id=24 Action=1}
+  3: ChangeDoorState {Id=66 Action=1}
+  4: Exit {raw=1 bytes}
+end
+
+event 36  -- "Button"
+  0: MouseOver {Str=5 "Button"}
+  0: Cmp {Var=65685 Value=1 jump=2}
+  1: SummonMonsters {raw=23 bytes}
+  2: ChangeDoorState {Id=26 Action=0}
+  3: ChangeDoorState {Id=68 Action=0}
+  4: ChangeDoorState {Id=27 Action=1}
+  5: ChangeDoorState {Id=69 Action=1}
+  6: Set {Var=65685 Value=1}
+  7: GoTo {jump=8}
+  8: Exit {raw=1 bytes}
+end
+
+event 37  -- "Button"
+  0: MouseOver {Str=5 "Button"}
+  0: Cmp {Var=65686 Value=1 jump=2}
+  1: SummonMonsters {raw=23 bytes}
+  2: ChangeDoorState {Id=27 Action=0}
+  3: ChangeDoorState {Id=69 Action=0}
+  4: ChangeDoorState {Id=26 Action=1}
+  5: ChangeDoorState {Id=68 Action=1}
+  6: Set {Var=65686 Value=1}
+  7: GoTo {jump=8}
+  8: Exit {raw=1 bytes}
+end
+
+event 38  -- "Button"
+  0: MouseOver {Str=5 "Button"}
+  0: Cmp {Var=65687 Value=1 jump=2}
+  1: SummonMonsters {raw=23 bytes}
+  2: ChangeDoorState {Id=28 Action=0}
+  3: ChangeDoorState {Id=70 Action=0}
+  4: ChangeDoorState {Id=29 Action=1}
+  5: ChangeDoorState {Id=71 Action=1}
+  6: Set {Var=65687 Value=1}
+  7: GoTo {jump=8}
+  8: Exit {raw=1 bytes}
+end
+
+event 39  -- "Button"
+  0: MouseOver {Str=5 "Button"}
+  0: Cmp {Var=65688 Value=1 jump=2}
+  1: SummonMonsters {raw=23 bytes}
+  2: ChangeDoorState {Id=29 Action=0}
+  3: ChangeDoorState {Id=71 Action=0}
+  4: ChangeDoorState {Id=28 Action=1}
+  5: ChangeDoorState {Id=70 Action=1}
+  6: Set {Var=65688 Value=1}
+  7: GoTo {jump=8}
+  8: Exit {raw=1 bytes}
+end
+
+event 40  -- "Button"
+  0: MouseOver {Str=5 "Button"}
+  0: ChangeDoorState {Id=30 Action=0}
+  1: ChangeDoorState {Id=72 Action=0}
+  2: ChangeDoorState {Id=31 Action=1}
+  3: ChangeDoorState {Id=73 Action=1}
+  4: Exit {raw=1 bytes}
+end
+
+event 41  -- "Button"
+  0: MouseOver {Str=5 "Button"}
+  0: ChangeDoorState {Id=31 Action=0}
+  1: ChangeDoorState {Id=73 Action=0}
+  2: ChangeDoorState {Id=30 Action=1}
+  3: ChangeDoorState {Id=72 Action=1}
+  4: Exit {raw=1 bytes}
+end
+
+event 42  -- "Button"
+  0: MouseOver {Str=5 "Button"}
+  0: ChangeDoorState {Id=32 Action=0}
+  1: ChangeDoorState {Id=74 Action=0}
+  2: ChangeDoorState {Id=33 Action=1}
+  3: ChangeDoorState {Id=34 Action=1}
+  4: ChangeDoorState {Id=35 Action=1}
+  5: ChangeDoorState {Id=75 Action=1}
+  6: ChangeDoorState {Id=76 Action=1}
+  7: ChangeDoorState {Id=77 Action=1}
+  8: Exit {raw=1 bytes}
+end
+
+event 43  -- "Button"
+  0: MouseOver {Str=5 "Button"}
+  0: Cmp {Var=65691 Value=1 jump=2}
+  1: SummonMonsters {raw=23 bytes}
+  2: ChangeDoorState {Id=32 Action=1}
+  3: ChangeDoorState {Id=33 Action=0}
+  4: ChangeDoorState {Id=34 Action=1}
+  5: ChangeDoorState {Id=35 Action=1}
+  6: ChangeDoorState {Id=74 Action=1}
+  7: ChangeDoorState {Id=75 Action=0}
+  8: ChangeDoorState {Id=76 Action=1}
+  9: ChangeDoorState {Id=77 Action=1}
+  10: Set {Var=65691 Value=1}
+  11: GoTo {jump=12}
+  12: Exit {raw=1 bytes}
+end
+
+event 44  -- "Button"
+  0: MouseOver {Str=5 "Button"}
+  0: Cmp {Var=65692 Value=1 jump=2}
+  1: SummonMonsters {raw=23 bytes}
+  2: ChangeDoorState {Id=32 Action=1}
+  3: ChangeDoorState {Id=33 Action=1}
+  4: ChangeDoorState {Id=34 Action=0}
+  5: ChangeDoorState {Id=35 Action=1}
+  6: ChangeDoorState {Id=74 Action=1}
+  7: ChangeDoorState {Id=75 Action=1}
+  8: ChangeDoorState {Id=76 Action=0}
+  9: ChangeDoorState {Id=77 Action=1}
+  10: Set {Var=65692 Value=1}
+  11: GoTo {jump=12}
+  12: Exit {raw=1 bytes}
+end
+
+event 45  -- "Button"
+  0: MouseOver {Str=5 "Button"}
+  0: ChangeDoorState {Id=32 Action=1}
+  1: ChangeDoorState {Id=33 Action=1}
+  2: ChangeDoorState {Id=34 Action=1}
+  3: ChangeDoorState {Id=35 Action=0}
+  4: ChangeDoorState {Id=74 Action=1}
+  5: ChangeDoorState {Id=75 Action=1}
+  6: ChangeDoorState {Id=76 Action=1}
+  7: ChangeDoorState {Id=77 Action=0}
+  8: Set {Var=156 Value=0}
+  9: Exit {raw=1 bytes}
+end
+
+event 46  -- "Button"
+  0: MouseOver {Str=5 "Button"}
+  0: Cmp {Var=65693 Value=1 jump=2}
+  1: SummonMonsters {raw=23 bytes}
+  2: ChangeDoorState {Id=36 Action=0}
+  3: ChangeDoorState {Id=78 Action=0}
+  4: ChangeDoorState {Id=37 Action=1}
+  5: ChangeDoorState {Id=79 Action=1}
+  6: Set {Var=65693 Value=1}
+  7: GoTo {jump=8}
+  8: Exit {raw=1 bytes}
+end
+
+event 47  -- "Button"
+  0: MouseOver {Str=5 "Button"}
+  0: Cmp {Var=65694 Value=1 jump=2}
+  1: SummonMonsters {raw=23 bytes}
+  2: ChangeDoorState {Id=37 Action=0}
+  3: ChangeDoorState {Id=79 Action=0}
+  4: ChangeDoorState {Id=36 Action=1}
+  5: ChangeDoorState {Id=78 Action=1}
+  6: Set {Var=65694 Value=1}
+  7: GoTo {jump=8}
+  8: Exit {raw=1 bytes}
+end
+
+event 48  -- "Button"
+  0: MouseOver {Str=5 "Button"}
+  0: ChangeDoorState {Id=38 Action=0}
+  1: ChangeDoorState {Id=80 Action=0}
+  2: ChangeDoorState {Id=39 Action=1}
+  3: ChangeDoorState {Id=81 Action=1}
+  4: Exit {raw=1 bytes}
+end
+
+event 49  -- "Button"
+  0: MouseOver {Str=5 "Button"}
+  0: Cmp {Var=65695 Value=1 jump=2}
+  1: SummonMonsters {raw=23 bytes}
+  2: ChangeDoorState {Id=39 Action=0}
+  3: ChangeDoorState {Id=81 Action=0}
+  4: ChangeDoorState {Id=38 Action=1}
+  5: ChangeDoorState {Id=80 Action=1}
+  6: Set {Var=65695 Value=1}
+  7: GoTo {jump=8}
+  8: Exit {raw=1 bytes}
+end
+
+event 50  -- "Button"
+  0: MouseOver {Str=5 "Button"}
+  0: Cmp {Var=65696 Value=1 jump=2}
+  1: SummonMonsters {raw=23 bytes}
+  2: ChangeDoorState {Id=40 Action=0}
+  3: ChangeDoorState {Id=82 Action=0}
+  4: ChangeDoorState {Id=41 Action=1}
+  5: ChangeDoorState {Id=83 Action=1}
+  6: Set {Var=65696 Value=1}
+  7: GoTo {jump=8}
+  8: Exit {raw=1 bytes}
+end
+
+event 51  -- "Button"
+  0: MouseOver {Str=5 "Button"}
+  0: Cmp {Var=65697 Value=1 jump=2}
+  1: SummonMonsters {raw=23 bytes}
+  2: ChangeDoorState {Id=41 Action=0}
+  3: ChangeDoorState {Id=83 Action=0}
+  4: ChangeDoorState {Id=40 Action=1}
+  5: ChangeDoorState {Id=82 Action=1}
+  6: Set {Var=65697 Value=1}
+  7: GoTo {jump=8}
+  8: Exit {raw=1 bytes}
+end
+
+event 52  -- "Button"
+  0: MouseOver {Str=5 "Button"}
+  0: ChangeDoorState {Id=42 Action=0}
+  1: ChangeDoorState {Id=43 Action=1}
+  2: ChangeDoorState {Id=44 Action=1}
+  3: ChangeDoorState {Id=45 Action=1}
+  4: ChangeDoorState {Id=46 Action=1}
+  5: ChangeDoorState {Id=47 Action=1}
+  6: ChangeDoorState {Id=84 Action=0}
+  7: ChangeDoorState {Id=85 Action=1}
+  8: ChangeDoorState {Id=86 Action=1}
+  9: ChangeDoorState {Id=87 Action=1}
+  10: ChangeDoorState {Id=88 Action=1}
+  11: ChangeDoorState {Id=89 Action=1}
+  12: Exit {raw=1 bytes}
+end
+
+event 53  -- "Button"
+  0: Cmp {Var=65698 Value=1 jump=2}
+  0: MouseOver {Str=5 "Button"}
+  1: SummonMonsters {raw=23 bytes}
+  2: ChangeDoorState {Id=42 Action=1}
+  3: ChangeDoorState {Id=43 Action=0}
+  4: ChangeDoorState {Id=44 Action=1}
+  5: ChangeDoorState {Id=45 Action=1}
+  6: ChangeDoorState {Id=46 Action=1}
+  7: ChangeDoorState {Id=47 Action=1}
+  8: ChangeDoorState {Id=84 Action=1}
+  9: ChangeDoorState {Id=85 Action=0}
+  10: ChangeDoorState {Id=86 Action=1}
+  11: ChangeDoorState {Id=87 Action=1}
+  12: ChangeDoorState {Id=88 Action=1}
+  13: ChangeDoorState {Id=89 Action=1}
+  14: Set {Var=65698 Value=1}
+  15: GoTo {jump=16}
+  16: Exit {raw=1 bytes}
+end
+
+event 54  -- "Button"
+  0: Cmp {Var=65699 Value=1 jump=2}
+  0: MouseOver {Str=5 "Button"}
+  1: SummonMonsters {raw=23 bytes}
+  2: ChangeDoorState {Id=42 Action=1}
+  3: ChangeDoorState {Id=43 Action=1}
+  4: ChangeDoorState {Id=44 Action=0}
+  5: ChangeDoorState {Id=45 Action=1}
+  6: ChangeDoorState {Id=46 Action=1}
+  7: ChangeDoorState {Id=47 Action=1}
+  8: ChangeDoorState {Id=84 Action=1}
+  9: ChangeDoorState {Id=85 Action=1}
+  10: ChangeDoorState {Id=86 Action=0}
+  11: ChangeDoorState {Id=87 Action=1}
+  12: ChangeDoorState {Id=88 Action=1}
+  13: ChangeDoorState {Id=89 Action=1}
+  14: Set {Var=65699 Value=1}
+  15: GoTo {jump=16}
+  16: Exit {raw=1 bytes}
+end
+
+event 55  -- "Button"
+  0: MouseOver {Str=5 "Button"}
+  0: ChangeDoorState {Id=42 Action=1}
+  1: ChangeDoorState {Id=43 Action=1}
+  2: ChangeDoorState {Id=44 Action=1}
+  3: ChangeDoorState {Id=45 Action=0}
+  4: ChangeDoorState {Id=46 Action=1}
+  5: ChangeDoorState {Id=47 Action=1}
+  6: ChangeDoorState {Id=84 Action=1}
+  7: ChangeDoorState {Id=85 Action=1}
+  8: ChangeDoorState {Id=86 Action=1}
+  9: ChangeDoorState {Id=87 Action=0}
+  10: ChangeDoorState {Id=88 Action=1}
+  11: ChangeDoorState {Id=89 Action=1}
+  12: Exit {raw=1 bytes}
+end
+
+event 56  -- "Button"
+  0: Cmp {Var=65700 Value=1 jump=2}
+  0: MouseOver {Str=5 "Button"}
+  1: SummonMonsters {raw=23 bytes}
+  2: ChangeDoorState {Id=42 Action=1}
+  3: ChangeDoorState {Id=43 Action=1}
+  4: ChangeDoorState {Id=44 Action=1}
+  5: ChangeDoorState {Id=45 Action=1}
+  6: ChangeDoorState {Id=46 Action=0}
+  7: ChangeDoorState {Id=47 Action=1}
+  8: ChangeDoorState {Id=84 Action=1}
+  9: ChangeDoorState {Id=85 Action=1}
+  10: ChangeDoorState {Id=86 Action=1}
+  11: ChangeDoorState {Id=87 Action=1}
+  12: ChangeDoorState {Id=88 Action=0}
+  13: ChangeDoorState {Id=89 Action=1}
+  14: Set {Var=65700 Value=1}
+  15: GoTo {jump=16}
+  16: Exit {raw=1 bytes}
+end
+
+event 57  -- "Button"
+  0: MouseOver {Str=5 "Button"}
+  0: ChangeDoorState {Id=42 Action=1}
+  1: ChangeDoorState {Id=43 Action=1}
+  2: ChangeDoorState {Id=44 Action=1}
+  3: ChangeDoorState {Id=45 Action=1}
+  4: ChangeDoorState {Id=46 Action=1}
+  5: ChangeDoorState {Id=47 Action=0}
+  6: ChangeDoorState {Id=84 Action=1}
+  7: ChangeDoorState {Id=85 Action=1}
+  8: ChangeDoorState {Id=86 Action=1}
+  9: ChangeDoorState {Id=87 Action=1}
+  10: ChangeDoorState {Id=88 Action=1}
+  11: ChangeDoorState {Id=89 Action=0}
+  12: Exit {raw=1 bytes}
+end
+
+event 58  -- "Button"
+  0: MouseOver {Str=5 "Button"}
+  0: Cmp {Var=65701 Value=1 jump=2}
+  1: SummonMonsters {raw=23 bytes}
+  2: ChangeDoorState {Id=48 Action=0}
+  3: ChangeDoorState {Id=90 Action=0}
+  4: ChangeDoorState {Id=49 Action=1}
+  5: ChangeDoorState {Id=91 Action=1}
+  6: Set {Var=65701 Value=1}
+  7: GoTo {jump=8}
+  8: Exit {raw=1 bytes}
+end
+
+event 59  -- "Button"
+  0: MouseOver {Str=5 "Button"}
+  0: Cmp {Var=65702 Value=1 jump=2}
+  1: SummonMonsters {raw=23 bytes}
+  2: ChangeDoorState {Id=49 Action=0}
+  3: ChangeDoorState {Id=91 Action=0}
+  4: ChangeDoorState {Id=48 Action=1}
+  5: ChangeDoorState {Id=90 Action=1}
+  6: Set {Var=65702 Value=1}
+  7: GoTo {jump=8}
+  8: Exit {raw=1 bytes}
+end
+
+event 60  -- "Button"
+  0: MouseOver {Str=5 "Button"}
+  0: Cmp {Var=65703 Value=1 jump=2}
+  1: SummonMonsters {raw=23 bytes}
+  2: ChangeDoorState {Id=50 Action=0}
+  3: ChangeDoorState {Id=92 Action=0}
+  4: ChangeDoorState {Id=51 Action=1}
+  5: ChangeDoorState {Id=93 Action=1}
+  6: Set {Var=65703 Value=1}
+  7: GoTo {jump=8}
+  8: Exit {raw=1 bytes}
+end
+
+event 61  -- "Button"
+  0: MouseOver {Str=5 "Button"}
+  0: Cmp {Var=65704 Value=1 jump=2}
+  1: SummonMonsters {raw=23 bytes}
+  2: ChangeDoorState {Id=51 Action=0}
+  3: ChangeDoorState {Id=93 Action=0}
+  4: ChangeDoorState {Id=50 Action=1}
+  5: ChangeDoorState {Id=92 Action=1}
+  6: Set {Var=65704 Value=1}
+  7: GoTo {jump=8}
+  8: Exit {raw=1 bytes}
+end
+
+event 62  -- "Door"
+  0: MouseOver {Str=2 "Door"}
+  0: ChangeDoorState {Id=108 Action=0}
+  1: Exit {raw=1 bytes}
+end
+
+event 63  -- "Door"
+  0: Cmp {Var=65671 Value=1 jump=24}
+  0: MouseOver {Str=2 "Door"}
+  1: ChangeDoorState {Id=109 Action=1}
+  2: ChangeDoorState {Id=108 Action=1}
+  3: ChangeDoorState {Id=110 Action=0}
+  4: ChangeDoorState {Id=111 Action=0}
+  5: ChangeDoorState {Id=112 Action=0}
+  6: ChangeDoorState {Id=113 Action=0}
+  7: SetTexture {Id=1 "t65b11c"}
+  8: SetTexture {Id=2 "t65b11c"}
+  9: SetTexture {Id=3 "t65b11c"}
+  10: SetTexture {Id=4 "t65b11c"}
+  11: SetTexture {Id=5 "t65b11c"}
+  12: SetTexture {Id=6 "t65b11c"}
+  13: SetTexture {Id=7 "t65b11c"}
+  14: SetTexture {Id=8 "t65b11c"}
+  15: ToggleIndoorLight {Id=1 On=1}
+  16: ToggleIndoorLight {Id=2 On=1}
+  17: ToggleIndoorLight {Id=3 On=1}
+  18: ToggleIndoorLight {Id=4 On=1}
+  19: ToggleIndoorLight {Id=5 On=1}
+  20: ToggleIndoorLight {Id=6 On=1}
+  21: ToggleIndoorLight {Id=7 On=1}
+  22: ToggleIndoorLight {Id=8 On=1}
+  23: Add {Var=65671 Value=1}
+  24: Exit {raw=1 bytes}
+end
+
+event 64  -- "Leave the Abandoned Temple"
+  0: MouseOver {Str=1 "Leave the Abandoned Temple"}
+  0: ChangeDoorState {Id=109 Action=0}
+  1: Exit {raw=1 bytes}
+end
+
+event 81  -- "Chest"
+  0: MouseOver {Str=3 "Chest"}
+  0: OpenChest {0}
+  1: Exit {raw=1 bytes}
+end
+
+event 82  -- "Chest"
+  0: MouseOver {Str=3 "Chest"}
+  0: OpenChest {1}
+  1: Exit {raw=1 bytes}
+end
+
+event 83  -- "Chest"
+  0: MouseOver {Str=3 "Chest"}
+  0: OpenChest {2}
+  1: Exit {raw=1 bytes}
+end
+
+event 84  -- "Chest"
+  0: MouseOver {Str=3 "Chest"}
+  0: OpenChest {3}
+  1: Exit {raw=1 bytes}
+end
+
+event 85  -- "Chest"
+  0: MouseOver {Str=3 "Chest"}
+  0: OpenChest {4}
+  1: Exit {raw=1 bytes}
+end
+
+event 86  -- "Chest"
+  0: MouseOver {Str=3 "Chest"}
+  0: OpenChest {5}
+  1: Exit {raw=1 bytes}
+end
+
+event 87  -- "Chest"
+  0: MouseOver {Str=3 "Chest"}
+  0: OpenChest {6}
+  1: Exit {raw=1 bytes}
+end
+
+event 88  -- "Chest"
+  0: MouseOver {Str=3 "Chest"}
+  0: OpenChest {7}
+  1: Exit {raw=1 bytes}
+end
+
+event 89  -- "Chest"
+  0: MouseOver {Str=3 "Chest"}
+  0: OpenChest {8}
+  1: Exit {raw=1 bytes}
+end
+
+event 90  -- "Chest"
+  0: MouseOver {Str=3 "Chest"}
+  0: OpenChest {9}
+  1: Exit {raw=1 bytes}
+end
+
+event 91  -- "Chest"
+  0: MouseOver {Str=3 "Chest"}
+  0: OpenChest {10}
+  1: Exit {raw=1 bytes}
+end
+
+event 92  -- "Chest"
+  0: MouseOver {Str=3 "Chest"}
+  0: OpenChest {11}
+  1: Exit {raw=1 bytes}
+end
+
+event 93  -- "Chest"
+  0: MouseOver {Str=3 "Chest"}
+  0: OpenChest {12}
+  1: Exit {raw=1 bytes}
+end
+
+event 94  -- "Chest"
+  0: MouseOver {Str=3 "Chest"}
+  0: OpenChest {13}
+  1: Exit {raw=1 bytes}
+end
+
+event 95  -- "Chest"
+  0: MouseOver {Str=3 "Chest"}
+  0: OpenChest {14}
+  1: Exit {raw=1 bytes}
+end
+
+event 96  -- "Chest"
+  0: MouseOver {Str=3 "Chest"}
+  0: OpenChest {15}
+  1: Exit {raw=1 bytes}
+end
+
+event 97  -- "Chest"
+  0: MouseOver {Str=3 "Chest"}
+  0: OpenChest {16}
+  1: Exit {raw=1 bytes}
+end
+
+event 98  -- "Chest"
+  0: MouseOver {Str=3 "Chest"}
+  0: OpenChest {17}
+  1: Exit {raw=1 bytes}
+end
+
+event 99  -- "Chest"
+  0: MouseOver {Str=3 "Chest"}
+  0: OpenChest {18}
+  1: Exit {raw=1 bytes}
+end
+
+event 100  -- "Chest"
+  0: MouseOver {Str=3 "Chest"}
+  0: OpenChest {19}
+  1: Exit {raw=1 bytes}
+end
+
+event 101
+  0: MouseOver {Str=100 ""}
+  0: ForPartyMember {raw=1 bytes}
+  1: Set {Var=121 Value=0}
+  2: Exit {raw=1 bytes}
+end
+
+event 102  -- "Button"
+  0: MouseOver {Str=5 "Button"}
+  0: Cmp {Var=983175 Value=15 jump=13}
+  1: Cmp {Var=65671 Value=1 jump=3}
+  2: GoTo {jump=13}
+  3: Cmp {Var=65661 Value=1 jump=9}
+  4: Set {Var=65661 Value=1}
+  5: Add {Var=65671 Value=1}
+  6: SetTexture {Id=1 "t65b11b"}
+  7: ToggleIndoorLight {Id=1 On=0}
+  8: GoTo {jump=13}
+  9: Set {Var=125 Value=0}
+  10: Subtract {Var=65671 Value=1}
+  11: SetTexture {Id=1 "t65b11c"}
+  12: ToggleIndoorLight {Id=1 On=1}
+  13: Exit {raw=1 bytes}
+end
+
+event 103  -- "Button"
+  0: MouseOver {Str=5 "Button"}
+  0: Cmp {Var=983175 Value=15 jump=13}
+  1: Cmp {Var=65671 Value=1 jump=3}
+  2: GoTo {jump=13}
+  3: Cmp {Var=65662 Value=1 jump=9}
+  4: Set {Var=65662 Value=1}
+  5: Add {Var=65671 Value=1}
+  6: SetTexture {Id=2 "t65b11b"}
+  7: ToggleIndoorLight {Id=2 On=0}
+  8: GoTo {jump=13}
+  9: Set {Var=126 Value=0}
+  10: Subtract {Var=65671 Value=1}
+  11: SetTexture {Id=2 "t65b11c"}
+  12: ToggleIndoorLight {Id=2 On=1}
+  13: Exit {raw=1 bytes}
+end
+
+event 104  -- "Button"
+  0: MouseOver {Str=5 "Button"}
+  0: Cmp {Var=983175 Value=15 jump=13}
+  1: Cmp {Var=65671 Value=1 jump=3}
+  2: GoTo {jump=13}
+  3: Cmp {Var=65663 Value=1 jump=9}
+  4: Set {Var=65663 Value=1}
+  5: Add {Var=65671 Value=1}
+  6: SetTexture {Id=3 "t65b11b"}
+  7: ToggleIndoorLight {Id=3 On=0}
+  8: GoTo {jump=13}
+  9: Set {Var=127 Value=0}
+  10: Subtract {Var=65671 Value=1}
+  11: SetTexture {Id=3 "t65b11c"}
+  12: ToggleIndoorLight {Id=3 On=1}
+  13: Exit {raw=1 bytes}
+end
+
+event 105  -- "Button"
+  0: MouseOver {Str=5 "Button"}
+  0: Cmp {Var=983175 Value=15 jump=13}
+  1: Cmp {Var=65671 Value=1 jump=3}
+  2: GoTo {jump=13}
+  3: Cmp {Var=65664 Value=1 jump=9}
+  4: Set {Var=65664 Value=1}
+  5: Add {Var=65671 Value=1}
+  6: SetTexture {Id=4 "t65b11b"}
+  7: ToggleIndoorLight {Id=4 On=0}
+  8: GoTo {jump=13}
+  9: Set {Var=128 Value=0}
+  10: Subtract {Var=65671 Value=1}
+  11: SetTexture {Id=4 "t65b11c"}
+  12: ToggleIndoorLight {Id=4 On=1}
+  13: Exit {raw=1 bytes}
+end
+
+event 106  -- "Button"
+  0: MouseOver {Str=5 "Button"}
+  0: Cmp {Var=983175 Value=15 jump=13}
+  1: Cmp {Var=65671 Value=1 jump=3}
+  2: GoTo {jump=13}
+  3: Cmp {Var=65665 Value=1 jump=9}
+  4: Set {Var=65665 Value=1}
+  5: Add {Var=65671 Value=1}
+  6: SetTexture {Id=5 "t65b11b"}
+  7: ToggleIndoorLight {Id=5 On=0}
+  8: GoTo {jump=13}
+  9: Set {Var=129 Value=0}
+  10: Subtract {Var=65671 Value=1}
+  11: SetTexture {Id=5 "t65b11c"}
+  12: ToggleIndoorLight {Id=5 On=1}
+  13: Exit {raw=1 bytes}
+end
+
+event 107  -- "Button"
+  0: MouseOver {Str=5 "Button"}
+  0: Cmp {Var=983175 Value=15 jump=13}
+  1: Cmp {Var=65671 Value=1 jump=3}
+  2: GoTo {jump=13}
+  3: Cmp {Var=65666 Value=1 jump=9}
+  4: Set {Var=65666 Value=1}
+  5: Add {Var=65671 Value=1}
+  6: SetTexture {Id=6 "t65b11b"}
+  7: ToggleIndoorLight {Id=6 On=0}
+  8: GoTo {jump=13}
+  9: Set {Var=130 Value=0}
+  10: Subtract {Var=65671 Value=1}
+  11: SetTexture {Id=6 "t65b11c"}
+  12: ToggleIndoorLight {Id=6 On=1}
+  13: Exit {raw=1 bytes}
+end
+
+event 108  -- "Button"
+  0: MouseOver {Str=5 "Button"}
+  0: Cmp {Var=983175 Value=15 jump=13}
+  1: Cmp {Var=65671 Value=1 jump=3}
+  2: GoTo {jump=13}
+  3: Cmp {Var=65667 Value=1 jump=9}
+  4: Set {Var=65667 Value=1}
+  5: Add {Var=65671 Value=1}
+  6: SetTexture {Id=7 "t65b11b"}
+  7: ToggleIndoorLight {Id=7 On=0}
+  8: GoTo {jump=13}
+  9: Set {Var=131 Value=0}
+  10: Subtract {Var=65671 Value=1}
+  11: SetTexture {Id=7 "t65b11c"}
+  12: ToggleIndoorLight {Id=7 On=1}
+  13: Exit {raw=1 bytes}
+end
+
+event 109  -- "Button"
+  0: MouseOver {Str=5 "Button"}
+  0: Cmp {Var=983175 Value=15 jump=13}
+  1: Cmp {Var=65671 Value=1 jump=3}
+  2: GoTo {jump=13}
+  3: Cmp {Var=65668 Value=1 jump=9}
+  4: Set {Var=65668 Value=1}
+  5: Add {Var=65671 Value=1}
+  6: SetTexture {Id=8 "t65b11b"}
+  7: ToggleIndoorLight {Id=8 On=0}
+  8: GoTo {jump=13}
+  9: Set {Var=132 Value=0}
+  10: Subtract {Var=65671 Value=1}
+  11: SetTexture {Id=8 "t65b11c"}
+  12: ToggleIndoorLight {Id=8 On=1}
+  13: Exit {raw=1 bytes}
+end
+
+event 110
+  0: MouseOver {Str=100 ""}
+  0: OnTimer {0,0,0,0,0,0,5,0,0,0}
+  1: Cmp {Var=983175 Value=15 jump=11}
+  2: Cmp {Var=589959 Value=9 jump=4}
+  3: GoTo {jump=11}
+  4: StopAnimation {Id=110}
+  5: StopAnimation {Id=111}
+  6: StopAnimation {Id=112}
+  7: StopAnimation {Id=113}
+  8: ChangeDoorState {Id=108 Action=0}
+  9: ChangeDoorState {Id=109 Action=0}
+  10: Set {Var=983175 Value=15}
+  11: Exit {raw=1 bytes}
+end
+
+event 111
+  0: MouseOver {Str=100 ""}
+  0: CastSpell {raw=27 bytes}
+  1: CastSpell {raw=27 bytes}
+  2: CastSpell {raw=27 bytes}
+  3: CastSpell {raw=27 bytes}
+  4: Exit {raw=1 bytes}
+end
+
+event 112
+  0: MouseOver {Str=100 ""}
+  0: CastSpell {raw=27 bytes}
+  1: CastSpell {raw=27 bytes}
+  2: CastSpell {raw=27 bytes}
+  3: CastSpell {raw=27 bytes}
+  4: Exit {raw=1 bytes}
+end
+
+event 113
+  0: MouseOver {Str=100 ""}
+  0: CastSpell {raw=27 bytes}
+  1: CastSpell {raw=27 bytes}
+  2: CastSpell {raw=27 bytes}
+  3: CastSpell {raw=27 bytes}
+  4: Exit {raw=1 bytes}
+end
+
+event 114
+  0: MouseOver {Str=100 ""}
+  0: CastSpell {raw=27 bytes}
+  1: CastSpell {raw=27 bytes}
+  2: CastSpell {raw=27 bytes}
+  3: CastSpell {raw=27 bytes}
+  4: Exit {raw=1 bytes}
+end
+
+event 115
+  0: MouseOver {Str=100 ""}
+  0: CastSpell {raw=27 bytes}
+  1: CastSpell {raw=27 bytes}
+  2: CastSpell {raw=27 bytes}
+  3: CastSpell {raw=27 bytes}
+  4: Exit {raw=1 bytes}
+end
+
+event 402
+  0: MouseOver {Str=100 ""}
+  0: Exit {raw=1 bytes}
+end
+
+event 451
+  0: MouseOver {Str=100 ""}
+  0: Cmp {Var=65673 Value=1 jump=8}
+  1: Cmp {Var=196744 Value=3 jump=8}
+  2: Cmp {Var=131208 Value=2 jump=6}
+  3: Add {Var=65672 Value=1}
+  4: Set {Var=65673 Value=1}
+  5: GoTo {jump=8}
+  6: SetFacetBit {A=15 B=2 On=1}
+  7: Add {Var=65672 Value=1}
+  8: Exit {raw=1 bytes}
+end
+
+event 452
+  0: MouseOver {Str=100 ""}
+  0: Cmp {Var=65673 Value=1 jump=2}
+  1: GoTo {jump=3}
+  2: Set {Var=137 Value=0}
+  3: Exit {raw=1 bytes}
+end
+
+event 453
+  0: MouseOver {Str=100 ""}
+  0: ChangeDoorState {Id=115 Action=0}
+  1: Exit {raw=1 bytes}
+end
+
+event 501  -- "Leave the Abandoned Temple"
+  0: MouseOver {Str=1 "Leave the Abandoned Temple"}
+  0: MoveToMap {x=4294954507 y=18734 z=1857 map="out01.odm"}
+  1: Exit {raw=1 bytes}
+end
+
+event 502  -- "Leave the Abandoned Temple"
+  0: MouseOver {Str=1 "Leave the Abandoned Temple"}
+  0: MoveToMap {x=21519 y=21106 z=97 map="out01.odm"}
+  1: Exit {raw=1 bytes}
+end
+
+event 506
+  0: MouseOver {Str=100 ""}
+  0: ChangeDoorState {Id=94 Action=0}
+  1: Exit {raw=1 bytes}
+end
+
+event 507
+  0: MouseOver {Str=100 ""}
+  0: ChangeDoorState {Id=95 Action=0}
+  1: Exit {raw=1 bytes}
+end
+
+event 508
+  0: MouseOver {Str=100 ""}
+  0: ChangeDoorState {Id=96 Action=0}
+  1: Exit {raw=1 bytes}
+end
+
+event 509
+  0: MouseOver {Str=100 ""}
+  0: ChangeDoorState {Id=97 Action=0}
+  1: Exit {raw=1 bytes}
+end
+
+event 510
+  0: MouseOver {Str=100 ""}
+  0: ChangeDoorState {Id=98 Action=0}
+  1: Exit {raw=1 bytes}
+end
+
+event 511
+  0: MouseOver {Str=100 ""}
+  0: ChangeDoorState {Id=99 Action=0}
+  1: Exit {raw=1 bytes}
+end
+
+event 512
+  0: MouseOver {Str=100 ""}
+  0: ChangeDoorState {Id=94 Action=1}
+  1: ChangeDoorState {Id=95 Action=1}
+  2: ChangeDoorState {Id=96 Action=1}
+  3: ChangeDoorState {Id=97 Action=1}
+  4: ChangeDoorState {Id=98 Action=1}
+  5: ChangeDoorState {Id=99 Action=1}
+  6: Exit {raw=1 bytes}
+end
+
+event 513  -- "Button"
+  0: MouseOver {Str=5 "Button"}
+  0: Cmp {Var=65690 Value=1 jump=6}
+  1: ChangeDoorState {Id=100 Action=1}
+  2: ChangeDoorState {Id=101 Action=0}
+  3: SetFacetBit {A=100 B=536870912 On=1}
+  4: SetFacetBit {A=101 B=262144 On=1}
+  5: Set {Var=65690 Value=1}
+  6: Exit {raw=1 bytes}
+end
+
+event 514  -- "Button"
+  0: MouseOver {Str=5 "Button"}
+  0: Cmp {Var=131226 Value=2 jump=10}
+  1: Cmp {Var=65690 Value=1 jump=4}
+  2: StatusText {30}
+  3: GoTo {jump=10}
+  4: ChangeDoorState {Id=102 Action=1}
+  5: ChangeDoorState {Id=103 Action=0}
+  6: SetFacetBit {A=101 B=536870912 On=1}
+  7: SetFacetBit {A=101 B=262144 On=0}
+  8: SetFacetBit {A=102 B=262144 On=1}
+  9: Set {Var=131226 Value=2}
+  10: Exit {raw=1 bytes}
+end
+
+event 515  -- "Button"
+  0: MouseOver {Str=5 "Button"}
+  0: Cmp {Var=196762 Value=3 jump=10}
+  1: Cmp {Var=131226 Value=2 jump=4}
+  2: StatusText {30}
+  3: GoTo {jump=10}
+  4: ChangeDoorState {Id=104 Action=1}
+  5: ChangeDoorState {Id=105 Action=0}
+  6: SetFacetBit {A=102 B=536870912 On=1}
+  7: SetFacetBit {A=102 B=262144 On=0}
+  8: SetFacetBit {A=103 B=262144 On=1}
+  9: Set {Var=196762 Value=3}
+  10: Exit {raw=1 bytes}
+end
+
+event 516  -- "Button"
+  0: MouseOver {Str=5 "Button"}
+  0: Cmp {Var=262298 Value=4 jump=9}
+  1: Cmp {Var=196762 Value=3 jump=4}
+  2: StatusText {30}
+  3: GoTo {jump=9}
+  4: ChangeDoorState {Id=106 Action=1}
+  5: ChangeDoorState {Id=107 Action=0}
+  6: SetFacetBit {A=103 B=536870912 On=1}
+  7: SetFacetBit {A=103 B=262144 On=0}
+  8: Set {Var=262298 Value=4}
+  9: Exit {raw=1 bytes}
+end
+
+event 517
+  0: MouseOver {Str=100 ""}
+  0: ChangeDoorState {Id=114 Action=0}
+  1: Exit {raw=1 bytes}
+end
+
