@@ -6,6 +6,7 @@ add_executable(openyamm
     MapDeltaData.cpp
     GameDataLoader.cpp
     HouseTable.cpp
+    ItemTable.cpp
     IndoorDebugRenderer.cpp
     IndoorMapData.cpp
     MapAssetLoader.cpp
@@ -18,7 +19,7 @@ add_executable(openyamm
     OutdoorMovementController.cpp
     OutdoorMovementDriver.cpp
     OutdoorPartyRuntime.cpp
-    OutdoorPartyState.cpp
+    Party.cpp
     SpawnPreview.cpp
     SpriteTables.cpp
     StrTable.cpp

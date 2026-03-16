@@ -3,6 +3,7 @@
 #include "engine/AssetFileSystem.h"
 #include "game/ChestTable.h"
 #include "game/HouseTable.h"
+#include "game/ItemTable.h"
 #include "game/MapAssetLoader.h"
 #include "game/MapRegistry.h"
 #include "game/MapStats.h"
@@ -32,6 +33,7 @@ public:
     const MapStats &getMapStats() const;
     const MonsterTable &getMonsterTable() const;
     const ObjectTable &getObjectTable() const;
+    const ItemTable &getItemTable() const;
     const ChestTable &getChestTable() const;
     const HouseTable &getHouseTable() const;
 
@@ -48,9 +50,10 @@ private:
     bool loadMapStats(const Engine::AssetFileSystem &assetFileSystem);
     bool loadMonsterTable(const Engine::AssetFileSystem &assetFileSystem);
     bool loadObjectTable(const Engine::AssetFileSystem &assetFileSystem);
+    bool loadItemTable(const Engine::AssetFileSystem &assetFileSystem);
     bool loadChestTable(const Engine::AssetFileSystem &assetFileSystem);
     bool loadHouseTable(const Engine::AssetFileSystem &assetFileSystem);
-    bool loadMonsterTextTable(
+    bool loadTextTableRows(
         const Engine::AssetFileSystem &assetFileSystem,
         const std::string &virtualPath,
         std::vector<std::vector<std::string>> &rows
@@ -61,6 +64,7 @@ private:
     MapStats m_mapStats;
     MonsterTable m_monsterTable;
     ObjectTable m_objectTable;
+    ItemTable m_itemTable;
     ChestTable m_chestTable;
     HouseTable m_houseTable;
     std::optional<MapAssetInfo> m_selectedMap;

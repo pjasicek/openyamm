@@ -28,9 +28,12 @@ namespace OpenYAMM::Game
 namespace
 {
 constexpr uint16_t MainViewId = 0;
+constexpr uint16_t HudViewId = 1;
 constexpr float Pi = 3.14159265358979323846f;
 constexpr float CameraVerticalFovDegrees = 60.0f;
 constexpr float CameraVerticalFovRadians = CameraVerticalFovDegrees * (Pi / 180.0f);
+constexpr int DebugTextCellWidthPixels = 8;
+constexpr int DebugTextCellHeightPixels = 16;
 constexpr float BillboardNearDepth = 0.1f;
 constexpr float InspectRayEpsilon = 0.0001f;
 constexpr float OutdoorWalkableNormalZ = 0.70710678f;
@@ -57,6 +60,18 @@ const char *outdoorSupportKindName(OutdoorSupportKind supportKind)
         default:
             return "none";
     }
+}
+
+std::string buildGameplayHudCharacterLine(const Character &character, bool isLeader)
+{
+    std::ostringstream stream;
+    stream << (isLeader ? "*" : " ")
+           << character.name
+           << " Lv"
+           << character.level
+           << " "
+           << character.role;
+    return stream.str();
 }
 
 bool isOutdoorFaceSlopeTooSteep(const OutdoorFaceGeometry &geometry)
@@ -130,6 +145,107 @@ bx::Vec3 vecNormalize(const bx::Vec3 &vector)
     }
 
     return {vector.x / vectorLength, vector.y / vectorLength, vector.z / vectorLength};
+}
+
+std::optional<std::vector<uint8_t>> loadBitmapPixelsBgra(
+    const Engine::AssetFileSystem &assetFileSystem,
+    const std::string &textureName,
+    int &width,
+    int &height,
+    bool applyTransparencyKey
+)
+{
+    const std::vector<std::string> entries = assetFileSystem.enumerate("Data/icons");
+    std::string targetFileName = textureName;
+    std::transform(
+        targetFileName.begin(),
+        targetFileName.end(),
+        targetFileName.begin(),
+        [](unsigned char character)
+        {
+            return static_cast<char>(std::tolower(character));
+        }
+    );
+    targetFileName += ".bmp";
+    std::string resolvedPath;
+
+    for (const std::string &entry : entries)
+    {
+        std::string lowerEntry = entry;
+        std::transform(
+            lowerEntry.begin(),
+            lowerEntry.end(),
+            lowerEntry.begin(),
+            [](unsigned char character)
+            {
+                return static_cast<char>(std::tolower(character));
+            }
+        );
+
+        if (lowerEntry == targetFileName)
+        {
+            resolvedPath = "Data/icons/" + entry;
+            break;
+        }
+    }
+
+    if (resolvedPath.empty())
+    {
+        return std::nullopt;
+    }
+
+    const std::optional<std::vector<uint8_t>> bitmapBytes = assetFileSystem.readBinaryFile(resolvedPath);
+
+    if (!bitmapBytes || bitmapBytes->empty())
+    {
+        return std::nullopt;
+    }
+
+    SDL_IOStream *pIoStream = SDL_IOFromConstMem(bitmapBytes->data(), bitmapBytes->size());
+
+    if (pIoStream == nullptr)
+    {
+        return std::nullopt;
+    }
+
+    SDL_Surface *pLoadedSurface = SDL_LoadBMP_IO(pIoStream, true);
+
+    if (pLoadedSurface == nullptr)
+    {
+        return std::nullopt;
+    }
+
+    SDL_Surface *pConvertedSurface = SDL_ConvertSurface(pLoadedSurface, SDL_PIXELFORMAT_BGRA32);
+    SDL_DestroySurface(pLoadedSurface);
+
+    if (pConvertedSurface == nullptr)
+    {
+        return std::nullopt;
+    }
+
+    width = pConvertedSurface->w;
+    height = pConvertedSurface->h;
+    const size_t pixelCount = static_cast<size_t>(width) * static_cast<size_t>(height) * 4;
+    std::vector<uint8_t> pixels(pixelCount);
+    std::memcpy(pixels.data(), pConvertedSurface->pixels, pixelCount);
+
+    for (size_t pixelOffset = 0; pixelOffset < pixels.size(); pixelOffset += 4)
+    {
+        const uint8_t blue = pixels[pixelOffset + 0];
+        const uint8_t green = pixels[pixelOffset + 1];
+        const uint8_t red = pixels[pixelOffset + 2];
+
+        const bool isMagentaKey = red >= 248 && green <= 8 && blue >= 248;
+        const bool isTealKey = applyTransparencyKey && red <= 8 && green >= 248 && blue >= 248;
+
+        if (isMagentaKey || isTealKey)
+        {
+            pixels[pixelOffset + 3] = 0;
+        }
+    }
+
+    SDL_DestroySurface(pConvertedSurface);
+    return pixels;
 }
 
 float pointSegmentDistanceSquared2d(
@@ -560,6 +676,7 @@ TerrainDebugRenderer::~TerrainDebugRenderer()
 }
 
 bool TerrainDebugRenderer::initialize(
+    const Engine::AssetFileSystem &assetFileSystem,
     const MapStatsEntry &map,
     const MonsterTable &monsterTable,
     const OutdoorMapData &outdoorMapData,
@@ -890,6 +1007,24 @@ bool TerrainDebugRenderer::initialize(
         }
     }
 
+    const std::vector<std::string> hudTextureNames = {
+        "Basebar",
+        "FACEMASK",
+        "selring",
+        "manaFRM",
+        "ManaG",
+        "manaB",
+        "PC01-01",
+        "PC05-01",
+        "PC08-01",
+        "PC16-01"
+    };
+
+    for (const std::string &textureName : hudTextureNames)
+    {
+        loadHudTexture(assetFileSystem, textureName);
+    }
+
     m_terrainTextureSamplerHandle = bgfx::createUniform("s_texColor", bgfx::UniformType::Sampler);
 
     if (!bgfx::isValid(m_vertexBufferHandle) || !bgfx::isValid(m_indexBufferHandle) || !bgfx::isValid(m_programHandle))
@@ -1193,7 +1328,15 @@ void TerrainDebugRenderer::render(int width, int height, float mouseWheelDelta)
         const OutdoorMovementEvents &moveEvents = m_pOutdoorPartyRuntime->movementEvents();
         const OutdoorMovementConsequences &moveConsequences = m_pOutdoorPartyRuntime->movementConsequences();
         const OutdoorPartyMovementState &partyMovementState = m_pOutdoorPartyRuntime->partyMovementState();
-        const OutdoorPartyState &partyState = m_pOutdoorPartyRuntime->partyState();
+        const Party &party = m_pOutdoorPartyRuntime->party();
+        std::string leaderSummary = "-";
+
+        if (!party.members().empty())
+        {
+            const Character &leader = party.members().front();
+            leaderSummary = leader.name + "/" + leader.role + " lv" + std::to_string(leader.level);
+        }
+
         bgfx::dbgTextPrintf(
             0,
             nextHudLine++,
@@ -1249,13 +1392,26 @@ void TerrainDebugRenderer::render(int width, int height, float mouseWheelDelta)
             0,
             nextHudLine++,
             0x0f,
-            "Party: hp=%d/%d waterTicks=%u burnTicks=%u fall=%.0f status=%s",
-            partyState.totalHealth(),
-            partyState.totalMaxHealth(),
-            partyState.waterDamageTicks(),
-            partyState.burningDamageTicks(),
-            partyState.lastFallDamageDistance(),
-            partyState.lastStatus().c_str()
+            "Party: members=%u hp=%d/%d gold=%d food=%d items=%u inv=%u/%u lead=%s",
+            static_cast<unsigned>(party.members().size()),
+            party.totalHealth(),
+            party.totalMaxHealth(),
+            party.gold(),
+            party.food(),
+            static_cast<unsigned>(party.inventoryItemCount()),
+            static_cast<unsigned>(party.usedInventoryCells()),
+            static_cast<unsigned>(party.inventoryCapacity()),
+            leaderSummary.c_str()
+        );
+        bgfx::dbgTextPrintf(
+            0,
+            nextHudLine++,
+            0x0f,
+            "PartyFx: waterTicks=%u burnTicks=%u fall=%.0f status=%s",
+            party.waterDamageTicks(),
+            party.burningDamageTicks(),
+            party.lastFallDamageDistance(),
+            party.lastStatus().c_str()
         );
 
         if (m_eventRuntimeState && m_eventRuntimeState->lastActivationResult)
@@ -1522,6 +1678,317 @@ void TerrainDebugRenderer::render(int width, int height, float mouseWheelDelta)
             bgfx::dbgTextPrintf(0, inspectBaseLine + 1, 0x0f, "Cursor: %.0f %.0f", mouseX, mouseY);
         }
     }
+
+    renderGameplayHudArt(width, height);
+    renderGameplayHud(width, height);
+}
+
+void TerrainDebugRenderer::renderGameplayHudArt(int width, int height)
+{
+    if (m_pOutdoorPartyRuntime == nullptr
+        || !bgfx::isValid(m_texturedTerrainProgramHandle)
+        || !bgfx::isValid(m_terrainTextureSamplerHandle)
+        || !bgfx::isValid(m_programHandle)
+        || width <= 0
+        || height <= 0)
+    {
+        return;
+    }
+
+    const HudTextureHandle *pBasebar = findHudTexture("Basebar");
+    const HudTextureHandle *pFaceMask = findHudTexture("FACEMASK");
+    const HudTextureHandle *pSelectionRing = findHudTexture("selring");
+    const HudTextureHandle *pManaFrame = findHudTexture("manaFRM");
+    const HudTextureHandle *pHealthBar = findHudTexture("ManaG");
+    const HudTextureHandle *pManaBar = findHudTexture("manaB");
+    const std::vector<Character> &members = m_pOutdoorPartyRuntime->party().members();
+
+    if (pBasebar == nullptr || pFaceMask == nullptr || members.empty())
+    {
+        return;
+    }
+
+    const float uiScale = std::clamp(static_cast<float>(height) / 600.0f, 1.0f, 1.5f);
+    const float basebarWidth = pBasebar->width * uiScale;
+    const float basebarHeight = pBasebar->height * uiScale;
+    const float basebarX = std::max(0.0f, (static_cast<float>(width) - basebarWidth) * 0.5f);
+    const float basebarY = static_cast<float>(height) - basebarHeight;
+    const float portraitWidth = pFaceMask->width * uiScale;
+    const float portraitHeight = pFaceMask->height * uiScale;
+    const float portraitStartX = basebarX + 20.0f * uiScale;
+    const float portraitY = basebarY + 23.0f * uiScale;
+    const float portraitDeltaX = 97.0f * uiScale;
+    float projectionMatrix[16] = {};
+    bx::mtxOrtho(
+        projectionMatrix,
+        0.0f,
+        static_cast<float>(width),
+        static_cast<float>(height),
+        0.0f,
+        0.0f,
+        1000.0f,
+        0.0f,
+        bgfx::getCaps()->homogeneousDepth
+    );
+    bgfx::setViewRect(HudViewId, 0, 0, static_cast<uint16_t>(width), static_cast<uint16_t>(height));
+    bgfx::setViewTransform(HudViewId, nullptr, projectionMatrix);
+    bgfx::touch(HudViewId);
+
+    auto submitTexturedQuad =
+        [this](
+            const HudTextureHandle &texture,
+            float x,
+            float y,
+            float quadWidth,
+            float quadHeight)
+        {
+            if (!bgfx::isValid(texture.textureHandle)
+                || bgfx::getAvailTransientVertexBuffer(6, TexturedTerrainVertex::ms_layout) < 6)
+            {
+                return;
+            }
+
+            bgfx::TransientVertexBuffer transientVertexBuffer;
+            bgfx::allocTransientVertexBuffer(&transientVertexBuffer, 6, TexturedTerrainVertex::ms_layout);
+            TexturedTerrainVertex *pVertices = reinterpret_cast<TexturedTerrainVertex *>(transientVertexBuffer.data);
+
+            pVertices[0] = {x, y, 0.0f, 0.0f, 0.0f};
+            pVertices[1] = {x + quadWidth, y, 0.0f, 1.0f, 0.0f};
+            pVertices[2] = {x + quadWidth, y + quadHeight, 0.0f, 1.0f, 1.0f};
+            pVertices[3] = {x, y, 0.0f, 0.0f, 0.0f};
+            pVertices[4] = {x + quadWidth, y + quadHeight, 0.0f, 1.0f, 1.0f};
+            pVertices[5] = {x, y + quadHeight, 0.0f, 0.0f, 1.0f};
+
+            float modelMatrix[16] = {};
+            bx::mtxIdentity(modelMatrix);
+            bgfx::setTransform(modelMatrix);
+            bgfx::setVertexBuffer(0, &transientVertexBuffer);
+            bgfx::setTexture(0, m_terrainTextureSamplerHandle, texture.textureHandle);
+            bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_BLEND_ALPHA);
+            bgfx::submit(HudViewId, m_texturedTerrainProgramHandle);
+        };
+
+    auto submitTexturedQuadUv =
+        [this](
+            const HudTextureHandle &texture,
+            float x,
+            float y,
+            float quadWidth,
+            float quadHeight,
+            float u0,
+            float v0,
+            float u1,
+            float v1)
+        {
+            if (!bgfx::isValid(texture.textureHandle)
+                || bgfx::getAvailTransientVertexBuffer(6, TexturedTerrainVertex::ms_layout) < 6)
+            {
+                return;
+            }
+
+            bgfx::TransientVertexBuffer transientVertexBuffer;
+            bgfx::allocTransientVertexBuffer(&transientVertexBuffer, 6, TexturedTerrainVertex::ms_layout);
+            TexturedTerrainVertex *pVertices = reinterpret_cast<TexturedTerrainVertex *>(transientVertexBuffer.data);
+
+            pVertices[0] = {x, y, 0.0f, u0, v0};
+            pVertices[1] = {x + quadWidth, y, 0.0f, u1, v0};
+            pVertices[2] = {x + quadWidth, y + quadHeight, 0.0f, u1, v1};
+            pVertices[3] = {x, y, 0.0f, u0, v0};
+            pVertices[4] = {x + quadWidth, y + quadHeight, 0.0f, u1, v1};
+            pVertices[5] = {x, y + quadHeight, 0.0f, u0, v1};
+
+            float modelMatrix[16] = {};
+            bx::mtxIdentity(modelMatrix);
+            bgfx::setTransform(modelMatrix);
+            bgfx::setVertexBuffer(0, &transientVertexBuffer);
+            bgfx::setTexture(0, m_terrainTextureSamplerHandle, texture.textureHandle);
+            bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_BLEND_ALPHA);
+            bgfx::submit(HudViewId, m_texturedTerrainProgramHandle);
+        };
+
+    auto submitColoredQuad =
+        [this](
+            float x,
+            float y,
+            float quadWidth,
+            float quadHeight,
+            uint32_t color)
+        {
+            if (bgfx::getAvailTransientVertexBuffer(6, TerrainVertex::ms_layout) < 6)
+            {
+                return;
+            }
+
+            bgfx::TransientVertexBuffer transientVertexBuffer;
+            bgfx::allocTransientVertexBuffer(&transientVertexBuffer, 6, TerrainVertex::ms_layout);
+            TerrainVertex *pVertices = reinterpret_cast<TerrainVertex *>(transientVertexBuffer.data);
+
+            pVertices[0] = {x, y, 0.0f, color};
+            pVertices[1] = {x + quadWidth, y, 0.0f, color};
+            pVertices[2] = {x + quadWidth, y + quadHeight, 0.0f, color};
+            pVertices[3] = {x, y, 0.0f, color};
+            pVertices[4] = {x + quadWidth, y + quadHeight, 0.0f, color};
+            pVertices[5] = {x, y + quadHeight, 0.0f, color};
+
+            float modelMatrix[16] = {};
+            bx::mtxIdentity(modelMatrix);
+            bgfx::setTransform(modelMatrix);
+            bgfx::setVertexBuffer(0, &transientVertexBuffer);
+            bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_BLEND_ALPHA);
+            bgfx::submit(HudViewId, m_programHandle);
+        };
+
+    submitTexturedQuad(*pBasebar, basebarX, basebarY, basebarWidth, basebarHeight);
+
+    for (size_t memberIndex = 0; memberIndex < members.size(); ++memberIndex)
+    {
+        const Character &member = members[memberIndex];
+        const float portraitX = portraitStartX + static_cast<float>(memberIndex) * portraitDeltaX;
+        const float portraitInset = 2.0f * uiScale;
+        const HudTextureHandle *pPortrait = findHudTexture(member.portraitTextureName);
+
+        if (pPortrait != nullptr)
+        {
+            submitTexturedQuad(
+                *pPortrait,
+                portraitX + portraitInset,
+                portraitY + portraitInset,
+                portraitWidth - portraitInset * 2.0f,
+                portraitHeight - portraitInset * 2.0f
+            );
+        }
+
+        submitTexturedQuad(*pFaceMask, portraitX, portraitY, portraitWidth, portraitHeight);
+
+        if (memberIndex == 0 && pSelectionRing != nullptr)
+        {
+            submitTexturedQuad(*pSelectionRing, portraitX - uiScale, portraitY, portraitWidth, portraitHeight);
+        }
+
+        if (pManaFrame != nullptr)
+        {
+            const float barFrameX = portraitX + 63.0f * uiScale;
+            const float barFrameWidth = pManaFrame->width * uiScale;
+            const float barFrameHeight = pManaFrame->height * uiScale;
+            const float barFrameY = basebarY + basebarHeight - barFrameHeight - 3.0f * uiScale;
+            submitTexturedQuad(*pManaFrame, barFrameX, barFrameY, barFrameWidth, barFrameHeight);
+
+            const float fillHeight = 49.0f * uiScale;
+            const float fillY = barFrameY + 1.0f * uiScale;
+            const float leftFillX = barFrameX + 2.0f * uiScale;
+            const float rightFillX = barFrameX + 5.0f * uiScale;
+            const float fillWidth = 3.0f * uiScale;
+            const float healthPercent = (member.maxHealth > 0)
+                ? std::clamp(static_cast<float>(member.health) / static_cast<float>(member.maxHealth), 0.0f, 1.0f)
+                : 0.0f;
+            const float manaPercent = (member.maxSpellPoints > 0)
+                ? std::clamp(static_cast<float>(member.spellPoints) / static_cast<float>(member.maxSpellPoints), 0.0f, 1.0f)
+                : 0.0f;
+
+            if (pHealthBar != nullptr && healthPercent > 0.0f)
+            {
+                submitTexturedQuadUv(
+                    *pHealthBar,
+                    leftFillX,
+                    fillY + (1.0f - healthPercent) * fillHeight,
+                    fillWidth,
+                    healthPercent * fillHeight,
+                    0.0f,
+                    1.0f - healthPercent,
+                    1.0f,
+                    1.0f
+                );
+            }
+
+            if (pManaBar != nullptr && manaPercent > 0.0f)
+            {
+                submitTexturedQuadUv(
+                    *pManaBar,
+                    rightFillX,
+                    fillY + (1.0f - manaPercent) * fillHeight,
+                    fillWidth,
+                    manaPercent * fillHeight,
+                    0.0f,
+                    1.0f - manaPercent,
+                    1.0f,
+                    1.0f
+                );
+            }
+        }
+    }
+}
+
+void TerrainDebugRenderer::renderGameplayHud(int width, int height) const
+{
+    if (m_pOutdoorPartyRuntime == nullptr || width <= 0 || height <= 0)
+    {
+        return;
+    }
+
+    const HudTextureHandle *pBasebar = findHudTexture("Basebar");
+
+    if (pBasebar == nullptr)
+    {
+        return;
+    }
+
+    const Party &party = m_pOutdoorPartyRuntime->party();
+    const OutdoorMoveState &moveState = m_pOutdoorPartyRuntime->movementState();
+    const OutdoorPartyMovementState &partyMovementState = m_pOutdoorPartyRuntime->partyMovementState();
+    const std::vector<Character> &members = party.members();
+    const int textColumns = std::max(80, width / DebugTextCellWidthPixels);
+    const float uiScale = std::clamp(static_cast<float>(height) / 600.0f, 1.0f, 1.5f);
+    const float basebarHeight = pBasebar->height * uiScale;
+    const float basebarY = static_cast<float>(height) - basebarHeight;
+    const float statusCenterY = basebarY + 13.0f * uiScale;
+    const int row = std::max(0, static_cast<int>(statusCenterY / DebugTextCellHeightPixels));
+    std::ostringstream stream;
+
+    if (!members.empty())
+    {
+        const Character &leader = members.front();
+        stream << leader.name
+               << " HP "
+               << leader.health
+               << "/"
+               << leader.maxHealth
+               << " SP "
+               << leader.spellPoints
+               << "/"
+               << leader.maxSpellPoints
+               << "   ";
+    }
+
+    stream << "Gold "
+           << party.gold()
+           << "  Food "
+           << party.food()
+           << "  "
+           << outdoorSupportKindName(moveState.supportKind);
+
+    if (moveState.supportOnWater)
+    {
+        stream << " water";
+    }
+
+    if (moveState.supportOnBurning)
+    {
+        stream << " burn";
+    }
+
+    if (partyMovementState.running)
+    {
+        stream << " run";
+    }
+
+    if (partyMovementState.flying)
+    {
+        stream << " fly";
+    }
+
+    const std::string status = stream.str();
+    const int startColumn = std::max(0, (textColumns - static_cast<int>(status.size())) / 2);
+    bgfx::dbgTextPrintf(static_cast<uint16_t>(startColumn), static_cast<uint16_t>(row), 0x0f, "%s", status.c_str());
 }
 
 void TerrainDebugRenderer::shutdown()
@@ -1589,6 +2056,17 @@ void TerrainDebugRenderer::shutdown()
     }
 
     m_billboardTextureHandles.clear();
+
+    for (HudTextureHandle &textureHandle : m_hudTextureHandles)
+    {
+        if (bgfx::isValid(textureHandle.textureHandle))
+        {
+            bgfx::destroy(textureHandle.textureHandle);
+            textureHandle.textureHandle = BGFX_INVALID_HANDLE;
+        }
+    }
+
+    m_hudTextureHandles.clear();
 
     if (bgfx::isValid(m_texturedTerrainVertexBufferHandle))
     {
@@ -1753,6 +2231,61 @@ const TerrainDebugRenderer::BillboardTextureHandle *TerrainDebugRenderer::findBi
     }
 
     return nullptr;
+}
+
+const TerrainDebugRenderer::HudTextureHandle *TerrainDebugRenderer::findHudTexture(const std::string &textureName) const
+{
+    const std::string normalizedTextureName = toLowerCopy(textureName);
+
+    for (const HudTextureHandle &textureHandle : m_hudTextureHandles)
+    {
+        if (textureHandle.textureName == normalizedTextureName)
+        {
+            return &textureHandle;
+        }
+    }
+
+    return nullptr;
+}
+
+bool TerrainDebugRenderer::loadHudTexture(const Engine::AssetFileSystem &assetFileSystem, const std::string &textureName)
+{
+    if (findHudTexture(textureName) != nullptr)
+    {
+        return true;
+    }
+
+    int width = 0;
+    int height = 0;
+    const std::optional<std::vector<uint8_t>> pixels =
+        loadBitmapPixelsBgra(assetFileSystem, textureName, width, height, true);
+
+    if (!pixels || width <= 0 || height <= 0)
+    {
+        return false;
+    }
+
+    HudTextureHandle textureHandle = {};
+    textureHandle.textureName = toLowerCopy(textureName);
+    textureHandle.width = width;
+    textureHandle.height = height;
+    textureHandle.textureHandle = bgfx::createTexture2D(
+        static_cast<uint16_t>(width),
+        static_cast<uint16_t>(height),
+        false,
+        1,
+        bgfx::TextureFormat::BGRA8,
+        BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP | BGFX_SAMPLER_MIN_POINT | BGFX_SAMPLER_MAG_POINT,
+        bgfx::copy(pixels->data(), static_cast<uint32_t>(pixels->size()))
+    );
+
+    if (!bgfx::isValid(textureHandle.textureHandle))
+    {
+        return false;
+    }
+
+    m_hudTextureHandles.push_back(std::move(textureHandle));
+    return true;
 }
 
 void TerrainDebugRenderer::renderDecorationBillboards(
@@ -3027,6 +3560,11 @@ bool TerrainDebugRenderer::tryActivateInspectEvent(const InspectHit &inspectHit)
         m_eventRuntimeState->lastActivationResult = "event " + std::to_string(eventId) + " unresolved";
         std::cout << "Outdoor event " << eventId << " unresolved\n";
         return false;
+    }
+
+    if (m_pOutdoorPartyRuntime)
+    {
+        m_pOutdoorPartyRuntime->applyEventRuntimeState(*m_eventRuntimeState);
     }
 
     m_eventRuntimeState->lastActivationResult = "event " + std::to_string(eventId) + " executed";

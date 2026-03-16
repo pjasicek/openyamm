@@ -11,6 +11,7 @@
 #include "game/EventRuntime.h"
 #include "game/HouseTable.h"
 #include "game/StrTable.h"
+#include "engine/AssetFileSystem.h"
 
 #include <bgfx/bgfx.h>
 #include <bx/math.h>
@@ -34,6 +35,7 @@ public:
     TerrainDebugRenderer &operator=(const TerrainDebugRenderer &) = delete;
 
     bool initialize(
+        const Engine::AssetFileSystem &assetFileSystem,
         const MapStatsEntry &map,
         const MonsterTable &monsterTable,
         const OutdoorMapData &outdoorMapData,
@@ -95,6 +97,14 @@ private:
     };
 
     struct BillboardTextureHandle
+    {
+        std::string textureName;
+        int width = 0;
+        int height = 0;
+        bgfx::TextureHandle textureHandle = BGFX_INVALID_HANDLE;
+    };
+
+    struct HudTextureHandle
     {
         std::string textureName;
         int width = 0;
@@ -170,9 +180,13 @@ private:
         const float *pViewMatrix,
         const bx::Vec3 &cameraPosition
     );
+    void renderGameplayHudArt(int width, int height);
+    void renderGameplayHud(int width, int height) const;
     void renderActorPreviewBillboards(uint16_t viewId, const float *pViewMatrix, const bx::Vec3 &cameraPosition);
     void renderSpriteObjectBillboards(uint16_t viewId, const float *pViewMatrix, const bx::Vec3 &cameraPosition);
     const BillboardTextureHandle *findBillboardTexture(const std::string &textureName) const;
+    const HudTextureHandle *findHudTexture(const std::string &textureName) const;
+    bool loadHudTexture(const Engine::AssetFileSystem &assetFileSystem, const std::string &textureName);
     bool m_isInitialized;
     bool m_isRenderable;
     std::optional<MapStatsEntry> m_map;
@@ -212,6 +226,7 @@ private:
     uint32_t m_spawnMarkerVertexCount;
     std::vector<TexturedBModelBatch> m_texturedBModelBatches;
     std::vector<BillboardTextureHandle> m_billboardTextureHandles;
+    std::vector<HudTextureHandle> m_hudTextureHandles;
     float m_cameraTargetX;
     float m_cameraTargetY;
     float m_cameraTargetZ;

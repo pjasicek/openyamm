@@ -85,10 +85,12 @@ bool GameApplication::initializeRenderer()
                 selectedMap->outdoorDecorationCollisionSet,
                 selectedMap->outdoorActorCollisionSet,
                 selectedMap->outdoorSpriteObjectCollisionSet
-            )
+            ),
+            m_gameDataLoader.getItemTable()
         );
 
         return m_terrainDebugRenderer.initialize(
+            *m_pAssetFileSystem,
             selectedMap->map,
             m_gameDataLoader.getMonsterTable(),
             *selectedMap->outdoorMapData,

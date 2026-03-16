@@ -620,6 +620,11 @@ bool GameDataLoader::load(const Engine::AssetFileSystem &assetFileSystem)
         return false;
     }
 
+    if (!loadItemTable(assetFileSystem))
+    {
+        return false;
+    }
+
     if (!loadChestTable(assetFileSystem))
     {
         return false;
@@ -637,7 +642,7 @@ bool GameDataLoader::load(const Engine::AssetFileSystem &assetFileSystem)
 
     const std::vector<std::string> tablePaths = {
         "Data/EnglishT/Spells.txt",
-        "Data/EnglishT/ITEMS.txt"
+        "Data/EnglishT/rnditems.txt"
     };
 
     for (const std::string &tablePath : tablePaths)
@@ -694,6 +699,11 @@ const MonsterTable &GameDataLoader::getMonsterTable() const
 const ObjectTable &GameDataLoader::getObjectTable() const
 {
     return m_objectTable;
+}
+
+const ItemTable &GameDataLoader::getItemTable() const
+{
+    return m_itemTable;
 }
 
 const ChestTable &GameDataLoader::getChestTable() const
@@ -829,7 +839,7 @@ bool GameDataLoader::loadMonsterTable(const Engine::AssetFileSystem &assetFileSy
 
     std::vector<std::vector<std::string>> monsterRows;
 
-    if (!loadMonsterTextTable(assetFileSystem, "Data/EnglishT/MONSTERS.txt", monsterRows))
+    if (!loadTextTableRows(assetFileSystem, "Data/EnglishT/MONSTERS.txt", monsterRows))
     {
         return false;
     }
@@ -842,7 +852,7 @@ bool GameDataLoader::loadMonsterTable(const Engine::AssetFileSystem &assetFileSy
 
     std::vector<std::vector<std::string>> placedMonsterRows;
 
-    if (!loadMonsterTextTable(assetFileSystem, "Data/EnglishT/placemon.txt", placedMonsterRows))
+    if (!loadTextTableRows(assetFileSystem, "Data/EnglishT/placemon.txt", placedMonsterRows))
     {
         return false;
     }
@@ -860,7 +870,7 @@ bool GameDataLoader::loadHouseTable(const Engine::AssetFileSystem &assetFileSyst
 {
     std::vector<std::vector<std::string>> rows;
 
-    if (!loadMonsterTextTable(assetFileSystem, "Data/EnglishT/2DEvents.txt", rows))
+    if (!loadTextTableRows(assetFileSystem, "Data/EnglishT/2DEvents.txt", rows))
     {
         return false;
     }
@@ -894,6 +904,31 @@ bool GameDataLoader::loadObjectTable(const Engine::AssetFileSystem &assetFileSys
     return true;
 }
 
+bool GameDataLoader::loadItemTable(const Engine::AssetFileSystem &assetFileSystem)
+{
+    std::vector<std::vector<std::string>> itemRows;
+
+    if (!loadTextTableRows(assetFileSystem, "Data/EnglishT/ITEMS.txt", itemRows))
+    {
+        return false;
+    }
+
+    std::vector<std::vector<std::string>> randomItemRows;
+
+    if (!loadTextTableRows(assetFileSystem, "Data/EnglishT/rnditems.txt", randomItemRows))
+    {
+        return false;
+    }
+
+    if (!m_itemTable.load(assetFileSystem, itemRows, randomItemRows))
+    {
+        std::cerr << "Failed to parse item table: Data/EnglishT/ITEMS.txt / rnditems.txt\n";
+        return false;
+    }
+
+    return true;
+}
+
 bool GameDataLoader::loadChestTable(const Engine::AssetFileSystem &assetFileSystem)
 {
     const std::optional<std::vector<uint8_t>> chestTableBytes =
@@ -914,7 +949,7 @@ bool GameDataLoader::loadChestTable(const Engine::AssetFileSystem &assetFileSyst
     return true;
 }
 
-bool GameDataLoader::loadMonsterTextTable(
+bool GameDataLoader::loadTextTableRows(
     const Engine::AssetFileSystem &assetFileSystem,
     const std::string &virtualPath,
     std::vector<std::vector<std::string>> &rows

@@ -1,22 +1,30 @@
 #include "game/OutdoorPartyRuntime.h"
 
+#include "game/ItemTable.h"
+
 namespace OpenYAMM::Game
 {
-OutdoorPartyRuntime::OutdoorPartyRuntime(OutdoorMovementDriver movementDriver)
+OutdoorPartyRuntime::OutdoorPartyRuntime(OutdoorMovementDriver movementDriver, const ItemTable &itemTable)
     : m_movementDriver(std::move(movementDriver))
 {
+    m_party.setItemTable(&itemTable);
 }
 
 void OutdoorPartyRuntime::initialize(float x, float y, float footZHint)
 {
     m_movementDriver.initialize(x, y, footZHint);
-    m_partyState.reset();
+    m_party.reset();
 }
 
 void OutdoorPartyRuntime::update(const OutdoorMovementInput &input, float deltaSeconds)
 {
     m_movementDriver.update(input, deltaSeconds);
-    m_partyState.applyMovementEffects(m_movementDriver.consumePendingEffects());
+    m_party.applyMovementEffects(m_movementDriver.consumePendingEffects());
+}
+
+void OutdoorPartyRuntime::applyEventRuntimeState(const EventRuntimeState &runtimeState)
+{
+    m_party.applyEventRuntimeState(runtimeState);
 }
 
 const OutdoorMoveState &OutdoorPartyRuntime::movementState() const
@@ -39,9 +47,9 @@ const OutdoorPartyMovementState &OutdoorPartyRuntime::partyMovementState() const
     return m_movementDriver.partyMovementState();
 }
 
-const OutdoorPartyState &OutdoorPartyRuntime::partyState() const
+const Party &OutdoorPartyRuntime::party() const
 {
-    return m_partyState;
+    return m_party;
 }
 
 void OutdoorPartyRuntime::toggleRunning()
