@@ -728,6 +728,7 @@ TerrainDebugRenderer::TerrainDebugRenderer()
     , m_cameraTargetY(0.0f)
     , m_cameraTargetZ(28000.0f)
     , m_cameraVerticalVelocity(0.0f)
+    , m_movementAccumulatorSeconds(0.0f)
     , m_cameraYawRadians(0.0f)
     , m_cameraPitchRadians(0.30f)
     , m_cameraEyeHeight(176.0f)
@@ -2934,6 +2935,9 @@ TerrainDebugRenderer::InspectHit TerrainDebugRenderer::inspectBModelFace(
 
 void TerrainDebugRenderer::updateCameraFromInput()
 {
+    constexpr float OutdoorMovementStepSeconds = 1.0f / 128.0f;
+    constexpr float MaxAccumulatedMovementSeconds = 0.1f;
+
     const uint64_t currentTickCount = SDL_GetTicksNS();
     float deltaSeconds = 1.0f / 60.0f;
 
@@ -2958,7 +2962,7 @@ void TerrainDebugRenderer::updateCameraFromInput()
     }
 
     const bool turboSpeed = pKeyboardState[SDL_SCANCODE_LSHIFT] || pKeyboardState[SDL_SCANCODE_RSHIFT];
-    const float baseWalkSpeed = 384.0f;
+    const float baseWalkSpeed = 576.0f;
     const float turboMoveSpeed = 4000.0f;
     const float mouseRotateSpeed = 0.0045f;
     float mouseX = 0.0f;
@@ -3030,20 +3034,20 @@ void TerrainDebugRenderer::updateCameraFromInput()
     {
         if (pKeyboardState[SDL_SCANCODE_A])
         {
-            moveVelocityX -= right.x * (baseWalkSpeed * 0.75f);
-            moveVelocityY -= right.y * (baseWalkSpeed * 0.75f);
+            moveVelocityX -= right.x * baseWalkSpeed;
+            moveVelocityY -= right.y * baseWalkSpeed;
         }
 
         if (pKeyboardState[SDL_SCANCODE_D])
         {
-            moveVelocityX += right.x * (baseWalkSpeed * 0.75f);
-            moveVelocityY += right.y * (baseWalkSpeed * 0.75f);
+            moveVelocityX += right.x * baseWalkSpeed;
+            moveVelocityY += right.y * baseWalkSpeed;
         }
 
         if (pKeyboardState[SDL_SCANCODE_W])
         {
-            moveVelocityX += forward.x * (baseWalkSpeed * 2.0f);
-            moveVelocityY += forward.y * (baseWalkSpeed * 2.0f);
+            moveVelocityX += forward.x * baseWalkSpeed;
+            moveVelocityY += forward.y * baseWalkSpeed;
         }
 
         if (pKeyboardState[SDL_SCANCODE_S])
@@ -3055,16 +3059,32 @@ void TerrainDebugRenderer::updateCameraFromInput()
 
     if (m_outdoorMapData)
     {
-            const float currentFootZ = m_cameraTargetZ - m_cameraEyeHeight;
         if (m_pOutdoorMovementController)
         {
-            const OutdoorMoveState startState = {m_cameraTargetX, m_cameraTargetY, currentFootZ, m_cameraVerticalVelocity};
-            const OutdoorMoveState resolvedState =
-                m_pOutdoorMovementController->resolveMove(startState, moveVelocityX, moveVelocityY, deltaSeconds);
-            m_cameraTargetX = resolvedState.x;
-            m_cameraTargetY = resolvedState.y;
-            m_cameraTargetZ = resolvedState.footZ + m_cameraEyeHeight;
-            m_cameraVerticalVelocity = resolvedState.verticalVelocity;
+            m_movementAccumulatorSeconds =
+                std::min(m_movementAccumulatorSeconds + deltaSeconds, MaxAccumulatedMovementSeconds);
+
+            while (m_movementAccumulatorSeconds >= OutdoorMovementStepSeconds)
+            {
+                const float currentFootZ = m_cameraTargetZ - m_cameraEyeHeight;
+                const OutdoorMoveState startState = {
+                    m_cameraTargetX,
+                    m_cameraTargetY,
+                    currentFootZ,
+                    m_cameraVerticalVelocity
+                };
+                const OutdoorMoveState resolvedState = m_pOutdoorMovementController->resolveMove(
+                    startState,
+                    moveVelocityX,
+                    moveVelocityY,
+                    OutdoorMovementStepSeconds
+                );
+                m_cameraTargetX = resolvedState.x;
+                m_cameraTargetY = resolvedState.y;
+                m_cameraTargetZ = resolvedState.footZ + m_cameraEyeHeight;
+                m_cameraVerticalVelocity = resolvedState.verticalVelocity;
+                m_movementAccumulatorSeconds -= OutdoorMovementStepSeconds;
+            }
         }
     }
     else

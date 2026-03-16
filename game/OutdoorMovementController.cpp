@@ -890,6 +890,7 @@ OutdoorMoveState OutdoorMovementController::resolveMove(
 
         for (int attempt = 0; attempt < 5; ++attempt)
         {
+            const bx::Vec3 attemptStartPosition = passPosition;
             collisionState.positionHi =
                 vecAdd(passPosition, bx::Vec3{0.0f, 0.0f, PartyHeight - collisionState.radiusLo});
             collisionState.positionLo = vecAdd(passPosition, bx::Vec3{0.0f, 0.0f, collisionState.radiusLo});
@@ -983,6 +984,7 @@ OutdoorMoveState OutdoorMovementController::resolveMove(
                     passPosition.x = newPosLow.x;
                     passPosition.y = newPosLow.y;
                 }
+
             }
 
             if (collisionState.adjustedMoveDistance >= collisionState.moveDistance)
@@ -1091,6 +1093,7 @@ OutdoorMoveState OutdoorMovementController::resolveMove(
             {
                 passInputSpeed = vecScale(passInputSpeed, 0.89263916f);
             }
+
         }
     };
 

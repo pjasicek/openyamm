@@ -194,6 +194,7 @@ private:
     float m_cameraTargetY;
     float m_cameraTargetZ;
     float m_cameraVerticalVelocity;
+    float m_movementAccumulatorSeconds;
     float m_cameraYawRadians;
     float m_cameraPitchRadians;
     float m_cameraEyeHeight;
