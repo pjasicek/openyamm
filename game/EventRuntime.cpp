@@ -82,7 +82,7 @@ EventRuntime::VariableRef EventRuntime::decodeVariable(uint32_t rawId)
         variable.kind = VariableKind::Awards;
         variable.rawId = rawId;
     }
-    else if (variable.tag == 0x0006)
+    else if (variable.tag == 0x0006 || variable.tag == 0x013e)
     {
         variable.kind = VariableKind::Players;
         variable.rawId = rawId;
@@ -107,8 +107,27 @@ int32_t EventRuntime::getVariableValue(
         return getInventoryItemCount(runtimeState, pParty, variable.rawId);
     }
 
+    if (variable.kind == VariableKind::Players)
+    {
+        if (pParty == nullptr)
+        {
+            return 0;
+        }
+
+        return pParty->hasRosterMember(variable.index) ? static_cast<int32_t>(variable.index) : 0;
+    }
+
     if (variable.kind == VariableKind::QBits || variable.kind == VariableKind::BoolFlag)
     {
+        if (variable.kind == VariableKind::QBits
+            && variable.rawId >= 400
+            && variable.rawId <= 449
+            && pParty != nullptr)
+        {
+            const uint32_t rosterId = variable.rawId - 399;
+            return pParty->hasRosterMember(rosterId) ? 1 : 0;
+        }
+
         const std::unordered_map<uint32_t, int32_t>::const_iterator iterator = runtimeState.variables.find(variable.rawId);
         return iterator != runtimeState.variables.end() ? iterator->second : 0;
     }

@@ -645,6 +645,11 @@ bool GameDataLoader::loadInternal(const Engine::AssetFileSystem &assetFileSystem
         return false;
     }
 
+    if (!loadClassSkillTable(assetFileSystem))
+    {
+        return false;
+    }
+
     if (!loadNpcDialogTable(assetFileSystem))
     {
         return false;
@@ -766,6 +771,11 @@ const ChestTable &GameDataLoader::getChestTable() const
 const HouseTable &GameDataLoader::getHouseTable() const
 {
     return m_houseTable;
+}
+
+const ClassSkillTable &GameDataLoader::getClassSkillTable() const
+{
+    return m_classSkillTable;
 }
 
 const NpcDialogTable &GameDataLoader::getNpcDialogTable() const
@@ -1024,6 +1034,31 @@ bool GameDataLoader::loadNpcDialogTable(const Engine::AssetFileSystem &assetFile
         || !m_npcDialogTable.loadNpcRows(npcRows))
     {
         std::cerr << "Failed to parse NPC dialog tables\n";
+        return false;
+    }
+
+    return true;
+}
+
+bool GameDataLoader::loadClassSkillTable(const Engine::AssetFileSystem &assetFileSystem)
+{
+    std::vector<std::vector<std::string>> capRows;
+
+    if (!loadTextTableRows(assetFileSystem, "Data/CLASS_SKILLS.txt", capRows))
+    {
+        return false;
+    }
+
+    std::vector<std::vector<std::string>> startingRows;
+
+    if (!loadTextTableRows(assetFileSystem, "Data/CLASS_STARTING_SKILLS.txt", startingRows))
+    {
+        return false;
+    }
+
+    if (!m_classSkillTable.loadCapsFromRows(capRows) || !m_classSkillTable.loadStartingSkillsFromRows(startingRows))
+    {
+        std::cerr << "Failed to parse class skill tables\n";
         return false;
     }
 

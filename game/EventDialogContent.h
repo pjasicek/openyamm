@@ -1,5 +1,6 @@
 #pragma once
 
+#include "game/ClassSkillTable.h"
 #include "game/EventRuntime.h"
 #include "game/HouseTable.h"
 #include "game/NpcDialogTable.h"
@@ -22,6 +23,8 @@ enum class EventDialogActionKind
     RosterJoinOffer,
     RosterJoinAccept,
     RosterJoinDecline,
+    MasteryTeacherOffer,
+    MasteryTeacherLearn,
 };
 
 struct EventDialogAction
@@ -49,6 +52,7 @@ EventDialogContent buildEventDialogContent(
     bool allowNpcFallbackContent,
     const std::optional<EventIrProgram> *pGlobalEventIrProgram,
     const HouseTable *pHouseTable,
+    const ClassSkillTable *pClassSkillTable,
     const NpcDialogTable *pNpcDialogTable,
     const Party *pParty,
     int currentHour

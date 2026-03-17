@@ -39,7 +39,7 @@ std::string decodeVariableRef(uint32_t rawValue)
         return "Awards[" + std::to_string(index) + "]";
     }
 
-    if (tag == 0x0006)
+    if (tag == 0x0006 || tag == 0x013e)
     {
         return "Players[" + std::to_string(index) + "]";
     }

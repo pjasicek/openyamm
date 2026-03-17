@@ -7,6 +7,7 @@
 #include "game/GameDataLoader.h"
 #include "game/GenericActorDialog.h"
 #include "game/HouseInteraction.h"
+#include "game/MasteryTeacherDialog.h"
 #include "game/OutdoorWorldRuntime.h"
 #include "game/Party.h"
 
@@ -18,28 +19,59 @@ namespace OpenYAMM::Game
 {
 namespace
 {
+constexpr uint32_t AdventurersInnHouseId = 185;
+
 std::optional<uint32_t> singleSelectableResidentNpcId(
     const HouseEntry &houseEntry,
     const NpcDialogTable &npcDialogTable,
     const EventRuntimeState &eventRuntimeState
 )
 {
-    std::optional<uint32_t> residentNpcId;
+    std::vector<uint32_t> residentNpcIds;
 
-    for (uint32_t candidateNpcId : houseEntry.residentNpcIds)
+    auto appendNpcId = [&](uint32_t npcId)
     {
-        const NpcEntry *pResident = npcDialogTable.getNpc(candidateNpcId);
+        if (std::find(residentNpcIds.begin(), residentNpcIds.end(), npcId) != residentNpcIds.end())
+        {
+            return;
+        }
+
+        const NpcEntry *pResident = npcDialogTable.getNpc(npcId);
 
         if (pResident == nullptr || pResident->name.empty())
         {
-            continue;
+            return;
         }
 
-        if (eventRuntimeState.unavailableNpcIds.contains(candidateNpcId))
+        if (eventRuntimeState.unavailableNpcIds.contains(npcId))
         {
-            continue;
+            return;
         }
 
+        const auto overrideIt = eventRuntimeState.npcHouseOverrides.find(npcId);
+
+        if (overrideIt != eventRuntimeState.npcHouseOverrides.end() && overrideIt->second != houseEntry.id)
+        {
+            return;
+        }
+
+        residentNpcIds.push_back(npcId);
+    };
+
+    for (uint32_t npcId : houseEntry.residentNpcIds)
+    {
+        appendNpcId(npcId);
+    }
+
+    for (uint32_t npcId : npcDialogTable.getNpcIdsForHouse(houseEntry.id, &eventRuntimeState.npcHouseOverrides))
+    {
+        appendNpcId(npcId);
+    }
+
+    std::optional<uint32_t> residentNpcId;
+
+    for (uint32_t candidateNpcId : residentNpcIds)
+    {
         if (residentNpcId)
         {
             return std::nullopt;
@@ -181,6 +213,7 @@ EventDialogContent buildHeadlessDialog(
         allowNpcFallbackContent,
         &globalEventIrProgram,
         &gameDataLoader.getHouseTable(),
+        &gameDataLoader.getClassSkillTable(),
         &gameDataLoader.getNpcDialogTable(),
         pParty,
         currentHour
@@ -235,6 +268,34 @@ bool dialogHasActionLabel(const EventDialogContent &dialog, const std::string &l
     return findActionIndexByLabel(dialog, label).has_value();
 }
 
+CharacterSkill *ensureCharacterSkill(
+    Character &character,
+    const std::string &skillName,
+    uint32_t level,
+    SkillMastery mastery
+)
+{
+    CharacterSkill *pSkill = character.findSkill(skillName);
+
+    if (pSkill == nullptr)
+    {
+        CharacterSkill skill = {};
+        skill.name = canonicalSkillName(skillName);
+        skill.level = level;
+        skill.mastery = mastery;
+        character.skills[skill.name] = skill;
+        pSkill = character.findSkill(skillName);
+    }
+
+    if (pSkill != nullptr)
+    {
+        pSkill->level = level;
+        pSkill->mastery = mastery;
+    }
+
+    return pSkill;
+}
+
 struct RegressionScenario
 {
     OutdoorWorldRuntime world;
@@ -242,6 +303,22 @@ struct RegressionScenario
     EventRuntime eventRuntime;
     EventRuntimeState *pEventRuntimeState = nullptr;
 };
+
+EventDialogContent buildScenarioDialog(
+    const GameDataLoader &gameDataLoader,
+    const MapAssetInfo &selectedMap,
+    RegressionScenario &scenario,
+    size_t previousMessageCount,
+    bool allowNpcFallbackContent
+);
+
+bool executeDialogActionInScenario(
+    const GameDataLoader &gameDataLoader,
+    const MapAssetInfo &selectedMap,
+    RegressionScenario &scenario,
+    size_t actionIndex,
+    EventDialogContent &dialog
+);
 
 bool initializeRegressionScenario(
     const GameDataLoader &gameDataLoader,
@@ -258,9 +335,44 @@ bool initializeRegressionScenario(
 
     scenario.party = {};
     scenario.party.setItemTable(&gameDataLoader.getItemTable());
+    scenario.party.setClassSkillTable(&gameDataLoader.getClassSkillTable());
     scenario.party.reset();
     scenario.pEventRuntimeState = scenario.world.eventRuntimeState();
     return scenario.pEventRuntimeState != nullptr;
+}
+
+EventDialogContent openNpcDialogInScenario(
+    const GameDataLoader &gameDataLoader,
+    const MapAssetInfo &selectedMap,
+    RegressionScenario &scenario,
+    uint32_t npcId
+)
+{
+    EventRuntimeState::PendingDialogueContext context = {};
+    context.kind = DialogueContextKind::NpcTalk;
+    context.sourceId = npcId;
+    scenario.pEventRuntimeState->pendingDialogueContext = context;
+    return buildScenarioDialog(gameDataLoader, selectedMap, scenario, 0, true);
+}
+
+bool openMasteryTeacherOfferInScenario(
+    const GameDataLoader &gameDataLoader,
+    const MapAssetInfo &selectedMap,
+    RegressionScenario &scenario,
+    uint32_t npcId,
+    const std::string &topicLabel,
+    EventDialogContent &dialog
+)
+{
+    dialog = openNpcDialogInScenario(gameDataLoader, selectedMap, scenario, npcId);
+    const std::optional<size_t> offerIndex = findActionIndexByLabel(dialog, topicLabel);
+
+    if (!offerIndex)
+    {
+        return false;
+    }
+
+    return executeDialogActionInScenario(gameDataLoader, selectedMap, scenario, *offerIndex, dialog);
 }
 
 bool executeLocalEventInScenario(
@@ -435,7 +547,7 @@ bool executeDialogActionInScenario(
 
         if (scenario.party.isFull())
         {
-            scenario.pEventRuntimeState->unavailableNpcIds.insert(invite.npcId);
+            scenario.pEventRuntimeState->npcHouseOverrides[invite.npcId] = AdventurersInnHouseId;
             const std::optional<std::string> fullPartyText =
                 gameDataLoader.getNpcDialogTable().getText(invite.partyFullTextId);
 
@@ -454,6 +566,7 @@ bool executeDialogActionInScenario(
             }
 
             scenario.pEventRuntimeState->unavailableNpcIds.insert(invite.npcId);
+            scenario.pEventRuntimeState->npcHouseOverrides.erase(invite.npcId);
             scenario.pEventRuntimeState->messages.push_back(pRosterEntry->name + " joined the party.");
         }
 
@@ -473,6 +586,42 @@ bool executeDialogActionInScenario(
         context.kind = DialogueContextKind::NpcTalk;
         context.sourceId = npcId;
         scenario.pEventRuntimeState->pendingDialogueContext = std::move(context);
+    }
+    else if (action.kind == EventDialogActionKind::MasteryTeacherOffer)
+    {
+        EventRuntimeState::PendingMasteryTeacherOffer offer = {};
+        offer.npcId = dialog.sourceId;
+        offer.topicId = action.id;
+        scenario.pEventRuntimeState->pendingMasteryTeacherOffer = std::move(offer);
+
+        EventRuntimeState::PendingDialogueContext context = {};
+        context.kind = DialogueContextKind::NpcTalk;
+        context.sourceId = dialog.sourceId;
+        scenario.pEventRuntimeState->pendingDialogueContext = std::move(context);
+    }
+    else if (action.kind == EventDialogActionKind::MasteryTeacherLearn)
+    {
+        if (!scenario.pEventRuntimeState->pendingMasteryTeacherOffer)
+        {
+            return false;
+        }
+
+        std::string message;
+
+        if (applyMasteryTeacherTopic(
+                scenario.pEventRuntimeState->pendingMasteryTeacherOffer->topicId,
+                scenario.party,
+                gameDataLoader.getClassSkillTable(),
+                gameDataLoader.getNpcDialogTable(),
+                message))
+        {
+            if (!message.empty())
+            {
+                scenario.pEventRuntimeState->messages.push_back(message);
+            }
+
+            scenario.pEventRuntimeState->pendingMasteryTeacherOffer.reset();
+        }
     }
     else if (action.kind == EventDialogActionKind::NpcTopic)
     {
@@ -511,6 +660,7 @@ bool executeDialogActionInScenario(
         scenario,
         previousMessageCount,
         action.kind != EventDialogActionKind::RosterJoinAccept
+            && action.kind != EventDialogActionKind::MasteryTeacherLearn
     );
     return true;
 }
@@ -567,6 +717,7 @@ int HeadlessOutdoorDiagnostics::runOpenEvent(
 
     Party party = {};
     party.setItemTable(&gameDataLoader.getItemTable());
+    party.setClassSkillTable(&gameDataLoader.getClassSkillTable());
     party.reset();
 
     EventRuntime eventRuntime;
@@ -749,6 +900,7 @@ int HeadlessOutdoorDiagnostics::runOpenActor(
 
     Party party = {};
     party.setItemTable(&gameDataLoader.getItemTable());
+    party.setClassSkillTable(&gameDataLoader.getClassSkillTable());
     party.reset();
 
     EventRuntimeState *pEventRuntimeState = outdoorWorldRuntime.eventRuntimeState();
@@ -878,6 +1030,7 @@ int HeadlessOutdoorDiagnostics::runDialogSequence(
 
     Party party = {};
     party.setItemTable(&gameDataLoader.getItemTable());
+    party.setClassSkillTable(&gameDataLoader.getClassSkillTable());
     party.reset();
 
     EventRuntime eventRuntime;
@@ -981,7 +1134,7 @@ int HeadlessOutdoorDiagnostics::runDialogSequence(
 
             if (party.isFull())
             {
-                pEventRuntimeState->unavailableNpcIds.insert(invite.npcId);
+                pEventRuntimeState->npcHouseOverrides[invite.npcId] = AdventurersInnHouseId;
 
                 const std::optional<std::string> fullPartyText =
                     gameDataLoader.getNpcDialogTable().getText(invite.partyFullTextId);
@@ -1002,6 +1155,7 @@ int HeadlessOutdoorDiagnostics::runDialogSequence(
                 }
 
                 pEventRuntimeState->unavailableNpcIds.insert(invite.npcId);
+                pEventRuntimeState->npcHouseOverrides.erase(invite.npcId);
                 pEventRuntimeState->messages.push_back(pRosterEntry->name + " joined the party.");
             }
 
@@ -1022,6 +1176,43 @@ int HeadlessOutdoorDiagnostics::runDialogSequence(
             context.sourceId = npcId;
             pEventRuntimeState->pendingDialogueContext = std::move(context);
         }
+        else if (action.kind == EventDialogActionKind::MasteryTeacherOffer)
+        {
+            EventRuntimeState::PendingMasteryTeacherOffer offer = {};
+            offer.npcId = dialog.sourceId;
+            offer.topicId = action.id;
+            pEventRuntimeState->pendingMasteryTeacherOffer = std::move(offer);
+
+            EventRuntimeState::PendingDialogueContext context = {};
+            context.kind = DialogueContextKind::NpcTalk;
+            context.sourceId = dialog.sourceId;
+            pEventRuntimeState->pendingDialogueContext = std::move(context);
+        }
+        else if (action.kind == EventDialogActionKind::MasteryTeacherLearn)
+        {
+            if (!pEventRuntimeState->pendingMasteryTeacherOffer)
+            {
+                std::cerr << "Headless diagnostic failed: no pending mastery teacher offer\n";
+                return 7;
+            }
+
+            std::string message;
+
+            if (applyMasteryTeacherTopic(
+                    pEventRuntimeState->pendingMasteryTeacherOffer->topicId,
+                    party,
+                    gameDataLoader.getClassSkillTable(),
+                    gameDataLoader.getNpcDialogTable(),
+                    message))
+            {
+                if (!message.empty())
+                {
+                    pEventRuntimeState->messages.push_back(message);
+                }
+
+                pEventRuntimeState->pendingMasteryTeacherOffer.reset();
+            }
+        }
         else if (action.kind == EventDialogActionKind::NpcTopic)
         {
             const bool topicExecuted = eventRuntime.executeEventById(
@@ -1035,7 +1226,7 @@ int HeadlessOutdoorDiagnostics::runDialogSequence(
             if (!topicExecuted)
             {
                 std::cerr << "Headless diagnostic failed: topic event " << action.id << " unresolved\n";
-                return 7;
+                return 8;
             }
 
             outdoorWorldRuntime.applyEventRuntimeState();
@@ -1052,13 +1243,14 @@ int HeadlessOutdoorDiagnostics::runDialogSequence(
         else
         {
             std::cerr << "Headless diagnostic failed: unsupported action kind in sequence\n";
-            return 8;
+            return 9;
         }
 
         dialog = buildHeadlessDialog(
             *pEventRuntimeState,
             previousMessageCount,
-            action.kind != EventDialogActionKind::RosterJoinAccept,
+            action.kind != EventDialogActionKind::RosterJoinAccept
+                && action.kind != EventDialogActionKind::MasteryTeacherLearn,
             selectedMap->globalEventIrProgram,
             gameDataLoader,
             &party,
@@ -1400,6 +1592,385 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
     );
 
     runCase(
+        "mastery_teacher_not_enough_gold",
+        [&](std::string &failure)
+        {
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            if (!scenario.party.setActiveMemberIndex(3))
+            {
+                failure = "could not select sorcerer";
+                return false;
+            }
+
+            Character *pCharacter = scenario.party.activeMember();
+
+            if (pCharacter == nullptr
+                || ensureCharacterSkill(*pCharacter, "IdentifyItem", 7, SkillMastery::Expert) == nullptr)
+            {
+                failure = "could not prepare Identify Item skill";
+                return false;
+            }
+
+            EventDialogContent dialog = {};
+
+            if (!openMasteryTeacherOfferInScenario(
+                    gameDataLoader,
+                    *selectedMap,
+                    scenario,
+                    388,
+                    "Master Identify Item",
+                    dialog))
+            {
+                failure = "could not open mastery teacher offer";
+                return false;
+            }
+
+            if (dialog.actions.empty() || dialog.actions.front().label != "You don't have enough gold!")
+            {
+                failure = "missing not-enough-gold rejection";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "mastery_teacher_missing_skill",
+        [&](std::string &failure)
+        {
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            if (!scenario.party.setActiveMemberIndex(3))
+            {
+                failure = "could not select sorcerer";
+                return false;
+            }
+
+            Character *pCharacter = scenario.party.activeMember();
+
+            if (pCharacter == nullptr)
+            {
+                failure = "missing active character";
+                return false;
+            }
+
+            pCharacter->skills.erase("IdentifyItem");
+
+            EventDialogContent dialog = {};
+
+            if (!openMasteryTeacherOfferInScenario(
+                    gameDataLoader,
+                    *selectedMap,
+                    scenario,
+                    388,
+                    "Master Identify Item",
+                    dialog))
+            {
+                failure = "could not open mastery teacher offer";
+                return false;
+            }
+
+            if (dialog.actions.empty()
+                || dialog.actions.front().label != "You must know the skill before you can become an expert in it!")
+            {
+                failure = "missing missing-skill rejection";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "mastery_teacher_insufficient_skill_level",
+        [&](std::string &failure)
+        {
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            if (!scenario.party.setActiveMemberIndex(3))
+            {
+                failure = "could not select sorcerer";
+                return false;
+            }
+
+            Character *pCharacter = scenario.party.activeMember();
+
+            if (pCharacter == nullptr
+                || ensureCharacterSkill(*pCharacter, "IdentifyItem", 6, SkillMastery::Expert) == nullptr)
+            {
+                failure = "could not prepare insufficient skill state";
+                return false;
+            }
+
+            scenario.party.addGold(5000);
+
+            EventDialogContent dialog = {};
+
+            if (!openMasteryTeacherOfferInScenario(
+                    gameDataLoader,
+                    *selectedMap,
+                    scenario,
+                    388,
+                    "Master Identify Item",
+                    dialog))
+            {
+                failure = "could not open mastery teacher offer";
+                return false;
+            }
+
+            if (dialog.actions.empty()
+                || dialog.actions.front().label
+                    != "You don't meet the requirements, and cannot be taught until you do.")
+            {
+                failure = "missing insufficient-requirements rejection";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "mastery_teacher_wrong_class",
+        [&](std::string &failure)
+        {
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            if (!scenario.party.setActiveMemberIndex(0))
+            {
+                failure = "could not select knight";
+                return false;
+            }
+
+            Character *pCharacter = scenario.party.activeMember();
+
+            if (pCharacter == nullptr
+                || ensureCharacterSkill(*pCharacter, "IdentifyItem", 7, SkillMastery::Expert) == nullptr)
+            {
+                failure = "could not prepare wrong-class skill state";
+                return false;
+            }
+
+            scenario.party.addGold(5000);
+
+            EventDialogContent dialog = {};
+
+            if (!openMasteryTeacherOfferInScenario(
+                    gameDataLoader,
+                    *selectedMap,
+                    scenario,
+                    388,
+                    "Master Identify Item",
+                    dialog))
+            {
+                failure = "could not open mastery teacher offer";
+                return false;
+            }
+
+            if (dialog.actions.empty()
+                || dialog.actions.front().label != "This skill level can not be learned by the Knight class.")
+            {
+                failure = "missing wrong-class rejection";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "mastery_teacher_character_switch_changes_logic",
+        [&](std::string &failure)
+        {
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            if (!scenario.party.setActiveMemberIndex(0))
+            {
+                failure = "could not select knight";
+                return false;
+            }
+
+            Character *pKnight = scenario.party.activeMember();
+
+            if (pKnight == nullptr || ensureCharacterSkill(*pKnight, "IdentifyItem", 7, SkillMastery::Expert) == nullptr)
+            {
+                failure = "could not prepare knight state";
+                return false;
+            }
+
+            scenario.party.addGold(5000);
+
+            EventDialogContent dialog = {};
+
+            if (!openMasteryTeacherOfferInScenario(
+                    gameDataLoader,
+                    *selectedMap,
+                    scenario,
+                    388,
+                    "Master Identify Item",
+                    dialog))
+            {
+                failure = "could not open mastery teacher offer for knight";
+                return false;
+            }
+
+            if (dialog.actions.empty()
+                || dialog.actions.front().label != "This skill level can not be learned by the Knight class.")
+            {
+                failure = "wrong-class baseline did not match";
+                return false;
+            }
+
+            if (!scenario.party.setActiveMemberIndex(3))
+            {
+                failure = "could not switch to sorcerer";
+                return false;
+            }
+
+            Character *pSorcerer = scenario.party.activeMember();
+
+            if (pSorcerer == nullptr
+                || ensureCharacterSkill(*pSorcerer, "IdentifyItem", 7, SkillMastery::Expert) == nullptr)
+            {
+                failure = "could not prepare sorcerer state";
+                return false;
+            }
+
+            dialog = buildScenarioDialog(gameDataLoader, *selectedMap, scenario, 0, true);
+
+            if (dialog.actions.empty() || dialog.actions.front().label != "Become Master in Identify Item for 2500 gold")
+            {
+                failure = "dialog did not change after switching active character";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "mastery_teacher_offer_and_learn",
+        [&](std::string &failure)
+        {
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            if (!scenario.party.setActiveMemberIndex(3))
+            {
+                failure = "could not select sorcerer";
+                return false;
+            }
+
+            Character *pCharacter = scenario.party.activeMember();
+
+            if (pCharacter == nullptr)
+            {
+                failure = "missing active character";
+                return false;
+            }
+
+            CharacterSkill *pIdentifyItem = ensureCharacterSkill(*pCharacter, "IdentifyItem", 7, SkillMastery::Expert);
+
+            if (pIdentifyItem == nullptr)
+            {
+                failure = "could not prepare Identify Item skill";
+                return false;
+            }
+
+            scenario.party.addGold(5000);
+
+            EventDialogContent dialog = {};
+
+            if (!openMasteryTeacherOfferInScenario(
+                    gameDataLoader,
+                    *selectedMap,
+                    scenario,
+                    388,
+                    "Master Identify Item",
+                    dialog))
+            {
+                failure = "could not open mastery teacher offer";
+                return false;
+            }
+
+            if (dialog.actions.empty()
+                || dialog.actions.front().label != "Become Master in Identify Item for 2500 gold")
+            {
+                failure = "unexpected mastery teacher offer text";
+                return false;
+            }
+
+            if (!executeDialogActionInScenario(gameDataLoader, *selectedMap, scenario, 0, dialog))
+            {
+                failure = "could not learn mastery";
+                return false;
+            }
+
+            const Character *pUpdatedCharacter = scenario.party.activeMember();
+            const CharacterSkill *pUpdatedSkill = pUpdatedCharacter != nullptr
+                ? pUpdatedCharacter->findSkill("IdentifyItem")
+                : nullptr;
+
+            if (pUpdatedSkill == nullptr || pUpdatedSkill->mastery != SkillMastery::Master)
+            {
+                failure = "mastery was not increased";
+                return false;
+            }
+
+            if (scenario.party.gold() != 2700)
+            {
+                failure = "gold was not deducted by trainer cost";
+                return false;
+            }
+
+            if (!dialogContainsText(dialog, "Doran is now a Master in Identify Item."))
+            {
+                failure = "missing mastery confirmation text";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
         "synthetic_roster_join_accept",
         [&](std::string &failure)
         {
@@ -1418,17 +1989,17 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
                 scenario.pEventRuntimeState->messages.push_back(*inviteText);
             }
 
-            EventRuntimeState::PendingDialogueContext context = {};
-            context.kind = DialogueContextKind::NpcTalk;
-            context.sourceId = 32;
-            scenario.pEventRuntimeState->pendingDialogueContext = context;
-
             EventRuntimeState::PendingRosterJoinInvite invite = {};
             invite.npcId = 32;
             invite.rosterId = 2;
             invite.inviteTextId = 202;
             invite.partyFullTextId = 203;
             scenario.pEventRuntimeState->pendingRosterJoinInvite = invite;
+
+            EventRuntimeState::PendingDialogueContext context = {};
+            context.kind = DialogueContextKind::NpcTalk;
+            context.sourceId = 32;
+            scenario.pEventRuntimeState->pendingDialogueContext = context;
 
             EventDialogContent dialog = buildScenarioDialog(gameDataLoader, *selectedMap, scenario, 0, true);
             const std::optional<size_t> yesIndex = findActionIndexByLabel(dialog, "Yes");
@@ -1515,15 +2086,99 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
                 return false;
             }
 
-            if (!scenario.pEventRuntimeState->unavailableNpcIds.contains(32))
+            if (scenario.pEventRuntimeState->unavailableNpcIds.contains(32))
             {
-                failure = "Fredrick was not marked unavailable on full-party path";
+                failure = "Fredrick should remain available after moving to the inn";
+                return false;
+            }
+
+            const auto movedHouseIt = scenario.pEventRuntimeState->npcHouseOverrides.find(32);
+
+            if (movedHouseIt == scenario.pEventRuntimeState->npcHouseOverrides.end()
+                || movedHouseIt->second != AdventurersInnHouseId)
+            {
+                failure = "Fredrick was not moved to the Adventurer's Inn";
                 return false;
             }
 
             if (!dialogContainsText(dialog, "party's all full up"))
             {
                 failure = "missing full-party response text";
+                return false;
+            }
+
+            EventRuntimeState::PendingDialogueContext innContext = {};
+            innContext.kind = DialogueContextKind::HouseService;
+            innContext.sourceId = AdventurersInnHouseId;
+            scenario.pEventRuntimeState->pendingDialogueContext = innContext;
+            dialog = buildScenarioDialog(gameDataLoader, *selectedMap, scenario, 0, true);
+
+            if (!dialogHasActionLabel(dialog, "Fredrick Talimere"))
+            {
+                failure = "Fredrick did not appear in the Adventurer's Inn";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "roster_join_mapping_and_players_can_show_topic",
+        [&](std::string &failure)
+        {
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            EventDialogContent dialog = openNpcDialogInScenario(gameDataLoader, *selectedMap, scenario, 9);
+
+            if (!dialogHasActionLabel(dialog, "Dyson Leland"))
+            {
+                failure = "Sandro should initially expose the Dyson Leland topic";
+                return false;
+            }
+
+            scenario.pEventRuntimeState->npcTopicOverrides[11][3] = 634;
+            dialog = openNpcDialogInScenario(gameDataLoader, *selectedMap, scenario, 11);
+
+            const std::optional<size_t> joinIndex = findActionIndexByLabel(dialog, "Join");
+
+            if (!joinIndex || !executeDialogActionInScenario(gameDataLoader, *selectedMap, scenario, *joinIndex, dialog))
+            {
+                failure = "could not open Dyson roster join offer";
+                return false;
+            }
+
+            if (!dialogContainsText(dialog, "I will gladly join you."))
+            {
+                failure = "missing Dyson roster join prompt text";
+                return false;
+            }
+
+            const std::optional<size_t> yesIndex = findActionIndexByLabel(dialog, "Yes");
+
+            if (!yesIndex || !executeDialogActionInScenario(gameDataLoader, *selectedMap, scenario, *yesIndex, dialog))
+            {
+                failure = "could not accept Dyson roster join offer";
+                return false;
+            }
+
+            if (!scenario.party.hasRosterMember(34))
+            {
+                failure = "Dyson roster member was not added to the party";
+                return false;
+            }
+
+            dialog = openNpcDialogInScenario(gameDataLoader, *selectedMap, scenario, 9);
+
+            if (dialogHasActionLabel(dialog, "Dyson Leland"))
+            {
+                failure = "Dyson Leland topic should hide once Dyson is in the party";
                 return false;
             }
 

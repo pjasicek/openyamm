@@ -29,6 +29,17 @@ bool parseUnsigned(const std::string &text, uint32_t &value)
 bool RosterTable::loadFromRows(const std::vector<std::vector<std::string>> &rows)
 {
     m_entries.clear();
+    std::vector<std::string> skillColumns;
+
+    if (rows.size() > 1)
+    {
+        const std::vector<std::string> &headerRow = rows[1];
+
+        for (size_t columnIndex = 22; columnIndex < headerRow.size(); columnIndex += 2)
+        {
+            skillColumns.push_back(canonicalSkillName(headerRow[columnIndex]));
+        }
+    }
 
     for (const std::vector<std::string> &row : rows)
     {
@@ -65,6 +76,32 @@ bool RosterTable::loadFromRows(const std::vector<std::vector<std::string>> &rows
         parseUnsigned(row[14], entry.luck);
         parseUnsigned(row[21], entry.skillPoints);
         entry.level = std::max<uint32_t>(1, entry.level);
+
+        for (size_t skillIndex = 0; skillIndex < skillColumns.size(); ++skillIndex)
+        {
+            const size_t masteryColumn = 22 + skillIndex * 2;
+            const size_t levelColumn = masteryColumn + 1;
+
+            if (levelColumn >= row.size() || skillColumns[skillIndex].empty())
+            {
+                continue;
+            }
+
+            const SkillMastery mastery = parseSkillMasteryToken(row[masteryColumn]);
+            uint32_t level = 0;
+
+            if (mastery == SkillMastery::None || !parseUnsigned(row[levelColumn], level) || level == 0)
+            {
+                continue;
+            }
+
+            CharacterSkill skill = {};
+            skill.name = skillColumns[skillIndex];
+            skill.level = level;
+            skill.mastery = mastery;
+            entry.skills[skill.name] = std::move(skill);
+        }
+
         m_entries[entry.id] = std::move(entry);
     }
 

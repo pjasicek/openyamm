@@ -63,6 +63,12 @@ struct EventRuntimeState
         uint32_t partyFullTextId = 0;
     };
 
+    struct PendingMasteryTeacherOffer
+    {
+        uint32_t npcId = 0;
+        uint32_t topicId = 0;
+    };
+
     std::unordered_map<uint32_t, int32_t> variables;
     std::unordered_map<uint32_t, uint32_t> facetSetMasks;
     std::unordered_map<uint32_t, uint32_t> facetClearMasks;
@@ -72,6 +78,7 @@ struct EventRuntimeState
     std::unordered_map<uint32_t, std::unordered_map<uint32_t, uint32_t>> npcTopicOverrides;
     std::unordered_map<uint32_t, uint32_t> npcGroupNews;
     std::unordered_map<uint32_t, uint32_t> npcGreetingDisplayCounts;
+    std::unordered_map<uint32_t, uint32_t> npcHouseOverrides;
     std::unordered_set<uint32_t> unavailableNpcIds;
     std::vector<std::string> messages;
     std::vector<uint32_t> openedChestIds;
@@ -80,6 +87,7 @@ struct EventRuntimeState
     std::optional<PendingDialogueContext> pendingDialogueContext;
     std::optional<PendingMapMove> pendingMapMove;
     std::optional<PendingRosterJoinInvite> pendingRosterJoinInvite;
+    std::optional<PendingMasteryTeacherOffer> pendingMasteryTeacherOffer;
     std::vector<uint32_t> lastAffectedMechanismIds;
     std::optional<std::string> lastActivationResult;
     size_t localOnLoadEventsExecuted = 0;

@@ -98,10 +98,12 @@ bool GameApplication::initializeRenderer()
             ),
             m_gameDataLoader.getItemTable()
         );
+        m_pOutdoorPartyRuntime->party().setClassSkillTable(&m_gameDataLoader.getClassSkillTable());
 
         if (m_partyState)
         {
             m_partyState->setItemTable(&m_gameDataLoader.getItemTable());
+            m_partyState->setClassSkillTable(&m_gameDataLoader.getClassSkillTable());
             m_pOutdoorPartyRuntime->setParty(*m_partyState);
         }
 
@@ -123,6 +125,7 @@ bool GameApplication::initializeRenderer()
             selectedMap->outdoorMapDeltaData,
             m_gameDataLoader.getChestTable(),
             m_gameDataLoader.getHouseTable(),
+            m_gameDataLoader.getClassSkillTable(),
             m_gameDataLoader.getNpcDialogTable(),
             m_gameDataLoader.getRosterTable(),
             m_gameDataLoader.getItemTable(),

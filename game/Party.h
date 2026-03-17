@@ -1,11 +1,13 @@
 #pragma once
 
+#include "game/ClassSkillTable.h"
 #include "game/OutdoorMovementDriver.h"
 #include "game/RosterTable.h"
 
 #include <cstdint>
 #include <optional>
 #include <string>
+#include <unordered_map>
 #include <vector>
 
 namespace OpenYAMM::Game
@@ -30,19 +32,33 @@ struct Character
 
     std::string name;
     std::string role;
+    std::string className;
     std::string portraitTextureName;
+    uint32_t rosterId = 0;
     uint32_t level = 1;
     uint32_t skillPoints = 0;
+    uint32_t might = 0;
+    uint32_t intellect = 0;
+    uint32_t personality = 0;
+    uint32_t endurance = 0;
+    uint32_t speed = 0;
+    uint32_t accuracy = 0;
+    uint32_t luck = 0;
     int maxHealth = 100;
     int health = 100;
     int maxSpellPoints = 0;
     int spellPoints = 0;
+    std::unordered_map<std::string, CharacterSkill> skills;
 
     bool addInventoryItem(const InventoryItem &item);
     bool removeInventoryItem(uint32_t objectDescriptionId, uint32_t quantity = 1);
     size_t inventoryItemCount() const;
     size_t usedInventoryCells() const;
     size_t inventoryCapacity() const;
+    bool hasSkill(const std::string &skillName) const;
+    const CharacterSkill *findSkill(const std::string &skillName) const;
+    CharacterSkill *findSkill(const std::string &skillName);
+    bool setSkillMastery(const std::string &skillName, SkillMastery mastery);
 
     std::vector<InventoryItem> inventory;
 };
@@ -61,6 +77,7 @@ public:
     static PartySeed createDefaultSeed();
 
     void setItemTable(const ItemTable *pItemTable);
+    void setClassSkillTable(const ClassSkillTable *pClassSkillTable);
     void reset();
     void seed(const PartySeed &seed);
     void applyMovementEffects(const OutdoorMovementEffects &effects);
@@ -77,8 +94,13 @@ public:
     int withdrawAllBankGold();
     bool isFull() const;
     bool recruitRosterMember(const RosterEntry &rosterEntry);
+    bool hasRosterMember(uint32_t rosterId) const;
+    bool setActiveMemberIndex(size_t memberIndex);
 
     const std::vector<Character> &members() const;
+    const Character *activeMember() const;
+    Character *activeMember();
+    size_t activeMemberIndex() const;
     int totalHealth() const;
     int totalMaxHealth() const;
     int gold() const;
@@ -100,9 +122,12 @@ private:
 
     uint8_t resolveInventoryWidth(uint32_t objectDescriptionId) const;
     uint8_t resolveInventoryHeight(uint32_t objectDescriptionId) const;
+    void applyDefaultStartingSkills(Character &member) const;
 
     const ItemTable *m_pItemTable = nullptr;
+    const ClassSkillTable *m_pClassSkillTable = nullptr;
     std::vector<Character> m_members;
+    size_t m_activeMemberIndex = 0;
     int m_gold = 0;
     int m_bankGold = 0;
     int m_food = 0;

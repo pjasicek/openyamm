@@ -1,5 +1,6 @@
 #include "game/NpcDialogTable.h"
 
+#include <algorithm>
 #include <cstdlib>
 
 namespace OpenYAMM::Game
@@ -151,10 +152,18 @@ bool NpcDialogTable::loadTopicsFromRows(const std::vector<std::vector<std::strin
         entry.topic = row[1];
         entry.owner = row[5];
 
-        if (entry.topic == "Roster Join Event")
+        if (id >= 601 && id <= 649)
         {
-            entry.topic = "Join";
             entry.specialKind = NpcTopicEntry::SpecialKind::RosterJoinOffer;
+
+            if (entry.topic == "Roster Join Event")
+            {
+                entry.topic = "Join";
+            }
+        }
+        else if (entry.id >= 300 && entry.id <= 416)
+        {
+            entry.specialKind = NpcTopicEntry::SpecialKind::MasteryTeacherOffer;
         }
 
         uint32_t textId = 0;
@@ -323,7 +332,8 @@ std::vector<NpcDialogTable::ResolvedTopic> NpcDialogTable::getTopicsForNpc(
 
         if (topicIt->second.textId != 0)
         {
-            const std::unordered_map<uint32_t, std::string>::const_iterator textIt = m_texts.find(topicIt->second.textId);
+            const std::unordered_map<uint32_t, std::string>::const_iterator textIt =
+                m_texts.find(topicIt->second.textId);
 
             if (textIt != m_texts.end())
             {
@@ -347,6 +357,37 @@ std::optional<std::string> NpcDialogTable::getText(uint32_t textId) const
     }
 
     return textIt->second;
+}
+
+std::vector<uint32_t> NpcDialogTable::getNpcIdsForHouse(
+    uint32_t houseId,
+    const std::unordered_map<uint32_t, uint32_t> *pHouseOverrides
+) const
+{
+    std::vector<uint32_t> npcIds;
+
+    for (const auto &[npcId, npc] : m_npcs)
+    {
+        uint32_t effectiveHouseId = npc.houseId;
+
+        if (pHouseOverrides != nullptr)
+        {
+            const auto overrideIt = pHouseOverrides->find(npcId);
+
+            if (overrideIt != pHouseOverrides->end())
+            {
+                effectiveHouseId = overrideIt->second;
+            }
+        }
+
+        if (effectiveHouseId == houseId)
+        {
+            npcIds.push_back(npcId);
+        }
+    }
+
+    std::sort(npcIds.begin(), npcIds.end());
+    return npcIds;
 }
 
 std::optional<std::string> NpcDialogTable::getNewsText(uint32_t newsId) const
@@ -375,16 +416,44 @@ std::optional<uint32_t> NpcDialogTable::getNewsIdForGroup(uint32_t groupId) cons
 
 std::optional<NpcDialogTable::RosterJoinOffer> NpcDialogTable::getRosterJoinOfferForTopic(uint32_t topicId) const
 {
-    if (topicId == 602)
+    if (topicId >= 601 && topicId <= 649)
     {
+        const uint32_t rosterId = topicId - 600;
         RosterJoinOffer offer = {};
         offer.topicId = topicId;
-        offer.rosterId = 2;
-        offer.inviteTextId = 202;
-        offer.partyFullTextId = 203;
+        offer.rosterId = rosterId;
+        offer.inviteTextId = 198 + rosterId * 2;
+        offer.partyFullTextId = offer.inviteTextId + 1;
         return offer;
     }
 
     return std::nullopt;
+}
+
+std::optional<NpcDialogTable::ResolvedTopic> NpcDialogTable::getTopicById(uint32_t topicId) const
+{
+    const std::unordered_map<uint32_t, NpcTopicEntry>::const_iterator topicIt = m_topicsById.find(topicId);
+
+    if (topicIt == m_topicsById.end())
+    {
+        return std::nullopt;
+    }
+
+    ResolvedTopic topic = {};
+    topic.id = topicIt->second.id;
+    topic.topic = topicIt->second.topic;
+    topic.specialKind = topicIt->second.specialKind;
+
+    if (topicIt->second.textId != 0)
+    {
+        const std::unordered_map<uint32_t, std::string>::const_iterator textIt = m_texts.find(topicIt->second.textId);
+
+        if (textIt != m_texts.end())
+        {
+            topic.text = textIt->second;
+        }
+    }
+
+    return topic;
 }
 }

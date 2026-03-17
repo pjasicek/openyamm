@@ -1,6 +1,7 @@
 #include "game/EventDialogContent.h"
 
 #include "game/HouseInteraction.h"
+#include "game/MasteryTeacherDialog.h"
 
 #include <algorithm>
 
@@ -73,22 +74,56 @@ std::optional<uint32_t> singleSelectableResidentNpcId(
     const EventRuntimeState &eventRuntimeState
 )
 {
+    const auto residentNpcIdsForHouse = [&]()
+    {
+        std::vector<uint32_t> residentNpcIds;
+
+        auto appendNpcId = [&](uint32_t npcId)
+        {
+            if (std::find(residentNpcIds.begin(), residentNpcIds.end(), npcId) != residentNpcIds.end())
+            {
+                return;
+            }
+
+            const NpcEntry *pResident = npcDialogTable.getNpc(npcId);
+
+            if (pResident == nullptr || pResident->name.empty())
+            {
+                return;
+            }
+
+            if (eventRuntimeState.unavailableNpcIds.contains(npcId))
+            {
+                return;
+            }
+
+            const auto overrideIt = eventRuntimeState.npcHouseOverrides.find(npcId);
+
+            if (overrideIt != eventRuntimeState.npcHouseOverrides.end() && overrideIt->second != houseEntry.id)
+            {
+                return;
+            }
+
+            residentNpcIds.push_back(npcId);
+        };
+
+        for (uint32_t npcId : houseEntry.residentNpcIds)
+        {
+            appendNpcId(npcId);
+        }
+
+        for (uint32_t npcId : npcDialogTable.getNpcIdsForHouse(houseEntry.id, &eventRuntimeState.npcHouseOverrides))
+        {
+            appendNpcId(npcId);
+        }
+
+        return residentNpcIds;
+    }();
+
     std::optional<uint32_t> residentNpcId;
 
-    for (uint32_t candidateNpcId : houseEntry.residentNpcIds)
+    for (uint32_t candidateNpcId : residentNpcIdsForHouse)
     {
-        const NpcEntry *pResident = npcDialogTable.getNpc(candidateNpcId);
-
-        if (pResident == nullptr || pResident->name.empty())
-        {
-            continue;
-        }
-
-        if (eventRuntimeState.unavailableNpcIds.contains(candidateNpcId))
-        {
-            continue;
-        }
-
         if (residentNpcId)
         {
             return std::nullopt;
@@ -107,6 +142,7 @@ EventDialogContent buildEventDialogContent(
     bool allowNpcFallbackContent,
     const std::optional<EventIrProgram> *pGlobalEventIrProgram,
     const HouseTable *pHouseTable,
+    const ClassSkillTable *pClassSkillTable,
     const NpcDialogTable *pNpcDialogTable,
     const Party *pParty,
     int currentHour
@@ -182,12 +218,32 @@ EventDialogContent buildEventDialogContent(
                 dialog.lines.push_back(pHouseEntry->type);
             }
 
-            if (pNpcDialogTable != nullptr && !pHouseEntry->residentNpcIds.empty())
+            if (pNpcDialogTable != nullptr)
             {
+                const std::vector<uint32_t> residentNpcIds =
+                    pNpcDialogTable->getNpcIdsForHouse(pHouseEntry->id, &eventRuntimeState.npcHouseOverrides);
+                std::vector<uint32_t> combinedResidentNpcIds = pHouseEntry->residentNpcIds;
+
+                for (uint32_t npcId : residentNpcIds)
+                {
+                    if (std::find(combinedResidentNpcIds.begin(), combinedResidentNpcIds.end(), npcId)
+                        == combinedResidentNpcIds.end())
+                    {
+                        combinedResidentNpcIds.push_back(npcId);
+                    }
+                }
+
                 bool hasResidentAction = false;
 
-                for (uint32_t residentNpcId : pHouseEntry->residentNpcIds)
+                for (uint32_t residentNpcId : combinedResidentNpcIds)
                 {
+                    const auto overrideIt = eventRuntimeState.npcHouseOverrides.find(residentNpcId);
+
+                    if (overrideIt != eventRuntimeState.npcHouseOverrides.end() && overrideIt->second != pHouseEntry->id)
+                    {
+                        continue;
+                    }
+
                     const NpcEntry *pResident = pNpcDialogTable->getNpc(residentNpcId);
 
                     if (pResident != nullptr && !pResident->name.empty())
@@ -289,6 +345,9 @@ EventDialogContent buildEventDialogContent(
         const bool hasPendingRosterJoinInvite =
             eventRuntimeState.pendingRosterJoinInvite
             && eventRuntimeState.pendingRosterJoinInvite->npcId == dialog.sourceId;
+        const bool hasPendingMasteryTeacherOffer =
+            eventRuntimeState.pendingMasteryTeacherOffer
+            && eventRuntimeState.pendingMasteryTeacherOffer->npcId == dialog.sourceId;
         const bool hasEventMessageLines = !eventMessageLines.empty();
 
         if (context.kind == DialogueContextKind::NpcNews && dialog.sourceId == 0)
@@ -312,6 +371,7 @@ EventDialogContent buildEventDialogContent(
         if (context.kind == DialogueContextKind::NpcTalk
             && allowNpcFallbackContent
             && !hasPendingRosterJoinInvite
+            && !hasPendingMasteryTeacherOffer
             && !hasEventMessageLines
             && pGreeting != nullptr)
         {
@@ -357,6 +417,24 @@ EventDialogContent buildEventDialogContent(
                 declineAction.label = "No";
                 dialog.actions.push_back(std::move(declineAction));
             }
+            else if (hasPendingMasteryTeacherOffer && pClassSkillTable != nullptr && pParty != nullptr)
+            {
+                const std::optional<MasteryTeacherEvaluation> evaluation = evaluateMasteryTeacherTopic(
+                    eventRuntimeState.pendingMasteryTeacherOffer->topicId,
+                    *pParty,
+                    *pClassSkillTable,
+                    *pNpcDialogTable
+                );
+
+                if (evaluation && !evaluation->displayText.empty())
+                {
+                    EventDialogAction learnAction = {};
+                    learnAction.kind = EventDialogActionKind::MasteryTeacherLearn;
+                    learnAction.id = eventRuntimeState.pendingMasteryTeacherOffer->topicId;
+                    learnAction.label = evaluation->displayText;
+                    dialog.actions.push_back(std::move(learnAction));
+                }
+            }
             else
             {
                 for (const NpcDialogTable::ResolvedTopic &topic : topics)
@@ -376,9 +454,17 @@ EventDialogContent buildEventDialogContent(
                     }
 
                     EventDialogAction action = {};
-                    action.kind = topic.specialKind == NpcTopicEntry::SpecialKind::RosterJoinOffer
-                        ? EventDialogActionKind::RosterJoinOffer
-                        : EventDialogActionKind::NpcTopic;
+                    action.kind = EventDialogActionKind::NpcTopic;
+
+                    if (topic.specialKind == NpcTopicEntry::SpecialKind::RosterJoinOffer)
+                    {
+                        action.kind = EventDialogActionKind::RosterJoinOffer;
+                    }
+                    else if (topic.specialKind == NpcTopicEntry::SpecialKind::MasteryTeacherOffer)
+                    {
+                        action.kind = EventDialogActionKind::MasteryTeacherOffer;
+                    }
+
                     action.id = topic.id;
                     action.label = topic.topic;
                     dialog.actions.push_back(std::move(action));
@@ -398,6 +484,21 @@ EventDialogContent buildEventDialogContent(
                 const std::vector<std::string> wrappedNews = wrapDialogText(*newsText, MaxLineWidth);
                 dialog.lines.insert(dialog.lines.end(), wrappedNews.begin(), wrappedNews.end());
             }
+        }
+    }
+
+    if (context.kind == DialogueContextKind::NpcTalk
+        && eventRuntimeState.pendingMasteryTeacherOffer
+        && eventRuntimeState.pendingMasteryTeacherOffer->npcId == dialog.sourceId
+        && eventMessageLines.empty()
+        && pNpcDialogTable != nullptr)
+    {
+        const std::optional<NpcDialogTable::ResolvedTopic> topic =
+            pNpcDialogTable->getTopicById(eventRuntimeState.pendingMasteryTeacherOffer->topicId);
+
+        if (topic && !topic->text.empty())
+        {
+            eventMessageLines = wrapDialogText(topic->text, MaxLineWidth);
         }
     }
 

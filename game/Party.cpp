@@ -12,14 +12,14 @@ namespace
 {
 std::string normalizeRoleName(const std::string &className)
 {
-    if (className.empty())
+    const std::string canonicalName = canonicalClassName(className);
+
+    if (canonicalName.empty())
     {
         return "Adventurer";
     }
 
-    std::string normalized = className;
-    normalized[0] = static_cast<char>(std::toupper(static_cast<unsigned char>(normalized[0])));
-    return normalized;
+    return displayClassName(canonicalName);
 }
 
 std::string portraitTextureNameFromPictureId(uint32_t pictureId)
@@ -146,6 +146,51 @@ bool Character::removeInventoryItem(uint32_t objectDescriptionId, uint32_t quant
     return false;
 }
 
+bool Character::hasSkill(const std::string &skillName) const
+{
+    const std::string canonicalName = canonicalSkillName(skillName);
+    return !canonicalName.empty() && skills.contains(canonicalName);
+}
+
+const CharacterSkill *Character::findSkill(const std::string &skillName) const
+{
+    const std::string canonicalName = canonicalSkillName(skillName);
+
+    if (canonicalName.empty())
+    {
+        return nullptr;
+    }
+
+    const std::unordered_map<std::string, CharacterSkill>::const_iterator it = skills.find(canonicalName);
+    return it != skills.end() ? &it->second : nullptr;
+}
+
+CharacterSkill *Character::findSkill(const std::string &skillName)
+{
+    const std::string canonicalName = canonicalSkillName(skillName);
+
+    if (canonicalName.empty())
+    {
+        return nullptr;
+    }
+
+    const std::unordered_map<std::string, CharacterSkill>::iterator it = skills.find(canonicalName);
+    return it != skills.end() ? &it->second : nullptr;
+}
+
+bool Character::setSkillMastery(const std::string &skillName, SkillMastery mastery)
+{
+    CharacterSkill *pSkill = findSkill(skillName);
+
+    if (pSkill == nullptr)
+    {
+        return false;
+    }
+
+    pSkill->mastery = mastery;
+    return true;
+}
+
 size_t Character::inventoryItemCount() const
 {
     return inventory.size();
@@ -176,20 +221,36 @@ PartySeed Party::createDefaultSeed()
 
     Character knight = {};
     knight.name = "Ariel";
+    knight.className = "Knight";
     knight.role = "Knight";
     knight.portraitTextureName = "PC01-01";
     knight.level = 5;
     knight.skillPoints = 5;
+    knight.might = 18;
+    knight.intellect = 8;
+    knight.personality = 10;
+    knight.endurance = 17;
+    knight.speed = 12;
+    knight.accuracy = 15;
+    knight.luck = 11;
     knight.maxHealth = 120;
     knight.health = 120;
     seed.members.push_back(knight);
 
     Character cleric = {};
     cleric.name = "Brom";
+    cleric.className = "Cleric";
     cleric.role = "Cleric";
     cleric.portraitTextureName = "PC05-01";
     cleric.level = 5;
     cleric.skillPoints = 5;
+    cleric.might = 11;
+    cleric.intellect = 12;
+    cleric.personality = 18;
+    cleric.endurance = 14;
+    cleric.speed = 10;
+    cleric.accuracy = 11;
+    cleric.luck = 13;
     cleric.maxHealth = 90;
     cleric.health = 90;
     cleric.maxSpellPoints = 45;
@@ -198,20 +259,36 @@ PartySeed Party::createDefaultSeed()
 
     Character archer = {};
     archer.name = "Cassia";
+    archer.className = "Archer";
     archer.role = "Archer";
     archer.portraitTextureName = "PC08-01";
     archer.level = 5;
     archer.skillPoints = 5;
+    archer.might = 14;
+    archer.intellect = 11;
+    archer.personality = 10;
+    archer.endurance = 13;
+    archer.speed = 16;
+    archer.accuracy = 18;
+    archer.luck = 12;
     archer.maxHealth = 100;
     archer.health = 100;
     seed.members.push_back(archer);
 
     Character sorcerer = {};
     sorcerer.name = "Doran";
+    sorcerer.className = "Sorcerer";
     sorcerer.role = "Sorcerer";
     sorcerer.portraitTextureName = "PC16-01";
     sorcerer.level = 5;
     sorcerer.skillPoints = 5;
+    sorcerer.might = 8;
+    sorcerer.intellect = 20;
+    sorcerer.personality = 12;
+    sorcerer.endurance = 9;
+    sorcerer.speed = 13;
+    sorcerer.accuracy = 10;
+    sorcerer.luck = 14;
     sorcerer.maxHealth = 75;
     sorcerer.health = 75;
     sorcerer.maxSpellPoints = 60;
@@ -231,15 +308,33 @@ void Party::setItemTable(const ItemTable *pItemTable)
     m_pItemTable = pItemTable;
 }
 
+void Party::setClassSkillTable(const ClassSkillTable *pClassSkillTable)
+{
+    m_pClassSkillTable = pClassSkillTable;
+
+    for (Character &member : m_members)
+    {
+        member.className = canonicalClassName(member.className.empty() ? member.role : member.className);
+
+        if (member.skills.empty())
+        {
+            applyDefaultStartingSkills(member);
+        }
+    }
+}
+
 void Party::seed(const PartySeed &seed)
 {
     m_members = seed.members;
+    m_activeMemberIndex = 0;
     m_gold = std::max(0, seed.gold);
     m_bankGold = 0;
     m_food = std::max(0, seed.food);
 
     for (Character &member : m_members)
     {
+        member.className = canonicalClassName(member.className.empty() ? member.role : member.className);
+        member.role = normalizeRoleName(member.className);
         member.level = std::max<uint32_t>(1, member.level);
         member.skillPoints = std::max<uint32_t>(0u, member.skillPoints);
         member.maxHealth = std::max(1, member.maxHealth);
@@ -247,12 +342,18 @@ void Party::seed(const PartySeed &seed)
         member.maxSpellPoints = std::max(0, member.maxSpellPoints);
         member.spellPoints = std::clamp(member.spellPoints, 0, member.maxSpellPoints);
         member.inventory.clear();
+
+        if (member.skills.empty())
+        {
+            applyDefaultStartingSkills(member);
+        }
     }
 
     if (m_members.empty())
     {
         Character fallbackMember = {};
         fallbackMember.name = "Adventurer";
+        fallbackMember.className = "Knight";
         fallbackMember.role = "Knight";
         fallbackMember.level = 1;
         fallbackMember.skillPoints = 0;
@@ -524,10 +625,20 @@ bool Party::recruitRosterMember(const RosterEntry &rosterEntry)
 
     Character member = {};
     member.name = rosterEntry.name;
-    member.role = normalizeRoleName(rosterEntry.className);
+    member.className = canonicalClassName(rosterEntry.className);
+    member.role = normalizeRoleName(member.className);
     member.portraitTextureName = portraitTextureNameFromPictureId(rosterEntry.pictureId);
+    member.rosterId = rosterEntry.id;
     member.level = std::max<uint32_t>(1, rosterEntry.level);
     member.skillPoints = rosterEntry.skillPoints;
+    member.might = rosterEntry.might;
+    member.intellect = rosterEntry.intellect;
+    member.personality = rosterEntry.personality;
+    member.endurance = rosterEntry.endurance;
+    member.speed = rosterEntry.speed;
+    member.accuracy = rosterEntry.accuracy;
+    member.luck = rosterEntry.luck;
+    member.skills = rosterEntry.skills;
 
     const int endurance = std::max(10, static_cast<int>(rosterEntry.endurance));
     const int intellect = std::max(0, static_cast<int>(rosterEntry.intellect));
@@ -545,6 +656,24 @@ bool Party::recruitRosterMember(const RosterEntry &rosterEntry)
     m_members.push_back(std::move(member));
     m_lastStatus = "party member recruited";
     return true;
+}
+
+bool Party::hasRosterMember(uint32_t rosterId) const
+{
+    if (rosterId == 0)
+    {
+        return false;
+    }
+
+    for (const Character &member : m_members)
+    {
+        if (member.rosterId == rosterId)
+        {
+            return true;
+        }
+    }
+
+    return false;
 }
 
 uint8_t Party::resolveInventoryWidth(uint32_t objectDescriptionId) const
@@ -584,6 +713,42 @@ uint8_t Party::resolveInventoryHeight(uint32_t objectDescriptionId) const
 const std::vector<Character> &Party::members() const
 {
     return m_members;
+}
+
+bool Party::setActiveMemberIndex(size_t memberIndex)
+{
+    if (memberIndex >= m_members.size())
+    {
+        return false;
+    }
+
+    m_activeMemberIndex = memberIndex;
+    return true;
+}
+
+const Character *Party::activeMember() const
+{
+    if (m_members.empty())
+    {
+        return nullptr;
+    }
+
+    return &m_members[std::min(m_activeMemberIndex, m_members.size() - 1)];
+}
+
+Character *Party::activeMember()
+{
+    if (m_members.empty())
+    {
+        return nullptr;
+    }
+
+    return &m_members[std::min(m_activeMemberIndex, m_members.size() - 1)];
+}
+
+size_t Party::activeMemberIndex() const
+{
+    return m_members.empty() ? 0 : std::min(m_activeMemberIndex, m_members.size() - 1);
 }
 
 int Party::totalHealth() const
@@ -694,5 +859,20 @@ float Party::lastFallDamageDistance() const
 const std::string &Party::lastStatus() const
 {
     return m_lastStatus;
+}
+
+void Party::applyDefaultStartingSkills(Character &member) const
+{
+    if (m_pClassSkillTable == nullptr)
+    {
+        return;
+    }
+
+    const std::vector<CharacterSkill> defaultSkills = m_pClassSkillTable->getDefaultSkillsForClass(member.className);
+
+    for (const CharacterSkill &skill : defaultSkills)
+    {
+        member.skills[skill.name] = skill;
+    }
 }
 }

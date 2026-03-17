@@ -6,6 +6,7 @@
 #include "game/MonsterTable.h"
 #include "game/OutdoorMapData.h"
 #include "game/ChestTable.h"
+#include "game/ClassSkillTable.h"
 #include "game/EventDialogContent.h"
 #include "game/EvtProgram.h"
 #include "game/EventIr.h"
@@ -19,6 +20,7 @@
 #include <bgfx/bgfx.h>
 #include <bx/math.h>
 
+#include <array>
 #include <cstdint>
 #include <memory>
 #include <optional>
@@ -57,6 +59,7 @@ public:
         const std::optional<MapDeltaData> &outdoorMapDeltaData,
         const ChestTable &chestTable,
         const HouseTable &houseTable,
+        const ClassSkillTable &classSkillTable,
         const NpcDialogTable &npcDialogTable,
         const RosterTable &rosterTable,
         const ItemTable &itemTable,
@@ -213,6 +216,7 @@ private:
     std::optional<SpriteObjectBillboardSet> m_outdoorSpriteObjectBillboardSet;
     std::optional<MapDeltaData> m_outdoorMapDeltaData;
     std::optional<HouseTable> m_houseTable;
+    std::optional<ClassSkillTable> m_classSkillTable;
     std::optional<NpcDialogTable> m_npcDialogTable;
     const RosterTable *m_pRosterTable;
     std::optional<ChestTable> m_chestTable;
@@ -292,6 +296,7 @@ private:
     bool m_eventDialogSelectUpLatch;
     bool m_eventDialogSelectDownLatch;
     bool m_eventDialogAcceptLatch;
+    std::array<bool, 5> m_eventDialogPartySelectLatches;
     size_t m_chestSelectionIndex;
     size_t m_eventDialogSelectionIndex;
     EventDialogContent m_activeEventDialog;

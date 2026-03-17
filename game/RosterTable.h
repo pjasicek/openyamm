@@ -1,5 +1,7 @@
 #pragma once
 
+#include "game/SkillData.h"
+
 #include <cstdint>
 #include <string>
 #include <unordered_map>
@@ -22,6 +24,7 @@ struct RosterEntry
     uint32_t accuracy = 0;
     uint32_t luck = 0;
     uint32_t skillPoints = 0;
+    std::unordered_map<std::string, CharacterSkill> skills;
 };
 
 class RosterTable

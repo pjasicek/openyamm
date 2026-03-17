@@ -3,6 +3,7 @@
 #include "game/GenericActorDialog.h"
 #include "game/HouseInteraction.h"
 #include "game/ItemTable.h"
+#include "game/MasteryTeacherDialog.h"
 #include "game/OutdoorGeometryUtils.h"
 #include "game/OutdoorPartyRuntime.h"
 #include "game/OutdoorWorldRuntime.h"
@@ -46,6 +47,7 @@ constexpr float OutdoorWalkableNormalZ = 0.70710678f;
 constexpr float OutdoorMaxStepHeight = 128.0f;
 constexpr uint8_t OutdoorPolygonFloor = 0x3;
 constexpr uint8_t OutdoorPolygonInBetweenFloorAndWall = 0x4;
+constexpr uint32_t AdventurersInnHouseId = 185;
 
 uint32_t currentAnimationTicks()
 {
@@ -74,22 +76,51 @@ std::optional<uint32_t> singleSelectableResidentNpcId(
     const EventRuntimeState &eventRuntimeState
 )
 {
-    std::optional<uint32_t> residentNpcId;
+    std::vector<uint32_t> residentNpcIds;
 
-    for (uint32_t candidateNpcId : houseEntry.residentNpcIds)
+    auto appendNpcId = [&](uint32_t npcId)
     {
-        const NpcEntry *pResident = npcDialogTable.getNpc(candidateNpcId);
+        if (std::find(residentNpcIds.begin(), residentNpcIds.end(), npcId) != residentNpcIds.end())
+        {
+            return;
+        }
+
+        const NpcEntry *pResident = npcDialogTable.getNpc(npcId);
 
         if (pResident == nullptr || pResident->name.empty())
         {
-            continue;
+            return;
         }
 
-        if (eventRuntimeState.unavailableNpcIds.contains(candidateNpcId))
+        if (eventRuntimeState.unavailableNpcIds.contains(npcId))
         {
-            continue;
+            return;
         }
 
+        const auto overrideIt = eventRuntimeState.npcHouseOverrides.find(npcId);
+
+        if (overrideIt != eventRuntimeState.npcHouseOverrides.end() && overrideIt->second != houseEntry.id)
+        {
+            return;
+        }
+
+        residentNpcIds.push_back(npcId);
+    };
+
+    for (uint32_t npcId : houseEntry.residentNpcIds)
+    {
+        appendNpcId(npcId);
+    }
+
+    for (uint32_t npcId : npcDialogTable.getNpcIdsForHouse(houseEntry.id, &eventRuntimeState.npcHouseOverrides))
+    {
+        appendNpcId(npcId);
+    }
+
+    std::optional<uint32_t> residentNpcId;
+
+    for (uint32_t candidateNpcId : residentNpcIds)
+    {
         if (residentNpcId)
         {
             return std::nullopt;
@@ -775,6 +806,7 @@ OutdoorGameView::OutdoorGameView()
     , m_eventDialogSelectUpLatch(false)
     , m_eventDialogSelectDownLatch(false)
     , m_eventDialogAcceptLatch(false)
+    , m_eventDialogPartySelectLatches({})
     , m_chestSelectionIndex(0)
     , m_eventDialogSelectionIndex(0)
     , m_activeEventDialog({})
@@ -783,6 +815,7 @@ OutdoorGameView::OutdoorGameView()
     , m_pItemTable(nullptr)
     , m_pRosterTable(nullptr)
 {
+    m_eventDialogPartySelectLatches.fill(false);
 }
 
 OutdoorGameView::~OutdoorGameView()
@@ -808,6 +841,7 @@ bool OutdoorGameView::initialize(
     const std::optional<MapDeltaData> &outdoorMapDeltaData,
     const ChestTable &chestTable,
     const HouseTable &houseTable,
+    const ClassSkillTable &classSkillTable,
     const NpcDialogTable &npcDialogTable,
     const RosterTable &rosterTable,
     const ItemTable &itemTable,
@@ -832,6 +866,7 @@ bool OutdoorGameView::initialize(
     m_outdoorMapDeltaData = outdoorMapDeltaData;
     m_chestTable = chestTable;
     m_houseTable = houseTable;
+    m_classSkillTable = classSkillTable;
     m_npcDialogTable = npcDialogTable;
     m_pRosterTable = &rosterTable;
     m_pItemTable = &itemTable;
@@ -2010,7 +2045,7 @@ void OutdoorGameView::renderGameplayHudArt(int width, int height)
 
         submitTexturedQuad(*pFaceMask, portraitX, portraitY, portraitWidth, portraitHeight);
 
-        if (memberIndex == 0 && pSelectionRing != nullptr)
+        if (memberIndex == m_pOutdoorPartyRuntime->party().activeMemberIndex() && pSelectionRing != nullptr)
         {
             submitTexturedQuad(*pSelectionRing, portraitX - uiScale, portraitY, portraitWidth, portraitHeight);
         }
@@ -2096,16 +2131,16 @@ void OutdoorGameView::renderGameplayHud(int width, int height) const
 
     if (!members.empty())
     {
-        const Character &leader = members.front();
-        stream << leader.name
+        const Character &activeMember = *party.activeMember();
+        stream << activeMember.name
                << " HP "
-               << leader.health
+               << activeMember.health
                << "/"
-               << leader.maxHealth
+               << activeMember.maxHealth
                << " SP "
-               << leader.spellPoints
+               << activeMember.spellPoints
                << "/"
-               << leader.maxSpellPoints
+               << activeMember.maxSpellPoints
                << "   ";
     }
 
@@ -2468,6 +2503,7 @@ void OutdoorGameView::shutdown()
     m_outdoorDecorationBillboardSet.reset();
     m_outdoorActorPreviewBillboardSet.reset();
     m_outdoorSpriteObjectBillboardSet.reset();
+    m_classSkillTable.reset();
     m_npcDialogTable.reset();
     m_elapsedTime = 0.0f;
     m_framesPerSecond = 0.0f;
@@ -2494,6 +2530,7 @@ void OutdoorGameView::shutdown()
     m_eventDialogSelectUpLatch = false;
     m_eventDialogSelectDownLatch = false;
     m_eventDialogAcceptLatch = false;
+    m_eventDialogPartySelectLatches.fill(false);
     m_chestSelectionIndex = 0;
     m_eventDialogSelectionIndex = 0;
     m_activeEventDialog = {};
@@ -2629,7 +2666,7 @@ void OutdoorGameView::executeActiveDialogAction()
 
         if (m_pOutdoorPartyRuntime->party().isFull())
         {
-            pEventRuntimeState->unavailableNpcIds.insert(invite.npcId);
+            pEventRuntimeState->npcHouseOverrides[invite.npcId] = AdventurersInnHouseId;
 
             if (m_npcDialogTable)
             {
@@ -2664,6 +2701,7 @@ void OutdoorGameView::executeActiveDialogAction()
         }
 
         pEventRuntimeState->unavailableNpcIds.insert(invite.npcId);
+        pEventRuntimeState->npcHouseOverrides.erase(invite.npcId);
         pEventRuntimeState->messages.push_back(pRosterEntry->name + " joined the party.");
 
         EventRuntimeState::PendingDialogueContext context = {};
@@ -2686,6 +2724,56 @@ void OutdoorGameView::executeActiveDialogAction()
         context.sourceId = npcId;
         pEventRuntimeState->pendingDialogueContext = std::move(context);
         openPendingEventDialog(previousMessageCount, true);
+        return;
+    }
+
+    if (action.kind == EventDialogActionKind::MasteryTeacherOffer)
+    {
+        EventRuntimeState::PendingMasteryTeacherOffer offer = {};
+        offer.npcId = m_activeEventDialog.sourceId;
+        offer.topicId = action.id;
+        pEventRuntimeState->pendingMasteryTeacherOffer = std::move(offer);
+
+        EventRuntimeState::PendingDialogueContext context = {};
+        context.kind = DialogueContextKind::NpcTalk;
+        context.sourceId = m_activeEventDialog.sourceId;
+        pEventRuntimeState->pendingDialogueContext = std::move(context);
+        openPendingEventDialog(previousMessageCount, true);
+        return;
+    }
+
+    if (action.kind == EventDialogActionKind::MasteryTeacherLearn)
+    {
+        if (!pEventRuntimeState->pendingMasteryTeacherOffer
+            || m_pOutdoorPartyRuntime == nullptr
+            || !m_classSkillTable
+            || !m_npcDialogTable)
+        {
+            return;
+        }
+
+        std::string message;
+
+        if (applyMasteryTeacherTopic(
+                pEventRuntimeState->pendingMasteryTeacherOffer->topicId,
+                m_pOutdoorPartyRuntime->party(),
+                *m_classSkillTable,
+                *m_npcDialogTable,
+                message))
+        {
+            if (!message.empty())
+            {
+                pEventRuntimeState->messages.push_back(message);
+            }
+
+            pEventRuntimeState->pendingMasteryTeacherOffer.reset();
+            openPendingEventDialog(previousMessageCount, false);
+        }
+        else
+        {
+            openPendingEventDialog(previousMessageCount, true);
+        }
+
         return;
     }
 
@@ -2779,6 +2867,7 @@ void OutdoorGameView::openPendingEventDialog(size_t previousMessageCount, bool a
         allowNpcFallbackContent,
         &m_globalEventIrProgram,
         m_houseTable ? &*m_houseTable : nullptr,
+        m_classSkillTable ? &*m_classSkillTable : nullptr,
         m_npcDialogTable ? &*m_npcDialogTable : nullptr,
         m_pOutdoorPartyRuntime != nullptr ? &m_pOutdoorPartyRuntime->party() : nullptr,
         m_pOutdoorWorldRuntime != nullptr ? m_pOutdoorWorldRuntime->currentHour() : -1
@@ -2793,6 +2882,7 @@ void OutdoorGameView::openPendingEventDialog(size_t previousMessageCount, bool a
     m_eventDialogSelectUpLatch = false;
     m_eventDialogSelectDownLatch = false;
     m_eventDialogAcceptLatch = false;
+    m_eventDialogPartySelectLatches.fill(false);
 
     std::cout << "Opened "
               << (m_activeEventDialog.isHouseDialog ? "house" : "npc")
@@ -2808,6 +2898,7 @@ void OutdoorGameView::closeActiveEventDialog()
     {
         pEventRuntimeState->pendingDialogueContext.reset();
         pEventRuntimeState->pendingRosterJoinInvite.reset();
+        pEventRuntimeState->pendingMasteryTeacherOffer.reset();
     }
 
     m_activeEventDialog = {};
@@ -2815,6 +2906,7 @@ void OutdoorGameView::closeActiveEventDialog()
     m_eventDialogSelectUpLatch = false;
     m_eventDialogSelectDownLatch = false;
     m_eventDialogAcceptLatch = false;
+    m_eventDialogPartySelectLatches.fill(false);
 }
 
 bool OutdoorGameView::hasActiveEventDialog() const
@@ -4349,6 +4441,48 @@ void OutdoorGameView::updateCameraFromInput()
 
     if (isEventDialogActive)
     {
+        if (m_pOutdoorPartyRuntime != nullptr)
+        {
+            static constexpr SDL_Scancode PartySelectScancodes[5] = {
+                SDL_SCANCODE_1,
+                SDL_SCANCODE_2,
+                SDL_SCANCODE_3,
+                SDL_SCANCODE_4,
+                SDL_SCANCODE_5,
+            };
+
+            for (size_t memberIndex = 0; memberIndex < std::size(PartySelectScancodes); ++memberIndex)
+            {
+                if (pKeyboardState[PartySelectScancodes[memberIndex]])
+                {
+                    if (!m_eventDialogPartySelectLatches[memberIndex])
+                    {
+                        if (m_pOutdoorPartyRuntime->party().setActiveMemberIndex(memberIndex))
+                        {
+                            EventRuntimeState *pEventRuntimeState = m_pOutdoorWorldRuntime != nullptr
+                                ? m_pOutdoorWorldRuntime->eventRuntimeState()
+                                : nullptr;
+
+                            if (pEventRuntimeState != nullptr)
+                            {
+                                openPendingEventDialog(pEventRuntimeState->messages.size(), true);
+                            }
+                        }
+
+                        m_eventDialogPartySelectLatches[memberIndex] = true;
+                    }
+                }
+                else
+                {
+                    m_eventDialogPartySelectLatches[memberIndex] = false;
+                }
+            }
+        }
+        else
+        {
+            m_eventDialogPartySelectLatches.fill(false);
+        }
+
         if (!m_activeEventDialog.actions.empty())
         {
             if (pKeyboardState[SDL_SCANCODE_UP])
@@ -4432,6 +4566,7 @@ void OutdoorGameView::updateCameraFromInput()
     m_eventDialogSelectUpLatch = false;
     m_eventDialogSelectDownLatch = false;
     m_eventDialogAcceptLatch = false;
+    m_eventDialogPartySelectLatches.fill(false);
 
     if (hasActiveChestView)
     {

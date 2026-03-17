@@ -22,6 +22,7 @@ struct NpcTopicEntry
     {
         None,
         RosterJoinOffer,
+        MasteryTeacherOffer,
     };
 
     uint32_t id = 0;
@@ -73,10 +74,15 @@ public:
         uint32_t npcId,
         const std::unordered_map<uint32_t, uint32_t> *pTopicOverrides = nullptr
     ) const;
+    std::vector<uint32_t> getNpcIdsForHouse(
+        uint32_t houseId,
+        const std::unordered_map<uint32_t, uint32_t> *pHouseOverrides = nullptr
+    ) const;
     std::optional<std::string> getText(uint32_t textId) const;
     std::optional<std::string> getNewsText(uint32_t newsId) const;
     std::optional<uint32_t> getNewsIdForGroup(uint32_t groupId) const;
     std::optional<RosterJoinOffer> getRosterJoinOfferForTopic(uint32_t topicId) const;
+    std::optional<ResolvedTopic> getTopicById(uint32_t topicId) const;
 
 private:
     std::unordered_map<uint32_t, NpcEntry> m_npcs;

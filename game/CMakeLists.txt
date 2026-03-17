@@ -1,6 +1,7 @@
 add_executable(openyamm
     ActorNameResolver.cpp
     ChestTable.cpp
+    ClassSkillTable.cpp
     EventDialogContent.cpp
     EventIr.cpp
     EventRuntime.cpp
@@ -17,6 +18,7 @@ add_executable(openyamm
     MapAssetLoader.cpp
     MapRegistry.cpp
     MapStats.cpp
+    MasteryTeacherDialog.cpp
     MonsterTable.cpp
     NpcDialogTable.cpp
     ObjectTable.cpp
@@ -29,6 +31,7 @@ add_executable(openyamm
     Party.cpp
     RosterTable.cpp
     SpawnPreview.cpp
+    SkillData.cpp
     SpriteTables.cpp
     StrTable.cpp
     OutdoorGameView.cpp
