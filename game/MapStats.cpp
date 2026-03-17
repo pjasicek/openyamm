@@ -12,6 +12,7 @@ namespace
 constexpr size_t MapIdColumn = 0;
 constexpr size_t NameColumn = 1;
 constexpr size_t FileNameColumn = 2;
+constexpr size_t TreasureLevelColumn = 11;
 constexpr size_t EncounterChanceColumn = 12;
 constexpr size_t Encounter1ChanceColumn = 13;
 constexpr size_t Encounter2ChanceColumn = 14;
@@ -176,6 +177,12 @@ bool MapStats::loadFromRows(const std::vector<std::vector<std::string>> &rows)
 
         const std::string encounterChanceValue = getColumnValue(row, EncounterChanceColumn);
         const std::string redbookTrackValue = getColumnValue(row, RedbookTrackColumn);
+
+        if (!parseInteger(getColumnValue(row, TreasureLevelColumn), entry.treasureLevel))
+        {
+            std::cerr << "MapStats row has invalid treasure level for map id " << entry.id << '\n';
+            return false;
+        }
 
         if (!parseInteger(encounterChanceValue, entry.encounterChance))
         {

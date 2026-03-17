@@ -87,6 +87,7 @@ struct ActorPreviewBillboard
 {
     size_t spawnIndex = 0;
     uint16_t spriteFrameIndex = 0;
+    int16_t npcId = 0;
     int x = 0;
     int y = 0;
     int z = 0;

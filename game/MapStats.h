@@ -21,6 +21,7 @@ struct MapStatsEntry
     int id;
     std::string name;
     std::string fileName;
+    int treasureLevel;
     int encounterChance;
     MapEncounterInfo encounter1;
     MapEncounterInfo encounter2;

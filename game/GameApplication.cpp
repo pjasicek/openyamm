@@ -3,6 +3,7 @@
 #include <SDL3/SDL.h>
 #include <bgfx/bgfx.h>
 
+#include <algorithm>
 #include <functional>
 
 namespace OpenYAMM::Game
@@ -65,9 +66,10 @@ bool GameApplication::loadGameData(const Engine::AssetFileSystem &assetFileSyste
 
 bool GameApplication::initializeRenderer()
 {
-    m_terrainDebugRenderer.shutdown();
+    m_outdoorGameView.shutdown();
     m_indoorDebugRenderer.shutdown();
     m_pOutdoorPartyRuntime.reset();
+    m_pOutdoorWorldRuntime.reset();
 
     const std::optional<MapAssetInfo> &selectedMap = m_gameDataLoader.getSelectedMap();
 
@@ -78,6 +80,14 @@ bool GameApplication::initializeRenderer()
 
     if (selectedMap->outdoorMapData)
     {
+        m_pOutdoorWorldRuntime = std::make_unique<OutdoorWorldRuntime>();
+        m_pOutdoorWorldRuntime->initialize(
+            selectedMap->map,
+            m_gameDataLoader.getItemTable(),
+            selectedMap->outdoorMapDeltaData,
+            selectedMap->eventRuntimeState
+        );
+
         m_pOutdoorPartyRuntime = std::make_unique<OutdoorPartyRuntime>(
             OutdoorMovementDriver(
                 *selectedMap->outdoorMapData,
@@ -89,7 +99,13 @@ bool GameApplication::initializeRenderer()
             m_gameDataLoader.getItemTable()
         );
 
-        return m_terrainDebugRenderer.initialize(
+        if (m_partyState)
+        {
+            m_partyState->setItemTable(&m_gameDataLoader.getItemTable());
+            m_pOutdoorPartyRuntime->setParty(*m_partyState);
+        }
+
+        return m_outdoorGameView.initialize(
             *m_pAssetFileSystem,
             selectedMap->map,
             m_gameDataLoader.getMonsterTable(),
@@ -107,13 +123,15 @@ bool GameApplication::initializeRenderer()
             selectedMap->outdoorMapDeltaData,
             m_gameDataLoader.getChestTable(),
             m_gameDataLoader.getHouseTable(),
+            m_gameDataLoader.getNpcDialogTable(),
+            m_gameDataLoader.getItemTable(),
             selectedMap->localStrTable,
             selectedMap->localEvtProgram,
             selectedMap->globalEvtProgram,
-            selectedMap->eventRuntimeState,
             selectedMap->localEventIrProgram,
             selectedMap->globalEventIrProgram,
-            m_pOutdoorPartyRuntime.get()
+            m_pOutdoorPartyRuntime.get(),
+            m_pOutdoorWorldRuntime.get()
         );
     }
 
@@ -314,7 +332,8 @@ void GameApplication::renderFrame(int width, int height, float mouseWheelDelta, 
 
     if (selectedMap && selectedMap->outdoorMapData)
     {
-        m_terrainDebugRenderer.render(width, height, mouseWheelDelta);
+        m_outdoorGameView.render(width, height, mouseWheelDelta);
+        processPendingOutdoorMapMove();
         renderMapPickerOverlay();
         return;
     }
@@ -324,5 +343,81 @@ void GameApplication::renderFrame(int width, int height, float mouseWheelDelta, 
         m_indoorDebugRenderer.render(width, height, mouseWheelDelta, deltaSeconds);
         renderMapPickerOverlay();
     }
+}
+
+bool GameApplication::processPendingOutdoorMapMove()
+{
+    if (m_pOutdoorWorldRuntime == nullptr || m_pAssetFileSystem == nullptr)
+    {
+        return false;
+    }
+
+    const std::optional<EventRuntimeState::PendingMapMove> pendingMapMove =
+        m_pOutdoorWorldRuntime->consumePendingMapMove();
+
+    if (!pendingMapMove)
+    {
+        return false;
+    }
+
+    if (m_pOutdoorPartyRuntime != nullptr)
+    {
+        m_partyState = m_pOutdoorPartyRuntime->party();
+    }
+
+    const bool isSameMapTeleport =
+        !pendingMapMove->mapName || pendingMapMove->mapName->empty() || *pendingMapMove->mapName == "0";
+
+    if (isSameMapTeleport)
+    {
+        if (m_pOutdoorPartyRuntime != nullptr)
+        {
+            m_pOutdoorPartyRuntime->teleportTo(
+                static_cast<float>(pendingMapMove->x),
+                static_cast<float>(pendingMapMove->y),
+                static_cast<float>(pendingMapMove->z)
+            );
+        }
+
+        return true;
+    }
+
+    const std::string targetMapName = *pendingMapMove->mapName;
+
+    if (!m_gameDataLoader.loadMapByFileName(*m_pAssetFileSystem, targetMapName))
+    {
+        return false;
+    }
+
+    if (!initializeRenderer())
+    {
+        return false;
+    }
+
+    if (m_pOutdoorPartyRuntime != nullptr)
+    {
+        m_pOutdoorPartyRuntime->teleportTo(
+            static_cast<float>(pendingMapMove->x),
+            static_cast<float>(pendingMapMove->y),
+            static_cast<float>(pendingMapMove->z)
+        );
+    }
+
+    const std::vector<MapStatsEntry> &entries = m_gameDataLoader.getMapStats().getEntries();
+    const std::optional<MapAssetInfo> &selectedMap = m_gameDataLoader.getSelectedMap();
+
+    if (selectedMap)
+    {
+        for (size_t mapIndex = 0; mapIndex < entries.size(); ++mapIndex)
+        {
+            if (entries[mapIndex].id == selectedMap->map.id)
+            {
+                m_mapPickerIndex = mapIndex;
+                break;
+            }
+        }
+    }
+
+    return true;
 }
 }

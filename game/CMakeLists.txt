@@ -1,10 +1,15 @@
 add_executable(openyamm
+    ActorNameResolver.cpp
     ChestTable.cpp
+    EventDialogContent.cpp
     EventIr.cpp
     EventRuntime.cpp
     EvtProgram.cpp
+    GenericActorDialog.cpp
+    HouseInteraction.cpp
     MapDeltaData.cpp
     GameDataLoader.cpp
+    HeadlessOutdoorDiagnostics.cpp
     HouseTable.cpp
     ItemTable.cpp
     IndoorDebugRenderer.cpp
@@ -13,17 +18,19 @@ add_executable(openyamm
     MapRegistry.cpp
     MapStats.cpp
     MonsterTable.cpp
+    NpcDialogTable.cpp
     ObjectTable.cpp
     OutdoorMapData.cpp
     OutdoorGeometryUtils.cpp
     OutdoorMovementController.cpp
     OutdoorMovementDriver.cpp
     OutdoorPartyRuntime.cpp
+    OutdoorWorldRuntime.cpp
     Party.cpp
     SpawnPreview.cpp
     SpriteTables.cpp
     StrTable.cpp
-    TerrainDebugRenderer.cpp
+    OutdoorGameView.cpp
     main.cpp
     GameApplication.cpp
 )

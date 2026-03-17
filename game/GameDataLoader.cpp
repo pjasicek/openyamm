@@ -635,6 +635,11 @@ bool GameDataLoader::load(const Engine::AssetFileSystem &assetFileSystem)
         return false;
     }
 
+    if (!loadNpcDialogTable(assetFileSystem))
+    {
+        return false;
+    }
+
     if (!loadInitialMap(assetFileSystem))
     {
         return false;
@@ -676,6 +681,18 @@ bool GameDataLoader::loadMapById(const Engine::AssetFileSystem &assetFileSystem,
     return loadSelectedMap(assetFileSystem, mapId);
 }
 
+bool GameDataLoader::loadMapByFileName(const Engine::AssetFileSystem &assetFileSystem, const std::string &fileName)
+{
+    const std::optional<MapStatsEntry> selectedMap = m_mapRegistry.findByFileName(fileName);
+
+    if (!selectedMap)
+    {
+        return false;
+    }
+
+    return loadSelectedMap(assetFileSystem, selectedMap->id);
+}
+
 const std::vector<LoadedTableSummary> &GameDataLoader::getLoadedTables() const
 {
     return m_loadedTables;
@@ -714,6 +731,11 @@ const ChestTable &GameDataLoader::getChestTable() const
 const HouseTable &GameDataLoader::getHouseTable() const
 {
     return m_houseTable;
+}
+
+const NpcDialogTable &GameDataLoader::getNpcDialogTable() const
+{
+    return m_npcDialogTable;
 }
 
 bool GameDataLoader::loadTable(
@@ -869,19 +891,147 @@ bool GameDataLoader::loadMonsterTable(const Engine::AssetFileSystem &assetFileSy
 bool GameDataLoader::loadHouseTable(const Engine::AssetFileSystem &assetFileSystem)
 {
     std::vector<std::vector<std::string>> rows;
+    const std::string sourcePath = "Data/HOUSE_DATA.txt";
 
-    if (!loadTextTableRows(assetFileSystem, "Data/EnglishT/2DEvents.txt", rows))
+    if (!loadTextTableRows(assetFileSystem, sourcePath, rows))
     {
         return false;
     }
 
     if (!m_houseTable.loadFromRows(rows))
     {
-        std::cerr << "Failed to parse house table: Data/EnglishT/2DEvents.txt\n";
+        std::cerr << "Failed to parse house table: " << sourcePath << '\n';
+        return false;
+    }
+
+    std::vector<std::vector<std::string>> animationRows;
+
+    if (loadTextTableRows(assetFileSystem, "Data/HOUSE_ANIMATIONS.txt", animationRows))
+    {
+        m_houseTable.loadAnimationRows(animationRows);
+    }
+
+    return true;
+}
+
+bool GameDataLoader::loadNpcDialogTable(const Engine::AssetFileSystem &assetFileSystem)
+{
+    std::vector<std::vector<std::string>> greetingRows;
+
+    if (!loadFirstTextTableRows(
+            assetFileSystem,
+            {"Data/NPC_GREET.txt"},
+            greetingRows))
+    {
+        return false;
+    }
+
+    std::vector<std::vector<std::string>> textRows;
+
+    if (!loadFirstTextTableRows(
+            assetFileSystem,
+            {"Data/NPC_TOPIC_TEXT.txt"},
+            textRows))
+    {
+        return false;
+    }
+
+    std::vector<std::vector<std::string>> topicRows;
+
+    if (!loadFirstTextTableRows(
+            assetFileSystem,
+            {"Data/NPC_TOPIC.txt"},
+            topicRows))
+    {
+        return false;
+    }
+
+    std::vector<std::vector<std::string>> npcRows;
+
+    if (!loadFirstTextTableRows(
+            assetFileSystem,
+            {"Data/NPC.txt"},
+            npcRows))
+    {
+        return false;
+    }
+
+    std::vector<std::vector<std::string>> newsRows;
+
+    if (!loadFirstTextTableRows(
+            assetFileSystem,
+            {"Data/NPC_NEWS.txt"},
+            newsRows))
+    {
+        return false;
+    }
+
+    std::vector<std::vector<std::string>> groupRows;
+
+    if (!loadFirstTextTableRows(
+            assetFileSystem,
+            {"Data/EnglishT/NPCGROUP.TXT", "Data/EnglishT/npcgroup.txt"},
+            groupRows))
+    {
+        return false;
+    }
+
+    if (!m_npcDialogTable.loadGreetingsFromRows(greetingRows)
+        || !m_npcDialogTable.loadNewsFromRows(newsRows)
+        || !m_npcDialogTable.loadGroupNewsFromRows(groupRows)
+        || !m_npcDialogTable.loadTextsFromRows(textRows)
+        || !m_npcDialogTable.loadTopicsFromRows(topicRows)
+        || !m_npcDialogTable.loadNpcRows(npcRows))
+    {
+        std::cerr << "Failed to parse NPC dialog tables\n";
         return false;
     }
 
     return true;
+}
+
+bool GameDataLoader::loadFirstTextTableRows(
+    const Engine::AssetFileSystem &assetFileSystem,
+    const std::vector<std::string> &virtualPaths,
+    std::vector<std::vector<std::string>> &rows
+)
+{
+    for (const std::string &virtualPath : virtualPaths)
+    {
+        const std::optional<std::string> fileContents = assetFileSystem.readTextFile(virtualPath);
+
+        if (!fileContents)
+        {
+            continue;
+        }
+
+        const std::optional<Engine::TextTable> parsedTable = Engine::TextTable::parseTabSeparated(*fileContents);
+
+        if (!parsedTable)
+        {
+            std::cerr << "Failed to parse gameplay table: " << virtualPath << '\n';
+            return false;
+        }
+
+        rows.clear();
+
+        for (size_t rowIndex = 0; rowIndex < parsedTable->getRowCount(); ++rowIndex)
+        {
+            rows.push_back(parsedTable->getRow(rowIndex));
+        }
+
+        if (!rows.empty())
+        {
+            return true;
+        }
+    }
+
+    if (!virtualPaths.empty())
+    {
+        std::cerr << "Failed to read gameplay table: " << virtualPaths.front() << '\n';
+    }
+
+    return false;
 }
 
 bool GameDataLoader::loadObjectTable(const Engine::AssetFileSystem &assetFileSystem)
@@ -1066,6 +1216,27 @@ bool GameDataLoader::loadSelectedMap(const Engine::AssetFileSystem &assetFileSys
         m_selectedMap->globalEvtProgram = std::move(evtProgram);
     }
 
+    std::string resolvedGlobalStrPath;
+    std::optional<StrTable> globalStrTable;
+    const std::optional<std::vector<uint8_t>> globalStrBytes = readFirstExistingBinary(
+        assetFileSystem,
+        buildScriptPathCandidates("Global", ".str"),
+        resolvedGlobalStrPath
+    );
+
+    if (globalStrBytes)
+    {
+        StrTable strTable = {};
+
+        if (!strTable.loadFromBytes(*globalStrBytes))
+        {
+            std::cerr << "Failed to parse global string table: " << resolvedGlobalStrPath << '\n';
+            return false;
+        }
+
+        globalStrTable = std::move(strTable);
+    }
+
     appendIndoorScriptTextures(
         assetFileSystem,
         m_selectedMap->localEvtProgram,
@@ -1076,6 +1247,7 @@ bool GameDataLoader::loadSelectedMap(const Engine::AssetFileSystem &assetFileSys
     const HouseTable &houseTable = m_houseTable;
     const StrTable emptyStrTable = {};
     const StrTable &resolvedLocalStrTable = m_selectedMap->localStrTable ? *m_selectedMap->localStrTable : emptyStrTable;
+    const StrTable &resolvedGlobalStrTable = globalStrTable ? *globalStrTable : emptyStrTable;
 
     if (m_selectedMap->localEvtProgram)
     {
@@ -1084,7 +1256,12 @@ bool GameDataLoader::loadSelectedMap(const Engine::AssetFileSystem &assetFileSys
         writeTextFile(dumpPath, m_selectedMap->localEvtProgram->dump(resolvedLocalStrTable));
 
         EventIrProgram eventIrProgram = {};
-        eventIrProgram.buildFromEvtProgram(*m_selectedMap->localEvtProgram, resolvedLocalStrTable, houseTable);
+        eventIrProgram.buildFromEvtProgram(
+            *m_selectedMap->localEvtProgram,
+            resolvedLocalStrTable,
+            houseTable,
+            m_npcDialogTable
+        );
         const std::filesystem::path irDumpPath =
             std::filesystem::path("script_dumps") / (localScriptBaseName + ".ir.txt");
         writeTextFile(irDumpPath, eventIrProgram.dump());
@@ -1094,10 +1271,15 @@ bool GameDataLoader::loadSelectedMap(const Engine::AssetFileSystem &assetFileSys
     if (m_selectedMap->globalEvtProgram)
     {
         const std::filesystem::path dumpPath = std::filesystem::path("script_dumps") / "Global.evt.txt";
-        writeTextFile(dumpPath, m_selectedMap->globalEvtProgram->dump(StrTable {}));
+        writeTextFile(dumpPath, m_selectedMap->globalEvtProgram->dump(resolvedGlobalStrTable));
 
         EventIrProgram eventIrProgram = {};
-        eventIrProgram.buildFromEvtProgram(*m_selectedMap->globalEvtProgram, StrTable {}, houseTable);
+        eventIrProgram.buildFromEvtProgram(
+            *m_selectedMap->globalEvtProgram,
+            resolvedGlobalStrTable,
+            houseTable,
+            m_npcDialogTable
+        );
         const std::filesystem::path irDumpPath = std::filesystem::path("script_dumps") / "Global.ir.txt";
         writeTextFile(irDumpPath, eventIrProgram.dump());
         m_selectedMap->globalEventIrProgram = std::move(eventIrProgram);
@@ -1153,6 +1335,11 @@ bool GameDataLoader::loadSelectedMap(const Engine::AssetFileSystem &assetFileSys
 
     if (m_selectedMap->globalEvtProgram)
     {
+        if (globalStrTable)
+        {
+            std::cout << "  global_str_entries=" << globalStrTable->getEntries().size() << '\n';
+        }
+
         std::cout << "  global_evt_events=" << m_selectedMap->globalEvtProgram->getEvents().size() << '\n';
         std::cout << "  global_evt_instructions=" << m_selectedMap->globalEvtProgram->getInstructionCount() << '\n';
         std::cout << "  global_evt_dump=script_dumps/Global.evt.txt\n";
@@ -1173,7 +1360,8 @@ bool GameDataLoader::loadSelectedMap(const Engine::AssetFileSystem &assetFileSys
         std::cout << "  onload_mechanisms=" << m_selectedMap->eventRuntimeState->mechanisms.size() << '\n';
         std::cout << "  onload_texture_overrides=" << m_selectedMap->eventRuntimeState->textureOverrides.size() << '\n';
         std::cout << "  onload_light_overrides=" << m_selectedMap->eventRuntimeState->indoorLightsEnabled.size() << '\n';
-        std::cout << "  onload_npc_topics=" << m_selectedMap->eventRuntimeState->npcTopics.size() << '\n';
+        std::cout << "  onload_npc_topic_overrides="
+                  << m_selectedMap->eventRuntimeState->npcTopicOverrides.size() << '\n';
         std::cout << "  onload_messages=" << m_selectedMap->eventRuntimeState->messages.size() << '\n';
 
         for (const std::string &message : m_selectedMap->eventRuntimeState->messages)
@@ -1219,7 +1407,6 @@ bool GameDataLoader::loadSelectedMap(const Engine::AssetFileSystem &assetFileSys
             std::cout << "  last_respawn_day=" << m_selectedMap->outdoorMapDeltaData->locationInfo.lastRespawnDay << '\n';
             std::cout << "  reputation=" << m_selectedMap->outdoorMapDeltaData->locationInfo.reputation << '\n';
             std::cout << "  alert_status=" << m_selectedMap->outdoorMapDeltaData->locationInfo.alertStatus << '\n';
-            std::cout << "  actors=" << m_selectedMap->outdoorMapDeltaData->actors.size() << '\n';
             std::cout << "  sprite_objects=" << m_selectedMap->outdoorMapDeltaData->spriteObjects.size() << '\n';
             std::cout << "  chests=" << m_selectedMap->outdoorMapDeltaData->chests.size() << '\n';
 
@@ -1242,14 +1429,6 @@ bool GameDataLoader::loadSelectedMap(const Engine::AssetFileSystem &assetFileSys
 
                 std::cout << '\n';
             }
-
-            logOutdoorChestLinks(
-                outdoorMapData,
-                *m_selectedMap->outdoorMapDeltaData,
-                m_chestTable,
-                m_selectedMap->localEvtProgram,
-                m_selectedMap->globalEvtProgram
-            );
         }
     }
 
@@ -1273,7 +1452,6 @@ bool GameDataLoader::loadSelectedMap(const Engine::AssetFileSystem &assetFileSys
             std::cout << "  last_respawn_day=" << m_selectedMap->indoorMapDeltaData->locationInfo.lastRespawnDay << '\n';
             std::cout << "  reputation=" << m_selectedMap->indoorMapDeltaData->locationInfo.reputation << '\n';
             std::cout << "  alert_status=" << m_selectedMap->indoorMapDeltaData->locationInfo.alertStatus << '\n';
-            std::cout << "  actors=" << m_selectedMap->indoorMapDeltaData->actors.size() << '\n';
             std::cout << "  sprite_objects=" << m_selectedMap->indoorMapDeltaData->spriteObjects.size() << '\n';
             std::cout << "  chests=" << m_selectedMap->indoorMapDeltaData->chests.size() << '\n';
             std::cout << "  door_slots=" << m_selectedMap->indoorMapDeltaData->doorSlotCount << '\n';
@@ -1298,14 +1476,6 @@ bool GameDataLoader::loadSelectedMap(const Engine::AssetFileSystem &assetFileSys
 
                 std::cout << '\n';
             }
-
-            logIndoorChestLinks(
-                indoorMapData,
-                *m_selectedMap->indoorMapDeltaData,
-                m_chestTable,
-                m_selectedMap->localEvtProgram,
-                m_selectedMap->globalEvtProgram
-            );
             logIndoorDoors(indoorMapData, *m_selectedMap->indoorMapDeltaData);
         }
     }

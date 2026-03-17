@@ -2,6 +2,7 @@
 
 #include "game/EvtProgram.h"
 #include "game/HouseTable.h"
+#include "game/NpcDialogTable.h"
 #include "game/StrTable.h"
 
 #include <cstdint>
@@ -82,7 +83,12 @@ struct EventIrEvent
 class EventIrProgram
 {
 public:
-    bool buildFromEvtProgram(const EvtProgram &evtProgram, const StrTable &strTable, const HouseTable &houseTable);
+    bool buildFromEvtProgram(
+        const EvtProgram &evtProgram,
+        const StrTable &strTable,
+        const HouseTable &houseTable,
+        const NpcDialogTable &npcDialogTable
+    );
     const std::vector<EventIrEvent> &getEvents() const;
     size_t getInstructionCount() const;
     std::string dump() const;
@@ -94,7 +100,8 @@ private:
         uint16_t eventId,
         const EvtInstruction &evtInstruction,
         const StrTable &strTable,
-        const HouseTable &houseTable
+        const HouseTable &houseTable,
+        const NpcDialogTable &npcDialogTable
     );
 
     std::vector<EventIrEvent> m_events;

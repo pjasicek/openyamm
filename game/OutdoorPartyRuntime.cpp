@@ -10,10 +10,19 @@ OutdoorPartyRuntime::OutdoorPartyRuntime(OutdoorMovementDriver movementDriver, c
     m_party.setItemTable(&itemTable);
 }
 
-void OutdoorPartyRuntime::initialize(float x, float y, float footZHint)
+void OutdoorPartyRuntime::initialize(float x, float y, float footZHint, bool resetParty)
 {
     m_movementDriver.initialize(x, y, footZHint);
-    m_party.reset();
+
+    if (resetParty)
+    {
+        m_party.reset();
+    }
+}
+
+void OutdoorPartyRuntime::teleportTo(float x, float y, float footZHint)
+{
+    m_movementDriver.initialize(x, y, footZHint);
 }
 
 void OutdoorPartyRuntime::update(const OutdoorMovementInput &input, float deltaSeconds)
@@ -50,6 +59,16 @@ const OutdoorPartyMovementState &OutdoorPartyRuntime::partyMovementState() const
 const Party &OutdoorPartyRuntime::party() const
 {
     return m_party;
+}
+
+Party &OutdoorPartyRuntime::party()
+{
+    return m_party;
+}
+
+void OutdoorPartyRuntime::setParty(const Party &party)
+{
+    m_party = party;
 }
 
 void OutdoorPartyRuntime::toggleRunning()

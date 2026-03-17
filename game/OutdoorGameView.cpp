@@ -1,7 +1,11 @@
-#include "game/TerrainDebugRenderer.h"
+#include "game/OutdoorGameView.h"
 
+#include "game/GenericActorDialog.h"
+#include "game/HouseInteraction.h"
+#include "game/ItemTable.h"
 #include "game/OutdoorGeometryUtils.h"
 #include "game/OutdoorPartyRuntime.h"
+#include "game/OutdoorWorldRuntime.h"
 #include "game/SpawnPreview.h"
 
 #include <bx/math.h>
@@ -27,6 +31,8 @@ namespace OpenYAMM::Game
 {
 namespace
 {
+std::string toLowerCopy(const std::string &value);
+
 constexpr uint16_t MainViewId = 0;
 constexpr uint16_t HudViewId = 1;
 constexpr float Pi = 3.14159265358979323846f;
@@ -60,6 +66,95 @@ const char *outdoorSupportKindName(OutdoorSupportKind supportKind)
         default:
             return "none";
     }
+}
+
+std::optional<uint32_t> singleSelectableResidentNpcId(
+    const HouseEntry &houseEntry,
+    const NpcDialogTable &npcDialogTable
+)
+{
+    std::optional<uint32_t> residentNpcId;
+
+    for (uint32_t candidateNpcId : houseEntry.residentNpcIds)
+    {
+        const NpcEntry *pResident = npcDialogTable.getNpc(candidateNpcId);
+
+        if (pResident == nullptr || pResident->name.empty())
+        {
+            continue;
+        }
+
+        if (residentNpcId)
+        {
+            return std::nullopt;
+        }
+
+        residentNpcId = candidateNpcId;
+    }
+
+    return residentNpcId;
+}
+
+std::vector<std::string> wrapDebugText(const std::string &text, size_t width)
+{
+    std::vector<std::string> lines;
+
+    if (text.empty())
+    {
+        lines.push_back({});
+        return lines;
+    }
+
+    if (width == 0)
+    {
+        lines.push_back(text);
+        return lines;
+    }
+
+    size_t lineStart = 0;
+
+    while (lineStart < text.size())
+    {
+        while (lineStart < text.size() && (text[lineStart] == '\r' || text[lineStart] == '\n'))
+        {
+            ++lineStart;
+        }
+
+        if (lineStart >= text.size())
+        {
+            break;
+        }
+
+        const size_t remaining = text.size() - lineStart;
+
+        if (remaining <= width)
+        {
+            lines.push_back(text.substr(lineStart));
+            break;
+        }
+
+        size_t breakPosition = text.rfind(' ', lineStart + width);
+
+        if (breakPosition == std::string::npos || breakPosition < lineStart)
+        {
+            breakPosition = lineStart + width;
+        }
+
+        lines.push_back(text.substr(lineStart, breakPosition - lineStart));
+        lineStart = breakPosition;
+
+        while (lineStart < text.size() && text[lineStart] == ' ')
+        {
+            ++lineStart;
+        }
+    }
+
+    if (lines.empty())
+    {
+        lines.push_back(text);
+    }
+
+    return lines;
 }
 
 std::string buildGameplayHudCharacterLine(const Character &character, bool isLeader)
@@ -602,10 +697,10 @@ std::string toLowerCopy(const std::string &value)
 }
 }
 
-bgfx::VertexLayout TerrainDebugRenderer::TerrainVertex::ms_layout;
-bgfx::VertexLayout TerrainDebugRenderer::TexturedTerrainVertex::ms_layout;
+bgfx::VertexLayout OutdoorGameView::TerrainVertex::ms_layout;
+bgfx::VertexLayout OutdoorGameView::TexturedTerrainVertex::ms_layout;
 
-TerrainDebugRenderer::TerrainDebugRenderer()
+OutdoorGameView::OutdoorGameView()
     : m_isInitialized(false)
     , m_isRenderable(false)
     , m_outdoorMapData(std::nullopt)
@@ -667,15 +762,28 @@ TerrainDebugRenderer::TerrainDebugRenderer()
     , m_toggleFlyingLatch(false)
     , m_toggleWaterWalkLatch(false)
     , m_toggleFeatherFallLatch(false)
+    , m_closeOverlayLatch(false)
+    , m_lootChestItemLatch(false)
+    , m_chestSelectUpLatch(false)
+    , m_chestSelectDownLatch(false)
+    , m_eventDialogSelectUpLatch(false)
+    , m_eventDialogSelectDownLatch(false)
+    , m_eventDialogAcceptLatch(false)
+    , m_chestSelectionIndex(0)
+    , m_eventDialogSelectionIndex(0)
+    , m_activeEventDialog({})
+    , m_pOutdoorPartyRuntime(nullptr)
+    , m_pOutdoorWorldRuntime(nullptr)
+    , m_pItemTable(nullptr)
 {
 }
 
-TerrainDebugRenderer::~TerrainDebugRenderer()
+OutdoorGameView::~OutdoorGameView()
 {
     shutdown();
 }
 
-bool TerrainDebugRenderer::initialize(
+bool OutdoorGameView::initialize(
     const Engine::AssetFileSystem &assetFileSystem,
     const MapStatsEntry &map,
     const MonsterTable &monsterTable,
@@ -693,13 +801,15 @@ bool TerrainDebugRenderer::initialize(
     const std::optional<MapDeltaData> &outdoorMapDeltaData,
     const ChestTable &chestTable,
     const HouseTable &houseTable,
+    const NpcDialogTable &npcDialogTable,
+    const ItemTable &itemTable,
     const std::optional<StrTable> &localStrTable,
     const std::optional<EvtProgram> &localEvtProgram,
     const std::optional<EvtProgram> &globalEvtProgram,
-    const std::optional<EventRuntimeState> &eventRuntimeState,
     const std::optional<EventIrProgram> &localEventIrProgram,
     const std::optional<EventIrProgram> &globalEventIrProgram,
-    OutdoorPartyRuntime *pOutdoorPartyRuntime
+    OutdoorPartyRuntime *pOutdoorPartyRuntime,
+    OutdoorWorldRuntime *pOutdoorWorldRuntime
 )
 {
     shutdown();
@@ -714,13 +824,15 @@ bool TerrainDebugRenderer::initialize(
     m_outdoorMapDeltaData = outdoorMapDeltaData;
     m_chestTable = chestTable;
     m_houseTable = houseTable;
+    m_npcDialogTable = npcDialogTable;
+    m_pItemTable = &itemTable;
     m_localStrTable = localStrTable;
     m_localEvtProgram = localEvtProgram;
     m_globalEvtProgram = globalEvtProgram;
-    m_eventRuntimeState = eventRuntimeState;
     m_localEventIrProgram = localEventIrProgram;
     m_globalEventIrProgram = globalEventIrProgram;
     m_pOutdoorPartyRuntime = pOutdoorPartyRuntime;
+    m_pOutdoorWorldRuntime = pOutdoorWorldRuntime;
 
     const int centerGridX = OutdoorMapData::TerrainWidth / 2;
     const int centerGridY = OutdoorMapData::TerrainHeight / 2;
@@ -768,7 +880,7 @@ bool TerrainDebugRenderer::initialize(
 
     if (vertices.empty() || indices.empty())
     {
-        std::cerr << "TerrainDebugRenderer received empty terrain mesh.\n";
+        std::cerr << "OutdoorGameView received empty terrain mesh.\n";
         return false;
     }
 
@@ -1029,7 +1141,7 @@ bool TerrainDebugRenderer::initialize(
 
     if (!bgfx::isValid(m_vertexBufferHandle) || !bgfx::isValid(m_indexBufferHandle) || !bgfx::isValid(m_programHandle))
     {
-        std::cerr << "TerrainDebugRenderer failed to create bgfx resources.\n";
+        std::cerr << "OutdoorGameView failed to create bgfx resources.\n";
         shutdown();
         return false;
     }
@@ -1039,7 +1151,7 @@ bool TerrainDebugRenderer::initialize(
     return true;
 }
 
-void TerrainDebugRenderer::render(int width, int height, float mouseWheelDelta)
+void OutdoorGameView::render(int width, int height, float mouseWheelDelta)
 {
     if (!m_isInitialized)
     {
@@ -1060,6 +1172,10 @@ void TerrainDebugRenderer::render(int width, int height, float mouseWheelDelta)
     }
 
     updateCameraFromInput();
+
+    const bool hasActiveChestView =
+        m_pOutdoorWorldRuntime != nullptr && m_pOutdoorWorldRuntime->activeChestView() != nullptr;
+    const bool isEventDialogActive = hasActiveEventDialog();
 
     const float wireframeAspectRatio = static_cast<float>(viewWidth) / static_cast<float>(viewHeight);
 
@@ -1098,7 +1214,7 @@ void TerrainDebugRenderer::render(int width, int height, float mouseWheelDelta)
     float mouseX = 0.0f;
     float mouseY = 0.0f;
 
-    if (m_inspectMode && m_outdoorMapData)
+    if (m_inspectMode && m_outdoorMapData && !hasActiveChestView && !isEventDialogActive)
     {
         SDL_GetMouseState(&mouseX, &mouseY);
         const float normalizedMouseX =
@@ -1329,6 +1445,12 @@ void TerrainDebugRenderer::render(int width, int height, float mouseWheelDelta)
         const OutdoorMovementConsequences &moveConsequences = m_pOutdoorPartyRuntime->movementConsequences();
         const OutdoorPartyMovementState &partyMovementState = m_pOutdoorPartyRuntime->partyMovementState();
         const Party &party = m_pOutdoorPartyRuntime->party();
+        const EventRuntimeState *pEventRuntimeState =
+            m_pOutdoorWorldRuntime != nullptr ? m_pOutdoorWorldRuntime->eventRuntimeState() : nullptr;
+        const size_t openedChestCount =
+            m_pOutdoorWorldRuntime != nullptr ? m_pOutdoorWorldRuntime->openedChestCount() : 0;
+        const size_t totalChestCount =
+            m_pOutdoorWorldRuntime != nullptr ? m_pOutdoorWorldRuntime->chestCount() : 0;
         std::string leaderSummary = "-";
 
         if (!party.members().empty())
@@ -1407,57 +1529,73 @@ void TerrainDebugRenderer::render(int width, int height, float mouseWheelDelta)
             0,
             nextHudLine++,
             0x0f,
-            "PartyFx: waterTicks=%u burnTicks=%u fall=%.0f status=%s",
+            "PartyFx: waterTicks=%u burnTicks=%u fall=%.0f chests=%u/%u status=%s",
             party.waterDamageTicks(),
             party.burningDamageTicks(),
             party.lastFallDamageDistance(),
+            static_cast<unsigned>(openedChestCount),
+            static_cast<unsigned>(totalChestCount),
             party.lastStatus().c_str()
         );
 
-        if (m_eventRuntimeState && m_eventRuntimeState->lastActivationResult)
+        if (pEventRuntimeState != nullptr && pEventRuntimeState->lastActivationResult)
         {
             bgfx::dbgTextPrintf(
                 0,
                 nextHudLine++,
                 0x0f,
                 "Activate: %s",
-                m_eventRuntimeState->lastActivationResult->c_str()
+                pEventRuntimeState->lastActivationResult->c_str()
             );
         }
 
-        if (m_eventRuntimeState)
+        if (pEventRuntimeState != nullptr)
         {
             std::string runtimeSummary;
 
-            if (m_eventRuntimeState->pendingHouseId)
+            if (pEventRuntimeState->pendingDialogueContext)
             {
-                runtimeSummary += " house=" + std::to_string(*m_eventRuntimeState->pendingHouseId);
-            }
+                const EventRuntimeState::PendingDialogueContext &context = *pEventRuntimeState->pendingDialogueContext;
 
-            if (m_eventRuntimeState->pendingNpcId)
-            {
-                runtimeSummary += " npc=" + std::to_string(*m_eventRuntimeState->pendingNpcId);
-            }
-
-            if (m_eventRuntimeState->pendingMapMove)
-            {
-                runtimeSummary += " map=" + std::to_string(m_eventRuntimeState->pendingMapMove->mapId);
-
-                if (m_eventRuntimeState->pendingMapMove->mapName
-                    && !m_eventRuntimeState->pendingMapMove->mapName->empty())
+                if (context.kind == DialogueContextKind::HouseService)
                 {
-                    runtimeSummary += ":" + *m_eventRuntimeState->pendingMapMove->mapName;
+                    runtimeSummary += " house=" + std::to_string(context.sourceId);
+                }
+                else if (context.kind == DialogueContextKind::NpcTalk)
+                {
+                    runtimeSummary += " npc=" + std::to_string(context.sourceId);
+                }
+                else if (context.kind == DialogueContextKind::NpcNews)
+                {
+                    runtimeSummary += " news=" + std::to_string(context.newsId);
                 }
             }
 
-            if (!m_eventRuntimeState->openedChestIds.empty())
+            if (pEventRuntimeState->pendingMapMove)
             {
-                runtimeSummary += " chest=" + std::to_string(m_eventRuntimeState->openedChestIds.back());
+                runtimeSummary += " map=("
+                    + std::to_string(pEventRuntimeState->pendingMapMove->x)
+                    + ","
+                    + std::to_string(pEventRuntimeState->pendingMapMove->y)
+                    + ","
+                    + std::to_string(pEventRuntimeState->pendingMapMove->z)
+                    + ")";
+
+                if (pEventRuntimeState->pendingMapMove->mapName
+                    && !pEventRuntimeState->pendingMapMove->mapName->empty())
+                {
+                    runtimeSummary += ":" + *pEventRuntimeState->pendingMapMove->mapName;
+                }
             }
 
-            if (!m_eventRuntimeState->grantedItemIds.empty())
+            if (!pEventRuntimeState->openedChestIds.empty())
             {
-                runtimeSummary += " give=" + std::to_string(m_eventRuntimeState->grantedItemIds.back());
+                runtimeSummary += " chest=" + std::to_string(pEventRuntimeState->openedChestIds.back());
+            }
+
+            if (!pEventRuntimeState->grantedItemIds.empty())
+            {
+                runtimeSummary += " give=" + std::to_string(pEventRuntimeState->grantedItemIds.back());
             }
 
             if (!runtimeSummary.empty())
@@ -1564,7 +1702,8 @@ void TerrainDebugRenderer::render(int width, int height, float mouseWheelDelta)
                     0,
                     inspectBaseLine + 1,
                     0x0f,
-                    "%s",
+                    "npc=%d  %s",
+                    inspectHit.npcId,
                     inspectHit.spawnSummary.empty() ? "-" : inspectHit.spawnSummary.c_str()
                 );
                 bgfx::dbgTextPrintf(
@@ -1681,9 +1820,11 @@ void TerrainDebugRenderer::render(int width, int height, float mouseWheelDelta)
 
     renderGameplayHudArt(width, height);
     renderGameplayHud(width, height);
+    renderChestPanel(width, height);
+    renderEventDialogPanel(width, height);
 }
 
-void TerrainDebugRenderer::renderGameplayHudArt(int width, int height)
+void OutdoorGameView::renderGameplayHudArt(int width, int height)
 {
     if (m_pOutdoorPartyRuntime == nullptr
         || !bgfx::isValid(m_texturedTerrainProgramHandle)
@@ -1918,7 +2059,7 @@ void TerrainDebugRenderer::renderGameplayHudArt(int width, int height)
     }
 }
 
-void TerrainDebugRenderer::renderGameplayHud(int width, int height) const
+void OutdoorGameView::renderGameplayHud(int width, int height) const
 {
     if (m_pOutdoorPartyRuntime == nullptr || width <= 0 || height <= 0)
     {
@@ -1991,7 +2132,207 @@ void TerrainDebugRenderer::renderGameplayHud(int width, int height) const
     bgfx::dbgTextPrintf(static_cast<uint16_t>(startColumn), static_cast<uint16_t>(row), 0x0f, "%s", status.c_str());
 }
 
-void TerrainDebugRenderer::shutdown()
+void OutdoorGameView::renderChestPanel(int width, int height) const
+{
+    if (m_pOutdoorWorldRuntime == nullptr || m_chestTable == std::nullopt || width <= 0 || height <= 0)
+    {
+        return;
+    }
+
+    const OutdoorWorldRuntime::ChestViewState *pChestView = m_pOutdoorWorldRuntime->activeChestView();
+
+    if (pChestView == nullptr)
+    {
+        return;
+    }
+
+    const ChestEntry *pChestEntry = m_chestTable->get(pChestView->chestTypeId);
+    const int textColumns = std::max(80, width / DebugTextCellWidthPixels);
+    const int textRows = std::max(25, height / DebugTextCellHeightPixels);
+    int row = std::max(8, textRows / 4);
+
+    std::ostringstream titleStream;
+    titleStream << "Chest #" << pChestView->chestId;
+
+    if (pChestEntry != nullptr && !pChestEntry->name.empty())
+    {
+        titleStream << " - " << pChestEntry->name;
+    }
+
+    const std::string title = titleStream.str();
+    const int titleColumn = std::max(0, (textColumns - static_cast<int>(title.size())) / 2);
+    bgfx::dbgTextPrintf(static_cast<uint16_t>(titleColumn), static_cast<uint16_t>(row++), 0x1f, "%s", title.c_str());
+
+    const std::string closeHint = "Up/Down select  Enter/Space loot  E/Esc close";
+    const int hintColumn = std::max(0, (textColumns - static_cast<int>(closeHint.size())) / 2);
+    bgfx::dbgTextPrintf(
+        static_cast<uint16_t>(hintColumn),
+        static_cast<uint16_t>(row++),
+        0x0f,
+        "%s",
+        closeHint.c_str()
+    );
+    row += 1;
+
+    if (pChestView->items.empty())
+    {
+        const std::string emptyLine = "Empty";
+        const int emptyColumn = std::max(0, (textColumns - static_cast<int>(emptyLine.size())) / 2);
+        bgfx::dbgTextPrintf(
+            static_cast<uint16_t>(emptyColumn),
+            static_cast<uint16_t>(row),
+            0x0f,
+            "%s",
+            emptyLine.c_str()
+        );
+        return;
+    }
+
+    constexpr size_t MaxVisibleItems = 14;
+    const size_t visibleCount = std::min(pChestView->items.size(), MaxVisibleItems);
+
+    for (size_t itemIndex = 0; itemIndex < visibleCount; ++itemIndex)
+    {
+        const OutdoorWorldRuntime::ChestItemState &item = pChestView->items[itemIndex];
+        std::string itemName;
+
+        if (item.isGold)
+        {
+            itemName = std::to_string(item.goldAmount) + " gold";
+
+            if (item.goldRollCount > 1)
+            {
+                itemName += " (" + std::to_string(item.goldRollCount) + " rolls)";
+            }
+        }
+        else
+        {
+            itemName = "item #" + std::to_string(item.itemId);
+        }
+
+        if (!item.isGold && m_pItemTable != nullptr)
+        {
+            const ItemDefinition *pItemDefinition = m_pItemTable->get(item.itemId);
+
+            if (pItemDefinition != nullptr && !pItemDefinition->name.empty())
+            {
+                itemName = pItemDefinition->name;
+            }
+        }
+
+        if (!item.isGold && item.quantity > 1)
+        {
+            itemName += " x" + std::to_string(item.quantity);
+        }
+
+        const std::string line = std::to_string(itemIndex + 1) + ". " + itemName;
+        const uint8_t color = itemIndex == m_chestSelectionIndex ? 0x0e : 0x0f;
+        const int column = std::max(4, (textColumns / 2) - 20);
+        bgfx::dbgTextPrintf(
+            static_cast<uint16_t>(column),
+            static_cast<uint16_t>(row++),
+            color,
+            "%s",
+            line.c_str()
+        );
+    }
+
+    if (pChestView->items.size() > visibleCount)
+    {
+        const std::string moreLine = "...";
+        const int moreColumn = std::max(0, (textColumns - static_cast<int>(moreLine.size())) / 2);
+        bgfx::dbgTextPrintf(
+            static_cast<uint16_t>(moreColumn),
+            static_cast<uint16_t>(row),
+            0x0f,
+            "%s",
+            moreLine.c_str()
+        );
+    }
+}
+
+void OutdoorGameView::renderEventDialogPanel(int width, int height) const
+{
+    if (!m_activeEventDialog.isActive || width <= 0 || height <= 0)
+    {
+        return;
+    }
+
+    const int textColumns = std::max(80, width / DebugTextCellWidthPixels);
+    const int textRows = std::max(25, height / DebugTextCellHeightPixels);
+    int row = std::max(8, textRows / 4);
+
+    const int titleColumn = std::max(0, (textColumns - static_cast<int>(m_activeEventDialog.title.size())) / 2);
+    bgfx::dbgTextPrintf(
+        static_cast<uint16_t>(titleColumn),
+        static_cast<uint16_t>(row++),
+        0x1f,
+        "%s",
+        m_activeEventDialog.title.c_str()
+    );
+
+    const bool hasActions = !m_activeEventDialog.actions.empty();
+    const std::string closeHint = hasActions
+        ? "Up/Down select  Enter/Space accept  E/Esc close"
+        : "Enter/Space/E/Esc close";
+    const int hintColumn = std::max(0, (textColumns - static_cast<int>(closeHint.size())) / 2);
+    bgfx::dbgTextPrintf(
+        static_cast<uint16_t>(hintColumn),
+        static_cast<uint16_t>(row++),
+        0x0f,
+        "%s",
+        closeHint.c_str()
+    );
+    row += 1;
+
+    const size_t maxVisibleLines = hasActions ? 8u : 12u;
+    const size_t visibleCount = std::min(m_activeEventDialog.lines.size(), maxVisibleLines);
+
+    for (size_t lineIndex = 0; lineIndex < visibleCount; ++lineIndex)
+    {
+        const std::string &line = m_activeEventDialog.lines[lineIndex];
+        const int lineColumn = std::max(0, (textColumns - static_cast<int>(line.size())) / 2);
+        bgfx::dbgTextPrintf(
+            static_cast<uint16_t>(lineColumn),
+            static_cast<uint16_t>(row++),
+            0x0f,
+            "%s",
+            line.c_str()
+        );
+    }
+
+    if (!hasActions)
+    {
+        return;
+    }
+
+    row += 1;
+
+    for (size_t actionIndex = 0; actionIndex < m_activeEventDialog.actions.size(); ++actionIndex)
+    {
+        const EventDialogAction &action = m_activeEventDialog.actions[actionIndex];
+        const bool isSelected = actionIndex == m_eventDialogSelectionIndex;
+        std::string actionLine = isSelected ? "> " : "  ";
+        actionLine += action.label;
+
+        if (!action.enabled)
+        {
+            actionLine += " [unavailable]";
+        }
+
+        const int actionColumn = std::max(0, (textColumns - static_cast<int>(actionLine.size())) / 2);
+        const uint8_t color = !action.enabled ? 0x08 : (isSelected ? 0x2f : 0x0f);
+        bgfx::dbgTextPrintf(
+            static_cast<uint16_t>(actionColumn),
+            static_cast<uint16_t>(row++),
+            color,
+            "%s",
+            actionLine.c_str()
+        );
+    }
+}
+
+void OutdoorGameView::shutdown()
 {
     if (bgfx::isValid(m_programHandle))
     {
@@ -2110,12 +2451,14 @@ void TerrainDebugRenderer::shutdown()
     m_monsterTable.reset();
     m_outdoorMapData.reset();
     m_pOutdoorPartyRuntime = nullptr;
-    m_eventRuntimeState.reset();
+    m_pOutdoorWorldRuntime = nullptr;
+    m_pItemTable = nullptr;
     m_localEventIrProgram.reset();
     m_globalEventIrProgram.reset();
     m_outdoorDecorationBillboardSet.reset();
     m_outdoorActorPreviewBillboardSet.reset();
     m_outdoorSpriteObjectBillboardSet.reset();
+    m_npcDialogTable.reset();
     m_elapsedTime = 0.0f;
     m_framesPerSecond = 0.0f;
     m_bmodelLineVertexCount = 0;
@@ -2134,12 +2477,221 @@ void TerrainDebugRenderer::shutdown()
     m_toggleEntitiesLatch = false;
     m_toggleSpawnsLatch = false;
     m_toggleInspectLatch = false;
+    m_closeOverlayLatch = false;
+    m_lootChestItemLatch = false;
+    m_chestSelectUpLatch = false;
+    m_chestSelectDownLatch = false;
+    m_eventDialogSelectUpLatch = false;
+    m_eventDialogSelectDownLatch = false;
+    m_eventDialogAcceptLatch = false;
+    m_chestSelectionIndex = 0;
+    m_eventDialogSelectionIndex = 0;
+    m_activeEventDialog = {};
     m_isRotatingCamera = false;
     m_lastMouseX = 0.0f;
     m_lastMouseY = 0.0f;
 }
 
-void TerrainDebugRenderer::TerrainVertex::init()
+void OutdoorGameView::executeActiveDialogAction()
+{
+    if (!m_activeEventDialog.isActive
+        || m_eventDialogSelectionIndex >= m_activeEventDialog.actions.size())
+    {
+        return;
+    }
+
+    EventRuntimeState *pEventRuntimeState =
+        m_pOutdoorWorldRuntime != nullptr ? m_pOutdoorWorldRuntime->eventRuntimeState() : nullptr;
+
+    if (pEventRuntimeState == nullptr)
+    {
+        return;
+    }
+
+    const EventDialogAction &action = m_activeEventDialog.actions[m_eventDialogSelectionIndex];
+    const size_t previousMessageCount = pEventRuntimeState->messages.size();
+
+    if (!action.enabled)
+    {
+        if (!action.disabledReason.empty())
+        {
+            pEventRuntimeState->messages.push_back(action.disabledReason);
+            openPendingEventDialog(previousMessageCount, true);
+        }
+
+        return;
+    }
+
+    if (action.kind == EventDialogActionKind::HouseService)
+    {
+        if (m_pOutdoorPartyRuntime == nullptr || !m_houseTable)
+        {
+            return;
+        }
+
+        const HouseEntry *pHouseEntry = m_houseTable->get(m_activeEventDialog.sourceId);
+
+        if (pHouseEntry == nullptr)
+        {
+            return;
+        }
+
+        std::vector<std::string> messages;
+        performHouseAction(
+            static_cast<HouseActionId>(action.id),
+            *pHouseEntry,
+            m_pOutdoorPartyRuntime->party(),
+            m_pOutdoorWorldRuntime,
+            messages
+        );
+
+        for (const std::string &message : messages)
+        {
+            pEventRuntimeState->messages.push_back(message);
+        }
+
+        EventRuntimeState::PendingDialogueContext context = {};
+        context.kind = DialogueContextKind::HouseService;
+        context.sourceId = m_activeEventDialog.sourceId;
+        pEventRuntimeState->pendingDialogueContext = std::move(context);
+        openPendingEventDialog(previousMessageCount, true);
+        return;
+    }
+
+    if (action.kind == EventDialogActionKind::HouseResident)
+    {
+        EventRuntimeState::PendingDialogueContext context = {};
+        context.kind = DialogueContextKind::NpcTalk;
+        context.sourceId = action.id;
+        pEventRuntimeState->pendingDialogueContext = std::move(context);
+        openPendingEventDialog(previousMessageCount, true);
+        return;
+    }
+
+    if (action.kind == EventDialogActionKind::NpcTopic)
+    {
+        const uint32_t npcId = m_activeEventDialog.sourceId;
+        const bool executed = m_eventRuntime.executeEventById(
+            std::nullopt,
+            m_globalEventIrProgram,
+            static_cast<uint16_t>(action.id),
+            *pEventRuntimeState,
+            m_pOutdoorPartyRuntime != nullptr ? &m_pOutdoorPartyRuntime->party() : nullptr
+        );
+
+        if (executed)
+        {
+            if (m_pOutdoorWorldRuntime != nullptr)
+            {
+                m_pOutdoorWorldRuntime->applyEventRuntimeState();
+            }
+
+            if (m_pOutdoorPartyRuntime != nullptr)
+            {
+                m_pOutdoorPartyRuntime->applyEventRuntimeState(*pEventRuntimeState);
+            }
+        }
+        else
+        {
+            pEventRuntimeState->messages.push_back("That topic does not have an event yet.");
+        }
+
+        if (!pEventRuntimeState->pendingDialogueContext)
+        {
+            EventRuntimeState::PendingDialogueContext context = {};
+            context.kind = DialogueContextKind::NpcTalk;
+            context.sourceId = npcId;
+            pEventRuntimeState->pendingDialogueContext = std::move(context);
+        }
+
+        openPendingEventDialog(previousMessageCount, true);
+    }
+}
+
+void OutdoorGameView::openPendingEventDialog(size_t previousMessageCount, bool allowNpcFallbackContent)
+{
+    EventRuntimeState *pEventRuntimeState =
+        m_pOutdoorWorldRuntime != nullptr ? m_pOutdoorWorldRuntime->eventRuntimeState() : nullptr;
+
+    if (pEventRuntimeState == nullptr)
+    {
+        return;
+    }
+
+    if (!pEventRuntimeState->pendingDialogueContext)
+    {
+        return;
+    }
+
+    if (pEventRuntimeState->pendingDialogueContext->kind == DialogueContextKind::HouseService
+        && m_houseTable
+        && m_npcDialogTable)
+    {
+        const HouseEntry *pHouseEntry = m_houseTable->get(pEventRuntimeState->pendingDialogueContext->sourceId);
+
+        if (pHouseEntry != nullptr)
+        {
+            const std::vector<HouseActionOption> houseActions = buildHouseActionOptions(
+                *pHouseEntry,
+                m_pOutdoorPartyRuntime != nullptr ? &m_pOutdoorPartyRuntime->party() : nullptr,
+                m_pOutdoorWorldRuntime != nullptr ? m_pOutdoorWorldRuntime->currentHour() : -1
+            );
+            const std::optional<uint32_t> residentNpcId = singleSelectableResidentNpcId(
+                *pHouseEntry,
+                *m_npcDialogTable
+            );
+
+            if (residentNpcId && houseActions.empty())
+            {
+                EventRuntimeState::PendingDialogueContext context = {};
+                context.kind = DialogueContextKind::NpcTalk;
+                context.sourceId = *residentNpcId;
+                pEventRuntimeState->pendingDialogueContext = std::move(context);
+            }
+        }
+    }
+
+    m_activeEventDialog = buildEventDialogContent(
+        *pEventRuntimeState,
+        previousMessageCount,
+        allowNpcFallbackContent,
+        &m_globalEventIrProgram,
+        m_houseTable ? &*m_houseTable : nullptr,
+        m_npcDialogTable ? &*m_npcDialogTable : nullptr,
+        m_pOutdoorPartyRuntime != nullptr ? &m_pOutdoorPartyRuntime->party() : nullptr,
+        m_pOutdoorWorldRuntime != nullptr ? m_pOutdoorWorldRuntime->currentHour() : -1
+    );
+
+    if (!m_activeEventDialog.isActive)
+    {
+        return;
+    }
+
+    m_eventDialogSelectionIndex = 0;
+    m_eventDialogSelectUpLatch = false;
+    m_eventDialogSelectDownLatch = false;
+    m_eventDialogAcceptLatch = false;
+
+    std::cout << "Opened "
+              << (m_activeEventDialog.isHouseDialog ? "house" : "npc")
+              << " dialog for id=" << m_activeEventDialog.sourceId << '\n';
+}
+
+void OutdoorGameView::closeActiveEventDialog()
+{
+    m_activeEventDialog = {};
+    m_eventDialogSelectionIndex = 0;
+    m_eventDialogSelectUpLatch = false;
+    m_eventDialogSelectDownLatch = false;
+    m_eventDialogAcceptLatch = false;
+}
+
+bool OutdoorGameView::hasActiveEventDialog() const
+{
+    return m_activeEventDialog.isActive;
+}
+
+void OutdoorGameView::TerrainVertex::init()
 {
     ms_layout.begin()
         .add(bgfx::Attrib::Position, 3, bgfx::AttribType::Float)
@@ -2147,7 +2699,7 @@ void TerrainDebugRenderer::TerrainVertex::init()
         .end();
 }
 
-void TerrainDebugRenderer::TexturedTerrainVertex::init()
+void OutdoorGameView::TexturedTerrainVertex::init()
 {
     ms_layout.begin()
         .add(bgfx::Attrib::Position, 3, bgfx::AttribType::Float)
@@ -2155,7 +2707,7 @@ void TerrainDebugRenderer::TexturedTerrainVertex::init()
         .end();
 }
 
-uint32_t TerrainDebugRenderer::colorFromHeight(float normalizedHeight)
+uint32_t OutdoorGameView::colorFromHeight(float normalizedHeight)
 {
     BX_UNUSED(normalizedHeight);
     const uint8_t red = 160;
@@ -2169,7 +2721,7 @@ uint32_t TerrainDebugRenderer::colorFromHeight(float normalizedHeight)
         | static_cast<uint32_t>(red);
 }
 
-uint32_t TerrainDebugRenderer::colorFromBModel()
+uint32_t OutdoorGameView::colorFromBModel()
 {
     const uint8_t red = 255;
     const uint8_t green = 255;
@@ -2182,7 +2734,7 @@ uint32_t TerrainDebugRenderer::colorFromBModel()
         | static_cast<uint32_t>(red);
 }
 
-bgfx::ProgramHandle TerrainDebugRenderer::loadProgram(const char *pVertexShaderName, const char *pFragmentShaderName)
+bgfx::ProgramHandle OutdoorGameView::loadProgram(const char *pVertexShaderName, const char *pFragmentShaderName)
 {
     const bgfx::ShaderHandle vertexShaderHandle = loadShader(pVertexShaderName);
     const bgfx::ShaderHandle fragmentShaderHandle = loadShader(pFragmentShaderName);
@@ -2195,7 +2747,7 @@ bgfx::ProgramHandle TerrainDebugRenderer::loadProgram(const char *pVertexShaderN
     return bgfx::createProgram(vertexShaderHandle, fragmentShaderHandle, true);
 }
 
-bgfx::ShaderHandle TerrainDebugRenderer::loadShader(const char *pShaderName)
+bgfx::ShaderHandle OutdoorGameView::loadShader(const char *pShaderName)
 {
     const std::filesystem::path shaderPath = getShaderPath(bgfx::getRendererType(), pShaderName);
 
@@ -2216,7 +2768,7 @@ bgfx::ShaderHandle TerrainDebugRenderer::loadShader(const char *pShaderName)
     return bgfx::createShader(pShaderMemory);
 }
 
-const TerrainDebugRenderer::BillboardTextureHandle *TerrainDebugRenderer::findBillboardTexture(
+const OutdoorGameView::BillboardTextureHandle *OutdoorGameView::findBillboardTexture(
     const std::string &textureName
 ) const
 {
@@ -2233,7 +2785,7 @@ const TerrainDebugRenderer::BillboardTextureHandle *TerrainDebugRenderer::findBi
     return nullptr;
 }
 
-const TerrainDebugRenderer::HudTextureHandle *TerrainDebugRenderer::findHudTexture(const std::string &textureName) const
+const OutdoorGameView::HudTextureHandle *OutdoorGameView::findHudTexture(const std::string &textureName) const
 {
     const std::string normalizedTextureName = toLowerCopy(textureName);
 
@@ -2248,7 +2800,7 @@ const TerrainDebugRenderer::HudTextureHandle *TerrainDebugRenderer::findHudTextu
     return nullptr;
 }
 
-bool TerrainDebugRenderer::loadHudTexture(const Engine::AssetFileSystem &assetFileSystem, const std::string &textureName)
+bool OutdoorGameView::loadHudTexture(const Engine::AssetFileSystem &assetFileSystem, const std::string &textureName)
 {
     if (findHudTexture(textureName) != nullptr)
     {
@@ -2288,7 +2840,7 @@ bool TerrainDebugRenderer::loadHudTexture(const Engine::AssetFileSystem &assetFi
     return true;
 }
 
-void TerrainDebugRenderer::renderDecorationBillboards(
+void OutdoorGameView::renderDecorationBillboards(
     uint16_t viewId,
     uint16_t viewWidth,
     uint16_t viewHeight,
@@ -2491,7 +3043,7 @@ void TerrainDebugRenderer::renderDecorationBillboards(
     }
 }
 
-void TerrainDebugRenderer::renderActorPreviewBillboards(
+void OutdoorGameView::renderActorPreviewBillboards(
     uint16_t viewId,
     const float *pViewMatrix,
     const bx::Vec3 &cameraPosition
@@ -2681,7 +3233,7 @@ void TerrainDebugRenderer::renderActorPreviewBillboards(
     }
 }
 
-void TerrainDebugRenderer::renderSpriteObjectBillboards(
+void OutdoorGameView::renderSpriteObjectBillboards(
     uint16_t viewId,
     const float *pViewMatrix,
     const bx::Vec3 &cameraPosition
@@ -2811,7 +3363,7 @@ void TerrainDebugRenderer::renderSpriteObjectBillboards(
     }
 }
 
-std::vector<TerrainDebugRenderer::TerrainVertex> TerrainDebugRenderer::buildVertices(const OutdoorMapData &outdoorMapData)
+std::vector<OutdoorGameView::TerrainVertex> OutdoorGameView::buildVertices(const OutdoorMapData &outdoorMapData)
 {
     std::vector<TerrainVertex> vertices;
     vertices.reserve(OutdoorMapData::TerrainWidth * OutdoorMapData::TerrainHeight);
@@ -2839,7 +3391,7 @@ std::vector<TerrainDebugRenderer::TerrainVertex> TerrainDebugRenderer::buildVert
     return vertices;
 }
 
-std::vector<uint16_t> TerrainDebugRenderer::buildIndices()
+std::vector<uint16_t> OutdoorGameView::buildIndices()
 {
     std::vector<uint16_t> indices;
     indices.reserve((OutdoorMapData::TerrainWidth - 1) * (OutdoorMapData::TerrainHeight - 1) * 8);
@@ -2872,7 +3424,7 @@ std::vector<uint16_t> TerrainDebugRenderer::buildIndices()
     return indices;
 }
 
-std::vector<TerrainDebugRenderer::TexturedTerrainVertex> TerrainDebugRenderer::buildTexturedTerrainVertices(
+std::vector<OutdoorGameView::TexturedTerrainVertex> OutdoorGameView::buildTexturedTerrainVertices(
     const OutdoorMapData &outdoorMapData,
     const OutdoorTerrainTextureAtlas &outdoorTerrainTextureAtlas
 )
@@ -2946,7 +3498,7 @@ std::vector<TerrainDebugRenderer::TexturedTerrainVertex> TerrainDebugRenderer::b
     return vertices;
 }
 
-std::vector<TerrainDebugRenderer::TexturedTerrainVertex> TerrainDebugRenderer::buildTexturedBModelVertices(
+std::vector<OutdoorGameView::TexturedTerrainVertex> OutdoorGameView::buildTexturedBModelVertices(
     const OutdoorMapData &outdoorMapData,
     const OutdoorBitmapTexture &texture
 )
@@ -3025,7 +3577,7 @@ std::vector<TerrainDebugRenderer::TexturedTerrainVertex> TerrainDebugRenderer::b
     return vertices;
 }
 
-std::vector<TerrainDebugRenderer::TerrainVertex> TerrainDebugRenderer::buildFilledTerrainVertices(
+std::vector<OutdoorGameView::TerrainVertex> OutdoorGameView::buildFilledTerrainVertices(
     const OutdoorMapData &outdoorMapData,
     const std::optional<std::vector<uint32_t>> &outdoorTileColors
 )
@@ -3091,7 +3643,7 @@ std::vector<TerrainDebugRenderer::TerrainVertex> TerrainDebugRenderer::buildFill
     return vertices;
 }
 
-std::vector<TerrainDebugRenderer::TerrainVertex> TerrainDebugRenderer::buildBModelWireframeVertices(
+std::vector<OutdoorGameView::TerrainVertex> OutdoorGameView::buildBModelWireframeVertices(
     const OutdoorMapData &outdoorMapData
 )
 {
@@ -3139,7 +3691,7 @@ std::vector<TerrainDebugRenderer::TerrainVertex> TerrainDebugRenderer::buildBMod
     return vertices;
 }
 
-std::vector<TerrainDebugRenderer::TerrainVertex> TerrainDebugRenderer::buildBModelCollisionFaceVertices(
+std::vector<OutdoorGameView::TerrainVertex> OutdoorGameView::buildBModelCollisionFaceVertices(
     const OutdoorMapData &outdoorMapData
 )
 {
@@ -3193,7 +3745,7 @@ std::vector<TerrainDebugRenderer::TerrainVertex> TerrainDebugRenderer::buildBMod
     return vertices;
 }
 
-std::vector<TerrainDebugRenderer::TerrainVertex> TerrainDebugRenderer::buildEntityMarkerVertices(
+std::vector<OutdoorGameView::TerrainVertex> OutdoorGameView::buildEntityMarkerVertices(
     const OutdoorMapData &outdoorMapData
 )
 {
@@ -3220,7 +3772,7 @@ std::vector<TerrainDebugRenderer::TerrainVertex> TerrainDebugRenderer::buildEnti
     return vertices;
 }
 
-std::vector<TerrainDebugRenderer::TerrainVertex> TerrainDebugRenderer::buildSpawnMarkerVertices(
+std::vector<OutdoorGameView::TerrainVertex> OutdoorGameView::buildSpawnMarkerVertices(
     const OutdoorMapData &outdoorMapData
 )
 {
@@ -3252,7 +3804,7 @@ std::vector<TerrainDebugRenderer::TerrainVertex> TerrainDebugRenderer::buildSpaw
     return vertices;
 }
 
-TerrainDebugRenderer::InspectHit TerrainDebugRenderer::inspectBModelFace(
+OutdoorGameView::InspectHit OutdoorGameView::inspectBModelFace(
     const OutdoorMapData &outdoorMapData,
     const bx::Vec3 &rayOrigin,
     const bx::Vec3 &rayDirection
@@ -3454,6 +4006,8 @@ TerrainDebugRenderer::InspectHit TerrainDebugRenderer::inspectBModelFace(
                 bestHit.name = actor.actorName;
                 bestHit.distance = distance;
                 bestHit.isFriendly = actor.isFriendly;
+                bestHit.npcId = actor.npcId;
+                bestHit.actorGroup = actor.group;
 
                 if (m_map)
                 {
@@ -3511,15 +4065,66 @@ TerrainDebugRenderer::InspectHit TerrainDebugRenderer::inspectBModelFace(
     return bestHit;
 }
 
-bool TerrainDebugRenderer::tryActivateInspectEvent(const InspectHit &inspectHit)
+bool OutdoorGameView::tryActivateInspectEvent(const InspectHit &inspectHit)
 {
-    if (!m_outdoorMapData || !m_eventRuntimeState)
+    EventRuntimeState *pEventRuntimeState =
+        m_pOutdoorWorldRuntime != nullptr ? m_pOutdoorWorldRuntime->eventRuntimeState() : nullptr;
+
+    if (!m_outdoorMapData || pEventRuntimeState == nullptr)
     {
         std::cout << "Outdoor inspect activation ignored: runtime not available\n";
         return false;
     }
 
     uint16_t eventId = 0;
+
+    if (inspectHit.kind == "actor" && inspectHit.npcId > 0)
+    {
+        EventRuntimeState::PendingDialogueContext context = {};
+        context.kind = DialogueContextKind::NpcTalk;
+        context.sourceId = static_cast<uint32_t>(inspectHit.npcId);
+        pEventRuntimeState->pendingDialogueContext = std::move(context);
+        pEventRuntimeState->lastActivationResult = "npc " + std::to_string(inspectHit.npcId) + " engaged";
+        openPendingEventDialog(pEventRuntimeState->messages.size(), true);
+        std::cout << "Opening direct NPC dialog for npc=" << inspectHit.npcId << '\n';
+        return true;
+    }
+
+    if (inspectHit.kind == "actor" && m_npcDialogTable)
+    {
+        const std::optional<GenericActorDialogResolution> resolution = resolveGenericActorDialog(
+            m_map ? m_map->fileName : std::string(),
+            inspectHit.name,
+            inspectHit.actorGroup,
+            *pEventRuntimeState,
+            *m_npcDialogTable
+        );
+
+        if (resolution)
+        {
+            const std::optional<std::string> newsText = m_npcDialogTable->getNewsText(resolution->newsId);
+
+            if (!newsText || newsText->empty())
+            {
+                return false;
+            }
+
+            EventRuntimeState::PendingDialogueContext context = {};
+            context.kind = DialogueContextKind::NpcNews;
+            context.sourceId = resolution->npcId;
+            context.newsId = resolution->newsId;
+            context.titleOverride = inspectHit.name;
+            pEventRuntimeState->pendingDialogueContext = std::move(context);
+            pEventRuntimeState->messages.push_back(*newsText);
+            pEventRuntimeState->lastActivationResult =
+                "npc news group " + std::to_string(inspectHit.actorGroup) + " engaged";
+            openPendingEventDialog(pEventRuntimeState->messages.size() - 1, true);
+            std::cout << "Opening generic NPC news for actor group=" << inspectHit.actorGroup
+                      << " npc=" << resolution->npcId
+                      << " news=" << resolution->newsId << '\n';
+            return true;
+        }
+    }
 
     if (inspectHit.kind == "entity")
     {
@@ -3531,7 +4136,7 @@ bool TerrainDebugRenderer::tryActivateInspectEvent(const InspectHit &inspectHit)
     }
     else
     {
-        m_eventRuntimeState->lastActivationResult = "no activatable event on hovered target";
+        pEventRuntimeState->lastActivationResult = "no activatable event on hovered target";
         std::cout << "Outdoor inspect activation ignored: unsupported target kind '"
                   << inspectHit.kind << "'\n";
         return false;
@@ -3539,7 +4144,7 @@ bool TerrainDebugRenderer::tryActivateInspectEvent(const InspectHit &inspectHit)
 
     if (eventId == 0)
     {
-        m_eventRuntimeState->lastActivationResult = "no event on hovered target";
+        pEventRuntimeState->lastActivationResult = "no event on hovered target";
         std::cout << "Outdoor inspect activation ignored: target has no event id\n";
         return false;
     }
@@ -3548,31 +4153,41 @@ bool TerrainDebugRenderer::tryActivateInspectEvent(const InspectHit &inspectHit)
               << " from " << inspectHit.kind
               << " index=" << inspectHit.bModelIndex << '\n';
 
+    const size_t previousMessageCount = pEventRuntimeState->messages.size();
+
     const bool executed = m_eventRuntime.executeEventById(
         m_localEventIrProgram,
         m_globalEventIrProgram,
         eventId,
-        *m_eventRuntimeState
+        *pEventRuntimeState,
+        m_pOutdoorPartyRuntime != nullptr ? &m_pOutdoorPartyRuntime->party() : nullptr
     );
 
     if (!executed)
     {
-        m_eventRuntimeState->lastActivationResult = "event " + std::to_string(eventId) + " unresolved";
+        pEventRuntimeState->lastActivationResult = "event " + std::to_string(eventId) + " unresolved";
         std::cout << "Outdoor event " << eventId << " unresolved\n";
         return false;
     }
 
-    if (m_pOutdoorPartyRuntime)
+    if (m_pOutdoorWorldRuntime != nullptr)
     {
-        m_pOutdoorPartyRuntime->applyEventRuntimeState(*m_eventRuntimeState);
+        m_pOutdoorWorldRuntime->applyEventRuntimeState();
     }
 
-    m_eventRuntimeState->lastActivationResult = "event " + std::to_string(eventId) + " executed";
+    if (m_pOutdoorPartyRuntime)
+    {
+        m_pOutdoorPartyRuntime->applyEventRuntimeState(*pEventRuntimeState);
+    }
+
+    openPendingEventDialog(previousMessageCount, true);
+
+    pEventRuntimeState->lastActivationResult = "event " + std::to_string(eventId) + " executed";
     std::cout << "Outdoor event " << eventId << " executed\n";
     return true;
 }
 
-void TerrainDebugRenderer::updateCameraFromInput()
+void OutdoorGameView::updateCameraFromInput()
 {
     const uint64_t currentTickCount = SDL_GetTicksNS();
     float deltaSeconds = 1.0f / 60.0f;
@@ -3595,6 +4210,211 @@ void TerrainDebugRenderer::updateCameraFromInput()
     if (pKeyboardState == nullptr)
     {
         return;
+    }
+
+    const bool hasActiveChestView =
+        m_pOutdoorWorldRuntime != nullptr && m_pOutdoorWorldRuntime->activeChestView() != nullptr;
+    const bool isEventDialogActive = hasActiveEventDialog();
+
+    if (isEventDialogActive)
+    {
+        if (!m_activeEventDialog.actions.empty())
+        {
+            if (pKeyboardState[SDL_SCANCODE_UP])
+            {
+                if (!m_eventDialogSelectUpLatch)
+                {
+                    m_eventDialogSelectionIndex = m_eventDialogSelectionIndex == 0
+                        ? (m_activeEventDialog.actions.size() - 1)
+                        : (m_eventDialogSelectionIndex - 1);
+                    m_eventDialogSelectUpLatch = true;
+                }
+            }
+            else
+            {
+                m_eventDialogSelectUpLatch = false;
+            }
+
+            if (pKeyboardState[SDL_SCANCODE_DOWN])
+            {
+                if (!m_eventDialogSelectDownLatch)
+                {
+                    m_eventDialogSelectionIndex =
+                        (m_eventDialogSelectionIndex + 1) % m_activeEventDialog.actions.size();
+                    m_eventDialogSelectDownLatch = true;
+                }
+            }
+            else
+            {
+                m_eventDialogSelectDownLatch = false;
+            }
+        }
+        else
+        {
+            m_eventDialogSelectUpLatch = false;
+            m_eventDialogSelectDownLatch = false;
+        }
+
+        const bool acceptPressed = pKeyboardState[SDL_SCANCODE_RETURN] || pKeyboardState[SDL_SCANCODE_SPACE];
+
+        if (acceptPressed)
+        {
+            if (!m_eventDialogAcceptLatch)
+            {
+                if (m_activeEventDialog.actions.empty())
+                {
+                    closeActiveEventDialog();
+                    m_activateInspectLatch = true;
+                }
+                else
+                {
+                    executeActiveDialogAction();
+                }
+
+                m_eventDialogAcceptLatch = true;
+            }
+        }
+        else
+        {
+            m_eventDialogAcceptLatch = false;
+        }
+
+        const bool closePressed = pKeyboardState[SDL_SCANCODE_ESCAPE] || pKeyboardState[SDL_SCANCODE_E];
+
+        if (closePressed)
+        {
+            if (!m_closeOverlayLatch)
+            {
+                closeActiveEventDialog();
+                m_closeOverlayLatch = true;
+                m_activateInspectLatch = true;
+            }
+        }
+        else
+        {
+            m_closeOverlayLatch = false;
+        }
+
+        return;
+    }
+
+    m_eventDialogSelectUpLatch = false;
+    m_eventDialogSelectDownLatch = false;
+    m_eventDialogAcceptLatch = false;
+
+    if (hasActiveChestView)
+    {
+        const OutdoorWorldRuntime::ChestViewState *pChestView = m_pOutdoorWorldRuntime->activeChestView();
+        const size_t itemCount = pChestView != nullptr ? pChestView->items.size() : 0;
+
+        if (itemCount == 0)
+        {
+            m_chestSelectionIndex = 0;
+        }
+        else if (m_chestSelectionIndex >= itemCount)
+        {
+            m_chestSelectionIndex = itemCount - 1;
+        }
+
+        if (pKeyboardState[SDL_SCANCODE_UP])
+        {
+            if (!m_chestSelectUpLatch && itemCount > 0)
+            {
+                m_chestSelectionIndex = (m_chestSelectionIndex == 0) ? (itemCount - 1) : (m_chestSelectionIndex - 1);
+                m_chestSelectUpLatch = true;
+            }
+        }
+        else
+        {
+            m_chestSelectUpLatch = false;
+        }
+
+        if (pKeyboardState[SDL_SCANCODE_DOWN])
+        {
+            if (!m_chestSelectDownLatch && itemCount > 0)
+            {
+                m_chestSelectionIndex = (m_chestSelectionIndex + 1) % itemCount;
+                m_chestSelectDownLatch = true;
+            }
+        }
+        else
+        {
+            m_chestSelectDownLatch = false;
+        }
+
+        const bool lootPressed = pKeyboardState[SDL_SCANCODE_RETURN] || pKeyboardState[SDL_SCANCODE_SPACE];
+
+        if (lootPressed)
+        {
+            if (!m_lootChestItemLatch && itemCount > 0 && m_pOutdoorPartyRuntime != nullptr)
+            {
+                const OutdoorWorldRuntime::ChestViewState *pCurrentChestView = m_pOutdoorWorldRuntime->activeChestView();
+
+                if (pCurrentChestView != nullptr && m_chestSelectionIndex < pCurrentChestView->items.size())
+                {
+                    const OutdoorWorldRuntime::ChestItemState item = pCurrentChestView->items[m_chestSelectionIndex];
+                    bool canLoot = true;
+
+                    if (!item.isGold)
+                    {
+                        canLoot = m_pOutdoorPartyRuntime->party().tryGrantItem(item.itemId, item.quantity);
+                    }
+
+                    if (canLoot)
+                    {
+                        OutdoorWorldRuntime::ChestItemState removedItem = {};
+
+                        if (m_pOutdoorWorldRuntime->takeActiveChestItem(m_chestSelectionIndex, removedItem))
+                        {
+                            if (removedItem.isGold)
+                            {
+                                m_pOutdoorPartyRuntime->party().addGold(static_cast<int>(removedItem.goldAmount));
+                            }
+
+                            const OutdoorWorldRuntime::ChestViewState *pUpdatedChestView =
+                                m_pOutdoorWorldRuntime->activeChestView();
+
+                            if (pUpdatedChestView != nullptr && !pUpdatedChestView->items.empty()
+                                && m_chestSelectionIndex >= pUpdatedChestView->items.size())
+                            {
+                                m_chestSelectionIndex = pUpdatedChestView->items.size() - 1;
+                            }
+                        }
+                    }
+                }
+
+                m_lootChestItemLatch = true;
+            }
+        }
+        else
+        {
+            m_lootChestItemLatch = false;
+        }
+
+        const bool closePressed = pKeyboardState[SDL_SCANCODE_ESCAPE] || pKeyboardState[SDL_SCANCODE_E];
+
+        if (closePressed)
+        {
+            if (!m_closeOverlayLatch && m_pOutdoorWorldRuntime != nullptr)
+            {
+                m_pOutdoorWorldRuntime->closeActiveChestView();
+                m_closeOverlayLatch = true;
+                m_activateInspectLatch = true;
+                m_chestSelectionIndex = 0;
+            }
+        }
+        else
+        {
+            m_closeOverlayLatch = false;
+        }
+    }
+    else
+    {
+        m_closeOverlayLatch = false;
+        m_lootChestItemLatch = false;
+        m_chestSelectUpLatch = false;
+        m_chestSelectDownLatch = false;
+        m_chestSelectionIndex = 0;
     }
 
     const bool turboSpeed = pKeyboardState[SDL_SCANCODE_LSHIFT] || pKeyboardState[SDL_SCANCODE_RSHIFT];
@@ -3641,16 +4461,35 @@ void TerrainDebugRenderer::updateCameraFromInput()
         if (m_pOutdoorPartyRuntime)
         {
             const OutdoorMovementInput movementInput = {
-                pKeyboardState[SDL_SCANCODE_W],
-                pKeyboardState[SDL_SCANCODE_S],
-                pKeyboardState[SDL_SCANCODE_A],
-                pKeyboardState[SDL_SCANCODE_D],
-                pKeyboardState[SDL_SCANCODE_SPACE],
-                pKeyboardState[SDL_SCANCODE_LCTRL] || pKeyboardState[SDL_SCANCODE_RCTRL],
-                turboSpeed,
+                !hasActiveChestView && pKeyboardState[SDL_SCANCODE_W],
+                !hasActiveChestView && pKeyboardState[SDL_SCANCODE_S],
+                !hasActiveChestView && pKeyboardState[SDL_SCANCODE_A],
+                !hasActiveChestView && pKeyboardState[SDL_SCANCODE_D],
+                !hasActiveChestView && pKeyboardState[SDL_SCANCODE_SPACE],
+                !hasActiveChestView && (pKeyboardState[SDL_SCANCODE_LCTRL] || pKeyboardState[SDL_SCANCODE_RCTRL]),
+                !hasActiveChestView && turboSpeed,
                 m_cameraYawRadians
             };
             m_pOutdoorPartyRuntime->update(movementInput, deltaSeconds);
+
+            size_t previousMessageCount = 0;
+
+            if (m_pOutdoorWorldRuntime != nullptr && m_pOutdoorWorldRuntime->eventRuntimeState() != nullptr)
+            {
+                previousMessageCount = m_pOutdoorWorldRuntime->eventRuntimeState()->messages.size();
+            }
+
+            if (m_pOutdoorWorldRuntime != nullptr
+                && m_pOutdoorWorldRuntime->updateTimers(
+                    deltaSeconds,
+                    m_eventRuntime,
+                    m_localEventIrProgram,
+                    m_globalEventIrProgram))
+            {
+                m_pOutdoorPartyRuntime->applyEventRuntimeState(*m_pOutdoorWorldRuntime->eventRuntimeState());
+                openPendingEventDialog(previousMessageCount, true);
+            }
+
             m_cameraTargetX = m_pOutdoorPartyRuntime->movementState().x;
             m_cameraTargetY = m_pOutdoorPartyRuntime->movementState().y;
             m_cameraTargetZ = m_pOutdoorPartyRuntime->movementState().footZ + m_cameraEyeHeight;

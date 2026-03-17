@@ -1,4 +1,5 @@
 #include "game/EventRuntime.h"
+#include "game/Party.h"
 
 #include <iostream>
 #include <algorithm>
@@ -8,6 +9,22 @@ namespace OpenYAMM::Game
 {
 namespace
 {
+std::string sanitizeEventString(const std::string &value)
+{
+    std::string sanitized;
+    sanitized.reserve(value.size());
+
+    for (char character : value)
+    {
+        if (std::isprint(static_cast<unsigned char>(character)) != 0)
+        {
+            sanitized.push_back(character);
+        }
+    }
+
+    return sanitized;
+}
+
 float mechanismDistanceForState(const MapDeltaDoor &door, uint16_t state, float timeSinceTriggeredMs)
 {
     if (state == 0)
@@ -55,6 +72,21 @@ EventRuntime::VariableRef EventRuntime::decodeVariable(uint32_t rawId)
         variable.kind = VariableKind::BoolFlag;
         variable.rawId = variable.tag;
     }
+    else if (variable.tag == 0x0011)
+    {
+        variable.kind = VariableKind::Inventory;
+        variable.rawId = variable.index;
+    }
+    else if (variable.tag == 0x000c)
+    {
+        variable.kind = VariableKind::Awards;
+        variable.rawId = rawId;
+    }
+    else if (variable.tag == 0x0006)
+    {
+        variable.kind = VariableKind::Players;
+        variable.rawId = rawId;
+    }
     else if (variable.tag == 0x0087 || variable.tag == 0x0088 || variable.tag == 0x0089)
     {
         variable.kind = VariableKind::Generic;
@@ -64,8 +96,17 @@ EventRuntime::VariableRef EventRuntime::decodeVariable(uint32_t rawId)
     return variable;
 }
 
-int32_t EventRuntime::getVariableValue(const EventRuntimeState &runtimeState, const VariableRef &variable)
+int32_t EventRuntime::getVariableValue(
+    const EventRuntimeState &runtimeState,
+    const VariableRef &variable,
+    const Party *pParty
+)
 {
+    if (variable.kind == VariableKind::Inventory)
+    {
+        return getInventoryItemCount(runtimeState, pParty, variable.rawId);
+    }
+
     if (variable.kind == VariableKind::QBits || variable.kind == VariableKind::BoolFlag)
     {
         const std::unordered_map<uint32_t, int32_t>::const_iterator iterator = runtimeState.variables.find(variable.rawId);
@@ -78,6 +119,11 @@ int32_t EventRuntime::getVariableValue(const EventRuntimeState &runtimeState, co
 
 void EventRuntime::setVariableValue(EventRuntimeState &runtimeState, const VariableRef &variable, int32_t value)
 {
+    if (variable.kind == VariableKind::Inventory)
+    {
+        return;
+    }
+
     if (variable.kind == VariableKind::QBits || variable.kind == VariableKind::BoolFlag)
     {
         runtimeState.variables[variable.rawId] = value != 0 ? 1 : 0;
@@ -89,24 +135,42 @@ void EventRuntime::setVariableValue(EventRuntimeState &runtimeState, const Varia
 
 void EventRuntime::addVariableValue(EventRuntimeState &runtimeState, const VariableRef &variable, int32_t value)
 {
+    if (variable.kind == VariableKind::Inventory)
+    {
+        if (value > 0)
+        {
+            runtimeState.grantedItemIds.push_back(static_cast<uint32_t>(value));
+        }
+        return;
+    }
+
     if (variable.kind == VariableKind::QBits || variable.kind == VariableKind::BoolFlag)
     {
         runtimeState.variables[variable.rawId] = value != 0 ? 1 : 0;
         return;
     }
 
-    runtimeState.variables[variable.rawId] = getVariableValue(runtimeState, variable) + value;
+    runtimeState.variables[variable.rawId] = getVariableValue(runtimeState, variable, nullptr) + value;
 }
 
 void EventRuntime::subtractVariableValue(EventRuntimeState &runtimeState, const VariableRef &variable, int32_t value)
 {
+    if (variable.kind == VariableKind::Inventory)
+    {
+        if (value > 0)
+        {
+            runtimeState.removedItemIds.push_back(static_cast<uint32_t>(value));
+        }
+        return;
+    }
+
     if (variable.kind == VariableKind::QBits || variable.kind == VariableKind::BoolFlag)
     {
         runtimeState.variables[variable.rawId] = 0;
         return;
     }
 
-    runtimeState.variables[variable.rawId] = getVariableValue(runtimeState, variable) - value;
+    runtimeState.variables[variable.rawId] = getVariableValue(runtimeState, variable, nullptr) - value;
 }
 
 bool EventRuntime::buildOnLoadState(
@@ -160,7 +224,8 @@ bool EventRuntime::executeEventById(
     const std::optional<EventIrProgram> &localProgram,
     const std::optional<EventIrProgram> &globalProgram,
     uint16_t eventId,
-    EventRuntimeState &runtimeState
+    EventRuntimeState &runtimeState,
+    const Party *pParty
 ) const
 {
     if (eventId == 0)
@@ -175,9 +240,7 @@ bool EventRuntime::executeEventById(
         if (pEvent != nullptr)
         {
             std::cout << "Executing local event " << eventId << '\n';
-            const bool executed = executeEvent(*pEvent, runtimeState);
-            executeTimerEvents(*localProgram, runtimeState);
-            return executed;
+            return executeEvent(*pEvent, runtimeState, pParty);
         }
     }
 
@@ -188,13 +251,27 @@ bool EventRuntime::executeEventById(
         if (pEvent != nullptr)
         {
             std::cout << "Executing global event " << eventId << '\n';
-            const bool executed = executeEvent(*pEvent, runtimeState);
-            executeTimerEvents(*globalProgram, runtimeState);
-            return executed;
+            return executeEvent(*pEvent, runtimeState, pParty);
         }
     }
 
     return false;
+}
+
+bool EventRuntime::canShowTopic(
+    const std::optional<EventIrProgram> &globalProgram,
+    uint16_t topicId,
+    const EventRuntimeState &runtimeState,
+    const Party *pParty
+) const
+{
+    if (topicId == 0 || !globalProgram)
+    {
+        return topicId != 0;
+    }
+
+    const EventIrEvent *pEvent = findEventById(*globalProgram, topicId);
+    return pEvent == nullptr ? true : evaluateCanShowTopic(*pEvent, runtimeState, pParty);
 }
 
 void EventRuntime::advanceMechanisms(
@@ -278,7 +355,7 @@ void EventRuntime::executeProgramOnLoad(
             continue;
         }
 
-        if (executeEvent(event, runtimeState))
+        if (executeEvent(event, runtimeState, nullptr))
         {
             ++executedCount;
         }
@@ -319,7 +396,7 @@ void EventRuntime::executeTimerEvents(const EventIrProgram &program, EventRuntim
         }
 
         std::cout << "Executing timer event " << event.eventId << '\n';
-        executeEvent(event, runtimeState);
+        executeEvent(event, runtimeState, nullptr);
     }
 }
 
@@ -384,14 +461,136 @@ void EventRuntime::applyMechanismAction(
     }
 }
 
-bool EventRuntime::executeEvent(const EventIrEvent &event, EventRuntimeState &runtimeState)
+int32_t EventRuntime::getInventoryItemCount(
+    const EventRuntimeState &runtimeState,
+    const Party *pParty,
+    uint32_t objectDescriptionId
+)
+{
+    int32_t itemCount = 0;
+
+    if (pParty != nullptr)
+    {
+        for (const Character &member : pParty->members())
+        {
+            for (const InventoryItem &item : member.inventory)
+            {
+                if (item.objectDescriptionId == objectDescriptionId)
+                {
+                    itemCount += static_cast<int32_t>(item.quantity);
+                }
+            }
+        }
+    }
+
+    for (uint32_t grantedItemId : runtimeState.grantedItemIds)
+    {
+        if (grantedItemId == objectDescriptionId)
+        {
+            itemCount += 1;
+        }
+    }
+
+    for (uint32_t removedItemId : runtimeState.removedItemIds)
+    {
+        if (removedItemId == objectDescriptionId)
+        {
+            itemCount = std::max(0, itemCount - 1);
+        }
+    }
+
+    return itemCount;
+}
+
+bool EventRuntime::evaluateCompare(
+    const EventRuntimeState &runtimeState,
+    const EventIrInstruction &instruction,
+    const Party *pParty
+)
+{
+    if (instruction.arguments.size() < 2)
+    {
+        return false;
+    }
+
+    const VariableRef variable = decodeVariable(instruction.arguments[0]);
+    const int32_t compareValue = static_cast<int32_t>(instruction.arguments[1]);
+    const int32_t currentValue = getVariableValue(runtimeState, variable, pParty);
+
+    return variable.kind == VariableKind::QBits
+        || variable.kind == VariableKind::BoolFlag
+        || variable.kind == VariableKind::Inventory
+        ? (currentValue != 0)
+        : (currentValue >= compareValue);
+}
+
+bool EventRuntime::evaluateCanShowTopic(
+    const EventIrEvent &event,
+    const EventRuntimeState &runtimeState,
+    const Party *pParty
+)
+{
+    std::unordered_map<uint8_t, size_t> stepToInstructionIndex;
+
+    for (size_t instructionIndex = 0; instructionIndex < event.instructions.size(); ++instructionIndex)
+    {
+        stepToInstructionIndex[event.instructions[instructionIndex].step] = instructionIndex;
+    }
+
+    bool sawCanShowInstruction = false;
+    bool isVisible = true;
+    size_t instructionIndex = 0;
+
+    while (instructionIndex < event.instructions.size())
+    {
+        const EventIrInstruction &instruction = event.instructions[instructionIndex];
+
+        switch (instruction.operation)
+        {
+            case EventIrOperation::CompareCanShowTopic:
+            {
+                sawCanShowInstruction = true;
+                const bool compareSucceeded = evaluateCompare(runtimeState, instruction, pParty);
+
+                if (compareSucceeded && instruction.jumpTargetStep)
+                {
+                    const std::unordered_map<uint8_t, size_t>::const_iterator iterator =
+                        stepToInstructionIndex.find(*instruction.jumpTargetStep);
+
+                    if (iterator != stepToInstructionIndex.end())
+                    {
+                        instructionIndex = iterator->second;
+                        continue;
+                    }
+                }
+                break;
+            }
+
+            case EventIrOperation::SetCanShowTopic:
+                sawCanShowInstruction = true;
+                isVisible = !instruction.arguments.empty() && instruction.arguments[0] != 0;
+                break;
+
+            case EventIrOperation::EndCanShowTopic:
+                return isVisible;
+
+            default:
+                return sawCanShowInstruction ? isVisible : true;
+        }
+
+        ++instructionIndex;
+    }
+
+    return sawCanShowInstruction ? isVisible : true;
+}
+
+bool EventRuntime::executeEvent(const EventIrEvent &event, EventRuntimeState &runtimeState, const Party *pParty)
 {
     runtimeState.lastAffectedMechanismIds.clear();
     runtimeState.openedChestIds.clear();
     runtimeState.grantedItemIds.clear();
     runtimeState.removedItemIds.clear();
-    runtimeState.pendingHouseId.reset();
-    runtimeState.pendingNpcId.reset();
+    runtimeState.pendingDialogueContext.reset();
     runtimeState.pendingMapMove.reset();
 
     std::unordered_map<uint8_t, size_t> stepToInstructionIndex;
@@ -440,7 +639,10 @@ bool EventRuntime::executeEvent(const EventIrEvent &event, EventRuntimeState &ru
             {
                 if (!instruction.arguments.empty())
                 {
-                    runtimeState.pendingHouseId = instruction.arguments[0];
+                    EventRuntimeState::PendingDialogueContext context = {};
+                    context.kind = DialogueContextKind::HouseService;
+                    context.sourceId = instruction.arguments[0];
+                    runtimeState.pendingDialogueContext = std::move(context);
                     std::cout << "  house=" << instruction.arguments[0];
 
                     if (instruction.text && !instruction.text->empty())
@@ -457,7 +659,10 @@ bool EventRuntime::executeEvent(const EventIrEvent &event, EventRuntimeState &ru
             {
                 if (!instruction.arguments.empty())
                 {
-                    runtimeState.pendingNpcId = instruction.arguments[0];
+                    EventRuntimeState::PendingDialogueContext context = {};
+                    context.kind = DialogueContextKind::NpcTalk;
+                    context.sourceId = instruction.arguments[0];
+                    runtimeState.pendingDialogueContext = std::move(context);
                     std::cout << "  npc=" << instruction.arguments[0] << '\n';
                 }
                 break;
@@ -465,18 +670,28 @@ bool EventRuntime::executeEvent(const EventIrEvent &event, EventRuntimeState &ru
 
             case EventIrOperation::MoveToMap:
             {
-                if (!instruction.arguments.empty())
+                if (instruction.arguments.size() >= 3)
                 {
                     EventRuntimeState::PendingMapMove pendingMapMove = {};
-                    pendingMapMove.mapId = instruction.arguments[0];
+                    pendingMapMove.x = static_cast<int32_t>(instruction.arguments[0]);
+                    pendingMapMove.y = static_cast<int32_t>(instruction.arguments[1]);
+                    pendingMapMove.z = static_cast<int32_t>(instruction.arguments[2]);
 
                     if (instruction.text && !instruction.text->empty())
                     {
-                        pendingMapMove.mapName = *instruction.text;
+                        const std::string sanitizedName = sanitizeEventString(*instruction.text);
+
+                        if (!sanitizedName.empty())
+                        {
+                            pendingMapMove.mapName = sanitizedName;
+                        }
                     }
 
                     runtimeState.pendingMapMove = pendingMapMove;
-                    std::cout << "  move_to_map=" << pendingMapMove.mapId;
+                    std::cout << "  move_to_map=("
+                              << pendingMapMove.x << ","
+                              << pendingMapMove.y << ","
+                              << pendingMapMove.z << ")";
 
                     if (pendingMapMove.mapName && !pendingMapMove.mapName->empty())
                     {
@@ -494,11 +709,8 @@ bool EventRuntime::executeEvent(const EventIrEvent &event, EventRuntimeState &ru
                 {
                     const VariableRef variable = decodeVariable(instruction.arguments[0]);
                     const int32_t compareValue = static_cast<int32_t>(instruction.arguments[1]);
-                    const int32_t currentValue = getVariableValue(runtimeState, variable);
-                    const bool compareSucceeded =
-                        variable.kind == VariableKind::QBits || variable.kind == VariableKind::BoolFlag
-                        ? (currentValue != 0)
-                        : (currentValue >= compareValue);
+                    const int32_t currentValue = getVariableValue(runtimeState, variable, pParty);
+                    const bool compareSucceeded = evaluateCompare(runtimeState, instruction, pParty);
 
                     std::cout << "  cmp raw=" << instruction.arguments[0]
                               << " current=" << currentValue
@@ -552,7 +764,7 @@ bool EventRuntime::executeEvent(const EventIrEvent &event, EventRuntimeState &ru
                     );
                     std::cout << "  add raw=" << instruction.arguments[0]
                               << " value=" << instruction.arguments[1]
-                              << " -> " << getVariableValue(runtimeState, variable) << '\n';
+                              << " -> " << getVariableValue(runtimeState, variable, pParty) << '\n';
                 }
                 break;
             }
@@ -569,7 +781,7 @@ bool EventRuntime::executeEvent(const EventIrEvent &event, EventRuntimeState &ru
                     );
                     std::cout << "  sub raw=" << instruction.arguments[0]
                               << " value=" << instruction.arguments[1]
-                              << " -> " << getVariableValue(runtimeState, variable) << '\n';
+                              << " -> " << getVariableValue(runtimeState, variable, pParty) << '\n';
                 }
                 break;
             }
@@ -586,7 +798,7 @@ bool EventRuntime::executeEvent(const EventIrEvent &event, EventRuntimeState &ru
                     );
                     std::cout << "  set raw=" << instruction.arguments[0]
                               << " value=" << instruction.arguments[1]
-                              << " -> " << getVariableValue(runtimeState, variable) << '\n';
+                              << " -> " << getVariableValue(runtimeState, variable, pParty) << '\n';
                 }
                 break;
             }
@@ -742,14 +954,23 @@ bool EventRuntime::executeEvent(const EventIrEvent &event, EventRuntimeState &ru
             {
                 if (instruction.arguments.size() >= 3)
                 {
-                    runtimeState.npcTopics[instruction.arguments[0]][instruction.arguments[1]] =
-                        instruction.arguments[2] != 0;
+                    runtimeState.npcTopicOverrides[instruction.arguments[0]][instruction.arguments[1]] =
+                        instruction.arguments[2];
+                    std::cout << "  npc_topic npc=" << instruction.arguments[0]
+                              << " slot=" << instruction.arguments[1]
+                              << " event=" << instruction.arguments[2] << '\n';
                 }
                 break;
             }
 
             case EventIrOperation::SetNpcGroupNews:
+            {
+                if (instruction.arguments.size() >= 2)
+                {
+                    runtimeState.npcGroupNews[instruction.arguments[0]] = instruction.arguments[1];
+                }
                 break;
+            }
 
             case EventIrOperation::Unknown:
                 break;

@@ -4,12 +4,15 @@
 #include "engine/EngineApplication.h"
 #include "game/GameDataLoader.h"
 #include "game/IndoorDebugRenderer.h"
+#include "game/OutdoorGameView.h"
 #include "game/OutdoorPartyRuntime.h"
-#include "game/TerrainDebugRenderer.h"
+#include "game/OutdoorWorldRuntime.h"
+#include "game/Party.h"
 
 #include <cstddef>
 #include <cstdint>
 #include <memory>
+#include <optional>
 
 namespace OpenYAMM::Game
 {
@@ -24,6 +27,7 @@ private:
     bool loadGameData(const Engine::AssetFileSystem &assetFileSystem);
     bool initializeRenderer();
     bool reloadSelectedMap();
+    bool processPendingOutdoorMapMove();
     void updateMapPickerInput();
     void renderMapPickerOverlay() const;
     void renderFrame(int width, int height, float mouseWheelDelta, float deltaSeconds);
@@ -31,8 +35,10 @@ private:
     Engine::EngineApplication m_engineApplication;
     GameDataLoader m_gameDataLoader;
     IndoorDebugRenderer m_indoorDebugRenderer;
-    TerrainDebugRenderer m_terrainDebugRenderer;
+    OutdoorGameView m_outdoorGameView;
     std::unique_ptr<OutdoorPartyRuntime> m_pOutdoorPartyRuntime;
+    std::unique_ptr<OutdoorWorldRuntime> m_pOutdoorWorldRuntime;
+    std::optional<Party> m_partyState;
     const Engine::AssetFileSystem *m_pAssetFileSystem;
     size_t m_mapPickerIndex;
     bool m_showMapPicker;

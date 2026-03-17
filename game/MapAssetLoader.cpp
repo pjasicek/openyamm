@@ -1,3 +1,4 @@
+#include "game/ActorNameResolver.h"
 #include "game/MapAssetLoader.h"
 
 #include <SDL3/SDL.h>
@@ -984,16 +985,11 @@ void appendMapDeltaActors(
         const MonsterTable::MonsterDisplayNameEntry *pDisplayEntry =
             monsterTable.findDisplayEntryById(actor.monsterInfoId);
         const MonsterEntry *pMonsterEntry = nullptr;
-        std::string resolvedActorName;
+        std::string resolvedActorName = resolveMapDeltaActorName(monsterTable, actor);
 
         if (pDisplayEntry != nullptr)
         {
             pMonsterEntry = monsterTable.findByInternalName(pDisplayEntry->pictureName);
-
-            if (resolvedActorName.empty())
-            {
-                resolvedActorName = pDisplayEntry->displayName;
-            }
         }
         else
         {
@@ -1043,16 +1039,10 @@ void appendMapDeltaActors(
             spriteFrameIndex = savedSpriteFrameIndex;
         }
 
-        if (resolvedActorName.empty() && pMonsterEntry != nullptr)
-        {
-            const std::optional<std::string> displayName =
-                monsterTable.findDisplayNameByInternalName(pMonsterEntry->internalName);
-            resolvedActorName = displayName ? *displayName : pMonsterEntry->internalName;
-        }
-
         ActorPreviewBillboard billboard = {};
         billboard.spawnIndex = 0;
         billboard.spriteFrameIndex = spriteFrameIndex;
+        billboard.npcId = actor.npcId;
         billboard.x = actor.x;
         billboard.y = actor.y;
         billboard.z = actor.z;
@@ -1073,7 +1063,7 @@ void appendMapDeltaActors(
         billboard.useStaticFrame = spriteFrameIndex != 0 && spriteFrameIndex == savedSpriteFrameIndex;
         billboard.isFriendly = true;
         billboard.source = ActorPreviewSource::Companion;
-        billboard.actorName = !resolvedActorName.empty() ? resolvedActorName : actor.name;
+        billboard.actorName = resolvedActorName;
         billboardSet.billboards.push_back(std::move(billboard));
         ++billboardSet.mapDeltaActorCount;
 
@@ -1678,24 +1668,6 @@ std::optional<MapAssetInfo> MapAssetLoader::load(
                     << " spawn=" << actorSet.spawnActorCount
                     << " textured=" << actorSet.texturedActorCount
                     << " missing=" << actorSet.missingTextureActorCount << '\n';
-
-                for (const ActorPreviewBillboard &billboard : actorSet.billboards)
-                {
-                    const char *pSourceName =
-                        (billboard.source == ActorPreviewSource::Companion) ? "map_delta" : "spawn";
-                    std::cout
-                        << "    actor " << pSourceName
-                        << " name=\"" << billboard.actorName << "\""
-                        << " x=" << billboard.x
-                        << " y=" << billboard.y
-                        << " z=" << billboard.z
-                        << " h=" << billboard.height
-                        << " r=" << billboard.radius
-                        << " group=" << billboard.group
-                        << " uniq=" << billboard.uniqueNameIndex
-                        << " sprite=" << billboard.spriteFrameIndex
-                        << '\n';
-                }
             }
 
             if (assetInfo.outdoorSpriteObjectBillboardSet)
@@ -1781,24 +1753,6 @@ std::optional<MapAssetInfo> MapAssetLoader::load(
                     << " spawn=" << actorSet.spawnActorCount
                     << " textured=" << actorSet.texturedActorCount
                     << " missing=" << actorSet.missingTextureActorCount << '\n';
-
-                for (const ActorPreviewBillboard &billboard : actorSet.billboards)
-                {
-                    const char *pSourceName =
-                        (billboard.source == ActorPreviewSource::Companion) ? "map_delta" : "spawn";
-                    std::cout
-                        << "    actor " << pSourceName
-                        << " name=\"" << billboard.actorName << "\""
-                        << " x=" << billboard.x
-                        << " y=" << billboard.y
-                        << " z=" << billboard.z
-                        << " h=" << billboard.height
-                        << " r=" << billboard.radius
-                        << " group=" << billboard.group
-                        << " uniq=" << billboard.uniqueNameIndex
-                        << " sprite=" << billboard.spriteFrameIndex
-                        << '\n';
-                }
             }
 
             if (assetInfo.indoorSpriteObjectBillboardSet)

@@ -14,7 +14,8 @@ class OutdoorPartyRuntime
 public:
     OutdoorPartyRuntime(OutdoorMovementDriver movementDriver, const ItemTable &itemTable);
 
-    void initialize(float x, float y, float footZHint);
+    void initialize(float x, float y, float footZHint, bool resetParty = true);
+    void teleportTo(float x, float y, float footZHint);
     void update(const OutdoorMovementInput &input, float deltaSeconds);
     void applyEventRuntimeState(const EventRuntimeState &runtimeState);
 
@@ -23,6 +24,8 @@ public:
     const OutdoorMovementConsequences &movementConsequences() const;
     const OutdoorPartyMovementState &partyMovementState() const;
     const Party &party() const;
+    Party &party();
+    void setParty(const Party &party);
 
     void toggleRunning();
     void toggleFlying();

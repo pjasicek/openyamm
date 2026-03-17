@@ -160,6 +160,7 @@ PartySeed Party::createDefaultSeed()
     knight.role = "Knight";
     knight.portraitTextureName = "PC01-01";
     knight.level = 5;
+    knight.skillPoints = 5;
     knight.maxHealth = 120;
     knight.health = 120;
     seed.members.push_back(knight);
@@ -169,6 +170,7 @@ PartySeed Party::createDefaultSeed()
     cleric.role = "Cleric";
     cleric.portraitTextureName = "PC05-01";
     cleric.level = 5;
+    cleric.skillPoints = 5;
     cleric.maxHealth = 90;
     cleric.health = 90;
     cleric.maxSpellPoints = 45;
@@ -180,6 +182,7 @@ PartySeed Party::createDefaultSeed()
     archer.role = "Archer";
     archer.portraitTextureName = "PC08-01";
     archer.level = 5;
+    archer.skillPoints = 5;
     archer.maxHealth = 100;
     archer.health = 100;
     seed.members.push_back(archer);
@@ -189,6 +192,7 @@ PartySeed Party::createDefaultSeed()
     sorcerer.role = "Sorcerer";
     sorcerer.portraitTextureName = "PC16-01";
     sorcerer.level = 5;
+    sorcerer.skillPoints = 5;
     sorcerer.maxHealth = 75;
     sorcerer.health = 75;
     sorcerer.maxSpellPoints = 60;
@@ -212,11 +216,13 @@ void Party::seed(const PartySeed &seed)
 {
     m_members = seed.members;
     m_gold = std::max(0, seed.gold);
+    m_bankGold = 0;
     m_food = std::max(0, seed.food);
 
     for (Character &member : m_members)
     {
         member.level = std::max<uint32_t>(1, member.level);
+        member.skillPoints = std::max<uint32_t>(0u, member.skillPoints);
         member.maxHealth = std::max(1, member.maxHealth);
         member.health = std::clamp(member.health, 0, member.maxHealth);
         member.maxSpellPoints = std::max(0, member.maxSpellPoints);
@@ -230,6 +236,7 @@ void Party::seed(const PartySeed &seed)
         fallbackMember.name = "Adventurer";
         fallbackMember.role = "Knight";
         fallbackMember.level = 1;
+        fallbackMember.skillPoints = 0;
         fallbackMember.maxHealth = 100;
         fallbackMember.health = 100;
         m_members.push_back(fallbackMember);
@@ -335,14 +342,16 @@ void Party::addFood(int amount)
     m_food = std::max(0, m_food + amount);
 }
 
-void Party::grantItem(uint32_t objectDescriptionId, uint32_t quantity)
+bool Party::tryGrantItem(uint32_t objectDescriptionId, uint32_t quantity)
 {
     if (objectDescriptionId == 0 || quantity == 0)
     {
-        return;
+        return false;
     }
 
-    for (uint32_t i = 0; i < quantity; ++i)
+    std::vector<Character> testMembers = m_members;
+
+    for (uint32_t itemCount = 0; itemCount < quantity; ++itemCount)
     {
         InventoryItem item = {};
         item.objectDescriptionId = objectDescriptionId;
@@ -352,7 +361,7 @@ void Party::grantItem(uint32_t objectDescriptionId, uint32_t quantity)
 
         bool added = false;
 
-        for (Character &member : m_members)
+        for (Character &member : testMembers)
         {
             if (member.addInventoryItem(item))
             {
@@ -364,8 +373,19 @@ void Party::grantItem(uint32_t objectDescriptionId, uint32_t quantity)
         if (!added)
         {
             m_lastStatus = "inventory full";
-            return;
+            return false;
         }
+    }
+
+    m_members = std::move(testMembers);
+    return true;
+}
+
+void Party::grantItem(uint32_t objectDescriptionId, uint32_t quantity)
+{
+    if (!tryGrantItem(objectDescriptionId, quantity))
+    {
+        return;
     }
 }
 
@@ -405,6 +425,70 @@ bool Party::removeItem(uint32_t objectDescriptionId, uint32_t quantity)
     }
 
     return removedCount == quantity;
+}
+
+bool Party::needsHealing() const
+{
+    for (const Character &member : m_members)
+    {
+        if (member.health < member.maxHealth || member.spellPoints < member.maxSpellPoints)
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+void Party::restoreAll()
+{
+    for (Character &member : m_members)
+    {
+        member.health = member.maxHealth;
+        member.spellPoints = member.maxSpellPoints;
+    }
+}
+
+bool Party::trainLeader(uint32_t maxLevel, uint32_t &newLevel, uint32_t &skillPointsEarned)
+{
+    newLevel = 0;
+    skillPointsEarned = 0;
+
+    if (m_members.empty())
+    {
+        return false;
+    }
+
+    Character &leader = m_members.front();
+
+    if (maxLevel > 0 && leader.level >= maxLevel)
+    {
+        return false;
+    }
+
+    leader.level += 1;
+    skillPointsEarned = 5 + leader.level / 10;
+    leader.skillPoints += skillPointsEarned;
+    leader.health = leader.maxHealth;
+    leader.spellPoints = leader.maxSpellPoints;
+    newLevel = leader.level;
+    return true;
+}
+
+int Party::depositAllGoldToBank()
+{
+    const int depositedGold = m_gold;
+    m_bankGold += depositedGold;
+    m_gold = 0;
+    return depositedGold;
+}
+
+int Party::withdrawAllBankGold()
+{
+    const int withdrawnGold = m_bankGold;
+    m_gold += withdrawnGold;
+    m_bankGold = 0;
+    return withdrawnGold;
 }
 
 uint8_t Party::resolveInventoryWidth(uint32_t objectDescriptionId) const
@@ -473,6 +557,11 @@ int Party::totalMaxHealth() const
 int Party::gold() const
 {
     return m_gold;
+}
+
+int Party::bankGold() const
+{
+    return m_bankGold;
 }
 
 int Party::food() const

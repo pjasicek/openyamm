@@ -29,6 +29,21 @@ std::string decodeVariableRef(uint32_t rawValue)
         return "QBits[" + std::to_string(index) + "]";
     }
 
+    if (tag == 0x0011)
+    {
+        return "Inventory[" + std::to_string(index) + "]";
+    }
+
+    if (tag == 0x000c)
+    {
+        return "Awards[" + std::to_string(index) + "]";
+    }
+
+    if (tag == 0x0006)
+    {
+        return "Players[" + std::to_string(index) + "]";
+    }
+
     std::ostringstream stream;
     stream << "Var(tag=" << hexValue(tag) << ", index=" << index << ")";
     return stream.str();
@@ -54,7 +69,12 @@ std::string decodeActorBit(uint32_t rawValue)
 }
 }
 
-bool EventIrProgram::buildFromEvtProgram(const EvtProgram &evtProgram, const StrTable &strTable, const HouseTable &houseTable)
+bool EventIrProgram::buildFromEvtProgram(
+    const EvtProgram &evtProgram,
+    const StrTable &strTable,
+    const HouseTable &houseTable,
+    const NpcDialogTable &npcDialogTable
+)
 {
     m_events.clear();
 
@@ -65,7 +85,9 @@ bool EventIrProgram::buildFromEvtProgram(const EvtProgram &evtProgram, const Str
 
         for (const EvtInstruction &evtInstruction : evtEvent.instructions)
         {
-            irEvent.instructions.push_back(convertInstruction(evtEvent.eventId, evtInstruction, strTable, houseTable));
+            irEvent.instructions.push_back(
+                convertInstruction(evtEvent.eventId, evtInstruction, strTable, houseTable, npcDialogTable)
+            );
         }
 
         m_events.push_back(std::move(irEvent));
@@ -257,7 +279,8 @@ EventIrInstruction EventIrProgram::convertInstruction(
     uint16_t eventId,
     const EvtInstruction &evtInstruction,
     const StrTable &strTable,
-    const HouseTable &houseTable
+    const HouseTable &houseTable,
+    const NpcDialogTable &npcDialogTable
 )
 {
     EventIrInstruction irInstruction = {};
@@ -304,7 +327,12 @@ EventIrInstruction EventIrProgram::convertInstruction(
     if ((evtInstruction.opcode == EvtOpcode::ShowMessage || evtInstruction.opcode == EvtOpcode::StatusText)
         && evtInstruction.value1)
     {
-        const std::optional<std::string> text = strTable.get(static_cast<uint8_t>(*evtInstruction.value1));
+        std::optional<std::string> text = strTable.get(static_cast<uint8_t>(*evtInstruction.value1));
+
+        if (!text)
+        {
+            text = npcDialogTable.getText(*evtInstruction.value1);
+        }
 
         if (text)
         {
@@ -529,10 +557,12 @@ EventIrInstruction EventIrProgram::convertInstruction(
 
         case EventIrOperation::SetNpcTopic:
         {
-            if (evtInstruction.value1 && evtInstruction.value2)
+            if (evtInstruction.value1 && evtInstruction.value2 && evtInstruction.value3)
             {
                 std::ostringstream note;
-                note << "npc=" << *evtInstruction.value1 << " topic=" << *evtInstruction.value2;
+                note << "npc=" << *evtInstruction.value1
+                     << " slot=" << *evtInstruction.value2
+                     << " event=" << *evtInstruction.value3;
                 irInstruction.note = note.str();
             }
             break;

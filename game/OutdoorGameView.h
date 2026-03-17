@@ -6,10 +6,12 @@
 #include "game/MonsterTable.h"
 #include "game/OutdoorMapData.h"
 #include "game/ChestTable.h"
+#include "game/EventDialogContent.h"
 #include "game/EvtProgram.h"
 #include "game/EventIr.h"
 #include "game/EventRuntime.h"
 #include "game/HouseTable.h"
+#include "game/NpcDialogTable.h"
 #include "game/StrTable.h"
 #include "engine/AssetFileSystem.h"
 
@@ -24,15 +26,17 @@
 namespace OpenYAMM::Game
 {
 class OutdoorPartyRuntime;
+class OutdoorWorldRuntime;
+class ItemTable;
 
-class TerrainDebugRenderer
+class OutdoorGameView
 {
 public:
-    TerrainDebugRenderer();
-    ~TerrainDebugRenderer();
+    OutdoorGameView();
+    ~OutdoorGameView();
 
-    TerrainDebugRenderer(const TerrainDebugRenderer &) = delete;
-    TerrainDebugRenderer &operator=(const TerrainDebugRenderer &) = delete;
+    OutdoorGameView(const OutdoorGameView &) = delete;
+    OutdoorGameView &operator=(const OutdoorGameView &) = delete;
 
     bool initialize(
         const Engine::AssetFileSystem &assetFileSystem,
@@ -52,13 +56,15 @@ public:
         const std::optional<MapDeltaData> &outdoorMapDeltaData,
         const ChestTable &chestTable,
         const HouseTable &houseTable,
+        const NpcDialogTable &npcDialogTable,
+        const ItemTable &itemTable,
         const std::optional<StrTable> &localStrTable,
         const std::optional<EvtProgram> &localEvtProgram,
         const std::optional<EvtProgram> &globalEvtProgram,
-        const std::optional<EventRuntimeState> &eventRuntimeState,
         const std::optional<EventIrProgram> &localEventIrProgram,
         const std::optional<EventIrProgram> &globalEventIrProgram,
-        OutdoorPartyRuntime *pOutdoorPartyRuntime
+        OutdoorPartyRuntime *pOutdoorPartyRuntime,
+        OutdoorWorldRuntime *pOutdoorWorldRuntime
     );
     void render(int width, int height, float mouseWheelDelta);
     void shutdown();
@@ -130,6 +136,8 @@ private:
         std::string kind;
         std::string name;
         bool isFriendly = false;
+        int16_t npcId = 0;
+        uint32_t actorGroup = 0;
         uint16_t decorationListId = 0;
         uint16_t eventIdPrimary = 0;
         uint16_t eventIdSecondary = 0;
@@ -182,8 +190,14 @@ private:
     );
     void renderGameplayHudArt(int width, int height);
     void renderGameplayHud(int width, int height) const;
+    void renderChestPanel(int width, int height) const;
+    void renderEventDialogPanel(int width, int height) const;
     void renderActorPreviewBillboards(uint16_t viewId, const float *pViewMatrix, const bx::Vec3 &cameraPosition);
     void renderSpriteObjectBillboards(uint16_t viewId, const float *pViewMatrix, const bx::Vec3 &cameraPosition);
+    void executeActiveDialogAction();
+    void openPendingEventDialog(size_t previousMessageCount, bool allowNpcFallbackContent);
+    void closeActiveEventDialog();
+    bool hasActiveEventDialog() const;
     const BillboardTextureHandle *findBillboardTexture(const std::string &textureName) const;
     const HudTextureHandle *findHudTexture(const std::string &textureName) const;
     bool loadHudTexture(const Engine::AssetFileSystem &assetFileSystem, const std::string &textureName);
@@ -197,14 +211,16 @@ private:
     std::optional<SpriteObjectBillboardSet> m_outdoorSpriteObjectBillboardSet;
     std::optional<MapDeltaData> m_outdoorMapDeltaData;
     std::optional<HouseTable> m_houseTable;
+    std::optional<NpcDialogTable> m_npcDialogTable;
     std::optional<ChestTable> m_chestTable;
+    const ItemTable *m_pItemTable;
     std::optional<StrTable> m_localStrTable;
     std::optional<EvtProgram> m_localEvtProgram;
     std::optional<EvtProgram> m_globalEvtProgram;
-    std::optional<EventRuntimeState> m_eventRuntimeState;
     EventRuntime m_eventRuntime;
     std::optional<EventIrProgram> m_localEventIrProgram;
     std::optional<EventIrProgram> m_globalEventIrProgram;
+    OutdoorWorldRuntime *m_pOutdoorWorldRuntime;
     bgfx::VertexBufferHandle m_vertexBufferHandle;
     bgfx::IndexBufferHandle m_indexBufferHandle;
     bgfx::VertexBufferHandle m_texturedTerrainVertexBufferHandle;
@@ -266,6 +282,16 @@ private:
     bool m_toggleFlyingLatch;
     bool m_toggleWaterWalkLatch;
     bool m_toggleFeatherFallLatch;
+    bool m_closeOverlayLatch;
+    bool m_lootChestItemLatch;
+    bool m_chestSelectUpLatch;
+    bool m_chestSelectDownLatch;
+    bool m_eventDialogSelectUpLatch;
+    bool m_eventDialogSelectDownLatch;
+    bool m_eventDialogAcceptLatch;
+    size_t m_chestSelectionIndex;
+    size_t m_eventDialogSelectionIndex;
+    EventDialogContent m_activeEventDialog;
     OutdoorPartyRuntime *m_pOutdoorPartyRuntime;
 };
 }

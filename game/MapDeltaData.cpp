@@ -17,13 +17,16 @@ constexpr size_t ChestRecordSize = 5324;
 constexpr size_t DoorRecordSize = 0x50;
 constexpr size_t PersistentVariablesSize = 0xc8;
 constexpr size_t LocationTimeSize = 0x38;
+constexpr size_t ActorNameSize = 32;
 constexpr size_t SpriteObjectContainingItemOffset = 0x1c;
 constexpr size_t SpriteObjectContainingItemSize = 0x30;
 constexpr size_t ChestItemsOffset = 0x04;
-constexpr size_t ChestItemsSize = 140 * 38;
+constexpr size_t ChestItemsSize = 140 * 36;
 constexpr size_t ChestInventoryMatrixOffset = ChestItemsOffset + ChestItemsSize;
 constexpr size_t ActorNpcIdOffset = 0x20;
+constexpr size_t ActorAttributesOffset = 0x24;
 constexpr size_t ActorHpOffset = 0x28;
+constexpr size_t ActorHostilityTypeOffset = 0x2c;
 constexpr size_t ActorMonsterInfoIdOffset = 0x6a;
 constexpr size_t ActorMonsterIdOffset = 0x7c;
 constexpr size_t ActorRadiusOffset = 0x90;
@@ -31,7 +34,11 @@ constexpr size_t ActorHeightOffset = 0x92;
 constexpr size_t ActorMoveSpeedOffset = 0x94;
 constexpr size_t ActorPositionOffset = 0x96;
 constexpr size_t ActorSpriteIdsOffset = 0xd4;
-constexpr size_t ActorUniqueNameIndexOffset = 0x34c;
+constexpr size_t ActorSectorIdOffset = 0xdc;
+constexpr size_t ActorCurrentActionAnimationOffset = 0xde;
+constexpr size_t ActorAllyOffset = 0x340;
+constexpr size_t ActorGroupOffset = 0x34c;
+constexpr size_t ActorUniqueNameIndexOffset = 0x3bc;
 constexpr uint32_t TicksPerRealtimeSecond = 128;
 
 uint32_t ticksToRealtimeMilliseconds(uint32_t ticks)
@@ -220,14 +227,21 @@ bool parseActorVector(const ByteReader &reader, size_t offset, MapDeltaData &map
     {
         const size_t actorOffset = actorDataOffset + static_cast<size_t>(actorIndex) * ActorRecordSize;
         MapDeltaActor actor = {};
+        actor.name = reader.readFixedString(actorOffset, ActorNameSize);
 
         if (!reader.readInt16(actorOffset + ActorNpcIdOffset, actor.npcId)
+            || !reader.readUInt32(actorOffset + ActorAttributesOffset, actor.attributes)
             || !reader.readInt16(actorOffset + ActorHpOffset, actor.hp)
+            || !reader.readUInt8(actorOffset + ActorHostilityTypeOffset, actor.hostilityType)
             || !reader.readInt16(actorOffset + ActorMonsterInfoIdOffset, actor.monsterInfoId)
             || !reader.readInt16(actorOffset + ActorMonsterIdOffset, actor.monsterId)
             || !reader.readUInt16(actorOffset + ActorRadiusOffset, actor.radius)
             || !reader.readUInt16(actorOffset + ActorHeightOffset, actor.height)
             || !reader.readUInt16(actorOffset + ActorMoveSpeedOffset, actor.moveSpeed)
+            || !reader.readInt16(actorOffset + ActorSectorIdOffset, actor.sectorId)
+            || !reader.readUInt16(actorOffset + ActorCurrentActionAnimationOffset, actor.currentActionAnimation)
+            || !reader.readUInt32(actorOffset + ActorAllyOffset, actor.ally)
+            || !reader.readUInt32(actorOffset + ActorGroupOffset, actor.group)
             || !reader.readInt32(actorOffset + ActorUniqueNameIndexOffset, actor.uniqueNameIndex))
         {
             return false;

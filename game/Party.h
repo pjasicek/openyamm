@@ -30,6 +30,7 @@ struct Character
     std::string role;
     std::string portraitTextureName;
     uint32_t level = 1;
+    uint32_t skillPoints = 0;
     int maxHealth = 100;
     int health = 100;
     int maxSpellPoints = 0;
@@ -64,13 +65,20 @@ public:
     void applyEventRuntimeState(const EventRuntimeState &runtimeState);
     void addGold(int amount);
     void addFood(int amount);
+    bool tryGrantItem(uint32_t objectDescriptionId, uint32_t quantity = 1);
     void grantItem(uint32_t objectDescriptionId, uint32_t quantity = 1);
     bool removeItem(uint32_t objectDescriptionId, uint32_t quantity = 1);
+    bool needsHealing() const;
+    void restoreAll();
+    bool trainLeader(uint32_t maxLevel, uint32_t &newLevel, uint32_t &skillPointsEarned);
+    int depositAllGoldToBank();
+    int withdrawAllBankGold();
 
     const std::vector<Character> &members() const;
     int totalHealth() const;
     int totalMaxHealth() const;
     int gold() const;
+    int bankGold() const;
     int food() const;
     size_t inventoryItemCount() const;
     size_t usedInventoryCells() const;
@@ -90,6 +98,7 @@ private:
     const ItemTable *m_pItemTable = nullptr;
     std::vector<Character> m_members;
     int m_gold = 0;
+    int m_bankGold = 0;
     int m_food = 0;
     uint32_t m_waterDamageTicks = 0;
     uint32_t m_burningDamageTicks = 0;

@@ -561,7 +561,6 @@ bool EvtProgram::parseInstruction(const std::vector<uint8_t> &record, EvtInstruc
 
         case EvtOpcode::SetFacesBit:
         case EvtOpcode::ToggleActorFlag:
-        case EvtOpcode::SetNpcTopic:
         case EvtOpcode::SetNpcGroupNews:
         case EvtOpcode::ToggleActorGroupFlag:
         case EvtOpcode::ToggleChestFlag:
@@ -573,6 +572,24 @@ bool EvtProgram::parseInstruction(const std::vector<uint8_t> &record, EvtInstruc
             if (const std::optional<uint32_t> value = tryReadU32(6))
             {
                 instruction.value2 = *value;
+            }
+
+            if (const std::optional<uint8_t> value = tryReadU8(10))
+            {
+                instruction.booleanValue = *value;
+            }
+            break;
+
+        case EvtOpcode::SetNpcTopic:
+            if (const std::optional<uint32_t> value = tryReadU32(2))
+            {
+                instruction.value1 = *value;
+            }
+
+            if (const std::optional<uint32_t> value = tryReadU32(6))
+            {
+                instruction.value2 = *value & 0xFFu;
+                instruction.value3 = *value >> 8;
             }
 
             if (const std::optional<uint8_t> value = tryReadU8(10))
@@ -697,13 +714,19 @@ std::string EvtProgram::formatInstruction(const EvtInstruction &instruction, con
 
         case EvtOpcode::SetFacesBit:
         case EvtOpcode::ToggleActorFlag:
-        case EvtOpcode::SetNpcTopic:
         case EvtOpcode::SetNpcGroupNews:
         case EvtOpcode::ToggleActorGroupFlag:
         case EvtOpcode::ToggleChestFlag:
             stream << " {A=" << (instruction.value1 ? *instruction.value1 : 0)
                    << " B=" << (instruction.value2 ? *instruction.value2 : 0)
                    << " On=" << (instruction.booleanValue ? static_cast<unsigned>(*instruction.booleanValue) : 0)
+                   << "}";
+            break;
+
+        case EvtOpcode::SetNpcTopic:
+            stream << " {NPC=" << (instruction.value1 ? *instruction.value1 : 0)
+                   << " Index=" << (instruction.value2 ? *instruction.value2 : 0)
+                   << " Event=" << (instruction.value3 ? *instruction.value3 : 0)
                    << "}";
             break;
 
