@@ -1,0 +1,247 @@
+# House Id	Animation Id	Building Name	NPC List	Video Name	Enter Sound
+# Note: HouseId stays in this table because current BUILDINGS.txt contains house-specific overrides
+# that cannot be reduced to AnimationId alone without losing information.
+1	6	True Mettle	TODO	Buildings/Videos/Lizards/L_WeaponShop	TODO
+15	7	The Tannery	TODO	Buildings/Videos/Lizards/L_ArmorShop	TODO
+29	9	Fearsome Fetishes	TODO	Buildings/Videos/Lizards/L_MagicShop	TODO
+42	8	Herbal Elixirs	TODO	Buildings/Videos/Lizards/L_AlchemyShop	TODO
+74	5	Mystic Medicine	TODO	Buildings/Videos/Lizards/L_Temple	TODO
+89	11	Rites of Passage	TODO	Buildings/Videos/Lizards/L_TrainingHall	TODO
+107	13	The Grog and Grub	TODO	Buildings/Videos/Lizards/L_Tavern	TODO
+115	91	Pirate's Rest	296	TODO	TODO
+128	12	The Some Place Safe	TODO	Buildings/Videos/Lizards/L_Bank	TODO
+139	139	Cures and Curses	TODO	Buildings/Videos/Lizards/L_SpellShop	TODO
+173	14	Clan Leader's Hall	1,2	Buildings/Videos/Lizards/L_ChiefHouse	TODO
+174	81	Wererat Smuggler Leader	4	TODO	TODO
+175	30	Council Chamber Door	53	TODO	TODO
+176	28	Merchant Guildhouse	5	TODO	TODO
+178	72	Dragon Leader's Cavern 	21	TODO	TODO
+179	54	Charles Quixote's House	19	TODO	TODO
+180	71	Sandro/Thant's Throne Room	9,1	TODO	TODO
+181	61	Dyson Leland's Room	11	TODO	TODO
+182	57	Temple of the Sun Leader Room	37	TODO	TODO
+183	44	Minotaur Leader's Room	13	TODO	TODO
+184	93	Escaton's Throne Room	26	TODO	TODO
+187	0	Oracle	502	TODO	TODO
+195	106	Merchanthouse of Alvar	3	TODO	TODO
+224	3	Hiss' Hut	89	Buildings/Videos/Lizards/L_Hut	TODO
+225	3	Rohtnax's House	33	Buildings/Videos/Lizards/L_MediumHouse	TODO
+226	3	Tisk's Hut	34	Buildings/Videos/Lizards/L_Hut	TODO
+227	3	Thadin's House	321	Buildings/Videos/Lizards/L_MediumHouse	TODO
+228	3	House of Ich	369,401	Buildings/Videos/Lizards/L_MediumHouse	TODO
+229	3	Languid's Hut	79,388	Buildings/Videos/Lizards/L_Hut	TODO
+230	3	House of Thistle	88,315	Buildings/Videos/Lizards/L_MediumHouse	TODO
+231	3	Zevah's Hut	351	Buildings/Videos/Lizards/L_Hut	TODO
+232	3	Isthric's House	90,375	Buildings/Videos/Lizards/L_MediumHouse	TODO
+233	3	Bone's House	327	Buildings/Videos/Lizards/L_MediumHouse	TODO
+234	3	Lasatin's Hut	397	Buildings/Videos/Lizards/L_Hut	TODO
+235	3	Menasaur's House	182,384	Buildings/Videos/Lizards/L_MediumHouse	TODO
+236	3	Husk's Hut	183	Buildings/Videos/Lizards/L_Hut	TODO
+237	56	Talimere's Hut	32	Buildings/Videos/Lizards/L_Hut	TODO
+238	1	House of Reshie	339	Buildings/Videos/Lizards/L_MediumHouse	TODO
+240	1	Long-Tail's Hut	279,311	Buildings/Videos/Lizards/L_Hut	TODO
+241	1	Aislen's House	78	Buildings/Videos/Lizards/L_MediumHouse	TODO
+242	1	House of Grivic	342	Buildings/Videos/Lizards/L_MediumHouse	TODO
+243	1	Ush's Hut	404	Buildings/Videos/Lizards/L_MediumHouse	TODO
+244	77	Wilburt's Hovel	92	TODO	TODO
+245	77	Jack's Hovel	438	TODO	TODO
+246	15	Iver's Estate	437	TODO	TODO
+247	56	Pederton Place	336	TODO	TODO
+248	77	Puddle's Hovel	306	TODO	TODO
+249	15	Forgewright Estate	324	TODO	TODO
+250	15	Apple Home	405	TODO	TODO
+251	56	Treblid's Home	280	TODO	TODO
+252	77	Holden's Hovel	436	TODO	TODO
+253	77	Aznog's Hovel	409	TODO	TODO
+254	17	Luodrin House	300	TODO	TODO
+255	15	Applebee Estate	406	TODO	TODO
+256	56	Archibald's Home	354	TODO	TODO
+257	31	Arius' House	429,454	TODO	TODO
+258	17	Deerhunter's House	417	TODO	TODO
+259	15	Townsaver Hall	309,318	TODO	TODO
+260	56	Jobber's Home	313	TODO	TODO
+261	56	Maylander's House	459	TODO	TODO
+262	46	Bluesawn Home	410	TODO	TODO
+263	15	Quicktongue Estate	377	TODO	TODO
+264	15	Laraselle Estate	441	TODO	TODO
+265	15	Hillsman Cottage	435	TODO	TODO
+266	15	Caverhill Estate	364	TODO	TODO
+267	46	Reaver's Home	122	TODO	TODO
+268	15	Temper Hall	333	TODO	TODO
+269	46	Putnam's Home	381	TODO	TODO
+270	17	Karrand's Cottage	439	TODO	TODO
+271	56	Lathius' Home	98	TODO	TODO
+272	15	Guild of Bounty Hunters	297	TODO	TODO
+273	46	Botham Hall	328	TODO	TODO
+274	15	Neblick's House	293	TODO	TODO
+275	46	Stonecleaver Hall	395	TODO	TODO
+278	17	Brigham's Home	440	TODO	TODO
+279	58	House Memoria	458	TODO	TODO
+280	56	House of Hawthorne 	345	TODO	TODO
+281	56	Lott's Family Home	390	TODO	TODO
+282	15	House of Nosewort	316	TODO	TODO
+283	47	Hall of the Tracker	91	TODO	TODO
+284	77	Hunter's Hovel	304	TODO	TODO
+285	56	Dervish's Cottage	63	TODO	TODO
+286	77	Dotes Family Hovel	419	TODO	TODO
+287	15	Withersmythe Estate	310	TODO	TODO
+288	17	Vespers Hall	312	TODO	TODO
+289	17	Hall of Solis	317	TODO	TODO
+290	17	Eversmyle Hall	325	TODO	TODO
+291	17	Moore Cottage	330	TODO	TODO
+292	17	House of Krewlen	348	TODO	TODO
+293	15	Darkenmoore Hall	357	TODO	TODO
+294	15	Dervish Estate	363	TODO	TODO
+295	15	Agraynel Hall	365	TODO	TODO
+296	17	House of Lightfinger	370	TODO	TODO
+297	17	Nightwalker Cottage	372	TODO	TODO
+298	17	Sparkman Home	387	TODO	TODO
+299	17	Sablewood Hall	343	TODO	TODO
+300	15	Steele Estate	334	TODO	TODO
+301	17	Guild of Bounty Hunters	298	TODO	TODO
+302	17	Watershed Cottage	399	TODO	TODO
+303	15	Fromago Manor	442	TODO	TODO
+304	15	Blackthorne Estate	52	TODO	TODO
+305	17	House of Nevermore	382	TODO	TODO
+306	17	Ittalle Cottage	57	TODO	TODO
+307	17	Havest Hall	434	TODO	TODO
+308	17	Iverson Estate	376	TODO	TODO
+309	17	Oscleton Residence	455	TODO	TODO
+310	17	Thelbourne Residence	463	TODO	TODO
+311	17	Greydawn Residence	433	TODO	TODO
+312	17	House Stellare	471	TODO	TODO
+313	17	House of Brandy	281	TODO	TODO
+314	17	Bowes Residence	412	TODO	TODO
+315	17	Breman Residence	413	TODO	TODO
+316	46	Stormlance Residence	62,301	TODO	TODO
+317	47	Morningstar Residence	319,418	TODO	TODO
+318	46	Foestryke Residence	274,303	TODO	TODO
+319	47	Ironfist Residence	329,407	TODO	TODO
+320	46	Reaverston Residence	332	TODO	TODO
+321	98	Burn's House	335	TODO	TODO
+323	99	Black Current's House	338	TODO	TODO
+325	17	 Home of Rihansi 	99	TODO	TODO
+326	17	Bombah Hall	411	TODO	TODO
+327	17	Keldon's Cottage	123	TODO	TODO
+328	17	Veldon's Cottage	163	TODO	TODO
+329	17	House Farswell	421	TODO	TODO
+330	17	Featherwind's House	422	TODO	TODO
+331	77	Stone's Hovel	307,426	TODO	TODO
+332	77	Hearthsworn Hovel	320	TODO	TODO
+333	77	Talion's Hovel	160,323	TODO	TODO
+334	77	Hovel of Mist	337	TODO	TODO
+335	77	Hobert's Hovel	184,430	TODO	TODO
+336	77	Hovel of Greenstorm	386,431	TODO	TODO
+337	77	Pole's Hovel	186	TODO	TODO
+338	77	Tarent Hovel	402	TODO	TODO
+339	77	Schmecker's Hovel	56,80,219	TODO	TODO
+340	47	Avalon's Residence	240	TODO	TODO
+341	46	Arin Residence	352	TODO	TODO
+342	47	Lightsworn Residence	380	TODO	TODO
+343	46	Otterton Residence	385	TODO	TODO
+344	47	Calandril's Residence	231	TODO	TODO
+345	46	Maker Residence	393	TODO	TODO
+346	47	Slayer Residence	396	TODO	TODO
+347	46	Kern Residence	346	TODO	TODO
+348	47	Jeni Residence	391	TODO	TODO
+349	46	Weldrick's Home	420	TODO	TODO
+350	160	Ishton's Cave	273,366,443	TODO	TODO
+351	160	Ithilgore's Cave	367,457	TODO	TODO
+352	160	Scarwing's Cave	239,368	TODO	TODO
+355	58	Taleshire Hall	74	TODO	TODO
+356	61	Nightcrawler Estate	383	TODO	TODO
+357	58	Mistspring Residence	379	TODO	TODO
+358	58	House Arachnia	362	TODO	TODO
+359	58	Dirthmoore Cottage	361	TODO	TODO
+360	61	House of Lathaen	75	TODO	TODO
+361	61	Brightsprear Hall	414	TODO	TODO
+362	58	Nightwood Estate	331	TODO	TODO
+363	58	House Shador	360	TODO	TODO
+364	61	House Mercutura	464	TODO	TODO
+365	58	Roggen Hall	389	TODO	TODO
+366	61	Hallien's Cottage	277	TODO	TODO
+367	58	Roberts Residence	482	TODO	TODO
+368	58	Infaustus' House	472	TODO	TODO
+369	58	House of Journey	292	TODO	TODO
+370	61	Whisper Hall	283	TODO	TODO
+371	61	Steeleye Estate	373	TODO	TODO
+372	58	House of Benefice	276	TODO	TODO
+373	58	House Umberpool	358	TODO	TODO
+374	58	Kelvin's Home	185	TODO	TODO
+375	61	Caverhill Hall	415	TODO	TODO
+376	58	Veritas Estate	480	TODO	TODO
+377	61	Stillwater Estate	308	TODO	TODO
+378	61	Crane Cottage	416	TODO	TODO
+379	58	Bith Estate	408	TODO	TODO
+380	58	Fellburn Residence	423	TODO	TODO
+381	58	Gallowswell Manor	428	TODO	TODO
+382	61	House Fiddlebone	424	TODO	TODO
+383	58	Deverbero Residence	466	TODO	TODO
+384	58	Tantilion's House	275	TODO	TODO
+385	58	Fist Residence	425	TODO	TODO
+386	61	Wargreen's Lab	507	TODO	TODO
+387	58	House Wallace	513	TODO	TODO
+388	56	Ravensight Residence	347	TODO	TODO
+389	56	Dreamwright Residence	350	TODO	TODO
+390	56	Snowtree Residence	72,353	TODO	TODO
+391	56	Dantillion's Residence	54,355	TODO	TODO
+392	56	Mithrit Residence	378	TODO	TODO
+393	56	Tonk Residence	232,392	TODO	TODO
+394	56	Keenedge Residence	394	TODO	TODO
+395	56	Treasurestone Residence	282,4	TODO	TODO
+396	56	Sampson Residence	403	TODO	TODO
+397	77	Xevius's Residence	187	TODO	TODO
+398	77	Vish's House	509	TODO	TODO
+399	77	Sail's Shack	503	TODO	TODO
+400	77	Pordo's Hovel	508	TODO	TODO
+401	77	Galvinus's Home	124	TODO	TODO
+402	33	Thanys' House	70	TODO	TODO
+403	33	Ferris' House	510	TODO	TODO
+407	31	Suretail House	374	TODO	TODO
+408	31	Rionel's House	470	TODO	TODO
+412	31	Ulbrecht's House	478	TODO	TODO
+413	33	Senjac's House	305	TODO	TODO
+416	31	Lotts' House	349	TODO	TODO
+417	31	Hollyfield House	322	TODO	TODO
+418	33	Tessalar's House	71	TODO	TODO
+419	31	Stormeye's House	340	TODO	TODO
+423	84	Dragontracker Hall	302	TODO	TODO
+424	82	Nirses Loot	314	TODO	TODO
+425	84	Burnkindle's Spoils	326	TODO	TODO
+426	82	Cleareye Hall	356	TODO	TODO
+427	84	Shadowrunner's Vault	359	TODO	TODO
+428	82	Lifter's Lockup	371	TODO	TODO
+429	84	Steelcoif Hall	398	TODO	TODO
+430	82	Jawblower Manor	504	TODO	TODO
+431	84	Marmon Domicile	505	TODO	TODO
+432	82	One-eye's Lair	278	TODO	TODO
+433	84	Paul's Estate	506	TODO	TODO
+434	82	Terrence's Home	511	TODO	TODO
+435	84	Ferne Lair	512	TODO	TODO
+436	82	Pavel's Place	291	TODO	TODO
+437	84	Nalani's Hall	514	TODO	TODO
+438	82	Mercer Domicile	515	TODO	TODO
+439	76	Air Lord's Cell	30	TODO	TODO
+440	75	Water Lord's Cell	28	TODO	TODO
+441	74	Earth Lord's Cell	29	TODO	TODO
+442	73	Fire Lord's Cell	27	TODO	TODO
+443	101	Wingsail's House	446	TODO	TODO
+444	101	Vapor's House	447	TODO	TODO
+445	101	Zephyr's House	427	TODO	TODO
+450	101	Nedlon's House	341	TODO	TODO
+452	0	Cagnor's Shop	294	TODO	TODO
+457	100	Loamwalker's House	444	TODO	TODO
+458	100	Soil's House	445	TODO	TODO
+467	98	Ember's House	499	TODO	TODO
+468	98	Evenblaze's House	500	TODO	TODO
+472	99	Riverglass' House	448	TODO	TODO
+473	99	Clearcreek's House	449	TODO	TODO
+477	100	Griven's House	344	TODO	TODO
+478	77	House Understone	477	TODO	TODO
+479	77	Thistlebone Residence	469	TODO	TODO
+480	46	Nelix's House	468	TODO	TODO
+481	46	Tempus' House	476	TODO	TODO
+482	56	Verish's House	467	TODO	TODO
+483	160	Flamdring's Cave	465	TODO	TODO
+484	160	Brimstone's Cave	473	TODO	TODO
+485	160	Duroth's Cave	481	TODO	TODO

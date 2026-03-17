@@ -1,12 +1,12 @@
 2D Events by Type ( NPC's present are from NPC database)																		Schedules		Other Exits		Questbit	Enter																																										
-#	#	Type	Map	Picture	Name	Proprieter Name	Title	Picture	State	Rep	Per	Val	A	B	C	Notes:	Notes(2):	Open	Closed	Pic	Map	Restrictions	Text																																										
-1	1	Weapon Shop	1	6	True Mettle	Kervin	Blacksmith	2109	0	0	0	1.5	1		7			6	18	0	0	0	0																																										
-2	2	Weapon Shop	2	36	Keen Edge	Reaver	Blacksmith	2130	0	0	0	1.5	1		14			6	18	0	0	0	0																																										
-3	3	Weapon Shop	3	20	Polished Steel	Kashue	Blacksmith	2119	0	0	0	2.5	1		14			6	18	0	0	0	0																																										
-4	4	Weapon Shop	5	49	Lance's Spears	Lance	Blacksmith	2139	0	0	0	3	1.5		21			6	18	0	0	0	0																																										
-5	5	Weapon Shop	6	63	Blooded Daggers and Blades	Eldrich	Blacksmith	2146	0	0	0	3	2		21			6	18	0	0	0	0																																										
-6	6	Weapon Shop	35	36	Ayzar's Axes	Ayzar	Blacksmith	2130	0	0	0	4	2		28			6	18	0	0	0	0																																										
-7	7	Weapon Shop	13	86	Custom Cutlass	Critias	Blacksmith	2177	0	0	0	4	2		28			6	18	0	0	0	0																																										
+#	#	Type	Map	Picture	Name	Proprieter Name	Title	Picture	State	Rep	Per	Val	A	B	C	Notes:	Notes(2):	Open	Closed	Pic	Map	Restrictions	Text	SkillOffers																																									
+1	1	Weapon Shop	1	6	True Mettle	Kervin	Blacksmith	2109	0	0	0	1.5	1		7			6	18	0	0	0	0	Sword,Bow																																									
+2	2	Weapon Shop	2	36	Keen Edge	Reaver	Blacksmith	2130	0	0	0	1.5	1		14			6	18	0	0	0	0	Sword,Dagger,Mace																																									
+3	3	Weapon Shop	3	20	Polished Steel	Kashue	Blacksmith	2119	0	0	0	2.5	1		14			6	18	0	0	0	0	Sword,Dagger,Axe																																									
+4	4	Weapon Shop	5	49	Lance's Spears	Lance	Blacksmith	2139	0	0	0	3	1.5		21			6	18	0	0	0	0	Spear,Bow																																									
+5	5	Weapon Shop	6	63	Blooded Daggers and Blades	Eldrich	Blacksmith	2146	0	0	0	3	2		21			6	18	0	0	0	0	Sword,Dagger																																									
+6	6	Weapon Shop	35	36	Ayzar's Axes	Ayzar	Blacksmith	2130	0	0	0	4	2		28			6	18	0	0	0	0	Axe,Mace																																									
+7	7	Weapon Shop	13	86	Custom Cutlass	Critias	Blacksmith	2177	0	0	0	4	2		28			6	18	0	0	0	0	Sword																																									
 8	8	Weapon Shop	0	0	Placeholder	Placeholder	Blacksmith	0	0	0	0	0	0		0			6	18	0	0	0	0																																										
 9	9	Weapon Shop	0	0	Placeholder	Placeholder	Blacksmith	0	0	0	0	0	0		0			6	18	0	0	0	0																																										
 10	10	Weapon Shop	0	0	Placeholder	Placeholder	Blacksmith	0	0	0	0	0	0		0			6	18	0	0	0	0																																										
@@ -14,13 +14,13 @@
 12	12	Weapon Shop	0	0	Placeholder	Placeholder	Blacksmith	0	0	0	0	0	0		0			6	18	0	0	0	0																																										
 13	13	Weapon Shop	0	0	Placeholder	Placeholder	Blacksmith	0	0	0	0	0	0		0			6	18	0	0	0	0																																										
 14	14	Weapon Shop	0	0	Placeholder	Placeholder	Blacksmith	0	0	0	0	0	0		0			6	18	0	0	0	0																																										
-15	1	Armor Shop	1	7	The Tannery	Lishnak	Armorsmith	2110	0	0	0	1.5	1		7			6	18	0	0	0	0																																										
-16	2	Armor Shop	2	50	The Polished Shield	Walvis	Armorsmith	2140	0	0	0	1.5	1		14			6	18	0	0	0	0																																										
-17	3	Armor Shop	3	21	Armory	Chaynal	Armorsmith	2128	0	0	0	2.5	1		14			6	18	0	0	0	0																																										
-18	4	Armor Shop	5	50	Plated Protection	Balfour	Armorsmith	2140	0	0	0	3	1.5		21			6	18	0	0	0	0																																										
-19	5	Armor Shop	6	64	Supple Leather	Prospero	Armorsmith	2147	0	0	0	3	1.5		21			6	18	0	0	0	0																																										
-20	6	Armor Shop	35	37	Linked Mail	Delios	Armorsmith	2131	0	0	0	4	2		28			6	18	0	0	0	0																																										
-21	7	Armor Shop	13	87	Karr Battlegear	Karr	Armorsmith	2173	0	0	0	4	2		28			6	18	0	0	0	0																																										
+15	1	Armor Shop	1	7	The Tannery	Lishnak	Armorsmith	2110	0	0	0	1.5	1		7			6	18	0	0	0	0	LeatherArmor,Shield																																									
+16	2	Armor Shop	2	50	The Polished Shield	Walvis	Armorsmith	2140	0	0	0	1.5	1		14			6	18	0	0	0	0	Shield,ChainArmor																																									
+17	3	Armor Shop	3	21	Armory	Chaynal	Armorsmith	2128	0	0	0	2.5	1		14			6	18	0	0	0	0	LeatherArmor,ChainArmor,PlateArmor																																									
+18	4	Armor Shop	5	50	Plated Protection	Balfour	Armorsmith	2140	0	0	0	3	1.5		21			6	18	0	0	0	0	PlateArmor,ChainArmor,Shield																																									
+19	5	Armor Shop	6	64	Supple Leather	Prospero	Armorsmith	2147	0	0	0	3	1.5		21			6	18	0	0	0	0	LeatherArmor																																									
+20	6	Armor Shop	35	37	Linked Mail	Delios	Armorsmith	2131	0	0	0	4	2		28			6	18	0	0	0	0	ChainArmor																																									
+21	7	Armor Shop	13	87	Karr Battlegear	Karr	Armorsmith	2173	0	0	0	4	2		28			6	18	0	0	0	0	PlateArmor,Shield																																									
 22	8	Armor Shop	0	0	Placeholder	Placeholder	Armorsmith	0	0	0	0	0	0		0			6	18	0	0	0	0																																										
 23	9	Armor Shop	0	0	Placeholder	Placeholder	Armorsmith	0	0	0	0	0	0		0			6	18	0	0	0	0																																										
 24	10	Armor Shop	0	0	Placeholder	Placeholder	Armorsmith	0	0	0	0	0	0		0			6	18	0	0	0	0																																										
@@ -28,25 +28,25 @@
 26	12	Armor Shop	0	0	Placeholder	Placeholder	Armorsmith	0	0	0	0	0	0		0			6	18	0	0	0	0																																										
 27	13	Armor Shop	0	0	Placeholder	Placeholder	Armorsmith	0	0	0	0	0	0		0			6	18	0	0	0	0																																										
 28	14	Armor Shop	0	0	Placeholder	Placeholder	Armorsmith	0	0	0	0	0	0		0			6	18	0	0	0	0																																										
-29	1	Magic Shop	1	9	Fearsome Fetishes	Zith	Magician	2112	0	0	0	1.5	1		7			6	18	0	0	0	0																																										
-30	2	Magic Shop	2	66	Needful Things	Jed	Magician	2149	0	0	0	1.5	1		14			6	18	0	0	0	0																																										
-31	3	Magic Shop	3	23	Arcane Items	Allanya	Magician	2102	0	0	0	2	1		14			6	18	0	0	0	0																																										
-32	4	Magic Shop	5	51	Wards and Pendants	Korxius	Magician	2141	0	0	0	3	1		21			6	18	0	0	0	0																																										
-33	5	Magic Shop	6	66	Mystical Mayhem	Ned	Magician	2149	0	0	0	3	1.5		21			6	18	0	0	0	0																																										
-34	6	Magic Shop	35	39	Amulets of Power	Thurl	Magician	2167	0	0	0	4	1.5		28			6	18	0	0	0	0																																										
-35	7	Magic Shop	13	89	Gifts of Regna	Flynn	Magician	2174	0	0	0	4	1.5		28			6	18	0	0	0	0																																										
-36	8	Magic Shop	2	23	Caori's Curios	Caori	Magician	2102	0	0	0	2	1		14			6	18	0	0	0	0																																										
+29	1	Magic Shop	1	9	Fearsome Fetishes	Zith	Magician	2112	0	0	0	1.5	1		7			6	18	0	0	0	0	IdentifyItem,RepairItem																																									
+30	2	Magic Shop	2	66	Needful Things	Jed	Magician	2149	0	0	0	1.5	1		14			6	18	0	0	0	0	IdentifyItem,RepairItem																																									
+31	3	Magic Shop	3	23	Arcane Items	Allanya	Magician	2102	0	0	0	2	1		14			6	18	0	0	0	0	IdentifyItem,RepairItem																																									
+32	4	Magic Shop	5	51	Wards and Pendants	Korxius	Magician	2141	0	0	0	3	1		21			6	18	0	0	0	0	IdentifyItem,RepairItem																																									
+33	5	Magic Shop	6	66	Mystical Mayhem	Ned	Magician	2149	0	0	0	3	1.5		21			6	18	0	0	0	0	IdentifyItem,RepairItem																																									
+34	6	Magic Shop	35	39	Amulets of Power	Thurl	Magician	2167	0	0	0	4	1.5		28			6	18	0	0	0	0	IdentifyItem,RepairItem																																									
+35	7	Magic Shop	13	89	Gifts of Regna	Flynn	Magician	2174	0	0	0	4	1.5		28			6	18	0	0	0	0	IdentifyItem,RepairItem																																									
+36	8	Magic Shop	2	23	Caori's Curios	Caori	Magician	2102	0	0	0	2	1		14			6	18	0	0	0	0	IdentifyItem,RepairItem																																									
 37	9	Magic Shop	0	0	Placeholder	Placeholder	Magician	0	0	0	0	0	0		0			6	18	0	0	0	0																																										
 38	10	Magic Shop	0	0	Placeholder	Placeholder	Magician	0	0	0	0	0	0		0			6	18	0	0	0	0																																										
 39	11	Magic Shop	0	0	Placeholder	Placeholder	Magician	0	0	0	0	0	0		0			6	18	0	0	0	0																																										
 40	12	Magic Shop	0	0	Placeholder	Placeholder	Magician	0	0	0	0	0	0		0			6	18	0	0	0	0																																										
 41	13	Magic Shop	0	0	Placeholder	Placeholder	Magician	0	0	0	0	0	0		0			6	18	0	0	0	0																																										
-42	1	Alchemist	1	8	Herbal Elixirs	Shelvin	Alchemist	2111	0	0	0	2	1		7			6	18	0	0	0	0																																										
-43	2	Alchemist	2	8	Apothecary	Tristan	Alchemist	2111	0	0	0	3	1		7			6	18	0	0	0	0																																										
-44	3	Alchemist	3	22	Prepared Potions	Navarre	Alchemist	2121	0	0	0	3	1		7			6	18	0	0	0	0																																										
-45	4	Alchemist	6	65	Wolves' Bane	Melantha	Alchemist	2148	0	0	0	4	1		7			6	18	0	0	0	0																																										
-46	5	Alchemist	13	88	Poultices and Cures	Olesia	Alchemist	2172	0	0	0	5	1.5		14			6	18	0	0	0	0																																										
-47	6	Alchemist	35	38	Perius' Powders	Perius	Alchemist	2166	0	0	0	5	1.5		14			6	18	0	0	0	0																																										
+42	1	Alchemist	1	8	Herbal Elixirs	Shelvin	Alchemist	2111	0	0	0	2	1		7			6	18	0	0	0	0	Alchemy,IdentifyMonster																																									
+43	2	Alchemist	2	8	Apothecary	Tristan	Alchemist	2111	0	0	0	3	1		7			6	18	0	0	0	0	Alchemy,IdentifyMonster																																									
+44	3	Alchemist	3	22	Prepared Potions	Navarre	Alchemist	2121	0	0	0	3	1		7			6	18	0	0	0	0	Alchemy,IdentifyMonster																																									
+45	4	Alchemist	6	65	Wolves' Bane	Melantha	Alchemist	2148	0	0	0	4	1		7			6	18	0	0	0	0	Alchemy,IdentifyMonster																																									
+46	5	Alchemist	13	88	Poultices and Cures	Olesia	Alchemist	2172	0	0	0	5	1.5		14			6	18	0	0	0	0	Alchemy,IdentifyMonster																																									
+47	6	Alchemist	35	38	Perius' Powders	Perius	Alchemist	2166	0	0	0	5	1.5		14			6	18	0	0	0	0	Alchemy,IdentifyMonster																																									
 48	7	Alchemist	0	0	Placeholder	Placeholder	Alchemist	0	0	0	0	0	0		0			6	18	0	0	0	0																																										
 49	8	Alchemist	0	0	Placeholder	Placeholder	Alchemist	0	0	0	0	0	0		0			6	18	0	0	0	0																																										
 50	9	Alchemist	0	0	Placeholder	Placeholder	Alchemist	0	0	0	0	0	0		0			6	18	0	0	0	0																																										
@@ -73,13 +73,13 @@
 71	9	Boats	0	0	Placeholder	Placeholder	Captain	0	0	0	0	10	1					6	18	0	0	0	0																																										
 72	10	Boats	0	0	Placeholder	Placeholder	Captain	0	0	0	0	1.5	1					6	18	0	0	0	0																																										
 73	11	Boats	0	0	Placeholder	Placeholder	Captain	0	0	0	0	1.5	1					6	18	0	0	0	0																																										
-74	1	Temple	1	5	Mystic Medicine	Pish	Healer	2108	0	0	0	10	1					1	24	0	0	0	0																																										
-75	2	Temple	2	48	Sanctum	Maricia	Healer	1138	0	0	0	25	1					1	24	0	0	0	0																																										
-76	3	Temple	3	19	House of Healing	Meaglan	Healer	2118	0	0	0	30	1.5					1	24	0	0	0	0																																										
-77	4	Temple	5	48	Sacred Steel	Laudra	Healer	1138	0	0	0	30	1.5					1	24	0	0	0	0																																										
-78	5	Temple	6	62	Cathedral of Night	Evania	Healer	2145	0	0	0	40	1.5					1	24	0	0	0	0																																										
-79	6	Temple	35	35	The Shaman	Wyx	Healer	2171	0	0	0	40	1.5					1	24	0	0	0	0																																										
-80	7	Temple	13	85	The Blessed Sea	Enid	Healer	1228	0	0	0	50	2					1	24	0	0	0	0																																										
+74	1	Temple	1	5	Mystic Medicine	Pish	Healer	2108	0	0	0	10	1					1	24	0	0	0	0	Unarmed,Dodging,Merchant																																									
+75	2	Temple	2	48	Sanctum	Maricia	Healer	1138	0	0	0	25	1					1	24	0	0	0	0	Unarmed,Dodging,Merchant																																									
+76	3	Temple	3	19	House of Healing	Meaglan	Healer	2118	0	0	0	30	1.5					1	24	0	0	0	0	Unarmed,Dodging,Merchant																																									
+77	4	Temple	5	48	Sacred Steel	Laudra	Healer	1138	0	0	0	30	1.5					1	24	0	0	0	0	Unarmed,Dodging,Merchant																																									
+78	5	Temple	6	62	Cathedral of Night	Evania	Healer	2145	0	0	0	40	1.5					1	24	0	0	0	0	Unarmed,Dodging,Merchant																																									
+79	6	Temple	35	35	The Shaman	Wyx	Healer	2171	0	0	0	40	1.5					1	24	0	0	0	0	Unarmed,Dodging,Merchant																																									
+80	7	Temple	13	85	The Blessed Sea	Enid	Healer	1228	0	0	0	50	2					1	24	0	0	0	0	Unarmed,Dodging,Merchant																																									
 81	8	Temple	0	0	Placeholder	Placeholder	Healer	0	0	0	0	50	2					1	24	0	0	0	0																																										
 82	9	Temple	0	0	Placeholder	Placeholder	Healer	0	0	0	0	100	2.5					1	24	0	0	0	0																																										
 83	10	Temple	0	0	Placeholder	Placeholder	Healer	0	0	0	0	30	1.5					1	24	0	0	0	0																																										
@@ -88,12 +88,12 @@
 86	13	Temple	0	0	Placeholder	Placeholder	Healer	0	0	0	0	5	1					1	24	0	0	0	0																																										
 87	14	Temple	0	0	Placeholder	Placeholder	Healer	0	0	0	0	1.5	1					1	24	0	0	0	0																																										
 88	15	Temple	0	0	Placeholder	Placeholder	Healer	0	0	0	0	1.5	1					1	24	0	0	0	0																																										
-89	1	Training	1	11	Rites of Passage	Nishton	Instructor	2114	0	0	0	10	1				5	6	18	0	0	0	0																																										
-90	2	Training	2	25	Gymnasium	Yarin	Instructor	2124	0	0	0	20	1				15	6	18	0	0	0	0																																										
-91	3	Training	3	25	Guild Training Hall	Barin	Instructor	2124	0	0	0	25	1				25	6	18	0	0	0	0																																										
-92	4	Training	5	52	Godric's Gauntlet	Godric	Instructor	2142	0	0	0	25	1				25	6	18	0	0	0	0																																										
-93	5	Training	6	68	Assassin's School	Lehava	Instructor	1149	0	0	0	30	1.5				200	6	18	0	0	0	0																																										
-94	6	Training	35	41	Balthazar Academy	Gierd	Instructor	2170	0	0	0	30	1.5				200	6	18	0	0	0	0																																										
+89	1	Training	1	11	Rites of Passage	Nishton	Instructor	2114	0	0	0	10	1				5	6	18	0	0	0	0	Armsmaster,Bodybuilding																																									
+90	2	Training	2	25	Gymnasium	Yarin	Instructor	2124	0	0	0	20	1				15	6	18	0	0	0	0	Armsmaster,Bodybuilding																																									
+91	3	Training	3	25	Guild Training Hall	Barin	Instructor	2124	0	0	0	25	1				25	6	18	0	0	0	0	Armsmaster,Bodybuilding																																									
+92	4	Training	5	52	Godric's Gauntlet	Godric	Instructor	2142	0	0	0	25	1				25	6	18	0	0	0	0	Armsmaster,Bodybuilding																																									
+93	5	Training	6	68	Assassin's School	Lehava	Instructor	1149	0	0	0	30	1.5				200	6	18	0	0	0	0	Armsmaster,Bodybuilding																																									
+94	6	Training	35	41	Balthazar Academy	Gierd	Instructor	2170	0	0	0	30	1.5				200	6	18	0	0	0	0	Armsmaster,Bodybuilding																																									
 95	7	Training	0	0	Placeholder	Placeholder	Instructor	0	0	0	0	50	2.5				No Max	6	18	0	0	0	0																																										
 96	8	Training	0	0	Placeholder	Placeholder	Instructor	0	0	0	0	40	2				50	6	18	0	0	0	0																																										
 97	9	Training	0	0	Placeholder	Placeholder	Instructor	0	0	0	0	80	2				50	6	18	0	0	0	0																																										
@@ -106,17 +106,17 @@
 104	3	Town Hall	4	0	Placeholder	Placeholder	Clerk	0	0	0	0	1.5	1					6	18	0	0	0	0																																										
 105	4	Town Hall	7	0	Placeholder	Placeholder	Clerk	0	0	0	0	1.5	1					6	18	0	0	0	0																																										
 106	5	Town Hall	8	0	Placeholder	Placeholder	Clerk	0	0	0	0	1.5	1					6	18	0	0	0	0																																										
-107	1	Tavern	1	13	The Grog and Grub	Tubrict	Innkeep	2116	0	0	0	6	1					5	2	0	0	0	0																																										
-108	2	Tavern	2	27	Kessel's Kantina	Kessel	Innkeep	2126	0	0	0	10	1					5	2	0	0	0	0																																										
-109	3	Tavern	3	27	Profit House	Dantilion	Innkeep	2126	0	0	0	15	1					5	2	0	0	0	0																																										
-110	4	Tavern	4	79	Parched Throat	Rethnar	Innkeep	2158	0	0	0	15	1					5	2	0	0	0	0																																										
-111	5	Tavern	5	53	Dragon's Blood Inn	Melody	Barmaid	1138	0	0	0	25	1					1	24	0	0	0	0																																										
-112	6	Tavern	6	70	Black Company	Fetish	Innkeep	2153	0	0	0	50	1					1	24	0	0	0	0																																										
-113	7	Tavern	7	95	Traveler's Rest	Walvis	Innkeep	2178	0	0	0	35	1.5					5	2	0	0	0	0																																										
-114	8	Tavern	8	43	Bull's Eye Inn	Gurney	Innkeep	2169	0	0	0	40	1.5					1	24	0	0	0	0																																										
-115	9	Tavern	13	91	Pirate's Rest	Longbeard	Innkeep	2176	0	0	0	60	1					5	2	0	0	0	0																																										
-116	10	Tavern	2	53	The Dancing Ogre	Trishia	Barmaid	1138	0	0	0	17	2					1	24	0	0	0	0																																										
-117	11	Tavern	3	27	Miho's Roadhouse	Miho	Innkeep	2126	0	0	0	20	1					5	2	0	0	0	0																																										
+107	1	Tavern	1	13	The Grog and Grub	Tubrict	Innkeep	2116	0	0	0	6	1					5	2	0	0	0	0	Stealing,DisarmTraps,Perception																																									
+108	2	Tavern	2	27	Kessel's Kantina	Kessel	Innkeep	2126	0	0	0	10	1					5	2	0	0	0	0	Stealing,DisarmTraps,Perception																																									
+109	3	Tavern	3	27	Profit House	Dantilion	Innkeep	2126	0	0	0	15	1					5	2	0	0	0	0	Stealing,DisarmTraps,Perception																																									
+110	4	Tavern	4	79	Parched Throat	Rethnar	Innkeep	2158	0	0	0	15	1					5	2	0	0	0	0	Stealing,DisarmTraps,Perception																																									
+111	5	Tavern	5	53	Dragon's Blood Inn	Melody	Barmaid	1138	0	0	0	25	1					1	24	0	0	0	0	Stealing,DisarmTraps,Perception																																									
+112	6	Tavern	6	70	Black Company	Fetish	Innkeep	2153	0	0	0	50	1					1	24	0	0	0	0	Stealing,DisarmTraps,Perception																																									
+113	7	Tavern	7	95	Traveler's Rest	Walvis	Innkeep	2178	0	0	0	35	1.5					5	2	0	0	0	0	Stealing,DisarmTraps,Perception																																									
+114	8	Tavern	8	43	Bull's Eye Inn	Gurney	Innkeep	2169	0	0	0	40	1.5					1	24	0	0	0	0	Stealing,DisarmTraps,Perception																																									
+115	9	Tavern	13	91	Pirate's Rest	Longbeard	Innkeep	2176	0	0	0	60	1					5	2	0	0	0	0	Stealing,DisarmTraps,Perception																																									
+116	10	Tavern	2	53	The Dancing Ogre	Trishia	Barmaid	1138	0	0	0	17	2					1	24	0	0	0	0	Stealing,DisarmTraps,Perception																																									
+117	11	Tavern	3	27	Miho's Roadhouse	Miho	Innkeep	2126	0	0	0	20	1					5	2	0	0	0	0	Stealing,DisarmTraps,Perception																																									
 118	12	Tavern	0	0	Placeholder	Placeholder	Innkeep	0	0	0	0	1	1.5					5	2	0	0	0	0																																										
 119	13	Tavern	0	0	Placeholder	Placeholder	Innkeep	0	0	0	0	1	1.5					5	2	0	0	0	0																																										
 120	14	Tavern	0	0	Placeholder	Placeholder	Innkeep	0	0	0	0	1	1.5					5	2	0	0	0	0																																										
@@ -138,16 +138,16 @@
 136	9	Bank	0	0	Placeholder	Placeholder	Banker	0	0	0	0	1	1					6	18	0	0	0	0																																										
 137	10	Bank	0	0	Placeholder	Placeholder	Banker	0	0	0	0	1	1					6	18	0	0	0	0																																										
 138	11	Bank	0	0	Placeholder	Placeholder	Banker	0	0	0	0	1	1					6	18	0	0	0	0																																										
-139	1	Elemental Guild	1	139	Cures and Curses	Yeshin	Scribe	2113	0	0	0	2	1		14	4		6	18	0	0	0	0																																										
-140	2	Elemental Guild	2	143	Vexation's Hexes	Vexation	Scribe	2123	0	0	0	3	1.5		14	7		6	18	0	0	0	0																																										
-141	3	Self Guild	3	148	Self Study	Larin	Scribe	2168	0	0	0	4	2		28	4		6	18	0	0	0	0																																										
-142	4	Light Guild	5	145	Guild of Light	Sheivi	Scribe	2123	0	0	0	5	2.5		28	"4,7,10,11"		6	18	0	0	0	0																																										
-143	1	Dark Guild	6	154	Guild of Dark	Raziah	Scribe	2150	0	0	0	2	1		14	"4,7,10,11"		6	18	0	0	0	0																																										
+139	1	Elemental Guild	1	139	Cures and Curses	Yeshin	Scribe	2113	0	0	0	2	1		14	4		6	18	0	0	0	0	FireMagic,AirMagic,WaterMagic,EarthMagic,Learning																																									
+140	2	Elemental Guild	2	143	Vexation's Hexes	Vexation	Scribe	2123	0	0	0	3	1.5		14	7		6	18	0	0	0	0	FireMagic,AirMagic,WaterMagic,EarthMagic,Learning																																									
+141	3	Self Guild	3	148	Self Study	Larin	Scribe	2168	0	0	0	4	2		28	4		6	18	0	0	0	0	SpiritMagic,MindMagic,BodyMagic,Meditation																																									
+142	4	Light Guild	5	145	Guild of Light	Sheivi	Scribe	2123	0	0	0	5	2.5		28	"4,7,10,11"		6	18	0	0	0	0	LightMagic																																									
+143	1	Dark Guild	6	154	Guild of Dark	Raziah	Scribe	2150	0	0	0	2	1		14	"4,7,10,11"		6	18	0	0	0	0	DarkMagic																																									
 144	2	Spell Shop	0	0	Placeholder	Placeholder	Scribe	0	0	0	0	3	1.5		14			6	18	0	0	0	0																																										
-145	3	Self Guild	35	148	Guild of Mind	Didos	Scribe	2168	0	0	0	4	2		28	7		6	18	0	0	0	0																																										
-146	4	Elemental Guild	13	155	Protective Magic	Quiana	Scribe	2175	0	0	0	5	2.5		28	10		6	18	0	0	0	0																																										
-147	1	Elemental Guild	3	143	Elemental Guild	Yiadia	Scribe	2123	0	0	0	2	1		14	11		6	18	0	0	0	0																																										
-148	2	Self Guild	2	148	Self Guild	Kojo	Scribe	2168	0	0	0	3	1.5		14	"10,11"		6	18	0	0	0	0																																										
+145	3	Self Guild	35	148	Guild of Mind	Didos	Scribe	2168	0	0	0	4	2		28	7		6	18	0	0	0	0	SpiritMagic,MindMagic,BodyMagic,Meditation																																									
+146	4	Elemental Guild	13	155	Protective Magic	Quiana	Scribe	2175	0	0	0	5	2.5		28	10		6	18	0	0	0	0	FireMagic,AirMagic,WaterMagic,EarthMagic,Learning																																									
+147	1	Elemental Guild	3	143	Elemental Guild	Yiadia	Scribe	2123	0	0	0	2	1		14	11		6	18	0	0	0	0	FireMagic,AirMagic,WaterMagic,EarthMagic,Learning																																									
+148	2	Self Guild	2	148	Self Guild	Kojo	Scribe	2168	0	0	0	3	1.5		14	"10,11"		6	18	0	0	0	0	SpiritMagic,MindMagic,BodyMagic,Meditation																																									
 149	3	Spell Shop	0	0	Placeholder	Placeholder	Scribe	0	0	0	0	4	2		28			6	18	0	0	0	0																																										
 150	4	Spell Shop	0	0	Placeholder	Placeholder	Scribe	0	0	0	0	5	2.5		28			6	18	0	0	0	0																																										
 151	1	Spell Shop	0	0	Placeholder	Placeholder	Scribe	0	0	0	0	2	1		14			6	18	0	0	0	0																																										
