@@ -12,6 +12,7 @@
 #include "game/EventRuntime.h"
 #include "game/HouseTable.h"
 #include "game/NpcDialogTable.h"
+#include "game/RosterTable.h"
 #include "game/StrTable.h"
 #include "engine/AssetFileSystem.h"
 
@@ -57,6 +58,7 @@ public:
         const ChestTable &chestTable,
         const HouseTable &houseTable,
         const NpcDialogTable &npcDialogTable,
+        const RosterTable &rosterTable,
         const ItemTable &itemTable,
         const std::optional<StrTable> &localStrTable,
         const std::optional<EvtProgram> &localEvtProgram,
@@ -212,6 +214,7 @@ private:
     std::optional<MapDeltaData> m_outdoorMapDeltaData;
     std::optional<HouseTable> m_houseTable;
     std::optional<NpcDialogTable> m_npcDialogTable;
+    const RosterTable *m_pRosterTable;
     std::optional<ChestTable> m_chestTable;
     const ItemTable *m_pItemTable;
     std::optional<StrTable> m_localStrTable;

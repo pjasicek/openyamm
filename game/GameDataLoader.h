@@ -10,6 +10,7 @@
 #include "game/MonsterTable.h"
 #include "game/NpcDialogTable.h"
 #include "game/ObjectTable.h"
+#include "game/RosterTable.h"
 
 #include <cstddef>
 #include <string>
@@ -28,8 +29,14 @@ class GameDataLoader
 {
 public:
     bool load(const Engine::AssetFileSystem &assetFileSystem);
+    bool loadForHeadlessGameplay(const Engine::AssetFileSystem &assetFileSystem);
     bool loadMapById(const Engine::AssetFileSystem &assetFileSystem, int mapId);
+    bool loadMapByIdForHeadlessGameplay(const Engine::AssetFileSystem &assetFileSystem, int mapId);
     bool loadMapByFileName(const Engine::AssetFileSystem &assetFileSystem, const std::string &fileName);
+    bool loadMapByFileNameForHeadlessGameplay(
+        const Engine::AssetFileSystem &assetFileSystem,
+        const std::string &fileName
+    );
     const std::vector<LoadedTableSummary> &getLoadedTables() const;
     const std::optional<MapAssetInfo> &getSelectedMap() const;
     const MapStats &getMapStats() const;
@@ -39,8 +46,10 @@ public:
     const ChestTable &getChestTable() const;
     const HouseTable &getHouseTable() const;
     const NpcDialogTable &getNpcDialogTable() const;
+    const RosterTable &getRosterTable() const;
 
 private:
+    bool loadInternal(const Engine::AssetFileSystem &assetFileSystem, MapLoadPurpose mapLoadPurpose);
     bool loadTable(
         const Engine::AssetFileSystem &assetFileSystem,
         const std::string &virtualPath,
@@ -48,8 +57,8 @@ private:
         size_t &columnCount
     );
     static bool isDataRow(const std::vector<std::string> &row);
-    bool loadInitialMap(const Engine::AssetFileSystem &assetFileSystem);
-    bool loadSelectedMap(const Engine::AssetFileSystem &assetFileSystem, int mapId);
+    bool loadInitialMap(const Engine::AssetFileSystem &assetFileSystem, MapLoadPurpose mapLoadPurpose);
+    bool loadSelectedMap(const Engine::AssetFileSystem &assetFileSystem, int mapId, MapLoadPurpose mapLoadPurpose);
     bool loadMapStats(const Engine::AssetFileSystem &assetFileSystem);
     bool loadMonsterTable(const Engine::AssetFileSystem &assetFileSystem);
     bool loadObjectTable(const Engine::AssetFileSystem &assetFileSystem);
@@ -57,6 +66,7 @@ private:
     bool loadChestTable(const Engine::AssetFileSystem &assetFileSystem);
     bool loadHouseTable(const Engine::AssetFileSystem &assetFileSystem);
     bool loadNpcDialogTable(const Engine::AssetFileSystem &assetFileSystem);
+    bool loadRosterTable(const Engine::AssetFileSystem &assetFileSystem);
     bool loadFirstTextTableRows(
         const Engine::AssetFileSystem &assetFileSystem,
         const std::vector<std::string> &virtualPaths,
@@ -77,6 +87,7 @@ private:
     ChestTable m_chestTable;
     HouseTable m_houseTable;
     NpcDialogTable m_npcDialogTable;
+    RosterTable m_rosterTable;
     std::optional<MapAssetInfo> m_selectedMap;
 };
 }

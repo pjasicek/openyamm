@@ -10,6 +10,25 @@ namespace OpenYAMM::Game
 {
 namespace
 {
+std::string normalizeRoleName(const std::string &className)
+{
+    if (className.empty())
+    {
+        return "Adventurer";
+    }
+
+    std::string normalized = className;
+    normalized[0] = static_cast<char>(std::toupper(static_cast<unsigned char>(normalized[0])));
+    return normalized;
+}
+
+std::string portraitTextureNameFromPictureId(uint32_t pictureId)
+{
+    char buffer[16] = {};
+    std::snprintf(buffer, sizeof(buffer), "PC%02u-01", pictureId + 1);
+    return buffer;
+}
+
 std::optional<std::pair<uint8_t, uint8_t>> findFirstFreeInventorySlot(
     const std::vector<InventoryItem> &inventory,
     uint8_t width,
@@ -489,6 +508,43 @@ int Party::withdrawAllBankGold()
     m_gold += withdrawnGold;
     m_bankGold = 0;
     return withdrawnGold;
+}
+
+bool Party::isFull() const
+{
+    return m_members.size() >= MaxMembers;
+}
+
+bool Party::recruitRosterMember(const RosterEntry &rosterEntry)
+{
+    if (isFull())
+    {
+        return false;
+    }
+
+    Character member = {};
+    member.name = rosterEntry.name;
+    member.role = normalizeRoleName(rosterEntry.className);
+    member.portraitTextureName = portraitTextureNameFromPictureId(rosterEntry.pictureId);
+    member.level = std::max<uint32_t>(1, rosterEntry.level);
+    member.skillPoints = rosterEntry.skillPoints;
+
+    const int endurance = std::max(10, static_cast<int>(rosterEntry.endurance));
+    const int intellect = std::max(0, static_cast<int>(rosterEntry.intellect));
+    const int personality = std::max(0, static_cast<int>(rosterEntry.personality));
+
+    member.maxHealth = std::max(1, 40 + endurance * 2 + static_cast<int>(member.level) * 5);
+    member.health = member.maxHealth;
+
+    const bool isCaster = intellect > 0 || personality > 0;
+    member.maxSpellPoints = isCaster
+        ? std::max(0, ((intellect + personality) / 2) + static_cast<int>(member.level) * 3)
+        : 0;
+    member.spellPoints = member.maxSpellPoints;
+
+    m_members.push_back(std::move(member));
+    m_lastStatus = "party member recruited";
+    return true;
 }
 
 uint8_t Party::resolveInventoryWidth(uint32_t objectDescriptionId) const

@@ -124,6 +124,7 @@ bool GameApplication::initializeRenderer()
             m_gameDataLoader.getChestTable(),
             m_gameDataLoader.getHouseTable(),
             m_gameDataLoader.getNpcDialogTable(),
+            m_gameDataLoader.getRosterTable(),
             m_gameDataLoader.getItemTable(),
             selectedMap->localStrTable,
             selectedMap->localEvtProgram,

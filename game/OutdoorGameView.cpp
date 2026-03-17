@@ -70,7 +70,8 @@ const char *outdoorSupportKindName(OutdoorSupportKind supportKind)
 
 std::optional<uint32_t> singleSelectableResidentNpcId(
     const HouseEntry &houseEntry,
-    const NpcDialogTable &npcDialogTable
+    const NpcDialogTable &npcDialogTable,
+    const EventRuntimeState &eventRuntimeState
 )
 {
     std::optional<uint32_t> residentNpcId;
@@ -80,6 +81,11 @@ std::optional<uint32_t> singleSelectableResidentNpcId(
         const NpcEntry *pResident = npcDialogTable.getNpc(candidateNpcId);
 
         if (pResident == nullptr || pResident->name.empty())
+        {
+            continue;
+        }
+
+        if (eventRuntimeState.unavailableNpcIds.contains(candidateNpcId))
         {
             continue;
         }
@@ -775,6 +781,7 @@ OutdoorGameView::OutdoorGameView()
     , m_pOutdoorPartyRuntime(nullptr)
     , m_pOutdoorWorldRuntime(nullptr)
     , m_pItemTable(nullptr)
+    , m_pRosterTable(nullptr)
 {
 }
 
@@ -802,6 +809,7 @@ bool OutdoorGameView::initialize(
     const ChestTable &chestTable,
     const HouseTable &houseTable,
     const NpcDialogTable &npcDialogTable,
+    const RosterTable &rosterTable,
     const ItemTable &itemTable,
     const std::optional<StrTable> &localStrTable,
     const std::optional<EvtProgram> &localEvtProgram,
@@ -825,6 +833,7 @@ bool OutdoorGameView::initialize(
     m_chestTable = chestTable;
     m_houseTable = houseTable;
     m_npcDialogTable = npcDialogTable;
+    m_pRosterTable = &rosterTable;
     m_pItemTable = &itemTable;
     m_localStrTable = localStrTable;
     m_localEvtProgram = localEvtProgram;
@@ -2453,6 +2462,7 @@ void OutdoorGameView::shutdown()
     m_pOutdoorPartyRuntime = nullptr;
     m_pOutdoorWorldRuntime = nullptr;
     m_pItemTable = nullptr;
+    m_pRosterTable = nullptr;
     m_localEventIrProgram.reset();
     m_globalEventIrProgram.reset();
     m_outdoorDecorationBillboardSet.reset();
@@ -2568,6 +2578,117 @@ void OutdoorGameView::executeActiveDialogAction()
         return;
     }
 
+    if (action.kind == EventDialogActionKind::RosterJoinOffer)
+    {
+        if (!m_npcDialogTable)
+        {
+            return;
+        }
+
+        const std::optional<NpcDialogTable::RosterJoinOffer> offer =
+            m_npcDialogTable->getRosterJoinOfferForTopic(action.id);
+
+        if (!offer)
+        {
+            pEventRuntimeState->messages.push_back("That companion is not ready to join yet.");
+            openPendingEventDialog(previousMessageCount, true);
+            return;
+        }
+
+        const std::optional<std::string> inviteText = m_npcDialogTable->getText(offer->inviteTextId);
+
+        if (inviteText && !inviteText->empty())
+        {
+            pEventRuntimeState->messages.push_back(*inviteText);
+        }
+
+        EventRuntimeState::PendingRosterJoinInvite invite = {};
+        invite.npcId = m_activeEventDialog.sourceId;
+        invite.rosterId = offer->rosterId;
+        invite.inviteTextId = offer->inviteTextId;
+        invite.partyFullTextId = offer->partyFullTextId;
+        pEventRuntimeState->pendingRosterJoinInvite = std::move(invite);
+
+        EventRuntimeState::PendingDialogueContext context = {};
+        context.kind = DialogueContextKind::NpcTalk;
+        context.sourceId = m_activeEventDialog.sourceId;
+        pEventRuntimeState->pendingDialogueContext = std::move(context);
+        openPendingEventDialog(previousMessageCount, true);
+        return;
+    }
+
+    if (action.kind == EventDialogActionKind::RosterJoinAccept)
+    {
+        if (!pEventRuntimeState->pendingRosterJoinInvite || m_pOutdoorPartyRuntime == nullptr || m_pRosterTable == nullptr)
+        {
+            return;
+        }
+
+        const EventRuntimeState::PendingRosterJoinInvite invite = *pEventRuntimeState->pendingRosterJoinInvite;
+        pEventRuntimeState->pendingRosterJoinInvite.reset();
+
+        if (m_pOutdoorPartyRuntime->party().isFull())
+        {
+            pEventRuntimeState->unavailableNpcIds.insert(invite.npcId);
+
+            if (m_npcDialogTable)
+            {
+                const std::optional<std::string> fullPartyText = m_npcDialogTable->getText(invite.partyFullTextId);
+
+                if (fullPartyText && !fullPartyText->empty())
+                {
+                    pEventRuntimeState->messages.push_back(*fullPartyText);
+                }
+            }
+
+            EventRuntimeState::PendingDialogueContext context = {};
+            context.kind = DialogueContextKind::NpcTalk;
+            context.sourceId = invite.npcId;
+            pEventRuntimeState->pendingDialogueContext = std::move(context);
+            openPendingEventDialog(previousMessageCount, false);
+            return;
+        }
+
+        const RosterEntry *pRosterEntry = m_pRosterTable->get(invite.rosterId);
+
+        if (pRosterEntry == nullptr || !m_pOutdoorPartyRuntime->party().recruitRosterMember(*pRosterEntry))
+        {
+            pEventRuntimeState->messages.push_back("Recruitment is not available for this companion yet.");
+
+            EventRuntimeState::PendingDialogueContext context = {};
+            context.kind = DialogueContextKind::NpcTalk;
+            context.sourceId = invite.npcId;
+            pEventRuntimeState->pendingDialogueContext = std::move(context);
+            openPendingEventDialog(previousMessageCount, true);
+            return;
+        }
+
+        pEventRuntimeState->unavailableNpcIds.insert(invite.npcId);
+        pEventRuntimeState->messages.push_back(pRosterEntry->name + " joined the party.");
+
+        EventRuntimeState::PendingDialogueContext context = {};
+        context.kind = DialogueContextKind::NpcTalk;
+        context.sourceId = invite.npcId;
+        pEventRuntimeState->pendingDialogueContext = std::move(context);
+        openPendingEventDialog(previousMessageCount, false);
+        return;
+    }
+
+    if (action.kind == EventDialogActionKind::RosterJoinDecline)
+    {
+        const uint32_t npcId = pEventRuntimeState->pendingRosterJoinInvite
+            ? pEventRuntimeState->pendingRosterJoinInvite->npcId
+            : m_activeEventDialog.sourceId;
+        pEventRuntimeState->pendingRosterJoinInvite.reset();
+
+        EventRuntimeState::PendingDialogueContext context = {};
+        context.kind = DialogueContextKind::NpcTalk;
+        context.sourceId = npcId;
+        pEventRuntimeState->pendingDialogueContext = std::move(context);
+        openPendingEventDialog(previousMessageCount, true);
+        return;
+    }
+
     if (action.kind == EventDialogActionKind::NpcTopic)
     {
         const uint32_t npcId = m_activeEventDialog.sourceId;
@@ -2638,7 +2759,8 @@ void OutdoorGameView::openPendingEventDialog(size_t previousMessageCount, bool a
             );
             const std::optional<uint32_t> residentNpcId = singleSelectableResidentNpcId(
                 *pHouseEntry,
-                *m_npcDialogTable
+                *m_npcDialogTable,
+                *pEventRuntimeState
             );
 
             if (residentNpcId && houseActions.empty())
@@ -2679,6 +2801,15 @@ void OutdoorGameView::openPendingEventDialog(size_t previousMessageCount, bool a
 
 void OutdoorGameView::closeActiveEventDialog()
 {
+    EventRuntimeState *pEventRuntimeState =
+        m_pOutdoorWorldRuntime != nullptr ? m_pOutdoorWorldRuntime->eventRuntimeState() : nullptr;
+
+    if (pEventRuntimeState != nullptr)
+    {
+        pEventRuntimeState->pendingDialogueContext.reset();
+        pEventRuntimeState->pendingRosterJoinInvite.reset();
+    }
+
     m_activeEventDialog = {};
     m_eventDialogSelectionIndex = 0;
     m_eventDialogSelectUpLatch = false;

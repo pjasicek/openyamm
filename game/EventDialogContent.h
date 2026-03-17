@@ -19,6 +19,9 @@ enum class EventDialogActionKind
     HouseService,
     HouseResident,
     NpcTopic,
+    RosterJoinOffer,
+    RosterJoinAccept,
+    RosterJoinDecline,
 };
 
 struct EventDialogAction

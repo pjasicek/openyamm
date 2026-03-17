@@ -154,6 +154,7 @@ bool NpcDialogTable::loadTopicsFromRows(const std::vector<std::vector<std::strin
         if (entry.topic == "Roster Join Event")
         {
             entry.topic = "Join";
+            entry.specialKind = NpcTopicEntry::SpecialKind::RosterJoinOffer;
         }
 
         uint32_t textId = 0;
@@ -318,6 +319,7 @@ std::vector<NpcDialogTable::ResolvedTopic> NpcDialogTable::getTopicsForNpc(
         ResolvedTopic resolvedTopic = {};
         resolvedTopic.id = topicIt->second.id;
         resolvedTopic.topic = topicIt->second.topic;
+        resolvedTopic.specialKind = topicIt->second.specialKind;
 
         if (topicIt->second.textId != 0)
         {
@@ -369,5 +371,20 @@ std::optional<uint32_t> NpcDialogTable::getNewsIdForGroup(uint32_t groupId) cons
     }
 
     return groupIt->second;
+}
+
+std::optional<NpcDialogTable::RosterJoinOffer> NpcDialogTable::getRosterJoinOfferForTopic(uint32_t topicId) const
+{
+    if (topicId == 602)
+    {
+        RosterJoinOffer offer = {};
+        offer.topicId = topicId;
+        offer.rosterId = 2;
+        offer.inviteTextId = 202;
+        offer.partyFullTextId = 203;
+        return offer;
+    }
+
+    return std::nullopt;
 }
 }

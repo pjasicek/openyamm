@@ -1539,7 +1539,8 @@ std::optional<MapAssetInfo> MapAssetLoader::load(
     const Engine::AssetFileSystem &assetFileSystem,
     const MapStatsEntry &map,
     const MonsterTable &monsterTable,
-    const ObjectTable &objectTable
+    const ObjectTable &objectTable,
+    MapLoadPurpose purpose
 ) const
 {
     const auto loadStart = std::chrono::steady_clock::now();
@@ -1618,91 +1619,101 @@ std::optional<MapAssetInfo> MapAssetLoader::load(
                 }
             }
 
-            assetInfo.outdoorLandMask = buildOutdoorLandMask(assetFileSystem, *assetInfo.outdoorMapData);
-            logStageComplete("outdoor land mask built");
-            assetInfo.outdoorTileColors = buildOutdoorTileColors(assetFileSystem, *assetInfo.outdoorMapData);
-            logStageComplete("outdoor tile colors built");
-            assetInfo.outdoorTerrainTextureAtlas =
-                buildOutdoorTerrainTextureAtlas(assetFileSystem, *assetInfo.outdoorMapData);
-            logStageComplete("outdoor terrain textures built");
-            assetInfo.outdoorBModelTextureSet = buildOutdoorBModelTextureSet(assetFileSystem, *assetInfo.outdoorMapData);
-            logStageComplete("outdoor bmodel textures built");
-            assetInfo.outdoorDecorationCollisionSet =
-                buildOutdoorDecorationCollisionSet(assetFileSystem, assetInfo.outdoorMapData->entities);
-            logStageComplete("outdoor decoration collisions built");
-            assetInfo.outdoorActorCollisionSet =
-                buildOutdoorActorCollisionSet(
-                    map,
-                    monsterTable,
-                    assetInfo.outdoorMapDeltaData,
-                    assetInfo.outdoorMapData->spawns,
-                    &*assetInfo.outdoorMapData
-                );
-            logStageComplete("outdoor actor collisions built");
-            assetInfo.outdoorSpriteObjectCollisionSet =
-                buildOutdoorSpriteObjectCollisionSet(objectTable, assetInfo.outdoorMapDeltaData);
-            logStageComplete("outdoor sprite object collisions built");
-            assetInfo.outdoorDecorationBillboardSet =
-                buildOutdoorDecorationBillboardSet(assetFileSystem, *assetInfo.outdoorMapData);
-            logStageComplete("outdoor decoration billboards built");
-            assetInfo.outdoorActorPreviewBillboardSet =
-                buildActorPreviewBillboardSet(
-                    assetFileSystem,
-                    map,
-                    monsterTable,
-                    assetInfo.outdoorMapDeltaData,
-                    assetInfo.outdoorMapData->spawns,
-                    &*assetInfo.outdoorMapData
-                );
-            logStageComplete("outdoor actor previews built");
-            assetInfo.outdoorSpriteObjectBillboardSet =
-                buildSpriteObjectBillboardSet(assetFileSystem, objectTable, assetInfo.outdoorMapDeltaData);
-            logStageComplete("outdoor sprite objects built");
-
-            if (assetInfo.outdoorActorPreviewBillboardSet)
+            if (purpose == MapLoadPurpose::Full)
             {
-                const ActorPreviewBillboardSet &actorSet = *assetInfo.outdoorActorPreviewBillboardSet;
-                std::cout
-                    << "  outdoor actors: total=" << actorSet.billboards.size()
-                    << " map_delta=" << actorSet.mapDeltaActorCount
-                    << " spawn=" << actorSet.spawnActorCount
-                    << " textured=" << actorSet.texturedActorCount
-                    << " missing=" << actorSet.missingTextureActorCount << '\n';
-            }
+                assetInfo.outdoorLandMask = buildOutdoorLandMask(assetFileSystem, *assetInfo.outdoorMapData);
+                logStageComplete("outdoor land mask built");
+                assetInfo.outdoorTileColors = buildOutdoorTileColors(assetFileSystem, *assetInfo.outdoorMapData);
+                logStageComplete("outdoor tile colors built");
+                assetInfo.outdoorTerrainTextureAtlas =
+                    buildOutdoorTerrainTextureAtlas(assetFileSystem, *assetInfo.outdoorMapData);
+                logStageComplete("outdoor terrain textures built");
+                assetInfo.outdoorBModelTextureSet =
+                    buildOutdoorBModelTextureSet(assetFileSystem, *assetInfo.outdoorMapData);
+                logStageComplete("outdoor bmodel textures built");
+                assetInfo.outdoorDecorationCollisionSet =
+                    buildOutdoorDecorationCollisionSet(assetFileSystem, assetInfo.outdoorMapData->entities);
+                logStageComplete("outdoor decoration collisions built");
+                assetInfo.outdoorActorCollisionSet =
+                    buildOutdoorActorCollisionSet(
+                        map,
+                        monsterTable,
+                        assetInfo.outdoorMapDeltaData,
+                        assetInfo.outdoorMapData->spawns,
+                        &*assetInfo.outdoorMapData
+                    );
+                logStageComplete("outdoor actor collisions built");
+                assetInfo.outdoorSpriteObjectCollisionSet =
+                    buildOutdoorSpriteObjectCollisionSet(objectTable, assetInfo.outdoorMapDeltaData);
+                logStageComplete("outdoor sprite object collisions built");
+                assetInfo.outdoorDecorationBillboardSet =
+                    buildOutdoorDecorationBillboardSet(assetFileSystem, *assetInfo.outdoorMapData);
+                logStageComplete("outdoor decoration billboards built");
+                assetInfo.outdoorActorPreviewBillboardSet =
+                    buildActorPreviewBillboardSet(
+                        assetFileSystem,
+                        map,
+                        monsterTable,
+                        assetInfo.outdoorMapDeltaData,
+                        assetInfo.outdoorMapData->spawns,
+                        &*assetInfo.outdoorMapData
+                    );
+                logStageComplete("outdoor actor previews built");
+                assetInfo.outdoorSpriteObjectBillboardSet =
+                    buildSpriteObjectBillboardSet(assetFileSystem, objectTable, assetInfo.outdoorMapDeltaData);
+                logStageComplete("outdoor sprite objects built");
 
-            if (assetInfo.outdoorSpriteObjectBillboardSet)
-            {
-                const SpriteObjectBillboardSet &objectSet = *assetInfo.outdoorSpriteObjectBillboardSet;
-                std::cout
-                    << "  outdoor sprite objects: total=" << objectSet.billboards.size()
-                    << " textured=" << objectSet.texturedObjectCount
-                    << " missing=" << objectSet.missingTextureObjectCount << '\n';
-
-                for (const SpriteObjectBillboard &billboard : objectSet.billboards)
+                if (assetInfo.outdoorActorPreviewBillboardSet)
                 {
+                    const ActorPreviewBillboardSet &actorSet = *assetInfo.outdoorActorPreviewBillboardSet;
                     std::cout
-                        << "    object"
-                        << " name=\"" << billboard.objectName << "\""
-                        << " desc=" << billboard.objectDescriptionId
-                        << " sprite=" << billboard.objectSpriteId
-                        << " x=" << billboard.x
-                        << " y=" << billboard.y
-                        << " z=" << billboard.z
-                        << " h=" << billboard.height
-                        << " r=" << billboard.radius
-                        << " attr=0x" << std::hex << billboard.attributes << std::dec
-                        << " sound=" << billboard.soundId
-                        << " sector=" << billboard.sectorId
-                        << " life_ticks=" << billboard.timeSinceCreatedTicks
-                        << " temp=" << billboard.temporaryLifetime
-                        << " glow=" << billboard.glowRadiusMultiplier
-                        << " spell=" << billboard.spellId
-                        << " lvl=" << billboard.spellLevel
-                        << " skill=" << billboard.spellSkill
-                        << " caster=" << billboard.spellCasterPid
-                        << " target=" << billboard.spellTargetPid
-                        << '\n';
+                        << "  outdoor actors: total=" << actorSet.billboards.size()
+                        << " map_delta=" << actorSet.mapDeltaActorCount
+                        << " spawn=" << actorSet.spawnActorCount
+                        << " textured=" << actorSet.texturedActorCount
+                        << " missing=" << actorSet.missingTextureActorCount << '\n';
                 }
+
+                if (assetInfo.outdoorSpriteObjectBillboardSet)
+                {
+                    const SpriteObjectBillboardSet &objectSet = *assetInfo.outdoorSpriteObjectBillboardSet;
+                    std::cout
+                        << "  outdoor sprite objects: total=" << objectSet.billboards.size()
+                        << " textured=" << objectSet.texturedObjectCount
+                        << " missing=" << objectSet.missingTextureObjectCount << '\n';
+
+                    for (const SpriteObjectBillboard &billboard : objectSet.billboards)
+                    {
+                        std::cout
+                            << "    object"
+                            << " name=\"" << billboard.objectName << "\""
+                            << " desc=" << billboard.objectDescriptionId
+                            << " sprite=" << billboard.objectSpriteId
+                            << " x=" << billboard.x
+                            << " y=" << billboard.y
+                            << " z=" << billboard.z
+                            << " h=" << billboard.height
+                            << " r=" << billboard.radius
+                            << " attr=0x" << std::hex << billboard.attributes << std::dec
+                            << " sound=" << billboard.soundId
+                            << " sector=" << billboard.sectorId
+                            << " life_ticks=" << billboard.timeSinceCreatedTicks
+                            << " temp=" << billboard.temporaryLifetime
+                            << " glow=" << billboard.glowRadiusMultiplier
+                            << " spell=" << billboard.spellId
+                            << " lvl=" << billboard.spellLevel
+                            << " skill=" << billboard.spellSkill
+                            << " caster=" << billboard.spellCasterPid
+                            << " target=" << billboard.spellTargetPid
+                            << '\n';
+                    }
+                }
+            }
+            else
+            {
+                std::cout
+                    << "  headless gameplay load: skipped outdoor render assets"
+                        << '\n';
             }
         }
     }
@@ -1726,68 +1737,77 @@ std::optional<MapAssetInfo> MapAssetLoader::load(
                 }
             }
 
-            assetInfo.indoorTextureSet = buildIndoorTextureSet(assetFileSystem, *assetInfo.indoorMapData);
-            logStageComplete("indoor textures built");
-            assetInfo.indoorDecorationBillboardSet =
-                buildIndoorDecorationBillboardSet(assetFileSystem, *assetInfo.indoorMapData);
-            logStageComplete("indoor decoration billboards built");
-            assetInfo.indoorActorPreviewBillboardSet =
-                buildActorPreviewBillboardSet(
-                    assetFileSystem,
-                    map,
-                    monsterTable,
-                    assetInfo.indoorMapDeltaData,
-                    assetInfo.indoorMapData->spawns
-                );
-            logStageComplete("indoor actor previews built");
-            assetInfo.indoorSpriteObjectBillboardSet =
-                buildSpriteObjectBillboardSet(assetFileSystem, objectTable, assetInfo.indoorMapDeltaData);
-            logStageComplete("indoor sprite objects built");
-
-            if (assetInfo.indoorActorPreviewBillboardSet)
+            if (purpose == MapLoadPurpose::Full)
             {
-                const ActorPreviewBillboardSet &actorSet = *assetInfo.indoorActorPreviewBillboardSet;
-                std::cout
-                    << "  indoor actors: total=" << actorSet.billboards.size()
-                    << " map_delta=" << actorSet.mapDeltaActorCount
-                    << " spawn=" << actorSet.spawnActorCount
-                    << " textured=" << actorSet.texturedActorCount
-                    << " missing=" << actorSet.missingTextureActorCount << '\n';
-            }
+                assetInfo.indoorTextureSet = buildIndoorTextureSet(assetFileSystem, *assetInfo.indoorMapData);
+                logStageComplete("indoor textures built");
+                assetInfo.indoorDecorationBillboardSet =
+                    buildIndoorDecorationBillboardSet(assetFileSystem, *assetInfo.indoorMapData);
+                logStageComplete("indoor decoration billboards built");
+                assetInfo.indoorActorPreviewBillboardSet =
+                    buildActorPreviewBillboardSet(
+                        assetFileSystem,
+                        map,
+                        monsterTable,
+                        assetInfo.indoorMapDeltaData,
+                        assetInfo.indoorMapData->spawns
+                    );
+                logStageComplete("indoor actor previews built");
+                assetInfo.indoorSpriteObjectBillboardSet =
+                    buildSpriteObjectBillboardSet(assetFileSystem, objectTable, assetInfo.indoorMapDeltaData);
+                logStageComplete("indoor sprite objects built");
 
-            if (assetInfo.indoorSpriteObjectBillboardSet)
-            {
-                const SpriteObjectBillboardSet &objectSet = *assetInfo.indoorSpriteObjectBillboardSet;
-                std::cout
-                    << "  indoor sprite objects: total=" << objectSet.billboards.size()
-                    << " textured=" << objectSet.texturedObjectCount
-                    << " missing=" << objectSet.missingTextureObjectCount << '\n';
-
-                for (const SpriteObjectBillboard &billboard : objectSet.billboards)
+                if (assetInfo.indoorActorPreviewBillboardSet)
                 {
+                    const ActorPreviewBillboardSet &actorSet = *assetInfo.indoorActorPreviewBillboardSet;
                     std::cout
-                        << "    object"
-                        << " name=\"" << billboard.objectName << "\""
-                        << " desc=" << billboard.objectDescriptionId
-                        << " sprite=" << billboard.objectSpriteId
-                        << " x=" << billboard.x
-                        << " y=" << billboard.y
-                        << " z=" << billboard.z
-                        << " h=" << billboard.height
-                        << " r=" << billboard.radius
-                        << " attr=0x" << std::hex << billboard.attributes << std::dec
-                        << " sound=" << billboard.soundId
-                        << " sector=" << billboard.sectorId
-                        << " life_ticks=" << billboard.timeSinceCreatedTicks
-                        << " temp=" << billboard.temporaryLifetime
-                        << " glow=" << billboard.glowRadiusMultiplier
-                        << " spell=" << billboard.spellId
-                        << " lvl=" << billboard.spellLevel
-                        << " skill=" << billboard.spellSkill
-                        << " caster=" << billboard.spellCasterPid
-                        << " target=" << billboard.spellTargetPid
-                        << '\n';
+                        << "  indoor actors: total=" << actorSet.billboards.size()
+                        << " map_delta=" << actorSet.mapDeltaActorCount
+                        << " spawn=" << actorSet.spawnActorCount
+                        << " textured=" << actorSet.texturedActorCount
+                        << " missing=" << actorSet.missingTextureActorCount << '\n';
                 }
+
+                if (assetInfo.indoorSpriteObjectBillboardSet)
+                {
+                    const SpriteObjectBillboardSet &objectSet = *assetInfo.indoorSpriteObjectBillboardSet;
+                    std::cout
+                        << "  indoor sprite objects: total=" << objectSet.billboards.size()
+                        << " textured=" << objectSet.texturedObjectCount
+                        << " missing=" << objectSet.missingTextureObjectCount << '\n';
+
+                    for (const SpriteObjectBillboard &billboard : objectSet.billboards)
+                    {
+                        std::cout
+                            << "    object"
+                            << " name=\"" << billboard.objectName << "\""
+                            << " desc=" << billboard.objectDescriptionId
+                            << " sprite=" << billboard.objectSpriteId
+                            << " x=" << billboard.x
+                            << " y=" << billboard.y
+                            << " z=" << billboard.z
+                            << " h=" << billboard.height
+                            << " r=" << billboard.radius
+                            << " attr=0x" << std::hex << billboard.attributes << std::dec
+                            << " sound=" << billboard.soundId
+                            << " sector=" << billboard.sectorId
+                            << " life_ticks=" << billboard.timeSinceCreatedTicks
+                            << " temp=" << billboard.temporaryLifetime
+                            << " glow=" << billboard.glowRadiusMultiplier
+                            << " spell=" << billboard.spellId
+                            << " lvl=" << billboard.spellLevel
+                            << " skill=" << billboard.spellSkill
+                            << " caster=" << billboard.spellCasterPid
+                            << " target=" << billboard.spellTargetPid
+                            << '\n';
+                    }
+                }
+            }
+            else
+            {
+                std::cout
+                    << "  headless gameplay load: skipped indoor render assets"
+                        << '\n';
             }
         }
     }

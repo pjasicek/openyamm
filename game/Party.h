@@ -1,8 +1,10 @@
 #pragma once
 
 #include "game/OutdoorMovementDriver.h"
+#include "game/RosterTable.h"
 
 #include <cstdint>
+#include <optional>
 #include <string>
 #include <vector>
 
@@ -73,6 +75,8 @@ public:
     bool trainLeader(uint32_t maxLevel, uint32_t &newLevel, uint32_t &skillPointsEarned);
     int depositAllGoldToBank();
     int withdrawAllBankGold();
+    bool isFull() const;
+    bool recruitRosterMember(const RosterEntry &rosterEntry);
 
     const std::vector<Character> &members() const;
     int totalHealth() const;
@@ -92,6 +96,8 @@ public:
     const std::string &lastStatus() const;
 
 private:
+    static constexpr size_t MaxMembers = 5;
+
     uint8_t resolveInventoryWidth(uint32_t objectDescriptionId) const;
     uint8_t resolveInventoryHeight(uint32_t objectDescriptionId) const;
 

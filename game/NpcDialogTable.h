@@ -18,10 +18,17 @@ struct NpcGreetingEntry
 
 struct NpcTopicEntry
 {
+    enum class SpecialKind
+    {
+        None,
+        RosterJoinOffer,
+    };
+
     uint32_t id = 0;
     std::string topic;
     uint32_t textId = 0;
     std::string owner;
+    SpecialKind specialKind = SpecialKind::None;
 };
 
 struct NpcEntry
@@ -42,6 +49,15 @@ public:
         uint32_t id = 0;
         std::string topic;
         std::string text;
+        NpcTopicEntry::SpecialKind specialKind = NpcTopicEntry::SpecialKind::None;
+    };
+
+    struct RosterJoinOffer
+    {
+        uint32_t topicId = 0;
+        uint32_t rosterId = 0;
+        uint32_t inviteTextId = 0;
+        uint32_t partyFullTextId = 0;
     };
 
     bool loadGreetingsFromRows(const std::vector<std::vector<std::string>> &rows);
@@ -60,6 +76,7 @@ public:
     std::optional<std::string> getText(uint32_t textId) const;
     std::optional<std::string> getNewsText(uint32_t newsId) const;
     std::optional<uint32_t> getNewsIdForGroup(uint32_t groupId) const;
+    std::optional<RosterJoinOffer> getRosterJoinOfferForTopic(uint32_t topicId) const;
 
 private:
     std::unordered_map<uint32_t, NpcEntry> m_npcs;

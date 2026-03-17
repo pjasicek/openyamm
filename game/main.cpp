@@ -6,6 +6,7 @@
 #include <exception>
 #include <iostream>
 #include <string>
+#include <vector>
 
 namespace
 {
@@ -39,6 +40,40 @@ int runApplication(int argc, char **argv)
 
         OpenYAMM::Game::HeadlessOutdoorDiagnostics diagnostics(config);
         return diagnostics.runOpenActor(argv[0], mapFileName, static_cast<size_t>(parsedActorIndex));
+    }
+
+    if (argc >= 5 && std::string(argv[1]) == "--headless-run-dialog-sequence")
+    {
+        const std::string mapFileName = argv[2];
+        const int parsedEventId = std::stoi(argv[3]);
+
+        if (parsedEventId < 0 || parsedEventId > 65535)
+        {
+            return 2;
+        }
+
+        std::vector<size_t> actionIndices;
+
+        for (int argumentIndex = 4; argumentIndex < argc; ++argumentIndex)
+        {
+            const int parsedActionIndex = std::stoi(argv[argumentIndex]);
+
+            if (parsedActionIndex < 0)
+            {
+                return 2;
+            }
+
+            actionIndices.push_back(static_cast<size_t>(parsedActionIndex));
+        }
+
+        OpenYAMM::Game::HeadlessOutdoorDiagnostics diagnostics(config);
+        return diagnostics.runDialogSequence(argv[0], mapFileName, static_cast<uint16_t>(parsedEventId), actionIndices);
+    }
+
+    if (argc == 3 && std::string(argv[1]) == "--headless-run-regression-suite")
+    {
+        OpenYAMM::Game::HeadlessOutdoorDiagnostics diagnostics(config);
+        return diagnostics.runRegressionSuite(argv[0], argv[2]);
     }
 
     OpenYAMM::Game::GameApplication application(config);

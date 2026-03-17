@@ -188,6 +188,12 @@ struct MapAssetInfo
     std::optional<IndoorTextureSet> indoorTextureSet;
 };
 
+enum class MapLoadPurpose
+{
+    Full,
+    HeadlessGameplay,
+};
+
 class MapAssetLoader
 {
 public:
@@ -195,7 +201,8 @@ public:
         const Engine::AssetFileSystem &assetFileSystem,
         const MapStatsEntry &map,
         const MonsterTable &monsterTable,
-        const ObjectTable &objectTable
+        const ObjectTable &objectTable,
+        MapLoadPurpose purpose = MapLoadPurpose::Full
     ) const;
 
 private:

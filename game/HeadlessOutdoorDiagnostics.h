@@ -5,6 +5,7 @@
 #include <cstdint>
 #include <filesystem>
 #include <string>
+#include <vector>
 
 namespace OpenYAMM::Game
 {
@@ -22,6 +23,16 @@ public:
         const std::filesystem::path &basePath,
         const std::string &mapFileName,
         size_t actorIndex
+    ) const;
+    int runDialogSequence(
+        const std::filesystem::path &basePath,
+        const std::string &mapFileName,
+        uint16_t eventId,
+        const std::vector<size_t> &actionIndices
+    ) const;
+    int runRegressionSuite(
+        const std::filesystem::path &basePath,
+        const std::string &suiteName
     ) const;
 
 private:

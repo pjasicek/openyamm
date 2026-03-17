@@ -603,6 +603,16 @@ void logIndoorDoors(
 
 bool GameDataLoader::load(const Engine::AssetFileSystem &assetFileSystem)
 {
+    return loadInternal(assetFileSystem, MapLoadPurpose::Full);
+}
+
+bool GameDataLoader::loadForHeadlessGameplay(const Engine::AssetFileSystem &assetFileSystem)
+{
+    return loadInternal(assetFileSystem, MapLoadPurpose::HeadlessGameplay);
+}
+
+bool GameDataLoader::loadInternal(const Engine::AssetFileSystem &assetFileSystem, MapLoadPurpose mapLoadPurpose)
+{
     m_loadedTables.clear();
 
     if (!loadMapStats(assetFileSystem))
@@ -640,7 +650,12 @@ bool GameDataLoader::load(const Engine::AssetFileSystem &assetFileSystem)
         return false;
     }
 
-    if (!loadInitialMap(assetFileSystem))
+    if (!loadRosterTable(assetFileSystem))
+    {
+        return false;
+    }
+
+    if (!loadInitialMap(assetFileSystem, mapLoadPurpose))
     {
         return false;
     }
@@ -678,7 +693,12 @@ bool GameDataLoader::load(const Engine::AssetFileSystem &assetFileSystem)
 
 bool GameDataLoader::loadMapById(const Engine::AssetFileSystem &assetFileSystem, int mapId)
 {
-    return loadSelectedMap(assetFileSystem, mapId);
+    return loadSelectedMap(assetFileSystem, mapId, MapLoadPurpose::Full);
+}
+
+bool GameDataLoader::loadMapByIdForHeadlessGameplay(const Engine::AssetFileSystem &assetFileSystem, int mapId)
+{
+    return loadSelectedMap(assetFileSystem, mapId, MapLoadPurpose::HeadlessGameplay);
 }
 
 bool GameDataLoader::loadMapByFileName(const Engine::AssetFileSystem &assetFileSystem, const std::string &fileName)
@@ -690,7 +710,22 @@ bool GameDataLoader::loadMapByFileName(const Engine::AssetFileSystem &assetFileS
         return false;
     }
 
-    return loadSelectedMap(assetFileSystem, selectedMap->id);
+    return loadSelectedMap(assetFileSystem, selectedMap->id, MapLoadPurpose::Full);
+}
+
+bool GameDataLoader::loadMapByFileNameForHeadlessGameplay(
+    const Engine::AssetFileSystem &assetFileSystem,
+    const std::string &fileName
+)
+{
+    const std::optional<MapStatsEntry> selectedMap = m_mapRegistry.findByFileName(fileName);
+
+    if (!selectedMap)
+    {
+        return false;
+    }
+
+    return loadSelectedMap(assetFileSystem, selectedMap->id, MapLoadPurpose::HeadlessGameplay);
 }
 
 const std::vector<LoadedTableSummary> &GameDataLoader::getLoadedTables() const
@@ -736,6 +771,11 @@ const HouseTable &GameDataLoader::getHouseTable() const
 const NpcDialogTable &GameDataLoader::getNpcDialogTable() const
 {
     return m_npcDialogTable;
+}
+
+const RosterTable &GameDataLoader::getRosterTable() const
+{
+    return m_rosterTable;
 }
 
 bool GameDataLoader::loadTable(
@@ -990,6 +1030,24 @@ bool GameDataLoader::loadNpcDialogTable(const Engine::AssetFileSystem &assetFile
     return true;
 }
 
+bool GameDataLoader::loadRosterTable(const Engine::AssetFileSystem &assetFileSystem)
+{
+    std::vector<std::vector<std::string>> rows;
+
+    if (!loadTextTableRows(assetFileSystem, "Data/EnglishT/roster.txt", rows))
+    {
+        return false;
+    }
+
+    if (!m_rosterTable.loadFromRows(rows))
+    {
+        std::cerr << "Failed to parse roster table: Data/EnglishT/roster.txt\n";
+        return false;
+    }
+
+    return true;
+}
+
 bool GameDataLoader::loadFirstTextTableRows(
     const Engine::AssetFileSystem &assetFileSystem,
     const std::vector<std::string> &virtualPaths,
@@ -1131,12 +1189,16 @@ bool GameDataLoader::loadTextTableRows(
     return true;
 }
 
-bool GameDataLoader::loadInitialMap(const Engine::AssetFileSystem &assetFileSystem)
+bool GameDataLoader::loadInitialMap(const Engine::AssetFileSystem &assetFileSystem, MapLoadPurpose mapLoadPurpose)
 {
-    return loadSelectedMap(assetFileSystem, 1);
+    return loadSelectedMap(assetFileSystem, 1, mapLoadPurpose);
 }
 
-bool GameDataLoader::loadSelectedMap(const Engine::AssetFileSystem &assetFileSystem, int mapId)
+bool GameDataLoader::loadSelectedMap(
+    const Engine::AssetFileSystem &assetFileSystem,
+    int mapId,
+    MapLoadPurpose mapLoadPurpose
+)
 {
     const std::optional<MapStatsEntry> selectedMap = m_mapRegistry.findById(mapId);
 
@@ -1147,7 +1209,7 @@ bool GameDataLoader::loadSelectedMap(const Engine::AssetFileSystem &assetFileSys
     }
 
     const MapAssetLoader mapAssetLoader;
-    m_selectedMap = mapAssetLoader.load(assetFileSystem, *selectedMap, m_monsterTable, m_objectTable);
+    m_selectedMap = mapAssetLoader.load(assetFileSystem, *selectedMap, m_monsterTable, m_objectTable, mapLoadPurpose);
 
     if (!m_selectedMap)
     {

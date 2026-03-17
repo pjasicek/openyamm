@@ -27,6 +27,7 @@ add_executable(openyamm
     OutdoorPartyRuntime.cpp
     OutdoorWorldRuntime.cpp
     Party.cpp
+    RosterTable.cpp
     SpawnPreview.cpp
     SpriteTables.cpp
     StrTable.cpp

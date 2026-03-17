@@ -69,7 +69,8 @@ bool shouldDisplayHouseType(const std::string &houseType)
 
 std::optional<uint32_t> singleSelectableResidentNpcId(
     const HouseEntry &houseEntry,
-    const NpcDialogTable &npcDialogTable
+    const NpcDialogTable &npcDialogTable,
+    const EventRuntimeState &eventRuntimeState
 )
 {
     std::optional<uint32_t> residentNpcId;
@@ -79,6 +80,11 @@ std::optional<uint32_t> singleSelectableResidentNpcId(
         const NpcEntry *pResident = npcDialogTable.getNpc(candidateNpcId);
 
         if (pResident == nullptr || pResident->name.empty())
+        {
+            continue;
+        }
+
+        if (eventRuntimeState.unavailableNpcIds.contains(candidateNpcId))
         {
             continue;
         }
@@ -129,7 +135,8 @@ EventDialogContent buildEventDialogContent(
             );
             const std::optional<uint32_t> residentNpcId = singleSelectableResidentNpcId(
                 *pHouseEntry,
-                *pNpcDialogTable
+                *pNpcDialogTable,
+                eventRuntimeState
             );
 
             if (residentNpcId && houseActions.empty())
@@ -185,6 +192,11 @@ EventDialogContent buildEventDialogContent(
 
                     if (pResident != nullptr && !pResident->name.empty())
                     {
+                        if (eventRuntimeState.unavailableNpcIds.contains(residentNpcId))
+                        {
+                            continue;
+                        }
+
                         if (!hasResidentAction)
                         {
                             dialog.lines.push_back("Residents:");
@@ -274,6 +286,9 @@ EventDialogContent buildEventDialogContent(
         const NpcEntry *pNpc = pNpcDialogTable != nullptr
             ? pNpcDialogTable->getNpc(dialog.sourceId)
             : nullptr;
+        const bool hasPendingRosterJoinInvite =
+            eventRuntimeState.pendingRosterJoinInvite
+            && eventRuntimeState.pendingRosterJoinInvite->npcId == dialog.sourceId;
         const bool hasEventMessageLines = !eventMessageLines.empty();
 
         if (context.kind == DialogueContextKind::NpcNews && dialog.sourceId == 0)
@@ -296,6 +311,7 @@ EventDialogContent buildEventDialogContent(
 
         if (context.kind == DialogueContextKind::NpcTalk
             && allowNpcFallbackContent
+            && !hasPendingRosterJoinInvite
             && !hasEventMessageLines
             && pGreeting != nullptr)
         {
@@ -329,23 +345,44 @@ EventDialogContent buildEventDialogContent(
                 pNpcDialogTable->getTopicsForNpc(dialog.sourceId, pTopicOverrides);
             const EventRuntime eventRuntime = {};
 
-            for (const NpcDialogTable::ResolvedTopic &topic : topics)
+            if (hasPendingRosterJoinInvite)
             {
-                if (topic.topic.empty())
-                {
-                    continue;
-                }
+                EventDialogAction acceptAction = {};
+                acceptAction.kind = EventDialogActionKind::RosterJoinAccept;
+                acceptAction.label = "Yes";
+                dialog.actions.push_back(std::move(acceptAction));
 
-                if (!eventRuntime.canShowTopic(globalProgram, static_cast<uint16_t>(topic.id), eventRuntimeState, pParty))
+                EventDialogAction declineAction = {};
+                declineAction.kind = EventDialogActionKind::RosterJoinDecline;
+                declineAction.label = "No";
+                dialog.actions.push_back(std::move(declineAction));
+            }
+            else
+            {
+                for (const NpcDialogTable::ResolvedTopic &topic : topics)
                 {
-                    continue;
-                }
+                    if (topic.topic.empty())
+                    {
+                        continue;
+                    }
 
-                EventDialogAction action = {};
-                action.kind = EventDialogActionKind::NpcTopic;
-                action.id = topic.id;
-                action.label = topic.topic;
-                dialog.actions.push_back(std::move(action));
+                    if (!eventRuntime.canShowTopic(
+                            globalProgram,
+                            static_cast<uint16_t>(topic.id),
+                            eventRuntimeState,
+                            pParty))
+                    {
+                        continue;
+                    }
+
+                    EventDialogAction action = {};
+                    action.kind = topic.specialKind == NpcTopicEntry::SpecialKind::RosterJoinOffer
+                        ? EventDialogActionKind::RosterJoinOffer
+                        : EventDialogActionKind::NpcTopic;
+                    action.id = topic.id;
+                    action.label = topic.topic;
+                    dialog.actions.push_back(std::move(action));
+                }
             }
         }
 
@@ -364,6 +401,21 @@ EventDialogContent buildEventDialogContent(
         }
     }
 
+    if (context.kind == DialogueContextKind::NpcTalk
+        && eventRuntimeState.pendingRosterJoinInvite
+        && eventRuntimeState.pendingRosterJoinInvite->npcId == dialog.sourceId
+        && eventMessageLines.empty()
+        && pNpcDialogTable != nullptr)
+    {
+        const std::optional<std::string> inviteText =
+            pNpcDialogTable->getText(eventRuntimeState.pendingRosterJoinInvite->inviteTextId);
+
+        if (inviteText && !inviteText->empty())
+        {
+            eventMessageLines = wrapDialogText(*inviteText, MaxLineWidth);
+        }
+    }
+
     dialog.lines.insert(dialog.lines.end(), eventMessageLines.begin(), eventMessageLines.end());
 
     if (!dialog.isHouseDialog
@@ -376,9 +428,14 @@ EventDialogContent buildEventDialogContent(
 
     if (dialog.lines.empty() && dialog.actions.empty())
     {
-        dialog.lines.push_back(dialog.isHouseDialog
-            ? "House interaction UI is not implemented yet."
-            : "NPC interaction UI is not implemented yet.");
+        if (dialog.isHouseDialog)
+        {
+            dialog.lines.push_back("The house is empty.");
+        }
+        else
+        {
+            dialog.lines.push_back("NPC interaction UI is not implemented yet.");
+        }
     }
 
     return dialog;
