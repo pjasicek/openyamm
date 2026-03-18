@@ -38,6 +38,18 @@ struct OutdoorMoveState
     float fallDistance = 0.0f;
 };
 
+struct OutdoorBodyDimensions
+{
+    float radius = 37.0f;
+    float height = 192.0f;
+};
+
+struct OutdoorIgnoredActorCollider
+{
+    OutdoorActorCollisionSource source = OutdoorActorCollisionSource::MapDelta;
+    size_t sourceIndex = 0;
+};
+
 class OutdoorMovementController
 {
 public:
@@ -50,6 +62,11 @@ public:
     );
 
     OutdoorMoveState initializeState(float x, float y, float footZHint) const;
+    OutdoorMoveState initializeStateForBody(
+        float x,
+        float y,
+        float footZHint,
+        float bodyRadius) const;
     OutdoorMoveState resolveMove(
         const OutdoorMoveState &state,
         float desiredVelocityX,
@@ -61,6 +78,30 @@ public:
         float flyVerticalSpeed,
         float deltaSeconds,
         std::vector<size_t> *pContactedActorIndices = nullptr
+    ) const;
+    OutdoorMoveState resolveMoveForBody(
+        const OutdoorMoveState &state,
+        const OutdoorBodyDimensions &body,
+        float desiredVelocityX,
+        float desiredVelocityY,
+        bool jumpRequested,
+        bool flyDownRequested,
+        bool flyingActive,
+        float jumpVelocity,
+        float flyVerticalSpeed,
+        float deltaSeconds,
+        std::vector<size_t> *pContactedActorIndices = nullptr,
+        const std::optional<OutdoorIgnoredActorCollider> &ignoredActorCollider = std::nullopt
+    ) const;
+    OutdoorMoveState resolveOutdoorActorMove(
+        const OutdoorMoveState &state,
+        const OutdoorBodyDimensions &body,
+        float desiredVelocityX,
+        float desiredVelocityY,
+        float verticalVelocity,
+        bool flyingActive,
+        float deltaSeconds,
+        const std::optional<OutdoorIgnoredActorCollider> &ignoredActorCollider = std::nullopt
     ) const;
     void setActorColliders(const std::vector<OutdoorActorCollision> &actorColliders);
 

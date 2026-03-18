@@ -32,6 +32,10 @@ constexpr float MeleeRange = 307.0f;
 constexpr float DetectionRange = 5120.0f;
 constexpr float FleeThresholdRange = 10240.0f;
 constexpr float PartyCollisionRadius = 37.0f;
+constexpr float GroundSnapHeight = 1.0f;
+constexpr float OeNonFlyingActorRadius = 40.0f;
+constexpr float ActorUpdateStepSeconds = 1.0f / 128.0f;
+constexpr float MaxAccumulatedActorUpdateSeconds = 0.1f;
 constexpr float Pi = 3.14159265358979323846f;
 
 float clampLength(float value, float maxValue)
@@ -87,6 +91,7 @@ void faceDirection(OutdoorWorldRuntime::MapActorState &actor, float deltaX, floa
 float resolveActorGroundZ(
     const OutdoorMapData *pOutdoorMapData,
     const MonsterTable::MonsterStatsEntry *pStats,
+    uint16_t radius,
     float x,
     float y,
     float currentZ
@@ -97,7 +102,13 @@ float resolveActorGroundZ(
         return currentZ;
     }
 
-    const float floorZ = sampleOutdoorSupportFloorHeight(*pOutdoorMapData, x, y, currentZ);
+    const float floorZ = sampleOutdoorSupportFloor(
+        *pOutdoorMapData,
+        x,
+        y,
+        currentZ,
+        5.0f,
+        std::max(5.0f, static_cast<float>(radius))).height;
 
     if (pStats != nullptr && pStats->canFly)
     {
@@ -105,6 +116,178 @@ float resolveActorGroundZ(
     }
 
     return floorZ;
+}
+
+float resolveInitialActorGroundZ(
+    const OutdoorMapData *pOutdoorMapData,
+    const MonsterTable::MonsterStatsEntry *pStats,
+    uint16_t radius,
+    float x,
+    float y,
+    float currentZ
+)
+{
+    if (pOutdoorMapData == nullptr)
+    {
+        return currentZ;
+    }
+
+    const float floorZ = sampleOutdoorSupportFloor(
+        *pOutdoorMapData,
+        x,
+        y,
+        currentZ,
+        std::numeric_limits<float>::max(),
+        std::max(5.0f, static_cast<float>(radius))).height;
+
+    if (pStats != nullptr && pStats->canFly)
+    {
+        return std::max(currentZ, floorZ);
+    }
+
+    return floorZ;
+}
+
+float actorCollisionRadius(
+    const OutdoorWorldRuntime::MapActorState &actor,
+    const MonsterTable::MonsterStatsEntry *pStats)
+{
+    if (pStats != nullptr && !pStats->canFly)
+    {
+        return OeNonFlyingActorRadius;
+    }
+
+    if (actor.radius > 0)
+    {
+        return static_cast<float>(actor.radius);
+    }
+
+    return OeNonFlyingActorRadius;
+}
+
+float actorCollisionHeight(
+    const OutdoorWorldRuntime::MapActorState &actor,
+    float collisionRadius)
+{
+    if (actor.height > 0)
+    {
+        return std::max(static_cast<float>(actor.height), collisionRadius * 2.0f + 2.0f);
+    }
+
+    return collisionRadius * 2.0f + 2.0f;
+}
+
+void syncActorFromMovementState(OutdoorWorldRuntime::MapActorState &actor)
+{
+    actor.preciseX = actor.movementState.x;
+    actor.preciseY = actor.movementState.y;
+    actor.preciseZ = actor.movementState.footZ - GroundSnapHeight;
+    actor.x = static_cast<int>(std::lround(actor.preciseX));
+    actor.y = static_cast<int>(std::lround(actor.preciseY));
+    actor.z = static_cast<int>(std::lround(actor.preciseZ));
+}
+
+std::vector<OutdoorActorCollision> buildRuntimeActorColliders(
+    const std::vector<OutdoorWorldRuntime::MapActorState> &actors)
+{
+    std::vector<OutdoorActorCollision> colliders;
+    colliders.reserve(actors.size());
+
+    for (size_t actorIndex = 0; actorIndex < actors.size(); ++actorIndex)
+    {
+        const OutdoorWorldRuntime::MapActorState &actor = actors[actorIndex];
+
+        if (actor.isDead || actor.isInvisible || actor.radius == 0 || actor.height == 0)
+        {
+            continue;
+        }
+
+        OutdoorActorCollision collider = {};
+        collider.sourceIndex = actorIndex;
+        collider.source = OutdoorActorCollisionSource::MapDelta;
+        collider.radius = actor.radius;
+        collider.height = actor.height;
+        collider.worldX = actor.x;
+        collider.worldY = actor.y;
+        collider.worldZ = actor.z;
+        collider.attributes = actor.hostilityType;
+        collider.group = actor.group;
+        collider.name = actor.displayName;
+        colliders.push_back(std::move(collider));
+    }
+
+    return colliders;
+}
+
+void updateRuntimeActorCollider(
+    std::vector<OutdoorActorCollision> &colliders,
+    size_t actorIndex,
+    const OutdoorWorldRuntime::MapActorState &actor)
+{
+    for (OutdoorActorCollision &collider : colliders)
+    {
+        if (collider.source == OutdoorActorCollisionSource::MapDelta && collider.sourceIndex == actorIndex)
+        {
+            collider.worldX = actor.x;
+            collider.worldY = actor.y;
+            collider.worldZ = actor.z;
+            collider.radius = actor.radius;
+            collider.height = actor.height;
+            return;
+        }
+    }
+}
+
+bool tryMoveActorInWorld(
+    OutdoorWorldRuntime::MapActorState &actor,
+    const OutdoorMapData &outdoorMapData,
+    const std::vector<OutdoorFaceGeometryData> &faces,
+    const MonsterTable::MonsterStatsEntry *pStats,
+    float deltaX,
+    float deltaY
+)
+{
+    const float candidateX = actor.preciseX + deltaX;
+    const float candidateY = actor.preciseY + deltaY;
+    const bool canFly = pStats != nullptr && pStats->canFly;
+
+    if (!canFly && outdoorTerrainSlopeTooHigh(outdoorMapData, candidateX, candidateY))
+    {
+        const float terrainHeight = sampleOutdoorTerrainHeight(outdoorMapData, candidateX, candidateY);
+
+        if (terrainHeight > actor.preciseZ + 8.0f)
+        {
+            return false;
+        }
+    }
+
+    const float candidateZ = resolveActorGroundZ(
+        &outdoorMapData,
+        pStats,
+        actor.radius,
+        candidateX,
+        candidateY,
+        actor.preciseZ);
+    const float radius = static_cast<float>(actor.radius > 0 ? actor.radius : 40);
+    const float height = static_cast<float>(actor.height > 0 ? actor.height : 120);
+
+    for (const OutdoorFaceGeometryData &face : faces)
+    {
+        if (face.isWalkable)
+        {
+            continue;
+        }
+
+        if (isOutdoorCylinderBlockedByFace(face, candidateX, candidateY, candidateZ, radius, height))
+        {
+            return false;
+        }
+    }
+
+    actor.preciseX = candidateX;
+    actor.preciseY = candidateY;
+    actor.preciseZ = candidateZ;
+    return true;
 }
 
 std::vector<int> parseCsvIntegers(const std::optional<std::string> &note)
@@ -286,7 +469,13 @@ OutdoorWorldRuntime::MapActorState buildMapActorState(
     state.attackCooldownSeconds = state.recoverySeconds;
     state.idleDecisionSeconds = 0.5f + static_cast<float>(actorId % 5) * 0.2f;
 
-    state.preciseZ = resolveActorGroundZ(pOutdoorMapData, pStats, state.preciseX, state.preciseY, state.preciseZ);
+    state.preciseZ = resolveInitialActorGroundZ(
+        pOutdoorMapData,
+        pStats,
+        state.radius,
+        state.preciseX,
+        state.preciseY,
+        state.preciseZ);
     state.z = static_cast<int>(std::lround(state.preciseZ));
     state.homePreciseZ = state.preciseZ;
     state.homeZ = state.z;
@@ -1032,7 +1221,11 @@ void OutdoorWorldRuntime::initialize(
     const ItemTable &itemTable,
     const std::optional<OutdoorMapData> &outdoorMapData,
     const std::optional<MapDeltaData> &outdoorMapDeltaData,
-    const std::optional<EventRuntimeState> &eventRuntimeState
+    const std::optional<EventRuntimeState> &eventRuntimeState,
+    const std::optional<std::vector<uint8_t>> &outdoorLandMask,
+    const std::optional<OutdoorDecorationCollisionSet> &outdoorDecorationCollisionSet,
+    const std::optional<OutdoorActorCollisionSet> &outdoorActorCollisionSet,
+    const std::optional<OutdoorSpriteObjectCollisionSet> &outdoorSpriteObjectCollisionSet
 )
 {
     m_mapId = map.id;
@@ -1057,6 +1250,37 @@ void OutdoorWorldRuntime::initialize(
     m_pMonsterTable = &monsterTable;
     m_pOutdoorMapData = outdoorMapData ? &*outdoorMapData : nullptr;
     m_pOutdoorMapDeltaData = outdoorMapDeltaData ? &*outdoorMapDeltaData : nullptr;
+    m_outdoorFaces.clear();
+    m_outdoorMovementController.reset();
+    m_actorUpdateAccumulatorSeconds = 0.0f;
+
+    if (m_pOutdoorMapData != nullptr)
+    {
+        for (size_t bModelIndex = 0; bModelIndex < m_pOutdoorMapData->bmodels.size(); ++bModelIndex)
+        {
+            const OutdoorBModel &bModel = m_pOutdoorMapData->bmodels[bModelIndex];
+
+            for (size_t faceIndex = 0; faceIndex < bModel.faces.size(); ++faceIndex)
+            {
+                OutdoorFaceGeometryData geometry = {};
+
+                if (buildOutdoorFaceGeometry(bModel, bModelIndex, bModel.faces[faceIndex], faceIndex, geometry))
+                {
+                    m_outdoorFaces.push_back(std::move(geometry));
+                }
+            }
+        }
+    }
+
+    if (outdoorMapData)
+    {
+        m_outdoorMovementController.emplace(
+            *outdoorMapData,
+            outdoorLandMask,
+            outdoorDecorationCollisionSet,
+            outdoorActorCollisionSet,
+            outdoorSpriteObjectCollisionSet);
+    }
     m_nextSummonId = 1;
 
     if (outdoorMapDeltaData)
@@ -1071,6 +1295,24 @@ void OutdoorWorldRuntime::initialize(
                 outdoorMapDeltaData->actors[actorIndex],
                 static_cast<uint32_t>(actorIndex),
                 m_pOutdoorMapData));
+        }
+
+        if (m_outdoorMovementController)
+        {
+            for (MapActorState &actor : m_mapActors)
+            {
+                const MonsterTable::MonsterStatsEntry *pStats = monsterTable.findStatsById(actor.monsterId);
+                const float collisionRadius = actorCollisionRadius(actor, pStats);
+                actor.movementState = m_outdoorMovementController->initializeStateForBody(
+                    actor.preciseX,
+                    actor.preciseY,
+                    actor.preciseZ + GroundSnapHeight,
+                    collisionRadius);
+                actor.movementStateInitialized = true;
+                syncActorFromMovementState(actor);
+                actor.homePreciseZ = actor.preciseZ;
+                actor.homeZ = actor.z;
+            }
         }
     }
 
@@ -1142,9 +1384,21 @@ void OutdoorWorldRuntime::updateMapActors(float deltaSeconds, float partyX, floa
         return;
     }
 
-    for (size_t actorIndex = 0; actorIndex < m_mapActors.size(); ++actorIndex)
+    m_actorUpdateAccumulatorSeconds =
+        std::min(m_actorUpdateAccumulatorSeconds + deltaSeconds, MaxAccumulatedActorUpdateSeconds);
+
+    while (m_actorUpdateAccumulatorSeconds >= ActorUpdateStepSeconds)
     {
-        MapActorState &actor = m_mapActors[actorIndex];
+    std::vector<OutdoorActorCollision> runtimeActorColliders;
+
+        if (m_outdoorMovementController)
+        {
+            runtimeActorColliders = buildRuntimeActorColliders(m_mapActors);
+        }
+
+        for (size_t actorIndex = 0; actorIndex < m_mapActors.size(); ++actorIndex)
+        {
+            MapActorState &actor = m_mapActors[actorIndex];
 
         if (actor.isDead)
         {
@@ -1161,10 +1415,22 @@ void OutdoorWorldRuntime::updateMapActors(float deltaSeconds, float partyX, floa
             continue;
         }
 
-        actor.animationTimeTicks += deltaSeconds * TicksPerSecond;
-        actor.idleDecisionSeconds = std::max(0.0f, actor.idleDecisionSeconds - deltaSeconds);
-        actor.attackCooldownSeconds = std::max(0.0f, actor.attackCooldownSeconds - deltaSeconds);
-        actor.actionSeconds = std::max(0.0f, actor.actionSeconds - deltaSeconds);
+        if (m_outdoorMovementController && !actor.movementStateInitialized)
+        {
+            const float collisionRadius = actorCollisionRadius(actor, pStats);
+            actor.movementState = m_outdoorMovementController->initializeStateForBody(
+                actor.preciseX,
+                actor.preciseY,
+                actor.preciseZ + GroundSnapHeight,
+                collisionRadius);
+            actor.movementStateInitialized = true;
+            syncActorFromMovementState(actor);
+        }
+
+            actor.animationTimeTicks += ActorUpdateStepSeconds * TicksPerSecond;
+            actor.idleDecisionSeconds = std::max(0.0f, actor.idleDecisionSeconds - ActorUpdateStepSeconds);
+            actor.attackCooldownSeconds = std::max(0.0f, actor.attackCooldownSeconds - ActorUpdateStepSeconds);
+            actor.actionSeconds = std::max(0.0f, actor.actionSeconds - ActorUpdateStepSeconds);
 
         const float deltaPartyX = partyX - actor.preciseX;
         const float deltaPartyY = partyY - actor.preciseY;
@@ -1371,25 +1637,74 @@ void OutdoorWorldRuntime::updateMapActors(float deltaSeconds, float partyX, floa
             const float moveSpeed = static_cast<float>(std::max(
                 1,
                 actor.moveSpeed > 0 ? static_cast<int>(actor.moveSpeed) : pStats->speed));
-            actor.velocityX = desiredMoveX * moveSpeed;
-            actor.velocityY = desiredMoveY * moveSpeed;
-            actor.preciseX += actor.velocityX * deltaSeconds;
-            actor.preciseY += actor.velocityY * deltaSeconds;
+                actor.velocityX = desiredMoveX * moveSpeed;
+                actor.velocityY = desiredMoveY * moveSpeed;
+                const float moveDeltaX = actor.velocityX * ActorUpdateStepSeconds;
+                const float moveDeltaY = actor.velocityY * ActorUpdateStepSeconds;
+                bool moved = false;
 
-            if (m_pOutdoorMapData != nullptr)
+            if (m_outdoorMovementController && actor.movementStateInitialized)
             {
-                actor.preciseZ = resolveActorGroundZ(
-                    m_pOutdoorMapData,
-                    pStats,
-                    actor.preciseX,
-                    actor.preciseY,
-                    actor.preciseZ);
+                const float collisionRadius = actorCollisionRadius(actor, pStats);
+                const float collisionHeight = actorCollisionHeight(actor, collisionRadius);
+                m_outdoorMovementController->setActorColliders(runtimeActorColliders);
+                actor.movementState = m_outdoorMovementController->resolveOutdoorActorMove(
+                    actor.movementState,
+                    OutdoorBodyDimensions{collisionRadius, collisionHeight},
+                    actor.velocityX,
+                    actor.velocityY,
+                    actor.velocityZ,
+                    pStats->canFly,
+                    ActorUpdateStepSeconds,
+                    OutdoorIgnoredActorCollider{OutdoorActorCollisionSource::MapDelta, actorIndex});
+                syncActorFromMovementState(actor);
+                actor.velocityZ = actor.movementState.verticalVelocity;
+                moved = true;
+            }
+            else if (m_pOutdoorMapData != nullptr)
+            {
+                moved = tryMoveActorInWorld(actor, *m_pOutdoorMapData, m_outdoorFaces, pStats, moveDeltaX, moveDeltaY);
+
+                if (!moved && std::abs(moveDeltaX) > 0.001f)
+                {
+                    moved = tryMoveActorInWorld(actor, *m_pOutdoorMapData, m_outdoorFaces, pStats, moveDeltaX, 0.0f);
+                }
+
+                if (!moved && std::abs(moveDeltaY) > 0.001f)
+                {
+                    moved = tryMoveActorInWorld(actor, *m_pOutdoorMapData, m_outdoorFaces, pStats, 0.0f, moveDeltaY);
+                }
+            }
+            else
+            {
+                actor.preciseX += moveDeltaX;
+                actor.preciseY += moveDeltaY;
+                moved = true;
+            }
+
+            if (!moved)
+            {
+                actor.velocityX = 0.0f;
+                actor.velocityY = 0.0f;
+                actor.moveDirectionX = 0.0f;
+                actor.moveDirectionY = 0.0f;
+                actor.actionSeconds = std::min(actor.actionSeconds, 0.25f);
+                actor.aiState = ActorAiState::Standing;
+                actor.animation = ActorAnimation::Standing;
+            }
+
+            if (m_outdoorMovementController)
+            {
+                updateRuntimeActorCollider(runtimeActorColliders, actorIndex, actor);
             }
         }
 
-        actor.x = static_cast<int>(std::lround(actor.preciseX));
-        actor.y = static_cast<int>(std::lround(actor.preciseY));
-        actor.z = static_cast<int>(std::lround(actor.preciseZ));
+            actor.x = static_cast<int>(std::lround(actor.preciseX));
+            actor.y = static_cast<int>(std::lround(actor.preciseY));
+            actor.z = static_cast<int>(std::lround(actor.preciseZ));
+        }
+
+        m_actorUpdateAccumulatorSeconds -= ActorUpdateStepSeconds;
     }
 }
 

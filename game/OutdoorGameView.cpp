@@ -3516,8 +3516,9 @@ void OutdoorGameView::renderActorCollisionOverlays(uint16_t viewId) const
         const uint16_t actorRadius = pRuntimeActor != nullptr ? pRuntimeActor->radius : billboard.radius;
         const uint16_t actorHeight = pRuntimeActor != nullptr ? pRuntimeActor->height : billboard.height;
         const uint32_t color = pRuntimeActor != nullptr && pRuntimeActor->hostileToParty
-            ? 0xff4040ffu
-            : 0xff40ff40u;
+            ? 0xff6060ffu
+            : 0xff60ff60u;
+        const uint32_t centerColor = 0xff40ffffu;
         const float halfExtent = static_cast<float>(std::max<uint16_t>(actorRadius, 32));
         const float height = static_cast<float>(std::max<uint16_t>(actorHeight, 64));
         const float minX = static_cast<float>(actorX) - halfExtent;
@@ -3548,6 +3549,18 @@ void OutdoorGameView::renderActorCollisionOverlays(uint16_t viewId) const
         appendLine(bottom01, top01, color);
         appendLine(bottom10, top10, color);
         appendLine(bottom11, top11, color);
+        appendLine(
+            {static_cast<float>(actorX), static_cast<float>(actorY), minZ},
+            {static_cast<float>(actorX), static_cast<float>(actorY), maxZ},
+            centerColor);
+        appendLine(
+            {minX, static_cast<float>(actorY), minZ},
+            {maxX, static_cast<float>(actorY), minZ},
+            centerColor);
+        appendLine(
+            {static_cast<float>(actorX), minY, minZ},
+            {static_cast<float>(actorX), maxY, minZ},
+            centerColor);
     }
 
     if (vertices.empty())
@@ -4587,7 +4600,7 @@ std::vector<OutdoorGameView::TerrainVertex> OutdoorGameView::buildSpawnMarkerVer
         const float halfExtent = static_cast<float>(std::max<uint16_t>(spawn.radius, 64));
         const float groundHeight = sampleOutdoorTerrainHeight(
             outdoorMapData,
-            static_cast<float>(spawn.x),
+            static_cast<float>(-spawn.x),
             static_cast<float>(spawn.y)
         );
         const int groundedZ = std::max(spawn.z, static_cast<int>(std::lround(groundHeight)));
@@ -4734,7 +4747,7 @@ OutdoorGameView::InspectHit OutdoorGameView::inspectBModelFace(
         const float halfExtent = static_cast<float>(std::max<uint16_t>(spawn.radius, 64));
         const float groundHeight = sampleOutdoorTerrainHeight(
             outdoorMapData,
-            static_cast<float>(spawn.x),
+            static_cast<float>(-spawn.x),
             static_cast<float>(spawn.y)
         );
         const int groundedZ = std::max(spawn.z, static_cast<int>(std::lround(groundHeight)));

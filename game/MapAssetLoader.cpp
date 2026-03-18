@@ -966,7 +966,7 @@ void appendMapDeltaActorCollisions(
 
         if (pOutdoorMapData != nullptr)
         {
-            actorZ = static_cast<int>(std::lround(sampleOutdoorSupportFloorHeight(
+            actorZ = static_cast<int>(std::lround(sampleOutdoorPlacementFloorHeight(
                 *pOutdoorMapData,
                 static_cast<float>(-actor.x),
                 static_cast<float>(actor.y),
@@ -1018,7 +1018,7 @@ void appendSpawnActorCollisions(
 
         if (pOutdoorMapData != nullptr)
         {
-            actorZ = static_cast<int>(std::lround(sampleOutdoorSupportFloorHeight(
+            actorZ = static_cast<int>(std::lround(sampleOutdoorPlacementFloorHeight(
                 *pOutdoorMapData,
                 static_cast<float>(-spawn.x),
                 static_cast<float>(spawn.y),
@@ -1517,7 +1517,7 @@ void appendMapDeltaActors(
 
         if (pOutdoorMapData != nullptr)
         {
-            billboard.z = static_cast<int>(std::lround(sampleOutdoorSupportFloorHeight(
+            billboard.z = static_cast<int>(std::lround(sampleOutdoorPlacementFloorHeight(
                 *pOutdoorMapData,
                 static_cast<float>(-actor.x),
                 static_cast<float>(actor.y),
@@ -1611,7 +1611,7 @@ void appendSpawnActors(
 
         if (pOutdoorMapData != nullptr)
         {
-            billboard.z = static_cast<int>(std::lround(sampleOutdoorSupportFloorHeight(
+            billboard.z = static_cast<int>(std::lround(sampleOutdoorPlacementFloorHeight(
                 *pOutdoorMapData,
                 static_cast<float>(-spawn.x),
                 static_cast<float>(spawn.y),

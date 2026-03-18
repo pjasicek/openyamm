@@ -87,7 +87,11 @@ bool GameApplication::initializeRenderer()
             m_gameDataLoader.getItemTable(),
             selectedMap->outdoorMapData,
             selectedMap->outdoorMapDeltaData,
-            selectedMap->eventRuntimeState
+            selectedMap->eventRuntimeState,
+            selectedMap->outdoorLandMask,
+            selectedMap->outdoorDecorationCollisionSet,
+            selectedMap->outdoorActorCollisionSet,
+            selectedMap->outdoorSpriteObjectCollisionSet
         );
 
         m_pOutdoorPartyRuntime = std::make_unique<OutdoorPartyRuntime>(

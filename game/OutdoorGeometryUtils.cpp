@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <cmath>
+#include <limits>
 
 namespace OpenYAMM::Game
 {
@@ -14,6 +15,7 @@ constexpr uint8_t TerrainTileBurn = 0x01;
 constexpr uint8_t TerrainTileWater = 0x02;
 constexpr float FloorCheckSlack = 5.0f;
 constexpr float FloorSelectionHeightTolerance = 5.0f;
+constexpr float TerrainSteepTileHeight = static_cast<float>(OutdoorMapData::TerrainTileSize);
 
 bx::Vec3 vecSubtract(const bx::Vec3 &left, const bx::Vec3 &right)
 {
@@ -109,6 +111,25 @@ float sampleOutdoorTerrainNormalZ(const OutdoorMapData &outdoorMapData, float x,
     const float gradientX = (heightRight - heightLeft) / (sampleOffset * 2.0f);
     const float gradientY = (heightUp - heightDown) / (sampleOffset * 2.0f);
     return 1.0f / std::sqrt(gradientX * gradientX + gradientY * gradientY + 1.0f);
+}
+
+bool outdoorTerrainSlopeTooHigh(const OutdoorMapData &outdoorMapData, float x, float y)
+{
+    const float gridXFloat = 64.0f - (x / static_cast<float>(OutdoorMapData::TerrainTileSize));
+    const float gridYFloat = 64.0f - (y / static_cast<float>(OutdoorMapData::TerrainTileSize));
+    const int gridX = std::clamp(static_cast<int>(std::floor(gridXFloat)), 0, OutdoorMapData::TerrainWidth - 2);
+    const int gridY = std::clamp(static_cast<int>(std::floor(gridYFloat)), 0, OutdoorMapData::TerrainHeight - 2);
+    const size_t index00 = static_cast<size_t>(gridY * OutdoorMapData::TerrainWidth + gridX);
+    const size_t index01 = static_cast<size_t>((gridY + 1) * OutdoorMapData::TerrainWidth + gridX);
+    const size_t index10 = static_cast<size_t>(gridY * OutdoorMapData::TerrainWidth + (gridX + 1));
+    const size_t index11 = static_cast<size_t>((gridY + 1) * OutdoorMapData::TerrainWidth + (gridX + 1));
+    const int z00 = static_cast<int>(outdoorMapData.heightMap[index00]) * OutdoorMapData::TerrainHeightScale;
+    const int z01 = static_cast<int>(outdoorMapData.heightMap[index01]) * OutdoorMapData::TerrainHeightScale;
+    const int z10 = static_cast<int>(outdoorMapData.heightMap[index10]) * OutdoorMapData::TerrainHeightScale;
+    const int z11 = static_cast<int>(outdoorMapData.heightMap[index11]) * OutdoorMapData::TerrainHeightScale;
+    const int minZ = std::min({z00, z01, z10, z11});
+    const int maxZ = std::max({z00, z01, z10, z11});
+    return static_cast<float>(maxZ - minZ) > TerrainSteepTileHeight;
 }
 
 uint8_t sampleOutdoorTerrainTileAttributes(const OutdoorMapData &outdoorMapData, float x, float y)
@@ -346,22 +367,68 @@ bool isPointInsideOrNearOutdoorPolygon(float x, float y, const std::vector<bx::V
     return false;
 }
 
-float sampleOutdoorSupportFloorHeight(const OutdoorMapData &outdoorMapData, float x, float y, float z)
+bool isOutdoorCylinderBlockedByFace(
+    const OutdoorFaceGeometryData &geometry,
+    float x,
+    float y,
+    float z,
+    float radius,
+    float height
+)
+{
+    if (!geometry.hasPlane || geometry.vertices.empty())
+    {
+        return false;
+    }
+
+    if ((x + radius) < geometry.minX
+        || (x - radius) > geometry.maxX
+        || (y + radius) < geometry.minY
+        || (y - radius) > geometry.maxY
+        || (z + height) < geometry.minZ
+        || z > geometry.maxZ)
+    {
+        return false;
+    }
+
+    const bx::Vec3 center = {
+        x,
+        y,
+        z + std::min(height * 0.5f, std::max(radius, 1.0f))
+    };
+    const bx::Vec3 pointDelta = vecSubtract(center, geometry.vertices.front());
+    const float signedDistance = vecDot(pointDelta, geometry.normal);
+
+    if (std::abs(signedDistance) > radius)
+    {
+        return false;
+    }
+
+    const bx::Vec3 projectedPoint = {
+        center.x - geometry.normal.x * signedDistance,
+        center.y - geometry.normal.y * signedDistance,
+        center.z - geometry.normal.z * signedDistance
+    };
+
+    return isPointInsideOutdoorPolygonProjected(projectedPoint, geometry.vertices, geometry.normal);
+}
+
+OutdoorSupportFloorSample sampleOutdoorSupportFloor(
+    const OutdoorMapData &outdoorMapData,
+    float x,
+    float y,
+    float z,
+    float maxRise,
+    float xySlack
+)
 {
     const float terrainHeight = sampleOutdoorTerrainHeight(outdoorMapData, x, y);
-    float bestHeight = terrainHeight;
+    OutdoorSupportFloorSample bestSample = {};
+    bestSample.height = terrainHeight;
 
     for (size_t bModelIndex = 0; bModelIndex < outdoorMapData.bmodels.size(); ++bModelIndex)
     {
         const OutdoorBModel &bModel = outdoorMapData.bmodels[bModelIndex];
-
-        if (x < static_cast<float>(-bModel.maxX)
-            || x > static_cast<float>(-bModel.minX)
-            || y < static_cast<float>(bModel.minY)
-            || y > static_cast<float>(bModel.maxY))
-        {
-            continue;
-        }
 
         for (size_t faceIndex = 0; faceIndex < bModel.faces.size(); ++faceIndex)
         {
@@ -373,27 +440,50 @@ float sampleOutdoorSupportFloorHeight(const OutdoorMapData &outdoorMapData, floa
                 || x > geometry.maxX
                 || y < geometry.minY
                 || y > geometry.maxY
-                || !isPointInsideOrNearOutdoorPolygon(x, y, geometry.vertices, FloorCheckSlack))
+                || !isPointInsideOrNearOutdoorPolygon(x, y, geometry.vertices, xySlack))
             {
                 continue;
             }
 
             const float faceHeight = calculateOutdoorFaceHeight(geometry, x, y);
 
-            if (bestHeight <= z + FloorSelectionHeightTolerance)
+            if (faceHeight < terrainHeight || faceHeight > z + maxRise)
             {
-                if (faceHeight >= bestHeight && faceHeight <= z + FloorSelectionHeightTolerance)
-                {
-                    bestHeight = faceHeight;
-                }
+                continue;
             }
-            else if (faceHeight < bestHeight)
+
+            if (!bestSample.fromBModel || faceHeight >= bestSample.height)
             {
-                bestHeight = faceHeight;
+                bestSample.height = faceHeight;
+                bestSample.fromBModel = true;
+                bestSample.bModelIndex = bModelIndex;
+                bestSample.faceIndex = faceIndex;
             }
         }
     }
 
-    return std::max(terrainHeight, bestHeight);
+    return bestSample;
+}
+
+float sampleOutdoorSupportFloorHeight(const OutdoorMapData &outdoorMapData, float x, float y, float z)
+{
+    return sampleOutdoorSupportFloor(
+        outdoorMapData,
+        x,
+        y,
+        z,
+        FloorSelectionHeightTolerance,
+        FloorCheckSlack).height;
+}
+
+float sampleOutdoorPlacementFloorHeight(const OutdoorMapData &outdoorMapData, float x, float y, float z)
+{
+    return sampleOutdoorSupportFloor(
+        outdoorMapData,
+        x,
+        y,
+        z,
+        std::numeric_limits<float>::max(),
+        FloorCheckSlack).height;
 }
 }

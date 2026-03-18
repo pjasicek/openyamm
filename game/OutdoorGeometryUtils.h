@@ -30,11 +30,20 @@ struct OutdoorFaceGeometryData
     std::vector<bx::Vec3> vertices;
 };
 
+struct OutdoorSupportFloorSample
+{
+    float height = 0.0f;
+    bool fromBModel = false;
+    size_t bModelIndex = 0;
+    size_t faceIndex = 0;
+};
+
 bool isOutdoorWalkablePolygonType(uint8_t polygonType);
 bx::Vec3 outdoorBModelPointToWorld(int x, int y, int z);
 bx::Vec3 outdoorBModelVertexToWorld(const OutdoorBModelVertex &vertex);
 float sampleOutdoorTerrainHeight(const OutdoorMapData &outdoorMapData, float x, float y);
 float sampleOutdoorTerrainNormalZ(const OutdoorMapData &outdoorMapData, float x, float y);
+bool outdoorTerrainSlopeTooHigh(const OutdoorMapData &outdoorMapData, float x, float y);
 uint8_t sampleOutdoorTerrainTileAttributes(const OutdoorMapData &outdoorMapData, float x, float y);
 bool isOutdoorTerrainWater(const OutdoorMapData &outdoorMapData, float x, float y);
 bool isOutdoorTerrainBurning(const OutdoorMapData &outdoorMapData, float x, float y);
@@ -51,5 +60,22 @@ bool isPointInsideOutdoorPolygonProjected(
     const std::vector<bx::Vec3> &vertices,
     const bx::Vec3 &normal
 );
+bool isOutdoorCylinderBlockedByFace(
+    const OutdoorFaceGeometryData &geometry,
+    float x,
+    float y,
+    float z,
+    float radius,
+    float height
+);
+OutdoorSupportFloorSample sampleOutdoorSupportFloor(
+    const OutdoorMapData &outdoorMapData,
+    float x,
+    float y,
+    float z,
+    float maxRise,
+    float xySlack
+);
 float sampleOutdoorSupportFloorHeight(const OutdoorMapData &outdoorMapData, float x, float y, float z);
+float sampleOutdoorPlacementFloorHeight(const OutdoorMapData &outdoorMapData, float x, float y, float z);
 }

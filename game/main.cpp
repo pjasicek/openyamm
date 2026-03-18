@@ -117,6 +117,20 @@ int runApplication(int argc, char **argv)
         return diagnostics.runInspectActorPreview(argv[0], mapFileName, static_cast<size_t>(parsedActorIndex));
     }
 
+    if (argc == 4 && std::string(argv[1]) == "--headless-dump-actor-support")
+    {
+        const std::string mapFileName = argv[2];
+        const int parsedActorIndex = std::stoi(argv[3]);
+
+        if (parsedActorIndex < 0)
+        {
+            return 2;
+        }
+
+        OpenYAMM::Game::HeadlessOutdoorDiagnostics diagnostics(config);
+        return diagnostics.runDumpActorSupport(argv[0], mapFileName, static_cast<size_t>(parsedActorIndex));
+    }
+
     if (argc == 5 && std::string(argv[1]) == "--headless-dump-actor-preview-texture")
     {
         const std::string mapFileName = argv[2];

@@ -66,6 +66,21 @@ float angleDistanceRadians(float left, float right)
     return std::abs(normalizeAngleRadians(left - right));
 }
 
+float signedDistanceToOutdoorFace(const OutdoorFaceGeometryData &geometry, const bx::Vec3 &point)
+{
+    if (!geometry.hasPlane || geometry.vertices.empty())
+    {
+        return 0.0f;
+    }
+
+    const bx::Vec3 delta = {
+        point.x - geometry.vertices.front().x,
+        point.y - geometry.vertices.front().y,
+        point.z - geometry.vertices.front().z
+    };
+    return geometry.normal.x * delta.x + geometry.normal.y * delta.y + geometry.normal.z * delta.z;
+}
+
 TextureColorStats analyzeTextureColors(const std::vector<uint8_t> &pixels)
 {
     TextureColorStats stats = {};
@@ -255,6 +270,49 @@ ActorPreviewAnimationStats analyzeActorPreviewAnimation(
 
     stats.distinctWalkingFrameCount = observedWalkingTextureKeys.size();
     return stats;
+}
+
+std::string resolveRuntimeActorTextureKey(
+    const ActorPreviewBillboardSet &billboardSet,
+    const ActorPreviewBillboard &billboard,
+    const OutdoorWorldRuntime::MapActorState &actorState,
+    float cameraX,
+    float cameraY
+)
+{
+    constexpr float Pi = 3.14159265358979323846f;
+    uint16_t spriteFrameIndex = billboard.spriteFrameIndex;
+    const size_t animationIndex = static_cast<size_t>(actorState.animation);
+
+    if (animationIndex < billboard.actionSpriteFrameIndices.size()
+        && billboard.actionSpriteFrameIndices[animationIndex] != 0)
+    {
+        spriteFrameIndex = billboard.actionSpriteFrameIndices[animationIndex];
+    }
+
+    const SpriteFrameEntry *pFrame =
+        billboardSet.spriteFrameTable.getFrame(spriteFrameIndex, static_cast<uint32_t>(std::max(0.0f, actorState.animationTimeTicks)));
+
+    if (pFrame == nullptr)
+    {
+        return {};
+    }
+
+    const float angleToCamera = std::atan2(
+        static_cast<float>(actorState.x) - cameraX,
+        static_cast<float>(actorState.y) - cameraY);
+    const float actorYaw = (Pi * 0.5f) - actorState.yawRadians;
+    const float octantAngle = actorYaw - angleToCamera + Pi + (Pi / 8.0f);
+    const int octant = static_cast<int>(std::floor(octantAngle / (Pi / 4.0f))) & 7;
+    const ResolvedSpriteTexture resolvedTexture = SpriteFrameTable::resolveTexture(*pFrame, octant);
+
+    return resolvedTexture.textureName
+        + "|"
+        + std::to_string(static_cast<int>(pFrame->paletteId))
+        + "|"
+        + std::to_string(octant)
+        + "|"
+        + std::to_string(static_cast<int>(actorState.animation));
 }
 
 std::optional<uint32_t> singleSelectableResidentNpcId(
@@ -620,7 +678,11 @@ bool initializeRegressionScenario(
         gameDataLoader.getItemTable(),
         selectedMap.outdoorMapData,
         selectedMap.outdoorMapDeltaData,
-        selectedMap.eventRuntimeState
+        selectedMap.eventRuntimeState,
+        selectedMap.outdoorLandMask,
+        selectedMap.outdoorDecorationCollisionSet,
+        selectedMap.outdoorActorCollisionSet,
+        selectedMap.outdoorSpriteObjectCollisionSet
     );
 
     scenario.party = {};
@@ -1318,6 +1380,143 @@ int HeadlessOutdoorDiagnostics::runInspectActorPreview(
               << " missing=" << animationStats.missingTextureSampleCount
               << " distinct_walking_variants=" << animationStats.distinctWalkingFrameCount
               << '\n';
+
+    return 0;
+}
+
+int HeadlessOutdoorDiagnostics::runDumpActorSupport(
+    const std::filesystem::path &basePath,
+    const std::string &mapFileName,
+    size_t actorIndex
+) const
+{
+    Engine::AssetFileSystem assetFileSystem;
+
+    if (!assetFileSystem.initialize(basePath, m_config.assetRoot))
+    {
+        std::cerr << "Headless diagnostic failed: could not initialize asset file system\n";
+        return 1;
+    }
+
+    GameDataLoader gameDataLoader;
+
+    if (!gameDataLoader.loadForHeadlessGameplay(assetFileSystem)
+        || !gameDataLoader.loadMapByFileNameForHeadlessGameplay(assetFileSystem, mapFileName))
+    {
+        std::cerr << "Headless diagnostic failed: could not load map \"" << mapFileName << "\"\n";
+        return 1;
+    }
+
+    const std::optional<MapAssetInfo> &selectedMap = gameDataLoader.getSelectedMap();
+
+    if (!selectedMap || !selectedMap->outdoorMapData || !selectedMap->outdoorMapDeltaData)
+    {
+        std::cerr << "Headless diagnostic failed: selected map is not an outdoor map\n";
+        return 1;
+    }
+
+    if (actorIndex >= selectedMap->outdoorMapDeltaData->actors.size())
+    {
+        std::cerr << "Headless diagnostic failed: actor index out of range\n";
+        return 1;
+    }
+
+    const MapDeltaActor &rawActor = selectedMap->outdoorMapDeltaData->actors[actorIndex];
+    const float worldX = static_cast<float>(-rawActor.x);
+    const float worldY = static_cast<float>(rawActor.y);
+    const float worldZ = static_cast<float>(rawActor.z);
+    const float terrainHeight = sampleOutdoorTerrainHeight(*selectedMap->outdoorMapData, worldX, worldY);
+    const OutdoorSupportFloorSample pointSupport = sampleOutdoorSupportFloor(
+        *selectedMap->outdoorMapData,
+        worldX,
+        worldY,
+        worldZ,
+        std::numeric_limits<float>::max(),
+        5.0f);
+    const OutdoorSupportFloorSample radiusSupport = sampleOutdoorSupportFloor(
+        *selectedMap->outdoorMapData,
+        worldX,
+        worldY,
+        worldZ,
+        std::numeric_limits<float>::max(),
+        std::max(5.0f, static_cast<float>(rawActor.radius)));
+
+    std::cout << "Actor support dump: actor=" << actorIndex
+              << " name=\"" << rawActor.name << "\""
+              << " pos=" << worldX << "," << worldY << "," << worldZ
+              << " radius=" << rawActor.radius
+              << " height=" << rawActor.height
+              << '\n';
+    std::cout << "  terrain_height=" << terrainHeight << '\n';
+    std::cout << "  point_support=" << pointSupport.height
+              << " from_bmodel=" << (pointSupport.fromBModel ? "yes" : "no")
+              << " bmodel=" << pointSupport.bModelIndex
+              << " face=" << pointSupport.faceIndex
+              << '\n';
+    std::cout << "  radius_support=" << radiusSupport.height
+              << " from_bmodel=" << (radiusSupport.fromBModel ? "yes" : "no")
+              << " bmodel=" << radiusSupport.bModelIndex
+              << " face=" << radiusSupport.faceIndex
+              << '\n';
+
+    size_t printedCount = 0;
+
+    for (size_t bModelIndex = 0; bModelIndex < selectedMap->outdoorMapData->bmodels.size(); ++bModelIndex)
+    {
+        const OutdoorBModel &bModel = selectedMap->outdoorMapData->bmodels[bModelIndex];
+
+        for (size_t faceIndex = 0; faceIndex < bModel.faces.size(); ++faceIndex)
+        {
+            OutdoorFaceGeometryData geometry = {};
+
+            if (!buildOutdoorFaceGeometry(bModel, bModelIndex, bModel.faces[faceIndex], faceIndex, geometry)
+                || !geometry.isWalkable)
+            {
+                continue;
+            }
+
+            if (worldX < geometry.minX - static_cast<float>(rawActor.radius)
+                || worldX > geometry.maxX + static_cast<float>(rawActor.radius)
+                || worldY < geometry.minY - static_cast<float>(rawActor.radius)
+                || worldY > geometry.maxY + static_cast<float>(rawActor.radius))
+            {
+                continue;
+            }
+
+            const bool insidePoint = isPointInsideOutdoorPolygon(worldX, worldY, geometry.vertices);
+            const bool insideRadius = insidePoint;
+
+            if (!insidePoint && !insideRadius)
+            {
+                continue;
+            }
+
+            const float faceHeight = geometry.polygonType == 0x3
+                ? geometry.vertices.front().z
+                : geometry.vertices.front().z
+                    - (geometry.normal.x * (worldX - geometry.vertices.front().x)
+                        + geometry.normal.y * (worldY - geometry.vertices.front().y))
+                        / geometry.normal.z;
+
+            std::cout << "  candidate[" << printedCount << "]"
+                      << " bmodel=" << bModelIndex
+                      << " face=" << faceIndex
+                      << " poly=" << static_cast<int>(geometry.polygonType)
+                      << " attrs=0x" << std::hex << geometry.attributes << std::dec
+                      << " height=" << faceHeight
+                      << " inside_point=" << (insidePoint ? "yes" : "no")
+                      << " inside_radius=" << (insideRadius ? "yes" : "no")
+                      << " model=\"" << geometry.modelName << "\""
+                      << '\n';
+
+            ++printedCount;
+
+            if (printedCount >= 24)
+            {
+                return 0;
+            }
+        }
+    }
 
     return 0;
 }
@@ -2565,6 +2764,270 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
     );
 
     runCase(
+        "friendly_actor_3_accumulates_motion_under_tiny_deltas",
+        [&](std::string &failure)
+        {
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            const OutdoorWorldRuntime::MapActorState *pBefore = scenario.world.mapActorState(3);
+
+            if (pBefore == nullptr)
+            {
+                failure = "actor 3 missing";
+                return false;
+            }
+
+            const int startX = pBefore->x;
+            const int startY = pBefore->y;
+            const float partyX = static_cast<float>(startX + 20000);
+            const float partyY = static_cast<float>(startY + 20000);
+            const float partyZ = static_cast<float>(pBefore->z);
+            bool sawWandering = false;
+            bool sawWalkingAnimation = false;
+
+            for (int step = 0; step < 5000; ++step)
+            {
+                scenario.world.updateMapActors(0.0005f, partyX, partyY, partyZ);
+                const OutdoorWorldRuntime::MapActorState *pStepActor = scenario.world.mapActorState(3);
+
+                if (pStepActor != nullptr)
+                {
+                    sawWandering = sawWandering
+                        || pStepActor->aiState == OutdoorWorldRuntime::ActorAiState::Wandering;
+                    sawWalkingAnimation = sawWalkingAnimation
+                        || pStepActor->animation == OutdoorWorldRuntime::ActorAnimation::Walking;
+                }
+            }
+
+            const OutdoorWorldRuntime::MapActorState *pAfter = scenario.world.mapActorState(3);
+
+            if (pAfter == nullptr)
+            {
+                failure = "actor 3 missing after tiny-delta simulation";
+                return false;
+            }
+
+            if (pAfter->x == startX && pAfter->y == startY)
+            {
+                failure = "actor 3 did not accumulate movement under tiny deltas";
+                return false;
+            }
+
+            if (!sawWandering || !sawWalkingAnimation)
+            {
+                failure = "actor 3 did not enter wandering/walking under tiny deltas";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "actor_3_runtime_preview_changes_while_wandering",
+        [&](std::string &failure)
+        {
+            GameDataLoader fullMapLoader;
+
+            if (!fullMapLoader.load(assetFileSystem)
+                || !fullMapLoader.loadMapByFileName(assetFileSystem, mapFileName))
+            {
+                failure = "could not load full map assets for actor preview regression";
+                return false;
+            }
+
+            const std::optional<MapAssetInfo> &fullSelectedMap = fullMapLoader.getSelectedMap();
+
+            if (!fullSelectedMap || !fullSelectedMap->outdoorActorPreviewBillboardSet)
+            {
+                failure = "selected map missing actor previews";
+                return false;
+            }
+
+            size_t billboardIndex = 0;
+            const ActorPreviewBillboard *pBillboard =
+                findCompanionActorBillboard(*fullSelectedMap->outdoorActorPreviewBillboardSet, 3, billboardIndex);
+
+            if (pBillboard == nullptr)
+            {
+                failure = "actor 3 billboard missing";
+                return false;
+            }
+
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            const OutdoorWorldRuntime::MapActorState *pBefore = scenario.world.mapActorState(3);
+
+            if (pBefore == nullptr)
+            {
+                failure = "actor 3 missing";
+                return false;
+            }
+
+            const float cameraX = static_cast<float>(pBefore->x + 2048);
+            const float cameraY = static_cast<float>(pBefore->y + 2048);
+            std::vector<std::string> observedTextureKeys;
+
+            for (int step = 0; step < 360; ++step)
+            {
+                scenario.world.updateMapActors(
+                    1.0f / 60.0f,
+                    static_cast<float>(pBefore->x + 20000),
+                    static_cast<float>(pBefore->y + 20000),
+                    static_cast<float>(pBefore->z));
+
+                const OutdoorWorldRuntime::MapActorState *pStepActor = scenario.world.mapActorState(3);
+
+                if (pStepActor == nullptr)
+                {
+                    failure = "actor 3 vanished during runtime preview test";
+                    return false;
+                }
+
+                const std::string textureKey = resolveRuntimeActorTextureKey(
+                    *fullSelectedMap->outdoorActorPreviewBillboardSet,
+                    *pBillboard,
+                    *pStepActor,
+                    cameraX,
+                    cameraY);
+
+                if (!textureKey.empty()
+                    && std::find(observedTextureKeys.begin(), observedTextureKeys.end(), textureKey)
+                        == observedTextureKeys.end())
+                {
+                    observedTextureKeys.push_back(textureKey);
+                }
+            }
+
+            if (observedTextureKeys.size() < 2)
+            {
+                failure = "actor 3 runtime preview never changed texture/frame selection";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "actor_51_stays_on_ship_support",
+        [&](std::string &failure)
+        {
+            if (!selectedMap->outdoorMapData || !selectedMap->outdoorMapDeltaData)
+            {
+                failure = "selected map missing outdoor data";
+                return false;
+            }
+
+            if (selectedMap->outdoorMapDeltaData->actors.size() <= 51)
+            {
+                failure = "actor 51 missing from map delta";
+                return false;
+            }
+
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            const MapDeltaActor &rawActor = selectedMap->outdoorMapDeltaData->actors[51];
+            const float worldX = static_cast<float>(-rawActor.x);
+            const float worldY = static_cast<float>(rawActor.y);
+            const float terrainHeight = sampleOutdoorTerrainHeight(*selectedMap->outdoorMapData, worldX, worldY);
+            const float placementHeight = sampleOutdoorPlacementFloorHeight(
+                *selectedMap->outdoorMapData,
+                worldX,
+                worldY,
+                static_cast<float>(rawActor.z));
+            const OutdoorWorldRuntime::MapActorState *pActor = scenario.world.mapActorState(51);
+
+            if (pActor == nullptr)
+            {
+                failure = "actor 51 missing";
+                return false;
+            }
+
+            if (placementHeight <= terrainHeight + 32.0f)
+            {
+                failure = "actor 51 support floor was not above terrain";
+                return false;
+            }
+
+            if (std::fabs(static_cast<float>(pActor->z) - placementHeight) > 2.0f)
+            {
+                failure = "actor 51 runtime z does not match resolved support floor";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "actor_51_movement_preserves_ship_floor",
+        [&](std::string &failure)
+        {
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            const OutdoorWorldRuntime::MapActorState *pBefore = scenario.world.mapActorState(51);
+
+            if (pBefore == nullptr)
+            {
+                failure = "actor 51 missing";
+                return false;
+            }
+
+            const float startZ = pBefore->preciseZ;
+
+            for (int step = 0; step < 300; ++step)
+            {
+                scenario.world.updateMapActors(
+                    1.0f / 60.0f,
+                    static_cast<float>(pBefore->x + 20000),
+                    static_cast<float>(pBefore->y + 20000),
+                    static_cast<float>(pBefore->z));
+            }
+
+            const OutdoorWorldRuntime::MapActorState *pAfter = scenario.world.mapActorState(51);
+
+            if (pAfter == nullptr)
+            {
+                failure = "actor 51 missing after update";
+                return false;
+            }
+
+            if (std::fabs(pAfter->preciseZ - startZ) > 2.0f)
+            {
+                failure = "actor 51 fell off ship support while moving";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
         "friendly_actor_3_stands_and_faces_party_on_contact",
         [&](std::string &failure)
         {
@@ -2911,6 +3374,168 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
             if (pAfter->animation != OutdoorWorldRuntime::ActorAnimation::Walking)
             {
                 failure = "hostile actor did not enter walking animation";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "hostile_actor_51_respects_nearby_blocking_face",
+        [&](std::string &failure)
+        {
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            if (!selectedMap->outdoorMapData)
+            {
+                failure = "selected map missing outdoor data";
+                return false;
+            }
+
+            const OutdoorWorldRuntime::MapActorState *pActor = scenario.world.mapActorState(51);
+
+            if (pActor == nullptr)
+            {
+                failure = "actor 51 missing";
+                return false;
+            }
+
+            std::vector<OutdoorFaceGeometryData> faces;
+
+            for (size_t bModelIndex = 0; bModelIndex < selectedMap->outdoorMapData->bmodels.size(); ++bModelIndex)
+            {
+                const OutdoorBModel &bModel = selectedMap->outdoorMapData->bmodels[bModelIndex];
+
+                for (size_t faceIndex = 0; faceIndex < bModel.faces.size(); ++faceIndex)
+                {
+                    OutdoorFaceGeometryData geometry = {};
+
+                    if (buildOutdoorFaceGeometry(bModel, bModelIndex, bModel.faces[faceIndex], faceIndex, geometry))
+                    {
+                        faces.push_back(std::move(geometry));
+                    }
+                }
+            }
+
+            const OutdoorFaceGeometryData *pBlockingFace = nullptr;
+            float bestDistance = std::numeric_limits<float>::max();
+            const bx::Vec3 actorCenter = {
+                pActor->preciseX,
+                pActor->preciseY,
+                pActor->preciseZ + static_cast<float>(pActor->height) * 0.5f
+            };
+
+            for (const OutdoorFaceGeometryData &face : faces)
+            {
+                if (face.isWalkable || !face.hasPlane)
+                {
+                    continue;
+                }
+
+                const float signedDistance = std::abs(signedDistanceToOutdoorFace(face, actorCenter));
+
+                if (signedDistance >= bestDistance || signedDistance > 256.0f)
+                {
+                    continue;
+                }
+
+                const bx::Vec3 projectedPoint = {
+                    actorCenter.x - face.normal.x * signedDistanceToOutdoorFace(face, actorCenter),
+                    actorCenter.y - face.normal.y * signedDistanceToOutdoorFace(face, actorCenter),
+                    actorCenter.z - face.normal.z * signedDistanceToOutdoorFace(face, actorCenter)
+                };
+
+                if (!isPointInsideOutdoorPolygonProjected(projectedPoint, face.vertices, face.normal))
+                {
+                    continue;
+                }
+
+                bestDistance = signedDistance;
+                pBlockingFace = &face;
+            }
+
+            if (pBlockingFace == nullptr)
+            {
+                failure = "no nearby blocking face found for actor 51";
+                return false;
+            }
+
+            const float initialSignedDistance = signedDistanceToOutdoorFace(*pBlockingFace, actorCenter);
+            const float pushSign = initialSignedDistance >= 0.0f ? -1.0f : 1.0f;
+            const float partyX = pActor->preciseX + pBlockingFace->normal.x * pushSign * 700.0f;
+            const float partyY = pActor->preciseY + pBlockingFace->normal.y * pushSign * 700.0f;
+            const float partyZ = pActor->preciseZ;
+
+            for (int step = 0; step < 600; ++step)
+            {
+                scenario.world.updateMapActors(1.0f / 60.0f, partyX, partyY, partyZ);
+            }
+
+            const OutdoorWorldRuntime::MapActorState *pAfter = scenario.world.mapActorState(51);
+
+            if (pAfter == nullptr)
+            {
+                failure = "actor 51 missing after update";
+                return false;
+            }
+
+            const bx::Vec3 afterCenter = {
+                pAfter->preciseX,
+                pAfter->preciseY,
+                pAfter->preciseZ + static_cast<float>(pAfter->height) * 0.5f
+            };
+            const float afterSignedDistance = signedDistanceToOutdoorFace(*pBlockingFace, afterCenter);
+
+            if ((initialSignedDistance > 0.0f && afterSignedDistance < -40.0f)
+                || (initialSignedDistance < 0.0f && afterSignedDistance > 40.0f))
+            {
+                failure = "actor 51 crossed a nearby blocking face";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "outdoor_geometry_reports_steep_terrain_tiles",
+        [&](std::string &failure)
+        {
+            if (!selectedMap->outdoorMapData)
+            {
+                failure = "selected map missing outdoor data";
+                return false;
+            }
+
+            bool foundSteepTile = false;
+
+            for (int tileY = 0; tileY < OutdoorMapData::TerrainHeight - 1 && !foundSteepTile; ++tileY)
+            {
+                for (int tileX = 0; tileX < OutdoorMapData::TerrainWidth - 1; ++tileX)
+                {
+                    const float worldX =
+                        static_cast<float>((64 - tileX - 1) * OutdoorMapData::TerrainTileSize + 256);
+                    const float worldY =
+                        static_cast<float>((64 - tileY) * OutdoorMapData::TerrainTileSize - 256);
+
+                    if (outdoorTerrainSlopeTooHigh(*selectedMap->outdoorMapData, worldX, worldY))
+                    {
+                        foundSteepTile = true;
+                        break;
+                    }
+                }
+            }
+
+            if (!foundSteepTile)
+            {
+                failure = "no steep terrain tile found on out01";
                 return false;
             }
 

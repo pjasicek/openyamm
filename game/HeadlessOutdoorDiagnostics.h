@@ -50,6 +50,11 @@ public:
         const std::string &mapFileName,
         size_t actorIndex
     ) const;
+    int runDumpActorSupport(
+        const std::filesystem::path &basePath,
+        const std::string &mapFileName,
+        size_t actorIndex
+    ) const;
     int runDumpActorPreviewTexture(
         const std::filesystem::path &basePath,
         const std::string &mapFileName,

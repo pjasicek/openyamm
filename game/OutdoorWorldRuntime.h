@@ -5,7 +5,9 @@
 #include "game/MapDeltaData.h"
 #include "game/MapStats.h"
 #include "game/MonsterTable.h"
+#include "game/OutdoorGeometryUtils.h"
 #include "game/OutdoorMapData.h"
+#include "game/OutdoorMovementController.h"
 
 #include <random>
 #include <optional>
@@ -83,6 +85,8 @@ public:
         float velocityZ = 0.0f;
         float yawRadians = 0.0f;
         uint32_t idleDecisionCount = 0;
+        OutdoorMoveState movementState = {};
+        bool movementStateInitialized = false;
     };
 
     struct SpawnPointState
@@ -166,7 +170,11 @@ public:
         const ItemTable &itemTable,
         const std::optional<OutdoorMapData> &outdoorMapData,
         const std::optional<MapDeltaData> &outdoorMapDeltaData,
-        const std::optional<EventRuntimeState> &eventRuntimeState
+        const std::optional<EventRuntimeState> &eventRuntimeState,
+        const std::optional<std::vector<uint8_t>> &outdoorLandMask = std::nullopt,
+        const std::optional<OutdoorDecorationCollisionSet> &outdoorDecorationCollisionSet = std::nullopt,
+        const std::optional<OutdoorActorCollisionSet> &outdoorActorCollisionSet = std::nullopt,
+        const std::optional<OutdoorSpriteObjectCollisionSet> &outdoorSpriteObjectCollisionSet = std::nullopt
     );
 
     bool isInitialized() const;
@@ -258,6 +266,9 @@ private:
     const MonsterTable *m_pMonsterTable = nullptr;
     const OutdoorMapData *m_pOutdoorMapData = nullptr;
     const MapDeltaData *m_pOutdoorMapDeltaData = nullptr;
+    std::vector<OutdoorFaceGeometryData> m_outdoorFaces;
+    std::optional<OutdoorMovementController> m_outdoorMovementController;
+    float m_actorUpdateAccumulatorSeconds = 0.0f;
     uint32_t m_sessionChestSeed = 0;
     uint32_t m_nextSummonId = 1;
     std::vector<std::optional<CorpseViewState>> m_mapActorCorpseViews;
