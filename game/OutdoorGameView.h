@@ -288,6 +288,7 @@ private:
     bool m_toggleSpawnsLatch;
     bool m_toggleInspectLatch;
     bool m_activateInspectLatch;
+    bool m_attackInspectLatch;
     bool m_toggleRunningLatch;
     bool m_toggleFlyingLatch;
     bool m_toggleWaterWalkLatch;

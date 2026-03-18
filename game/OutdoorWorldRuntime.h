@@ -2,6 +2,7 @@
 
 #include "game/EventRuntime.h"
 #include "game/EventIr.h"
+#include "game/MapAssetLoader.h"
 #include "game/MapDeltaData.h"
 #include "game/MapStats.h"
 #include "game/MonsterTable.h"
@@ -75,6 +76,7 @@ public:
         ActorAnimation animation = ActorAnimation::Standing;
         float animationTimeTicks = 0.0f;
         float recoverySeconds = 0.0f;
+        float attackAnimationSeconds = 0.3f;
         float attackCooldownSeconds = 0.0f;
         float idleDecisionSeconds = 0.0f;
         float actionSeconds = 0.0f;
@@ -85,8 +87,23 @@ public:
         float velocityZ = 0.0f;
         float yawRadians = 0.0f;
         uint32_t idleDecisionCount = 0;
+        uint32_t pursueDecisionCount = 0;
+        bool attackImpactTriggered = false;
         OutdoorMoveState movementState = {};
         bool movementStateInitialized = false;
+    };
+
+    struct CombatEvent
+    {
+        enum class Type
+        {
+            MonsterMeleeImpact,
+            MonsterRangedRelease,
+        };
+
+        Type type = Type::MonsterMeleeImpact;
+        uint32_t sourceId = 0;
+        bool fromSummonedMonster = false;
     };
 
     struct SpawnPointState
@@ -171,6 +188,7 @@ public:
         const std::optional<OutdoorMapData> &outdoorMapData,
         const std::optional<MapDeltaData> &outdoorMapDeltaData,
         const std::optional<EventRuntimeState> &eventRuntimeState,
+        const std::optional<ActorPreviewBillboardSet> &outdoorActorPreviewBillboardSet = std::nullopt,
         const std::optional<std::vector<uint8_t>> &outdoorLandMask = std::nullopt,
         const std::optional<OutdoorDecorationCollisionSet> &outdoorDecorationCollisionSet = std::nullopt,
         const std::optional<OutdoorActorCollisionSet> &outdoorActorCollisionSet = std::nullopt,
@@ -196,6 +214,7 @@ public:
     size_t mapActorCount() const;
     const MapActorState *mapActorState(size_t actorIndex) const;
     bool setMapActorDead(size_t actorIndex, bool isDead);
+    bool applyPartyAttackToMapActor(size_t actorIndex, int damage, float partyX, float partyY, float partyZ);
     bool notifyPartyContactWithMapActor(size_t actorIndex, float partyX, float partyY, float partyZ);
     size_t spawnPointCount() const;
     const SpawnPointState *spawnPointState(size_t spawnIndex) const;
@@ -213,6 +232,8 @@ public:
     void closeActiveCorpseView();
     const std::vector<AudioEvent> &pendingAudioEvents() const;
     void clearPendingAudioEvents();
+    const std::vector<CombatEvent> &pendingCombatEvents() const;
+    void clearPendingCombatEvents();
 
     const EventRuntimeState::PendingMapMove *pendingMapMove() const;
     std::optional<EventRuntimeState::PendingMapMove> consumePendingMapMove();
@@ -243,6 +264,8 @@ private:
         MonsterTable::LootItemKind itemKind,
         std::mt19937 &rng
     ) const;
+    bool setMapActorHostileToParty(size_t actorIndex, float partyX, float partyY, float partyZ, bool resetActionState);
+    void aggroNearbyMapActorFaction(size_t actorIndex, float partyX, float partyY, float partyZ);
     ChestViewState buildChestView(uint32_t chestId) const;
     void activateChestView(uint32_t chestId);
     CorpseViewState buildCorpseView(const std::string &title, const MonsterTable::LootPrototype &loot, uint32_t seed) const;
@@ -275,5 +298,6 @@ private:
     std::vector<std::optional<CorpseViewState>> m_summonedMonsterCorpseViews;
     std::optional<CorpseViewState> m_activeCorpseView;
     std::vector<AudioEvent> m_pendingAudioEvents;
+    std::vector<CombatEvent> m_pendingCombatEvents;
 };
 }

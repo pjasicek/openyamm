@@ -117,7 +117,9 @@ public:
     std::optional<std::string> findDisplayNameByInternalName(const std::string &internalName) const;
     std::optional<std::string> getUniqueName(int32_t uniqueNameIndex) const;
     int getRelationToParty(int16_t monsterId) const;
+    int getRelationBetweenMonsters(int16_t leftMonsterId, int16_t rightMonsterId) const;
     bool isHostileToParty(int16_t monsterId) const;
+    bool isLikelySameFaction(int16_t leftMonsterId, int16_t rightMonsterId) const;
     const std::vector<MonsterEntry> &getEntries() const;
 
 private:
@@ -128,6 +130,7 @@ private:
     std::vector<std::string> m_uniqueNames;
     std::unordered_map<int, MonsterStatsEntry> m_statsById;
     std::unordered_map<std::string, int> m_statsIdByPictureName;
+    std::vector<std::string> m_relationLabels;
     std::vector<std::vector<int>> m_relations;
 };
 }

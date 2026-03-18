@@ -88,6 +88,7 @@ bool GameApplication::initializeRenderer()
             selectedMap->outdoorMapData,
             selectedMap->outdoorMapDeltaData,
             selectedMap->eventRuntimeState,
+            selectedMap->outdoorActorPreviewBillboardSet,
             selectedMap->outdoorLandMask,
             selectedMap->outdoorDecorationCollisionSet,
             selectedMap->outdoorActorCollisionSet,

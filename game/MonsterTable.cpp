@@ -12,6 +12,42 @@ namespace
 {
 constexpr size_t MonsterRecordSize = 184;
 
+std::string relationFactionKey(const std::string &label)
+{
+    std::vector<std::string> tokens;
+    std::string currentToken;
+
+    for (unsigned char character : label)
+    {
+        if (std::isalpha(character))
+        {
+            currentToken.push_back(static_cast<char>(std::tolower(character)));
+        }
+        else if (!currentToken.empty())
+        {
+            tokens.push_back(currentToken);
+            currentToken.clear();
+        }
+    }
+
+    if (!currentToken.empty())
+    {
+        tokens.push_back(currentToken);
+    }
+
+    for (const std::string &token : tokens)
+    {
+        if (token == "wimpy")
+        {
+            continue;
+        }
+
+        return token;
+    }
+
+    return {};
+}
+
 class ByteReader
 {
 public:
@@ -429,7 +465,18 @@ bool MonsterTable::loadStatsFromRows(const std::vector<std::vector<std::string>>
 
 bool MonsterTable::loadRelationsFromRows(const std::vector<std::vector<std::string>> &rows)
 {
+    m_relationLabels.clear();
     m_relations.clear();
+
+    if (!rows.empty())
+    {
+        const std::vector<std::string> &header = rows.front();
+
+        for (size_t columnIndex = 1; columnIndex < header.size(); ++columnIndex)
+        {
+            m_relationLabels.push_back(header[columnIndex]);
+        }
+    }
 
     for (size_t rowIndex = 1; rowIndex < rows.size(); ++rowIndex)
     {
@@ -622,9 +669,47 @@ int MonsterTable::getRelationToParty(int16_t monsterId) const
     return m_relations[0][relationIndex];
 }
 
+int MonsterTable::getRelationBetweenMonsters(int16_t leftMonsterId, int16_t rightMonsterId) const
+{
+    if (m_relations.empty())
+    {
+        return 0;
+    }
+
+    const size_t leftRelationIndex = relationIndexForMonsterId(leftMonsterId);
+    const size_t rightRelationIndex = relationIndexForMonsterId(rightMonsterId);
+
+    if (leftRelationIndex >= m_relations.size() || rightRelationIndex >= m_relations[leftRelationIndex].size())
+    {
+        return 0;
+    }
+
+    return m_relations[leftRelationIndex][rightRelationIndex];
+}
+
 bool MonsterTable::isHostileToParty(int16_t monsterId) const
 {
     return getRelationToParty(monsterId) > 0;
+}
+
+bool MonsterTable::isLikelySameFaction(int16_t leftMonsterId, int16_t rightMonsterId) const
+{
+    const size_t leftRelationIndex = relationIndexForMonsterId(leftMonsterId);
+    const size_t rightRelationIndex = relationIndexForMonsterId(rightMonsterId);
+
+    if (leftRelationIndex == rightRelationIndex)
+    {
+        return true;
+    }
+
+    if (leftRelationIndex >= m_relationLabels.size() || rightRelationIndex >= m_relationLabels.size())
+    {
+        return false;
+    }
+
+    const std::string leftFactionKey = relationFactionKey(m_relationLabels[leftRelationIndex]);
+    const std::string rightFactionKey = relationFactionKey(m_relationLabels[rightRelationIndex]);
+    return !leftFactionKey.empty() && leftFactionKey == rightFactionKey;
 }
 
 const std::vector<MonsterEntry> &MonsterTable::getEntries() const

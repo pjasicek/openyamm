@@ -58,7 +58,12 @@ std::vector<OutdoorActorCollision> buildRuntimeActorColliders(const OutdoorWorld
     {
         const OutdoorWorldRuntime::MapActorState *pActor = worldRuntime.mapActorState(actorIndex);
 
-        if (pActor == nullptr || pActor->isDead || pActor->isInvisible || pActor->radius == 0 || pActor->height == 0)
+        if (pActor == nullptr
+            || pActor->isDead
+            || pActor->isInvisible
+            || !pActor->hostileToParty
+            || pActor->radius == 0
+            || pActor->height == 0)
         {
             continue;
         }
@@ -1024,6 +1029,7 @@ OutdoorGameView::OutdoorGameView()
     , m_toggleSpawnsLatch(false)
     , m_toggleInspectLatch(false)
     , m_activateInspectLatch(false)
+    , m_attackInspectLatch(false)
     , m_toggleRunningLatch(false)
     , m_toggleFlyingLatch(false)
     , m_toggleWaterWalkLatch(false)
@@ -1514,6 +1520,10 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
             pKeyboardState != nullptr
             && pKeyboardState[SDL_SCANCODE_E]
             && (mouseButtons & SDL_BUTTON_RMASK) == 0;
+        const bool isAttackPressed =
+            pKeyboardState != nullptr
+            && pKeyboardState[SDL_SCANCODE_H]
+            && (mouseButtons & SDL_BUTTON_RMASK) == 0;
         const bool isLeftMousePressed = (mouseButtons & SDL_BUTTON_LMASK) != 0;
 
         if ((isActivationPressed || isLeftMousePressed) && !m_activateInspectLatch)
@@ -1529,10 +1539,55 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
         {
             m_activateInspectLatch = false;
         }
+
+        if (isAttackPressed && !m_attackInspectLatch)
+        {
+            if (inspectHit.kind == "actor" && m_pOutdoorWorldRuntime != nullptr && m_pOutdoorPartyRuntime != nullptr)
+            {
+                size_t runtimeActorIndex = inspectHit.bModelIndex;
+
+                if (m_outdoorActorPreviewBillboardSet
+                    && inspectHit.bModelIndex < m_outdoorActorPreviewBillboardSet->billboards.size())
+                {
+                    runtimeActorIndex =
+                        m_outdoorActorPreviewBillboardSet->billboards[inspectHit.bModelIndex].runtimeActorIndex;
+                }
+
+                if (runtimeActorIndex != static_cast<size_t>(-1))
+                {
+                    const OutdoorMoveState &moveState = m_pOutdoorPartyRuntime->movementState();
+
+                    if (m_pOutdoorWorldRuntime->applyPartyAttackToMapActor(
+                            runtimeActorIndex,
+                            5,
+                            moveState.x,
+                            moveState.y,
+                            moveState.footZ))
+                    {
+                        inspectHit = inspectBModelFace(*m_outdoorMapData, rayOrigin, rayDirection);
+
+                        if (EventRuntimeState *pEventRuntimeState = m_pOutdoorWorldRuntime->eventRuntimeState())
+                        {
+                            pEventRuntimeState->lastActivationResult =
+                                "actor " + std::to_string(runtimeActorIndex) + " hit by party";
+                        }
+
+                        std::cout << "Party attack hit actor=" << runtimeActorIndex << '\n';
+                    }
+                }
+            }
+
+            m_attackInspectLatch = true;
+        }
+        else if (!isAttackPressed)
+        {
+            m_attackInspectLatch = false;
+        }
     }
     else
     {
         m_activateInspectLatch = false;
+        m_attackInspectLatch = false;
     }
 
     float modelMatrix[16] = {};
@@ -2078,6 +2133,8 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
                             octant
                         );
                     }
+
+                    bgfx::dbgTextPrintf(0, inspectBaseLine + 7, 0x0f, "Keys: E=talk/use  H=hit actor");
                 }
             }
             else if (inspectHit.kind == "spawn")
@@ -2894,6 +2951,8 @@ void OutdoorGameView::shutdown()
     m_toggleEntitiesLatch = false;
     m_toggleSpawnsLatch = false;
     m_toggleInspectLatch = false;
+    m_activateInspectLatch = false;
+    m_attackInspectLatch = false;
     m_closeOverlayLatch = false;
     m_lootChestItemLatch = false;
     m_chestSelectUpLatch = false;

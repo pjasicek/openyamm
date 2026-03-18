@@ -30,6 +30,7 @@ constexpr uint32_t CheckActorKilledByActorIdMm8 = 4;
 constexpr float TicksPerSecond = 128.0f;
 constexpr float MeleeRange = 307.0f;
 constexpr float DetectionRange = 5120.0f;
+constexpr float PeasantAggroRadius = 4096.0f;
 constexpr float FleeThresholdRange = 10240.0f;
 constexpr float PartyCollisionRadius = 37.0f;
 constexpr float GroundSnapHeight = 1.0f;
@@ -37,6 +38,11 @@ constexpr float OeNonFlyingActorRadius = 40.0f;
 constexpr float ActorUpdateStepSeconds = 1.0f / 128.0f;
 constexpr float MaxAccumulatedActorUpdateSeconds = 0.1f;
 constexpr float Pi = 3.14159265358979323846f;
+constexpr int DwiMapId = 1;
+constexpr uint32_t DwiTestActor61 = 61;
+constexpr float DwiTestActor61X = -7665.0f;
+constexpr float DwiTestActor61Y = -4660.0f;
+constexpr float DwiTestActor61Z = 200.0f;
 
 float clampLength(float value, float maxValue)
 {
@@ -56,6 +62,11 @@ float clampLength(float value, float maxValue)
 float length2d(float x, float y)
 {
     return std::sqrt(x * x + y * y);
+}
+
+float length3d(float x, float y, float z)
+{
+    return std::sqrt(x * x + y * y + z * z);
 }
 
 float normalizeAngleRadians(float angle)
@@ -116,6 +127,37 @@ float resolveActorGroundZ(
     }
 
     return floorZ;
+}
+
+void applyTestActorOverrides(
+    int mapId,
+    const OutdoorMapData *pOutdoorMapData,
+    const MonsterTable::MonsterStatsEntry *pStats,
+    uint32_t actorId,
+    OutdoorWorldRuntime::MapActorState &state
+)
+{
+    if (mapId == DwiMapId && actorId == DwiTestActor61)
+    {
+        state.preciseX = DwiTestActor61X;
+        state.preciseY = DwiTestActor61Y;
+        state.preciseZ = resolveActorGroundZ(
+            pOutdoorMapData,
+            pStats,
+            state.radius,
+            DwiTestActor61X,
+            DwiTestActor61Y,
+            DwiTestActor61Z);
+        state.x = static_cast<int>(std::lround(state.preciseX));
+        state.y = static_cast<int>(std::lround(state.preciseY));
+        state.z = static_cast<int>(std::lround(state.preciseZ));
+        state.homePreciseX = state.preciseX;
+        state.homePreciseY = state.preciseY;
+        state.homePreciseZ = state.preciseZ;
+        state.homeX = state.x;
+        state.homeY = state.y;
+        state.homeZ = state.z;
+    }
 }
 
 float resolveInitialActorGroundZ(
@@ -185,57 +227,6 @@ void syncActorFromMovementState(OutdoorWorldRuntime::MapActorState &actor)
     actor.x = static_cast<int>(std::lround(actor.preciseX));
     actor.y = static_cast<int>(std::lround(actor.preciseY));
     actor.z = static_cast<int>(std::lround(actor.preciseZ));
-}
-
-std::vector<OutdoorActorCollision> buildRuntimeActorColliders(
-    const std::vector<OutdoorWorldRuntime::MapActorState> &actors)
-{
-    std::vector<OutdoorActorCollision> colliders;
-    colliders.reserve(actors.size());
-
-    for (size_t actorIndex = 0; actorIndex < actors.size(); ++actorIndex)
-    {
-        const OutdoorWorldRuntime::MapActorState &actor = actors[actorIndex];
-
-        if (actor.isDead || actor.isInvisible || actor.radius == 0 || actor.height == 0)
-        {
-            continue;
-        }
-
-        OutdoorActorCollision collider = {};
-        collider.sourceIndex = actorIndex;
-        collider.source = OutdoorActorCollisionSource::MapDelta;
-        collider.radius = actor.radius;
-        collider.height = actor.height;
-        collider.worldX = actor.x;
-        collider.worldY = actor.y;
-        collider.worldZ = actor.z;
-        collider.attributes = actor.hostilityType;
-        collider.group = actor.group;
-        collider.name = actor.displayName;
-        colliders.push_back(std::move(collider));
-    }
-
-    return colliders;
-}
-
-void updateRuntimeActorCollider(
-    std::vector<OutdoorActorCollision> &colliders,
-    size_t actorIndex,
-    const OutdoorWorldRuntime::MapActorState &actor)
-{
-    for (OutdoorActorCollision &collider : colliders)
-    {
-        if (collider.source == OutdoorActorCollisionSource::MapDelta && collider.sourceIndex == actorIndex)
-        {
-            collider.worldX = actor.x;
-            collider.worldY = actor.y;
-            collider.worldZ = actor.z;
-            collider.radius = actor.radius;
-            collider.height = actor.height;
-            return;
-        }
-    }
 }
 
 bool tryMoveActorInWorld(
@@ -430,7 +421,8 @@ OutdoorWorldRuntime::MapActorState buildMapActorState(
     const MonsterTable &monsterTable,
     const MapDeltaActor &actor,
     uint32_t actorId,
-    const OutdoorMapData *pOutdoorMapData
+    const OutdoorMapData *pOutdoorMapData,
+    float attackAnimationSeconds
 )
 {
     OutdoorWorldRuntime::MapActorState state = {};
@@ -466,6 +458,7 @@ OutdoorWorldRuntime::MapActorState buildMapActorState(
         : static_cast<OutdoorWorldRuntime::ActorAnimation>(std::clamp<int>(actor.currentActionAnimation, 0, 7));
     state.aiState = actor.hp <= 0 ? OutdoorWorldRuntime::ActorAiState::Dead : OutdoorWorldRuntime::ActorAiState::Standing;
     state.recoverySeconds = std::max(0.3f, static_cast<float>(pStats != nullptr ? pStats->recovery : 100) / 100.0f);
+    state.attackAnimationSeconds = std::max(0.1f, attackAnimationSeconds);
     state.attackCooldownSeconds = state.recoverySeconds;
     state.idleDecisionSeconds = 0.5f + static_cast<float>(actorId % 5) * 0.2f;
 
@@ -489,6 +482,7 @@ void beginStandAwhile(OutdoorWorldRuntime::MapActorState &actor, bool bored)
     actor.moveDirectionY = 0.0f;
     actor.velocityX = 0.0f;
     actor.velocityY = 0.0f;
+    actor.attackImpactTriggered = false;
     actor.actionSeconds = bored ? 2.0f : 1.5f;
     actor.idleDecisionSeconds = actor.actionSeconds;
     actor.animation = bored
@@ -528,6 +522,7 @@ bool beginIdleWander(
     actor.yawRadians = proposedYaw;
     actor.moveDirectionX = std::cos(actor.yawRadians);
     actor.moveDirectionY = std::sin(actor.yawRadians);
+    actor.attackImpactTriggered = false;
     const float weightedDistance = std::max(std::abs(deltaHomeX), std::abs(deltaHomeY))
         + 0.5f * std::min(std::abs(deltaHomeX), std::abs(deltaHomeY))
         + static_cast<float>(decisionSeed % 16u) * (wanderRadius / 16.0f);
@@ -736,6 +731,64 @@ OutdoorWorldRuntime::ActorAnimation attackAnimationForMonster(const MonsterTable
     return stats.hasRangedAttack
         ? OutdoorWorldRuntime::ActorAnimation::AttackRanged
         : OutdoorWorldRuntime::ActorAnimation::AttackMelee;
+}
+
+float attackActionDurationSeconds(float attackAnimationSeconds, float recoverySeconds)
+{
+    return std::max(std::max(0.1f, attackAnimationSeconds), std::clamp(recoverySeconds * 0.5f, 0.25f, 0.6f));
+}
+
+enum class PursueActionMode
+{
+    OffsetShort,
+    Direct,
+    OffsetWide,
+};
+
+bool beginPursueAction(
+    OutdoorWorldRuntime::MapActorState &actor,
+    float deltaTargetX,
+    float deltaTargetY,
+    float distanceToTarget,
+    float moveSpeed,
+    PursueActionMode mode,
+    uint32_t decisionSeed
+)
+{
+    if (distanceToTarget <= 0.01f || moveSpeed <= 0.0f)
+    {
+        actor.moveDirectionX = 0.0f;
+        actor.moveDirectionY = 0.0f;
+        actor.actionSeconds = 0.0f;
+        return false;
+    }
+
+    float yaw = std::atan2(deltaTargetY, deltaTargetX);
+    float durationSeconds = distanceToTarget / moveSpeed;
+
+    if (mode == PursueActionMode::OffsetShort)
+    {
+        const float offset = (decisionSeed & 1u) == 0u ? (Pi / 64.0f) : (-Pi / 64.0f);
+        yaw = normalizeAngleRadians(yaw + offset);
+        durationSeconds = 0.5f;
+    }
+    else if (mode == PursueActionMode::Direct)
+    {
+        durationSeconds = std::min(durationSeconds, 32.0f / TicksPerSecond);
+    }
+    else
+    {
+        const float offset = (decisionSeed & 1u) == 0u ? (Pi / 4.0f) : (-Pi / 4.0f);
+        yaw = normalizeAngleRadians(yaw + offset);
+        durationSeconds = std::min(durationSeconds, 128.0f / TicksPerSecond);
+    }
+
+    actor.yawRadians = yaw;
+    actor.moveDirectionX = std::cos(yaw);
+    actor.moveDirectionY = std::sin(yaw);
+    actor.attackImpactTriggered = false;
+    actor.actionSeconds = std::max(0.05f, durationSeconds);
+    return true;
 }
 }
 
@@ -1222,6 +1275,7 @@ void OutdoorWorldRuntime::initialize(
     const std::optional<OutdoorMapData> &outdoorMapData,
     const std::optional<MapDeltaData> &outdoorMapDeltaData,
     const std::optional<EventRuntimeState> &eventRuntimeState,
+    const std::optional<ActorPreviewBillboardSet> &outdoorActorPreviewBillboardSet,
     const std::optional<std::vector<uint8_t>> &outdoorLandMask,
     const std::optional<OutdoorDecorationCollisionSet> &outdoorDecorationCollisionSet,
     const std::optional<OutdoorActorCollisionSet> &outdoorActorCollisionSet,
@@ -1241,6 +1295,7 @@ void OutdoorWorldRuntime::initialize(
     m_summonedMonsterCorpseViews.clear();
     m_activeCorpseView.reset();
     m_pendingAudioEvents.clear();
+    m_pendingCombatEvents.clear();
     m_chests = outdoorMapDeltaData ? outdoorMapDeltaData->chests : std::vector<MapDeltaChest>();
     m_openedChests.assign(outdoorMapDeltaData ? outdoorMapDeltaData->chests.size() : 0, false);
     m_materializedChestViews.assign(m_chests.size(), std::nullopt);
@@ -1285,16 +1340,59 @@ void OutdoorWorldRuntime::initialize(
 
     if (outdoorMapDeltaData)
     {
+        std::vector<float> mapActorAttackAnimationSeconds(outdoorMapDeltaData->actors.size(), 0.3f);
+
+        if (outdoorActorPreviewBillboardSet)
+        {
+            for (const ActorPreviewBillboard &billboard : outdoorActorPreviewBillboardSet->billboards)
+            {
+                if (billboard.source != ActorPreviewSource::Companion
+                    || billboard.runtimeActorIndex >= mapActorAttackAnimationSeconds.size())
+                {
+                    continue;
+                }
+
+                uint16_t attackFrameIndex =
+                    billboard.actionSpriteFrameIndices[static_cast<size_t>(ActorAnimation::AttackMelee)];
+
+                if (attackFrameIndex == 0)
+                {
+                    attackFrameIndex =
+                        billboard.actionSpriteFrameIndices[static_cast<size_t>(ActorAnimation::AttackRanged)];
+                }
+
+                if (attackFrameIndex == 0)
+                {
+                    continue;
+                }
+
+                const SpriteFrameEntry *pAttackFrame =
+                    outdoorActorPreviewBillboardSet->spriteFrameTable.getFrame(attackFrameIndex, 0);
+
+                if (pAttackFrame == nullptr || pAttackFrame->animationLengthTicks <= 0)
+                {
+                    continue;
+                }
+
+                mapActorAttackAnimationSeconds[billboard.runtimeActorIndex] =
+                    static_cast<float>(pAttackFrame->animationLengthTicks) / TicksPerSecond;
+            }
+        }
+
         m_mapActors.reserve(outdoorMapDeltaData->actors.size());
         m_mapActorCorpseViews.assign(outdoorMapDeltaData->actors.size(), std::nullopt);
 
         for (size_t actorIndex = 0; actorIndex < outdoorMapDeltaData->actors.size(); ++actorIndex)
         {
-            m_mapActors.push_back(buildMapActorState(
+            MapActorState actorState = buildMapActorState(
                 monsterTable,
                 outdoorMapDeltaData->actors[actorIndex],
                 static_cast<uint32_t>(actorIndex),
-                m_pOutdoorMapData));
+                m_pOutdoorMapData,
+                mapActorAttackAnimationSeconds[actorIndex]);
+            const MonsterTable::MonsterStatsEntry *pStats = monsterTable.findStatsById(actorState.monsterId);
+            applyTestActorOverrides(map.id, m_pOutdoorMapData, pStats, actorState.actorId, actorState);
+            m_mapActors.push_back(std::move(actorState));
         }
 
         if (m_outdoorMovementController)
@@ -1389,11 +1487,9 @@ void OutdoorWorldRuntime::updateMapActors(float deltaSeconds, float partyX, floa
 
     while (m_actorUpdateAccumulatorSeconds >= ActorUpdateStepSeconds)
     {
-    std::vector<OutdoorActorCollision> runtimeActorColliders;
-
         if (m_outdoorMovementController)
         {
-            runtimeActorColliders = buildRuntimeActorColliders(m_mapActors);
+            m_outdoorMovementController->setActorColliders({});
         }
 
         for (size_t actorIndex = 0; actorIndex < m_mapActors.size(); ++actorIndex)
@@ -1455,6 +1551,13 @@ void OutdoorWorldRuntime::updateMapActors(float deltaSeconds, float partyX, floa
             && distanceToParty <= FleeThresholdRange
             && shouldFleeForAiType(*pStats, actor);
         const bool inAttackRange = distanceToParty <= std::max(MeleeRange, static_cast<float>(actor.radius) + 64.0f);
+        const bool attackJustCompleted =
+            actor.aiState == ActorAiState::Attacking
+            && actor.actionSeconds <= 0.0f
+            && !actor.attackImpactTriggered;
+        const bool attackInProgress =
+            actor.aiState == ActorAiState::Attacking
+            && actor.actionSeconds > 0.0f;
         const bool friendlyNearParty =
             !actor.hostileToParty
             && canSenseParty
@@ -1464,7 +1567,26 @@ void OutdoorWorldRuntime::updateMapActors(float deltaSeconds, float partyX, floa
         ActorAiState nextAiState = ActorAiState::Standing;
         ActorAnimation nextAnimation = ActorAnimation::Standing;
 
-        if (shouldFlee)
+        if (attackJustCompleted)
+        {
+            CombatEvent event = {};
+            event.type = actor.animation == ActorAnimation::AttackRanged
+                ? CombatEvent::Type::MonsterRangedRelease
+                : CombatEvent::Type::MonsterMeleeImpact;
+            event.sourceId = actor.actorId;
+            event.fromSummonedMonster = false;
+            m_pendingCombatEvents.push_back(std::move(event));
+            actor.attackImpactTriggered = true;
+        }
+
+        if (attackInProgress)
+        {
+            nextAiState = ActorAiState::Attacking;
+            nextAnimation = actor.animation;
+            actor.moveDirectionX = 0.0f;
+            actor.moveDirectionY = 0.0f;
+        }
+        else if (shouldFlee)
         {
             nextAiState = ActorAiState::Fleeing;
             nextAnimation = movementAllowed ? ActorAnimation::Walking : ActorAnimation::Standing;
@@ -1481,19 +1603,24 @@ void OutdoorWorldRuntime::updateMapActors(float deltaSeconds, float partyX, floa
         }
         else if (shouldEngageParty && inAttackRange)
         {
-            nextAiState = ActorAiState::Attacking;
-            nextAnimation = attackAnimationForMonster(*pStats);
             actor.moveDirectionX = 0.0f;
             actor.moveDirectionY = 0.0f;
-
             faceDirection(actor, deltaPartyX, deltaPartyY);
 
             if (actor.attackCooldownSeconds <= 0.0f)
             {
+                nextAiState = ActorAiState::Attacking;
+                nextAnimation = attackAnimationForMonster(*pStats);
                 actor.attackCooldownSeconds = actor.recoverySeconds;
-                actor.actionSeconds = std::max(0.3f, actor.recoverySeconds);
+                actor.actionSeconds = attackActionDurationSeconds(actor.attackAnimationSeconds, actor.recoverySeconds);
+                actor.attackImpactTriggered = false;
                 actor.animationTimeTicks = 0.0f;
                 pushAudioEvent(pStats->attackSoundId, actor.actorId, "monster_attack");
+            }
+            else
+            {
+                nextAiState = ActorAiState::Standing;
+                nextAnimation = ActorAnimation::Standing;
             }
         }
         else if (shouldEngageParty)
@@ -1501,15 +1628,57 @@ void OutdoorWorldRuntime::updateMapActors(float deltaSeconds, float partyX, floa
             nextAiState = ActorAiState::Pursuing;
             nextAnimation = movementAllowed ? ActorAnimation::Walking : ActorAnimation::Standing;
 
-            if (distanceToParty > 0.01f)
+            if (!movementAllowed)
             {
-                desiredMoveX = deltaPartyX / distanceToParty;
-                desiredMoveY = deltaPartyY / distanceToParty;
-                faceDirection(actor, desiredMoveX, desiredMoveY);
+                actor.moveDirectionX = 0.0f;
+                actor.moveDirectionY = 0.0f;
             }
+            else if (actor.aiState == ActorAiState::Pursuing
+                && actor.actionSeconds > 0.0f
+                && (std::abs(actor.moveDirectionX) > 0.001f || std::abs(actor.moveDirectionY) > 0.001f))
+            {
+                desiredMoveX = actor.moveDirectionX;
+                desiredMoveY = actor.moveDirectionY;
+            }
+            else
+            {
+                PursueActionMode pursueMode = PursueActionMode::Direct;
 
-            actor.moveDirectionX = desiredMoveX;
-            actor.moveDirectionY = desiredMoveY;
+                if (pStats->hasRangedAttack)
+                {
+                    pursueMode = PursueActionMode::OffsetShort;
+                }
+                else if (distanceToParty >= 1024.0f)
+                {
+                    pursueMode = PursueActionMode::OffsetWide;
+                }
+
+                const uint32_t decisionSeed =
+                    static_cast<uint32_t>(actor.actorId + 1) * 1103515245u
+                    + actor.pursueDecisionCount * 2654435761u
+                    + 0x9e3779b9u;
+                ++actor.pursueDecisionCount;
+
+                if (beginPursueAction(
+                        actor,
+                        deltaPartyX,
+                        deltaPartyY,
+                        distanceToParty,
+                        static_cast<float>(std::max(
+                            1,
+                            actor.moveSpeed > 0 ? static_cast<int>(actor.moveSpeed) : pStats->speed)),
+                        pursueMode,
+                        decisionSeed))
+                {
+                    desiredMoveX = actor.moveDirectionX;
+                    desiredMoveY = actor.moveDirectionY;
+                }
+                else
+                {
+                    nextAiState = ActorAiState::Standing;
+                    nextAnimation = ActorAnimation::Standing;
+                }
+            }
         }
         else if (friendlyNearParty)
         {
@@ -1615,7 +1784,7 @@ void OutdoorWorldRuntime::updateMapActors(float deltaSeconds, float partyX, floa
             }
         }
 
-        if (actor.actionSeconds > 0.0f && actor.aiState == ActorAiState::Attacking)
+        if (attackInProgress)
         {
             nextAnimation = actor.animation;
         }
@@ -1647,7 +1816,6 @@ void OutdoorWorldRuntime::updateMapActors(float deltaSeconds, float partyX, floa
             {
                 const float collisionRadius = actorCollisionRadius(actor, pStats);
                 const float collisionHeight = actorCollisionHeight(actor, collisionRadius);
-                m_outdoorMovementController->setActorColliders(runtimeActorColliders);
                 actor.movementState = m_outdoorMovementController->resolveOutdoorActorMove(
                     actor.movementState,
                     OutdoorBodyDimensions{collisionRadius, collisionHeight},
@@ -1691,11 +1859,6 @@ void OutdoorWorldRuntime::updateMapActors(float deltaSeconds, float partyX, floa
                 actor.actionSeconds = std::min(actor.actionSeconds, 0.25f);
                 actor.aiState = ActorAiState::Standing;
                 actor.animation = ActorAnimation::Standing;
-            }
-
-            if (m_outdoorMovementController)
-            {
-                updateRuntimeActorCollider(runtimeActorColliders, actorIndex, actor);
             }
         }
 
@@ -1927,6 +2090,138 @@ bool OutdoorWorldRuntime::setMapActorDead(size_t actorIndex, bool isDead)
     return true;
 }
 
+bool OutdoorWorldRuntime::setMapActorHostileToParty(
+    size_t actorIndex,
+    float partyX,
+    float partyY,
+    float partyZ,
+    bool resetActionState)
+{
+    if (actorIndex >= m_mapActors.size())
+    {
+        return false;
+    }
+
+    MapActorState &actor = m_mapActors[actorIndex];
+
+    if (actor.isDead || actor.isInvisible)
+    {
+        return false;
+    }
+
+    actor.hostileToParty = true;
+    actor.hasDetectedParty = false;
+    faceDirection(actor, partyX - actor.preciseX, partyY - actor.preciseY);
+
+    if (!resetActionState)
+    {
+        return true;
+    }
+
+    actor.aiState = ActorAiState::Standing;
+    actor.animation = ActorAnimation::Standing;
+    actor.animationTimeTicks = 0.0f;
+    actor.moveDirectionX = 0.0f;
+    actor.moveDirectionY = 0.0f;
+    actor.velocityX = 0.0f;
+    actor.velocityY = 0.0f;
+    actor.velocityZ = 0.0f;
+    actor.actionSeconds = 0.0f;
+    actor.idleDecisionSeconds = 0.0f;
+    actor.attackImpactTriggered = false;
+    return true;
+}
+
+void OutdoorWorldRuntime::aggroNearbyMapActorFaction(size_t actorIndex, float partyX, float partyY, float partyZ)
+{
+    if (actorIndex >= m_mapActors.size() || m_pMonsterTable == nullptr)
+    {
+        return;
+    }
+
+    const MapActorState &victim = m_mapActors[actorIndex];
+
+    for (size_t otherActorIndex = 0; otherActorIndex < m_mapActors.size(); ++otherActorIndex)
+    {
+        MapActorState &otherActor = m_mapActors[otherActorIndex];
+
+        if (otherActor.isDead || otherActor.isInvisible)
+        {
+            continue;
+        }
+
+        if (!m_pMonsterTable->isLikelySameFaction(victim.monsterId, otherActor.monsterId))
+        {
+            continue;
+        }
+
+        const float distance = length3d(
+            otherActor.preciseX - victim.preciseX,
+            otherActor.preciseY - victim.preciseY,
+            otherActor.preciseZ - victim.preciseZ);
+
+        if (distance > PeasantAggroRadius)
+        {
+            continue;
+        }
+
+        setMapActorHostileToParty(otherActorIndex, partyX, partyY, partyZ, true);
+    }
+}
+
+bool OutdoorWorldRuntime::applyPartyAttackToMapActor(
+    size_t actorIndex,
+    int damage,
+    float partyX,
+    float partyY,
+    float partyZ)
+{
+    if (actorIndex >= m_mapActors.size() || damage <= 0)
+    {
+        return false;
+    }
+
+    MapActorState &actor = m_mapActors[actorIndex];
+
+    if (actor.isDead || actor.isInvisible)
+    {
+        return false;
+    }
+
+    actor.currentHp = std::max(0, actor.currentHp - damage);
+    faceDirection(actor, partyX - actor.preciseX, partyY - actor.preciseY);
+    actor.aiState = ActorAiState::Standing;
+    actor.animation = ActorAnimation::GotHit;
+    actor.animationTimeTicks = 0.0f;
+    actor.moveDirectionX = 0.0f;
+    actor.moveDirectionY = 0.0f;
+    actor.velocityX = 0.0f;
+    actor.velocityY = 0.0f;
+    actor.velocityZ = 0.0f;
+    actor.actionSeconds = 0.2f;
+    actor.idleDecisionSeconds = 0.2f;
+    actor.attackImpactTriggered = false;
+
+    setMapActorHostileToParty(actorIndex, partyX, partyY, partyZ, true);
+
+    const bool died = actor.currentHp <= 0;
+
+    if (died)
+    {
+        setMapActorDead(actorIndex, true);
+    }
+    else if (m_pMonsterTable != nullptr)
+    {
+        if (const MonsterTable::MonsterStatsEntry *pStats = m_pMonsterTable->findStatsById(actor.monsterId))
+        {
+            pushAudioEvent(pStats->winceSoundId, actor.actorId, "monster_hit");
+        }
+    }
+
+    aggroNearbyMapActorFaction(actorIndex, partyX, partyY, partyZ);
+    return true;
+}
+
 bool OutdoorWorldRuntime::notifyPartyContactWithMapActor(size_t actorIndex, float partyX, float partyY, float partyZ)
 {
     if (actorIndex >= m_mapActors.size())
@@ -2143,6 +2438,16 @@ const std::vector<OutdoorWorldRuntime::AudioEvent> &OutdoorWorldRuntime::pending
 void OutdoorWorldRuntime::clearPendingAudioEvents()
 {
     m_pendingAudioEvents.clear();
+}
+
+const std::vector<OutdoorWorldRuntime::CombatEvent> &OutdoorWorldRuntime::pendingCombatEvents() const
+{
+    return m_pendingCombatEvents;
+}
+
+void OutdoorWorldRuntime::clearPendingCombatEvents()
+{
+    m_pendingCombatEvents.clear();
 }
 
 bool OutdoorWorldRuntime::summonMonsters(

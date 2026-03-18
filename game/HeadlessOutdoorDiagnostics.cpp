@@ -679,6 +679,7 @@ bool initializeRegressionScenario(
         selectedMap.outdoorMapData,
         selectedMap.outdoorMapDeltaData,
         selectedMap.eventRuntimeState,
+        selectedMap.outdoorActorPreviewBillboardSet,
         selectedMap.outdoorLandMask,
         selectedMap.outdoorDecorationCollisionSet,
         selectedMap.outdoorActorCollisionSet,
@@ -3145,6 +3146,467 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
     );
 
     runCase(
+        "party_attack_on_actor_3_causes_damage_and_hostility",
+        [&](std::string &failure)
+        {
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            const OutdoorWorldRuntime::MapActorState *pBefore = scenario.world.mapActorState(3);
+
+            if (pBefore == nullptr)
+            {
+                failure = "actor 3 missing";
+                return false;
+            }
+
+            const int beforeHp = pBefore->currentHp;
+
+            if (!scenario.world.applyPartyAttackToMapActor(
+                    3,
+                    2,
+                    pBefore->preciseX + 64.0f,
+                    pBefore->preciseY,
+                    pBefore->preciseZ))
+            {
+                failure = "party attack did not apply";
+                return false;
+            }
+
+            const OutdoorWorldRuntime::MapActorState *pAfter = scenario.world.mapActorState(3);
+
+            if (pAfter == nullptr)
+            {
+                failure = "actor 3 missing after attack";
+                return false;
+            }
+
+            if (!pAfter->hostileToParty)
+            {
+                failure = "actor 3 did not become hostile";
+                return false;
+            }
+
+            if (pAfter->currentHp != std::max(0, beforeHp - 2))
+            {
+                failure = "actor 3 did not take the expected damage";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "party_attack_on_actor_3_aggros_nearby_lizard_guard",
+        [&](std::string &failure)
+        {
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            const OutdoorWorldRuntime::MapActorState *pVictim = scenario.world.mapActorState(3);
+
+            if (pVictim == nullptr)
+            {
+                failure = "actor 3 missing";
+                return false;
+            }
+
+            size_t guardActorIndex = static_cast<size_t>(-1);
+
+            for (size_t actorIndex = 0; actorIndex < scenario.world.mapActorCount(); ++actorIndex)
+            {
+                const OutdoorWorldRuntime::MapActorState *pActor = scenario.world.mapActorState(actorIndex);
+
+                if (pActor == nullptr || pActor->isDead || pActor->hostileToParty)
+                {
+                    continue;
+                }
+
+                if (!gameDataLoader.getMonsterTable().isLikelySameFaction(pVictim->monsterId, pActor->monsterId))
+                {
+                    continue;
+                }
+
+                const MonsterTable::MonsterStatsEntry *pStats =
+                    gameDataLoader.getMonsterTable().findStatsById(pActor->monsterId);
+
+                if (pStats == nullptr || pStats->aiType == MonsterTable::MonsterAiType::Wimp)
+                {
+                    continue;
+                }
+
+                const float deltaX = pActor->preciseX - pVictim->preciseX;
+                const float deltaY = pActor->preciseY - pVictim->preciseY;
+                const float deltaZ = pActor->preciseZ - pVictim->preciseZ;
+                const float distance = std::sqrt(deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ);
+
+                if (distance <= 4096.0f)
+                {
+                    guardActorIndex = actorIndex;
+                    break;
+                }
+            }
+
+            if (guardActorIndex == static_cast<size_t>(-1))
+            {
+                failure = "no nearby same-faction non-wimp actor found";
+                return false;
+            }
+
+            if (!scenario.world.applyPartyAttackToMapActor(
+                    3,
+                    2,
+                    pVictim->preciseX + 64.0f,
+                    pVictim->preciseY,
+                    pVictim->preciseZ))
+            {
+                failure = "party attack did not apply";
+                return false;
+            }
+
+            const OutdoorWorldRuntime::MapActorState *pGuard = scenario.world.mapActorState(guardActorIndex);
+
+            if (pGuard == nullptr || !pGuard->hostileToParty)
+            {
+                failure = "nearby same-faction guard did not become hostile";
+                return false;
+            }
+
+            bool sawEngageState = false;
+
+            for (size_t stepIndex = 0; stepIndex < 256; ++stepIndex)
+            {
+                scenario.world.updateMapActors(
+                    1.0f / 128.0f,
+                    pVictim->preciseX + 64.0f,
+                    pVictim->preciseY,
+                    pVictim->preciseZ);
+
+                pGuard = scenario.world.mapActorState(guardActorIndex);
+
+                if (pGuard != nullptr
+                    && (pGuard->aiState == OutdoorWorldRuntime::ActorAiState::Pursuing
+                        || pGuard->aiState == OutdoorWorldRuntime::ActorAiState::Attacking))
+                {
+                    sawEngageState = true;
+                    break;
+                }
+            }
+
+            if (!sawEngageState)
+            {
+                failure = "nearby same-faction guard never engaged the party";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "party_attack_on_actor_3_causes_wimp_flee",
+        [&](std::string &failure)
+        {
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            const OutdoorWorldRuntime::MapActorState *pVictim = scenario.world.mapActorState(3);
+
+            if (pVictim == nullptr)
+            {
+                failure = "actor 3 missing";
+                return false;
+            }
+
+            if (!scenario.world.applyPartyAttackToMapActor(
+                    3,
+                    2,
+                    pVictim->preciseX + 64.0f,
+                    pVictim->preciseY,
+                    pVictim->preciseZ))
+            {
+                failure = "party attack did not apply";
+                return false;
+            }
+
+            bool sawFleeing = false;
+
+            for (size_t stepIndex = 0; stepIndex < 64; ++stepIndex)
+            {
+                scenario.world.updateMapActors(
+                    1.0f / 128.0f,
+                    pVictim->preciseX + 64.0f,
+                    pVictim->preciseY,
+                    pVictim->preciseZ);
+
+                const OutdoorWorldRuntime::MapActorState *pAfter = scenario.world.mapActorState(3);
+
+                if (pAfter != nullptr && pAfter->aiState == OutdoorWorldRuntime::ActorAiState::Fleeing)
+                {
+                    sawFleeing = true;
+                    break;
+                }
+            }
+
+            if (!sawFleeing)
+            {
+                failure = "attacked wimp actor never entered fleeing state";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "party_attack_on_hostile_actor_61_still_applies_damage",
+        [&](std::string &failure)
+        {
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            const OutdoorWorldRuntime::MapActorState *pBefore = scenario.world.mapActorState(61);
+
+            if (pBefore == nullptr)
+            {
+                failure = "actor 61 missing";
+                return false;
+            }
+
+            if (!pBefore->hostileToParty)
+            {
+                failure = "actor 61 is not hostile in baseline state";
+                return false;
+            }
+
+            const int beforeHp = pBefore->currentHp;
+
+            if (!scenario.world.applyPartyAttackToMapActor(
+                    61,
+                    3,
+                    pBefore->preciseX + 64.0f,
+                    pBefore->preciseY,
+                    pBefore->preciseZ))
+            {
+                failure = "party attack did not apply to hostile actor";
+                return false;
+            }
+
+            const OutdoorWorldRuntime::MapActorState *pAfter = scenario.world.mapActorState(61);
+
+            if (pAfter == nullptr || pAfter->currentHp != std::max(0, beforeHp - 3))
+            {
+                failure = "hostile actor did not take expected damage";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "party_movement_ignores_friendly_actor_3_collision",
+        [&](std::string &failure)
+        {
+            if (!selectedMap->outdoorMapData)
+            {
+                failure = "selected map missing outdoor data";
+                return false;
+            }
+
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            const OutdoorWorldRuntime::MapActorState *pFriendlyActor = scenario.world.mapActorState(3);
+
+            if (pFriendlyActor == nullptr)
+            {
+                failure = "actor 3 missing";
+                return false;
+            }
+
+            OutdoorMovementController movementController(
+                *selectedMap->outdoorMapData,
+                selectedMap->outdoorLandMask,
+                selectedMap->outdoorDecorationCollisionSet,
+                std::nullopt,
+                selectedMap->outdoorSpriteObjectCollisionSet);
+
+            std::vector<OutdoorActorCollision> hostileColliders;
+
+            for (size_t actorIndex = 0; actorIndex < scenario.world.mapActorCount(); ++actorIndex)
+            {
+                const OutdoorWorldRuntime::MapActorState *pActor = scenario.world.mapActorState(actorIndex);
+
+                if (pActor == nullptr
+                    || pActor->isDead
+                    || pActor->isInvisible
+                    || !pActor->hostileToParty
+                    || pActor->radius == 0
+                    || pActor->height == 0)
+                {
+                    continue;
+                }
+
+                OutdoorActorCollision collider = {};
+                collider.sourceIndex = actorIndex;
+                collider.source = OutdoorActorCollisionSource::MapDelta;
+                collider.radius = pActor->radius;
+                collider.height = pActor->height;
+                collider.worldX = pActor->x;
+                collider.worldY = pActor->y;
+                collider.worldZ = pActor->z;
+                collider.group = pActor->group;
+                collider.name = pActor->displayName;
+                hostileColliders.push_back(std::move(collider));
+            }
+
+            movementController.setActorColliders(hostileColliders);
+
+            OutdoorMoveState state = movementController.initializeState(
+                pFriendlyActor->preciseX - 160.0f,
+                pFriendlyActor->preciseY,
+                pFriendlyActor->preciseZ);
+            std::vector<size_t> contactedActorIndices;
+            const OutdoorMoveState resolved = movementController.resolveMove(
+                state,
+                768.0f,
+                0.0f,
+                false,
+                false,
+                false,
+                0.0f,
+                0.0f,
+                0.5f,
+                &contactedActorIndices);
+
+            if (!contactedActorIndices.empty())
+            {
+                failure = "friendly actor produced a party collision contact";
+                return false;
+            }
+
+            if (resolved.x <= pFriendlyActor->preciseX)
+            {
+                failure = "party did not move through friendly actor";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "party_movement_collides_with_hostile_actor_61",
+        [&](std::string &failure)
+        {
+            if (!selectedMap->outdoorMapData)
+            {
+                failure = "selected map missing outdoor data";
+                return false;
+            }
+
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            const OutdoorWorldRuntime::MapActorState *pHostileActor = scenario.world.mapActorState(61);
+
+            if (pHostileActor == nullptr)
+            {
+                failure = "actor 61 missing";
+                return false;
+            }
+
+            if (!pHostileActor->hostileToParty)
+            {
+                failure = "actor 61 is not hostile in baseline state";
+                return false;
+            }
+
+            OutdoorMovementController movementController(
+                *selectedMap->outdoorMapData,
+                selectedMap->outdoorLandMask,
+                selectedMap->outdoorDecorationCollisionSet,
+                std::nullopt,
+                selectedMap->outdoorSpriteObjectCollisionSet);
+
+            OutdoorActorCollision collider = {};
+            collider.sourceIndex = 61;
+            collider.source = OutdoorActorCollisionSource::MapDelta;
+            collider.radius = pHostileActor->radius;
+            collider.height = pHostileActor->height;
+            collider.worldX = pHostileActor->x;
+            collider.worldY = pHostileActor->y;
+            collider.worldZ = pHostileActor->z;
+            collider.group = pHostileActor->group;
+            collider.name = pHostileActor->displayName;
+            movementController.setActorColliders({collider});
+
+            OutdoorMoveState state = movementController.initializeState(
+                pHostileActor->preciseX - 160.0f,
+                pHostileActor->preciseY,
+                pHostileActor->preciseZ);
+            std::vector<size_t> contactedActorIndices;
+            const OutdoorMoveState resolved = movementController.resolveMove(
+                state,
+                768.0f,
+                0.0f,
+                false,
+                false,
+                false,
+                0.0f,
+                0.0f,
+                0.5f,
+                &contactedActorIndices);
+
+            if (contactedActorIndices.empty())
+            {
+                failure = "hostile actor did not produce a party collision contact";
+                return false;
+            }
+
+            if (resolved.x > pHostileActor->preciseX - 16.0f)
+            {
+                failure = "party moved through hostile actor";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
         "party_is_pushed_out_of_actor_overlap",
         [&](std::string &failure)
         {
@@ -3382,6 +3844,134 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
     );
 
     runCase(
+        "hostile_melee_actor_uses_side_pursuit_when_far",
+        [&](std::string &failure)
+        {
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            size_t hostileActorIndex = std::numeric_limits<size_t>::max();
+
+            for (size_t actorIndex = 0; actorIndex < scenario.world.mapActorCount(); ++actorIndex)
+            {
+                const OutdoorWorldRuntime::MapActorState *pActor = scenario.world.mapActorState(actorIndex);
+
+                if (pActor == nullptr || !pActor->hostileToParty || pActor->isDead)
+                {
+                    continue;
+                }
+
+                const MonsterTable::MonsterStatsEntry *pStats =
+                    gameDataLoader.getMonsterTable().findStatsById(pActor->monsterId);
+
+                if (pStats != nullptr
+                    && !pStats->hasRangedAttack
+                    && pStats->aiType != MonsterTable::MonsterAiType::Wimp
+                    && pStats->movementType != MonsterTable::MonsterMovementType::Stationary)
+                {
+                    hostileActorIndex = actorIndex;
+                    break;
+                }
+            }
+
+            if (hostileActorIndex == std::numeric_limits<size_t>::max())
+            {
+                failure = "no hostile melee actor found";
+                return false;
+            }
+
+            const OutdoorWorldRuntime::MapActorState *pBefore = scenario.world.mapActorState(hostileActorIndex);
+            const float partyX = static_cast<float>(pBefore->x + 2500);
+            const float partyY = static_cast<float>(pBefore->y);
+            scenario.world.updateMapActors(0.1f, partyX, partyY, static_cast<float>(pBefore->z));
+            const OutdoorWorldRuntime::MapActorState *pAfter = scenario.world.mapActorState(hostileActorIndex);
+
+            if (pAfter->aiState != OutdoorWorldRuntime::ActorAiState::Pursuing)
+            {
+                failure = "hostile melee actor did not enter pursuing state";
+                return false;
+            }
+
+            if (std::abs(pAfter->moveDirectionY) < 0.1f)
+            {
+                failure = "hostile melee actor did not choose a side-biased pursuit direction";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "hostile_melee_actor_uses_direct_pursuit_when_close",
+        [&](std::string &failure)
+        {
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            size_t hostileActorIndex = std::numeric_limits<size_t>::max();
+
+            for (size_t actorIndex = 0; actorIndex < scenario.world.mapActorCount(); ++actorIndex)
+            {
+                const OutdoorWorldRuntime::MapActorState *pActor = scenario.world.mapActorState(actorIndex);
+
+                if (pActor == nullptr || !pActor->hostileToParty || pActor->isDead)
+                {
+                    continue;
+                }
+
+                const MonsterTable::MonsterStatsEntry *pStats =
+                    gameDataLoader.getMonsterTable().findStatsById(pActor->monsterId);
+
+                if (pStats != nullptr
+                    && !pStats->hasRangedAttack
+                    && pStats->aiType != MonsterTable::MonsterAiType::Wimp
+                    && pStats->movementType != MonsterTable::MonsterMovementType::Stationary)
+                {
+                    hostileActorIndex = actorIndex;
+                    break;
+                }
+            }
+
+            if (hostileActorIndex == std::numeric_limits<size_t>::max())
+            {
+                failure = "no hostile melee actor found";
+                return false;
+            }
+
+            const OutdoorWorldRuntime::MapActorState *pBefore = scenario.world.mapActorState(hostileActorIndex);
+            const float partyX = static_cast<float>(pBefore->x + 700);
+            const float partyY = static_cast<float>(pBefore->y);
+            scenario.world.updateMapActors(0.1f, partyX, partyY, static_cast<float>(pBefore->z));
+            const OutdoorWorldRuntime::MapActorState *pAfter = scenario.world.mapActorState(hostileActorIndex);
+
+            if (pAfter->aiState != OutdoorWorldRuntime::ActorAiState::Pursuing)
+            {
+                failure = "hostile melee actor did not enter pursuing state";
+                return false;
+            }
+
+            if (std::abs(pAfter->moveDirectionY) >= 0.1f)
+            {
+                failure = "hostile melee actor did not choose direct pursuit when close";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
         "hostile_actor_51_respects_nearby_blocking_face",
         [&](std::string &failure)
         {
@@ -3576,14 +4166,23 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
 
             const OutdoorWorldRuntime::MapActorState *pBefore = scenario.world.mapActorState(hostileActorIndex);
             scenario.world.clearPendingAudioEvents();
-            scenario.world.updateMapActors(
-                0.1f,
-                static_cast<float>(pBefore->x + 64),
-                static_cast<float>(pBefore->y),
-                static_cast<float>(pBefore->z));
-            const OutdoorWorldRuntime::MapActorState *pAfter = scenario.world.mapActorState(hostileActorIndex);
+            const float partyX = static_cast<float>(pBefore->x + 64);
+            const float partyY = static_cast<float>(pBefore->y);
+            const float partyZ = static_cast<float>(pBefore->z);
+            const OutdoorWorldRuntime::MapActorState *pAfter = nullptr;
 
-            if (pAfter->aiState != OutdoorWorldRuntime::ActorAiState::Attacking)
+            for (int step = 0; step < 256; ++step)
+            {
+                scenario.world.updateMapActors(1.0f / 128.0f, partyX, partyY, partyZ);
+                pAfter = scenario.world.mapActorState(hostileActorIndex);
+
+                if (pAfter != nullptr && pAfter->aiState == OutdoorWorldRuntime::ActorAiState::Attacking)
+                {
+                    break;
+                }
+            }
+
+            if (pAfter == nullptr || pAfter->aiState != OutdoorWorldRuntime::ActorAiState::Attacking)
             {
                 failure = "hostile actor did not enter attack state";
                 return false;
@@ -3599,6 +4198,101 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
             if (scenario.world.pendingAudioEvents().empty())
             {
                 failure = "attack sound event missing";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "hostile_actor_attack_persists_when_party_moves_away",
+        [&](std::string &failure)
+        {
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            size_t hostileActorIndex = std::numeric_limits<size_t>::max();
+
+            for (size_t actorIndex = 0; actorIndex < scenario.world.mapActorCount(); ++actorIndex)
+            {
+                const OutdoorWorldRuntime::MapActorState *pActor = scenario.world.mapActorState(actorIndex);
+
+                if (pActor == nullptr || !pActor->hostileToParty || pActor->isDead)
+                {
+                    continue;
+                }
+
+                const MonsterTable::MonsterStatsEntry *pStats =
+                    gameDataLoader.getMonsterTable().findStatsById(pActor->monsterId);
+
+                if (pStats != nullptr
+                    && !pStats->hasRangedAttack
+                    && pStats->aiType != MonsterTable::MonsterAiType::Wimp
+                    && pStats->movementType != MonsterTable::MonsterMovementType::Stationary)
+                {
+                    hostileActorIndex = actorIndex;
+                    break;
+                }
+            }
+
+            if (hostileActorIndex == std::numeric_limits<size_t>::max())
+            {
+                failure = "no hostile melee actor found";
+                return false;
+            }
+
+            const OutdoorWorldRuntime::MapActorState *pBefore = scenario.world.mapActorState(hostileActorIndex);
+            const float nearPartyX = static_cast<float>(pBefore->x + 64);
+            const float nearPartyY = static_cast<float>(pBefore->y);
+            const float partyZ = static_cast<float>(pBefore->z);
+            const OutdoorWorldRuntime::MapActorState *pAttacking = nullptr;
+
+            for (int step = 0; step < 256; ++step)
+            {
+                scenario.world.updateMapActors(1.0f / 128.0f, nearPartyX, nearPartyY, partyZ);
+                pAttacking = scenario.world.mapActorState(hostileActorIndex);
+
+                if (pAttacking != nullptr && pAttacking->aiState == OutdoorWorldRuntime::ActorAiState::Attacking)
+                {
+                    break;
+                }
+            }
+
+            if (pAttacking == nullptr || pAttacking->aiState != OutdoorWorldRuntime::ActorAiState::Attacking)
+            {
+                failure = "hostile actor did not enter attack state";
+                return false;
+            }
+
+            if (pAttacking->actionSeconds <= 0.0f)
+            {
+                failure = "hostile actor attack duration did not start";
+                return false;
+            }
+
+            const float previousActionSeconds = pAttacking->actionSeconds;
+            scenario.world.updateMapActors(
+                0.05f,
+                static_cast<float>(pBefore->x + 4000),
+                static_cast<float>(pBefore->y),
+                static_cast<float>(pBefore->z));
+            const OutdoorWorldRuntime::MapActorState *pAfter = scenario.world.mapActorState(hostileActorIndex);
+
+            if (pAfter->aiState != OutdoorWorldRuntime::ActorAiState::Attacking)
+            {
+                failure = "hostile actor abandoned attack when party moved away";
+                return false;
+            }
+
+            if (pAfter->actionSeconds >= previousActionSeconds)
+            {
+                failure = "hostile actor attack did not continue progressing";
                 return false;
             }
 
