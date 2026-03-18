@@ -5600,6 +5600,60 @@ bool OutdoorGameView::tryTriggerLocalEventById(uint16_t eventId)
     return true;
 }
 
+void OutdoorGameView::applyPendingCombatEvents()
+{
+    if (m_pOutdoorWorldRuntime == nullptr || m_pOutdoorPartyRuntime == nullptr)
+    {
+        return;
+    }
+
+    for (const OutdoorWorldRuntime::CombatEvent &event : m_pOutdoorWorldRuntime->pendingCombatEvents())
+    {
+        if (event.type != OutdoorWorldRuntime::CombatEvent::Type::MonsterMeleeImpact
+            && event.type != OutdoorWorldRuntime::CombatEvent::Type::PartyProjectileImpact)
+        {
+            continue;
+        }
+
+        std::string sourceName = "monster";
+
+        for (size_t actorIndex = 0; actorIndex < m_pOutdoorWorldRuntime->mapActorCount(); ++actorIndex)
+        {
+            const OutdoorWorldRuntime::MapActorState *pActor = m_pOutdoorWorldRuntime->mapActorState(actorIndex);
+
+            if (pActor != nullptr && pActor->actorId == event.sourceId)
+            {
+                sourceName = pActor->displayName;
+                break;
+            }
+        }
+
+        if (event.sourceId == std::numeric_limits<uint32_t>::max())
+        {
+            sourceName = event.spellId > 0 ? "event spell" : "event";
+        }
+
+        const std::string status = event.type == OutdoorWorldRuntime::CombatEvent::Type::MonsterMeleeImpact
+            ? sourceName + " hit party for " + std::to_string(event.damage)
+            : sourceName
+                + (event.spellId > 0 ? " spell hit party for " : " projectile hit party for ")
+                + std::to_string(event.damage);
+
+        if (m_pOutdoorPartyRuntime->party().applyDamageToActiveMember(event.damage, status))
+        {
+            std::cout << "Party damaged source=" << sourceName
+                      << " damage=" << event.damage
+                      << " kind="
+                      << (event.type == OutdoorWorldRuntime::CombatEvent::Type::MonsterMeleeImpact
+                              ? "melee"
+                              : (event.spellId > 0 ? "spell" : "projectile"))
+                      << '\n';
+        }
+    }
+
+    m_pOutdoorWorldRuntime->clearPendingCombatEvents();
+}
+
 void OutdoorGameView::updateCameraFromInput(float deltaSeconds)
 {
     const float displayDeltaSeconds = std::max(deltaSeconds, 0.000001f);
@@ -5977,6 +6031,7 @@ void OutdoorGameView::updateCameraFromInput(float deltaSeconds)
             {
                 const OutdoorMoveState &moveState = m_pOutdoorPartyRuntime->movementState();
                 m_pOutdoorWorldRuntime->updateMapActors(deltaSeconds, moveState.x, moveState.y, moveState.footZ);
+                applyPendingCombatEvents();
                 notifyFriendlyActorContacts(
                     *m_pOutdoorWorldRuntime,
                     moveState,

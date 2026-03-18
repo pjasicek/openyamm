@@ -112,12 +112,15 @@ public:
         {
             MonsterMeleeImpact,
             MonsterRangedRelease,
+            PartyProjectileImpact,
         };
 
         Type type = Type::MonsterMeleeImpact;
         uint32_t sourceId = 0;
         bool fromSummonedMonster = false;
         MonsterAttackAbility ability = MonsterAttackAbility::Attack1;
+        int damage = 0;
+        int spellId = 0;
     };
 
     struct ProjectileState
@@ -133,6 +136,8 @@ public:
         uint16_t height = 0;
         int spellId = 0;
         int effectSoundId = 0;
+        uint32_t skillLevel = 0;
+        uint32_t skillMastery = 0;
         std::string objectName;
         std::string objectSpriteName;
         float x = 0.0f;

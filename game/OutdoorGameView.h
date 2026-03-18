@@ -188,6 +188,7 @@ private:
     );
     bool tryActivateInspectEvent(const InspectHit &inspectHit);
     bool tryTriggerLocalEventById(uint16_t eventId);
+    void applyPendingCombatEvents();
     void updateCameraFromInput(float deltaSeconds);
     void renderDecorationBillboards(
         uint16_t viewId,

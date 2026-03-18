@@ -464,6 +464,46 @@ void Party::applyEventRuntimeState(const EventRuntimeState &runtimeState)
     }
 }
 
+bool Party::applyDamageToActiveMember(int damage, const std::string &status)
+{
+    if (damage <= 0 || m_members.empty())
+    {
+        return false;
+    }
+
+    size_t targetIndex = std::min(m_activeMemberIndex, m_members.size() - 1);
+
+    if (m_members[targetIndex].health <= 0)
+    {
+        bool foundLivingMember = false;
+
+        for (size_t memberIndex = 0; memberIndex < m_members.size(); ++memberIndex)
+        {
+            if (m_members[memberIndex].health > 0)
+            {
+                targetIndex = memberIndex;
+                foundLivingMember = true;
+                break;
+            }
+        }
+
+        if (!foundLivingMember)
+        {
+            return false;
+        }
+    }
+
+    Character &member = m_members[targetIndex];
+    member.health = std::max(0, member.health - damage);
+
+    if (!status.empty())
+    {
+        m_lastStatus = status;
+    }
+
+    return true;
+}
+
 void Party::addGold(int amount)
 {
     m_gold = std::max(0, m_gold + amount);

@@ -697,6 +697,23 @@ bool initializeRegressionScenario(
     return scenario.pEventRuntimeState != nullptr;
 }
 
+void applyPendingCombatEventsToScenarioParty(RegressionScenario &scenario)
+{
+    for (const OutdoorWorldRuntime::CombatEvent &event : scenario.world.pendingCombatEvents())
+    {
+        if (event.type == OutdoorWorldRuntime::CombatEvent::Type::MonsterMeleeImpact
+            || event.type == OutdoorWorldRuntime::CombatEvent::Type::PartyProjectileImpact)
+        {
+            const std::string status = event.type == OutdoorWorldRuntime::CombatEvent::Type::MonsterMeleeImpact
+                ? "melee damage"
+                : "projectile damage";
+            scenario.party.applyDamageToActiveMember(event.damage, status);
+        }
+    }
+
+    scenario.world.clearPendingCombatEvents();
+}
+
 EventDialogContent openNpcDialogInScenario(
     const GameDataLoader &gameDataLoader,
     const MapAssetInfo &selectedMap,
@@ -2463,6 +2480,57 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
             }
 
             return true;
+        }
+    );
+
+    runCase(
+        "event_meteor_shower_ground_impact_damages_party",
+        [&](std::string &failure)
+        {
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            const float partyX = -9216.0f;
+            const float partyY = -12848.0f;
+            const float partyZ = 110.0f;
+            const int initialHealth = scenario.party.totalHealth();
+
+            if (!scenario.world.castEventSpell(
+                    9,
+                    10,
+                    static_cast<uint32_t>(SkillMastery::Master),
+                    19872,
+                    -19824,
+                    5084,
+                    static_cast<int32_t>(-partyX),
+                    static_cast<int32_t>(partyY),
+                    static_cast<int32_t>(partyZ)))
+            {
+                failure = "meteor shower cast failed";
+                return false;
+            }
+
+            bool sawImpact = false;
+
+            for (int step = 0; step < 8192; ++step)
+            {
+                scenario.world.updateMapActors(1.0f / 128.0f, partyX, partyY, partyZ);
+                sawImpact = sawImpact || scenario.world.projectileImpactCount() > 0;
+                applyPendingCombatEventsToScenarioParty(scenario);
+
+                if (scenario.party.totalHealth() < initialHealth)
+                {
+                    return true;
+                }
+            }
+
+            failure = !sawImpact ? "meteor shower never impacted" : "meteor shower impact never damaged party";
+            return false;
         }
     );
 
@@ -4636,10 +4704,12 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
             const float partyY = pBefore->preciseY;
             const float partyZ = pBefore->preciseZ;
             bool sawProjectile = false;
+            const int initialTotalHealth = scenario.party.totalHealth();
 
             for (int step = 0; step < 4096; ++step)
             {
                 scenario.world.updateMapActors(1.0f / 128.0f, partyX, partyY, partyZ);
+                applyPendingCombatEventsToScenarioParty(scenario);
 
                 if (scenario.world.projectileCount() > 0)
                 {
@@ -4651,6 +4721,12 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
                     if (scenario.world.projectileImpactCount() != 0)
                     {
                         failure = "arrow impact should not spawn a lingering impact effect";
+                        return false;
+                    }
+
+                    if (scenario.party.totalHealth() >= initialTotalHealth)
+                    {
+                        failure = "arrow hit did not damage the party";
                         return false;
                     }
 

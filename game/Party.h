@@ -84,6 +84,7 @@ public:
     void seed(const PartySeed &seed);
     void applyMovementEffects(const OutdoorMovementEffects &effects);
     void applyEventRuntimeState(const EventRuntimeState &runtimeState);
+    bool applyDamageToActiveMember(int damage, const std::string &status);
     void addGold(int amount);
     void addFood(int amount);
     bool tryGrantItem(uint32_t objectDescriptionId, uint32_t quantity = 1);
