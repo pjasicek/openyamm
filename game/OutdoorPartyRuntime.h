@@ -17,6 +17,7 @@ public:
     void initialize(float x, float y, float footZHint, bool resetParty = true);
     void teleportTo(float x, float y, float footZHint);
     void update(const OutdoorMovementInput &input, float deltaSeconds);
+    void setActorColliders(const std::vector<OutdoorActorCollision> &actorColliders);
     void applyEventRuntimeState(const EventRuntimeState &runtimeState);
 
     const OutdoorMoveState &movementState() const;

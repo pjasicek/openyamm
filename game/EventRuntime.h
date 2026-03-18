@@ -13,6 +13,7 @@
 namespace OpenYAMM::Game
 {
 class Party;
+class OutdoorWorldRuntime;
 
 enum class DialogueContextKind
 {
@@ -75,15 +76,22 @@ struct EventRuntimeState
     std::unordered_map<uint32_t, RuntimeMechanismState> mechanisms;
     std::unordered_map<uint32_t, std::string> textureOverrides;
     std::unordered_map<uint32_t, bool> indoorLightsEnabled;
+    std::unordered_map<uint32_t, uint32_t> actorSetMasks;
+    std::unordered_map<uint32_t, uint32_t> actorClearMasks;
+    std::unordered_map<uint32_t, uint32_t> actorGroupSetMasks;
+    std::unordered_map<uint32_t, uint32_t> actorGroupClearMasks;
     std::unordered_map<uint32_t, std::unordered_map<uint32_t, uint32_t>> npcTopicOverrides;
     std::unordered_map<uint32_t, uint32_t> npcGroupNews;
     std::unordered_map<uint32_t, uint32_t> npcGreetingDisplayCounts;
     std::unordered_map<uint32_t, uint32_t> npcHouseOverrides;
     std::unordered_set<uint32_t> unavailableNpcIds;
+    std::string houseServiceMenuId;
     std::vector<std::string> messages;
     std::vector<uint32_t> openedChestIds;
     std::vector<uint32_t> grantedItemIds;
     std::vector<uint32_t> removedItemIds;
+    std::vector<uint32_t> grantedAwardIds;
+    std::vector<uint32_t> removedAwardIds;
     std::optional<PendingDialogueContext> pendingDialogueContext;
     std::optional<PendingMapMove> pendingMapMove;
     std::optional<PendingRosterJoinInvite> pendingRosterJoinInvite;
@@ -110,7 +118,8 @@ public:
         const std::optional<EventIrProgram> &globalProgram,
         uint16_t eventId,
         EventRuntimeState &runtimeState,
-        const Party *pParty = nullptr
+        Party *pParty = nullptr,
+        OutdoorWorldRuntime *pOutdoorWorldRuntime = nullptr
     ) const;
     bool canShowTopic(
         const std::optional<EventIrProgram> &globalProgram,
@@ -133,6 +142,7 @@ private:
         Inventory,
         Awards,
         Players,
+        ClassId,
     };
 
     struct VariableRef
@@ -147,11 +157,30 @@ private:
     static int32_t getVariableValue(
         const EventRuntimeState &runtimeState,
         const VariableRef &variable,
-        const Party *pParty
+        const Party *pParty,
+        const std::optional<size_t> &memberIndex = std::nullopt
     );
-    static void setVariableValue(EventRuntimeState &runtimeState, const VariableRef &variable, int32_t value);
-    static void addVariableValue(EventRuntimeState &runtimeState, const VariableRef &variable, int32_t value);
-    static void subtractVariableValue(EventRuntimeState &runtimeState, const VariableRef &variable, int32_t value);
+    static void setVariableValue(
+        EventRuntimeState &runtimeState,
+        const VariableRef &variable,
+        int32_t value,
+        Party *pParty,
+        const std::vector<size_t> &targetMemberIndices
+    );
+    static void addVariableValue(
+        EventRuntimeState &runtimeState,
+        const VariableRef &variable,
+        int32_t value,
+        Party *pParty,
+        const std::vector<size_t> &targetMemberIndices
+    );
+    static void subtractVariableValue(
+        EventRuntimeState &runtimeState,
+        const VariableRef &variable,
+        int32_t value,
+        Party *pParty,
+        const std::vector<size_t> &targetMemberIndices
+    );
     static void executeProgramOnLoad(const EventIrProgram &program, EventRuntimeState &runtimeState, size_t &executedCount);
     static const EventIrEvent *findEventById(const EventIrProgram &program, uint16_t eventId);
     static void executeTimerEvents(const EventIrProgram &program, EventRuntimeState &runtimeState);
@@ -159,14 +188,21 @@ private:
     static int32_t getInventoryItemCount(
         const EventRuntimeState &runtimeState,
         const Party *pParty,
-        uint32_t objectDescriptionId
+        uint32_t objectDescriptionId,
+        const std::optional<size_t> &memberIndex = std::nullopt
     );
     static bool evaluateCompare(
         const EventRuntimeState &runtimeState,
         const EventIrInstruction &instruction,
-        const Party *pParty
+        const Party *pParty,
+        const std::vector<size_t> &targetMemberIndices
     );
     static bool evaluateCanShowTopic(const EventIrEvent &event, const EventRuntimeState &runtimeState, const Party *pParty);
-    static bool executeEvent(const EventIrEvent &event, EventRuntimeState &runtimeState, const Party *pParty);
+    static bool executeEvent(
+        const EventIrEvent &event,
+        EventRuntimeState &runtimeState,
+        Party *pParty,
+        OutdoorWorldRuntime *pOutdoorWorldRuntime
+    );
 };
 }

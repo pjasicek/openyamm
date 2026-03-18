@@ -3,6 +3,8 @@
 #include <algorithm>
 #include <cctype>
 #include <cstring>
+#include <regex>
+#include <unordered_map>
 
 namespace OpenYAMM::Game
 {
@@ -111,6 +113,193 @@ std::string toLowerCopy(const std::string &value)
 
     return lowered;
 }
+
+bool isNumericString(const std::string &value)
+{
+    if (value.empty())
+    {
+        return false;
+    }
+
+    for (char character : value)
+    {
+        if (!std::isdigit(static_cast<unsigned char>(character)))
+        {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+MonsterTable::MonsterMovementType parseMovementType(const std::string &value)
+{
+    const std::string lower = toLowerCopy(value);
+
+    if (lower == "med")
+    {
+        return MonsterTable::MonsterMovementType::Medium;
+    }
+
+    if (lower == "long")
+    {
+        return MonsterTable::MonsterMovementType::Long;
+    }
+
+    if (lower == "global")
+    {
+        return MonsterTable::MonsterMovementType::Global;
+    }
+
+    if (lower == "free")
+    {
+        return MonsterTable::MonsterMovementType::Free;
+    }
+
+    if (lower == "stationary")
+    {
+        return MonsterTable::MonsterMovementType::Stationary;
+    }
+
+    return MonsterTable::MonsterMovementType::Short;
+}
+
+MonsterTable::MonsterAiType parseAiType(const std::string &value)
+{
+    const std::string lower = toLowerCopy(value);
+
+    if (lower == "wimp")
+    {
+        return MonsterTable::MonsterAiType::Wimp;
+    }
+
+    if (lower == "normal")
+    {
+        return MonsterTable::MonsterAiType::Normal;
+    }
+
+    if (lower == "aggress")
+    {
+        return MonsterTable::MonsterAiType::Aggressive;
+    }
+
+    return MonsterTable::MonsterAiType::Suicide;
+}
+
+MonsterTable::LootPrototype parseLootPrototype(const std::string &value)
+{
+    MonsterTable::LootPrototype loot = {};
+    std::string lower = toLowerCopy(value);
+
+    if (lower.empty() || lower == "0")
+    {
+        return loot;
+    }
+
+    const std::smatch diceMatch = [&]() -> std::smatch
+    {
+        std::smatch match;
+        std::regex_search(lower, match, std::regex("([0-9]+)d([0-9]+)"));
+        return match;
+    }();
+
+    if (!diceMatch.empty())
+    {
+        loot.goldDiceRolls = std::stoi(diceMatch[1].str());
+        loot.goldDiceSides = std::stoi(diceMatch[2].str());
+    }
+
+    const size_t percentIndex = lower.find('%');
+
+    if (percentIndex != std::string::npos && percentIndex > 0)
+    {
+        loot.itemChance = std::stoi(lower.substr(0, percentIndex));
+    }
+    else if (lower.find('l') != std::string::npos)
+    {
+        loot.itemChance = 100;
+    }
+
+    const size_t levelIndex = lower.find('l');
+
+    if (levelIndex != std::string::npos && levelIndex + 1 < lower.size() && std::isdigit(lower[levelIndex + 1]) != 0)
+    {
+        loot.itemLevel = lower[levelIndex + 1] - '0';
+        loot.itemKind = MonsterTable::LootItemKind::Any;
+        const std::string itemToken = lower.substr(levelIndex + 2);
+
+        if (itemToken.find("gem") != std::string::npos)
+        {
+            loot.itemKind = MonsterTable::LootItemKind::Gem;
+        }
+        else if (itemToken.find("ring") != std::string::npos)
+        {
+            loot.itemKind = MonsterTable::LootItemKind::Ring;
+        }
+        else if (itemToken.find("amulet") != std::string::npos)
+        {
+            loot.itemKind = MonsterTable::LootItemKind::Amulet;
+        }
+        else if (itemToken.find("boots") != std::string::npos)
+        {
+            loot.itemKind = MonsterTable::LootItemKind::Boots;
+        }
+        else if (itemToken.find("gloves") != std::string::npos)
+        {
+            loot.itemKind = MonsterTable::LootItemKind::Gauntlets;
+        }
+        else if (itemToken.find("cloak") != std::string::npos)
+        {
+            loot.itemKind = MonsterTable::LootItemKind::Cloak;
+        }
+        else if (itemToken.find("wand") != std::string::npos)
+        {
+            loot.itemKind = MonsterTable::LootItemKind::Wand;
+        }
+        else if (itemToken.find("ore") != std::string::npos)
+        {
+            loot.itemKind = MonsterTable::LootItemKind::Ore;
+        }
+        else if (itemToken.find("scroll") != std::string::npos)
+        {
+            loot.itemKind = MonsterTable::LootItemKind::Scroll;
+        }
+        else if (itemToken.find("sword") != std::string::npos)
+        {
+            loot.itemKind = MonsterTable::LootItemKind::Sword;
+        }
+        else if (itemToken.find("dagger") != std::string::npos)
+        {
+            loot.itemKind = MonsterTable::LootItemKind::Dagger;
+        }
+        else if (itemToken.find("spear") != std::string::npos)
+        {
+            loot.itemKind = MonsterTable::LootItemKind::Spear;
+        }
+        else if (itemToken.find("chain") != std::string::npos)
+        {
+            loot.itemKind = MonsterTable::LootItemKind::Chain;
+        }
+        else if (itemToken.find("plate") != std::string::npos)
+        {
+            loot.itemKind = MonsterTable::LootItemKind::Plate;
+        }
+        else if (itemToken.find("club") != std::string::npos)
+        {
+            loot.itemKind = MonsterTable::LootItemKind::Club;
+        }
+        else if (itemToken.find("staff") != std::string::npos)
+        {
+            loot.itemKind = MonsterTable::LootItemKind::Staff;
+        }
+        else if (itemToken.find("bow") != std::string::npos)
+        {
+            loot.itemKind = MonsterTable::LootItemKind::Bow;
+        }
+    }
+
+    return loot;
+}
 }
 
 bool MonsterTable::loadFromBytes(const std::vector<uint8_t> &bytes)
@@ -175,18 +364,7 @@ bool MonsterTable::loadDisplayNamesFromRows(const std::vector<std::vector<std::s
             continue;
         }
 
-        bool isNumericId = true;
-
-        for (const char character : row[0])
-        {
-            if (!std::isdigit(static_cast<unsigned char>(character)))
-            {
-                isNumericId = false;
-                break;
-            }
-        }
-
-        if (!isNumericId || row[1].empty() || row[2].empty())
+        if (!isNumericString(row[0]) || row[1].empty() || row[2].empty())
         {
             continue;
         }
@@ -201,6 +379,81 @@ bool MonsterTable::loadDisplayNamesFromRows(const std::vector<std::vector<std::s
     return !m_displayNames.empty();
 }
 
+bool MonsterTable::loadStatsFromRows(const std::vector<std::vector<std::string>> &rows)
+{
+    m_statsById.clear();
+    m_statsIdByPictureName.clear();
+
+    for (const std::vector<std::string> &row : rows)
+    {
+        if (row.size() < 15 || !isNumericString(row[0]))
+        {
+            continue;
+        }
+
+        MonsterStatsEntry entry = {};
+        entry.id = std::stoi(row[0]);
+        entry.name = row[1];
+        entry.pictureName = row[2];
+        entry.level = row[3].empty() ? 0 : std::stoi(row[3]);
+        entry.hitPoints = row[4].empty() ? 0 : std::stoi(row[4]);
+        entry.armorClass = row[5].empty() ? 0 : std::stoi(row[5]);
+        entry.canFly = row.size() > 9 && !row[9].empty() && toLowerCopy(row[9]) == "y";
+        entry.movementType = row.size() > 10 ? parseMovementType(row[10]) : MonsterMovementType::Short;
+        entry.aiType = row.size() > 11 ? parseAiType(row[11]) : MonsterAiType::Suicide;
+        entry.treasureDefinition = row[7];
+        entry.loot = parseLootPrototype(entry.treasureDefinition);
+        entry.hostility = row[12].empty() ? 0 : std::stoi(row[12]);
+        entry.speed = row[13].empty() ? 0 : std::stoi(row[13]);
+        entry.recovery = row[14].empty() ? 0 : std::stoi(row[14]);
+        entry.hasRangedAttack =
+            (row.size() > 20 && !row[20].empty() && row[20] != "0")
+            || (row.size() > 23 && !row[23].empty() && row[23] != "0");
+
+        const MonsterEntry *pEntry = findById(static_cast<int16_t>(entry.id));
+
+        if (pEntry != nullptr)
+        {
+            entry.attackSoundId = pEntry->soundSampleIds[0];
+            entry.deathSoundId = pEntry->soundSampleIds[1];
+            entry.winceSoundId = pEntry->soundSampleIds[2];
+            entry.awareSoundId = pEntry->soundSampleIds[3];
+        }
+
+        m_statsIdByPictureName[toLowerCopy(entry.pictureName)] = entry.id;
+        m_statsById[entry.id] = std::move(entry);
+    }
+
+    return !m_statsById.empty();
+}
+
+bool MonsterTable::loadRelationsFromRows(const std::vector<std::vector<std::string>> &rows)
+{
+    m_relations.clear();
+
+    for (size_t rowIndex = 1; rowIndex < rows.size(); ++rowIndex)
+    {
+        const std::vector<std::string> &row = rows[rowIndex];
+
+        if (row.size() < 2)
+        {
+            continue;
+        }
+
+        std::vector<int> relationRow;
+        relationRow.reserve(row.size() - 1);
+
+        for (size_t columnIndex = 1; columnIndex < row.size(); ++columnIndex)
+        {
+            relationRow.push_back(row[columnIndex].empty() ? 0 : std::stoi(row[columnIndex]));
+        }
+
+        m_relations.push_back(std::move(relationRow));
+    }
+
+    return !m_relations.empty();
+}
+
 bool MonsterTable::loadUniqueNamesFromRows(const std::vector<std::vector<std::string>> &rows)
 {
     size_t maxIndex = 0;
@@ -212,18 +465,7 @@ bool MonsterTable::loadUniqueNamesFromRows(const std::vector<std::vector<std::st
             continue;
         }
 
-        bool isNumericId = true;
-
-        for (const char character : row[0])
-        {
-            if (!std::isdigit(static_cast<unsigned char>(character)))
-            {
-                isNumericId = false;
-                break;
-            }
-        }
-
-        if (!isNumericId)
+        if (!isNumericString(row[0]))
         {
             continue;
         }
@@ -242,18 +484,7 @@ bool MonsterTable::loadUniqueNamesFromRows(const std::vector<std::vector<std::st
             continue;
         }
 
-        bool isNumericId = true;
-
-        for (const char character : row[0])
-        {
-            if (!std::isdigit(static_cast<unsigned char>(character)))
-            {
-                isNumericId = false;
-                break;
-            }
-        }
-
-        if (!isNumericId)
+        if (!isNumericString(row[0]))
         {
             continue;
         }
@@ -301,6 +532,24 @@ const MonsterEntry *MonsterTable::findById(int16_t monsterId) const
     return &m_entries[index];
 }
 
+const MonsterTable::MonsterStatsEntry *MonsterTable::findStatsById(int16_t monsterId) const
+{
+    const auto iterator = m_statsById.find(monsterId);
+    return iterator != m_statsById.end() ? &iterator->second : nullptr;
+}
+
+const MonsterTable::MonsterStatsEntry *MonsterTable::findStatsByPictureName(const std::string &pictureName) const
+{
+    const auto idIt = m_statsIdByPictureName.find(toLowerCopy(pictureName));
+
+    if (idIt == m_statsIdByPictureName.end())
+    {
+        return nullptr;
+    }
+
+    return findStatsById(static_cast<int16_t>(idIt->second));
+}
+
 const MonsterTable::MonsterDisplayNameEntry *MonsterTable::findDisplayEntryById(int id) const
 {
     for (const MonsterDisplayNameEntry &entry : m_displayNames)
@@ -344,6 +593,38 @@ std::optional<std::string> MonsterTable::getUniqueName(int32_t uniqueNameIndex) 
     }
 
     return m_uniqueNames[index];
+}
+
+size_t MonsterTable::relationIndexForMonsterId(int16_t monsterId)
+{
+    if (monsterId <= 0)
+    {
+        return 0;
+    }
+
+    return static_cast<size_t>((monsterId - 1) / 3 + 1);
+}
+
+int MonsterTable::getRelationToParty(int16_t monsterId) const
+{
+    if (m_relations.empty())
+    {
+        return 0;
+    }
+
+    const size_t relationIndex = relationIndexForMonsterId(monsterId);
+
+    if (relationIndex >= m_relations[0].size())
+    {
+        return 0;
+    }
+
+    return m_relations[0][relationIndex];
+}
+
+bool MonsterTable::isHostileToParty(int16_t monsterId) const
+{
+    return getRelationToParty(monsterId) > 0;
 }
 
 const std::vector<MonsterEntry> &MonsterTable::getEntries() const

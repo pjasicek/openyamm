@@ -450,6 +450,18 @@ void Party::applyEventRuntimeState(const EventRuntimeState &runtimeState)
             m_lastStatus = "item removed";
         }
     }
+
+    for (uint32_t awardId : runtimeState.grantedAwardIds)
+    {
+        addAward(awardId);
+        m_lastStatus = "award granted";
+    }
+
+    for (uint32_t awardId : runtimeState.removedAwardIds)
+    {
+        removeAward(awardId);
+        m_lastStatus = "award removed";
+    }
 }
 
 void Party::addGold(int amount)
@@ -560,6 +572,18 @@ bool Party::needsHealing() const
     return false;
 }
 
+bool Party::activeMemberNeedsHealing() const
+{
+    const Character *pMember = activeMember();
+
+    if (pMember == nullptr)
+    {
+        return false;
+    }
+
+    return pMember->health < pMember->maxHealth || pMember->spellPoints < pMember->maxSpellPoints;
+}
+
 void Party::restoreAll()
 {
     for (Character &member : m_members)
@@ -567,6 +591,19 @@ void Party::restoreAll()
         member.health = member.maxHealth;
         member.spellPoints = member.maxSpellPoints;
     }
+}
+
+void Party::restoreActiveMember()
+{
+    Character *pMember = activeMember();
+
+    if (pMember == nullptr)
+    {
+        return;
+    }
+
+    pMember->health = pMember->maxHealth;
+    pMember->spellPoints = pMember->maxSpellPoints;
 }
 
 bool Party::trainLeader(uint32_t maxLevel, uint32_t &newLevel, uint32_t &skillPointsEarned)
@@ -592,6 +629,67 @@ bool Party::trainLeader(uint32_t maxLevel, uint32_t &newLevel, uint32_t &skillPo
     leader.health = leader.maxHealth;
     leader.spellPoints = leader.maxSpellPoints;
     newLevel = leader.level;
+    return true;
+}
+
+bool Party::trainActiveMember(uint32_t maxLevel, uint32_t &newLevel, uint32_t &skillPointsEarned)
+{
+    newLevel = 0;
+    skillPointsEarned = 0;
+
+    Character *pMember = activeMember();
+
+    if (pMember == nullptr)
+    {
+        return false;
+    }
+
+    if (maxLevel > 0 && pMember->level >= maxLevel)
+    {
+        return false;
+    }
+
+    pMember->level += 1;
+    skillPointsEarned = 5 + pMember->level / 10;
+    pMember->skillPoints += skillPointsEarned;
+    pMember->health = pMember->maxHealth;
+    pMember->spellPoints = pMember->maxSpellPoints;
+    newLevel = pMember->level;
+    return true;
+}
+
+bool Party::canActiveMemberLearnSkill(const std::string &skillName) const
+{
+    const Character *pMember = activeMember();
+    const std::string canonicalSkill = canonicalSkillName(skillName);
+
+    if (pMember == nullptr || canonicalSkill.empty() || m_pClassSkillTable == nullptr || pMember->hasSkill(canonicalSkill))
+    {
+        return false;
+    }
+
+    return m_pClassSkillTable->getClassCap(pMember->className, canonicalSkill) != SkillMastery::None;
+}
+
+bool Party::learnActiveMemberSkill(const std::string &skillName)
+{
+    if (!canActiveMemberLearnSkill(skillName))
+    {
+        return false;
+    }
+
+    Character *pMember = activeMember();
+
+    if (pMember == nullptr)
+    {
+        return false;
+    }
+
+    CharacterSkill skill = {};
+    skill.name = canonicalSkillName(skillName);
+    skill.level = 1;
+    skill.mastery = SkillMastery::Normal;
+    pMember->skills[skill.name] = skill;
     return true;
 }
 
@@ -674,6 +772,203 @@ bool Party::hasRosterMember(uint32_t rosterId) const
     }
 
     return false;
+}
+
+bool Party::hasAward(uint32_t awardId) const
+{
+    if (awardId == 0)
+    {
+        return false;
+    }
+
+    for (const Character &member : m_members)
+    {
+        if (member.awards.contains(awardId))
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+bool Party::hasAward(size_t memberIndex, uint32_t awardId) const
+{
+    const Character *pMember = member(memberIndex);
+    return pMember != nullptr && awardId != 0 && pMember->awards.contains(awardId);
+}
+
+void Party::addAward(uint32_t awardId)
+{
+    if (awardId == 0)
+    {
+        return;
+    }
+
+    for (Character &member : m_members)
+    {
+        member.awards.insert(awardId);
+    }
+}
+
+void Party::addAward(size_t memberIndex, uint32_t awardId)
+{
+    Character *pMember = member(memberIndex);
+
+    if (pMember == nullptr || awardId == 0)
+    {
+        return;
+    }
+
+    pMember->awards.insert(awardId);
+}
+
+void Party::removeAward(uint32_t awardId)
+{
+    if (awardId == 0)
+    {
+        return;
+    }
+
+    for (Character &member : m_members)
+    {
+        member.awards.erase(awardId);
+    }
+}
+
+void Party::removeAward(size_t memberIndex, uint32_t awardId)
+{
+    Character *pMember = member(memberIndex);
+
+    if (pMember == nullptr || awardId == 0)
+    {
+        return;
+    }
+
+    pMember->awards.erase(awardId);
+}
+
+int Party::inventoryItemCount(uint32_t objectDescriptionId, std::optional<size_t> memberIndex) const
+{
+    if (objectDescriptionId == 0)
+    {
+        return 0;
+    }
+
+    int totalCount = 0;
+
+    auto countMemberItems = [&](const Character &member)
+    {
+        for (const InventoryItem &item : member.inventory)
+        {
+            if (item.objectDescriptionId == objectDescriptionId)
+            {
+                totalCount += static_cast<int>(item.quantity);
+            }
+        }
+    };
+
+    if (memberIndex)
+    {
+        const Character *pMember = member(*memberIndex);
+
+        if (pMember != nullptr)
+        {
+            countMemberItems(*pMember);
+        }
+
+        return totalCount;
+    }
+
+    for (const Character &member : m_members)
+    {
+        countMemberItems(member);
+    }
+
+    return totalCount;
+}
+
+bool Party::grantItemToMember(size_t memberIndex, uint32_t objectDescriptionId, uint32_t quantity)
+{
+    Character *pMember = member(memberIndex);
+
+    if (pMember == nullptr || objectDescriptionId == 0 || quantity == 0)
+    {
+        return false;
+    }
+
+    for (uint32_t itemIndex = 0; itemIndex < quantity; ++itemIndex)
+    {
+        InventoryItem item = {};
+        item.objectDescriptionId = objectDescriptionId;
+        item.quantity = 1;
+        item.width = resolveInventoryWidth(objectDescriptionId);
+        item.height = resolveInventoryHeight(objectDescriptionId);
+
+        if (!pMember->addInventoryItem(item))
+        {
+            return false;
+        }
+    }
+
+    m_lastStatus = "item granted";
+    return true;
+}
+
+bool Party::removeItemFromMember(size_t memberIndex, uint32_t objectDescriptionId, uint32_t quantity)
+{
+    Character *pMember = member(memberIndex);
+
+    if (pMember == nullptr || objectDescriptionId == 0 || quantity == 0)
+    {
+        return false;
+    }
+
+    for (uint32_t itemIndex = 0; itemIndex < quantity; ++itemIndex)
+    {
+        if (!pMember->removeInventoryItem(objectDescriptionId))
+        {
+            return false;
+        }
+    }
+
+    m_lastStatus = "item removed";
+    return true;
+}
+
+bool Party::setMemberClassName(size_t memberIndex, const std::string &className)
+{
+    Character *pMember = member(memberIndex);
+
+    if (pMember == nullptr)
+    {
+        return false;
+    }
+
+    pMember->className = canonicalClassName(className);
+    pMember->role = normalizeRoleName(pMember->className);
+    m_lastStatus = "class changed";
+    return true;
+}
+
+const Character *Party::member(size_t memberIndex) const
+{
+    if (memberIndex >= m_members.size())
+    {
+        return nullptr;
+    }
+
+    return &m_members[memberIndex];
+}
+
+Character *Party::member(size_t memberIndex)
+{
+    if (memberIndex >= m_members.size())
+    {
+        return nullptr;
+    }
+
+    return &m_members[memberIndex];
 }
 
 uint8_t Party::resolveInventoryWidth(uint32_t objectDescriptionId) const

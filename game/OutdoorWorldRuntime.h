@@ -4,6 +4,8 @@
 #include "game/EventIr.h"
 #include "game/MapDeltaData.h"
 #include "game/MapStats.h"
+#include "game/MonsterTable.h"
+#include "game/OutdoorMapData.h"
 
 #include <random>
 #include <optional>
@@ -17,6 +19,105 @@ class ItemTable;
 class OutdoorWorldRuntime
 {
 public:
+    enum class ActorAiState
+    {
+        Standing,
+        Wandering,
+        Pursuing,
+        Fleeing,
+        Attacking,
+        Dead,
+    };
+
+    enum class ActorAnimation
+    {
+        Standing = 0,
+        Walking = 1,
+        AttackMelee = 2,
+        AttackRanged = 3,
+        GotHit = 4,
+        Dying = 5,
+        Dead = 6,
+        Bored = 7,
+    };
+
+    struct MapActorState
+    {
+        uint32_t actorId = 0;
+        int16_t monsterId = 0;
+        std::string displayName;
+        uint32_t group = 0;
+        uint8_t hostilityType = 0;
+        int currentHp = 0;
+        int maxHp = 0;
+        int x = 0;
+        int y = 0;
+        int z = 0;
+        float preciseX = 0.0f;
+        float preciseY = 0.0f;
+        float preciseZ = 0.0f;
+        int homeX = 0;
+        int homeY = 0;
+        int homeZ = 0;
+        float homePreciseX = 0.0f;
+        float homePreciseY = 0.0f;
+        float homePreciseZ = 0.0f;
+        uint16_t radius = 0;
+        uint16_t height = 0;
+        uint16_t moveSpeed = 0;
+        bool hostileToParty = false;
+        bool isDead = false;
+        bool isInvisible = false;
+        bool hasDetectedParty = false;
+        ActorAiState aiState = ActorAiState::Standing;
+        ActorAnimation animation = ActorAnimation::Standing;
+        float animationTimeTicks = 0.0f;
+        float recoverySeconds = 0.0f;
+        float attackCooldownSeconds = 0.0f;
+        float idleDecisionSeconds = 0.0f;
+        float actionSeconds = 0.0f;
+        float moveDirectionX = 0.0f;
+        float moveDirectionY = 0.0f;
+        float velocityX = 0.0f;
+        float velocityY = 0.0f;
+        float velocityZ = 0.0f;
+        float yawRadians = 0.0f;
+        uint32_t idleDecisionCount = 0;
+    };
+
+    struct SpawnPointState
+    {
+        uint16_t typeId = 0;
+        uint16_t index = 0;
+        uint32_t group = 0;
+        int encounterSlot = 0;
+        bool isFixedTier = false;
+        char fixedTier = '\0';
+        int16_t representativeMonsterId = 0;
+        uint8_t hostilityType = 0;
+        bool hostileToParty = false;
+        std::string monsterFamilyName;
+        std::string representativePictureName;
+    };
+
+    struct SummonedMonsterState
+    {
+        uint32_t summonId = 0;
+        int16_t monsterId = 0;
+        std::string displayName;
+        uint32_t group = 0;
+        int x = 0;
+        int y = 0;
+        int z = 0;
+        uint32_t uniqueNameId = 0;
+        uint8_t hostilityType = 0;
+        int currentHp = 0;
+        int maxHp = 0;
+        bool hostileToParty = false;
+        bool isDead = false;
+        bool isInvisible = false;
+    };
+
     struct ChestItemState
     {
         uint32_t itemId = 0;
@@ -44,9 +145,26 @@ public:
         bool hasFired = false;
     };
 
+    struct CorpseViewState
+    {
+        bool fromSummonedMonster = false;
+        uint32_t sourceIndex = 0;
+        std::string title;
+        std::vector<ChestItemState> items;
+    };
+
+    struct AudioEvent
+    {
+        uint32_t soundId = 0;
+        uint32_t sourceId = 0;
+        std::string reason;
+    };
+
     void initialize(
         const MapStatsEntry &map,
+        const MonsterTable &monsterTable,
         const ItemTable &itemTable,
+        const std::optional<OutdoorMapData> &outdoorMapData,
         const std::optional<MapDeltaData> &outdoorMapDeltaData,
         const std::optional<EventRuntimeState> &eventRuntimeState
     );
@@ -57,6 +175,7 @@ public:
     float gameMinutes() const;
     int currentHour() const;
     void advanceGameMinutes(float minutes);
+    void updateMapActors(float deltaSeconds, float partyX, float partyY, float partyZ);
 
     void applyEventRuntimeState();
     bool updateTimers(
@@ -66,17 +185,43 @@ public:
         const std::optional<EventIrProgram> &globalEventIrProgram
     );
     bool isChestOpened(uint32_t chestId) const;
+    size_t mapActorCount() const;
+    const MapActorState *mapActorState(size_t actorIndex) const;
+    bool setMapActorDead(size_t actorIndex, bool isDead);
+    bool notifyPartyContactWithMapActor(size_t actorIndex, float partyX, float partyY, float partyZ);
+    size_t spawnPointCount() const;
+    const SpawnPointState *spawnPointState(size_t spawnIndex) const;
+    size_t summonedMonsterCount() const;
+    const SummonedMonsterState *summonedMonsterState(size_t summonIndex) const;
+    bool setSummonedMonsterDead(size_t summonIndex, bool isDead);
     size_t chestCount() const;
     size_t openedChestCount() const;
     const ChestViewState *activeChestView() const;
     bool takeActiveChestItem(size_t itemIndex, ChestItemState &item);
     void closeActiveChestView();
+    const CorpseViewState *activeCorpseView() const;
+    bool openMapActorCorpseView(size_t actorIndex);
+    bool takeActiveCorpseItem(size_t itemIndex, ChestItemState &item);
+    void closeActiveCorpseView();
+    const std::vector<AudioEvent> &pendingAudioEvents() const;
+    void clearPendingAudioEvents();
 
     const EventRuntimeState::PendingMapMove *pendingMapMove() const;
     std::optional<EventRuntimeState::PendingMapMove> consumePendingMapMove();
 
     EventRuntimeState *eventRuntimeState();
     const EventRuntimeState *eventRuntimeState() const;
+    bool summonMonsters(
+        uint32_t typeIndexInMapStats,
+        uint32_t level,
+        uint32_t count,
+        int32_t x,
+        int32_t y,
+        int32_t z,
+        uint32_t group,
+        uint32_t uniqueNameId
+    );
+    bool checkMonstersKilled(uint32_t checkType, uint32_t id, uint32_t count, bool invisibleAsDead) const;
 
 private:
     static uint32_t makeChestSeed(uint32_t sessionSeed, int mapId, uint32_t chestId, uint32_t salt);
@@ -85,20 +230,39 @@ private:
     static int remapTreasureLevel(int itemTreasureLevel, int mapTreasureLevel);
 
     uint32_t generateRandomItemId(int treasureLevel, std::mt19937 &rng) const;
+    uint32_t generateRandomLootItemId(
+        int treasureLevel,
+        MonsterTable::LootItemKind itemKind,
+        std::mt19937 &rng
+    ) const;
     ChestViewState buildChestView(uint32_t chestId) const;
     void activateChestView(uint32_t chestId);
+    CorpseViewState buildCorpseView(const std::string &title, const MonsterTable::LootPrototype &loot, uint32_t seed) const;
+    void pushAudioEvent(uint32_t soundId, uint32_t sourceId, const std::string &reason);
 
     int m_mapId = 0;
     int m_mapTreasureLevel = 0;
+    MapStatsEntry m_map = {};
     std::string m_mapName;
     float m_gameMinutes = 9.0f * 60.0f;
     std::vector<TimerState> m_timers;
+    std::vector<MapActorState> m_mapActors;
+    std::vector<SpawnPointState> m_spawnPoints;
+    std::vector<SummonedMonsterState> m_summonedMonsters;
     std::vector<MapDeltaChest> m_chests;
     std::vector<bool> m_openedChests;
     std::vector<std::optional<ChestViewState>> m_materializedChestViews;
     std::optional<ChestViewState> m_activeChestView;
     std::optional<EventRuntimeState> m_eventRuntimeState;
     const ItemTable *m_pItemTable = nullptr;
+    const MonsterTable *m_pMonsterTable = nullptr;
+    const OutdoorMapData *m_pOutdoorMapData = nullptr;
+    const MapDeltaData *m_pOutdoorMapDeltaData = nullptr;
     uint32_t m_sessionChestSeed = 0;
+    uint32_t m_nextSummonId = 1;
+    std::vector<std::optional<CorpseViewState>> m_mapActorCorpseViews;
+    std::vector<std::optional<CorpseViewState>> m_summonedMonsterCorpseViews;
+    std::optional<CorpseViewState> m_activeCorpseView;
+    std::vector<AudioEvent> m_pendingAudioEvents;
 };
 }

@@ -85,6 +85,7 @@ public:
     std::optional<ResolvedTopic> getTopicById(uint32_t topicId) const;
 
 private:
+    std::unordered_map<uint32_t, RosterJoinOffer> m_rosterJoinOffersByTopicId;
     std::unordered_map<uint32_t, NpcEntry> m_npcs;
     std::unordered_map<uint32_t, NpcGreetingEntry> m_greetings;
     std::unordered_map<uint32_t, NpcTopicEntry> m_topicsById;

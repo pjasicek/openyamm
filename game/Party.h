@@ -8,6 +8,7 @@
 #include <optional>
 #include <string>
 #include <unordered_map>
+#include <unordered_set>
 #include <vector>
 
 namespace OpenYAMM::Game
@@ -49,6 +50,7 @@ struct Character
     int maxSpellPoints = 0;
     int spellPoints = 0;
     std::unordered_map<std::string, CharacterSkill> skills;
+    std::unordered_set<uint32_t> awards;
 
     bool addInventoryItem(const InventoryItem &item);
     bool removeInventoryItem(uint32_t objectDescriptionId, uint32_t quantity = 1);
@@ -88,13 +90,30 @@ public:
     void grantItem(uint32_t objectDescriptionId, uint32_t quantity = 1);
     bool removeItem(uint32_t objectDescriptionId, uint32_t quantity = 1);
     bool needsHealing() const;
+    bool activeMemberNeedsHealing() const;
     void restoreAll();
+    void restoreActiveMember();
     bool trainLeader(uint32_t maxLevel, uint32_t &newLevel, uint32_t &skillPointsEarned);
+    bool trainActiveMember(uint32_t maxLevel, uint32_t &newLevel, uint32_t &skillPointsEarned);
+    bool canActiveMemberLearnSkill(const std::string &skillName) const;
+    bool learnActiveMemberSkill(const std::string &skillName);
     int depositAllGoldToBank();
     int withdrawAllBankGold();
     bool isFull() const;
     bool recruitRosterMember(const RosterEntry &rosterEntry);
     bool hasRosterMember(uint32_t rosterId) const;
+    bool hasAward(uint32_t awardId) const;
+    bool hasAward(size_t memberIndex, uint32_t awardId) const;
+    void addAward(uint32_t awardId);
+    void addAward(size_t memberIndex, uint32_t awardId);
+    void removeAward(uint32_t awardId);
+    void removeAward(size_t memberIndex, uint32_t awardId);
+    int inventoryItemCount(uint32_t objectDescriptionId, std::optional<size_t> memberIndex = std::nullopt) const;
+    bool grantItemToMember(size_t memberIndex, uint32_t objectDescriptionId, uint32_t quantity = 1);
+    bool removeItemFromMember(size_t memberIndex, uint32_t objectDescriptionId, uint32_t quantity = 1);
+    bool setMemberClassName(size_t memberIndex, const std::string &className);
+    const Character *member(size_t memberIndex) const;
+    Character *member(size_t memberIndex);
     bool setActiveMemberIndex(size_t memberIndex);
 
     const std::vector<Character> &members() const;

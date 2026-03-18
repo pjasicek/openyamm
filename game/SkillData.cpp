@@ -368,6 +368,119 @@ std::optional<std::string> nextPromotionClassName(const std::string &className)
     return std::nullopt;
 }
 
+std::optional<uint32_t> mm8ClassIdForClassName(const std::string &className)
+{
+    const std::string canonicalName = canonicalClassName(className);
+
+    if (canonicalName == "Necromancer")
+    {
+        return 0;
+    }
+
+    if (canonicalName == "Lich")
+    {
+        return 1;
+    }
+
+    if (canonicalName == "Cleric")
+    {
+        return 2;
+    }
+
+    if (canonicalName == "Priest")
+    {
+        return 3;
+    }
+
+    if (canonicalName == "Knight")
+    {
+        return 4;
+    }
+
+    if (canonicalName == "Champion")
+    {
+        return 5;
+    }
+
+    if (canonicalName == "Troll")
+    {
+        return 6;
+    }
+
+    if (canonicalName == "WarTroll")
+    {
+        return 7;
+    }
+
+    if (canonicalName == "Minotaur")
+    {
+        return 8;
+    }
+
+    if (canonicalName == "MinotaurLord")
+    {
+        return 9;
+    }
+
+    if (canonicalName == "DarkElf")
+    {
+        return 10;
+    }
+
+    if (canonicalName == "Patriarch")
+    {
+        return 11;
+    }
+
+    if (canonicalName == "Vampire")
+    {
+        return 12;
+    }
+
+    if (canonicalName == "Nosferatu")
+    {
+        return 13;
+    }
+
+    if (canonicalName == "Dragon")
+    {
+        return 14;
+    }
+
+    if (canonicalName == "GreatWyrm")
+    {
+        return 15;
+    }
+
+    return std::nullopt;
+}
+
+std::optional<std::string> classNameForMm8ClassId(uint32_t classId)
+{
+    switch (classId)
+    {
+        case 0: return "Necromancer";
+        case 1: return "Lich";
+        case 2: return "Cleric";
+        case 3: return "Priest";
+        case 4: return "Knight";
+        case 5: return "Champion";
+        case 6: return "Troll";
+        case 7: return "WarTroll";
+        case 8: return "Minotaur";
+        case 9: return "MinotaurLord";
+        case 10: return "DarkElf";
+        case 11: return "Patriarch";
+        case 12: return "Vampire";
+        case 13: return "Nosferatu";
+        case 14: return "Dragon";
+        case 15: return "GreatWyrm";
+        default: break;
+    }
+
+    return std::nullopt;
+}
+
 SkillMastery parseSkillMasteryToken(const std::string &token)
 {
     const std::string trimmed = trimCopy(token);

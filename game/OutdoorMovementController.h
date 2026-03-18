@@ -59,8 +59,10 @@ public:
         bool flyingActive,
         float jumpVelocity,
         float flyVerticalSpeed,
-        float deltaSeconds
+        float deltaSeconds,
+        std::vector<size_t> *pContactedActorIndices = nullptr
     ) const;
+    void setActorColliders(const std::vector<OutdoorActorCollision> &actorColliders);
 
 private:
     const OutdoorMapData *m_pOutdoorMapData;

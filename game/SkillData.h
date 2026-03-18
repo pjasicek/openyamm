@@ -35,6 +35,8 @@ std::string displayClassName(const std::string &className);
 std::string displaySkillName(const std::string &skillName);
 std::string masteryDisplayName(SkillMastery mastery);
 std::optional<std::string> nextPromotionClassName(const std::string &className);
+std::optional<uint32_t> mm8ClassIdForClassName(const std::string &className);
+std::optional<std::string> classNameForMm8ClassId(uint32_t classId);
 SkillMastery parseSkillMasteryToken(const std::string &token);
 StartingSkillAvailability parseStartingSkillAvailabilityToken(const std::string &token);
 }

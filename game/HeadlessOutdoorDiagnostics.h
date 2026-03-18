@@ -34,6 +34,28 @@ public:
         const std::filesystem::path &basePath,
         const std::string &suiteName
     ) const;
+    int runProfileFullMapLoad(
+        const std::filesystem::path &basePath,
+        const std::string &mapFileName
+    ) const;
+    int runSimulateActor(
+        const std::filesystem::path &basePath,
+        const std::string &mapFileName,
+        size_t actorIndex,
+        int stepCount,
+        float deltaSeconds
+    ) const;
+    int runInspectActorPreview(
+        const std::filesystem::path &basePath,
+        const std::string &mapFileName,
+        size_t actorIndex
+    ) const;
+    int runDumpActorPreviewTexture(
+        const std::filesystem::path &basePath,
+        const std::string &mapFileName,
+        size_t actorIndex,
+        const std::filesystem::path &outputPath
+    ) const;
 
 private:
     Engine::ApplicationConfig m_config;

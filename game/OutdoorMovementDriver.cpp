@@ -146,6 +146,7 @@ void OutdoorMovementDriver::update(const OutdoorMovementInput &input, float delt
     {
         const OutdoorMoveState previousState = m_state;
         const bool jumpRequestedThisStep = m_pendingJumpPress;
+        std::vector<size_t> contactedActorIndices;
         m_state = m_movementController.resolveMove(
             m_state,
             moveVelocityX,
@@ -155,9 +156,22 @@ void OutdoorMovementDriver::update(const OutdoorMovementInput &input, float delt
             m_partyMovementState.flying,
             m_tuning.jumpVelocity,
             m_tuning.flyVerticalSpeed,
-            OutdoorMovementStepSeconds
+            OutdoorMovementStepSeconds,
+            &contactedActorIndices
         );
         m_pendingJumpPress = false;
+
+        for (size_t actorIndex : contactedActorIndices)
+        {
+            if (std::find(
+                    m_lastEvents.contactedActorIndices.begin(),
+                    m_lastEvents.contactedActorIndices.end(),
+                    actorIndex) == m_lastEvents.contactedActorIndices.end())
+            {
+                m_lastEvents.contactedActorIndices.push_back(actorIndex);
+            }
+        }
+
         if (!previousState.airborne && m_state.airborne)
         {
             m_startedFallingEventSeconds = EventHoldSeconds;
@@ -349,4 +363,10 @@ void OutdoorMovementDriver::toggleFeatherFall()
         m_state.fallDistance = 0.0f;
     }
 }
+
+void OutdoorMovementDriver::setActorColliders(const std::vector<OutdoorActorCollision> &actorColliders)
+{
+    m_movementController.setActorColliders(actorColliders);
+}
+
 }

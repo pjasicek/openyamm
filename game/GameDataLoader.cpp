@@ -922,6 +922,12 @@ bool GameDataLoader::loadMonsterTable(const Engine::AssetFileSystem &assetFileSy
         return false;
     }
 
+    if (!m_monsterTable.loadStatsFromRows(monsterRows))
+    {
+        std::cerr << "Failed to parse monster runtime stats: Data/EnglishT/MONSTERS.txt\n";
+        return false;
+    }
+
     std::vector<std::vector<std::string>> placedMonsterRows;
 
     if (!loadTextTableRows(assetFileSystem, "Data/EnglishT/placemon.txt", placedMonsterRows))
@@ -932,6 +938,19 @@ bool GameDataLoader::loadMonsterTable(const Engine::AssetFileSystem &assetFileSy
     if (!m_monsterTable.loadUniqueNamesFromRows(placedMonsterRows))
     {
         std::cerr << "Failed to parse placed monster names: Data/EnglishT/placemon.txt\n";
+        return false;
+    }
+
+    std::vector<std::vector<std::string>> monsterRelationRows;
+
+    if (!loadTextTableRows(assetFileSystem, "Data/MONSTER_RELATION_DATA.txt", monsterRelationRows))
+    {
+        return false;
+    }
+
+    if (!m_monsterTable.loadRelationsFromRows(monsterRelationRows))
+    {
+        std::cerr << "Failed to parse monster relation table: Data/MONSTER_RELATION_DATA.txt\n";
         return false;
     }
 

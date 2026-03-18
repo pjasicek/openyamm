@@ -557,6 +557,67 @@ bool collideSphereWithCylinder(
     return true;
 }
 
+bool rangesOverlap(float minA, float maxA, float minB, float maxB)
+{
+    return !(maxA < minB || minA > maxB);
+}
+
+void resolveActorCylinderOverlaps(bx::Vec3 &partyPosition, const std::vector<OutdoorActorCollision> &actorColliders)
+{
+    for (int iteration = 0; iteration < 4; ++iteration)
+    {
+        bool resolvedAny = false;
+
+        for (const OutdoorActorCollision &collider : actorColliders)
+        {
+            const float actorRadius = static_cast<float>(collider.radius);
+            const float combinedRadius = PartyRadius + actorRadius;
+            const float deltaX = partyPosition.x - static_cast<float>(collider.worldX);
+            const float deltaY = partyPosition.y - static_cast<float>(collider.worldY);
+            const float distanceSquared = deltaX * deltaX + deltaY * deltaY;
+
+            if (distanceSquared >= combinedRadius * combinedRadius)
+            {
+                continue;
+            }
+
+            const float partyMinZ = partyPosition.z;
+            const float partyMaxZ = partyPosition.z + PartyHeight;
+            const float actorMinZ = static_cast<float>(collider.worldZ);
+            const float actorMaxZ = actorMinZ + static_cast<float>(collider.height);
+
+            if (!rangesOverlap(partyMinZ, partyMaxZ, actorMinZ, actorMaxZ))
+            {
+                continue;
+            }
+
+            float distance = std::sqrt(distanceSquared);
+            float outwardX = 1.0f;
+            float outwardY = 0.0f;
+
+            if (distance > CollisionEpsilon)
+            {
+                outwardX = deltaX / distance;
+                outwardY = deltaY / distance;
+            }
+            else
+            {
+                distance = 0.0f;
+            }
+
+            const float pushDistance = combinedRadius - distance + ClosestDistance;
+            partyPosition.x += outwardX * pushDistance;
+            partyPosition.y += outwardY * pushDistance;
+            resolvedAny = true;
+        }
+
+        if (!resolvedAny)
+        {
+            break;
+        }
+    }
+}
+
 bool prepareCollisionState(CollisionState &collisionState, float deltaSeconds)
 {
     collisionState.speed = vecLength(collisionState.velocity);
@@ -1259,7 +1320,8 @@ OutdoorMoveState OutdoorMovementController::resolveMove(
     bool flyingActive,
     float jumpVelocity,
     float flyVerticalSpeed,
-    float deltaSeconds
+    float deltaSeconds,
+    std::vector<size_t> *pContactedActorIndices
 ) const
 {
     const FloorSample currentFloor = queryFloorLevel(*m_pOutdoorMapData, m_faces, state, state.x, state.y, state.footZ);
@@ -1322,7 +1384,7 @@ OutdoorMoveState OutdoorMovementController::resolveMove(
     }
 
     const auto runCollisionPass =
-        [this, deltaSeconds, &state](
+        [this, deltaSeconds, &state, pContactedActorIndices](
             bx::Vec3 &passPosition,
             bx::Vec3 &passInputSpeed,
             bool &passPartyNotOnModel)
@@ -1334,6 +1396,7 @@ OutdoorMoveState OutdoorMovementController::resolveMove(
 
         for (int attempt = 0; attempt < 5; ++attempt)
         {
+            resolveActorCylinderOverlaps(passPosition, m_actorColliders);
             const bx::Vec3 attemptStartPosition = passPosition;
             collisionState.positionHi =
                 vecAdd(passPosition, bx::Vec3{0.0f, 0.0f, PartyHeight - collisionState.radiusLo});
@@ -1493,6 +1556,11 @@ OutdoorMoveState OutdoorMovementController::resolveMove(
                         static_cast<float>(m_actorColliders[hit.colliderIndex].worldY),
                         static_cast<float>(m_actorColliders[hit.colliderIndex].worldZ)
                     };
+
+                    if (pContactedActorIndices != nullptr)
+                    {
+                        pContactedActorIndices->push_back(m_actorColliders[hit.colliderIndex].sourceIndex);
+                    }
                 }
                 else
                 {
@@ -1682,6 +1750,11 @@ OutdoorMoveState OutdoorMovementController::resolveMove(
     result.fallDistance = landedThisFrame ? fallDistance : 0.0f;
     result.fallStartZ = result.airborne ? std::max(fallStartZ, result.footZ) : result.footZ;
     return result;
+}
+
+void OutdoorMovementController::setActorColliders(const std::vector<OutdoorActorCollision> &actorColliders)
+{
+    m_actorColliders = actorColliders;
 }
 
 void OutdoorMovementController::buildFaceCache()

@@ -83,7 +83,9 @@ bool GameApplication::initializeRenderer()
         m_pOutdoorWorldRuntime = std::make_unique<OutdoorWorldRuntime>();
         m_pOutdoorWorldRuntime->initialize(
             selectedMap->map,
+            m_gameDataLoader.getMonsterTable(),
             m_gameDataLoader.getItemTable(),
+            selectedMap->outdoorMapData,
             selectedMap->outdoorMapDeltaData,
             selectedMap->eventRuntimeState
         );
@@ -336,7 +338,7 @@ void GameApplication::renderFrame(int width, int height, float mouseWheelDelta, 
 
     if (selectedMap && selectedMap->outdoorMapData)
     {
-        m_outdoorGameView.render(width, height, mouseWheelDelta);
+        m_outdoorGameView.render(width, height, mouseWheelDelta, deltaSeconds);
         processPendingOutdoorMapMove();
         renderMapPickerOverlay();
         return;

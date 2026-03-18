@@ -1,5 +1,6 @@
 #include "game/ActorNameResolver.h"
 #include "game/MapAssetLoader.h"
+#include "game/OutdoorGeometryUtils.h"
 
 #include <SDL3/SDL.h>
 
@@ -10,10 +11,14 @@
 #include <cmath>
 #include <cstddef>
 #include <cstdint>
+#include <cstdio>
 #include <cstring>
 #include <iostream>
+#include <limits>
 #include <optional>
 #include <string>
+#include <unordered_map>
+#include <unordered_set>
 #include <vector>
 
 namespace OpenYAMM::Game
@@ -39,7 +44,6 @@ constexpr uint16_t SpriteAttrMissile = 0x0100;
 constexpr uint16_t SpriteAttrRemoved = 0x0200;
 
 std::optional<std::string> resolveMonsterNameForSpawn(const MapStatsEntry &map, uint16_t typeId, uint16_t index);
-int sampleOutdoorHeightAtWorldPosition(const OutdoorMapData &outdoorMapData, int x, int y);
 
 template <typename EntityType>
 const DecorationEntry *resolveDecorationEntry(
@@ -295,28 +299,6 @@ std::optional<std::vector<std::string>> loadTileTextureNames(
     return tileTextureNames;
 }
 
-std::optional<std::string> findBitmapPath(
-    const Engine::AssetFileSystem &assetFileSystem,
-    const std::string &directoryPath,
-    const std::string &textureName
-)
-{
-    const std::vector<std::string> bitmapEntries = assetFileSystem.enumerate(directoryPath);
-    const std::string normalizedTextureName = toLowerCopy(textureName);
-
-    for (const std::string &entry : bitmapEntries)
-    {
-        const std::string loweredEntry = toLowerCopy(entry);
-
-        if (loweredEntry == normalizedTextureName + ".bmp")
-        {
-            return directoryPath + "/" + entry;
-        }
-    }
-
-    return std::nullopt;
-}
-
 void appendTextureNameIfMissing(std::vector<std::string> &textureNames, const std::string &textureName)
 {
     if (std::find(textureNames.begin(), textureNames.end(), textureName) == textureNames.end())
@@ -325,27 +307,236 @@ void appendTextureNameIfMissing(std::vector<std::string> &textureNames, const st
     }
 }
 
-std::optional<std::vector<uint8_t>> loadBitmapPixelsBgra(
+struct BitmapTextureRequest
+{
+    std::string textureName;
+    int16_t paletteId = 0;
+};
+
+struct BitmapPixelsResult
+{
+    int width = 0;
+    int height = 0;
+    std::vector<uint8_t> pixels;
+};
+
+struct IndexedBitmapData
+{
+    int width = 0;
+    int height = 0;
+    std::vector<uint8_t> indices;
+    std::array<SDL_Color, 256> palette = {};
+    int paletteColorCount = 0;
+};
+
+struct BitmapLoadCache
+{
+    std::unordered_map<std::string, std::vector<std::string>> directoryEntriesByPath;
+    std::unordered_map<std::string, std::optional<std::string>> bitmapPathByKey;
+    std::unordered_map<std::string, std::optional<std::vector<uint8_t>>> binaryFilesByPath;
+    std::unordered_map<int16_t, std::optional<std::array<uint8_t, 256 * 3>>> actPalettesById;
+    std::unordered_map<std::string, std::optional<IndexedBitmapData>> indexedBitmapsByPath;
+    std::unordered_map<std::string, std::optional<BitmapPixelsResult>> pixelsByKey;
+};
+
+std::optional<std::string> findBitmapPath(
     const Engine::AssetFileSystem &assetFileSystem,
     const std::string &directoryPath,
     const std::string &textureName,
-    int &width,
-    int &height,
-    bool forceTerrainTileSize,
-    bool applyTransparencyKey
+    BitmapLoadCache &bitmapLoadCache
 )
 {
-    const std::optional<std::string> bitmapPath = findBitmapPath(assetFileSystem, directoryPath, textureName);
+    const std::string cacheKey = directoryPath + "|" + toLowerCopy(textureName);
+    const auto cachedPathIt = bitmapLoadCache.bitmapPathByKey.find(cacheKey);
 
-    if (!bitmapPath)
+    if (cachedPathIt != bitmapLoadCache.bitmapPathByKey.end())
+    {
+        return cachedPathIt->second;
+    }
+
+    const auto directoryEntriesIt = bitmapLoadCache.directoryEntriesByPath.find(directoryPath);
+    const std::vector<std::string> *pBitmapEntries = nullptr;
+
+    if (directoryEntriesIt != bitmapLoadCache.directoryEntriesByPath.end())
+    {
+        pBitmapEntries = &directoryEntriesIt->second;
+    }
+    else
+    {
+        std::vector<std::string> bitmapEntries = assetFileSystem.enumerate(directoryPath);
+        pBitmapEntries = &bitmapLoadCache.directoryEntriesByPath.emplace(directoryPath, std::move(bitmapEntries)).first->second;
+    }
+
+    const std::string normalizedTextureName = toLowerCopy(textureName);
+
+    for (const std::string &entry : *pBitmapEntries)
+    {
+        const std::string loweredEntry = toLowerCopy(entry);
+
+        if (loweredEntry == normalizedTextureName + ".bmp")
+        {
+            const std::optional<std::string> resolvedPath = directoryPath + "/" + entry;
+            bitmapLoadCache.bitmapPathByKey[cacheKey] = resolvedPath;
+            return resolvedPath;
+        }
+    }
+
+    bitmapLoadCache.bitmapPathByKey[cacheKey] = std::nullopt;
+    return std::nullopt;
+}
+
+std::optional<std::string> findAssetPathCaseInsensitive(
+    const Engine::AssetFileSystem &assetFileSystem,
+    const std::string &directoryPath,
+    const std::string &fileName,
+    BitmapLoadCache &bitmapLoadCache
+)
+{
+    const std::string cacheKey = directoryPath + "|" + toLowerCopy(fileName);
+    const auto cachedPathIt = bitmapLoadCache.bitmapPathByKey.find(cacheKey);
+
+    if (cachedPathIt != bitmapLoadCache.bitmapPathByKey.end())
+    {
+        return cachedPathIt->second;
+    }
+
+    const auto directoryEntriesIt = bitmapLoadCache.directoryEntriesByPath.find(directoryPath);
+    const std::vector<std::string> *pEntries = nullptr;
+
+    if (directoryEntriesIt != bitmapLoadCache.directoryEntriesByPath.end())
+    {
+        pEntries = &directoryEntriesIt->second;
+    }
+    else
+    {
+        std::vector<std::string> entries = assetFileSystem.enumerate(directoryPath);
+        pEntries = &bitmapLoadCache.directoryEntriesByPath.emplace(directoryPath, std::move(entries)).first->second;
+    }
+
+    const std::string normalizedFileName = toLowerCopy(fileName);
+
+    for (const std::string &entry : *pEntries)
+    {
+        if (toLowerCopy(entry) == normalizedFileName)
+        {
+            const std::optional<std::string> resolvedPath = directoryPath + "/" + entry;
+            bitmapLoadCache.bitmapPathByKey[cacheKey] = resolvedPath;
+            return resolvedPath;
+        }
+    }
+
+    bitmapLoadCache.bitmapPathByKey[cacheKey] = std::nullopt;
+    return std::nullopt;
+}
+
+void appendBitmapTextureRequestIfMissing(
+    std::vector<BitmapTextureRequest> &textureRequests,
+    const std::string &textureName,
+    int16_t paletteId
+)
+{
+    const auto requestIt = std::find_if(
+        textureRequests.begin(),
+        textureRequests.end(),
+        [&](const BitmapTextureRequest &request)
+        {
+            return request.textureName == textureName && request.paletteId == paletteId;
+        }
+    );
+
+    if (requestIt == textureRequests.end())
+    {
+        BitmapTextureRequest request = {};
+        request.textureName = textureName;
+        request.paletteId = paletteId;
+        textureRequests.push_back(std::move(request));
+    }
+}
+
+std::optional<std::array<uint8_t, 256 * 3>> loadActPalette(
+    const Engine::AssetFileSystem &assetFileSystem,
+    int16_t paletteId,
+    BitmapLoadCache &bitmapLoadCache
+)
+{
+    if (paletteId <= 0)
     {
         return std::nullopt;
     }
 
-    const std::optional<std::vector<uint8_t>> bitmapBytes = assetFileSystem.readBinaryFile(*bitmapPath);
+    const auto cachedPaletteIt = bitmapLoadCache.actPalettesById.find(paletteId);
+
+    if (cachedPaletteIt != bitmapLoadCache.actPalettesById.end())
+    {
+        return cachedPaletteIt->second;
+    }
+
+    char paletteFileName[16] = {};
+    std::snprintf(paletteFileName, sizeof(paletteFileName), "pal%03d.act", static_cast<int>(paletteId));
+    const std::optional<std::string> palettePath =
+        findAssetPathCaseInsensitive(assetFileSystem, "Data/bitmaps", paletteFileName, bitmapLoadCache);
+
+    if (!palettePath)
+    {
+        bitmapLoadCache.actPalettesById[paletteId] = std::nullopt;
+        return std::nullopt;
+    }
+
+    const std::string &palettePathString = *palettePath;
+    const auto cachedFileIt = bitmapLoadCache.binaryFilesByPath.find(palettePathString);
+    std::optional<std::vector<uint8_t>> paletteBytes;
+
+    if (cachedFileIt != bitmapLoadCache.binaryFilesByPath.end())
+    {
+        paletteBytes = cachedFileIt->second;
+    }
+    else
+    {
+        paletteBytes = assetFileSystem.readBinaryFile(palettePathString);
+        bitmapLoadCache.binaryFilesByPath[palettePathString] = paletteBytes;
+    }
+
+    if (!paletteBytes || paletteBytes->size() < 256 * 3)
+    {
+        bitmapLoadCache.actPalettesById[paletteId] = std::nullopt;
+        return std::nullopt;
+    }
+
+    std::array<uint8_t, 256 * 3> palette = {};
+    std::memcpy(palette.data(), paletteBytes->data(), palette.size());
+    bitmapLoadCache.actPalettesById[paletteId] = palette;
+    return palette;
+}
+
+std::optional<IndexedBitmapData> loadIndexedBitmapData(
+    const Engine::AssetFileSystem &assetFileSystem,
+    const std::string &bitmapPath,
+    BitmapLoadCache &bitmapLoadCache
+)
+{
+    const auto cachedBitmapIt = bitmapLoadCache.indexedBitmapsByPath.find(bitmapPath);
+
+    if (cachedBitmapIt != bitmapLoadCache.indexedBitmapsByPath.end())
+    {
+        return cachedBitmapIt->second;
+    }
+
+    std::optional<std::vector<uint8_t>> bitmapBytes;
+    const auto cachedFileIt = bitmapLoadCache.binaryFilesByPath.find(bitmapPath);
+
+    if (cachedFileIt != bitmapLoadCache.binaryFilesByPath.end())
+    {
+        bitmapBytes = cachedFileIt->second;
+    }
+    else
+    {
+        bitmapBytes = assetFileSystem.readBinaryFile(bitmapPath);
+        bitmapLoadCache.binaryFilesByPath[bitmapPath] = bitmapBytes;
+    }
 
     if (!bitmapBytes || bitmapBytes->empty())
     {
+        bitmapLoadCache.indexedBitmapsByPath[bitmapPath] = std::nullopt;
         return std::nullopt;
     }
 
@@ -363,11 +554,188 @@ std::optional<std::vector<uint8_t>> loadBitmapPixelsBgra(
         return std::nullopt;
     }
 
+    SDL_Palette *pBasePalette = SDL_GetSurfacePalette(pLoadedSurface);
+    const bool canApplyPalette = pLoadedSurface->format == SDL_PIXELFORMAT_INDEX8 && pBasePalette != nullptr;
+
+    if (!canApplyPalette)
+    {
+        SDL_DestroySurface(pLoadedSurface);
+        bitmapLoadCache.indexedBitmapsByPath[bitmapPath] = std::nullopt;
+        return std::nullopt;
+    }
+
+    IndexedBitmapData indexedBitmap = {};
+    indexedBitmap.width = pLoadedSurface->w;
+    indexedBitmap.height = pLoadedSurface->h;
+    indexedBitmap.paletteColorCount = pBasePalette->ncolors;
+    indexedBitmap.indices.resize(static_cast<size_t>(indexedBitmap.width * indexedBitmap.height));
+
+    for (int paletteIndex = 0; paletteIndex < std::min(256, pBasePalette->ncolors); ++paletteIndex)
+    {
+        indexedBitmap.palette[static_cast<size_t>(paletteIndex)] = pBasePalette->colors[paletteIndex];
+    }
+
+    for (int row = 0; row < indexedBitmap.height; ++row)
+    {
+        const uint8_t *pSourceRow = static_cast<const uint8_t *>(pLoadedSurface->pixels) + row * pLoadedSurface->pitch;
+        uint8_t *pTargetRow = indexedBitmap.indices.data()
+            + static_cast<ptrdiff_t>(row * indexedBitmap.width);
+        std::memcpy(pTargetRow, pSourceRow, static_cast<size_t>(indexedBitmap.width));
+    }
+
+    SDL_DestroySurface(pLoadedSurface);
+    bitmapLoadCache.indexedBitmapsByPath[bitmapPath] = indexedBitmap;
+    return indexedBitmap;
+}
+
+std::optional<std::vector<uint8_t>> loadIndexedBitmapPixelsBgra(
+    const Engine::AssetFileSystem &assetFileSystem,
+    const std::string &bitmapPath,
+    int16_t paletteId,
+    int &width,
+    int &height,
+    bool applyTransparencyKey,
+    BitmapLoadCache &bitmapLoadCache
+)
+{
+    const std::optional<IndexedBitmapData> indexedBitmap =
+        loadIndexedBitmapData(assetFileSystem, bitmapPath, bitmapLoadCache);
+    const std::optional<std::array<uint8_t, 256 * 3>> overridePalette =
+        loadActPalette(assetFileSystem, paletteId, bitmapLoadCache);
+
+    if (!indexedBitmap || !overridePalette)
+    {
+        return std::nullopt;
+    }
+
+    width = indexedBitmap->width;
+    height = indexedBitmap->height;
+    std::vector<uint8_t> pixels(static_cast<size_t>(width * height * 4));
+
+    for (int row = 0; row < height; ++row)
+    {
+        const uint8_t *pSourceRow =
+            indexedBitmap->indices.data() + static_cast<ptrdiff_t>(row * indexedBitmap->width);
+
+        for (int column = 0; column < width; ++column)
+        {
+            const uint8_t paletteIndex = pSourceRow[column];
+            const size_t pixelOffset = static_cast<size_t>((row * width + column) * 4);
+            const SDL_Color sourceColor =
+                paletteIndex < indexedBitmap->paletteColorCount
+                    ? indexedBitmap->palette[paletteIndex]
+                    : SDL_Color{0, 0, 0, 255};
+            const bool isMagentaKey = sourceColor.r >= 248 && sourceColor.g <= 8 && sourceColor.b >= 248;
+            const bool isTealKey = applyTransparencyKey && sourceColor.r <= 8 && sourceColor.g >= 248 && sourceColor.b >= 248;
+            const size_t paletteOffset = static_cast<size_t>(paletteIndex) * 3;
+
+            pixels[pixelOffset + 0] = (*overridePalette)[paletteOffset + 2];
+            pixels[pixelOffset + 1] = (*overridePalette)[paletteOffset + 1];
+            pixels[pixelOffset + 2] = (*overridePalette)[paletteOffset + 0];
+            pixels[pixelOffset + 3] = (isMagentaKey || isTealKey) ? 0 : 255;
+        }
+    }
+
+    return pixels;
+}
+
+std::optional<std::vector<uint8_t>> loadBitmapPixelsBgra(
+    const Engine::AssetFileSystem &assetFileSystem,
+    const std::string &directoryPath,
+    const std::string &textureName,
+    int &width,
+    int &height,
+    bool forceTerrainTileSize,
+    bool applyTransparencyKey,
+    BitmapLoadCache &bitmapLoadCache,
+    int16_t paletteId = 0
+)
+{
+    const std::string cacheKey =
+        directoryPath + "|" + toLowerCopy(textureName)
+        + "|" + std::to_string(forceTerrainTileSize ? 1 : 0)
+        + "|" + std::to_string(applyTransparencyKey ? 1 : 0)
+        + "|" + std::to_string(static_cast<int>(paletteId));
+    const auto cachedPixelsIt = bitmapLoadCache.pixelsByKey.find(cacheKey);
+
+    if (cachedPixelsIt != bitmapLoadCache.pixelsByKey.end())
+    {
+        if (!cachedPixelsIt->second)
+        {
+            return std::nullopt;
+        }
+
+        width = cachedPixelsIt->second->width;
+        height = cachedPixelsIt->second->height;
+        return cachedPixelsIt->second->pixels;
+    }
+
+    const std::optional<std::string> bitmapPath =
+        findBitmapPath(assetFileSystem, directoryPath, textureName, bitmapLoadCache);
+
+    if (!bitmapPath)
+    {
+        bitmapLoadCache.pixelsByKey[cacheKey] = std::nullopt;
+        return std::nullopt;
+    }
+
+    std::optional<std::vector<uint8_t>> bitmapBytes;
+    const auto cachedFileIt = bitmapLoadCache.binaryFilesByPath.find(*bitmapPath);
+
+    if (cachedFileIt != bitmapLoadCache.binaryFilesByPath.end())
+    {
+        bitmapBytes = cachedFileIt->second;
+    }
+    else
+    {
+        bitmapBytes = assetFileSystem.readBinaryFile(*bitmapPath);
+        bitmapLoadCache.binaryFilesByPath[*bitmapPath] = bitmapBytes;
+    }
+
+    if (!bitmapBytes || bitmapBytes->empty())
+    {
+        bitmapLoadCache.pixelsByKey[cacheKey] = std::nullopt;
+        return std::nullopt;
+    }
+
+    if (paletteId > 0 && !forceTerrainTileSize)
+    {
+        if (const std::optional<std::vector<uint8_t>> indexedPixels = loadIndexedBitmapPixelsBgra(
+                assetFileSystem,
+                *bitmapPath,
+                paletteId,
+                width,
+                height,
+                applyTransparencyKey,
+                bitmapLoadCache))
+        {
+            bitmapLoadCache.pixelsByKey[cacheKey] = BitmapPixelsResult{width, height, *indexedPixels};
+            return indexedPixels;
+        }
+    }
+
+    SDL_IOStream *pIoStream = SDL_IOFromConstMem(bitmapBytes->data(), bitmapBytes->size());
+
+    if (pIoStream == nullptr)
+    {
+        bitmapLoadCache.pixelsByKey[cacheKey] = std::nullopt;
+        return std::nullopt;
+    }
+
+    SDL_Surface *pLoadedSurface = SDL_LoadBMP_IO(pIoStream, true);
+
+    if (pLoadedSurface == nullptr)
+    {
+        bitmapLoadCache.pixelsByKey[cacheKey] = std::nullopt;
+        return std::nullopt;
+    }
+
     SDL_Surface *pConvertedSurface = SDL_ConvertSurface(pLoadedSurface, SDL_PIXELFORMAT_BGRA32);
     SDL_DestroySurface(pLoadedSurface);
 
     if (pConvertedSurface == nullptr)
     {
+        bitmapLoadCache.pixelsByKey[cacheKey] = std::nullopt;
         return std::nullopt;
     }
 
@@ -383,6 +751,7 @@ std::optional<std::vector<uint8_t>> loadBitmapPixelsBgra(
 
         if (pSurfaceToCopy == nullptr)
         {
+            bitmapLoadCache.pixelsByKey[cacheKey] = std::nullopt;
             return std::nullopt;
         }
     }
@@ -414,13 +783,15 @@ std::optional<std::vector<uint8_t>> loadBitmapPixelsBgra(
     }
 
     SDL_DestroySurface(pSurfaceToCopy);
+    bitmapLoadCache.pixelsByKey[cacheKey] = BitmapPixelsResult{width, height, pixels};
     return pixels;
 }
 
 template <typename EntityType>
 std::optional<DecorationBillboardSet> buildDecorationBillboardSet(
     const Engine::AssetFileSystem &assetFileSystem,
-    const std::vector<EntityType> &entities
+    const std::vector<EntityType> &entities,
+    BitmapLoadCache &bitmapLoadCache
 )
 {
     const std::optional<std::vector<uint8_t>> decorationTableBytes =
@@ -496,7 +867,8 @@ std::optional<DecorationBillboardSet> buildDecorationBillboardSet(
                 textureWidth,
                 textureHeight,
                 false,
-                true
+                true,
+                bitmapLoadCache
             );
 
         if (!pixels || textureWidth <= 0 || textureHeight <= 0)
@@ -594,8 +966,11 @@ void appendMapDeltaActorCollisions(
 
         if (pOutdoorMapData != nullptr)
         {
-            const int terrainZ = sampleOutdoorHeightAtWorldPosition(*pOutdoorMapData, actor.x, actor.y);
-            actorZ = std::max(actorZ, terrainZ);
+            actorZ = static_cast<int>(std::lround(sampleOutdoorSupportFloorHeight(
+                *pOutdoorMapData,
+                static_cast<float>(-actor.x),
+                static_cast<float>(actor.y),
+                static_cast<float>(actorZ))));
         }
 
         OutdoorActorCollision collision = {};
@@ -643,8 +1018,11 @@ void appendSpawnActorCollisions(
 
         if (pOutdoorMapData != nullptr)
         {
-            const int terrainZ = sampleOutdoorHeightAtWorldPosition(*pOutdoorMapData, spawn.x, spawn.y);
-            actorZ = std::max(actorZ, terrainZ);
+            actorZ = static_cast<int>(std::lround(sampleOutdoorSupportFloorHeight(
+                *pOutdoorMapData,
+                static_cast<float>(-spawn.x),
+                static_cast<float>(spawn.y),
+                static_cast<float>(actorZ))));
         }
 
         OutdoorActorCollision collision = {};
@@ -690,24 +1068,27 @@ std::optional<OutdoorActorCollisionSet> buildOutdoorActorCollisionSet(
 
 std::optional<DecorationBillboardSet> buildOutdoorDecorationBillboardSet(
     const Engine::AssetFileSystem &assetFileSystem,
-    const OutdoorMapData &outdoorMapData
+    const OutdoorMapData &outdoorMapData,
+    BitmapLoadCache &bitmapLoadCache
 )
 {
-    return buildDecorationBillboardSet(assetFileSystem, outdoorMapData.entities);
+    return buildDecorationBillboardSet(assetFileSystem, outdoorMapData.entities, bitmapLoadCache);
 }
 
 std::optional<DecorationBillboardSet> buildIndoorDecorationBillboardSet(
     const Engine::AssetFileSystem &assetFileSystem,
-    const IndoorMapData &indoorMapData
+    const IndoorMapData &indoorMapData,
+    BitmapLoadCache &bitmapLoadCache
 )
 {
-    return buildDecorationBillboardSet(assetFileSystem, indoorMapData.entities);
+    return buildDecorationBillboardSet(assetFileSystem, indoorMapData.entities, bitmapLoadCache);
 }
 
 std::optional<SpriteObjectBillboardSet> buildSpriteObjectBillboardSet(
     const Engine::AssetFileSystem &assetFileSystem,
     const ObjectTable &objectTable,
-    const std::optional<MapDeltaData> &mapDeltaData
+    const std::optional<MapDeltaData> &mapDeltaData,
+    BitmapLoadCache &bitmapLoadCache
 )
 {
     if (!mapDeltaData || mapDeltaData->spriteObjects.empty())
@@ -793,7 +1174,16 @@ std::optional<SpriteObjectBillboardSet> buildSpriteObjectBillboardSet(
         int textureWidth = 0;
         int textureHeight = 0;
         const std::optional<std::vector<uint8_t>> pixels =
-            loadBitmapPixelsBgra(assetFileSystem, "Data/sprites", textureName, textureWidth, textureHeight, false, true);
+            loadBitmapPixelsBgra(
+                assetFileSystem,
+                "Data/sprites",
+                textureName,
+                textureWidth,
+                textureHeight,
+                false,
+                true,
+                bitmapLoadCache
+            );
 
         if (!pixels || textureWidth <= 0 || textureHeight <= 0)
         {
@@ -945,41 +1335,113 @@ std::optional<std::string> resolveMonsterNameForSpawn(const MapStatsEntry &map, 
     return std::nullopt;
 }
 
-int sampleOutdoorHeightAtWorldPosition(const OutdoorMapData &outdoorMapData, int x, int y)
+int16_t resolveMapDeltaActorMonsterId(const MapDeltaActor &actor)
 {
-    const float worldX = static_cast<float>(-x);
-    const float worldY = static_cast<float>(y);
-    const float gridX = 64.0f - (worldX / static_cast<float>(OutdoorMapData::TerrainTileSize));
-    const float gridY = 64.0f - (worldY / static_cast<float>(OutdoorMapData::TerrainTileSize));
-    const int sampleX0 = std::clamp(static_cast<int>(std::floor(gridX)), 0, OutdoorMapData::TerrainWidth - 1);
-    const int sampleY0 = std::clamp(static_cast<int>(std::floor(gridY)), 0, OutdoorMapData::TerrainHeight - 1);
-    const int sampleX1 = std::clamp(sampleX0 + 1, 0, OutdoorMapData::TerrainWidth - 1);
-    const int sampleY1 = std::clamp(sampleY0 + 1, 0, OutdoorMapData::TerrainHeight - 1);
-
-    int maxHeightSample = 0;
-
-    for (const int sampleY : {sampleY0, sampleY1})
+    if (actor.monsterInfoId > 0)
     {
-        for (const int sampleX : {sampleX0, sampleX1})
+        return actor.monsterInfoId;
+    }
+
+    if (actor.monsterId > 0)
+    {
+        return actor.monsterId;
+    }
+
+    return 0;
+}
+
+std::array<uint16_t, 8> buildMonsterActionSpriteFrameIndices(
+    const SpriteFrameTable &spriteFrameTable,
+    const MonsterEntry *pMonsterEntry
+)
+{
+    std::array<uint16_t, 8> spriteFrameIndices = {};
+
+    if (pMonsterEntry == nullptr)
+    {
+        return spriteFrameIndices;
+    }
+
+    for (size_t actionIndex = 0; actionIndex < spriteFrameIndices.size(); ++actionIndex)
+    {
+        const std::string &spriteName = pMonsterEntry->spriteNames[actionIndex];
+
+        if (spriteName.empty())
         {
-            const size_t sampleIndex = static_cast<size_t>(sampleY * OutdoorMapData::TerrainWidth + sampleX);
-            maxHeightSample = std::max(maxHeightSample, static_cast<int>(outdoorMapData.heightMap[sampleIndex]));
+            continue;
+        }
+
+        const std::optional<uint16_t> frameIndex = spriteFrameTable.findFrameIndexBySpriteName(spriteName);
+
+        if (frameIndex)
+        {
+            spriteFrameIndices[actionIndex] = *frameIndex;
         }
     }
 
-    return maxHeightSample * OutdoorMapData::TerrainHeightScale;
+    return spriteFrameIndices;
+}
+
+void appendSpriteFrameTextures(
+    std::vector<BitmapTextureRequest> &textureRequests,
+    const SpriteFrameTable &spriteFrameTable,
+    uint16_t spriteFrameIndex
+)
+{
+    if (spriteFrameIndex == 0)
+    {
+        return;
+    }
+
+    size_t frameIndex = spriteFrameIndex;
+
+    while (frameIndex <= std::numeric_limits<uint16_t>::max())
+    {
+        const SpriteFrameEntry *pFrame = spriteFrameTable.getFrame(static_cast<uint16_t>(frameIndex), 0);
+
+        if (pFrame == nullptr)
+        {
+            return;
+        }
+
+        for (int octant = 0; octant < 8; ++octant)
+        {
+            const ResolvedSpriteTexture resolvedTexture = SpriteFrameTable::resolveTexture(*pFrame, octant);
+            appendBitmapTextureRequestIfMissing(textureRequests, resolvedTexture.textureName, pFrame->paletteId);
+        }
+
+        if (!SpriteFrameTable::hasFlag(pFrame->flags, SpriteFrameFlag::HasMore))
+        {
+            return;
+        }
+
+        ++frameIndex;
+    }
+}
+
+void appendMonsterActionTextures(
+    std::vector<BitmapTextureRequest> &textureRequests,
+    const SpriteFrameTable &spriteFrameTable,
+    const std::array<uint16_t, 8> &actionSpriteFrameIndices
+)
+{
+    for (uint16_t spriteFrameIndex : actionSpriteFrameIndices)
+    {
+        appendSpriteFrameTextures(textureRequests, spriteFrameTable, spriteFrameIndex);
+    }
 }
 
 void appendMapDeltaActors(
     ActorPreviewBillboardSet &billboardSet,
-    std::vector<std::string> &textureNames,
+    std::vector<BitmapTextureRequest> &textureRequests,
     const MonsterTable &monsterTable,
     const MapDeltaData &mapDeltaData,
     const OutdoorMapData *pOutdoorMapData
 )
 {
-    for (const MapDeltaActor &actor : mapDeltaData.actors)
+    for (size_t actorIndex = 0; actorIndex < mapDeltaData.actors.size(); ++actorIndex)
     {
+        const MapDeltaActor &actor = mapDeltaData.actors[actorIndex];
         uint16_t spriteFrameIndex = 0;
         uint16_t savedSpriteFrameIndex = 0;
         const MonsterTable::MonsterDisplayNameEntry *pDisplayEntry =
@@ -1016,6 +1478,9 @@ void appendMapDeltaActors(
             }
         }
 
+        const std::array<uint16_t, 8> actionSpriteFrameIndices =
+            buildMonsterActionSpriteFrameIndices(billboardSet.spriteFrameTable, pMonsterEntry);
+
         for (const uint16_t spriteId : actor.spriteIds)
         {
             if (spriteId == 0)
@@ -1041,16 +1506,22 @@ void appendMapDeltaActors(
 
         ActorPreviewBillboard billboard = {};
         billboard.spawnIndex = 0;
+        billboard.runtimeActorIndex = actorIndex;
         billboard.spriteFrameIndex = spriteFrameIndex;
+        billboard.actionSpriteFrameIndices = actionSpriteFrameIndices;
         billboard.npcId = actor.npcId;
+        billboard.monsterId = resolveMapDeltaActorMonsterId(actor);
         billboard.x = actor.x;
         billboard.y = actor.y;
         billboard.z = actor.z;
 
         if (pOutdoorMapData != nullptr)
         {
-            const int terrainZ = sampleOutdoorHeightAtWorldPosition(*pOutdoorMapData, actor.x, actor.y);
-            billboard.z = std::max(billboard.z, terrainZ);
+            billboard.z = static_cast<int>(std::lround(sampleOutdoorSupportFloorHeight(
+                *pOutdoorMapData,
+                static_cast<float>(-actor.x),
+                static_cast<float>(actor.y),
+                static_cast<float>(billboard.z))));
         }
 
         billboard.radius = actor.radius;
@@ -1067,24 +1538,15 @@ void appendMapDeltaActors(
         billboardSet.billboards.push_back(std::move(billboard));
         ++billboardSet.mapDeltaActorCount;
 
-        if (spriteFrameIndex == 0)
-        {
-            continue;
-        }
-
-        const std::vector<std::string> billboardTextureNames = billboardSet.spriteFrameTable.collectTextureNames(spriteFrameIndex);
-
-        for (const std::string &textureName : billboardTextureNames)
-        {
-            appendTextureNameIfMissing(textureNames, textureName);
-        }
+        appendMonsterActionTextures(textureRequests, billboardSet.spriteFrameTable, actionSpriteFrameIndices);
+        appendSpriteFrameTextures(textureRequests, billboardSet.spriteFrameTable, spriteFrameIndex);
     }
 }
 
 template <typename SpawnType>
 void appendSpawnActors(
     ActorPreviewBillboardSet &billboardSet,
-    std::vector<std::string> &textureNames,
+    std::vector<BitmapTextureRequest> &textureRequests,
     const MapStatsEntry &map,
     const MonsterTable &monsterTable,
     const std::vector<SpawnType> &spawns,
@@ -1132,17 +1594,28 @@ void appendSpawnActors(
             continue;
         }
 
+        const std::array<uint16_t, 8> actionSpriteFrameIndices =
+            buildMonsterActionSpriteFrameIndices(billboardSet.spriteFrameTable, pMonsterEntry);
+        const MonsterTable::MonsterStatsEntry *pStats =
+            monsterTable.findStatsByPictureName(*monsterName);
+
         ActorPreviewBillboard billboard = {};
         billboard.spawnIndex = spawnIndex;
+        billboard.runtimeActorIndex = static_cast<size_t>(-1);
         billboard.spriteFrameIndex = *frameIndex;
+        billboard.actionSpriteFrameIndices = actionSpriteFrameIndices;
+        billboard.monsterId = pStats != nullptr ? static_cast<int16_t>(pStats->id) : 0;
         billboard.x = spawn.x;
         billboard.y = spawn.y;
         billboard.z = spawn.z;
 
         if (pOutdoorMapData != nullptr)
         {
-            const int terrainZ = sampleOutdoorHeightAtWorldPosition(*pOutdoorMapData, spawn.x, spawn.y);
-            billboard.z = std::max(billboard.z, terrainZ);
+            billboard.z = static_cast<int>(std::lround(sampleOutdoorSupportFloorHeight(
+                *pOutdoorMapData,
+                static_cast<float>(-spawn.x),
+                static_cast<float>(spawn.y),
+                static_cast<float>(billboard.z))));
         }
 
         billboard.radius = static_cast<uint16_t>(std::max<int>(pMonsterEntry->radius, 0));
@@ -1159,12 +1632,8 @@ void appendSpawnActors(
         billboardSet.billboards.push_back(std::move(billboard));
         ++billboardSet.spawnActorCount;
 
-        const std::vector<std::string> billboardTextureNames = billboardSet.spriteFrameTable.collectTextureNames(*frameIndex);
-
-        for (const std::string &textureName : billboardTextureNames)
-        {
-            appendTextureNameIfMissing(textureNames, textureName);
-        }
+        appendMonsterActionTextures(textureRequests, billboardSet.spriteFrameTable, actionSpriteFrameIndices);
+        appendSpriteFrameTextures(textureRequests, billboardSet.spriteFrameTable, *frameIndex);
     }
 }
 
@@ -1175,6 +1644,7 @@ std::optional<ActorPreviewBillboardSet> buildActorPreviewBillboardSet(
     const MonsterTable &monsterTable,
     const std::optional<MapDeltaData> &mapDeltaData,
     const std::vector<SpawnType> &spawns,
+    BitmapLoadCache &bitmapLoadCache,
     const OutdoorMapData *pOutdoorMapData = nullptr
 )
 {
@@ -1193,26 +1663,35 @@ std::optional<ActorPreviewBillboardSet> buildActorPreviewBillboardSet(
         return std::nullopt;
     }
 
-    std::vector<std::string> textureNames;
+    std::vector<BitmapTextureRequest> textureRequests;
 
     if (mapDeltaData)
     {
-        appendMapDeltaActors(billboardSet, textureNames, monsterTable, *mapDeltaData, pOutdoorMapData);
+        appendMapDeltaActors(billboardSet, textureRequests, monsterTable, *mapDeltaData, pOutdoorMapData);
     }
 
-    appendSpawnActors(billboardSet, textureNames, map, monsterTable, spawns, pOutdoorMapData);
+    appendSpawnActors(billboardSet, textureRequests, map, monsterTable, spawns, pOutdoorMapData);
 
     if (billboardSet.billboards.empty())
     {
         return std::nullopt;
     }
 
-    for (const std::string &textureName : textureNames)
+    for (const BitmapTextureRequest &textureRequest : textureRequests)
     {
         int textureWidth = 0;
         int textureHeight = 0;
         const std::optional<std::vector<uint8_t>> pixels =
-            loadBitmapPixelsBgra(assetFileSystem, "Data/sprites", textureName, textureWidth, textureHeight, false, true);
+            loadBitmapPixelsBgra(
+                assetFileSystem,
+                "Data/sprites",
+                textureRequest.textureName,
+                textureWidth,
+                textureHeight,
+                false,
+                true,
+                bitmapLoadCache,
+                textureRequest.paletteId);
 
         if (!pixels || textureWidth <= 0 || textureHeight <= 0)
         {
@@ -1220,7 +1699,8 @@ std::optional<ActorPreviewBillboardSet> buildActorPreviewBillboardSet(
         }
 
         OutdoorBitmapTexture texture = {};
-        texture.textureName = textureName;
+        texture.textureName = textureRequest.textureName;
+        texture.paletteId = textureRequest.paletteId;
         texture.width = textureWidth;
         texture.height = textureHeight;
         texture.pixels = *pixels;
@@ -1241,9 +1721,9 @@ std::optional<ActorPreviewBillboardSet> buildActorPreviewBillboardSet(
         const auto textureIt = std::find_if(
             billboardSet.textures.begin(),
             billboardSet.textures.end(),
-            [&resolvedTexture](const OutdoorBitmapTexture &texture)
+            [&resolvedTexture, pFrame](const OutdoorBitmapTexture &texture)
             {
-                return texture.textureName == resolvedTexture.textureName;
+                return texture.textureName == resolvedTexture.textureName && texture.paletteId == pFrame->paletteId;
             }
         );
 
@@ -1328,7 +1808,8 @@ std::optional<std::vector<uint32_t>> buildOutdoorTileColors(
 
 std::optional<OutdoorTerrainTextureAtlas> buildOutdoorTerrainTextureAtlas(
     const Engine::AssetFileSystem &assetFileSystem,
-    const OutdoorMapData &outdoorMapData
+    const OutdoorMapData &outdoorMapData,
+    BitmapLoadCache &bitmapLoadCache
 )
 {
     const std::optional<std::vector<std::string>> tileTextureNames = loadTileTextureNames(assetFileSystem, outdoorMapData);
@@ -1363,7 +1844,8 @@ std::optional<OutdoorTerrainTextureAtlas> buildOutdoorTerrainTextureAtlas(
                 textureWidth,
                 textureHeight,
                 true,
-                false
+                false,
+                bitmapLoadCache
             );
 
         if (!tilePixels || textureWidth != TerrainTextureTileSize || textureHeight != TerrainTextureTileSize)
@@ -1403,7 +1885,8 @@ std::optional<OutdoorTerrainTextureAtlas> buildOutdoorTerrainTextureAtlas(
 
 std::optional<OutdoorBModelTextureSet> buildOutdoorBModelTextureSet(
     const Engine::AssetFileSystem &assetFileSystem,
-    const OutdoorMapData &outdoorMapData
+    const OutdoorMapData &outdoorMapData,
+    BitmapLoadCache &bitmapLoadCache
 )
 {
     std::vector<std::string> textureNames;
@@ -1445,7 +1928,8 @@ std::optional<OutdoorBModelTextureSet> buildOutdoorBModelTextureSet(
                 textureWidth,
                 textureHeight,
                 false,
-                false
+                false,
+                bitmapLoadCache
             );
 
         if (!pixels || textureWidth <= 0 || textureHeight <= 0)
@@ -1471,7 +1955,8 @@ std::optional<OutdoorBModelTextureSet> buildOutdoorBModelTextureSet(
 
 std::optional<IndoorTextureSet> buildIndoorTextureSet(
     const Engine::AssetFileSystem &assetFileSystem,
-    const IndoorMapData &indoorMapData
+    const IndoorMapData &indoorMapData,
+    BitmapLoadCache &bitmapLoadCache
 )
 {
     std::vector<std::string> textureNames;
@@ -1510,7 +1995,8 @@ std::optional<IndoorTextureSet> buildIndoorTextureSet(
                 textureWidth,
                 textureHeight,
                 false,
-                false
+                false,
+                bitmapLoadCache
             );
 
         if (!pixels || textureWidth <= 0 || textureHeight <= 0)
@@ -1544,6 +2030,7 @@ std::optional<MapAssetInfo> MapAssetLoader::load(
 ) const
 {
     const auto loadStart = std::chrono::steady_clock::now();
+    BitmapLoadCache bitmapLoadCache = {};
     auto logStageComplete = [&loadStart](const std::string &stageName)
     {
         const auto now = std::chrono::steady_clock::now();
@@ -1626,10 +2113,10 @@ std::optional<MapAssetInfo> MapAssetLoader::load(
                 assetInfo.outdoorTileColors = buildOutdoorTileColors(assetFileSystem, *assetInfo.outdoorMapData);
                 logStageComplete("outdoor tile colors built");
                 assetInfo.outdoorTerrainTextureAtlas =
-                    buildOutdoorTerrainTextureAtlas(assetFileSystem, *assetInfo.outdoorMapData);
+                    buildOutdoorTerrainTextureAtlas(assetFileSystem, *assetInfo.outdoorMapData, bitmapLoadCache);
                 logStageComplete("outdoor terrain textures built");
                 assetInfo.outdoorBModelTextureSet =
-                    buildOutdoorBModelTextureSet(assetFileSystem, *assetInfo.outdoorMapData);
+                    buildOutdoorBModelTextureSet(assetFileSystem, *assetInfo.outdoorMapData, bitmapLoadCache);
                 logStageComplete("outdoor bmodel textures built");
                 assetInfo.outdoorDecorationCollisionSet =
                     buildOutdoorDecorationCollisionSet(assetFileSystem, assetInfo.outdoorMapData->entities);
@@ -1647,7 +2134,7 @@ std::optional<MapAssetInfo> MapAssetLoader::load(
                     buildOutdoorSpriteObjectCollisionSet(objectTable, assetInfo.outdoorMapDeltaData);
                 logStageComplete("outdoor sprite object collisions built");
                 assetInfo.outdoorDecorationBillboardSet =
-                    buildOutdoorDecorationBillboardSet(assetFileSystem, *assetInfo.outdoorMapData);
+                    buildOutdoorDecorationBillboardSet(assetFileSystem, *assetInfo.outdoorMapData, bitmapLoadCache);
                 logStageComplete("outdoor decoration billboards built");
                 assetInfo.outdoorActorPreviewBillboardSet =
                     buildActorPreviewBillboardSet(
@@ -1656,11 +2143,17 @@ std::optional<MapAssetInfo> MapAssetLoader::load(
                         monsterTable,
                         assetInfo.outdoorMapDeltaData,
                         assetInfo.outdoorMapData->spawns,
+                        bitmapLoadCache,
                         &*assetInfo.outdoorMapData
                     );
                 logStageComplete("outdoor actor previews built");
                 assetInfo.outdoorSpriteObjectBillboardSet =
-                    buildSpriteObjectBillboardSet(assetFileSystem, objectTable, assetInfo.outdoorMapDeltaData);
+                    buildSpriteObjectBillboardSet(
+                        assetFileSystem,
+                        objectTable,
+                        assetInfo.outdoorMapDeltaData,
+                        bitmapLoadCache
+                    );
                 logStageComplete("outdoor sprite objects built");
 
                 if (assetInfo.outdoorActorPreviewBillboardSet)
@@ -1739,10 +2232,14 @@ std::optional<MapAssetInfo> MapAssetLoader::load(
 
             if (purpose == MapLoadPurpose::Full)
             {
-                assetInfo.indoorTextureSet = buildIndoorTextureSet(assetFileSystem, *assetInfo.indoorMapData);
+                assetInfo.indoorTextureSet = buildIndoorTextureSet(
+                    assetFileSystem,
+                    *assetInfo.indoorMapData,
+                    bitmapLoadCache
+                );
                 logStageComplete("indoor textures built");
                 assetInfo.indoorDecorationBillboardSet =
-                    buildIndoorDecorationBillboardSet(assetFileSystem, *assetInfo.indoorMapData);
+                    buildIndoorDecorationBillboardSet(assetFileSystem, *assetInfo.indoorMapData, bitmapLoadCache);
                 logStageComplete("indoor decoration billboards built");
                 assetInfo.indoorActorPreviewBillboardSet =
                     buildActorPreviewBillboardSet(
@@ -1750,11 +2247,17 @@ std::optional<MapAssetInfo> MapAssetLoader::load(
                         map,
                         monsterTable,
                         assetInfo.indoorMapDeltaData,
-                        assetInfo.indoorMapData->spawns
+                        assetInfo.indoorMapData->spawns,
+                        bitmapLoadCache
                     );
                 logStageComplete("indoor actor previews built");
                 assetInfo.indoorSpriteObjectBillboardSet =
-                    buildSpriteObjectBillboardSet(assetFileSystem, objectTable, assetInfo.indoorMapDeltaData);
+                    buildSpriteObjectBillboardSet(
+                        assetFileSystem,
+                        objectTable,
+                        assetInfo.indoorMapDeltaData,
+                        bitmapLoadCache
+                    );
                 logStageComplete("indoor sprite objects built");
 
                 if (assetInfo.indoorActorPreviewBillboardSet)

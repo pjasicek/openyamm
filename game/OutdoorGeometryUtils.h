@@ -51,4 +51,5 @@ bool isPointInsideOutdoorPolygonProjected(
     const std::vector<bx::Vec3> &vertices,
     const bx::Vec3 &normal
 );
+float sampleOutdoorSupportFloorHeight(const OutdoorMapData &outdoorMapData, float x, float y, float z);
 }

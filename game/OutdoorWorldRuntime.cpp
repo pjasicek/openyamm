@@ -1,9 +1,11 @@
 #include "game/OutdoorWorldRuntime.h"
 
 #include "game/ItemTable.h"
+#include "game/OutdoorGeometryUtils.h"
 
 #include <algorithm>
 #include <chrono>
+#include <cmath>
 #include <cstring>
 #include <iostream>
 #include <random>
@@ -18,6 +20,92 @@ constexpr int RandomChestItemMinLevel = 1;
 constexpr int RandomChestItemMaxLevel = 7;
 constexpr int SpawnableItemTreasureLevels = 6;
 constexpr float GameMinutesPerRealSecond = 0.5f;
+constexpr uint32_t ActorInvisibleBit = 0x00010000u;
+constexpr uint32_t ActorAggressorBit = 0x00080000u;
+constexpr uint32_t CheckActorKilledByAny = 0;
+constexpr uint32_t CheckActorKilledByGroup = 1;
+constexpr uint32_t CheckActorKilledByMonsterId = 2;
+constexpr uint32_t CheckActorKilledByActorIdOe = 3;
+constexpr uint32_t CheckActorKilledByActorIdMm8 = 4;
+constexpr float TicksPerSecond = 128.0f;
+constexpr float MeleeRange = 307.0f;
+constexpr float DetectionRange = 5120.0f;
+constexpr float FleeThresholdRange = 10240.0f;
+constexpr float PartyCollisionRadius = 37.0f;
+constexpr float Pi = 3.14159265358979323846f;
+
+float clampLength(float value, float maxValue)
+{
+    if (value > maxValue)
+    {
+        return maxValue;
+    }
+
+    if (value < -maxValue)
+    {
+        return -maxValue;
+    }
+
+    return value;
+}
+
+float length2d(float x, float y)
+{
+    return std::sqrt(x * x + y * y);
+}
+
+float normalizeAngleRadians(float angle)
+{
+    while (angle <= -Pi)
+    {
+        angle += 2.0f * Pi;
+    }
+
+    while (angle > Pi)
+    {
+        angle -= 2.0f * Pi;
+    }
+
+    return angle;
+}
+
+float shortestAngleDistanceRadians(float left, float right)
+{
+    return std::abs(normalizeAngleRadians(left - right));
+}
+
+void faceDirection(OutdoorWorldRuntime::MapActorState &actor, float deltaX, float deltaY)
+{
+    if (std::abs(deltaX) <= 0.01f && std::abs(deltaY) <= 0.01f)
+    {
+        return;
+    }
+
+    actor.yawRadians = std::atan2(deltaY, deltaX);
+}
+
+float resolveActorGroundZ(
+    const OutdoorMapData *pOutdoorMapData,
+    const MonsterTable::MonsterStatsEntry *pStats,
+    float x,
+    float y,
+    float currentZ
+)
+{
+    if (pOutdoorMapData == nullptr)
+    {
+        return currentZ;
+    }
+
+    const float floorZ = sampleOutdoorSupportFloorHeight(*pOutdoorMapData, x, y, currentZ);
+
+    if (pStats != nullptr && pStats->canFly)
+    {
+        return std::max(currentZ, floorZ);
+    }
+
+    return floorZ;
+}
 
 std::vector<int> parseCsvIntegers(const std::optional<std::string> &note)
 {
@@ -101,6 +189,364 @@ void appendTimersFromProgram(
             }
         }
     }
+}
+
+const MapEncounterInfo *getEncounterInfo(const MapStatsEntry &map, int encounterSlot)
+{
+    if (encounterSlot == 1)
+    {
+        return &map.encounter1;
+    }
+
+    if (encounterSlot == 2)
+    {
+        return &map.encounter2;
+    }
+
+    if (encounterSlot == 3)
+    {
+        return &map.encounter3;
+    }
+
+    return nullptr;
+}
+
+int16_t resolveMapActorMonsterId(const MapDeltaActor &actor)
+{
+    if (actor.monsterInfoId > 0)
+    {
+        return actor.monsterInfoId;
+    }
+
+    if (actor.monsterId > 0)
+    {
+        return actor.monsterId;
+    }
+
+    return 0;
+}
+
+const MonsterEntry *resolveMonsterEntry(
+    const MonsterTable &monsterTable,
+    int16_t monsterId,
+    const MonsterTable::MonsterStatsEntry *pStats
+)
+{
+    if (pStats != nullptr && !pStats->pictureName.empty())
+    {
+        if (const MonsterEntry *pEntry = monsterTable.findByInternalName(pStats->pictureName))
+        {
+            return pEntry;
+        }
+    }
+
+    return monsterTable.findById(monsterId);
+}
+
+OutdoorWorldRuntime::MapActorState buildMapActorState(
+    const MonsterTable &monsterTable,
+    const MapDeltaActor &actor,
+    uint32_t actorId,
+    const OutdoorMapData *pOutdoorMapData
+)
+{
+    OutdoorWorldRuntime::MapActorState state = {};
+    state.actorId = actorId;
+    state.monsterId = resolveMapActorMonsterId(actor);
+    state.group = actor.group;
+
+    const MonsterTable::MonsterStatsEntry *pStats = monsterTable.findStatsById(state.monsterId);
+    const MonsterEntry *pMonsterEntry = resolveMonsterEntry(monsterTable, state.monsterId, pStats);
+    state.displayName = pStats != nullptr ? pStats->name : actor.name;
+    state.hostilityType = static_cast<uint8_t>(pStats != nullptr ? pStats->hostility : actor.hostilityType);
+    state.maxHp = pStats != nullptr ? pStats->hitPoints : std::max(0, static_cast<int>(actor.hp));
+    state.currentHp = actor.hp > 0 ? actor.hp : state.maxHp;
+    state.x = -actor.x;
+    state.y = actor.y;
+    state.z = actor.z;
+    state.preciseX = static_cast<float>(-actor.x);
+    state.preciseY = static_cast<float>(actor.y);
+    state.preciseZ = static_cast<float>(actor.z);
+    state.homeX = -actor.x;
+    state.homeY = actor.y;
+    state.homeZ = actor.z;
+    state.homePreciseX = static_cast<float>(-actor.x);
+    state.homePreciseY = static_cast<float>(actor.y);
+    state.homePreciseZ = static_cast<float>(actor.z);
+    state.radius = actor.radius;
+    state.height = actor.height;
+    state.moveSpeed = pMonsterEntry != nullptr ? pMonsterEntry->movementSpeed : 0;
+    state.hostileToParty =
+        (actor.attributes & ActorAggressorBit) != 0 || monsterTable.isHostileToParty(state.monsterId);
+    state.isInvisible = (actor.attributes & ActorInvisibleBit) != 0;
+    state.animation = actor.hp <= 0 ? OutdoorWorldRuntime::ActorAnimation::Dead
+        : static_cast<OutdoorWorldRuntime::ActorAnimation>(std::clamp<int>(actor.currentActionAnimation, 0, 7));
+    state.aiState = actor.hp <= 0 ? OutdoorWorldRuntime::ActorAiState::Dead : OutdoorWorldRuntime::ActorAiState::Standing;
+    state.recoverySeconds = std::max(0.3f, static_cast<float>(pStats != nullptr ? pStats->recovery : 100) / 100.0f);
+    state.attackCooldownSeconds = state.recoverySeconds;
+    state.idleDecisionSeconds = 0.5f + static_cast<float>(actorId % 5) * 0.2f;
+
+    state.preciseZ = resolveActorGroundZ(pOutdoorMapData, pStats, state.preciseX, state.preciseY, state.preciseZ);
+    state.z = static_cast<int>(std::lround(state.preciseZ));
+    state.homePreciseZ = state.preciseZ;
+    state.homeZ = state.z;
+
+    return state;
+}
+
+void beginStandAwhile(OutdoorWorldRuntime::MapActorState &actor, bool bored)
+{
+    actor.moveDirectionX = 0.0f;
+    actor.moveDirectionY = 0.0f;
+    actor.velocityX = 0.0f;
+    actor.velocityY = 0.0f;
+    actor.actionSeconds = bored ? 2.0f : 1.5f;
+    actor.idleDecisionSeconds = actor.actionSeconds;
+    actor.animation = bored
+        ? OutdoorWorldRuntime::ActorAnimation::Bored
+        : OutdoorWorldRuntime::ActorAnimation::Standing;
+    actor.animationTimeTicks = 0.0f;
+}
+
+bool beginIdleWander(
+    OutdoorWorldRuntime::MapActorState &actor,
+    uint32_t decisionSeed,
+    float wanderRadius,
+    float moveSpeed
+)
+{
+    const float deltaHomeX = actor.homePreciseX - actor.preciseX;
+    const float deltaHomeY = actor.homePreciseY - actor.preciseY;
+    float homeAngle = std::atan2(deltaHomeY, deltaHomeX);
+
+    if (std::abs(deltaHomeX) <= 0.01f && std::abs(deltaHomeY) <= 0.01f)
+    {
+        homeAngle = actor.yawRadians;
+    }
+
+    const float randomAngleOffset =
+        ((static_cast<int>(decisionSeed % 257u) - 128) / 256.0f) * (Pi / 4.0f);
+    const float proposedYaw = normalizeAngleRadians(homeAngle + randomAngleOffset);
+
+    if (shortestAngleDistanceRadians(proposedYaw, actor.yawRadians) > (Pi / 4.0f)
+        && actor.animation != OutdoorWorldRuntime::ActorAnimation::Walking)
+    {
+        actor.yawRadians = proposedYaw;
+        beginStandAwhile(actor, false);
+        return false;
+    }
+
+    actor.yawRadians = proposedYaw;
+    actor.moveDirectionX = std::cos(actor.yawRadians);
+    actor.moveDirectionY = std::sin(actor.yawRadians);
+    const float weightedDistance = std::max(std::abs(deltaHomeX), std::abs(deltaHomeY))
+        + 0.5f * std::min(std::abs(deltaHomeX), std::abs(deltaHomeY))
+        + static_cast<float>(decisionSeed % 16u) * (wanderRadius / 16.0f);
+    actor.actionSeconds = moveSpeed > 0.0f ? std::max(0.25f, weightedDistance / (4.0f * moveSpeed)) : 0.0f;
+    actor.idleDecisionSeconds = 0.0f;
+    actor.animationTimeTicks = 0.0f;
+    return actor.actionSeconds > 0.0f;
+}
+
+char tierLetterForSummonLevel(uint32_t level)
+{
+    const uint32_t clampedLevel = std::clamp(level, 1u, 3u);
+    return static_cast<char>('A' + (clampedLevel - 1u));
+}
+
+std::string encounterPictureBase(const MapEncounterInfo &encounter)
+{
+    return encounter.pictureName.empty() ? encounter.monsterName : encounter.pictureName;
+}
+
+bool itemMatchesLootKind(const ItemDefinition &item, MonsterTable::LootItemKind kind)
+{
+    switch (kind)
+    {
+        case MonsterTable::LootItemKind::None:
+            return false;
+
+        case MonsterTable::LootItemKind::Any:
+            return true;
+
+        case MonsterTable::LootItemKind::Gem:
+            return item.equipStat == "Gem";
+
+        case MonsterTable::LootItemKind::Ring:
+            return item.equipStat == "Ring";
+
+        case MonsterTable::LootItemKind::Amulet:
+            return item.equipStat == "Amulet";
+
+        case MonsterTable::LootItemKind::Boots:
+            return item.equipStat == "Boots";
+
+        case MonsterTable::LootItemKind::Gauntlets:
+            return item.equipStat == "Gauntlets";
+
+        case MonsterTable::LootItemKind::Cloak:
+            return item.equipStat == "Cloak";
+
+        case MonsterTable::LootItemKind::Wand:
+            return item.name.find("Wand") != std::string::npos;
+
+        case MonsterTable::LootItemKind::Ore:
+            return item.equipStat == "Ore";
+
+        case MonsterTable::LootItemKind::Scroll:
+            return item.equipStat == "Sscroll";
+
+        case MonsterTable::LootItemKind::Sword:
+            return item.skillGroup == "Sword";
+
+        case MonsterTable::LootItemKind::Dagger:
+            return item.skillGroup == "Dagger";
+
+        case MonsterTable::LootItemKind::Spear:
+            return item.skillGroup == "Spear";
+
+        case MonsterTable::LootItemKind::Chain:
+            return item.skillGroup == "Chain";
+
+        case MonsterTable::LootItemKind::Plate:
+            return item.skillGroup == "Plate";
+
+        case MonsterTable::LootItemKind::Club:
+            return item.skillGroup == "Club";
+
+        case MonsterTable::LootItemKind::Staff:
+            return item.skillGroup == "Staff";
+
+        case MonsterTable::LootItemKind::Bow:
+            return item.skillGroup == "Bow";
+    }
+
+    return false;
+}
+
+OutdoorWorldRuntime::SpawnPointState buildSpawnPointState(
+    const MapStatsEntry &map,
+    const MonsterTable &monsterTable,
+    const OutdoorSpawn &spawn
+)
+{
+    OutdoorWorldRuntime::SpawnPointState state = {};
+    state.typeId = spawn.typeId;
+    state.index = spawn.index;
+    state.group = spawn.group;
+
+    if (spawn.typeId != 3)
+    {
+        return state;
+    }
+
+    int encounterSlot = 0;
+    char fixedTier = '\0';
+
+    if (spawn.index >= 1 && spawn.index <= 3)
+    {
+        encounterSlot = spawn.index;
+    }
+    else if (spawn.index >= 4 && spawn.index <= 12)
+    {
+        encounterSlot = static_cast<int>((spawn.index - 4) % 3) + 1;
+        fixedTier = static_cast<char>('A' + (spawn.index - 4) / 3);
+    }
+
+    state.encounterSlot = encounterSlot;
+    state.isFixedTier = fixedTier != '\0';
+    state.fixedTier = fixedTier;
+
+    const MapEncounterInfo *pEncounter = getEncounterInfo(map, encounterSlot);
+
+    if (pEncounter == nullptr)
+    {
+        return state;
+    }
+
+    state.monsterFamilyName = pEncounter->monsterName;
+    state.representativePictureName = pEncounter->pictureName.empty()
+        ? pEncounter->monsterName
+        : pEncounter->pictureName;
+
+    if (fixedTier == '\0')
+    {
+        state.representativePictureName += " A";
+    }
+    else
+    {
+        state.representativePictureName += " ";
+        state.representativePictureName.push_back(fixedTier);
+    }
+
+    const MonsterTable::MonsterStatsEntry *pStats =
+        monsterTable.findStatsByPictureName(state.representativePictureName);
+
+    if (pStats == nullptr)
+    {
+        return state;
+    }
+
+    state.representativeMonsterId = static_cast<int16_t>(pStats->id);
+    state.hostilityType = static_cast<uint8_t>(pStats->hostility);
+    state.hostileToParty = monsterTable.isHostileToParty(state.representativeMonsterId);
+    return state;
+}
+
+float wanderRadiusForMovementType(MonsterTable::MonsterMovementType movementType)
+{
+    switch (movementType)
+    {
+        case MonsterTable::MonsterMovementType::Short:
+            return 1024.0f;
+
+        case MonsterTable::MonsterMovementType::Medium:
+            return 2560.0f;
+
+        case MonsterTable::MonsterMovementType::Long:
+            return 5120.0f;
+
+        case MonsterTable::MonsterMovementType::Global:
+        case MonsterTable::MonsterMovementType::Free:
+            return 10240.0f;
+
+        case MonsterTable::MonsterMovementType::Stationary:
+            return 0.0f;
+    }
+
+    return 0.0f;
+}
+
+bool shouldFleeForAiType(const MonsterTable::MonsterStatsEntry &stats, const OutdoorWorldRuntime::MapActorState &actor)
+{
+    if (stats.aiType == MonsterTable::MonsterAiType::Wimp)
+    {
+        return true;
+    }
+
+    if (actor.maxHp <= 0)
+    {
+        return false;
+    }
+
+    if (stats.aiType == MonsterTable::MonsterAiType::Normal)
+    {
+        return static_cast<float>(actor.currentHp) < static_cast<float>(actor.maxHp) * 0.2f;
+    }
+
+    if (stats.aiType == MonsterTable::MonsterAiType::Aggressive)
+    {
+        return static_cast<float>(actor.currentHp) < static_cast<float>(actor.maxHp) * 0.1f;
+    }
+
+    return false;
+}
+
+OutdoorWorldRuntime::ActorAnimation attackAnimationForMonster(const MonsterTable::MonsterStatsEntry &stats)
+{
+    return stats.hasRangedAttack
+        ? OutdoorWorldRuntime::ActorAnimation::AttackRanged
+        : OutdoorWorldRuntime::ActorAnimation::AttackMelee;
 }
 }
 
@@ -220,6 +666,127 @@ uint32_t OutdoorWorldRuntime::generateRandomItemId(int treasureLevel, std::mt199
     }
 
     return 0;
+}
+
+uint32_t OutdoorWorldRuntime::generateRandomLootItemId(
+    int treasureLevel,
+    MonsterTable::LootItemKind itemKind,
+    std::mt19937 &rng
+) const
+{
+    if (m_pItemTable == nullptr)
+    {
+        return 0;
+    }
+
+    const int weightIndex = std::clamp(treasureLevel, 1, SpawnableItemTreasureLevels) - 1;
+    int totalWeight = 0;
+
+    for (const ItemDefinition &entry : m_pItemTable->entries())
+    {
+        if (entry.itemId == 0 || entry.randomTreasureWeights[weightIndex] <= 0)
+        {
+            continue;
+        }
+
+        if (!itemMatchesLootKind(entry, itemKind))
+        {
+            continue;
+        }
+
+        totalWeight += entry.randomTreasureWeights[weightIndex];
+    }
+
+    if (totalWeight <= 0)
+    {
+        return itemKind == MonsterTable::LootItemKind::Any ? generateRandomItemId(treasureLevel, rng) : 0;
+    }
+
+    int targetWeight = std::uniform_int_distribution<int>(1, totalWeight)(rng);
+    int runningWeight = 0;
+
+    for (const ItemDefinition &entry : m_pItemTable->entries())
+    {
+        if (entry.itemId == 0 || entry.randomTreasureWeights[weightIndex] <= 0)
+        {
+            continue;
+        }
+
+        if (!itemMatchesLootKind(entry, itemKind))
+        {
+            continue;
+        }
+
+        runningWeight += entry.randomTreasureWeights[weightIndex];
+
+        if (runningWeight >= targetWeight)
+        {
+            return entry.itemId;
+        }
+    }
+
+    return 0;
+}
+
+OutdoorWorldRuntime::CorpseViewState OutdoorWorldRuntime::buildCorpseView(
+    const std::string &title,
+    const MonsterTable::LootPrototype &loot,
+    uint32_t seed
+) const
+{
+    CorpseViewState view = {};
+    view.title = title;
+
+    std::mt19937 rng(seed);
+
+    if (loot.goldDiceRolls > 0 && loot.goldDiceSides > 0)
+    {
+        ChestItemState goldItem = {};
+        goldItem.isGold = true;
+        goldItem.goldRollCount = static_cast<uint32_t>(loot.goldDiceRolls);
+
+        for (int roll = 0; roll < loot.goldDiceRolls; ++roll)
+        {
+            goldItem.goldAmount += static_cast<uint32_t>(std::uniform_int_distribution<int>(1, loot.goldDiceSides)(rng));
+        }
+
+        if (goldItem.goldAmount > 0)
+        {
+            view.items.push_back(goldItem);
+        }
+    }
+
+    if (loot.itemChance > 0
+        && loot.itemLevel > 0
+        && std::uniform_int_distribution<int>(0, 99)(rng) < loot.itemChance)
+    {
+        const int remappedTreasureLevel = remapTreasureLevel(loot.itemLevel, m_mapTreasureLevel);
+        const uint32_t itemId = generateRandomLootItemId(remappedTreasureLevel, loot.itemKind, rng);
+
+        if (itemId != 0)
+        {
+            ChestItemState item = {};
+            item.itemId = itemId;
+            item.quantity = 1;
+            view.items.push_back(item);
+        }
+    }
+
+    return view;
+}
+
+void OutdoorWorldRuntime::pushAudioEvent(uint32_t soundId, uint32_t sourceId, const std::string &reason)
+{
+    if (soundId == 0)
+    {
+        return;
+    }
+
+    AudioEvent event = {};
+    event.soundId = soundId;
+    event.sourceId = sourceId;
+    event.reason = reason;
+    m_pendingAudioEvents.push_back(std::move(event));
 }
 
 OutdoorWorldRuntime::ChestViewState OutdoorWorldRuntime::buildChestView(uint32_t chestId) const
@@ -461,26 +1028,69 @@ void OutdoorWorldRuntime::activateChestView(uint32_t chestId)
 
 void OutdoorWorldRuntime::initialize(
     const MapStatsEntry &map,
+    const MonsterTable &monsterTable,
     const ItemTable &itemTable,
+    const std::optional<OutdoorMapData> &outdoorMapData,
     const std::optional<MapDeltaData> &outdoorMapDeltaData,
     const std::optional<EventRuntimeState> &eventRuntimeState
 )
 {
     m_mapId = map.id;
+    m_map = map;
     m_mapName = map.name;
     m_mapTreasureLevel = map.treasureLevel;
     m_gameMinutes = 9.0f * 60.0f;
     m_timers.clear();
+    m_mapActors.clear();
+    m_spawnPoints.clear();
+    m_summonedMonsters.clear();
+    m_mapActorCorpseViews.clear();
+    m_summonedMonsterCorpseViews.clear();
+    m_activeCorpseView.reset();
+    m_pendingAudioEvents.clear();
     m_chests = outdoorMapDeltaData ? outdoorMapDeltaData->chests : std::vector<MapDeltaChest>();
     m_openedChests.assign(outdoorMapDeltaData ? outdoorMapDeltaData->chests.size() : 0, false);
     m_materializedChestViews.assign(m_chests.size(), std::nullopt);
     m_activeChestView.reset();
     m_eventRuntimeState = eventRuntimeState;
     m_pItemTable = &itemTable;
+    m_pMonsterTable = &monsterTable;
+    m_pOutdoorMapData = outdoorMapData ? &*outdoorMapData : nullptr;
+    m_pOutdoorMapDeltaData = outdoorMapDeltaData ? &*outdoorMapDeltaData : nullptr;
+    m_nextSummonId = 1;
+
+    if (outdoorMapDeltaData)
+    {
+        m_mapActors.reserve(outdoorMapDeltaData->actors.size());
+        m_mapActorCorpseViews.assign(outdoorMapDeltaData->actors.size(), std::nullopt);
+
+        for (size_t actorIndex = 0; actorIndex < outdoorMapDeltaData->actors.size(); ++actorIndex)
+        {
+            m_mapActors.push_back(buildMapActorState(
+                monsterTable,
+                outdoorMapDeltaData->actors[actorIndex],
+                static_cast<uint32_t>(actorIndex),
+                m_pOutdoorMapData));
+        }
+    }
+
+    m_summonedMonsterCorpseViews.clear();
+
+    if (outdoorMapData)
+    {
+        m_spawnPoints.reserve(outdoorMapData->spawns.size());
+
+        for (const OutdoorSpawn &spawn : outdoorMapData->spawns)
+        {
+            m_spawnPoints.push_back(buildSpawnPointState(map, monsterTable, spawn));
+        }
+    }
+
     std::random_device randomDevice;
     const uint64_t timeSeed = static_cast<uint64_t>(
         std::chrono::steady_clock::now().time_since_epoch().count());
     m_sessionChestSeed = randomDevice() ^ static_cast<uint32_t>(timeSeed) ^ static_cast<uint32_t>(timeSeed >> 32);
+    applyEventRuntimeState();
 }
 
 bool OutdoorWorldRuntime::isInitialized() const
@@ -525,11 +1135,333 @@ void OutdoorWorldRuntime::advanceGameMinutes(float minutes)
     m_gameMinutes += minutes;
 }
 
+void OutdoorWorldRuntime::updateMapActors(float deltaSeconds, float partyX, float partyY, float partyZ)
+{
+    if (deltaSeconds <= 0.0f || m_pMonsterTable == nullptr)
+    {
+        return;
+    }
+
+    for (size_t actorIndex = 0; actorIndex < m_mapActors.size(); ++actorIndex)
+    {
+        MapActorState &actor = m_mapActors[actorIndex];
+
+        if (actor.isDead)
+        {
+            actor.aiState = ActorAiState::Dead;
+            actor.animation = ActorAnimation::Dead;
+            continue;
+        }
+
+        const MonsterTable::MonsterStatsEntry *pStats = m_pMonsterTable->findStatsById(actor.monsterId);
+
+        if (pStats == nullptr)
+        {
+            actor.animation = ActorAnimation::Standing;
+            continue;
+        }
+
+        actor.animationTimeTicks += deltaSeconds * TicksPerSecond;
+        actor.idleDecisionSeconds = std::max(0.0f, actor.idleDecisionSeconds - deltaSeconds);
+        actor.attackCooldownSeconds = std::max(0.0f, actor.attackCooldownSeconds - deltaSeconds);
+        actor.actionSeconds = std::max(0.0f, actor.actionSeconds - deltaSeconds);
+
+        const float deltaPartyX = partyX - actor.preciseX;
+        const float deltaPartyY = partyY - actor.preciseY;
+        const float deltaPartyZ = partyZ - actor.preciseZ;
+        const float distanceToParty = length2d(deltaPartyX, deltaPartyY);
+        const float verticalDistance = std::abs(deltaPartyZ);
+        const bool canSenseParty = distanceToParty <= DetectionRange && verticalDistance <= 1024.0f;
+        const bool movementAllowed = pStats->movementType != MonsterTable::MonsterMovementType::Stationary;
+        const bool shouldEngageParty = actor.hostileToParty && canSenseParty;
+
+        if (shouldEngageParty && !actor.hasDetectedParty)
+        {
+            actor.hasDetectedParty = true;
+            pushAudioEvent(pStats->awareSoundId, actor.actorId, "monster_alert");
+        }
+        else if (!canSenseParty)
+        {
+            actor.hasDetectedParty = false;
+        }
+
+        const bool shouldFlee = shouldEngageParty
+            && distanceToParty <= FleeThresholdRange
+            && shouldFleeForAiType(*pStats, actor);
+        const bool inAttackRange = distanceToParty <= std::max(MeleeRange, static_cast<float>(actor.radius) + 64.0f);
+        const bool friendlyNearParty =
+            !actor.hostileToParty
+            && canSenseParty
+            && distanceToParty <= (static_cast<float>(actor.radius) + PartyCollisionRadius + 16.0f);
+        float desiredMoveX = 0.0f;
+        float desiredMoveY = 0.0f;
+        ActorAiState nextAiState = ActorAiState::Standing;
+        ActorAnimation nextAnimation = ActorAnimation::Standing;
+
+        if (shouldFlee)
+        {
+            nextAiState = ActorAiState::Fleeing;
+            nextAnimation = movementAllowed ? ActorAnimation::Walking : ActorAnimation::Standing;
+
+            if (distanceToParty > 0.01f)
+            {
+                desiredMoveX = -deltaPartyX / distanceToParty;
+                desiredMoveY = -deltaPartyY / distanceToParty;
+                faceDirection(actor, desiredMoveX, desiredMoveY);
+            }
+
+            actor.moveDirectionX = desiredMoveX;
+            actor.moveDirectionY = desiredMoveY;
+        }
+        else if (shouldEngageParty && inAttackRange)
+        {
+            nextAiState = ActorAiState::Attacking;
+            nextAnimation = attackAnimationForMonster(*pStats);
+            actor.moveDirectionX = 0.0f;
+            actor.moveDirectionY = 0.0f;
+
+            faceDirection(actor, deltaPartyX, deltaPartyY);
+
+            if (actor.attackCooldownSeconds <= 0.0f)
+            {
+                actor.attackCooldownSeconds = actor.recoverySeconds;
+                actor.actionSeconds = std::max(0.3f, actor.recoverySeconds);
+                actor.animationTimeTicks = 0.0f;
+                pushAudioEvent(pStats->attackSoundId, actor.actorId, "monster_attack");
+            }
+        }
+        else if (shouldEngageParty)
+        {
+            nextAiState = ActorAiState::Pursuing;
+            nextAnimation = movementAllowed ? ActorAnimation::Walking : ActorAnimation::Standing;
+
+            if (distanceToParty > 0.01f)
+            {
+                desiredMoveX = deltaPartyX / distanceToParty;
+                desiredMoveY = deltaPartyY / distanceToParty;
+                faceDirection(actor, desiredMoveX, desiredMoveY);
+            }
+
+            actor.moveDirectionX = desiredMoveX;
+            actor.moveDirectionY = desiredMoveY;
+        }
+        else if (friendlyNearParty)
+        {
+            nextAiState = ActorAiState::Standing;
+            nextAnimation = ActorAnimation::Standing;
+            actor.moveDirectionX = 0.0f;
+            actor.moveDirectionY = 0.0f;
+            actor.velocityX = 0.0f;
+            actor.velocityY = 0.0f;
+            actor.actionSeconds = std::max(actor.actionSeconds, 0.25f);
+            actor.idleDecisionSeconds = std::max(actor.idleDecisionSeconds, 0.25f);
+        }
+        else
+        {
+            const float wanderRadius = wanderRadiusForMovementType(pStats->movementType);
+            const float deltaHomeX = actor.homePreciseX - actor.preciseX;
+            const float deltaHomeY = actor.homePreciseY - actor.preciseY;
+            const float distanceToHome = length2d(deltaHomeX, deltaHomeY);
+
+            if (wanderRadius <= 0.0f)
+            {
+                nextAiState = ActorAiState::Standing;
+                nextAnimation = ActorAnimation::Standing;
+
+                if (actor.actionSeconds <= 0.0f)
+                {
+                    beginStandAwhile(actor, false);
+                    nextAnimation = actor.animation;
+                }
+
+                actor.moveDirectionX = 0.0f;
+                actor.moveDirectionY = 0.0f;
+            }
+            else if (distanceToHome > wanderRadius)
+            {
+                nextAiState = ActorAiState::Wandering;
+                nextAnimation = ActorAnimation::Walking;
+
+                if (distanceToHome > 0.01f)
+                {
+                    desiredMoveX = deltaHomeX / distanceToHome;
+                    desiredMoveY = deltaHomeY / distanceToHome;
+                    actor.yawRadians = std::atan2(desiredMoveY, desiredMoveX);
+                }
+
+                actor.moveDirectionX = desiredMoveX;
+                actor.moveDirectionY = desiredMoveY;
+            }
+            else if (actor.actionSeconds > 0.0f
+                && (std::abs(actor.moveDirectionX) > 0.001f || std::abs(actor.moveDirectionY) > 0.001f))
+            {
+                nextAiState = ActorAiState::Wandering;
+                nextAnimation = ActorAnimation::Walking;
+                desiredMoveX = actor.moveDirectionX;
+                desiredMoveY = actor.moveDirectionY;
+            }
+            else if (actor.aiState == ActorAiState::Wandering)
+            {
+                beginStandAwhile(actor, false);
+                nextAiState = ActorAiState::Standing;
+                nextAnimation = actor.animation;
+            }
+            else if (actor.actionSeconds > 0.0f)
+            {
+                nextAiState = ActorAiState::Standing;
+                nextAnimation = ActorAnimation::Standing;
+            }
+            else
+            {
+                const uint32_t decisionSeed =
+                    static_cast<uint32_t>(actor.actorId + 1) * 1103515245u
+                    + actor.idleDecisionCount * 2654435761u
+                    + 12345u;
+                ++actor.idleDecisionCount;
+
+                if ((decisionSeed % 100u) < 25u)
+                {
+                    beginStandAwhile(actor, false);
+                    nextAiState = ActorAiState::Standing;
+                    nextAnimation = actor.animation;
+                }
+                else
+                {
+                    if (beginIdleWander(
+                            actor,
+                            decisionSeed,
+                            wanderRadius,
+                            static_cast<float>(std::max(
+                                1,
+                                actor.moveSpeed > 0 ? static_cast<int>(actor.moveSpeed) : pStats->speed))))
+                    {
+                        nextAiState = ActorAiState::Wandering;
+                        nextAnimation = ActorAnimation::Walking;
+                        desiredMoveX = actor.moveDirectionX;
+                        desiredMoveY = actor.moveDirectionY;
+                    }
+                    else
+                    {
+                        nextAiState = ActorAiState::Standing;
+                        nextAnimation = actor.animation;
+                    }
+                }
+            }
+        }
+
+        if (actor.actionSeconds > 0.0f && actor.aiState == ActorAiState::Attacking)
+        {
+            nextAnimation = actor.animation;
+        }
+
+        if (nextAnimation != actor.animation)
+        {
+            actor.animationTimeTicks = 0.0f;
+        }
+
+        actor.aiState = nextAiState;
+        actor.animation = nextAnimation;
+
+        actor.velocityX = 0.0f;
+        actor.velocityY = 0.0f;
+        actor.velocityZ = 0.0f;
+
+        if (movementAllowed && (std::abs(desiredMoveX) > 0.001f || std::abs(desiredMoveY) > 0.001f))
+        {
+            const float moveSpeed = static_cast<float>(std::max(
+                1,
+                actor.moveSpeed > 0 ? static_cast<int>(actor.moveSpeed) : pStats->speed));
+            actor.velocityX = desiredMoveX * moveSpeed;
+            actor.velocityY = desiredMoveY * moveSpeed;
+            actor.preciseX += actor.velocityX * deltaSeconds;
+            actor.preciseY += actor.velocityY * deltaSeconds;
+
+            if (m_pOutdoorMapData != nullptr)
+            {
+                actor.preciseZ = resolveActorGroundZ(
+                    m_pOutdoorMapData,
+                    pStats,
+                    actor.preciseX,
+                    actor.preciseY,
+                    actor.preciseZ);
+            }
+        }
+
+        actor.x = static_cast<int>(std::lround(actor.preciseX));
+        actor.y = static_cast<int>(std::lround(actor.preciseY));
+        actor.z = static_cast<int>(std::lround(actor.preciseZ));
+    }
+}
+
 void OutdoorWorldRuntime::applyEventRuntimeState()
 {
     if (!m_eventRuntimeState)
     {
         return;
+    }
+
+    for (auto &[actorId, setMask] : m_eventRuntimeState->actorSetMasks)
+    {
+        if (actorId < m_mapActors.size() && (setMask & ActorInvisibleBit) != 0)
+        {
+            m_mapActors[actorId].isInvisible = true;
+        }
+    }
+
+    for (auto &[actorId, clearMask] : m_eventRuntimeState->actorClearMasks)
+    {
+        if (actorId < m_mapActors.size() && (clearMask & ActorInvisibleBit) != 0)
+        {
+            m_mapActors[actorId].isInvisible = false;
+        }
+    }
+
+    for (auto &[groupId, setMask] : m_eventRuntimeState->actorGroupSetMasks)
+    {
+        if ((setMask & ActorInvisibleBit) == 0)
+        {
+            continue;
+        }
+
+        for (MapActorState &actor : m_mapActors)
+        {
+            if (actor.group == groupId)
+            {
+                actor.isInvisible = true;
+            }
+        }
+
+        for (SummonedMonsterState &monster : m_summonedMonsters)
+        {
+            if (monster.group == groupId)
+            {
+                monster.isInvisible = true;
+            }
+        }
+    }
+
+    for (auto &[groupId, clearMask] : m_eventRuntimeState->actorGroupClearMasks)
+    {
+        if ((clearMask & ActorInvisibleBit) == 0)
+        {
+            continue;
+        }
+
+        for (MapActorState &actor : m_mapActors)
+        {
+            if (actor.group == groupId)
+            {
+                actor.isInvisible = false;
+            }
+        }
+
+        for (SummonedMonsterState &monster : m_summonedMonsters)
+        {
+            if (monster.group == groupId)
+            {
+                monster.isInvisible = false;
+            }
+        }
     }
 
     for (uint32_t chestId : m_eventRuntimeState->openedChestIds)
@@ -588,7 +1520,9 @@ bool OutdoorWorldRuntime::updateTimers(
                 localEventIrProgram,
                 globalEventIrProgram,
                 timer.eventId,
-                *m_eventRuntimeState))
+                *m_eventRuntimeState,
+                nullptr,
+                this))
         {
             executedAny = true;
             applyEventRuntimeState();
@@ -610,6 +1544,182 @@ bool OutdoorWorldRuntime::updateTimers(
 bool OutdoorWorldRuntime::isChestOpened(uint32_t chestId) const
 {
     return chestId < m_openedChests.size() ? m_openedChests[chestId] : false;
+}
+
+size_t OutdoorWorldRuntime::mapActorCount() const
+{
+    return m_mapActors.size();
+}
+
+const OutdoorWorldRuntime::MapActorState *OutdoorWorldRuntime::mapActorState(size_t actorIndex) const
+{
+    if (actorIndex >= m_mapActors.size())
+    {
+        return nullptr;
+    }
+
+    return &m_mapActors[actorIndex];
+}
+
+bool OutdoorWorldRuntime::setMapActorDead(size_t actorIndex, bool isDead)
+{
+    if (actorIndex >= m_mapActors.size())
+    {
+        return false;
+    }
+
+    MapActorState &actor = m_mapActors[actorIndex];
+    const bool wasDead = actor.isDead;
+    actor.isDead = isDead;
+    actor.currentHp = isDead ? 0 : actor.maxHp;
+    actor.aiState = isDead ? ActorAiState::Dead : ActorAiState::Standing;
+    actor.animation = isDead ? ActorAnimation::Dead : ActorAnimation::Standing;
+    actor.animationTimeTicks = 0.0f;
+    actor.actionSeconds = 0.0f;
+
+    if (!wasDead && isDead && m_pMonsterTable != nullptr)
+    {
+        const MonsterTable::MonsterStatsEntry *pStats = m_pMonsterTable->findStatsById(actor.monsterId);
+
+        if (pStats != nullptr)
+        {
+            if (actorIndex >= m_mapActorCorpseViews.size())
+            {
+                m_mapActorCorpseViews.resize(actorIndex + 1);
+            }
+
+            if (!m_mapActorCorpseViews[actorIndex].has_value())
+            {
+                CorpseViewState corpse = buildCorpseView(actor.displayName, pStats->loot, makeChestSeed(
+                    m_sessionChestSeed,
+                    m_mapId,
+                    static_cast<uint32_t>(actorIndex),
+                    0x434f5250u));
+                corpse.fromSummonedMonster = false;
+                corpse.sourceIndex = static_cast<uint32_t>(actorIndex);
+                m_mapActorCorpseViews[actorIndex] = std::move(corpse);
+            }
+
+            pushAudioEvent(pStats->deathSoundId, actor.actorId, "monster_death");
+        }
+    }
+
+    if (wasDead && !isDead && actorIndex < m_mapActorCorpseViews.size())
+    {
+        m_mapActorCorpseViews[actorIndex].reset();
+    }
+
+    return true;
+}
+
+bool OutdoorWorldRuntime::notifyPartyContactWithMapActor(size_t actorIndex, float partyX, float partyY, float partyZ)
+{
+    if (actorIndex >= m_mapActors.size())
+    {
+        return false;
+    }
+
+    MapActorState &actor = m_mapActors[actorIndex];
+
+    if (actor.isDead || actor.isInvisible || actor.hostileToParty)
+    {
+        return false;
+    }
+
+    if (std::abs(partyZ - actor.preciseZ) > static_cast<float>(std::max<uint16_t>(actor.height, 192)))
+    {
+        return false;
+    }
+
+    faceDirection(actor, partyX - actor.preciseX, partyY - actor.preciseY);
+    actor.aiState = ActorAiState::Standing;
+    actor.animation = ActorAnimation::Standing;
+    actor.animationTimeTicks = 0.0f;
+    actor.moveDirectionX = 0.0f;
+    actor.moveDirectionY = 0.0f;
+    actor.velocityX = 0.0f;
+    actor.velocityY = 0.0f;
+    actor.velocityZ = 0.0f;
+    actor.actionSeconds = std::max(actor.actionSeconds, 2.0f);
+    actor.idleDecisionSeconds = std::max(actor.idleDecisionSeconds, 2.0f);
+    return true;
+}
+
+size_t OutdoorWorldRuntime::spawnPointCount() const
+{
+    return m_spawnPoints.size();
+}
+
+const OutdoorWorldRuntime::SpawnPointState *OutdoorWorldRuntime::spawnPointState(size_t spawnIndex) const
+{
+    if (spawnIndex >= m_spawnPoints.size())
+    {
+        return nullptr;
+    }
+
+    return &m_spawnPoints[spawnIndex];
+}
+
+size_t OutdoorWorldRuntime::summonedMonsterCount() const
+{
+    return m_summonedMonsters.size();
+}
+
+const OutdoorWorldRuntime::SummonedMonsterState *OutdoorWorldRuntime::summonedMonsterState(size_t summonIndex) const
+{
+    if (summonIndex >= m_summonedMonsters.size())
+    {
+        return nullptr;
+    }
+
+    return &m_summonedMonsters[summonIndex];
+}
+
+bool OutdoorWorldRuntime::setSummonedMonsterDead(size_t summonIndex, bool isDead)
+{
+    if (summonIndex >= m_summonedMonsters.size())
+    {
+        return false;
+    }
+
+    SummonedMonsterState &monster = m_summonedMonsters[summonIndex];
+    const bool wasDead = monster.isDead;
+    monster.isDead = isDead;
+    monster.currentHp = isDead ? 0 : monster.maxHp;
+
+    if (!wasDead && isDead && m_pMonsterTable != nullptr)
+    {
+        const MonsterTable::MonsterStatsEntry *pStats = m_pMonsterTable->findStatsById(monster.monsterId);
+
+        if (pStats != nullptr)
+        {
+            if (summonIndex >= m_summonedMonsterCorpseViews.size())
+            {
+                m_summonedMonsterCorpseViews.resize(summonIndex + 1);
+            }
+
+            if (!m_summonedMonsterCorpseViews[summonIndex].has_value())
+            {
+                CorpseViewState corpse = buildCorpseView(monster.displayName, pStats->loot, makeChestSeed(
+                    m_sessionChestSeed,
+                    m_mapId,
+                    monster.summonId,
+                    0x53554d4du));
+                corpse.fromSummonedMonster = true;
+                corpse.sourceIndex = static_cast<uint32_t>(summonIndex);
+                m_summonedMonsterCorpseViews[summonIndex] = std::move(corpse);
+            }
+
+            pushAudioEvent(pStats->deathSoundId, monster.summonId, "monster_death");
+        }
+    }
+
+    if (wasDead && !isDead && summonIndex < m_summonedMonsterCorpseViews.size())
+    {
+        m_summonedMonsterCorpseViews[summonIndex].reset();
+    }
+
+    return true;
 }
 
 size_t OutdoorWorldRuntime::chestCount() const
@@ -665,6 +1775,209 @@ bool OutdoorWorldRuntime::takeActiveChestItem(size_t itemIndex, ChestItemState &
 void OutdoorWorldRuntime::closeActiveChestView()
 {
     m_activeChestView.reset();
+}
+
+const OutdoorWorldRuntime::CorpseViewState *OutdoorWorldRuntime::activeCorpseView() const
+{
+    return m_activeCorpseView ? &*m_activeCorpseView : nullptr;
+}
+
+bool OutdoorWorldRuntime::openMapActorCorpseView(size_t actorIndex)
+{
+    if (actorIndex >= m_mapActorCorpseViews.size() || !m_mapActorCorpseViews[actorIndex].has_value())
+    {
+        return false;
+    }
+
+    m_activeCorpseView = *m_mapActorCorpseViews[actorIndex];
+    return true;
+}
+
+bool OutdoorWorldRuntime::takeActiveCorpseItem(size_t itemIndex, ChestItemState &item)
+{
+    if (!m_activeCorpseView || itemIndex >= m_activeCorpseView->items.size())
+    {
+        return false;
+    }
+
+    item = m_activeCorpseView->items[itemIndex];
+    m_activeCorpseView->items.erase(m_activeCorpseView->items.begin() + static_cast<ptrdiff_t>(itemIndex));
+
+    std::vector<std::optional<CorpseViewState>> *pStorage = m_activeCorpseView->fromSummonedMonster
+        ? &m_summonedMonsterCorpseViews
+        : &m_mapActorCorpseViews;
+
+    if (m_activeCorpseView->sourceIndex < pStorage->size())
+    {
+        (*pStorage)[m_activeCorpseView->sourceIndex] = *m_activeCorpseView;
+    }
+
+    return true;
+}
+
+void OutdoorWorldRuntime::closeActiveCorpseView()
+{
+    m_activeCorpseView.reset();
+}
+
+const std::vector<OutdoorWorldRuntime::AudioEvent> &OutdoorWorldRuntime::pendingAudioEvents() const
+{
+    return m_pendingAudioEvents;
+}
+
+void OutdoorWorldRuntime::clearPendingAudioEvents()
+{
+    m_pendingAudioEvents.clear();
+}
+
+bool OutdoorWorldRuntime::summonMonsters(
+    uint32_t typeIndexInMapStats,
+    uint32_t level,
+    uint32_t count,
+    int32_t x,
+    int32_t y,
+    int32_t z,
+    uint32_t group,
+    uint32_t uniqueNameId
+)
+{
+    if (m_pMonsterTable == nullptr || typeIndexInMapStats < 1 || typeIndexInMapStats > 3 || count == 0)
+    {
+        return false;
+    }
+
+    const MapEncounterInfo *pEncounter = getEncounterInfo(m_map, static_cast<int>(typeIndexInMapStats));
+
+    if (pEncounter == nullptr)
+    {
+        return false;
+    }
+
+    std::string pictureName = encounterPictureBase(*pEncounter);
+    pictureName += " ";
+    pictureName.push_back(tierLetterForSummonLevel(level));
+
+    const MonsterTable::MonsterStatsEntry *pStats = m_pMonsterTable->findStatsByPictureName(pictureName);
+
+    if (pStats == nullptr)
+    {
+        return false;
+    }
+
+    for (uint32_t index = 0; index < count; ++index)
+    {
+        SummonedMonsterState monster = {};
+        monster.summonId = m_nextSummonId++;
+        monster.monsterId = static_cast<int16_t>(pStats->id);
+        monster.displayName = pStats->name;
+        monster.group = group;
+        monster.x = x;
+        monster.y = y;
+        monster.z = z;
+        monster.uniqueNameId = uniqueNameId;
+        monster.hostilityType = static_cast<uint8_t>(pStats->hostility);
+        monster.maxHp = pStats->hitPoints;
+        monster.currentHp = pStats->hitPoints;
+        monster.hostileToParty = m_pMonsterTable->isHostileToParty(monster.monsterId);
+        m_summonedMonsters.push_back(std::move(monster));
+    }
+
+    applyEventRuntimeState();
+    return true;
+}
+
+bool OutdoorWorldRuntime::checkMonstersKilled(
+    uint32_t checkType,
+    uint32_t id,
+    uint32_t count,
+    bool invisibleAsDead
+) const
+{
+    int totalActors = 0;
+    int defeatedActors = 0;
+
+    auto countMonster =
+        [&](bool matches, bool isDead, bool isInvisible)
+        {
+            if (!matches)
+            {
+                return;
+            }
+
+            ++totalActors;
+
+            if (isDead || (invisibleAsDead && isInvisible))
+            {
+                ++defeatedActors;
+            }
+        };
+
+    for (const MapActorState &actor : m_mapActors)
+    {
+        bool matches = false;
+
+        switch (checkType)
+        {
+            case CheckActorKilledByAny:
+                matches = true;
+                break;
+
+            case CheckActorKilledByGroup:
+                matches = actor.group == id;
+                break;
+
+            case CheckActorKilledByMonsterId:
+                matches = actor.monsterId == static_cast<int16_t>(id);
+                break;
+
+            case CheckActorKilledByActorIdOe:
+            case CheckActorKilledByActorIdMm8:
+                matches = actor.actorId == id;
+                break;
+
+            default:
+                break;
+        }
+
+        countMonster(matches, actor.isDead || actor.currentHp <= 0, actor.isInvisible);
+    }
+
+    for (const SummonedMonsterState &monster : m_summonedMonsters)
+    {
+        bool matches = false;
+
+        switch (checkType)
+        {
+            case CheckActorKilledByAny:
+                matches = true;
+                break;
+
+            case CheckActorKilledByGroup:
+                matches = monster.group == id;
+                break;
+
+            case CheckActorKilledByMonsterId:
+                matches = monster.monsterId == static_cast<int16_t>(id);
+                break;
+
+            case CheckActorKilledByActorIdOe:
+            case CheckActorKilledByActorIdMm8:
+                matches = false;
+                break;
+
+            default:
+                break;
+        }
+
+        countMonster(matches, monster.isDead || monster.currentHp <= 0, monster.isInvisible);
+    }
+
+    if (count > 0)
+    {
+        return defeatedActors >= static_cast<int>(count);
+    }
+
+    return totalActors == defeatedActors;
 }
 
 const EventRuntimeState::PendingMapMove *OutdoorWorldRuntime::pendingMapMove() const

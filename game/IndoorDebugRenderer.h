@@ -94,6 +94,7 @@ private:
     struct BillboardTextureHandle
     {
         std::string textureName;
+        int16_t paletteId = 0;
         int width = 0;
         int height = 0;
         bgfx::TextureHandle textureHandle = BGFX_INVALID_HANDLE;
@@ -199,7 +200,7 @@ private:
     void renderActorPreviewBillboards(uint16_t viewId, const float *pViewMatrix, const bx::Vec3 &cameraPosition);
     void renderSpriteObjectBillboards(uint16_t viewId, const float *pViewMatrix, const bx::Vec3 &cameraPosition);
     const bgfx::TextureHandle *findIndoorTextureHandle(const std::string &textureName) const;
-    const BillboardTextureHandle *findBillboardTexture(const std::string &textureName) const;
+    const BillboardTextureHandle *findBillboardTexture(const std::string &textureName, int16_t paletteId = 0) const;
     bool hasScriptVisualOverrides() const;
     void rebuildMechanismBindings();
     bool rebuildAllTexturedBatches(uint64_t &texturedBuildNanoseconds);

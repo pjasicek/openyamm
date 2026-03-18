@@ -76,6 +76,65 @@ int runApplication(int argc, char **argv)
         return diagnostics.runRegressionSuite(argv[0], argv[2]);
     }
 
+    if (argc == 3 && std::string(argv[1]) == "--headless-profile-map-load-full")
+    {
+        OpenYAMM::Game::HeadlessOutdoorDiagnostics diagnostics(config);
+        return diagnostics.runProfileFullMapLoad(argv[0], argv[2]);
+    }
+
+    if (argc == 6 && std::string(argv[1]) == "--headless-simulate-actor")
+    {
+        const std::string mapFileName = argv[2];
+        const int parsedActorIndex = std::stoi(argv[3]);
+        const int parsedStepCount = std::stoi(argv[4]);
+        const float deltaSeconds = std::stof(argv[5]);
+
+        if (parsedActorIndex < 0 || parsedStepCount <= 0 || deltaSeconds <= 0.0f)
+        {
+            return 2;
+        }
+
+        OpenYAMM::Game::HeadlessOutdoorDiagnostics diagnostics(config);
+        return diagnostics.runSimulateActor(
+            argv[0],
+            mapFileName,
+            static_cast<size_t>(parsedActorIndex),
+            parsedStepCount,
+            deltaSeconds);
+    }
+
+    if (argc == 4 && std::string(argv[1]) == "--headless-inspect-actor-preview")
+    {
+        const std::string mapFileName = argv[2];
+        const int parsedActorIndex = std::stoi(argv[3]);
+
+        if (parsedActorIndex < 0)
+        {
+            return 2;
+        }
+
+        OpenYAMM::Game::HeadlessOutdoorDiagnostics diagnostics(config);
+        return diagnostics.runInspectActorPreview(argv[0], mapFileName, static_cast<size_t>(parsedActorIndex));
+    }
+
+    if (argc == 5 && std::string(argv[1]) == "--headless-dump-actor-preview-texture")
+    {
+        const std::string mapFileName = argv[2];
+        const int parsedActorIndex = std::stoi(argv[3]);
+
+        if (parsedActorIndex < 0)
+        {
+            return 2;
+        }
+
+        OpenYAMM::Game::HeadlessOutdoorDiagnostics diagnostics(config);
+        return diagnostics.runDumpActorPreviewTexture(
+            argv[0],
+            mapFileName,
+            static_cast<size_t>(parsedActorIndex),
+            argv[4]);
+    }
+
     OpenYAMM::Game::GameApplication application(config);
     return application.run();
 }

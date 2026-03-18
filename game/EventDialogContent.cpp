@@ -167,7 +167,9 @@ EventDialogContent buildEventDialogContent(
             const std::vector<HouseActionOption> houseActions = buildHouseActionOptions(
                 *pHouseEntry,
                 pParty,
-                currentHour
+                pClassSkillTable,
+                currentHour,
+                eventRuntimeState.houseServiceMenuId
             );
             const std::optional<uint32_t> residentNpcId = singleSelectableResidentNpcId(
                 *pHouseEntry,
@@ -314,10 +316,20 @@ EventDialogContent buildEventDialogContent(
                 dialog.lines.insert(dialog.lines.end(), wrappedEnterText.begin(), wrappedEnterText.end());
             }
 
+            const std::vector<std::string> serviceInfoLines = buildHouseServiceInfoLines(
+                *pHouseEntry,
+                pParty,
+                pClassSkillTable,
+                eventRuntimeState.houseServiceMenuId
+            );
+            dialog.lines.insert(dialog.lines.end(), serviceInfoLines.begin(), serviceInfoLines.end());
+
             const std::vector<HouseActionOption> houseActions = buildHouseActionOptions(
                 *pHouseEntry,
                 pParty,
-                currentHour
+                pClassSkillTable,
+                currentHour,
+                eventRuntimeState.houseServiceMenuId
             );
 
             for (const HouseActionOption &houseAction : houseActions)
@@ -326,6 +338,7 @@ EventDialogContent buildEventDialogContent(
                 action.kind = EventDialogActionKind::HouseService;
                 action.id = static_cast<uint32_t>(houseAction.id);
                 action.label = houseAction.label;
+                action.argument = houseAction.argument;
                 action.enabled = houseAction.enabled;
                 action.disabledReason = houseAction.disabledReason;
                 dialog.actions.push_back(std::move(action));

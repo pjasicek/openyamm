@@ -22,6 +22,19 @@ bool readValue(const std::vector<uint8_t> &bytes, size_t offset, T &value)
     return true;
 }
 
+template <typename T>
+std::optional<T> readPayloadValue(const std::vector<uint8_t> &bytes, size_t offset)
+{
+    T value = {};
+
+    if (!readValue(bytes, offset, value))
+    {
+        return std::nullopt;
+    }
+
+    return value;
+}
+
 std::optional<std::string> readNullTerminatedString(const std::vector<uint8_t> &bytes, size_t offset)
 {
     if (offset > bytes.size())
@@ -427,6 +440,10 @@ bool EvtProgram::parseInstruction(const std::vector<uint8_t> &record, EvtInstruc
         case EvtOpcode::EndCanShowDialogItem:
             break;
 
+        case EvtOpcode::ForPartyMember:
+            instruction.listValues.assign(record.begin() + 2, record.end());
+            break;
+
         case EvtOpcode::MouseOver:
             if (const std::optional<uint8_t> value = tryReadU8(2))
             {
@@ -697,6 +714,28 @@ std::string EvtProgram::formatInstruction(const EvtInstruction &instruction, con
             stream << "}";
             break;
 
+        case EvtOpcode::SummonMonsters:
+        {
+            const std::optional<uint8_t> typeIndex = readPayloadValue<uint8_t>(instruction.rawPayload, 0);
+            const std::optional<uint8_t> level = readPayloadValue<uint8_t>(instruction.rawPayload, 1);
+            const std::optional<uint8_t> count = readPayloadValue<uint8_t>(instruction.rawPayload, 2);
+            const std::optional<int32_t> x = readPayloadValue<int32_t>(instruction.rawPayload, 3);
+            const std::optional<int32_t> y = readPayloadValue<int32_t>(instruction.rawPayload, 7);
+            const std::optional<int32_t> z = readPayloadValue<int32_t>(instruction.rawPayload, 11);
+            const std::optional<uint32_t> group = readPayloadValue<uint32_t>(instruction.rawPayload, 15);
+            const std::optional<uint32_t> uniqueNameId = readPayloadValue<uint32_t>(instruction.rawPayload, 19);
+            stream << " {TypeIndexInMapStats=" << (typeIndex ? static_cast<unsigned>(*typeIndex) : 0)
+                   << " Level=" << (level ? static_cast<unsigned>(*level) : 0)
+                   << " Count=" << (count ? static_cast<unsigned>(*count) : 0)
+                   << " X=" << (x ? *x : 0)
+                   << " Y=" << (y ? *y : 0)
+                   << " Z=" << (z ? *z : 0)
+                   << " NPCGroup=" << (group ? *group : 0)
+                   << " UniqueNameId=" << (uniqueNameId ? *uniqueNameId : 0)
+                   << "}";
+            break;
+        }
+
         case EvtOpcode::ChangeDoorState:
             stream << " {Id=" << (instruction.value1 ? *instruction.value1 : 0)
                    << " Action=" << (instruction.value2 ? *instruction.value2 : 0) << "}";
@@ -729,6 +768,28 @@ std::string EvtProgram::formatInstruction(const EvtInstruction &instruction, con
                    << " Event=" << (instruction.value3 ? *instruction.value3 : 0)
                    << "}";
             break;
+
+        case EvtOpcode::IsActorKilled:
+        case EvtOpcode::CanShowTopicIsActorKilled:
+        {
+            const std::optional<uint8_t> policy = readPayloadValue<uint8_t>(instruction.rawPayload, 0);
+            const std::optional<uint32_t> param = readPayloadValue<uint32_t>(instruction.rawPayload, 1);
+            const std::optional<uint8_t> count = readPayloadValue<uint8_t>(instruction.rawPayload, 5);
+            const std::optional<uint8_t> invisibleAsDead = readPayloadValue<uint8_t>(instruction.rawPayload, 6);
+            const std::optional<uint8_t> jump = readPayloadValue<uint8_t>(instruction.rawPayload, 7);
+            stream << " {CheckType=" << (policy ? static_cast<unsigned>(*policy) : 0)
+                   << " Id=" << (param ? *param : 0)
+                   << " Count=" << (count ? static_cast<unsigned>(*count) : 0)
+                   << " InvisibleAsDead=" << (invisibleAsDead ? static_cast<unsigned>(*invisibleAsDead) : 0);
+
+            if (jump)
+            {
+                stream << " jump=" << static_cast<unsigned>(*jump);
+            }
+
+            stream << "}";
+            break;
+        }
 
         case EvtOpcode::RandomGoTo:
         case EvtOpcode::OnTimer:

@@ -31,6 +31,11 @@ void OutdoorPartyRuntime::update(const OutdoorMovementInput &input, float deltaS
     m_party.applyMovementEffects(m_movementDriver.consumePendingEffects());
 }
 
+void OutdoorPartyRuntime::setActorColliders(const std::vector<OutdoorActorCollision> &actorColliders)
+{
+    m_movementDriver.setActorColliders(actorColliders);
+}
+
 void OutdoorPartyRuntime::applyEventRuntimeState(const EventRuntimeState &runtimeState)
 {
     m_party.applyEventRuntimeState(runtimeState);

@@ -12,6 +12,8 @@ constexpr uint8_t OutdoorPolygonFloor = 0x3;
 constexpr uint8_t OutdoorPolygonInBetweenFloorAndWall = 0x4;
 constexpr uint8_t TerrainTileBurn = 0x01;
 constexpr uint8_t TerrainTileWater = 0x02;
+constexpr float FloorCheckSlack = 5.0f;
+constexpr float FloorSelectionHeightTolerance = 5.0f;
 
 bx::Vec3 vecSubtract(const bx::Vec3 &left, const bx::Vec3 &right)
 {
@@ -287,5 +289,111 @@ bool isPointInsideOutdoorPolygonProjected(
 
     const bx::Vec3 projectedPoint = projectVertex(point);
     return isPointInsideOutdoorPolygon(projectedPoint.x, projectedPoint.y, projectedVertices);
+}
+
+float calculateOutdoorFaceHeight(const OutdoorFaceGeometryData &geometry, float x, float y)
+{
+    if (geometry.polygonType == OutdoorPolygonFloor)
+    {
+        return geometry.vertices[0].z;
+    }
+
+    if (!geometry.hasPlane || std::fabs(geometry.normal.z) <= GeometryEpsilon)
+    {
+        return geometry.minZ;
+    }
+
+    return geometry.vertices[0].z
+        - (geometry.normal.x * (x - geometry.vertices[0].x) + geometry.normal.y * (y - geometry.vertices[0].y))
+            / geometry.normal.z;
+}
+
+bool isPointInsideOrNearOutdoorPolygon(float x, float y, const std::vector<bx::Vec3> &vertices, float slack)
+{
+    if (isPointInsideOutdoorPolygon(x, y, vertices))
+    {
+        return true;
+    }
+
+    const float slackSquared = slack * slack;
+
+    for (size_t index = 0; index < vertices.size(); ++index)
+    {
+        const size_t nextIndex = (index + 1) % vertices.size();
+        const float segmentX = vertices[nextIndex].x - vertices[index].x;
+        const float segmentY = vertices[nextIndex].y - vertices[index].y;
+        const float segmentLengthSquared = segmentX * segmentX + segmentY * segmentY;
+
+        if (segmentLengthSquared <= GeometryEpsilon)
+        {
+            continue;
+        }
+
+        const float projection =
+            ((x - vertices[index].x) * segmentX + (y - vertices[index].y) * segmentY) / segmentLengthSquared;
+        const float clampedProjection = std::clamp(projection, 0.0f, 1.0f);
+        const float closestX = vertices[index].x + segmentX * clampedProjection;
+        const float closestY = vertices[index].y + segmentY * clampedProjection;
+        const float deltaX = x - closestX;
+        const float deltaY = y - closestY;
+
+        if ((deltaX * deltaX + deltaY * deltaY) <= slackSquared)
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+float sampleOutdoorSupportFloorHeight(const OutdoorMapData &outdoorMapData, float x, float y, float z)
+{
+    const float terrainHeight = sampleOutdoorTerrainHeight(outdoorMapData, x, y);
+    float bestHeight = terrainHeight;
+
+    for (size_t bModelIndex = 0; bModelIndex < outdoorMapData.bmodels.size(); ++bModelIndex)
+    {
+        const OutdoorBModel &bModel = outdoorMapData.bmodels[bModelIndex];
+
+        if (x < static_cast<float>(-bModel.maxX)
+            || x > static_cast<float>(-bModel.minX)
+            || y < static_cast<float>(bModel.minY)
+            || y > static_cast<float>(bModel.maxY))
+        {
+            continue;
+        }
+
+        for (size_t faceIndex = 0; faceIndex < bModel.faces.size(); ++faceIndex)
+        {
+            OutdoorFaceGeometryData geometry = {};
+
+            if (!buildOutdoorFaceGeometry(bModel, bModelIndex, bModel.faces[faceIndex], faceIndex, geometry)
+                || !geometry.isWalkable
+                || x < geometry.minX
+                || x > geometry.maxX
+                || y < geometry.minY
+                || y > geometry.maxY
+                || !isPointInsideOrNearOutdoorPolygon(x, y, geometry.vertices, FloorCheckSlack))
+            {
+                continue;
+            }
+
+            const float faceHeight = calculateOutdoorFaceHeight(geometry, x, y);
+
+            if (bestHeight <= z + FloorSelectionHeightTolerance)
+            {
+                if (faceHeight >= bestHeight && faceHeight <= z + FloorSelectionHeightTolerance)
+                {
+                    bestHeight = faceHeight;
+                }
+            }
+            else if (faceHeight < bestHeight)
+            {
+                bestHeight = faceHeight;
+            }
+        }
+    }
+
+    return std::max(terrainHeight, bestHeight);
 }
 }

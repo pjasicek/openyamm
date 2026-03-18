@@ -697,6 +697,7 @@ bool IndoorDebugRenderer::initialize(
         {
             BillboardTextureHandle billboardTexture = {};
             billboardTexture.textureName = toLowerCopy(texture.textureName);
+            billboardTexture.paletteId = texture.paletteId;
             billboardTexture.width = texture.width;
             billboardTexture.height = texture.height;
             billboardTexture.textureHandle = bgfx::createTexture2D(
@@ -720,13 +721,14 @@ bool IndoorDebugRenderer::initialize(
     {
         for (const OutdoorBitmapTexture &texture : indoorActorPreviewBillboardSet->textures)
         {
-            if (findBillboardTexture(texture.textureName) != nullptr)
+            if (findBillboardTexture(texture.textureName, texture.paletteId) != nullptr)
             {
                 continue;
             }
 
             BillboardTextureHandle billboardTexture = {};
             billboardTexture.textureName = toLowerCopy(texture.textureName);
+            billboardTexture.paletteId = texture.paletteId;
             billboardTexture.width = texture.width;
             billboardTexture.height = texture.height;
             billboardTexture.textureHandle = bgfx::createTexture2D(
@@ -750,13 +752,14 @@ bool IndoorDebugRenderer::initialize(
     {
         for (const OutdoorBitmapTexture &texture : indoorSpriteObjectBillboardSet->textures)
         {
-            if (findBillboardTexture(texture.textureName) != nullptr)
+            if (findBillboardTexture(texture.textureName, texture.paletteId) != nullptr)
             {
                 continue;
             }
 
             BillboardTextureHandle billboardTexture = {};
             billboardTexture.textureName = toLowerCopy(texture.textureName);
+            billboardTexture.paletteId = texture.paletteId;
             billboardTexture.width = texture.width;
             billboardTexture.height = texture.height;
             billboardTexture.textureHandle = bgfx::createTexture2D(
@@ -1540,14 +1543,15 @@ bgfx::ShaderHandle IndoorDebugRenderer::loadShader(const char *pShaderName)
 }
 
 const IndoorDebugRenderer::BillboardTextureHandle *IndoorDebugRenderer::findBillboardTexture(
-    const std::string &textureName
+    const std::string &textureName,
+    int16_t paletteId
 ) const
 {
     const std::string normalizedTextureName = toLowerCopy(textureName);
 
     for (const BillboardTextureHandle &textureHandle : m_billboardTextureHandles)
     {
-        if (textureHandle.textureName == normalizedTextureName)
+        if (textureHandle.textureName == normalizedTextureName && textureHandle.paletteId == paletteId)
         {
             return &textureHandle;
         }
@@ -1754,7 +1758,7 @@ void IndoorDebugRenderer::renderActorPreviewBillboards(
         const float octantAngle = -angleToCamera + Pi + (Pi / 8.0f);
         const int octant = static_cast<int>(std::floor(octantAngle / (Pi / 4.0f))) & 7;
         const ResolvedSpriteTexture resolvedTexture = SpriteFrameTable::resolveTexture(*pFrame, octant);
-        const BillboardTextureHandle *pTexture = findBillboardTexture(resolvedTexture.textureName);
+        const BillboardTextureHandle *pTexture = findBillboardTexture(resolvedTexture.textureName, pFrame->paletteId);
 
         if (pTexture == nullptr || !bgfx::isValid(pTexture->textureHandle))
         {

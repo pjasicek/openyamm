@@ -25,6 +25,27 @@ bool parseUnsigned(const std::string &text, uint32_t &value)
     value = static_cast<uint32_t>(parsed);
     return true;
 }
+
+bool isRosterJoinTopicLabel(const std::string &topic)
+{
+    return topic == "Roster Join Event" || topic == "Join";
+}
+
+std::optional<NpcDialogTable::RosterJoinOffer> buildRosterJoinOffer(const NpcTopicEntry &entry)
+{
+    if (!isRosterJoinTopicLabel(entry.topic) || entry.id <= 600 || entry.id > 649)
+    {
+        return std::nullopt;
+    }
+
+    const uint32_t rosterId = entry.id - 600;
+    NpcDialogTable::RosterJoinOffer offer = {};
+    offer.topicId = entry.id;
+    offer.rosterId = rosterId;
+    offer.inviteTextId = 198 + rosterId * 2;
+    offer.partyFullTextId = offer.inviteTextId + 1;
+    return offer;
+}
 }
 
 bool NpcDialogTable::loadGreetingsFromRows(const std::vector<std::vector<std::string>> &rows)
@@ -132,6 +153,7 @@ bool NpcDialogTable::loadTextsFromRows(const std::vector<std::vector<std::string
 bool NpcDialogTable::loadTopicsFromRows(const std::vector<std::vector<std::string>> &rows)
 {
     m_topicsById.clear();
+    m_rosterJoinOffersByTopicId.clear();
 
     for (const std::vector<std::string> &row : rows)
     {
@@ -152,14 +174,12 @@ bool NpcDialogTable::loadTopicsFromRows(const std::vector<std::vector<std::strin
         entry.topic = row[1];
         entry.owner = row[5];
 
-        if (id >= 601 && id <= 649)
+        const std::optional<RosterJoinOffer> rosterJoinOffer = buildRosterJoinOffer(entry);
+
+        if (rosterJoinOffer)
         {
             entry.specialKind = NpcTopicEntry::SpecialKind::RosterJoinOffer;
-
-            if (entry.topic == "Roster Join Event")
-            {
-                entry.topic = "Join";
-            }
+            m_rosterJoinOffersByTopicId[entry.id] = *rosterJoinOffer;
         }
         else if (entry.id >= 300 && entry.id <= 416)
         {
@@ -171,6 +191,11 @@ bool NpcDialogTable::loadTopicsFromRows(const std::vector<std::vector<std::strin
         if (parseUnsigned(row[4], textId))
         {
             entry.textId = textId;
+        }
+
+        if (entry.specialKind == NpcTopicEntry::SpecialKind::RosterJoinOffer)
+        {
+            entry.topic = "Join";
         }
 
         m_topicsById[entry.id] = std::move(entry);
@@ -416,15 +441,12 @@ std::optional<uint32_t> NpcDialogTable::getNewsIdForGroup(uint32_t groupId) cons
 
 std::optional<NpcDialogTable::RosterJoinOffer> NpcDialogTable::getRosterJoinOfferForTopic(uint32_t topicId) const
 {
-    if (topicId >= 601 && topicId <= 649)
+    const std::unordered_map<uint32_t, RosterJoinOffer>::const_iterator offerIt =
+        m_rosterJoinOffersByTopicId.find(topicId);
+
+    if (offerIt != m_rosterJoinOffersByTopicId.end())
     {
-        const uint32_t rosterId = topicId - 600;
-        RosterJoinOffer offer = {};
-        offer.topicId = topicId;
-        offer.rosterId = rosterId;
-        offer.inviteTextId = 198 + rosterId * 2;
-        offer.partyFullTextId = offer.inviteTextId + 1;
-        return offer;
+        return offerIt->second;
     }
 
     return std::nullopt;

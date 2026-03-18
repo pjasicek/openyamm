@@ -69,6 +69,7 @@ struct OutdoorMovementEvents
     bool leftBurning = false;
     float landingFallDistance = 0.0f;
     bool hardLanding = false;
+    std::vector<size_t> contactedActorIndices;
 };
 
 class OutdoorMovementDriver
@@ -84,6 +85,7 @@ public:
 
     void initialize(float x, float y, float footZHint);
     void update(const OutdoorMovementInput &input, float deltaSeconds);
+    void setActorColliders(const std::vector<OutdoorActorCollision> &actorColliders);
     const OutdoorMoveState &state() const;
     const OutdoorMovementEvents &lastEvents() const;
     const OutdoorMovementConsequences &lastConsequences() const;

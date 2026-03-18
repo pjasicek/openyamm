@@ -8,11 +8,18 @@
 #include "game/GenericActorDialog.h"
 #include "game/HouseInteraction.h"
 #include "game/MasteryTeacherDialog.h"
+#include "game/OutdoorMovementController.h"
 #include "game/OutdoorWorldRuntime.h"
+#include "game/OutdoorGeometryUtils.h"
 #include "game/Party.h"
 
+#include <SDL3/SDL.h>
+
 #include <algorithm>
+#include <array>
+#include <cmath>
 #include <iostream>
+#include <limits>
 #include <optional>
 
 namespace OpenYAMM::Game
@@ -20,6 +27,235 @@ namespace OpenYAMM::Game
 namespace
 {
 constexpr uint32_t AdventurersInnHouseId = 185;
+
+struct TextureColorStats
+{
+    size_t opaquePixelCount = 0;
+    size_t magentaPixelCount = 0;
+    size_t greenPixelCount = 0;
+};
+
+struct ActorPreviewAnimationStats
+{
+    size_t sampleCount = 0;
+    size_t greenDominantSampleCount = 0;
+    size_t magentaDominantSampleCount = 0;
+    size_t missingTextureSampleCount = 0;
+    size_t distinctWalkingFrameCount = 0;
+};
+
+float normalizeAngleRadians(float angle)
+{
+    constexpr float Pi = 3.14159265358979323846f;
+
+    while (angle <= -Pi)
+    {
+        angle += 2.0f * Pi;
+    }
+
+    while (angle > Pi)
+    {
+        angle -= 2.0f * Pi;
+    }
+
+    return angle;
+}
+
+float angleDistanceRadians(float left, float right)
+{
+    return std::abs(normalizeAngleRadians(left - right));
+}
+
+TextureColorStats analyzeTextureColors(const std::vector<uint8_t> &pixels)
+{
+    TextureColorStats stats = {};
+
+    for (size_t offset = 0; offset + 3 < pixels.size(); offset += 4)
+    {
+        const uint8_t blue = pixels[offset + 0];
+        const uint8_t green = pixels[offset + 1];
+        const uint8_t red = pixels[offset + 2];
+        const uint8_t alpha = pixels[offset + 3];
+
+        if (alpha == 0)
+        {
+            continue;
+        }
+
+        ++stats.opaquePixelCount;
+
+        if (red >= 180 && blue >= 180 && green <= 120)
+        {
+            ++stats.magentaPixelCount;
+        }
+
+        if (green >= 100 && red <= 140 && blue <= 140)
+        {
+            ++stats.greenPixelCount;
+        }
+    }
+
+    return stats;
+}
+
+const ActorPreviewBillboard *findCompanionActorBillboard(
+    const ActorPreviewBillboardSet &billboardSet,
+    size_t actorIndex,
+    size_t &billboardIndex
+)
+{
+    if (actorIndex >= billboardSet.mapDeltaActorCount || actorIndex >= billboardSet.billboards.size())
+    {
+        return nullptr;
+    }
+
+    billboardIndex = actorIndex;
+    const ActorPreviewBillboard &billboard = billboardSet.billboards[billboardIndex];
+    return billboard.source == ActorPreviewSource::Companion ? &billboard : nullptr;
+}
+
+const OutdoorBitmapTexture *findBillboardTexture(
+    const ActorPreviewBillboardSet &billboardSet,
+    const std::string &textureName,
+    int16_t paletteId
+)
+{
+    std::string normalizedTextureName = textureName;
+
+    std::transform(
+        normalizedTextureName.begin(),
+        normalizedTextureName.end(),
+        normalizedTextureName.begin(),
+        [](unsigned char character)
+        {
+            return static_cast<char>(std::tolower(character));
+        });
+
+    for (const OutdoorBitmapTexture &texture : billboardSet.textures)
+    {
+        if (texture.textureName == normalizedTextureName && texture.paletteId == paletteId)
+        {
+            return &texture;
+        }
+    }
+
+    return nullptr;
+}
+
+bool saveTextureAsPng(const OutdoorBitmapTexture &texture, const std::filesystem::path &outputPath)
+{
+    if (texture.width <= 0 || texture.height <= 0 || texture.pixels.empty())
+    {
+        return false;
+    }
+
+    SDL_Surface *pSurface = SDL_CreateSurfaceFrom(
+        texture.width,
+        texture.height,
+        SDL_PIXELFORMAT_BGRA32,
+        const_cast<uint8_t *>(texture.pixels.data()),
+        texture.width * 4);
+
+    if (pSurface == nullptr)
+    {
+        return false;
+    }
+
+    const bool saved = SDL_SavePNG(pSurface, outputPath.string().c_str());
+    SDL_DestroySurface(pSurface);
+    return saved;
+}
+
+ActorPreviewAnimationStats analyzeActorPreviewAnimation(
+    const ActorPreviewBillboardSet &billboardSet,
+    const ActorPreviewBillboard &billboard
+)
+{
+    ActorPreviewAnimationStats stats = {};
+    std::vector<std::string> observedWalkingTextureKeys;
+    const std::array<OutdoorWorldRuntime::ActorAnimation, 2> actions = {
+        OutdoorWorldRuntime::ActorAnimation::Standing,
+        OutdoorWorldRuntime::ActorAnimation::Walking
+    };
+
+    for (OutdoorWorldRuntime::ActorAnimation action : actions)
+    {
+        uint16_t spriteFrameIndex = billboard.spriteFrameIndex;
+        const uint16_t actionFrameIndex = billboard.actionSpriteFrameIndices[static_cast<size_t>(action)];
+
+        if (actionFrameIndex != 0)
+        {
+            spriteFrameIndex = actionFrameIndex;
+        }
+
+        const SpriteFrameEntry *pBaseFrame = billboardSet.spriteFrameTable.getFrame(spriteFrameIndex, 0);
+
+        if (pBaseFrame == nullptr)
+        {
+            ++stats.missingTextureSampleCount;
+            continue;
+        }
+
+        const uint32_t animationLengthTicks =
+            pBaseFrame->animationLengthTicks > 0 ? static_cast<uint32_t>(pBaseFrame->animationLengthTicks) : 1u;
+        const uint32_t sampleStride = std::max(1u, animationLengthTicks / 4u);
+
+        for (uint32_t sampleTick = 0; sampleTick < animationLengthTicks; sampleTick += sampleStride)
+        {
+            const SpriteFrameEntry *pFrame = billboardSet.spriteFrameTable.getFrame(spriteFrameIndex, sampleTick);
+
+            if (pFrame == nullptr)
+            {
+                ++stats.missingTextureSampleCount;
+                continue;
+            }
+
+            for (int octant = 0; octant < 8; ++octant)
+            {
+                const ResolvedSpriteTexture resolvedTexture = SpriteFrameTable::resolveTexture(*pFrame, octant);
+                const OutdoorBitmapTexture *pTexture =
+                    findBillboardTexture(billboardSet, resolvedTexture.textureName, pFrame->paletteId);
+                ++stats.sampleCount;
+
+                if (pTexture == nullptr)
+                {
+                    ++stats.missingTextureSampleCount;
+                    continue;
+                }
+
+                const TextureColorStats colorStats = analyzeTextureColors(pTexture->pixels);
+
+                if (colorStats.greenPixelCount > colorStats.magentaPixelCount)
+                {
+                    ++stats.greenDominantSampleCount;
+                }
+
+                if (colorStats.magentaPixelCount > colorStats.greenPixelCount)
+                {
+                    ++stats.magentaDominantSampleCount;
+                }
+            }
+
+            if (action == OutdoorWorldRuntime::ActorAnimation::Walking)
+            {
+                const ResolvedSpriteTexture resolvedTexture = SpriteFrameTable::resolveTexture(*pFrame, 0);
+                const std::string textureKey =
+                    resolvedTexture.textureName + "|" + std::to_string(static_cast<int>(pFrame->paletteId));
+
+                if (std::find(
+                        observedWalkingTextureKeys.begin(),
+                        observedWalkingTextureKeys.end(),
+                        textureKey) == observedWalkingTextureKeys.end())
+                {
+                    observedWalkingTextureKeys.push_back(textureKey);
+                }
+            }
+        }
+    }
+
+    stats.distinctWalkingFrameCount = observedWalkingTextureKeys.size();
+    return stats;
+}
 
 std::optional<uint32_t> singleSelectableResidentNpcId(
     const HouseEntry &houseEntry,
@@ -122,6 +358,39 @@ void printChestSummary(const OutdoorWorldRuntime::ChestViewState &chestView, con
     }
 }
 
+void printCorpseSummary(const OutdoorWorldRuntime::CorpseViewState &corpseView, const ItemTable &itemTable)
+{
+    std::cout << "Headless diagnostic: active corpse title=\"" << corpseView.title
+              << "\" entries=" << corpseView.items.size()
+              << " summoned=" << (corpseView.fromSummonedMonster ? "yes" : "no")
+              << '\n';
+
+    for (size_t itemIndex = 0; itemIndex < corpseView.items.size(); ++itemIndex)
+    {
+        const OutdoorWorldRuntime::ChestItemState &item = corpseView.items[itemIndex];
+        std::cout << "  [" << itemIndex << "] ";
+
+        if (item.isGold)
+        {
+            std::cout << "gold=" << item.goldAmount;
+        }
+        else
+        {
+            const ItemDefinition *pItemDefinition = itemTable.get(item.itemId);
+            std::cout << "item=" << item.itemId;
+
+            if (pItemDefinition != nullptr && !pItemDefinition->name.empty())
+            {
+                std::cout << " \"" << pItemDefinition->name << "\"";
+            }
+
+            std::cout << " quantity=" << item.quantity;
+        }
+
+        std::cout << '\n';
+    }
+}
+
 void printDialogSummary(const EventDialogContent &dialog)
 {
     if (!dialog.isActive)
@@ -174,7 +443,13 @@ void promoteSingleResidentHouseContext(
         return;
     }
 
-    const std::vector<HouseActionOption> houseActions = buildHouseActionOptions(*pHouseEntry, nullptr, currentHour);
+    const std::vector<HouseActionOption> houseActions = buildHouseActionOptions(
+        *pHouseEntry,
+        nullptr,
+        nullptr,
+        currentHour,
+        eventRuntimeState.houseServiceMenuId
+    );
     const std::optional<uint32_t> residentNpcId = singleSelectableResidentNpcId(
         *pHouseEntry,
         npcDialogTable,
@@ -242,6 +517,19 @@ std::optional<size_t> findActionIndexByLabel(const EventDialogContent &dialog, c
     for (size_t actionIndex = 0; actionIndex < dialog.actions.size(); ++actionIndex)
     {
         if (dialog.actions[actionIndex].label == label)
+        {
+            return actionIndex;
+        }
+    }
+
+    return std::nullopt;
+}
+
+std::optional<size_t> findActionIndexByLabelPrefix(const EventDialogContent &dialog, const std::string &prefix)
+{
+    for (size_t actionIndex = 0; actionIndex < dialog.actions.size(); ++actionIndex)
+    {
+        if (dialog.actions[actionIndex].label.rfind(prefix, 0) == 0)
         {
             return actionIndex;
         }
@@ -328,7 +616,9 @@ bool initializeRegressionScenario(
 {
     scenario.world.initialize(
         selectedMap.map,
+        gameDataLoader.getMonsterTable(),
         gameDataLoader.getItemTable(),
+        selectedMap.outdoorMapData,
         selectedMap.outdoorMapDeltaData,
         selectedMap.eventRuntimeState
     );
@@ -392,7 +682,8 @@ bool executeLocalEventInScenario(
         selectedMap.globalEventIrProgram,
         eventId,
         *scenario.pEventRuntimeState,
-        &scenario.party
+        &scenario.party,
+        &scenario.world
     );
 
     if (!executed)
@@ -403,6 +694,54 @@ bool executeLocalEventInScenario(
     scenario.world.applyEventRuntimeState();
     scenario.party.applyEventRuntimeState(*scenario.pEventRuntimeState);
     return true;
+}
+
+bool executeGlobalEventInScenario(
+    const GameDataLoader &gameDataLoader,
+    const MapAssetInfo &selectedMap,
+    RegressionScenario &scenario,
+    uint16_t eventId
+)
+{
+    if (scenario.pEventRuntimeState == nullptr)
+    {
+        return false;
+    }
+
+    const bool executed = scenario.eventRuntime.executeEventById(
+        std::nullopt,
+        selectedMap.globalEventIrProgram,
+        eventId,
+        *scenario.pEventRuntimeState,
+        &scenario.party,
+        &scenario.world
+    );
+
+    if (!executed)
+    {
+        return false;
+    }
+
+    scenario.world.applyEventRuntimeState();
+    scenario.party.applyEventRuntimeState(*scenario.pEventRuntimeState);
+    return true;
+}
+
+bool openLocalEventDialogInScenario(
+    const GameDataLoader &gameDataLoader,
+    const MapAssetInfo &selectedMap,
+    RegressionScenario &scenario,
+    uint16_t eventId,
+    EventDialogContent &dialog
+)
+{
+    if (!executeLocalEventInScenario(gameDataLoader, selectedMap, scenario, eventId))
+    {
+        return false;
+    }
+
+    dialog = buildScenarioDialog(gameDataLoader, selectedMap, scenario, 0, true);
+    return dialog.isActive;
 }
 
 bool openActorInScenario(
@@ -501,9 +840,62 @@ bool executeDialogActionInScenario(
 
     if (action.kind == EventDialogActionKind::HouseResident)
     {
+        scenario.pEventRuntimeState->houseServiceMenuId.clear();
         EventRuntimeState::PendingDialogueContext context = {};
         context.kind = DialogueContextKind::NpcTalk;
         context.sourceId = action.id;
+        scenario.pEventRuntimeState->pendingDialogueContext = std::move(context);
+    }
+    else if (action.kind == EventDialogActionKind::HouseService)
+    {
+        const HouseEntry *pHouseEntry = gameDataLoader.getHouseTable().get(dialog.sourceId);
+
+        if (pHouseEntry == nullptr)
+        {
+            return false;
+        }
+
+        if (action.id == static_cast<uint32_t>(HouseActionId::OpenLearnSkillsMenu))
+        {
+            scenario.pEventRuntimeState->houseServiceMenuId = "skills";
+        }
+        else if (action.id == static_cast<uint32_t>(HouseActionId::OpenShopEquipmentMenu))
+        {
+            scenario.pEventRuntimeState->houseServiceMenuId = "shop_equipment";
+        }
+        else if (action.id == static_cast<uint32_t>(HouseActionId::OpenTavernArcomageMenu))
+        {
+            scenario.pEventRuntimeState->houseServiceMenuId = "tavern_arcomage";
+        }
+        else if (action.id == static_cast<uint32_t>(HouseActionId::BackToRootMenu))
+        {
+            scenario.pEventRuntimeState->houseServiceMenuId.clear();
+        }
+        else
+        {
+            std::vector<std::string> messages;
+            HouseActionOption option = {};
+            option.id = static_cast<HouseActionId>(action.id);
+            option.label = action.label;
+            option.argument = action.argument;
+            performHouseAction(
+                option,
+                *pHouseEntry,
+                scenario.party,
+                &gameDataLoader.getClassSkillTable(),
+                &scenario.world,
+                messages
+            );
+
+            for (const std::string &message : messages)
+            {
+                scenario.pEventRuntimeState->messages.push_back(message);
+            }
+        }
+
+        EventRuntimeState::PendingDialogueContext context = {};
+        context.kind = DialogueContextKind::HouseService;
+        context.sourceId = dialog.sourceId;
         scenario.pEventRuntimeState->pendingDialogueContext = std::move(context);
     }
     else if (action.kind == EventDialogActionKind::RosterJoinOffer)
@@ -630,7 +1022,8 @@ bool executeDialogActionInScenario(
             selectedMap.globalEventIrProgram,
             static_cast<uint16_t>(action.id),
             *scenario.pEventRuntimeState,
-            &scenario.party
+            &scenario.party,
+            &scenario.world
         );
 
         if (!executed)
@@ -669,6 +1062,353 @@ bool executeDialogActionInScenario(
 HeadlessOutdoorDiagnostics::HeadlessOutdoorDiagnostics(const Engine::ApplicationConfig &config)
     : m_config(config)
 {
+}
+
+int HeadlessOutdoorDiagnostics::runProfileFullMapLoad(
+    const std::filesystem::path &basePath,
+    const std::string &mapFileName
+) const
+{
+    Engine::AssetFileSystem assetFileSystem;
+
+    if (!assetFileSystem.initialize(basePath, m_config.assetRoot))
+    {
+        std::cerr << "Headless diagnostic failed: could not initialize asset file system\n";
+        return 1;
+    }
+
+    GameDataLoader gameDataLoader;
+
+    if (!gameDataLoader.loadForHeadlessGameplay(assetFileSystem))
+    {
+        std::cerr << "Headless diagnostic failed: could not load base game data\n";
+        return 1;
+    }
+
+    if (!gameDataLoader.loadMapByFileName(assetFileSystem, mapFileName))
+    {
+        std::cerr << "Headless diagnostic failed: could not full-load map \"" << mapFileName << "\"\n";
+        return 1;
+    }
+
+    const std::optional<MapAssetInfo> &selectedMap = gameDataLoader.getSelectedMap();
+
+    if (!selectedMap)
+    {
+        std::cerr << "Headless diagnostic failed: selected map missing after full load\n";
+        return 1;
+    }
+
+    std::cout << "Headless load profile complete: map=\"" << selectedMap->map.name
+              << "\" file=" << selectedMap->map.fileName
+              << '\n';
+    return 0;
+}
+
+int HeadlessOutdoorDiagnostics::runSimulateActor(
+    const std::filesystem::path &basePath,
+    const std::string &mapFileName,
+    size_t actorIndex,
+    int stepCount,
+    float deltaSeconds
+) const
+{
+    Engine::AssetFileSystem assetFileSystem;
+
+    if (!assetFileSystem.initialize(basePath, m_config.assetRoot))
+    {
+        std::cerr << "Headless diagnostic failed: could not initialize asset file system\n";
+        return 1;
+    }
+
+    GameDataLoader gameDataLoader;
+
+    if (!gameDataLoader.loadForHeadlessGameplay(assetFileSystem))
+    {
+        std::cerr << "Headless diagnostic failed: could not load game data\n";
+        return 1;
+    }
+
+    if (!gameDataLoader.loadMapByFileNameForHeadlessGameplay(assetFileSystem, mapFileName))
+    {
+        std::cerr << "Headless diagnostic failed: could not load map \"" << mapFileName << "\"\n";
+        return 1;
+    }
+
+    const std::optional<MapAssetInfo> &selectedMap = gameDataLoader.getSelectedMap();
+
+    if (!selectedMap || !selectedMap->outdoorMapData)
+    {
+        std::cerr << "Headless diagnostic failed: selected map is not an outdoor map\n";
+        return 1;
+    }
+
+    OutdoorWorldRuntime outdoorWorldRuntime;
+    outdoorWorldRuntime.initialize(
+        selectedMap->map,
+        gameDataLoader.getMonsterTable(),
+        gameDataLoader.getItemTable(),
+        selectedMap->outdoorMapData,
+        selectedMap->outdoorMapDeltaData,
+        selectedMap->eventRuntimeState
+    );
+
+    const OutdoorWorldRuntime::MapActorState *pStartActor = outdoorWorldRuntime.mapActorState(actorIndex);
+
+    if (pStartActor == nullptr)
+    {
+        std::cerr << "Headless diagnostic failed: actor " << actorIndex << " missing\n";
+        return 1;
+    }
+
+    const int startX = pStartActor->x;
+    const int startY = pStartActor->y;
+    const int startZ = pStartActor->z;
+    const float partyX = static_cast<float>(startX + 20000);
+    const float partyY = static_cast<float>(startY + 20000);
+    const float partyZ = static_cast<float>(startZ);
+    bool sawStanding = pStartActor->aiState == OutdoorWorldRuntime::ActorAiState::Standing;
+    bool sawWandering = pStartActor->aiState == OutdoorWorldRuntime::ActorAiState::Wandering;
+    bool sawWalkingAnimation = pStartActor->animation == OutdoorWorldRuntime::ActorAnimation::Walking;
+    bool sawMovement = false;
+
+    std::cout << "Headless actor simulation: actor=" << actorIndex
+              << " start_pos=(" << startX << "," << startY << "," << startZ << ")"
+              << " start_ai=" << static_cast<int>(pStartActor->aiState)
+              << " start_anim=" << static_cast<int>(pStartActor->animation)
+              << '\n';
+
+    for (int step = 0; step < stepCount; ++step)
+    {
+        outdoorWorldRuntime.updateMapActors(deltaSeconds, partyX, partyY, partyZ);
+        const OutdoorWorldRuntime::MapActorState *pActor = outdoorWorldRuntime.mapActorState(actorIndex);
+
+        if (pActor == nullptr)
+        {
+            std::cerr << "Headless diagnostic failed: actor disappeared during simulation\n";
+            return 1;
+        }
+
+        sawStanding = sawStanding || pActor->aiState == OutdoorWorldRuntime::ActorAiState::Standing;
+        sawWandering = sawWandering || pActor->aiState == OutdoorWorldRuntime::ActorAiState::Wandering;
+        sawWalkingAnimation = sawWalkingAnimation || pActor->animation == OutdoorWorldRuntime::ActorAnimation::Walking;
+        sawMovement = sawMovement || pActor->x != startX || pActor->y != startY;
+    }
+
+    const OutdoorWorldRuntime::MapActorState *pEndActor = outdoorWorldRuntime.mapActorState(actorIndex);
+    std::cout << "Headless actor simulation result: actor=" << actorIndex
+              << " end_pos=(" << pEndActor->x << "," << pEndActor->y << "," << pEndActor->z << ")"
+              << " end_ai=" << static_cast<int>(pEndActor->aiState)
+              << " end_anim=" << static_cast<int>(pEndActor->animation)
+              << " saw_standing=" << (sawStanding ? "yes" : "no")
+              << " saw_wandering=" << (sawWandering ? "yes" : "no")
+              << " saw_walking_anim=" << (sawWalkingAnimation ? "yes" : "no")
+              << " saw_movement=" << (sawMovement ? "yes" : "no")
+              << '\n';
+    return 0;
+}
+
+int HeadlessOutdoorDiagnostics::runInspectActorPreview(
+    const std::filesystem::path &basePath,
+    const std::string &mapFileName,
+    size_t actorIndex
+) const
+{
+    Engine::AssetFileSystem assetFileSystem;
+
+    if (!assetFileSystem.initialize(basePath, m_config.assetRoot))
+    {
+        std::cerr << "Headless diagnostic failed: could not initialize asset file system\n";
+        return 1;
+    }
+
+    GameDataLoader gameDataLoader;
+
+    if (!gameDataLoader.loadForHeadlessGameplay(assetFileSystem))
+    {
+        std::cerr << "Headless diagnostic failed: could not load game data\n";
+        return 1;
+    }
+
+    if (!gameDataLoader.loadMapByFileName(assetFileSystem, mapFileName))
+    {
+        std::cerr << "Headless diagnostic failed: could not full-load map \"" << mapFileName << "\"\n";
+        return 1;
+    }
+
+    const std::optional<MapAssetInfo> &selectedMap = gameDataLoader.getSelectedMap();
+
+    if (!selectedMap || !selectedMap->outdoorActorPreviewBillboardSet)
+    {
+        std::cerr << "Headless diagnostic failed: selected map has no outdoor actor previews\n";
+        return 1;
+    }
+
+    const ActorPreviewBillboardSet &billboardSet = *selectedMap->outdoorActorPreviewBillboardSet;
+    size_t billboardIndex = 0;
+    const ActorPreviewBillboard *pBillboard = findCompanionActorBillboard(billboardSet, actorIndex, billboardIndex);
+
+    if (pBillboard == nullptr)
+    {
+        std::cerr << "Headless diagnostic failed: companion actor billboard " << actorIndex << " missing\n";
+        return 1;
+    }
+
+    std::cout << "Headless actor preview: actor=" << actorIndex
+              << " billboard_index=" << billboardIndex
+              << " name=\"" << pBillboard->actorName << "\""
+              << '\n';
+
+    const std::array<OutdoorWorldRuntime::ActorAnimation, 2> actions = {
+        OutdoorWorldRuntime::ActorAnimation::Standing,
+        OutdoorWorldRuntime::ActorAnimation::Walking
+    };
+
+    for (OutdoorWorldRuntime::ActorAnimation action : actions)
+    {
+        uint16_t spriteFrameIndex = pBillboard->spriteFrameIndex;
+        const uint16_t actionFrameIndex = pBillboard->actionSpriteFrameIndices[static_cast<size_t>(action)];
+
+        if (actionFrameIndex != 0)
+        {
+            spriteFrameIndex = actionFrameIndex;
+        }
+
+        const SpriteFrameEntry *pFrame = billboardSet.spriteFrameTable.getFrame(spriteFrameIndex, 0);
+
+        if (pFrame == nullptr)
+        {
+            std::cout << "  action=" << static_cast<int>(action) << " sprite frame missing\n";
+            continue;
+        }
+
+        const ResolvedSpriteTexture resolvedTexture = SpriteFrameTable::resolveTexture(*pFrame, 0);
+        const OutdoorBitmapTexture *pTexture = findBillboardTexture(
+            billboardSet,
+            resolvedTexture.textureName,
+            pFrame->paletteId
+        );
+
+        std::cout << "  action=" << static_cast<int>(action)
+                  << " sprite_frame=" << spriteFrameIndex
+                  << " sprite=\"" << pFrame->spriteName << "\""
+                  << " texture=\"" << resolvedTexture.textureName << "\""
+                  << " palette=" << pFrame->paletteId
+                  << '\n';
+
+        if (pTexture == nullptr)
+        {
+            std::cout << "    texture not found in loaded billboard textures\n";
+            continue;
+        }
+
+        const TextureColorStats colorStats = analyzeTextureColors(pTexture->pixels);
+        std::cout << "    texture size=" << pTexture->width << "x" << pTexture->height
+                  << " opaque_pixels=" << colorStats.opaquePixelCount
+                  << " magenta_pixels=" << colorStats.magentaPixelCount
+                  << " green_pixels=" << colorStats.greenPixelCount
+                  << '\n';
+    }
+
+    const ActorPreviewAnimationStats animationStats = analyzeActorPreviewAnimation(billboardSet, *pBillboard);
+    std::cout << "  sampled_animation"
+              << " samples=" << animationStats.sampleCount
+              << " green_dominant=" << animationStats.greenDominantSampleCount
+              << " magenta_dominant=" << animationStats.magentaDominantSampleCount
+              << " missing=" << animationStats.missingTextureSampleCount
+              << " distinct_walking_variants=" << animationStats.distinctWalkingFrameCount
+              << '\n';
+
+    return 0;
+}
+
+int HeadlessOutdoorDiagnostics::runDumpActorPreviewTexture(
+    const std::filesystem::path &basePath,
+    const std::string &mapFileName,
+    size_t actorIndex,
+    const std::filesystem::path &outputPath
+) const
+{
+    Engine::AssetFileSystem assetFileSystem;
+
+    if (!assetFileSystem.initialize(basePath, m_config.assetRoot))
+    {
+        std::cerr << "Headless diagnostic failed: could not initialize asset file system\n";
+        return 1;
+    }
+
+    GameDataLoader gameDataLoader;
+
+    if (!gameDataLoader.load(assetFileSystem))
+    {
+        std::cerr << "Headless diagnostic failed: could not load game data\n";
+        return 1;
+    }
+
+    if (!gameDataLoader.loadMapByFileName(assetFileSystem, mapFileName))
+    {
+        std::cerr << "Headless diagnostic failed: could not full-load map \"" << mapFileName << "\"\n";
+        return 1;
+    }
+
+    const std::optional<MapAssetInfo> &selectedMap = gameDataLoader.getSelectedMap();
+
+    if (!selectedMap || !selectedMap->outdoorActorPreviewBillboardSet)
+    {
+        std::cerr << "Headless diagnostic failed: selected map has no outdoor actor previews\n";
+        return 1;
+    }
+
+    const ActorPreviewBillboardSet &billboardSet = *selectedMap->outdoorActorPreviewBillboardSet;
+    size_t billboardIndex = 0;
+    const ActorPreviewBillboard *pBillboard = findCompanionActorBillboard(billboardSet, actorIndex, billboardIndex);
+
+    if (pBillboard == nullptr)
+    {
+        std::cerr << "Headless diagnostic failed: companion actor billboard " << actorIndex << " missing\n";
+        return 1;
+    }
+
+    const SpriteFrameEntry *pFrame = billboardSet.spriteFrameTable.getFrame(pBillboard->spriteFrameIndex, 0);
+
+    if (pFrame == nullptr)
+    {
+        std::cerr << "Headless diagnostic failed: actor preview frame missing\n";
+        return 1;
+    }
+
+    const ResolvedSpriteTexture resolvedTexture = SpriteFrameTable::resolveTexture(*pFrame, 0);
+    const OutdoorBitmapTexture *pTexture =
+        findBillboardTexture(billboardSet, resolvedTexture.textureName, pFrame->paletteId);
+
+    if (pTexture == nullptr)
+    {
+        std::cerr << "Headless diagnostic failed: resolved preview texture missing\n";
+        return 1;
+    }
+
+    if (!saveTextureAsPng(*pTexture, outputPath))
+    {
+        std::cerr << "Headless diagnostic failed: could not save texture dump to \"" << outputPath.string() << "\"\n";
+        return 1;
+    }
+
+    const TextureColorStats colorStats = analyzeTextureColors(pTexture->pixels);
+    std::cout << "Headless actor preview dump: actor=" << actorIndex
+              << " billboard_index=" << billboardIndex
+              << " name=\"" << pBillboard->actorName << "\""
+              << " sprite=\"" << pFrame->spriteName << "\""
+              << " texture=\"" << resolvedTexture.textureName << "\""
+              << " palette=" << pFrame->paletteId
+              << " output=\"" << outputPath.string() << "\""
+              << '\n';
+    std::cout << "  size=" << pTexture->width << "x" << pTexture->height
+              << " opaque_pixels=" << colorStats.opaquePixelCount
+              << " magenta_pixels=" << colorStats.magentaPixelCount
+              << " green_pixels=" << colorStats.greenPixelCount
+              << '\n';
+
+    return 0;
 }
 
 int HeadlessOutdoorDiagnostics::runOpenEvent(
@@ -710,7 +1450,9 @@ int HeadlessOutdoorDiagnostics::runOpenEvent(
     OutdoorWorldRuntime outdoorWorldRuntime;
     outdoorWorldRuntime.initialize(
         selectedMap->map,
+        gameDataLoader.getMonsterTable(),
         gameDataLoader.getItemTable(),
+        selectedMap->outdoorMapData,
         selectedMap->outdoorMapDeltaData,
         selectedMap->eventRuntimeState
     );
@@ -739,7 +1481,8 @@ int HeadlessOutdoorDiagnostics::runOpenEvent(
         selectedMap->globalEventIrProgram,
         eventId,
         *pEventRuntimeState,
-        &party
+        &party,
+        &outdoorWorldRuntime
     );
 
     if (!executed)
@@ -845,6 +1588,28 @@ int HeadlessOutdoorDiagnostics::runOpenEvent(
         std::cout << "Headless diagnostic: no active chest view\n";
     }
 
+    if (const OutdoorWorldRuntime::CorpseViewState *pActiveCorpseView = outdoorWorldRuntime.activeCorpseView())
+    {
+        printCorpseSummary(*pActiveCorpseView, gameDataLoader.getItemTable());
+    }
+    else
+    {
+        std::cout << "Headless diagnostic: no active corpse view\n";
+    }
+
+    if (!outdoorWorldRuntime.pendingAudioEvents().empty())
+    {
+        std::cout << "Headless diagnostic: audio events=" << outdoorWorldRuntime.pendingAudioEvents().size() << '\n';
+
+        for (const OutdoorWorldRuntime::AudioEvent &event : outdoorWorldRuntime.pendingAudioEvents())
+        {
+            std::cout << "  sound=" << event.soundId
+                      << " source=" << event.sourceId
+                      << " reason=" << event.reason
+                      << '\n';
+        }
+    }
+
     return 0;
 }
 
@@ -893,7 +1658,9 @@ int HeadlessOutdoorDiagnostics::runOpenActor(
     OutdoorWorldRuntime outdoorWorldRuntime;
     outdoorWorldRuntime.initialize(
         selectedMap->map,
+        gameDataLoader.getMonsterTable(),
         gameDataLoader.getItemTable(),
+        selectedMap->outdoorMapData,
         selectedMap->outdoorMapDeltaData,
         selectedMap->eventRuntimeState
     );
@@ -921,6 +1688,15 @@ int HeadlessOutdoorDiagnostics::runOpenActor(
               << " group=" << actor.group
               << " unique=" << actor.uniqueNameIndex
               << '\n';
+
+    if (const OutdoorWorldRuntime::MapActorState *pActorState = outdoorWorldRuntime.mapActorState(actorIndex))
+    {
+        std::cout << "  runtime monster=" << pActorState->monsterId
+                  << " hp=" << pActorState->currentHp << "/" << pActorState->maxHp
+                  << " hostile=" << (pActorState->hostileToParty ? "yes" : "no")
+                  << " hostilityType=" << static_cast<unsigned>(pActorState->hostilityType)
+                  << '\n';
+    }
 
     if (actor.npcId > 0)
     {
@@ -1023,7 +1799,9 @@ int HeadlessOutdoorDiagnostics::runDialogSequence(
     OutdoorWorldRuntime outdoorWorldRuntime;
     outdoorWorldRuntime.initialize(
         selectedMap->map,
+        gameDataLoader.getMonsterTable(),
         gameDataLoader.getItemTable(),
+        selectedMap->outdoorMapData,
         selectedMap->outdoorMapDeltaData,
         selectedMap->eventRuntimeState
     );
@@ -1047,7 +1825,8 @@ int HeadlessOutdoorDiagnostics::runDialogSequence(
         selectedMap->globalEventIrProgram,
         eventId,
         *pEventRuntimeState,
-        &party
+        &party,
+        &outdoorWorldRuntime
     );
 
     if (!executed)
@@ -1086,9 +1865,63 @@ int HeadlessOutdoorDiagnostics::runDialogSequence(
 
         if (action.kind == EventDialogActionKind::HouseResident)
         {
+            pEventRuntimeState->houseServiceMenuId.clear();
             EventRuntimeState::PendingDialogueContext context = {};
             context.kind = DialogueContextKind::NpcTalk;
             context.sourceId = action.id;
+            pEventRuntimeState->pendingDialogueContext = std::move(context);
+        }
+        else if (action.kind == EventDialogActionKind::HouseService)
+        {
+            const HouseEntry *pHouseEntry = gameDataLoader.getHouseTable().get(dialog.sourceId);
+
+            if (pHouseEntry == nullptr)
+            {
+                std::cerr << "Headless diagnostic failed: missing house entry for service action\n";
+                return 4;
+            }
+
+            if (action.id == static_cast<uint32_t>(HouseActionId::OpenLearnSkillsMenu))
+            {
+                pEventRuntimeState->houseServiceMenuId = "skills";
+            }
+            else if (action.id == static_cast<uint32_t>(HouseActionId::OpenShopEquipmentMenu))
+            {
+                pEventRuntimeState->houseServiceMenuId = "shop_equipment";
+            }
+            else if (action.id == static_cast<uint32_t>(HouseActionId::OpenTavernArcomageMenu))
+            {
+                pEventRuntimeState->houseServiceMenuId = "tavern_arcomage";
+            }
+            else if (action.id == static_cast<uint32_t>(HouseActionId::BackToRootMenu))
+            {
+                pEventRuntimeState->houseServiceMenuId.clear();
+            }
+            else
+            {
+                std::vector<std::string> messages;
+                HouseActionOption option = {};
+                option.id = static_cast<HouseActionId>(action.id);
+                option.label = action.label;
+                option.argument = action.argument;
+                performHouseAction(
+                    option,
+                    *pHouseEntry,
+                    party,
+                    &gameDataLoader.getClassSkillTable(),
+                    &outdoorWorldRuntime,
+                    messages
+                );
+
+                for (const std::string &message : messages)
+                {
+                    pEventRuntimeState->messages.push_back(message);
+                }
+            }
+
+            EventRuntimeState::PendingDialogueContext context = {};
+            context.kind = DialogueContextKind::HouseService;
+            context.sourceId = dialog.sourceId;
             pEventRuntimeState->pendingDialogueContext = std::move(context);
         }
         else if (action.kind == EventDialogActionKind::RosterJoinOffer)
@@ -1220,7 +2053,8 @@ int HeadlessOutdoorDiagnostics::runDialogSequence(
                 selectedMap->globalEventIrProgram,
                 static_cast<uint16_t>(action.id),
                 *pEventRuntimeState,
-                &party
+                &party,
+                &outdoorWorldRuntime
             );
 
             if (!topicExecuted)
@@ -1346,6 +2180,1083 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
                 ++failedCount;
             }
         };
+
+    runCase(
+        "dwi_world_actor_runtime_state",
+        [&](std::string &failure)
+        {
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            const OutdoorWorldRuntime::MapActorState *pPeasant = scenario.world.mapActorState(5);
+            const OutdoorWorldRuntime::MapActorState *pSergeant = scenario.world.mapActorState(53);
+
+            if (pPeasant == nullptr || pSergeant == nullptr)
+            {
+                failure = "expected DWI actor runtime state is missing";
+                return false;
+            }
+
+            if (pPeasant->monsterId != 1 || pPeasant->maxHp != 13 || pPeasant->hostileToParty)
+            {
+                failure = "unexpected peasant runtime state";
+                return false;
+            }
+
+            if (pSergeant->monsterId != 5 || pSergeant->maxHp != 21 || pSergeant->hostileToParty)
+            {
+                failure = "unexpected sergeant runtime state";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "non_flying_actor_snaps_to_terrain",
+        [&](std::string &failure)
+        {
+            if (!selectedMap->outdoorMapData)
+            {
+                failure = "selected map has no outdoor terrain";
+                return false;
+            }
+
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            for (size_t actorIndex : {size_t(5), size_t(8)})
+            {
+                const OutdoorWorldRuntime::MapActorState *pActor = scenario.world.mapActorState(actorIndex);
+
+                if (pActor == nullptr)
+                {
+                    failure = "expected grounded actor is missing";
+                    return false;
+                }
+
+                const MonsterTable::MonsterStatsEntry *pStats =
+                    gameDataLoader.getMonsterTable().findStatsById(pActor->monsterId);
+
+                if (pStats == nullptr)
+                {
+                    failure = "grounded actor stats missing";
+                    return false;
+                }
+
+                if (pStats->canFly)
+                {
+                    failure = "grounded actor unexpectedly flies";
+                    return false;
+                }
+
+                const int terrainZ = static_cast<int>(std::lround(sampleOutdoorSupportFloorHeight(
+                    *selectedMap->outdoorMapData,
+                    static_cast<float>(pActor->x),
+                    static_cast<float>(pActor->y),
+                    static_cast<float>(pActor->z))));
+
+                if (pActor->z != terrainZ)
+                {
+                    failure = "non-flying actor is not grounded to terrain";
+                    return false;
+                }
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "dwi_world_spawn_runtime_state",
+        [&](std::string &failure)
+        {
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            bool foundFriendlyEncounterSpawn = false;
+            bool foundHostileEncounterSpawn = false;
+
+            for (size_t spawnIndex = 0; spawnIndex < scenario.world.spawnPointCount(); ++spawnIndex)
+            {
+                const OutdoorWorldRuntime::SpawnPointState *pSpawnState = scenario.world.spawnPointState(spawnIndex);
+
+                if (pSpawnState == nullptr || pSpawnState->typeId != 3 || pSpawnState->encounterSlot == 0)
+                {
+                    continue;
+                }
+
+                if (pSpawnState->encounterSlot == 1 && !pSpawnState->hostileToParty)
+                {
+                    foundFriendlyEncounterSpawn = true;
+                }
+
+                if (pSpawnState->encounterSlot == 2 && pSpawnState->hostileToParty)
+                {
+                    foundHostileEncounterSpawn = true;
+                }
+            }
+
+            if (!foundFriendlyEncounterSpawn)
+            {
+                failure = "missing friendly encounter spawn state";
+                return false;
+            }
+
+            if (!foundHostileEncounterSpawn)
+            {
+                failure = "missing hostile encounter spawn state";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "dwi_actor_action_sprites_present_in_monster_data",
+        [&](std::string &failure)
+        {
+            const MonsterEntry *pMonster = gameDataLoader.getMonsterTable().findById(5);
+
+            if (pMonster == nullptr)
+            {
+                failure = "monster id 5 missing";
+                return false;
+            }
+
+            if (pMonster->spriteNames[static_cast<size_t>(OutdoorWorldRuntime::ActorAnimation::Standing)].empty())
+            {
+                failure = "standing sprite missing";
+                return false;
+            }
+
+            if (pMonster->spriteNames[static_cast<size_t>(OutdoorWorldRuntime::ActorAnimation::Walking)].empty())
+            {
+                failure = "walking sprite missing";
+                return false;
+            }
+
+            if (pMonster->spriteNames[static_cast<size_t>(OutdoorWorldRuntime::ActorAnimation::AttackRanged)].empty())
+            {
+                failure = "ranged attack sprite missing";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "friendly_actor_does_not_engage_party",
+        [&](std::string &failure)
+        {
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            const OutdoorWorldRuntime::MapActorState *pBefore = scenario.world.mapActorState(53);
+
+            if (pBefore == nullptr)
+            {
+                failure = "actor 53 missing";
+                return false;
+            }
+
+            const int startX = pBefore->x;
+            const int startY = pBefore->y;
+            scenario.world.updateMapActors(3.0f, static_cast<float>(startX + 512), static_cast<float>(startY), pBefore->z);
+            const OutdoorWorldRuntime::MapActorState *pAfter = scenario.world.mapActorState(53);
+
+            if (pAfter == nullptr)
+            {
+                failure = "actor 53 missing after update";
+                return false;
+            }
+
+            if (pAfter->aiState == OutdoorWorldRuntime::ActorAiState::Pursuing
+                || pAfter->aiState == OutdoorWorldRuntime::ActorAiState::Attacking
+                || pAfter->aiState == OutdoorWorldRuntime::ActorAiState::Fleeing)
+            {
+                failure = "friendly actor should not engage the party";
+                return false;
+            }
+
+            if (pAfter->hasDetectedParty)
+            {
+                failure = "friendly actor incorrectly detected the party as hostile";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "friendly_actor_can_idle_wander",
+        [&](std::string &failure)
+        {
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            const OutdoorWorldRuntime::MapActorState *pBefore = scenario.world.mapActorState(53);
+
+            if (pBefore == nullptr)
+            {
+                failure = "actor 53 missing";
+                return false;
+            }
+
+            const int startX = pBefore->x;
+            const int startY = pBefore->y;
+            bool sawWandering = false;
+            bool sawWalkingAnimation = false;
+
+            for (int step = 0; step < 180; ++step)
+            {
+                scenario.world.updateMapActors(
+                    1.0f / 60.0f,
+                    static_cast<float>(startX + 20000),
+                    static_cast<float>(startY + 20000),
+                    static_cast<float>(pBefore->z));
+
+                const OutdoorWorldRuntime::MapActorState *pStepActor = scenario.world.mapActorState(53);
+
+                if (pStepActor != nullptr)
+                {
+                    sawWandering = sawWandering || pStepActor->aiState == OutdoorWorldRuntime::ActorAiState::Wandering;
+                    sawWalkingAnimation = sawWalkingAnimation
+                        || pStepActor->animation == OutdoorWorldRuntime::ActorAnimation::Walking;
+                }
+            }
+            const OutdoorWorldRuntime::MapActorState *pAfter = scenario.world.mapActorState(53);
+
+            if (pAfter == nullptr)
+            {
+                failure = "actor 53 missing after update";
+                return false;
+            }
+
+            if (pAfter->x == startX && pAfter->y == startY)
+            {
+                failure = "friendly actor did not idle-wander";
+                return false;
+            }
+
+            if (!sawWandering)
+            {
+                failure = "friendly actor did not enter wandering state";
+                return false;
+            }
+
+            if (!sawWalkingAnimation)
+            {
+                failure = "friendly actor did not enter walking animation";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "friendly_actor_3_cycles_idle_and_walk",
+        [&](std::string &failure)
+        {
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            const OutdoorWorldRuntime::MapActorState *pBefore = scenario.world.mapActorState(3);
+
+            if (pBefore == nullptr)
+            {
+                failure = "actor 3 missing";
+                return false;
+            }
+
+            const int startX = pBefore->x;
+            const int startY = pBefore->y;
+            bool sawStanding = pBefore->aiState == OutdoorWorldRuntime::ActorAiState::Standing;
+            bool sawWandering = pBefore->aiState == OutdoorWorldRuntime::ActorAiState::Wandering;
+            bool sawWalkingAnimation = pBefore->animation == OutdoorWorldRuntime::ActorAnimation::Walking;
+            bool sawBoredAnimation = pBefore->animation == OutdoorWorldRuntime::ActorAnimation::Bored;
+
+            for (int step = 0; step < 360; ++step)
+            {
+                scenario.world.updateMapActors(
+                    1.0f / 60.0f,
+                    static_cast<float>(startX + 20000),
+                    static_cast<float>(startY + 20000),
+                    static_cast<float>(pBefore->z));
+
+                const OutdoorWorldRuntime::MapActorState *pStepActor = scenario.world.mapActorState(3);
+
+                if (pStepActor != nullptr)
+                {
+                    sawStanding = sawStanding
+                        || pStepActor->aiState == OutdoorWorldRuntime::ActorAiState::Standing;
+                    sawWandering = sawWandering
+                        || pStepActor->aiState == OutdoorWorldRuntime::ActorAiState::Wandering;
+                    sawWalkingAnimation = sawWalkingAnimation
+                        || pStepActor->animation == OutdoorWorldRuntime::ActorAnimation::Walking;
+                    sawBoredAnimation = sawBoredAnimation
+                        || pStepActor->animation == OutdoorWorldRuntime::ActorAnimation::Bored;
+                }
+            }
+
+            const OutdoorWorldRuntime::MapActorState *pAfter = scenario.world.mapActorState(3);
+
+            if (pAfter == nullptr)
+            {
+                failure = "actor 3 missing after update";
+                return false;
+            }
+
+            if (pAfter->x == startX && pAfter->y == startY)
+            {
+                failure = "actor 3 did not move";
+                return false;
+            }
+
+            if (!sawStanding || !sawWandering || !sawWalkingAnimation)
+            {
+                failure = "actor 3 did not cycle through idle/walk states";
+                return false;
+            }
+
+            if (sawBoredAnimation)
+            {
+                failure = "actor 3 unexpectedly entered bored animation during ordinary idle wander";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "friendly_actor_3_stands_and_faces_party_on_contact",
+        [&](std::string &failure)
+        {
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            const OutdoorWorldRuntime::MapActorState *pBefore = scenario.world.mapActorState(3);
+
+            if (pBefore == nullptr)
+            {
+                failure = "actor 3 missing";
+                return false;
+            }
+
+            const float partyX = static_cast<float>(pBefore->x + 32);
+            const float partyY = static_cast<float>(pBefore->y + 24);
+            const float partyZ = static_cast<float>(pBefore->z);
+            scenario.world.updateMapActors(0.25f, static_cast<float>(pBefore->x + 20000), static_cast<float>(pBefore->y + 20000), partyZ);
+            scenario.world.notifyPartyContactWithMapActor(3, partyX, partyY, partyZ);
+            const OutdoorWorldRuntime::MapActorState *pAfter = scenario.world.mapActorState(3);
+
+            if (pAfter == nullptr)
+            {
+                failure = "actor 3 missing after update";
+                return false;
+            }
+
+            if (pAfter->aiState != OutdoorWorldRuntime::ActorAiState::Standing)
+            {
+                failure = "actor 3 did not stand on party contact";
+                return false;
+            }
+
+            if (pAfter->animation != OutdoorWorldRuntime::ActorAnimation::Standing)
+            {
+                failure = "actor 3 did not use standing animation on party contact";
+                return false;
+            }
+
+            if (std::abs(pAfter->velocityX) > 0.01f || std::abs(pAfter->velocityY) > 0.01f)
+            {
+                failure = "actor 3 kept moving on party contact";
+                return false;
+            }
+
+            const float expectedYaw = std::atan2(partyY - pAfter->preciseY, partyX - pAfter->preciseX);
+
+            if (angleDistanceRadians(pAfter->yawRadians, expectedYaw) > 0.35f)
+            {
+                failure = "actor 3 did not face the party on contact";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "friendly_actor_3_stops_wandering_when_party_is_near",
+        [&](std::string &failure)
+        {
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            const OutdoorWorldRuntime::MapActorState *pBefore = scenario.world.mapActorState(3);
+
+            if (pBefore == nullptr)
+            {
+                failure = "actor 3 missing";
+                return false;
+            }
+
+            const float partyX = pBefore->preciseX + 70.0f;
+            const float partyY = pBefore->preciseY;
+            const float partyZ = pBefore->preciseZ;
+            scenario.world.updateMapActors(0.25f, partyX, partyY, partyZ);
+            const OutdoorWorldRuntime::MapActorState *pAfter = scenario.world.mapActorState(3);
+
+            if (pAfter == nullptr)
+            {
+                failure = "actor 3 missing after update";
+                return false;
+            }
+
+            if (pAfter->aiState != OutdoorWorldRuntime::ActorAiState::Standing)
+            {
+                failure = "actor 3 did not stand when party was near";
+                return false;
+            }
+
+            if (pAfter->animation != OutdoorWorldRuntime::ActorAnimation::Standing)
+            {
+                failure = "actor 3 did not use standing animation when party was near";
+                return false;
+            }
+
+            if (std::abs(pAfter->velocityX) > 0.01f || std::abs(pAfter->velocityY) > 0.01f)
+            {
+                failure = "actor 3 kept moving when party was near";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "party_is_pushed_out_of_actor_overlap",
+        [&](std::string &failure)
+        {
+            if (!selectedMap->outdoorMapData)
+            {
+                failure = "selected map missing outdoor data";
+                return false;
+            }
+
+            OutdoorMovementController movementController(
+                *selectedMap->outdoorMapData,
+                selectedMap->outdoorLandMask,
+                selectedMap->outdoorDecorationCollisionSet,
+                std::nullopt,
+                selectedMap->outdoorSpriteObjectCollisionSet);
+
+            OutdoorMoveState state = movementController.initializeState(0.0f, 0.0f, 0.0f);
+            OutdoorActorCollision blocker = {};
+            blocker.radius = 64;
+            blocker.height = 160;
+            blocker.worldX = static_cast<int>(std::lround(state.x));
+            blocker.worldY = static_cast<int>(std::lround(state.y));
+            blocker.worldZ = static_cast<int>(std::floor(state.footZ));
+            blocker.name = "test actor";
+            movementController.setActorColliders({blocker});
+
+            const OutdoorMoveState resolved = movementController.resolveMove(
+                state,
+                0.0f,
+                0.0f,
+                false,
+                false,
+                false,
+                0.0f,
+                0.0f,
+                1.0f / 60.0f);
+
+            const float deltaX = resolved.x - static_cast<float>(blocker.worldX);
+            const float deltaY = resolved.y - static_cast<float>(blocker.worldY);
+            const float distance = std::sqrt(deltaX * deltaX + deltaY * deltaY);
+
+            if (distance < 101.0f)
+            {
+                failure = "party remained inside actor overlap after collision resolution";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "party_movement_reports_actor_contact",
+        [&](std::string &failure)
+        {
+            if (!selectedMap->outdoorMapData)
+            {
+                failure = "selected map missing outdoor data";
+                return false;
+            }
+
+            OutdoorMovementController movementController(
+                *selectedMap->outdoorMapData,
+                selectedMap->outdoorLandMask,
+                selectedMap->outdoorDecorationCollisionSet,
+                std::nullopt,
+                selectedMap->outdoorSpriteObjectCollisionSet);
+
+            OutdoorMoveState state = movementController.initializeState(0.0f, 0.0f, 0.0f);
+            OutdoorActorCollision blocker = {};
+            blocker.sourceIndex = 123;
+            blocker.radius = 64;
+            blocker.height = 160;
+            blocker.worldX = static_cast<int>(std::lround(state.x + 90.0f));
+            blocker.worldY = static_cast<int>(std::lround(state.y));
+            blocker.worldZ = static_cast<int>(std::floor(state.footZ));
+            blocker.name = "contact test actor";
+            movementController.setActorColliders({blocker});
+
+            std::vector<size_t> contactedActorIndices;
+            movementController.resolveMove(
+                state,
+                384.0f,
+                0.0f,
+                false,
+                false,
+                false,
+                0.0f,
+                0.0f,
+                1.0f / 60.0f,
+                &contactedActorIndices);
+
+            if (contactedActorIndices.empty())
+            {
+                failure = "movement controller did not report actor contact";
+                return false;
+            }
+
+            if (contactedActorIndices.front() != 123)
+            {
+                failure = "movement controller reported wrong actor contact index";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "friendly_actor_3_preview_palette_and_frame_cycle",
+        [&](std::string &failure)
+        {
+            GameDataLoader fullMapLoader;
+
+            if (!fullMapLoader.loadForHeadlessGameplay(assetFileSystem))
+            {
+                failure = "full preview loader init failed";
+                return false;
+            }
+
+            if (!fullMapLoader.loadMapByFileName(assetFileSystem, "out01.odm"))
+            {
+                failure = "full preview map load failed";
+                return false;
+            }
+
+            const std::optional<MapAssetInfo> &previewSelectedMap = fullMapLoader.getSelectedMap();
+
+            if (!previewSelectedMap || !previewSelectedMap->outdoorActorPreviewBillboardSet)
+            {
+                failure = "selected map missing actor previews";
+                return false;
+            }
+
+            size_t billboardIndex = 0;
+            const ActorPreviewBillboardSet &billboardSet = *previewSelectedMap->outdoorActorPreviewBillboardSet;
+            const ActorPreviewBillboard *pBillboard = findCompanionActorBillboard(billboardSet, 3, billboardIndex);
+
+            if (pBillboard == nullptr)
+            {
+                failure = "actor 3 billboard missing";
+                return false;
+            }
+
+            const ActorPreviewAnimationStats animationStats =
+                analyzeActorPreviewAnimation(billboardSet, *pBillboard);
+
+            if (animationStats.sampleCount == 0)
+            {
+                failure = "actor 3 preview produced no samples";
+                return false;
+            }
+
+            if (animationStats.missingTextureSampleCount != 0)
+            {
+                failure = "actor 3 preview has missing textures";
+                return false;
+            }
+
+            if (animationStats.greenDominantSampleCount <= animationStats.magentaDominantSampleCount)
+            {
+                failure = "actor 3 preview colors skew magenta instead of green";
+                return false;
+            }
+
+            if (animationStats.distinctWalkingFrameCount < 2)
+            {
+                failure = "actor 3 walking preview does not cycle frames";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "hostile_actor_pursues_party",
+        [&](std::string &failure)
+        {
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            size_t hostileActorIndex = std::numeric_limits<size_t>::max();
+
+            for (size_t actorIndex = 0; actorIndex < scenario.world.mapActorCount(); ++actorIndex)
+            {
+                const OutdoorWorldRuntime::MapActorState *pActor = scenario.world.mapActorState(actorIndex);
+
+                if (pActor != nullptr && pActor->hostileToParty && !pActor->isDead)
+                {
+                    hostileActorIndex = actorIndex;
+                    break;
+                }
+            }
+
+            if (hostileActorIndex == std::numeric_limits<size_t>::max())
+            {
+                failure = "no hostile actor found";
+                return false;
+            }
+
+            const OutdoorWorldRuntime::MapActorState *pBefore = scenario.world.mapActorState(hostileActorIndex);
+            const float partyX = static_cast<float>(pBefore->x + 2000);
+            const float partyY = static_cast<float>(pBefore->y);
+            const float distanceBefore = std::abs(partyX - static_cast<float>(pBefore->x));
+            scenario.world.updateMapActors(1.0f, partyX, partyY, static_cast<float>(pBefore->z));
+            const OutdoorWorldRuntime::MapActorState *pAfter = scenario.world.mapActorState(hostileActorIndex);
+            const float distanceAfter = std::abs(partyX - static_cast<float>(pAfter->x));
+
+            if (distanceAfter >= distanceBefore)
+            {
+                failure = "hostile actor did not move toward the party";
+                return false;
+            }
+
+            if (pAfter->aiState != OutdoorWorldRuntime::ActorAiState::Pursuing)
+            {
+                failure = "hostile actor did not enter pursuing state";
+                return false;
+            }
+
+            if (pAfter->animation != OutdoorWorldRuntime::ActorAnimation::Walking)
+            {
+                failure = "hostile actor did not enter walking animation";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "hostile_actor_enters_attack_state",
+        [&](std::string &failure)
+        {
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            size_t hostileActorIndex = std::numeric_limits<size_t>::max();
+
+            for (size_t actorIndex = 0; actorIndex < scenario.world.mapActorCount(); ++actorIndex)
+            {
+                const OutdoorWorldRuntime::MapActorState *pActor = scenario.world.mapActorState(actorIndex);
+
+                if (pActor != nullptr && pActor->hostileToParty && !pActor->isDead)
+                {
+                    hostileActorIndex = actorIndex;
+                    break;
+                }
+            }
+
+            if (hostileActorIndex == std::numeric_limits<size_t>::max())
+            {
+                failure = "no hostile actor found";
+                return false;
+            }
+
+            const OutdoorWorldRuntime::MapActorState *pBefore = scenario.world.mapActorState(hostileActorIndex);
+            scenario.world.clearPendingAudioEvents();
+            scenario.world.updateMapActors(
+                0.1f,
+                static_cast<float>(pBefore->x + 64),
+                static_cast<float>(pBefore->y),
+                static_cast<float>(pBefore->z));
+            const OutdoorWorldRuntime::MapActorState *pAfter = scenario.world.mapActorState(hostileActorIndex);
+
+            if (pAfter->aiState != OutdoorWorldRuntime::ActorAiState::Attacking)
+            {
+                failure = "hostile actor did not enter attack state";
+                return false;
+            }
+
+            if (pAfter->animation != OutdoorWorldRuntime::ActorAnimation::AttackMelee
+                && pAfter->animation != OutdoorWorldRuntime::ActorAnimation::AttackRanged)
+            {
+                failure = "hostile actor did not enter attack animation";
+                return false;
+            }
+
+            if (scenario.world.pendingAudioEvents().empty())
+            {
+                failure = "attack sound event missing";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "dwi_reinforcement_wave_event_463_spawns_all_groups",
+        [&](std::string &failure)
+        {
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            if (!executeLocalEventInScenario(gameDataLoader, *selectedMap, scenario, 463))
+            {
+                failure = "event 463 execution failed";
+                return false;
+            }
+
+            if (scenario.world.summonedMonsterCount() != 48)
+            {
+                failure = "expected 48 summoned monsters, got "
+                    + std::to_string(scenario.world.summonedMonsterCount());
+                return false;
+            }
+
+            std::array<int, 4> counts = {};
+            std::array<bool, 4> correctMonsterIds = {true, true, true, true};
+
+            for (size_t summonIndex = 0; summonIndex < scenario.world.summonedMonsterCount(); ++summonIndex)
+            {
+                const OutdoorWorldRuntime::SummonedMonsterState *pMonster =
+                    scenario.world.summonedMonsterState(summonIndex);
+
+                if (pMonster == nullptr)
+                {
+                    failure = "missing summoned monster state";
+                    return false;
+                }
+
+                if (pMonster->group >= 10 && pMonster->group <= 13)
+                {
+                    const size_t groupOffset = pMonster->group - 10;
+                    ++counts[groupOffset];
+
+                    const int16_t expectedMonsterId = pMonster->group <= 11 ? 182 : 5;
+
+                    if (pMonster->monsterId != expectedMonsterId)
+                    {
+                        correctMonsterIds[groupOffset] = false;
+                    }
+                }
+            }
+
+            for (size_t index = 0; index < counts.size(); ++index)
+            {
+                if (counts[index] != 12)
+                {
+                    failure = "group " + std::to_string(index + 10) + " expected 12 summons";
+                    return false;
+                }
+
+                if (!correctMonsterIds[index])
+                {
+                    failure = "group " + std::to_string(index + 10) + " summoned wrong monster tier";
+                    return false;
+                }
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "dwi_reinforcement_wave_event_463_does_not_duplicate_alive_groups",
+        [&](std::string &failure)
+        {
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            if (!executeLocalEventInScenario(gameDataLoader, *selectedMap, scenario, 463))
+            {
+                failure = "first event 463 execution failed";
+                return false;
+            }
+
+            const size_t firstCount = scenario.world.summonedMonsterCount();
+
+            if (!executeLocalEventInScenario(gameDataLoader, *selectedMap, scenario, 463))
+            {
+                failure = "second event 463 execution failed";
+                return false;
+            }
+
+            if (scenario.world.summonedMonsterCount() != firstCount)
+            {
+                failure = "reinforcement waves duplicated while groups were still alive";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "world_actor_killed_policy_actor_id_mm8",
+        [&](std::string &failure)
+        {
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            if (scenario.world.checkMonstersKilled(4, 8, 1, true))
+            {
+                failure = "actor 8 should not start as killed";
+                return false;
+            }
+
+            if (!scenario.world.setMapActorDead(8, true))
+            {
+                failure = "could not mark actor 8 dead";
+                return false;
+            }
+
+            if (!scenario.world.checkMonstersKilled(4, 8, 1, true))
+            {
+                failure = "actor-id kill check did not detect dead actor 8";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "world_actor_death_generates_corpse_loot",
+        [&](std::string &failure)
+        {
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            if (!scenario.world.setMapActorDead(5, true))
+            {
+                failure = "could not kill actor 5";
+                return false;
+            }
+
+            if (!scenario.world.openMapActorCorpseView(5))
+            {
+                failure = "corpse view did not open";
+                return false;
+            }
+
+            const OutdoorWorldRuntime::CorpseViewState *pCorpseView = scenario.world.activeCorpseView();
+
+            if (pCorpseView == nullptr)
+            {
+                failure = "active corpse view missing";
+                return false;
+            }
+
+            if (pCorpseView->title != "Lizardman Peasant")
+            {
+                failure = "unexpected corpse title \"" + pCorpseView->title + "\"";
+                return false;
+            }
+
+            if (pCorpseView->items.empty() || !pCorpseView->items[0].isGold || pCorpseView->items[0].goldAmount == 0)
+            {
+                failure = "expected gold loot on corpse";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "world_actor_death_emits_audio_event",
+        [&](std::string &failure)
+        {
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            scenario.world.clearPendingAudioEvents();
+
+            if (!scenario.world.setMapActorDead(53, true))
+            {
+                failure = "could not kill actor 53";
+                return false;
+            }
+
+            if (scenario.world.pendingAudioEvents().empty())
+            {
+                failure = "missing death audio event";
+                return false;
+            }
+
+            const OutdoorWorldRuntime::AudioEvent &event = scenario.world.pendingAudioEvents().front();
+
+            if (event.soundId != 1011 || event.reason != "monster_death")
+            {
+                failure = "unexpected audio event payload";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "world_group_killed_policy_counts_summoned_monsters",
+        [&](std::string &failure)
+        {
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            if (!executeLocalEventInScenario(gameDataLoader, *selectedMap, scenario, 463))
+            {
+                failure = "event 463 execution failed";
+                return false;
+            }
+
+            if (scenario.world.checkMonstersKilled(1, 10, 0, true))
+            {
+                failure = "group 10 should still be alive after spawning";
+                return false;
+            }
+
+            for (size_t summonIndex = 0; summonIndex < scenario.world.summonedMonsterCount(); ++summonIndex)
+            {
+                const OutdoorWorldRuntime::SummonedMonsterState *pMonster =
+                    scenario.world.summonedMonsterState(summonIndex);
+
+                if (pMonster != nullptr && pMonster->group == 10)
+                {
+                    if (!scenario.world.setSummonedMonsterDead(summonIndex, true))
+                    {
+                        failure = "could not mark summoned monster dead";
+                        return false;
+                    }
+                }
+            }
+
+            if (!scenario.world.checkMonstersKilled(1, 10, 0, true))
+            {
+                failure = "group kill check did not treat dead summoned monsters as defeated";
+                return false;
+            }
+
+            return true;
+        }
+    );
 
     runCase(
         "dwi_actor_peasant_news",
@@ -1486,6 +3397,354 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
     );
 
     runCase(
+        "dwi_shop_service_menu_structure",
+        [&](std::string &failure)
+        {
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            EventDialogContent dialog = {};
+
+            if (!openLocalEventDialogInScenario(gameDataLoader, *selectedMap, scenario, 171, dialog))
+            {
+                failure = "could not open True Mettle";
+                return false;
+            }
+
+            if (!dialogHasActionLabel(dialog, "Buy Standard")
+                || !dialogHasActionLabel(dialog, "Buy Special")
+                || !dialogHasActionLabel(dialog, "Display Equipment")
+                || !dialogHasActionLabel(dialog, "Learn Skills"))
+            {
+                failure = "shop root menu is incomplete";
+                return false;
+            }
+
+            const std::optional<size_t> equipmentIndex = findActionIndexByLabel(dialog, "Display Equipment");
+
+            if (!equipmentIndex
+                || !executeDialogActionInScenario(gameDataLoader, *selectedMap, scenario, *equipmentIndex, dialog))
+            {
+                failure = "could not open equipment submenu";
+                return false;
+            }
+
+            if (!dialogHasActionLabel(dialog, "Sell")
+                || !dialogHasActionLabel(dialog, "Identify")
+                || !dialogHasActionLabel(dialog, "Repair")
+                || !dialogHasActionLabel(dialog, "Back"))
+            {
+                failure = "shop equipment submenu is incomplete";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "dwi_temple_skill_learning",
+        [&](std::string &failure)
+        {
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            if (!scenario.party.setActiveMemberIndex(1))
+            {
+                failure = "could not select cleric";
+                return false;
+            }
+
+            scenario.party.addGold(2000);
+            const int initialGold = scenario.party.gold();
+
+            EventDialogContent dialog = {};
+
+            if (!openLocalEventDialogInScenario(gameDataLoader, *selectedMap, scenario, 185, dialog))
+            {
+                failure = "could not open temple";
+                return false;
+            }
+
+            if (!dialogHasActionLabel(dialog, "Learn Skills"))
+            {
+                failure = "temple missing Learn Skills action";
+                return false;
+            }
+
+            const std::optional<size_t> learnSkillsIndex = findActionIndexByLabel(dialog, "Learn Skills");
+
+            if (!learnSkillsIndex
+                || !executeDialogActionInScenario(gameDataLoader, *selectedMap, scenario, *learnSkillsIndex, dialog))
+            {
+                failure = "could not open temple skills menu";
+                return false;
+            }
+
+            const std::optional<size_t> merchantIndex = findActionIndexByLabelPrefix(dialog, "Learn Merchant ");
+
+            if (!merchantIndex
+                || !executeDialogActionInScenario(gameDataLoader, *selectedMap, scenario, *merchantIndex, dialog))
+            {
+                failure = "could not learn Merchant in temple";
+                return false;
+            }
+
+            const Character *pCleric = scenario.party.member(1);
+
+            if (pCleric == nullptr || !pCleric->hasSkill("Merchant"))
+            {
+                failure = "cleric did not learn Merchant";
+                return false;
+            }
+
+            if (scenario.party.gold() >= initialGold)
+            {
+                failure = "temple skill learning did not cost gold";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "dwi_guild_skill_learning",
+        [&](std::string &failure)
+        {
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            if (!scenario.party.setActiveMemberIndex(3))
+            {
+                failure = "could not select sorcerer";
+                return false;
+            }
+
+            scenario.party.addGold(2000);
+
+            EventDialogContent dialog = {};
+
+            if (!openLocalEventDialogInScenario(gameDataLoader, *selectedMap, scenario, 179, dialog))
+            {
+                failure = "could not open guild";
+                return false;
+            }
+
+            if (!dialogHasActionLabel(dialog, "Buy Spellbooks") || !dialogHasActionLabel(dialog, "Learn Skills"))
+            {
+                failure = "guild root menu is incomplete";
+                return false;
+            }
+
+            const std::optional<size_t> learnSkillsIndex = findActionIndexByLabel(dialog, "Learn Skills");
+
+            if (!learnSkillsIndex
+                || !executeDialogActionInScenario(gameDataLoader, *selectedMap, scenario, *learnSkillsIndex, dialog))
+            {
+                failure = "could not open guild skills menu";
+                return false;
+            }
+
+            const std::optional<size_t> airIndex = findActionIndexByLabelPrefix(dialog, "Learn Air Magic ");
+
+            if (!airIndex || !executeDialogActionInScenario(gameDataLoader, *selectedMap, scenario, *airIndex, dialog))
+            {
+                failure = "could not learn Air Magic in guild";
+                return false;
+            }
+
+            const Character *pSorcerer = scenario.party.member(3);
+
+            if (pSorcerer == nullptr || !pSorcerer->hasSkill("AirMagic"))
+            {
+                failure = "sorcerer did not learn Air Magic";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "dwi_training_service_uses_active_member",
+        [&](std::string &failure)
+        {
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            EventDialogContent dialog = {};
+
+            if (!openLocalEventDialogInScenario(gameDataLoader, *selectedMap, scenario, 187, dialog))
+            {
+                failure = "could not open training hall";
+                return false;
+            }
+
+            const std::optional<size_t> trainIndex = findActionIndexByLabelPrefix(dialog, "Train Ariel ");
+
+            if (!trainIndex)
+            {
+                failure = "training hall did not target the default active member";
+                return false;
+            }
+
+            if (!scenario.party.setActiveMemberIndex(1))
+            {
+                failure = "could not switch active member";
+                return false;
+            }
+
+            dialog = buildScenarioDialog(gameDataLoader, *selectedMap, scenario, scenario.pEventRuntimeState->messages.size(), true);
+
+            if (!findActionIndexByLabelPrefix(dialog, "Train Brom "))
+            {
+                failure = "training hall did not update for the selected character";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "dwi_tavern_arcomage_submenu",
+        [&](std::string &failure)
+        {
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            EventDialogContent dialog = {};
+
+            if (!openLocalEventDialogInScenario(gameDataLoader, *selectedMap, scenario, 191, dialog))
+            {
+                failure = "could not open tavern";
+                return false;
+            }
+
+            if (!dialogHasActionLabel(dialog, "Play Arcomage"))
+            {
+                failure = "tavern missing Arcomage root action";
+                return false;
+            }
+
+            const std::optional<size_t> arcomageIndex = findActionIndexByLabel(dialog, "Play Arcomage");
+
+            if (!arcomageIndex
+                || !executeDialogActionInScenario(gameDataLoader, *selectedMap, scenario, *arcomageIndex, dialog))
+            {
+                failure = "could not open Arcomage submenu";
+                return false;
+            }
+
+            if (!dialogHasActionLabel(dialog, "Rules")
+                || !dialogHasActionLabel(dialog, "Victory Conditions")
+                || !dialogHasActionLabel(dialog, "Play")
+                || !dialogHasActionLabel(dialog, "Back"))
+            {
+                failure = "Arcomage submenu is incomplete";
+                return false;
+            }
+
+            const std::optional<size_t> rulesIndex = findActionIndexByLabel(dialog, "Rules");
+
+            if (!rulesIndex
+                || !executeDialogActionInScenario(gameDataLoader, *selectedMap, scenario, *rulesIndex, dialog))
+            {
+                failure = "could not open Arcomage rules";
+                return false;
+            }
+
+            if (!dialogContainsText(dialog, "house deck"))
+            {
+                failure = "Arcomage rules text missing";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "dwi_bank_deposit_withdraw_roundtrip",
+        [&](std::string &failure)
+        {
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            EventDialogContent dialog = {};
+
+            if (!openLocalEventDialogInScenario(gameDataLoader, *selectedMap, scenario, 193, dialog))
+            {
+                failure = "could not open bank";
+                return false;
+            }
+
+            const std::optional<size_t> depositIndex = findActionIndexByLabel(dialog, "Deposit all carried gold");
+
+            if (!depositIndex
+                || !executeDialogActionInScenario(gameDataLoader, *selectedMap, scenario, *depositIndex, dialog))
+            {
+                failure = "could not deposit gold";
+                return false;
+            }
+
+            if (scenario.party.gold() != 0 || scenario.party.bankGold() <= 0)
+            {
+                failure = "deposit did not move gold into the bank";
+                return false;
+            }
+
+            const std::optional<size_t> withdrawIndex = findActionIndexByLabelPrefix(dialog, "Withdraw all banked gold ");
+
+            if (!withdrawIndex
+                || !executeDialogActionInScenario(gameDataLoader, *selectedMap, scenario, *withdrawIndex, dialog))
+            {
+                failure = "could not withdraw gold";
+                return false;
+            }
+
+            if (scenario.party.bankGold() != 0 || scenario.party.gold() <= 0)
+            {
+                failure = "withdraw did not return gold to the party";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
         "brekish_topic_mutation",
         [&](std::string &failure)
         {
@@ -1584,6 +3843,58 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
             if (!dialogHasActionLabel(dialog, "Power Stone") || !dialogHasActionLabel(dialog, "Abandoned Temple"))
             {
                 failure = "Fredrick missing unlocked quest topics";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "award_gated_topic_stephen",
+        [&](std::string &failure)
+        {
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            EventDialogContent dialog = openNpcDialogInScenario(gameDataLoader, *selectedMap, scenario, 72);
+
+            if (!dialogHasActionLabel(dialog, "Clues"))
+            {
+                failure = "Stephen should initially expose Clues";
+                return false;
+            }
+
+            scenario.party.addAward(30);
+            dialog = openNpcDialogInScenario(gameDataLoader, *selectedMap, scenario, 72);
+
+            if (dialogHasActionLabel(dialog, "Clues"))
+            {
+                failure = "Clues should hide once award 30 is present";
+                return false;
+            }
+
+            scenario.party.removeAward(30);
+            scenario.party.addAward(31);
+            dialog = openNpcDialogInScenario(gameDataLoader, *selectedMap, scenario, 72);
+
+            if (dialogHasActionLabel(dialog, "Clues"))
+            {
+                failure = "Clues should hide once award 31 is present";
+                return false;
+            }
+
+            scenario.party.removeAward(31);
+            dialog = openNpcDialogInScenario(gameDataLoader, *selectedMap, scenario, 72);
+
+            if (!dialogHasActionLabel(dialog, "Clues"))
+            {
+                failure = "Clues should reappear after removing gating awards";
                 return false;
             }
 
@@ -1971,6 +4282,368 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
     );
 
     runCase(
+        "actual_roster_join_rohani",
+        [&](std::string &failure)
+        {
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            EventDialogContent dialog = openNpcDialogInScenario(gameDataLoader, *selectedMap, scenario, 455);
+            const std::optional<size_t> joinIndex = findActionIndexByLabel(dialog, "Join");
+
+            if (!joinIndex || !executeDialogActionInScenario(gameDataLoader, *selectedMap, scenario, *joinIndex, dialog))
+            {
+                failure = "could not open Rohani roster join offer";
+                return false;
+            }
+
+            if (!dialogContainsText(dialog, "Will you have Rohani Oscleton the Dark Elf join you?"))
+            {
+                failure = "missing Rohani roster join prompt text";
+                return false;
+            }
+
+            const std::optional<size_t> yesIndex = findActionIndexByLabel(dialog, "Yes");
+
+            if (!yesIndex || !executeDialogActionInScenario(gameDataLoader, *selectedMap, scenario, *yesIndex, dialog))
+            {
+                failure = "could not accept Rohani roster join offer";
+                return false;
+            }
+
+            if (!scenario.party.hasRosterMember(6))
+            {
+                failure = "Rohani roster member was not added to the party";
+                return false;
+            }
+
+            if (!scenario.pEventRuntimeState->unavailableNpcIds.contains(455))
+            {
+                failure = "Rohani should become unavailable after recruitment";
+                return false;
+            }
+
+            if (!dialogContainsText(dialog, "joined the party"))
+            {
+                failure = "missing Rohani join confirmation text";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "actual_roster_join_rohani_full_party",
+        [&](std::string &failure)
+        {
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            const RosterEntry *pExtraMember = gameDataLoader.getRosterTable().get(3);
+
+            if (pExtraMember == nullptr || !scenario.party.recruitRosterMember(*pExtraMember))
+            {
+                failure = "could not fill party to 5";
+                return false;
+            }
+
+            EventDialogContent dialog = openNpcDialogInScenario(gameDataLoader, *selectedMap, scenario, 455);
+            const std::optional<size_t> joinIndex = findActionIndexByLabel(dialog, "Join");
+
+            if (!joinIndex || !executeDialogActionInScenario(gameDataLoader, *selectedMap, scenario, *joinIndex, dialog))
+            {
+                failure = "could not open Rohani full-party offer";
+                return false;
+            }
+
+            const std::optional<size_t> yesIndex = findActionIndexByLabel(dialog, "Yes");
+
+            if (!yesIndex || !executeDialogActionInScenario(gameDataLoader, *selectedMap, scenario, *yesIndex, dialog))
+            {
+                failure = "could not accept Rohani full-party offer";
+                return false;
+            }
+
+            if (!dialogContainsText(dialog, "I'm glad you've decided to take me"))
+            {
+                failure = "missing Rohani full-party text";
+                return false;
+            }
+
+            if (scenario.pEventRuntimeState->unavailableNpcIds.contains(455))
+            {
+                failure = "Rohani should remain available after moving to the inn";
+                return false;
+            }
+
+            const auto movedHouseIt = scenario.pEventRuntimeState->npcHouseOverrides.find(455);
+
+            if (movedHouseIt == scenario.pEventRuntimeState->npcHouseOverrides.end()
+                || movedHouseIt->second != AdventurersInnHouseId)
+            {
+                failure = "Rohani was not moved to the Adventurer's Inn";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "actual_roster_join_dyson_direct",
+        [&](std::string &failure)
+        {
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            EventDialogContent dialog = openNpcDialogInScenario(gameDataLoader, *selectedMap, scenario, 483);
+            const std::optional<size_t> joinIndex = findActionIndexByLabel(dialog, "Join");
+
+            if (!joinIndex || !executeDialogActionInScenario(gameDataLoader, *selectedMap, scenario, *joinIndex, dialog))
+            {
+                failure = "could not open Dyson direct roster join offer";
+                return false;
+            }
+
+            if (!dialogContainsText(dialog, "I will gladly join you."))
+            {
+                failure = "missing Dyson direct roster join prompt text";
+                return false;
+            }
+
+            const std::optional<size_t> yesIndex = findActionIndexByLabel(dialog, "Yes");
+
+            if (!yesIndex || !executeDialogActionInScenario(gameDataLoader, *selectedMap, scenario, *yesIndex, dialog))
+            {
+                failure = "could not accept Dyson direct roster join offer";
+                return false;
+            }
+
+            if (!scenario.party.hasRosterMember(34))
+            {
+                failure = "Dyson roster member was not added by direct join";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "promotion_champion_event_primary_knight",
+        [&](std::string &failure)
+        {
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            scenario.party.grantItem(539);
+
+            if (!executeGlobalEventInScenario(gameDataLoader, *selectedMap, scenario, 58))
+            {
+                failure = "global event 58 failed";
+                return false;
+            }
+
+            const Character *pMember0 = scenario.party.member(0);
+            const Character *pMember1 = scenario.party.member(1);
+
+            if (pMember0 == nullptr || pMember0->className != "Champion")
+            {
+                failure = "member 0 was not promoted to Champion";
+                return false;
+            }
+
+            if (pMember1 == nullptr || pMember1->className != "Cleric")
+            {
+                failure = "non-knight member changed unexpectedly";
+                return false;
+            }
+
+            if (!scenario.party.hasAward(0, 23))
+            {
+                failure = "member 0 missing Champion promotion award";
+                return false;
+            }
+
+            if (scenario.party.hasAward(1, 23))
+            {
+                failure = "member 1 should not receive Champion promotion award";
+                return false;
+            }
+
+            if (scenario.party.inventoryItemCount(539) != 0)
+            {
+                failure = "Ebonest was not consumed during promotion";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "promotion_champion_event_multiple_member_indices",
+        [&](std::string &failure)
+        {
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            if (!scenario.party.setMemberClassName(0, "Cleric")
+                || !scenario.party.setMemberClassName(1, "Knight")
+                || !scenario.party.setMemberClassName(2, "Knight"))
+            {
+                failure = "could not prepare party class layout";
+                return false;
+            }
+
+            if (!scenario.party.grantItemToMember(1, 539) || !scenario.party.grantItemToMember(2, 539))
+            {
+                failure = "could not place Ebonest on both knight members";
+                return false;
+            }
+
+            if (!executeGlobalEventInScenario(gameDataLoader, *selectedMap, scenario, 58))
+            {
+                failure = "global event 58 failed";
+                return false;
+            }
+
+            const Character *pMember0 = scenario.party.member(0);
+            const Character *pMember1 = scenario.party.member(1);
+            const Character *pMember2 = scenario.party.member(2);
+            const Character *pMember3 = scenario.party.member(3);
+
+            if (pMember0 == nullptr || pMember0->className != "Cleric")
+            {
+                failure = "member 0 should remain Cleric";
+                return false;
+            }
+
+            if (pMember1 == nullptr || pMember1->className != "Champion")
+            {
+                failure = "member 1 was not promoted to Champion";
+                return false;
+            }
+
+            if (pMember2 == nullptr || pMember2->className != "Champion")
+            {
+                failure = "member 2 was not promoted to Champion";
+                return false;
+            }
+
+            if (pMember3 == nullptr || pMember3->className == "Champion")
+            {
+                failure = "member 3 changed unexpectedly";
+                return false;
+            }
+
+            if (!scenario.party.hasAward(1, 23) || !scenario.party.hasAward(2, 23))
+            {
+                failure = "promoted members are missing Champion awards";
+                return false;
+            }
+
+            if (scenario.party.hasAward(0, 23) || scenario.party.hasAward(3, 23))
+            {
+                failure = "non-targeted members received Champion awards";
+                return false;
+            }
+
+            if (scenario.party.inventoryItemCount(539) != 0)
+            {
+                failure = "Ebonest was not consumed for each promoted knight";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "roster_join_offer_mapping_samples",
+        [&](std::string &failure)
+        {
+            struct ExpectedRosterJoinOffer
+            {
+                uint32_t topicId = 0;
+                uint32_t rosterId = 0;
+                uint32_t inviteTextId = 0;
+                uint32_t partyFullTextId = 0;
+            };
+
+            const std::array<ExpectedRosterJoinOffer, 7> expectedOffers = {
+                ExpectedRosterJoinOffer{602, 2, 202, 203},
+                ExpectedRosterJoinOffer{606, 6, 210, 211},
+                ExpectedRosterJoinOffer{611, 11, 220, 221},
+                ExpectedRosterJoinOffer{627, 27, 252, 253},
+                ExpectedRosterJoinOffer{630, 30, 258, 259},
+                ExpectedRosterJoinOffer{632, 32, 262, 263},
+                ExpectedRosterJoinOffer{634, 34, 266, 267},
+            };
+
+            for (const ExpectedRosterJoinOffer &expectedOffer : expectedOffers)
+            {
+                const std::optional<NpcDialogTable::RosterJoinOffer> actualOffer =
+                    gameDataLoader.getNpcDialogTable().getRosterJoinOfferForTopic(expectedOffer.topicId);
+
+                if (!actualOffer)
+                {
+                    failure = "missing roster join offer for topic " + std::to_string(expectedOffer.topicId);
+                    return false;
+                }
+
+                if (actualOffer->rosterId != expectedOffer.rosterId
+                    || actualOffer->inviteTextId != expectedOffer.inviteTextId
+                    || actualOffer->partyFullTextId != expectedOffer.partyFullTextId)
+                {
+                    failure = "unexpected roster join mapping for topic " + std::to_string(expectedOffer.topicId);
+                    return false;
+                }
+            }
+
+            if (gameDataLoader.getNpcDialogTable().getRosterJoinOfferForTopic(600))
+            {
+                failure = "topic 600 should not be classified as a roster join offer";
+                return false;
+            }
+
+            if (gameDataLoader.getNpcDialogTable().getRosterJoinOfferForTopic(650))
+            {
+                failure = "topic 650 should not be classified as a roster join offer";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
         "synthetic_roster_join_accept",
         [&](std::string &failure)
         {
@@ -2113,9 +4786,17 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
             scenario.pEventRuntimeState->pendingDialogueContext = innContext;
             dialog = buildScenarioDialog(gameDataLoader, *selectedMap, scenario, 0, true);
 
-            if (!dialogHasActionLabel(dialog, "Fredrick Talimere"))
+            if (dialog.title != "Fredrick Talimere" && !dialogHasActionLabel(dialog, "Fredrick Talimere"))
             {
                 failure = "Fredrick did not appear in the Adventurer's Inn";
+                return false;
+            }
+
+            if (dialogHasActionLabel(dialog, "Rent room for 5 gold")
+                || dialogHasActionLabel(dialog, "Fill packs to 14 days for 2 gold")
+                || dialogHasActionLabel(dialog, "Play Arcomage"))
+            {
+                failure = "Adventurer's Inn exposed tavern actions";
                 return false;
             }
 

@@ -1,5 +1,7 @@
 #include "game/EventRuntime.h"
+#include "game/OutdoorWorldRuntime.h"
 #include "game/Party.h"
+#include "game/SkillData.h"
 
 #include <iostream>
 #include <algorithm>
@@ -53,6 +55,104 @@ float mechanismDistanceForState(const MapDeltaDoor &door, uint16_t state, float 
 
     return 0.0f;
 }
+
+enum class PartySelectorKind
+{
+    None,
+    Member,
+    All,
+    Current,
+};
+
+struct PartySelector
+{
+    PartySelectorKind kind = PartySelectorKind::None;
+    size_t memberIndex = 0;
+};
+
+PartySelector decodePartySelector(const EventIrInstruction &instruction)
+{
+    if (instruction.operation != EventIrOperation::ForPartyMember || instruction.arguments.empty())
+    {
+        return {};
+    }
+
+    const uint32_t selectorValue = instruction.arguments[0];
+
+    if (selectorValue <= 4)
+    {
+        PartySelector selector = {};
+        selector.kind = PartySelectorKind::Member;
+        selector.memberIndex = selectorValue;
+        return selector;
+    }
+
+    if (selectorValue == 5)
+    {
+        PartySelector selector = {};
+        selector.kind = PartySelectorKind::All;
+        return selector;
+    }
+
+    if (selectorValue == 7)
+    {
+        PartySelector selector = {};
+        selector.kind = PartySelectorKind::Current;
+        return selector;
+    }
+
+    return {};
+}
+
+std::vector<size_t> resolveTargetMemberIndices(const PartySelector &selector, const Party *pParty)
+{
+    std::vector<size_t> result;
+
+    if (pParty == nullptr)
+    {
+        return result;
+    }
+
+    if (selector.kind == PartySelectorKind::Member)
+    {
+        if (selector.memberIndex < pParty->members().size())
+        {
+            result.push_back(selector.memberIndex);
+        }
+
+        return result;
+    }
+
+    if (selector.kind == PartySelectorKind::Current)
+    {
+        if (!pParty->members().empty())
+        {
+            result.push_back(pParty->activeMemberIndex());
+        }
+
+        return result;
+    }
+
+    if (selector.kind == PartySelectorKind::All)
+    {
+        for (size_t memberIndex = 0; memberIndex < pParty->members().size(); ++memberIndex)
+        {
+            result.push_back(memberIndex);
+        }
+    }
+
+    return result;
+}
+
+std::optional<size_t> singleTargetMemberIndex(const std::vector<size_t> &targetMemberIndices)
+{
+    if (targetMemberIndices.size() == 1)
+    {
+        return targetMemberIndices.front();
+    }
+
+    return std::nullopt;
+}
 }
 
 EventRuntime::VariableRef EventRuntime::decodeVariable(uint32_t rawId)
@@ -82,6 +182,11 @@ EventRuntime::VariableRef EventRuntime::decodeVariable(uint32_t rawId)
         variable.kind = VariableKind::Awards;
         variable.rawId = rawId;
     }
+    else if (variable.tag == 0x0002)
+    {
+        variable.kind = VariableKind::ClassId;
+        variable.rawId = rawId;
+    }
     else if (variable.tag == 0x0006 || variable.tag == 0x013e)
     {
         variable.kind = VariableKind::Players;
@@ -99,12 +204,13 @@ EventRuntime::VariableRef EventRuntime::decodeVariable(uint32_t rawId)
 int32_t EventRuntime::getVariableValue(
     const EventRuntimeState &runtimeState,
     const VariableRef &variable,
-    const Party *pParty
+    const Party *pParty,
+    const std::optional<size_t> &memberIndex
 )
 {
     if (variable.kind == VariableKind::Inventory)
     {
-        return getInventoryItemCount(runtimeState, pParty, variable.rawId);
+        return getInventoryItemCount(runtimeState, pParty, variable.rawId, memberIndex);
     }
 
     if (variable.kind == VariableKind::Players)
@@ -115,6 +221,47 @@ int32_t EventRuntime::getVariableValue(
         }
 
         return pParty->hasRosterMember(variable.index) ? static_cast<int32_t>(variable.index) : 0;
+    }
+
+    if (variable.kind == VariableKind::Awards)
+    {
+        const std::unordered_map<uint32_t, int32_t>::const_iterator overrideIt =
+            runtimeState.variables.find(variable.rawId);
+
+        if (overrideIt != runtimeState.variables.end())
+        {
+            return overrideIt->second;
+        }
+
+        if (pParty == nullptr)
+        {
+            return 0;
+        }
+
+        if (memberIndex)
+        {
+            return pParty->hasAward(*memberIndex, variable.index) ? static_cast<int32_t>(variable.index) : 0;
+        }
+
+        return pParty->hasAward(variable.index) ? static_cast<int32_t>(variable.index) : 0;
+    }
+
+    if (variable.kind == VariableKind::ClassId)
+    {
+        if (!memberIndex || pParty == nullptr)
+        {
+            return 0;
+        }
+
+        const Character *pMember = pParty->member(*memberIndex);
+
+        if (pMember == nullptr)
+        {
+            return 0;
+        }
+
+        const std::optional<uint32_t> classId = mm8ClassIdForClassName(pMember->className);
+        return classId ? static_cast<int32_t>(*classId) : 0;
     }
 
     if (variable.kind == VariableKind::QBits || variable.kind == VariableKind::BoolFlag)
@@ -136,10 +283,85 @@ int32_t EventRuntime::getVariableValue(
     return iterator != runtimeState.variables.end() ? iterator->second : 0;
 }
 
-void EventRuntime::setVariableValue(EventRuntimeState &runtimeState, const VariableRef &variable, int32_t value)
+void EventRuntime::setVariableValue(
+    EventRuntimeState &runtimeState,
+    const VariableRef &variable,
+    int32_t value,
+    Party *pParty,
+    const std::vector<size_t> &targetMemberIndices
+)
 {
     if (variable.kind == VariableKind::Inventory)
     {
+        if (pParty != nullptr && !targetMemberIndices.empty())
+        {
+            for (size_t memberIndex : targetMemberIndices)
+            {
+                if (value != 0)
+                {
+                    pParty->grantItemToMember(memberIndex, variable.rawId);
+                }
+                else
+                {
+                    pParty->removeItemFromMember(memberIndex, variable.rawId);
+                }
+            }
+        }
+        return;
+    }
+
+    if (variable.kind == VariableKind::Awards)
+    {
+        if (pParty != nullptr && !targetMemberIndices.empty())
+        {
+            for (size_t memberIndex : targetMemberIndices)
+            {
+                if (value != 0)
+                {
+                    pParty->addAward(memberIndex, variable.index);
+                }
+                else
+                {
+                    pParty->removeAward(memberIndex, variable.index);
+                }
+            }
+
+            return;
+        }
+
+        if (value != 0)
+        {
+            runtimeState.variables[variable.rawId] = static_cast<int32_t>(variable.index);
+            runtimeState.grantedAwardIds.push_back(variable.index);
+        }
+        else
+        {
+            runtimeState.variables[variable.rawId] = 0;
+            runtimeState.removedAwardIds.push_back(variable.index);
+        }
+
+        return;
+    }
+
+    if (variable.kind == VariableKind::ClassId)
+    {
+        if (pParty == nullptr)
+        {
+            return;
+        }
+
+        const std::optional<std::string> className = classNameForMm8ClassId(static_cast<uint32_t>(value));
+
+        if (!className)
+        {
+            return;
+        }
+
+        for (size_t memberIndex : targetMemberIndices)
+        {
+            pParty->setMemberClassName(memberIndex, *className);
+        }
+
         return;
     }
 
@@ -152,14 +374,62 @@ void EventRuntime::setVariableValue(EventRuntimeState &runtimeState, const Varia
     runtimeState.variables[variable.rawId] = value;
 }
 
-void EventRuntime::addVariableValue(EventRuntimeState &runtimeState, const VariableRef &variable, int32_t value)
+void EventRuntime::addVariableValue(
+    EventRuntimeState &runtimeState,
+    const VariableRef &variable,
+    int32_t value,
+    Party *pParty,
+    const std::vector<size_t> &targetMemberIndices
+)
 {
     if (variable.kind == VariableKind::Inventory)
     {
+        if (pParty != nullptr && !targetMemberIndices.empty())
+        {
+            for (size_t memberIndex : targetMemberIndices)
+            {
+                if (value > 0)
+                {
+                    pParty->grantItemToMember(memberIndex, static_cast<uint32_t>(value));
+                }
+            }
+            return;
+        }
+
         if (value > 0)
         {
             runtimeState.grantedItemIds.push_back(static_cast<uint32_t>(value));
         }
+        return;
+    }
+
+    if (variable.kind == VariableKind::Awards)
+    {
+        if (pParty != nullptr && !targetMemberIndices.empty())
+        {
+            for (size_t memberIndex : targetMemberIndices)
+            {
+                if (value > 0)
+                {
+                    pParty->addAward(memberIndex, variable.index);
+                }
+            }
+
+            return;
+        }
+
+        if (value > 0)
+        {
+            runtimeState.variables[variable.rawId] = static_cast<int32_t>(variable.index);
+            runtimeState.grantedAwardIds.push_back(variable.index);
+        }
+
+        return;
+    }
+
+    if (variable.kind == VariableKind::ClassId)
+    {
+        setVariableValue(runtimeState, variable, value, pParty, targetMemberIndices);
         return;
     }
 
@@ -172,14 +442,61 @@ void EventRuntime::addVariableValue(EventRuntimeState &runtimeState, const Varia
     runtimeState.variables[variable.rawId] = getVariableValue(runtimeState, variable, nullptr) + value;
 }
 
-void EventRuntime::subtractVariableValue(EventRuntimeState &runtimeState, const VariableRef &variable, int32_t value)
+void EventRuntime::subtractVariableValue(
+    EventRuntimeState &runtimeState,
+    const VariableRef &variable,
+    int32_t value,
+    Party *pParty,
+    const std::vector<size_t> &targetMemberIndices
+)
 {
     if (variable.kind == VariableKind::Inventory)
     {
+        if (pParty != nullptr && !targetMemberIndices.empty())
+        {
+            for (size_t memberIndex : targetMemberIndices)
+            {
+                if (value > 0)
+                {
+                    pParty->removeItemFromMember(memberIndex, static_cast<uint32_t>(value));
+                }
+            }
+            return;
+        }
+
         if (value > 0)
         {
             runtimeState.removedItemIds.push_back(static_cast<uint32_t>(value));
         }
+        return;
+    }
+
+    if (variable.kind == VariableKind::Awards)
+    {
+        if (pParty != nullptr && !targetMemberIndices.empty())
+        {
+            for (size_t memberIndex : targetMemberIndices)
+            {
+                if (value > 0)
+                {
+                    pParty->removeAward(memberIndex, variable.index);
+                }
+            }
+
+            return;
+        }
+
+        if (value > 0)
+        {
+            runtimeState.variables[variable.rawId] = 0;
+            runtimeState.removedAwardIds.push_back(variable.index);
+        }
+
+        return;
+    }
+
+    if (variable.kind == VariableKind::ClassId)
+    {
         return;
     }
 
@@ -244,7 +561,8 @@ bool EventRuntime::executeEventById(
     const std::optional<EventIrProgram> &globalProgram,
     uint16_t eventId,
     EventRuntimeState &runtimeState,
-    const Party *pParty
+    Party *pParty,
+    OutdoorWorldRuntime *pOutdoorWorldRuntime
 ) const
 {
     if (eventId == 0)
@@ -259,7 +577,7 @@ bool EventRuntime::executeEventById(
         if (pEvent != nullptr)
         {
             std::cout << "Executing local event " << eventId << '\n';
-            return executeEvent(*pEvent, runtimeState, pParty);
+            return executeEvent(*pEvent, runtimeState, pParty, pOutdoorWorldRuntime);
         }
     }
 
@@ -270,7 +588,7 @@ bool EventRuntime::executeEventById(
         if (pEvent != nullptr)
         {
             std::cout << "Executing global event " << eventId << '\n';
-            return executeEvent(*pEvent, runtimeState, pParty);
+            return executeEvent(*pEvent, runtimeState, pParty, pOutdoorWorldRuntime);
         }
     }
 
@@ -374,7 +692,7 @@ void EventRuntime::executeProgramOnLoad(
             continue;
         }
 
-        if (executeEvent(event, runtimeState, nullptr))
+        if (executeEvent(event, runtimeState, nullptr, nullptr))
         {
             ++executedCount;
         }
@@ -415,7 +733,7 @@ void EventRuntime::executeTimerEvents(const EventIrProgram &program, EventRuntim
         }
 
         std::cout << "Executing timer event " << event.eventId << '\n';
-        executeEvent(event, runtimeState, nullptr);
+        executeEvent(event, runtimeState, nullptr, nullptr);
     }
 }
 
@@ -483,38 +801,28 @@ void EventRuntime::applyMechanismAction(
 int32_t EventRuntime::getInventoryItemCount(
     const EventRuntimeState &runtimeState,
     const Party *pParty,
-    uint32_t objectDescriptionId
+    uint32_t objectDescriptionId,
+    const std::optional<size_t> &memberIndex
 )
 {
-    int32_t itemCount = 0;
+    int32_t itemCount = pParty != nullptr ? pParty->inventoryItemCount(objectDescriptionId, memberIndex) : 0;
 
-    if (pParty != nullptr)
+    if (!memberIndex)
     {
-        for (const Character &member : pParty->members())
+        for (uint32_t grantedItemId : runtimeState.grantedItemIds)
         {
-            for (const InventoryItem &item : member.inventory)
+            if (grantedItemId == objectDescriptionId)
             {
-                if (item.objectDescriptionId == objectDescriptionId)
-                {
-                    itemCount += static_cast<int32_t>(item.quantity);
-                }
+                itemCount += 1;
             }
         }
-    }
 
-    for (uint32_t grantedItemId : runtimeState.grantedItemIds)
-    {
-        if (grantedItemId == objectDescriptionId)
+        for (uint32_t removedItemId : runtimeState.removedItemIds)
         {
-            itemCount += 1;
-        }
-    }
-
-    for (uint32_t removedItemId : runtimeState.removedItemIds)
-    {
-        if (removedItemId == objectDescriptionId)
-        {
-            itemCount = std::max(0, itemCount - 1);
+            if (removedItemId == objectDescriptionId)
+            {
+                itemCount = std::max(0, itemCount - 1);
+            }
         }
     }
 
@@ -524,7 +832,8 @@ int32_t EventRuntime::getInventoryItemCount(
 bool EventRuntime::evaluateCompare(
     const EventRuntimeState &runtimeState,
     const EventIrInstruction &instruction,
-    const Party *pParty
+    const Party *pParty,
+    const std::vector<size_t> &targetMemberIndices
 )
 {
     if (instruction.arguments.size() < 2)
@@ -534,7 +843,31 @@ bool EventRuntime::evaluateCompare(
 
     const VariableRef variable = decodeVariable(instruction.arguments[0]);
     const int32_t compareValue = static_cast<int32_t>(instruction.arguments[1]);
-    const int32_t currentValue = getVariableValue(runtimeState, variable, pParty);
+    const std::optional<size_t> memberIndex = singleTargetMemberIndex(targetMemberIndices);
+    const int32_t currentValue = getVariableValue(runtimeState, variable, pParty, memberIndex);
+
+    if (variable.kind == VariableKind::ClassId)
+    {
+        if (targetMemberIndices.empty())
+        {
+            return currentValue == compareValue;
+        }
+
+        for (size_t targetMemberIndex : targetMemberIndices)
+        {
+            if (getVariableValue(runtimeState, variable, pParty, targetMemberIndex) == compareValue)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    if (variable.kind == VariableKind::Awards || variable.kind == VariableKind::Players)
+    {
+        return currentValue != 0;
+    }
 
     return variable.kind == VariableKind::QBits
         || variable.kind == VariableKind::BoolFlag
@@ -559,17 +892,23 @@ bool EventRuntime::evaluateCanShowTopic(
     bool sawCanShowInstruction = false;
     bool isVisible = true;
     size_t instructionIndex = 0;
+    PartySelector selector = {};
 
     while (instructionIndex < event.instructions.size())
     {
         const EventIrInstruction &instruction = event.instructions[instructionIndex];
+        const std::vector<size_t> targetMemberIndices = resolveTargetMemberIndices(selector, pParty);
 
         switch (instruction.operation)
         {
+            case EventIrOperation::ForPartyMember:
+                selector = decodePartySelector(instruction);
+                break;
+
             case EventIrOperation::CompareCanShowTopic:
             {
                 sawCanShowInstruction = true;
-                const bool compareSucceeded = evaluateCompare(runtimeState, instruction, pParty);
+                const bool compareSucceeded = evaluateCompare(runtimeState, instruction, pParty, targetMemberIndices);
 
                 if (compareSucceeded && instruction.jumpTargetStep)
                 {
@@ -603,12 +942,19 @@ bool EventRuntime::evaluateCanShowTopic(
     return sawCanShowInstruction ? isVisible : true;
 }
 
-bool EventRuntime::executeEvent(const EventIrEvent &event, EventRuntimeState &runtimeState, const Party *pParty)
+bool EventRuntime::executeEvent(
+    const EventIrEvent &event,
+    EventRuntimeState &runtimeState,
+    Party *pParty,
+    OutdoorWorldRuntime *pOutdoorWorldRuntime
+)
 {
     runtimeState.lastAffectedMechanismIds.clear();
     runtimeState.openedChestIds.clear();
     runtimeState.grantedItemIds.clear();
     runtimeState.removedItemIds.clear();
+    runtimeState.grantedAwardIds.clear();
+    runtimeState.removedAwardIds.clear();
     runtimeState.pendingDialogueContext.reset();
     runtimeState.pendingMapMove.reset();
 
@@ -620,10 +966,12 @@ bool EventRuntime::executeEvent(const EventIrEvent &event, EventRuntimeState &ru
     }
 
     size_t instructionIndex = 0;
+    PartySelector selector = {};
 
     while (instructionIndex < event.instructions.size())
     {
         const EventIrInstruction &instruction = event.instructions[instructionIndex];
+        const std::vector<size_t> targetMemberIndices = resolveTargetMemberIndices(selector, pParty);
 
         switch (instruction.operation)
         {
@@ -640,18 +988,21 @@ bool EventRuntime::executeEvent(const EventIrEvent &event, EventRuntimeState &ru
             case EventIrOperation::CompareCanShowTopic:
             case EventIrOperation::SetCanShowTopic:
             case EventIrOperation::EndCanShowTopic:
-            case EventIrOperation::ForPartyMember:
             case EventIrOperation::CheckItemsCount:
             case EventIrOperation::CheckSkill:
             case EventIrOperation::MoveNpc:
             case EventIrOperation::ChangeEvent:
             case EventIrOperation::RandomJump:
-            case EventIrOperation::SummonMonsters:
             case EventIrOperation::SummonItem:
             case EventIrOperation::CastSpell:
             case EventIrOperation::SetNpcGreeting:
             case EventIrOperation::CharacterAnimation:
-            case EventIrOperation::IsActorKilled:
+                break;
+
+            case EventIrOperation::ForPartyMember:
+                selector = decodePartySelector(instruction);
+                std::cout << "  player_selector="
+                          << (instruction.arguments.empty() ? 0 : instruction.arguments[0]) << '\n';
                 break;
 
             case EventIrOperation::SpeakInHouse:
@@ -728,8 +1079,9 @@ bool EventRuntime::executeEvent(const EventIrEvent &event, EventRuntimeState &ru
                 {
                     const VariableRef variable = decodeVariable(instruction.arguments[0]);
                     const int32_t compareValue = static_cast<int32_t>(instruction.arguments[1]);
-                    const int32_t currentValue = getVariableValue(runtimeState, variable, pParty);
-                    const bool compareSucceeded = evaluateCompare(runtimeState, instruction, pParty);
+                    const std::optional<size_t> memberIndex = singleTargetMemberIndex(targetMemberIndices);
+                    const int32_t currentValue = getVariableValue(runtimeState, variable, pParty, memberIndex);
+                    const bool compareSucceeded = evaluateCompare(runtimeState, instruction, pParty, targetMemberIndices);
 
                     std::cout << "  cmp raw=" << instruction.arguments[0]
                               << " current=" << currentValue
@@ -771,6 +1123,38 @@ bool EventRuntime::executeEvent(const EventIrEvent &event, EventRuntimeState &ru
                 break;
             }
 
+            case EventIrOperation::IsActorKilled:
+            {
+                if (instruction.arguments.size() >= 4)
+                {
+                    const uint32_t checkType = instruction.arguments[0];
+                    const uint32_t id = instruction.arguments[1];
+                    const uint32_t count = instruction.arguments[2];
+                    const bool invisibleAsDead = instruction.arguments[3] != 0;
+                    const bool killed = pOutdoorWorldRuntime != nullptr
+                        && pOutdoorWorldRuntime->checkMonstersKilled(checkType, id, count, invisibleAsDead);
+
+                    std::cout << "  check_monsters_killed type=" << checkType
+                              << " id=" << id
+                              << " count=" << count
+                              << " invisible_as_dead=" << (invisibleAsDead ? "1" : "0")
+                              << " -> " << (killed ? "true" : "false") << '\n';
+
+                    if (killed && instruction.jumpTargetStep)
+                    {
+                        const std::unordered_map<uint8_t, size_t>::const_iterator iterator =
+                            stepToInstructionIndex.find(*instruction.jumpTargetStep);
+
+                        if (iterator != stepToInstructionIndex.end())
+                        {
+                            instructionIndex = iterator->second;
+                            continue;
+                        }
+                    }
+                }
+                break;
+            }
+
             case EventIrOperation::Add:
             {
                 if (instruction.arguments.size() >= 2)
@@ -779,11 +1163,51 @@ bool EventRuntime::executeEvent(const EventIrEvent &event, EventRuntimeState &ru
                     addVariableValue(
                         runtimeState,
                         variable,
-                        static_cast<int32_t>(instruction.arguments[1])
+                        static_cast<int32_t>(instruction.arguments[1]),
+                        pParty,
+                        targetMemberIndices
                     );
                     std::cout << "  add raw=" << instruction.arguments[0]
                               << " value=" << instruction.arguments[1]
-                              << " -> " << getVariableValue(runtimeState, variable, pParty) << '\n';
+                              << " -> " << getVariableValue(
+                                  runtimeState,
+                                  variable,
+                                  pParty,
+                                  singleTargetMemberIndex(targetMemberIndices)) << '\n';
+                }
+                break;
+            }
+
+            case EventIrOperation::SummonMonsters:
+            {
+                if (instruction.arguments.size() >= 8)
+                {
+                    const uint32_t typeIndex = instruction.arguments[0];
+                    const uint32_t level = instruction.arguments[1];
+                    const uint32_t count = instruction.arguments[2];
+                    const int32_t x = static_cast<int32_t>(instruction.arguments[3]);
+                    const int32_t y = static_cast<int32_t>(instruction.arguments[4]);
+                    const int32_t z = static_cast<int32_t>(instruction.arguments[5]);
+                    const uint32_t group = instruction.arguments[6];
+                    const uint32_t uniqueNameId = instruction.arguments[7];
+                    const bool summoned = pOutdoorWorldRuntime != nullptr
+                        && pOutdoorWorldRuntime->summonMonsters(
+                            typeIndex,
+                            level,
+                            count,
+                            x,
+                            y,
+                            z,
+                            group,
+                            uniqueNameId);
+
+                    std::cout << "  summon_monsters type=" << typeIndex
+                              << " level=" << level
+                              << " count=" << count
+                              << " pos=(" << x << "," << y << "," << z << ")"
+                              << " group=" << group
+                              << " unique=" << uniqueNameId
+                              << " -> " << (summoned ? "true" : "false") << '\n';
                 }
                 break;
             }
@@ -796,11 +1220,17 @@ bool EventRuntime::executeEvent(const EventIrEvent &event, EventRuntimeState &ru
                     subtractVariableValue(
                         runtimeState,
                         variable,
-                        static_cast<int32_t>(instruction.arguments[1])
+                        static_cast<int32_t>(instruction.arguments[1]),
+                        pParty,
+                        targetMemberIndices
                     );
                     std::cout << "  sub raw=" << instruction.arguments[0]
                               << " value=" << instruction.arguments[1]
-                              << " -> " << getVariableValue(runtimeState, variable, pParty) << '\n';
+                              << " -> " << getVariableValue(
+                                  runtimeState,
+                                  variable,
+                                  pParty,
+                                  singleTargetMemberIndex(targetMemberIndices)) << '\n';
                 }
                 break;
             }
@@ -813,11 +1243,17 @@ bool EventRuntime::executeEvent(const EventIrEvent &event, EventRuntimeState &ru
                     setVariableValue(
                         runtimeState,
                         variable,
-                        static_cast<int32_t>(instruction.arguments[1])
+                        static_cast<int32_t>(instruction.arguments[1]),
+                        pParty,
+                        targetMemberIndices
                     );
                     std::cout << "  set raw=" << instruction.arguments[0]
                               << " value=" << instruction.arguments[1]
-                              << " -> " << getVariableValue(runtimeState, variable, pParty) << '\n';
+                              << " -> " << getVariableValue(
+                                  runtimeState,
+                                  variable,
+                                  pParty,
+                                  singleTargetMemberIndex(targetMemberIndices)) << '\n';
                 }
                 break;
             }
@@ -966,8 +1402,56 @@ bool EventRuntime::executeEvent(const EventIrEvent &event, EventRuntimeState &ru
             }
 
             case EventIrOperation::SetActorFlag:
-            case EventIrOperation::SetActorGroupFlag:
+            {
+                if (instruction.arguments.size() >= 3)
+                {
+                    const uint32_t actorId = instruction.arguments[0];
+                    const uint32_t bit = instruction.arguments[1];
+                    const bool isOn = instruction.arguments[2] != 0;
+
+                    if (isOn)
+                    {
+                        runtimeState.actorSetMasks[actorId] |= bit;
+                        runtimeState.actorClearMasks[actorId] &= ~bit;
+                    }
+                    else
+                    {
+                        runtimeState.actorClearMasks[actorId] |= bit;
+                        runtimeState.actorSetMasks[actorId] &= ~bit;
+                    }
+
+                    std::cout << "  actor " << actorId
+                              << " bit=0x" << std::hex << bit << std::dec
+                              << " on=" << (isOn ? "1" : "0") << '\n';
+                }
                 break;
+            }
+
+            case EventIrOperation::SetActorGroupFlag:
+            {
+                if (instruction.arguments.size() >= 3)
+                {
+                    const uint32_t groupId = instruction.arguments[0];
+                    const uint32_t bit = instruction.arguments[1];
+                    const bool isOn = instruction.arguments[2] != 0;
+
+                    if (isOn)
+                    {
+                        runtimeState.actorGroupSetMasks[groupId] |= bit;
+                        runtimeState.actorGroupClearMasks[groupId] &= ~bit;
+                    }
+                    else
+                    {
+                        runtimeState.actorGroupClearMasks[groupId] |= bit;
+                        runtimeState.actorGroupSetMasks[groupId] &= ~bit;
+                    }
+
+                    std::cout << "  actor_group " << groupId
+                              << " bit=0x" << std::hex << bit << std::dec
+                              << " on=" << (isOn ? "1" : "0") << '\n';
+                }
+                break;
+            }
 
             case EventIrOperation::SetNpcTopic:
             {

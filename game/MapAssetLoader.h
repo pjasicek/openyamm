@@ -44,6 +44,7 @@ struct OutdoorTerrainTextureAtlas
 struct OutdoorBitmapTexture
 {
     std::string textureName;
+    int16_t paletteId = 0;
     int width = 0;
     int height = 0;
     std::vector<uint8_t> pixels;
@@ -86,8 +87,11 @@ enum class ActorPreviewSource
 struct ActorPreviewBillboard
 {
     size_t spawnIndex = 0;
+    size_t runtimeActorIndex = static_cast<size_t>(-1);
     uint16_t spriteFrameIndex = 0;
+    std::array<uint16_t, 8> actionSpriteFrameIndices = {};
     int16_t npcId = 0;
+    int16_t monsterId = 0;
     int x = 0;
     int y = 0;
     int z = 0;

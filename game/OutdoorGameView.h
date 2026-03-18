@@ -5,6 +5,7 @@
 #include "game/MapStats.h"
 #include "game/MonsterTable.h"
 #include "game/OutdoorMapData.h"
+#include "game/OutdoorWorldRuntime.h"
 #include "game/ChestTable.h"
 #include "game/ClassSkillTable.h"
 #include "game/EventDialogContent.h"
@@ -71,7 +72,7 @@ public:
         OutdoorPartyRuntime *pOutdoorPartyRuntime,
         OutdoorWorldRuntime *pOutdoorWorldRuntime
     );
-    void render(int width, int height, float mouseWheelDelta);
+    void render(int width, int height, float mouseWheelDelta, float deltaSeconds);
     void shutdown();
 
 private:
@@ -110,6 +111,7 @@ private:
     struct BillboardTextureHandle
     {
         std::string textureName;
+        int16_t paletteId = 0;
         int width = 0;
         int height = 0;
         bgfx::TextureHandle textureHandle = BGFX_INVALID_HANDLE;
@@ -185,7 +187,7 @@ private:
         const bx::Vec3 &rayDirection
     );
     bool tryActivateInspectEvent(const InspectHit &inspectHit);
-    void updateCameraFromInput();
+    void updateCameraFromInput(float deltaSeconds);
     void renderDecorationBillboards(
         uint16_t viewId,
         uint16_t viewWidth,
@@ -197,15 +199,17 @@ private:
     void renderGameplayHud(int width, int height) const;
     void renderChestPanel(int width, int height) const;
     void renderEventDialogPanel(int width, int height) const;
+    void renderActorCollisionOverlays(uint16_t viewId) const;
     void renderActorPreviewBillboards(uint16_t viewId, const float *pViewMatrix, const bx::Vec3 &cameraPosition);
     void renderSpriteObjectBillboards(uint16_t viewId, const float *pViewMatrix, const bx::Vec3 &cameraPosition);
     void executeActiveDialogAction();
     void openPendingEventDialog(size_t previousMessageCount, bool allowNpcFallbackContent);
     void closeActiveEventDialog();
     bool hasActiveEventDialog() const;
-    const BillboardTextureHandle *findBillboardTexture(const std::string &textureName) const;
+    const BillboardTextureHandle *findBillboardTexture(const std::string &textureName, int16_t paletteId = 0) const;
     const HudTextureHandle *findHudTexture(const std::string &textureName) const;
     bool loadHudTexture(const Engine::AssetFileSystem &assetFileSystem, const std::string &textureName);
+    const OutdoorWorldRuntime::MapActorState *runtimeActorStateForBillboard(const ActorPreviewBillboard &billboard) const;
     bool m_isInitialized;
     bool m_isRenderable;
     std::optional<MapStatsEntry> m_map;
@@ -258,7 +262,6 @@ private:
     float m_cameraEyeHeight;
     float m_cameraDistance;
     float m_cameraOrthoScale;
-    uint64_t m_lastTickCount;
     bool m_showFilledTerrain;
     bool m_showTerrainWireframe;
     bool m_showBModels;
@@ -301,5 +304,6 @@ private:
     size_t m_eventDialogSelectionIndex;
     EventDialogContent m_activeEventDialog;
     OutdoorPartyRuntime *m_pOutdoorPartyRuntime;
+    const Engine::AssetFileSystem *m_pAssetFileSystem;
 };
 }

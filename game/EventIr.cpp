@@ -1,12 +1,27 @@
 #include "game/EventIr.h"
 
 #include <algorithm>
+#include <cstring>
 #include <sstream>
 
 namespace OpenYAMM::Game
 {
 namespace
 {
+template <typename TValue>
+std::optional<TValue> readPayloadValue(const std::vector<uint8_t> &payload, size_t offset)
+{
+    TValue value = {};
+
+    if (offset > payload.size() || sizeof(TValue) > (payload.size() - offset))
+    {
+        return std::nullopt;
+    }
+
+    std::memcpy(&value, payload.data() + offset, sizeof(TValue));
+    return value;
+}
+
 std::string hexValue(uint32_t value)
 {
     std::ostringstream stream;
@@ -372,6 +387,61 @@ EventIrInstruction EventIrProgram::convertInstruction(
         irInstruction.note = note.str();
     }
 
+    if (irInstruction.operation == EventIrOperation::ForPartyMember)
+    {
+        for (uint8_t value : evtInstruction.listValues)
+        {
+            irInstruction.arguments.push_back(value);
+        }
+    }
+
+    if (irInstruction.operation == EventIrOperation::SummonMonsters)
+    {
+        const std::optional<uint8_t> typeIndex = readPayloadValue<uint8_t>(evtInstruction.rawPayload, 0);
+        const std::optional<uint8_t> level = readPayloadValue<uint8_t>(evtInstruction.rawPayload, 1);
+        const std::optional<uint8_t> count = readPayloadValue<uint8_t>(evtInstruction.rawPayload, 2);
+        const std::optional<int32_t> x = readPayloadValue<int32_t>(evtInstruction.rawPayload, 3);
+        const std::optional<int32_t> y = readPayloadValue<int32_t>(evtInstruction.rawPayload, 7);
+        const std::optional<int32_t> z = readPayloadValue<int32_t>(evtInstruction.rawPayload, 11);
+        const std::optional<uint32_t> group = readPayloadValue<uint32_t>(evtInstruction.rawPayload, 15);
+        const std::optional<uint32_t> uniqueNameId = readPayloadValue<uint32_t>(evtInstruction.rawPayload, 19);
+
+        if (typeIndex && level && count && x && y && z && group && uniqueNameId)
+        {
+            irInstruction.arguments.clear();
+            irInstruction.arguments.push_back(*typeIndex);
+            irInstruction.arguments.push_back(*level);
+            irInstruction.arguments.push_back(*count);
+            irInstruction.arguments.push_back(static_cast<uint32_t>(*x));
+            irInstruction.arguments.push_back(static_cast<uint32_t>(*y));
+            irInstruction.arguments.push_back(static_cast<uint32_t>(*z));
+            irInstruction.arguments.push_back(*group);
+            irInstruction.arguments.push_back(*uniqueNameId);
+        }
+    }
+    else if (irInstruction.operation == EventIrOperation::IsActorKilled)
+    {
+        const std::optional<uint8_t> policy = readPayloadValue<uint8_t>(evtInstruction.rawPayload, 0);
+        const std::optional<uint32_t> param = readPayloadValue<uint32_t>(evtInstruction.rawPayload, 1);
+        const std::optional<uint8_t> count = readPayloadValue<uint8_t>(evtInstruction.rawPayload, 5);
+        const std::optional<uint8_t> invisibleAsDead = readPayloadValue<uint8_t>(evtInstruction.rawPayload, 6);
+        const std::optional<uint8_t> jump = readPayloadValue<uint8_t>(evtInstruction.rawPayload, 7);
+
+        if (policy && param && count && invisibleAsDead)
+        {
+            irInstruction.arguments.clear();
+            irInstruction.arguments.push_back(*policy);
+            irInstruction.arguments.push_back(*param);
+            irInstruction.arguments.push_back(*count);
+            irInstruction.arguments.push_back(*invisibleAsDead);
+        }
+
+        if (jump)
+        {
+            irInstruction.jumpTargetStep = *jump;
+        }
+    }
+
     switch (irInstruction.operation)
     {
         case EventIrOperation::Compare:
@@ -460,6 +530,39 @@ EventIrInstruction EventIrProgram::convertInstruction(
             {
                 std::ostringstream note;
                 note << "skill=" << *evtInstruction.value1 << " mastery=" << *evtInstruction.value2;
+                irInstruction.note = note.str();
+            }
+            break;
+        }
+
+        case EventIrOperation::SummonMonsters:
+        {
+            if (irInstruction.arguments.size() >= 8)
+            {
+                std::ostringstream note;
+                note << "type=" << irInstruction.arguments[0]
+                     << " level=" << irInstruction.arguments[1]
+                     << " count=" << irInstruction.arguments[2]
+                     << " pos=("
+                     << static_cast<int32_t>(irInstruction.arguments[3]) << ","
+                     << static_cast<int32_t>(irInstruction.arguments[4]) << ","
+                     << static_cast<int32_t>(irInstruction.arguments[5]) << ")"
+                     << " group=" << irInstruction.arguments[6]
+                     << " unique=" << irInstruction.arguments[7];
+                irInstruction.note = note.str();
+            }
+            break;
+        }
+
+        case EventIrOperation::IsActorKilled:
+        {
+            if (irInstruction.arguments.size() >= 4)
+            {
+                std::ostringstream note;
+                note << "checkType=" << irInstruction.arguments[0]
+                     << " id=" << irInstruction.arguments[1]
+                     << " count=" << irInstruction.arguments[2]
+                     << " invisibleAsDead=" << irInstruction.arguments[3];
                 irInstruction.note = note.str();
             }
             break;
