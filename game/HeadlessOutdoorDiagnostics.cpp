@@ -2419,6 +2419,45 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
     );
 
     runCase(
+        "monster_attack_style_classification_examples",
+        [&](std::string &failure)
+        {
+            const MonsterTable::MonsterStatsEntry *pMelee =
+                gameDataLoader.getMonsterTable().findStatsById(12);
+            const MonsterTable::MonsterStatsEntry *pMixed =
+                gameDataLoader.getMonsterTable().findStatsById(5);
+            const MonsterTable::MonsterStatsEntry *pRanged =
+                gameDataLoader.getMonsterTable().findStatsById(16);
+
+            if (pMelee == nullptr || pMixed == nullptr || pRanged == nullptr)
+            {
+                failure = "classification sample stats missing";
+                return false;
+            }
+
+            if (pMelee->attackStyle != MonsterTable::MonsterAttackStyle::MeleeOnly)
+            {
+                failure = "monster 12 should classify as melee-only";
+                return false;
+            }
+
+            if (pMixed->attackStyle != MonsterTable::MonsterAttackStyle::MixedMeleeRanged)
+            {
+                failure = "monster 5 should classify as mixed melee+ranged";
+                return false;
+            }
+
+            if (pRanged->attackStyle != MonsterTable::MonsterAttackStyle::Ranged)
+            {
+                failure = "monster 16 should classify as ranged";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
         "non_flying_actor_snaps_to_terrain",
         [&](std::string &failure)
         {
@@ -3870,7 +3909,7 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
                     gameDataLoader.getMonsterTable().findStatsById(pActor->monsterId);
 
                 if (pStats != nullptr
-                    && !pStats->hasRangedAttack
+                    && pStats->attackStyle == MonsterTable::MonsterAttackStyle::MeleeOnly
                     && pStats->aiType != MonsterTable::MonsterAiType::Wimp
                     && pStats->movementType != MonsterTable::MonsterMovementType::Stationary)
                 {
@@ -3908,6 +3947,90 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
     );
 
     runCase(
+        "hostile_melee_actor_far_pursuit_accumulates_motion",
+        [&](std::string &failure)
+        {
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            size_t hostileActorIndex = std::numeric_limits<size_t>::max();
+
+            for (size_t actorIndex = 0; actorIndex < scenario.world.mapActorCount(); ++actorIndex)
+            {
+                const OutdoorWorldRuntime::MapActorState *pActor = scenario.world.mapActorState(actorIndex);
+
+                if (pActor == nullptr || !pActor->hostileToParty || pActor->isDead)
+                {
+                    continue;
+                }
+
+                const MonsterTable::MonsterStatsEntry *pStats =
+                    gameDataLoader.getMonsterTable().findStatsById(pActor->monsterId);
+
+                if (pStats != nullptr
+                    && pStats->attackStyle == MonsterTable::MonsterAttackStyle::MeleeOnly
+                    && pStats->aiType != MonsterTable::MonsterAiType::Wimp
+                    && pStats->movementType != MonsterTable::MonsterMovementType::Stationary)
+                {
+                    hostileActorIndex = actorIndex;
+                    break;
+                }
+            }
+
+            if (hostileActorIndex == std::numeric_limits<size_t>::max())
+            {
+                failure = "no hostile melee actor found";
+                return false;
+            }
+
+            const OutdoorWorldRuntime::MapActorState *pBefore = scenario.world.mapActorState(hostileActorIndex);
+            const float startX = pBefore->preciseX;
+            const float startY = pBefore->preciseY;
+            const float partyX = startX + 2500.0f;
+            const float partyY = startY;
+            bool sawPursuing = false;
+
+            for (int step = 0; step < 256; ++step)
+            {
+                scenario.world.updateMapActors(1.0f / 128.0f, partyX, partyY, pBefore->preciseZ);
+                const OutdoorWorldRuntime::MapActorState *pStep = scenario.world.mapActorState(hostileActorIndex);
+
+                if (pStep != nullptr && pStep->aiState == OutdoorWorldRuntime::ActorAiState::Pursuing)
+                {
+                    sawPursuing = true;
+                }
+            }
+
+            const OutdoorWorldRuntime::MapActorState *pAfter = scenario.world.mapActorState(hostileActorIndex);
+
+            if (pAfter == nullptr)
+            {
+                failure = "hostile melee actor disappeared";
+                return false;
+            }
+
+            if (!sawPursuing)
+            {
+                failure = "hostile melee actor never entered pursuing state";
+                return false;
+            }
+
+            if (std::abs(pAfter->preciseX - startX) < 8.0f && std::abs(pAfter->preciseY - startY) < 8.0f)
+            {
+                failure = "hostile melee actor did not accumulate movement during far pursuit";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
         "hostile_melee_actor_uses_direct_pursuit_when_close",
         [&](std::string &failure)
         {
@@ -3934,7 +4057,7 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
                     gameDataLoader.getMonsterTable().findStatsById(pActor->monsterId);
 
                 if (pStats != nullptr
-                    && !pStats->hasRangedAttack
+                    && pStats->attackStyle == MonsterTable::MonsterAttackStyle::MeleeOnly
                     && pStats->aiType != MonsterTable::MonsterAiType::Wimp
                     && pStats->movementType != MonsterTable::MonsterMovementType::Stationary)
                 {
@@ -4206,6 +4329,102 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
     );
 
     runCase(
+        "mixed_actor_53_pursues_and_can_choose_ranged_attack",
+        [&](std::string &failure)
+        {
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            const OutdoorWorldRuntime::MapActorState *pBefore = scenario.world.mapActorState(53);
+
+            if (pBefore == nullptr)
+            {
+                failure = "actor 53 missing";
+                return false;
+            }
+
+            const MonsterTable::MonsterStatsEntry *pStats =
+                gameDataLoader.getMonsterTable().findStatsById(pBefore->monsterId);
+
+            if (pStats == nullptr || pStats->attackStyle != MonsterTable::MonsterAttackStyle::MixedMeleeRanged)
+            {
+                failure = "actor 53 is not classified as mixed melee+ranged";
+                return false;
+            }
+
+            if (!scenario.world.applyPartyAttackToMapActor(
+                    53,
+                    1,
+                    pBefore->preciseX + 64.0f,
+                    pBefore->preciseY,
+                    pBefore->preciseZ))
+            {
+                failure = "could not provoke actor 53";
+                return false;
+            }
+
+            const float partyX = pBefore->preciseX + 3000.0f;
+            const float partyY = pBefore->preciseY;
+            const float partyZ = pBefore->preciseZ;
+            bool sawRangedAttack = false;
+            bool sawPursuing = false;
+            const float startX = pBefore->preciseX;
+            const float startY = pBefore->preciseY;
+
+            for (size_t stepIndex = 0; stepIndex < 4096; ++stepIndex)
+            {
+                scenario.world.updateMapActors(1.0f / 128.0f, partyX, partyY, partyZ);
+                const OutdoorWorldRuntime::MapActorState *pAfter = scenario.world.mapActorState(53);
+
+                if (pAfter != nullptr && pAfter->aiState == OutdoorWorldRuntime::ActorAiState::Pursuing)
+                {
+                    sawPursuing = true;
+                }
+
+                if (pAfter != nullptr && pAfter->aiState == OutdoorWorldRuntime::ActorAiState::Attacking
+                    && pAfter->animation == OutdoorWorldRuntime::ActorAnimation::AttackRanged)
+                {
+                    sawRangedAttack = true;
+                    break;
+                }
+            }
+
+            if (!sawRangedAttack)
+            {
+                failure = "mixed actor 53 never chose a ranged attack";
+                return false;
+            }
+
+            const OutdoorWorldRuntime::MapActorState *pAfter = scenario.world.mapActorState(53);
+
+            if (pAfter == nullptr)
+            {
+                failure = "actor 53 missing after simulation";
+                return false;
+            }
+
+            if (!sawPursuing)
+            {
+                failure = "mixed actor 53 never pursued the party";
+                return false;
+            }
+
+            if (std::abs(pAfter->preciseX - startX) < 8.0f && std::abs(pAfter->preciseY - startY) < 8.0f)
+            {
+                failure = "mixed actor 53 never accumulated movement";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
         "hostile_actor_attack_persists_when_party_moves_away",
         [&](std::string &failure)
         {
@@ -4232,7 +4451,7 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
                     gameDataLoader.getMonsterTable().findStatsById(pActor->monsterId);
 
                 if (pStats != nullptr
-                    && !pStats->hasRangedAttack
+                    && pStats->attackStyle == MonsterTable::MonsterAttackStyle::MeleeOnly
                     && pStats->aiType != MonsterTable::MonsterAiType::Wimp
                     && pStats->movementType != MonsterTable::MonsterMovementType::Stationary)
                 {
@@ -4293,6 +4512,102 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
             if (pAfter->actionSeconds >= previousActionSeconds)
             {
                 failure = "hostile actor attack did not continue progressing";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "hostile_melee_actor_respects_recovery_after_attack",
+        [&](std::string &failure)
+        {
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            size_t hostileActorIndex = std::numeric_limits<size_t>::max();
+
+            for (size_t actorIndex = 0; actorIndex < scenario.world.mapActorCount(); ++actorIndex)
+            {
+                const OutdoorWorldRuntime::MapActorState *pActor = scenario.world.mapActorState(actorIndex);
+
+                if (pActor == nullptr || !pActor->hostileToParty || pActor->isDead)
+                {
+                    continue;
+                }
+
+                const MonsterTable::MonsterStatsEntry *pStats =
+                    gameDataLoader.getMonsterTable().findStatsById(pActor->monsterId);
+
+                if (pStats != nullptr
+                    && pStats->attackStyle == MonsterTable::MonsterAttackStyle::MeleeOnly
+                    && pStats->aiType != MonsterTable::MonsterAiType::Wimp
+                    && pStats->movementType != MonsterTable::MonsterMovementType::Stationary)
+                {
+                    hostileActorIndex = actorIndex;
+                    break;
+                }
+            }
+
+            if (hostileActorIndex == std::numeric_limits<size_t>::max())
+            {
+                failure = "no hostile melee actor found";
+                return false;
+            }
+
+            const OutdoorWorldRuntime::MapActorState *pBefore = scenario.world.mapActorState(hostileActorIndex);
+            const float partyX = static_cast<float>(pBefore->x + 64);
+            const float partyY = static_cast<float>(pBefore->y);
+            const float partyZ = static_cast<float>(pBefore->z);
+            const OutdoorWorldRuntime::MapActorState *pAttacking = nullptr;
+
+            for (int step = 0; step < 512; ++step)
+            {
+                scenario.world.updateMapActors(1.0f / 128.0f, partyX, partyY, partyZ);
+                pAttacking = scenario.world.mapActorState(hostileActorIndex);
+
+                if (pAttacking != nullptr && pAttacking->aiState == OutdoorWorldRuntime::ActorAiState::Attacking)
+                {
+                    break;
+                }
+            }
+
+            if (pAttacking == nullptr || pAttacking->aiState != OutdoorWorldRuntime::ActorAiState::Attacking)
+            {
+                failure = "hostile melee actor did not enter attack state";
+                return false;
+            }
+
+            bool sawPostAttackStandWithCooldown = false;
+
+            for (int step = 0; step < 512; ++step)
+            {
+                scenario.world.updateMapActors(1.0f / 128.0f, partyX, partyY, partyZ);
+                const OutdoorWorldRuntime::MapActorState *pStep = scenario.world.mapActorState(hostileActorIndex);
+
+                if (pStep == nullptr)
+                {
+                    failure = "hostile melee actor disappeared";
+                    return false;
+                }
+
+                if (pStep->aiState != OutdoorWorldRuntime::ActorAiState::Attacking
+                    && pStep->attackCooldownSeconds > 0.2f)
+                {
+                    sawPostAttackStandWithCooldown = true;
+                    break;
+                }
+            }
+
+            if (!sawPostAttackStandWithCooldown)
+            {
+                failure = "hostile melee actor did not expose a post-attack recovery window";
                 return false;
             }
 

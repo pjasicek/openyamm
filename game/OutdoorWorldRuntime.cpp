@@ -28,6 +28,7 @@ constexpr uint32_t CheckActorKilledByMonsterId = 2;
 constexpr uint32_t CheckActorKilledByActorIdOe = 3;
 constexpr uint32_t CheckActorKilledByActorIdMm8 = 4;
 constexpr float TicksPerSecond = 128.0f;
+constexpr float OeRealtimeRecoveryScale = 2.133333333333333f;
 constexpr float MeleeRange = 307.0f;
 constexpr float DetectionRange = 5120.0f;
 constexpr float PeasantAggroRadius = 4096.0f;
@@ -97,6 +98,11 @@ void faceDirection(OutdoorWorldRuntime::MapActorState &actor, float deltaX, floa
     }
 
     actor.yawRadians = std::atan2(deltaY, deltaX);
+}
+
+float monsterRecoverySeconds(int recoveryTicks)
+{
+    return std::max(0.3f, static_cast<float>(recoveryTicks) / TicksPerSecond * OeRealtimeRecoveryScale);
 }
 
 float resolveActorGroundZ(
@@ -457,7 +463,7 @@ OutdoorWorldRuntime::MapActorState buildMapActorState(
     state.animation = actor.hp <= 0 ? OutdoorWorldRuntime::ActorAnimation::Dead
         : static_cast<OutdoorWorldRuntime::ActorAnimation>(std::clamp<int>(actor.currentActionAnimation, 0, 7));
     state.aiState = actor.hp <= 0 ? OutdoorWorldRuntime::ActorAiState::Dead : OutdoorWorldRuntime::ActorAiState::Standing;
-    state.recoverySeconds = std::max(0.3f, static_cast<float>(pStats != nullptr ? pStats->recovery : 100) / 100.0f);
+    state.recoverySeconds = monsterRecoverySeconds(pStats != nullptr ? pStats->recovery : 100);
     state.attackAnimationSeconds = std::max(0.1f, attackAnimationSeconds);
     state.attackCooldownSeconds = state.recoverySeconds;
     state.idleDecisionSeconds = 0.5f + static_cast<float>(actorId % 5) * 0.2f;
@@ -726,9 +732,31 @@ bool shouldFleeForAiType(const MonsterTable::MonsterStatsEntry &stats, const Out
     return false;
 }
 
-OutdoorWorldRuntime::ActorAnimation attackAnimationForMonster(const MonsterTable::MonsterStatsEntry &stats)
+bool isRangedAttackAbility(
+    const MonsterTable::MonsterStatsEntry &stats,
+    OutdoorWorldRuntime::MonsterAttackAbility ability)
 {
-    return stats.hasRangedAttack
+    switch (ability)
+    {
+        case OutdoorWorldRuntime::MonsterAttackAbility::Attack1:
+            return stats.attack1HasMissile;
+
+        case OutdoorWorldRuntime::MonsterAttackAbility::Attack2:
+            return stats.attack2HasMissile;
+
+        case OutdoorWorldRuntime::MonsterAttackAbility::Spell1:
+        case OutdoorWorldRuntime::MonsterAttackAbility::Spell2:
+            return true;
+    }
+
+    return false;
+}
+
+OutdoorWorldRuntime::ActorAnimation attackAnimationForAbility(
+    const MonsterTable::MonsterStatsEntry &stats,
+    OutdoorWorldRuntime::MonsterAttackAbility ability)
+{
+    return isRangedAttackAbility(stats, ability)
         ? OutdoorWorldRuntime::ActorAnimation::AttackRanged
         : OutdoorWorldRuntime::ActorAnimation::AttackMelee;
 }
@@ -738,12 +766,65 @@ float attackActionDurationSeconds(float attackAnimationSeconds, float recoverySe
     return std::max(std::max(0.1f, attackAnimationSeconds), std::clamp(recoverySeconds * 0.5f, 0.25f, 0.6f));
 }
 
+float attackCooldownDurationSeconds(
+    const MonsterTable::MonsterStatsEntry &stats,
+    OutdoorWorldRuntime::MonsterAttackAbility ability,
+    float attackAnimationSeconds,
+    float recoverySeconds)
+{
+    if (isRangedAttackAbility(stats, ability))
+    {
+        return recoverySeconds + std::max(0.1f, attackAnimationSeconds);
+    }
+
+    return recoverySeconds;
+}
+
 enum class PursueActionMode
 {
     OffsetShort,
     Direct,
     OffsetWide,
 };
+
+OutdoorWorldRuntime::MonsterAttackAbility chooseAttackAbility(
+    OutdoorWorldRuntime::MapActorState &actor,
+    const MonsterTable::MonsterStatsEntry &stats)
+{
+    const uint32_t baseSeed =
+        static_cast<uint32_t>(actor.actorId + 1) * 1103515245u
+        + actor.attackDecisionCount * 2654435761u
+        + 0x7f4a7c15u;
+    ++actor.attackDecisionCount;
+
+    auto passesChance =
+        [&](int chance, uint32_t salt)
+        {
+            if (chance <= 0)
+            {
+                return false;
+            }
+
+            return ((baseSeed ^ salt) % 100u) < static_cast<uint32_t>(chance);
+        };
+
+    if (stats.hasSpell1 && passesChance(stats.spell1UseChance, 0x13579bdfu))
+    {
+        return OutdoorWorldRuntime::MonsterAttackAbility::Spell1;
+    }
+
+    if (stats.hasSpell2 && passesChance(stats.spell2UseChance, 0x2468ace0u))
+    {
+        return OutdoorWorldRuntime::MonsterAttackAbility::Spell2;
+    }
+
+    if (passesChance(stats.attack2Chance, 0x55aa55aau))
+    {
+        return OutdoorWorldRuntime::MonsterAttackAbility::Attack2;
+    }
+
+    return OutdoorWorldRuntime::MonsterAttackAbility::Attack1;
+}
 
 bool beginPursueAction(
     OutdoorWorldRuntime::MapActorState &actor,
@@ -789,6 +870,13 @@ bool beginPursueAction(
     actor.attackImpactTriggered = false;
     actor.actionSeconds = std::max(0.05f, durationSeconds);
     return true;
+}
+
+bool isMeleeAttackAbility(
+    const MonsterTable::MonsterStatsEntry &stats,
+    OutdoorWorldRuntime::MonsterAttackAbility ability)
+{
+    return !isRangedAttackAbility(stats, ability);
 }
 }
 
@@ -1532,6 +1620,9 @@ void OutdoorWorldRuntime::updateMapActors(float deltaSeconds, float partyX, floa
         const float deltaPartyY = partyY - actor.preciseY;
         const float deltaPartyZ = partyZ - actor.preciseZ;
         const float distanceToParty = length2d(deltaPartyX, deltaPartyY);
+        const float partyEdgeDistance = std::max(
+            0.0f,
+            distanceToParty - static_cast<float>(actor.radius) - PartyCollisionRadius);
         const float verticalDistance = std::abs(deltaPartyZ);
         const bool canSenseParty = distanceToParty <= DetectionRange && verticalDistance <= 1024.0f;
         const bool movementAllowed = pStats->movementType != MonsterTable::MonsterMovementType::Stationary;
@@ -1550,7 +1641,7 @@ void OutdoorWorldRuntime::updateMapActors(float deltaSeconds, float partyX, floa
         const bool shouldFlee = shouldEngageParty
             && distanceToParty <= FleeThresholdRange
             && shouldFleeForAiType(*pStats, actor);
-        const bool inAttackRange = distanceToParty <= std::max(MeleeRange, static_cast<float>(actor.radius) + 64.0f);
+        const bool inMeleeRange = partyEdgeDistance <= MeleeRange;
         const bool attackJustCompleted =
             actor.aiState == ActorAiState::Attacking
             && actor.actionSeconds <= 0.0f
@@ -1570,11 +1661,12 @@ void OutdoorWorldRuntime::updateMapActors(float deltaSeconds, float partyX, floa
         if (attackJustCompleted)
         {
             CombatEvent event = {};
-            event.type = actor.animation == ActorAnimation::AttackRanged
+            event.type = isRangedAttackAbility(*pStats, actor.queuedAttackAbility)
                 ? CombatEvent::Type::MonsterRangedRelease
                 : CombatEvent::Type::MonsterMeleeImpact;
             event.sourceId = actor.actorId;
             event.fromSummonedMonster = false;
+            event.ability = actor.queuedAttackAbility;
             m_pendingCombatEvents.push_back(std::move(event));
             actor.attackImpactTriggered = true;
         }
@@ -1601,82 +1693,162 @@ void OutdoorWorldRuntime::updateMapActors(float deltaSeconds, float partyX, floa
             actor.moveDirectionX = desiredMoveX;
             actor.moveDirectionY = desiredMoveY;
         }
-        else if (shouldEngageParty && inAttackRange)
+        else if (shouldEngageParty)
         {
-            actor.moveDirectionX = 0.0f;
-            actor.moveDirectionY = 0.0f;
-            faceDirection(actor, deltaPartyX, deltaPartyY);
+            const MonsterAttackAbility chosenAbility = chooseAttackAbility(actor, *pStats);
+            const bool chosenAbilityIsRanged = isRangedAttackAbility(*pStats, chosenAbility);
+            const bool chosenAbilityIsMelee = isMeleeAttackAbility(*pStats, chosenAbility);
+            const bool stationaryOrTooCloseForRangedPursuit = !movementAllowed || inMeleeRange;
 
-            if (actor.attackCooldownSeconds <= 0.0f)
+            if (chosenAbilityIsRanged && actor.attackCooldownSeconds <= 0.0f)
             {
+                actor.moveDirectionX = 0.0f;
+                actor.moveDirectionY = 0.0f;
+                faceDirection(actor, deltaPartyX, deltaPartyY);
                 nextAiState = ActorAiState::Attacking;
-                nextAnimation = attackAnimationForMonster(*pStats);
-                actor.attackCooldownSeconds = actor.recoverySeconds;
+                nextAnimation = attackAnimationForAbility(*pStats, chosenAbility);
+                actor.queuedAttackAbility = chosenAbility;
+                actor.attackCooldownSeconds = attackCooldownDurationSeconds(
+                    *pStats,
+                    chosenAbility,
+                    actor.attackAnimationSeconds,
+                    actor.recoverySeconds);
                 actor.actionSeconds = attackActionDurationSeconds(actor.attackAnimationSeconds, actor.recoverySeconds);
                 actor.attackImpactTriggered = false;
                 actor.animationTimeTicks = 0.0f;
                 pushAudioEvent(pStats->attackSoundId, actor.actorId, "monster_attack");
             }
-            else
+            else if (chosenAbilityIsRanged)
             {
-                nextAiState = ActorAiState::Standing;
-                nextAnimation = ActorAnimation::Standing;
-            }
-        }
-        else if (shouldEngageParty)
-        {
-            nextAiState = ActorAiState::Pursuing;
-            nextAnimation = movementAllowed ? ActorAnimation::Walking : ActorAnimation::Standing;
+                if (stationaryOrTooCloseForRangedPursuit)
+                {
+                    actor.moveDirectionX = 0.0f;
+                    actor.moveDirectionY = 0.0f;
+                    faceDirection(actor, deltaPartyX, deltaPartyY);
+                    nextAiState = ActorAiState::Standing;
+                    nextAnimation = ActorAnimation::Standing;
+                }
+                else
+                {
+                    nextAiState = ActorAiState::Pursuing;
+                    nextAnimation = ActorAnimation::Walking;
 
-            if (!movementAllowed)
+                    if (actor.aiState == ActorAiState::Pursuing
+                        && actor.actionSeconds > 0.0f
+                        && (std::abs(actor.moveDirectionX) > 0.001f || std::abs(actor.moveDirectionY) > 0.001f))
+                    {
+                        desiredMoveX = actor.moveDirectionX;
+                        desiredMoveY = actor.moveDirectionY;
+                    }
+                    else
+                    {
+                        const uint32_t decisionSeed =
+                            static_cast<uint32_t>(actor.actorId + 1) * 1103515245u
+                            + actor.pursueDecisionCount * 2654435761u
+                            + 0x9e3779b9u;
+                        ++actor.pursueDecisionCount;
+
+                        if (beginPursueAction(
+                                actor,
+                                deltaPartyX,
+                                deltaPartyY,
+                                distanceToParty,
+                                static_cast<float>(std::max(
+                                    1,
+                                    actor.moveSpeed > 0 ? static_cast<int>(actor.moveSpeed) : pStats->speed)),
+                                PursueActionMode::OffsetShort,
+                                decisionSeed))
+                        {
+                            actor.actionSeconds = std::max(actor.actionSeconds, actor.recoverySeconds);
+                            desiredMoveX = actor.moveDirectionX;
+                            desiredMoveY = actor.moveDirectionY;
+                        }
+                        else
+                        {
+                            nextAiState = ActorAiState::Standing;
+                            nextAnimation = ActorAnimation::Standing;
+                        }
+                    }
+                }
+            }
+            else if (chosenAbilityIsMelee && inMeleeRange)
             {
                 actor.moveDirectionX = 0.0f;
                 actor.moveDirectionY = 0.0f;
-            }
-            else if (actor.aiState == ActorAiState::Pursuing
-                && actor.actionSeconds > 0.0f
-                && (std::abs(actor.moveDirectionX) > 0.001f || std::abs(actor.moveDirectionY) > 0.001f))
-            {
-                desiredMoveX = actor.moveDirectionX;
-                desiredMoveY = actor.moveDirectionY;
+                faceDirection(actor, deltaPartyX, deltaPartyY);
+
+                if (actor.attackCooldownSeconds <= 0.0f)
+                {
+                    nextAiState = ActorAiState::Attacking;
+                    nextAnimation = attackAnimationForAbility(*pStats, chosenAbility);
+                    actor.queuedAttackAbility = chosenAbility;
+                    actor.attackCooldownSeconds = attackCooldownDurationSeconds(
+                        *pStats,
+                        chosenAbility,
+                        actor.attackAnimationSeconds,
+                        actor.recoverySeconds);
+                    actor.actionSeconds = attackActionDurationSeconds(actor.attackAnimationSeconds, actor.recoverySeconds);
+                    actor.attackImpactTriggered = false;
+                    actor.animationTimeTicks = 0.0f;
+                    pushAudioEvent(pStats->attackSoundId, actor.actorId, "monster_attack");
+                }
+                else
+                {
+                    nextAiState = ActorAiState::Standing;
+                    nextAnimation = ActorAnimation::Standing;
+                }
             }
             else
             {
-                PursueActionMode pursueMode = PursueActionMode::Direct;
+                nextAiState = ActorAiState::Pursuing;
+                nextAnimation = movementAllowed ? ActorAnimation::Walking : ActorAnimation::Standing;
 
-                if (pStats->hasRangedAttack)
+                if (!movementAllowed)
                 {
-                    pursueMode = PursueActionMode::OffsetShort;
+                    actor.moveDirectionX = 0.0f;
+                    actor.moveDirectionY = 0.0f;
                 }
-                else if (distanceToParty >= 1024.0f)
-                {
-                    pursueMode = PursueActionMode::OffsetWide;
-                }
-
-                const uint32_t decisionSeed =
-                    static_cast<uint32_t>(actor.actorId + 1) * 1103515245u
-                    + actor.pursueDecisionCount * 2654435761u
-                    + 0x9e3779b9u;
-                ++actor.pursueDecisionCount;
-
-                if (beginPursueAction(
-                        actor,
-                        deltaPartyX,
-                        deltaPartyY,
-                        distanceToParty,
-                        static_cast<float>(std::max(
-                            1,
-                            actor.moveSpeed > 0 ? static_cast<int>(actor.moveSpeed) : pStats->speed)),
-                        pursueMode,
-                        decisionSeed))
+                else if (actor.aiState == ActorAiState::Pursuing
+                    && actor.actionSeconds > 0.0f
+                    && (std::abs(actor.moveDirectionX) > 0.001f || std::abs(actor.moveDirectionY) > 0.001f))
                 {
                     desiredMoveX = actor.moveDirectionX;
                     desiredMoveY = actor.moveDirectionY;
                 }
                 else
                 {
-                    nextAiState = ActorAiState::Standing;
-                    nextAnimation = ActorAnimation::Standing;
+                    PursueActionMode pursueMode = PursueActionMode::Direct;
+
+                    if (partyEdgeDistance >= 1024.0f)
+                    {
+                        pursueMode = PursueActionMode::OffsetWide;
+                    }
+
+                    const uint32_t decisionSeed =
+                        static_cast<uint32_t>(actor.actorId + 1) * 1103515245u
+                        + actor.pursueDecisionCount * 2654435761u
+                        + 0x9e3779b9u;
+                    ++actor.pursueDecisionCount;
+
+                    if (beginPursueAction(
+                            actor,
+                            deltaPartyX,
+                            deltaPartyY,
+                            distanceToParty,
+                            static_cast<float>(std::max(
+                                1,
+                                actor.moveSpeed > 0 ? static_cast<int>(actor.moveSpeed) : pStats->speed)),
+                            pursueMode,
+                            decisionSeed))
+                    {
+                        desiredMoveX = actor.moveDirectionX;
+                        desiredMoveY = actor.moveDirectionY;
+                    }
+                    else
+                    {
+                        nextAiState = ActorAiState::Standing;
+                        nextAnimation = ActorAnimation::Standing;
+                    }
                 }
             }
         }
@@ -1854,11 +2026,15 @@ void OutdoorWorldRuntime::updateMapActors(float deltaSeconds, float partyX, floa
             {
                 actor.velocityX = 0.0f;
                 actor.velocityY = 0.0f;
-                actor.moveDirectionX = 0.0f;
-                actor.moveDirectionY = 0.0f;
-                actor.actionSeconds = std::min(actor.actionSeconds, 0.25f);
-                actor.aiState = ActorAiState::Standing;
-                actor.animation = ActorAnimation::Standing;
+
+                if (actor.aiState != ActorAiState::Pursuing)
+                {
+                    actor.moveDirectionX = 0.0f;
+                    actor.moveDirectionY = 0.0f;
+                    actor.actionSeconds = std::min(actor.actionSeconds, 0.25f);
+                    actor.aiState = ActorAiState::Standing;
+                    actor.animation = ActorAnimation::Standing;
+                }
             }
         }
 

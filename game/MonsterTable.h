@@ -42,6 +42,13 @@ public:
         Aggressive,
     };
 
+    enum class MonsterAttackStyle
+    {
+        MeleeOnly,
+        MixedMeleeRanged,
+        Ranged,
+    };
+
     enum class LootItemKind
     {
         None,
@@ -88,7 +95,14 @@ public:
         bool canFly = false;
         MonsterMovementType movementType = MonsterMovementType::Short;
         MonsterAiType aiType = MonsterAiType::Suicide;
-        bool hasRangedAttack = false;
+        bool attack1HasMissile = false;
+        bool attack2HasMissile = false;
+        int attack2Chance = 0;
+        bool hasSpell1 = false;
+        int spell1UseChance = 0;
+        bool hasSpell2 = false;
+        int spell2UseChance = 0;
+        MonsterAttackStyle attackStyle = MonsterAttackStyle::MeleeOnly;
         std::string treasureDefinition;
         LootPrototype loot = {};
         uint16_t attackSoundId = 0;

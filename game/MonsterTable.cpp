@@ -48,6 +48,28 @@ std::string relationFactionKey(const std::string &label)
     return {};
 }
 
+bool hasMonsterAbilityDescriptor(const std::string &value)
+{
+    return !value.empty() && value != "0";
+}
+
+MonsterTable::MonsterAttackStyle classifyAttackStyle(const MonsterTable::MonsterStatsEntry &entry)
+{
+    if (entry.attack1HasMissile)
+    {
+        return MonsterTable::MonsterAttackStyle::Ranged;
+    }
+
+    if ((entry.attack2HasMissile && entry.attack2Chance > 0)
+        || (entry.hasSpell1 && entry.spell1UseChance > 0)
+        || (entry.hasSpell2 && entry.spell2UseChance > 0))
+    {
+        return MonsterTable::MonsterAttackStyle::MixedMeleeRanged;
+    }
+
+    return MonsterTable::MonsterAttackStyle::MeleeOnly;
+}
+
 class ByteReader
 {
 public:
@@ -442,9 +464,14 @@ bool MonsterTable::loadStatsFromRows(const std::vector<std::vector<std::string>>
         entry.hostility = row[12].empty() ? 0 : std::stoi(row[12]);
         entry.speed = row[13].empty() ? 0 : std::stoi(row[13]);
         entry.recovery = row[14].empty() ? 0 : std::stoi(row[14]);
-        entry.hasRangedAttack =
-            (row.size() > 20 && !row[20].empty() && row[20] != "0")
-            || (row.size() > 23 && !row[23].empty() && row[23] != "0");
+        entry.attack1HasMissile = row.size() > 19 && hasMonsterAbilityDescriptor(row[19]);
+        entry.attack2Chance = row.size() > 20 && !row[20].empty() ? std::stoi(row[20]) : 0;
+        entry.attack2HasMissile = row.size() > 23 && hasMonsterAbilityDescriptor(row[23]);
+        entry.hasSpell1 = row.size() > 25 && hasMonsterAbilityDescriptor(row[25]);
+        entry.spell1UseChance = row.size() > 24 && !row[24].empty() ? std::stoi(row[24]) : 0;
+        entry.hasSpell2 = row.size() > 27 && hasMonsterAbilityDescriptor(row[27]);
+        entry.spell2UseChance = row.size() > 26 && !row[26].empty() ? std::stoi(row[26]) : 0;
+        entry.attackStyle = classifyAttackStyle(entry);
 
         const MonsterEntry *pEntry = findById(static_cast<int16_t>(entry.id));
 

@@ -44,6 +44,14 @@ public:
         Bored = 7,
     };
 
+    enum class MonsterAttackAbility
+    {
+        Attack1,
+        Attack2,
+        Spell1,
+        Spell2,
+    };
+
     struct MapActorState
     {
         uint32_t actorId = 0;
@@ -88,7 +96,9 @@ public:
         float yawRadians = 0.0f;
         uint32_t idleDecisionCount = 0;
         uint32_t pursueDecisionCount = 0;
+        uint32_t attackDecisionCount = 0;
         bool attackImpactTriggered = false;
+        MonsterAttackAbility queuedAttackAbility = MonsterAttackAbility::Attack1;
         OutdoorMoveState movementState = {};
         bool movementStateInitialized = false;
     };
@@ -104,6 +114,7 @@ public:
         Type type = Type::MonsterMeleeImpact;
         uint32_t sourceId = 0;
         bool fromSummonedMonster = false;
+        MonsterAttackAbility ability = MonsterAttackAbility::Attack1;
     };
 
     struct SpawnPointState
