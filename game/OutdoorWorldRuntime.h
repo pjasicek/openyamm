@@ -421,6 +421,7 @@ private:
         const SpellCastRequest &request,
         const ResolvedProjectileDefinition &definition
     );
+    bool projectileSourceIsFriendlyToActor(const ProjectileState &projectile, const MapActorState &actor) const;
     bool spawnSpellProjectile(
         const SpellCastRequest &request,
         const ResolvedProjectileDefinition &definition,

@@ -4740,6 +4740,90 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
     );
 
     runCase(
+        "mixed_actor_53_arrow_ignores_friendly_lizardman_blocker",
+        [&](std::string &failure)
+        {
+            if (!selectedMap->outdoorMapDeltaData || selectedMap->outdoorMapDeltaData->actors.size() <= 53)
+            {
+                failure = "selected map has no outdoor actor data";
+                return false;
+            }
+
+            MapAssetInfo modifiedMap = *selectedMap;
+            modifiedMap.outdoorMapDeltaData = *selectedMap->outdoorMapDeltaData;
+
+            const MapDeltaActor &guardActor = selectedMap->outdoorMapDeltaData->actors[53];
+            MapDeltaActor &blockingActor = modifiedMap.outdoorMapDeltaData->actors[3];
+            blockingActor.x = guardActor.x - 1100;
+            blockingActor.y = guardActor.y;
+            blockingActor.z = guardActor.z;
+
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, modifiedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            const OutdoorWorldRuntime::MapActorState *pGuard = scenario.world.mapActorState(53);
+            const OutdoorWorldRuntime::MapActorState *pBlocker = scenario.world.mapActorState(3);
+
+            if (pGuard == nullptr)
+            {
+                failure = "actor 53 missing";
+                return false;
+            }
+
+            if (pBlocker == nullptr)
+            {
+                failure = "actor 3 missing";
+                return false;
+            }
+
+            if (!gameDataLoader.getMonsterTable().isLikelySameFaction(pGuard->monsterId, pBlocker->monsterId))
+            {
+                failure = "actor 3 is not same-faction with actor 53";
+                return false;
+            }
+
+            const float partyX = pGuard->preciseX + 2200.0f;
+            const float partyY = pGuard->preciseY;
+            const float partyZ = pGuard->preciseZ;
+            const int initialTotalHealth = scenario.party.totalHealth();
+            bool sawProjectile = false;
+
+            if (!scenario.world.debugSpawnMapActorProjectile(
+                    53,
+                    OutdoorWorldRuntime::MonsterAttackAbility::Attack2,
+                    partyX,
+                    partyY,
+                    partyZ))
+            {
+                failure = "could not spawn actor 53 arrow projectile";
+                return false;
+            }
+
+            for (int step = 0; step < 4096; ++step)
+            {
+                scenario.world.updateMapActors(1.0f / 128.0f, partyX, partyY, partyZ);
+                applyPendingCombatEventsToScenarioParty(scenario);
+                sawProjectile = sawProjectile || scenario.world.projectileCount() > 0;
+
+                if (scenario.party.totalHealth() < initialTotalHealth)
+                {
+                    return true;
+                }
+            }
+
+            failure = !sawProjectile
+                ? "actor 53 arrow projectile never spawned"
+                : "friendly actor blocked actor 53 arrow before it reached the party";
+            return false;
+        }
+    );
+
+    runCase(
         "spell_projectile_spawns_visible_impact_effect",
         [&](std::string &failure)
         {

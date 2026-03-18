@@ -2956,6 +2956,34 @@ void OutdoorWorldRuntime::spawnProjectileImpact(const ProjectileState &projectil
     logProjectileImpactEffect(projectile, m_projectileImpacts.back());
 }
 
+bool OutdoorWorldRuntime::projectileSourceIsFriendlyToActor(
+    const ProjectileState &projectile,
+    const MapActorState &actor) const
+{
+    if (m_pMonsterTable == nullptr || projectile.sourceId == EventSpellSourceId)
+    {
+        return false;
+    }
+
+    const MapActorState *pSourceActor = nullptr;
+
+    for (const MapActorState &candidate : m_mapActors)
+    {
+        if (candidate.actorId == projectile.sourceId)
+        {
+            pSourceActor = &candidate;
+            break;
+        }
+    }
+
+    if (pSourceActor == nullptr)
+    {
+        return false;
+    }
+
+    return m_pMonsterTable->getRelationBetweenMonsters(pSourceActor->monsterId, actor.monsterId) <= 0;
+}
+
 void OutdoorWorldRuntime::updateProjectiles(float deltaSeconds, float partyX, float partyY, float partyZ)
 {
     if (deltaSeconds <= 0.0f)
@@ -3054,6 +3082,11 @@ void OutdoorWorldRuntime::updateProjectiles(float deltaSeconds, float partyX, fl
         for (const MapActorState &actor : m_mapActors)
         {
             if (actor.isDead || actor.actorId == projectile.sourceId)
+            {
+                continue;
+            }
+
+            if (projectileSourceIsFriendlyToActor(projectile, actor))
             {
                 continue;
             }
