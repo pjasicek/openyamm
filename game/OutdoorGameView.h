@@ -187,6 +187,7 @@ private:
         const bx::Vec3 &rayDirection
     );
     bool tryActivateInspectEvent(const InspectHit &inspectHit);
+    bool tryTriggerLocalEventById(uint16_t eventId);
     void updateCameraFromInput(float deltaSeconds);
     void renderDecorationBillboards(
         uint16_t viewId,
@@ -201,12 +202,14 @@ private:
     void renderEventDialogPanel(int width, int height) const;
     void renderActorCollisionOverlays(uint16_t viewId) const;
     void renderActorPreviewBillboards(uint16_t viewId, const float *pViewMatrix, const bx::Vec3 &cameraPosition);
+    void renderRuntimeProjectiles(uint16_t viewId, const float *pViewMatrix, const bx::Vec3 &cameraPosition);
     void renderSpriteObjectBillboards(uint16_t viewId, const float *pViewMatrix, const bx::Vec3 &cameraPosition);
     void executeActiveDialogAction();
     void openPendingEventDialog(size_t previousMessageCount, bool allowNpcFallbackContent);
     void closeActiveEventDialog();
     bool hasActiveEventDialog() const;
     const BillboardTextureHandle *findBillboardTexture(const std::string &textureName, int16_t paletteId = 0) const;
+    const BillboardTextureHandle *ensureSpriteBillboardTexture(const std::string &textureName, int16_t paletteId);
     const HudTextureHandle *findHudTexture(const std::string &textureName) const;
     bool loadHudTexture(const Engine::AssetFileSystem &assetFileSystem, const std::string &textureName);
     const OutdoorWorldRuntime::MapActorState *runtimeActorStateForBillboard(const ActorPreviewBillboard &billboard) const;
@@ -287,6 +290,7 @@ private:
     bool m_toggleEntitiesLatch;
     bool m_toggleSpawnsLatch;
     bool m_toggleInspectLatch;
+    bool m_triggerMeteorLatch;
     bool m_activateInspectLatch;
     bool m_attackInspectLatch;
     bool m_toggleRunningLatch;

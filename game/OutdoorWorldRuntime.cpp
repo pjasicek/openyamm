@@ -2,12 +2,15 @@
 
 #include "game/ItemTable.h"
 #include "game/OutdoorGeometryUtils.h"
+#include "game/SkillData.h"
 
 #include <algorithm>
+#include <cctype>
 #include <chrono>
 #include <cmath>
 #include <cstring>
 #include <iostream>
+#include <limits>
 #include <random>
 #include <sstream>
 
@@ -39,11 +42,130 @@ constexpr float OeNonFlyingActorRadius = 40.0f;
 constexpr float ActorUpdateStepSeconds = 1.0f / 128.0f;
 constexpr float MaxAccumulatedActorUpdateSeconds = 0.1f;
 constexpr float Pi = 3.14159265358979323846f;
+constexpr float PartyTargetHeightOffset = 96.0f;
 constexpr int DwiMapId = 1;
 constexpr uint32_t DwiTestActor61 = 61;
 constexpr float DwiTestActor61X = -7665.0f;
 constexpr float DwiTestActor61Y = -4660.0f;
 constexpr float DwiTestActor61Z = 200.0f;
+constexpr uint32_t EventSpellSourceId = std::numeric_limits<uint32_t>::max();
+constexpr uint32_t MeteorShowerSpellId = 9;
+constexpr float MeteorShowerSpawnBaseHeight = 2500.0f;
+constexpr float MeteorShowerSpawnHeightVariance = 1000.0f;
+constexpr float MeteorShowerTargetSpread = 512.0f;
+
+std::string debugStringOrNone(const std::string &value)
+{
+    if (value.empty())
+    {
+        return "<none>";
+    }
+
+    return value;
+}
+
+const char *monsterAttackAbilityName(OutdoorWorldRuntime::MonsterAttackAbility ability)
+{
+    switch (ability)
+    {
+        case OutdoorWorldRuntime::MonsterAttackAbility::Attack1:
+            return "attack1";
+        case OutdoorWorldRuntime::MonsterAttackAbility::Attack2:
+            return "attack2";
+        case OutdoorWorldRuntime::MonsterAttackAbility::Spell1:
+            return "spell1";
+        case OutdoorWorldRuntime::MonsterAttackAbility::Spell2:
+            return "spell2";
+        default:
+            return "unknown";
+    }
+}
+
+const char *spellSourceKindName(OutdoorWorldRuntime::RuntimeSpellSourceKind sourceKind)
+{
+    switch (sourceKind)
+    {
+        case OutdoorWorldRuntime::RuntimeSpellSourceKind::Actor:
+            return "monster";
+        case OutdoorWorldRuntime::RuntimeSpellSourceKind::Event:
+            return "event";
+        default:
+            return "unknown";
+    }
+}
+
+void logProjectileSpawn(
+    const char *sourceKind,
+    const OutdoorWorldRuntime::ProjectileState &projectile,
+    float directionX,
+    float directionY,
+    float directionZ,
+    float speed)
+{
+    std::cout
+        << "Projectile spawn kind=" << sourceKind
+        << " projectile=" << projectile.projectileId
+        << " source=" << projectile.sourceId
+        << " ability=" << monsterAttackAbilityName(projectile.ability)
+        << " object=\"" << debugStringOrNone(projectile.objectName) << "\""
+        << " sprite=\"" << debugStringOrNone(projectile.objectSpriteName) << "\""
+        << " spriteId=" << projectile.objectSpriteId
+        << " pos=(" << projectile.x << ", " << projectile.y << ", " << projectile.z << ")"
+        << " dir=(" << directionX << ", " << directionY << ", " << directionZ << ")"
+        << " speed=" << speed
+        << " velocity=(" << projectile.velocityX << ", " << projectile.velocityY << ", " << projectile.velocityZ << ")"
+        << " radius=" << projectile.radius
+        << " height=" << projectile.height
+        << " lifetimeTicks=" << projectile.lifetimeTicks
+        << " spellId=" << projectile.spellId
+        << '\n';
+}
+
+void logProjectileCollision(
+    const OutdoorWorldRuntime::ProjectileState &projectile,
+    const char *colliderKind,
+    const std::string &colliderName,
+    const bx::Vec3 &point)
+{
+    std::cout
+        << "Projectile collision projectile=" << projectile.projectileId
+        << " source=" << projectile.sourceId
+        << " ability=" << monsterAttackAbilityName(projectile.ability)
+        << " object=\"" << debugStringOrNone(projectile.objectName) << "\""
+        << " sprite=\"" << debugStringOrNone(projectile.objectSpriteName) << "\""
+        << " collider=" << colliderKind
+        << " target=\"" << debugStringOrNone(colliderName) << "\""
+        << " pos=(" << point.x << ", " << point.y << ", " << point.z << ")"
+        << '\n';
+}
+
+void logProjectileLifetimeExpiry(const OutdoorWorldRuntime::ProjectileState &projectile)
+{
+    std::cout
+        << "Projectile expired projectile=" << projectile.projectileId
+        << " source=" << projectile.sourceId
+        << " ability=" << monsterAttackAbilityName(projectile.ability)
+        << " object=\"" << debugStringOrNone(projectile.objectName) << "\""
+        << " sprite=\"" << debugStringOrNone(projectile.objectSpriteName) << "\""
+        << " pos=(" << projectile.x << ", " << projectile.y << ", " << projectile.z << ")"
+        << " lifetimeTicks=" << projectile.lifetimeTicks
+        << " ageTicks=" << projectile.timeSinceCreatedTicks
+        << '\n';
+}
+
+void logProjectileImpactEffect(
+    const OutdoorWorldRuntime::ProjectileState &projectile,
+    const OutdoorWorldRuntime::ProjectileImpactState &effect)
+{
+    std::cout
+        << "Projectile impact effect projectile=" << projectile.projectileId
+        << " effect=" << effect.effectId
+        << " object=\"" << debugStringOrNone(effect.objectName) << "\""
+        << " sprite=\"" << debugStringOrNone(effect.objectSpriteName) << "\""
+        << " spriteId=" << effect.objectSpriteId
+        << " pos=(" << effect.x << ", " << effect.y << ", " << effect.z << ")"
+        << '\n';
+}
 
 float clampLength(float value, float maxValue)
 {
@@ -68,6 +190,49 @@ float length2d(float x, float y)
 float length3d(float x, float y, float z)
 {
     return std::sqrt(x * x + y * y + z * z);
+}
+
+float pointSegmentDistanceSquared2d(
+    float pointX,
+    float pointY,
+    float segmentStartX,
+    float segmentStartY,
+    float segmentEndX,
+    float segmentEndY,
+    float &projectionFactor)
+{
+    const float segmentDeltaX = segmentEndX - segmentStartX;
+    const float segmentDeltaY = segmentEndY - segmentStartY;
+    const float segmentLengthSquared = segmentDeltaX * segmentDeltaX + segmentDeltaY * segmentDeltaY;
+
+    if (segmentLengthSquared <= 0.0001f)
+    {
+        projectionFactor = 0.0f;
+        const float deltaX = pointX - segmentStartX;
+        const float deltaY = pointY - segmentStartY;
+        return deltaX * deltaX + deltaY * deltaY;
+    }
+
+    projectionFactor =
+        ((pointX - segmentStartX) * segmentDeltaX + (pointY - segmentStartY) * segmentDeltaY) / segmentLengthSquared;
+    projectionFactor = std::clamp(projectionFactor, 0.0f, 1.0f);
+    const float closestX = segmentStartX + segmentDeltaX * projectionFactor;
+    const float closestY = segmentStartY + segmentDeltaY * projectionFactor;
+    const float deltaX = pointX - closestX;
+    const float deltaY = pointY - closestY;
+    return deltaX * deltaX + deltaY * deltaY;
+}
+
+std::string toLowerCopy(const std::string &value)
+{
+    std::string result = value;
+
+    for (char &character : result)
+    {
+        character = static_cast<char>(std::tolower(static_cast<unsigned char>(character)));
+    }
+
+    return result;
 }
 
 float normalizeAngleRadians(float angle)
@@ -103,6 +268,221 @@ void faceDirection(OutdoorWorldRuntime::MapActorState &actor, float deltaX, floa
 float monsterRecoverySeconds(int recoveryTicks)
 {
     return std::max(0.3f, static_cast<float>(recoveryTicks) / TicksPerSecond * OeRealtimeRecoveryScale);
+}
+
+bool isProjectileSpellName(const std::string &spellName)
+{
+    static const std::vector<std::string> projectileSpellNames = {
+        "fire bolt",
+        "fireball",
+        "incinerate",
+        "lightning bolt",
+        "ice bolt",
+        "acid burst",
+        "blades",
+        "rock blast",
+        "mind blast",
+        "psychic shock",
+        "harm",
+        "light bolt",
+        "toxic cloud",
+        "dragon breath",
+    };
+
+    return std::find(projectileSpellNames.begin(), projectileSpellNames.end(), toLowerCopy(spellName))
+        != projectileSpellNames.end();
+}
+
+bool resolveProjectileDefinition(
+    const MonsterTable::MonsterStatsEntry &stats,
+    OutdoorWorldRuntime::MonsterAttackAbility ability,
+    const MonsterProjectileTable &projectileTable,
+    const ObjectTable &objectTable,
+    const SpellTable &spellTable,
+    OutdoorWorldRuntime::ResolvedProjectileDefinition &definition)
+{
+    definition = {};
+
+    if (ability == OutdoorWorldRuntime::MonsterAttackAbility::Attack1
+        || ability == OutdoorWorldRuntime::MonsterAttackAbility::Attack2)
+    {
+        const std::string &projectileToken =
+            ability == OutdoorWorldRuntime::MonsterAttackAbility::Attack1
+                ? stats.attack1MissileType
+                : stats.attack2MissileType;
+        const MonsterProjectileEntry *pProjectileEntry = projectileTable.findByToken(projectileToken);
+
+        if (pProjectileEntry == nullptr)
+        {
+            return false;
+        }
+
+        const ObjectEntry *pObjectEntry = objectTable.findByObjectId(static_cast<int16_t>(pProjectileEntry->objectId));
+
+        if (pObjectEntry == nullptr)
+        {
+            return false;
+        }
+
+        const std::optional<uint16_t> objectDescriptionId =
+            objectTable.findDescriptionIdByObjectId(static_cast<int16_t>(pProjectileEntry->objectId));
+
+        if (!objectDescriptionId)
+        {
+            return false;
+        }
+
+        definition.objectDescriptionId = *objectDescriptionId;
+        definition.objectSpriteId = pObjectEntry->spriteId;
+        definition.radius = static_cast<uint16_t>(std::max<int>(pObjectEntry->radius, 16));
+        definition.height = static_cast<uint16_t>(std::max<int>(pObjectEntry->height, 16));
+        definition.lifetimeTicks = static_cast<uint32_t>(std::max<int>(pObjectEntry->lifetimeTicks, 64));
+        definition.speed = static_cast<float>(std::max<int>(pObjectEntry->speed, 2000));
+        definition.objectName = pObjectEntry->internalName;
+        definition.objectSpriteName = pObjectEntry->spriteName;
+
+        if (pProjectileEntry->impactObjectId > 0)
+        {
+            const ObjectEntry *pImpactEntry =
+                objectTable.findByObjectId(static_cast<int16_t>(pProjectileEntry->impactObjectId));
+            const std::optional<uint16_t> impactDescriptionId =
+                objectTable.findDescriptionIdByObjectId(static_cast<int16_t>(pProjectileEntry->impactObjectId));
+
+            if (pImpactEntry != nullptr && impactDescriptionId)
+            {
+                definition.impactObjectDescriptionId = *impactDescriptionId;
+                definition.impactObjectSpriteId = pImpactEntry->spriteId;
+                definition.impactObjectName = pImpactEntry->internalName;
+                definition.impactObjectSpriteName = pImpactEntry->spriteName;
+            }
+        }
+
+        return true;
+    }
+
+    const std::string &spellName =
+        ability == OutdoorWorldRuntime::MonsterAttackAbility::Spell1 ? stats.spell1Name : stats.spell2Name;
+
+    if (!isProjectileSpellName(spellName))
+    {
+        return false;
+    }
+
+    const SpellEntry *pSpellEntry = spellTable.findByName(spellName);
+
+    if (pSpellEntry == nullptr || pSpellEntry->displayObjectId <= 0)
+    {
+        return false;
+    }
+
+    const ObjectEntry *pObjectEntry = objectTable.findByObjectId(static_cast<int16_t>(pSpellEntry->displayObjectId));
+    const std::optional<uint16_t> objectDescriptionId =
+        objectTable.findDescriptionIdByObjectId(static_cast<int16_t>(pSpellEntry->displayObjectId));
+
+    if (pObjectEntry == nullptr || !objectDescriptionId)
+    {
+        return false;
+    }
+
+    definition.objectDescriptionId = *objectDescriptionId;
+    definition.objectSpriteId = pObjectEntry->spriteId;
+    definition.radius = static_cast<uint16_t>(std::max<int>(pObjectEntry->radius, 16));
+    definition.height = static_cast<uint16_t>(std::max<int>(pObjectEntry->height, 16));
+    definition.lifetimeTicks = static_cast<uint32_t>(std::max<int>(pObjectEntry->lifetimeTicks, 64));
+    definition.speed = static_cast<float>(std::max<int>(pObjectEntry->speed, 2000));
+    definition.spellId = pSpellEntry->id;
+    definition.effectSoundId = pSpellEntry->effectSoundId;
+    definition.objectName = pObjectEntry->internalName;
+    definition.objectSpriteName = pObjectEntry->spriteName;
+
+    if (pSpellEntry->impactDisplayObjectId > 0)
+    {
+        const ObjectEntry *pImpactEntry =
+            objectTable.findByObjectId(static_cast<int16_t>(pSpellEntry->impactDisplayObjectId));
+        const std::optional<uint16_t> impactDescriptionId =
+            objectTable.findDescriptionIdByObjectId(static_cast<int16_t>(pSpellEntry->impactDisplayObjectId));
+
+        if (pImpactEntry != nullptr && impactDescriptionId)
+        {
+            definition.impactObjectDescriptionId = *impactDescriptionId;
+            definition.impactObjectSpriteId = pImpactEntry->spriteId;
+            definition.impactObjectName = pImpactEntry->internalName;
+            definition.impactObjectSpriteName = pImpactEntry->spriteName;
+        }
+    }
+
+    return true;
+}
+
+bool resolveSpellDefinition(
+    const SpellEntry &spell,
+    const ObjectTable &objectTable,
+    OutdoorWorldRuntime::ResolvedProjectileDefinition &definition)
+{
+    definition = {};
+
+    if (spell.displayObjectId <= 0)
+    {
+        return false;
+    }
+
+    const ObjectEntry *pObjectEntry = objectTable.findByObjectId(static_cast<int16_t>(spell.displayObjectId));
+    const std::optional<uint16_t> objectDescriptionId =
+        objectTable.findDescriptionIdByObjectId(static_cast<int16_t>(spell.displayObjectId));
+
+    if (pObjectEntry == nullptr || !objectDescriptionId)
+    {
+        return false;
+    }
+
+    definition.objectDescriptionId = *objectDescriptionId;
+    definition.objectSpriteId = pObjectEntry->spriteId;
+    definition.radius = static_cast<uint16_t>(std::max<int>(pObjectEntry->radius, 16));
+    definition.height = static_cast<uint16_t>(std::max<int>(pObjectEntry->height, 16));
+    definition.lifetimeTicks = static_cast<uint32_t>(std::max<int>(pObjectEntry->lifetimeTicks, 64));
+    definition.speed = static_cast<float>(std::max<int>(pObjectEntry->speed, 2000));
+    definition.spellId = spell.id;
+    definition.effectSoundId = spell.effectSoundId;
+    definition.objectName = pObjectEntry->internalName;
+    definition.objectSpriteName = pObjectEntry->spriteName;
+
+    if (spell.impactDisplayObjectId > 0)
+    {
+        const ObjectEntry *pImpactEntry =
+            objectTable.findByObjectId(static_cast<int16_t>(spell.impactDisplayObjectId));
+        const std::optional<uint16_t> impactDescriptionId =
+            objectTable.findDescriptionIdByObjectId(static_cast<int16_t>(spell.impactDisplayObjectId));
+
+        if (pImpactEntry != nullptr && impactDescriptionId)
+        {
+            definition.impactObjectDescriptionId = *impactDescriptionId;
+            definition.impactObjectSpriteId = pImpactEntry->spriteId;
+            definition.impactObjectName = pImpactEntry->internalName;
+            definition.impactObjectSpriteName = pImpactEntry->spriteName;
+        }
+    }
+
+    return true;
+}
+
+uint32_t meteorShowerCountForMastery(uint32_t skillMastery)
+{
+    const SkillMastery mastery = static_cast<SkillMastery>(skillMastery);
+
+    switch (mastery)
+    {
+        case SkillMastery::Grandmaster:
+            return 20;
+        case SkillMastery::Master:
+            return 16;
+        case SkillMastery::Expert:
+            return 12;
+        case SkillMastery::Normal:
+            return 8;
+        case SkillMastery::None:
+        default:
+            return 8;
+    }
 }
 
 float resolveActorGroundZ(
@@ -1359,6 +1739,9 @@ void OutdoorWorldRuntime::activateChestView(uint32_t chestId)
 void OutdoorWorldRuntime::initialize(
     const MapStatsEntry &map,
     const MonsterTable &monsterTable,
+    const MonsterProjectileTable &monsterProjectileTable,
+    const ObjectTable &objectTable,
+    const SpellTable &spellTable,
     const ItemTable &itemTable,
     const std::optional<OutdoorMapData> &outdoorMapData,
     const std::optional<MapDeltaData> &outdoorMapDeltaData,
@@ -1384,6 +1767,8 @@ void OutdoorWorldRuntime::initialize(
     m_activeCorpseView.reset();
     m_pendingAudioEvents.clear();
     m_pendingCombatEvents.clear();
+    m_projectiles.clear();
+    m_projectileImpacts.clear();
     m_chests = outdoorMapDeltaData ? outdoorMapDeltaData->chests : std::vector<MapDeltaChest>();
     m_openedChests.assign(outdoorMapDeltaData ? outdoorMapDeltaData->chests.size() : 0, false);
     m_materializedChestViews.assign(m_chests.size(), std::nullopt);
@@ -1391,8 +1776,11 @@ void OutdoorWorldRuntime::initialize(
     m_eventRuntimeState = eventRuntimeState;
     m_pItemTable = &itemTable;
     m_pMonsterTable = &monsterTable;
+    m_pMonsterProjectileTable = &monsterProjectileTable;
+    m_pObjectTable = &objectTable;
     m_pOutdoorMapData = outdoorMapData ? &*outdoorMapData : nullptr;
     m_pOutdoorMapDeltaData = outdoorMapDeltaData ? &*outdoorMapDeltaData : nullptr;
+    m_pSpellTable = &spellTable;
     m_outdoorFaces.clear();
     m_outdoorMovementController.reset();
     m_actorUpdateAccumulatorSeconds = 0.0f;
@@ -1425,6 +1813,8 @@ void OutdoorWorldRuntime::initialize(
             outdoorSpriteObjectCollisionSet);
     }
     m_nextSummonId = 1;
+    m_nextProjectileId = 1;
+    m_nextProjectileImpactId = 1;
 
     if (outdoorMapDeltaData)
     {
@@ -1668,6 +2058,12 @@ void OutdoorWorldRuntime::updateMapActors(float deltaSeconds, float partyX, floa
             event.fromSummonedMonster = false;
             event.ability = actor.queuedAttackAbility;
             m_pendingCombatEvents.push_back(std::move(event));
+
+            if (isRangedAttackAbility(*pStats, actor.queuedAttackAbility))
+            {
+                spawnProjectileFromMapActor(actor, *pStats, actor.queuedAttackAbility, partyX, partyY, partyZ);
+            }
+
             actor.attackImpactTriggered = true;
         }
 
@@ -2043,8 +2439,609 @@ void OutdoorWorldRuntime::updateMapActors(float deltaSeconds, float partyX, floa
             actor.z = static_cast<int>(std::lround(actor.preciseZ));
         }
 
+        updateProjectiles(ActorUpdateStepSeconds, partyX, partyY, partyZ);
         m_actorUpdateAccumulatorSeconds -= ActorUpdateStepSeconds;
     }
+}
+
+bool OutdoorWorldRuntime::spawnProjectileFromMapActor(
+    const MapActorState &actor,
+    const MonsterTable::MonsterStatsEntry &stats,
+    MonsterAttackAbility ability,
+    float targetX,
+    float targetY,
+    float targetZ
+)
+{
+    if (ability == MonsterAttackAbility::Spell1 || ability == MonsterAttackAbility::Spell2)
+    {
+        return castSpellFromMapActor(actor, stats, ability, targetX, targetY, targetZ);
+    }
+
+    if (m_pMonsterProjectileTable == nullptr || m_pObjectTable == nullptr || m_pSpellTable == nullptr)
+    {
+        std::cout
+            << "Projectile spawn skipped actor=" << actor.actorId
+            << " ability=" << monsterAttackAbilityName(ability)
+            << " reason=missing_runtime_tables"
+            << '\n';
+        return false;
+    }
+
+    ResolvedProjectileDefinition definition = {};
+
+    if (!resolveProjectileDefinition(
+            stats,
+            ability,
+            *m_pMonsterProjectileTable,
+            *m_pObjectTable,
+            *m_pSpellTable,
+            definition))
+    {
+        const std::string projectileToken =
+            ability == MonsterAttackAbility::Attack1
+                ? stats.attack1MissileType
+                : ability == MonsterAttackAbility::Attack2 ? stats.attack2MissileType : std::string();
+        const std::string spellName =
+            ability == MonsterAttackAbility::Spell1
+                ? stats.spell1Name
+                : ability == MonsterAttackAbility::Spell2 ? stats.spell2Name : std::string();
+
+        std::cout
+            << "Projectile spawn skipped actor=" << actor.actorId
+            << " ability=" << monsterAttackAbilityName(ability)
+            << " missile=\"" << debugStringOrNone(projectileToken) << "\""
+            << " spell=\"" << debugStringOrNone(spellName) << "\""
+            << " reason=unresolved_definition"
+            << '\n';
+        return false;
+    }
+
+    const float sourceX = actor.preciseX;
+    const float sourceY = actor.preciseY;
+    const float sourceZ = actor.preciseZ + std::max(24.0f, static_cast<float>(actor.height) * 0.7f);
+    const float aimX = targetX;
+    const float aimY = targetY;
+    const float aimZ = targetZ + PartyTargetHeightOffset;
+    const float deltaX = aimX - sourceX;
+    const float deltaY = aimY - sourceY;
+    const float deltaZ = aimZ - sourceZ;
+    const float distance = length3d(deltaX, deltaY, deltaZ);
+
+    if (distance <= 0.01f)
+    {
+        std::cout
+            << "Projectile spawn skipped actor=" << actor.actorId
+            << " ability=" << monsterAttackAbilityName(ability)
+            << " reason=zero_distance_target"
+            << '\n';
+        return false;
+    }
+
+    const float directionX = deltaX / distance;
+    const float directionY = deltaY / distance;
+    const float directionZ = deltaZ / distance;
+
+    ProjectileState projectile = {};
+    projectile.projectileId = m_nextProjectileId++;
+    projectile.sourceId = actor.actorId;
+    projectile.ability = ability;
+    projectile.objectDescriptionId = definition.objectDescriptionId;
+    projectile.objectSpriteId = definition.objectSpriteId;
+    projectile.impactObjectDescriptionId = definition.impactObjectDescriptionId;
+    projectile.radius = definition.radius;
+    projectile.height = definition.height;
+    projectile.spellId = definition.spellId;
+    projectile.effectSoundId = definition.effectSoundId;
+    projectile.objectName = definition.objectName;
+    projectile.objectSpriteName = definition.objectSpriteName;
+    projectile.x = sourceX + directionX * (static_cast<float>(actor.radius) + 8.0f);
+    projectile.y = sourceY + directionY * (static_cast<float>(actor.radius) + 8.0f);
+    projectile.z = sourceZ;
+    projectile.velocityX = directionX * definition.speed;
+    projectile.velocityY = directionY * definition.speed;
+    projectile.velocityZ = directionZ * definition.speed;
+    projectile.lifetimeTicks = definition.lifetimeTicks;
+    m_projectiles.push_back(std::move(projectile));
+    logProjectileSpawn("monster", m_projectiles.back(), directionX, directionY, directionZ, definition.speed);
+
+    if (definition.effectSoundId > 0)
+    {
+        pushAudioEvent(static_cast<uint32_t>(definition.effectSoundId), actor.actorId, "monster_spell_release");
+    }
+
+    return true;
+}
+
+bool OutdoorWorldRuntime::castSpellFromMapActor(
+    const MapActorState &actor,
+    const MonsterTable::MonsterStatsEntry &stats,
+    MonsterAttackAbility ability,
+    float targetX,
+    float targetY,
+    float targetZ
+)
+{
+    if (m_pSpellTable == nullptr)
+    {
+        std::cout
+            << "Spell cast skipped actor=" << actor.actorId
+            << " ability=" << monsterAttackAbilityName(ability)
+            << " reason=missing_spell_table"
+            << '\n';
+        return false;
+    }
+
+    const std::string &spellName =
+        ability == MonsterAttackAbility::Spell1 ? stats.spell1Name : stats.spell2Name;
+
+    if (spellName.empty())
+    {
+        std::cout
+            << "Spell cast skipped actor=" << actor.actorId
+            << " ability=" << monsterAttackAbilityName(ability)
+            << " reason=empty_spell_name"
+            << '\n';
+        return false;
+    }
+
+    if (!isProjectileSpellName(spellName) && spellName != "meteor shower")
+    {
+        std::cout
+            << "Spell cast skipped actor=" << actor.actorId
+            << " ability=" << monsterAttackAbilityName(ability)
+            << " spell=\"" << spellName << "\""
+            << " reason=unsupported_nonprojectile_spell"
+            << '\n';
+        return false;
+    }
+
+    const SpellEntry *pSpellEntry = m_pSpellTable->findByName(spellName);
+
+    if (pSpellEntry == nullptr)
+    {
+        std::cout
+            << "Spell cast skipped actor=" << actor.actorId
+            << " ability=" << monsterAttackAbilityName(ability)
+            << " spell=\"" << spellName << "\""
+            << " reason=spell_not_found"
+            << '\n';
+        return false;
+    }
+
+    SpellCastRequest request = {};
+    request.sourceKind = RuntimeSpellSourceKind::Actor;
+    request.sourceId = actor.actorId;
+    request.ability = ability;
+    request.spellId = static_cast<uint32_t>(pSpellEntry->id);
+    request.skillLevel = static_cast<uint32_t>(std::max(stats.level, 1));
+    request.skillMastery = pSpellEntry->id == static_cast<int>(MeteorShowerSpellId)
+        ? static_cast<uint32_t>(SkillMastery::Master)
+        : static_cast<uint32_t>(SkillMastery::None);
+    request.sourceX = actor.preciseX;
+    request.sourceY = actor.preciseY;
+    request.sourceZ = actor.preciseZ + std::max(24.0f, static_cast<float>(actor.height) * 0.7f);
+    request.targetX = targetX;
+    request.targetY = targetY;
+    request.targetZ = targetZ + PartyTargetHeightOffset;
+    return castSpell(request);
+}
+
+bool OutdoorWorldRuntime::castSpell(const SpellCastRequest &request)
+{
+    if (m_pObjectTable == nullptr || m_pSpellTable == nullptr)
+    {
+        return false;
+    }
+
+    const SpellEntry *pSpellEntry = m_pSpellTable->findById(static_cast<int>(request.spellId));
+
+    if (pSpellEntry == nullptr)
+    {
+        return false;
+    }
+
+    ResolvedProjectileDefinition definition = {};
+
+    if (!resolveSpellDefinition(*pSpellEntry, *m_pObjectTable, definition))
+    {
+        return false;
+    }
+
+    if (request.spellId == MeteorShowerSpellId)
+    {
+        return castMeteorShower(request, definition);
+    }
+
+    return castDirectSpellProjectile(request, definition);
+}
+
+bool OutdoorWorldRuntime::castDirectSpellProjectile(
+    const SpellCastRequest &request,
+    const ResolvedProjectileDefinition &definition
+)
+{
+    return spawnSpellProjectile(
+        request,
+        definition,
+        request.sourceX,
+        request.sourceY,
+        request.sourceZ,
+        request.targetX,
+        request.targetY,
+        request.targetZ,
+        0.0f);
+}
+
+bool OutdoorWorldRuntime::castMeteorShower(
+    const SpellCastRequest &request,
+    const ResolvedProjectileDefinition &definition
+)
+{
+    uint32_t meteorCount = meteorShowerCountForMastery(request.skillMastery);
+
+    if (meteorCount == 0)
+    {
+        meteorCount = 1;
+    }
+
+    uint32_t seed = request.spellId * 1315423911u;
+    seed ^= static_cast<uint32_t>(std::lround(std::abs(request.targetX)));
+    seed ^= static_cast<uint32_t>(std::lround(std::abs(request.targetY))) << 1;
+    seed ^= static_cast<uint32_t>(std::lround(std::abs(request.targetZ))) << 2;
+    seed ^= m_nextProjectileId;
+    std::mt19937 rng(seed);
+    std::uniform_real_distribution<float> targetOffsetDistribution(-MeteorShowerTargetSpread, MeteorShowerTargetSpread);
+    std::uniform_real_distribution<float> spawnHeightDistribution(
+        MeteorShowerSpawnBaseHeight,
+        MeteorShowerSpawnBaseHeight + MeteorShowerSpawnHeightVariance);
+    bool spawnedAny = false;
+
+    for (uint32_t meteorIndex = 0; meteorIndex < meteorCount; ++meteorIndex)
+    {
+        const float meteorTargetX = request.targetX + targetOffsetDistribution(rng);
+        const float meteorTargetY = request.targetY + targetOffsetDistribution(rng);
+        float meteorTargetZ = request.targetZ;
+
+        if (m_pOutdoorMapData != nullptr)
+        {
+            meteorTargetZ = std::max(
+                meteorTargetZ,
+                sampleOutdoorTerrainHeight(*m_pOutdoorMapData, meteorTargetX, meteorTargetY));
+        }
+
+        const float meteorSourceZ = meteorTargetZ + spawnHeightDistribution(rng);
+        spawnedAny = spawnSpellProjectile(
+            request,
+            definition,
+            meteorTargetX,
+            meteorTargetY,
+            meteorSourceZ,
+            meteorTargetX,
+            meteorTargetY,
+            meteorTargetZ,
+            0.0f)
+            || spawnedAny;
+    }
+
+    return spawnedAny;
+}
+
+bool OutdoorWorldRuntime::spawnSpellProjectile(
+    const SpellCastRequest &request,
+    const ResolvedProjectileDefinition &definition,
+    float sourceX,
+    float sourceY,
+    float sourceZ,
+    float targetX,
+    float targetY,
+    float targetZ,
+    float spawnForwardOffset
+)
+{
+    const float deltaX = targetX - sourceX;
+    const float deltaY = targetY - sourceY;
+    const float deltaZ = targetZ - sourceZ;
+    const float distance = length3d(deltaX, deltaY, deltaZ);
+
+    if (distance <= 0.01f)
+    {
+        ProjectileState impactSource = {};
+        impactSource.projectileId = m_nextProjectileId++;
+        impactSource.sourceId = request.sourceId;
+        impactSource.fromSummonedMonster = request.fromSummonedMonster;
+        impactSource.ability = request.ability;
+        impactSource.objectName = definition.objectName;
+        impactSource.objectSpriteName = definition.objectSpriteName;
+        impactSource.objectSpriteId = definition.objectSpriteId;
+        impactSource.impactObjectDescriptionId = definition.impactObjectDescriptionId;
+        logProjectileCollision(impactSource, "instant", "spell_zero_distance", {sourceX, sourceY, sourceZ});
+        spawnProjectileImpact(impactSource, sourceX, sourceY, sourceZ);
+        return true;
+    }
+
+    const float directionX = deltaX / distance;
+    const float directionY = deltaY / distance;
+    const float directionZ = deltaZ / distance;
+
+    ProjectileState projectile = {};
+    projectile.projectileId = m_nextProjectileId++;
+    projectile.sourceId = request.sourceId;
+    projectile.fromSummonedMonster = request.fromSummonedMonster;
+    projectile.ability = request.ability;
+    projectile.objectDescriptionId = definition.objectDescriptionId;
+    projectile.objectSpriteId = definition.objectSpriteId;
+    projectile.impactObjectDescriptionId = definition.impactObjectDescriptionId;
+    projectile.radius = definition.radius;
+    projectile.height = definition.height;
+    projectile.spellId = definition.spellId;
+    projectile.effectSoundId = definition.effectSoundId;
+    projectile.objectName = definition.objectName;
+    projectile.objectSpriteName = definition.objectSpriteName;
+    projectile.x = sourceX + directionX * spawnForwardOffset;
+    projectile.y = sourceY + directionY * spawnForwardOffset;
+    projectile.z = sourceZ;
+    projectile.velocityX = directionX * definition.speed;
+    projectile.velocityY = directionY * definition.speed;
+    projectile.velocityZ = directionZ * definition.speed;
+    projectile.lifetimeTicks = definition.lifetimeTicks;
+    m_projectiles.push_back(std::move(projectile));
+    logProjectileSpawn(
+        spellSourceKindName(request.sourceKind),
+        m_projectiles.back(),
+        directionX,
+        directionY,
+        directionZ,
+        definition.speed);
+
+    if (definition.effectSoundId > 0)
+    {
+        const std::string reason =
+            request.sourceKind == RuntimeSpellSourceKind::Event ? "event_spell_release" : "monster_spell_release";
+        pushAudioEvent(static_cast<uint32_t>(definition.effectSoundId), request.sourceId, reason);
+    }
+
+    return true;
+}
+
+void OutdoorWorldRuntime::spawnProjectileImpact(const ProjectileState &projectile, float x, float y, float z)
+{
+    if (projectile.impactObjectDescriptionId == 0 || m_pObjectTable == nullptr)
+    {
+        return;
+    }
+
+    const ObjectEntry *pImpactEntry = m_pObjectTable->get(projectile.impactObjectDescriptionId);
+
+    if (pImpactEntry == nullptr)
+    {
+        return;
+    }
+
+    if (pImpactEntry->spriteId == 0 && pImpactEntry->spriteName.empty())
+    {
+        return;
+    }
+
+    ProjectileImpactState effect = {};
+    effect.effectId = m_nextProjectileImpactId++;
+    effect.objectDescriptionId = projectile.impactObjectDescriptionId;
+    effect.objectSpriteId = pImpactEntry->spriteId;
+    effect.objectName = pImpactEntry->internalName;
+    effect.objectSpriteName = pImpactEntry->spriteName;
+    effect.x = x;
+    effect.y = y;
+    effect.z = z;
+    effect.lifetimeTicks = static_cast<uint32_t>(std::max<int>(pImpactEntry->lifetimeTicks, 32));
+    m_projectileImpacts.push_back(std::move(effect));
+    logProjectileImpactEffect(projectile, m_projectileImpacts.back());
+}
+
+void OutdoorWorldRuntime::updateProjectiles(float deltaSeconds, float partyX, float partyY, float partyZ)
+{
+    if (deltaSeconds <= 0.0f)
+    {
+        return;
+    }
+
+    const uint32_t deltaTicks =
+        std::max<uint32_t>(1, static_cast<uint32_t>(std::lround(deltaSeconds * TicksPerSecond)));
+
+    for (ProjectileImpactState &effect : m_projectileImpacts)
+    {
+        effect.timeSinceCreatedTicks += deltaTicks;
+
+        if (effect.timeSinceCreatedTicks >= effect.lifetimeTicks)
+        {
+            effect.isExpired = true;
+        }
+    }
+
+    for (ProjectileState &projectile : m_projectiles)
+    {
+        if (projectile.isExpired)
+        {
+            continue;
+        }
+
+        projectile.timeSinceCreatedTicks += deltaTicks;
+
+        if (projectile.timeSinceCreatedTicks >= projectile.lifetimeTicks)
+        {
+            logProjectileLifetimeExpiry(projectile);
+            projectile.isExpired = true;
+            continue;
+        }
+
+        const bx::Vec3 segmentStart = {projectile.x, projectile.y, projectile.z};
+        const bx::Vec3 segmentEnd = {
+            projectile.x + projectile.velocityX * deltaSeconds,
+            projectile.y + projectile.velocityY * deltaSeconds,
+            projectile.z + projectile.velocityZ * deltaSeconds
+        };
+        float bestFactor = 2.0f;
+        bx::Vec3 bestPoint = segmentEnd;
+        const char *pBestColliderKind = nullptr;
+        std::string bestColliderName;
+
+        auto considerImpact = [&](float factor, const bx::Vec3 &point, const char *pColliderKind, std::string colliderName)
+        {
+            if (factor < 0.0f || factor > 1.0f)
+            {
+                return;
+            }
+
+            if (factor < bestFactor)
+            {
+                bestFactor = factor;
+                bestPoint = point;
+                pBestColliderKind = pColliderKind;
+                bestColliderName = std::move(colliderName);
+            }
+        };
+
+        {
+            float projectionFactor = 0.0f;
+            const float distanceSquared = pointSegmentDistanceSquared2d(
+                partyX,
+                partyY,
+                segmentStart.x,
+                segmentStart.y,
+                segmentEnd.x,
+                segmentEnd.y,
+                projectionFactor);
+            const float collisionRadius = PartyCollisionRadius + static_cast<float>(std::max<uint16_t>(projectile.radius, 8));
+
+            if (distanceSquared <= collisionRadius * collisionRadius)
+            {
+                const float collisionZ = segmentStart.z + (segmentEnd.z - segmentStart.z) * projectionFactor;
+                const float partyMinZ = partyZ;
+                const float partyMaxZ = partyZ + 192.0f;
+
+                if (collisionZ >= partyMinZ - static_cast<float>(projectile.height)
+                    && collisionZ <= partyMaxZ + static_cast<float>(projectile.height))
+                {
+                    considerImpact(
+                        projectionFactor,
+                        {segmentStart.x + (segmentEnd.x - segmentStart.x) * projectionFactor,
+                            segmentStart.y + (segmentEnd.y - segmentStart.y) * projectionFactor,
+                            collisionZ},
+                        "party",
+                        "party");
+                }
+            }
+        }
+
+        for (const MapActorState &actor : m_mapActors)
+        {
+            if (actor.isDead || actor.actorId == projectile.sourceId)
+            {
+                continue;
+            }
+
+            float projectionFactor = 0.0f;
+            const float distanceSquared = pointSegmentDistanceSquared2d(
+                actor.preciseX,
+                actor.preciseY,
+                segmentStart.x,
+                segmentStart.y,
+                segmentEnd.x,
+                segmentEnd.y,
+                projectionFactor);
+            const float collisionRadius =
+                static_cast<float>(std::max<uint16_t>(actor.radius, 8))
+                + static_cast<float>(std::max<uint16_t>(projectile.radius, 8));
+
+            if (distanceSquared > collisionRadius * collisionRadius)
+            {
+                continue;
+            }
+
+            const float collisionZ = segmentStart.z + (segmentEnd.z - segmentStart.z) * projectionFactor;
+
+            if (collisionZ >= actor.preciseZ - static_cast<float>(projectile.height)
+                && collisionZ <= actor.preciseZ + static_cast<float>(actor.height) + static_cast<float>(projectile.height))
+            {
+                std::ostringstream colliderNameStream;
+                colliderNameStream << actor.displayName << " #" << actor.actorId;
+                considerImpact(
+                    projectionFactor,
+                    {segmentStart.x + (segmentEnd.x - segmentStart.x) * projectionFactor,
+                        segmentStart.y + (segmentEnd.y - segmentStart.y) * projectionFactor,
+                        collisionZ},
+                    "actor",
+                    colliderNameStream.str());
+            }
+        }
+
+        for (const OutdoorFaceGeometryData &face : m_outdoorFaces)
+        {
+            float factor = 0.0f;
+            bx::Vec3 point = {0.0f, 0.0f, 0.0f};
+
+            if (intersectOutdoorSegmentWithFace(face, segmentStart, segmentEnd, factor, point))
+            {
+                std::ostringstream colliderNameStream;
+                colliderNameStream << face.modelName << " face=" << face.faceIndex;
+                considerImpact(factor, point, "bmodel", colliderNameStream.str());
+            }
+        }
+
+        if (m_pOutdoorMapData != nullptr)
+        {
+            const float terrainZ = sampleOutdoorTerrainHeight(*m_pOutdoorMapData, segmentEnd.x, segmentEnd.y);
+
+            if (segmentEnd.z <= terrainZ)
+            {
+                float factor = 1.0f;
+
+                if (std::abs(segmentEnd.z - segmentStart.z) > 0.01f)
+                {
+                    factor = std::clamp(
+                        (terrainZ - segmentStart.z) / (segmentEnd.z - segmentStart.z),
+                        0.0f,
+                        1.0f);
+                }
+
+                considerImpact(
+                    factor,
+                    {segmentStart.x + (segmentEnd.x - segmentStart.x) * factor,
+                        segmentStart.y + (segmentEnd.y - segmentStart.y) * factor,
+                        terrainZ},
+                    "terrain",
+                    "terrain");
+            }
+        }
+
+        if (bestFactor <= 1.0f)
+        {
+            logProjectileCollision(
+                projectile,
+                pBestColliderKind != nullptr ? pBestColliderKind : "unknown",
+                bestColliderName,
+                bestPoint);
+            spawnProjectileImpact(projectile, bestPoint.x, bestPoint.y, bestPoint.z);
+            projectile.isExpired = true;
+            continue;
+        }
+
+        projectile.x = segmentEnd.x;
+        projectile.y = segmentEnd.y;
+        projectile.z = segmentEnd.z;
+    }
+
+    std::erase_if(
+        m_projectiles,
+        [](const ProjectileState &projectile)
+        {
+            return projectile.isExpired;
+        });
+    std::erase_if(
+        m_projectileImpacts,
+        [](const ProjectileImpactState &effect)
+        {
+            return effect.isExpired;
+        });
 }
 
 void OutdoorWorldRuntime::applyEventRuntimeState()
@@ -2213,6 +3210,35 @@ const OutdoorWorldRuntime::MapActorState *OutdoorWorldRuntime::mapActorState(siz
     }
 
     return &m_mapActors[actorIndex];
+}
+
+bool OutdoorWorldRuntime::debugSpawnMapActorProjectile(
+    size_t actorIndex,
+    MonsterAttackAbility ability,
+    float targetX,
+    float targetY,
+    float targetZ)
+{
+    if (actorIndex >= m_mapActors.size())
+    {
+        return false;
+    }
+
+    const MapActorState &actor = m_mapActors[actorIndex];
+
+    if (m_pMonsterTable == nullptr)
+    {
+        return false;
+    }
+
+    const MonsterTable::MonsterStatsEntry *pStats = m_pMonsterTable->findStatsById(actor.monsterId);
+
+    if (pStats == nullptr)
+    {
+        return false;
+    }
+
+    return spawnProjectileFromMapActor(actor, *pStats, ability, targetX, targetY, targetZ);
 }
 
 bool OutdoorWorldRuntime::setMapActorDead(size_t actorIndex, bool isDead)
@@ -2626,6 +3652,36 @@ void OutdoorWorldRuntime::clearPendingCombatEvents()
     m_pendingCombatEvents.clear();
 }
 
+size_t OutdoorWorldRuntime::projectileCount() const
+{
+    return m_projectiles.size();
+}
+
+const OutdoorWorldRuntime::ProjectileState *OutdoorWorldRuntime::projectileState(size_t projectileIndex) const
+{
+    if (projectileIndex >= m_projectiles.size())
+    {
+        return nullptr;
+    }
+
+    return &m_projectiles[projectileIndex];
+}
+
+size_t OutdoorWorldRuntime::projectileImpactCount() const
+{
+    return m_projectileImpacts.size();
+}
+
+const OutdoorWorldRuntime::ProjectileImpactState *OutdoorWorldRuntime::projectileImpactState(size_t effectIndex) const
+{
+    if (effectIndex >= m_projectileImpacts.size())
+    {
+        return nullptr;
+    }
+
+    return &m_projectileImpacts[effectIndex];
+}
+
 bool OutdoorWorldRuntime::summonMonsters(
     uint32_t typeIndexInMapStats,
     uint32_t level,
@@ -2806,6 +3862,34 @@ EventRuntimeState *OutdoorWorldRuntime::eventRuntimeState()
     }
 
     return &*m_eventRuntimeState;
+}
+
+bool OutdoorWorldRuntime::castEventSpell(
+    uint32_t spellId,
+    uint32_t skillLevel,
+    uint32_t skillMastery,
+    int32_t fromX,
+    int32_t fromY,
+    int32_t fromZ,
+    int32_t toX,
+    int32_t toY,
+    int32_t toZ
+)
+{
+    SpellCastRequest request = {};
+    request.sourceKind = RuntimeSpellSourceKind::Event;
+    request.sourceId = EventSpellSourceId;
+    request.ability = MonsterAttackAbility::Spell1;
+    request.spellId = spellId;
+    request.skillLevel = skillLevel;
+    request.skillMastery = skillMastery;
+    request.sourceX = static_cast<float>(-fromX);
+    request.sourceY = static_cast<float>(fromY);
+    request.sourceZ = static_cast<float>(fromZ);
+    request.targetX = static_cast<float>(-toX);
+    request.targetY = static_cast<float>(toY);
+    request.targetZ = static_cast<float>(toZ);
+    return castSpell(request);
 }
 
 const EventRuntimeState *OutdoorWorldRuntime::eventRuntimeState() const

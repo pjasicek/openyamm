@@ -312,6 +312,51 @@ bool isPointInsideOutdoorPolygonProjected(
     return isPointInsideOutdoorPolygon(projectedPoint.x, projectedPoint.y, projectedVertices);
 }
 
+bool intersectOutdoorSegmentWithFace(
+    const OutdoorFaceGeometryData &geometry,
+    const bx::Vec3 &segmentStart,
+    const bx::Vec3 &segmentEnd,
+    float &intersectionFactor,
+    bx::Vec3 &intersectionPoint
+)
+{
+    if (!geometry.hasPlane || geometry.vertices.size() < 3)
+    {
+        return false;
+    }
+
+    const bx::Vec3 segment = vecSubtract(segmentEnd, segmentStart);
+    const float denominator = vecDot(geometry.normal, segment);
+
+    if (std::fabs(denominator) <= GeometryEpsilon)
+    {
+        return false;
+    }
+
+    const bx::Vec3 startToPlane = vecSubtract(geometry.vertices[0], segmentStart);
+    const float factor = vecDot(geometry.normal, startToPlane) / denominator;
+
+    if (factor < 0.0f || factor > 1.0f)
+    {
+        return false;
+    }
+
+    const bx::Vec3 candidatePoint = {
+        segmentStart.x + segment.x * factor,
+        segmentStart.y + segment.y * factor,
+        segmentStart.z + segment.z * factor
+    };
+
+    if (!isPointInsideOutdoorPolygonProjected(candidatePoint, geometry.vertices, geometry.normal))
+    {
+        return false;
+    }
+
+    intersectionFactor = factor;
+    intersectionPoint = candidatePoint;
+    return true;
+}
+
 float calculateOutdoorFaceHeight(const OutdoorFaceGeometryData &geometry, float x, float y)
 {
     if (geometry.polygonType == OutdoorPolygonFloor)

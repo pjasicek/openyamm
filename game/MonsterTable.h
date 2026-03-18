@@ -95,11 +95,17 @@ public:
         bool canFly = false;
         MonsterMovementType movementType = MonsterMovementType::Short;
         MonsterAiType aiType = MonsterAiType::Suicide;
+        std::string attack1MissileType;
         bool attack1HasMissile = false;
+        std::string attack2MissileType;
         bool attack2HasMissile = false;
         int attack2Chance = 0;
+        std::string spell1Descriptor;
+        std::string spell1Name;
         bool hasSpell1 = false;
         int spell1UseChance = 0;
+        std::string spell2Descriptor;
+        std::string spell2Name;
         bool hasSpell2 = false;
         int spell2UseChance = 0;
         MonsterAttackStyle attackStyle = MonsterAttackStyle::MeleeOnly;

@@ -994,7 +994,6 @@ bool EventRuntime::executeEvent(
             case EventIrOperation::ChangeEvent:
             case EventIrOperation::RandomJump:
             case EventIrOperation::SummonItem:
-            case EventIrOperation::CastSpell:
             case EventIrOperation::SetNpcGreeting:
             case EventIrOperation::CharacterAnimation:
                 break;
@@ -1069,6 +1068,42 @@ bool EventRuntime::executeEvent(
                     }
 
                     std::cout << '\n';
+                }
+                break;
+            }
+
+            case EventIrOperation::CastSpell:
+            {
+                if (instruction.arguments.size() >= 9)
+                {
+                    const uint32_t spellId = instruction.arguments[0];
+                    const uint32_t skillLevel = instruction.arguments[1];
+                    const uint32_t skillMastery = instruction.arguments[2];
+                    const int32_t fromX = static_cast<int32_t>(instruction.arguments[3]);
+                    const int32_t fromY = static_cast<int32_t>(instruction.arguments[4]);
+                    const int32_t fromZ = static_cast<int32_t>(instruction.arguments[5]);
+                    const int32_t toX = static_cast<int32_t>(instruction.arguments[6]);
+                    const int32_t toY = static_cast<int32_t>(instruction.arguments[7]);
+                    const int32_t toZ = static_cast<int32_t>(instruction.arguments[8]);
+                    const bool casted =
+                        pOutdoorWorldRuntime != nullptr
+                        && pOutdoorWorldRuntime->castEventSpell(
+                            spellId,
+                            skillLevel,
+                            skillMastery,
+                            fromX,
+                            fromY,
+                            fromZ,
+                            toX,
+                            toY,
+                            toZ);
+
+                    std::cout << "  cast_spell spell=" << spellId
+                              << " skill=" << skillLevel
+                              << " mastery=" << skillMastery
+                              << " from=(" << fromX << "," << fromY << "," << fromZ << ")"
+                              << " to=(" << toX << "," << toY << "," << toZ << ")"
+                              << " -> " << (casted ? "true" : "false") << '\n';
                 }
                 break;
             }

@@ -8,10 +8,12 @@
 #include "game/MapAssetLoader.h"
 #include "game/MapRegistry.h"
 #include "game/MapStats.h"
+#include "game/MonsterProjectileTable.h"
 #include "game/MonsterTable.h"
 #include "game/NpcDialogTable.h"
 #include "game/ObjectTable.h"
 #include "game/RosterTable.h"
+#include "game/SpellTable.h"
 
 #include <cstddef>
 #include <string>
@@ -42,7 +44,9 @@ public:
     const std::optional<MapAssetInfo> &getSelectedMap() const;
     const MapStats &getMapStats() const;
     const MonsterTable &getMonsterTable() const;
+    const MonsterProjectileTable &getMonsterProjectileTable() const;
     const ObjectTable &getObjectTable() const;
+    const SpellTable &getSpellTable() const;
     const ItemTable &getItemTable() const;
     const ChestTable &getChestTable() const;
     const HouseTable &getHouseTable() const;
@@ -63,7 +67,9 @@ private:
     bool loadSelectedMap(const Engine::AssetFileSystem &assetFileSystem, int mapId, MapLoadPurpose mapLoadPurpose);
     bool loadMapStats(const Engine::AssetFileSystem &assetFileSystem);
     bool loadMonsterTable(const Engine::AssetFileSystem &assetFileSystem);
+    bool loadMonsterProjectileTable(const Engine::AssetFileSystem &assetFileSystem);
     bool loadObjectTable(const Engine::AssetFileSystem &assetFileSystem);
+    bool loadSpellTable(const Engine::AssetFileSystem &assetFileSystem);
     bool loadItemTable(const Engine::AssetFileSystem &assetFileSystem);
     bool loadChestTable(const Engine::AssetFileSystem &assetFileSystem);
     bool loadHouseTable(const Engine::AssetFileSystem &assetFileSystem);
@@ -85,7 +91,9 @@ private:
     MapRegistry m_mapRegistry;
     MapStats m_mapStats;
     MonsterTable m_monsterTable;
+    MonsterProjectileTable m_monsterProjectileTable;
     ObjectTable m_objectTable;
+    SpellTable m_spellTable;
     ItemTable m_itemTable;
     ChestTable m_chestTable;
     HouseTable m_houseTable;

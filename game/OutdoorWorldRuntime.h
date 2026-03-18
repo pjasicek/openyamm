@@ -5,10 +5,13 @@
 #include "game/MapAssetLoader.h"
 #include "game/MapDeltaData.h"
 #include "game/MapStats.h"
+#include "game/MonsterProjectileTable.h"
 #include "game/MonsterTable.h"
+#include "game/ObjectTable.h"
 #include "game/OutdoorGeometryUtils.h"
 #include "game/OutdoorMapData.h"
 #include "game/OutdoorMovementController.h"
+#include "game/SpellTable.h"
 
 #include <random>
 #include <optional>
@@ -117,6 +120,47 @@ public:
         MonsterAttackAbility ability = MonsterAttackAbility::Attack1;
     };
 
+    struct ProjectileState
+    {
+        uint32_t projectileId = 0;
+        uint32_t sourceId = 0;
+        bool fromSummonedMonster = false;
+        MonsterAttackAbility ability = MonsterAttackAbility::Attack1;
+        uint16_t objectDescriptionId = 0;
+        uint16_t objectSpriteId = 0;
+        uint16_t impactObjectDescriptionId = 0;
+        uint16_t radius = 0;
+        uint16_t height = 0;
+        int spellId = 0;
+        int effectSoundId = 0;
+        std::string objectName;
+        std::string objectSpriteName;
+        float x = 0.0f;
+        float y = 0.0f;
+        float z = 0.0f;
+        float velocityX = 0.0f;
+        float velocityY = 0.0f;
+        float velocityZ = 0.0f;
+        uint32_t timeSinceCreatedTicks = 0;
+        uint32_t lifetimeTicks = 0;
+        bool isExpired = false;
+    };
+
+    struct ProjectileImpactState
+    {
+        uint32_t effectId = 0;
+        uint16_t objectDescriptionId = 0;
+        uint16_t objectSpriteId = 0;
+        std::string objectName;
+        std::string objectSpriteName;
+        float x = 0.0f;
+        float y = 0.0f;
+        float z = 0.0f;
+        uint32_t timeSinceCreatedTicks = 0;
+        uint32_t lifetimeTicks = 0;
+        bool isExpired = false;
+    };
+
     struct SpawnPointState
     {
         uint16_t typeId = 0;
@@ -195,6 +239,9 @@ public:
     void initialize(
         const MapStatsEntry &map,
         const MonsterTable &monsterTable,
+        const MonsterProjectileTable &monsterProjectileTable,
+        const ObjectTable &objectTable,
+        const SpellTable &spellTable,
         const ItemTable &itemTable,
         const std::optional<OutdoorMapData> &outdoorMapData,
         const std::optional<MapDeltaData> &outdoorMapDeltaData,
@@ -224,6 +271,12 @@ public:
     bool isChestOpened(uint32_t chestId) const;
     size_t mapActorCount() const;
     const MapActorState *mapActorState(size_t actorIndex) const;
+    bool debugSpawnMapActorProjectile(
+        size_t actorIndex,
+        MonsterAttackAbility ability,
+        float targetX,
+        float targetY,
+        float targetZ);
     bool setMapActorDead(size_t actorIndex, bool isDead);
     bool applyPartyAttackToMapActor(size_t actorIndex, int damage, float partyX, float partyY, float partyZ);
     bool notifyPartyContactWithMapActor(size_t actorIndex, float partyX, float partyY, float partyZ);
@@ -245,12 +298,27 @@ public:
     void clearPendingAudioEvents();
     const std::vector<CombatEvent> &pendingCombatEvents() const;
     void clearPendingCombatEvents();
+    size_t projectileCount() const;
+    const ProjectileState *projectileState(size_t projectileIndex) const;
+    size_t projectileImpactCount() const;
+    const ProjectileImpactState *projectileImpactState(size_t effectIndex) const;
 
     const EventRuntimeState::PendingMapMove *pendingMapMove() const;
     std::optional<EventRuntimeState::PendingMapMove> consumePendingMapMove();
 
     EventRuntimeState *eventRuntimeState();
     const EventRuntimeState *eventRuntimeState() const;
+    bool castEventSpell(
+        uint32_t spellId,
+        uint32_t skillLevel,
+        uint32_t skillMastery,
+        int32_t fromX,
+        int32_t fromY,
+        int32_t fromZ,
+        int32_t toX,
+        int32_t toY,
+        int32_t toZ
+    );
     bool summonMonsters(
         uint32_t typeIndexInMapStats,
         uint32_t level,
@@ -262,6 +330,48 @@ public:
         uint32_t uniqueNameId
     );
     bool checkMonstersKilled(uint32_t checkType, uint32_t id, uint32_t count, bool invisibleAsDead) const;
+
+public:
+    struct ResolvedProjectileDefinition
+    {
+        uint16_t objectDescriptionId = 0;
+        uint16_t objectSpriteId = 0;
+        uint16_t impactObjectDescriptionId = 0;
+        uint16_t impactObjectSpriteId = 0;
+        uint16_t radius = 0;
+        uint16_t height = 0;
+        uint32_t lifetimeTicks = 0;
+        float speed = 0.0f;
+        int spellId = 0;
+        int effectSoundId = 0;
+        std::string objectName;
+        std::string objectSpriteName;
+        std::string impactObjectName;
+        std::string impactObjectSpriteName;
+    };
+
+    enum class RuntimeSpellSourceKind
+    {
+        Actor,
+        Event,
+    };
+
+    struct SpellCastRequest
+    {
+        RuntimeSpellSourceKind sourceKind = RuntimeSpellSourceKind::Event;
+        uint32_t sourceId = 0;
+        bool fromSummonedMonster = false;
+        MonsterAttackAbility ability = MonsterAttackAbility::Spell1;
+        uint32_t spellId = 0;
+        uint32_t skillLevel = 0;
+        uint32_t skillMastery = 0;
+        float sourceX = 0.0f;
+        float sourceY = 0.0f;
+        float sourceZ = 0.0f;
+        float targetX = 0.0f;
+        float targetY = 0.0f;
+        float targetZ = 0.0f;
+    };
 
 private:
     static uint32_t makeChestSeed(uint32_t sessionSeed, int mapId, uint32_t chestId, uint32_t salt);
@@ -281,6 +391,44 @@ private:
     void activateChestView(uint32_t chestId);
     CorpseViewState buildCorpseView(const std::string &title, const MonsterTable::LootPrototype &loot, uint32_t seed) const;
     void pushAudioEvent(uint32_t soundId, uint32_t sourceId, const std::string &reason);
+    bool spawnProjectileFromMapActor(
+        const MapActorState &actor,
+        const MonsterTable::MonsterStatsEntry &stats,
+        MonsterAttackAbility ability,
+        float targetX,
+        float targetY,
+        float targetZ
+    );
+    bool castSpellFromMapActor(
+        const MapActorState &actor,
+        const MonsterTable::MonsterStatsEntry &stats,
+        MonsterAttackAbility ability,
+        float targetX,
+        float targetY,
+        float targetZ
+    );
+    bool castSpell(const SpellCastRequest &request);
+    bool castDirectSpellProjectile(
+        const SpellCastRequest &request,
+        const ResolvedProjectileDefinition &definition
+    );
+    bool castMeteorShower(
+        const SpellCastRequest &request,
+        const ResolvedProjectileDefinition &definition
+    );
+    bool spawnSpellProjectile(
+        const SpellCastRequest &request,
+        const ResolvedProjectileDefinition &definition,
+        float sourceX,
+        float sourceY,
+        float sourceZ,
+        float targetX,
+        float targetY,
+        float targetZ,
+        float spawnForwardOffset
+    );
+    void updateProjectiles(float deltaSeconds, float partyX, float partyY, float partyZ);
+    void spawnProjectileImpact(const ProjectileState &projectile, float x, float y, float z);
 
     int m_mapId = 0;
     int m_mapTreasureLevel = 0;
@@ -298,8 +446,11 @@ private:
     std::optional<EventRuntimeState> m_eventRuntimeState;
     const ItemTable *m_pItemTable = nullptr;
     const MonsterTable *m_pMonsterTable = nullptr;
+    const MonsterProjectileTable *m_pMonsterProjectileTable = nullptr;
+    const ObjectTable *m_pObjectTable = nullptr;
     const OutdoorMapData *m_pOutdoorMapData = nullptr;
     const MapDeltaData *m_pOutdoorMapDeltaData = nullptr;
+    const SpellTable *m_pSpellTable = nullptr;
     std::vector<OutdoorFaceGeometryData> m_outdoorFaces;
     std::optional<OutdoorMovementController> m_outdoorMovementController;
     float m_actorUpdateAccumulatorSeconds = 0.0f;
@@ -310,5 +461,9 @@ private:
     std::optional<CorpseViewState> m_activeCorpseView;
     std::vector<AudioEvent> m_pendingAudioEvents;
     std::vector<CombatEvent> m_pendingCombatEvents;
+    uint32_t m_nextProjectileId = 1;
+    uint32_t m_nextProjectileImpactId = 1;
+    std::vector<ProjectileState> m_projectiles;
+    std::vector<ProjectileImpactState> m_projectileImpacts;
 };
 }

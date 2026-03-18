@@ -42,12 +42,19 @@ constexpr float CameraVerticalFovRadians = CameraVerticalFovDegrees * (Pi / 180.
 constexpr int DebugTextCellWidthPixels = 8;
 constexpr int DebugTextCellHeightPixels = 16;
 constexpr float BillboardNearDepth = 0.1f;
+constexpr bool DebugProjectileDrawLogging = false;
+constexpr float DebugProjectileTrailSeconds = 0.05f;
 constexpr float InspectRayEpsilon = 0.0001f;
 constexpr float OutdoorWalkableNormalZ = 0.70710678f;
 constexpr float OutdoorMaxStepHeight = 128.0f;
 constexpr uint8_t OutdoorPolygonFloor = 0x3;
 constexpr uint8_t OutdoorPolygonInBetweenFloorAndWall = 0x4;
 constexpr uint32_t AdventurersInnHouseId = 185;
+constexpr int DwiMapId = 1;
+constexpr float DwiStartX = -9216.0f;
+constexpr float DwiStartY = -12848.0f;
+constexpr float DwiStartZ = 3000.0f;
+constexpr uint16_t DwiMeteorShowerEventId = 456;
 
 std::vector<OutdoorActorCollision> buildRuntimeActorColliders(const OutdoorWorldRuntime &worldRuntime)
 {
@@ -1028,6 +1035,7 @@ OutdoorGameView::OutdoorGameView()
     , m_toggleEntitiesLatch(false)
     , m_toggleSpawnsLatch(false)
     , m_toggleInspectLatch(false)
+    , m_triggerMeteorLatch(false)
     , m_activateInspectLatch(false)
     , m_attackInspectLatch(false)
     , m_toggleRunningLatch(false)
@@ -1121,16 +1129,27 @@ bool OutdoorGameView::initialize(
         static_cast<size_t>(centerGridY * OutdoorMapData::TerrainWidth + centerGridX);
     const float centerHeightWorld =
         static_cast<float>(outdoorMapData.heightMap[centerSampleIndex] * OutdoorMapData::TerrainHeightScale);
-    m_cameraTargetX = 0.0f;
-    m_cameraTargetY = 0.0f;
+    float initialX = 0.0f;
+    float initialY = 0.0f;
+    float initialFootZ = centerHeightWorld;
+
+    if (map.id == DwiMapId)
+    {
+        initialX = DwiStartX;
+        initialY = DwiStartY;
+        initialFootZ = DwiStartZ;
+    }
+
+    m_cameraTargetX = initialX;
+    m_cameraTargetY = initialY;
     if (m_pOutdoorPartyRuntime)
     {
-        m_pOutdoorPartyRuntime->initialize(m_cameraTargetX, m_cameraTargetY, centerHeightWorld);
+        m_pOutdoorPartyRuntime->initialize(m_cameraTargetX, m_cameraTargetY, initialFootZ);
         m_cameraTargetZ = m_pOutdoorPartyRuntime->movementState().footZ + m_cameraEyeHeight;
     }
     else
     {
-        m_cameraTargetZ = centerHeightWorld + m_cameraEyeHeight;
+        m_cameraTargetZ = initialFootZ + m_cameraEyeHeight;
     }
     m_cameraYawRadians = -Pi * 0.5f;
     m_cameraPitchRadians = -0.15f;
@@ -1721,6 +1740,7 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
 
     if (m_showSpriteObjects)
     {
+        renderRuntimeProjectiles(MainViewId, wireframeViewMatrix, wireframeEye);
         renderSpriteObjectBillboards(MainViewId, wireframeViewMatrix, wireframeEye);
     }
 
@@ -2951,6 +2971,7 @@ void OutdoorGameView::shutdown()
     m_toggleEntitiesLatch = false;
     m_toggleSpawnsLatch = false;
     m_toggleInspectLatch = false;
+    m_triggerMeteorLatch = false;
     m_activateInspectLatch = false;
     m_attackInspectLatch = false;
     m_closeOverlayLatch = false;
@@ -3465,6 +3486,56 @@ const OutdoorGameView::BillboardTextureHandle *OutdoorGameView::findBillboardTex
     }
 
     return nullptr;
+}
+
+const OutdoorGameView::BillboardTextureHandle *OutdoorGameView::ensureSpriteBillboardTexture(
+    const std::string &textureName,
+    int16_t paletteId)
+{
+    const BillboardTextureHandle *pExistingTexture = findBillboardTexture(textureName, paletteId);
+
+    if (pExistingTexture != nullptr)
+    {
+        return pExistingTexture;
+    }
+
+    if (m_pAssetFileSystem == nullptr)
+    {
+        return nullptr;
+    }
+
+    int textureWidth = 0;
+    int textureHeight = 0;
+    const std::optional<std::vector<uint8_t>> pixels =
+        loadSpriteBitmapPixelsBgra(*m_pAssetFileSystem, textureName, paletteId, textureWidth, textureHeight);
+
+    if (!pixels || textureWidth <= 0 || textureHeight <= 0)
+    {
+        return nullptr;
+    }
+
+    BillboardTextureHandle billboardTexture = {};
+    billboardTexture.textureName = toLowerCopy(textureName);
+    billboardTexture.paletteId = paletteId;
+    billboardTexture.width = textureWidth;
+    billboardTexture.height = textureHeight;
+    billboardTexture.textureHandle = bgfx::createTexture2D(
+        static_cast<uint16_t>(textureWidth),
+        static_cast<uint16_t>(textureHeight),
+        false,
+        1,
+        bgfx::TextureFormat::BGRA8,
+        BGFX_SAMPLER_MIN_POINT | BGFX_SAMPLER_MAG_POINT,
+        bgfx::copy(pixels->data(), static_cast<uint32_t>(pixels->size()))
+    );
+
+    if (!bgfx::isValid(billboardTexture.textureHandle))
+    {
+        return nullptr;
+    }
+
+    m_billboardTextureHandles.push_back(std::move(billboardTexture));
+    return &m_billboardTextureHandles.back();
 }
 
 const OutdoorGameView::HudTextureHandle *OutdoorGameView::findHudTexture(const std::string &textureName) const
@@ -4060,6 +4131,334 @@ void OutdoorGameView::renderActorPreviewBillboards(
         };
         const bx::Vec3 right = {cameraRight.x * halfWidth, cameraRight.y * halfWidth, cameraRight.z * halfWidth};
         const bx::Vec3 up = {cameraUp.x * worldHeight * 0.5f, cameraUp.y * worldHeight * 0.5f, cameraUp.z * worldHeight * 0.5f};
+        const float u0 = drawItem.mirrored ? 1.0f : 0.0f;
+        const float u1 = drawItem.mirrored ? 0.0f : 1.0f;
+
+        std::array<TexturedTerrainVertex, 6> vertices = {{
+            {center.x - right.x - up.x, center.y - right.y - up.y, center.z - right.z - up.z, u0, 1.0f},
+            {center.x - right.x + up.x, center.y - right.y + up.y, center.z - right.z + up.z, u0, 0.0f},
+            {center.x + right.x + up.x, center.y + right.y + up.y, center.z + right.z + up.z, u1, 0.0f},
+            {center.x - right.x - up.x, center.y - right.y - up.y, center.z - right.z - up.z, u0, 1.0f},
+            {center.x + right.x + up.x, center.y + right.y + up.y, center.z + right.z + up.z, u1, 0.0f},
+            {center.x + right.x - up.x, center.y + right.y - up.y, center.z + right.z - up.z, u1, 1.0f}
+        }};
+
+        if (bgfx::getAvailTransientVertexBuffer(static_cast<uint32_t>(vertices.size()), TexturedTerrainVertex::ms_layout)
+            < vertices.size())
+        {
+            continue;
+        }
+
+        bgfx::TransientVertexBuffer transientVertexBuffer = {};
+        bgfx::allocTransientVertexBuffer(
+            &transientVertexBuffer,
+            static_cast<uint32_t>(vertices.size()),
+            TexturedTerrainVertex::ms_layout
+        );
+        std::memcpy(
+            transientVertexBuffer.data,
+            vertices.data(),
+            static_cast<size_t>(vertices.size() * sizeof(TexturedTerrainVertex))
+        );
+
+        float modelMatrix[16] = {};
+        bx::mtxIdentity(modelMatrix);
+        bgfx::setTransform(modelMatrix);
+        bgfx::setVertexBuffer(0, &transientVertexBuffer, 0, static_cast<uint32_t>(vertices.size()));
+        bgfx::setTexture(0, m_terrainTextureSamplerHandle, texture.textureHandle);
+        bgfx::setState(
+            BGFX_STATE_WRITE_RGB
+            | BGFX_STATE_WRITE_A
+            | BGFX_STATE_DEPTH_TEST_LEQUAL
+            | BGFX_STATE_BLEND_ALPHA
+        );
+        bgfx::submit(viewId, m_texturedTerrainProgramHandle);
+    }
+}
+
+void OutdoorGameView::renderRuntimeProjectiles(
+    uint16_t viewId,
+    const float *pViewMatrix,
+    const bx::Vec3 &cameraPosition)
+{
+    if (m_pOutdoorWorldRuntime == nullptr)
+    {
+        return;
+    }
+
+    const SpriteFrameTable *pSpriteFrameTable = nullptr;
+
+    if (m_outdoorSpriteObjectBillboardSet)
+    {
+        pSpriteFrameTable = &m_outdoorSpriteObjectBillboardSet->spriteFrameTable;
+    }
+    else if (m_outdoorActorPreviewBillboardSet)
+    {
+        pSpriteFrameTable = &m_outdoorActorPreviewBillboardSet->spriteFrameTable;
+    }
+
+    if (pSpriteFrameTable == nullptr)
+    {
+        return;
+    }
+
+    const bx::Vec3 cameraRight = {pViewMatrix[0], pViewMatrix[4], pViewMatrix[8]};
+    const bx::Vec3 cameraUp = {pViewMatrix[1], pViewMatrix[5], pViewMatrix[9]};
+
+    struct BillboardDrawItem
+    {
+        float x = 0.0f;
+        float y = 0.0f;
+        float z = 0.0f;
+        const SpriteFrameEntry *pFrame = nullptr;
+        const BillboardTextureHandle *pTexture = nullptr;
+        bool mirrored = false;
+        float distanceSquared = 0.0f;
+    };
+
+    std::vector<BillboardDrawItem> drawItems;
+    drawItems.reserve(m_pOutdoorWorldRuntime->projectileCount() + m_pOutdoorWorldRuntime->projectileImpactCount());
+    std::vector<TerrainVertex> trailVertices;
+    trailVertices.reserve(m_pOutdoorWorldRuntime->projectileCount() * 2);
+
+    auto appendRuntimeDrawItem =
+        [&](uint32_t runtimeId,
+            const char *kind,
+            float x,
+            float y,
+            float z,
+            uint16_t spriteId,
+            const std::string &spriteName,
+            uint32_t timeTicks)
+        {
+            uint16_t spriteFrameIndex = 0;
+            const bool shouldLog = DebugProjectileDrawLogging && timeTicks <= 16;
+            const char *pResolutionSource = "none";
+
+            if (!spriteName.empty())
+            {
+                const std::optional<uint16_t> spriteFrameIndexByName =
+                    pSpriteFrameTable->findFrameIndexBySpriteName(spriteName);
+
+                if (spriteFrameIndexByName)
+                {
+                    spriteFrameIndex = *spriteFrameIndexByName;
+                    pResolutionSource = "name";
+                }
+            }
+
+            if (spriteFrameIndex == 0)
+            {
+                spriteFrameIndex = spriteId;
+                pResolutionSource = "id";
+            }
+
+            if (spriteFrameIndex == 0)
+            {
+                if (shouldLog)
+                {
+                    std::cout
+                        << "Projectile draw skipped kind=" << kind
+                        << " id=" << runtimeId
+                        << " sprite=\"" << (spriteName.empty() ? "<none>" : spriteName) << "\""
+                        << " spriteId=" << spriteId
+                        << " reason=no_frame_index"
+                        << '\n';
+                }
+                return;
+            }
+
+            const SpriteFrameEntry *pFrame = pSpriteFrameTable->getFrame(spriteFrameIndex, timeTicks);
+
+            if (pFrame == nullptr)
+            {
+                if (shouldLog)
+                {
+                    std::cout
+                        << "Projectile draw skipped kind=" << kind
+                        << " id=" << runtimeId
+                        << " sprite=\"" << (spriteName.empty() ? "<none>" : spriteName) << "\""
+                        << " spriteId=" << spriteId
+                        << " frameIndex=" << spriteFrameIndex
+                        << " source=" << pResolutionSource
+                        << " reason=frame_missing"
+                        << '\n';
+                }
+                return;
+            }
+
+            const ResolvedSpriteTexture resolvedTexture = SpriteFrameTable::resolveTexture(*pFrame, 0);
+            const BillboardTextureHandle *pTexture =
+                ensureSpriteBillboardTexture(resolvedTexture.textureName, pFrame->paletteId);
+
+            if (pTexture == nullptr || !bgfx::isValid(pTexture->textureHandle))
+            {
+                if (shouldLog)
+                {
+                    std::cout
+                        << "Projectile draw skipped kind=" << kind
+                        << " id=" << runtimeId
+                        << " sprite=\"" << (spriteName.empty() ? "<none>" : spriteName) << "\""
+                        << " spriteId=" << spriteId
+                        << " frameIndex=" << spriteFrameIndex
+                        << " source=" << pResolutionSource
+                        << " texture=\"" << resolvedTexture.textureName << "\""
+                        << " palette=" << pFrame->paletteId
+                        << " reason=texture_missing"
+                        << '\n';
+                }
+                return;
+            }
+
+            const float spriteScale = std::max(pFrame->scale, 0.01f);
+            const float worldWidth = static_cast<float>(pTexture->width) * spriteScale;
+            const float worldHeight = static_cast<float>(pTexture->height) * spriteScale;
+
+            if (shouldLog)
+            {
+                std::cout
+                    << "Projectile draw kind=" << kind
+                    << " id=" << runtimeId
+                    << " sprite=\"" << (spriteName.empty() ? "<none>" : spriteName) << "\""
+                    << " spriteId=" << spriteId
+                    << " frameIndex=" << spriteFrameIndex
+                    << " source=" << pResolutionSource
+                    << " texture=\"" << resolvedTexture.textureName << "\""
+                    << " palette=" << pFrame->paletteId
+                    << " texSize=(" << pTexture->width << ", " << pTexture->height << ")"
+                    << " scale=" << spriteScale
+                    << " worldSize=(" << worldWidth << ", " << worldHeight << ")"
+                    << " pos=(" << x << ", " << y << ", " << z << ")"
+                    << " ageTicks=" << timeTicks
+                    << '\n';
+            }
+
+            BillboardDrawItem drawItem = {};
+            drawItem.x = x;
+            drawItem.y = y;
+            drawItem.z = z;
+            drawItem.pFrame = pFrame;
+            drawItem.pTexture = pTexture;
+            drawItem.mirrored = resolvedTexture.mirrored;
+            const float deltaX = x - cameraPosition.x;
+            const float deltaY = y - cameraPosition.y;
+            const float deltaZ = z - cameraPosition.z;
+            drawItem.distanceSquared = deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ;
+            drawItems.push_back(drawItem);
+        };
+
+    for (size_t projectileIndex = 0; projectileIndex < m_pOutdoorWorldRuntime->projectileCount(); ++projectileIndex)
+    {
+        const OutdoorWorldRuntime::ProjectileState *pProjectile =
+            m_pOutdoorWorldRuntime->projectileState(projectileIndex);
+
+        if (pProjectile == nullptr)
+        {
+            continue;
+        }
+
+        const bx::Vec3 trailStart = {
+            pProjectile->x,
+            pProjectile->y,
+            pProjectile->z
+        };
+        const bx::Vec3 trailEnd = {
+            pProjectile->x - pProjectile->velocityX * DebugProjectileTrailSeconds,
+            pProjectile->y - pProjectile->velocityY * DebugProjectileTrailSeconds,
+            pProjectile->z - pProjectile->velocityZ * DebugProjectileTrailSeconds
+        };
+        trailVertices.push_back({trailStart.x, trailStart.y, trailStart.z, 0xff40ffffu});
+        trailVertices.push_back({trailEnd.x, trailEnd.y, trailEnd.z, 0xff40ffffu});
+
+        appendRuntimeDrawItem(
+            pProjectile->projectileId,
+            "projectile",
+            pProjectile->x,
+            pProjectile->y,
+            pProjectile->z,
+            pProjectile->objectSpriteId,
+            pProjectile->objectSpriteName,
+            pProjectile->timeSinceCreatedTicks);
+    }
+
+    for (size_t effectIndex = 0; effectIndex < m_pOutdoorWorldRuntime->projectileImpactCount(); ++effectIndex)
+    {
+        const OutdoorWorldRuntime::ProjectileImpactState *pEffect =
+            m_pOutdoorWorldRuntime->projectileImpactState(effectIndex);
+
+        if (pEffect == nullptr)
+        {
+            continue;
+        }
+
+        appendRuntimeDrawItem(
+            pEffect->effectId,
+            "impact",
+            pEffect->x,
+            pEffect->y,
+            pEffect->z,
+            pEffect->objectSpriteId,
+            pEffect->objectSpriteName,
+            pEffect->timeSinceCreatedTicks);
+    }
+
+    if (!trailVertices.empty())
+    {
+        if (bgfx::getAvailTransientVertexBuffer(static_cast<uint32_t>(trailVertices.size()), TerrainVertex::ms_layout)
+            >= trailVertices.size())
+        {
+            bgfx::TransientVertexBuffer transientVertexBuffer = {};
+            bgfx::allocTransientVertexBuffer(
+                &transientVertexBuffer,
+                static_cast<uint32_t>(trailVertices.size()),
+                TerrainVertex::ms_layout
+            );
+            std::memcpy(
+                transientVertexBuffer.data,
+                trailVertices.data(),
+                static_cast<size_t>(trailVertices.size() * sizeof(TerrainVertex))
+            );
+
+            float modelMatrix[16] = {};
+            bx::mtxIdentity(modelMatrix);
+            bgfx::setTransform(modelMatrix);
+            bgfx::setVertexBuffer(0, &transientVertexBuffer, 0, static_cast<uint32_t>(trailVertices.size()));
+            bgfx::setState(
+                BGFX_STATE_WRITE_RGB
+                | BGFX_STATE_WRITE_A
+                | BGFX_STATE_WRITE_Z
+                | BGFX_STATE_DEPTH_TEST_LEQUAL
+                | BGFX_STATE_PT_LINES
+                | BGFX_STATE_LINEAA
+            );
+            bgfx::submit(viewId, m_programHandle);
+        }
+    }
+
+    std::sort(
+        drawItems.begin(),
+        drawItems.end(),
+        [](const BillboardDrawItem &left, const BillboardDrawItem &right)
+        {
+            return left.distanceSquared > right.distanceSquared;
+        }
+    );
+
+    for (const BillboardDrawItem &drawItem : drawItems)
+    {
+        const SpriteFrameEntry &frame = *drawItem.pFrame;
+        const BillboardTextureHandle &texture = *drawItem.pTexture;
+        const float spriteScale = std::max(frame.scale, 0.01f);
+        const float worldWidth = static_cast<float>(texture.width) * spriteScale;
+        const float worldHeight = static_cast<float>(texture.height) * spriteScale;
+        const float halfWidth = worldWidth * 0.5f;
+        const bx::Vec3 center = {drawItem.x, drawItem.y, drawItem.z + worldHeight * 0.5f};
+        const bx::Vec3 right = {cameraRight.x * halfWidth, cameraRight.y * halfWidth, cameraRight.z * halfWidth};
+        const bx::Vec3 up = {
+            cameraUp.x * worldHeight * 0.5f,
+            cameraUp.y * worldHeight * 0.5f,
+            cameraUp.z * worldHeight * 0.5f
+        };
         const float u0 = drawItem.mirrored ? 1.0f : 0.0f;
         const float u1 = drawItem.mirrored ? 0.0f : 1.0f;
 
@@ -5156,6 +5555,51 @@ bool OutdoorGameView::tryActivateInspectEvent(const InspectHit &inspectHit)
     return true;
 }
 
+bool OutdoorGameView::tryTriggerLocalEventById(uint16_t eventId)
+{
+    EventRuntimeState *pEventRuntimeState =
+        m_pOutdoorWorldRuntime != nullptr ? m_pOutdoorWorldRuntime->eventRuntimeState() : nullptr;
+
+    if (pEventRuntimeState == nullptr || eventId == 0)
+    {
+        return false;
+    }
+
+    std::cout << "Triggering local outdoor event " << eventId << " from hotkey\n";
+
+    const size_t previousMessageCount = pEventRuntimeState->messages.size();
+    const bool executed = m_eventRuntime.executeEventById(
+        m_localEventIrProgram,
+        m_globalEventIrProgram,
+        eventId,
+        *pEventRuntimeState,
+        m_pOutdoorPartyRuntime != nullptr ? &m_pOutdoorPartyRuntime->party() : nullptr,
+        m_pOutdoorWorldRuntime
+    );
+
+    if (!executed)
+    {
+        pEventRuntimeState->lastActivationResult = "event " + std::to_string(eventId) + " unresolved";
+        std::cout << "Outdoor hotkey event " << eventId << " unresolved\n";
+        return false;
+    }
+
+    if (m_pOutdoorWorldRuntime != nullptr)
+    {
+        m_pOutdoorWorldRuntime->applyEventRuntimeState();
+    }
+
+    if (m_pOutdoorPartyRuntime != nullptr)
+    {
+        m_pOutdoorPartyRuntime->applyEventRuntimeState(*pEventRuntimeState);
+    }
+
+    openPendingEventDialog(previousMessageCount, true);
+    pEventRuntimeState->lastActivationResult = "event " + std::to_string(eventId) + " executed";
+    std::cout << "Outdoor hotkey event " << eventId << " executed\n";
+    return true;
+}
+
 void OutdoorGameView::updateCameraFromInput(float deltaSeconds)
 {
     const float displayDeltaSeconds = std::max(deltaSeconds, 0.000001f);
@@ -5719,6 +6163,29 @@ void OutdoorGameView::updateCameraFromInput(float deltaSeconds)
     else
     {
         m_toggleInspectLatch = false;
+    }
+
+    if (pKeyboardState[SDL_SCANCODE_F1])
+    {
+        if (!m_triggerMeteorLatch)
+        {
+            const bool isDwiOutdoor =
+                m_map.has_value()
+                && m_map->id == DwiMapId
+                && m_outdoorMapData.has_value()
+                && m_localEventIrProgram.has_value();
+
+            if (isDwiOutdoor)
+            {
+                tryTriggerLocalEventById(DwiMeteorShowerEventId);
+            }
+
+            m_triggerMeteorLatch = true;
+        }
+    }
+    else
+    {
+        m_triggerMeteorLatch = false;
     }
 
     if (m_pOutdoorPartyRuntime)

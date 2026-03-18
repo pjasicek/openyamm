@@ -675,6 +675,9 @@ bool initializeRegressionScenario(
     scenario.world.initialize(
         selectedMap.map,
         gameDataLoader.getMonsterTable(),
+        gameDataLoader.getMonsterProjectileTable(),
+        gameDataLoader.getObjectTable(),
+        gameDataLoader.getSpellTable(),
         gameDataLoader.getItemTable(),
         selectedMap.outdoorMapData,
         selectedMap.outdoorMapDeltaData,
@@ -1210,6 +1213,9 @@ int HeadlessOutdoorDiagnostics::runSimulateActor(
     outdoorWorldRuntime.initialize(
         selectedMap->map,
         gameDataLoader.getMonsterTable(),
+        gameDataLoader.getMonsterProjectileTable(),
+        gameDataLoader.getObjectTable(),
+        gameDataLoader.getSpellTable(),
         gameDataLoader.getItemTable(),
         selectedMap->outdoorMapData,
         selectedMap->outdoorMapDeltaData,
@@ -1651,6 +1657,9 @@ int HeadlessOutdoorDiagnostics::runOpenEvent(
     outdoorWorldRuntime.initialize(
         selectedMap->map,
         gameDataLoader.getMonsterTable(),
+        gameDataLoader.getMonsterProjectileTable(),
+        gameDataLoader.getObjectTable(),
+        gameDataLoader.getSpellTable(),
         gameDataLoader.getItemTable(),
         selectedMap->outdoorMapData,
         selectedMap->outdoorMapDeltaData,
@@ -1859,6 +1868,9 @@ int HeadlessOutdoorDiagnostics::runOpenActor(
     outdoorWorldRuntime.initialize(
         selectedMap->map,
         gameDataLoader.getMonsterTable(),
+        gameDataLoader.getMonsterProjectileTable(),
+        gameDataLoader.getObjectTable(),
+        gameDataLoader.getSpellTable(),
         gameDataLoader.getItemTable(),
         selectedMap->outdoorMapData,
         selectedMap->outdoorMapDeltaData,
@@ -2000,6 +2012,9 @@ int HeadlessOutdoorDiagnostics::runDialogSequence(
     outdoorWorldRuntime.initialize(
         selectedMap->map,
         gameDataLoader.getMonsterTable(),
+        gameDataLoader.getMonsterProjectileTable(),
+        gameDataLoader.getObjectTable(),
+        gameDataLoader.getSpellTable(),
         gameDataLoader.getItemTable(),
         selectedMap->outdoorMapData,
         selectedMap->outdoorMapDeltaData,
@@ -2380,6 +2395,76 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
                 ++failedCount;
             }
         };
+
+    runCase(
+        "local_event_457_spawns_runtime_fireball_and_cannonball_projectiles",
+        [&](std::string &failure)
+        {
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            if (!executeLocalEventInScenario(gameDataLoader, *selectedMap, scenario, 457))
+            {
+                failure = "event 457 did not execute";
+                return false;
+            }
+
+            if (scenario.world.projectileCount() < 2)
+            {
+                failure = "event 457 did not spawn both runtime projectiles";
+                return false;
+            }
+
+            bool sawFireball = false;
+            bool sawCannonball = false;
+
+            for (size_t projectileIndex = 0; projectileIndex < scenario.world.projectileCount(); ++projectileIndex)
+            {
+                const OutdoorWorldRuntime::ProjectileState *pProjectile = scenario.world.projectileState(projectileIndex);
+
+                if (pProjectile == nullptr)
+                {
+                    failure = "projectile state missing";
+                    return false;
+                }
+
+                sawFireball = sawFireball || pProjectile->spellId == 6 || pProjectile->objectName == "Fireball";
+                sawCannonball = sawCannonball || pProjectile->spellId == 136 || pProjectile->objectName == "Cannonball";
+            }
+
+            if (!sawFireball || !sawCannonball)
+            {
+                failure = !sawFireball ? "fireball projectile missing" : "cannonball projectile missing";
+                return false;
+            }
+
+            bool sawImpact = false;
+
+            for (int step = 0; step < 4096; ++step)
+            {
+                scenario.world.updateMapActors(1.0f / 128.0f, 0.0f, 0.0f, 0.0f);
+
+                if (scenario.world.projectileImpactCount() > 0)
+                {
+                    sawImpact = true;
+                    break;
+                }
+            }
+
+            if (!sawImpact)
+            {
+                failure = "event 457 projectiles never produced an impact";
+                return false;
+            }
+
+            return true;
+        }
+    );
 
     runCase(
         "dwi_world_actor_runtime_state",
@@ -4421,6 +4506,250 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
             }
 
             return true;
+        }
+    );
+
+    runCase(
+        "mixed_actor_53_ranged_release_spawns_arrow_projectile",
+        [&](std::string &failure)
+        {
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            const OutdoorWorldRuntime::MapActorState *pBefore = scenario.world.mapActorState(53);
+
+            if (pBefore == nullptr)
+            {
+                failure = "actor 53 missing";
+                return false;
+            }
+
+            if (!scenario.world.applyPartyAttackToMapActor(
+                    53,
+                    1,
+                    pBefore->preciseX + 64.0f,
+                    pBefore->preciseY,
+                    pBefore->preciseZ))
+            {
+                failure = "could not provoke actor 53";
+                return false;
+            }
+
+            const float partyX = pBefore->preciseX + 3000.0f;
+            const float partyY = pBefore->preciseY;
+            const float partyZ = pBefore->preciseZ;
+            bool sawRangedRelease = false;
+            bool sawProjectileMove = false;
+            float previousProjectileX = 0.0f;
+            float previousProjectileY = 0.0f;
+
+            for (int step = 0; step < 4096; ++step)
+            {
+                scenario.world.updateMapActors(1.0f / 128.0f, partyX, partyY, partyZ);
+
+                for (const OutdoorWorldRuntime::CombatEvent &event : scenario.world.pendingCombatEvents())
+                {
+                    if (event.type == OutdoorWorldRuntime::CombatEvent::Type::MonsterRangedRelease
+                        && event.sourceId == 53)
+                    {
+                        sawRangedRelease = true;
+                    }
+                }
+
+                if (scenario.world.projectileCount() > 0)
+                {
+                    const OutdoorWorldRuntime::ProjectileState *pProjectile = scenario.world.projectileState(0);
+
+                    if (pProjectile == nullptr)
+                    {
+                        failure = "projectile state missing";
+                        return false;
+                    }
+
+                    if (pProjectile->objectName != "Arrow")
+                    {
+                        failure = "actor 53 did not spawn arrow projectile";
+                        return false;
+                    }
+
+                    if (previousProjectileX != 0.0f || previousProjectileY != 0.0f)
+                    {
+                        const float deltaX = std::abs(pProjectile->x - previousProjectileX);
+                        const float deltaY = std::abs(pProjectile->y - previousProjectileY);
+                        sawProjectileMove = sawProjectileMove || deltaX > 1.0f || deltaY > 1.0f;
+                    }
+
+                    previousProjectileX = pProjectile->x;
+                    previousProjectileY = pProjectile->y;
+
+                    if (sawRangedRelease && sawProjectileMove)
+                    {
+                        return true;
+                    }
+                }
+
+                scenario.world.clearPendingCombatEvents();
+            }
+
+            failure = !sawRangedRelease ? "actor 53 never released a ranged projectile" : "arrow never advanced";
+            return false;
+        }
+    );
+
+    runCase(
+        "mixed_actor_53_arrow_hits_party_without_impact_effect",
+        [&](std::string &failure)
+        {
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            const OutdoorWorldRuntime::MapActorState *pBefore = scenario.world.mapActorState(53);
+
+            if (pBefore == nullptr)
+            {
+                failure = "actor 53 missing";
+                return false;
+            }
+
+            if (!scenario.world.applyPartyAttackToMapActor(
+                    53,
+                    1,
+                    pBefore->preciseX + 64.0f,
+                    pBefore->preciseY,
+                    pBefore->preciseZ))
+            {
+                failure = "could not provoke actor 53";
+                return false;
+            }
+
+            const float partyX = pBefore->preciseX + 2200.0f;
+            const float partyY = pBefore->preciseY;
+            const float partyZ = pBefore->preciseZ;
+            bool sawProjectile = false;
+
+            for (int step = 0; step < 4096; ++step)
+            {
+                scenario.world.updateMapActors(1.0f / 128.0f, partyX, partyY, partyZ);
+
+                if (scenario.world.projectileCount() > 0)
+                {
+                    sawProjectile = true;
+                }
+
+                if (sawProjectile && scenario.world.projectileCount() == 0)
+                {
+                    if (scenario.world.projectileImpactCount() != 0)
+                    {
+                        failure = "arrow impact should not spawn a lingering impact effect";
+                        return false;
+                    }
+
+                    return true;
+                }
+            }
+
+            failure = !sawProjectile ? "actor 53 never spawned arrow projectile" : "arrow never resolved";
+            return false;
+        }
+    );
+
+    runCase(
+        "spell_projectile_spawns_visible_impact_effect",
+        [&](std::string &failure)
+        {
+            if (!selectedMap->outdoorMapDeltaData)
+            {
+                failure = "selected map has no outdoor actor data";
+                return false;
+            }
+
+            MapAssetInfo modifiedMap = *selectedMap;
+            modifiedMap.outdoorMapDeltaData = *selectedMap->outdoorMapDeltaData;
+            modifiedMap.outdoorMapDeltaData->actors[53].monsterInfoId = 80;
+            modifiedMap.outdoorMapDeltaData->actors[53].monsterId = 80;
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, modifiedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            const OutdoorWorldRuntime::MapActorState *pBefore = scenario.world.mapActorState(53);
+
+            if (pBefore == nullptr)
+            {
+                failure = "synthetic actor 53 missing";
+                return false;
+            }
+
+            const float partyX = pBefore->preciseX + 2600.0f;
+            const float partyY = pBefore->preciseY;
+            const float partyZ = pBefore->preciseZ;
+
+            if (!scenario.world.debugSpawnMapActorProjectile(
+                    53,
+                    OutdoorWorldRuntime::MonsterAttackAbility::Spell1,
+                    partyX,
+                    partyY,
+                    partyZ))
+            {
+                failure = "could not spawn synthetic spell projectile";
+                return false;
+            }
+
+            bool sawProjectile = false;
+
+            for (int step = 0; step < 4096; ++step)
+            {
+                scenario.world.updateMapActors(1.0f / 128.0f, partyX, partyY, partyZ);
+
+                if (scenario.world.projectileCount() > 0)
+                {
+                    sawProjectile = true;
+                }
+
+                if (scenario.world.projectileImpactCount() > 0)
+                {
+                    const OutdoorWorldRuntime::ProjectileImpactState *pImpact =
+                        scenario.world.projectileImpactState(0);
+
+                    if (pImpact == nullptr)
+                    {
+                        failure = "impact state missing";
+                        return false;
+                    }
+
+                    if (pImpact->objectName != "explosion")
+                    {
+                        failure = "spell impact did not spawn expected explosion effect";
+                        return false;
+                    }
+
+                    return true;
+                }
+            }
+
+            if (!sawProjectile)
+            {
+                failure = "synthetic spell projectile never spawned";
+            }
+            else
+            {
+                failure = "spell impact never spawned";
+            }
+
+            return false;
         }
     );
 

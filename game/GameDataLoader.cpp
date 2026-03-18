@@ -625,7 +625,17 @@ bool GameDataLoader::loadInternal(const Engine::AssetFileSystem &assetFileSystem
         return false;
     }
 
+    if (!loadMonsterProjectileTable(assetFileSystem))
+    {
+        return false;
+    }
+
     if (!loadObjectTable(assetFileSystem))
+    {
+        return false;
+    }
+
+    if (!loadSpellTable(assetFileSystem))
     {
         return false;
     }
@@ -753,9 +763,19 @@ const MonsterTable &GameDataLoader::getMonsterTable() const
     return m_monsterTable;
 }
 
+const MonsterProjectileTable &GameDataLoader::getMonsterProjectileTable() const
+{
+    return m_monsterProjectileTable;
+}
+
 const ObjectTable &GameDataLoader::getObjectTable() const
 {
     return m_objectTable;
+}
+
+const SpellTable &GameDataLoader::getSpellTable() const
+{
+    return m_spellTable;
 }
 
 const ItemTable &GameDataLoader::getItemTable() const
@@ -1161,6 +1181,73 @@ bool GameDataLoader::loadObjectTable(const Engine::AssetFileSystem &assetFileSys
     {
         std::cerr << "Failed to parse object table: Data/EnglishT/dobjlist.bin\n";
         return false;
+    }
+
+    std::vector<std::vector<std::string>> objectRows;
+
+    if (!loadTextTableRows(assetFileSystem, "Data/EnglishT/OBJLIST.TXT", objectRows))
+    {
+        return false;
+    }
+
+    if (!m_objectTable.loadDisplayRows(objectRows))
+    {
+        std::cerr << "Failed to augment object table from Data/EnglishT/OBJLIST.TXT\n";
+        return false;
+    }
+
+    return true;
+}
+
+bool GameDataLoader::loadMonsterProjectileTable(const Engine::AssetFileSystem &assetFileSystem)
+{
+    std::vector<std::vector<std::string>> rows;
+
+    if (!loadTextTableRows(assetFileSystem, "Data/MONSTER_PROJECTILES.txt", rows))
+    {
+        return false;
+    }
+
+    if (!m_monsterProjectileTable.loadFromRows(rows))
+    {
+        std::cerr << "Failed to parse monster projectile table: Data/MONSTER_PROJECTILES.txt\n";
+        return false;
+    }
+
+    return true;
+}
+
+bool GameDataLoader::loadSpellTable(const Engine::AssetFileSystem &assetFileSystem)
+{
+    std::vector<std::vector<std::string>> rows;
+
+    if (!loadTextTableRows(assetFileSystem, "Data/SPELLS.txt", rows))
+    {
+        return false;
+    }
+
+    if (!m_spellTable.loadFromRows(rows))
+    {
+        std::cerr << "Failed to parse spell table: Data/SPELLS.txt\n";
+        return false;
+    }
+
+    if (assetFileSystem.exists("Data/SPELLS_SUPPLEMENTAL.txt"))
+    {
+        std::vector<std::vector<std::string>> supplementalRows;
+
+        if (!loadTextTableRows(assetFileSystem, "Data/SPELLS_SUPPLEMENTAL.txt", supplementalRows))
+        {
+            return false;
+        }
+
+        rows.insert(rows.end(), supplementalRows.begin(), supplementalRows.end());
+
+        if (!m_spellTable.loadFromRows(rows))
+        {
+            std::cerr << "Failed to parse spell table: Data/SPELLS_SUPPLEMENTAL.txt\n";
+            return false;
+        }
     }
 
     return true;

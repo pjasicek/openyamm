@@ -60,6 +60,13 @@ bool isPointInsideOutdoorPolygonProjected(
     const std::vector<bx::Vec3> &vertices,
     const bx::Vec3 &normal
 );
+bool intersectOutdoorSegmentWithFace(
+    const OutdoorFaceGeometryData &geometry,
+    const bx::Vec3 &segmentStart,
+    const bx::Vec3 &segmentEnd,
+    float &intersectionFactor,
+    bx::Vec3 &intersectionPoint
+);
 bool isOutdoorCylinderBlockedByFace(
     const OutdoorFaceGeometryData &geometry,
     float x,

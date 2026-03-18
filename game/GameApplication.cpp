@@ -84,6 +84,9 @@ bool GameApplication::initializeRenderer()
         m_pOutdoorWorldRuntime->initialize(
             selectedMap->map,
             m_gameDataLoader.getMonsterTable(),
+            m_gameDataLoader.getMonsterProjectileTable(),
+            m_gameDataLoader.getObjectTable(),
+            m_gameDataLoader.getSpellTable(),
             m_gameDataLoader.getItemTable(),
             selectedMap->outdoorMapData,
             selectedMap->outdoorMapDeltaData,

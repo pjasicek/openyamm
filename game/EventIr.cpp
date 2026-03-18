@@ -441,6 +441,32 @@ EventIrInstruction EventIrProgram::convertInstruction(
             irInstruction.jumpTargetStep = *jump;
         }
     }
+    else if (irInstruction.operation == EventIrOperation::CastSpell)
+    {
+        const std::optional<uint8_t> spellId = readPayloadValue<uint8_t>(evtInstruction.rawPayload, 0);
+        const std::optional<uint8_t> skillLevel = readPayloadValue<uint8_t>(evtInstruction.rawPayload, 1);
+        const std::optional<uint8_t> skillMastery = readPayloadValue<uint8_t>(evtInstruction.rawPayload, 2);
+        const std::optional<int32_t> fromX = readPayloadValue<int32_t>(evtInstruction.rawPayload, 3);
+        const std::optional<int32_t> fromY = readPayloadValue<int32_t>(evtInstruction.rawPayload, 7);
+        const std::optional<int32_t> fromZ = readPayloadValue<int32_t>(evtInstruction.rawPayload, 11);
+        const std::optional<int32_t> toX = readPayloadValue<int32_t>(evtInstruction.rawPayload, 15);
+        const std::optional<int32_t> toY = readPayloadValue<int32_t>(evtInstruction.rawPayload, 19);
+        const std::optional<int32_t> toZ = readPayloadValue<int32_t>(evtInstruction.rawPayload, 23);
+
+        if (spellId && skillLevel && skillMastery && fromX && fromY && fromZ && toX && toY && toZ)
+        {
+            irInstruction.arguments.clear();
+            irInstruction.arguments.push_back(*spellId);
+            irInstruction.arguments.push_back(*skillLevel);
+            irInstruction.arguments.push_back(*skillMastery);
+            irInstruction.arguments.push_back(static_cast<uint32_t>(*fromX));
+            irInstruction.arguments.push_back(static_cast<uint32_t>(*fromY));
+            irInstruction.arguments.push_back(static_cast<uint32_t>(*fromZ));
+            irInstruction.arguments.push_back(static_cast<uint32_t>(*toX));
+            irInstruction.arguments.push_back(static_cast<uint32_t>(*toY));
+            irInstruction.arguments.push_back(static_cast<uint32_t>(*toZ));
+        }
+    }
 
     switch (irInstruction.operation)
     {
@@ -549,6 +575,27 @@ EventIrInstruction EventIrProgram::convertInstruction(
                      << static_cast<int32_t>(irInstruction.arguments[5]) << ")"
                      << " group=" << irInstruction.arguments[6]
                      << " unique=" << irInstruction.arguments[7];
+                irInstruction.note = note.str();
+            }
+            break;
+        }
+
+        case EventIrOperation::CastSpell:
+        {
+            if (irInstruction.arguments.size() >= 9)
+            {
+                std::ostringstream note;
+                note << "spell=" << irInstruction.arguments[0]
+                     << " skill=" << irInstruction.arguments[1]
+                     << " mastery=" << irInstruction.arguments[2]
+                     << " from=("
+                     << static_cast<int32_t>(irInstruction.arguments[3]) << ","
+                     << static_cast<int32_t>(irInstruction.arguments[4]) << ","
+                     << static_cast<int32_t>(irInstruction.arguments[5]) << ")"
+                     << " to=("
+                     << static_cast<int32_t>(irInstruction.arguments[6]) << ","
+                     << static_cast<int32_t>(irInstruction.arguments[7]) << ","
+                     << static_cast<int32_t>(irInstruction.arguments[8]) << ")";
                 irInstruction.note = note.str();
             }
             break;

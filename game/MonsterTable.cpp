@@ -172,6 +172,18 @@ std::string toLowerCopy(const std::string &value)
     return lowered;
 }
 
+std::string parseMonsterSpellName(const std::string &value)
+{
+    if (!hasMonsterAbilityDescriptor(value))
+    {
+        return {};
+    }
+
+    const size_t commaIndex = value.find(',');
+    const std::string spellName = commaIndex == std::string::npos ? value : value.substr(0, commaIndex);
+    return toLowerCopy(spellName);
+}
+
 bool isNumericString(const std::string &value)
 {
     if (value.empty())
@@ -464,12 +476,18 @@ bool MonsterTable::loadStatsFromRows(const std::vector<std::vector<std::string>>
         entry.hostility = row[12].empty() ? 0 : std::stoi(row[12]);
         entry.speed = row[13].empty() ? 0 : std::stoi(row[13]);
         entry.recovery = row[14].empty() ? 0 : std::stoi(row[14]);
-        entry.attack1HasMissile = row.size() > 19 && hasMonsterAbilityDescriptor(row[19]);
+        entry.attack1MissileType = row.size() > 19 ? row[19] : std::string();
+        entry.attack1HasMissile = hasMonsterAbilityDescriptor(entry.attack1MissileType);
         entry.attack2Chance = row.size() > 20 && !row[20].empty() ? std::stoi(row[20]) : 0;
-        entry.attack2HasMissile = row.size() > 23 && hasMonsterAbilityDescriptor(row[23]);
-        entry.hasSpell1 = row.size() > 25 && hasMonsterAbilityDescriptor(row[25]);
+        entry.attack2MissileType = row.size() > 23 ? row[23] : std::string();
+        entry.attack2HasMissile = hasMonsterAbilityDescriptor(entry.attack2MissileType);
+        entry.spell1Descriptor = row.size() > 25 ? row[25] : std::string();
+        entry.spell1Name = parseMonsterSpellName(entry.spell1Descriptor);
+        entry.hasSpell1 = hasMonsterAbilityDescriptor(entry.spell1Descriptor);
         entry.spell1UseChance = row.size() > 24 && !row[24].empty() ? std::stoi(row[24]) : 0;
-        entry.hasSpell2 = row.size() > 27 && hasMonsterAbilityDescriptor(row[27]);
+        entry.spell2Descriptor = row.size() > 27 ? row[27] : std::string();
+        entry.spell2Name = parseMonsterSpellName(entry.spell2Descriptor);
+        entry.hasSpell2 = hasMonsterAbilityDescriptor(entry.spell2Descriptor);
         entry.spell2UseChance = row.size() > 26 && !row[26].empty() ? std::stoi(row[26]) : 0;
         entry.attackStyle = classifyAttackStyle(entry);
 

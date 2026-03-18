@@ -19,6 +19,7 @@ add_executable(openyamm
     MapRegistry.cpp
     MapStats.cpp
     MasteryTeacherDialog.cpp
+    MonsterProjectileTable.cpp
     MonsterTable.cpp
     NpcDialogTable.cpp
     ObjectTable.cpp
@@ -32,6 +33,7 @@ add_executable(openyamm
     RosterTable.cpp
     SpawnPreview.cpp
     SkillData.cpp
+    SpellTable.cpp
     SpriteTables.cpp
     StrTable.cpp
     OutdoorGameView.cpp
