@@ -784,6 +784,59 @@ float actorCollisionHeight(
     return collisionRadius * 2.0f + 2.0f;
 }
 
+std::vector<OutdoorActorCollision> buildNearbyActorMovementColliders(
+    const std::vector<OutdoorWorldRuntime::MapActorState> &mapActors,
+    const std::vector<bool> &activeActorMask,
+    const MonsterTable &monsterTable)
+{
+    std::vector<OutdoorActorCollision> colliders;
+
+    if (mapActors.empty())
+    {
+        return colliders;
+    }
+
+    colliders.reserve(mapActors.size());
+
+    for (size_t actorIndex = 0; actorIndex < mapActors.size(); ++actorIndex)
+    {
+        if (actorIndex >= activeActorMask.size() || !activeActorMask[actorIndex])
+        {
+            continue;
+        }
+
+        const OutdoorWorldRuntime::MapActorState &actor = mapActors[actorIndex];
+
+        if (actor.isDead || actor.isInvisible)
+        {
+            continue;
+        }
+
+        const MonsterTable::MonsterStatsEntry *pStats = monsterTable.findStatsById(actor.monsterId);
+        const float collisionRadius = actorCollisionRadius(actor, pStats);
+        const float collisionHeight = actorCollisionHeight(actor, collisionRadius);
+
+        if (collisionRadius <= 0.0f || collisionHeight <= 0.0f)
+        {
+            continue;
+        }
+
+        OutdoorActorCollision collider = {};
+        collider.source = OutdoorActorCollisionSource::MapDelta;
+        collider.sourceIndex = actorIndex;
+        collider.radius = static_cast<uint16_t>(std::lround(collisionRadius));
+        collider.height = static_cast<uint16_t>(std::lround(collisionHeight));
+        collider.worldX = static_cast<int>(std::lround(actor.preciseX));
+        collider.worldY = static_cast<int>(std::lround(actor.preciseY));
+        collider.worldZ = static_cast<int>(std::lround(actor.preciseZ + GroundSnapHeight));
+        collider.group = actor.group;
+        collider.name = actor.displayName;
+        colliders.push_back(std::move(collider));
+    }
+
+    return colliders;
+}
+
 void syncActorFromMovementState(OutdoorWorldRuntime::MapActorState &actor)
 {
     actor.preciseX = actor.movementState.x;
@@ -2817,11 +2870,6 @@ void OutdoorWorldRuntime::updateMapActors(float deltaSeconds, float partyX, floa
             activeActorMask[activeActorDistances[index].first] = true;
         }
 
-        if (m_outdoorMovementController)
-        {
-            m_outdoorMovementController->setActorColliders({});
-        }
-
         for (size_t actorIndex = 0; actorIndex < m_mapActors.size(); ++actorIndex)
         {
             MapActorState &actor = m_mapActors[actorIndex];
@@ -3291,6 +3339,8 @@ void OutdoorWorldRuntime::updateMapActors(float deltaSeconds, float partyX, floa
 
                 if (m_outdoorMovementController && actor.movementStateInitialized)
                 {
+                    m_outdoorMovementController->setActorColliders(
+                        buildNearbyActorMovementColliders(m_mapActors, activeActorMask, *m_pMonsterTable));
                     const float collisionRadius = actorCollisionRadius(actor, pStats);
                     const float collisionHeight = actorCollisionHeight(actor, collisionRadius);
                     actor.movementState = m_outdoorMovementController->resolveOutdoorActorMove(
