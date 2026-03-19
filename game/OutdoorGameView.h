@@ -14,7 +14,9 @@
 #include "game/EventRuntime.h"
 #include "game/HouseTable.h"
 #include "game/NpcDialogTable.h"
+#include "game/ObjectTable.h"
 #include "game/RosterTable.h"
+#include "game/SpellTable.h"
 #include "game/StrTable.h"
 #include "engine/AssetFileSystem.h"
 
@@ -25,6 +27,7 @@
 #include <cstdint>
 #include <memory>
 #include <optional>
+#include <unordered_map>
 #include <vector>
 
 namespace OpenYAMM::Game
@@ -63,6 +66,8 @@ public:
         const ClassSkillTable &classSkillTable,
         const NpcDialogTable &npcDialogTable,
         const RosterTable &rosterTable,
+        const ObjectTable &objectTable,
+        const SpellTable &spellTable,
         const ItemTable &itemTable,
         const std::optional<StrTable> &localStrTable,
         const std::optional<EvtProgram> &localEvtProgram,
@@ -123,6 +128,14 @@ private:
         int width = 0;
         int height = 0;
         bgfx::TextureHandle textureHandle = BGFX_INVALID_HANDLE;
+    };
+
+    struct SpriteLoadCache
+    {
+        std::unordered_map<std::string, std::unordered_map<std::string, std::string>> directoryAssetPathsByPath;
+        std::unordered_map<std::string, std::optional<std::string>> assetPathByKey;
+        std::unordered_map<std::string, std::optional<std::vector<uint8_t>>> binaryFilesByPath;
+        std::unordered_map<int16_t, std::optional<std::array<uint8_t, 256 * 3>>> actPalettesById;
     };
 
     struct InspectHit
@@ -190,6 +203,8 @@ private:
     bool tryTriggerLocalEventById(uint16_t eventId);
     void applyPendingCombatEvents();
     void updateCameraFromInput(float deltaSeconds);
+    void buildDecorationBillboardSpatialIndex();
+    void collectDecorationBillboardCandidates(float minX, float minY, float maxX, float maxY, std::vector<size_t> &indices) const;
     void renderDecorationBillboards(
         uint16_t viewId,
         uint16_t viewWidth,
@@ -201,10 +216,28 @@ private:
     void renderGameplayHud(int width, int height) const;
     void renderChestPanel(int width, int height) const;
     void renderEventDialogPanel(int width, int height) const;
-    void renderActorCollisionOverlays(uint16_t viewId) const;
+    void renderActorCollisionOverlays(uint16_t viewId, const bx::Vec3 &cameraPosition) const;
     void renderActorPreviewBillboards(uint16_t viewId, const float *pViewMatrix, const bx::Vec3 &cameraPosition);
     void renderRuntimeProjectiles(uint16_t viewId, const float *pViewMatrix, const bx::Vec3 &cameraPosition);
     void renderSpriteObjectBillboards(uint16_t viewId, const float *pViewMatrix, const bx::Vec3 &cameraPosition);
+    void preloadSpriteFrameTextures(const SpriteFrameTable &spriteFrameTable, uint16_t spriteFrameIndex);
+    void preloadPendingSpriteFrameWarmupsParallel();
+    void queueSpriteFrameWarmup(uint16_t spriteFrameIndex);
+    void queueRuntimeActorBillboardTextureWarmup();
+    void queueEventSpellBillboardTextureWarmup(const EventIrProgram &eventIrProgram);
+    void processPendingSpriteFrameWarmups(size_t maxSpriteFrames);
+    std::optional<std::string> findCachedAssetPath(const std::string &directoryPath, const std::string &fileName);
+    std::optional<std::vector<uint8_t>> readCachedBinaryFile(const std::string &assetPath);
+    std::optional<std::array<uint8_t, 256 * 3>> loadCachedActPalette(int16_t paletteId);
+    std::optional<std::vector<uint8_t>> loadSpriteBitmapPixelsBgraCached(
+        const std::string &textureName,
+        int16_t paletteId,
+        int &width,
+        int &height);
+    std::optional<std::vector<uint8_t>> loadHudBitmapPixelsBgraCached(
+        const std::string &textureName,
+        int &width,
+        int &height);
     void executeActiveDialogAction();
     void openPendingEventDialog(size_t previousMessageCount, bool allowNpcFallbackContent);
     void closeActiveEventDialog();
@@ -235,6 +268,8 @@ private:
     EventRuntime m_eventRuntime;
     std::optional<EventIrProgram> m_localEventIrProgram;
     std::optional<EventIrProgram> m_globalEventIrProgram;
+    const ObjectTable *m_pObjectTable;
+    const SpellTable *m_pSpellTable;
     OutdoorWorldRuntime *m_pOutdoorWorldRuntime;
     bgfx::VertexBufferHandle m_vertexBufferHandle;
     bgfx::IndexBufferHandle m_indexBufferHandle;
@@ -257,6 +292,17 @@ private:
     uint32_t m_spawnMarkerVertexCount;
     std::vector<TexturedBModelBatch> m_texturedBModelBatches;
     std::vector<BillboardTextureHandle> m_billboardTextureHandles;
+    std::unordered_map<int16_t, std::unordered_map<std::string, size_t>> m_billboardTextureIndexByPalette;
+    SpriteLoadCache m_spriteLoadCache;
+    std::vector<uint16_t> m_pendingSpriteFrameWarmups;
+    std::vector<bool> m_queuedSpriteFrameWarmups;
+    size_t m_nextPendingSpriteFrameWarmupIndex;
+    size_t m_runtimeActorBillboardTexturesQueuedCount;
+    std::vector<std::vector<size_t>> m_decorationBillboardGridCells;
+    float m_decorationBillboardGridMinX = 0.0f;
+    float m_decorationBillboardGridMinY = 0.0f;
+    size_t m_decorationBillboardGridWidth = 0;
+    size_t m_decorationBillboardGridHeight = 0;
     std::vector<HudTextureHandle> m_hudTextureHandles;
     float m_cameraTargetX;
     float m_cameraTargetY;
@@ -271,11 +317,13 @@ private:
     bool m_showBModels;
     bool m_showBModelWireframe;
     bool m_showBModelCollisionFaces;
+    bool m_showActorCollisionBoxes;
     bool m_showDecorationBillboards;
     bool m_showActors;
     bool m_showSpriteObjects;
     bool m_showEntities;
     bool m_showSpawns;
+    bool m_showDebugHud;
     bool m_inspectMode;
     bool m_isRotatingCamera;
     float m_lastMouseX;
@@ -285,11 +333,13 @@ private:
     bool m_toggleBModelsLatch;
     bool m_toggleBModelWireframeLatch;
     bool m_toggleBModelCollisionFacesLatch;
+    bool m_toggleActorCollisionBoxesLatch;
     bool m_toggleDecorationBillboardsLatch;
     bool m_toggleActorsLatch;
     bool m_toggleSpriteObjectsLatch;
     bool m_toggleEntitiesLatch;
     bool m_toggleSpawnsLatch;
+    bool m_toggleDebugHudLatch;
     bool m_toggleInspectLatch;
     bool m_triggerMeteorLatch;
     bool m_activateInspectLatch;

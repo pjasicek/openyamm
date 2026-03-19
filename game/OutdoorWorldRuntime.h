@@ -16,6 +16,7 @@
 #include <random>
 #include <optional>
 #include <string>
+#include <unordered_map>
 #include <vector>
 
 namespace OpenYAMM::Game
@@ -60,6 +61,10 @@ public:
         uint32_t actorId = 0;
         int16_t monsterId = 0;
         std::string displayName;
+        uint32_t uniqueNameId = 0;
+        bool spawnedAtRuntime = false;
+        bool fromSpawnPoint = false;
+        size_t spawnPointIndex = static_cast<size_t>(-1);
         uint32_t group = 0;
         uint8_t hostilityType = 0;
         int currentHp = 0;
@@ -79,6 +84,9 @@ public:
         uint16_t radius = 0;
         uint16_t height = 0;
         uint16_t moveSpeed = 0;
+        uint16_t spriteFrameIndex = 0;
+        std::array<uint16_t, 8> actionSpriteFrameIndices = {};
+        bool useStaticSpriteFrame = false;
         bool hostileToParty = false;
         bool isDead = false;
         bool isInvisible = false;
@@ -127,10 +135,12 @@ public:
     {
         uint32_t projectileId = 0;
         uint32_t sourceId = 0;
+        int16_t sourceMonsterId = 0;
         bool fromSummonedMonster = false;
         MonsterAttackAbility ability = MonsterAttackAbility::Attack1;
         uint16_t objectDescriptionId = 0;
         uint16_t objectSpriteId = 0;
+        uint16_t objectSpriteFrameIndex = 0;
         uint16_t impactObjectDescriptionId = 0;
         uint16_t radius = 0;
         uint16_t height = 0;
@@ -156,6 +166,7 @@ public:
         uint32_t effectId = 0;
         uint16_t objectDescriptionId = 0;
         uint16_t objectSpriteId = 0;
+        uint16_t objectSpriteFrameIndex = 0;
         std::string objectName;
         std::string objectSpriteName;
         float x = 0.0f;
@@ -168,35 +179,24 @@ public:
 
     struct SpawnPointState
     {
+        int x = 0;
+        int y = 0;
+        int z = 0;
+        uint16_t radius = 0;
         uint16_t typeId = 0;
         uint16_t index = 0;
+        uint16_t attributes = 0;
         uint32_t group = 0;
         int encounterSlot = 0;
         bool isFixedTier = false;
         char fixedTier = '\0';
+        int minCount = 0;
+        int maxCount = 0;
         int16_t representativeMonsterId = 0;
         uint8_t hostilityType = 0;
         bool hostileToParty = false;
         std::string monsterFamilyName;
         std::string representativePictureName;
-    };
-
-    struct SummonedMonsterState
-    {
-        uint32_t summonId = 0;
-        int16_t monsterId = 0;
-        std::string displayName;
-        uint32_t group = 0;
-        int x = 0;
-        int y = 0;
-        int z = 0;
-        uint32_t uniqueNameId = 0;
-        uint8_t hostilityType = 0;
-        int currentHp = 0;
-        int maxHp = 0;
-        bool hostileToParty = false;
-        bool isDead = false;
-        bool isInvisible = false;
     };
 
     struct ChestItemState
@@ -255,7 +255,8 @@ public:
         const std::optional<std::vector<uint8_t>> &outdoorLandMask = std::nullopt,
         const std::optional<OutdoorDecorationCollisionSet> &outdoorDecorationCollisionSet = std::nullopt,
         const std::optional<OutdoorActorCollisionSet> &outdoorActorCollisionSet = std::nullopt,
-        const std::optional<OutdoorSpriteObjectCollisionSet> &outdoorSpriteObjectCollisionSet = std::nullopt
+        const std::optional<OutdoorSpriteObjectCollisionSet> &outdoorSpriteObjectCollisionSet = std::nullopt,
+        const std::optional<SpriteObjectBillboardSet> &outdoorSpriteObjectBillboardSet = std::nullopt
     );
 
     bool isInitialized() const;
@@ -282,14 +283,12 @@ public:
         float targetX,
         float targetY,
         float targetZ);
+    bool debugSpawnEncounterFromSpawnPoint(size_t spawnIndex, uint32_t countOverride = 0);
     bool setMapActorDead(size_t actorIndex, bool isDead);
     bool applyPartyAttackToMapActor(size_t actorIndex, int damage, float partyX, float partyY, float partyZ);
     bool notifyPartyContactWithMapActor(size_t actorIndex, float partyX, float partyY, float partyZ);
     size_t spawnPointCount() const;
     const SpawnPointState *spawnPointState(size_t spawnIndex) const;
-    size_t summonedMonsterCount() const;
-    const SummonedMonsterState *summonedMonsterState(size_t summonIndex) const;
-    bool setSummonedMonsterDead(size_t summonIndex, bool isDead);
     size_t chestCount() const;
     size_t openedChestCount() const;
     const ChestViewState *activeChestView() const;
@@ -365,6 +364,7 @@ public:
     {
         RuntimeSpellSourceKind sourceKind = RuntimeSpellSourceKind::Event;
         uint32_t sourceId = 0;
+        int16_t sourceMonsterId = 0;
         bool fromSummonedMonster = false;
         MonsterAttackAbility ability = MonsterAttackAbility::Spell1;
         uint32_t spellId = 0;
@@ -376,6 +376,13 @@ public:
         float targetX = 0.0f;
         float targetY = 0.0f;
         float targetZ = 0.0f;
+    };
+
+    struct MonsterVisualState
+    {
+        uint16_t spriteFrameIndex = 0;
+        std::array<uint16_t, 8> actionSpriteFrameIndices = {};
+        bool useStaticFrame = false;
     };
 
 private:
@@ -390,6 +397,21 @@ private:
         MonsterTable::LootItemKind itemKind,
         std::mt19937 &rng
     ) const;
+    bool applyMonsterAttackToMapActor(size_t actorIndex, int damage, uint32_t sourceActorId);
+    bool spawnEncounterFromResolvedData(
+        int encounterSlot,
+        char fixedTier,
+        uint32_t count,
+        float x,
+        float y,
+        float z,
+        uint16_t radius,
+        uint16_t attributes,
+        uint32_t group,
+        uint32_t uniqueNameId,
+        bool fromSpawnPoint,
+        size_t spawnPointIndex,
+        bool aggro);
     bool setMapActorHostileToParty(size_t actorIndex, float partyX, float partyY, float partyZ, bool resetActionState);
     void aggroNearbyMapActorFaction(size_t actorIndex, float partyX, float partyY, float partyZ);
     ChestViewState buildChestView(uint32_t chestId) const;
@@ -433,6 +455,8 @@ private:
         float targetZ,
         float spawnForwardOffset
     );
+    void buildOutdoorFaceSpatialIndex();
+    void collectOutdoorFaceCandidates(float minX, float minY, float maxX, float maxY, std::vector<size_t> &indices) const;
     void updateProjectiles(float deltaSeconds, float partyX, float partyY, float partyZ);
     void spawnProjectileImpact(const ProjectileState &projectile, float x, float y, float z);
 
@@ -444,7 +468,6 @@ private:
     std::vector<TimerState> m_timers;
     std::vector<MapActorState> m_mapActors;
     std::vector<SpawnPointState> m_spawnPoints;
-    std::vector<SummonedMonsterState> m_summonedMonsters;
     std::vector<MapDeltaChest> m_chests;
     std::vector<bool> m_openedChests;
     std::vector<std::optional<ChestViewState>> m_materializedChestViews;
@@ -457,13 +480,20 @@ private:
     const OutdoorMapData *m_pOutdoorMapData = nullptr;
     const MapDeltaData *m_pOutdoorMapDeltaData = nullptr;
     const SpellTable *m_pSpellTable = nullptr;
+    const SpriteFrameTable *m_pActorSpriteFrameTable = nullptr;
+    const SpriteFrameTable *m_pProjectileSpriteFrameTable = nullptr;
     std::vector<OutdoorFaceGeometryData> m_outdoorFaces;
+    std::vector<std::vector<size_t>> m_outdoorFaceGridCells;
+    float m_outdoorFaceGridMinX = 0.0f;
+    float m_outdoorFaceGridMinY = 0.0f;
+    size_t m_outdoorFaceGridWidth = 0;
+    size_t m_outdoorFaceGridHeight = 0;
     std::optional<OutdoorMovementController> m_outdoorMovementController;
+    std::unordered_map<int16_t, MonsterVisualState> m_monsterVisualsById;
     float m_actorUpdateAccumulatorSeconds = 0.0f;
     uint32_t m_sessionChestSeed = 0;
-    uint32_t m_nextSummonId = 1;
+    uint32_t m_nextActorId = 0;
     std::vector<std::optional<CorpseViewState>> m_mapActorCorpseViews;
-    std::vector<std::optional<CorpseViewState>> m_summonedMonsterCorpseViews;
     std::optional<CorpseViewState> m_activeCorpseView;
     std::vector<AudioEvent> m_pendingAudioEvents;
     std::vector<CombatEvent> m_pendingCombatEvents;

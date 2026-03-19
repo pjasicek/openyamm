@@ -26,6 +26,7 @@ public:
 private:
     bool loadGameData(const Engine::AssetFileSystem &assetFileSystem);
     bool initializeRenderer();
+    void shutdownRenderer();
     bool reloadSelectedMap();
     bool processPendingOutdoorMapMove();
     void updateMapPickerInput();

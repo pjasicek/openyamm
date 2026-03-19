@@ -15,6 +15,7 @@ constexpr float AllowedCollisionOvershoot = -100.0f;
 constexpr float ClosestDistance = 0.5f;
 constexpr float FloorSelectionHeightTolerance = 5.0f;
 constexpr float FloorCheckSlack = 5.0f;
+constexpr float FaceGridCellSize = 2048.0f;
 constexpr float WalkableNormalZ = 0.70767211914f;
 constexpr float DefaultBodyRadius = 37.0f;
 constexpr float DefaultBodyHeight = 192.0f;
@@ -772,9 +773,11 @@ void collideBodyWithFace(CollisionState &collisionState, const OutdoorFaceGeomet
 
 void collideOutdoorWithModels(
     CollisionState &collisionState,
-    const std::vector<OutdoorFaceGeometryData> &faces)
+    const std::vector<OutdoorFaceGeometryData> &faces,
+    const std::vector<size_t> *pCandidateFaceIndices = nullptr)
 {
-    for (const OutdoorFaceGeometryData &geometry : faces)
+    auto collideFace =
+        [&collisionState](const OutdoorFaceGeometryData &geometry)
     {
         if (!bboxIntersects(
                 collisionState.bboxMinX,
@@ -790,10 +793,30 @@ void collideOutdoorWithModels(
                 geometry.maxY,
                 geometry.maxZ))
         {
-            continue;
+            return;
         }
 
         collideBodyWithFace(collisionState, geometry);
+    };
+
+    if (pCandidateFaceIndices != nullptr)
+    {
+        for (size_t faceIndex : *pCandidateFaceIndices)
+        {
+            if (faceIndex >= faces.size())
+            {
+                return;
+            }
+
+            collideFace(faces[faceIndex]);
+        }
+
+        return;
+    }
+
+    for (const OutdoorFaceGeometryData &geometry : faces)
+    {
+        collideFace(geometry);
     }
 }
 
@@ -854,12 +877,12 @@ void collideOutdoorWithDecorations(
                     moveDistance,
                     collisionPoint))
             {
-                continue;
+                return;
             }
 
             if (moveDistance <= AllowedCollisionOvershoot || moveDistance >= collisionState.adjustedMoveDistance)
             {
-                continue;
+                return;
             }
 
             const bx::Vec3 outward = vecNormalize(
@@ -1024,14 +1047,15 @@ void collideOutdoorWithActors(
 
 void collideOutdoorWithSpriteObjects(
     CollisionState &collisionState,
-    const std::vector<OutdoorSpriteObjectCollision> &spriteObjectColliders)
+    const std::vector<OutdoorSpriteObjectCollision> &spriteObjectColliders,
+    const std::vector<size_t> *pCandidateIndices)
 {
-    auto collideOnce = [&collisionState, &spriteObjectColliders](
+    auto collideOnce = [&collisionState, &spriteObjectColliders, pCandidateIndices](
                            const bx::Vec3 &position,
                            float radius,
                            float heightOffset)
     {
-        for (size_t objectIndex = 0; objectIndex < spriteObjectColliders.size(); ++objectIndex)
+        auto collideObject = [&](size_t objectIndex)
         {
             const OutdoorSpriteObjectCollision &collider = spriteObjectColliders[objectIndex];
             const bx::Vec3 centerLo = {
@@ -1062,7 +1086,7 @@ void collideOutdoorWithSpriteObjects(
                     cylinderMaxY,
                     cylinderMaxZ))
             {
-                continue;
+                return;
             }
 
             float moveDistance = collisionState.adjustedMoveDistance;
@@ -1079,12 +1103,12 @@ void collideOutdoorWithSpriteObjects(
                     moveDistance,
                     collisionPoint))
             {
-                continue;
+                return;
             }
 
             if (moveDistance <= AllowedCollisionOvershoot || moveDistance >= collisionState.adjustedMoveDistance)
             {
-                continue;
+                return;
             }
 
             const bx::Vec3 outward = vecNormalize(
@@ -1111,6 +1135,21 @@ void collideOutdoorWithSpriteObjects(
                 centerLo.z,
                 centerLo.z + colliderHeight
             };
+        };
+
+        if (pCandidateIndices != nullptr)
+        {
+            for (size_t objectIndex : *pCandidateIndices)
+            {
+                collideObject(objectIndex);
+            }
+        }
+        else
+        {
+            for (size_t objectIndex = 0; objectIndex < spriteObjectColliders.size(); ++objectIndex)
+            {
+                collideObject(objectIndex);
+            }
         }
     };
 
@@ -1236,6 +1275,7 @@ FloorSample queryFloorLevel(
     const OutdoorMapData &outdoorMapData,
     const std::vector<OutdoorFaceGeometryData> &faces,
     const std::optional<OutdoorMoveState> &preferredState,
+    const std::vector<size_t> *pCandidateFaceIndices,
     float bodyRadius,
     float maxFloorRise,
     float x,
@@ -1255,7 +1295,8 @@ FloorSample queryFloorLevel(
     };
     std::vector<FloorSample> samples;
 
-    for (const OutdoorFaceGeometryData &geometry : faces)
+    auto appendFloorSample =
+        [&](const OutdoorFaceGeometryData &geometry)
     {
         if (!geometry.isWalkable
             || x < geometry.minX
@@ -1264,14 +1305,14 @@ FloorSample queryFloorLevel(
             || y > geometry.maxY
             || !isPointInsideOrNearPolygon(x, y, geometry.vertices, FloorCheckSlack))
         {
-            continue;
+            return;
         }
 
         float height = 0.0f;
 
         if (!calculateFaceHeight(geometry, x, y, height))
         {
-            continue;
+            return;
         }
 
         samples.push_back({
@@ -1284,6 +1325,41 @@ FloorSample queryFloorLevel(
             geometry.bModelIndex,
             geometry.faceIndex
         });
+    };
+
+    if (pCandidateFaceIndices != nullptr)
+    {
+        for (size_t faceIndex : *pCandidateFaceIndices)
+        {
+            if (faceIndex >= faces.size())
+            {
+                continue;
+            }
+
+            appendFloorSample(faces[faceIndex]);
+        }
+
+        FloorSample bestSample = chooseBestFloorSample(terrainSample, samples, z, maxFloorRise);
+
+        if (preferredState)
+        {
+            const std::optional<FloorSample> preferredSample =
+                queryPreferredSupportFloor(faces, *preferredState, bodyRadius, maxFloorRise, x, y, z);
+
+            if (preferredSample
+                && preferredSample->height >= bestSample.height
+                && preferredSample->height <= z + maxFloorRise)
+            {
+                bestSample = *preferredSample;
+            }
+        }
+
+        return bestSample;
+    }
+
+    for (const OutdoorFaceGeometryData &geometry : faces)
+    {
+        appendFloorSample(geometry);
     }
 
     FloorSample bestSample = chooseBestFloorSample(terrainSample, samples, z, maxFloorRise);
@@ -1333,11 +1409,19 @@ OutdoorMoveState OutdoorMovementController::initializeStateForBody(
     float footZHint,
     float bodyRadius) const
 {
+    std::vector<size_t> candidateFaceIndices;
+    collectFaceCandidates(
+        x - std::max(bodyRadius, FloorCheckSlack),
+        y - std::max(bodyRadius, FloorCheckSlack),
+        x + std::max(bodyRadius, FloorCheckSlack),
+        y + std::max(bodyRadius, FloorCheckSlack),
+        candidateFaceIndices);
     const FloorSample floor =
         queryFloorLevel(
             *m_pOutdoorMapData,
             m_faces,
             std::nullopt,
+            &candidateFaceIndices,
             bodyRadius,
             FloorSelectionHeightTolerance,
             x,
@@ -1407,11 +1491,19 @@ OutdoorMoveState OutdoorMovementController::resolveMoveForBody(
 {
     const float bodyRadius = std::max(1.0f, body.radius);
     const float bodyHeight = std::max(bodyRadius * 2.0f + 2.0f, body.height);
+    std::vector<size_t> candidateFaceIndices;
+    collectFaceCandidates(
+        state.x - std::max(bodyRadius, FloorCheckSlack),
+        state.y - std::max(bodyRadius, FloorCheckSlack),
+        state.x + std::max(bodyRadius, FloorCheckSlack),
+        state.y + std::max(bodyRadius, FloorCheckSlack),
+        candidateFaceIndices);
     const FloorSample currentFloor =
         queryFloorLevel(
             *m_pOutdoorMapData,
             m_faces,
             state,
+            &candidateFaceIndices,
             bodyRadius,
             FloorSelectionHeightTolerance,
             state.x,
@@ -1476,7 +1568,8 @@ OutdoorMoveState OutdoorMovementController::resolveMoveForBody(
     }
 
     const auto runCollisionPass =
-        [this, deltaSeconds, &state, pContactedActorIndices, bodyRadius, bodyHeight, &ignoredActorCollider](
+        [this, deltaSeconds, &state, pContactedActorIndices, bodyRadius, bodyHeight, &ignoredActorCollider,
+            &candidateFaceIndices](
             bx::Vec3 &passPosition,
             bx::Vec3 &passInputSpeed,
             bool &passPartyNotOnModel)
@@ -1488,6 +1581,7 @@ OutdoorMoveState OutdoorMovementController::resolveMoveForBody(
 
         for (int attempt = 0; attempt < 5; ++attempt)
         {
+            std::vector<size_t> candidateSpriteObjectIndices;
             resolveActorCylinderOverlaps(
                 passPosition,
                 bodyRadius,
@@ -1504,10 +1598,25 @@ OutdoorMoveState OutdoorMovementController::resolveMoveForBody(
                 break;
             }
 
-            collideOutdoorWithModels(collisionState, m_faces);
+            collectFaceCandidates(
+                collisionState.bboxMinX,
+                collisionState.bboxMinY,
+                collisionState.bboxMaxX,
+                collisionState.bboxMaxY,
+                candidateFaceIndices);
+            collideOutdoorWithModels(collisionState, m_faces, &candidateFaceIndices);
             collideOutdoorWithDecorations(collisionState, m_decorationColliders);
             collideOutdoorWithActors(collisionState, m_actorColliders, ignoredActorCollider);
-            collideOutdoorWithSpriteObjects(collisionState, m_spriteObjectColliders);
+            collectSpriteObjectCandidates(
+                collisionState.bboxMinX,
+                collisionState.bboxMinY,
+                collisionState.bboxMaxX,
+                collisionState.bboxMaxY,
+                candidateSpriteObjectIndices);
+            collideOutdoorWithSpriteObjects(
+                collisionState,
+                m_spriteObjectColliders,
+                candidateSpriteObjectIndices.empty() ? nullptr : &candidateSpriteObjectIndices);
 
             bx::Vec3 newPosLow = {0.0f, 0.0f, 0.0f};
 
@@ -1528,28 +1637,49 @@ OutdoorMoveState OutdoorMovementController::resolveMoveForBody(
                     vecSubtract(collisionState.collisionPoint, vecScale(collisionState.direction, ClosestDistance));
             }
 
+            collectFaceCandidates(
+                newPosLow.x - std::max(bodyRadius, FloorCheckSlack),
+                newPosLow.y - std::max(bodyRadius, FloorCheckSlack),
+                newPosLow.x + std::max(bodyRadius, FloorCheckSlack),
+                newPosLow.y + std::max(bodyRadius, FloorCheckSlack),
+                candidateFaceIndices);
             const FloorSample allNewFloor = queryFloorLevel(
                 *m_pOutdoorMapData,
                 m_faces,
                 state,
+                &candidateFaceIndices,
                 bodyRadius,
                 FloorSelectionHeightTolerance,
                 newPosLow.x,
                 newPosLow.y,
                 newPosLow.z);
+            collectFaceCandidates(
+                newPosLow.x - std::max(bodyRadius, FloorCheckSlack),
+                passPosition.y - std::max(bodyRadius, FloorCheckSlack),
+                newPosLow.x + std::max(bodyRadius, FloorCheckSlack),
+                passPosition.y + std::max(bodyRadius, FloorCheckSlack),
+                candidateFaceIndices);
             const FloorSample xAdvanceFloor = queryFloorLevel(
                 *m_pOutdoorMapData,
                 m_faces,
                 state,
+                &candidateFaceIndices,
                 bodyRadius,
                 FloorSelectionHeightTolerance,
                 newPosLow.x,
                 passPosition.y,
                 newPosLow.z);
+            collectFaceCandidates(
+                passPosition.x - std::max(bodyRadius, FloorCheckSlack),
+                newPosLow.y - std::max(bodyRadius, FloorCheckSlack),
+                passPosition.x + std::max(bodyRadius, FloorCheckSlack),
+                newPosLow.y + std::max(bodyRadius, FloorCheckSlack),
+                candidateFaceIndices);
             const FloorSample yAdvanceFloor = queryFloorLevel(
                 *m_pOutdoorMapData,
                 m_faces,
                 state,
+                &candidateFaceIndices,
                 bodyRadius,
                 FloorSelectionHeightTolerance,
                 passPosition.x,
@@ -1707,14 +1837,7 @@ OutdoorMoveState OutdoorMovementController::resolveMoveForBody(
 
             const OutdoorFaceGeometryData *pGeometry = nullptr;
 
-            for (const OutdoorFaceGeometryData &geometry : m_faces)
-            {
-                if (geometry.bModelIndex == hit.bModelIndex && geometry.faceIndex == hit.faceIndex)
-                {
-                    pGeometry = &geometry;
-                    break;
-                }
-            }
+            pGeometry = findFaceGeometry(hit.bModelIndex, hit.faceIndex);
 
             if (!pGeometry)
             {
@@ -1804,10 +1927,17 @@ OutdoorMoveState OutdoorMovementController::resolveMoveForBody(
         partyInputSpeed.z = savedZSpeed;
     }
 
+    collectFaceCandidates(
+        partyNewPosition.x - std::max(bodyRadius, FloorCheckSlack),
+        partyNewPosition.y - std::max(bodyRadius, FloorCheckSlack),
+        partyNewPosition.x + std::max(bodyRadius, FloorCheckSlack),
+        partyNewPosition.y + std::max(bodyRadius, FloorCheckSlack),
+        candidateFaceIndices);
     const FloorSample finalFloor = queryFloorLevel(
         *m_pOutdoorMapData,
         m_faces,
         state,
+        &candidateFaceIndices,
         bodyRadius,
         FloorSelectionHeightTolerance,
         partyNewPosition.x,
@@ -1870,10 +2000,18 @@ OutdoorMoveState OutdoorMovementController::resolveOutdoorActorMove(
     const float bodyRadius = std::max(1.0f, body.radius);
     const float bodyHeight = std::max(bodyRadius * 2.0f + 2.0f, body.height);
     const float maxStepHeight = 128.0f;
+    std::vector<size_t> candidateFaceIndices;
+    collectFaceCandidates(
+        state.x - std::max(bodyRadius, FloorCheckSlack),
+        state.y - std::max(bodyRadius, FloorCheckSlack),
+        state.x + std::max(bodyRadius, FloorCheckSlack),
+        state.y + std::max(bodyRadius, FloorCheckSlack),
+        candidateFaceIndices);
     const FloorSample currentFloor = queryFloorLevel(
         *m_pOutdoorMapData,
         m_faces,
         state,
+        &candidateFaceIndices,
         bodyRadius,
         maxStepHeight,
         state.x,
@@ -1930,6 +2068,7 @@ OutdoorMoveState OutdoorMovementController::resolveOutdoorActorMove(
 
     for (int attempt = 0; attempt < 100; ++attempt)
     {
+        std::vector<size_t> candidateSpriteObjectIndices;
         resolveActorCylinderOverlaps(
             actorPosition,
             bodyRadius,
@@ -1946,16 +2085,38 @@ OutdoorMoveState OutdoorMovementController::resolveOutdoorActorMove(
             break;
         }
 
-        collideOutdoorWithModels(collisionState, m_faces);
+        collectFaceCandidates(
+            collisionState.bboxMinX,
+            collisionState.bboxMinY,
+            collisionState.bboxMaxX,
+            collisionState.bboxMaxY,
+            candidateFaceIndices);
+        collideOutdoorWithModels(collisionState, m_faces, &candidateFaceIndices);
         collideOutdoorWithDecorations(collisionState, m_decorationColliders);
         collideOutdoorWithActors(collisionState, m_actorColliders, ignoredActorCollider);
-        collideOutdoorWithSpriteObjects(collisionState, m_spriteObjectColliders);
+        collectSpriteObjectCandidates(
+            collisionState.bboxMinX,
+            collisionState.bboxMinY,
+            collisionState.bboxMaxX,
+            collisionState.bboxMaxY,
+            candidateSpriteObjectIndices);
+        collideOutdoorWithSpriteObjects(
+            collisionState,
+            m_spriteObjectColliders,
+            candidateSpriteObjectIndices.empty() ? nullptr : &candidateSpriteObjectIndices);
 
         actorPosition = vecAdd(actorPosition, vecScale(collisionState.direction, collisionState.adjustedMoveDistance));
+        collectFaceCandidates(
+            actorPosition.x - std::max(bodyRadius, FloorCheckSlack),
+            actorPosition.y - std::max(bodyRadius, FloorCheckSlack),
+            actorPosition.x + std::max(bodyRadius, FloorCheckSlack),
+            actorPosition.y + std::max(bodyRadius, FloorCheckSlack),
+            candidateFaceIndices);
         const FloorSample newFloor = queryFloorLevel(
             *m_pOutdoorMapData,
             m_faces,
             state,
+            &candidateFaceIndices,
             bodyRadius,
             maxStepHeight,
             actorPosition.x,
@@ -2056,14 +2217,7 @@ OutdoorMoveState OutdoorMovementController::resolveOutdoorActorMove(
 
         const OutdoorFaceGeometryData *pGeometry = nullptr;
 
-        for (const OutdoorFaceGeometryData &geometry : m_faces)
-        {
-            if (geometry.bModelIndex == hit.bModelIndex && geometry.faceIndex == hit.faceIndex)
-            {
-                pGeometry = &geometry;
-                break;
-            }
-        }
+        pGeometry = findFaceGeometry(hit.bModelIndex, hit.faceIndex);
 
         if (pGeometry == nullptr)
         {
@@ -2106,10 +2260,17 @@ OutdoorMoveState OutdoorMovementController::resolveOutdoorActorMove(
         actorVelocity = vecScale(actorVelocity, 0.89263916f);
     }
 
+    collectFaceCandidates(
+        actorPosition.x - std::max(bodyRadius, FloorCheckSlack),
+        actorPosition.y - std::max(bodyRadius, FloorCheckSlack),
+        actorPosition.x + std::max(bodyRadius, FloorCheckSlack),
+        actorPosition.y + std::max(bodyRadius, FloorCheckSlack),
+        candidateFaceIndices);
     const FloorSample finalFloor = queryFloorLevel(
         *m_pOutdoorMapData,
         m_faces,
         state,
+        &candidateFaceIndices,
         bodyRadius,
         maxStepHeight,
         actorPosition.x,
@@ -2144,6 +2305,7 @@ void OutdoorMovementController::setActorColliders(const std::vector<OutdoorActor
 void OutdoorMovementController::buildFaceCache()
 {
     m_faces.clear();
+    m_faceIndexById.clear();
 
     for (size_t bModelIndex = 0; bModelIndex < m_pOutdoorMapData->bmodels.size(); ++bModelIndex)
     {
@@ -2167,8 +2329,179 @@ void OutdoorMovementController::buildFaceCache()
 
             geometry.normal = vecScale(geometry.normal, -1.0f);
             m_faces.push_back(std::move(geometry));
+            const uint64_t faceId =
+                (static_cast<uint64_t>(bModelIndex) << 32) | static_cast<uint32_t>(faceIndex);
+            m_faceIndexById[faceId] = m_faces.size() - 1;
         }
     }
+
+    buildFaceSpatialIndex();
+}
+
+void OutdoorMovementController::buildFaceSpatialIndex()
+{
+    m_faceGridCells.clear();
+    m_faceGridVisitMarks.clear();
+    m_faceGridVisitGeneration = 1;
+    m_faceGridMinX = 0.0f;
+    m_faceGridMinY = 0.0f;
+    m_faceGridWidth = 0;
+    m_faceGridHeight = 0;
+
+    if (m_faces.empty())
+    {
+        return;
+    }
+
+    float minX = m_faces.front().minX;
+    float minY = m_faces.front().minY;
+    float maxX = m_faces.front().maxX;
+    float maxY = m_faces.front().maxY;
+
+    for (const OutdoorFaceGeometryData &face : m_faces)
+    {
+        minX = std::min(minX, face.minX);
+        minY = std::min(minY, face.minY);
+        maxX = std::max(maxX, face.maxX);
+        maxY = std::max(maxY, face.maxY);
+    }
+
+    m_faceGridMinX = minX;
+    m_faceGridMinY = minY;
+    m_faceGridWidth = std::max<size_t>(1, static_cast<size_t>(std::floor((maxX - minX) / FaceGridCellSize)) + 1);
+    m_faceGridHeight = std::max<size_t>(1, static_cast<size_t>(std::floor((maxY - minY) / FaceGridCellSize)) + 1);
+    m_faceGridCells.assign(m_faceGridWidth * m_faceGridHeight, {});
+    m_faceGridVisitMarks.assign(m_faces.size(), 0);
+    const auto clampCellX =
+        [this](float x)
+    {
+        const int cell = static_cast<int>(std::floor((x - m_faceGridMinX) / FaceGridCellSize));
+        return static_cast<size_t>(std::clamp(cell, 0, static_cast<int>(m_faceGridWidth) - 1));
+    };
+    const auto clampCellY =
+        [this](float y)
+    {
+        const int cell = static_cast<int>(std::floor((y - m_faceGridMinY) / FaceGridCellSize));
+        return static_cast<size_t>(std::clamp(cell, 0, static_cast<int>(m_faceGridHeight) - 1));
+    };
+
+    for (size_t faceIndex = 0; faceIndex < m_faces.size(); ++faceIndex)
+    {
+        const OutdoorFaceGeometryData &face = m_faces[faceIndex];
+        const size_t minCellX = clampCellX(face.minX);
+        const size_t maxCellX = clampCellX(face.maxX);
+        const size_t minCellY = clampCellY(face.minY);
+        const size_t maxCellY = clampCellY(face.maxY);
+
+        for (size_t cellY = minCellY; cellY <= maxCellY; ++cellY)
+        {
+            for (size_t cellX = minCellX; cellX <= maxCellX; ++cellX)
+            {
+                m_faceGridCells[cellY * m_faceGridWidth + cellX].push_back(faceIndex);
+            }
+        }
+    }
+}
+
+void OutdoorMovementController::collectFaceCandidates(
+    float minX,
+    float minY,
+    float maxX,
+    float maxY,
+    std::vector<size_t> &faceIndices) const
+{
+    faceIndices.clear();
+
+    if (m_faces.empty())
+    {
+        return;
+    }
+
+    if (m_faceGridCells.empty() || m_faceGridWidth == 0 || m_faceGridHeight == 0)
+    {
+        faceIndices.reserve(m_faces.size());
+
+        for (size_t faceIndex = 0; faceIndex < m_faces.size(); ++faceIndex)
+        {
+            faceIndices.push_back(faceIndex);
+        }
+
+        return;
+    }
+
+    if (m_faceGridVisitMarks.size() != m_faces.size())
+    {
+        m_faceGridVisitMarks.assign(m_faces.size(), 0);
+        m_faceGridVisitGeneration = 1;
+    }
+
+    ++m_faceGridVisitGeneration;
+
+    if (m_faceGridVisitGeneration == 0)
+    {
+        std::fill(m_faceGridVisitMarks.begin(), m_faceGridVisitMarks.end(), 0);
+        m_faceGridVisitGeneration = 1;
+    }
+
+    const float clampedMinX = std::min(minX, maxX);
+    const float clampedMinY = std::min(minY, maxY);
+    const float clampedMaxX = std::max(minX, maxX);
+    const float clampedMaxY = std::max(minY, maxY);
+    const int minCellX = std::clamp(
+        static_cast<int>(std::floor((clampedMinX - m_faceGridMinX) / FaceGridCellSize)),
+        0,
+        static_cast<int>(m_faceGridWidth) - 1);
+    const int maxCellX = std::clamp(
+        static_cast<int>(std::floor((clampedMaxX - m_faceGridMinX) / FaceGridCellSize)),
+        0,
+        static_cast<int>(m_faceGridWidth) - 1);
+    const int minCellY = std::clamp(
+        static_cast<int>(std::floor((clampedMinY - m_faceGridMinY) / FaceGridCellSize)),
+        0,
+        static_cast<int>(m_faceGridHeight) - 1);
+    const int maxCellY = std::clamp(
+        static_cast<int>(std::floor((clampedMaxY - m_faceGridMinY) / FaceGridCellSize)),
+        0,
+        static_cast<int>(m_faceGridHeight) - 1);
+
+    for (int cellY = minCellY; cellY <= maxCellY; ++cellY)
+    {
+        for (int cellX = minCellX; cellX <= maxCellX; ++cellX)
+        {
+            const size_t gridIndex = static_cast<size_t>(cellY) * m_faceGridWidth + static_cast<size_t>(cellX);
+            const std::vector<size_t> &cellFaceIndices = m_faceGridCells[gridIndex];
+
+            for (size_t faceIndex : cellFaceIndices)
+            {
+                if (faceIndex >= m_faceGridVisitMarks.size())
+                {
+                    continue;
+                }
+
+                if (m_faceGridVisitMarks[faceIndex] == m_faceGridVisitGeneration)
+                {
+                    continue;
+                }
+
+                m_faceGridVisitMarks[faceIndex] = m_faceGridVisitGeneration;
+                faceIndices.push_back(faceIndex);
+            }
+        }
+    }
+}
+
+const OutdoorFaceGeometryData *OutdoorMovementController::findFaceGeometry(size_t bModelIndex, size_t faceIndex) const
+{
+    const uint64_t faceId =
+        (static_cast<uint64_t>(bModelIndex) << 32) | static_cast<uint32_t>(faceIndex);
+    const auto iterator = m_faceIndexById.find(faceId);
+
+    if (iterator == m_faceIndexById.end() || iterator->second >= m_faces.size())
+    {
+        return nullptr;
+    }
+
+    return &m_faces[iterator->second];
 }
 
 void OutdoorMovementController::buildDecorationColliderCache(
@@ -2211,6 +2544,11 @@ void OutdoorMovementController::buildSpriteObjectColliderCache(
     const std::optional<OutdoorSpriteObjectCollisionSet> &outdoorSpriteObjectSet)
 {
     m_spriteObjectColliders.clear();
+    m_spriteObjectGridCells.clear();
+    m_spriteObjectGridMinX = 0.0f;
+    m_spriteObjectGridMinY = 0.0f;
+    m_spriteObjectGridWidth = 0;
+    m_spriteObjectGridHeight = 0;
 
     if (!outdoorSpriteObjectSet)
     {
@@ -2222,6 +2560,89 @@ void OutdoorMovementController::buildSpriteObjectColliderCache(
     for (const OutdoorSpriteObjectCollision &collision : outdoorSpriteObjectSet->colliders)
     {
         m_spriteObjectColliders.push_back(collision);
+    }
+
+    if (m_spriteObjectColliders.empty())
+    {
+        return;
+    }
+
+    float minX = std::numeric_limits<float>::max();
+    float minY = std::numeric_limits<float>::max();
+    float maxX = std::numeric_limits<float>::lowest();
+    float maxY = std::numeric_limits<float>::lowest();
+
+    for (const OutdoorSpriteObjectCollision &collision : m_spriteObjectColliders)
+    {
+        minX = std::min(minX, static_cast<float>(collision.worldX));
+        minY = std::min(minY, static_cast<float>(collision.worldY));
+        maxX = std::max(maxX, static_cast<float>(collision.worldX));
+        maxY = std::max(maxY, static_cast<float>(collision.worldY));
+    }
+
+    m_spriteObjectGridMinX = minX;
+    m_spriteObjectGridMinY = minY;
+    m_spriteObjectGridWidth = static_cast<size_t>(std::floor((maxX - minX) / FaceGridCellSize)) + 1;
+    m_spriteObjectGridHeight = static_cast<size_t>(std::floor((maxY - minY) / FaceGridCellSize)) + 1;
+    m_spriteObjectGridCells.assign(m_spriteObjectGridWidth * m_spriteObjectGridHeight, {});
+
+    for (size_t objectIndex = 0; objectIndex < m_spriteObjectColliders.size(); ++objectIndex)
+    {
+        const OutdoorSpriteObjectCollision &collision = m_spriteObjectColliders[objectIndex];
+        const size_t cellX = std::min(
+            static_cast<size_t>(std::max(
+                0.0f,
+                std::floor((static_cast<float>(collision.worldX) - minX) / FaceGridCellSize))),
+            m_spriteObjectGridWidth - 1);
+        const size_t cellY = std::min(
+            static_cast<size_t>(std::max(
+                0.0f,
+                std::floor((static_cast<float>(collision.worldY) - minY) / FaceGridCellSize))),
+            m_spriteObjectGridHeight - 1);
+        m_spriteObjectGridCells[cellY * m_spriteObjectGridWidth + cellX].push_back(objectIndex);
+    }
+}
+
+void OutdoorMovementController::collectSpriteObjectCandidates(
+    float minX,
+    float minY,
+    float maxX,
+    float maxY,
+    std::vector<size_t> &indices) const
+{
+    indices.clear();
+
+    if (m_spriteObjectGridCells.empty() || m_spriteObjectGridWidth == 0 || m_spriteObjectGridHeight == 0)
+    {
+        return;
+    }
+
+    const int startCellX = std::clamp(
+        static_cast<int>(std::floor((minX - m_spriteObjectGridMinX) / FaceGridCellSize)),
+        0,
+        static_cast<int>(m_spriteObjectGridWidth) - 1);
+    const int endCellX = std::clamp(
+        static_cast<int>(std::floor((maxX - m_spriteObjectGridMinX) / FaceGridCellSize)),
+        0,
+        static_cast<int>(m_spriteObjectGridWidth) - 1);
+    const int startCellY = std::clamp(
+        static_cast<int>(std::floor((minY - m_spriteObjectGridMinY) / FaceGridCellSize)),
+        0,
+        static_cast<int>(m_spriteObjectGridHeight) - 1);
+    const int endCellY = std::clamp(
+        static_cast<int>(std::floor((maxY - m_spriteObjectGridMinY) / FaceGridCellSize)),
+        0,
+        static_cast<int>(m_spriteObjectGridHeight) - 1);
+
+    for (int cellY = startCellY; cellY <= endCellY; ++cellY)
+    {
+        for (int cellX = startCellX; cellX <= endCellX; ++cellX)
+        {
+            const std::vector<size_t> &cell =
+                m_spriteObjectGridCells[static_cast<size_t>(cellY) * m_spriteObjectGridWidth
+                    + static_cast<size_t>(cellX)];
+            indices.insert(indices.end(), cell.begin(), cell.end());
+        }
     }
 }
 }

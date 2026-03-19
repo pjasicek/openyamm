@@ -1250,8 +1250,8 @@ int HeadlessOutdoorDiagnostics::runSimulateActor(
     const int startX = pStartActor->x;
     const int startY = pStartActor->y;
     const int startZ = pStartActor->z;
-    const float partyX = static_cast<float>(startX + 20000);
-    const float partyY = static_cast<float>(startY + 20000);
+    const float partyX = static_cast<float>(startX + 6000);
+    const float partyY = static_cast<float>(startY);
     const float partyZ = static_cast<float>(startZ);
     bool sawStanding = pStartActor->aiState == OutdoorWorldRuntime::ActorAiState::Standing;
     bool sawWandering = pStartActor->aiState == OutdoorWorldRuntime::ActorAiState::Wandering;
@@ -2722,6 +2722,178 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
     );
 
     runCase(
+        "spawn_points_materialize_on_first_outdoor_load",
+        [&](std::string &failure)
+        {
+            if (!selectedMap->outdoorMapDeltaData)
+            {
+                failure = "selected map missing outdoor actor data";
+                return false;
+            }
+
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            const size_t baseActorCount = selectedMap->outdoorMapDeltaData->actors.size();
+
+            if (scenario.world.mapActorCount() <= baseActorCount)
+            {
+                failure = "spawn points did not materialize on first outdoor load";
+                return false;
+            }
+
+            bool sawSpawnPointActor = false;
+
+            for (size_t actorIndex = baseActorCount; actorIndex < scenario.world.mapActorCount(); ++actorIndex)
+            {
+                const OutdoorWorldRuntime::MapActorState *pActor = scenario.world.mapActorState(actorIndex);
+
+                if (pActor == nullptr)
+                {
+                    failure = "spawned actor state missing";
+                    return false;
+                }
+
+                if (!pActor->spawnedAtRuntime || !pActor->fromSpawnPoint)
+                {
+                    failure = "first-load spawned actor metadata mismatch";
+                    return false;
+                }
+
+                if (scenario.world.spawnPointState(pActor->spawnPointIndex) == nullptr)
+                {
+                    failure = "spawned actor does not reference a valid spawn point";
+                    return false;
+                }
+
+                sawSpawnPointActor = true;
+            }
+
+            if (!sawSpawnPointActor)
+            {
+                failure = "no spawn point actors materialized on first outdoor load";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "spawn_points_remain_metadata_after_first_visit",
+        [&](std::string &failure)
+        {
+            if (!selectedMap->outdoorMapDeltaData)
+            {
+                failure = "selected map missing outdoor actor data";
+                return false;
+            }
+
+            MapAssetInfo modifiedMap = *selectedMap;
+            modifiedMap.outdoorMapDeltaData = *selectedMap->outdoorMapDeltaData;
+            modifiedMap.outdoorMapDeltaData->locationInfo.lastRespawnDay = 1;
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, modifiedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            const size_t baseActorCount = selectedMap->outdoorMapDeltaData->actors.size();
+
+            if (scenario.world.mapActorCount() != baseActorCount)
+            {
+                failure = "spawn points should remain metadata after first visit";
+                return false;
+            }
+
+            size_t chosenSpawnIndex = static_cast<size_t>(-1);
+            const OutdoorWorldRuntime::SpawnPointState *pChosenSpawn = nullptr;
+
+            for (size_t spawnIndex = 0; spawnIndex < scenario.world.spawnPointCount(); ++spawnIndex)
+            {
+                const OutdoorWorldRuntime::SpawnPointState *pSpawn = scenario.world.spawnPointState(spawnIndex);
+
+                if (pSpawn != nullptr
+                    && pSpawn->typeId == 3
+                    && pSpawn->encounterSlot > 0
+                    && pSpawn->maxCount > 0)
+                {
+                    chosenSpawnIndex = spawnIndex;
+                    pChosenSpawn = pSpawn;
+                    break;
+                }
+            }
+
+            if (pChosenSpawn == nullptr)
+            {
+                failure = "no executable monster spawn point found";
+                return false;
+            }
+
+            if (!scenario.world.debugSpawnEncounterFromSpawnPoint(chosenSpawnIndex))
+            {
+                failure = "could not execute spawn point encounter";
+                return false;
+            }
+
+            const size_t spawnedCount = scenario.world.mapActorCount() - baseActorCount;
+
+            if (spawnedCount < static_cast<size_t>(std::max(0, pChosenSpawn->minCount))
+                || spawnedCount > static_cast<size_t>(std::max(0, pChosenSpawn->maxCount)))
+            {
+                failure = "spawn point execution ignored configured min/max count";
+                return false;
+            }
+
+            bool sawDifferentPosition = spawnedCount <= 1;
+
+            for (size_t actorIndex = baseActorCount; actorIndex < scenario.world.mapActorCount(); ++actorIndex)
+            {
+                const OutdoorWorldRuntime::MapActorState *pActor = scenario.world.mapActorState(actorIndex);
+
+                if (pActor == nullptr)
+                {
+                    failure = "spawned actor state missing";
+                    return false;
+                }
+
+                if (!pActor->spawnedAtRuntime || !pActor->fromSpawnPoint || pActor->spawnPointIndex != chosenSpawnIndex)
+                {
+                    failure = "spawned actor metadata mismatch";
+                    return false;
+                }
+
+                if (actorIndex > baseActorCount)
+                {
+                    const OutdoorWorldRuntime::MapActorState *pFirstSpawnedActor =
+                        scenario.world.mapActorState(baseActorCount);
+
+                    if (pFirstSpawnedActor != nullptr
+                        && (pActor->x != pFirstSpawnedActor->x || pActor->y != pFirstSpawnedActor->y))
+                    {
+                        sawDifferentPosition = true;
+                    }
+                }
+            }
+
+            if (!sawDifferentPosition)
+            {
+                failure = "multi-spawn encounter did not spread actor positions";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
         "dwi_actor_action_sprites_present_in_monster_data",
         [&](std::string &failure)
         {
@@ -2759,9 +2931,12 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
         "friendly_actor_does_not_engage_party",
         [&](std::string &failure)
         {
+            MapAssetInfo modifiedMap = *selectedMap;
+            modifiedMap.outdoorMapDeltaData = *selectedMap->outdoorMapDeltaData;
+            modifiedMap.outdoorMapDeltaData->locationInfo.lastRespawnDay = 1;
             RegressionScenario scenario = {};
 
-            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            if (!initializeRegressionScenario(gameDataLoader, modifiedMap, scenario))
             {
                 failure = "scenario init failed";
                 return false;
@@ -2808,9 +2983,12 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
         "friendly_actor_can_idle_wander",
         [&](std::string &failure)
         {
+            MapAssetInfo modifiedMap = *selectedMap;
+            modifiedMap.outdoorMapDeltaData = *selectedMap->outdoorMapDeltaData;
+            modifiedMap.outdoorMapDeltaData->locationInfo.lastRespawnDay = 1;
             RegressionScenario scenario = {};
 
-            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            if (!initializeRegressionScenario(gameDataLoader, modifiedMap, scenario))
             {
                 failure = "scenario init failed";
                 return false;
@@ -2833,8 +3011,8 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
             {
                 scenario.world.updateMapActors(
                     1.0f / 60.0f,
-                    static_cast<float>(startX + 20000),
-                    static_cast<float>(startY + 20000),
+                    static_cast<float>(startX + 6000),
+                    static_cast<float>(startY),
                     static_cast<float>(pBefore->z));
 
                 const OutdoorWorldRuntime::MapActorState *pStepActor = scenario.world.mapActorState(53);
@@ -2880,9 +3058,12 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
         "friendly_actor_3_cycles_idle_and_walk",
         [&](std::string &failure)
         {
+            MapAssetInfo modifiedMap = *selectedMap;
+            modifiedMap.outdoorMapDeltaData = *selectedMap->outdoorMapDeltaData;
+            modifiedMap.outdoorMapDeltaData->locationInfo.lastRespawnDay = 1;
             RegressionScenario scenario = {};
 
-            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            if (!initializeRegressionScenario(gameDataLoader, modifiedMap, scenario))
             {
                 failure = "scenario init failed";
                 return false;
@@ -2907,8 +3088,8 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
             {
                 scenario.world.updateMapActors(
                     1.0f / 60.0f,
-                    static_cast<float>(startX + 20000),
-                    static_cast<float>(startY + 20000),
+                    static_cast<float>(startX + 6000),
+                    static_cast<float>(startY),
                     static_cast<float>(pBefore->z));
 
                 const OutdoorWorldRuntime::MapActorState *pStepActor = scenario.world.mapActorState(3);
@@ -2960,9 +3141,12 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
         "friendly_actor_3_accumulates_motion_under_tiny_deltas",
         [&](std::string &failure)
         {
+            MapAssetInfo modifiedMap = *selectedMap;
+            modifiedMap.outdoorMapDeltaData = *selectedMap->outdoorMapDeltaData;
+            modifiedMap.outdoorMapDeltaData->locationInfo.lastRespawnDay = 1;
             RegressionScenario scenario = {};
 
-            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            if (!initializeRegressionScenario(gameDataLoader, modifiedMap, scenario))
             {
                 failure = "scenario init failed";
                 return false;
@@ -2978,8 +3162,8 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
 
             const int startX = pBefore->x;
             const int startY = pBefore->y;
-            const float partyX = static_cast<float>(startX + 20000);
-            const float partyY = static_cast<float>(startY + 20000);
+            const float partyX = static_cast<float>(startX + 6000);
+            const float partyY = static_cast<float>(startY);
             const float partyZ = static_cast<float>(pBefore->z);
             bool sawWandering = false;
             bool sawWalkingAnimation = false;
@@ -3055,7 +3239,11 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
 
             RegressionScenario scenario = {};
 
-            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            MapAssetInfo modifiedMap = *selectedMap;
+            modifiedMap.outdoorMapDeltaData = *selectedMap->outdoorMapDeltaData;
+            modifiedMap.outdoorMapDeltaData->locationInfo.lastRespawnDay = 1;
+
+            if (!initializeRegressionScenario(gameDataLoader, modifiedMap, scenario))
             {
                 failure = "scenario init failed";
                 return false;
@@ -3077,8 +3265,8 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
             {
                 scenario.world.updateMapActors(
                     1.0f / 60.0f,
-                    static_cast<float>(pBefore->x + 20000),
-                    static_cast<float>(pBefore->y + 20000),
+                    static_cast<float>(pBefore->x + 6000),
+                    static_cast<float>(pBefore->y),
                     static_cast<float>(pBefore->z));
 
                 const OutdoorWorldRuntime::MapActorState *pStepActor = scenario.world.mapActorState(3);
@@ -3224,9 +3412,12 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
         "friendly_actor_3_stands_and_faces_party_on_contact",
         [&](std::string &failure)
         {
+            MapAssetInfo modifiedMap = *selectedMap;
+            modifiedMap.outdoorMapDeltaData = *selectedMap->outdoorMapDeltaData;
+            modifiedMap.outdoorMapDeltaData->locationInfo.lastRespawnDay = 1;
             RegressionScenario scenario = {};
 
-            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            if (!initializeRegressionScenario(gameDataLoader, modifiedMap, scenario))
             {
                 failure = "scenario init failed";
                 return false;
@@ -3287,9 +3478,12 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
         "friendly_actor_3_stops_wandering_when_party_is_near",
         [&](std::string &failure)
         {
+            MapAssetInfo modifiedMap = *selectedMap;
+            modifiedMap.outdoorMapDeltaData = *selectedMap->outdoorMapDeltaData;
+            modifiedMap.outdoorMapDeltaData->locationInfo.lastRespawnDay = 1;
             RegressionScenario scenario = {};
 
-            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            if (!initializeRegressionScenario(gameDataLoader, modifiedMap, scenario))
             {
                 failure = "scenario init failed";
                 return false;
@@ -3341,9 +3535,12 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
         "party_attack_on_actor_3_causes_damage_and_hostility",
         [&](std::string &failure)
         {
+            MapAssetInfo modifiedMap = *selectedMap;
+            modifiedMap.outdoorMapDeltaData = *selectedMap->outdoorMapDeltaData;
+            modifiedMap.outdoorMapDeltaData->locationInfo.lastRespawnDay = 1;
             RegressionScenario scenario = {};
 
-            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            if (!initializeRegressionScenario(gameDataLoader, modifiedMap, scenario))
             {
                 failure = "scenario init failed";
                 return false;
@@ -3398,9 +3595,12 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
         "party_attack_on_actor_3_aggros_nearby_lizard_guard",
         [&](std::string &failure)
         {
+            MapAssetInfo modifiedMap = *selectedMap;
+            modifiedMap.outdoorMapDeltaData = *selectedMap->outdoorMapDeltaData;
+            modifiedMap.outdoorMapDeltaData->locationInfo.lastRespawnDay = 1;
             RegressionScenario scenario = {};
 
-            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            if (!initializeRegressionScenario(gameDataLoader, modifiedMap, scenario))
             {
                 failure = "scenario init failed";
                 return false;
@@ -3510,9 +3710,12 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
         "party_attack_on_actor_3_causes_wimp_flee",
         [&](std::string &failure)
         {
+            MapAssetInfo modifiedMap = *selectedMap;
+            modifiedMap.outdoorMapDeltaData = *selectedMap->outdoorMapDeltaData;
+            modifiedMap.outdoorMapDeltaData->locationInfo.lastRespawnDay = 1;
             RegressionScenario scenario = {};
 
-            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            if (!initializeRegressionScenario(gameDataLoader, modifiedMap, scenario))
             {
                 failure = "scenario init failed";
                 return false;
@@ -3627,9 +3830,12 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
                 return false;
             }
 
+            MapAssetInfo modifiedMap = *selectedMap;
+            modifiedMap.outdoorMapDeltaData = *selectedMap->outdoorMapDeltaData;
+            modifiedMap.outdoorMapDeltaData->locationInfo.lastRespawnDay = 1;
             RegressionScenario scenario = {};
 
-            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            if (!initializeRegressionScenario(gameDataLoader, modifiedMap, scenario))
             {
                 failure = "scenario init failed";
                 return false;
@@ -4716,7 +4922,7 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
                     sawProjectile = true;
                 }
 
-                if (sawProjectile && scenario.world.projectileCount() == 0)
+                if (sawProjectile && scenario.party.totalHealth() < initialTotalHealth)
                 {
                     if (scenario.world.projectileImpactCount() != 0)
                     {
@@ -4724,17 +4930,11 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
                         return false;
                     }
 
-                    if (scenario.party.totalHealth() >= initialTotalHealth)
-                    {
-                        failure = "arrow hit did not damage the party";
-                        return false;
-                    }
-
                     return true;
                 }
             }
 
-            failure = !sawProjectile ? "actor 53 never spawned arrow projectile" : "arrow never resolved";
+            failure = !sawProjectile ? "actor 53 never spawned arrow projectile" : "arrow hit did not damage the party";
             return false;
         }
     );
@@ -4819,6 +5019,105 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
             failure = !sawProjectile
                 ? "actor 53 arrow projectile never spawned"
                 : "friendly actor blocked actor 53 arrow before it reached the party";
+            return false;
+        }
+    );
+
+    runCase(
+        "pirate_and_lizardman_hostile_actors_damage_each_other",
+        [&](std::string &failure)
+        {
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            const size_t leftActorIndex = scenario.world.mapActorCount();
+            constexpr float FightCenterX = -9216.0f;
+            constexpr float FightCenterY = -12848.0f;
+            constexpr float FightCenterZ = 110.0f;
+
+            if (!scenario.world.summonMonsters(1, 2, 1, 9280, -12848, static_cast<int32_t>(FightCenterZ), 12, 0))
+            {
+                failure = "could not spawn lizardman encounter actor";
+                return false;
+            }
+
+            if (!scenario.world.summonMonsters(2, 2, 1, 9152, -12848, static_cast<int32_t>(FightCenterZ), 10, 0))
+            {
+                failure = "could not spawn pirate encounter actor";
+                return false;
+            }
+
+            const size_t rightActorIndex = leftActorIndex + 1;
+            const OutdoorWorldRuntime::MapActorState *pLeftActorBefore =
+                scenario.world.mapActorState(leftActorIndex);
+            const OutdoorWorldRuntime::MapActorState *pRightActorBefore =
+                scenario.world.mapActorState(rightActorIndex);
+
+            if (pLeftActorBefore == nullptr || pRightActorBefore == nullptr)
+            {
+                failure = "spawned hostile actor pair missing";
+                return false;
+            }
+
+            if (gameDataLoader.getMonsterTable().getRelationBetweenMonsters(
+                    pLeftActorBefore->monsterId,
+                    pRightActorBefore->monsterId) <= 0)
+            {
+                failure = "spawned pirate and lizardman are not hostile";
+                return false;
+            }
+
+            const int leftInitialHp = pLeftActorBefore->currentHp;
+            const int rightInitialHp = pRightActorBefore->currentHp;
+            const float partyX = pRightActorBefore->preciseX + 6000.0f;
+            const float partyY = pRightActorBefore->preciseY;
+            const float partyZ = pRightActorBefore->preciseZ;
+            bool sawEngagement = false;
+
+            for (int step = 0; step < 8192; ++step)
+            {
+                scenario.world.updateMapActors(1.0f / 128.0f, partyX, partyY, partyZ);
+
+                const OutdoorWorldRuntime::MapActorState *pLeftActor =
+                    scenario.world.mapActorState(leftActorIndex);
+                const OutdoorWorldRuntime::MapActorState *pRightActor =
+                    scenario.world.mapActorState(rightActorIndex);
+
+                if (pLeftActor == nullptr || pRightActor == nullptr)
+                {
+                    failure = "hostile actor disappeared during simulation";
+                    return false;
+                }
+
+                sawEngagement = sawEngagement
+                    || pLeftActor->aiState == OutdoorWorldRuntime::ActorAiState::Pursuing
+                    || pLeftActor->aiState == OutdoorWorldRuntime::ActorAiState::Attacking
+                    || pRightActor->aiState == OutdoorWorldRuntime::ActorAiState::Pursuing
+                    || pRightActor->aiState == OutdoorWorldRuntime::ActorAiState::Attacking
+                    || scenario.world.projectileCount() > 0;
+
+                if (pLeftActor->currentHp < leftInitialHp || pRightActor->currentHp < rightInitialHp
+                    || pLeftActor->isDead || pRightActor->isDead)
+                {
+                    if ((pLeftActor->isDead && pLeftActor->currentHp == 0 && leftInitialHp > 0)
+                        || (pRightActor->isDead && pRightActor->currentHp == 0 && rightInitialHp > 0))
+                    {
+                        failure = "first hostile hit still one-shot a spawned actor";
+                        return false;
+                    }
+
+                    return true;
+                }
+            }
+
+            failure = sawEngagement
+                ? "hostile actor engagement never produced damage"
+                : "hostile actor pair never engaged each other";
             return false;
         }
     );
@@ -5116,30 +5415,48 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
                 return false;
             }
 
+            const size_t baseActorCount = scenario.world.mapActorCount();
+
+            for (size_t actorIndex = 0; actorIndex < baseActorCount; ++actorIndex)
+            {
+                const OutdoorWorldRuntime::MapActorState *pActor = scenario.world.mapActorState(actorIndex);
+
+                if (pActor != nullptr
+                    && pActor->group >= 10
+                    && pActor->group <= 13
+                    && !pActor->isDead)
+                {
+                    if (!scenario.world.setMapActorDead(actorIndex, true))
+                    {
+                        failure = "could not clear reinforcement source actor";
+                        return false;
+                    }
+                }
+            }
+
             if (!executeLocalEventInScenario(gameDataLoader, *selectedMap, scenario, 463))
             {
                 failure = "event 463 execution failed";
                 return false;
             }
 
-            if (scenario.world.summonedMonsterCount() != 48)
+            if (scenario.world.mapActorCount() != baseActorCount + 48)
             {
-                failure = "expected 48 summoned monsters, got "
-                    + std::to_string(scenario.world.summonedMonsterCount());
+                failure = "expected 48 spawned runtime actors, got "
+                    + std::to_string(scenario.world.mapActorCount() - baseActorCount);
                 return false;
             }
 
             std::array<int, 4> counts = {};
             std::array<bool, 4> correctMonsterIds = {true, true, true, true};
 
-            for (size_t summonIndex = 0; summonIndex < scenario.world.summonedMonsterCount(); ++summonIndex)
+            for (size_t actorIndex = baseActorCount; actorIndex < scenario.world.mapActorCount(); ++actorIndex)
             {
-                const OutdoorWorldRuntime::SummonedMonsterState *pMonster =
-                    scenario.world.summonedMonsterState(summonIndex);
+                const OutdoorWorldRuntime::MapActorState *pMonster = scenario.world.mapActorState(actorIndex);
 
                 if (pMonster == nullptr)
                 {
-                    failure = "missing summoned monster state";
+                    failure = "missing spawned actor state";
                     return false;
                 }
 
@@ -5188,13 +5505,30 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
                 return false;
             }
 
+            for (size_t actorIndex = 0; actorIndex < scenario.world.mapActorCount(); ++actorIndex)
+            {
+                const OutdoorWorldRuntime::MapActorState *pActor = scenario.world.mapActorState(actorIndex);
+
+                if (pActor != nullptr
+                    && pActor->group >= 10
+                    && pActor->group <= 13
+                    && !pActor->isDead)
+                {
+                    if (!scenario.world.setMapActorDead(actorIndex, true))
+                    {
+                        failure = "could not clear reinforcement source actor";
+                        return false;
+                    }
+                }
+            }
+
             if (!executeLocalEventInScenario(gameDataLoader, *selectedMap, scenario, 463))
             {
                 failure = "first event 463 execution failed";
                 return false;
             }
 
-            const size_t firstCount = scenario.world.summonedMonsterCount();
+            const size_t firstCount = scenario.world.mapActorCount();
 
             if (!executeLocalEventInScenario(gameDataLoader, *selectedMap, scenario, 463))
             {
@@ -5202,7 +5536,7 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
                 return false;
             }
 
-            if (scenario.world.summonedMonsterCount() != firstCount)
+            if (scenario.world.mapActorCount() != firstCount)
             {
                 failure = "reinforcement waves duplicated while groups were still alive";
                 return false;
@@ -5290,6 +5624,42 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
                 return false;
             }
 
+            while (const OutdoorWorldRuntime::CorpseViewState *pActiveCorpseView = scenario.world.activeCorpseView())
+            {
+                if (pActiveCorpseView->items.empty())
+                {
+                    break;
+                }
+
+                OutdoorWorldRuntime::ChestItemState lootedItem = {};
+
+                if (!scenario.world.takeActiveCorpseItem(0, lootedItem))
+                {
+                    failure = "could not remove corpse loot item";
+                    return false;
+                }
+            }
+
+            if (scenario.world.activeCorpseView() != nullptr)
+            {
+                failure = "empty corpse view should close itself";
+                return false;
+            }
+
+            const OutdoorWorldRuntime::MapActorState *pActor = scenario.world.mapActorState(5);
+
+            if (pActor == nullptr || !pActor->isInvisible)
+            {
+                failure = "looted corpse actor should disappear";
+                return false;
+            }
+
+            if (scenario.world.openMapActorCorpseView(5))
+            {
+                failure = "looted corpse should no longer be reopenable";
+                return false;
+            }
+
             return true;
         }
     );
@@ -5333,7 +5703,7 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
     );
 
     runCase(
-        "world_group_killed_policy_counts_summoned_monsters",
+        "world_group_killed_policy_counts_spawned_runtime_actors",
         [&](std::string &failure)
         {
             RegressionScenario scenario = {};
@@ -5342,6 +5712,24 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
             {
                 failure = "scenario init failed";
                 return false;
+            }
+
+            const size_t baseActorCount = scenario.world.mapActorCount();
+
+            for (size_t actorIndex = 0; actorIndex < baseActorCount; ++actorIndex)
+            {
+                const OutdoorWorldRuntime::MapActorState *pActor = scenario.world.mapActorState(actorIndex);
+
+                if (pActor != nullptr
+                    && pActor->group == 10
+                    && !pActor->isDead)
+                {
+                    if (!scenario.world.setMapActorDead(actorIndex, true))
+                    {
+                        failure = "could not clear group 10 source actor";
+                        return false;
+                    }
+                }
             }
 
             if (!executeLocalEventInScenario(gameDataLoader, *selectedMap, scenario, 463))
@@ -5356,16 +5744,15 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
                 return false;
             }
 
-            for (size_t summonIndex = 0; summonIndex < scenario.world.summonedMonsterCount(); ++summonIndex)
+            for (size_t actorIndex = baseActorCount; actorIndex < scenario.world.mapActorCount(); ++actorIndex)
             {
-                const OutdoorWorldRuntime::SummonedMonsterState *pMonster =
-                    scenario.world.summonedMonsterState(summonIndex);
+                const OutdoorWorldRuntime::MapActorState *pMonster = scenario.world.mapActorState(actorIndex);
 
                 if (pMonster != nullptr && pMonster->group == 10)
                 {
-                    if (!scenario.world.setSummonedMonsterDead(summonIndex, true))
+                    if (!scenario.world.setMapActorDead(actorIndex, true))
                     {
-                        failure = "could not mark summoned monster dead";
+                        failure = "could not mark spawned runtime actor dead";
                         return false;
                     }
                 }
@@ -5373,7 +5760,7 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
 
             if (!scenario.world.checkMonstersKilled(1, 10, 0, true))
             {
-                failure = "group kill check did not treat dead summoned monsters as defeated";
+                failure = "group kill check did not treat dead spawned runtime actors as defeated";
                 return false;
             }
 

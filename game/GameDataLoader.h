@@ -32,10 +32,13 @@ class GameDataLoader
 {
 public:
     bool load(const Engine::AssetFileSystem &assetFileSystem);
+    bool loadForGameplay(const Engine::AssetFileSystem &assetFileSystem);
     bool loadForHeadlessGameplay(const Engine::AssetFileSystem &assetFileSystem);
     bool loadMapById(const Engine::AssetFileSystem &assetFileSystem, int mapId);
+    bool loadMapByIdForGameplay(const Engine::AssetFileSystem &assetFileSystem, int mapId);
     bool loadMapByIdForHeadlessGameplay(const Engine::AssetFileSystem &assetFileSystem, int mapId);
     bool loadMapByFileName(const Engine::AssetFileSystem &assetFileSystem, const std::string &fileName);
+    bool loadMapByFileNameForGameplay(const Engine::AssetFileSystem &assetFileSystem, const std::string &fileName);
     bool loadMapByFileNameForHeadlessGameplay(
         const Engine::AssetFileSystem &assetFileSystem,
         const std::string &fileName

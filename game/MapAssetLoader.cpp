@@ -331,7 +331,7 @@ struct IndexedBitmapData
 
 struct BitmapLoadCache
 {
-    std::unordered_map<std::string, std::vector<std::string>> directoryEntriesByPath;
+    std::unordered_map<std::string, std::unordered_map<std::string, std::string>> directoryAssetPathsByPath;
     std::unordered_map<std::string, std::optional<std::string>> bitmapPathByKey;
     std::unordered_map<std::string, std::optional<std::vector<uint8_t>>> binaryFilesByPath;
     std::unordered_map<int16_t, std::optional<std::array<uint8_t, 256 * 3>>> actPalettesById;
@@ -354,31 +354,34 @@ std::optional<std::string> findBitmapPath(
         return cachedPathIt->second;
     }
 
-    const auto directoryEntriesIt = bitmapLoadCache.directoryEntriesByPath.find(directoryPath);
-    const std::vector<std::string> *pBitmapEntries = nullptr;
+    const auto directoryAssetPathsIt = bitmapLoadCache.directoryAssetPathsByPath.find(directoryPath);
+    const std::unordered_map<std::string, std::string> *pAssetPaths = nullptr;
 
-    if (directoryEntriesIt != bitmapLoadCache.directoryEntriesByPath.end())
+    if (directoryAssetPathsIt != bitmapLoadCache.directoryAssetPathsByPath.end())
     {
-        pBitmapEntries = &directoryEntriesIt->second;
+        pAssetPaths = &directoryAssetPathsIt->second;
     }
     else
     {
         std::vector<std::string> bitmapEntries = assetFileSystem.enumerate(directoryPath);
-        pBitmapEntries = &bitmapLoadCache.directoryEntriesByPath.emplace(directoryPath, std::move(bitmapEntries)).first->second;
+        std::unordered_map<std::string, std::string> assetPaths;
+
+        for (const std::string &entry : bitmapEntries)
+        {
+            assetPaths.emplace(toLowerCopy(entry), directoryPath + "/" + entry);
+        }
+
+        pAssetPaths = &bitmapLoadCache.directoryAssetPathsByPath.emplace(directoryPath, std::move(assetPaths)).first->second;
     }
 
-    const std::string normalizedTextureName = toLowerCopy(textureName);
+    const std::string normalizedTextureName = toLowerCopy(textureName) + ".bmp";
+    const auto resolvedPathIt = pAssetPaths->find(normalizedTextureName);
 
-    for (const std::string &entry : *pBitmapEntries)
+    if (resolvedPathIt != pAssetPaths->end())
     {
-        const std::string loweredEntry = toLowerCopy(entry);
-
-        if (loweredEntry == normalizedTextureName + ".bmp")
-        {
-            const std::optional<std::string> resolvedPath = directoryPath + "/" + entry;
-            bitmapLoadCache.bitmapPathByKey[cacheKey] = resolvedPath;
-            return resolvedPath;
-        }
+        const std::optional<std::string> resolvedPath = resolvedPathIt->second;
+        bitmapLoadCache.bitmapPathByKey[cacheKey] = resolvedPath;
+        return resolvedPath;
     }
 
     bitmapLoadCache.bitmapPathByKey[cacheKey] = std::nullopt;
@@ -400,29 +403,34 @@ std::optional<std::string> findAssetPathCaseInsensitive(
         return cachedPathIt->second;
     }
 
-    const auto directoryEntriesIt = bitmapLoadCache.directoryEntriesByPath.find(directoryPath);
-    const std::vector<std::string> *pEntries = nullptr;
+    const auto directoryAssetPathsIt = bitmapLoadCache.directoryAssetPathsByPath.find(directoryPath);
+    const std::unordered_map<std::string, std::string> *pAssetPaths = nullptr;
 
-    if (directoryEntriesIt != bitmapLoadCache.directoryEntriesByPath.end())
+    if (directoryAssetPathsIt != bitmapLoadCache.directoryAssetPathsByPath.end())
     {
-        pEntries = &directoryEntriesIt->second;
+        pAssetPaths = &directoryAssetPathsIt->second;
     }
     else
     {
         std::vector<std::string> entries = assetFileSystem.enumerate(directoryPath);
-        pEntries = &bitmapLoadCache.directoryEntriesByPath.emplace(directoryPath, std::move(entries)).first->second;
+        std::unordered_map<std::string, std::string> assetPaths;
+
+        for (const std::string &entry : entries)
+        {
+            assetPaths.emplace(toLowerCopy(entry), directoryPath + "/" + entry);
+        }
+
+        pAssetPaths = &bitmapLoadCache.directoryAssetPathsByPath.emplace(directoryPath, std::move(assetPaths)).first->second;
     }
 
     const std::string normalizedFileName = toLowerCopy(fileName);
+    const auto resolvedPathIt = pAssetPaths->find(normalizedFileName);
 
-    for (const std::string &entry : *pEntries)
+    if (resolvedPathIt != pAssetPaths->end())
     {
-        if (toLowerCopy(entry) == normalizedFileName)
-        {
-            const std::optional<std::string> resolvedPath = directoryPath + "/" + entry;
-            bitmapLoadCache.bitmapPathByKey[cacheKey] = resolvedPath;
-            return resolvedPath;
-        }
+        const std::optional<std::string> resolvedPath = resolvedPathIt->second;
+        bitmapLoadCache.bitmapPathByKey[cacheKey] = resolvedPath;
+        return resolvedPath;
     }
 
     bitmapLoadCache.bitmapPathByKey[cacheKey] = std::nullopt;
@@ -1645,7 +1653,8 @@ std::optional<ActorPreviewBillboardSet> buildActorPreviewBillboardSet(
     const std::optional<MapDeltaData> &mapDeltaData,
     const std::vector<SpawnType> &spawns,
     BitmapLoadCache &bitmapLoadCache,
-    const OutdoorMapData *pOutdoorMapData = nullptr
+    const OutdoorMapData *pOutdoorMapData = nullptr,
+    bool decodeTextures = true
 )
 {
     const std::optional<std::vector<uint8_t>> spriteFrameTableBytes =
@@ -1677,34 +1686,37 @@ std::optional<ActorPreviewBillboardSet> buildActorPreviewBillboardSet(
         return std::nullopt;
     }
 
-    for (const BitmapTextureRequest &textureRequest : textureRequests)
+    if (decodeTextures)
     {
-        int textureWidth = 0;
-        int textureHeight = 0;
-        const std::optional<std::vector<uint8_t>> pixels =
-            loadBitmapPixelsBgra(
-                assetFileSystem,
-                "Data/sprites",
-                textureRequest.textureName,
-                textureWidth,
-                textureHeight,
-                false,
-                true,
-                bitmapLoadCache,
-                textureRequest.paletteId);
-
-        if (!pixels || textureWidth <= 0 || textureHeight <= 0)
+        for (const BitmapTextureRequest &textureRequest : textureRequests)
         {
-            continue;
-        }
+            int textureWidth = 0;
+            int textureHeight = 0;
+            const std::optional<std::vector<uint8_t>> pixels =
+                loadBitmapPixelsBgra(
+                    assetFileSystem,
+                    "Data/sprites",
+                    textureRequest.textureName,
+                    textureWidth,
+                    textureHeight,
+                    false,
+                    true,
+                    bitmapLoadCache,
+                    textureRequest.paletteId);
 
-        OutdoorBitmapTexture texture = {};
-        texture.textureName = textureRequest.textureName;
-        texture.paletteId = textureRequest.paletteId;
-        texture.width = textureWidth;
-        texture.height = textureHeight;
-        texture.pixels = *pixels;
-        billboardSet.textures.push_back(std::move(texture));
+            if (!pixels || textureWidth <= 0 || textureHeight <= 0)
+            {
+                continue;
+            }
+
+            OutdoorBitmapTexture texture = {};
+            texture.textureName = textureRequest.textureName;
+            texture.paletteId = textureRequest.paletteId;
+            texture.width = textureWidth;
+            texture.height = textureHeight;
+            texture.pixels = *pixels;
+            billboardSet.textures.push_back(std::move(texture));
+        }
     }
 
     for (const ActorPreviewBillboard &billboard : billboardSet.billboards)
@@ -1717,23 +1729,30 @@ std::optional<ActorPreviewBillboardSet> buildActorPreviewBillboardSet(
             continue;
         }
 
-        const ResolvedSpriteTexture resolvedTexture = SpriteFrameTable::resolveTexture(*pFrame, 0);
-        const auto textureIt = std::find_if(
-            billboardSet.textures.begin(),
-            billboardSet.textures.end(),
-            [&resolvedTexture, pFrame](const OutdoorBitmapTexture &texture)
-            {
-                return texture.textureName == resolvedTexture.textureName && texture.paletteId == pFrame->paletteId;
-            }
-        );
-
-        if (textureIt == billboardSet.textures.end())
+        if (!decodeTextures)
         {
-            ++billboardSet.missingTextureActorCount;
+            ++billboardSet.texturedActorCount;
         }
         else
         {
-            ++billboardSet.texturedActorCount;
+            const ResolvedSpriteTexture resolvedTexture = SpriteFrameTable::resolveTexture(*pFrame, 0);
+            const auto textureIt = std::find_if(
+                billboardSet.textures.begin(),
+                billboardSet.textures.end(),
+                [&resolvedTexture, pFrame](const OutdoorBitmapTexture &texture)
+                {
+                    return texture.textureName == resolvedTexture.textureName && texture.paletteId == pFrame->paletteId;
+                }
+            );
+
+            if (textureIt == billboardSet.textures.end())
+            {
+                ++billboardSet.missingTextureActorCount;
+            }
+            else
+            {
+                ++billboardSet.texturedActorCount;
+            }
         }
     }
 
@@ -2106,7 +2125,7 @@ std::optional<MapAssetInfo> MapAssetLoader::load(
                 }
             }
 
-            if (purpose == MapLoadPurpose::Full)
+            if (purpose == MapLoadPurpose::Full || purpose == MapLoadPurpose::FullGameplay)
             {
                 assetInfo.outdoorLandMask = buildOutdoorLandMask(assetFileSystem, *assetInfo.outdoorMapData);
                 logStageComplete("outdoor land mask built");
@@ -2144,7 +2163,8 @@ std::optional<MapAssetInfo> MapAssetLoader::load(
                         assetInfo.outdoorMapDeltaData,
                         assetInfo.outdoorMapData->spawns,
                         bitmapLoadCache,
-                        &*assetInfo.outdoorMapData
+                        &*assetInfo.outdoorMapData,
+                        purpose == MapLoadPurpose::Full
                     );
                 logStageComplete("outdoor actor previews built");
                 assetInfo.outdoorSpriteObjectBillboardSet =
@@ -2230,7 +2250,7 @@ std::optional<MapAssetInfo> MapAssetLoader::load(
                 }
             }
 
-            if (purpose == MapLoadPurpose::Full)
+            if (purpose == MapLoadPurpose::Full || purpose == MapLoadPurpose::FullGameplay)
             {
                 assetInfo.indoorTextureSet = buildIndoorTextureSet(
                     assetFileSystem,
@@ -2248,7 +2268,9 @@ std::optional<MapAssetInfo> MapAssetLoader::load(
                         monsterTable,
                         assetInfo.indoorMapDeltaData,
                         assetInfo.indoorMapData->spawns,
-                        bitmapLoadCache
+                        bitmapLoadCache,
+                        nullptr,
+                        true
                     );
                 logStageComplete("indoor actor previews built");
                 assetInfo.indoorSpriteObjectBillboardSet =

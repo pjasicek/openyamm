@@ -9,6 +9,7 @@
 #include <cstddef>
 #include <cstdint>
 #include <optional>
+#include <unordered_map>
 #include <vector>
 
 namespace OpenYAMM::Game
@@ -109,13 +110,30 @@ private:
     const OutdoorMapData *m_pOutdoorMapData;
     std::optional<std::vector<uint8_t>> m_outdoorLandMask;
     std::vector<OutdoorFaceGeometryData> m_faces;
+    std::vector<std::vector<size_t>> m_faceGridCells;
+    std::unordered_map<uint64_t, size_t> m_faceIndexById;
+    mutable std::vector<uint32_t> m_faceGridVisitMarks;
+    mutable uint32_t m_faceGridVisitGeneration = 1;
+    float m_faceGridMinX = 0.0f;
+    float m_faceGridMinY = 0.0f;
+    size_t m_faceGridWidth = 0;
+    size_t m_faceGridHeight = 0;
     std::vector<OutdoorDecorationCollision> m_decorationColliders;
     std::vector<OutdoorActorCollision> m_actorColliders;
     std::vector<OutdoorSpriteObjectCollision> m_spriteObjectColliders;
+    std::vector<std::vector<size_t>> m_spriteObjectGridCells;
+    float m_spriteObjectGridMinX = 0.0f;
+    float m_spriteObjectGridMinY = 0.0f;
+    size_t m_spriteObjectGridWidth = 0;
+    size_t m_spriteObjectGridHeight = 0;
 
     void buildFaceCache();
+    void buildFaceSpatialIndex();
     void buildDecorationColliderCache(const std::optional<OutdoorDecorationCollisionSet> &outdoorDecorationCollisionSet);
     void buildActorColliderCache(const std::optional<OutdoorActorCollisionSet> &outdoorActorCollisionSet);
     void buildSpriteObjectColliderCache(const std::optional<OutdoorSpriteObjectCollisionSet> &outdoorSpriteObjectSet);
+    void collectFaceCandidates(float minX, float minY, float maxX, float maxY, std::vector<size_t> &faceIndices) const;
+    void collectSpriteObjectCandidates(float minX, float minY, float maxX, float maxY, std::vector<size_t> &indices) const;
+    const OutdoorFaceGeometryData *findFaceGeometry(size_t bModelIndex, size_t faceIndex) const;
 };
 }

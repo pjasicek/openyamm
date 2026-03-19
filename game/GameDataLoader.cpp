@@ -340,20 +340,50 @@ void logIndoorChestLinks(
 std::optional<std::string> findBitmapPath(
     const Engine::AssetFileSystem &assetFileSystem,
     const std::string &directoryPath,
-    const std::string &textureName
+    const std::string &textureName,
+    std::unordered_map<std::string, std::unordered_map<std::string, std::string>> &directoryAssetPathsByPath,
+    std::unordered_map<std::string, std::optional<std::string>> &bitmapPathByKey
 )
 {
-    const std::vector<std::string> entries = assetFileSystem.enumerate(directoryPath);
-    const std::string normalizedTextureName = toLowerCopy(textureName);
+    const std::string cacheKey = directoryPath + "|" + toLowerCopy(textureName);
+    const auto cachedPathIt = bitmapPathByKey.find(cacheKey);
 
-    for (const std::string &entry : entries)
+    if (cachedPathIt != bitmapPathByKey.end())
     {
-        if (toLowerCopy(entry) == normalizedTextureName + ".bmp")
-        {
-            return directoryPath + "/" + entry;
-        }
+        return cachedPathIt->second;
     }
 
+    const auto assetPathsIt = directoryAssetPathsByPath.find(directoryPath);
+    const std::unordered_map<std::string, std::string> *pAssetPaths = nullptr;
+
+    if (assetPathsIt != directoryAssetPathsByPath.end())
+    {
+        pAssetPaths = &assetPathsIt->second;
+    }
+    else
+    {
+        std::vector<std::string> entries = assetFileSystem.enumerate(directoryPath);
+        std::unordered_map<std::string, std::string> assetPaths;
+
+        for (const std::string &entry : entries)
+        {
+            assetPaths.emplace(toLowerCopy(entry), directoryPath + "/" + entry);
+        }
+
+        pAssetPaths = &directoryAssetPathsByPath.emplace(directoryPath, std::move(assetPaths)).first->second;
+    }
+
+    const std::string normalizedTextureName = toLowerCopy(textureName) + ".bmp";
+    const auto resolvedPathIt = pAssetPaths->find(normalizedTextureName);
+
+    if (resolvedPathIt != pAssetPaths->end())
+    {
+        const std::optional<std::string> resolvedPath = resolvedPathIt->second;
+        bitmapPathByKey[cacheKey] = resolvedPath;
+        return resolvedPath;
+    }
+
+    bitmapPathByKey[cacheKey] = std::nullopt;
     return std::nullopt;
 }
 
@@ -362,10 +392,18 @@ std::optional<std::vector<uint8_t>> loadBitmapPixelsBgra(
     const std::string &directoryPath,
     const std::string &textureName,
     int &width,
-    int &height
+    int &height,
+    std::unordered_map<std::string, std::unordered_map<std::string, std::string>> &directoryAssetPathsByPath,
+    std::unordered_map<std::string, std::optional<std::string>> &bitmapPathByKey
 )
 {
-    const std::optional<std::string> bitmapPath = findBitmapPath(assetFileSystem, directoryPath, textureName);
+    const std::optional<std::string> bitmapPath =
+        findBitmapPath(
+            assetFileSystem,
+            directoryPath,
+            textureName,
+            directoryAssetPathsByPath,
+            bitmapPathByKey);
 
     if (!bitmapPath)
     {
@@ -455,6 +493,9 @@ void appendIndoorScriptTextures(
         collectSetTextureNames(*globalEvtProgram, textureNames);
     }
 
+    std::unordered_map<std::string, std::unordered_map<std::string, std::string>> directoryAssetPathsByPath;
+    std::unordered_map<std::string, std::optional<std::string>> bitmapPathByKey;
+
     for (const std::string &textureName : textureNames)
     {
         bool alreadyPresent = false;
@@ -476,7 +517,14 @@ void appendIndoorScriptTextures(
         int textureWidth = 0;
         int textureHeight = 0;
         const std::optional<std::vector<uint8_t>> pixels =
-            loadBitmapPixelsBgra(assetFileSystem, "Data/bitmaps", textureName, textureWidth, textureHeight);
+            loadBitmapPixelsBgra(
+                assetFileSystem,
+                "Data/bitmaps",
+                textureName,
+                textureWidth,
+                textureHeight,
+                directoryAssetPathsByPath,
+                bitmapPathByKey);
 
         if (!pixels || textureWidth <= 0 || textureHeight <= 0)
         {
@@ -606,6 +654,11 @@ bool GameDataLoader::load(const Engine::AssetFileSystem &assetFileSystem)
     return loadInternal(assetFileSystem, MapLoadPurpose::Full);
 }
 
+bool GameDataLoader::loadForGameplay(const Engine::AssetFileSystem &assetFileSystem)
+{
+    return loadInternal(assetFileSystem, MapLoadPurpose::FullGameplay);
+}
+
 bool GameDataLoader::loadForHeadlessGameplay(const Engine::AssetFileSystem &assetFileSystem)
 {
     return loadInternal(assetFileSystem, MapLoadPurpose::HeadlessGameplay);
@@ -711,6 +764,11 @@ bool GameDataLoader::loadMapById(const Engine::AssetFileSystem &assetFileSystem,
     return loadSelectedMap(assetFileSystem, mapId, MapLoadPurpose::Full);
 }
 
+bool GameDataLoader::loadMapByIdForGameplay(const Engine::AssetFileSystem &assetFileSystem, int mapId)
+{
+    return loadSelectedMap(assetFileSystem, mapId, MapLoadPurpose::FullGameplay);
+}
+
 bool GameDataLoader::loadMapByIdForHeadlessGameplay(const Engine::AssetFileSystem &assetFileSystem, int mapId)
 {
     return loadSelectedMap(assetFileSystem, mapId, MapLoadPurpose::HeadlessGameplay);
@@ -726,6 +784,20 @@ bool GameDataLoader::loadMapByFileName(const Engine::AssetFileSystem &assetFileS
     }
 
     return loadSelectedMap(assetFileSystem, selectedMap->id, MapLoadPurpose::Full);
+}
+
+bool GameDataLoader::loadMapByFileNameForGameplay(
+    const Engine::AssetFileSystem &assetFileSystem,
+    const std::string &fileName)
+{
+    const std::optional<MapStatsEntry> selectedMap = m_mapRegistry.findByFileName(fileName);
+
+    if (!selectedMap)
+    {
+        return false;
+    }
+
+    return loadSelectedMap(assetFileSystem, selectedMap->id, MapLoadPurpose::FullGameplay);
 }
 
 bool GameDataLoader::loadMapByFileNameForHeadlessGameplay(

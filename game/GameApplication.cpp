@@ -20,7 +20,8 @@ GameApplication::GameApplication(const Engine::ApplicationConfig &config)
             std::placeholders::_2,
             std::placeholders::_3,
             std::placeholders::_4
-        )
+        ),
+        std::bind(&GameApplication::shutdownRenderer, this)
     )
     , m_pAssetFileSystem(nullptr)
     , m_mapPickerIndex(0)
@@ -41,7 +42,7 @@ bool GameApplication::loadGameData(const Engine::AssetFileSystem &assetFileSyste
 {
     m_pAssetFileSystem = &assetFileSystem;
 
-    if (!m_gameDataLoader.load(assetFileSystem))
+    if (!m_gameDataLoader.loadForGameplay(assetFileSystem))
     {
         return false;
     }
@@ -66,10 +67,7 @@ bool GameApplication::loadGameData(const Engine::AssetFileSystem &assetFileSyste
 
 bool GameApplication::initializeRenderer()
 {
-    m_outdoorGameView.shutdown();
-    m_indoorDebugRenderer.shutdown();
-    m_pOutdoorPartyRuntime.reset();
-    m_pOutdoorWorldRuntime.reset();
+    shutdownRenderer();
 
     const std::optional<MapAssetInfo> &selectedMap = m_gameDataLoader.getSelectedMap();
 
@@ -95,7 +93,8 @@ bool GameApplication::initializeRenderer()
             selectedMap->outdoorLandMask,
             selectedMap->outdoorDecorationCollisionSet,
             selectedMap->outdoorActorCollisionSet,
-            selectedMap->outdoorSpriteObjectCollisionSet
+            selectedMap->outdoorSpriteObjectCollisionSet,
+            selectedMap->outdoorSpriteObjectBillboardSet
         );
 
         m_pOutdoorPartyRuntime = std::make_unique<OutdoorPartyRuntime>(
@@ -138,6 +137,8 @@ bool GameApplication::initializeRenderer()
             m_gameDataLoader.getClassSkillTable(),
             m_gameDataLoader.getNpcDialogTable(),
             m_gameDataLoader.getRosterTable(),
+            m_gameDataLoader.getObjectTable(),
+            m_gameDataLoader.getSpellTable(),
             m_gameDataLoader.getItemTable(),
             selectedMap->localStrTable,
             selectedMap->localEvtProgram,
@@ -172,6 +173,14 @@ bool GameApplication::initializeRenderer()
     }
 
     return false;
+}
+
+void GameApplication::shutdownRenderer()
+{
+    m_outdoorGameView.shutdown();
+    m_indoorDebugRenderer.shutdown();
+    m_pOutdoorPartyRuntime.reset();
+    m_pOutdoorWorldRuntime.reset();
 }
 
 bool GameApplication::reloadSelectedMap()
@@ -398,7 +407,7 @@ bool GameApplication::processPendingOutdoorMapMove()
 
     const std::string targetMapName = *pendingMapMove->mapName;
 
-    if (!m_gameDataLoader.loadMapByFileName(*m_pAssetFileSystem, targetMapName))
+    if (!m_gameDataLoader.loadMapByFileNameForGameplay(*m_pAssetFileSystem, targetMapName))
     {
         return false;
     }

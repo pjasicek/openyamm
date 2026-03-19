@@ -83,6 +83,13 @@ public:
 
     struct MonsterStatsEntry
     {
+        struct DamageProfile
+        {
+            int diceRolls = 0;
+            int diceSides = 0;
+            int bonus = 0;
+        };
+
         int id = 0;
         std::string name;
         std::string pictureName;
@@ -97,9 +104,11 @@ public:
         MonsterAiType aiType = MonsterAiType::Suicide;
         std::string attack1MissileType;
         bool attack1HasMissile = false;
+        DamageProfile attack1Damage = {};
         std::string attack2MissileType;
         bool attack2HasMissile = false;
         int attack2Chance = 0;
+        DamageProfile attack2Damage = {};
         std::string spell1Descriptor;
         std::string spell1Name;
         bool hasSpell1 = false;

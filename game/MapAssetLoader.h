@@ -195,6 +195,7 @@ struct MapAssetInfo
 enum class MapLoadPurpose
 {
     Full,
+    FullGameplay,
     HeadlessGameplay,
 };
 

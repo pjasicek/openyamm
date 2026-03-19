@@ -53,6 +53,33 @@ bool hasMonsterAbilityDescriptor(const std::string &value)
     return !value.empty() && value != "0";
 }
 
+MonsterTable::MonsterStatsEntry::DamageProfile parseDamageProfile(const std::string &value)
+{
+    MonsterTable::MonsterStatsEntry::DamageProfile profile = {};
+    static const std::regex damagePattern(R"(^\s*(\d+)\s*[dD]\s*(\d+)\s*(?:([+-])\s*(\d+))?\s*$)");
+    std::smatch match;
+
+    if (!std::regex_match(value, match, damagePattern))
+    {
+        return profile;
+    }
+
+    profile.diceRolls = std::stoi(match[1].str());
+    profile.diceSides = std::stoi(match[2].str());
+
+    if (match[4].matched)
+    {
+        profile.bonus = std::stoi(match[4].str());
+
+        if (match[3].matched && match[3].str() == "-")
+        {
+            profile.bonus = -profile.bonus;
+        }
+    }
+
+    return profile;
+}
+
 MonsterTable::MonsterAttackStyle classifyAttackStyle(const MonsterTable::MonsterStatsEntry &entry)
 {
     if (entry.attack1HasMissile)
@@ -478,9 +505,11 @@ bool MonsterTable::loadStatsFromRows(const std::vector<std::vector<std::string>>
         entry.recovery = row[14].empty() ? 0 : std::stoi(row[14]);
         entry.attack1MissileType = row.size() > 19 ? row[19] : std::string();
         entry.attack1HasMissile = hasMonsterAbilityDescriptor(entry.attack1MissileType);
+        entry.attack1Damage = row.size() > 18 ? parseDamageProfile(row[18]) : MonsterStatsEntry::DamageProfile();
         entry.attack2Chance = row.size() > 20 && !row[20].empty() ? std::stoi(row[20]) : 0;
         entry.attack2MissileType = row.size() > 23 ? row[23] : std::string();
         entry.attack2HasMissile = hasMonsterAbilityDescriptor(entry.attack2MissileType);
+        entry.attack2Damage = row.size() > 22 ? parseDamageProfile(row[22]) : MonsterStatsEntry::DamageProfile();
         entry.spell1Descriptor = row.size() > 25 ? row[25] : std::string();
         entry.spell1Name = parseMonsterSpellName(entry.spell1Descriptor);
         entry.hasSpell1 = hasMonsterAbilityDescriptor(entry.spell1Descriptor);
