@@ -384,7 +384,7 @@ bool isOutdoorLandMaskWater(const std::optional<std::vector<uint8_t>> &outdoorLa
     return (*outdoorLandMask)[tileIndex] == 0;
 }
 
-bool isOutdoorSurfaceWater(
+bool isOutdoorMonsterWaterTile(
     const OutdoorMapData &outdoorMapData,
     const std::optional<std::vector<uint8_t>> &outdoorLandMask,
     float x,
@@ -443,7 +443,7 @@ bool findNearbyLandDirection(
 
             const bx::Vec3 center = outdoorTerrainTileCenter(candidateX, candidateY);
 
-            if (isOutdoorSurfaceWater(outdoorMapData, outdoorLandMask, center.x, center.y))
+            if (isOutdoorMonsterWaterTile(outdoorMapData, outdoorLandMask, center.x, center.y))
             {
                 continue;
             }
@@ -481,6 +481,13 @@ bool findNearbyLandDirection(
     return true;
 }
 
+enum class OutdoorWaterRestrictionResult
+{
+    None,
+    RedirectedToLand,
+    BlockedByWater,
+};
+
 void rotateDirectionClockwise(float &directionX, float &directionY, float radians)
 {
     const float cosine = std::cos(radians);
@@ -491,7 +498,7 @@ void rotateDirectionClockwise(float &directionX, float &directionY, float radian
     directionY = rotatedY;
 }
 
-void applyOutdoorWaterRestriction(
+OutdoorWaterRestrictionResult applyOutdoorWaterRestriction(
     const OutdoorMapData &outdoorMapData,
     const std::optional<std::vector<uint8_t>> &outdoorLandMask,
     const MonsterTable::MonsterStatsEntry *pStats,
@@ -507,12 +514,10 @@ void applyOutdoorWaterRestriction(
         || canMonsterWalkOnWater(pStats)
         || (std::abs(desiredMoveX) <= 0.001f && std::abs(desiredMoveY) <= 0.001f))
     {
-        return;
+        return OutdoorWaterRestrictionResult::None;
     }
 
-    const bool onWater = actor.movementStateInitialized
-        ? actor.movementState.supportOnWater
-        : isOutdoorSurfaceWater(outdoorMapData, outdoorLandMask, actor.preciseX, actor.preciseY);
+    const bool onWater = isOutdoorMonsterWaterTile(outdoorMapData, outdoorLandMask, actor.preciseX, actor.preciseY);
 
     if (onWater)
     {
@@ -529,7 +534,7 @@ void applyOutdoorWaterRestriction(
         {
             desiredMoveX = 0.0f;
             desiredMoveY = 0.0f;
-            return;
+            return OutdoorWaterRestrictionResult::BlockedByWater;
         }
 
         desiredMoveX = shoreDirectionX;
@@ -537,7 +542,7 @@ void applyOutdoorWaterRestriction(
         faceDirection(actor, desiredMoveX, desiredMoveY);
         nextAiState = OutdoorWorldRuntime::ActorAiState::Fleeing;
         nextAnimation = OutdoorWorldRuntime::ActorAnimation::Walking;
-        return;
+        return OutdoorWaterRestrictionResult::RedirectedToLand;
     }
 
     const float moveDeltaX = desiredMoveX * moveSpeed * ActorUpdateStepSeconds;
@@ -545,9 +550,9 @@ void applyOutdoorWaterRestriction(
     const float candidateX = actor.preciseX + moveDeltaX;
     const float candidateY = actor.preciseY + moveDeltaY;
 
-    if (!isOutdoorSurfaceWater(outdoorMapData, outdoorLandMask, candidateX, candidateY))
+    if (!isOutdoorMonsterWaterTile(outdoorMapData, outdoorLandMask, candidateX, candidateY))
     {
-        return;
+        return OutdoorWaterRestrictionResult::None;
     }
 
     rotateDirectionClockwise(desiredMoveX, desiredMoveY, OeTurnAwayFromWaterAngleRadians);
@@ -568,16 +573,17 @@ void applyOutdoorWaterRestriction(
     const float rotatedCandidateY = actor.preciseY + desiredMoveY * moveSpeed * ActorUpdateStepSeconds;
 
     if (length2d(desiredMoveX, desiredMoveY) <= 0.001f
-        || isOutdoorSurfaceWater(outdoorMapData, outdoorLandMask, rotatedCandidateX, rotatedCandidateY))
+        || isOutdoorMonsterWaterTile(outdoorMapData, outdoorLandMask, rotatedCandidateX, rotatedCandidateY))
     {
         desiredMoveX = 0.0f;
         desiredMoveY = 0.0f;
-        return;
+        return OutdoorWaterRestrictionResult::BlockedByWater;
     }
 
     faceDirection(actor, desiredMoveX, desiredMoveY);
     nextAiState = OutdoorWorldRuntime::ActorAiState::Fleeing;
     nextAnimation = OutdoorWorldRuntime::ActorAnimation::Walking;
+    return OutdoorWaterRestrictionResult::RedirectedToLand;
 }
 
 void faceDirection(OutdoorWorldRuntime::MapActorState &actor, float deltaX, float deltaY)
@@ -3971,7 +3977,6 @@ void OutdoorWorldRuntime::updateMapActors(float deltaSeconds, float partyX, floa
                     }
                 }
             }
-
             actor.x = static_cast<int>(std::lround(actor.preciseX));
             actor.y = static_cast<int>(std::lround(actor.preciseY));
             actor.z = static_cast<int>(std::lround(actor.preciseZ));

@@ -8,6 +8,7 @@
 #include "game/OutdoorPartyRuntime.h"
 #include "game/OutdoorWorldRuntime.h"
 #include "game/SpawnPreview.h"
+#include "game/SpriteTables.h"
 #include "game/StringUtils.h"
 
 #include <bx/math.h>
@@ -66,6 +67,7 @@ constexpr uint64_t BillboardAlphaRenderState =
 constexpr bool DebugSpritePreloadLogging = false;
 constexpr bool DebugRenderHitchLogging = false;
 constexpr bool DebugActorRenderHitchLogging = false;
+constexpr std::string_view PartyStartDecorationName = "party start";
 
 struct SpriteTexturePreloadRequest
 {
@@ -87,10 +89,60 @@ constexpr uint8_t OutdoorPolygonFloor = 0x3;
 constexpr uint8_t OutdoorPolygonInBetweenFloorAndWall = 0x4;
 constexpr uint32_t AdventurersInnHouseId = 185;
 constexpr int DwiMapId = 1;
-constexpr float DwiStartX = -9216.0f;
-constexpr float DwiStartY = -12848.0f;
-constexpr float DwiStartZ = 3000.0f;
 constexpr uint16_t DwiMeteorShowerEventId = 456;
+
+struct OutdoorPartyStartPoint
+{
+    float x = 0.0f;
+    float y = 0.0f;
+    float z = 0.0f;
+};
+
+std::optional<OutdoorPartyStartPoint> resolveOutdoorPartyStartPoint(
+    const Engine::AssetFileSystem &assetFileSystem,
+    const OutdoorMapData &outdoorMapData)
+{
+    const std::optional<std::vector<uint8_t>> decorationTableBytes =
+        assetFileSystem.readBinaryFile("Data/EnglishT/ddeclist.bin");
+
+    if (!decorationTableBytes)
+    {
+        return std::nullopt;
+    }
+
+    DecorationTable decorationTable;
+
+    if (!decorationTable.loadFromBytes(*decorationTableBytes))
+    {
+        return std::nullopt;
+    }
+
+    for (const OutdoorEntity &entity : outdoorMapData.entities)
+    {
+        std::string decorationName = toLowerCopy(entity.name);
+
+        if (decorationName.empty())
+        {
+            if (const DecorationEntry *pDecoration = decorationTable.get(entity.decorationListId))
+            {
+                decorationName = pDecoration->internalName;
+            }
+        }
+
+        if (decorationName != PartyStartDecorationName)
+        {
+            continue;
+        }
+
+        OutdoorPartyStartPoint startPoint = {};
+        startPoint.x = static_cast<float>(-entity.x);
+        startPoint.y = static_cast<float>(entity.y);
+        startPoint.z = static_cast<float>(entity.z);
+        return startPoint;
+    }
+
+    return std::nullopt;
+}
 
 std::vector<OutdoorActorCollision> buildRuntimeActorColliders(const OutdoorWorldRuntime &worldRuntime)
 {
@@ -986,11 +1038,12 @@ bool OutdoorGameView::initialize(
     float initialY = 0.0f;
     float initialFootZ = centerHeightWorld;
 
-    if (map.id == DwiMapId)
+    if (const std::optional<OutdoorPartyStartPoint> startPoint =
+            resolveOutdoorPartyStartPoint(assetFileSystem, outdoorMapData))
     {
-        initialX = DwiStartX;
-        initialY = DwiStartY;
-        initialFootZ = DwiStartZ;
+        initialX = startPoint->x;
+        initialY = startPoint->y;
+        initialFootZ = startPoint->z;
     }
 
     m_cameraTargetX = initialX;
