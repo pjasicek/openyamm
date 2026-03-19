@@ -652,12 +652,12 @@ int MonsterTable::getRelationBetweenMonsters(int16_t leftMonsterId, int16_t righ
     const size_t leftRelationIndex = relationIndexForMonsterId(leftMonsterId);
     const size_t rightRelationIndex = relationIndexForMonsterId(rightMonsterId);
 
-    if (leftRelationIndex >= m_relations.size() || rightRelationIndex >= m_relations[leftRelationIndex].size())
+    if (rightRelationIndex >= m_relations.size() || leftRelationIndex >= m_relations[rightRelationIndex].size())
     {
         return 0;
     }
 
-    return m_relations[leftRelationIndex][rightRelationIndex];
+    return m_relations[rightRelationIndex][leftRelationIndex];
 }
 
 bool MonsterTable::isHostileToParty(int16_t monsterId) const

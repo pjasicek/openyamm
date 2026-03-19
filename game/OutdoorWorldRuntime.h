@@ -58,6 +58,13 @@ public:
         Spell2,
     };
 
+    enum class DebugTargetKind
+    {
+        None,
+        Party,
+        Actor,
+    };
+
     struct MapActorState
     {
         uint32_t actorId = 0;
@@ -131,6 +138,43 @@ public:
         MonsterAttackAbility ability = MonsterAttackAbility::Attack1;
         int damage = 0;
         int spellId = 0;
+    };
+
+    struct ActorDecisionDebugInfo
+    {
+        size_t actorIndex = static_cast<size_t>(-1);
+        int16_t monsterId = 0;
+        uint8_t hostilityType = 0;
+        bool hostileToParty = false;
+        bool hasDetectedParty = false;
+        ActorAiState aiState = ActorAiState::Standing;
+        ActorAnimation animation = ActorAnimation::Standing;
+        float idleDecisionSeconds = 0.0f;
+        float actionSeconds = 0.0f;
+        float attackCooldownSeconds = 0.0f;
+        uint32_t idleDecisionCount = 0;
+        uint32_t pursueDecisionCount = 0;
+        uint32_t attackDecisionCount = 0;
+        int monsterAiType = 0;
+        bool movementAllowed = false;
+        float partySenseRange = 0.0f;
+        float distanceToParty = 0.0f;
+        bool canSenseParty = false;
+        DebugTargetKind targetKind = DebugTargetKind::None;
+        size_t targetActorIndex = static_cast<size_t>(-1);
+        int16_t targetMonsterId = 0;
+        int relationToTarget = 0;
+        float targetDistance = 0.0f;
+        float targetEdgeDistance = 0.0f;
+        bool targetCanSense = false;
+        bool shouldPromoteHostility = false;
+        float promotionRange = 0.0f;
+        bool shouldEngageTarget = false;
+        bool shouldFlee = false;
+        bool inMeleeRange = false;
+        bool attackJustCompleted = false;
+        bool attackInProgress = false;
+        bool friendlyNearParty = false;
     };
 
     struct ProjectileState
@@ -279,6 +323,12 @@ public:
     bool isChestOpened(uint32_t chestId) const;
     size_t mapActorCount() const;
     const MapActorState *mapActorState(size_t actorIndex) const;
+    std::optional<ActorDecisionDebugInfo> debugActorDecisionInfo(
+        size_t actorIndex,
+        float partyX,
+        float partyY,
+        float partyZ
+    ) const;
     bool debugSpawnMapActorProjectile(
         size_t actorIndex,
         MonsterAttackAbility ability,
@@ -457,6 +507,7 @@ private:
         float targetZ,
         float spawnForwardOffset
     );
+    bool hasClearOutdoorLineOfSight(const bx::Vec3 &start, const bx::Vec3 &end) const;
     void buildOutdoorFaceSpatialIndex();
     void collectOutdoorFaceCandidates(float minX, float minY, float maxX, float maxY, std::vector<size_t> &indices) const;
     void updateProjectiles(float deltaSeconds, float partyX, float partyY, float partyZ);

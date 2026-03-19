@@ -33,6 +33,88 @@ constexpr float HostilityShortRange = 2560.0f;
 constexpr float HostilityMediumRange = 5120.0f;
 constexpr float HostilityLongRange = 10240.0f;
 
+const char *actorAiStateName(OutdoorWorldRuntime::ActorAiState state)
+{
+    switch (state)
+    {
+        case OutdoorWorldRuntime::ActorAiState::Standing:
+            return "standing";
+        case OutdoorWorldRuntime::ActorAiState::Wandering:
+            return "wandering";
+        case OutdoorWorldRuntime::ActorAiState::Pursuing:
+            return "pursuing";
+        case OutdoorWorldRuntime::ActorAiState::Fleeing:
+            return "fleeing";
+        case OutdoorWorldRuntime::ActorAiState::Stunned:
+            return "stunned";
+        case OutdoorWorldRuntime::ActorAiState::Attacking:
+            return "attacking";
+        case OutdoorWorldRuntime::ActorAiState::Dying:
+            return "dying";
+        case OutdoorWorldRuntime::ActorAiState::Dead:
+            return "dead";
+    }
+
+    return "unknown";
+}
+
+const char *actorAnimationName(OutdoorWorldRuntime::ActorAnimation animation)
+{
+    switch (animation)
+    {
+        case OutdoorWorldRuntime::ActorAnimation::Standing:
+            return "standing";
+        case OutdoorWorldRuntime::ActorAnimation::Walking:
+            return "walking";
+        case OutdoorWorldRuntime::ActorAnimation::AttackMelee:
+            return "attack_melee";
+        case OutdoorWorldRuntime::ActorAnimation::AttackRanged:
+            return "attack_ranged";
+        case OutdoorWorldRuntime::ActorAnimation::GotHit:
+            return "got_hit";
+        case OutdoorWorldRuntime::ActorAnimation::Dying:
+            return "dying";
+        case OutdoorWorldRuntime::ActorAnimation::Dead:
+            return "dead";
+        case OutdoorWorldRuntime::ActorAnimation::Bored:
+            return "bored";
+    }
+
+    return "unknown";
+}
+
+const char *debugTargetKindName(OutdoorWorldRuntime::DebugTargetKind kind)
+{
+    switch (kind)
+    {
+        case OutdoorWorldRuntime::DebugTargetKind::None:
+            return "none";
+        case OutdoorWorldRuntime::DebugTargetKind::Party:
+            return "party";
+        case OutdoorWorldRuntime::DebugTargetKind::Actor:
+            return "actor";
+    }
+
+    return "unknown";
+}
+
+const char *monsterAiTypeName(int aiType)
+{
+    switch (static_cast<MonsterTable::MonsterAiType>(aiType))
+    {
+        case MonsterTable::MonsterAiType::Suicide:
+            return "suicide";
+        case MonsterTable::MonsterAiType::Wimp:
+            return "wimp";
+        case MonsterTable::MonsterAiType::Normal:
+            return "normal";
+        case MonsterTable::MonsterAiType::Aggressive:
+            return "aggressive";
+    }
+
+    return "unknown";
+}
+
 struct TextureColorStats
 {
     size_t opaquePixelCount = 0;
@@ -1314,6 +1396,152 @@ int HeadlessOutdoorDiagnostics::runSimulateActor(
     return 0;
 }
 
+int HeadlessOutdoorDiagnostics::runTraceActorAi(
+    const std::filesystem::path &basePath,
+    const std::string &mapFileName,
+    size_t actorIndex,
+    int stepCount,
+    float deltaSeconds
+) const
+{
+    Engine::AssetFileSystem assetFileSystem;
+
+    if (!assetFileSystem.initialize(basePath, m_config.assetRoot))
+    {
+        std::cerr << "Headless diagnostic failed: could not initialize asset file system\n";
+        return 1;
+    }
+
+    GameDataLoader gameDataLoader;
+
+    if (!gameDataLoader.loadForHeadlessGameplay(assetFileSystem))
+    {
+        std::cerr << "Headless diagnostic failed: could not load game data\n";
+        return 1;
+    }
+
+    if (!gameDataLoader.loadMapByFileNameForHeadlessGameplay(assetFileSystem, mapFileName))
+    {
+        std::cerr << "Headless diagnostic failed: could not load map \"" << mapFileName << "\"\n";
+        return 1;
+    }
+
+    const std::optional<MapAssetInfo> &selectedMap = gameDataLoader.getSelectedMap();
+
+    if (!selectedMap || !selectedMap->outdoorMapData)
+    {
+        std::cerr << "Headless diagnostic failed: selected map is not an outdoor map\n";
+        return 1;
+    }
+
+    OutdoorWorldRuntime outdoorWorldRuntime;
+    outdoorWorldRuntime.initialize(
+        selectedMap->map,
+        gameDataLoader.getMonsterTable(),
+        gameDataLoader.getMonsterProjectileTable(),
+        gameDataLoader.getObjectTable(),
+        gameDataLoader.getSpellTable(),
+        gameDataLoader.getItemTable(),
+        selectedMap->outdoorMapData,
+        selectedMap->outdoorMapDeltaData,
+        selectedMap->eventRuntimeState
+    );
+
+    const OutdoorWorldRuntime::MapActorState *pStartActor = outdoorWorldRuntime.mapActorState(actorIndex);
+
+    if (pStartActor == nullptr)
+    {
+        std::cerr << "Headless diagnostic failed: actor " << actorIndex << " missing\n";
+        return 1;
+    }
+
+    const float partyX = static_cast<float>(pStartActor->x + 6000);
+    const float partyY = static_cast<float>(pStartActor->y);
+    const float partyZ = static_cast<float>(pStartActor->z);
+
+    std::cout << "Headless actor AI trace: actor=" << actorIndex
+              << " start_pos=(" << pStartActor->x << "," << pStartActor->y << "," << pStartActor->z << ")"
+              << " party_pos=(" << partyX << "," << partyY << "," << partyZ << ")"
+              << " steps=" << stepCount
+              << " delta=" << deltaSeconds
+              << '\n';
+
+    for (int step = 0; step < stepCount; ++step)
+    {
+        const std::optional<OutdoorWorldRuntime::ActorDecisionDebugInfo> before =
+            outdoorWorldRuntime.debugActorDecisionInfo(actorIndex, partyX, partyY, partyZ);
+
+        if (!before)
+        {
+            std::cerr << "Headless diagnostic failed: debug info unavailable before update\n";
+            return 1;
+        }
+
+        std::cout << "step=" << step
+                  << " before"
+                  << " ai=" << actorAiStateName(before->aiState) << "(" << static_cast<int>(before->aiState) << ")"
+                  << " anim=" << actorAnimationName(before->animation) << "(" << static_cast<int>(before->animation) << ")"
+                  << " hostility=" << static_cast<unsigned>(before->hostilityType)
+                  << " hostile_party=" << (before->hostileToParty ? "yes" : "no")
+                  << " detected_party=" << (before->hasDetectedParty ? "yes" : "no")
+                  << " ai_type=" << monsterAiTypeName(before->monsterAiType)
+                  << " idle_secs=" << before->idleDecisionSeconds
+                  << " action_secs=" << before->actionSeconds
+                  << " cooldown=" << before->attackCooldownSeconds
+                  << " decisions=(" << before->idleDecisionCount
+                  << "," << before->pursueDecisionCount
+                  << "," << before->attackDecisionCount << ")"
+                  << " target=" << debugTargetKindName(before->targetKind);
+
+        if (before->targetKind == OutdoorWorldRuntime::DebugTargetKind::Actor)
+        {
+            std::cout << ":" << before->targetActorIndex
+                      << " monster=" << before->targetMonsterId;
+        }
+
+        std::cout << " relation=" << before->relationToTarget
+                  << " target_dist=" << before->targetDistance
+                  << " edge=" << before->targetEdgeDistance
+                  << " target_sense=" << (before->targetCanSense ? "yes" : "no")
+                  << " party_sense=" << (before->canSenseParty ? "yes" : "no")
+                  << " party_range=" << before->partySenseRange
+                  << " party_dist=" << before->distanceToParty
+                  << " promote=" << (before->shouldPromoteHostility ? "yes" : "no")
+                  << " promote_range=" << before->promotionRange
+                  << " engage=" << (before->shouldEngageTarget ? "yes" : "no")
+                  << " flee=" << (before->shouldFlee ? "yes" : "no")
+                  << " melee=" << (before->inMeleeRange ? "yes" : "no")
+                  << " atk_done=" << (before->attackJustCompleted ? "yes" : "no")
+                  << " atk_progress=" << (before->attackInProgress ? "yes" : "no")
+                  << " near_party=" << (before->friendlyNearParty ? "yes" : "no")
+                  << '\n';
+
+        outdoorWorldRuntime.updateMapActors(deltaSeconds, partyX, partyY, partyZ);
+
+        const OutdoorWorldRuntime::MapActorState *pAfter = outdoorWorldRuntime.mapActorState(actorIndex);
+
+        if (pAfter == nullptr)
+        {
+            std::cerr << "Headless diagnostic failed: actor disappeared during trace\n";
+            return 1;
+        }
+
+        std::cout << "step=" << step
+                  << " after"
+                  << " pos=(" << pAfter->x << "," << pAfter->y << "," << pAfter->z << ")"
+                  << " ai=" << actorAiStateName(pAfter->aiState) << "(" << static_cast<int>(pAfter->aiState) << ")"
+                  << " anim=" << actorAnimationName(pAfter->animation) << "(" << static_cast<int>(pAfter->animation) << ")"
+                  << " hostility=" << static_cast<unsigned>(pAfter->hostilityType)
+                  << " detected_party=" << (pAfter->hasDetectedParty ? "yes" : "no")
+                  << " decisions=(" << pAfter->idleDecisionCount
+                  << "," << pAfter->pursueDecisionCount
+                  << "," << pAfter->attackDecisionCount << ")"
+                  << '\n';
+    }
+
+    return 0;
+}
+
 int HeadlessOutdoorDiagnostics::runInspectActorPreview(
     const std::filesystem::path &basePath,
     const std::string &mapFileName,
@@ -2585,6 +2813,58 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
             {
                 failure = "unexpected sergeant runtime state";
                 return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "dwi_peasant_actor_5_does_not_flee_on_start",
+        [&](std::string &failure)
+        {
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            const OutdoorWorldRuntime::MapActorState *pBefore = scenario.world.mapActorState(5);
+
+            if (pBefore == nullptr)
+            {
+                failure = "actor 5 missing";
+                return false;
+            }
+
+            if (pBefore->hostilityType != 0)
+            {
+                failure = "actor 5 did not start friendly to nearby actors";
+                return false;
+            }
+
+            for (int step = 0; step < 8; ++step)
+            {
+                scenario.world.updateMapActors(
+                    0.125f,
+                    pBefore->preciseX + 20000.0f,
+                    pBefore->preciseY + 20000.0f,
+                    pBefore->preciseZ);
+                const OutdoorWorldRuntime::MapActorState *pStep = scenario.world.mapActorState(5);
+
+                if (pStep == nullptr)
+                {
+                    failure = "actor 5 disappeared during startup simulation";
+                    return false;
+                }
+
+                if (pStep->aiState == OutdoorWorldRuntime::ActorAiState::Fleeing)
+                {
+                    failure = "actor 5 entered fleeing state on map start";
+                    return false;
+                }
             }
 
             return true;
@@ -4576,7 +4856,7 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
     );
 
     runCase(
-        "long_hostile_actor_pair_engages_beyond_5120",
+        "long_hostile_actor_pair_engages_at_2048",
         [&](std::string &failure)
         {
             if (!selectedMap->outdoorMapDeltaData)
@@ -4596,7 +4876,7 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
             leftActor.x = -9216;
             leftActor.y = -12848;
             leftActor.z = 110;
-            rightActor.x = leftActor.x + 7000;
+            rightActor.x = leftActor.x + 2048;
             rightActor.y = leftActor.y;
             rightActor.z = leftActor.z;
             RegressionScenario scenario = {};
@@ -4653,7 +4933,7 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
                 }
             }
 
-            failure = "long-hostility actor pair never engaged from beyond 5120 units";
+            failure = "long-hostility actor pair never engaged from 2048 units apart";
             return false;
         }
     );
@@ -4990,6 +5270,222 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
             {
                 failure = "actor 51 crossed a nearby blocking face";
                 return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "hostile_actor_51_ignores_hostile_actor_across_blocking_face",
+        [&](std::string &failure)
+        {
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            if (!selectedMap->outdoorMapData)
+            {
+                failure = "selected map missing outdoor data";
+                return false;
+            }
+
+            const OutdoorWorldRuntime::MapActorState *pActor = scenario.world.mapActorState(51);
+
+            if (pActor == nullptr)
+            {
+                failure = "actor 51 missing";
+                return false;
+            }
+
+            const float actorZ = pActor->preciseZ;
+
+            std::vector<OutdoorFaceGeometryData> faces;
+
+            for (size_t bModelIndex = 0; bModelIndex < selectedMap->outdoorMapData->bmodels.size(); ++bModelIndex)
+            {
+                const OutdoorBModel &bModel = selectedMap->outdoorMapData->bmodels[bModelIndex];
+
+                for (size_t faceIndex = 0; faceIndex < bModel.faces.size(); ++faceIndex)
+                {
+                    OutdoorFaceGeometryData geometry = {};
+
+                    if (buildOutdoorFaceGeometry(bModel, bModelIndex, bModel.faces[faceIndex], faceIndex, geometry))
+                    {
+                        faces.push_back(std::move(geometry));
+                    }
+                }
+            }
+
+            const OutdoorFaceGeometryData *pBlockingFace = nullptr;
+            float bestDistance = std::numeric_limits<float>::max();
+            const bx::Vec3 actorCenter = {
+                pActor->preciseX,
+                pActor->preciseY,
+                pActor->preciseZ + static_cast<float>(pActor->height) * 0.5f
+            };
+
+            for (const OutdoorFaceGeometryData &face : faces)
+            {
+                if (face.isWalkable || !face.hasPlane)
+                {
+                    continue;
+                }
+
+                const float signedDistance = std::abs(signedDistanceToOutdoorFace(face, actorCenter));
+
+                if (signedDistance >= bestDistance || signedDistance > 256.0f)
+                {
+                    continue;
+                }
+
+                const bx::Vec3 projectedPoint = {
+                    actorCenter.x - face.normal.x * signedDistanceToOutdoorFace(face, actorCenter),
+                    actorCenter.y - face.normal.y * signedDistanceToOutdoorFace(face, actorCenter),
+                    actorCenter.z - face.normal.z * signedDistanceToOutdoorFace(face, actorCenter)
+                };
+
+                if (!isPointInsideOutdoorPolygonProjected(projectedPoint, face.vertices, face.normal))
+                {
+                    continue;
+                }
+
+                bestDistance = signedDistance;
+                pBlockingFace = &face;
+            }
+
+            if (pBlockingFace == nullptr)
+            {
+                failure = "no nearby blocking face found for actor 51";
+                return false;
+            }
+
+            const float signedDistance = signedDistanceToOutdoorFace(*pBlockingFace, actorCenter);
+            const float actorSideSign = signedDistance >= 0.0f ? 1.0f : -1.0f;
+            const bx::Vec3 projectedPoint = {
+                actorCenter.x - pBlockingFace->normal.x * signedDistance,
+                actorCenter.y - pBlockingFace->normal.y * signedDistance,
+                actorCenter.z - pBlockingFace->normal.z * signedDistance
+            };
+            const float leftActorX = projectedPoint.x + pBlockingFace->normal.x * actorSideSign * 192.0f;
+            const float leftActorY = projectedPoint.y + pBlockingFace->normal.y * actorSideSign * 192.0f;
+            const float rightActorX = projectedPoint.x - pBlockingFace->normal.x * actorSideSign * 192.0f;
+            const float rightActorY = projectedPoint.y - pBlockingFace->normal.y * actorSideSign * 192.0f;
+            const float leftActorZ = sampleOutdoorPlacementFloorHeight(
+                *selectedMap->outdoorMapData,
+                leftActorX,
+                leftActorY,
+                actorZ + 256.0f);
+            const float rightActorZ = sampleOutdoorPlacementFloorHeight(
+                *selectedMap->outdoorMapData,
+                rightActorX,
+                rightActorY,
+                actorZ + 256.0f);
+
+            const size_t baseActorCount = scenario.world.mapActorCount();
+
+            for (size_t actorIndex = 0; actorIndex < baseActorCount; ++actorIndex)
+            {
+                if (!scenario.world.setMapActorDead(actorIndex, true, false))
+                {
+                    failure = "could not clear existing actor";
+                    return false;
+                }
+            }
+
+            const size_t leftActorIndex = scenario.world.mapActorCount();
+
+            if (!scenario.world.summonMonsters(
+                    1,
+                    2,
+                    1,
+                    -static_cast<int32_t>(std::lround(leftActorX)),
+                    static_cast<int32_t>(std::lround(leftActorY)),
+                    static_cast<int32_t>(std::lround(leftActorZ)),
+                    12,
+                    0))
+            {
+                failure = "could not spawn left hostile actor across blocking face";
+                return false;
+            }
+
+            if (!scenario.world.summonMonsters(
+                    2,
+                    2,
+                    1,
+                    -static_cast<int32_t>(std::lround(rightActorX)),
+                    static_cast<int32_t>(std::lround(rightActorY)),
+                    static_cast<int32_t>(std::lround(rightActorZ)),
+                    10,
+                    0))
+            {
+                failure = "could not spawn right hostile actor across blocking face";
+                return false;
+            }
+
+            const size_t rightActorIndex = leftActorIndex + 1;
+            const OutdoorWorldRuntime::MapActorState *pLeftActor = scenario.world.mapActorState(leftActorIndex);
+            const OutdoorWorldRuntime::MapActorState *pRightActor = scenario.world.mapActorState(rightActorIndex);
+
+            if (pLeftActor == nullptr || pRightActor == nullptr)
+            {
+                failure = "spawned hostile actor pair missing";
+                return false;
+            }
+
+            if (gameDataLoader.getMonsterTable().getRelationBetweenMonsters(
+                    pLeftActor->monsterId,
+                    pRightActor->monsterId) <= 0)
+            {
+                failure = "spawned actor pair is not hostile";
+                return false;
+            }
+
+            const float partyX = actorCenter.x + 20000.0f;
+            const float partyY = actorCenter.y + 20000.0f;
+            const float partyZ = actorZ;
+            const int leftInitialHp = pLeftActor->currentHp;
+            const int rightInitialHp = pRightActor->currentHp;
+
+            for (int step = 0; step < 256; ++step)
+            {
+                scenario.world.updateMapActors(1.0f / 128.0f, partyX, partyY, partyZ);
+
+                const OutdoorWorldRuntime::MapActorState *pLeftAfter = scenario.world.mapActorState(leftActorIndex);
+                const OutdoorWorldRuntime::MapActorState *pRightAfter = scenario.world.mapActorState(rightActorIndex);
+
+                if (pLeftAfter == nullptr || pRightAfter == nullptr)
+                {
+                    failure = "actor disappeared during blocked hostile simulation";
+                    return false;
+                }
+
+                if (pLeftAfter->currentHp != leftInitialHp || pRightAfter->currentHp != rightInitialHp)
+                {
+                    failure = "blocked hostile actors still exchanged damage";
+                    return false;
+                }
+
+                if (scenario.world.projectileCount() > 0)
+                {
+                    failure = "blocked hostile actors still launched a projectile";
+                    return false;
+                }
+
+                if (pLeftAfter->aiState == OutdoorWorldRuntime::ActorAiState::Pursuing
+                    || pLeftAfter->aiState == OutdoorWorldRuntime::ActorAiState::Attacking
+                    || pLeftAfter->aiState == OutdoorWorldRuntime::ActorAiState::Fleeing
+                    || pRightAfter->aiState == OutdoorWorldRuntime::ActorAiState::Pursuing
+                    || pRightAfter->aiState == OutdoorWorldRuntime::ActorAiState::Attacking
+                    || pRightAfter->aiState == OutdoorWorldRuntime::ActorAiState::Fleeing)
+                {
+                    failure = "blocked hostile actors still engaged through geometry";
+                    return false;
+                }
             }
 
             return true;

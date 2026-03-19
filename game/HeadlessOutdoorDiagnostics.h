@@ -45,6 +45,13 @@ public:
         int stepCount,
         float deltaSeconds
     ) const;
+    int runTraceActorAi(
+        const std::filesystem::path &basePath,
+        const std::string &mapFileName,
+        size_t actorIndex,
+        int stepCount,
+        float deltaSeconds
+    ) const;
     int runInspectActorPreview(
         const std::filesystem::path &basePath,
         const std::string &mapFileName,

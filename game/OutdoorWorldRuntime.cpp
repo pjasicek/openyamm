@@ -311,6 +311,11 @@ float shortestAngleDistanceRadians(float left, float right)
     return std::abs(normalizeAngleRadians(left - right));
 }
 
+float lengthSquared3d(float x, float y, float z)
+{
+    return x * x + y * y + z * z;
+}
+
 void faceDirection(OutdoorWorldRuntime::MapActorState &actor, float deltaX, float deltaY);
 
 float hostilityRangeForRelation(int relation)
@@ -328,6 +333,28 @@ float hostilityRangeForRelation(int relation)
         default:
             return 0.0f;
     }
+}
+
+float hostilityPromotionRangeForFriendlyActor(int relation)
+{
+    switch (relation)
+    {
+        case 1:
+            return 0.0f;
+        case 2:
+            return HostilityCloseRange;
+        case 3:
+            return HostilityShortRange;
+        case 4:
+            return HostilityMediumRange;
+        default:
+            return -1.0f;
+    }
+}
+
+bool isWithinRange3d(float x, float y, float z, float range)
+{
+    return range > 0.0f && lengthSquared3d(x, y, z) <= range * range;
 }
 
 float meleeRangeForCombatTarget(bool targetIsActor)
@@ -1318,7 +1345,6 @@ OutdoorWorldRuntime::MapActorState buildMapActorState(
     const MonsterTable::MonsterStatsEntry *pStats = monsterTable.findStatsById(state.monsterId);
     const MonsterEntry *pMonsterEntry = resolveMonsterEntry(monsterTable, state.monsterId, pStats);
     state.displayName = pStats != nullptr ? pStats->name : actor.name;
-    state.hostilityType = static_cast<uint8_t>(pStats != nullptr ? pStats->hostility : actor.hostilityType);
     state.maxHp = pStats != nullptr ? pStats->hitPoints : std::max(0, static_cast<int>(actor.hp));
     state.currentHp = actor.hp > 0 ? actor.hp : state.maxHp;
     state.x = -actor.x;
@@ -1338,6 +1364,13 @@ OutdoorWorldRuntime::MapActorState buildMapActorState(
     state.moveSpeed = pMonsterEntry != nullptr ? pMonsterEntry->movementSpeed : 0;
     state.hostileToParty =
         (actor.attributes & ActorAggressorBit) != 0 || monsterTable.isHostileToParty(state.monsterId);
+    state.hostilityType = actor.hostilityType;
+
+    if (state.hostilityType == 0 && state.hostileToParty && pStats != nullptr)
+    {
+        state.hostilityType = static_cast<uint8_t>(pStats->hostility);
+    }
+
     state.isInvisible = (actor.attributes & ActorInvisibleBit) != 0;
     state.animation = actor.hp <= 0 ? OutdoorWorldRuntime::ActorAnimation::Dead
         : static_cast<OutdoorWorldRuntime::ActorAnimation>(std::clamp<int>(actor.currentActionAnimation, 0, 7));
@@ -1822,6 +1855,7 @@ struct CombatTargetInfo
 {
     CombatTargetKind kind = CombatTargetKind::None;
     size_t actorIndex = static_cast<size_t>(-1);
+    int relationToTarget = 0;
     float targetX = 0.0f;
     float targetY = 0.0f;
     float targetZ = 0.0f;
@@ -1834,6 +1868,68 @@ struct CombatTargetInfo
     bool canSense = false;
 };
 
+float targetDistanceSquared(const CombatTargetInfo &target)
+{
+    return lengthSquared3d(target.deltaX, target.deltaY, target.deltaZ);
+}
+
+const char *combatTargetKindName(CombatTargetKind targetKind)
+{
+    switch (targetKind)
+    {
+        case CombatTargetKind::Party:
+            return "party";
+        case CombatTargetKind::Actor:
+            return "actor";
+        default:
+            return "none";
+    }
+}
+
+void logActorFleeDecision(
+    size_t actorIndex,
+    const OutdoorWorldRuntime::MapActorState &actor,
+    const std::vector<OutdoorWorldRuntime::MapActorState> &mapActors,
+    const CombatTargetInfo &combatTarget)
+{
+    if (actorIndex != 15 && actorIndex != 27)
+    {
+        return;
+    }
+
+    std::cout
+        << "Actor flee actor_index=" << actorIndex
+        << " actor_id=" << actor.actorId
+        << " actor_name=\"" << debugStringOrNone(actor.displayName) << "\""
+        << " actor_monster_id=" << actor.monsterId
+        << " actor_pos=(" << actor.x << ", " << actor.y << ", " << actor.z << ")"
+        << " target_kind=" << combatTargetKindName(combatTarget.kind)
+        << " relation=" << combatTarget.relationToTarget
+        << " target_dist=" << combatTarget.distanceToTarget
+        << " target_edge_dist=" << combatTarget.edgeDistance;
+
+    if (combatTarget.kind == CombatTargetKind::Actor && combatTarget.actorIndex < mapActors.size())
+    {
+        const OutdoorWorldRuntime::MapActorState &targetActor = mapActors[combatTarget.actorIndex];
+
+        std::cout
+            << " target_actor_index=" << combatTarget.actorIndex
+            << " target_actor_id=" << targetActor.actorId
+            << " target_name=\"" << debugStringOrNone(targetActor.displayName) << "\""
+            << " target_monster_id=" << targetActor.monsterId
+            << " target_pos=(" << targetActor.x << ", " << targetActor.y << ", " << targetActor.z << ")";
+    }
+    else if (combatTarget.kind == CombatTargetKind::Party)
+    {
+        std::cout
+            << " target_pos=(" << combatTarget.targetX << ", " << combatTarget.targetY << ", "
+            << combatTarget.targetZ << ")";
+    }
+
+    std::cout << '\n';
+}
+
+template <typename VisibilityFn>
 CombatTargetInfo selectCombatTarget(
     const OutdoorWorldRuntime::MapActorState &actor,
     size_t actorIndex,
@@ -1841,7 +1937,8 @@ CombatTargetInfo selectCombatTarget(
     const MonsterTable &monsterTable,
     float partyX,
     float partyY,
-    float partyZ)
+    float partyZ,
+    VisibilityFn &&hasClearOutdoorLineOfSight)
 {
     CombatTargetInfo target = {};
     float bestPriorityDistanceSquared = std::numeric_limits<float>::max();
@@ -1857,19 +1954,19 @@ CombatTargetInfo selectCombatTarget(
         const float deltaPartyY = partyY - actor.preciseY;
         const float partyTargetZ = partyZ + PartyTargetHeightOffset;
         const float deltaPartyZ = partyTargetZ - actorTargetZ;
-        const float horizontalDistanceToParty = length2d(deltaPartyX, deltaPartyY);
-        const float distanceToParty = length3d(deltaPartyX, deltaPartyY, deltaPartyZ);
-        const float edgeDistanceToParty = std::max(
-            0.0f,
-            distanceToParty - static_cast<float>(actor.radius) - PartyCollisionRadius);
         const bool canSenseParty =
             std::abs(deltaPartyX) <= partyEngagementRange
             && std::abs(deltaPartyY) <= partyEngagementRange
             && std::abs(deltaPartyZ) <= partyEngagementRange
-            && distanceToParty <= partyEngagementRange;
+            && isWithinRange3d(deltaPartyX, deltaPartyY, deltaPartyZ, partyEngagementRange);
 
         if (canSenseParty)
         {
+            const float horizontalDistanceToParty = length2d(deltaPartyX, deltaPartyY);
+            const float distanceToParty = length3d(deltaPartyX, deltaPartyY, deltaPartyZ);
+            const float edgeDistanceToParty = std::max(
+                0.0f,
+                distanceToParty - static_cast<float>(actor.radius) - PartyCollisionRadius);
             target.kind = CombatTargetKind::Party;
             target.targetX = partyX;
             target.targetY = partyY;
@@ -1909,32 +2006,35 @@ CombatTargetInfo selectCombatTarget(
         const float otherActorTargetZ =
             otherActor.preciseZ + std::max(24.0f, static_cast<float>(otherActor.height) * 0.7f);
         const float deltaZ = otherActorTargetZ - actorTargetZ;
-        const float horizontalDistanceToOtherActor = length2d(deltaX, deltaY);
-        const float distanceToOtherActor = length3d(deltaX, deltaY, deltaZ);
-        const float engagementRange =
-            hostilityRangeForRelation(monsterTable.getRelationBetweenMonsters(actor.monsterId, otherActor.monsterId));
+        const float distanceSquaredToOtherActor = lengthSquared3d(deltaX, deltaY, deltaZ);
+        const int relationToOtherActor = monsterTable.getRelationBetweenMonsters(actor.monsterId, otherActor.monsterId);
+        const float engagementRange = hostilityRangeForRelation(relationToOtherActor);
 
-        if (engagementRange <= 0.0f
-            || std::abs(deltaX) > engagementRange
-            || std::abs(deltaY) > engagementRange
-            || std::abs(deltaZ) > engagementRange
-            || distanceToOtherActor > engagementRange)
+        if (!isWithinRange3d(deltaX, deltaY, deltaZ, engagementRange))
         {
             continue;
         }
 
+        if (!hasClearOutdoorLineOfSight(
+                bx::Vec3{actor.preciseX, actor.preciseY, actorTargetZ},
+                bx::Vec3{otherActor.preciseX, otherActor.preciseY, otherActorTargetZ}))
+        {
+            continue;
+        }
+
+        if (distanceSquaredToOtherActor >= bestPriorityDistanceSquared)
+        {
+            continue;
+        }
+
+        const float horizontalDistanceToOtherActor = length2d(deltaX, deltaY);
+        const float distanceToOtherActor = length3d(deltaX, deltaY, deltaZ);
         const float edgeDistance = std::max(
             0.0f,
             distanceToOtherActor - static_cast<float>(actor.radius) - static_cast<float>(otherActor.radius));
-        const float distanceSquared = distanceToOtherActor * distanceToOtherActor;
-
-        if (distanceSquared >= bestPriorityDistanceSquared)
-        {
-            continue;
-        }
-
         target.kind = CombatTargetKind::Actor;
         target.actorIndex = otherActorIndex;
+        target.relationToTarget = relationToOtherActor;
         target.targetX = otherActor.preciseX;
         target.targetY = otherActor.preciseY;
         target.targetZ = otherActorTargetZ;
@@ -1945,7 +2045,7 @@ CombatTargetInfo selectCombatTarget(
         target.distanceToTarget = distanceToOtherActor;
         target.edgeDistance = edgeDistance;
         target.canSense = true;
-        bestPriorityDistanceSquared = distanceSquared;
+        bestPriorityDistanceSquared = distanceSquaredToOtherActor;
     }
 
     return target;
@@ -3332,14 +3432,48 @@ void OutdoorWorldRuntime::updateMapActors(float deltaSeconds, float partyX, floa
                 && std::abs(deltaPartyX) <= partySenseRange
                 && std::abs(deltaPartyY) <= partySenseRange
                 && std::abs(deltaPartyZ) <= partySenseRange
-                && length3d(deltaPartyX, deltaPartyY, deltaPartyZ) <= partySenseRange;
+                && isWithinRange3d(deltaPartyX, deltaPartyY, deltaPartyZ, partySenseRange);
+            const auto hasClearOutdoorLineOfSight =
+                [this](const bx::Vec3 &start, const bx::Vec3 &end) -> bool
+            {
+                return this->hasClearOutdoorLineOfSight(start, end);
+            };
             const bool movementAllowed = pStats->movementType != MonsterTable::MonsterMovementType::Stationary;
             const CombatTargetInfo combatTarget =
-                selectCombatTarget(actor, actorIndex, m_mapActors, *m_pMonsterTable, partyX, partyY, partyZ);
+                selectCombatTarget(
+                    actor,
+                    actorIndex,
+                    m_mapActors,
+                    *m_pMonsterTable,
+                    partyX,
+                    partyY,
+                    partyZ,
+                    hasClearOutdoorLineOfSight);
             const bool hasCombatTarget = combatTarget.kind != CombatTargetKind::None;
             const bool targetIsParty = combatTarget.kind == CombatTargetKind::Party;
             const bool targetIsActor = combatTarget.kind == CombatTargetKind::Actor;
-            const bool shouldEngageTarget = hasCombatTarget && combatTarget.canSense;
+            bool shouldEngageTarget = hasCombatTarget && combatTarget.canSense;
+
+            if (targetIsActor && actor.hostilityType == 0)
+            {
+                const float promotionRange = hostilityPromotionRangeForFriendlyActor(combatTarget.relationToTarget);
+                const bool shouldPromoteHostility =
+                    combatTarget.relationToTarget == 1
+                    || isWithinRange3d(
+                        combatTarget.deltaX,
+                        combatTarget.deltaY,
+                        combatTarget.deltaZ,
+                        promotionRange);
+
+                if (shouldPromoteHostility)
+                {
+                    actor.hostilityType = 4;
+                }
+                else
+                {
+                    shouldEngageTarget = false;
+                }
+            }
 
             if (targetIsParty && !actor.hasDetectedParty)
             {
@@ -3354,6 +3488,12 @@ void OutdoorWorldRuntime::updateMapActors(float deltaSeconds, float partyX, floa
             const bool shouldFlee = shouldEngageTarget
                 && combatTarget.distanceToTarget <= FleeThresholdRange
                 && shouldFleeForAiType(*pStats, actor);
+
+            if (shouldFlee)
+            {
+                logActorFleeDecision(actorIndex, actor, m_mapActors, combatTarget);
+            }
+
             const bool inMeleeRange =
                 combatTarget.edgeDistance <= meleeRangeForCombatTarget(targetIsActor);
             const bool attackJustCompleted =
@@ -4390,6 +4530,56 @@ void OutdoorWorldRuntime::collectOutdoorFaceCandidates(
     }
 }
 
+bool OutdoorWorldRuntime::hasClearOutdoorLineOfSight(const bx::Vec3 &start, const bx::Vec3 &end) const
+{
+    if (m_outdoorFaces.empty())
+    {
+        return true;
+    }
+
+    constexpr float FaceCollisionPadding = 16.0f;
+    constexpr float EdgeFactorEpsilon = 0.01f;
+    std::vector<size_t> candidateFaceIndices;
+    collectOutdoorFaceCandidates(
+        std::min(start.x, end.x) - FaceCollisionPadding,
+        std::min(start.y, end.y) - FaceCollisionPadding,
+        std::max(start.x, end.x) + FaceCollisionPadding,
+        std::max(start.y, end.y) + FaceCollisionPadding,
+        candidateFaceIndices);
+
+    for (size_t faceIndex : candidateFaceIndices)
+    {
+        if (faceIndex >= m_outdoorFaces.size())
+        {
+            continue;
+        }
+
+        const OutdoorFaceGeometryData &face = m_outdoorFaces[faceIndex];
+
+        if (!face.hasPlane || face.isWalkable)
+        {
+            continue;
+        }
+
+        if (!segmentMayTouchFaceBounds(start, end, face, FaceCollisionPadding))
+        {
+            continue;
+        }
+
+        float factor = 0.0f;
+        bx::Vec3 point = {0.0f, 0.0f, 0.0f};
+
+        if (intersectOutdoorSegmentWithFace(face, start, end, factor, point)
+            && factor > EdgeFactorEpsilon
+            && factor < 1.0f - EdgeFactorEpsilon)
+        {
+            return false;
+        }
+    }
+
+    return true;
+}
+
 void OutdoorWorldRuntime::updateProjectiles(float deltaSeconds, float partyX, float partyY, float partyZ)
 {
     if (deltaSeconds <= 0.0f)
@@ -4827,6 +5017,136 @@ const OutdoorWorldRuntime::MapActorState *OutdoorWorldRuntime::mapActorState(siz
     }
 
     return &m_mapActors[actorIndex];
+}
+
+std::optional<OutdoorWorldRuntime::ActorDecisionDebugInfo> OutdoorWorldRuntime::debugActorDecisionInfo(
+    size_t actorIndex,
+    float partyX,
+    float partyY,
+    float partyZ
+) const
+{
+    if (actorIndex >= m_mapActors.size() || m_pMonsterTable == nullptr)
+    {
+        return std::nullopt;
+    }
+
+    const MapActorState &actor = m_mapActors[actorIndex];
+    const MonsterTable::MonsterStatsEntry *pStats = m_pMonsterTable->findStatsById(actor.monsterId);
+
+    if (pStats == nullptr)
+    {
+        return std::nullopt;
+    }
+
+    ActorDecisionDebugInfo info = {};
+    info.actorIndex = actorIndex;
+    info.monsterId = actor.monsterId;
+    info.hostilityType = actor.hostilityType;
+    info.hostileToParty = actor.hostileToParty;
+    info.hasDetectedParty = actor.hasDetectedParty;
+    info.aiState = actor.aiState;
+    info.animation = actor.animation;
+    info.idleDecisionSeconds = actor.idleDecisionSeconds;
+    info.actionSeconds = actor.actionSeconds;
+    info.attackCooldownSeconds = actor.attackCooldownSeconds;
+    info.idleDecisionCount = actor.idleDecisionCount;
+    info.pursueDecisionCount = actor.pursueDecisionCount;
+    info.attackDecisionCount = actor.attackDecisionCount;
+    info.monsterAiType = static_cast<int>(pStats->aiType);
+    info.movementAllowed = pStats->movementType != MonsterTable::MonsterMovementType::Stationary;
+
+    const int relationToParty = m_pMonsterTable->getRelationToParty(actor.monsterId);
+    const float partySenseRange = actor.hostileToParty
+        ? HostilityLongRange
+        : hostilityRangeForRelation(relationToParty);
+    const float deltaPartyX = partyX - actor.preciseX;
+    const float deltaPartyY = partyY - actor.preciseY;
+    const float distanceToParty = length2d(deltaPartyX, deltaPartyY);
+    const float actorTargetZ = actor.preciseZ + std::max(24.0f, static_cast<float>(actor.height) * 0.7f);
+    const float partyTargetZ = partyZ + PartyTargetHeightOffset;
+    const float deltaPartyZ = partyTargetZ - actorTargetZ;
+    const bool canSenseParty =
+        partySenseRange > 0.0f
+        && std::abs(deltaPartyX) <= partySenseRange
+        && std::abs(deltaPartyY) <= partySenseRange
+        && std::abs(deltaPartyZ) <= partySenseRange
+        && isWithinRange3d(deltaPartyX, deltaPartyY, deltaPartyZ, partySenseRange);
+    const auto hasClearOutdoorLineOfSight =
+        [this](const bx::Vec3 &start, const bx::Vec3 &end) -> bool
+    {
+        return this->hasClearOutdoorLineOfSight(start, end);
+    };
+    const CombatTargetInfo combatTarget =
+        selectCombatTarget(
+            actor,
+            actorIndex,
+            m_mapActors,
+            *m_pMonsterTable,
+            partyX,
+            partyY,
+            partyZ,
+            hasClearOutdoorLineOfSight);
+    const bool hasCombatTarget = combatTarget.kind != CombatTargetKind::None;
+    const bool targetIsParty = combatTarget.kind == CombatTargetKind::Party;
+    const bool targetIsActor = combatTarget.kind == CombatTargetKind::Actor;
+    bool shouldEngageTarget = hasCombatTarget && combatTarget.canSense;
+
+    info.partySenseRange = partySenseRange;
+    info.distanceToParty = distanceToParty;
+    info.canSenseParty = canSenseParty;
+    info.targetKind = targetIsParty
+        ? DebugTargetKind::Party
+        : targetIsActor ? DebugTargetKind::Actor : DebugTargetKind::None;
+    info.targetActorIndex = combatTarget.actorIndex;
+    info.relationToTarget = combatTarget.relationToTarget;
+    info.targetDistance = combatTarget.distanceToTarget;
+    info.targetEdgeDistance = combatTarget.edgeDistance;
+    info.targetCanSense = combatTarget.canSense;
+
+    if (targetIsActor && combatTarget.actorIndex < m_mapActors.size())
+    {
+        info.targetMonsterId = m_mapActors[combatTarget.actorIndex].monsterId;
+    }
+
+    if (targetIsActor && actor.hostilityType == 0)
+    {
+        info.promotionRange = hostilityPromotionRangeForFriendlyActor(combatTarget.relationToTarget);
+        info.shouldPromoteHostility =
+            combatTarget.relationToTarget == 1
+            || targetDistanceSquared(combatTarget) <= info.promotionRange * info.promotionRange;
+
+        if (!info.shouldPromoteHostility)
+        {
+            shouldEngageTarget = false;
+        }
+    }
+
+    const bool shouldFlee = shouldEngageTarget
+        && combatTarget.distanceToTarget <= FleeThresholdRange
+        && shouldFleeForAiType(*pStats, actor);
+    const bool inMeleeRange = combatTarget.edgeDistance <= meleeRangeForCombatTarget(targetIsActor);
+    const bool attackJustCompleted =
+        actor.aiState == ActorAiState::Attacking
+        && actor.actionSeconds <= 0.0f
+        && !actor.attackImpactTriggered;
+    const bool attackInProgress =
+        actor.aiState == ActorAiState::Attacking
+        && actor.actionSeconds > 0.0f;
+    const bool partyIsVeryNearActor =
+        distanceToParty <= (static_cast<float>(actor.radius) + PartyCollisionRadius + 16.0f)
+        && std::abs(partyZ - actor.preciseZ) <= static_cast<float>(std::max<uint16_t>(actor.height, 192));
+
+    info.shouldEngageTarget = shouldEngageTarget;
+    info.shouldFlee = shouldFlee;
+    info.inMeleeRange = inMeleeRange;
+    info.attackJustCompleted = attackJustCompleted;
+    info.attackInProgress = attackInProgress;
+    info.friendlyNearParty =
+        !shouldEngageTarget
+        && !actor.hostileToParty
+        && partyIsVeryNearActor;
+    return info;
 }
 
 bool OutdoorWorldRuntime::debugSpawnMapActorProjectile(

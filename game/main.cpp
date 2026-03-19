@@ -103,6 +103,27 @@ int runApplication(int argc, char **argv)
             deltaSeconds);
     }
 
+    if (argc == 6 && std::string(argv[1]) == "--headless-trace-actor-ai")
+    {
+        const std::string mapFileName = argv[2];
+        const int parsedActorIndex = std::stoi(argv[3]);
+        const int parsedStepCount = std::stoi(argv[4]);
+        const float deltaSeconds = std::stof(argv[5]);
+
+        if (parsedActorIndex < 0 || parsedStepCount <= 0 || deltaSeconds <= 0.0f)
+        {
+            return 2;
+        }
+
+        OpenYAMM::Game::HeadlessOutdoorDiagnostics diagnostics(config);
+        return diagnostics.runTraceActorAi(
+            argv[0],
+            mapFileName,
+            static_cast<size_t>(parsedActorIndex),
+            parsedStepCount,
+            deltaSeconds);
+    }
+
     if (argc == 4 && std::string(argv[1]) == "--headless-inspect-actor-preview")
     {
         const std::string mapFileName = argv[2];
