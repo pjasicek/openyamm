@@ -1,9 +1,9 @@
 #include "game/IndoorMapData.h"
+#include "game/BinaryReader.h"
 
 #include <array>
 #include <cstddef>
 #include <cstdint>
-#include <cstring>
 #include <optional>
 #include <string>
 #include <vector>
@@ -24,90 +24,6 @@ constexpr size_t Unknown9RecordSize = 0x08;
 constexpr size_t VertexRecordSize = 0x06;
 constexpr size_t SpriteNameSize = 0x20;
 
-class ByteReader
-{
-public:
-    explicit ByteReader(const std::vector<uint8_t> &bytes)
-        : m_bytes(bytes)
-    {
-    }
-
-    size_t size() const
-    {
-        return m_bytes.size();
-    }
-
-    bool canRead(size_t offset, size_t byteCount) const
-    {
-        if (offset > m_bytes.size())
-        {
-            return false;
-        }
-
-        return byteCount <= (m_bytes.size() - offset);
-    }
-
-    bool readInt32(size_t offset, int &value) const
-    {
-        if (!canRead(offset, sizeof(int32_t)))
-        {
-            return false;
-        }
-
-        int32_t rawValue = 0;
-        std::memcpy(&rawValue, m_bytes.data() + offset, sizeof(rawValue));
-        value = rawValue;
-        return true;
-    }
-
-    bool readUInt16(size_t offset, uint16_t &value) const
-    {
-        if (!canRead(offset, sizeof(uint16_t)))
-        {
-            return false;
-        }
-
-        std::memcpy(&value, m_bytes.data() + offset, sizeof(value));
-        return true;
-    }
-
-    bool readInt16(size_t offset, int16_t &value) const
-    {
-        if (!canRead(offset, sizeof(int16_t)))
-        {
-            return false;
-        }
-
-        std::memcpy(&value, m_bytes.data() + offset, sizeof(value));
-        return true;
-    }
-
-    bool readUInt8(size_t offset, uint8_t &value) const
-    {
-        if (!canRead(offset, sizeof(uint8_t)))
-        {
-            return false;
-        }
-
-        value = m_bytes[offset];
-        return true;
-    }
-
-    bool readUInt32(size_t offset, uint32_t &value) const
-    {
-        if (!canRead(offset, sizeof(uint32_t)))
-        {
-            return false;
-        }
-
-        std::memcpy(&value, m_bytes.data() + offset, sizeof(value));
-        return true;
-    }
-
-private:
-    const std::vector<uint8_t> &m_bytes;
-};
-
 struct VersionLayout
 {
     int version = 0;
@@ -120,72 +36,12 @@ struct VersionLayout
 
 std::string readTextureName(const ByteReader &reader, size_t offset)
 {
-    std::string textureName;
-    textureName.reserve(TextureNameSize);
-
-    for (size_t index = 0; index < TextureNameSize; ++index)
-    {
-        uint8_t character = 0;
-
-        if (!reader.readUInt8(offset + index, character))
-        {
-            return {};
-        }
-
-        if (character == 0)
-        {
-            break;
-        }
-
-        if (character < 32 || character > 126)
-        {
-            break;
-        }
-
-        textureName.push_back(static_cast<char>(character));
-    }
-
-    while (!textureName.empty() && textureName.back() == ' ')
-    {
-        textureName.pop_back();
-    }
-
-    return textureName;
+    return reader.readFixedString(offset, TextureNameSize);
 }
 
 std::string readFixedString(const ByteReader &reader, size_t offset, size_t maxLength)
 {
-    std::string value;
-    value.reserve(maxLength);
-
-    for (size_t index = 0; index < maxLength; ++index)
-    {
-        uint8_t character = 0;
-
-        if (!reader.readUInt8(offset + index, character))
-        {
-            return {};
-        }
-
-        if (character == 0)
-        {
-            break;
-        }
-
-        if (character < 32 || character > 126)
-        {
-            break;
-        }
-
-        value.push_back(static_cast<char>(character));
-    }
-
-    while (!value.empty() && value.back() == ' ')
-    {
-        value.pop_back();
-    }
-
-    return value;
+    return reader.readFixedString(offset, maxLength);
 }
 
 bool canParseVersion(const ByteReader &reader, const VersionLayout &layout)

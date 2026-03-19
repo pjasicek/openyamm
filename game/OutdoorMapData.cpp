@@ -1,11 +1,10 @@
 #include "game/OutdoorMapData.h"
+#include "game/BinaryReader.h"
 
 #include <algorithm>
 #include <array>
-#include <cctype>
 #include <cstddef>
 #include <cstdint>
-#include <cstring>
 #include <limits>
 #include <optional>
 #include <string>
@@ -54,134 +53,6 @@ constexpr size_t Version7SpawnSize = 0x18;
 constexpr char Version6Tag[] = "MM6 Outdoor v1.11";
 constexpr char Version7Tag[] = "MM6 Outdoor v7.00";
 
-class ByteReader
-{
-public:
-    explicit ByteReader(const std::vector<uint8_t> &bytes)
-        : m_bytes(bytes)
-    {
-    }
-
-    size_t size() const
-    {
-        return m_bytes.size();
-    }
-
-    bool canRead(size_t offset, size_t byteCount) const
-    {
-        if (offset > m_bytes.size())
-        {
-            return false;
-        }
-
-        return byteCount <= (m_bytes.size() - offset);
-    }
-
-    bool readInt32(size_t offset, int &value) const
-    {
-        if (!canRead(offset, sizeof(int32_t)))
-        {
-            return false;
-        }
-
-        int32_t rawValue = 0;
-        std::memcpy(&rawValue, m_bytes.data() + offset, sizeof(rawValue));
-        value = rawValue;
-        return true;
-    }
-
-    bool readUInt8(size_t offset, uint8_t &value) const
-    {
-        if (!canRead(offset, sizeof(uint8_t)))
-        {
-            return false;
-        }
-
-        value = m_bytes[offset];
-        return true;
-    }
-
-    bool readUInt16(size_t offset, uint16_t &value) const
-    {
-        if (!canRead(offset, sizeof(uint16_t)))
-        {
-            return false;
-        }
-
-        std::memcpy(&value, m_bytes.data() + offset, sizeof(value));
-        return true;
-    }
-
-    bool readInt16(size_t offset, int16_t &value) const
-    {
-        if (!canRead(offset, sizeof(int16_t)))
-        {
-            return false;
-        }
-
-        std::memcpy(&value, m_bytes.data() + offset, sizeof(value));
-        return true;
-    }
-
-    bool readUInt32(size_t offset, uint32_t &value) const
-    {
-        if (!canRead(offset, sizeof(uint32_t)))
-        {
-            return false;
-        }
-
-        std::memcpy(&value, m_bytes.data() + offset, sizeof(value));
-        return true;
-    }
-
-    bool readBytes(size_t offset, size_t byteCount, std::vector<uint8_t> &target) const
-    {
-        if (!canRead(offset, byteCount))
-        {
-            return false;
-        }
-
-        target.assign(
-            m_bytes.begin() + static_cast<ptrdiff_t>(offset),
-            m_bytes.begin() + static_cast<ptrdiff_t>(offset + byteCount)
-        );
-        return true;
-    }
-
-    bool matchesText(size_t offset, const char *pText) const
-    {
-        const size_t textLength = std::strlen(pText);
-
-        if (!canRead(offset, textLength))
-        {
-            return false;
-        }
-
-        return std::memcmp(m_bytes.data() + offset, pText, textLength) == 0;
-    }
-
-    bool isZeroBlock(size_t offset, size_t byteCount) const
-    {
-        if (!canRead(offset, byteCount))
-        {
-            return false;
-        }
-
-        for (size_t index = 0; index < byteCount; ++index)
-        {
-            if (m_bytes[offset + index] != 0)
-            {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-private:
-    const std::vector<uint8_t> &m_bytes;
-};
-
 bool advanceOffset(size_t &offset, size_t byteCount, size_t totalSize)
 {
     if (byteCount > (totalSize - offset))
@@ -219,35 +90,9 @@ bool isOutdoorMapData(const std::vector<uint8_t> &bytes)
     return detectVersion(reader).has_value();
 }
 
-bool isPrintableAscii(char character)
-{
-    return std::isprint(static_cast<unsigned char>(character)) != 0;
-}
-
 std::string readCString(const ByteReader &reader, size_t offset, size_t maxLength)
 {
-    std::vector<uint8_t> bytes;
-
-    if (!reader.readBytes(offset, maxLength, bytes))
-    {
-        return {};
-    }
-
-    size_t length = 0;
-
-    while (length < bytes.size() && bytes[length] != 0 && isPrintableAscii(static_cast<char>(bytes[length])))
-    {
-        ++length;
-    }
-
-    std::string result(bytes.begin(), bytes.begin() + static_cast<ptrdiff_t>(length));
-
-    while (!result.empty() && result.back() == ' ')
-    {
-        result.pop_back();
-    }
-
-    return result;
+    return reader.readFixedString(offset, maxLength);
 }
 
 std::string readFixedString(const ByteReader &reader, size_t offset, size_t maxLength)

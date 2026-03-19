@@ -1,8 +1,9 @@
 #include "game/MonsterTable.h"
+#include "game/BinaryReader.h"
+#include "game/StringUtils.h"
 
 #include <algorithm>
 #include <cctype>
-#include <cstring>
 #include <regex>
 #include <unordered_map>
 
@@ -95,108 +96,6 @@ MonsterTable::MonsterAttackStyle classifyAttackStyle(const MonsterTable::Monster
     }
 
     return MonsterTable::MonsterAttackStyle::MeleeOnly;
-}
-
-class ByteReader
-{
-public:
-    explicit ByteReader(const std::vector<uint8_t> &bytes)
-        : m_bytes(bytes)
-    {
-    }
-
-    bool canRead(size_t offset, size_t byteCount) const
-    {
-        if (offset > m_bytes.size())
-        {
-            return false;
-        }
-
-        return byteCount <= (m_bytes.size() - offset);
-    }
-
-    bool readUInt32(size_t offset, uint32_t &value) const
-    {
-        if (!canRead(offset, sizeof(value)))
-        {
-            return false;
-        }
-
-        std::memcpy(&value, m_bytes.data() + offset, sizeof(value));
-        return true;
-    }
-
-    bool readUInt16(size_t offset, uint16_t &value) const
-    {
-        if (!canRead(offset, sizeof(value)))
-        {
-            return false;
-        }
-
-        std::memcpy(&value, m_bytes.data() + offset, sizeof(value));
-        return true;
-    }
-
-    bool readInt16(size_t offset, int16_t &value) const
-    {
-        if (!canRead(offset, sizeof(value)))
-        {
-            return false;
-        }
-
-        std::memcpy(&value, m_bytes.data() + offset, sizeof(value));
-        return true;
-    }
-
-    std::string readFixedString(size_t offset, size_t maxLength) const
-    {
-        if (!canRead(offset, maxLength))
-        {
-            return {};
-        }
-
-        std::string value;
-        value.reserve(maxLength);
-
-        for (size_t index = 0; index < maxLength; ++index)
-        {
-            const char character = static_cast<char>(m_bytes[offset + index]);
-
-            if (character == '\0')
-            {
-                break;
-            }
-
-            if (!std::isprint(static_cast<unsigned char>(character)))
-            {
-                break;
-            }
-
-            value.push_back(character);
-        }
-
-        while (!value.empty() && value.back() == ' ')
-        {
-            value.pop_back();
-        }
-
-        return value;
-    }
-
-private:
-    const std::vector<uint8_t> &m_bytes;
-};
-
-std::string toLowerCopy(const std::string &value)
-{
-    std::string lowered = value;
-
-    for (char &character : lowered)
-    {
-        character = static_cast<char>(std::tolower(static_cast<unsigned char>(character)));
-    }
-
-    return lowered;
 }
 
 std::string parseMonsterSpellName(const std::string &value)

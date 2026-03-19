@@ -1,5 +1,6 @@
 #include "game/ActorNameResolver.h"
 #include "game/HeadlessOutdoorDiagnostics.h"
+#include "game/StringUtils.h"
 
 #include "engine/AssetFileSystem.h"
 #include "game/EventDialogContent.h"
@@ -27,6 +28,10 @@ namespace OpenYAMM::Game
 namespace
 {
 constexpr uint32_t AdventurersInnHouseId = 185;
+constexpr float HostilityCloseRange = 1024.0f;
+constexpr float HostilityShortRange = 2560.0f;
+constexpr float HostilityMediumRange = 5120.0f;
+constexpr float HostilityLongRange = 10240.0f;
 
 struct TextureColorStats
 {
@@ -64,6 +69,38 @@ float normalizeAngleRadians(float angle)
 float angleDistanceRadians(float left, float right)
 {
     return std::abs(normalizeAngleRadians(left - right));
+}
+
+float hostilityRangeForRelation(int relation)
+{
+    switch (relation)
+    {
+        case 1:
+            return HostilityCloseRange;
+        case 2:
+            return HostilityShortRange;
+        case 3:
+            return HostilityMediumRange;
+        case 4:
+            return HostilityLongRange;
+        default:
+            return 0.0f;
+    }
+}
+
+float hostilePartyAcquisitionRange(
+    const MonsterTable &monsterTable,
+    const OutdoorWorldRuntime::MapActorState &actor)
+{
+    if (actor.hostileToParty)
+    {
+        return HostilityLongRange;
+    }
+
+    const int relationToParty = monsterTable.getRelationToParty(actor.monsterId);
+    const float relationRange = hostilityRangeForRelation(relationToParty);
+
+    return relationRange > 0.0f ? relationRange : 0.0f;
 }
 
 float signedDistanceToOutdoorFace(const OutdoorFaceGeometryData &geometry, const bx::Vec3 &point)
@@ -551,23 +588,6 @@ EventDialogContent buildHeadlessDialog(
         pParty,
         currentHour
     );
-}
-
-std::string toLowerCopy(const std::string &value)
-{
-    std::string result = value;
-
-    std::transform(
-        result.begin(),
-        result.end(),
-        result.begin(),
-        [](unsigned char character)
-        {
-            return static_cast<char>(std::tolower(character));
-        }
-    );
-
-    return result;
 }
 
 std::optional<size_t> findActionIndexByLabel(const EventDialogContent &dialog, const std::string &label)
@@ -4426,7 +4446,12 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
             {
                 const OutdoorWorldRuntime::MapActorState *pActor = scenario.world.mapActorState(actorIndex);
 
-                if (pActor != nullptr && pActor->hostileToParty && !pActor->isDead)
+                if (pActor == nullptr || !pActor->hostileToParty || pActor->isDead)
+                {
+                    continue;
+                }
+
+                if (hostilePartyAcquisitionRange(gameDataLoader.getMonsterTable(), *pActor) >= 2000.0f)
                 {
                     hostileActorIndex = actorIndex;
                     break;
@@ -4440,7 +4465,9 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
             }
 
             const OutdoorWorldRuntime::MapActorState *pBefore = scenario.world.mapActorState(hostileActorIndex);
-            const float partyX = static_cast<float>(pBefore->x + 2000);
+            const float acquisitionRange = hostilePartyAcquisitionRange(gameDataLoader.getMonsterTable(), *pBefore);
+            const float partyDistance = std::min(2000.0f, acquisitionRange * 0.75f);
+            const float partyX = static_cast<float>(pBefore->x) + partyDistance;
             const float partyY = static_cast<float>(pBefore->y);
             const float distanceBefore = std::abs(partyX - static_cast<float>(pBefore->x));
             scenario.world.updateMapActors(1.0f, partyX, partyY, static_cast<float>(pBefore->z));
@@ -4466,6 +4493,168 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
             }
 
             return true;
+        }
+    );
+
+    runCase(
+        "hostile_actor_uses_long_party_acquisition_despite_short_relation",
+        [&](std::string &failure)
+        {
+            if (!selectedMap->outdoorMapDeltaData)
+            {
+                failure = "selected map has no outdoor actor data";
+                return false;
+            }
+
+            MapAssetInfo modifiedMap = *selectedMap;
+            modifiedMap.outdoorMapDeltaData = *selectedMap->outdoorMapDeltaData;
+            modifiedMap.outdoorMapDeltaData->locationInfo.lastRespawnDay = 1;
+            const MapDeltaActor quietLandActor = modifiedMap.outdoorMapDeltaData->actors[3];
+            modifiedMap.outdoorMapDeltaData->actors[53].monsterInfoId = 184;
+            modifiedMap.outdoorMapDeltaData->actors[53].monsterId = 184;
+            modifiedMap.outdoorMapDeltaData->actors[53].attributes = 0;
+            modifiedMap.outdoorMapDeltaData->actors[53].x = quietLandActor.x;
+            modifiedMap.outdoorMapDeltaData->actors[53].y = quietLandActor.y;
+            modifiedMap.outdoorMapDeltaData->actors[53].z = quietLandActor.z;
+
+            for (size_t actorIndex = 0; actorIndex < modifiedMap.outdoorMapDeltaData->actors.size(); ++actorIndex)
+            {
+                if (actorIndex == 53)
+                {
+                    continue;
+                }
+
+                MapDeltaActor &otherActor = modifiedMap.outdoorMapDeltaData->actors[actorIndex];
+                otherActor.x = quietLandActor.x + 40000 + static_cast<int>(actorIndex) * 64;
+                otherActor.y = quietLandActor.y + 40000 + static_cast<int>(actorIndex) * 64;
+                otherActor.z = quietLandActor.z;
+            }
+
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, modifiedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            const OutdoorWorldRuntime::MapActorState *pBefore = scenario.world.mapActorState(53);
+
+            if (pBefore == nullptr)
+            {
+                failure = "synthetic actor 53 missing";
+                return false;
+            }
+
+            if (std::abs(hostilePartyAcquisitionRange(gameDataLoader.getMonsterTable(), *pBefore) - 10240.0f) > 0.1f)
+            {
+                failure = "synthetic actor 53 did not resolve a long party acquisition range";
+                return false;
+            }
+
+            const float partyX = pBefore->preciseX + 2000.0f;
+            const float partyY = pBefore->preciseY;
+            const float partyZ = pBefore->preciseZ;
+            scenario.world.updateMapActors(1.0f, partyX, partyY, partyZ);
+            const OutdoorWorldRuntime::MapActorState *pAfter = scenario.world.mapActorState(53);
+
+            if (pAfter == nullptr)
+            {
+                failure = "synthetic actor 53 disappeared";
+                return false;
+            }
+
+            if (pAfter->aiState != OutdoorWorldRuntime::ActorAiState::Pursuing
+                && pAfter->aiState != OutdoorWorldRuntime::ActorAiState::Attacking)
+            {
+                failure = "hostile actor did not engage the party despite long acquisition range";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "long_hostile_actor_pair_engages_beyond_5120",
+        [&](std::string &failure)
+        {
+            if (!selectedMap->outdoorMapDeltaData)
+            {
+                failure = "selected map has no outdoor actor data";
+                return false;
+            }
+
+            MapAssetInfo modifiedMap = *selectedMap;
+            modifiedMap.outdoorMapDeltaData = *selectedMap->outdoorMapDeltaData;
+            MapDeltaActor &leftActor = modifiedMap.outdoorMapDeltaData->actors[3];
+            MapDeltaActor &rightActor = modifiedMap.outdoorMapDeltaData->actors[53];
+            leftActor.monsterInfoId = 4;
+            leftActor.monsterId = 4;
+            rightActor.monsterInfoId = 181;
+            rightActor.monsterId = 181;
+            leftActor.x = -9216;
+            leftActor.y = -12848;
+            leftActor.z = 110;
+            rightActor.x = leftActor.x + 7000;
+            rightActor.y = leftActor.y;
+            rightActor.z = leftActor.z;
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, modifiedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            const OutdoorWorldRuntime::MapActorState *pLeftBefore = scenario.world.mapActorState(3);
+            const OutdoorWorldRuntime::MapActorState *pRightBefore = scenario.world.mapActorState(53);
+
+            if (pLeftBefore == nullptr || pRightBefore == nullptr)
+            {
+                failure = "synthetic hostile actor pair missing";
+                return false;
+            }
+
+            if (gameDataLoader.getMonsterTable().getRelationBetweenMonsters(
+                    pLeftBefore->monsterId,
+                    pRightBefore->monsterId) != 4)
+            {
+                failure = "synthetic hostile actor pair did not resolve a long hostility relation";
+                return false;
+            }
+
+            const float partyX = (pLeftBefore->preciseX + pRightBefore->preciseX) * 0.5f;
+            const float partyY = pLeftBefore->preciseY;
+            const float partyZ = pLeftBefore->preciseZ;
+            bool sawEngagement = false;
+
+            for (int step = 0; step < 128; ++step)
+            {
+                scenario.world.updateMapActors(1.0f / 128.0f, partyX, partyY, partyZ);
+                const OutdoorWorldRuntime::MapActorState *pLeftAfter = scenario.world.mapActorState(3);
+                const OutdoorWorldRuntime::MapActorState *pRightAfter = scenario.world.mapActorState(53);
+
+                if (pLeftAfter == nullptr || pRightAfter == nullptr)
+                {
+                    failure = "synthetic hostile actor pair disappeared";
+                    return false;
+                }
+
+                sawEngagement = sawEngagement
+                    || pLeftAfter->aiState == OutdoorWorldRuntime::ActorAiState::Pursuing
+                    || pLeftAfter->aiState == OutdoorWorldRuntime::ActorAiState::Attacking
+                    || pRightAfter->aiState == OutdoorWorldRuntime::ActorAiState::Pursuing
+                    || pRightAfter->aiState == OutdoorWorldRuntime::ActorAiState::Attacking;
+
+                if (sawEngagement)
+                {
+                    return true;
+                }
+            }
+
+            failure = "long-hostility actor pair never engaged from beyond 5120 units";
+            return false;
         }
     );
 
@@ -4498,7 +4687,8 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
                 if (pStats != nullptr
                     && pStats->attackStyle == MonsterTable::MonsterAttackStyle::MeleeOnly
                     && pStats->aiType != MonsterTable::MonsterAiType::Wimp
-                    && pStats->movementType != MonsterTable::MonsterMovementType::Stationary)
+                    && pStats->movementType != MonsterTable::MonsterMovementType::Stationary
+                    && hostilePartyAcquisitionRange(gameDataLoader.getMonsterTable(), *pActor) >= 2500.0f)
                 {
                     hostileActorIndex = actorIndex;
                     break;
@@ -4562,7 +4752,8 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
                 if (pStats != nullptr
                     && pStats->attackStyle == MonsterTable::MonsterAttackStyle::MeleeOnly
                     && pStats->aiType != MonsterTable::MonsterAiType::Wimp
-                    && pStats->movementType != MonsterTable::MonsterMovementType::Stationary)
+                    && pStats->movementType != MonsterTable::MonsterMovementType::Stationary
+                    && hostilePartyAcquisitionRange(gameDataLoader.getMonsterTable(), *pActor) >= 2500.0f)
                 {
                     hostileActorIndex = actorIndex;
                     break;
@@ -4646,7 +4837,8 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
                 if (pStats != nullptr
                     && pStats->attackStyle == MonsterTable::MonsterAttackStyle::MeleeOnly
                     && pStats->aiType != MonsterTable::MonsterAiType::Wimp
-                    && pStats->movementType != MonsterTable::MonsterMovementType::Stationary)
+                    && pStats->movementType != MonsterTable::MonsterMovementType::Stationary
+                    && hostilePartyAcquisitionRange(gameDataLoader.getMonsterTable(), *pActor) >= 700.0f)
                 {
                     hostileActorIndex = actorIndex;
                     break;

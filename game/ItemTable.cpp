@@ -1,4 +1,5 @@
 #include "game/ItemTable.h"
+#include "game/StringUtils.h"
 
 #include <algorithm>
 #include <array>
@@ -12,23 +13,6 @@ namespace OpenYAMM::Game
 {
 namespace
 {
-std::string toLowerCopy(const std::string &value)
-{
-    std::string lower = value;
-
-    std::transform(
-        lower.begin(),
-        lower.end(),
-        lower.begin(),
-        [](unsigned char character)
-        {
-            return static_cast<char>(std::tolower(character));
-        }
-    );
-
-    return lower;
-}
-
 std::string trimCopy(const std::string &value)
 {
     size_t begin = 0;

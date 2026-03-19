@@ -1,6 +1,7 @@
 #include "game/IndoorDebugRenderer.h"
 
 #include "game/SpawnPreview.h"
+#include "game/StringUtils.h"
 
 #include <bx/math.h>
 
@@ -8,7 +9,6 @@
 
 #include <algorithm>
 #include <array>
-#include <cctype>
 #include <cmath>
 #include <cstring>
 #include <cstdint>
@@ -353,18 +353,6 @@ std::vector<uint8_t> readBinaryFile(const std::filesystem::path &path)
     }
 
     return std::vector<uint8_t>(std::istreambuf_iterator<char>(inputStream), std::istreambuf_iterator<char>());
-}
-
-std::string toLowerCopy(const std::string &value)
-{
-    std::string lowered = value;
-
-    for (char &character : lowered)
-    {
-        character = static_cast<char>(std::tolower(static_cast<unsigned char>(character)));
-    }
-
-    return lowered;
 }
 
 std::string resolveFaceTextureName(

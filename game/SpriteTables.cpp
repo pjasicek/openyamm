@@ -1,9 +1,9 @@
 #include "game/SpriteTables.h"
+#include "game/BinaryReader.h"
+#include "game/StringUtils.h"
 
 #include <algorithm>
 #include <array>
-#include <cctype>
-#include <cstring>
 
 namespace OpenYAMM::Game
 {
@@ -11,106 +11,6 @@ namespace
 {
 constexpr size_t DecorationRecordSize = 84;
 constexpr size_t SpriteFrameRecordSize = 60;
-
-class ByteReader
-{
-public:
-    explicit ByteReader(const std::vector<uint8_t> &bytes)
-        : m_bytes(bytes)
-    {
-    }
-
-    bool canRead(size_t offset, size_t byteCount) const
-    {
-        if (offset > m_bytes.size())
-        {
-            return false;
-        }
-
-        return byteCount <= (m_bytes.size() - offset);
-    }
-
-    bool readUInt32(size_t offset, uint32_t &value) const
-    {
-        if (!canRead(offset, sizeof(value)))
-        {
-            return false;
-        }
-
-        std::memcpy(&value, m_bytes.data() + offset, sizeof(value));
-        return true;
-    }
-
-    bool readUInt16(size_t offset, uint16_t &value) const
-    {
-        if (!canRead(offset, sizeof(value)))
-        {
-            return false;
-        }
-
-        std::memcpy(&value, m_bytes.data() + offset, sizeof(value));
-        return true;
-    }
-
-    bool readInt16(size_t offset, int16_t &value) const
-    {
-        if (!canRead(offset, sizeof(value)))
-        {
-            return false;
-        }
-
-        std::memcpy(&value, m_bytes.data() + offset, sizeof(value));
-        return true;
-    }
-
-    bool readInt32(size_t offset, int32_t &value) const
-    {
-        if (!canRead(offset, sizeof(value)))
-        {
-            return false;
-        }
-
-        std::memcpy(&value, m_bytes.data() + offset, sizeof(value));
-        return true;
-    }
-
-    std::string readFixedString(size_t offset, size_t maxLength) const
-    {
-        if (!canRead(offset, maxLength))
-        {
-            return {};
-        }
-
-        std::string value;
-
-        for (size_t index = 0; index < maxLength; ++index)
-        {
-            const char character = static_cast<char>(m_bytes[offset + index]);
-
-            if (character == '\0')
-            {
-                break;
-            }
-
-            if (!std::isprint(static_cast<unsigned char>(character)))
-            {
-                break;
-            }
-
-            value.push_back(static_cast<char>(std::tolower(static_cast<unsigned char>(character))));
-        }
-
-        while (!value.empty() && value.back() == ' ')
-        {
-            value.pop_back();
-        }
-
-        return value;
-    }
-
-private:
-    const std::vector<uint8_t> &m_bytes;
-};
 
 int mirroredSourceOctant(int octant)
 {
@@ -131,17 +31,6 @@ void appendUnique(std::vector<std::string> &names, const std::string &name)
     }
 }
 
-std::string toLowerCopy(const std::string &value)
-{
-    std::string lowered = value;
-
-    for (char &character : lowered)
-    {
-        character = static_cast<char>(std::tolower(static_cast<unsigned char>(character)));
-    }
-
-    return lowered;
-}
 }
 
 bool DecorationTable::loadFromBytes(const std::vector<uint8_t> &bytes)
@@ -170,8 +59,8 @@ bool DecorationTable::loadFromBytes(const std::vector<uint8_t> &bytes)
         const size_t offset = sizeof(uint32_t) + static_cast<size_t>(index) * DecorationRecordSize;
         DecorationEntry entry = {};
 
-        entry.internalName = reader.readFixedString(offset + 0x00, 32);
-        entry.hint = reader.readFixedString(offset + 0x20, 32);
+        entry.internalName = reader.readFixedString(offset + 0x00, 32, true);
+        entry.hint = reader.readFixedString(offset + 0x20, 32, true);
 
         if (!reader.readInt16(offset + 0x40, entry.type)
             || !reader.readUInt16(offset + 0x42, entry.height)
@@ -263,8 +152,8 @@ bool SpriteFrameTable::loadFromBytes(const std::vector<uint8_t> &bytes)
         int16_t frameLengthTicks = 0;
         int16_t animationLengthTicks = 0;
 
-        entry.spriteName = reader.readFixedString(offset + 0x00, 12);
-        entry.textureName = reader.readFixedString(offset + 0x0c, 12);
+        entry.spriteName = reader.readFixedString(offset + 0x00, 12, true);
+        entry.textureName = reader.readFixedString(offset + 0x0c, 12, true);
 
         if (!reader.readInt32(offset + 0x28, scaleFixed)
             || !reader.readInt32(offset + 0x2c, flags)

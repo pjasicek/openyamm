@@ -8,6 +8,7 @@
 #include "game/OutdoorPartyRuntime.h"
 #include "game/OutdoorWorldRuntime.h"
 #include "game/SpawnPreview.h"
+#include "game/StringUtils.h"
 
 #include <bx/math.h>
 
@@ -15,7 +16,6 @@
 #include <SDL3/SDL.h>
 
 #include <algorithm>
-#include <cctype>
 #include <cmath>
 #include <cstring>
 #include <cstdint>
@@ -33,8 +33,6 @@ namespace OpenYAMM::Game
 {
 namespace
 {
-std::string toLowerCopy(const std::string &value);
-
 constexpr uint16_t MainViewId = 0;
 constexpr uint16_t HudViewId = 1;
 constexpr float Pi = 3.14159265358979323846f;
@@ -816,17 +814,6 @@ std::vector<uint8_t> readBinaryFile(const std::filesystem::path &path)
     return std::vector<uint8_t>(std::istreambuf_iterator<char>(inputStream), std::istreambuf_iterator<char>());
 }
 
-std::string toLowerCopy(const std::string &value)
-{
-    std::string lowered = value;
-
-    for (char &character : lowered)
-    {
-        character = static_cast<char>(std::tolower(static_cast<unsigned char>(character)));
-    }
-
-    return lowered;
-}
 }
 
 bgfx::VertexLayout OutdoorGameView::TerrainVertex::ms_layout;

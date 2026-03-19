@@ -1,6 +1,7 @@
 #include "game/ActorNameResolver.h"
 #include "game/MapAssetLoader.h"
 #include "game/OutdoorGeometryUtils.h"
+#include "game/StringUtils.h"
 
 #include <SDL3/SDL.h>
 
@@ -173,18 +174,6 @@ uint32_t makeAbgr(uint8_t red, uint8_t green, uint8_t blue)
 bool containsCaseInsensitive(const std::string &value, const std::string &needle)
 {
     return value.find(needle) != std::string::npos;
-}
-
-std::string toLowerCopy(const std::string &value)
-{
-    std::string lowered = value;
-
-    for (char &character : lowered)
-    {
-        character = static_cast<char>(std::tolower(static_cast<unsigned char>(character)));
-    }
-
-    return lowered;
 }
 
 uint32_t colorFromTextureName(const std::string &textureName)

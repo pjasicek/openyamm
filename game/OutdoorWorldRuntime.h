@@ -484,6 +484,7 @@ private:
     const SpellTable *m_pSpellTable = nullptr;
     const SpriteFrameTable *m_pActorSpriteFrameTable = nullptr;
     const SpriteFrameTable *m_pProjectileSpriteFrameTable = nullptr;
+    std::optional<std::vector<uint8_t>> m_outdoorLandMask;
     std::vector<OutdoorFaceGeometryData> m_outdoorFaces;
     std::vector<std::vector<size_t>> m_outdoorFaceGridCells;
     float m_outdoorFaceGridMinX = 0.0f;

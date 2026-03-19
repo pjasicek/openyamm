@@ -2,6 +2,7 @@
 
 #include "engine/TextTable.h"
 #include "game/EventRuntime.h"
+#include "game/StringUtils.h"
 
 #include <SDL3/SDL.h>
 
@@ -25,18 +26,6 @@ std::string toUpperCopy(const std::string &value)
     for (char &character : result)
     {
         character = static_cast<char>(std::toupper(static_cast<unsigned char>(character)));
-    }
-
-    return result;
-}
-
-std::string toLowerCopy(const std::string &value)
-{
-    std::string result = value;
-
-    for (char &character : result)
-    {
-        character = static_cast<char>(std::tolower(static_cast<unsigned char>(character)));
     }
 
     return result;
