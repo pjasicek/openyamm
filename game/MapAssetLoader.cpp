@@ -45,6 +45,25 @@ constexpr uint16_t SpriteAttrRemoved = 0x0200;
 
 std::optional<std::string> resolveMonsterNameForSpawn(const MapStatsEntry &map, uint16_t typeId, uint16_t index);
 
+std::string trimAsciiWhitespace(const std::string &value)
+{
+    size_t begin = 0;
+
+    while (begin < value.size() && std::isspace(static_cast<unsigned char>(value[begin])) != 0)
+    {
+        ++begin;
+    }
+
+    size_t end = value.size();
+
+    while (end > begin && std::isspace(static_cast<unsigned char>(value[end - 1])) != 0)
+    {
+        --end;
+    }
+
+    return value.substr(begin, end - begin);
+}
+
 template <typename EntityType>
 const DecorationEntry *resolveDecorationEntry(
     const DecorationTable &decorationTable,
@@ -75,6 +94,11 @@ bool shouldSkipDecorationCollision(const EntityType &entity, const DecorationEnt
 
     // Entries like "smoke" are effect emitters with no base sprite and should not block movement.
     if (decoration.spriteId == 0)
+    {
+        return true;
+    }
+
+    if (decoration.internalName.rfind("plant", 0) == 0)
     {
         return true;
     }

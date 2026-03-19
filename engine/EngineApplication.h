@@ -13,12 +13,14 @@ public:
     using StartupCallback = std::function<bool(const AssetFileSystem &)>;
     using RenderSetupCallback = std::function<bool()>;
     using RenderFrameCallback = std::function<void(int, int, float, float)>;
+    using ShutdownCallback = std::function<void()>;
 
     EngineApplication(
         const ApplicationConfig &config,
         StartupCallback startupCallback,
         RenderSetupCallback renderSetupCallback,
-        RenderFrameCallback renderFrameCallback
+        RenderFrameCallback renderFrameCallback,
+        ShutdownCallback shutdownCallback = {}
     );
 
     int run() const;
@@ -31,5 +33,6 @@ private:
     StartupCallback m_startupCallback;
     RenderSetupCallback m_renderSetupCallback;
     RenderFrameCallback m_renderFrameCallback;
+    ShutdownCallback m_shutdownCallback;
 };
 }

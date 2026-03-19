@@ -32,7 +32,9 @@ public:
         Wandering,
         Pursuing,
         Fleeing,
+        Stunned,
         Attacking,
+        Dying,
         Dead,
     };
 
@@ -284,7 +286,7 @@ public:
         float targetY,
         float targetZ);
     bool debugSpawnEncounterFromSpawnPoint(size_t spawnIndex, uint32_t countOverride = 0);
-    bool setMapActorDead(size_t actorIndex, bool isDead);
+    bool setMapActorDead(size_t actorIndex, bool isDead, bool emitAudio = true);
     bool applyPartyAttackToMapActor(size_t actorIndex, int damage, float partyX, float partyY, float partyZ);
     bool notifyPartyContactWithMapActor(size_t actorIndex, float partyX, float partyY, float partyZ);
     size_t spawnPointCount() const;

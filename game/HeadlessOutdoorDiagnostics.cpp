@@ -3592,6 +3592,234 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
     );
 
     runCase(
+        "party_attack_on_actor_3_stunned_hit_reaction_does_not_restart_on_second_hit",
+        [&](std::string &failure)
+        {
+            if (!selectedMap->outdoorMapDeltaData || selectedMap->outdoorMapDeltaData->actors.size() <= 53)
+            {
+                failure = "selected map has no outdoor actor data";
+                return false;
+            }
+
+            MapAssetInfo modifiedMap = *selectedMap;
+            modifiedMap.outdoorMapDeltaData = *selectedMap->outdoorMapDeltaData;
+            modifiedMap.outdoorMapDeltaData->locationInfo.lastRespawnDay = 1;
+            modifiedMap.outdoorMapDeltaData->actors[3].monsterInfoId =
+                selectedMap->outdoorMapDeltaData->actors[53].monsterInfoId;
+            modifiedMap.outdoorMapDeltaData->actors[3].monsterId =
+                selectedMap->outdoorMapDeltaData->actors[53].monsterId;
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, modifiedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            const OutdoorWorldRuntime::MapActorState *pBefore = scenario.world.mapActorState(3);
+
+            if (pBefore == nullptr)
+            {
+                failure = "actor 3 missing";
+                return false;
+            }
+
+            if (!scenario.world.applyPartyAttackToMapActor(
+                    3,
+                    1,
+                    pBefore->preciseX + 64.0f,
+                    pBefore->preciseY,
+                    pBefore->preciseZ))
+            {
+                failure = "first party attack did not apply";
+                return false;
+            }
+
+            const OutdoorWorldRuntime::MapActorState *pAfterFirstHit = scenario.world.mapActorState(3);
+
+            if (pAfterFirstHit == nullptr)
+            {
+                failure = "actor 3 missing after first hit";
+                return false;
+            }
+
+            if (pAfterFirstHit->aiState != OutdoorWorldRuntime::ActorAiState::Stunned
+                || pAfterFirstHit->animation != OutdoorWorldRuntime::ActorAnimation::GotHit)
+            {
+                failure = "actor 3 did not enter stunned hit reaction";
+                return false;
+            }
+
+            scenario.world.updateMapActors(
+                1.0f / 128.0f,
+                pAfterFirstHit->preciseX + 64.0f,
+                pAfterFirstHit->preciseY,
+                pAfterFirstHit->preciseZ);
+
+            const OutdoorWorldRuntime::MapActorState *pDuringReaction = scenario.world.mapActorState(3);
+
+            if (pDuringReaction == nullptr)
+            {
+                failure = "actor 3 missing during hit reaction";
+                return false;
+            }
+
+            const float animationTicksBeforeSecondHit = pDuringReaction->animationTimeTicks;
+            const float actionSecondsBeforeSecondHit = pDuringReaction->actionSeconds;
+
+            if (animationTicksBeforeSecondHit <= 0.0f)
+            {
+                failure = "actor 3 hit reaction animation did not advance";
+                return false;
+            }
+
+            if (!scenario.world.applyPartyAttackToMapActor(
+                    3,
+                    1,
+                    pDuringReaction->preciseX + 64.0f,
+                    pDuringReaction->preciseY,
+                    pDuringReaction->preciseZ))
+            {
+                failure = "second party attack did not apply";
+                return false;
+            }
+
+            const OutdoorWorldRuntime::MapActorState *pAfterSecondHit = scenario.world.mapActorState(3);
+
+            if (pAfterSecondHit == nullptr)
+            {
+                failure = "actor 3 missing after second hit";
+                return false;
+            }
+
+            if (pAfterSecondHit->aiState != OutdoorWorldRuntime::ActorAiState::Stunned
+                || pAfterSecondHit->animation != OutdoorWorldRuntime::ActorAnimation::GotHit)
+            {
+                failure = "actor 3 left stunned hit reaction after second hit";
+                return false;
+            }
+
+            if (std::abs(pAfterSecondHit->animationTimeTicks - animationTicksBeforeSecondHit) > 0.001f)
+            {
+                failure = "actor 3 hit reaction animation restarted on second hit";
+                return false;
+            }
+
+            if (pAfterSecondHit->actionSeconds > actionSecondsBeforeSecondHit + 0.001f)
+            {
+                failure = "actor 3 hit reaction duration increased on second hit";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "party_attack_on_actor_3_lethal_damage_enters_dying_before_dead",
+        [&](std::string &failure)
+        {
+            MapAssetInfo modifiedMap = *selectedMap;
+            modifiedMap.outdoorMapDeltaData = *selectedMap->outdoorMapDeltaData;
+            modifiedMap.outdoorMapDeltaData->locationInfo.lastRespawnDay = 1;
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, modifiedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            const OutdoorWorldRuntime::MapActorState *pBefore = scenario.world.mapActorState(3);
+
+            if (pBefore == nullptr)
+            {
+                failure = "actor 3 missing";
+                return false;
+            }
+
+            if (!scenario.world.applyPartyAttackToMapActor(
+                    3,
+                    pBefore->currentHp,
+                    pBefore->preciseX + 64.0f,
+                    pBefore->preciseY,
+                    pBefore->preciseZ))
+            {
+                failure = "lethal party attack did not apply";
+                return false;
+            }
+
+            const OutdoorWorldRuntime::MapActorState *pAfterLethalHit = scenario.world.mapActorState(3);
+
+            if (pAfterLethalHit == nullptr)
+            {
+                failure = "actor 3 missing after lethal hit";
+                return false;
+            }
+
+            if (pAfterLethalHit->isDead)
+            {
+                failure = "actor 3 became dead immediately without dying state";
+                return false;
+            }
+
+            if (pAfterLethalHit->aiState != OutdoorWorldRuntime::ActorAiState::Dying
+                || pAfterLethalHit->animation != OutdoorWorldRuntime::ActorAnimation::Dying)
+            {
+                failure = "actor 3 did not enter dying state";
+                return false;
+            }
+
+            if (pAfterLethalHit->actionSeconds <= 0.0f)
+            {
+                failure = "actor 3 dying state has no duration";
+                return false;
+            }
+
+            bool sawDeadState = false;
+
+            for (int step = 0; step < 256; ++step)
+            {
+                scenario.world.updateMapActors(
+                    1.0f / 128.0f,
+                    pAfterLethalHit->preciseX + 64.0f,
+                    pAfterLethalHit->preciseY,
+                    pAfterLethalHit->preciseZ);
+
+                const OutdoorWorldRuntime::MapActorState *pAfterUpdate = scenario.world.mapActorState(3);
+
+                if (pAfterUpdate == nullptr)
+                {
+                    failure = "actor 3 missing during dying update";
+                    return false;
+                }
+
+                if (pAfterUpdate->isDead)
+                {
+                    sawDeadState = true;
+
+                    if (pAfterUpdate->aiState != OutdoorWorldRuntime::ActorAiState::Dead
+                        || pAfterUpdate->animation != OutdoorWorldRuntime::ActorAnimation::Dead)
+                    {
+                        failure = "actor 3 dead state animation/state mismatch";
+                        return false;
+                    }
+
+                    break;
+                }
+            }
+
+            if (!sawDeadState)
+            {
+                failure = "actor 3 never transitioned from dying to dead";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
         "party_attack_on_actor_3_aggros_nearby_lizard_guard",
         [&](std::string &failure)
         {

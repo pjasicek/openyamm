@@ -3,15 +3,20 @@
 
 #include <SDL3/SDL.h>
 
+#include <algorithm>
 #include <filesystem>
 #include <iostream>
 #include <memory>
 #include <string>
+#include <vector>
 
 namespace OpenYAMM::Engine
 {
 namespace
 {
+constexpr float SlowFrameLogThresholdSeconds = 0.008f;
+constexpr float HitchFrameLogThresholdSeconds = 0.016f;
+
 class SdlSubsystemGuard
 {
 public:
@@ -51,12 +56,14 @@ EngineApplication::EngineApplication(
     const ApplicationConfig &config,
     StartupCallback startupCallback,
     RenderSetupCallback renderSetupCallback,
-    RenderFrameCallback renderFrameCallback
+    RenderFrameCallback renderFrameCallback,
+    ShutdownCallback shutdownCallback
 )
     : m_config(config)
     , m_startupCallback(std::move(startupCallback))
     , m_renderSetupCallback(std::move(renderSetupCallback))
     , m_renderFrameCallback(std::move(renderFrameCallback))
+    , m_shutdownCallback(std::move(shutdownCallback))
 {
 }
 
@@ -131,6 +138,12 @@ int EngineApplication::run() const
 
     bool isRunning = true;
     uint64_t lastFrameTickCount = SDL_GetTicksNS();
+    float fpsSampleSeconds = 0.0f;
+    uint32_t fpsSampleFrameCount = 0;
+    std::vector<float> slowFrameSamples;
+    slowFrameSamples.reserve(16);
+    float worstSlowFrameSeconds = 0.0f;
+    uint32_t slowFrameCount = 0;
 
     while (isRunning)
     {
@@ -169,6 +182,8 @@ int EngineApplication::run() const
             }
         }
 
+        const uint64_t afterEventTickCount = SDL_GetTicksNS();
+
         int drawableWidth = 0;
         int drawableHeight = 0;
         SDL_GetWindowSizeInPixels(pWindow.get(), &drawableWidth, &drawableHeight);
@@ -183,7 +198,97 @@ int EngineApplication::run() const
             bgfx::touch(0);
         }
 
+        const uint64_t afterRenderTickCount = SDL_GetTicksNS();
         bgfx::frame();
+        const uint64_t afterBgfxFrameTickCount = SDL_GetTicksNS();
+
+        const uint64_t requestedDelayNanoseconds = 0;
+        const uint64_t actualDelayNanoseconds = 0;
+
+        const uint64_t frameEndTickCount = SDL_GetTicksNS();
+        const float frameDurationSeconds = frameEndTickCount > currentFrameTickCount
+            ? static_cast<float>(frameEndTickCount - currentFrameTickCount) / 1000000000.0f
+            : 0.0f;
+
+        if (frameDurationSeconds > SlowFrameLogThresholdSeconds)
+        {
+            ++slowFrameCount;
+            worstSlowFrameSeconds = std::max(worstSlowFrameSeconds, frameDurationSeconds);
+
+            if (slowFrameSamples.size() < 16)
+            {
+                slowFrameSamples.push_back(frameDurationSeconds);
+            }
+        }
+
+        if (frameDurationSeconds > HitchFrameLogThresholdSeconds)
+        {
+            const float eventMilliseconds = afterEventTickCount > currentFrameTickCount
+                ? static_cast<float>(afterEventTickCount - currentFrameTickCount) / 1000000.0f
+                : 0.0f;
+            const float renderMilliseconds = afterRenderTickCount > afterEventTickCount
+                ? static_cast<float>(afterRenderTickCount - afterEventTickCount) / 1000000.0f
+                : 0.0f;
+            const float bgfxMilliseconds = afterBgfxFrameTickCount > afterRenderTickCount
+                ? static_cast<float>(afterBgfxFrameTickCount - afterRenderTickCount) / 1000000.0f
+                : 0.0f;
+            const float requestedDelayMilliseconds = static_cast<float>(requestedDelayNanoseconds) / 1000000.0f;
+            const float actualDelayMilliseconds = static_cast<float>(actualDelayNanoseconds) / 1000000.0f;
+            std::cout << "Hitch frame: total_ms=" << (frameDurationSeconds * 1000.0f)
+                      << " delta_ms=" << (deltaSeconds * 1000.0f)
+                      << " events_ms=" << eventMilliseconds
+                      << " render_ms=" << renderMilliseconds
+                      << " bgfx_ms=" << bgfxMilliseconds
+                      << " delay_req_ms=" << requestedDelayMilliseconds
+                      << " delay_actual_ms=" << actualDelayMilliseconds
+                      << '\n';
+        }
+
+        fpsSampleSeconds += deltaSeconds;
+        ++fpsSampleFrameCount;
+
+        if (fpsSampleSeconds >= 1.0f)
+        {
+            const float averageFps = fpsSampleSeconds > 0.0f
+                ? static_cast<float>(fpsSampleFrameCount) / fpsSampleSeconds
+                : 0.0f;
+            std::cout << "Average FPS (last second): " << averageFps << '\n';
+
+            if (slowFrameCount > 0)
+            {
+                std::cout << "Slow frames (last second): count=" << slowFrameCount
+                          << " worst_ms=" << (worstSlowFrameSeconds * 1000.0f)
+                          << " samples_ms=";
+
+                for (size_t i = 0; i < slowFrameSamples.size(); ++i)
+                {
+                    if (i > 0)
+                    {
+                        std::cout << ',';
+                    }
+
+                    std::cout << (slowFrameSamples[i] * 1000.0f);
+                }
+
+                if (slowFrameCount > slowFrameSamples.size())
+                {
+                    std::cout << ",...";
+                }
+
+                std::cout << '\n';
+            }
+
+            fpsSampleSeconds = 0.0f;
+            fpsSampleFrameCount = 0;
+            slowFrameSamples.clear();
+            worstSlowFrameSeconds = 0.0f;
+            slowFrameCount = 0;
+        }
+    }
+
+    if (m_shutdownCallback)
+    {
+        m_shutdownCallback();
     }
 
     return 0;

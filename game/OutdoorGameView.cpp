@@ -105,6 +105,9 @@ std::vector<OutdoorActorCollision> buildRuntimeActorColliders(const OutdoorWorld
 
         if (pActor == nullptr
             || pActor->isDead
+            || pActor->currentHp <= 0
+            || pActor->aiState == OutdoorWorldRuntime::ActorAiState::Dying
+            || pActor->aiState == OutdoorWorldRuntime::ActorAiState::Dead
             || pActor->isInvisible
             || !pActor->hostileToParty
             || pActor->radius == 0

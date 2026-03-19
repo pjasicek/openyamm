@@ -784,6 +784,8 @@ float actorCollisionHeight(
     return collisionRadius * 2.0f + 2.0f;
 }
 
+bool isActorUnavailableForCombat(const OutdoorWorldRuntime::MapActorState &actor);
+
 std::vector<OutdoorActorCollision> buildNearbyActorMovementColliders(
     const std::vector<OutdoorWorldRuntime::MapActorState> &mapActors,
     const std::vector<bool> &activeActorMask,
@@ -807,7 +809,7 @@ std::vector<OutdoorActorCollision> buildNearbyActorMovementColliders(
 
         const OutdoorWorldRuntime::MapActorState &actor = mapActors[actorIndex];
 
-        if (actor.isDead || actor.isInvisible)
+        if (isActorUnavailableForCombat(actor))
         {
             continue;
         }
@@ -1151,6 +1153,104 @@ float attackAnimationSecondsForBillboard(
     }
 
     return static_cast<float>(pAttackFrame->animationLengthTicks) / TicksPerSecond;
+}
+
+float animationSecondsForSpriteFrame(
+    const SpriteFrameTable *pSpriteFrameTable,
+    uint16_t spriteFrameIndex,
+    float fallbackSeconds)
+{
+    if (pSpriteFrameTable == nullptr || spriteFrameIndex == 0)
+    {
+        return fallbackSeconds;
+    }
+
+    const SpriteFrameEntry *pFrame = pSpriteFrameTable->getFrame(spriteFrameIndex, 0);
+
+    if (pFrame == nullptr || pFrame->animationLengthTicks <= 0)
+    {
+        return fallbackSeconds;
+    }
+
+    return std::max(0.05f, static_cast<float>(pFrame->animationLengthTicks) / TicksPerSecond);
+}
+
+float actorAnimationSeconds(
+    const SpriteFrameTable *pSpriteFrameTable,
+    const OutdoorWorldRuntime::MapActorState &actor,
+    OutdoorWorldRuntime::ActorAnimation animation,
+    float fallbackSeconds)
+{
+    const size_t animationIndex = static_cast<size_t>(animation);
+
+    if (animationIndex >= actor.actionSpriteFrameIndices.size())
+    {
+        return fallbackSeconds;
+    }
+
+    return animationSecondsForSpriteFrame(
+        pSpriteFrameTable,
+        actor.actionSpriteFrameIndices[animationIndex],
+        fallbackSeconds);
+}
+
+bool isActorUnavailableForCombat(const OutdoorWorldRuntime::MapActorState &actor)
+{
+    return actor.isInvisible
+        || actor.isDead
+        || actor.currentHp <= 0
+        || actor.aiState == OutdoorWorldRuntime::ActorAiState::Dying
+        || actor.aiState == OutdoorWorldRuntime::ActorAiState::Dead;
+}
+
+bool canEnterHitReaction(const OutdoorWorldRuntime::MapActorState &actor)
+{
+    return !isActorUnavailableForCombat(actor)
+        && actor.aiState != OutdoorWorldRuntime::ActorAiState::Stunned
+        && actor.aiState != OutdoorWorldRuntime::ActorAiState::Attacking;
+}
+
+void beginHitReaction(
+    OutdoorWorldRuntime::MapActorState &actor,
+    const SpriteFrameTable *pSpriteFrameTable)
+{
+    actor.aiState = OutdoorWorldRuntime::ActorAiState::Stunned;
+    actor.animation = OutdoorWorldRuntime::ActorAnimation::GotHit;
+    actor.animationTimeTicks = 0.0f;
+    actor.moveDirectionX = 0.0f;
+    actor.moveDirectionY = 0.0f;
+    actor.velocityX = 0.0f;
+    actor.velocityY = 0.0f;
+    actor.velocityZ = 0.0f;
+    actor.actionSeconds = actorAnimationSeconds(
+        pSpriteFrameTable,
+        actor,
+        OutdoorWorldRuntime::ActorAnimation::GotHit,
+        0.25f);
+    actor.idleDecisionSeconds = std::max(actor.idleDecisionSeconds, actor.actionSeconds);
+    actor.attackImpactTriggered = false;
+}
+
+void beginDyingState(
+    OutdoorWorldRuntime::MapActorState &actor,
+    const SpriteFrameTable *pSpriteFrameTable)
+{
+    actor.currentHp = 0;
+    actor.aiState = OutdoorWorldRuntime::ActorAiState::Dying;
+    actor.animation = OutdoorWorldRuntime::ActorAnimation::Dying;
+    actor.animationTimeTicks = 0.0f;
+    actor.moveDirectionX = 0.0f;
+    actor.moveDirectionY = 0.0f;
+    actor.velocityX = 0.0f;
+    actor.velocityY = 0.0f;
+    actor.velocityZ = 0.0f;
+    actor.actionSeconds = actorAnimationSeconds(
+        pSpriteFrameTable,
+        actor,
+        OutdoorWorldRuntime::ActorAnimation::Dying,
+        0.35f);
+    actor.idleDecisionSeconds = 0.0f;
+    actor.attackImpactTriggered = false;
 }
 
 std::array<uint16_t, 8> buildMonsterActionSpriteFrameIndices(
@@ -1547,7 +1647,7 @@ CombatTargetInfo selectCombatTarget(
 
         const OutdoorWorldRuntime::MapActorState &otherActor = mapActors[otherActorIndex];
 
-        if (otherActor.isDead || otherActor.isInvisible)
+        if (isActorUnavailableForCombat(otherActor))
         {
             continue;
         }
@@ -1859,9 +1959,9 @@ OutdoorWorldRuntime::ActorAnimation attackAnimationForAbility(
         : OutdoorWorldRuntime::ActorAnimation::AttackMelee;
 }
 
-float attackActionDurationSeconds(float attackAnimationSeconds, float recoverySeconds)
+float attackActionDurationSeconds(float attackAnimationSeconds)
 {
-    return std::max(std::max(0.1f, attackAnimationSeconds), std::clamp(recoverySeconds * 0.5f, 0.25f, 0.6f));
+    return std::max(0.1f, attackAnimationSeconds);
 }
 
 float attackCooldownDurationSeconds(
@@ -2916,6 +3016,43 @@ void OutdoorWorldRuntime::updateMapActors(float deltaSeconds, float partyX, floa
             }
 
             actor.animationTimeTicks += ActorUpdateStepSeconds * TicksPerSecond;
+
+            if (actor.aiState == ActorAiState::Dying)
+            {
+                actor.actionSeconds = std::max(0.0f, actor.actionSeconds - ActorUpdateStepSeconds);
+                actor.moveDirectionX = 0.0f;
+                actor.moveDirectionY = 0.0f;
+                actor.velocityX = 0.0f;
+                actor.velocityY = 0.0f;
+                actor.velocityZ = 0.0f;
+
+                if (actor.actionSeconds <= 0.0f)
+                {
+                    setMapActorDead(actorIndex, true, false);
+                }
+
+                continue;
+            }
+
+            if (actor.aiState == ActorAiState::Stunned)
+            {
+                actor.actionSeconds = std::max(0.0f, actor.actionSeconds - ActorUpdateStepSeconds);
+                actor.moveDirectionX = 0.0f;
+                actor.moveDirectionY = 0.0f;
+                actor.velocityX = 0.0f;
+                actor.velocityY = 0.0f;
+                actor.velocityZ = 0.0f;
+
+                if (actor.actionSeconds <= 0.0f)
+                {
+                    actor.aiState = ActorAiState::Standing;
+                    actor.animation = ActorAnimation::Standing;
+                    actor.animationTimeTicks = 0.0f;
+                }
+
+                continue;
+            }
+
             actor.idleDecisionSeconds = std::max(0.0f, actor.idleDecisionSeconds - ActorUpdateStepSeconds);
             actor.attackCooldownSeconds = std::max(0.0f, actor.attackCooldownSeconds - ActorUpdateStepSeconds);
             actor.actionSeconds = std::max(0.0f, actor.actionSeconds - ActorUpdateStepSeconds);
@@ -3045,13 +3182,17 @@ void OutdoorWorldRuntime::updateMapActors(float deltaSeconds, float partyX, floa
                     nextAiState = ActorAiState::Attacking;
                     nextAnimation = attackAnimationForAbility(*pStats, chosenAbility);
                     actor.queuedAttackAbility = chosenAbility;
+                    const float attackAnimationSeconds = actorAnimationSeconds(
+                        m_pActorSpriteFrameTable,
+                        actor,
+                        nextAnimation,
+                        actor.attackAnimationSeconds);
                     actor.attackCooldownSeconds = attackCooldownDurationSeconds(
                         *pStats,
                         chosenAbility,
-                        actor.attackAnimationSeconds,
+                        attackAnimationSeconds,
                         actor.recoverySeconds);
-                    actor.actionSeconds =
-                        attackActionDurationSeconds(actor.attackAnimationSeconds, actor.recoverySeconds);
+                    actor.actionSeconds = attackActionDurationSeconds(attackAnimationSeconds);
                     actor.attackImpactTriggered = false;
                     actor.animationTimeTicks = 0.0f;
                     pushAudioEvent(pStats->attackSoundId, actor.actorId, "monster_attack");
@@ -3120,13 +3261,17 @@ void OutdoorWorldRuntime::updateMapActors(float deltaSeconds, float partyX, floa
                         nextAiState = ActorAiState::Attacking;
                         nextAnimation = attackAnimationForAbility(*pStats, chosenAbility);
                         actor.queuedAttackAbility = chosenAbility;
+                        const float attackAnimationSeconds = actorAnimationSeconds(
+                            m_pActorSpriteFrameTable,
+                            actor,
+                            nextAnimation,
+                            actor.attackAnimationSeconds);
                         actor.attackCooldownSeconds = attackCooldownDurationSeconds(
                             *pStats,
                             chosenAbility,
-                            actor.attackAnimationSeconds,
+                            attackAnimationSeconds,
                             actor.recoverySeconds);
-                        actor.actionSeconds =
-                            attackActionDurationSeconds(actor.attackAnimationSeconds, actor.recoverySeconds);
+                        actor.actionSeconds = attackActionDurationSeconds(attackAnimationSeconds);
                         actor.attackImpactTriggered = false;
                         actor.animationTimeTicks = 0.0f;
                         pushAudioEvent(pStats->attackSoundId, actor.actorId, "monster_attack");
@@ -4059,7 +4204,7 @@ void OutdoorWorldRuntime::updateProjectiles(float deltaSeconds, float partyX, fl
         {
             const MapActorState &actor = m_mapActors[actorIndex];
 
-            if (actor.isDead || actor.actorId == projectile.sourceId)
+            if (isActorUnavailableForCombat(actor) || actor.actorId == projectile.sourceId)
             {
                 continue;
             }
@@ -4456,7 +4601,7 @@ bool OutdoorWorldRuntime::debugSpawnEncounterFromSpawnPoint(size_t spawnIndex, u
         false);
 }
 
-bool OutdoorWorldRuntime::setMapActorDead(size_t actorIndex, bool isDead)
+bool OutdoorWorldRuntime::setMapActorDead(size_t actorIndex, bool isDead, bool emitAudio)
 {
     if (actorIndex >= m_mapActors.size())
     {
@@ -4495,7 +4640,10 @@ bool OutdoorWorldRuntime::setMapActorDead(size_t actorIndex, bool isDead)
                 m_mapActorCorpseViews[actorIndex] = std::move(corpse);
             }
 
-            pushAudioEvent(pStats->deathSoundId, actor.actorId, "monster_death");
+            if (emitAudio)
+            {
+                pushAudioEvent(pStats->deathSoundId, actor.actorId, "monster_death");
+            }
         }
     }
 
@@ -4516,7 +4664,7 @@ bool OutdoorWorldRuntime::applyMonsterAttackToMapActor(size_t actorIndex, int da
 
     MapActorState &actor = m_mapActors[actorIndex];
 
-    if (actor.isDead || actor.isInvisible)
+    if (isActorUnavailableForCombat(actor))
     {
         return false;
     }
@@ -4539,21 +4687,24 @@ bool OutdoorWorldRuntime::applyMonsterAttackToMapActor(size_t actorIndex, int da
         faceDirection(actor, pSourceActor->preciseX - actor.preciseX, pSourceActor->preciseY - actor.preciseY);
     }
 
-    actor.aiState = ActorAiState::Standing;
-    actor.animation = ActorAnimation::GotHit;
-    actor.animationTimeTicks = 0.0f;
-    actor.moveDirectionX = 0.0f;
-    actor.moveDirectionY = 0.0f;
-    actor.velocityX = 0.0f;
-    actor.velocityY = 0.0f;
-    actor.velocityZ = 0.0f;
-    actor.actionSeconds = 0.2f;
-    actor.idleDecisionSeconds = 0.2f;
-    actor.attackImpactTriggered = false;
-
     if (actor.currentHp <= 0)
     {
-        return setMapActorDead(actorIndex, true);
+        beginDyingState(actor, m_pActorSpriteFrameTable);
+
+        if (m_pMonsterTable != nullptr)
+        {
+            if (const MonsterTable::MonsterStatsEntry *pStats = m_pMonsterTable->findStatsById(actor.monsterId))
+            {
+                pushAudioEvent(pStats->deathSoundId, actor.actorId, "monster_death");
+            }
+        }
+
+        return true;
+    }
+
+    if (canEnterHitReaction(actor))
+    {
+        beginHitReaction(actor, m_pActorSpriteFrameTable);
     }
 
     if (m_pMonsterTable != nullptr)
@@ -4697,7 +4848,7 @@ bool OutdoorWorldRuntime::setMapActorHostileToParty(
 
     MapActorState &actor = m_mapActors[actorIndex];
 
-    if (actor.isDead || actor.isInvisible)
+    if (isActorUnavailableForCombat(actor))
     {
         return false;
     }
@@ -4736,9 +4887,14 @@ void OutdoorWorldRuntime::aggroNearbyMapActorFaction(size_t actorIndex, float pa
 
     for (size_t otherActorIndex = 0; otherActorIndex < m_mapActors.size(); ++otherActorIndex)
     {
+        if (otherActorIndex == actorIndex)
+        {
+            continue;
+        }
+
         MapActorState &otherActor = m_mapActors[otherActorIndex];
 
-        if (otherActor.isDead || otherActor.isInvisible)
+        if (isActorUnavailableForCombat(otherActor))
         {
             continue;
         }
@@ -4776,38 +4932,43 @@ bool OutdoorWorldRuntime::applyPartyAttackToMapActor(
 
     MapActorState &actor = m_mapActors[actorIndex];
 
-    if (actor.isDead || actor.isInvisible)
+    if (isActorUnavailableForCombat(actor))
     {
         return false;
     }
 
     actor.currentHp = std::max(0, actor.currentHp - damage);
     faceDirection(actor, partyX - actor.preciseX, partyY - actor.preciseY);
-    actor.aiState = ActorAiState::Standing;
-    actor.animation = ActorAnimation::GotHit;
-    actor.animationTimeTicks = 0.0f;
-    actor.moveDirectionX = 0.0f;
-    actor.moveDirectionY = 0.0f;
-    actor.velocityX = 0.0f;
-    actor.velocityY = 0.0f;
-    actor.velocityZ = 0.0f;
-    actor.actionSeconds = 0.2f;
-    actor.idleDecisionSeconds = 0.2f;
-    actor.attackImpactTriggered = false;
-
-    setMapActorHostileToParty(actorIndex, partyX, partyY, partyZ, true);
+    setMapActorHostileToParty(actorIndex, partyX, partyY, partyZ, false);
 
     const bool died = actor.currentHp <= 0;
 
     if (died)
     {
-        setMapActorDead(actorIndex, true);
-    }
-    else if (m_pMonsterTable != nullptr)
-    {
-        if (const MonsterTable::MonsterStatsEntry *pStats = m_pMonsterTable->findStatsById(actor.monsterId))
+        beginDyingState(actor, m_pActorSpriteFrameTable);
+
+        if (m_pMonsterTable != nullptr)
         {
-            pushAudioEvent(pStats->winceSoundId, actor.actorId, "monster_hit");
+            if (const MonsterTable::MonsterStatsEntry *pStats = m_pMonsterTable->findStatsById(actor.monsterId))
+            {
+                pushAudioEvent(pStats->deathSoundId, actor.actorId, "monster_death");
+            }
+        }
+    }
+    else
+    {
+        if (canEnterHitReaction(actor))
+        {
+            faceDirection(actor, partyX - actor.preciseX, partyY - actor.preciseY);
+            beginHitReaction(actor, m_pActorSpriteFrameTable);
+        }
+
+        if (m_pMonsterTable != nullptr)
+        {
+            if (const MonsterTable::MonsterStatsEntry *pStats = m_pMonsterTable->findStatsById(actor.monsterId))
+            {
+                pushAudioEvent(pStats->winceSoundId, actor.actorId, "monster_hit");
+            }
         }
     }
 
@@ -4824,7 +4985,7 @@ bool OutdoorWorldRuntime::notifyPartyContactWithMapActor(size_t actorIndex, floa
 
     MapActorState &actor = m_mapActors[actorIndex];
 
-    if (actor.isDead || actor.isInvisible || actor.hostileToParty)
+    if (isActorUnavailableForCombat(actor) || actor.hostileToParty)
     {
         return false;
     }
