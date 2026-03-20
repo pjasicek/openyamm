@@ -5866,13 +5866,32 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
             }
 
             MapAssetInfo modifiedMap = *selectedMap;
+            modifiedMap.outdoorMapData = *selectedMap->outdoorMapData;
             modifiedMap.outdoorMapDeltaData = *selectedMap->outdoorMapDeltaData;
+            modifiedMap.outdoorMapData->spawns.clear();
 
-            const MapDeltaActor &guardActor = selectedMap->outdoorMapDeltaData->actors[53];
+            const MapDeltaActor quietLandActor = modifiedMap.outdoorMapDeltaData->actors[3];
+            MapDeltaActor &guardActor = modifiedMap.outdoorMapDeltaData->actors[53];
+            guardActor.x = quietLandActor.x;
+            guardActor.y = quietLandActor.y;
+            guardActor.z = quietLandActor.z;
             MapDeltaActor &blockingActor = modifiedMap.outdoorMapDeltaData->actors[3];
-            blockingActor.x = guardActor.x - 1100;
-            blockingActor.y = guardActor.y;
-            blockingActor.z = guardActor.z;
+            blockingActor.x = quietLandActor.x + 1100;
+            blockingActor.y = quietLandActor.y;
+            blockingActor.z = quietLandActor.z;
+
+            for (size_t actorIndex = 0; actorIndex < modifiedMap.outdoorMapDeltaData->actors.size(); ++actorIndex)
+            {
+                if (actorIndex == 3 || actorIndex == 53)
+                {
+                    continue;
+                }
+
+                MapDeltaActor &otherActor = modifiedMap.outdoorMapDeltaData->actors[actorIndex];
+                otherActor.x = quietLandActor.x + 40000 + static_cast<int>(actorIndex) * 64;
+                otherActor.y = quietLandActor.y + 40000 + static_cast<int>(actorIndex) * 64;
+                otherActor.z = quietLandActor.z;
+            }
 
             RegressionScenario scenario = {};
 

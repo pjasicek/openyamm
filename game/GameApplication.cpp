@@ -396,7 +396,7 @@ bool GameApplication::processPendingOutdoorMapMove()
         if (m_pOutdoorPartyRuntime != nullptr)
         {
             m_pOutdoorPartyRuntime->teleportTo(
-                static_cast<float>(pendingMapMove->x),
+                static_cast<float>(-pendingMapMove->x),
                 static_cast<float>(pendingMapMove->y),
                 static_cast<float>(pendingMapMove->z)
             );
@@ -420,7 +420,7 @@ bool GameApplication::processPendingOutdoorMapMove()
     if (m_pOutdoorPartyRuntime != nullptr)
     {
         m_pOutdoorPartyRuntime->teleportTo(
-            static_cast<float>(pendingMapMove->x),
+            static_cast<float>(-pendingMapMove->x),
             static_cast<float>(pendingMapMove->y),
             static_cast<float>(pendingMapMove->z)
         );

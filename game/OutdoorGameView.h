@@ -28,6 +28,7 @@
 #include <memory>
 #include <optional>
 #include <unordered_map>
+#include <unordered_set>
 #include <vector>
 
 namespace OpenYAMM::Game
@@ -130,6 +131,111 @@ private:
         bgfx::TextureHandle textureHandle = BGFX_INVALID_HANDLE;
     };
 
+    struct HudFontGlyphMetrics
+    {
+        int leftSpacing = 0;
+        int width = 0;
+        int rightSpacing = 0;
+    };
+
+    struct HudFontHandle
+    {
+        std::string fontName;
+        int firstChar = 0;
+        int lastChar = 0;
+        int fontHeight = 0;
+        int atlasCellWidth = 0;
+        int atlasWidth = 0;
+        int atlasHeight = 0;
+        std::array<HudFontGlyphMetrics, 256> glyphMetrics = {{}};
+        bgfx::TextureHandle mainTextureHandle = BGFX_INVALID_HANDLE;
+        bgfx::TextureHandle shadowTextureHandle = BGFX_INVALID_HANDLE;
+    };
+
+    enum class HudLayoutAnchor
+    {
+        TopLeft,
+        TopCenter,
+        TopRight,
+        Center,
+        BottomLeft,
+        BottomCenter,
+        BottomRight
+    };
+
+    enum class HudLayoutAttachMode
+    {
+        None,
+        RightOf,
+        LeftOf,
+        Above,
+        Below,
+        CenterAbove,
+        CenterBelow,
+        InsideLeft,
+        InsideRight,
+        InsideTopCenter,
+        InsideTopLeft,
+        InsideTopRight,
+        InsideBottomLeft,
+        InsideBottomRight,
+        CenterIn
+    };
+
+    enum class HudTextAlignX
+    {
+        Left,
+        Center,
+        Right
+    };
+
+    enum class HudTextAlignY
+    {
+        Top,
+        Middle,
+        Bottom
+    };
+
+    struct HudLayoutElement
+    {
+        std::string id;
+        std::string screen;
+        HudLayoutAnchor anchor = HudLayoutAnchor::TopLeft;
+        std::string parentId;
+        HudLayoutAttachMode attachTo = HudLayoutAttachMode::None;
+        float gapX = 0.0f;
+        float gapY = 0.0f;
+        float offsetX = 0.0f;
+        float offsetY = 0.0f;
+        float width = 0.0f;
+        float height = 0.0f;
+        float minScale = 1.0f;
+        float maxScale = 1.0f;
+        bool visible = true;
+        bool interactive = false;
+        std::string primaryAsset;
+        std::string secondaryAsset;
+        std::string tertiaryAsset;
+        std::string quaternaryAsset;
+        std::string quinaryAsset;
+        std::string fontName;
+        std::string labelText;
+        HudTextAlignX textAlignX = HudTextAlignX::Left;
+        HudTextAlignY textAlignY = HudTextAlignY::Top;
+        float textPadX = 0.0f;
+        float textPadY = 0.0f;
+        std::string notes;
+    };
+
+    struct ResolvedHudLayoutElement
+    {
+        float x = 0.0f;
+        float y = 0.0f;
+        float width = 0.0f;
+        float height = 0.0f;
+        float scale = 1.0f;
+    };
+
     struct SpriteLoadCache
     {
         std::unordered_map<std::string, std::unordered_map<std::string, std::string>> directoryAssetPathsByPath;
@@ -226,6 +332,24 @@ private:
     void queueRuntimeActorBillboardTextureWarmup();
     void queueEventSpellBillboardTextureWarmup(const EventIrProgram &eventIrProgram);
     void processPendingSpriteFrameWarmups(size_t maxSpriteFrames);
+    bool loadHudLayout(const Engine::AssetFileSystem &assetFileSystem);
+    const HudLayoutElement *findHudLayoutElement(const std::string &layoutId) const;
+    const HudFontHandle *findHudFont(const std::string &fontName) const;
+    const HudTextureHandle *ensureHudTextureLoaded(const std::string &textureName);
+    const HudTextureHandle *ensureSolidHudTextureLoaded(const std::string &textureName, uint32_t abgrColor);
+    std::optional<ResolvedHudLayoutElement> resolveHudLayoutElement(
+        const std::string &layoutId,
+        int screenWidth,
+        int screenHeight,
+        float fallbackWidth,
+        float fallbackHeight) const;
+    std::optional<ResolvedHudLayoutElement> resolveHudLayoutElementRecursive(
+        const std::string &layoutId,
+        int screenWidth,
+        int screenHeight,
+        float fallbackWidth,
+        float fallbackHeight,
+        std::unordered_set<std::string> &visited) const;
     std::optional<std::string> findCachedAssetPath(const std::string &directoryPath, const std::string &fileName);
     std::optional<std::vector<uint8_t>> readCachedBinaryFile(const std::string &assetPath);
     std::optional<std::array<uint8_t, 256 * 3>> loadCachedActPalette(int16_t paletteId);
@@ -245,6 +369,7 @@ private:
     const BillboardTextureHandle *findBillboardTexture(const std::string &textureName, int16_t paletteId = 0) const;
     const BillboardTextureHandle *ensureSpriteBillboardTexture(const std::string &textureName, int16_t paletteId);
     const HudTextureHandle *findHudTexture(const std::string &textureName) const;
+    bool loadHudFont(const Engine::AssetFileSystem &assetFileSystem, const std::string &fontName);
     bool loadHudTexture(const Engine::AssetFileSystem &assetFileSystem, const std::string &textureName);
     const OutdoorWorldRuntime::MapActorState *runtimeActorStateForBillboard(const ActorPreviewBillboard &billboard) const;
     bool m_isInitialized;
@@ -304,6 +429,9 @@ private:
     size_t m_decorationBillboardGridWidth = 0;
     size_t m_decorationBillboardGridHeight = 0;
     std::vector<HudTextureHandle> m_hudTextureHandles;
+    std::vector<HudFontHandle> m_hudFontHandles;
+    std::vector<std::string> m_hudLayoutOrder;
+    std::unordered_map<std::string, HudLayoutElement> m_hudLayoutElements;
     float m_cameraTargetX;
     float m_cameraTargetY;
     float m_cameraTargetZ;
@@ -323,6 +451,7 @@ private:
     bool m_showSpriteObjects;
     bool m_showEntities;
     bool m_showSpawns;
+    bool m_showGameplayHud;
     bool m_showDebugHud;
     bool m_inspectMode;
     bool m_isRotatingCamera;
@@ -339,6 +468,7 @@ private:
     bool m_toggleSpriteObjectsLatch;
     bool m_toggleEntitiesLatch;
     bool m_toggleSpawnsLatch;
+    bool m_toggleGameplayHudLatch;
     bool m_toggleDebugHudLatch;
     bool m_toggleInspectLatch;
     bool m_triggerMeteorLatch;

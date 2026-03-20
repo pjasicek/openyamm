@@ -10,6 +10,7 @@
 #include "game/SpawnPreview.h"
 #include "game/SpriteTables.h"
 #include "game/StringUtils.h"
+#include "engine/TextTable.h"
 
 #include <bx/math.h>
 
@@ -19,6 +20,7 @@
 #include <algorithm>
 #include <cmath>
 #include <cstring>
+#include <cstdlib>
 #include <cstdint>
 #include <filesystem>
 #include <fstream>
@@ -68,6 +70,9 @@ constexpr bool DebugSpritePreloadLogging = false;
 constexpr bool DebugRenderHitchLogging = false;
 constexpr bool DebugActorRenderHitchLogging = false;
 constexpr std::string_view PartyStartDecorationName = "party start";
+constexpr float HudReferenceWidth = 800.0f;
+constexpr float HudReferenceHeight = 600.0f;
+constexpr float OutdoorMinimapZoom = 512.0f;
 
 struct SpriteTexturePreloadRequest
 {
@@ -97,6 +102,182 @@ struct OutdoorPartyStartPoint
     float y = 0.0f;
     float z = 0.0f;
 };
+
+struct ParsedHudFontGlyphMetrics
+{
+    int leftSpacing = 0;
+    int width = 0;
+    int rightSpacing = 0;
+};
+
+struct ParsedHudBitmapFont
+{
+    int firstChar = 0;
+    int lastChar = 0;
+    int fontHeight = 0;
+    std::array<ParsedHudFontGlyphMetrics, 256> glyphMetrics = {{}};
+    std::array<uint32_t, 256> glyphOffsets = {{}};
+    std::vector<uint8_t> pixels;
+};
+
+int32_t readInt32Le(const uint8_t *pBytes)
+{
+    return static_cast<int32_t>(
+        static_cast<uint32_t>(pBytes[0])
+        | (static_cast<uint32_t>(pBytes[1]) << 8)
+        | (static_cast<uint32_t>(pBytes[2]) << 16)
+        | (static_cast<uint32_t>(pBytes[3]) << 24));
+}
+
+uint32_t readUint32Le(const uint8_t *pBytes)
+{
+    return static_cast<uint32_t>(
+        static_cast<uint32_t>(pBytes[0])
+        | (static_cast<uint32_t>(pBytes[1]) << 8)
+        | (static_cast<uint32_t>(pBytes[2]) << 16)
+        | (static_cast<uint32_t>(pBytes[3]) << 24));
+}
+
+bool validateParsedHudBitmapFont(
+    const ParsedHudBitmapFont &font,
+    const std::vector<uint8_t> &pixels)
+{
+    if (font.firstChar < 0 || font.firstChar > 255 || font.lastChar < 0 || font.lastChar > 255
+        || font.firstChar > font.lastChar || font.fontHeight <= 0)
+    {
+        return false;
+    }
+
+    for (int glyphIndex = 0; glyphIndex < 256; ++glyphIndex)
+    {
+        const ParsedHudFontGlyphMetrics &metrics = font.glyphMetrics[glyphIndex];
+
+        if (glyphIndex < font.firstChar || glyphIndex > font.lastChar)
+        {
+            continue;
+        }
+
+        if (metrics.width < 0 || metrics.width > 1024 || metrics.leftSpacing < -512 || metrics.leftSpacing > 512
+            || metrics.rightSpacing < -512 || metrics.rightSpacing > 512)
+        {
+            return false;
+        }
+
+        const uint64_t glyphSize = static_cast<uint64_t>(font.fontHeight) * static_cast<uint64_t>(metrics.width);
+        const uint64_t glyphEnd = static_cast<uint64_t>(font.glyphOffsets[glyphIndex]) + glyphSize;
+
+        if (glyphEnd > pixels.size())
+        {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+std::optional<ParsedHudBitmapFont> parseHudBitmapFont(const std::vector<uint8_t> &bytes)
+{
+    constexpr size_t fontHeaderSize = 32;
+    constexpr size_t mm7AtlasSize = 4096;
+    constexpr size_t mmxAtlasSize = 1280;
+
+    if (bytes.size() < fontHeaderSize + mmxAtlasSize)
+    {
+        return std::nullopt;
+    }
+
+    const uint8_t *pBytes = bytes.data();
+
+    if (pBytes[2] != 8 || pBytes[3] != 0 || pBytes[4] != 0 || pBytes[6] != 0 || pBytes[7] != 0)
+    {
+        return std::nullopt;
+    }
+
+    ParsedHudBitmapFont mm7Font = {};
+    mm7Font.firstChar = pBytes[0];
+    mm7Font.lastChar = pBytes[1];
+    mm7Font.fontHeight = pBytes[5];
+
+    if (bytes.size() >= fontHeaderSize + mm7AtlasSize)
+    {
+        for (int glyphIndex = 0; glyphIndex < 256; ++glyphIndex)
+        {
+            const size_t metricOffset = fontHeaderSize + static_cast<size_t>(glyphIndex) * 12;
+            mm7Font.glyphMetrics[glyphIndex].leftSpacing = readInt32Le(&pBytes[metricOffset]);
+            mm7Font.glyphMetrics[glyphIndex].width = readInt32Le(&pBytes[metricOffset + 4]);
+            mm7Font.glyphMetrics[glyphIndex].rightSpacing = readInt32Le(&pBytes[metricOffset + 8]);
+        }
+
+        for (int glyphIndex = 0; glyphIndex < 256; ++glyphIndex)
+        {
+            const size_t offsetPosition = fontHeaderSize + 256 * 12 + static_cast<size_t>(glyphIndex) * 4;
+            mm7Font.glyphOffsets[glyphIndex] = readUint32Le(&pBytes[offsetPosition]);
+        }
+
+        mm7Font.pixels.assign(bytes.begin() + static_cast<ptrdiff_t>(fontHeaderSize + mm7AtlasSize), bytes.end());
+
+        if (validateParsedHudBitmapFont(mm7Font, mm7Font.pixels))
+        {
+            return mm7Font;
+        }
+    }
+
+    ParsedHudBitmapFont mmxFont = {};
+    mmxFont.firstChar = pBytes[0];
+    mmxFont.lastChar = pBytes[1];
+    mmxFont.fontHeight = pBytes[5];
+    for (int glyphIndex = 0; glyphIndex < 256; ++glyphIndex)
+    {
+        mmxFont.glyphMetrics[glyphIndex].leftSpacing = 0;
+        mmxFont.glyphMetrics[glyphIndex].width = pBytes[fontHeaderSize + glyphIndex];
+        mmxFont.glyphMetrics[glyphIndex].rightSpacing = 0;
+    }
+
+    for (int glyphIndex = 0; glyphIndex < 256; ++glyphIndex)
+    {
+        const size_t offsetPosition = fontHeaderSize + 256 + static_cast<size_t>(glyphIndex) * 4;
+        mmxFont.glyphOffsets[glyphIndex] = readUint32Le(&pBytes[offsetPosition]);
+    }
+
+    mmxFont.pixels.assign(bytes.begin() + static_cast<ptrdiff_t>(fontHeaderSize + mmxAtlasSize), bytes.end());
+
+    if (!validateParsedHudBitmapFont(mmxFont, mmxFont.pixels))
+    {
+        return std::nullopt;
+    }
+
+    return mmxFont;
+}
+
+std::optional<float> parseHudLayoutFloat(const std::string &value)
+{
+    char *pEnd = nullptr;
+    const float result = std::strtof(value.c_str(), &pEnd);
+
+    if (pEnd == value.c_str() || *pEnd != '\0')
+    {
+        return std::nullopt;
+    }
+
+    return result;
+}
+
+std::optional<bool> parseHudLayoutBool(const std::string &value)
+{
+    const std::string lowerValue = toLowerCopy(value);
+
+    if (lowerValue == "1" || lowerValue == "true" || lowerValue == "yes")
+    {
+        return true;
+    }
+
+    if (lowerValue == "0" || lowerValue == "false" || lowerValue == "no")
+    {
+        return false;
+    }
+
+    return std::nullopt;
+}
 
 std::optional<OutdoorPartyStartPoint> resolveOutdoorPartyStartPoint(
     const Engine::AssetFileSystem &assetFileSystem,
@@ -913,6 +1094,7 @@ OutdoorGameView::OutdoorGameView()
     , m_showSpriteObjects(true)
     , m_showEntities(true)
     , m_showSpawns(false)
+    , m_showGameplayHud(true)
     , m_showDebugHud(false)
     , m_inspectMode(false)
     , m_isRotatingCamera(false)
@@ -929,6 +1111,7 @@ OutdoorGameView::OutdoorGameView()
     , m_toggleSpriteObjectsLatch(false)
     , m_toggleEntitiesLatch(false)
     , m_toggleSpawnsLatch(false)
+    , m_toggleGameplayHudLatch(false)
     , m_toggleDebugHudLatch(false)
     , m_toggleInspectLatch(false)
     , m_triggerMeteorLatch(false)
@@ -1314,22 +1497,33 @@ bool OutdoorGameView::initialize(
         }
     }
 
-    const std::vector<std::string> hudTextureNames = {
-        "Basebar",
-        "FACEMASK",
-        "selring",
-        "manaFRM",
-        "ManaG",
-        "manaB",
-        "PC01-01",
-        "PC05-01",
-        "PC08-01",
-        "PC16-01"
-    };
-
-    for (const std::string &textureName : hudTextureNames)
+    if (!loadHudLayout(assetFileSystem))
     {
-        loadHudTexture(assetFileSystem, textureName);
+        std::cerr << "OutdoorGameView failed to load HUD layout data: Data/UI_LAYOUT.txt\n";
+    }
+    else
+    {
+        for (const auto &[id, element] : m_hudLayoutElements)
+        {
+            BX_UNUSED(id);
+            for (const std::string *pAssetName : {
+                     &element.primaryAsset,
+                     &element.secondaryAsset,
+                     &element.tertiaryAsset,
+                     &element.quaternaryAsset,
+                     &element.quinaryAsset})
+            {
+                if (!pAssetName->empty())
+                {
+                    loadHudTexture(assetFileSystem, *pAssetName);
+                }
+            }
+
+            if (!element.fontName.empty())
+            {
+                loadHudFont(assetFileSystem, element.fontName);
+            }
+        }
     }
 
     m_terrainTextureSamplerHandle = bgfx::createUniform("s_texColor", bgfx::UniformType::Sampler);
@@ -1726,7 +1920,7 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
             0,
             5,
             0x0f,
-            "Modes: 1 filled=%s  2 wire=%s  3 bmodels=%s  4 bmwire=%s  5 coll=%s  6 actorcoll=%s  7 actors=%s  8 objs=%s  9 ents=%s  0 spawns=%s  -=inspect=%s  F2 debug=%s  F3 decor=%s  textured=%s/%s",
+            "Modes: 1 filled=%s  2 wire=%s  3 bmodels=%s  4 bmwire=%s  5 coll=%s  6 actorcoll=%s  7 actors=%s  8 objs=%s  9 ents=%s  0 spawns=%s  -=inspect=%s  F2 debug=%s  F3 decor=%s  F4 hud=%s  textured=%s/%s",
             m_showFilledTerrain ? "on" : "off",
             m_showTerrainWireframe ? "on" : "off",
             m_showBModels ? "on" : "off",
@@ -1740,6 +1934,7 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
             m_inspectMode ? "on" : "off",
             m_showDebugHud ? "on" : "off",
             m_showDecorationBillboards ? "on" : "off",
+            m_showGameplayHud ? "on" : "off",
             bgfx::isValid(m_terrainTextureAtlasHandle) ? "yes" : "no",
             m_texturedBModelBatches.empty() ? "no" : "yes"
         );
@@ -2235,10 +2430,15 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
 
     {
         const uint64_t stageStartTickCount = SDL_GetTicksNS();
-        renderGameplayHudArt(width, height);
-        renderGameplayHud(width, height);
-        renderChestPanel(width, height);
-        renderEventDialogPanel(width, height);
+
+        if (m_showGameplayHud)
+        {
+            renderGameplayHudArt(width, height);
+            renderGameplayHud(width, height);
+            renderChestPanel(width, height);
+            renderEventDialogPanel(width, height);
+        }
+
         hudStageNanoseconds += SDL_GetTicksNS() - stageStartTickCount;
     }
 
@@ -2273,12 +2473,19 @@ void OutdoorGameView::renderGameplayHudArt(int width, int height)
         return;
     }
 
-    const HudTextureHandle *pBasebar = findHudTexture("Basebar");
-    const HudTextureHandle *pFaceMask = findHudTexture("FACEMASK");
-    const HudTextureHandle *pSelectionRing = findHudTexture("selring");
-    const HudTextureHandle *pManaFrame = findHudTexture("manaFRM");
-    const HudTextureHandle *pHealthBar = findHudTexture("ManaG");
-    const HudTextureHandle *pManaBar = findHudTexture("manaB");
+    const HudLayoutElement *pBasebarLayout = findHudLayoutElement("OutdoorBasebar");
+    const HudLayoutElement *pPartyStripLayout = findHudLayoutElement("OutdoorPartyStrip");
+    if (pBasebarLayout == nullptr || pPartyStripLayout == nullptr)
+    {
+        return;
+    }
+
+    const HudTextureHandle *pBasebar = ensureHudTextureLoaded(pBasebarLayout->primaryAsset);
+    const HudTextureHandle *pFaceMask = ensureHudTextureLoaded(pPartyStripLayout->primaryAsset);
+    const HudTextureHandle *pSelectionRing = ensureHudTextureLoaded(pPartyStripLayout->secondaryAsset);
+    const HudTextureHandle *pManaFrame = ensureHudTextureLoaded(pPartyStripLayout->tertiaryAsset);
+    const HudTextureHandle *pHealthBar = ensureHudTextureLoaded(pPartyStripLayout->quaternaryAsset);
+    const HudTextureHandle *pManaBar = ensureHudTextureLoaded(pPartyStripLayout->quinaryAsset);
     const std::vector<Character> &members = m_pOutdoorPartyRuntime->party().members();
 
     if (pBasebar == nullptr || pFaceMask == nullptr || members.empty())
@@ -2286,16 +2493,38 @@ void OutdoorGameView::renderGameplayHudArt(int width, int height)
         return;
     }
 
-    const float uiScale = std::clamp(static_cast<float>(height) / 600.0f, 1.0f, 1.5f);
-    const float basebarWidth = pBasebar->width * uiScale;
-    const float basebarHeight = pBasebar->height * uiScale;
-    const float basebarX = std::max(0.0f, (static_cast<float>(width) - basebarWidth) * 0.5f);
-    const float basebarY = static_cast<float>(height) - basebarHeight;
+    const std::optional<ResolvedHudLayoutElement> resolvedBasebar = resolveHudLayoutElement(
+        "OutdoorBasebar",
+        width,
+        height,
+        static_cast<float>(pBasebar->width),
+        static_cast<float>(pBasebar->height));
+    const std::optional<ResolvedHudLayoutElement> resolvedPartyStrip = resolveHudLayoutElement(
+        "OutdoorPartyStrip",
+        width,
+        height,
+        static_cast<float>(pBasebar->width),
+        static_cast<float>(pBasebar->height));
+
+    if (!resolvedBasebar || !resolvedPartyStrip)
+    {
+        return;
+    }
+
+    const float uiScale = resolvedBasebar->scale;
+    const float basebarWidth = resolvedBasebar->width;
+    const float basebarHeight = resolvedBasebar->height;
+    const float basebarX = resolvedBasebar->x;
+    const float basebarY = resolvedBasebar->y;
+    const float partyStripX = resolvedPartyStrip->x;
+    const float partyStripY = resolvedPartyStrip->y;
+    const float partyStripWidth = resolvedPartyStrip->width;
+    const float partyStripHeight = resolvedPartyStrip->height;
     const float portraitWidth = pFaceMask->width * uiScale;
     const float portraitHeight = pFaceMask->height * uiScale;
-    const float portraitStartX = basebarX + 20.0f * uiScale;
-    const float portraitY = basebarY + 23.0f * uiScale;
-    const float portraitDeltaX = 97.0f * uiScale;
+    const float portraitStartX = partyStripX + partyStripWidth * (20.0f / 471.0f);
+    const float portraitY = partyStripY + partyStripHeight * (23.0f / 92.0f);
+    const float portraitDeltaX = partyStripWidth * (94.0f / 471.0f);
     float projectionMatrix[16] = {};
     bx::mtxOrtho(
         projectionMatrix,
@@ -2416,48 +2645,28 @@ void OutdoorGameView::renderGameplayHudArt(int width, int height)
             bgfx::submit(HudViewId, m_programHandle);
         };
 
-    auto submitBillboardQuad =
-        [this](
-            const BillboardTextureHandle &texture,
-            float x,
-            float y,
-            float quadWidth,
-            float quadHeight)
-        {
-            if (!bgfx::isValid(texture.textureHandle)
-                || bgfx::getAvailTransientVertexBuffer(6, TexturedTerrainVertex::ms_layout) < 6)
-            {
-                return;
-            }
+    struct MinimapOverlayState
+    {
+        bool valid = false;
+        float x = 0.0f;
+        float y = 0.0f;
+        float width = 0.0f;
+        float height = 0.0f;
+        float scale = 1.0f;
+    };
 
-            bgfx::TransientVertexBuffer transientVertexBuffer;
-            bgfx::allocTransientVertexBuffer(&transientVertexBuffer, 6, TexturedTerrainVertex::ms_layout);
-            TexturedTerrainVertex *pVertices = reinterpret_cast<TexturedTerrainVertex *>(transientVertexBuffer.data);
-
-            pVertices[0] = {x, y, 0.0f, 0.0f, 0.0f};
-            pVertices[1] = {x + quadWidth, y, 0.0f, 1.0f, 0.0f};
-            pVertices[2] = {x + quadWidth, y + quadHeight, 0.0f, 1.0f, 1.0f};
-            pVertices[3] = {x, y, 0.0f, 0.0f, 0.0f};
-            pVertices[4] = {x + quadWidth, y + quadHeight, 0.0f, 1.0f, 1.0f};
-            pVertices[5] = {x, y + quadHeight, 0.0f, 0.0f, 1.0f};
-
-            float modelMatrix[16] = {};
-            bx::mtxIdentity(modelMatrix);
-            bgfx::setTransform(modelMatrix);
-            bgfx::setVertexBuffer(0, &transientVertexBuffer);
-            bgfx::setTexture(0, m_terrainTextureSamplerHandle, texture.textureHandle);
-            bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_BLEND_ALPHA);
-            bgfx::submit(HudViewId, m_texturedTerrainProgramHandle);
-        };
+    MinimapOverlayState minimapOverlay = {};
 
     submitTexturedQuad(*pBasebar, basebarX, basebarY, basebarWidth, basebarHeight);
 
-    for (size_t memberIndex = 0; memberIndex < members.size(); ++memberIndex)
+    const size_t displayedMemberCount = members.size();
+
+    for (size_t memberIndex = 0; memberIndex < displayedMemberCount; ++memberIndex)
     {
         const Character &member = members[memberIndex];
         const float portraitX = portraitStartX + static_cast<float>(memberIndex) * portraitDeltaX;
         const float portraitInset = 2.0f * uiScale;
-        const HudTextureHandle *pPortrait = findHudTexture(member.portraitTextureName);
+        const HudTextureHandle *pPortrait = ensureHudTextureLoaded(member.portraitTextureName);
 
         if (pPortrait != nullptr)
         {
@@ -2479,15 +2688,15 @@ void OutdoorGameView::renderGameplayHudArt(int width, int height)
 
         if (pManaFrame != nullptr)
         {
-            const float barFrameX = portraitX + 63.0f * uiScale;
+            const float barFrameX = portraitX + partyStripWidth * (63.0f / 471.0f);
             const float barFrameWidth = pManaFrame->width * uiScale;
             const float barFrameHeight = pManaFrame->height * uiScale;
-            const float barFrameY = basebarY + basebarHeight - barFrameHeight - 3.0f * uiScale;
+            const float barFrameY = basebarY + basebarHeight - barFrameHeight - partyStripHeight * (1.0f / 92.0f);
             submitTexturedQuad(*pManaFrame, barFrameX, barFrameY, barFrameWidth, barFrameHeight);
 
             const float fillHeight = 49.0f * uiScale;
             const float fillY = barFrameY + 1.0f * uiScale;
-            const float leftFillX = barFrameX + 2.0f * uiScale;
+            const float leftFillX = barFrameX + 1.0f * uiScale;
             const float rightFillX = barFrameX + 5.0f * uiScale;
             const float fillWidth = 3.0f * uiScale;
             const float healthPercent = (member.maxHealth > 0)
@@ -2529,18 +2738,247 @@ void OutdoorGameView::renderGameplayHudArt(int width, int height)
         }
     }
 
+    for (size_t memberIndex = displayedMemberCount; memberIndex < 5; ++memberIndex)
+    {
+        const std::string slotShieldId = "CharShield_" + std::to_string(memberIndex + 1);
+        const HudLayoutElement *pShieldLayout = findHudLayoutElement(slotShieldId);
+
+        if (pShieldLayout == nullptr || pShieldLayout->primaryAsset.empty())
+        {
+            continue;
+        }
+
+        const HudTextureHandle *pShieldTexture = ensureHudTextureLoaded(pShieldLayout->primaryAsset);
+
+        if (pShieldTexture == nullptr)
+        {
+            continue;
+        }
+
+        const std::optional<ResolvedHudLayoutElement> resolvedShield = resolveHudLayoutElement(
+            slotShieldId,
+            width,
+            height,
+            pShieldLayout->width > 0.0f ? pShieldLayout->width : static_cast<float>(pShieldTexture->width),
+            pShieldLayout->height > 0.0f ? pShieldLayout->height : static_cast<float>(pShieldTexture->height));
+
+        if (!resolvedShield)
+        {
+            continue;
+        }
+
+        submitTexturedQuad(
+            *pShieldTexture,
+            resolvedShield->x,
+            resolvedShield->y,
+            resolvedShield->width,
+            resolvedShield->height);
+    }
+
+    const auto renderOrderedSimpleHudElement =
+        [&](const std::string &layoutId)
+        {
+            const std::string normalizedLayoutId = toLowerCopy(layoutId);
+
+            if (normalizedLayoutId == "outdoorbasebar"
+                || normalizedLayoutId == "outdoorpartystrip"
+                || normalizedLayoutId.rfind("charshield_", 0) == 0)
+            {
+                return;
+            }
+
+            const HudLayoutElement *pLayout = findHudLayoutElement(layoutId);
+
+            if (pLayout == nullptr || !pLayout->visible)
+            {
+                return;
+            }
+
+            if (normalizedLayoutId == "outdoorminimap")
+            {
+                if (!m_map
+                    || m_pOutdoorPartyRuntime == nullptr
+                    || pLayout->width <= 0.0f
+                    || pLayout->height <= 0.0f)
+                {
+                    return;
+                }
+
+                const std::string mapTextureName =
+                    toLowerCopy(std::filesystem::path(m_map->fileName).stem().string());
+                const HudTextureHandle *pTexture = ensureHudTextureLoaded(mapTextureName);
+
+                if (pTexture == nullptr)
+                {
+                    return;
+                }
+
+                const std::optional<ResolvedHudLayoutElement> resolved = resolveHudLayoutElement(
+                    layoutId,
+                    width,
+                    height,
+                    pLayout->width,
+                    pLayout->height);
+
+                if (!resolved)
+                {
+                    return;
+                }
+
+                const OutdoorMoveState &moveState = m_pOutdoorPartyRuntime->movementState();
+
+                // Outdoor runtime still uses mirrored X, while minimap BMPs stay in original map orientation.
+                const float partyU = std::clamp((-moveState.x + 32768.0f) / 65536.0f, 0.0f, 1.0f);
+                const float partyV = std::clamp((32768.0f - moveState.y) / 65536.0f, 0.0f, 1.0f);
+                const float uSpan = std::min(1.0f, pLayout->width / OutdoorMinimapZoom);
+                const float vSpan = std::min(1.0f, pLayout->height / OutdoorMinimapZoom);
+                const float u0 = std::clamp(partyU - uSpan * 0.5f, 0.0f, 1.0f - uSpan);
+                const float v0 = std::clamp(partyV - vSpan * 0.5f, 0.0f, 1.0f - vSpan);
+
+                submitTexturedQuadUv(
+                    *pTexture,
+                    resolved->x,
+                    resolved->y,
+                    resolved->width,
+                    resolved->height,
+                    u0,
+                    v0,
+                    u0 + uSpan,
+                    v0 + vSpan);
+                minimapOverlay.valid = true;
+                minimapOverlay.x = resolved->x;
+                minimapOverlay.y = resolved->y;
+                minimapOverlay.width = resolved->width;
+                minimapOverlay.height = resolved->height;
+                minimapOverlay.scale = resolved->scale;
+                return;
+            }
+
+            if (pLayout->primaryAsset.empty())
+            {
+                return;
+            }
+
+            const HudTextureHandle *pTexture = ensureHudTextureLoaded(pLayout->primaryAsset);
+
+            if (pTexture == nullptr)
+            {
+                return;
+            }
+
+            const std::optional<ResolvedHudLayoutElement> resolved = resolveHudLayoutElement(
+                layoutId,
+                width,
+                height,
+                pLayout->width > 0.0f ? pLayout->width : static_cast<float>(pTexture->width),
+                pLayout->height > 0.0f ? pLayout->height : static_cast<float>(pTexture->height));
+
+            if (!resolved)
+            {
+                return;
+            }
+
+            submitTexturedQuad(*pTexture, resolved->x, resolved->y, resolved->width, resolved->height);
+        };
+
+    for (const std::string &layoutId : m_hudLayoutOrder)
+    {
+        renderOrderedSimpleHudElement(layoutId);
+    }
+
+    if (minimapOverlay.valid && m_pOutdoorPartyRuntime != nullptr)
+    {
+        const OutdoorMoveState &moveState = m_pOutdoorPartyRuntime->movementState();
+        const float minimapCenterX = minimapOverlay.x + minimapOverlay.width * 0.5f;
+        const float minimapCenterY = minimapOverlay.y + minimapOverlay.height * 0.5f;
+        const float minimapWorldWidth = (minimapOverlay.width / minimapOverlay.scale) * (65536.0f / OutdoorMinimapZoom);
+        const float minimapWorldHeight =
+            (minimapOverlay.height / minimapOverlay.scale) * (65536.0f / OutdoorMinimapZoom);
+        const float pixelsPerWorldUnitX = minimapOverlay.width / minimapWorldWidth;
+        const float pixelsPerWorldUnitY = minimapOverlay.height / minimapWorldHeight;
+        const float markerSize = std::max(1.5f, 2.0f * minimapOverlay.scale);
+        const float markerHalfSize = markerSize * 0.5f;
+        const HudTextureHandle *pFriendlyMarkerTexture =
+            ensureSolidHudTextureLoaded("__minimap_marker_friendly__", 0xff00ff00u);
+        const HudTextureHandle *pHostileMarkerTexture =
+            ensureSolidHudTextureLoaded("__minimap_marker_hostile__", 0xffff0000u);
+        const HudTextureHandle *pCorpseMarkerTexture =
+            ensureSolidHudTextureLoaded("__minimap_marker_corpse__", 0xffffff00u);
+
+        if (m_pOutdoorWorldRuntime != nullptr)
+        {
+            for (size_t actorIndex = 0; actorIndex < m_pOutdoorWorldRuntime->mapActorCount(); ++actorIndex)
+            {
+                const OutdoorWorldRuntime::MapActorState *pActor = m_pOutdoorWorldRuntime->mapActorState(actorIndex);
+
+                if (pActor == nullptr || pActor->isInvisible)
+                {
+                    continue;
+                }
+
+                const float markerCenterX =
+                    minimapCenterX - (static_cast<float>(pActor->x) - moveState.x) * pixelsPerWorldUnitX;
+                const float markerCenterY =
+                    minimapCenterY - (static_cast<float>(pActor->y) - moveState.y) * pixelsPerWorldUnitY;
+
+                if (markerCenterX < minimapOverlay.x || markerCenterX >= minimapOverlay.x + minimapOverlay.width
+                    || markerCenterY < minimapOverlay.y || markerCenterY >= minimapOverlay.y + minimapOverlay.height)
+                {
+                    continue;
+                }
+
+                const HudTextureHandle *pMarkerTexture = pActor->isDead
+                    ? pCorpseMarkerTexture
+                    : pActor->hostileToParty ? pHostileMarkerTexture : pFriendlyMarkerTexture;
+
+                if (pMarkerTexture == nullptr)
+                {
+                    continue;
+                }
+
+                submitTexturedQuad(
+                    *pMarkerTexture,
+                    markerCenterX - markerHalfSize,
+                    markerCenterY - markerHalfSize,
+                    markerSize,
+                    markerSize);
+            }
+        }
+
+        float normalizedYaw = std::fmod(m_cameraYawRadians, Pi * 2.0f);
+
+        if (normalizedYaw < 0.0f)
+        {
+            normalizedYaw += Pi * 2.0f;
+        }
+
+        const int octant = static_cast<int>(std::floor((normalizedYaw + Pi * 0.125f) / (Pi * 0.25f))) % 8;
+        const int arrowIndex = (octant + 3) % 8;
+        const std::string arrowTextureName = "MAPDIR" + std::to_string(arrowIndex + 1);
+        const HudTextureHandle *pArrowTexture = ensureHudTextureLoaded(arrowTextureName);
+
+        if (pArrowTexture != nullptr)
+        {
+            const float arrowWidth = static_cast<float>(pArrowTexture->width) * minimapOverlay.scale;
+            const float arrowHeight = static_cast<float>(pArrowTexture->height) * minimapOverlay.scale;
+            submitTexturedQuad(
+                *pArrowTexture,
+                minimapCenterX - arrowWidth * 0.5f,
+                minimapCenterY - arrowHeight * 0.5f,
+                arrowWidth,
+                arrowHeight);
+        }
+    }
+
 }
 
 void OutdoorGameView::renderGameplayHud(int width, int height) const
 {
-    if (m_pOutdoorPartyRuntime == nullptr || width <= 0 || height <= 0)
-    {
-        return;
-    }
-
-    const HudTextureHandle *pBasebar = findHudTexture("Basebar");
-
-    if (pBasebar == nullptr)
+    if (m_pOutdoorPartyRuntime == nullptr
+        || !bgfx::isValid(m_texturedTerrainProgramHandle)
+        || !bgfx::isValid(m_terrainTextureSamplerHandle)
+        || width <= 0
+        || height <= 0)
     {
         return;
     }
@@ -2549,12 +2987,255 @@ void OutdoorGameView::renderGameplayHud(int width, int height) const
     const OutdoorMoveState &moveState = m_pOutdoorPartyRuntime->movementState();
     const OutdoorPartyMovementState &partyMovementState = m_pOutdoorPartyRuntime->partyMovementState();
     const std::vector<Character> &members = party.members();
-    const int textColumns = std::max(80, width / DebugTextCellWidthPixels);
-    const float uiScale = std::clamp(static_cast<float>(height) / 600.0f, 1.0f, 1.5f);
-    const float basebarHeight = pBasebar->height * uiScale;
-    const float basebarY = static_cast<float>(height) - basebarHeight;
-    const float statusCenterY = basebarY + 13.0f * uiScale;
-    const int row = std::max(0, static_cast<int>(statusCenterY / DebugTextCellHeightPixels));
+    float projectionMatrix[16] = {};
+    bx::mtxOrtho(
+        projectionMatrix,
+        0.0f,
+        static_cast<float>(width),
+        static_cast<float>(height),
+        0.0f,
+        0.0f,
+        1000.0f,
+        0.0f,
+        bgfx::getCaps()->homogeneousDepth
+    );
+    bgfx::setViewRect(HudViewId, 0, 0, static_cast<uint16_t>(width), static_cast<uint16_t>(height));
+    bgfx::setViewTransform(HudViewId, nullptr, projectionMatrix);
+    bgfx::touch(HudViewId);
+
+    const auto measureHudTextWidth = [](const HudFontHandle &font, const std::string &text) -> float
+    {
+        float widthPixels = 0.0f;
+
+        for (unsigned char character : text)
+        {
+            if (character == '\r' || character == '\n')
+            {
+                break;
+            }
+
+            if (character < font.firstChar || character > font.lastChar)
+            {
+                widthPixels += static_cast<float>(font.atlasCellWidth);
+                continue;
+            }
+
+            const HudFontGlyphMetrics &glyphMetrics = font.glyphMetrics[character];
+            widthPixels += static_cast<float>(
+                glyphMetrics.leftSpacing
+                + glyphMetrics.width
+                + glyphMetrics.rightSpacing);
+        }
+
+        return std::max(0.0f, widthPixels);
+    };
+
+    const auto clampHudTextToWidth =
+        [&measureHudTextWidth](const HudFontHandle &font, std::string text, float maxWidth) -> std::string
+        {
+            while (!text.empty() && measureHudTextWidth(font, text) > maxWidth)
+            {
+                text.pop_back();
+            }
+
+            return text;
+        };
+
+    const auto renderHudFontLayer =
+        [this](
+            const HudFontHandle &font,
+            bgfx::TextureHandle textureHandle,
+            const std::string &text,
+            float textX,
+            float textY,
+            float fontScale)
+        {
+            if (!bgfx::isValid(textureHandle))
+            {
+                return;
+            }
+
+            uint32_t glyphCount = 0;
+
+            for (unsigned char character : text)
+            {
+                if (character == '\r' || character == '\n')
+                {
+                    break;
+                }
+
+                if (character >= font.firstChar
+                    && character <= font.lastChar
+                    && font.glyphMetrics[character].width > 0)
+                {
+                    ++glyphCount;
+                }
+            }
+
+            if (glyphCount == 0)
+            {
+                return;
+            }
+
+            const uint32_t vertexCount = glyphCount * 6;
+
+            if (bgfx::getAvailTransientVertexBuffer(vertexCount, TexturedTerrainVertex::ms_layout) < vertexCount)
+            {
+                return;
+            }
+
+            bgfx::TransientVertexBuffer transientVertexBuffer;
+            bgfx::allocTransientVertexBuffer(&transientVertexBuffer, vertexCount, TexturedTerrainVertex::ms_layout);
+            TexturedTerrainVertex *pVertices = reinterpret_cast<TexturedTerrainVertex *>(transientVertexBuffer.data);
+            float penX = textX;
+            uint32_t vertexIndex = 0;
+
+            for (unsigned char character : text)
+            {
+                if (character == '\r' || character == '\n')
+                {
+                    break;
+                }
+
+                if (character < font.firstChar || character > font.lastChar)
+                {
+                    penX += static_cast<float>(font.atlasCellWidth) * fontScale;
+                    continue;
+                }
+
+                const HudFontGlyphMetrics &glyphMetrics = font.glyphMetrics[character];
+                penX += static_cast<float>(glyphMetrics.leftSpacing) * fontScale;
+
+                if (glyphMetrics.width > 0)
+                {
+                    const int cellX = (character % 16) * font.atlasCellWidth;
+                    const int cellY = (character / 16) * font.fontHeight;
+                    const float u0 = static_cast<float>(cellX) / static_cast<float>(font.atlasWidth);
+                    const float v0 = static_cast<float>(cellY) / static_cast<float>(font.atlasHeight);
+                    const float u1 =
+                        static_cast<float>(cellX + glyphMetrics.width) / static_cast<float>(font.atlasWidth);
+                    const float v1 =
+                        static_cast<float>(cellY + font.fontHeight) / static_cast<float>(font.atlasHeight);
+                    const float glyphWidth = static_cast<float>(glyphMetrics.width) * fontScale;
+                    const float glyphHeight = static_cast<float>(font.fontHeight) * fontScale;
+
+                    pVertices[vertexIndex + 0] = {penX, textY, 0.0f, u0, v0};
+                    pVertices[vertexIndex + 1] = {penX + glyphWidth, textY, 0.0f, u1, v0};
+                    pVertices[vertexIndex + 2] = {penX + glyphWidth, textY + glyphHeight, 0.0f, u1, v1};
+                    pVertices[vertexIndex + 3] = {penX, textY, 0.0f, u0, v0};
+                    pVertices[vertexIndex + 4] = {penX + glyphWidth, textY + glyphHeight, 0.0f, u1, v1};
+                    pVertices[vertexIndex + 5] = {penX, textY + glyphHeight, 0.0f, u0, v1};
+                    vertexIndex += 6;
+                }
+
+                penX += static_cast<float>(glyphMetrics.width + glyphMetrics.rightSpacing) * fontScale;
+            }
+
+            float modelMatrix[16] = {};
+            bx::mtxIdentity(modelMatrix);
+            bgfx::setTransform(modelMatrix);
+            bgfx::setVertexBuffer(0, &transientVertexBuffer);
+            bgfx::setTexture(0, m_terrainTextureSamplerHandle, textureHandle);
+            bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_BLEND_ALPHA);
+            bgfx::submit(HudViewId, m_texturedTerrainProgramHandle);
+        };
+
+    const auto renderLayoutLabel =
+        [&](const HudLayoutElement &layout, const ResolvedHudLayoutElement &resolved, const std::string &label)
+        {
+            if (label.empty())
+            {
+                return;
+            }
+
+            const HudFontHandle *pFont = findHudFont(layout.fontName);
+
+            if (pFont == nullptr)
+            {
+                return;
+            }
+
+            const float fontScale = resolved.scale;
+            const float labelHeightPixels = static_cast<float>(pFont->fontHeight) * fontScale;
+            const std::string clampedLabel = clampHudTextToWidth(
+                *pFont,
+                label,
+                std::max(0.0f, resolved.width - std::abs(layout.textPadX * fontScale) * 2.0f));
+            const float labelWidthPixels = measureHudTextWidth(*pFont, clampedLabel) * fontScale;
+            float textX = resolved.x + layout.textPadX * resolved.scale;
+            float textY = resolved.y + layout.textPadY * resolved.scale;
+
+            switch (layout.textAlignX)
+            {
+                case HudTextAlignX::Left:
+                    break;
+
+                case HudTextAlignX::Center:
+                    textX = resolved.x + (resolved.width - labelWidthPixels) * 0.5f + layout.textPadX * resolved.scale;
+                    break;
+
+                case HudTextAlignX::Right:
+                    textX = resolved.x + resolved.width - labelWidthPixels + layout.textPadX * resolved.scale;
+                    break;
+            }
+
+            switch (layout.textAlignY)
+            {
+                case HudTextAlignY::Top:
+                    break;
+
+                case HudTextAlignY::Middle:
+                    textY = resolved.y + (resolved.height - labelHeightPixels) * 0.5f + layout.textPadY * resolved.scale;
+                    break;
+
+                case HudTextAlignY::Bottom:
+                    textY = resolved.y + resolved.height - labelHeightPixels + layout.textPadY * resolved.scale;
+                    break;
+            }
+
+            renderHudFontLayer(*pFont, pFont->shadowTextureHandle, clampedLabel, textX, textY, fontScale);
+            renderHudFontLayer(*pFont, pFont->mainTextureHandle, clampedLabel, textX, textY, fontScale);
+        };
+    const auto replaceAll = [](std::string text, const std::string &from, const std::string &to) -> std::string
+    {
+        size_t position = 0;
+
+        while ((position = text.find(from, position)) != std::string::npos)
+        {
+            text.replace(position, from.size(), to);
+            position += to.size();
+        }
+
+        return text;
+    };
+    const auto resolveCounterLabel = [&replaceAll](const std::string &labelText, const std::string &value) -> std::string
+    {
+        if (labelText.empty())
+        {
+            return value;
+        }
+
+        const std::string replacedGold = replaceAll(labelText, "{gold}", value);
+        const std::string replacedFood = replaceAll(replacedGold, "{food}", value);
+
+        if (replacedFood == labelText)
+        {
+            return value;
+        }
+
+        return replacedFood;
+    };
+    const std::optional<ResolvedHudLayoutElement> resolvedStatusBar = resolveHudLayoutElement(
+        "OutdoorStatusBar",
+        width,
+        height,
+        360.0f,
+        18.0f);
+
+    if (!resolvedStatusBar)
+    {
+        return;
+    }
     std::ostringstream stream;
 
     if (!members.empty())
@@ -2599,9 +3280,97 @@ void OutdoorGameView::renderGameplayHud(int width, int height) const
         stream << " fly";
     }
 
-    const std::string status = stream.str();
-    const int startColumn = std::max(0, (textColumns - static_cast<int>(status.size())) / 2);
-    bgfx::dbgTextPrintf(static_cast<uint16_t>(startColumn), static_cast<uint16_t>(row), 0x0f, "%s", status.c_str());
+    if (const HudLayoutElement *pStatusBarLayout = findHudLayoutElement("OutdoorStatusBar"))
+    {
+        renderLayoutLabel(*pStatusBarLayout, *resolvedStatusBar, stream.str());
+    }
+
+    if (const HudLayoutElement *pTopRightBarLayout = findHudLayoutElement("OutdoorTopRightBar"))
+    {
+        if (const std::optional<ResolvedHudLayoutElement> topRightBar = resolveHudLayoutElement(
+                "OutdoorTopRightBar",
+                width,
+                height,
+                220.0f,
+                40.0f))
+        {
+            if (!pTopRightBarLayout->labelText.empty())
+            {
+                const std::string label = replaceAll(
+                    replaceAll(pTopRightBarLayout->labelText, "{gold}", std::to_string(party.gold())),
+                    "{food}",
+                    std::to_string(party.food()));
+                renderLayoutLabel(*pTopRightBarLayout, *topRightBar, label);
+            }
+        }
+    }
+
+    if (const HudLayoutElement *pGoldLabelLayout = findHudLayoutElement("OutdoorGoldLabel"))
+    {
+        if (const std::optional<ResolvedHudLayoutElement> goldLabel = resolveHudLayoutElement(
+                "OutdoorGoldLabel",
+                width,
+                height,
+                28.0f,
+                14.0f))
+        {
+            const std::string label = resolveCounterLabel(pGoldLabelLayout->labelText, std::to_string(party.gold()));
+            renderLayoutLabel(*pGoldLabelLayout, *goldLabel, label);
+        }
+    }
+
+    if (const HudLayoutElement *pFoodLabelLayout = findHudLayoutElement("OutdoorFoodLabel"))
+    {
+        if (const std::optional<ResolvedHudLayoutElement> foodLabel = resolveHudLayoutElement(
+                "OutdoorFoodLabel",
+                width,
+                height,
+                28.0f,
+                14.0f))
+        {
+            const std::string label = resolveCounterLabel(pFoodLabelLayout->labelText, std::to_string(party.food()));
+            renderLayoutLabel(*pFoodLabelLayout, *foodLabel, label);
+        }
+    }
+
+    if (const HudLayoutElement *pBottomLeftButtonsLayout = findHudLayoutElement("OutdoorBottomLeftButtons"))
+    {
+        if (const std::optional<ResolvedHudLayoutElement> bottomLeftButtons = resolveHudLayoutElement(
+                "OutdoorBottomLeftButtons",
+                width,
+                height,
+                180.0f,
+                32.0f))
+        {
+            renderLayoutLabel(*pBottomLeftButtonsLayout, *bottomLeftButtons, pBottomLeftButtonsLayout->labelText);
+        }
+    }
+
+    if (const HudLayoutElement *pSkullPanelLayout = findHudLayoutElement("OutdoorBuffSkullPanel"))
+    {
+        if (const std::optional<ResolvedHudLayoutElement> skullPanel = resolveHudLayoutElement(
+                "OutdoorBuffSkullPanel",
+                width,
+                height,
+                96.0f,
+                48.0f))
+        {
+            renderLayoutLabel(*pSkullPanelLayout, *skullPanel, pSkullPanelLayout->labelText);
+        }
+    }
+
+    if (const HudLayoutElement *pBodyPanelLayout = findHudLayoutElement("OutdoorBuffBodyPanel"))
+    {
+        if (const std::optional<ResolvedHudLayoutElement> bodyPanel = resolveHudLayoutElement(
+                "OutdoorBuffBodyPanel",
+                width,
+                height,
+                96.0f,
+                48.0f))
+        {
+            renderLayoutLabel(*pBodyPanelLayout, *bodyPanel, pBodyPanelLayout->labelText);
+        }
+    }
 }
 
 void OutdoorGameView::renderChestPanel(int width, int height) const
@@ -2903,6 +3672,23 @@ void OutdoorGameView::shutdown()
     }
 
     m_hudTextureHandles.clear();
+    for (HudFontHandle &fontHandle : m_hudFontHandles)
+    {
+        if (bgfx::isValid(fontHandle.mainTextureHandle))
+        {
+            bgfx::destroy(fontHandle.mainTextureHandle);
+            fontHandle.mainTextureHandle = BGFX_INVALID_HANDLE;
+        }
+
+        if (bgfx::isValid(fontHandle.shadowTextureHandle))
+        {
+            bgfx::destroy(fontHandle.shadowTextureHandle);
+            fontHandle.shadowTextureHandle = BGFX_INVALID_HANDLE;
+        }
+    }
+
+    m_hudFontHandles.clear();
+    m_hudLayoutElements.clear();
 
     if (bgfx::isValid(m_texturedTerrainVertexBufferHandle))
     {
@@ -3475,6 +4261,732 @@ bgfx::ShaderHandle OutdoorGameView::loadShader(const char *pShaderName)
 
     const bgfx::Memory *pShaderMemory = bgfx::copy(shaderBytes.data(), static_cast<uint32_t>(shaderBytes.size()));
     return bgfx::createShader(pShaderMemory);
+}
+
+bool OutdoorGameView::loadHudLayout(const Engine::AssetFileSystem &assetFileSystem)
+{
+    m_hudLayoutElements.clear();
+    m_hudLayoutOrder.clear();
+    const std::optional<std::string> fileContents = assetFileSystem.readTextFile("Data/UI_LAYOUT.txt");
+
+    if (!fileContents)
+    {
+        return false;
+    }
+
+    const std::optional<Engine::TextTable> parsedTable = Engine::TextTable::parseTabSeparated(*fileContents);
+
+    if (!parsedTable || parsedTable->getRowCount() < 2)
+    {
+        return false;
+    }
+
+    const auto parseAnchor = [](const std::string &value) -> std::optional<HudLayoutAnchor>
+    {
+        const std::string lowerValue = toLowerCopy(value);
+
+        if (lowerValue == "topleft")
+        {
+            return HudLayoutAnchor::TopLeft;
+        }
+
+        if (lowerValue == "topcenter")
+        {
+            return HudLayoutAnchor::TopCenter;
+        }
+
+        if (lowerValue == "topright")
+        {
+            return HudLayoutAnchor::TopRight;
+        }
+
+        if (lowerValue == "center")
+        {
+            return HudLayoutAnchor::Center;
+        }
+
+        if (lowerValue == "bottomleft")
+        {
+            return HudLayoutAnchor::BottomLeft;
+        }
+
+        if (lowerValue == "bottomcenter")
+        {
+            return HudLayoutAnchor::BottomCenter;
+        }
+
+        if (lowerValue == "bottomright")
+        {
+            return HudLayoutAnchor::BottomRight;
+        }
+
+        return std::nullopt;
+    };
+
+    const auto parseAttachMode = [](const std::string &value) -> std::optional<HudLayoutAttachMode>
+    {
+        const std::string lowerValue = toLowerCopy(value);
+
+        if (lowerValue.empty() || lowerValue == "none")
+        {
+            return HudLayoutAttachMode::None;
+        }
+
+        if (lowerValue == "rightof")
+        {
+            return HudLayoutAttachMode::RightOf;
+        }
+
+        if (lowerValue == "leftof")
+        {
+            return HudLayoutAttachMode::LeftOf;
+        }
+
+        if (lowerValue == "above")
+        {
+            return HudLayoutAttachMode::Above;
+        }
+
+        if (lowerValue == "below")
+        {
+            return HudLayoutAttachMode::Below;
+        }
+
+        if (lowerValue == "centerabove")
+        {
+            return HudLayoutAttachMode::CenterAbove;
+        }
+
+        if (lowerValue == "centerbelow")
+        {
+            return HudLayoutAttachMode::CenterBelow;
+        }
+
+        if (lowerValue == "insideleft")
+        {
+            return HudLayoutAttachMode::InsideLeft;
+        }
+
+        if (lowerValue == "insideright")
+        {
+            return HudLayoutAttachMode::InsideRight;
+        }
+
+        if (lowerValue == "insidetopcenter")
+        {
+            return HudLayoutAttachMode::InsideTopCenter;
+        }
+
+        if (lowerValue == "insidetopleft")
+        {
+            return HudLayoutAttachMode::InsideTopLeft;
+        }
+
+        if (lowerValue == "insidetopright")
+        {
+            return HudLayoutAttachMode::InsideTopRight;
+        }
+
+        if (lowerValue == "insidebottomleft")
+        {
+            return HudLayoutAttachMode::InsideBottomLeft;
+        }
+
+        if (lowerValue == "insidebottomright")
+        {
+            return HudLayoutAttachMode::InsideBottomRight;
+        }
+
+        if (lowerValue == "centerin")
+        {
+            return HudLayoutAttachMode::CenterIn;
+        }
+
+        return std::nullopt;
+    };
+
+    const auto parseTextAlignX = [](const std::string &value) -> std::optional<HudTextAlignX>
+    {
+        const std::string lowerValue = toLowerCopy(value);
+
+        if (lowerValue.empty() || lowerValue == "left")
+        {
+            return HudTextAlignX::Left;
+        }
+
+        if (lowerValue == "center")
+        {
+            return HudTextAlignX::Center;
+        }
+
+        if (lowerValue == "right")
+        {
+            return HudTextAlignX::Right;
+        }
+
+        return std::nullopt;
+    };
+
+    const auto parseTextAlignY = [](const std::string &value) -> std::optional<HudTextAlignY>
+    {
+        const std::string lowerValue = toLowerCopy(value);
+
+        if (lowerValue.empty() || lowerValue == "top")
+        {
+            return HudTextAlignY::Top;
+        }
+
+        if (lowerValue == "middle" || lowerValue == "center")
+        {
+            return HudTextAlignY::Middle;
+        }
+
+        if (lowerValue == "bottom")
+        {
+            return HudTextAlignY::Bottom;
+        }
+
+        return std::nullopt;
+    };
+
+    for (size_t rowIndex = 1; rowIndex < parsedTable->getRowCount(); ++rowIndex)
+    {
+        const std::vector<std::string> &row = parsedTable->getRow(rowIndex);
+
+        if (row.empty() || row[0].empty())
+        {
+            continue;
+        }
+
+        if (row.size() < 21)
+        {
+            std::cerr << "HUD layout row has too few columns at row " << rowIndex << '\n';
+            return false;
+        }
+
+        const std::optional<HudLayoutAnchor> anchor = parseAnchor(row[2]);
+        const std::optional<HudLayoutAttachMode> attachTo = parseAttachMode(row[4]);
+        const std::optional<float> gapX = parseHudLayoutFloat(row[5]);
+        const std::optional<float> gapY = parseHudLayoutFloat(row[6]);
+        const std::optional<float> offsetX = parseHudLayoutFloat(row[7]);
+        const std::optional<float> offsetY = parseHudLayoutFloat(row[8]);
+        const std::optional<float> elementWidth = parseHudLayoutFloat(row[9]);
+        const std::optional<float> elementHeight = parseHudLayoutFloat(row[10]);
+        const std::optional<float> minScale = parseHudLayoutFloat(row[11]);
+        const std::optional<float> maxScale = parseHudLayoutFloat(row[12]);
+        const std::optional<bool> visible = parseHudLayoutBool(row[13]);
+        const std::optional<bool> interactive = parseHudLayoutBool(row[14]);
+
+        if (!anchor
+            || !attachTo
+            || !gapX
+            || !gapY
+            || !offsetX
+            || !offsetY
+            || !elementWidth
+            || !elementHeight
+            || !minScale
+            || !maxScale
+            || !visible
+            || !interactive)
+        {
+            std::cerr << "HUD layout row parse failed at row " << rowIndex << '\n';
+            return false;
+        }
+
+        std::optional<HudTextAlignX> textAlignX = HudTextAlignX::Left;
+        std::optional<HudTextAlignY> textAlignY = HudTextAlignY::Top;
+        std::optional<float> textPadX = 0.0f;
+        std::optional<float> textPadY = 0.0f;
+
+        if (row.size() >= 27)
+        {
+            textAlignX = parseTextAlignX(row[22]);
+            textAlignY = parseTextAlignY(row[23]);
+            textPadX = parseHudLayoutFloat(row[24]);
+            textPadY = parseHudLayoutFloat(row[25]);
+        }
+
+        if (!textAlignX || !textAlignY || !textPadX || !textPadY)
+        {
+            std::cerr << "HUD layout text parse failed at row " << rowIndex << '\n';
+            return false;
+        }
+
+        HudLayoutElement element = {};
+        element.id = row[0];
+        element.screen = row[1];
+        element.anchor = *anchor;
+        element.parentId = row[3];
+        element.attachTo = *attachTo;
+        element.gapX = *gapX;
+        element.gapY = *gapY;
+        element.offsetX = *offsetX;
+        element.offsetY = *offsetY;
+        element.width = *elementWidth;
+        element.height = *elementHeight;
+        element.minScale = *minScale;
+        element.maxScale = *maxScale;
+        element.visible = *visible;
+        element.interactive = *interactive;
+        element.primaryAsset = row[15];
+        element.secondaryAsset = row[16];
+        element.tertiaryAsset = row[17];
+        element.quaternaryAsset = row[18];
+        element.quinaryAsset = row[19];
+        element.fontName = (row.size() >= 27) ? row[20] : "";
+        element.labelText = row[(row.size() >= 27) ? 21 : 20];
+        element.textAlignX = *textAlignX;
+        element.textAlignY = *textAlignY;
+        element.textPadX = *textPadX;
+        element.textPadY = *textPadY;
+
+        if (row.size() >= 27)
+        {
+            element.notes = row[26];
+        }
+        else if (row.size() > 21)
+        {
+            element.notes = row[21];
+        }
+
+        m_hudLayoutOrder.push_back(element.id);
+        m_hudLayoutElements[toLowerCopy(element.id)] = std::move(element);
+    }
+
+    return !m_hudLayoutElements.empty();
+}
+
+const OutdoorGameView::HudLayoutElement *OutdoorGameView::findHudLayoutElement(const std::string &layoutId) const
+{
+    const auto iterator = m_hudLayoutElements.find(toLowerCopy(layoutId));
+
+    if (iterator == m_hudLayoutElements.end())
+    {
+        return nullptr;
+    }
+
+    return &iterator->second;
+}
+
+const OutdoorGameView::HudFontHandle *OutdoorGameView::findHudFont(const std::string &fontName) const
+{
+    const std::string normalizedFontName = toLowerCopy(fontName);
+
+    for (const HudFontHandle &fontHandle : m_hudFontHandles)
+    {
+        if (fontHandle.fontName == normalizedFontName)
+        {
+            return &fontHandle;
+        }
+    }
+
+    return nullptr;
+}
+
+const OutdoorGameView::HudTextureHandle *OutdoorGameView::ensureHudTextureLoaded(const std::string &textureName)
+{
+    if (textureName.empty())
+    {
+        return nullptr;
+    }
+
+    const HudTextureHandle *pTexture = findHudTexture(textureName);
+
+    if (pTexture != nullptr)
+    {
+        return pTexture;
+    }
+
+    if (m_pAssetFileSystem == nullptr)
+    {
+        return nullptr;
+    }
+
+    if (!loadHudTexture(*m_pAssetFileSystem, textureName))
+    {
+        return nullptr;
+    }
+
+    return findHudTexture(textureName);
+}
+
+const OutdoorGameView::HudTextureHandle *OutdoorGameView::ensureSolidHudTextureLoaded(
+    const std::string &textureName,
+    uint32_t abgrColor)
+{
+    if (textureName.empty())
+    {
+        return nullptr;
+    }
+
+    const HudTextureHandle *pTexture = findHudTexture(textureName);
+
+    if (pTexture != nullptr)
+    {
+        return pTexture;
+    }
+
+    const std::array<uint8_t, 4> pixel = {
+        static_cast<uint8_t>(abgrColor & 0xff),
+        static_cast<uint8_t>((abgrColor >> 8) & 0xff),
+        static_cast<uint8_t>((abgrColor >> 16) & 0xff),
+        static_cast<uint8_t>((abgrColor >> 24) & 0xff)
+    };
+
+    HudTextureHandle textureHandle = {};
+    textureHandle.textureName = toLowerCopy(textureName);
+    textureHandle.width = 1;
+    textureHandle.height = 1;
+    textureHandle.textureHandle = bgfx::createTexture2D(
+        1,
+        1,
+        false,
+        1,
+        bgfx::TextureFormat::BGRA8,
+        BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP | BGFX_SAMPLER_MIN_POINT | BGFX_SAMPLER_MAG_POINT,
+        bgfx::copy(pixel.data(), static_cast<uint32_t>(pixel.size()))
+    );
+
+    if (!bgfx::isValid(textureHandle.textureHandle))
+    {
+        return nullptr;
+    }
+
+    m_hudTextureHandles.push_back(std::move(textureHandle));
+    return &m_hudTextureHandles.back();
+}
+
+bool OutdoorGameView::loadHudFont(const Engine::AssetFileSystem &assetFileSystem, const std::string &fontName)
+{
+    if (fontName.empty() || findHudFont(fontName) != nullptr)
+    {
+        return true;
+    }
+
+    std::optional<std::string> fontPath = findCachedAssetPath("Data/icons", fontName + ".fnt");
+
+    if (!fontPath)
+    {
+        fontPath = findCachedAssetPath("Data/EnglishT", fontName + ".fnt");
+    }
+
+    if (!fontPath)
+    {
+        return false;
+    }
+
+    const std::optional<std::vector<uint8_t>> fontBytes = readCachedBinaryFile(*fontPath);
+
+    if (!fontBytes || fontBytes->empty())
+    {
+        return false;
+    }
+
+    const std::optional<ParsedHudBitmapFont> parsedFont = parseHudBitmapFont(*fontBytes);
+
+    if (!parsedFont)
+    {
+        return false;
+    }
+
+    int atlasCellWidth = 1;
+
+    for (const ParsedHudFontGlyphMetrics &metrics : parsedFont->glyphMetrics)
+    {
+        atlasCellWidth = std::max(atlasCellWidth, metrics.width);
+    }
+
+    const int atlasWidth = atlasCellWidth * 16;
+    const int atlasHeight = parsedFont->fontHeight * 16;
+
+    if (atlasWidth <= 0 || atlasHeight <= 0)
+    {
+        return false;
+    }
+
+    std::vector<uint8_t> mainPixels(static_cast<size_t>(atlasWidth) * atlasHeight * 4, 0);
+    std::vector<uint8_t> shadowPixels(static_cast<size_t>(atlasWidth) * atlasHeight * 4, 0);
+
+    for (int glyphIndex = parsedFont->firstChar; glyphIndex <= parsedFont->lastChar; ++glyphIndex)
+    {
+        const ParsedHudFontGlyphMetrics &metrics = parsedFont->glyphMetrics[glyphIndex];
+
+        if (metrics.width <= 0)
+        {
+            continue;
+        }
+
+        const int cellX = (glyphIndex % 16) * atlasCellWidth;
+        const int cellY = (glyphIndex / 16) * parsedFont->fontHeight;
+        const size_t glyphOffset = parsedFont->glyphOffsets[glyphIndex];
+
+        for (int y = 0; y < parsedFont->fontHeight; ++y)
+        {
+            for (int x = 0; x < metrics.width; ++x)
+            {
+                const uint8_t pixelValue =
+                    parsedFont->pixels[glyphOffset + static_cast<size_t>(y) * metrics.width + x];
+
+                if (pixelValue == 0)
+                {
+                    continue;
+                }
+
+                const size_t atlasPixelIndex =
+                    (static_cast<size_t>(cellY + y) * atlasWidth + static_cast<size_t>(cellX + x)) * 4;
+                std::vector<uint8_t> &targetPixels = (pixelValue == 1) ? shadowPixels : mainPixels;
+                targetPixels[atlasPixelIndex + 0] = (pixelValue == 1) ? 0 : 255;
+                targetPixels[atlasPixelIndex + 1] = (pixelValue == 1) ? 0 : 255;
+                targetPixels[atlasPixelIndex + 2] = (pixelValue == 1) ? 0 : 255;
+                targetPixels[atlasPixelIndex + 3] = 255;
+            }
+        }
+    }
+
+    HudFontHandle fontHandle = {};
+    fontHandle.fontName = toLowerCopy(fontName);
+    fontHandle.firstChar = parsedFont->firstChar;
+    fontHandle.lastChar = parsedFont->lastChar;
+    fontHandle.fontHeight = parsedFont->fontHeight;
+    fontHandle.atlasCellWidth = atlasCellWidth;
+    fontHandle.atlasWidth = atlasWidth;
+    fontHandle.atlasHeight = atlasHeight;
+
+    for (int glyphIndex = 0; glyphIndex < 256; ++glyphIndex)
+    {
+        fontHandle.glyphMetrics[glyphIndex].leftSpacing = parsedFont->glyphMetrics[glyphIndex].leftSpacing;
+        fontHandle.glyphMetrics[glyphIndex].width = parsedFont->glyphMetrics[glyphIndex].width;
+        fontHandle.glyphMetrics[glyphIndex].rightSpacing = parsedFont->glyphMetrics[glyphIndex].rightSpacing;
+    }
+
+    fontHandle.mainTextureHandle = bgfx::createTexture2D(
+        static_cast<uint16_t>(atlasWidth),
+        static_cast<uint16_t>(atlasHeight),
+        false,
+        1,
+        bgfx::TextureFormat::BGRA8,
+        BGFX_SAMPLER_MIN_POINT | BGFX_SAMPLER_MAG_POINT,
+        bgfx::copy(mainPixels.data(), static_cast<uint32_t>(mainPixels.size()))
+    );
+    fontHandle.shadowTextureHandle = bgfx::createTexture2D(
+        static_cast<uint16_t>(atlasWidth),
+        static_cast<uint16_t>(atlasHeight),
+        false,
+        1,
+        bgfx::TextureFormat::BGRA8,
+        BGFX_SAMPLER_MIN_POINT | BGFX_SAMPLER_MAG_POINT,
+        bgfx::copy(shadowPixels.data(), static_cast<uint32_t>(shadowPixels.size()))
+    );
+
+    if (!bgfx::isValid(fontHandle.mainTextureHandle) || !bgfx::isValid(fontHandle.shadowTextureHandle))
+    {
+        if (bgfx::isValid(fontHandle.mainTextureHandle))
+        {
+            bgfx::destroy(fontHandle.mainTextureHandle);
+        }
+
+        if (bgfx::isValid(fontHandle.shadowTextureHandle))
+        {
+            bgfx::destroy(fontHandle.shadowTextureHandle);
+        }
+
+        return false;
+    }
+
+    m_hudFontHandles.push_back(std::move(fontHandle));
+    return true;
+}
+
+std::optional<OutdoorGameView::ResolvedHudLayoutElement> OutdoorGameView::resolveHudLayoutElement(
+    const std::string &layoutId,
+    int screenWidth,
+    int screenHeight,
+    float fallbackWidth,
+    float fallbackHeight) const
+{
+    std::unordered_set<std::string> visited;
+    return resolveHudLayoutElementRecursive(layoutId, screenWidth, screenHeight, fallbackWidth, fallbackHeight, visited);
+}
+
+std::optional<OutdoorGameView::ResolvedHudLayoutElement> OutdoorGameView::resolveHudLayoutElementRecursive(
+    const std::string &layoutId,
+    int screenWidth,
+    int screenHeight,
+    float fallbackWidth,
+    float fallbackHeight,
+    std::unordered_set<std::string> &visited) const
+{
+    const std::string normalizedLayoutId = toLowerCopy(layoutId);
+
+    if (visited.contains(normalizedLayoutId))
+    {
+        std::cerr << "HUD layout cycle detected at element: " << layoutId << '\n';
+        return std::nullopt;
+    }
+
+    visited.insert(normalizedLayoutId);
+    const auto iterator = m_hudLayoutElements.find(toLowerCopy(layoutId));
+
+    if (iterator == m_hudLayoutElements.end())
+    {
+        return std::nullopt;
+    }
+
+    const HudLayoutElement &element = iterator->second;
+    const float baseScale = std::min(
+        static_cast<float>(screenWidth) / HudReferenceWidth,
+        static_cast<float>(screenHeight) / HudReferenceHeight);
+    const float scale = std::clamp(baseScale, element.minScale, element.maxScale);
+    const float resolvedWidth = (element.width > 0.0f ? element.width : fallbackWidth) * scale;
+    const float resolvedHeight = (element.height > 0.0f ? element.height : fallbackHeight) * scale;
+    ResolvedHudLayoutElement resolved = {};
+    resolved.width = resolvedWidth;
+    resolved.height = resolvedHeight;
+    resolved.scale = scale;
+
+    if (!element.parentId.empty() && element.attachTo != HudLayoutAttachMode::None)
+    {
+        const HudLayoutElement *pParent = findHudLayoutElement(element.parentId);
+
+        if (pParent == nullptr)
+        {
+            return std::nullopt;
+        }
+
+        const std::optional<ResolvedHudLayoutElement> parent = resolveHudLayoutElementRecursive(
+            element.parentId,
+            screenWidth,
+            screenHeight,
+            pParent->width,
+            pParent->height,
+            visited);
+
+        if (!parent)
+        {
+            return std::nullopt;
+        }
+
+        switch (element.attachTo)
+        {
+            case HudLayoutAttachMode::None:
+                break;
+
+            case HudLayoutAttachMode::RightOf:
+                resolved.x = parent->x + parent->width + element.gapX * scale;
+                resolved.y = parent->y + element.gapY * scale;
+                break;
+
+            case HudLayoutAttachMode::LeftOf:
+                resolved.x = parent->x - resolvedWidth + element.gapX * scale;
+                resolved.y = parent->y + element.gapY * scale;
+                break;
+
+            case HudLayoutAttachMode::Above:
+                resolved.x = parent->x + element.gapX * scale;
+                resolved.y = parent->y - resolvedHeight + element.gapY * scale;
+                break;
+
+            case HudLayoutAttachMode::Below:
+                resolved.x = parent->x + element.gapX * scale;
+                resolved.y = parent->y + parent->height + element.gapY * scale;
+                break;
+
+            case HudLayoutAttachMode::CenterAbove:
+                resolved.x = parent->x + (parent->width - resolvedWidth) * 0.5f + element.gapX * scale;
+                resolved.y = parent->y - resolvedHeight + element.gapY * scale;
+                break;
+
+            case HudLayoutAttachMode::CenterBelow:
+                resolved.x = parent->x + (parent->width - resolvedWidth) * 0.5f + element.gapX * scale;
+                resolved.y = parent->y + parent->height + element.gapY * scale;
+                break;
+
+            case HudLayoutAttachMode::InsideLeft:
+                resolved.x = parent->x + element.gapX * scale;
+                resolved.y = parent->y + (parent->height - resolvedHeight) * 0.5f + element.gapY * scale;
+                break;
+
+            case HudLayoutAttachMode::InsideRight:
+                resolved.x = parent->x + parent->width - resolvedWidth + element.gapX * scale;
+                resolved.y = parent->y + (parent->height - resolvedHeight) * 0.5f + element.gapY * scale;
+                break;
+
+            case HudLayoutAttachMode::InsideTopCenter:
+                resolved.x = parent->x + (parent->width - resolvedWidth) * 0.5f + element.gapX * scale;
+                resolved.y = parent->y + element.gapY * scale;
+                break;
+
+            case HudLayoutAttachMode::InsideTopLeft:
+                resolved.x = parent->x + element.gapX * scale;
+                resolved.y = parent->y + element.gapY * scale;
+                break;
+
+            case HudLayoutAttachMode::InsideTopRight:
+                resolved.x = parent->x + parent->width - resolvedWidth + element.gapX * scale;
+                resolved.y = parent->y + element.gapY * scale;
+                break;
+
+            case HudLayoutAttachMode::InsideBottomLeft:
+                resolved.x = parent->x + element.gapX * scale;
+                resolved.y = parent->y + parent->height - resolvedHeight + element.gapY * scale;
+                break;
+
+            case HudLayoutAttachMode::InsideBottomRight:
+                resolved.x = parent->x + parent->width - resolvedWidth + element.gapX * scale;
+                resolved.y = parent->y + parent->height - resolvedHeight + element.gapY * scale;
+                break;
+
+            case HudLayoutAttachMode::CenterIn:
+                resolved.x = parent->x + (parent->width - resolvedWidth) * 0.5f + element.gapX * scale;
+                resolved.y = parent->y + (parent->height - resolvedHeight) * 0.5f + element.gapY * scale;
+                break;
+        }
+
+        visited.erase(normalizedLayoutId);
+        return resolved;
+    }
+
+    switch (element.anchor)
+    {
+        case HudLayoutAnchor::TopLeft:
+            resolved.x = element.offsetX * scale;
+            resolved.y = element.offsetY * scale;
+            break;
+
+        case HudLayoutAnchor::TopCenter:
+            resolved.x = static_cast<float>(screenWidth) * 0.5f - resolvedWidth * 0.5f + element.offsetX * scale;
+            resolved.y = element.offsetY * scale;
+            break;
+
+        case HudLayoutAnchor::TopRight:
+            resolved.x = static_cast<float>(screenWidth) - resolvedWidth + element.offsetX * scale;
+            resolved.y = element.offsetY * scale;
+            break;
+
+        case HudLayoutAnchor::Center:
+            resolved.x = static_cast<float>(screenWidth) * 0.5f - resolvedWidth * 0.5f + element.offsetX * scale;
+            resolved.y = static_cast<float>(screenHeight) * 0.5f - resolvedHeight * 0.5f + element.offsetY * scale;
+            break;
+
+        case HudLayoutAnchor::BottomLeft:
+            resolved.x = element.offsetX * scale;
+            resolved.y = static_cast<float>(screenHeight) - resolvedHeight + element.offsetY * scale;
+            break;
+
+        case HudLayoutAnchor::BottomCenter:
+            resolved.x = static_cast<float>(screenWidth) * 0.5f - resolvedWidth * 0.5f + element.offsetX * scale;
+            resolved.y = static_cast<float>(screenHeight) - resolvedHeight + element.offsetY * scale;
+            break;
+
+        case HudLayoutAnchor::BottomRight:
+            resolved.x = static_cast<float>(screenWidth) - resolvedWidth + element.offsetX * scale;
+            resolved.y = static_cast<float>(screenHeight) - resolvedHeight + element.offsetY * scale;
+            break;
+    }
+
+    visited.erase(normalizedLayoutId);
+    return resolved;
 }
 
 const OutdoorGameView::BillboardTextureHandle *OutdoorGameView::findBillboardTexture(
@@ -7512,6 +9024,19 @@ void OutdoorGameView::updateCameraFromInput(float deltaSeconds)
     else
     {
         m_toggleDecorationBillboardsLatch = false;
+    }
+
+    if (pKeyboardState[SDL_SCANCODE_F4])
+    {
+        if (!m_toggleGameplayHudLatch)
+        {
+            m_showGameplayHud = !m_showGameplayHud;
+            m_toggleGameplayHudLatch = true;
+        }
+    }
+    else
+    {
+        m_toggleGameplayHudLatch = false;
     }
 
     if (pKeyboardState[SDL_SCANCODE_MINUS])
