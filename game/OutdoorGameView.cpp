@@ -10,12 +10,12 @@
 #include "game/SpawnPreview.h"
 #include "game/SpriteTables.h"
 #include "game/StringUtils.h"
-#include "engine/TextTable.h"
 
 #include <bx/math.h>
 
 #include <bgfx/bgfx.h>
 #include <SDL3/SDL.h>
+#include <yaml-cpp/yaml.h>
 
 #include <algorithm>
 #include <cmath>
@@ -24,6 +24,7 @@
 #include <cstdint>
 #include <filesystem>
 #include <fstream>
+#include <functional>
 #include <future>
 #include <iostream>
 #include <iterator>
@@ -70,8 +71,53 @@ constexpr bool DebugSpritePreloadLogging = false;
 constexpr bool DebugRenderHitchLogging = false;
 constexpr bool DebugActorRenderHitchLogging = false;
 constexpr std::string_view PartyStartDecorationName = "party start";
-constexpr float HudReferenceWidth = 800.0f;
-constexpr float HudReferenceHeight = 600.0f;
+constexpr float HudReferenceWidth = 640.0f;
+constexpr float HudReferenceHeight = 480.0f;
+constexpr float HudFontIntegerSnapThreshold = 0.1f;
+constexpr float MaxUiViewportAspect = 4.0f / 3.0f;
+
+struct UiViewportRect
+{
+    float x = 0.0f;
+    float y = 0.0f;
+    float width = 0.0f;
+    float height = 0.0f;
+};
+
+float snappedHudFontScale(float scale)
+{
+    const float roundedScale = std::round(scale);
+
+    if (std::abs(scale - roundedScale) <= HudFontIntegerSnapThreshold)
+    {
+        return std::max(1.0f, roundedScale);
+    }
+
+    return std::max(1.0f, scale);
+}
+
+UiViewportRect computeUiViewportRect(int screenWidth, int screenHeight)
+{
+    UiViewportRect viewport = {};
+    viewport.x = 0.0f;
+    viewport.y = 0.0f;
+    viewport.width = static_cast<float>(screenWidth);
+    viewport.height = static_cast<float>(screenHeight);
+
+    if (screenHeight > 0)
+    {
+        const float maxWidthForHeight = viewport.height * MaxUiViewportAspect;
+
+        if (viewport.width > maxWidthForHeight)
+        {
+            viewport.width = maxWidthForHeight;
+            viewport.x = (static_cast<float>(screenWidth) - viewport.width) * 0.5f;
+        }
+    }
+
+    return viewport;
+}
+
 constexpr float OutdoorMinimapZoom = 512.0f;
 
 struct SpriteTexturePreloadRequest
@@ -395,7 +441,7 @@ const char *outdoorSupportKindName(OutdoorSupportKind supportKind)
     }
 }
 
-std::optional<uint32_t> singleSelectableResidentNpcId(
+std::vector<uint32_t> collectSelectableResidentNpcIds(
     const HouseEntry &houseEntry,
     const NpcDialogTable &npcDialogTable,
     const EventRuntimeState &eventRuntimeState
@@ -442,19 +488,24 @@ std::optional<uint32_t> singleSelectableResidentNpcId(
         appendNpcId(npcId);
     }
 
-    std::optional<uint32_t> residentNpcId;
+    return residentNpcIds;
+}
 
-    for (uint32_t candidateNpcId : residentNpcIds)
+std::optional<uint32_t> singleSelectableResidentNpcId(
+    const HouseEntry &houseEntry,
+    const NpcDialogTable &npcDialogTable,
+    const EventRuntimeState &eventRuntimeState
+)
+{
+    const std::vector<uint32_t> residentNpcIds =
+        collectSelectableResidentNpcIds(houseEntry, npcDialogTable, eventRuntimeState);
+
+    if (residentNpcIds.size() != 1)
     {
-        if (residentNpcId)
-        {
-            return std::nullopt;
-        }
-
-        residentNpcId = candidateNpcId;
+        return std::nullopt;
     }
 
-    return residentNpcId;
+    return residentNpcIds.front();
 }
 
 std::vector<std::string> wrapDebugText(const std::string &text, size_t width)
@@ -1115,6 +1166,7 @@ OutdoorGameView::OutdoorGameView()
     , m_toggleDebugHudLatch(false)
     , m_toggleInspectLatch(false)
     , m_triggerMeteorLatch(false)
+    , m_debugDialogueLatch(false)
     , m_activateInspectLatch(false)
     , m_attackInspectLatch(false)
     , m_toggleRunningLatch(false)
@@ -1122,6 +1174,7 @@ OutdoorGameView::OutdoorGameView()
     , m_toggleWaterWalkLatch(false)
     , m_toggleFeatherFallLatch(false)
     , m_closeOverlayLatch(false)
+    , m_dialogueClickLatch(false)
     , m_lootChestItemLatch(false)
     , m_chestSelectUpLatch(false)
     , m_chestSelectDownLatch(false)
@@ -1131,6 +1184,7 @@ OutdoorGameView::OutdoorGameView()
     , m_eventDialogPartySelectLatches({})
     , m_chestSelectionIndex(0)
     , m_eventDialogSelectionIndex(0)
+    , m_dialogueHostHouseId(0)
     , m_activeEventDialog({})
     , m_pOutdoorPartyRuntime(nullptr)
     , m_pAssetFileSystem(nullptr)
@@ -1499,7 +1553,7 @@ bool OutdoorGameView::initialize(
 
     if (!loadHudLayout(assetFileSystem))
     {
-        std::cerr << "OutdoorGameView failed to load HUD layout data: Data/UI_LAYOUT.txt\n";
+        std::cerr << "OutdoorGameView failed to load HUD layout data from Data/ui/*.yml\n";
     }
     else
     {
@@ -1521,7 +1575,11 @@ bool OutdoorGameView::initialize(
 
             if (!element.fontName.empty())
             {
-                loadHudFont(assetFileSystem, element.fontName);
+                if (!loadHudFont(assetFileSystem, element.fontName))
+                {
+                    std::cout << "HUD font preload failed: font=\"" << element.fontName
+                              << "\" element=\"" << element.id << "\"\n";
+                }
             }
         }
     }
@@ -1920,7 +1978,7 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
             0,
             5,
             0x0f,
-            "Modes: 1 filled=%s  2 wire=%s  3 bmodels=%s  4 bmwire=%s  5 coll=%s  6 actorcoll=%s  7 actors=%s  8 objs=%s  9 ents=%s  0 spawns=%s  -=inspect=%s  F2 debug=%s  F3 decor=%s  F4 hud=%s  textured=%s/%s",
+            "Modes: 1 filled=%s  2 wire=%s  3 bmodels=%s  4 bmwire=%s  5 coll=%s  6 actorcoll=%s  7 actors=%s  8 objs=%s  9 ents=%s  0 spawns=%s  -=inspect=%s  F2 debug=%s  F3 decor=%s  F4 hud=%s  F5 ston  textured=%s/%s",
             m_showFilledTerrain ? "on" : "off",
             m_showTerrainWireframe ? "on" : "off",
             m_showBModels ? "on" : "off",
@@ -2433,10 +2491,11 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
 
         if (m_showGameplayHud)
         {
+            renderChestPanel(width, height);
+            renderEventDialogPanel(width, height, false);
             renderGameplayHudArt(width, height);
             renderGameplayHud(width, height);
-            renderChestPanel(width, height);
-            renderEventDialogPanel(width, height);
+            renderEventDialogPanel(width, height, true);
         }
 
         hudStageNanoseconds += SDL_GetTicksNS() - stageStartTickCount;
@@ -2613,6 +2672,45 @@ void OutdoorGameView::renderGameplayHudArt(int width, int height)
             bgfx::submit(HudViewId, m_texturedTerrainProgramHandle);
         };
 
+    auto submitTexturedQuadClipped =
+        [this](
+            const HudTextureHandle &texture,
+            float x,
+            float y,
+            float quadWidth,
+            float quadHeight,
+            uint16_t scissorX,
+            uint16_t scissorY,
+            uint16_t scissorWidth,
+            uint16_t scissorHeight)
+        {
+            if (!bgfx::isValid(texture.textureHandle)
+                || bgfx::getAvailTransientVertexBuffer(6, TexturedTerrainVertex::ms_layout) < 6)
+            {
+                return;
+            }
+
+            bgfx::TransientVertexBuffer transientVertexBuffer;
+            bgfx::allocTransientVertexBuffer(&transientVertexBuffer, 6, TexturedTerrainVertex::ms_layout);
+            TexturedTerrainVertex *pVertices = reinterpret_cast<TexturedTerrainVertex *>(transientVertexBuffer.data);
+
+            pVertices[0] = {x, y, 0.0f, 0.0f, 0.0f};
+            pVertices[1] = {x + quadWidth, y, 0.0f, 1.0f, 0.0f};
+            pVertices[2] = {x + quadWidth, y + quadHeight, 0.0f, 1.0f, 1.0f};
+            pVertices[3] = {x, y, 0.0f, 0.0f, 0.0f};
+            pVertices[4] = {x + quadWidth, y + quadHeight, 0.0f, 1.0f, 1.0f};
+            pVertices[5] = {x, y + quadHeight, 0.0f, 0.0f, 1.0f};
+
+            float modelMatrix[16] = {};
+            bx::mtxIdentity(modelMatrix);
+            bgfx::setTransform(modelMatrix);
+            bgfx::setVertexBuffer(0, &transientVertexBuffer);
+            bgfx::setTexture(0, m_terrainTextureSamplerHandle, texture.textureHandle);
+            bgfx::setScissor(scissorX, scissorY, scissorWidth, scissorHeight);
+            bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_BLEND_ALPHA);
+            bgfx::submit(HudViewId, m_texturedTerrainProgramHandle);
+        };
+
     auto submitColoredQuad =
         [this](
             float x,
@@ -2653,9 +2751,59 @@ void OutdoorGameView::renderGameplayHudArt(int width, int height)
         float width = 0.0f;
         float height = 0.0f;
         float scale = 1.0f;
+        float u0 = 0.0f;
+        float v0 = 0.0f;
+        float uSpan = 1.0f;
+        float vSpan = 1.0f;
     };
 
     MinimapOverlayState minimapOverlay = {};
+    const HudScreenState hudScreenState = currentHudScreenState();
+
+    const auto isGameplayElementVisibleInHudState =
+        [this, hudScreenState](const HudLayoutElement &layout) -> bool
+        {
+            if (toLowerCopy(layout.screen) != "outdoorhud")
+            {
+                return false;
+            }
+
+            if (hudScreenState != HudScreenState::Dialogue)
+            {
+                return true;
+            }
+
+            const std::string normalizedId = toLowerCopy(layout.id);
+
+            if (normalizedId == "outdoorbasebar"
+                || normalizedId == "outdoorpartystrip"
+                || normalizedId == "outdoorstatusbar"
+                || normalizedId == "outdoortopbar"
+                || normalizedId == "outdoorgoldfoodicon"
+                || normalizedId.rfind("charshield_", 0) == 0)
+            {
+                return true;
+            }
+
+            if (normalizedId.rfind("outdoorminimap", 0) == 0)
+            {
+                return false;
+            }
+
+            const HudLayoutElement *pCurrent = &layout;
+
+            while (pCurrent != nullptr && !pCurrent->parentId.empty())
+            {
+                if (toLowerCopy(pCurrent->parentId) == "outdoorbasebar")
+                {
+                    return true;
+                }
+
+                pCurrent = findHudLayoutElement(pCurrent->parentId);
+            }
+
+            return false;
+        };
 
     submitTexturedQuad(*pBasebar, basebarX, basebarY, basebarWidth, basebarHeight);
 
@@ -2794,6 +2942,11 @@ void OutdoorGameView::renderGameplayHudArt(int width, int height)
                 return;
             }
 
+            if (!isGameplayElementVisibleInHudState(*pLayout))
+            {
+                return;
+            }
+
             if (normalizedLayoutId == "outdoorminimap")
             {
                 if (!m_map
@@ -2851,6 +3004,10 @@ void OutdoorGameView::renderGameplayHudArt(int width, int height)
                 minimapOverlay.width = resolved->width;
                 minimapOverlay.height = resolved->height;
                 minimapOverlay.scale = resolved->scale;
+                minimapOverlay.u0 = u0;
+                minimapOverlay.v0 = v0;
+                minimapOverlay.uSpan = uSpan;
+                minimapOverlay.vSpan = vSpan;
                 return;
             }
 
@@ -2881,23 +3038,37 @@ void OutdoorGameView::renderGameplayHudArt(int width, int height)
             submitTexturedQuad(*pTexture, resolved->x, resolved->y, resolved->width, resolved->height);
         };
 
-    for (const std::string &layoutId : m_hudLayoutOrder)
+    const std::vector<std::string> orderedGameplayLayoutIds = sortedHudLayoutIdsForScreen("OutdoorHud");
+
+    for (const std::string &layoutId : orderedGameplayLayoutIds)
     {
         renderOrderedSimpleHudElement(layoutId);
     }
 
-    if (minimapOverlay.valid && m_pOutdoorPartyRuntime != nullptr)
+    if (hudScreenState == HudScreenState::Gameplay && minimapOverlay.valid && m_pOutdoorPartyRuntime != nullptr)
     {
         const OutdoorMoveState &moveState = m_pOutdoorPartyRuntime->movementState();
-        const float minimapCenterX = minimapOverlay.x + minimapOverlay.width * 0.5f;
-        const float minimapCenterY = minimapOverlay.y + minimapOverlay.height * 0.5f;
-        const float minimapWorldWidth = (minimapOverlay.width / minimapOverlay.scale) * (65536.0f / OutdoorMinimapZoom);
-        const float minimapWorldHeight =
-            (minimapOverlay.height / minimapOverlay.scale) * (65536.0f / OutdoorMinimapZoom);
-        const float pixelsPerWorldUnitX = minimapOverlay.width / minimapWorldWidth;
-        const float pixelsPerWorldUnitY = minimapOverlay.height / minimapWorldHeight;
+        const float partyU = std::clamp((-moveState.x + 32768.0f) / 65536.0f, 0.0f, 1.0f);
+        const float partyV = std::clamp((32768.0f - moveState.y) / 65536.0f, 0.0f, 1.0f);
+        const float minimapCenterX =
+            minimapOverlay.x + ((partyU - minimapOverlay.u0) / minimapOverlay.uSpan) * minimapOverlay.width;
+        const float minimapCenterY =
+            minimapOverlay.y + ((partyV - minimapOverlay.v0) / minimapOverlay.vSpan) * minimapOverlay.height;
         const float markerSize = std::max(1.5f, 2.0f * minimapOverlay.scale);
         const float markerHalfSize = markerSize * 0.5f;
+        const float markerMargin = std::max(2.0f, 2.0f * minimapOverlay.scale);
+        const float markerMinX = minimapOverlay.x + markerMargin + markerHalfSize;
+        const float markerMaxX = minimapOverlay.x + minimapOverlay.width - markerMargin - markerHalfSize;
+        const float markerMinY = minimapOverlay.y + markerMargin + markerHalfSize;
+        const float markerMaxY = minimapOverlay.y + minimapOverlay.height - markerMargin - markerHalfSize;
+        const uint16_t minimapScissorX = static_cast<uint16_t>(std::max(0.0f, std::floor(minimapOverlay.x + markerMargin)));
+        const uint16_t minimapScissorY = static_cast<uint16_t>(std::max(0.0f, std::floor(minimapOverlay.y + markerMargin)));
+        const uint16_t minimapScissorWidth = static_cast<uint16_t>(std::max(
+            1.0f,
+            std::ceil(minimapOverlay.width - markerMargin * 2.0f)));
+        const uint16_t minimapScissorHeight = static_cast<uint16_t>(std::max(
+            1.0f,
+            std::ceil(minimapOverlay.height - markerMargin * 2.0f)));
         const HudTextureHandle *pFriendlyMarkerTexture =
             ensureSolidHudTextureLoaded("__minimap_marker_friendly__", 0xff00ff00u);
         const HudTextureHandle *pHostileMarkerTexture =
@@ -2916,13 +3087,15 @@ void OutdoorGameView::renderGameplayHudArt(int width, int height)
                     continue;
                 }
 
+                const float actorU = (-static_cast<float>(pActor->x) + 32768.0f) / 65536.0f;
+                const float actorV = (32768.0f - static_cast<float>(pActor->y)) / 65536.0f;
                 const float markerCenterX =
-                    minimapCenterX - (static_cast<float>(pActor->x) - moveState.x) * pixelsPerWorldUnitX;
+                    minimapOverlay.x + ((actorU - minimapOverlay.u0) / minimapOverlay.uSpan) * minimapOverlay.width;
                 const float markerCenterY =
-                    minimapCenterY - (static_cast<float>(pActor->y) - moveState.y) * pixelsPerWorldUnitY;
+                    minimapOverlay.y + ((actorV - minimapOverlay.v0) / minimapOverlay.vSpan) * minimapOverlay.height;
 
-                if (markerCenterX < minimapOverlay.x || markerCenterX >= minimapOverlay.x + minimapOverlay.width
-                    || markerCenterY < minimapOverlay.y || markerCenterY >= minimapOverlay.y + minimapOverlay.height)
+                if (markerCenterX < markerMinX || markerCenterX > markerMaxX
+                    || markerCenterY < markerMinY || markerCenterY > markerMaxY)
                 {
                     continue;
                 }
@@ -2936,12 +3109,16 @@ void OutdoorGameView::renderGameplayHudArt(int width, int height)
                     continue;
                 }
 
-                submitTexturedQuad(
+                submitTexturedQuadClipped(
                     *pMarkerTexture,
                     markerCenterX - markerHalfSize,
                     markerCenterY - markerHalfSize,
                     markerSize,
-                    markerSize);
+                    markerSize,
+                    minimapScissorX,
+                    minimapScissorY,
+                    minimapScissorWidth,
+                    minimapScissorHeight);
             }
         }
 
@@ -2961,12 +3138,16 @@ void OutdoorGameView::renderGameplayHudArt(int width, int height)
         {
             const float arrowWidth = static_cast<float>(pArrowTexture->width) * minimapOverlay.scale;
             const float arrowHeight = static_cast<float>(pArrowTexture->height) * minimapOverlay.scale;
-            submitTexturedQuad(
+            submitTexturedQuadClipped(
                 *pArrowTexture,
                 minimapCenterX - arrowWidth * 0.5f,
                 minimapCenterY - arrowHeight * 0.5f,
                 arrowWidth,
-                arrowHeight);
+                arrowHeight,
+                minimapScissorX,
+                minimapScissorY,
+                minimapScissorWidth,
+                minimapScissorHeight);
         }
     }
 
@@ -3002,200 +3183,8 @@ void OutdoorGameView::renderGameplayHud(int width, int height) const
     bgfx::setViewRect(HudViewId, 0, 0, static_cast<uint16_t>(width), static_cast<uint16_t>(height));
     bgfx::setViewTransform(HudViewId, nullptr, projectionMatrix);
     bgfx::touch(HudViewId);
+    const HudScreenState hudScreenState = currentHudScreenState();
 
-    const auto measureHudTextWidth = [](const HudFontHandle &font, const std::string &text) -> float
-    {
-        float widthPixels = 0.0f;
-
-        for (unsigned char character : text)
-        {
-            if (character == '\r' || character == '\n')
-            {
-                break;
-            }
-
-            if (character < font.firstChar || character > font.lastChar)
-            {
-                widthPixels += static_cast<float>(font.atlasCellWidth);
-                continue;
-            }
-
-            const HudFontGlyphMetrics &glyphMetrics = font.glyphMetrics[character];
-            widthPixels += static_cast<float>(
-                glyphMetrics.leftSpacing
-                + glyphMetrics.width
-                + glyphMetrics.rightSpacing);
-        }
-
-        return std::max(0.0f, widthPixels);
-    };
-
-    const auto clampHudTextToWidth =
-        [&measureHudTextWidth](const HudFontHandle &font, std::string text, float maxWidth) -> std::string
-        {
-            while (!text.empty() && measureHudTextWidth(font, text) > maxWidth)
-            {
-                text.pop_back();
-            }
-
-            return text;
-        };
-
-    const auto renderHudFontLayer =
-        [this](
-            const HudFontHandle &font,
-            bgfx::TextureHandle textureHandle,
-            const std::string &text,
-            float textX,
-            float textY,
-            float fontScale)
-        {
-            if (!bgfx::isValid(textureHandle))
-            {
-                return;
-            }
-
-            uint32_t glyphCount = 0;
-
-            for (unsigned char character : text)
-            {
-                if (character == '\r' || character == '\n')
-                {
-                    break;
-                }
-
-                if (character >= font.firstChar
-                    && character <= font.lastChar
-                    && font.glyphMetrics[character].width > 0)
-                {
-                    ++glyphCount;
-                }
-            }
-
-            if (glyphCount == 0)
-            {
-                return;
-            }
-
-            const uint32_t vertexCount = glyphCount * 6;
-
-            if (bgfx::getAvailTransientVertexBuffer(vertexCount, TexturedTerrainVertex::ms_layout) < vertexCount)
-            {
-                return;
-            }
-
-            bgfx::TransientVertexBuffer transientVertexBuffer;
-            bgfx::allocTransientVertexBuffer(&transientVertexBuffer, vertexCount, TexturedTerrainVertex::ms_layout);
-            TexturedTerrainVertex *pVertices = reinterpret_cast<TexturedTerrainVertex *>(transientVertexBuffer.data);
-            float penX = textX;
-            uint32_t vertexIndex = 0;
-
-            for (unsigned char character : text)
-            {
-                if (character == '\r' || character == '\n')
-                {
-                    break;
-                }
-
-                if (character < font.firstChar || character > font.lastChar)
-                {
-                    penX += static_cast<float>(font.atlasCellWidth) * fontScale;
-                    continue;
-                }
-
-                const HudFontGlyphMetrics &glyphMetrics = font.glyphMetrics[character];
-                penX += static_cast<float>(glyphMetrics.leftSpacing) * fontScale;
-
-                if (glyphMetrics.width > 0)
-                {
-                    const int cellX = (character % 16) * font.atlasCellWidth;
-                    const int cellY = (character / 16) * font.fontHeight;
-                    const float u0 = static_cast<float>(cellX) / static_cast<float>(font.atlasWidth);
-                    const float v0 = static_cast<float>(cellY) / static_cast<float>(font.atlasHeight);
-                    const float u1 =
-                        static_cast<float>(cellX + glyphMetrics.width) / static_cast<float>(font.atlasWidth);
-                    const float v1 =
-                        static_cast<float>(cellY + font.fontHeight) / static_cast<float>(font.atlasHeight);
-                    const float glyphWidth = static_cast<float>(glyphMetrics.width) * fontScale;
-                    const float glyphHeight = static_cast<float>(font.fontHeight) * fontScale;
-
-                    pVertices[vertexIndex + 0] = {penX, textY, 0.0f, u0, v0};
-                    pVertices[vertexIndex + 1] = {penX + glyphWidth, textY, 0.0f, u1, v0};
-                    pVertices[vertexIndex + 2] = {penX + glyphWidth, textY + glyphHeight, 0.0f, u1, v1};
-                    pVertices[vertexIndex + 3] = {penX, textY, 0.0f, u0, v0};
-                    pVertices[vertexIndex + 4] = {penX + glyphWidth, textY + glyphHeight, 0.0f, u1, v1};
-                    pVertices[vertexIndex + 5] = {penX, textY + glyphHeight, 0.0f, u0, v1};
-                    vertexIndex += 6;
-                }
-
-                penX += static_cast<float>(glyphMetrics.width + glyphMetrics.rightSpacing) * fontScale;
-            }
-
-            float modelMatrix[16] = {};
-            bx::mtxIdentity(modelMatrix);
-            bgfx::setTransform(modelMatrix);
-            bgfx::setVertexBuffer(0, &transientVertexBuffer);
-            bgfx::setTexture(0, m_terrainTextureSamplerHandle, textureHandle);
-            bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_BLEND_ALPHA);
-            bgfx::submit(HudViewId, m_texturedTerrainProgramHandle);
-        };
-
-    const auto renderLayoutLabel =
-        [&](const HudLayoutElement &layout, const ResolvedHudLayoutElement &resolved, const std::string &label)
-        {
-            if (label.empty())
-            {
-                return;
-            }
-
-            const HudFontHandle *pFont = findHudFont(layout.fontName);
-
-            if (pFont == nullptr)
-            {
-                return;
-            }
-
-            const float fontScale = resolved.scale;
-            const float labelHeightPixels = static_cast<float>(pFont->fontHeight) * fontScale;
-            const std::string clampedLabel = clampHudTextToWidth(
-                *pFont,
-                label,
-                std::max(0.0f, resolved.width - std::abs(layout.textPadX * fontScale) * 2.0f));
-            const float labelWidthPixels = measureHudTextWidth(*pFont, clampedLabel) * fontScale;
-            float textX = resolved.x + layout.textPadX * resolved.scale;
-            float textY = resolved.y + layout.textPadY * resolved.scale;
-
-            switch (layout.textAlignX)
-            {
-                case HudTextAlignX::Left:
-                    break;
-
-                case HudTextAlignX::Center:
-                    textX = resolved.x + (resolved.width - labelWidthPixels) * 0.5f + layout.textPadX * resolved.scale;
-                    break;
-
-                case HudTextAlignX::Right:
-                    textX = resolved.x + resolved.width - labelWidthPixels + layout.textPadX * resolved.scale;
-                    break;
-            }
-
-            switch (layout.textAlignY)
-            {
-                case HudTextAlignY::Top:
-                    break;
-
-                case HudTextAlignY::Middle:
-                    textY = resolved.y + (resolved.height - labelHeightPixels) * 0.5f + layout.textPadY * resolved.scale;
-                    break;
-
-                case HudTextAlignY::Bottom:
-                    textY = resolved.y + resolved.height - labelHeightPixels + layout.textPadY * resolved.scale;
-                    break;
-            }
-
-            renderHudFontLayer(*pFont, pFont->shadowTextureHandle, clampedLabel, textX, textY, fontScale);
-            renderHudFontLayer(*pFont, pFont->mainTextureHandle, clampedLabel, textX, textY, fontScale);
-        };
     const auto replaceAll = [](std::string text, const std::string &from, const std::string &to) -> std::string
     {
         size_t position = 0;
@@ -3285,22 +3274,22 @@ void OutdoorGameView::renderGameplayHud(int width, int height) const
         renderLayoutLabel(*pStatusBarLayout, *resolvedStatusBar, stream.str());
     }
 
-    if (const HudLayoutElement *pTopRightBarLayout = findHudLayoutElement("OutdoorTopRightBar"))
+    if (const HudLayoutElement *pTopBarLayout = findHudLayoutElement("OutdoorTopBar"))
     {
-        if (const std::optional<ResolvedHudLayoutElement> topRightBar = resolveHudLayoutElement(
-                "OutdoorTopRightBar",
+        if (const std::optional<ResolvedHudLayoutElement> topBar = resolveHudLayoutElement(
+                "OutdoorTopBar",
                 width,
                 height,
-                220.0f,
-                40.0f))
+                640.0f,
+                29.0f))
         {
-            if (!pTopRightBarLayout->labelText.empty())
+            if (!pTopBarLayout->labelText.empty())
             {
                 const std::string label = replaceAll(
-                    replaceAll(pTopRightBarLayout->labelText, "{gold}", std::to_string(party.gold())),
+                    replaceAll(pTopBarLayout->labelText, "{gold}", std::to_string(party.gold())),
                     "{food}",
                     std::to_string(party.food()));
-                renderLayoutLabel(*pTopRightBarLayout, *topRightBar, label);
+                renderLayoutLabel(*pTopBarLayout, *topBar, label);
             }
         }
     }
@@ -3331,6 +3320,11 @@ void OutdoorGameView::renderGameplayHud(int width, int height) const
             const std::string label = resolveCounterLabel(pFoodLabelLayout->labelText, std::to_string(party.food()));
             renderLayoutLabel(*pFoodLabelLayout, *foodLabel, label);
         }
+    }
+
+    if (hudScreenState == HudScreenState::Dialogue)
+    {
+        return;
     }
 
     if (const HudLayoutElement *pBottomLeftButtonsLayout = findHudLayoutElement("OutdoorBottomLeftButtons"))
@@ -3506,9 +3500,38 @@ void OutdoorGameView::renderChestPanel(int width, int height) const
     }
 }
 
-void OutdoorGameView::renderEventDialogPanel(int width, int height) const
+void OutdoorGameView::renderEventDialogPanel(int width, int height, bool renderAboveHud)
 {
-    if (!m_activeEventDialog.isActive || width <= 0 || height <= 0)
+    if (width <= 0 || height <= 0)
+    {
+        return;
+    }
+
+    if (!m_activeEventDialog.isActive)
+    {
+        EventRuntimeState *pEventRuntimeState =
+            m_pOutdoorWorldRuntime != nullptr ? m_pOutdoorWorldRuntime->eventRuntimeState() : nullptr;
+
+        if (pEventRuntimeState != nullptr
+            && pEventRuntimeState->pendingDialogueContext
+            && pEventRuntimeState->pendingDialogueContext->kind != DialogueContextKind::None)
+        {
+            openPendingEventDialog(pEventRuntimeState->messages.size(), true);
+        }
+    }
+
+    if (!m_activeEventDialog.isActive)
+    {
+        return;
+    }
+
+    if (currentHudScreenState() == HudScreenState::Dialogue)
+    {
+        renderDialogueOverlay(width, height, renderAboveHud);
+        return;
+    }
+
+    if (!renderAboveHud)
     {
         return;
     }
@@ -3768,6 +3791,7 @@ void OutdoorGameView::shutdown()
     m_activateInspectLatch = false;
     m_attackInspectLatch = false;
     m_closeOverlayLatch = false;
+    m_dialogueClickLatch = false;
     m_lootChestItemLatch = false;
     m_chestSelectUpLatch = false;
     m_chestSelectDownLatch = false;
@@ -3875,6 +3899,7 @@ void OutdoorGameView::executeActiveDialogAction()
 
     if (action.kind == EventDialogActionKind::HouseResident)
     {
+        m_dialogueHostHouseId = m_activeEventDialog.sourceId;
         EventRuntimeState::PendingDialogueContext context = {};
         context.kind = DialogueContextKind::NpcTalk;
         context.sourceId = action.id;
@@ -4146,7 +4171,14 @@ void OutdoorGameView::openPendingEventDialog(size_t previousMessageCount, bool a
 
     if (!m_activeEventDialog.isActive)
     {
+        pEventRuntimeState->pendingDialogueContext.reset();
         return;
+    }
+
+    if (pEventRuntimeState->pendingDialogueContext
+        && pEventRuntimeState->pendingDialogueContext->kind == DialogueContextKind::HouseService)
+    {
+        m_dialogueHostHouseId = pEventRuntimeState->pendingDialogueContext->sourceId;
     }
 
     m_eventDialogSelectionIndex = 0;
@@ -4173,6 +4205,7 @@ void OutdoorGameView::closeActiveEventDialog()
         pEventRuntimeState->houseServiceMenuId.clear();
     }
 
+    m_dialogueHostHouseId = 0;
     m_activeEventDialog = {};
     m_eventDialogSelectionIndex = 0;
     m_eventDialogSelectUpLatch = false;
@@ -4184,6 +4217,814 @@ void OutdoorGameView::closeActiveEventDialog()
 bool OutdoorGameView::hasActiveEventDialog() const
 {
     return m_activeEventDialog.isActive;
+}
+
+OutdoorGameView::HudScreenState OutdoorGameView::currentHudScreenState() const
+{
+    if (m_activeEventDialog.isActive)
+    {
+        return HudScreenState::Dialogue;
+    }
+
+    return HudScreenState::Gameplay;
+}
+
+void OutdoorGameView::openDebugNpcDialogue(uint32_t npcId)
+{
+    EventRuntimeState *pEventRuntimeState =
+        m_pOutdoorWorldRuntime != nullptr ? m_pOutdoorWorldRuntime->eventRuntimeState() : nullptr;
+
+    if (pEventRuntimeState == nullptr || npcId == 0)
+    {
+        return;
+    }
+
+    m_dialogueHostHouseId = 0;
+    const size_t previousMessageCount = pEventRuntimeState->messages.size();
+    EventRuntimeState::PendingDialogueContext context = {};
+    context.kind = DialogueContextKind::NpcTalk;
+    context.sourceId = npcId;
+    pEventRuntimeState->pendingDialogueContext = std::move(context);
+    pEventRuntimeState->lastActivationResult = "debug npc " + std::to_string(npcId) + " engaged";
+    openPendingEventDialog(previousMessageCount, true);
+}
+
+void OutdoorGameView::renderDialogueOverlay(int width, int height, bool renderAboveHud)
+{
+    if (currentHudScreenState() != HudScreenState::Dialogue
+        || !m_activeEventDialog.isActive
+        || !bgfx::isValid(m_texturedTerrainProgramHandle)
+        || !bgfx::isValid(m_terrainTextureSamplerHandle)
+        || width <= 0
+        || height <= 0)
+    {
+        return;
+    }
+
+    const bool isResidentSelectionMode =
+        !m_activeEventDialog.actions.empty()
+        && std::all_of(
+            m_activeEventDialog.actions.begin(),
+            m_activeEventDialog.actions.end(),
+            [](const EventDialogAction &action)
+            {
+                return action.kind == EventDialogActionKind::HouseResident;
+            });
+    const EventRuntimeState *pEventRuntimeState =
+        m_pOutdoorWorldRuntime != nullptr ? m_pOutdoorWorldRuntime->eventRuntimeState() : nullptr;
+    const HouseEntry *pHostHouseEntry =
+        (m_dialogueHostHouseId != 0 && m_houseTable.has_value()) ? m_houseTable->get(m_dialogueHostHouseId) : nullptr;
+    const std::vector<uint32_t> hostResidentNpcIds =
+        (pHostHouseEntry != nullptr && m_npcDialogTable.has_value() && pEventRuntimeState != nullptr)
+        ? collectSelectableResidentNpcIds(*pHostHouseEntry, *m_npcDialogTable, *pEventRuntimeState)
+        : std::vector<uint32_t>{};
+    const bool showEventDialogPanel =
+        isResidentSelectionMode || !m_activeEventDialog.actions.empty() || pHostHouseEntry != nullptr;
+    const int hudZThreshold = defaultHudLayoutZIndexForScreen("OutdoorHud");
+    const auto shouldRenderInCurrentPass =
+        [renderAboveHud, hudZThreshold](int zIndex) -> bool
+        {
+            return renderAboveHud ? zIndex >= hudZThreshold : zIndex < hudZThreshold;
+        };
+    const HudLayoutElement *pDialogueTextLayout = findHudLayoutElement("DialogueText");
+    const std::optional<ResolvedHudLayoutElement> resolvedText =
+        pDialogueTextLayout != nullptr
+        && toLowerCopy(pDialogueTextLayout->screen) == "dialogue"
+        ? resolveHudLayoutElement(
+            "DialogueText",
+            width,
+            height,
+            pDialogueTextLayout->width,
+            pDialogueTextLayout->height)
+        : std::nullopt;
+
+    const auto renderDialogueTextureElement =
+        [this, width, height, showEventDialogPanel, &shouldRenderInCurrentPass](
+            const std::string &layoutId)
+        {
+            const HudLayoutElement *pLayout = findHudLayoutElement(layoutId);
+
+            if (pLayout == nullptr || !pLayout->visible || toLowerCopy(pLayout->screen) != "dialogue")
+            {
+                return;
+            }
+
+            const std::string normalizedLayoutId = toLowerCopy(layoutId);
+
+            if (normalizedLayoutId == "dialoguenpcportrait"
+                || normalizedLayoutId == "dialoguetext")
+            {
+                return;
+            }
+
+            if (normalizedLayoutId == "dialogueeventdialog" && !showEventDialogPanel)
+            {
+                return;
+            }
+
+            if (!shouldRenderInCurrentPass(pLayout->zIndex))
+            {
+                return;
+            }
+
+            if (pLayout->primaryAsset.empty())
+            {
+                return;
+            }
+
+            const HudTextureHandle *pTexture = ensureHudTextureLoaded(pLayout->primaryAsset);
+
+            if (pTexture == nullptr)
+            {
+                return;
+            }
+
+            const std::optional<ResolvedHudLayoutElement> resolved = resolveHudLayoutElement(
+                layoutId,
+                width,
+                height,
+                pLayout->width > 0.0f ? pLayout->width : static_cast<float>(pTexture->width),
+                pLayout->height > 0.0f ? pLayout->height : static_cast<float>(pTexture->height));
+
+            if (!resolved)
+            {
+                return;
+            }
+
+            bgfx::TransientVertexBuffer transientVertexBuffer;
+
+            if (bgfx::getAvailTransientVertexBuffer(6, TexturedTerrainVertex::ms_layout) < 6)
+            {
+                return;
+            }
+
+            bgfx::allocTransientVertexBuffer(&transientVertexBuffer, 6, TexturedTerrainVertex::ms_layout);
+            TexturedTerrainVertex *pVertices = reinterpret_cast<TexturedTerrainVertex *>(transientVertexBuffer.data);
+
+            pVertices[0] = {resolved->x, resolved->y, 0.0f, 0.0f, 0.0f};
+            pVertices[1] = {resolved->x + resolved->width, resolved->y, 0.0f, 1.0f, 0.0f};
+            pVertices[2] = {resolved->x + resolved->width, resolved->y + resolved->height, 0.0f, 1.0f, 1.0f};
+            pVertices[3] = {resolved->x, resolved->y, 0.0f, 0.0f, 0.0f};
+            pVertices[4] = {resolved->x + resolved->width, resolved->y + resolved->height, 0.0f, 1.0f, 1.0f};
+            pVertices[5] = {resolved->x, resolved->y + resolved->height, 0.0f, 0.0f, 1.0f};
+
+            float modelMatrix[16] = {};
+            bx::mtxIdentity(modelMatrix);
+            bgfx::setTransform(modelMatrix);
+            bgfx::setVertexBuffer(0, &transientVertexBuffer);
+            bgfx::setTexture(0, m_terrainTextureSamplerHandle, pTexture->textureHandle);
+            bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_BLEND_ALPHA);
+            bgfx::submit(HudViewId, m_texturedTerrainProgramHandle);
+        };
+
+    const std::vector<std::string> orderedDialogueLayoutIds = sortedHudLayoutIdsForScreen("Dialogue");
+
+    for (const std::string &layoutId : orderedDialogueLayoutIds)
+    {
+        const HudLayoutElement *pLayout = findHudLayoutElement(layoutId);
+
+        if (pLayout == nullptr || toLowerCopy(pLayout->screen) != "dialogue")
+        {
+            continue;
+        }
+
+        renderDialogueTextureElement(layoutId);
+    }
+
+    const auto renderDialogueLabelById =
+        [this, width, height, &shouldRenderInCurrentPass](const std::string &layoutId, const std::string &label)
+        {
+            const HudLayoutElement *pLayout = findHudLayoutElement(layoutId);
+
+            if (pLayout == nullptr || !pLayout->visible || toLowerCopy(pLayout->screen) != "dialogue")
+            {
+                return;
+            }
+
+            if (!shouldRenderInCurrentPass(pLayout->zIndex))
+            {
+                return;
+            }
+
+            const std::optional<ResolvedHudLayoutElement> resolved = resolveHudLayoutElement(
+                layoutId,
+                width,
+                height,
+                pLayout->width,
+                pLayout->height);
+
+            if (!resolved)
+            {
+                return;
+            }
+
+            renderLayoutLabel(*pLayout, *resolved, label);
+        };
+
+    renderDialogueLabelById(
+        "DialogueGoodbyeButton",
+        "Goodbye");
+    renderDialogueLabelById(
+        "DialogueResponseHint",
+        m_activeEventDialog.actions.empty()
+            ? "Enter/Space/E/Esc close"
+            : "Up/Down select  Enter/Space accept  E/Esc close");
+
+    const HudLayoutElement *pEventDialogLayout = findHudLayoutElement("DialogueEventDialog");
+    const HudLayoutElement *pNpcPortraitLayout = findHudLayoutElement("DialogueNpcPortrait");
+    const HudLayoutElement *pNpcNameLayout = findHudLayoutElement("DialogueNpcName");
+    const HudLayoutElement *pTopicRowLayout = findHudLayoutElement("DialogueTopicRow_1");
+
+    if (showEventDialogPanel && pEventDialogLayout != nullptr)
+    {
+        const std::optional<ResolvedHudLayoutElement> resolvedEventDialog = resolveHudLayoutElement(
+            "DialogueEventDialog",
+            width,
+            height,
+            pEventDialogLayout->width,
+            pEventDialogLayout->height);
+
+        if (resolvedEventDialog && shouldRenderInCurrentPass(pEventDialogLayout->zIndex))
+        {
+            const float panelScale = resolvedEventDialog->scale;
+            const float panelPaddingX = 10.0f * panelScale;
+            const float panelPaddingY = 10.0f * panelScale;
+            const float panelInnerX = resolvedEventDialog->x + panelPaddingX;
+            const float panelInnerY = resolvedEventDialog->y + panelPaddingY;
+            const float panelInnerWidth = resolvedEventDialog->width - panelPaddingX * 2.0f;
+            const float portraitInset = 4.0f * panelScale;
+            const float sectionGap = 8.0f * panelScale;
+            float contentY = panelInnerY;
+            const std::optional<ResolvedHudLayoutElement> resolvedPortraitTemplate =
+                pNpcPortraitLayout != nullptr
+                ? resolveHudLayoutElement(
+                    "DialogueNpcPortrait",
+                    width,
+                    height,
+                    pNpcPortraitLayout->width,
+                    pNpcPortraitLayout->height)
+                : std::nullopt;
+            const std::optional<ResolvedHudLayoutElement> resolvedNpcNameTemplate =
+                pNpcNameLayout != nullptr
+                ? resolveHudLayoutElement(
+                    "DialogueNpcName",
+                    width,
+                    height,
+                    pNpcNameLayout->width,
+                    pNpcNameLayout->height)
+                : std::nullopt;
+            const std::optional<ResolvedHudLayoutElement> resolvedTopicRowTemplate =
+                pTopicRowLayout != nullptr
+                ? resolveHudLayoutElement(
+                    "DialogueTopicRow_1",
+                    width,
+                    height,
+                    pTopicRowLayout->width,
+                    pTopicRowLayout->height)
+                : std::nullopt;
+            const float portraitAreaWidth = resolvedPortraitTemplate ? resolvedPortraitTemplate->width : 80.0f * panelScale;
+            const float portraitAreaHeight = resolvedPortraitTemplate ? resolvedPortraitTemplate->height : 80.0f * panelScale;
+            const float portraitBorderSize = std::min(portraitAreaWidth, portraitAreaHeight);
+            const float portraitAreaX = resolvedPortraitTemplate
+                ? resolvedPortraitTemplate->x
+                : std::round(panelInnerX + (panelInnerWidth - portraitAreaWidth) * 0.5f);
+            const float portraitBaseY = resolvedPortraitTemplate ? resolvedPortraitTemplate->y : panelInnerY;
+            const float nameWidth = resolvedNpcNameTemplate ? resolvedNpcNameTemplate->width : panelInnerWidth;
+            const float nameHeight = resolvedNpcNameTemplate ? resolvedNpcNameTemplate->height : 20.0f * panelScale;
+            const float nameX = resolvedNpcNameTemplate ? resolvedNpcNameTemplate->x : panelInnerX;
+            const float nameScale = resolvedNpcNameTemplate ? resolvedNpcNameTemplate->scale : panelScale;
+            const float nameOffsetY = resolvedNpcNameTemplate && resolvedPortraitTemplate
+                ? (resolvedNpcNameTemplate->y - resolvedPortraitTemplate->y)
+                : portraitBorderSize + 2.0f * panelScale;
+
+            if (pHostHouseEntry != nullptr && pNpcNameLayout != nullptr)
+            {
+                ResolvedHudLayoutElement resolvedHouseTitle = {};
+                resolvedHouseTitle.x = panelInnerX;
+                resolvedHouseTitle.y = contentY;
+                resolvedHouseTitle.width = panelInnerWidth;
+                resolvedHouseTitle.height = 20.0f * panelScale;
+                resolvedHouseTitle.scale = panelScale;
+
+                if (shouldRenderInCurrentPass(pNpcNameLayout->zIndex))
+                {
+                    renderLayoutLabel(*pNpcNameLayout, resolvedHouseTitle, pHostHouseEntry->name);
+                }
+
+                contentY += resolvedHouseTitle.height + sectionGap;
+            }
+
+            contentY = std::max(contentY, portraitBaseY);
+
+            const auto renderEventNpcPortraitCard =
+                [this, pNpcNameLayout, panelScale, portraitBorderSize, portraitInset, panelInnerWidth](
+                    float portraitY,
+                    const std::string &name,
+                    uint32_t pictureId,
+                    bool selected) -> float
+                {
+                    const float portraitX = std::round(
+                        panelInnerWidth >= portraitBorderSize
+                            ? (panelInnerWidth - portraitBorderSize) * 0.5f
+                            : 0.0f);
+                    const float absolutePortraitX =
+                        std::round((panelInnerWidth >= portraitBorderSize ? portraitX : 0.0f) + 0.0f);
+                    BX_UNUSED(absolutePortraitX);
+                    return portraitY;
+                };
+            BX_UNUSED(renderEventNpcPortraitCard);
+
+            auto drawEventNpcCard =
+                [this,
+                 pNpcNameLayout,
+                 nameHeight,
+                 nameOffsetY,
+                 nameScale,
+                 nameWidth,
+                 nameX,
+                 portraitAreaHeight,
+                 portraitAreaWidth,
+                 portraitAreaX,
+                 portraitBorderSize,
+                 portraitInset,
+                 &shouldRenderInCurrentPass](
+                    float startY,
+                    const std::string &name,
+                    uint32_t pictureId,
+                    bool selected) -> float
+                {
+                    const float portraitY = std::round(startY);
+                    const float portraitX = std::round(portraitAreaX + (portraitAreaWidth - portraitBorderSize) * 0.5f);
+                    const float portraitBorderY =
+                        std::round(portraitY + (portraitAreaHeight - portraitBorderSize) * 0.5f);
+                    const HudTextureHandle *pPortraitBorder = ensureHudTextureLoaded("evtnpc");
+
+                    if (pPortraitBorder != nullptr)
+                    {
+                        bgfx::TransientVertexBuffer transientVertexBuffer;
+
+                        if (bgfx::getAvailTransientVertexBuffer(6, TexturedTerrainVertex::ms_layout) >= 6)
+                        {
+                            bgfx::allocTransientVertexBuffer(&transientVertexBuffer, 6, TexturedTerrainVertex::ms_layout);
+                            TexturedTerrainVertex *pVertices =
+                                reinterpret_cast<TexturedTerrainVertex *>(transientVertexBuffer.data);
+                            pVertices[0] = {portraitX, portraitBorderY, 0.0f, 0.0f, 0.0f};
+                            pVertices[1] = {portraitX + portraitBorderSize, portraitBorderY, 0.0f, 1.0f, 0.0f};
+                            pVertices[2] = {
+                                portraitX + portraitBorderSize,
+                                portraitBorderY + portraitBorderSize,
+                                0.0f,
+                                1.0f,
+                                1.0f};
+                            pVertices[3] = {portraitX, portraitBorderY, 0.0f, 0.0f, 0.0f};
+                            pVertices[4] = {
+                                portraitX + portraitBorderSize,
+                                portraitBorderY + portraitBorderSize,
+                                0.0f,
+                                1.0f,
+                                1.0f};
+                            pVertices[5] = {portraitX, portraitBorderY + portraitBorderSize, 0.0f, 0.0f, 1.0f};
+                            float modelMatrix[16] = {};
+                            bx::mtxIdentity(modelMatrix);
+                            bgfx::setTransform(modelMatrix);
+                            bgfx::setVertexBuffer(0, &transientVertexBuffer);
+                            bgfx::setTexture(0, m_terrainTextureSamplerHandle, pPortraitBorder->textureHandle);
+                            bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_BLEND_ALPHA);
+                            bgfx::submit(HudViewId, m_texturedTerrainProgramHandle);
+                        }
+                    }
+
+                    if (pictureId > 0)
+                    {
+                        char textureName[16] = {};
+                        std::snprintf(textureName, sizeof(textureName), "npc%04u", pictureId);
+                        const HudTextureHandle *pPortraitTexture = ensureHudTextureLoaded(textureName);
+
+                        if (pPortraitTexture != nullptr)
+                        {
+                            const float imageWidth = static_cast<float>(pPortraitTexture->width);
+                            const float imageHeight = static_cast<float>(pPortraitTexture->height);
+                            const float targetSize = portraitBorderSize - portraitInset * 2.0f;
+                            const float portraitScale = std::min(targetSize / std::max(1.0f, imageWidth), targetSize / std::max(1.0f, imageHeight));
+                            const float drawWidth = std::round(imageWidth * portraitScale);
+                            const float drawHeight = std::round(imageHeight * portraitScale);
+                            const float drawX = std::round(portraitX + (portraitBorderSize - drawWidth) * 0.5f);
+                            const float drawY = std::round(portraitY + (portraitAreaHeight - drawHeight) * 0.5f);
+
+                            bgfx::TransientVertexBuffer transientVertexBuffer;
+
+                            if (bgfx::getAvailTransientVertexBuffer(6, TexturedTerrainVertex::ms_layout) >= 6)
+                            {
+                                bgfx::allocTransientVertexBuffer(&transientVertexBuffer, 6, TexturedTerrainVertex::ms_layout);
+                                TexturedTerrainVertex *pVertices =
+                                    reinterpret_cast<TexturedTerrainVertex *>(transientVertexBuffer.data);
+                                pVertices[0] = {drawX, drawY, 0.0f, 0.0f, 0.0f};
+                                pVertices[1] = {drawX + drawWidth, drawY, 0.0f, 1.0f, 0.0f};
+                                pVertices[2] = {drawX + drawWidth, drawY + drawHeight, 0.0f, 1.0f, 1.0f};
+                                pVertices[3] = {drawX, drawY, 0.0f, 0.0f, 0.0f};
+                                pVertices[4] = {drawX + drawWidth, drawY + drawHeight, 0.0f, 1.0f, 1.0f};
+                                pVertices[5] = {drawX, drawY + drawHeight, 0.0f, 0.0f, 1.0f};
+                                float modelMatrix[16] = {};
+                                bx::mtxIdentity(modelMatrix);
+                                bgfx::setTransform(modelMatrix);
+                                bgfx::setVertexBuffer(0, &transientVertexBuffer);
+                                bgfx::setTexture(0, m_terrainTextureSamplerHandle, pPortraitTexture->textureHandle);
+                                bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_BLEND_ALPHA);
+                                bgfx::submit(HudViewId, m_texturedTerrainProgramHandle);
+                            }
+                        }
+                    }
+
+                    if (selected)
+                    {
+                        const HudTextureHandle *pHighlight =
+                            ensureSolidHudTextureLoaded("__dialogue_event_npc_highlight__", 0x40ffffaaU);
+
+                        if (pHighlight != nullptr)
+                        {
+                            bgfx::TransientVertexBuffer transientVertexBuffer;
+
+                            if (bgfx::getAvailTransientVertexBuffer(6, TexturedTerrainVertex::ms_layout) >= 6)
+                            {
+                                bgfx::allocTransientVertexBuffer(&transientVertexBuffer, 6, TexturedTerrainVertex::ms_layout);
+                                TexturedTerrainVertex *pVertices =
+                                    reinterpret_cast<TexturedTerrainVertex *>(transientVertexBuffer.data);
+                                pVertices[0] = {portraitX, portraitBorderY, 0.0f, 0.0f, 0.0f};
+                                pVertices[1] = {portraitX + portraitBorderSize, portraitBorderY, 0.0f, 1.0f, 0.0f};
+                                pVertices[2] = {
+                                    portraitX + portraitBorderSize,
+                                    portraitBorderY + portraitBorderSize,
+                                    0.0f,
+                                    1.0f,
+                                    1.0f};
+                                pVertices[3] = {portraitX, portraitBorderY, 0.0f, 0.0f, 0.0f};
+                                pVertices[4] = {
+                                    portraitX + portraitBorderSize,
+                                    portraitBorderY + portraitBorderSize,
+                                    0.0f,
+                                    1.0f,
+                                    1.0f};
+                                pVertices[5] = {portraitX, portraitBorderY + portraitBorderSize, 0.0f, 0.0f, 1.0f};
+                                float modelMatrix[16] = {};
+                                bx::mtxIdentity(modelMatrix);
+                                bgfx::setTransform(modelMatrix);
+                                bgfx::setVertexBuffer(0, &transientVertexBuffer);
+                                bgfx::setTexture(0, m_terrainTextureSamplerHandle, pHighlight->textureHandle);
+                                bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_BLEND_ALPHA);
+                                bgfx::submit(HudViewId, m_texturedTerrainProgramHandle);
+                            }
+                        }
+                    }
+
+                    float nextY = portraitY + portraitAreaHeight;
+
+                    if (pNpcNameLayout != nullptr && shouldRenderInCurrentPass(pNpcNameLayout->zIndex))
+                    {
+                        ResolvedHudLayoutElement resolvedName = {};
+                        resolvedName.x = nameX;
+                        resolvedName.y = portraitY + nameOffsetY;
+                        resolvedName.width = nameWidth;
+                        resolvedName.height = nameHeight;
+                        resolvedName.scale = nameScale;
+                        renderLayoutLabel(*pNpcNameLayout, resolvedName, name);
+                        nextY = resolvedName.y + resolvedName.height;
+                    }
+
+                    return nextY;
+                };
+
+            if (isResidentSelectionMode)
+            {
+                for (size_t actionIndex = 0; actionIndex < m_activeEventDialog.actions.size(); ++actionIndex)
+                {
+                    const EventDialogAction &action = m_activeEventDialog.actions[actionIndex];
+                    const NpcEntry *pNpc = m_npcDialogTable ? m_npcDialogTable->getNpc(action.id) : nullptr;
+                    const uint32_t pictureId = pNpc != nullptr ? pNpc->pictureId : 0;
+                    contentY = drawEventNpcCard(
+                        contentY,
+                        action.label,
+                        pictureId,
+                        actionIndex == m_eventDialogSelectionIndex);
+                    contentY += sectionGap;
+                }
+            }
+            else
+            {
+                const NpcEntry *pNpc = m_npcDialogTable ? m_npcDialogTable->getNpc(m_activeEventDialog.sourceId) : nullptr;
+                const uint32_t pictureId = pNpc != nullptr ? pNpc->pictureId : 0;
+                contentY = drawEventNpcCard(contentY, m_activeEventDialog.title, pictureId, false);
+                contentY += sectionGap;
+
+                if (pTopicRowLayout != nullptr && !m_activeEventDialog.actions.empty())
+                {
+                    const float rowHeight = resolvedTopicRowTemplate ? resolvedTopicRowTemplate->height : pTopicRowLayout->height * panelScale;
+                    const float rowGap = 4.0f * panelScale;
+                    const size_t visibleActionCount = std::min<size_t>(m_activeEventDialog.actions.size(), 5);
+                    const float availableTop = contentY;
+                    const float availableHeight =
+                        resolvedEventDialog->y + resolvedEventDialog->height - panelPaddingY - availableTop;
+                    const float totalHeight = visibleActionCount > 0
+                        ? static_cast<float>(visibleActionCount) * rowHeight
+                            + static_cast<float>(visibleActionCount - 1) * rowGap
+                        : 0.0f;
+                    float rowY = availableTop + std::max(0.0f, (availableHeight - totalHeight) * 0.5f);
+
+                    for (size_t actionIndex = 0; actionIndex < visibleActionCount; ++actionIndex)
+                    {
+                        const EventDialogAction &action = m_activeEventDialog.actions[actionIndex];
+                        std::string label = action.label;
+
+                        if (actionIndex == m_eventDialogSelectionIndex)
+                        {
+                            label = "> " + label;
+                        }
+
+                        if (!action.enabled)
+                        {
+                            label += " [disabled]";
+                        }
+
+                        ResolvedHudLayoutElement resolvedRow = {};
+                        resolvedRow.x = resolvedTopicRowTemplate ? resolvedTopicRowTemplate->x : panelInnerX;
+                        resolvedRow.y = rowY;
+                        resolvedRow.width = resolvedTopicRowTemplate ? resolvedTopicRowTemplate->width : panelInnerWidth;
+                        resolvedRow.height = rowHeight;
+                        resolvedRow.scale = panelScale;
+                        if (shouldRenderInCurrentPass(pTopicRowLayout->zIndex))
+                        {
+                            renderLayoutLabel(*pTopicRowLayout, resolvedRow, label);
+                        }
+
+                        rowY += rowHeight + rowGap;
+                    }
+                }
+            }
+        }
+    }
+
+    if (pDialogueTextLayout != nullptr
+        && resolvedText
+        && toLowerCopy(pDialogueTextLayout->screen) == "dialogue"
+        && shouldRenderInCurrentPass(pDialogueTextLayout->zIndex))
+    {
+        const HudFontHandle *pFont = findHudFont(pDialogueTextLayout->fontName);
+
+        if (pFont != nullptr)
+        {
+            const float fontScale = snappedHudFontScale(resolvedText->scale);
+            const float lineHeight = static_cast<float>(pFont->fontHeight) * fontScale;
+            float textX = resolvedText->x + pDialogueTextLayout->textPadX * fontScale;
+            float textY = resolvedText->y + pDialogueTextLayout->textPadY * fontScale;
+            textX = std::round(textX);
+            textY = std::round(textY);
+            const size_t maxVisibleLines = std::max<size_t>(
+                1,
+                static_cast<size_t>(resolvedText->height / std::max(1.0f, lineHeight)));
+
+            for (size_t lineIndex = 0;
+                 lineIndex < m_activeEventDialog.lines.size() && lineIndex < maxVisibleLines;
+                 ++lineIndex)
+            {
+                const std::string clampedLine = clampHudTextToWidth(
+                    *pFont,
+                    m_activeEventDialog.lines[lineIndex],
+                    std::max(0.0f, resolvedText->width - std::abs(pDialogueTextLayout->textPadX * fontScale) * 2.0f));
+                renderHudFontLayer(*pFont, pFont->shadowTextureHandle, clampedLine, textX, textY, fontScale);
+                renderHudFontLayer(*pFont, pFont->mainTextureHandle, clampedLine, textX, textY, fontScale);
+                textY += lineHeight;
+            }
+        }
+    }
+
+    if (false && isResidentSelectionMode)
+    {
+        const HudLayoutElement *pPortraitLayout = findHudLayoutElement("DialogueNpcPortrait");
+
+        if (pPortraitLayout != nullptr)
+        {
+            const std::optional<ResolvedHudLayoutElement> resolvedPortrait = resolveHudLayoutElement(
+                "DialogueNpcPortrait",
+                width,
+                height,
+                pPortraitLayout->width,
+                pPortraitLayout->height);
+
+            if (resolvedPortrait)
+            {
+                const float portraitGap = 8.0f * resolvedPortrait->scale;
+                const HudLayoutElement *pNameLayout = findHudLayoutElement("DialogueNpcName");
+
+                for (size_t actionIndex = 0; actionIndex < m_activeEventDialog.actions.size(); ++actionIndex)
+                {
+                    const EventDialogAction &action = m_activeEventDialog.actions[actionIndex];
+                    const NpcEntry *pNpc = m_npcDialogTable ? m_npcDialogTable->getNpc(action.id) : nullptr;
+                    char textureName[16] = {};
+
+                    if (pNpc != nullptr && pNpc->pictureId > 0)
+                    {
+                        std::snprintf(textureName, sizeof(textureName), "npc%04u", pNpc->pictureId);
+                        const HudTextureHandle *pPortraitTexture = ensureHudTextureLoaded(textureName);
+
+                        if (pPortraitTexture != nullptr)
+                        {
+                            bgfx::TransientVertexBuffer transientVertexBuffer;
+
+                            if (bgfx::getAvailTransientVertexBuffer(6, TexturedTerrainVertex::ms_layout) >= 6)
+                            {
+                                const float portraitX = resolvedPortrait->x;
+                                const float portraitY =
+                                    resolvedPortrait->y + static_cast<float>(actionIndex)
+                                        * (resolvedPortrait->height + portraitGap);
+                                bgfx::allocTransientVertexBuffer(
+                                    &transientVertexBuffer,
+                                    6,
+                                    TexturedTerrainVertex::ms_layout);
+                                TexturedTerrainVertex *pVertices =
+                                    reinterpret_cast<TexturedTerrainVertex *>(transientVertexBuffer.data);
+
+                                pVertices[0] = {portraitX, portraitY, 0.0f, 0.0f, 0.0f};
+                                pVertices[1] = {portraitX + resolvedPortrait->width, portraitY, 0.0f, 1.0f, 0.0f};
+                                pVertices[2] = {
+                                    portraitX + resolvedPortrait->width,
+                                    portraitY + resolvedPortrait->height,
+                                    0.0f,
+                                    1.0f,
+                                    1.0f};
+                                pVertices[3] = {portraitX, portraitY, 0.0f, 0.0f, 0.0f};
+                                pVertices[4] = {
+                                    portraitX + resolvedPortrait->width,
+                                    portraitY + resolvedPortrait->height,
+                                    0.0f,
+                                    1.0f,
+                                    1.0f};
+                                pVertices[5] = {portraitX, portraitY + resolvedPortrait->height, 0.0f, 0.0f, 1.0f};
+
+                                float modelMatrix[16] = {};
+                                bx::mtxIdentity(modelMatrix);
+                                bgfx::setTransform(modelMatrix);
+                                bgfx::setVertexBuffer(0, &transientVertexBuffer);
+                                bgfx::setTexture(0, m_terrainTextureSamplerHandle, pPortraitTexture->textureHandle);
+                                bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_BLEND_ALPHA);
+                                bgfx::submit(HudViewId, m_texturedTerrainProgramHandle);
+
+                                if (actionIndex == m_eventDialogSelectionIndex)
+                                {
+                                    const HudTextureHandle *pHighlight =
+                                        ensureSolidHudTextureLoaded("__dialogue_resident_highlight__", 0x60ffffaaU);
+
+                                    if (pHighlight != nullptr
+                                        && bgfx::getAvailTransientVertexBuffer(6, TexturedTerrainVertex::ms_layout) >= 6)
+                                    {
+                                        bgfx::allocTransientVertexBuffer(
+                                            &transientVertexBuffer,
+                                            6,
+                                            TexturedTerrainVertex::ms_layout);
+                                        pVertices = reinterpret_cast<TexturedTerrainVertex *>(transientVertexBuffer.data);
+                                        pVertices[0] = {portraitX, portraitY, 0.0f, 0.0f, 0.0f};
+                                        pVertices[1] = {
+                                            portraitX + resolvedPortrait->width,
+                                            portraitY,
+                                            0.0f,
+                                            1.0f,
+                                            0.0f};
+                                        pVertices[2] = {
+                                            portraitX + resolvedPortrait->width,
+                                            portraitY + resolvedPortrait->height,
+                                            0.0f,
+                                            1.0f,
+                                            1.0f};
+                                        pVertices[3] = {portraitX, portraitY, 0.0f, 0.0f, 0.0f};
+                                        pVertices[4] = {
+                                            portraitX + resolvedPortrait->width,
+                                            portraitY + resolvedPortrait->height,
+                                            0.0f,
+                                            1.0f,
+                                            1.0f};
+                                        pVertices[5] = {
+                                            portraitX,
+                                            portraitY + resolvedPortrait->height,
+                                            0.0f,
+                                            0.0f,
+                                            1.0f};
+                                        bx::mtxIdentity(modelMatrix);
+                                        bgfx::setTransform(modelMatrix);
+                                        bgfx::setVertexBuffer(0, &transientVertexBuffer);
+                                        bgfx::setTexture(0, m_terrainTextureSamplerHandle, pHighlight->textureHandle);
+                                        bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_BLEND_ALPHA);
+                                        bgfx::submit(HudViewId, m_texturedTerrainProgramHandle);
+                                    }
+                                }
+
+                                if (pNameLayout != nullptr)
+                                {
+                                    ResolvedHudLayoutElement resolvedName = {};
+                                    resolvedName.x = portraitX;
+                                    resolvedName.y = portraitY + resolvedPortrait->height + 2.0f * resolvedPortrait->scale;
+                                    resolvedName.width = resolvedPortrait->width;
+                                    resolvedName.height = 22.0f * resolvedPortrait->scale;
+                                    resolvedName.scale = resolvedPortrait->scale;
+                                    renderLayoutLabel(*pNameLayout, resolvedName, action.label);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    else if (false)
+    {
+        const HudLayoutElement *pTopicListLayout = findHudLayoutElement("DialogueTopicList");
+        const HudLayoutElement *pTopicRowLayout = findHudLayoutElement("DialogueTopicRow_1");
+
+        if (pTopicListLayout != nullptr
+            && pTopicRowLayout != nullptr
+            && toLowerCopy(pTopicListLayout->screen) == "dialogue"
+            && toLowerCopy(pTopicRowLayout->screen) == "dialogue")
+        {
+            const std::optional<ResolvedHudLayoutElement> resolvedTopicList = resolveHudLayoutElement(
+                "DialogueTopicList",
+                width,
+                height,
+                pTopicListLayout->width,
+                pTopicListLayout->height);
+
+            if (resolvedTopicList)
+            {
+                const float rowHeight = pTopicRowLayout->height * resolvedTopicList->scale;
+                const float rowGap = 4.0f * resolvedTopicList->scale;
+                const size_t visibleActionCount = std::min<size_t>(m_activeEventDialog.actions.size(), 5);
+                const float totalHeight = visibleActionCount > 0
+                    ? static_cast<float>(visibleActionCount) * rowHeight
+                        + static_cast<float>(visibleActionCount - 1) * rowGap
+                    : 0.0f;
+                float rowY = resolvedTopicList->y + (resolvedTopicList->height - totalHeight) * 0.5f;
+
+                for (size_t actionIndex = 0; actionIndex < visibleActionCount; ++actionIndex)
+                {
+                    const EventDialogAction &action = m_activeEventDialog.actions[actionIndex];
+                    std::string label = action.label;
+
+                    if (actionIndex == m_eventDialogSelectionIndex)
+                    {
+                        label = "> " + label;
+                    }
+
+                    if (!action.enabled)
+                    {
+                        label += " [disabled]";
+                    }
+
+                    ResolvedHudLayoutElement resolvedRow = {};
+                    resolvedRow.x = resolvedTopicList->x;
+                    resolvedRow.y = rowY;
+                    resolvedRow.width = resolvedTopicList->width;
+                    resolvedRow.height = rowHeight;
+                    resolvedRow.scale = resolvedTopicList->scale;
+                    if (shouldRenderInCurrentPass(pTopicRowLayout->zIndex))
+                    {
+                        renderLayoutLabel(*pTopicRowLayout, resolvedRow, label);
+                    }
+
+                    rowY += rowHeight + rowGap;
+                }
+            }
+        }
+
+        if (pDialogueTextLayout != nullptr
+            && resolvedText
+            && toLowerCopy(pDialogueTextLayout->screen) == "dialogue"
+            && shouldRenderInCurrentPass(pDialogueTextLayout->zIndex))
+        {
+            const HudFontHandle *pFont = findHudFont(pDialogueTextLayout->fontName);
+
+            if (pFont != nullptr)
+            {
+                const float fontScale = snappedHudFontScale(resolvedText->scale);
+                const float lineHeight = static_cast<float>(pFont->fontHeight) * fontScale;
+                float textX = resolvedText->x + pDialogueTextLayout->textPadX * fontScale;
+                float textY = resolvedText->y + pDialogueTextLayout->textPadY * fontScale;
+                textX = std::round(textX);
+                textY = std::round(textY);
+                const size_t maxVisibleLines = std::max<size_t>(
+                    1,
+                    static_cast<size_t>(resolvedText->height / std::max(1.0f, lineHeight)));
+
+                for (size_t lineIndex = 0;
+                     lineIndex < m_activeEventDialog.lines.size() && lineIndex < maxVisibleLines;
+                     ++lineIndex)
+                {
+                    const std::string clampedLine = clampHudTextToWidth(
+                        *pFont,
+                        m_activeEventDialog.lines[lineIndex],
+                        std::max(0.0f, resolvedText->width - std::abs(pDialogueTextLayout->textPadX * fontScale) * 2.0f));
+                    renderHudFontLayer(*pFont, pFont->shadowTextureHandle, clampedLine, textX, textY, fontScale);
+                    renderHudFontLayer(*pFont, pFont->mainTextureHandle, clampedLine, textX, textY, fontScale);
+                    textY += lineHeight;
+                }
+            }
+        }
+    }
 }
 
 void OutdoorGameView::TerrainVertex::init()
@@ -4267,55 +5108,110 @@ bool OutdoorGameView::loadHudLayout(const Engine::AssetFileSystem &assetFileSyst
 {
     m_hudLayoutElements.clear();
     m_hudLayoutOrder.clear();
-    const std::optional<std::string> fileContents = assetFileSystem.readTextFile("Data/UI_LAYOUT.txt");
+
+    const std::array<std::string, 3> layoutFiles = {
+        "Data/ui/gameplay.yml",
+        "Data/ui/dialogue.yml",
+        "Data/ui/character.yml"
+    };
+
+    bool loadedAnyLayout = false;
+
+    for (const std::string &layoutFile : layoutFiles)
+    {
+        const std::optional<std::string> fileContents = assetFileSystem.readTextFile(layoutFile);
+
+        if (!fileContents)
+        {
+            if (layoutFile == "Data/ui/gameplay.yml")
+            {
+                return false;
+            }
+
+            continue;
+        }
+
+        if (!loadHudLayoutFile(assetFileSystem, layoutFile))
+        {
+            return false;
+        }
+
+        loadedAnyLayout = true;
+    }
+
+    return loadedAnyLayout;
+}
+
+bool OutdoorGameView::loadHudLayoutFile(const Engine::AssetFileSystem &assetFileSystem, const std::string &path)
+{
+    const std::optional<std::string> fileContents = assetFileSystem.readTextFile(path);
 
     if (!fileContents)
     {
         return false;
     }
 
-    const std::optional<Engine::TextTable> parsedTable = Engine::TextTable::parseTabSeparated(*fileContents);
-
-    if (!parsedTable || parsedTable->getRowCount() < 2)
-    {
-        return false;
-    }
-
-    const auto parseAnchor = [](const std::string &value) -> std::optional<HudLayoutAnchor>
+    const auto normalizeLayoutToken = [](const std::string &value) -> std::string
     {
         const std::string lowerValue = toLowerCopy(value);
+        std::string normalizedValue;
 
-        if (lowerValue == "topleft")
+        for (char character : lowerValue)
+        {
+            if (character != '_' && character != '-' && character != ' ')
+            {
+                normalizedValue.push_back(character);
+            }
+        }
+
+        return normalizedValue;
+    };
+
+    const auto parseRootAnchor = [&normalizeLayoutToken](const std::string &value) -> std::optional<HudLayoutAnchor>
+    {
+        const std::string normalizedValue = normalizeLayoutToken(value);
+
+        if (normalizedValue == "topleft")
         {
             return HudLayoutAnchor::TopLeft;
         }
 
-        if (lowerValue == "topcenter")
+        if (normalizedValue == "topcenter")
         {
             return HudLayoutAnchor::TopCenter;
         }
 
-        if (lowerValue == "topright")
+        if (normalizedValue == "topright")
         {
             return HudLayoutAnchor::TopRight;
         }
 
-        if (lowerValue == "center")
+        if (normalizedValue == "left")
+        {
+            return HudLayoutAnchor::Left;
+        }
+
+        if (normalizedValue == "center")
         {
             return HudLayoutAnchor::Center;
         }
 
-        if (lowerValue == "bottomleft")
+        if (normalizedValue == "right")
+        {
+            return HudLayoutAnchor::Right;
+        }
+
+        if (normalizedValue == "bottomleft")
         {
             return HudLayoutAnchor::BottomLeft;
         }
 
-        if (lowerValue == "bottomcenter")
+        if (normalizedValue == "bottomcenter")
         {
             return HudLayoutAnchor::BottomCenter;
         }
 
-        if (lowerValue == "bottomright")
+        if (normalizedValue == "bottomright")
         {
             return HudLayoutAnchor::BottomRight;
         }
@@ -4323,81 +5219,86 @@ bool OutdoorGameView::loadHudLayout(const Engine::AssetFileSystem &assetFileSyst
         return std::nullopt;
     };
 
-    const auto parseAttachMode = [](const std::string &value) -> std::optional<HudLayoutAttachMode>
+    const auto parseChildAnchor = [&normalizeLayoutToken](const std::string &value) -> std::optional<HudLayoutAttachMode>
     {
-        const std::string lowerValue = toLowerCopy(value);
+        const std::string normalizedValue = normalizeLayoutToken(value);
 
-        if (lowerValue.empty() || lowerValue == "none")
+        if (normalizedValue.empty() || normalizedValue == "none")
         {
             return HudLayoutAttachMode::None;
         }
 
-        if (lowerValue == "rightof")
+        if (normalizedValue == "rightof")
         {
             return HudLayoutAttachMode::RightOf;
         }
 
-        if (lowerValue == "leftof")
+        if (normalizedValue == "leftof")
         {
             return HudLayoutAttachMode::LeftOf;
         }
 
-        if (lowerValue == "above")
-        {
-            return HudLayoutAttachMode::Above;
-        }
-
-        if (lowerValue == "below")
-        {
-            return HudLayoutAttachMode::Below;
-        }
-
-        if (lowerValue == "centerabove")
-        {
-            return HudLayoutAttachMode::CenterAbove;
-        }
-
-        if (lowerValue == "centerbelow")
-        {
-            return HudLayoutAttachMode::CenterBelow;
-        }
-
-        if (lowerValue == "insideleft")
-        {
-            return HudLayoutAttachMode::InsideLeft;
-        }
-
-        if (lowerValue == "insideright")
+        if (normalizedValue == "right" || normalizedValue == "insideright")
         {
             return HudLayoutAttachMode::InsideRight;
         }
 
-        if (lowerValue == "insidetopcenter")
+        if (normalizedValue == "left" || normalizedValue == "insideleft")
+        {
+            return HudLayoutAttachMode::InsideLeft;
+        }
+
+        if (normalizedValue == "above")
+        {
+            return HudLayoutAttachMode::Above;
+        }
+
+        if (normalizedValue == "below")
+        {
+            return HudLayoutAttachMode::Below;
+        }
+
+        if (normalizedValue == "centerabove")
+        {
+            return HudLayoutAttachMode::CenterAbove;
+        }
+
+        if (normalizedValue == "centerbelow")
+        {
+            return HudLayoutAttachMode::CenterBelow;
+        }
+
+        if (normalizedValue == "topcenter" || normalizedValue == "insidetopcenter")
         {
             return HudLayoutAttachMode::InsideTopCenter;
         }
 
-        if (lowerValue == "insidetopleft")
+        if (normalizedValue == "topleft" || normalizedValue == "insidetopleft")
         {
             return HudLayoutAttachMode::InsideTopLeft;
         }
 
-        if (lowerValue == "insidetopright")
+        if (normalizedValue == "topright" || normalizedValue == "insidetopright")
         {
             return HudLayoutAttachMode::InsideTopRight;
         }
 
-        if (lowerValue == "insidebottomleft")
+        if (normalizedValue == "bottomleft" || normalizedValue == "insidebottomleft")
         {
             return HudLayoutAttachMode::InsideBottomLeft;
         }
 
-        if (lowerValue == "insidebottomright")
+        if (normalizedValue == "bottomcenter" || normalizedValue == "insidebottomcenter")
+        {
+            return HudLayoutAttachMode::InsideBottomCenter;
+        }
+
+        if (normalizedValue == "bottomright" || normalizedValue == "insidebottomright")
         {
             return HudLayoutAttachMode::InsideBottomRight;
         }
 
-        if (lowerValue == "centerin")
+        if (normalizedValue == "center" || normalizedValue == "centerin")
         {
             return HudLayoutAttachMode::CenterIn;
         }
@@ -4405,21 +5306,21 @@ bool OutdoorGameView::loadHudLayout(const Engine::AssetFileSystem &assetFileSyst
         return std::nullopt;
     };
 
-    const auto parseTextAlignX = [](const std::string &value) -> std::optional<HudTextAlignX>
+    const auto parseTextAlignX = [&normalizeLayoutToken](const std::string &value) -> std::optional<HudTextAlignX>
     {
-        const std::string lowerValue = toLowerCopy(value);
+        const std::string normalizedValue = normalizeLayoutToken(value);
 
-        if (lowerValue.empty() || lowerValue == "left")
+        if (normalizedValue.empty() || normalizedValue == "left")
         {
             return HudTextAlignX::Left;
         }
 
-        if (lowerValue == "center")
+        if (normalizedValue == "center")
         {
             return HudTextAlignX::Center;
         }
 
-        if (lowerValue == "right")
+        if (normalizedValue == "right")
         {
             return HudTextAlignX::Right;
         }
@@ -4427,21 +5328,21 @@ bool OutdoorGameView::loadHudLayout(const Engine::AssetFileSystem &assetFileSyst
         return std::nullopt;
     };
 
-    const auto parseTextAlignY = [](const std::string &value) -> std::optional<HudTextAlignY>
+    const auto parseTextAlignY = [&normalizeLayoutToken](const std::string &value) -> std::optional<HudTextAlignY>
     {
-        const std::string lowerValue = toLowerCopy(value);
+        const std::string normalizedValue = normalizeLayoutToken(value);
 
-        if (lowerValue.empty() || lowerValue == "top")
+        if (normalizedValue.empty() || normalizedValue == "top")
         {
             return HudTextAlignY::Top;
         }
 
-        if (lowerValue == "middle" || lowerValue == "center")
+        if (normalizedValue == "middle" || normalizedValue == "center")
         {
             return HudTextAlignY::Middle;
         }
 
-        if (lowerValue == "bottom")
+        if (normalizedValue == "bottom")
         {
             return HudTextAlignY::Bottom;
         }
@@ -4449,112 +5350,216 @@ bool OutdoorGameView::loadHudLayout(const Engine::AssetFileSystem &assetFileSyst
         return std::nullopt;
     };
 
-    for (size_t rowIndex = 1; rowIndex < parsedTable->getRowCount(); ++rowIndex)
+    const auto yamlBoolOrDefault = [](const YAML::Node &node, const char *key, bool defaultValue) -> bool
     {
-        const std::vector<std::string> &row = parsedTable->getRow(rowIndex);
+        const YAML::Node child = node[key];
+        return child ? child.as<bool>() : defaultValue;
+    };
 
-        if (row.empty() || row[0].empty())
-        {
-            continue;
-        }
+    const auto yamlFloatOrDefault = [](const YAML::Node &node, const char *key, float defaultValue) -> float
+    {
+        const YAML::Node child = node[key];
+        return child ? child.as<float>() : defaultValue;
+    };
 
-        if (row.size() < 21)
+    const auto yamlStringOrEmpty = [](const YAML::Node &node, const char *key) -> std::string
+    {
+        const YAML::Node child = node[key];
+        return child ? child.as<std::string>() : "";
+    };
+
+    try
+    {
+        const YAML::Node root = YAML::Load(*fileContents);
+
+        if (!root.IsMap())
         {
-            std::cerr << "HUD layout row has too few columns at row " << rowIndex << '\n';
             return false;
         }
 
-        const std::optional<HudLayoutAnchor> anchor = parseAnchor(row[2]);
-        const std::optional<HudLayoutAttachMode> attachTo = parseAttachMode(row[4]);
-        const std::optional<float> gapX = parseHudLayoutFloat(row[5]);
-        const std::optional<float> gapY = parseHudLayoutFloat(row[6]);
-        const std::optional<float> offsetX = parseHudLayoutFloat(row[7]);
-        const std::optional<float> offsetY = parseHudLayoutFloat(row[8]);
-        const std::optional<float> elementWidth = parseHudLayoutFloat(row[9]);
-        const std::optional<float> elementHeight = parseHudLayoutFloat(row[10]);
-        const std::optional<float> minScale = parseHudLayoutFloat(row[11]);
-        const std::optional<float> maxScale = parseHudLayoutFloat(row[12]);
-        const std::optional<bool> visible = parseHudLayoutBool(row[13]);
-        const std::optional<bool> interactive = parseHudLayoutBool(row[14]);
+        const YAML::Node screenNode = root["screen"];
+        const YAML::Node elementsNode = root["elements"];
 
-        if (!anchor
-            || !attachTo
-            || !gapX
-            || !gapY
-            || !offsetX
-            || !offsetY
-            || !elementWidth
-            || !elementHeight
-            || !minScale
-            || !maxScale
-            || !visible
-            || !interactive)
+        if (!screenNode || !screenNode.IsScalar() || !elementsNode || !elementsNode.IsSequence())
         {
-            std::cerr << "HUD layout row parse failed at row " << rowIndex << '\n';
             return false;
         }
 
-        std::optional<HudTextAlignX> textAlignX = HudTextAlignX::Left;
-        std::optional<HudTextAlignY> textAlignY = HudTextAlignY::Top;
-        std::optional<float> textPadX = 0.0f;
-        std::optional<float> textPadY = 0.0f;
+        const std::string screen = screenNode.as<std::string>();
+        std::function<bool(const YAML::Node &, const std::string &)> appendElement;
 
-        if (row.size() >= 27)
+        appendElement =
+            [&](const YAML::Node &node, const std::string &parentId) -> bool
+            {
+                if (!node.IsMap())
+                {
+                    return false;
+                }
+
+                const YAML::Node idNode = node["id"];
+                const YAML::Node anchorNode = node["anchor"];
+
+                if (!idNode || !idNode.IsScalar() || !anchorNode || !anchorNode.IsScalar())
+                {
+                    return false;
+                }
+
+                HudLayoutElement element = {};
+                element.id = idNode.as<std::string>();
+                element.screen = screen;
+                element.parentId = parentId;
+                element.zIndex = defaultHudLayoutZIndexForScreen(screen);
+
+                if (parentId.empty())
+                {
+                    const std::optional<HudLayoutAnchor> anchor = parseRootAnchor(anchorNode.as<std::string>());
+
+                    if (!anchor)
+                    {
+                        return false;
+                    }
+
+                    element.anchor = *anchor;
+                    element.offsetX = yamlFloatOrDefault(node, "offset_x", 0.0f);
+                    element.offsetY = yamlFloatOrDefault(node, "offset_y", 0.0f);
+                }
+                else
+                {
+                    const HudLayoutElement *pParent = findHudLayoutElement(parentId);
+
+                    if (pParent != nullptr)
+                    {
+                        element.zIndex = pParent->zIndex;
+                    }
+
+                    const std::optional<HudLayoutAttachMode> attachTo = parseChildAnchor(anchorNode.as<std::string>());
+
+                    if (!attachTo)
+                    {
+                        return false;
+                    }
+
+                    element.attachTo = *attachTo;
+                    element.gapX = yamlFloatOrDefault(node, "offset_x", 0.0f);
+                    element.gapY = yamlFloatOrDefault(node, "offset_y", 0.0f);
+                }
+
+                const YAML::Node zIndexNode = node["z_index"];
+
+                if (zIndexNode && zIndexNode.IsScalar())
+                {
+                    element.zIndex = zIndexNode.as<int>();
+                }
+
+                element.width = yamlFloatOrDefault(node, "width", 0.0f);
+                element.height = yamlFloatOrDefault(node, "height", 0.0f);
+                element.bottomToId = yamlStringOrEmpty(node, "bottom_to");
+                element.bottomGap = yamlFloatOrDefault(node, "bottom_gap", 0.0f);
+                element.visible = yamlBoolOrDefault(node, "visible", true);
+                element.interactive = yamlBoolOrDefault(node, "interactive", false);
+                element.notes = yamlStringOrEmpty(node, "notes");
+
+                const YAML::Node scaleNode = node["scale"];
+
+                if (scaleNode && scaleNode.IsMap())
+                {
+                    element.hasExplicitScale = true;
+                    element.minScale = yamlFloatOrDefault(scaleNode, "min", 1.0f);
+                    element.maxScale = yamlFloatOrDefault(scaleNode, "max", element.minScale);
+                }
+
+                const YAML::Node assetNode = node["asset"];
+
+                if (assetNode)
+                {
+                    if (assetNode.IsScalar())
+                    {
+                        element.primaryAsset = assetNode.as<std::string>();
+                    }
+                    else if (assetNode.IsMap())
+                    {
+                        element.primaryAsset = yamlStringOrEmpty(assetNode, "default");
+                        element.secondaryAsset = yamlStringOrEmpty(assetNode, "selected");
+
+                        if (element.secondaryAsset.empty())
+                        {
+                            element.secondaryAsset = yamlStringOrEmpty(assetNode, "pressed");
+                        }
+
+                        if (element.secondaryAsset.empty())
+                        {
+                            element.secondaryAsset = yamlStringOrEmpty(assetNode, "hover");
+                        }
+
+                        element.tertiaryAsset = yamlStringOrEmpty(assetNode, "frame");
+                        element.quaternaryAsset = yamlStringOrEmpty(assetNode, "health_bar");
+                        element.quinaryAsset = yamlStringOrEmpty(assetNode, "mana_bar");
+                    }
+                }
+
+                const YAML::Node textNode = node["text"];
+
+                if (textNode && textNode.IsMap())
+                {
+                    element.fontName = yamlStringOrEmpty(textNode, "font");
+                    element.labelText = yamlStringOrEmpty(textNode, "value");
+
+                    const std::optional<HudTextAlignX> textAlignX =
+                        parseTextAlignX(yamlStringOrEmpty(textNode, "align_x"));
+                    const std::optional<HudTextAlignY> textAlignY =
+                        parseTextAlignY(yamlStringOrEmpty(textNode, "align_y"));
+
+                    if (!textAlignX || !textAlignY)
+                    {
+                        return false;
+                    }
+
+                    element.textAlignX = *textAlignX;
+                    element.textAlignY = *textAlignY;
+                    element.textPadX = yamlFloatOrDefault(textNode, "pad_x", 0.0f);
+                    element.textPadY = yamlFloatOrDefault(textNode, "pad_y", 0.0f);
+                }
+
+                m_hudLayoutOrder.push_back(element.id);
+                m_hudLayoutElements[toLowerCopy(element.id)] = element;
+
+                const YAML::Node childrenNode = node["children"];
+
+                if (childrenNode)
+                {
+                    if (!childrenNode.IsSequence())
+                    {
+                        return false;
+                    }
+
+                    for (const YAML::Node &childNode : childrenNode)
+                    {
+                        if (!appendElement(childNode, element.id))
+                        {
+                            return false;
+                        }
+                    }
+                }
+
+                return true;
+            };
+
+        for (const YAML::Node &elementNode : elementsNode)
         {
-            textAlignX = parseTextAlignX(row[22]);
-            textAlignY = parseTextAlignY(row[23]);
-            textPadX = parseHudLayoutFloat(row[24]);
-            textPadY = parseHudLayoutFloat(row[25]);
+            if (!appendElement(elementNode, ""))
+            {
+                std::cerr << "HUD layout YAML parse failed in " << path << '\n';
+                return false;
+            }
         }
 
-        if (!textAlignX || !textAlignY || !textPadX || !textPadY)
-        {
-            std::cerr << "HUD layout text parse failed at row " << rowIndex << '\n';
-            return false;
-        }
-
-        HudLayoutElement element = {};
-        element.id = row[0];
-        element.screen = row[1];
-        element.anchor = *anchor;
-        element.parentId = row[3];
-        element.attachTo = *attachTo;
-        element.gapX = *gapX;
-        element.gapY = *gapY;
-        element.offsetX = *offsetX;
-        element.offsetY = *offsetY;
-        element.width = *elementWidth;
-        element.height = *elementHeight;
-        element.minScale = *minScale;
-        element.maxScale = *maxScale;
-        element.visible = *visible;
-        element.interactive = *interactive;
-        element.primaryAsset = row[15];
-        element.secondaryAsset = row[16];
-        element.tertiaryAsset = row[17];
-        element.quaternaryAsset = row[18];
-        element.quinaryAsset = row[19];
-        element.fontName = (row.size() >= 27) ? row[20] : "";
-        element.labelText = row[(row.size() >= 27) ? 21 : 20];
-        element.textAlignX = *textAlignX;
-        element.textAlignY = *textAlignY;
-        element.textPadX = *textPadX;
-        element.textPadY = *textPadY;
-
-        if (row.size() >= 27)
-        {
-            element.notes = row[26];
-        }
-        else if (row.size() > 21)
-        {
-            element.notes = row[21];
-        }
-
-        m_hudLayoutOrder.push_back(element.id);
-        m_hudLayoutElements[toLowerCopy(element.id)] = std::move(element);
+        return true;
     }
-
-    return !m_hudLayoutElements.empty();
+    catch (const YAML::Exception &exception)
+    {
+        std::cerr << "HUD layout YAML exception in " << path << ": " << exception.what() << '\n';
+        return false;
+    }
 }
 
 const OutdoorGameView::HudLayoutElement *OutdoorGameView::findHudLayoutElement(const std::string &layoutId) const
@@ -4567,6 +5572,70 @@ const OutdoorGameView::HudLayoutElement *OutdoorGameView::findHudLayoutElement(c
     }
 
     return &iterator->second;
+}
+
+std::vector<std::string> OutdoorGameView::sortedHudLayoutIdsForScreen(const std::string &screen) const
+{
+    std::vector<std::string> result;
+    const std::string normalizedScreen = toLowerCopy(screen);
+
+    for (const std::string &layoutId : m_hudLayoutOrder)
+    {
+        const HudLayoutElement *pLayout = findHudLayoutElement(layoutId);
+
+        if (pLayout == nullptr || toLowerCopy(pLayout->screen) != normalizedScreen)
+        {
+            continue;
+        }
+
+        result.push_back(layoutId);
+    }
+
+    std::stable_sort(
+        result.begin(),
+        result.end(),
+        [this](const std::string &leftId, const std::string &rightId)
+        {
+            const HudLayoutElement *pLeft = findHudLayoutElement(leftId);
+            const HudLayoutElement *pRight = findHudLayoutElement(rightId);
+
+            if (pLeft == nullptr || pRight == nullptr)
+            {
+                return false;
+            }
+
+            return pLeft->zIndex < pRight->zIndex;
+        });
+
+    return result;
+}
+
+int OutdoorGameView::maxHudLayoutZIndexForScreen(const std::string &screen) const
+{
+    int maxZIndex = defaultHudLayoutZIndexForScreen(screen);
+    const std::string normalizedScreen = toLowerCopy(screen);
+
+    for (const auto &[id, element] : m_hudLayoutElements)
+    {
+        BX_UNUSED(id);
+
+        if (toLowerCopy(element.screen) == normalizedScreen)
+        {
+            maxZIndex = std::max(maxZIndex, element.zIndex);
+        }
+    }
+
+    return maxZIndex;
+}
+
+int OutdoorGameView::defaultHudLayoutZIndexForScreen(const std::string &screen)
+{
+    if (toLowerCopy(screen) == "outdoorhud")
+    {
+        return 100;
+    }
+
+    return 0;
 }
 
 const OutdoorGameView::HudFontHandle *OutdoorGameView::findHudFont(const std::string &fontName) const
@@ -4582,6 +5651,249 @@ const OutdoorGameView::HudFontHandle *OutdoorGameView::findHudFont(const std::st
     }
 
     return nullptr;
+}
+
+float OutdoorGameView::measureHudTextWidth(const HudFontHandle &font, const std::string &text) const
+{
+    float widthPixels = 0.0f;
+
+    for (unsigned char character : text)
+    {
+        if (character == '\r' || character == '\n')
+        {
+            break;
+        }
+
+        if (character < font.firstChar || character > font.lastChar)
+        {
+            widthPixels += static_cast<float>(font.atlasCellWidth);
+            continue;
+        }
+
+        const HudFontGlyphMetrics &glyphMetrics = font.glyphMetrics[character];
+        widthPixels += static_cast<float>(
+            glyphMetrics.leftSpacing
+            + glyphMetrics.width
+            + glyphMetrics.rightSpacing);
+    }
+
+    return std::max(0.0f, widthPixels);
+}
+
+std::string OutdoorGameView::clampHudTextToWidth(
+    const HudFontHandle &font,
+    const std::string &text,
+    float maxWidth) const
+{
+    std::string clampedText = text;
+
+    while (!clampedText.empty() && measureHudTextWidth(font, clampedText) > maxWidth)
+    {
+        clampedText.pop_back();
+    }
+
+    return clampedText;
+}
+
+void OutdoorGameView::renderHudFontLayer(
+    const HudFontHandle &font,
+    bgfx::TextureHandle textureHandle,
+    const std::string &text,
+    float textX,
+    float textY,
+    float fontScale) const
+{
+    if (!bgfx::isValid(textureHandle))
+    {
+        return;
+    }
+
+    uint32_t glyphCount = 0;
+
+    for (unsigned char character : text)
+    {
+        if (character == '\r' || character == '\n')
+        {
+            break;
+        }
+
+        if (character >= font.firstChar
+            && character <= font.lastChar
+            && font.glyphMetrics[character].width > 0)
+        {
+            ++glyphCount;
+        }
+    }
+
+    if (glyphCount == 0)
+    {
+        return;
+    }
+
+    const uint32_t vertexCount = glyphCount * 6;
+
+    if (bgfx::getAvailTransientVertexBuffer(vertexCount, TexturedTerrainVertex::ms_layout) < vertexCount)
+    {
+        return;
+    }
+
+    bgfx::TransientVertexBuffer transientVertexBuffer;
+    bgfx::allocTransientVertexBuffer(&transientVertexBuffer, vertexCount, TexturedTerrainVertex::ms_layout);
+    TexturedTerrainVertex *pVertices = reinterpret_cast<TexturedTerrainVertex *>(transientVertexBuffer.data);
+    float penX = textX;
+    uint32_t vertexIndex = 0;
+
+    for (unsigned char character : text)
+    {
+        if (character == '\r' || character == '\n')
+        {
+            break;
+        }
+
+        if (character < font.firstChar || character > font.lastChar)
+        {
+            penX += static_cast<float>(font.atlasCellWidth) * fontScale;
+            continue;
+        }
+
+        const HudFontGlyphMetrics &glyphMetrics = font.glyphMetrics[character];
+        penX += static_cast<float>(glyphMetrics.leftSpacing) * fontScale;
+
+        if (glyphMetrics.width > 0)
+        {
+            const int cellX = (character % 16) * font.atlasCellWidth;
+            const int cellY = (character / 16) * font.fontHeight;
+            const float u0 = static_cast<float>(cellX) / static_cast<float>(font.atlasWidth);
+            const float v0 = static_cast<float>(cellY) / static_cast<float>(font.atlasHeight);
+            const float u1 = static_cast<float>(cellX + glyphMetrics.width) / static_cast<float>(font.atlasWidth);
+            const float v1 = static_cast<float>(cellY + font.fontHeight) / static_cast<float>(font.atlasHeight);
+            const float glyphWidth = static_cast<float>(glyphMetrics.width) * fontScale;
+            const float glyphHeight = static_cast<float>(font.fontHeight) * fontScale;
+
+            pVertices[vertexIndex + 0] = {penX, textY, 0.0f, u0, v0};
+            pVertices[vertexIndex + 1] = {penX + glyphWidth, textY, 0.0f, u1, v0};
+            pVertices[vertexIndex + 2] = {penX + glyphWidth, textY + glyphHeight, 0.0f, u1, v1};
+            pVertices[vertexIndex + 3] = {penX, textY, 0.0f, u0, v0};
+            pVertices[vertexIndex + 4] = {penX + glyphWidth, textY + glyphHeight, 0.0f, u1, v1};
+            pVertices[vertexIndex + 5] = {penX, textY + glyphHeight, 0.0f, u0, v1};
+            vertexIndex += 6;
+        }
+
+        penX += static_cast<float>(glyphMetrics.width + glyphMetrics.rightSpacing) * fontScale;
+    }
+
+    float modelMatrix[16] = {};
+    bx::mtxIdentity(modelMatrix);
+    bgfx::setTransform(modelMatrix);
+    bgfx::setVertexBuffer(0, &transientVertexBuffer);
+    bgfx::setTexture(0, m_terrainTextureSamplerHandle, textureHandle);
+    bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_BLEND_ALPHA);
+    bgfx::submit(HudViewId, m_texturedTerrainProgramHandle);
+}
+
+void OutdoorGameView::renderLayoutLabel(
+    const HudLayoutElement &layout,
+    const ResolvedHudLayoutElement &resolved,
+    const std::string &label) const
+{
+    if (label.empty())
+    {
+        return;
+    }
+
+    const HudFontHandle *pFont = findHudFont(layout.fontName);
+
+    if (pFont == nullptr)
+    {
+        static std::unordered_set<std::string> missingFontLogs;
+        const std::string logKey = "missing-font:" + toLowerCopy(layout.id) + ":" + toLowerCopy(layout.fontName);
+
+        if (!missingFontLogs.contains(logKey))
+        {
+            std::cout << "HUD label skipped: id=" << layout.id
+                      << " font=\"" << layout.fontName
+                      << "\" reason=missing-font label=\"" << label << "\"\n";
+            missingFontLogs.insert(logKey);
+        }
+        return;
+    }
+
+    const float fontScale = snappedHudFontScale(resolved.scale);
+    const float labelHeightPixels = static_cast<float>(pFont->fontHeight) * fontScale;
+    const float maxLabelWidth = std::max(0.0f, resolved.width - std::abs(layout.textPadX * fontScale) * 2.0f);
+    std::string clampedLabel = clampHudTextToWidth(
+        *pFont,
+        label,
+        maxLabelWidth);
+
+    if (clampedLabel.empty())
+    {
+        const HudFontHandle *pFallbackFont = findHudFont("Lucida");
+
+        if (pFallbackFont != nullptr)
+        {
+            pFont = pFallbackFont;
+            clampedLabel = clampHudTextToWidth(*pFont, label, maxLabelWidth);
+        }
+
+        static std::unordered_set<std::string> emptyClampLogs;
+        const std::string logKey = "empty-clamp:" + toLowerCopy(layout.id) + ":" + label;
+
+        if (!emptyClampLogs.contains(logKey))
+        {
+            std::cout << "HUD label clamp empty: id=" << layout.id
+                      << " font=\"" << layout.fontName
+                      << "\" fallback_font=\"" << (pFallbackFont != nullptr ? pFallbackFont->fontName : "")
+                      << "\" label=\"" << label
+                      << "\" width=" << resolved.width
+                      << " max_width=" << maxLabelWidth
+                      << " scale=" << resolved.scale << '\n';
+            emptyClampLogs.insert(logKey);
+        }
+    }
+
+    if (clampedLabel.empty())
+    {
+        clampedLabel = label;
+    }
+
+    const float labelWidthPixels = measureHudTextWidth(*pFont, clampedLabel) * fontScale;
+    float textX = resolved.x + layout.textPadX * resolved.scale;
+    float textY = resolved.y + layout.textPadY * resolved.scale;
+
+    switch (layout.textAlignX)
+    {
+        case HudTextAlignX::Left:
+            break;
+
+        case HudTextAlignX::Center:
+            textX = resolved.x + (resolved.width - labelWidthPixels) * 0.5f + layout.textPadX * resolved.scale;
+            break;
+
+        case HudTextAlignX::Right:
+            textX = resolved.x + resolved.width - labelWidthPixels + layout.textPadX * resolved.scale;
+            break;
+    }
+
+    switch (layout.textAlignY)
+    {
+        case HudTextAlignY::Top:
+            break;
+
+        case HudTextAlignY::Middle:
+            textY = resolved.y + (resolved.height - labelHeightPixels) * 0.5f + layout.textPadY * resolved.scale;
+            break;
+
+        case HudTextAlignY::Bottom:
+            textY = resolved.y + resolved.height - labelHeightPixels + layout.textPadY * resolved.scale;
+            break;
+    }
+
+    textX = std::round(textX);
+    textY = std::round(textY);
+
+    renderHudFontLayer(*pFont, pFont->shadowTextureHandle, clampedLabel, textX, textY, fontScale);
+    renderHudFontLayer(*pFont, pFont->mainTextureHandle, clampedLabel, textX, textY, fontScale);
 }
 
 const OutdoorGameView::HudTextureHandle *OutdoorGameView::ensureHudTextureLoaded(const std::string &textureName)
@@ -4673,6 +5985,7 @@ bool OutdoorGameView::loadHudFont(const Engine::AssetFileSystem &assetFileSystem
 
     if (!fontPath)
     {
+        std::cout << "HUD font load failed: font=\"" << fontName << "\" reason=path-not-found\n";
         return false;
     }
 
@@ -4680,6 +5993,8 @@ bool OutdoorGameView::loadHudFont(const Engine::AssetFileSystem &assetFileSystem
 
     if (!fontBytes || fontBytes->empty())
     {
+        std::cout << "HUD font load failed: font=\"" << fontName << "\" path=\"" << *fontPath
+                  << "\" reason=read-failed\n";
         return false;
     }
 
@@ -4687,6 +6002,8 @@ bool OutdoorGameView::loadHudFont(const Engine::AssetFileSystem &assetFileSystem
 
     if (!parsedFont)
     {
+        std::cout << "HUD font load failed: font=\"" << fontName << "\" path=\"" << *fontPath
+                  << "\" bytes=" << fontBytes->size() << " reason=parse-failed\n";
         return false;
     }
 
@@ -4702,6 +6019,8 @@ bool OutdoorGameView::loadHudFont(const Engine::AssetFileSystem &assetFileSystem
 
     if (atlasWidth <= 0 || atlasHeight <= 0)
     {
+        std::cout << "HUD font load failed: font=\"" << fontName << "\" path=\"" << *fontPath
+                  << "\" atlas=" << atlasWidth << "x" << atlasHeight << " reason=invalid-atlas\n";
         return false;
     }
 
@@ -4791,9 +6110,14 @@ bool OutdoorGameView::loadHudFont(const Engine::AssetFileSystem &assetFileSystem
             bgfx::destroy(fontHandle.shadowTextureHandle);
         }
 
+        std::cout << "HUD font load failed: font=\"" << fontName << "\" path=\"" << *fontPath
+                  << "\" atlas=" << atlasWidth << "x" << atlasHeight << " reason=texture-create-failed\n";
         return false;
     }
 
+    std::cout << "HUD font loaded: font=\"" << fontName << "\" path=\"" << *fontPath
+              << "\" atlas=" << atlasWidth << "x" << atlasHeight
+              << " range=" << parsedFont->firstChar << "-" << parsedFont->lastChar << '\n';
     m_hudFontHandles.push_back(std::move(fontHandle));
     return true;
 }
@@ -4834,16 +6158,11 @@ std::optional<OutdoorGameView::ResolvedHudLayoutElement> OutdoorGameView::resolv
     }
 
     const HudLayoutElement &element = iterator->second;
+    const UiViewportRect uiViewport = computeUiViewportRect(screenWidth, screenHeight);
     const float baseScale = std::min(
-        static_cast<float>(screenWidth) / HudReferenceWidth,
-        static_cast<float>(screenHeight) / HudReferenceHeight);
-    const float scale = std::clamp(baseScale, element.minScale, element.maxScale);
-    const float resolvedWidth = (element.width > 0.0f ? element.width : fallbackWidth) * scale;
-    const float resolvedHeight = (element.height > 0.0f ? element.height : fallbackHeight) * scale;
+        uiViewport.width / HudReferenceWidth,
+        uiViewport.height / HudReferenceHeight);
     ResolvedHudLayoutElement resolved = {};
-    resolved.width = resolvedWidth;
-    resolved.height = resolvedHeight;
-    resolved.scale = scale;
 
     if (!element.parentId.empty() && element.attachTo != HudLayoutAttachMode::None)
     {
@@ -4867,127 +6186,201 @@ std::optional<OutdoorGameView::ResolvedHudLayoutElement> OutdoorGameView::resolv
             return std::nullopt;
         }
 
+        resolved.scale = element.hasExplicitScale
+            ? std::clamp(baseScale, element.minScale, element.maxScale)
+            : parent->scale;
+        resolved.width = (element.width > 0.0f ? element.width : fallbackWidth) * resolved.scale;
+        resolved.height = (element.height > 0.0f ? element.height : fallbackHeight) * resolved.scale;
+
         switch (element.attachTo)
         {
             case HudLayoutAttachMode::None:
                 break;
 
             case HudLayoutAttachMode::RightOf:
-                resolved.x = parent->x + parent->width + element.gapX * scale;
-                resolved.y = parent->y + element.gapY * scale;
+                resolved.x = parent->x + parent->width + element.gapX * resolved.scale;
+                resolved.y = parent->y + element.gapY * resolved.scale;
                 break;
 
             case HudLayoutAttachMode::LeftOf:
-                resolved.x = parent->x - resolvedWidth + element.gapX * scale;
-                resolved.y = parent->y + element.gapY * scale;
+                resolved.x = parent->x - resolved.width + element.gapX * resolved.scale;
+                resolved.y = parent->y + element.gapY * resolved.scale;
                 break;
 
             case HudLayoutAttachMode::Above:
-                resolved.x = parent->x + element.gapX * scale;
-                resolved.y = parent->y - resolvedHeight + element.gapY * scale;
+                resolved.x = parent->x + element.gapX * resolved.scale;
+                resolved.y = parent->y - resolved.height + element.gapY * resolved.scale;
                 break;
 
             case HudLayoutAttachMode::Below:
-                resolved.x = parent->x + element.gapX * scale;
-                resolved.y = parent->y + parent->height + element.gapY * scale;
+                resolved.x = parent->x + element.gapX * resolved.scale;
+                resolved.y = parent->y + parent->height + element.gapY * resolved.scale;
                 break;
 
             case HudLayoutAttachMode::CenterAbove:
-                resolved.x = parent->x + (parent->width - resolvedWidth) * 0.5f + element.gapX * scale;
-                resolved.y = parent->y - resolvedHeight + element.gapY * scale;
+                resolved.x = parent->x + (parent->width - resolved.width) * 0.5f + element.gapX * resolved.scale;
+                resolved.y = parent->y - resolved.height + element.gapY * resolved.scale;
                 break;
 
             case HudLayoutAttachMode::CenterBelow:
-                resolved.x = parent->x + (parent->width - resolvedWidth) * 0.5f + element.gapX * scale;
-                resolved.y = parent->y + parent->height + element.gapY * scale;
+                resolved.x = parent->x + (parent->width - resolved.width) * 0.5f + element.gapX * resolved.scale;
+                resolved.y = parent->y + parent->height + element.gapY * resolved.scale;
                 break;
 
             case HudLayoutAttachMode::InsideLeft:
-                resolved.x = parent->x + element.gapX * scale;
-                resolved.y = parent->y + (parent->height - resolvedHeight) * 0.5f + element.gapY * scale;
+                resolved.x = parent->x + element.gapX * resolved.scale;
+                resolved.y = parent->y + (parent->height - resolved.height) * 0.5f + element.gapY * resolved.scale;
                 break;
 
             case HudLayoutAttachMode::InsideRight:
-                resolved.x = parent->x + parent->width - resolvedWidth + element.gapX * scale;
-                resolved.y = parent->y + (parent->height - resolvedHeight) * 0.5f + element.gapY * scale;
+                resolved.x = parent->x + parent->width - resolved.width + element.gapX * resolved.scale;
+                resolved.y = parent->y + (parent->height - resolved.height) * 0.5f + element.gapY * resolved.scale;
                 break;
 
             case HudLayoutAttachMode::InsideTopCenter:
-                resolved.x = parent->x + (parent->width - resolvedWidth) * 0.5f + element.gapX * scale;
-                resolved.y = parent->y + element.gapY * scale;
+                resolved.x = parent->x + (parent->width - resolved.width) * 0.5f + element.gapX * resolved.scale;
+                resolved.y = parent->y + element.gapY * resolved.scale;
                 break;
 
             case HudLayoutAttachMode::InsideTopLeft:
-                resolved.x = parent->x + element.gapX * scale;
-                resolved.y = parent->y + element.gapY * scale;
+                resolved.x = parent->x + element.gapX * resolved.scale;
+                resolved.y = parent->y + element.gapY * resolved.scale;
                 break;
 
             case HudLayoutAttachMode::InsideTopRight:
-                resolved.x = parent->x + parent->width - resolvedWidth + element.gapX * scale;
-                resolved.y = parent->y + element.gapY * scale;
+                resolved.x = parent->x + parent->width - resolved.width + element.gapX * resolved.scale;
+                resolved.y = parent->y + element.gapY * resolved.scale;
                 break;
 
             case HudLayoutAttachMode::InsideBottomLeft:
-                resolved.x = parent->x + element.gapX * scale;
-                resolved.y = parent->y + parent->height - resolvedHeight + element.gapY * scale;
+                resolved.x = parent->x + element.gapX * resolved.scale;
+                resolved.y = parent->y + parent->height - resolved.height + element.gapY * resolved.scale;
+                break;
+
+            case HudLayoutAttachMode::InsideBottomCenter:
+                resolved.x = parent->x + (parent->width - resolved.width) * 0.5f + element.gapX * resolved.scale;
+                resolved.y = parent->y + parent->height - resolved.height + element.gapY * resolved.scale;
                 break;
 
             case HudLayoutAttachMode::InsideBottomRight:
-                resolved.x = parent->x + parent->width - resolvedWidth + element.gapX * scale;
-                resolved.y = parent->y + parent->height - resolvedHeight + element.gapY * scale;
+                resolved.x = parent->x + parent->width - resolved.width + element.gapX * resolved.scale;
+                resolved.y = parent->y + parent->height - resolved.height + element.gapY * resolved.scale;
                 break;
 
             case HudLayoutAttachMode::CenterIn:
-                resolved.x = parent->x + (parent->width - resolvedWidth) * 0.5f + element.gapX * scale;
-                resolved.y = parent->y + (parent->height - resolvedHeight) * 0.5f + element.gapY * scale;
+                resolved.x = parent->x + (parent->width - resolved.width) * 0.5f + element.gapX * resolved.scale;
+                resolved.y = parent->y + (parent->height - resolved.height) * 0.5f + element.gapY * resolved.scale;
                 break;
+        }
+
+        if (!element.bottomToId.empty())
+        {
+            const HudLayoutElement *pBottomTo = findHudLayoutElement(element.bottomToId);
+
+            if (pBottomTo != nullptr)
+            {
+                const std::optional<ResolvedHudLayoutElement> bottomTo = resolveHudLayoutElementRecursive(
+                    element.bottomToId,
+                    screenWidth,
+                    screenHeight,
+                    pBottomTo->width,
+                    pBottomTo->height,
+                    visited);
+
+                if (bottomTo)
+                {
+                    resolved.height = std::max(0.0f, bottomTo->y + element.bottomGap * resolved.scale - resolved.y);
+                }
+            }
         }
 
         visited.erase(normalizedLayoutId);
         return resolved;
     }
 
+    resolved.scale = std::clamp(baseScale, element.minScale, element.maxScale);
+    resolved.width = (element.width > 0.0f ? element.width : fallbackWidth) * resolved.scale;
+    resolved.height = (element.height > 0.0f ? element.height : fallbackHeight) * resolved.scale;
+
     switch (element.anchor)
     {
         case HudLayoutAnchor::TopLeft:
-            resolved.x = element.offsetX * scale;
-            resolved.y = element.offsetY * scale;
+            resolved.x = uiViewport.x + element.offsetX * resolved.scale;
+            resolved.y = uiViewport.y + element.offsetY * resolved.scale;
             break;
 
         case HudLayoutAnchor::TopCenter:
-            resolved.x = static_cast<float>(screenWidth) * 0.5f - resolvedWidth * 0.5f + element.offsetX * scale;
-            resolved.y = element.offsetY * scale;
+            resolved.x =
+                uiViewport.x + uiViewport.width * 0.5f - resolved.width * 0.5f + element.offsetX * resolved.scale;
+            resolved.y = uiViewport.y + element.offsetY * resolved.scale;
             break;
 
         case HudLayoutAnchor::TopRight:
-            resolved.x = static_cast<float>(screenWidth) - resolvedWidth + element.offsetX * scale;
-            resolved.y = element.offsetY * scale;
+            resolved.x = uiViewport.x + uiViewport.width - resolved.width + element.offsetX * resolved.scale;
+            resolved.y = uiViewport.y + element.offsetY * resolved.scale;
+            break;
+
+        case HudLayoutAnchor::Left:
+            resolved.x = uiViewport.x + element.offsetX * resolved.scale;
+            resolved.y =
+                uiViewport.y + uiViewport.height * 0.5f - resolved.height * 0.5f + element.offsetY * resolved.scale;
             break;
 
         case HudLayoutAnchor::Center:
-            resolved.x = static_cast<float>(screenWidth) * 0.5f - resolvedWidth * 0.5f + element.offsetX * scale;
-            resolved.y = static_cast<float>(screenHeight) * 0.5f - resolvedHeight * 0.5f + element.offsetY * scale;
+            resolved.x =
+                uiViewport.x + uiViewport.width * 0.5f - resolved.width * 0.5f + element.offsetX * resolved.scale;
+            resolved.y =
+                uiViewport.y + uiViewport.height * 0.5f - resolved.height * 0.5f + element.offsetY * resolved.scale;
+            break;
+
+        case HudLayoutAnchor::Right:
+            resolved.x = uiViewport.x + uiViewport.width - resolved.width + element.offsetX * resolved.scale;
+            resolved.y =
+                uiViewport.y + uiViewport.height * 0.5f - resolved.height * 0.5f + element.offsetY * resolved.scale;
             break;
 
         case HudLayoutAnchor::BottomLeft:
-            resolved.x = element.offsetX * scale;
-            resolved.y = static_cast<float>(screenHeight) - resolvedHeight + element.offsetY * scale;
+            resolved.x = uiViewport.x + element.offsetX * resolved.scale;
+            resolved.y = uiViewport.y + uiViewport.height - resolved.height + element.offsetY * resolved.scale;
             break;
 
         case HudLayoutAnchor::BottomCenter:
-            resolved.x = static_cast<float>(screenWidth) * 0.5f - resolvedWidth * 0.5f + element.offsetX * scale;
-            resolved.y = static_cast<float>(screenHeight) - resolvedHeight + element.offsetY * scale;
+            resolved.x =
+                uiViewport.x + uiViewport.width * 0.5f - resolved.width * 0.5f + element.offsetX * resolved.scale;
+            resolved.y = uiViewport.y + uiViewport.height - resolved.height + element.offsetY * resolved.scale;
             break;
 
         case HudLayoutAnchor::BottomRight:
-            resolved.x = static_cast<float>(screenWidth) - resolvedWidth + element.offsetX * scale;
-            resolved.y = static_cast<float>(screenHeight) - resolvedHeight + element.offsetY * scale;
+            resolved.x = uiViewport.x + uiViewport.width - resolved.width + element.offsetX * resolved.scale;
+            resolved.y = uiViewport.y + uiViewport.height - resolved.height + element.offsetY * resolved.scale;
             break;
+    }
+
+    if (!element.bottomToId.empty())
+    {
+        const HudLayoutElement *pBottomTo = findHudLayoutElement(element.bottomToId);
+
+        if (pBottomTo != nullptr)
+        {
+            const std::optional<ResolvedHudLayoutElement> bottomTo = resolveHudLayoutElementRecursive(
+                element.bottomToId,
+                screenWidth,
+                screenHeight,
+                pBottomTo->width,
+                pBottomTo->height,
+                visited);
+
+            if (bottomTo)
+            {
+                resolved.height = std::max(0.0f, bottomTo->y + element.bottomGap * resolved.scale - resolved.y);
+            }
+        }
     }
 
     visited.erase(normalizedLayoutId);
     return resolved;
 }
+
 
 const OutdoorGameView::BillboardTextureHandle *OutdoorGameView::findBillboardTexture(
     const std::string &textureName,
@@ -8573,15 +9966,240 @@ void OutdoorGameView::updateCameraFromInput(float deltaSeconds)
             m_eventDialogAcceptLatch = false;
         }
 
+        float dialogMouseX = 0.0f;
+        float dialogMouseY = 0.0f;
+        const SDL_MouseButtonFlags dialogMouseButtons = SDL_GetMouseState(&dialogMouseX, &dialogMouseY);
+        const bool isLeftMousePressed = (dialogMouseButtons & SDL_BUTTON_LMASK) != 0;
+
+        if (isLeftMousePressed)
+        {
+            if (!m_dialogueClickLatch)
+            {
+                SDL_Window *pWindow = SDL_GetMouseFocus();
+
+                if (pWindow == nullptr)
+                {
+                    pWindow = SDL_GetKeyboardFocus();
+                }
+
+                int screenWidth = 0;
+                int screenHeight = 0;
+
+                if (pWindow != nullptr)
+                {
+                    SDL_GetWindowSizeInPixels(pWindow, &screenWidth, &screenHeight);
+                }
+
+                const bool isResidentSelectionMode =
+                    !m_activeEventDialog.actions.empty()
+                    && std::all_of(
+                        m_activeEventDialog.actions.begin(),
+                        m_activeEventDialog.actions.end(),
+                        [](const EventDialogAction &action)
+                        {
+                            return action.kind == EventDialogActionKind::HouseResident;
+                        });
+
+                bool handledDialogueClick = false;
+
+                if (screenWidth > 0 && screenHeight > 0)
+                {
+                    const EventRuntimeState *pEventRuntimeState =
+                        m_pOutdoorWorldRuntime != nullptr ? m_pOutdoorWorldRuntime->eventRuntimeState() : nullptr;
+                    const HouseEntry *pHostHouseEntry =
+                        (m_dialogueHostHouseId != 0 && m_houseTable.has_value()) ? m_houseTable->get(m_dialogueHostHouseId) : nullptr;
+                    const std::vector<uint32_t> hostResidentNpcIds =
+                        (pHostHouseEntry != nullptr && m_npcDialogTable.has_value() && pEventRuntimeState != nullptr)
+                        ? collectSelectableResidentNpcIds(*pHostHouseEntry, *m_npcDialogTable, *pEventRuntimeState)
+                        : std::vector<uint32_t>{};
+                    const bool showEventDialogPanel =
+                        isResidentSelectionMode || !m_activeEventDialog.actions.empty() || pHostHouseEntry != nullptr;
+
+                    if (isResidentSelectionMode)
+                    {
+                        const HudLayoutElement *pEventDialogLayout = findHudLayoutElement("DialogueEventDialog");
+                        const std::optional<ResolvedHudLayoutElement> resolvedEventDialog = showEventDialogPanel
+                            && pEventDialogLayout != nullptr
+                            ? resolveHudLayoutElement(
+                                "DialogueEventDialog",
+                                screenWidth,
+                                screenHeight,
+                                pEventDialogLayout->width,
+                                pEventDialogLayout->height)
+                            : std::nullopt;
+
+                        if (resolvedEventDialog)
+                        {
+                            const float panelScale = resolvedEventDialog->scale;
+                            const float panelPaddingX = 10.0f * panelScale;
+                            const float panelPaddingY = 10.0f * panelScale;
+                            const float panelInnerX = resolvedEventDialog->x + panelPaddingX;
+                            const float panelInnerY = resolvedEventDialog->y + panelPaddingY;
+                            const float panelInnerWidth = resolvedEventDialog->width - panelPaddingX * 2.0f;
+                            const float portraitBorderSize = 80.0f * panelScale;
+                            const float sectionGap = 8.0f * panelScale;
+                            float contentY = panelInnerY;
+
+                            if (pHostHouseEntry != nullptr)
+                            {
+                                contentY += 20.0f * panelScale + sectionGap;
+                            }
+
+                            for (size_t actionIndex = 0; actionIndex < m_activeEventDialog.actions.size(); ++actionIndex)
+                            {
+                                const float portraitX =
+                                    std::round(panelInnerX + (panelInnerWidth - portraitBorderSize) * 0.5f);
+                                const float portraitY = std::round(contentY);
+
+                                if (dialogMouseX >= portraitX
+                                    && dialogMouseX < portraitX + portraitBorderSize
+                                    && dialogMouseY >= portraitY
+                                    && dialogMouseY < portraitY + portraitBorderSize)
+                                {
+                                    m_eventDialogSelectionIndex = actionIndex;
+                                    executeActiveDialogAction();
+                                    handledDialogueClick = true;
+                                    break;
+                                }
+
+                                contentY += portraitBorderSize + 20.0f * panelScale + sectionGap;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        const HudLayoutElement *pEventDialogLayout = findHudLayoutElement("DialogueEventDialog");
+                        const HudLayoutElement *pTopicRowLayout = findHudLayoutElement("DialogueTopicRow_1");
+                        const std::optional<ResolvedHudLayoutElement> resolvedEventDialog =
+                            (showEventDialogPanel && pEventDialogLayout != nullptr && pTopicRowLayout != nullptr)
+                            ? resolveHudLayoutElement(
+                                "DialogueEventDialog",
+                                screenWidth,
+                                screenHeight,
+                                pEventDialogLayout->width,
+                                pEventDialogLayout->height)
+                            : std::nullopt;
+
+                        if (resolvedEventDialog && pTopicRowLayout != nullptr)
+                        {
+                            const float panelScale = resolvedEventDialog->scale;
+                            const float panelPaddingX = 10.0f * panelScale;
+                            const float panelPaddingY = 10.0f * panelScale;
+                            const float panelInnerX = resolvedEventDialog->x + panelPaddingX;
+                            const float panelInnerY = resolvedEventDialog->y + panelPaddingY;
+                            const float panelInnerWidth = resolvedEventDialog->width - panelPaddingX * 2.0f;
+                            const float portraitBorderSize = 80.0f * panelScale;
+                            const float sectionGap = 8.0f * panelScale;
+                            const float rowHeight = pTopicRowLayout->height * panelScale;
+                            const float rowGap = 4.0f * panelScale;
+                            const size_t visibleActionCount = std::min<size_t>(m_activeEventDialog.actions.size(), 5);
+                            float contentY = panelInnerY;
+
+                            if (pHostHouseEntry != nullptr)
+                            {
+                                contentY += 20.0f * panelScale + sectionGap;
+                            }
+
+                            contentY += portraitBorderSize + 20.0f * panelScale + sectionGap;
+                            const float availableHeight =
+                                resolvedEventDialog->y + resolvedEventDialog->height - panelPaddingY - contentY;
+                            const float totalHeight = visibleActionCount > 0
+                                ? static_cast<float>(visibleActionCount) * rowHeight
+                                    + static_cast<float>(visibleActionCount - 1) * rowGap
+                                : 0.0f;
+                            float rowY = contentY + std::max(0.0f, (availableHeight - totalHeight) * 0.5f);
+
+                            for (size_t actionIndex = 0; actionIndex < visibleActionCount; ++actionIndex)
+                            {
+                                if (dialogMouseX >= panelInnerX
+                                    && dialogMouseX < panelInnerX + panelInnerWidth
+                                    && dialogMouseY >= rowY
+                                    && dialogMouseY < rowY + rowHeight)
+                                {
+                                    m_eventDialogSelectionIndex = actionIndex;
+                                    executeActiveDialogAction();
+                                    handledDialogueClick = true;
+                                    break;
+                                }
+
+                                rowY += rowHeight + rowGap;
+                            }
+                        }
+                    }
+
+                    if (!handledDialogueClick)
+                    {
+                        const HudLayoutElement *pGoodbyeLayout = findHudLayoutElement("DialogueGoodbyeButton");
+                        const std::optional<ResolvedHudLayoutElement> resolvedGoodbye = pGoodbyeLayout != nullptr
+                            ? resolveHudLayoutElement(
+                                "DialogueGoodbyeButton",
+                                screenWidth,
+                                screenHeight,
+                                pGoodbyeLayout->width,
+                                pGoodbyeLayout->height)
+                            : std::nullopt;
+
+                        if (resolvedGoodbye
+                            && dialogMouseX >= resolvedGoodbye->x
+                            && dialogMouseX < resolvedGoodbye->x + resolvedGoodbye->width
+                            && dialogMouseY >= resolvedGoodbye->y
+                            && dialogMouseY < resolvedGoodbye->y + resolvedGoodbye->height)
+                        {
+                            closeActiveEventDialog();
+                            handledDialogueClick = true;
+                            m_activateInspectLatch = true;
+                        }
+                    }
+                }
+
+                m_dialogueClickLatch = true;
+            }
+        }
+        else
+        {
+            m_dialogueClickLatch = false;
+        }
+
         const bool closePressed = pKeyboardState[SDL_SCANCODE_ESCAPE] || pKeyboardState[SDL_SCANCODE_E];
 
         if (closePressed)
         {
             if (!m_closeOverlayLatch)
             {
-                closeActiveEventDialog();
+                EventRuntimeState *pEventRuntimeState =
+                    m_pOutdoorWorldRuntime != nullptr ? m_pOutdoorWorldRuntime->eventRuntimeState() : nullptr;
+                const bool isResidentSelectionMode =
+                    !m_activeEventDialog.actions.empty()
+                    && std::all_of(
+                        m_activeEventDialog.actions.begin(),
+                        m_activeEventDialog.actions.end(),
+                        [](const EventDialogAction &action)
+                        {
+                            return action.kind == EventDialogActionKind::HouseResident;
+                        });
+                const HouseEntry *pHostHouseEntry =
+                    (m_dialogueHostHouseId != 0 && m_houseTable.has_value()) ? m_houseTable->get(m_dialogueHostHouseId) : nullptr;
+                const std::vector<uint32_t> hostResidentNpcIds =
+                    (pHostHouseEntry != nullptr && m_npcDialogTable.has_value() && pEventRuntimeState != nullptr)
+                    ? collectSelectableResidentNpcIds(*pHostHouseEntry, *m_npcDialogTable, *pEventRuntimeState)
+                    : std::vector<uint32_t>{};
+
+                if (!isResidentSelectionMode && pEventRuntimeState != nullptr && hostResidentNpcIds.size() > 1)
+                {
+                    EventRuntimeState::PendingDialogueContext context = {};
+                    context.kind = DialogueContextKind::HouseService;
+                    context.sourceId = m_dialogueHostHouseId;
+                    pEventRuntimeState->houseServiceMenuId.clear();
+                    pEventRuntimeState->pendingDialogueContext = std::move(context);
+                    openPendingEventDialog(pEventRuntimeState->messages.size(), true);
+                }
+                else
+                {
+                    closeActiveEventDialog();
+                    m_activateInspectLatch = true;
+                }
+
                 m_closeOverlayLatch = true;
-                m_activateInspectLatch = true;
             }
         }
         else
@@ -8596,6 +10214,7 @@ void OutdoorGameView::updateCameraFromInput(float deltaSeconds)
     m_eventDialogSelectDownLatch = false;
     m_eventDialogAcceptLatch = false;
     m_eventDialogPartySelectLatches.fill(false);
+    m_dialogueClickLatch = false;
 
     if (hasActiveLootView)
     {
@@ -9037,6 +10656,19 @@ void OutdoorGameView::updateCameraFromInput(float deltaSeconds)
     else
     {
         m_toggleGameplayHudLatch = false;
+    }
+
+    if (pKeyboardState[SDL_SCANCODE_F5])
+    {
+        if (!m_debugDialogueLatch)
+        {
+            openDebugNpcDialogue(31);
+            m_debugDialogueLatch = true;
+        }
+    }
+    else
+    {
+        m_debugDialogueLatch = false;
     }
 
     if (pKeyboardState[SDL_SCANCODE_MINUS])

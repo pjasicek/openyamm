@@ -54,6 +54,7 @@ target_compile_definitions(openyamm
 target_link_libraries(openyamm
     PRIVATE
         openyamm_engine
+        yaml-cpp::yaml-cpp
 )
 
 target_compile_features(openyamm PRIVATE cxx_std_20)

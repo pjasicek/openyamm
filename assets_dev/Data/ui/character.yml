@@ -1,0 +1,79 @@
+screen: Character
+
+elements:
+  - id: CharacterRoot
+    anchor: center
+    width: 640
+    height: 480
+    scale:
+      min: 1.0
+      max: 3.0
+    notes: Character screen overlay root. Gameplay base HUD remains visible underneath.
+    children:
+      - id: CharacterTopBar
+        anchor: top_center
+        width: 640
+        height: 29
+        notes: Top character bar with gold/food and optional page title.
+        children:
+          - id: CharacterGoldFoodIcon
+            anchor: center_in
+            offset_x: -165
+            width: 134
+            height: 21
+            notes: Optional override if character screen needs different gold/food art than gameplay HUD.
+
+          - id: CharacterGoldLabel
+            anchor: center_in
+            offset_x: -85
+            width: 28
+            height: 14
+            text:
+              value: "{gold}"
+              font: SMALLNUM
+              align_x: center
+              align_y: middle
+            notes: Gold counter.
+
+          - id: CharacterFoodLabel
+            anchor: center_in
+            offset_x: -180
+            width: 28
+            height: 14
+            text:
+              value: "{food}"
+              font: SMALLNUM
+              align_x: center
+              align_y: middle
+            notes: Food counter.
+
+      - id: CharacterPanel
+        anchor: center_in
+        offset_y: -14
+        width: 640
+        height: 394
+        notes: Main character screen background/frame.
+
+      - id: CharacterPageTabs
+        anchor: top_left
+        offset_x: 332
+        offset_y: 10
+        width: 284
+        height: 24
+        notes: Tab button strip for Stats / Skills / Inventory / Awards.
+
+      - id: CharacterDollPanel
+        anchor: top_left
+        offset_x: 18
+        offset_y: 18
+        width: 196
+        height: 320
+        notes: Character doll region.
+
+      - id: CharacterContentPanel
+        anchor: top_right
+        offset_x: -18
+        offset_y: 18
+        width: 382
+        height: 320
+        notes: Right-side content area that switches between Stats / Skills / Inventory / Awards.

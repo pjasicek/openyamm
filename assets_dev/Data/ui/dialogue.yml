@@ -1,0 +1,170 @@
+screen: Dialogue
+
+elements:
+  - id: DialogueRoot
+    anchor: center
+    width: 640
+    height: 480
+    scale:
+      min: 1.0
+      max: 3.0
+    notes: Shared dialogue root for common scaling and grouping.
+    children:
+      - id: DialogueFrame
+        anchor: bottom_left
+        offset_x: 3
+        offset_y: 0
+        width: 470
+        height: 114
+        z_index: -20
+        asset:
+          default: evt
+        notes: Main dialogue frame/background art.
+        children:
+          - id: DialogueFrameEndCap
+            anchor: above
+            width: 470
+            height: 8
+            asset:
+              default: endcap
+            notes: Main dialogue frame end-cap art.
+          - id: DialogueText
+            anchor: top_left
+            offset_x: 12
+            offset_y: 0
+            width: 450
+            height: 112
+            text:
+              value: "{text}"
+              font: Lucida
+              align_x: left
+              align_y: top
+            notes: Main dialogue text body.
+
+      - id: DialogueLeftBar
+        anchor: top_left
+        width: 8
+        height: 347
+        bottom_to: OutdoorBasebar
+        z_index: -5
+        asset:
+          default: IB-8pxbar
+        notes: Left vertical dialogue chrome.
+
+      - id: DialogueEventDialog
+        anchor: top_right
+        width: 172
+        height: 368
+        bottom_to: OutdoorBasebar
+        z_index: 200
+        asset:
+          default: Ib-Mb-A
+        notes: Right-side event dialog panel for house/NPC talk state.
+        children:
+          - id: DialogueNpcPortrait
+            anchor: top_center
+            offset_x: 0
+            offset_y: 20
+            width: 71
+            height: 81
+            notes: Left-side portrait area for simple dialogue presentation.
+            children:
+              - id: DialogueNpcName
+                anchor: below
+                offset_x: -14
+                offset_y: -8
+                width: 100
+                height: 24
+                text:
+                  value: "{name}"
+                  font: Lucida
+                  align_x: center
+                  align_y: middle
+                notes: NPC name label.
+
+          - id: DialogueTopicRow_1
+            anchor: top_center
+            offset_y: 80
+            width: 150
+            height: 18
+            interactive: true
+            text:
+              value: "{topic1}"
+              font: Lucida
+              align_x: center
+              align_y: middle
+            notes: Topic row 1 placeholder.
+
+          - id: DialogueTopicRow_2
+            anchor: top_center
+            offset_y: 120
+            width: 150
+            height: 18
+            interactive: true
+            text:
+              value: "{topic2}"
+              font: Lucida
+              align_x: center
+              align_y: middle
+            notes: Topic row 2 placeholder.
+
+          - id: DialogueTopicRow_3
+            anchor: top_center
+            offset_y: 160
+            width: 150
+            height: 18
+            interactive: true
+            text:
+              value: "{topic3}"
+              font: Lucida
+              align_x: center
+              align_y: middle
+            notes: Topic row 3 placeholder.
+
+          - id: DialogueTopicRow_4
+            anchor: top_center
+            offset_y: 200
+            width: 150
+            height: 18
+            interactive: true
+            text:
+              value: "{topic4}"
+              font: Lucida
+              align_x: center
+              align_y: middle
+            notes: Topic row 4 placeholder.
+
+          - id: DialogueTopicRow_5
+            anchor: top_center
+            offset_y: 240
+            width: 150
+            height: 18
+            interactive: true
+            text:
+              value: "{topic5}"
+              font: Lucida
+              align_x: center
+              align_y: middle
+            notes: Topic row 5 placeholder.
+
+      - id: DialogueGoodbyeButton
+        anchor: bottom_right
+        offset_x: -24
+        offset_y: -22
+        width: 90
+        height: 24
+        interactive: true
+        notes: Goodbye / exit button.
+
+      - id: DialogueResponseHint
+        anchor: bottom_left
+        offset_x: 24
+        offset_y: -22
+        width: 300
+        height: 20
+        text:
+          value: "{hint}"
+          font: Lucida
+          align_x: left
+          align_y: middle
+        notes: Optional footer hint or status text.

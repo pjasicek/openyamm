@@ -16,6 +16,8 @@ namespace
 {
 constexpr float SlowFrameLogThresholdSeconds = 0.008f;
 constexpr float HitchFrameLogThresholdSeconds = 0.016f;
+constexpr int MinimumWindowAspectWidth = 4;
+constexpr int MinimumWindowAspectHeight = 3;
 
 class SdlSubsystemGuard
 {
@@ -50,6 +52,36 @@ struct SdlWindowDeleter
         }
     }
 };
+
+void enforceMinimumWindowAspect(SDL_Window *pWindow)
+{
+    if (pWindow == nullptr)
+    {
+        return;
+    }
+
+    int windowWidth = 0;
+    int windowHeight = 0;
+    SDL_GetWindowSize(pWindow, &windowWidth, &windowHeight);
+
+    if (windowWidth <= 0 || windowHeight <= 0)
+    {
+        return;
+    }
+
+    if (windowWidth * MinimumWindowAspectHeight >= windowHeight * MinimumWindowAspectWidth)
+    {
+        return;
+    }
+
+    const int correctedWidth =
+        (windowHeight * MinimumWindowAspectWidth + MinimumWindowAspectHeight - 1) / MinimumWindowAspectHeight;
+
+    if (correctedWidth != windowWidth)
+    {
+        SDL_SetWindowSize(pWindow, correctedWidth, windowHeight);
+    }
+}
 }
 
 EngineApplication::EngineApplication(
@@ -107,6 +139,7 @@ int EngineApplication::run() const
     }
 
     std::unique_ptr<SDL_Window, SdlWindowDeleter> pWindow(pRawWindow);
+    enforceMinimumWindowAspect(pWindow.get());
     BgfxContext bgfxContext;
 
     if (!bgfxContext.initialize(pWindow.get(), m_config.windowWidth, m_config.windowHeight))
@@ -173,7 +206,12 @@ int EngineApplication::run() const
 
             if (event.type == SDL_EVENT_WINDOW_PIXEL_SIZE_CHANGED)
             {
-                bgfxContext.resize(event.window.data1, event.window.data2);
+                enforceMinimumWindowAspect(pWindow.get());
+
+                int drawableWidth = 0;
+                int drawableHeight = 0;
+                SDL_GetWindowSizeInPixels(pWindow.get(), &drawableWidth, &drawableHeight);
+                bgfxContext.resize(drawableWidth, drawableHeight);
             }
 
             if (event.type == SDL_EVENT_MOUSE_WHEEL)

@@ -157,7 +157,9 @@ private:
         TopLeft,
         TopCenter,
         TopRight,
+        Left,
         Center,
+        Right,
         BottomLeft,
         BottomCenter,
         BottomRight
@@ -178,6 +180,7 @@ private:
         InsideTopLeft,
         InsideTopRight,
         InsideBottomLeft,
+        InsideBottomCenter,
         InsideBottomRight,
         CenterIn
     };
@@ -196,6 +199,13 @@ private:
         Bottom
     };
 
+    enum class HudScreenState
+    {
+        Gameplay,
+        Dialogue,
+        Character
+    };
+
     struct HudLayoutElement
     {
         std::string id;
@@ -209,8 +219,12 @@ private:
         float offsetY = 0.0f;
         float width = 0.0f;
         float height = 0.0f;
+        std::string bottomToId;
+        float bottomGap = 0.0f;
         float minScale = 1.0f;
-        float maxScale = 1.0f;
+        float maxScale = 3.0f;
+        bool hasExplicitScale = false;
+        int zIndex = 0;
         bool visible = true;
         bool interactive = false;
         std::string primaryAsset;
@@ -321,7 +335,7 @@ private:
     void renderGameplayHudArt(int width, int height);
     void renderGameplayHud(int width, int height) const;
     void renderChestPanel(int width, int height) const;
-    void renderEventDialogPanel(int width, int height) const;
+    void renderEventDialogPanel(int width, int height, bool renderAboveHud);
     void renderActorCollisionOverlays(uint16_t viewId, const bx::Vec3 &cameraPosition) const;
     void renderActorPreviewBillboards(uint16_t viewId, const float *pViewMatrix, const bx::Vec3 &cameraPosition);
     void renderRuntimeProjectiles(uint16_t viewId, const float *pViewMatrix, const bx::Vec3 &cameraPosition);
@@ -333,8 +347,25 @@ private:
     void queueEventSpellBillboardTextureWarmup(const EventIrProgram &eventIrProgram);
     void processPendingSpriteFrameWarmups(size_t maxSpriteFrames);
     bool loadHudLayout(const Engine::AssetFileSystem &assetFileSystem);
+    bool loadHudLayoutFile(const Engine::AssetFileSystem &assetFileSystem, const std::string &path);
     const HudLayoutElement *findHudLayoutElement(const std::string &layoutId) const;
+    std::vector<std::string> sortedHudLayoutIdsForScreen(const std::string &screen) const;
+    int maxHudLayoutZIndexForScreen(const std::string &screen) const;
+    static int defaultHudLayoutZIndexForScreen(const std::string &screen);
     const HudFontHandle *findHudFont(const std::string &fontName) const;
+    float measureHudTextWidth(const HudFontHandle &font, const std::string &text) const;
+    std::string clampHudTextToWidth(const HudFontHandle &font, const std::string &text, float maxWidth) const;
+    void renderHudFontLayer(
+        const HudFontHandle &font,
+        bgfx::TextureHandle textureHandle,
+        const std::string &text,
+        float textX,
+        float textY,
+        float fontScale) const;
+    void renderLayoutLabel(
+        const HudLayoutElement &layout,
+        const ResolvedHudLayoutElement &resolved,
+        const std::string &label) const;
     const HudTextureHandle *ensureHudTextureLoaded(const std::string &textureName);
     const HudTextureHandle *ensureSolidHudTextureLoaded(const std::string &textureName, uint32_t abgrColor);
     std::optional<ResolvedHudLayoutElement> resolveHudLayoutElement(
@@ -350,6 +381,9 @@ private:
         float fallbackWidth,
         float fallbackHeight,
         std::unordered_set<std::string> &visited) const;
+    HudScreenState currentHudScreenState() const;
+    void openDebugNpcDialogue(uint32_t npcId);
+    void renderDialogueOverlay(int width, int height, bool renderAboveHud);
     std::optional<std::string> findCachedAssetPath(const std::string &directoryPath, const std::string &fileName);
     std::optional<std::vector<uint8_t>> readCachedBinaryFile(const std::string &assetPath);
     std::optional<std::array<uint8_t, 256 * 3>> loadCachedActPalette(int16_t paletteId);
@@ -472,6 +506,7 @@ private:
     bool m_toggleDebugHudLatch;
     bool m_toggleInspectLatch;
     bool m_triggerMeteorLatch;
+    bool m_debugDialogueLatch;
     bool m_activateInspectLatch;
     bool m_attackInspectLatch;
     bool m_toggleRunningLatch;
@@ -479,6 +514,7 @@ private:
     bool m_toggleWaterWalkLatch;
     bool m_toggleFeatherFallLatch;
     bool m_closeOverlayLatch;
+    bool m_dialogueClickLatch;
     bool m_lootChestItemLatch;
     bool m_chestSelectUpLatch;
     bool m_chestSelectDownLatch;
@@ -488,6 +524,7 @@ private:
     std::array<bool, 5> m_eventDialogPartySelectLatches;
     size_t m_chestSelectionIndex;
     size_t m_eventDialogSelectionIndex;
+    uint32_t m_dialogueHostHouseId;
     EventDialogContent m_activeEventDialog;
     OutdoorPartyRuntime *m_pOutdoorPartyRuntime;
     const Engine::AssetFileSystem *m_pAssetFileSystem;

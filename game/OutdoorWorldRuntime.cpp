@@ -1892,49 +1892,6 @@ const char *combatTargetKindName(CombatTargetKind targetKind)
     }
 }
 
-void logActorFleeDecision(
-    size_t actorIndex,
-    const OutdoorWorldRuntime::MapActorState &actor,
-    const std::vector<OutdoorWorldRuntime::MapActorState> &mapActors,
-    const CombatTargetInfo &combatTarget)
-{
-    if (actorIndex != 15 && actorIndex != 27)
-    {
-        return;
-    }
-
-    std::cout
-        << "Actor flee actor_index=" << actorIndex
-        << " actor_id=" << actor.actorId
-        << " actor_name=\"" << debugStringOrNone(actor.displayName) << "\""
-        << " actor_monster_id=" << actor.monsterId
-        << " actor_pos=(" << actor.x << ", " << actor.y << ", " << actor.z << ")"
-        << " target_kind=" << combatTargetKindName(combatTarget.kind)
-        << " relation=" << combatTarget.relationToTarget
-        << " target_dist=" << combatTarget.distanceToTarget
-        << " target_edge_dist=" << combatTarget.edgeDistance;
-
-    if (combatTarget.kind == CombatTargetKind::Actor && combatTarget.actorIndex < mapActors.size())
-    {
-        const OutdoorWorldRuntime::MapActorState &targetActor = mapActors[combatTarget.actorIndex];
-
-        std::cout
-            << " target_actor_index=" << combatTarget.actorIndex
-            << " target_actor_id=" << targetActor.actorId
-            << " target_name=\"" << debugStringOrNone(targetActor.displayName) << "\""
-            << " target_monster_id=" << targetActor.monsterId
-            << " target_pos=(" << targetActor.x << ", " << targetActor.y << ", " << targetActor.z << ")";
-    }
-    else if (combatTarget.kind == CombatTargetKind::Party)
-    {
-        std::cout
-            << " target_pos=(" << combatTarget.targetX << ", " << combatTarget.targetY << ", "
-            << combatTarget.targetZ << ")";
-    }
-
-    std::cout << '\n';
-}
-
 template <typename VisibilityFn>
 CombatTargetInfo selectCombatTarget(
     const OutdoorWorldRuntime::MapActorState &actor,
@@ -3494,11 +3451,6 @@ void OutdoorWorldRuntime::updateMapActors(float deltaSeconds, float partyX, floa
             const bool shouldFlee = shouldEngageTarget
                 && combatTarget.distanceToTarget <= FleeThresholdRange
                 && shouldFleeForAiType(*pStats, actor);
-
-            if (shouldFlee)
-            {
-                logActorFleeDecision(actorIndex, actor, m_mapActors, combatTarget);
-            }
 
             const bool inMeleeRange =
                 combatTarget.edgeDistance <= meleeRangeForCombatTarget(targetIsActor);
