@@ -32,7 +32,7 @@ bool HouseTable::loadFromRows(const std::vector<std::vector<std::string>> &rows)
 
     for (const std::vector<std::string> &row : rows)
     {
-        if (row.size() <= 23 || row[0].empty() || row[0][0] == '#')
+        if (row.empty() || row[0].empty() || row[0][0] == '#')
         {
             continue;
         }
@@ -54,16 +54,18 @@ bool HouseTable::loadFromRows(const std::vector<std::vector<std::string>> &rows)
 
         HouseEntry entry = {};
         entry.id = static_cast<uint32_t>(parsedId);
-        entry.type = row[2];
+        entry.type = row.size() > 2 ? row[2] : "";
         entry.name = name;
-        entry.proprietorName = row[6];
-        entry.proprietorTitle = row[7];
-        entry.priceMultiplier = row[12].empty() ? 0.0f : std::strtof(row[12].c_str(), nullptr);
-        entry.skillPriceMultiplier = row[13].empty() ? 0.0f : std::strtof(row[13].c_str(), nullptr);
-        entry.trainingMaxLevel = parseTrainingMaxLevel(row[17]);
-        entry.openHour = row[18].empty() ? 0 : std::atoi(row[18].c_str());
-        entry.closeHour = row[19].empty() ? 0 : std::atoi(row[19].c_str());
-        entry.enterText = row[23];
+        entry.proprietorName = row.size() > 6 ? row[6] : "";
+        entry.proprietorTitle = row.size() > 7 ? row[7] : "";
+        entry.priceMultiplier =
+            (row.size() > 12 && !row[12].empty()) ? std::strtof(row[12].c_str(), nullptr) : 0.0f;
+        entry.skillPriceMultiplier =
+            (row.size() > 13 && !row[13].empty()) ? std::strtof(row[13].c_str(), nullptr) : 0.0f;
+        entry.trainingMaxLevel = row.size() > 17 ? parseTrainingMaxLevel(row[17]) : 0;
+        entry.openHour = (row.size() > 18 && !row[18].empty()) ? std::atoi(row[18].c_str()) : 0;
+        entry.closeHour = (row.size() > 19 && !row[19].empty()) ? std::atoi(row[19].c_str()) : 0;
+        entry.enterText = row.size() > 23 ? row[23] : "";
 
         if (row.size() > 24 && !row[24].empty())
         {

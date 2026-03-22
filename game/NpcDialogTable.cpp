@@ -1,6 +1,7 @@
 #include "game/NpcDialogTable.h"
 
 #include <algorithm>
+#include <cctype>
 #include <cstdlib>
 
 namespace OpenYAMM::Game
@@ -29,6 +30,24 @@ bool parseUnsigned(const std::string &text, uint32_t &value)
 bool isRosterJoinTopicLabel(const std::string &topic)
 {
     return topic == "Roster Join Event" || topic == "Join";
+}
+
+bool isTeacherHintTopicRow(const std::vector<std::string> &row)
+{
+    if (row.size() <= 6)
+    {
+        return false;
+    }
+
+    std::string loweredCell;
+    loweredCell.reserve(row[6].size());
+
+    for (char character : row[6])
+    {
+        loweredCell.push_back(static_cast<char>(std::tolower(static_cast<unsigned char>(character))));
+    }
+
+    return loweredCell.find("teacher hint") != std::string::npos;
 }
 
 std::optional<NpcDialogTable::RosterJoinOffer> buildRosterJoinOffer(const NpcTopicEntry &entry)
@@ -174,6 +193,16 @@ bool NpcDialogTable::loadTopicsFromRows(const std::vector<std::vector<std::strin
         entry.topic = row[1];
         entry.owner = row[5];
 
+        uint32_t textId = 0;
+
+        if (parseUnsigned(row[4], textId))
+        {
+            entry.textId = textId;
+        }
+
+        entry.specialKind = isTeacherHintTopicRow(row) ? NpcTopicEntry::SpecialKind::TextOnly
+                                                       : NpcTopicEntry::SpecialKind::None;
+
         const std::optional<RosterJoinOffer> rosterJoinOffer = buildRosterJoinOffer(entry);
 
         if (rosterJoinOffer)
@@ -184,13 +213,6 @@ bool NpcDialogTable::loadTopicsFromRows(const std::vector<std::vector<std::strin
         else if (entry.id >= 300 && entry.id <= 416)
         {
             entry.specialKind = NpcTopicEntry::SpecialKind::MasteryTeacherOffer;
-        }
-
-        uint32_t textId = 0;
-
-        if (parseUnsigned(row[4], textId))
-        {
-            entry.textId = textId;
         }
 
         if (entry.specialKind == NpcTopicEntry::SpecialKind::RosterJoinOffer)
@@ -352,18 +374,15 @@ std::vector<NpcDialogTable::ResolvedTopic> NpcDialogTable::getTopicsForNpc(
 
         ResolvedTopic resolvedTopic = {};
         resolvedTopic.id = topicIt->second.id;
+        resolvedTopic.textId = topicIt->second.textId;
         resolvedTopic.topic = topicIt->second.topic;
         resolvedTopic.specialKind = topicIt->second.specialKind;
+        const uint32_t effectiveTextId = topicIt->second.textId != 0 ? topicIt->second.textId : topicIt->second.id;
+        const std::unordered_map<uint32_t, std::string>::const_iterator textIt = m_texts.find(effectiveTextId);
 
-        if (topicIt->second.textId != 0)
+        if (textIt != m_texts.end())
         {
-            const std::unordered_map<uint32_t, std::string>::const_iterator textIt =
-                m_texts.find(topicIt->second.textId);
-
-            if (textIt != m_texts.end())
-            {
-                resolvedTopic.text = textIt->second;
-            }
+            resolvedTopic.text = textIt->second;
         }
 
         resolvedTopics.push_back(std::move(resolvedTopic));
@@ -463,17 +482,15 @@ std::optional<NpcDialogTable::ResolvedTopic> NpcDialogTable::getTopicById(uint32
 
     ResolvedTopic topic = {};
     topic.id = topicIt->second.id;
+    topic.textId = topicIt->second.textId;
     topic.topic = topicIt->second.topic;
     topic.specialKind = topicIt->second.specialKind;
+    const uint32_t effectiveTextId = topicIt->second.textId != 0 ? topicIt->second.textId : topicIt->second.id;
+    const std::unordered_map<uint32_t, std::string>::const_iterator textIt = m_texts.find(effectiveTextId);
 
-    if (topicIt->second.textId != 0)
+    if (textIt != m_texts.end())
     {
-        const std::unordered_map<uint32_t, std::string>::const_iterator textIt = m_texts.find(topicIt->second.textId);
-
-        if (textIt != m_texts.end())
-        {
-            topic.text = textIt->second;
-        }
+        topic.text = textIt->second;
     }
 
     return topic;

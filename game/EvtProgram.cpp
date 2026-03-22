@@ -461,11 +461,17 @@ bool EvtProgram::parseInstruction(const std::vector<uint8_t> &record, EvtInstruc
 
         case EvtOpcode::LocationName:
         case EvtOpcode::OpenChest:
-        case EvtOpcode::StatusText:
-        case EvtOpcode::ShowMessage:
         case EvtOpcode::SetCanShowDialogItem:
         case EvtOpcode::CharacterAnimation:
             if (const std::optional<uint8_t> value = tryReadU8(2))
+            {
+                instruction.value1 = *value;
+            }
+            break;
+
+        case EvtOpcode::StatusText:
+        case EvtOpcode::ShowMessage:
+            if (const std::optional<uint32_t> value = tryReadU32(2))
             {
                 instruction.value1 = *value;
             }

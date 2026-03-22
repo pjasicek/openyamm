@@ -1155,7 +1155,7 @@ OutdoorGameView::OutdoorGameView()
     , m_showSpawns(false)
     , m_showGameplayHud(true)
     , m_showDebugHud(false)
-    , m_inspectMode(false)
+    , m_inspectMode(true)
     , m_isRotatingCamera(false)
     , m_lastMouseX(0.0f)
     , m_lastMouseY(0.0f)
@@ -3810,6 +3810,7 @@ void OutdoorGameView::shutdown()
     m_toggleSpriteObjectsLatch = false;
     m_toggleEntitiesLatch = false;
     m_toggleSpawnsLatch = false;
+    m_inspectMode = true;
     m_toggleInspectLatch = false;
     m_triggerMeteorLatch = false;
     m_activateInspectLatch = false;
@@ -4123,14 +4124,30 @@ void OutdoorGameView::executeActiveDialogAction()
     if (action.kind == EventDialogActionKind::NpcTopic)
     {
         const uint32_t npcId = m_activeEventDialog.sourceId;
-        const bool executed = m_eventRuntime.executeEventById(
-            std::nullopt,
-            m_globalEventIrProgram,
-            static_cast<uint16_t>(action.id),
-            *pEventRuntimeState,
-            m_pOutdoorPartyRuntime != nullptr ? &m_pOutdoorPartyRuntime->party() : nullptr,
-            m_pOutdoorWorldRuntime
-        );
+        bool executed = false;
+
+        if (action.textOnly && m_npcDialogTable)
+        {
+            const std::optional<NpcDialogTable::ResolvedTopic> topic =
+                m_npcDialogTable->getTopicById(action.secondaryId != 0 ? action.secondaryId : action.id);
+
+            if (topic && !topic->text.empty())
+            {
+                pEventRuntimeState->messages.push_back(topic->text);
+                executed = true;
+            }
+        }
+        else
+        {
+            executed = m_eventRuntime.executeEventById(
+                std::nullopt,
+                m_globalEventIrProgram,
+                static_cast<uint16_t>(action.id),
+                *pEventRuntimeState,
+                m_pOutdoorPartyRuntime != nullptr ? &m_pOutdoorPartyRuntime->party() : nullptr,
+                m_pOutdoorWorldRuntime
+            );
+        }
 
         if (executed)
         {
@@ -4175,6 +4192,8 @@ void OutdoorGameView::openPendingEventDialog(size_t previousMessageCount, bool a
     {
         return;
     }
+
+    const EventRuntimeState::PendingDialogueContext originalContext = *pEventRuntimeState->pendingDialogueContext;
 
     if (pEventRuntimeState->pendingDialogueContext->kind == DialogueContextKind::HouseService
         && m_houseTable
@@ -4226,10 +4245,44 @@ void OutdoorGameView::openPendingEventDialog(size_t previousMessageCount, bool a
         return;
     }
 
-    if (pEventRuntimeState->pendingDialogueContext
-        && pEventRuntimeState->pendingDialogueContext->kind == DialogueContextKind::HouseService)
+    if (originalContext.kind == DialogueContextKind::HouseService)
     {
-        m_dialogueHostHouseId = pEventRuntimeState->pendingDialogueContext->sourceId;
+        m_dialogueHostHouseId = originalContext.sourceId;
+    }
+    else if (m_dialogueHostHouseId == 0
+             && originalContext.kind == DialogueContextKind::NpcTalk
+             && m_houseTable
+             && m_npcDialogTable)
+    {
+        const NpcEntry *pNpc = m_npcDialogTable->getNpc(originalContext.sourceId);
+
+        if (pNpc != nullptr && pNpc->houseId != 0)
+        {
+            const HouseEntry *pHouseEntry = m_houseTable->get(pNpc->houseId);
+
+            if (pHouseEntry != nullptr
+                && resolveHouseServiceType(*pHouseEntry) == HouseServiceType::None)
+            {
+                const std::optional<uint32_t> residentNpcId =
+                    singleSelectableResidentNpcId(*pHouseEntry, *m_npcDialogTable, *pEventRuntimeState);
+
+                if (residentNpcId && *residentNpcId == originalContext.sourceId)
+                {
+                    m_dialogueHostHouseId = pNpc->houseId;
+                }
+            }
+        }
+    }
+
+    if (originalContext.kind == DialogueContextKind::NpcTalk
+        && m_npcDialogTable
+        && (originalContext.sourceId == 78 || originalContext.sourceId == 404))
+    {
+        const NpcEntry *pNpc = m_npcDialogTable->getNpc(originalContext.sourceId);
+        const uint32_t npcHouseId = pNpc != nullptr ? pNpc->houseId : 0;
+        std::cout << "Dialogue host house debug: npcId=" << originalContext.sourceId
+                  << " npcHouseId=" << npcHouseId
+                  << " resolvedHostHouseId=" << m_dialogueHostHouseId << '\n';
     }
 
     m_eventDialogSelectionIndex = 0;
@@ -4796,6 +4849,19 @@ void OutdoorGameView::renderDialogueOverlay(int width, int height, bool renderAb
 
             if (pHostHouseEntry != nullptr && pEffectiveHouseTitleLayout != nullptr)
             {
+                static std::string lastHouseTitleDebugKey;
+                const std::string houseTitleDebugKey =
+                    std::to_string(m_dialogueHostHouseId) + "|" + pHostHouseEntry->name;
+
+                if ((m_dialogueHostHouseId == 241 || m_dialogueHostHouseId == 243 || pHostHouseEntry->name.empty())
+                    && houseTitleDebugKey != lastHouseTitleDebugKey)
+                {
+                    std::cout << "Dialogue house title render debug: hostHouseId=" << m_dialogueHostHouseId
+                              << " activeDialogSourceId=" << m_activeEventDialog.sourceId
+                              << " houseName=\"" << pHostHouseEntry->name << "\"\n";
+                    lastHouseTitleDebugKey = houseTitleDebugKey;
+                }
+
                 ResolvedHudLayoutElement resolvedHouseTitle = {};
                 resolvedHouseTitle.x = resolvedHouseTitleTemplate ? resolvedHouseTitleTemplate->x : panelInnerX;
                 resolvedHouseTitle.y = resolvedHouseTitleTemplate ? resolvedHouseTitleTemplate->y : contentY;

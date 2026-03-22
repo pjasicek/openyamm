@@ -342,7 +342,12 @@ EventIrInstruction EventIrProgram::convertInstruction(
     if ((evtInstruction.opcode == EvtOpcode::ShowMessage || evtInstruction.opcode == EvtOpcode::StatusText)
         && evtInstruction.value1)
     {
-        std::optional<std::string> text = strTable.get(static_cast<uint8_t>(*evtInstruction.value1));
+        std::optional<std::string> text;
+
+        if (*evtInstruction.value1 <= 0xffu)
+        {
+            text = strTable.get(static_cast<uint8_t>(*evtInstruction.value1));
+        }
 
         if (!text)
         {

@@ -21,13 +21,14 @@ struct NpcTopicEntry
     enum class SpecialKind
     {
         None,
+        TextOnly,
         RosterJoinOffer,
         MasteryTeacherOffer,
     };
 
     uint32_t id = 0;
-    std::string topic;
     uint32_t textId = 0;
+    std::string topic;
     std::string owner;
     SpecialKind specialKind = SpecialKind::None;
 };
@@ -48,6 +49,7 @@ public:
     struct ResolvedTopic
     {
         uint32_t id = 0;
+        uint32_t textId = 0;
         std::string topic;
         std::string text;
         NpcTopicEntry::SpecialKind specialKind = NpcTopicEntry::SpecialKind::None;

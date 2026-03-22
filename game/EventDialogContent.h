@@ -31,9 +31,11 @@ struct EventDialogAction
 {
     EventDialogActionKind kind = EventDialogActionKind::None;
     uint32_t id = 0;
+    uint32_t secondaryId = 0;
     std::string label;
     std::string argument;
     bool enabled = true;
+    bool textOnly = false;
     std::string disabledReason;
 };
 

@@ -1202,14 +1202,30 @@ bool executeDialogActionInScenario(
     }
     else if (action.kind == EventDialogActionKind::NpcTopic)
     {
-        const bool executed = scenario.eventRuntime.executeEventById(
-            std::nullopt,
-            selectedMap.globalEventIrProgram,
-            static_cast<uint16_t>(action.id),
-            *scenario.pEventRuntimeState,
-            &scenario.party,
-            &scenario.world
-        );
+        bool executed = false;
+
+        if (action.textOnly)
+        {
+            const std::optional<NpcDialogTable::ResolvedTopic> topic =
+                gameDataLoader.getNpcDialogTable().getTopicById(action.secondaryId != 0 ? action.secondaryId : action.id);
+
+            if (topic && !topic->text.empty())
+            {
+                scenario.pEventRuntimeState->messages.push_back(topic->text);
+                executed = true;
+            }
+        }
+        else
+        {
+            executed = scenario.eventRuntime.executeEventById(
+                std::nullopt,
+                selectedMap.globalEventIrProgram,
+                static_cast<uint16_t>(action.id),
+                *scenario.pEventRuntimeState,
+                &scenario.party,
+                &scenario.world
+            );
+        }
 
         if (!executed)
         {
@@ -2528,14 +2544,30 @@ int HeadlessOutdoorDiagnostics::runDialogSequence(
         }
         else if (action.kind == EventDialogActionKind::NpcTopic)
         {
-            const bool topicExecuted = eventRuntime.executeEventById(
-                std::nullopt,
-                selectedMap->globalEventIrProgram,
-                static_cast<uint16_t>(action.id),
-                *pEventRuntimeState,
-                &party,
-                &outdoorWorldRuntime
-            );
+            bool topicExecuted = false;
+
+            if (action.textOnly)
+            {
+                const std::optional<NpcDialogTable::ResolvedTopic> topic =
+                    gameDataLoader.getNpcDialogTable().getTopicById(action.secondaryId != 0 ? action.secondaryId : action.id);
+
+                if (topic && !topic->text.empty())
+                {
+                    pEventRuntimeState->messages.push_back(topic->text);
+                    topicExecuted = true;
+                }
+            }
+            else
+            {
+                topicExecuted = eventRuntime.executeEventById(
+                    std::nullopt,
+                    selectedMap->globalEventIrProgram,
+                    static_cast<uint16_t>(action.id),
+                    *pEventRuntimeState,
+                    &party,
+                    &outdoorWorldRuntime
+                );
+            }
 
             if (!topicExecuted)
             {

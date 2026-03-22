@@ -1298,6 +1298,11 @@ bool EventRuntime::executeEvent(
             {
                 if (instruction.text && !instruction.text->empty())
                 {
+                    if (!instruction.arguments.empty())
+                    {
+                        std::cout << "  message_id=" << instruction.arguments[0] << '\n';
+                    }
+
                     runtimeState.messages.push_back(*instruction.text);
                     std::cout << "  text: " << *instruction.text << '\n';
                 }

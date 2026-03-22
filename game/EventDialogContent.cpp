@@ -394,6 +394,8 @@ EventDialogContent buildEventDialogContent(
 
                     EventDialogAction action = {};
                     action.kind = EventDialogActionKind::NpcTopic;
+                    action.secondaryId = topic.id;
+                    action.textOnly = topic.specialKind == NpcTopicEntry::SpecialKind::TextOnly;
 
                     if (topic.specialKind == NpcTopicEntry::SpecialKind::RosterJoinOffer)
                     {
