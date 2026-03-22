@@ -1,11 +1,46 @@
 #include "game/RosterTable.h"
 
+#include <cctype>
 #include <cstdlib>
 
 namespace OpenYAMM::Game
 {
 namespace
 {
+std::string normalizeName(const std::string &text)
+{
+    std::string normalized;
+    normalized.reserve(text.size());
+
+    bool previousWasSpace = true;
+
+    for (char character : text)
+    {
+        const unsigned char unsignedCharacter = static_cast<unsigned char>(character);
+
+        if (std::isspace(unsignedCharacter) != 0)
+        {
+            if (!previousWasSpace)
+            {
+                normalized.push_back(' ');
+                previousWasSpace = true;
+            }
+
+            continue;
+        }
+
+        normalized.push_back(static_cast<char>(std::tolower(unsignedCharacter)));
+        previousWasSpace = false;
+    }
+
+    if (!normalized.empty() && normalized.back() == ' ')
+    {
+        normalized.pop_back();
+    }
+
+    return normalized;
+}
+
 bool parseUnsigned(const std::string &text, uint32_t &value)
 {
     if (text.empty() || text[0] == '#')
@@ -118,5 +153,27 @@ const RosterEntry *RosterTable::get(uint32_t rosterId) const
     }
 
     return &it->second;
+}
+
+const RosterEntry *RosterTable::findByName(const std::string &name) const
+{
+    const std::string normalizedName = normalizeName(name);
+
+    if (normalizedName.empty())
+    {
+        return nullptr;
+    }
+
+    for (const auto &[rosterId, entry] : m_entries)
+    {
+        (void)rosterId;
+
+        if (normalizeName(entry.name) == normalizedName)
+        {
+            return &entry;
+        }
+    }
+
+    return nullptr;
 }
 }

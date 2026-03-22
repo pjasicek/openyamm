@@ -576,7 +576,6 @@ bool EventRuntime::executeEventById(
 
         if (pEvent != nullptr)
         {
-            std::cout << "Executing local event " << eventId << '\n';
             return executeEvent(*pEvent, runtimeState, pParty, pOutdoorWorldRuntime);
         }
     }
@@ -587,7 +586,6 @@ bool EventRuntime::executeEventById(
 
         if (pEvent != nullptr)
         {
-            std::cout << "Executing global event " << eventId << '\n';
             return executeEvent(*pEvent, runtimeState, pParty, pOutdoorWorldRuntime);
         }
     }
@@ -1011,6 +1009,8 @@ bool EventRuntime::executeEvent(
                     EventRuntimeState::PendingDialogueContext context = {};
                     context.kind = DialogueContextKind::HouseService;
                     context.sourceId = instruction.arguments[0];
+                    context.hostHouseId = instruction.arguments[0];
+                    runtimeState.dialogueState.hostHouseId = instruction.arguments[0];
                     runtimeState.pendingDialogueContext = std::move(context);
                     std::cout << "  house=" << instruction.arguments[0];
 
@@ -1031,6 +1031,7 @@ bool EventRuntime::executeEvent(
                     EventRuntimeState::PendingDialogueContext context = {};
                     context.kind = DialogueContextKind::NpcTalk;
                     context.sourceId = instruction.arguments[0];
+                    context.hostHouseId = runtimeState.dialogueState.hostHouseId;
                     runtimeState.pendingDialogueContext = std::move(context);
                     std::cout << "  npc=" << instruction.arguments[0] << '\n';
                 }
@@ -1298,13 +1299,7 @@ bool EventRuntime::executeEvent(
             {
                 if (instruction.text && !instruction.text->empty())
                 {
-                    if (!instruction.arguments.empty())
-                    {
-                        std::cout << "  message_id=" << instruction.arguments[0] << '\n';
-                    }
-
                     runtimeState.messages.push_back(*instruction.text);
-                    std::cout << "  text: " << *instruction.text << '\n';
                 }
                 break;
             }

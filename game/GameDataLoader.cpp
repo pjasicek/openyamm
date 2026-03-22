@@ -712,6 +712,8 @@ bool GameDataLoader::loadInternal(const Engine::AssetFileSystem &assetFileSystem
         return false;
     }
 
+    m_npcDialogTable.resolveSpecialTopics(m_rosterTable);
+
     if (!loadInitialMap(assetFileSystem, mapLoadPurpose))
     {
         return false;

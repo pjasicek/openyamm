@@ -1,5 +1,6 @@
 #pragma once
 
+#include "game/EventRuntime.h"
 #include "game/HouseTable.h"
 
 #include <cstdint>
@@ -63,7 +64,7 @@ std::vector<std::string> buildHouseServiceInfoLines(
     const HouseEntry &houseEntry,
     const Party *pParty,
     const ClassSkillTable *pClassSkillTable,
-    const std::string &menuId
+    DialogueMenuId menuId
 );
 
 std::vector<HouseActionOption> buildHouseActionOptions(
@@ -71,7 +72,7 @@ std::vector<HouseActionOption> buildHouseActionOptions(
     const Party *pParty,
     const ClassSkillTable *pClassSkillTable,
     int currentHour,
-    const std::string &menuId
+    DialogueMenuId menuId
 );
 
 bool performHouseAction(

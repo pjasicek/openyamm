@@ -61,6 +61,37 @@ bool shouldDisplayHouseType(const std::string &houseType)
         || houseType.find("Guild") != std::string::npos;
 }
 
+std::string buildHouseParticipantTitle(const HouseEntry &houseEntry)
+{
+    std::string title;
+
+    if (!houseEntry.proprietorName.empty() && houseEntry.proprietorName != "Placeholder")
+    {
+        title = houseEntry.proprietorName;
+    }
+    else
+    {
+        title = houseEntry.name;
+    }
+
+    if (!houseEntry.proprietorTitle.empty() && houseEntry.proprietorTitle != "Placeholder")
+    {
+        title += ", " + houseEntry.proprietorTitle;
+    }
+
+    return title;
+}
+
+DialogueMenuId currentDialogueMenuId(const EventRuntimeState &eventRuntimeState)
+{
+    if (eventRuntimeState.dialogueState.menuStack.empty())
+    {
+        return DialogueMenuId::None;
+    }
+
+    return eventRuntimeState.dialogueState.menuStack.back();
+}
+
 std::optional<uint32_t> singleSelectableResidentNpcId(
     const HouseEntry &houseEntry,
     const NpcDialogTable &npcDialogTable,
@@ -162,7 +193,7 @@ EventDialogContent buildEventDialogContent(
                 pParty,
                 pClassSkillTable,
                 currentHour,
-                eventRuntimeState.houseServiceMenuId
+                currentDialogueMenuId(eventRuntimeState)
             );
             const std::optional<uint32_t> residentNpcId = singleSelectableResidentNpcId(
                 *pHouseEntry,
@@ -175,6 +206,7 @@ EventDialogContent buildEventDialogContent(
                 EventRuntimeState::PendingDialogueContext context = {};
                 context.kind = DialogueContextKind::NpcTalk;
                 context.sourceId = *residentNpcId;
+                context.hostHouseId = pHouseEntry->id;
                 eventRuntimeState.pendingDialogueContext = std::move(context);
             }
         }
@@ -187,6 +219,8 @@ EventDialogContent buildEventDialogContent(
 
     constexpr size_t MaxLineWidth = 58;
     std::vector<std::string> eventMessageLines;
+    const EventRuntimeState::DialogueOfferState *pCurrentOffer =
+        eventRuntimeState.dialogueState.currentOffer ? &*eventRuntimeState.dialogueState.currentOffer : nullptr;
 
     if (previousMessageCount < eventRuntimeState.messages.size())
     {
@@ -204,7 +238,10 @@ EventDialogContent buildEventDialogContent(
     if (context.kind == DialogueContextKind::HouseService)
     {
         const HouseEntry *pHouseEntry = pHouseTable != nullptr ? pHouseTable->get(dialog.sourceId) : nullptr;
-        dialog.title = pHouseEntry != nullptr ? pHouseEntry->name : ("House #" + std::to_string(dialog.sourceId));
+        dialog.houseTitle = pHouseEntry != nullptr ? pHouseEntry->name : ("House #" + std::to_string(dialog.sourceId));
+        dialog.title = dialog.houseTitle;
+        dialog.participantPictureId = pHouseEntry != nullptr ? pHouseEntry->proprietorPictureId : 0;
+        bool hasResidentActions = false;
 
         if (pHouseEntry != nullptr)
         {
@@ -246,6 +283,7 @@ EventDialogContent buildEventDialogContent(
                         action.id = residentNpcId;
                         action.label = pResident->name;
                         dialog.actions.push_back(std::move(action));
+                        hasResidentActions = true;
                     }
                 }
             }
@@ -255,7 +293,7 @@ EventDialogContent buildEventDialogContent(
                 pParty,
                 pClassSkillTable,
                 currentHour,
-                eventRuntimeState.houseServiceMenuId
+                currentDialogueMenuId(eventRuntimeState)
             );
 
             for (const HouseActionOption &houseAction : houseActions)
@@ -268,6 +306,11 @@ EventDialogContent buildEventDialogContent(
                 action.enabled = houseAction.enabled;
                 action.disabledReason = houseAction.disabledReason;
                 dialog.actions.push_back(std::move(action));
+            }
+
+            if (!hasResidentActions && resolveHouseServiceType(*pHouseEntry) != HouseServiceType::None)
+            {
+                dialog.title = buildHouseParticipantTitle(*pHouseEntry);
             }
         }
     }
@@ -282,11 +325,13 @@ EventDialogContent buildEventDialogContent(
             ? pNpcDialogTable->getNpc(dialog.sourceId)
             : nullptr;
         const bool hasPendingRosterJoinInvite =
-            eventRuntimeState.pendingRosterJoinInvite
-            && eventRuntimeState.pendingRosterJoinInvite->npcId == dialog.sourceId;
+            pCurrentOffer != nullptr
+            && pCurrentOffer->kind == DialogueOfferKind::RosterJoin
+            && pCurrentOffer->npcId == dialog.sourceId;
         const bool hasPendingMasteryTeacherOffer =
-            eventRuntimeState.pendingMasteryTeacherOffer
-            && eventRuntimeState.pendingMasteryTeacherOffer->npcId == dialog.sourceId;
+            pCurrentOffer != nullptr
+            && pCurrentOffer->kind == DialogueOfferKind::MasteryTeacher
+            && pCurrentOffer->npcId == dialog.sourceId;
         const bool hasEventMessageLines = !eventMessageLines.empty();
 
         if (context.kind == DialogueContextKind::NpcNews && dialog.sourceId == 0)
@@ -359,7 +404,7 @@ EventDialogContent buildEventDialogContent(
             else if (hasPendingMasteryTeacherOffer && pClassSkillTable != nullptr && pParty != nullptr)
             {
                 const std::optional<MasteryTeacherEvaluation> evaluation = evaluateMasteryTeacherTopic(
-                    eventRuntimeState.pendingMasteryTeacherOffer->topicId,
+                    pCurrentOffer->topicId,
                     *pParty,
                     *pClassSkillTable,
                     *pNpcDialogTable
@@ -369,7 +414,7 @@ EventDialogContent buildEventDialogContent(
                 {
                     EventDialogAction learnAction = {};
                     learnAction.kind = EventDialogActionKind::MasteryTeacherLearn;
-                    learnAction.id = eventRuntimeState.pendingMasteryTeacherOffer->topicId;
+                    learnAction.id = pCurrentOffer->topicId;
                     learnAction.label = evaluation->displayText;
                     dialog.actions.push_back(std::move(learnAction));
                 }
@@ -429,13 +474,14 @@ EventDialogContent buildEventDialogContent(
     }
 
     if (context.kind == DialogueContextKind::NpcTalk
-        && eventRuntimeState.pendingMasteryTeacherOffer
-        && eventRuntimeState.pendingMasteryTeacherOffer->npcId == dialog.sourceId
+        && pCurrentOffer != nullptr
+        && pCurrentOffer->kind == DialogueOfferKind::MasteryTeacher
+        && pCurrentOffer->npcId == dialog.sourceId
         && eventMessageLines.empty()
         && pNpcDialogTable != nullptr)
     {
         const std::optional<NpcDialogTable::ResolvedTopic> topic =
-            pNpcDialogTable->getTopicById(eventRuntimeState.pendingMasteryTeacherOffer->topicId);
+            pNpcDialogTable->getTopicById(pCurrentOffer->topicId);
 
         if (topic && !topic->text.empty())
         {
@@ -444,13 +490,14 @@ EventDialogContent buildEventDialogContent(
     }
 
     if (context.kind == DialogueContextKind::NpcTalk
-        && eventRuntimeState.pendingRosterJoinInvite
-        && eventRuntimeState.pendingRosterJoinInvite->npcId == dialog.sourceId
+        && pCurrentOffer != nullptr
+        && pCurrentOffer->kind == DialogueOfferKind::RosterJoin
+        && pCurrentOffer->npcId == dialog.sourceId
         && eventMessageLines.empty()
         && pNpcDialogTable != nullptr)
     {
         const std::optional<std::string> inviteText =
-            pNpcDialogTable->getText(eventRuntimeState.pendingRosterJoinInvite->inviteTextId);
+            pNpcDialogTable->getText(pCurrentOffer->messageTextId);
 
         if (inviteText && !inviteText->empty())
         {

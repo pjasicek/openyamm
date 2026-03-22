@@ -1,5 +1,8 @@
 #include "game/NpcDialogTable.h"
 
+#include "game/MasteryTeacherDialog.h"
+#include "game/RosterTable.h"
+
 #include <algorithm>
 #include <cctype>
 #include <cstdlib>
@@ -27,11 +30,6 @@ bool parseUnsigned(const std::string &text, uint32_t &value)
     return true;
 }
 
-bool isRosterJoinTopicLabel(const std::string &topic)
-{
-    return topic == "Roster Join Event" || topic == "Join";
-}
-
 bool isTeacherHintTopicRow(const std::vector<std::string> &row)
 {
     if (row.size() <= 6)
@@ -47,22 +45,45 @@ bool isTeacherHintTopicRow(const std::vector<std::string> &row)
         loweredCell.push_back(static_cast<char>(std::tolower(static_cast<unsigned char>(character))));
     }
 
-    return loweredCell.find("teacher hint") != std::string::npos;
+    return loweredCell == "teacher hint";
 }
 
-std::optional<NpcDialogTable::RosterJoinOffer> buildRosterJoinOffer(const NpcTopicEntry &entry)
+bool isRosterJoinTopicLabel(const NpcTopicEntry &entry)
 {
-    if (!isRosterJoinTopicLabel(entry.topic) || entry.id <= 600 || entry.id > 649)
+    return entry.topic == "Roster Join Event" || entry.topic == "Join";
+}
+
+std::optional<NpcDialogTable::RosterJoinOffer> buildRosterJoinOffer(
+    const NpcTopicEntry &entry,
+    const RosterTable &rosterTable,
+    const std::unordered_map<uint32_t, std::string> &textsById
+)
+{
+    if (!isRosterJoinTopicLabel(entry))
     {
         return std::nullopt;
     }
 
-    const uint32_t rosterId = entry.id - 600;
+    const RosterEntry *pRosterEntry = rosterTable.findByName(entry.notes);
+
+    if (pRosterEntry == nullptr)
+    {
+        return std::nullopt;
+    }
+
+    const uint32_t inviteTextId = 198 + pRosterEntry->id * 2;
+    const uint32_t partyFullTextId = inviteTextId + 1;
+
+    if (!textsById.contains(inviteTextId) || !textsById.contains(partyFullTextId))
+    {
+        return std::nullopt;
+    }
+
     NpcDialogTable::RosterJoinOffer offer = {};
     offer.topicId = entry.id;
-    offer.rosterId = rosterId;
-    offer.inviteTextId = 198 + rosterId * 2;
-    offer.partyFullTextId = offer.inviteTextId + 1;
+    offer.rosterId = pRosterEntry->id;
+    offer.inviteTextId = inviteTextId;
+    offer.partyFullTextId = partyFullTextId;
     return offer;
 }
 }
@@ -191,7 +212,8 @@ bool NpcDialogTable::loadTopicsFromRows(const std::vector<std::vector<std::strin
         NpcTopicEntry entry = {};
         entry.id = id;
         entry.topic = row[1];
-        entry.owner = row[5];
+        entry.notes = row.size() > 3 ? row[3] : "";
+        entry.owner = row.size() > 5 ? row[5] : "";
 
         uint32_t textId = 0;
 
@@ -200,30 +222,45 @@ bool NpcDialogTable::loadTopicsFromRows(const std::vector<std::vector<std::strin
             entry.textId = textId;
         }
 
-        entry.specialKind = isTeacherHintTopicRow(row) ? NpcTopicEntry::SpecialKind::TextOnly
-                                                       : NpcTopicEntry::SpecialKind::None;
-
-        const std::optional<RosterJoinOffer> rosterJoinOffer = buildRosterJoinOffer(entry);
-
-        if (rosterJoinOffer)
-        {
-            entry.specialKind = NpcTopicEntry::SpecialKind::RosterJoinOffer;
-            m_rosterJoinOffersByTopicId[entry.id] = *rosterJoinOffer;
-        }
-        else if (entry.id >= 300 && entry.id <= 416)
-        {
-            entry.specialKind = NpcTopicEntry::SpecialKind::MasteryTeacherOffer;
-        }
-
-        if (entry.specialKind == NpcTopicEntry::SpecialKind::RosterJoinOffer)
-        {
-            entry.topic = "Join";
-        }
+        entry.specialKind = isTeacherHintTopicRow(row)
+            ? NpcTopicEntry::SpecialKind::TextOnly
+            : NpcTopicEntry::SpecialKind::None;
 
         m_topicsById[entry.id] = std::move(entry);
     }
 
     return !m_topicsById.empty();
+}
+
+void NpcDialogTable::resolveSpecialTopics(const RosterTable &rosterTable)
+{
+    m_rosterJoinOffersByTopicId.clear();
+
+    for (auto &[topicId, entry] : m_topicsById)
+    {
+        if (entry.specialKind != NpcTopicEntry::SpecialKind::TextOnly)
+        {
+            entry.specialKind = NpcTopicEntry::SpecialKind::None;
+        }
+
+        const std::optional<RosterJoinOffer> rosterJoinOffer = buildRosterJoinOffer(entry, rosterTable, m_texts);
+
+        if (rosterJoinOffer)
+        {
+            entry.specialKind = NpcTopicEntry::SpecialKind::RosterJoinOffer;
+            entry.topic = "Join";
+            m_rosterJoinOffersByTopicId[topicId] = *rosterJoinOffer;
+            continue;
+        }
+
+        std::string masteryTeacherSkillName;
+        SkillMastery masteryTeacherMastery = SkillMastery::None;
+
+        if (tryDecodeMasteryTeacherTopicLabel(entry.topic, masteryTeacherSkillName, masteryTeacherMastery))
+        {
+            entry.specialKind = NpcTopicEntry::SpecialKind::MasteryTeacherOffer;
+        }
+    }
 }
 
 bool NpcDialogTable::loadNpcRows(const std::vector<std::vector<std::string>> &rows)

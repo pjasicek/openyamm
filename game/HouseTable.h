@@ -11,6 +11,7 @@ namespace OpenYAMM::Game
 struct HouseEntry
 {
     uint32_t id = 0;
+    uint32_t proprietorPictureId = 0;
     std::string type;
     std::string name;
     std::string buildingName;

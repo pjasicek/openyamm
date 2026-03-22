@@ -54,6 +54,8 @@ bool HouseTable::loadFromRows(const std::vector<std::vector<std::string>> &rows)
 
         HouseEntry entry = {};
         entry.id = static_cast<uint32_t>(parsedId);
+        entry.proprietorPictureId =
+            (row.size() > 8 && !row[8].empty()) ? std::strtoul(row[8].c_str(), nullptr, 10) : 0;
         entry.type = row.size() > 2 ? row[2] : "";
         entry.name = name;
         entry.proprietorName = row.size() > 6 ? row[6] : "";

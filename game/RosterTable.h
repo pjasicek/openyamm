@@ -33,6 +33,7 @@ public:
     bool loadFromRows(const std::vector<std::vector<std::string>> &rows);
 
     const RosterEntry *get(uint32_t rosterId) const;
+    const RosterEntry *findByName(const std::string &name) const;
 
 private:
     std::unordered_map<uint32_t, RosterEntry> m_entries;

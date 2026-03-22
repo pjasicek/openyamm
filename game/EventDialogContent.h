@@ -44,6 +44,8 @@ struct EventDialogContent
     bool isActive = false;
     bool isHouseDialog = false;
     uint32_t sourceId = 0;
+    uint32_t participantPictureId = 0;
+    std::string houseTitle;
     std::string title;
     std::vector<std::string> lines;
     std::vector<EventDialogAction> actions;

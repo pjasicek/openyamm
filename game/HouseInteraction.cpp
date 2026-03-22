@@ -15,9 +15,6 @@ namespace
 {
 constexpr int RestTargetHour = 6;
 constexpr int TavernFoodTarget = 14;
-constexpr char SkillsMenuId[] = "skills";
-constexpr char ShopEquipmentMenuId[] = "shop_equipment";
-constexpr char TavernArcomageMenuId[] = "tavern_arcomage";
 
 bool isHouseType(const HouseEntry &houseEntry, const char *pTypeName)
 {
@@ -234,13 +231,13 @@ std::vector<std::string> buildHouseServiceInfoLines(
     const HouseEntry &houseEntry,
     const Party *pParty,
     const ClassSkillTable *pClassSkillTable,
-    const std::string &menuId
+    DialogueMenuId menuId
 )
 {
     std::vector<std::string> lines;
     const HouseServiceType serviceType = resolveHouseServiceType(houseEntry);
 
-    if (menuId == SkillsMenuId)
+    if (menuId == DialogueMenuId::LearnSkills)
     {
         lines.push_back(selectedMemberLine(pParty));
 
@@ -258,11 +255,11 @@ std::vector<std::string> buildHouseServiceInfoLines(
             lines.push_back("No skills are available here for this character.");
         }
     }
-    else if (menuId == ShopEquipmentMenuId)
+    else if (menuId == DialogueMenuId::ShopEquipment)
     {
         lines.push_back("Choose an equipment service.");
     }
-    else if (menuId == TavernArcomageMenuId)
+    else if (menuId == DialogueMenuId::TavernArcomage)
     {
         lines.push_back("Choose an Arcomage option.");
     }
@@ -275,7 +272,7 @@ std::vector<HouseActionOption> buildHouseActionOptions(
     const Party *pParty,
     const ClassSkillTable *pClassSkillTable,
     int currentHour,
-    const std::string &menuId
+    DialogueMenuId menuId
 )
 {
     std::vector<HouseActionOption> options;
@@ -283,7 +280,7 @@ std::vector<HouseActionOption> buildHouseActionOptions(
     const std::string closedReason = buildClosedReason(houseEntry);
     const HouseServiceType serviceType = resolveHouseServiceType(houseEntry);
 
-    if (menuId == SkillsMenuId)
+    if (menuId == DialogueMenuId::LearnSkills)
     {
         const int price = skillLearningCost(houseEntry, serviceType == HouseServiceType::Guild);
         const std::vector<std::string> learnableSkills = collectLearnableSkills(houseEntry, pParty, pClassSkillTable);
@@ -315,7 +312,7 @@ std::vector<HouseActionOption> buildHouseActionOptions(
         return options;
     }
 
-    if (menuId == ShopEquipmentMenuId)
+    if (menuId == DialogueMenuId::ShopEquipment)
     {
         HouseActionOption sell = makeOption(HouseActionId::ShopSell, "Sell", isHouseOpenNow, closedReason);
         sell.enabled = false;
@@ -338,7 +335,7 @@ std::vector<HouseActionOption> buildHouseActionOptions(
         return options;
     }
 
-    if (menuId == TavernArcomageMenuId)
+    if (menuId == DialogueMenuId::TavernArcomage)
     {
         HouseActionOption rules = makeOption(
             HouseActionId::TavernArcomageRules,

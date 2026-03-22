@@ -3,57 +3,13 @@
 #include "game/NpcDialogTable.h"
 #include "game/Party.h"
 
-#include <array>
+#include <cctype>
+#include <string_view>
 
 namespace OpenYAMM::Game
 {
 namespace
 {
-constexpr uint32_t FirstMasteryTeacherTopicId = 300;
-constexpr uint32_t LastMasteryTeacherTopicId = 416;
-
-const std::array<std::string, 39> MasteryTeacherSkillMap = {
-    "Staff",
-    "Sword",
-    "Dagger",
-    "Axe",
-    "Spear",
-    "Bow",
-    "Mace",
-    "Blaster",
-    "Shield",
-    "LeatherArmor",
-    "ChainArmor",
-    "PlateArmor",
-    "FireMagic",
-    "AirMagic",
-    "WaterMagic",
-    "EarthMagic",
-    "SpiritMagic",
-    "MindMagic",
-    "BodyMagic",
-    "LightMagic",
-    "DarkMagic",
-    "DarkElfAbility",
-    "VampireAbility",
-    "DragonAbility",
-    "IdentifyItem",
-    "Merchant",
-    "RepairItem",
-    "Bodybuilding",
-    "Meditation",
-    "Perception",
-    "Regeneration",
-    "DisarmTraps",
-    "Dodging",
-    "Unarmed",
-    "IdentifyMonster",
-    "Armsmaster",
-    "Stealing",
-    "Alchemy",
-    "Learning",
-};
-
 std::string npcTextOrFallback(const NpcDialogTable &npcDialogTable, uint32_t textId, const std::string &fallback)
 {
     const std::optional<std::string> text = npcDialogTable.getText(textId);
@@ -66,30 +22,63 @@ std::string npcTextOrFallback(const NpcDialogTable &npcDialogTable, uint32_t tex
     return fallback;
 }
 
-bool tryDecodeMasteryTeacherTopic(
-    uint32_t topicId,
+std::string trimCopy(const std::string &text)
+{
+    size_t start = 0;
+    size_t end = text.size();
+
+    while (start < end && std::isspace(static_cast<unsigned char>(text[start])) != 0)
+    {
+        ++start;
+    }
+
+    while (end > start && std::isspace(static_cast<unsigned char>(text[end - 1])) != 0)
+    {
+        --end;
+    }
+
+    return text.substr(start, end - start);
+}
+}
+
+bool tryDecodeMasteryTeacherTopicLabel(
+    const std::string &topicLabel,
     std::string &skillName,
     SkillMastery &targetMastery
 )
 {
-    if (!isMasteryTeacherTopic(topicId))
+    const std::string trimmedLabel = trimCopy(topicLabel);
+    constexpr std::string_view grandMasterPrefix = "Grand Master ";
+    constexpr std::string_view masterPrefix = "Master ";
+    constexpr std::string_view expertPrefix = "Expert ";
+    std::string rawSkillName;
+
+    if (trimmedLabel.rfind(std::string(grandMasterPrefix), 0) == 0)
+    {
+        targetMastery = SkillMastery::Grandmaster;
+        rawSkillName = trimmedLabel.substr(grandMasterPrefix.size());
+    }
+    else if (trimmedLabel.rfind(std::string(masterPrefix), 0) == 0)
+    {
+        targetMastery = SkillMastery::Master;
+        rawSkillName = trimmedLabel.substr(masterPrefix.size());
+    }
+    else if (trimmedLabel.rfind(std::string(expertPrefix), 0) == 0)
+    {
+        targetMastery = SkillMastery::Expert;
+        rawSkillName = trimmedLabel.substr(expertPrefix.size());
+    }
+    else
     {
         return false;
     }
 
-    const uint32_t zeroBased = topicId - FirstMasteryTeacherTopicId;
-    const uint32_t skillIndex = zeroBased / 3;
-
-    if (skillIndex >= MasteryTeacherSkillMap.size())
-    {
-        return false;
-    }
-
-    skillName = MasteryTeacherSkillMap[skillIndex];
-    targetMastery = static_cast<SkillMastery>((zeroBased % 3) + 2);
-    return true;
+    skillName = canonicalSkillName(trimCopy(rawSkillName));
+    return !skillName.empty();
 }
 
+namespace
+{
 uint32_t alreadyHasTextId(SkillMastery mastery)
 {
     switch (mastery)
@@ -344,11 +333,6 @@ bool meetsMasteryRequirements(
 }
 }
 
-bool isMasteryTeacherTopic(uint32_t topicId)
-{
-    return topicId >= FirstMasteryTeacherTopicId && topicId <= LastMasteryTeacherTopicId;
-}
-
 std::optional<MasteryTeacherEvaluation> evaluateMasteryTeacherTopic(
     uint32_t topicId,
     const Party &party,
@@ -364,8 +348,9 @@ std::optional<MasteryTeacherEvaluation> evaluateMasteryTeacherTopic(
     }
 
     MasteryTeacherEvaluation evaluation = {};
+    const std::optional<NpcDialogTable::ResolvedTopic> topic = npcDialogTable.getTopicById(topicId);
 
-    if (!tryDecodeMasteryTeacherTopic(topicId, evaluation.skillName, evaluation.targetMastery))
+    if (!topic || !tryDecodeMasteryTeacherTopicLabel(topic->topic, evaluation.skillName, evaluation.targetMastery))
     {
         return std::nullopt;
     }

@@ -20,7 +20,11 @@ struct MasteryTeacherEvaluation
     int cost = 0;
 };
 
-bool isMasteryTeacherTopic(uint32_t topicId);
+bool tryDecodeMasteryTeacherTopicLabel(
+    const std::string &topicLabel,
+    std::string &skillName,
+    SkillMastery &targetMastery
+);
 std::optional<MasteryTeacherEvaluation> evaluateMasteryTeacherTopic(
     uint32_t topicId,
     const Party &party,

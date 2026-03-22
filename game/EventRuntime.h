@@ -23,6 +23,21 @@ enum class DialogueContextKind
     NpcNews,
 };
 
+enum class DialogueMenuId : uint32_t
+{
+    None = 0,
+    LearnSkills,
+    ShopEquipment,
+    TavernArcomage,
+};
+
+enum class DialogueOfferKind : uint32_t
+{
+    None = 0,
+    RosterJoin,
+    MasteryTeacher,
+};
+
 enum class MechanismAction
 {
     Trigger = 0,
@@ -44,6 +59,7 @@ struct EventRuntimeState
     {
         DialogueContextKind kind = DialogueContextKind::None;
         uint32_t sourceId = 0;
+        uint32_t hostHouseId = 0;
         uint32_t newsId = 0;
         std::optional<std::string> titleOverride;
     };
@@ -56,18 +72,21 @@ struct EventRuntimeState
         std::optional<std::string> mapName;
     };
 
-    struct PendingRosterJoinInvite
+    struct DialogueOfferState
     {
+        DialogueOfferKind kind = DialogueOfferKind::None;
         uint32_t npcId = 0;
+        uint32_t topicId = 0;
+        uint32_t messageTextId = 0;
         uint32_t rosterId = 0;
-        uint32_t inviteTextId = 0;
         uint32_t partyFullTextId = 0;
     };
 
-    struct PendingMasteryTeacherOffer
+    struct DialogueRuntimeState
     {
-        uint32_t npcId = 0;
-        uint32_t topicId = 0;
+        uint32_t hostHouseId = 0;
+        std::vector<DialogueMenuId> menuStack;
+        std::optional<DialogueOfferState> currentOffer;
     };
 
     std::unordered_map<uint32_t, int32_t> variables;
@@ -85,7 +104,7 @@ struct EventRuntimeState
     std::unordered_map<uint32_t, uint32_t> npcGreetingDisplayCounts;
     std::unordered_map<uint32_t, uint32_t> npcHouseOverrides;
     std::unordered_set<uint32_t> unavailableNpcIds;
-    std::string houseServiceMenuId;
+    DialogueRuntimeState dialogueState;
     std::vector<std::string> messages;
     std::vector<uint32_t> openedChestIds;
     std::vector<uint32_t> grantedItemIds;
@@ -94,8 +113,6 @@ struct EventRuntimeState
     std::vector<uint32_t> removedAwardIds;
     std::optional<PendingDialogueContext> pendingDialogueContext;
     std::optional<PendingMapMove> pendingMapMove;
-    std::optional<PendingRosterJoinInvite> pendingRosterJoinInvite;
-    std::optional<PendingMasteryTeacherOffer> pendingMasteryTeacherOffer;
     std::vector<uint32_t> lastAffectedMechanismIds;
     std::optional<std::string> lastActivationResult;
     size_t localOnLoadEventsExecuted = 0;

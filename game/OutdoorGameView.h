@@ -554,7 +554,6 @@ private:
     std::array<bool, 5> m_eventDialogPartySelectLatches;
     size_t m_chestSelectionIndex;
     size_t m_eventDialogSelectionIndex;
-    uint32_t m_dialogueHostHouseId;
     std::string m_statusBarEventText;
     float m_statusBarEventRemainingSeconds;
     EventDialogContent m_activeEventDialog;

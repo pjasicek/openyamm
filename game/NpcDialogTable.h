@@ -8,6 +8,8 @@
 
 namespace OpenYAMM::Game
 {
+class RosterTable;
+
 struct NpcGreetingEntry
 {
     uint32_t id = 0;
@@ -29,6 +31,7 @@ struct NpcTopicEntry
     uint32_t id = 0;
     uint32_t textId = 0;
     std::string topic;
+    std::string notes;
     std::string owner;
     SpecialKind specialKind = SpecialKind::None;
 };
@@ -69,6 +72,7 @@ public:
     bool loadTextsFromRows(const std::vector<std::vector<std::string>> &rows);
     bool loadTopicsFromRows(const std::vector<std::vector<std::string>> &rows);
     bool loadNpcRows(const std::vector<std::vector<std::string>> &rows);
+    void resolveSpecialTopics(const RosterTable &rosterTable);
 
     const NpcEntry *getNpc(uint32_t npcId) const;
     const NpcGreetingEntry *getGreetingForNpc(uint32_t npcId) const;

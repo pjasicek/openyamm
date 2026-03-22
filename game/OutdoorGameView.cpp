@@ -118,6 +118,29 @@ UiViewportRect computeUiViewportRect(int screenWidth, int screenHeight)
     return viewport;
 }
 
+DialogueMenuId dialogueMenuIdForHouseAction(HouseActionId actionId)
+{
+    switch (actionId)
+    {
+        case HouseActionId::OpenLearnSkillsMenu:
+            return DialogueMenuId::LearnSkills;
+
+        case HouseActionId::OpenShopEquipmentMenu:
+            return DialogueMenuId::ShopEquipment;
+
+        case HouseActionId::OpenTavernArcomageMenu:
+            return DialogueMenuId::TavernArcomage;
+
+        default:
+            return DialogueMenuId::None;
+    }
+}
+
+uint32_t currentDialogueHostHouseId(const EventRuntimeState *pEventRuntimeState)
+{
+    return pEventRuntimeState != nullptr ? pEventRuntimeState->dialogueState.hostHouseId : 0;
+}
+
 uint32_t makeAbgrColor(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha = 255)
 {
     return static_cast<uint32_t>(alpha) << 24
@@ -1195,7 +1218,6 @@ OutdoorGameView::OutdoorGameView()
     , m_eventDialogPartySelectLatches({})
     , m_chestSelectionIndex(0)
     , m_eventDialogSelectionIndex(0)
-    , m_dialogueHostHouseId(0)
     , m_statusBarEventText()
     , m_statusBarEventRemainingSeconds(0.0f)
     , m_activeEventDialog({})
@@ -3890,21 +3912,11 @@ void OutdoorGameView::executeActiveDialogAction()
             return;
         }
 
-        if (action.id == static_cast<uint32_t>(HouseActionId::OpenLearnSkillsMenu))
+        const DialogueMenuId menuId = dialogueMenuIdForHouseAction(static_cast<HouseActionId>(action.id));
+
+        if (menuId != DialogueMenuId::None)
         {
-            pEventRuntimeState->houseServiceMenuId = "skills";
-        }
-        else if (action.id == static_cast<uint32_t>(HouseActionId::OpenShopEquipmentMenu))
-        {
-            pEventRuntimeState->houseServiceMenuId = "shop_equipment";
-        }
-        else if (action.id == static_cast<uint32_t>(HouseActionId::OpenTavernArcomageMenu))
-        {
-            pEventRuntimeState->houseServiceMenuId = "tavern_arcomage";
-        }
-        else if (action.id == static_cast<uint32_t>(HouseActionId::BackToRootMenu))
-        {
-            pEventRuntimeState->houseServiceMenuId.clear();
+            pEventRuntimeState->dialogueState.menuStack.push_back(menuId);
         }
         else
         {
@@ -3931,6 +3943,8 @@ void OutdoorGameView::executeActiveDialogAction()
         EventRuntimeState::PendingDialogueContext context = {};
         context.kind = DialogueContextKind::HouseService;
         context.sourceId = m_activeEventDialog.sourceId;
+        context.hostHouseId = m_activeEventDialog.sourceId;
+        pEventRuntimeState->dialogueState.hostHouseId = m_activeEventDialog.sourceId;
         pEventRuntimeState->pendingDialogueContext = std::move(context);
         openPendingEventDialog(previousMessageCount, true);
         return;
@@ -3938,10 +3952,11 @@ void OutdoorGameView::executeActiveDialogAction()
 
     if (action.kind == EventDialogActionKind::HouseResident)
     {
-        m_dialogueHostHouseId = m_activeEventDialog.sourceId;
         EventRuntimeState::PendingDialogueContext context = {};
         context.kind = DialogueContextKind::NpcTalk;
         context.sourceId = action.id;
+        context.hostHouseId = m_activeEventDialog.sourceId;
+        pEventRuntimeState->dialogueState.hostHouseId = m_activeEventDialog.sourceId;
         pEventRuntimeState->pendingDialogueContext = std::move(context);
         openPendingEventDialog(previousMessageCount, true);
         return;
@@ -3971,16 +3986,19 @@ void OutdoorGameView::executeActiveDialogAction()
             pEventRuntimeState->messages.push_back(*inviteText);
         }
 
-        EventRuntimeState::PendingRosterJoinInvite invite = {};
-        invite.npcId = m_activeEventDialog.sourceId;
-        invite.rosterId = offer->rosterId;
-        invite.inviteTextId = offer->inviteTextId;
-        invite.partyFullTextId = offer->partyFullTextId;
-        pEventRuntimeState->pendingRosterJoinInvite = std::move(invite);
+        EventRuntimeState::DialogueOfferState offerState = {};
+        offerState.kind = DialogueOfferKind::RosterJoin;
+        offerState.npcId = m_activeEventDialog.sourceId;
+        offerState.topicId = action.id;
+        offerState.messageTextId = offer->inviteTextId;
+        offerState.rosterId = offer->rosterId;
+        offerState.partyFullTextId = offer->partyFullTextId;
+        pEventRuntimeState->dialogueState.currentOffer = std::move(offerState);
 
         EventRuntimeState::PendingDialogueContext context = {};
         context.kind = DialogueContextKind::NpcTalk;
         context.sourceId = m_activeEventDialog.sourceId;
+        context.hostHouseId = currentDialogueHostHouseId(pEventRuntimeState);
         pEventRuntimeState->pendingDialogueContext = std::move(context);
         openPendingEventDialog(previousMessageCount, true);
         return;
@@ -3988,13 +4006,16 @@ void OutdoorGameView::executeActiveDialogAction()
 
     if (action.kind == EventDialogActionKind::RosterJoinAccept)
     {
-        if (!pEventRuntimeState->pendingRosterJoinInvite || m_pOutdoorPartyRuntime == nullptr || m_pRosterTable == nullptr)
+        if (!pEventRuntimeState->dialogueState.currentOffer
+            || pEventRuntimeState->dialogueState.currentOffer->kind != DialogueOfferKind::RosterJoin
+            || m_pOutdoorPartyRuntime == nullptr
+            || m_pRosterTable == nullptr)
         {
             return;
         }
 
-        const EventRuntimeState::PendingRosterJoinInvite invite = *pEventRuntimeState->pendingRosterJoinInvite;
-        pEventRuntimeState->pendingRosterJoinInvite.reset();
+        const EventRuntimeState::DialogueOfferState invite = *pEventRuntimeState->dialogueState.currentOffer;
+        pEventRuntimeState->dialogueState.currentOffer.reset();
 
         if (m_pOutdoorPartyRuntime->party().isFull())
         {
@@ -4013,6 +4034,7 @@ void OutdoorGameView::executeActiveDialogAction()
             EventRuntimeState::PendingDialogueContext context = {};
             context.kind = DialogueContextKind::NpcTalk;
             context.sourceId = invite.npcId;
+            context.hostHouseId = currentDialogueHostHouseId(pEventRuntimeState);
             pEventRuntimeState->pendingDialogueContext = std::move(context);
             openPendingEventDialog(previousMessageCount, false);
             return;
@@ -4027,6 +4049,7 @@ void OutdoorGameView::executeActiveDialogAction()
             EventRuntimeState::PendingDialogueContext context = {};
             context.kind = DialogueContextKind::NpcTalk;
             context.sourceId = invite.npcId;
+            context.hostHouseId = currentDialogueHostHouseId(pEventRuntimeState);
             pEventRuntimeState->pendingDialogueContext = std::move(context);
             openPendingEventDialog(previousMessageCount, true);
             return;
@@ -4039,6 +4062,7 @@ void OutdoorGameView::executeActiveDialogAction()
         EventRuntimeState::PendingDialogueContext context = {};
         context.kind = DialogueContextKind::NpcTalk;
         context.sourceId = invite.npcId;
+        context.hostHouseId = currentDialogueHostHouseId(pEventRuntimeState);
         pEventRuntimeState->pendingDialogueContext = std::move(context);
         openPendingEventDialog(previousMessageCount, false);
         return;
@@ -4046,14 +4070,17 @@ void OutdoorGameView::executeActiveDialogAction()
 
     if (action.kind == EventDialogActionKind::RosterJoinDecline)
     {
-        const uint32_t npcId = pEventRuntimeState->pendingRosterJoinInvite
-            ? pEventRuntimeState->pendingRosterJoinInvite->npcId
+        const uint32_t npcId =
+            (pEventRuntimeState->dialogueState.currentOffer
+             && pEventRuntimeState->dialogueState.currentOffer->kind == DialogueOfferKind::RosterJoin)
+            ? pEventRuntimeState->dialogueState.currentOffer->npcId
             : m_activeEventDialog.sourceId;
-        pEventRuntimeState->pendingRosterJoinInvite.reset();
+        pEventRuntimeState->dialogueState.currentOffer.reset();
 
         EventRuntimeState::PendingDialogueContext context = {};
         context.kind = DialogueContextKind::NpcTalk;
         context.sourceId = npcId;
+        context.hostHouseId = currentDialogueHostHouseId(pEventRuntimeState);
         pEventRuntimeState->pendingDialogueContext = std::move(context);
         openPendingEventDialog(previousMessageCount, true);
         return;
@@ -4061,14 +4088,16 @@ void OutdoorGameView::executeActiveDialogAction()
 
     if (action.kind == EventDialogActionKind::MasteryTeacherOffer)
     {
-        EventRuntimeState::PendingMasteryTeacherOffer offer = {};
+        EventRuntimeState::DialogueOfferState offer = {};
+        offer.kind = DialogueOfferKind::MasteryTeacher;
         offer.npcId = m_activeEventDialog.sourceId;
         offer.topicId = action.id;
-        pEventRuntimeState->pendingMasteryTeacherOffer = std::move(offer);
+        pEventRuntimeState->dialogueState.currentOffer = std::move(offer);
 
         EventRuntimeState::PendingDialogueContext context = {};
         context.kind = DialogueContextKind::NpcTalk;
         context.sourceId = m_activeEventDialog.sourceId;
+        context.hostHouseId = currentDialogueHostHouseId(pEventRuntimeState);
         pEventRuntimeState->pendingDialogueContext = std::move(context);
         openPendingEventDialog(previousMessageCount, true);
         return;
@@ -4076,7 +4105,8 @@ void OutdoorGameView::executeActiveDialogAction()
 
     if (action.kind == EventDialogActionKind::MasteryTeacherLearn)
     {
-        if (!pEventRuntimeState->pendingMasteryTeacherOffer
+        if (!pEventRuntimeState->dialogueState.currentOffer
+            || pEventRuntimeState->dialogueState.currentOffer->kind != DialogueOfferKind::MasteryTeacher
             || m_pOutdoorPartyRuntime == nullptr
             || !m_classSkillTable
             || !m_npcDialogTable)
@@ -4087,7 +4117,7 @@ void OutdoorGameView::executeActiveDialogAction()
         std::string message;
 
         if (applyMasteryTeacherTopic(
-                pEventRuntimeState->pendingMasteryTeacherOffer->topicId,
+                pEventRuntimeState->dialogueState.currentOffer->topicId,
                 m_pOutdoorPartyRuntime->party(),
                 *m_classSkillTable,
                 *m_npcDialogTable,
@@ -4098,13 +4128,13 @@ void OutdoorGameView::executeActiveDialogAction()
                 setStatusBarEvent(message);
             }
 
-            pEventRuntimeState->pendingMasteryTeacherOffer.reset();
+            pEventRuntimeState->dialogueState.currentOffer.reset();
             openPendingEventDialog(previousMessageCount, false);
         }
         else
         {
             const std::optional<MasteryTeacherEvaluation> evaluation = evaluateMasteryTeacherTopic(
-                pEventRuntimeState->pendingMasteryTeacherOffer->topicId,
+                pEventRuntimeState->dialogueState.currentOffer->topicId,
                 m_pOutdoorPartyRuntime->party(),
                 *m_classSkillTable,
                 *m_npcDialogTable
@@ -4171,6 +4201,7 @@ void OutdoorGameView::executeActiveDialogAction()
             EventRuntimeState::PendingDialogueContext context = {};
             context.kind = DialogueContextKind::NpcTalk;
             context.sourceId = npcId;
+            context.hostHouseId = currentDialogueHostHouseId(pEventRuntimeState);
             pEventRuntimeState->pendingDialogueContext = std::move(context);
         }
 
@@ -4208,7 +4239,9 @@ void OutdoorGameView::openPendingEventDialog(size_t previousMessageCount, bool a
                 m_pOutdoorPartyRuntime != nullptr ? &m_pOutdoorPartyRuntime->party() : nullptr,
                 m_classSkillTable ? &*m_classSkillTable : nullptr,
                 m_pOutdoorWorldRuntime != nullptr ? m_pOutdoorWorldRuntime->currentHour() : -1,
-                pEventRuntimeState->houseServiceMenuId
+                pEventRuntimeState->dialogueState.menuStack.empty()
+                    ? DialogueMenuId::None
+                    : pEventRuntimeState->dialogueState.menuStack.back()
             );
             const std::optional<uint32_t> residentNpcId = singleSelectableResidentNpcId(
                 *pHouseEntry,
@@ -4218,10 +4251,11 @@ void OutdoorGameView::openPendingEventDialog(size_t previousMessageCount, bool a
 
             if (residentNpcId && houseActions.empty())
             {
-                m_dialogueHostHouseId = pHouseEntry->id;
                 EventRuntimeState::PendingDialogueContext context = {};
                 context.kind = DialogueContextKind::NpcTalk;
                 context.sourceId = *residentNpcId;
+                context.hostHouseId = pHouseEntry->id;
+                pEventRuntimeState->dialogueState.hostHouseId = pHouseEntry->id;
                 pEventRuntimeState->pendingDialogueContext = std::move(context);
             }
         }
@@ -4245,44 +4279,13 @@ void OutdoorGameView::openPendingEventDialog(size_t previousMessageCount, bool a
         return;
     }
 
-    if (originalContext.kind == DialogueContextKind::HouseService)
+    if (originalContext.hostHouseId != 0)
     {
-        m_dialogueHostHouseId = originalContext.sourceId;
+        pEventRuntimeState->dialogueState.hostHouseId = originalContext.hostHouseId;
     }
-    else if (m_dialogueHostHouseId == 0
-             && originalContext.kind == DialogueContextKind::NpcTalk
-             && m_houseTable
-             && m_npcDialogTable)
+    else if (originalContext.kind == DialogueContextKind::HouseService)
     {
-        const NpcEntry *pNpc = m_npcDialogTable->getNpc(originalContext.sourceId);
-
-        if (pNpc != nullptr && pNpc->houseId != 0)
-        {
-            const HouseEntry *pHouseEntry = m_houseTable->get(pNpc->houseId);
-
-            if (pHouseEntry != nullptr
-                && resolveHouseServiceType(*pHouseEntry) == HouseServiceType::None)
-            {
-                const std::optional<uint32_t> residentNpcId =
-                    singleSelectableResidentNpcId(*pHouseEntry, *m_npcDialogTable, *pEventRuntimeState);
-
-                if (residentNpcId && *residentNpcId == originalContext.sourceId)
-                {
-                    m_dialogueHostHouseId = pNpc->houseId;
-                }
-            }
-        }
-    }
-
-    if (originalContext.kind == DialogueContextKind::NpcTalk
-        && m_npcDialogTable
-        && (originalContext.sourceId == 78 || originalContext.sourceId == 404))
-    {
-        const NpcEntry *pNpc = m_npcDialogTable->getNpc(originalContext.sourceId);
-        const uint32_t npcHouseId = pNpc != nullptr ? pNpc->houseId : 0;
-        std::cout << "Dialogue host house debug: npcId=" << originalContext.sourceId
-                  << " npcHouseId=" << npcHouseId
-                  << " resolvedHostHouseId=" << m_dialogueHostHouseId << '\n';
+        pEventRuntimeState->dialogueState.hostHouseId = originalContext.sourceId;
     }
 
     m_eventDialogSelectionIndex = 0;
@@ -4304,12 +4307,9 @@ void OutdoorGameView::closeActiveEventDialog()
     if (pEventRuntimeState != nullptr)
     {
         pEventRuntimeState->pendingDialogueContext.reset();
-        pEventRuntimeState->pendingRosterJoinInvite.reset();
-        pEventRuntimeState->pendingMasteryTeacherOffer.reset();
-        pEventRuntimeState->houseServiceMenuId.clear();
+        pEventRuntimeState->dialogueState = {};
     }
 
-    m_dialogueHostHouseId = 0;
     m_activeEventDialog = {};
     m_eventDialogSelectionIndex = 0;
     m_eventDialogSelectUpLatch = false;
@@ -4367,25 +4367,31 @@ void OutdoorGameView::handleDialogueCloseRequest()
     EventRuntimeState *pEventRuntimeState =
         m_pOutdoorWorldRuntime != nullptr ? m_pOutdoorWorldRuntime->eventRuntimeState() : nullptr;
 
-    if (pEventRuntimeState != nullptr && !pEventRuntimeState->houseServiceMenuId.empty())
+    if (pEventRuntimeState != nullptr && !pEventRuntimeState->dialogueState.menuStack.empty())
     {
         EventRuntimeState::PendingDialogueContext context = {};
         context.kind = DialogueContextKind::HouseService;
-        context.sourceId = m_dialogueHostHouseId != 0 ? m_dialogueHostHouseId : m_activeEventDialog.sourceId;
-        pEventRuntimeState->houseServiceMenuId.clear();
+        context.sourceId = currentDialogueHostHouseId(pEventRuntimeState) != 0
+            ? currentDialogueHostHouseId(pEventRuntimeState)
+            : m_activeEventDialog.sourceId;
+        context.hostHouseId = context.sourceId;
+        pEventRuntimeState->dialogueState.menuStack.pop_back();
         pEventRuntimeState->pendingDialogueContext = std::move(context);
         openPendingEventDialog(pEventRuntimeState->messages.size(), true);
         return;
     }
 
-    if (pEventRuntimeState != nullptr && pEventRuntimeState->pendingMasteryTeacherOffer)
+    if (pEventRuntimeState != nullptr
+        && pEventRuntimeState->dialogueState.currentOffer
+        && pEventRuntimeState->dialogueState.currentOffer->kind != DialogueOfferKind::None)
     {
-        const uint32_t npcId = pEventRuntimeState->pendingMasteryTeacherOffer->npcId;
-        pEventRuntimeState->pendingMasteryTeacherOffer.reset();
+        const uint32_t npcId = pEventRuntimeState->dialogueState.currentOffer->npcId;
+        pEventRuntimeState->dialogueState.currentOffer.reset();
 
         EventRuntimeState::PendingDialogueContext context = {};
         context.kind = DialogueContextKind::NpcTalk;
         context.sourceId = npcId != 0 ? npcId : m_activeEventDialog.sourceId;
+        context.hostHouseId = currentDialogueHostHouseId(pEventRuntimeState);
         pEventRuntimeState->pendingDialogueContext = std::move(context);
         openPendingEventDialog(pEventRuntimeState->messages.size(), true);
         return;
@@ -4401,7 +4407,9 @@ void OutdoorGameView::handleDialogueCloseRequest()
                 return action.kind == EventDialogActionKind::HouseResident;
             });
     const HouseEntry *pHostHouseEntry =
-        (m_dialogueHostHouseId != 0 && m_houseTable.has_value()) ? m_houseTable->get(m_dialogueHostHouseId) : nullptr;
+        (currentDialogueHostHouseId(pEventRuntimeState) != 0 && m_houseTable.has_value())
+        ? m_houseTable->get(currentDialogueHostHouseId(pEventRuntimeState))
+        : nullptr;
     const std::vector<uint32_t> hostResidentNpcIds =
         (pHostHouseEntry != nullptr && m_npcDialogTable.has_value() && pEventRuntimeState != nullptr)
         ? collectSelectableResidentNpcIds(*pHostHouseEntry, *m_npcDialogTable, *pEventRuntimeState)
@@ -4414,8 +4422,8 @@ void OutdoorGameView::handleDialogueCloseRequest()
     {
         EventRuntimeState::PendingDialogueContext context = {};
         context.kind = DialogueContextKind::HouseService;
-        context.sourceId = m_dialogueHostHouseId;
-        pEventRuntimeState->houseServiceMenuId.clear();
+        context.sourceId = currentDialogueHostHouseId(pEventRuntimeState);
+        context.hostHouseId = context.sourceId;
         pEventRuntimeState->pendingDialogueContext = std::move(context);
         openPendingEventDialog(pEventRuntimeState->messages.size(), true);
     }
@@ -4436,11 +4444,11 @@ void OutdoorGameView::openDebugNpcDialogue(uint32_t npcId)
         return;
     }
 
-    m_dialogueHostHouseId = 0;
     const size_t previousMessageCount = pEventRuntimeState->messages.size();
     EventRuntimeState::PendingDialogueContext context = {};
     context.kind = DialogueContextKind::NpcTalk;
     context.sourceId = npcId;
+    pEventRuntimeState->dialogueState.hostHouseId = 0;
     pEventRuntimeState->pendingDialogueContext = std::move(context);
     pEventRuntimeState->lastActivationResult = "debug npc " + std::to_string(npcId) + " engaged";
     openPendingEventDialog(previousMessageCount, true);
@@ -4463,6 +4471,56 @@ void OutdoorGameView::renderDialogueOverlay(int width, int height, bool renderAb
     float dialogMouseY = 0.0f;
     SDL_GetMouseState(&dialogMouseX, &dialogMouseY);
     static constexpr uint32_t HoveredDialogueTopicTextColorAbgr = 0xff23cde1u;
+    const UiViewportRect uiViewport = computeUiViewportRect(width, height);
+
+    if (!renderAboveHud && uiViewport.x > 0.5f)
+    {
+        const HudTextureHandle *pBlackTexture = ensureSolidHudTextureLoaded("__dialogue_blackout__", 0xff000000u);
+
+        if (pBlackTexture != nullptr)
+        {
+            const auto drawSolidRect =
+                [this, pBlackTexture](float x, float y, float rectWidth, float rectHeight)
+                {
+                    if (rectWidth <= 0.0f || rectHeight <= 0.0f)
+                    {
+                        return;
+                    }
+
+                    bgfx::TransientVertexBuffer transientVertexBuffer;
+
+                    if (bgfx::getAvailTransientVertexBuffer(6, TexturedTerrainVertex::ms_layout) < 6)
+                    {
+                        return;
+                    }
+
+                    bgfx::allocTransientVertexBuffer(&transientVertexBuffer, 6, TexturedTerrainVertex::ms_layout);
+                    TexturedTerrainVertex *pVertices =
+                        reinterpret_cast<TexturedTerrainVertex *>(transientVertexBuffer.data);
+                    pVertices[0] = {x, y, 0.0f, 0.0f, 0.0f};
+                    pVertices[1] = {x + rectWidth, y, 0.0f, 1.0f, 0.0f};
+                    pVertices[2] = {x + rectWidth, y + rectHeight, 0.0f, 1.0f, 1.0f};
+                    pVertices[3] = {x, y, 0.0f, 0.0f, 0.0f};
+                    pVertices[4] = {x + rectWidth, y + rectHeight, 0.0f, 1.0f, 1.0f};
+                    pVertices[5] = {x, y + rectHeight, 0.0f, 0.0f, 1.0f};
+
+                    float modelMatrix[16] = {};
+                    bx::mtxIdentity(modelMatrix);
+                    bgfx::setTransform(modelMatrix);
+                    bgfx::setVertexBuffer(0, &transientVertexBuffer);
+                    bgfx::setTexture(0, m_terrainTextureSamplerHandle, pBlackTexture->textureHandle);
+                    bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_BLEND_ALPHA);
+                    bgfx::submit(HudViewId, m_texturedTerrainProgramHandle);
+                };
+
+            drawSolidRect(0.0f, 0.0f, uiViewport.x, static_cast<float>(height));
+            drawSolidRect(
+                uiViewport.x + uiViewport.width,
+                0.0f,
+                static_cast<float>(width) - (uiViewport.x + uiViewport.width),
+                static_cast<float>(height));
+        }
+    }
 
     const bool isResidentSelectionMode =
         !m_activeEventDialog.actions.empty()
@@ -4476,7 +4534,9 @@ void OutdoorGameView::renderDialogueOverlay(int width, int height, bool renderAb
     const EventRuntimeState *pEventRuntimeState =
         m_pOutdoorWorldRuntime != nullptr ? m_pOutdoorWorldRuntime->eventRuntimeState() : nullptr;
     const HouseEntry *pHostHouseEntry =
-        (m_dialogueHostHouseId != 0 && m_houseTable.has_value()) ? m_houseTable->get(m_dialogueHostHouseId) : nullptr;
+        (currentDialogueHostHouseId(pEventRuntimeState) != 0 && m_houseTable.has_value())
+        ? m_houseTable->get(currentDialogueHostHouseId(pEventRuntimeState))
+        : nullptr;
     const std::vector<uint32_t> hostResidentNpcIds =
         (pHostHouseEntry != nullptr && m_npcDialogTable.has_value() && pEventRuntimeState != nullptr)
         ? collectSelectableResidentNpcIds(*pHostHouseEntry, *m_npcDialogTable, *pEventRuntimeState)
@@ -4849,19 +4909,6 @@ void OutdoorGameView::renderDialogueOverlay(int width, int height, bool renderAb
 
             if (pHostHouseEntry != nullptr && pEffectiveHouseTitleLayout != nullptr)
             {
-                static std::string lastHouseTitleDebugKey;
-                const std::string houseTitleDebugKey =
-                    std::to_string(m_dialogueHostHouseId) + "|" + pHostHouseEntry->name;
-
-                if ((m_dialogueHostHouseId == 241 || m_dialogueHostHouseId == 243 || pHostHouseEntry->name.empty())
-                    && houseTitleDebugKey != lastHouseTitleDebugKey)
-                {
-                    std::cout << "Dialogue house title render debug: hostHouseId=" << m_dialogueHostHouseId
-                              << " activeDialogSourceId=" << m_activeEventDialog.sourceId
-                              << " houseName=\"" << pHostHouseEntry->name << "\"\n";
-                    lastHouseTitleDebugKey = houseTitleDebugKey;
-                }
-
                 ResolvedHudLayoutElement resolvedHouseTitle = {};
                 resolvedHouseTitle.x = resolvedHouseTitleTemplate ? resolvedHouseTitleTemplate->x : panelInnerX;
                 resolvedHouseTitle.y = resolvedHouseTitleTemplate ? resolvedHouseTitleTemplate->y : contentY;
@@ -4871,7 +4918,10 @@ void OutdoorGameView::renderDialogueOverlay(int width, int height, bool renderAb
 
                 if (shouldRenderInCurrentPass(pEffectiveHouseTitleLayout->zIndex))
                 {
-                    renderLayoutLabel(*pEffectiveHouseTitleLayout, resolvedHouseTitle, pHostHouseEntry->name);
+                    const std::string &houseTitle = !m_activeEventDialog.houseTitle.empty()
+                        ? m_activeEventDialog.houseTitle
+                        : pHostHouseEntry->name;
+                    renderLayoutLabel(*pEffectiveHouseTitleLayout, resolvedHouseTitle, houseTitle);
                 }
 
                 contentY += resolvedHouseTitle.height + houseTitleToPortraitGap;
@@ -5095,8 +5145,17 @@ void OutdoorGameView::renderDialogueOverlay(int width, int height, bool renderAb
             }
             else
             {
-                const NpcEntry *pNpc = m_npcDialogTable ? m_npcDialogTable->getNpc(m_activeEventDialog.sourceId) : nullptr;
-                const uint32_t pictureId = pNpc != nullptr ? pNpc->pictureId : 0;
+                uint32_t pictureId = m_activeEventDialog.participantPictureId;
+
+                if (pictureId == 0)
+                {
+                    const NpcEntry *pNpc =
+                        m_npcDialogTable ? m_npcDialogTable->getNpc(m_activeEventDialog.sourceId) : nullptr;
+                    pictureId = pNpc != nullptr
+                        ? pNpc->pictureId
+                        : (pHostHouseEntry != nullptr ? pHostHouseEntry->proprietorPictureId : 0);
+                }
+
                 contentY = drawEventNpcCard(contentY, m_activeEventDialog.title, pictureId, false);
                 contentY += sectionGap;
 
@@ -10757,7 +10816,9 @@ void OutdoorGameView::updateCameraFromInput(float deltaSeconds)
                 const EventRuntimeState *pEventRuntimeState =
                     m_pOutdoorWorldRuntime != nullptr ? m_pOutdoorWorldRuntime->eventRuntimeState() : nullptr;
                 const HouseEntry *pHostHouseEntry =
-                    (m_dialogueHostHouseId != 0 && m_houseTable.has_value()) ? m_houseTable->get(m_dialogueHostHouseId) : nullptr;
+                    (currentDialogueHostHouseId(pEventRuntimeState) != 0 && m_houseTable.has_value())
+                    ? m_houseTable->get(currentDialogueHostHouseId(pEventRuntimeState))
+                    : nullptr;
                 const bool showEventDialogPanel =
                     isResidentSelectionMode || !m_activeEventDialog.actions.empty() || pHostHouseEntry != nullptr;
 

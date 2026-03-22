@@ -33,6 +33,24 @@ constexpr float HostilityShortRange = 2560.0f;
 constexpr float HostilityMediumRange = 5120.0f;
 constexpr float HostilityLongRange = 10240.0f;
 
+DialogueMenuId dialogueMenuIdForHouseAction(HouseActionId actionId)
+{
+    switch (actionId)
+    {
+        case HouseActionId::OpenLearnSkillsMenu:
+            return DialogueMenuId::LearnSkills;
+
+        case HouseActionId::OpenShopEquipmentMenu:
+            return DialogueMenuId::ShopEquipment;
+
+        case HouseActionId::OpenTavernArcomageMenu:
+            return DialogueMenuId::TavernArcomage;
+
+        default:
+            return DialogueMenuId::None;
+    }
+}
+
 const char *actorAiStateName(OutdoorWorldRuntime::ActorAiState state)
 {
     switch (state)
@@ -625,7 +643,9 @@ void promoteSingleResidentHouseContext(
         nullptr,
         nullptr,
         currentHour,
-        eventRuntimeState.houseServiceMenuId
+        eventRuntimeState.dialogueState.menuStack.empty()
+            ? DialogueMenuId::None
+            : eventRuntimeState.dialogueState.menuStack.back()
     );
     const std::optional<uint32_t> residentNpcId = singleSelectableResidentNpcId(
         *pHouseEntry,
@@ -638,6 +658,8 @@ void promoteSingleResidentHouseContext(
         EventRuntimeState::PendingDialogueContext context = {};
         context.kind = DialogueContextKind::NpcTalk;
         context.sourceId = *residentNpcId;
+        context.hostHouseId = pHouseEntry->id;
+        eventRuntimeState.dialogueState.hostHouseId = pHouseEntry->id;
         eventRuntimeState.pendingDialogueContext = std::move(context);
     }
 }
@@ -1025,10 +1047,11 @@ bool executeDialogActionInScenario(
 
     if (action.kind == EventDialogActionKind::HouseResident)
     {
-        scenario.pEventRuntimeState->houseServiceMenuId.clear();
         EventRuntimeState::PendingDialogueContext context = {};
         context.kind = DialogueContextKind::NpcTalk;
         context.sourceId = action.id;
+        context.hostHouseId = dialog.sourceId;
+        scenario.pEventRuntimeState->dialogueState.hostHouseId = dialog.sourceId;
         scenario.pEventRuntimeState->pendingDialogueContext = std::move(context);
     }
     else if (action.kind == EventDialogActionKind::HouseService)
@@ -1040,21 +1063,11 @@ bool executeDialogActionInScenario(
             return false;
         }
 
-        if (action.id == static_cast<uint32_t>(HouseActionId::OpenLearnSkillsMenu))
+        const DialogueMenuId menuId = dialogueMenuIdForHouseAction(static_cast<HouseActionId>(action.id));
+
+        if (menuId != DialogueMenuId::None)
         {
-            scenario.pEventRuntimeState->houseServiceMenuId = "skills";
-        }
-        else if (action.id == static_cast<uint32_t>(HouseActionId::OpenShopEquipmentMenu))
-        {
-            scenario.pEventRuntimeState->houseServiceMenuId = "shop_equipment";
-        }
-        else if (action.id == static_cast<uint32_t>(HouseActionId::OpenTavernArcomageMenu))
-        {
-            scenario.pEventRuntimeState->houseServiceMenuId = "tavern_arcomage";
-        }
-        else if (action.id == static_cast<uint32_t>(HouseActionId::BackToRootMenu))
-        {
-            scenario.pEventRuntimeState->houseServiceMenuId.clear();
+            scenario.pEventRuntimeState->dialogueState.menuStack.push_back(menuId);
         }
         else
         {
@@ -1081,6 +1094,8 @@ bool executeDialogActionInScenario(
         EventRuntimeState::PendingDialogueContext context = {};
         context.kind = DialogueContextKind::HouseService;
         context.sourceId = dialog.sourceId;
+        context.hostHouseId = dialog.sourceId;
+        scenario.pEventRuntimeState->dialogueState.hostHouseId = dialog.sourceId;
         scenario.pEventRuntimeState->pendingDialogueContext = std::move(context);
     }
     else if (action.kind == EventDialogActionKind::RosterJoinOffer)
@@ -1100,27 +1115,31 @@ bool executeDialogActionInScenario(
             scenario.pEventRuntimeState->messages.push_back(*inviteText);
         }
 
-        EventRuntimeState::PendingRosterJoinInvite invite = {};
+        EventRuntimeState::DialogueOfferState invite = {};
+        invite.kind = DialogueOfferKind::RosterJoin;
         invite.npcId = dialog.sourceId;
+        invite.topicId = action.id;
+        invite.messageTextId = offer->inviteTextId;
         invite.rosterId = offer->rosterId;
-        invite.inviteTextId = offer->inviteTextId;
         invite.partyFullTextId = offer->partyFullTextId;
-        scenario.pEventRuntimeState->pendingRosterJoinInvite = std::move(invite);
+        scenario.pEventRuntimeState->dialogueState.currentOffer = std::move(invite);
 
         EventRuntimeState::PendingDialogueContext context = {};
         context.kind = DialogueContextKind::NpcTalk;
         context.sourceId = dialog.sourceId;
+        context.hostHouseId = scenario.pEventRuntimeState->dialogueState.hostHouseId;
         scenario.pEventRuntimeState->pendingDialogueContext = std::move(context);
     }
     else if (action.kind == EventDialogActionKind::RosterJoinAccept)
     {
-        if (!scenario.pEventRuntimeState->pendingRosterJoinInvite)
+        if (!scenario.pEventRuntimeState->dialogueState.currentOffer
+            || scenario.pEventRuntimeState->dialogueState.currentOffer->kind != DialogueOfferKind::RosterJoin)
         {
             return false;
         }
 
-        const EventRuntimeState::PendingRosterJoinInvite invite = *scenario.pEventRuntimeState->pendingRosterJoinInvite;
-        scenario.pEventRuntimeState->pendingRosterJoinInvite.reset();
+        const EventRuntimeState::DialogueOfferState invite = *scenario.pEventRuntimeState->dialogueState.currentOffer;
+        scenario.pEventRuntimeState->dialogueState.currentOffer.reset();
 
         if (scenario.party.isFull())
         {
@@ -1150,35 +1169,42 @@ bool executeDialogActionInScenario(
         EventRuntimeState::PendingDialogueContext context = {};
         context.kind = DialogueContextKind::NpcTalk;
         context.sourceId = invite.npcId;
+        context.hostHouseId = scenario.pEventRuntimeState->dialogueState.hostHouseId;
         scenario.pEventRuntimeState->pendingDialogueContext = std::move(context);
     }
     else if (action.kind == EventDialogActionKind::RosterJoinDecline)
     {
-        const uint32_t npcId = scenario.pEventRuntimeState->pendingRosterJoinInvite
-            ? scenario.pEventRuntimeState->pendingRosterJoinInvite->npcId
+        const uint32_t npcId =
+            (scenario.pEventRuntimeState->dialogueState.currentOffer
+             && scenario.pEventRuntimeState->dialogueState.currentOffer->kind == DialogueOfferKind::RosterJoin)
+            ? scenario.pEventRuntimeState->dialogueState.currentOffer->npcId
             : dialog.sourceId;
-        scenario.pEventRuntimeState->pendingRosterJoinInvite.reset();
+        scenario.pEventRuntimeState->dialogueState.currentOffer.reset();
 
         EventRuntimeState::PendingDialogueContext context = {};
         context.kind = DialogueContextKind::NpcTalk;
         context.sourceId = npcId;
+        context.hostHouseId = scenario.pEventRuntimeState->dialogueState.hostHouseId;
         scenario.pEventRuntimeState->pendingDialogueContext = std::move(context);
     }
     else if (action.kind == EventDialogActionKind::MasteryTeacherOffer)
     {
-        EventRuntimeState::PendingMasteryTeacherOffer offer = {};
+        EventRuntimeState::DialogueOfferState offer = {};
+        offer.kind = DialogueOfferKind::MasteryTeacher;
         offer.npcId = dialog.sourceId;
         offer.topicId = action.id;
-        scenario.pEventRuntimeState->pendingMasteryTeacherOffer = std::move(offer);
+        scenario.pEventRuntimeState->dialogueState.currentOffer = std::move(offer);
 
         EventRuntimeState::PendingDialogueContext context = {};
         context.kind = DialogueContextKind::NpcTalk;
         context.sourceId = dialog.sourceId;
+        context.hostHouseId = scenario.pEventRuntimeState->dialogueState.hostHouseId;
         scenario.pEventRuntimeState->pendingDialogueContext = std::move(context);
     }
     else if (action.kind == EventDialogActionKind::MasteryTeacherLearn)
     {
-        if (!scenario.pEventRuntimeState->pendingMasteryTeacherOffer)
+        if (!scenario.pEventRuntimeState->dialogueState.currentOffer
+            || scenario.pEventRuntimeState->dialogueState.currentOffer->kind != DialogueOfferKind::MasteryTeacher)
         {
             return false;
         }
@@ -1186,7 +1212,7 @@ bool executeDialogActionInScenario(
         std::string message;
 
         if (applyMasteryTeacherTopic(
-                scenario.pEventRuntimeState->pendingMasteryTeacherOffer->topicId,
+                scenario.pEventRuntimeState->dialogueState.currentOffer->topicId,
                 scenario.party,
                 gameDataLoader.getClassSkillTable(),
                 gameDataLoader.getNpcDialogTable(),
@@ -1197,7 +1223,7 @@ bool executeDialogActionInScenario(
                 scenario.pEventRuntimeState->messages.push_back(message);
             }
 
-            scenario.pEventRuntimeState->pendingMasteryTeacherOffer.reset();
+            scenario.pEventRuntimeState->dialogueState.currentOffer.reset();
         }
     }
     else if (action.kind == EventDialogActionKind::NpcTopic)
@@ -1240,6 +1266,7 @@ bool executeDialogActionInScenario(
             EventRuntimeState::PendingDialogueContext context = {};
             context.kind = DialogueContextKind::NpcTalk;
             context.sourceId = dialog.sourceId;
+            context.hostHouseId = scenario.pEventRuntimeState->dialogueState.hostHouseId;
             scenario.pEventRuntimeState->pendingDialogueContext = std::move(context);
         }
     }
@@ -2361,10 +2388,11 @@ int HeadlessOutdoorDiagnostics::runDialogSequence(
 
         if (action.kind == EventDialogActionKind::HouseResident)
         {
-            pEventRuntimeState->houseServiceMenuId.clear();
             EventRuntimeState::PendingDialogueContext context = {};
             context.kind = DialogueContextKind::NpcTalk;
             context.sourceId = action.id;
+            context.hostHouseId = dialog.sourceId;
+            pEventRuntimeState->dialogueState.hostHouseId = dialog.sourceId;
             pEventRuntimeState->pendingDialogueContext = std::move(context);
         }
         else if (action.kind == EventDialogActionKind::HouseService)
@@ -2377,21 +2405,11 @@ int HeadlessOutdoorDiagnostics::runDialogSequence(
                 return 4;
             }
 
-            if (action.id == static_cast<uint32_t>(HouseActionId::OpenLearnSkillsMenu))
+            const DialogueMenuId menuId = dialogueMenuIdForHouseAction(static_cast<HouseActionId>(action.id));
+
+            if (menuId != DialogueMenuId::None)
             {
-                pEventRuntimeState->houseServiceMenuId = "skills";
-            }
-            else if (action.id == static_cast<uint32_t>(HouseActionId::OpenShopEquipmentMenu))
-            {
-                pEventRuntimeState->houseServiceMenuId = "shop_equipment";
-            }
-            else if (action.id == static_cast<uint32_t>(HouseActionId::OpenTavernArcomageMenu))
-            {
-                pEventRuntimeState->houseServiceMenuId = "tavern_arcomage";
-            }
-            else if (action.id == static_cast<uint32_t>(HouseActionId::BackToRootMenu))
-            {
-                pEventRuntimeState->houseServiceMenuId.clear();
+                pEventRuntimeState->dialogueState.menuStack.push_back(menuId);
             }
             else
             {
@@ -2418,6 +2436,8 @@ int HeadlessOutdoorDiagnostics::runDialogSequence(
             EventRuntimeState::PendingDialogueContext context = {};
             context.kind = DialogueContextKind::HouseService;
             context.sourceId = dialog.sourceId;
+            context.hostHouseId = dialog.sourceId;
+            pEventRuntimeState->dialogueState.hostHouseId = dialog.sourceId;
             pEventRuntimeState->pendingDialogueContext = std::move(context);
         }
         else if (action.kind == EventDialogActionKind::RosterJoinOffer)
@@ -2438,28 +2458,32 @@ int HeadlessOutdoorDiagnostics::runDialogSequence(
                 pEventRuntimeState->messages.push_back(*inviteText);
             }
 
-            EventRuntimeState::PendingRosterJoinInvite invite = {};
+            EventRuntimeState::DialogueOfferState invite = {};
+            invite.kind = DialogueOfferKind::RosterJoin;
             invite.npcId = dialog.sourceId;
+            invite.topicId = action.id;
+            invite.messageTextId = offer->inviteTextId;
             invite.rosterId = offer->rosterId;
-            invite.inviteTextId = offer->inviteTextId;
             invite.partyFullTextId = offer->partyFullTextId;
-            pEventRuntimeState->pendingRosterJoinInvite = std::move(invite);
+            pEventRuntimeState->dialogueState.currentOffer = std::move(invite);
 
             EventRuntimeState::PendingDialogueContext context = {};
             context.kind = DialogueContextKind::NpcTalk;
             context.sourceId = dialog.sourceId;
+            context.hostHouseId = pEventRuntimeState->dialogueState.hostHouseId;
             pEventRuntimeState->pendingDialogueContext = std::move(context);
         }
         else if (action.kind == EventDialogActionKind::RosterJoinAccept)
         {
-            if (!pEventRuntimeState->pendingRosterJoinInvite)
+            if (!pEventRuntimeState->dialogueState.currentOffer
+                || pEventRuntimeState->dialogueState.currentOffer->kind != DialogueOfferKind::RosterJoin)
             {
                 std::cerr << "Headless diagnostic failed: no pending roster invite\n";
                 return 5;
             }
 
-            const EventRuntimeState::PendingRosterJoinInvite invite = *pEventRuntimeState->pendingRosterJoinInvite;
-            pEventRuntimeState->pendingRosterJoinInvite.reset();
+            const EventRuntimeState::DialogueOfferState invite = *pEventRuntimeState->dialogueState.currentOffer;
+            pEventRuntimeState->dialogueState.currentOffer.reset();
 
             if (party.isFull())
             {
@@ -2491,35 +2515,42 @@ int HeadlessOutdoorDiagnostics::runDialogSequence(
             EventRuntimeState::PendingDialogueContext context = {};
             context.kind = DialogueContextKind::NpcTalk;
             context.sourceId = invite.npcId;
+            context.hostHouseId = pEventRuntimeState->dialogueState.hostHouseId;
             pEventRuntimeState->pendingDialogueContext = std::move(context);
         }
         else if (action.kind == EventDialogActionKind::RosterJoinDecline)
         {
-            const uint32_t npcId = pEventRuntimeState->pendingRosterJoinInvite
-                ? pEventRuntimeState->pendingRosterJoinInvite->npcId
+            const uint32_t npcId =
+                (pEventRuntimeState->dialogueState.currentOffer
+                 && pEventRuntimeState->dialogueState.currentOffer->kind == DialogueOfferKind::RosterJoin)
+                ? pEventRuntimeState->dialogueState.currentOffer->npcId
                 : dialog.sourceId;
-            pEventRuntimeState->pendingRosterJoinInvite.reset();
+            pEventRuntimeState->dialogueState.currentOffer.reset();
 
             EventRuntimeState::PendingDialogueContext context = {};
             context.kind = DialogueContextKind::NpcTalk;
             context.sourceId = npcId;
+            context.hostHouseId = pEventRuntimeState->dialogueState.hostHouseId;
             pEventRuntimeState->pendingDialogueContext = std::move(context);
         }
         else if (action.kind == EventDialogActionKind::MasteryTeacherOffer)
         {
-            EventRuntimeState::PendingMasteryTeacherOffer offer = {};
+            EventRuntimeState::DialogueOfferState offer = {};
+            offer.kind = DialogueOfferKind::MasteryTeacher;
             offer.npcId = dialog.sourceId;
             offer.topicId = action.id;
-            pEventRuntimeState->pendingMasteryTeacherOffer = std::move(offer);
+            pEventRuntimeState->dialogueState.currentOffer = std::move(offer);
 
             EventRuntimeState::PendingDialogueContext context = {};
             context.kind = DialogueContextKind::NpcTalk;
             context.sourceId = dialog.sourceId;
+            context.hostHouseId = pEventRuntimeState->dialogueState.hostHouseId;
             pEventRuntimeState->pendingDialogueContext = std::move(context);
         }
         else if (action.kind == EventDialogActionKind::MasteryTeacherLearn)
         {
-            if (!pEventRuntimeState->pendingMasteryTeacherOffer)
+            if (!pEventRuntimeState->dialogueState.currentOffer
+                || pEventRuntimeState->dialogueState.currentOffer->kind != DialogueOfferKind::MasteryTeacher)
             {
                 std::cerr << "Headless diagnostic failed: no pending mastery teacher offer\n";
                 return 7;
@@ -2528,7 +2559,7 @@ int HeadlessOutdoorDiagnostics::runDialogSequence(
             std::string message;
 
             if (applyMasteryTeacherTopic(
-                    pEventRuntimeState->pendingMasteryTeacherOffer->topicId,
+                    pEventRuntimeState->dialogueState.currentOffer->topicId,
                     party,
                     gameDataLoader.getClassSkillTable(),
                     gameDataLoader.getNpcDialogTable(),
@@ -2539,7 +2570,7 @@ int HeadlessOutdoorDiagnostics::runDialogSequence(
                     pEventRuntimeState->messages.push_back(message);
                 }
 
-                pEventRuntimeState->pendingMasteryTeacherOffer.reset();
+                pEventRuntimeState->dialogueState.currentOffer.reset();
             }
         }
         else if (action.kind == EventDialogActionKind::NpcTopic)
@@ -6838,6 +6869,47 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
     );
 
     runCase(
+        "fredrick_initial_topics_exact",
+        [&](std::string &failure)
+        {
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            if (!executeLocalEventInScenario(gameDataLoader, *selectedMap, scenario, 37))
+            {
+                failure = "event 37 failed";
+                return false;
+            }
+
+            const EventDialogContent dialog = buildScenarioDialog(gameDataLoader, *selectedMap, scenario, 0, true);
+            std::vector<std::string> actionLabels;
+
+            for (const EventDialogAction &action : dialog.actions)
+            {
+                actionLabels.push_back(action.label);
+            }
+
+            const std::vector<std::string> expectedLabels = {
+                "Portals of Stone",
+                "Cataclysm",
+            };
+
+            if (actionLabels != expectedLabels)
+            {
+                failure = "unexpected initial Fredrick topics";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
         "multi_resident_house_selection",
         [&](std::string &failure)
         {
@@ -6916,6 +6988,48 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
                 || !dialogHasActionLabel(dialog, "Repair"))
             {
                 failure = "shop equipment submenu is incomplete";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "dwi_temple_service_participant_identity",
+        [&](std::string &failure)
+        {
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            EventDialogContent dialog = {};
+
+            if (!openLocalEventDialogInScenario(gameDataLoader, *selectedMap, scenario, 185, dialog))
+            {
+                failure = "could not open temple";
+                return false;
+            }
+
+            if (dialog.houseTitle != "Mystic Medicine")
+            {
+                failure = "unexpected house title \"" + dialog.houseTitle + "\"";
+                return false;
+            }
+
+            if (dialog.title != "Pish, Healer")
+            {
+                failure = "unexpected participant title \"" + dialog.title + "\"";
+                return false;
+            }
+
+            if (dialog.participantPictureId != 2108)
+            {
+                failure = "unexpected participant picture id " + std::to_string(dialog.participantPictureId);
                 return false;
             }
 
@@ -7328,6 +7442,80 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
     );
 
     runCase(
+        "fredrick_topics_exact_after_brekish_quest",
+        [&](std::string &failure)
+        {
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            if (!executeLocalEventInScenario(gameDataLoader, *selectedMap, scenario, 197))
+            {
+                failure = "event 197 failed";
+                return false;
+            }
+
+            EventDialogContent dialog = buildScenarioDialog(gameDataLoader, *selectedMap, scenario, 0, true);
+            const std::optional<size_t> brekishIndex = findActionIndexByLabel(dialog, "Brekish Onefang");
+
+            if (!brekishIndex || !executeDialogActionInScenario(gameDataLoader, *selectedMap, scenario, *brekishIndex, dialog))
+            {
+                failure = "could not open Brekish";
+                return false;
+            }
+
+            const std::optional<size_t> portalsIndex = findActionIndexByLabel(dialog, "Portals of Stone");
+
+            if (!portalsIndex || !executeDialogActionInScenario(gameDataLoader, *selectedMap, scenario, *portalsIndex, dialog))
+            {
+                failure = "could not execute Portals of Stone";
+                return false;
+            }
+
+            const std::optional<size_t> questIndex = findActionIndexByLabel(dialog, "Quest");
+
+            if (!questIndex || !executeDialogActionInScenario(gameDataLoader, *selectedMap, scenario, *questIndex, dialog))
+            {
+                failure = "could not execute Quest";
+                return false;
+            }
+
+            if (!executeLocalEventInScenario(gameDataLoader, *selectedMap, scenario, 37))
+            {
+                failure = "event 37 failed after quest";
+                return false;
+            }
+
+            dialog = buildScenarioDialog(gameDataLoader, *selectedMap, scenario, 0, true);
+            std::vector<std::string> actionLabels;
+
+            for (const EventDialogAction &action : dialog.actions)
+            {
+                actionLabels.push_back(action.label);
+            }
+
+            const std::vector<std::string> expectedLabels = {
+                "Portals of Stone",
+                "Cataclysm",
+                "Power Stone",
+                "Abandoned Temple",
+            };
+
+            if (actionLabels != expectedLabels)
+            {
+                failure = "unexpected Fredrick topics after Brekish quest";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
         "award_gated_topic_stephen",
         [&](std::string &failure)
         {
@@ -7372,6 +7560,62 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
             if (!dialogHasActionLabel(dialog, "Clues"))
             {
                 failure = "Clues should reappear after removing gating awards";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "hiss_quest_followup_persists_across_reentry",
+        [&](std::string &failure)
+        {
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            EventDialogContent dialog = {};
+
+            if (!openLocalEventDialogInScenario(gameDataLoader, *selectedMap, scenario, 11, dialog))
+            {
+                failure = "could not enter Hiss's Hut";
+                return false;
+            }
+
+            const std::optional<size_t> questIndex = findActionIndexByLabel(dialog, "Quest");
+
+            if (!questIndex || !executeDialogActionInScenario(gameDataLoader, *selectedMap, scenario, *questIndex, dialog))
+            {
+                failure = "could not execute Hiss Quest";
+                return false;
+            }
+
+            scenario.pEventRuntimeState->pendingDialogueContext.reset();
+            scenario.pEventRuntimeState->dialogueState = {};
+            scenario.pEventRuntimeState->messages.clear();
+
+            if (!openLocalEventDialogInScenario(gameDataLoader, *selectedMap, scenario, 11, dialog))
+            {
+                failure = "could not re-enter Hiss's Hut";
+                return false;
+            }
+
+            const std::optional<size_t> idolIndex = findActionIndexByLabel(dialog, "Do you have the Idol?");
+
+            if (!idolIndex || !executeDialogActionInScenario(gameDataLoader, *selectedMap, scenario, *idolIndex, dialog))
+            {
+                failure = "could not execute Hiss follow-up topic";
+                return false;
+            }
+
+            if (!dialogContainsText(dialog, "Where is the Idol?  Do not waste my time unless you have it!"))
+            {
+                failure = "missing Hiss missing-idol follow-up text";
                 return false;
             }
 
@@ -8139,12 +8383,13 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
                 scenario.pEventRuntimeState->messages.push_back(*inviteText);
             }
 
-            EventRuntimeState::PendingRosterJoinInvite invite = {};
+            EventRuntimeState::DialogueOfferState invite = {};
+            invite.kind = DialogueOfferKind::RosterJoin;
             invite.npcId = 32;
             invite.rosterId = 2;
-            invite.inviteTextId = 202;
+            invite.messageTextId = 202;
             invite.partyFullTextId = 203;
-            scenario.pEventRuntimeState->pendingRosterJoinInvite = invite;
+            scenario.pEventRuntimeState->dialogueState.currentOffer = invite;
 
             EventRuntimeState::PendingDialogueContext context = {};
             context.kind = DialogueContextKind::NpcTalk;
@@ -8214,12 +8459,13 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
             context.sourceId = 32;
             scenario.pEventRuntimeState->pendingDialogueContext = context;
 
-            EventRuntimeState::PendingRosterJoinInvite invite = {};
+            EventRuntimeState::DialogueOfferState invite = {};
+            invite.kind = DialogueOfferKind::RosterJoin;
             invite.npcId = 32;
             invite.rosterId = 2;
-            invite.inviteTextId = 202;
+            invite.messageTextId = 202;
             invite.partyFullTextId = 203;
-            scenario.pEventRuntimeState->pendingRosterJoinInvite = invite;
+            scenario.pEventRuntimeState->dialogueState.currentOffer = invite;
 
             EventDialogContent dialog = buildScenarioDialog(gameDataLoader, *selectedMap, scenario, 0, true);
             const std::optional<size_t> yesIndex = findActionIndexByLabel(dialog, "Yes");
