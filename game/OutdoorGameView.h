@@ -148,8 +148,16 @@ private:
         int atlasWidth = 0;
         int atlasHeight = 0;
         std::array<HudFontGlyphMetrics, 256> glyphMetrics = {{}};
+        std::vector<uint8_t> mainAtlasPixels;
         bgfx::TextureHandle mainTextureHandle = BGFX_INVALID_HANDLE;
         bgfx::TextureHandle shadowTextureHandle = BGFX_INVALID_HANDLE;
+    };
+
+    struct HudFontColorTextureHandle
+    {
+        std::string fontName;
+        uint32_t colorAbgr = 0xffffffffu;
+        bgfx::TextureHandle textureHandle = BGFX_INVALID_HANDLE;
     };
 
     enum class HudLayoutAnchor
@@ -234,6 +242,7 @@ private:
         std::string quinaryAsset;
         std::string fontName;
         std::string labelText;
+        uint32_t textColorAbgr = 0xffffffffu;
         HudTextAlignX textAlignX = HudTextAlignX::Left;
         HudTextAlignY textAlignY = HudTextAlignY::Top;
         float textPadX = 0.0f;
@@ -355,6 +364,7 @@ private:
     const HudFontHandle *findHudFont(const std::string &fontName) const;
     float measureHudTextWidth(const HudFontHandle &font, const std::string &text) const;
     std::string clampHudTextToWidth(const HudFontHandle &font, const std::string &text, float maxWidth) const;
+    std::vector<std::string> wrapHudTextToWidth(const HudFontHandle &font, const std::string &text, float maxWidth) const;
     void renderHudFontLayer(
         const HudFontHandle &font,
         bgfx::TextureHandle textureHandle,
@@ -362,6 +372,9 @@ private:
         float textX,
         float textY,
         float fontScale) const;
+    bgfx::TextureHandle ensureHudFontMainTextureColor(
+        const HudFontHandle &font,
+        uint32_t colorAbgr) const;
     void renderLayoutLabel(
         const HudLayoutElement &layout,
         const ResolvedHudLayoutElement &resolved,
@@ -464,8 +477,10 @@ private:
     size_t m_decorationBillboardGridHeight = 0;
     std::vector<HudTextureHandle> m_hudTextureHandles;
     std::vector<HudFontHandle> m_hudFontHandles;
+    mutable std::vector<HudFontColorTextureHandle> m_hudFontColorTextureHandles;
     std::vector<std::string> m_hudLayoutOrder;
     std::unordered_map<std::string, HudLayoutElement> m_hudLayoutElements;
+    mutable std::unordered_map<std::string, float> m_hudLayoutRuntimeHeightOverrides;
     float m_cameraTargetX;
     float m_cameraTargetY;
     float m_cameraTargetZ;

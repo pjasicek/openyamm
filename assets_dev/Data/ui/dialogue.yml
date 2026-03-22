@@ -15,7 +15,7 @@ elements:
         offset_x: 3
         offset_y: 0
         width: 470
-        height: 114
+        height: 0
         z_index: -20
         asset:
           default: evt
@@ -61,6 +61,20 @@ elements:
           default: Ib-Mb-A
         notes: Right-side event dialog panel for house/NPC talk state.
         children:
+          - id: DialogueHouseTitle
+            anchor: top_center
+            offset_x: 0
+            offset_y: 10
+            width: 150
+            height: 24
+            text:
+              value: "{house_name}"
+              font: Create
+              color: white
+              align_x: center
+              align_y: middle
+            notes: House title label.
+
           - id: DialogueNpcPortrait
             anchor: top_center
             offset_x: 0
@@ -77,7 +91,8 @@ elements:
                 height: 24
                 text:
                   value: "{name}"
-                  font: Lucida
+                  font: Create
+                  color: eastern_blue
                   align_x: center
                   align_y: middle
                 notes: NPC name label.
@@ -85,8 +100,8 @@ elements:
           - id: DialogueTopicRow_1
             anchor: top_center
             offset_y: 80
-            width: 150
-            height: 18
+            width: 170
+            height: 36
             interactive: true
             text:
               value: "{topic1}"
@@ -98,8 +113,8 @@ elements:
           - id: DialogueTopicRow_2
             anchor: top_center
             offset_y: 120
-            width: 150
-            height: 18
+            width: 170
+            height: 36
             interactive: true
             text:
               value: "{topic2}"
@@ -111,8 +126,8 @@ elements:
           - id: DialogueTopicRow_3
             anchor: top_center
             offset_y: 160
-            width: 150
-            height: 18
+            width: 170
+            height: 36
             interactive: true
             text:
               value: "{topic3}"
@@ -124,8 +139,8 @@ elements:
           - id: DialogueTopicRow_4
             anchor: top_center
             offset_y: 200
-            width: 150
-            height: 18
+            width: 170
+            height: 36
             interactive: true
             text:
               value: "{topic4}"
@@ -137,8 +152,8 @@ elements:
           - id: DialogueTopicRow_5
             anchor: top_center
             offset_y: 240
-            width: 150
-            height: 18
+            width: 170
+            height: 36
             interactive: true
             text:
               value: "{topic5}"

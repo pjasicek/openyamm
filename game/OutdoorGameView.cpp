@@ -118,6 +118,14 @@ UiViewportRect computeUiViewportRect(int screenWidth, int screenHeight)
     return viewport;
 }
 
+uint32_t makeAbgrColor(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha = 255)
+{
+    return static_cast<uint32_t>(alpha) << 24
+        | static_cast<uint32_t>(blue) << 16
+        | static_cast<uint32_t>(green) << 8
+        | static_cast<uint32_t>(red);
+}
+
 constexpr float OutdoorMinimapZoom = 512.0f;
 
 struct SpriteTexturePreloadRequest
@@ -3711,6 +3719,16 @@ void OutdoorGameView::shutdown()
     }
 
     m_hudFontHandles.clear();
+    for (HudFontColorTextureHandle &textureHandle : m_hudFontColorTextureHandles)
+    {
+        if (bgfx::isValid(textureHandle.textureHandle))
+        {
+            bgfx::destroy(textureHandle.textureHandle);
+            textureHandle.textureHandle = BGFX_INVALID_HANDLE;
+        }
+    }
+
+    m_hudFontColorTextureHandles.clear();
     m_hudLayoutElements.clear();
 
     if (bgfx::isValid(m_texturedTerrainVertexBufferHandle))
@@ -4149,6 +4167,7 @@ void OutdoorGameView::openPendingEventDialog(size_t previousMessageCount, bool a
 
             if (residentNpcId && houseActions.empty())
             {
+                m_dialogueHostHouseId = pHouseEntry->id;
                 EventRuntimeState::PendingDialogueContext context = {};
                 context.kind = DialogueContextKind::NpcTalk;
                 context.sourceId = *residentNpcId;
@@ -4261,6 +4280,8 @@ void OutdoorGameView::renderDialogueOverlay(int width, int height, bool renderAb
         return;
     }
 
+    m_hudLayoutRuntimeHeightOverrides.clear();
+
     const bool isResidentSelectionMode =
         !m_activeEventDialog.actions.empty()
         && std::all_of(
@@ -4286,7 +4307,59 @@ void OutdoorGameView::renderDialogueOverlay(int width, int height, bool renderAb
         {
             return renderAboveHud ? zIndex >= hudZThreshold : zIndex < hudZThreshold;
         };
+    const HudLayoutElement *pDialogueFrameLayout = findHudLayoutElement("DialogueFrame");
     const HudLayoutElement *pDialogueTextLayout = findHudLayoutElement("DialogueText");
+    const HudLayoutElement *pBasebarLayout = findHudLayoutElement("OutdoorBasebar");
+
+    if (pDialogueFrameLayout != nullptr
+        && pDialogueTextLayout != nullptr
+        && pBasebarLayout != nullptr
+        && toLowerCopy(pDialogueFrameLayout->screen) == "dialogue"
+        && toLowerCopy(pDialogueTextLayout->screen) == "dialogue")
+    {
+        const HudFontHandle *pFont = findHudFont(pDialogueTextLayout->fontName);
+
+        if (pFont != nullptr)
+        {
+            static constexpr float DialogueTextTopInset = 2.0f;
+            static constexpr float DialogueTextBottomInset = 5.0f;
+            const float lineHeight = static_cast<float>(pFont->fontHeight);
+            const float textPadY = std::abs(pDialogueTextLayout->textPadY);
+            const float rawComputedTextHeight =
+                static_cast<float>(m_activeEventDialog.lines.size()) * lineHeight
+                + textPadY * 2.0f
+                + DialogueTextTopInset
+                + DialogueTextBottomInset;
+            const float unscaledTextHeight = rawComputedTextHeight;
+            const float authoritativeFrameHeight = pBasebarLayout->height + unscaledTextHeight;
+            m_hudLayoutRuntimeHeightOverrides[toLowerCopy("DialogueFrame")] = authoritativeFrameHeight;
+            m_hudLayoutRuntimeHeightOverrides[toLowerCopy("DialogueText")] = unscaledTextHeight;
+
+            static std::string lastLoggedAuthoritativeDialogueFrameKey;
+            const std::string currentAuthoritativeDialogueFrameKey =
+                std::to_string(static_cast<int>(std::round(authoritativeFrameHeight))) + "|"
+                + std::to_string(static_cast<int>(std::round(rawComputedTextHeight))) + "|"
+                + std::to_string(m_activeEventDialog.lines.size());
+
+            if (lastLoggedAuthoritativeDialogueFrameKey != currentAuthoritativeDialogueFrameKey)
+            {
+                std::cout
+                    << "DialogueFrame authoritative height debug: frame_height=" << authoritativeFrameHeight
+                    << " basebar_height=" << pBasebarLayout->height
+                    << " text_height_from_yml=" << pDialogueTextLayout->height
+                    << " raw_computed_text_height=" << rawComputedTextHeight
+                    << " effective_text_height=" << unscaledTextHeight
+                    << " line_count=" << m_activeEventDialog.lines.size()
+                    << " line_height=" << lineHeight
+                    << " text_pad_y=" << textPadY
+                    << " top_inset=" << DialogueTextTopInset
+                    << " bottom_inset=" << DialogueTextBottomInset
+                    << '\n';
+                lastLoggedAuthoritativeDialogueFrameKey = currentAuthoritativeDialogueFrameKey;
+            }
+        }
+    }
+
     const std::optional<ResolvedHudLayoutElement> resolvedText =
         pDialogueTextLayout != nullptr
         && toLowerCopy(pDialogueTextLayout->screen) == "dialogue"
@@ -4432,6 +4505,7 @@ void OutdoorGameView::renderDialogueOverlay(int width, int height, bool renderAb
 
     const HudLayoutElement *pEventDialogLayout = findHudLayoutElement("DialogueEventDialog");
     const HudLayoutElement *pNpcPortraitLayout = findHudLayoutElement("DialogueNpcPortrait");
+    const HudLayoutElement *pHouseTitleLayout = findHudLayoutElement("DialogueHouseTitle");
     const HudLayoutElement *pNpcNameLayout = findHudLayoutElement("DialogueNpcName");
     const HudLayoutElement *pTopicRowLayout = findHudLayoutElement("DialogueTopicRow_1");
 
@@ -4454,6 +4528,7 @@ void OutdoorGameView::renderDialogueOverlay(int width, int height, bool renderAb
             const float panelInnerWidth = resolvedEventDialog->width - panelPaddingX * 2.0f;
             const float portraitInset = 4.0f * panelScale;
             const float sectionGap = 8.0f * panelScale;
+            const float houseTitleToPortraitGap = 2.0f * panelScale;
             float contentY = panelInnerY;
             const std::optional<ResolvedHudLayoutElement> resolvedPortraitTemplate =
                 pNpcPortraitLayout != nullptr
@@ -4482,6 +4557,16 @@ void OutdoorGameView::renderDialogueOverlay(int width, int height, bool renderAb
                     pTopicRowLayout->width,
                     pTopicRowLayout->height)
                 : std::nullopt;
+            const HudLayoutElement *pEffectiveHouseTitleLayout = pHouseTitleLayout != nullptr ? pHouseTitleLayout : pNpcNameLayout;
+            const std::optional<ResolvedHudLayoutElement> resolvedHouseTitleTemplate =
+                pEffectiveHouseTitleLayout != nullptr
+                ? resolveHudLayoutElement(
+                    pEffectiveHouseTitleLayout->id,
+                    width,
+                    height,
+                    pEffectiveHouseTitleLayout->width,
+                    pEffectiveHouseTitleLayout->height)
+                : std::nullopt;
             const float portraitAreaWidth = resolvedPortraitTemplate ? resolvedPortraitTemplate->width : 80.0f * panelScale;
             const float portraitAreaHeight = resolvedPortraitTemplate ? resolvedPortraitTemplate->height : 80.0f * panelScale;
             const float portraitBorderSize = std::min(portraitAreaWidth, portraitAreaHeight);
@@ -4497,21 +4582,21 @@ void OutdoorGameView::renderDialogueOverlay(int width, int height, bool renderAb
                 ? (resolvedNpcNameTemplate->y - resolvedPortraitTemplate->y)
                 : portraitBorderSize + 2.0f * panelScale;
 
-            if (pHostHouseEntry != nullptr && pNpcNameLayout != nullptr)
+            if (pHostHouseEntry != nullptr && pEffectiveHouseTitleLayout != nullptr)
             {
                 ResolvedHudLayoutElement resolvedHouseTitle = {};
-                resolvedHouseTitle.x = panelInnerX;
-                resolvedHouseTitle.y = contentY;
-                resolvedHouseTitle.width = panelInnerWidth;
-                resolvedHouseTitle.height = 20.0f * panelScale;
-                resolvedHouseTitle.scale = panelScale;
+                resolvedHouseTitle.x = resolvedHouseTitleTemplate ? resolvedHouseTitleTemplate->x : panelInnerX;
+                resolvedHouseTitle.y = resolvedHouseTitleTemplate ? resolvedHouseTitleTemplate->y : contentY;
+                resolvedHouseTitle.width = resolvedHouseTitleTemplate ? resolvedHouseTitleTemplate->width : panelInnerWidth;
+                resolvedHouseTitle.height = resolvedHouseTitleTemplate ? resolvedHouseTitleTemplate->height : 20.0f * panelScale;
+                resolvedHouseTitle.scale = resolvedHouseTitleTemplate ? resolvedHouseTitleTemplate->scale : panelScale;
 
-                if (shouldRenderInCurrentPass(pNpcNameLayout->zIndex))
+                if (shouldRenderInCurrentPass(pEffectiveHouseTitleLayout->zIndex))
                 {
-                    renderLayoutLabel(*pNpcNameLayout, resolvedHouseTitle, pHostHouseEntry->name);
+                    renderLayoutLabel(*pEffectiveHouseTitleLayout, resolvedHouseTitle, pHostHouseEntry->name);
                 }
 
-                contentY += resolvedHouseTitle.height + sectionGap;
+                contentY += resolvedHouseTitle.height + houseTitleToPortraitGap;
             }
 
             contentY = std::max(contentY, portraitBaseY);
@@ -4605,11 +4690,33 @@ void OutdoorGameView::renderDialogueOverlay(int width, int height, bool renderAb
                             const float imageWidth = static_cast<float>(pPortraitTexture->width);
                             const float imageHeight = static_cast<float>(pPortraitTexture->height);
                             const float targetSize = portraitBorderSize - portraitInset * 2.0f;
-                            const float portraitScale = std::min(targetSize / std::max(1.0f, imageWidth), targetSize / std::max(1.0f, imageHeight));
-                            const float drawWidth = std::round(imageWidth * portraitScale);
-                            const float drawHeight = std::round(imageHeight * portraitScale);
-                            const float drawX = std::round(portraitX + (portraitBorderSize - drawWidth) * 0.5f);
-                            const float drawY = std::round(portraitY + (portraitAreaHeight - drawHeight) * 0.5f);
+                            const float portraitScale = std::max(
+                                targetSize / std::max(1.0f, imageWidth),
+                                targetSize / std::max(1.0f, imageHeight));
+                            const float scaledWidth = imageWidth * portraitScale;
+                            const float scaledHeight = imageHeight * portraitScale;
+                            const float innerX = std::round(portraitX + portraitInset);
+                            const float innerY = std::round(portraitBorderY + portraitInset);
+                            const float drawWidth = std::round(targetSize);
+                            const float drawHeight = std::round(targetSize);
+                            float u0 = 0.0f;
+                            float v0 = 0.0f;
+                            float u1 = 1.0f;
+                            float v1 = 1.0f;
+
+                            if (scaledWidth > targetSize)
+                            {
+                                const float croppedFraction = (scaledWidth - targetSize) / scaledWidth;
+                                u0 = croppedFraction * 0.5f;
+                                u1 = 1.0f - croppedFraction * 0.5f;
+                            }
+
+                            if (scaledHeight > targetSize)
+                            {
+                                const float croppedFraction = (scaledHeight - targetSize) / scaledHeight;
+                                v0 = croppedFraction * 0.5f;
+                                v1 = 1.0f - croppedFraction * 0.5f;
+                            }
 
                             bgfx::TransientVertexBuffer transientVertexBuffer;
 
@@ -4618,12 +4725,12 @@ void OutdoorGameView::renderDialogueOverlay(int width, int height, bool renderAb
                                 bgfx::allocTransientVertexBuffer(&transientVertexBuffer, 6, TexturedTerrainVertex::ms_layout);
                                 TexturedTerrainVertex *pVertices =
                                     reinterpret_cast<TexturedTerrainVertex *>(transientVertexBuffer.data);
-                                pVertices[0] = {drawX, drawY, 0.0f, 0.0f, 0.0f};
-                                pVertices[1] = {drawX + drawWidth, drawY, 0.0f, 1.0f, 0.0f};
-                                pVertices[2] = {drawX + drawWidth, drawY + drawHeight, 0.0f, 1.0f, 1.0f};
-                                pVertices[3] = {drawX, drawY, 0.0f, 0.0f, 0.0f};
-                                pVertices[4] = {drawX + drawWidth, drawY + drawHeight, 0.0f, 1.0f, 1.0f};
-                                pVertices[5] = {drawX, drawY + drawHeight, 0.0f, 0.0f, 1.0f};
+                                pVertices[0] = {innerX, innerY, 0.0f, u0, v0};
+                                pVertices[1] = {innerX + drawWidth, innerY, 0.0f, u1, v0};
+                                pVertices[2] = {innerX + drawWidth, innerY + drawHeight, 0.0f, u1, v1};
+                                pVertices[3] = {innerX, innerY, 0.0f, u0, v0};
+                                pVertices[4] = {innerX + drawWidth, innerY + drawHeight, 0.0f, u1, v1};
+                                pVertices[5] = {innerX, innerY + drawHeight, 0.0f, u0, v1};
                                 float modelMatrix[16] = {};
                                 bx::mtxIdentity(modelMatrix);
                                 bgfx::setTransform(modelMatrix);
@@ -4704,7 +4811,7 @@ void OutdoorGameView::renderDialogueOverlay(int width, int height, bool renderAb
                         contentY,
                         action.label,
                         pictureId,
-                        actionIndex == m_eventDialogSelectionIndex);
+                        false);
                     contentY += sectionGap;
                 }
             }
@@ -4717,45 +4824,102 @@ void OutdoorGameView::renderDialogueOverlay(int width, int height, bool renderAb
 
                 if (pTopicRowLayout != nullptr && !m_activeEventDialog.actions.empty())
                 {
-                    const float rowHeight = resolvedTopicRowTemplate ? resolvedTopicRowTemplate->height : pTopicRowLayout->height * panelScale;
+                    const HudFontHandle *pTopicFont = findHudFont(pTopicRowLayout->fontName);
+                    const float topicFontScale = snappedHudFontScale(
+                        resolvedTopicRowTemplate ? resolvedTopicRowTemplate->scale : panelScale);
+                    const float topicLineHeight = pTopicFont != nullptr
+                        ? static_cast<float>(pTopicFont->fontHeight) * topicFontScale
+                        : 20.0f * panelScale;
+                    const float topicTextWidth = resolvedTopicRowTemplate
+                        ? std::max(
+                            0.0f,
+                            resolvedTopicRowTemplate->width
+                                - std::abs(pTopicRowLayout->textPadX * topicFontScale) * 2.0f
+                                - 4.0f * topicFontScale)
+                        : std::max(0.0f, panelInnerWidth - 4.0f * panelScale);
                     const float rowGap = 4.0f * panelScale;
                     const size_t visibleActionCount = std::min<size_t>(m_activeEventDialog.actions.size(), 5);
                     const float availableTop = contentY;
                     const float availableHeight =
                         resolvedEventDialog->y + resolvedEventDialog->height - panelPaddingY - availableTop;
-                    const float totalHeight = visibleActionCount > 0
-                        ? static_cast<float>(visibleActionCount) * rowHeight
-                            + static_cast<float>(visibleActionCount - 1) * rowGap
-                        : 0.0f;
-                    float rowY = availableTop + std::max(0.0f, (availableHeight - totalHeight) * 0.5f);
+                    std::vector<std::vector<std::string>> wrappedActionLabels;
+                    std::vector<float> actionRowHeights;
+                    wrappedActionLabels.reserve(visibleActionCount);
+                    actionRowHeights.reserve(visibleActionCount);
 
                     for (size_t actionIndex = 0; actionIndex < visibleActionCount; ++actionIndex)
                     {
                         const EventDialogAction &action = m_activeEventDialog.actions[actionIndex];
                         std::string label = action.label;
 
-                        if (actionIndex == m_eventDialogSelectionIndex)
-                        {
-                            label = "> " + label;
-                        }
-
                         if (!action.enabled)
                         {
                             label += " [disabled]";
                         }
 
+                        std::vector<std::string> wrappedLines = pTopicFont != nullptr
+                            ? wrapHudTextToWidth(*pTopicFont, label, topicTextWidth)
+                            : std::vector<std::string>{label};
+
+                        if (wrappedLines.empty())
+                        {
+                            wrappedLines.push_back(label);
+                        }
+
+                        const float minimumRowHeight = resolvedTopicRowTemplate
+                            ? resolvedTopicRowTemplate->height
+                            : pTopicRowLayout->height * panelScale;
+                        const float wrappedRowHeight = static_cast<float>(wrappedLines.size()) * topicLineHeight;
+                        wrappedActionLabels.push_back(std::move(wrappedLines));
+                        actionRowHeights.push_back(std::max(minimumRowHeight, wrappedRowHeight));
+                    }
+
+                    float totalHeight = 0.0f;
+
+                    for (size_t actionIndex = 0; actionIndex < actionRowHeights.size(); ++actionIndex)
+                    {
+                        totalHeight += actionRowHeights[actionIndex];
+
+                        if (actionIndex + 1 < actionRowHeights.size())
+                        {
+                            totalHeight += rowGap;
+                        }
+                    }
+
+                    const float topicListCenterOffsetY = 8.0f * panelScale;
+                    float rowY = availableTop + std::max(0.0f, (availableHeight - totalHeight) * 0.5f)
+                        - topicListCenterOffsetY;
+
+                    for (size_t actionIndex = 0; actionIndex < visibleActionCount; ++actionIndex)
+                    {
                         ResolvedHudLayoutElement resolvedRow = {};
                         resolvedRow.x = resolvedTopicRowTemplate ? resolvedTopicRowTemplate->x : panelInnerX;
                         resolvedRow.y = rowY;
                         resolvedRow.width = resolvedTopicRowTemplate ? resolvedTopicRowTemplate->width : panelInnerWidth;
-                        resolvedRow.height = rowHeight;
-                        resolvedRow.scale = panelScale;
+                        resolvedRow.height = actionRowHeights[actionIndex];
+                        resolvedRow.scale = resolvedTopicRowTemplate ? resolvedTopicRowTemplate->scale : panelScale;
                         if (shouldRenderInCurrentPass(pTopicRowLayout->zIndex))
                         {
-                            renderLayoutLabel(*pTopicRowLayout, resolvedRow, label);
+                            if (pTopicFont != nullptr)
+                            {
+                                float lineY = resolvedRow.y;
+
+                                for (const std::string &wrappedLine : wrappedActionLabels[actionIndex])
+                                {
+                                    ResolvedHudLayoutElement resolvedLine = resolvedRow;
+                                    resolvedLine.y = lineY;
+                                    resolvedLine.height = topicLineHeight;
+                                    renderLayoutLabel(*pTopicRowLayout, resolvedLine, wrappedLine);
+                                    lineY += topicLineHeight;
+                                }
+                            }
+                            else
+                            {
+                                renderLayoutLabel(*pTopicRowLayout, resolvedRow, m_activeEventDialog.actions[actionIndex].label);
+                            }
                         }
 
-                        rowY += rowHeight + rowGap;
+                        rowY += actionRowHeights[actionIndex] + rowGap;
                     }
                 }
             }
@@ -4771,10 +4935,18 @@ void OutdoorGameView::renderDialogueOverlay(int width, int height, bool renderAb
 
         if (pFont != nullptr)
         {
+            static constexpr float DialogueTextTopInset = 2.0f;
+            static constexpr float DialogueTextRightInset = 6.0f;
             const float fontScale = snappedHudFontScale(resolvedText->scale);
+            bgfx::TextureHandle coloredMainTextureHandle =
+                ensureHudFontMainTextureColor(*pFont, pDialogueTextLayout->textColorAbgr);
+            if (!bgfx::isValid(coloredMainTextureHandle))
+            {
+                coloredMainTextureHandle = pFont->mainTextureHandle;
+            }
             const float lineHeight = static_cast<float>(pFont->fontHeight) * fontScale;
             float textX = resolvedText->x + pDialogueTextLayout->textPadX * fontScale;
-            float textY = resolvedText->y + pDialogueTextLayout->textPadY * fontScale;
+            float textY = resolvedText->y + (pDialogueTextLayout->textPadY + DialogueTextTopInset) * fontScale;
             textX = std::round(textX);
             textY = std::round(textY);
             const size_t maxVisibleLines = std::max<size_t>(
@@ -4788,9 +4960,13 @@ void OutdoorGameView::renderDialogueOverlay(int width, int height, bool renderAb
                 const std::string clampedLine = clampHudTextToWidth(
                     *pFont,
                     m_activeEventDialog.lines[lineIndex],
-                    std::max(0.0f, resolvedText->width - std::abs(pDialogueTextLayout->textPadX * fontScale) * 2.0f));
+                    std::max(
+                        0.0f,
+                        resolvedText->width
+                            - std::abs(pDialogueTextLayout->textPadX * fontScale) * 2.0f
+                            - DialogueTextRightInset * fontScale));
                 renderHudFontLayer(*pFont, pFont->shadowTextureHandle, clampedLine, textX, textY, fontScale);
-                renderHudFontLayer(*pFont, pFont->mainTextureHandle, clampedLine, textX, textY, fontScale);
+                renderHudFontLayer(*pFont, coloredMainTextureHandle, clampedLine, textX, textY, fontScale);
                 textY += lineHeight;
             }
         }
@@ -5001,6 +5177,12 @@ void OutdoorGameView::renderDialogueOverlay(int width, int height, bool renderAb
             if (pFont != nullptr)
             {
                 const float fontScale = snappedHudFontScale(resolvedText->scale);
+                bgfx::TextureHandle coloredMainTextureHandle =
+                    ensureHudFontMainTextureColor(*pFont, pDialogueTextLayout->textColorAbgr);
+                if (!bgfx::isValid(coloredMainTextureHandle))
+                {
+                    coloredMainTextureHandle = pFont->mainTextureHandle;
+                }
                 const float lineHeight = static_cast<float>(pFont->fontHeight) * fontScale;
                 float textX = resolvedText->x + pDialogueTextLayout->textPadX * fontScale;
                 float textY = resolvedText->y + pDialogueTextLayout->textPadY * fontScale;
@@ -5019,12 +5201,14 @@ void OutdoorGameView::renderDialogueOverlay(int width, int height, bool renderAb
                         m_activeEventDialog.lines[lineIndex],
                         std::max(0.0f, resolvedText->width - std::abs(pDialogueTextLayout->textPadX * fontScale) * 2.0f));
                     renderHudFontLayer(*pFont, pFont->shadowTextureHandle, clampedLine, textX, textY, fontScale);
-                    renderHudFontLayer(*pFont, pFont->mainTextureHandle, clampedLine, textX, textY, fontScale);
+                    renderHudFontLayer(*pFont, coloredMainTextureHandle, clampedLine, textX, textY, fontScale);
                     textY += lineHeight;
                 }
             }
         }
     }
+
+    m_hudLayoutRuntimeHeightOverrides.clear();
 }
 
 void OutdoorGameView::TerrainVertex::init()
@@ -5503,6 +5687,7 @@ bool OutdoorGameView::loadHudLayoutFile(const Engine::AssetFileSystem &assetFile
                 {
                     element.fontName = yamlStringOrEmpty(textNode, "font");
                     element.labelText = yamlStringOrEmpty(textNode, "value");
+                    const std::string textColor = yamlStringOrEmpty(textNode, "color");
 
                     const std::optional<HudTextAlignX> textAlignX =
                         parseTextAlignX(yamlStringOrEmpty(textNode, "align_x"));
@@ -5518,6 +5703,58 @@ bool OutdoorGameView::loadHudLayoutFile(const Engine::AssetFileSystem &assetFile
                     element.textAlignY = *textAlignY;
                     element.textPadX = yamlFloatOrDefault(textNode, "pad_x", 0.0f);
                     element.textPadY = yamlFloatOrDefault(textNode, "pad_y", 0.0f);
+
+                    if (!textColor.empty())
+                    {
+                        const std::string normalizedTextColor = normalizeLayoutToken(textColor);
+                        std::string hexTextColor = toLowerCopy(textColor);
+
+                        hexTextColor.erase(
+                            std::remove_if(
+                                hexTextColor.begin(),
+                                hexTextColor.end(),
+                                [](char character)
+                                {
+                                    return character == ' ' || character == '\t';
+                                }),
+                            hexTextColor.end());
+
+                        if (normalizedTextColor == "white")
+                        {
+                            element.textColorAbgr = makeAbgrColor(255, 255, 255);
+                        }
+                        else if (normalizedTextColor == "easternblue")
+                        {
+                            element.textColorAbgr = makeAbgrColor(21, 153, 233);
+                        }
+                        else if (hexTextColor.size() == 6
+                                 || (hexTextColor.size() == 7 && hexTextColor[0] == '#'))
+                        {
+                            std::string hex = hexTextColor;
+
+                            if (!hex.empty() && hex[0] == '#')
+                            {
+                                hex.erase(hex.begin());
+                            }
+
+                            if (hex.size() == 6)
+                            {
+                                const uint32_t rgb = static_cast<uint32_t>(std::strtoul(hex.c_str(), nullptr, 16));
+                                element.textColorAbgr = makeAbgrColor(
+                                    static_cast<uint8_t>((rgb >> 16) & 0xff),
+                                    static_cast<uint8_t>((rgb >> 8) & 0xff),
+                                    static_cast<uint8_t>(rgb & 0xff));
+                            }
+                            else
+                            {
+                                return false;
+                            }
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
                 }
 
                 m_hudLayoutOrder.push_back(element.id);
@@ -5695,6 +5932,92 @@ std::string OutdoorGameView::clampHudTextToWidth(
     return clampedText;
 }
 
+std::vector<std::string> OutdoorGameView::wrapHudTextToWidth(
+    const HudFontHandle &font,
+    const std::string &text,
+    float maxWidth) const
+{
+    if (text.empty())
+    {
+        return {""};
+    }
+
+    if (maxWidth <= 0.0f)
+    {
+        return {text};
+    }
+
+    std::vector<std::string> lines;
+    std::string currentLine;
+    std::string currentWord;
+
+    const auto flushLine = [&]()
+    {
+        lines.push_back(currentLine);
+        currentLine.clear();
+    };
+
+    const auto appendWord = [&](const std::string &word)
+    {
+        if (word.empty())
+        {
+            return;
+        }
+
+        if (currentLine.empty())
+        {
+            currentLine = word;
+            return;
+        }
+
+        const std::string candidate = currentLine + " " + word;
+
+        if (measureHudTextWidth(font, candidate) <= maxWidth)
+        {
+            currentLine = candidate;
+        }
+        else
+        {
+            flushLine();
+            currentLine = word;
+        }
+    };
+
+    for (char character : text)
+    {
+        if (character == '\r')
+        {
+            continue;
+        }
+
+        if (character == '\n')
+        {
+            appendWord(currentWord);
+            currentWord.clear();
+            flushLine();
+            continue;
+        }
+
+        if (character == ' ')
+        {
+            appendWord(currentWord);
+            currentWord.clear();
+            continue;
+        }
+
+        currentWord.push_back(character);
+    }
+
+    appendWord(currentWord);
+
+    if (!currentLine.empty() || lines.empty())
+    {
+        lines.push_back(currentLine);
+    }
+
+    return lines;
+}
+
 void OutdoorGameView::renderHudFontLayer(
     const HudFontHandle &font,
     bgfx::TextureHandle textureHandle,
@@ -5789,6 +6112,68 @@ void OutdoorGameView::renderHudFontLayer(
     bgfx::setTexture(0, m_terrainTextureSamplerHandle, textureHandle);
     bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_BLEND_ALPHA);
     bgfx::submit(HudViewId, m_texturedTerrainProgramHandle);
+}
+
+bgfx::TextureHandle OutdoorGameView::ensureHudFontMainTextureColor(
+    const HudFontHandle &font,
+    uint32_t colorAbgr) const
+{
+    if (colorAbgr == 0xffffffffu)
+    {
+        return font.mainTextureHandle;
+    }
+
+    for (const HudFontColorTextureHandle &textureHandle : m_hudFontColorTextureHandles)
+    {
+        if (textureHandle.fontName == font.fontName && textureHandle.colorAbgr == colorAbgr)
+        {
+            return textureHandle.textureHandle;
+        }
+    }
+
+    if (font.mainAtlasPixels.empty() || font.atlasWidth <= 0 || font.atlasHeight <= 0)
+    {
+        return BGFX_INVALID_HANDLE;
+    }
+
+    std::vector<uint8_t> tintedPixels = font.mainAtlasPixels;
+    const uint8_t red = static_cast<uint8_t>(colorAbgr & 0xff);
+    const uint8_t green = static_cast<uint8_t>((colorAbgr >> 8) & 0xff);
+    const uint8_t blue = static_cast<uint8_t>((colorAbgr >> 16) & 0xff);
+
+    for (size_t pixelIndex = 0; pixelIndex + 3 < tintedPixels.size(); pixelIndex += 4)
+    {
+        if (tintedPixels[pixelIndex + 3] == 0)
+        {
+            continue;
+        }
+
+        tintedPixels[pixelIndex + 0] = blue;
+        tintedPixels[pixelIndex + 1] = green;
+        tintedPixels[pixelIndex + 2] = red;
+    }
+
+    const bgfx::TextureHandle textureHandle = bgfx::createTexture2D(
+        static_cast<uint16_t>(font.atlasWidth),
+        static_cast<uint16_t>(font.atlasHeight),
+        false,
+        1,
+        bgfx::TextureFormat::BGRA8,
+        BGFX_SAMPLER_MIN_POINT | BGFX_SAMPLER_MAG_POINT,
+        bgfx::copy(tintedPixels.data(), static_cast<uint32_t>(tintedPixels.size()))
+    );
+
+    if (!bgfx::isValid(textureHandle))
+    {
+        return BGFX_INVALID_HANDLE;
+    }
+
+    HudFontColorTextureHandle tintedTextureHandle = {};
+    tintedTextureHandle.fontName = font.fontName;
+    tintedTextureHandle.colorAbgr = colorAbgr;
+    tintedTextureHandle.textureHandle = textureHandle;
+    m_hudFontColorTextureHandles.push_back(std::move(tintedTextureHandle));
+    return m_hudFontColorTextureHandles.back().textureHandle;
 }
 
 void OutdoorGameView::renderLayoutLabel(
@@ -5892,8 +6277,15 @@ void OutdoorGameView::renderLayoutLabel(
     textX = std::round(textX);
     textY = std::round(textY);
 
+    bgfx::TextureHandle coloredMainTextureHandle = ensureHudFontMainTextureColor(*pFont, layout.textColorAbgr);
+
+    if (!bgfx::isValid(coloredMainTextureHandle))
+    {
+        coloredMainTextureHandle = pFont->mainTextureHandle;
+    }
+
     renderHudFontLayer(*pFont, pFont->shadowTextureHandle, clampedLabel, textX, textY, fontScale);
-    renderHudFontLayer(*pFont, pFont->mainTextureHandle, clampedLabel, textX, textY, fontScale);
+    renderHudFontLayer(*pFont, coloredMainTextureHandle, clampedLabel, textX, textY, fontScale);
 }
 
 const OutdoorGameView::HudTextureHandle *OutdoorGameView::ensureHudTextureLoaded(const std::string &textureName)
@@ -6071,6 +6463,7 @@ bool OutdoorGameView::loadHudFont(const Engine::AssetFileSystem &assetFileSystem
     fontHandle.atlasCellWidth = atlasCellWidth;
     fontHandle.atlasWidth = atlasWidth;
     fontHandle.atlasHeight = atlasHeight;
+    fontHandle.mainAtlasPixels = mainPixels;
 
     for (int glyphIndex = 0; glyphIndex < 256; ++glyphIndex)
     {
@@ -6162,6 +6555,27 @@ std::optional<OutdoorGameView::ResolvedHudLayoutElement> OutdoorGameView::resolv
     const float baseScale = std::min(
         uiViewport.width / HudReferenceWidth,
         uiViewport.height / HudReferenceHeight);
+    const auto runtimeHeightOverrideIterator = m_hudLayoutRuntimeHeightOverrides.find(normalizedLayoutId);
+    const float effectiveHeight = runtimeHeightOverrideIterator != m_hudLayoutRuntimeHeightOverrides.end()
+        ? runtimeHeightOverrideIterator->second
+        : (element.height > 0.0f ? element.height : fallbackHeight);
+
+    if (normalizedLayoutId == "dialogueframe")
+    {
+        static float lastLoggedResolvedDialogueFrameHeight = -1.0f;
+
+        if (std::abs(lastLoggedResolvedDialogueFrameHeight - effectiveHeight) > 0.5f)
+        {
+            std::cout
+                << "DialogueFrame resolved height debug: effective_height=" << effectiveHeight
+                << " yml_height=" << element.height
+                << " has_runtime_override=" << (runtimeHeightOverrideIterator != m_hudLayoutRuntimeHeightOverrides.end() ? 1 : 0)
+                << " fallback_height=" << fallbackHeight
+                << '\n';
+            lastLoggedResolvedDialogueFrameHeight = effectiveHeight;
+        }
+    }
+
     ResolvedHudLayoutElement resolved = {};
 
     if (!element.parentId.empty() && element.attachTo != HudLayoutAttachMode::None)
@@ -6190,7 +6604,7 @@ std::optional<OutdoorGameView::ResolvedHudLayoutElement> OutdoorGameView::resolv
             ? std::clamp(baseScale, element.minScale, element.maxScale)
             : parent->scale;
         resolved.width = (element.width > 0.0f ? element.width : fallbackWidth) * resolved.scale;
-        resolved.height = (element.height > 0.0f ? element.height : fallbackHeight) * resolved.scale;
+        resolved.height = effectiveHeight * resolved.scale;
 
         switch (element.attachTo)
         {
@@ -6300,7 +6714,7 @@ std::optional<OutdoorGameView::ResolvedHudLayoutElement> OutdoorGameView::resolv
 
     resolved.scale = std::clamp(baseScale, element.minScale, element.maxScale);
     resolved.width = (element.width > 0.0f ? element.width : fallbackWidth) * resolved.scale;
-    resolved.height = (element.height > 0.0f ? element.height : fallbackHeight) * resolved.scale;
+    resolved.height = effectiveHeight * resolved.scale;
 
     switch (element.anchor)
     {
@@ -9860,6 +10274,16 @@ void OutdoorGameView::updateCameraFromInput(float deltaSeconds)
         m_pOutdoorWorldRuntime != nullptr
         && (m_pOutdoorWorldRuntime->activeChestView() != nullptr || m_pOutdoorWorldRuntime->activeCorpseView() != nullptr);
     const bool isEventDialogActive = hasActiveEventDialog();
+    const bool isResidentSelectionMode =
+        isEventDialogActive
+        && !m_activeEventDialog.actions.empty()
+        && std::all_of(
+            m_activeEventDialog.actions.begin(),
+            m_activeEventDialog.actions.end(),
+            [](const EventDialogAction &action)
+            {
+                return action.kind == EventDialogActionKind::HouseResident;
+            });
 
     if (isEventDialogActive)
     {
@@ -9905,7 +10329,7 @@ void OutdoorGameView::updateCameraFromInput(float deltaSeconds)
             m_eventDialogPartySelectLatches.fill(false);
         }
 
-        if (!m_activeEventDialog.actions.empty())
+        if (!m_activeEventDialog.actions.empty() && !isResidentSelectionMode)
         {
             if (pKeyboardState[SDL_SCANCODE_UP])
             {
@@ -9944,7 +10368,7 @@ void OutdoorGameView::updateCameraFromInput(float deltaSeconds)
 
         const bool acceptPressed = pKeyboardState[SDL_SCANCODE_RETURN] || pKeyboardState[SDL_SCANCODE_SPACE];
 
-        if (acceptPressed)
+        if (acceptPressed && !isResidentSelectionMode)
         {
             if (!m_eventDialogAcceptLatch)
             {

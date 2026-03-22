@@ -16,37 +16,72 @@ std::vector<std::string> wrapDialogText(const std::string &text, size_t width)
         return {};
     }
 
+    const auto wrapSingleParagraph = [width](const std::string &paragraph) -> std::vector<std::string>
+    {
+        std::vector<std::string> wrappedLines;
+        size_t lineStart = 0;
+
+        if (paragraph.empty())
+        {
+            wrappedLines.push_back("");
+            return wrappedLines;
+        }
+
+        while (lineStart < paragraph.size())
+        {
+            if (lineStart + width >= paragraph.size())
+            {
+                wrappedLines.push_back(paragraph.substr(lineStart));
+                break;
+            }
+
+            size_t breakPosition = paragraph.rfind(' ', lineStart + width);
+
+            if (breakPosition == std::string::npos || breakPosition < lineStart)
+            {
+                breakPosition = lineStart + width;
+            }
+
+            wrappedLines.push_back(paragraph.substr(lineStart, breakPosition - lineStart));
+            lineStart = breakPosition;
+
+            while (lineStart < paragraph.size() && paragraph[lineStart] == ' ')
+            {
+                ++lineStart;
+            }
+        }
+
+        if (wrappedLines.empty())
+        {
+            wrappedLines.push_back(paragraph);
+        }
+
+        return wrappedLines;
+    };
+
     std::vector<std::string> lines;
-    size_t lineStart = 0;
+    std::string paragraph;
 
-    while (lineStart < text.size())
+    for (char character : text)
     {
-        if (lineStart + width >= text.size())
+        if (character == '\r')
         {
-            lines.push_back(text.substr(lineStart));
-            break;
+            continue;
         }
 
-        size_t breakPosition = text.rfind(' ', lineStart + width);
-
-        if (breakPosition == std::string::npos || breakPosition < lineStart)
+        if (character == '\n')
         {
-            breakPosition = lineStart + width;
+            const std::vector<std::string> wrappedParagraph = wrapSingleParagraph(paragraph);
+            lines.insert(lines.end(), wrappedParagraph.begin(), wrappedParagraph.end());
+            paragraph.clear();
+            continue;
         }
 
-        lines.push_back(text.substr(lineStart, breakPosition - lineStart));
-        lineStart = breakPosition;
-
-        while (lineStart < text.size() && text[lineStart] == ' ')
-        {
-            ++lineStart;
-        }
+        paragraph.push_back(character);
     }
 
-    if (lines.empty())
-    {
-        lines.push_back(text);
-    }
+    const std::vector<std::string> wrappedParagraph = wrapSingleParagraph(paragraph);
+    lines.insert(lines.end(), wrappedParagraph.begin(), wrappedParagraph.end());
 
     return lines;
 }

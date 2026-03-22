@@ -1,0 +1,18 @@
+Id	Screen	Anchor	ParentId	AttachTo	GapX	GapY	OffsetX	OffsetY	Width	Height	MinScale	MaxScale	Visible	Interactive	PrimaryAsset	SecondaryAsset	TertiaryAsset	QuaternaryAsset	QuinaryAsset	Font	LabelText	TextAlignX	TextAlignY	TextPadX	TextPadY	Notes
+DialogueRoot	Dialogue	Center			0	0	0	0	640	480	1.0	1.5	true	false								left	top	0	0	Common dialogue overlay root. House video is handled separately in code.
+DialogueFrame	Dialogue	Center	DialogueRoot	InsideLeft	0	0	0	0	465	340	1.0	1.5	true	false	evt							left	top	0	0	Main dialogue frame/background art.
+DialogueFrameEndCap	Dialogue	Center	DialogueFrame	Above	0	0	0	0	465	8	1.0	1.5	true	false	endcap							left	top	0	0	Main dialogue frame/background art.
+DialogueLeftBar	Dialogue	Center	DialogueRoot	InsideTopLeft	0	0	0	0	8	347	1.0	1.5	true	false	IB-8pxbar							left	top	0	0	Main dialogue frame/background art.
+DialogueEventDialog	Dialogue	Center	DialogueRoot	InsideTopRight	0	0	0	0	172	368	1.0	1.5	true	false	Ib-Mb-A							left	top	0	0	Main dialogue frame/background art.
+DialogueNpcPortrait	Dialogue	Center	DialogueFrame	InsideTopLeft	24	30	0	0	128	192	1.0	1.5	true	false								left	top	0	0	NPC portrait area.
+DialogueNpcName	Dialogue	Center	DialogueFrame	InsideTopLeft	170	28	0	0	300	24	1.0	1.5	true	false						Lucida	{name}	left	middle	0	0	NPC name label.
+DialogueTextPanel	Dialogue	Center	DialogueFrame	InsideTopLeft	170	58	0	0	438	128	1.0	1.5	true	false								left	top	0	0	Dialogue text panel/background.
+DialogueText	Dialogue	Center	DialogueTextPanel	InsideTopLeft	8	8	0	0	422	112	1.0	1.5	true	false						Lucida	{text}	left	top	0	0	Main dialogue text body.
+DialogueTopicList	Dialogue	Center	DialogueFrame	InsideBottomLeft	170	-96	0	0	438	108	1.0	1.5	true	false								left	top	0	0	List region for dialogue topics/options.
+DialogueTopicRow_1	Dialogue	Center	DialogueTopicList	InsideTopLeft	0	0	0	0	438	18	1.0	1.5	true	true						Lucida	{topic1}	left	middle	0	0	Topic row 1 placeholder.
+DialogueTopicRow_2	Dialogue	Center	DialogueTopicRow_1	Below	0	4	0	0	438	18	1.0	1.5	true	true						Lucida	{topic2}	left	middle	0	0	Topic row 2 placeholder.
+DialogueTopicRow_3	Dialogue	Center	DialogueTopicRow_2	Below	0	4	0	0	438	18	1.0	1.5	true	true						Lucida	{topic3}	left	middle	0	0	Topic row 3 placeholder.
+DialogueTopicRow_4	Dialogue	Center	DialogueTopicRow_3	Below	0	4	0	0	438	18	1.0	1.5	true	true						Lucida	{topic4}	left	middle	0	0	Topic row 4 placeholder.
+DialogueTopicRow_5	Dialogue	Center	DialogueTopicRow_4	Below	0	4	0	0	438	18	1.0	1.5	true	true						Lucida	{topic5}	left	middle	0	0	Topic row 5 placeholder.
+DialogueGoodbyeButton	Dialogue	Center	DialogueFrame	InsideBottomRight	-24	-22	0	0	90	24	1.0	1.5	true	true								center	middle	0	0	Goodbye / exit button.
+DialogueResponseHint	Dialogue	Center	DialogueFrame	InsideBottomLeft	24	-22	0	0	300	20	1.0	1.5	true	false						Lucida	{hint}	left	middle	0	0	Optional footer hint or status text.

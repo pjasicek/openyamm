@@ -19,6 +19,7 @@ set(OPENYAMM_FREETYPE_VERSION "VER-2-14-2")
 set(OPENYAMM_SPDLOG_VERSION "v1.16.0")
 set(OPENYAMM_FMT_VERSION "12.1.0")
 set(OPENYAMM_FFMPEG_VERSION "n8.0.1")
+set(OPENYAMM_YAML_CPP_VERSION "0.8.0")
 
 function(openyamm_populate_dependency dependencyName outputSourceDirVariable)
     if (POLICY CMP0169)
@@ -134,6 +135,41 @@ function(openyamm_configure_physfs)
     FetchContent_MakeAvailable(physfs)
 endfunction()
 
+function(openyamm_configure_yaml_cpp)
+    find_path(OPENYAMM_YAML_CPP_INCLUDE_DIR yaml-cpp/yaml.h)
+    find_library(OPENYAMM_YAML_CPP_LIBRARY yaml-cpp)
+
+    if (OPENYAMM_YAML_CPP_INCLUDE_DIR AND OPENYAMM_YAML_CPP_LIBRARY)
+        if (NOT TARGET yaml-cpp::yaml-cpp)
+            add_library(yaml-cpp::yaml-cpp UNKNOWN IMPORTED)
+            set_target_properties(yaml-cpp::yaml-cpp PROPERTIES
+                IMPORTED_LOCATION "${OPENYAMM_YAML_CPP_LIBRARY}"
+                INTERFACE_INCLUDE_DIRECTORIES "${OPENYAMM_YAML_CPP_INCLUDE_DIR}"
+            )
+        endif()
+
+        return()
+    endif()
+
+    set(YAML_CPP_BUILD_CONTRIB OFF CACHE BOOL "" FORCE)
+    set(YAML_CPP_BUILD_TESTS OFF CACHE BOOL "" FORCE)
+    set(YAML_CPP_BUILD_TOOLS OFF CACHE BOOL "" FORCE)
+    set(YAML_CPP_INSTALL OFF CACHE BOOL "" FORCE)
+
+    FetchContent_Declare(
+        yaml-cpp
+        GIT_REPOSITORY https://github.com/jbeder/yaml-cpp.git
+        GIT_TAG ${OPENYAMM_YAML_CPP_VERSION}
+        GIT_SHALLOW TRUE
+    )
+
+    FetchContent_MakeAvailable(yaml-cpp)
+
+    if (TARGET yaml-cpp AND NOT TARGET yaml-cpp::yaml-cpp)
+        add_library(yaml-cpp::yaml-cpp ALIAS yaml-cpp)
+    endif()
+endfunction()
+
 function(openyamm_configure_imgui)
     FetchContent_Declare(
         imgui
@@ -224,6 +260,7 @@ function(openyamm_configure_dependencies)
     openyamm_configure_spdlog()
     openyamm_configure_freetype()
     openyamm_configure_physfs()
+    openyamm_configure_yaml_cpp()
     openyamm_configure_imgui()
     openyamm_fetch_bgfx_stack()
     openyamm_fetch_ffmpeg()

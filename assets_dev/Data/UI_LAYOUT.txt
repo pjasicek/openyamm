@@ -3,7 +3,7 @@ OutdoorBasebar	OutdoorHud	BottomCenter			0	0	0	0	640	114	1.0	1.5	true	false	Base
 OutdoorPartyStrip	OutdoorHud	BottomCenter	OutdoorBasebar	InsideTopLeft	0	0	0	0	483	114	1.0	1.5	true	false	FACEMASK	selring	manaFRM	ManaG	manaB			left	top	0	0	Dynamic party strip supporting one to five members
 OutdoorStatusBar	OutdoorHud	TopCenter	OutdoorBasebar	CenterIn	-78.5	-47	0	0	483	15	1.0	1.5	true	false						Lucida		center	middle	0	0	Centered one-line status text region above party strip
 OutdoorTopBar	OutdoorHud	TopCenter			0	0	0	0	640	29	1.0	1.5	true	false	topbar							center	middle	0	0	Top-right food bar
-OutdoorMinimap	OutdoorHud	BottomRight	OutdoorBasebar	InsideRight	-27	0	0	0	121	83	1.0	1.5	true	false	MINIMAP							left	top	0	0	Minimap frame and lower-left corner treatment
+OutdoorMinimap	OutdoorHud	BottomRight	OutdoorBasebar	InsideRight	-19	0	0	0	122	83	1.0	1.5	true	false	MINIMAP							left	top	0	0	Minimap frame and lower-left corner treatment
 OutdoorMinimapFrame	OutdoorHud	BottomRight	OutdoorBasebar	InsideRight	0	0	0	0	159	113	1.0	1.5	true	false	mapframe							left	top	0	0	Minimap frame and lower-left corner treatment
 OutdoorMinimapZoomIn	OutdoorHud	BottomRight	OutdoorMinimapFrame	InsideTopRight	-4	6	0	0	13	15	1.0	1.5	true	true	map+up	map+dn						left	top	0	0	Minimap zoom in button
 OutdoorMinimapZoomOut	OutdoorHud	BottomRight	OutdoorMinimapFrame	InsideBottomRight	-4	-5	0	0	13	15	1.0	1.5	true	true	map-up	map-dn						left	top	0	0	Minimap zoom out button
