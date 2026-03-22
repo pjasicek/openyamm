@@ -214,6 +214,13 @@ private:
         Character
     };
 
+    enum class DialoguePointerTargetType
+    {
+        None,
+        Action,
+        CloseButton
+    };
+
     struct HudLayoutElement
     {
         std::string id;
@@ -236,6 +243,8 @@ private:
         bool visible = true;
         bool interactive = false;
         std::string primaryAsset;
+        std::string hoverAsset;
+        std::string pressedAsset;
         std::string secondaryAsset;
         std::string tertiaryAsset;
         std::string quaternaryAsset;
@@ -395,6 +404,9 @@ private:
         float fallbackHeight,
         std::unordered_set<std::string> &visited) const;
     HudScreenState currentHudScreenState() const;
+    void setStatusBarEvent(const std::string &text, float durationSeconds = 2.0f);
+    void updateStatusBarEvent(float deltaSeconds);
+    void handleDialogueCloseRequest();
     void openDebugNpcDialogue(uint32_t npcId);
     void renderDialogueOverlay(int width, int height, bool renderAboveHud);
     std::optional<std::string> findCachedAssetPath(const std::string &directoryPath, const std::string &fileName);
@@ -523,6 +535,7 @@ private:
     bool m_triggerMeteorLatch;
     bool m_debugDialogueLatch;
     bool m_activateInspectLatch;
+    bool m_inspectMouseActivateLatch;
     bool m_attackInspectLatch;
     bool m_toggleRunningLatch;
     bool m_toggleFlyingLatch;
@@ -530,6 +543,8 @@ private:
     bool m_toggleFeatherFallLatch;
     bool m_closeOverlayLatch;
     bool m_dialogueClickLatch;
+    DialoguePointerTargetType m_dialoguePressedTargetType;
+    size_t m_dialoguePressedTargetIndex;
     bool m_lootChestItemLatch;
     bool m_chestSelectUpLatch;
     bool m_chestSelectDownLatch;
@@ -540,8 +555,11 @@ private:
     size_t m_chestSelectionIndex;
     size_t m_eventDialogSelectionIndex;
     uint32_t m_dialogueHostHouseId;
+    std::string m_statusBarEventText;
+    float m_statusBarEventRemainingSeconds;
     EventDialogContent m_activeEventDialog;
     OutdoorPartyRuntime *m_pOutdoorPartyRuntime;
     const Engine::AssetFileSystem *m_pAssetFileSystem;
+    InspectHit m_pressedInspectHit;
 };
 }

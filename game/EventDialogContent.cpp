@@ -16,51 +16,8 @@ std::vector<std::string> wrapDialogText(const std::string &text, size_t width)
         return {};
     }
 
-    const auto wrapSingleParagraph = [width](const std::string &paragraph) -> std::vector<std::string>
-    {
-        std::vector<std::string> wrappedLines;
-        size_t lineStart = 0;
-
-        if (paragraph.empty())
-        {
-            wrappedLines.push_back("");
-            return wrappedLines;
-        }
-
-        while (lineStart < paragraph.size())
-        {
-            if (lineStart + width >= paragraph.size())
-            {
-                wrappedLines.push_back(paragraph.substr(lineStart));
-                break;
-            }
-
-            size_t breakPosition = paragraph.rfind(' ', lineStart + width);
-
-            if (breakPosition == std::string::npos || breakPosition < lineStart)
-            {
-                breakPosition = lineStart + width;
-            }
-
-            wrappedLines.push_back(paragraph.substr(lineStart, breakPosition - lineStart));
-            lineStart = breakPosition;
-
-            while (lineStart < paragraph.size() && paragraph[lineStart] == ' ')
-            {
-                ++lineStart;
-            }
-        }
-
-        if (wrappedLines.empty())
-        {
-            wrappedLines.push_back(paragraph);
-        }
-
-        return wrappedLines;
-    };
-
     std::vector<std::string> lines;
-    std::string paragraph;
+    std::string currentLine;
 
     for (char character : text)
     {
@@ -71,17 +28,18 @@ std::vector<std::string> wrapDialogText(const std::string &text, size_t width)
 
         if (character == '\n')
         {
-            const std::vector<std::string> wrappedParagraph = wrapSingleParagraph(paragraph);
-            lines.insert(lines.end(), wrappedParagraph.begin(), wrappedParagraph.end());
-            paragraph.clear();
+            lines.push_back(currentLine);
+            currentLine.clear();
             continue;
         }
 
-        paragraph.push_back(character);
+        currentLine.push_back(character);
     }
 
-    const std::vector<std::string> wrappedParagraph = wrapSingleParagraph(paragraph);
-    lines.insert(lines.end(), wrappedParagraph.begin(), wrappedParagraph.end());
+    if (!currentLine.empty() || lines.empty())
+    {
+        lines.push_back(currentLine);
+    }
 
     return lines;
 }
@@ -250,11 +208,6 @@ EventDialogContent buildEventDialogContent(
 
         if (pHouseEntry != nullptr)
         {
-            if (!pHouseEntry->type.empty() && shouldDisplayHouseType(pHouseEntry->type))
-            {
-                dialog.lines.push_back(pHouseEntry->type);
-            }
-
             if (pNpcDialogTable != nullptr)
             {
                 const std::vector<uint32_t> residentNpcIds =
@@ -269,8 +222,6 @@ EventDialogContent buildEventDialogContent(
                         combinedResidentNpcIds.push_back(npcId);
                     }
                 }
-
-                bool hasResidentAction = false;
 
                 for (uint32_t residentNpcId : combinedResidentNpcIds)
                 {
@@ -290,12 +241,6 @@ EventDialogContent buildEventDialogContent(
                             continue;
                         }
 
-                        if (!hasResidentAction)
-                        {
-                            dialog.lines.push_back("Residents:");
-                            hasResidentAction = true;
-                        }
-
                         EventDialogAction action = {};
                         action.kind = EventDialogActionKind::HouseResident;
                         action.id = residentNpcId;
@@ -304,60 +249,6 @@ EventDialogContent buildEventDialogContent(
                     }
                 }
             }
-
-            const bool hasRealProprietorName =
-                !pHouseEntry->proprietorName.empty() && pHouseEntry->proprietorName != "Placeholder";
-            const bool hasRealProprietorTitle =
-                !pHouseEntry->proprietorTitle.empty() && pHouseEntry->proprietorTitle != "Placeholder";
-
-            if (hasRealProprietorName || hasRealProprietorTitle)
-            {
-                std::string proprietorLine;
-
-                if (hasRealProprietorName)
-                {
-                    proprietorLine = pHouseEntry->proprietorName;
-                }
-
-                if (hasRealProprietorTitle)
-                {
-                    if (!proprietorLine.empty())
-                    {
-                        proprietorLine += " - ";
-                    }
-
-                    proprietorLine += pHouseEntry->proprietorTitle;
-                }
-
-                dialog.lines.push_back(proprietorLine);
-            }
-
-            if (pHouseEntry->openHour > 0 || pHouseEntry->closeHour > 0)
-            {
-                dialog.lines.push_back(
-                    "Hours: "
-                    + std::to_string(pHouseEntry->openHour)
-                    + ":00 - "
-                    + std::to_string(pHouseEntry->closeHour)
-                    + ":00"
-                );
-            }
-
-            if (!pHouseEntry->enterText.empty()
-                && pHouseEntry->enterText != "0"
-                && pHouseEntry->enterText != "Placeholder")
-            {
-                const std::vector<std::string> wrappedEnterText = wrapDialogText(pHouseEntry->enterText, MaxLineWidth);
-                dialog.lines.insert(dialog.lines.end(), wrappedEnterText.begin(), wrappedEnterText.end());
-            }
-
-            const std::vector<std::string> serviceInfoLines = buildHouseServiceInfoLines(
-                *pHouseEntry,
-                pParty,
-                pClassSkillTable,
-                eventRuntimeState.houseServiceMenuId
-            );
-            dialog.lines.insert(dialog.lines.end(), serviceInfoLines.begin(), serviceInfoLines.end());
 
             const std::vector<HouseActionOption> houseActions = buildHouseActionOptions(
                 *pHouseEntry,
@@ -563,6 +454,17 @@ EventDialogContent buildEventDialogContent(
         {
             eventMessageLines = wrapDialogText(*inviteText, MaxLineWidth);
         }
+    }
+
+    if (dialog.isHouseDialog && eventMessageLines.empty() && !dialog.actions.empty())
+    {
+        dialog.lines.clear();
+    }
+
+    if (context.kind == DialogueContextKind::HouseService)
+    {
+        dialog.lines.clear();
+        eventMessageLines.clear();
     }
 
     dialog.lines.insert(dialog.lines.end(), eventMessageLines.begin(), eventMessageLines.end());

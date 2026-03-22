@@ -286,8 +286,9 @@ std::vector<HouseActionOption> buildHouseActionOptions(
     if (menuId == SkillsMenuId)
     {
         const int price = skillLearningCost(houseEntry, serviceType == HouseServiceType::Guild);
+        const std::vector<std::string> learnableSkills = collectLearnableSkills(houseEntry, pParty, pClassSkillTable);
 
-        for (const std::string &skillName : collectLearnableSkills(houseEntry, pParty, pClassSkillTable))
+        for (const std::string &skillName : learnableSkills)
         {
             HouseActionOption learn = makeOption(
                 HouseActionId::LearnSkill,
@@ -299,7 +300,18 @@ std::vector<HouseActionOption> buildHouseActionOptions(
             options.push_back(std::move(learn));
         }
 
-        options.push_back(makeOption(HouseActionId::BackToRootMenu, "Back", true, std::string {}));
+        if (learnableSkills.empty())
+        {
+            HouseActionOption noSkills = makeOption(
+                HouseActionId::LearnSkill,
+                "No skills are available here for this character.",
+                true,
+                std::string {}
+            );
+            noSkills.enabled = false;
+            options.push_back(std::move(noSkills));
+        }
+
         return options;
     }
 
@@ -323,7 +335,6 @@ std::vector<HouseActionOption> buildHouseActionOptions(
             options.push_back(std::move(repair));
         }
 
-        options.push_back(makeOption(HouseActionId::BackToRootMenu, "Back", true, std::string {}));
         return options;
     }
 
@@ -355,7 +366,6 @@ std::vector<HouseActionOption> buildHouseActionOptions(
         play.disabledReason = "Arcomage play is not implemented yet.";
         options.push_back(std::move(play));
 
-        options.push_back(makeOption(HouseActionId::BackToRootMenu, "Back", true, std::string {}));
         return options;
     }
 
@@ -706,7 +716,7 @@ bool performHouseAction(
 
             if (party.gold() < price)
             {
-                messages.push_back("You need " + std::to_string(price) + " gold for that lesson.");
+                messages.push_back("You don't have enough gold.");
                 return false;
             }
 

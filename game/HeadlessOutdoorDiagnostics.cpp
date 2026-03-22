@@ -6881,8 +6881,7 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
 
             if (!dialogHasActionLabel(dialog, "Sell")
                 || !dialogHasActionLabel(dialog, "Identify")
-                || !dialogHasActionLabel(dialog, "Repair")
-                || !dialogHasActionLabel(dialog, "Back"))
+                || !dialogHasActionLabel(dialog, "Repair"))
             {
                 failure = "shop equipment submenu is incomplete";
                 return false;
@@ -7109,8 +7108,7 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
 
             if (!dialogHasActionLabel(dialog, "Rules")
                 || !dialogHasActionLabel(dialog, "Victory Conditions")
-                || !dialogHasActionLabel(dialog, "Play")
-                || !dialogHasActionLabel(dialog, "Back"))
+                || !dialogHasActionLabel(dialog, "Play"))
             {
                 failure = "Arcomage submenu is incomplete";
                 return false;
@@ -7125,9 +7123,11 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
                 return false;
             }
 
-            if (!dialogContainsText(dialog, "house deck"))
+            if (!dialogHasActionLabel(dialog, "Rules")
+                || !dialogHasActionLabel(dialog, "Victory Conditions")
+                || !dialogHasActionLabel(dialog, "Play"))
             {
-                failure = "Arcomage rules text missing";
+                failure = "Arcomage submenu did not remain available after rules";
                 return false;
             }
 

@@ -100,7 +100,7 @@ elements:
           - id: DialogueTopicRow_1
             anchor: top_center
             offset_y: 80
-            width: 170
+            width: 140
             height: 36
             interactive: true
             text:
@@ -113,7 +113,7 @@ elements:
           - id: DialogueTopicRow_2
             anchor: top_center
             offset_y: 120
-            width: 170
+            width: 140
             height: 36
             interactive: true
             text:
@@ -126,7 +126,7 @@ elements:
           - id: DialogueTopicRow_3
             anchor: top_center
             offset_y: 160
-            width: 170
+            width: 140
             height: 36
             interactive: true
             text:
@@ -139,7 +139,7 @@ elements:
           - id: DialogueTopicRow_4
             anchor: top_center
             offset_y: 200
-            width: 170
+            width: 140
             height: 36
             interactive: true
             text:
@@ -152,7 +152,7 @@ elements:
           - id: DialogueTopicRow_5
             anchor: top_center
             offset_y: 240
-            width: 170
+            width: 140
             height: 36
             interactive: true
             text:
@@ -164,11 +164,16 @@ elements:
 
       - id: DialogueGoodbyeButton
         anchor: bottom_right
-        offset_x: -24
-        offset_y: -22
-        width: 90
-        height: 24
+        offset_x: -42
+        offset_y: -42
+        width: 83
+        height: 30
+        z_index: 300
         interactive: true
+        asset:
+          default: c_close_up
+          pressed: c_close_DN
+          highlighted: c_close_ht
         notes: Goodbye / exit button.
 
       - id: DialogueResponseHint

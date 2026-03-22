@@ -1176,6 +1176,7 @@ OutdoorGameView::OutdoorGameView()
     , m_triggerMeteorLatch(false)
     , m_debugDialogueLatch(false)
     , m_activateInspectLatch(false)
+    , m_inspectMouseActivateLatch(false)
     , m_attackInspectLatch(false)
     , m_toggleRunningLatch(false)
     , m_toggleFlyingLatch(false)
@@ -1183,6 +1184,8 @@ OutdoorGameView::OutdoorGameView()
     , m_toggleFeatherFallLatch(false)
     , m_closeOverlayLatch(false)
     , m_dialogueClickLatch(false)
+    , m_dialoguePressedTargetType(DialoguePointerTargetType::None)
+    , m_dialoguePressedTargetIndex(0)
     , m_lootChestItemLatch(false)
     , m_chestSelectUpLatch(false)
     , m_chestSelectDownLatch(false)
@@ -1193,6 +1196,8 @@ OutdoorGameView::OutdoorGameView()
     , m_chestSelectionIndex(0)
     , m_eventDialogSelectionIndex(0)
     , m_dialogueHostHouseId(0)
+    , m_statusBarEventText()
+    , m_statusBarEventRemainingSeconds(0.0f)
     , m_activeEventDialog({})
     , m_pOutdoorPartyRuntime(nullptr)
     , m_pAssetFileSystem(nullptr)
@@ -1565,11 +1570,13 @@ bool OutdoorGameView::initialize(
     }
     else
     {
-        for (const auto &[id, element] : m_hudLayoutElements)
-        {
-            BX_UNUSED(id);
-            for (const std::string *pAssetName : {
+            for (const auto &[id, element] : m_hudLayoutElements)
+            {
+                BX_UNUSED(id);
+                for (const std::string *pAssetName : {
                      &element.primaryAsset,
+                     &element.hoverAsset,
+                     &element.pressedAsset,
                      &element.secondaryAsset,
                      &element.tertiaryAsset,
                      &element.quaternaryAsset,
@@ -1636,6 +1643,8 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
         bgfx::dbgTextPrintf(0, 1, 0x0f, "bgfx noop renderer active");
         return;
     }
+
+    updateStatusBarEvent(deltaSeconds);
 
     {
         const uint64_t stageStartTickCount = SDL_GetTicksNS();
@@ -1718,8 +1727,21 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
             && pKeyboardState[SDL_SCANCODE_H]
             && (mouseButtons & SDL_BUTTON_RMASK) == 0;
         const bool isLeftMousePressed = (mouseButtons & SDL_BUTTON_LMASK) != 0;
+        const auto isSameInspectActivationTarget =
+            [](const InspectHit &lhs, const InspectHit &rhs) -> bool
+            {
+                return lhs.hasHit
+                    && rhs.hasHit
+                    && lhs.kind == rhs.kind
+                    && lhs.bModelIndex == rhs.bModelIndex
+                    && lhs.faceIndex == rhs.faceIndex
+                    && lhs.npcId == rhs.npcId
+                    && lhs.eventIdPrimary == rhs.eventIdPrimary
+                    && lhs.eventIdSecondary == rhs.eventIdSecondary
+                    && lhs.specialTrigger == rhs.specialTrigger;
+            };
 
-        if ((isActivationPressed || isLeftMousePressed) && !m_activateInspectLatch)
+        if (isActivationPressed && !m_activateInspectLatch)
         {
             if (tryActivateInspectEvent(inspectHit))
             {
@@ -1728,9 +1750,31 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
 
             m_activateInspectLatch = true;
         }
-        else if (!isActivationPressed && !isLeftMousePressed)
+        else if (!isActivationPressed)
         {
             m_activateInspectLatch = false;
+        }
+
+        if (isLeftMousePressed)
+        {
+            if (!m_inspectMouseActivateLatch)
+            {
+                m_pressedInspectHit = inspectHit;
+                m_inspectMouseActivateLatch = true;
+            }
+        }
+        else if (m_inspectMouseActivateLatch)
+        {
+            if (isSameInspectActivationTarget(m_pressedInspectHit, inspectHit))
+            {
+                if (tryActivateInspectEvent(inspectHit))
+                {
+                    inspectHit = inspectBModelFace(*m_outdoorMapData, rayOrigin, rayDirection);
+                }
+            }
+
+            m_inspectMouseActivateLatch = false;
+            m_pressedInspectHit = {};
         }
 
         if (isAttackPressed && !m_attackInspectLatch)
@@ -3233,53 +3277,15 @@ void OutdoorGameView::renderGameplayHud(int width, int height) const
     {
         return;
     }
-    std::ostringstream stream;
+    std::string statusBarLabel;
 
-    if (!members.empty())
+    if (m_statusBarEventRemainingSeconds > 0.0f && !m_statusBarEventText.empty())
     {
-        const Character &activeMember = *party.activeMember();
-        stream << activeMember.name
-               << " HP "
-               << activeMember.health
-               << "/"
-               << activeMember.maxHealth
-               << " SP "
-               << activeMember.spellPoints
-               << "/"
-               << activeMember.maxSpellPoints
-               << "   ";
+        statusBarLabel = m_statusBarEventText;
     }
-
-    stream << "Gold "
-           << party.gold()
-           << "  Food "
-           << party.food()
-           << "  "
-           << outdoorSupportKindName(moveState.supportKind);
-
-    if (moveState.supportOnWater)
-    {
-        stream << " water";
-    }
-
-    if (moveState.supportOnBurning)
-    {
-        stream << " burn";
-    }
-
-    if (partyMovementState.running)
-    {
-        stream << " run";
-    }
-
-    if (partyMovementState.flying)
-    {
-        stream << " fly";
-    }
-
     if (const HudLayoutElement *pStatusBarLayout = findHudLayoutElement("OutdoorStatusBar"))
     {
-        renderLayoutLabel(*pStatusBarLayout, *resolvedStatusBar, stream.str());
+        renderLayoutLabel(*pStatusBarLayout, *resolvedStatusBar, statusBarLabel);
     }
 
     if (const HudLayoutElement *pTopBarLayout = findHudLayoutElement("OutdoorTopBar"))
@@ -3807,9 +3813,12 @@ void OutdoorGameView::shutdown()
     m_toggleInspectLatch = false;
     m_triggerMeteorLatch = false;
     m_activateInspectLatch = false;
+    m_inspectMouseActivateLatch = false;
     m_attackInspectLatch = false;
     m_closeOverlayLatch = false;
     m_dialogueClickLatch = false;
+    m_dialoguePressedTargetType = DialoguePointerTargetType::None;
+    m_dialoguePressedTargetIndex = 0;
     m_lootChestItemLatch = false;
     m_chestSelectUpLatch = false;
     m_chestSelectDownLatch = false;
@@ -3823,6 +3832,7 @@ void OutdoorGameView::shutdown()
     m_isRotatingCamera = false;
     m_lastMouseX = 0.0f;
     m_lastMouseY = 0.0f;
+    m_pressedInspectHit = {};
 }
 
 void OutdoorGameView::executeActiveDialogAction()
@@ -3846,6 +3856,16 @@ void OutdoorGameView::executeActiveDialogAction()
 
     if (!action.enabled)
     {
+        if (action.kind == EventDialogActionKind::HouseService)
+        {
+            if (!action.disabledReason.empty())
+            {
+                setStatusBarEvent(action.disabledReason);
+            }
+
+            return;
+        }
+
         if (!action.disabledReason.empty())
         {
             pEventRuntimeState->messages.push_back(action.disabledReason);
@@ -3903,7 +3923,7 @@ void OutdoorGameView::executeActiveDialogAction()
 
             for (const std::string &message : messages)
             {
-                pEventRuntimeState->messages.push_back(message);
+                setStatusBarEvent(message);
             }
         }
 
@@ -4074,7 +4094,7 @@ void OutdoorGameView::executeActiveDialogAction()
         {
             if (!message.empty())
             {
-                pEventRuntimeState->messages.push_back(message);
+                setStatusBarEvent(message);
             }
 
             pEventRuntimeState->pendingMasteryTeacherOffer.reset();
@@ -4082,6 +4102,18 @@ void OutdoorGameView::executeActiveDialogAction()
         }
         else
         {
+            const std::optional<MasteryTeacherEvaluation> evaluation = evaluateMasteryTeacherTopic(
+                pEventRuntimeState->pendingMasteryTeacherOffer->topicId,
+                m_pOutdoorPartyRuntime->party(),
+                *m_classSkillTable,
+                *m_npcDialogTable
+            );
+
+            if (evaluation && !evaluation->displayText.empty())
+            {
+                setStatusBarEvent(evaluation->displayText);
+            }
+
             openPendingEventDialog(previousMessageCount, true);
         }
 
@@ -4231,6 +4263,9 @@ void OutdoorGameView::closeActiveEventDialog()
     m_eventDialogSelectDownLatch = false;
     m_eventDialogAcceptLatch = false;
     m_eventDialogPartySelectLatches.fill(false);
+    m_dialogueClickLatch = false;
+    m_dialoguePressedTargetType = DialoguePointerTargetType::None;
+    m_dialoguePressedTargetIndex = 0;
 }
 
 bool OutdoorGameView::hasActiveEventDialog() const
@@ -4246,6 +4281,96 @@ OutdoorGameView::HudScreenState OutdoorGameView::currentHudScreenState() const
     }
 
     return HudScreenState::Gameplay;
+}
+
+void OutdoorGameView::setStatusBarEvent(const std::string &text, float durationSeconds)
+{
+    if (text.empty())
+    {
+        return;
+    }
+
+    m_statusBarEventText = text;
+    m_statusBarEventRemainingSeconds = std::max(0.0f, durationSeconds);
+}
+
+void OutdoorGameView::updateStatusBarEvent(float deltaSeconds)
+{
+    if (m_statusBarEventRemainingSeconds <= 0.0f)
+    {
+        return;
+    }
+
+    m_statusBarEventRemainingSeconds = std::max(0.0f, m_statusBarEventRemainingSeconds - deltaSeconds);
+
+    if (m_statusBarEventRemainingSeconds <= 0.0f)
+    {
+        m_statusBarEventText.clear();
+    }
+}
+
+void OutdoorGameView::handleDialogueCloseRequest()
+{
+    EventRuntimeState *pEventRuntimeState =
+        m_pOutdoorWorldRuntime != nullptr ? m_pOutdoorWorldRuntime->eventRuntimeState() : nullptr;
+
+    if (pEventRuntimeState != nullptr && !pEventRuntimeState->houseServiceMenuId.empty())
+    {
+        EventRuntimeState::PendingDialogueContext context = {};
+        context.kind = DialogueContextKind::HouseService;
+        context.sourceId = m_dialogueHostHouseId != 0 ? m_dialogueHostHouseId : m_activeEventDialog.sourceId;
+        pEventRuntimeState->houseServiceMenuId.clear();
+        pEventRuntimeState->pendingDialogueContext = std::move(context);
+        openPendingEventDialog(pEventRuntimeState->messages.size(), true);
+        return;
+    }
+
+    if (pEventRuntimeState != nullptr && pEventRuntimeState->pendingMasteryTeacherOffer)
+    {
+        const uint32_t npcId = pEventRuntimeState->pendingMasteryTeacherOffer->npcId;
+        pEventRuntimeState->pendingMasteryTeacherOffer.reset();
+
+        EventRuntimeState::PendingDialogueContext context = {};
+        context.kind = DialogueContextKind::NpcTalk;
+        context.sourceId = npcId != 0 ? npcId : m_activeEventDialog.sourceId;
+        pEventRuntimeState->pendingDialogueContext = std::move(context);
+        openPendingEventDialog(pEventRuntimeState->messages.size(), true);
+        return;
+    }
+
+    const bool isResidentSelectionMode =
+        !m_activeEventDialog.actions.empty()
+        && std::all_of(
+            m_activeEventDialog.actions.begin(),
+            m_activeEventDialog.actions.end(),
+            [](const EventDialogAction &action)
+            {
+                return action.kind == EventDialogActionKind::HouseResident;
+            });
+    const HouseEntry *pHostHouseEntry =
+        (m_dialogueHostHouseId != 0 && m_houseTable.has_value()) ? m_houseTable->get(m_dialogueHostHouseId) : nullptr;
+    const std::vector<uint32_t> hostResidentNpcIds =
+        (pHostHouseEntry != nullptr && m_npcDialogTable.has_value() && pEventRuntimeState != nullptr)
+        ? collectSelectableResidentNpcIds(*pHostHouseEntry, *m_npcDialogTable, *pEventRuntimeState)
+        : std::vector<uint32_t>{};
+
+    if (!m_activeEventDialog.isHouseDialog
+        && !isResidentSelectionMode
+        && pEventRuntimeState != nullptr
+        && hostResidentNpcIds.size() > 1)
+    {
+        EventRuntimeState::PendingDialogueContext context = {};
+        context.kind = DialogueContextKind::HouseService;
+        context.sourceId = m_dialogueHostHouseId;
+        pEventRuntimeState->houseServiceMenuId.clear();
+        pEventRuntimeState->pendingDialogueContext = std::move(context);
+        openPendingEventDialog(pEventRuntimeState->messages.size(), true);
+    }
+    else
+    {
+        closeActiveEventDialog();
+        m_activateInspectLatch = true;
+    }
 }
 
 void OutdoorGameView::openDebugNpcDialogue(uint32_t npcId)
@@ -4281,6 +4406,10 @@ void OutdoorGameView::renderDialogueOverlay(int width, int height, bool renderAb
     }
 
     m_hudLayoutRuntimeHeightOverrides.clear();
+    float dialogMouseX = 0.0f;
+    float dialogMouseY = 0.0f;
+    SDL_GetMouseState(&dialogMouseX, &dialogMouseY);
+    static constexpr uint32_t HoveredDialogueTopicTextColorAbgr = 0xff23cde1u;
 
     const bool isResidentSelectionMode =
         !m_activeEventDialog.actions.empty()
@@ -4301,17 +4430,43 @@ void OutdoorGameView::renderDialogueOverlay(int width, int height, bool renderAb
         : std::vector<uint32_t>{};
     const bool showEventDialogPanel =
         isResidentSelectionMode || !m_activeEventDialog.actions.empty() || pHostHouseEntry != nullptr;
+    const bool showDialogueTextFrame = !m_activeEventDialog.lines.empty();
     const int hudZThreshold = defaultHudLayoutZIndexForScreen("OutdoorHud");
     const auto shouldRenderInCurrentPass =
         [renderAboveHud, hudZThreshold](int zIndex) -> bool
         {
             return renderAboveHud ? zIndex >= hudZThreshold : zIndex < hudZThreshold;
         };
+    const auto isDialogueFrameSubtree =
+        [this](const HudLayoutElement &layout) -> bool
+        {
+            std::string currentLayoutId = layout.id;
+
+            while (!currentLayoutId.empty())
+            {
+                if (toLowerCopy(currentLayoutId) == "dialogueframe")
+                {
+                    return true;
+                }
+
+                const HudLayoutElement *pCurrentLayout = findHudLayoutElement(currentLayoutId);
+
+                if (pCurrentLayout == nullptr || pCurrentLayout->parentId.empty())
+                {
+                    break;
+                }
+
+                currentLayoutId = pCurrentLayout->parentId;
+            }
+
+            return false;
+        };
     const HudLayoutElement *pDialogueFrameLayout = findHudLayoutElement("DialogueFrame");
     const HudLayoutElement *pDialogueTextLayout = findHudLayoutElement("DialogueText");
     const HudLayoutElement *pBasebarLayout = findHudLayoutElement("OutdoorBasebar");
 
-    if (pDialogueFrameLayout != nullptr
+    if (showDialogueTextFrame
+        && pDialogueFrameLayout != nullptr
         && pDialogueTextLayout != nullptr
         && pBasebarLayout != nullptr
         && toLowerCopy(pDialogueFrameLayout->screen) == "dialogue"
@@ -4323,10 +4478,24 @@ void OutdoorGameView::renderDialogueOverlay(int width, int height, bool renderAb
         {
             static constexpr float DialogueTextTopInset = 2.0f;
             static constexpr float DialogueTextBottomInset = 5.0f;
+            static constexpr float DialogueTextRightInset = 6.0f;
             const float lineHeight = static_cast<float>(pFont->fontHeight);
             const float textPadY = std::abs(pDialogueTextLayout->textPadY);
+            const float textWrapWidth = std::max(
+                0.0f,
+                pDialogueTextLayout->width
+                    - std::abs(pDialogueTextLayout->textPadX) * 2.0f
+                    - DialogueTextRightInset);
+            size_t wrappedLineCount = 0;
+
+            for (const std::string &line : m_activeEventDialog.lines)
+            {
+                const std::vector<std::string> wrappedLines = wrapHudTextToWidth(*pFont, line, textWrapWidth);
+                wrappedLineCount += std::max<size_t>(1, wrappedLines.size());
+            }
+
             const float rawComputedTextHeight =
-                static_cast<float>(m_activeEventDialog.lines.size()) * lineHeight
+                static_cast<float>(wrappedLineCount) * lineHeight
                 + textPadY * 2.0f
                 + DialogueTextTopInset
                 + DialogueTextBottomInset;
@@ -4339,7 +4508,7 @@ void OutdoorGameView::renderDialogueOverlay(int width, int height, bool renderAb
             const std::string currentAuthoritativeDialogueFrameKey =
                 std::to_string(static_cast<int>(std::round(authoritativeFrameHeight))) + "|"
                 + std::to_string(static_cast<int>(std::round(rawComputedTextHeight))) + "|"
-                + std::to_string(m_activeEventDialog.lines.size());
+                + std::to_string(wrappedLineCount);
 
             if (lastLoggedAuthoritativeDialogueFrameKey != currentAuthoritativeDialogueFrameKey)
             {
@@ -4349,7 +4518,7 @@ void OutdoorGameView::renderDialogueOverlay(int width, int height, bool renderAb
                     << " text_height_from_yml=" << pDialogueTextLayout->height
                     << " raw_computed_text_height=" << rawComputedTextHeight
                     << " effective_text_height=" << unscaledTextHeight
-                    << " line_count=" << m_activeEventDialog.lines.size()
+                    << " line_count=" << wrappedLineCount
                     << " line_height=" << lineHeight
                     << " text_pad_y=" << textPadY
                     << " top_inset=" << DialogueTextTopInset
@@ -4372,7 +4541,15 @@ void OutdoorGameView::renderDialogueOverlay(int width, int height, bool renderAb
         : std::nullopt;
 
     const auto renderDialogueTextureElement =
-        [this, width, height, showEventDialogPanel, &shouldRenderInCurrentPass](
+        [this,
+         width,
+         height,
+         dialogMouseX,
+         dialogMouseY,
+         showDialogueTextFrame,
+         showEventDialogPanel,
+         &isDialogueFrameSubtree,
+         &shouldRenderInCurrentPass](
             const std::string &layoutId)
         {
             const HudLayoutElement *pLayout = findHudLayoutElement(layoutId);
@@ -4390,6 +4567,11 @@ void OutdoorGameView::renderDialogueOverlay(int width, int height, bool renderAb
                 return;
             }
 
+            if (!showDialogueTextFrame && isDialogueFrameSubtree(*pLayout))
+            {
+                return;
+            }
+
             if (normalizedLayoutId == "dialogueeventdialog" && !showEventDialogPanel)
             {
                 return;
@@ -4400,26 +4582,56 @@ void OutdoorGameView::renderDialogueOverlay(int width, int height, bool renderAb
                 return;
             }
 
-            if (pLayout->primaryAsset.empty())
-            {
-                return;
-            }
+            const HudTextureHandle *pBaseTexture = nullptr;
 
-            const HudTextureHandle *pTexture = ensureHudTextureLoaded(pLayout->primaryAsset);
-
-            if (pTexture == nullptr)
+            if ((pLayout->width <= 0.0f || pLayout->height <= 0.0f) && !pLayout->primaryAsset.empty())
             {
-                return;
+                pBaseTexture = ensureHudTextureLoaded(pLayout->primaryAsset);
             }
 
             const std::optional<ResolvedHudLayoutElement> resolved = resolveHudLayoutElement(
                 layoutId,
                 width,
                 height,
-                pLayout->width > 0.0f ? pLayout->width : static_cast<float>(pTexture->width),
-                pLayout->height > 0.0f ? pLayout->height : static_cast<float>(pTexture->height));
+                pLayout->width > 0.0f
+                    ? pLayout->width
+                    : (pBaseTexture != nullptr ? static_cast<float>(pBaseTexture->width) : 0.0f),
+                pLayout->height > 0.0f
+                    ? pLayout->height
+                    : (pBaseTexture != nullptr ? static_cast<float>(pBaseTexture->height) : 0.0f));
 
             if (!resolved)
+            {
+                return;
+            }
+
+            const bool isHovered =
+                pLayout->interactive
+                && dialogMouseX >= resolved->x
+                && dialogMouseX < resolved->x + resolved->width
+                && dialogMouseY >= resolved->y
+                && dialogMouseY < resolved->y + resolved->height;
+            const bool isPressed =
+                isHovered && (SDL_GetMouseState(nullptr, nullptr) & SDL_BUTTON_LMASK) != 0;
+            const std::string *pAssetName = &pLayout->primaryAsset;
+
+            if (isPressed && !pLayout->pressedAsset.empty())
+            {
+                pAssetName = &pLayout->pressedAsset;
+            }
+            else if (isHovered && !pLayout->hoverAsset.empty())
+            {
+                pAssetName = &pLayout->hoverAsset;
+            }
+
+            if (pAssetName->empty())
+            {
+                return;
+            }
+
+            const HudTextureHandle *pTexture = ensureHudTextureLoaded(*pAssetName);
+
+            if (pTexture == nullptr)
             {
                 return;
             }
@@ -4496,7 +4708,7 @@ void OutdoorGameView::renderDialogueOverlay(int width, int height, bool renderAb
 
     renderDialogueLabelById(
         "DialogueGoodbyeButton",
-        "Goodbye");
+        "Close");
     renderDialogueLabelById(
         "DialogueResponseHint",
         m_activeEventDialog.actions.empty()
@@ -4830,13 +5042,17 @@ void OutdoorGameView::renderDialogueOverlay(int width, int height, bool renderAb
                     const float topicLineHeight = pTopicFont != nullptr
                         ? static_cast<float>(pTopicFont->fontHeight) * topicFontScale
                         : 20.0f * panelScale;
-                    const float topicTextWidth = resolvedTopicRowTemplate
-                        ? std::max(
-                            0.0f,
-                            resolvedTopicRowTemplate->width
-                                - std::abs(pTopicRowLayout->textPadX * topicFontScale) * 2.0f
-                                - 4.0f * topicFontScale)
-                        : std::max(0.0f, panelInnerWidth - 4.0f * panelScale);
+                    const float topicWrapWidth = 140.0f * (resolvedTopicRowTemplate
+                        ? resolvedTopicRowTemplate->scale
+                        : panelScale);
+                    const float topicTextWidthScaled = std::max(
+                        0.0f,
+                        std::min(
+                            resolvedTopicRowTemplate ? resolvedTopicRowTemplate->width : panelInnerWidth,
+                            topicWrapWidth)
+                            - std::abs(pTopicRowLayout->textPadX * topicFontScale) * 2.0f
+                            - 4.0f * topicFontScale);
+                    const float topicTextWidth = std::max(0.0f, topicTextWidthScaled / std::max(1.0f, topicFontScale));
                     const float rowGap = 4.0f * panelScale;
                     const size_t visibleActionCount = std::min<size_t>(m_activeEventDialog.actions.size(), 5);
                     const float availableTop = contentY;
@@ -4844,15 +5060,17 @@ void OutdoorGameView::renderDialogueOverlay(int width, int height, bool renderAb
                         resolvedEventDialog->y + resolvedEventDialog->height - panelPaddingY - availableTop;
                     std::vector<std::vector<std::string>> wrappedActionLabels;
                     std::vector<float> actionRowHeights;
+                    std::vector<float> actionPressHeights;
                     wrappedActionLabels.reserve(visibleActionCount);
                     actionRowHeights.reserve(visibleActionCount);
+                    actionPressHeights.reserve(visibleActionCount);
 
                     for (size_t actionIndex = 0; actionIndex < visibleActionCount; ++actionIndex)
                     {
                         const EventDialogAction &action = m_activeEventDialog.actions[actionIndex];
                         std::string label = action.label;
 
-                        if (!action.enabled)
+                        if (!action.enabled && !action.disabledReason.empty())
                         {
                             label += " [disabled]";
                         }
@@ -4872,6 +5090,7 @@ void OutdoorGameView::renderDialogueOverlay(int width, int height, bool renderAb
                         const float wrappedRowHeight = static_cast<float>(wrappedLines.size()) * topicLineHeight;
                         wrappedActionLabels.push_back(std::move(wrappedLines));
                         actionRowHeights.push_back(std::max(minimumRowHeight, wrappedRowHeight));
+                        actionPressHeights.push_back(wrappedRowHeight);
                     }
 
                     float totalHeight = 0.0f;
@@ -4900,22 +5119,53 @@ void OutdoorGameView::renderDialogueOverlay(int width, int height, bool renderAb
                         resolvedRow.scale = resolvedTopicRowTemplate ? resolvedTopicRowTemplate->scale : panelScale;
                         if (shouldRenderInCurrentPass(pTopicRowLayout->zIndex))
                         {
+                            const float pressAreaInsetY = 2.0f * panelScale;
+                            const float pressAreaHeight =
+                                std::min(
+                                    resolvedRow.height,
+                                    std::max(topicLineHeight, actionPressHeights[actionIndex]) + pressAreaInsetY * 2.0f);
+                            const float pressAreaY = resolvedRow.y + (resolvedRow.height - pressAreaHeight) * 0.5f;
+                            const bool isHovered =
+                                dialogMouseX >= resolvedRow.x
+                                && dialogMouseX < resolvedRow.x + resolvedRow.width
+                                && dialogMouseY >= pressAreaY
+                                && dialogMouseY < pressAreaY + pressAreaHeight;
+
                             if (pTopicFont != nullptr)
                             {
-                                float lineY = resolvedRow.y;
+                                float lineY = pressAreaY;
+                                HudLayoutElement hoveredTopicRowLayout = *pTopicRowLayout;
+
+                                if (isHovered)
+                                {
+                                    hoveredTopicRowLayout.textColorAbgr = HoveredDialogueTopicTextColorAbgr;
+                                }
 
                                 for (const std::string &wrappedLine : wrappedActionLabels[actionIndex])
                                 {
                                     ResolvedHudLayoutElement resolvedLine = resolvedRow;
                                     resolvedLine.y = lineY;
                                     resolvedLine.height = topicLineHeight;
-                                    renderLayoutLabel(*pTopicRowLayout, resolvedLine, wrappedLine);
+                                    renderLayoutLabel(
+                                        isHovered ? hoveredTopicRowLayout : *pTopicRowLayout,
+                                        resolvedLine,
+                                        wrappedLine);
                                     lineY += topicLineHeight;
                                 }
                             }
                             else
                             {
-                                renderLayoutLabel(*pTopicRowLayout, resolvedRow, m_activeEventDialog.actions[actionIndex].label);
+                                HudLayoutElement hoveredTopicRowLayout = *pTopicRowLayout;
+
+                                if (isHovered)
+                                {
+                                    hoveredTopicRowLayout.textColorAbgr = HoveredDialogueTopicTextColorAbgr;
+                                }
+
+                                renderLayoutLabel(
+                                    isHovered ? hoveredTopicRowLayout : *pTopicRowLayout,
+                                    resolvedRow,
+                                    m_activeEventDialog.actions[actionIndex].label);
                             }
                         }
 
@@ -4926,7 +5176,8 @@ void OutdoorGameView::renderDialogueOverlay(int width, int height, bool renderAb
         }
     }
 
-    if (pDialogueTextLayout != nullptr
+    if (showDialogueTextFrame
+        && pDialogueTextLayout != nullptr
         && resolvedText
         && toLowerCopy(pDialogueTextLayout->screen) == "dialogue"
         && shouldRenderInCurrentPass(pDialogueTextLayout->zIndex))
@@ -4949,25 +5200,41 @@ void OutdoorGameView::renderDialogueOverlay(int width, int height, bool renderAb
             float textY = resolvedText->y + (pDialogueTextLayout->textPadY + DialogueTextTopInset) * fontScale;
             textX = std::round(textX);
             textY = std::round(textY);
+            const float textWrapWidth = std::max(
+                0.0f,
+                (resolvedText->width
+                    - std::abs(pDialogueTextLayout->textPadX * fontScale) * 2.0f
+                    - DialogueTextRightInset * fontScale)
+                    / std::max(1.0f, fontScale));
             const size_t maxVisibleLines = std::max<size_t>(
                 1,
                 static_cast<size_t>(resolvedText->height / std::max(1.0f, lineHeight)));
+            size_t visibleLineIndex = 0;
 
-            for (size_t lineIndex = 0;
-                 lineIndex < m_activeEventDialog.lines.size() && lineIndex < maxVisibleLines;
-                 ++lineIndex)
+            for (const std::string &sourceLine : m_activeEventDialog.lines)
             {
-                const std::string clampedLine = clampHudTextToWidth(
+                const std::vector<std::string> wrappedLines = wrapHudTextToWidth(
                     *pFont,
-                    m_activeEventDialog.lines[lineIndex],
-                    std::max(
-                        0.0f,
-                        resolvedText->width
-                            - std::abs(pDialogueTextLayout->textPadX * fontScale) * 2.0f
-                            - DialogueTextRightInset * fontScale));
-                renderHudFontLayer(*pFont, pFont->shadowTextureHandle, clampedLine, textX, textY, fontScale);
-                renderHudFontLayer(*pFont, coloredMainTextureHandle, clampedLine, textX, textY, fontScale);
-                textY += lineHeight;
+                    sourceLine,
+                    textWrapWidth);
+
+                for (const std::string &wrappedLine : wrappedLines)
+                {
+                    if (visibleLineIndex >= maxVisibleLines)
+                    {
+                        break;
+                    }
+
+                    renderHudFontLayer(*pFont, pFont->shadowTextureHandle, wrappedLine, textX, textY, fontScale);
+                    renderHudFontLayer(*pFont, coloredMainTextureHandle, wrappedLine, textX, textY, fontScale);
+                    textY += lineHeight;
+                    ++visibleLineIndex;
+                }
+
+                if (visibleLineIndex >= maxVisibleLines)
+                {
+                    break;
+                }
             }
         }
     }
@@ -5663,17 +5930,15 @@ bool OutdoorGameView::loadHudLayoutFile(const Engine::AssetFileSystem &assetFile
                     else if (assetNode.IsMap())
                     {
                         element.primaryAsset = yamlStringOrEmpty(assetNode, "default");
+                        element.hoverAsset = yamlStringOrEmpty(assetNode, "highlighted");
+
+                        if (element.hoverAsset.empty())
+                        {
+                            element.hoverAsset = yamlStringOrEmpty(assetNode, "hover");
+                        }
+
+                        element.pressedAsset = yamlStringOrEmpty(assetNode, "pressed");
                         element.secondaryAsset = yamlStringOrEmpty(assetNode, "selected");
-
-                        if (element.secondaryAsset.empty())
-                        {
-                            element.secondaryAsset = yamlStringOrEmpty(assetNode, "pressed");
-                        }
-
-                        if (element.secondaryAsset.empty())
-                        {
-                            element.secondaryAsset = yamlStringOrEmpty(assetNode, "hover");
-                        }
 
                         element.tertiaryAsset = yamlStringOrEmpty(assetNode, "frame");
                         element.quaternaryAsset = yamlStringOrEmpty(assetNode, "health_bar");
@@ -6948,7 +7213,12 @@ std::optional<std::vector<uint8_t>> OutdoorGameView::loadHudBitmapPixelsBgraCach
     int &width,
     int &height)
 {
-    const std::optional<std::string> iconPath = findCachedAssetPath("Data/icons", textureName + ".bmp");
+    std::optional<std::string> iconPath = findCachedAssetPath("Data/icons", textureName + ".bmp");
+
+    if (!iconPath)
+    {
+        iconPath = findCachedAssetPath("Data/EnglishD", textureName + ".bmp");
+    }
 
     if (!iconPath)
     {
@@ -10374,8 +10644,7 @@ void OutdoorGameView::updateCameraFromInput(float deltaSeconds)
             {
                 if (m_activeEventDialog.actions.empty())
                 {
-                    closeActiveEventDialog();
-                    m_activateInspectLatch = true;
+                    handleDialogueCloseRequest();
                 }
                 else
                 {
@@ -10394,194 +10663,282 @@ void OutdoorGameView::updateCameraFromInput(float deltaSeconds)
         float dialogMouseY = 0.0f;
         const SDL_MouseButtonFlags dialogMouseButtons = SDL_GetMouseState(&dialogMouseX, &dialogMouseY);
         const bool isLeftMousePressed = (dialogMouseButtons & SDL_BUTTON_LMASK) != 0;
+        SDL_Window *pWindow = SDL_GetMouseFocus();
+
+        if (pWindow == nullptr)
+        {
+            pWindow = SDL_GetKeyboardFocus();
+        }
+
+        int screenWidth = 0;
+        int screenHeight = 0;
+
+        if (pWindow != nullptr)
+        {
+            SDL_GetWindowSizeInPixels(pWindow, &screenWidth, &screenHeight);
+        }
+
+        const auto findDialoguePointerTarget =
+            [this, isResidentSelectionMode, screenWidth, screenHeight](
+                float mouseX,
+                float mouseY) -> std::pair<DialoguePointerTargetType, size_t>
+            {
+                if (screenWidth <= 0 || screenHeight <= 0)
+                {
+                    return {DialoguePointerTargetType::None, 0};
+                }
+
+                const EventRuntimeState *pEventRuntimeState =
+                    m_pOutdoorWorldRuntime != nullptr ? m_pOutdoorWorldRuntime->eventRuntimeState() : nullptr;
+                const HouseEntry *pHostHouseEntry =
+                    (m_dialogueHostHouseId != 0 && m_houseTable.has_value()) ? m_houseTable->get(m_dialogueHostHouseId) : nullptr;
+                const bool showEventDialogPanel =
+                    isResidentSelectionMode || !m_activeEventDialog.actions.empty() || pHostHouseEntry != nullptr;
+
+                if (isResidentSelectionMode)
+                {
+                    const HudLayoutElement *pEventDialogLayout = findHudLayoutElement("DialogueEventDialog");
+                    const std::optional<ResolvedHudLayoutElement> resolvedEventDialog = showEventDialogPanel
+                        && pEventDialogLayout != nullptr
+                        ? resolveHudLayoutElement(
+                            "DialogueEventDialog",
+                            screenWidth,
+                            screenHeight,
+                            pEventDialogLayout->width,
+                            pEventDialogLayout->height)
+                        : std::nullopt;
+
+                    if (resolvedEventDialog)
+                    {
+                        const float panelScale = resolvedEventDialog->scale;
+                        const float panelPaddingX = 10.0f * panelScale;
+                        const float panelPaddingY = 10.0f * panelScale;
+                        const float panelInnerX = resolvedEventDialog->x + panelPaddingX;
+                        const float panelInnerY = resolvedEventDialog->y + panelPaddingY;
+                        const float panelInnerWidth = resolvedEventDialog->width - panelPaddingX * 2.0f;
+                        const float portraitBorderSize = 80.0f * panelScale;
+                        const float sectionGap = 8.0f * panelScale;
+                        float contentY = panelInnerY;
+
+                        if (pHostHouseEntry != nullptr)
+                        {
+                            contentY += 20.0f * panelScale + sectionGap;
+                        }
+
+                        for (size_t actionIndex = 0; actionIndex < m_activeEventDialog.actions.size(); ++actionIndex)
+                        {
+                            const float portraitX =
+                                std::round(panelInnerX + (panelInnerWidth - portraitBorderSize) * 0.5f);
+                            const float portraitY = std::round(contentY);
+
+                            if (mouseX >= portraitX
+                                && mouseX < portraitX + portraitBorderSize
+                                && mouseY >= portraitY
+                                && mouseY < portraitY + portraitBorderSize)
+                            {
+                                return {DialoguePointerTargetType::Action, actionIndex};
+                            }
+
+                            contentY += portraitBorderSize + 20.0f * panelScale + sectionGap;
+                        }
+                    }
+                }
+                else
+                {
+                    const HudLayoutElement *pEventDialogLayout = findHudLayoutElement("DialogueEventDialog");
+                    const HudLayoutElement *pTopicRowLayout = findHudLayoutElement("DialogueTopicRow_1");
+                    const std::optional<ResolvedHudLayoutElement> resolvedTopicRowTemplate =
+                        pTopicRowLayout != nullptr
+                        ? resolveHudLayoutElement(
+                            "DialogueTopicRow_1",
+                            screenWidth,
+                            screenHeight,
+                            pTopicRowLayout->width,
+                            pTopicRowLayout->height)
+                        : std::nullopt;
+                    const std::optional<ResolvedHudLayoutElement> resolvedEventDialog =
+                        (showEventDialogPanel && pEventDialogLayout != nullptr && pTopicRowLayout != nullptr)
+                        ? resolveHudLayoutElement(
+                            "DialogueEventDialog",
+                            screenWidth,
+                            screenHeight,
+                            pEventDialogLayout->width,
+                            pEventDialogLayout->height)
+                        : std::nullopt;
+
+                    if (resolvedEventDialog && pTopicRowLayout != nullptr)
+                    {
+                        const float panelScale = resolvedEventDialog->scale;
+                        const float panelPaddingX = 10.0f * panelScale;
+                        const float panelPaddingY = 10.0f * panelScale;
+                        const float panelInnerX = resolvedEventDialog->x + panelPaddingX;
+                        const float panelInnerY = resolvedEventDialog->y + panelPaddingY;
+                        const float panelInnerWidth = resolvedEventDialog->width - panelPaddingX * 2.0f;
+                        const float portraitBorderSize = 80.0f * panelScale;
+                        const float sectionGap = 8.0f * panelScale;
+                        const HudFontHandle *pTopicFont = findHudFont(pTopicRowLayout->fontName);
+                        const float topicFontScale = snappedHudFontScale(
+                            resolvedTopicRowTemplate ? resolvedTopicRowTemplate->scale : panelScale);
+                        const float topicLineHeight = pTopicFont != nullptr
+                            ? static_cast<float>(pTopicFont->fontHeight) * topicFontScale
+                            : 20.0f * panelScale;
+                        const float topicWrapWidth = 140.0f * (resolvedTopicRowTemplate
+                            ? resolvedTopicRowTemplate->scale
+                            : panelScale);
+                        const float topicTextWidthScaled = std::max(
+                            0.0f,
+                            std::min(
+                                resolvedTopicRowTemplate ? resolvedTopicRowTemplate->width : panelInnerWidth,
+                                topicWrapWidth)
+                                - std::abs(pTopicRowLayout->textPadX * topicFontScale) * 2.0f
+                                - 4.0f * topicFontScale);
+                        const float topicTextWidth =
+                            std::max(0.0f, topicTextWidthScaled / std::max(1.0f, topicFontScale));
+                        const float rowGap = 4.0f * panelScale;
+                        const size_t visibleActionCount = std::min<size_t>(m_activeEventDialog.actions.size(), 5);
+                        float contentY = panelInnerY;
+                        std::vector<float> actionRowHeights;
+                        std::vector<float> actionPressHeights;
+
+                        actionRowHeights.reserve(visibleActionCount);
+                        actionPressHeights.reserve(visibleActionCount);
+
+                        if (pHostHouseEntry != nullptr)
+                        {
+                            contentY += 20.0f * panelScale + sectionGap;
+                        }
+
+                        contentY += portraitBorderSize + 20.0f * panelScale + sectionGap;
+                        const float availableHeight =
+                            resolvedEventDialog->y + resolvedEventDialog->height - panelPaddingY - contentY;
+
+                        for (size_t actionIndex = 0; actionIndex < visibleActionCount; ++actionIndex)
+                        {
+                            std::string label = m_activeEventDialog.actions[actionIndex].label;
+
+                            if (!m_activeEventDialog.actions[actionIndex].enabled
+                                && !m_activeEventDialog.actions[actionIndex].disabledReason.empty())
+                            {
+                                label += " [disabled]";
+                            }
+
+                            std::vector<std::string> wrappedLines = pTopicFont != nullptr
+                                ? wrapHudTextToWidth(*pTopicFont, label, topicTextWidth)
+                                : std::vector<std::string>{label};
+
+                            if (wrappedLines.empty())
+                            {
+                                wrappedLines.push_back(label);
+                            }
+
+                            const float minimumRowHeight = resolvedTopicRowTemplate
+                                ? resolvedTopicRowTemplate->height
+                                : pTopicRowLayout->height * panelScale;
+                            const float wrappedRowHeight = static_cast<float>(wrappedLines.size()) * topicLineHeight;
+                            actionRowHeights.push_back(std::max(minimumRowHeight, wrappedRowHeight));
+                            actionPressHeights.push_back(std::max(topicLineHeight, wrappedRowHeight));
+                        }
+
+                        float totalHeight = 0.0f;
+
+                        for (size_t actionIndex = 0; actionIndex < actionRowHeights.size(); ++actionIndex)
+                        {
+                            totalHeight += actionRowHeights[actionIndex];
+
+                            if (actionIndex + 1 < actionRowHeights.size())
+                            {
+                                totalHeight += rowGap;
+                            }
+                        }
+
+                        const float topicListCenterOffsetY = 8.0f * panelScale;
+                        float rowY = contentY + std::max(0.0f, (availableHeight - totalHeight) * 0.5f)
+                            - topicListCenterOffsetY;
+
+                        for (size_t actionIndex = 0; actionIndex < visibleActionCount; ++actionIndex)
+                        {
+                            const float rowX = resolvedTopicRowTemplate ? resolvedTopicRowTemplate->x : panelInnerX;
+                            const float rowWidth = resolvedTopicRowTemplate
+                                ? resolvedTopicRowTemplate->width
+                                : panelInnerWidth;
+                            const float rowHeight = actionRowHeights[actionIndex];
+                            const float pressAreaInsetY = 2.0f * panelScale;
+                            const float pressAreaHeight = std::min(
+                                rowHeight,
+                                actionPressHeights[actionIndex] + pressAreaInsetY * 2.0f);
+                            const float pressAreaY = rowY + (rowHeight - pressAreaHeight) * 0.5f;
+
+                            if (mouseX >= rowX
+                                && mouseX < rowX + rowWidth
+                                && mouseY >= pressAreaY
+                                && mouseY < pressAreaY + pressAreaHeight)
+                            {
+                                return {DialoguePointerTargetType::Action, actionIndex};
+                            }
+
+                            rowY += rowHeight + rowGap;
+                        }
+                    }
+                }
+
+                const HudLayoutElement *pGoodbyeLayout = findHudLayoutElement("DialogueGoodbyeButton");
+                const std::optional<ResolvedHudLayoutElement> resolvedGoodbye = pGoodbyeLayout != nullptr
+                    ? resolveHudLayoutElement(
+                        "DialogueGoodbyeButton",
+                        screenWidth,
+                        screenHeight,
+                        pGoodbyeLayout->width,
+                        pGoodbyeLayout->height)
+                    : std::nullopt;
+
+                if (resolvedGoodbye
+                    && mouseX >= resolvedGoodbye->x
+                    && mouseX < resolvedGoodbye->x + resolvedGoodbye->width
+                    && mouseY >= resolvedGoodbye->y
+                    && mouseY < resolvedGoodbye->y + resolvedGoodbye->height)
+                {
+                    return {DialoguePointerTargetType::CloseButton, 0};
+                }
+
+                return {DialoguePointerTargetType::None, 0};
+            };
 
         if (isLeftMousePressed)
         {
             if (!m_dialogueClickLatch)
             {
-                SDL_Window *pWindow = SDL_GetMouseFocus();
-
-                if (pWindow == nullptr)
-                {
-                    pWindow = SDL_GetKeyboardFocus();
-                }
-
-                int screenWidth = 0;
-                int screenHeight = 0;
-
-                if (pWindow != nullptr)
-                {
-                    SDL_GetWindowSizeInPixels(pWindow, &screenWidth, &screenHeight);
-                }
-
-                const bool isResidentSelectionMode =
-                    !m_activeEventDialog.actions.empty()
-                    && std::all_of(
-                        m_activeEventDialog.actions.begin(),
-                        m_activeEventDialog.actions.end(),
-                        [](const EventDialogAction &action)
-                        {
-                            return action.kind == EventDialogActionKind::HouseResident;
-                        });
-
-                bool handledDialogueClick = false;
-
-                if (screenWidth > 0 && screenHeight > 0)
-                {
-                    const EventRuntimeState *pEventRuntimeState =
-                        m_pOutdoorWorldRuntime != nullptr ? m_pOutdoorWorldRuntime->eventRuntimeState() : nullptr;
-                    const HouseEntry *pHostHouseEntry =
-                        (m_dialogueHostHouseId != 0 && m_houseTable.has_value()) ? m_houseTable->get(m_dialogueHostHouseId) : nullptr;
-                    const std::vector<uint32_t> hostResidentNpcIds =
-                        (pHostHouseEntry != nullptr && m_npcDialogTable.has_value() && pEventRuntimeState != nullptr)
-                        ? collectSelectableResidentNpcIds(*pHostHouseEntry, *m_npcDialogTable, *pEventRuntimeState)
-                        : std::vector<uint32_t>{};
-                    const bool showEventDialogPanel =
-                        isResidentSelectionMode || !m_activeEventDialog.actions.empty() || pHostHouseEntry != nullptr;
-
-                    if (isResidentSelectionMode)
-                    {
-                        const HudLayoutElement *pEventDialogLayout = findHudLayoutElement("DialogueEventDialog");
-                        const std::optional<ResolvedHudLayoutElement> resolvedEventDialog = showEventDialogPanel
-                            && pEventDialogLayout != nullptr
-                            ? resolveHudLayoutElement(
-                                "DialogueEventDialog",
-                                screenWidth,
-                                screenHeight,
-                                pEventDialogLayout->width,
-                                pEventDialogLayout->height)
-                            : std::nullopt;
-
-                        if (resolvedEventDialog)
-                        {
-                            const float panelScale = resolvedEventDialog->scale;
-                            const float panelPaddingX = 10.0f * panelScale;
-                            const float panelPaddingY = 10.0f * panelScale;
-                            const float panelInnerX = resolvedEventDialog->x + panelPaddingX;
-                            const float panelInnerY = resolvedEventDialog->y + panelPaddingY;
-                            const float panelInnerWidth = resolvedEventDialog->width - panelPaddingX * 2.0f;
-                            const float portraitBorderSize = 80.0f * panelScale;
-                            const float sectionGap = 8.0f * panelScale;
-                            float contentY = panelInnerY;
-
-                            if (pHostHouseEntry != nullptr)
-                            {
-                                contentY += 20.0f * panelScale + sectionGap;
-                            }
-
-                            for (size_t actionIndex = 0; actionIndex < m_activeEventDialog.actions.size(); ++actionIndex)
-                            {
-                                const float portraitX =
-                                    std::round(panelInnerX + (panelInnerWidth - portraitBorderSize) * 0.5f);
-                                const float portraitY = std::round(contentY);
-
-                                if (dialogMouseX >= portraitX
-                                    && dialogMouseX < portraitX + portraitBorderSize
-                                    && dialogMouseY >= portraitY
-                                    && dialogMouseY < portraitY + portraitBorderSize)
-                                {
-                                    m_eventDialogSelectionIndex = actionIndex;
-                                    executeActiveDialogAction();
-                                    handledDialogueClick = true;
-                                    break;
-                                }
-
-                                contentY += portraitBorderSize + 20.0f * panelScale + sectionGap;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        const HudLayoutElement *pEventDialogLayout = findHudLayoutElement("DialogueEventDialog");
-                        const HudLayoutElement *pTopicRowLayout = findHudLayoutElement("DialogueTopicRow_1");
-                        const std::optional<ResolvedHudLayoutElement> resolvedEventDialog =
-                            (showEventDialogPanel && pEventDialogLayout != nullptr && pTopicRowLayout != nullptr)
-                            ? resolveHudLayoutElement(
-                                "DialogueEventDialog",
-                                screenWidth,
-                                screenHeight,
-                                pEventDialogLayout->width,
-                                pEventDialogLayout->height)
-                            : std::nullopt;
-
-                        if (resolvedEventDialog && pTopicRowLayout != nullptr)
-                        {
-                            const float panelScale = resolvedEventDialog->scale;
-                            const float panelPaddingX = 10.0f * panelScale;
-                            const float panelPaddingY = 10.0f * panelScale;
-                            const float panelInnerX = resolvedEventDialog->x + panelPaddingX;
-                            const float panelInnerY = resolvedEventDialog->y + panelPaddingY;
-                            const float panelInnerWidth = resolvedEventDialog->width - panelPaddingX * 2.0f;
-                            const float portraitBorderSize = 80.0f * panelScale;
-                            const float sectionGap = 8.0f * panelScale;
-                            const float rowHeight = pTopicRowLayout->height * panelScale;
-                            const float rowGap = 4.0f * panelScale;
-                            const size_t visibleActionCount = std::min<size_t>(m_activeEventDialog.actions.size(), 5);
-                            float contentY = panelInnerY;
-
-                            if (pHostHouseEntry != nullptr)
-                            {
-                                contentY += 20.0f * panelScale + sectionGap;
-                            }
-
-                            contentY += portraitBorderSize + 20.0f * panelScale + sectionGap;
-                            const float availableHeight =
-                                resolvedEventDialog->y + resolvedEventDialog->height - panelPaddingY - contentY;
-                            const float totalHeight = visibleActionCount > 0
-                                ? static_cast<float>(visibleActionCount) * rowHeight
-                                    + static_cast<float>(visibleActionCount - 1) * rowGap
-                                : 0.0f;
-                            float rowY = contentY + std::max(0.0f, (availableHeight - totalHeight) * 0.5f);
-
-                            for (size_t actionIndex = 0; actionIndex < visibleActionCount; ++actionIndex)
-                            {
-                                if (dialogMouseX >= panelInnerX
-                                    && dialogMouseX < panelInnerX + panelInnerWidth
-                                    && dialogMouseY >= rowY
-                                    && dialogMouseY < rowY + rowHeight)
-                                {
-                                    m_eventDialogSelectionIndex = actionIndex;
-                                    executeActiveDialogAction();
-                                    handledDialogueClick = true;
-                                    break;
-                                }
-
-                                rowY += rowHeight + rowGap;
-                            }
-                        }
-                    }
-
-                    if (!handledDialogueClick)
-                    {
-                        const HudLayoutElement *pGoodbyeLayout = findHudLayoutElement("DialogueGoodbyeButton");
-                        const std::optional<ResolvedHudLayoutElement> resolvedGoodbye = pGoodbyeLayout != nullptr
-                            ? resolveHudLayoutElement(
-                                "DialogueGoodbyeButton",
-                                screenWidth,
-                                screenHeight,
-                                pGoodbyeLayout->width,
-                                pGoodbyeLayout->height)
-                            : std::nullopt;
-
-                        if (resolvedGoodbye
-                            && dialogMouseX >= resolvedGoodbye->x
-                            && dialogMouseX < resolvedGoodbye->x + resolvedGoodbye->width
-                            && dialogMouseY >= resolvedGoodbye->y
-                            && dialogMouseY < resolvedGoodbye->y + resolvedGoodbye->height)
-                        {
-                            closeActiveEventDialog();
-                            handledDialogueClick = true;
-                            m_activateInspectLatch = true;
-                        }
-                    }
-                }
-
+                const auto [targetType, targetIndex] = findDialoguePointerTarget(dialogMouseX, dialogMouseY);
+                m_dialoguePressedTargetType = targetType;
+                m_dialoguePressedTargetIndex = targetIndex;
                 m_dialogueClickLatch = true;
             }
         }
+        else if (m_dialogueClickLatch)
+        {
+            const auto [targetType, targetIndex] = findDialoguePointerTarget(dialogMouseX, dialogMouseY);
+
+            if (targetType == m_dialoguePressedTargetType && targetIndex == m_dialoguePressedTargetIndex)
+            {
+                if (targetType == DialoguePointerTargetType::Action
+                    && targetIndex < m_activeEventDialog.actions.size())
+                {
+                    m_eventDialogSelectionIndex = targetIndex;
+                    executeActiveDialogAction();
+                }
+                else if (targetType == DialoguePointerTargetType::CloseButton)
+                {
+                    handleDialogueCloseRequest();
+                }
+            }
+
+            m_dialogueClickLatch = false;
+            m_dialoguePressedTargetType = DialoguePointerTargetType::None;
+            m_dialoguePressedTargetIndex = 0;
+        }
         else
         {
-            m_dialogueClickLatch = false;
+            m_dialoguePressedTargetType = DialoguePointerTargetType::None;
+            m_dialoguePressedTargetIndex = 0;
         }
 
         const bool closePressed = pKeyboardState[SDL_SCANCODE_ESCAPE] || pKeyboardState[SDL_SCANCODE_E];
@@ -10590,39 +10947,7 @@ void OutdoorGameView::updateCameraFromInput(float deltaSeconds)
         {
             if (!m_closeOverlayLatch)
             {
-                EventRuntimeState *pEventRuntimeState =
-                    m_pOutdoorWorldRuntime != nullptr ? m_pOutdoorWorldRuntime->eventRuntimeState() : nullptr;
-                const bool isResidentSelectionMode =
-                    !m_activeEventDialog.actions.empty()
-                    && std::all_of(
-                        m_activeEventDialog.actions.begin(),
-                        m_activeEventDialog.actions.end(),
-                        [](const EventDialogAction &action)
-                        {
-                            return action.kind == EventDialogActionKind::HouseResident;
-                        });
-                const HouseEntry *pHostHouseEntry =
-                    (m_dialogueHostHouseId != 0 && m_houseTable.has_value()) ? m_houseTable->get(m_dialogueHostHouseId) : nullptr;
-                const std::vector<uint32_t> hostResidentNpcIds =
-                    (pHostHouseEntry != nullptr && m_npcDialogTable.has_value() && pEventRuntimeState != nullptr)
-                    ? collectSelectableResidentNpcIds(*pHostHouseEntry, *m_npcDialogTable, *pEventRuntimeState)
-                    : std::vector<uint32_t>{};
-
-                if (!isResidentSelectionMode && pEventRuntimeState != nullptr && hostResidentNpcIds.size() > 1)
-                {
-                    EventRuntimeState::PendingDialogueContext context = {};
-                    context.kind = DialogueContextKind::HouseService;
-                    context.sourceId = m_dialogueHostHouseId;
-                    pEventRuntimeState->houseServiceMenuId.clear();
-                    pEventRuntimeState->pendingDialogueContext = std::move(context);
-                    openPendingEventDialog(pEventRuntimeState->messages.size(), true);
-                }
-                else
-                {
-                    closeActiveEventDialog();
-                    m_activateInspectLatch = true;
-                }
-
+                handleDialogueCloseRequest();
                 m_closeOverlayLatch = true;
             }
         }
@@ -10639,6 +10964,8 @@ void OutdoorGameView::updateCameraFromInput(float deltaSeconds)
     m_eventDialogAcceptLatch = false;
     m_eventDialogPartySelectLatches.fill(false);
     m_dialogueClickLatch = false;
+    m_dialoguePressedTargetType = DialoguePointerTargetType::None;
+    m_dialoguePressedTargetIndex = 0;
 
     if (hasActiveLootView)
     {
