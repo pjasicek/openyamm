@@ -10,6 +10,23 @@ namespace OpenYAMM::Game
 {
 namespace
 {
+bool isNumericOnly(const std::string &value)
+{
+    return !value.empty()
+        && std::all_of(
+            value.begin(),
+            value.end(),
+            [](unsigned char character)
+            {
+                return std::isdigit(character) != 0;
+            });
+}
+
+std::string normalizeVideoStem(const std::string &value)
+{
+    return isNumericOnly(value) ? "" : value;
+}
+
 int parseTrainingMaxLevel(const std::string &value)
 {
     if (value.empty())
@@ -58,6 +75,7 @@ bool HouseTable::loadFromRows(const std::vector<std::vector<std::string>> &rows)
             (row.size() > 8 && !row[8].empty()) ? std::strtoul(row[8].c_str(), nullptr, 10) : 0;
         entry.type = row.size() > 2 ? row[2] : "";
         entry.name = name;
+        entry.videoName = row.size() > 4 ? normalizeVideoStem(row[4]) : "";
         entry.proprietorName = row.size() > 6 ? row[6] : "";
         entry.proprietorTitle = row.size() > 7 ? row[7] : "";
         entry.priceMultiplier =
@@ -122,6 +140,15 @@ bool HouseTable::loadAnimationRows(const std::vector<std::vector<std::string>> &
         HouseEntry &entry = m_entries[houseId];
         entry.id = houseId;
         entry.buildingName = row[2];
+        if (row.size() > 4)
+        {
+            const std::string normalizedVideoStem = normalizeVideoStem(row[4]);
+
+            if (!normalizedVideoStem.empty())
+            {
+                entry.videoName = normalizedVideoStem;
+            }
+        }
         entry.residentNpcIds.clear();
 
         size_t startPosition = 0;

@@ -15,6 +15,7 @@ struct HouseEntry
     std::string type;
     std::string name;
     std::string buildingName;
+    std::string videoName;
     std::string proprietorName;
     std::string proprietorTitle;
     float priceMultiplier = 0.0f;

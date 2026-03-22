@@ -51,6 +51,18 @@ elements:
           default: IB-8pxbar
         notes: Left vertical dialogue chrome.
 
+      - id: DialogueVideoArea
+        anchor: top-left
+        offset_x: 8
+        offset_y: 28
+        width: 460
+        height: 344
+        bottom_to: OutdoorBasebar
+        z_index: -50
+        asset:
+          default: evt
+        notes: Video playback area
+
       - id: DialogueEventDialog
         anchor: top_right
         width: 172

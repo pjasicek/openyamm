@@ -141,6 +141,137 @@ uint32_t currentDialogueHostHouseId(const EventRuntimeState *pEventRuntimeState)
     return pEventRuntimeState != nullptr ? pEventRuntimeState->dialogueState.hostHouseId : 0;
 }
 
+const EventIrEvent *findEventById(const EventIrProgram &program, uint16_t eventId)
+{
+    for (const EventIrEvent &event : program.getEvents())
+    {
+        if (event.eventId == eventId)
+        {
+            return &event;
+        }
+    }
+
+    return nullptr;
+}
+
+const EventIrEvent *findCurrentMapEventById(
+    const std::optional<EventIrProgram> &localProgram,
+    const std::optional<EventIrProgram> &globalProgram,
+    uint16_t eventId)
+{
+    if (eventId == 0)
+    {
+        return nullptr;
+    }
+
+    if (localProgram)
+    {
+        const EventIrEvent *pLocalEvent = findEventById(*localProgram, eventId);
+
+        if (pLocalEvent != nullptr)
+        {
+            return pLocalEvent;
+        }
+    }
+
+    if (globalProgram)
+    {
+        return findEventById(*globalProgram, eventId);
+    }
+
+    return nullptr;
+}
+
+std::vector<std::string> collectRelevantHouseVideoStemsForMap(
+    const OutdoorMapData &outdoorMapData,
+    const std::optional<EventIrProgram> &localProgram,
+    const std::optional<EventIrProgram> &globalProgram,
+    const HouseTable &houseTable)
+{
+    std::unordered_set<uint16_t> rootEventIds;
+
+    for (const OutdoorEntity &entity : outdoorMapData.entities)
+    {
+        if (entity.eventIdPrimary != 0)
+        {
+            rootEventIds.insert(entity.eventIdPrimary);
+        }
+
+        if (entity.eventIdSecondary != 0)
+        {
+            rootEventIds.insert(entity.eventIdSecondary);
+        }
+    }
+
+    for (const OutdoorBModel &bmodel : outdoorMapData.bmodels)
+    {
+        for (const OutdoorBModelFace &face : bmodel.faces)
+        {
+            if (face.cogTriggeredNumber != 0)
+            {
+                rootEventIds.insert(face.cogTriggeredNumber);
+            }
+        }
+    }
+
+    std::unordered_set<uint16_t> visitedEventIds;
+    std::vector<uint16_t> pendingEventIds(rootEventIds.begin(), rootEventIds.end());
+    std::unordered_set<std::string> seenVideoStems;
+    std::vector<std::string> videoStems;
+
+    while (!pendingEventIds.empty())
+    {
+        const uint16_t eventId = pendingEventIds.back();
+        pendingEventIds.pop_back();
+
+        if (!visitedEventIds.insert(eventId).second)
+        {
+            continue;
+        }
+
+        const EventIrEvent *pEvent = findCurrentMapEventById(localProgram, globalProgram, eventId);
+
+        if (pEvent == nullptr)
+        {
+            continue;
+        }
+
+        for (const EventIrInstruction &instruction : pEvent->instructions)
+        {
+            if (instruction.operation == EventIrOperation::SpeakInHouse
+                && !instruction.arguments.empty())
+            {
+                const HouseEntry *pHouseEntry = houseTable.get(instruction.arguments[0]);
+
+                if (pHouseEntry != nullptr
+                    && !pHouseEntry->videoName.empty()
+                    && seenVideoStems.insert(pHouseEntry->videoName).second)
+                {
+                    videoStems.push_back(pHouseEntry->videoName);
+                }
+            }
+            else if (instruction.operation == EventIrOperation::ChangeEvent
+                && !instruction.arguments.empty())
+            {
+                pendingEventIds.push_back(static_cast<uint16_t>(instruction.arguments[0]));
+            }
+            else if (instruction.operation == EventIrOperation::RandomJump)
+            {
+                for (uint32_t targetEventId : instruction.arguments)
+                {
+                    if (targetEventId != 0)
+                    {
+                        pendingEventIds.push_back(static_cast<uint16_t>(targetEventId));
+                    }
+                }
+            }
+        }
+    }
+
+    std::sort(videoStems.begin(), videoStems.end());
+    return videoStems;
+}
+
 uint32_t makeAbgrColor(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha = 255)
 {
     return static_cast<uint32_t>(alpha) << 24
@@ -1276,6 +1407,7 @@ bool OutdoorGameView::initialize(
 
     m_isInitialized = true;
     m_pAssetFileSystem = &assetFileSystem;
+    m_houseVideoPlayer.initialize();
     m_map = map;
     m_monsterTable = monsterTable;
     m_outdoorMapData = outdoorMapData;
@@ -1630,6 +1762,20 @@ bool OutdoorGameView::initialize(
         return false;
     }
 
+    if (m_houseTable.has_value())
+    {
+        const std::vector<std::string> relevantHouseVideoStems = collectRelevantHouseVideoStemsForMap(
+            outdoorMapData,
+            m_localEventIrProgram,
+            m_globalEventIrProgram,
+            *m_houseTable);
+
+        for (const std::string &videoStem : relevantHouseVideoStems)
+        {
+            m_houseVideoPlayer.queueBackgroundPreload(videoStem);
+        }
+    }
+
     m_isRenderable = true;
     return true;
 }
@@ -1667,6 +1813,13 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
     }
 
     updateStatusBarEvent(deltaSeconds);
+
+    if (m_pAssetFileSystem != nullptr)
+    {
+        m_houseVideoPlayer.updateBackgroundPreloads(*m_pAssetFileSystem);
+    }
+
+    updateHouseVideoPlayback(deltaSeconds);
 
     {
         const uint64_t stageStartTickCount = SDL_GetTicksNS();
@@ -3648,6 +3801,8 @@ void OutdoorGameView::renderEventDialogPanel(int width, int height, bool renderA
 
 void OutdoorGameView::shutdown()
 {
+    m_houseVideoPlayer.shutdown();
+
     if (bgfx::isValid(m_programHandle))
     {
         bgfx::destroy(m_programHandle);
@@ -3856,6 +4011,28 @@ void OutdoorGameView::shutdown()
     m_lastMouseX = 0.0f;
     m_lastMouseY = 0.0f;
     m_pressedInspectHit = {};
+}
+
+void OutdoorGameView::updateHouseVideoPlayback(float deltaSeconds)
+{
+    const EventRuntimeState *pEventRuntimeState =
+        m_pOutdoorWorldRuntime != nullptr ? m_pOutdoorWorldRuntime->eventRuntimeState() : nullptr;
+    const uint32_t hostHouseId = currentDialogueHostHouseId(pEventRuntimeState);
+    const HouseEntry *pHostHouseEntry =
+        (hostHouseId != 0 && m_houseTable.has_value()) ? m_houseTable->get(hostHouseId) : nullptr;
+
+    if (currentHudScreenState() != HudScreenState::Dialogue
+        || !m_activeEventDialog.isActive
+        || pHostHouseEntry == nullptr
+        || pHostHouseEntry->videoName.empty()
+        || m_pAssetFileSystem == nullptr)
+    {
+        m_houseVideoPlayer.stop();
+        return;
+    }
+
+    m_houseVideoPlayer.play(*m_pAssetFileSystem, pHostHouseEntry->videoName);
+    m_houseVideoPlayer.update(deltaSeconds);
 }
 
 void OutdoorGameView::executeActiveDialogAction()
@@ -4410,6 +4587,7 @@ void OutdoorGameView::handleDialogueCloseRequest()
         (currentDialogueHostHouseId(pEventRuntimeState) != 0 && m_houseTable.has_value())
         ? m_houseTable->get(currentDialogueHostHouseId(pEventRuntimeState))
         : nullptr;
+    const bool showDialogueVideoArea = pHostHouseEntry != nullptr;
     const std::vector<uint32_t> hostResidentNpcIds =
         (pHostHouseEntry != nullptr && m_npcDialogTable.has_value() && pEventRuntimeState != nullptr)
         ? collectSelectableResidentNpcIds(*pHostHouseEntry, *m_npcDialogTable, *pEventRuntimeState)
@@ -4541,8 +4719,16 @@ void OutdoorGameView::renderDialogueOverlay(int width, int height, bool renderAb
         (pHostHouseEntry != nullptr && m_npcDialogTable.has_value() && pEventRuntimeState != nullptr)
         ? collectSelectableResidentNpcIds(*pHostHouseEntry, *m_npcDialogTable, *pEventRuntimeState)
         : std::vector<uint32_t>{};
+    const bool showDialogueVideoArea = pHostHouseEntry != nullptr;
+    const bool hasDialogueParticipantIdentity =
+        !m_activeEventDialog.title.empty()
+        || m_activeEventDialog.participantPictureId != 0
+        || m_activeEventDialog.sourceId != 0;
     const bool showEventDialogPanel =
-        isResidentSelectionMode || !m_activeEventDialog.actions.empty() || pHostHouseEntry != nullptr;
+        isResidentSelectionMode
+        || !m_activeEventDialog.actions.empty()
+        || pHostHouseEntry != nullptr
+        || hasDialogueParticipantIdentity;
     const bool showDialogueTextFrame = !m_activeEventDialog.lines.empty();
     const int hudZThreshold = defaultHudLayoutZIndexForScreen("OutdoorHud");
     const auto shouldRenderInCurrentPass =
@@ -4660,6 +4846,7 @@ void OutdoorGameView::renderDialogueOverlay(int width, int height, bool renderAb
          dialogMouseX,
          dialogMouseY,
          showDialogueTextFrame,
+         showDialogueVideoArea,
          showEventDialogPanel,
          &isDialogueFrameSubtree,
          &shouldRenderInCurrentPass](
@@ -4681,6 +4868,11 @@ void OutdoorGameView::renderDialogueOverlay(int width, int height, bool renderAb
             }
 
             if (!showDialogueTextFrame && isDialogueFrameSubtree(*pLayout))
+            {
+                return;
+            }
+
+            if (normalizedLayoutId == "dialoguevideoarea" && !showDialogueVideoArea)
             {
                 return;
             }
@@ -4787,6 +4979,149 @@ void OutdoorGameView::renderDialogueOverlay(int width, int height, bool renderAb
         }
 
         renderDialogueTextureElement(layoutId);
+    }
+
+    const HudLayoutElement *pDialogueVideoAreaLayout = findHudLayoutElement("DialogueVideoArea");
+
+    if (showDialogueVideoArea
+        && pDialogueVideoAreaLayout != nullptr
+        && pDialogueVideoAreaLayout->visible
+        && toLowerCopy(pDialogueVideoAreaLayout->screen) == "dialogue"
+        && shouldRenderInCurrentPass(pDialogueVideoAreaLayout->zIndex))
+    {
+        const std::optional<ResolvedHudLayoutElement> resolvedVideoArea = resolveHudLayoutElement(
+            "DialogueVideoArea",
+            width,
+            height,
+            pDialogueVideoAreaLayout->width,
+            pDialogueVideoAreaLayout->height);
+
+        if (resolvedVideoArea)
+        {
+            const auto drawSolidRect =
+                [this](const HudTextureHandle &texture, float x, float y, float rectWidth, float rectHeight)
+                {
+                    if (rectWidth <= 0.0f || rectHeight <= 0.0f)
+                    {
+                        return;
+                    }
+
+                    bgfx::TransientVertexBuffer transientVertexBuffer;
+
+                    if (bgfx::getAvailTransientVertexBuffer(6, TexturedTerrainVertex::ms_layout) < 6)
+                    {
+                        return;
+                    }
+
+                    bgfx::allocTransientVertexBuffer(&transientVertexBuffer, 6, TexturedTerrainVertex::ms_layout);
+                    TexturedTerrainVertex *pVertices =
+                        reinterpret_cast<TexturedTerrainVertex *>(transientVertexBuffer.data);
+                    pVertices[0] = {x, y, 0.0f, 0.0f, 0.0f};
+                    pVertices[1] = {x + rectWidth, y, 0.0f, 1.0f, 0.0f};
+                    pVertices[2] = {x + rectWidth, y + rectHeight, 0.0f, 1.0f, 1.0f};
+                    pVertices[3] = {x, y, 0.0f, 0.0f, 0.0f};
+                    pVertices[4] = {x + rectWidth, y + rectHeight, 0.0f, 1.0f, 1.0f};
+                    pVertices[5] = {x, y + rectHeight, 0.0f, 0.0f, 1.0f};
+
+                    float modelMatrix[16] = {};
+                    bx::mtxIdentity(modelMatrix);
+                    bgfx::setTransform(modelMatrix);
+                    bgfx::setVertexBuffer(0, &transientVertexBuffer);
+                    bgfx::setTexture(0, m_terrainTextureSamplerHandle, texture.textureHandle);
+                    bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_BLEND_ALPHA);
+                    bgfx::submit(HudViewId, m_texturedTerrainProgramHandle);
+                };
+
+            const auto drawTexture =
+                [this](bgfx::TextureHandle textureHandle, float x, float y, float rectWidth, float rectHeight)
+                {
+                    if (!bgfx::isValid(textureHandle) || rectWidth <= 0.0f || rectHeight <= 0.0f)
+                    {
+                        return;
+                    }
+
+                    bgfx::TransientVertexBuffer transientVertexBuffer;
+
+                    if (bgfx::getAvailTransientVertexBuffer(6, TexturedTerrainVertex::ms_layout) < 6)
+                    {
+                        return;
+                    }
+
+                    bgfx::allocTransientVertexBuffer(&transientVertexBuffer, 6, TexturedTerrainVertex::ms_layout);
+                    TexturedTerrainVertex *pVertices =
+                        reinterpret_cast<TexturedTerrainVertex *>(transientVertexBuffer.data);
+                    pVertices[0] = {x, y, 0.0f, 0.0f, 0.0f};
+                    pVertices[1] = {x + rectWidth, y, 0.0f, 1.0f, 0.0f};
+                    pVertices[2] = {x + rectWidth, y + rectHeight, 0.0f, 1.0f, 1.0f};
+                    pVertices[3] = {x, y, 0.0f, 0.0f, 0.0f};
+                    pVertices[4] = {x + rectWidth, y + rectHeight, 0.0f, 1.0f, 1.0f};
+                    pVertices[5] = {x, y + rectHeight, 0.0f, 0.0f, 1.0f};
+
+                    float modelMatrix[16] = {};
+                    bx::mtxIdentity(modelMatrix);
+                    bgfx::setTransform(modelMatrix);
+                    bgfx::setVertexBuffer(0, &transientVertexBuffer);
+                    bgfx::setTexture(0, m_terrainTextureSamplerHandle, textureHandle);
+                    bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_BLEND_ALPHA);
+                    bgfx::submit(HudViewId, m_texturedTerrainProgramHandle);
+                };
+
+            if (m_houseVideoPlayer.hasActiveFrame())
+            {
+                drawTexture(
+                    m_houseVideoPlayer.textureHandle(),
+                    resolvedVideoArea->x,
+                    resolvedVideoArea->y,
+                    resolvedVideoArea->width,
+                    resolvedVideoArea->height);
+            }
+            else
+            {
+                const HudTextureHandle *pVideoFillTexture =
+                    ensureSolidHudTextureLoaded("__dialogue_video_area_fill__", 0xa0181818u);
+                const HudTextureHandle *pVideoBorderTexture =
+                    ensureSolidHudTextureLoaded("__dialogue_video_area_border__", 0xff505050u);
+
+                if (pVideoFillTexture != nullptr)
+                {
+                    drawSolidRect(
+                        *pVideoFillTexture,
+                        resolvedVideoArea->x,
+                        resolvedVideoArea->y,
+                        resolvedVideoArea->width,
+                        resolvedVideoArea->height);
+                }
+
+                if (pVideoBorderTexture != nullptr)
+                {
+                    static constexpr float BorderThickness = 2.0f;
+                    drawSolidRect(
+                        *pVideoBorderTexture,
+                        resolvedVideoArea->x,
+                        resolvedVideoArea->y,
+                        resolvedVideoArea->width,
+                        BorderThickness);
+                    drawSolidRect(
+                        *pVideoBorderTexture,
+                        resolvedVideoArea->x,
+                        resolvedVideoArea->y + resolvedVideoArea->height - BorderThickness,
+                        resolvedVideoArea->width,
+                        BorderThickness);
+                    drawSolidRect(
+                        *pVideoBorderTexture,
+                        resolvedVideoArea->x,
+                        resolvedVideoArea->y,
+                        BorderThickness,
+                        resolvedVideoArea->height);
+                    drawSolidRect(
+                        *pVideoBorderTexture,
+                        resolvedVideoArea->x + resolvedVideoArea->width - BorderThickness,
+                        resolvedVideoArea->y,
+                        BorderThickness,
+                        resolvedVideoArea->height);
+                }
+            }
+        }
     }
 
     const auto renderDialogueLabelById =

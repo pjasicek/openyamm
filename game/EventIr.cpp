@@ -392,7 +392,8 @@ EventIrInstruction EventIrProgram::convertInstruction(
         irInstruction.note = note.str();
     }
 
-    if (irInstruction.operation == EventIrOperation::ForPartyMember)
+    if (irInstruction.operation == EventIrOperation::ForPartyMember
+        || irInstruction.operation == EventIrOperation::RandomJump)
     {
         for (uint8_t value : evtInstruction.listValues)
         {

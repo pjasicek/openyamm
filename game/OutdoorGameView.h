@@ -12,6 +12,7 @@
 #include "game/EvtProgram.h"
 #include "game/EventIr.h"
 #include "game/EventRuntime.h"
+#include "game/HouseVideoPlayer.h"
 #include "game/HouseTable.h"
 #include "game/NpcDialogTable.h"
 #include "game/ObjectTable.h"
@@ -406,6 +407,7 @@ private:
     HudScreenState currentHudScreenState() const;
     void setStatusBarEvent(const std::string &text, float durationSeconds = 2.0f);
     void updateStatusBarEvent(float deltaSeconds);
+    void updateHouseVideoPlayback(float deltaSeconds);
     void handleDialogueCloseRequest();
     void openDebugNpcDialogue(uint32_t npcId);
     void renderDialogueOverlay(int width, int height, bool renderAboveHud);
@@ -557,6 +559,7 @@ private:
     std::string m_statusBarEventText;
     float m_statusBarEventRemainingSeconds;
     EventDialogContent m_activeEventDialog;
+    HouseVideoPlayer m_houseVideoPlayer;
     OutdoorPartyRuntime *m_pOutdoorPartyRuntime;
     const Engine::AssetFileSystem *m_pAssetFileSystem;
     InspectHit m_pressedInspectHit;
