@@ -10,6 +10,48 @@ elements:
       max: 3.0
     notes: Shared dialogue root for common scaling and grouping.
     children:
+      - id: DialogueTopBar
+        anchor: top_center
+        width: 640
+        height: 29
+        z_index: 50
+        asset:
+          default: topbar
+        notes: Duplicated from the gameplay HUD so character pages can layer independently above it.
+        children:
+          - id: DialogueGoldFoodIcon
+            anchor: center_in
+            offset_x: -165
+            width: 134
+            height: 21
+            asset:
+              default: scoreBG
+            notes: Gold and food background art.
+
+          - id: DialogueGoldLabel
+            anchor: center_in
+            offset_x: -85
+            width: 28
+            height: 14
+            text:
+              value: "{gold}"
+              font: SMALLNUM
+              align_x: center
+              align_y: middle
+            notes: Gold counter.
+
+          - id: DialogueFoodLabel
+            anchor: center_in
+            offset_x: -180
+            width: 28
+            height: 14
+            text:
+              value: "{food}"
+              font: SMALLNUM
+              align_x: center
+              align_y: middle
+            notes: Food counter.
+
       - id: DialogueFrame
         anchor: bottom_left
         offset_x: 3

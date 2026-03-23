@@ -137,6 +137,7 @@ bool GameApplication::initializeRenderer()
             m_gameDataLoader.getClassSkillTable(),
             m_gameDataLoader.getNpcDialogTable(),
             m_gameDataLoader.getRosterTable(),
+            m_gameDataLoader.getCharacterDollTable(),
             m_gameDataLoader.getObjectTable(),
             m_gameDataLoader.getSpellTable(),
             m_gameDataLoader.getItemTable(),
@@ -217,7 +218,7 @@ void GameApplication::updateMapPickerInput()
         return;
     }
 
-    if (pKeyboardState[SDL_SCANCODE_TAB])
+    if (pKeyboardState[SDL_SCANCODE_F8])
     {
         if (!m_pickerToggleLatch)
         {
@@ -296,13 +297,12 @@ void GameApplication::renderMapPickerOverlay() const
 {
     if (!m_showMapPicker)
     {
-        bgfx::dbgTextPrintf(0, 13, 0x0f, "Tab: map picker");
         return;
     }
 
     const std::vector<MapStatsEntry> &entries = m_gameDataLoader.getMapStats().getEntries();
     const std::optional<MapAssetInfo> &selectedMap = m_gameDataLoader.getSelectedMap();
-    bgfx::dbgTextPrintf(0, 13, 0x0f, "Map Picker: Up/Down select  Enter load  Tab close");
+    bgfx::dbgTextPrintf(0, 13, 0x0f, "Map Picker: Up/Down select  Enter load  F8 close");
 
     if (selectedMap)
     {

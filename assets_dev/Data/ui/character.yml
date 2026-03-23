@@ -8,20 +8,25 @@ elements:
     scale:
       min: 1.0
       max: 3.0
-    notes: Character screen overlay root. Gameplay base HUD remains visible underneath.
+    notes: Character screen rooted to the classic MM8 composition from the reference screenshot.
     children:
       - id: CharacterTopBar
         anchor: top_center
         width: 640
         height: 29
-        notes: Top character bar with gold/food and optional page title.
+        z_index: 50
+        asset:
+          default: topbar
+        notes: Duplicated from the gameplay HUD so character pages can layer independently above it.
         children:
           - id: CharacterGoldFoodIcon
             anchor: center_in
             offset_x: -165
             width: 134
             height: 21
-            notes: Optional override if character screen needs different gold/food art than gameplay HUD.
+            asset:
+              default: scoreBG
+            notes: Gold and food background art.
 
           - id: CharacterGoldLabel
             anchor: center_in
@@ -47,33 +52,1174 @@ elements:
               align_y: middle
             notes: Food counter.
 
-      - id: CharacterPanel
-        anchor: center_in
-        offset_y: -14
-        width: 640
-        height: 394
-        notes: Main character screen background/frame.
+      - id: CharacterStatsButton
+        anchor: bottom_Left
+        offset_x: 16
+        offset_y: -118
+        width: 75
+        height: 26
+        z_index: 300
+        interactive: true
+        asset:
+          default: But20U
+          pressed: But20D
+          highlighted: But20H
+        notes: Button to switch to character stats page
 
-      - id: CharacterPageTabs
+      - id: CharacterSkillsButton
+        anchor: bottom_Left
+        offset_x: 106
+        offset_y: -118
+        width: 75
+        height: 26
+        z_index: 300
+        interactive: true
+        asset:
+          default: But21U
+          pressed: But21D
+          highlighted: But21H
+        notes: Button to switch to character skills page
+
+      - id: CharacterInventoryButton
+        anchor: bottom_Left
+        offset_x: 196
+        offset_y: -118
+        width: 75
+        height: 26
+        z_index: 300
+        interactive: true
+        asset:
+          default: But22U
+          pressed: But22D
+          highlighted: But22H
+        notes: Button to switch to character inventory page
+
+      - id: CharacterAwardsButton
+        anchor: bottom_Left
+        offset_x: 286
+        offset_y: -118
+        width: 75
+        height: 26
+        z_index: 300
+        interactive: true
+        asset:
+          default: But23U
+          pressed: But23D
+          highlighted: But23H
+        notes: Button to switch to character awards page
+
+      - id: CharacterExitButton
+        anchor: bottom_left
+        offset_x: 376
+        offset_y: -118
+        width: 75
+        height: 26
+        z_index: 300
+        interactive: true
+        asset:
+          default: But24U
+          pressed: But24D
+          highlighted: But24H
+        notes: Exit button
+
+      - id: CharacterStatsPage
         anchor: top_left
-        offset_x: 332
-        offset_y: 10
-        width: 284
-        height: 24
-        notes: Tab button strip for Stats / Skills / Inventory / Awards.
+        offset_x: 0
+        offset_y: 24
+        z_index: 50
+        width: 468
+        height: 346
+        z_index: 80
+        visible: true
+        asset:
+          default: fr_stats
+        notes: Stats screen frame matching the reference screenshot.
+        children:
+          - id: CharacterStatsNameLabel
+            anchor: top_left
+            offset_x: 20
+            offset_y: 12
+            width: 180
+            height: 18
+            text:
+              value: "{character_name}"
+              font: Create
+              color: white
+              align_x: left
+              align_y: middle
+            notes: Active character name in the upper-left strip.
+
+          - id: CharacterStatsSkillPointsTextLabel
+            anchor: top_right
+            offset_x: -42
+            offset_y: 12
+            width: 140
+            height: 18
+            text:
+              value: "Skill Points:"
+              font: Create
+              color: white
+              align_x: right
+              align_y: middle
+            notes: Skill points label in the upper-right strip.
+
+          - id: CharacterStatsSkillPointsValue
+            anchor: top_right
+            offset_x: -25
+            offset_y: 12
+            width: 60
+            height: 18
+            text:
+              value: "{stats_skill_points_value}"
+              font: Create
+              color: white
+              align_x: right
+              align_y: middle
+            notes: Skill points value in the upper-right strip.
+
+          - id: CharacterStatMightLabel
+            anchor: top_left
+            offset_x: 20
+            offset_y: 44
+            width: 138
+            height: 16
+            text:
+              value: "Might"
+              font: Lucida
+              color: white
+              align_x: left
+              align_y: middle
+
+          - id: CharacterStatMightValue
+            anchor: top_left
+            offset_x: 164
+            offset_y: 44
+            width: 84
+            height: 16
+            text:
+              value: "{might_value}"
+              font: Lucida
+              color: white
+              align_x: center
+              align_y: middle
+
+          - id: CharacterStatIntellectLabel
+            anchor: top_left
+            offset_x: 20
+            offset_y: 62
+            width: 138
+            height: 16
+            text:
+              value: "Intellect"
+              font: Lucida
+              color: white
+              align_x: left
+              align_y: middle
+
+          - id: CharacterStatIntellectValue
+            anchor: top_left
+            offset_x: 164
+            offset_y: 62
+            width: 84
+            height: 16
+            text:
+              value: "{intellect_value}"
+              font: Lucida
+              color: white
+              align_x: center
+              align_y: middle
+
+          - id: CharacterStatPersonalityLabel
+            anchor: top_left
+            offset_x: 20
+            offset_y: 80
+            width: 138
+            height: 16
+            text:
+              value: "Personality"
+              font: Lucida
+              color: white
+              align_x: left
+              align_y: middle
+
+          - id: CharacterStatPersonalityValue
+            anchor: top_left
+            offset_x: 164
+            offset_y: 80
+            width: 84
+            height: 16
+            text:
+              value: "{personality_value}"
+              font: Lucida
+              color: white
+              align_x: center
+              align_y: middle
+
+          - id: CharacterStatEnduranceLabel
+            anchor: top_left
+            offset_x: 20
+            offset_y: 98
+            width: 138
+            height: 16
+            text:
+              value: "Endurance"
+              font: Lucida
+              color: white
+              align_x: left
+              align_y: middle
+
+          - id: CharacterStatEnduranceValue
+            anchor: top_left
+            offset_x: 164
+            offset_y: 98
+            width: 84
+            height: 16
+            text:
+              value: "{endurance_value}"
+              font: Lucida
+              color: white
+              align_x: center
+              align_y: middle
+
+          - id: CharacterStatAccuracyLabel
+            anchor: top_left
+            offset_x: 20
+            offset_y: 116
+            width: 138
+            height: 16
+            text:
+              value: "Accuracy"
+              font: Lucida
+              color: white
+              align_x: left
+              align_y: middle
+
+          - id: CharacterStatAccuracyValue
+            anchor: top_left
+            offset_x: 164
+            offset_y: 116
+            width: 84
+            height: 16
+            text:
+              value: "{accuracy_value}"
+              font: Lucida
+              color: white
+              align_x: center
+              align_y: middle
+
+          - id: CharacterStatSpeedLabel
+            anchor: top_left
+            offset_x: 20
+            offset_y: 134
+            width: 138
+            height: 16
+            text:
+              value: "Speed"
+              font: Lucida
+              color: white
+              align_x: left
+              align_y: middle
+
+          - id: CharacterStatSpeedValue
+            anchor: top_left
+            offset_x: 164
+            offset_y: 134
+            width: 84
+            height: 16
+            text:
+              value: "{speed_value}"
+              font: Lucida
+              color: white
+              align_x: center
+              align_y: middle
+
+          - id: CharacterStatLuckLabel
+            anchor: top_left
+            offset_x: 20
+            offset_y: 152
+            width: 138
+            height: 16
+            text:
+              value: "Luck"
+              font: Lucida
+              color: white
+              align_x: left
+              align_y: middle
+
+          - id: CharacterStatLuckValue
+            anchor: top_left
+            offset_x: 164
+            offset_y: 152
+            width: 84
+            height: 16
+            text:
+              value: "{luck_value}"
+              font: Lucida
+              color: white
+              align_x: center
+              align_y: middle
+
+          - id: CharacterStatHitPointsLabel
+            anchor: top_left
+            offset_x: 20
+            offset_y: 190
+            width: 138
+            height: 16
+            text:
+              value: "Hit Points"
+              font: Lucida
+              color: white
+              align_x: left
+              align_y: middle
+
+          - id: CharacterStatHitPointsValue
+            anchor: top_left
+            offset_x: 164
+            offset_y: 190
+            width: 84
+            height: 16
+            text:
+              value: "{hit_points_value}"
+              font: Lucida
+              color: white
+              align_x: center
+              align_y: middle
+
+          - id: CharacterStatSpellPointsLabel
+            anchor: top_left
+            offset_x: 20
+            offset_y: 208
+            width: 138
+            height: 16
+            text:
+              value: "Spell Points"
+              font: Lucida
+              color: white
+              align_x: left
+              align_y: middle
+
+          - id: CharacterStatSpellPointsValue
+            anchor: top_left
+            offset_x: 164
+            offset_y: 208
+            width: 84
+            height: 16
+            text:
+              value: "{spell_points_value}"
+              font: Lucida
+              color: white
+              align_x: center
+              align_y: middle
+
+          - id: CharacterStatArmorClassLabel
+            anchor: top_left
+            offset_x: 20
+            offset_y: 226
+            width: 138
+            height: 16
+            text:
+              value: "Armor Class"
+              font: Lucida
+              color: white
+              align_x: left
+              align_y: middle
+
+          - id: CharacterStatArmorClassValue
+            anchor: top_left
+            offset_x: 164
+            offset_y: 226
+            width: 84
+            height: 16
+            text:
+              value: "{armor_class_value}"
+              font: Lucida
+              color: white
+              align_x: center
+              align_y: middle
+
+          - id: CharacterStatConditionLabel
+            anchor: top_left
+            offset_x: 20
+            offset_y: 261
+            width: 138
+            height: 16
+            text:
+              value: "Condition:"
+              font: Lucida
+              color: white
+              align_x: left
+              align_y: middle
+
+          - id: CharacterStatConditionValue
+            anchor: top_left
+            offset_x: 164
+            offset_y: 261
+            width: 84
+            height: 16
+            text:
+              value: "{condition_value}"
+              font: Lucida
+              color: white
+              align_x: center
+              align_y: middle
+
+          - id: CharacterStatQuickSpellLabel
+            anchor: top_left
+            offset_x: 20
+            offset_y: 279
+            width: 138
+            height: 16
+            text:
+              value: "Quick Spell:"
+              font: Lucida
+              color: white
+              align_x: left
+              align_y: middle
+
+          - id: CharacterStatQuickSpellValue
+            anchor: top_left
+            offset_x: 164
+            offset_y: 279
+            width: 84
+            height: 16
+            text:
+              value: "{quick_spell_value}"
+              font: Lucida
+              color: white
+              align_x: center
+              align_y: middle
+
+          - id: CharacterStatAgeLabel
+            anchor: top_left
+            offset_x: 269
+            offset_y: 44
+            width: 92
+            height: 16
+            text:
+              value: "Age"
+              font: Lucida
+              color: white
+              align_x: left
+              align_y: middle
+
+          - id: CharacterStatAgeValue
+            anchor: top_left
+            offset_x: 368
+            offset_y: 44
+            width: 78
+            height: 16
+            text:
+              value: "{age_value}"
+              font: Lucida
+              color: white
+              align_x: center
+              align_y: middle
+
+          - id: CharacterStatLevelLabel
+            anchor: top_left
+            offset_x: 269
+            offset_y: 62
+            width: 92
+            height: 16
+            text:
+              value: "Level"
+              font: Lucida
+              color: white
+              align_x: left
+              align_y: middle
+
+          - id: CharacterStatLevelValue
+            anchor: top_left
+            offset_x: 368
+            offset_y: 62
+            width: 78
+            height: 16
+            text:
+              value: "{level_value}"
+              font: Lucida
+              color: white
+              align_x: center
+              align_y: middle
+
+          - id: CharacterStatExperienceLabel
+            anchor: top_left
+            offset_x: 269
+            offset_y: 80
+            width: 92
+            height: 16
+            text:
+              value: "Experience"
+              font: Lucida
+              color: white
+              align_x: left
+              align_y: middle
+
+          - id: CharacterStatExperienceValue
+            anchor: top_left
+            offset_x: 368
+            offset_y: 80
+            width: 78
+            height: 16
+            text:
+              value: "{experience_value}"
+              font: Lucida
+              color: white
+              align_x: center
+              align_y: middle
+
+          - id: CharacterStatAttackLabel
+            anchor: top_left
+            offset_x: 269
+            offset_y: 116
+            width: 92
+            height: 16
+            text:
+              value: "Attack"
+              font: Lucida
+              color: white
+              align_x: left
+              align_y: middle
+
+          - id: CharacterStatAttackValue
+            anchor: top_left
+            offset_x: 368
+            offset_y: 116
+            width: 78
+            height: 16
+            text:
+              value: "{attack_value}"
+              font: Lucida
+              color: white
+              align_x: center
+              align_y: middle
+
+          - id: CharacterStatMeleeDamageLabel
+            anchor: top_left
+            offset_x: 269
+            offset_y: 134
+            width: 92
+            height: 16
+            text:
+              value: "Damage"
+              font: Lucida
+              color: white
+              align_x: left
+              align_y: middle
+
+          - id: CharacterStatMeleeDamageValue
+            anchor: top_left
+            offset_x: 368
+            offset_y: 134
+            width: 78
+            height: 16
+            text:
+              value: "{melee_damage_value}"
+              font: Lucida
+              color: white
+              align_x: center
+              align_y: middle
+
+          - id: CharacterStatShootLabel
+            anchor: top_left
+            offset_x: 269
+            offset_y: 152
+            width: 92
+            height: 16
+            text:
+              value: "Shoot"
+              font: Lucida
+              color: white
+              align_x: left
+              align_y: middle
+
+          - id: CharacterStatShootValue
+            anchor: top_left
+            offset_x: 368
+            offset_y: 152
+            width: 78
+            height: 16
+            text:
+              value: "{shoot_value}"
+              font: Lucida
+              color: white
+              align_x: center
+              align_y: middle
+
+          - id: CharacterStatRangedDamageLabel
+            anchor: top_left
+            offset_x: 269
+            offset_y: 170
+            width: 92
+            height: 16
+            text:
+              value: "Damage"
+              font: Lucida
+              color: white
+              align_x: left
+              align_y: middle
+
+          - id: CharacterStatRangedDamageValue
+            anchor: top_left
+            offset_x: 368
+            offset_y: 170
+            width: 78
+            height: 16
+            text:
+              value: "{ranged_damage_value}"
+              font: Lucida
+              color: white
+              align_x: center
+              align_y: middle
+
+          - id: CharacterStatFireResistanceLabel
+            anchor: top_left
+            offset_x: 269
+            offset_y: 206
+            width: 92
+            height: 14
+            text:
+              value: "Fire"
+              font: Lucida
+              color: white
+              align_x: left
+              align_y: middle
+
+          - id: CharacterStatFireResistanceValue
+            anchor: top_left
+            offset_x: 368
+            offset_y: 206
+            width: 78
+            height: 14
+            text:
+              value: "{fire_resistance_value}"
+              font: Lucida
+              color: white
+              align_x: center
+              align_y: middle
+
+          - id: CharacterStatAirResistanceLabel
+            anchor: top_left
+            offset_x: 269
+            offset_y: 222
+            width: 92
+            height: 14
+            text:
+              value: "Air"
+              font: Lucida
+              color: white
+              align_x: left
+              align_y: middle
+
+          - id: CharacterStatAirResistanceValue
+            anchor: top_left
+            offset_x: 368
+            offset_y: 222
+            width: 78
+            height: 14
+            text:
+              value: "{air_resistance_value}"
+              font: Lucida
+              color: white
+              align_x: center
+              align_y: middle
+
+          - id: CharacterStatWaterResistanceLabel
+            anchor: top_left
+            offset_x: 269
+            offset_y: 238
+            width: 92
+            height: 14
+            text:
+              value: "Water"
+              font: Lucida
+              color: white
+              align_x: left
+              align_y: middle
+
+          - id: CharacterStatWaterResistanceValue
+            anchor: top_left
+            offset_x: 368
+            offset_y: 238
+            width: 78
+            height: 14
+            text:
+              value: "{water_resistance_value}"
+              font: Lucida
+              color: white
+              align_x: center
+              align_y: middle
+
+          - id: CharacterStatEarthResistanceLabel
+            anchor: top_left
+            offset_x: 269
+            offset_y: 254
+            width: 92
+            height: 14
+            text:
+              value: "Earth"
+              font: Lucida
+              color: white
+              align_x: left
+              align_y: middle
+
+          - id: CharacterStatEarthResistanceValue
+            anchor: top_left
+            offset_x: 368
+            offset_y: 254
+            width: 78
+            height: 14
+            text:
+              value: "{earth_resistance_value}"
+              font: Lucida
+              color: white
+              align_x: center
+              align_y: middle
+
+          - id: CharacterStatMindResistanceLabel
+            anchor: top_left
+            offset_x: 269
+            offset_y: 270
+            width: 92
+            height: 14
+            text:
+              value: "Mind"
+              font: Lucida
+              color: white
+              align_x: left
+              align_y: middle
+
+          - id: CharacterStatMindResistanceValue
+            anchor: top_left
+            offset_x: 368
+            offset_y: 270
+            width: 78
+            height: 14
+            text:
+              value: "{mind_resistance_value}"
+              font: Lucida
+              color: white
+              align_x: center
+              align_y: middle
+
+          - id: CharacterStatBodyResistanceLabel
+            anchor: top_left
+            offset_x: 269
+            offset_y: 286
+            width: 92
+            height: 14
+            text:
+              value: "Body"
+              font: Lucida
+              color: white
+              align_x: left
+              align_y: middle
+
+          - id: CharacterStatBodyResistanceValue
+            anchor: top_left
+            offset_x: 368
+            offset_y: 286
+            width: 78
+            height: 14
+            text:
+              value: "{body_resistance_value}"
+              font: Lucida
+              color: white
+              align_x: center
+              align_y: middle
+
+      - id: CharacterSkillsPage
+        anchor: top_left
+        offset_x: 0
+        offset_y: 24
+        width: 468
+        height: 346
+        z_index: 80
+        visible: true
+        asset:
+          default: fr_skill
+        notes: Skills frame in the same left-hand page slot as stats.
+        children:
+          - id: CharacterSkillsNameLabel
+            anchor: top_left
+            offset_x: 20
+            offset_y: 12
+            width: 180
+            height: 18
+            text:
+              value: "{character_name}"
+              font: Create
+              color: white
+              align_x: left
+              align_y: middle
+            notes: Active character name in the upper-left strip.
+
+          - id: CharacterSkillsSkillPointsTextLabel
+            anchor: top_right
+            offset_x: -42
+            offset_y: 12
+            width: 140
+            height: 18
+            text:
+              value: "Skill Points:"
+              font: Create
+              color: white
+              align_x: right
+              align_y: middle
+            notes: Skill points label in the upper-right strip.
+
+          - id: CharacterSkillsSkillPointsValue
+            anchor: top_right
+            offset_x: -25
+            offset_y: 12
+            width: 60
+            height: 18
+            text:
+              value: "{stats_skill_points_value}"
+              font: Create
+              color: white
+              align_x: right
+              align_y: middle
+            notes: Skill points value in the upper-right strip.
+
+          - id: CharacterSkillsWeaponsHeader
+            anchor: top_left
+            offset_x: 20
+            offset_y: 44
+            width: 120
+            height: 16
+            text:
+              value: "Weapons"
+              font: Arrus
+              color: "#ffff9b"
+              align_x: left
+              align_y: middle
+
+          - id: CharacterSkillsWeaponsLevelHeader
+            anchor: top_left
+            offset_x: 176
+            offset_y: 44
+            width: 48
+            height: 16
+            text:
+              value: "Level"
+              font: Arrus
+              color: "#ffff9b"
+              align_x: left
+              align_y: middle
+
+          - id: CharacterSkillsWeaponsListRegion
+            anchor: top_left
+            offset_x: 20
+            offset_y: 64
+            width: 204
+            height: 18
+            notes: Runtime-driven weapons list region; height is overridden from learned row count.
+            children:
+              - id: CharacterSkillsMagicHeader
+                anchor: below
+                offset_x: 0
+                offset_y: 12
+                width: 120
+                height: 16
+                text:
+                  value: "Magic"
+                  font: Arrus
+                  color: "#ffff9b"
+                  align_x: left
+                  align_y: middle
+                notes: Position follows the weapons list height.
+                children:
+                  - id: CharacterSkillsMagicListRegion
+                    anchor: below
+                    offset_x: 0
+                    offset_y: 6
+                    width: 204
+                    height: 18
+                    notes: Runtime-driven magic list region; height is overridden from learned row count.
+
+              - id: CharacterSkillsMagicLevelHeader
+                anchor: below
+                offset_x: 156
+                offset_y: 12
+                width: 48
+                height: 16
+                text:
+                  value: "Level"
+                  font: Arrus
+                  color: "#ffff9b"
+                  align_x: left
+                  align_y: middle
+                notes: Follows the dynamic magic section start.
+
+          - id: CharacterSkillsArmorHeader
+            anchor: top_left
+            offset_x: 248
+            offset_y: 44
+            width: 90
+            height: 16
+            text:
+              value: "Armor"
+              font: Arrus
+              color: "#ffff9b"
+              align_x: left
+              align_y: middle
+
+          - id: CharacterSkillsArmorLevelHeader
+            anchor: top_left
+            offset_x: 402
+            offset_y: 44
+            width: 48
+            height: 16
+            text:
+              value: "Level"
+              font: Arrus
+              color: "#ffff9b"
+              align_x: left
+              align_y: middle
+
+          - id: CharacterSkillsArmorListRegion
+            anchor: top_left
+            offset_x: 248
+            offset_y: 64
+            width: 182
+            height: 18
+            notes: Runtime-driven armor list region; height is overridden from learned row count.
+            children:
+              - id: CharacterSkillsMiscHeader
+                anchor: below
+                offset_x: 0
+                offset_y: 12
+                width: 90
+                height: 16
+                text:
+                  value: "Misc"
+                  font: Arrus
+                  color: "#ffff9b"
+                  align_x: left
+                  align_y: middle
+                notes: Position follows the armor list height.
+                children:
+                  - id: CharacterSkillsMiscListRegion
+                    anchor: below
+                    offset_x: 0
+                    offset_y: 6
+                    width: 182
+                    height: 18
+                    notes: Runtime-driven misc list region; height is overridden from learned row count.
+
+              - id: CharacterSkillsMiscLevelHeader
+                anchor: below
+                offset_x: 154
+                offset_y: 12
+                width: 48
+                height: 16
+                text:
+                  value: "Level"
+                  font: Arrus
+                  color: "#ffff9b"
+                  align_x: left
+                  align_y: middle
+                notes: Follows the dynamic misc section start.
+
+      - id: CharacterInventoryPage
+        anchor: top_left
+        offset_x: 0
+        offset_y: 24
+        width: 468
+        height: 346
+        z_index: 80
+        visible: true
+        asset:
+          default: fr_inven
+        notes: Inventory frame in the same left-hand slot.
+        children:
+          - id: CharacterInventoryGrid
+            anchor: top_left
+            offset_x: 10
+            offset_y: 10
+            width: 448
+            height: 288
+            interactive: true
+            notes: 14 x 9 inventory grid.
+
+          - id: CharacterInventoryInfo
+            anchor: top_left
+            offset_x: 16
+            offset_y: 304
+            width: 434
+            height: 28
+            text:
+              value: "{inventory_info}"
+              font: Lucida
+              color: white
+              align_x: left
+              align_y: top
+            notes: Selected item info footer.
+
+      - id: CharacterAwardsPage
+        anchor: top_left
+        offset_x: 0
+        offset_y: 24
+        width: 468
+        height: 346
+        z_index: 80
+        visible: true
+        asset:
+          default: fr_award
+        notes: Awards frame in the same left-hand slot.
+        children:
+          - id: CharacterAwardsNameLabel
+            anchor: top_left
+            offset_x: 20
+            offset_y: 12
+            width: 180
+            height: 18
+            text:
+              value: "{character_name}"
+              font: Create
+              color: white
+              align_x: left
+              align_y: middle
+            notes: Active character name in the upper-left strip.
+
+          - id: CharacterAwardsList
+            anchor: top_left
+            offset_x: 18
+            offset_y: 52
+            width: 382
+            height: 256
+            interactive: true
+            text:
+              value: "{awards}"
+              font: Lucida
+              color: white
+              align_x: left
+              align_y: top
+            notes: Awards list block.
+
+          - id: CharacterAwardDetail
+            anchor: top_left
+            offset_x: 18
+            offset_y: 314
+            width: 430
+            height: 18
+            text:
+              value: "{award_detail}"
+              font: Lucida
+              color: white
+              align_x: left
+              align_y: middle
+            notes: Selected award detail line.
 
       - id: CharacterDollPanel
-        anchor: top_left
-        offset_x: 18
-        offset_y: 18
-        width: 196
-        height: 320
-        notes: Character doll region.
-
-      - id: CharacterContentPanel
         anchor: top_right
-        offset_x: -18
-        offset_y: 18
-        width: 382
-        height: 320
-        notes: Right-side content area that switches between Stats / Skills / Inventory / Awards.
+        offset_x: 0
+        offset_y: 24
+        width: 175
+        height: 378
+        z_index: 50
+        notes: Right-side doll column beside the page frame. Background art still needs proper wiring.
+        children:
+          - id: CharacterDollBackground
+            anchor: center
+            width: 175
+            height: 378
+            asset:
+              default: backdolm
+            notes: Placeholder for right-side doll background art.
+            children:
+            - id: CharacterDollJewelryOverlayPanel
+              anchor: top_right
+              width: 176
+              height: 345
+              z_index: 90
+              interactive: true
+              asset:
+                default: backhand
+              notes: Overlay view for displaying jewleries, gauntles over the doll view
+
+          - id: CharacterDollBody
+            anchor: top_left
+            offset_x: 0
+            offset_y: 0
+            width: 0
+            height: 0
+            notes: Character doll body, set up by code according to the selected character
+
+          - id: CharacterDollRightHand
+            anchor: top_left
+            offset_x: 0
+            offset_y: 0
+            width: 0
+            height: 0
+            notes: Character doll right hand, set up by code according to the selected character
+
+          - id: CharacterDollLeftHand
+            anchor: top_left
+            offset_x: 0
+            offset_y: 0
+            width: 0
+            height: 0
+            notes: Character doll right hand, set up by code according to the selected character
+
+          - id: CharacterDollCloakSlot
+            anchor: top_left
+            offset_x: 0
+            offset_y: 0
+            width: 0
+            height: 0
+            notes: Cloak slot
+
+          - id: CharacterDollBowSlot
+            anchor: top_left
+            offset_x: 0
+            offset_y: 0
+            width: 0
+            height: 0
+            notes: Bow slot
+
+          - id: CharacterDollArmorSlot
+            anchor: top_left
+            offset_x: 0
+            offset_y: 0
+            width: 0
+            height: 0
+            notes: Armor slot
+
+          - id: CharacterDollBootsSlot
+            anchor: top_left
+            offset_x: 0
+            offset_y: 0
+            width: 0
+            height: 0
+            notes: Boots slot
+
+          - id: CharacterDollHelmetSlot
+            anchor: top_left
+            offset_x: 0
+            offset_y: 0
+            width: 0
+            height: 0
+            notes: Helmet slot
+
+          - id: CharacterDollBeltSlot
+            anchor: top_left
+            offset_x: 0
+            offset_y: 0
+            width: 0
+            height: 0
+            notes: Belt slot
+
+          - id: CharacterMagnifyButton
+            anchor: bottom_right
+            offset_x: -5
+            offset_y: -50
+            width: 33
+            height: 51
+            z_index: 95
+            interactive: true
+            asset:
+              default: MAGNIF-B
+              pressed: MAGNIF-B
+              highlighted: MAGNIF-B
+            notes: Magnifying glass toggle used by all four character views.

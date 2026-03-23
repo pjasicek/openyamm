@@ -5,6 +5,7 @@ elements:
     anchor: bottom_center
     width: 640
     height: 114
+    z_index: 200
     scale:
       min: 1.0
       max: 3.0
@@ -131,6 +132,7 @@ elements:
     anchor: top_center
     width: 640
     height: 29
+    z_index: 50
     scale:
       min: 1.0
       max: 3.0

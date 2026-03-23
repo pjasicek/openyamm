@@ -36,6 +36,7 @@ struct Character
     std::string className;
     std::string portraitTextureName;
     uint32_t rosterId = 0;
+    uint32_t characterDataId = 0;
     uint32_t level = 1;
     uint32_t skillPoints = 0;
     uint32_t might = 0;
@@ -98,6 +99,8 @@ public:
     bool trainActiveMember(uint32_t maxLevel, uint32_t &newLevel, uint32_t &skillPointsEarned);
     bool canActiveMemberLearnSkill(const std::string &skillName) const;
     bool learnActiveMemberSkill(const std::string &skillName);
+    bool canIncreaseActiveMemberSkillLevel(const std::string &skillName) const;
+    bool increaseActiveMemberSkillLevel(const std::string &skillName);
     int depositAllGoldToBank();
     int withdrawAllBankGold();
     bool isFull() const;

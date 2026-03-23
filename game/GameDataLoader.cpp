@@ -712,6 +712,11 @@ bool GameDataLoader::loadInternal(const Engine::AssetFileSystem &assetFileSystem
         return false;
     }
 
+    if (!loadCharacterDollTable(assetFileSystem))
+    {
+        return false;
+    }
+
     m_npcDialogTable.resolveSpecialTopics(m_rosterTable);
 
     if (!loadInitialMap(assetFileSystem, mapLoadPurpose))
@@ -869,6 +874,11 @@ const NpcDialogTable &GameDataLoader::getNpcDialogTable() const
 const RosterTable &GameDataLoader::getRosterTable() const
 {
     return m_rosterTable;
+}
+
+const CharacterDollTable &GameDataLoader::getCharacterDollTable() const
+{
+    return m_characterDollTable;
 }
 
 bool GameDataLoader::loadTable(
@@ -1179,6 +1189,39 @@ bool GameDataLoader::loadRosterTable(const Engine::AssetFileSystem &assetFileSys
     if (!m_rosterTable.loadFromRows(rows))
     {
         std::cerr << "Failed to parse roster table: Data/EnglishT/roster.txt\n";
+        return false;
+    }
+
+    return true;
+}
+
+bool GameDataLoader::loadCharacterDollTable(const Engine::AssetFileSystem &assetFileSystem)
+{
+    std::vector<std::vector<std::string>> characterRows;
+
+    if (!loadTextTableRows(assetFileSystem, "Data/CHARACTER_DATA.txt", characterRows))
+    {
+        std::cerr << "Failed to read character doll table: Data/CHARACTER_DATA.txt\n";
+        return false;
+    }
+
+    std::vector<std::vector<std::string>> dollTypeRows;
+
+    if (!loadTextTableRows(assetFileSystem, "Data/DOLL_TYPES.txt", dollTypeRows))
+    {
+        std::cerr << "Failed to read doll type table: Data/DOLL_TYPES.txt\n";
+        return false;
+    }
+
+    if (!m_characterDollTable.loadCharacterRows(characterRows))
+    {
+        std::cerr << "Failed to parse character doll table: Data/CHARACTER_DATA.txt\n";
+        return false;
+    }
+
+    if (!m_characterDollTable.loadDollTypeRows(dollTypeRows))
+    {
+        std::cerr << "Failed to parse doll type table: Data/DOLL_TYPES.txt\n";
         return false;
     }
 

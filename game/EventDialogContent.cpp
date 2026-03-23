@@ -347,6 +347,8 @@ EventDialogContent buildEventDialogContent(
             dialog.title = pGreeting->owner;
         }
 
+        dialog.participantPictureId = pNpc != nullptr ? pNpc->pictureId : 0;
+
         if (context.titleOverride && !context.titleOverride->empty())
         {
             dialog.title = *context.titleOverride;

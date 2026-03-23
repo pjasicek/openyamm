@@ -216,7 +216,7 @@ size_t Character::inventoryCapacity() const
 PartySeed Party::createDefaultSeed()
 {
     PartySeed seed = {};
-    seed.gold = 200;
+    seed.gold = 10000;
     seed.food = 7;
 
     Character knight = {};
@@ -224,8 +224,9 @@ PartySeed Party::createDefaultSeed()
     knight.className = "Knight";
     knight.role = "Knight";
     knight.portraitTextureName = "PC01-01";
+    knight.characterDataId = 1;
     knight.level = 5;
-    knight.skillPoints = 5;
+    knight.skillPoints = 30;
     knight.might = 18;
     knight.intellect = 8;
     knight.personality = 10;
@@ -242,8 +243,9 @@ PartySeed Party::createDefaultSeed()
     cleric.className = "Cleric";
     cleric.role = "Cleric";
     cleric.portraitTextureName = "PC05-01";
+    cleric.characterDataId = 5;
     cleric.level = 5;
-    cleric.skillPoints = 5;
+    cleric.skillPoints = 30;
     cleric.might = 11;
     cleric.intellect = 12;
     cleric.personality = 18;
@@ -262,8 +264,9 @@ PartySeed Party::createDefaultSeed()
     archer.className = "Archer";
     archer.role = "Archer";
     archer.portraitTextureName = "PC08-01";
+    archer.characterDataId = 8;
     archer.level = 5;
-    archer.skillPoints = 5;
+    archer.skillPoints = 30;
     archer.might = 14;
     archer.intellect = 11;
     archer.personality = 10;
@@ -280,8 +283,9 @@ PartySeed Party::createDefaultSeed()
     sorcerer.className = "Sorcerer";
     sorcerer.role = "Sorcerer";
     sorcerer.portraitTextureName = "PC16-01";
+    sorcerer.characterDataId = 16;
     sorcerer.level = 5;
-    sorcerer.skillPoints = 5;
+    sorcerer.skillPoints = 30;
     sorcerer.might = 8;
     sorcerer.intellect = 20;
     sorcerer.personality = 12;
@@ -730,6 +734,53 @@ bool Party::learnActiveMemberSkill(const std::string &skillName)
     skill.level = 1;
     skill.mastery = SkillMastery::Normal;
     pMember->skills[skill.name] = skill;
+    return true;
+}
+
+bool Party::canIncreaseActiveMemberSkillLevel(const std::string &skillName) const
+{
+    const Character *pMember = activeMember();
+    const std::string canonicalSkill = canonicalSkillName(skillName);
+
+    if (pMember == nullptr || canonicalSkill.empty())
+    {
+        return false;
+    }
+
+    const CharacterSkill *pSkill = pMember->findSkill(canonicalSkill);
+
+    if (pSkill == nullptr)
+    {
+        return false;
+    }
+
+    return pMember->skillPoints > pSkill->level;
+}
+
+bool Party::increaseActiveMemberSkillLevel(const std::string &skillName)
+{
+    if (!canIncreaseActiveMemberSkillLevel(skillName))
+    {
+        return false;
+    }
+
+    Character *pMember = activeMember();
+
+    if (pMember == nullptr)
+    {
+        return false;
+    }
+
+    CharacterSkill *pSkill = pMember->findSkill(skillName);
+
+    if (pSkill == nullptr)
+    {
+        return false;
+    }
+
+    const uint32_t newSkillLevel = pSkill->level + 1;
+    pSkill->level = newSkillLevel;
+    pMember->skillPoints -= newSkillLevel;
     return true;
 }
 

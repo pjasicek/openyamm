@@ -6,6 +6,7 @@
 #include "game/MonsterTable.h"
 #include "game/OutdoorMapData.h"
 #include "game/OutdoorWorldRuntime.h"
+#include "game/CharacterDollTable.h"
 #include "game/ChestTable.h"
 #include "game/ClassSkillTable.h"
 #include "game/EventDialogContent.h"
@@ -68,6 +69,7 @@ public:
         const ClassSkillTable &classSkillTable,
         const NpcDialogTable &npcDialogTable,
         const RosterTable &rosterTable,
+        const CharacterDollTable &characterDollTable,
         const ObjectTable &objectTable,
         const SpellTable &spellTable,
         const ItemTable &itemTable,
@@ -215,11 +217,45 @@ private:
         Character
     };
 
+    enum class CharacterPage
+    {
+        Stats,
+        Skills,
+        Inventory,
+        Awards
+    };
+
+    enum class CharacterPointerTargetType
+    {
+        None,
+        PageButton,
+        ExitButton,
+        MagnifyButton,
+        SkillRow
+    };
+
     enum class DialoguePointerTargetType
     {
         None,
         Action,
         CloseButton
+    };
+
+    struct CharacterPointerTarget
+    {
+        CharacterPointerTargetType type = CharacterPointerTargetType::None;
+        CharacterPage page = CharacterPage::Inventory;
+        std::string skillName;
+
+        bool operator==(const CharacterPointerTarget &other) const = default;
+    };
+
+    struct DialoguePointerTarget
+    {
+        DialoguePointerTargetType type = DialoguePointerTargetType::None;
+        size_t index = 0;
+
+        bool operator==(const DialoguePointerTarget &other) const = default;
     };
 
     struct HudLayoutElement
@@ -410,6 +446,7 @@ private:
     void updateHouseVideoPlayback(float deltaSeconds);
     void handleDialogueCloseRequest();
     void openDebugNpcDialogue(uint32_t npcId);
+    void renderCharacterOverlay(int width, int height, bool renderAboveHud) const;
     void renderDialogueOverlay(int width, int height, bool renderAboveHud);
     std::optional<std::string> findCachedAssetPath(const std::string &directoryPath, const std::string &fileName);
     std::optional<std::vector<uint8_t>> readCachedBinaryFile(const std::string &assetPath);
@@ -432,6 +469,16 @@ private:
     const HudTextureHandle *findHudTexture(const std::string &textureName) const;
     bool loadHudFont(const Engine::AssetFileSystem &assetFileSystem, const std::string &fontName);
     bool loadHudTexture(const Engine::AssetFileSystem &assetFileSystem, const std::string &textureName);
+    bool isPointerInsideResolvedElement(
+        const ResolvedHudLayoutElement &resolved,
+        float pointerX,
+        float pointerY) const;
+    const std::string *resolveInteractiveAssetName(
+        const HudLayoutElement &layout,
+        const ResolvedHudLayoutElement &resolved,
+        float pointerX,
+        float pointerY,
+        bool isLeftMousePressed) const;
     const OutdoorWorldRuntime::MapActorState *runtimeActorStateForBillboard(const ActorPreviewBillboard &billboard) const;
     bool m_isInitialized;
     bool m_isRenderable;
@@ -446,6 +493,7 @@ private:
     std::optional<ClassSkillTable> m_classSkillTable;
     std::optional<NpcDialogTable> m_npcDialogTable;
     const RosterTable *m_pRosterTable;
+    const CharacterDollTable *m_pCharacterDollTable;
     std::optional<ChestTable> m_chestTable;
     const ItemTable *m_pItemTable;
     std::optional<StrTable> m_localStrTable;
@@ -543,10 +591,16 @@ private:
     bool m_toggleFlyingLatch;
     bool m_toggleWaterWalkLatch;
     bool m_toggleFeatherFallLatch;
+    bool m_inventoryScreenToggleLatch;
+    bool m_characterScreenOpen;
+    bool m_characterDollJewelryOverlayOpen;
+    CharacterPage m_characterPage;
+    bool m_characterClickLatch;
+    bool m_characterMemberCycleLatch;
+    CharacterPointerTarget m_characterPressedTarget;
     bool m_closeOverlayLatch;
     bool m_dialogueClickLatch;
-    DialoguePointerTargetType m_dialoguePressedTargetType;
-    size_t m_dialoguePressedTargetIndex;
+    DialoguePointerTarget m_dialoguePressedTarget;
     bool m_lootChestItemLatch;
     bool m_chestSelectUpLatch;
     bool m_chestSelectDownLatch;

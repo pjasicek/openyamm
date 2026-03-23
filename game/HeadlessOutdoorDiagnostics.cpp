@@ -1218,12 +1218,19 @@ bool executeDialogActionInScenario(
                 gameDataLoader.getNpcDialogTable(),
                 message))
         {
-            if (!message.empty())
-            {
-                scenario.pEventRuntimeState->messages.push_back(message);
-            }
-
-            scenario.pEventRuntimeState->dialogueState.currentOffer.reset();
+            EventRuntimeState::PendingDialogueContext context = {};
+            context.kind = DialogueContextKind::NpcTalk;
+            context.sourceId = scenario.pEventRuntimeState->dialogueState.currentOffer->npcId;
+            context.hostHouseId = scenario.pEventRuntimeState->dialogueState.hostHouseId;
+            scenario.pEventRuntimeState->pendingDialogueContext = std::move(context);
+        }
+        else
+        {
+            EventRuntimeState::PendingDialogueContext context = {};
+            context.kind = DialogueContextKind::NpcTalk;
+            context.sourceId = scenario.pEventRuntimeState->dialogueState.currentOffer->npcId;
+            context.hostHouseId = scenario.pEventRuntimeState->dialogueState.hostHouseId;
+            scenario.pEventRuntimeState->pendingDialogueContext = std::move(context);
         }
     }
     else if (action.kind == EventDialogActionKind::NpcTopic)
@@ -1281,7 +1288,6 @@ bool executeDialogActionInScenario(
         scenario,
         previousMessageCount,
         action.kind != EventDialogActionKind::RosterJoinAccept
-            && action.kind != EventDialogActionKind::MasteryTeacherLearn
     );
     return true;
 }
@@ -6767,6 +6773,58 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
     );
 
     runCase(
+        "generic_actor_dialog_resolves_lizardman_portraits",
+        [&](std::string &failure)
+        {
+            const EventRuntimeState runtimeState = {};
+
+            const std::optional<GenericActorDialogResolution> villagerResolution = resolveGenericActorDialog(
+                "out01.odm",
+                "Lizardman Villager",
+                1,
+                runtimeState,
+                gameDataLoader.getNpcDialogTable()
+            );
+
+            if (!villagerResolution || villagerResolution->npcId != 516)
+            {
+                failure = "villager did not resolve to lizardman peasant portrait npc";
+                return false;
+            }
+
+            const std::optional<GenericActorDialogResolution> soldierResolution = resolveGenericActorDialog(
+                "out01.odm",
+                "Lizardman Soldier",
+                2,
+                runtimeState,
+                gameDataLoader.getNpcDialogTable()
+            );
+
+            if (!soldierResolution || soldierResolution->npcId != 517)
+            {
+                failure = "soldier did not resolve to lizardman guard portrait npc";
+                return false;
+            }
+
+            const std::optional<GenericActorDialogResolution> guardResolution = resolveGenericActorDialog(
+                "out01.odm",
+                "Guard",
+                9,
+                runtimeState,
+                gameDataLoader.getNpcDialogTable()
+            );
+
+            if (!guardResolution || guardResolution->npcId != 517)
+            {
+                failure = "guard did not resolve to lizardman guard portrait npc";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
         "dwi_actor_peasant_news",
         [&](std::string &failure)
         {
@@ -6789,6 +6847,12 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
             if (dialog.title != "Lizardman Peasant")
             {
                 failure = "unexpected title \"" + dialog.title + "\"";
+                return false;
+            }
+
+            if (dialog.participantPictureId != 800)
+            {
+                failure = "unexpected peasant picture id " + std::to_string(dialog.participantPictureId);
                 return false;
             }
 
@@ -7650,6 +7714,8 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
                 return false;
             }
 
+            scenario.party.addGold(-scenario.party.gold());
+
             EventDialogContent dialog = {};
 
             if (!openMasteryTeacherOfferInScenario(
@@ -7946,6 +8012,7 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
                 return false;
             }
 
+            const int initialGold = scenario.party.gold();
             scenario.party.addGold(5000);
 
             EventDialogContent dialog = {};
@@ -7986,15 +8053,25 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
                 return false;
             }
 
-            if (scenario.party.gold() != 2700)
+            if (scenario.party.gold() != initialGold + 5000 - 2500)
             {
                 failure = "gold was not deducted by trainer cost";
                 return false;
             }
 
-            if (!dialogContainsText(dialog, "Doran is now a Master in Identify Item."))
+            if (dialog.actions.empty() || dialog.actions.front().label != "You are already a master in this skill.")
             {
-                failure = "missing mastery confirmation text";
+                failure =
+                    "did not remain on mastery teacher topic after learning: actions="
+                    + std::to_string(dialog.actions.size())
+                    + " first_action="
+                    + (dialog.actions.empty() ? std::string("<none>") : dialog.actions.front().label);
+                return false;
+            }
+
+            if (!dialogContainsText(dialog, "With Mastery of the Identify Items skill"))
+            {
+                failure = "missing mastery teacher topic text after learning";
                 return false;
             }
 
