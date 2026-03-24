@@ -1,0 +1,166 @@
+screen: ItemInspect
+
+elements:
+  - id: ItemInspectRoot
+    anchor: top_left
+    width: 385
+    height: 256
+    z_index: 500
+    visible: false
+    asset:
+      default: parchment
+    notes: >
+      Shared item inspect popup root. Final position and height should be computed in code from hovered item rect and
+      viewport fit rules, while this file owns the internal composition and spacing.
+    children:
+      - id: ItemInspectPreviewImage
+        anchor: left
+        offset_x: 28
+        offset_y: 0
+        width: 100
+        height: 144
+        notes: >
+          Left-centered item preview image region. The runtime should fit the hovered item's icon within this area
+          while keeping aspect ratio.
+
+      - id: ItemInspectName
+        anchor: top_center
+        offset_x: 0
+        offset_y: 12
+        width: 222
+        height: 22
+        text:
+          value: "{item_name}"
+          font: Arrus
+          color: "#ffff9b"
+          align_x: center
+          align_y: middle
+        notes: OE-style item title using pale-canary yellow.
+
+      - id: ItemInspectType
+        anchor: top_left
+        offset_x: 115
+        offset_y: 42
+        width: 238
+        height: 16
+        text:
+          value: "Type: {item_type}"
+          font: Comic
+          color: white
+          align_x: left
+          align_y: middle
+        notes: Combined type line.
+
+      - id: ItemInspectDetailRow
+        anchor: top_left
+        offset_x: 115
+        offset_y: 62
+        width: 238
+        height: 18
+        notes: >
+          Optional single dynamic detail line under Type, for example "Armor: +34". Runtime can hide this whole row
+          when not applicable.
+        children:
+          - id: ItemInspectDetailValue
+            anchor: top_left
+            width: 238
+            height: 18
+            text:
+              value: "{item_detail}"
+              font: Comic
+              color: white
+              align_x: left
+              align_y: middle
+            notes: Dynamic item-specific secondary detail line.
+
+      - id: ItemInspectDescription
+        anchor: top_left
+        offset_x: 115
+        offset_y: 86
+        width: 250
+        height: 58
+        text:
+          value: "{item_description}"
+          font: SMALLNUM
+          color: white
+          align_x: left
+          align_y: top
+        notes: Dynamic multi-line item description body, left-aligned.
+
+      - id: ItemInspectValue
+        anchor: bottom_left
+        offset_x: 115
+        offset_y: -16
+        width: 164
+        height: 16
+        text:
+          value: "Value: {item_value}"
+          font: Comic
+          color: white
+          align_x: left
+          align_y: middle
+        notes: Combined nominal value line.
+
+      - id: ItemInspectCorner_UR
+        anchor: top_right
+        offset_x: 7
+        width: 39
+        height: 32
+        z_index: 580
+        asset:
+          default: cornr_UR
+
+      - id: ItemInspectCorner_UL
+        anchor: top_left
+        z_index: 580
+        asset:
+          default: cornr_UL
+
+      - id: ItemInspectCorner_LR
+        anchor: bottom_right
+        z_index: 580
+        offset_x: 7
+        offset_y: 7
+        asset:
+          default: cornr_LR
+
+      - id: ItemInspectCorner_LL
+        anchor: bottom_left
+        z_index: 580
+        offset_y: 7
+        asset:
+          default: cornr_LL
+
+      - id: ItemInspectCorner_TopEdge
+        anchor: top_left
+        width: 385
+        height: 10
+        z_index: 570
+        asset:
+          default: edge_top
+
+      - id: ItemInspectCorner_BottomEdge
+        anchor: bottom_left
+        offset_y: 7
+        width: 385
+        height: 16
+        z_index: 570
+        asset:
+          default: edge_btm
+
+      - id: ItemInspectCorner_LeftEdge
+        anchor: top_left
+        width: 11
+        height: 400
+        z_index: 570
+        asset:
+          default: edge_lf
+
+      - id: ItemInspectCorner_RightEdge
+        anchor: top_right
+        offset_x: 6
+        width: 16
+        height: 400
+        z_index: 570
+        asset:
+          default: edge_rt

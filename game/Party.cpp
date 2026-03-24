@@ -356,6 +356,12 @@ PartySeed Party::createDefaultSeed()
     knight.luck = 11;
     knight.maxHealth = 120;
     knight.health = 120;
+    knight.inventory.push_back({104, 1, 0, 0, 0, 0});
+    knight.inventory.push_back({111, 1, 0, 0, 0, 0});
+    knight.inventory.push_back({25, 1, 0, 0, 0, 0});
+    knight.inventory.push_back({94, 1, 0, 0, 0, 0});
+    knight.inventory.push_back({109, 1, 0, 0, 0, 0});
+    knight.inventory.push_back({110, 1, 0, 0, 0, 0});
     seed.members.push_back(knight);
 
     Character cleric = {};
@@ -457,6 +463,7 @@ void Party::seed(const PartySeed &seed)
 
     for (Character &member : m_members)
     {
+        const std::vector<InventoryItem> seededInventory = member.inventory;
         member.className = canonicalClassName(member.className.empty() ? member.role : member.className);
         member.role = normalizeRoleName(member.className);
         member.level = std::max<uint32_t>(1, member.level);
@@ -466,6 +473,22 @@ void Party::seed(const PartySeed &seed)
         member.maxSpellPoints = std::max(0, member.maxSpellPoints);
         member.spellPoints = std::clamp(member.spellPoints, 0, member.maxSpellPoints);
         member.inventory.clear();
+
+        for (const InventoryItem &seededItem : seededInventory)
+        {
+            InventoryItem resolvedItem = seededItem;
+            resolvedItem.width = resolveInventoryWidth(seededItem.objectDescriptionId);
+            resolvedItem.height = resolveInventoryHeight(seededItem.objectDescriptionId);
+
+            const bool placed = (seededItem.width > 0 && seededItem.height > 0)
+                ? member.addInventoryItemAt(resolvedItem, seededItem.gridX, seededItem.gridY)
+                : member.addInventoryItem(resolvedItem);
+
+            if (!placed)
+            {
+                continue;
+            }
+        }
 
         if (member.skills.empty())
         {
@@ -1222,6 +1245,18 @@ Character *Party::member(size_t memberIndex)
     }
 
     return &m_members[memberIndex];
+}
+
+bool Party::canSelectMemberInGameplay(size_t memberIndex) const
+{
+    const Character *pMember = member(memberIndex);
+
+    if (pMember == nullptr)
+    {
+        return false;
+    }
+
+    return pMember->health > 0;
 }
 
 uint8_t Party::resolveInventoryWidth(uint32_t objectDescriptionId) const

@@ -133,6 +133,7 @@ public:
     bool setMemberClassName(size_t memberIndex, const std::string &className);
     const Character *member(size_t memberIndex) const;
     Character *member(size_t memberIndex);
+    bool canSelectMemberInGameplay(size_t memberIndex) const;
     bool setActiveMemberIndex(size_t memberIndex);
 
     const std::vector<Character> &members() const;

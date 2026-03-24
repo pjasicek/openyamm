@@ -266,6 +266,16 @@ private:
         float grabOffsetY = 0.0f;
     };
 
+    struct ItemInspectOverlayState
+    {
+        bool active = false;
+        uint32_t objectDescriptionId = 0;
+        float sourceX = 0.0f;
+        float sourceY = 0.0f;
+        float sourceWidth = 0.0f;
+        float sourceHeight = 0.0f;
+    };
+
     struct DialoguePointerTarget
     {
         DialoguePointerTargetType type = DialoguePointerTargetType::None;
@@ -365,6 +375,14 @@ private:
 
     static uint32_t colorFromHeight(float normalizedHeight);
     static uint32_t colorFromBModel();
+    static ResolvedHudLayoutElement resolveAttachedHudLayoutRect(
+        HudLayoutAttachMode attachTo,
+        const ResolvedHudLayoutElement &parent,
+        float width,
+        float height,
+        float gapX,
+        float gapY,
+        float scale);
     static bgfx::ProgramHandle loadProgram(const char *pVertexShaderName, const char *pFragmentShaderName);
     static bgfx::ShaderHandle loadShader(const char *pShaderName);
     static std::vector<TerrainVertex> buildVertices(const OutdoorMapData &outdoorMapData);
@@ -465,6 +483,7 @@ private:
     void renderCharacterOverlay(int width, int height, bool renderAboveHud) const;
     void renderDialogueOverlay(int width, int height, bool renderAboveHud);
     void renderHeldInventoryItem(int width, int height) const;
+    void renderItemInspectOverlay(int width, int height) const;
     std::optional<std::string> findCachedAssetPath(const std::string &directoryPath, const std::string &fileName);
     std::optional<std::vector<uint8_t>> readCachedBinaryFile(const std::string &assetPath);
     std::optional<std::array<uint8_t, 256 * 3>> loadCachedActPalette(int16_t paletteId);
@@ -481,6 +500,9 @@ private:
     void openPendingEventDialog(size_t previousMessageCount, bool allowNpcFallbackContent);
     void closeActiveEventDialog();
     bool hasActiveEventDialog() const;
+    std::optional<size_t> resolvePartyPortraitIndexAtPoint(int width, int height, float x, float y);
+    bool trySelectPartyMember(size_t memberIndex, bool requireGameplayReady);
+    void updateItemInspectOverlayState(int width, int height);
     const BillboardTextureHandle *findBillboardTexture(const std::string &textureName, int16_t paletteId = 0) const;
     const BillboardTextureHandle *ensureSpriteBillboardTexture(const std::string &textureName, int16_t paletteId);
     const HudTextureHandle *findHudTexture(const std::string &textureName) const;
@@ -615,7 +637,12 @@ private:
     bool m_characterClickLatch;
     bool m_characterMemberCycleLatch;
     CharacterPointerTarget m_characterPressedTarget;
+    bool m_partyPortraitClickLatch;
+    std::optional<size_t> m_partyPortraitPressedIndex;
+    uint64_t m_lastPartyPortraitClickTicks;
+    std::optional<size_t> m_lastPartyPortraitClickedIndex;
     HeldInventoryItemState m_heldInventoryItem;
+    ItemInspectOverlayState m_itemInspectOverlay;
     bool m_heldInventoryDropLatch;
     bool m_closeOverlayLatch;
     bool m_dialogueClickLatch;

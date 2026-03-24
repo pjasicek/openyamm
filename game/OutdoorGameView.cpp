@@ -75,6 +75,7 @@ constexpr float HudReferenceWidth = 640.0f;
 constexpr float HudReferenceHeight = 480.0f;
 constexpr float HudFontIntegerSnapThreshold = 0.1f;
 constexpr float MaxUiViewportAspect = 4.0f / 3.0f;
+constexpr uint64_t PartyPortraitDoubleClickWindowMs = 300;
 
 struct UiViewportRect
 {
@@ -123,6 +124,140 @@ struct InventoryItemScreenRect
     float width = 0.0f;
     float height = 0.0f;
 };
+
+bool tryParseInteger(const std::string &value, int &parsedValue)
+{
+    if (value.empty())
+    {
+        return false;
+    }
+
+    size_t parsedCharacters = 0;
+
+    try
+    {
+        parsedValue = std::stoi(value, &parsedCharacters);
+    }
+    catch (...)
+    {
+        return false;
+    }
+
+    return parsedCharacters == value.size();
+}
+
+std::string resolveItemInspectTypeText(const ItemDefinition &itemDefinition)
+{
+    if (!itemDefinition.unidentifiedName.empty()
+        && itemDefinition.unidentifiedName != "0"
+        && itemDefinition.unidentifiedName != "N / A")
+    {
+        return itemDefinition.unidentifiedName;
+    }
+
+    if (!itemDefinition.skillGroup.empty()
+        && itemDefinition.skillGroup != "0"
+        && itemDefinition.skillGroup != "Misc")
+    {
+        return itemDefinition.skillGroup;
+    }
+
+    if (!itemDefinition.equipStat.empty()
+        && itemDefinition.equipStat != "0"
+        && itemDefinition.equipStat != "N / A")
+    {
+        return itemDefinition.equipStat;
+    }
+
+    return "Misc";
+}
+
+std::string formatItemInspectDamageText(const std::string &damageDice, int bonus)
+{
+    if (damageDice.empty() || damageDice == "0")
+    {
+        if (bonus <= 0)
+        {
+            return {};
+        }
+
+        return std::to_string(bonus);
+    }
+
+    if (bonus <= 0)
+    {
+        return damageDice;
+    }
+
+    return damageDice + "+" + std::to_string(bonus);
+}
+
+std::string resolveItemInspectDetailText(const ItemDefinition &itemDefinition)
+{
+    const std::string &equipStat = itemDefinition.equipStat;
+    int mod1Value = 0;
+    int mod2Value = 0;
+    const bool hasMod1Int = tryParseInteger(itemDefinition.mod1, mod1Value);
+    const bool hasMod2Int = tryParseInteger(itemDefinition.mod2, mod2Value);
+
+    if (equipStat == "Weapon" || equipStat == "Weapon2" || equipStat == "Weapon1or2")
+    {
+        const int attackBonus = hasMod2Int ? mod2Value : 0;
+        const std::string damageText = formatItemInspectDamageText(itemDefinition.mod1, attackBonus);
+
+        if (damageText.empty())
+        {
+            return {};
+        }
+
+        return "Attack: +" + std::to_string(attackBonus) + "   Damage: " + damageText;
+    }
+
+    if (equipStat == "Missile")
+    {
+        const int shootBonus = hasMod2Int ? mod2Value : 0;
+        const std::string damageText = formatItemInspectDamageText(itemDefinition.mod1, shootBonus);
+
+        if (damageText.empty())
+        {
+            return {};
+        }
+
+        return "Shoot: +" + std::to_string(shootBonus) + "   Damage: " + damageText;
+    }
+
+    if (equipStat == "WeaponW")
+    {
+        if (hasMod2Int && mod2Value > 0)
+        {
+            return "Charges: " + std::to_string(mod2Value);
+        }
+
+        return {};
+    }
+
+    if (equipStat == "Armor"
+        || equipStat == "Shield"
+        || equipStat == "Helm"
+        || equipStat == "Belt"
+        || equipStat == "Cloak"
+        || equipStat == "Gauntlets"
+        || equipStat == "Boots"
+        || equipStat == "Ring"
+        || equipStat == "Amulet")
+    {
+        const int armorValue = (hasMod1Int ? mod1Value : 0) + (hasMod2Int ? mod2Value : 0);
+
+        if (armorValue > 0)
+        {
+            return "Armor: +" + std::to_string(armorValue);
+        }
+
+        return {};
+    }
+
+    return {};
+}
 
 constexpr const char *WeaponSkillNames[] = {
     "Axe",
@@ -1702,7 +1837,12 @@ OutdoorGameView::OutdoorGameView()
     , m_characterClickLatch(false)
     , m_characterMemberCycleLatch(false)
     , m_characterPressedTarget({})
+    , m_partyPortraitClickLatch(false)
+    , m_partyPortraitPressedIndex(std::nullopt)
+    , m_lastPartyPortraitClickTicks(0)
+    , m_lastPartyPortraitClickedIndex(std::nullopt)
     , m_heldInventoryItem({})
+    , m_itemInspectOverlay({})
     , m_heldInventoryDropLatch(false)
     , m_closeOverlayLatch(false)
     , m_dialogueClickLatch(false)
@@ -2190,6 +2330,7 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
     }
 
     updateHouseVideoPlayback(deltaSeconds);
+    updateItemInspectOverlayState(width, height);
 
     {
         const uint64_t stageStartTickCount = SDL_GetTicksNS();
@@ -2298,6 +2439,7 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
             && pKeyboardState[SDL_SCANCODE_H]
             && (mouseButtons & SDL_BUTTON_RMASK) == 0;
         const bool isLeftMousePressed = (mouseButtons & SDL_BUTTON_LMASK) != 0;
+        const bool isPointerOverPartyPortrait = resolvePartyPortraitIndexAtPoint(width, height, mouseX, mouseY).has_value();
         const auto isSameInspectActivationTarget =
             [](const InspectHit &lhs, const InspectHit &rhs) -> bool
             {
@@ -2326,7 +2468,7 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
             m_activateInspectLatch = false;
         }
 
-        if (isLeftMousePressed)
+        if (isLeftMousePressed && !isPointerOverPartyPortrait)
         {
             if (!m_inspectMouseActivateLatch)
             {
@@ -2336,7 +2478,7 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
         }
         else if (m_inspectMouseActivateLatch)
         {
-            if (isSameInspectActivationTarget(m_pressedInspectHit, inspectHit))
+            if (!isPointerOverPartyPortrait && isSameInspectActivationTarget(m_pressedInspectHit, inspectHit))
             {
                 if (tryActivateInspectEvent(inspectHit))
                 {
@@ -3125,6 +3267,7 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
             renderCharacterOverlay(width, height, true);
             renderEventDialogPanel(width, height, true);
             renderHeldInventoryItem(width, height);
+            renderItemInspectOverlay(width, height);
         }
 
         hudStageNanoseconds += SDL_GetTicksNS() - stageStartTickCount;
@@ -4932,6 +5075,205 @@ bool OutdoorGameView::hasActiveEventDialog() const
     return m_activeEventDialog.isActive;
 }
 
+std::optional<size_t> OutdoorGameView::resolvePartyPortraitIndexAtPoint(
+    int width,
+    int height,
+    float x,
+    float y)
+{
+    if (m_pOutdoorPartyRuntime == nullptr || width <= 0 || height <= 0)
+    {
+        return std::nullopt;
+    }
+
+    const HudLayoutElement *pBasebarLayout = findHudLayoutElement("OutdoorBasebar");
+    const HudLayoutElement *pPartyStripLayout = findHudLayoutElement("OutdoorPartyStrip");
+
+    if (pBasebarLayout == nullptr || pPartyStripLayout == nullptr)
+    {
+        return std::nullopt;
+    }
+
+    const HudTextureHandle *pBasebar = ensureHudTextureLoaded(pBasebarLayout->primaryAsset);
+    const HudTextureHandle *pFaceMask = ensureHudTextureLoaded(pPartyStripLayout->primaryAsset);
+
+    if (pBasebar == nullptr || pFaceMask == nullptr)
+    {
+        return std::nullopt;
+    }
+
+    const std::optional<ResolvedHudLayoutElement> resolvedBasebar = resolveHudLayoutElement(
+        "OutdoorBasebar",
+        width,
+        height,
+        static_cast<float>(pBasebar->width),
+        static_cast<float>(pBasebar->height));
+    const std::optional<ResolvedHudLayoutElement> resolvedPartyStrip = resolveHudLayoutElement(
+        "OutdoorPartyStrip",
+        width,
+        height,
+        static_cast<float>(pBasebar->width),
+        static_cast<float>(pBasebar->height));
+
+    if (!resolvedBasebar || !resolvedPartyStrip)
+    {
+        return std::nullopt;
+    }
+
+    const std::vector<Character> &members = m_pOutdoorPartyRuntime->party().members();
+
+    if (members.empty())
+    {
+        return std::nullopt;
+    }
+
+    const float portraitWidth = static_cast<float>(pFaceMask->width) * resolvedBasebar->scale;
+    const float portraitHeight = static_cast<float>(pFaceMask->height) * resolvedBasebar->scale;
+    const float portraitStartX = resolvedPartyStrip->x + resolvedPartyStrip->width * (20.0f / 471.0f);
+    const float portraitY = resolvedPartyStrip->y + resolvedPartyStrip->height * (23.0f / 92.0f);
+    const float portraitDeltaX = resolvedPartyStrip->width * (94.0f / 471.0f);
+
+    for (size_t memberIndex = 0; memberIndex < members.size(); ++memberIndex)
+    {
+        const float portraitX = portraitStartX + static_cast<float>(memberIndex) * portraitDeltaX;
+
+        if (x >= portraitX
+            && x < portraitX + portraitWidth
+            && y >= portraitY
+            && y < portraitY + portraitHeight)
+        {
+            return memberIndex;
+        }
+    }
+
+    return std::nullopt;
+}
+
+bool OutdoorGameView::trySelectPartyMember(size_t memberIndex, bool requireGameplayReady)
+{
+    if (m_pOutdoorPartyRuntime == nullptr)
+    {
+        return false;
+    }
+
+    Party &party = m_pOutdoorPartyRuntime->party();
+
+    if (requireGameplayReady && !party.canSelectMemberInGameplay(memberIndex))
+    {
+        return false;
+    }
+
+    if (!party.setActiveMemberIndex(memberIndex))
+    {
+        return false;
+    }
+
+    EventRuntimeState *pEventRuntimeState =
+        m_pOutdoorWorldRuntime != nullptr ? m_pOutdoorWorldRuntime->eventRuntimeState() : nullptr;
+
+    if (pEventRuntimeState != nullptr && hasActiveEventDialog())
+    {
+        openPendingEventDialog(pEventRuntimeState->messages.size(), true);
+    }
+
+    return true;
+}
+
+void OutdoorGameView::updateItemInspectOverlayState(int width, int height)
+{
+    m_itemInspectOverlay = {};
+
+    if (width <= 0 || height <= 0 || m_pItemTable == nullptr)
+    {
+        return;
+    }
+
+    float mouseX = 0.0f;
+    float mouseY = 0.0f;
+    const SDL_MouseButtonFlags mouseButtons = SDL_GetMouseState(&mouseX, &mouseY);
+
+    if ((mouseButtons & SDL_BUTTON_RMASK) == 0)
+    {
+        return;
+    }
+
+    if (!m_characterScreenOpen || m_characterPage != CharacterPage::Inventory || m_pOutdoorPartyRuntime == nullptr)
+    {
+        return;
+    }
+
+    const Character *pCharacter = m_pOutdoorPartyRuntime->party().activeMember();
+    const HudLayoutElement *pInventoryGridLayout = findHudLayoutElement("CharacterInventoryGrid");
+
+    if (pCharacter == nullptr || pInventoryGridLayout == nullptr)
+    {
+        return;
+    }
+
+    const std::optional<ResolvedHudLayoutElement> resolvedInventoryGrid = resolveHudLayoutElement(
+        "CharacterInventoryGrid",
+        width,
+        height,
+        pInventoryGridLayout->width,
+        pInventoryGridLayout->height);
+
+    if (!resolvedInventoryGrid
+        || mouseX < resolvedInventoryGrid->x
+        || mouseX >= resolvedInventoryGrid->x + resolvedInventoryGrid->width
+        || mouseY < resolvedInventoryGrid->y
+        || mouseY >= resolvedInventoryGrid->y + resolvedInventoryGrid->height)
+    {
+        return;
+    }
+
+    const InventoryGridMetrics gridMetrics = computeInventoryGridMetrics(
+        resolvedInventoryGrid->x,
+        resolvedInventoryGrid->y,
+        resolvedInventoryGrid->width,
+        resolvedInventoryGrid->height,
+        resolvedInventoryGrid->scale);
+    const uint8_t gridX = static_cast<uint8_t>(std::clamp(
+        static_cast<int>((mouseX - resolvedInventoryGrid->x) / gridMetrics.cellWidth),
+        0,
+        Character::InventoryWidth - 1));
+    const uint8_t gridY = static_cast<uint8_t>(std::clamp(
+        static_cast<int>((mouseY - resolvedInventoryGrid->y) / gridMetrics.cellHeight),
+        0,
+        Character::InventoryHeight - 1));
+    const InventoryItem *pHoveredItem = pCharacter->inventoryItemAt(gridX, gridY);
+
+    if (pHoveredItem == nullptr)
+    {
+        return;
+    }
+
+    const ItemDefinition *pItemDefinition = m_pItemTable->get(pHoveredItem->objectDescriptionId);
+
+    if (pItemDefinition == nullptr || pItemDefinition->iconName.empty())
+    {
+        return;
+    }
+
+    const HudTextureHandle *pItemTexture = ensureHudTextureLoaded(pItemDefinition->iconName);
+
+    if (pItemTexture == nullptr)
+    {
+        return;
+    }
+
+    const float itemWidth = static_cast<float>(pItemTexture->width) * gridMetrics.scale;
+    const float itemHeight = static_cast<float>(pItemTexture->height) * gridMetrics.scale;
+    const InventoryItemScreenRect itemRect =
+        computeInventoryItemScreenRect(gridMetrics, *pHoveredItem, itemWidth, itemHeight);
+
+    m_itemInspectOverlay.active = true;
+    m_itemInspectOverlay.objectDescriptionId = pHoveredItem->objectDescriptionId;
+    m_itemInspectOverlay.sourceX = itemRect.x;
+    m_itemInspectOverlay.sourceY = itemRect.y;
+    m_itemInspectOverlay.sourceWidth = itemRect.width;
+    m_itemInspectOverlay.sourceHeight = itemRect.height;
+}
+
 OutdoorGameView::HudScreenState OutdoorGameView::currentHudScreenState() const
 {
     if (m_activeEventDialog.isActive)
@@ -6027,6 +6369,503 @@ void OutdoorGameView::renderHeldInventoryItem(int width, int height) const
     bgfx::setTexture(0, m_terrainTextureSamplerHandle, pTexture->textureHandle);
     bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_BLEND_ALPHA);
     bgfx::submit(HudViewId, m_texturedTerrainProgramHandle);
+}
+
+void OutdoorGameView::renderItemInspectOverlay(int width, int height) const
+{
+    if (!m_itemInspectOverlay.active
+        || m_pItemTable == nullptr
+        || !bgfx::isValid(m_texturedTerrainProgramHandle)
+        || !bgfx::isValid(m_terrainTextureSamplerHandle)
+        || !bgfx::isValid(m_programHandle)
+        || width <= 0
+        || height <= 0)
+    {
+        return;
+    }
+
+    const ItemDefinition *pItemDefinition = m_pItemTable->get(m_itemInspectOverlay.objectDescriptionId);
+
+    if (pItemDefinition == nullptr)
+    {
+        return;
+    }
+
+    const HudLayoutElement *pRootLayout = findHudLayoutElement("ItemInspectRoot");
+
+    if (pRootLayout == nullptr)
+    {
+        return;
+    }
+
+    const UiViewportRect uiViewport = computeUiViewportRect(width, height);
+    const float baseScale = std::min(uiViewport.width / HudReferenceWidth, uiViewport.height / HudReferenceHeight);
+    const float popupScale = std::clamp(baseScale, pRootLayout->minScale, pRootLayout->maxScale);
+    const std::string itemName = !pItemDefinition->name.empty() ? pItemDefinition->name : pItemDefinition->unidentifiedName;
+    const std::string itemType = resolveItemInspectTypeText(*pItemDefinition);
+    const std::string itemDetail = resolveItemInspectDetailText(*pItemDefinition);
+
+    const std::string itemDescription = pItemDefinition->notes;
+    const std::string itemValue = std::to_string(std::max(0, pItemDefinition->value));
+    const HudTextureHandle *pItemTexture =
+        !pItemDefinition->iconName.empty()
+        ? const_cast<OutdoorGameView *>(this)->ensureHudTextureLoaded(pItemDefinition->iconName)
+        : nullptr;
+    const HudFontHandle *pNameFont = findHudFont("Arrus");
+    const HudFontHandle *pBodyFont = findHudFont("SMALLNUM");
+    const float nameLineHeight = pNameFont != nullptr ? static_cast<float>(pNameFont->fontHeight) * popupScale : 18.0f * popupScale;
+    const float bodyLineHeight = pBodyFont != nullptr ? static_cast<float>(pBodyFont->fontHeight) * popupScale : 12.0f * popupScale;
+
+    auto resolveRootRect =
+        [popupScale](
+            const HudLayoutElement &layout,
+            float resolvedWidth,
+            float resolvedHeight) -> ResolvedHudLayoutElement
+        {
+            ResolvedHudLayoutElement resolved = {};
+            resolved.width = resolvedWidth;
+            resolved.height = resolvedHeight;
+            resolved.scale = popupScale;
+            const float offsetX = layout.offsetX * popupScale;
+            const float offsetY = layout.offsetY * popupScale;
+            const ResolvedHudLayoutElement parent = {
+                0.0f,
+                0.0f,
+                0.0f,
+                0.0f,
+                popupScale
+            };
+
+            switch (layout.anchor)
+            {
+                case HudLayoutAnchor::TopLeft:
+                    resolved.x = offsetX;
+                    resolved.y = offsetY;
+                    break;
+
+                case HudLayoutAnchor::TopCenter:
+                    resolved.x = (parent.width - resolved.width) * 0.5f + offsetX;
+                    resolved.y = offsetY;
+                    break;
+
+                case HudLayoutAnchor::TopRight:
+                    resolved.x = parent.width - resolved.width + offsetX;
+                    resolved.y = offsetY;
+                    break;
+
+                case HudLayoutAnchor::Left:
+                    resolved.x = offsetX;
+                    resolved.y = (parent.height - resolved.height) * 0.5f + offsetY;
+                    break;
+
+                case HudLayoutAnchor::Center:
+                    resolved.x = (parent.width - resolved.width) * 0.5f + offsetX;
+                    resolved.y = (parent.height - resolved.height) * 0.5f + offsetY;
+                    break;
+
+                case HudLayoutAnchor::Right:
+                    resolved.x = parent.width - resolved.width + offsetX;
+                    resolved.y = (parent.height - resolved.height) * 0.5f + offsetY;
+                    break;
+
+                case HudLayoutAnchor::BottomLeft:
+                    resolved.x = offsetX;
+                    resolved.y = parent.height - resolved.height + offsetY;
+                    break;
+
+                case HudLayoutAnchor::BottomCenter:
+                    resolved.x = (parent.width - resolved.width) * 0.5f + offsetX;
+                    resolved.y = parent.height - resolved.height + offsetY;
+                    break;
+
+                case HudLayoutAnchor::BottomRight:
+                    resolved.x = parent.width - resolved.width + offsetX;
+                    resolved.y = parent.height - resolved.height + offsetY;
+                    break;
+
+                default:
+                    resolved.x = offsetX;
+                    resolved.y = offsetY;
+                    break;
+            }
+
+            return resolved;
+        };
+
+    const HudLayoutElement *pPreviewLayout = findHudLayoutElement("ItemInspectPreviewImage");
+    const HudLayoutElement *pTypeLayout = findHudLayoutElement("ItemInspectType");
+    const HudLayoutElement *pDetailRowLayout = findHudLayoutElement("ItemInspectDetailRow");
+    const HudLayoutElement *pDetailValueLayout = findHudLayoutElement("ItemInspectDetailValue");
+    const HudLayoutElement *pDescriptionLayout = findHudLayoutElement("ItemInspectDescription");
+    const HudLayoutElement *pValueLayout = findHudLayoutElement("ItemInspectValue");
+
+    if (pPreviewLayout == nullptr
+        || pTypeLayout == nullptr
+        || pDetailRowLayout == nullptr
+        || pDetailValueLayout == nullptr
+        || pDescriptionLayout == nullptr
+        || pValueLayout == nullptr)
+    {
+        return;
+    }
+
+    const float previewImageWidth =
+        pItemTexture != nullptr ? static_cast<float>(pItemTexture->width) * popupScale : pPreviewLayout->width * popupScale;
+    const float previewImageHeight =
+        pItemTexture != nullptr ? static_cast<float>(pItemTexture->height) * popupScale : pPreviewLayout->height * popupScale;
+    const ResolvedHudLayoutElement provisionalRoot = {
+        0.0f,
+        0.0f,
+        pRootLayout->width * popupScale,
+        pRootLayout->height * popupScale,
+        popupScale
+    };
+    const ResolvedHudLayoutElement previewRectForSizing = resolveAttachedHudLayoutRect(
+        pPreviewLayout->attachTo,
+        provisionalRoot,
+        previewImageWidth,
+        previewImageHeight,
+        pPreviewLayout->gapX,
+        pPreviewLayout->gapY,
+        popupScale);
+    const ResolvedHudLayoutElement typeRectForSizing = resolveAttachedHudLayoutRect(
+        pTypeLayout->attachTo,
+        provisionalRoot,
+        pTypeLayout->width * popupScale,
+        pTypeLayout->height * popupScale,
+        pTypeLayout->gapX,
+        pTypeLayout->gapY,
+        popupScale);
+    const ResolvedHudLayoutElement descriptionRectForSizing = resolveAttachedHudLayoutRect(
+        pDescriptionLayout->attachTo,
+        provisionalRoot,
+        pDescriptionLayout->width * popupScale,
+        pDescriptionLayout->height * popupScale,
+        pDescriptionLayout->gapX,
+        pDescriptionLayout->gapY,
+        popupScale);
+    const float descriptionWidthScaled =
+        std::max(0.0f, descriptionRectForSizing.width - std::abs(pDescriptionLayout->textPadX * popupScale) * 2.0f);
+    const float descriptionWidth =
+        std::max(0.0f, descriptionWidthScaled / std::max(1.0f, popupScale));
+    const std::vector<std::string> descriptionLines =
+        pBodyFont != nullptr ? wrapHudTextToWidth(*pBodyFont, itemDescription, descriptionWidth) : std::vector<std::string>{itemDescription};
+    const float descriptionHeight = descriptionLines.empty() ? bodyLineHeight : bodyLineHeight * static_cast<float>(descriptionLines.size());
+    const bool showDetail = !itemDetail.empty();
+    static constexpr float ItemInspectTypeToDetailGap = 3.0f;
+    static constexpr float ItemInspectDetailToDescriptionGap = 8.0f;
+    static constexpr float ItemInspectDescriptionToValueGap = 8.0f;
+    static constexpr float ItemInspectBottomPadding = 8.0f;
+    const float previewContentHeight = previewImageHeight + 20.0f * popupScale;
+    const float textContentHeight =
+        typeRectForSizing.y
+        + typeRectForSizing.height
+        + (showDetail ? (ItemInspectTypeToDetailGap + pDetailRowLayout->height) * popupScale : 0.0f)
+        + ItemInspectDetailToDescriptionGap * popupScale
+        + descriptionHeight
+        + ItemInspectDescriptionToValueGap * popupScale
+        + pValueLayout->height * popupScale
+        + ItemInspectBottomPadding * popupScale;
+    const float rootWidth = provisionalRoot.width;
+    const float rootHeight = std::max(previewContentHeight, textContentHeight);
+    const float popupGap = 12.0f * popupScale;
+    float rootX = m_itemInspectOverlay.sourceX + m_itemInspectOverlay.sourceWidth + popupGap;
+
+    if (rootX + rootWidth > uiViewport.x + uiViewport.width)
+    {
+        rootX = m_itemInspectOverlay.sourceX - rootWidth - popupGap;
+    }
+
+    rootX = std::clamp(rootX, uiViewport.x, uiViewport.x + uiViewport.width - rootWidth);
+    float rootY = m_itemInspectOverlay.sourceY + (m_itemInspectOverlay.sourceHeight - rootHeight) * 0.5f;
+    rootY = std::clamp(rootY, uiViewport.y, uiViewport.y + uiViewport.height - rootHeight);
+
+    const ResolvedHudLayoutElement rootRect = {
+        std::round(rootX),
+        std::round(rootY),
+        std::round(rootWidth),
+        std::round(rootHeight),
+        popupScale
+    };
+
+    float projectionMatrix[16] = {};
+    bx::mtxOrtho(
+        projectionMatrix,
+        0.0f,
+        static_cast<float>(width),
+        static_cast<float>(height),
+        0.0f,
+        0.0f,
+        1000.0f,
+        0.0f,
+        bgfx::getCaps()->homogeneousDepth
+    );
+    bgfx::setViewRect(HudViewId, 0, 0, static_cast<uint16_t>(width), static_cast<uint16_t>(height));
+    bgfx::setViewTransform(HudViewId, nullptr, projectionMatrix);
+    bgfx::touch(HudViewId);
+
+    auto submitTexturedQuad =
+        [this](
+            const HudTextureHandle &texture,
+            float x,
+            float y,
+            float quadWidth,
+            float quadHeight)
+        {
+            if (!bgfx::isValid(texture.textureHandle)
+                || bgfx::getAvailTransientVertexBuffer(6, TexturedTerrainVertex::ms_layout) < 6)
+            {
+                return;
+            }
+
+            bgfx::TransientVertexBuffer transientVertexBuffer;
+            bgfx::allocTransientVertexBuffer(&transientVertexBuffer, 6, TexturedTerrainVertex::ms_layout);
+            TexturedTerrainVertex *pVertices = reinterpret_cast<TexturedTerrainVertex *>(transientVertexBuffer.data);
+            pVertices[0] = {x, y, 0.0f, 0.0f, 0.0f};
+            pVertices[1] = {x + quadWidth, y, 0.0f, 1.0f, 0.0f};
+            pVertices[2] = {x + quadWidth, y + quadHeight, 0.0f, 1.0f, 1.0f};
+            pVertices[3] = {x, y, 0.0f, 0.0f, 0.0f};
+            pVertices[4] = {x + quadWidth, y + quadHeight, 0.0f, 1.0f, 1.0f};
+            pVertices[5] = {x, y + quadHeight, 0.0f, 0.0f, 1.0f};
+
+            float modelMatrix[16] = {};
+            bx::mtxIdentity(modelMatrix);
+            bgfx::setTransform(modelMatrix);
+            bgfx::setVertexBuffer(0, &transientVertexBuffer);
+            bgfx::setTexture(0, m_terrainTextureSamplerHandle, texture.textureHandle);
+            bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_BLEND_ALPHA);
+            bgfx::submit(HudViewId, m_texturedTerrainProgramHandle);
+        };
+
+    const HudTextureHandle *pBackgroundTexture =
+        const_cast<OutdoorGameView *>(this)->ensureHudTextureLoaded(pRootLayout->primaryAsset);
+
+    if (pBackgroundTexture != nullptr)
+    {
+        submitTexturedQuad(*pBackgroundTexture, rootRect.x, rootRect.y, rootRect.width, rootRect.height);
+    }
+
+    std::function<std::optional<ResolvedHudLayoutElement>(const std::string &)> resolveItemInspectLayout =
+        [this,
+         &rootRect,
+         &resolveItemInspectLayout,
+         previewImageWidth,
+         previewImageHeight,
+         popupScale](
+            const std::string &layoutId) -> std::optional<ResolvedHudLayoutElement>
+        {
+            const HudLayoutElement *pLayout = findHudLayoutElement(layoutId);
+
+            if (pLayout == nullptr)
+            {
+                return std::nullopt;
+            }
+
+            const std::string normalizedLayoutId = toLowerCopy(layoutId);
+
+            const HudTextureHandle *pBaseTexture = nullptr;
+
+            if ((pLayout->width <= 0.0f || pLayout->height <= 0.0f) && !pLayout->primaryAsset.empty())
+            {
+                pBaseTexture = const_cast<OutdoorGameView *>(this)->ensureHudTextureLoaded(pLayout->primaryAsset);
+            }
+
+            float resolvedWidth =
+                normalizedLayoutId == "iteminspectpreviewimage"
+                ? previewImageWidth
+                : (pLayout->width > 0.0f
+                    ? pLayout->width * popupScale
+                    : (pBaseTexture != nullptr ? static_cast<float>(pBaseTexture->width) * popupScale : 0.0f));
+            float resolvedHeight =
+                normalizedLayoutId == "iteminspectpreviewimage"
+                ? previewImageHeight
+                : (pLayout->height > 0.0f
+                    ? pLayout->height * popupScale
+                    : (pBaseTexture != nullptr ? static_cast<float>(pBaseTexture->height) * popupScale : 0.0f));
+
+            if (normalizedLayoutId == "iteminspectcorner_topedge"
+                || normalizedLayoutId == "iteminspectcorner_bottomedge")
+            {
+                resolvedWidth = rootRect.width;
+            }
+
+            if (normalizedLayoutId == "iteminspectcorner_leftedge"
+                || normalizedLayoutId == "iteminspectcorner_rightedge")
+            {
+                resolvedHeight = rootRect.height;
+            }
+
+            if (pLayout->parentId.empty() || toLowerCopy(pLayout->parentId) == "iteminspectroot")
+            {
+                return resolveAttachedHudLayoutRect(
+                    pLayout->attachTo,
+                    rootRect,
+                    resolvedWidth,
+                    resolvedHeight,
+                    pLayout->gapX,
+                    pLayout->gapY,
+                    popupScale);
+            }
+
+            const std::optional<ResolvedHudLayoutElement> parentRect = resolveItemInspectLayout(pLayout->parentId);
+
+            if (!parentRect)
+            {
+                return std::nullopt;
+            }
+
+            return resolveAttachedHudLayoutRect(
+                pLayout->attachTo,
+                *parentRect,
+                resolvedWidth,
+                resolvedHeight,
+                pLayout->gapX,
+                pLayout->gapY,
+                popupScale);
+        };
+
+    const auto isItemInspectRootDescendant =
+        [this](const HudLayoutElement &layout) -> bool
+        {
+            std::string currentLayoutId = layout.id;
+
+            while (!currentLayoutId.empty())
+            {
+                if (toLowerCopy(currentLayoutId) == "iteminspectroot")
+                {
+                    return true;
+                }
+
+                const HudLayoutElement *pCurrentLayout = findHudLayoutElement(currentLayoutId);
+
+                if (pCurrentLayout == nullptr || pCurrentLayout->parentId.empty())
+                {
+                    break;
+                }
+
+                currentLayoutId = pCurrentLayout->parentId;
+            }
+
+            return false;
+        };
+
+    const std::vector<std::string> orderedItemInspectLayoutIds = sortedHudLayoutIdsForScreen("ItemInspect");
+
+    for (const std::string &layoutId : orderedItemInspectLayoutIds)
+    {
+        const HudLayoutElement *pLayout = findHudLayoutElement(layoutId);
+
+        if (pLayout == nullptr
+            || !pLayout->visible
+            || pLayout->primaryAsset.empty()
+            || toLowerCopy(pLayout->id) == "iteminspectroot"
+            || toLowerCopy(pLayout->id) == "iteminspectpreviewimage"
+            || !isItemInspectRootDescendant(*pLayout))
+        {
+            continue;
+        }
+
+        const HudTextureHandle *pTexture =
+            const_cast<OutdoorGameView *>(this)->ensureHudTextureLoaded(pLayout->primaryAsset);
+        const std::optional<ResolvedHudLayoutElement> resolved = resolveItemInspectLayout(layoutId);
+
+        if (pTexture == nullptr || !resolved || resolved->width <= 0.0f || resolved->height <= 0.0f)
+        {
+            continue;
+        }
+
+        submitTexturedQuad(*pTexture, resolved->x, resolved->y, resolved->width, resolved->height);
+    }
+
+    auto renderSingleLine =
+        [this, &resolveItemInspectLayout](const char *pLayoutId, const std::string &text)
+        {
+            const HudLayoutElement *pLayout = findHudLayoutElement(pLayoutId);
+            const std::optional<ResolvedHudLayoutElement> resolved = resolveItemInspectLayout(pLayoutId);
+
+            if (pLayout == nullptr || !resolved)
+            {
+                return;
+            }
+
+            renderLayoutLabel(*pLayout, *resolved, text);
+        };
+
+    renderSingleLine("ItemInspectName", itemName);
+    renderSingleLine("ItemInspectType", "Type: " + itemType);
+
+    const std::optional<ResolvedHudLayoutElement> previewRect = resolveItemInspectLayout("ItemInspectPreviewImage");
+
+    if (previewRect && pItemTexture != nullptr && pItemTexture->width > 0 && pItemTexture->height > 0)
+    {
+        submitTexturedQuad(*pItemTexture, previewRect->x, previewRect->y, previewRect->width, previewRect->height);
+    }
+
+    const std::optional<ResolvedHudLayoutElement> typeRect = resolveItemInspectLayout("ItemInspectType");
+    const std::optional<ResolvedHudLayoutElement> detailRowBaseRect = resolveItemInspectLayout("ItemInspectDetailRow");
+    const std::optional<ResolvedHudLayoutElement> descriptionBaseRect = resolveItemInspectLayout("ItemInspectDescription");
+    const std::optional<ResolvedHudLayoutElement> valueBaseRect = resolveItemInspectLayout("ItemInspectValue");
+
+    if (showDetail && typeRect && detailRowBaseRect)
+    {
+        ResolvedHudLayoutElement detailRowRect = *detailRowBaseRect;
+        detailRowRect.y = std::round(typeRect->y + typeRect->height + ItemInspectTypeToDetailGap * popupScale);
+        const ResolvedHudLayoutElement detailValueRect = resolveAttachedHudLayoutRect(
+            pDetailValueLayout->attachTo,
+            detailRowRect,
+            pDetailValueLayout->width * popupScale,
+            pDetailValueLayout->height * popupScale,
+            pDetailValueLayout->gapX,
+            pDetailValueLayout->gapY,
+            popupScale);
+        renderLayoutLabel(*pDetailValueLayout, detailValueRect, itemDetail);
+    }
+
+    const float dynamicDescriptionY =
+        typeRect
+        ? std::round(
+            typeRect->y
+            + typeRect->height
+            + (showDetail ? (ItemInspectTypeToDetailGap + pDetailRowLayout->height) * popupScale : 0.0f)
+            + ItemInspectDetailToDescriptionGap * popupScale)
+        : 0.0f;
+    const std::optional<ResolvedHudLayoutElement> resolvedDescription =
+        descriptionBaseRect
+        ? std::optional<ResolvedHudLayoutElement>(ResolvedHudLayoutElement{
+            descriptionBaseRect->x,
+            dynamicDescriptionY,
+            descriptionBaseRect->width,
+            descriptionBaseRect->height,
+            descriptionBaseRect->scale})
+        : std::nullopt;
+
+    if (!itemDescription.empty() && pBodyFont != nullptr && resolvedDescription)
+    {
+        bgfx::TextureHandle coloredMainTextureHandle =
+            ensureHudFontMainTextureColor(*pBodyFont, pDescriptionLayout->textColorAbgr);
+
+        if (!bgfx::isValid(coloredMainTextureHandle))
+        {
+            coloredMainTextureHandle = pBodyFont->mainTextureHandle;
+        }
+
+        float textX = std::round(resolvedDescription->x + pDescriptionLayout->textPadX * popupScale);
+        float textY = std::round(resolvedDescription->y + pDescriptionLayout->textPadY * popupScale);
+
+        for (const std::string &line : descriptionLines)
+        {
+            renderHudFontLayer(*pBodyFont, pBodyFont->shadowTextureHandle, line, textX, textY, popupScale);
+            renderHudFontLayer(*pBodyFont, coloredMainTextureHandle, line, textX, textY, popupScale);
+            textY += bodyLineHeight;
+        }
+    }
+
+    if (valueBaseRect)
+    {
+        ResolvedHudLayoutElement valueRect = *valueBaseRect;
+        valueRect.y = std::round(dynamicDescriptionY + descriptionHeight + ItemInspectDescriptionToValueGap * popupScale);
+        renderLayoutLabel(*pValueLayout, valueRect, "Value: " + itemValue);
+    }
 }
 
 void OutdoorGameView::renderDialogueOverlay(int width, int height, bool renderAboveHud)
@@ -7361,6 +8200,106 @@ uint32_t OutdoorGameView::colorFromBModel()
         | static_cast<uint32_t>(red);
 }
 
+OutdoorGameView::ResolvedHudLayoutElement OutdoorGameView::resolveAttachedHudLayoutRect(
+    HudLayoutAttachMode attachTo,
+    const ResolvedHudLayoutElement &parent,
+    float width,
+    float height,
+    float gapX,
+    float gapY,
+    float scale)
+{
+    ResolvedHudLayoutElement resolved = {};
+    resolved.width = width;
+    resolved.height = height;
+    resolved.scale = scale;
+
+    switch (attachTo)
+    {
+        case HudLayoutAttachMode::None:
+            resolved.x = parent.x + gapX * scale;
+            resolved.y = parent.y + gapY * scale;
+            break;
+
+        case HudLayoutAttachMode::RightOf:
+            resolved.x = parent.x + parent.width + gapX * scale;
+            resolved.y = parent.y + gapY * scale;
+            break;
+
+        case HudLayoutAttachMode::LeftOf:
+            resolved.x = parent.x - resolved.width + gapX * scale;
+            resolved.y = parent.y + gapY * scale;
+            break;
+
+        case HudLayoutAttachMode::Above:
+            resolved.x = parent.x + gapX * scale;
+            resolved.y = parent.y - resolved.height + gapY * scale;
+            break;
+
+        case HudLayoutAttachMode::Below:
+            resolved.x = parent.x + gapX * scale;
+            resolved.y = parent.y + parent.height + gapY * scale;
+            break;
+
+        case HudLayoutAttachMode::CenterAbove:
+            resolved.x = parent.x + (parent.width - resolved.width) * 0.5f + gapX * scale;
+            resolved.y = parent.y - resolved.height + gapY * scale;
+            break;
+
+        case HudLayoutAttachMode::CenterBelow:
+            resolved.x = parent.x + (parent.width - resolved.width) * 0.5f + gapX * scale;
+            resolved.y = parent.y + parent.height + gapY * scale;
+            break;
+
+        case HudLayoutAttachMode::InsideLeft:
+            resolved.x = parent.x + gapX * scale;
+            resolved.y = parent.y + (parent.height - resolved.height) * 0.5f + gapY * scale;
+            break;
+
+        case HudLayoutAttachMode::InsideRight:
+            resolved.x = parent.x + parent.width - resolved.width + gapX * scale;
+            resolved.y = parent.y + (parent.height - resolved.height) * 0.5f + gapY * scale;
+            break;
+
+        case HudLayoutAttachMode::InsideTopCenter:
+            resolved.x = parent.x + (parent.width - resolved.width) * 0.5f + gapX * scale;
+            resolved.y = parent.y + gapY * scale;
+            break;
+
+        case HudLayoutAttachMode::InsideTopLeft:
+            resolved.x = parent.x + gapX * scale;
+            resolved.y = parent.y + gapY * scale;
+            break;
+
+        case HudLayoutAttachMode::InsideTopRight:
+            resolved.x = parent.x + parent.width - resolved.width + gapX * scale;
+            resolved.y = parent.y + gapY * scale;
+            break;
+
+        case HudLayoutAttachMode::InsideBottomLeft:
+            resolved.x = parent.x + gapX * scale;
+            resolved.y = parent.y + parent.height - resolved.height + gapY * scale;
+            break;
+
+        case HudLayoutAttachMode::InsideBottomCenter:
+            resolved.x = parent.x + (parent.width - resolved.width) * 0.5f + gapX * scale;
+            resolved.y = parent.y + parent.height - resolved.height + gapY * scale;
+            break;
+
+        case HudLayoutAttachMode::InsideBottomRight:
+            resolved.x = parent.x + parent.width - resolved.width + gapX * scale;
+            resolved.y = parent.y + parent.height - resolved.height + gapY * scale;
+            break;
+
+        case HudLayoutAttachMode::CenterIn:
+            resolved.x = parent.x + (parent.width - resolved.width) * 0.5f + gapX * scale;
+            resolved.y = parent.y + (parent.height - resolved.height) * 0.5f + gapY * scale;
+            break;
+    }
+
+    return resolved;
+}
+
 bgfx::ProgramHandle OutdoorGameView::loadProgram(const char *pVertexShaderName, const char *pFragmentShaderName)
 {
     const bgfx::ShaderHandle vertexShaderHandle = loadShader(pVertexShaderName);
@@ -7400,10 +8339,11 @@ bool OutdoorGameView::loadHudLayout(const Engine::AssetFileSystem &assetFileSyst
     m_hudLayoutElements.clear();
     m_hudLayoutOrder.clear();
 
-    const std::array<std::string, 3> layoutFiles = {
+    const std::array<std::string, 4> layoutFiles = {
         "Data/ui/gameplay.yml",
         "Data/ui/dialogue.yml",
-        "Data/ui/character.yml"
+        "Data/ui/character.yml",
+        "Data/ui/item_inspect.yml"
     };
 
     bool loadedAnyLayout = false;
@@ -8745,86 +9685,14 @@ std::optional<OutdoorGameView::ResolvedHudLayoutElement> OutdoorGameView::resolv
         resolved.width = (element.width > 0.0f ? element.width : fallbackWidth) * resolved.scale;
         resolved.height = effectiveHeight * resolved.scale;
 
-        switch (element.attachTo)
-        {
-            case HudLayoutAttachMode::None:
-                break;
-
-            case HudLayoutAttachMode::RightOf:
-                resolved.x = parent->x + parent->width + element.gapX * resolved.scale;
-                resolved.y = parent->y + element.gapY * resolved.scale;
-                break;
-
-            case HudLayoutAttachMode::LeftOf:
-                resolved.x = parent->x - resolved.width + element.gapX * resolved.scale;
-                resolved.y = parent->y + element.gapY * resolved.scale;
-                break;
-
-            case HudLayoutAttachMode::Above:
-                resolved.x = parent->x + element.gapX * resolved.scale;
-                resolved.y = parent->y - resolved.height + element.gapY * resolved.scale;
-                break;
-
-            case HudLayoutAttachMode::Below:
-                resolved.x = parent->x + element.gapX * resolved.scale;
-                resolved.y = parent->y + parent->height + element.gapY * resolved.scale;
-                break;
-
-            case HudLayoutAttachMode::CenterAbove:
-                resolved.x = parent->x + (parent->width - resolved.width) * 0.5f + element.gapX * resolved.scale;
-                resolved.y = parent->y - resolved.height + element.gapY * resolved.scale;
-                break;
-
-            case HudLayoutAttachMode::CenterBelow:
-                resolved.x = parent->x + (parent->width - resolved.width) * 0.5f + element.gapX * resolved.scale;
-                resolved.y = parent->y + parent->height + element.gapY * resolved.scale;
-                break;
-
-            case HudLayoutAttachMode::InsideLeft:
-                resolved.x = parent->x + element.gapX * resolved.scale;
-                resolved.y = parent->y + (parent->height - resolved.height) * 0.5f + element.gapY * resolved.scale;
-                break;
-
-            case HudLayoutAttachMode::InsideRight:
-                resolved.x = parent->x + parent->width - resolved.width + element.gapX * resolved.scale;
-                resolved.y = parent->y + (parent->height - resolved.height) * 0.5f + element.gapY * resolved.scale;
-                break;
-
-            case HudLayoutAttachMode::InsideTopCenter:
-                resolved.x = parent->x + (parent->width - resolved.width) * 0.5f + element.gapX * resolved.scale;
-                resolved.y = parent->y + element.gapY * resolved.scale;
-                break;
-
-            case HudLayoutAttachMode::InsideTopLeft:
-                resolved.x = parent->x + element.gapX * resolved.scale;
-                resolved.y = parent->y + element.gapY * resolved.scale;
-                break;
-
-            case HudLayoutAttachMode::InsideTopRight:
-                resolved.x = parent->x + parent->width - resolved.width + element.gapX * resolved.scale;
-                resolved.y = parent->y + element.gapY * resolved.scale;
-                break;
-
-            case HudLayoutAttachMode::InsideBottomLeft:
-                resolved.x = parent->x + element.gapX * resolved.scale;
-                resolved.y = parent->y + parent->height - resolved.height + element.gapY * resolved.scale;
-                break;
-
-            case HudLayoutAttachMode::InsideBottomCenter:
-                resolved.x = parent->x + (parent->width - resolved.width) * 0.5f + element.gapX * resolved.scale;
-                resolved.y = parent->y + parent->height - resolved.height + element.gapY * resolved.scale;
-                break;
-
-            case HudLayoutAttachMode::InsideBottomRight:
-                resolved.x = parent->x + parent->width - resolved.width + element.gapX * resolved.scale;
-                resolved.y = parent->y + parent->height - resolved.height + element.gapY * resolved.scale;
-                break;
-
-            case HudLayoutAttachMode::CenterIn:
-                resolved.x = parent->x + (parent->width - resolved.width) * 0.5f + element.gapX * resolved.scale;
-                resolved.y = parent->y + (parent->height - resolved.height) * 0.5f + element.gapY * resolved.scale;
-                break;
-        }
+        resolved = resolveAttachedHudLayoutRect(
+            element.attachTo,
+            *parent,
+            resolved.width,
+            resolved.height,
+            element.gapX,
+            element.gapY,
+            resolved.scale);
 
         if (!element.bottomToId.empty())
         {
@@ -12418,6 +13286,74 @@ void OutdoorGameView::updateCameraFromInput(float deltaSeconds)
         m_pOutdoorWorldRuntime != nullptr
         && (m_pOutdoorWorldRuntime->activeChestView() != nullptr || m_pOutdoorWorldRuntime->activeCorpseView() != nullptr);
     const bool isEventDialogActive = hasActiveEventDialog();
+    SDL_Window *pWindow = SDL_GetMouseFocus();
+
+    if (pWindow == nullptr)
+    {
+        pWindow = SDL_GetKeyboardFocus();
+    }
+
+    int screenWidth = 0;
+    int screenHeight = 0;
+
+    if (pWindow != nullptr)
+    {
+        SDL_GetWindowSizeInPixels(pWindow, &screenWidth, &screenHeight);
+    }
+
+    if (m_pOutdoorPartyRuntime != nullptr && screenWidth > 0 && screenHeight > 0)
+    {
+        float portraitMouseX = 0.0f;
+        float portraitMouseY = 0.0f;
+        const SDL_MouseButtonFlags portraitMouseButtons = SDL_GetMouseState(&portraitMouseX, &portraitMouseY);
+        const HudPointerState portraitPointerState = {
+            portraitMouseX,
+            portraitMouseY,
+            (portraitMouseButtons & SDL_BUTTON_LMASK) != 0
+        };
+        const bool requireGameplayReady = !isEventDialogActive && !m_characterScreenOpen && !hasActiveLootView;
+
+        handlePointerClickRelease(
+            portraitPointerState,
+            m_partyPortraitClickLatch,
+            m_partyPortraitPressedIndex,
+            std::optional<size_t>{},
+            [this, screenWidth, screenHeight](float x, float y) -> std::optional<size_t>
+            {
+                return resolvePartyPortraitIndexAtPoint(screenWidth, screenHeight, x, y);
+            },
+            [this, requireGameplayReady](const std::optional<size_t> &memberIndex)
+            {
+                if (memberIndex)
+                {
+                    const uint64_t nowTicks = SDL_GetTicks();
+                    const bool isDoubleClick =
+                        requireGameplayReady
+                        && m_lastPartyPortraitClickedIndex.has_value()
+                        && *m_lastPartyPortraitClickedIndex == *memberIndex
+                        && nowTicks >= m_lastPartyPortraitClickTicks
+                        && nowTicks - m_lastPartyPortraitClickTicks <= PartyPortraitDoubleClickWindowMs;
+
+                    if (trySelectPartyMember(*memberIndex, requireGameplayReady))
+                    {
+                        if (isDoubleClick)
+                        {
+                            m_characterScreenOpen = true;
+                            m_characterPage = CharacterPage::Inventory;
+                            m_characterDollJewelryOverlayOpen = false;
+                        }
+
+                        m_lastPartyPortraitClickTicks = nowTicks;
+                        m_lastPartyPortraitClickedIndex = *memberIndex;
+                    }
+                }
+            });
+    }
+    else
+    {
+        m_partyPortraitClickLatch = false;
+        m_partyPortraitPressedIndex = std::nullopt;
+    }
 
     if (!isEventDialogActive)
     {
@@ -12479,17 +13415,7 @@ void OutdoorGameView::updateCameraFromInput(float deltaSeconds)
                 {
                     if (!m_eventDialogPartySelectLatches[memberIndex])
                     {
-                        if (m_pOutdoorPartyRuntime->party().setActiveMemberIndex(memberIndex))
-                        {
-                            EventRuntimeState *pEventRuntimeState = m_pOutdoorWorldRuntime != nullptr
-                                ? m_pOutdoorWorldRuntime->eventRuntimeState()
-                                : nullptr;
-
-                            if (pEventRuntimeState != nullptr)
-                            {
-                                openPendingEventDialog(pEventRuntimeState->messages.size(), true);
-                            }
-                        }
+                        trySelectPartyMember(memberIndex, false);
 
                         m_eventDialogPartySelectLatches[memberIndex] = true;
                     }
@@ -12569,21 +13495,6 @@ void OutdoorGameView::updateCameraFromInput(float deltaSeconds)
         float dialogMouseY = 0.0f;
         const SDL_MouseButtonFlags dialogMouseButtons = SDL_GetMouseState(&dialogMouseX, &dialogMouseY);
         const bool isLeftMousePressed = (dialogMouseButtons & SDL_BUTTON_LMASK) != 0;
-        SDL_Window *pWindow = SDL_GetMouseFocus();
-
-        if (pWindow == nullptr)
-        {
-            pWindow = SDL_GetKeyboardFocus();
-        }
-
-        int screenWidth = 0;
-        int screenHeight = 0;
-
-        if (pWindow != nullptr)
-        {
-            SDL_GetWindowSizeInPixels(pWindow, &screenWidth, &screenHeight);
-        }
-
         const auto findDialoguePointerTarget =
             [this, isResidentSelectionMode, screenWidth, screenHeight](
                 float mouseX,
@@ -12901,7 +13812,7 @@ void OutdoorGameView::updateCameraFromInput(float deltaSeconds)
                 {
                     const size_t nextMemberIndex =
                         (m_pOutdoorPartyRuntime->party().activeMemberIndex() + 1) % members.size();
-                    m_pOutdoorPartyRuntime->party().setActiveMemberIndex(nextMemberIndex);
+                    trySelectPartyMember(nextMemberIndex, false);
                 }
 
                 m_characterMemberCycleLatch = true;
@@ -12916,20 +13827,6 @@ void OutdoorGameView::updateCameraFromInput(float deltaSeconds)
         float mouseY = 0.0f;
         const SDL_MouseButtonFlags mouseButtons = SDL_GetMouseState(&mouseX, &mouseY);
         const bool isLeftMousePressed = (mouseButtons & SDL_BUTTON_LMASK) != 0;
-        SDL_Window *pWindow = SDL_GetMouseFocus();
-
-        if (pWindow == nullptr)
-        {
-            pWindow = SDL_GetKeyboardFocus();
-        }
-
-        int screenWidth = 0;
-        int screenHeight = 0;
-
-        if (pWindow != nullptr)
-        {
-            SDL_GetWindowSizeInPixels(pWindow, &screenWidth, &screenHeight);
-        }
 
         const auto resolveCharacterInventoryGrid =
             [this, screenWidth, screenHeight]() -> std::optional<ResolvedHudLayoutElement>

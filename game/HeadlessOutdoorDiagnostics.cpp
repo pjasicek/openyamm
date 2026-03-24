@@ -8674,6 +8674,12 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
             Party party = {};
             party.setItemTable(&gameDataLoader.getItemTable());
             party.seed(Party::createDefaultSeed());
+            Character *pSeedMember = party.member(0);
+
+            if (pSeedMember != nullptr)
+            {
+                pSeedMember->inventory.clear();
+            }
 
             if (!party.grantItemToMember(0, 104)
                 || !party.grantItemToMember(0, 111)
@@ -8746,6 +8752,12 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
             Party party = {};
             party.setItemTable(&gameDataLoader.getItemTable());
             party.seed(Party::createDefaultSeed());
+            Character *pSeedMember = party.member(0);
+
+            if (pSeedMember != nullptr)
+            {
+                pSeedMember->inventory.clear();
+            }
 
             if (!party.grantItemToMember(0, 109, 20))
             {
@@ -8789,6 +8801,12 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
             Party party = {};
             party.setItemTable(&gameDataLoader.getItemTable());
             party.seed(Party::createDefaultSeed());
+            Character *pSeedMember = party.member(0);
+
+            if (pSeedMember != nullptr)
+            {
+                pSeedMember->inventory.clear();
+            }
 
             if (!party.grantItemToMember(0, 104) || !party.grantItemToMember(0, 111))
             {
@@ -8878,6 +8896,18 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
             Party party = {};
             party.setItemTable(&gameDataLoader.getItemTable());
             party.seed(Party::createDefaultSeed());
+            Character *pSourceMember = party.member(0);
+            Character *pDestinationMember = party.member(1);
+
+            if (pSourceMember != nullptr)
+            {
+                pSourceMember->inventory.clear();
+            }
+
+            if (pDestinationMember != nullptr)
+            {
+                pDestinationMember->inventory.clear();
+            }
 
             if (!party.grantItemToMember(0, 111))
             {
