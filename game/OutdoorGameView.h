@@ -5,6 +5,7 @@
 #include "game/MapStats.h"
 #include "game/MonsterTable.h"
 #include "game/OutdoorMapData.h"
+#include "game/Party.h"
 #include "game/OutdoorWorldRuntime.h"
 #include "game/CharacterDollTable.h"
 #include "game/ChestTable.h"
@@ -231,7 +232,10 @@ private:
         PageButton,
         ExitButton,
         MagnifyButton,
-        SkillRow
+        SkillRow,
+        InventoryItem,
+        InventoryCell,
+        DollPanel
     };
 
     enum class DialoguePointerTargetType
@@ -246,8 +250,20 @@ private:
         CharacterPointerTargetType type = CharacterPointerTargetType::None;
         CharacterPage page = CharacterPage::Inventory;
         std::string skillName;
+        uint8_t gridX = 0;
+        uint8_t gridY = 0;
 
         bool operator==(const CharacterPointerTarget &other) const = default;
+    };
+
+    struct HeldInventoryItemState
+    {
+        bool active = false;
+        InventoryItem item = {};
+        uint8_t grabCellOffsetX = 0;
+        uint8_t grabCellOffsetY = 0;
+        float grabOffsetX = 0.0f;
+        float grabOffsetY = 0.0f;
     };
 
     struct DialoguePointerTarget
@@ -448,6 +464,7 @@ private:
     void openDebugNpcDialogue(uint32_t npcId);
     void renderCharacterOverlay(int width, int height, bool renderAboveHud) const;
     void renderDialogueOverlay(int width, int height, bool renderAboveHud);
+    void renderHeldInventoryItem(int width, int height) const;
     std::optional<std::string> findCachedAssetPath(const std::string &directoryPath, const std::string &fileName);
     std::optional<std::vector<uint8_t>> readCachedBinaryFile(const std::string &assetPath);
     std::optional<std::array<uint8_t, 256 * 3>> loadCachedActPalette(int16_t paletteId);
@@ -598,6 +615,8 @@ private:
     bool m_characterClickLatch;
     bool m_characterMemberCycleLatch;
     CharacterPointerTarget m_characterPressedTarget;
+    HeldInventoryItemState m_heldInventoryItem;
+    bool m_heldInventoryDropLatch;
     bool m_closeOverlayLatch;
     bool m_dialogueClickLatch;
     DialoguePointerTarget m_dialoguePressedTarget;

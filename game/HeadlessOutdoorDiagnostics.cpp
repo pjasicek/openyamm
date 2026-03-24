@@ -8668,6 +8668,321 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
     );
 
     runCase(
+        "inventory_auto_placement_uses_grid_rules",
+        [&](std::string &failure)
+        {
+            Party party = {};
+            party.setItemTable(&gameDataLoader.getItemTable());
+            party.seed(Party::createDefaultSeed());
+
+            if (!party.grantItemToMember(0, 104)
+                || !party.grantItemToMember(0, 111)
+                || !party.grantItemToMember(0, 25)
+                || !party.grantItemToMember(0, 94))
+            {
+                failure = "could not seed member inventory";
+                return false;
+            }
+
+            const Character *pMember = party.member(0);
+
+            if (pMember == nullptr)
+            {
+                failure = "missing member 0";
+                return false;
+            }
+
+            const auto findItem =
+                [pMember](uint32_t objectDescriptionId) -> const InventoryItem *
+                {
+                    for (const InventoryItem &item : pMember->inventory)
+                    {
+                        if (item.objectDescriptionId == objectDescriptionId)
+                        {
+                            return &item;
+                        }
+                    }
+
+                    return nullptr;
+                };
+
+            const InventoryItem *pShield = findItem(104);
+            const InventoryItem *pFullHelm = findItem(111);
+            const InventoryItem *pFangedBlade = findItem(25);
+            const InventoryItem *pBreastplate = findItem(94);
+
+            if (pShield == nullptr || pShield->gridX != 0 || pShield->gridY != 0)
+            {
+                failure = "2x2 shield did not place at 0,0";
+                return false;
+            }
+
+            if (pFullHelm == nullptr || pFullHelm->gridX != 0 || pFullHelm->gridY != 2)
+            {
+                failure = "1x2 helm did not place at 0,2";
+                return false;
+            }
+
+            if (pFangedBlade == nullptr || pFangedBlade->gridX != 0 || pFangedBlade->gridY != 4)
+            {
+                failure = "2x3 blade did not place at 0,4";
+                return false;
+            }
+
+            if (pBreastplate == nullptr || pBreastplate->gridX != 0 || pBreastplate->gridY != 7)
+            {
+                failure = "3x2 breastplate did not place at 0,7";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "inventory_auto_placement_fills_columns_vertically",
+        [&](std::string &failure)
+        {
+            Party party = {};
+            party.setItemTable(&gameDataLoader.getItemTable());
+            party.seed(Party::createDefaultSeed());
+
+            if (!party.grantItemToMember(0, 109, 20))
+            {
+                failure = "could not seed member inventory with 1x1 items";
+                return false;
+            }
+
+            const Character *pMember = party.member(0);
+
+            if (pMember == nullptr)
+            {
+                failure = "missing member 0";
+                return false;
+            }
+
+            if (pMember->inventoryItemAt(0, 0) == nullptr
+                || pMember->inventoryItemAt(0, 8) == nullptr
+                || pMember->inventoryItemAt(1, 0) == nullptr
+                || pMember->inventoryItemAt(1, 8) == nullptr
+                || pMember->inventoryItemAt(2, 0) == nullptr
+                || pMember->inventoryItemAt(2, 1) == nullptr)
+            {
+                failure = "1x1 items did not fill columns from top to bottom";
+                return false;
+            }
+
+            if (pMember->inventoryItemAt(2, 2) != nullptr)
+            {
+                failure = "vertical column fill placed too many items into the third column";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "inventory_move_accept_reject_and_swap",
+        [&](std::string &failure)
+        {
+            Party party = {};
+            party.setItemTable(&gameDataLoader.getItemTable());
+            party.seed(Party::createDefaultSeed());
+
+            if (!party.grantItemToMember(0, 104) || !party.grantItemToMember(0, 111))
+            {
+                failure = "could not seed member inventory";
+                return false;
+            }
+
+            InventoryItem heldItem = {};
+
+            if (!party.takeItemFromMemberInventoryCell(0, 0, 0, heldItem))
+            {
+                failure = "could not pick up initial 2x2 item";
+                return false;
+            }
+
+            std::optional<InventoryItem> replacedItem;
+
+            if (!party.tryPlaceItemInMemberInventoryCell(0, heldItem, 4, 4, replacedItem))
+            {
+                failure = "valid move to empty destination was rejected";
+                return false;
+            }
+
+            if (replacedItem.has_value())
+            {
+                failure = "empty destination unexpectedly replaced an item";
+                return false;
+            }
+
+            const Character *pMember = party.member(0);
+
+            if (pMember == nullptr)
+            {
+                failure = "missing member 0 after move";
+                return false;
+            }
+
+            const InventoryItem *pMovedItem = pMember->inventoryItemAt(4, 4);
+
+            if (pMovedItem == nullptr || pMovedItem->objectDescriptionId != 104)
+            {
+                failure = "moved item not found at accepted destination";
+                return false;
+            }
+
+            if (!party.takeItemFromMemberInventoryCell(0, 4, 4, heldItem))
+            {
+                failure = "could not pick moved item back up";
+                return false;
+            }
+
+            if (party.tryPlaceItemInMemberInventoryCell(0, heldItem, 13, 8, replacedItem))
+            {
+                failure = "out-of-bounds move should be rejected";
+                return false;
+            }
+
+            if (!party.tryPlaceItemInMemberInventoryCell(0, heldItem, 0, 2, replacedItem))
+            {
+                failure = "swap over single destination item was rejected";
+                return false;
+            }
+
+            if (!replacedItem || replacedItem->objectDescriptionId != 111)
+            {
+                failure = "swap did not return the displaced helm";
+                return false;
+            }
+
+            pMember = party.member(0);
+            pMovedItem = pMember != nullptr ? pMember->inventoryItemAt(0, 2) : nullptr;
+
+            if (pMovedItem == nullptr || pMovedItem->objectDescriptionId != 104)
+            {
+                failure = "swapped item not found at destination";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "inventory_cross_member_move_and_full_rejection",
+        [&](std::string &failure)
+        {
+            Party party = {};
+            party.setItemTable(&gameDataLoader.getItemTable());
+            party.seed(Party::createDefaultSeed());
+
+            if (!party.grantItemToMember(0, 111))
+            {
+                failure = "could not grant source item";
+                return false;
+            }
+
+            InventoryItem heldItem = {};
+
+            if (!party.takeItemFromMemberInventoryCell(0, 0, 0, heldItem))
+            {
+                failure = "could not pick up source item";
+                return false;
+            }
+
+            std::optional<InventoryItem> replacedItem;
+
+            if (!party.tryPlaceItemInMemberInventoryCell(1, heldItem, 0, 0, replacedItem))
+            {
+                failure = "cross-member move into empty inventory failed";
+                return false;
+            }
+
+            if (replacedItem.has_value())
+            {
+                failure = "cross-member move unexpectedly replaced an item";
+                return false;
+            }
+
+            const Character *pMember1 = party.member(1);
+            const InventoryItem *pTransferredItem =
+                pMember1 != nullptr ? pMember1->inventoryItemAt(0, 0) : nullptr;
+
+            if (pTransferredItem == nullptr || pTransferredItem->objectDescriptionId != 111)
+            {
+                failure = "transferred item not found on destination member";
+                return false;
+            }
+
+            if (!party.grantItemToMember(0, 104))
+            {
+                failure = "could not grant second source item";
+                return false;
+            }
+
+            if (!party.takeItemFromMemberInventoryCell(0, 0, 0, heldItem))
+            {
+                failure = "could not pick up second source item";
+                return false;
+            }
+
+            Character *pFullMember = party.member(2);
+
+            if (pFullMember == nullptr)
+            {
+                failure = "missing full destination member";
+                return false;
+            }
+
+            pFullMember->inventory.clear();
+
+            for (int gridY = 0; gridY < Character::InventoryHeight; ++gridY)
+            {
+                for (int gridX = 0; gridX < Character::InventoryWidth; ++gridX)
+                {
+                    InventoryItem fillerItem = {};
+                    fillerItem.objectDescriptionId = 109;
+                    fillerItem.quantity = 1;
+                    fillerItem.width = 1;
+                    fillerItem.height = 1;
+
+                    if (!pFullMember->addInventoryItemAt(
+                            fillerItem,
+                            static_cast<uint8_t>(gridX),
+                            static_cast<uint8_t>(gridY)))
+                    {
+                        failure = "could not fill destination inventory";
+                        return false;
+                    }
+                }
+            }
+
+            if (party.tryPlaceItemInMemberInventoryCell(2, heldItem, 0, 0, replacedItem))
+            {
+                failure = "move into full destination inventory should be rejected";
+                return false;
+            }
+
+            if (heldItem.objectDescriptionId != 104)
+            {
+                failure = "held item changed after failed full-inventory move";
+                return false;
+            }
+
+            if (pFullMember->inventoryItemCount() != pFullMember->inventoryCapacity())
+            {
+                failure = "full destination inventory was modified by rejected move";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
         "empty_house_after_departure",
         [&](std::string &failure)
         {

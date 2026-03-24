@@ -107,6 +107,23 @@ struct CharacterSkillUiData
     std::vector<CharacterSkillUiRow> miscRows;
 };
 
+struct InventoryGridMetrics
+{
+    float x = 0.0f;
+    float y = 0.0f;
+    float cellWidth = 0.0f;
+    float cellHeight = 0.0f;
+    float scale = 1.0f;
+};
+
+struct InventoryItemScreenRect
+{
+    float x = 0.0f;
+    float y = 0.0f;
+    float width = 0.0f;
+    float height = 0.0f;
+};
+
 constexpr const char *WeaponSkillNames[] = {
     "Axe",
     "Bow",
@@ -153,6 +170,72 @@ constexpr const char *MiscSkillNames[] = {
     "RepairItem",
     "Stealing",
 };
+
+InventoryGridMetrics computeInventoryGridMetrics(
+    float x,
+    float y,
+    float width,
+    float height,
+    float scale)
+{
+    InventoryGridMetrics metrics = {};
+    metrics.x = x;
+    metrics.y = y;
+    metrics.cellWidth = width / static_cast<float>(Character::InventoryWidth);
+    metrics.cellHeight = height / static_cast<float>(Character::InventoryHeight);
+    metrics.scale = scale;
+    return metrics;
+}
+
+InventoryItemScreenRect computeInventoryItemScreenRect(
+    const InventoryGridMetrics &gridMetrics,
+    const InventoryItem &item,
+    float textureWidth,
+    float textureHeight)
+{
+    const float slotSpanWidth = static_cast<float>(item.width) * gridMetrics.cellWidth;
+    const float slotSpanHeight = static_cast<float>(item.height) * gridMetrics.cellHeight;
+    const float offsetX = (slotSpanWidth - textureWidth) * 0.5f;
+    const float offsetY = (slotSpanHeight - textureHeight) * 0.5f;
+
+    InventoryItemScreenRect rect = {};
+    rect.x = std::round(
+        gridMetrics.x + static_cast<float>(item.gridX) * gridMetrics.cellWidth
+        + offsetX);
+    rect.y = std::round(
+        gridMetrics.y + static_cast<float>(item.gridY) * gridMetrics.cellHeight
+        + offsetY);
+    rect.width = textureWidth;
+    rect.height = textureHeight;
+    return rect;
+}
+
+std::optional<std::pair<int, int>> computeHeldInventoryPlacement(
+    const InventoryGridMetrics &gridMetrics,
+    uint8_t itemWidthCells,
+    uint8_t itemHeightCells,
+    float textureWidth,
+    float textureHeight,
+    float drawX,
+    float drawY)
+{
+    if (gridMetrics.cellWidth <= 0.0f || gridMetrics.cellHeight <= 0.0f)
+    {
+        return std::nullopt;
+    }
+
+    const float slotSpanWidth = static_cast<float>(itemWidthCells) * gridMetrics.cellWidth;
+    const float slotSpanHeight = static_cast<float>(itemHeightCells) * gridMetrics.cellHeight;
+    const float itemCenterX = drawX + textureWidth * 0.5f;
+    const float itemCenterY = drawY + textureHeight * 0.5f;
+    const int gridX = static_cast<int>(std::floor(
+        (itemCenterX - gridMetrics.x - slotSpanWidth * 0.5f + gridMetrics.cellWidth * 0.5f)
+        / gridMetrics.cellWidth));
+    const int gridY = static_cast<int>(std::floor(
+        (itemCenterY - gridMetrics.y - slotSpanHeight * 0.5f + gridMetrics.cellHeight * 0.5f)
+        / gridMetrics.cellHeight));
+    return std::pair<int, int>(gridX, gridY);
+}
 
 std::optional<uint32_t> parseCharacterDataIdFromPortraitTextureName(const std::string &portraitTextureName)
 {
@@ -1619,6 +1702,8 @@ OutdoorGameView::OutdoorGameView()
     , m_characterClickLatch(false)
     , m_characterMemberCycleLatch(false)
     , m_characterPressedTarget({})
+    , m_heldInventoryItem({})
+    , m_heldInventoryDropLatch(false)
     , m_closeOverlayLatch(false)
     , m_dialogueClickLatch(false)
     , m_dialoguePressedTarget({})
@@ -2161,7 +2246,32 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
     {
         const uint64_t stageStartTickCount = SDL_GetTicksNS();
 
-        if (m_inspectMode && m_outdoorMapData && !hasActiveLootView && !isEventDialogActive && !isCharacterScreenActive)
+        if (m_heldInventoryItem.active && !hasActiveLootView && !isEventDialogActive && !isCharacterScreenActive)
+        {
+            const SDL_MouseButtonFlags mouseButtons = SDL_GetMouseState(&mouseX, &mouseY);
+            const bool isLeftMousePressed = (mouseButtons & SDL_BUTTON_LMASK) != 0;
+
+            if (isLeftMousePressed)
+            {
+                if (!m_heldInventoryDropLatch)
+                {
+                    m_heldInventoryDropLatch = true;
+                }
+            }
+            else if (m_heldInventoryDropLatch)
+            {
+                const ItemDefinition *pItemDefinition =
+                    m_pItemTable != nullptr ? m_pItemTable->get(m_heldInventoryItem.item.objectDescriptionId) : nullptr;
+                const std::string itemName =
+                    pItemDefinition != nullptr && !pItemDefinition->name.empty()
+                    ? pItemDefinition->name
+                    : "item";
+                setStatusBarEvent("Drop " + itemName + " on ground: TODO");
+                m_heldInventoryItem = {};
+                m_heldInventoryDropLatch = false;
+            }
+        }
+        else if (m_inspectMode && m_outdoorMapData && !hasActiveLootView && !isEventDialogActive && !isCharacterScreenActive)
         {
         SDL_GetMouseState(&mouseX, &mouseY);
         const float normalizedMouseX =
@@ -2284,6 +2394,7 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
         }
         else
         {
+            m_heldInventoryDropLatch = false;
             m_activateInspectLatch = false;
             m_inspectMouseActivateLatch = false;
             m_pressedInspectHit = {};
@@ -3013,6 +3124,7 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
             renderGameplayHud(width, height);
             renderCharacterOverlay(width, height, true);
             renderEventDialogPanel(width, height, true);
+            renderHeldInventoryItem(width, height);
         }
 
         hudStageNanoseconds += SDL_GetTicksNS() - stageStartTickCount;
@@ -4306,6 +4418,8 @@ void OutdoorGameView::shutdown()
     m_characterClickLatch = false;
     m_characterMemberCycleLatch = false;
     m_characterPressedTarget = {};
+    m_heldInventoryItem = {};
+    m_heldInventoryDropLatch = false;
     m_closeOverlayLatch = false;
     m_dialogueClickLatch = false;
     m_dialoguePressedTarget = {};
@@ -5111,6 +5225,7 @@ void OutdoorGameView::renderCharacterOverlay(int width, int height, bool renderA
     std::string mindResistanceValue = "0 / 0";
     std::string bodyResistanceValue = "0 / 0";
     std::string awards;
+    std::string inventoryInfo;
     const HudFontHandle *pSkillRowFont = findHudFont("Lucida");
     const float skillRowHeight = pSkillRowFont != nullptr
         ? static_cast<float>(std::max(1, pSkillRowFont->fontHeight - 3))
@@ -5566,6 +5681,95 @@ void OutdoorGameView::renderCharacterOverlay(int width, int height, bool renderA
         submitTexturedQuad(*pTexture, resolved->x, resolved->y, resolved->width, resolved->height);
     }
 
+    if (m_characterPage == CharacterPage::Inventory && pCharacter != nullptr)
+    {
+        const HudLayoutElement *pInventoryGridLayout = findHudLayoutElement("CharacterInventoryGrid");
+        const std::optional<ResolvedHudLayoutElement> resolvedInventoryGrid =
+            pInventoryGridLayout != nullptr
+            ? resolveHudLayoutElement(
+                "CharacterInventoryGrid",
+                width,
+                height,
+                pInventoryGridLayout->width,
+                pInventoryGridLayout->height)
+            : std::nullopt;
+
+        if (resolvedInventoryGrid)
+        {
+            const InventoryGridMetrics gridMetrics = computeInventoryGridMetrics(
+                resolvedInventoryGrid->x,
+                resolvedInventoryGrid->y,
+                resolvedInventoryGrid->width,
+                resolvedInventoryGrid->height,
+                resolvedInventoryGrid->scale);
+
+            for (const InventoryItem &item : pCharacter->inventory)
+            {
+                const ItemDefinition *pItemDefinition =
+                    m_pItemTable != nullptr ? m_pItemTable->get(item.objectDescriptionId) : nullptr;
+
+                if (pItemDefinition == nullptr || pItemDefinition->iconName.empty())
+                {
+                    continue;
+                }
+
+                const HudTextureHandle *pItemTexture =
+                    const_cast<OutdoorGameView *>(this)->ensureHudTextureLoaded(pItemDefinition->iconName);
+
+                if (pItemTexture == nullptr)
+                {
+                    continue;
+                }
+
+                const float itemWidth = static_cast<float>(pItemTexture->width) * gridMetrics.scale;
+                const float itemHeight = static_cast<float>(pItemTexture->height) * gridMetrics.scale;
+                const InventoryItemScreenRect itemRect =
+                    computeInventoryItemScreenRect(gridMetrics, item, itemWidth, itemHeight);
+                submitTexturedQuad(*pItemTexture, itemRect.x, itemRect.y, itemRect.width, itemRect.height);
+            }
+
+            if (characterMouseX >= resolvedInventoryGrid->x
+                && characterMouseX < resolvedInventoryGrid->x + resolvedInventoryGrid->width
+                && characterMouseY >= resolvedInventoryGrid->y
+                && characterMouseY < resolvedInventoryGrid->y + resolvedInventoryGrid->height)
+            {
+                const uint8_t gridX = static_cast<uint8_t>(std::clamp(
+                    static_cast<int>((characterMouseX - resolvedInventoryGrid->x) / gridMetrics.cellWidth),
+                    0,
+                    Character::InventoryWidth - 1));
+                const uint8_t gridY = static_cast<uint8_t>(std::clamp(
+                    static_cast<int>((characterMouseY - resolvedInventoryGrid->y) / gridMetrics.cellHeight),
+                    0,
+                    Character::InventoryHeight - 1));
+                const InventoryItem *pHoveredItem = pCharacter->inventoryItemAt(gridX, gridY);
+
+                if (pHoveredItem != nullptr && m_pItemTable != nullptr)
+                {
+                    const ItemDefinition *pItemDefinition = m_pItemTable->get(pHoveredItem->objectDescriptionId);
+
+                    if (pItemDefinition != nullptr)
+                    {
+                        inventoryInfo = !pItemDefinition->name.empty()
+                            ? pItemDefinition->name
+                            : pItemDefinition->unidentifiedName;
+                    }
+                }
+            }
+        }
+    }
+
+    if (inventoryInfo.empty() && m_heldInventoryItem.active && m_pItemTable != nullptr)
+    {
+        const ItemDefinition *pHeldItemDefinition = m_pItemTable->get(m_heldInventoryItem.item.objectDescriptionId);
+
+        if (pHeldItemDefinition != nullptr)
+        {
+            inventoryInfo = !pHeldItemDefinition->name.empty()
+                ? pHeldItemDefinition->name
+                : pHeldItemDefinition->unidentifiedName;
+        }
+    }
+
     for (const std::string &layoutId : orderedCharacterLayoutIds)
     {
         const HudLayoutElement *pLayout = findHudLayoutElement(layoutId);
@@ -5651,7 +5855,7 @@ void OutdoorGameView::renderCharacterOverlay(int width, int height, bool renderA
         label = replaceAll(label, "{body_resistance_value}", bodyResistanceValue);
         label = replaceAll(label, "{awards}", awards);
         label = replaceAll(label, "{award_detail}", "");
-        label = replaceAll(label, "{inventory_info}", "");
+        label = replaceAll(label, "{inventory_info}", inventoryInfo);
 
         if (label.find('{') != std::string::npos)
         {
@@ -5743,6 +5947,86 @@ void OutdoorGameView::renderCharacterOverlay(int width, int height, bool renderA
     renderSkillGroup("CharacterSkillsMagicListRegion", "CharacterSkillsMagicLevelHeader", skillUiData.magicRows);
     renderSkillGroup("CharacterSkillsArmorListRegion", "CharacterSkillsArmorLevelHeader", skillUiData.armorRows);
     renderSkillGroup("CharacterSkillsMiscListRegion", "CharacterSkillsMiscLevelHeader", skillUiData.miscRows);
+}
+
+void OutdoorGameView::renderHeldInventoryItem(int width, int height) const
+{
+    if (!m_heldInventoryItem.active
+        || m_pItemTable == nullptr
+        || !bgfx::isValid(m_texturedTerrainProgramHandle)
+        || !bgfx::isValid(m_terrainTextureSamplerHandle)
+        || width <= 0
+        || height <= 0)
+    {
+        return;
+    }
+
+    const ItemDefinition *pItemDefinition = m_pItemTable->get(m_heldInventoryItem.item.objectDescriptionId);
+
+    if (pItemDefinition == nullptr || pItemDefinition->iconName.empty())
+    {
+        return;
+    }
+
+    const HudTextureHandle *pTexture =
+        const_cast<OutdoorGameView *>(this)->ensureHudTextureLoaded(pItemDefinition->iconName);
+
+    if (pTexture == nullptr)
+    {
+        return;
+    }
+
+    float projectionMatrix[16] = {};
+    bx::mtxOrtho(
+        projectionMatrix,
+        0.0f,
+        static_cast<float>(width),
+        static_cast<float>(height),
+        0.0f,
+        0.0f,
+        1000.0f,
+        0.0f,
+        bgfx::getCaps()->homogeneousDepth
+    );
+    bgfx::setViewRect(HudViewId, 0, 0, static_cast<uint16_t>(width), static_cast<uint16_t>(height));
+    bgfx::setViewTransform(HudViewId, nullptr, projectionMatrix);
+    bgfx::touch(HudViewId);
+
+    const UiViewportRect uiViewport = computeUiViewportRect(width, height);
+    const float scale = std::min(
+        uiViewport.width / HudReferenceWidth,
+        uiViewport.height / HudReferenceHeight);
+    float mouseX = 0.0f;
+    float mouseY = 0.0f;
+    SDL_GetMouseState(&mouseX, &mouseY);
+    const float itemX = std::round(mouseX - m_heldInventoryItem.grabOffsetX);
+    const float itemY = std::round(mouseY - m_heldInventoryItem.grabOffsetY);
+    const float itemWidth = static_cast<float>(pTexture->width) * scale;
+    const float itemHeight = static_cast<float>(pTexture->height) * scale;
+
+    bgfx::TransientVertexBuffer transientVertexBuffer;
+
+    if (bgfx::getAvailTransientVertexBuffer(6, TexturedTerrainVertex::ms_layout) < 6)
+    {
+        return;
+    }
+
+    bgfx::allocTransientVertexBuffer(&transientVertexBuffer, 6, TexturedTerrainVertex::ms_layout);
+    TexturedTerrainVertex *pVertices = reinterpret_cast<TexturedTerrainVertex *>(transientVertexBuffer.data);
+    pVertices[0] = {itemX, itemY, 0.0f, 0.0f, 0.0f};
+    pVertices[1] = {itemX + itemWidth, itemY, 0.0f, 1.0f, 0.0f};
+    pVertices[2] = {itemX + itemWidth, itemY + itemHeight, 0.0f, 1.0f, 1.0f};
+    pVertices[3] = {itemX, itemY, 0.0f, 0.0f, 0.0f};
+    pVertices[4] = {itemX + itemWidth, itemY + itemHeight, 0.0f, 1.0f, 1.0f};
+    pVertices[5] = {itemX, itemY + itemHeight, 0.0f, 0.0f, 1.0f};
+
+    float modelMatrix[16] = {};
+    bx::mtxIdentity(modelMatrix);
+    bgfx::setTransform(modelMatrix);
+    bgfx::setVertexBuffer(0, &transientVertexBuffer);
+    bgfx::setTexture(0, m_terrainTextureSamplerHandle, pTexture->textureHandle);
+    bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_BLEND_ALPHA);
+    bgfx::submit(HudViewId, m_texturedTerrainProgramHandle);
 }
 
 void OutdoorGameView::renderDialogueOverlay(int width, int height, bool renderAboveHud)
@@ -12647,8 +12931,26 @@ void OutdoorGameView::updateCameraFromInput(float deltaSeconds)
             SDL_GetWindowSizeInPixels(pWindow, &screenWidth, &screenHeight);
         }
 
+        const auto resolveCharacterInventoryGrid =
+            [this, screenWidth, screenHeight]() -> std::optional<ResolvedHudLayoutElement>
+            {
+                const HudLayoutElement *pInventoryGridLayout = findHudLayoutElement("CharacterInventoryGrid");
+
+                if (pInventoryGridLayout == nullptr)
+                {
+                    return std::nullopt;
+                }
+
+                return resolveHudLayoutElement(
+                    "CharacterInventoryGrid",
+                    screenWidth,
+                    screenHeight,
+                    pInventoryGridLayout->width,
+                    pInventoryGridLayout->height);
+            };
+
         const auto findCharacterPointerTarget =
-            [this, screenWidth, screenHeight, skillRowHeight, &skillUiData](
+            [this, screenWidth, screenHeight, skillRowHeight, &skillUiData, pActiveCharacter, &resolveCharacterInventoryGrid](
                 float pointerX,
                 float pointerY) -> CharacterPointerTarget
             {
@@ -12735,6 +13037,80 @@ void OutdoorGameView::updateCameraFromInput(float deltaSeconds)
                         && pointerY < resolved->y + resolved->height)
                     {
                         return {CharacterPointerTargetType::MagnifyButton, CharacterPage::Inventory};
+                    }
+                }
+
+                if (m_characterPage == CharacterPage::Inventory)
+                {
+                    const std::optional<ResolvedHudLayoutElement> resolvedInventoryGrid = resolveCharacterInventoryGrid();
+
+                    if (resolvedInventoryGrid
+                        && pointerX >= resolvedInventoryGrid->x
+                        && pointerX < resolvedInventoryGrid->x + resolvedInventoryGrid->width
+                        && pointerY >= resolvedInventoryGrid->y
+                        && pointerY < resolvedInventoryGrid->y + resolvedInventoryGrid->height)
+                    {
+                        const float cellWidth =
+                            resolvedInventoryGrid->width / static_cast<float>(Character::InventoryWidth);
+                        const float cellHeight =
+                            resolvedInventoryGrid->height / static_cast<float>(Character::InventoryHeight);
+                        const uint8_t gridX = static_cast<uint8_t>(std::clamp(
+                            static_cast<int>((pointerX - resolvedInventoryGrid->x) / cellWidth),
+                            0,
+                            Character::InventoryWidth - 1));
+                        const uint8_t gridY = static_cast<uint8_t>(std::clamp(
+                            static_cast<int>((pointerY - resolvedInventoryGrid->y) / cellHeight),
+                            0,
+                            Character::InventoryHeight - 1));
+
+                        if (m_heldInventoryItem.active)
+                        {
+                            CharacterPointerTarget target = {};
+                            target.type = CharacterPointerTargetType::InventoryCell;
+                            target.page = CharacterPage::Inventory;
+                            target.gridX = gridX;
+                            target.gridY = gridY;
+                            return target;
+                        }
+
+                        if (pActiveCharacter != nullptr)
+                        {
+                            const InventoryItem *pItem = pActiveCharacter->inventoryItemAt(gridX, gridY);
+
+                            if (pItem != nullptr)
+                            {
+                                CharacterPointerTarget target = {};
+                                target.type = CharacterPointerTargetType::InventoryItem;
+                                target.page = CharacterPage::Inventory;
+                                target.gridX = pItem->gridX;
+                                target.gridY = pItem->gridY;
+                                return target;
+                            }
+                        }
+                    }
+                }
+
+                if (m_heldInventoryItem.active)
+                {
+                    const HudLayoutElement *pDollLayout = findHudLayoutElement("CharacterDollPanel");
+
+                    if (pDollLayout != nullptr)
+                    {
+                        const std::optional<ResolvedHudLayoutElement> resolved = resolveHudLayoutElement(
+                            "CharacterDollPanel",
+                            screenWidth,
+                            screenHeight,
+                            pDollLayout->width,
+                            pDollLayout->height);
+
+                        if (resolved
+                            && pointerX >= resolved->x
+                            && pointerX < resolved->x + resolved->width
+                            && pointerY >= resolved->y
+                            && pointerY < resolved->y + resolved->height)
+                        {
+                            return {CharacterPointerTargetType::DollPanel, CharacterPage::Inventory};
+                        }
                     }
                 }
 
@@ -12867,7 +13243,8 @@ void OutdoorGameView::updateCameraFromInput(float deltaSeconds)
             m_characterPressedTarget,
             noneCharacterTarget,
             findCharacterPointerTarget,
-            [this](const CharacterPointerTarget &target)
+            [this, screenWidth, screenHeight, mouseX, mouseY, &resolveCharacterInventoryGrid](
+                const CharacterPointerTarget &target)
             {
                 if (target.type == CharacterPointerTargetType::PageButton)
                 {
@@ -12886,6 +13263,172 @@ void OutdoorGameView::updateCameraFromInput(float deltaSeconds)
                          && m_pOutdoorPartyRuntime != nullptr)
                 {
                     m_pOutdoorPartyRuntime->party().increaseActiveMemberSkillLevel(target.skillName);
+                }
+                else if (target.type == CharacterPointerTargetType::InventoryItem
+                         && m_pOutdoorPartyRuntime != nullptr)
+                {
+                    Party &party = m_pOutdoorPartyRuntime->party();
+                    InventoryItem heldItem = {};
+
+                    if (party.takeItemFromMemberInventoryCell(
+                            party.activeMemberIndex(),
+                            target.gridX,
+                            target.gridY,
+                            heldItem))
+                    {
+                        m_heldInventoryItem.active = true;
+                        m_heldInventoryItem.item = heldItem;
+                        m_heldInventoryItem.grabCellOffsetX = 0;
+                        m_heldInventoryItem.grabCellOffsetY = 0;
+                        m_heldInventoryItem.grabOffsetX = 0.0f;
+                        m_heldInventoryItem.grabOffsetY = 0.0f;
+
+                        const std::optional<ResolvedHudLayoutElement> resolvedInventoryGrid =
+                            resolveCharacterInventoryGrid();
+
+                        if (resolvedInventoryGrid)
+                        {
+                            const InventoryGridMetrics gridMetrics = computeInventoryGridMetrics(
+                                resolvedInventoryGrid->x,
+                                resolvedInventoryGrid->y,
+                                resolvedInventoryGrid->width,
+                                resolvedInventoryGrid->height,
+                                resolvedInventoryGrid->scale);
+                            const uint8_t hoveredGridX = static_cast<uint8_t>(std::clamp(
+                                static_cast<int>((mouseX - resolvedInventoryGrid->x) / gridMetrics.cellWidth),
+                                0,
+                                Character::InventoryWidth - 1));
+                            const uint8_t hoveredGridY = static_cast<uint8_t>(std::clamp(
+                                static_cast<int>((mouseY - resolvedInventoryGrid->y) / gridMetrics.cellHeight),
+                                0,
+                                Character::InventoryHeight - 1));
+                            m_heldInventoryItem.grabCellOffsetX = hoveredGridX - heldItem.gridX;
+                            m_heldInventoryItem.grabCellOffsetY = hoveredGridY - heldItem.gridY;
+                            const ItemDefinition *pItemDefinition =
+                                m_pItemTable != nullptr ? m_pItemTable->get(heldItem.objectDescriptionId) : nullptr;
+
+                            if (pItemDefinition != nullptr && !pItemDefinition->iconName.empty())
+                            {
+                                const HudTextureHandle *pItemTexture =
+                                    ensureHudTextureLoaded(pItemDefinition->iconName);
+
+                                if (pItemTexture != nullptr)
+                                {
+                                    const float itemWidth =
+                                        static_cast<float>(pItemTexture->width) * gridMetrics.scale;
+                                    const float itemHeight =
+                                        static_cast<float>(pItemTexture->height) * gridMetrics.scale;
+                                    const InventoryItemScreenRect itemRect =
+                                        computeInventoryItemScreenRect(gridMetrics, heldItem, itemWidth, itemHeight);
+                                    m_heldInventoryItem.grabOffsetX = mouseX - itemRect.x;
+                                    m_heldInventoryItem.grabOffsetY = mouseY - itemRect.y;
+                                }
+                            }
+                        }
+                    }
+                }
+                else if (target.type == CharacterPointerTargetType::InventoryCell
+                         && m_pOutdoorPartyRuntime != nullptr
+                         && m_heldInventoryItem.active)
+                {
+                    const std::optional<ResolvedHudLayoutElement> resolvedInventoryGrid =
+                        resolveCharacterInventoryGrid();
+
+                    if (!resolvedInventoryGrid)
+                    {
+                        return;
+                    }
+
+                    const ItemDefinition *pItemDefinition =
+                        m_pItemTable != nullptr
+                        ? m_pItemTable->get(m_heldInventoryItem.item.objectDescriptionId)
+                        : nullptr;
+
+                    if (pItemDefinition == nullptr || pItemDefinition->iconName.empty())
+                    {
+                        return;
+                    }
+
+                    const HudTextureHandle *pItemTexture = ensureHudTextureLoaded(
+                        pItemDefinition->iconName);
+
+                    if (pItemTexture == nullptr)
+                    {
+                        return;
+                    }
+
+                    const InventoryGridMetrics gridMetrics = computeInventoryGridMetrics(
+                        resolvedInventoryGrid->x,
+                        resolvedInventoryGrid->y,
+                        resolvedInventoryGrid->width,
+                        resolvedInventoryGrid->height,
+                        resolvedInventoryGrid->scale);
+                    const float itemWidth = static_cast<float>(pItemTexture->width) * gridMetrics.scale;
+                    const float itemHeight = static_cast<float>(pItemTexture->height) * gridMetrics.scale;
+                    const float drawX = mouseX - m_heldInventoryItem.grabOffsetX;
+                    const float drawY = mouseY - m_heldInventoryItem.grabOffsetY;
+                    const std::optional<std::pair<int, int>> placement =
+                        computeHeldInventoryPlacement(
+                            gridMetrics,
+                            m_heldInventoryItem.item.width,
+                            m_heldInventoryItem.item.height,
+                            itemWidth,
+                            itemHeight,
+                            drawX,
+                            drawY);
+
+                    if (!placement)
+                    {
+                        return;
+                    }
+
+                    const int destinationGridX = placement->first;
+                    const int destinationGridY = placement->second;
+
+                    if (destinationGridX < 0
+                        || destinationGridY < 0
+                        || destinationGridX >= Character::InventoryWidth
+                        || destinationGridY >= Character::InventoryHeight)
+                    {
+                        return;
+                    }
+
+                    Party &party = m_pOutdoorPartyRuntime->party();
+                    std::optional<InventoryItem> replacedItem;
+
+                    if (party.tryPlaceItemInMemberInventoryCell(
+                            party.activeMemberIndex(),
+                            m_heldInventoryItem.item,
+                            static_cast<uint8_t>(destinationGridX),
+                            static_cast<uint8_t>(destinationGridY),
+                            replacedItem))
+                    {
+                        if (replacedItem)
+                        {
+                            m_heldInventoryItem.item = *replacedItem;
+                            m_heldInventoryItem.grabCellOffsetX = 0;
+                            m_heldInventoryItem.grabCellOffsetY = 0;
+                            m_heldInventoryItem.grabOffsetX = 0.0f;
+                            m_heldInventoryItem.grabOffsetY = 0.0f;
+                        }
+                        else
+                        {
+                            m_heldInventoryItem = {};
+                        }
+                    }
+                }
+                else if (target.type == CharacterPointerTargetType::DollPanel
+                         && m_heldInventoryItem.active)
+                {
+                    const ItemDefinition *pItemDefinition =
+                        m_pItemTable != nullptr
+                        ? m_pItemTable->get(m_heldInventoryItem.item.objectDescriptionId)
+                        : nullptr;
+                    const std::string itemName =
+                        pItemDefinition != nullptr && !pItemDefinition->name.empty()
+                        ? pItemDefinition->name
+                        : "item";
+                    setStatusBarEvent("Use " + itemName + " on doll: TODO");
                 }
             });
 

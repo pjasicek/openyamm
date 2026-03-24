@@ -54,7 +54,15 @@ struct Character
     std::unordered_set<uint32_t> awards;
 
     bool addInventoryItem(const InventoryItem &item);
+    bool addInventoryItemAt(const InventoryItem &item, uint8_t gridX, uint8_t gridY);
     bool removeInventoryItem(uint32_t objectDescriptionId, uint32_t quantity = 1);
+    const InventoryItem *inventoryItemAt(uint8_t gridX, uint8_t gridY) const;
+    bool takeInventoryItemAt(uint8_t gridX, uint8_t gridY, InventoryItem &item);
+    bool tryPlaceInventoryItemAt(
+        const InventoryItem &item,
+        uint8_t gridX,
+        uint8_t gridY,
+        std::optional<InventoryItem> &replacedItem);
     size_t inventoryItemCount() const;
     size_t usedInventoryCells() const;
     size_t inventoryCapacity() const;
@@ -115,6 +123,13 @@ public:
     int inventoryItemCount(uint32_t objectDescriptionId, std::optional<size_t> memberIndex = std::nullopt) const;
     bool grantItemToMember(size_t memberIndex, uint32_t objectDescriptionId, uint32_t quantity = 1);
     bool removeItemFromMember(size_t memberIndex, uint32_t objectDescriptionId, uint32_t quantity = 1);
+    bool takeItemFromMemberInventoryCell(size_t memberIndex, uint8_t gridX, uint8_t gridY, InventoryItem &item);
+    bool tryPlaceItemInMemberInventoryCell(
+        size_t memberIndex,
+        const InventoryItem &item,
+        uint8_t gridX,
+        uint8_t gridY,
+        std::optional<InventoryItem> &replacedItem);
     bool setMemberClassName(size_t memberIndex, const std::string &className);
     const Character *member(size_t memberIndex) const;
     Character *member(size_t memberIndex);

@@ -66,9 +66,9 @@ std::optional<std::pair<uint8_t, uint8_t>> findFirstFreeInventorySlot(
         {
             bool canPlace = true;
 
-            for (uint8_t offsetX = 0; offsetX < width && canPlace; ++offsetX)
+            for (uint8_t offsetY = 0; offsetY < height && canPlace; ++offsetY)
             {
-                for (uint8_t offsetY = 0; offsetY < height; ++offsetY)
+                for (uint8_t offsetX = 0; offsetX < width; ++offsetX)
                 {
                     const size_t index =
                         static_cast<size_t>(y + offsetY) * Character::InventoryWidth + static_cast<size_t>(x + offsetX);
@@ -90,6 +90,30 @@ std::optional<std::pair<uint8_t, uint8_t>> findFirstFreeInventorySlot(
 
     return std::nullopt;
 }
+
+bool inventoryItemContainsCell(const InventoryItem &item, uint8_t gridX, uint8_t gridY)
+{
+    return gridX >= item.gridX
+        && gridX < item.gridX + item.width
+        && gridY >= item.gridY
+        && gridY < item.gridY + item.height;
+}
+
+bool inventoryItemFitsAt(const InventoryItem &item, uint8_t gridX, uint8_t gridY)
+{
+    return item.width > 0
+        && item.height > 0
+        && gridX + item.width <= Character::InventoryWidth
+        && gridY + item.height <= Character::InventoryHeight;
+}
+
+bool inventoryItemsOverlap(const InventoryItem &left, const InventoryItem &right)
+{
+    return left.gridX < right.gridX + right.width
+        && left.gridX + left.width > right.gridX
+        && left.gridY < right.gridY + right.height
+        && left.gridY + left.height > right.gridY;
+}
 }
 
 bool Character::addInventoryItem(const InventoryItem &item)
@@ -106,8 +130,30 @@ bool Character::addInventoryItem(const InventoryItem &item)
         return false;
     }
 
-    placedItem.gridX = placement->first;
-    placedItem.gridY = placement->second;
+    return addInventoryItemAt(placedItem, placement->first, placement->second);
+}
+
+bool Character::addInventoryItemAt(const InventoryItem &item, uint8_t gridX, uint8_t gridY)
+{
+    InventoryItem placedItem = item;
+    placedItem.width = std::max<uint8_t>(1, item.width);
+    placedItem.height = std::max<uint8_t>(1, item.height);
+    placedItem.gridX = gridX;
+    placedItem.gridY = gridY;
+
+    if (!inventoryItemFitsAt(placedItem, placedItem.gridX, placedItem.gridY))
+    {
+        return false;
+    }
+
+    for (const InventoryItem &existingItem : inventory)
+    {
+        if (inventoryItemsOverlap(existingItem, placedItem))
+        {
+            return false;
+        }
+    }
+
     inventory.push_back(placedItem);
     return true;
 }
@@ -144,6 +190,80 @@ bool Character::removeInventoryItem(uint32_t objectDescriptionId, uint32_t quant
     }
 
     return false;
+}
+
+const InventoryItem *Character::inventoryItemAt(uint8_t gridX, uint8_t gridY) const
+{
+    for (const InventoryItem &item : inventory)
+    {
+        if (inventoryItemContainsCell(item, gridX, gridY))
+        {
+            return &item;
+        }
+    }
+
+    return nullptr;
+}
+
+bool Character::takeInventoryItemAt(uint8_t gridX, uint8_t gridY, InventoryItem &item)
+{
+    for (size_t itemIndex = 0; itemIndex < inventory.size(); ++itemIndex)
+    {
+        if (!inventoryItemContainsCell(inventory[itemIndex], gridX, gridY))
+        {
+            continue;
+        }
+
+        item = inventory[itemIndex];
+        inventory.erase(inventory.begin() + itemIndex);
+        return true;
+    }
+
+    return false;
+}
+
+bool Character::tryPlaceInventoryItemAt(
+    const InventoryItem &item,
+    uint8_t gridX,
+    uint8_t gridY,
+    std::optional<InventoryItem> &replacedItem)
+{
+    replacedItem.reset();
+
+    InventoryItem placedItem = item;
+    placedItem.width = std::max<uint8_t>(1, item.width);
+    placedItem.height = std::max<uint8_t>(1, item.height);
+    placedItem.gridX = gridX;
+    placedItem.gridY = gridY;
+
+    if (!inventoryItemFitsAt(placedItem, gridX, gridY))
+    {
+        return false;
+    }
+
+    std::vector<size_t> overlappingItemIndices;
+
+    for (size_t itemIndex = 0; itemIndex < inventory.size(); ++itemIndex)
+    {
+        if (inventoryItemsOverlap(inventory[itemIndex], placedItem))
+        {
+            overlappingItemIndices.push_back(itemIndex);
+        }
+    }
+
+    if (overlappingItemIndices.size() > 1)
+    {
+        return false;
+    }
+
+    if (overlappingItemIndices.size() == 1)
+    {
+        replacedItem = inventory[overlappingItemIndices.front()];
+        inventory.erase(inventory.begin() + overlappingItemIndices.front());
+    }
+
+    inventory.push_back(placedItem);
+    return true;
 }
 
 bool Character::hasSkill(const std::string &skillName) const
@@ -1024,6 +1144,48 @@ bool Party::removeItemFromMember(size_t memberIndex, uint32_t objectDescriptionI
     }
 
     m_lastStatus = "item removed";
+    return true;
+}
+
+bool Party::takeItemFromMemberInventoryCell(size_t memberIndex, uint8_t gridX, uint8_t gridY, InventoryItem &item)
+{
+    Character *pMember = member(memberIndex);
+
+    if (pMember == nullptr)
+    {
+        return false;
+    }
+
+    if (!pMember->takeInventoryItemAt(gridX, gridY, item))
+    {
+        return false;
+    }
+
+    m_lastStatus = "item picked up";
+    return true;
+}
+
+bool Party::tryPlaceItemInMemberInventoryCell(
+    size_t memberIndex,
+    const InventoryItem &item,
+    uint8_t gridX,
+    uint8_t gridY,
+    std::optional<InventoryItem> &replacedItem)
+{
+    Character *pMember = member(memberIndex);
+
+    if (pMember == nullptr)
+    {
+        replacedItem.reset();
+        return false;
+    }
+
+    if (!pMember->tryPlaceInventoryItemAt(item, gridX, gridY, replacedItem))
+    {
+        return false;
+    }
+
+    m_lastStatus = replacedItem.has_value() ? "item swapped" : "item moved";
     return true;
 }
 
