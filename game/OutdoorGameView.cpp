@@ -1,6 +1,7 @@
 #include "game/OutdoorGameView.h"
 
 #include "game/GenericActorDialog.h"
+#include "game/GameMechanics.h"
 #include "game/HouseInteraction.h"
 #include "game/ItemTable.h"
 #include "game/MasteryTeacherDialog.h"
@@ -5537,9 +5538,18 @@ void OutdoorGameView::renderCharacterOverlay(int width, int height, bool renderA
         {
             return renderAboveHud ? zIndex >= hudZThreshold : zIndex < hudZThreshold;
         };
-    const auto formatPair = [](int value) -> std::string
+    const auto formatPair = [](int actualValue, int baseValue) -> std::string
     {
-        return std::to_string(value) + " / " + std::to_string(value);
+        return std::to_string(actualValue) + " / " + std::to_string(baseValue);
+    };
+    const auto formatSheetValue = [&formatPair](const CharacterSheetValue &value) -> std::string
+    {
+        if (value.infinite)
+        {
+            return "INF";
+        }
+
+        return formatPair(value.actual, value.base);
     };
     std::string mightValue = "0 / 0";
     std::string intellectValue = "0 / 0";
@@ -5580,19 +5590,34 @@ void OutdoorGameView::renderCharacterOverlay(int width, int height, bool renderA
 
     if (pCharacter != nullptr)
     {
-        mightValue = formatPair(static_cast<int>(pCharacter->might));
-        intellectValue = formatPair(static_cast<int>(pCharacter->intellect));
-        personalityValue = formatPair(static_cast<int>(pCharacter->personality));
-        enduranceValue = formatPair(static_cast<int>(pCharacter->endurance));
-        accuracyValue = formatPair(static_cast<int>(pCharacter->accuracy));
-        speedValue = formatPair(static_cast<int>(pCharacter->speed));
-        luckValue = formatPair(static_cast<int>(pCharacter->luck));
-        hitPointsValue = std::to_string(pCharacter->health) + " / " + std::to_string(pCharacter->maxHealth);
+        const CharacterSheetSummary summary = GameMechanics::buildCharacterSheetSummary(*pCharacter, m_pItemTable);
+        mightValue = formatSheetValue(summary.might);
+        intellectValue = formatSheetValue(summary.intellect);
+        personalityValue = formatSheetValue(summary.personality);
+        enduranceValue = formatSheetValue(summary.endurance);
+        accuracyValue = formatSheetValue(summary.accuracy);
+        speedValue = formatSheetValue(summary.speed);
+        luckValue = formatSheetValue(summary.luck);
+        hitPointsValue =
+            std::to_string(summary.health.current) + " / " + std::to_string(summary.health.maximum);
         spellPointsValue =
-            std::to_string(pCharacter->spellPoints) + " / " + std::to_string(pCharacter->maxSpellPoints);
-        conditionValue = "Good";
-        quickSpellValue = "None";
-        levelValue = formatPair(static_cast<int>(pCharacter->level));
+            std::to_string(summary.spellPoints.current) + " / " + std::to_string(summary.spellPoints.maximum);
+        armorClassValue = formatSheetValue(summary.armorClass);
+        conditionValue = summary.conditionText;
+        quickSpellValue = summary.quickSpellText;
+        ageValue = summary.ageText;
+        levelValue = formatSheetValue(summary.level);
+        experienceValue = summary.experienceText;
+        attackValue = std::to_string(summary.combat.attack);
+        meleeDamageValue = summary.combat.meleeDamageText;
+        shootValue = summary.combat.shoot ? std::to_string(*summary.combat.shoot) : "N/A";
+        rangedDamageValue = summary.combat.rangedDamageText;
+        fireResistanceValue = formatSheetValue(summary.fireResistance);
+        airResistanceValue = formatSheetValue(summary.airResistance);
+        waterResistanceValue = formatSheetValue(summary.waterResistance);
+        earthResistanceValue = formatSheetValue(summary.earthResistance);
+        mindResistanceValue = formatSheetValue(summary.mindResistance);
+        bodyResistanceValue = formatSheetValue(summary.bodyResistance);
         awards = "Awards earned: " + std::to_string(pCharacter->awards.size());
     }
     const CharacterSkillUiData skillUiData = buildCharacterSkillUiData(pCharacter);
@@ -6070,45 +6095,6 @@ void OutdoorGameView::renderCharacterOverlay(int width, int height, bool renderA
                 submitTexturedQuad(*pItemTexture, itemRect.x, itemRect.y, itemRect.width, itemRect.height);
             }
 
-            if (characterMouseX >= resolvedInventoryGrid->x
-                && characterMouseX < resolvedInventoryGrid->x + resolvedInventoryGrid->width
-                && characterMouseY >= resolvedInventoryGrid->y
-                && characterMouseY < resolvedInventoryGrid->y + resolvedInventoryGrid->height)
-            {
-                const uint8_t gridX = static_cast<uint8_t>(std::clamp(
-                    static_cast<int>((characterMouseX - resolvedInventoryGrid->x) / gridMetrics.cellWidth),
-                    0,
-                    Character::InventoryWidth - 1));
-                const uint8_t gridY = static_cast<uint8_t>(std::clamp(
-                    static_cast<int>((characterMouseY - resolvedInventoryGrid->y) / gridMetrics.cellHeight),
-                    0,
-                    Character::InventoryHeight - 1));
-                const InventoryItem *pHoveredItem = pCharacter->inventoryItemAt(gridX, gridY);
-
-                if (pHoveredItem != nullptr && m_pItemTable != nullptr)
-                {
-                    const ItemDefinition *pItemDefinition = m_pItemTable->get(pHoveredItem->objectDescriptionId);
-
-                    if (pItemDefinition != nullptr)
-                    {
-                        inventoryInfo = !pItemDefinition->name.empty()
-                            ? pItemDefinition->name
-                            : pItemDefinition->unidentifiedName;
-                    }
-                }
-            }
-        }
-    }
-
-    if (inventoryInfo.empty() && m_heldInventoryItem.active && m_pItemTable != nullptr)
-    {
-        const ItemDefinition *pHeldItemDefinition = m_pItemTable->get(m_heldInventoryItem.item.objectDescriptionId);
-
-        if (pHeldItemDefinition != nullptr)
-        {
-            inventoryInfo = !pHeldItemDefinition->name.empty()
-                ? pHeldItemDefinition->name
-                : pHeldItemDefinition->unidentifiedName;
         }
     }
 

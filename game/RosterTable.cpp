@@ -100,7 +100,9 @@ bool RosterTable::loadFromRows(const std::vector<std::vector<std::string>> &rows
             continue;
         }
 
+        parseUnsigned(row[3], entry.birthYear);
         parseUnsigned(row[4], entry.pictureId);
+        parseUnsigned(row[6], entry.experience);
         parseUnsigned(row[7], entry.level);
         parseUnsigned(row[8], entry.might);
         parseUnsigned(row[9], entry.intellect);
@@ -109,6 +111,24 @@ bool RosterTable::loadFromRows(const std::vector<std::vector<std::string>> &rows
         parseUnsigned(row[12], entry.speed);
         parseUnsigned(row[13], entry.accuracy);
         parseUnsigned(row[14], entry.luck);
+        uint32_t fireResistance = 0;
+        uint32_t airResistance = 0;
+        uint32_t waterResistance = 0;
+        uint32_t earthResistance = 0;
+        uint32_t mindResistance = 0;
+        uint32_t bodyResistance = 0;
+        parseUnsigned(row[15], fireResistance);
+        parseUnsigned(row[16], airResistance);
+        parseUnsigned(row[17], waterResistance);
+        parseUnsigned(row[18], earthResistance);
+        parseUnsigned(row[19], mindResistance);
+        parseUnsigned(row[20], bodyResistance);
+        entry.baseResistances.fire = static_cast<int>(fireResistance);
+        entry.baseResistances.air = static_cast<int>(airResistance);
+        entry.baseResistances.water = static_cast<int>(waterResistance);
+        entry.baseResistances.earth = static_cast<int>(earthResistance);
+        entry.baseResistances.mind = static_cast<int>(mindResistance);
+        entry.baseResistances.body = static_cast<int>(bodyResistance);
         parseUnsigned(row[21], entry.skillPoints);
         entry.level = std::max<uint32_t>(1, entry.level);
 
@@ -135,6 +155,19 @@ bool RosterTable::loadFromRows(const std::vector<std::vector<std::string>> &rows
             skill.level = level;
             skill.mastery = mastery;
             entry.skills[skill.name] = std::move(skill);
+        }
+
+        if (row.size() > 113)
+        {
+            for (size_t columnIndex = 113; columnIndex < std::min<size_t>(123, row.size()); ++columnIndex)
+            {
+                uint32_t itemId = 0;
+
+                if (parseUnsigned(row[columnIndex], itemId) && itemId != 0)
+                {
+                    entry.startingInventoryItemIds.push_back(itemId);
+                }
+            }
         }
 
         m_entries[entry.id] = std::move(entry);

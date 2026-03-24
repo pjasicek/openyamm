@@ -6,6 +6,7 @@
 #include "game/EventDialogContent.h"
 #include "game/EventRuntime.h"
 #include "game/GameDataLoader.h"
+#include "game/GameMechanics.h"
 #include "game/GenericActorDialog.h"
 #include "game/HouseInteraction.h"
 #include "game/MasteryTeacherDialog.h"
@@ -9005,6 +9006,219 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
             if (pFullMember->inventoryItemCount() != pFullMember->inventoryCapacity())
             {
                 failure = "full destination inventory was modified by rejected move";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "character_sheet_uses_equipped_items_for_combat_and_ac",
+        [&](std::string &failure)
+        {
+            Character character = {};
+            character.level = 5;
+            character.might = 20;
+            character.intellect = 10;
+            character.personality = 10;
+            character.endurance = 15;
+            character.accuracy = 15;
+            character.speed = 15;
+            character.luck = 10;
+            character.maxHealth = 50;
+            character.health = 50;
+            character.skills["Sword"] = {"Sword", 2, SkillMastery::Normal};
+            character.skills["Bow"] = {"Bow", 3, SkillMastery::Expert};
+            character.skills["Shield"] = {"Shield", 1, SkillMastery::Normal};
+            character.skills["PlateArmor"] = {"PlateArmor", 1, SkillMastery::Normal};
+            character.equipment.mainHand = 2;
+            character.equipment.offHand = 99;
+            character.equipment.bow = 61;
+            character.equipment.armor = 94;
+
+            const CharacterSheetSummary summary =
+                GameMechanics::buildCharacterSheetSummary(character, &gameDataLoader.getItemTable());
+
+            if (summary.combat.attack != 6)
+            {
+                failure = "expected melee attack 6";
+                return false;
+            }
+
+            if (!summary.combat.shoot || *summary.combat.shoot != 4)
+            {
+                failure = "expected ranged attack 4";
+                return false;
+            }
+
+            if (summary.combat.meleeDamageText != "9 - 15")
+            {
+                failure = "expected melee damage 9 - 15";
+                return false;
+            }
+
+            if (summary.combat.rangedDamageText != "4 - 8")
+            {
+                failure = "expected ranged damage 4 - 8";
+                return false;
+            }
+
+            if (summary.armorClass.actual != 29 || summary.armorClass.base != 29)
+            {
+                failure = "expected armor class 29 / 29";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "character_sheet_uses_na_for_ranged_without_bow",
+        [&](std::string &failure)
+        {
+            Character character = {};
+            character.level = 1;
+            character.might = 15;
+            character.intellect = 10;
+            character.personality = 10;
+            character.endurance = 15;
+            character.accuracy = 15;
+            character.speed = 12;
+            character.luck = 10;
+            character.maxHealth = 40;
+            character.health = 40;
+
+            const CharacterSheetSummary summary =
+                GameMechanics::buildCharacterSheetSummary(character, &gameDataLoader.getItemTable());
+
+            if (summary.combat.shoot.has_value())
+            {
+                failure = "ranged attack should be N/A without a bow";
+                return false;
+            }
+
+            if (summary.combat.rangedDamageText != "N/A")
+            {
+                failure = "ranged damage should be N/A without a bow";
+                return false;
+            }
+
+            if (summary.conditionText != "Good")
+            {
+                failure = "healthy character should show Good condition";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "recruit_roster_member_loads_birth_experience_resistances_and_items",
+        [&](std::string &failure)
+        {
+            const RosterEntry *pRosterEntry = gameDataLoader.getRosterTable().get(3);
+
+            if (pRosterEntry == nullptr)
+            {
+                failure = "missing roster entry";
+                return false;
+            }
+
+            Party party = {};
+            party.setItemTable(&gameDataLoader.getItemTable());
+
+            if (!party.recruitRosterMember(*pRosterEntry))
+            {
+                failure = "could not recruit roster entry";
+                return false;
+            }
+
+            const Character *pMember = party.member(0);
+
+            if (pMember == nullptr)
+            {
+                failure = "missing recruited member";
+                return false;
+            }
+
+            if (pMember->birthYear != pRosterEntry->birthYear || pMember->experience != pRosterEntry->experience)
+            {
+                failure = "roster core values not copied to member";
+                return false;
+            }
+
+            if (pMember->baseResistances.fire != pRosterEntry->baseResistances.fire
+                || pMember->baseResistances.body != pRosterEntry->baseResistances.body)
+            {
+                failure = "roster resistances not copied to member";
+                return false;
+            }
+
+            if (pMember->inventory.empty())
+            {
+                failure = "roster starting items not granted to inventory";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "gameplay_selection_blocks_impairing_conditions",
+        [&](std::string &failure)
+        {
+            Party party = {};
+            party.setItemTable(&gameDataLoader.getItemTable());
+            party.seed(Party::createDefaultSeed());
+
+            Character *pMember = party.member(0);
+
+            if (pMember == nullptr)
+            {
+                failure = "missing member";
+                return false;
+            }
+
+            const std::array<CharacterCondition, 6> blockedConditions = {
+                CharacterCondition::Asleep,
+                CharacterCondition::Paralyzed,
+                CharacterCondition::Unconscious,
+                CharacterCondition::Dead,
+                CharacterCondition::Petrified,
+                CharacterCondition::Eradicated,
+            };
+
+            for (CharacterCondition condition : blockedConditions)
+            {
+                pMember->conditions.reset();
+                pMember->conditions.set(static_cast<size_t>(condition));
+
+                if (party.canSelectMemberInGameplay(0))
+                {
+                    failure = "impairing condition did not block selection";
+                    return false;
+                }
+            }
+
+            pMember->conditions.reset();
+            pMember->conditions.set(static_cast<size_t>(CharacterCondition::Weak));
+
+            if (!party.canSelectMemberInGameplay(0))
+            {
+                failure = "weak should not block selection";
+                return false;
+            }
+
+            pMember->conditions.reset();
+            pMember->health = 0;
+
+            if (party.canSelectMemberInGameplay(0))
+            {
+                failure = "zero health should block selection";
                 return false;
             }
 

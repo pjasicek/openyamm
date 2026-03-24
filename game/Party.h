@@ -1,19 +1,18 @@
 #pragma once
 
+#include "game/CharacterState.h"
 #include "game/ClassSkillTable.h"
 #include "game/OutdoorMovementDriver.h"
-#include "game/RosterTable.h"
 
 #include <cstdint>
 #include <optional>
 #include <string>
-#include <unordered_map>
-#include <unordered_set>
 #include <vector>
 
 namespace OpenYAMM::Game
 {
 class ItemTable;
+struct RosterEntry;
 struct EventRuntimeState;
 
 struct InventoryItem
@@ -37,6 +36,8 @@ struct Character
     std::string portraitTextureName;
     uint32_t rosterId = 0;
     uint32_t characterDataId = 0;
+    uint32_t birthYear = 0;
+    uint32_t experience = 0;
     uint32_t level = 1;
     uint32_t skillPoints = 0;
     uint32_t might = 0;
@@ -50,6 +51,14 @@ struct Character
     int health = 100;
     int maxSpellPoints = 0;
     int spellPoints = 0;
+    std::string quickSpellName;
+    CharacterResistanceSet baseResistances = {};
+    CharacterStatBonuses permanentBonuses = {};
+    CharacterStatBonuses magicalBonuses = {};
+    CharacterResistanceImmunitySet permanentImmunities = {};
+    CharacterResistanceImmunitySet magicalImmunities = {};
+    CharacterEquipment equipment = {};
+    std::bitset<CharacterConditionCount> conditions = {};
     std::unordered_map<std::string, CharacterSkill> skills;
     std::unordered_set<uint32_t> awards;
 

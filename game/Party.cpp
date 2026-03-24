@@ -1,7 +1,9 @@
 #include "game/Party.h"
 
 #include "game/EventRuntime.h"
+#include "game/GameMechanics.h"
 #include "game/ItemTable.h"
+#include "game/RosterTable.h"
 
 #include <algorithm>
 #include <array>
@@ -345,6 +347,8 @@ PartySeed Party::createDefaultSeed()
     knight.role = "Knight";
     knight.portraitTextureName = "PC01-01";
     knight.characterDataId = 1;
+    knight.birthYear = 1148;
+    knight.experience = 10000;
     knight.level = 5;
     knight.skillPoints = 30;
     knight.might = 18;
@@ -370,6 +374,8 @@ PartySeed Party::createDefaultSeed()
     cleric.role = "Cleric";
     cleric.portraitTextureName = "PC05-01";
     cleric.characterDataId = 5;
+    cleric.birthYear = 1154;
+    cleric.experience = 10000;
     cleric.level = 5;
     cleric.skillPoints = 30;
     cleric.might = 11;
@@ -391,6 +397,8 @@ PartySeed Party::createDefaultSeed()
     archer.role = "Archer";
     archer.portraitTextureName = "PC08-01";
     archer.characterDataId = 8;
+    archer.birthYear = 1153;
+    archer.experience = 10000;
     archer.level = 5;
     archer.skillPoints = 30;
     archer.might = 14;
@@ -410,6 +418,8 @@ PartySeed Party::createDefaultSeed()
     sorcerer.role = "Sorcerer";
     sorcerer.portraitTextureName = "PC16-01";
     sorcerer.characterDataId = 16;
+    sorcerer.birthYear = 1151;
+    sorcerer.experience = 10000;
     sorcerer.level = 5;
     sorcerer.skillPoints = 30;
     sorcerer.might = 8;
@@ -961,6 +971,8 @@ bool Party::recruitRosterMember(const RosterEntry &rosterEntry)
     member.role = normalizeRoleName(member.className);
     member.portraitTextureName = portraitTextureNameFromPictureId(rosterEntry.pictureId);
     member.rosterId = rosterEntry.id;
+    member.birthYear = rosterEntry.birthYear;
+    member.experience = rosterEntry.experience;
     member.level = std::max<uint32_t>(1, rosterEntry.level);
     member.skillPoints = rosterEntry.skillPoints;
     member.might = rosterEntry.might;
@@ -970,6 +982,7 @@ bool Party::recruitRosterMember(const RosterEntry &rosterEntry)
     member.speed = rosterEntry.speed;
     member.accuracy = rosterEntry.accuracy;
     member.luck = rosterEntry.luck;
+    member.baseResistances = rosterEntry.baseResistances;
     member.skills = rosterEntry.skills;
 
     const int endurance = std::max(10, static_cast<int>(rosterEntry.endurance));
@@ -986,6 +999,14 @@ bool Party::recruitRosterMember(const RosterEntry &rosterEntry)
     member.spellPoints = member.maxSpellPoints;
 
     m_members.push_back(std::move(member));
+
+    const size_t memberIndex = m_members.size() - 1;
+
+    for (uint32_t itemId : rosterEntry.startingInventoryItemIds)
+    {
+        grantItemToMember(memberIndex, itemId);
+    }
+
     m_lastStatus = "party member recruited";
     return true;
 }
@@ -1256,7 +1277,7 @@ bool Party::canSelectMemberInGameplay(size_t memberIndex) const
         return false;
     }
 
-    return pMember->health > 0;
+    return GameMechanics::canSelectInGameplay(*pMember);
 }
 
 uint8_t Party::resolveInventoryWidth(uint32_t objectDescriptionId) const

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "game/CharacterState.h"
 #include "game/SkillData.h"
 
 #include <cstdint>
@@ -14,7 +15,9 @@ struct RosterEntry
     uint32_t id = 0;
     std::string name;
     std::string className;
+    uint32_t birthYear = 0;
     uint32_t pictureId = 0;
+    uint32_t experience = 0;
     uint32_t level = 1;
     uint32_t might = 0;
     uint32_t intellect = 0;
@@ -23,8 +26,10 @@ struct RosterEntry
     uint32_t speed = 0;
     uint32_t accuracy = 0;
     uint32_t luck = 0;
+    CharacterResistanceSet baseResistances = {};
     uint32_t skillPoints = 0;
     std::unordered_map<std::string, CharacterSkill> skills;
+    std::vector<uint32_t> startingInventoryItemIds;
 };
 
 class RosterTable

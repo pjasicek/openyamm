@@ -67,6 +67,7 @@ add_executable(openyamm
     EventIr.cpp
     EventRuntime.cpp
     EvtProgram.cpp
+    GameMechanics.cpp
     GenericActorDialog.cpp
     HouseInteraction.cpp
     HouseVideoPlayer.cpp
