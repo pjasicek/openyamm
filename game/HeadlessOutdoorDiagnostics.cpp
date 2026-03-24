@@ -3,6 +3,7 @@
 #include "game/StringUtils.h"
 
 #include "engine/AssetFileSystem.h"
+#include "game/CharacterDollTable.h"
 #include "game/EventDialogContent.h"
 #include "game/EventRuntime.h"
 #include "game/GameDataLoader.h"
@@ -9219,6 +9220,369 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
             if (party.canSelectMemberInGameplay(0))
             {
                 failure = "zero health should block selection";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "equip_plan_requires_skill_and_respects_doll_type",
+        [&](std::string &failure)
+        {
+            Character character = {};
+            character.skills["Sword"] = {"Sword", 1, SkillMastery::Normal};
+
+            CharacterDollTypeEntry dollType = {};
+            dollType.canEquipArmor = true;
+            dollType.canEquipHelm = false;
+            dollType.canEquipWeapon = true;
+
+            const ItemDefinition *pLeatherArmor = gameDataLoader.getItemTable().get(84);
+            const ItemDefinition *pHelm = gameDataLoader.getItemTable().get(109);
+
+            if (pLeatherArmor == nullptr || pHelm == nullptr)
+            {
+                failure = "missing test item definitions";
+                return false;
+            }
+
+            if (GameMechanics::canCharacterEquipItem(character, *pLeatherArmor, &dollType))
+            {
+                failure = "character should not equip leather armor without the skill";
+                return false;
+            }
+
+            character.skills["LeatherArmor"] = {"LeatherArmor", 1, SkillMastery::Normal};
+
+            if (!GameMechanics::canCharacterEquipItem(character, *pLeatherArmor, &dollType))
+            {
+                failure = "character should equip leather armor once the skill is learned";
+                return false;
+            }
+
+            if (GameMechanics::canCharacterEquipItem(character, *pHelm, &dollType))
+            {
+                failure = "doll type helm restriction was ignored";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "ring_auto_equip_uses_first_free_then_replaces_first_ring",
+        [&](std::string &failure)
+        {
+            Party party = {};
+            party.setItemTable(&gameDataLoader.getItemTable());
+            party.seed(Party::createDefaultSeed());
+            Character *pMember = party.member(0);
+
+            if (pMember == nullptr)
+            {
+                failure = "missing member 0";
+                return false;
+            }
+
+            pMember->equipment = {};
+            const ItemDefinition *pFirstRing = gameDataLoader.getItemTable().get(137);
+            const ItemDefinition *pReplacementRing = gameDataLoader.getItemTable().get(143);
+
+            if (pFirstRing == nullptr || pReplacementRing == nullptr)
+            {
+                failure = "missing ring definitions";
+                return false;
+            }
+
+            std::optional<CharacterEquipPlan> plan = GameMechanics::resolveCharacterEquipPlan(
+                *pMember,
+                *pFirstRing,
+                &gameDataLoader.getItemTable(),
+                nullptr,
+                std::nullopt,
+                false);
+
+            if (!plan || plan->targetSlot != EquipmentSlot::Ring1 || plan->displacedSlot.has_value())
+            {
+                failure = "first ring did not target the first free slot";
+                return false;
+            }
+
+            std::optional<InventoryItem> heldReplacement;
+            InventoryItem heldRing = {pFirstRing->itemId, 1, pFirstRing->inventoryWidth, pFirstRing->inventoryHeight, 0, 0};
+
+            if (!party.tryEquipItemOnMember(
+                    0,
+                    plan->targetSlot,
+                    heldRing,
+                    plan->displacedSlot,
+                    plan->autoStoreDisplacedItem,
+                    heldReplacement))
+            {
+                failure = "could not equip first ring";
+                return false;
+            }
+
+            pMember->equipment.ring2 = 138;
+            pMember->equipment.ring3 = 139;
+            pMember->equipment.ring4 = 140;
+            pMember->equipment.ring5 = 141;
+            pMember->equipment.ring6 = 142;
+
+            plan = GameMechanics::resolveCharacterEquipPlan(
+                *pMember,
+                *pReplacementRing,
+                &gameDataLoader.getItemTable(),
+                nullptr,
+                std::nullopt,
+                false);
+
+            if (!plan || plan->targetSlot != EquipmentSlot::Ring1 || plan->displacedSlot != EquipmentSlot::Ring1)
+            {
+                failure = "full ring set did not replace the first ring";
+                return false;
+            }
+
+            heldRing = {pReplacementRing->itemId, 1, pReplacementRing->inventoryWidth, pReplacementRing->inventoryHeight, 0, 0};
+            heldReplacement.reset();
+
+            if (!party.tryEquipItemOnMember(
+                    0,
+                    plan->targetSlot,
+                    heldRing,
+                    plan->displacedSlot,
+                    plan->autoStoreDisplacedItem,
+                    heldReplacement))
+            {
+                failure = "could not replace first ring";
+                return false;
+            }
+
+            if (pMember->equipment.ring1 != pReplacementRing->itemId
+                || !heldReplacement
+                || heldReplacement->objectDescriptionId != pFirstRing->itemId)
+            {
+                failure = "ring replacement did not keep the previous ring held";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "amulet_replacement_auto_stores_displaced_item_and_rejects_full_inventory",
+        [&](std::string &failure)
+        {
+            Party party = {};
+            party.setItemTable(&gameDataLoader.getItemTable());
+            party.seed(Party::createDefaultSeed());
+            Character *pMember = party.member(0);
+
+            if (pMember == nullptr)
+            {
+                failure = "missing member 0";
+                return false;
+            }
+
+            pMember->equipment = {};
+            pMember->inventory.clear();
+            pMember->equipment.amulet = 147;
+            const ItemDefinition *pNewAmulet = gameDataLoader.getItemTable().get(148);
+
+            if (pNewAmulet == nullptr)
+            {
+                failure = "missing amulet definition";
+                return false;
+            }
+
+            const std::optional<CharacterEquipPlan> plan = GameMechanics::resolveCharacterEquipPlan(
+                *pMember,
+                *pNewAmulet,
+                &gameDataLoader.getItemTable(),
+                nullptr,
+                std::nullopt,
+                false);
+
+            if (!plan || !plan->autoStoreDisplacedItem || plan->displacedSlot != EquipmentSlot::Amulet)
+            {
+                failure = "amulet replacement plan should auto-store the displaced item";
+                return false;
+            }
+
+            std::optional<InventoryItem> heldReplacement;
+            const InventoryItem heldAmulet = {
+                pNewAmulet->itemId,
+                1,
+                pNewAmulet->inventoryWidth,
+                pNewAmulet->inventoryHeight,
+                0,
+                0
+            };
+
+            if (!party.tryEquipItemOnMember(
+                    0,
+                    plan->targetSlot,
+                    heldAmulet,
+                    plan->displacedSlot,
+                    plan->autoStoreDisplacedItem,
+                    heldReplacement))
+            {
+                failure = "could not replace amulet with free inventory space";
+                return false;
+            }
+
+            if (heldReplacement.has_value() || pMember->equipment.amulet != pNewAmulet->itemId)
+            {
+                failure = "amulet replacement should not leave a held replacement";
+                return false;
+            }
+
+            bool foundOldAmulet = false;
+
+            for (const InventoryItem &item : pMember->inventory)
+            {
+                if (item.objectDescriptionId == 147)
+                {
+                    foundOldAmulet = true;
+                    break;
+                }
+            }
+
+            if (!foundOldAmulet)
+            {
+                failure = "displaced amulet was not stored in inventory";
+                return false;
+            }
+
+            pMember->inventory.clear();
+            pMember->equipment.amulet = 147;
+
+            for (int y = 0; y < Character::InventoryHeight; ++y)
+            {
+                for (int x = 0; x < Character::InventoryWidth; ++x)
+                {
+                    InventoryItem fillerItem = {};
+                    fillerItem.objectDescriptionId = 109;
+                    fillerItem.quantity = 1;
+                    fillerItem.width = 1;
+                    fillerItem.height = 1;
+
+                    if (!pMember->addInventoryItemAt(
+                            fillerItem,
+                            static_cast<uint8_t>(x),
+                            static_cast<uint8_t>(y)))
+                    {
+                        failure = "could not fill inventory for amulet rejection case";
+                        return false;
+                    }
+                }
+            }
+
+            heldReplacement.reset();
+
+            if (party.tryEquipItemOnMember(
+                    0,
+                    plan->targetSlot,
+                    heldAmulet,
+                    plan->displacedSlot,
+                    plan->autoStoreDisplacedItem,
+                    heldReplacement))
+            {
+                failure = "amulet replacement should fail when displaced item cannot be stored";
+                return false;
+            }
+
+            if (pMember->equipment.amulet != 147)
+            {
+                failure = "failed amulet replacement changed equipped state";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "weapon_conflict_rules_match_expected_cases",
+        [&](std::string &failure)
+        {
+            const ItemDefinition *pShield = gameDataLoader.getItemTable().get(104);
+            const ItemDefinition *pSpear = gameDataLoader.getItemTable().get(52);
+            const ItemDefinition *pTwoHandedSword = gameDataLoader.getItemTable().get(6);
+
+            if (pShield == nullptr || pSpear == nullptr || pTwoHandedSword == nullptr)
+            {
+                failure = "missing weapon test definitions";
+                return false;
+            }
+
+            Character character = {};
+            character.skills["Shield"] = {"Shield", 1, SkillMastery::Normal};
+            character.skills["Spear"] = {"Spear", 1, SkillMastery::Normal};
+            character.skills["Sword"] = {"Sword", 1, SkillMastery::Normal};
+            character.equipment.mainHand = pSpear->itemId;
+
+            if (GameMechanics::resolveCharacterEquipPlan(
+                    character,
+                    *pShield,
+                    &gameDataLoader.getItemTable(),
+                    nullptr,
+                    std::nullopt,
+                    false))
+            {
+                failure = "shield should be rejected while wielding spear below master";
+                return false;
+            }
+
+            character.skills["Spear"].mastery = SkillMastery::Master;
+
+            std::optional<CharacterEquipPlan> plan = GameMechanics::resolveCharacterEquipPlan(
+                character,
+                *pShield,
+                &gameDataLoader.getItemTable(),
+                nullptr,
+                std::nullopt,
+                false);
+
+            if (!plan || plan->targetSlot != EquipmentSlot::OffHand)
+            {
+                failure = "shield should equip to offhand once spear reaches master";
+                return false;
+            }
+
+            character.equipment = {};
+            character.equipment.mainHand = pTwoHandedSword->itemId;
+
+            plan = GameMechanics::resolveCharacterEquipPlan(
+                character,
+                *pShield,
+                &gameDataLoader.getItemTable(),
+                nullptr,
+                std::nullopt,
+                false);
+
+            if (!plan || plan->displacedSlot != EquipmentSlot::MainHand)
+            {
+                failure = "shield should displace a two-handed main weapon";
+                return false;
+            }
+
+            character.equipment.mainHand = 1;
+            character.equipment.offHand = 104;
+
+            if (GameMechanics::resolveCharacterEquipPlan(
+                    character,
+                    *pTwoHandedSword,
+                    &gameDataLoader.getItemTable(),
+                    nullptr,
+                    std::nullopt,
+                    false))
+            {
+                failure = "two-handed weapon should be rejected when both hands are occupied";
                 return false;
             }
 

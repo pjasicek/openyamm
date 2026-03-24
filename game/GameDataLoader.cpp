@@ -687,6 +687,11 @@ bool GameDataLoader::loadInternal(const Engine::AssetFileSystem &assetFileSystem
         return false;
     }
 
+    if (!loadItemEquipPosTable(assetFileSystem))
+    {
+        return false;
+    }
+
     if (!loadChestTable(assetFileSystem))
     {
         return false;
@@ -849,6 +854,11 @@ const SpellTable &GameDataLoader::getSpellTable() const
 const ItemTable &GameDataLoader::getItemTable() const
 {
     return m_itemTable;
+}
+
+const ItemEquipPosTable &GameDataLoader::getItemEquipPosTable() const
+{
+    return m_itemEquipPosTable;
 }
 
 const ChestTable &GameDataLoader::getChestTable() const
@@ -1378,6 +1388,24 @@ bool GameDataLoader::loadItemTable(const Engine::AssetFileSystem &assetFileSyste
     if (!m_itemTable.load(assetFileSystem, itemRows, randomItemRows))
     {
         std::cerr << "Failed to parse item table: Data/EnglishT/ITEMS.txt / rnditems.txt\n";
+        return false;
+    }
+
+    return true;
+}
+
+bool GameDataLoader::loadItemEquipPosTable(const Engine::AssetFileSystem &assetFileSystem)
+{
+    std::vector<std::vector<std::string>> rows;
+
+    if (!loadTextTableRows(assetFileSystem, "Data/ITEM_EQUIP_POS.txt", rows))
+    {
+        return false;
+    }
+
+    if (!m_itemEquipPosTable.load(rows))
+    {
+        std::cerr << "Failed to parse item equip position table: Data/ITEM_EQUIP_POS.txt\n";
         return false;
     }
 

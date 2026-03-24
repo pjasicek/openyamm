@@ -1,5 +1,6 @@
 #include "game/GameMechanics.h"
 
+#include "game/CharacterDollTable.h"
 #include "game/ItemTable.h"
 
 #include <algorithm>
@@ -42,7 +43,89 @@ struct EquippedItems
     const ItemDefinition *pAmulet = nullptr;
     const ItemDefinition *pRing1 = nullptr;
     const ItemDefinition *pRing2 = nullptr;
+    const ItemDefinition *pRing3 = nullptr;
+    const ItemDefinition *pRing4 = nullptr;
+    const ItemDefinition *pRing5 = nullptr;
+    const ItemDefinition *pRing6 = nullptr;
 };
+
+uint32_t equippedItemId(const CharacterEquipment &equipment, EquipmentSlot slot)
+{
+    switch (slot)
+    {
+        case EquipmentSlot::OffHand:
+            return equipment.offHand;
+
+        case EquipmentSlot::MainHand:
+            return equipment.mainHand;
+
+        case EquipmentSlot::Bow:
+            return equipment.bow;
+
+        case EquipmentSlot::Armor:
+            return equipment.armor;
+
+        case EquipmentSlot::Helm:
+            return equipment.helm;
+
+        case EquipmentSlot::Belt:
+            return equipment.belt;
+
+        case EquipmentSlot::Cloak:
+            return equipment.cloak;
+
+        case EquipmentSlot::Gauntlets:
+            return equipment.gauntlets;
+
+        case EquipmentSlot::Boots:
+            return equipment.boots;
+
+        case EquipmentSlot::Amulet:
+            return equipment.amulet;
+
+        case EquipmentSlot::Ring1:
+            return equipment.ring1;
+
+        case EquipmentSlot::Ring2:
+            return equipment.ring2;
+
+        case EquipmentSlot::Ring3:
+            return equipment.ring3;
+
+        case EquipmentSlot::Ring4:
+            return equipment.ring4;
+
+        case EquipmentSlot::Ring5:
+            return equipment.ring5;
+
+        case EquipmentSlot::Ring6:
+            return equipment.ring6;
+    }
+
+    return 0;
+}
+
+bool isRingSlot(EquipmentSlot slot)
+{
+    return slot == EquipmentSlot::Ring1
+        || slot == EquipmentSlot::Ring2
+        || slot == EquipmentSlot::Ring3
+        || slot == EquipmentSlot::Ring4
+        || slot == EquipmentSlot::Ring5
+        || slot == EquipmentSlot::Ring6;
+}
+
+std::array<EquipmentSlot, 6> allRingSlots()
+{
+    return {
+        EquipmentSlot::Ring1,
+        EquipmentSlot::Ring2,
+        EquipmentSlot::Ring3,
+        EquipmentSlot::Ring4,
+        EquipmentSlot::Ring5,
+        EquipmentSlot::Ring6,
+    };
+}
 
 int parseIntegerOrZero(const std::string &text)
 {
@@ -150,59 +233,7 @@ const ItemDefinition *getEquippedItem(const Character &character, EquipmentSlot 
         return nullptr;
     }
 
-    uint32_t itemId = 0;
-
-    switch (slot)
-    {
-        case EquipmentSlot::OffHand:
-            itemId = character.equipment.offHand;
-            break;
-
-        case EquipmentSlot::MainHand:
-            itemId = character.equipment.mainHand;
-            break;
-
-        case EquipmentSlot::Bow:
-            itemId = character.equipment.bow;
-            break;
-
-        case EquipmentSlot::Armor:
-            itemId = character.equipment.armor;
-            break;
-
-        case EquipmentSlot::Helm:
-            itemId = character.equipment.helm;
-            break;
-
-        case EquipmentSlot::Belt:
-            itemId = character.equipment.belt;
-            break;
-
-        case EquipmentSlot::Cloak:
-            itemId = character.equipment.cloak;
-            break;
-
-        case EquipmentSlot::Gauntlets:
-            itemId = character.equipment.gauntlets;
-            break;
-
-        case EquipmentSlot::Boots:
-            itemId = character.equipment.boots;
-            break;
-
-        case EquipmentSlot::Amulet:
-            itemId = character.equipment.amulet;
-            break;
-
-        case EquipmentSlot::Ring1:
-            itemId = character.equipment.ring1;
-            break;
-
-        case EquipmentSlot::Ring2:
-            itemId = character.equipment.ring2;
-            break;
-    }
-
+    const uint32_t itemId = equippedItemId(character.equipment, slot);
     return itemId != 0 ? pItemTable->get(itemId) : nullptr;
 }
 
@@ -221,10 +252,14 @@ EquippedItems resolveEquippedItems(const Character &character, const ItemTable *
     equippedItems.pAmulet = getEquippedItem(character, EquipmentSlot::Amulet, pItemTable);
     equippedItems.pRing1 = getEquippedItem(character, EquipmentSlot::Ring1, pItemTable);
     equippedItems.pRing2 = getEquippedItem(character, EquipmentSlot::Ring2, pItemTable);
+    equippedItems.pRing3 = getEquippedItem(character, EquipmentSlot::Ring3, pItemTable);
+    equippedItems.pRing4 = getEquippedItem(character, EquipmentSlot::Ring4, pItemTable);
+    equippedItems.pRing5 = getEquippedItem(character, EquipmentSlot::Ring5, pItemTable);
+    equippedItems.pRing6 = getEquippedItem(character, EquipmentSlot::Ring6, pItemTable);
     return equippedItems;
 }
 
-std::array<const ItemDefinition *, 12> allEquippedItems(const EquippedItems &equippedItems)
+std::array<const ItemDefinition *, 16> allEquippedItems(const EquippedItems &equippedItems)
 {
     return {
         equippedItems.pOffHand,
@@ -239,6 +274,10 @@ std::array<const ItemDefinition *, 12> allEquippedItems(const EquippedItems &equ
         equippedItems.pAmulet,
         equippedItems.pRing1,
         equippedItems.pRing2,
+        equippedItems.pRing3,
+        equippedItems.pRing4,
+        equippedItems.pRing5,
+        equippedItems.pRing6,
     };
 }
 
@@ -270,6 +309,90 @@ bool isRangedWeapon(const ItemDefinition &itemDefinition)
 bool isWandWeapon(const ItemDefinition &itemDefinition)
 {
     return itemDefinition.equipStat == "WeaponW";
+}
+
+bool isShieldItem(const ItemDefinition &itemDefinition)
+{
+    return itemDefinition.equipStat == "Shield";
+}
+
+bool isTwoHandedWeapon(const ItemDefinition &itemDefinition)
+{
+    return itemDefinition.equipStat == "Weapon2";
+}
+
+bool isSpearItem(const ItemDefinition &itemDefinition)
+{
+    return canonicalSkillName(itemDefinition.skillGroup) == "Spear";
+}
+
+bool isWeaponItem(const ItemDefinition &itemDefinition)
+{
+    return isMeleeWeapon(itemDefinition) || isWandWeapon(itemDefinition);
+}
+
+bool requiresLearnedSkillToEquip(const ItemDefinition &itemDefinition)
+{
+    const std::string skillName = canonicalSkillName(itemDefinition.skillGroup);
+    return !skillName.empty() && skillName != "Misc";
+}
+
+bool isRestrictedByDollType(const ItemDefinition &itemDefinition, const CharacterDollTypeEntry *pCharacterDollType)
+{
+    if (pCharacterDollType == nullptr)
+    {
+        return false;
+    }
+
+    if (itemDefinition.equipStat == "Missile")
+    {
+        return !pCharacterDollType->canEquipBow;
+    }
+
+    if (itemDefinition.equipStat == "Armor")
+    {
+        return !pCharacterDollType->canEquipArmor;
+    }
+
+    if (itemDefinition.equipStat == "Helm")
+    {
+        return !pCharacterDollType->canEquipHelm;
+    }
+
+    if (itemDefinition.equipStat == "Belt")
+    {
+        return !pCharacterDollType->canEquipBelt;
+    }
+
+    if (itemDefinition.equipStat == "Boots")
+    {
+        return !pCharacterDollType->canEquipBoots;
+    }
+
+    if (itemDefinition.equipStat == "Cloak")
+    {
+        return !pCharacterDollType->canEquipCloak;
+    }
+
+    if (isWeaponItem(itemDefinition) || isShieldItem(itemDefinition))
+    {
+        return !pCharacterDollType->canEquipWeapon;
+    }
+
+    return false;
+}
+
+std::optional<EquipmentSlot> firstFreeRingSlot(const Character &character)
+{
+    for (EquipmentSlot slot : allRingSlots())
+    {
+        if (equippedItemId(character.equipment, slot) == 0)
+        {
+            return slot;
+        }
+    }
+
+    return std::nullopt;
 }
 
 int itemDamageModifier(const ItemDefinition &itemDefinition)
@@ -484,7 +607,7 @@ int resolveArmorSkillBonus(const Character &character, const EquippedItems &equi
     bool wearingArmor = false;
     bool wearingLeather = false;
     int armorClassBonus = 0;
-    const std::array<const ItemDefinition *, 12> equipped = allEquippedItems(equippedItems);
+    const std::array<const ItemDefinition *, 16> equipped = allEquippedItems(equippedItems);
 
     for (const ItemDefinition *pItemDefinition : equipped)
     {
@@ -553,7 +676,7 @@ int resolveArmorSkillBonus(const Character &character, const EquippedItems &equi
 int resolvePassiveArmorBonus(const EquippedItems &equippedItems)
 {
     int armorValue = 0;
-    const std::array<const ItemDefinition *, 12> equipped = allEquippedItems(equippedItems);
+    const std::array<const ItemDefinition *, 16> equipped = allEquippedItems(equippedItems);
 
     for (const ItemDefinition *pItemDefinition : equipped)
     {
@@ -935,5 +1058,308 @@ bool GameMechanics::canAct(const Character &character)
 bool GameMechanics::canSelectInGameplay(const Character &character)
 {
     return canAct(character);
+}
+
+bool GameMechanics::canCharacterEquipItem(
+    const Character &character,
+    const ItemDefinition &itemDefinition,
+    const CharacterDollTypeEntry *pCharacterDollType)
+{
+    if (itemDefinition.equipStat.empty() || itemDefinition.equipStat == "0")
+    {
+        return false;
+    }
+
+    if (isRestrictedByDollType(itemDefinition, pCharacterDollType))
+    {
+        return false;
+    }
+
+    if (requiresLearnedSkillToEquip(itemDefinition) && !character.hasSkill(itemDefinition.skillGroup))
+    {
+        return false;
+    }
+
+    // TODO: enforce artifact/relic/class/race-specific item restrictions once those data tables are wired.
+    return true;
+}
+
+std::optional<CharacterEquipPlan> GameMechanics::resolveCharacterEquipPlan(
+    const Character &character,
+    const ItemDefinition &itemDefinition,
+    const ItemTable *pItemTable,
+    const CharacterDollTypeEntry *pCharacterDollType,
+    std::optional<EquipmentSlot> explicitSlot,
+    bool preferOffHand)
+{
+    if (!canCharacterEquipItem(character, itemDefinition, pCharacterDollType))
+    {
+        return std::nullopt;
+    }
+
+    CharacterEquipPlan plan = {};
+    const ItemDefinition *pMainHand = getEquippedItem(character, EquipmentSlot::MainHand, pItemTable);
+    const bool hasMainItem = character.equipment.mainHand != 0;
+    const bool hasOffHandItem = character.equipment.offHand != 0;
+    const bool hasTwoHandedMain =
+        pMainHand != nullptr ? isTwoHandedWeapon(*pMainHand) : false;
+
+    if (explicitSlot)
+    {
+        const EquipmentSlot slot = *explicitSlot;
+
+        if (itemDefinition.equipStat == "Ring")
+        {
+            if (!isRingSlot(slot))
+            {
+                return std::nullopt;
+            }
+
+            plan.targetSlot = slot;
+
+            if (equippedItemId(character.equipment, slot) != 0)
+            {
+                plan.displacedSlot = slot;
+            }
+
+            return plan;
+        }
+
+        if (itemDefinition.equipStat == "Gauntlets")
+        {
+            if (slot != EquipmentSlot::Gauntlets)
+            {
+                return std::nullopt;
+            }
+
+            plan.targetSlot = EquipmentSlot::Gauntlets;
+            plan.displacedSlot = equippedItemId(character.equipment, EquipmentSlot::Gauntlets) != 0
+                ? std::optional<EquipmentSlot>(EquipmentSlot::Gauntlets)
+                : std::nullopt;
+            plan.autoStoreDisplacedItem = plan.displacedSlot.has_value();
+            return plan;
+        }
+
+        if (itemDefinition.equipStat == "Amulet")
+        {
+            if (slot != EquipmentSlot::Amulet)
+            {
+                return std::nullopt;
+            }
+
+            plan.targetSlot = EquipmentSlot::Amulet;
+            plan.displacedSlot = equippedItemId(character.equipment, EquipmentSlot::Amulet) != 0
+                ? std::optional<EquipmentSlot>(EquipmentSlot::Amulet)
+                : std::nullopt;
+            plan.autoStoreDisplacedItem = plan.displacedSlot.has_value();
+            return plan;
+        }
+
+        if (slot == EquipmentSlot::Armor && itemDefinition.equipStat == "Armor")
+        {
+            plan.targetSlot = EquipmentSlot::Armor;
+        }
+        else if (slot == EquipmentSlot::Helm && itemDefinition.equipStat == "Helm")
+        {
+            plan.targetSlot = EquipmentSlot::Helm;
+        }
+        else if (slot == EquipmentSlot::Belt && itemDefinition.equipStat == "Belt")
+        {
+            plan.targetSlot = EquipmentSlot::Belt;
+        }
+        else if (slot == EquipmentSlot::Cloak && itemDefinition.equipStat == "Cloak")
+        {
+            plan.targetSlot = EquipmentSlot::Cloak;
+        }
+        else if (slot == EquipmentSlot::Boots && itemDefinition.equipStat == "Boots")
+        {
+            plan.targetSlot = EquipmentSlot::Boots;
+        }
+        else if (slot == EquipmentSlot::Bow && itemDefinition.equipStat == "Missile")
+        {
+            plan.targetSlot = EquipmentSlot::Bow;
+        }
+        else
+        {
+            return std::nullopt;
+        }
+
+        if (equippedItemId(character.equipment, plan.targetSlot) != 0)
+        {
+            plan.displacedSlot = plan.targetSlot;
+        }
+
+        return plan;
+    }
+
+    if (itemDefinition.equipStat == "Ring")
+    {
+        const std::optional<EquipmentSlot> freeRing = firstFreeRingSlot(character);
+        plan.targetSlot = freeRing.value_or(EquipmentSlot::Ring1);
+
+        if (!freeRing)
+        {
+            plan.displacedSlot = EquipmentSlot::Ring1;
+        }
+
+        return plan;
+    }
+
+    if (itemDefinition.equipStat == "Gauntlets")
+    {
+        plan.targetSlot = EquipmentSlot::Gauntlets;
+        plan.displacedSlot = equippedItemId(character.equipment, EquipmentSlot::Gauntlets) != 0
+            ? std::optional<EquipmentSlot>(EquipmentSlot::Gauntlets)
+            : std::nullopt;
+        plan.autoStoreDisplacedItem = plan.displacedSlot.has_value();
+        return plan;
+    }
+
+    if (itemDefinition.equipStat == "Amulet")
+    {
+        plan.targetSlot = EquipmentSlot::Amulet;
+        plan.displacedSlot = equippedItemId(character.equipment, EquipmentSlot::Amulet) != 0
+            ? std::optional<EquipmentSlot>(EquipmentSlot::Amulet)
+            : std::nullopt;
+        plan.autoStoreDisplacedItem = plan.displacedSlot.has_value();
+        return plan;
+    }
+
+    if (itemDefinition.equipStat == "Armor")
+    {
+        plan.targetSlot = EquipmentSlot::Armor;
+    }
+    else if (itemDefinition.equipStat == "Helm")
+    {
+        plan.targetSlot = EquipmentSlot::Helm;
+    }
+    else if (itemDefinition.equipStat == "Belt")
+    {
+        plan.targetSlot = EquipmentSlot::Belt;
+    }
+    else if (itemDefinition.equipStat == "Cloak")
+    {
+        plan.targetSlot = EquipmentSlot::Cloak;
+    }
+    else if (itemDefinition.equipStat == "Boots")
+    {
+        plan.targetSlot = EquipmentSlot::Boots;
+    }
+    else if (itemDefinition.equipStat == "Missile")
+    {
+        plan.targetSlot = EquipmentSlot::Bow;
+    }
+    
+    if (itemDefinition.equipStat == "Armor"
+        || itemDefinition.equipStat == "Helm"
+        || itemDefinition.equipStat == "Belt"
+        || itemDefinition.equipStat == "Cloak"
+        || itemDefinition.equipStat == "Boots"
+        || itemDefinition.equipStat == "Missile")
+    {
+        if (equippedItemId(character.equipment, plan.targetSlot) != 0)
+        {
+            plan.displacedSlot = plan.targetSlot;
+        }
+
+        return plan;
+    }
+
+    else if (itemDefinition.equipStat == "Shield")
+    {
+        if (pMainHand != nullptr
+            && isSpearItem(*pMainHand)
+            && skillMastery(character, "Spear") < SkillMastery::Master)
+        {
+            return std::nullopt;
+        }
+
+        plan.targetSlot = EquipmentSlot::OffHand;
+
+        if (hasOffHandItem)
+        {
+            plan.displacedSlot = EquipmentSlot::OffHand;
+        }
+        else if (hasTwoHandedMain)
+        {
+            plan.displacedSlot = EquipmentSlot::MainHand;
+        }
+
+        return plan;
+    }
+    else if (itemDefinition.equipStat == "Weapon2")
+    {
+        plan.targetSlot = EquipmentSlot::MainHand;
+
+        if (hasMainItem && hasOffHandItem)
+        {
+            return std::nullopt;
+        }
+
+        if (hasMainItem)
+        {
+            plan.displacedSlot = EquipmentSlot::MainHand;
+        }
+        else if (hasOffHandItem)
+        {
+            plan.displacedSlot = EquipmentSlot::OffHand;
+        }
+
+        return plan;
+    }
+    else if (itemDefinition.equipStat == "Weapon1or2")
+    {
+        if (hasOffHandItem && skillMastery(character, "Spear") < SkillMastery::Master)
+        {
+            return std::nullopt;
+        }
+
+        plan.targetSlot = EquipmentSlot::MainHand;
+
+        if (hasMainItem)
+        {
+            plan.displacedSlot = EquipmentSlot::MainHand;
+        }
+
+        return plan;
+    }
+    else if (itemDefinition.equipStat == "Weapon" || itemDefinition.equipStat == "WeaponW")
+    {
+        const std::string skillName = canonicalSkillName(itemDefinition.skillGroup);
+        const bool canUseOffHand =
+            !hasTwoHandedMain
+            && ((skillName == "Dagger" && skillMastery(character, "Dagger") >= SkillMastery::Expert)
+                || (skillName == "Sword" && skillMastery(character, "Sword") >= SkillMastery::Master));
+
+        if (preferOffHand && canUseOffHand)
+        {
+            if (pMainHand != nullptr
+                && isSpearItem(*pMainHand)
+                && skillMastery(character, "Spear") < SkillMastery::Master)
+            {
+                return std::nullopt;
+            }
+
+            plan.targetSlot = EquipmentSlot::OffHand;
+
+            if (hasOffHandItem)
+            {
+                plan.displacedSlot = EquipmentSlot::OffHand;
+            }
+
+            return plan;
+        }
+
+        plan.targetSlot = EquipmentSlot::MainHand;
+
+        if (hasMainItem)
+        {
+            plan.displacedSlot = EquipmentSlot::MainHand;
+        }
+
+        return plan;
+    }
+
+    return std::nullopt;
 }
 }

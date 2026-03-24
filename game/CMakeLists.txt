@@ -75,6 +75,7 @@ add_executable(openyamm
     GameDataLoader.cpp
     HeadlessOutdoorDiagnostics.cpp
     HouseTable.cpp
+    ItemEquipPosTable.cpp
     ItemTable.cpp
     IndoorDebugRenderer.cpp
     IndoorMapData.cpp

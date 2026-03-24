@@ -5,6 +5,7 @@
 #include "game/CharacterDollTable.h"
 #include "game/ClassSkillTable.h"
 #include "game/HouseTable.h"
+#include "game/ItemEquipPosTable.h"
 #include "game/ItemTable.h"
 #include "game/MapAssetLoader.h"
 #include "game/MapRegistry.h"
@@ -52,6 +53,7 @@ public:
     const ObjectTable &getObjectTable() const;
     const SpellTable &getSpellTable() const;
     const ItemTable &getItemTable() const;
+    const ItemEquipPosTable &getItemEquipPosTable() const;
     const ChestTable &getChestTable() const;
     const HouseTable &getHouseTable() const;
     const ClassSkillTable &getClassSkillTable() const;
@@ -76,6 +78,7 @@ private:
     bool loadObjectTable(const Engine::AssetFileSystem &assetFileSystem);
     bool loadSpellTable(const Engine::AssetFileSystem &assetFileSystem);
     bool loadItemTable(const Engine::AssetFileSystem &assetFileSystem);
+    bool loadItemEquipPosTable(const Engine::AssetFileSystem &assetFileSystem);
     bool loadChestTable(const Engine::AssetFileSystem &assetFileSystem);
     bool loadHouseTable(const Engine::AssetFileSystem &assetFileSystem);
     bool loadClassSkillTable(const Engine::AssetFileSystem &assetFileSystem);
@@ -101,6 +104,7 @@ private:
     ObjectTable m_objectTable;
     SpellTable m_spellTable;
     ItemTable m_itemTable;
+    ItemEquipPosTable m_itemEquipPosTable;
     ChestTable m_chestTable;
     HouseTable m_houseTable;
     ClassSkillTable m_classSkillTable;

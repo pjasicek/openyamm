@@ -139,6 +139,14 @@ public:
         uint8_t gridX,
         uint8_t gridY,
         std::optional<InventoryItem> &replacedItem);
+    bool takeEquippedItemFromMember(size_t memberIndex, EquipmentSlot slot, InventoryItem &item);
+    bool tryEquipItemOnMember(
+        size_t memberIndex,
+        EquipmentSlot targetSlot,
+        const InventoryItem &item,
+        std::optional<EquipmentSlot> displacedSlot,
+        bool autoStoreDisplacedItem,
+        std::optional<InventoryItem> &heldReplacement);
     bool setMemberClassName(size_t memberIndex, const std::string &className);
     const Character *member(size_t memberIndex) const;
     Character *member(size_t memberIndex);

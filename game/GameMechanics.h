@@ -8,6 +8,8 @@
 namespace OpenYAMM::Game
 {
 class ItemTable;
+struct ItemDefinition;
+struct CharacterDollTypeEntry;
 
 struct CharacterSheetValue
 {
@@ -57,11 +59,29 @@ struct CharacterSheetSummary
     CharacterCombatSummary combat = {};
 };
 
+struct CharacterEquipPlan
+{
+    EquipmentSlot targetSlot = EquipmentSlot::MainHand;
+    std::optional<EquipmentSlot> displacedSlot;
+    bool autoStoreDisplacedItem = false;
+};
+
 class GameMechanics
 {
 public:
     static CharacterSheetSummary buildCharacterSheetSummary(const Character &character, const ItemTable *pItemTable);
     static bool canAct(const Character &character);
     static bool canSelectInGameplay(const Character &character);
+    static bool canCharacterEquipItem(
+        const Character &character,
+        const ItemDefinition &itemDefinition,
+        const CharacterDollTypeEntry *pCharacterDollType);
+    static std::optional<CharacterEquipPlan> resolveCharacterEquipPlan(
+        const Character &character,
+        const ItemDefinition &itemDefinition,
+        const ItemTable *pItemTable,
+        const CharacterDollTypeEntry *pCharacterDollType,
+        std::optional<EquipmentSlot> explicitSlot,
+        bool preferOffHand);
 };
 }

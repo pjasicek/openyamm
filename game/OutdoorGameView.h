@@ -16,6 +16,7 @@
 #include "game/EventRuntime.h"
 #include "game/HouseVideoPlayer.h"
 #include "game/HouseTable.h"
+#include "game/ItemEquipPosTable.h"
 #include "game/NpcDialogTable.h"
 #include "game/ObjectTable.h"
 #include "game/RosterTable.h"
@@ -39,6 +40,7 @@ namespace OpenYAMM::Game
 class OutdoorPartyRuntime;
 class OutdoorWorldRuntime;
 class ItemTable;
+struct ItemDefinition;
 
 class OutdoorGameView
 {
@@ -74,6 +76,7 @@ public:
         const ObjectTable &objectTable,
         const SpellTable &spellTable,
         const ItemTable &itemTable,
+        const ItemEquipPosTable &itemEquipPosTable,
         const std::optional<StrTable> &localStrTable,
         const std::optional<EvtProgram> &localEvtProgram,
         const std::optional<EvtProgram> &globalEvtProgram,
@@ -235,6 +238,7 @@ private:
         SkillRow,
         InventoryItem,
         InventoryCell,
+        EquipmentSlot,
         DollPanel
     };
 
@@ -252,6 +256,7 @@ private:
         std::string skillName;
         uint8_t gridX = 0;
         uint8_t gridY = 0;
+        EquipmentSlot equipmentSlot = EquipmentSlot::MainHand;
 
         bool operator==(const CharacterPointerTarget &other) const = default;
     };
@@ -503,6 +508,19 @@ private:
     std::optional<size_t> resolvePartyPortraitIndexAtPoint(int width, int height, float x, float y);
     bool trySelectPartyMember(size_t memberIndex, bool requireGameplayReady);
     void updateItemInspectOverlayState(int width, int height);
+    std::string resolveEquippedItemHudTextureName(
+        const ItemDefinition &itemDefinition,
+        uint32_t dollTypeId,
+        bool hasRightHandWeapon,
+        EquipmentSlot slot) const;
+    std::optional<ResolvedHudLayoutElement> resolveCharacterEquipmentRenderRect(
+        const HudLayoutElement &layout,
+        const ItemDefinition &itemDefinition,
+        const HudTextureHandle &texture,
+        const CharacterDollTypeEntry *pCharacterDollType,
+        EquipmentSlot slot,
+        int screenWidth,
+        int screenHeight) const;
     const BillboardTextureHandle *findBillboardTexture(const std::string &textureName, int16_t paletteId = 0) const;
     const BillboardTextureHandle *ensureSpriteBillboardTexture(const std::string &textureName, int16_t paletteId);
     const HudTextureHandle *findHudTexture(const std::string &textureName) const;
@@ -535,6 +553,7 @@ private:
     const CharacterDollTable *m_pCharacterDollTable;
     std::optional<ChestTable> m_chestTable;
     const ItemTable *m_pItemTable;
+    const ItemEquipPosTable *m_pItemEquipPosTable;
     std::optional<StrTable> m_localStrTable;
     std::optional<EvtProgram> m_localEvtProgram;
     std::optional<EvtProgram> m_globalEvtProgram;

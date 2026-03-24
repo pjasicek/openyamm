@@ -12,6 +12,65 @@ namespace OpenYAMM::Game
 {
 namespace
 {
+void grantSeedSkill(Character &character, const std::string &skillName, uint32_t level = 1)
+{
+    CharacterSkill skill = {};
+    skill.name = canonicalSkillName(skillName);
+    skill.level = level;
+    skill.mastery = SkillMastery::Normal;
+    character.skills[skill.name] = skill;
+}
+
+void grantDefaultEquipmentSkills(Character &character)
+{
+    static const std::array<const char *, 11> skillNames = {
+        "LeatherArmor",
+        "ChainArmor",
+        "PlateArmor",
+        "Spear",
+        "Sword",
+        "Bow",
+        "Dagger",
+        "Mace",
+        "Axe",
+        "Staff",
+        "Shield"
+    };
+
+    for (const char *pSkillName : skillNames)
+    {
+        grantSeedSkill(character, pSkillName);
+    }
+}
+
+void grantSeedInventoryLoadout(Character &character)
+{
+    static const std::array<uint32_t, 34> itemIds = {
+        84, 85,
+        89, 90,
+        94, 95,
+        41, 42,
+        1, 11,
+        56, 57,
+        21, 26,
+        66, 67,
+        31, 32,
+        79, 80,
+        99, 104,
+        109, 111,
+        117, 118,
+        132, 133,
+        137, 138,
+        127, 129,
+        147, 148
+    };
+
+    for (uint32_t itemId : itemIds)
+    {
+        character.inventory.push_back({itemId, 1, 0, 0, 0, 0});
+    }
+}
+
 std::string normalizeRoleName(const std::string &className)
 {
     const std::string canonicalName = canonicalClassName(className);
@@ -115,6 +174,118 @@ bool inventoryItemsOverlap(const InventoryItem &left, const InventoryItem &right
         && left.gridX + left.width > right.gridX
         && left.gridY < right.gridY + right.height
         && left.gridY + left.height > right.gridY;
+}
+
+uint32_t &equippedItemId(CharacterEquipment &equipment, EquipmentSlot slot)
+{
+    switch (slot)
+    {
+        case EquipmentSlot::OffHand:
+            return equipment.offHand;
+
+        case EquipmentSlot::MainHand:
+            return equipment.mainHand;
+
+        case EquipmentSlot::Bow:
+            return equipment.bow;
+
+        case EquipmentSlot::Armor:
+            return equipment.armor;
+
+        case EquipmentSlot::Helm:
+            return equipment.helm;
+
+        case EquipmentSlot::Belt:
+            return equipment.belt;
+
+        case EquipmentSlot::Cloak:
+            return equipment.cloak;
+
+        case EquipmentSlot::Gauntlets:
+            return equipment.gauntlets;
+
+        case EquipmentSlot::Boots:
+            return equipment.boots;
+
+        case EquipmentSlot::Amulet:
+            return equipment.amulet;
+
+        case EquipmentSlot::Ring1:
+            return equipment.ring1;
+
+        case EquipmentSlot::Ring2:
+            return equipment.ring2;
+
+        case EquipmentSlot::Ring3:
+            return equipment.ring3;
+
+        case EquipmentSlot::Ring4:
+            return equipment.ring4;
+
+        case EquipmentSlot::Ring5:
+            return equipment.ring5;
+
+        case EquipmentSlot::Ring6:
+            return equipment.ring6;
+    }
+
+    return equipment.mainHand;
+}
+
+uint32_t equippedItemId(const CharacterEquipment &equipment, EquipmentSlot slot)
+{
+    switch (slot)
+    {
+        case EquipmentSlot::OffHand:
+            return equipment.offHand;
+
+        case EquipmentSlot::MainHand:
+            return equipment.mainHand;
+
+        case EquipmentSlot::Bow:
+            return equipment.bow;
+
+        case EquipmentSlot::Armor:
+            return equipment.armor;
+
+        case EquipmentSlot::Helm:
+            return equipment.helm;
+
+        case EquipmentSlot::Belt:
+            return equipment.belt;
+
+        case EquipmentSlot::Cloak:
+            return equipment.cloak;
+
+        case EquipmentSlot::Gauntlets:
+            return equipment.gauntlets;
+
+        case EquipmentSlot::Boots:
+            return equipment.boots;
+
+        case EquipmentSlot::Amulet:
+            return equipment.amulet;
+
+        case EquipmentSlot::Ring1:
+            return equipment.ring1;
+
+        case EquipmentSlot::Ring2:
+            return equipment.ring2;
+
+        case EquipmentSlot::Ring3:
+            return equipment.ring3;
+
+        case EquipmentSlot::Ring4:
+            return equipment.ring4;
+
+        case EquipmentSlot::Ring5:
+            return equipment.ring5;
+
+        case EquipmentSlot::Ring6:
+            return equipment.ring6;
+    }
+
+    return 0;
 }
 }
 
@@ -341,99 +512,121 @@ PartySeed Party::createDefaultSeed()
     seed.gold = 10000;
     seed.food = 7;
 
-    Character knight = {};
-    knight.name = "Ariel";
-    knight.className = "Knight";
-    knight.role = "Knight";
-    knight.portraitTextureName = "PC01-01";
-    knight.characterDataId = 1;
-    knight.birthYear = 1148;
-    knight.experience = 10000;
-    knight.level = 5;
-    knight.skillPoints = 30;
-    knight.might = 18;
-    knight.intellect = 8;
-    knight.personality = 10;
-    knight.endurance = 17;
-    knight.speed = 12;
-    knight.accuracy = 15;
-    knight.luck = 11;
-    knight.maxHealth = 120;
-    knight.health = 120;
-    knight.inventory.push_back({104, 1, 0, 0, 0, 0});
-    knight.inventory.push_back({111, 1, 0, 0, 0, 0});
-    knight.inventory.push_back({25, 1, 0, 0, 0, 0});
-    knight.inventory.push_back({94, 1, 0, 0, 0, 0});
-    knight.inventory.push_back({109, 1, 0, 0, 0, 0});
-    knight.inventory.push_back({110, 1, 0, 0, 0, 0});
-    seed.members.push_back(knight);
+    Character maleKnight = {};
+    maleKnight.name = "Ariel";
+    maleKnight.className = "Knight";
+    maleKnight.role = "Knight";
+    maleKnight.portraitTextureName = "PC01-01";
+    maleKnight.characterDataId = 1;
+    maleKnight.birthYear = 1148;
+    maleKnight.experience = 10000;
+    maleKnight.level = 5;
+    maleKnight.skillPoints = 30;
+    maleKnight.might = 18;
+    maleKnight.intellect = 8;
+    maleKnight.personality = 10;
+    maleKnight.endurance = 17;
+    maleKnight.speed = 12;
+    maleKnight.accuracy = 15;
+    maleKnight.luck = 11;
+    maleKnight.maxHealth = 120;
+    maleKnight.health = 120;
+    grantDefaultEquipmentSkills(maleKnight);
+    grantSeedInventoryLoadout(maleKnight);
+    seed.members.push_back(maleKnight);
 
-    Character cleric = {};
-    cleric.name = "Brom";
-    cleric.className = "Cleric";
-    cleric.role = "Cleric";
-    cleric.portraitTextureName = "PC05-01";
-    cleric.characterDataId = 5;
-    cleric.birthYear = 1154;
-    cleric.experience = 10000;
-    cleric.level = 5;
-    cleric.skillPoints = 30;
-    cleric.might = 11;
-    cleric.intellect = 12;
-    cleric.personality = 18;
-    cleric.endurance = 14;
-    cleric.speed = 10;
-    cleric.accuracy = 11;
-    cleric.luck = 13;
-    cleric.maxHealth = 90;
-    cleric.health = 90;
-    cleric.maxSpellPoints = 45;
-    cleric.spellPoints = 45;
-    seed.members.push_back(cleric);
+    Character femaleKnight = {};
+    femaleKnight.name = "Leane";
+    femaleKnight.className = "Knight";
+    femaleKnight.role = "Knight";
+    femaleKnight.portraitTextureName = "PC02-01";
+    femaleKnight.characterDataId = 2;
+    femaleKnight.birthYear = 1144;
+    femaleKnight.experience = 10000;
+    femaleKnight.level = 5;
+    femaleKnight.skillPoints = 30;
+    femaleKnight.might = 16;
+    femaleKnight.intellect = 9;
+    femaleKnight.personality = 11;
+    femaleKnight.endurance = 16;
+    femaleKnight.speed = 13;
+    femaleKnight.accuracy = 15;
+    femaleKnight.luck = 12;
+    femaleKnight.maxHealth = 115;
+    femaleKnight.health = 115;
+    grantDefaultEquipmentSkills(femaleKnight);
+    grantSeedInventoryLoadout(femaleKnight);
+    seed.members.push_back(femaleKnight);
 
-    Character archer = {};
-    archer.name = "Cassia";
-    archer.className = "Archer";
-    archer.role = "Archer";
-    archer.portraitTextureName = "PC08-01";
-    archer.characterDataId = 8;
-    archer.birthYear = 1153;
-    archer.experience = 10000;
-    archer.level = 5;
-    archer.skillPoints = 30;
-    archer.might = 14;
-    archer.intellect = 11;
-    archer.personality = 10;
-    archer.endurance = 13;
-    archer.speed = 16;
-    archer.accuracy = 18;
-    archer.luck = 12;
-    archer.maxHealth = 100;
-    archer.health = 100;
-    seed.members.push_back(archer);
+    Character minotaur = {};
+    minotaur.name = "Arius";
+    minotaur.className = "Minotaur";
+    minotaur.role = "Minotaur";
+    minotaur.portraitTextureName = "PC21-01";
+    minotaur.characterDataId = 21;
+    minotaur.birthYear = 1155;
+    minotaur.experience = 10000;
+    minotaur.level = 5;
+    minotaur.skillPoints = 30;
+    minotaur.might = 21;
+    minotaur.intellect = 11;
+    minotaur.personality = 17;
+    minotaur.endurance = 18;
+    minotaur.speed = 10;
+    minotaur.accuracy = 16;
+    minotaur.luck = 12;
+    minotaur.maxHealth = 130;
+    minotaur.health = 130;
+    grantDefaultEquipmentSkills(minotaur);
+    grantSeedInventoryLoadout(minotaur);
+    seed.members.push_back(minotaur);
 
-    Character sorcerer = {};
-    sorcerer.name = "Doran";
-    sorcerer.className = "Sorcerer";
-    sorcerer.role = "Sorcerer";
-    sorcerer.portraitTextureName = "PC16-01";
-    sorcerer.characterDataId = 16;
-    sorcerer.birthYear = 1151;
-    sorcerer.experience = 10000;
-    sorcerer.level = 5;
-    sorcerer.skillPoints = 30;
-    sorcerer.might = 8;
-    sorcerer.intellect = 20;
-    sorcerer.personality = 12;
-    sorcerer.endurance = 9;
-    sorcerer.speed = 13;
-    sorcerer.accuracy = 10;
-    sorcerer.luck = 14;
-    sorcerer.maxHealth = 75;
-    sorcerer.health = 75;
-    sorcerer.maxSpellPoints = 60;
-    sorcerer.spellPoints = 60;
-    seed.members.push_back(sorcerer);
+    Character troll = {};
+    troll.name = "Overdune";
+    troll.className = "Troll";
+    troll.role = "Troll";
+    troll.portraitTextureName = "PC23-01";
+    troll.characterDataId = 23;
+    troll.birthYear = 1149;
+    troll.experience = 10000;
+    troll.level = 5;
+    troll.skillPoints = 30;
+    troll.might = 20;
+    troll.intellect = 8;
+    troll.personality = 8;
+    troll.endurance = 20;
+    troll.speed = 14;
+    troll.accuracy = 16;
+    troll.luck = 12;
+    troll.maxHealth = 140;
+    troll.health = 140;
+    grantDefaultEquipmentSkills(troll);
+    grantSeedInventoryLoadout(troll);
+    seed.members.push_back(troll);
+
+    Character dragon = {};
+    dragon.name = "Ithilgore";
+    dragon.className = "Dragon";
+    dragon.role = "Dragon";
+    dragon.portraitTextureName = "PC25-01";
+    dragon.characterDataId = 25;
+    dragon.birthYear = 1129;
+    dragon.experience = 10000;
+    dragon.level = 5;
+    dragon.skillPoints = 30;
+    dragon.might = 30;
+    dragon.intellect = 17;
+    dragon.personality = 9;
+    dragon.endurance = 21;
+    dragon.speed = 11;
+    dragon.accuracy = 13;
+    dragon.luck = 7;
+    dragon.maxHealth = 160;
+    dragon.health = 160;
+    dragon.maxSpellPoints = 20;
+    dragon.spellPoints = 20;
+    grantSeedInventoryLoadout(dragon);
+    seed.members.push_back(dragon);
 
     return seed;
 }
@@ -1230,6 +1423,102 @@ bool Party::tryPlaceItemInMemberInventoryCell(
     }
 
     m_lastStatus = replacedItem.has_value() ? "item swapped" : "item moved";
+    return true;
+}
+
+bool Party::takeEquippedItemFromMember(size_t memberIndex, EquipmentSlot slot, InventoryItem &item)
+{
+    Character *pMember = member(memberIndex);
+
+    if (pMember == nullptr)
+    {
+        return false;
+    }
+
+    const uint32_t itemId = equippedItemId(pMember->equipment, slot);
+
+    if (itemId == 0)
+    {
+        return false;
+    }
+
+    item = {};
+    item.objectDescriptionId = itemId;
+    item.quantity = 1;
+    item.width = resolveInventoryWidth(itemId);
+    item.height = resolveInventoryHeight(itemId);
+    equippedItemId(pMember->equipment, slot) = 0;
+    m_lastStatus = "item unequipped";
+    return true;
+}
+
+bool Party::tryEquipItemOnMember(
+    size_t memberIndex,
+    EquipmentSlot targetSlot,
+    const InventoryItem &item,
+    std::optional<EquipmentSlot> displacedSlot,
+    bool autoStoreDisplacedItem,
+    std::optional<InventoryItem> &heldReplacement)
+{
+    heldReplacement.reset();
+
+    Character *pMember = member(memberIndex);
+
+    if (pMember == nullptr || item.objectDescriptionId == 0)
+    {
+        return false;
+    }
+
+    if (displacedSlot && *displacedSlot != targetSlot && equippedItemId(pMember->equipment, targetSlot) != 0)
+    {
+        return false;
+    }
+
+    if (!displacedSlot && equippedItemId(pMember->equipment, targetSlot) != 0)
+    {
+        displacedSlot = targetSlot;
+    }
+
+    const uint32_t displacedItemId =
+        displacedSlot ? equippedItemId(pMember->equipment, *displacedSlot) : 0;
+
+    if (autoStoreDisplacedItem && displacedItemId != 0)
+    {
+        InventoryItem displacedInventoryItem = {};
+        displacedInventoryItem.objectDescriptionId = displacedItemId;
+        displacedInventoryItem.quantity = 1;
+        displacedInventoryItem.width = resolveInventoryWidth(displacedItemId);
+        displacedInventoryItem.height = resolveInventoryHeight(displacedItemId);
+
+        if (!pMember->addInventoryItem(displacedInventoryItem))
+        {
+            m_lastStatus = "inventory full";
+            return false;
+        }
+    }
+
+    if (displacedSlot)
+    {
+        equippedItemId(pMember->equipment, *displacedSlot) = 0;
+    }
+
+    equippedItemId(pMember->equipment, targetSlot) = item.objectDescriptionId;
+
+    if (!autoStoreDisplacedItem && displacedItemId != 0)
+    {
+        InventoryItem displacedInventoryItem = {};
+        displacedInventoryItem.objectDescriptionId = displacedItemId;
+        displacedInventoryItem.quantity = 1;
+        displacedInventoryItem.width = resolveInventoryWidth(displacedItemId);
+        displacedInventoryItem.height = resolveInventoryHeight(displacedItemId);
+        heldReplacement = displacedInventoryItem;
+        m_lastStatus = "item swapped";
+    }
+    else
+    {
+        m_lastStatus = "item equipped";
+    }
+
     return true;
 }
 

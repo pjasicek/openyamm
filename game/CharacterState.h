@@ -47,6 +47,10 @@ enum class EquipmentSlot : uint8_t
     Amulet,
     Ring1,
     Ring2,
+    Ring3,
+    Ring4,
+    Ring5,
+    Ring6,
 };
 
 static constexpr size_t CharacterConditionCount = static_cast<size_t>(CharacterCondition::Count);
@@ -106,5 +110,9 @@ struct CharacterEquipment
     uint32_t amulet = 0;
     uint32_t ring1 = 0;
     uint32_t ring2 = 0;
+    uint32_t ring3 = 0;
+    uint32_t ring4 = 0;
+    uint32_t ring5 = 0;
+    uint32_t ring6 = 0;
 };
 }

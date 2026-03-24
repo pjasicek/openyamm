@@ -147,6 +147,39 @@ bool tryParseInteger(const std::string &value, int &parsedValue)
     return parsedCharacters == value.size();
 }
 
+bool isBodyEquipmentVisualSlot(EquipmentSlot slot)
+{
+    switch (slot)
+    {
+        case EquipmentSlot::Armor:
+        case EquipmentSlot::Helm:
+        case EquipmentSlot::Belt:
+        case EquipmentSlot::Cloak:
+        case EquipmentSlot::Boots:
+            return true;
+
+        case EquipmentSlot::OffHand:
+        case EquipmentSlot::MainHand:
+        case EquipmentSlot::Bow:
+        case EquipmentSlot::Gauntlets:
+        case EquipmentSlot::Amulet:
+        case EquipmentSlot::Ring1:
+        case EquipmentSlot::Ring2:
+        case EquipmentSlot::Ring3:
+        case EquipmentSlot::Ring4:
+        case EquipmentSlot::Ring5:
+        case EquipmentSlot::Ring6:
+            return false;
+    }
+
+    return false;
+}
+
+bool usesAlternateCloakBeltEquippedVariant(EquipmentSlot slot)
+{
+    return slot == EquipmentSlot::Cloak || slot == EquipmentSlot::Belt;
+}
+
 std::string resolveItemInspectTypeText(const ItemDefinition &itemDefinition)
 {
     if (!itemDefinition.unidentifiedName.empty()
@@ -371,6 +404,252 @@ std::optional<std::pair<int, int>> computeHeldInventoryPlacement(
         (itemCenterY - gridMetrics.y - slotSpanHeight * 0.5f + gridMetrics.cellHeight * 0.5f)
         / gridMetrics.cellHeight));
     return std::pair<int, int>(gridX, gridY);
+}
+
+InventoryItemScreenRect computeCenteredItemRect(
+    float layoutX,
+    float layoutY,
+    float layoutWidth,
+    float layoutHeight,
+    float textureWidth,
+    float textureHeight)
+{
+    InventoryItemScreenRect rect = {};
+    rect.x = std::round(layoutX + (layoutWidth - textureWidth) * 0.5f);
+    rect.y = std::round(layoutY + (layoutHeight - textureHeight) * 0.5f);
+    rect.width = textureWidth;
+    rect.height = textureHeight;
+    return rect;
+}
+
+uint32_t equippedItemId(const CharacterEquipment &equipment, EquipmentSlot slot)
+{
+    switch (slot)
+    {
+        case EquipmentSlot::OffHand:
+            return equipment.offHand;
+
+        case EquipmentSlot::MainHand:
+            return equipment.mainHand;
+
+        case EquipmentSlot::Bow:
+            return equipment.bow;
+
+        case EquipmentSlot::Armor:
+            return equipment.armor;
+
+        case EquipmentSlot::Helm:
+            return equipment.helm;
+
+        case EquipmentSlot::Belt:
+            return equipment.belt;
+
+        case EquipmentSlot::Cloak:
+            return equipment.cloak;
+
+        case EquipmentSlot::Gauntlets:
+            return equipment.gauntlets;
+
+        case EquipmentSlot::Boots:
+            return equipment.boots;
+
+        case EquipmentSlot::Amulet:
+            return equipment.amulet;
+
+        case EquipmentSlot::Ring1:
+            return equipment.ring1;
+
+        case EquipmentSlot::Ring2:
+            return equipment.ring2;
+
+        case EquipmentSlot::Ring3:
+            return equipment.ring3;
+
+        case EquipmentSlot::Ring4:
+            return equipment.ring4;
+
+        case EquipmentSlot::Ring5:
+            return equipment.ring5;
+
+        case EquipmentSlot::Ring6:
+            return equipment.ring6;
+    }
+
+    return 0;
+}
+
+std::optional<EquipmentSlot> characterEquipmentSlotForLayoutId(const std::string &layoutId)
+{
+    const std::string normalized = toLowerCopy(layoutId);
+
+    if (normalized == "characterdollbowslot")
+    {
+        return EquipmentSlot::Bow;
+    }
+
+    if (normalized == "characterdollarmorslot")
+    {
+        return EquipmentSlot::Armor;
+    }
+
+    if (normalized == "characterdollhelmetslot")
+    {
+        return EquipmentSlot::Helm;
+    }
+
+    if (normalized == "characterdollbeltslot")
+    {
+        return EquipmentSlot::Belt;
+    }
+
+    if (normalized == "characterdollcloakslot")
+    {
+        return EquipmentSlot::Cloak;
+    }
+
+    if (normalized == "characterdollbootsslot")
+    {
+        return EquipmentSlot::Boots;
+    }
+
+    if (normalized == "characterdollamuletslot")
+    {
+        return EquipmentSlot::Amulet;
+    }
+
+    if (normalized == "characterdollgauntletsslot")
+    {
+        return EquipmentSlot::Gauntlets;
+    }
+
+    if (normalized == "characterdollring1slot")
+    {
+        return EquipmentSlot::Ring1;
+    }
+
+    if (normalized == "characterdollring2slot")
+    {
+        return EquipmentSlot::Ring2;
+    }
+
+    if (normalized == "characterdollring3slot")
+    {
+        return EquipmentSlot::Ring3;
+    }
+
+    if (normalized == "characterdollring4slot")
+    {
+        return EquipmentSlot::Ring4;
+    }
+
+    if (normalized == "characterdollring5slot")
+    {
+        return EquipmentSlot::Ring5;
+    }
+
+    if (normalized == "characterdollring6slot")
+    {
+        return EquipmentSlot::Ring6;
+    }
+
+    return std::nullopt;
+}
+
+const char *equipmentSlotName(EquipmentSlot slot)
+{
+    switch (slot)
+    {
+        case EquipmentSlot::OffHand:
+            return "OffHand";
+
+        case EquipmentSlot::MainHand:
+            return "MainHand";
+
+        case EquipmentSlot::Bow:
+            return "Bow";
+
+        case EquipmentSlot::Armor:
+            return "Armor";
+
+        case EquipmentSlot::Helm:
+            return "Helm";
+
+        case EquipmentSlot::Belt:
+            return "Belt";
+
+        case EquipmentSlot::Cloak:
+            return "Cloak";
+
+        case EquipmentSlot::Gauntlets:
+            return "Gauntlets";
+
+        case EquipmentSlot::Boots:
+            return "Boots";
+
+        case EquipmentSlot::Amulet:
+            return "Amulet";
+
+        case EquipmentSlot::Ring1:
+            return "Ring1";
+
+        case EquipmentSlot::Ring2:
+            return "Ring2";
+
+        case EquipmentSlot::Ring3:
+            return "Ring3";
+
+        case EquipmentSlot::Ring4:
+            return "Ring4";
+
+        case EquipmentSlot::Ring5:
+            return "Ring5";
+
+        case EquipmentSlot::Ring6:
+            return "Ring6";
+    }
+
+    return "Unknown";
+}
+
+void logCharacterEquipmentRender(
+    const std::string &renderKey,
+    const std::string &parentId,
+    const std::string &assetName,
+    float x,
+    float y,
+    float width,
+    float height,
+    int zIndex,
+    float logicalX,
+    float logicalY,
+    float logicalWidth,
+    float logicalHeight)
+{
+    static std::unordered_map<std::string, std::string> s_lastPayloadByKey;
+
+    std::ostringstream payloadStream;
+    payloadStream << "sprite=\"" << assetName
+                  << "\" parent=\"" << parentId << "\""
+                  << " x=" << x
+                  << " y=" << y
+                  << " z=" << zIndex
+                  << " width=" << width
+                  << " height=" << height
+                  << " logical_x=" << logicalX
+                  << " logical_y=" << logicalY
+                  << " logical_width=" << logicalWidth
+                  << " logical_height=" << logicalHeight;
+    const std::string payload = payloadStream.str();
+
+    const std::unordered_map<std::string, std::string>::const_iterator it = s_lastPayloadByKey.find(renderKey);
+
+    if (it != s_lastPayloadByKey.end() && it->second == payload)
+    {
+        return;
+    }
+
+    s_lastPayloadByKey[renderKey] = payload;
+    std::cout << "Character equipment render " << renderKey << ": " << payload << '\n';
 }
 
 std::optional<uint32_t> parseCharacterDataIdFromPortraitTextureName(const std::string &portraitTextureName)
@@ -1864,6 +2143,7 @@ OutdoorGameView::OutdoorGameView()
     , m_pAssetFileSystem(nullptr)
     , m_pOutdoorWorldRuntime(nullptr)
     , m_pItemTable(nullptr)
+    , m_pItemEquipPosTable(nullptr)
     , m_pRosterTable(nullptr)
     , m_pCharacterDollTable(nullptr)
     , m_pObjectTable(nullptr)
@@ -1904,6 +2184,7 @@ bool OutdoorGameView::initialize(
     const ObjectTable &objectTable,
     const SpellTable &spellTable,
     const ItemTable &itemTable,
+    const ItemEquipPosTable &itemEquipPosTable,
     const std::optional<StrTable> &localStrTable,
     const std::optional<EvtProgram> &localEvtProgram,
     const std::optional<EvtProgram> &globalEvtProgram,
@@ -1934,6 +2215,7 @@ bool OutdoorGameView::initialize(
     m_pObjectTable = &objectTable;
     m_pSpellTable = &spellTable;
     m_pItemTable = &itemTable;
+    m_pItemEquipPosTable = &itemEquipPosTable;
     m_localStrTable = localStrTable;
     m_localEvtProgram = localEvtProgram;
     m_globalEvtProgram = globalEvtProgram;
@@ -3372,6 +3654,8 @@ void OutdoorGameView::renderGameplayHudArt(int width, int height)
     bgfx::setViewRect(HudViewId, 0, 0, static_cast<uint16_t>(width), static_cast<uint16_t>(height));
     bgfx::setViewTransform(HudViewId, nullptr, projectionMatrix);
     bgfx::touch(HudViewId);
+    const UiViewportRect uiViewport = computeUiViewportRect(width, height);
+    const float baseScale = std::min(uiViewport.width / HudReferenceWidth, uiViewport.height / HudReferenceHeight);
     float characterMouseX = 0.0f;
     float characterMouseY = 0.0f;
     const SDL_MouseButtonFlags characterMouseButtons = SDL_GetMouseState(&characterMouseX, &characterMouseY);
@@ -4520,6 +4804,7 @@ void OutdoorGameView::shutdown()
     m_pAssetFileSystem = nullptr;
     m_pOutdoorWorldRuntime = nullptr;
     m_pItemTable = nullptr;
+    m_pItemEquipPosTable = nullptr;
     m_pRosterTable = nullptr;
     m_pCharacterDollTable = nullptr;
     m_pObjectTable = nullptr;
@@ -5275,6 +5560,130 @@ void OutdoorGameView::updateItemInspectOverlayState(int width, int height)
     m_itemInspectOverlay.sourceHeight = itemRect.height;
 }
 
+std::string OutdoorGameView::resolveEquippedItemHudTextureName(
+    const ItemDefinition &itemDefinition,
+    uint32_t dollTypeId,
+    bool hasRightHandWeapon,
+    EquipmentSlot slot) const
+{
+    if (!isBodyEquipmentVisualSlot(slot))
+    {
+        return itemDefinition.iconName;
+    }
+
+    std::vector<std::string> candidateSuffixes;
+
+    switch (dollTypeId)
+    {
+        case 0:
+            candidateSuffixes = hasRightHandWeapon
+                ? std::vector<std::string>{"v1", "v1a"}
+                : std::vector<std::string>{"v1a", "v1"};
+            break;
+
+        case 1:
+            candidateSuffixes = hasRightHandWeapon
+                ? std::vector<std::string>{"v2", "v2a"}
+                : std::vector<std::string>{"v2a", "v2"};
+            break;
+
+        case 2:
+            candidateSuffixes = {usesAlternateCloakBeltEquippedVariant(slot) ? "v1" : "v3"};
+            break;
+
+        case 3:
+            candidateSuffixes = {usesAlternateCloakBeltEquippedVariant(slot) ? "v1" : "v4"};
+            break;
+
+        default:
+            break;
+    }
+
+    for (const std::string &suffix : candidateSuffixes)
+    {
+        const std::string candidateName = itemDefinition.iconName + suffix;
+        const std::optional<std::string> candidatePath =
+            const_cast<OutdoorGameView *>(this)->findCachedAssetPath("Data/icons", candidateName + ".bmp");
+
+        if (candidatePath)
+        {
+            return candidateName;
+        }
+    }
+
+    return itemDefinition.iconName;
+}
+
+std::optional<OutdoorGameView::ResolvedHudLayoutElement> OutdoorGameView::resolveCharacterEquipmentRenderRect(
+    const OutdoorGameView::HudLayoutElement &layout,
+    const ItemDefinition &itemDefinition,
+    const OutdoorGameView::HudTextureHandle &texture,
+    const CharacterDollTypeEntry *pCharacterDollType,
+    EquipmentSlot slot,
+    int screenWidth,
+    int screenHeight) const
+{
+    const float fallbackWidth = layout.width > 0.0f ? layout.width : static_cast<float>(texture.width);
+    const float fallbackHeight = layout.height > 0.0f ? layout.height : static_cast<float>(texture.height);
+    const std::optional<ResolvedHudLayoutElement> resolved = resolveHudLayoutElement(
+        layout.id,
+        screenWidth,
+        screenHeight,
+        fallbackWidth,
+        fallbackHeight);
+
+    if (!resolved)
+    {
+        return std::nullopt;
+    }
+
+    const float iconWidth = static_cast<float>(texture.width) * resolved->scale;
+    const float iconHeight = static_cast<float>(texture.height) * resolved->scale;
+
+    if (isBodyEquipmentVisualSlot(slot))
+    {
+        const ItemEquipPosEntry *pEntry =
+            m_pItemEquipPosTable != nullptr ? m_pItemEquipPosTable->get(itemDefinition.itemId) : nullptr;
+        const uint32_t dollTypeId = pCharacterDollType != nullptr ? pCharacterDollType->id : 0;
+        int offsetX = 0;
+        int offsetY = 0;
+
+        if (pEntry != nullptr && dollTypeId < pEntry->xByDollType.size())
+        {
+            offsetX = pEntry->xByDollType[dollTypeId];
+            offsetY = pEntry->yByDollType[dollTypeId];
+        }
+
+        ResolvedHudLayoutElement rect = {};
+        rect.x = std::round(resolved->x + static_cast<float>(offsetX) * resolved->scale);
+        rect.y = std::round(resolved->y + static_cast<float>(offsetY) * resolved->scale);
+        rect.width = iconWidth;
+        rect.height = iconHeight;
+        rect.scale = resolved->scale;
+        return rect;
+    }
+
+    if (slot == EquipmentSlot::Bow && layout.width <= 0.0f && layout.height <= 0.0f)
+    {
+        return std::nullopt;
+    }
+
+    const InventoryItemScreenRect centeredRect = computeCenteredItemRect(
+        resolved->x,
+        resolved->y,
+        resolved->width,
+        resolved->height,
+        iconWidth,
+        iconHeight);
+    ResolvedHudLayoutElement rect = {};
+    rect.x = centeredRect.x;
+    rect.y = centeredRect.y;
+    rect.width = centeredRect.width;
+    rect.height = centeredRect.height;
+    rect.scale = resolved->scale;
+    return rect;
+}
+
 OutdoorGameView::HudScreenState OutdoorGameView::currentHudScreenState() const
 {
     if (m_activeEventDialog.isActive)
@@ -5436,6 +5845,8 @@ void OutdoorGameView::renderCharacterOverlay(int width, int height, bool renderA
     bgfx::setViewRect(HudViewId, 0, 0, static_cast<uint16_t>(width), static_cast<uint16_t>(height));
     bgfx::setViewTransform(HudViewId, nullptr, projectionMatrix);
     bgfx::touch(HudViewId);
+    const UiViewportRect uiViewport = computeUiViewportRect(width, height);
+    const float baseScale = std::min(uiViewport.width / HudReferenceWidth, uiViewport.height / HudReferenceHeight);
     float characterMouseX = 0.0f;
     float characterMouseY = 0.0f;
     const SDL_MouseButtonFlags characterMouseButtons = SDL_GetMouseState(&characterMouseX, &characterMouseY);
@@ -5634,12 +6045,13 @@ void OutdoorGameView::renderCharacterOverlay(int width, int height, bool renderA
     setCharacterSkillRegionHeight(m_hudLayoutRuntimeHeightOverrides, skillRowHeight, "CharacterSkillsMiscListRegion", skillUiData.miscRows.size());
 
     const auto submitCharacterDollLayer =
-        [this, &submitTexturedQuad](
+        [this, &submitTexturedQuad, uiViewport, baseScale](
             const HudLayoutElement &layout,
             const ResolvedHudLayoutElement &resolvedAnchor,
             const std::string &assetName,
             int offsetX,
-            int offsetY)
+            int offsetY,
+            const char *pRenderKey = nullptr)
         {
             if (assetName.empty() || assetName == "none")
             {
@@ -5886,7 +6298,36 @@ void OutdoorGameView::renderCharacterOverlay(int width, int height, bool renderA
                 }
             }
 
+            if (pRenderKey != nullptr)
+            {
+                logCharacterEquipmentRender(
+                    pRenderKey,
+                    layout.parentId,
+                    assetName,
+                    layerX,
+                    layerY,
+                    layerWidth,
+                    layerHeight,
+                    layout.zIndex,
+                    baseScale > 0.0f ? (layerX - uiViewport.x) / baseScale : layerX,
+                    baseScale > 0.0f ? (layerY - uiViewport.y) / baseScale : layerY,
+                    baseScale > 0.0f ? layerWidth / baseScale : layerWidth,
+                    baseScale > 0.0f ? layerHeight / baseScale : layerHeight);
+            }
+
             submitTexturedQuad(*pTexture, layerX, layerY, layerWidth, layerHeight);
+        };
+
+    const auto getEquippedItemDefinition =
+        [this, pCharacter](EquipmentSlot slot) -> const ItemDefinition *
+        {
+            if (pCharacter == nullptr || m_pItemTable == nullptr)
+            {
+                return nullptr;
+            }
+
+            const uint32_t itemId = equippedItemId(pCharacter->equipment, slot);
+            return itemId != 0 ? m_pItemTable->get(itemId) : nullptr;
         };
 
     for (const std::string &layoutId : orderedCharacterLayoutIds)
@@ -5956,6 +6397,53 @@ void OutdoorGameView::renderCharacterOverlay(int width, int height, bool renderA
                 pCharacterDollEntry->bodyAsset,
                 pCharacterDollEntry->bodyOffsetX,
                 pCharacterDollEntry->bodyOffsetY);
+
+            if (pCharacterDollType != nullptr)
+            {
+                const ItemDefinition *pBowItem = getEquippedItemDefinition(EquipmentSlot::Bow);
+                const ItemDefinition *pMainHandItem = getEquippedItemDefinition(EquipmentSlot::MainHand);
+                const ItemDefinition *pOffHandItem = getEquippedItemDefinition(EquipmentSlot::OffHand);
+
+                if (pBowItem != nullptr)
+                {
+                    submitCharacterDollLayer(
+                        *pLayout,
+                        *resolved,
+                        pBowItem->iconName,
+                        pCharacterDollType->bowOffsetX,
+                        pCharacterDollType->bowOffsetY,
+                        "doll.Bow");
+                }
+
+                if (pMainHandItem != nullptr)
+                {
+                    submitCharacterDollLayer(
+                        *pLayout,
+                        *resolved,
+                        pMainHandItem->iconName,
+                        -pMainHandItem->equipX + pCharacterDollType->mainHandOffsetX / 2,
+                        pMainHandItem->equipY + pCharacterDollType->mainHandOffsetY / 2,
+                        "doll.MainHand");
+                }
+
+                if (pOffHandItem != nullptr)
+                {
+                    const int offsetX = pOffHandItem->equipStat == "Shield"
+                        ? pCharacterDollType->shieldX
+                        : -pOffHandItem->equipX + pCharacterDollType->offHandOffsetX / 2;
+                    const int offsetY = pOffHandItem->equipStat == "Shield"
+                        ? pCharacterDollType->shieldY
+                        : pOffHandItem->equipY + pCharacterDollType->offHandOffsetY / 2;
+                    submitCharacterDollLayer(
+                        *pLayout,
+                        *resolved,
+                        pOffHandItem->iconName,
+                        offsetX,
+                        offsetY,
+                        "doll.OffHand");
+                }
+            }
+
             continue;
         }
 
@@ -6095,6 +6583,109 @@ void OutdoorGameView::renderCharacterOverlay(int width, int height, bool renderA
                 submitTexturedQuad(*pItemTexture, itemRect.x, itemRect.y, itemRect.width, itemRect.height);
             }
 
+        }
+    }
+
+    if (pCharacter != nullptr)
+    {
+        for (const std::string &layoutId : orderedCharacterLayoutIds)
+        {
+            const HudLayoutElement *pLayout = findHudLayoutElement(layoutId);
+
+            if (pLayout == nullptr || !hasVisibleCharacterAncestors(*pLayout) || !shouldRenderInCurrentPass(pLayout->zIndex))
+            {
+                continue;
+            }
+
+            if (!m_characterDollJewelryOverlayOpen
+                && (toLowerCopy(layoutId) == "characterdollamuletslot"
+                    || toLowerCopy(layoutId) == "characterdollgauntletsslot"
+                    || toLowerCopy(layoutId) == "characterdollring1slot"
+                    || toLowerCopy(layoutId) == "characterdollring2slot"
+                    || toLowerCopy(layoutId) == "characterdollring3slot"
+                    || toLowerCopy(layoutId) == "characterdollring4slot"
+                    || toLowerCopy(layoutId) == "characterdollring5slot"
+                    || toLowerCopy(layoutId) == "characterdollring6slot"))
+            {
+                continue;
+            }
+
+            const std::optional<EquipmentSlot> slot = characterEquipmentSlotForLayoutId(layoutId);
+
+            if (!slot)
+            {
+                continue;
+            }
+
+            const ItemDefinition *pItemDefinition = getEquippedItemDefinition(*slot);
+
+            if (pItemDefinition == nullptr || pItemDefinition->iconName.empty())
+            {
+                continue;
+            }
+
+            const bool hasRightHandWeapon =
+                pCharacter != nullptr && pCharacter->equipment.mainHand != 0;
+            const uint32_t dollTypeId = pCharacterDollType != nullptr ? pCharacterDollType->id : 0;
+            const std::string textureName =
+                resolveEquippedItemHudTextureName(*pItemDefinition, dollTypeId, hasRightHandWeapon, *slot);
+            const HudTextureHandle *pTexture =
+                const_cast<OutdoorGameView *>(this)->ensureHudTextureLoaded(textureName);
+
+            if (pTexture == nullptr)
+            {
+                continue;
+            }
+
+            const std::optional<ResolvedHudLayoutElement> iconRect = resolveCharacterEquipmentRenderRect(
+                *pLayout,
+                *pItemDefinition,
+                *pTexture,
+                pCharacterDollType,
+                *slot,
+                width,
+                height);
+
+            if (!iconRect)
+            {
+                continue;
+            }
+
+            if (toLowerCopy(layoutId) == "characterdollhelmetslot")
+            {
+                static std::string lastHelmetSlotDebug;
+                std::ostringstream slotDebug;
+                slotDebug << "parent=\"" << pLayout->parentId
+                          << "\" draw_x=" << iconRect->x
+                          << " draw_y=" << iconRect->y
+                          << " draw_w=" << iconRect->width
+                          << " draw_h=" << iconRect->height
+                          << " logical_x=" << (baseScale > 0.0f ? (iconRect->x - uiViewport.x) / baseScale : iconRect->x)
+                          << " logical_y=" << (baseScale > 0.0f ? (iconRect->y - uiViewport.y) / baseScale : iconRect->y)
+                          << " logical_w=" << (baseScale > 0.0f ? iconRect->width / baseScale : iconRect->width)
+                          << " logical_h=" << (baseScale > 0.0f ? iconRect->height / baseScale : iconRect->height);
+                const std::string slotDebugText = slotDebug.str();
+
+                if (slotDebugText != lastHelmetSlotDebug)
+                {
+                    lastHelmetSlotDebug = slotDebugText;
+                    std::cout << "Character helmet slot layout: " << slotDebugText << '\n';
+                }
+            }
+            logCharacterEquipmentRender(
+                "slot." + std::string(equipmentSlotName(*slot)),
+                pLayout->parentId,
+                textureName,
+                iconRect->x,
+                iconRect->y,
+                iconRect->width,
+                iconRect->height,
+                pLayout->zIndex,
+                baseScale > 0.0f ? (iconRect->x - uiViewport.x) / baseScale : iconRect->x,
+                baseScale > 0.0f ? (iconRect->y - uiViewport.y) / baseScale : iconRect->y,
+                baseScale > 0.0f ? iconRect->width / baseScale : iconRect->width,
+                baseScale > 0.0f ? iconRect->height / baseScale : iconRect->height);
+            submitTexturedQuad(*pTexture, iconRect->x, iconRect->y, iconRect->width, iconRect->height);
         }
     }
 
@@ -13763,6 +14354,12 @@ void OutdoorGameView::updateCameraFromInput(float deltaSeconds)
     {
         Character *pActiveCharacter =
             m_pOutdoorPartyRuntime != nullptr ? m_pOutdoorPartyRuntime->party().activeMember() : nullptr;
+        const CharacterDollEntry *pActiveCharacterDollEntry =
+            resolveCharacterDollEntry(m_pCharacterDollTable, pActiveCharacter);
+        const CharacterDollTypeEntry *pActiveCharacterDollType =
+            pActiveCharacterDollEntry != nullptr && m_pCharacterDollTable != nullptr
+            ? m_pCharacterDollTable->getDollType(pActiveCharacterDollEntry->dollTypeId)
+            : nullptr;
         const CharacterSkillUiData skillUiData = buildCharacterSkillUiData(pActiveCharacter);
         const HudFontHandle *pSkillRowFont = findHudFont("Lucida");
         const float skillRowHeight = pSkillRowFont != nullptr
@@ -13833,7 +14430,14 @@ void OutdoorGameView::updateCameraFromInput(float deltaSeconds)
             };
 
         const auto findCharacterPointerTarget =
-            [this, screenWidth, screenHeight, skillRowHeight, &skillUiData, pActiveCharacter, &resolveCharacterInventoryGrid](
+            [this,
+             screenWidth,
+             screenHeight,
+             skillRowHeight,
+             &skillUiData,
+             pActiveCharacter,
+             pActiveCharacterDollType,
+             &resolveCharacterInventoryGrid](
                 float pointerX,
                 float pointerY) -> CharacterPointerTarget
             {
@@ -13925,6 +14529,139 @@ void OutdoorGameView::updateCameraFromInput(float deltaSeconds)
 
                 if (m_characterPage == CharacterPage::Inventory)
                 {
+                    if (m_heldInventoryItem.active)
+                    {
+                        const HudLayoutElement *pDollLayout = findHudLayoutElement("CharacterDollPanel");
+
+                        if (pDollLayout != nullptr)
+                        {
+                            const std::optional<ResolvedHudLayoutElement> resolvedDoll = resolveHudLayoutElement(
+                                "CharacterDollPanel",
+                                screenWidth,
+                                screenHeight,
+                                pDollLayout->width,
+                                pDollLayout->height);
+
+                            if (resolvedDoll
+                                && pointerX >= resolvedDoll->x
+                                && pointerX < resolvedDoll->x + resolvedDoll->width
+                                && pointerY >= resolvedDoll->y
+                                && pointerY < resolvedDoll->y + resolvedDoll->height)
+                            {
+                                return {CharacterPointerTargetType::DollPanel, CharacterPage::Inventory};
+                            }
+                        }
+                    }
+
+                    struct CharacterEquipmentSlotTarget
+                    {
+                        const char *layoutId;
+                        EquipmentSlot slot;
+                        bool jewelryOverlayOnly;
+                    };
+
+                    static constexpr CharacterEquipmentSlotTarget EquipmentSlotTargets[] = {
+                        {"CharacterDollBowSlot", EquipmentSlot::Bow, false},
+                        {"CharacterDollArmorSlot", EquipmentSlot::Armor, false},
+                        {"CharacterDollHelmetSlot", EquipmentSlot::Helm, false},
+                        {"CharacterDollBeltSlot", EquipmentSlot::Belt, false},
+                        {"CharacterDollCloakSlot", EquipmentSlot::Cloak, false},
+                        {"CharacterDollBootsSlot", EquipmentSlot::Boots, false},
+                        {"CharacterDollAmuletSlot", EquipmentSlot::Amulet, true},
+                        {"CharacterDollGauntletsSlot", EquipmentSlot::Gauntlets, true},
+                        {"CharacterDollRing1Slot", EquipmentSlot::Ring1, true},
+                        {"CharacterDollRing2Slot", EquipmentSlot::Ring2, true},
+                        {"CharacterDollRing3Slot", EquipmentSlot::Ring3, true},
+                        {"CharacterDollRing4Slot", EquipmentSlot::Ring4, true},
+                        {"CharacterDollRing5Slot", EquipmentSlot::Ring5, true},
+                        {"CharacterDollRing6Slot", EquipmentSlot::Ring6, true},
+                    };
+
+                    for (const CharacterEquipmentSlotTarget &target : EquipmentSlotTargets)
+                    {
+                        if (target.jewelryOverlayOnly && !m_characterDollJewelryOverlayOpen)
+                        {
+                            continue;
+                        }
+
+                        const HudLayoutElement *pLayout = findHudLayoutElement(target.layoutId);
+
+                        if (pLayout == nullptr)
+                        {
+                            continue;
+                        }
+
+                        const uint32_t equippedId =
+                            pActiveCharacter != nullptr ? equippedItemId(pActiveCharacter->equipment, target.slot) : 0;
+                        const ItemDefinition *pItemDefinition =
+                            equippedId != 0 && m_pItemTable != nullptr ? m_pItemTable->get(equippedId) : nullptr;
+                        std::optional<ResolvedHudLayoutElement> dynamicRect;
+
+                        if (pItemDefinition != nullptr && !pItemDefinition->iconName.empty())
+                        {
+                            const bool hasRightHandWeapon =
+                                pActiveCharacter != nullptr && pActiveCharacter->equipment.mainHand != 0;
+                            const uint32_t dollTypeId =
+                                pActiveCharacterDollType != nullptr ? pActiveCharacterDollType->id : 0;
+                            const std::string textureName = resolveEquippedItemHudTextureName(
+                                *pItemDefinition,
+                                dollTypeId,
+                                hasRightHandWeapon,
+                                target.slot);
+                            const HudTextureHandle *pTexture = ensureHudTextureLoaded(textureName);
+
+                            if (pTexture != nullptr)
+                            {
+                                dynamicRect = resolveCharacterEquipmentRenderRect(
+                                    *pLayout,
+                                    *pItemDefinition,
+                                    *pTexture,
+                                    pActiveCharacterDollType,
+                                    target.slot,
+                                    screenWidth,
+                                    screenHeight);
+                            }
+                        }
+
+                        const bool pointerInsideDynamicRect =
+                            dynamicRect
+                            && pointerX >= dynamicRect->x
+                            && pointerX < dynamicRect->x + dynamicRect->width
+                            && pointerY >= dynamicRect->y
+                            && pointerY < dynamicRect->y + dynamicRect->height;
+                        const std::optional<ResolvedHudLayoutElement> resolved =
+                            dynamicRect
+                            ? std::nullopt
+                            : resolveHudLayoutElement(
+                                target.layoutId,
+                                screenWidth,
+                                screenHeight,
+                                pLayout->width,
+                                pLayout->height);
+                        const bool pointerInsideLayoutRect =
+                            resolved
+                            && pointerX >= resolved->x
+                            && pointerX < resolved->x + resolved->width
+                            && pointerY >= resolved->y
+                            && pointerY < resolved->y + resolved->height;
+
+                        if (!pointerInsideDynamicRect && !pointerInsideLayoutRect)
+                        {
+                            continue;
+                        }
+
+                        if (m_heldInventoryItem.active
+                            || (pActiveCharacter != nullptr
+                                && equippedItemId(pActiveCharacter->equipment, target.slot) != 0))
+                        {
+                            CharacterPointerTarget pointerTarget = {};
+                            pointerTarget.type = CharacterPointerTargetType::EquipmentSlot;
+                            pointerTarget.page = CharacterPage::Inventory;
+                            pointerTarget.equipmentSlot = target.slot;
+                            return pointerTarget;
+                        }
+                    }
+
                     const std::optional<ResolvedHudLayoutElement> resolvedInventoryGrid = resolveCharacterInventoryGrid();
 
                     if (resolvedInventoryGrid
@@ -13969,30 +14706,6 @@ void OutdoorGameView::updateCameraFromInput(float deltaSeconds)
                                 target.gridY = pItem->gridY;
                                 return target;
                             }
-                        }
-                    }
-                }
-
-                if (m_heldInventoryItem.active)
-                {
-                    const HudLayoutElement *pDollLayout = findHudLayoutElement("CharacterDollPanel");
-
-                    if (pDollLayout != nullptr)
-                    {
-                        const std::optional<ResolvedHudLayoutElement> resolved = resolveHudLayoutElement(
-                            "CharacterDollPanel",
-                            screenWidth,
-                            screenHeight,
-                            pDollLayout->width,
-                            pDollLayout->height);
-
-                        if (resolved
-                            && pointerX >= resolved->x
-                            && pointerX < resolved->x + resolved->width
-                            && pointerY >= resolved->y
-                            && pointerY < resolved->y + resolved->height)
-                        {
-                            return {CharacterPointerTargetType::DollPanel, CharacterPage::Inventory};
                         }
                     }
                 }
@@ -14126,9 +14839,51 @@ void OutdoorGameView::updateCameraFromInput(float deltaSeconds)
             m_characterPressedTarget,
             noneCharacterTarget,
             findCharacterPointerTarget,
-            [this, screenWidth, screenHeight, mouseX, mouseY, &resolveCharacterInventoryGrid](
+            [this, screenWidth, screenHeight, mouseX, mouseY, &resolveCharacterInventoryGrid, pActiveCharacterDollType](
                 const CharacterPointerTarget &target)
             {
+                const auto resolveItemLogName =
+                    [this](uint32_t objectDescriptionId) -> std::string
+                    {
+                        const ItemDefinition *pItemDefinition =
+                            m_pItemTable != nullptr ? m_pItemTable->get(objectDescriptionId) : nullptr;
+
+                        if (pItemDefinition == nullptr || pItemDefinition->name.empty())
+                        {
+                            return std::to_string(objectDescriptionId);
+                        }
+
+                        return pItemDefinition->name;
+                    };
+
+                const auto logCharacterItemAction =
+                    [this, &resolveItemLogName](const char *pAction, uint32_t objectDescriptionId, const std::string &detail)
+                    {
+                        const size_t memberIndex =
+                            m_pOutdoorPartyRuntime != nullptr ? m_pOutdoorPartyRuntime->party().activeMemberIndex() : 0;
+                        std::cout << "Character item " << pAction
+                                  << ": member=" << memberIndex
+                                  << " item=\"" << resolveItemLogName(objectDescriptionId) << "\"";
+
+                        if (!detail.empty())
+                        {
+                            std::cout << " " << detail;
+                        }
+
+                        std::cout << '\n';
+                    };
+
+                const auto setHeldItem =
+                    [this](const InventoryItem &item)
+                    {
+                        m_heldInventoryItem.active = true;
+                        m_heldInventoryItem.item = item;
+                        m_heldInventoryItem.grabCellOffsetX = 0;
+                        m_heldInventoryItem.grabCellOffsetY = 0;
+                        m_heldInventoryItem.grabOffsetX = 0.0f;
+                        m_heldInventoryItem.grabOffsetY = 0.0f;
+                    };
+
                 if (target.type == CharacterPointerTargetType::PageButton)
                 {
                     m_characterPage = target.page;
@@ -14159,12 +14914,12 @@ void OutdoorGameView::updateCameraFromInput(float deltaSeconds)
                             target.gridY,
                             heldItem))
                     {
-                        m_heldInventoryItem.active = true;
-                        m_heldInventoryItem.item = heldItem;
-                        m_heldInventoryItem.grabCellOffsetX = 0;
-                        m_heldInventoryItem.grabCellOffsetY = 0;
-                        m_heldInventoryItem.grabOffsetX = 0.0f;
-                        m_heldInventoryItem.grabOffsetY = 0.0f;
+                        setHeldItem(heldItem);
+                        logCharacterItemAction(
+                            "picked_up",
+                            heldItem.objectDescriptionId,
+                            "source=inventory cell=(" + std::to_string(target.gridX) + "," + std::to_string(target.gridY)
+                                + ")");
 
                         const std::optional<ResolvedHudLayoutElement> resolvedInventoryGrid =
                             resolveCharacterInventoryGrid();
@@ -14208,6 +14963,92 @@ void OutdoorGameView::updateCameraFromInput(float deltaSeconds)
                                 }
                             }
                         }
+                    }
+                }
+                else if (target.type == CharacterPointerTargetType::EquipmentSlot
+                         && m_pOutdoorPartyRuntime != nullptr)
+                {
+                    Party &party = m_pOutdoorPartyRuntime->party();
+
+                    if (!m_heldInventoryItem.active)
+                    {
+                        InventoryItem unequippedItem = {};
+
+                        if (party.takeEquippedItemFromMember(
+                                party.activeMemberIndex(),
+                                target.equipmentSlot,
+                                unequippedItem))
+                        {
+                            setHeldItem(unequippedItem);
+                            logCharacterItemAction(
+                                "removed_from_doll",
+                                unequippedItem.objectDescriptionId,
+                                "slot=" + std::string(equipmentSlotName(target.equipmentSlot)));
+                        }
+
+                        return;
+                    }
+
+                    const ItemDefinition *pItemDefinition =
+                        m_pItemTable != nullptr
+                        ? m_pItemTable->get(m_heldInventoryItem.item.objectDescriptionId)
+                        : nullptr;
+
+                    if (pItemDefinition == nullptr)
+                    {
+                        return;
+                    }
+
+                    const std::optional<CharacterEquipPlan> plan =
+                        GameMechanics::resolveCharacterEquipPlan(
+                            *party.activeMember(),
+                            *pItemDefinition,
+                            m_pItemTable,
+                            pActiveCharacterDollType,
+                            target.equipmentSlot,
+                            false);
+
+                    if (!plan)
+                    {
+                        logCharacterItemAction(
+                            "equip_rejected",
+                            m_heldInventoryItem.item.objectDescriptionId,
+                            "target=" + std::string(equipmentSlotName(target.equipmentSlot)));
+                        setStatusBarEvent("Can't equip that item there");
+                        return;
+                    }
+
+                    std::optional<InventoryItem> heldReplacement;
+
+                    if (!party.tryEquipItemOnMember(
+                            party.activeMemberIndex(),
+                            plan->targetSlot,
+                            m_heldInventoryItem.item,
+                            plan->displacedSlot,
+                            plan->autoStoreDisplacedItem,
+                            heldReplacement))
+                    {
+                        logCharacterItemAction(
+                            "equip_failed",
+                            m_heldInventoryItem.item.objectDescriptionId,
+                            "target=" + std::string(equipmentSlotName(plan->targetSlot))
+                                + " reason=\"" + party.lastStatus() + "\"");
+                        setStatusBarEvent(party.lastStatus().empty() ? "Can't equip that item" : party.lastStatus());
+                        return;
+                    }
+
+                    logCharacterItemAction(
+                        "placed_on_doll",
+                        m_heldInventoryItem.item.objectDescriptionId,
+                        "slot=" + std::string(equipmentSlotName(plan->targetSlot)));
+
+                    if (heldReplacement)
+                    {
+                        setHeldItem(*heldReplacement);
+                    }
+                    else
+                    {
+                        m_heldInventoryItem = {};
                     }
                 }
                 else if (target.type == CharacterPointerTargetType::InventoryCell
@@ -14303,15 +15144,84 @@ void OutdoorGameView::updateCameraFromInput(float deltaSeconds)
                 else if (target.type == CharacterPointerTargetType::DollPanel
                          && m_heldInventoryItem.active)
                 {
+                    if (m_pOutdoorPartyRuntime == nullptr)
+                    {
+                        return;
+                    }
+
+                    Party &party = m_pOutdoorPartyRuntime->party();
                     const ItemDefinition *pItemDefinition =
                         m_pItemTable != nullptr
                         ? m_pItemTable->get(m_heldInventoryItem.item.objectDescriptionId)
                         : nullptr;
-                    const std::string itemName =
-                        pItemDefinition != nullptr && !pItemDefinition->name.empty()
-                        ? pItemDefinition->name
-                        : "item";
-                    setStatusBarEvent("Use " + itemName + " on doll: TODO");
+
+                    if (pItemDefinition == nullptr)
+                    {
+                        return;
+                    }
+
+                    const HudLayoutElement *pDollLayout = findHudLayoutElement("CharacterDollPanel");
+                    const std::optional<ResolvedHudLayoutElement> resolvedDoll = pDollLayout != nullptr
+                        ? resolveHudLayoutElement(
+                            "CharacterDollPanel",
+                            screenWidth,
+                            screenHeight,
+                            pDollLayout->width,
+                            pDollLayout->height)
+                        : std::nullopt;
+                    const bool preferOffHand =
+                        resolvedDoll && mouseX >= resolvedDoll->x + resolvedDoll->width * 0.5f;
+                    const std::optional<CharacterEquipPlan> plan =
+                        GameMechanics::resolveCharacterEquipPlan(
+                            *party.activeMember(),
+                            *pItemDefinition,
+                            m_pItemTable,
+                            pActiveCharacterDollType,
+                            std::nullopt,
+                            preferOffHand);
+
+                    if (!plan)
+                    {
+                        logCharacterItemAction(
+                            "equip_rejected",
+                            m_heldInventoryItem.item.objectDescriptionId,
+                            "target=auto");
+                        setStatusBarEvent("Can't equip that item");
+                        return;
+                    }
+
+                    std::optional<InventoryItem> heldReplacement;
+
+                    if (!party.tryEquipItemOnMember(
+                            party.activeMemberIndex(),
+                            plan->targetSlot,
+                            m_heldInventoryItem.item,
+                            plan->displacedSlot,
+                            plan->autoStoreDisplacedItem,
+                            heldReplacement))
+                    {
+                        logCharacterItemAction(
+                            "equip_failed",
+                            m_heldInventoryItem.item.objectDescriptionId,
+                            "target=" + std::string(equipmentSlotName(plan->targetSlot))
+                                + " reason=\"" + party.lastStatus() + "\"");
+                        setStatusBarEvent(party.lastStatus().empty() ? "Can't equip that item" : party.lastStatus());
+                        return;
+                    }
+
+                    logCharacterItemAction(
+                        "placed_on_doll",
+                        m_heldInventoryItem.item.objectDescriptionId,
+                        "slot=" + std::string(equipmentSlotName(plan->targetSlot)));
+
+                    if (heldReplacement)
+                    {
+                        setHeldItem(*heldReplacement);
+                    }
+                    else
+                    {
+                        m_heldInventoryItem = {};
+                    }
                 }
             });
 
