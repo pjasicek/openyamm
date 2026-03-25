@@ -487,6 +487,16 @@ std::optional<EquipmentSlot> characterEquipmentSlotForLayoutId(const std::string
         return EquipmentSlot::Bow;
     }
 
+    if (normalized == "characterdollrighthandslot")
+    {
+        return EquipmentSlot::MainHand;
+    }
+
+    if (normalized == "characterdolllefthandslot")
+    {
+        return EquipmentSlot::OffHand;
+    }
+
     if (normalized == "characterdollarmorslot")
     {
         return EquipmentSlot::Armor;
@@ -5663,9 +5673,52 @@ std::optional<OutdoorGameView::ResolvedHudLayoutElement> OutdoorGameView::resolv
         return rect;
     }
 
-    if (slot == EquipmentSlot::Bow && layout.width <= 0.0f && layout.height <= 0.0f)
+    if (slot == EquipmentSlot::Bow)
     {
-        return std::nullopt;
+        ResolvedHudLayoutElement rect = {};
+        rect.x = std::round(
+            resolved->x + static_cast<float>(pCharacterDollType != nullptr ? pCharacterDollType->bowOffsetX : 0)
+            * resolved->scale - iconWidth * 0.5f);
+        rect.y = std::round(
+            resolved->y + static_cast<float>(pCharacterDollType != nullptr ? pCharacterDollType->bowOffsetY : 0)
+            * resolved->scale - iconHeight * 0.5f);
+        rect.width = iconWidth;
+        rect.height = iconHeight;
+        rect.scale = resolved->scale;
+        return rect;
+    }
+
+    if (slot == EquipmentSlot::MainHand || slot == EquipmentSlot::OffHand)
+    {
+        int offsetX = 0;
+        int offsetY = 0;
+
+        if (pCharacterDollType != nullptr)
+        {
+            if (slot == EquipmentSlot::MainHand)
+            {
+                offsetX = pCharacterDollType->rightHandFingersX + pCharacterDollType->mainHandOffsetX - itemDefinition.equipX;
+                offsetY = pCharacterDollType->rightHandFingersY + pCharacterDollType->mainHandOffsetY - itemDefinition.equipY;
+            }
+            else if (itemDefinition.equipStat == "Shield")
+            {
+                offsetX += pCharacterDollType->leftHandClosedX + pCharacterDollType->shieldX - itemDefinition.equipX;
+                offsetY += pCharacterDollType->leftHandClosedY + pCharacterDollType->shieldY - itemDefinition.equipY;
+            }
+            else
+            {
+                offsetX = pCharacterDollType->rightHandFingersX + pCharacterDollType->offHandOffsetX - itemDefinition.equipX;
+                offsetY = pCharacterDollType->rightHandFingersY + pCharacterDollType->offHandOffsetY - itemDefinition.equipY;
+            }
+        }
+
+        ResolvedHudLayoutElement rect = {};
+        rect.x = std::round(resolved->x + static_cast<float>(offsetX) * resolved->scale);
+        rect.y = std::round(resolved->y + static_cast<float>(offsetY) * resolved->scale);
+        rect.width = iconWidth;
+        rect.height = iconHeight;
+        rect.scale = resolved->scale;
+        return rect;
     }
 
     const InventoryItemScreenRect centeredRect = computeCenteredItemRect(
@@ -6330,6 +6383,27 @@ void OutdoorGameView::renderCharacterOverlay(int width, int height, bool renderA
             return itemId != 0 ? m_pItemTable->get(itemId) : nullptr;
         };
 
+    const ItemDefinition *pMainHandItem = getEquippedItemDefinition(EquipmentSlot::MainHand);
+    const ItemDefinition *pOffHandItem = getEquippedItemDefinition(EquipmentSlot::OffHand);
+    const bool hasMainHandItem = pMainHandItem != nullptr;
+    const bool hasOffHandItem = pOffHandItem != nullptr;
+    SkillMastery spearMastery = SkillMastery::None;
+
+    if (pCharacter != nullptr)
+    {
+        const CharacterSkill *pSpearSkill = pCharacter->findSkill("Spear");
+
+        if (pSpearSkill != nullptr)
+        {
+            spearMastery = pSpearSkill->mastery;
+        }
+    }
+
+    const bool leftHandDisabled =
+        pMainHandItem != nullptr
+        && (pMainHandItem->equipStat == "Weapon2"
+            || (canonicalSkillName(pMainHandItem->skillGroup) == "Spear" && spearMastery < SkillMastery::Master));
+
     for (const std::string &layoutId : orderedCharacterLayoutIds)
     {
         const HudLayoutElement *pLayout = findHudLayoutElement(layoutId);
@@ -6398,52 +6472,6 @@ void OutdoorGameView::renderCharacterOverlay(int width, int height, bool renderA
                 pCharacterDollEntry->bodyOffsetX,
                 pCharacterDollEntry->bodyOffsetY);
 
-            if (pCharacterDollType != nullptr)
-            {
-                const ItemDefinition *pBowItem = getEquippedItemDefinition(EquipmentSlot::Bow);
-                const ItemDefinition *pMainHandItem = getEquippedItemDefinition(EquipmentSlot::MainHand);
-                const ItemDefinition *pOffHandItem = getEquippedItemDefinition(EquipmentSlot::OffHand);
-
-                if (pBowItem != nullptr)
-                {
-                    submitCharacterDollLayer(
-                        *pLayout,
-                        *resolved,
-                        pBowItem->iconName,
-                        pCharacterDollType->bowOffsetX,
-                        pCharacterDollType->bowOffsetY,
-                        "doll.Bow");
-                }
-
-                if (pMainHandItem != nullptr)
-                {
-                    submitCharacterDollLayer(
-                        *pLayout,
-                        *resolved,
-                        pMainHandItem->iconName,
-                        -pMainHandItem->equipX + pCharacterDollType->mainHandOffsetX / 2,
-                        pMainHandItem->equipY + pCharacterDollType->mainHandOffsetY / 2,
-                        "doll.MainHand");
-                }
-
-                if (pOffHandItem != nullptr)
-                {
-                    const int offsetX = pOffHandItem->equipStat == "Shield"
-                        ? pCharacterDollType->shieldX
-                        : -pOffHandItem->equipX + pCharacterDollType->offHandOffsetX / 2;
-                    const int offsetY = pOffHandItem->equipStat == "Shield"
-                        ? pCharacterDollType->shieldY
-                        : pOffHandItem->equipY + pCharacterDollType->offHandOffsetY / 2;
-                    submitCharacterDollLayer(
-                        *pLayout,
-                        *resolved,
-                        pOffHandItem->iconName,
-                        offsetX,
-                        offsetY,
-                        "doll.OffHand");
-                }
-            }
-
             continue;
         }
 
@@ -6451,24 +6479,24 @@ void OutdoorGameView::renderCharacterOverlay(int width, int height, bool renderA
             && pCharacterDollEntry != nullptr
             && pCharacterDollType != nullptr)
         {
-            submitCharacterDollLayer(
-                *pLayout,
-                *resolved,
-                pCharacterDollEntry->rightHandOpenAsset,
-                pCharacterDollType->rightHandOpenX,
-                pCharacterDollType->rightHandOpenY);
-            submitCharacterDollLayer(
-                *pLayout,
-                *resolved,
-                pCharacterDollEntry->rightHandHoldAsset,
-                pCharacterDollType->rightHandClosedX,
-                pCharacterDollType->rightHandClosedY);
-            submitCharacterDollLayer(
-                *pLayout,
-                *resolved,
-                pCharacterDollEntry->rightHandFingersAsset,
-                pCharacterDollType->rightHandFingersX,
-                pCharacterDollType->rightHandFingersY);
+            if (hasMainHandItem)
+            {
+                submitCharacterDollLayer(
+                    *pLayout,
+                    *resolved,
+                    pCharacterDollEntry->rightHandHoldAsset,
+                    pCharacterDollType->rightHandClosedX,
+                    pCharacterDollType->rightHandClosedY);
+            }
+            else
+            {
+                submitCharacterDollLayer(
+                    *pLayout,
+                    *resolved,
+                    pCharacterDollEntry->rightHandOpenAsset,
+                    pCharacterDollType->rightHandOpenX,
+                    pCharacterDollType->rightHandOpenY);
+            }
             continue;
         }
 
@@ -6476,24 +6504,47 @@ void OutdoorGameView::renderCharacterOverlay(int width, int height, bool renderA
             && pCharacterDollEntry != nullptr
             && pCharacterDollType != nullptr)
         {
+            if (hasOffHandItem)
+            {
+                submitCharacterDollLayer(
+                    *pLayout,
+                    *resolved,
+                    pCharacterDollEntry->leftHandHoldAsset,
+                    pCharacterDollType->leftHandOpenX,
+                    pCharacterDollType->leftHandOpenY);
+            }
+            else if (leftHandDisabled)
+            {
+                submitCharacterDollLayer(
+                    *pLayout,
+                    *resolved,
+                    pCharacterDollEntry->leftHandClosedAsset,
+                    pCharacterDollType->leftHandClosedX,
+                    pCharacterDollType->leftHandClosedY);
+            }
+            else
+            {
+                submitCharacterDollLayer(
+                    *pLayout,
+                    *resolved,
+                    pCharacterDollEntry->leftHandOpenAsset,
+                    pCharacterDollType->leftHandFingersX,
+                    pCharacterDollType->leftHandFingersY);
+            }
+            continue;
+        }
+
+        if (normalizedLayoutId == "characterdollrighthandfingers"
+            && pCharacterDollEntry != nullptr
+            && pCharacterDollType != nullptr
+            && getEquippedItemDefinition(EquipmentSlot::MainHand) != nullptr)
+        {
             submitCharacterDollLayer(
                 *pLayout,
                 *resolved,
-                pCharacterDollEntry->leftHandOpenAsset,
-                pCharacterDollType->leftHandFingersX,
-                pCharacterDollType->leftHandFingersY);
-            submitCharacterDollLayer(
-                *pLayout,
-                *resolved,
-                pCharacterDollEntry->leftHandClosedAsset,
-                pCharacterDollType->leftHandClosedX,
-                pCharacterDollType->leftHandClosedY);
-            submitCharacterDollLayer(
-                *pLayout,
-                *resolved,
-                pCharacterDollEntry->leftHandHoldAsset,
-                pCharacterDollType->leftHandOpenX,
-                pCharacterDollType->leftHandOpenY);
+                pCharacterDollEntry->rightHandFingersAsset,
+                pCharacterDollType->rightHandFingersX,
+                pCharacterDollType->rightHandFingersY);
             continue;
         }
 
@@ -9076,7 +9127,9 @@ bool OutdoorGameView::loadHudLayoutFile(const Engine::AssetFileSystem &assetFile
             return HudLayoutAttachMode::CenterBelow;
         }
 
-        if (normalizedValue == "topcenter" || normalizedValue == "insidetopcenter")
+        if (normalizedValue == "top"
+            || normalizedValue == "topcenter"
+            || normalizedValue == "insidetopcenter")
         {
             return HudLayoutAttachMode::InsideTopCenter;
         }
@@ -14436,6 +14489,7 @@ void OutdoorGameView::updateCameraFromInput(float deltaSeconds)
              skillRowHeight,
              &skillUiData,
              pActiveCharacter,
+             pActiveCharacterDollEntry,
              pActiveCharacterDollType,
              &resolveCharacterInventoryGrid](
                 float pointerX,
@@ -14562,6 +14616,8 @@ void OutdoorGameView::updateCameraFromInput(float deltaSeconds)
 
                     static constexpr CharacterEquipmentSlotTarget EquipmentSlotTargets[] = {
                         {"CharacterDollBowSlot", EquipmentSlot::Bow, false},
+                        {"CharacterDollRightHandSlot", EquipmentSlot::MainHand, false},
+                        {"CharacterDollLeftHandSlot", EquipmentSlot::OffHand, false},
                         {"CharacterDollArmorSlot", EquipmentSlot::Armor, false},
                         {"CharacterDollHelmetSlot", EquipmentSlot::Helm, false},
                         {"CharacterDollBeltSlot", EquipmentSlot::Belt, false},

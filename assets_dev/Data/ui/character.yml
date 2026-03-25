@@ -1206,6 +1206,7 @@ elements:
             anchor: top_left
             offset_x: 0
             offset_y: 0
+            z_index: 60
             width: 0
             height: 0
             notes: Character doll body, set up by code according to the selected character
@@ -1216,6 +1217,7 @@ elements:
             offset_y: 0
             width: 0
             height: 0
+            z_index: 65
             notes: Character doll right hand, set up by code according to the selected character
 
           - id: CharacterDollLeftHand
@@ -1224,7 +1226,36 @@ elements:
             offset_y: 0
             width: 0
             height: 0
+            z_index: 65
             notes: Character doll right hand, set up by code according to the selected character
+
+          - id: CharacterDollRightHandFingers
+            anchor: top_left
+            offset_x: 0
+            offset_y: 0
+            width: 0
+            height: 0
+            z_index: 9990
+            z_index: 75
+            notes: Right hand fingers
+
+          - id: CharacterDollRightHandSlot
+            anchor: top_left
+            offset_x: 0
+            offset_y: 0
+            z_index: 70
+            width: 0
+            height: 0
+            notes: Right hand slot
+
+          - id: CharacterDollLeftHandSlot
+            anchor: top_left
+            offset_x: 0
+            offset_y: 0
+            width: 0
+            height: 0
+            z_index: 70
+            notes: Left hand slot
 
           - id: CharacterDollCloakSlot
             anchor: top_left
@@ -1232,6 +1263,7 @@ elements:
             offset_y: 0
             width: 0
             height: 0
+            z_index: 55
             notes: Cloak slot
 
           - id: CharacterDollBowSlot
@@ -1240,6 +1272,7 @@ elements:
             offset_y: 0
             width: 0
             height: 0
+            z_index: 52
             notes: Bow slot
 
           - id: CharacterDollArmorSlot
@@ -1248,6 +1281,7 @@ elements:
             offset_y: 0
             width: 0
             height: 0
+            z_index: 65
             notes: Armor slot
 
           - id: CharacterDollBootsSlot
@@ -1256,6 +1290,7 @@ elements:
             offset_y: 0
             width: 0
             height: 0
+            z_index: 65
             notes: Boots slot
 
           - id: CharacterDollHelmetSlot
@@ -1265,6 +1300,7 @@ elements:
             width: 0
             height: 0
             z_index: 800
+            z_index: 65
             notes: Helmet slot
 
           - id: CharacterDollBeltSlot
@@ -1273,6 +1309,7 @@ elements:
             offset_y: 0
             width: 0
             height: 0
+            z_index: 70
             notes: Belt slot
 
           - id: CharacterMagnifyButton
