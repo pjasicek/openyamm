@@ -61,6 +61,7 @@ add_custom_target(openyamm_ffmpeg_build
 add_executable(openyamm
     ActorNameResolver.cpp
     ChestTable.cpp
+    CharacterInspectTable.cpp
     CharacterDollTable.cpp
     ClassSkillTable.cpp
     EventDialogContent.cpp

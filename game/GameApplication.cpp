@@ -138,6 +138,7 @@ bool GameApplication::initializeRenderer()
             m_gameDataLoader.getNpcDialogTable(),
             m_gameDataLoader.getRosterTable(),
             m_gameDataLoader.getCharacterDollTable(),
+            m_gameDataLoader.getCharacterInspectTable(),
             m_gameDataLoader.getObjectTable(),
             m_gameDataLoader.getSpellTable(),
             m_gameDataLoader.getItemTable(),

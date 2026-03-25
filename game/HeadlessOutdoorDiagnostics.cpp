@@ -776,6 +776,48 @@ struct RegressionScenario
     EventRuntimeState *pEventRuntimeState = nullptr;
 };
 
+Character makeRegressionPartyMember(
+    const std::string &name,
+    const std::string &className,
+    const std::string &portraitTextureName,
+    uint32_t characterDataId)
+{
+    Character member = {};
+    member.name = name;
+    member.className = className;
+    member.role = className;
+    member.portraitTextureName = portraitTextureName;
+    member.characterDataId = characterDataId;
+    member.birthYear = 1160;
+    member.experience = 0;
+    member.level = 1;
+    member.skillPoints = 5;
+    member.might = 14;
+    member.intellect = 14;
+    member.personality = 14;
+    member.endurance = 14;
+    member.speed = 14;
+    member.accuracy = 14;
+    member.luck = 14;
+    member.maxHealth = 40;
+    member.health = 40;
+    member.maxSpellPoints = 20;
+    member.spellPoints = 20;
+    return member;
+}
+
+PartySeed createRegressionPartySeed()
+{
+    PartySeed seed = {};
+    seed.gold = 200;
+    seed.food = 7;
+    seed.members.push_back(makeRegressionPartyMember("Ariel", "Knight", "PC01-01", 1));
+    seed.members.push_back(makeRegressionPartyMember("Brom", "Cleric", "PC03-01", 3));
+    seed.members.push_back(makeRegressionPartyMember("Cedric", "Druid", "PC05-01", 5));
+    seed.members.push_back(makeRegressionPartyMember("Daria", "Sorcerer", "PC07-01", 7));
+    return seed;
+}
+
 EventDialogContent buildScenarioDialog(
     const GameDataLoader &gameDataLoader,
     const MapAssetInfo &selectedMap,
@@ -818,7 +860,7 @@ bool initializeRegressionScenario(
     scenario.party = {};
     scenario.party.setItemTable(&gameDataLoader.getItemTable());
     scenario.party.setClassSkillTable(&gameDataLoader.getClassSkillTable());
-    scenario.party.reset();
+    scenario.party.seed(createRegressionPartySeed());
     scenario.pEventRuntimeState = scenario.world.eventRuntimeState();
     return scenario.pEventRuntimeState != nullptr;
 }
@@ -8675,7 +8717,7 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
         {
             Party party = {};
             party.setItemTable(&gameDataLoader.getItemTable());
-            party.seed(Party::createDefaultSeed());
+            party.seed(createRegressionPartySeed());
             Character *pSeedMember = party.member(0);
 
             if (pSeedMember != nullptr)
@@ -8753,7 +8795,7 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
         {
             Party party = {};
             party.setItemTable(&gameDataLoader.getItemTable());
-            party.seed(Party::createDefaultSeed());
+            party.seed(createRegressionPartySeed());
             Character *pSeedMember = party.member(0);
 
             if (pSeedMember != nullptr)
@@ -8802,7 +8844,7 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
         {
             Party party = {};
             party.setItemTable(&gameDataLoader.getItemTable());
-            party.seed(Party::createDefaultSeed());
+            party.seed(createRegressionPartySeed());
             Character *pSeedMember = party.member(0);
 
             if (pSeedMember != nullptr)
@@ -8897,7 +8939,7 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
         {
             Party party = {};
             party.setItemTable(&gameDataLoader.getItemTable());
-            party.seed(Party::createDefaultSeed());
+            party.seed(createRegressionPartySeed());
             Character *pSourceMember = party.member(0);
             Character *pDestinationMember = party.member(1);
 
@@ -9174,7 +9216,7 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
         {
             Party party = {};
             party.setItemTable(&gameDataLoader.getItemTable());
-            party.seed(Party::createDefaultSeed());
+            party.seed(createRegressionPartySeed());
 
             Character *pMember = party.member(0);
 
@@ -9278,7 +9320,7 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
         {
             Party party = {};
             party.setItemTable(&gameDataLoader.getItemTable());
-            party.seed(Party::createDefaultSeed());
+            party.seed(createRegressionPartySeed());
             Character *pMember = party.member(0);
 
             if (pMember == nullptr)
@@ -9379,7 +9421,7 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
         {
             Party party = {};
             party.setItemTable(&gameDataLoader.getItemTable());
-            party.seed(Party::createDefaultSeed());
+            party.seed(createRegressionPartySeed());
             Character *pMember = party.member(0);
 
             if (pMember == nullptr)
@@ -9453,7 +9495,7 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
         {
             Party party = {};
             party.setItemTable(&gameDataLoader.getItemTable());
-            party.seed(Party::createDefaultSeed());
+            party.seed(createRegressionPartySeed());
             Character *pMember = party.member(0);
 
             if (pMember == nullptr)

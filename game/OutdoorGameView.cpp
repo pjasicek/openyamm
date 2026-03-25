@@ -109,6 +109,42 @@ struct CharacterSkillUiData
     std::vector<CharacterSkillUiRow> miscRows;
 };
 
+struct CharacterStatRowDefinition
+{
+    const char *pStatName;
+    const char *pLabelId;
+    const char *pValueId;
+};
+
+constexpr std::array<CharacterStatRowDefinition, 26> CharacterStatRows = {{
+    {"SkillPoints", "CharacterStatsSkillPointsTextLabel", "CharacterStatsSkillPointsValue"},
+    {"Might", "CharacterStatMightLabel", "CharacterStatMightValue"},
+    {"Intellect", "CharacterStatIntellectLabel", "CharacterStatIntellectValue"},
+    {"Personality", "CharacterStatPersonalityLabel", "CharacterStatPersonalityValue"},
+    {"Endurance", "CharacterStatEnduranceLabel", "CharacterStatEnduranceValue"},
+    {"Accuracy", "CharacterStatAccuracyLabel", "CharacterStatAccuracyValue"},
+    {"Speed", "CharacterStatSpeedLabel", "CharacterStatSpeedValue"},
+    {"Luck", "CharacterStatLuckLabel", "CharacterStatLuckValue"},
+    {"HitPoints", "CharacterStatHitPointsLabel", "CharacterStatHitPointsValue"},
+    {"SpellPoints", "CharacterStatSpellPointsLabel", "CharacterStatSpellPointsValue"},
+    {"ArmorClass", "CharacterStatArmorClassLabel", "CharacterStatArmorClassValue"},
+    {"Condition", "CharacterStatConditionLabel", "CharacterStatConditionValue"},
+    {"QuickSpell", "CharacterStatQuickSpellLabel", "CharacterStatQuickSpellValue"},
+    {"Age", "CharacterStatAgeLabel", "CharacterStatAgeValue"},
+    {"Level", "CharacterStatLevelLabel", "CharacterStatLevelValue"},
+    {"Experience", "CharacterStatExperienceLabel", "CharacterStatExperienceValue"},
+    {"Attack", "CharacterStatAttackLabel", "CharacterStatAttackValue"},
+    {"MeleeDamage", "CharacterStatMeleeDamageLabel", "CharacterStatMeleeDamageValue"},
+    {"Shoot", "CharacterStatShootLabel", "CharacterStatShootValue"},
+    {"RangedDamage", "CharacterStatRangedDamageLabel", "CharacterStatRangedDamageValue"},
+    {"FireResistance", "CharacterStatFireResistanceLabel", "CharacterStatFireResistanceValue"},
+    {"AirResistance", "CharacterStatAirResistanceLabel", "CharacterStatAirResistanceValue"},
+    {"WaterResistance", "CharacterStatWaterResistanceLabel", "CharacterStatWaterResistanceValue"},
+    {"EarthResistance", "CharacterStatEarthResistanceLabel", "CharacterStatEarthResistanceValue"},
+    {"MindResistance", "CharacterStatMindResistanceLabel", "CharacterStatMindResistanceValue"},
+    {"BodyResistance", "CharacterStatBodyResistanceLabel", "CharacterStatBodyResistanceValue"},
+}};
+
 struct InventoryGridMetrics
 {
     float x = 0.0f;
@@ -821,6 +857,38 @@ CharacterSkillUiData buildCharacterSkillUiData(const Character *pCharacter)
 
     data.miscRows.insert(data.miscRows.end(), extraMiscRows.begin(), extraMiscRows.end());
     return data;
+}
+
+int skillMasteryAvailability(
+    const ClassSkillTable *pClassSkillTable,
+    const Character *pCharacter,
+    const std::string &skillName,
+    SkillMastery mastery)
+{
+    if (pClassSkillTable == nullptr || pCharacter == nullptr)
+    {
+        return 0;
+    }
+
+    if (pClassSkillTable->getClassCap(pCharacter->className, skillName) >= mastery)
+    {
+        return 0;
+    }
+
+    if (pClassSkillTable->getHighestPromotionCap(pCharacter->className, skillName) >= mastery)
+    {
+        return 1;
+    }
+
+    return 2;
+}
+
+uint32_t packHudColorAbgr(uint8_t red, uint8_t green, uint8_t blue)
+{
+    return static_cast<uint32_t>(red)
+        | (static_cast<uint32_t>(green) << 8)
+        | (static_cast<uint32_t>(blue) << 16)
+        | 0xff000000u;
 }
 
 void setCharacterSkillRegionHeight(
@@ -2133,6 +2201,7 @@ OutdoorGameView::OutdoorGameView()
     , m_lastPartyPortraitClickedIndex(std::nullopt)
     , m_heldInventoryItem({})
     , m_itemInspectOverlay({})
+    , m_characterInspectOverlay({})
     , m_heldInventoryDropLatch(false)
     , m_closeOverlayLatch(false)
     , m_dialogueClickLatch(false)
@@ -2191,6 +2260,7 @@ bool OutdoorGameView::initialize(
     const NpcDialogTable &npcDialogTable,
     const RosterTable &rosterTable,
     const CharacterDollTable &characterDollTable,
+    const CharacterInspectTable &characterInspectTable,
     const ObjectTable &objectTable,
     const SpellTable &spellTable,
     const ItemTable &itemTable,
@@ -2220,6 +2290,7 @@ bool OutdoorGameView::initialize(
     m_houseTable = houseTable;
     m_classSkillTable = classSkillTable;
     m_npcDialogTable = npcDialogTable;
+    m_characterInspectTable = characterInspectTable;
     m_pRosterTable = &rosterTable;
     m_pCharacterDollTable = &characterDollTable;
     m_pObjectTable = &objectTable;
@@ -2624,6 +2695,7 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
 
     updateHouseVideoPlayback(deltaSeconds);
     updateItemInspectOverlayState(width, height);
+    updateCharacterInspectOverlayState(width, height);
     m_renderedInspectableHudItems.clear();
     m_renderedInspectableHudState = currentHudScreenState();
 
@@ -3563,6 +3635,7 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
             renderEventDialogPanel(width, height, true);
             renderHeldInventoryItem(width, height);
             renderItemInspectOverlay(width, height);
+            renderCharacterInspectOverlay(width, height);
         }
 
         hudStageNanoseconds += SDL_GetTicksNS() - stageStartTickCount;
@@ -4828,6 +4901,7 @@ void OutdoorGameView::shutdown()
     m_outdoorSpriteObjectBillboardSet.reset();
     m_classSkillTable.reset();
     m_npcDialogTable.reset();
+    m_characterInspectTable.reset();
     m_elapsedTime = 0.0f;
     m_framesPerSecond = 0.0f;
     m_bmodelLineVertexCount = 0;
@@ -5597,6 +5671,249 @@ void OutdoorGameView::updateItemInspectOverlayState(int width, int height)
     m_itemInspectOverlay.sourceY = itemRect.y;
     m_itemInspectOverlay.sourceWidth = itemRect.width;
     m_itemInspectOverlay.sourceHeight = itemRect.height;
+}
+
+void OutdoorGameView::updateCharacterInspectOverlayState(int width, int height)
+{
+    m_characterInspectOverlay = {};
+    const auto combineResolvedRects =
+        [](const ResolvedHudLayoutElement &left, const ResolvedHudLayoutElement &right) -> ResolvedHudLayoutElement
+        {
+            const float minX = std::min(left.x, right.x);
+            const float minY = std::min(left.y, right.y);
+            const float maxX = std::max(left.x + left.width, right.x + right.width);
+            const float maxY = std::max(left.y + left.height, right.y + right.height);
+
+            return {
+                minX,
+                minY,
+                maxX - minX,
+                maxY - minY,
+                left.scale
+            };
+        };
+    const auto inflateResolvedRect =
+        [](const ResolvedHudLayoutElement &rect, float horizontalPadding, float verticalPadding)
+            -> ResolvedHudLayoutElement
+        {
+            return {
+                rect.x - horizontalPadding,
+                rect.y - verticalPadding,
+                rect.width + horizontalPadding * 2.0f,
+                rect.height + verticalPadding * 2.0f,
+                rect.scale
+            };
+        };
+
+    if (width <= 0
+        || height <= 0
+        || !m_characterScreenOpen
+        || m_pOutdoorPartyRuntime == nullptr
+        || !m_characterInspectTable)
+    {
+        return;
+    }
+
+    float mouseX = 0.0f;
+    float mouseY = 0.0f;
+    const SDL_MouseButtonFlags mouseButtons = SDL_GetMouseState(&mouseX, &mouseY);
+
+    if ((mouseButtons & SDL_BUTTON_RMASK) == 0)
+    {
+        return;
+    }
+
+    const Character *pCharacter = m_pOutdoorPartyRuntime->party().activeMember();
+
+    if (pCharacter == nullptr)
+    {
+        return;
+    }
+
+    if (m_characterPage == CharacterPage::Stats)
+    {
+        for (const CharacterStatRowDefinition &row : CharacterStatRows)
+        {
+            const HudLayoutElement *pLabelLayout = findHudLayoutElement(row.pLabelId);
+            const HudLayoutElement *pValueLayout = findHudLayoutElement(row.pValueId);
+
+            if (pLabelLayout == nullptr || pValueLayout == nullptr)
+            {
+                continue;
+            }
+
+            const std::optional<ResolvedHudLayoutElement> resolvedLabel = resolveHudLayoutElement(
+                row.pLabelId,
+                width,
+                height,
+                pLabelLayout->width,
+                pLabelLayout->height);
+            const std::optional<ResolvedHudLayoutElement> resolvedValue = resolveHudLayoutElement(
+                row.pValueId,
+                width,
+                height,
+                pValueLayout->width,
+                pValueLayout->height);
+
+            if (!resolvedLabel || !resolvedValue)
+            {
+                continue;
+            }
+
+            const ResolvedHudLayoutElement rowRect =
+                inflateResolvedRect(combineResolvedRects(*resolvedLabel, *resolvedValue), 6.0f, 3.0f);
+
+            if (!isPointerInsideResolvedElement(rowRect, mouseX, mouseY))
+            {
+                continue;
+            }
+
+            const StatInspectEntry *pEntry = m_characterInspectTable->getStat(row.pStatName);
+
+            if (pEntry == nullptr || pEntry->description.empty())
+            {
+                return;
+            }
+
+            m_characterInspectOverlay.active = true;
+            m_characterInspectOverlay.title = pEntry->name;
+            m_characterInspectOverlay.body = pEntry->description;
+            m_characterInspectOverlay.sourceX = rowRect.x;
+            m_characterInspectOverlay.sourceY = rowRect.y;
+            m_characterInspectOverlay.sourceWidth = rowRect.width;
+            m_characterInspectOverlay.sourceHeight = rowRect.height;
+            return;
+        }
+
+        return;
+    }
+
+    if (m_characterPage != CharacterPage::Skills)
+    {
+        return;
+    }
+
+    const CharacterSkillUiData skillUiData = buildCharacterSkillUiData(pCharacter);
+    const HudFontHandle *pSkillRowFont = findHudFont("Lucida");
+    const float skillRowHeight = pSkillRowFont != nullptr
+        ? static_cast<float>(std::max(1, pSkillRowFont->fontHeight - 3))
+        : 11.0f;
+
+    const auto tryShowSkillPopup =
+        [this, width, height, mouseX, mouseY, pCharacter, skillRowHeight](
+            const char *pRegionId,
+            const char *pLevelHeaderId,
+            const std::vector<CharacterSkillUiRow> &rows) -> bool
+        {
+            if (rows.empty())
+            {
+                return false;
+            }
+
+            const HudLayoutElement *pRegionLayout = findHudLayoutElement(pRegionId);
+            const HudLayoutElement *pLevelLayout = findHudLayoutElement(pLevelHeaderId);
+
+            if (pRegionLayout == nullptr || pLevelLayout == nullptr)
+            {
+                return false;
+            }
+
+            const std::optional<ResolvedHudLayoutElement> resolvedRegion = resolveHudLayoutElement(
+                pRegionId,
+                width,
+                height,
+                pRegionLayout->width,
+                pRegionLayout->height);
+            const std::optional<ResolvedHudLayoutElement> resolvedLevelHeader = resolveHudLayoutElement(
+                pLevelHeaderId,
+                width,
+                height,
+                pLevelLayout->width,
+                pLevelLayout->height);
+
+            if (!resolvedRegion || !resolvedLevelHeader)
+            {
+                return false;
+            }
+
+            const float rowHeightPixels = skillRowHeight * resolvedRegion->scale;
+            const float rowWidth = resolvedLevelHeader->x + resolvedLevelHeader->width - resolvedRegion->x;
+
+            for (size_t rowIndex = 0; rowIndex < rows.size(); ++rowIndex)
+            {
+                const CharacterSkillUiRow &row = rows[rowIndex];
+                const float rowY = resolvedRegion->y + static_cast<float>(rowIndex) * rowHeightPixels;
+                const ResolvedHudLayoutElement rowRect = {
+                    resolvedRegion->x,
+                    rowY,
+                    rowWidth,
+                    rowHeightPixels,
+                    resolvedRegion->scale
+                };
+
+                if (!isPointerInsideResolvedElement(rowRect, mouseX, mouseY))
+                {
+                    continue;
+                }
+
+                const SkillInspectEntry *pEntry =
+                    m_characterInspectTable ? m_characterInspectTable->getSkill(row.canonicalName) : nullptr;
+
+                if (pEntry == nullptr || pEntry->description.empty())
+                {
+                    return false;
+                }
+
+                m_characterInspectOverlay.active = true;
+                m_characterInspectOverlay.title = pEntry->name;
+                m_characterInspectOverlay.body = pEntry->description;
+                m_characterInspectOverlay.expert.text = "Expert: " + pEntry->expertDescription;
+                m_characterInspectOverlay.expert.availability = skillMasteryAvailability(
+                    m_classSkillTable ? &*m_classSkillTable : nullptr,
+                    pCharacter,
+                    row.canonicalName,
+                    SkillMastery::Expert);
+                m_characterInspectOverlay.expert.visible = !pEntry->expertDescription.empty();
+                m_characterInspectOverlay.master.text = "Master: " + pEntry->masterDescription;
+                m_characterInspectOverlay.master.availability = skillMasteryAvailability(
+                    m_classSkillTable ? &*m_classSkillTable : nullptr,
+                    pCharacter,
+                    row.canonicalName,
+                    SkillMastery::Master);
+                m_characterInspectOverlay.master.visible = !pEntry->masterDescription.empty();
+                m_characterInspectOverlay.grandmaster.text = "Grandmaster: " + pEntry->grandmasterDescription;
+                m_characterInspectOverlay.grandmaster.availability = skillMasteryAvailability(
+                    m_classSkillTable ? &*m_classSkillTable : nullptr,
+                    pCharacter,
+                    row.canonicalName,
+                    SkillMastery::Grandmaster);
+                m_characterInspectOverlay.grandmaster.visible = !pEntry->grandmasterDescription.empty();
+                m_characterInspectOverlay.sourceX = rowRect.x;
+                m_characterInspectOverlay.sourceY = rowRect.y;
+                m_characterInspectOverlay.sourceWidth = rowRect.width;
+                m_characterInspectOverlay.sourceHeight = rowRect.height;
+                return true;
+            }
+
+            return false;
+        };
+
+    if (tryShowSkillPopup("CharacterSkillsWeaponsListRegion", "CharacterSkillsWeaponsLevelHeader", skillUiData.weaponRows))
+    {
+        return;
+    }
+
+    if (tryShowSkillPopup("CharacterSkillsMagicListRegion", "CharacterSkillsMagicLevelHeader", skillUiData.magicRows))
+    {
+        return;
+    }
+
+    if (tryShowSkillPopup("CharacterSkillsArmorListRegion", "CharacterSkillsArmorLevelHeader", skillUiData.armorRows))
+    {
+        return;
+    }
+
+    tryShowSkillPopup("CharacterSkillsMiscListRegion", "CharacterSkillsMiscLevelHeader", skillUiData.miscRows);
 }
 
 bool OutdoorGameView::isOpaqueHudPixelAtPoint(const RenderedInspectableHudItem &item, float x, float y) const
@@ -7529,6 +7846,434 @@ void OutdoorGameView::renderItemInspectOverlay(int width, int height) const
     }
 }
 
+void OutdoorGameView::renderCharacterInspectOverlay(int width, int height) const
+{
+    if (!m_characterInspectOverlay.active
+        || !bgfx::isValid(m_texturedTerrainProgramHandle)
+        || !bgfx::isValid(m_terrainTextureSamplerHandle)
+        || width <= 0
+        || height <= 0)
+    {
+        return;
+    }
+
+    const HudLayoutElement *pRootLayout = findHudLayoutElement("CharacterInspectRoot");
+    const HudLayoutElement *pTitleLayout = findHudLayoutElement("CharacterInspectTitle");
+    const HudLayoutElement *pBodyLayout = findHudLayoutElement("CharacterInspectBody");
+    const HudLayoutElement *pExpertLayout = findHudLayoutElement("CharacterInspectExpert");
+    const HudLayoutElement *pMasterLayout = findHudLayoutElement("CharacterInspectMaster");
+    const HudLayoutElement *pGrandmasterLayout = findHudLayoutElement("CharacterInspectGrandmaster");
+
+    if (pRootLayout == nullptr
+        || pTitleLayout == nullptr
+        || pBodyLayout == nullptr
+        || pExpertLayout == nullptr
+        || pMasterLayout == nullptr
+        || pGrandmasterLayout == nullptr)
+    {
+        return;
+    }
+
+    const UiViewportRect uiViewport = computeUiViewportRect(width, height);
+    const float baseScale = std::min(uiViewport.width / HudReferenceWidth, uiViewport.height / HudReferenceHeight);
+    const float popupScale = std::clamp(baseScale, pRootLayout->minScale, pRootLayout->maxScale);
+    const ResolvedHudLayoutElement provisionalRoot = {
+        0.0f,
+        0.0f,
+        pRootLayout->width * popupScale,
+        pRootLayout->height * popupScale,
+        popupScale
+    };
+    const HudFontHandle *pBodyFont = findHudFont("SMALLNUM");
+    const float bodyLineHeight =
+        pBodyFont != nullptr ? static_cast<float>(pBodyFont->fontHeight) * popupScale : 12.0f * popupScale;
+    const ResolvedHudLayoutElement bodyRectForSizing = resolveAttachedHudLayoutRect(
+        pBodyLayout->attachTo,
+        provisionalRoot,
+        pBodyLayout->width * popupScale,
+        pBodyLayout->height * popupScale,
+        pBodyLayout->gapX,
+        pBodyLayout->gapY,
+        popupScale);
+    const float bodyWidthScaled =
+        std::max(0.0f, bodyRectForSizing.width - std::abs(pBodyLayout->textPadX * popupScale) * 2.0f);
+    const float bodyWidth = std::max(0.0f, bodyWidthScaled / std::max(1.0f, popupScale));
+    const std::vector<std::string> bodyLines =
+        pBodyFont != nullptr
+        ? wrapHudTextToWidth(*pBodyFont, m_characterInspectOverlay.body, bodyWidth)
+        : std::vector<std::string>{m_characterInspectOverlay.body};
+    const float bodyHeight = bodyLines.empty() ? bodyLineHeight : bodyLineHeight * static_cast<float>(bodyLines.size());
+    const bool showExpert = m_characterInspectOverlay.expert.visible && !m_characterInspectOverlay.expert.text.empty();
+    const bool showMaster = m_characterInspectOverlay.master.visible && !m_characterInspectOverlay.master.text.empty();
+    const bool showGrandmaster =
+        m_characterInspectOverlay.grandmaster.visible && !m_characterInspectOverlay.grandmaster.text.empty();
+    static constexpr float CharacterInspectBodyToRowsGap = 10.0f;
+    static constexpr float CharacterInspectRowGap = 2.0f;
+    static constexpr float CharacterInspectBottomPadding = 15.0f;
+    const auto resolveWrappedMasteryLines =
+        [this, popupScale](const HudLayoutElement &layout, const std::string &text) -> std::vector<std::string>
+        {
+            const HudFontHandle *pFont = findHudFont(layout.fontName);
+
+            if (pFont == nullptr)
+            {
+                return {text};
+            }
+
+            const float maxWidthScaled =
+                std::max(0.0f, layout.width * popupScale - std::abs(layout.textPadX * popupScale) * 2.0f);
+            const float maxWidth = std::max(0.0f, maxWidthScaled / std::max(1.0f, popupScale));
+            return wrapHudTextToWidth(*pFont, text, maxWidth);
+        };
+    const auto masteryRowHeight =
+        [this, popupScale](const HudLayoutElement &layout, const std::vector<std::string> &lines) -> float
+        {
+            const HudFontHandle *pFont = findHudFont(layout.fontName);
+            const float lineHeight =
+                pFont != nullptr ? static_cast<float>(pFont->fontHeight) * popupScale : layout.height * popupScale;
+            return std::max(lineHeight, lineHeight * static_cast<float>(std::max<size_t>(1, lines.size())));
+        };
+    const std::vector<std::string> expertLines =
+        showExpert ? resolveWrappedMasteryLines(*pExpertLayout, m_characterInspectOverlay.expert.text) : std::vector<std::string>{};
+    const std::vector<std::string> masterLines =
+        showMaster ? resolveWrappedMasteryLines(*pMasterLayout, m_characterInspectOverlay.master.text) : std::vector<std::string>{};
+    const std::vector<std::string> grandmasterLines =
+        showGrandmaster
+            ? resolveWrappedMasteryLines(*pGrandmasterLayout, m_characterInspectOverlay.grandmaster.text)
+            : std::vector<std::string>{};
+    float masteryHeight = 0.0f;
+    bool hasAnyMasteryRows = false;
+
+    for (const auto &[showRow, pLayout, pLines] : {
+             std::tuple<bool, const HudLayoutElement *, const std::vector<std::string> *>{showExpert, pExpertLayout, &expertLines},
+             std::tuple<bool, const HudLayoutElement *, const std::vector<std::string> *>{showMaster, pMasterLayout, &masterLines},
+             std::tuple<bool, const HudLayoutElement *, const std::vector<std::string> *>{showGrandmaster, pGrandmasterLayout, &grandmasterLines}})
+    {
+        if (!showRow)
+        {
+            continue;
+        }
+
+        if (hasAnyMasteryRows)
+        {
+            masteryHeight += CharacterInspectRowGap * popupScale;
+        }
+
+        masteryHeight += masteryRowHeight(*pLayout, *pLines);
+        hasAnyMasteryRows = true;
+    }
+
+    const float rootWidth = provisionalRoot.width;
+    const float rootHeight =
+        bodyRectForSizing.y
+        + bodyHeight
+        + (hasAnyMasteryRows ? CharacterInspectBodyToRowsGap * popupScale + masteryHeight : 0.0f)
+        + CharacterInspectBottomPadding * popupScale;
+    const float popupGap = 12.0f * popupScale;
+    float rootX = m_characterInspectOverlay.sourceX + m_characterInspectOverlay.sourceWidth + popupGap;
+
+    if (rootX + rootWidth > uiViewport.x + uiViewport.width)
+    {
+        rootX = m_characterInspectOverlay.sourceX - rootWidth - popupGap;
+    }
+
+    rootX = std::clamp(rootX, uiViewport.x, uiViewport.x + uiViewport.width - rootWidth);
+    float rootY = m_characterInspectOverlay.sourceY + (m_characterInspectOverlay.sourceHeight - rootHeight) * 0.5f;
+    rootY = std::clamp(rootY, uiViewport.y, uiViewport.y + uiViewport.height - rootHeight);
+
+    const ResolvedHudLayoutElement rootRect = {
+        std::round(rootX),
+        std::round(rootY),
+        std::round(rootWidth),
+        std::round(rootHeight),
+        popupScale
+    };
+
+    float projectionMatrix[16] = {};
+    bx::mtxOrtho(
+        projectionMatrix,
+        0.0f,
+        static_cast<float>(width),
+        static_cast<float>(height),
+        0.0f,
+        0.0f,
+        1000.0f,
+        0.0f,
+        bgfx::getCaps()->homogeneousDepth
+    );
+    bgfx::setViewRect(HudViewId, 0, 0, static_cast<uint16_t>(width), static_cast<uint16_t>(height));
+    bgfx::setViewTransform(HudViewId, nullptr, projectionMatrix);
+    bgfx::touch(HudViewId);
+
+    const auto submitTexturedQuad =
+        [this](const HudTextureHandle &texture, float x, float y, float quadWidth, float quadHeight)
+        {
+            if (!bgfx::isValid(texture.textureHandle)
+                || quadWidth <= 0.0f
+                || quadHeight <= 0.0f
+                || bgfx::getAvailTransientVertexBuffer(6, TexturedTerrainVertex::ms_layout) < 6)
+            {
+                return;
+            }
+
+            bgfx::TransientVertexBuffer transientVertexBuffer;
+            bgfx::allocTransientVertexBuffer(&transientVertexBuffer, 6, TexturedTerrainVertex::ms_layout);
+            TexturedTerrainVertex *pVertices = reinterpret_cast<TexturedTerrainVertex *>(transientVertexBuffer.data);
+            pVertices[0] = {x, y, 0.0f, 0.0f, 0.0f};
+            pVertices[1] = {x + quadWidth, y, 0.0f, 1.0f, 0.0f};
+            pVertices[2] = {x + quadWidth, y + quadHeight, 0.0f, 1.0f, 1.0f};
+            pVertices[3] = {x, y, 0.0f, 0.0f, 0.0f};
+            pVertices[4] = {x + quadWidth, y + quadHeight, 0.0f, 1.0f, 1.0f};
+            pVertices[5] = {x, y + quadHeight, 0.0f, 0.0f, 1.0f};
+
+            float modelMatrix[16] = {};
+            bx::mtxIdentity(modelMatrix);
+            bgfx::setTransform(modelMatrix);
+            bgfx::setVertexBuffer(0, &transientVertexBuffer);
+            bgfx::setTexture(0, m_terrainTextureSamplerHandle, texture.textureHandle);
+            bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_BLEND_ALPHA);
+            bgfx::submit(HudViewId, m_texturedTerrainProgramHandle);
+        };
+
+    const HudTextureHandle *pBackgroundTexture =
+        const_cast<OutdoorGameView *>(this)->ensureHudTextureLoaded(pRootLayout->primaryAsset);
+
+    if (pBackgroundTexture != nullptr)
+    {
+        submitTexturedQuad(*pBackgroundTexture, rootRect.x, rootRect.y, rootRect.width, rootRect.height);
+    }
+
+    std::function<std::optional<ResolvedHudLayoutElement>(const std::string &)> resolveLayout;
+    resolveLayout =
+        [this, &rootRect, popupScale, &resolveLayout](
+            const std::string &layoutId) -> std::optional<ResolvedHudLayoutElement>
+        {
+            const HudLayoutElement *pLayout = findHudLayoutElement(layoutId);
+
+            if (pLayout == nullptr)
+            {
+                return std::nullopt;
+            }
+
+            float resolvedWidth = pLayout->width * popupScale;
+            float resolvedHeight = pLayout->height * popupScale;
+            const std::string normalizedLayoutId = toLowerCopy(layoutId);
+
+            if ((pLayout->width <= 0.0f || pLayout->height <= 0.0f) && !pLayout->primaryAsset.empty())
+            {
+                const HudTextureHandle *pTexture =
+                    const_cast<OutdoorGameView *>(this)->ensureHudTextureLoaded(pLayout->primaryAsset);
+
+                if (pTexture != nullptr)
+                {
+                    if (pLayout->width <= 0.0f)
+                    {
+                        resolvedWidth = static_cast<float>(pTexture->width) * popupScale;
+                    }
+
+                    if (pLayout->height <= 0.0f)
+                    {
+                        resolvedHeight = static_cast<float>(pTexture->height) * popupScale;
+                    }
+                }
+            }
+
+            if (normalizedLayoutId == "characterinspectcorner_topedge"
+                || normalizedLayoutId == "characterinspectcorner_bottomedge")
+            {
+                resolvedWidth = rootRect.width;
+            }
+
+            if (normalizedLayoutId == "characterinspectcorner_leftedge"
+                || normalizedLayoutId == "characterinspectcorner_rightedge")
+            {
+                resolvedHeight = rootRect.height;
+            }
+
+            ResolvedHudLayoutElement parent = rootRect;
+
+            if (!pLayout->parentId.empty() && toLowerCopy(pLayout->parentId) != "characterinspectroot")
+            {
+                const std::optional<ResolvedHudLayoutElement> resolvedParent = resolveLayout(pLayout->parentId);
+
+                if (resolvedParent)
+                {
+                    parent = *resolvedParent;
+                }
+            }
+
+            return resolveAttachedHudLayoutRect(
+                pLayout->attachTo,
+                parent,
+                resolvedWidth,
+                resolvedHeight,
+                pLayout->gapX,
+                pLayout->gapY,
+                popupScale);
+        };
+
+    const std::vector<std::string> orderedLayoutIds = sortedHudLayoutIdsForScreen("CharacterInspect");
+
+    for (const std::string &layoutId : orderedLayoutIds)
+    {
+        const HudLayoutElement *pLayout = findHudLayoutElement(layoutId);
+
+        if (pLayout == nullptr
+            || !pLayout->visible
+            || pLayout->primaryAsset.empty()
+            || toLowerCopy(pLayout->id) == "characterinspectroot")
+        {
+            continue;
+        }
+
+        const HudTextureHandle *pTexture =
+            const_cast<OutdoorGameView *>(this)->ensureHudTextureLoaded(pLayout->primaryAsset);
+        const std::optional<ResolvedHudLayoutElement> resolved = resolveLayout(layoutId);
+
+        if (pTexture == nullptr || !resolved)
+        {
+            continue;
+        }
+
+        submitTexturedQuad(*pTexture, resolved->x, resolved->y, resolved->width, resolved->height);
+    }
+
+    const auto renderSingleLine =
+        [this, &resolveLayout](const char *pLayoutId, const std::string &text)
+        {
+            const HudLayoutElement *pLayout = findHudLayoutElement(pLayoutId);
+            const std::optional<ResolvedHudLayoutElement> resolved = resolveLayout(pLayoutId);
+
+            if (pLayout == nullptr || !resolved || text.empty())
+            {
+                return;
+            }
+
+            renderLayoutLabel(*pLayout, *resolved, text);
+        };
+
+    renderSingleLine("CharacterInspectTitle", m_characterInspectOverlay.title);
+
+    const std::optional<ResolvedHudLayoutElement> bodyBaseRect = resolveLayout("CharacterInspectBody");
+
+    if (bodyBaseRect && pBodyFont != nullptr)
+    {
+        bgfx::TextureHandle coloredMainTextureHandle =
+            ensureHudFontMainTextureColor(*pBodyFont, pBodyLayout->textColorAbgr);
+
+        if (!bgfx::isValid(coloredMainTextureHandle))
+        {
+            coloredMainTextureHandle = pBodyFont->mainTextureHandle;
+        }
+
+        float textX = std::round(bodyBaseRect->x + pBodyLayout->textPadX * popupScale);
+        float textY = std::round(bodyBaseRect->y + pBodyLayout->textPadY * popupScale);
+
+        for (const std::string &line : bodyLines)
+        {
+            renderHudFontLayer(*pBodyFont, pBodyFont->shadowTextureHandle, line, textX, textY, popupScale);
+            renderHudFontLayer(*pBodyFont, coloredMainTextureHandle, line, textX, textY, popupScale);
+            textY += bodyLineHeight;
+        }
+
+        const auto masteryColorForAvailability =
+        [](int availability) -> uint32_t
+        {
+            switch (availability)
+            {
+                case 0:
+                    return 0xffffffffu;
+
+                case 1:
+                    return packHudColorAbgr(255, 255, 0);
+
+                case 2:
+                    return packHudColorAbgr(255, 0, 0);
+
+                default:
+                    return 0xffffffffu;
+            }
+        };
+
+        float nextRowY = std::round(bodyBaseRect->y + bodyHeight + CharacterInspectBodyToRowsGap * popupScale);
+        const auto renderMasteryRow =
+            [this, popupScale, &masteryColorForAvailability](
+                const HudLayoutElement &baseLayout,
+                const ResolvedHudLayoutElement &baseResolved,
+                float rowY,
+                const CharacterInspectMasteryLine &line,
+                const std::vector<std::string> &wrappedLines) -> float
+            {
+                if (!line.visible || line.text.empty())
+                {
+                    return rowY;
+                }
+
+                const HudFontHandle *pFont = findHudFont(baseLayout.fontName);
+
+                if (pFont == nullptr)
+                {
+                    return rowY;
+                }
+
+                bgfx::TextureHandle coloredMainTextureHandle =
+                    ensureHudFontMainTextureColor(*pFont, masteryColorForAvailability(line.availability));
+
+                if (!bgfx::isValid(coloredMainTextureHandle))
+                {
+                    coloredMainTextureHandle = pFont->mainTextureHandle;
+                }
+
+                const float lineHeight = static_cast<float>(pFont->fontHeight) * popupScale;
+                float textX = std::round(baseResolved.x + baseLayout.textPadX * popupScale);
+                float textY = std::round(rowY + baseLayout.textPadY * popupScale);
+
+                for (const std::string &wrappedLine : wrappedLines)
+                {
+                    renderHudFontLayer(*pFont, pFont->shadowTextureHandle, wrappedLine, textX, textY, popupScale);
+                    renderHudFontLayer(*pFont, coloredMainTextureHandle, wrappedLine, textX, textY, popupScale);
+                    textY += lineHeight;
+                }
+
+                return rowY + lineHeight * static_cast<float>(std::max<size_t>(1, wrappedLines.size()));
+            };
+
+        const std::optional<ResolvedHudLayoutElement> expertRect = resolveLayout("CharacterInspectExpert");
+        const std::optional<ResolvedHudLayoutElement> masterRect = resolveLayout("CharacterInspectMaster");
+        const std::optional<ResolvedHudLayoutElement> grandmasterRect = resolveLayout("CharacterInspectGrandmaster");
+
+        if (expertRect)
+        {
+            nextRowY = renderMasteryRow(*pExpertLayout, *expertRect, nextRowY, m_characterInspectOverlay.expert, expertLines);
+
+            if (showExpert)
+            {
+                nextRowY += CharacterInspectRowGap * popupScale;
+            }
+        }
+
+        if (masterRect)
+        {
+            nextRowY = renderMasteryRow(*pMasterLayout, *masterRect, nextRowY, m_characterInspectOverlay.master, masterLines);
+
+            if (showMaster)
+            {
+                nextRowY += CharacterInspectRowGap * popupScale;
+            }
+        }
+
+        if (grandmasterRect)
+        {
+            renderMasteryRow(
+                *pGrandmasterLayout,
+                *grandmasterRect,
+                nextRowY,
+                m_characterInspectOverlay.grandmaster,
+                grandmasterLines);
+        }
+    }
+}
+
 void OutdoorGameView::renderDialogueOverlay(int width, int height, bool renderAboveHud)
 {
     if (currentHudScreenState() != HudScreenState::Dialogue
@@ -9000,11 +9745,12 @@ bool OutdoorGameView::loadHudLayout(const Engine::AssetFileSystem &assetFileSyst
     m_hudLayoutElements.clear();
     m_hudLayoutOrder.clear();
 
-    const std::array<std::string, 4> layoutFiles = {
+    const std::array<std::string, 5> layoutFiles = {
         "Data/ui/gameplay.yml",
         "Data/ui/dialogue.yml",
         "Data/ui/character.yml",
-        "Data/ui/item_inspect.yml"
+        "Data/ui/item_inspect.yml",
+        "Data/ui/character_inspect.yml"
     };
 
     bool loadedAnyLayout = false;
@@ -14661,6 +15407,11 @@ void OutdoorGameView::updateCameraFromInput(float deltaSeconds)
 
                     for (const CharacterEquipmentSlotTarget &target : EquipmentSlotTargets)
                     {
+                        if (m_heldInventoryItem.active && !target.jewelryOverlayOnly)
+                        {
+                            continue;
+                        }
+
                         if (target.jewelryOverlayOnly && !m_characterDollJewelryOverlayOpen)
                         {
                             continue;

@@ -15,6 +15,7 @@ public:
     bool loadStartingSkillsFromRows(const std::vector<std::vector<std::string>> &rows);
 
     SkillMastery getClassCap(const std::string &className, const std::string &skillName) const;
+    SkillMastery getHighestPromotionCap(const std::string &className, const std::string &skillName) const;
     StartingSkillAvailability getStartingSkillAvailability(const std::string &className, const std::string &skillName)
         const;
     std::vector<CharacterSkill> getDefaultSkillsForClass(const std::string &className) const;

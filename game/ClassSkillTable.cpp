@@ -124,6 +124,29 @@ SkillMastery ClassSkillTable::getClassCap(const std::string &className, const st
     return skillIt->second;
 }
 
+SkillMastery ClassSkillTable::getHighestPromotionCap(const std::string &className, const std::string &skillName) const
+{
+    SkillMastery bestCap = SkillMastery::None;
+    std::vector<std::string> pendingClasses = promotionClassNames(className);
+
+    while (!pendingClasses.empty())
+    {
+        const std::string promotedClass = pendingClasses.back();
+        pendingClasses.pop_back();
+        const SkillMastery cap = getClassCap(promotedClass, skillName);
+
+        if (cap > bestCap)
+        {
+            bestCap = cap;
+        }
+
+        const std::vector<std::string> nextPromotions = promotionClassNames(promotedClass);
+        pendingClasses.insert(pendingClasses.end(), nextPromotions.begin(), nextPromotions.end());
+    }
+
+    return bestCap;
+}
+
 StartingSkillAvailability ClassSkillTable::getStartingSkillAvailability(
     const std::string &className,
     const std::string &skillName

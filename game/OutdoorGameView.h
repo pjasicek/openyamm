@@ -10,6 +10,7 @@
 #include "game/CharacterDollTable.h"
 #include "game/ChestTable.h"
 #include "game/ClassSkillTable.h"
+#include "game/CharacterInspectTable.h"
 #include "game/EventDialogContent.h"
 #include "game/EvtProgram.h"
 #include "game/EventIr.h"
@@ -73,6 +74,7 @@ public:
         const NpcDialogTable &npcDialogTable,
         const RosterTable &rosterTable,
         const CharacterDollTable &characterDollTable,
+        const CharacterInspectTable &characterInspectTable,
         const ObjectTable &objectTable,
         const SpellTable &spellTable,
         const ItemTable &itemTable,
@@ -235,6 +237,7 @@ private:
         PageButton,
         ExitButton,
         MagnifyButton,
+        StatRow,
         SkillRow,
         InventoryItem,
         InventoryCell,
@@ -253,6 +256,7 @@ private:
     {
         CharacterPointerTargetType type = CharacterPointerTargetType::None;
         CharacterPage page = CharacterPage::Inventory;
+        std::string statName;
         std::string skillName;
         uint8_t gridX = 0;
         uint8_t gridY = 0;
@@ -275,6 +279,27 @@ private:
     {
         bool active = false;
         uint32_t objectDescriptionId = 0;
+        float sourceX = 0.0f;
+        float sourceY = 0.0f;
+        float sourceWidth = 0.0f;
+        float sourceHeight = 0.0f;
+    };
+
+    struct CharacterInspectMasteryLine
+    {
+        std::string text;
+        int availability = 0;
+        bool visible = false;
+    };
+
+    struct CharacterInspectOverlayState
+    {
+        bool active = false;
+        std::string title;
+        std::string body;
+        CharacterInspectMasteryLine expert = {};
+        CharacterInspectMasteryLine master = {};
+        CharacterInspectMasteryLine grandmaster = {};
         float sourceX = 0.0f;
         float sourceY = 0.0f;
         float sourceWidth = 0.0f;
@@ -500,6 +525,7 @@ private:
     void renderDialogueOverlay(int width, int height, bool renderAboveHud);
     void renderHeldInventoryItem(int width, int height) const;
     void renderItemInspectOverlay(int width, int height) const;
+    void renderCharacterInspectOverlay(int width, int height) const;
     std::optional<std::string> findCachedAssetPath(const std::string &directoryPath, const std::string &fileName);
     std::optional<std::vector<uint8_t>> readCachedBinaryFile(const std::string &assetPath);
     std::optional<std::array<uint8_t, 256 * 3>> loadCachedActPalette(int16_t paletteId);
@@ -519,6 +545,7 @@ private:
     std::optional<size_t> resolvePartyPortraitIndexAtPoint(int width, int height, float x, float y);
     bool trySelectPartyMember(size_t memberIndex, bool requireGameplayReady);
     void updateItemInspectOverlayState(int width, int height);
+    void updateCharacterInspectOverlayState(int width, int height);
     bool isOpaqueHudPixelAtPoint(const RenderedInspectableHudItem &item, float x, float y) const;
     std::string resolveEquippedItemHudTextureName(
         const ItemDefinition &itemDefinition,
@@ -561,6 +588,7 @@ private:
     std::optional<HouseTable> m_houseTable;
     std::optional<ClassSkillTable> m_classSkillTable;
     std::optional<NpcDialogTable> m_npcDialogTable;
+    std::optional<CharacterInspectTable> m_characterInspectTable;
     const RosterTable *m_pRosterTable;
     const CharacterDollTable *m_pCharacterDollTable;
     std::optional<ChestTable> m_chestTable;
@@ -674,6 +702,7 @@ private:
     std::optional<size_t> m_lastPartyPortraitClickedIndex;
     HeldInventoryItemState m_heldInventoryItem;
     ItemInspectOverlayState m_itemInspectOverlay;
+    CharacterInspectOverlayState m_characterInspectOverlay;
     mutable std::vector<RenderedInspectableHudItem> m_renderedInspectableHudItems;
     mutable HudScreenState m_renderedInspectableHudState = HudScreenState::Gameplay;
     bool m_heldInventoryDropLatch;

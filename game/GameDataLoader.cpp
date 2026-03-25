@@ -707,6 +707,11 @@ bool GameDataLoader::loadInternal(const Engine::AssetFileSystem &assetFileSystem
         return false;
     }
 
+    if (!loadCharacterInspectTable(assetFileSystem))
+    {
+        return false;
+    }
+
     if (!loadNpcDialogTable(assetFileSystem))
     {
         return false;
@@ -889,6 +894,11 @@ const RosterTable &GameDataLoader::getRosterTable() const
 const CharacterDollTable &GameDataLoader::getCharacterDollTable() const
 {
     return m_characterDollTable;
+}
+
+const CharacterInspectTable &GameDataLoader::getCharacterInspectTable() const
+{
+    return m_characterInspectTable;
 }
 
 bool GameDataLoader::loadTable(
@@ -1232,6 +1242,33 @@ bool GameDataLoader::loadCharacterDollTable(const Engine::AssetFileSystem &asset
     if (!m_characterDollTable.loadDollTypeRows(dollTypeRows))
     {
         std::cerr << "Failed to parse doll type table: Data/DOLL_TYPES.txt\n";
+        return false;
+    }
+
+    return true;
+}
+
+bool GameDataLoader::loadCharacterInspectTable(const Engine::AssetFileSystem &assetFileSystem)
+{
+    std::vector<std::vector<std::string>> statRows;
+
+    if (!loadTextTableRows(assetFileSystem, "Data/EnglishT/stats.txt", statRows))
+    {
+        std::cerr << "Failed to read character inspect table: Data/EnglishT/stats.txt\n";
+        return false;
+    }
+
+    std::vector<std::vector<std::string>> skillRows;
+
+    if (!loadTextTableRows(assetFileSystem, "Data/EnglishT/Skilldes.txt", skillRows))
+    {
+        std::cerr << "Failed to read character inspect table: Data/EnglishT/Skilldes.txt\n";
+        return false;
+    }
+
+    if (!m_characterInspectTable.loadStatRows(statRows) || !m_characterInspectTable.loadSkillRows(skillRows))
+    {
+        std::cerr << "Failed to parse character inspect tables\n";
         return false;
     }
 

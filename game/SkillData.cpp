@@ -368,6 +368,133 @@ std::optional<std::string> nextPromotionClassName(const std::string &className)
     return std::nullopt;
 }
 
+std::vector<std::string> promotionClassNames(const std::string &className)
+{
+    const std::string canonicalName = canonicalClassName(className);
+
+    if (canonicalName == "Archer")
+    {
+        return {"MasterArcher"};
+    }
+
+    if (canonicalName == "MasterArcher")
+    {
+        return {"Sniper"};
+    }
+
+    if (canonicalName == "Cleric")
+    {
+        return {"Priest"};
+    }
+
+    if (canonicalName == "Priest")
+    {
+        return {"PriestLight", "PriestDark"};
+    }
+
+    if (canonicalName == "DarkElf")
+    {
+        return {"Patriarch"};
+    }
+
+    if (canonicalName == "Dragon")
+    {
+        return {"GreatWyrm"};
+    }
+
+    if (canonicalName == "Druid")
+    {
+        return {"GreatDruid"};
+    }
+
+    if (canonicalName == "GreatDruid")
+    {
+        return {"Warlock", "ArchDruid"};
+    }
+
+    if (canonicalName == "Knight")
+    {
+        return {"Champion"};
+    }
+
+    if (canonicalName == "Champion")
+    {
+        return {"Cavalier", "BlackKnight"};
+    }
+
+    if (canonicalName == "Minotaur")
+    {
+        return {"MinotaurLord"};
+    }
+
+    if (canonicalName == "Monk")
+    {
+        return {"Initiate"};
+    }
+
+    if (canonicalName == "Initiate")
+    {
+        return {"Master", "Ninja"};
+    }
+
+    if (canonicalName == "Paladin")
+    {
+        return {"Crusader"};
+    }
+
+    if (canonicalName == "Crusader")
+    {
+        return {"Hero", "Villain"};
+    }
+
+    if (canonicalName == "Ranger")
+    {
+        return {"Hunter"};
+    }
+
+    if (canonicalName == "Hunter")
+    {
+        return {"BountyHunter", "RangerLord"};
+    }
+
+    if (canonicalName == "Thief")
+    {
+        return {"Rogue"};
+    }
+
+    if (canonicalName == "Rogue")
+    {
+        return {"Assassin", "Spy"};
+    }
+
+    if (canonicalName == "Troll")
+    {
+        return {"WarTroll"};
+    }
+
+    if (canonicalName == "Vampire")
+    {
+        return {"Nosferatu"};
+    }
+
+    if (canonicalName == "Sorcerer")
+    {
+        return {"Wizard"};
+    }
+
+    if (canonicalName == "Wizard")
+    {
+        return {"ArchMage"};
+    }
+
+    if (canonicalName == "Necromancer")
+    {
+        return {"Lich"};
+    }
+
+    return {};
+}
+
 std::optional<uint32_t> mm8ClassIdForClassName(const std::string &className)
 {
     const std::string canonicalName = canonicalClassName(className);

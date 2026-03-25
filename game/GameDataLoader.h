@@ -2,6 +2,7 @@
 
 #include "engine/AssetFileSystem.h"
 #include "game/ChestTable.h"
+#include "game/CharacterInspectTable.h"
 #include "game/CharacterDollTable.h"
 #include "game/ClassSkillTable.h"
 #include "game/HouseTable.h"
@@ -60,6 +61,7 @@ public:
     const NpcDialogTable &getNpcDialogTable() const;
     const RosterTable &getRosterTable() const;
     const CharacterDollTable &getCharacterDollTable() const;
+    const CharacterInspectTable &getCharacterInspectTable() const;
 
 private:
     bool loadInternal(const Engine::AssetFileSystem &assetFileSystem, MapLoadPurpose mapLoadPurpose);
@@ -85,6 +87,7 @@ private:
     bool loadNpcDialogTable(const Engine::AssetFileSystem &assetFileSystem);
     bool loadRosterTable(const Engine::AssetFileSystem &assetFileSystem);
     bool loadCharacterDollTable(const Engine::AssetFileSystem &assetFileSystem);
+    bool loadCharacterInspectTable(const Engine::AssetFileSystem &assetFileSystem);
     bool loadFirstTextTableRows(
         const Engine::AssetFileSystem &assetFileSystem,
         const std::vector<std::string> &virtualPaths,
@@ -111,6 +114,7 @@ private:
     NpcDialogTable m_npcDialogTable;
     RosterTable m_rosterTable;
     CharacterDollTable m_characterDollTable;
+    CharacterInspectTable m_characterInspectTable;
     std::optional<MapAssetInfo> m_selectedMap;
 };
 }
