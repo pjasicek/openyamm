@@ -9374,7 +9374,7 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
     );
 
     runCase(
-        "amulet_replacement_auto_stores_displaced_item_and_rejects_full_inventory",
+        "amulet_replacement_keeps_displaced_item_held",
         [&](std::string &failure)
         {
             Party party = {};
@@ -9407,9 +9407,9 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
                 std::nullopt,
                 false);
 
-            if (!plan || !plan->autoStoreDisplacedItem || plan->displacedSlot != EquipmentSlot::Amulet)
+            if (!plan || plan->autoStoreDisplacedItem || plan->displacedSlot != EquipmentSlot::Amulet)
             {
-                failure = "amulet replacement plan should auto-store the displaced item";
+                failure = "amulet replacement plan should keep the displaced item held";
                 return false;
             }
 
@@ -9435,70 +9435,95 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
                 return false;
             }
 
-            if (heldReplacement.has_value() || pMember->equipment.amulet != pNewAmulet->itemId)
+            if (!heldReplacement
+                || heldReplacement->objectDescriptionId != 147
+                || pMember->equipment.amulet != pNewAmulet->itemId)
             {
-                failure = "amulet replacement should not leave a held replacement";
+                failure = "amulet replacement should leave the previous amulet held";
                 return false;
             }
 
-            bool foundOldAmulet = false;
+            return true;
+        }
+    );
 
-            for (const InventoryItem &item : pMember->inventory)
-            {
-                if (item.objectDescriptionId == 147)
-                {
-                    foundOldAmulet = true;
-                    break;
-                }
-            }
+    runCase(
+        "explicit_ring_slot_replaces_selected_ring_even_with_free_slots",
+        [&](std::string &failure)
+        {
+            Party party = {};
+            party.setItemTable(&gameDataLoader.getItemTable());
+            party.seed(Party::createDefaultSeed());
+            Character *pMember = party.member(0);
 
-            if (!foundOldAmulet)
+            if (pMember == nullptr)
             {
-                failure = "displaced amulet was not stored in inventory";
+                failure = "missing member 0";
                 return false;
             }
 
-            pMember->inventory.clear();
-            pMember->equipment.amulet = 147;
+            pMember->equipment = {};
+            pMember->equipment.ring3 = 139;
 
-            for (int y = 0; y < Character::InventoryHeight; ++y)
+            const ItemDefinition *pReplacementRing = gameDataLoader.getItemTable().get(145);
+
+            if (pReplacementRing == nullptr)
             {
-                for (int x = 0; x < Character::InventoryWidth; ++x)
-                {
-                    InventoryItem fillerItem = {};
-                    fillerItem.objectDescriptionId = 109;
-                    fillerItem.quantity = 1;
-                    fillerItem.width = 1;
-                    fillerItem.height = 1;
-
-                    if (!pMember->addInventoryItemAt(
-                            fillerItem,
-                            static_cast<uint8_t>(x),
-                            static_cast<uint8_t>(y)))
-                    {
-                        failure = "could not fill inventory for amulet rejection case";
-                        return false;
-                    }
-                }
+                failure = "missing replacement ring definition";
+                return false;
             }
 
-            heldReplacement.reset();
+            const std::optional<CharacterEquipPlan> plan = GameMechanics::resolveCharacterEquipPlan(
+                *pMember,
+                *pReplacementRing,
+                &gameDataLoader.getItemTable(),
+                nullptr,
+                EquipmentSlot::Ring3,
+                false);
 
-            if (party.tryEquipItemOnMember(
+            if (!plan || plan->targetSlot != EquipmentSlot::Ring3 || plan->displacedSlot != EquipmentSlot::Ring3)
+            {
+                failure = "explicit ring slot did not target the selected occupied ring slot";
+                return false;
+            }
+
+            const InventoryItem heldRing = {
+                pReplacementRing->itemId,
+                1,
+                pReplacementRing->inventoryWidth,
+                pReplacementRing->inventoryHeight,
+                0,
+                0
+            };
+            std::optional<InventoryItem> heldReplacement;
+
+            if (!party.tryEquipItemOnMember(
                     0,
                     plan->targetSlot,
-                    heldAmulet,
+                    heldRing,
                     plan->displacedSlot,
                     plan->autoStoreDisplacedItem,
                     heldReplacement))
             {
-                failure = "amulet replacement should fail when displaced item cannot be stored";
+                failure = "could not replace explicitly selected ring slot";
                 return false;
             }
 
-            if (pMember->equipment.amulet != 147)
+            if (pMember->equipment.ring3 != pReplacementRing->itemId
+                || !heldReplacement
+                || heldReplacement->objectDescriptionId != 139)
             {
-                failure = "failed amulet replacement changed equipped state";
+                failure = "explicit ring slot replacement did not keep the previous ring held";
+                return false;
+            }
+
+            if (pMember->equipment.ring1 != 0
+                || pMember->equipment.ring2 != 0
+                || pMember->equipment.ring4 != 0
+                || pMember->equipment.ring5 != 0
+                || pMember->equipment.ring6 != 0)
+            {
+                failure = "explicit ring slot replacement modified other ring slots";
                 return false;
             }
 

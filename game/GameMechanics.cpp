@@ -1136,7 +1136,6 @@ std::optional<CharacterEquipPlan> GameMechanics::resolveCharacterEquipPlan(
             plan.displacedSlot = equippedItemId(character.equipment, EquipmentSlot::Gauntlets) != 0
                 ? std::optional<EquipmentSlot>(EquipmentSlot::Gauntlets)
                 : std::nullopt;
-            plan.autoStoreDisplacedItem = plan.displacedSlot.has_value();
             return plan;
         }
 
@@ -1151,7 +1150,6 @@ std::optional<CharacterEquipPlan> GameMechanics::resolveCharacterEquipPlan(
             plan.displacedSlot = equippedItemId(character.equipment, EquipmentSlot::Amulet) != 0
                 ? std::optional<EquipmentSlot>(EquipmentSlot::Amulet)
                 : std::nullopt;
-            plan.autoStoreDisplacedItem = plan.displacedSlot.has_value();
             return plan;
         }
 
@@ -1211,7 +1209,6 @@ std::optional<CharacterEquipPlan> GameMechanics::resolveCharacterEquipPlan(
         plan.displacedSlot = equippedItemId(character.equipment, EquipmentSlot::Gauntlets) != 0
             ? std::optional<EquipmentSlot>(EquipmentSlot::Gauntlets)
             : std::nullopt;
-        plan.autoStoreDisplacedItem = plan.displacedSlot.has_value();
         return plan;
     }
 
@@ -1221,7 +1218,6 @@ std::optional<CharacterEquipPlan> GameMechanics::resolveCharacterEquipPlan(
         plan.displacedSlot = equippedItemId(character.equipment, EquipmentSlot::Amulet) != 0
             ? std::optional<EquipmentSlot>(EquipmentSlot::Amulet)
             : std::nullopt;
-        plan.autoStoreDisplacedItem = plan.displacedSlot.has_value();
         return plan;
     }
 

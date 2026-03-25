@@ -2624,6 +2624,8 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
 
     updateHouseVideoPlayback(deltaSeconds);
     updateItemInspectOverlayState(width, height);
+    m_renderedInspectableHudItems.clear();
+    m_renderedInspectableHudState = currentHudScreenState();
 
     {
         const uint64_t stageStartTickCount = SDL_GetTicksNS();
@@ -5493,6 +5495,33 @@ void OutdoorGameView::updateItemInspectOverlayState(int width, int height)
         return;
     }
 
+    if (currentHudScreenState() == m_renderedInspectableHudState)
+    {
+        for (auto it = m_renderedInspectableHudItems.rbegin(); it != m_renderedInspectableHudItems.rend(); ++it)
+        {
+            if (mouseX < it->x
+                || mouseX >= it->x + it->width
+                || mouseY < it->y
+                || mouseY >= it->y + it->height)
+            {
+                continue;
+            }
+
+            if (!isOpaqueHudPixelAtPoint(*it, mouseX, mouseY))
+            {
+                continue;
+            }
+
+            m_itemInspectOverlay.active = true;
+            m_itemInspectOverlay.objectDescriptionId = it->objectDescriptionId;
+            m_itemInspectOverlay.sourceX = it->x;
+            m_itemInspectOverlay.sourceY = it->y;
+            m_itemInspectOverlay.sourceWidth = it->width;
+            m_itemInspectOverlay.sourceHeight = it->height;
+            return;
+        }
+    }
+
     if (!m_characterScreenOpen || m_characterPage != CharacterPage::Inventory || m_pOutdoorPartyRuntime == nullptr)
     {
         return;
@@ -5568,6 +5597,44 @@ void OutdoorGameView::updateItemInspectOverlayState(int width, int height)
     m_itemInspectOverlay.sourceY = itemRect.y;
     m_itemInspectOverlay.sourceWidth = itemRect.width;
     m_itemInspectOverlay.sourceHeight = itemRect.height;
+}
+
+bool OutdoorGameView::isOpaqueHudPixelAtPoint(const RenderedInspectableHudItem &item, float x, float y) const
+{
+    if (item.textureName.empty()
+        || item.width <= 0.0f
+        || item.height <= 0.0f
+        || x < item.x
+        || x >= item.x + item.width
+        || y < item.y
+        || y >= item.y + item.height)
+    {
+        return false;
+    }
+
+    int textureWidth = 0;
+    int textureHeight = 0;
+    const std::optional<std::vector<uint8_t>> pixels =
+        const_cast<OutdoorGameView *>(this)->loadHudBitmapPixelsBgraCached(item.textureName, textureWidth, textureHeight);
+
+    if (!pixels || textureWidth <= 0 || textureHeight <= 0)
+    {
+        return true;
+    }
+
+    const float normalizedX = std::clamp((x - item.x) / item.width, 0.0f, 0.999999f);
+    const float normalizedY = std::clamp((y - item.y) / item.height, 0.0f, 0.999999f);
+    const int pixelX = std::clamp(static_cast<int>(normalizedX * textureWidth), 0, textureWidth - 1);
+    const int pixelY = std::clamp(static_cast<int>(normalizedY * textureHeight), 0, textureHeight - 1);
+    const size_t pixelOffset =
+        (static_cast<size_t>(pixelY) * static_cast<size_t>(textureWidth) + static_cast<size_t>(pixelX)) * 4;
+
+    if (pixelOffset + 3 >= pixels->size())
+    {
+        return false;
+    }
+
+    return (*pixels)[pixelOffset + 3] > 0;
 }
 
 std::string OutdoorGameView::resolveEquippedItemHudTextureName(
@@ -6573,18 +6640,88 @@ void OutdoorGameView::renderCharacterOverlay(int width, int height, bool renderA
 
         if (pAssetName->empty())
         {
-            continue;
+            // Keep going, some layout ids render equipped items without a base asset.
         }
-
-        const HudTextureHandle *pTexture =
-            const_cast<OutdoorGameView *>(this)->ensureHudTextureLoaded(*pAssetName);
-
-        if (pTexture == nullptr)
+        if (!pAssetName->empty())
         {
-            continue;
+            const HudTextureHandle *pTexture =
+                const_cast<OutdoorGameView *>(this)->ensureHudTextureLoaded(*pAssetName);
+
+            if (pTexture != nullptr)
+            {
+                submitTexturedQuad(*pTexture, resolved->x, resolved->y, resolved->width, resolved->height);
+            }
         }
 
-        submitTexturedQuad(*pTexture, resolved->x, resolved->y, resolved->width, resolved->height);
+        const std::optional<EquipmentSlot> slot = characterEquipmentSlotForLayoutId(layoutId);
+
+        if (slot
+            && (m_characterDollJewelryOverlayOpen
+                || (*slot != EquipmentSlot::Amulet
+                    && *slot != EquipmentSlot::Gauntlets
+                    && *slot != EquipmentSlot::Ring1
+                    && *slot != EquipmentSlot::Ring2
+                    && *slot != EquipmentSlot::Ring3
+                    && *slot != EquipmentSlot::Ring4
+                    && *slot != EquipmentSlot::Ring5
+                    && *slot != EquipmentSlot::Ring6)))
+        {
+            const ItemDefinition *pItemDefinition = getEquippedItemDefinition(*slot);
+
+            if (pItemDefinition != nullptr && !pItemDefinition->iconName.empty())
+            {
+                const bool hasRightHandWeapon =
+                    pCharacter != nullptr && pCharacter->equipment.mainHand != 0;
+                const uint32_t dollTypeId = pCharacterDollType != nullptr ? pCharacterDollType->id : 0;
+                const std::string textureName =
+                    resolveEquippedItemHudTextureName(*pItemDefinition, dollTypeId, hasRightHandWeapon, *slot);
+                const HudTextureHandle *pTexture =
+                    const_cast<OutdoorGameView *>(this)->ensureHudTextureLoaded(textureName);
+
+                if (pTexture != nullptr)
+                {
+                    const std::optional<ResolvedHudLayoutElement> iconRect = resolveCharacterEquipmentRenderRect(
+                        *pLayout,
+                        *pItemDefinition,
+                        *pTexture,
+                        pCharacterDollType,
+                        *slot,
+                        width,
+                        height);
+
+                    if (iconRect)
+                    {
+                        logCharacterEquipmentRender(
+                            "slot." + std::string(equipmentSlotName(*slot)),
+                            pLayout->parentId,
+                            textureName,
+                            iconRect->x,
+                            iconRect->y,
+                            iconRect->width,
+                            iconRect->height,
+                            pLayout->zIndex,
+                            baseScale > 0.0f ? (iconRect->x - uiViewport.x) / baseScale : iconRect->x,
+                            baseScale > 0.0f ? (iconRect->y - uiViewport.y) / baseScale : iconRect->y,
+                            baseScale > 0.0f ? iconRect->width / baseScale : iconRect->width,
+                            baseScale > 0.0f ? iconRect->height / baseScale : iconRect->height);
+                        submitTexturedQuad(*pTexture, iconRect->x, iconRect->y, iconRect->width, iconRect->height);
+
+                        if (pItemDefinition->itemId != 0)
+                        {
+                            RenderedInspectableHudItem inspectableItem = {};
+                            inspectableItem.objectDescriptionId = pItemDefinition->itemId;
+                            inspectableItem.equipmentSlot = *slot;
+                            inspectableItem.textureName = textureName;
+                            inspectableItem.x = iconRect->x;
+                            inspectableItem.y = iconRect->y;
+                            inspectableItem.width = iconRect->width;
+                            inspectableItem.height = iconRect->height;
+                            m_renderedInspectableHudItems.push_back(std::move(inspectableItem));
+                        }
+                    }
+                }
+            }
+        }
     }
 
     if (m_characterPage == CharacterPage::Inventory && pCharacter != nullptr)
@@ -6633,110 +6770,6 @@ void OutdoorGameView::renderCharacterOverlay(int width, int height, bool renderA
                     computeInventoryItemScreenRect(gridMetrics, item, itemWidth, itemHeight);
                 submitTexturedQuad(*pItemTexture, itemRect.x, itemRect.y, itemRect.width, itemRect.height);
             }
-
-        }
-    }
-
-    if (pCharacter != nullptr)
-    {
-        for (const std::string &layoutId : orderedCharacterLayoutIds)
-        {
-            const HudLayoutElement *pLayout = findHudLayoutElement(layoutId);
-
-            if (pLayout == nullptr || !hasVisibleCharacterAncestors(*pLayout) || !shouldRenderInCurrentPass(pLayout->zIndex))
-            {
-                continue;
-            }
-
-            if (!m_characterDollJewelryOverlayOpen
-                && (toLowerCopy(layoutId) == "characterdollamuletslot"
-                    || toLowerCopy(layoutId) == "characterdollgauntletsslot"
-                    || toLowerCopy(layoutId) == "characterdollring1slot"
-                    || toLowerCopy(layoutId) == "characterdollring2slot"
-                    || toLowerCopy(layoutId) == "characterdollring3slot"
-                    || toLowerCopy(layoutId) == "characterdollring4slot"
-                    || toLowerCopy(layoutId) == "characterdollring5slot"
-                    || toLowerCopy(layoutId) == "characterdollring6slot"))
-            {
-                continue;
-            }
-
-            const std::optional<EquipmentSlot> slot = characterEquipmentSlotForLayoutId(layoutId);
-
-            if (!slot)
-            {
-                continue;
-            }
-
-            const ItemDefinition *pItemDefinition = getEquippedItemDefinition(*slot);
-
-            if (pItemDefinition == nullptr || pItemDefinition->iconName.empty())
-            {
-                continue;
-            }
-
-            const bool hasRightHandWeapon =
-                pCharacter != nullptr && pCharacter->equipment.mainHand != 0;
-            const uint32_t dollTypeId = pCharacterDollType != nullptr ? pCharacterDollType->id : 0;
-            const std::string textureName =
-                resolveEquippedItemHudTextureName(*pItemDefinition, dollTypeId, hasRightHandWeapon, *slot);
-            const HudTextureHandle *pTexture =
-                const_cast<OutdoorGameView *>(this)->ensureHudTextureLoaded(textureName);
-
-            if (pTexture == nullptr)
-            {
-                continue;
-            }
-
-            const std::optional<ResolvedHudLayoutElement> iconRect = resolveCharacterEquipmentRenderRect(
-                *pLayout,
-                *pItemDefinition,
-                *pTexture,
-                pCharacterDollType,
-                *slot,
-                width,
-                height);
-
-            if (!iconRect)
-            {
-                continue;
-            }
-
-            if (toLowerCopy(layoutId) == "characterdollhelmetslot")
-            {
-                static std::string lastHelmetSlotDebug;
-                std::ostringstream slotDebug;
-                slotDebug << "parent=\"" << pLayout->parentId
-                          << "\" draw_x=" << iconRect->x
-                          << " draw_y=" << iconRect->y
-                          << " draw_w=" << iconRect->width
-                          << " draw_h=" << iconRect->height
-                          << " logical_x=" << (baseScale > 0.0f ? (iconRect->x - uiViewport.x) / baseScale : iconRect->x)
-                          << " logical_y=" << (baseScale > 0.0f ? (iconRect->y - uiViewport.y) / baseScale : iconRect->y)
-                          << " logical_w=" << (baseScale > 0.0f ? iconRect->width / baseScale : iconRect->width)
-                          << " logical_h=" << (baseScale > 0.0f ? iconRect->height / baseScale : iconRect->height);
-                const std::string slotDebugText = slotDebug.str();
-
-                if (slotDebugText != lastHelmetSlotDebug)
-                {
-                    lastHelmetSlotDebug = slotDebugText;
-                    std::cout << "Character helmet slot layout: " << slotDebugText << '\n';
-                }
-            }
-            logCharacterEquipmentRender(
-                "slot." + std::string(equipmentSlotName(*slot)),
-                pLayout->parentId,
-                textureName,
-                iconRect->x,
-                iconRect->y,
-                iconRect->width,
-                iconRect->height,
-                pLayout->zIndex,
-                baseScale > 0.0f ? (iconRect->x - uiViewport.x) / baseScale : iconRect->x,
-                baseScale > 0.0f ? (iconRect->y - uiViewport.y) / baseScale : iconRect->y,
-                baseScale > 0.0f ? iconRect->width / baseScale : iconRect->width,
-                baseScale > 0.0f ? iconRect->height / baseScale : iconRect->height);
-            submitTexturedQuad(*pTexture, iconRect->x, iconRect->y, iconRect->width, iconRect->height);
         }
     }
 
@@ -14583,27 +14616,20 @@ void OutdoorGameView::updateCameraFromInput(float deltaSeconds)
 
                 if (m_characterPage == CharacterPage::Inventory)
                 {
-                    if (m_heldInventoryItem.active)
+                    if (!m_heldInventoryItem.active)
                     {
-                        const HudLayoutElement *pDollLayout = findHudLayoutElement("CharacterDollPanel");
-
-                        if (pDollLayout != nullptr)
+                        for (auto it = m_renderedInspectableHudItems.rbegin(); it != m_renderedInspectableHudItems.rend(); ++it)
                         {
-                            const std::optional<ResolvedHudLayoutElement> resolvedDoll = resolveHudLayoutElement(
-                                "CharacterDollPanel",
-                                screenWidth,
-                                screenHeight,
-                                pDollLayout->width,
-                                pDollLayout->height);
-
-                            if (resolvedDoll
-                                && pointerX >= resolvedDoll->x
-                                && pointerX < resolvedDoll->x + resolvedDoll->width
-                                && pointerY >= resolvedDoll->y
-                                && pointerY < resolvedDoll->y + resolvedDoll->height)
+                            if (!isOpaqueHudPixelAtPoint(*it, pointerX, pointerY))
                             {
-                                return {CharacterPointerTargetType::DollPanel, CharacterPage::Inventory};
+                                continue;
                             }
+
+                            CharacterPointerTarget pointerTarget = {};
+                            pointerTarget.type = CharacterPointerTargetType::EquipmentSlot;
+                            pointerTarget.page = CharacterPage::Inventory;
+                            pointerTarget.equipmentSlot = it->equipmentSlot;
+                            return pointerTarget;
                         }
                     }
 
@@ -14653,18 +14679,20 @@ void OutdoorGameView::updateCameraFromInput(float deltaSeconds)
                             equippedId != 0 && m_pItemTable != nullptr ? m_pItemTable->get(equippedId) : nullptr;
                         std::optional<ResolvedHudLayoutElement> dynamicRect;
 
+                        std::string dynamicTextureName;
+
                         if (pItemDefinition != nullptr && !pItemDefinition->iconName.empty())
                         {
                             const bool hasRightHandWeapon =
                                 pActiveCharacter != nullptr && pActiveCharacter->equipment.mainHand != 0;
                             const uint32_t dollTypeId =
                                 pActiveCharacterDollType != nullptr ? pActiveCharacterDollType->id : 0;
-                            const std::string textureName = resolveEquippedItemHudTextureName(
+                            dynamicTextureName = resolveEquippedItemHudTextureName(
                                 *pItemDefinition,
                                 dollTypeId,
                                 hasRightHandWeapon,
                                 target.slot);
-                            const HudTextureHandle *pTexture = ensureHudTextureLoaded(textureName);
+                            const HudTextureHandle *pTexture = ensureHudTextureLoaded(dynamicTextureName);
 
                             if (pTexture != nullptr)
                             {
@@ -14679,21 +14707,40 @@ void OutdoorGameView::updateCameraFromInput(float deltaSeconds)
                             }
                         }
 
-                        const bool pointerInsideDynamicRect =
-                            dynamicRect
-                            && pointerX >= dynamicRect->x
-                            && pointerX < dynamicRect->x + dynamicRect->width
-                            && pointerY >= dynamicRect->y
-                            && pointerY < dynamicRect->y + dynamicRect->height;
+                        bool pointerInsideDynamicRect = false;
+
+                        if (dynamicRect)
+                        {
+                            if (m_heldInventoryItem.active)
+                            {
+                                pointerInsideDynamicRect =
+                                    pointerX >= dynamicRect->x
+                                    && pointerX < dynamicRect->x + dynamicRect->width
+                                    && pointerY >= dynamicRect->y
+                                    && pointerY < dynamicRect->y + dynamicRect->height;
+                            }
+                            else if (!dynamicTextureName.empty() && pItemDefinition != nullptr)
+                            {
+                                RenderedInspectableHudItem renderedItem = {};
+                                renderedItem.objectDescriptionId = pItemDefinition->itemId;
+                                renderedItem.textureName = dynamicTextureName;
+                                renderedItem.x = dynamicRect->x;
+                                renderedItem.y = dynamicRect->y;
+                                renderedItem.width = dynamicRect->width;
+                                renderedItem.height = dynamicRect->height;
+                                pointerInsideDynamicRect = isOpaqueHudPixelAtPoint(renderedItem, pointerX, pointerY);
+                            }
+                        }
+
                         const std::optional<ResolvedHudLayoutElement> resolved =
-                            dynamicRect
-                            ? std::nullopt
-                            : resolveHudLayoutElement(
+                            m_heldInventoryItem.active && !dynamicRect
+                            ? resolveHudLayoutElement(
                                 target.layoutId,
                                 screenWidth,
                                 screenHeight,
                                 pLayout->width,
-                                pLayout->height);
+                                pLayout->height)
+                            : std::nullopt;
                         const bool pointerInsideLayoutRect =
                             resolved
                             && pointerX >= resolved->x
@@ -14715,6 +14762,30 @@ void OutdoorGameView::updateCameraFromInput(float deltaSeconds)
                             pointerTarget.page = CharacterPage::Inventory;
                             pointerTarget.equipmentSlot = target.slot;
                             return pointerTarget;
+                        }
+                    }
+
+                    if (m_heldInventoryItem.active)
+                    {
+                        const HudLayoutElement *pDollLayout = findHudLayoutElement("CharacterDollPanel");
+
+                        if (pDollLayout != nullptr)
+                        {
+                            const std::optional<ResolvedHudLayoutElement> resolvedDoll = resolveHudLayoutElement(
+                                "CharacterDollPanel",
+                                screenWidth,
+                                screenHeight,
+                                pDollLayout->width,
+                                pDollLayout->height);
+
+                            if (resolvedDoll
+                                && pointerX >= resolvedDoll->x
+                                && pointerX < resolvedDoll->x + resolvedDoll->width
+                                && pointerY >= resolvedDoll->y
+                                && pointerY < resolvedDoll->y + resolvedDoll->height)
+                            {
+                                return {CharacterPointerTargetType::DollPanel, CharacterPage::Inventory};
+                            }
                         }
                     }
 

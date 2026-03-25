@@ -281,6 +281,17 @@ private:
         float sourceHeight = 0.0f;
     };
 
+    struct RenderedInspectableHudItem
+    {
+        uint32_t objectDescriptionId = 0;
+        EquipmentSlot equipmentSlot = EquipmentSlot::MainHand;
+        std::string textureName;
+        float x = 0.0f;
+        float y = 0.0f;
+        float width = 0.0f;
+        float height = 0.0f;
+    };
+
     struct DialoguePointerTarget
     {
         DialoguePointerTargetType type = DialoguePointerTargetType::None;
@@ -508,6 +519,7 @@ private:
     std::optional<size_t> resolvePartyPortraitIndexAtPoint(int width, int height, float x, float y);
     bool trySelectPartyMember(size_t memberIndex, bool requireGameplayReady);
     void updateItemInspectOverlayState(int width, int height);
+    bool isOpaqueHudPixelAtPoint(const RenderedInspectableHudItem &item, float x, float y) const;
     std::string resolveEquippedItemHudTextureName(
         const ItemDefinition &itemDefinition,
         uint32_t dollTypeId,
@@ -662,6 +674,8 @@ private:
     std::optional<size_t> m_lastPartyPortraitClickedIndex;
     HeldInventoryItemState m_heldInventoryItem;
     ItemInspectOverlayState m_itemInspectOverlay;
+    mutable std::vector<RenderedInspectableHudItem> m_renderedInspectableHudItems;
+    mutable HudScreenState m_renderedInspectableHudState = HudScreenState::Gameplay;
     bool m_heldInventoryDropLatch;
     bool m_closeOverlayLatch;
     bool m_dialogueClickLatch;

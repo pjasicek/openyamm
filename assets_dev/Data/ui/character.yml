@@ -1138,69 +1138,87 @@ elements:
                 default: backhand
               notes: Overlay view for displaying jewleries, gauntles over the doll view
               children:
-                - id: CharacterDollAmuletSlot
-                  anchor: top_left
-                  offset_x: 42
-                  offset_y: 36
-                  width: 32
-                  height: 64
-                  notes: Jewelry overlay amulet slot
-
                 - id: CharacterDollGauntletsSlot
                   anchor: top_left
-                  offset_x: 108
-                  offset_y: 36
+                  offset_x: 25
+                  offset_y: 72
                   width: 32
                   height: 64
                   notes: Jewelry overlay gauntlets slot
 
+                - id: CharacterDollAmuletSlot
+                  anchor: top_left
+                  offset_x: 116
+                  offset_y: 72
+                  width: 32
+                  height: 64
+                  notes: Jewelry overlay amulet slot
+
                 - id: CharacterDollRing1Slot
                   anchor: top_left
-                  offset_x: 30
-                  offset_y: 146
+                  offset_x: 25
+                  offset_y: 181
                   width: 32
                   height: 32
                   notes: Jewelry overlay ring slot 1
 
                 - id: CharacterDollRing2Slot
                   anchor: top_left
-                  offset_x: 72
-                  offset_y: 146
+                  offset_x: 73
+                  offset_y: 181
                   width: 32
                   height: 32
                   notes: Jewelry overlay ring slot 2
 
                 - id: CharacterDollRing3Slot
                   anchor: top_left
-                  offset_x: 114
-                  offset_y: 146
+                  offset_x: 121
+                  offset_y: 181
                   width: 32
                   height: 32
                   notes: Jewelry overlay ring slot 3
 
                 - id: CharacterDollRing4Slot
                   anchor: top_left
-                  offset_x: 30
-                  offset_y: 194
+                  offset_x: 25
+                  offset_y: 229
                   width: 32
                   height: 32
                   notes: Jewelry overlay ring slot 4
 
                 - id: CharacterDollRing5Slot
                   anchor: top_left
-                  offset_x: 72
-                  offset_y: 194
+                  offset_x: 73
+                  offset_y: 229
                   width: 32
                   height: 32
                   notes: Jewelry overlay ring slot 5
 
                 - id: CharacterDollRing6Slot
                   anchor: top_left
-                  offset_x: 114
-                  offset_y: 194
+                  offset_x: 121
+                  offset_y: 229
                   width: 32
                   height: 32
                   notes: Jewelry overlay ring slot 6
+
+          - id: CharacterDollBowSlot
+            anchor: top_left
+            offset_x: 0
+            offset_y: 0
+            width: 0
+            height: 0
+            z_index: 51
+            notes: Bow slot
+
+          - id: CharacterDollCloakSlot
+            anchor: top_left
+            offset_x: 0
+            offset_y: 0
+            width: 0
+            height: 0
+            z_index: 52
+            notes: Cloak slot
 
           - id: CharacterDollBody
             anchor: top_left
@@ -1256,24 +1274,6 @@ elements:
             height: 0
             z_index: 70
             notes: Left hand slot
-
-          - id: CharacterDollCloakSlot
-            anchor: top_left
-            offset_x: 0
-            offset_y: 0
-            width: 0
-            height: 0
-            z_index: 55
-            notes: Cloak slot
-
-          - id: CharacterDollBowSlot
-            anchor: top_left
-            offset_x: 0
-            offset_y: 0
-            width: 0
-            height: 0
-            z_index: 52
-            notes: Bow slot
 
           - id: CharacterDollArmorSlot
             anchor: top_left

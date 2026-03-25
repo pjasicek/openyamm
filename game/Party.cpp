@@ -45,22 +45,23 @@ void grantDefaultEquipmentSkills(Character &character)
 
 void grantSeedInventoryLoadout(Character &character)
 {
-    static const std::array<uint32_t, 34> itemIds = {
-        84, 85,
-        89, 90,
-        94, 95,
-        41, 42,
-        1, 11,
-        56, 57,
-        21, 26,
-        66, 67,
-        31, 32,
-        79, 80,
-        99, 104,
-        109, 111,
-        117, 118,
-        132, 133,
-        137, 138,
+    static const std::array<uint32_t, 29> itemIds = {
+        84,
+        89,
+        94,
+        41,
+        1,
+        56,
+        21,
+        66,
+        31,
+        79,
+        99,
+        109,
+        117,
+        132,
+        124,
+        137, 138, 139, 140, 141, 142, 143, 144, 145, 146,
         127, 129,
         147, 148
     };
