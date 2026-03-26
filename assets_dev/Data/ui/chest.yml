@@ -31,6 +31,27 @@ elements:
             interactive: true
             notes: Chest item grid hook. Runtime should position it from the chest UI offset table.
 
+      - id: ChestNestedInventoryPage
+        anchor: top_left
+        offset_x: 0
+        offset_y: 24
+        width: 468
+        height: 346
+        z_index: 180
+        asset:
+          default: fr_inven
+        notes: Nested inventory frame used for chest transfer and later service-house inventory interactions.
+        children:
+          - id: ChestNestedInventoryGrid
+            anchor: top_left
+            offset_x: 10
+            offset_y: 10
+            width: 448
+            height: 288
+            z_index: 190
+            interactive: true
+            notes: 14 x 9 nested inventory grid.
+
       - id: ChestTopBar
         anchor: top_center
         width: 640

@@ -259,6 +259,21 @@ private:
         CloseButton
     };
 
+    enum class InventoryNestedOverlayMode
+    {
+        None,
+        ChestTransfer,
+        ShopSell,
+        ShopIdentify,
+        ShopRepair
+    };
+
+    enum class InventoryNestedOverlayPointerTargetType
+    {
+        None,
+        CloseButton
+    };
+
     struct CharacterPointerTarget
     {
         CharacterPointerTargetType type = CharacterPointerTargetType::None;
@@ -341,6 +356,19 @@ private:
         ChestPointerTargetType type = ChestPointerTargetType::None;
 
         bool operator==(const ChestPointerTarget &other) const = default;
+    };
+
+    struct InventoryNestedOverlayState
+    {
+        bool active = false;
+        InventoryNestedOverlayMode mode = InventoryNestedOverlayMode::None;
+    };
+
+    struct InventoryNestedOverlayPointerTarget
+    {
+        InventoryNestedOverlayPointerTargetType type = InventoryNestedOverlayPointerTargetType::None;
+
+        bool operator==(const InventoryNestedOverlayPointerTarget &other) const = default;
     };
 
     struct HudLayoutElement
@@ -483,7 +511,9 @@ private:
     void renderGameplayHudArt(int width, int height);
     void renderGameplayHud(int width, int height) const;
     void renderChestPanel(int width, int height, bool renderAboveHud) const;
+    void renderInventoryNestedOverlay(int width, int height, bool renderAboveHud) const;
     std::optional<ResolvedHudLayoutElement> resolveChestGridArea(int width, int height) const;
+    std::optional<ResolvedHudLayoutElement> resolveInventoryNestedOverlayGridArea(int width, int height) const;
     void renderEventDialogPanel(int width, int height, bool renderAboveHud);
     void renderActorCollisionOverlays(uint16_t viewId, const bx::Vec3 &cameraPosition) const;
     void renderActorPreviewBillboards(uint16_t viewId, const float *pViewMatrix, const bx::Vec3 &cameraPosition);
@@ -564,6 +594,8 @@ private:
     std::optional<size_t> resolvePartyPortraitIndexAtPoint(int width, int height, float x, float y);
     bool trySelectPartyMember(size_t memberIndex, bool requireGameplayReady);
     bool tryAutoPlaceHeldItemOnPartyMember(size_t memberIndex, bool showFailureStatus = true);
+    void openInventoryNestedOverlay(InventoryNestedOverlayMode mode);
+    void closeInventoryNestedOverlay();
     void updateItemInspectOverlayState(int width, int height);
     void updateCharacterInspectOverlayState(int width, int height);
     bool isOpaqueHudPixelAtPoint(const RenderedInspectableHudItem &item, float x, float y) const;
@@ -732,6 +764,10 @@ private:
     bool m_chestClickLatch;
     bool m_chestItemClickLatch;
     ChestPointerTarget m_chestPressedTarget;
+    InventoryNestedOverlayState m_inventoryNestedOverlay;
+    bool m_inventoryNestedOverlayClickLatch;
+    bool m_inventoryNestedOverlayItemClickLatch;
+    InventoryNestedOverlayPointerTarget m_inventoryNestedOverlayPressedTarget;
     bool m_lootChestItemLatch;
     bool m_chestSelectUpLatch;
     bool m_chestSelectDownLatch;
