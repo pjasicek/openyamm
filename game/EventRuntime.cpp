@@ -172,6 +172,11 @@ EventRuntime::VariableRef EventRuntime::decodeVariable(uint32_t rawId)
         variable.kind = VariableKind::BoolFlag;
         variable.rawId = variable.tag;
     }
+    else if (variable.tag == 0x0017)
+    {
+        variable.kind = VariableKind::Food;
+        variable.rawId = variable.tag;
+    }
     else if (variable.tag == 0x0011)
     {
         variable.kind = VariableKind::Inventory;
@@ -221,6 +226,17 @@ int32_t EventRuntime::getVariableValue(
         }
 
         return pParty->hasRosterMember(variable.index) ? static_cast<int32_t>(variable.index) : 0;
+    }
+
+    if (variable.kind == VariableKind::Food)
+    {
+        if (pParty != nullptr)
+        {
+            return pParty->food();
+        }
+
+        const std::unordered_map<uint32_t, int32_t>::const_iterator iterator = runtimeState.variables.find(variable.rawId);
+        return iterator != runtimeState.variables.end() ? iterator->second : 0;
     }
 
     if (variable.kind == VariableKind::Awards)
@@ -307,6 +323,20 @@ void EventRuntime::setVariableValue(
                 }
             }
         }
+        return;
+    }
+
+    if (variable.kind == VariableKind::Food)
+    {
+        if (pParty != nullptr)
+        {
+            pParty->addFood(value - pParty->food());
+        }
+        else
+        {
+            runtimeState.variables[variable.rawId] = value;
+        }
+
         return;
     }
 
@@ -403,6 +433,20 @@ void EventRuntime::addVariableValue(
         return;
     }
 
+    if (variable.kind == VariableKind::Food)
+    {
+        if (pParty != nullptr)
+        {
+            pParty->addFood(value);
+        }
+        else
+        {
+            runtimeState.variables[variable.rawId] = getVariableValue(runtimeState, variable, nullptr) + value;
+        }
+
+        return;
+    }
+
     if (variable.kind == VariableKind::Awards)
     {
         if (pParty != nullptr && !targetMemberIndices.empty())
@@ -471,6 +515,20 @@ void EventRuntime::subtractVariableValue(
         return;
     }
 
+    if (variable.kind == VariableKind::Food)
+    {
+        if (pParty != nullptr)
+        {
+            pParty->addFood(-value);
+        }
+        else
+        {
+            runtimeState.variables[variable.rawId] = getVariableValue(runtimeState, variable, nullptr) - value;
+        }
+
+        return;
+    }
+
     if (variable.kind == VariableKind::Awards)
     {
         if (pParty != nullptr && !targetMemberIndices.empty())
@@ -520,6 +578,8 @@ bool EventRuntime::buildOnLoadState(
 
     if (mapDeltaData)
     {
+        runtimeState.decorVars = mapDeltaData->eventVariables.decorVars;
+
         for (const MapDeltaDoor &door : mapDeltaData->doors)
         {
             RuntimeMechanismState runtimeMechanism = {};
@@ -989,7 +1049,6 @@ bool EventRuntime::executeEvent(
             case EventIrOperation::CheckItemsCount:
             case EventIrOperation::CheckSkill:
             case EventIrOperation::MoveNpc:
-            case EventIrOperation::ChangeEvent:
             case EventIrOperation::RandomJump:
             case EventIrOperation::SummonItem:
             case EventIrOperation::SetNpcGreeting:
@@ -1267,6 +1326,36 @@ bool EventRuntime::executeEvent(
                                   variable,
                                   pParty,
                                   singleTargetMemberIndex(targetMemberIndices)) << '\n';
+                }
+                break;
+            }
+
+            case EventIrOperation::ChangeEvent:
+            {
+                if (!instruction.arguments.empty() && runtimeState.activeDecorationContext)
+                {
+                    EventRuntimeState::ActiveDecorationContext &context = *runtimeState.activeDecorationContext;
+                    const uint16_t targetEventId = static_cast<uint16_t>(instruction.arguments[0]);
+                    uint8_t newState = 0;
+
+                    if (targetEventId == 0)
+                    {
+                        newState = context.hideWhenCleared ? context.eventCount : 0;
+                    }
+                    else if (targetEventId >= context.baseEventId)
+                    {
+                        const uint16_t delta = targetEventId - context.baseEventId;
+                        newState = delta > std::numeric_limits<uint8_t>::max()
+                            ? std::numeric_limits<uint8_t>::max()
+                            : static_cast<uint8_t>(delta);
+                    }
+
+                    runtimeState.decorVars[context.decorVarIndex] = newState;
+                    context.currentEventId = targetEventId;
+
+                    std::cout << "  change_event target=" << targetEventId
+                              << " decor_var[" << static_cast<int>(context.decorVarIndex) << "]="
+                              << static_cast<int>(newState) << '\n';
                 }
                 break;
             }

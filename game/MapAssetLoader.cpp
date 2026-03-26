@@ -1,7 +1,9 @@
 #include "game/ActorNameResolver.h"
 #include "game/MapAssetLoader.h"
 #include "game/OutdoorGeometryUtils.h"
+#include "game/SpriteObjectDefs.h"
 #include "game/StringUtils.h"
+#include "engine/TextTable.h"
 
 #include <SDL3/SDL.h>
 
@@ -34,15 +36,6 @@ constexpr int TerrainTextureAtlasColumns = 16;
 constexpr uint16_t DecorationDescMoveThrough = 0x0001;
 constexpr uint16_t DecorationDescDontDraw = 0x0002;
 constexpr uint16_t LevelDecorationInvisible = 0x0020;
-constexpr uint16_t ObjectDescNoCollision = 0x0002;
-constexpr uint16_t ObjectDescTemporary = 0x0004;
-constexpr uint16_t ObjectDescUnpickable = 0x0010;
-constexpr uint16_t ObjectDescTrailParticle = 0x0100;
-constexpr uint16_t ObjectDescTrailFire = 0x0200;
-constexpr uint16_t ObjectDescTrailLine = 0x0400;
-constexpr uint16_t SpriteAttrTemporary = 0x0002;
-constexpr uint16_t SpriteAttrMissile = 0x0100;
-constexpr uint16_t SpriteAttrRemoved = 0x0200;
 
 std::optional<std::string> resolveMonsterNameForSpawn(const MapStatsEntry &map, uint16_t typeId, uint16_t index);
 
@@ -107,19 +100,6 @@ bool shouldSkipDecorationCollision(const EntityType &entity, const DecorationEnt
     return decoration.radius <= 0 || decoration.height == 0;
 }
 
-bool hasContainingItemPayload(const std::vector<uint8_t> &rawContainingItem)
-{
-    for (uint8_t value : rawContainingItem)
-    {
-        if (value != 0)
-        {
-            return true;
-        }
-    }
-
-    return false;
-}
-
 bool shouldSkipSpriteObjectCollision(const MapDeltaSpriteObject &spriteObject, const ObjectEntry &objectEntry)
 {
     if (spriteObject.objectDescriptionId == 0)
@@ -159,6 +139,36 @@ bool shouldSkipSpriteObjectCollision(const MapDeltaSpriteObject &spriteObject, c
     }
 
     return false;
+}
+
+bool loadDecorationDisplayRows(
+    const Engine::AssetFileSystem &assetFileSystem,
+    std::vector<std::vector<std::string>> &rows)
+{
+    rows.clear();
+
+    const std::optional<std::string> contents = assetFileSystem.readTextFile("Data/EnglishT/DECLIST.TXT");
+
+    if (!contents)
+    {
+        return false;
+    }
+
+    const std::optional<Engine::TextTable> parsedTable = Engine::TextTable::parseTabSeparated(*contents);
+
+    if (!parsedTable)
+    {
+        return false;
+    }
+
+    rows.reserve(parsedTable->getRowCount());
+
+    for (size_t rowIndex = 0; rowIndex < parsedTable->getRowCount(); ++rowIndex)
+    {
+        rows.push_back(parsedTable->getRow(rowIndex));
+    }
+
+    return true;
 }
 
 uint32_t makeAbgr(uint8_t red, uint8_t green, uint8_t blue)
@@ -833,6 +843,13 @@ std::optional<DecorationBillboardSet> buildDecorationBillboardSet(
         return std::nullopt;
     }
 
+    std::vector<std::vector<std::string>> decorationRows;
+
+    if (loadDecorationDisplayRows(assetFileSystem, decorationRows))
+    {
+        billboardSet.decorationTable.loadDisplayRows(decorationRows);
+    }
+
     std::vector<std::string> textureNames;
 
     for (size_t entityIndex = 0; entityIndex < entities.size(); ++entityIndex)
@@ -927,6 +944,13 @@ std::optional<OutdoorDecorationCollisionSet> buildOutdoorDecorationCollisionSet(
     if (!decorationTable.loadFromBytes(*decorationTableBytes))
     {
         return std::nullopt;
+    }
+
+    std::vector<std::vector<std::string>> decorationRows;
+
+    if (loadDecorationDisplayRows(assetFileSystem, decorationRows))
+    {
+        decorationTable.loadDisplayRows(decorationRows);
     }
 
     OutdoorDecorationCollisionSet collisionSet = {};
@@ -1140,6 +1164,12 @@ std::optional<SpriteObjectBillboardSet> buildSpriteObjectBillboardSet(
         const ObjectEntry *pObjectEntry = objectTable.get(spriteObject.objectDescriptionId);
 
         if (pObjectEntry == nullptr || (pObjectEntry->flags & 0x0001) != 0 || pObjectEntry->spriteId == 0)
+        {
+            continue;
+        }
+
+        if (hasContainingItemPayload(spriteObject.rawContainingItem)
+            && (pObjectEntry->flags & ObjectDescUnpickable) == 0)
         {
             continue;
         }

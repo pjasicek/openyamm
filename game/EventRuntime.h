@@ -89,6 +89,15 @@ struct EventRuntimeState
         std::optional<DialogueOfferState> currentOffer;
     };
 
+    struct ActiveDecorationContext
+    {
+        uint8_t decorVarIndex = 0;
+        uint16_t baseEventId = 0;
+        uint16_t currentEventId = 0;
+        uint8_t eventCount = 0;
+        bool hideWhenCleared = false;
+    };
+
     std::unordered_map<uint32_t, int32_t> variables;
     std::unordered_map<uint32_t, uint32_t> facetSetMasks;
     std::unordered_map<uint32_t, uint32_t> facetClearMasks;
@@ -105,6 +114,8 @@ struct EventRuntimeState
     std::unordered_map<uint32_t, uint32_t> npcHouseOverrides;
     std::unordered_set<uint32_t> unavailableNpcIds;
     DialogueRuntimeState dialogueState;
+    std::array<uint8_t, 125> decorVars = {};
+    std::optional<ActiveDecorationContext> activeDecorationContext;
     std::vector<std::string> messages;
     std::vector<uint32_t> openedChestIds;
     std::vector<uint32_t> grantedItemIds;
@@ -156,6 +167,7 @@ private:
         Generic,
         QBits,
         BoolFlag,
+        Food,
         Inventory,
         Awards,
         Players,

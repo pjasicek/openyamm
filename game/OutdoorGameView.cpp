@@ -9,6 +9,7 @@
 #include "game/OutdoorPartyRuntime.h"
 #include "game/OutdoorWorldRuntime.h"
 #include "game/SpawnPreview.h"
+#include "game/SpriteObjectDefs.h"
 #include "game/SpriteTables.h"
 #include "game/StringUtils.h"
 
@@ -38,6 +39,37 @@ namespace OpenYAMM::Game
 {
 namespace
 {
+bool shouldSkipSpriteObjectInspectTarget(const SpriteObjectBillboard &object, const ObjectEntry *pObjectEntry)
+{
+    if (pObjectEntry == nullptr || object.objectDescriptionId == 0)
+    {
+        return true;
+    }
+
+    if ((object.attributes & (SpriteAttrTemporary | SpriteAttrMissile | SpriteAttrRemoved)) != 0)
+    {
+        return true;
+    }
+
+    if ((pObjectEntry->flags & (ObjectDescNoSprite
+                                | ObjectDescNoCollision
+                                | ObjectDescTemporary
+                                | ObjectDescUnpickable
+                                | ObjectDescTrailParticle
+                                | ObjectDescTrailFire
+                                | ObjectDescTrailLine)) != 0)
+    {
+        return true;
+    }
+
+    if (object.spellId != 0)
+    {
+        return true;
+    }
+
+    return false;
+}
+
 constexpr uint16_t MainViewId = 0;
 constexpr uint16_t HudViewId = 1;
 constexpr float Pi = 3.14159265358979323846f;
@@ -60,6 +92,8 @@ constexpr float BillboardNearDepth = 0.1f;
 constexpr bool DebugProjectileDrawLogging = false;
 constexpr float DebugProjectileTrailSeconds = 0.05f;
 constexpr float InspectRayEpsilon = 0.0001f;
+constexpr float OeNearHoverDistance = 512.0f;
+constexpr float OeActorHoverDistance = 8192.0f;
 constexpr float OutdoorWalkableNormalZ = 0.70710678f;
 constexpr float OutdoorMaxStepHeight = 128.0f;
 constexpr size_t PreloadDecodeWorkerCount = 4;
@@ -101,6 +135,190 @@ GoldHeapVisual classifyGoldHeapVisual(uint32_t goldAmount)
     }
 
     return {"item206", 2, 1, 189};
+}
+
+std::string normalizeDecorationKey(const std::string &value)
+{
+    const std::string lowered = toLowerCopy(value);
+    size_t begin = 0;
+
+    while (begin < lowered.size() && std::isspace(static_cast<unsigned char>(lowered[begin])) != 0)
+    {
+        ++begin;
+    }
+
+    size_t end = lowered.size();
+
+    while (end > begin && std::isspace(static_cast<unsigned char>(lowered[end - 1])) != 0)
+    {
+        --end;
+    }
+
+    return lowered.substr(begin, end - begin);
+}
+
+bool decorationMatchesAnyKey(
+    const std::vector<std::string> &keys,
+    std::initializer_list<std::string_view> candidates)
+{
+    for (const std::string &key : keys)
+    {
+        for (std::string_view candidate : candidates)
+        {
+            if (key == candidate)
+            {
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+
+std::optional<OutdoorGameView::InteractiveDecorationFamily> classifyInteractiveDecorationFamily(
+    const DecorationEntry &decoration,
+    const std::string &instanceName)
+{
+    std::vector<std::string> keys;
+    keys.reserve(3);
+
+    const std::string hint = normalizeDecorationKey(decoration.hint);
+    const std::string internalName = normalizeDecorationKey(decoration.internalName);
+    const std::string normalizedInstanceName = normalizeDecorationKey(instanceName);
+
+    if (!hint.empty())
+    {
+        keys.push_back(hint);
+    }
+
+    if (!internalName.empty() && std::find(keys.begin(), keys.end(), internalName) == keys.end())
+    {
+        keys.push_back(internalName);
+    }
+
+    if (!normalizedInstanceName.empty()
+        && std::find(keys.begin(), keys.end(), normalizedInstanceName) == keys.end())
+    {
+        keys.push_back(normalizedInstanceName);
+    }
+
+    if (decorationMatchesAnyKey(keys, {"barrel", "dec03", "dec32"}))
+    {
+        return OutdoorGameView::InteractiveDecorationFamily::Barrel;
+    }
+
+    if (decorationMatchesAnyKey(keys, {"cauldron", "dec26"}))
+    {
+        return OutdoorGameView::InteractiveDecorationFamily::Cauldron;
+    }
+
+    if (decorationMatchesAnyKey(keys, {"trash heap", "trash pile", "dec01", "dec10", "dec23"}))
+    {
+        return OutdoorGameView::InteractiveDecorationFamily::TrashHeap;
+    }
+
+    if (decorationMatchesAnyKey(keys, {"campfire", "camp fire", "dec24", "dec25"}))
+    {
+        return OutdoorGameView::InteractiveDecorationFamily::CampFire;
+    }
+
+    if (decorationMatchesAnyKey(keys, {"keg", "cask", "dec21"}))
+    {
+        return OutdoorGameView::InteractiveDecorationFamily::Cask;
+    }
+
+    return std::nullopt;
+}
+
+uint16_t interactiveDecorationBaseEventId(OutdoorGameView::InteractiveDecorationFamily family)
+{
+    switch (family)
+    {
+        case OutdoorGameView::InteractiveDecorationFamily::Barrel:
+            return 268;
+
+        case OutdoorGameView::InteractiveDecorationFamily::Cauldron:
+            return 276;
+
+        case OutdoorGameView::InteractiveDecorationFamily::TrashHeap:
+            return 281;
+
+        case OutdoorGameView::InteractiveDecorationFamily::CampFire:
+            return 285;
+
+        case OutdoorGameView::InteractiveDecorationFamily::Cask:
+            return 288;
+
+        case OutdoorGameView::InteractiveDecorationFamily::None:
+            break;
+    }
+
+    return 0;
+}
+
+uint8_t interactiveDecorationEventCount(OutdoorGameView::InteractiveDecorationFamily family)
+{
+    switch (family)
+    {
+        case OutdoorGameView::InteractiveDecorationFamily::Barrel:
+            return 8;
+
+        case OutdoorGameView::InteractiveDecorationFamily::Cauldron:
+            return 5;
+
+        case OutdoorGameView::InteractiveDecorationFamily::TrashHeap:
+            return 4;
+
+        case OutdoorGameView::InteractiveDecorationFamily::CampFire:
+            return 2;
+
+        case OutdoorGameView::InteractiveDecorationFamily::Cask:
+            return 2;
+
+        case OutdoorGameView::InteractiveDecorationFamily::None:
+            break;
+    }
+
+    return 0;
+}
+
+bool interactiveDecorationHidesWhenCleared(OutdoorGameView::InteractiveDecorationFamily family)
+{
+    return family == OutdoorGameView::InteractiveDecorationFamily::CampFire;
+}
+
+uint32_t makeInteractiveDecorationSeed(const OutdoorEntity &entity, size_t entityIndex)
+{
+    uint32_t seed = static_cast<uint32_t>((entityIndex + 1u) * 2654435761u);
+    seed ^= static_cast<uint32_t>(entity.decorationListId + 1u) * 2246822519u;
+    seed ^= static_cast<uint32_t>(entity.x) * 3266489917u;
+    seed ^= static_cast<uint32_t>(entity.y) * 668265263u;
+    seed ^= static_cast<uint32_t>(entity.z + 1) * 374761393u;
+    return seed;
+}
+
+uint8_t initialInteractiveDecorationState(
+    OutdoorGameView::InteractiveDecorationFamily family,
+    uint32_t seed)
+{
+    switch (family)
+    {
+        case OutdoorGameView::InteractiveDecorationFamily::Barrel:
+            return static_cast<uint8_t>(1u + seed % 7u);
+
+        case OutdoorGameView::InteractiveDecorationFamily::Cauldron:
+            return static_cast<uint8_t>(1u + seed % 4u);
+
+        case OutdoorGameView::InteractiveDecorationFamily::Cask:
+            return 1;
+
+        case OutdoorGameView::InteractiveDecorationFamily::TrashHeap:
+        case OutdoorGameView::InteractiveDecorationFamily::CampFire:
+        case OutdoorGameView::InteractiveDecorationFamily::None:
+            break;
+    }
+
+    return 0;
 }
 
 struct UiViewportRect
@@ -2259,6 +2477,7 @@ OutdoorGameView::OutdoorGameView()
     , m_eventDialogPartySelectLatches({})
     , m_chestSelectionIndex(0)
     , m_eventDialogSelectionIndex(0)
+    , m_statusBarHoverText()
     , m_statusBarEventText()
     , m_statusBarEventRemainingSeconds(0.0f)
     , m_activeEventDialog({})
@@ -2348,6 +2567,8 @@ bool OutdoorGameView::initialize(
     m_globalEventIrProgram = globalEventIrProgram;
     m_pOutdoorPartyRuntime = pOutdoorPartyRuntime;
     m_pOutdoorWorldRuntime = pOutdoorWorldRuntime;
+    rebuildInteractiveDecorationBindings();
+    seedInteractiveDecorationRuntimeStateIfNeeded();
     buildDecorationBillboardSpatialIndex();
 
     const int centerGridX = OutdoorMapData::TerrainWidth / 2;
@@ -2812,14 +3033,68 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
             }
             else if (m_heldInventoryDropLatch)
             {
-                const ItemDefinition *pItemDefinition =
-                    m_pItemTable != nullptr ? m_pItemTable->get(m_heldInventoryItem.item.objectDescriptionId) : nullptr;
-                const std::string itemName =
-                    pItemDefinition != nullptr && !pItemDefinition->name.empty()
-                    ? pItemDefinition->name
-                    : "item";
-                setStatusBarEvent("Drop " + itemName + " on ground: TODO");
-                m_heldInventoryItem = {};
+                const bool isPointerOverPartyPortrait =
+                    resolvePartyPortraitIndexAtPoint(width, height, mouseX, mouseY).has_value();
+                bool handledInteraction = isPointerOverPartyPortrait;
+
+                if (!handledInteraction && m_outdoorMapData.has_value())
+                {
+                    const float normalizedMouseX =
+                        ((static_cast<float>(mouseX) / static_cast<float>(viewWidth)) * 2.0f) - 1.0f;
+                    const float normalizedMouseY =
+                        1.0f - ((static_cast<float>(mouseY) / static_cast<float>(viewHeight)) * 2.0f);
+                    float viewProjectionMatrix[16] = {};
+                    float inverseViewProjectionMatrix[16] = {};
+                    bx::mtxMul(viewProjectionMatrix, wireframeViewMatrix, wireframeProjectionMatrix);
+                    bx::mtxInverse(inverseViewProjectionMatrix, viewProjectionMatrix);
+                    const bx::Vec3 rayOrigin =
+                        bx::mulH({normalizedMouseX, normalizedMouseY, 0.0f}, inverseViewProjectionMatrix);
+                    const bx::Vec3 rayTarget =
+                        bx::mulH({normalizedMouseX, normalizedMouseY, 1.0f}, inverseViewProjectionMatrix);
+                    const bx::Vec3 rayDirection = vecNormalize(vecSubtract(rayTarget, rayOrigin));
+                    const InspectHit heldItemInspectHit = inspectBModelFace(*m_outdoorMapData, rayOrigin, rayDirection);
+
+                    if (canActivateInspectEvent(heldItemInspectHit))
+                    {
+                        tryActivateInspectEvent(heldItemInspectHit);
+                        handledInteraction = true;
+                    }
+                }
+
+                if (!handledInteraction)
+                {
+                    const ItemDefinition *pItemDefinition =
+                        m_pItemTable != nullptr ? m_pItemTable->get(m_heldInventoryItem.item.objectDescriptionId) : nullptr;
+                    const std::string itemName =
+                        pItemDefinition != nullptr && !pItemDefinition->name.empty()
+                        ? pItemDefinition->name
+                        : "item";
+
+                    if (m_pOutdoorWorldRuntime != nullptr && m_pOutdoorPartyRuntime != nullptr)
+                    {
+                        const OutdoorMoveState &moveState = m_pOutdoorPartyRuntime->movementState();
+
+                        if (m_pOutdoorWorldRuntime->spawnWorldItem(
+                                m_heldInventoryItem.item,
+                                moveState.x,
+                                moveState.y,
+                                moveState.footZ + m_cameraEyeHeight,
+                                m_cameraYawRadians))
+                        {
+                            setStatusBarEvent("Dropped " + itemName);
+                            m_heldInventoryItem = {};
+                        }
+                        else
+                        {
+                            setStatusBarEvent("Can't drop " + itemName);
+                        }
+                    }
+                    else
+                    {
+                        setStatusBarEvent("Can't drop " + itemName);
+                    }
+                }
+
                 m_heldInventoryDropLatch = false;
             }
         }
@@ -2944,6 +3219,8 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
         {
             m_attackInspectLatch = false;
         }
+
+        m_statusBarHoverText = resolveHoverStatusBarText(inspectHit).value_or("");
         }
         else
         {
@@ -2952,6 +3229,7 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
             m_inspectMouseActivateLatch = false;
             m_pressedInspectHit = {};
             m_attackInspectLatch = false;
+            m_statusBarHoverText.clear();
         }
 
         inspectStageNanoseconds += SDL_GetTicksNS() - stageStartTickCount;
@@ -3110,6 +3388,7 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
     if (m_showSpriteObjects)
     {
         const uint64_t stageStartTickCount = SDL_GetTicksNS();
+        renderRuntimeWorldItems(MainViewId, wireframeViewMatrix, wireframeEye);
         renderRuntimeProjectiles(MainViewId, wireframeViewMatrix, wireframeEye);
         renderSpriteObjectBillboards(MainViewId, wireframeViewMatrix, wireframeEye);
         spriteStageNanoseconds += SDL_GetTicksNS() - stageStartTickCount;
@@ -3579,6 +3858,25 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
                 );
                 bgfx::dbgTextPrintf(0, inspectBaseLine + 2, 0x0f, "Cursor: %.0f %.0f", mouseX, mouseY);
             }
+            else if (inspectHit.kind == "decoration")
+            {
+                bgfx::dbgTextPrintf(
+                    0,
+                    inspectBaseLine,
+                    0x0f,
+                    "Inspect: decoration=%u dist=%.0f name=%s",
+                    static_cast<unsigned>(inspectHit.bModelIndex),
+                    inspectHit.distance,
+                    inspectHit.name.empty() ? "-" : inspectHit.name.c_str()
+                );
+                bgfx::dbgTextPrintf(
+                    0,
+                    inspectBaseLine + 1,
+                    0x0f,
+                    "decorationId=%u",
+                    inspectHit.decorationId
+                );
+            }
             else if (inspectHit.kind == "object")
             {
                 bgfx::dbgTextPrintf(
@@ -3599,6 +3897,28 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
                     inspectHit.objectSpriteId,
                     inspectHit.attributes,
                     inspectHit.spellId
+                );
+                bgfx::dbgTextPrintf(0, inspectBaseLine + 2, 0x0f, "Cursor: %.0f %.0f", mouseX, mouseY);
+            }
+            else if (inspectHit.kind == "world_item")
+            {
+                bgfx::dbgTextPrintf(
+                    0,
+                    inspectBaseLine,
+                    0x0f,
+                    "Inspect: world_item=%u dist=%.0f name=%s",
+                    static_cast<unsigned>(inspectHit.bModelIndex),
+                    inspectHit.distance,
+                    inspectHit.name.empty() ? "-" : inspectHit.name.c_str()
+                );
+                bgfx::dbgTextPrintf(
+                    0,
+                    inspectBaseLine + 1,
+                    0x0f,
+                    "World item: desc=%u sprite=%u attr=0x%04x",
+                    inspectHit.objectDescriptionId,
+                    inspectHit.objectSpriteId,
+                    inspectHit.attributes
                 );
                 bgfx::dbgTextPrintf(0, inspectBaseLine + 2, 0x0f, "Cursor: %.0f %.0f", mouseX, mouseY);
             }
@@ -4434,6 +4754,10 @@ void OutdoorGameView::renderGameplayHud(int width, int height) const
         if (m_statusBarEventRemainingSeconds > 0.0f && !m_statusBarEventText.empty())
         {
             statusBarLabel = m_statusBarEventText;
+        }
+        else if (!m_statusBarHoverText.empty())
+        {
+            statusBarLabel = m_statusBarHoverText;
         }
 
         if (const HudLayoutElement *pStatusBarLayout = findHudLayoutElement("OutdoorStatusBar"))
@@ -5301,6 +5625,7 @@ void OutdoorGameView::shutdown()
 
     m_hudFontColorTextureHandles.clear();
     m_hudLayoutElements.clear();
+    m_interactiveDecorationBindings.clear();
 
     if (bgfx::isValid(m_texturedTerrainVertexBufferHandle))
     {
@@ -6079,6 +6404,81 @@ void OutdoorGameView::updateItemInspectOverlayState(int width, int height)
         }
     }
 
+    if (!m_characterScreenOpen
+        && !hasActiveEventDialog()
+        && m_pOutdoorWorldRuntime != nullptr
+        && m_outdoorMapData.has_value()
+        && !m_heldInventoryItem.active)
+    {
+        const bool hasActiveLootView =
+            m_pOutdoorWorldRuntime->activeChestView() != nullptr || m_pOutdoorWorldRuntime->activeCorpseView() != nullptr;
+
+        if (!hasActiveLootView)
+        {
+            const uint16_t viewWidth = static_cast<uint16_t>(std::max(width, 1));
+            const uint16_t viewHeight = static_cast<uint16_t>(std::max(height, 1));
+            const float aspectRatio = static_cast<float>(viewWidth) / static_cast<float>(viewHeight);
+            float viewMatrix[16] = {};
+            float projectionMatrix[16] = {};
+            const float cosPitch = std::cos(m_cameraPitchRadians);
+            const float sinPitch = std::sin(m_cameraPitchRadians);
+            const float cosYaw = std::cos(m_cameraYawRadians);
+            const float sinYaw = std::sin(m_cameraYawRadians);
+            const bx::Vec3 eye = {
+                m_cameraTargetX,
+                m_cameraTargetY,
+                m_cameraTargetZ
+            };
+            const bx::Vec3 at = {
+                m_cameraTargetX + cosYaw * cosPitch,
+                m_cameraTargetY - sinYaw * cosPitch,
+                m_cameraTargetZ + sinPitch
+            };
+            const bx::Vec3 up = {0.0f, 0.0f, 1.0f};
+            bx::mtxLookAt(viewMatrix, eye, at, up);
+            bx::mtxProj(
+                projectionMatrix,
+                CameraVerticalFovDegrees,
+                aspectRatio,
+                0.1f,
+                200000.0f,
+                bgfx::getCaps()->homogeneousDepth
+            );
+
+            const float normalizedMouseX = ((mouseX / static_cast<float>(viewWidth)) * 2.0f) - 1.0f;
+            const float normalizedMouseY = 1.0f - ((mouseY / static_cast<float>(viewHeight)) * 2.0f);
+            float viewProjectionMatrix[16] = {};
+            float inverseViewProjectionMatrix[16] = {};
+            bx::mtxMul(viewProjectionMatrix, viewMatrix, projectionMatrix);
+            bx::mtxInverse(inverseViewProjectionMatrix, viewProjectionMatrix);
+            const bx::Vec3 rayOrigin =
+                bx::mulH({normalizedMouseX, normalizedMouseY, 0.0f}, inverseViewProjectionMatrix);
+            const bx::Vec3 rayTarget =
+                bx::mulH({normalizedMouseX, normalizedMouseY, 1.0f}, inverseViewProjectionMatrix);
+            const bx::Vec3 rayDirection = vecNormalize(vecSubtract(rayTarget, rayOrigin));
+            const InspectHit inspectHit = inspectBModelFace(*m_outdoorMapData, rayOrigin, rayDirection);
+
+            if (inspectHit.kind == "world_item")
+            {
+                const OutdoorWorldRuntime::WorldItemState *pWorldItem =
+                    m_pOutdoorWorldRuntime->worldItemState(inspectHit.bModelIndex);
+
+                if (pWorldItem != nullptr)
+                {
+                    m_itemInspectOverlay.active = true;
+                    m_itemInspectOverlay.objectDescriptionId = pWorldItem->item.objectDescriptionId;
+                    m_itemInspectOverlay.hasValueOverride = pWorldItem->isGold;
+                    m_itemInspectOverlay.valueOverride = static_cast<int>(pWorldItem->goldAmount);
+                    m_itemInspectOverlay.sourceX = mouseX;
+                    m_itemInspectOverlay.sourceY = mouseY;
+                    m_itemInspectOverlay.sourceWidth = 1.0f;
+                    m_itemInspectOverlay.sourceHeight = 1.0f;
+                    return;
+                }
+            }
+        }
+    }
+
     if (!m_characterScreenOpen || m_characterPage != CharacterPage::Inventory || m_pOutdoorPartyRuntime == nullptr)
     {
         return;
@@ -6744,6 +7144,333 @@ void OutdoorGameView::updateStatusBarEvent(float deltaSeconds)
     {
         m_statusBarEventText.clear();
     }
+}
+
+void OutdoorGameView::rebuildInteractiveDecorationBindings()
+{
+    m_interactiveDecorationBindings.clear();
+
+    if (!m_outdoorMapData || !m_outdoorDecorationBillboardSet)
+    {
+        return;
+    }
+
+    const DecorationTable &decorationTable = m_outdoorDecorationBillboardSet->decorationTable;
+    uint8_t decorVarIndex = 0;
+    constexpr uint8_t MaxDecorationVarCount = 125;
+    m_interactiveDecorationBindings.resize(m_outdoorMapData->entities.size());
+
+    for (size_t entityIndex = 0; entityIndex < m_outdoorMapData->entities.size(); ++entityIndex)
+    {
+        const OutdoorEntity &entity = m_outdoorMapData->entities[entityIndex];
+
+        if (entity.eventIdPrimary != 0 || entity.eventIdSecondary != 0)
+        {
+            continue;
+        }
+
+        const DecorationEntry *pDecoration = decorationTable.get(entity.decorationListId);
+
+        if ((pDecoration == nullptr || pDecoration->spriteId == 0) && !entity.name.empty())
+        {
+            pDecoration = decorationTable.findByInternalName(entity.name);
+        }
+
+        if (pDecoration == nullptr)
+        {
+            continue;
+        }
+
+        const std::optional<InteractiveDecorationFamily> family =
+            classifyInteractiveDecorationFamily(*pDecoration, entity.name);
+
+        if (!family || decorVarIndex >= MaxDecorationVarCount)
+        {
+            continue;
+        }
+
+        const uint16_t baseEventId = interactiveDecorationBaseEventId(*family);
+        const uint8_t eventCount = interactiveDecorationEventCount(*family);
+
+        if (baseEventId == 0 || eventCount == 0)
+        {
+            continue;
+        }
+
+        InteractiveDecorationBinding &binding = m_interactiveDecorationBindings[entityIndex];
+        binding.active = true;
+        binding.decorVarIndex = decorVarIndex++;
+        binding.entityIndex = static_cast<uint16_t>(entityIndex);
+        binding.baseEventId = baseEventId;
+        binding.eventCount = eventCount;
+        binding.family = *family;
+    }
+}
+
+void OutdoorGameView::seedInteractiveDecorationRuntimeStateIfNeeded()
+{
+    if (!m_outdoorMapData.has_value() || m_pOutdoorWorldRuntime == nullptr)
+    {
+        return;
+    }
+
+    EventRuntimeState *pEventRuntimeState = m_pOutdoorWorldRuntime->eventRuntimeState();
+
+    if (pEventRuntimeState == nullptr)
+    {
+        return;
+    }
+
+    bool hasPersistedDecorationState = false;
+
+    if (m_outdoorMapDeltaData.has_value())
+    {
+        for (uint8_t value : m_outdoorMapDeltaData->eventVariables.decorVars)
+        {
+            if (value != 0)
+            {
+                hasPersistedDecorationState = true;
+                break;
+            }
+        }
+    }
+
+    if (hasPersistedDecorationState)
+    {
+        return;
+    }
+
+    for (uint8_t value : pEventRuntimeState->decorVars)
+    {
+        if (value != 0)
+        {
+            return;
+        }
+    }
+
+    for (const InteractiveDecorationBinding &binding : m_interactiveDecorationBindings)
+    {
+        if (!binding.active || binding.entityIndex >= m_outdoorMapData->entities.size())
+        {
+            continue;
+        }
+
+        const OutdoorEntity &entity = m_outdoorMapData->entities[binding.entityIndex];
+        const uint8_t initialState = initialInteractiveDecorationState(
+            binding.family,
+            makeInteractiveDecorationSeed(entity, binding.entityIndex));
+
+        if (initialState == 0)
+        {
+            continue;
+        }
+
+        pEventRuntimeState->decorVars[binding.decorVarIndex] = initialState;
+    }
+}
+
+const OutdoorGameView::InteractiveDecorationBinding *OutdoorGameView::findInteractiveDecorationBindingForEntity(
+    size_t entityIndex) const
+{
+    if (entityIndex >= m_interactiveDecorationBindings.size())
+    {
+        return nullptr;
+    }
+
+    const InteractiveDecorationBinding &binding = m_interactiveDecorationBindings[entityIndex];
+    return binding.active ? &binding : nullptr;
+}
+
+bool OutdoorGameView::isInteractiveDecorationHidden(size_t entityIndex) const
+{
+    const InteractiveDecorationBinding *pBinding = findInteractiveDecorationBindingForEntity(entityIndex);
+
+    if (pBinding == nullptr || !interactiveDecorationHidesWhenCleared(pBinding->family) || m_pOutdoorWorldRuntime == nullptr)
+    {
+        return false;
+    }
+
+    const EventRuntimeState *pEventRuntimeState = m_pOutdoorWorldRuntime->eventRuntimeState();
+
+    if (pEventRuntimeState == nullptr)
+    {
+        return false;
+    }
+
+    return pEventRuntimeState->decorVars[pBinding->decorVarIndex] == pBinding->eventCount;
+}
+
+std::optional<uint16_t> OutdoorGameView::resolveInteractiveDecorationEventId(size_t entityIndex) const
+{
+    const InteractiveDecorationBinding *pBinding = findInteractiveDecorationBindingForEntity(entityIndex);
+
+    if (pBinding == nullptr || pBinding->eventCount == 0 || m_pOutdoorWorldRuntime == nullptr)
+    {
+        return std::nullopt;
+    }
+
+    const EventRuntimeState *pEventRuntimeState = m_pOutdoorWorldRuntime->eventRuntimeState();
+
+    if (pEventRuntimeState == nullptr)
+    {
+        return std::nullopt;
+    }
+
+    uint8_t state = pEventRuntimeState->decorVars[pBinding->decorVarIndex];
+
+    if (interactiveDecorationHidesWhenCleared(pBinding->family) && state == pBinding->eventCount)
+    {
+        return std::nullopt;
+    }
+
+    if (state >= pBinding->eventCount)
+    {
+        state = 0;
+    }
+
+    return static_cast<uint16_t>(pBinding->baseEventId + state);
+}
+
+std::optional<std::string> OutdoorGameView::resolveInteractiveDecorationHoverText(size_t entityIndex) const
+{
+    if (!m_npcDialogTable)
+    {
+        return std::nullopt;
+    }
+
+    const std::optional<uint16_t> eventId = resolveInteractiveDecorationEventId(entityIndex);
+
+    if (!eventId)
+    {
+        return std::nullopt;
+    }
+
+    const std::optional<NpcDialogTable::ResolvedTopic> topic = m_npcDialogTable->getTopicById(*eventId);
+
+    if (!topic || topic->topic.empty())
+    {
+        return std::nullopt;
+    }
+
+    return topic->topic;
+}
+
+std::optional<std::string> OutdoorGameView::resolveEventHintText(uint16_t eventId) const
+{
+    if (eventId == 0)
+    {
+        return std::nullopt;
+    }
+
+    if (m_localEvtProgram.has_value() && m_localStrTable.has_value() && m_houseTable.has_value())
+    {
+        const std::optional<std::string> hint = m_localEvtProgram->getHint(eventId, *m_localStrTable, *m_houseTable);
+
+        if (hint && !hint->empty())
+        {
+            return hint;
+        }
+    }
+
+    if (m_globalEvtProgram.has_value())
+    {
+        const StrTable emptyStrTable = {};
+        const HouseTable emptyHouseTable = {};
+        const HouseTable &houseTable = m_houseTable.has_value() ? *m_houseTable : emptyHouseTable;
+        const std::optional<std::string> hint = m_globalEvtProgram->getHint(eventId, emptyStrTable, houseTable);
+
+        if (hint && !hint->empty())
+        {
+            return hint;
+        }
+    }
+
+    return std::nullopt;
+}
+
+std::optional<std::string> OutdoorGameView::resolveHoverStatusBarText(const InspectHit &inspectHit) const
+{
+    if (!inspectHit.hasHit)
+    {
+        return std::nullopt;
+    }
+
+    if (inspectHit.kind == "decoration")
+    {
+        if (!m_outdoorDecorationBillboardSet
+            || inspectHit.bModelIndex >= m_outdoorDecorationBillboardSet->billboards.size())
+        {
+            return std::nullopt;
+        }
+
+        const DecorationBillboard &decoration = m_outdoorDecorationBillboardSet->billboards[inspectHit.bModelIndex];
+
+        if (const std::optional<std::string> interactiveText =
+                resolveInteractiveDecorationHoverText(decoration.entityIndex))
+        {
+            return interactiveText;
+        }
+
+        const DecorationEntry *pDecorationEntry =
+            m_outdoorDecorationBillboardSet->decorationTable.get(decoration.decorationId);
+
+        if ((pDecorationEntry == nullptr || pDecorationEntry->hint.empty()) && !decoration.name.empty())
+        {
+            pDecorationEntry = m_outdoorDecorationBillboardSet->decorationTable.findByInternalName(decoration.name);
+        }
+
+        if (pDecorationEntry != nullptr && !pDecorationEntry->hint.empty())
+        {
+            return pDecorationEntry->hint;
+        }
+
+        return std::nullopt;
+    }
+
+    if (inspectHit.kind == "entity")
+    {
+        if (inspectHit.distance > OeNearHoverDistance)
+        {
+            return std::nullopt;
+        }
+
+        if (const std::optional<std::string> interactiveText =
+                resolveInteractiveDecorationHoverText(inspectHit.bModelIndex))
+        {
+            return interactiveText;
+        }
+
+        const std::optional<std::string> primaryHint = resolveEventHintText(inspectHit.eventIdPrimary);
+
+        if (primaryHint && !primaryHint->empty())
+        {
+            return primaryHint;
+        }
+
+        return resolveEventHintText(inspectHit.eventIdSecondary);
+    }
+
+    if (inspectHit.kind == "face")
+    {
+        if (inspectHit.distance > OeNearHoverDistance)
+        {
+            return std::nullopt;
+        }
+
+        return resolveEventHintText(inspectHit.cogTriggeredNumber);
+    }
+
+    if (inspectHit.kind == "actor")
+    {
+        if (inspectHit.distance > OeActorHoverDistance || inspectHit.name.empty())
+        {
+            return std::nullopt;
+        }
+
+        return inspectHit.name;
+    }
+
+    return std::nullopt;
 }
 
 void OutdoorGameView::handleDialogueCloseRequest()
@@ -13037,6 +13764,11 @@ void OutdoorGameView::renderDecorationBillboards(
     {
         const DecorationBillboard &billboard = m_outdoorDecorationBillboardSet->billboards[billboardIndex];
 
+        if (isInteractiveDecorationHidden(billboard.entityIndex))
+        {
+            continue;
+        }
+
         if (billboard.spriteId == 0)
         {
             continue;
@@ -13393,6 +14125,11 @@ void OutdoorGameView::renderActorPreviewBillboards(
     {
         for (const DecorationBillboard &billboard : m_outdoorDecorationBillboardSet->billboards)
         {
+            if (isInteractiveDecorationHidden(billboard.entityIndex))
+            {
+                continue;
+            }
+
             const float deltaX = static_cast<float>(-billboard.x) - cameraPosition.x;
             const float deltaY = static_cast<float>(billboard.y) - cameraPosition.y;
             const float deltaZ = static_cast<float>(billboard.z) - cameraPosition.z;
@@ -13672,6 +14409,181 @@ void OutdoorGameView::renderActorPreviewBillboards(
                   << " texture_groups=" << textureGroupCount
                   << " ensured_loads=" << ensuredTextureLoadCount
                   << '\n';
+    }
+}
+
+void OutdoorGameView::renderRuntimeWorldItems(
+    uint16_t viewId,
+    const float *pViewMatrix,
+    const bx::Vec3 &cameraPosition)
+{
+    if (m_pOutdoorWorldRuntime == nullptr)
+    {
+        return;
+    }
+
+    const SpriteFrameTable *pSpriteFrameTable = nullptr;
+
+    if (m_outdoorSpriteObjectBillboardSet)
+    {
+        pSpriteFrameTable = &m_outdoorSpriteObjectBillboardSet->spriteFrameTable;
+    }
+    else if (m_outdoorActorPreviewBillboardSet)
+    {
+        pSpriteFrameTable = &m_outdoorActorPreviewBillboardSet->spriteFrameTable;
+    }
+
+    if (pSpriteFrameTable == nullptr)
+    {
+        return;
+    }
+
+    const bx::Vec3 cameraRight = {pViewMatrix[0], pViewMatrix[4], pViewMatrix[8]};
+    const bx::Vec3 cameraUp = {pViewMatrix[1], pViewMatrix[5], pViewMatrix[9]};
+
+    struct BillboardDrawItem
+    {
+        const OutdoorWorldRuntime::WorldItemState *pWorldItem = nullptr;
+        const SpriteFrameEntry *pFrame = nullptr;
+        const BillboardTextureHandle *pTexture = nullptr;
+        bool mirrored = false;
+        float distanceSquared = 0.0f;
+    };
+
+    std::vector<BillboardDrawItem> drawItems;
+    drawItems.reserve(m_pOutdoorWorldRuntime->worldItemCount());
+
+    for (size_t worldItemIndex = 0; worldItemIndex < m_pOutdoorWorldRuntime->worldItemCount(); ++worldItemIndex)
+    {
+        const OutdoorWorldRuntime::WorldItemState *pWorldItem =
+            m_pOutdoorWorldRuntime->worldItemState(worldItemIndex);
+
+        if (pWorldItem == nullptr)
+        {
+            continue;
+        }
+
+        uint16_t spriteFrameIndex = pWorldItem->objectSpriteFrameIndex;
+
+        if (spriteFrameIndex == 0 && !pWorldItem->objectSpriteName.empty())
+        {
+            const std::optional<uint16_t> spriteFrameIndexByName =
+                pSpriteFrameTable->findFrameIndexBySpriteName(pWorldItem->objectSpriteName);
+
+            if (spriteFrameIndexByName)
+            {
+                spriteFrameIndex = *spriteFrameIndexByName;
+            }
+        }
+
+        if (spriteFrameIndex == 0)
+        {
+            spriteFrameIndex = pWorldItem->objectSpriteId;
+        }
+
+        if (spriteFrameIndex == 0)
+        {
+            continue;
+        }
+
+        const SpriteFrameEntry *pFrame =
+            pSpriteFrameTable->getFrame(spriteFrameIndex, pWorldItem->timeSinceCreatedTicks);
+
+        if (pFrame == nullptr)
+        {
+            continue;
+        }
+
+        const ResolvedSpriteTexture resolvedTexture = SpriteFrameTable::resolveTexture(*pFrame, 0);
+        const BillboardTextureHandle *pTexture =
+            ensureSpriteBillboardTexture(resolvedTexture.textureName, pFrame->paletteId);
+
+        if (pTexture == nullptr || !bgfx::isValid(pTexture->textureHandle))
+        {
+            continue;
+        }
+
+        const float deltaX = pWorldItem->x - cameraPosition.x;
+        const float deltaY = pWorldItem->y - cameraPosition.y;
+        const float deltaZ = pWorldItem->z - cameraPosition.z;
+
+        BillboardDrawItem drawItem = {};
+        drawItem.pWorldItem = pWorldItem;
+        drawItem.pFrame = pFrame;
+        drawItem.pTexture = pTexture;
+        drawItem.mirrored = resolvedTexture.mirrored;
+        drawItem.distanceSquared = deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ;
+        drawItems.push_back(drawItem);
+    }
+
+    std::sort(
+        drawItems.begin(),
+        drawItems.end(),
+        [](const BillboardDrawItem &left, const BillboardDrawItem &right)
+        {
+            return left.distanceSquared > right.distanceSquared;
+        }
+    );
+
+    for (const BillboardDrawItem &drawItem : drawItems)
+    {
+        const OutdoorWorldRuntime::WorldItemState &worldItem = *drawItem.pWorldItem;
+        const SpriteFrameEntry &frame = *drawItem.pFrame;
+        const BillboardTextureHandle &texture = *drawItem.pTexture;
+        const float spriteScale = std::max(frame.scale, 0.01f);
+        const float worldWidth = float(texture.width) * spriteScale;
+        const float worldHeight = float(texture.height) * spriteScale;
+        const float halfWidth = worldWidth * 0.5f;
+        const bx::Vec3 center = {
+            worldItem.x,
+            worldItem.y,
+            worldItem.z + worldHeight * 0.5f
+        };
+        const bx::Vec3 right = {cameraRight.x * halfWidth, cameraRight.y * halfWidth, cameraRight.z * halfWidth};
+        const bx::Vec3 up = {
+            cameraUp.x * worldHeight * 0.5f,
+            cameraUp.y * worldHeight * 0.5f,
+            cameraUp.z * worldHeight * 0.5f
+        };
+        const float u0 = drawItem.mirrored ? 1.0f : 0.0f;
+        const float u1 = drawItem.mirrored ? 0.0f : 1.0f;
+
+        std::array<TexturedTerrainVertex, 6> vertices = {{
+            {center.x - right.x - up.x, center.y - right.y - up.y, center.z - right.z - up.z, u0, 1.0f},
+            {center.x - right.x + up.x, center.y - right.y + up.y, center.z - right.z + up.z, u0, 0.0f},
+            {center.x + right.x + up.x, center.y + right.y + up.y, center.z + right.z + up.z, u1, 0.0f},
+            {center.x - right.x - up.x, center.y - right.y - up.y, center.z - right.z - up.z, u0, 1.0f},
+            {center.x + right.x + up.x, center.y + right.y + up.y, center.z + right.z + up.z, u1, 0.0f},
+            {center.x + right.x - up.x, center.y + right.y - up.y, center.z + right.z - up.z, u1, 1.0f}
+        }};
+
+        if (bgfx::getAvailTransientVertexBuffer(
+                static_cast<uint32_t>(vertices.size()),
+                TexturedTerrainVertex::ms_layout)
+            < vertices.size())
+        {
+            continue;
+        }
+
+        bgfx::TransientVertexBuffer transientVertexBuffer = {};
+        bgfx::allocTransientVertexBuffer(
+            &transientVertexBuffer,
+            static_cast<uint32_t>(vertices.size()),
+            TexturedTerrainVertex::ms_layout
+        );
+        std::memcpy(
+            transientVertexBuffer.data,
+            vertices.data(),
+            static_cast<size_t>(vertices.size() * sizeof(TexturedTerrainVertex))
+        );
+
+        float modelMatrix[16] = {};
+        bx::mtxIdentity(modelMatrix);
+        bgfx::setTransform(modelMatrix);
+        bgfx::setVertexBuffer(0, &transientVertexBuffer, 0, static_cast<uint32_t>(vertices.size()));
+        bgfx::setTexture(0, m_terrainTextureSamplerHandle, texture.textureHandle);
+        bgfx::setState(BillboardAlphaRenderState);
+        bgfx::submit(viewId, m_texturedTerrainProgramHandle);
     }
 }
 
@@ -14719,6 +15631,12 @@ OutdoorGameView::InspectHit OutdoorGameView::inspectBModelFace(
     for (size_t entityIndex = 0; entityIndex < outdoorMapData.entities.size(); ++entityIndex)
     {
         const OutdoorEntity &entity = outdoorMapData.entities[entityIndex];
+
+        if (isInteractiveDecorationHidden(entityIndex))
+        {
+            continue;
+        }
+
         const float halfExtent = 96.0f;
         float distance = 0.0f;
 
@@ -14807,6 +15725,69 @@ OutdoorGameView::InspectHit OutdoorGameView::inspectBModelFace(
                 {
                     bestHit.isFriendly = !pSpawnState->hostileToParty;
                 }
+            }
+        }
+    }
+
+    if (m_outdoorDecorationBillboardSet)
+    {
+        for (size_t decorationIndex = 0; decorationIndex < m_outdoorDecorationBillboardSet->billboards.size();
+             ++decorationIndex)
+        {
+            const DecorationBillboard &decoration = m_outdoorDecorationBillboardSet->billboards[decorationIndex];
+
+            if (isInteractiveDecorationHidden(decoration.entityIndex))
+            {
+                continue;
+            }
+
+            const bool interactiveDecoration =
+                findInteractiveDecorationBindingForEntity(decoration.entityIndex) != nullptr;
+            const DecorationEntry *pDecorationEntry =
+                m_outdoorDecorationBillboardSet->decorationTable.get(decoration.decorationId);
+
+            if ((pDecorationEntry == nullptr || pDecorationEntry->hint.empty()) && !decoration.name.empty())
+            {
+                pDecorationEntry = m_outdoorDecorationBillboardSet->decorationTable.findByInternalName(decoration.name);
+            }
+
+            if (!interactiveDecoration && (pDecorationEntry == nullptr || pDecorationEntry->hint.empty()))
+            {
+                continue;
+            }
+
+            const float halfExtent = std::max(32.0f, static_cast<float>(std::max(decoration.radius, int16_t(32))));
+            const float height = std::max(64.0f, static_cast<float>(std::max(decoration.height, uint16_t(64))));
+            float distance = 0.0f;
+            const bx::Vec3 minBounds = {
+                static_cast<float>(-decoration.x) - halfExtent,
+                static_cast<float>(decoration.y) - halfExtent,
+                static_cast<float>(decoration.z)
+            };
+            const bx::Vec3 maxBounds = {
+                static_cast<float>(-decoration.x) + halfExtent,
+                static_cast<float>(decoration.y) + halfExtent,
+                static_cast<float>(decoration.z) + height
+            };
+
+            const bool bestHitIsPassiveEntity =
+                bestHit.kind == "entity" && bestHit.eventIdPrimary == 0 && bestHit.eventIdSecondary == 0;
+            const bool bestHitIsPassiveSpawn = bestHit.kind == "spawn";
+            const bool bestHitIsPassiveObject = bestHit.kind == "object";
+
+            if (intersectRayAabb(rayOrigin, rayDirection, minBounds, maxBounds, distance)
+                && (!bestHit.hasHit
+                    || distance < bestHit.distance
+                    || bestHitIsPassiveEntity
+                    || bestHitIsPassiveSpawn
+                    || bestHitIsPassiveObject))
+            {
+                bestHit.hasHit = true;
+                bestHit.kind = "decoration";
+                bestHit.bModelIndex = decorationIndex;
+                bestHit.name = decoration.name;
+                bestHit.distance = distance;
+                bestHit.decorationId = decoration.decorationId;
             }
         }
     }
@@ -14944,11 +15925,70 @@ OutdoorGameView::InspectHit OutdoorGameView::inspectBModelFace(
         }
     }
 
+    if (m_pOutdoorWorldRuntime != nullptr)
+    {
+        for (size_t worldItemIndex = 0; worldItemIndex < m_pOutdoorWorldRuntime->worldItemCount(); ++worldItemIndex)
+        {
+            const OutdoorWorldRuntime::WorldItemState *pWorldItem =
+                m_pOutdoorWorldRuntime->worldItemState(worldItemIndex);
+
+            if (pWorldItem == nullptr)
+            {
+                continue;
+            }
+
+            const float halfExtent = std::max(32.0f, float(std::max(pWorldItem->radius, uint16_t(32))));
+            const float height = std::max(64.0f, float(std::max(pWorldItem->height, uint16_t(64))));
+            float distance = 0.0f;
+            const bx::Vec3 minBounds = {
+                pWorldItem->x - halfExtent,
+                pWorldItem->y - halfExtent,
+                pWorldItem->z
+            };
+            const bx::Vec3 maxBounds = {
+                pWorldItem->x + halfExtent,
+                pWorldItem->y + halfExtent,
+                pWorldItem->z + height
+            };
+
+            const bool bestHitIsPassiveEntity =
+                bestHit.kind == "entity" && bestHit.eventIdPrimary == 0 && bestHit.eventIdSecondary == 0;
+            const bool bestHitIsPassiveSpawn = bestHit.kind == "spawn";
+            const bool bestHitIsPassiveObject = bestHit.kind == "object";
+
+            if (intersectRayAabb(rayOrigin, rayDirection, minBounds, maxBounds, distance)
+                && (!bestHit.hasHit
+                    || distance < bestHit.distance
+                    || bestHitIsPassiveEntity
+                    || bestHitIsPassiveSpawn
+                    || bestHitIsPassiveObject))
+            {
+                bestHit.hasHit = true;
+                bestHit.kind = "world_item";
+                bestHit.bModelIndex = worldItemIndex;
+                bestHit.name = pWorldItem->objectName;
+                bestHit.distance = distance;
+                bestHit.objectDescriptionId = pWorldItem->objectDescriptionId;
+                bestHit.objectSpriteId = pWorldItem->objectSpriteId;
+                bestHit.attributes = pWorldItem->attributes;
+                bestHit.spellId = 0;
+            }
+        }
+    }
+
     if (m_outdoorSpriteObjectBillboardSet)
     {
         for (size_t objectIndex = 0; objectIndex < m_outdoorSpriteObjectBillboardSet->billboards.size(); ++objectIndex)
         {
             const SpriteObjectBillboard &object = m_outdoorSpriteObjectBillboardSet->billboards[objectIndex];
+            const ObjectEntry *pObjectEntry =
+                m_pObjectTable != nullptr ? m_pObjectTable->get(object.objectDescriptionId) : nullptr;
+
+            if (shouldSkipSpriteObjectInspectTarget(object, pObjectEntry))
+            {
+                continue;
+            }
+
             const float halfExtent = std::max(32.0f, float(std::max(object.radius, int16_t(32))));
             const float height = std::max(64.0f, float(std::max(object.height, int16_t(64))));
             float distance = 0.0f;
@@ -14984,6 +16024,73 @@ OutdoorGameView::InspectHit OutdoorGameView::inspectBModelFace(
 
 bool OutdoorGameView::tryActivateInspectEvent(const InspectHit &inspectHit)
 {
+    if (inspectHit.kind == "world_item")
+    {
+        if (m_pOutdoorWorldRuntime == nullptr || m_pOutdoorPartyRuntime == nullptr)
+        {
+            return false;
+        }
+
+        OutdoorWorldRuntime::WorldItemState worldItem = {};
+
+        if (!m_pOutdoorWorldRuntime->takeWorldItem(inspectHit.bModelIndex, worldItem))
+        {
+            return false;
+        }
+
+        const ItemDefinition *pItemDefinition =
+            m_pItemTable != nullptr ? m_pItemTable->get(worldItem.item.objectDescriptionId) : nullptr;
+        const std::string itemName =
+            pItemDefinition != nullptr && !pItemDefinition->name.empty() ? pItemDefinition->name : "item";
+
+        if (worldItem.isGold)
+        {
+            const int goldAmount = static_cast<int>(std::max<uint32_t>(1u, worldItem.goldAmount));
+            m_pOutdoorPartyRuntime->party().addGold(goldAmount);
+            setStatusBarEvent("Picked up " + std::to_string(goldAmount) + " gold");
+
+            if (EventRuntimeState *pEventRuntimeState = m_pOutdoorWorldRuntime->eventRuntimeState())
+            {
+                pEventRuntimeState->lastActivationResult =
+                    "picked up " + std::to_string(goldAmount) + " gold";
+            }
+
+            return true;
+        }
+
+        if (m_pOutdoorPartyRuntime->party().tryGrantItem(worldItem.item.objectDescriptionId, worldItem.item.quantity))
+        {
+            setStatusBarEvent("Picked up " + itemName);
+
+            if (EventRuntimeState *pEventRuntimeState = m_pOutdoorWorldRuntime->eventRuntimeState())
+            {
+                pEventRuntimeState->lastActivationResult = "picked up " + itemName;
+            }
+
+            return true;
+        }
+
+        if (!m_heldInventoryItem.active)
+        {
+            m_heldInventoryItem.active = true;
+            m_heldInventoryItem.item = worldItem.item;
+            m_heldInventoryItem.grabCellOffsetX = 0;
+            m_heldInventoryItem.grabCellOffsetY = 0;
+            m_heldInventoryItem.grabOffsetX = 0.0f;
+            m_heldInventoryItem.grabOffsetY = 0.0f;
+            setStatusBarEvent("Picked up " + itemName);
+
+            if (EventRuntimeState *pEventRuntimeState = m_pOutdoorWorldRuntime->eventRuntimeState())
+            {
+                pEventRuntimeState->lastActivationResult = "picked up " + itemName + " into hand";
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+
     EventRuntimeState *pEventRuntimeState =
         m_pOutdoorWorldRuntime != nullptr ? m_pOutdoorWorldRuntime->eventRuntimeState() : nullptr;
 
@@ -15105,9 +16212,65 @@ bool OutdoorGameView::tryActivateInspectEvent(const InspectHit &inspectHit)
         }
     }
 
-    if (inspectHit.kind == "entity")
+    std::optional<EventRuntimeState::ActiveDecorationContext> decorationContext;
+
+    if (inspectHit.kind == "decoration")
+    {
+        if (!m_outdoorDecorationBillboardSet
+            || inspectHit.bModelIndex >= m_outdoorDecorationBillboardSet->billboards.size())
+        {
+            pEventRuntimeState->lastActivationResult = "invalid decoration target";
+            return false;
+        }
+
+        const DecorationBillboard &decoration = m_outdoorDecorationBillboardSet->billboards[inspectHit.bModelIndex];
+        const InteractiveDecorationBinding *pBinding = findInteractiveDecorationBindingForEntity(decoration.entityIndex);
+
+        if (pBinding != nullptr)
+        {
+            const std::optional<uint16_t> interactiveEventId =
+                resolveInteractiveDecorationEventId(decoration.entityIndex);
+
+            if (interactiveEventId)
+            {
+                eventId = *interactiveEventId;
+                EventRuntimeState::ActiveDecorationContext context = {};
+                context.decorVarIndex = pBinding->decorVarIndex;
+                context.baseEventId = pBinding->baseEventId;
+                context.currentEventId = *interactiveEventId;
+                context.eventCount = pBinding->eventCount;
+                context.hideWhenCleared = interactiveDecorationHidesWhenCleared(pBinding->family);
+                decorationContext = context;
+            }
+        }
+    }
+    else if (inspectHit.kind == "entity")
     {
         eventId = inspectHit.eventIdPrimary != 0 ? inspectHit.eventIdPrimary : inspectHit.eventIdSecondary;
+
+        if (eventId == 0)
+        {
+            const InteractiveDecorationBinding *pBinding =
+                findInteractiveDecorationBindingForEntity(inspectHit.bModelIndex);
+
+            if (pBinding != nullptr)
+            {
+                const std::optional<uint16_t> interactiveEventId =
+                    resolveInteractiveDecorationEventId(inspectHit.bModelIndex);
+
+                if (interactiveEventId)
+                {
+                    eventId = *interactiveEventId;
+                    EventRuntimeState::ActiveDecorationContext context = {};
+                    context.decorVarIndex = pBinding->decorVarIndex;
+                    context.baseEventId = pBinding->baseEventId;
+                    context.currentEventId = *interactiveEventId;
+                    context.eventCount = pBinding->eventCount;
+                    context.hideWhenCleared = interactiveDecorationHidesWhenCleared(pBinding->family);
+                    decorationContext = context;
+                }
+            }
+        }
     }
     else if (inspectHit.kind == "face")
     {
@@ -15133,6 +16296,7 @@ bool OutdoorGameView::tryActivateInspectEvent(const InspectHit &inspectHit)
               << " index=" << inspectHit.bModelIndex << '\n';
 
     const size_t previousMessageCount = pEventRuntimeState->messages.size();
+    pEventRuntimeState->activeDecorationContext = decorationContext;
 
     const bool executed = m_eventRuntime.executeEventById(
         m_localEventIrProgram,
@@ -15142,6 +16306,7 @@ bool OutdoorGameView::tryActivateInspectEvent(const InspectHit &inspectHit)
         m_pOutdoorPartyRuntime != nullptr ? &m_pOutdoorPartyRuntime->party() : nullptr,
         m_pOutdoorWorldRuntime
     );
+    pEventRuntimeState->activeDecorationContext.reset();
 
     if (!executed)
     {
@@ -15165,6 +16330,97 @@ bool OutdoorGameView::tryActivateInspectEvent(const InspectHit &inspectHit)
     pEventRuntimeState->lastActivationResult = "event " + std::to_string(eventId) + " executed";
     std::cout << "Outdoor event " << eventId << " executed\n";
     return true;
+}
+
+bool OutdoorGameView::canActivateInspectEvent(const InspectHit &inspectHit) const
+{
+    if (inspectHit.kind == "world_item")
+    {
+        return !m_heldInventoryItem.active;
+    }
+
+    const EventRuntimeState *pEventRuntimeState =
+        m_pOutdoorWorldRuntime != nullptr ? m_pOutdoorWorldRuntime->eventRuntimeState() : nullptr;
+
+    if (!m_outdoorMapData || pEventRuntimeState == nullptr)
+    {
+        return false;
+    }
+
+    if (inspectHit.kind == "actor")
+    {
+        if (m_pOutdoorWorldRuntime != nullptr)
+        {
+            size_t runtimeActorIndex = inspectHit.bModelIndex;
+
+            if (m_outdoorActorPreviewBillboardSet
+                && inspectHit.bModelIndex < m_outdoorActorPreviewBillboardSet->billboards.size())
+            {
+                runtimeActorIndex =
+                    m_outdoorActorPreviewBillboardSet->billboards[inspectHit.bModelIndex].runtimeActorIndex;
+            }
+
+            if (runtimeActorIndex != static_cast<size_t>(-1))
+            {
+                const OutdoorWorldRuntime::MapActorState *pActorState =
+                    m_pOutdoorWorldRuntime->mapActorState(runtimeActorIndex);
+
+                if (pActorState != nullptr && pActorState->isDead)
+                {
+                    return true;
+                }
+            }
+        }
+
+        if (inspectHit.npcId > 0)
+        {
+            return true;
+        }
+
+        if (m_npcDialogTable.has_value())
+        {
+            return resolveGenericActorDialog(
+                m_map ? m_map->fileName : std::string(),
+                inspectHit.name,
+                inspectHit.actorGroup,
+                *pEventRuntimeState,
+                *m_npcDialogTable
+            ).has_value();
+        }
+
+        return false;
+    }
+
+    if (inspectHit.kind == "entity")
+    {
+        if (inspectHit.eventIdPrimary != 0 || inspectHit.eventIdSecondary != 0)
+        {
+            return true;
+        }
+
+        return findInteractiveDecorationBindingForEntity(inspectHit.bModelIndex) != nullptr
+            && resolveInteractiveDecorationEventId(inspectHit.bModelIndex).has_value();
+    }
+
+    if (inspectHit.kind == "decoration")
+    {
+        if (!m_outdoorDecorationBillboardSet
+            || inspectHit.bModelIndex >= m_outdoorDecorationBillboardSet->billboards.size())
+        {
+            return false;
+        }
+
+        const DecorationBillboard &decoration = m_outdoorDecorationBillboardSet->billboards[inspectHit.bModelIndex];
+        return findInteractiveDecorationBindingForEntity(decoration.entityIndex) != nullptr
+            && resolveInteractiveDecorationEventId(decoration.entityIndex).has_value();
+    }
+
+    if (inspectHit.kind == "face")
+    {
+        return inspectHit.cogTriggeredNumber != 0;
+    }
+
+    return false;
 }
 
 bool OutdoorGameView::tryTriggerLocalEventById(uint16_t eventId)
@@ -17312,50 +18568,53 @@ void OutdoorGameView::updateCameraFromInput(float deltaSeconds)
     {
         if (m_pOutdoorPartyRuntime)
         {
-            if (m_pOutdoorWorldRuntime != nullptr)
+            if (!hasActiveLootView && m_pOutdoorWorldRuntime != nullptr)
             {
                 m_pOutdoorPartyRuntime->setActorColliders(buildRuntimeActorColliders(*m_pOutdoorWorldRuntime));
             }
 
-            const OutdoorMovementInput movementInput = {
-                !hasActiveLootView && pKeyboardState[SDL_SCANCODE_W],
-                !hasActiveLootView && pKeyboardState[SDL_SCANCODE_S],
-                !hasActiveLootView && pKeyboardState[SDL_SCANCODE_A],
-                !hasActiveLootView && pKeyboardState[SDL_SCANCODE_D],
-                !hasActiveLootView && pKeyboardState[SDL_SCANCODE_SPACE],
-                !hasActiveLootView && (pKeyboardState[SDL_SCANCODE_LCTRL] || pKeyboardState[SDL_SCANCODE_RCTRL]),
-                !hasActiveLootView && turboSpeed,
-                m_cameraYawRadians
-            };
-            m_pOutdoorPartyRuntime->update(movementInput, deltaSeconds);
-
-            size_t previousMessageCount = 0;
-
-            if (m_pOutdoorWorldRuntime != nullptr && m_pOutdoorWorldRuntime->eventRuntimeState() != nullptr)
+            if (!hasActiveLootView)
             {
-                previousMessageCount = m_pOutdoorWorldRuntime->eventRuntimeState()->messages.size();
-            }
+                const OutdoorMovementInput movementInput = {
+                    pKeyboardState[SDL_SCANCODE_W],
+                    pKeyboardState[SDL_SCANCODE_S],
+                    pKeyboardState[SDL_SCANCODE_A],
+                    pKeyboardState[SDL_SCANCODE_D],
+                    pKeyboardState[SDL_SCANCODE_SPACE],
+                    pKeyboardState[SDL_SCANCODE_LCTRL] || pKeyboardState[SDL_SCANCODE_RCTRL],
+                    turboSpeed,
+                    m_cameraYawRadians
+                };
+                m_pOutdoorPartyRuntime->update(movementInput, deltaSeconds);
 
-            if (m_pOutdoorWorldRuntime != nullptr
-                && m_pOutdoorWorldRuntime->updateTimers(
-                    deltaSeconds,
-                    m_eventRuntime,
-                    m_localEventIrProgram,
-                    m_globalEventIrProgram))
-            {
-                m_pOutdoorPartyRuntime->applyEventRuntimeState(*m_pOutdoorWorldRuntime->eventRuntimeState());
-                openPendingEventDialog(previousMessageCount, true);
-            }
+                size_t previousMessageCount = 0;
 
-            if (m_pOutdoorWorldRuntime != nullptr)
-            {
-                const OutdoorMoveState &moveState = m_pOutdoorPartyRuntime->movementState();
-                m_pOutdoorWorldRuntime->updateMapActors(deltaSeconds, moveState.x, moveState.y, moveState.footZ);
-                applyPendingCombatEvents();
-                notifyFriendlyActorContacts(
-                    *m_pOutdoorWorldRuntime,
-                    moveState,
-                    m_pOutdoorPartyRuntime->movementEvents());
+                if (m_pOutdoorWorldRuntime != nullptr && m_pOutdoorWorldRuntime->eventRuntimeState() != nullptr)
+                {
+                    previousMessageCount = m_pOutdoorWorldRuntime->eventRuntimeState()->messages.size();
+                }
+
+                if (m_pOutdoorWorldRuntime != nullptr
+                    && m_pOutdoorWorldRuntime->updateTimers(
+                        deltaSeconds,
+                        m_eventRuntime,
+                        m_localEventIrProgram,
+                        m_globalEventIrProgram))
+                {
+                    m_pOutdoorPartyRuntime->applyEventRuntimeState(*m_pOutdoorWorldRuntime->eventRuntimeState());
+                    openPendingEventDialog(previousMessageCount, true);
+                }
+
+                if (m_pOutdoorWorldRuntime != nullptr)
+                {
+                    const OutdoorMoveState &moveState = m_pOutdoorPartyRuntime->movementState();
+                    m_pOutdoorWorldRuntime->updateMapActors(deltaSeconds, moveState.x, moveState.y, moveState.footZ);
+                    applyPendingCombatEvents();
+                    notifyFriendlyActorContacts(
+                        *m_pOutdoorWorldRuntime,
+                        moveState,
+                        m_pOutdoorPartyRuntime->movementEvents());
+                }
             }
 
             m_cameraTargetX = m_pOutdoorPartyRuntime->movementState().x;

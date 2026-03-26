@@ -47,6 +47,7 @@ class DecorationTable
 {
 public:
     bool loadFromBytes(const std::vector<uint8_t> &bytes);
+    bool loadDisplayRows(const std::vector<std::vector<std::string>> &rows);
     const DecorationEntry *get(uint16_t decorationId) const;
     const DecorationEntry *findByInternalName(const std::string &internalName) const;
 

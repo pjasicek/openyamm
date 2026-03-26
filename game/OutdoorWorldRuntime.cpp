@@ -3,6 +3,7 @@
 #include "game/ChestTable.h"
 #include "game/ItemTable.h"
 #include "game/OutdoorGeometryUtils.h"
+#include "game/SpriteObjectDefs.h"
 #include "game/SkillData.h"
 #include "game/StringUtils.h"
 
@@ -79,6 +80,31 @@ constexpr float MeteorShowerSpawnBaseHeight = 2500.0f;
 constexpr float MeteorShowerSpawnHeightVariance = 1000.0f;
 constexpr float MeteorShowerTargetSpread = 512.0f;
 constexpr float SpellImpactAoeRadius = 512.0f;
+constexpr uint32_t GoldHeapSmallItemId = 187;
+constexpr uint32_t GoldHeapLargeItemId = 189;
+constexpr float WorldItemThrowPitchRadians = Pi * 2.0f * (184.0f / 2048.0f);
+constexpr float WorldItemThrowSpeed = 200.0f;
+constexpr float WorldItemGravity = 900.0f;
+constexpr float WorldItemBounceFactor = 0.5f;
+constexpr float WorldItemGroundDamping = 0.89263916f;
+constexpr float WorldItemRestingHorizontalSpeedSquared = 400.0f;
+constexpr float WorldItemBounceStopVelocity = 10.0f;
+
+bool readInt32FromBytes(const std::vector<uint8_t> &bytes, size_t offset, int32_t &value)
+{
+    if (offset + sizeof(value) > bytes.size())
+    {
+        return false;
+    }
+
+    std::memcpy(&value, bytes.data() + offset, sizeof(value));
+    return true;
+}
+
+bool isGoldHeapItemId(uint32_t itemId)
+{
+    return itemId >= GoldHeapSmallItemId && itemId <= GoldHeapLargeItemId;
+}
 
 std::string debugStringOrNone(const std::string &value)
 {
@@ -3144,6 +3170,7 @@ void OutdoorWorldRuntime::initialize(
     m_activeCorpseView.reset();
     m_pendingAudioEvents.clear();
     m_pendingCombatEvents.clear();
+    m_worldItems.clear();
     m_projectiles.clear();
     m_projectileImpacts.clear();
     m_chests = outdoorMapDeltaData ? outdoorMapDeltaData->chests : std::vector<MapDeltaChest>();
@@ -3173,6 +3200,11 @@ void OutdoorWorldRuntime::initialize(
     m_outdoorFaceGridHeight = 0;
     m_outdoorMovementController.reset();
     m_actorUpdateAccumulatorSeconds = 0.0f;
+    m_nextWorldItemId = 1;
+    m_nextProjectileId = 1;
+    m_nextProjectileImpactId = 1;
+
+    materializeMapDeltaWorldItems();
 
     if (outdoorActorPreviewBillboardSet)
     {
@@ -3381,6 +3413,301 @@ void OutdoorWorldRuntime::initialize(
     }
 
     applyEventRuntimeState();
+}
+
+bool OutdoorWorldRuntime::resolveWorldItemVisual(
+    uint32_t itemId,
+    uint16_t &objectDescriptionId,
+    uint16_t &objectSpriteId,
+    uint16_t &objectSpriteFrameIndex,
+    uint16_t &objectFlags,
+    uint16_t &radius,
+    uint16_t &height,
+    std::string &objectName,
+    std::string &objectSpriteName) const
+{
+    if (m_pItemTable == nullptr || m_pObjectTable == nullptr || itemId == 0)
+    {
+        return false;
+    }
+
+    const ItemDefinition *pItemDefinition = m_pItemTable->get(itemId);
+
+    if (pItemDefinition == nullptr || pItemDefinition->spriteIndex == 0)
+    {
+        return false;
+    }
+
+    const std::optional<uint16_t> descriptionId =
+        m_pObjectTable->findDescriptionIdByObjectId(static_cast<int16_t>(pItemDefinition->spriteIndex));
+
+    if (!descriptionId)
+    {
+        return false;
+    }
+
+    const ObjectEntry *pObjectEntry = m_pObjectTable->get(*descriptionId);
+
+    if (pObjectEntry == nullptr || (pObjectEntry->flags & ObjectDescNoSprite) != 0 || pObjectEntry->spriteId == 0)
+    {
+        return false;
+    }
+
+    objectDescriptionId = *descriptionId;
+    objectSpriteId = pObjectEntry->spriteId;
+    objectSpriteFrameIndex = resolveRuntimeSpriteFrameIndex(
+        m_pProjectileSpriteFrameTable,
+        pObjectEntry->spriteId,
+        pObjectEntry->spriteName);
+    objectFlags = pObjectEntry->flags;
+    radius = static_cast<uint16_t>(std::max<int16_t>(0, pObjectEntry->radius));
+    height = static_cast<uint16_t>(std::max<int16_t>(0, pObjectEntry->height));
+    objectName = pObjectEntry->internalName;
+    objectSpriteName = pObjectEntry->spriteName;
+    return true;
+}
+
+void OutdoorWorldRuntime::materializeMapDeltaWorldItems()
+{
+    if (m_pOutdoorMapDeltaData == nullptr || m_pItemTable == nullptr || m_pObjectTable == nullptr)
+    {
+        return;
+    }
+
+    for (const MapDeltaSpriteObject &spriteObject : m_pOutdoorMapDeltaData->spriteObjects)
+    {
+        if (!hasContainingItemPayload(spriteObject.rawContainingItem))
+        {
+            continue;
+        }
+
+        const ObjectEntry *pObjectEntry = m_pObjectTable->get(spriteObject.objectDescriptionId);
+
+        if (pObjectEntry == nullptr || (pObjectEntry->flags & ObjectDescUnpickable) != 0)
+        {
+            continue;
+        }
+
+        int32_t rawItemId = 0;
+        int32_t rawGoldAmount = 0;
+
+        if (!readInt32FromBytes(spriteObject.rawContainingItem, 0x00, rawItemId)
+            || !readInt32FromBytes(spriteObject.rawContainingItem, 0x0c, rawGoldAmount)
+            || rawItemId <= 0)
+        {
+            continue;
+        }
+
+        uint16_t objectDescriptionId = 0;
+        uint16_t objectSpriteId = 0;
+        uint16_t objectSpriteFrameIndex = 0;
+        uint16_t objectFlags = 0;
+        uint16_t radius = 0;
+        uint16_t height = 0;
+        std::string objectName;
+        std::string objectSpriteName;
+
+        if (!resolveWorldItemVisual(
+                static_cast<uint32_t>(rawItemId),
+                objectDescriptionId,
+                objectSpriteId,
+                objectSpriteFrameIndex,
+                objectFlags,
+                radius,
+                height,
+                objectName,
+                objectSpriteName))
+        {
+            continue;
+        }
+
+        const ItemDefinition *pItemDefinition = m_pItemTable->get(static_cast<uint32_t>(rawItemId));
+
+        if (pItemDefinition == nullptr)
+        {
+            continue;
+        }
+
+        WorldItemState worldItem = {};
+        worldItem.worldItemId = m_nextWorldItemId++;
+        worldItem.item.objectDescriptionId = static_cast<uint32_t>(rawItemId);
+        worldItem.item.quantity = 1;
+        worldItem.item.width = pItemDefinition->inventoryWidth;
+        worldItem.item.height = pItemDefinition->inventoryHeight;
+        worldItem.goldAmount = isGoldHeapItemId(worldItem.item.objectDescriptionId)
+            ? static_cast<uint32_t>(std::max(0, rawGoldAmount))
+            : 0;
+        worldItem.isGold = worldItem.goldAmount > 0 && isGoldHeapItemId(worldItem.item.objectDescriptionId);
+        worldItem.objectDescriptionId = objectDescriptionId;
+        worldItem.objectSpriteId = objectSpriteId;
+        worldItem.objectSpriteFrameIndex = objectSpriteFrameIndex;
+        worldItem.objectFlags = objectFlags;
+        worldItem.radius = radius;
+        worldItem.height = height;
+        worldItem.soundId = spriteObject.soundId;
+        worldItem.attributes = spriteObject.attributes;
+        worldItem.sectorId = spriteObject.sectorId;
+        worldItem.objectName = objectName;
+        worldItem.objectSpriteName = objectSpriteName;
+        worldItem.x = static_cast<float>(-spriteObject.x);
+        worldItem.y = static_cast<float>(spriteObject.y);
+        worldItem.z = static_cast<float>(spriteObject.z);
+        worldItem.velocityX = static_cast<float>(-spriteObject.velocityX);
+        worldItem.velocityY = static_cast<float>(spriteObject.velocityY);
+        worldItem.velocityZ = static_cast<float>(spriteObject.velocityZ);
+        worldItem.initialX = static_cast<float>(-spriteObject.initialX);
+        worldItem.initialY = static_cast<float>(spriteObject.initialY);
+        worldItem.initialZ = static_cast<float>(spriteObject.initialZ);
+        worldItem.timeSinceCreatedTicks = uint32_t(spriteObject.timeSinceCreated) * 8;
+        worldItem.lifetimeTicks = spriteObject.temporaryLifetime > 0
+            ? uint32_t(spriteObject.temporaryLifetime) * 8
+            : 0;
+        m_worldItems.push_back(std::move(worldItem));
+    }
+}
+
+bool OutdoorWorldRuntime::spawnWorldItem(
+    const InventoryItem &item,
+    float sourceX,
+    float sourceY,
+    float sourceZ,
+    float yawRadians)
+{
+    if (item.objectDescriptionId == 0)
+    {
+        return false;
+    }
+
+    uint16_t objectDescriptionId = 0;
+    uint16_t objectSpriteId = 0;
+    uint16_t objectSpriteFrameIndex = 0;
+    uint16_t objectFlags = 0;
+    uint16_t radius = 0;
+    uint16_t height = 0;
+    std::string objectName;
+    std::string objectSpriteName;
+
+    if (!resolveWorldItemVisual(
+            item.objectDescriptionId,
+            objectDescriptionId,
+            objectSpriteId,
+            objectSpriteFrameIndex,
+            objectFlags,
+            radius,
+            height,
+            objectName,
+            objectSpriteName))
+    {
+        return false;
+    }
+
+    const float directionX = std::cos(yawRadians);
+    const float directionY = -std::sin(yawRadians);
+    const float horizontalSpeed = WorldItemThrowSpeed * std::cos(WorldItemThrowPitchRadians);
+    const float verticalSpeed = WorldItemThrowSpeed * std::sin(WorldItemThrowPitchRadians);
+
+    WorldItemState worldItem = {};
+    worldItem.worldItemId = m_nextWorldItemId++;
+    worldItem.item = item;
+    worldItem.objectDescriptionId = objectDescriptionId;
+    worldItem.objectSpriteId = objectSpriteId;
+    worldItem.objectSpriteFrameIndex = objectSpriteFrameIndex;
+    worldItem.objectFlags = objectFlags;
+    worldItem.radius = radius;
+    worldItem.height = height;
+    worldItem.objectName = objectName;
+    worldItem.objectSpriteName = objectSpriteName;
+    worldItem.attributes = SpriteAttrDroppedByPlayer;
+    worldItem.x = sourceX;
+    worldItem.y = sourceY;
+    worldItem.z = sourceZ;
+    worldItem.velocityX = directionX * horizontalSpeed;
+    worldItem.velocityY = directionY * horizontalSpeed;
+    worldItem.velocityZ = verticalSpeed;
+    worldItem.initialX = sourceX;
+    worldItem.initialY = sourceY;
+    worldItem.initialZ = sourceZ;
+    worldItem.spawnedByPlayer = true;
+    m_worldItems.push_back(std::move(worldItem));
+    return true;
+}
+
+void OutdoorWorldRuntime::updateWorldItems(float deltaSeconds)
+{
+    if (deltaSeconds <= 0.0f || m_pOutdoorMapData == nullptr)
+    {
+        return;
+    }
+
+    for (WorldItemState &worldItem : m_worldItems)
+    {
+        if (worldItem.isExpired)
+        {
+            continue;
+        }
+
+        worldItem.timeSinceCreatedTicks += static_cast<uint32_t>(std::lround(deltaSeconds * TicksPerSecond));
+
+        if (worldItem.lifetimeTicks > 0 && worldItem.timeSinceCreatedTicks >= worldItem.lifetimeTicks)
+        {
+            worldItem.isExpired = true;
+            continue;
+        }
+
+        if ((worldItem.objectFlags & ObjectDescNoGravity) == 0)
+        {
+            worldItem.velocityZ -= WorldItemGravity * deltaSeconds;
+        }
+
+        worldItem.x += worldItem.velocityX * deltaSeconds;
+        worldItem.y += worldItem.velocityY * deltaSeconds;
+        worldItem.z += worldItem.velocityZ * deltaSeconds;
+
+        if (isOutdoorTerrainWater(*m_pOutdoorMapData, worldItem.x, worldItem.y))
+        {
+            worldItem.isExpired = true;
+            continue;
+        }
+
+        const float terrainZ = sampleOutdoorTerrainHeight(*m_pOutdoorMapData, worldItem.x, worldItem.y);
+
+        if (worldItem.z <= terrainZ)
+        {
+            worldItem.z = terrainZ;
+
+            if ((worldItem.objectFlags & ObjectDescBounce) != 0
+                && std::abs(worldItem.velocityZ) >= WorldItemBounceStopVelocity)
+            {
+                worldItem.velocityZ = -worldItem.velocityZ * WorldItemBounceFactor;
+            }
+            else
+            {
+                worldItem.velocityZ = 0.0f;
+            }
+
+            worldItem.velocityX *= WorldItemGroundDamping;
+            worldItem.velocityY *= WorldItemGroundDamping;
+
+            const float horizontalSpeedSquared =
+                worldItem.velocityX * worldItem.velocityX + worldItem.velocityY * worldItem.velocityY;
+
+            if (horizontalSpeedSquared < WorldItemRestingHorizontalSpeedSquared)
+            {
+                worldItem.velocityX = 0.0f;
+                worldItem.velocityY = 0.0f;
+            }
+        }
+    }
+
+    m_worldItems.erase(
+        std::remove_if(
+            m_worldItems.begin(),
+            m_worldItems.end(),
+            [](const WorldItemState &worldItem)
+            {
+                return worldItem.isExpired;
+            }),
+        m_worldItems.end());
 }
 
 bool OutdoorWorldRuntime::isInitialized() const
@@ -4123,6 +4450,7 @@ void OutdoorWorldRuntime::updateMapActors(float deltaSeconds, float partyX, floa
             actor.z = static_cast<int>(std::lround(actor.preciseZ));
         }
 
+        updateWorldItems(ActorUpdateStepSeconds);
         updateProjectiles(ActorUpdateStepSeconds, partyX, partyY, partyZ);
         m_actorUpdateAccumulatorSeconds -= ActorUpdateStepSeconds;
     }
@@ -6002,6 +6330,33 @@ const std::vector<OutdoorWorldRuntime::CombatEvent> &OutdoorWorldRuntime::pendin
 void OutdoorWorldRuntime::clearPendingCombatEvents()
 {
     m_pendingCombatEvents.clear();
+}
+
+size_t OutdoorWorldRuntime::worldItemCount() const
+{
+    return m_worldItems.size();
+}
+
+const OutdoorWorldRuntime::WorldItemState *OutdoorWorldRuntime::worldItemState(size_t worldItemIndex) const
+{
+    if (worldItemIndex >= m_worldItems.size())
+    {
+        return nullptr;
+    }
+
+    return &m_worldItems[worldItemIndex];
+}
+
+bool OutdoorWorldRuntime::takeWorldItem(size_t worldItemIndex, WorldItemState &item)
+{
+    if (worldItemIndex >= m_worldItems.size())
+    {
+        return false;
+    }
+
+    item = m_worldItems[worldItemIndex];
+    m_worldItems.erase(m_worldItems.begin() + static_cast<std::ptrdiff_t>(worldItemIndex));
+    return true;
 }
 
 size_t OutdoorWorldRuntime::projectileCount() const

@@ -17,8 +17,8 @@ constexpr size_t DoorRecordSize = 0x50;
 constexpr size_t PersistentVariablesSize = 0xc8;
 constexpr size_t LocationTimeSize = 0x38;
 constexpr size_t ActorNameSize = 32;
-constexpr size_t SpriteObjectContainingItemOffset = 0x1c;
-constexpr size_t SpriteObjectContainingItemSize = 0x30;
+constexpr size_t SpriteObjectContainingItemOffset = 0x24;
+constexpr size_t SpriteObjectContainingItemSize = 0x24;
 constexpr size_t ChestItemsOffset = 0x04;
 constexpr size_t ChestItemsSize = 140 * 36;
 constexpr size_t ChestInventoryMatrixOffset = ChestItemsOffset + ChestItemsSize;
@@ -218,6 +218,9 @@ bool parseSpriteObjectVector(const ByteReader &reader, size_t offset, MapDeltaDa
         int16_t velocityX = 0;
         int16_t velocityY = 0;
         int16_t velocityZ = 0;
+        int32_t initialX = 0;
+        int32_t initialY = 0;
+        int32_t initialZ = 0;
 
         if (!reader.readUInt16(objectOffset + 0x00, spriteObject.spriteId)
             || !reader.readUInt16(objectOffset + 0x02, spriteObject.objectDescriptionId)
@@ -234,20 +237,26 @@ bool parseSpriteObjectVector(const ByteReader &reader, size_t offset, MapDeltaDa
             || !reader.readUInt16(objectOffset + 0x1e, spriteObject.timeSinceCreated)
             || !reader.readInt16(objectOffset + 0x20, spriteObject.temporaryLifetime)
             || !reader.readInt16(objectOffset + 0x22, spriteObject.glowRadiusMultiplier)
-            || !reader.readInt32(objectOffset + 0x4c, spriteObject.spellId)
-            || !reader.readInt32(objectOffset + 0x50, spriteObject.spellLevel)
-            || !reader.readInt32(objectOffset + 0x54, spriteObject.spellSkill)
-            || !reader.readInt32(objectOffset + 0x58, spriteObject.field54)
-            || !reader.readInt32(objectOffset + 0x5c, spriteObject.spellCasterPid)
-            || !reader.readInt32(objectOffset + 0x60, spriteObject.spellTargetPid)
-            || !reader.readInt8(objectOffset + 0x64, spriteObject.lodDistance)
-            || !reader.readInt8(objectOffset + 0x65, spriteObject.spellCasterAbility))
+            || !reader.readInt32(objectOffset + 0x48, spriteObject.spellId)
+            || !reader.readInt32(objectOffset + 0x4c, spriteObject.spellLevel)
+            || !reader.readInt32(objectOffset + 0x50, spriteObject.spellSkill)
+            || !reader.readInt32(objectOffset + 0x54, spriteObject.field54)
+            || !reader.readInt32(objectOffset + 0x58, spriteObject.spellCasterPid)
+            || !reader.readInt32(objectOffset + 0x5c, spriteObject.spellTargetPid)
+            || !reader.readInt8(objectOffset + 0x60, spriteObject.lodDistance)
+            || !reader.readInt8(objectOffset + 0x61, spriteObject.spellCasterAbility)
+            || !reader.readInt32(objectOffset + 0x64, initialX)
+            || !reader.readInt32(objectOffset + 0x68, initialY)
+            || !reader.readInt32(objectOffset + 0x6c, initialZ))
         {
             return false;
         }
         spriteObject.velocityX = velocityX;
         spriteObject.velocityY = velocityY;
         spriteObject.velocityZ = velocityZ;
+        spriteObject.initialX = initialX;
+        spriteObject.initialY = initialY;
+        spriteObject.initialZ = initialZ;
 
         if (!reader.readBytes(
                 objectOffset + SpriteObjectContainingItemOffset,

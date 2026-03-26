@@ -455,11 +455,34 @@ private:
         uint16_t spawnTypeId = 0;
         std::string spawnSummary;
         std::string spawnDetail;
+        uint16_t decorationId = 0;
         uint16_t objectDescriptionId = 0;
         uint16_t objectSpriteId = 0;
         int32_t spellId = 0;
     };
 
+public:
+    enum class InteractiveDecorationFamily
+    {
+        None,
+        Barrel,
+        Cauldron,
+        TrashHeap,
+        CampFire,
+        Cask,
+    };
+
+    struct InteractiveDecorationBinding
+    {
+        bool active = false;
+        uint8_t decorVarIndex = 0;
+        uint16_t entityIndex = 0;
+        uint16_t baseEventId = 0;
+        uint8_t eventCount = 0;
+        InteractiveDecorationFamily family = InteractiveDecorationFamily::None;
+    };
+
+private:
     static uint32_t colorFromHeight(float normalizedHeight);
     static uint32_t colorFromBModel();
     static ResolvedHudLayoutElement resolveAttachedHudLayoutRect(
@@ -495,6 +518,7 @@ private:
         const bx::Vec3 &rayOrigin,
         const bx::Vec3 &rayDirection
     );
+    bool canActivateInspectEvent(const InspectHit &inspectHit) const;
     bool tryActivateInspectEvent(const InspectHit &inspectHit);
     bool tryTriggerLocalEventById(uint16_t eventId);
     void applyPendingCombatEvents();
@@ -517,6 +541,7 @@ private:
     void renderEventDialogPanel(int width, int height, bool renderAboveHud);
     void renderActorCollisionOverlays(uint16_t viewId, const bx::Vec3 &cameraPosition) const;
     void renderActorPreviewBillboards(uint16_t viewId, const float *pViewMatrix, const bx::Vec3 &cameraPosition);
+    void renderRuntimeWorldItems(uint16_t viewId, const float *pViewMatrix, const bx::Vec3 &cameraPosition);
     void renderRuntimeProjectiles(uint16_t viewId, const float *pViewMatrix, const bx::Vec3 &cameraPosition);
     void renderSpriteObjectBillboards(uint16_t viewId, const float *pViewMatrix, const bx::Vec3 &cameraPosition);
     void preloadSpriteFrameTextures(const SpriteFrameTable &spriteFrameTable, uint16_t spriteFrameIndex);
@@ -567,6 +592,14 @@ private:
     HudScreenState currentHudScreenState() const;
     void setStatusBarEvent(const std::string &text, float durationSeconds = 2.0f);
     void updateStatusBarEvent(float deltaSeconds);
+    void rebuildInteractiveDecorationBindings();
+    void seedInteractiveDecorationRuntimeStateIfNeeded();
+    bool isInteractiveDecorationHidden(size_t entityIndex) const;
+    const InteractiveDecorationBinding *findInteractiveDecorationBindingForEntity(size_t entityIndex) const;
+    std::optional<uint16_t> resolveInteractiveDecorationEventId(size_t entityIndex) const;
+    std::optional<std::string> resolveInteractiveDecorationHoverText(size_t entityIndex) const;
+    std::optional<std::string> resolveHoverStatusBarText(const InspectHit &inspectHit) const;
+    std::optional<std::string> resolveEventHintText(uint16_t eventId) const;
     void updateHouseVideoPlayback(float deltaSeconds);
     void handleDialogueCloseRequest();
     void openDebugNpcDialogue(uint32_t npcId);
@@ -683,6 +716,7 @@ private:
     size_t m_nextPendingSpriteFrameWarmupIndex;
     size_t m_runtimeActorBillboardTexturesQueuedCount;
     std::vector<std::vector<size_t>> m_decorationBillboardGridCells;
+    std::vector<InteractiveDecorationBinding> m_interactiveDecorationBindings;
     float m_decorationBillboardGridMinX = 0.0f;
     float m_decorationBillboardGridMinY = 0.0f;
     size_t m_decorationBillboardGridWidth = 0;
@@ -777,6 +811,7 @@ private:
     std::array<bool, 5> m_eventDialogPartySelectLatches;
     size_t m_chestSelectionIndex;
     size_t m_eventDialogSelectionIndex;
+    std::string m_statusBarHoverText;
     std::string m_statusBarEventText;
     float m_statusBarEventRemainingSeconds;
     EventDialogContent m_activeEventDialog;

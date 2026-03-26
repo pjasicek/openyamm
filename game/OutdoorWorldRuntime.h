@@ -11,6 +11,7 @@
 #include "game/OutdoorGeometryUtils.h"
 #include "game/OutdoorMapData.h"
 #include "game/OutdoorMovementController.h"
+#include "game/Party.h"
 #include "game/SpellTable.h"
 
 #include <random>
@@ -224,6 +225,38 @@ public:
         bool isExpired = false;
     };
 
+    struct WorldItemState
+    {
+        uint32_t worldItemId = 0;
+        InventoryItem item = {};
+        uint32_t goldAmount = 0;
+        bool isGold = false;
+        uint16_t objectDescriptionId = 0;
+        uint16_t objectSpriteId = 0;
+        uint16_t objectSpriteFrameIndex = 0;
+        uint16_t objectFlags = 0;
+        uint16_t radius = 0;
+        uint16_t height = 0;
+        uint16_t soundId = 0;
+        uint16_t attributes = 0;
+        int16_t sectorId = 0;
+        std::string objectName;
+        std::string objectSpriteName;
+        float x = 0.0f;
+        float y = 0.0f;
+        float z = 0.0f;
+        float velocityX = 0.0f;
+        float velocityY = 0.0f;
+        float velocityZ = 0.0f;
+        float initialX = 0.0f;
+        float initialY = 0.0f;
+        float initialZ = 0.0f;
+        uint32_t timeSinceCreatedTicks = 0;
+        uint32_t lifetimeTicks = 0;
+        bool spawnedByPlayer = false;
+        bool isExpired = false;
+    };
+
     struct SpawnPointState
     {
         int x = 0;
@@ -364,6 +397,16 @@ public:
     void clearPendingAudioEvents();
     const std::vector<CombatEvent> &pendingCombatEvents() const;
     void clearPendingCombatEvents();
+    size_t worldItemCount() const;
+    const WorldItemState *worldItemState(size_t worldItemIndex) const;
+    bool takeWorldItem(size_t worldItemIndex, WorldItemState &item);
+    bool spawnWorldItem(
+        const InventoryItem &item,
+        float sourceX,
+        float sourceY,
+        float sourceZ,
+        float yawRadians
+    );
     size_t projectileCount() const;
     const ProjectileState *projectileState(size_t projectileIndex) const;
     size_t projectileImpactCount() const;
@@ -520,6 +563,18 @@ private:
     bool hasClearOutdoorLineOfSight(const bx::Vec3 &start, const bx::Vec3 &end) const;
     void buildOutdoorFaceSpatialIndex();
     void collectOutdoorFaceCandidates(float minX, float minY, float maxX, float maxY, std::vector<size_t> &indices) const;
+    bool resolveWorldItemVisual(
+        uint32_t itemId,
+        uint16_t &objectDescriptionId,
+        uint16_t &objectSpriteId,
+        uint16_t &objectSpriteFrameIndex,
+        uint16_t &objectFlags,
+        uint16_t &radius,
+        uint16_t &height,
+        std::string &objectName,
+        std::string &objectSpriteName) const;
+    void materializeMapDeltaWorldItems();
+    void updateWorldItems(float deltaSeconds);
     void updateProjectiles(float deltaSeconds, float partyX, float partyY, float partyZ);
     void spawnProjectileImpact(const ProjectileState &projectile, float x, float y, float z);
 
@@ -562,6 +617,8 @@ private:
     std::optional<CorpseViewState> m_activeCorpseView;
     std::vector<AudioEvent> m_pendingAudioEvents;
     std::vector<CombatEvent> m_pendingCombatEvents;
+    std::vector<WorldItemState> m_worldItems;
+    uint32_t m_nextWorldItemId = 1;
     uint32_t m_nextProjectileId = 1;
     uint32_t m_nextProjectileImpactId = 1;
     std::vector<ProjectileState> m_projectiles;

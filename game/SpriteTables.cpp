@@ -4,6 +4,7 @@
 
 #include <algorithm>
 #include <array>
+#include <cctype>
 
 namespace OpenYAMM::Game
 {
@@ -11,6 +12,24 @@ namespace
 {
 constexpr size_t DecorationRecordSize = 84;
 constexpr size_t SpriteFrameRecordSize = 60;
+
+bool isNumericString(const std::string &value)
+{
+    if (value.empty())
+    {
+        return false;
+    }
+
+    for (char character : value)
+    {
+        if (!std::isdigit(static_cast<unsigned char>(character)))
+        {
+            return false;
+        }
+    }
+
+    return true;
+}
 
 int mirroredSourceOctant(int octant)
 {
@@ -77,6 +96,39 @@ bool DecorationTable::loadFromBytes(const std::vector<uint8_t> &bytes)
     }
 
     return !m_entries.empty();
+}
+
+bool DecorationTable::loadDisplayRows(const std::vector<std::vector<std::string>> &rows)
+{
+    for (const std::vector<std::string> &row : rows)
+    {
+        if (row.size() < 3 || !isNumericString(row[0]))
+        {
+            continue;
+        }
+
+        const int decorationNumber = std::stoi(row[0]);
+        const int decorationId = decorationNumber - 1;
+
+        if (decorationId < 0 || static_cast<size_t>(decorationId) >= m_entries.size())
+        {
+            continue;
+        }
+
+        DecorationEntry &entry = m_entries[static_cast<size_t>(decorationId)];
+
+        if (row.size() > 1 && !row[1].empty() && toLowerCopy(row[1]) != "null")
+        {
+            entry.internalName = toLowerCopy(row[1]);
+        }
+
+        if (!row[2].empty() && toLowerCopy(row[2]) != "null")
+        {
+            entry.hint = row[2];
+        }
+    }
+
+    return true;
 }
 
 const DecorationEntry *DecorationTable::get(uint16_t decorationId) const

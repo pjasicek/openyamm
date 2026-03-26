@@ -15,12 +15,14 @@
 #include "game/OutdoorWorldRuntime.h"
 #include "game/OutdoorGeometryUtils.h"
 #include "game/Party.h"
+#include "game/SpriteObjectDefs.h"
 
 #include <SDL3/SDL.h>
 
 #include <algorithm>
 #include <array>
 #include <cmath>
+#include <cstring>
 #include <iostream>
 #include <limits>
 #include <optional>
@@ -3059,6 +3061,214 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
             if (!sawImpact)
             {
                 failure = "event 457 projectiles never produced an impact";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "map_delta_pickable_sprite_objects_materialize_runtime_world_items",
+        [&](std::string &failure)
+        {
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            if (scenario.world.worldItemCount() == 0)
+            {
+                failure = "selected map materialized no runtime world items";
+                return false;
+            }
+
+            const ItemDefinition *pItemDefinition = gameDataLoader.getItemTable().get(104);
+
+            if (pItemDefinition == nullptr || pItemDefinition->spriteIndex == 0)
+            {
+                failure = "missing test item 104 sprite mapping";
+                return false;
+            }
+
+            const std::optional<uint16_t> objectDescriptionId =
+                gameDataLoader.getObjectTable().findDescriptionIdByObjectId(
+                    static_cast<int16_t>(pItemDefinition->spriteIndex));
+
+            if (!objectDescriptionId)
+            {
+                failure = "could not resolve object description for test item 104";
+                return false;
+            }
+
+            MapAssetInfo modifiedMap = *selectedMap;
+            modifiedMap.outdoorMapDeltaData = *selectedMap->outdoorMapDeltaData;
+
+            MapDeltaSpriteObject spriteObject = {};
+            spriteObject.objectDescriptionId = *objectDescriptionId;
+            spriteObject.rawContainingItem.assign(0x24, 0);
+
+            const int32_t rawItemId = 104;
+            std::memcpy(spriteObject.rawContainingItem.data(), &rawItemId, sizeof(rawItemId));
+            modifiedMap.outdoorMapDeltaData->spriteObjects.push_back(std::move(spriteObject));
+
+            RegressionScenario modifiedScenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, modifiedMap, modifiedScenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            bool foundMaterializedItem = false;
+
+            for (size_t worldItemIndex = 0; worldItemIndex < modifiedScenario.world.worldItemCount(); ++worldItemIndex)
+            {
+                const OutdoorWorldRuntime::WorldItemState *pWorldItem =
+                    modifiedScenario.world.worldItemState(worldItemIndex);
+
+                if (pWorldItem != nullptr && pWorldItem->item.objectDescriptionId == 104)
+                {
+                    foundMaterializedItem = true;
+                    break;
+                }
+            }
+
+            if (!foundMaterializedItem)
+            {
+                failure = "synthetic map-delta sprite object did not materialize as runtime world item";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "spawn_world_item_resolves_object_mapping_and_velocity",
+        [&](std::string &failure)
+        {
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            const ItemDefinition *pItemDefinition = gameDataLoader.getItemTable().get(104);
+
+            if (pItemDefinition == nullptr)
+            {
+                failure = "missing test item 104";
+                return false;
+            }
+
+            InventoryItem item = {};
+            item.objectDescriptionId = 104;
+            item.quantity = 1;
+            item.width = pItemDefinition->inventoryWidth;
+            item.height = pItemDefinition->inventoryHeight;
+
+            const size_t initialCount = scenario.world.worldItemCount();
+
+            if (!scenario.world.spawnWorldItem(item, 10.0f, 20.0f, 100.0f, 0.0f))
+            {
+                failure = "spawnWorldItem rejected valid inventory item";
+                return false;
+            }
+
+            if (scenario.world.worldItemCount() != initialCount + 1)
+            {
+                failure = "runtime world item count did not increase after spawn";
+                return false;
+            }
+
+            const OutdoorWorldRuntime::WorldItemState *pWorldItem = scenario.world.worldItemState(initialCount);
+
+            if (pWorldItem == nullptr)
+            {
+                failure = "spawned world item state missing";
+                return false;
+            }
+
+            if (pWorldItem->item.objectDescriptionId != 104
+                || pWorldItem->objectDescriptionId == 0
+                || pWorldItem->objectSpriteId == 0)
+            {
+                failure = "spawned world item mapping is incomplete";
+                return false;
+            }
+
+            if (pWorldItem->velocityX == 0.0f && pWorldItem->velocityY == 0.0f && pWorldItem->velocityZ == 0.0f)
+            {
+                failure = "spawned world item has no throw velocity";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "campfire_global_event_adds_food_and_hides_on_clear",
+        [&](std::string &failure)
+        {
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            if (scenario.pEventRuntimeState == nullptr)
+            {
+                failure = "missing event runtime state";
+                return false;
+            }
+
+            EventRuntimeState::ActiveDecorationContext context = {};
+            context.decorVarIndex = 0;
+            context.baseEventId = 285;
+            context.currentEventId = 285;
+            context.eventCount = 2;
+            context.hideWhenCleared = true;
+            scenario.pEventRuntimeState->activeDecorationContext = context;
+
+            const int initialFood = scenario.party.food();
+            const bool executed = scenario.eventRuntime.executeEventById(
+                std::nullopt,
+                selectedMap->globalEventIrProgram,
+                285,
+                *scenario.pEventRuntimeState,
+                &scenario.party,
+                &scenario.world);
+            scenario.pEventRuntimeState->activeDecorationContext.reset();
+
+            if (!executed)
+            {
+                failure = "campfire event 285 did not execute";
+                return false;
+            }
+
+            scenario.world.applyEventRuntimeState();
+            scenario.party.applyEventRuntimeState(*scenario.pEventRuntimeState);
+
+            const int gainedFood = scenario.party.food() - initialFood;
+
+            if (gainedFood < 1 || gainedFood > 3)
+            {
+                failure = "campfire event granted " + std::to_string(gainedFood) + " food";
+                return false;
+            }
+
+            if (scenario.pEventRuntimeState->decorVars[0] != 2)
+            {
+                failure = "campfire clear state was " + std::to_string(scenario.pEventRuntimeState->decorVars[0]);
                 return false;
             }
 
