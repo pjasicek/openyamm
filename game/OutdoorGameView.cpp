@@ -92,6 +92,7 @@ constexpr float BillboardNearDepth = 0.1f;
 constexpr bool DebugProjectileDrawLogging = false;
 constexpr float DebugProjectileTrailSeconds = 0.05f;
 constexpr float InspectRayEpsilon = 0.0001f;
+constexpr float OeMouseInteractionDistance = 512.0f;
 constexpr float OeNearHoverDistance = 512.0f;
 constexpr float OeActorHoverDistance = 8192.0f;
 constexpr float OutdoorWalkableNormalZ = 0.70710678f;
@@ -229,6 +230,37 @@ std::optional<OutdoorGameView::InteractiveDecorationFamily> classifyInteractiveD
     }
 
     return std::nullopt;
+}
+
+float resolveActorAabbBaseZ(
+    const OutdoorMapData &outdoorMapData,
+    const OutdoorWorldRuntime::MapActorState *pActorState,
+    int actorX,
+    int actorY,
+    int actorZ,
+    bool clampDeadActorToGround)
+{
+    if (!clampDeadActorToGround)
+    {
+        return static_cast<float>(actorZ);
+    }
+
+    if (pActorState != nullptr && pActorState->movementStateInitialized)
+    {
+        const OutdoorMoveState &movementState = pActorState->movementState;
+
+        if (movementState.supportKind == OutdoorSupportKind::Terrain
+            || movementState.supportKind == OutdoorSupportKind::BModelFace)
+        {
+            return movementState.footZ - 1.0f;
+        }
+    }
+
+    return sampleOutdoorSupportFloorHeight(
+        outdoorMapData,
+        static_cast<float>(actorX),
+        static_cast<float>(actorY),
+        static_cast<float>(actorZ));
 }
 
 uint16_t interactiveDecorationBaseEventId(OutdoorGameView::InteractiveDecorationFamily family)
@@ -552,6 +584,23 @@ std::string joinNonEmptyTexts(const std::vector<std::string> &parts)
 std::string formatMonsterResistanceText(int value)
 {
     return value >= 200 ? "Imm" : std::to_string(value);
+}
+
+std::string formatFoundItemStatusText(int goldAmount, const std::string &itemName)
+{
+    const std::string resolvedItemName = itemName.empty() ? "item" : itemName;
+
+    if (goldAmount > 0)
+    {
+        return "You found " + std::to_string(goldAmount) + " gold and an item (" + resolvedItemName + ")!";
+    }
+
+    return "You found an item (" + resolvedItemName + ")!";
+}
+
+std::string formatFoundGoldStatusText(int goldAmount)
+{
+    return "You found " + std::to_string(std::max(0, goldAmount)) + " gold!";
 }
 
 std::string resolveItemInspectDetailText(const ItemDefinition &itemDefinition)
@@ -2590,6 +2639,7 @@ OutdoorGameView::OutdoorGameView()
     , m_toggleInspectLatch(false)
     , m_triggerMeteorLatch(false)
     , m_debugDialogueLatch(false)
+    , m_keyboardUseLatch(false)
     , m_activateInspectLatch(false)
     , m_inspectMouseActivateLatch(false)
     , m_attackInspectLatch(false)
@@ -3181,6 +3231,93 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
 
     {
         const uint64_t stageStartTickCount = SDL_GetTicksNS();
+        const bool *pKeyboardState = SDL_GetKeyboardState(nullptr);
+        const auto buildInspectRayForScreenPoint =
+            [&](float screenX, float screenY, bx::Vec3 &rayOrigin, bx::Vec3 &rayDirection) -> bool
+            {
+                if (viewWidth <= 0 || viewHeight <= 0)
+                {
+                    return false;
+                }
+
+                const float normalizedX =
+                    ((screenX / static_cast<float>(viewWidth)) * 2.0f) - 1.0f;
+                const float normalizedY =
+                    1.0f - ((screenY / static_cast<float>(viewHeight)) * 2.0f);
+                float viewProjectionMatrix[16] = {};
+                float inverseViewProjectionMatrix[16] = {};
+                bx::mtxMul(viewProjectionMatrix, wireframeViewMatrix, wireframeProjectionMatrix);
+                bx::mtxInverse(inverseViewProjectionMatrix, viewProjectionMatrix);
+                rayOrigin = bx::mulH({normalizedX, normalizedY, 0.0f}, inverseViewProjectionMatrix);
+                const bx::Vec3 rayTarget = bx::mulH({normalizedX, normalizedY, 1.0f}, inverseViewProjectionMatrix);
+                rayDirection = vecNormalize(vecSubtract(rayTarget, rayOrigin));
+                return vecLength(rayDirection) > InspectRayEpsilon;
+            };
+
+        if (!hasActiveLootView && !isEventDialogActive && !isCharacterScreenActive)
+        {
+            const bool isKeyboardUsePressed =
+                pKeyboardState != nullptr && pKeyboardState[SDL_SCANCODE_SPACE];
+
+            if (isKeyboardUsePressed)
+            {
+                if (!m_keyboardUseLatch && m_outdoorMapData.has_value())
+                {
+                    const float centerX = static_cast<float>(width) * 0.5f;
+                    const float centerY = static_cast<float>(height) * 0.5f;
+                    bx::Vec3 rayOrigin = {0.0f, 0.0f, 0.0f};
+                    bx::Vec3 rayDirection = {0.0f, 0.0f, 0.0f};
+
+                    if (buildInspectRayForScreenPoint(centerX, centerY, rayOrigin, rayDirection))
+                    {
+                        const InspectHit keyboardUseInspectHit = inspectBModelFace(
+                            *m_outdoorMapData,
+                            rayOrigin,
+                            rayDirection,
+                            centerX,
+                            centerY,
+                            width,
+                            height,
+                            wireframeViewMatrix,
+                            wireframeProjectionMatrix,
+                            DecorationPickMode::Interaction);
+
+                        const bool canActivate = canActivateInspectEvent(keyboardUseInspectHit);
+                        std::cout << "Keyboard use target: hit="
+                                  << (keyboardUseInspectHit.hasHit ? "yes" : "no")
+                                  << " kind=" << (keyboardUseInspectHit.hasHit ? keyboardUseInspectHit.kind : "-")
+                                  << " name=" << (keyboardUseInspectHit.hasHit ? keyboardUseInspectHit.name : "-")
+                                  << " dist=" << (keyboardUseInspectHit.hasHit ? keyboardUseInspectHit.distance : -1.0f)
+                                  << " activatable=" << (canActivate ? "yes" : "no") << '\n';
+
+                        bool activated = false;
+
+                        if (canActivate)
+                        {
+                            activated = tryActivateInspectEvent(keyboardUseInspectHit);
+                        }
+
+                        std::cout << "Keyboard use result: activated=" << (activated ? "yes" : "no") << '\n';
+
+                        if (activated)
+                        {
+                            m_cachedHoverInspectHitValid = false;
+                            m_cachedHoverInspectHit = {};
+                        }
+                    }
+
+                    m_keyboardUseLatch = true;
+                }
+            }
+            else
+            {
+                m_keyboardUseLatch = false;
+            }
+        }
+        else
+        {
+            m_keyboardUseLatch = false;
+        }
 
         if (m_heldInventoryItem.active && !hasActiveLootView && !isEventDialogActive && !isCharacterScreenActive)
         {
@@ -3202,35 +3339,29 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
 
                 if (!handledInteraction && m_outdoorMapData.has_value())
                 {
-                    const float normalizedMouseX =
-                        ((static_cast<float>(mouseX) / static_cast<float>(viewWidth)) * 2.0f) - 1.0f;
-                    const float normalizedMouseY =
-                        1.0f - ((static_cast<float>(mouseY) / static_cast<float>(viewHeight)) * 2.0f);
-                    float viewProjectionMatrix[16] = {};
-                    float inverseViewProjectionMatrix[16] = {};
-                    bx::mtxMul(viewProjectionMatrix, wireframeViewMatrix, wireframeProjectionMatrix);
-                    bx::mtxInverse(inverseViewProjectionMatrix, viewProjectionMatrix);
-                    const bx::Vec3 rayOrigin =
-                        bx::mulH({normalizedMouseX, normalizedMouseY, 0.0f}, inverseViewProjectionMatrix);
-                    const bx::Vec3 rayTarget =
-                        bx::mulH({normalizedMouseX, normalizedMouseY, 1.0f}, inverseViewProjectionMatrix);
-                    const bx::Vec3 rayDirection = vecNormalize(vecSubtract(rayTarget, rayOrigin));
-                    const InspectHit heldItemInspectHit = inspectBModelFace(
-                        *m_outdoorMapData,
-                        rayOrigin,
-                        rayDirection,
-                        mouseX,
-                        mouseY,
-                        width,
-                        height,
-                        wireframeViewMatrix,
-                        wireframeProjectionMatrix,
-                        DecorationPickMode::Interaction);
+                    bx::Vec3 rayOrigin = {0.0f, 0.0f, 0.0f};
+                    bx::Vec3 rayDirection = {0.0f, 0.0f, 0.0f};
 
-                    if (canActivateInspectEvent(heldItemInspectHit))
+                    if (buildInspectRayForScreenPoint(mouseX, mouseY, rayOrigin, rayDirection))
                     {
-                        tryActivateInspectEvent(heldItemInspectHit);
-                        handledInteraction = true;
+                        const InspectHit heldItemInspectHit = inspectBModelFace(
+                            *m_outdoorMapData,
+                            rayOrigin,
+                            rayDirection,
+                            mouseX,
+                            mouseY,
+                            width,
+                            height,
+                            wireframeViewMatrix,
+                            wireframeProjectionMatrix,
+                            DecorationPickMode::Interaction);
+
+                        if (canActivateInspectEvent(heldItemInspectHit)
+                            && isMouseInteractionInspectHitInRange(heldItemInspectHit))
+                        {
+                            tryActivateInspectEvent(heldItemInspectHit);
+                            handledInteraction = true;
+                        }
                     }
                 }
 
@@ -3274,17 +3405,14 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
         else if (m_inspectMode && m_outdoorMapData && !hasActiveLootView && !isEventDialogActive && !isCharacterScreenActive)
         {
             SDL_GetMouseState(&mouseX, &mouseY);
-            const float normalizedMouseX =
-                ((static_cast<float>(mouseX) / static_cast<float>(viewWidth)) * 2.0f) - 1.0f;
-            const float normalizedMouseY =
-                1.0f - ((static_cast<float>(mouseY) / static_cast<float>(viewHeight)) * 2.0f);
-            float viewProjectionMatrix[16] = {};
-            float inverseViewProjectionMatrix[16] = {};
-            bx::mtxMul(viewProjectionMatrix, wireframeViewMatrix, wireframeProjectionMatrix);
-            bx::mtxInverse(inverseViewProjectionMatrix, viewProjectionMatrix);
-            const bx::Vec3 rayOrigin = bx::mulH({normalizedMouseX, normalizedMouseY, 0.0f}, inverseViewProjectionMatrix);
-            const bx::Vec3 rayTarget = bx::mulH({normalizedMouseX, normalizedMouseY, 1.0f}, inverseViewProjectionMatrix);
-            const bx::Vec3 rayDirection = vecNormalize(vecSubtract(rayTarget, rayOrigin));
+            bx::Vec3 rayOrigin = {0.0f, 0.0f, 0.0f};
+            bx::Vec3 rayDirection = {0.0f, 0.0f, 0.0f};
+
+            if (!buildInspectRayForScreenPoint(mouseX, mouseY, rayOrigin, rayDirection))
+            {
+                rayOrigin = {0.0f, 0.0f, 0.0f};
+                rayDirection = {0.0f, 0.0f, 0.0f};
+            }
             const auto refreshHoverInspectHit =
                 [&]()
                 {
@@ -3317,7 +3445,6 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
                 inspectHit = m_cachedHoverInspectHit;
             }
 
-            const bool *pKeyboardState = SDL_GetKeyboardState(nullptr);
             const SDL_MouseButtonFlags mouseButtons = SDL_GetMouseState(nullptr, nullptr);
             const bool isActivationPressed =
                 pKeyboardState != nullptr
@@ -3410,7 +3537,8 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
                 if (!isPointerOverPartyPortrait
                     && isSameInspectActivationTarget(m_pressedInspectHit, interactionInspectHit))
                 {
-                    if (tryActivateInspectEvent(interactionInspectHit))
+                    if (isMouseInteractionInspectHitInRange(interactionInspectHit)
+                        && tryActivateInspectEvent(interactionInspectHit))
                     {
                         refreshInteractionInspectHit();
                         refreshHoverInspectHit();
@@ -3431,22 +3559,15 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
                 if (interactionInspectHit.kind == "actor" && m_pOutdoorWorldRuntime != nullptr
                     && m_pOutdoorPartyRuntime != nullptr)
                 {
-                    size_t runtimeActorIndex = interactionInspectHit.bModelIndex;
+                    const std::optional<size_t> runtimeActorIndex =
+                        resolveRuntimeActorIndexForInspectHit(interactionInspectHit);
 
-                    if (m_outdoorActorPreviewBillboardSet
-                        && interactionInspectHit.bModelIndex < m_outdoorActorPreviewBillboardSet->billboards.size())
-                    {
-                        runtimeActorIndex =
-                            m_outdoorActorPreviewBillboardSet->billboards[interactionInspectHit.bModelIndex]
-                                .runtimeActorIndex;
-                    }
-
-                    if (runtimeActorIndex != static_cast<size_t>(-1))
+                    if (runtimeActorIndex)
                     {
                         const OutdoorMoveState &moveState = m_pOutdoorPartyRuntime->movementState();
 
                         if (m_pOutdoorWorldRuntime->applyPartyAttackToMapActor(
-                                runtimeActorIndex,
+                                *runtimeActorIndex,
                                 5,
                                 moveState.x,
                                 moveState.y,
@@ -3458,10 +3579,10 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
                             if (EventRuntimeState *pEventRuntimeState = m_pOutdoorWorldRuntime->eventRuntimeState())
                             {
                                 pEventRuntimeState->lastActivationResult =
-                                    "actor " + std::to_string(runtimeActorIndex) + " hit by party";
+                                    "actor " + std::to_string(*runtimeActorIndex) + " hit by party";
                             }
 
-                            std::cout << "Party attack hit actor=" << runtimeActorIndex << '\n';
+                            std::cout << "Party attack hit actor=" << *runtimeActorIndex << '\n';
                         }
                     }
                 }
@@ -3714,7 +3835,7 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
             0,
             6,
             0x0f,
-            "Move: WASD Space jump Ctrl down Shift turbo  R run F fly T waterwalk G feather"
+            "Move: WASD  Space use  X jump  Ctrl down  Shift turbo  R run F fly T waterwalk G feather"
         );
 
         nextHudLine = 7;
@@ -5963,6 +6084,7 @@ void OutdoorGameView::shutdown()
     m_inspectMode = true;
     m_toggleInspectLatch = false;
     m_triggerMeteorLatch = false;
+    m_keyboardUseLatch = false;
     m_activateInspectLatch = false;
     m_inspectMouseActivateLatch = false;
     m_attackInspectLatch = false;
@@ -10507,7 +10629,7 @@ void OutdoorGameView::renderActorInspectOverlay(int width, int height)
                             long(height)));
                     const float visibleCenterY =
                         static_cast<float>(scissorY) + static_cast<float>(scissorHeight) * 0.5f;
-                    const float previewY = std::round(visibleCenterY - previewHeight * 0.40f);
+                    const float previewY = std::round(visibleCenterY - previewHeight * 0.48f);
                     submitActorPreviewQuad(
                         *pTexture,
                         previewX,
@@ -13628,6 +13750,28 @@ const OutdoorBitmapTexture *OutdoorGameView::findDecorationBillboardTexture(cons
     return &m_outdoorDecorationBillboardSet->textures[it->second];
 }
 
+const OutdoorBitmapTexture *OutdoorGameView::findActorBillboardTexture(
+    const std::string &textureName,
+    int16_t paletteId) const
+{
+    if (!m_outdoorActorPreviewBillboardSet)
+    {
+        return nullptr;
+    }
+
+    const std::string normalizedTextureName = toLowerCopy(textureName);
+
+    for (const OutdoorBitmapTexture &texture : m_outdoorActorPreviewBillboardSet->textures)
+    {
+        if (texture.textureName == normalizedTextureName && texture.paletteId == paletteId)
+        {
+            return &texture;
+        }
+    }
+
+    return nullptr;
+}
+
 bool OutdoorGameView::hitTestDecorationBillboard(
     const DecorationBillboard &billboard,
     const BillboardTextureHandle &texture,
@@ -13731,6 +13875,190 @@ bool OutdoorGameView::hitTestDecorationBillboard(
         const float normalizedV = (mouseY - top) / screenHeightPixels;
 
         if (mirrored)
+        {
+            normalizedU = 1.0f - normalizedU;
+        }
+
+        const int pixelX = std::clamp(
+            static_cast<int>(std::floor(normalizedU * static_cast<float>(pBitmapTexture->width))),
+            0,
+            pBitmapTexture->width - 1);
+        const int pixelY = std::clamp(
+            static_cast<int>(std::floor(normalizedV * static_cast<float>(pBitmapTexture->height))),
+            0,
+            pBitmapTexture->height - 1);
+        const size_t pixelOffset = static_cast<size_t>((pixelY * pBitmapTexture->width + pixelX) * 4);
+
+        if (pixelOffset + 3 >= pBitmapTexture->pixels.size() || pBitmapTexture->pixels[pixelOffset + 3] == 0)
+        {
+            return false;
+        }
+    }
+
+    const bx::Vec3 planeNormal = {-cameraRight.y * cameraUp.z + cameraRight.z * cameraUp.y,
+                                  -cameraRight.z * cameraUp.x + cameraRight.x * cameraUp.z,
+                                  -cameraRight.x * cameraUp.y + cameraRight.y * cameraUp.x};
+    const float denominator = vecDot(rayDirection, planeNormal);
+
+    if (std::fabs(denominator) <= InspectRayEpsilon)
+    {
+        return false;
+    }
+
+    distance = vecDot(vecSubtract(center, rayOrigin), planeNormal) / denominator;
+    return distance > InspectRayEpsilon;
+}
+
+bool OutdoorGameView::hitTestActorBillboard(
+    const OutdoorWorldRuntime::MapActorState *pRuntimeActor,
+    int actorX,
+    int actorY,
+    int actorZ,
+    uint16_t actorHeight,
+    uint16_t sourceBillboardHeight,
+    uint16_t spriteFrameIndex,
+    const std::array<uint16_t, 8> &actionSpriteFrameIndices,
+    bool useStaticFrame,
+    float mouseX,
+    float mouseY,
+    int viewWidth,
+    int viewHeight,
+    const float *pViewMatrix,
+    const float *pProjectionMatrix,
+    const bx::Vec3 &rayOrigin,
+    const bx::Vec3 &rayDirection,
+    float &distance,
+    bool &usedBillboardHit) const
+{
+    usedBillboardHit = false;
+
+    if (!m_outdoorActorPreviewBillboardSet
+        || spriteFrameIndex == 0
+        || viewWidth <= 0
+        || viewHeight <= 0
+        || pViewMatrix == nullptr
+        || pProjectionMatrix == nullptr)
+    {
+        return false;
+    }
+
+    const float heightScale =
+        pRuntimeActor != nullptr && sourceBillboardHeight > 0
+            ? static_cast<float>(actorHeight) / static_cast<float>(sourceBillboardHeight)
+            : 1.0f;
+    uint32_t frameTimeTicks = useStaticFrame ? 0U : currentAnimationTicks();
+
+    if (pRuntimeActor != nullptr)
+    {
+        const size_t animationIndex = static_cast<size_t>(pRuntimeActor->animation);
+
+        if (animationIndex < actionSpriteFrameIndices.size() && actionSpriteFrameIndices[animationIndex] != 0)
+        {
+            spriteFrameIndex = actionSpriteFrameIndices[animationIndex];
+        }
+
+        frameTimeTicks = static_cast<uint32_t>(std::max(0.0f, pRuntimeActor->animationTimeTicks));
+    }
+
+    const SpriteFrameEntry *pFrame = m_outdoorActorPreviewBillboardSet->spriteFrameTable.getFrame(
+        spriteFrameIndex,
+        frameTimeTicks);
+
+    if (pFrame == nullptr)
+    {
+        return false;
+    }
+
+    const bx::Vec3 cameraPosition = {
+        m_cameraTargetX,
+        m_cameraTargetY,
+        m_cameraTargetZ
+    };
+    const float angleToCamera = std::atan2(
+        static_cast<float>(actorX) - cameraPosition.x,
+        static_cast<float>(actorY) - cameraPosition.y);
+    const float actorYaw = pRuntimeActor != nullptr ? ((Pi * 0.5f) - pRuntimeActor->yawRadians) : 0.0f;
+    const float octantAngle = actorYaw - angleToCamera + Pi + (Pi / 8.0f);
+    const int octant = static_cast<int>(std::floor(octantAngle / (Pi / 4.0f))) & 7;
+    const ResolvedSpriteTexture resolvedTexture = SpriteFrameTable::resolveTexture(*pFrame, octant);
+    const OutdoorBitmapTexture *pBitmapTexture =
+        findActorBillboardTexture(resolvedTexture.textureName, pFrame->paletteId);
+
+    if (pBitmapTexture == nullptr || pBitmapTexture->width <= 0 || pBitmapTexture->height <= 0
+        || pBitmapTexture->pixels.empty())
+    {
+        return false;
+    }
+
+    usedBillboardHit = true;
+
+    const float spriteScale = std::max(pFrame->scale * heightScale, 0.01f);
+    const float worldWidth = static_cast<float>(pBitmapTexture->width) * spriteScale;
+    const float worldHeight = static_cast<float>(pBitmapTexture->height) * spriteScale;
+    const float halfWidth = worldWidth * 0.5f;
+    const bx::Vec3 cameraRight = {pViewMatrix[0], pViewMatrix[4], pViewMatrix[8]};
+    const bx::Vec3 cameraUp = {pViewMatrix[1], pViewMatrix[5], pViewMatrix[9]};
+    const bx::Vec3 center = {
+        static_cast<float>(actorX),
+        static_cast<float>(actorY),
+        static_cast<float>(actorZ) + worldHeight * 0.5f
+    };
+    const bx::Vec3 right = {
+        cameraRight.x * halfWidth,
+        cameraRight.y * halfWidth,
+        cameraRight.z * halfWidth
+    };
+    const bx::Vec3 up = {
+        cameraUp.x * worldHeight * 0.5f,
+        cameraUp.y * worldHeight * 0.5f,
+        cameraUp.z * worldHeight * 0.5f
+    };
+    const bx::Vec3 topLeft = {center.x - right.x + up.x, center.y - right.y + up.y, center.z - right.z + up.z};
+    const bx::Vec3 topRight = {center.x + right.x + up.x, center.y + right.y + up.y, center.z + right.z + up.z};
+    const bx::Vec3 bottomLeft = {center.x - right.x - up.x, center.y - right.y - up.y, center.z - right.z - up.z};
+    const bx::Vec3 bottomRight = {center.x + right.x - up.x, center.y + right.y - up.y, center.z + right.z - up.z};
+
+    float viewProjectionMatrix[16] = {};
+    bx::mtxMul(viewProjectionMatrix, pViewMatrix, pProjectionMatrix);
+    ProjectedPoint projectedTopLeft = {};
+    ProjectedPoint projectedTopRight = {};
+    ProjectedPoint projectedBottomLeft = {};
+    ProjectedPoint projectedBottomRight = {};
+
+    if (!projectWorldPointToScreen(topLeft, viewWidth, viewHeight, viewProjectionMatrix, projectedTopLeft)
+        || !projectWorldPointToScreen(topRight, viewWidth, viewHeight, viewProjectionMatrix, projectedTopRight)
+        || !projectWorldPointToScreen(bottomLeft, viewWidth, viewHeight, viewProjectionMatrix, projectedBottomLeft)
+        || !projectWorldPointToScreen(bottomRight, viewWidth, viewHeight, viewProjectionMatrix, projectedBottomRight))
+    {
+        return false;
+    }
+
+    const float left = std::min(
+        std::min(projectedTopLeft.x, projectedTopRight.x),
+        std::min(projectedBottomLeft.x, projectedBottomRight.x));
+    const float rightEdge = std::max(
+        std::max(projectedTopLeft.x, projectedTopRight.x),
+        std::max(projectedBottomLeft.x, projectedBottomRight.x));
+    const float top = std::min(
+        std::min(projectedTopLeft.y, projectedTopRight.y),
+        std::min(projectedBottomLeft.y, projectedBottomRight.y));
+    const float bottom = std::max(
+        std::max(projectedTopLeft.y, projectedTopRight.y),
+        std::max(projectedBottomLeft.y, projectedBottomRight.y));
+    const float screenWidthPixels = rightEdge - left;
+    const float screenHeightPixels = bottom - top;
+
+    if (mouseX < left || mouseX > rightEdge || mouseY < top || mouseY > bottom)
+    {
+        return false;
+    }
+
+    if (screenWidthPixels >= 5.0f && screenHeightPixels >= 5.0f)
+    {
+        float normalizedU = (mouseX - left) / screenWidthPixels;
+        const float normalizedV = (mouseY - top) / screenHeightPixels;
+
+        if (resolvedTexture.mirrored)
         {
             normalizedU = 1.0f - normalizedU;
         }
@@ -14725,12 +15053,13 @@ void OutdoorGameView::renderActorCollisionOverlays(uint16_t viewId, const bx::Ve
     };
 
     auto appendActorOverlay =
-        [&appendLine](
+        [this, &appendLine](
             int actorX,
             int actorY,
             int actorZ,
             uint16_t actorRadius,
             uint16_t actorHeight,
+            bool isDead,
             bool hostileToParty)
         {
             const uint32_t color = hostileToParty ? 0xff6060ffu : 0xff60ff60u;
@@ -14741,8 +15070,16 @@ void OutdoorGameView::renderActorCollisionOverlays(uint16_t viewId, const bx::Ve
             const float maxX = static_cast<float>(actorX) + halfExtent;
             const float minY = static_cast<float>(actorY) - halfExtent;
             const float maxY = static_cast<float>(actorY) + halfExtent;
-            const float minZ = static_cast<float>(actorZ);
-            const float maxZ = static_cast<float>(actorZ) + height;
+            const float minZ = (m_outdoorMapData.has_value())
+                ? resolveActorAabbBaseZ(
+                    *m_outdoorMapData,
+                    nullptr,
+                    actorX,
+                    actorY,
+                    actorZ,
+                    isDead)
+                : static_cast<float>(actorZ);
+            const float maxZ = minZ + height;
 
             const bx::Vec3 bottom00 = {minX, minY, minZ};
             const bx::Vec3 bottom01 = {minX, maxY, minZ};
@@ -14820,6 +15157,7 @@ void OutdoorGameView::renderActorCollisionOverlays(uint16_t viewId, const bx::Ve
                 pRuntimeActor != nullptr ? pRuntimeActor->z : billboard.z,
                 pRuntimeActor != nullptr ? pRuntimeActor->radius : billboard.radius,
                 pRuntimeActor != nullptr ? pRuntimeActor->height : billboard.height,
+                pRuntimeActor != nullptr ? pRuntimeActor->isDead : false,
                 pRuntimeActor != nullptr ? pRuntimeActor->hostileToParty : !billboard.isFriendly);
         }
     }
@@ -14857,6 +15195,7 @@ void OutdoorGameView::renderActorCollisionOverlays(uint16_t viewId, const bx::Ve
                 pRuntimeActor->z,
                 pRuntimeActor->radius,
                 pRuntimeActor->height,
+                pRuntimeActor->isDead,
                 pRuntimeActor->hostileToParty);
         }
     }
@@ -16923,67 +17262,6 @@ OutdoorGameView::InspectHit OutdoorGameView::inspectBModelFace(
         }
     }
 
-    for (size_t spawnIndex = 0; spawnIndex < outdoorMapData.spawns.size(); ++spawnIndex)
-    {
-        const OutdoorSpawn &spawn = outdoorMapData.spawns[spawnIndex];
-        const float halfExtent = static_cast<float>(std::max<uint16_t>(spawn.radius, 64));
-        const float groundHeight = sampleOutdoorTerrainHeight(
-            outdoorMapData,
-            static_cast<float>(-spawn.x),
-            static_cast<float>(spawn.y)
-        );
-        const int groundedZ = std::max(spawn.z, static_cast<int>(std::lround(groundHeight)));
-        float distance = 0.0f;
-        const bx::Vec3 minBounds = {
-            static_cast<float>(-spawn.x) - halfExtent,
-            static_cast<float>(spawn.y) - halfExtent,
-            static_cast<float>(groundedZ)
-        };
-        const bx::Vec3 maxBounds = {
-            static_cast<float>(-spawn.x) + halfExtent,
-            static_cast<float>(spawn.y) + halfExtent,
-            static_cast<float>(groundedZ) + halfExtent * 2.0f
-        };
-
-        if (intersectRayAabb(rayOrigin, rayDirection, minBounds, maxBounds, distance)
-            && isVisibleInspectDistance(distance)
-            && (!bestHit.hasHit || distance < bestHit.distance))
-        {
-            bestHit.hasHit = true;
-            bestHit.kind = "spawn";
-            bestHit.bModelIndex = spawnIndex;
-            bestHit.faceIndex = 0;
-            bestHit.distance = distance;
-            bestHit.spawnTypeId = spawn.typeId;
-
-            if (m_map)
-            {
-                const SpawnPreview preview =
-                    SpawnPreviewResolver::describe(
-                        *m_map,
-                        m_monsterTable ? &*m_monsterTable : nullptr,
-                        spawn.typeId,
-                        spawn.index,
-                        spawn.attributes,
-                        spawn.group
-                    );
-                bestHit.spawnSummary = preview.summary;
-                bestHit.spawnDetail = preview.detail;
-            }
-
-            if (m_pOutdoorWorldRuntime != nullptr)
-            {
-                const OutdoorWorldRuntime::SpawnPointState *pSpawnState =
-                    m_pOutdoorWorldRuntime->spawnPointState(spawnIndex);
-
-                if (pSpawnState != nullptr)
-                {
-                    bestHit.isFriendly = !pSpawnState->hostileToParty;
-                }
-            }
-        }
-    }
-
     if (m_outdoorDecorationBillboardSet)
     {
         std::vector<size_t> candidateBillboardIndices;
@@ -17152,23 +17430,67 @@ OutdoorGameView::InspectHit OutdoorGameView::inspectBModelFace(
             const int actorZ = pActorState != nullptr ? pActorState->z : actor.z;
             const uint16_t actorRadius = pActorState != nullptr ? pActorState->radius : actor.radius;
             const uint16_t actorHeight = pActorState != nullptr ? pActorState->height : actor.height;
+            const float actorBaseZ = resolveActorAabbBaseZ(
+                outdoorMapData,
+                pActorState,
+                actorX,
+                actorY,
+                actorZ,
+                pActorState != nullptr && pActorState->isDead);
             const float halfExtent = static_cast<float>(std::max<uint16_t>(actorRadius, 64));
             const float height = static_cast<float>(std::max<uint16_t>(actorHeight, 128));
             float distance = 0.0f;
             const bx::Vec3 minBounds = {
                 static_cast<float>(actorX) - halfExtent,
                 static_cast<float>(actorY) - halfExtent,
-                static_cast<float>(actorZ)
+                actorBaseZ
             };
             const bx::Vec3 maxBounds = {
                 static_cast<float>(actorX) + halfExtent,
                 static_cast<float>(actorY) + halfExtent,
-                static_cast<float>(actorZ) + height
+                actorBaseZ + height
             };
 
-            if (intersectRayAabb(rayOrigin, rayDirection, minBounds, maxBounds, distance)
-                && isVisibleInspectDistance(distance)
-                && (!bestHit.hasHit || distance < bestHit.distance))
+            bool hasActorHit = false;
+            bool usedBillboardHit = false;
+            float billboardDistance = 0.0f;
+
+            const bool hasBillboardHit =
+                allowDecorationBillboardHit
+                && hitTestActorBillboard(
+                    pActorState,
+                    actorX,
+                    actorY,
+                    actorZ,
+                    actorHeight,
+                    actor.height,
+                    actor.spriteFrameIndex,
+                    actor.actionSpriteFrameIndices,
+                    actor.useStaticFrame,
+                    mouseX,
+                    mouseY,
+                    viewWidth,
+                    viewHeight,
+                    pViewMatrix,
+                    pProjectionMatrix,
+                    rayOrigin,
+                    rayDirection,
+                    billboardDistance,
+                    usedBillboardHit);
+
+            if (hasBillboardHit && isVisibleInspectDistance(billboardDistance))
+            {
+                distance = billboardDistance;
+                hasActorHit = true;
+            }
+            else if (!usedBillboardHit
+                     && intersectRayAabb(rayOrigin, rayDirection, minBounds, maxBounds, distance)
+                     && isVisibleInspectDistance(distance))
+            {
+                hasActorHit = true;
+            }
+
+            if (hasActorHit && (!bestHit.hasHit || distance < bestHit.distance))
             {
                 bestHit.hasHit = true;
                 bestHit.kind = "actor";
@@ -17221,21 +17543,65 @@ OutdoorGameView::InspectHit OutdoorGameView::inspectBModelFace(
 
             const float halfExtent = static_cast<float>(std::max<uint16_t>(pActorState->radius, 64));
             const float height = static_cast<float>(std::max<uint16_t>(pActorState->height, 128));
+            const float actorBaseZ = resolveActorAabbBaseZ(
+                outdoorMapData,
+                pActorState,
+                pActorState->x,
+                pActorState->y,
+                pActorState->z,
+                pActorState->isDead);
             float distance = 0.0f;
             const bx::Vec3 minBounds = {
                 static_cast<float>(pActorState->x) - halfExtent,
                 static_cast<float>(pActorState->y) - halfExtent,
-                static_cast<float>(pActorState->z)
+                actorBaseZ
             };
             const bx::Vec3 maxBounds = {
                 static_cast<float>(pActorState->x) + halfExtent,
                 static_cast<float>(pActorState->y) + halfExtent,
-                static_cast<float>(pActorState->z) + height
+                actorBaseZ + height
             };
 
-            if (intersectRayAabb(rayOrigin, rayDirection, minBounds, maxBounds, distance)
-                && isVisibleInspectDistance(distance)
-                && (!bestHit.hasHit || distance < bestHit.distance))
+            bool hasActorHit = false;
+            bool usedBillboardHit = false;
+            float billboardDistance = 0.0f;
+
+            const bool hasBillboardHit =
+                allowDecorationBillboardHit
+                && hitTestActorBillboard(
+                    pActorState,
+                    pActorState->x,
+                    pActorState->y,
+                    pActorState->z,
+                    pActorState->height,
+                    pActorState->height,
+                    pActorState->spriteFrameIndex,
+                    pActorState->actionSpriteFrameIndices,
+                    pActorState->useStaticSpriteFrame,
+                    mouseX,
+                    mouseY,
+                    viewWidth,
+                    viewHeight,
+                    pViewMatrix,
+                    pProjectionMatrix,
+                    rayOrigin,
+                    rayDirection,
+                    billboardDistance,
+                    usedBillboardHit);
+
+            if (hasBillboardHit && isVisibleInspectDistance(billboardDistance))
+            {
+                distance = billboardDistance;
+                hasActorHit = true;
+            }
+            else if (!usedBillboardHit
+                     && intersectRayAabb(rayOrigin, rayDirection, minBounds, maxBounds, distance)
+                     && isVisibleInspectDistance(distance))
+            {
+                hasActorHit = true;
+            }
+
+            if (hasActorHit && (!bestHit.hasHit || distance < bestHit.distance))
             {
                 bestHit.hasHit = true;
                 bestHit.kind = "actor";
@@ -17348,6 +17714,14 @@ OutdoorGameView::InspectHit OutdoorGameView::inspectBModelFace(
 
 bool OutdoorGameView::tryActivateInspectEvent(const InspectHit &inspectHit)
 {
+    std::cout << "tryActivateInspectEvent: kind=" << inspectHit.kind
+              << " index=" << inspectHit.bModelIndex
+              << " name=" << inspectHit.name
+              << " npc=" << inspectHit.npcId
+              << " group=" << inspectHit.actorGroup
+              << " dist=" << inspectHit.distance
+              << '\n';
+
     if (inspectHit.kind == "world_item")
     {
         if (m_pOutdoorWorldRuntime == nullptr || m_pOutdoorPartyRuntime == nullptr)
@@ -17428,27 +17802,181 @@ bool OutdoorGameView::tryActivateInspectEvent(const InspectHit &inspectHit)
 
     if (inspectHit.kind == "actor" && m_pOutdoorWorldRuntime != nullptr)
     {
-        size_t runtimeActorIndex = inspectHit.bModelIndex;
+        const std::optional<size_t> runtimeActorIndex = resolveRuntimeActorIndexForInspectHit(inspectHit);
 
-        if (m_outdoorActorPreviewBillboardSet
-            && inspectHit.bModelIndex < m_outdoorActorPreviewBillboardSet->billboards.size())
-        {
-            runtimeActorIndex = m_outdoorActorPreviewBillboardSet->billboards[inspectHit.bModelIndex].runtimeActorIndex;
-        }
-
-        if (runtimeActorIndex != static_cast<size_t>(-1))
+        if (runtimeActorIndex)
         {
             const OutdoorWorldRuntime::MapActorState *pActorState =
-                m_pOutdoorWorldRuntime->mapActorState(runtimeActorIndex);
+                m_pOutdoorWorldRuntime->mapActorState(*runtimeActorIndex);
 
-            if (pActorState != nullptr && pActorState->isDead
-                && m_pOutdoorWorldRuntime->openMapActorCorpseView(runtimeActorIndex))
+            std::cout << "Actor activation target: runtime=" << *runtimeActorIndex
+                      << " name=" << inspectHit.name
+                      << " dead=" << (pActorState != nullptr && pActorState->isDead ? "yes" : "no")
+                      << " invisible=" << (pActorState != nullptr && pActorState->isInvisible ? "yes" : "no")
+                      << " hp=" << (pActorState != nullptr ? pActorState->currentHp : -1)
+                      << " ai=" << (pActorState != nullptr ? static_cast<int>(pActorState->aiState) : -1)
+                      << '\n';
+
+            if (pActorState != nullptr && pActorState->isDead)
             {
-                pEventRuntimeState->lastActivationResult =
-                    "corpse " + std::to_string(runtimeActorIndex) + " opened";
-                std::cout << "Opening corpse loot for actor=" << runtimeActorIndex << '\n';
-                return true;
+                if (!m_pOutdoorWorldRuntime->openMapActorCorpseView(*runtimeActorIndex))
+                {
+                    std::cout << "Corpse activation: runtime=" << *runtimeActorIndex
+                              << " corpse_view=missing\n";
+                    setStatusBarEvent("Nothing here");
+                    pEventRuntimeState->lastActivationResult =
+                        "corpse " + std::to_string(*runtimeActorIndex) + " empty";
+                    return true;
+                }
+
+                const OutdoorWorldRuntime::CorpseViewState *pOpenedCorpseView =
+                    m_pOutdoorWorldRuntime->activeCorpseView();
+                std::cout << "Corpse activation: runtime=" << *runtimeActorIndex
+                          << " corpse_view=open"
+                          << " entries=" << (pOpenedCorpseView != nullptr ? pOpenedCorpseView->items.size() : 0)
+                          << " title=" << (pOpenedCorpseView != nullptr ? pOpenedCorpseView->title : std::string("-"))
+                          << '\n';
+
+                int lootedGoldAmount = 0;
+                std::string firstLootedItemName;
+                bool lootedAny = false;
+                bool blockedByInventory = false;
+
+                while (const OutdoorWorldRuntime::CorpseViewState *pCorpseView = m_pOutdoorWorldRuntime->activeCorpseView())
+                {
+                    if (pCorpseView->items.empty())
+                    {
+                        break;
+                    }
+
+                    const OutdoorWorldRuntime::ChestItemState &item = pCorpseView->items.front();
+
+                    if (item.isGold)
+                    {
+                        OutdoorWorldRuntime::ChestItemState removedItem = {};
+
+                        if (!m_pOutdoorWorldRuntime->takeActiveCorpseItem(0, removedItem))
+                        {
+                            break;
+                        }
+
+                        const int goldAmount = static_cast<int>(removedItem.goldAmount);
+                        m_pOutdoorPartyRuntime->party().addGold(goldAmount);
+                        lootedGoldAmount += goldAmount;
+                        lootedAny = lootedAny || goldAmount > 0;
+                        continue;
+                    }
+
+                    const ItemDefinition *pItemDefinition =
+                        m_pItemTable != nullptr ? m_pItemTable->get(item.itemId) : nullptr;
+                    const std::string itemName =
+                        pItemDefinition != nullptr
+                        ? (!pItemDefinition->unidentifiedName.empty()
+                            && pItemDefinition->unidentifiedName != "0"
+                            && pItemDefinition->unidentifiedName != "N / A"
+                            ? pItemDefinition->unidentifiedName
+                            : pItemDefinition->name)
+                        : "item";
+
+                    if (m_pOutdoorPartyRuntime->party().tryGrantItem(item.itemId, item.quantity))
+                    {
+                        OutdoorWorldRuntime::ChestItemState removedItem = {};
+
+                        if (!m_pOutdoorWorldRuntime->takeActiveCorpseItem(0, removedItem))
+                        {
+                            break;
+                        }
+
+                        if (firstLootedItemName.empty())
+                        {
+                            firstLootedItemName = itemName;
+                        }
+
+                        lootedAny = true;
+                        continue;
+                    }
+
+                    if (!m_heldInventoryItem.active)
+                    {
+                        OutdoorWorldRuntime::ChestItemState removedItem = {};
+
+                        if (!m_pOutdoorWorldRuntime->takeActiveCorpseItem(0, removedItem))
+                        {
+                            break;
+                        }
+
+                        m_heldInventoryItem.active = true;
+                        m_heldInventoryItem.item = {};
+                        m_heldInventoryItem.item.objectDescriptionId = removedItem.itemId;
+                        m_heldInventoryItem.item.quantity = removedItem.quantity;
+                        m_heldInventoryItem.item.width = removedItem.width;
+                        m_heldInventoryItem.item.height = removedItem.height;
+                        m_heldInventoryItem.item.gridX = removedItem.gridX;
+                        m_heldInventoryItem.item.gridY = removedItem.gridY;
+                        m_heldInventoryItem.grabCellOffsetX = 0;
+                        m_heldInventoryItem.grabCellOffsetY = 0;
+                        m_heldInventoryItem.grabOffsetX = 0.0f;
+                        m_heldInventoryItem.grabOffsetY = 0.0f;
+
+                        if (firstLootedItemName.empty())
+                        {
+                            firstLootedItemName = itemName;
+                        }
+
+                        lootedAny = true;
+                        blockedByInventory = true;
+                        break;
+                    }
+
+                    blockedByInventory = true;
+                    break;
+                }
+
+                if (!firstLootedItemName.empty())
+                {
+                    setStatusBarEvent(formatFoundItemStatusText(lootedGoldAmount, firstLootedItemName));
+                    pEventRuntimeState->lastActivationResult =
+                        "corpse " + std::to_string(*runtimeActorIndex) + " auto-looted item";
+                }
+                else if (lootedGoldAmount > 0)
+                {
+                    setStatusBarEvent(formatFoundGoldStatusText(lootedGoldAmount));
+                    pEventRuntimeState->lastActivationResult =
+                        "corpse " + std::to_string(*runtimeActorIndex) + " auto-looted gold";
+                }
+                else if (blockedByInventory)
+                {
+                    const std::string partyStatus = m_pOutdoorPartyRuntime->party().lastStatus();
+                    setStatusBarEvent(partyStatus.empty() ? "Pack is Full!" : partyStatus);
+                    pEventRuntimeState->lastActivationResult =
+                        "corpse " + std::to_string(*runtimeActorIndex) + " blocked by inventory";
+                }
+                else
+                {
+                    setStatusBarEvent("Nothing here");
+                    pEventRuntimeState->lastActivationResult =
+                        "corpse " + std::to_string(*runtimeActorIndex) + " empty";
+                }
+
+                std::cout << "Looting corpse for actor=" << *runtimeActorIndex
+                          << " gold=" << lootedGoldAmount
+                          << " item=" << (firstLootedItemName.empty() ? "-" : firstLootedItemName)
+                          << " blocked=" << (blockedByInventory ? "yes" : "no") << '\n';
+                return lootedAny || blockedByInventory;
             }
+
+            std::cout << "Actor activation fallback: runtime=" << *runtimeActorIndex
+                      << " dead=no"
+                      << " npc=" << inspectHit.npcId
+                      << " group=" << inspectHit.actorGroup
+                      << '\n';
+        }
+        else
+        {
+            std::cout << "Actor activation fallback: runtime unresolved"
+                      << " npc=" << inspectHit.npcId
+                      << " group=" << inspectHit.actorGroup
+                      << '\n';
         }
     }
 
@@ -17467,19 +17995,12 @@ bool OutdoorGameView::tryActivateInspectEvent(const InspectHit &inspectHit)
                 return;
             }
 
-            size_t runtimeActorIndex = inspectHit.bModelIndex;
+            const std::optional<size_t> runtimeActorIndex = resolveRuntimeActorIndexForInspectHit(inspectHit);
 
-            if (m_outdoorActorPreviewBillboardSet
-                && inspectHit.bModelIndex < m_outdoorActorPreviewBillboardSet->billboards.size())
-            {
-                runtimeActorIndex =
-                    m_outdoorActorPreviewBillboardSet->billboards[inspectHit.bModelIndex].runtimeActorIndex;
-            }
-
-            if (runtimeActorIndex != static_cast<size_t>(-1))
+            if (runtimeActorIndex)
             {
                 m_pOutdoorWorldRuntime->notifyPartyContactWithMapActor(
-                    runtimeActorIndex,
+                    *runtimeActorIndex,
                     moveState.x,
                     moveState.y,
                     moveState.footZ);
@@ -17515,6 +18036,7 @@ bool OutdoorGameView::tryActivateInspectEvent(const InspectHit &inspectHit)
 
             if (!newsText || newsText->empty())
             {
+                std::cout << "Actor generic dialog fallback: resolution found but no news text\n";
                 return false;
             }
 
@@ -17534,6 +18056,8 @@ bool OutdoorGameView::tryActivateInspectEvent(const InspectHit &inspectHit)
                       << " news=" << resolution->newsId << '\n';
             return true;
         }
+
+        std::cout << "Actor generic dialog fallback: no resolution\n";
     }
 
     std::optional<EventRuntimeState::ActiveDecorationContext> decorationContext;
@@ -17675,19 +18199,12 @@ bool OutdoorGameView::canActivateInspectEvent(const InspectHit &inspectHit) cons
     {
         if (m_pOutdoorWorldRuntime != nullptr)
         {
-            size_t runtimeActorIndex = inspectHit.bModelIndex;
+            const std::optional<size_t> runtimeActorIndex = resolveRuntimeActorIndexForInspectHit(inspectHit);
 
-            if (m_outdoorActorPreviewBillboardSet
-                && inspectHit.bModelIndex < m_outdoorActorPreviewBillboardSet->billboards.size())
-            {
-                runtimeActorIndex =
-                    m_outdoorActorPreviewBillboardSet->billboards[inspectHit.bModelIndex].runtimeActorIndex;
-            }
-
-            if (runtimeActorIndex != static_cast<size_t>(-1))
+            if (runtimeActorIndex)
             {
                 const OutdoorWorldRuntime::MapActorState *pActorState =
-                    m_pOutdoorWorldRuntime->mapActorState(runtimeActorIndex);
+                    m_pOutdoorWorldRuntime->mapActorState(*runtimeActorIndex);
 
                 if (pActorState != nullptr && pActorState->isDead)
                 {
@@ -17745,6 +18262,29 @@ bool OutdoorGameView::canActivateInspectEvent(const InspectHit &inspectHit) cons
     }
 
     return false;
+}
+
+bool OutdoorGameView::isMouseInteractionInspectHitInRange(const InspectHit &inspectHit) const
+{
+    if (!inspectHit.hasHit)
+    {
+        return false;
+    }
+
+    if (inspectHit.kind == "decoration")
+    {
+        if (!m_outdoorDecorationBillboardSet
+            || inspectHit.bModelIndex >= m_outdoorDecorationBillboardSet->billboards.size())
+        {
+            return false;
+        }
+
+        const DecorationBillboard &decoration = m_outdoorDecorationBillboardSet->billboards[inspectHit.bModelIndex];
+        return inspectHit.distance - static_cast<float>(std::max<int16_t>(0, decoration.radius))
+            < OeMouseInteractionDistance;
+    }
+
+    return inspectHit.distance < OeMouseInteractionDistance;
 }
 
 bool OutdoorGameView::tryTriggerLocalEventById(uint16_t eventId)
@@ -19904,7 +20444,7 @@ void OutdoorGameView::updateCameraFromInput(float deltaSeconds)
                     pKeyboardState[SDL_SCANCODE_S],
                     pKeyboardState[SDL_SCANCODE_A],
                     pKeyboardState[SDL_SCANCODE_D],
-                    pKeyboardState[SDL_SCANCODE_SPACE],
+                    pKeyboardState[SDL_SCANCODE_X],
                     pKeyboardState[SDL_SCANCODE_LCTRL] || pKeyboardState[SDL_SCANCODE_RCTRL],
                     turboSpeed,
                     m_cameraYawRadians

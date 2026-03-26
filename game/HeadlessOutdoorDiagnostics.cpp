@@ -4665,6 +4665,105 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
     );
 
     runCase(
+        "party_attack_on_actor_3_lethal_damage_stays_deadly_while_inactive",
+        [&](std::string &failure)
+        {
+            MapAssetInfo modifiedMap = *selectedMap;
+            modifiedMap.outdoorMapDeltaData = *selectedMap->outdoorMapDeltaData;
+            modifiedMap.outdoorMapDeltaData->locationInfo.lastRespawnDay = 1;
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, modifiedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            const OutdoorWorldRuntime::MapActorState *pBefore = scenario.world.mapActorState(3);
+
+            if (pBefore == nullptr)
+            {
+                failure = "actor 3 missing";
+                return false;
+            }
+
+            if (!scenario.world.applyPartyAttackToMapActor(
+                    3,
+                    pBefore->currentHp,
+                    pBefore->preciseX + 64.0f,
+                    pBefore->preciseY,
+                    pBefore->preciseZ))
+            {
+                failure = "lethal party attack did not apply";
+                return false;
+            }
+
+            bool sawDeadState = false;
+
+            for (int step = 0; step < 256; ++step)
+            {
+                scenario.world.updateMapActors(
+                    1.0f / 128.0f,
+                    pBefore->preciseX + 20000.0f,
+                    pBefore->preciseY + 20000.0f,
+                    pBefore->preciseZ);
+
+                const OutdoorWorldRuntime::MapActorState *pAfterUpdate = scenario.world.mapActorState(3);
+
+                if (pAfterUpdate == nullptr)
+                {
+                    failure = "actor 3 missing during inactive dying update";
+                    return false;
+                }
+
+                if (pAfterUpdate->currentHp != 0)
+                {
+                    failure = "actor 3 regained hp after lethal hit";
+                    return false;
+                }
+
+                if (!pAfterUpdate->isDead)
+                {
+                    if (pAfterUpdate->aiState != OutdoorWorldRuntime::ActorAiState::Dying
+                        || pAfterUpdate->animation != OutdoorWorldRuntime::ActorAnimation::Dying)
+                    {
+                        failure = "inactive lethal actor left dying state before death";
+                        return false;
+                    }
+
+                    if (std::abs(pAfterUpdate->velocityX) > 0.01f
+                        || std::abs(pAfterUpdate->velocityY) > 0.01f
+                        || std::abs(pAfterUpdate->velocityZ) > 0.01f)
+                    {
+                        failure = "inactive lethal actor kept moving";
+                        return false;
+                    }
+
+                    continue;
+                }
+
+                if (pAfterUpdate->aiState != OutdoorWorldRuntime::ActorAiState::Dead
+                    || pAfterUpdate->animation != OutdoorWorldRuntime::ActorAnimation::Dead)
+                {
+                    failure = "inactive lethal actor dead state mismatch";
+                    return false;
+                }
+
+                sawDeadState = true;
+                break;
+            }
+
+            if (!sawDeadState)
+            {
+                failure = "inactive lethal actor never reached dead state";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
         "party_attack_on_actor_3_aggros_nearby_lizard_guard",
         [&](std::string &failure)
         {

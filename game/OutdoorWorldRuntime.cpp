@@ -3819,6 +3819,33 @@ void OutdoorWorldRuntime::updateMapActors(float deltaSeconds, float partyX, floa
                 continue;
             }
 
+            if (actor.currentHp <= 0)
+            {
+                actor.moveDirectionX = 0.0f;
+                actor.moveDirectionY = 0.0f;
+                actor.velocityX = 0.0f;
+                actor.velocityY = 0.0f;
+                actor.velocityZ = 0.0f;
+                actor.attackImpactTriggered = false;
+
+                if (actor.aiState == ActorAiState::Dying)
+                {
+                    actor.animation = ActorAnimation::Dying;
+                    actor.actionSeconds = std::max(0.0f, actor.actionSeconds - ActorUpdateStepSeconds);
+
+                    if (actor.actionSeconds <= 0.0f)
+                    {
+                        setMapActorDead(actorIndex, true, false);
+                    }
+                }
+                else
+                {
+                    setMapActorDead(actorIndex, true, false);
+                }
+
+                continue;
+            }
+
             const MonsterTable::MonsterStatsEntry *pStats = m_pMonsterTable->findStatsById(actor.monsterId);
 
             if (pStats == nullptr)

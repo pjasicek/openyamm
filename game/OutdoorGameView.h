@@ -542,6 +542,7 @@ private:
         DecorationPickMode decorationPickMode
     );
     const OutdoorBitmapTexture *findDecorationBillboardTexture(const std::string &textureName) const;
+    const OutdoorBitmapTexture *findActorBillboardTexture(const std::string &textureName, int16_t paletteId) const;
     bool hitTestDecorationBillboard(
         const DecorationBillboard &billboard,
         const BillboardTextureHandle &texture,
@@ -555,7 +556,28 @@ private:
         const bx::Vec3 &rayOrigin,
         const bx::Vec3 &rayDirection,
         float &distance) const;
+    bool hitTestActorBillboard(
+        const OutdoorWorldRuntime::MapActorState *pRuntimeActor,
+        int actorX,
+        int actorY,
+        int actorZ,
+        uint16_t actorHeight,
+        uint16_t sourceBillboardHeight,
+        uint16_t spriteFrameIndex,
+        const std::array<uint16_t, 8> &actionSpriteFrameIndices,
+        bool useStaticFrame,
+        float mouseX,
+        float mouseY,
+        int viewWidth,
+        int viewHeight,
+        const float *pViewMatrix,
+        const float *pProjectionMatrix,
+        const bx::Vec3 &rayOrigin,
+        const bx::Vec3 &rayDirection,
+        float &distance,
+        bool &usedBillboardHit) const;
     bool canActivateInspectEvent(const InspectHit &inspectHit) const;
+    bool isMouseInteractionInspectHitInRange(const InspectHit &inspectHit) const;
     bool tryActivateInspectEvent(const InspectHit &inspectHit);
     bool tryTriggerLocalEventById(uint16_t eventId);
     void applyPendingCombatEvents();
@@ -809,6 +831,7 @@ private:
     bool m_toggleInspectLatch;
     bool m_triggerMeteorLatch;
     bool m_debugDialogueLatch;
+    bool m_keyboardUseLatch;
     bool m_activateInspectLatch;
     bool m_inspectMouseActivateLatch;
     bool m_attackInspectLatch;
