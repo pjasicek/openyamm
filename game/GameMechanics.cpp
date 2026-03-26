@@ -2,6 +2,7 @@
 
 #include "game/CharacterDollTable.h"
 #include "game/ItemTable.h"
+#include "game/SpellTable.h"
 
 #include <algorithm>
 #include <array>
@@ -12,6 +13,12 @@ namespace OpenYAMM::Game
 namespace
 {
 constexpr int GameStartingYear = 1168;
+constexpr float OeCharacterMeleeAttackDistance = 407.2f;
+constexpr float OeCharacterRangedAttackDistance = 5120.0f;
+constexpr float OeRealtimeRecoveryScale = 2.133333333333333f;
+constexpr int OeMinimumMeleeRecoveryTicks = 30;
+constexpr int OeMinimumRangedRecoveryTicks = 5;
+constexpr int OeMinimumBlasterRecoveryTicks = 5;
 
 constexpr int ParameterBonusThresholds[29] = {
     500, 400, 350, 300, 275, 250, 225, 200, 175, 150, 125, 100, 75, 50, 40,
@@ -174,6 +181,33 @@ bool tryParseDamageDice(const std::string &text, DamageDice &damageDice)
     return damageDice.rolls > 0 && damageDice.sides > 0;
 }
 
+bool tryParseSpellIdToken(const std::string &text, int &spellId)
+{
+    if (text.size() < 2 || (text[0] != 'S' && text[0] != 's'))
+    {
+        return false;
+    }
+
+    for (size_t index = 1; index < text.size(); ++index)
+    {
+        if (!std::isdigit(static_cast<unsigned char>(text[index])))
+        {
+            return false;
+        }
+    }
+
+    try
+    {
+        spellId = std::stoi(text.substr(1));
+    }
+    catch (...)
+    {
+        return false;
+    }
+
+    return spellId > 0;
+}
+
 int parameterBonus(int value)
 {
     for (size_t index = 0; index < std::size(ParameterBonusThresholds); ++index)
@@ -224,6 +258,130 @@ int masteryMultiplier(SkillMastery mastery, int novice, int expert, int master, 
         default:
             return 0;
     }
+}
+
+float ticksToRecoverySeconds(int ticks)
+{
+    return std::max(0.0f, static_cast<float>(ticks) / 128.0f * OeRealtimeRecoveryScale);
+}
+
+int baseRecoveryTicksForSkillName(const std::string &skillName)
+{
+    if (skillName == "Unarmed")
+    {
+        return 60;
+    }
+
+    if (skillName == "Sword")
+    {
+        return 90;
+    }
+
+    if (skillName == "Dagger")
+    {
+        return 60;
+    }
+
+    if (skillName == "Axe")
+    {
+        return 100;
+    }
+
+    if (skillName == "Spear" || skillName == "Mace")
+    {
+        return 80;
+    }
+
+    if (skillName == "Bow" || skillName == "Staff")
+    {
+        return 100;
+    }
+
+    if (skillName == "Blaster")
+    {
+        return 30;
+    }
+
+    if (skillName == "Shield" || skillName == "LeatherArmor")
+    {
+        return 10;
+    }
+
+    if (skillName == "ChainArmor")
+    {
+        return 20;
+    }
+
+    if (skillName == "PlateArmor")
+    {
+        return 30;
+    }
+
+    return 100;
+}
+
+float armorRecoveryMultiplier(const Character &character, const std::string &skillName)
+{
+    const SkillMastery mastery = skillMastery(character, skillName);
+
+    if (skillName == "LeatherArmor")
+    {
+        return 1.0f;
+    }
+
+    if (skillName == "ChainArmor")
+    {
+        switch (mastery)
+        {
+            case SkillMastery::Grandmaster:
+            case SkillMastery::Master:
+                return 0.0f;
+
+            case SkillMastery::Expert:
+                return 0.5f;
+
+            case SkillMastery::Normal:
+            case SkillMastery::None:
+            default:
+                return 1.0f;
+        }
+    }
+
+    if (skillName == "PlateArmor")
+    {
+        switch (mastery)
+        {
+            case SkillMastery::Grandmaster:
+                return 0.0f;
+
+            case SkillMastery::Master:
+            case SkillMastery::Expert:
+                return 0.5f;
+
+            case SkillMastery::Normal:
+            case SkillMastery::None:
+            default:
+                return 1.0f;
+        }
+    }
+
+    if (skillName == "Shield")
+    {
+        switch (mastery)
+        {
+            case SkillMastery::Grandmaster:
+            case SkillMastery::Master:
+            case SkillMastery::Expert:
+                return 0.0f;
+
+            case SkillMastery::Normal:
+            case SkillMastery::None:
+            default:
+                return 1.0f;
+        }
+    }
+
+    return 1.0f;
 }
 
 const ItemDefinition *getEquippedItem(const Character &character, EquipmentSlot slot, const ItemTable *pItemTable)
@@ -885,6 +1043,164 @@ std::string resolveConditionText(const Character &character)
 
     return "Good";
 }
+
+float resolveAttackRecoverySeconds(
+    const Character &character,
+    const EquippedItems &equippedItems,
+    const SpellTable *pSpellTable,
+    CharacterAttackMode mode)
+{
+    bool usesBow = mode == CharacterAttackMode::Bow;
+    bool usesBlaster = mode == CharacterAttackMode::Blaster;
+    const ItemDefinition *pWeapon = nullptr;
+    int weaponRecoveryTicks = baseRecoveryTicksForSkillName("Staff");
+
+    if (usesBow)
+    {
+        pWeapon = equippedItems.pBow;
+
+        if (pWeapon != nullptr)
+        {
+            weaponRecoveryTicks = baseRecoveryTicksForSkillName(canonicalSkillName(pWeapon->skillGroup));
+        }
+    }
+    else if (isUnarmed(equippedItems) && skillLevel(character, "Unarmed") > 0)
+    {
+        weaponRecoveryTicks = baseRecoveryTicksForSkillName("Unarmed");
+    }
+    else if (equippedItems.pMainHand != nullptr)
+    {
+        pWeapon = equippedItems.pMainHand;
+
+        if (mode == CharacterAttackMode::Wand)
+        {
+            int spellId = 0;
+
+            if (pSpellTable != nullptr
+                && tryParseSpellIdToken(equippedItems.pMainHand->mod1, spellId))
+            {
+                const SpellEntry *pSpellEntry = pSpellTable->findById(spellId);
+
+                if (pSpellEntry != nullptr)
+                {
+                    weaponRecoveryTicks = std::max(pSpellEntry->expertRecoveryTicks, 1);
+                }
+            }
+        }
+        else
+        {
+            weaponRecoveryTicks = baseRecoveryTicksForSkillName(canonicalSkillName(equippedItems.pMainHand->skillGroup));
+        }
+    }
+
+    int shieldRecoveryTicks = 0;
+
+    if (equippedItems.pOffHand != nullptr)
+    {
+        const std::string offHandSkillName = canonicalSkillName(equippedItems.pOffHand->skillGroup);
+
+        if (isShieldItem(*equippedItems.pOffHand))
+        {
+            shieldRecoveryTicks = static_cast<int>(std::lround(
+                static_cast<float>(baseRecoveryTicksForSkillName(offHandSkillName))
+                * armorRecoveryMultiplier(character, "Shield")));
+        }
+        else if (baseRecoveryTicksForSkillName(offHandSkillName) > weaponRecoveryTicks)
+        {
+            pWeapon = equippedItems.pOffHand;
+            weaponRecoveryTicks = baseRecoveryTicksForSkillName(offHandSkillName);
+        }
+    }
+
+    int armorRecoveryTicks = 0;
+
+    if (equippedItems.pArmor != nullptr)
+    {
+        const std::string armorSkillName = canonicalSkillName(equippedItems.pArmor->skillGroup);
+        armorRecoveryTicks = static_cast<int>(std::lround(
+            static_cast<float>(baseRecoveryTicksForSkillName(armorSkillName))
+            * armorRecoveryMultiplier(character, armorSkillName)));
+    }
+
+    const int actualSpeed = static_cast<int>(character.speed)
+        + character.permanentBonuses.speed
+        + character.magicalBonuses.speed;
+    const int playerSpeedRecoveryReduction = parameterBonus(actualSpeed);
+    int weaponSkillRecoveryReduction = 0;
+
+    if (pWeapon != nullptr)
+    {
+        const std::string weaponSkillName = canonicalSkillName(pWeapon->skillGroup);
+        const SkillMastery weaponMastery = skillMastery(character, weaponSkillName);
+
+        if ((weaponSkillName == "Sword" || weaponSkillName == "Axe" || weaponSkillName == "Bow")
+            && weaponMastery >= SkillMastery::Expert)
+        {
+            weaponSkillRecoveryReduction = skillLevel(character, weaponSkillName);
+        }
+    }
+
+    int armsmasterRecoveryReduction = 0;
+
+    if (!usesBow && !usesBlaster)
+    {
+        armsmasterRecoveryReduction = skillLevel(character, "Armsmaster");
+
+        if (skillMastery(character, "Armsmaster") == SkillMastery::Grandmaster)
+        {
+            armsmasterRecoveryReduction *= 2;
+        }
+    }
+
+    int recoveryTicks = weaponRecoveryTicks + shieldRecoveryTicks + armorRecoveryTicks
+        - playerSpeedRecoveryReduction - weaponSkillRecoveryReduction - armsmasterRecoveryReduction;
+    int minimumRecoveryTicks = OeMinimumMeleeRecoveryTicks;
+
+    if (mode == CharacterAttackMode::Blaster)
+    {
+        minimumRecoveryTicks = OeMinimumBlasterRecoveryTicks;
+    }
+    else if (mode == CharacterAttackMode::Bow || mode == CharacterAttackMode::Wand)
+    {
+        minimumRecoveryTicks = OeMinimumRangedRecoveryTicks;
+    }
+
+    return ticksToRecoverySeconds(std::max(recoveryTicks, minimumRecoveryTicks));
+}
+
+int randomInclusive(std::mt19937 &rng, int minimumValue, int maximumValue)
+{
+    if (maximumValue < minimumValue)
+    {
+        std::swap(minimumValue, maximumValue);
+    }
+
+    return std::uniform_int_distribution<int>(minimumValue, maximumValue)(rng);
+}
+
+bool characterAttackHitsArmorClass(
+    int targetArmorClass,
+    int attackBonus,
+    int distanceMode,
+    int skillModifier,
+    std::mt19937 &rng)
+{
+    const int rollUpperBound = std::max(1, targetArmorClass + 2 * attackBonus + 30);
+    const int positiveModifier =
+        skillModifier + std::uniform_int_distribution<int>(0, rollUpperBound - 1)(rng);
+    int negativeModifier = targetArmorClass + 15;
+
+    if (distanceMode == 2)
+    {
+        negativeModifier = ((targetArmorClass + 15) / 2) + targetArmorClass + 15;
+    }
+    else if (distanceMode >= 3)
+    {
+        negativeModifier = 2 * targetArmorClass + 30;
+    }
+
+    return positiveModifier > negativeModifier;
+}
 }
 
 CharacterSheetSummary GameMechanics::buildCharacterSheetSummary(const Character &character, const ItemTable *pItemTable)
@@ -1040,6 +1356,224 @@ CharacterSheetSummary GameMechanics::buildCharacterSheetSummary(const Character 
     return summary;
 }
 
+CharacterAttackProfile GameMechanics::buildCharacterAttackProfile(
+    const Character &character,
+    const ItemTable *pItemTable,
+    const SpellTable *pSpellTable)
+{
+    CharacterAttackProfile profile = {};
+    const EquippedItems equippedItems = resolveEquippedItems(character, pItemTable);
+    const CharacterSheetSummary summary = buildCharacterSheetSummary(character, pItemTable);
+
+    profile.canMelee = true;
+    profile.hasBow = equippedItems.pBow != nullptr && isRangedWeapon(*equippedItems.pBow);
+    profile.hasWand = equippedItems.pMainHand != nullptr && isWandWeapon(*equippedItems.pMainHand);
+    profile.hasBlaster =
+        (equippedItems.pBow != nullptr && canonicalSkillName(equippedItems.pBow->skillGroup) == "Blaster")
+        || (equippedItems.pMainHand != nullptr && canonicalSkillName(equippedItems.pMainHand->skillGroup) == "Blaster");
+    profile.canShoot = profile.hasBow || profile.hasWand || profile.hasBlaster;
+    profile.meleeAttackBonus = summary.combat.attack;
+    profile.meleeRecoverySeconds = resolveAttackRecoverySeconds(
+        character,
+        equippedItems,
+        pSpellTable,
+        CharacterAttackMode::Melee);
+    profile.rangedRecoverySeconds = resolveAttackRecoverySeconds(
+        character,
+        equippedItems,
+        pSpellTable,
+        profile.hasBlaster
+            ? CharacterAttackMode::Blaster
+            : (profile.hasWand ? CharacterAttackMode::Wand : CharacterAttackMode::Bow));
+
+    const int actualMight = static_cast<int>(character.might)
+        + character.permanentBonuses.might
+        + character.magicalBonuses.might;
+    const int meleeMightBonus = parameterBonus(actualMight);
+    profile.meleeMinDamage = std::max(
+        1,
+        meleeMightBonus
+            + resolveMeleeMinDamageItemBonus(equippedItems)
+            + resolveMeleeDamageSkillBonus(character, equippedItems)
+            + character.permanentBonuses.meleeDamage
+            + character.magicalBonuses.meleeDamage);
+    profile.meleeMaxDamage = std::max(
+        1,
+        meleeMightBonus
+            + resolveMeleeMaxDamageItemBonus(equippedItems)
+            + resolveMeleeDamageSkillBonus(character, equippedItems)
+            + character.permanentBonuses.meleeDamage
+            + character.magicalBonuses.meleeDamage);
+
+    if (summary.combat.shoot.has_value())
+    {
+        profile.rangedAttackBonus = summary.combat.shoot;
+        const std::string rangedSkillName = canonicalSkillName(
+            equippedItems.pBow != nullptr ? equippedItems.pBow->skillGroup : std::string());
+        profile.rangedSkillLevel = static_cast<uint32_t>(std::max(0, skillLevel(character, rangedSkillName)));
+        profile.rangedSkillMastery = static_cast<uint32_t>(skillMastery(character, rangedSkillName));
+        profile.rangedMinDamage = std::max(
+            0,
+            resolveRangedDamageSkillBonus(character, equippedItems)
+                + (equippedItems.pBow != nullptr ? weaponMinDamage(*equippedItems.pBow) : 0)
+                + character.permanentBonuses.rangedDamage
+                + character.magicalBonuses.rangedDamage);
+        profile.rangedMaxDamage = std::max(
+            profile.rangedMinDamage,
+            resolveRangedDamageSkillBonus(character, equippedItems)
+                + (equippedItems.pBow != nullptr ? weaponMaxDamage(*equippedItems.pBow) : 0)
+                + character.permanentBonuses.rangedDamage
+                + character.magicalBonuses.rangedDamage);
+    }
+    else if (profile.hasWand || profile.hasBlaster)
+    {
+        profile.rangedAttackBonus = summary.combat.attack;
+        const std::string rangedSkillName =
+            profile.hasBlaster ? "Blaster" : canonicalSkillName(
+                equippedItems.pMainHand != nullptr ? equippedItems.pMainHand->skillGroup : std::string());
+        profile.rangedSkillLevel = static_cast<uint32_t>(std::max(0, skillLevel(character, rangedSkillName)));
+        profile.rangedSkillMastery = static_cast<uint32_t>(skillMastery(character, rangedSkillName));
+        profile.rangedMinDamage = profile.meleeMinDamage;
+        profile.rangedMaxDamage = profile.meleeMaxDamage;
+
+        if (profile.hasWand && equippedItems.pMainHand != nullptr)
+        {
+            int spellId = 0;
+
+            if (tryParseSpellIdToken(equippedItems.pMainHand->mod1, spellId))
+            {
+                profile.wandSpellId = spellId;
+            }
+        }
+    }
+
+    return profile;
+}
+
+CharacterAttackResult GameMechanics::resolveCharacterAttackAgainstArmorClass(
+    const Character &character,
+    const ItemTable *pItemTable,
+    const SpellTable *pSpellTable,
+    int targetArmorClass,
+    float targetDistance,
+    std::mt19937 &rng)
+{
+    CharacterAttackResult result = {};
+    const CharacterAttackProfile profile = buildCharacterAttackProfile(character, pItemTable, pSpellTable);
+    const bool inMeleeRange = targetDistance <= OeCharacterMeleeAttackDistance;
+    const bool inRangedRange = targetDistance <= OeCharacterRangedAttackDistance;
+    result.targetArmorClass = std::max(0, targetArmorClass);
+    result.targetDistance = std::max(0.0f, targetDistance);
+
+    if (profile.hasBlaster && profile.rangedAttackBonus.has_value())
+    {
+        result.mode = CharacterAttackMode::Blaster;
+    }
+    else if (profile.hasWand && profile.rangedAttackBonus.has_value())
+    {
+        result.mode = CharacterAttackMode::Wand;
+    }
+    else if (inMeleeRange)
+    {
+        result.mode = CharacterAttackMode::Melee;
+    }
+    else if (profile.hasBow && profile.rangedAttackBonus.has_value())
+    {
+        result.mode = CharacterAttackMode::Bow;
+    }
+
+    if (result.mode == CharacterAttackMode::None)
+    {
+        result.mode = CharacterAttackMode::Melee;
+        result.recoverySeconds = profile.meleeRecoverySeconds;
+        result.attackSoundHook = "melee_swing";
+        result.voiceHook = "attack";
+        return result;
+    }
+
+    if (result.mode == CharacterAttackMode::Melee)
+    {
+        result.canAttack = inMeleeRange;
+        result.attackBonus = profile.meleeAttackBonus;
+        result.recoverySeconds = profile.meleeRecoverySeconds;
+        result.attackSoundHook = "melee_swing";
+    }
+    else
+    {
+        result.canAttack = inRangedRange && profile.rangedAttackBonus.has_value();
+        result.attackBonus = profile.rangedAttackBonus.value_or(profile.meleeAttackBonus);
+        result.recoverySeconds = profile.rangedRecoverySeconds;
+        result.resolvesOnImpact = true;
+        result.skillLevel = profile.rangedSkillLevel;
+        result.skillMastery = profile.rangedSkillMastery;
+        result.spellId = profile.wandSpellId;
+        result.attackSoundHook =
+            result.mode == CharacterAttackMode::Bow
+                ? "bow_shot"
+                : (result.mode == CharacterAttackMode::Blaster ? "blaster_shot" : "wand_cast");
+    }
+
+    result.voiceHook = "attack";
+
+    if (!result.canAttack)
+    {
+        return result;
+    }
+
+    if (result.mode != CharacterAttackMode::Melee)
+    {
+        result.hit = characterRangedAttackHitsArmorClass(result.targetArmorClass, result.attackBonus, targetDistance, rng);
+    }
+    else
+    {
+        result.hit = characterAttackHitsArmorClass(result.targetArmorClass, result.attackBonus, 0, 0, rng);
+
+        if (!result.hit)
+        {
+            result.voiceHook = "attack_miss";
+            return result;
+        }
+    }
+
+    if (!result.hit)
+    {
+        result.voiceHook = "attack_miss";
+    }
+
+    const int minimumDamage =
+        result.mode == CharacterAttackMode::Melee ? profile.meleeMinDamage : profile.rangedMinDamage;
+    const int maximumDamage =
+        result.mode == CharacterAttackMode::Melee ? profile.meleeMaxDamage : profile.rangedMaxDamage;
+    result.damage = randomInclusive(rng, minimumDamage, maximumDamage);
+
+    if (!result.resolvesOnImpact)
+    {
+        result.damageSoundHook = "target_hit";
+    }
+
+    return result;
+}
+
+bool GameMechanics::characterRangedAttackHitsArmorClass(
+    int targetArmorClass,
+    int attackBonus,
+    float targetDistance,
+    std::mt19937 &rng)
+{
+    int distanceMode = 1;
+
+    if (targetDistance >= OeCharacterRangedAttackDistance)
+    {
+        distanceMode = 3;
+    }
+    else if (targetDistance >= 2560.0f)
+    {
+        distanceMode = 2;
+    }
+
+    return characterAttackHitsArmorClass(std::max(0, targetArmorClass), attackBonus, distanceMode, 0, rng);
+}
+
 bool GameMechanics::canAct(const Character &character)
 {
     if (character.health <= 0)
@@ -1057,7 +1591,7 @@ bool GameMechanics::canAct(const Character &character)
 
 bool GameMechanics::canSelectInGameplay(const Character &character)
 {
-    return canAct(character);
+    return canAct(character) && character.recoverySecondsRemaining <= 0.0f;
 }
 
 bool GameMechanics::canCharacterEquipItem(

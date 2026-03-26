@@ -67,6 +67,9 @@ public:
         Actor,
     };
 
+    struct SpellCastRequest;
+    struct PartyProjectileRequest;
+
     struct MapActorState
     {
         uint32_t actorId = 0;
@@ -132,14 +135,19 @@ public:
             MonsterMeleeImpact,
             MonsterRangedRelease,
             PartyProjectileImpact,
+            PartyProjectileActorImpact,
         };
 
         Type type = Type::MonsterMeleeImpact;
         uint32_t sourceId = 0;
+        uint32_t sourcePartyMemberIndex = 0;
+        uint32_t targetActorId = 0;
         bool fromSummonedMonster = false;
         MonsterAttackAbility ability = MonsterAttackAbility::Attack1;
         int damage = 0;
         int spellId = 0;
+        bool hit = false;
+        bool killed = false;
     };
 
     struct ActorDecisionDebugInfo
@@ -181,8 +189,17 @@ public:
 
     struct ProjectileState
     {
+        enum class SourceKind
+        {
+            Actor,
+            Event,
+            Party,
+        };
+
         uint32_t projectileId = 0;
+        SourceKind sourceKind = SourceKind::Actor;
         uint32_t sourceId = 0;
+        uint32_t sourcePartyMemberIndex = 0;
         int16_t sourceMonsterId = 0;
         bool fromSummonedMonster = false;
         MonsterAttackAbility ability = MonsterAttackAbility::Attack1;
@@ -198,12 +215,18 @@ public:
         uint32_t skillMastery = 0;
         std::string objectName;
         std::string objectSpriteName;
+        float sourceX = 0.0f;
+        float sourceY = 0.0f;
+        float sourceZ = 0.0f;
         float x = 0.0f;
         float y = 0.0f;
         float z = 0.0f;
         float velocityX = 0.0f;
         float velocityY = 0.0f;
         float velocityZ = 0.0f;
+        int damage = 0;
+        int attackBonus = 0;
+        bool useActorHitChance = false;
         uint32_t timeSinceCreatedTicks = 0;
         uint32_t lifetimeTicks = 0;
         bool isExpired = false;
@@ -428,6 +451,8 @@ public:
         int32_t toY,
         int32_t toZ
     );
+    bool castPartySpell(const SpellCastRequest &request);
+    bool spawnPartyProjectile(const PartyProjectileRequest &request);
     bool summonMonsters(
         uint32_t typeIndexInMapStats,
         uint32_t level,
@@ -463,6 +488,7 @@ public:
     {
         Actor,
         Event,
+        Party,
     };
 
     struct SpellCastRequest
@@ -475,6 +501,26 @@ public:
         uint32_t spellId = 0;
         uint32_t skillLevel = 0;
         uint32_t skillMastery = 0;
+        uint32_t sourcePartyMemberIndex = 0;
+        int damage = 0;
+        int attackBonus = 0;
+        bool useActorHitChance = false;
+        float sourceX = 0.0f;
+        float sourceY = 0.0f;
+        float sourceZ = 0.0f;
+        float targetX = 0.0f;
+        float targetY = 0.0f;
+        float targetZ = 0.0f;
+    };
+
+    struct PartyProjectileRequest
+    {
+        uint32_t sourcePartyMemberIndex = 0;
+        uint32_t objectId = 0;
+        uint32_t impactObjectId = 0;
+        int damage = 0;
+        int attackBonus = 0;
+        bool useActorHitChance = false;
         float sourceX = 0.0f;
         float sourceY = 0.0f;
         float sourceZ = 0.0f;
@@ -540,6 +586,10 @@ private:
         float targetZ
     );
     bool castSpell(const SpellCastRequest &request);
+    bool resolveObjectProjectileDefinition(
+        int objectId,
+        int impactObjectId,
+        ResolvedProjectileDefinition &definition) const;
     bool castDirectSpellProjectile(
         const SpellCastRequest &request,
         const ResolvedProjectileDefinition &definition

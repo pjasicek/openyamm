@@ -1589,6 +1589,19 @@ bool Party::canSelectMemberInGameplay(size_t memberIndex) const
     return GameMechanics::canSelectInGameplay(*pMember);
 }
 
+bool Party::hasSelectableMemberInGameplay() const
+{
+    for (size_t memberIndex = 0; memberIndex < m_members.size(); ++memberIndex)
+    {
+        if (canSelectMemberInGameplay(memberIndex))
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 uint8_t Party::resolveInventoryWidth(uint32_t objectDescriptionId) const
 {
     if (m_pItemTable == nullptr)
@@ -1637,6 +1650,65 @@ bool Party::setActiveMemberIndex(size_t memberIndex)
 
     m_activeMemberIndex = memberIndex;
     return true;
+}
+
+void Party::updateRecovery(float deltaSeconds)
+{
+    if (deltaSeconds <= 0.0f)
+    {
+        return;
+    }
+
+    for (Character &member : m_members)
+    {
+        member.recoverySecondsRemaining = std::max(0.0f, member.recoverySecondsRemaining - deltaSeconds);
+    }
+
+    if (!canSelectMemberInGameplay(m_activeMemberIndex))
+    {
+        switchToNextReadyMember();
+    }
+}
+
+bool Party::applyRecoveryToMember(size_t memberIndex, float recoverySeconds)
+{
+    Character *pMember = member(memberIndex);
+
+    if (pMember == nullptr)
+    {
+        return false;
+    }
+
+    pMember->recoverySecondsRemaining = std::max(pMember->recoverySecondsRemaining, std::max(0.0f, recoverySeconds));
+    return true;
+}
+
+bool Party::applyRecoveryToActiveMember(float recoverySeconds)
+{
+    return applyRecoveryToMember(m_activeMemberIndex, recoverySeconds);
+}
+
+bool Party::switchToNextReadyMember()
+{
+    if (m_members.empty())
+    {
+        return false;
+    }
+
+    const size_t currentIndex = std::min(m_activeMemberIndex, m_members.size() - 1);
+
+    for (size_t offset = 1; offset <= m_members.size(); ++offset)
+    {
+        const size_t candidateIndex = (currentIndex + offset) % m_members.size();
+
+        if (canSelectMemberInGameplay(candidateIndex))
+        {
+            m_activeMemberIndex = candidateIndex;
+            return true;
+        }
+    }
+
+    return false;
 }
 
 const Character *Party::activeMember() const

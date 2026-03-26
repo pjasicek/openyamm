@@ -6500,6 +6500,129 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
     );
 
     runCase(
+        "party_arrow_projectile_can_damage_actor_53",
+        [&](std::string &failure)
+        {
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            const OutdoorWorldRuntime::MapActorState *pBefore = scenario.world.mapActorState(53);
+
+            if (pBefore == nullptr)
+            {
+                failure = "actor 53 missing";
+                return false;
+            }
+
+            OutdoorWorldRuntime::PartyProjectileRequest request = {};
+            request.sourcePartyMemberIndex = 0;
+            request.objectId = 545;
+            request.damage = 7;
+            request.attackBonus = 9999;
+            request.useActorHitChance = true;
+            request.sourceX = pBefore->preciseX + 256.0f;
+            request.sourceY = pBefore->preciseY;
+            request.sourceZ = pBefore->preciseZ + 96.0f;
+            request.targetX = pBefore->preciseX;
+            request.targetY = pBefore->preciseY;
+            request.targetZ = pBefore->preciseZ + 96.0f;
+
+            if (!scenario.world.spawnPartyProjectile(request))
+            {
+                failure = "party arrow projectile spawn failed";
+                return false;
+            }
+
+            const int initialHp = pBefore->currentHp;
+            bool sawProjectile = false;
+
+            for (int step = 0; step < 256; ++step)
+            {
+                scenario.world.updateMapActors(1.0f / 128.0f, request.sourceX, request.sourceY, pBefore->preciseZ);
+                sawProjectile = sawProjectile || scenario.world.projectileCount() > 0;
+                const OutdoorWorldRuntime::MapActorState *pAfter = scenario.world.mapActorState(53);
+
+                if (pAfter != nullptr && pAfter->currentHp < initialHp)
+                {
+                    return true;
+                }
+            }
+
+            failure = !sawProjectile ? "party arrow projectile never appeared" : "party arrow did not damage actor 53";
+            return false;
+        }
+    );
+
+    runCase(
+        "party_spell_projectile_can_damage_actor_53",
+        [&](std::string &failure)
+        {
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            const OutdoorWorldRuntime::MapActorState *pBefore = scenario.world.mapActorState(53);
+
+            if (pBefore == nullptr)
+            {
+                failure = "actor 53 missing";
+                return false;
+            }
+
+            OutdoorWorldRuntime::SpellCastRequest request = {};
+            request.sourceKind = OutdoorWorldRuntime::RuntimeSpellSourceKind::Party;
+            request.sourceId = 1;
+            request.sourcePartyMemberIndex = 0;
+            request.ability = OutdoorWorldRuntime::MonsterAttackAbility::Spell1;
+            request.spellId = 2;
+            request.skillLevel = 10;
+            request.skillMastery = static_cast<uint32_t>(SkillMastery::Expert);
+            request.damage = 9;
+            request.attackBonus = 9999;
+            request.useActorHitChance = true;
+            request.sourceX = pBefore->preciseX + 256.0f;
+            request.sourceY = pBefore->preciseY;
+            request.sourceZ = pBefore->preciseZ + 96.0f;
+            request.targetX = pBefore->preciseX;
+            request.targetY = pBefore->preciseY;
+            request.targetZ = pBefore->preciseZ + 96.0f;
+
+            if (!scenario.world.castPartySpell(request))
+            {
+                failure = "party spell projectile spawn failed";
+                return false;
+            }
+
+            const int initialHp = pBefore->currentHp;
+            bool sawProjectile = false;
+
+            for (int step = 0; step < 256; ++step)
+            {
+                scenario.world.updateMapActors(1.0f / 128.0f, request.sourceX, request.sourceY, pBefore->preciseZ);
+                sawProjectile = sawProjectile || scenario.world.projectileCount() > 0;
+                const OutdoorWorldRuntime::MapActorState *pAfter = scenario.world.mapActorState(53);
+
+                if (pAfter != nullptr && pAfter->currentHp < initialHp)
+                {
+                    return true;
+                }
+            }
+
+            failure = !sawProjectile ? "party spell projectile never appeared" : "party spell did not damage actor 53";
+            return false;
+        }
+    );
+
+    runCase(
         "mixed_actor_53_arrow_ignores_friendly_lizardman_blocker",
         [&](std::string &failure)
         {
@@ -9911,6 +10034,15 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
             if (party.canSelectMemberInGameplay(0))
             {
                 failure = "zero health should block selection";
+                return false;
+            }
+
+            pMember->health = 10;
+            pMember->recoverySecondsRemaining = 0.5f;
+
+            if (party.canSelectMemberInGameplay(0))
+            {
+                failure = "recovery should block selection";
                 return false;
             }
 

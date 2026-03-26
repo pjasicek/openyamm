@@ -28,6 +28,7 @@ void OutdoorPartyRuntime::teleportTo(float x, float y, float footZHint)
 void OutdoorPartyRuntime::update(const OutdoorMovementInput &input, float deltaSeconds)
 {
     m_movementDriver.update(input, deltaSeconds);
+    m_party.updateRecovery(deltaSeconds);
     m_party.applyMovementEffects(m_movementDriver.consumePendingEffects());
 }
 

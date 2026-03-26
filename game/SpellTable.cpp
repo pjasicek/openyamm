@@ -52,6 +52,10 @@ bool SpellTable::loadFromRows(const std::vector<std::vector<std::string>> &rows)
         entry.id = std::stoi(row[0]);
         entry.name = row[2];
         entry.normalizedName = normalizeName(entry.name);
+        entry.normalRecoveryTicks = row[15].empty() ? 0 : std::stoi(row[15]);
+        entry.expertRecoveryTicks = row[16].empty() ? 0 : std::stoi(row[16]);
+        entry.masterRecoveryTicks = row[17].empty() ? 0 : std::stoi(row[17]);
+        entry.grandmasterRecoveryTicks = row[18].empty() ? 0 : std::stoi(row[18]);
         entry.effectSoundId = row[19].empty() ? 0 : std::stoi(row[19]);
         entry.displayObjectId = row[20].empty() ? 0 : std::stoi(row[20]);
         entry.impactDisplayObjectId = row[21].empty() ? 0 : std::stoi(row[21]);

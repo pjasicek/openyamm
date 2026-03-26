@@ -1,6 +1,7 @@
 #include "game/OutdoorWorldRuntime.h"
 
 #include "game/ChestTable.h"
+#include "game/GameMechanics.h"
 #include "game/ItemTable.h"
 #include "game/OutdoorGeometryUtils.h"
 #include "game/SpriteObjectDefs.h"
@@ -141,6 +142,23 @@ const char *spellSourceKindName(OutdoorWorldRuntime::RuntimeSpellSourceKind sour
             return "monster";
         case OutdoorWorldRuntime::RuntimeSpellSourceKind::Event:
             return "event";
+        case OutdoorWorldRuntime::RuntimeSpellSourceKind::Party:
+            return "party";
+        default:
+            return "unknown";
+    }
+}
+
+const char *projectileSourceKindName(OutdoorWorldRuntime::ProjectileState::SourceKind sourceKind)
+{
+    switch (sourceKind)
+    {
+        case OutdoorWorldRuntime::ProjectileState::SourceKind::Actor:
+            return "monster";
+        case OutdoorWorldRuntime::ProjectileState::SourceKind::Event:
+            return "event";
+        case OutdoorWorldRuntime::ProjectileState::SourceKind::Party:
+            return "party";
         default:
             return "unknown";
     }
@@ -811,6 +829,55 @@ bool resolveSpellDefinition(
             objectTable.findByObjectId(static_cast<int16_t>(spell.impactDisplayObjectId));
         const std::optional<uint16_t> impactDescriptionId =
             objectTable.findDescriptionIdByObjectId(static_cast<int16_t>(spell.impactDisplayObjectId));
+
+        if (pImpactEntry != nullptr && impactDescriptionId)
+        {
+            definition.impactObjectDescriptionId = *impactDescriptionId;
+            definition.impactObjectSpriteId = pImpactEntry->spriteId;
+            definition.impactObjectName = pImpactEntry->internalName;
+            definition.impactObjectSpriteName = pImpactEntry->spriteName;
+        }
+    }
+
+    return true;
+}
+
+bool resolveObjectProjectileDefinition(
+    int objectId,
+    int impactObjectId,
+    const ObjectTable &objectTable,
+    OutdoorWorldRuntime::ResolvedProjectileDefinition &definition)
+{
+    definition = {};
+
+    if (objectId <= 0)
+    {
+        return false;
+    }
+
+    const ObjectEntry *pObjectEntry = objectTable.findByObjectId(static_cast<int16_t>(objectId));
+    const std::optional<uint16_t> objectDescriptionId =
+        objectTable.findDescriptionIdByObjectId(static_cast<int16_t>(objectId));
+
+    if (pObjectEntry == nullptr || !objectDescriptionId)
+    {
+        return false;
+    }
+
+    definition.objectDescriptionId = *objectDescriptionId;
+    definition.objectSpriteId = pObjectEntry->spriteId;
+    definition.radius = static_cast<uint16_t>(std::max<int>(pObjectEntry->radius, 16));
+    definition.height = static_cast<uint16_t>(std::max<int>(pObjectEntry->height, 16));
+    definition.lifetimeTicks = static_cast<uint32_t>(std::max<int>(pObjectEntry->lifetimeTicks, 64));
+    definition.speed = static_cast<float>(std::max<int>(pObjectEntry->speed, 2000));
+    definition.objectName = pObjectEntry->internalName;
+    definition.objectSpriteName = pObjectEntry->spriteName;
+
+    if (impactObjectId > 0)
+    {
+        const ObjectEntry *pImpactEntry = objectTable.findByObjectId(static_cast<int16_t>(impactObjectId));
+        const std::optional<uint16_t> impactDescriptionId =
+            objectTable.findDescriptionIdByObjectId(static_cast<int16_t>(impactObjectId));
 
         if (pImpactEntry != nullptr && impactDescriptionId)
         {
@@ -4563,6 +4630,7 @@ bool OutdoorWorldRuntime::spawnProjectileFromMapActor(
 
     ProjectileState projectile = {};
     projectile.projectileId = m_nextProjectileId++;
+    projectile.sourceKind = ProjectileState::SourceKind::Actor;
     projectile.sourceId = actor.actorId;
     projectile.sourceMonsterId = actor.monsterId;
     projectile.ability = ability;
@@ -4579,6 +4647,9 @@ bool OutdoorWorldRuntime::spawnProjectileFromMapActor(
     projectile.effectSoundId = definition.effectSoundId;
     projectile.objectName = definition.objectName;
     projectile.objectSpriteName = definition.objectSpriteName;
+    projectile.sourceX = sourceX;
+    projectile.sourceY = sourceY;
+    projectile.sourceZ = sourceZ;
     projectile.x = sourceX + directionX * (static_cast<float>(actor.radius) + 8.0f);
     projectile.y = sourceY + directionY * (static_cast<float>(actor.radius) + 8.0f);
     projectile.z = sourceZ;
@@ -4701,6 +4772,19 @@ bool OutdoorWorldRuntime::castSpell(const SpellCastRequest &request)
     return castDirectSpellProjectile(request, definition);
 }
 
+bool OutdoorWorldRuntime::resolveObjectProjectileDefinition(
+    int objectId,
+    int impactObjectId,
+    ResolvedProjectileDefinition &definition) const
+{
+    if (m_pObjectTable == nullptr)
+    {
+        return false;
+    }
+
+    return ::OpenYAMM::Game::resolveObjectProjectileDefinition(objectId, impactObjectId, *m_pObjectTable, definition);
+}
+
 bool OutdoorWorldRuntime::castDirectSpellProjectile(
     const SpellCastRequest &request,
     const ResolvedProjectileDefinition &definition
@@ -4793,7 +4877,14 @@ bool OutdoorWorldRuntime::spawnSpellProjectile(
     {
         ProjectileState impactSource = {};
         impactSource.projectileId = m_nextProjectileId++;
+        impactSource.sourceKind =
+            request.sourceKind == RuntimeSpellSourceKind::Party
+                ? ProjectileState::SourceKind::Party
+                : request.sourceKind == RuntimeSpellSourceKind::Event
+                ? ProjectileState::SourceKind::Event
+                : ProjectileState::SourceKind::Actor;
         impactSource.sourceId = request.sourceId;
+        impactSource.sourcePartyMemberIndex = request.sourcePartyMemberIndex;
         impactSource.sourceMonsterId = request.sourceMonsterId;
         impactSource.fromSummonedMonster = request.fromSummonedMonster;
         impactSource.ability = request.ability;
@@ -4805,6 +4896,13 @@ bool OutdoorWorldRuntime::spawnSpellProjectile(
             definition.objectSpriteId,
             definition.objectSpriteName);
         impactSource.impactObjectDescriptionId = definition.impactObjectDescriptionId;
+        impactSource.spellId = definition.spellId;
+        impactSource.sourceX = sourceX;
+        impactSource.sourceY = sourceY;
+        impactSource.sourceZ = sourceZ;
+        impactSource.damage = request.damage;
+        impactSource.attackBonus = request.attackBonus;
+        impactSource.useActorHitChance = request.useActorHitChance;
         logProjectileCollision(impactSource, "instant", "spell_zero_distance", {sourceX, sourceY, sourceZ});
         spawnProjectileImpact(impactSource, sourceX, sourceY, sourceZ);
         return true;
@@ -4816,7 +4914,14 @@ bool OutdoorWorldRuntime::spawnSpellProjectile(
 
     ProjectileState projectile = {};
     projectile.projectileId = m_nextProjectileId++;
+    projectile.sourceKind =
+        request.sourceKind == RuntimeSpellSourceKind::Party
+            ? ProjectileState::SourceKind::Party
+            : request.sourceKind == RuntimeSpellSourceKind::Event
+            ? ProjectileState::SourceKind::Event
+            : ProjectileState::SourceKind::Actor;
     projectile.sourceId = request.sourceId;
+    projectile.sourcePartyMemberIndex = request.sourcePartyMemberIndex;
     projectile.sourceMonsterId = request.sourceMonsterId;
     projectile.fromSummonedMonster = request.fromSummonedMonster;
     projectile.ability = request.ability;
@@ -4835,12 +4940,18 @@ bool OutdoorWorldRuntime::spawnSpellProjectile(
     projectile.skillMastery = request.skillMastery;
     projectile.objectName = definition.objectName;
     projectile.objectSpriteName = definition.objectSpriteName;
+    projectile.sourceX = sourceX;
+    projectile.sourceY = sourceY;
+    projectile.sourceZ = sourceZ;
     projectile.x = sourceX + directionX * spawnForwardOffset;
     projectile.y = sourceY + directionY * spawnForwardOffset;
     projectile.z = sourceZ;
     projectile.velocityX = directionX * definition.speed;
     projectile.velocityY = directionY * definition.speed;
     projectile.velocityZ = directionZ * definition.speed;
+    projectile.damage = request.damage;
+    projectile.attackBonus = request.attackBonus;
+    projectile.useActorHitChance = request.useActorHitChance;
     projectile.lifetimeTicks = definition.lifetimeTicks;
     m_projectiles.push_back(std::move(projectile));
     logProjectileSpawn(
@@ -4853,8 +4964,17 @@ bool OutdoorWorldRuntime::spawnSpellProjectile(
 
     if (definition.effectSoundId > 0)
     {
-        const std::string reason =
-            request.sourceKind == RuntimeSpellSourceKind::Event ? "event_spell_release" : "monster_spell_release";
+        std::string reason = "monster_spell_release";
+
+        if (request.sourceKind == RuntimeSpellSourceKind::Event)
+        {
+            reason = "event_spell_release";
+        }
+        else if (request.sourceKind == RuntimeSpellSourceKind::Party)
+        {
+            reason = "party_spell_release";
+        }
+
         pushAudioEvent(static_cast<uint32_t>(definition.effectSoundId), request.sourceId, reason);
     }
 
@@ -5148,33 +5268,37 @@ void OutdoorWorldRuntime::updateProjectiles(float deltaSeconds, float partyX, fl
         };
 
         {
-            float projectionFactor = 0.0f;
-            const float distanceSquared = pointSegmentDistanceSquared2d(
-                partyX,
-                partyY,
-                segmentStart.x,
-                segmentStart.y,
-                segmentEnd.x,
-                segmentEnd.y,
-                projectionFactor);
-            const float collisionRadius = PartyCollisionRadius + static_cast<float>(std::max<uint16_t>(projectile.radius, 8));
-
-            if (distanceSquared <= collisionRadius * collisionRadius)
+            if (projectile.sourceKind != ProjectileState::SourceKind::Party)
             {
-                const float collisionZ = segmentStart.z + (segmentEnd.z - segmentStart.z) * projectionFactor;
-                const float partyMinZ = partyZ;
-                const float partyMaxZ = partyZ + PartyCollisionHeight;
+                float projectionFactor = 0.0f;
+                const float distanceSquared = pointSegmentDistanceSquared2d(
+                    partyX,
+                    partyY,
+                    segmentStart.x,
+                    segmentStart.y,
+                    segmentEnd.x,
+                    segmentEnd.y,
+                    projectionFactor);
+                const float collisionRadius =
+                    PartyCollisionRadius + static_cast<float>(std::max<uint16_t>(projectile.radius, 8));
 
-                if (collisionZ >= partyMinZ - static_cast<float>(projectile.height)
-                    && collisionZ <= partyMaxZ + static_cast<float>(projectile.height))
+                if (distanceSquared <= collisionRadius * collisionRadius)
                 {
-                    considerImpact(
-                        projectionFactor,
-                        {segmentStart.x + (segmentEnd.x - segmentStart.x) * projectionFactor,
-                            segmentStart.y + (segmentEnd.y - segmentStart.y) * projectionFactor,
-                            collisionZ},
-                        "party",
-                        "party");
+                    const float collisionZ = segmentStart.z + (segmentEnd.z - segmentStart.z) * projectionFactor;
+                    const float partyMinZ = partyZ;
+                    const float partyMaxZ = partyZ + PartyCollisionHeight;
+
+                    if (collisionZ >= partyMinZ - static_cast<float>(projectile.height)
+                        && collisionZ <= partyMaxZ + static_cast<float>(projectile.height))
+                    {
+                        considerImpact(
+                            projectionFactor,
+                            {segmentStart.x + (segmentEnd.x - segmentStart.x) * projectionFactor,
+                                segmentStart.y + (segmentEnd.y - segmentStart.y) * projectionFactor,
+                                collisionZ},
+                            "party",
+                            "party");
+                    }
                 }
             }
         }
@@ -5188,7 +5312,8 @@ void OutdoorWorldRuntime::updateProjectiles(float deltaSeconds, float partyX, fl
                 continue;
             }
 
-            if (projectileSourceIsFriendlyToActor(projectile, actor))
+            if (projectile.sourceKind != ProjectileState::SourceKind::Party
+                && projectileSourceIsFriendlyToActor(projectile, actor))
             {
                 continue;
             }
@@ -5315,16 +5440,83 @@ void OutdoorWorldRuntime::updateProjectiles(float deltaSeconds, float partyX, fl
             {
                 if (bestActorIndex < m_mapActors.size())
                 {
-                    applyMonsterAttackToMapActor(
-                        bestActorIndex,
-                        resolveProjectilePartyImpactDamage(projectile, m_pMonsterTable, m_mapActors),
-                        projectile.sourceId);
+                    if (projectile.sourceKind == ProjectileState::SourceKind::Party)
+                    {
+                        int damage = projectile.damage;
+                        bool hit = true;
+                        bool killed = false;
+
+                        if (projectile.useActorHitChance)
+                        {
+                            int armorClass = 0;
+
+                            if (m_pMonsterTable != nullptr)
+                            {
+                                const MonsterTable::MonsterStatsEntry *pStats =
+                                    m_pMonsterTable->findStatsById(m_mapActors[bestActorIndex].monsterId);
+
+                                if (pStats != nullptr)
+                                {
+                                    armorClass = pStats->armorClass;
+                                }
+                            }
+
+                            std::mt19937 rng(
+                                static_cast<uint32_t>(projectile.projectileId)
+                                ^ static_cast<uint32_t>(m_mapActors[bestActorIndex].actorId * 2654435761u));
+                            const float distanceToTarget = std::max(
+                                0.0f,
+                                length3d(
+                                    m_mapActors[bestActorIndex].preciseX - projectile.sourceX,
+                                    m_mapActors[bestActorIndex].preciseY - projectile.sourceY,
+                                    m_mapActors[bestActorIndex].preciseZ - projectile.sourceZ)
+                                    - static_cast<float>(m_mapActors[bestActorIndex].radius));
+                            hit = GameMechanics::characterRangedAttackHitsArmorClass(
+                                armorClass,
+                                projectile.attackBonus,
+                                distanceToTarget,
+                                rng);
+                        }
+
+                        if (hit && damage > 0)
+                        {
+                            const int beforeHp = m_mapActors[bestActorIndex].currentHp;
+                            applyPartyAttackToMapActor(
+                                bestActorIndex,
+                                damage,
+                                projectile.sourceX,
+                                projectile.sourceY,
+                                projectile.sourceZ);
+                            const OutdoorWorldRuntime::MapActorState &afterActor = m_mapActors[bestActorIndex];
+                            killed = beforeHp > 0 && afterActor.currentHp <= 0;
+                        }
+
+                        CombatEvent event = {};
+                        event.type = CombatEvent::Type::PartyProjectileActorImpact;
+                        event.sourceId = projectile.sourceId;
+                        event.sourcePartyMemberIndex = projectile.sourcePartyMemberIndex;
+                        event.targetActorId = m_mapActors[bestActorIndex].actorId;
+                        event.damage = hit ? damage : 0;
+                        event.spellId = projectile.spellId;
+                        event.hit = hit;
+                        event.killed = killed;
+                        m_pendingCombatEvents.push_back(std::move(event));
+                    }
+                    else
+                    {
+                        applyMonsterAttackToMapActor(
+                            bestActorIndex,
+                            resolveProjectilePartyImpactDamage(projectile, m_pMonsterTable, m_mapActors),
+                            projectile.sourceId);
+                    }
                 }
             }
 
             const float impactRadius = spellImpactDamageRadius(projectile.spellId);
 
-            if (!directPartyImpact && isPartyWithinImpactRadius(bestPoint, impactRadius, partyX, partyY, partyZ))
+            if (!directPartyImpact
+                && projectile.sourceKind != ProjectileState::SourceKind::Party
+                && isPartyWithinImpactRadius(bestPoint, impactRadius, partyX, partyY, partyZ))
             {
                 CombatEvent event = {};
                 event.type = CombatEvent::Type::PartyProjectileImpact;
@@ -6570,6 +6762,76 @@ bool OutdoorWorldRuntime::castEventSpell(
     request.targetY = static_cast<float>(toY);
     request.targetZ = static_cast<float>(toZ);
     return castSpell(request);
+}
+
+bool OutdoorWorldRuntime::castPartySpell(const SpellCastRequest &request)
+{
+    if (request.sourceKind != RuntimeSpellSourceKind::Party)
+    {
+        return false;
+    }
+
+    return castSpell(request);
+}
+
+bool OutdoorWorldRuntime::spawnPartyProjectile(const PartyProjectileRequest &request)
+{
+    ResolvedProjectileDefinition definition = {};
+
+    if (!resolveObjectProjectileDefinition(
+            static_cast<int>(request.objectId),
+            static_cast<int>(request.impactObjectId),
+            definition))
+    {
+        return false;
+    }
+
+    const float deltaX = request.targetX - request.sourceX;
+    const float deltaY = request.targetY - request.sourceY;
+    const float deltaZ = request.targetZ - request.sourceZ;
+    const float distance = length3d(deltaX, deltaY, deltaZ);
+
+    if (distance <= 0.01f)
+    {
+        return false;
+    }
+
+    const float directionX = deltaX / distance;
+    const float directionY = deltaY / distance;
+    const float directionZ = deltaZ / distance;
+    ProjectileState projectile = {};
+    projectile.projectileId = m_nextProjectileId++;
+    projectile.sourceKind = ProjectileState::SourceKind::Party;
+    projectile.sourceId = request.sourcePartyMemberIndex + 1;
+    projectile.sourcePartyMemberIndex = request.sourcePartyMemberIndex;
+    projectile.objectDescriptionId = definition.objectDescriptionId;
+    projectile.objectSpriteId = definition.objectSpriteId;
+    projectile.objectSpriteFrameIndex = resolveRuntimeSpriteFrameIndex(
+        m_pProjectileSpriteFrameTable,
+        definition.objectSpriteId,
+        definition.objectSpriteName);
+    projectile.impactObjectDescriptionId = definition.impactObjectDescriptionId;
+    projectile.radius = definition.radius;
+    projectile.height = definition.height;
+    projectile.effectSoundId = definition.effectSoundId;
+    projectile.objectName = definition.objectName;
+    projectile.objectSpriteName = definition.objectSpriteName;
+    projectile.sourceX = request.sourceX;
+    projectile.sourceY = request.sourceY;
+    projectile.sourceZ = request.sourceZ;
+    projectile.x = request.sourceX + directionX * PartyCollisionRadius;
+    projectile.y = request.sourceY + directionY * PartyCollisionRadius;
+    projectile.z = request.sourceZ;
+    projectile.velocityX = directionX * definition.speed;
+    projectile.velocityY = directionY * definition.speed;
+    projectile.velocityZ = directionZ * definition.speed;
+    projectile.damage = request.damage;
+    projectile.attackBonus = request.attackBonus;
+    projectile.useActorHitChance = request.useActorHitChance;
+    projectile.lifetimeTicks = definition.lifetimeTicks;
+    m_projectiles.push_back(std::move(projectile));
+    logProjectileSpawn("party", m_projectiles.back(), directionX, directionY, directionZ, definition.speed);
+    return true;
 }
 
 const EventRuntimeState *OutdoorWorldRuntime::eventRuntimeState() const

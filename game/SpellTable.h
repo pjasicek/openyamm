@@ -12,6 +12,10 @@ struct SpellEntry
     int id = 0;
     std::string name;
     std::string normalizedName;
+    int normalRecoveryTicks = 0;
+    int expertRecoveryTicks = 0;
+    int masterRecoveryTicks = 0;
+    int grandmasterRecoveryTicks = 0;
     int effectSoundId = 0;
     int displayObjectId = 0;
     int impactDisplayObjectId = 0;

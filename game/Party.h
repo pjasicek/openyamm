@@ -61,6 +61,7 @@ struct Character
     std::bitset<CharacterConditionCount> conditions = {};
     std::unordered_map<std::string, CharacterSkill> skills;
     std::unordered_set<uint32_t> awards;
+    float recoverySecondsRemaining = 0.0f;
 
     bool addInventoryItem(const InventoryItem &item);
     bool addInventoryItemAt(const InventoryItem &item, uint8_t gridX, uint8_t gridY);
@@ -152,7 +153,12 @@ public:
     const Character *member(size_t memberIndex) const;
     Character *member(size_t memberIndex);
     bool canSelectMemberInGameplay(size_t memberIndex) const;
+    bool hasSelectableMemberInGameplay() const;
     bool setActiveMemberIndex(size_t memberIndex);
+    void updateRecovery(float deltaSeconds);
+    bool applyRecoveryToMember(size_t memberIndex, float recoverySeconds);
+    bool applyRecoveryToActiveMember(float recoverySeconds);
+    bool switchToNextReadyMember();
 
     const std::vector<Character> &members() const;
     const Character *activeMember() const;
