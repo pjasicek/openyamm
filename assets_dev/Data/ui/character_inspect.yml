@@ -1,0 +1,140 @@
+screen: CharacterInspect
+
+elements:
+  - id: CharacterInspectRoot
+    anchor: top_left
+    width: 425
+    height: 200
+    z_index: 520
+    visible: false
+    asset:
+      default: parchment
+    children:
+      - id: CharacterInspectTitle
+        anchor: top_center
+        offset_x: 0
+        offset_y: 12
+        width: 232
+        height: 22
+        text:
+          value: "{title}"
+          font: Create
+          color: "#ffff9b"
+          align_x: center
+          align_y: middle
+
+      - id: CharacterInspectBody
+        anchor: top_left
+        offset_x: 20
+        offset_y: 42
+        width: 385
+        height: 82
+        text:
+          value: "{body}"
+          font: SMALLNUM
+          color: white
+          align_x: left
+          align_y: top
+
+      - id: CharacterInspectExpert
+        anchor: top_left
+        offset_x: 20
+        offset_y: 130
+        width: 385
+        height: 16
+        text:
+          value: "{expert}"
+          font: SMALLNUM
+          color: white
+          align_x: left
+          align_y: middle
+
+      - id: CharacterInspectMaster
+        anchor: top_left
+        offset_x: 20
+        offset_y: 150
+        width: 385
+        height: 16
+        text:
+          value: "{master}"
+          font: SMALLNUM
+          color: white
+          align_x: left
+          align_y: middle
+
+      - id: CharacterInspectGrandmaster
+        anchor: top_left
+        offset_x: 20
+        offset_y: 170
+        width: 385
+        height: 16
+        text:
+          value: "{grandmaster}"
+          font: SMALLNUM
+          color: white
+          align_x: left
+          align_y: middle
+
+      - id: CharacterInspectCorner_UR
+        anchor: top_right
+        offset_x: 7
+        width: 39
+        height: 32
+        z_index: 580
+        asset:
+          default: cornr_UR
+
+      - id: CharacterInspectCorner_UL
+        anchor: top_left
+        z_index: 580
+        asset:
+          default: cornr_UL
+
+      - id: CharacterInspectCorner_LR
+        anchor: bottom_right
+        z_index: 580
+        offset_x: 7
+        offset_y: 7
+        asset:
+          default: cornr_LR
+
+      - id: CharacterInspectCorner_LL
+        anchor: bottom_left
+        z_index: 580
+        offset_y: 7
+        asset:
+          default: cornr_LL
+
+      - id: CharacterInspectCorner_TopEdge
+        anchor: top_left
+        width: 425
+        height: 10
+        z_index: 570
+        asset:
+          default: edge_top
+
+      - id: CharacterInspectCorner_BottomEdge
+        anchor: bottom_left
+        offset_y: 7
+        width: 425
+        height: 16
+        z_index: 570
+        asset:
+          default: edge_btm
+
+      - id: CharacterInspectCorner_LeftEdge
+        anchor: top_left
+        width: 11
+        height: 200
+        z_index: 570
+        asset:
+          default: edge_lf
+
+      - id: CharacterInspectCorner_RightEdge
+        anchor: top_right
+        offset_x: 6
+        width: 16
+        height: 200
+        z_index: 570
+        asset:
+          default: edge_rt

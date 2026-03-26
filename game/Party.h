@@ -133,6 +133,7 @@ public:
     bool grantItemToMember(size_t memberIndex, uint32_t objectDescriptionId, uint32_t quantity = 1);
     bool removeItemFromMember(size_t memberIndex, uint32_t objectDescriptionId, uint32_t quantity = 1);
     bool takeItemFromMemberInventoryCell(size_t memberIndex, uint8_t gridX, uint8_t gridY, InventoryItem &item);
+    bool tryAutoPlaceItemInMemberInventory(size_t memberIndex, const InventoryItem &item);
     bool tryPlaceItemInMemberInventoryCell(
         size_t memberIndex,
         const InventoryItem &item,

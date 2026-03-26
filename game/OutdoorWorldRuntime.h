@@ -22,6 +22,7 @@
 namespace OpenYAMM::Game
 {
 class ItemTable;
+class ChestTable;
 
 class OutdoorWorldRuntime
 {
@@ -252,6 +253,10 @@ public:
         uint32_t goldAmount = 0;
         uint32_t goldRollCount = 0;
         bool isGold = false;
+        uint8_t width = 1;
+        uint8_t height = 1;
+        uint8_t gridX = 0;
+        uint8_t gridY = 0;
     };
 
     struct ChestViewState
@@ -259,6 +264,8 @@ public:
         uint32_t chestId = 0;
         uint16_t chestTypeId = 0;
         uint16_t flags = 0;
+        uint8_t gridWidth = 0;
+        uint8_t gridHeight = 0;
         std::vector<ChestItemState> items;
     };
 
@@ -294,6 +301,7 @@ public:
         const ObjectTable &objectTable,
         const SpellTable &spellTable,
         const ItemTable &itemTable,
+        const ChestTable *pChestTable,
         const std::optional<OutdoorMapData> &outdoorMapData,
         const std::optional<MapDeltaData> &outdoorMapDeltaData,
         const std::optional<EventRuntimeState> &eventRuntimeState,
@@ -345,6 +353,8 @@ public:
     size_t openedChestCount() const;
     const ChestViewState *activeChestView() const;
     bool takeActiveChestItem(size_t itemIndex, ChestItemState &item);
+    bool takeActiveChestItemAt(uint8_t gridX, uint8_t gridY, ChestItemState &item);
+    bool tryPlaceActiveChestItemAt(const ChestItemState &item, uint8_t gridX, uint8_t gridY);
     void closeActiveChestView();
     const CorpseViewState *activeCorpseView() const;
     bool openMapActorCorpseView(size_t actorIndex);
@@ -527,6 +537,7 @@ private:
     std::optional<ChestViewState> m_activeChestView;
     std::optional<EventRuntimeState> m_eventRuntimeState;
     const ItemTable *m_pItemTable = nullptr;
+    const ChestTable *m_pChestTable = nullptr;
     const MonsterTable *m_pMonsterTable = nullptr;
     const MonsterProjectileTable *m_pMonsterProjectileTable = nullptr;
     const ObjectTable *m_pObjectTable = nullptr;

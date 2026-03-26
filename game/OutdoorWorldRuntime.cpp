@@ -1,5 +1,6 @@
 #include "game/OutdoorWorldRuntime.h"
 
+#include "game/ChestTable.h"
 #include "game/ItemTable.h"
 #include "game/OutdoorGeometryUtils.h"
 #include "game/SkillData.h"
@@ -11,6 +12,7 @@
 #include <cstring>
 #include <iostream>
 #include <limits>
+#include <numeric>
 #include <random>
 #include <sstream>
 
@@ -852,6 +854,154 @@ int resolveMonsterAbilityDamage(
     }
 }
 
+bool chestItemContainsCell(const OutdoorWorldRuntime::ChestItemState &item, uint8_t gridX, uint8_t gridY)
+{
+    return gridX >= item.gridX
+        && gridX < item.gridX + item.width
+        && gridY >= item.gridY
+        && gridY < item.gridY + item.height;
+}
+
+bool chestItemFitsAt(
+    const OutdoorWorldRuntime::ChestItemState &item,
+    uint8_t gridX,
+    uint8_t gridY,
+    uint8_t gridWidth,
+    uint8_t gridHeight)
+{
+    return item.width > 0
+        && item.height > 0
+        && gridX + item.width <= gridWidth
+        && gridY + item.height <= gridHeight;
+}
+
+bool chestItemsOverlap(
+    const OutdoorWorldRuntime::ChestItemState &left,
+    const OutdoorWorldRuntime::ChestItemState &right)
+{
+    return left.gridX < right.gridX + right.width
+        && left.gridX + left.width > right.gridX
+        && left.gridY < right.gridY + right.height
+        && left.gridY + left.height > right.gridY;
+}
+
+struct GoldHeapVisual
+{
+    uint8_t width = 1;
+    uint8_t height = 1;
+};
+
+GoldHeapVisual classifyGoldHeapVisual(uint32_t goldAmount)
+{
+    // OE stores the heap tier when gold is generated. OpenYAMM only keeps the amount,
+    // so we infer the heap tier from the same treasure-level gold ranges.
+    if (goldAmount <= 200)
+    {
+        return {1, 1};
+    }
+
+    if (goldAmount <= 1000)
+    {
+        return {2, 1};
+    }
+
+    return {2, 1};
+}
+
+bool canPlaceChestItem(
+    const OutdoorWorldRuntime::ChestItemState &item,
+    const std::vector<OutdoorWorldRuntime::ChestItemState> &placedItems,
+    uint8_t gridWidth,
+    uint8_t gridHeight)
+{
+    if (!chestItemFitsAt(item, item.gridX, item.gridY, gridWidth, gridHeight))
+    {
+        return false;
+    }
+
+    for (const OutdoorWorldRuntime::ChestItemState &placedItem : placedItems)
+    {
+        if (chestItemsOverlap(placedItem, item))
+        {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+std::vector<uint8_t> buildRandomChestCellOrder(uint8_t gridWidth, uint8_t gridHeight, std::mt19937 &rng)
+{
+    const size_t chestArea = static_cast<size_t>(gridWidth) * gridHeight;
+    std::vector<uint8_t> cellOrder(chestArea, 0);
+    std::iota(cellOrder.begin(), cellOrder.end(), 0);
+    std::shuffle(cellOrder.begin(), cellOrder.end(), rng);
+    return cellOrder;
+}
+
+std::optional<std::pair<uint8_t, uint8_t>> findFirstFreeChestSlot(
+    const std::vector<OutdoorWorldRuntime::ChestItemState> &items,
+    uint8_t itemWidth,
+    uint8_t itemHeight,
+    uint8_t gridWidth,
+    uint8_t gridHeight)
+{
+    if (itemWidth == 0 || itemHeight == 0 || itemWidth > gridWidth || itemHeight > gridHeight)
+    {
+        return std::nullopt;
+    }
+
+    std::vector<bool> occupied(static_cast<size_t>(gridWidth) * gridHeight, false);
+
+    for (const OutdoorWorldRuntime::ChestItemState &item : items)
+    {
+        for (uint8_t offsetY = 0; offsetY < item.height; ++offsetY)
+        {
+            for (uint8_t offsetX = 0; offsetX < item.width; ++offsetX)
+            {
+                const uint8_t cellX = item.gridX + offsetX;
+                const uint8_t cellY = item.gridY + offsetY;
+
+                if (cellX >= gridWidth || cellY >= gridHeight)
+                {
+                    continue;
+                }
+
+                occupied[static_cast<size_t>(cellY) * gridWidth + cellX] = true;
+            }
+        }
+    }
+
+    for (int y = 0; y <= gridHeight - itemHeight; ++y)
+    {
+        for (int x = 0; x <= gridWidth - itemWidth; ++x)
+        {
+            bool canPlace = true;
+
+            for (uint8_t offsetY = 0; offsetY < itemHeight && canPlace; ++offsetY)
+            {
+                for (uint8_t offsetX = 0; offsetX < itemWidth; ++offsetX)
+                {
+                    const size_t index =
+                        static_cast<size_t>(y + offsetY) * gridWidth + static_cast<size_t>(x + offsetX);
+
+                    if (occupied[index])
+                    {
+                        canPlace = false;
+                        break;
+                    }
+                }
+            }
+
+            if (canPlace)
+            {
+                return std::pair<uint8_t, uint8_t>(static_cast<uint8_t>(x), static_cast<uint8_t>(y));
+            }
+        }
+    }
+
+    return std::nullopt;
+}
 int resolveEventSpellDamage(uint32_t spellId, uint32_t skillLevel)
 {
     if (spellId == MeteorShowerSpellId)
@@ -2606,6 +2756,9 @@ OutdoorWorldRuntime::CorpseViewState OutdoorWorldRuntime::buildCorpseView(
 
         if (goldItem.goldAmount > 0)
         {
+            const GoldHeapVisual goldVisual = classifyGoldHeapVisual(goldItem.goldAmount);
+            goldItem.width = goldVisual.width;
+            goldItem.height = goldVisual.height;
             view.items.push_back(goldItem);
         }
     }
@@ -2656,6 +2809,9 @@ OutdoorWorldRuntime::ChestViewState OutdoorWorldRuntime::buildChestView(uint32_t
     const MapDeltaChest &chest = m_chests[chestId];
     view.chestTypeId = chest.chestTypeId;
     view.flags = chest.flags;
+    const ChestEntry *pChestEntry = m_pChestTable != nullptr ? m_pChestTable->get(chest.chestTypeId) : nullptr;
+    view.gridWidth = pChestEntry != nullptr && pChestEntry->gridWidth > 0 ? pChestEntry->gridWidth : 9;
+    view.gridHeight = pChestEntry != nullptr && pChestEntry->gridHeight > 0 ? pChestEntry->gridHeight : 9;
 
     if (DebugChestPopulateLogging)
     {
@@ -2666,7 +2822,7 @@ OutdoorWorldRuntime::ChestViewState OutdoorWorldRuntime::buildChestView(uint32_t
                   << '\n';
     }
 
-    if (chest.rawItems.empty() || chest.inventoryMatrix.empty())
+    if (chest.rawItems.empty() || chest.inventoryMatrix.empty() || view.gridWidth == 0 || view.gridHeight == 0)
     {
         if (DebugChestPopulateLogging)
         {
@@ -2718,187 +2874,218 @@ OutdoorWorldRuntime::ChestViewState OutdoorWorldRuntime::buildChestView(uint32_t
                   << '\n';
     }
 
-    std::mt19937 rng(makeChestSeed(m_sessionChestSeed, m_mapId, chestId, 0));
     const int mapTreasureLevel = std::clamp(m_mapTreasureLevel + 1, 1, 7);
-    size_t positiveCells = 0;
-    size_t negativeCells = 0;
-    std::ostringstream matrixSample;
-    size_t sampledCells = 0;
-
-    for (size_t cellIndex = 0; cellIndex < chest.inventoryMatrix.size(); ++cellIndex)
-    {
-        const int16_t cellValue = chest.inventoryMatrix[cellIndex];
-
-        if (cellValue > 0)
-        {
-            ++positiveCells;
-        }
-        else if (cellValue < 0)
-        {
-            ++negativeCells;
-        }
-
-        if (cellValue != 0 && sampledCells < 12)
-        {
-            if (sampledCells > 0)
-            {
-                matrixSample << ' ';
-            }
-
-            matrixSample << cellIndex << ':' << cellValue;
-            ++sampledCells;
-        }
-    }
-
-    if (DebugChestPopulateLogging)
-    {
-        std::cout << "  matrix positive=" << positiveCells
-                  << " negative=" << negativeCells
-                  << " sample=[" << matrixSample.str() << "]"
-                  << '\n';
-    }
-
     size_t materializedRecords = 0;
 
-    for (size_t itemIndex = 0; itemIndex < rawItemIds.size(); ++itemIndex)
-    {
-        const int32_t itemId = rawItemIds[itemIndex];
-
-        if (itemId == 0)
+    const auto resolveChestItemSize =
+        [this](ChestItemState &item)
         {
-            continue;
-        }
-
-        const bool hasGridReference = std::find(
-            chest.inventoryMatrix.begin(),
-            chest.inventoryMatrix.end(),
-            static_cast<int16_t>(itemIndex + 1)
-        ) != chest.inventoryMatrix.end();
-        materializedRecords += 1;
-
-        if (DebugChestPopulateLogging)
-        {
-            std::cout << "  record=" << itemIndex
-                      << " raw_item_id=" << itemId
-                      << " grid_ref=" << (hasGridReference ? "yes" : "no")
-                      << '\n';
-        }
-
-        if (itemId > 0)
-        {
-            ChestItemState item = {};
-            item.itemId = static_cast<uint32_t>(itemId);
-            item.quantity = 1;
-            appendChestItem(view.items, item);
-            if (DebugChestPopulateLogging)
+            if (item.isGold)
             {
-                std::cout << "    serialized item=" << item.itemId;
-
-                if (m_pItemTable != nullptr && m_pItemTable->get(item.itemId) == nullptr)
-                {
-                    std::cout << " unknown";
-                }
-
-                std::cout << '\n';
+                const GoldHeapVisual goldVisual = classifyGoldHeapVisual(item.goldAmount);
+                item.width = goldVisual.width;
+                item.height = goldVisual.height;
+                return;
             }
-            continue;
-        }
 
-        if (itemId > -8 && itemId < 0)
+            const ItemDefinition *pItemDefinition = m_pItemTable != nullptr ? m_pItemTable->get(item.itemId) : nullptr;
+            item.width = pItemDefinition != nullptr ? std::max<uint8_t>(1, pItemDefinition->inventoryWidth) : 1;
+            item.height = pItemDefinition != nullptr ? std::max<uint8_t>(1, pItemDefinition->inventoryHeight) : 1;
+        };
+
+    const auto materializeChestRecord =
+        [this, chestId, mapTreasureLevel, &resolveChestItemSize](int32_t rawItemId, size_t recordIndex)
         {
-            const int resolvedTreasureLevel = remapTreasureLevel(-itemId, mapTreasureLevel);
+            std::vector<ChestItemState> generatedItems;
+
+            if (rawItemId == 0)
+            {
+                return generatedItems;
+            }
+
+            if (rawItemId > 0)
+            {
+                ChestItemState item = {};
+                item.itemId = static_cast<uint32_t>(rawItemId);
+                item.quantity = 1;
+                resolveChestItemSize(item);
+                generatedItems.push_back(item);
+                return generatedItems;
+            }
+
+            if (rawItemId <= -8)
+            {
+                return generatedItems;
+            }
+
+            std::mt19937 rng(makeChestSeed(m_sessionChestSeed, m_mapId, chestId, static_cast<uint32_t>(recordIndex)));
+            const int resolvedTreasureLevel = remapTreasureLevel(-rawItemId, mapTreasureLevel);
             const int generatedCount = std::uniform_int_distribution<int>(1, 5)(rng);
-            if (DebugChestPopulateLogging)
-            {
-                std::cout << "    random placeholder level=" << (-itemId)
-                          << " map_treasure=" << mapTreasureLevel
-                          << " resolved=" << resolvedTreasureLevel
-                          << " rolls=" << generatedCount
-                          << '\n';
-            }
 
-            for (int count = 0; count < generatedCount; ++count)
+            for (int generatedIndex = 0; generatedIndex < generatedCount; ++generatedIndex)
             {
                 const int roll = std::uniform_int_distribution<int>(0, 99)(rng);
 
-                if (DebugChestPopulateLogging)
-                {
-                    std::cout << "      roll=" << roll;
-                }
-
                 if (roll < 20)
                 {
-                    if (DebugChestPopulateLogging)
-                    {
-                        std::cout << " -> empty\n";
-                    }
-                    continue;
-                }
-
-                if (roll < 60)
-                {
-                    ChestItemState gold = {};
-                    gold.goldAmount = static_cast<uint32_t>(generateGoldAmount(
-                        std::min(resolvedTreasureLevel, SpawnableItemTreasureLevels),
-                        rng
-                    ));
-                    gold.goldRollCount = 1;
-                    gold.isGold = gold.goldAmount > 0;
-
-                    if (gold.isGold)
-                    {
-                        appendChestItem(view.items, gold);
-                        if (DebugChestPopulateLogging)
-                        {
-                            std::cout << " -> gold " << gold.goldAmount << '\n';
-                        }
-                    }
-                    else
-                    {
-                        if (DebugChestPopulateLogging)
-                        {
-                            std::cout << " -> gold 0 skipped\n";
-                        }
-                    }
-
-                    continue;
-                }
-
-                const int generationLevel = std::min(resolvedTreasureLevel, SpawnableItemTreasureLevels);
-                const uint32_t generatedItemId = generateRandomItemId(generationLevel, rng);
-
-                if (generatedItemId == 0)
-                {
-                    if (DebugChestPopulateLogging)
-                    {
-                        std::cout << " -> item generation failed\n";
-                    }
                     continue;
                 }
 
                 ChestItemState item = {};
-                item.itemId = generatedItemId;
-                item.quantity = 1;
-                appendChestItem(view.items, item);
 
-                if (DebugChestPopulateLogging)
+                if (roll < 60)
                 {
-                    std::cout << " -> item " << generatedItemId << '\n';
+                    item.goldAmount = static_cast<uint32_t>(generateGoldAmount(
+                        std::min(resolvedTreasureLevel, SpawnableItemTreasureLevels),
+                        rng
+                    ));
+                    item.goldRollCount = item.goldAmount > 0 ? 1u : 0u;
+                    item.isGold = item.goldAmount > 0;
+
+                    if (!item.isGold)
+                    {
+                        continue;
+                    }
                 }
+                else
+                {
+                    const int generationLevel = std::min(resolvedTreasureLevel, SpawnableItemTreasureLevels);
+                    item.itemId = generateRandomItemId(generationLevel, rng);
+                    item.quantity = 1;
+
+                    if (item.itemId == 0)
+                    {
+                        continue;
+                    }
+                }
+
+                resolveChestItemSize(item);
+                generatedItems.push_back(item);
             }
 
+            return generatedItems;
+        };
+
+    std::vector<std::vector<ChestItemState>> materializedRecordItems(rawItemIds.size());
+    std::vector<bool> placedRecords(rawItemIds.size(), false);
+    std::vector<ChestItemState> deferredItems;
+
+    for (size_t recordIndex = 0; recordIndex < rawItemIds.size(); ++recordIndex)
+    {
+        materializedRecordItems[recordIndex] = materializeChestRecord(rawItemIds[recordIndex], recordIndex);
+
+        if (!materializedRecordItems[recordIndex].empty())
+        {
+            ++materializedRecords;
+            deferredItems.reserve(deferredItems.size() + materializedRecordItems[recordIndex].size());
+        }
+    }
+
+    for (uint8_t gridY = 0; gridY < view.gridHeight; ++gridY)
+    {
+        for (uint8_t gridX = 0; gridX < view.gridWidth; ++gridX)
+        {
+            const size_t cellIndex = static_cast<size_t>(gridY) * view.gridWidth + gridX;
+
+            if (cellIndex >= chest.inventoryMatrix.size())
+            {
+                continue;
+            }
+
+            const int16_t cellValue = chest.inventoryMatrix[cellIndex];
+
+            if (cellValue <= 0)
+            {
+                continue;
+            }
+
+            const size_t recordIndex = static_cast<size_t>(cellValue - 1);
+
+            if (recordIndex >= rawItemIds.size() || placedRecords[recordIndex])
+            {
+                continue;
+            }
+
+            placedRecords[recordIndex] = true;
+            const std::vector<ChestItemState> &recordItems = materializedRecordItems[recordIndex];
+
+            if (recordItems.empty())
+            {
+                continue;
+            }
+
+            ChestItemState anchoredItem = recordItems.front();
+            anchoredItem.gridX = gridX;
+            anchoredItem.gridY = gridY;
+
+            if (canPlaceChestItem(anchoredItem, view.items, view.gridWidth, view.gridHeight))
+            {
+                view.items.push_back(anchoredItem);
+            }
+            else
+            {
+                deferredItems.push_back(anchoredItem);
+            }
+
+            for (size_t itemIndex = 1; itemIndex < recordItems.size(); ++itemIndex)
+            {
+                deferredItems.push_back(recordItems[itemIndex]);
+            }
+        }
+    }
+
+    for (size_t recordIndex = 0; recordIndex < materializedRecordItems.size(); ++recordIndex)
+    {
+        if (placedRecords[recordIndex])
+        {
             continue;
         }
 
-        if (DebugChestPopulateLogging)
+        for (const ChestItemState &item : materializedRecordItems[recordIndex])
         {
-            std::cout << "    unsupported negative item marker skipped\n";
+            deferredItems.push_back(item);
+        }
+    }
+
+    std::mt19937 placementRng(makeChestSeed(m_sessionChestSeed, m_mapId, chestId, 0xfaceu));
+    const std::vector<uint8_t> placementCellOrder = buildRandomChestCellOrder(
+        view.gridWidth,
+        view.gridHeight,
+        placementRng
+    );
+    size_t hiddenItemCount = 0;
+
+    for (const ChestItemState &deferredItem : deferredItems)
+    {
+        bool placed = false;
+
+        for (uint8_t cellIndex : placementCellOrder)
+        {
+            ChestItemState candidate = deferredItem;
+            candidate.gridX = static_cast<uint8_t>(cellIndex % view.gridWidth);
+            candidate.gridY = static_cast<uint8_t>(cellIndex / view.gridWidth);
+
+            if (!canPlaceChestItem(candidate, view.items, view.gridWidth, view.gridHeight))
+            {
+                continue;
+            }
+
+            view.items.push_back(candidate);
+            placed = true;
+            break;
+        }
+
+        if (!placed)
+        {
+            ++hiddenItemCount;
         }
     }
 
     if (DebugChestPopulateLogging)
     {
         std::cout << "  materialized_records=" << materializedRecords
+                  << " deferred_items=" << deferredItems.size()
+                  << " hidden_items=" << hiddenItemCount
                   << " final_entries=" << view.items.size()
                   << '\n';
     }
@@ -2933,6 +3120,7 @@ void OutdoorWorldRuntime::initialize(
     const ObjectTable &objectTable,
     const SpellTable &spellTable,
     const ItemTable &itemTable,
+    const ChestTable *pChestTable,
     const std::optional<OutdoorMapData> &outdoorMapData,
     const std::optional<MapDeltaData> &outdoorMapDeltaData,
     const std::optional<EventRuntimeState> &eventRuntimeState,
@@ -2964,6 +3152,7 @@ void OutdoorWorldRuntime::initialize(
     m_activeChestView.reset();
     m_eventRuntimeState = eventRuntimeState;
     m_pItemTable = &itemTable;
+    m_pChestTable = pChestTable;
     m_pMonsterTable = &monsterTable;
     m_pMonsterProjectileTable = &monsterProjectileTable;
     m_pObjectTable = &objectTable;
@@ -5629,6 +5818,102 @@ bool OutdoorWorldRuntime::takeActiveChestItem(size_t itemIndex, ChestItemState &
     item = m_activeChestView->items[itemIndex];
     m_activeChestView->items.erase(m_activeChestView->items.begin() + static_cast<ptrdiff_t>(itemIndex));
 
+    const uint32_t chestId = m_activeChestView->chestId;
+
+    if (chestId < m_materializedChestViews.size() && m_materializedChestViews[chestId].has_value())
+    {
+        m_materializedChestViews[chestId] = *m_activeChestView;
+    }
+
+    return true;
+}
+
+bool OutdoorWorldRuntime::takeActiveChestItemAt(uint8_t gridX, uint8_t gridY, ChestItemState &item)
+{
+    if (!m_activeChestView)
+    {
+        return false;
+    }
+
+    for (size_t itemIndex = 0; itemIndex < m_activeChestView->items.size(); ++itemIndex)
+    {
+        if (!chestItemContainsCell(m_activeChestView->items[itemIndex], gridX, gridY))
+        {
+            continue;
+        }
+
+        item = m_activeChestView->items[itemIndex];
+        m_activeChestView->items.erase(m_activeChestView->items.begin() + static_cast<ptrdiff_t>(itemIndex));
+        const uint32_t chestId = m_activeChestView->chestId;
+
+        if (chestId < m_materializedChestViews.size() && m_materializedChestViews[chestId].has_value())
+        {
+            m_materializedChestViews[chestId] = *m_activeChestView;
+        }
+
+        return true;
+    }
+
+    return false;
+}
+
+bool OutdoorWorldRuntime::tryPlaceActiveChestItemAt(const ChestItemState &item, uint8_t gridX, uint8_t gridY)
+{
+    if (!m_activeChestView)
+    {
+        return false;
+    }
+
+    ChestItemState placedItem = item;
+    placedItem.width = std::max<uint8_t>(1, item.width);
+    placedItem.height = std::max<uint8_t>(1, item.height);
+    placedItem.gridX = gridX;
+    placedItem.gridY = gridY;
+
+    const auto canPlace =
+        [this](const ChestItemState &candidate) -> bool
+        {
+            if (!chestItemFitsAt(
+                    candidate,
+                    candidate.gridX,
+                    candidate.gridY,
+                    m_activeChestView->gridWidth,
+                    m_activeChestView->gridHeight))
+            {
+                return false;
+            }
+
+            for (const ChestItemState &existingItem : m_activeChestView->items)
+            {
+                if (chestItemsOverlap(existingItem, candidate))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        };
+
+    if (!canPlace(placedItem))
+    {
+        const std::optional<std::pair<uint8_t, uint8_t>> fallbackPlacement =
+            findFirstFreeChestSlot(
+                m_activeChestView->items,
+                placedItem.width,
+                placedItem.height,
+                m_activeChestView->gridWidth,
+                m_activeChestView->gridHeight);
+
+        if (!fallbackPlacement)
+        {
+            return false;
+        }
+
+        placedItem.gridX = fallbackPlacement->first;
+        placedItem.gridY = fallbackPlacement->second;
+    }
+
+    m_activeChestView->items.push_back(placedItem);
     const uint32_t chestId = m_activeChestView->chestId;
 
     if (chestId < m_materializedChestViews.size() && m_materializedChestViews[chestId].has_value())

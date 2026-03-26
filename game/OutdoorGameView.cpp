@@ -76,7 +76,32 @@ constexpr float HudReferenceWidth = 640.0f;
 constexpr float HudReferenceHeight = 480.0f;
 constexpr float HudFontIntegerSnapThreshold = 0.1f;
 constexpr float MaxUiViewportAspect = 4.0f / 3.0f;
-constexpr uint64_t PartyPortraitDoubleClickWindowMs = 300;
+constexpr uint64_t PartyPortraitDoubleClickWindowMs = 500;
+
+struct GoldHeapVisual
+{
+    const char *pTextureName = "item204";
+    uint8_t width = 1;
+    uint8_t height = 1;
+    uint32_t objectDescriptionId = 187;
+};
+
+GoldHeapVisual classifyGoldHeapVisual(uint32_t goldAmount)
+{
+    // OE stores small/medium/large gold piles as distinct items at generation time.
+    // We infer the same visual tier from the generated amount ranges.
+    if (goldAmount <= 200)
+    {
+        return {"item204", 1, 1, 187};
+    }
+
+    if (goldAmount <= 1000)
+    {
+        return {"item205", 2, 1, 188};
+    }
+
+    return {"item206", 2, 1, 189};
+}
 
 struct UiViewportRect
 {
@@ -381,15 +406,27 @@ InventoryGridMetrics computeInventoryGridMetrics(
     float y,
     float width,
     float height,
-    float scale)
+    float scale,
+    int columns,
+    int rows)
 {
     InventoryGridMetrics metrics = {};
     metrics.x = x;
     metrics.y = y;
-    metrics.cellWidth = width / static_cast<float>(Character::InventoryWidth);
-    metrics.cellHeight = height / static_cast<float>(Character::InventoryHeight);
+    metrics.cellWidth = width / static_cast<float>(std::max(1, columns));
+    metrics.cellHeight = height / static_cast<float>(std::max(1, rows));
     metrics.scale = scale;
     return metrics;
+}
+
+InventoryGridMetrics computeInventoryGridMetrics(
+    float x,
+    float y,
+    float width,
+    float height,
+    float scale)
+{
+    return computeInventoryGridMetrics(x, y, width, height, scale, Character::InventoryWidth, Character::InventoryHeight);
 }
 
 InventoryItemScreenRect computeInventoryItemScreenRect(
@@ -2205,7 +2242,10 @@ OutdoorGameView::OutdoorGameView()
     , m_heldInventoryDropLatch(false)
     , m_closeOverlayLatch(false)
     , m_dialogueClickLatch(false)
+    , m_chestItemClickLatch(false)
     , m_dialoguePressedTarget({})
+    , m_chestClickLatch(false)
+    , m_chestPressedTarget({})
     , m_lootChestItemLatch(false)
     , m_chestSelectUpLatch(false)
     , m_chestSelectDownLatch(false)
@@ -3626,11 +3666,12 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
 
         if (m_showGameplayHud)
         {
-            renderChestPanel(width, height);
+            renderChestPanel(width, height, false);
             renderEventDialogPanel(width, height, false);
             renderCharacterOverlay(width, height, false);
             renderGameplayHudArt(width, height);
             renderGameplayHud(width, height);
+            renderChestPanel(width, height, true);
             renderCharacterOverlay(width, height, true);
             renderEventDialogPanel(width, height, true);
             renderHeldInventoryItem(width, height);
@@ -3906,7 +3947,11 @@ void OutdoorGameView::renderGameplayHudArt(int width, int height)
     MinimapOverlayState minimapOverlay = {};
     const HudScreenState hudScreenState = currentHudScreenState();
     const bool isLimitedOverlayHud =
-        hudScreenState == HudScreenState::Dialogue || hudScreenState == HudScreenState::Character;
+        hudScreenState == HudScreenState::Dialogue
+        || hudScreenState == HudScreenState::Character
+        || hudScreenState == HudScreenState::Chest;
+    const bool shouldRenderStatusBar =
+        hudScreenState != HudScreenState::Dialogue && hudScreenState != HudScreenState::Character;
 
     const auto isGameplayElementVisibleInHudState =
         [this, hudScreenState, isLimitedOverlayHud](const HudLayoutElement &layout) -> bool
@@ -4330,7 +4375,11 @@ void OutdoorGameView::renderGameplayHud(int width, int height) const
     bgfx::touch(HudViewId);
     const HudScreenState hudScreenState = currentHudScreenState();
     const bool isLimitedOverlayHud =
-        hudScreenState == HudScreenState::Dialogue || hudScreenState == HudScreenState::Character;
+        hudScreenState == HudScreenState::Dialogue
+        || hudScreenState == HudScreenState::Character
+        || hudScreenState == HudScreenState::Chest;
+    const bool shouldRenderStatusBar =
+        hudScreenState != HudScreenState::Dialogue && hudScreenState != HudScreenState::Character;
 
     const auto replaceAll = [](std::string text, const std::string &from, const std::string &to) -> std::string
     {
@@ -4361,7 +4410,7 @@ void OutdoorGameView::renderGameplayHud(int width, int height) const
 
         return replacedFood;
     };
-    if (!isLimitedOverlayHud)
+    if (shouldRenderStatusBar)
     {
         const std::optional<ResolvedHudLayoutElement> resolvedStatusBar = resolveHudLayoutElement(
             "OutdoorStatusBar",
@@ -4486,7 +4535,7 @@ void OutdoorGameView::renderGameplayHud(int width, int height) const
     }
 }
 
-void OutdoorGameView::renderChestPanel(int width, int height) const
+void OutdoorGameView::renderChestPanel(int width, int height, bool renderAboveHud) const
 {
     if (m_pOutdoorWorldRuntime == nullptr || m_chestTable == std::nullopt || width <= 0 || height <= 0)
     {
@@ -4497,6 +4546,281 @@ void OutdoorGameView::renderChestPanel(int width, int height) const
     const OutdoorWorldRuntime::CorpseViewState *pCorpseView = m_pOutdoorWorldRuntime->activeCorpseView();
 
     if (pChestView == nullptr && pCorpseView == nullptr)
+    {
+        return;
+    }
+
+    if (currentHudScreenState() != HudScreenState::Chest)
+    {
+        return;
+    }
+
+    auto submitTexturedQuad =
+        [this](
+            const HudTextureHandle &texture,
+            float x,
+            float y,
+            float quadWidth,
+            float quadHeight)
+        {
+            if (bgfx::getAvailTransientVertexBuffer(6, TexturedTerrainVertex::ms_layout) < 6)
+            {
+                return;
+            }
+
+            bgfx::TransientVertexBuffer transientVertexBuffer;
+            bgfx::allocTransientVertexBuffer(&transientVertexBuffer, 6, TexturedTerrainVertex::ms_layout);
+            TexturedTerrainVertex *pVertices = reinterpret_cast<TexturedTerrainVertex *>(transientVertexBuffer.data);
+
+            pVertices[0] = {x, y, 0.0f, 0.0f, 0.0f};
+            pVertices[1] = {x + quadWidth, y, 0.0f, 1.0f, 0.0f};
+            pVertices[2] = {x + quadWidth, y + quadHeight, 0.0f, 1.0f, 1.0f};
+            pVertices[3] = {x, y, 0.0f, 0.0f, 0.0f};
+            pVertices[4] = {x + quadWidth, y + quadHeight, 0.0f, 1.0f, 1.0f};
+            pVertices[5] = {x, y + quadHeight, 0.0f, 0.0f, 1.0f};
+
+            float modelMatrix[16] = {};
+            bx::mtxIdentity(modelMatrix);
+            bgfx::setTransform(modelMatrix);
+            bgfx::setVertexBuffer(0, &transientVertexBuffer);
+            bgfx::setTexture(0, m_terrainTextureSamplerHandle, texture.textureHandle);
+            bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_BLEND_ALPHA);
+            bgfx::submit(HudViewId, m_texturedTerrainProgramHandle);
+        };
+
+    if (pChestView != nullptr)
+    {
+        float chestMouseX = 0.0f;
+        float chestMouseY = 0.0f;
+        const SDL_MouseButtonFlags chestMouseButtons = SDL_GetMouseState(&chestMouseX, &chestMouseY);
+        const bool isLeftMousePressed = (chestMouseButtons & SDL_BUTTON_LMASK) != 0;
+        const ChestEntry *pChestEntry = m_chestTable->get(pChestView->chestTypeId);
+        const std::vector<std::string> orderedChestLayoutIds = sortedHudLayoutIdsForScreen("Chest");
+        const Party *pParty = m_pOutdoorPartyRuntime != nullptr ? &m_pOutdoorPartyRuntime->party() : nullptr;
+        const int hudZThreshold = defaultHudLayoutZIndexForScreen("OutdoorHud");
+        const auto shouldRenderInCurrentPass =
+            [renderAboveHud, hudZThreshold](int zIndex) -> bool
+            {
+                return renderAboveHud ? zIndex >= hudZThreshold : zIndex < hudZThreshold;
+            };
+
+        const auto replaceAll = [](std::string text, const std::string &from, const std::string &to) -> std::string
+        {
+            size_t position = 0;
+
+            while ((position = text.find(from, position)) != std::string::npos)
+            {
+                text.replace(position, from.size(), to);
+                position += to.size();
+            }
+
+            return text;
+        };
+
+        for (const std::string &layoutId : orderedChestLayoutIds)
+        {
+            const HudLayoutElement *pLayout = findHudLayoutElement(layoutId);
+
+            if (pLayout == nullptr || !pLayout->visible)
+            {
+                continue;
+            }
+
+            if (!shouldRenderInCurrentPass(pLayout->zIndex))
+            {
+                continue;
+            }
+
+            const float fallbackWidth = pLayout->width > 0.0f ? pLayout->width : 0.0f;
+            const float fallbackHeight = pLayout->height > 0.0f ? pLayout->height : 0.0f;
+            const std::optional<ResolvedHudLayoutElement> resolved = resolveHudLayoutElement(
+                layoutId,
+                width,
+                height,
+                fallbackWidth,
+                fallbackHeight);
+
+            if (!resolved)
+            {
+                continue;
+            }
+
+            std::string assetName = pLayout->primaryAsset;
+
+            if (toLowerCopy(layoutId) == "chestbackground" && pChestEntry != nullptr && !pChestEntry->textureName.empty())
+            {
+                assetName = pChestEntry->textureName;
+            }
+            else if (pLayout->interactive)
+            {
+                const std::optional<ResolvedHudLayoutElement> interactiveResolved = resolveHudLayoutElement(
+                    layoutId,
+                    width,
+                    height,
+                    pLayout->width,
+                    pLayout->height);
+
+                if (interactiveResolved)
+                {
+                    if (const std::string *pInteractiveAsset = resolveInteractiveAssetName(
+                            *pLayout,
+                            *interactiveResolved,
+                            chestMouseX,
+                            chestMouseY,
+                            isLeftMousePressed))
+                    {
+                        assetName = *pInteractiveAsset;
+                    }
+                }
+            }
+
+            if (!assetName.empty())
+            {
+                const HudTextureHandle *pTexture = const_cast<OutdoorGameView *>(this)->ensureHudTextureLoaded(assetName);
+
+                if (pTexture != nullptr)
+                {
+                    if (toLowerCopy(layoutId) == "chesticonbackground")
+                    {
+                        const HudTextureHandle *pPortraitBorder =
+                            const_cast<OutdoorGameView *>(this)->ensureHudTextureLoaded("evtnpc");
+
+                        if (pPortraitBorder != nullptr)
+                        {
+                            const float borderSize = std::min(resolved->width, resolved->height);
+                            const float borderX = std::round(resolved->x + (resolved->width - borderSize) * 0.5f);
+                            const float borderY = std::round(resolved->y + (resolved->height - borderSize) * 0.5f);
+                            submitTexturedQuad(*pPortraitBorder, borderX, borderY, borderSize, borderSize);
+                        }
+                    }
+
+                    const float renderWidth =
+                        pLayout->width > 0.0f ? resolved->width : static_cast<float>(pTexture->width) * resolved->scale;
+                    const float renderHeight =
+                        pLayout->height > 0.0f ? resolved->height : static_cast<float>(pTexture->height) * resolved->scale;
+                    submitTexturedQuad(*pTexture, resolved->x, resolved->y, renderWidth, renderHeight);
+                }
+            }
+
+            if (!pLayout->fontName.empty() && !pLayout->labelText.empty())
+            {
+                std::string label = pLayout->labelText;
+
+                if (pParty != nullptr)
+                {
+                    label = replaceAll(label, "{gold}", std::to_string(pParty->gold()));
+                    label = replaceAll(label, "{food}", std::to_string(pParty->food()));
+                }
+
+                renderLayoutLabel(*pLayout, *resolved, label);
+            }
+
+            if (toLowerCopy(layoutId) == "chestgridarea")
+            {
+                const std::optional<ResolvedHudLayoutElement> resolvedGrid = resolveChestGridArea(width, height);
+
+                if (!resolvedGrid || pChestView->gridWidth == 0 || pChestView->gridHeight == 0)
+                {
+                    continue;
+                }
+
+                const InventoryGridMetrics gridMetrics = computeInventoryGridMetrics(
+                    resolvedGrid->x,
+                    resolvedGrid->y,
+                    resolvedGrid->width,
+                    resolvedGrid->height,
+                    resolvedGrid->scale,
+                    pChestView->gridWidth,
+                    pChestView->gridHeight);
+
+                for (const OutdoorWorldRuntime::ChestItemState &item : pChestView->items)
+                {
+                    InventoryItem renderItem = {};
+                    renderItem.objectDescriptionId = item.itemId;
+                    renderItem.quantity = item.quantity;
+                    renderItem.width = item.width;
+                    renderItem.height = item.height;
+                    renderItem.gridX = item.gridX;
+                    renderItem.gridY = item.gridY;
+
+                    if (item.isGold)
+                    {
+                        const GoldHeapVisual goldVisual = classifyGoldHeapVisual(item.goldAmount);
+                        renderItem.width = goldVisual.width;
+                        renderItem.height = goldVisual.height;
+
+                        const HudTextureHandle *pGoldTexture =
+                            const_cast<OutdoorGameView *>(this)->ensureHudTextureLoaded(goldVisual.pTextureName);
+
+                        if (pGoldTexture == nullptr)
+                        {
+                            continue;
+                        }
+
+                        const float itemWidth = static_cast<float>(pGoldTexture->width) * gridMetrics.scale;
+                        const float itemHeight = static_cast<float>(pGoldTexture->height) * gridMetrics.scale;
+                        const InventoryItemScreenRect itemRect =
+                            computeInventoryItemScreenRect(gridMetrics, renderItem, itemWidth, itemHeight);
+                        submitTexturedQuad(*pGoldTexture, itemRect.x, itemRect.y, itemRect.width, itemRect.height);
+
+                        RenderedInspectableHudItem inspectableItem = {};
+                        inspectableItem.objectDescriptionId = goldVisual.objectDescriptionId;
+                        inspectableItem.textureName = goldVisual.pTextureName;
+                        inspectableItem.hasValueOverride = true;
+                        inspectableItem.valueOverride =
+                            std::min(item.goldAmount, static_cast<uint32_t>(std::numeric_limits<int>::max()));
+                        inspectableItem.x = itemRect.x;
+                        inspectableItem.y = itemRect.y;
+                        inspectableItem.width = itemRect.width;
+                        inspectableItem.height = itemRect.height;
+                        m_renderedInspectableHudItems.push_back(std::move(inspectableItem));
+                        continue;
+                    }
+
+                    const ItemDefinition *pItemDefinition =
+                        m_pItemTable != nullptr ? m_pItemTable->get(item.itemId) : nullptr;
+
+                    if (pItemDefinition == nullptr || pItemDefinition->iconName.empty())
+                    {
+                        continue;
+                    }
+
+                    const HudTextureHandle *pItemTexture =
+                        const_cast<OutdoorGameView *>(this)->ensureHudTextureLoaded(pItemDefinition->iconName);
+
+                    if (pItemTexture == nullptr)
+                    {
+                        continue;
+                    }
+
+                    const float itemWidth = static_cast<float>(pItemTexture->width) * gridMetrics.scale;
+                    const float itemHeight = static_cast<float>(pItemTexture->height) * gridMetrics.scale;
+                    const InventoryItemScreenRect itemRect =
+                        computeInventoryItemScreenRect(gridMetrics, renderItem, itemWidth, itemHeight);
+                    submitTexturedQuad(*pItemTexture, itemRect.x, itemRect.y, itemRect.width, itemRect.height);
+
+                    if (pItemDefinition->itemId != 0)
+                    {
+                        RenderedInspectableHudItem inspectableItem = {};
+                        inspectableItem.objectDescriptionId = pItemDefinition->itemId;
+                        inspectableItem.textureName = pItemDefinition->iconName;
+                        inspectableItem.x = itemRect.x;
+                        inspectableItem.y = itemRect.y;
+                        inspectableItem.width = itemRect.width;
+                        inspectableItem.height = itemRect.height;
+                        m_renderedInspectableHudItems.push_back(std::move(inspectableItem));
+                    }
+                }
+            }
+        }
+    }
+
+    if (pChestView != nullptr)
+    {
+        return;
+    }
+
+    if (!renderAboveHud)
     {
         return;
     }
@@ -5551,6 +5875,29 @@ bool OutdoorGameView::trySelectPartyMember(size_t memberIndex, bool requireGamep
     return true;
 }
 
+bool OutdoorGameView::tryAutoPlaceHeldItemOnPartyMember(size_t memberIndex, bool showFailureStatus)
+{
+    if (m_pOutdoorPartyRuntime == nullptr || !m_heldInventoryItem.active)
+    {
+        return false;
+    }
+
+    Party &party = m_pOutdoorPartyRuntime->party();
+
+    if (!party.tryAutoPlaceItemInMemberInventory(memberIndex, m_heldInventoryItem.item))
+    {
+        if (showFailureStatus)
+        {
+            setStatusBarEvent(party.lastStatus().empty() ? "Inventory full" : party.lastStatus());
+        }
+
+        return false;
+    }
+
+    m_heldInventoryItem = {};
+    return true;
+}
+
 void OutdoorGameView::updateItemInspectOverlayState(int width, int height)
 {
     m_itemInspectOverlay = {};
@@ -5588,6 +5935,8 @@ void OutdoorGameView::updateItemInspectOverlayState(int width, int height)
 
             m_itemInspectOverlay.active = true;
             m_itemInspectOverlay.objectDescriptionId = it->objectDescriptionId;
+            m_itemInspectOverlay.hasValueOverride = it->hasValueOverride;
+            m_itemInspectOverlay.valueOverride = it->valueOverride;
             m_itemInspectOverlay.sourceX = it->x;
             m_itemInspectOverlay.sourceY = it->y;
             m_itemInspectOverlay.sourceWidth = it->width;
@@ -6121,6 +6470,49 @@ std::optional<OutdoorGameView::ResolvedHudLayoutElement> OutdoorGameView::resolv
     return rect;
 }
 
+std::optional<OutdoorGameView::ResolvedHudLayoutElement> OutdoorGameView::resolveChestGridArea(int width, int height) const
+{
+    if (m_pOutdoorWorldRuntime == nullptr || m_chestTable == std::nullopt || width <= 0 || height <= 0)
+    {
+        return std::nullopt;
+    }
+
+    const OutdoorWorldRuntime::ChestViewState *pChestView = m_pOutdoorWorldRuntime->activeChestView();
+
+    if (pChestView == nullptr)
+    {
+        return std::nullopt;
+    }
+
+    const ChestEntry *pChestEntry = m_chestTable->get(pChestView->chestTypeId);
+    const HudLayoutElement *pChestBackgroundLayout = findHudLayoutElement("ChestBackground");
+
+    if (pChestEntry == nullptr || pChestBackgroundLayout == nullptr || pChestView->gridWidth == 0 || pChestView->gridHeight == 0)
+    {
+        return std::nullopt;
+    }
+
+    const std::optional<ResolvedHudLayoutElement> resolvedBackground = resolveHudLayoutElement(
+        "ChestBackground",
+        width,
+        height,
+        pChestBackgroundLayout->width,
+        pChestBackgroundLayout->height);
+
+    if (!resolvedBackground)
+    {
+        return std::nullopt;
+    }
+
+    ResolvedHudLayoutElement resolved = {};
+    resolved.x = std::round(resolvedBackground->x + static_cast<float>(pChestEntry->gridOffsetX) * resolvedBackground->scale);
+    resolved.y = std::round(resolvedBackground->y + static_cast<float>(pChestEntry->gridOffsetY) * resolvedBackground->scale);
+    resolved.width = 32.0f * static_cast<float>(pChestView->gridWidth) * resolvedBackground->scale;
+    resolved.height = 32.0f * static_cast<float>(pChestView->gridHeight) * resolvedBackground->scale;
+    resolved.scale = resolvedBackground->scale;
+    return resolved;
+}
+
 OutdoorGameView::HudScreenState OutdoorGameView::currentHudScreenState() const
 {
     if (m_activeEventDialog.isActive)
@@ -6131,6 +6523,12 @@ OutdoorGameView::HudScreenState OutdoorGameView::currentHudScreenState() const
     if (m_characterScreenOpen)
     {
         return HudScreenState::Character;
+    }
+
+    if (m_pOutdoorWorldRuntime != nullptr
+        && (m_pOutdoorWorldRuntime->activeChestView() != nullptr || m_pOutdoorWorldRuntime->activeCorpseView() != nullptr))
+    {
+        return HudScreenState::Chest;
     }
 
     return HudScreenState::Gameplay;
@@ -7384,7 +7782,9 @@ void OutdoorGameView::renderItemInspectOverlay(int width, int height) const
     const std::string itemDetail = resolveItemInspectDetailText(*pItemDefinition);
 
     const std::string itemDescription = pItemDefinition->notes;
-    const std::string itemValue = std::to_string(std::max(0, pItemDefinition->value));
+    const int resolvedItemValue =
+        m_itemInspectOverlay.hasValueOverride ? m_itemInspectOverlay.valueOverride : pItemDefinition->value;
+    const std::string itemValue = std::to_string(std::max(0, resolvedItemValue));
     const HudTextureHandle *pItemTexture =
         !pItemDefinition->iconName.empty()
         ? const_cast<OutdoorGameView *>(this)->ensureHudTextureLoaded(pItemDefinition->iconName)
@@ -7841,7 +8241,11 @@ void OutdoorGameView::renderItemInspectOverlay(int width, int height) const
     if (valueBaseRect)
     {
         ResolvedHudLayoutElement valueRect = *valueBaseRect;
-        valueRect.y = std::round(dynamicDescriptionY + descriptionHeight + ItemInspectDescriptionToValueGap * popupScale);
+        const float minimumValueY =
+            dynamicDescriptionY + descriptionHeight + ItemInspectDescriptionToValueGap * popupScale;
+        const float anchoredValueY =
+            rootRect.y + rootRect.height - ItemInspectBottomPadding * popupScale - valueRect.height;
+        valueRect.y = std::round(std::max(minimumValueY, anchoredValueY));
         renderLayoutLabel(*pValueLayout, valueRect, "Value: " + itemValue);
     }
 }
@@ -9745,8 +10149,9 @@ bool OutdoorGameView::loadHudLayout(const Engine::AssetFileSystem &assetFileSyst
     m_hudLayoutElements.clear();
     m_hudLayoutOrder.clear();
 
-    const std::array<std::string, 5> layoutFiles = {
+    const std::array<std::string, 6> layoutFiles = {
         "Data/ui/gameplay.yml",
+        "Data/ui/chest.yml",
         "Data/ui/dialogue.yml",
         "Data/ui/character.yml",
         "Data/ui/item_inspect.yml",
@@ -14735,6 +15140,23 @@ void OutdoorGameView::updateCameraFromInput(float deltaSeconds)
             {
                 if (memberIndex)
                 {
+                    if (m_heldInventoryItem.active)
+                    {
+                        const bool switchCharacterOnFailedPlacement =
+                            m_characterScreenOpen && m_characterPage == CharacterPage::Inventory;
+
+                        if (tryAutoPlaceHeldItemOnPartyMember(*memberIndex, !switchCharacterOnFailedPlacement))
+                        {
+                            m_lastPartyPortraitClickedIndex = std::nullopt;
+                        }
+                        else if (switchCharacterOnFailedPlacement)
+                        {
+                            trySelectPartyMember(*memberIndex, requireGameplayReady);
+                        }
+
+                        return;
+                    }
+
                     const uint64_t nowTicks = SDL_GetTicks();
                     const bool isDoubleClick =
                         requireGameplayReady
@@ -16117,6 +16539,207 @@ void OutdoorGameView::updateCameraFromInput(float deltaSeconds)
         const size_t itemCount =
             pChestView != nullptr ? pChestView->items.size() : (pCorpseView != nullptr ? pCorpseView->items.size() : 0);
 
+        if (pChestView != nullptr && screenWidth > 0 && screenHeight > 0)
+        {
+            float chestMouseX = 0.0f;
+            float chestMouseY = 0.0f;
+            const SDL_MouseButtonFlags chestMouseButtons = SDL_GetMouseState(&chestMouseX, &chestMouseY);
+            const bool isChestLeftMousePressed = (chestMouseButtons & SDL_BUTTON_LMASK) != 0;
+            const HudPointerState chestPointerState = {
+                chestMouseX,
+                chestMouseY,
+                isChestLeftMousePressed
+            };
+            const auto findChestPointerTarget =
+                [this, screenWidth, screenHeight](float mouseX, float mouseY) -> ChestPointerTarget
+                {
+                    const HudLayoutElement *pCloseLayout = findHudLayoutElement("ChestCloseButton");
+
+                    if (pCloseLayout == nullptr)
+                    {
+                        return {};
+                    }
+
+                    const std::optional<ResolvedHudLayoutElement> resolvedClose = resolveHudLayoutElement(
+                        "ChestCloseButton",
+                        screenWidth,
+                        screenHeight,
+                        pCloseLayout->width,
+                        pCloseLayout->height);
+
+                    if (!resolvedClose)
+                    {
+                        return {};
+                    }
+
+                    if (mouseX >= resolvedClose->x
+                        && mouseX < resolvedClose->x + resolvedClose->width
+                        && mouseY >= resolvedClose->y
+                        && mouseY < resolvedClose->y + resolvedClose->height)
+                    {
+                        return {ChestPointerTargetType::CloseButton};
+                    }
+
+                    return {};
+                };
+            const ChestPointerTarget noneChestTarget = {};
+            handlePointerClickRelease(
+                chestPointerState,
+                m_chestClickLatch,
+                m_chestPressedTarget,
+                noneChestTarget,
+                findChestPointerTarget,
+                [this](const ChestPointerTarget &target)
+                {
+                    if (target.type == ChestPointerTargetType::CloseButton && m_pOutdoorWorldRuntime != nullptr)
+                    {
+                        m_pOutdoorWorldRuntime->closeActiveChestView();
+                        m_pOutdoorWorldRuntime->closeActiveCorpseView();
+                        m_activateInspectLatch = true;
+                        m_chestSelectionIndex = 0;
+                    }
+                });
+
+            const std::optional<ResolvedHudLayoutElement> resolvedChestGrid = resolveChestGridArea(screenWidth, screenHeight);
+            const ChestPointerTarget hoveredChestTarget = findChestPointerTarget(chestMouseX, chestMouseY);
+
+            if (resolvedChestGrid
+                && isChestLeftMousePressed
+                && !m_chestItemClickLatch
+                && hoveredChestTarget.type == ChestPointerTargetType::None
+                && chestMouseX >= resolvedChestGrid->x
+                && chestMouseX < resolvedChestGrid->x + resolvedChestGrid->width
+                && chestMouseY >= resolvedChestGrid->y
+                && chestMouseY < resolvedChestGrid->y + resolvedChestGrid->height)
+            {
+                const InventoryGridMetrics chestGridMetrics = computeInventoryGridMetrics(
+                    resolvedChestGrid->x,
+                    resolvedChestGrid->y,
+                    resolvedChestGrid->width,
+                    resolvedChestGrid->height,
+                    resolvedChestGrid->scale,
+                    pChestView->gridWidth,
+                    pChestView->gridHeight);
+                const uint8_t gridX = static_cast<uint8_t>(std::clamp(
+                    static_cast<int>((chestMouseX - resolvedChestGrid->x) / chestGridMetrics.cellWidth),
+                    0,
+                    static_cast<int>(pChestView->gridWidth) - 1));
+                const uint8_t gridY = static_cast<uint8_t>(std::clamp(
+                    static_cast<int>((chestMouseY - resolvedChestGrid->y) / chestGridMetrics.cellHeight),
+                    0,
+                    static_cast<int>(pChestView->gridHeight) - 1));
+
+                if (m_heldInventoryItem.active)
+                {
+                    OutdoorWorldRuntime::ChestItemState chestItem = {};
+                    chestItem.itemId = m_heldInventoryItem.item.objectDescriptionId;
+                    chestItem.quantity = m_heldInventoryItem.item.quantity;
+                    chestItem.width = m_heldInventoryItem.item.width;
+                    chestItem.height = m_heldInventoryItem.item.height;
+                    const ItemDefinition *pItemDefinition =
+                        m_pItemTable != nullptr ? m_pItemTable->get(m_heldInventoryItem.item.objectDescriptionId) : nullptr;
+
+                    if (pItemDefinition != nullptr)
+                    {
+                        const HudTextureHandle *pItemTexture = ensureHudTextureLoaded(pItemDefinition->iconName);
+
+                        if (pItemTexture != nullptr)
+                        {
+                            const float itemWidth = static_cast<float>(pItemTexture->width) * chestGridMetrics.scale;
+                            const float itemHeight = static_cast<float>(pItemTexture->height) * chestGridMetrics.scale;
+                            const float drawX = chestMouseX - m_heldInventoryItem.grabOffsetX;
+                            const float drawY = chestMouseY - m_heldInventoryItem.grabOffsetY;
+                            const std::optional<std::pair<int, int>> placement =
+                                computeHeldInventoryPlacement(
+                                    chestGridMetrics,
+                                    chestItem.width,
+                                    chestItem.height,
+                                    itemWidth,
+                                    itemHeight,
+                                    drawX,
+                                    drawY);
+
+                            if (placement
+                                && placement->first >= 0
+                                && placement->second >= 0
+                                && placement->first < pChestView->gridWidth
+                                && placement->second < pChestView->gridHeight
+                                && m_pOutdoorWorldRuntime->tryPlaceActiveChestItemAt(
+                                    chestItem,
+                                    static_cast<uint8_t>(placement->first),
+                                    static_cast<uint8_t>(placement->second)))
+                            {
+                                m_heldInventoryItem = {};
+                            }
+                        }
+                    }
+                }
+                else if (m_pOutdoorWorldRuntime != nullptr && m_pOutdoorPartyRuntime != nullptr)
+                {
+                    OutdoorWorldRuntime::ChestItemState takenItem = {};
+
+                    if (m_pOutdoorWorldRuntime->takeActiveChestItemAt(gridX, gridY, takenItem))
+                    {
+                        if (takenItem.isGold)
+                        {
+                            m_pOutdoorPartyRuntime->party().addGold(static_cast<int>(takenItem.goldAmount));
+                        }
+                        else
+                        {
+                            m_heldInventoryItem.active = true;
+                            m_heldInventoryItem.item.objectDescriptionId = takenItem.itemId;
+                            m_heldInventoryItem.item.quantity = takenItem.quantity;
+                            m_heldInventoryItem.item.width = takenItem.width;
+                            m_heldInventoryItem.item.height = takenItem.height;
+                            m_heldInventoryItem.item.gridX = takenItem.gridX;
+                            m_heldInventoryItem.item.gridY = takenItem.gridY;
+                            m_heldInventoryItem.grabCellOffsetX = 0;
+                            m_heldInventoryItem.grabCellOffsetY = 0;
+                            m_heldInventoryItem.grabOffsetX = 0.0f;
+                            m_heldInventoryItem.grabOffsetY = 0.0f;
+
+                            const ItemDefinition *pItemDefinition =
+                                m_pItemTable != nullptr ? m_pItemTable->get(takenItem.itemId) : nullptr;
+
+                            if (pItemDefinition != nullptr && !pItemDefinition->iconName.empty())
+                            {
+                                const HudTextureHandle *pItemTexture = ensureHudTextureLoaded(pItemDefinition->iconName);
+
+                                if (pItemTexture != nullptr)
+                                {
+                                    InventoryItem heldItem = {};
+                                    heldItem.objectDescriptionId = takenItem.itemId;
+                                    heldItem.quantity = takenItem.quantity;
+                                    heldItem.width = takenItem.width;
+                                    heldItem.height = takenItem.height;
+                                    heldItem.gridX = takenItem.gridX;
+                                    heldItem.gridY = takenItem.gridY;
+                                    const float itemWidth = static_cast<float>(pItemTexture->width) * chestGridMetrics.scale;
+                                    const float itemHeight = static_cast<float>(pItemTexture->height) * chestGridMetrics.scale;
+                                    const InventoryItemScreenRect itemRect =
+                                        computeInventoryItemScreenRect(chestGridMetrics, heldItem, itemWidth, itemHeight);
+                                    m_heldInventoryItem.grabOffsetX = chestMouseX - itemRect.x;
+                                    m_heldInventoryItem.grabOffsetY = chestMouseY - itemRect.y;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                m_chestItemClickLatch = true;
+            }
+            else if (!isChestLeftMousePressed)
+            {
+                m_chestItemClickLatch = false;
+            }
+        }
+        else
+        {
+            m_chestClickLatch = false;
+            m_chestItemClickLatch = false;
+            m_chestPressedTarget = {};
+        }
+
         if (itemCount == 0)
         {
             m_chestSelectionIndex = 0;
@@ -16249,6 +16872,9 @@ void OutdoorGameView::updateCameraFromInput(float deltaSeconds)
     else
     {
         m_closeOverlayLatch = false;
+        m_chestClickLatch = false;
+        m_chestItemClickLatch = false;
+        m_chestPressedTarget = {};
         m_lootChestItemLatch = false;
         m_chestSelectUpLatch = false;
         m_chestSelectDownLatch = false;

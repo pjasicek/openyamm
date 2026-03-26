@@ -1,0 +1,127 @@
+screen: Chest
+
+elements:
+  - id: ChestRoot
+    anchor: center
+    width: 640
+    height: 480
+    scale:
+      min: 1.0
+      max: 3.0
+    notes: Shared root for the chest overlay shell.
+    children:
+      - id: ChestBackground
+        anchor: top_left
+        offset_x: 8
+        offset_y: 26
+        width: 460
+        height: 344
+        z_index: -50
+        asset:
+          default: chest01
+        notes: Chest background art. Runtime should override the asset from the active chest type.
+        children:
+          - id: ChestGridArea
+            anchor: top_left
+            offset_x: 0
+            offset_y: 0
+            width: 288
+            height: 288
+            z_index: 20
+            interactive: true
+            notes: Chest item grid hook. Runtime should position it from the chest UI offset table.
+
+      - id: ChestTopBar
+        anchor: top_center
+        width: 640
+        height: 29
+        z_index: 50
+        asset:
+          default: topbar
+        notes: Duplicated from the gameplay HUD so pages can layer independently above it.
+        children:
+          - id: ChestGoldFoodIcon
+            anchor: center_in
+            offset_x: -165
+            width: 134
+            height: 21
+            asset:
+              default: scoreBG
+            notes: Gold and food background art.
+
+          - id: ChestGoldLabel
+            anchor: center_in
+            offset_x: -85
+            width: 28
+            height: 14
+            text:
+              value: "{gold}"
+              font: SMALLNUM
+              align_x: center
+              align_y: middle
+            notes: Gold counter.
+
+          - id: ChestFoodLabel
+            anchor: center_in
+            offset_x: -180
+            width: 28
+            height: 14
+            text:
+              value: "{food}"
+              font: SMALLNUM
+              align_x: center
+              align_y: middle
+            notes: Food counter.
+
+      - id: ChestLeftBar
+        anchor: top_left
+        width: 8
+        height: 347
+        bottom_to: OutdoorBasebar
+        z_index: -5
+        asset:
+          default: IB-8pxbar
+        notes: Left vertical dialogue chrome.
+
+      - id: ChestRightFrame
+        anchor: top_right
+        width: 172
+        height: 368
+        bottom_to: OutdoorBasebar
+        z_index: 200
+        asset:
+          default: Ib-Mb-A
+        notes: Right-side frame reusing dialogue chrome.
+        children:
+          - id: ChestIconBackground
+            anchor: top
+            offset_y: 18
+            width: 71
+            height: 81
+            z_index: 260
+            asset:
+              default: evtnpc
+            notes: Chest icon background hook. User can retune the placement.
+
+          - id: ChestIcon
+            anchor: top
+            offset_y: 22
+            width: 63
+            height: 73
+            z_index: 270
+            asset:
+              default: ticonCH
+
+      - id: ChestCloseButton
+        anchor: bottom_right
+        offset_x: -42
+        offset_y: -42
+        width: 83
+        height: 30
+        z_index: 300
+        interactive: true
+        asset:
+          default: c_close_up
+          pressed: c_close_DN
+          highlighted: c_close_ht
+        notes: Close button matching dialogue styling.

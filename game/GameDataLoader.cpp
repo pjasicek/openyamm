@@ -1453,6 +1453,8 @@ bool GameDataLoader::loadChestTable(const Engine::AssetFileSystem &assetFileSyst
 {
     const std::optional<std::vector<uint8_t>> chestTableBytes =
         assetFileSystem.readBinaryFile("Data/EnglishT/dchest.bin");
+    const std::optional<std::string> chestUiText =
+        assetFileSystem.readTextFile("Data/CHEST_UI.txt");
 
     if (!chestTableBytes)
     {
@@ -1460,9 +1462,21 @@ bool GameDataLoader::loadChestTable(const Engine::AssetFileSystem &assetFileSyst
         return false;
     }
 
+    if (!chestUiText)
+    {
+        std::cerr << "Failed to read chest UI table: Data/CHEST_UI.txt\n";
+        return false;
+    }
+
     if (!m_chestTable.loadFromBytes(*chestTableBytes))
     {
         std::cerr << "Failed to parse chest table: Data/EnglishT/dchest.bin\n";
+        return false;
+    }
+
+    if (!m_chestTable.loadUiLayoutFromText(*chestUiText))
+    {
+        std::cerr << "Failed to parse chest UI table: Data/CHEST_UI.txt\n";
         return false;
     }
 
@@ -1798,7 +1812,9 @@ bool GameDataLoader::loadSelectedMap(
                     std::cout << " name=" << pChestEntry->name
                               << " size=" << static_cast<unsigned>(pChestEntry->width)
                               << "x" << static_cast<unsigned>(pChestEntry->height)
-                              << " tex=" << pChestEntry->textureName;
+                              << " tex=" << pChestEntry->textureName
+                              << " grid=" << pChestEntry->gridOffsetX
+                              << "," << pChestEntry->gridOffsetY;
                 }
 
                 std::cout << '\n';
@@ -1845,7 +1861,9 @@ bool GameDataLoader::loadSelectedMap(
                     std::cout << " name=" << pChestEntry->name
                               << " size=" << static_cast<unsigned>(pChestEntry->width)
                               << "x" << static_cast<unsigned>(pChestEntry->height)
-                              << " tex=" << pChestEntry->textureName;
+                              << " tex=" << pChestEntry->textureName
+                              << " grid=" << pChestEntry->gridOffsetX
+                              << "," << pChestEntry->gridOffsetY;
                 }
 
                 std::cout << '\n';

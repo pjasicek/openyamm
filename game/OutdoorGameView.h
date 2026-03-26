@@ -220,7 +220,8 @@ private:
     {
         Gameplay,
         Dialogue,
-        Character
+        Character,
+        Chest
     };
 
     enum class CharacterPage
@@ -252,6 +253,12 @@ private:
         CloseButton
     };
 
+    enum class ChestPointerTargetType
+    {
+        None,
+        CloseButton
+    };
+
     struct CharacterPointerTarget
     {
         CharacterPointerTargetType type = CharacterPointerTargetType::None;
@@ -279,6 +286,8 @@ private:
     {
         bool active = false;
         uint32_t objectDescriptionId = 0;
+        bool hasValueOverride = false;
+        int valueOverride = 0;
         float sourceX = 0.0f;
         float sourceY = 0.0f;
         float sourceWidth = 0.0f;
@@ -311,6 +320,8 @@ private:
         uint32_t objectDescriptionId = 0;
         EquipmentSlot equipmentSlot = EquipmentSlot::MainHand;
         std::string textureName;
+        bool hasValueOverride = false;
+        int valueOverride = 0;
         float x = 0.0f;
         float y = 0.0f;
         float width = 0.0f;
@@ -323,6 +334,13 @@ private:
         size_t index = 0;
 
         bool operator==(const DialoguePointerTarget &other) const = default;
+    };
+
+    struct ChestPointerTarget
+    {
+        ChestPointerTargetType type = ChestPointerTargetType::None;
+
+        bool operator==(const ChestPointerTarget &other) const = default;
     };
 
     struct HudLayoutElement
@@ -464,7 +482,8 @@ private:
     );
     void renderGameplayHudArt(int width, int height);
     void renderGameplayHud(int width, int height) const;
-    void renderChestPanel(int width, int height) const;
+    void renderChestPanel(int width, int height, bool renderAboveHud) const;
+    std::optional<ResolvedHudLayoutElement> resolveChestGridArea(int width, int height) const;
     void renderEventDialogPanel(int width, int height, bool renderAboveHud);
     void renderActorCollisionOverlays(uint16_t viewId, const bx::Vec3 &cameraPosition) const;
     void renderActorPreviewBillboards(uint16_t viewId, const float *pViewMatrix, const bx::Vec3 &cameraPosition);
@@ -544,6 +563,7 @@ private:
     bool hasActiveEventDialog() const;
     std::optional<size_t> resolvePartyPortraitIndexAtPoint(int width, int height, float x, float y);
     bool trySelectPartyMember(size_t memberIndex, bool requireGameplayReady);
+    bool tryAutoPlaceHeldItemOnPartyMember(size_t memberIndex, bool showFailureStatus = true);
     void updateItemInspectOverlayState(int width, int height);
     void updateCharacterInspectOverlayState(int width, int height);
     bool isOpaqueHudPixelAtPoint(const RenderedInspectableHudItem &item, float x, float y) const;
@@ -709,6 +729,9 @@ private:
     bool m_closeOverlayLatch;
     bool m_dialogueClickLatch;
     DialoguePointerTarget m_dialoguePressedTarget;
+    bool m_chestClickLatch;
+    bool m_chestItemClickLatch;
+    ChestPointerTarget m_chestPressedTarget;
     bool m_lootChestItemLatch;
     bool m_chestSelectUpLatch;
     bool m_chestSelectDownLatch;

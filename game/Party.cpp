@@ -1403,6 +1403,25 @@ bool Party::takeItemFromMemberInventoryCell(size_t memberIndex, uint8_t gridX, u
     return true;
 }
 
+bool Party::tryAutoPlaceItemInMemberInventory(size_t memberIndex, const InventoryItem &item)
+{
+    Character *pMember = member(memberIndex);
+
+    if (pMember == nullptr)
+    {
+        return false;
+    }
+
+    if (!pMember->addInventoryItem(item))
+    {
+        m_lastStatus = "inventory full";
+        return false;
+    }
+
+    m_lastStatus = "item moved";
+    return true;
+}
+
 bool Party::tryPlaceItemInMemberInventoryCell(
     size_t memberIndex,
     const InventoryItem &item,

@@ -1,7 +1,9 @@
 #include "game/ChestTable.h"
 
+#include <algorithm>
 #include <cstring>
 #include <sstream>
+#include <string>
 #include <vector>
 
 namespace OpenYAMM::Game
@@ -10,6 +12,33 @@ namespace
 {
 constexpr size_t RecordSize = 36;
 constexpr size_t NameSize = 32;
+
+std::string trim(const std::string &value)
+{
+    const size_t first = value.find_first_not_of(" \t\r\n");
+
+    if (first == std::string::npos)
+    {
+        return {};
+    }
+
+    const size_t last = value.find_last_not_of(" \t\r\n");
+    return value.substr(first, last - first + 1);
+}
+
+std::vector<std::string> splitTabSeparatedRow(const std::string &line)
+{
+    std::vector<std::string> tokens;
+    std::string token;
+    std::istringstream stream(line);
+
+    while (std::getline(stream, token, '\t'))
+    {
+        tokens.push_back(trim(token));
+    }
+
+    return tokens;
+}
 
 std::string readFixedString(const uint8_t *pData, size_t size)
 {
@@ -82,6 +111,55 @@ bool ChestTable::loadFromBytes(const std::vector<uint8_t> &bytes)
         std::memcpy(&entry.textureId, pRecord + 34, sizeof(entry.textureId));
         entry.textureName = buildTextureName(entry.textureId);
         m_entries.push_back(std::move(entry));
+    }
+
+    return true;
+}
+
+bool ChestTable::loadUiLayoutFromText(const std::string &text)
+{
+    std::istringstream stream(text);
+    std::string line;
+    bool headerSkipped = false;
+
+    while (std::getline(stream, line))
+    {
+        const std::string trimmedLine = trim(line);
+
+        if (trimmedLine.empty() || trimmedLine[0] == '#')
+        {
+            continue;
+        }
+
+        if (!headerSkipped)
+        {
+            headerSkipped = true;
+            continue;
+        }
+
+        const std::vector<std::string> columns = splitTabSeparatedRow(trimmedLine);
+
+        if (columns.size() < 3)
+        {
+            return false;
+        }
+
+        const int chestTypeId = std::stoi(columns[0]);
+
+        if (chestTypeId < 0 || static_cast<size_t>(chestTypeId) >= m_entries.size())
+        {
+            return false;
+        }
+
+        ChestEntry &entry = m_entries[chestTypeId];
+        entry.gridOffsetX = static_cast<int16_t>(std::stoi(columns[1]));
+        entry.gridOffsetY = static_cast<int16_t>(std::stoi(columns[2]));
+
+        if (columns.size() >= 5)
+        {
+            entry.gridWidth = static_cast<uint8_t>(std::max(0, std::stoi(columns[3])));
+            entry.gridHeight = static_cast<uint8_t>(std::max(0, std::stoi(columns[4])));
+        }
     }
 
     return true;

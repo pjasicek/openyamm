@@ -588,6 +588,76 @@ void printCorpseSummary(const OutdoorWorldRuntime::CorpseViewState &corpseView, 
     }
 }
 
+bool chestLayoutItemsOverlap(
+    const OutdoorWorldRuntime::ChestItemState &left,
+    const OutdoorWorldRuntime::ChestItemState &right)
+{
+    return left.gridX < right.gridX + right.width
+        && left.gridX + left.width > right.gridX
+        && left.gridY < right.gridY + right.height
+        && left.gridY + left.height > right.gridY;
+}
+
+bool validateChestLayout(const OutdoorWorldRuntime::ChestViewState &chestView, std::string &failure)
+{
+    if (chestView.gridWidth == 0 || chestView.gridHeight == 0)
+    {
+        failure = "grid size is zero";
+        return false;
+    }
+
+    for (size_t itemIndex = 0; itemIndex < chestView.items.size(); ++itemIndex)
+    {
+        const OutdoorWorldRuntime::ChestItemState &item = chestView.items[itemIndex];
+
+        if (item.width == 0 || item.height == 0)
+        {
+            failure = "item " + std::to_string(itemIndex) + " has zero size";
+            return false;
+        }
+
+        if (item.gridX + item.width > chestView.gridWidth || item.gridY + item.height > chestView.gridHeight)
+        {
+            failure = "item " + std::to_string(itemIndex) + " is out of bounds";
+            return false;
+        }
+
+        for (size_t otherIndex = itemIndex + 1; otherIndex < chestView.items.size(); ++otherIndex)
+        {
+            if (!chestLayoutItemsOverlap(item, chestView.items[otherIndex]))
+            {
+                continue;
+            }
+
+            failure = "items " + std::to_string(itemIndex) + " and " + std::to_string(otherIndex) + " overlap";
+            return false;
+        }
+    }
+
+    return true;
+}
+
+struct GoldHeapExpectation
+{
+    uint8_t width = 1;
+    uint8_t height = 1;
+};
+
+GoldHeapExpectation expectedGoldHeapForAmount(uint32_t goldAmount)
+{
+    if (goldAmount <= 200)
+    {
+        return {1, 1};
+    }
+
+    if (goldAmount <= 1000)
+    {
+        return {2, 1};
+    }
+
+    return {2, 1};
+}
+
 void printDialogSummary(const EventDialogContent &dialog)
 {
     if (!dialog.isActive)
@@ -847,6 +917,7 @@ bool initializeRegressionScenario(
         gameDataLoader.getObjectTable(),
         gameDataLoader.getSpellTable(),
         gameDataLoader.getItemTable(),
+        &gameDataLoader.getChestTable(),
         selectedMap.outdoorMapData,
         selectedMap.outdoorMapDeltaData,
         selectedMap.eventRuntimeState,
@@ -1429,6 +1500,7 @@ int HeadlessOutdoorDiagnostics::runSimulateActor(
         gameDataLoader.getObjectTable(),
         gameDataLoader.getSpellTable(),
         gameDataLoader.getItemTable(),
+        &gameDataLoader.getChestTable(),
         selectedMap->outdoorMapData,
         selectedMap->outdoorMapDeltaData,
         selectedMap->eventRuntimeState
@@ -1535,6 +1607,7 @@ int HeadlessOutdoorDiagnostics::runTraceActorAi(
         gameDataLoader.getObjectTable(),
         gameDataLoader.getSpellTable(),
         gameDataLoader.getItemTable(),
+        &gameDataLoader.getChestTable(),
         selectedMap->outdoorMapData,
         selectedMap->outdoorMapDeltaData,
         selectedMap->eventRuntimeState
@@ -2019,6 +2092,7 @@ int HeadlessOutdoorDiagnostics::runOpenEvent(
         gameDataLoader.getObjectTable(),
         gameDataLoader.getSpellTable(),
         gameDataLoader.getItemTable(),
+        &gameDataLoader.getChestTable(),
         selectedMap->outdoorMapData,
         selectedMap->outdoorMapDeltaData,
         selectedMap->eventRuntimeState
@@ -2230,6 +2304,7 @@ int HeadlessOutdoorDiagnostics::runOpenActor(
         gameDataLoader.getObjectTable(),
         gameDataLoader.getSpellTable(),
         gameDataLoader.getItemTable(),
+        &gameDataLoader.getChestTable(),
         selectedMap->outdoorMapData,
         selectedMap->outdoorMapDeltaData,
         selectedMap->eventRuntimeState
@@ -2374,6 +2449,7 @@ int HeadlessOutdoorDiagnostics::runDialogSequence(
         gameDataLoader.getObjectTable(),
         gameDataLoader.getSpellTable(),
         gameDataLoader.getItemTable(),
+        &gameDataLoader.getChestTable(),
         selectedMap->outdoorMapData,
         selectedMap->outdoorMapDeltaData,
         selectedMap->eventRuntimeState
@@ -2702,7 +2778,7 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
     const std::string &suiteName
 ) const
 {
-    if (suiteName != "dialogue")
+    if (suiteName != "dialogue" && suiteName != "chest")
     {
         std::cerr << "Unknown regression suite: " << suiteName << '\n';
         return 2;
@@ -2773,6 +2849,152 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
                 ++failedCount;
             }
         };
+
+    if (suiteName == "chest")
+    {
+        runCase(
+            "gold_heap_amount_thresholds_match_oe_ranges",
+            [&](std::string &failure)
+            {
+                const std::array<std::pair<uint32_t, GoldHeapExpectation>, 6> cases = {{
+                    {50u, {1, 1}},
+                    {200u, {1, 1}},
+                    {201u, {2, 1}},
+                    {1000u, {2, 1}},
+                    {1001u, {2, 1}},
+                    {5000u, {2, 1}}
+                }};
+
+                for (const auto &[goldAmount, expected] : cases)
+                {
+                    const GoldHeapExpectation actual = expectedGoldHeapForAmount(goldAmount);
+
+                    if (actual.width != expected.width || actual.height != expected.height)
+                    {
+                        failure = "amount " + std::to_string(goldAmount) + " classified to "
+                            + std::to_string(actual.width) + "x" + std::to_string(actual.height);
+                        return false;
+                    }
+                }
+
+                return true;
+            }
+        );
+
+        runCase(
+            "dwi_chest_events_materialize_non_empty_layouts",
+            [&](std::string &failure)
+            {
+                static constexpr std::array<uint16_t, 18> chestEventIds = {{
+                    81,
+                    82,
+                    83,
+                    85,
+                    86,
+                    87,
+                    88,
+                    89,
+                    90,
+                    91,
+                    92,
+                    93,
+                    94,
+                    95,
+                    96,
+                    97,
+                    98,
+                    99
+                }};
+
+                for (uint16_t eventId : chestEventIds)
+                {
+                    RegressionScenario scenario = {};
+
+                    if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+                    {
+                        failure = "scenario init failed for event " + std::to_string(eventId);
+                        return false;
+                    }
+
+                    if (!executeLocalEventInScenario(gameDataLoader, *selectedMap, scenario, eventId))
+                    {
+                        failure = "event " + std::to_string(eventId) + " did not execute";
+                        return false;
+                    }
+
+                    const OutdoorWorldRuntime::ChestViewState *pChestView = scenario.world.activeChestView();
+
+                    if (pChestView == nullptr)
+                    {
+                        failure = "event " + std::to_string(eventId) + " did not open a chest";
+                        return false;
+                    }
+
+                    if (pChestView->items.empty())
+                    {
+                        failure = "event " + std::to_string(eventId)
+                            + " opened empty chest #" + std::to_string(pChestView->chestId);
+                        return false;
+                    }
+
+                    std::string layoutFailure;
+
+                    if (!validateChestLayout(*pChestView, layoutFailure))
+                    {
+                        failure = "event " + std::to_string(eventId) + " invalid layout: " + layoutFailure;
+                        return false;
+                    }
+                }
+
+                return true;
+            }
+        );
+
+        runCase(
+            "dwi_chest_event_100_materializes_final_chest",
+            [&](std::string &failure)
+            {
+                RegressionScenario scenario = {};
+
+                if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+                {
+                    failure = "scenario init failed";
+                    return false;
+                }
+
+                if (!executeLocalEventInScenario(gameDataLoader, *selectedMap, scenario, 100))
+                {
+                    failure = "event 100 did not execute";
+                    return false;
+                }
+
+                const OutdoorWorldRuntime::ChestViewState *pChestView = scenario.world.activeChestView();
+
+                if (pChestView == nullptr)
+                {
+                    failure = "event 100 did not open a chest";
+                    return false;
+                }
+
+                if (pChestView->chestId != 19)
+                {
+                    failure = "event 100 opened chest #" + std::to_string(pChestView->chestId);
+                    return false;
+                }
+
+                if (pChestView->items.empty())
+                {
+                    failure = "event 100 opened empty chest #19";
+                    return false;
+                }
+
+                return true;
+            }
+        );
+
+        std::cout << "Regression suite summary: passed=" << passedCount << " failed=" << failedCount << '\n';
+        return failedCount == 0 ? 0 : 1;
+    }
 
     runCase(
         "local_event_457_spawns_runtime_fireball_and_cannonball_projectiles",
@@ -9049,6 +9271,124 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
             if (pFullMember->inventoryItemCount() != pFullMember->inventoryCapacity())
             {
                 failure = "full destination inventory was modified by rejected move";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "inventory_member_auto_transfer_places_item_in_first_free_slot",
+        [&](std::string &failure)
+        {
+            Party party = {};
+            party.setItemTable(&gameDataLoader.getItemTable());
+            party.seed(createRegressionPartySeed());
+            Character *pSourceMember = party.member(0);
+            Character *pDestinationMember = party.member(1);
+
+            if (pSourceMember != nullptr)
+            {
+                pSourceMember->inventory.clear();
+            }
+
+            if (pDestinationMember != nullptr)
+            {
+                pDestinationMember->inventory.clear();
+            }
+
+            if (!party.grantItemToMember(0, 104))
+            {
+                failure = "could not grant source item";
+                return false;
+            }
+
+            InventoryItem heldItem = {};
+
+            if (!party.takeItemFromMemberInventoryCell(0, 0, 0, heldItem))
+            {
+                failure = "could not pick up source item";
+                return false;
+            }
+
+            InventoryItem fillerItem = {};
+            fillerItem.objectDescriptionId = 109;
+            fillerItem.quantity = 1;
+            fillerItem.width = 1;
+            fillerItem.height = 1;
+
+            if (pDestinationMember == nullptr)
+            {
+                failure = "missing destination member";
+                return false;
+            }
+
+            if (!pDestinationMember->addInventoryItemAt(fillerItem, 0, 0))
+            {
+                failure = "could not seed destination filler item";
+                return false;
+            }
+
+            if (!party.tryAutoPlaceItemInMemberInventory(1, heldItem))
+            {
+                failure = "auto transfer to destination member failed";
+                return false;
+            }
+
+            const Character *pMember1 = party.member(1);
+            const InventoryItem *pTransferredItem =
+                pMember1 != nullptr ? pMember1->inventoryItemAt(0, 1) : nullptr;
+
+            if (pTransferredItem == nullptr
+                || pTransferredItem->objectDescriptionId != 104
+                || pTransferredItem->gridX != 0
+                || pTransferredItem->gridY != 1)
+            {
+                failure = "transferred item not found in first free destination slot";
+                return false;
+            }
+
+            Character *pFullMember = party.member(2);
+
+            if (pFullMember == nullptr)
+            {
+                failure = "missing full destination member";
+                return false;
+            }
+
+            pFullMember->inventory.clear();
+
+            for (int gridY = 0; gridY < Character::InventoryHeight; ++gridY)
+            {
+                for (int gridX = 0; gridX < Character::InventoryWidth; ++gridX)
+                {
+                    if (!pFullMember->addInventoryItemAt(
+                            fillerItem,
+                            static_cast<uint8_t>(gridX),
+                            static_cast<uint8_t>(gridY)))
+                    {
+                        failure = "could not fill destination inventory";
+                        return false;
+                    }
+                }
+            }
+
+            if (party.tryAutoPlaceItemInMemberInventory(2, heldItem))
+            {
+                failure = "auto transfer into full destination inventory should be rejected";
+                return false;
+            }
+
+            if (party.lastStatus() != "inventory full")
+            {
+                failure = "full destination auto transfer did not report inventory full";
+                return false;
+            }
+
+            if (pFullMember->inventoryItemCount() != pFullMember->inventoryCapacity())
+            {
+                failure = "full destination inventory was modified by rejected auto transfer";
                 return false;
             }
 

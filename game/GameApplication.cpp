@@ -86,6 +86,7 @@ bool GameApplication::initializeRenderer()
             m_gameDataLoader.getObjectTable(),
             m_gameDataLoader.getSpellTable(),
             m_gameDataLoader.getItemTable(),
+            &m_gameDataLoader.getChestTable(),
             selectedMap->outdoorMapData,
             selectedMap->outdoorMapDeltaData,
             selectedMap->eventRuntimeState,
