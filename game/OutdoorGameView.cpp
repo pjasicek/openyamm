@@ -111,6 +111,7 @@ constexpr float HudReferenceHeight = 480.0f;
 constexpr float HudFontIntegerSnapThreshold = 0.1f;
 constexpr float MaxUiViewportAspect = 4.0f / 3.0f;
 constexpr uint64_t PartyPortraitDoubleClickWindowMs = 500;
+constexpr uint64_t HoverInspectRefreshNanoseconds = 20 * 1000 * 1000;
 
 struct GoldHeapVisual
 {
@@ -2338,6 +2339,111 @@ bool intersectRayAabb(
     return true;
 }
 
+std::optional<float> intersectOutdoorTerrainRay(
+    const OutdoorMapData &outdoorMapData,
+    const bx::Vec3 &rayOrigin,
+    const bx::Vec3 &rayDirection)
+{
+    float closestDistance = std::numeric_limits<float>::max();
+    bool hasIntersection = false;
+
+    for (int gridY = 0; gridY < OutdoorMapData::TerrainHeight - 1; ++gridY)
+    {
+        for (int gridX = 0; gridX < OutdoorMapData::TerrainWidth - 1; ++gridX)
+        {
+            const size_t topLeftIndex = static_cast<size_t>(gridY * OutdoorMapData::TerrainWidth + gridX);
+            const size_t topRightIndex = static_cast<size_t>(gridY * OutdoorMapData::TerrainWidth + (gridX + 1));
+            const size_t bottomLeftIndex = static_cast<size_t>((gridY + 1) * OutdoorMapData::TerrainWidth + gridX);
+            const size_t bottomRightIndex =
+                static_cast<size_t>((gridY + 1) * OutdoorMapData::TerrainWidth + (gridX + 1));
+
+            const bx::Vec3 topLeft = {
+                static_cast<float>((64 - gridX) * OutdoorMapData::TerrainTileSize),
+                static_cast<float>((64 - gridY) * OutdoorMapData::TerrainTileSize),
+                static_cast<float>(outdoorMapData.heightMap[topLeftIndex] * OutdoorMapData::TerrainHeightScale)
+            };
+            const bx::Vec3 topRight = {
+                static_cast<float>((64 - (gridX + 1)) * OutdoorMapData::TerrainTileSize),
+                static_cast<float>((64 - gridY) * OutdoorMapData::TerrainTileSize),
+                static_cast<float>(outdoorMapData.heightMap[topRightIndex] * OutdoorMapData::TerrainHeightScale)
+            };
+            const bx::Vec3 bottomLeft = {
+                static_cast<float>((64 - gridX) * OutdoorMapData::TerrainTileSize),
+                static_cast<float>((64 - (gridY + 1)) * OutdoorMapData::TerrainTileSize),
+                static_cast<float>(outdoorMapData.heightMap[bottomLeftIndex] * OutdoorMapData::TerrainHeightScale)
+            };
+            const bx::Vec3 bottomRight = {
+                static_cast<float>((64 - (gridX + 1)) * OutdoorMapData::TerrainTileSize),
+                static_cast<float>((64 - (gridY + 1)) * OutdoorMapData::TerrainTileSize),
+                static_cast<float>(outdoorMapData.heightMap[bottomRightIndex] * OutdoorMapData::TerrainHeightScale)
+            };
+
+            float distance = 0.0f;
+
+            if (intersectRayTriangle(rayOrigin, rayDirection, topLeft, bottomLeft, topRight, distance)
+                && distance < closestDistance)
+            {
+                closestDistance = distance;
+                hasIntersection = true;
+            }
+
+            if (intersectRayTriangle(rayOrigin, rayDirection, topRight, bottomLeft, bottomRight, distance)
+                && distance < closestDistance)
+            {
+                closestDistance = distance;
+                hasIntersection = true;
+            }
+        }
+    }
+
+    if (!hasIntersection)
+    {
+        return std::nullopt;
+    }
+
+    return closestDistance;
+}
+
+struct ProjectedPoint
+{
+    float x = 0.0f;
+    float y = 0.0f;
+};
+
+bool projectWorldPointToScreen(
+    const bx::Vec3 &point,
+    int viewWidth,
+    int viewHeight,
+    const float *pViewProjectionMatrix,
+    ProjectedPoint &projectedPoint)
+{
+    const float x = point.x;
+    const float y = point.y;
+    const float z = point.z;
+    const float clipX =
+        x * pViewProjectionMatrix[0] + y * pViewProjectionMatrix[4] + z * pViewProjectionMatrix[8]
+        + pViewProjectionMatrix[12];
+    const float clipY =
+        x * pViewProjectionMatrix[1] + y * pViewProjectionMatrix[5] + z * pViewProjectionMatrix[9]
+        + pViewProjectionMatrix[13];
+    const float clipW =
+        x * pViewProjectionMatrix[3] + y * pViewProjectionMatrix[7] + z * pViewProjectionMatrix[11]
+        + pViewProjectionMatrix[15];
+
+    if (std::fabs(clipW) <= InspectRayEpsilon)
+    {
+        return false;
+    }
+
+    const float inverseW = 1.0f / clipW;
+    const float ndcX = clipX * inverseW;
+    const float ndcY = clipY * inverseW;
+
+    projectedPoint.x = ((ndcX + 1.0f) * 0.5f) * static_cast<float>(viewWidth);
+    projectedPoint.y = ((1.0f - ndcY) * 0.5f) * static_cast<float>(viewHeight);
+    return true;
+}
+
 std::filesystem::path getShaderPath(bgfx::RendererType::Enum rendererType, const char *pShaderName)
 {
     std::filesystem::path shaderRoot = OPENYAMM_BGFX_SHADER_DIR;
@@ -2480,6 +2586,9 @@ OutdoorGameView::OutdoorGameView()
     , m_statusBarHoverText()
     , m_statusBarEventText()
     , m_statusBarEventRemainingSeconds(0.0f)
+    , m_cachedHoverInspectHitValid(false)
+    , m_lastHoverInspectUpdateNanoseconds(0)
+    , m_cachedHoverInspectHit({})
     , m_activeEventDialog({})
     , m_pOutdoorPartyRuntime(nullptr)
     , m_pAssetFileSystem(nullptr)
@@ -2785,6 +2894,8 @@ bool OutdoorGameView::initialize(
 
     if (outdoorDecorationBillboardSet)
     {
+        m_decorationBitmapTextureIndexByName.clear();
+
         for (const OutdoorBitmapTexture &texture : outdoorDecorationBillboardSet->textures)
         {
             BillboardTextureHandle billboardTexture = {};
@@ -2807,6 +2918,8 @@ bool OutdoorGameView::initialize(
                 m_billboardTextureHandles.push_back(std::move(billboardTexture));
                 m_billboardTextureIndexByPalette[texture.paletteId][m_billboardTextureHandles.back().textureName] =
                     m_billboardTextureHandles.size() - 1;
+                m_decorationBitmapTextureIndexByName[toLowerCopy(texture.textureName)] =
+                    &texture - outdoorDecorationBillboardSet->textures.data();
             }
         }
     }
@@ -3052,7 +3165,17 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
                     const bx::Vec3 rayTarget =
                         bx::mulH({normalizedMouseX, normalizedMouseY, 1.0f}, inverseViewProjectionMatrix);
                     const bx::Vec3 rayDirection = vecNormalize(vecSubtract(rayTarget, rayOrigin));
-                    const InspectHit heldItemInspectHit = inspectBModelFace(*m_outdoorMapData, rayOrigin, rayDirection);
+                    const InspectHit heldItemInspectHit = inspectBModelFace(
+                        *m_outdoorMapData,
+                        rayOrigin,
+                        rayDirection,
+                        mouseX,
+                        mouseY,
+                        width,
+                        height,
+                        wireframeViewMatrix,
+                        wireframeProjectionMatrix,
+                        DecorationPickMode::Interaction);
 
                     if (canActivateInspectEvent(heldItemInspectHit))
                     {
@@ -3100,127 +3223,207 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
         }
         else if (m_inspectMode && m_outdoorMapData && !hasActiveLootView && !isEventDialogActive && !isCharacterScreenActive)
         {
-        SDL_GetMouseState(&mouseX, &mouseY);
-        const float normalizedMouseX =
-            ((static_cast<float>(mouseX) / static_cast<float>(viewWidth)) * 2.0f) - 1.0f;
-        const float normalizedMouseY =
-            1.0f - ((static_cast<float>(mouseY) / static_cast<float>(viewHeight)) * 2.0f);
-        float viewProjectionMatrix[16] = {};
-        float inverseViewProjectionMatrix[16] = {};
-        bx::mtxMul(viewProjectionMatrix, wireframeViewMatrix, wireframeProjectionMatrix);
-        bx::mtxInverse(inverseViewProjectionMatrix, viewProjectionMatrix);
-        const bx::Vec3 rayOrigin = bx::mulH({normalizedMouseX, normalizedMouseY, 0.0f}, inverseViewProjectionMatrix);
-        const bx::Vec3 rayTarget = bx::mulH({normalizedMouseX, normalizedMouseY, 1.0f}, inverseViewProjectionMatrix);
-        const bx::Vec3 rayDirection = vecNormalize(vecSubtract(rayTarget, rayOrigin));
-        inspectHit = inspectBModelFace(*m_outdoorMapData, rayOrigin, rayDirection);
-
-        const bool *pKeyboardState = SDL_GetKeyboardState(nullptr);
-        const SDL_MouseButtonFlags mouseButtons = SDL_GetMouseState(nullptr, nullptr);
-        const bool isActivationPressed =
-            pKeyboardState != nullptr
-            && pKeyboardState[SDL_SCANCODE_E]
-            && (mouseButtons & SDL_BUTTON_RMASK) == 0;
-        const bool isAttackPressed =
-            pKeyboardState != nullptr
-            && pKeyboardState[SDL_SCANCODE_H]
-            && (mouseButtons & SDL_BUTTON_RMASK) == 0;
-        const bool isLeftMousePressed = (mouseButtons & SDL_BUTTON_LMASK) != 0;
-        const bool isPointerOverPartyPortrait = resolvePartyPortraitIndexAtPoint(width, height, mouseX, mouseY).has_value();
-        const auto isSameInspectActivationTarget =
-            [](const InspectHit &lhs, const InspectHit &rhs) -> bool
-            {
-                return lhs.hasHit
-                    && rhs.hasHit
-                    && lhs.kind == rhs.kind
-                    && lhs.bModelIndex == rhs.bModelIndex
-                    && lhs.faceIndex == rhs.faceIndex
-                    && lhs.npcId == rhs.npcId
-                    && lhs.eventIdPrimary == rhs.eventIdPrimary
-                    && lhs.eventIdSecondary == rhs.eventIdSecondary
-                    && lhs.specialTrigger == rhs.specialTrigger;
-            };
-
-        if (isActivationPressed && !m_activateInspectLatch)
-        {
-            if (tryActivateInspectEvent(inspectHit))
-            {
-                inspectHit = inspectBModelFace(*m_outdoorMapData, rayOrigin, rayDirection);
-            }
-
-            m_activateInspectLatch = true;
-        }
-        else if (!isActivationPressed)
-        {
-            m_activateInspectLatch = false;
-        }
-
-        if (isLeftMousePressed && !isPointerOverPartyPortrait)
-        {
-            if (!m_inspectMouseActivateLatch)
-            {
-                m_pressedInspectHit = inspectHit;
-                m_inspectMouseActivateLatch = true;
-            }
-        }
-        else if (m_inspectMouseActivateLatch)
-        {
-            if (!isPointerOverPartyPortrait && isSameInspectActivationTarget(m_pressedInspectHit, inspectHit))
-            {
-                if (tryActivateInspectEvent(inspectHit))
+            SDL_GetMouseState(&mouseX, &mouseY);
+            const float normalizedMouseX =
+                ((static_cast<float>(mouseX) / static_cast<float>(viewWidth)) * 2.0f) - 1.0f;
+            const float normalizedMouseY =
+                1.0f - ((static_cast<float>(mouseY) / static_cast<float>(viewHeight)) * 2.0f);
+            float viewProjectionMatrix[16] = {};
+            float inverseViewProjectionMatrix[16] = {};
+            bx::mtxMul(viewProjectionMatrix, wireframeViewMatrix, wireframeProjectionMatrix);
+            bx::mtxInverse(inverseViewProjectionMatrix, viewProjectionMatrix);
+            const bx::Vec3 rayOrigin = bx::mulH({normalizedMouseX, normalizedMouseY, 0.0f}, inverseViewProjectionMatrix);
+            const bx::Vec3 rayTarget = bx::mulH({normalizedMouseX, normalizedMouseY, 1.0f}, inverseViewProjectionMatrix);
+            const bx::Vec3 rayDirection = vecNormalize(vecSubtract(rayTarget, rayOrigin));
+            const auto refreshHoverInspectHit =
+                [&]()
                 {
-                    inspectHit = inspectBModelFace(*m_outdoorMapData, rayOrigin, rayDirection);
+                    inspectHit = inspectBModelFace(
+                        *m_outdoorMapData,
+                        rayOrigin,
+                        rayDirection,
+                        mouseX,
+                        mouseY,
+                        width,
+                        height,
+                        wireframeViewMatrix,
+                        wireframeProjectionMatrix,
+                        DecorationPickMode::HoverInfo);
+                    m_cachedHoverInspectHit = inspectHit;
+                    m_cachedHoverInspectHitValid = true;
+                    m_lastHoverInspectUpdateNanoseconds = renderStartTickCount;
+                };
+            const bool shouldRefreshHoverInspect =
+                !m_cachedHoverInspectHitValid
+                || renderStartTickCount < m_lastHoverInspectUpdateNanoseconds
+                || renderStartTickCount - m_lastHoverInspectUpdateNanoseconds >= HoverInspectRefreshNanoseconds;
+
+            if (shouldRefreshHoverInspect)
+            {
+                refreshHoverInspectHit();
+            }
+            else
+            {
+                inspectHit = m_cachedHoverInspectHit;
+            }
+
+            const bool *pKeyboardState = SDL_GetKeyboardState(nullptr);
+            const SDL_MouseButtonFlags mouseButtons = SDL_GetMouseState(nullptr, nullptr);
+            const bool isActivationPressed =
+                pKeyboardState != nullptr
+                && pKeyboardState[SDL_SCANCODE_E]
+                && (mouseButtons & SDL_BUTTON_RMASK) == 0;
+            const bool isAttackPressed =
+                pKeyboardState != nullptr
+                && pKeyboardState[SDL_SCANCODE_H]
+                && (mouseButtons & SDL_BUTTON_RMASK) == 0;
+            const bool isLeftMousePressed = (mouseButtons & SDL_BUTTON_LMASK) != 0;
+            const bool isPointerOverPartyPortrait =
+                resolvePartyPortraitIndexAtPoint(width, height, mouseX, mouseY).has_value();
+            const bool needsInteractionInspectHit =
+                isActivationPressed
+                || isAttackPressed
+                || isLeftMousePressed
+                || m_inspectMouseActivateLatch;
+            InspectHit interactionInspectHit = {};
+            bool hasInteractionInspectHit = false;
+            const auto refreshInteractionInspectHit =
+                [&]()
+                {
+                    interactionInspectHit = inspectBModelFace(
+                        *m_outdoorMapData,
+                        rayOrigin,
+                        rayDirection,
+                        mouseX,
+                        mouseY,
+                        width,
+                        height,
+                        wireframeViewMatrix,
+                        wireframeProjectionMatrix,
+                        DecorationPickMode::Interaction);
+                    hasInteractionInspectHit = true;
+                };
+            const auto isSameInspectActivationTarget =
+                [](const InspectHit &lhs, const InspectHit &rhs) -> bool
+                {
+                    return lhs.hasHit
+                        && rhs.hasHit
+                        && lhs.kind == rhs.kind
+                        && lhs.bModelIndex == rhs.bModelIndex
+                        && lhs.faceIndex == rhs.faceIndex
+                        && lhs.npcId == rhs.npcId
+                        && lhs.eventIdPrimary == rhs.eventIdPrimary
+                        && lhs.eventIdSecondary == rhs.eventIdSecondary
+                        && lhs.specialTrigger == rhs.specialTrigger;
+                };
+
+            if (needsInteractionInspectHit)
+            {
+                refreshInteractionInspectHit();
+            }
+
+            if (isActivationPressed && !m_activateInspectLatch)
+            {
+                if (tryActivateInspectEvent(interactionInspectHit))
+                {
+                    refreshInteractionInspectHit();
+                    refreshHoverInspectHit();
                 }
+
+                m_activateInspectLatch = true;
+            }
+            else if (!isActivationPressed)
+            {
+                m_activateInspectLatch = false;
             }
 
-            m_inspectMouseActivateLatch = false;
-            m_pressedInspectHit = {};
-        }
-
-        if (isAttackPressed && !m_attackInspectLatch)
-        {
-            if (inspectHit.kind == "actor" && m_pOutdoorWorldRuntime != nullptr && m_pOutdoorPartyRuntime != nullptr)
+            if (isLeftMousePressed && !isPointerOverPartyPortrait)
             {
-                size_t runtimeActorIndex = inspectHit.bModelIndex;
-
-                if (m_outdoorActorPreviewBillboardSet
-                    && inspectHit.bModelIndex < m_outdoorActorPreviewBillboardSet->billboards.size())
+                if (!m_inspectMouseActivateLatch)
                 {
-                    runtimeActorIndex =
-                        m_outdoorActorPreviewBillboardSet->billboards[inspectHit.bModelIndex].runtimeActorIndex;
-                }
-
-                if (runtimeActorIndex != static_cast<size_t>(-1))
-                {
-                    const OutdoorMoveState &moveState = m_pOutdoorPartyRuntime->movementState();
-
-                    if (m_pOutdoorWorldRuntime->applyPartyAttackToMapActor(
-                            runtimeActorIndex,
-                            5,
-                            moveState.x,
-                            moveState.y,
-                            moveState.footZ))
+                    if (!hasInteractionInspectHit)
                     {
-                        inspectHit = inspectBModelFace(*m_outdoorMapData, rayOrigin, rayDirection);
+                        refreshInteractionInspectHit();
+                    }
 
-                        if (EventRuntimeState *pEventRuntimeState = m_pOutdoorWorldRuntime->eventRuntimeState())
-                        {
-                            pEventRuntimeState->lastActivationResult =
-                                "actor " + std::to_string(runtimeActorIndex) + " hit by party";
-                        }
+                    m_pressedInspectHit = interactionInspectHit;
+                    m_inspectMouseActivateLatch = true;
+                }
+            }
+            else if (m_inspectMouseActivateLatch)
+            {
+                if (!hasInteractionInspectHit)
+                {
+                    refreshInteractionInspectHit();
+                }
 
-                        std::cout << "Party attack hit actor=" << runtimeActorIndex << '\n';
+                if (!isPointerOverPartyPortrait
+                    && isSameInspectActivationTarget(m_pressedInspectHit, interactionInspectHit))
+                {
+                    if (tryActivateInspectEvent(interactionInspectHit))
+                    {
+                        refreshInteractionInspectHit();
+                        refreshHoverInspectHit();
                     }
                 }
+
+                m_inspectMouseActivateLatch = false;
+                m_pressedInspectHit = {};
             }
 
-            m_attackInspectLatch = true;
-        }
-        else if (!isAttackPressed)
-        {
-            m_attackInspectLatch = false;
-        }
+            if (isAttackPressed && !m_attackInspectLatch)
+            {
+                if (!hasInteractionInspectHit)
+                {
+                    refreshInteractionInspectHit();
+                }
 
-        m_statusBarHoverText = resolveHoverStatusBarText(inspectHit).value_or("");
+                if (interactionInspectHit.kind == "actor" && m_pOutdoorWorldRuntime != nullptr
+                    && m_pOutdoorPartyRuntime != nullptr)
+                {
+                    size_t runtimeActorIndex = interactionInspectHit.bModelIndex;
+
+                    if (m_outdoorActorPreviewBillboardSet
+                        && interactionInspectHit.bModelIndex < m_outdoorActorPreviewBillboardSet->billboards.size())
+                    {
+                        runtimeActorIndex =
+                            m_outdoorActorPreviewBillboardSet->billboards[interactionInspectHit.bModelIndex]
+                                .runtimeActorIndex;
+                    }
+
+                    if (runtimeActorIndex != static_cast<size_t>(-1))
+                    {
+                        const OutdoorMoveState &moveState = m_pOutdoorPartyRuntime->movementState();
+
+                        if (m_pOutdoorWorldRuntime->applyPartyAttackToMapActor(
+                                runtimeActorIndex,
+                                5,
+                                moveState.x,
+                                moveState.y,
+                                moveState.footZ))
+                        {
+                            refreshInteractionInspectHit();
+                            refreshHoverInspectHit();
+
+                            if (EventRuntimeState *pEventRuntimeState = m_pOutdoorWorldRuntime->eventRuntimeState())
+                            {
+                                pEventRuntimeState->lastActivationResult =
+                                    "actor " + std::to_string(runtimeActorIndex) + " hit by party";
+                            }
+
+                            std::cout << "Party attack hit actor=" << runtimeActorIndex << '\n';
+                        }
+                    }
+                }
+
+                m_attackInspectLatch = true;
+            }
+            else if (!isAttackPressed)
+            {
+                m_attackInspectLatch = false;
+            }
+
+            m_statusBarHoverText = resolveHoverStatusBarText(inspectHit).value_or("");
         }
         else
         {
@@ -3229,6 +3432,9 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
             m_inspectMouseActivateLatch = false;
             m_pressedInspectHit = {};
             m_attackInspectLatch = false;
+            m_cachedHoverInspectHitValid = false;
+            m_lastHoverInspectUpdateNanoseconds = 0;
+            m_cachedHoverInspectHit = {};
             m_statusBarHoverText.clear();
         }
 
@@ -5718,6 +5924,9 @@ void OutdoorGameView::shutdown()
     m_characterPressedTarget = {};
     m_heldInventoryItem = {};
     m_heldInventoryDropLatch = false;
+    m_cachedHoverInspectHitValid = false;
+    m_lastHoverInspectUpdateNanoseconds = 0;
+    m_cachedHoverInspectHit = {};
     m_closeOverlayLatch = false;
     m_dialogueClickLatch = false;
     m_dialoguePressedTarget = {};
@@ -6456,7 +6665,17 @@ void OutdoorGameView::updateItemInspectOverlayState(int width, int height)
             const bx::Vec3 rayTarget =
                 bx::mulH({normalizedMouseX, normalizedMouseY, 1.0f}, inverseViewProjectionMatrix);
             const bx::Vec3 rayDirection = vecNormalize(vecSubtract(rayTarget, rayOrigin));
-            const InspectHit inspectHit = inspectBModelFace(*m_outdoorMapData, rayOrigin, rayDirection);
+            const InspectHit inspectHit = inspectBModelFace(
+                *m_outdoorMapData,
+                rayOrigin,
+                rayDirection,
+                mouseX,
+                mouseY,
+                width,
+                height,
+                viewMatrix,
+                projectionMatrix,
+                DecorationPickMode::HoverInfo);
 
             if (inspectHit.kind == "world_item")
             {
@@ -12570,6 +12789,166 @@ const OutdoorGameView::BillboardTextureHandle *OutdoorGameView::findBillboardTex
     return &m_billboardTextureHandles[normalizedIterator->second];
 }
 
+const OutdoorBitmapTexture *OutdoorGameView::findDecorationBillboardTexture(const std::string &textureName) const
+{
+    if (!m_outdoorDecorationBillboardSet)
+    {
+        return nullptr;
+    }
+
+    const std::string normalizedTextureName = toLowerCopy(textureName);
+    const auto it = m_decorationBitmapTextureIndexByName.find(normalizedTextureName);
+
+    if (it == m_decorationBitmapTextureIndexByName.end())
+    {
+        return nullptr;
+    }
+
+    if (it->second >= m_outdoorDecorationBillboardSet->textures.size())
+    {
+        return nullptr;
+    }
+
+    return &m_outdoorDecorationBillboardSet->textures[it->second];
+}
+
+bool OutdoorGameView::hitTestDecorationBillboard(
+    const DecorationBillboard &billboard,
+    const BillboardTextureHandle &texture,
+    bool mirrored,
+    float mouseX,
+    float mouseY,
+    int viewWidth,
+    int viewHeight,
+    const float *pViewMatrix,
+    const float *pProjectionMatrix,
+    const bx::Vec3 &rayOrigin,
+    const bx::Vec3 &rayDirection,
+    float &distance) const
+{
+    if (texture.width <= 0 || texture.height <= 0 || viewWidth <= 0 || viewHeight <= 0)
+    {
+        return false;
+    }
+
+    const OutdoorBitmapTexture *pBitmapTexture = findDecorationBillboardTexture(texture.textureName);
+
+    if (pBitmapTexture == nullptr || pBitmapTexture->pixels.empty())
+    {
+        return false;
+    }
+
+    const uint32_t animationOffsetTicks =
+        currentAnimationTicks() + static_cast<uint32_t>(std::abs(billboard.x + billboard.y));
+    const SpriteFrameEntry *pFrame =
+        m_outdoorDecorationBillboardSet->spriteFrameTable.getFrame(billboard.spriteId, animationOffsetTicks);
+
+    if (pFrame == nullptr)
+    {
+        return false;
+    }
+
+    const float spriteScale = std::max(pFrame->scale, 0.01f);
+    const float worldWidth = static_cast<float>(texture.width) * spriteScale;
+    const float worldHeight = static_cast<float>(texture.height) * spriteScale;
+    const float halfWidth = worldWidth * 0.5f;
+    const bx::Vec3 cameraRight = {pViewMatrix[0], pViewMatrix[4], pViewMatrix[8]};
+    const bx::Vec3 cameraUp = {pViewMatrix[1], pViewMatrix[5], pViewMatrix[9]};
+    const bx::Vec3 center = {
+        static_cast<float>(-billboard.x),
+        static_cast<float>(billboard.y),
+        static_cast<float>(billboard.z) + worldHeight * 0.5f
+    };
+    const bx::Vec3 right = {
+        cameraRight.x * halfWidth,
+        cameraRight.y * halfWidth,
+        cameraRight.z * halfWidth
+    };
+    const bx::Vec3 up = {
+        cameraUp.x * worldHeight * 0.5f,
+        cameraUp.y * worldHeight * 0.5f,
+        cameraUp.z * worldHeight * 0.5f
+    };
+    const bx::Vec3 topLeft = {center.x - right.x + up.x, center.y - right.y + up.y, center.z - right.z + up.z};
+    const bx::Vec3 topRight = {center.x + right.x + up.x, center.y + right.y + up.y, center.z + right.z + up.z};
+    const bx::Vec3 bottomLeft = {center.x - right.x - up.x, center.y - right.y - up.y, center.z - right.z - up.z};
+    const bx::Vec3 bottomRight = {center.x + right.x - up.x, center.y + right.y - up.y, center.z + right.z - up.z};
+
+    float viewProjectionMatrix[16] = {};
+    bx::mtxMul(viewProjectionMatrix, pViewMatrix, pProjectionMatrix);
+    ProjectedPoint projectedTopLeft = {};
+    ProjectedPoint projectedTopRight = {};
+    ProjectedPoint projectedBottomLeft = {};
+    ProjectedPoint projectedBottomRight = {};
+
+    if (!projectWorldPointToScreen(topLeft, viewWidth, viewHeight, viewProjectionMatrix, projectedTopLeft)
+        || !projectWorldPointToScreen(topRight, viewWidth, viewHeight, viewProjectionMatrix, projectedTopRight)
+        || !projectWorldPointToScreen(bottomLeft, viewWidth, viewHeight, viewProjectionMatrix, projectedBottomLeft)
+        || !projectWorldPointToScreen(bottomRight, viewWidth, viewHeight, viewProjectionMatrix, projectedBottomRight))
+    {
+        return false;
+    }
+
+    const float left = std::min(
+        std::min(projectedTopLeft.x, projectedTopRight.x),
+        std::min(projectedBottomLeft.x, projectedBottomRight.x));
+    const float rightEdge = std::max(
+        std::max(projectedTopLeft.x, projectedTopRight.x),
+        std::max(projectedBottomLeft.x, projectedBottomRight.x));
+    const float top = std::min(
+        std::min(projectedTopLeft.y, projectedTopRight.y),
+        std::min(projectedBottomLeft.y, projectedBottomRight.y));
+    const float bottom = std::max(
+        std::max(projectedTopLeft.y, projectedTopRight.y),
+        std::max(projectedBottomLeft.y, projectedBottomRight.y));
+    const float screenWidthPixels = rightEdge - left;
+    const float screenHeightPixels = bottom - top;
+
+    if (mouseX < left || mouseX > rightEdge || mouseY < top || mouseY > bottom)
+    {
+        return false;
+    }
+
+    if (screenWidthPixels >= 5.0f && screenHeightPixels >= 5.0f)
+    {
+        float normalizedU = (mouseX - left) / screenWidthPixels;
+        const float normalizedV = (mouseY - top) / screenHeightPixels;
+
+        if (mirrored)
+        {
+            normalizedU = 1.0f - normalizedU;
+        }
+
+        const int pixelX = std::clamp(
+            static_cast<int>(std::floor(normalizedU * static_cast<float>(pBitmapTexture->width))),
+            0,
+            pBitmapTexture->width - 1);
+        const int pixelY = std::clamp(
+            static_cast<int>(std::floor(normalizedV * static_cast<float>(pBitmapTexture->height))),
+            0,
+            pBitmapTexture->height - 1);
+        const size_t pixelOffset = static_cast<size_t>((pixelY * pBitmapTexture->width + pixelX) * 4);
+
+        if (pixelOffset + 3 >= pBitmapTexture->pixels.size() || pBitmapTexture->pixels[pixelOffset + 3] == 0)
+        {
+            return false;
+        }
+    }
+
+    const bx::Vec3 planeNormal = {-cameraRight.y * cameraUp.z + cameraRight.z * cameraUp.y,
+                                  -cameraRight.z * cameraUp.x + cameraRight.x * cameraUp.z,
+                                  -cameraRight.x * cameraUp.y + cameraRight.y * cameraUp.x};
+    const float denominator = vecDot(rayDirection, planeNormal);
+
+    if (std::fabs(denominator) <= InspectRayEpsilon)
+    {
+        return false;
+    }
+
+    distance = vecDot(vecSubtract(center, rayOrigin), planeNormal) / denominator;
+    return distance > InspectRayEpsilon;
+}
+
 const OutdoorGameView::BillboardTextureHandle *OutdoorGameView::ensureSpriteBillboardTexture(
     const std::string &textureName,
     int16_t paletteId)
@@ -15542,7 +15921,14 @@ std::vector<OutdoorGameView::TerrainVertex> OutdoorGameView::buildSpawnMarkerVer
 OutdoorGameView::InspectHit OutdoorGameView::inspectBModelFace(
     const OutdoorMapData &outdoorMapData,
     const bx::Vec3 &rayOrigin,
-    const bx::Vec3 &rayDirection
+    const bx::Vec3 &rayDirection,
+    float mouseX,
+    float mouseY,
+    int viewWidth,
+    int viewHeight,
+    const float *pViewMatrix,
+    const float *pProjectionMatrix,
+    DecorationPickMode decorationPickMode
 )
 {
     InspectHit bestHit = {};
@@ -15552,6 +15938,47 @@ OutdoorGameView::InspectHit OutdoorGameView::inspectBModelFace(
     {
         return {};
     }
+
+    const float terrainBlockDistance =
+        intersectOutdoorTerrainRay(outdoorMapData, rayOrigin, rayDirection).value_or(std::numeric_limits<float>::max());
+    const float terrainDistanceEpsilon = 1.0f;
+    const bool allowDecorationBillboardHit =
+        pViewMatrix != nullptr
+        && pProjectionMatrix != nullptr
+        && viewWidth > 0
+        && viewHeight > 0;
+
+    auto isVisibleInspectDistance =
+        [&](float distance)
+        {
+            return distance <= terrainBlockDistance + terrainDistanceEpsilon;
+        };
+
+    auto isDirectEventEntity =
+        [](const OutdoorEntity &entity)
+        {
+            return entity.eventIdPrimary != 0 || entity.eventIdSecondary != 0;
+        };
+
+    auto bestHitIsPassiveEntity =
+        [&](const InspectHit &inspectHit)
+        {
+            return inspectHit.kind == "entity"
+                && inspectHit.eventIdPrimary == 0
+                && inspectHit.eventIdSecondary == 0;
+        };
+
+    auto bestHitIsPassiveSpawn =
+        [&](const InspectHit &inspectHit)
+        {
+            return inspectHit.kind == "spawn";
+        };
+
+    auto bestHitIsPassiveObject =
+        [&](const InspectHit &inspectHit)
+        {
+            return inspectHit.kind == "object";
+        };
 
     for (size_t bModelIndex = 0; bModelIndex < outdoorMapData.bmodels.size(); ++bModelIndex)
     {
@@ -15607,6 +16034,11 @@ OutdoorGameView::InspectHit OutdoorGameView::inspectBModelFace(
                     continue;
                 }
 
+                if (!isVisibleInspectDistance(distance))
+                {
+                    continue;
+                }
+
                 if (!bestHit.hasHit || distance < bestHit.distance)
                 {
                     bestHit.hasHit = true;
@@ -15637,6 +16069,11 @@ OutdoorGameView::InspectHit OutdoorGameView::inspectBModelFace(
             continue;
         }
 
+        if (!isDirectEventEntity(entity))
+        {
+            continue;
+        }
+
         const float halfExtent = 96.0f;
         float distance = 0.0f;
 
@@ -15652,6 +16089,7 @@ OutdoorGameView::InspectHit OutdoorGameView::inspectBModelFace(
         };
 
         if (intersectRayAabb(rayOrigin, rayDirection, minBounds, maxBounds, distance)
+            && isVisibleInspectDistance(distance)
             && (!bestHit.hasHit || distance < bestHit.distance))
         {
             bestHit.hasHit = true;
@@ -15692,6 +16130,7 @@ OutdoorGameView::InspectHit OutdoorGameView::inspectBModelFace(
         };
 
         if (intersectRayAabb(rayOrigin, rayDirection, minBounds, maxBounds, distance)
+            && isVisibleInspectDistance(distance)
             && (!bestHit.hasHit || distance < bestHit.distance))
         {
             bestHit.hasHit = true;
@@ -15731,8 +16170,25 @@ OutdoorGameView::InspectHit OutdoorGameView::inspectBModelFace(
 
     if (m_outdoorDecorationBillboardSet)
     {
-        for (size_t decorationIndex = 0; decorationIndex < m_outdoorDecorationBillboardSet->billboards.size();
-             ++decorationIndex)
+        std::vector<size_t> candidateBillboardIndices;
+        const float maxDecorationInspectDistance = std::min(terrainBlockDistance, 8192.0f);
+        const bx::Vec3 inspectEnd = {
+            rayOrigin.x + rayDirection.x * maxDecorationInspectDistance,
+            rayOrigin.y + rayDirection.y * maxDecorationInspectDistance,
+            rayOrigin.z + rayDirection.z * maxDecorationInspectDistance
+        };
+        const float candidatePadding = BillboardSpatialCellSize;
+
+        collectDecorationBillboardCandidates(
+            std::min(rayOrigin.x, inspectEnd.x) - candidatePadding,
+            std::min(rayOrigin.y, inspectEnd.y) - candidatePadding,
+            std::max(rayOrigin.x, inspectEnd.x) + candidatePadding,
+            std::max(rayOrigin.y, inspectEnd.y) + candidatePadding,
+            candidateBillboardIndices);
+
+        const uint32_t animationTimeTicks = currentAnimationTicks();
+
+        for (size_t decorationIndex : candidateBillboardIndices)
         {
             const DecorationBillboard &decoration = m_outdoorDecorationBillboardSet->billboards[decorationIndex];
 
@@ -15741,8 +16197,9 @@ OutdoorGameView::InspectHit OutdoorGameView::inspectBModelFace(
                 continue;
             }
 
-            const bool interactiveDecoration =
-                findInteractiveDecorationBindingForEntity(decoration.entityIndex) != nullptr;
+            const std::optional<uint16_t> interactiveEventId =
+                resolveInteractiveDecorationEventId(decoration.entityIndex);
+            const bool interactiveDecoration = interactiveEventId.has_value();
             const DecorationEntry *pDecorationEntry =
                 m_outdoorDecorationBillboardSet->decorationTable.get(decoration.decorationId);
 
@@ -15751,36 +16208,88 @@ OutdoorGameView::InspectHit OutdoorGameView::inspectBModelFace(
                 pDecorationEntry = m_outdoorDecorationBillboardSet->decorationTable.findByInternalName(decoration.name);
             }
 
-            if (!interactiveDecoration && (pDecorationEntry == nullptr || pDecorationEntry->hint.empty()))
+            const bool hasHint = pDecorationEntry != nullptr && !pDecorationEntry->hint.empty();
+
+            if (decorationPickMode == DecorationPickMode::Interaction && !interactiveDecoration)
             {
                 continue;
             }
 
-            const float halfExtent = std::max(32.0f, static_cast<float>(std::max(decoration.radius, int16_t(32))));
-            const float height = std::max(64.0f, static_cast<float>(std::max(decoration.height, uint16_t(64))));
+            if (decorationPickMode == DecorationPickMode::HoverInfo && !interactiveDecoration && !hasHint)
+            {
+                continue;
+            }
+
+            const float broadPhaseHalfExtent =
+                std::max(32.0f, static_cast<float>(std::max(decoration.radius, int16_t(32))));
+            const float broadPhaseHeight =
+                std::max(64.0f, static_cast<float>(std::max(decoration.height, uint16_t(64))));
             float distance = 0.0f;
+            bool hasBillboardHit = false;
             const bx::Vec3 minBounds = {
-                static_cast<float>(-decoration.x) - halfExtent,
-                static_cast<float>(decoration.y) - halfExtent,
+                static_cast<float>(-decoration.x) - broadPhaseHalfExtent,
+                static_cast<float>(decoration.y) - broadPhaseHalfExtent,
                 static_cast<float>(decoration.z)
             };
             const bx::Vec3 maxBounds = {
-                static_cast<float>(-decoration.x) + halfExtent,
-                static_cast<float>(decoration.y) + halfExtent,
-                static_cast<float>(decoration.z) + height
+                static_cast<float>(-decoration.x) + broadPhaseHalfExtent,
+                static_cast<float>(decoration.y) + broadPhaseHalfExtent,
+                static_cast<float>(decoration.z) + broadPhaseHeight
             };
 
-            const bool bestHitIsPassiveEntity =
-                bestHit.kind == "entity" && bestHit.eventIdPrimary == 0 && bestHit.eventIdSecondary == 0;
-            const bool bestHitIsPassiveSpawn = bestHit.kind == "spawn";
-            const bool bestHitIsPassiveObject = bestHit.kind == "object";
+            if (allowDecorationBillboardHit
+                && decoration.spriteId != 0
+                && intersectRayAabb(rayOrigin, rayDirection, minBounds, maxBounds, distance)
+                && isVisibleInspectDistance(distance))
+            {
+                const uint32_t animationOffsetTicks =
+                    animationTimeTicks + static_cast<uint32_t>(std::abs(decoration.x + decoration.y));
+                const SpriteFrameEntry *pFrame =
+                    m_outdoorDecorationBillboardSet->spriteFrameTable.getFrame(decoration.spriteId, animationOffsetTicks);
 
-            if (intersectRayAabb(rayOrigin, rayDirection, minBounds, maxBounds, distance)
+                if (pFrame != nullptr)
+                {
+                    const bx::Vec3 cameraPosition = {
+                        m_cameraTargetX,
+                        m_cameraTargetY,
+                        m_cameraTargetZ
+                    };
+                    const float facingRadians = static_cast<float>(decoration.facing) * Pi / 180.0f;
+                    const float angleToCamera = std::atan2(
+                        static_cast<float>(-decoration.x) - cameraPosition.x,
+                        static_cast<float>(decoration.y) - cameraPosition.y
+                    );
+                    const float octantAngle = facingRadians - angleToCamera + Pi + (Pi / 8.0f);
+                    const int octant = static_cast<int>(std::floor(octantAngle / (Pi / 4.0f))) & 7;
+                    const ResolvedSpriteTexture resolvedTexture = SpriteFrameTable::resolveTexture(*pFrame, octant);
+                    const BillboardTextureHandle *pTexture = findBillboardTexture(resolvedTexture.textureName);
+
+                    if (pTexture != nullptr && bgfx::isValid(pTexture->textureHandle))
+                    {
+                        hasBillboardHit = hitTestDecorationBillboard(
+                            decoration,
+                            *pTexture,
+                            resolvedTexture.mirrored,
+                            mouseX,
+                            mouseY,
+                            viewWidth,
+                            viewHeight,
+                            pViewMatrix,
+                            pProjectionMatrix,
+                            rayOrigin,
+                            rayDirection,
+                            distance);
+                    }
+                }
+            }
+
+            if (hasBillboardHit
+                && isVisibleInspectDistance(distance)
                 && (!bestHit.hasHit
                     || distance < bestHit.distance
-                    || bestHitIsPassiveEntity
-                    || bestHitIsPassiveSpawn
-                    || bestHitIsPassiveObject))
+                    || bestHitIsPassiveEntity(bestHit)
+                    || bestHitIsPassiveSpawn(bestHit)
+                    || bestHitIsPassiveObject(bestHit)))
             {
                 bestHit.hasHit = true;
                 bestHit.kind = "decoration";
@@ -15842,6 +16351,7 @@ OutdoorGameView::InspectHit OutdoorGameView::inspectBModelFace(
             };
 
             if (intersectRayAabb(rayOrigin, rayDirection, minBounds, maxBounds, distance)
+                && isVisibleInspectDistance(distance)
                 && (!bestHit.hasHit || distance < bestHit.distance))
             {
                 bestHit.hasHit = true;
@@ -15908,6 +16418,7 @@ OutdoorGameView::InspectHit OutdoorGameView::inspectBModelFace(
             };
 
             if (intersectRayAabb(rayOrigin, rayDirection, minBounds, maxBounds, distance)
+                && isVisibleInspectDistance(distance)
                 && (!bestHit.hasHit || distance < bestHit.distance))
             {
                 bestHit.hasHit = true;
@@ -15951,17 +16462,13 @@ OutdoorGameView::InspectHit OutdoorGameView::inspectBModelFace(
                 pWorldItem->z + height
             };
 
-            const bool bestHitIsPassiveEntity =
-                bestHit.kind == "entity" && bestHit.eventIdPrimary == 0 && bestHit.eventIdSecondary == 0;
-            const bool bestHitIsPassiveSpawn = bestHit.kind == "spawn";
-            const bool bestHitIsPassiveObject = bestHit.kind == "object";
-
             if (intersectRayAabb(rayOrigin, rayDirection, minBounds, maxBounds, distance)
+                && isVisibleInspectDistance(distance)
                 && (!bestHit.hasHit
                     || distance < bestHit.distance
-                    || bestHitIsPassiveEntity
-                    || bestHitIsPassiveSpawn
-                    || bestHitIsPassiveObject))
+                    || bestHitIsPassiveEntity(bestHit)
+                    || bestHitIsPassiveSpawn(bestHit)
+                    || bestHitIsPassiveObject(bestHit)))
             {
                 bestHit.hasHit = true;
                 bestHit.kind = "world_item";
@@ -16004,6 +16511,7 @@ OutdoorGameView::InspectHit OutdoorGameView::inspectBModelFace(
             };
 
             if (intersectRayAabb(rayOrigin, rayDirection, minBounds, maxBounds, distance)
+                && isVisibleInspectDistance(distance)
                 && (!bestHit.hasHit || distance < bestHit.distance))
             {
                 bestHit.hasHit = true;

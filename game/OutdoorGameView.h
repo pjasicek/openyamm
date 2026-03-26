@@ -461,6 +461,12 @@ private:
         int32_t spellId = 0;
     };
 
+    enum class DecorationPickMode
+    {
+        HoverInfo,
+        Interaction,
+    };
+
 public:
     enum class InteractiveDecorationFamily
     {
@@ -516,8 +522,29 @@ private:
     InspectHit inspectBModelFace(
         const OutdoorMapData &outdoorMapData,
         const bx::Vec3 &rayOrigin,
-        const bx::Vec3 &rayDirection
+        const bx::Vec3 &rayDirection,
+        float mouseX,
+        float mouseY,
+        int viewWidth,
+        int viewHeight,
+        const float *pViewMatrix,
+        const float *pProjectionMatrix,
+        DecorationPickMode decorationPickMode
     );
+    const OutdoorBitmapTexture *findDecorationBillboardTexture(const std::string &textureName) const;
+    bool hitTestDecorationBillboard(
+        const DecorationBillboard &billboard,
+        const BillboardTextureHandle &texture,
+        bool mirrored,
+        float mouseX,
+        float mouseY,
+        int viewWidth,
+        int viewHeight,
+        const float *pViewMatrix,
+        const float *pProjectionMatrix,
+        const bx::Vec3 &rayOrigin,
+        const bx::Vec3 &rayDirection,
+        float &distance) const;
     bool canActivateInspectEvent(const InspectHit &inspectHit) const;
     bool tryActivateInspectEvent(const InspectHit &inspectHit);
     bool tryTriggerLocalEventById(uint16_t eventId);
@@ -710,6 +737,7 @@ private:
     std::vector<TexturedBModelBatch> m_texturedBModelBatches;
     std::vector<BillboardTextureHandle> m_billboardTextureHandles;
     std::unordered_map<int16_t, std::unordered_map<std::string, size_t>> m_billboardTextureIndexByPalette;
+    std::unordered_map<std::string, size_t> m_decorationBitmapTextureIndexByName;
     SpriteLoadCache m_spriteLoadCache;
     std::vector<uint16_t> m_pendingSpriteFrameWarmups;
     std::vector<bool> m_queuedSpriteFrameWarmups;
@@ -814,6 +842,9 @@ private:
     std::string m_statusBarHoverText;
     std::string m_statusBarEventText;
     float m_statusBarEventRemainingSeconds;
+    bool m_cachedHoverInspectHitValid;
+    uint64_t m_lastHoverInspectUpdateNanoseconds;
+    InspectHit m_cachedHoverInspectHit;
     EventDialogContent m_activeEventDialog;
     HouseVideoPlayer m_houseVideoPlayer;
     OutdoorPartyRuntime *m_pOutdoorPartyRuntime;
