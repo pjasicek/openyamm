@@ -96,6 +96,7 @@ public:
         int level = 0;
         int hitPoints = 0;
         int armorClass = 0;
+        std::string attack1Type;
         int hostility = 0;
         int speed = 0;
         int recovery = 0;
@@ -105,6 +106,7 @@ public:
         std::string attack1MissileType;
         bool attack1HasMissile = false;
         DamageProfile attack1Damage = {};
+        std::string attack2Type;
         std::string attack2MissileType;
         bool attack2HasMissile = false;
         int attack2Chance = 0;
@@ -118,6 +120,16 @@ public:
         bool hasSpell2 = false;
         int spell2UseChance = 0;
         MonsterAttackStyle attackStyle = MonsterAttackStyle::MeleeOnly;
+        int fireResistance = 0;
+        int airResistance = 0;
+        int waterResistance = 0;
+        int earthResistance = 0;
+        int mindResistance = 0;
+        int spiritResistance = 0;
+        int bodyResistance = 0;
+        int lightResistance = 0;
+        int darkResistance = 0;
+        int physicalResistance = 0;
         std::string treasureDefinition;
         LootPrototype loot = {};
         uint16_t attackSoundId = 0;

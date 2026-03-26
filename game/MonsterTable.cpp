@@ -54,6 +54,8 @@ bool hasMonsterAbilityDescriptor(const std::string &value)
     return !value.empty() && value != "0";
 }
 
+bool isNumericString(const std::string &value);
+
 MonsterTable::MonsterStatsEntry::DamageProfile parseDamageProfile(const std::string &value)
 {
     MonsterTable::MonsterStatsEntry::DamageProfile profile = {};
@@ -79,6 +81,28 @@ MonsterTable::MonsterStatsEntry::DamageProfile parseDamageProfile(const std::str
     }
 
     return profile;
+}
+
+int parseMonsterResistanceValue(const std::string &value)
+{
+    if (value.empty())
+    {
+        return 0;
+    }
+
+    if (isNumericString(value))
+    {
+        return std::stoi(value);
+    }
+
+    const std::string normalized = toLowerCopy(value);
+
+    if (normalized == "imm" || normalized == "immune")
+    {
+        return 200;
+    }
+
+    return 0;
 }
 
 MonsterTable::MonsterAttackStyle classifyAttackStyle(const MonsterTable::MonsterStatsEntry &entry)
@@ -394,6 +418,7 @@ bool MonsterTable::loadStatsFromRows(const std::vector<std::vector<std::string>>
         entry.level = row[3].empty() ? 0 : std::stoi(row[3]);
         entry.hitPoints = row[4].empty() ? 0 : std::stoi(row[4]);
         entry.armorClass = row[5].empty() ? 0 : std::stoi(row[5]);
+        entry.attack1Type = row.size() > 17 ? row[17] : std::string();
         entry.canFly = row.size() > 9 && !row[9].empty() && toLowerCopy(row[9]) == "y";
         entry.movementType = row.size() > 10 ? parseMovementType(row[10]) : MonsterMovementType::Short;
         entry.aiType = row.size() > 11 ? parseAiType(row[11]) : MonsterAiType::Suicide;
@@ -406,6 +431,7 @@ bool MonsterTable::loadStatsFromRows(const std::vector<std::vector<std::string>>
         entry.attack1HasMissile = hasMonsterAbilityDescriptor(entry.attack1MissileType);
         entry.attack1Damage = row.size() > 18 ? parseDamageProfile(row[18]) : MonsterStatsEntry::DamageProfile();
         entry.attack2Chance = row.size() > 20 && !row[20].empty() ? std::stoi(row[20]) : 0;
+        entry.attack2Type = row.size() > 21 ? row[21] : std::string();
         entry.attack2MissileType = row.size() > 23 ? row[23] : std::string();
         entry.attack2HasMissile = hasMonsterAbilityDescriptor(entry.attack2MissileType);
         entry.attack2Damage = row.size() > 22 ? parseDamageProfile(row[22]) : MonsterStatsEntry::DamageProfile();
@@ -417,6 +443,16 @@ bool MonsterTable::loadStatsFromRows(const std::vector<std::vector<std::string>>
         entry.spell2Name = parseMonsterSpellName(entry.spell2Descriptor);
         entry.hasSpell2 = hasMonsterAbilityDescriptor(entry.spell2Descriptor);
         entry.spell2UseChance = row.size() > 26 && !row[26].empty() ? std::stoi(row[26]) : 0;
+        entry.fireResistance = row.size() > 28 ? parseMonsterResistanceValue(row[28]) : 0;
+        entry.airResistance = row.size() > 29 ? parseMonsterResistanceValue(row[29]) : 0;
+        entry.waterResistance = row.size() > 30 ? parseMonsterResistanceValue(row[30]) : 0;
+        entry.earthResistance = row.size() > 31 ? parseMonsterResistanceValue(row[31]) : 0;
+        entry.mindResistance = row.size() > 32 ? parseMonsterResistanceValue(row[32]) : 0;
+        entry.spiritResistance = row.size() > 33 ? parseMonsterResistanceValue(row[33]) : 0;
+        entry.bodyResistance = row.size() > 34 ? parseMonsterResistanceValue(row[34]) : 0;
+        entry.lightResistance = row.size() > 35 ? parseMonsterResistanceValue(row[35]) : 0;
+        entry.darkResistance = row.size() > 36 ? parseMonsterResistanceValue(row[36]) : 0;
+        entry.physicalResistance = row.size() > 37 ? parseMonsterResistanceValue(row[37]) : 0;
         entry.attackStyle = classifyAttackStyle(entry);
 
         const MonsterEntry *pEntry = findById(static_cast<int16_t>(entry.id));

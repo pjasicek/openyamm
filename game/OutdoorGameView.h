@@ -330,6 +330,16 @@ private:
         float sourceHeight = 0.0f;
     };
 
+    struct ActorInspectOverlayState
+    {
+        bool active = false;
+        size_t runtimeActorIndex = static_cast<size_t>(-1);
+        float sourceX = 0.0f;
+        float sourceY = 0.0f;
+        float sourceWidth = 0.0f;
+        float sourceHeight = 0.0f;
+    };
+
     struct RenderedInspectableHudItem
     {
         uint32_t objectDescriptionId = 0;
@@ -635,6 +645,7 @@ private:
     void renderHeldInventoryItem(int width, int height) const;
     void renderItemInspectOverlay(int width, int height) const;
     void renderCharacterInspectOverlay(int width, int height) const;
+    void renderActorInspectOverlay(int width, int height);
     std::optional<std::string> findCachedAssetPath(const std::string &directoryPath, const std::string &fileName);
     std::optional<std::vector<uint8_t>> readCachedBinaryFile(const std::string &assetPath);
     std::optional<std::array<uint8_t, 256 * 3>> loadCachedActPalette(int16_t paletteId);
@@ -658,6 +669,8 @@ private:
     void closeInventoryNestedOverlay();
     void updateItemInspectOverlayState(int width, int height);
     void updateCharacterInspectOverlayState(int width, int height);
+    void updateActorInspectOverlayState(int width, int height);
+    std::optional<size_t> resolveRuntimeActorIndexForInspectHit(const InspectHit &inspectHit) const;
     bool isOpaqueHudPixelAtPoint(const RenderedInspectableHudItem &item, float x, float y) const;
     std::string resolveEquippedItemHudTextureName(
         const ItemDefinition &itemDefinition,
@@ -817,6 +830,7 @@ private:
     HeldInventoryItemState m_heldInventoryItem;
     ItemInspectOverlayState m_itemInspectOverlay;
     CharacterInspectOverlayState m_characterInspectOverlay;
+    ActorInspectOverlayState m_actorInspectOverlay;
     mutable std::vector<RenderedInspectableHudItem> m_renderedInspectableHudItems;
     mutable HudScreenState m_renderedInspectableHudState = HudScreenState::Gameplay;
     bool m_heldInventoryDropLatch;

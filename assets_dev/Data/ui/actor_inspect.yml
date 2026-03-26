@@ -1,0 +1,542 @@
+screen: ActorInspect
+
+elements:
+  - id: ActorInspectRoot
+    anchor: top_left
+    width: 370
+    height: 352
+    z_index: 520
+    visible: false
+    asset:
+      default: parchment
+    children:
+      - id: ActorInspectTitle
+        anchor: top_center
+        offset_x: 0
+        offset_y: 12
+        width: 250
+        height: 22
+        text:
+          value: "{title}"
+          font: Create
+          color: "#ffff9b"
+          align_x: center
+          align_y: middle
+
+      - id: ActorInspectHealthBarBackground
+        anchor: top
+        offset_x: 0
+        offset_y: 42
+        width: 296
+        height: 10
+        asset:
+          default: IB-8pxbar
+
+      - id: ActorInspectHealthBarFill
+        anchor: top
+        offset_x: 0
+        offset_y: 44
+        width: 292
+        height: 6
+
+      - id: ActorInspectPreviewFrame
+        anchor: top_left
+        offset_x: 18
+        offset_y: 62
+        width: 140
+        height: 140
+        asset:
+          default: parchment
+
+      - id: ActorInspectEffectsHeader
+        anchor: top_left
+        offset_x: 18
+        offset_y: 212
+        width: 120
+        height: 18
+        text:
+          value: "Effects"
+          font: Create
+          color: "#ffff9b"
+          align_x: left
+          align_y: middle
+
+      - id: ActorInspectEffectsBody
+        anchor: top_left
+        offset_x: 18
+        offset_y: 234
+        width: 120
+        height: 70
+        text:
+          value: "{effects}"
+          font: SMALLNUM
+          color: white
+          align_x: left
+          align_y: top
+
+      - id: ActorInspectHitPointsLabel
+        anchor: top_left
+        offset_x: 176
+        offset_y: 64
+        width: 90
+        height: 14
+        text:
+          value: "Hit Points"
+          font: SMALLNUM
+          color: "#ffff9b"
+          align_x: left
+          align_y: middle
+
+      - id: ActorInspectHitPointsValue
+        anchor: top_left
+        offset_x: 274
+        offset_y: 64
+        width: 90
+        height: 14
+        text:
+          value: "{hit_points}"
+          font: SMALLNUM
+          color: white
+          align_x: left
+          align_y: middle
+
+      - id: ActorInspectArmorClassLabel
+        anchor: top_left
+        offset_x: 176
+        offset_y: 82
+        width: 90
+        height: 14
+        text:
+          value: "Armor Class"
+          font: SMALLNUM
+          color: "#ffff9b"
+          align_x: left
+          align_y: middle
+
+      - id: ActorInspectArmorClassValue
+        anchor: top_left
+        offset_x: 274
+        offset_y: 82
+        width: 90
+        height: 14
+        text:
+          value: "{armor_class}"
+          font: SMALLNUM
+          color: white
+          align_x: left
+          align_y: middle
+
+      - id: ActorInspectAttackLabel
+        anchor: top_left
+        offset_x: 176
+        offset_y: 100
+        width: 90
+        height: 14
+        text:
+          value: "Attack"
+          font: SMALLNUM
+          color: "#ffff9b"
+          align_x: left
+          align_y: middle
+
+      - id: ActorInspectAttackValue
+        anchor: top_left
+        offset_x: 274
+        offset_y: 100
+        width: 90
+        height: 14
+        text:
+          value: "{attack}"
+          font: SMALLNUM
+          color: white
+          align_x: left
+          align_y: middle
+
+      - id: ActorInspectDamageLabel
+        anchor: top_left
+        offset_x: 176
+        offset_y: 118
+        width: 90
+        height: 14
+        text:
+          value: "Damage"
+          font: SMALLNUM
+          color: "#ffff9b"
+          align_x: left
+          align_y: middle
+
+      - id: ActorInspectDamageValue
+        anchor: top_left
+        offset_x: 274
+        offset_y: 118
+        width: 90
+        height: 14
+        text:
+          value: "{damage}"
+          font: SMALLNUM
+          color: white
+          align_x: left
+          align_y: middle
+
+      - id: ActorInspectSpellLabel
+        anchor: top_left
+        offset_x: 176
+        offset_y: 136
+        width: 90
+        height: 14
+        text:
+          value: "Spell"
+          font: SMALLNUM
+          color: "#ffff9b"
+          align_x: left
+          align_y: middle
+
+      - id: ActorInspectSpellValue
+        anchor: top_left
+        offset_x: 274
+        offset_y: 136
+        width: 90
+        height: 14
+        text:
+          value: "{spell}"
+          font: SMALLNUM
+          color: white
+          align_x: left
+          align_y: middle
+
+      - id: ActorInspectResistancesHeader
+        anchor: top_left
+        offset_x: 176
+        offset_y: 160
+        width: 160
+        height: 18
+        text:
+          value: "Resistances"
+          font: Create
+          color: "#ffff9b"
+          align_x: left
+          align_y: middle
+
+      - id: ActorInspectResistanceFireLabel
+        anchor: top_left
+        offset_x: 176
+        offset_y: 184
+        width: 90
+        height: 14
+        text:
+          value: "Fire"
+          font: SMALLNUM
+          color: "#ffff9b"
+          align_x: left
+          align_y: middle
+
+      - id: ActorInspectResistanceFireValue
+        anchor: top_left
+        offset_x: 274
+        offset_y: 184
+        width: 90
+        height: 14
+        text:
+          value: "{fire_resistance}"
+          font: SMALLNUM
+          color: white
+          align_x: left
+          align_y: middle
+
+      - id: ActorInspectResistanceAirLabel
+        anchor: top_left
+        offset_x: 176
+        offset_y: 200
+        width: 90
+        height: 14
+        text:
+          value: "Air"
+          font: SMALLNUM
+          color: "#ffff9b"
+          align_x: left
+          align_y: middle
+
+      - id: ActorInspectResistanceAirValue
+        anchor: top_left
+        offset_x: 274
+        offset_y: 200
+        width: 90
+        height: 14
+        text:
+          value: "{air_resistance}"
+          font: SMALLNUM
+          color: white
+          align_x: left
+          align_y: middle
+
+      - id: ActorInspectResistanceWaterLabel
+        anchor: top_left
+        offset_x: 176
+        offset_y: 216
+        width: 90
+        height: 14
+        text:
+          value: "Water"
+          font: SMALLNUM
+          color: "#ffff9b"
+          align_x: left
+          align_y: middle
+
+      - id: ActorInspectResistanceWaterValue
+        anchor: top_left
+        offset_x: 274
+        offset_y: 216
+        width: 90
+        height: 14
+        text:
+          value: "{water_resistance}"
+          font: SMALLNUM
+          color: white
+          align_x: left
+          align_y: middle
+
+      - id: ActorInspectResistanceEarthLabel
+        anchor: top_left
+        offset_x: 176
+        offset_y: 232
+        width: 90
+        height: 14
+        text:
+          value: "Earth"
+          font: SMALLNUM
+          color: "#ffff9b"
+          align_x: left
+          align_y: middle
+
+      - id: ActorInspectResistanceEarthValue
+        anchor: top_left
+        offset_x: 274
+        offset_y: 232
+        width: 90
+        height: 14
+        text:
+          value: "{earth_resistance}"
+          font: SMALLNUM
+          color: white
+          align_x: left
+          align_y: middle
+
+      - id: ActorInspectResistanceMindLabel
+        anchor: top_left
+        offset_x: 176
+        offset_y: 248
+        width: 90
+        height: 14
+        text:
+          value: "Mind"
+          font: SMALLNUM
+          color: "#ffff9b"
+          align_x: left
+          align_y: middle
+
+      - id: ActorInspectResistanceMindValue
+        anchor: top_left
+        offset_x: 274
+        offset_y: 248
+        width: 90
+        height: 14
+        text:
+          value: "{mind_resistance}"
+          font: SMALLNUM
+          color: white
+          align_x: left
+          align_y: middle
+
+      - id: ActorInspectResistanceSpiritLabel
+        anchor: top_left
+        offset_x: 176
+        offset_y: 264
+        width: 90
+        height: 14
+        text:
+          value: "Spirit"
+          font: SMALLNUM
+          color: "#ffff9b"
+          align_x: left
+          align_y: middle
+
+      - id: ActorInspectResistanceSpiritValue
+        anchor: top_left
+        offset_x: 274
+        offset_y: 264
+        width: 90
+        height: 14
+        text:
+          value: "{spirit_resistance}"
+          font: SMALLNUM
+          color: white
+          align_x: left
+          align_y: middle
+
+      - id: ActorInspectResistanceBodyLabel
+        anchor: top_left
+        offset_x: 176
+        offset_y: 280
+        width: 90
+        height: 14
+        text:
+          value: "Body"
+          font: SMALLNUM
+          color: "#ffff9b"
+          align_x: left
+          align_y: middle
+
+      - id: ActorInspectResistanceBodyValue
+        anchor: top_left
+        offset_x: 274
+        offset_y: 280
+        width: 90
+        height: 14
+        text:
+          value: "{body_resistance}"
+          font: SMALLNUM
+          color: white
+          align_x: left
+          align_y: middle
+
+      - id: ActorInspectResistanceLightLabel
+        anchor: top_left
+        offset_x: 176
+        offset_y: 296
+        width: 90
+        height: 14
+        text:
+          value: "Light"
+          font: SMALLNUM
+          color: "#ffff9b"
+          align_x: left
+          align_y: middle
+
+      - id: ActorInspectResistanceLightValue
+        anchor: top_left
+        offset_x: 274
+        offset_y: 296
+        width: 90
+        height: 14
+        text:
+          value: "{light_resistance}"
+          font: SMALLNUM
+          color: white
+          align_x: left
+          align_y: middle
+
+      - id: ActorInspectResistanceDarkLabel
+        anchor: top_left
+        offset_x: 176
+        offset_y: 312
+        width: 90
+        height: 14
+        text:
+          value: "Dark"
+          font: SMALLNUM
+          color: "#ffff9b"
+          align_x: left
+          align_y: middle
+
+      - id: ActorInspectResistanceDarkValue
+        anchor: top_left
+        offset_x: 274
+        offset_y: 312
+        width: 90
+        height: 14
+        text:
+          value: "{dark_resistance}"
+          font: SMALLNUM
+          color: white
+          align_x: left
+          align_y: middle
+
+      - id: ActorInspectResistancePhysicalLabel
+        anchor: top_left
+        offset_x: 176
+        offset_y: 328
+        width: 90
+        height: 14
+        text:
+          value: "Physical"
+          font: SMALLNUM
+          color: "#ffff9b"
+          align_x: left
+          align_y: middle
+
+      - id: ActorInspectResistancePhysicalValue
+        anchor: top_left
+        offset_x: 274
+        offset_y: 328
+        width: 90
+        height: 14
+        text:
+          value: "{physical_resistance}"
+          font: SMALLNUM
+          color: white
+          align_x: left
+          align_y: middle
+
+      - id: ActorInspectCorner_UR
+        anchor: top_right
+        offset_x: 7
+        width: 39
+        height: 32
+        z_index: 580
+        asset:
+          default: cornr_UR
+
+      - id: ActorInspectCorner_UL
+        anchor: top_left
+        z_index: 580
+        asset:
+          default: cornr_UL
+
+      - id: ActorInspectCorner_LR
+        anchor: bottom_right
+        z_index: 580
+        offset_x: 7
+        offset_y: 7
+        asset:
+          default: cornr_LR
+
+      - id: ActorInspectCorner_LL
+        anchor: bottom_left
+        z_index: 580
+        offset_y: 7
+        asset:
+          default: cornr_LL
+
+      - id: ActorInspectCorner_TopEdge
+        anchor: top_left
+        width: 370
+        height: 10
+        z_index: 570
+        asset:
+          default: edge_top
+
+      - id: ActorInspectCorner_BottomEdge
+        anchor: bottom_left
+        offset_y: 7
+        width: 370
+        height: 16
+        z_index: 570
+        asset:
+          default: edge_btm
+
+      - id: ActorInspectCorner_LeftEdge
+        anchor: top_left
+        width: 11
+        height: 352
+        z_index: 570
+        asset:
+          default: edge_lf
+
+      - id: ActorInspectCorner_RightEdge
+        anchor: top_right
+        offset_x: 6
+        width: 16
+        height: 352
+        z_index: 570
+        asset:
+          default: edge_rt
