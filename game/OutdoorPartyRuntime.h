@@ -32,6 +32,8 @@ public:
     void toggleFlying();
     void toggleWaterWalk();
     void toggleFeatherFall();
+    void syncSpellMovementStatesFromPartyBuffs();
+    void requestJump();
 
 private:
     OutdoorMovementDriver m_movementDriver;

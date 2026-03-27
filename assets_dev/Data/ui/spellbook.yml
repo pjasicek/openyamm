@@ -1,0 +1,1621 @@
+screen: Spellbook
+
+elements:
+  - id: SpellbookRoot
+    anchor: center
+    width: 640
+    height: 480
+    z_index: 450
+    visible: true
+    scale:
+      min: 1.0
+      max: 3.0
+    children:
+      - id: SpellbookPageFire
+        anchor: top_left
+        offset_x: 0
+        offset_y: 0
+        width: 640
+        height: 480
+        z_index: 10
+        asset:
+          default: sbf000
+      - id: SpellbookPageAir
+        anchor: top_left
+        offset_x: 0
+        offset_y: 0
+        width: 640
+        height: 480
+        z_index: 10
+        asset:
+          default: sba000
+      - id: SpellbookPageWater
+        anchor: top_left
+        offset_x: 0
+        offset_y: 0
+        width: 640
+        height: 480
+        z_index: 10
+        asset:
+          default: sbw000
+      - id: SpellbookPageEarth
+        anchor: top_left
+        offset_x: 0
+        offset_y: 0
+        width: 640
+        height: 480
+        z_index: 10
+        asset:
+          default: sbe000
+      - id: SpellbookPageSpirit
+        anchor: top_left
+        offset_x: 0
+        offset_y: 0
+        width: 640
+        height: 480
+        z_index: 10
+        asset:
+          default: sbs000
+      - id: SpellbookPageMind
+        anchor: top_left
+        offset_x: 0
+        offset_y: 0
+        width: 640
+        height: 480
+        z_index: 10
+        asset:
+          default: sbm000
+      - id: SpellbookPageBody
+        anchor: top_left
+        offset_x: 0
+        offset_y: 0
+        width: 640
+        height: 480
+        z_index: 10
+        asset:
+          default: sbb000
+      - id: SpellbookPageLight
+        anchor: top_left
+        offset_x: 0
+        offset_y: 0
+        width: 640
+        height: 480
+        z_index: 10
+        asset:
+          default: sbl000
+      - id: SpellbookPageDark
+        anchor: top_left
+        offset_x: 0
+        offset_y: 0
+        width: 640
+        height: 480
+        z_index: 10
+        asset:
+          default: sbdk000
+      - id: SpellbookPageDarkElf
+        anchor: top_left
+        offset_x: 0
+        offset_y: 0
+        width: 640
+        height: 480
+        z_index: 10
+        asset:
+          default: sbde000
+      - id: SpellbookPageVampire
+        anchor: top_left
+        offset_x: 0
+        offset_y: 0
+        width: 640
+        height: 480
+        z_index: 10
+        asset:
+          default: sbv000
+      - id: SpellbookPageDragon
+        anchor: top_left
+        offset_x: 0
+        offset_y: 0
+        width: 640
+        height: 480
+        z_index: 10
+        asset:
+          default: sbd000
+      - id: SpellbookSchoolButtonFire
+        anchor: top_right
+        offset_x: 0
+        offset_y: 2
+        width: 48
+        height: 39
+        z_index: 60
+        interactive: true
+        asset:
+          default: STFd
+          highlighted: STFd
+          pressed: STFu
+      - id: SpellbookSchoolButtonAir
+        anchor: top_right
+        offset_x: 0
+        offset_y: 41
+        width: 48
+        height: 39
+        z_index: 60
+        interactive: true
+        asset:
+          default: STAd
+          highlighted: STAd
+          pressed: STAu
+      - id: SpellbookSchoolButtonWater
+        anchor: top_right
+        offset_x: 0
+        offset_y: 80
+        width: 48
+        height: 39
+        z_index: 60
+        interactive: true
+        asset:
+          default: STWd
+          highlighted: STWd
+          pressed: STWu
+      - id: SpellbookSchoolButtonEarth
+        anchor: top_right
+        offset_x: 0
+        offset_y: 119
+        width: 48
+        height: 39
+        z_index: 60
+        interactive: true
+        asset:
+          default: STEd
+          highlighted: STEd
+          pressed: STEu
+      - id: SpellbookSchoolButtonSpirit
+        anchor: top_right
+        offset_x: 0
+        offset_y: 158
+        width: 48
+        height: 39
+        z_index: 60
+        interactive: true
+        asset:
+          default: STSd
+          highlighted: STSd
+          pressed: STSu
+      - id: SpellbookSchoolButtonMind
+        anchor: top_right
+        offset_x: 0
+        offset_y: 197
+        width: 48
+        height: 39
+        z_index: 60
+        interactive: true
+        asset:
+          default: STMd
+          highlighted: STMd
+          pressed: STMu
+      - id: SpellbookSchoolButtonBody
+        anchor: top_right
+        offset_x: 0
+        offset_y: 236
+        width: 48
+        height: 39
+        z_index: 60
+        interactive: true
+        asset:
+          default: STBd
+          highlighted: STBd
+          pressed: STBu
+      - id: SpellbookSchoolButtonLight
+        anchor: top_right
+        offset_x: 0
+        offset_y: 275
+        width: 48
+        height: 39
+        z_index: 60
+        interactive: true
+        asset:
+          default: STLd
+          highlighted: STLd
+          pressed: STLu
+      - id: SpellbookSchoolButtonDark
+        anchor: top_right
+        offset_x: 0
+        offset_y: 314
+        width: 48
+        height: 39
+        z_index: 60
+        interactive: true
+        asset:
+          default: STDd
+          highlighted: STDd
+          pressed: STDu
+      - id: SpellbookSchoolButtonDarkElf
+        anchor: top_right
+        offset_x: 0
+        offset_y: 353
+        width: 48
+        height: 39
+        z_index: 60
+        interactive: true
+        asset:
+          default: STDEd
+          highlighted: STDEd
+          pressed: STDEu
+      - id: SpellbookSchoolButtonVampire
+        anchor: top_right
+        offset_x: 0
+        offset_y: 392
+        width: 48
+        height: 39
+        z_index: 60
+        interactive: true
+        asset:
+          default: STVd
+          highlighted: STVd
+          pressed: STVu
+      - id: SpellbookSchoolButtonDragon
+        anchor: top_right
+        offset_x: 0
+        offset_y: 431
+        width: 48
+        height: 39
+        z_index: 60
+        interactive: true
+        asset:
+          default: STDRd
+          highlighted: STDRd
+          pressed: STDRu
+      - id: SpellbookCloseButton
+        anchor: bottom_left
+        offset_x: 0
+        offset_y: -2
+        width: 36
+        height: 44
+        z_index: 60
+        interactive: true
+        asset:
+          default: STXTu
+          pressed: STXTd
+          highlighted: STXTu
+      - id: SpellbookQuickCastButton
+        anchor: bottom_left
+        offset_x: 0
+        offset_y: -48
+        width: 36
+        height: 44
+        z_index: 60
+        interactive: true
+        asset:
+          default: STSSu
+          pressed: STSSd
+          highlighted: STSSu
+      - id: SpellbookPageFireSpellTorchlight
+        anchor: center
+        offset_x: 74
+        offset_y: 133
+        width: 133
+        height: 150
+        z_index: 40
+        interactive: true
+        asset:
+          default: sbf01b
+          highlighted: sbf01a
+          pressed: sbf01a
+      - id: SpellbookPageFireSpellFirebolt
+        anchor: center
+        offset_x: 87
+        offset_y: 16
+        width: 145
+        height: 121
+        z_index: 40
+        interactive: true
+        asset:
+          default: sbf04b
+          highlighted: sbf04a
+          pressed: sbf04a
+      - id: SpellbookPageFireSpellFireresistance
+        anchor: center
+        offset_x: 81
+        offset_y: -138
+        width: 120
+        height: 130
+        z_index: 40
+        interactive: true
+        asset:
+          default: sbf03b
+          highlighted: sbf03a
+          pressed: sbf03a
+      - id: SpellbookPageFireSpellFireaura
+        anchor: center
+        offset_x: -70
+        offset_y: 5
+        width: 112
+        height: 155
+        z_index: 40
+        interactive: true
+        asset:
+          default: sbf02b
+          highlighted: sbf02a
+          pressed: sbf02a
+      - id: SpellbookPageFireSpellHaste
+        anchor: center
+        offset_x: -204
+        offset_y: 141
+        width: 141
+        height: 121
+        z_index: 40
+        interactive: true
+        asset:
+          default: sbf05b
+          highlighted: sbf05a
+          pressed: sbf05a
+      - id: SpellbookPageFireSpellFireball
+        anchor: center
+        offset_x: -202
+        offset_y: -17
+        width: 150
+        height: 134
+        z_index: 40
+        interactive: true
+        asset:
+          default: sbf06b
+          highlighted: sbf06a
+          pressed: sbf06a
+      - id: SpellbookPageFireSpellFirespike
+        anchor: center
+        offset_x: 204
+        offset_y: -132
+        width: 111
+        height: 127
+        z_index: 40
+        interactive: true
+        asset:
+          default: sbf07b
+          highlighted: sbf07a
+          pressed: sbf07a
+      - id: SpellbookPageFireSpellImmolation
+        anchor: center
+        offset_x: 214
+        offset_y: 33
+        width: 118
+        height: 132
+        z_index: 45
+        interactive: true
+        asset:
+          default: sbf08b
+          highlighted: sbf08a
+          pressed: sbf08a
+      - id: SpellbookPageFireSpellMeteorshower
+        anchor: center
+        offset_x: -76
+        offset_y: 166
+        width: 145
+        height: 134
+        z_index: 40
+        interactive: true
+        asset:
+          default: sbf09b
+          highlighted: sbf09a
+          pressed: sbf09a
+      - id: SpellbookPageFireSpellInferno
+        anchor: center
+        offset_x: -85
+        offset_y: -156
+        width: 154
+        height: 124
+        z_index: 40
+        interactive: true
+        asset:
+          default: sbf10b
+          highlighted: sbf10a
+          pressed: sbf10a
+      - id: SpellbookPageFireSpellIncinerate
+        anchor: center
+        offset_x: 196
+        offset_y: 163
+        width: 155
+        height: 132
+        z_index: 40
+        interactive: true
+        asset:
+          default: sbf11b
+          highlighted: sbf11a
+          pressed: sbf11a
+      - id: SpellbookPageAirSpellWizardeye
+        anchor: center
+        offset_x: -214
+        offset_y: -33
+        width: 128
+        height: 115
+        z_index: 40
+        interactive: true
+        asset:
+          default: sba01b
+          highlighted: sba01a
+          pressed: sba01a
+      - id: SpellbookPageAirSpellFeatherfall
+        anchor: center
+        offset_x: 196
+        offset_y: -136
+        width: 148
+        height: 133
+        z_index: 40
+        interactive: true
+        asset:
+          default: sba02b
+          highlighted: sba02a
+          pressed: sba02a
+      - id: SpellbookPageAirSpellAirresistance
+        anchor: center
+        offset_x: 184
+        offset_y: 52
+        width: 135
+        height: 142
+        z_index: 40
+        interactive: true
+        asset:
+          default: sba03b
+          highlighted: sba03a
+          pressed: sba03a
+      - id: SpellbookPageAirSpellSparks
+        anchor: center
+        offset_x: -80
+        offset_y: 8
+        width: 136
+        height: 152
+        z_index: 40
+        interactive: true
+        asset:
+          default: sba04b
+          highlighted: sba04a
+          pressed: sba04a
+      - id: SpellbookPageAirSpellJump
+        anchor: center
+        offset_x: 210
+        offset_y: 162
+        width: 126
+        height: 137
+        z_index: 40
+        interactive: true
+        asset:
+          default: sba05b
+          highlighted: sba05a
+          pressed: sba05a
+      - id: SpellbookPageAirSpellShield
+        anchor: center
+        offset_x: -74
+        offset_y: -143
+        width: 125
+        height: 132
+        z_index: 40
+        interactive: true
+        asset:
+          default: sba06b
+          highlighted: sba06a
+          pressed: sba06a
+      - id: SpellbookPageAirSpellLightningbolt
+        anchor: center
+        offset_x: -206
+        offset_y: 93
+        width: 155
+        height: 130
+        z_index: 40
+        interactive: true
+        asset:
+          default: sba07b
+          highlighted: sba07a
+          pressed: sba07a
+      - id: SpellbookPageAirSpellInvisibility
+        anchor: center
+        offset_x: 72
+        offset_y: 156
+        width: 134
+        height: 131
+        z_index: 40
+        interactive: true
+        asset:
+          default: sba08b
+          highlighted: sba08a
+          pressed: sba08a
+      - id: SpellbookPageAirSpellImplosion
+        anchor: center
+        offset_x: -81
+        offset_y: 153
+        width: 118
+        height: 137
+        z_index: 40
+        interactive: true
+        asset:
+          default: sba09b
+          highlighted: sba09a
+          pressed: sba09a
+      - id: SpellbookPageAirSpellFly
+        anchor: center
+        offset_x: 74
+        offset_y: 3
+        width: 150
+        height: 149
+        z_index: 40
+        interactive: true
+        asset:
+          default: sba10b
+          highlighted: sba10a
+          pressed: sba10a
+      - id: SpellbookPageAirSpellStarburst
+        anchor: center
+        offset_x: 64
+        offset_y: -131
+        width: 110
+        height: 146
+        z_index: 40
+        interactive: true
+        asset:
+          default: sba11b
+          highlighted: sba11a
+          pressed: sba11a
+      - id: SpellbookPageWaterSpellAwaken
+        anchor: center
+        offset_x: 202
+        offset_y: 165
+        width: 137
+        height: 142
+        z_index: 40
+        interactive: true
+        asset:
+          default: sbw01b
+          highlighted: sbw01a
+          pressed: sbw01a
+      - id: SpellbookPageWaterSpellPoisonspray
+        anchor: center
+        offset_x: 165
+        offset_y: 45
+        width: 164
+        height: 93
+        z_index: 40
+        interactive: true
+        asset:
+          default: sbw02b
+          highlighted: sbw02a
+          pressed: sbw02a
+      - id: SpellbookPageWaterSpellWaterresistance
+        anchor: center
+        offset_x: -75
+        offset_y: -144
+        width: 118
+        height: 116
+        z_index: 40
+        interactive: true
+        asset:
+          default: sbw03b
+          highlighted: sbw03a
+          pressed: sbw03a
+      - id: SpellbookPageWaterSpellIcebolt
+        anchor: center
+        offset_x: 69
+        offset_y: -147
+        width: 132
+        height: 116
+        z_index: 40
+        interactive: true
+        asset:
+          default: sbw04b
+          highlighted: sbw04a
+          pressed: sbw04a
+      - id: SpellbookPageWaterSpellWaterwalk
+        anchor: center
+        offset_x: 77
+        offset_y: -51
+        width: 156
+        height: 97
+        z_index: 40
+        interactive: true
+        asset:
+          default: sbw05b
+          highlighted: sbw05a
+          pressed: sbw05a
+      - id: SpellbookPageWaterSpellRechargeitem
+        anchor: center
+        offset_x: -211
+        offset_y: 70
+        width: 151
+        height: 117
+        z_index: 40
+        interactive: true
+        asset:
+          default: sbw06b
+          highlighted: sbw06a
+          pressed: sbw06a
+      - id: SpellbookPageWaterSpellAcidburst
+        anchor: center
+        offset_x: -94
+        offset_y: -28
+        width: 175
+        height: 122
+        z_index: 40
+        interactive: true
+        asset:
+          default: sbw07b
+          highlighted: sbw07a
+          pressed: sbw07a
+      - id: SpellbookPageWaterSpellEnchantitem
+        anchor: center
+        offset_x: 62
+        offset_y: 118
+        width: 122
+        height: 147
+        z_index: 40
+        interactive: true
+        asset:
+          default: sbw08b
+          highlighted: sbw08a
+          pressed: sbw08a
+      - id: SpellbookPageWaterSpellTownportal
+        anchor: center
+        offset_x: -212
+        offset_y: 177
+        width: 134
+        height: 93
+        z_index: 40
+        interactive: true
+        asset:
+          default: sbw09b
+          highlighted: sbw09a
+          pressed: sbw09a
+      - id: SpellbookPageWaterSpellIceblast
+        anchor: center
+        offset_x: -87
+        offset_y: 127
+        width: 133
+        height: 148
+        z_index: 40
+        interactive: true
+        asset:
+          default: sbw10b
+          highlighted: sbw10a
+          pressed: sbw10a
+      - id: SpellbookPageWaterSpellLloydsbeacon
+        anchor: center
+        offset_x: 200
+        offset_y: -126
+        width: 93
+        height: 132
+        z_index: 40
+        interactive: true
+        asset:
+          default: sbw11b
+          highlighted: sbw11a
+          pressed: sbw11a
+      - id: SpellbookPageEarthSpellStun
+        anchor: center
+        offset_x: -209
+        offset_y: -31
+        width: 140
+        height: 115
+        z_index: 40
+        interactive: true
+        asset:
+          default: sbe01b
+          highlighted: sbe01a
+          pressed: sbe01a
+      - id: SpellbookPageEarthSpellSlow
+        anchor: center
+        offset_x: -195
+        offset_y: 120
+        width: 132
+        height: 92
+        z_index: 40
+        interactive: true
+        asset:
+          default: sbe02b
+          highlighted: sbe02a
+          pressed: sbe02a
+      - id: SpellbookPageEarthSpellEarthresistance
+        anchor: center
+        offset_x: 202
+        offset_y: 16
+        width: 134
+        height: 148
+        z_index: 40
+        interactive: true
+        asset:
+          default: sbe03b
+          highlighted: sbe03a
+          pressed: sbe03a
+      - id: SpellbookPageEarthSpellDeadlyswarm
+        anchor: center
+        offset_x: 209
+        offset_y: 160
+        width: 115
+        height: 135
+        z_index: 40
+        interactive: true
+        asset:
+          default: sbe04b
+          highlighted: sbe04a
+          pressed: sbe04a
+      - id: SpellbookPageEarthSpellStoneskin
+        anchor: center
+        offset_x: 80
+        offset_y: 157
+        width: 143
+        height: 129
+        z_index: 40
+        interactive: true
+        asset:
+          default: sbe05b
+          highlighted: sbe05a
+          pressed: sbe05a
+      - id: SpellbookPageEarthSpellBlades
+        anchor: center
+        offset_x: 78
+        offset_y: -141
+        width: 125
+        height: 129
+        z_index: 40
+        interactive: true
+        asset:
+          default: sbe06b
+          highlighted: sbe06a
+          pressed: sbe06a
+      - id: SpellbookPageEarthSpellStonetoflesh
+        anchor: center
+        offset_x: -76
+        offset_y: -105
+        width: 121
+        height: 140
+        z_index: 40
+        interactive: true
+        asset:
+          default: sbe07b
+          highlighted: sbe07a
+          pressed: sbe07a
+      - id: SpellbookPageEarthSpellRockblast
+        anchor: center
+        offset_x: 203
+        offset_y: -126
+        width: 131
+        height: 133
+        z_index: 40
+        interactive: true
+        asset:
+          default: sbe08b
+          highlighted: sbe08a
+          pressed: sbe08a
+      - id: SpellbookPageEarthSpellTelekinesis
+        anchor: center
+        offset_x: -104
+        offset_y: 198
+        width: 163
+        height: 68
+        z_index: 40
+        interactive: true
+        asset:
+          default: sbe09b
+          highlighted: sbe09a
+          pressed: sbe09a
+      - id: SpellbookPageEarthSpellDeathblossom
+        anchor: center
+        offset_x: 75
+        offset_y: -10
+        width: 114
+        height: 130
+        z_index: 40
+        interactive: true
+        asset:
+          default: sbe10b
+          highlighted: sbe10a
+          pressed: sbe10a
+      - id: SpellbookPageEarthSpellMassdistortion
+        anchor: center
+        offset_x: -89
+        offset_y: 51
+        width: 120
+        height: 127
+        z_index: 40
+        interactive: true
+        asset:
+          default: sbe11b
+          highlighted: sbe11a
+          pressed: sbe11a
+      - id: SpellbookPageSpiritSpellDetectlife
+        anchor: center
+        offset_x: 69
+        offset_y: -142
+        width: 124
+        height: 121
+        z_index: 40
+        interactive: true
+        asset:
+          default: sbs01b
+          highlighted: sbs01a
+          pressed: sbs01a
+      - id: SpellbookPageSpiritSpellBless
+        anchor: center
+        offset_x: -89
+        offset_y: -143
+        width: 143
+        height: 123
+        z_index: 40
+        interactive: true
+        asset:
+          default: sbs02b
+          highlighted: sbs02a
+          pressed: sbs02a
+      - id: SpellbookPageSpiritSpellFate
+        anchor: center
+        offset_x: 206
+        offset_y: -127
+        width: 128
+        height: 145
+        z_index: 40
+        interactive: true
+        asset:
+          default: sbs03b
+          highlighted: sbs03a
+          pressed: sbs03a
+      - id: SpellbookPageSpiritSpellTurnundead
+        anchor: center
+        offset_x: 78
+        offset_y: 13
+        width: 143
+        height: 135
+        z_index: 40
+        interactive: true
+        asset:
+          default: sbs04b
+          highlighted: sbs04a
+          pressed: sbs04a
+      - id: SpellbookPageSpiritSpellRemovecurse
+        anchor: center
+        offset_x: 204
+        offset_y: 0
+        width: 132
+        height: 108
+        z_index: 40
+        interactive: true
+        asset:
+          default: sbs05b
+          highlighted: sbs05a
+          pressed: sbs05a
+      - id: SpellbookPageSpiritSpellPreservation
+        anchor: center
+        offset_x: -78
+        offset_y: 0
+        width: 117
+        height: 149
+        z_index: 40
+        interactive: true
+        asset:
+          default: sbs06b
+          highlighted: sbs06a
+          pressed: sbs06a
+      - id: SpellbookPageSpiritSpellHeroism
+        anchor: center
+        offset_x: 218
+        offset_y: 144
+        width: 93
+        height: 135
+        z_index: 40
+        interactive: true
+        asset:
+          default: sbs07b
+          highlighted: sbs07a
+          pressed: sbs07a
+      - id: SpellbookPageSpiritSpellSpiritlash
+        anchor: center
+        offset_x: 91
+        offset_y: 160
+        width: 127
+        height: 115
+        z_index: 40
+        interactive: true
+        asset:
+          default: sbs08b
+          highlighted: sbs08a
+          pressed: sbs08a
+      - id: SpellbookPageSpiritSpellRaisedead
+        anchor: center
+        offset_x: -204
+        offset_y: 117
+        width: 153
+        height: 126
+        z_index: 40
+        interactive: true
+        asset:
+          default: sbs09b
+          highlighted: sbs09a
+          pressed: sbs09a
+      - id: SpellbookPageSpiritSpellSharedlife
+        anchor: center
+        offset_x: -219
+        offset_y: -19
+        width: 121
+        height: 145
+        z_index: 40
+        interactive: true
+        asset:
+          default: sbs10b
+          highlighted: sbs10a
+          pressed: sbs10a
+      - id: SpellbookPageSpiritSpellResurrection
+        anchor: center
+        offset_x: -126
+        offset_y: 170
+        width: 219
+        height: 123
+        z_index: 40
+        interactive: true
+        asset:
+          default: sbs11b
+          highlighted: sbs11a
+          pressed: sbs11a
+      - id: SpellbookPageMindSpellTelepathy
+        anchor: center
+        offset_x: 205
+        offset_y: -68
+        width: 116
+        height: 117
+        z_index: 40
+        interactive: true
+        asset:
+          default: sbm01b
+          highlighted: sbm01a
+          pressed: sbm01a
+      - id: SpellbookPageMindSpellRemovefear
+        anchor: center
+        offset_x: 70
+        offset_y: -10
+        width: 109
+        height: 147
+        z_index: 40
+        interactive: true
+        asset:
+          default: sbm02b
+          highlighted: sbm02a
+          pressed: sbm02a
+      - id: SpellbookPageMindSpellMindresistance
+        anchor: center
+        offset_x: -215
+        offset_y: -9
+        width: 117
+        height: 131
+        z_index: 40
+        interactive: true
+        asset:
+          default: sbm03b
+          highlighted: sbm03a
+          pressed: sbm03a
+      - id: SpellbookPageMindSpellMindblast
+        anchor: center
+        offset_x: 75
+        offset_y: 164
+        width: 148
+        height: 126
+        z_index: 40
+        interactive: true
+        asset:
+          default: sbm04b
+          highlighted: sbm04a
+          pressed: sbm04a
+      - id: SpellbookPageMindSpellCharm
+        anchor: center
+        offset_x: 208
+        offset_y: 159
+        width: 112
+        height: 130
+        z_index: 40
+        interactive: true
+        asset:
+          default: sbm05b
+          highlighted: sbm05a
+          pressed: sbm05a
+      - id: SpellbookPageMindSpellCureparalysis
+        anchor: center
+        offset_x: -89
+        offset_y: -135
+        width: 110
+        height: 136
+        z_index: 40
+        interactive: true
+        asset:
+          default: sbm06b
+          highlighted: sbm06a
+          pressed: sbm06a
+      - id: SpellbookPageMindSpellBerserk
+        anchor: center
+        offset_x: -81
+        offset_y: 4
+        width: 99
+        height: 128
+        z_index: 40
+        interactive: true
+        asset:
+          default: sbm07b
+          highlighted: sbm07a
+          pressed: sbm07a
+      - id: SpellbookPageMindSpellMassfear
+        anchor: center
+        offset_x: 117
+        offset_y: -150
+        width: 192
+        height: 101
+        z_index: 40
+        interactive: true
+        asset:
+          default: sbm08b
+          highlighted: sbm08a
+          pressed: sbm08a
+      - id: SpellbookPageMindSpellCureinsanity
+        anchor: center
+        offset_x: -86
+        offset_y: 145
+        width: 117
+        height: 146
+        z_index: 40
+        interactive: true
+        asset:
+          default: sbm09b
+          highlighted: sbm09a
+          pressed: sbm09a
+      - id: SpellbookPageMindSpellPsychicshock
+        anchor: center
+        offset_x: 195
+        offset_y: 46
+        width: 154
+        height: 95
+        z_index: 40
+        interactive: true
+        asset:
+          default: sbm10b
+          highlighted: sbm10a
+          pressed: sbm10a
+      - id: SpellbookPageMindSpellEnslave
+        anchor: center
+        offset_x: -213
+        offset_y: 154
+        width: 144
+        height: 152
+        z_index: 40
+        interactive: true
+        asset:
+          default: sbm11b
+          highlighted: sbm11a
+          pressed: sbm11a
+      - id: SpellbookPageBodySpellCureweakness
+        anchor: center
+        offset_x: -92
+        offset_y: -141
+        width: 133
+        height: 128
+        z_index: 40
+        interactive: true
+        asset:
+          default: sbb01b
+          highlighted: sbb01a
+          pressed: sbb01a
+      - id: SpellbookPageBodySpellHeal
+        anchor: center
+        offset_x: -84
+        offset_y: 14
+        width: 112
+        height: 147
+        z_index: 40
+        interactive: true
+        asset:
+          default: sbb02b
+          highlighted: sbb02a
+          pressed: sbb02a
+      - id: SpellbookPageBodySpellBodyresistance
+        anchor: center
+        offset_x: -228
+        offset_y: 131
+        width: 98
+        height: 168
+        z_index: 40
+        interactive: true
+        asset:
+          default: sbb03b
+          highlighted: sbb03a
+          pressed: sbb03a
+      - id: SpellbookPageBodySpellHarm
+        anchor: center
+        offset_x: 74
+        offset_y: 158
+        width: 129
+        height: 148
+        z_index: 40
+        interactive: true
+        asset:
+          default: sbb04b
+          highlighted: sbb04a
+          pressed: sbb04a
+      - id: SpellbookPageBodySpellRegeneration
+        anchor: center
+        offset_x: -102
+        offset_y: 166
+        width: 165
+        height: 131
+        z_index: 40
+        interactive: true
+        asset:
+          default: sbb05b
+          highlighted: sbb05a
+          pressed: sbb05a
+      - id: SpellbookPageBodySpellCurepoison
+        anchor: center
+        offset_x: 187
+        offset_y: -139
+        width: 149
+        height: 113
+        z_index: 40
+        interactive: true
+        asset:
+          default: sbb06b
+          highlighted: sbb06a
+          pressed: sbb06a
+      - id: SpellbookPageBodySpellHammerhands
+        anchor: center
+        offset_x: 72
+        offset_y: 15
+        width: 72
+        height: 134
+        z_index: 40
+        interactive: true
+        asset:
+          default: sbb07b
+          highlighted: sbb07a
+          pressed: sbb07a
+      - id: SpellbookPageBodySpellCuredisease
+        anchor: center
+        offset_x: 64
+        offset_y: -138
+        width: 112
+        height: 131
+        z_index: 40
+        interactive: true
+        asset:
+          default: sbb08b
+          highlighted: sbb08a
+          pressed: sbb08a
+      - id: SpellbookPageBodySpellProtectionfrommagic
+        anchor: center
+        offset_x: 197
+        offset_y: 158
+        width: 149
+        height: 136
+        z_index: 40
+        interactive: true
+        asset:
+          default: sbb09b
+          highlighted: sbb09a
+          pressed: sbb09a
+      - id: SpellbookPageBodySpellFlyingfist
+        anchor: center
+        offset_x: 191
+        offset_y: 1
+        width: 162
+        height: 136
+        z_index: 40
+        interactive: true
+        asset:
+          default: sbb10b
+          highlighted: sbb10a
+          pressed: sbb10a
+      - id: SpellbookPageBodySpellPowercure
+        anchor: center
+        offset_x: -201
+        offset_y: -38
+        width: 145
+        height: 122
+        z_index: 40
+        interactive: true
+        asset:
+          default: sbb11b
+          highlighted: sbb11a
+          pressed: sbb11a
+      - id: SpellbookPageLightSpellLightbolt
+        anchor: center
+        offset_x: -150
+        offset_y: 44
+        width: 231
+        height: 87
+        z_index: 40
+        interactive: true
+        asset:
+          default: sbl01b
+          highlighted: sbl01a
+          pressed: sbl01a
+      - id: SpellbookPageLightSpellDestroyundead
+        anchor: center
+        offset_x: 76
+        offset_y: -25
+        width: 108
+        height: 148
+        z_index: 40
+        interactive: true
+        asset:
+          default: sbl02b
+          highlighted: sbl02a
+          pressed: sbl02a
+      - id: SpellbookPageLightSpellDispelmagic
+        anchor: center
+        offset_x: -78
+        offset_y: 142
+        width: 120
+        height: 141
+        z_index: 40
+        interactive: true
+        asset:
+          default: sbl03b
+          highlighted: sbl03a
+          pressed: sbl03a
+      - id: SpellbookPageLightSpellParalyze
+        anchor: center
+        offset_x: -86
+        offset_y: -97
+        width: 128
+        height: 205
+        z_index: 40
+        interactive: true
+        asset:
+          default: sbl04b
+          highlighted: sbl04a
+          pressed: sbl04a
+      - id: SpellbookPageLightSpellSummonwisp
+        anchor: center
+        offset_x: 66
+        offset_y: 136
+        width: 104
+        height: 176
+        z_index: 40
+        interactive: true
+        asset:
+          default: sbl05b
+          highlighted: sbl05a
+          pressed: sbl05a
+      - id: SpellbookPageLightSpellDayofthegods
+        anchor: center
+        offset_x: 197
+        offset_y: 164
+        width: 136
+        height: 132
+        z_index: 40
+        interactive: true
+        asset:
+          default: sbl06b
+          highlighted: sbl06a
+          pressed: sbl06a
+      - id: SpellbookPageLightSpellPrismaticlight
+        anchor: center
+        offset_x: 201
+        offset_y: -70
+        width: 136
+        height: 94
+        z_index: 40
+        interactive: true
+        asset:
+          default: sbl07b
+          highlighted: sbl07a
+          pressed: sbl07a
+      - id: SpellbookPageLightSpellDayofprotection
+        anchor: center
+        offset_x: 122
+        offset_y: -155
+        width: 118
+        height: 102
+        z_index: 40
+        interactive: true
+        asset:
+          default: sbl08b
+          highlighted: sbl08a
+          pressed: sbl08a
+      - id: SpellbookPageLightSpellHourofpower
+        anchor: center
+        offset_x: -224
+        offset_y: 153
+        width: 113
+        height: 119
+        z_index: 40
+        interactive: true
+        asset:
+          default: sbl09b
+          highlighted: sbl09a
+          pressed: sbl09a
+      - id: SpellbookPageLightSpellSunray
+        anchor: center
+        offset_x: -199
+        offset_y: -46
+        width: 164
+        height: 93
+        z_index: 40
+        interactive: true
+        asset:
+          default: sbl10b
+          highlighted: sbl10a
+          pressed: sbl10a
+      - id: SpellbookPageLightSpellDivineintervention
+        anchor: center
+        offset_x: 197
+        offset_y: 34
+        width: 129
+        height: 118
+        z_index: 40
+        interactive: true
+        asset:
+          default: sbl11b
+          highlighted: sbl11a
+          pressed: sbl11a
+      - id: SpellbookPageDarkSpellReanimate
+        anchor: center
+        offset_x: 167
+        offset_y: -153
+        width: 165
+        height: 107
+        z_index: 40
+        interactive: true
+        asset:
+          default: sbdk01b
+          highlighted: sbdk01a
+          pressed: sbdk01a
+      - id: SpellbookPageDarkSpellToxiccloud
+        anchor: center
+        offset_x: -75
+        offset_y: -135
+        width: 128
+        height: 134
+        z_index: 40
+        interactive: true
+        asset:
+          default: sbdk02b
+          highlighted: sbdk02a
+          pressed: sbdk02a
+      - id: SpellbookPageDarkSpellVampiricweapon
+        anchor: center
+        offset_x: 215
+        offset_y: 134
+        width: 121
+        height: 185
+        z_index: 40
+        interactive: true
+        asset:
+          default: sbdk03b
+          highlighted: sbdk03a
+          pressed: sbdk03a
+      - id: SpellbookPageDarkSpellShrinkingray
+        anchor: center
+        offset_x: 82
+        offset_y: 156
+        width: 146
+        height: 146
+        z_index: 40
+        interactive: true
+        asset:
+          default: sbdk04b
+          highlighted: sbdk04a
+          pressed: sbdk04a
+      - id: SpellbookPageDarkSpellShrapmetal
+        anchor: center
+        offset_x: -201
+        offset_y: 85
+        width: 149
+        height: 94
+        z_index: 40
+        interactive: true
+        asset:
+          default: sbdk05b
+          highlighted: sbdk05a
+          pressed: sbdk05a
+      - id: SpellbookPageDarkSpellControlundead
+        anchor: center
+        offset_x: 50
+        offset_y: -119
+        width: 87
+        height: 201
+        z_index: 40
+        interactive: true
+        asset:
+          default: sbdk06b
+          highlighted: sbdk06a
+          pressed: sbdk06a
+      - id: SpellbookPageDarkSpellPainreflection
+        anchor: center
+        offset_x: 85
+        offset_y: 40
+        width: 158
+        height: 120
+        z_index: 40
+        interactive: true
+        asset:
+          default: sbdk07b
+          highlighted: sbdk07a
+          pressed: sbdk07a
+      - id: SpellbookPageDarkSpellDarkgrasp
+        anchor: center
+        offset_x: -81
+        offset_y: 7
+        width: 112
+        height: 133
+        z_index: 40
+        interactive: true
+        asset:
+          default: sbdk08b
+          highlighted: sbdk08a
+          pressed: sbdk08a
+      - id: SpellbookPageDarkSpellDragonbreath
+        anchor: center
+        offset_x: -204
+        offset_y: -35
+        width: 164
+        height: 102
+        z_index: 40
+        interactive: true
+        asset:
+          default: sbdk09b
+          highlighted: sbdk09a
+          pressed: sbdk09a
+      - id: SpellbookPageDarkSpellArmageddon
+        anchor: center
+        offset_x: 197
+        offset_y: -42
+        width: 143
+        height: 121
+        z_index: 40
+        interactive: true
+        asset:
+          default: sbdk10b
+          highlighted: sbdk10a
+          pressed: sbdk10a
+      - id: SpellbookPageDarkSpellSouldrinker
+        anchor: center
+        offset_x: -124
+        offset_y: 173
+        width: 167
+        height: 107
+        z_index: 40
+        interactive: true
+        asset:
+          default: sbdk11b
+          highlighted: sbdk11a
+          pressed: sbdk11a
+      - id: SpellbookPageDarkElfSpellGlamour
+        anchor: center
+        offset_x: -111
+        offset_y: -69
+        width: 150
+        height: 121
+        z_index: 40
+        interactive: true
+        asset:
+          default: sbde01b
+          highlighted: sbde01a
+          pressed: sbde01a
+      - id: SpellbookPageDarkElfSpellTravelersboon
+        anchor: center
+        offset_x: 149
+        offset_y: 121
+        width: 224
+        height: 137
+        z_index: 40
+        interactive: true
+        asset:
+          default: sbde02b
+          highlighted: sbde02a
+          pressed: sbde02a
+      - id: SpellbookPageDarkElfSpellBlind
+        anchor: center
+        offset_x: -161
+        offset_y: 112
+        width: 197
+        height: 225
+        z_index: 40
+        interactive: true
+        asset:
+          default: sbde03b
+          highlighted: sbde03a
+          pressed: sbde03a
+      - id: SpellbookPageDarkElfSpellDarkfirebolt
+        anchor: center
+        offset_x: 137
+        offset_y: -63
+        width: 224
+        height: 175
+        z_index: 40
+        interactive: true
+        asset:
+          default: sbde04b
+          highlighted: sbde04a
+          pressed: sbde04a
+      - id: SpellbookPageVampireSpellLifedrain
+        anchor: center
+        offset_x: -105
+        offset_y: -9
+        width: 172
+        height: 199
+        z_index: 40
+        interactive: true
+        asset:
+          default: sbv01b
+          highlighted: sbv01a
+          pressed: sbv01a
+      - id: SpellbookPageVampireSpellLevitate
+        anchor: center
+        offset_x: 172
+        offset_y: 110
+        width: 183
+        height: 191
+        z_index: 40
+        interactive: true
+        asset:
+          default: sbv02b
+          highlighted: sbv02a
+          pressed: sbv02a
+      - id: SpellbookPageVampireSpellCharm
+        anchor: center
+        offset_x: -162
+        offset_y: 146
+        width: 207
+        height: 144
+        z_index: 40
+        interactive: true
+        asset:
+          default: sbv03b
+          highlighted: sbv03a
+          pressed: sbv03a
+      - id: SpellbookPageVampireSpellMistform
+        anchor: center
+        offset_x: 133
+        offset_y: -90
+        width: 205
+        height: 201
+        z_index: 40
+        interactive: true
+        asset:
+          default: sbv04b
+          highlighted: sbv04a
+          pressed: sbv04a
+      - id: SpellbookPageDragonSpellFear
+        anchor: center
+        offset_x: -151
+        offset_y: 110
+        width: 227
+        height: 140
+        z_index: 40
+        interactive: true
+        asset:
+          default: sbd01b
+          highlighted: sbd01a
+          pressed: sbd01a
+      - id: SpellbookPageDragonSpellFlameblast
+        anchor: center
+        offset_x: -119
+        offset_y: -52
+        width: 157
+        height: 183
+        z_index: 40
+        interactive: true
+        asset:
+          default: sbd02b
+          highlighted: sbd02a
+          pressed: sbd02a
+      - id: SpellbookPageDragonSpellFlight
+        anchor: center
+        offset_x: 142
+        offset_y: 104
+        width: 188
+        height: 183
+        z_index: 40
+        interactive: true
+        asset:
+          default: sbd03b
+          highlighted: sbd03a
+          pressed: sbd03a
+      - id: SpellbookPageDragonSpellWingbuffet
+        anchor: center
+        offset_x: 134
+        offset_y: -91
+        width: 223
+        height: 133
+        z_index: 40
+        interactive: true
+        asset:
+          default: sbd04b
+          highlighted: sbd04a
+          pressed: sbd04a

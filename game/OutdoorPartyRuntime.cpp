@@ -18,6 +18,8 @@ void OutdoorPartyRuntime::initialize(float x, float y, float footZHint, bool res
     {
         m_party.reset();
     }
+
+    syncSpellMovementStatesFromPartyBuffs();
 }
 
 void OutdoorPartyRuntime::teleportTo(float x, float y, float footZHint)
@@ -29,6 +31,7 @@ void OutdoorPartyRuntime::update(const OutdoorMovementInput &input, float deltaS
 {
     m_movementDriver.update(input, deltaSeconds);
     m_party.updateRecovery(deltaSeconds);
+    syncSpellMovementStatesFromPartyBuffs();
     m_party.applyMovementEffects(m_movementDriver.consumePendingEffects());
 }
 
@@ -75,6 +78,7 @@ Party &OutdoorPartyRuntime::party()
 void OutdoorPartyRuntime::setParty(const Party &party)
 {
     m_party = party;
+    syncSpellMovementStatesFromPartyBuffs();
 }
 
 void OutdoorPartyRuntime::toggleRunning()
@@ -95,5 +99,17 @@ void OutdoorPartyRuntime::toggleWaterWalk()
 void OutdoorPartyRuntime::toggleFeatherFall()
 {
     m_movementDriver.toggleFeatherFall();
+}
+
+void OutdoorPartyRuntime::syncSpellMovementStatesFromPartyBuffs()
+{
+    m_movementDriver.setFeatherFallActive(m_party.hasPartyBuff(PartyBuffId::FeatherFall));
+    m_movementDriver.setWaterWalkActive(m_party.hasPartyBuff(PartyBuffId::WaterWalk));
+    m_movementDriver.setFlying(m_party.hasPartyBuff(PartyBuffId::Fly));
+}
+
+void OutdoorPartyRuntime::requestJump()
+{
+    m_movementDriver.requestJump();
 }
 }

@@ -95,6 +95,7 @@ add_executable(openyamm
     OutdoorPartyRuntime.cpp
     OutdoorWorldRuntime.cpp
     Party.cpp
+    PartySpellSystem.cpp
     RosterTable.cpp
     SpawnPreview.cpp
     SkillData.cpp

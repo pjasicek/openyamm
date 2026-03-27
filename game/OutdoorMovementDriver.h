@@ -97,6 +97,10 @@ public:
     void toggleFlying();
     void toggleWaterWalk();
     void toggleFeatherFall();
+    void setFlying(bool active);
+    void setWaterWalkActive(bool active);
+    void setFeatherFallActive(bool active);
+    void requestJump();
 
 private:
     OutdoorMovementController m_movementController;

@@ -4,6 +4,7 @@
 #include "game/GameMechanics.h"
 #include "game/ItemTable.h"
 #include "game/RosterTable.h"
+#include "game/SpellIds.h"
 
 #include <algorithm>
 #include <array>
@@ -661,6 +662,8 @@ void Party::seed(const PartySeed &seed)
 {
     m_members = seed.members;
     m_activeMemberIndex = 0;
+    m_partyBuffs = {};
+    m_characterBuffs = {};
     m_gold = std::max(0, seed.gold);
     m_bankGold = 0;
     m_food = std::max(0, seed.food);
@@ -725,6 +728,7 @@ void Party::seed(const PartySeed &seed)
     m_hardLandingSoundCount = 0;
     m_lastFallDamageDistance = 0.0f;
     m_lastStatus.clear();
+    rebuildMagicalBonusesFromBuffs();
 }
 
 void Party::applyMovementEffects(const OutdoorMovementEffects &effects)
@@ -1652,6 +1656,46 @@ bool Party::setActiveMemberIndex(size_t memberIndex)
     return true;
 }
 
+bool Party::canSpendSpellPoints(size_t memberIndex, int amount) const
+{
+    const Character *pMember = member(memberIndex);
+
+    if (pMember == nullptr)
+    {
+        return false;
+    }
+
+    return amount <= 0 || pMember->spellPoints >= amount;
+}
+
+bool Party::spendSpellPoints(size_t memberIndex, int amount)
+{
+    Character *pMember = member(memberIndex);
+
+    if (pMember == nullptr)
+    {
+        return false;
+    }
+
+    if (amount <= 0)
+    {
+        return true;
+    }
+
+    if (pMember->spellPoints < amount)
+    {
+        return false;
+    }
+
+    pMember->spellPoints -= amount;
+    return true;
+}
+
+bool Party::spendSpellPointsOnActiveMember(int amount)
+{
+    return spendSpellPoints(activeMemberIndex(), amount);
+}
+
 void Party::updateRecovery(float deltaSeconds)
 {
     if (deltaSeconds <= 0.0f)
@@ -1662,6 +1706,74 @@ void Party::updateRecovery(float deltaSeconds)
     for (Character &member : m_members)
     {
         member.recoverySecondsRemaining = std::max(0.0f, member.recoverySecondsRemaining - deltaSeconds);
+    }
+
+    bool buffsChanged = false;
+
+    for (PartyBuffState &buff : m_partyBuffs)
+    {
+        if (!buff.active())
+        {
+            continue;
+        }
+
+        const float previousRemainingSeconds = buff.remainingSeconds;
+        buff.remainingSeconds = std::max(0.0f, buff.remainingSeconds - deltaSeconds);
+
+        if (previousRemainingSeconds > 0.0f && buff.remainingSeconds <= 0.0f)
+        {
+            buffsChanged = true;
+
+            if (isSpellId(buff.spellId, SpellId::Haste))
+            {
+                for (Character &member : m_members)
+                {
+                    member.conditions.set(static_cast<size_t>(CharacterCondition::Weak));
+                }
+            }
+        }
+    }
+
+    for (size_t memberIndex = 0; memberIndex < m_members.size() && memberIndex < m_characterBuffs.size(); ++memberIndex)
+    {
+        for (CharacterBuffState &buff : m_characterBuffs[memberIndex])
+        {
+            if (!buff.active())
+            {
+                continue;
+            }
+
+            const float previousRemainingSeconds = buff.remainingSeconds;
+            buff.remainingSeconds = std::max(0.0f, buff.remainingSeconds - deltaSeconds);
+
+            if (isSpellId(buff.spellId, SpellId::Regeneration))
+            {
+                buff.periodicAccumulatorSeconds += deltaSeconds;
+                const float tickIntervalSeconds = buff.skillMastery == SkillMastery::Grandmaster
+                    ? 0.5f
+                    : buff.skillMastery == SkillMastery::Master
+                    ? 0.75f
+                    : 1.0f;
+                const int healPerTick = std::max(1, buff.power);
+
+                while (buff.periodicAccumulatorSeconds >= tickIntervalSeconds)
+                {
+                    buff.periodicAccumulatorSeconds -= tickIntervalSeconds;
+                    healMember(memberIndex, healPerTick);
+                }
+            }
+
+            if (previousRemainingSeconds > 0.0f && buff.remainingSeconds <= 0.0f)
+            {
+                buffsChanged = true;
+                buff.periodicAccumulatorSeconds = 0.0f;
+            }
+        }
+    }
+
+    if (buffsChanged)
+    {
+        rebuildMagicalBonusesFromBuffs();
     }
 
     if (!canSelectMemberInGameplay(m_activeMemberIndex))
@@ -1709,6 +1821,147 @@ bool Party::switchToNextReadyMember()
     }
 
     return false;
+}
+
+void Party::applyPartyBuff(
+    PartyBuffId buffId,
+    float durationSeconds,
+    int power,
+    uint32_t spellId,
+    uint32_t skillLevel,
+    SkillMastery skillMastery,
+    uint32_t casterMemberIndex)
+{
+    PartyBuffState &buff = m_partyBuffs[static_cast<size_t>(buffId)];
+    buff.remainingSeconds = std::max(buff.remainingSeconds, std::max(0.0f, durationSeconds));
+    buff.spellId = spellId;
+    buff.skillLevel = skillLevel;
+    buff.skillMastery = skillMastery;
+    buff.power = power;
+    buff.casterMemberIndex = casterMemberIndex;
+    rebuildMagicalBonusesFromBuffs();
+}
+
+void Party::applyCharacterBuff(
+    size_t memberIndex,
+    CharacterBuffId buffId,
+    float durationSeconds,
+    int power,
+    uint32_t spellId,
+    uint32_t skillLevel,
+    SkillMastery skillMastery,
+    uint32_t casterMemberIndex)
+{
+    if (memberIndex >= m_members.size() || memberIndex >= m_characterBuffs.size())
+    {
+        return;
+    }
+
+    CharacterBuffState &buff = m_characterBuffs[memberIndex][static_cast<size_t>(buffId)];
+    buff.remainingSeconds = std::max(buff.remainingSeconds, std::max(0.0f, durationSeconds));
+    buff.spellId = spellId;
+    buff.skillLevel = skillLevel;
+    buff.skillMastery = skillMastery;
+    buff.power = power;
+    buff.casterMemberIndex = casterMemberIndex;
+    rebuildMagicalBonusesFromBuffs();
+}
+
+void Party::clearPartyBuff(PartyBuffId buffId)
+{
+    m_partyBuffs[static_cast<size_t>(buffId)] = {};
+    rebuildMagicalBonusesFromBuffs();
+}
+
+void Party::clearCharacterBuff(size_t memberIndex, CharacterBuffId buffId)
+{
+    if (memberIndex >= m_members.size() || memberIndex >= m_characterBuffs.size())
+    {
+        return;
+    }
+
+    m_characterBuffs[memberIndex][static_cast<size_t>(buffId)] = {};
+    rebuildMagicalBonusesFromBuffs();
+}
+
+bool Party::hasPartyBuff(PartyBuffId buffId) const
+{
+    return m_partyBuffs[static_cast<size_t>(buffId)].active();
+}
+
+bool Party::hasCharacterBuff(size_t memberIndex, CharacterBuffId buffId) const
+{
+    return characterBuff(memberIndex, buffId) != nullptr;
+}
+
+const PartyBuffState *Party::partyBuff(PartyBuffId buffId) const
+{
+    const PartyBuffState &buff = m_partyBuffs[static_cast<size_t>(buffId)];
+    return buff.active() ? &buff : nullptr;
+}
+
+const CharacterBuffState *Party::characterBuff(size_t memberIndex, CharacterBuffId buffId) const
+{
+    if (memberIndex >= m_members.size() || memberIndex >= m_characterBuffs.size())
+    {
+        return nullptr;
+    }
+
+    const CharacterBuffState &buff = m_characterBuffs[memberIndex][static_cast<size_t>(buffId)];
+    return buff.active() ? &buff : nullptr;
+}
+
+bool Party::clearMemberCondition(size_t memberIndex, CharacterCondition condition)
+{
+    Character *pMember = member(memberIndex);
+
+    if (pMember == nullptr)
+    {
+        return false;
+    }
+
+    pMember->conditions.reset(static_cast<size_t>(condition));
+    return true;
+}
+
+bool Party::healMember(size_t memberIndex, int amount)
+{
+    Character *pMember = member(memberIndex);
+
+    if (pMember == nullptr || amount <= 0)
+    {
+        return false;
+    }
+
+    const int maxHealth =
+        std::max(1, pMember->maxHealth + pMember->permanentBonuses.maxHealth + pMember->magicalBonuses.maxHealth);
+    const int previousHealth = pMember->health;
+    pMember->health = std::clamp(pMember->health + amount, 0, maxHealth);
+    return pMember->health > previousHealth;
+}
+
+bool Party::reviveMember(size_t memberIndex, int health, bool applyWeak)
+{
+    Character *pMember = member(memberIndex);
+
+    if (pMember == nullptr)
+    {
+        return false;
+    }
+
+    pMember->conditions.reset(static_cast<size_t>(CharacterCondition::Unconscious));
+    pMember->conditions.reset(static_cast<size_t>(CharacterCondition::Dead));
+    pMember->conditions.reset(static_cast<size_t>(CharacterCondition::Petrified));
+    pMember->conditions.reset(static_cast<size_t>(CharacterCondition::Eradicated));
+    pMember->conditions.reset(static_cast<size_t>(CharacterCondition::Zombie));
+    pMember->health = std::max(1, health);
+
+    if (applyWeak)
+    {
+        pMember->conditions.set(static_cast<size_t>(CharacterCondition::Weak));
+    }
+
+    return true;
 }
 
 const Character *Party::activeMember() const
@@ -1844,6 +2097,105 @@ float Party::lastFallDamageDistance() const
 const std::string &Party::lastStatus() const
 {
     return m_lastStatus;
+}
+
+void Party::rebuildMagicalBonusesFromBuffs()
+{
+    for (Character &member : m_members)
+    {
+        member.magicalBonuses = {};
+        member.magicalImmunities = {};
+    }
+
+    const auto applyResistanceBonus =
+        [this](PartyBuffId buffId, auto CharacterResistanceSet::*field)
+        {
+            const PartyBuffState &buff = m_partyBuffs[static_cast<size_t>(buffId)];
+
+            if (!buff.active())
+            {
+                return;
+            }
+
+            for (Character &member : m_members)
+            {
+                member.magicalBonuses.resistances.*field += buff.power;
+            }
+        };
+
+    applyResistanceBonus(PartyBuffId::FireResistance, &CharacterResistanceSet::fire);
+    applyResistanceBonus(PartyBuffId::WaterResistance, &CharacterResistanceSet::water);
+    applyResistanceBonus(PartyBuffId::AirResistance, &CharacterResistanceSet::air);
+    applyResistanceBonus(PartyBuffId::EarthResistance, &CharacterResistanceSet::earth);
+    applyResistanceBonus(PartyBuffId::MindResistance, &CharacterResistanceSet::mind);
+    applyResistanceBonus(PartyBuffId::BodyResistance, &CharacterResistanceSet::body);
+
+    if (const PartyBuffState *pBuff = partyBuff(PartyBuffId::Stoneskin))
+    {
+        for (Character &member : m_members)
+        {
+            member.magicalBonuses.armorClass += pBuff->power;
+        }
+    }
+
+    if (const PartyBuffState *pBuff = partyBuff(PartyBuffId::Heroism))
+    {
+        for (Character &member : m_members)
+        {
+            member.magicalBonuses.meleeDamage += pBuff->power;
+            member.magicalBonuses.rangedDamage += pBuff->power;
+        }
+    }
+
+    if (const PartyBuffState *pBuff = partyBuff(PartyBuffId::DayOfGods))
+    {
+        for (Character &member : m_members)
+        {
+            member.magicalBonuses.might += pBuff->power;
+            member.magicalBonuses.intellect += pBuff->power;
+            member.magicalBonuses.personality += pBuff->power;
+            member.magicalBonuses.endurance += pBuff->power;
+            member.magicalBonuses.speed += pBuff->power;
+            member.magicalBonuses.accuracy += pBuff->power;
+            member.magicalBonuses.luck += pBuff->power;
+        }
+    }
+
+    if (const PartyBuffState *pBuff = partyBuff(PartyBuffId::ProtectionFromMagic))
+    {
+        for (Character &member : m_members)
+        {
+            member.magicalBonuses.resistances.fire += pBuff->power;
+            member.magicalBonuses.resistances.air += pBuff->power;
+            member.magicalBonuses.resistances.water += pBuff->power;
+            member.magicalBonuses.resistances.earth += pBuff->power;
+            member.magicalBonuses.resistances.mind += pBuff->power;
+            member.magicalBonuses.resistances.body += pBuff->power;
+            member.magicalBonuses.resistances.spirit += pBuff->power;
+        }
+    }
+
+    for (size_t memberIndex = 0; memberIndex < m_members.size() && memberIndex < m_characterBuffs.size(); ++memberIndex)
+    {
+        Character &member = m_members[memberIndex];
+
+        if (const CharacterBuffState *pBuff = characterBuff(memberIndex, CharacterBuffId::Bless))
+        {
+            member.magicalBonuses.meleeAttack += pBuff->power;
+            member.magicalBonuses.rangedAttack += pBuff->power;
+        }
+
+        if (const CharacterBuffState *pBuff = characterBuff(memberIndex, CharacterBuffId::Fate))
+        {
+            member.magicalBonuses.meleeAttack += pBuff->power;
+            member.magicalBonuses.rangedAttack += pBuff->power;
+        }
+
+        if (const CharacterBuffState *pBuff = characterBuff(memberIndex, CharacterBuffId::Hammerhands))
+        {
+            member.magicalBonuses.meleeDamage += pBuff->power;
+        }
+    }
 }
 
 void Party::applyDefaultStartingSkills(Character &member) const

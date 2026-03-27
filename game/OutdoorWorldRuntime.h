@@ -67,6 +67,16 @@ public:
         Actor,
     };
 
+    enum class ActorControlMode : uint8_t
+    {
+        None = 0,
+        Charm,
+        Berserk,
+        Enslaved,
+        ControlUndead,
+        Reanimated,
+    };
+
     struct SpellCastRequest;
     struct PartyProjectileRequest;
 
@@ -119,6 +129,18 @@ public:
         float velocityY = 0.0f;
         float velocityZ = 0.0f;
         float yawRadians = 0.0f;
+        float slowRemainingSeconds = 0.0f;
+        float slowMoveMultiplier = 1.0f;
+        float slowRecoveryMultiplier = 1.0f;
+        float stunRemainingSeconds = 0.0f;
+        float paralyzeRemainingSeconds = 0.0f;
+        float fearRemainingSeconds = 0.0f;
+        float controlRemainingSeconds = 0.0f;
+        ActorControlMode controlMode = ActorControlMode::None;
+        float shrinkRemainingSeconds = 0.0f;
+        float shrinkDamageMultiplier = 1.0f;
+        float shrinkArmorClassMultiplier = 1.0f;
+        float darkGraspRemainingSeconds = 0.0f;
         uint32_t idleDecisionCount = 0;
         uint32_t pursueDecisionCount = 0;
         uint32_t attackDecisionCount = 0;
@@ -402,6 +424,28 @@ public:
     bool debugSpawnEncounterFromSpawnPoint(size_t spawnIndex, uint32_t countOverride = 0);
     bool setMapActorDead(size_t actorIndex, bool isDead, bool emitAudio = true);
     bool applyPartyAttackToMapActor(size_t actorIndex, int damage, float partyX, float partyY, float partyZ);
+    bool applyPartySpellToMapActor(
+        size_t actorIndex,
+        uint32_t spellId,
+        uint32_t skillLevel,
+        SkillMastery skillMastery,
+        int damage,
+        float partyX,
+        float partyY,
+        float partyZ);
+    bool healMapActor(size_t actorIndex, int amount);
+    bool resurrectMapActor(size_t actorIndex, int health, bool friendlyToParty);
+    bool clearMapActorSpellEffects(size_t actorIndex);
+    int effectiveMapActorArmorClass(size_t actorIndex) const;
+    std::vector<size_t> collectMapActorIndicesWithinRadius(
+        float centerX,
+        float centerY,
+        float centerZ,
+        float radius,
+        bool requireLineOfSight,
+        float sourceX,
+        float sourceY,
+        float sourceZ) const;
     bool notifyPartyContactWithMapActor(size_t actorIndex, float partyX, float partyY, float partyZ);
     size_t spawnPointCount() const;
     const SpawnPointState *spawnPointState(size_t spawnIndex) const;
@@ -611,6 +655,11 @@ private:
         float spawnForwardOffset
     );
     bool hasClearOutdoorLineOfSight(const bx::Vec3 &start, const bx::Vec3 &end) const;
+    void updateActorSpellEffects(MapActorState &actor, float deltaSeconds);
+    void restoreActorHostilityAfterControlEffect(MapActorState &actor);
+    int effectiveArmorClassForActor(
+        const MapActorState &actor,
+        const MonsterTable::MonsterStatsEntry *pStats) const;
     void buildOutdoorFaceSpatialIndex();
     void collectOutdoorFaceCandidates(float minX, float minY, float maxX, float maxY, std::vector<size_t> &indices) const;
     bool resolveWorldItemVisual(

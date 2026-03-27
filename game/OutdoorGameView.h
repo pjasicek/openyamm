@@ -20,6 +20,7 @@
 #include "game/ItemEquipPosTable.h"
 #include "game/NpcDialogTable.h"
 #include "game/ObjectTable.h"
+#include "game/PartySpellSystem.h"
 #include "game/RosterTable.h"
 #include "game/SpellTable.h"
 #include "game/StrTable.h"
@@ -221,7 +222,8 @@ private:
         Gameplay,
         Dialogue,
         Character,
-        Chest
+        Chest,
+        Spellbook
     };
 
     enum class CharacterPage
@@ -259,6 +261,33 @@ private:
         CloseButton
     };
 
+public:
+    enum class SpellbookSchool
+    {
+        Fire,
+        Air,
+        Water,
+        Earth,
+        Spirit,
+        Mind,
+        Body,
+        Light,
+        Dark,
+        DarkElf,
+        Vampire,
+        Dragon
+    };
+
+    enum class SpellbookPointerTargetType
+    {
+        None,
+        SchoolButton,
+        SpellButton,
+        CloseButton,
+        QuickCastButton
+    };
+
+private:
     enum class InventoryNestedOverlayMode
     {
         None,
@@ -338,6 +367,31 @@ private:
         float sourceY = 0.0f;
         float sourceWidth = 0.0f;
         float sourceHeight = 0.0f;
+    };
+
+    struct PendingSpellCastState
+    {
+        bool active = false;
+        size_t casterMemberIndex = 0;
+        uint32_t spellId = 0;
+        PartySpellCastTargetKind targetKind = PartySpellCastTargetKind::None;
+        std::string spellName;
+    };
+
+    struct SpellbookPointerTarget
+    {
+        SpellbookPointerTargetType type = SpellbookPointerTargetType::None;
+        SpellbookSchool school = SpellbookSchool::Fire;
+        uint32_t spellId = 0;
+
+        bool operator==(const SpellbookPointerTarget &other) const = default;
+    };
+
+    struct SpellbookState
+    {
+        bool active = false;
+        SpellbookSchool school = SpellbookSchool::Fire;
+        uint32_t selectedSpellId = 0;
     };
 
     struct RenderedInspectableHudItem
@@ -668,6 +722,8 @@ private:
     void renderItemInspectOverlay(int width, int height) const;
     void renderCharacterInspectOverlay(int width, int height) const;
     void renderActorInspectOverlay(int width, int height);
+    void renderPendingSpellTargetingOverlay(int width, int height) const;
+    void renderSpellbookOverlay(int width, int height) const;
     std::optional<std::string> findCachedAssetPath(const std::string &directoryPath, const std::string &fileName);
     std::optional<std::vector<uint8_t>> readCachedBinaryFile(const std::string &assetPath);
     std::optional<std::array<uint8_t, 256 * 3>> loadCachedActPalette(int16_t paletteId);
@@ -692,6 +748,13 @@ private:
     void updateItemInspectOverlayState(int width, int height);
     void updateCharacterInspectOverlayState(int width, int height);
     void updateActorInspectOverlayState(int width, int height);
+    bool tryBeginQuickSpellCast();
+    void openSpellbook();
+    void closeSpellbook(const std::string &statusText = "");
+    void clearPendingSpellCast(const std::string &statusText = "");
+    bool tryResolvePendingSpellCast(
+        const InspectHit &actorInspectHit,
+        const std::optional<size_t> &portraitMemberIndex);
     std::optional<size_t> resolveRuntimeActorIndexForInspectHit(const InspectHit &inspectHit) const;
     bool isOpaqueHudPixelAtPoint(const RenderedInspectableHudItem &item, float x, float y) const;
     std::string resolveEquippedItemHudTextureName(
@@ -839,6 +902,10 @@ private:
     bool m_toggleFlyingLatch;
     bool m_toggleWaterWalkLatch;
     bool m_toggleFeatherFallLatch;
+    bool m_quickSpellCastLatch;
+    bool m_spellbookToggleLatch;
+    bool m_spellbookClickLatch;
+    bool m_pendingSpellTargetClickLatch;
     bool m_inventoryScreenToggleLatch;
     bool m_characterScreenOpen;
     bool m_characterDollJewelryOverlayOpen;
@@ -854,6 +921,11 @@ private:
     ItemInspectOverlayState m_itemInspectOverlay;
     CharacterInspectOverlayState m_characterInspectOverlay;
     ActorInspectOverlayState m_actorInspectOverlay;
+    SpellbookState m_spellbook;
+    SpellbookPointerTarget m_spellbookPressedTarget;
+    uint64_t m_lastSpellbookSpellClickTicks;
+    uint32_t m_lastSpellbookClickedSpellId;
+    PendingSpellCastState m_pendingSpellCast;
     mutable std::vector<RenderedInspectableHudItem> m_renderedInspectableHudItems;
     mutable HudScreenState m_renderedInspectableHudState = HudScreenState::Gameplay;
     bool m_heldInventoryDropLatch;

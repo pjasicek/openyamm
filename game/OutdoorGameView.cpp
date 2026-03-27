@@ -9,6 +9,7 @@
 #include "game/OutdoorPartyRuntime.h"
 #include "game/OutdoorWorldRuntime.h"
 #include "game/SpawnPreview.h"
+#include "game/SpellIds.h"
 #include "game/SpriteObjectDefs.h"
 #include "game/SpriteTables.h"
 #include "game/StringUtils.h"
@@ -20,6 +21,7 @@
 #include <yaml-cpp/yaml.h>
 
 #include <algorithm>
+#include <array>
 #include <cmath>
 #include <cstring>
 #include <cstdlib>
@@ -28,6 +30,7 @@
 #include <fstream>
 #include <functional>
 #include <future>
+#include <iomanip>
 #include <iostream>
 #include <iterator>
 #include <limits>
@@ -39,6 +42,9 @@ namespace OpenYAMM::Game
 {
 namespace
 {
+using SpellbookSchool = OutdoorGameView::SpellbookSchool;
+using SpellbookPointerTargetType = OutdoorGameView::SpellbookPointerTargetType;
+
 bool shouldSkipSpriteObjectInspectTarget(const SpriteObjectBillboard &object, const ObjectEntry *pObjectEntry)
 {
     if (pObjectEntry == nullptr || object.objectDescriptionId == 0)
@@ -118,6 +124,288 @@ constexpr float HudFontIntegerSnapThreshold = 0.1f;
 constexpr float MaxUiViewportAspect = 4.0f / 3.0f;
 constexpr uint64_t PartyPortraitDoubleClickWindowMs = 500;
 constexpr uint64_t HoverInspectRefreshNanoseconds = 20 * 1000 * 1000;
+
+struct SpellbookSchoolUiDefinition
+{
+    SpellbookSchool school = SpellbookSchool::Fire;
+    const char *pPageLayoutId = "";
+    const char *pButtonLayoutId = "";
+    uint32_t firstSpellId = 0;
+    uint32_t spellCount = 0;
+};
+
+constexpr std::array<SpellbookSchoolUiDefinition, 12> SpellbookSchoolUiDefinitions = {{
+    {SpellbookSchool::Fire, "SpellbookPageFire", "SpellbookSchoolButtonFire", spellIdValue(SpellId::TorchLight), 11},
+    {SpellbookSchool::Air, "SpellbookPageAir", "SpellbookSchoolButtonAir", spellIdValue(SpellId::WizardEye), 11},
+    {SpellbookSchool::Water, "SpellbookPageWater", "SpellbookSchoolButtonWater", spellIdValue(SpellId::Awaken), 11},
+    {SpellbookSchool::Earth, "SpellbookPageEarth", "SpellbookSchoolButtonEarth", spellIdValue(SpellId::Stun), 11},
+    {SpellbookSchool::Spirit, "SpellbookPageSpirit", "SpellbookSchoolButtonSpirit", spellIdValue(SpellId::DetectLife), 11},
+    {SpellbookSchool::Mind, "SpellbookPageMind", "SpellbookSchoolButtonMind", spellIdValue(SpellId::Telepathy), 11},
+    {SpellbookSchool::Body, "SpellbookPageBody", "SpellbookSchoolButtonBody", spellIdValue(SpellId::CureWeakness), 11},
+    {SpellbookSchool::Light, "SpellbookPageLight", "SpellbookSchoolButtonLight", spellIdValue(SpellId::LightBolt), 11},
+    {SpellbookSchool::Dark, "SpellbookPageDark", "SpellbookSchoolButtonDark", spellIdValue(SpellId::Reanimate), 11},
+    {SpellbookSchool::DarkElf, "SpellbookPageDarkElf", "SpellbookSchoolButtonDarkElf", spellIdValue(SpellId::Glamour), 4},
+    {SpellbookSchool::Vampire, "SpellbookPageVampire", "SpellbookSchoolButtonVampire", spellIdValue(SpellId::Lifedrain), 4},
+    {SpellbookSchool::Dragon, "SpellbookPageDragon", "SpellbookSchoolButtonDragon", spellIdValue(SpellId::Fear), 4},
+}};
+
+const SpellbookSchoolUiDefinition *findSpellbookSchoolUiDefinition(SpellbookSchool school)
+{
+    for (const SpellbookSchoolUiDefinition &definition : SpellbookSchoolUiDefinitions)
+    {
+        if (definition.school == school)
+        {
+            return &definition;
+        }
+    }
+
+    return nullptr;
+}
+
+const SpellbookSchoolUiDefinition *findSpellbookSchoolUiDefinitionForSpellId(uint32_t spellId)
+{
+    for (const SpellbookSchoolUiDefinition &definition : SpellbookSchoolUiDefinitions)
+    {
+        if (spellId >= definition.firstSpellId && spellId < definition.firstSpellId + definition.spellCount)
+        {
+            return &definition;
+        }
+    }
+
+    return nullptr;
+}
+
+std::string spellbookSpellLayoutId(SpellbookSchool school, uint32_t spellOrdinal)
+{
+    const SpellbookSchoolUiDefinition *pDefinition = findSpellbookSchoolUiDefinition(school);
+
+    if (pDefinition == nullptr)
+    {
+        return "";
+    }
+
+    const auto spellLayoutIdForSuffixes =
+        [pDefinition, spellOrdinal](const auto &suffixes) -> std::string
+        {
+            if (spellOrdinal >= 1 && spellOrdinal <= suffixes.size())
+            {
+                return std::string(pDefinition->pPageLayoutId) + "Spell" + suffixes[spellOrdinal - 1];
+            }
+
+            return "";
+        };
+
+    if (school == SpellbookSchool::Fire)
+    {
+        static constexpr std::array<const char *, 11> FireSpellLayoutSuffixes = {{
+            "Torchlight",
+            "Firebolt",
+            "Fireresistance",
+            "Fireaura",
+            "Haste",
+            "Fireball",
+            "Firespike",
+            "Immolation",
+            "Meteorshower",
+            "Inferno",
+            "Incinerate",
+        }};
+
+        return spellLayoutIdForSuffixes(FireSpellLayoutSuffixes);
+    }
+
+    if (school == SpellbookSchool::Air)
+    {
+        static constexpr std::array<const char *, 11> AirSpellLayoutSuffixes = {{
+            "Wizardeye",
+            "Featherfall",
+            "Airresistance",
+            "Sparks",
+            "Jump",
+            "Shield",
+            "Lightningbolt",
+            "Invisibility",
+            "Implosion",
+            "Fly",
+            "Starburst",
+        }};
+
+        return spellLayoutIdForSuffixes(AirSpellLayoutSuffixes);
+    }
+
+    if (school == SpellbookSchool::Water)
+    {
+        static constexpr std::array<const char *, 11> WaterSpellLayoutSuffixes = {{
+            "Awaken",
+            "Poisonspray",
+            "Waterresistance",
+            "Icebolt",
+            "Waterwalk",
+            "Rechargeitem",
+            "Acidburst",
+            "Enchantitem",
+            "Townportal",
+            "Iceblast",
+            "Lloydsbeacon",
+        }};
+
+        return spellLayoutIdForSuffixes(WaterSpellLayoutSuffixes);
+    }
+
+    if (school == SpellbookSchool::Earth)
+    {
+        static constexpr std::array<const char *, 11> EarthSpellLayoutSuffixes = {{
+            "Stun",
+            "Slow",
+            "Earthresistance",
+            "Deadlyswarm",
+            "Stoneskin",
+            "Blades",
+            "Stonetoflesh",
+            "Rockblast",
+            "Telekinesis",
+            "Deathblossom",
+            "Massdistortion",
+        }};
+
+        return spellLayoutIdForSuffixes(EarthSpellLayoutSuffixes);
+    }
+
+    if (school == SpellbookSchool::Spirit)
+    {
+        static constexpr std::array<const char *, 11> SpiritSpellLayoutSuffixes = {{
+            "Detectlife",
+            "Bless",
+            "Fate",
+            "Turnundead",
+            "Removecurse",
+            "Preservation",
+            "Heroism",
+            "Spiritlash",
+            "Raisedead",
+            "Sharedlife",
+            "Resurrection",
+        }};
+
+        return spellLayoutIdForSuffixes(SpiritSpellLayoutSuffixes);
+    }
+
+    if (school == SpellbookSchool::Mind)
+    {
+        static constexpr std::array<const char *, 11> MindSpellLayoutSuffixes = {{
+            "Telepathy",
+            "Removefear",
+            "Mindresistance",
+            "Mindblast",
+            "Charm",
+            "Cureparalysis",
+            "Berserk",
+            "Massfear",
+            "Cureinsanity",
+            "Psychicshock",
+            "Enslave",
+        }};
+
+        return spellLayoutIdForSuffixes(MindSpellLayoutSuffixes);
+    }
+
+    if (school == SpellbookSchool::Body)
+    {
+        static constexpr std::array<const char *, 11> BodySpellLayoutSuffixes = {{
+            "Cureweakness",
+            "Heal",
+            "Bodyresistance",
+            "Harm",
+            "Regeneration",
+            "Curepoison",
+            "Hammerhands",
+            "Curedisease",
+            "Protectionfrommagic",
+            "Flyingfist",
+            "Powercure",
+        }};
+
+        return spellLayoutIdForSuffixes(BodySpellLayoutSuffixes);
+    }
+
+    if (school == SpellbookSchool::Light)
+    {
+        static constexpr std::array<const char *, 11> LightSpellLayoutSuffixes = {{
+            "Lightbolt",
+            "Destroyundead",
+            "Dispelmagic",
+            "Paralyze",
+            "Summonwisp",
+            "Dayofthegods",
+            "Prismaticlight",
+            "Dayofprotection",
+            "Hourofpower",
+            "Sunray",
+            "Divineintervention",
+        }};
+
+        return spellLayoutIdForSuffixes(LightSpellLayoutSuffixes);
+    }
+
+    if (school == SpellbookSchool::Dark)
+    {
+        static constexpr std::array<const char *, 11> DarkSpellLayoutSuffixes = {{
+            "Reanimate",
+            "Toxiccloud",
+            "Vampiricweapon",
+            "Shrinkingray",
+            "Shrapmetal",
+            "Controlundead",
+            "Painreflection",
+            "Darkgrasp",
+            "Dragonbreath",
+            "Armageddon",
+            "Souldrinker",
+        }};
+
+        return spellLayoutIdForSuffixes(DarkSpellLayoutSuffixes);
+    }
+
+    if (school == SpellbookSchool::DarkElf)
+    {
+        static constexpr std::array<const char *, 4> DarkElfSpellLayoutSuffixes = {{
+            "Glamour",
+            "Travelersboon",
+            "Blind",
+            "Darkfirebolt",
+        }};
+
+        return spellLayoutIdForSuffixes(DarkElfSpellLayoutSuffixes);
+    }
+
+    if (school == SpellbookSchool::Vampire)
+    {
+        static constexpr std::array<const char *, 4> VampireSpellLayoutSuffixes = {{
+            "Lifedrain",
+            "Levitate",
+            "Charm",
+            "Mistform",
+        }};
+
+        return spellLayoutIdForSuffixes(VampireSpellLayoutSuffixes);
+    }
+
+    if (school == SpellbookSchool::Dragon)
+    {
+        static constexpr std::array<const char *, 4> DragonSpellLayoutSuffixes = {{
+            "Fear",
+            "Flameblast",
+            "Flight",
+            "Wingbuffet",
+        }};
+
+        return spellLayoutIdForSuffixes(DragonSpellLayoutSuffixes);
+    }
+
+    std::ostringstream stream;
+    stream << pDefinition->pPageLayoutId << "Spell" << std::setw(2) << std::setfill('0') << spellOrdinal;
+    return stream.str();
+}
 
 struct GoldHeapVisual
 {
@@ -2765,6 +3053,10 @@ OutdoorGameView::OutdoorGameView()
     , m_toggleFlyingLatch(false)
     , m_toggleWaterWalkLatch(false)
     , m_toggleFeatherFallLatch(false)
+    , m_quickSpellCastLatch(false)
+    , m_spellbookToggleLatch(false)
+    , m_spellbookClickLatch(false)
+    , m_pendingSpellTargetClickLatch(false)
     , m_inventoryScreenToggleLatch(false)
     , m_characterScreenOpen(false)
     , m_characterDollJewelryOverlayOpen(false)
@@ -2780,6 +3072,11 @@ OutdoorGameView::OutdoorGameView()
     , m_itemInspectOverlay({})
     , m_characterInspectOverlay({})
     , m_actorInspectOverlay({})
+    , m_spellbook({})
+    , m_spellbookPressedTarget({})
+    , m_lastSpellbookSpellClickTicks(0)
+    , m_lastSpellbookClickedSpellId(0)
+    , m_pendingSpellCast({})
     , m_heldInventoryDropLatch(false)
     , m_closeOverlayLatch(false)
     , m_dialogueClickLatch(false)
@@ -3309,6 +3606,7 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
         && (m_pOutdoorWorldRuntime->activeChestView() != nullptr || m_pOutdoorWorldRuntime->activeCorpseView() != nullptr);
     const bool isEventDialogActive = hasActiveEventDialog();
     const bool isCharacterScreenActive = m_characterScreenOpen;
+    const bool isSpellbookActive = m_spellbook.active;
 
     const float wireframeAspectRatio = static_cast<float>(viewWidth) / static_cast<float>(viewHeight);
 
@@ -3372,72 +3670,153 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
                 return vecLength(rayDirection) > InspectRayEpsilon;
             };
 
-        if (!hasActiveLootView && !isEventDialogActive && !isCharacterScreenActive)
+        if (!hasActiveLootView && !isEventDialogActive && !isCharacterScreenActive && !isSpellbookActive)
         {
-            const bool isKeyboardUsePressed =
-                pKeyboardState != nullptr && pKeyboardState[SDL_SCANCODE_SPACE];
-
-            if (isKeyboardUsePressed)
+            if (m_pendingSpellCast.active)
             {
-                if (!m_keyboardUseLatch && m_outdoorMapData.has_value())
+                const bool closePressed =
+                    pKeyboardState != nullptr && pKeyboardState[SDL_SCANCODE_ESCAPE];
+
+                if (closePressed)
                 {
-                    const float centerX = static_cast<float>(width) * 0.5f;
-                    const float centerY = static_cast<float>(height) * 0.5f;
-                    bx::Vec3 rayOrigin = {0.0f, 0.0f, 0.0f};
-                    bx::Vec3 rayDirection = {0.0f, 0.0f, 0.0f};
-
-                    if (buildInspectRayForScreenPoint(centerX, centerY, rayOrigin, rayDirection))
+                    if (!m_closeOverlayLatch)
                     {
-                        const InspectHit keyboardUseInspectHit = inspectBModelFace(
-                            *m_outdoorMapData,
-                            rayOrigin,
-                            rayDirection,
-                            centerX,
-                            centerY,
-                            width,
-                            height,
-                            wireframeViewMatrix,
-                            wireframeProjectionMatrix,
-                            DecorationPickMode::Interaction);
+                        clearPendingSpellCast("Spell canceled");
+                        m_closeOverlayLatch = true;
+                    }
+                }
+                else
+                {
+                    m_closeOverlayLatch = false;
+                }
 
-                        const bool canActivate = canActivateInspectEvent(keyboardUseInspectHit);
-                        std::cout << "Keyboard use target: hit="
-                                  << (keyboardUseInspectHit.hasHit ? "yes" : "no")
-                                  << " kind=" << (keyboardUseInspectHit.hasHit ? keyboardUseInspectHit.kind : "-")
-                                  << " name=" << (keyboardUseInspectHit.hasHit ? keyboardUseInspectHit.name : "-")
-                                  << " dist=" << (keyboardUseInspectHit.hasHit ? keyboardUseInspectHit.distance : -1.0f)
-                                  << " activatable=" << (canActivate ? "yes" : "no") << '\n';
+                SDL_GetMouseState(&mouseX, &mouseY);
+                const SDL_MouseButtonFlags mouseButtons = SDL_GetMouseState(nullptr, nullptr);
+                const bool isLeftMousePressed = (mouseButtons & SDL_BUTTON_LMASK) != 0;
 
-                        bool activated = false;
+                if (isLeftMousePressed)
+                {
+                    if (!m_pendingSpellTargetClickLatch)
+                    {
+                        m_pendingSpellTargetClickLatch = true;
+                    }
+                }
+                else if (m_pendingSpellTargetClickLatch)
+                {
+                    const bool isPointerOverPartyPortrait =
+                        resolvePartyPortraitIndexAtPoint(width, height, mouseX, mouseY).has_value();
+                    InspectHit pendingInspectHit = {};
 
-                        if (canActivate)
+                    if (!isPointerOverPartyPortrait && m_outdoorMapData.has_value())
+                    {
+                        bx::Vec3 rayOrigin = {0.0f, 0.0f, 0.0f};
+                        bx::Vec3 rayDirection = {0.0f, 0.0f, 0.0f};
+
+                        if (buildInspectRayForScreenPoint(mouseX, mouseY, rayOrigin, rayDirection))
                         {
-                            activated = tryActivateInspectEvent(keyboardUseInspectHit);
-                        }
-
-                        std::cout << "Keyboard use result: activated=" << (activated ? "yes" : "no") << '\n';
-
-                        if (activated)
-                        {
-                            m_cachedHoverInspectHitValid = false;
-                            m_cachedHoverInspectHit = {};
+                            pendingInspectHit = inspectBModelFace(
+                                *m_outdoorMapData,
+                                rayOrigin,
+                                rayDirection,
+                                mouseX,
+                                mouseY,
+                                width,
+                                height,
+                                wireframeViewMatrix,
+                                wireframeProjectionMatrix,
+                                DecorationPickMode::Interaction);
                         }
                     }
 
-                    m_keyboardUseLatch = true;
+                    if (!isPointerOverPartyPortrait && tryResolvePendingSpellCast(pendingInspectHit, std::nullopt))
+                    {
+                        m_cachedHoverInspectHitValid = false;
+                        m_cachedHoverInspectHit = {};
+                    }
+
+                    m_pendingSpellTargetClickLatch = false;
                 }
+
+                m_keyboardUseLatch = false;
+                m_heldInventoryDropLatch = false;
+                m_activateInspectLatch = false;
+                m_inspectMouseActivateLatch = false;
+                m_attackInspectLatch = false;
+                m_pressedInspectHit = {};
             }
             else
             {
-                m_keyboardUseLatch = false;
+                const bool isKeyboardUsePressed =
+                    pKeyboardState != nullptr && pKeyboardState[SDL_SCANCODE_SPACE];
+
+                if (isKeyboardUsePressed)
+                {
+                    if (!m_keyboardUseLatch && m_outdoorMapData.has_value())
+                    {
+                        const float centerX = static_cast<float>(width) * 0.5f;
+                        const float centerY = static_cast<float>(height) * 0.5f;
+                        bx::Vec3 rayOrigin = {0.0f, 0.0f, 0.0f};
+                        bx::Vec3 rayDirection = {0.0f, 0.0f, 0.0f};
+
+                        if (buildInspectRayForScreenPoint(centerX, centerY, rayOrigin, rayDirection))
+                        {
+                            const InspectHit keyboardUseInspectHit = inspectBModelFace(
+                                *m_outdoorMapData,
+                                rayOrigin,
+                                rayDirection,
+                                centerX,
+                                centerY,
+                                width,
+                                height,
+                                wireframeViewMatrix,
+                                wireframeProjectionMatrix,
+                                DecorationPickMode::Interaction);
+
+                            const bool canActivate = canActivateInspectEvent(keyboardUseInspectHit);
+                            std::cout << "Keyboard use target: hit="
+                                      << (keyboardUseInspectHit.hasHit ? "yes" : "no")
+                                      << " kind=" << (keyboardUseInspectHit.hasHit ? keyboardUseInspectHit.kind : "-")
+                                      << " name=" << (keyboardUseInspectHit.hasHit ? keyboardUseInspectHit.name : "-")
+                                      << " dist=" << (keyboardUseInspectHit.hasHit ? keyboardUseInspectHit.distance : -1.0f)
+                                      << " activatable=" << (canActivate ? "yes" : "no") << '\n';
+
+                            bool activated = false;
+
+                            if (canActivate)
+                            {
+                                activated = tryActivateInspectEvent(keyboardUseInspectHit);
+                            }
+
+                            std::cout << "Keyboard use result: activated=" << (activated ? "yes" : "no") << '\n';
+
+                            if (activated)
+                            {
+                                m_cachedHoverInspectHitValid = false;
+                                m_cachedHoverInspectHit = {};
+                            }
+                        }
+
+                        m_keyboardUseLatch = true;
+                    }
+                }
+                else
+                {
+                    m_keyboardUseLatch = false;
+                }
             }
         }
         else
         {
             m_keyboardUseLatch = false;
+            m_pendingSpellTargetClickLatch = false;
         }
 
-        if (m_heldInventoryItem.active && !hasActiveLootView && !isEventDialogActive && !isCharacterScreenActive)
+        if (!m_pendingSpellCast.active
+            && m_heldInventoryItem.active
+            && !hasActiveLootView
+            && !isEventDialogActive
+            && !isCharacterScreenActive
+            && !isSpellbookActive)
         {
             const SDL_MouseButtonFlags mouseButtons = SDL_GetMouseState(&mouseX, &mouseY);
             const bool isLeftMousePressed = (mouseButtons & SDL_BUTTON_LMASK) != 0;
@@ -3520,7 +3899,13 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
                 m_heldInventoryDropLatch = false;
             }
         }
-        else if (m_inspectMode && m_outdoorMapData && !hasActiveLootView && !isEventDialogActive && !isCharacterScreenActive)
+        else if (!m_pendingSpellCast.active
+                 && m_inspectMode
+                 && m_outdoorMapData
+                 && !hasActiveLootView
+                 && !isEventDialogActive
+                 && !isCharacterScreenActive
+                 && !isSpellbookActive)
         {
             SDL_GetMouseState(&mouseX, &mouseY);
             bx::Vec3 rayOrigin = {0.0f, 0.0f, 0.0f};
@@ -3776,17 +4161,7 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
                                 std::sqrt(deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ)
                                     - static_cast<float>(pTargetActor->radius));
                             targetInMeleeRange = targetDistance <= OeCharacterMeleeAttackDistance;
-
-                            if (m_monsterTable.has_value())
-                            {
-                                const MonsterTable::MonsterStatsEntry *pStats =
-                                    m_monsterTable->findStatsById(pTargetActor->monsterId);
-
-                                if (pStats != nullptr)
-                                {
-                                    targetArmorClass = pStats->armorClass;
-                                }
-                            }
+                            targetArmorClass = m_pOutdoorWorldRuntime->effectiveMapActorArmorClass(*runtimeActorIndex);
                         }
 
                         std::mt19937 rng(
@@ -4799,10 +5174,12 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
             renderChestPanel(width, height, true);
             renderCharacterOverlay(width, height, true);
             renderEventDialogPanel(width, height, true);
+            renderSpellbookOverlay(width, height);
             renderHeldInventoryItem(width, height);
             renderItemInspectOverlay(width, height);
             renderCharacterInspectOverlay(width, height);
             renderActorInspectOverlay(width, height);
+            renderPendingSpellTargetingOverlay(width, height);
         }
 
         hudStageNanoseconds += SDL_GetTicksNS() - stageStartTickCount;
@@ -4856,7 +5233,8 @@ void OutdoorGameView::renderGameplayHudArt(int width, int height)
     const HudTextureHandle *pAggroRed = ensureHudTextureLoaded("statR");
     const HudTextureHandle *pAggroYellow = ensureHudTextureLoaded("statY");
     const HudTextureHandle *pAggroGreen = ensureHudTextureLoaded("statG");
-    const std::vector<Character> &members = m_pOutdoorPartyRuntime->party().members();
+    const Party &party = m_pOutdoorPartyRuntime->party();
+    const std::vector<Character> &members = party.members();
 
     if (pBasebar == nullptr || pFaceMask == nullptr || members.empty())
     {
@@ -5075,13 +5453,127 @@ void OutdoorGameView::renderGameplayHudArt(int width, int height)
     };
 
     MinimapOverlayState minimapOverlay = {};
+    const auto isBuffLayoutVisible =
+        [&party](const std::string &layoutId) -> bool
+        {
+            const std::string normalizedLayoutId = toLowerCopy(layoutId);
+
+            if (normalizedLayoutId == "outdoorbuffskullpanel")
+            {
+                return party.hasPartyBuff(PartyBuffId::TorchLight)
+                    || party.hasPartyBuff(PartyBuffId::WizardEye)
+                    || party.hasPartyBuff(PartyBuffId::FeatherFall)
+                    || party.hasPartyBuff(PartyBuffId::Stoneskin)
+                    || party.hasPartyBuff(PartyBuffId::DayOfGods)
+                    || party.hasPartyBuff(PartyBuffId::ProtectionFromMagic);
+            }
+
+            if (normalizedLayoutId == "outdoorbuffbodypanel")
+            {
+                return party.hasPartyBuff(PartyBuffId::FireResistance)
+                    || party.hasPartyBuff(PartyBuffId::WaterResistance)
+                    || party.hasPartyBuff(PartyBuffId::AirResistance)
+                    || party.hasPartyBuff(PartyBuffId::EarthResistance)
+                    || party.hasPartyBuff(PartyBuffId::MindResistance)
+                    || party.hasPartyBuff(PartyBuffId::BodyResistance)
+                    || party.hasPartyBuff(PartyBuffId::Shield)
+                    || party.hasPartyBuff(PartyBuffId::Heroism)
+                    || party.hasPartyBuff(PartyBuffId::Haste)
+                    || party.hasPartyBuff(PartyBuffId::Immolation);
+            }
+
+            if (normalizedLayoutId == "outdoorbuffskull_torchlight")
+            {
+                return party.hasPartyBuff(PartyBuffId::TorchLight);
+            }
+
+            if (normalizedLayoutId == "outdoorbuffskull_wizardeye")
+            {
+                return party.hasPartyBuff(PartyBuffId::WizardEye);
+            }
+
+            if (normalizedLayoutId == "outdoorbuffskull_featherfall")
+            {
+                return party.hasPartyBuff(PartyBuffId::FeatherFall);
+            }
+
+            if (normalizedLayoutId == "outdoorbuffskull_stoneskin")
+            {
+                return party.hasPartyBuff(PartyBuffId::Stoneskin);
+            }
+
+            if (normalizedLayoutId == "outdoorbuffskull_dayofgods")
+            {
+                return party.hasPartyBuff(PartyBuffId::DayOfGods);
+            }
+
+            if (normalizedLayoutId == "outdoorbuffskull_protectionfromgods")
+            {
+                return party.hasPartyBuff(PartyBuffId::ProtectionFromMagic);
+            }
+
+            if (normalizedLayoutId == "outdoorbuffbody_fireresistance")
+            {
+                return party.hasPartyBuff(PartyBuffId::FireResistance);
+            }
+
+            if (normalizedLayoutId == "outdoorbuffbody_waterresistance")
+            {
+                return party.hasPartyBuff(PartyBuffId::WaterResistance);
+            }
+
+            if (normalizedLayoutId == "outdoorbuffbody_airresistance")
+            {
+                return party.hasPartyBuff(PartyBuffId::AirResistance);
+            }
+
+            if (normalizedLayoutId == "outdoorbuffbody_earthresistance")
+            {
+                return party.hasPartyBuff(PartyBuffId::EarthResistance);
+            }
+
+            if (normalizedLayoutId == "outdoorbuffbody_mindresistance")
+            {
+                return party.hasPartyBuff(PartyBuffId::MindResistance);
+            }
+
+            if (normalizedLayoutId == "outdoorbuffbody_bodyresistance")
+            {
+                return party.hasPartyBuff(PartyBuffId::BodyResistance);
+            }
+
+            if (normalizedLayoutId == "outdoorbuffbody_shield")
+            {
+                return party.hasPartyBuff(PartyBuffId::Shield);
+            }
+
+            if (normalizedLayoutId == "outdoorbuffbody_heroism")
+            {
+                return party.hasPartyBuff(PartyBuffId::Heroism);
+            }
+
+            if (normalizedLayoutId == "outdoorbuffbody_haste")
+            {
+                return party.hasPartyBuff(PartyBuffId::Haste);
+            }
+
+            if (normalizedLayoutId == "outdoorbuffbody_immolation")
+            {
+                return party.hasPartyBuff(PartyBuffId::Immolation);
+            }
+
+            return true;
+        };
     const HudScreenState hudScreenState = currentHudScreenState();
     const bool isLimitedOverlayHud =
         hudScreenState == HudScreenState::Dialogue
         || hudScreenState == HudScreenState::Character
-        || hudScreenState == HudScreenState::Chest;
+        || hudScreenState == HudScreenState::Chest
+        || hudScreenState == HudScreenState::Spellbook;
     const bool shouldRenderStatusBar =
-        hudScreenState != HudScreenState::Dialogue && hudScreenState != HudScreenState::Character;
+        hudScreenState != HudScreenState::Dialogue
+        && hudScreenState != HudScreenState::Character
+        && hudScreenState != HudScreenState::Spellbook;
 
     const auto isGameplayElementVisibleInHudState =
         [this, hudScreenState, isLimitedOverlayHud](const HudLayoutElement &layout) -> bool
@@ -5305,6 +5797,11 @@ void OutdoorGameView::renderGameplayHudArt(int width, int height)
             }
 
             if (!isGameplayElementVisibleInHudState(*pLayout))
+            {
+                return;
+            }
+
+            if (!isBuffLayoutVisible(layoutId))
             {
                 return;
             }
@@ -5549,9 +6046,12 @@ void OutdoorGameView::renderGameplayHud(int width, int height) const
     const bool isLimitedOverlayHud =
         hudScreenState == HudScreenState::Dialogue
         || hudScreenState == HudScreenState::Character
-        || hudScreenState == HudScreenState::Chest;
+        || hudScreenState == HudScreenState::Chest
+        || hudScreenState == HudScreenState::Spellbook;
     const bool shouldRenderStatusBar =
-        hudScreenState != HudScreenState::Dialogue && hudScreenState != HudScreenState::Character;
+        hudScreenState != HudScreenState::Dialogue
+        && hudScreenState != HudScreenState::Character
+        && hudScreenState != HudScreenState::Spellbook;
 
     const auto replaceAll = [](std::string text, const std::string &from, const std::string &to) -> std::string
     {
@@ -6557,6 +7057,10 @@ void OutdoorGameView::shutdown()
     m_activateInspectLatch = false;
     m_inspectMouseActivateLatch = false;
     m_attackInspectLatch = false;
+    m_quickSpellCastLatch = false;
+    m_spellbookToggleLatch = false;
+    m_spellbookClickLatch = false;
+    m_pendingSpellTargetClickLatch = false;
     m_inventoryScreenToggleLatch = false;
     m_characterScreenOpen = false;
     m_characterDollJewelryOverlayOpen = false;
@@ -6566,6 +7070,11 @@ void OutdoorGameView::shutdown()
     m_characterPressedTarget = {};
     m_heldInventoryItem = {};
     m_actorInspectOverlay = {};
+    m_spellbook = {};
+    m_spellbookPressedTarget = {};
+    m_lastSpellbookSpellClickTicks = 0;
+    m_lastSpellbookClickedSpellId = 0;
+    m_pendingSpellCast = {};
     m_heldInventoryDropLatch = false;
     m_cachedHoverInspectHitValid = false;
     m_lastHoverInspectUpdateNanoseconds = 0;
@@ -7213,7 +7722,7 @@ void OutdoorGameView::updateItemInspectOverlayState(int width, int height)
 {
     m_itemInspectOverlay = {};
 
-    if (width <= 0 || height <= 0 || m_pItemTable == nullptr)
+    if (width <= 0 || height <= 0 || m_pItemTable == nullptr || m_pendingSpellCast.active || m_spellbook.active)
     {
         return;
     }
@@ -7962,6 +8471,11 @@ OutdoorGameView::HudScreenState OutdoorGameView::currentHudScreenState() const
         return HudScreenState::Character;
     }
 
+    if (m_spellbook.active)
+    {
+        return HudScreenState::Spellbook;
+    }
+
     if (m_pOutdoorWorldRuntime != nullptr
         && (m_pOutdoorWorldRuntime->activeChestView() != nullptr || m_pOutdoorWorldRuntime->activeCorpseView() != nullptr))
     {
@@ -7969,6 +8483,64 @@ OutdoorGameView::HudScreenState OutdoorGameView::currentHudScreenState() const
     }
 
     return HudScreenState::Gameplay;
+}
+
+void OutdoorGameView::openSpellbook()
+{
+    m_spellbook = {};
+    m_spellbook.active = true;
+    m_spellbook.school = SpellbookSchool::Fire;
+    m_spellbook.selectedSpellId = 0;
+    m_spellbookToggleLatch = false;
+    m_spellbookClickLatch = false;
+    m_spellbookPressedTarget = {};
+    m_lastSpellbookSpellClickTicks = 0;
+    m_lastSpellbookClickedSpellId = 0;
+
+    if (m_pOutdoorPartyRuntime == nullptr || m_pSpellTable == nullptr)
+    {
+        return;
+    }
+
+    const Character *pCaster = m_pOutdoorPartyRuntime->party().activeMember();
+
+    if (pCaster == nullptr || pCaster->quickSpellName.empty())
+    {
+        return;
+    }
+
+    const SpellEntry *pSpellEntry = m_pSpellTable->findByName(pCaster->quickSpellName);
+
+    if (pSpellEntry == nullptr)
+    {
+        return;
+    }
+
+    const SpellbookSchoolUiDefinition *pDefinition =
+        findSpellbookSchoolUiDefinitionForSpellId(static_cast<uint32_t>(pSpellEntry->id));
+
+    if (pDefinition == nullptr)
+    {
+        return;
+    }
+
+    m_spellbook.school = pDefinition->school;
+    m_spellbook.selectedSpellId = 0;
+}
+
+void OutdoorGameView::closeSpellbook(const std::string &statusText)
+{
+    m_spellbook = {};
+    m_spellbookToggleLatch = false;
+    m_spellbookClickLatch = false;
+    m_spellbookPressedTarget = {};
+    m_lastSpellbookSpellClickTicks = 0;
+    m_lastSpellbookClickedSpellId = 0;
+
+    if (!statusText.empty())
+    {
+        setStatusBarEvent(statusText);
+    }
 }
 
 void OutdoorGameView::openInventoryNestedOverlay(InventoryNestedOverlayMode mode)
@@ -7992,6 +8564,577 @@ void OutdoorGameView::closeInventoryNestedOverlay()
     m_inventoryNestedOverlayClickLatch = false;
     m_inventoryNestedOverlayItemClickLatch = false;
     m_inventoryNestedOverlayPressedTarget = {};
+}
+
+bool OutdoorGameView::tryBeginQuickSpellCast()
+{
+    if (m_pOutdoorPartyRuntime == nullptr || m_pOutdoorWorldRuntime == nullptr || m_pSpellTable == nullptr)
+    {
+        return false;
+    }
+
+    if (m_pendingSpellCast.active)
+    {
+        setStatusBarEvent("Select target for " + m_pendingSpellCast.spellName, 4.0f);
+        return false;
+    }
+
+    if (m_heldInventoryItem.active || m_characterScreenOpen || m_spellbook.active || hasActiveEventDialog()
+        || m_pOutdoorWorldRuntime->activeChestView() != nullptr
+        || m_pOutdoorWorldRuntime->activeCorpseView() != nullptr)
+    {
+        setStatusBarEvent("Finish current action");
+        return false;
+    }
+
+    Party &party = m_pOutdoorPartyRuntime->party();
+    Character *pCaster = party.activeMember();
+
+    if (pCaster == nullptr || !GameMechanics::canSelectInGameplay(*pCaster))
+    {
+        setStatusBarEvent("Nobody is in condition");
+        return false;
+    }
+
+    if (pCaster->quickSpellName.empty())
+    {
+        setStatusBarEvent("No quick spell");
+        return false;
+    }
+
+    const SpellEntry *pSpellEntry = m_pSpellTable->findByName(pCaster->quickSpellName);
+
+    if (pSpellEntry == nullptr)
+    {
+        setStatusBarEvent("Unknown quick spell");
+        return false;
+    }
+
+    PartySpellCastRequest request = {};
+    request.casterMemberIndex = party.activeMemberIndex();
+    request.spellId = static_cast<uint32_t>(pSpellEntry->id);
+    const PartySpellCastResult result =
+        PartySpellSystem::castSpell(party, *m_pOutdoorPartyRuntime, *m_pOutdoorWorldRuntime, *m_pSpellTable, request);
+
+    if (result.succeeded())
+    {
+        clearPendingSpellCast("Cast " + pSpellEntry->name);
+        return true;
+    }
+
+    if (result.status == PartySpellCastStatus::NeedActorTarget
+        || result.status == PartySpellCastStatus::NeedCharacterTarget
+        || result.status == PartySpellCastStatus::NeedActorOrCharacterTarget)
+    {
+        m_pendingSpellCast.active = true;
+        m_pendingSpellCast.casterMemberIndex = request.casterMemberIndex;
+        m_pendingSpellCast.spellId = request.spellId;
+        m_pendingSpellCast.targetKind = result.targetKind;
+        m_pendingSpellCast.spellName = pSpellEntry->name;
+        m_pendingSpellTargetClickLatch = false;
+        m_cachedHoverInspectHitValid = false;
+        setStatusBarEvent("Select target for " + pSpellEntry->name, 4.0f);
+        return true;
+    }
+
+    setStatusBarEvent(result.statusText.empty() ? "Spell failed" : result.statusText);
+    return false;
+}
+
+void OutdoorGameView::clearPendingSpellCast(const std::string &statusText)
+{
+    m_pendingSpellCast = {};
+    m_pendingSpellTargetClickLatch = false;
+
+    if (!statusText.empty())
+    {
+        setStatusBarEvent(statusText);
+    }
+}
+
+bool OutdoorGameView::tryResolvePendingSpellCast(
+    const InspectHit &actorInspectHit,
+    const std::optional<size_t> &portraitMemberIndex)
+{
+    if (!m_pendingSpellCast.active || m_pOutdoorPartyRuntime == nullptr || m_pOutdoorWorldRuntime == nullptr
+        || m_pSpellTable == nullptr)
+    {
+        return false;
+    }
+
+    PartySpellCastRequest request = {};
+    request.casterMemberIndex = m_pendingSpellCast.casterMemberIndex;
+    request.spellId = m_pendingSpellCast.spellId;
+    const bool actorTargetAllowed =
+        m_pendingSpellCast.targetKind == PartySpellCastTargetKind::Actor
+        || m_pendingSpellCast.targetKind == PartySpellCastTargetKind::ActorOrCharacter;
+    const bool characterTargetAllowed =
+        m_pendingSpellCast.targetKind == PartySpellCastTargetKind::Character
+        || m_pendingSpellCast.targetKind == PartySpellCastTargetKind::ActorOrCharacter;
+    const std::optional<size_t> runtimeActorIndex =
+        actorTargetAllowed && actorInspectHit.kind == "actor"
+            ? resolveRuntimeActorIndexForInspectHit(actorInspectHit)
+            : std::nullopt;
+
+    if (runtimeActorIndex)
+    {
+        request.targetActorIndex = runtimeActorIndex;
+    }
+
+    if (characterTargetAllowed && portraitMemberIndex)
+    {
+        request.targetCharacterIndex = *portraitMemberIndex;
+    }
+
+    const auto setPendingTargetPrompt =
+        [this]()
+        {
+            const std::string prompt =
+                m_pendingSpellCast.targetKind == PartySpellCastTargetKind::Actor
+                    ? "Select actor for "
+                    : m_pendingSpellCast.targetKind == PartySpellCastTargetKind::Character
+                    ? "Select character for "
+                    : "Select target for ";
+            setStatusBarEvent(prompt + m_pendingSpellCast.spellName, 4.0f);
+        };
+
+    if (m_pendingSpellCast.targetKind == PartySpellCastTargetKind::Actor && !request.targetActorIndex)
+    {
+        setPendingTargetPrompt();
+        return false;
+    }
+
+    if (m_pendingSpellCast.targetKind == PartySpellCastTargetKind::Character && !request.targetCharacterIndex)
+    {
+        setPendingTargetPrompt();
+        return false;
+    }
+
+    if (m_pendingSpellCast.targetKind == PartySpellCastTargetKind::ActorOrCharacter
+        && !request.targetActorIndex
+        && !request.targetCharacterIndex)
+    {
+        setPendingTargetPrompt();
+        return false;
+    }
+
+    const PartySpellCastResult result = PartySpellSystem::castSpell(
+        m_pOutdoorPartyRuntime->party(),
+        *m_pOutdoorPartyRuntime,
+        *m_pOutdoorWorldRuntime,
+        *m_pSpellTable,
+        request);
+
+    if (!result.succeeded())
+    {
+        if (result.status == PartySpellCastStatus::NeedActorTarget
+            || result.status == PartySpellCastStatus::NeedCharacterTarget
+            || result.status == PartySpellCastStatus::NeedActorOrCharacterTarget)
+        {
+            setPendingTargetPrompt();
+        }
+        else
+        {
+            setStatusBarEvent(result.statusText.empty() ? "Spell failed" : result.statusText);
+        }
+
+        return false;
+    }
+
+    clearPendingSpellCast("Cast " + m_pendingSpellCast.spellName);
+    return true;
+}
+
+void OutdoorGameView::renderPendingSpellTargetingOverlay(int width, int height) const
+{
+    if (!m_pendingSpellCast.active
+        || !bgfx::isValid(m_texturedTerrainProgramHandle)
+        || !bgfx::isValid(m_terrainTextureSamplerHandle)
+        || width <= 0
+        || height <= 0)
+    {
+        return;
+    }
+
+    float projectionMatrix[16] = {};
+    bx::mtxOrtho(
+        projectionMatrix,
+        0.0f,
+        static_cast<float>(width),
+        static_cast<float>(height),
+        0.0f,
+        0.0f,
+        1000.0f,
+        0.0f,
+        bgfx::getCaps()->homogeneousDepth
+    );
+    bgfx::setViewRect(HudViewId, 0, 0, static_cast<uint16_t>(width), static_cast<uint16_t>(height));
+    bgfx::setViewTransform(HudViewId, nullptr, projectionMatrix);
+    bgfx::touch(HudViewId);
+
+    float mouseX = 0.0f;
+    float mouseY = 0.0f;
+    SDL_GetMouseState(&mouseX, &mouseY);
+    const UiViewportRect uiViewport = computeUiViewportRect(width, height);
+    const float baseScale = std::min(uiViewport.width / HudReferenceWidth, uiViewport.height / HudReferenceHeight);
+    const float overlayScale = std::clamp(baseScale, 0.75f, 2.0f);
+    const float armLength = std::round(10.0f * overlayScale);
+    const float armGap = std::round(4.0f * overlayScale);
+    const float stroke = std::max(1.0f, std::round(2.0f * overlayScale));
+    const uint32_t crosshairColor = packHudColorAbgr(255, 255, 155);
+    const uint32_t shadowColor = 0xc0000000u;
+
+    const HudTextureHandle *pCrosshairTexture =
+        const_cast<OutdoorGameView *>(this)->ensureSolidHudTextureLoaded("__spell_target_crosshair__", crosshairColor);
+    const HudTextureHandle *pShadowTexture =
+        const_cast<OutdoorGameView *>(this)->ensureSolidHudTextureLoaded("__spell_target_shadow__", shadowColor);
+
+    if (pCrosshairTexture == nullptr || pShadowTexture == nullptr)
+    {
+        return;
+    }
+
+    const auto submitTexturedQuad =
+        [this](const HudTextureHandle &texture, float x, float y, float quadWidth, float quadHeight)
+        {
+            if (!bgfx::isValid(texture.textureHandle)
+                || quadWidth <= 0.0f
+                || quadHeight <= 0.0f
+                || bgfx::getAvailTransientVertexBuffer(6, TexturedTerrainVertex::ms_layout) < 6)
+            {
+                return;
+            }
+
+            bgfx::TransientVertexBuffer transientVertexBuffer = {};
+            bgfx::allocTransientVertexBuffer(&transientVertexBuffer, 6, TexturedTerrainVertex::ms_layout);
+            TexturedTerrainVertex *pVertices = reinterpret_cast<TexturedTerrainVertex *>(transientVertexBuffer.data);
+            pVertices[0] = {x, y, 0.0f, 0.0f, 0.0f};
+            pVertices[1] = {x + quadWidth, y, 0.0f, 1.0f, 0.0f};
+            pVertices[2] = {x + quadWidth, y + quadHeight, 0.0f, 1.0f, 1.0f};
+            pVertices[3] = {x, y, 0.0f, 0.0f, 0.0f};
+            pVertices[4] = {x + quadWidth, y + quadHeight, 0.0f, 1.0f, 1.0f};
+            pVertices[5] = {x, y + quadHeight, 0.0f, 0.0f, 1.0f};
+
+            float modelMatrix[16] = {};
+            bx::mtxIdentity(modelMatrix);
+            bgfx::setTransform(modelMatrix);
+            bgfx::setVertexBuffer(0, &transientVertexBuffer);
+            bgfx::setTexture(0, m_terrainTextureSamplerHandle, texture.textureHandle);
+            bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_BLEND_ALPHA);
+            bgfx::submit(HudViewId, m_texturedTerrainProgramHandle);
+        };
+
+    const auto submitCrosshairLine =
+        [&](float x, float y, float quadWidth, float quadHeight)
+        {
+            submitTexturedQuad(*pShadowTexture, x + 1.0f, y + 1.0f, quadWidth, quadHeight);
+            submitTexturedQuad(*pCrosshairTexture, x, y, quadWidth, quadHeight);
+        };
+
+    submitCrosshairLine(mouseX - armGap - armLength, mouseY - stroke * 0.5f, armLength, stroke);
+    submitCrosshairLine(mouseX + armGap, mouseY - stroke * 0.5f, armLength, stroke);
+    submitCrosshairLine(mouseX - stroke * 0.5f, mouseY - armGap - armLength, stroke, armLength);
+    submitCrosshairLine(mouseX - stroke * 0.5f, mouseY + armGap, stroke, armLength);
+
+    const std::string prompt =
+        m_pendingSpellCast.targetKind == PartySpellCastTargetKind::Actor
+            ? "Select actor for " + m_pendingSpellCast.spellName + "  LMB cast  Esc cancel"
+            : m_pendingSpellCast.targetKind == PartySpellCastTargetKind::Character
+            ? "Select character for " + m_pendingSpellCast.spellName + "  LMB cast  Esc cancel"
+            : "Select target for " + m_pendingSpellCast.spellName + "  LMB cast  Esc cancel";
+    HudLayoutElement promptLayout = {};
+    promptLayout.fontName = "arrus";
+    promptLayout.textColorAbgr = crosshairColor;
+    promptLayout.textAlignX = HudTextAlignX::Center;
+    promptLayout.textAlignY = HudTextAlignY::Top;
+    ResolvedHudLayoutElement promptRect = {};
+    promptRect.x = uiViewport.x;
+    promptRect.y = uiViewport.y + std::round(18.0f * overlayScale);
+    promptRect.width = uiViewport.width;
+    promptRect.height = std::round(24.0f * overlayScale);
+    promptRect.scale = overlayScale;
+    renderLayoutLabel(promptLayout, promptRect, prompt);
+}
+
+void OutdoorGameView::renderSpellbookOverlay(int width, int height) const
+{
+    if (!m_spellbook.active
+        || !bgfx::isValid(m_texturedTerrainProgramHandle)
+        || !bgfx::isValid(m_terrainTextureSamplerHandle)
+        || width <= 0
+        || height <= 0)
+    {
+        return;
+    }
+
+    const HudLayoutElement *pRootLayout = findHudLayoutElement("SpellbookRoot");
+
+    if (pRootLayout == nullptr)
+    {
+        return;
+    }
+
+    const std::optional<ResolvedHudLayoutElement> resolvedRoot = resolveHudLayoutElement(
+        "SpellbookRoot",
+        width,
+        height,
+        pRootLayout->width,
+        pRootLayout->height);
+
+    if (!resolvedRoot)
+    {
+        return;
+    }
+
+    const auto loadHudTexture =
+        [this](const std::string &textureName) -> const HudTextureHandle *
+        {
+            return const_cast<OutdoorGameView *>(this)->ensureHudTextureLoaded(textureName);
+        };
+
+    float projectionMatrix[16] = {};
+    bx::mtxOrtho(
+        projectionMatrix,
+        0.0f,
+        static_cast<float>(width),
+        static_cast<float>(height),
+        0.0f,
+        0.0f,
+        1000.0f,
+        0.0f,
+        bgfx::getCaps()->homogeneousDepth
+    );
+    bgfx::setViewRect(HudViewId, 0, 0, static_cast<uint16_t>(width), static_cast<uint16_t>(height));
+    bgfx::setViewTransform(HudViewId, nullptr, projectionMatrix);
+    bgfx::touch(HudViewId);
+
+    float mouseX = 0.0f;
+    float mouseY = 0.0f;
+    const SDL_MouseButtonFlags mouseButtons = SDL_GetMouseState(&mouseX, &mouseY);
+    const bool isLeftMousePressed = (mouseButtons & SDL_BUTTON_LMASK) != 0;
+
+    const auto submitTexturedQuad =
+        [this](const HudTextureHandle &texture, float x, float y, float quadWidth, float quadHeight)
+        {
+            if (!bgfx::isValid(texture.textureHandle)
+                || quadWidth <= 0.0f
+                || quadHeight <= 0.0f
+                || bgfx::getAvailTransientVertexBuffer(6, TexturedTerrainVertex::ms_layout) < 6)
+            {
+                return;
+            }
+
+            bgfx::TransientVertexBuffer transientVertexBuffer = {};
+            bgfx::allocTransientVertexBuffer(&transientVertexBuffer, 6, TexturedTerrainVertex::ms_layout);
+            TexturedTerrainVertex *pVertices = reinterpret_cast<TexturedTerrainVertex *>(transientVertexBuffer.data);
+            pVertices[0] = {x, y, 0.0f, 0.0f, 0.0f};
+            pVertices[1] = {x + quadWidth, y, 0.0f, 1.0f, 0.0f};
+            pVertices[2] = {x + quadWidth, y + quadHeight, 0.0f, 1.0f, 1.0f};
+            pVertices[3] = {x, y, 0.0f, 0.0f, 0.0f};
+            pVertices[4] = {x + quadWidth, y + quadHeight, 0.0f, 1.0f, 1.0f};
+            pVertices[5] = {x, y + quadHeight, 0.0f, 0.0f, 1.0f};
+
+            float modelMatrix[16] = {};
+            bx::mtxIdentity(modelMatrix);
+            bgfx::setTransform(modelMatrix);
+            bgfx::setVertexBuffer(0, &transientVertexBuffer);
+            bgfx::setTexture(0, m_terrainTextureSamplerHandle, texture.textureHandle);
+            bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_BLEND_ALPHA);
+            bgfx::submit(HudViewId, m_texturedTerrainProgramHandle);
+        };
+
+    const auto renderLayoutPrimaryAsset =
+        [this,
+         width,
+         height,
+         &loadHudTexture,
+         &submitTexturedQuad](
+            const std::string &layoutId)
+        {
+            const HudLayoutElement *pLayout = findHudLayoutElement(layoutId);
+
+            if (pLayout == nullptr || pLayout->primaryAsset.empty())
+            {
+                return;
+            }
+
+            const HudTextureHandle *pTexture = loadHudTexture(pLayout->primaryAsset);
+
+            if (pTexture == nullptr)
+            {
+                return;
+            }
+
+            const std::optional<ResolvedHudLayoutElement> resolved = resolveHudLayoutElement(
+                layoutId,
+                width,
+                height,
+                pLayout->width > 0.0f ? pLayout->width : static_cast<float>(pTexture->width),
+                pLayout->height > 0.0f ? pLayout->height : static_cast<float>(pTexture->height));
+
+            if (!resolved)
+            {
+                return;
+            }
+
+            submitTexturedQuad(*pTexture, resolved->x, resolved->y, resolved->width, resolved->height);
+        };
+
+    const SpellbookSchoolUiDefinition *pSchoolDefinition =
+        findSpellbookSchoolUiDefinition(m_spellbook.school);
+
+    if (pSchoolDefinition == nullptr)
+    {
+        return;
+    }
+
+    renderLayoutPrimaryAsset(pSchoolDefinition->pPageLayoutId);
+
+    for (const SpellbookSchoolUiDefinition &definition : SpellbookSchoolUiDefinitions)
+    {
+        const HudLayoutElement *pLayout = findHudLayoutElement(definition.pButtonLayoutId);
+
+        if (pLayout == nullptr || pLayout->primaryAsset.empty())
+        {
+            continue;
+        }
+
+        const HudTextureHandle *pDefaultTexture = loadHudTexture(pLayout->primaryAsset);
+
+        if (pDefaultTexture == nullptr)
+        {
+            continue;
+        }
+
+        const std::optional<ResolvedHudLayoutElement> resolved = resolveHudLayoutElement(
+            definition.pButtonLayoutId,
+            width,
+            height,
+            pLayout->width > 0.0f ? pLayout->width : static_cast<float>(pDefaultTexture->width),
+            pLayout->height > 0.0f ? pLayout->height : static_cast<float>(pDefaultTexture->height));
+
+        if (!resolved)
+        {
+            continue;
+        }
+
+        const bool isHovered = isPointerInsideResolvedElement(*resolved, mouseX, mouseY);
+        const bool isActive = definition.school == m_spellbook.school;
+        const std::string *pInteractiveAssetName =
+            resolveInteractiveAssetName(*pLayout, *resolved, mouseX, mouseY, isLeftMousePressed);
+        const std::string *pSelectedAssetName =
+            !pLayout->pressedAsset.empty()
+                ? &pLayout->pressedAsset
+                : (!pLayout->hoverAsset.empty() ? &pLayout->hoverAsset : &pLayout->primaryAsset);
+        const std::string *pAssetName = isActive ? pSelectedAssetName : pInteractiveAssetName;
+        const HudTextureHandle *pTexture =
+            pAssetName != nullptr ? loadHudTexture(*pAssetName) : pDefaultTexture;
+
+        if (pTexture != nullptr)
+        {
+            submitTexturedQuad(*pTexture, resolved->x, resolved->y, resolved->width, resolved->height);
+        }
+    }
+
+    const auto renderInteractiveButton =
+        [this,
+         width,
+         height,
+         mouseX,
+         mouseY,
+         isLeftMousePressed,
+         &loadHudTexture,
+         &submitTexturedQuad](
+            const std::string &layoutId)
+        {
+            const HudLayoutElement *pLayout = findHudLayoutElement(layoutId);
+
+            if (pLayout == nullptr || pLayout->primaryAsset.empty())
+            {
+                return;
+            }
+
+            const HudTextureHandle *pDefaultTexture = loadHudTexture(pLayout->primaryAsset);
+
+            if (pDefaultTexture == nullptr)
+            {
+                return;
+            }
+
+            const std::optional<ResolvedHudLayoutElement> resolved = resolveHudLayoutElement(
+                layoutId,
+                width,
+                height,
+                pLayout->width > 0.0f ? pLayout->width : static_cast<float>(pDefaultTexture->width),
+                pLayout->height > 0.0f ? pLayout->height : static_cast<float>(pDefaultTexture->height));
+
+            if (!resolved)
+            {
+                return;
+            }
+
+            const std::string *pAssetName =
+                resolveInteractiveAssetName(*pLayout, *resolved, mouseX, mouseY, isLeftMousePressed);
+            const HudTextureHandle *pTexture =
+                pAssetName != nullptr ? loadHudTexture(*pAssetName) : pDefaultTexture;
+
+            if (pTexture != nullptr)
+            {
+                submitTexturedQuad(*pTexture, resolved->x, resolved->y, resolved->width, resolved->height);
+            }
+        };
+
+    renderInteractiveButton("SpellbookCloseButton");
+    renderInteractiveButton("SpellbookQuickCastButton");
+
+    for (uint32_t spellOffset = 0; spellOffset < pSchoolDefinition->spellCount; ++spellOffset)
+    {
+        const uint32_t spellOrdinal = spellOffset + 1;
+        const uint32_t spellId = pSchoolDefinition->firstSpellId + spellOffset;
+        const std::string layoutId = spellbookSpellLayoutId(m_spellbook.school, spellOrdinal);
+        const HudLayoutElement *pLayout = findHudLayoutElement(layoutId);
+
+        if (pLayout == nullptr)
+        {
+            continue;
+        }
+
+        const HudTextureHandle *pDefaultTexture = loadHudTexture(pLayout->primaryAsset);
+
+        if (pDefaultTexture == nullptr)
+        {
+            continue;
+        }
+
+        const std::optional<ResolvedHudLayoutElement> resolved = resolveHudLayoutElement(
+            layoutId,
+            width,
+            height,
+            pLayout->width > 0.0f ? pLayout->width : static_cast<float>(pDefaultTexture->width),
+            pLayout->height > 0.0f ? pLayout->height : static_cast<float>(pDefaultTexture->height));
+
+        if (!resolved)
+        {
+            continue;
+        }
+
+        const bool isHovered = isPointerInsideResolvedElement(*resolved, mouseX, mouseY);
+        const bool isSelected = m_spellbook.selectedSpellId == spellId;
+        const std::string *pInteractiveAssetName =
+            resolveInteractiveAssetName(*pLayout, *resolved, mouseX, mouseY, isLeftMousePressed);
+        const std::string *pSelectedAssetName =
+            !pLayout->pressedAsset.empty()
+                ? &pLayout->pressedAsset
+                : (!pLayout->hoverAsset.empty() ? &pLayout->hoverAsset : &pLayout->primaryAsset);
+        const std::string *pAssetName = isSelected ? pSelectedAssetName : pInteractiveAssetName;
+        const HudTextureHandle *pTexture =
+            pAssetName != nullptr ? loadHudTexture(*pAssetName) : pDefaultTexture;
+
+        if (pTexture != nullptr)
+        {
+            submitTexturedQuad(*pTexture, resolved->x, resolved->y, resolved->width, resolved->height);
+        }
+    }
 }
 
 void OutdoorGameView::setStatusBarEvent(const std::string &text, float durationSeconds)
@@ -9487,6 +10630,8 @@ void OutdoorGameView::updateActorInspectOverlayState(int width, int height)
         || m_pOutdoorWorldRuntime == nullptr
         || !m_outdoorMapData.has_value()
         || m_heldInventoryItem.active
+        || m_pendingSpellCast.active
+        || m_spellbook.active
         || m_characterScreenOpen
         || hasActiveEventDialog())
     {
@@ -11152,7 +12297,72 @@ void OutdoorGameView::renderActorInspectOverlay(int width, int height)
         pStats->hasSpell1 ? pStats->spell1Name : std::string(),
         pStats->hasSpell2 ? pStats->spell2Name : std::string()
     });
-    const std::string effectsText = pActorState->isDead ? "Dead" : "None";
+    std::vector<std::string> activeEffects;
+
+    if (pActorState->isDead)
+    {
+        activeEffects.push_back("Dead");
+    }
+    else
+    {
+        if (pActorState->stunRemainingSeconds > 0.0f)
+        {
+            activeEffects.push_back("Stunned");
+        }
+
+        if (pActorState->paralyzeRemainingSeconds > 0.0f)
+        {
+            activeEffects.push_back("Paralyzed");
+        }
+
+        if (pActorState->slowRemainingSeconds > 0.0f)
+        {
+            activeEffects.push_back("Slow");
+        }
+
+        if (pActorState->fearRemainingSeconds > 0.0f)
+        {
+            activeEffects.push_back("Afraid");
+        }
+
+        if (pActorState->shrinkRemainingSeconds > 0.0f)
+        {
+            activeEffects.push_back("Shrunk");
+        }
+
+        if (pActorState->darkGraspRemainingSeconds > 0.0f)
+        {
+            activeEffects.push_back("Dark Grasp");
+        }
+
+        switch (pActorState->controlMode)
+        {
+            case OutdoorWorldRuntime::ActorControlMode::Charm:
+                activeEffects.push_back("Charmed");
+                break;
+
+            case OutdoorWorldRuntime::ActorControlMode::Berserk:
+                activeEffects.push_back("Berserk");
+                break;
+
+            case OutdoorWorldRuntime::ActorControlMode::Enslaved:
+                activeEffects.push_back("Enslaved");
+                break;
+
+            case OutdoorWorldRuntime::ActorControlMode::ControlUndead:
+                activeEffects.push_back("Controlled");
+                break;
+
+            case OutdoorWorldRuntime::ActorControlMode::Reanimated:
+                activeEffects.push_back("Reanimated");
+                break;
+
+            case OutdoorWorldRuntime::ActorControlMode::None:
+                break;
+        }
+    }
+
+    const std::string effectsText = activeEffects.empty() ? "None" : joinNonEmptyTexts(activeEffects);
 
     const auto renderTextForLayout =
         [this, &resolveLayout](const char *pLayoutId, const std::string &text)
@@ -11199,7 +12409,9 @@ void OutdoorGameView::renderActorInspectOverlay(int width, int height)
     renderTextForLayout(
         "ActorInspectHitPointsValue",
         std::to_string(std::max(0, pActorState->currentHp)) + " / " + std::to_string(std::max(0, pActorState->maxHp)));
-    renderTextForLayout("ActorInspectArmorClassValue", std::to_string(pStats->armorClass));
+    renderTextForLayout(
+        "ActorInspectArmorClassValue",
+        std::to_string(m_pOutdoorWorldRuntime->effectiveMapActorArmorClass(m_actorInspectOverlay.runtimeActorIndex)));
     renderTextForLayout("ActorInspectAttackValue", attackText);
     renderTextForLayout("ActorInspectDamageValue", damageText);
     renderTextForLayout("ActorInspectSpellValue", spellText);
@@ -12687,11 +13899,12 @@ bool OutdoorGameView::loadHudLayout(const Engine::AssetFileSystem &assetFileSyst
     m_hudLayoutElements.clear();
     m_hudLayoutOrder.clear();
 
-    const std::array<std::string, 7> layoutFiles = {
+    const std::array<std::string, 8> layoutFiles = {
         "Data/ui/gameplay.yml",
         "Data/ui/chest.yml",
         "Data/ui/dialogue.yml",
         "Data/ui/character.yml",
+        "Data/ui/spellbook.yml",
         "Data/ui/item_inspect.yml",
         "Data/ui/character_inspect.yml",
         "Data/ui/actor_inspect.yml"
@@ -18912,6 +20125,8 @@ void OutdoorGameView::updateCameraFromInput(float deltaSeconds)
         m_pOutdoorWorldRuntime != nullptr
         && (m_pOutdoorWorldRuntime->activeChestView() != nullptr || m_pOutdoorWorldRuntime->activeCorpseView() != nullptr);
     const bool isEventDialogActive = hasActiveEventDialog();
+    const bool hasPendingSpellCast = m_pendingSpellCast.active;
+    const bool isSpellbookActive = m_spellbook.active;
     SDL_Window *pWindow = SDL_GetMouseFocus();
 
     if (pWindow == nullptr)
@@ -18927,7 +20142,7 @@ void OutdoorGameView::updateCameraFromInput(float deltaSeconds)
         SDL_GetWindowSizeInPixels(pWindow, &screenWidth, &screenHeight);
     }
 
-    if (m_pOutdoorPartyRuntime != nullptr && screenWidth > 0 && screenHeight > 0)
+    if (m_pOutdoorPartyRuntime != nullptr && screenWidth > 0 && screenHeight > 0 && !isSpellbookActive)
     {
         float portraitMouseX = 0.0f;
         float portraitMouseY = 0.0f;
@@ -18937,7 +20152,8 @@ void OutdoorGameView::updateCameraFromInput(float deltaSeconds)
             portraitMouseY,
             (portraitMouseButtons & SDL_BUTTON_LMASK) != 0
         };
-        const bool requireGameplayReady = !isEventDialogActive && !m_characterScreenOpen && !hasActiveLootView;
+        const bool requireGameplayReady =
+            !isEventDialogActive && !m_characterScreenOpen && !hasActiveLootView && !isSpellbookActive;
 
         handlePointerClickRelease(
             portraitPointerState,
@@ -18948,10 +20164,16 @@ void OutdoorGameView::updateCameraFromInput(float deltaSeconds)
             {
                 return resolvePartyPortraitIndexAtPoint(screenWidth, screenHeight, x, y);
             },
-            [this, requireGameplayReady, hasActiveLootView](const std::optional<size_t> &memberIndex)
+            [this, requireGameplayReady, hasActiveLootView, hasPendingSpellCast](const std::optional<size_t> &memberIndex)
             {
                 if (memberIndex)
                 {
+                    if (hasPendingSpellCast)
+                    {
+                        tryResolvePendingSpellCast({}, memberIndex);
+                        return;
+                    }
+
                     if (m_heldInventoryItem.active)
                     {
                         const bool switchCharacterOnFailedPlacement =
@@ -19008,6 +20230,31 @@ void OutdoorGameView::updateCameraFromInput(float deltaSeconds)
         m_partyPortraitPressedIndex = std::nullopt;
     }
 
+    if (pKeyboardState[SDL_SCANCODE_C])
+    {
+        if (!m_spellbookToggleLatch)
+        {
+            if (m_spellbook.active)
+            {
+                closeSpellbook();
+            }
+            else if (!isEventDialogActive
+                     && !m_characterScreenOpen
+                     && !hasActiveLootView
+                     && !hasPendingSpellCast
+                     && !m_heldInventoryItem.active)
+            {
+                openSpellbook();
+            }
+
+            m_spellbookToggleLatch = true;
+        }
+    }
+    else
+    {
+        m_spellbookToggleLatch = false;
+    }
+
     if (!isEventDialogActive)
     {
         if (pKeyboardState[SDL_SCANCODE_I])
@@ -19051,6 +20298,26 @@ void OutdoorGameView::updateCameraFromInput(float deltaSeconds)
     else
     {
         m_inventoryScreenToggleLatch = false;
+    }
+
+    if (!isEventDialogActive && !m_characterScreenOpen && !hasActiveLootView && !hasPendingSpellCast && !m_spellbook.active)
+    {
+        if (pKeyboardState[SDL_SCANCODE_Q])
+        {
+            if (!m_quickSpellCastLatch)
+            {
+                tryBeginQuickSpellCast();
+                m_quickSpellCastLatch = true;
+            }
+        }
+        else
+        {
+            m_quickSpellCastLatch = false;
+        }
+    }
+    else
+    {
+        m_quickSpellCastLatch = false;
     }
 
     const bool isResidentSelectionMode =
@@ -19439,6 +20706,224 @@ void OutdoorGameView::updateCameraFromInput(float deltaSeconds)
     m_eventDialogPartySelectLatches.fill(false);
     m_dialogueClickLatch = false;
     m_dialoguePressedTarget = {};
+
+    if (m_spellbook.active)
+    {
+        const bool closePressed = pKeyboardState[SDL_SCANCODE_ESCAPE];
+
+        if (closePressed)
+        {
+            if (!m_closeOverlayLatch)
+            {
+                closeSpellbook();
+                m_closeOverlayLatch = true;
+            }
+        }
+        else
+        {
+            m_closeOverlayLatch = false;
+        }
+
+        float mouseX = 0.0f;
+        float mouseY = 0.0f;
+        const SDL_MouseButtonFlags mouseButtons = SDL_GetMouseState(&mouseX, &mouseY);
+        const bool isLeftMousePressed = (mouseButtons & SDL_BUTTON_LMASK) != 0;
+        const HudPointerState pointerState = {
+            mouseX,
+            mouseY,
+            isLeftMousePressed
+        };
+        const SpellbookPointerTarget noneSpellbookTarget = {};
+        const auto findSpellbookPointerTarget =
+            [this, screenWidth, screenHeight](float pointerX, float pointerY) -> SpellbookPointerTarget
+            {
+                for (const SpellbookSchoolUiDefinition &definition : SpellbookSchoolUiDefinitions)
+                {
+                    const HudLayoutElement *pLayout = findHudLayoutElement(definition.pButtonLayoutId);
+
+                    if (pLayout == nullptr)
+                    {
+                        continue;
+                    }
+
+                    const std::optional<ResolvedHudLayoutElement> resolved = resolveHudLayoutElement(
+                        definition.pButtonLayoutId,
+                        screenWidth,
+                        screenHeight,
+                        pLayout->width,
+                        pLayout->height);
+
+                    if (resolved && isPointerInsideResolvedElement(*resolved, pointerX, pointerY))
+                    {
+                        SpellbookPointerTarget target = {};
+                        target.type = SpellbookPointerTargetType::SchoolButton;
+                        target.school = definition.school;
+                        return target;
+                    }
+                }
+
+                const auto resolveSimpleButtonTarget =
+                    [this, screenWidth, screenHeight, pointerX, pointerY](
+                        const char *pLayoutId,
+                        SpellbookPointerTargetType type) -> SpellbookPointerTarget
+                    {
+                        const HudLayoutElement *pLayout = findHudLayoutElement(pLayoutId);
+
+                        if (pLayout == nullptr)
+                        {
+                            return {};
+                        }
+
+                        const std::optional<ResolvedHudLayoutElement> resolved = resolveHudLayoutElement(
+                            pLayoutId,
+                            screenWidth,
+                            screenHeight,
+                            pLayout->width,
+                            pLayout->height);
+
+                        if (!resolved || !isPointerInsideResolvedElement(*resolved, pointerX, pointerY))
+                        {
+                            return {};
+                        }
+
+                        SpellbookPointerTarget target = {};
+                        target.type = type;
+                        return target;
+                    };
+
+                const SpellbookPointerTarget closeTarget =
+                    resolveSimpleButtonTarget("SpellbookCloseButton", SpellbookPointerTargetType::CloseButton);
+
+                if (closeTarget.type != SpellbookPointerTargetType::None)
+                {
+                    return closeTarget;
+                }
+
+                const SpellbookPointerTarget quickCastTarget =
+                    resolveSimpleButtonTarget("SpellbookQuickCastButton", SpellbookPointerTargetType::QuickCastButton);
+
+                if (quickCastTarget.type != SpellbookPointerTargetType::None)
+                {
+                    return quickCastTarget;
+                }
+
+                const SpellbookSchoolUiDefinition *pDefinition =
+                    findSpellbookSchoolUiDefinition(m_spellbook.school);
+
+                if (pDefinition == nullptr)
+                {
+                    return {};
+                }
+
+                for (uint32_t spellOffset = 0; spellOffset < pDefinition->spellCount; ++spellOffset)
+                {
+                    const uint32_t spellOrdinal = spellOffset + 1;
+                    const std::string layoutId = spellbookSpellLayoutId(m_spellbook.school, spellOrdinal);
+                    const HudLayoutElement *pLayout = findHudLayoutElement(layoutId);
+
+                    if (pLayout == nullptr)
+                    {
+                        continue;
+                    }
+
+                    const std::optional<ResolvedHudLayoutElement> resolved = resolveHudLayoutElement(
+                        layoutId,
+                        screenWidth,
+                        screenHeight,
+                        pLayout->width,
+                        pLayout->height);
+
+                    if (resolved && isPointerInsideResolvedElement(*resolved, pointerX, pointerY))
+                    {
+                        SpellbookPointerTarget target = {};
+                        target.type = SpellbookPointerTargetType::SpellButton;
+                        target.school = m_spellbook.school;
+                        target.spellId = pDefinition->firstSpellId + spellOffset;
+                        return target;
+                    }
+                }
+
+                return {};
+            };
+
+        handlePointerClickRelease(
+            pointerState,
+            m_spellbookClickLatch,
+            m_spellbookPressedTarget,
+            noneSpellbookTarget,
+            findSpellbookPointerTarget,
+            [this](const SpellbookPointerTarget &target)
+            {
+                if (target.type == SpellbookPointerTargetType::SchoolButton)
+                {
+                    const SpellbookSchoolUiDefinition *pDefinition = findSpellbookSchoolUiDefinition(target.school);
+
+                    if (pDefinition != nullptr)
+                    {
+                        m_spellbook.school = target.school;
+                        m_spellbook.selectedSpellId = 0;
+                    }
+
+                    return;
+                }
+
+                if (target.type == SpellbookPointerTargetType::SpellButton)
+                {
+                    const uint64_t nowTicks = SDL_GetTicks();
+                    const bool isDoubleClick =
+                        target.spellId != 0
+                        && target.spellId == m_lastSpellbookClickedSpellId
+                        && nowTicks >= m_lastSpellbookSpellClickTicks
+                        && nowTicks - m_lastSpellbookSpellClickTicks <= PartyPortraitDoubleClickWindowMs;
+                    m_spellbook.selectedSpellId = target.spellId;
+                    m_lastSpellbookSpellClickTicks = nowTicks;
+                    m_lastSpellbookClickedSpellId = target.spellId;
+
+                    if (isDoubleClick)
+                    {
+                        const SpellEntry *pSpellEntry =
+                            m_pSpellTable != nullptr ? m_pSpellTable->findById(static_cast<int>(target.spellId)) : nullptr;
+                        const std::string spellName =
+                            pSpellEntry != nullptr && !pSpellEntry->name.empty()
+                                ? pSpellEntry->name
+                                : ("Spell " + std::to_string(target.spellId));
+                        closeSpellbook("TODO: Spell " + spellName + " cast effect");
+                    }
+
+                    return;
+                }
+
+                if (target.type == SpellbookPointerTargetType::CloseButton)
+                {
+                    closeSpellbook();
+                    return;
+                }
+
+                if (target.type == SpellbookPointerTargetType::QuickCastButton)
+                {
+                    if (m_spellbook.selectedSpellId == 0 || m_pOutdoorPartyRuntime == nullptr || m_pSpellTable == nullptr)
+                    {
+                        setStatusBarEvent("Select spell");
+                        return;
+                    }
+
+                    Character *pActiveMember = m_pOutdoorPartyRuntime->party().activeMember();
+                    const SpellEntry *pSpellEntry =
+                        m_pSpellTable->findById(static_cast<int>(m_spellbook.selectedSpellId));
+
+                    if (pActiveMember == nullptr || pSpellEntry == nullptr)
+                    {
+                        setStatusBarEvent("Can't set quick spell");
+                        return;
+                    }
+
+                    pActiveMember->quickSpellName = pSpellEntry->name;
+                    setStatusBarEvent("Quick spell set to " + pSpellEntry->name);
+                }
+            });
+
+        return;
+    }
 
     if (m_characterScreenOpen)
     {
@@ -20902,7 +22387,7 @@ void OutdoorGameView::updateCameraFromInput(float deltaSeconds)
     const SDL_MouseButtonFlags mouseButtons = SDL_GetMouseState(&mouseX, &mouseY);
     const bool isRightMousePressed = (mouseButtons & SDL_BUTTON_RMASK) != 0;
 
-    if (isRightMousePressed)
+    if (isRightMousePressed && !hasPendingSpellCast)
     {
         if (m_isRotatingCamera)
         {
@@ -20938,12 +22423,12 @@ void OutdoorGameView::updateCameraFromInput(float deltaSeconds)
     {
         if (m_pOutdoorPartyRuntime)
         {
-            if (!hasActiveLootView && m_pOutdoorWorldRuntime != nullptr)
+            if (!hasActiveLootView && !hasPendingSpellCast && m_pOutdoorWorldRuntime != nullptr)
             {
                 m_pOutdoorPartyRuntime->setActorColliders(buildRuntimeActorColliders(*m_pOutdoorWorldRuntime));
             }
 
-            if (!hasActiveLootView)
+            if (!hasActiveLootView && !hasPendingSpellCast)
             {
                 const OutdoorMovementInput movementInput = {
                     pKeyboardState[SDL_SCANCODE_W],

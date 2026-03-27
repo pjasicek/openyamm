@@ -12,9 +12,12 @@
 #include "game/HouseInteraction.h"
 #include "game/MasteryTeacherDialog.h"
 #include "game/OutdoorMovementController.h"
+#include "game/OutdoorPartyRuntime.h"
 #include "game/OutdoorWorldRuntime.h"
 #include "game/OutdoorGeometryUtils.h"
 #include "game/Party.h"
+#include "game/PartySpellSystem.h"
+#include "game/SpellIds.h"
 #include "game/SpriteObjectDefs.h"
 
 #include <SDL3/SDL.h>
@@ -3035,7 +3038,10 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
                     return false;
                 }
 
-                sawFireball = sawFireball || pProjectile->spellId == 6 || pProjectile->objectName == "Fireball";
+                sawFireball =
+                    sawFireball
+                    || isSpellId(pProjectile->spellId, SpellId::Fireball)
+                    || pProjectile->objectName == "Fireball";
                 sawCannonball = sawCannonball || pProjectile->spellId == 136 || pProjectile->objectName == "Cannonball";
             }
 
@@ -6583,7 +6589,7 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
             request.sourceId = 1;
             request.sourcePartyMemberIndex = 0;
             request.ability = OutdoorWorldRuntime::MonsterAttackAbility::Spell1;
-            request.spellId = 2;
+            request.spellId = spellIdValue(SpellId::FireBolt);
             request.skillLevel = 10;
             request.skillMastery = static_cast<uint32_t>(SkillMastery::Expert);
             request.damage = 9;
@@ -7002,6 +7008,294 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
             if (pAfter->actionSeconds >= previousActionSeconds)
             {
                 failure = "hostile actor attack did not continue progressing";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "party_spell_backend_rejects_cast_without_spell_points",
+        [&](std::string &failure)
+        {
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            const OutdoorWorldRuntime::MapActorState *pTargetActor = scenario.world.mapActorState(53);
+
+            if (pTargetActor == nullptr)
+            {
+                failure = "actor 53 missing";
+                return false;
+            }
+
+            OutdoorPartyRuntime partyRuntime(
+                OutdoorMovementDriver(
+                    *selectedMap->outdoorMapData,
+                    selectedMap->outdoorLandMask,
+                    selectedMap->outdoorDecorationCollisionSet,
+                    selectedMap->outdoorActorCollisionSet,
+                    selectedMap->outdoorSpriteObjectCollisionSet),
+                gameDataLoader.getItemTable());
+            partyRuntime.party().setClassSkillTable(&gameDataLoader.getClassSkillTable());
+            partyRuntime.initialize(pTargetActor->preciseX + 256.0f, pTargetActor->preciseY, pTargetActor->preciseZ);
+            partyRuntime.party().seed(createRegressionPartySeed());
+
+            Character *pCaster = partyRuntime.party().member(0);
+
+            if (pCaster == nullptr)
+            {
+                failure = "caster missing";
+                return false;
+            }
+
+            pCaster->skills["FireMagic"] = {"FireMagic", 5, SkillMastery::Normal};
+            pCaster->spellPoints = 0;
+
+            PartySpellCastRequest request = {};
+            request.casterMemberIndex = 0;
+            request.spellId = spellIdValue(SpellId::FireBolt);
+            request.targetActorIndex = 53;
+            const PartySpellCastResult result = PartySpellSystem::castSpell(
+                partyRuntime.party(),
+                partyRuntime,
+                scenario.world,
+                gameDataLoader.getSpellTable(),
+                request);
+
+            if (result.status != PartySpellCastStatus::NotEnoughSpellPoints)
+            {
+                failure = "status was not NotEnoughSpellPoints";
+                return false;
+            }
+
+            if (scenario.world.projectileCount() != 0)
+            {
+                failure = "projectile spawned despite zero spell points";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "party_spell_backend_haste_applies_party_buff_and_spends_mana",
+        [&](std::string &failure)
+        {
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            const OutdoorWorldRuntime::MapActorState *pTargetActor = scenario.world.mapActorState(53);
+
+            if (pTargetActor == nullptr)
+            {
+                failure = "actor 53 missing";
+                return false;
+            }
+
+            OutdoorPartyRuntime partyRuntime(
+                OutdoorMovementDriver(
+                    *selectedMap->outdoorMapData,
+                    selectedMap->outdoorLandMask,
+                    selectedMap->outdoorDecorationCollisionSet,
+                    selectedMap->outdoorActorCollisionSet,
+                    selectedMap->outdoorSpriteObjectCollisionSet),
+                gameDataLoader.getItemTable());
+            partyRuntime.party().setClassSkillTable(&gameDataLoader.getClassSkillTable());
+            partyRuntime.initialize(pTargetActor->preciseX, pTargetActor->preciseY, pTargetActor->preciseZ);
+            partyRuntime.party().seed(createRegressionPartySeed());
+
+            Character *pCaster = partyRuntime.party().member(0);
+
+            if (pCaster == nullptr)
+            {
+                failure = "caster missing";
+                return false;
+            }
+
+            pCaster->skills["FireMagic"] = {"FireMagic", 6, SkillMastery::Expert};
+            const int initialSpellPoints = pCaster->spellPoints;
+
+            PartySpellCastRequest request = {};
+            request.casterMemberIndex = 0;
+            request.spellId = spellIdValue(SpellId::Haste);
+            const PartySpellCastResult result = PartySpellSystem::castSpell(
+                partyRuntime.party(),
+                partyRuntime,
+                scenario.world,
+                gameDataLoader.getSpellTable(),
+                request);
+
+            if (!result.succeeded())
+            {
+                failure = "haste cast did not succeed";
+                return false;
+            }
+
+            if (!partyRuntime.party().hasPartyBuff(PartyBuffId::Haste))
+            {
+                failure = "haste buff not applied";
+                return false;
+            }
+
+            if (pCaster->spellPoints != initialSpellPoints - 5)
+            {
+                failure = "mana was not reduced by haste cost";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "party_spell_backend_fire_bolt_spawns_projectile",
+        [&](std::string &failure)
+        {
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            const OutdoorWorldRuntime::MapActorState *pTargetActor = scenario.world.mapActorState(53);
+
+            if (pTargetActor == nullptr)
+            {
+                failure = "actor 53 missing";
+                return false;
+            }
+
+            OutdoorPartyRuntime partyRuntime(
+                OutdoorMovementDriver(
+                    *selectedMap->outdoorMapData,
+                    selectedMap->outdoorLandMask,
+                    selectedMap->outdoorDecorationCollisionSet,
+                    selectedMap->outdoorActorCollisionSet,
+                    selectedMap->outdoorSpriteObjectCollisionSet),
+                gameDataLoader.getItemTable());
+            partyRuntime.party().setClassSkillTable(&gameDataLoader.getClassSkillTable());
+            partyRuntime.initialize(pTargetActor->preciseX + 256.0f, pTargetActor->preciseY, pTargetActor->preciseZ);
+            partyRuntime.party().seed(createRegressionPartySeed());
+
+            Character *pCaster = partyRuntime.party().member(0);
+
+            if (pCaster == nullptr)
+            {
+                failure = "caster missing";
+                return false;
+            }
+
+            pCaster->skills["FireMagic"] = {"FireMagic", 5, SkillMastery::Expert};
+
+            PartySpellCastRequest request = {};
+            request.casterMemberIndex = 0;
+            request.spellId = spellIdValue(SpellId::FireBolt);
+            request.targetActorIndex = 53;
+            const PartySpellCastResult result = PartySpellSystem::castSpell(
+                partyRuntime.party(),
+                partyRuntime,
+                scenario.world,
+                gameDataLoader.getSpellTable(),
+                request);
+
+            if (!result.succeeded())
+            {
+                failure = "fire bolt cast did not succeed";
+                return false;
+            }
+
+            if (scenario.world.projectileCount() == 0)
+            {
+                failure = "fire bolt did not spawn projectile";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "party_spell_backend_bless_applies_character_target_buff",
+        [&](std::string &failure)
+        {
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            OutdoorPartyRuntime partyRuntime(
+                OutdoorMovementDriver(
+                    *selectedMap->outdoorMapData,
+                    selectedMap->outdoorLandMask,
+                    selectedMap->outdoorDecorationCollisionSet,
+                    selectedMap->outdoorActorCollisionSet,
+                    selectedMap->outdoorSpriteObjectCollisionSet),
+                gameDataLoader.getItemTable());
+            partyRuntime.party().setClassSkillTable(&gameDataLoader.getClassSkillTable());
+            partyRuntime.initialize(0.0f, 0.0f, 0.0f);
+            partyRuntime.party().seed(createRegressionPartySeed());
+
+            Character *pCaster = partyRuntime.party().member(0);
+
+            if (pCaster == nullptr)
+            {
+                failure = "caster missing";
+                return false;
+            }
+
+            pCaster->skills["SpiritMagic"] = {"SpiritMagic", 8, SkillMastery::Normal};
+            const int initialSpellPoints = pCaster->spellPoints;
+
+            PartySpellCastRequest request = {};
+            request.casterMemberIndex = 0;
+            request.spellId = spellIdValue(SpellId::Bless);
+            request.targetCharacterIndex = 1;
+            const PartySpellCastResult result = PartySpellSystem::castSpell(
+                partyRuntime.party(),
+                partyRuntime,
+                scenario.world,
+                gameDataLoader.getSpellTable(),
+                request);
+
+            if (!result.succeeded())
+            {
+                failure = "bless cast did not succeed";
+                return false;
+            }
+
+            if (!partyRuntime.party().hasCharacterBuff(1, CharacterBuffId::Bless))
+            {
+                failure = "bless buff not applied to target member";
+                return false;
+            }
+
+            if (partyRuntime.party().hasCharacterBuff(0, CharacterBuffId::Bless))
+            {
+                failure = "bless incorrectly applied to caster at normal mastery";
+                return false;
+            }
+
+            if (pCaster->spellPoints >= initialSpellPoints)
+            {
+                failure = "bless mana cost not applied";
                 return false;
             }
 

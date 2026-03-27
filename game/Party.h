@@ -4,6 +4,7 @@
 #include "game/ClassSkillTable.h"
 #include "game/OutdoorMovementDriver.h"
 
+#include <array>
 #include <cstdint>
 #include <optional>
 #include <string>
@@ -92,6 +93,77 @@ struct PartySeed
     int food = 0;
 };
 
+enum class PartyBuffId : uint8_t
+{
+    TorchLight = 0,
+    WizardEye,
+    FeatherFall,
+    DetectLife,
+    WaterWalk,
+    Fly,
+    Invisibility,
+    Stoneskin,
+    DayOfGods,
+    ProtectionFromMagic,
+    FireResistance,
+    WaterResistance,
+    AirResistance,
+    EarthResistance,
+    MindResistance,
+    BodyResistance,
+    Shield,
+    Heroism,
+    Haste,
+    Immolation,
+    Count,
+};
+
+static constexpr size_t PartyBuffCount = static_cast<size_t>(PartyBuffId::Count);
+
+enum class CharacterBuffId : uint8_t
+{
+    Bless = 0,
+    Fate,
+    Preservation,
+    Regeneration,
+    Hammerhands,
+    PainReflection,
+    Count,
+};
+
+static constexpr size_t CharacterBuffCount = static_cast<size_t>(CharacterBuffId::Count);
+
+struct PartyBuffState
+{
+    float remainingSeconds = 0.0f;
+    uint32_t spellId = 0;
+    uint32_t skillLevel = 0;
+    SkillMastery skillMastery = SkillMastery::None;
+    int power = 0;
+    uint32_t casterMemberIndex = 0;
+
+    bool active() const
+    {
+        return remainingSeconds > 0.0f;
+    }
+};
+
+struct CharacterBuffState
+{
+    float remainingSeconds = 0.0f;
+    float periodicAccumulatorSeconds = 0.0f;
+    uint32_t spellId = 0;
+    uint32_t skillLevel = 0;
+    SkillMastery skillMastery = SkillMastery::None;
+    int power = 0;
+    uint32_t casterMemberIndex = 0;
+
+    bool active() const
+    {
+        return remainingSeconds > 0.0f;
+    }
+};
+
 class Party
 {
 public:
@@ -155,10 +227,39 @@ public:
     bool canSelectMemberInGameplay(size_t memberIndex) const;
     bool hasSelectableMemberInGameplay() const;
     bool setActiveMemberIndex(size_t memberIndex);
+    bool canSpendSpellPoints(size_t memberIndex, int amount) const;
+    bool spendSpellPoints(size_t memberIndex, int amount);
+    bool spendSpellPointsOnActiveMember(int amount);
     void updateRecovery(float deltaSeconds);
     bool applyRecoveryToMember(size_t memberIndex, float recoverySeconds);
     bool applyRecoveryToActiveMember(float recoverySeconds);
     bool switchToNextReadyMember();
+    void applyPartyBuff(
+        PartyBuffId buffId,
+        float durationSeconds,
+        int power,
+        uint32_t spellId,
+        uint32_t skillLevel,
+        SkillMastery skillMastery,
+        uint32_t casterMemberIndex);
+    void applyCharacterBuff(
+        size_t memberIndex,
+        CharacterBuffId buffId,
+        float durationSeconds,
+        int power,
+        uint32_t spellId,
+        uint32_t skillLevel,
+        SkillMastery skillMastery,
+        uint32_t casterMemberIndex);
+    void clearPartyBuff(PartyBuffId buffId);
+    void clearCharacterBuff(size_t memberIndex, CharacterBuffId buffId);
+    bool hasPartyBuff(PartyBuffId buffId) const;
+    bool hasCharacterBuff(size_t memberIndex, CharacterBuffId buffId) const;
+    const PartyBuffState *partyBuff(PartyBuffId buffId) const;
+    const CharacterBuffState *characterBuff(size_t memberIndex, CharacterBuffId buffId) const;
+    bool clearMemberCondition(size_t memberIndex, CharacterCondition condition);
+    bool healMember(size_t memberIndex, int amount);
+    bool reviveMember(size_t memberIndex, int health, bool applyWeak);
 
     const std::vector<Character> &members() const;
     const Character *activeMember() const;
@@ -186,11 +287,14 @@ private:
     uint8_t resolveInventoryWidth(uint32_t objectDescriptionId) const;
     uint8_t resolveInventoryHeight(uint32_t objectDescriptionId) const;
     void applyDefaultStartingSkills(Character &member) const;
+    void rebuildMagicalBonusesFromBuffs();
 
     const ItemTable *m_pItemTable = nullptr;
     const ClassSkillTable *m_pClassSkillTable = nullptr;
     std::vector<Character> m_members;
     size_t m_activeMemberIndex = 0;
+    std::array<PartyBuffState, PartyBuffCount> m_partyBuffs = {};
+    std::array<std::array<CharacterBuffState, CharacterBuffCount>, MaxMembers> m_characterBuffs = {};
     int m_gold = 0;
     int m_bankGold = 0;
     int m_food = 0;

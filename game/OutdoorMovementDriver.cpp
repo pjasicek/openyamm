@@ -364,6 +364,39 @@ void OutdoorMovementDriver::toggleFeatherFall()
     }
 }
 
+void OutdoorMovementDriver::setFlying(bool active)
+{
+    m_partyMovementState.flying = active;
+
+    if (m_partyMovementState.flying)
+    {
+        m_state.verticalVelocity = 0.0f;
+        m_state.fallStartZ = m_state.footZ;
+        m_state.fallDistance = 0.0f;
+    }
+}
+
+void OutdoorMovementDriver::setWaterWalkActive(bool active)
+{
+    m_partyMovementState.waterWalk = active;
+}
+
+void OutdoorMovementDriver::setFeatherFallActive(bool active)
+{
+    m_partyMovementState.featherFall = active;
+
+    if (m_partyMovementState.featherFall)
+    {
+        m_state.fallStartZ = m_state.footZ;
+        m_state.fallDistance = 0.0f;
+    }
+}
+
+void OutdoorMovementDriver::requestJump()
+{
+    m_pendingJumpPress = true;
+}
+
 void OutdoorMovementDriver::setActorColliders(const std::vector<OutdoorActorCollision> &actorColliders)
 {
     m_movementController.setActorColliders(actorColliders);

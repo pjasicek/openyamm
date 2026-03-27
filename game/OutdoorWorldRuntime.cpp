@@ -4,6 +4,7 @@
 #include "game/GameMechanics.h"
 #include "game/ItemTable.h"
 #include "game/OutdoorGeometryUtils.h"
+#include "game/SpellIds.h"
 #include "game/SpriteObjectDefs.h"
 #include "game/SkillData.h"
 #include "game/StringUtils.h"
@@ -73,10 +74,6 @@ constexpr float DwiTestActor61X = -7665.0f;
 constexpr float DwiTestActor61Y = -4660.0f;
 constexpr float DwiTestActor61Z = 200.0f;
 constexpr uint32_t EventSpellSourceId = std::numeric_limits<uint32_t>::max();
-constexpr uint32_t FireballSpellId = 6;
-constexpr uint32_t MeteorShowerSpellId = 9;
-constexpr uint32_t StarburstSpellId = 22;
-constexpr uint32_t DragonBreathSpellId = 97;
 constexpr float MeteorShowerSpawnBaseHeight = 2500.0f;
 constexpr float MeteorShowerSpawnHeightVariance = 1000.0f;
 constexpr float MeteorShowerTargetSpread = 512.0f;
@@ -947,6 +944,44 @@ int resolveMonsterAbilityDamage(
     }
 }
 
+bool actorLooksUndead(const MonsterTable::MonsterStatsEntry &stats)
+{
+    const std::string name = toLowerCopy(stats.name + " " + stats.pictureName);
+    static const std::array<const char *, 11> UndeadTokens = {{
+        "skeleton",
+        "zombie",
+        "ghost",
+        "ghoul",
+        "vampire",
+        "lich",
+        "mummy",
+        "wight",
+        "spectre",
+        "spirit",
+        "undead"
+    }};
+
+    for (const char *pToken : UndeadTokens)
+    {
+        if (name.find(pToken) != std::string::npos)
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+float minutesToSeconds(float minutes)
+{
+    return minutes * 60.0f;
+}
+
+float hoursToSeconds(float hours)
+{
+    return hours * 3600.0f;
+}
+
 bool chestItemContainsCell(const OutdoorWorldRuntime::ChestItemState &item, uint8_t gridX, uint8_t gridY)
 {
     return gridX >= item.gridX
@@ -1097,7 +1132,7 @@ std::optional<std::pair<uint8_t, uint8_t>> findFirstFreeChestSlot(
 }
 int resolveEventSpellDamage(uint32_t spellId, uint32_t skillLevel)
 {
-    if (spellId == MeteorShowerSpellId)
+    if (isSpellId(spellId, SpellId::MeteorShower))
     {
         return 8 + static_cast<int>(skillLevel);
     }
@@ -1107,12 +1142,12 @@ int resolveEventSpellDamage(uint32_t spellId, uint32_t skillLevel)
 
 float spellImpactDamageRadius(uint32_t spellId)
 {
-    switch (spellId)
+    switch (spellIdFromValue(spellId))
     {
-        case FireballSpellId:
-        case MeteorShowerSpellId:
-        case StarburstSpellId:
-        case DragonBreathSpellId:
+        case SpellId::Fireball:
+        case SpellId::MeteorShower:
+        case SpellId::Starburst:
+        case SpellId::DragonBreath:
             return SpellImpactAoeRadius;
         default:
             return 0.0f;
@@ -3985,9 +4020,28 @@ void OutdoorWorldRuntime::updateMapActors(float deltaSeconds, float partyX, floa
                 continue;
             }
 
+            updateActorSpellEffects(actor, ActorUpdateStepSeconds);
+
+            if (actor.stunRemainingSeconds > 0.0f || actor.paralyzeRemainingSeconds > 0.0f)
+            {
+                actor.aiState = ActorAiState::Stunned;
+                actor.animation = ActorAnimation::GotHit;
+                actor.actionSeconds = std::max(
+                    actor.actionSeconds,
+                    std::max(actor.stunRemainingSeconds, actor.paralyzeRemainingSeconds));
+                actor.moveDirectionX = 0.0f;
+                actor.moveDirectionY = 0.0f;
+                actor.velocityX = 0.0f;
+                actor.velocityY = 0.0f;
+                actor.velocityZ = 0.0f;
+                continue;
+            }
+
             actor.idleDecisionSeconds = std::max(0.0f, actor.idleDecisionSeconds - ActorUpdateStepSeconds);
-            actor.attackCooldownSeconds = std::max(0.0f, actor.attackCooldownSeconds - ActorUpdateStepSeconds);
-            actor.actionSeconds = std::max(0.0f, actor.actionSeconds - ActorUpdateStepSeconds);
+            const float recoveryStepSeconds =
+                ActorUpdateStepSeconds / std::max(1.0f, actor.slowRecoveryMultiplier);
+            actor.attackCooldownSeconds = std::max(0.0f, actor.attackCooldownSeconds - recoveryStepSeconds);
+            actor.actionSeconds = std::max(0.0f, actor.actionSeconds - recoveryStepSeconds);
 
             const int relationToParty = m_pMonsterTable->getRelationToParty(actor.monsterId);
             const float partySenseRange = actor.hostileToParty
@@ -4061,6 +4115,7 @@ void OutdoorWorldRuntime::updateMapActors(float deltaSeconds, float partyX, floa
             const bool shouldFlee = shouldEngageTarget
                 && combatTarget.distanceToTarget <= FleeThresholdRange
                 && shouldFleeForAiType(*pStats, actor);
+            const bool forcedFearFlee = actor.fearRemainingSeconds > 0.0f;
 
             const bool inMeleeRange =
                 combatTarget.edgeDistance <= meleeRangeForCombatTarget(targetIsActor);
@@ -4085,7 +4140,20 @@ void OutdoorWorldRuntime::updateMapActors(float deltaSeconds, float partyX, floa
 
             if (attackJustCompleted)
             {
-                const int resolvedDamage = resolveMonsterAbilityDamage(*pStats, actor.queuedAttackAbility);
+                int resolvedDamage = resolveMonsterAbilityDamage(*pStats, actor.queuedAttackAbility);
+
+                if (actor.shrinkRemainingSeconds > 0.0f)
+                {
+                    resolvedDamage = std::max(
+                        1,
+                        static_cast<int>(std::round(static_cast<float>(resolvedDamage) * actor.shrinkDamageMultiplier)));
+                }
+
+                if (actor.darkGraspRemainingSeconds > 0.0f
+                    && isMeleeAttackAbility(*pStats, actor.queuedAttackAbility))
+                {
+                    resolvedDamage = std::max(1, (resolvedDamage + 1) / 2);
+                }
 
                 if (isRangedAttackAbility(*pStats, actor.queuedAttackAbility))
                 {
@@ -4133,7 +4201,7 @@ void OutdoorWorldRuntime::updateMapActors(float deltaSeconds, float partyX, floa
                 actor.moveDirectionX = 0.0f;
                 actor.moveDirectionY = 0.0f;
             }
-            else if (shouldFlee)
+            else if (shouldFlee || forcedFearFlee)
             {
                 nextAiState = ActorAiState::Fleeing;
                 nextAnimation = movementAllowed ? ActorAnimation::Walking : ActorAnimation::Standing;
@@ -4150,10 +4218,30 @@ void OutdoorWorldRuntime::updateMapActors(float deltaSeconds, float partyX, floa
             }
             else if (shouldEngageTarget)
             {
-                const MonsterAttackAbility chosenAbility = chooseAttackAbility(actor, *pStats);
-                const bool chosenAbilityIsRanged = isRangedAttackAbility(*pStats, chosenAbility);
+                MonsterAttackAbility chosenAbility = chooseAttackAbility(actor, *pStats);
+
+                if (actor.darkGraspRemainingSeconds > 0.0f && isRangedAttackAbility(*pStats, chosenAbility))
+                {
+                    if (isMeleeAttackAbility(*pStats, MonsterAttackAbility::Attack1))
+                    {
+                        chosenAbility = MonsterAttackAbility::Attack1;
+                    }
+                    else if (isMeleeAttackAbility(*pStats, MonsterAttackAbility::Attack2))
+                    {
+                        chosenAbility = MonsterAttackAbility::Attack2;
+                    }
+                }
+
+                const bool chosenAbilityIsRanged =
+                    actor.darkGraspRemainingSeconds <= 0.0f && isRangedAttackAbility(*pStats, chosenAbility);
                 const bool chosenAbilityIsMelee = isMeleeAttackAbility(*pStats, chosenAbility);
                 const bool stationaryOrTooCloseForRangedPursuit = !movementAllowed || inMeleeRange;
+                const float effectiveMoveSpeed =
+                    static_cast<float>(std::max(
+                        1,
+                        actor.moveSpeed > 0 ? static_cast<int>(actor.moveSpeed) : pStats->speed))
+                    * actor.slowMoveMultiplier
+                    * (actor.darkGraspRemainingSeconds > 0.0f ? 0.5f : 1.0f);
 
                 if (chosenAbilityIsRanged && actor.attackCooldownSeconds <= 0.0f)
                 {
@@ -4213,9 +4301,7 @@ void OutdoorWorldRuntime::updateMapActors(float deltaSeconds, float partyX, floa
                                     combatTarget.deltaX,
                                     combatTarget.deltaY,
                                     combatTarget.horizontalDistanceToTarget,
-                                    static_cast<float>(std::max(
-                                        1,
-                                        actor.moveSpeed > 0 ? static_cast<int>(actor.moveSpeed) : pStats->speed)),
+                                    effectiveMoveSpeed,
                                     PursueActionMode::OffsetShort,
                                     decisionSeed))
                             {
@@ -4300,9 +4386,7 @@ void OutdoorWorldRuntime::updateMapActors(float deltaSeconds, float partyX, floa
                                 combatTarget.deltaX,
                                 combatTarget.deltaY,
                                 combatTarget.horizontalDistanceToTarget,
-                                static_cast<float>(std::max(
-                                    1,
-                                    actor.moveSpeed > 0 ? static_cast<int>(actor.moveSpeed) : pStats->speed)),
+                                effectiveMoveSpeed,
                                 pursueMode,
                                 decisionSeed))
                         {
@@ -4731,7 +4815,7 @@ bool OutdoorWorldRuntime::castSpellFromMapActor(
     request.ability = ability;
     request.spellId = static_cast<uint32_t>(pSpellEntry->id);
     request.skillLevel = static_cast<uint32_t>(std::max(stats.level, 1));
-    request.skillMastery = pSpellEntry->id == static_cast<int>(MeteorShowerSpellId)
+    request.skillMastery = pSpellEntry->id == static_cast<int>(spellIdValue(SpellId::MeteorShower))
         ? static_cast<uint32_t>(SkillMastery::Master)
         : static_cast<uint32_t>(SkillMastery::None);
     request.sourceX = actor.preciseX;
@@ -4764,7 +4848,7 @@ bool OutdoorWorldRuntime::castSpell(const SpellCastRequest &request)
         return false;
     }
 
-    if (request.spellId == MeteorShowerSpellId)
+    if (isSpellId(request.spellId, SpellId::MeteorShower))
     {
         return castMeteorShower(request, definition);
     }
@@ -5448,18 +5532,7 @@ void OutdoorWorldRuntime::updateProjectiles(float deltaSeconds, float partyX, fl
 
                         if (projectile.useActorHitChance)
                         {
-                            int armorClass = 0;
-
-                            if (m_pMonsterTable != nullptr)
-                            {
-                                const MonsterTable::MonsterStatsEntry *pStats =
-                                    m_pMonsterTable->findStatsById(m_mapActors[bestActorIndex].monsterId);
-
-                                if (pStats != nullptr)
-                                {
-                                    armorClass = pStats->armorClass;
-                                }
-                            }
+                            const int armorClass = effectiveMapActorArmorClass(bestActorIndex);
 
                             std::mt19937 rng(
                                 static_cast<uint32_t>(projectile.projectileId)
@@ -6275,6 +6348,456 @@ bool OutdoorWorldRuntime::applyPartyAttackToMapActor(
 
     aggroNearbyMapActorFaction(actorIndex, partyX, partyY, partyZ);
     return true;
+}
+
+bool OutdoorWorldRuntime::applyPartySpellToMapActor(
+    size_t actorIndex,
+    uint32_t spellId,
+    uint32_t skillLevel,
+    SkillMastery skillMastery,
+    int damage,
+    float partyX,
+    float partyY,
+    float partyZ)
+{
+    if (actorIndex >= m_mapActors.size() || m_pSpellTable == nullptr)
+    {
+        return false;
+    }
+
+    MapActorState &actor = m_mapActors[actorIndex];
+
+    if (isActorUnavailableForCombat(actor))
+    {
+        return false;
+    }
+
+    const SpellEntry *pSpellEntry = m_pSpellTable->findById(static_cast<int>(spellId));
+
+    if (pSpellEntry == nullptr)
+    {
+        return false;
+    }
+
+    const MonsterTable::MonsterStatsEntry *pStats =
+        m_pMonsterTable != nullptr ? m_pMonsterTable->findStatsById(actor.monsterId) : nullptr;
+    const std::string &spellName = pSpellEntry->normalizedName;
+
+    if (spellName == "incinerate"
+        || spellName == "implosion"
+        || spellName == "deadly swarm"
+        || spellName == "blades"
+        || spellName == "mind blast"
+        || spellName == "psychic shock"
+        || spellName == "harm")
+    {
+        return applyPartyAttackToMapActor(actorIndex, std::max(1, damage), partyX, partyY, partyZ);
+    }
+
+    if (spellName == "mass distortion")
+    {
+        const int spellDamage = std::max(
+            1,
+            static_cast<int>(std::round(static_cast<float>(actor.currentHp) * (0.25f + 0.02f * skillLevel))));
+        return applyPartyAttackToMapActor(actorIndex, spellDamage, partyX, partyY, partyZ);
+    }
+
+    if (spellName == "destroy undead")
+    {
+        if (pStats == nullptr || !actorLooksUndead(*pStats))
+        {
+            return false;
+        }
+
+        return applyPartyAttackToMapActor(actorIndex, std::max(1, damage), partyX, partyY, partyZ);
+    }
+
+    if (spellName == "light bolt")
+    {
+        int spellDamage = std::max(1, damage);
+
+        if (pStats != nullptr && actorLooksUndead(*pStats))
+        {
+            spellDamage *= 2;
+        }
+
+        return applyPartyAttackToMapActor(actorIndex, spellDamage, partyX, partyY, partyZ);
+    }
+
+    if (spellName == "stun")
+    {
+        actor.stunRemainingSeconds = std::max(actor.stunRemainingSeconds, 0.5f + 0.35f * skillLevel);
+        actor.aiState = ActorAiState::Stunned;
+        actor.animation = ActorAnimation::GotHit;
+        actor.actionSeconds = std::max(actor.actionSeconds, actor.stunRemainingSeconds);
+        faceDirection(actor, partyX - actor.preciseX, partyY - actor.preciseY);
+        return true;
+    }
+
+    if (spellName == "slow")
+    {
+        actor.slowRemainingSeconds = std::max(
+            actor.slowRemainingSeconds,
+            skillMastery == SkillMastery::Grandmaster
+                ? minutesToSeconds(5.0f * skillLevel)
+                : skillMastery == SkillMastery::Master
+                ? minutesToSeconds(3.0f * skillLevel)
+                : skillMastery == SkillMastery::Expert
+                ? minutesToSeconds(5.0f * skillLevel)
+                : minutesToSeconds(1.0f * skillLevel));
+        actor.slowMoveMultiplier =
+            skillMastery == SkillMastery::Grandmaster
+                ? 0.125f
+                : skillMastery == SkillMastery::Master
+                ? 0.25f
+                : 0.5f;
+        actor.slowRecoveryMultiplier =
+            skillMastery == SkillMastery::Grandmaster
+                ? 8.0f
+                : skillMastery == SkillMastery::Master
+                ? 4.0f
+                : 2.0f;
+        return true;
+    }
+
+    if (spellName == "paralyze")
+    {
+        actor.paralyzeRemainingSeconds =
+            std::max(actor.paralyzeRemainingSeconds, minutesToSeconds(3.0f * skillLevel));
+        actor.aiState = ActorAiState::Stunned;
+        actor.animation = ActorAnimation::GotHit;
+        actor.actionSeconds = std::max(actor.actionSeconds, actor.paralyzeRemainingSeconds);
+        return true;
+    }
+
+    if (spellName == "turn undead")
+    {
+        if (pStats == nullptr || !actorLooksUndead(*pStats))
+        {
+            return false;
+        }
+
+        float durationSeconds = minutesToSeconds(3.0f + static_cast<float>(skillLevel));
+
+        if (skillMastery == SkillMastery::Expert)
+        {
+            durationSeconds = minutesToSeconds(3.0f + 3.0f * static_cast<float>(skillLevel));
+        }
+        else if (skillMastery == SkillMastery::Master)
+        {
+            durationSeconds = minutesToSeconds(3.0f + 5.0f * static_cast<float>(skillLevel));
+        }
+
+        actor.fearRemainingSeconds = std::max(actor.fearRemainingSeconds, durationSeconds);
+        actor.hostileToParty = false;
+        return true;
+    }
+
+    if (spellName == "mass fear")
+    {
+        actor.fearRemainingSeconds = std::max(
+            actor.fearRemainingSeconds,
+            skillMastery == SkillMastery::Grandmaster
+                ? minutesToSeconds(5.0f * skillLevel)
+                : minutesToSeconds(3.0f + 5.0f * static_cast<float>(skillLevel)));
+        actor.hostileToParty = false;
+        return true;
+    }
+
+    if (spellName == "charm" || spellName == "berserk" || spellName == "enslave" || spellName == "control undead")
+    {
+        if (spellName == "control undead" && (pStats == nullptr || !actorLooksUndead(*pStats)))
+        {
+            return false;
+        }
+
+        actor.controlRemainingSeconds = std::max(
+            actor.controlRemainingSeconds,
+            spellName == "charm"
+                ? (skillMastery == SkillMastery::Grandmaster
+                    ? hoursToSeconds(24.0f)
+                    : skillMastery == SkillMastery::Master
+                    ? minutesToSeconds(10.0f * skillLevel)
+                    : minutesToSeconds(5.0f * skillLevel))
+                : spellName == "berserk"
+                ? (skillMastery == SkillMastery::Grandmaster
+                    ? hoursToSeconds(1.0f * skillLevel)
+                    : skillMastery == SkillMastery::Master
+                    ? minutesToSeconds(10.0f * skillLevel)
+                    : minutesToSeconds(5.0f * skillLevel))
+                : spellName == "enslave"
+                ? minutesToSeconds(10.0f * skillLevel)
+                : (skillMastery == SkillMastery::Grandmaster
+                    ? hoursToSeconds(24.0f)
+                    : skillMastery == SkillMastery::Master
+                    ? minutesToSeconds(5.0f * skillLevel)
+                    : minutesToSeconds(3.0f * skillLevel)));
+        actor.controlMode =
+            spellName == "charm"
+                ? ActorControlMode::Charm
+                : spellName == "berserk"
+                ? ActorControlMode::Berserk
+                : spellName == "enslave"
+                ? ActorControlMode::Enslaved
+                : ActorControlMode::ControlUndead;
+        actor.hostileToParty = false;
+        actor.hasDetectedParty = false;
+        return true;
+    }
+
+    if (spellName == "shrinking ray")
+    {
+        actor.shrinkRemainingSeconds = std::max(
+            actor.shrinkRemainingSeconds,
+            minutesToSeconds(5.0f * std::max<uint32_t>(1, skillLevel)));
+        actor.shrinkDamageMultiplier =
+            skillMastery == SkillMastery::Grandmaster
+                ? 0.25f
+                : skillMastery == SkillMastery::Master
+                ? (1.0f / 3.0f)
+                : 0.5f;
+        actor.shrinkArmorClassMultiplier = actor.shrinkDamageMultiplier;
+        return true;
+    }
+
+    if (spellName == "dark grasp")
+    {
+        actor.darkGraspRemainingSeconds = std::max(
+            actor.darkGraspRemainingSeconds,
+            skillMastery == SkillMastery::Grandmaster
+                ? minutesToSeconds(10.0f * std::max<uint32_t>(1, skillLevel))
+                : minutesToSeconds(5.0f * std::max<uint32_t>(1, skillLevel)));
+        actor.slowRemainingSeconds = std::max(actor.slowRemainingSeconds, actor.darkGraspRemainingSeconds);
+        actor.slowMoveMultiplier = std::min(actor.slowMoveMultiplier, 0.5f);
+        actor.slowRecoveryMultiplier = std::max(actor.slowRecoveryMultiplier, 2.0f);
+        return true;
+    }
+
+    if (spellName == "reanimate")
+    {
+        if (!actor.isDead)
+        {
+            return false;
+        }
+
+        const int healthMultiplier =
+            skillMastery == SkillMastery::Grandmaster
+                ? 50
+                : skillMastery == SkillMastery::Master
+                ? 40
+                : skillMastery == SkillMastery::Expert
+                ? 30
+                : 20;
+        return resurrectMapActor(actorIndex, static_cast<int>(skillLevel) * healthMultiplier, true);
+    }
+
+    if (spellName == "dispel magic")
+    {
+        return clearMapActorSpellEffects(actorIndex);
+    }
+
+    return false;
+}
+
+bool OutdoorWorldRuntime::healMapActor(size_t actorIndex, int amount)
+{
+    if (actorIndex >= m_mapActors.size() || amount <= 0)
+    {
+        return false;
+    }
+
+    MapActorState &actor = m_mapActors[actorIndex];
+
+    if (actor.isDead)
+    {
+        return false;
+    }
+
+    const int previousHp = actor.currentHp;
+    actor.currentHp = std::clamp(actor.currentHp + amount, 0, std::max(1, actor.maxHp));
+    return actor.currentHp > previousHp;
+}
+
+bool OutdoorWorldRuntime::resurrectMapActor(size_t actorIndex, int health, bool friendlyToParty)
+{
+    if (actorIndex >= m_mapActors.size())
+    {
+        return false;
+    }
+
+    MapActorState &actor = m_mapActors[actorIndex];
+
+    if (!actor.isDead)
+    {
+        return false;
+    }
+
+    setMapActorDead(actorIndex, false, false);
+    actor.currentHp = std::clamp(health, 1, std::max(1, actor.maxHp));
+    actor.aiState = ActorAiState::Standing;
+    actor.animation = ActorAnimation::Standing;
+    actor.actionSeconds = 0.0f;
+    actor.attackCooldownSeconds = actor.recoverySeconds;
+    actor.controlMode = friendlyToParty ? ActorControlMode::Reanimated : ActorControlMode::None;
+    actor.controlRemainingSeconds = friendlyToParty ? hoursToSeconds(24.0f) : 0.0f;
+    actor.hostileToParty = !friendlyToParty
+        && m_pMonsterTable != nullptr
+        && m_pMonsterTable->isHostileToParty(actor.monsterId);
+    actor.hasDetectedParty = false;
+    return true;
+}
+
+bool OutdoorWorldRuntime::clearMapActorSpellEffects(size_t actorIndex)
+{
+    if (actorIndex >= m_mapActors.size())
+    {
+        return false;
+    }
+
+    MapActorState &actor = m_mapActors[actorIndex];
+    actor.slowRemainingSeconds = 0.0f;
+    actor.slowMoveMultiplier = 1.0f;
+    actor.slowRecoveryMultiplier = 1.0f;
+    actor.stunRemainingSeconds = 0.0f;
+    actor.paralyzeRemainingSeconds = 0.0f;
+    actor.fearRemainingSeconds = 0.0f;
+    actor.controlRemainingSeconds = 0.0f;
+    actor.controlMode = ActorControlMode::None;
+    actor.shrinkRemainingSeconds = 0.0f;
+    actor.shrinkDamageMultiplier = 1.0f;
+    actor.shrinkArmorClassMultiplier = 1.0f;
+    actor.darkGraspRemainingSeconds = 0.0f;
+    restoreActorHostilityAfterControlEffect(actor);
+    return true;
+}
+
+int OutdoorWorldRuntime::effectiveMapActorArmorClass(size_t actorIndex) const
+{
+    if (actorIndex >= m_mapActors.size())
+    {
+        return 0;
+    }
+
+    const MapActorState &actor = m_mapActors[actorIndex];
+    const MonsterTable::MonsterStatsEntry *pStats =
+        m_pMonsterTable != nullptr ? m_pMonsterTable->findStatsById(actor.monsterId) : nullptr;
+    return effectiveArmorClassForActor(actor, pStats);
+}
+
+std::vector<size_t> OutdoorWorldRuntime::collectMapActorIndicesWithinRadius(
+    float centerX,
+    float centerY,
+    float centerZ,
+    float radius,
+    bool requireLineOfSight,
+    float sourceX,
+    float sourceY,
+    float sourceZ) const
+{
+    std::vector<size_t> result;
+
+    if (radius <= 0.0f)
+    {
+        return result;
+    }
+
+    const bx::Vec3 source = {sourceX, sourceY, sourceZ};
+
+    for (size_t actorIndex = 0; actorIndex < m_mapActors.size(); ++actorIndex)
+    {
+        const MapActorState &actor = m_mapActors[actorIndex];
+
+        if (isActorUnavailableForCombat(actor))
+        {
+            continue;
+        }
+
+        const float targetZ = actor.preciseZ + std::max(24.0f, static_cast<float>(actor.height) * 0.7f);
+        const float deltaX = actor.preciseX - centerX;
+        const float deltaY = actor.preciseY - centerY;
+        const float deltaZ = targetZ - centerZ;
+        const float edgeDistance =
+            std::max(0.0f, length3d(deltaX, deltaY, deltaZ) - static_cast<float>(actor.radius));
+
+        if (edgeDistance > radius)
+        {
+            continue;
+        }
+
+        if (requireLineOfSight)
+        {
+            const bx::Vec3 target = {actor.preciseX, actor.preciseY, targetZ};
+
+            if (!hasClearOutdoorLineOfSight(source, target))
+            {
+                continue;
+            }
+        }
+
+        result.push_back(actorIndex);
+    }
+
+    return result;
+}
+
+void OutdoorWorldRuntime::updateActorSpellEffects(MapActorState &actor, float deltaSeconds)
+{
+    if (deltaSeconds <= 0.0f)
+    {
+        return;
+    }
+
+    actor.slowRemainingSeconds = std::max(0.0f, actor.slowRemainingSeconds - deltaSeconds);
+    actor.stunRemainingSeconds = std::max(0.0f, actor.stunRemainingSeconds - deltaSeconds);
+    actor.paralyzeRemainingSeconds = std::max(0.0f, actor.paralyzeRemainingSeconds - deltaSeconds);
+    actor.fearRemainingSeconds = std::max(0.0f, actor.fearRemainingSeconds - deltaSeconds);
+    actor.controlRemainingSeconds = std::max(0.0f, actor.controlRemainingSeconds - deltaSeconds);
+    actor.shrinkRemainingSeconds = std::max(0.0f, actor.shrinkRemainingSeconds - deltaSeconds);
+    actor.darkGraspRemainingSeconds = std::max(0.0f, actor.darkGraspRemainingSeconds - deltaSeconds);
+
+    if (actor.slowRemainingSeconds <= 0.0f)
+    {
+        actor.slowMoveMultiplier = 1.0f;
+        actor.slowRecoveryMultiplier = 1.0f;
+    }
+
+    if (actor.controlRemainingSeconds <= 0.0f && actor.controlMode != ActorControlMode::None)
+    {
+        actor.controlMode = ActorControlMode::None;
+        restoreActorHostilityAfterControlEffect(actor);
+    }
+
+    if (actor.shrinkRemainingSeconds <= 0.0f)
+    {
+        actor.shrinkDamageMultiplier = 1.0f;
+        actor.shrinkArmorClassMultiplier = 1.0f;
+    }
+}
+
+void OutdoorWorldRuntime::restoreActorHostilityAfterControlEffect(MapActorState &actor)
+{
+    actor.hostileToParty =
+        m_pMonsterTable != nullptr
+        && m_pMonsterTable->isHostileToParty(actor.monsterId);
+}
+
+int OutdoorWorldRuntime::effectiveArmorClassForActor(
+    const MapActorState &actor,
+    const MonsterTable::MonsterStatsEntry *pStats) const
+{
+    int armorClass = pStats != nullptr ? pStats->armorClass : 0;
+
+    if (actor.shrinkRemainingSeconds > 0.0f)
+    {
+        armorClass = static_cast<int>(std::floor(static_cast<float>(armorClass) * actor.shrinkArmorClassMultiplier));
+    }
+
+    if (actor.darkGraspRemainingSeconds > 0.0f)
+    {
+        armorClass /= 2;
+    }
+
+    return std::max(0, armorClass);
 }
 
 bool OutdoorWorldRuntime::notifyPartyContactWithMapActor(size_t actorIndex, float partyX, float partyY, float partyZ)
