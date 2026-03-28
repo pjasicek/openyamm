@@ -4,6 +4,8 @@
 #include "game/ClassSkillTable.h"
 #include "game/OutdoorMovementDriver.h"
 #include "game/PortraitEnums.h"
+#include "game/SoundIds.h"
+#include "game/SpeechIds.h"
 
 #include <array>
 #include <cstdint>
@@ -185,6 +187,20 @@ struct CharacterBuffState
 class Party
 {
 public:
+    struct PendingAudioRequest
+    {
+        enum class Kind : uint8_t
+        {
+            Sound,
+            Speech,
+        };
+
+        Kind kind = Kind::Sound;
+        SoundId soundId = SoundId::None;
+        SpeechId speechId = SpeechId::None;
+        size_t memberIndex = 0;
+    };
+
     static PartySeed createDefaultSeed();
 
     void setItemTable(const ItemTable *pItemTable);
@@ -301,6 +317,8 @@ public:
     uint32_t hardLandingSoundCount() const;
     float lastFallDamageDistance() const;
     const std::string &lastStatus() const;
+    const std::vector<PendingAudioRequest> &pendingAudioRequests() const;
+    void clearPendingAudioRequests();
 
 private:
     static constexpr size_t MaxMembers = 5;
@@ -309,6 +327,8 @@ private:
     uint8_t resolveInventoryHeight(uint32_t objectDescriptionId) const;
     void applyDefaultStartingSkills(Character &member) const;
     void rebuildMagicalBonusesFromBuffs();
+    void queueSound(SoundId soundId);
+    void queueSpeech(size_t memberIndex, SpeechId speechId);
 
     const ItemTable *m_pItemTable = nullptr;
     const ClassSkillTable *m_pClassSkillTable = nullptr;
@@ -327,5 +347,6 @@ private:
     uint32_t m_monsterTargetSelectionCounter = 0;
     float m_lastFallDamageDistance = 0.0f;
     std::string m_lastStatus;
+    std::vector<PendingAudioRequest> m_pendingAudioRequests;
 };
 }

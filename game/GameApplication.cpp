@@ -47,6 +47,11 @@ bool GameApplication::loadGameData(const Engine::AssetFileSystem &assetFileSyste
         return false;
     }
 
+    if (!m_gameAudioSystem.initialize(assetFileSystem, m_gameDataLoader.getCharacterDollTable()))
+    {
+        return false;
+    }
+
     const std::vector<MapStatsEntry> &entries = m_gameDataLoader.getMapStats().getEntries();
     const std::optional<MapAssetInfo> &selectedMap = m_gameDataLoader.getSelectedMap();
 
@@ -149,6 +154,7 @@ bool GameApplication::initializeRenderer()
             selectedMap->globalEvtProgram,
             selectedMap->localEventIrProgram,
             selectedMap->globalEventIrProgram,
+            &m_gameAudioSystem,
             m_pOutdoorPartyRuntime.get(),
             m_pOutdoorWorldRuntime.get()
         );
@@ -359,6 +365,17 @@ void GameApplication::renderFrame(int width, int height, float mouseWheelDelta, 
     if (selectedMap && selectedMap->outdoorMapData)
     {
         m_outdoorGameView.render(width, height, mouseWheelDelta, deltaSeconds);
+
+        if (m_pOutdoorPartyRuntime != nullptr)
+        {
+            const OutdoorMoveState &moveState = m_pOutdoorPartyRuntime->movementState();
+            m_gameAudioSystem.update(moveState.x, moveState.y, moveState.footZ + 96.0f);
+        }
+        else
+        {
+            m_gameAudioSystem.update(0.0f, 0.0f, 0.0f);
+        }
+
         processPendingOutdoorMapMove();
         renderMapPickerOverlay();
         return;
@@ -367,6 +384,7 @@ void GameApplication::renderFrame(int width, int height, float mouseWheelDelta, 
     if (selectedMap && selectedMap->indoorMapData)
     {
         m_indoorDebugRenderer.render(width, height, mouseWheelDelta, deltaSeconds);
+        m_gameAudioSystem.update(0.0f, 0.0f, 0.0f);
         renderMapPickerOverlay();
     }
 }

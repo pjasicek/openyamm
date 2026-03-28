@@ -60,6 +60,7 @@ add_custom_target(openyamm_ffmpeg_build
 
 add_executable(openyamm
     ActorNameResolver.cpp
+    GameAudioSystem.cpp
     ChestTable.cpp
     CharacterInspectTable.cpp
     CharacterDollTable.cpp
@@ -102,8 +103,10 @@ add_executable(openyamm
     PortraitEnums.cpp
     PortraitFrameTable.cpp
     RosterTable.cpp
+    SoundCatalog.cpp
     SpawnPreview.cpp
     SkillData.cpp
+    SpeechReactionTable.cpp
     SpellTable.cpp
     SpellFxTable.cpp
     SpriteTables.cpp

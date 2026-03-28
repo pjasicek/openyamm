@@ -1,5 +1,6 @@
 add_library(openyamm_engine
     BgfxContext.cpp
+    AudioSystem.cpp
     ApplicationConfig.cpp
     AssetFileSystem.cpp
     AssetPaths.cpp

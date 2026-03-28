@@ -17,6 +17,7 @@
 #include "game/EventRuntime.h"
 #include "game/FaceAnimationTable.h"
 #include "game/HouseVideoPlayer.h"
+#include "game/GameAudioSystem.h"
 #include "game/HouseTable.h"
 #include "game/IconFrameTable.h"
 #include "game/ItemEquipPosTable.h"
@@ -90,6 +91,7 @@ public:
         const std::optional<EvtProgram> &globalEvtProgram,
         const std::optional<EventIrProgram> &localEventIrProgram,
         const std::optional<EventIrProgram> &globalEventIrProgram,
+        GameAudioSystem *pGameAudioSystem,
         OutdoorPartyRuntime *pOutdoorPartyRuntime,
         OutdoorWorldRuntime *pOutdoorWorldRuntime
     );
@@ -801,6 +803,11 @@ private:
     void triggerPortraitSpellFx(const PartySpellCastResult &result);
     void triggerPortraitEventFx(const EventRuntimeState::PortraitFxRequest &request);
     void consumePendingPortraitEventFxRequests();
+    bool canPlaySpeechReaction(size_t memberIndex, SpeechId speechId, uint32_t nowTicks);
+    void playSpeechReaction(size_t memberIndex, SpeechId speechId, bool triggerFaceAnimation);
+    void consumePendingPartyAudioRequests();
+    void consumePendingWorldAudioEvents();
+    void updateFootstepAudio(float deltaSeconds);
     void renderPortraitFx(size_t memberIndex, float portraitX, float portraitY, float portraitWidth, float portraitHeight) const;
     bool tryBeginQuickSpellCast();
     bool tryCastSpellFromMember(size_t casterMemberIndex, uint32_t spellId, const std::string &spellName);
@@ -874,6 +881,7 @@ private:
     std::optional<EventIrProgram> m_globalEventIrProgram;
     const ObjectTable *m_pObjectTable;
     const SpellTable *m_pSpellTable;
+    GameAudioSystem *m_pGameAudioSystem;
     OutdoorWorldRuntime *m_pOutdoorWorldRuntime;
     bgfx::VertexBufferHandle m_vertexBufferHandle;
     bgfx::IndexBufferHandle m_indexBufferHandle;
@@ -926,6 +934,14 @@ private:
     float m_cameraOrthoScale;
     bool m_showFilledTerrain;
     std::vector<PortraitFxState> m_portraitSpellFxStates;
+    float m_lastFootstepX;
+    float m_lastFootstepY;
+    bool m_hasLastFootstepPosition;
+    float m_walkingMotionHoldSeconds = 0.0f;
+    std::optional<SoundId> m_activeWalkingSoundId;
+    std::vector<uint32_t> m_memberSpeechCooldownUntilTicks;
+    std::vector<uint32_t> m_memberCombatSpeechCooldownUntilTicks;
+    uint32_t m_activeHouseAudioHostId;
     bool m_showTerrainWireframe;
     bool m_showBModels;
     bool m_showBModelWireframe;

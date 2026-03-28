@@ -372,6 +372,10 @@ public:
         uint32_t soundId = 0;
         uint32_t sourceId = 0;
         std::string reason;
+        float x = 0.0f;
+        float y = 0.0f;
+        float z = 0.0f;
+        bool positional = true;
     };
 
     void initialize(
@@ -622,7 +626,14 @@ private:
     ChestViewState buildChestView(uint32_t chestId) const;
     void activateChestView(uint32_t chestId);
     CorpseViewState buildCorpseView(const std::string &title, const MonsterTable::LootPrototype &loot, uint32_t seed) const;
-    void pushAudioEvent(uint32_t soundId, uint32_t sourceId, const std::string &reason);
+    void pushAudioEvent(
+        uint32_t soundId,
+        uint32_t sourceId,
+        const std::string &reason,
+        float x,
+        float y,
+        float z,
+        bool positional = true);
     bool spawnProjectileFromMapActor(
         const MapActorState &actor,
         const MonsterTable::MonsterStatsEntry &stats,

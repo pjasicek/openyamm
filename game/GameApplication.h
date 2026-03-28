@@ -3,6 +3,7 @@
 #include "engine/ApplicationConfig.h"
 #include "engine/EngineApplication.h"
 #include "game/GameDataLoader.h"
+#include "game/GameAudioSystem.h"
 #include "game/IndoorDebugRenderer.h"
 #include "game/OutdoorGameView.h"
 #include "game/OutdoorPartyRuntime.h"
@@ -35,6 +36,7 @@ private:
 
     Engine::EngineApplication m_engineApplication;
     GameDataLoader m_gameDataLoader;
+    GameAudioSystem m_gameAudioSystem;
     IndoorDebugRenderer m_indoorDebugRenderer;
     OutdoorGameView m_outdoorGameView;
     std::unique_ptr<OutdoorPartyRuntime> m_pOutdoorPartyRuntime;

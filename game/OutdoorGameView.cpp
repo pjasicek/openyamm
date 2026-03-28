@@ -167,6 +167,11 @@ constexpr float HudFontIntegerSnapThreshold = 0.1f;
 constexpr float MaxUiViewportAspect = 4.0f / 3.0f;
 constexpr uint64_t PartyPortraitDoubleClickWindowMs = 500;
 constexpr uint64_t HoverInspectRefreshNanoseconds = 20 * 1000 * 1000;
+constexpr uint32_t SpeechReactionCooldownMs = 900;
+constexpr uint32_t CombatSpeechReactionCooldownMs = 2500;
+constexpr uint32_t KillSpeechChancePercent = 20;
+constexpr float WalkingSoundMovementSpeedThreshold = 20.0f;
+constexpr float WalkingMotionHoldSeconds = 0.125f;
 
 struct SpellbookSchoolUiDefinition
 {
@@ -3314,8 +3319,15 @@ OutdoorGameView::OutdoorGameView()
     , m_pCharacterDollTable(nullptr)
     , m_pObjectTable(nullptr)
     , m_pSpellTable(nullptr)
+    , m_pGameAudioSystem(nullptr)
     , m_nextPendingSpriteFrameWarmupIndex(0)
     , m_runtimeActorBillboardTexturesQueuedCount(0)
+    , m_lastFootstepX(0.0f)
+    , m_lastFootstepY(0.0f)
+    , m_hasLastFootstepPosition(false)
+    , m_walkingMotionHoldSeconds(0.0f)
+    , m_activeWalkingSoundId(std::nullopt)
+    , m_activeHouseAudioHostId(0)
 {
     m_eventDialogPartySelectLatches.fill(false);
 }
@@ -3357,6 +3369,7 @@ bool OutdoorGameView::initialize(
     const std::optional<EvtProgram> &globalEvtProgram,
     const std::optional<EventIrProgram> &localEventIrProgram,
     const std::optional<EventIrProgram> &globalEventIrProgram,
+    GameAudioSystem *pGameAudioSystem,
     OutdoorPartyRuntime *pOutdoorPartyRuntime,
     OutdoorWorldRuntime *pOutdoorWorldRuntime
 )
@@ -3382,6 +3395,7 @@ bool OutdoorGameView::initialize(
     m_pCharacterDollTable = &characterDollTable;
     m_pObjectTable = &objectTable;
     m_pSpellTable = &spellTable;
+    m_pGameAudioSystem = pGameAudioSystem;
     m_pItemTable = &itemTable;
     m_pItemEquipPosTable = &itemEquipPosTable;
     m_localStrTable = localStrTable;
@@ -3431,6 +3445,9 @@ bool OutdoorGameView::initialize(
     {
         m_pOutdoorPartyRuntime->initialize(m_cameraTargetX, m_cameraTargetY, initialFootZ);
         m_cameraTargetZ = m_pOutdoorPartyRuntime->movementState().footZ + m_cameraEyeHeight;
+        m_lastFootstepX = m_pOutdoorPartyRuntime->movementState().x;
+        m_lastFootstepY = m_pOutdoorPartyRuntime->movementState().y;
+        m_hasLastFootstepPosition = true;
     }
     else
     {
@@ -4346,14 +4363,11 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
 
                                 return bestActorIndex;
                             };
+                        const bool hasDirectActorHoverTarget = interactionInspectHit.kind == "actor";
                         std::optional<size_t> runtimeActorIndex =
-                            interactionInspectHit.kind == "actor"
+                            hasDirectActorHoverTarget
                                 ? resolveRuntimeActorIndexForInspectHit(interactionInspectHit)
                                 : std::nullopt;
-                        if (!runtimeActorIndex)
-                        {
-                            runtimeActorIndex = resolveFallbackRangedActorTarget();
-                        }
                         const OutdoorWorldRuntime::MapActorState *pTargetActor =
                             runtimeActorIndex ? m_pOutdoorWorldRuntime->mapActorState(*runtimeActorIndex) : nullptr;
 
@@ -4361,6 +4375,13 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
                         {
                             runtimeActorIndex.reset();
                             pTargetActor = nullptr;
+                        }
+
+                        if (!runtimeActorIndex)
+                        {
+                            runtimeActorIndex = resolveFallbackRangedActorTarget();
+                            pTargetActor =
+                                runtimeActorIndex ? m_pOutdoorWorldRuntime->mapActorState(*runtimeActorIndex) : nullptr;
                         }
                         float targetDistance = 0.0f;
                         int targetArmorClass = 0;
@@ -4455,6 +4476,8 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
                         bool actionPerformed = false;
                         bool attacked = false;
                         bool killed = false;
+                        const bool hadMeleeTarget =
+                            runtimeActorIndex.has_value() && pTargetActor != nullptr && targetInMeleeRange;
 
                         if (attack.mode == CharacterAttackMode::Melee)
                         {
@@ -4564,17 +4587,63 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
 
                         if (actionPerformed)
                         {
+                            if (m_pGameAudioSystem != nullptr)
+                            {
+                                if (attack.attackSoundHook == "bow_shot")
+                                {
+                                    m_pGameAudioSystem->playCommonSound(
+                                        SoundId::ShootBow,
+                                        GameAudioSystem::PlaybackGroup::World,
+                                        GameAudioSystem::WorldPosition{moveState.x, moveState.y, moveState.footZ + 96.0f});
+                                }
+                                else if (attack.attackSoundHook == "blaster_shot")
+                                {
+                                    m_pGameAudioSystem->playCommonSound(
+                                        SoundId::ShootBlaster,
+                                        GameAudioSystem::PlaybackGroup::World,
+                                        GameAudioSystem::WorldPosition{moveState.x, moveState.y, moveState.footZ + 96.0f});
+                                }
+                                else if (attack.attackSoundHook == "wand_cast" && attack.spellId > 0)
+                                {
+                                    // Spell casts route their own release/impact audio through the spell runtime.
+                                }
+                                else
+                                {
+                                    m_pGameAudioSystem->playCommonSound(
+                                        SoundId::SwingSword01,
+                                        GameAudioSystem::PlaybackGroup::World,
+                                        GameAudioSystem::WorldPosition{moveState.x, moveState.y, moveState.footZ + 96.0f});
+                                }
+                            }
+
                             party.applyRecoveryToActiveMember(attack.recoverySeconds);
 
                             if (attack.mode == CharacterAttackMode::Melee)
                             {
-                                triggerPortraitFaceAnimation(
-                                    party.activeMemberIndex(),
-                                    attacked && attack.hit ? FaceAnimationId::AttackHit : FaceAnimationId::AttackMiss);
+                                if (hadMeleeTarget)
+                                {
+                                    SpeechId speechId = attacked && attack.hit ? SpeechId::AttackHit : SpeechId::AttackMiss;
+
+                                    if (killed)
+                                    {
+                                        speechId = pTargetActor != nullptr && pTargetActor->maxHp >= 100
+                                            ? SpeechId::KillStrongEnemy
+                                            : SpeechId::KillWeakEnemy;
+                                    }
+
+                                    triggerPortraitFaceAnimation(
+                                        party.activeMemberIndex(),
+                                        attacked && attack.hit ? FaceAnimationId::AttackHit : FaceAnimationId::AttackMiss);
+                                    playSpeechReaction(
+                                        party.activeMemberIndex(),
+                                        speechId,
+                                        false);
+                                }
                             }
                             else
                             {
                                 triggerPortraitFaceAnimation(party.activeMemberIndex(), FaceAnimationId::Shoot);
+                                playSpeechReaction(party.activeMemberIndex(), SpeechId::Shoot, false);
                             }
 
                             party.switchToNextReadyMember();
@@ -5421,6 +5490,10 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
 
         hudStageNanoseconds += SDL_GetTicksNS() - stageStartTickCount;
     }
+
+    updateFootstepAudio(deltaSeconds);
+    consumePendingPartyAudioRequests();
+    consumePendingWorldAudioEvents();
 
     const uint64_t renderElapsedNanoseconds = SDL_GetTicksNS() - renderStartTickCount;
 
@@ -7266,6 +7339,7 @@ void OutdoorGameView::shutdown()
     m_pCharacterDollTable = nullptr;
     m_pObjectTable = nullptr;
     m_pSpellTable = nullptr;
+    m_pGameAudioSystem = nullptr;
     m_faceAnimationTable = {};
     m_iconFrameTable = {};
     m_portraitFrameTable = {};
@@ -7349,6 +7423,14 @@ void OutdoorGameView::shutdown()
     m_lastMouseY = 0.0f;
     m_pressedInspectHit = {};
     m_portraitSpellFxStates.clear();
+    m_lastFootstepX = 0.0f;
+    m_lastFootstepY = 0.0f;
+    m_hasLastFootstepPosition = false;
+    m_walkingMotionHoldSeconds = 0.0f;
+    m_activeWalkingSoundId = std::nullopt;
+    m_memberSpeechCooldownUntilTicks.clear();
+    m_memberCombatSpeechCooldownUntilTicks.clear();
+    m_activeHouseAudioHostId = 0;
 }
 
 void OutdoorGameView::updateHouseVideoPlayback(float deltaSeconds)
@@ -7365,8 +7447,24 @@ void OutdoorGameView::updateHouseVideoPlayback(float deltaSeconds)
         || pHostHouseEntry->videoName.empty()
         || m_pAssetFileSystem == nullptr)
     {
+        if (m_activeHouseAudioHostId != 0 && m_pGameAudioSystem != nullptr)
+        {
+            m_pGameAudioSystem->playCommonSound(SoundId::WoodDoorClosing, GameAudioSystem::PlaybackGroup::HouseDoor);
+        }
+
+        m_activeHouseAudioHostId = 0;
         m_houseVideoPlayer.stop();
         return;
+    }
+
+    if (m_activeHouseAudioHostId != pHostHouseEntry->id)
+    {
+        m_activeHouseAudioHostId = pHostHouseEntry->id;
+
+        if (m_pGameAudioSystem != nullptr)
+        {
+            m_pGameAudioSystem->playCommonSound(SoundId::Enter, GameAudioSystem::PlaybackGroup::HouseDoor);
+        }
     }
 
     m_houseVideoPlayer.play(*m_pAssetFileSystem, pHostHouseEntry->videoName);
@@ -7743,6 +7841,7 @@ void OutdoorGameView::openPendingEventDialog(size_t previousMessageCount, bool a
         return;
     }
 
+    const bool wasDialogAlreadyActive = m_activeEventDialog.isActive;
     const EventRuntimeState::PendingDialogueContext originalContext = *pEventRuntimeState->pendingDialogueContext;
 
     if (pEventRuntimeState->pendingDialogueContext->kind == DialogueContextKind::HouseService
@@ -7780,6 +7879,8 @@ void OutdoorGameView::openPendingEventDialog(size_t previousMessageCount, bool a
         }
     }
 
+    const EventRuntimeState::PendingDialogueContext resolvedContext = *pEventRuntimeState->pendingDialogueContext;
+
     m_activeEventDialog = buildEventDialogContent(
         *pEventRuntimeState,
         previousMessageCount,
@@ -7816,6 +7917,22 @@ void OutdoorGameView::openPendingEventDialog(size_t previousMessageCount, bool a
     std::cout << "Opened "
               << (m_activeEventDialog.isHouseDialog ? "house" : "npc")
               << " dialog for id=" << m_activeEventDialog.sourceId << '\n';
+
+    if (!wasDialogAlreadyActive
+        && (resolvedContext.kind == DialogueContextKind::NpcTalk
+            || resolvedContext.kind == DialogueContextKind::NpcNews)
+        && resolvedContext.sourceId != 0
+        && m_pOutdoorPartyRuntime != nullptr)
+    {
+        const size_t activeMemberIndex = m_pOutdoorPartyRuntime->party().activeMemberIndex();
+        const int currentHour =
+            m_pOutdoorWorldRuntime != nullptr ? m_pOutdoorWorldRuntime->currentHour() : -1;
+        const SpeechId greetingSpeechId =
+            currentHour >= 0 && (currentHour < 5 || currentHour > 21)
+            ? SpeechId::HelloEvening
+            : SpeechId::HelloDay;
+        playSpeechReaction(activeMemberIndex, greetingSpeechId, true);
+    }
 }
 
 void OutdoorGameView::closeActiveEventDialog()
@@ -8751,6 +8868,11 @@ void OutdoorGameView::openSpellbook()
     m_lastSpellbookSpellClickTicks = 0;
     m_lastSpellbookClickedSpellId = 0;
 
+    if (m_pGameAudioSystem != nullptr)
+    {
+        m_pGameAudioSystem->playCommonSound(SoundId::OpenBook, GameAudioSystem::PlaybackGroup::Ui);
+    }
+
     if (m_pOutdoorPartyRuntime == nullptr || m_pSpellTable == nullptr)
     {
         return;
@@ -8784,6 +8906,7 @@ void OutdoorGameView::openSpellbook()
 
 void OutdoorGameView::closeSpellbook(const std::string &statusText)
 {
+    const bool wasActive = m_spellbook.active;
     m_spellbook = {};
     m_spellInspectOverlay = {};
     m_spellbookToggleLatch = false;
@@ -8791,6 +8914,11 @@ void OutdoorGameView::closeSpellbook(const std::string &statusText)
     m_spellbookPressedTarget = {};
     m_lastSpellbookSpellClickTicks = 0;
     m_lastSpellbookClickedSpellId = 0;
+
+    if (wasActive && m_pGameAudioSystem != nullptr)
+    {
+        m_pGameAudioSystem->playCommonSound(SoundId::CloseBook, GameAudioSystem::PlaybackGroup::Ui);
+    }
 
     if (!statusText.empty())
     {
@@ -9236,6 +9364,386 @@ void OutdoorGameView::triggerPortraitEventFx(const EventRuntimeState::PortraitFx
     {
         triggerPortraitFaceAnimation(memberIndex, *pEntry->faceAnimationId);
     }
+
+    if (m_pGameAudioSystem == nullptr || request.memberIndices.empty())
+    {
+        return;
+    }
+
+    switch (request.kind)
+    {
+        case PortraitFxEventKind::AwardGain:
+            m_pGameAudioSystem->playCommonSound(SoundId::Chimes, GameAudioSystem::PlaybackGroup::Ui);
+            playSpeechReaction(request.memberIndices.front(), SpeechId::AwardGot, false);
+            break;
+
+        case PortraitFxEventKind::QuestComplete:
+            m_pGameAudioSystem->playCommonSound(SoundId::Quest, GameAudioSystem::PlaybackGroup::Ui);
+            playSpeechReaction(request.memberIndices.front(), SpeechId::QuestGot, false);
+            break;
+
+        case PortraitFxEventKind::StatDecrease:
+            playSpeechReaction(request.memberIndices.front(), SpeechId::Indignant, false);
+            break;
+
+        case PortraitFxEventKind::Disease:
+            playSpeechReaction(request.memberIndices.front(), SpeechId::Poisoned, false);
+            break;
+
+        case PortraitFxEventKind::None:
+            break;
+    }
+}
+
+void OutdoorGameView::playSpeechReaction(size_t memberIndex, SpeechId speechId, bool triggerFaceAnimation)
+{
+    if (m_pGameAudioSystem == nullptr || m_pOutdoorPartyRuntime == nullptr)
+    {
+        return;
+    }
+
+    const Character *pMember = m_pOutdoorPartyRuntime->party().member(memberIndex);
+
+    if (pMember == nullptr)
+    {
+        return;
+    }
+
+    const uint32_t nowTicks = currentAnimationTicks();
+
+    if (!canPlaySpeechReaction(memberIndex, speechId, nowTicks))
+    {
+        return;
+    }
+
+    if (!m_pGameAudioSystem->playSpeech(
+            *pMember,
+            speechId,
+            nowTicks ^ static_cast<uint32_t>(memberIndex),
+            static_cast<uint32_t>(memberIndex + 1)))
+    {
+        return;
+    }
+
+    if (memberIndex >= m_memberSpeechCooldownUntilTicks.size())
+    {
+        m_memberSpeechCooldownUntilTicks.resize(memberIndex + 1, 0);
+        m_memberCombatSpeechCooldownUntilTicks.resize(memberIndex + 1, 0);
+    }
+
+    m_memberSpeechCooldownUntilTicks[memberIndex] = nowTicks + SpeechReactionCooldownMs;
+
+    switch (speechId)
+    {
+        case SpeechId::DamageMinor:
+        case SpeechId::DamageMajor:
+        case SpeechId::AttackHit:
+        case SpeechId::AttackMiss:
+        case SpeechId::Shoot:
+        case SpeechId::CastSpell:
+        case SpeechId::DamagedParty:
+        case SpeechId::KillWeakEnemy:
+        case SpeechId::KillStrongEnemy:
+            m_memberCombatSpeechCooldownUntilTicks[memberIndex] = nowTicks + CombatSpeechReactionCooldownMs;
+            break;
+
+        default:
+            break;
+    }
+
+    if (!triggerFaceAnimation)
+    {
+        return;
+    }
+
+    const SpeechReactionEntry *pReaction = m_pGameAudioSystem->findSpeechReaction(speechId);
+
+    if (pReaction != nullptr && pReaction->faceAnimationId)
+    {
+        triggerPortraitFaceAnimation(memberIndex, *pReaction->faceAnimationId);
+    }
+}
+
+bool OutdoorGameView::canPlaySpeechReaction(size_t memberIndex, SpeechId speechId, uint32_t nowTicks)
+{
+    if (memberIndex >= m_memberSpeechCooldownUntilTicks.size())
+    {
+        return true;
+    }
+
+    if (nowTicks < m_memberSpeechCooldownUntilTicks[memberIndex])
+    {
+        return false;
+    }
+
+    switch (speechId)
+    {
+        case SpeechId::KillWeakEnemy:
+        case SpeechId::KillStrongEnemy:
+            return true;
+
+        case SpeechId::DamageMinor:
+        case SpeechId::DamageMajor:
+        case SpeechId::AttackHit:
+        case SpeechId::AttackMiss:
+        case SpeechId::Shoot:
+        case SpeechId::CastSpell:
+        case SpeechId::DamagedParty:
+            return nowTicks >= m_memberCombatSpeechCooldownUntilTicks[memberIndex];
+
+        default:
+            return true;
+    }
+}
+
+void OutdoorGameView::consumePendingPartyAudioRequests()
+{
+    if (m_pGameAudioSystem == nullptr || m_pOutdoorPartyRuntime == nullptr)
+    {
+        return;
+    }
+
+    Party &party = m_pOutdoorPartyRuntime->party();
+    const std::vector<Party::PendingAudioRequest> requests = party.pendingAudioRequests();
+
+    if (requests.empty())
+    {
+        return;
+    }
+
+    std::optional<GameAudioSystem::WorldPosition> listenerPosition = std::nullopt;
+
+    if (m_pOutdoorPartyRuntime != nullptr)
+    {
+        const OutdoorMoveState &moveState = m_pOutdoorPartyRuntime->movementState();
+        listenerPosition = GameAudioSystem::WorldPosition{
+            moveState.x,
+            moveState.y,
+            moveState.footZ + m_cameraEyeHeight
+        };
+    }
+
+    for (const Party::PendingAudioRequest &request : requests)
+    {
+        if (request.kind == Party::PendingAudioRequest::Kind::Speech)
+        {
+            playSpeechReaction(request.memberIndex, request.speechId, true);
+            continue;
+        }
+
+        GameAudioSystem::PlaybackGroup group = GameAudioSystem::PlaybackGroup::Ui;
+        std::optional<GameAudioSystem::WorldPosition> position = std::nullopt;
+
+        if (request.soundId == SoundId::Splash)
+        {
+            group = GameAudioSystem::PlaybackGroup::World;
+            position = listenerPosition;
+        }
+
+        m_pGameAudioSystem->playCommonSound(request.soundId, group, position);
+    }
+
+    party.clearPendingAudioRequests();
+}
+
+void OutdoorGameView::consumePendingWorldAudioEvents()
+{
+    if (m_pGameAudioSystem == nullptr || m_pOutdoorWorldRuntime == nullptr)
+    {
+        return;
+    }
+
+    const std::vector<OutdoorWorldRuntime::AudioEvent> &events = m_pOutdoorWorldRuntime->pendingAudioEvents();
+
+    if (events.empty())
+    {
+        return;
+    }
+
+    for (const OutdoorWorldRuntime::AudioEvent &event : events)
+    {
+        std::optional<GameAudioSystem::WorldPosition> position = std::nullopt;
+
+        if (event.positional)
+        {
+            position = GameAudioSystem::WorldPosition{event.x, event.y, event.z};
+        }
+
+        m_pGameAudioSystem->playSound(event.soundId, GameAudioSystem::PlaybackGroup::World, position);
+    }
+
+    m_pOutdoorWorldRuntime->clearPendingAudioEvents();
+}
+
+void OutdoorGameView::updateFootstepAudio(float deltaSeconds)
+{
+    if (deltaSeconds <= 0.0f || m_pGameAudioSystem == nullptr || m_pOutdoorPartyRuntime == nullptr || !m_outdoorMapData)
+    {
+        return;
+    }
+
+    if (currentHudScreenState() != HudScreenState::Gameplay)
+    {
+        m_pGameAudioSystem->stopGroup(GameAudioSystem::PlaybackGroup::Walking);
+        m_walkingMotionHoldSeconds = 0.0f;
+        m_activeWalkingSoundId = std::nullopt;
+        return;
+    }
+
+    const OutdoorMoveState &moveState = m_pOutdoorPartyRuntime->movementState();
+
+    if (!m_hasLastFootstepPosition)
+    {
+        m_lastFootstepX = moveState.x;
+        m_lastFootstepY = moveState.y;
+        m_hasLastFootstepPosition = true;
+        return;
+    }
+
+    const float deltaX = moveState.x - m_lastFootstepX;
+    const float deltaY = moveState.y - m_lastFootstepY;
+    m_lastFootstepX = moveState.x;
+    m_lastFootstepY = moveState.y;
+    const float movedDistance = std::sqrt(deltaX * deltaX + deltaY * deltaY);
+    const float movementSpeed = movedDistance / std::max(deltaSeconds, 0.0001f);
+
+    if (movementSpeed >= WalkingSoundMovementSpeedThreshold)
+    {
+        m_walkingMotionHoldSeconds = WalkingMotionHoldSeconds;
+    }
+    else
+    {
+        m_walkingMotionHoldSeconds = std::max(0.0f, m_walkingMotionHoldSeconds - deltaSeconds);
+    }
+
+    if (moveState.airborne || m_walkingMotionHoldSeconds <= 0.0f)
+    {
+        m_pGameAudioSystem->stopGroup(GameAudioSystem::PlaybackGroup::Walking);
+        m_activeWalkingSoundId = std::nullopt;
+        return;
+    }
+
+    const OutdoorPartyMovementState &partyMovementState = m_pOutdoorPartyRuntime->partyMovementState();
+    const bool running = partyMovementState.running;
+
+    const auto chooseBModelFootstepSound =
+        [this, running, &moveState]() -> SoundId
+        {
+            if (!m_outdoorMapData
+                || moveState.supportKind != OutdoorSupportKind::BModelFace
+                || moveState.supportBModelIndex >= m_outdoorMapData->bmodels.size())
+            {
+                return running ? SoundId::RunStone : SoundId::WalkStone;
+            }
+
+            const OutdoorBModel &bmodel = m_outdoorMapData->bmodels[moveState.supportBModelIndex];
+
+            if (moveState.supportFaceIndex >= bmodel.faces.size())
+            {
+                return running ? SoundId::RunStone : SoundId::WalkStone;
+            }
+
+            const std::string textureName = toLowerCopy(bmodel.faces[moveState.supportFaceIndex].textureName);
+
+            if (textureName.find("wood") != std::string::npos || textureName.find("plank") != std::string::npos)
+            {
+                return running ? SoundId::RunWood : SoundId::WalkWood;
+            }
+
+            if (textureName.find("carpet") != std::string::npos || textureName.find("rug") != std::string::npos)
+            {
+                return running ? SoundId::RunCarpet : SoundId::WalkCarpet;
+            }
+
+            if (textureName.find("road") != std::string::npos)
+            {
+                return running ? SoundId::RunRoad : SoundId::WalkRoad;
+            }
+
+            if (textureName.find("dirt") != std::string::npos || textureName.find("earth") != std::string::npos)
+            {
+                return running ? SoundId::RunDirt : SoundId::WalkDirt;
+            }
+
+            return running ? SoundId::RunStone : SoundId::WalkStone;
+        };
+
+    const auto chooseTerrainFootstepSound =
+        [this, running]() -> SoundId
+        {
+            if (!m_outdoorMapData)
+            {
+                return running ? SoundId::RunGround : SoundId::WalkGround;
+            }
+
+            const std::string tileset = toLowerCopy(m_outdoorMapData->groundTilesetName);
+
+            if (tileset.find("grass") != std::string::npos)
+            {
+                return running ? SoundId::RunGrass : SoundId::WalkGrass;
+            }
+
+            if (tileset.find("desert") != std::string::npos || tileset.find("sand") != std::string::npos)
+            {
+                return running ? SoundId::RunDesert : SoundId::WalkDesert;
+            }
+
+            if (tileset.find("snow") != std::string::npos || tileset.find("ice") != std::string::npos)
+            {
+                return running ? SoundId::RunSnow : SoundId::WalkSnow;
+            }
+
+            if (tileset.find("swamp") != std::string::npos)
+            {
+                return running ? SoundId::RunSwamp : SoundId::WalkSwamp;
+            }
+
+            if (tileset.find("badland") != std::string::npos)
+            {
+                return running ? SoundId::RunBadlands : SoundId::WalkBadlands;
+            }
+
+            if (tileset.find("road") != std::string::npos)
+            {
+                return running ? SoundId::RunRoad : SoundId::WalkRoad;
+            }
+
+            return running ? SoundId::RunGround : SoundId::WalkGround;
+        };
+
+    SoundId soundId = SoundId::None;
+
+    if (moveState.supportOnWater)
+    {
+        soundId = running ? SoundId::RunWater : SoundId::WalkWater;
+    }
+    else if (moveState.supportKind == OutdoorSupportKind::BModelFace)
+    {
+        soundId = chooseBModelFootstepSound();
+    }
+    else
+    {
+        soundId = chooseTerrainFootstepSound();
+    }
+
+    if (soundId == SoundId::None)
+    {
+        m_pGameAudioSystem->stopGroup(GameAudioSystem::PlaybackGroup::Walking);
+        m_activeWalkingSoundId = std::nullopt;
+        return;
+    }
+
+    if (m_activeWalkingSoundId && *m_activeWalkingSoundId == soundId)
+    {
+        return;
+    }
+
+    if (m_pGameAudioSystem->playLoopingSound(
+            static_cast<uint32_t>(soundId),
+            GameAudioSystem::PlaybackGroup::Walking))
+    {
+        m_activeWalkingSoundId = soundId;
+    }
 }
 
 void OutdoorGameView::consumePendingPortraitEventFxRequests()
@@ -9366,7 +9874,29 @@ bool OutdoorGameView::tryCastSpellRequest(const PartySpellCastRequest &request, 
     if (result.succeeded())
     {
         triggerPortraitFaceAnimation(request.casterMemberIndex, FaceAnimationId::CastSpell);
+        playSpeechReaction(request.casterMemberIndex, SpeechId::CastSpell, false);
         triggerPortraitSpellFx(result);
+
+        if (m_pGameAudioSystem != nullptr)
+        {
+            const SpellEntry *pSpellEntry = m_pSpellTable->findById(static_cast<int>(request.spellId));
+
+            if (result.effectKind == PartySpellCastEffectKind::CharacterRestore
+                || result.effectKind == PartySpellCastEffectKind::PartyRestore)
+            {
+                m_pGameAudioSystem->playCommonSound(SoundId::Heal, GameAudioSystem::PlaybackGroup::Ui);
+            }
+            else if (pSpellEntry != nullptr
+                && pSpellEntry->effectSoundId > 0
+                && result.effectKind != PartySpellCastEffectKind::Projectile
+                && result.effectKind != PartySpellCastEffectKind::MultiProjectile)
+            {
+                m_pGameAudioSystem->playSound(
+                    static_cast<uint32_t>(pSpellEntry->effectSoundId),
+                    GameAudioSystem::PlaybackGroup::Ui);
+            }
+        }
+
         clearPendingSpellCast("Cast " + spellName);
         return true;
     }
@@ -9392,6 +9922,10 @@ bool OutdoorGameView::tryCastSpellRequest(const PartySpellCastRequest &request, 
     }
 
     triggerPortraitFaceAnimation(request.casterMemberIndex, FaceAnimationId::SpellFailed);
+    if (m_pGameAudioSystem != nullptr)
+    {
+        m_pGameAudioSystem->playCommonSound(SoundId::SpellFail, GameAudioSystem::PlaybackGroup::Ui);
+    }
     setStatusBarEvent(result.statusText.empty() ? "Spell failed" : result.statusText);
     return false;
 }
@@ -9557,6 +10091,10 @@ bool OutdoorGameView::tryResolvePendingSpellCast(
         else
         {
             triggerPortraitFaceAnimation(request.casterMemberIndex, FaceAnimationId::SpellFailed);
+            if (m_pGameAudioSystem != nullptr)
+            {
+                m_pGameAudioSystem->playCommonSound(SoundId::SpellFail, GameAudioSystem::PlaybackGroup::Ui);
+            }
             setStatusBarEvent(result.statusText.empty() ? "Spell failed" : result.statusText);
         }
 
@@ -9564,7 +10102,29 @@ bool OutdoorGameView::tryResolvePendingSpellCast(
     }
 
     triggerPortraitFaceAnimation(request.casterMemberIndex, FaceAnimationId::CastSpell);
+    playSpeechReaction(request.casterMemberIndex, SpeechId::CastSpell, false);
     triggerPortraitSpellFx(result);
+
+    if (m_pGameAudioSystem != nullptr)
+    {
+        const SpellEntry *pSpellEntry = m_pSpellTable->findById(static_cast<int>(request.spellId));
+
+        if (result.effectKind == PartySpellCastEffectKind::CharacterRestore
+            || result.effectKind == PartySpellCastEffectKind::PartyRestore)
+        {
+            m_pGameAudioSystem->playCommonSound(SoundId::Heal, GameAudioSystem::PlaybackGroup::Ui);
+        }
+        else if (pSpellEntry != nullptr
+            && pSpellEntry->effectSoundId > 0
+            && result.effectKind != PartySpellCastEffectKind::Projectile
+            && result.effectKind != PartySpellCastEffectKind::MultiProjectile)
+        {
+            m_pGameAudioSystem->playSound(
+                static_cast<uint32_t>(pSpellEntry->effectSoundId),
+                GameAudioSystem::PlaybackGroup::Ui);
+        }
+    }
+
     clearPendingSpellCast("Cast " + m_pendingSpellCast.spellName);
     return true;
 }
@@ -21435,6 +21995,7 @@ void OutdoorGameView::applyPendingCombatEvents()
         if (event.type == OutdoorWorldRuntime::CombatEvent::Type::PartyProjectileActorImpact)
         {
             const Character *pSourceMember = m_pOutdoorPartyRuntime->party().member(event.sourcePartyMemberIndex);
+            const OutdoorWorldRuntime::MapActorState *pTargetActor = nullptr;
             std::string sourceName = pSourceMember != nullptr && !pSourceMember->name.empty()
                 ? pSourceMember->name
                 : "party";
@@ -21446,6 +22007,7 @@ void OutdoorGameView::applyPendingCombatEvents()
 
                 if (pActor != nullptr && pActor->actorId == event.targetActorId)
                 {
+                    pTargetActor = pActor;
                     targetName = pActor->displayName;
                     break;
                 }
@@ -21454,17 +22016,29 @@ void OutdoorGameView::applyPendingCombatEvents()
             if (!event.hit)
             {
                 triggerPortraitFaceAnimation(event.sourcePartyMemberIndex, FaceAnimationId::AttackMiss);
+                playSpeechReaction(event.sourcePartyMemberIndex, SpeechId::AttackMiss, false);
                 setStatusBarEvent(sourceName + " misses " + targetName);
             }
             else if (event.killed)
             {
                 triggerPortraitFaceAnimation(event.sourcePartyMemberIndex, FaceAnimationId::AttackHit);
+                SpeechId speechId = SpeechId::AttackHit;
+
+                if ((currentAnimationTicks() + event.targetActorId) % 100u < KillSpeechChancePercent)
+                {
+                    speechId = pTargetActor != nullptr && pTargetActor->maxHp >= 100
+                        ? SpeechId::KillStrongEnemy
+                        : SpeechId::KillWeakEnemy;
+                }
+
+                playSpeechReaction(event.sourcePartyMemberIndex, speechId, false);
                 setStatusBarEvent(
                     sourceName + " inflicts " + std::to_string(event.damage) + " points killing " + targetName);
             }
             else
             {
                 triggerPortraitFaceAnimation(event.sourcePartyMemberIndex, FaceAnimationId::AttackHit);
+                playSpeechReaction(event.sourcePartyMemberIndex, SpeechId::AttackHit, false);
                 setStatusBarEvent(
                     sourceName + " shoots " + targetName + " for " + std::to_string(event.damage) + " points");
             }
@@ -22362,6 +22936,13 @@ void OutdoorGameView::updateCameraFromInput(float deltaSeconds)
 
                     if (pDefinition != nullptr)
                     {
+                        if (m_pGameAudioSystem != nullptr && m_spellbook.school != target.school)
+                        {
+                            m_pGameAudioSystem->playCommonSound(
+                                SoundId::TurnPageDown,
+                                GameAudioSystem::PlaybackGroup::Ui);
+                        }
+
                         m_spellbook.school = target.school;
                         m_spellbook.selectedSpellId = 0;
                     }
@@ -22380,6 +22961,11 @@ void OutdoorGameView::updateCameraFromInput(float deltaSeconds)
                     m_spellbook.selectedSpellId = target.spellId;
                     m_lastSpellbookSpellClickTicks = nowTicks;
                     m_lastSpellbookClickedSpellId = target.spellId;
+
+                    if (m_pGameAudioSystem != nullptr)
+                    {
+                        m_pGameAudioSystem->playCommonSound(SoundId::ClickIn, GameAudioSystem::PlaybackGroup::Ui);
+                    }
 
                     if (isDoubleClick)
                     {
@@ -22423,6 +23009,11 @@ void OutdoorGameView::updateCameraFromInput(float deltaSeconds)
                     }
 
                     pActiveMember->quickSpellName = pSpellEntry->name;
+                    if (m_pGameAudioSystem != nullptr)
+                    {
+                        m_pGameAudioSystem->playCommonSound(SoundId::ClickSkill, GameAudioSystem::PlaybackGroup::Ui);
+                    }
+                    playSpeechReaction(m_pOutdoorPartyRuntime->party().activeMemberIndex(), SpeechId::SetQuickSpell, true);
                     setStatusBarEvent("Quick spell set to " + pSpellEntry->name);
                 }
             });
@@ -23018,7 +23609,17 @@ void OutdoorGameView::updateCameraFromInput(float deltaSeconds)
 
                 if (target.type == CharacterPointerTargetType::PageButton)
                 {
-                    m_characterPage = target.page;
+                    if (m_characterPage != target.page)
+                    {
+                        m_characterPage = target.page;
+
+                        if (m_pGameAudioSystem != nullptr)
+                        {
+                            m_pGameAudioSystem->playCommonSound(
+                                SoundId::ClickIn,
+                                GameAudioSystem::PlaybackGroup::Ui);
+                        }
+                    }
                 }
                 else if (target.type == CharacterPointerTargetType::ExitButton)
                 {
@@ -23032,7 +23633,20 @@ void OutdoorGameView::updateCameraFromInput(float deltaSeconds)
                 else if (target.type == CharacterPointerTargetType::SkillRow
                          && m_pOutdoorPartyRuntime != nullptr)
                 {
-                    m_pOutdoorPartyRuntime->party().increaseActiveMemberSkillLevel(target.skillName);
+                    if (m_pOutdoorPartyRuntime->party().increaseActiveMemberSkillLevel(target.skillName))
+                    {
+                        if (m_pGameAudioSystem != nullptr)
+                        {
+                            m_pGameAudioSystem->playCommonSound(
+                                SoundId::Quest,
+                                GameAudioSystem::PlaybackGroup::Ui);
+                        }
+
+                        playSpeechReaction(
+                            m_pOutdoorPartyRuntime->party().activeMemberIndex(),
+                            SpeechId::SkillIncreased,
+                            true);
+                    }
                 }
                 else if (target.type == CharacterPointerTargetType::InventoryItem
                          && m_pOutdoorPartyRuntime != nullptr)

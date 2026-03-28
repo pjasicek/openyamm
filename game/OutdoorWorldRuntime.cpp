@@ -88,6 +88,16 @@ constexpr float WorldItemGroundDamping = 0.89263916f;
 constexpr float WorldItemRestingHorizontalSpeedSquared = 400.0f;
 constexpr float WorldItemBounceStopVelocity = 10.0f;
 
+std::optional<uint32_t> resolveSpellImpactSoundId(const OutdoorWorldRuntime::ProjectileState &projectile)
+{
+    if (projectile.spellId <= 0 || projectile.effectSoundId <= 0)
+    {
+        return std::nullopt;
+    }
+
+    return static_cast<uint32_t>(projectile.effectSoundId + 1);
+}
+
 bool readInt32FromBytes(const std::vector<uint8_t> &bytes, size_t offset, int32_t &value)
 {
     if (offset + sizeof(value) > bytes.size())
@@ -2935,7 +2945,14 @@ OutdoorWorldRuntime::CorpseViewState OutdoorWorldRuntime::buildCorpseView(
     return view;
 }
 
-void OutdoorWorldRuntime::pushAudioEvent(uint32_t soundId, uint32_t sourceId, const std::string &reason)
+void OutdoorWorldRuntime::pushAudioEvent(
+    uint32_t soundId,
+    uint32_t sourceId,
+    const std::string &reason,
+    float x,
+    float y,
+    float z,
+    bool positional)
 {
     if (soundId == 0)
     {
@@ -2946,6 +2963,10 @@ void OutdoorWorldRuntime::pushAudioEvent(uint32_t soundId, uint32_t sourceId, co
     event.soundId = soundId;
     event.sourceId = sourceId;
     event.reason = reason;
+    event.x = x;
+    event.y = y;
+    event.z = z;
+    event.positional = positional;
     m_pendingAudioEvents.push_back(std::move(event));
 }
 
@@ -3958,6 +3979,7 @@ void OutdoorWorldRuntime::updateMapActors(float deltaSeconds, float partyX, floa
                 if (actor.aiState == ActorAiState::Dying)
                 {
                     actor.animation = ActorAnimation::Dying;
+                    actor.animationTimeTicks += ActorUpdateStepSeconds * TicksPerSecond;
                     actor.actionSeconds = std::max(0.0f, actor.actionSeconds - ActorUpdateStepSeconds);
 
                     if (actor.actionSeconds <= 0.0f)
@@ -4130,7 +4152,13 @@ void OutdoorWorldRuntime::updateMapActors(float deltaSeconds, float partyX, floa
             if (targetIsParty && !actor.hasDetectedParty)
             {
                 actor.hasDetectedParty = true;
-                pushAudioEvent(pStats->awareSoundId, actor.actorId, "monster_alert");
+                pushAudioEvent(
+                    pStats->awareSoundId,
+                    actor.actorId,
+                    "monster_alert",
+                    actor.preciseX,
+                    actor.preciseY,
+                    actor.preciseZ + static_cast<float>(actor.height) * 0.5f);
             }
             else if (!targetIsParty || !canSenseParty)
             {
@@ -4304,7 +4332,13 @@ void OutdoorWorldRuntime::updateMapActors(float deltaSeconds, float partyX, floa
                     actor.actionSeconds = attackActionDurationSeconds(attackAnimationSeconds);
                     actor.attackImpactTriggered = false;
                     actor.animationTimeTicks = 0.0f;
-                    pushAudioEvent(pStats->attackSoundId, actor.actorId, "monster_attack");
+                    pushAudioEvent(
+                        pStats->attackSoundId,
+                        actor.actorId,
+                        "monster_attack",
+                        actor.preciseX,
+                        actor.preciseY,
+                        actor.preciseZ + static_cast<float>(actor.height) * 0.5f);
                 }
                 else if (chosenAbilityIsRanged)
                 {
@@ -4381,7 +4415,13 @@ void OutdoorWorldRuntime::updateMapActors(float deltaSeconds, float partyX, floa
                         actor.actionSeconds = attackActionDurationSeconds(attackAnimationSeconds);
                         actor.attackImpactTriggered = false;
                         actor.animationTimeTicks = 0.0f;
-                        pushAudioEvent(pStats->attackSoundId, actor.actorId, "monster_attack");
+                        pushAudioEvent(
+                            pStats->attackSoundId,
+                            actor.actorId,
+                            "monster_attack",
+                            actor.preciseX,
+                            actor.preciseY,
+                            actor.preciseZ + static_cast<float>(actor.height) * 0.5f);
                     }
                     else
                     {
@@ -4786,7 +4826,13 @@ bool OutdoorWorldRuntime::spawnProjectileFromMapActor(
 
     if (definition.effectSoundId > 0)
     {
-        pushAudioEvent(static_cast<uint32_t>(definition.effectSoundId), actor.actorId, "monster_spell_release");
+        pushAudioEvent(
+            static_cast<uint32_t>(definition.effectSoundId),
+            actor.actorId,
+            "monster_spell_release",
+            sourceX,
+            sourceY,
+            sourceZ);
     }
 
     return true;
@@ -5099,7 +5145,13 @@ bool OutdoorWorldRuntime::spawnSpellProjectile(
             reason = "party_spell_release";
         }
 
-        pushAudioEvent(static_cast<uint32_t>(definition.effectSoundId), request.sourceId, reason);
+        pushAudioEvent(
+            static_cast<uint32_t>(definition.effectSoundId),
+            request.sourceId,
+            reason,
+            sourceX,
+            sourceY,
+            sourceZ);
     }
 
     return true;
@@ -5112,6 +5164,22 @@ void OutdoorWorldRuntime::spawnProjectileImpact(
     float z,
     bool centerVertically)
 {
+    if (const std::optional<uint32_t> impactSoundId = resolveSpellImpactSoundId(projectile))
+    {
+        std::string reason = "monster_spell_impact";
+
+        if (projectile.sourceKind == ProjectileState::SourceKind::Event)
+        {
+            reason = "event_spell_impact";
+        }
+        else if (projectile.sourceKind == ProjectileState::SourceKind::Party)
+        {
+            reason = "party_spell_impact";
+        }
+
+        pushAudioEvent(*impactSoundId, projectile.sourceId, reason, x, y, z);
+    }
+
     if (projectile.impactObjectDescriptionId == 0 || m_pObjectTable == nullptr)
     {
         return;
@@ -6117,7 +6185,13 @@ bool OutdoorWorldRuntime::setMapActorDead(size_t actorIndex, bool isDead, bool e
 
             if (emitAudio)
             {
-                pushAudioEvent(pStats->deathSoundId, actor.actorId, "monster_death");
+                pushAudioEvent(
+                    pStats->deathSoundId,
+                    actor.actorId,
+                    "monster_death",
+                    actor.preciseX,
+                    actor.preciseY,
+                    actor.preciseZ + static_cast<float>(actor.height) * 0.5f);
             }
         }
     }
@@ -6170,7 +6244,13 @@ bool OutdoorWorldRuntime::applyMonsterAttackToMapActor(size_t actorIndex, int da
         {
             if (const MonsterTable::MonsterStatsEntry *pStats = m_pMonsterTable->findStatsById(actor.monsterId))
             {
-                pushAudioEvent(pStats->deathSoundId, actor.actorId, "monster_death");
+                pushAudioEvent(
+                    pStats->deathSoundId,
+                    actor.actorId,
+                    "monster_death",
+                    actor.preciseX,
+                    actor.preciseY,
+                    actor.preciseZ + static_cast<float>(actor.height) * 0.5f);
             }
         }
 
@@ -6186,7 +6266,13 @@ bool OutdoorWorldRuntime::applyMonsterAttackToMapActor(size_t actorIndex, int da
     {
         if (const MonsterTable::MonsterStatsEntry *pStats = m_pMonsterTable->findStatsById(actor.monsterId))
         {
-            pushAudioEvent(pStats->winceSoundId, actor.actorId, "monster_hit");
+            pushAudioEvent(
+                pStats->winceSoundId,
+                actor.actorId,
+                "monster_hit",
+                actor.preciseX,
+                actor.preciseY,
+                actor.preciseZ + static_cast<float>(actor.height) * 0.5f);
         }
     }
 
@@ -6426,7 +6512,13 @@ bool OutdoorWorldRuntime::applyPartyAttackToMapActor(
         {
             if (const MonsterTable::MonsterStatsEntry *pStats = m_pMonsterTable->findStatsById(actor.monsterId))
             {
-                pushAudioEvent(pStats->deathSoundId, actor.actorId, "monster_death");
+                pushAudioEvent(
+                    pStats->deathSoundId,
+                    actor.actorId,
+                    "monster_death",
+                    actor.preciseX,
+                    actor.preciseY,
+                    actor.preciseZ + static_cast<float>(actor.height) * 0.5f);
             }
         }
     }
@@ -6442,7 +6534,13 @@ bool OutdoorWorldRuntime::applyPartyAttackToMapActor(
         {
             if (const MonsterTable::MonsterStatsEntry *pStats = m_pMonsterTable->findStatsById(actor.monsterId))
             {
-                pushAudioEvent(pStats->winceSoundId, actor.actorId, "monster_hit");
+                pushAudioEvent(
+                    pStats->winceSoundId,
+                    actor.actorId,
+                    "monster_hit",
+                    actor.preciseX,
+                    actor.preciseY,
+                    actor.preciseZ + static_cast<float>(actor.height) * 0.5f);
             }
         }
     }

@@ -921,6 +921,7 @@ void Party::seed(const PartySeed &seed)
     m_hardLandingSoundCount = 0;
     m_lastFallDamageDistance = 0.0f;
     m_lastStatus.clear();
+    m_pendingAudioRequests.clear();
     rebuildMagicalBonusesFromBuffs();
 }
 
@@ -968,6 +969,7 @@ void Party::applyMovementEffects(const OutdoorMovementEffects &effects)
     {
         m_splashCount += 1;
         m_lastStatus = "splash";
+        queueSound(SoundId::Splash);
     }
 
     if (effects.playLandingSound)
@@ -1062,6 +1064,13 @@ bool Party::applyDamageToMember(size_t memberIndex, int damage, const std::strin
     const bool preservationActive =
         m_characterBuffs[memberIndex][static_cast<size_t>(CharacterBuffId::Preservation)].active();
     updateMemberIncapacitatedCondition(member, preservationActive);
+
+    const float healthFraction = member.maxHealth > 0
+        ? static_cast<float>(member.health) / static_cast<float>(member.maxHealth)
+        : 0.0f;
+    queueSpeech(
+        memberIndex,
+        healthFraction <= 0.25f || member.health <= 0 ? SpeechId::DamageMajor : SpeechId::DamageMinor);
 
     if (!status.empty())
     {
@@ -1168,12 +1177,23 @@ std::optional<size_t> Party::chooseMonsterAttackTarget(uint32_t attackPreference
 
 void Party::addGold(int amount)
 {
+    const int previousGold = m_gold;
     m_gold = std::max(0, m_gold + amount);
+
+    if (m_gold != previousGold)
+    {
+        queueSound(SoundId::Gold);
+    }
 }
 
 void Party::addFood(int amount)
 {
     m_food = std::max(0, m_food + amount);
+
+    if (amount > 0)
+    {
+        queueSound(SoundId::Eat);
+    }
 }
 
 bool Party::tryGrantItem(uint32_t objectDescriptionId, uint32_t quantity)
@@ -2412,6 +2432,43 @@ float Party::lastFallDamageDistance() const
 const std::string &Party::lastStatus() const
 {
     return m_lastStatus;
+}
+
+const std::vector<Party::PendingAudioRequest> &Party::pendingAudioRequests() const
+{
+    return m_pendingAudioRequests;
+}
+
+void Party::clearPendingAudioRequests()
+{
+    m_pendingAudioRequests.clear();
+}
+
+void Party::queueSound(SoundId soundId)
+{
+    if (soundId == SoundId::None)
+    {
+        return;
+    }
+
+    PendingAudioRequest request = {};
+    request.kind = PendingAudioRequest::Kind::Sound;
+    request.soundId = soundId;
+    m_pendingAudioRequests.push_back(request);
+}
+
+void Party::queueSpeech(size_t memberIndex, SpeechId speechId)
+{
+    if (speechId == SpeechId::None || memberIndex >= m_members.size())
+    {
+        return;
+    }
+
+    PendingAudioRequest request = {};
+    request.kind = PendingAudioRequest::Kind::Speech;
+    request.speechId = speechId;
+    request.memberIndex = memberIndex;
+    m_pendingAudioRequests.push_back(request);
 }
 
 void Party::rebuildMagicalBonusesFromBuffs()
