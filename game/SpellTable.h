@@ -12,6 +12,13 @@ struct SpellEntry
     int id = 0;
     std::string name;
     std::string normalizedName;
+    std::string shortName;
+    std::string description;
+    std::string normalText;
+    std::string expertText;
+    std::string masterText;
+    std::string grandmasterText;
+    std::string statsText;
     int normalManaCost = 0;
     int expertManaCost = 0;
     int masterManaCost = 0;

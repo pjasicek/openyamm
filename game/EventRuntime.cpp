@@ -153,6 +153,64 @@ std::optional<size_t> singleTargetMemberIndex(const std::vector<size_t> &targetM
 
     return std::nullopt;
 }
+
+std::vector<size_t> resolvePortraitFxTargetMemberIndices(const Party *pParty, const std::vector<size_t> &targetMemberIndices)
+{
+    if (pParty == nullptr || pParty->members().empty())
+    {
+        return {};
+    }
+
+    if (!targetMemberIndices.empty())
+    {
+        return targetMemberIndices;
+    }
+
+    return {pParty->activeMemberIndex()};
+}
+
+void queuePortraitFxRequest(
+    EventRuntimeState &runtimeState,
+    PortraitFxEventKind kind,
+    const Party *pParty,
+    const std::vector<size_t> &targetMemberIndices)
+{
+    if (kind == PortraitFxEventKind::None)
+    {
+        return;
+    }
+
+    const std::vector<size_t> memberIndices = resolvePortraitFxTargetMemberIndices(pParty, targetMemberIndices);
+
+    if (memberIndices.empty())
+    {
+        return;
+    }
+
+    for (EventRuntimeState::PortraitFxRequest &request : runtimeState.portraitFxRequests)
+    {
+        if (request.kind != kind)
+        {
+            continue;
+        }
+
+        for (size_t memberIndex : memberIndices)
+        {
+            if (std::find(request.memberIndices.begin(), request.memberIndices.end(), memberIndex)
+                == request.memberIndices.end())
+            {
+                request.memberIndices.push_back(memberIndex);
+            }
+        }
+
+        return;
+    }
+
+    EventRuntimeState::PortraitFxRequest request = {};
+    request.kind = kind;
+    request.memberIndices = memberIndices;
+    runtimeState.portraitFxRequests.push_back(std::move(request));
+}
 }
 
 EventRuntime::VariableRef EventRuntime::decodeVariable(uint32_t rawId)
@@ -307,6 +365,9 @@ void EventRuntime::setVariableValue(
     const std::vector<size_t> &targetMemberIndices
 )
 {
+    const std::optional<size_t> memberIndex = singleTargetMemberIndex(targetMemberIndices);
+    const int32_t previousValue = getVariableValue(runtimeState, variable, pParty, memberIndex);
+
     if (variable.kind == VariableKind::Inventory)
     {
         if (pParty != nullptr && !targetMemberIndices.empty())
@@ -337,6 +398,15 @@ void EventRuntime::setVariableValue(
             runtimeState.variables[variable.rawId] = value;
         }
 
+        if (value > previousValue)
+        {
+            queuePortraitFxRequest(runtimeState, PortraitFxEventKind::AwardGain, pParty, targetMemberIndices);
+        }
+        else if (value < previousValue)
+        {
+            queuePortraitFxRequest(runtimeState, PortraitFxEventKind::StatDecrease, pParty, targetMemberIndices);
+        }
+
         return;
     }
 
@@ -354,6 +424,11 @@ void EventRuntime::setVariableValue(
                 {
                     pParty->removeAward(memberIndex, variable.index);
                 }
+            }
+
+            if (value != 0)
+            {
+                queuePortraitFxRequest(runtimeState, PortraitFxEventKind::AwardGain, pParty, targetMemberIndices);
             }
 
             return;
@@ -392,12 +467,23 @@ void EventRuntime::setVariableValue(
             pParty->setMemberClassName(memberIndex, *className);
         }
 
+        if (!targetMemberIndices.empty())
+        {
+            queuePortraitFxRequest(runtimeState, PortraitFxEventKind::AwardGain, pParty, targetMemberIndices);
+        }
+
         return;
     }
 
     if (variable.kind == VariableKind::QBits || variable.kind == VariableKind::BoolFlag)
     {
         runtimeState.variables[variable.rawId] = value != 0 ? 1 : 0;
+
+        if (variable.kind == VariableKind::QBits && value != 0 && previousValue == 0)
+        {
+            queuePortraitFxRequest(runtimeState, PortraitFxEventKind::AwardGain, pParty, targetMemberIndices);
+        }
+
         return;
     }
 
@@ -412,6 +498,9 @@ void EventRuntime::addVariableValue(
     const std::vector<size_t> &targetMemberIndices
 )
 {
+    const std::optional<size_t> memberIndex = singleTargetMemberIndex(targetMemberIndices);
+    const int32_t previousValue = getVariableValue(runtimeState, variable, pParty, memberIndex);
+
     if (variable.kind == VariableKind::Inventory)
     {
         if (pParty != nullptr && !targetMemberIndices.empty())
@@ -444,6 +533,11 @@ void EventRuntime::addVariableValue(
             runtimeState.variables[variable.rawId] = getVariableValue(runtimeState, variable, nullptr) + value;
         }
 
+        if (value > 0)
+        {
+            queuePortraitFxRequest(runtimeState, PortraitFxEventKind::QuestComplete, pParty, targetMemberIndices);
+        }
+
         return;
     }
 
@@ -457,6 +551,11 @@ void EventRuntime::addVariableValue(
                 {
                     pParty->addAward(memberIndex, variable.index);
                 }
+            }
+
+            if (value > 0)
+            {
+                queuePortraitFxRequest(runtimeState, PortraitFxEventKind::QuestComplete, pParty, targetMemberIndices);
             }
 
             return;
@@ -480,6 +579,12 @@ void EventRuntime::addVariableValue(
     if (variable.kind == VariableKind::QBits || variable.kind == VariableKind::BoolFlag)
     {
         runtimeState.variables[variable.rawId] = value != 0 ? 1 : 0;
+
+        if (variable.kind == VariableKind::QBits && value != 0 && previousValue == 0)
+        {
+            queuePortraitFxRequest(runtimeState, PortraitFxEventKind::QuestComplete, pParty, targetMemberIndices);
+        }
+
         return;
     }
 
@@ -524,6 +629,11 @@ void EventRuntime::subtractVariableValue(
         else
         {
             runtimeState.variables[variable.rawId] = getVariableValue(runtimeState, variable, nullptr) - value;
+        }
+
+        if (value > 0)
+        {
+            queuePortraitFxRequest(runtimeState, PortraitFxEventKind::StatDecrease, pParty, targetMemberIndices);
         }
 
         return;

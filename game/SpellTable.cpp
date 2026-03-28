@@ -43,7 +43,7 @@ bool SpellTable::loadFromRows(const std::vector<std::vector<std::string>> &rows)
 
     for (const std::vector<std::string> &row : rows)
     {
-        if (row.size() < 22 || !isNumericString(row[0]))
+        if (row.size() < 6 || !isNumericString(row[0]))
         {
             continue;
         }
@@ -52,19 +52,26 @@ bool SpellTable::loadFromRows(const std::vector<std::vector<std::string>> &rows)
         entry.id = std::stoi(row[0]);
         entry.name = row[2];
         entry.normalizedName = normalizeName(entry.name);
-        entry.normalManaCost = row[11].empty() ? 0 : std::stoi(row[11]);
-        entry.expertManaCost = row[12].empty() ? 0 : std::stoi(row[12]);
-        entry.masterManaCost = row[13].empty() ? 0 : std::stoi(row[13]);
-        entry.grandmasterManaCost = row[14].empty() ? 0 : std::stoi(row[14]);
-        entry.normalRecoveryTicks = row[15].empty() ? 0 : std::stoi(row[15]);
-        entry.expertRecoveryTicks = row[16].empty() ? 0 : std::stoi(row[16]);
-        entry.masterRecoveryTicks = row[17].empty() ? 0 : std::stoi(row[17]);
-        entry.grandmasterRecoveryTicks = row[18].empty() ? 0 : std::stoi(row[18]);
-        entry.effectSoundId = row[19].empty() ? 0 : std::stoi(row[19]);
-        entry.displayObjectId = row[20].empty() ? 0 : std::stoi(row[20]);
-        entry.impactDisplayObjectId = row[21].empty() ? 0 : std::stoi(row[21]);
-        entry.damageBase = row[22].empty() ? 0 : std::stoi(row[22]);
-        entry.damageDiceSides = row[23].empty() ? 0 : std::stoi(row[23]);
+        entry.shortName = row.size() > 4 ? row[4] : "";
+        entry.description = row.size() > 5 ? row[5] : "";
+        entry.normalText = row.size() > 6 ? row[6] : "";
+        entry.expertText = row.size() > 7 ? row[7] : "";
+        entry.masterText = row.size() > 8 ? row[8] : "";
+        entry.grandmasterText = row.size() > 9 ? row[9] : "";
+        entry.statsText = row.size() > 10 ? row[10] : "";
+        entry.normalManaCost = row.size() > 11 && !row[11].empty() ? std::stoi(row[11]) : 0;
+        entry.expertManaCost = row.size() > 12 && !row[12].empty() ? std::stoi(row[12]) : 0;
+        entry.masterManaCost = row.size() > 13 && !row[13].empty() ? std::stoi(row[13]) : 0;
+        entry.grandmasterManaCost = row.size() > 14 && !row[14].empty() ? std::stoi(row[14]) : 0;
+        entry.normalRecoveryTicks = row.size() > 15 && !row[15].empty() ? std::stoi(row[15]) : 0;
+        entry.expertRecoveryTicks = row.size() > 16 && !row[16].empty() ? std::stoi(row[16]) : 0;
+        entry.masterRecoveryTicks = row.size() > 17 && !row[17].empty() ? std::stoi(row[17]) : 0;
+        entry.grandmasterRecoveryTicks = row.size() > 18 && !row[18].empty() ? std::stoi(row[18]) : 0;
+        entry.effectSoundId = row.size() > 19 && !row[19].empty() ? std::stoi(row[19]) : 0;
+        entry.displayObjectId = row.size() > 20 && !row[20].empty() ? std::stoi(row[20]) : 0;
+        entry.impactDisplayObjectId = row.size() > 21 && !row[21].empty() ? std::stoi(row[21]) : 0;
+        entry.damageBase = row.size() > 22 && !row[22].empty() ? std::stoi(row[22]) : 0;
+        entry.damageDiceSides = row.size() > 23 && !row[23].empty() ? std::stoi(row[23]) : 0;
         m_entryIndexById[entry.id] = m_entries.size();
         m_entryIndexByNormalizedName[entry.normalizedName] = m_entries.size();
         m_entries.push_back(std::move(entry));

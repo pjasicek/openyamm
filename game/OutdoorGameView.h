@@ -23,6 +23,7 @@
 #include "game/NpcDialogTable.h"
 #include "game/ObjectTable.h"
 #include "game/PartySpellSystem.h"
+#include "game/PortraitFxEventTable.h"
 #include "game/PortraitFrameTable.h"
 #include "game/RosterTable.h"
 #include "game/SpellTable.h"
@@ -342,7 +343,7 @@ private:
         float sourceHeight = 0.0f;
     };
 
-    struct PortraitSpellFxState
+    struct PortraitFxState
     {
         bool active = false;
         size_t animationId = 0;
@@ -374,6 +375,22 @@ private:
     {
         bool active = false;
         size_t runtimeActorIndex = static_cast<size_t>(-1);
+        float sourceX = 0.0f;
+        float sourceY = 0.0f;
+        float sourceWidth = 0.0f;
+        float sourceHeight = 0.0f;
+    };
+
+    struct SpellInspectOverlayState
+    {
+        bool active = false;
+        uint32_t spellId = 0;
+        std::string title;
+        std::string body;
+        std::string normal;
+        std::string expert;
+        std::string master;
+        std::string grandmaster;
         float sourceX = 0.0f;
         float sourceY = 0.0f;
         float sourceWidth = 0.0f;
@@ -483,6 +500,7 @@ private:
         uint32_t textColorAbgr = 0xffffffffu;
         HudTextAlignX textAlignX = HudTextAlignX::Left;
         HudTextAlignY textAlignY = HudTextAlignY::Top;
+        float textScale = 1.0f;
         float textPadX = 0.0f;
         float textPadY = 0.0f;
         std::string notes;
@@ -740,6 +758,7 @@ private:
     void renderItemInspectOverlay(int width, int height) const;
     void renderCharacterInspectOverlay(int width, int height) const;
     void renderActorInspectOverlay(int width, int height);
+    void renderSpellInspectOverlay(int width, int height) const;
     void renderPendingSpellTargetingOverlay(int width, int height) const;
     void renderSpellbookOverlay(int width, int height) const;
     void submitHudTexturedQuad(const HudTextureHandle &texture, float x, float y, float quadWidth, float quadHeight) const;
@@ -768,8 +787,9 @@ private:
     void updateItemInspectOverlayState(int width, int height);
     void updateCharacterInspectOverlayState(int width, int height);
     void updateActorInspectOverlayState(int width, int height);
+    void updateSpellInspectOverlayState(int width, int height);
     bool loadPortraitAnimationData(const Engine::AssetFileSystem &assetFileSystem);
-    bool loadPortraitSpellFxData(const Engine::AssetFileSystem &assetFileSystem);
+    bool loadPortraitFxData(const Engine::AssetFileSystem &assetFileSystem);
     void updatePartyPortraitAnimations(float deltaSeconds);
     void updatePortraitAnimation(Character &member, size_t memberIndex, uint32_t deltaTicks);
     void playPortraitExpression(size_t memberIndex, PortraitId portraitId, std::optional<uint32_t> durationTicks = std::nullopt);
@@ -777,8 +797,11 @@ private:
     void triggerPortraitFaceAnimationForAllLivingMembers(FaceAnimationId animationId);
     uint32_t defaultPortraitAnimationLengthTicks(PortraitId portraitId) const;
     std::string resolvePortraitTextureName(const Character &character) const;
+    bool triggerPortraitFxAnimation(const std::string &animationName, const std::vector<size_t> &memberIndices);
     void triggerPortraitSpellFx(const PartySpellCastResult &result);
-    void renderPortraitSpellFx(size_t memberIndex, float portraitX, float portraitY, float portraitWidth, float portraitHeight) const;
+    void triggerPortraitEventFx(const EventRuntimeState::PortraitFxRequest &request);
+    void consumePendingPortraitEventFxRequests();
+    void renderPortraitFx(size_t memberIndex, float portraitX, float portraitY, float portraitWidth, float portraitHeight) const;
     bool tryBeginQuickSpellCast();
     bool tryCastSpellFromMember(size_t casterMemberIndex, uint32_t spellId, const std::string &spellName);
     bool tryCastSpellRequest(const PartySpellCastRequest &request, const std::string &spellName);
@@ -833,6 +856,7 @@ private:
     IconFrameTable m_iconFrameTable;
     PortraitFrameTable m_portraitFrameTable;
     SpellFxTable m_spellFxTable;
+    PortraitFxEventTable m_portraitFxEventTable;
     std::optional<HouseTable> m_houseTable;
     std::optional<ClassSkillTable> m_classSkillTable;
     std::optional<NpcDialogTable> m_npcDialogTable;
@@ -901,7 +925,7 @@ private:
     float m_cameraDistance;
     float m_cameraOrthoScale;
     bool m_showFilledTerrain;
-    std::vector<PortraitSpellFxState> m_portraitSpellFxStates;
+    std::vector<PortraitFxState> m_portraitSpellFxStates;
     bool m_showTerrainWireframe;
     bool m_showBModels;
     bool m_showBModelWireframe;
@@ -963,6 +987,7 @@ private:
     ItemInspectOverlayState m_itemInspectOverlay;
     CharacterInspectOverlayState m_characterInspectOverlay;
     ActorInspectOverlayState m_actorInspectOverlay;
+    SpellInspectOverlayState m_spellInspectOverlay;
     SpellbookState m_spellbook;
     SpellbookPointerTarget m_spellbookPressedTarget;
     uint64_t m_lastSpellbookSpellClickTicks;

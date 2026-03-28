@@ -2,6 +2,7 @@
 
 #include "game/EventIr.h"
 #include "game/MapDeltaData.h"
+#include "game/PortraitFxEventTable.h"
 
 #include <cstdint>
 #include <optional>
@@ -98,6 +99,12 @@ struct EventRuntimeState
         bool hideWhenCleared = false;
     };
 
+    struct PortraitFxRequest
+    {
+        PortraitFxEventKind kind = PortraitFxEventKind::None;
+        std::vector<size_t> memberIndices;
+    };
+
     std::unordered_map<uint32_t, int32_t> variables;
     std::unordered_map<uint32_t, uint32_t> facetSetMasks;
     std::unordered_map<uint32_t, uint32_t> facetClearMasks;
@@ -122,6 +129,7 @@ struct EventRuntimeState
     std::vector<uint32_t> removedItemIds;
     std::vector<uint32_t> grantedAwardIds;
     std::vector<uint32_t> removedAwardIds;
+    std::vector<PortraitFxRequest> portraitFxRequests;
     std::optional<PendingDialogueContext> pendingDialogueContext;
     std::optional<PendingMapMove> pendingMapMove;
     std::vector<uint32_t> lastAffectedMechanismIds;

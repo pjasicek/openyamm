@@ -1,0 +1,153 @@
+screen: SpellInspect
+
+elements:
+  - id: SpellInspectRoot
+    anchor: top_left
+    width: 440
+    height: 236
+    z_index: 520
+    visible: false
+    asset:
+      default: parchment
+    children:
+      - id: SpellInspectTitle
+        anchor: top_center
+        offset_x: 0
+        offset_y: 12
+        width: 260
+        height: 22
+        text:
+          value: "{title}"
+          font: Create
+          color: "#ffff9b"
+          align_x: center
+          align_y: middle
+
+      - id: SpellInspectBody
+        anchor: top_left
+        offset_x: 20
+        offset_y: 42
+        width: 400
+        height: 72
+        text:
+          value: "{body}"
+          font: SMALLNUM
+          color: white
+          align_x: left
+          align_y: top
+
+      - id: SpellInspectNormal
+        anchor: top_left
+        offset_x: 20
+        offset_y: 122
+        width: 400
+        height: 16
+        text:
+          value: "{normal}"
+          font: SMALLNUM
+          color: white
+          align_x: left
+          align_y: middle
+
+      - id: SpellInspectExpert
+        anchor: top_left
+        offset_x: 20
+        offset_y: 144
+        width: 400
+        height: 16
+        text:
+          value: "{expert}"
+          font: SMALLNUM
+          color: white
+          align_x: left
+          align_y: middle
+
+      - id: SpellInspectMaster
+        anchor: top_left
+        offset_x: 20
+        offset_y: 166
+        width: 400
+        height: 16
+        text:
+          value: "{master}"
+          font: SMALLNUM
+          color: white
+          align_x: left
+          align_y: middle
+
+      - id: SpellInspectGrandmaster
+        anchor: top_left
+        offset_x: 20
+        offset_y: 188
+        width: 400
+        height: 16
+        text:
+          value: "{grandmaster}"
+          font: SMALLNUM
+          color: white
+          align_x: left
+          align_y: middle
+
+      - id: SpellInspectCorner_UR
+        anchor: top_right
+        offset_x: 7
+        width: 39
+        height: 32
+        z_index: 580
+        asset:
+          default: cornr_UR
+
+      - id: SpellInspectCorner_UL
+        anchor: top_left
+        z_index: 580
+        asset:
+          default: cornr_UL
+
+      - id: SpellInspectCorner_LR
+        anchor: bottom_right
+        z_index: 580
+        offset_x: 7
+        offset_y: 7
+        asset:
+          default: cornr_LR
+
+      - id: SpellInspectCorner_LL
+        anchor: bottom_left
+        z_index: 580
+        offset_y: 7
+        asset:
+          default: cornr_LL
+
+      - id: SpellInspectCorner_TopEdge
+        anchor: top_left
+        width: 440
+        height: 10
+        z_index: 570
+        asset:
+          default: edge_top
+
+      - id: SpellInspectCorner_BottomEdge
+        anchor: bottom_left
+        offset_y: 7
+        width: 440
+        height: 16
+        z_index: 570
+        asset:
+          default: edge_btm
+
+      - id: SpellInspectCorner_LeftEdge
+        anchor: top_left
+        width: 11
+        height: 236
+        z_index: 570
+        asset:
+          default: edge_lf
+
+      - id: SpellInspectCorner_RightEdge
+        anchor: top_right
+        offset_x: 6
+        width: 16
+        height: 236
+        z_index: 570
+        asset:
+          default: edge_rt

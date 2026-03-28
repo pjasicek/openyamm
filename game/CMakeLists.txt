@@ -98,6 +98,7 @@ add_executable(openyamm
     OutdoorWorldRuntime.cpp
     Party.cpp
     PartySpellSystem.cpp
+    PortraitFxEventTable.cpp
     PortraitEnums.cpp
     PortraitFrameTable.cpp
     RosterTable.cpp
