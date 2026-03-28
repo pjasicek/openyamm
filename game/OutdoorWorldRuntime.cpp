@@ -5,6 +5,7 @@
 #include "game/ItemTable.h"
 #include "game/OutdoorGeometryUtils.h"
 #include "game/SpellIds.h"
+#include "game/SoundIds.h"
 #include "game/SpriteObjectDefs.h"
 #include "game/SkillData.h"
 #include "game/StringUtils.h"
@@ -3285,6 +3286,14 @@ void OutdoorWorldRuntime::activateChestView(uint32_t chestId)
     }
 
     m_activeChestView = *m_materializedChestViews[chestId];
+    pushAudioEvent(
+        static_cast<uint32_t>(SoundId::OpenChest),
+        chestId,
+        "chest_open",
+        0.0f,
+        0.0f,
+        0.0f,
+        false);
 }
 
 void OutdoorWorldRuntime::initialize(

@@ -20956,21 +20956,10 @@ OutdoorGameView::InspectHit OutdoorGameView::inspectBModelFace(
                 std::max(64.0f, static_cast<float>(std::max(decoration.height, uint16_t(64))));
             float distance = 0.0f;
             bool hasBillboardHit = false;
-            const bx::Vec3 minBounds = {
-                static_cast<float>(-decoration.x) - broadPhaseHalfExtent,
-                static_cast<float>(decoration.y) - broadPhaseHalfExtent,
-                static_cast<float>(decoration.z)
-            };
-            const bx::Vec3 maxBounds = {
-                static_cast<float>(-decoration.x) + broadPhaseHalfExtent,
-                static_cast<float>(decoration.y) + broadPhaseHalfExtent,
-                static_cast<float>(decoration.z) + broadPhaseHeight
-            };
 
             if (allowDecorationBillboardHit
                 && decoration.spriteId != 0
-                && intersectRayAabb(rayOrigin, rayDirection, minBounds, maxBounds, distance)
-                && isVisibleInspectDistance(distance))
+                && isVisibleInspectDistance(maxDecorationInspectDistance))
             {
                 const uint32_t animationOffsetTicks =
                     animationTimeTicks + static_cast<uint32_t>(std::abs(decoration.x + decoration.y));
@@ -20996,6 +20985,28 @@ OutdoorGameView::InspectHit OutdoorGameView::inspectBModelFace(
 
                     if (pTexture != nullptr && bgfx::isValid(pTexture->textureHandle))
                     {
+                        const float spriteScale = std::max(pFrame->scale, 0.01f);
+                        const float worldWidth = static_cast<float>(pTexture->width) * spriteScale;
+                        const float worldHeight = static_cast<float>(pTexture->height) * spriteScale;
+                        const float expandedHalfExtent = std::max(broadPhaseHalfExtent, worldWidth * 0.5f);
+                        const float expandedHeight = std::max(broadPhaseHeight, worldHeight);
+                        const bx::Vec3 minBounds = {
+                            static_cast<float>(-decoration.x) - expandedHalfExtent,
+                            static_cast<float>(decoration.y) - expandedHalfExtent,
+                            static_cast<float>(decoration.z)
+                        };
+                        const bx::Vec3 maxBounds = {
+                            static_cast<float>(-decoration.x) + expandedHalfExtent,
+                            static_cast<float>(decoration.y) + expandedHalfExtent,
+                            static_cast<float>(decoration.z) + expandedHeight
+                        };
+
+                        if (!intersectRayAabb(rayOrigin, rayDirection, minBounds, maxBounds, distance)
+                            || !isVisibleInspectDistance(distance))
+                        {
+                            continue;
+                        }
+
                         hasBillboardHit = hitTestDecorationBillboard(
                             decoration,
                             *pTexture,
@@ -24200,6 +24211,13 @@ void OutdoorGameView::updateCameraFromInput(float deltaSeconds)
 
                     if (m_pOutdoorWorldRuntime != nullptr)
                     {
+                        if (m_pGameAudioSystem != nullptr && m_pOutdoorWorldRuntime->activeChestView() != nullptr)
+                        {
+                            m_pGameAudioSystem->playCommonSound(
+                                SoundId::ChestClose,
+                                GameAudioSystem::PlaybackGroup::Ui);
+                        }
+
                         m_pOutdoorWorldRuntime->closeActiveChestView();
                         m_pOutdoorWorldRuntime->closeActiveCorpseView();
                         closeInventoryNestedOverlay();
@@ -24478,6 +24496,13 @@ void OutdoorGameView::updateCameraFromInput(float deltaSeconds)
                 }
                 else if (m_pOutdoorWorldRuntime != nullptr)
                 {
+                    if (m_pGameAudioSystem != nullptr && m_pOutdoorWorldRuntime->activeChestView() != nullptr)
+                    {
+                        m_pGameAudioSystem->playCommonSound(
+                            SoundId::ChestClose,
+                            GameAudioSystem::PlaybackGroup::Ui);
+                    }
+
                     m_pOutdoorWorldRuntime->closeActiveChestView();
                     m_pOutdoorWorldRuntime->closeActiveCorpseView();
                     m_activateInspectLatch = true;
