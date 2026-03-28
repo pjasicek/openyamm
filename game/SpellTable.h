@@ -12,6 +12,10 @@ struct SpellEntry
     int id = 0;
     std::string name;
     std::string normalizedName;
+    int normalManaCost = 0;
+    int expertManaCost = 0;
+    int masterManaCost = 0;
+    int grandmasterManaCost = 0;
     int normalRecoveryTicks = 0;
     int expertRecoveryTicks = 0;
     int masterRecoveryTicks = 0;
@@ -19,6 +23,8 @@ struct SpellEntry
     int effectSoundId = 0;
     int displayObjectId = 0;
     int impactDisplayObjectId = 0;
+    int damageBase = 0;
+    int damageDiceSides = 0;
 };
 
 class SpellTable

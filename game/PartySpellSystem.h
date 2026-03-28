@@ -7,6 +7,7 @@
 #include <cstdint>
 #include <optional>
 #include <string>
+#include <vector>
 
 namespace OpenYAMM::Game
 {
@@ -84,6 +85,7 @@ struct PartySpellCastResult
     SkillMastery skillMastery = SkillMastery::None;
     float recoverySeconds = 0.0f;
     std::string statusText;
+    std::vector<size_t> affectedCharacterIndices;
 
     bool succeeded() const
     {

@@ -951,7 +951,14 @@ void applyPendingCombatEventsToScenarioParty(RegressionScenario &scenario)
             const std::string status = event.type == OutdoorWorldRuntime::CombatEvent::Type::MonsterMeleeImpact
                 ? "melee damage"
                 : "projectile damage";
-            scenario.party.applyDamageToActiveMember(event.damage, status);
+            if (event.affectsAllParty)
+            {
+                scenario.party.applyDamageToAllLivingMembers(event.damage, status);
+            }
+            else
+            {
+                scenario.party.applyDamageToActiveMember(event.damage, status);
+            }
         }
     }
 
@@ -3000,6 +3007,181 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
         std::cout << "Regression suite summary: passed=" << passedCount << " failed=" << failedCount << '\n';
         return failedCount == 0 ? 0 : 1;
     }
+
+    runCase(
+        "default_party_seed_preserves_unique_portrait_picture_ids",
+        [&](std::string &failure)
+        {
+            Party party = {};
+            party.reset();
+
+            const std::vector<Character> &members = party.members();
+
+            if (members.size() < 5)
+            {
+                failure = "default party member count too low";
+                return false;
+            }
+
+            static constexpr std::array<uint32_t, 5> ExpectedPictureIds = {{2, 1, 20, 22, 24}};
+
+            for (size_t memberIndex = 0; memberIndex < ExpectedPictureIds.size(); ++memberIndex)
+            {
+                if (members[memberIndex].portraitPictureId != ExpectedPictureIds[memberIndex])
+                {
+                    failure =
+                        "member " + std::to_string(memberIndex)
+                        + " portrait picture id mismatch";
+                    return false;
+                }
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "monster_target_selection_prefers_matching_living_members",
+        [&](std::string &failure)
+        {
+            Party party = {};
+            party.seed(createRegressionPartySeed());
+
+            const std::optional<size_t> targetIndex = party.chooseMonsterAttackTarget(0x0010, 1);
+
+            if (!targetIndex)
+            {
+                failure = "no preferred target was selected";
+                return false;
+            }
+
+            if (*targetIndex != 1)
+            {
+                failure = "cleric preference did not select the cleric";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "monster_target_selection_skips_invalid_members",
+        [&](std::string &failure)
+        {
+            Party party = {};
+            party.seed(createRegressionPartySeed());
+
+            Character *pCleric = party.member(1);
+            Character *pKnight = party.member(0);
+
+            if (pCleric == nullptr || pKnight == nullptr)
+            {
+                failure = "party member lookup failed";
+                return false;
+            }
+
+            pCleric->conditions.set(static_cast<size_t>(CharacterCondition::Unconscious));
+            pKnight->conditions.set(static_cast<size_t>(CharacterCondition::Dead));
+            pKnight->health = 0;
+
+            const std::optional<size_t> targetIndex = party.chooseMonsterAttackTarget(0x0010, 7);
+
+            if (!targetIndex)
+            {
+                failure = "no fallback target was selected";
+                return false;
+            }
+
+            if (*targetIndex == 0 || *targetIndex == 1)
+            {
+                failure = "invalid target was selected";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "party_damage_sets_unconscious_within_endurance_threshold",
+        [&](std::string &failure)
+        {
+            Party party = {};
+            party.seed(createRegressionPartySeed());
+
+            Character *pMember = party.member(0);
+
+            if (pMember == nullptr)
+            {
+                failure = "party member lookup failed";
+                return false;
+            }
+
+            pMember->health = 10;
+            pMember->endurance = 14;
+
+            if (!party.applyDamageToMember(0, 12, ""))
+            {
+                failure = "damage application failed";
+                return false;
+            }
+
+            if (!pMember->conditions.test(static_cast<size_t>(CharacterCondition::Unconscious)))
+            {
+                failure = "member did not become unconscious";
+                return false;
+            }
+
+            if (pMember->conditions.test(static_cast<size_t>(CharacterCondition::Dead)))
+            {
+                failure = "member incorrectly became dead";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "party_damage_sets_dead_below_endurance_threshold",
+        [&](std::string &failure)
+        {
+            Party party = {};
+            party.seed(createRegressionPartySeed());
+
+            Character *pMember = party.member(0);
+
+            if (pMember == nullptr)
+            {
+                failure = "party member lookup failed";
+                return false;
+            }
+
+            pMember->health = 10;
+            pMember->endurance = 5;
+
+            if (!party.applyDamageToMember(0, 20, ""))
+            {
+                failure = "damage application failed";
+                return false;
+            }
+
+            if (!pMember->conditions.test(static_cast<size_t>(CharacterCondition::Dead)))
+            {
+                failure = "member did not become dead";
+                return false;
+            }
+
+            if (pMember->conditions.test(static_cast<size_t>(CharacterCondition::Unconscious)))
+            {
+                failure = "member incorrectly remained unconscious";
+                return false;
+            }
+
+            return true;
+        }
+    );
 
     runCase(
         "local_event_457_spawns_runtime_fireball_and_cannonball_projectiles",
@@ -6629,6 +6811,231 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
     );
 
     runCase(
+        "party_fireball_splash_can_damage_party_near_target_actor",
+        [&](std::string &failure)
+        {
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            const OutdoorWorldRuntime::MapActorState *pBefore = scenario.world.mapActorState(53);
+
+            if (pBefore == nullptr)
+            {
+                failure = "actor 53 missing";
+                return false;
+            }
+
+            OutdoorWorldRuntime::SpellCastRequest request = {};
+            request.sourceKind = OutdoorWorldRuntime::RuntimeSpellSourceKind::Party;
+            request.sourceId = 1;
+            request.sourcePartyMemberIndex = 0;
+            request.ability = OutdoorWorldRuntime::MonsterAttackAbility::Spell1;
+            request.spellId = spellIdValue(SpellId::Fireball);
+            request.skillLevel = 10;
+            request.skillMastery = static_cast<uint32_t>(SkillMastery::Expert);
+            request.damage = 18;
+            request.attackBonus = 9999;
+            request.useActorHitChance = false;
+            request.sourceX = pBefore->preciseX + 256.0f;
+            request.sourceY = pBefore->preciseY;
+            request.sourceZ = pBefore->preciseZ + 96.0f;
+            request.targetX = pBefore->preciseX;
+            request.targetY = pBefore->preciseY;
+            request.targetZ = pBefore->preciseZ + 96.0f;
+
+            if (!scenario.world.castPartySpell(request))
+            {
+                failure = "party fireball spawn failed";
+                return false;
+            }
+
+            const int initialActorHp = pBefore->currentHp;
+            const int initialPartyHealth = scenario.party.totalHealth();
+            std::array<int, 4> initialMemberHealth = {0, 0, 0, 0};
+
+            for (size_t memberIndex = 0; memberIndex < initialMemberHealth.size(); ++memberIndex)
+            {
+                const Character *pMember = scenario.party.member(memberIndex);
+                initialMemberHealth[memberIndex] = pMember != nullptr ? pMember->health : 0;
+            }
+
+            const float partyX = request.sourceX;
+            const float partyY = request.sourceY;
+            const float partyZ = pBefore->preciseZ;
+            bool sawProjectile = false;
+            bool damagedActor = false;
+
+            for (int step = 0; step < 256; ++step)
+            {
+                scenario.world.updateMapActors(1.0f / 128.0f, partyX, partyY, partyZ);
+                applyPendingCombatEventsToScenarioParty(scenario);
+                sawProjectile = sawProjectile || scenario.world.projectileCount() > 0;
+
+                const OutdoorWorldRuntime::MapActorState *pAfter = scenario.world.mapActorState(53);
+
+                if (pAfter != nullptr && pAfter->currentHp < initialActorHp)
+                {
+                    damagedActor = true;
+                }
+
+                if (damagedActor && scenario.party.totalHealth() < initialPartyHealth)
+                {
+                    const int partyDamage = initialPartyHealth - scenario.party.totalHealth();
+                    size_t damagedMembers = 0;
+
+                    for (size_t memberIndex = 0; memberIndex < initialMemberHealth.size(); ++memberIndex)
+                    {
+                        const Character *pMember = scenario.party.member(memberIndex);
+
+                        if (pMember != nullptr && pMember->health < initialMemberHealth[memberIndex])
+                        {
+                            ++damagedMembers;
+                        }
+                    }
+
+                    if (partyDamage <= 1)
+                    {
+                        failure = "party fireball splash damage was only " + std::to_string(partyDamage);
+                        return false;
+                    }
+
+                    if (damagedMembers < 4)
+                    {
+                        failure = "party fireball splash damaged only " + std::to_string(damagedMembers)
+                            + " party members";
+                        return false;
+                    }
+
+                    return true;
+                }
+            }
+
+            if (!sawProjectile)
+            {
+                failure = "party fireball projectile never appeared";
+            }
+            else if (!damagedActor)
+            {
+                failure = "party fireball did not damage actor 53";
+            }
+            else
+            {
+                failure = "party fireball splash did not damage the party";
+            }
+
+            return false;
+        }
+    );
+
+    runCase(
+        "party_fireball_splash_can_damage_multiple_nearby_actors",
+        [&](std::string &failure)
+        {
+            if (!selectedMap->outdoorMapDeltaData || selectedMap->outdoorMapDeltaData->actors.size() <= 53)
+            {
+                failure = "selected map has no outdoor actor data";
+                return false;
+            }
+
+            MapAssetInfo modifiedMap = *selectedMap;
+            modifiedMap.outdoorMapData = *selectedMap->outdoorMapData;
+            modifiedMap.outdoorMapDeltaData = *selectedMap->outdoorMapDeltaData;
+            modifiedMap.outdoorMapData->spawns.clear();
+
+            const MapDeltaActor anchorActor = modifiedMap.outdoorMapDeltaData->actors[53];
+            MapDeltaActor &leftActor = modifiedMap.outdoorMapDeltaData->actors[3];
+            MapDeltaActor &rightActor = modifiedMap.outdoorMapDeltaData->actors[53];
+            leftActor.x = anchorActor.x - 160;
+            leftActor.y = anchorActor.y;
+            leftActor.z = anchorActor.z;
+            rightActor.x = anchorActor.x + 160;
+            rightActor.y = anchorActor.y;
+            rightActor.z = anchorActor.z;
+
+            for (size_t actorIndex = 0; actorIndex < modifiedMap.outdoorMapDeltaData->actors.size(); ++actorIndex)
+            {
+                if (actorIndex == 3 || actorIndex == 53)
+                {
+                    continue;
+                }
+
+                MapDeltaActor &otherActor = modifiedMap.outdoorMapDeltaData->actors[actorIndex];
+                otherActor.x = anchorActor.x + 40000 + static_cast<int>(actorIndex) * 64;
+                otherActor.y = anchorActor.y + 40000 + static_cast<int>(actorIndex) * 64;
+                otherActor.z = anchorActor.z;
+            }
+
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, modifiedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            const OutdoorWorldRuntime::MapActorState *pLeftBefore = scenario.world.mapActorState(3);
+            const OutdoorWorldRuntime::MapActorState *pRightBefore = scenario.world.mapActorState(53);
+
+            if (pLeftBefore == nullptr || pRightBefore == nullptr)
+            {
+                failure = "cluster actors missing";
+                return false;
+            }
+
+            const int initialLeftHp = pLeftBefore->currentHp;
+            const int initialRightHp = pRightBefore->currentHp;
+
+            OutdoorWorldRuntime::SpellCastRequest request = {};
+            request.sourceKind = OutdoorWorldRuntime::RuntimeSpellSourceKind::Party;
+            request.sourceId = 1;
+            request.sourcePartyMemberIndex = 0;
+            request.ability = OutdoorWorldRuntime::MonsterAttackAbility::Spell1;
+            request.spellId = spellIdValue(SpellId::Fireball);
+            request.skillLevel = 10;
+            request.skillMastery = static_cast<uint32_t>(SkillMastery::Expert);
+            request.damage = 18;
+            request.attackBonus = 9999;
+            request.useActorHitChance = false;
+            request.sourceX = pRightBefore->preciseX + 256.0f;
+            request.sourceY = pRightBefore->preciseY;
+            request.sourceZ = pRightBefore->preciseZ + 96.0f;
+            request.targetX = pRightBefore->preciseX;
+            request.targetY = pRightBefore->preciseY;
+            request.targetZ = pRightBefore->preciseZ + 96.0f;
+
+            if (!scenario.world.castPartySpell(request))
+            {
+                failure = "party fireball spawn failed";
+                return false;
+            }
+
+            for (int step = 0; step < 256; ++step)
+            {
+                scenario.world.updateMapActors(1.0f / 128.0f, request.sourceX, request.sourceY, pRightBefore->preciseZ);
+
+                const OutdoorWorldRuntime::MapActorState *pLeftAfter = scenario.world.mapActorState(3);
+                const OutdoorWorldRuntime::MapActorState *pRightAfter = scenario.world.mapActorState(53);
+
+                if (pLeftAfter != nullptr
+                    && pRightAfter != nullptr
+                    && pLeftAfter->currentHp < initialLeftHp
+                    && pRightAfter->currentHp < initialRightHp)
+                {
+                    return true;
+                }
+            }
+
+            failure = "party fireball did not damage both nearby actors";
+            return false;
+        }
+    );
+
+    runCase(
         "mixed_actor_53_arrow_ignores_friendly_lizardman_blocker",
         [&](std::string &failure)
         {
@@ -7296,6 +7703,191 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
             if (pCaster->spellPoints >= initialSpellPoints)
             {
                 failure = "bless mana cost not applied";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "party_spell_backend_supports_all_defined_non_utility_spells",
+        [&](std::string &failure)
+        {
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            const OutdoorWorldRuntime::MapActorState *pTargetActor = scenario.world.mapActorState(53);
+
+            if (pTargetActor == nullptr)
+            {
+                failure = "actor 53 missing";
+                return false;
+            }
+
+            OutdoorPartyRuntime partyRuntime(
+                OutdoorMovementDriver(
+                    *selectedMap->outdoorMapData,
+                    selectedMap->outdoorLandMask,
+                    selectedMap->outdoorDecorationCollisionSet,
+                    selectedMap->outdoorActorCollisionSet,
+                    selectedMap->outdoorSpriteObjectCollisionSet),
+                gameDataLoader.getItemTable());
+            partyRuntime.party().setClassSkillTable(&gameDataLoader.getClassSkillTable());
+            partyRuntime.initialize(pTargetActor->preciseX, pTargetActor->preciseY, pTargetActor->preciseZ);
+            partyRuntime.party().seed(createRegressionPartySeed());
+
+            const auto isUtilitySpell =
+                [](uint32_t spellId)
+                {
+                    return spellId == spellIdValue(SpellId::RechargeItem)
+                        || spellId == spellIdValue(SpellId::EnchantItem)
+                        || spellId == spellIdValue(SpellId::TownPortal)
+                        || spellId == spellIdValue(SpellId::LloydsBeacon)
+                        || spellId == spellIdValue(SpellId::Telekinesis)
+                        || spellId == spellIdValue(SpellId::Telepathy);
+                };
+
+            for (uint32_t spellId = 1; spellId <= spellIdValue(SpellId::WingBuffet); ++spellId)
+            {
+                const SpellEntry *pSpellEntry = gameDataLoader.getSpellTable().findById(static_cast<int>(spellId));
+
+                if (pSpellEntry == nullptr
+                    || pSpellEntry->name.empty()
+                    || toLowerCopy(pSpellEntry->name).find("unused") != std::string::npos)
+                {
+                    continue;
+                }
+
+                PartySpellCastRequest request = {};
+                request.casterMemberIndex = 0;
+                request.spellId = spellId;
+                request.targetActorIndex = 53;
+                request.targetCharacterIndex = 1;
+                request.hasTargetPoint = true;
+                request.targetX = pTargetActor->preciseX;
+                request.targetY = pTargetActor->preciseY;
+                request.targetZ = pTargetActor->preciseZ;
+                request.skillLevelOverride = 10;
+                request.skillMasteryOverride = SkillMastery::Grandmaster;
+                request.spendMana = false;
+                request.applyRecovery = false;
+
+                const PartySpellCastResult result = PartySpellSystem::castSpell(
+                    partyRuntime.party(),
+                    partyRuntime,
+                    scenario.world,
+                    gameDataLoader.getSpellTable(),
+                    request);
+
+                if (isUtilitySpell(spellId))
+                {
+                    if (result.status != PartySpellCastStatus::NeedUtilityUi)
+                    {
+                        failure = "utility spell " + pSpellEntry->name + " did not request utility ui";
+                        return false;
+                    }
+
+                    continue;
+                }
+
+                if (result.status == PartySpellCastStatus::InvalidCaster
+                    || result.status == PartySpellCastStatus::InvalidSpell
+                    || result.status == PartySpellCastStatus::NotSkilledEnough
+                    || result.status == PartySpellCastStatus::NeedActorTarget
+                    || result.status == PartySpellCastStatus::NeedCharacterTarget
+                    || result.status == PartySpellCastStatus::NeedActorOrCharacterTarget
+                    || result.status == PartySpellCastStatus::NeedGroundPoint
+                    || result.status == PartySpellCastStatus::NeedInventoryItemTarget
+                    || result.status == PartySpellCastStatus::NeedUtilityUi
+                    || result.status == PartySpellCastStatus::Unsupported)
+                {
+                    failure = "spell " + pSpellEntry->name + " missing executable backend path";
+                    return false;
+                }
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "party_spell_scroll_override_cast_uses_fixed_master_skill_without_mana",
+        [&](std::string &failure)
+        {
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            const OutdoorWorldRuntime::MapActorState *pTargetActor = scenario.world.mapActorState(53);
+
+            if (pTargetActor == nullptr)
+            {
+                failure = "actor 53 missing";
+                return false;
+            }
+
+            OutdoorPartyRuntime partyRuntime(
+                OutdoorMovementDriver(
+                    *selectedMap->outdoorMapData,
+                    selectedMap->outdoorLandMask,
+                    selectedMap->outdoorDecorationCollisionSet,
+                    selectedMap->outdoorActorCollisionSet,
+                    selectedMap->outdoorSpriteObjectCollisionSet),
+                gameDataLoader.getItemTable());
+            partyRuntime.party().setClassSkillTable(&gameDataLoader.getClassSkillTable());
+            partyRuntime.initialize(pTargetActor->preciseX, pTargetActor->preciseY, pTargetActor->preciseZ);
+            partyRuntime.party().seed(createRegressionPartySeed());
+
+            Character *pCaster = partyRuntime.party().member(0);
+
+            if (pCaster == nullptr)
+            {
+                failure = "caster missing";
+                return false;
+            }
+
+            pCaster->skills.clear();
+            const int initialSpellPoints = pCaster->spellPoints;
+
+            PartySpellCastRequest request = {};
+            request.casterMemberIndex = 0;
+            request.spellId = spellIdValue(SpellId::Haste);
+            request.skillLevelOverride = 5;
+            request.skillMasteryOverride = SkillMastery::Master;
+            request.spendMana = false;
+            request.applyRecovery = false;
+            const PartySpellCastResult result = PartySpellSystem::castSpell(
+                partyRuntime.party(),
+                partyRuntime,
+                scenario.world,
+                gameDataLoader.getSpellTable(),
+                request);
+
+            if (!result.succeeded())
+            {
+                failure = "scroll override haste cast did not succeed";
+                return false;
+            }
+
+            if (!partyRuntime.party().hasPartyBuff(PartyBuffId::Haste))
+            {
+                failure = "scroll override haste did not apply party buff";
+                return false;
+            }
+
+            if (pCaster->spellPoints != initialSpellPoints)
+            {
+                failure = "scroll override cast consumed spell points";
                 return false;
             }
 

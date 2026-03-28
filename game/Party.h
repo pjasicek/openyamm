@@ -3,6 +3,7 @@
 #include "game/CharacterState.h"
 #include "game/ClassSkillTable.h"
 #include "game/OutdoorMovementDriver.h"
+#include "game/PortraitEnums.h"
 
 #include <array>
 #include <cstdint>
@@ -35,6 +36,12 @@ struct Character
     std::string role;
     std::string className;
     std::string portraitTextureName;
+    uint32_t portraitPictureId = 0;
+    PortraitId portraitState = PortraitId::Normal;
+    uint32_t portraitElapsedTicks = 0;
+    uint32_t portraitDurationTicks = 0;
+    uint32_t portraitSequenceCounter = 0;
+    uint16_t portraitImageIndex = 0;
     uint32_t rosterId = 0;
     uint32_t characterDataId = 0;
     uint32_t birthYear = 0;
@@ -63,6 +70,11 @@ struct Character
     std::unordered_map<std::string, CharacterSkill> skills;
     std::unordered_set<uint32_t> awards;
     float recoverySecondsRemaining = 0.0f;
+    int merchantBonus = 0;
+    int weaponEnchantmentDamageBonus = 0;
+    float vampiricHealFraction = 0.0f;
+    bool physicalAttackDisabled = false;
+    bool physicalDamageImmune = false;
 
     bool addInventoryItem(const InventoryItem &item);
     bool addInventoryItemAt(const InventoryItem &item, uint8_t gridX, uint8_t gridY);
@@ -115,6 +127,8 @@ enum class PartyBuffId : uint8_t
     Heroism,
     Haste,
     Immolation,
+    Glamour,
+    Levitate,
     Count,
 };
 
@@ -128,6 +142,10 @@ enum class CharacterBuffId : uint8_t
     Regeneration,
     Hammerhands,
     PainReflection,
+    FireAura,
+    VampiricWeapon,
+    Mistform,
+    Glamour,
     Count,
 };
 
@@ -175,7 +193,10 @@ public:
     void seed(const PartySeed &seed);
     void applyMovementEffects(const OutdoorMovementEffects &effects);
     void applyEventRuntimeState(const EventRuntimeState &runtimeState);
+    bool applyDamageToMember(size_t memberIndex, int damage, const std::string &status);
     bool applyDamageToActiveMember(int damage, const std::string &status);
+    bool applyDamageToAllLivingMembers(int damage, const std::string &status);
+    std::optional<size_t> chooseMonsterAttackTarget(uint32_t attackPreferences, uint32_t seedHint);
     void addGold(int amount);
     void addFood(int amount);
     bool tryGrantItem(uint32_t objectDescriptionId, uint32_t quantity = 1);
@@ -303,6 +324,7 @@ private:
     uint32_t m_splashCount = 0;
     uint32_t m_landingSoundCount = 0;
     uint32_t m_hardLandingSoundCount = 0;
+    uint32_t m_monsterTargetSelectionCounter = 0;
     float m_lastFallDamageDistance = 0.0f;
     std::string m_lastStatus;
 };

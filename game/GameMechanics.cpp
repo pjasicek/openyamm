@@ -967,76 +967,78 @@ CharacterSheetValue makeResistanceValue(int baseValue, int actualValue, bool imm
 
 std::string resolveConditionText(const Character &character)
 {
-    if (hasCondition(character, CharacterCondition::Eradicated))
+    const std::optional<CharacterCondition> condition = GameMechanics::displayedCondition(character);
+
+    if (!condition)
+    {
+        return "Good";
+    }
+
+    if (*condition == CharacterCondition::Eradicated)
     {
         return "Eradicated";
     }
 
-    if (hasCondition(character, CharacterCondition::Petrified))
+    if (*condition == CharacterCondition::Petrified)
     {
         return "Petrified";
     }
 
-    if (hasCondition(character, CharacterCondition::Dead))
+    if (*condition == CharacterCondition::Dead)
     {
         return "Dead";
     }
 
-    if (hasCondition(character, CharacterCondition::Unconscious))
+    if (*condition == CharacterCondition::Unconscious)
     {
         return "Unconscious";
     }
 
-    if (hasCondition(character, CharacterCondition::Paralyzed))
+    if (*condition == CharacterCondition::Paralyzed)
     {
         return "Paralyzed";
     }
 
-    if (hasCondition(character, CharacterCondition::Asleep))
+    if (*condition == CharacterCondition::Asleep)
     {
         return "Asleep";
     }
 
-    if (hasCondition(character, CharacterCondition::Insane))
+    if (*condition == CharacterCondition::Insane)
     {
         return "Insane";
     }
 
-    if (hasCondition(character, CharacterCondition::Fear))
+    if (*condition == CharacterCondition::Fear)
     {
         return "Afraid";
     }
 
-    if (hasCondition(character, CharacterCondition::Zombie))
-    {
-        return "Zombie";
-    }
-
-    if (hasCondition(character, CharacterCondition::DiseaseSevere)
-        || hasCondition(character, CharacterCondition::DiseaseMedium)
-        || hasCondition(character, CharacterCondition::DiseaseWeak))
+    if (*condition == CharacterCondition::DiseaseSevere
+        || *condition == CharacterCondition::DiseaseMedium
+        || *condition == CharacterCondition::DiseaseWeak)
     {
         return "Diseased";
     }
 
-    if (hasCondition(character, CharacterCondition::PoisonSevere)
-        || hasCondition(character, CharacterCondition::PoisonMedium)
-        || hasCondition(character, CharacterCondition::PoisonWeak))
+    if (*condition == CharacterCondition::PoisonSevere
+        || *condition == CharacterCondition::PoisonMedium
+        || *condition == CharacterCondition::PoisonWeak)
     {
         return "Poisoned";
     }
 
-    if (hasCondition(character, CharacterCondition::Weak))
+    if (*condition == CharacterCondition::Weak)
     {
         return "Weak";
     }
 
-    if (hasCondition(character, CharacterCondition::Cursed))
+    if (*condition == CharacterCondition::Cursed)
     {
         return "Cursed";
     }
 
-    if (hasCondition(character, CharacterCondition::Drunk))
+    if (*condition == CharacterCondition::Drunk)
     {
         return "Drunk";
     }
@@ -1365,12 +1367,14 @@ CharacterAttackProfile GameMechanics::buildCharacterAttackProfile(
     const EquippedItems equippedItems = resolveEquippedItems(character, pItemTable);
     const CharacterSheetSummary summary = buildCharacterSheetSummary(character, pItemTable);
 
-    profile.canMelee = true;
-    profile.hasBow = equippedItems.pBow != nullptr && isRangedWeapon(*equippedItems.pBow);
+    profile.canMelee = !character.physicalAttackDisabled;
+    profile.hasBow =
+        !character.physicalAttackDisabled && equippedItems.pBow != nullptr && isRangedWeapon(*equippedItems.pBow);
     profile.hasWand = equippedItems.pMainHand != nullptr && isWandWeapon(*equippedItems.pMainHand);
     profile.hasBlaster =
-        (equippedItems.pBow != nullptr && canonicalSkillName(equippedItems.pBow->skillGroup) == "Blaster")
-        || (equippedItems.pMainHand != nullptr && canonicalSkillName(equippedItems.pMainHand->skillGroup) == "Blaster");
+        !character.physicalAttackDisabled
+        && ((equippedItems.pBow != nullptr && canonicalSkillName(equippedItems.pBow->skillGroup) == "Blaster")
+            || (equippedItems.pMainHand != nullptr && canonicalSkillName(equippedItems.pMainHand->skillGroup) == "Blaster"));
     profile.canShoot = profile.hasBow || profile.hasWand || profile.hasBlaster;
     profile.meleeAttackBonus = summary.combat.attack;
     profile.meleeRecoverySeconds = resolveAttackRecoverySeconds(
@@ -1572,6 +1576,80 @@ bool GameMechanics::characterRangedAttackHitsArmorClass(
     }
 
     return characterAttackHitsArmorClass(std::max(0, targetArmorClass), attackBonus, distanceMode, 0, rng);
+}
+
+std::optional<CharacterCondition> GameMechanics::displayedCondition(const Character &character)
+{
+    if (hasCondition(character, CharacterCondition::Eradicated))
+    {
+        return CharacterCondition::Eradicated;
+    }
+
+    if (hasCondition(character, CharacterCondition::Petrified))
+    {
+        return CharacterCondition::Petrified;
+    }
+
+    if (hasCondition(character, CharacterCondition::Dead))
+    {
+        return CharacterCondition::Dead;
+    }
+
+    if (hasCondition(character, CharacterCondition::Unconscious) || character.health <= 0)
+    {
+        return CharacterCondition::Unconscious;
+    }
+
+    if (hasCondition(character, CharacterCondition::Paralyzed))
+    {
+        return CharacterCondition::Paralyzed;
+    }
+
+    if (hasCondition(character, CharacterCondition::Asleep))
+    {
+        return CharacterCondition::Asleep;
+    }
+
+    if (hasCondition(character, CharacterCondition::Insane))
+    {
+        return CharacterCondition::Insane;
+    }
+
+    if (hasCondition(character, CharacterCondition::Fear))
+    {
+        return CharacterCondition::Fear;
+    }
+
+    if (hasCondition(character, CharacterCondition::DiseaseSevere)
+        || hasCondition(character, CharacterCondition::DiseaseMedium)
+        || hasCondition(character, CharacterCondition::DiseaseWeak))
+    {
+        return CharacterCondition::DiseaseSevere;
+    }
+
+    if (hasCondition(character, CharacterCondition::PoisonSevere)
+        || hasCondition(character, CharacterCondition::PoisonMedium)
+        || hasCondition(character, CharacterCondition::PoisonWeak))
+    {
+        return CharacterCondition::PoisonSevere;
+    }
+
+    if (hasCondition(character, CharacterCondition::Weak))
+    {
+        return CharacterCondition::Weak;
+    }
+
+    if (hasCondition(character, CharacterCondition::Cursed))
+    {
+        return CharacterCondition::Cursed;
+    }
+
+    if (hasCondition(character, CharacterCondition::Drunk))
+    {
+        return CharacterCondition::Drunk;
+    }
+
+    return std::nullopt;
 }
 
 bool GameMechanics::canAct(const Character &character)

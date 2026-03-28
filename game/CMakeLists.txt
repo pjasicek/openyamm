@@ -68,6 +68,7 @@ add_executable(openyamm
     EventIr.cpp
     EventRuntime.cpp
     EvtProgram.cpp
+    FaceAnimationTable.cpp
     GameMechanics.cpp
     GenericActorDialog.cpp
     HouseInteraction.cpp
@@ -76,6 +77,7 @@ add_executable(openyamm
     GameDataLoader.cpp
     HeadlessOutdoorDiagnostics.cpp
     HouseTable.cpp
+    IconFrameTable.cpp
     ItemEquipPosTable.cpp
     ItemTable.cpp
     IndoorDebugRenderer.cpp
@@ -96,10 +98,13 @@ add_executable(openyamm
     OutdoorWorldRuntime.cpp
     Party.cpp
     PartySpellSystem.cpp
+    PortraitEnums.cpp
+    PortraitFrameTable.cpp
     RosterTable.cpp
     SpawnPreview.cpp
     SkillData.cpp
     SpellTable.cpp
+    SpellFxTable.cpp
     SpriteTables.cpp
     StrTable.cpp
     OutdoorGameView.cpp

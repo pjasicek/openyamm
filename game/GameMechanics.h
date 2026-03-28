@@ -136,6 +136,7 @@ public:
         int attackBonus,
         float targetDistance,
         std::mt19937 &rng);
+    static std::optional<CharacterCondition> displayedCondition(const Character &character);
     static bool canAct(const Character &character);
     static bool canSelectInGameplay(const Character &character);
     static bool canCharacterEquipItem(

@@ -5,9 +5,11 @@
 #include "game/ItemTable.h"
 #include "game/RosterTable.h"
 #include "game/SpellIds.h"
+#include "game/StringUtils.h"
 
 #include <algorithm>
 #include <array>
+#include <cctype>
 
 namespace OpenYAMM::Game
 {
@@ -20,6 +22,35 @@ void grantSeedSkill(Character &character, const std::string &skillName, uint32_t
     skill.level = level;
     skill.mastery = SkillMastery::Normal;
     character.skills[skill.name] = skill;
+}
+
+void grantSeedSkill(Character &character, const std::string &skillName, uint32_t level, SkillMastery mastery)
+{
+    CharacterSkill skill = {};
+    skill.name = canonicalSkillName(skillName);
+    skill.level = level;
+    skill.mastery = mastery;
+    character.skills[skill.name] = skill;
+}
+
+void grantAllMagicSchools(Character &character, uint32_t level, SkillMastery mastery)
+{
+    static const std::array<const char *, 9> skillNames = {
+        "FireMagic",
+        "AirMagic",
+        "WaterMagic",
+        "EarthMagic",
+        "SpiritMagic",
+        "MindMagic",
+        "BodyMagic",
+        "LightMagic",
+        "DarkMagic"
+    };
+
+    for (const char *pSkillName : skillNames)
+    {
+        grantSeedSkill(character, pSkillName, level, mastery);
+    }
 }
 
 void grantDefaultEquipmentSkills(Character &character)
@@ -92,6 +123,52 @@ std::string portraitTextureNameFromPictureId(uint32_t pictureId)
     return buffer;
 }
 
+std::optional<uint32_t> tryParsePictureIdFromPortraitTextureName(const std::string &portraitTextureName)
+{
+    if (portraitTextureName.size() < 6)
+    {
+        return std::nullopt;
+    }
+
+    const std::string normalized = toLowerCopy(portraitTextureName);
+
+    if (normalized[0] != 'p' || normalized[1] != 'c'
+        || !std::isdigit(static_cast<unsigned char>(normalized[2]))
+        || !std::isdigit(static_cast<unsigned char>(normalized[3])))
+    {
+        return std::nullopt;
+    }
+
+    const uint32_t faceNumber = static_cast<uint32_t>((normalized[2] - '0') * 10 + (normalized[3] - '0'));
+
+    if (faceNumber == 0)
+    {
+        return std::nullopt;
+    }
+
+    return faceNumber - 1;
+}
+
+void initializePortraitRuntimeState(Character &member)
+{
+    const std::optional<uint32_t> parsedPictureId = tryParsePictureIdFromPortraitTextureName(member.portraitTextureName);
+
+    if (parsedPictureId)
+    {
+        member.portraitPictureId = *parsedPictureId;
+    }
+    else if (member.portraitTextureName.empty())
+    {
+        member.portraitTextureName = portraitTextureNameFromPictureId(member.portraitPictureId);
+    }
+
+    member.portraitState = PortraitId::Normal;
+    member.portraitElapsedTicks = 0;
+    member.portraitDurationTicks = 0;
+    member.portraitSequenceCounter = 0;
+    member.portraitImageIndex = 0;
+}
+
 std::optional<std::pair<uint8_t, uint8_t>> findFirstFreeInventorySlot(
     const std::vector<InventoryItem> &inventory,
     uint8_t width,
@@ -160,6 +237,109 @@ bool inventoryItemContainsCell(const InventoryItem &item, uint8_t gridX, uint8_t
         && gridX < item.gridX + item.width
         && gridY >= item.gridY
         && gridY < item.gridY + item.height;
+}
+
+constexpr uint32_t AttackPreferenceKnight = 0x0001;
+constexpr uint32_t AttackPreferencePaladin = 0x0002;
+constexpr uint32_t AttackPreferenceArcher = 0x0004;
+constexpr uint32_t AttackPreferenceDruid = 0x0008;
+constexpr uint32_t AttackPreferenceCleric = 0x0010;
+constexpr uint32_t AttackPreferenceSorcerer = 0x0020;
+constexpr uint32_t AttackPreferenceRanger = 0x0040;
+constexpr uint32_t AttackPreferenceThief = 0x0080;
+constexpr uint32_t AttackPreferenceMonk = 0x0100;
+constexpr uint32_t AttackPreferenceMale = 0x0200;
+constexpr uint32_t AttackPreferenceFemale = 0x0400;
+constexpr uint32_t AttackPreferenceHuman = 0x0800;
+constexpr uint32_t AttackPreferenceElf = 0x1000;
+constexpr uint32_t AttackPreferenceDwarf = 0x2000;
+constexpr uint32_t AttackPreferenceGoblin = 0x4000;
+
+bool isValidMonsterAttackTarget(const Character &member)
+{
+    return member.health > 0
+        && !member.conditions.test(static_cast<size_t>(CharacterCondition::Paralyzed))
+        && !member.conditions.test(static_cast<size_t>(CharacterCondition::Unconscious))
+        && !member.conditions.test(static_cast<size_t>(CharacterCondition::Dead))
+        && !member.conditions.test(static_cast<size_t>(CharacterCondition::Petrified))
+        && !member.conditions.test(static_cast<size_t>(CharacterCondition::Eradicated));
+}
+
+bool matchesMonsterAttackPreference(const Character &member, uint32_t preferenceFlag)
+{
+    const std::string className = canonicalClassName(member.className.empty() ? member.role : member.className);
+
+    switch (preferenceFlag)
+    {
+        case AttackPreferenceKnight:
+            return className == "Knight";
+
+        case AttackPreferencePaladin:
+            return className == "Paladin";
+
+        case AttackPreferenceArcher:
+            return className == "Archer";
+
+        case AttackPreferenceDruid:
+            return className == "Druid";
+
+        case AttackPreferenceCleric:
+            return className == "Cleric";
+
+        case AttackPreferenceSorcerer:
+            return className == "Sorcerer";
+
+        case AttackPreferenceRanger:
+            return className == "Ranger";
+
+        case AttackPreferenceThief:
+            return className == "Thief";
+
+        case AttackPreferenceMonk:
+            return className == "Monk";
+
+        case AttackPreferenceHuman:
+            return className == "Knight"
+                || className == "Paladin"
+                || className == "Archer"
+                || className == "Druid"
+                || className == "Cleric"
+                || className == "Sorcerer"
+                || className == "Ranger"
+                || className == "Thief"
+                || className == "Monk";
+
+        case AttackPreferenceElf:
+            return className == "DarkElf";
+
+        case AttackPreferenceMale:
+        case AttackPreferenceFemale:
+        case AttackPreferenceDwarf:
+        case AttackPreferenceGoblin:
+        default:
+            return false;
+    }
+}
+
+void updateMemberIncapacitatedCondition(Character &member, bool preservationActive)
+{
+    if (member.health > 0)
+    {
+        member.conditions.reset(static_cast<size_t>(CharacterCondition::Unconscious));
+        member.conditions.reset(static_cast<size_t>(CharacterCondition::Dead));
+        return;
+    }
+
+    if (member.health + static_cast<int>(member.endurance) >= 1 || preservationActive)
+    {
+        member.conditions.set(static_cast<size_t>(CharacterCondition::Unconscious));
+        member.conditions.reset(static_cast<size_t>(CharacterCondition::Dead));
+    }
+    else
+    {
+        member.conditions.set(static_cast<size_t>(CharacterCondition::Dead));
+        member.conditions.reset(static_cast<size_t>(CharacterCondition::Unconscious));
+    }
 }
 
 bool inventoryItemFitsAt(const InventoryItem &item, uint8_t gridX, uint8_t gridY)
@@ -514,34 +694,39 @@ PartySeed Party::createDefaultSeed()
     seed.gold = 10000;
     seed.food = 7;
 
-    Character maleKnight = {};
-    maleKnight.name = "Ariel";
-    maleKnight.className = "Knight";
-    maleKnight.role = "Knight";
-    maleKnight.portraitTextureName = "PC01-01";
-    maleKnight.characterDataId = 1;
-    maleKnight.birthYear = 1148;
-    maleKnight.experience = 10000;
-    maleKnight.level = 5;
-    maleKnight.skillPoints = 30;
-    maleKnight.might = 18;
-    maleKnight.intellect = 8;
-    maleKnight.personality = 10;
-    maleKnight.endurance = 17;
-    maleKnight.speed = 12;
-    maleKnight.accuracy = 15;
-    maleKnight.luck = 11;
-    maleKnight.maxHealth = 120;
-    maleKnight.health = 120;
-    grantDefaultEquipmentSkills(maleKnight);
-    grantSeedInventoryLoadout(maleKnight);
-    seed.members.push_back(maleKnight);
+    Character cleric = {};
+    cleric.name = "Ariel";
+    cleric.className = "Cleric";
+    cleric.role = "Cleric";
+    cleric.portraitTextureName = "PC03-01";
+    cleric.portraitPictureId = 2;
+    cleric.characterDataId = 3;
+    cleric.birthYear = 1148;
+    cleric.experience = 10000;
+    cleric.level = 5;
+    cleric.skillPoints = 30;
+    cleric.might = 12;
+    cleric.intellect = 20;
+    cleric.personality = 20;
+    cleric.endurance = 15;
+    cleric.speed = 12;
+    cleric.accuracy = 12;
+    cleric.luck = 14;
+    cleric.maxHealth = 100;
+    cleric.health = 100;
+    cleric.maxSpellPoints = 120;
+    cleric.spellPoints = 120;
+    grantDefaultEquipmentSkills(cleric);
+    grantAllMagicSchools(cleric, 10, SkillMastery::Grandmaster);
+    grantSeedInventoryLoadout(cleric);
+    seed.members.push_back(cleric);
 
     Character femaleKnight = {};
     femaleKnight.name = "Leane";
     femaleKnight.className = "Knight";
     femaleKnight.role = "Knight";
     femaleKnight.portraitTextureName = "PC02-01";
+    femaleKnight.portraitPictureId = 1;
     femaleKnight.characterDataId = 2;
     femaleKnight.birthYear = 1144;
     femaleKnight.experience = 10000;
@@ -565,6 +750,7 @@ PartySeed Party::createDefaultSeed()
     minotaur.className = "Minotaur";
     minotaur.role = "Minotaur";
     minotaur.portraitTextureName = "PC21-01";
+    minotaur.portraitPictureId = 20;
     minotaur.characterDataId = 21;
     minotaur.birthYear = 1155;
     minotaur.experience = 10000;
@@ -588,6 +774,7 @@ PartySeed Party::createDefaultSeed()
     troll.className = "Troll";
     troll.role = "Troll";
     troll.portraitTextureName = "PC23-01";
+    troll.portraitPictureId = 22;
     troll.characterDataId = 23;
     troll.birthYear = 1149;
     troll.experience = 10000;
@@ -611,6 +798,7 @@ PartySeed Party::createDefaultSeed()
     dragon.className = "Dragon";
     dragon.role = "Dragon";
     dragon.portraitTextureName = "PC25-01";
+    dragon.portraitPictureId = 24;
     dragon.characterDataId = 25;
     dragon.birthYear = 1129;
     dragon.experience = 10000;
@@ -655,6 +843,8 @@ void Party::setClassSkillTable(const ClassSkillTable *pClassSkillTable)
         {
             applyDefaultStartingSkills(member);
         }
+
+        initializePortraitRuntimeState(member);
     }
 }
 
@@ -667,6 +857,7 @@ void Party::seed(const PartySeed &seed)
     m_gold = std::max(0, seed.gold);
     m_bankGold = 0;
     m_food = std::max(0, seed.food);
+    m_monsterTargetSelectionCounter = 0;
 
     for (Character &member : m_members)
     {
@@ -701,6 +892,8 @@ void Party::seed(const PartySeed &seed)
         {
             applyDefaultStartingSkills(member);
         }
+
+        initializePortraitRuntimeState(member);
     }
 
     if (m_members.empty())
@@ -735,10 +928,10 @@ void Party::applyMovementEffects(const OutdoorMovementEffects &effects)
 {
     for (uint32_t i = 0; i < effects.waterDamageTicks; ++i)
     {
-        for (Character &member : m_members)
+        for (size_t memberIndex = 0; memberIndex < m_members.size(); ++memberIndex)
         {
-            const int damage = std::max(1, member.maxHealth / 10);
-            member.health = std::max(0, member.health - damage);
+            const int damage = std::max(1, m_members[memberIndex].maxHealth / 10);
+            applyDamageToMember(memberIndex, damage, "");
         }
 
         m_waterDamageTicks += 1;
@@ -747,10 +940,10 @@ void Party::applyMovementEffects(const OutdoorMovementEffects &effects)
 
     for (uint32_t i = 0; i < effects.burningDamageTicks; ++i)
     {
-        for (Character &member : m_members)
+        for (size_t memberIndex = 0; memberIndex < m_members.size(); ++memberIndex)
         {
-            const int damage = std::max(1, member.maxHealth / 10);
-            member.health = std::max(0, member.health - damage);
+            const int damage = std::max(1, m_members[memberIndex].maxHealth / 10);
+            applyDamageToMember(memberIndex, damage, "");
         }
 
         m_burningDamageTicks += 1;
@@ -761,11 +954,11 @@ void Party::applyMovementEffects(const OutdoorMovementEffects &effects)
     {
         m_lastFallDamageDistance = std::max(m_lastFallDamageDistance, effects.maxFallDamageDistance);
 
-        for (Character &member : m_members)
+        for (size_t memberIndex = 0; memberIndex < m_members.size(); ++memberIndex)
         {
             const int damage =
-                std::max(0, static_cast<int>(effects.maxFallDamageDistance * (member.maxHealth / 10.0f) / 256.0f));
-            member.health = std::max(0, member.health - damage);
+                std::max(0, static_cast<int>(effects.maxFallDamageDistance * (m_members[memberIndex].maxHealth / 10.0f) / 256.0f));
+            applyDamageToMember(memberIndex, damage, "");
         }
 
         m_lastStatus = "fall damage";
@@ -848,8 +1041,27 @@ bool Party::applyDamageToActiveMember(int damage, const std::string &status)
         }
     }
 
-    Character &member = m_members[targetIndex];
-    member.health = std::max(0, member.health - damage);
+    return applyDamageToMember(targetIndex, damage, status);
+}
+
+bool Party::applyDamageToMember(size_t memberIndex, int damage, const std::string &status)
+{
+    if (damage <= 0 || memberIndex >= m_members.size())
+    {
+        return false;
+    }
+
+    Character &member = m_members[memberIndex];
+
+    if (member.health <= 0)
+    {
+        return false;
+    }
+
+    member.health -= damage;
+    const bool preservationActive =
+        m_characterBuffs[memberIndex][static_cast<size_t>(CharacterBuffId::Preservation)].active();
+    updateMemberIncapacitatedCondition(member, preservationActive);
 
     if (!status.empty())
     {
@@ -857,6 +1069,101 @@ bool Party::applyDamageToActiveMember(int damage, const std::string &status)
     }
 
     return true;
+}
+
+bool Party::applyDamageToAllLivingMembers(int damage, const std::string &status)
+{
+    if (damage <= 0 || m_members.empty())
+    {
+        return false;
+    }
+
+    bool applied = false;
+
+    for (size_t memberIndex = 0; memberIndex < m_members.size(); ++memberIndex)
+    {
+        if (m_members[memberIndex].health <= 0)
+        {
+            continue;
+        }
+
+        applied = applyDamageToMember(memberIndex, damage, "") || applied;
+    }
+
+    if (applied && !status.empty())
+    {
+        m_lastStatus = status;
+    }
+
+    return applied;
+}
+
+std::optional<size_t> Party::chooseMonsterAttackTarget(uint32_t attackPreferences, uint32_t seedHint)
+{
+    std::vector<size_t> candidates;
+    candidates.reserve(m_members.size());
+
+    static constexpr std::array<uint32_t, 15> PreferenceFlags = {{
+        AttackPreferenceKnight,
+        AttackPreferencePaladin,
+        AttackPreferenceArcher,
+        AttackPreferenceDruid,
+        AttackPreferenceCleric,
+        AttackPreferenceSorcerer,
+        AttackPreferenceRanger,
+        AttackPreferenceThief,
+        AttackPreferenceMonk,
+        AttackPreferenceMale,
+        AttackPreferenceFemale,
+        AttackPreferenceHuman,
+        AttackPreferenceElf,
+        AttackPreferenceDwarf,
+        AttackPreferenceGoblin,
+    }};
+
+    if (attackPreferences != 0)
+    {
+        for (uint32_t preferenceFlag : PreferenceFlags)
+        {
+            if ((attackPreferences & preferenceFlag) == 0)
+            {
+                continue;
+            }
+
+            for (size_t memberIndex = 0; memberIndex < m_members.size(); ++memberIndex)
+            {
+                const Character &member = m_members[memberIndex];
+
+                if (!isValidMonsterAttackTarget(member) || !matchesMonsterAttackPreference(member, preferenceFlag))
+                {
+                    continue;
+                }
+
+                candidates.push_back(memberIndex);
+            }
+        }
+    }
+
+    if (candidates.empty())
+    {
+        for (size_t memberIndex = 0; memberIndex < m_members.size(); ++memberIndex)
+        {
+            if (isValidMonsterAttackTarget(m_members[memberIndex]))
+            {
+                candidates.push_back(memberIndex);
+            }
+        }
+    }
+
+    if (candidates.empty())
+    {
+        return std::nullopt;
+    }
+
+    const uint32_t selectionSeed =
+        seedHint * 1103515245u + m_monsterTargetSelectionCounter * 2654435761u + 12345u;
+    ++m_monsterTargetSelectionCounter;
+    return candidates[selectionSeed % candidates.size()];
 }
 
 void Party::addGold(int amount)
@@ -985,6 +1292,8 @@ void Party::restoreAll()
     {
         member.health = member.maxHealth;
         member.spellPoints = member.maxSpellPoints;
+        member.conditions.reset(static_cast<size_t>(CharacterCondition::Unconscious));
+        member.conditions.reset(static_cast<size_t>(CharacterCondition::Dead));
     }
 }
 
@@ -999,6 +1308,8 @@ void Party::restoreActiveMember()
 
     pMember->health = pMember->maxHealth;
     pMember->spellPoints = pMember->maxSpellPoints;
+    pMember->conditions.reset(static_cast<size_t>(CharacterCondition::Unconscious));
+    pMember->conditions.reset(static_cast<size_t>(CharacterCondition::Dead));
 }
 
 bool Party::trainLeader(uint32_t maxLevel, uint32_t &newLevel, uint32_t &skillPointsEarned)
@@ -1168,6 +1479,7 @@ bool Party::recruitRosterMember(const RosterEntry &rosterEntry)
     member.className = canonicalClassName(rosterEntry.className);
     member.role = normalizeRoleName(member.className);
     member.portraitTextureName = portraitTextureNameFromPictureId(rosterEntry.pictureId);
+    member.portraitPictureId = rosterEntry.pictureId;
     member.rosterId = rosterEntry.id;
     member.birthYear = rosterEntry.birthYear;
     member.experience = rosterEntry.experience;
@@ -1937,6 +2249,9 @@ bool Party::healMember(size_t memberIndex, int amount)
         std::max(1, pMember->maxHealth + pMember->permanentBonuses.maxHealth + pMember->magicalBonuses.maxHealth);
     const int previousHealth = pMember->health;
     pMember->health = std::clamp(pMember->health + amount, 0, maxHealth);
+    updateMemberIncapacitatedCondition(
+        *pMember,
+        m_characterBuffs[memberIndex][static_cast<size_t>(CharacterBuffId::Preservation)].active());
     return pMember->health > previousHealth;
 }
 
@@ -2105,6 +2420,11 @@ void Party::rebuildMagicalBonusesFromBuffs()
     {
         member.magicalBonuses = {};
         member.magicalImmunities = {};
+        member.merchantBonus = 0;
+        member.weaponEnchantmentDamageBonus = 0;
+        member.vampiricHealFraction = 0.0f;
+        member.physicalAttackDisabled = false;
+        member.physicalDamageImmune = false;
     }
 
     const auto applyResistanceBonus =
@@ -2175,6 +2495,14 @@ void Party::rebuildMagicalBonusesFromBuffs()
         }
     }
 
+    if (const PartyBuffState *pBuff = partyBuff(PartyBuffId::Glamour))
+    {
+        for (Character &member : m_members)
+        {
+            member.merchantBonus += pBuff->power;
+        }
+    }
+
     for (size_t memberIndex = 0; memberIndex < m_members.size() && memberIndex < m_characterBuffs.size(); ++memberIndex)
     {
         Character &member = m_members[memberIndex];
@@ -2194,6 +2522,30 @@ void Party::rebuildMagicalBonusesFromBuffs()
         if (const CharacterBuffState *pBuff = characterBuff(memberIndex, CharacterBuffId::Hammerhands))
         {
             member.magicalBonuses.meleeDamage += pBuff->power;
+        }
+
+        if (const CharacterBuffState *pBuff = characterBuff(memberIndex, CharacterBuffId::FireAura))
+        {
+            member.weaponEnchantmentDamageBonus += pBuff->power;
+            member.magicalBonuses.meleeDamage += pBuff->power;
+            member.magicalBonuses.rangedDamage += pBuff->power;
+        }
+
+        if (const CharacterBuffState *pBuff = characterBuff(memberIndex, CharacterBuffId::VampiricWeapon))
+        {
+            member.vampiricHealFraction = std::max(member.vampiricHealFraction, static_cast<float>(pBuff->power) / 100.0f);
+        }
+
+        if (const CharacterBuffState *pBuff = characterBuff(memberIndex, CharacterBuffId::Mistform))
+        {
+            static_cast<void>(pBuff);
+            member.physicalAttackDisabled = true;
+            member.physicalDamageImmune = true;
+        }
+
+        if (const CharacterBuffState *pBuff = characterBuff(memberIndex, CharacterBuffId::Glamour))
+        {
+            member.merchantBonus += pBuff->power;
         }
     }
 }

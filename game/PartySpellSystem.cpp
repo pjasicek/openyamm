@@ -90,8 +90,43 @@ bool ruleHasExplicitRecovery(const BackendSpellRule &rule)
     return false;
 }
 
+void appendAffectedCharacterIndex(std::vector<size_t> &indices, size_t memberIndex)
+{
+    if (std::find(indices.begin(), indices.end(), memberIndex) == indices.end())
+    {
+        indices.push_back(memberIndex);
+    }
+}
+
+void appendAllPartyMemberIndices(const Party &party, std::vector<size_t> &indices)
+{
+    for (size_t memberIndex = 0; memberIndex < party.members().size(); ++memberIndex)
+    {
+        appendAffectedCharacterIndex(indices, memberIndex);
+    }
+}
+
 SkillMastery defaultRequiredMasteryForSpellId(uint32_t spellId)
 {
+    if (spellIdInRange(spellId, SpellId::Glamour, SpellId::DarkfireBolt)
+        || spellIdInRange(spellId, SpellId::Lifedrain, SpellId::Mistform)
+        || spellIdInRange(spellId, SpellId::Fear, SpellId::WingBuffet))
+    {
+        const uint32_t offset =
+            spellIdInRange(spellId, SpellId::Glamour, SpellId::DarkfireBolt)
+                ? spellId - spellIdValue(SpellId::Glamour)
+                : spellIdInRange(spellId, SpellId::Lifedrain, SpellId::Mistform)
+                ? spellId - spellIdValue(SpellId::Lifedrain)
+                : spellId - spellIdValue(SpellId::Fear);
+        return offset == 0
+            ? SkillMastery::Normal
+            : offset == 1
+            ? SkillMastery::Expert
+            : offset == 2
+            ? SkillMastery::Master
+            : SkillMastery::Grandmaster;
+    }
+
     const uint32_t level = spellSlotLevel(spellId);
 
     if (level >= 11)
@@ -139,6 +174,23 @@ int defaultManaCostForSpellId(uint32_t spellId)
         case 11:
         default:
             return 30;
+    }
+}
+
+int manaCostForSpellEntry(const SpellEntry &spellEntry, SkillMastery mastery)
+{
+    switch (mastery)
+    {
+        case SkillMastery::Expert:
+            return spellEntry.expertManaCost;
+        case SkillMastery::Master:
+            return spellEntry.masterManaCost;
+        case SkillMastery::Grandmaster:
+            return spellEntry.grandmasterManaCost;
+        case SkillMastery::Normal:
+        case SkillMastery::None:
+        default:
+            return spellEntry.normalManaCost;
     }
 }
 
@@ -228,6 +280,21 @@ std::optional<std::string> resolveMagicSkillName(uint32_t spellId)
         return "DarkMagic";
     }
 
+    if (spellIdInRange(spellId, SpellId::Glamour, SpellId::DarkfireBolt))
+    {
+        return "DarkElfAbility";
+    }
+
+    if (spellIdInRange(spellId, SpellId::Lifedrain, SpellId::Mistform))
+    {
+        return "VampireAbility";
+    }
+
+    if (spellIdInRange(spellId, SpellId::Fear, SpellId::WingBuffet))
+    {
+        return "DragonAbility";
+    }
+
     return std::nullopt;
 }
 
@@ -249,10 +316,14 @@ std::optional<BackendSpellRule> resolveBackendSpellRule(uint32_t spellId, SkillM
             return BackendSpellRule{2, PartySpellCastTargetKind::Actor, PartySpellCastEffectKind::Projectile, SkillMastery::Normal, {2, 2, 2, 2}, {110, 110, 100, 90}, PartyBuffId::TorchLight, 0, 3, false};
         case SpellId::FireResistance:
             return BackendSpellRule{3, PartySpellCastTargetKind::None, PartySpellCastEffectKind::PartyBuff, SkillMastery::Normal, {3, 3, 3, 3}, {120, 120, 120, 120}, PartyBuffId::FireResistance};
+        case SpellId::FireAura:
+            return BackendSpellRule{4, PartySpellCastTargetKind::Character, PartySpellCastEffectKind::CharacterBuff, SkillMastery::Normal, {4, 4, 4, 4}, {120, 120, 120, 120}, PartyBuffId::TorchLight};
         case SpellId::Haste:
             return BackendSpellRule{5, PartySpellCastTargetKind::None, PartySpellCastEffectKind::PartyBuff, SkillMastery::Expert, {5, 5, 5, 5}, {120, 120, 120, 120}, PartyBuffId::Haste};
         case SpellId::Fireball:
             return BackendSpellRule{6, PartySpellCastTargetKind::Actor, PartySpellCastEffectKind::Projectile, SkillMastery::Expert, {8, 8, 8, 8}, {100, 100, 90, 80}, PartyBuffId::TorchLight, 0, 6, false};
+        case SpellId::FireSpike:
+            return BackendSpellRule{7, PartySpellCastTargetKind::GroundPoint, PartySpellCastEffectKind::AreaEffect, SkillMastery::Expert, {10, 10, 10, 10}, {150, 150, 150, 150}, PartyBuffId::TorchLight, 1, 6, false};
         case SpellId::Immolation:
             return BackendSpellRule{8, PartySpellCastTargetKind::None, PartySpellCastEffectKind::PartyBuff, SkillMastery::Master, {15, 15, 15, 15}, {120, 120, 120, 120}, PartyBuffId::Immolation};
         case SpellId::MeteorShower:
@@ -293,6 +364,8 @@ std::optional<BackendSpellRule> resolveBackendSpellRule(uint32_t spellId, SkillM
             return BackendSpellRule{26, PartySpellCastTargetKind::Actor, PartySpellCastEffectKind::Projectile, SkillMastery::Normal, {}, {}, PartyBuffId::TorchLight, 1, 4, false};
         case SpellId::WaterWalk:
             return BackendSpellRule{27, PartySpellCastTargetKind::None, PartySpellCastEffectKind::PartyBuff, SkillMastery::Expert, {}, {}, PartyBuffId::WaterWalk};
+        case SpellId::RechargeItem:
+            return BackendSpellRule{28, PartySpellCastTargetKind::UtilityUi, PartySpellCastEffectKind::UtilityUi, SkillMastery::Expert, {8, 8, 8, 8}, {200, 200, 200, 200}, PartyBuffId::TorchLight};
         case SpellId::AcidBurst:
             return BackendSpellRule{29, PartySpellCastTargetKind::Actor, PartySpellCastEffectKind::ActorEffect, SkillMastery::Expert, {}, {}, PartyBuffId::TorchLight, 9, 9, false};
         case SpellId::EnchantItem:
@@ -319,6 +392,8 @@ std::optional<BackendSpellRule> resolveBackendSpellRule(uint32_t spellId, SkillM
             return BackendSpellRule{40, PartySpellCastTargetKind::Character, PartySpellCastEffectKind::CharacterRestore, SkillMastery::Expert, {}, {}, PartyBuffId::TorchLight};
         case SpellId::RockBlast:
             return BackendSpellRule{41, PartySpellCastTargetKind::GroundPoint, PartySpellCastEffectKind::Projectile, SkillMastery::Master, {}, {}, PartyBuffId::TorchLight, 10, 10, false};
+        case SpellId::Telekinesis:
+            return BackendSpellRule{42, PartySpellCastTargetKind::UtilityUi, PartySpellCastEffectKind::UtilityUi, SkillMastery::Master, {20, 20, 20, 20}, {150, 150, 150, 150}, PartyBuffId::TorchLight};
         case SpellId::DeathBlossom:
             return BackendSpellRule{43, PartySpellCastTargetKind::GroundPoint, PartySpellCastEffectKind::Projectile, SkillMastery::Master, {}, {}, PartyBuffId::TorchLight, 20, 2, true};
         case SpellId::MassDistortion:
@@ -345,6 +420,8 @@ std::optional<BackendSpellRule> resolveBackendSpellRule(uint32_t spellId, SkillM
             return BackendSpellRule{54, PartySpellCastTargetKind::None, PartySpellCastEffectKind::PartyRestore, SkillMastery::Master, {}, {}, PartyBuffId::TorchLight};
         case SpellId::Resurrection:
             return BackendSpellRule{55, PartySpellCastTargetKind::Character, PartySpellCastEffectKind::CharacterRestore, SkillMastery::Grandmaster, {}, {}, PartyBuffId::TorchLight};
+        case SpellId::Telepathy:
+            return BackendSpellRule{56, PartySpellCastTargetKind::UtilityUi, PartySpellCastEffectKind::UtilityUi, SkillMastery::Normal, {1, 1, 1, 1}, {90, 90, 90, 90}, PartyBuffId::TorchLight};
         case SpellId::RemoveFear:
             return BackendSpellRule{57, PartySpellCastTargetKind::Character, PartySpellCastEffectKind::CharacterRestore, SkillMastery::Normal, {}, {}, PartyBuffId::TorchLight};
         case SpellId::MindResistance:
@@ -395,6 +472,8 @@ std::optional<BackendSpellRule> resolveBackendSpellRule(uint32_t spellId, SkillM
             return BackendSpellRule{80, PartySpellCastTargetKind::None, PartySpellCastEffectKind::AreaEffect, SkillMastery::Normal, {}, {}, PartyBuffId::TorchLight};
         case SpellId::Paralyze:
             return BackendSpellRule{81, PartySpellCastTargetKind::Actor, PartySpellCastEffectKind::ActorEffect, SkillMastery::Normal, {}, {}, PartyBuffId::TorchLight};
+        case SpellId::SummonWisp:
+            return BackendSpellRule{82, PartySpellCastTargetKind::None, PartySpellCastEffectKind::AreaEffect, SkillMastery::Normal, {25, 25, 25, 25}, {140, 140, 140, 140}, PartyBuffId::TorchLight};
         case SpellId::DayOfGods:
             return BackendSpellRule{83, PartySpellCastTargetKind::None, PartySpellCastEffectKind::PartyBuff, SkillMastery::Expert, {30, 30, 30, 30}, {500, 500, 500, 500}, PartyBuffId::DayOfGods};
         case SpellId::PrismaticLight:
@@ -411,6 +490,8 @@ std::optional<BackendSpellRule> resolveBackendSpellRule(uint32_t spellId, SkillM
             return BackendSpellRule{89, PartySpellCastTargetKind::ActorOrCharacter, PartySpellCastEffectKind::ActorEffect, SkillMastery::Normal, {}, {}, PartyBuffId::TorchLight};
         case SpellId::ToxicCloud:
             return BackendSpellRule{90, PartySpellCastTargetKind::Actor, PartySpellCastEffectKind::Projectile, SkillMastery::Normal, {}, {}, PartyBuffId::TorchLight, 25, 10, false};
+        case SpellId::VampiricWeapon:
+            return BackendSpellRule{91, PartySpellCastTargetKind::Character, PartySpellCastEffectKind::CharacterBuff, SkillMastery::Normal, {20, 20, 20, 20}, {120, 100, 90, 120}, PartyBuffId::TorchLight};
         case SpellId::ShrinkingRay:
             return BackendSpellRule{92, PartySpellCastTargetKind::Actor, PartySpellCastEffectKind::ActorEffect, SkillMastery::Normal, {}, {}, PartyBuffId::TorchLight};
         case SpellId::Shrapmetal:
@@ -427,6 +508,30 @@ std::optional<BackendSpellRule> resolveBackendSpellRule(uint32_t spellId, SkillM
             return BackendSpellRule{98, PartySpellCastTargetKind::None, PartySpellCastEffectKind::AreaEffect, SkillMastery::Master, {}, {}, PartyBuffId::TorchLight, 50, 1, false};
         case SpellId::SoulDrinker:
             return BackendSpellRule{99, PartySpellCastTargetKind::None, PartySpellCastEffectKind::AreaEffect, SkillMastery::Grandmaster, {}, {}, PartyBuffId::TorchLight, 25, 8, false};
+        case SpellId::Glamour:
+            return BackendSpellRule{100, PartySpellCastTargetKind::Character, PartySpellCastEffectKind::CharacterBuff, SkillMastery::Normal, {5, 5, 5, 5}, {100, 100, 100, 100}, PartyBuffId::TorchLight};
+        case SpellId::TravelersBoon:
+            return BackendSpellRule{101, PartySpellCastTargetKind::None, PartySpellCastEffectKind::PartyBuff, SkillMastery::Expert, {10, 10, 10, 10}, {100, 100, 100, 100}, PartyBuffId::TorchLight};
+        case SpellId::Blind:
+            return BackendSpellRule{102, PartySpellCastTargetKind::Actor, PartySpellCastEffectKind::ActorEffect, SkillMastery::Master, {15, 15, 15, 15}, {120, 120, 120, 120}, PartyBuffId::TorchLight};
+        case SpellId::DarkfireBolt:
+            return BackendSpellRule{103, PartySpellCastTargetKind::Actor, PartySpellCastEffectKind::Projectile, SkillMastery::Grandmaster, {30, 30, 30, 30}, {90, 90, 90, 90}, PartyBuffId::TorchLight, 0, 17, false};
+        case SpellId::Lifedrain:
+            return BackendSpellRule{111, PartySpellCastTargetKind::Actor, PartySpellCastEffectKind::ActorEffect, SkillMastery::Normal, {5, 5, 5, 5}, {100, 80, 80, 80}, PartyBuffId::TorchLight, 3, 3, false};
+        case SpellId::Levitate:
+            return BackendSpellRule{112, PartySpellCastTargetKind::None, PartySpellCastEffectKind::PartyBuff, SkillMastery::Expert, {10, 10, 10, 10}, {110, 110, 110, 110}, PartyBuffId::Levitate};
+        case SpellId::VampireCharm:
+            return BackendSpellRule{113, PartySpellCastTargetKind::Actor, PartySpellCastEffectKind::ActorEffect, SkillMastery::Master, {20, 20, 20, 20}, {110, 110, 110, 110}, PartyBuffId::TorchLight};
+        case SpellId::Mistform:
+            return BackendSpellRule{114, PartySpellCastTargetKind::Character, PartySpellCastEffectKind::CharacterBuff, SkillMastery::Grandmaster, {30, 30, 30, 30}, {110, 110, 110, 110}, PartyBuffId::TorchLight};
+        case SpellId::Fear:
+            return BackendSpellRule{122, PartySpellCastTargetKind::Actor, PartySpellCastEffectKind::ActorEffect, SkillMastery::Normal, {5, 5, 5, 5}, {100, 100, 100, 100}, PartyBuffId::TorchLight};
+        case SpellId::FlameBlast:
+            return BackendSpellRule{123, PartySpellCastTargetKind::Actor, PartySpellCastEffectKind::Projectile, SkillMastery::Expert, {10, 10, 10, 10}, {100, 100, 100, 100}, PartyBuffId::TorchLight, 10, 10, false};
+        case SpellId::Flight:
+            return BackendSpellRule{124, PartySpellCastTargetKind::None, PartySpellCastEffectKind::PartyBuff, SkillMastery::Master, {15, 15, 15, 15}, {120, 120, 120, 120}, PartyBuffId::Fly};
+        case SpellId::WingBuffet:
+            return BackendSpellRule{125, PartySpellCastTargetKind::None, PartySpellCastEffectKind::AreaEffect, SkillMastery::Grandmaster, {30, 30, 30, 30}, {110, 110, 110, 110}, PartyBuffId::TorchLight};
         default:
             return std::nullopt;
     }
@@ -474,19 +579,23 @@ bx::Vec3 resolveActorTargetPoint(const OutdoorWorldRuntime::MapActorState &actor
     };
 }
 
-int rollSpellDamage(const BackendSpellRule &rule, uint32_t skillLevel)
+int rollSpellDamage(const BackendSpellRule &rule, const SpellEntry &spellEntry, uint32_t skillLevel)
 {
+    const bool hasExplicitDamage = rule.baseDamage > 0 || rule.bonusSkillDamage > 0;
+    const int baseDamage = hasExplicitDamage ? rule.baseDamage : spellEntry.damageBase;
+    const int bonusSkillDamage = hasExplicitDamage ? rule.bonusSkillDamage : spellEntry.damageDiceSides;
+
     if (skillLevel == 0)
     {
-        return std::max(0, rule.baseDamage);
+        return std::max(0, baseDamage);
     }
 
     if (rule.damageScalesLinearly)
     {
-        return std::max(0, rule.baseDamage + rule.bonusSkillDamage * static_cast<int>(skillLevel));
+        return std::max(0, baseDamage + bonusSkillDamage * static_cast<int>(skillLevel));
     }
 
-    return std::max(0, rule.baseDamage + static_cast<int>(skillLevel) * std::max(1, rule.bonusSkillDamage));
+    return std::max(0, baseDamage + static_cast<int>(skillLevel) * std::max(1, bonusSkillDamage));
 }
 
 float resolvePartyBuffDurationSeconds(uint32_t spellId, uint32_t skillLevel, SkillMastery mastery)
@@ -500,6 +609,7 @@ float resolvePartyBuffDurationSeconds(uint32_t spellId, uint32_t skillLevel, Ski
         case SpellId::WaterWalk:
         case SpellId::DetectLife:
         case SpellId::ProtectionFromMagic:
+        case SpellId::Glamour:
             return secondsFromHours(static_cast<float>(skillLevel));
         case SpellId::FireResistance:
         case SpellId::AirResistance:
@@ -549,6 +659,12 @@ float resolvePartyBuffDurationSeconds(uint32_t spellId, uint32_t skillLevel, Ski
             return mastery == SkillMastery::Grandmaster
                 ? secondsFromMinutes(static_cast<float>(10 * skillLevel))
                 : secondsFromMinutes(static_cast<float>(skillLevel));
+        case SpellId::Levitate:
+            return mastery == SkillMastery::Expert
+                ? secondsFromMinutes(static_cast<float>(10 * skillLevel))
+                : mastery == SkillMastery::Master
+                ? secondsFromHours(static_cast<float>(skillLevel))
+                : secondsFromHours(static_cast<float>(3 * skillLevel));
         case SpellId::DayOfGods:
             return mastery == SkillMastery::Expert
                 ? secondsFromHours(static_cast<float>(3 * skillLevel))
@@ -563,6 +679,16 @@ float resolvePartyBuffDurationSeconds(uint32_t spellId, uint32_t skillLevel, Ski
             return mastery == SkillMastery::Master
                 ? secondsFromHours(1.0f) + secondsFromMinutes(static_cast<float>(15 * 4 * skillLevel))
                 : secondsFromHours(1.0f) + secondsFromMinutes(static_cast<float>(15 * 5 * skillLevel));
+        case SpellId::TravelersBoon:
+            return mastery == SkillMastery::Expert
+                ? secondsFromMinutes(static_cast<float>(30 * skillLevel))
+                : mastery == SkillMastery::Master
+                ? secondsFromHours(static_cast<float>(skillLevel))
+                : secondsFromHours(static_cast<float>(2 * skillLevel));
+        case SpellId::Flight:
+            return mastery == SkillMastery::Grandmaster
+                ? secondsFromHours(24.0f)
+                : secondsFromHours(static_cast<float>(skillLevel));
         default:
             return 0.0f;
     }
@@ -605,6 +731,10 @@ int resolvePartyBuffPower(uint32_t spellId, uint32_t skillLevel, SkillMastery ma
             return static_cast<int>(skillLevel) + 5;
         case SpellId::Immolation:
             return static_cast<int>(skillLevel);
+        case SpellId::Glamour:
+            return mastery == SkillMastery::Grandmaster
+                ? static_cast<int>(3 * skillLevel)
+                : static_cast<int>(2 * skillLevel);
         default:
             return 0;
     }
@@ -655,6 +785,22 @@ void applyCompositePartyBuff(
             }
             break;
         }
+        case SpellId::TravelersBoon:
+        {
+            const float durationSeconds = resolvePartyBuffDurationSeconds(spellId, skillLevel, mastery);
+            party.applyPartyBuff(PartyBuffId::TorchLight, durationSeconds, 3, spellId, skillLevel, mastery, casterMemberIndex);
+            party.applyPartyBuff(PartyBuffId::WizardEye, durationSeconds, 0, spellId, skillLevel, mastery, casterMemberIndex);
+            party.applyPartyBuff(PartyBuffId::FeatherFall, durationSeconds, 0, spellId, skillLevel, mastery, casterMemberIndex);
+            break;
+        }
+        case SpellId::Levitate:
+        {
+            const float durationSeconds = resolvePartyBuffDurationSeconds(spellId, skillLevel, mastery);
+            party.applyPartyBuff(PartyBuffId::Levitate, durationSeconds, 0, spellId, skillLevel, mastery, casterMemberIndex);
+            party.applyPartyBuff(PartyBuffId::WaterWalk, durationSeconds, 0, spellId, skillLevel, mastery, casterMemberIndex);
+            party.applyPartyBuff(PartyBuffId::FeatherFall, durationSeconds, 0, spellId, skillLevel, mastery, casterMemberIndex);
+            break;
+        }
         default:
             break;
     }
@@ -680,13 +826,25 @@ float resolveCharacterBuffDurationSeconds(uint32_t spellId, uint32_t skillLevel,
                 : mastery == SkillMastery::Master
                 ? secondsFromHours(1.0f) + secondsFromMinutes(static_cast<float>(15 * skillLevel))
                 : secondsFromHours(1.0f) + secondsFromMinutes(static_cast<float>(15 * skillLevel));
+        case SpellId::FireAura:
+            return secondsFromHours(static_cast<float>(std::max<uint32_t>(1, skillLevel)));
         case SpellId::Regeneration:
         case SpellId::Hammerhands:
             return secondsFromHours(static_cast<float>(std::max<uint32_t>(1, skillLevel)));
+        case SpellId::VampiricWeapon:
+            return mastery == SkillMastery::Grandmaster
+                ? secondsFromHours(24.0f * 365.0f)
+                : secondsFromHours(static_cast<float>(std::max<uint32_t>(1, skillLevel)));
+        case SpellId::Glamour:
+            return mastery == SkillMastery::Master
+                ? secondsFromHours(static_cast<float>(std::max<uint32_t>(1, skillLevel)))
+                : secondsFromMinutes(static_cast<float>(5 * std::max<uint32_t>(1, skillLevel)));
         case SpellId::PainReflection:
             return mastery == SkillMastery::Grandmaster
                 ? secondsFromHours(1.0f) + secondsFromMinutes(static_cast<float>(15 * skillLevel))
                 : secondsFromHours(1.0f) + secondsFromMinutes(static_cast<float>(5 * skillLevel));
+        case SpellId::Mistform:
+            return secondsFromHours(static_cast<float>(std::max<uint32_t>(1, skillLevel)));
         default:
             return secondsFromHours(static_cast<float>(std::max<uint32_t>(1, skillLevel)));
     }
@@ -706,6 +864,14 @@ int resolveCharacterBuffPower(uint32_t spellId, uint32_t skillLevel, SkillMaster
                 : mastery == SkillMastery::Master
                 ? 20 + static_cast<int>(4 * skillLevel)
                 : 20 + static_cast<int>(6 * skillLevel);
+        case SpellId::FireAura:
+            return mastery == SkillMastery::Grandmaster
+                ? static_cast<int>(3 * skillLevel + 3)
+                : mastery == SkillMastery::Master
+                ? static_cast<int>(2 * skillLevel + 3)
+                : mastery == SkillMastery::Expert
+                ? static_cast<int>(skillLevel + 3)
+                : static_cast<int>(skillLevel + 1);
         case SpellId::Regeneration:
             return mastery == SkillMastery::Grandmaster
                 ? 4
@@ -715,6 +881,20 @@ int resolveCharacterBuffPower(uint32_t spellId, uint32_t skillLevel, SkillMaster
         case SpellId::Hammerhands:
         case SpellId::PainReflection:
             return static_cast<int>(skillLevel);
+        case SpellId::VampiricWeapon:
+            return mastery == SkillMastery::Grandmaster
+                ? 100
+                : mastery == SkillMastery::Master
+                ? 75
+                : mastery == SkillMastery::Expert
+                ? 50
+                : 33;
+        case SpellId::Glamour:
+            return mastery == SkillMastery::Grandmaster
+                ? static_cast<int>(3 * skillLevel)
+                : static_cast<int>(skillLevel);
+        case SpellId::Mistform:
+            return 1;
         default:
             return static_cast<int>(skillLevel);
     }
@@ -826,7 +1006,7 @@ PartySpellCastResult PartySpellSystem::castSpell(
             PartySpellCastStatus::NotSkilledEnough,
             PartySpellCastTargetKind::None,
             PartySpellCastEffectKind::Unsupported,
-            "Spell failed");
+            "Not skilled enough");
     }
 
     const std::optional<BackendSpellRule> rule = resolveBackendSpellRule(request.spellId, skillMastery);
@@ -858,14 +1038,14 @@ PartySpellCastResult PartySpellSystem::castSpell(
             PartySpellCastStatus::NotSkilledEnough,
             rule->targetKind,
             rule->effectKind,
-            "Spell failed");
+            "Not skilled enough");
     }
 
     result.manaCost = static_cast<uint32_t>(std::max(
         0,
         ruleHasExplicitManaCost(*rule)
             ? manaCostForRule(*rule, skillMastery)
-            : defaultManaCostForSpellId(request.spellId)));
+            : std::max(manaCostForSpellEntry(*pSpellEntry, skillMastery), defaultManaCostForSpellId(request.spellId))));
     result.recoverySeconds =
         ruleHasExplicitRecovery(*rule)
             ? recoverySecondsForRule(*rule, skillMastery)
@@ -985,7 +1165,10 @@ PartySpellCastResult PartySpellSystem::castSpell(
         const float durationSeconds = resolvePartyBuffDurationSeconds(request.spellId, skillLevel, skillMastery);
         const int power = resolvePartyBuffPower(request.spellId, skillLevel, skillMastery);
 
-        if (spellId == SpellId::DayOfProtection || spellId == SpellId::HourOfPower)
+        if (spellId == SpellId::DayOfProtection
+            || spellId == SpellId::HourOfPower
+            || spellId == SpellId::TravelersBoon
+            || spellId == SpellId::Levitate)
         {
             applyCompositePartyBuff(
                 party,
@@ -1008,6 +1191,7 @@ PartySpellCastResult PartySpellSystem::castSpell(
 
         partyRuntime.syncSpellMovementStatesFromPartyBuffs();
         castSucceeded = true;
+        appendAllPartyMemberIndices(party, result.affectedCharacterIndices);
     }
     else if (rule->effectKind == PartySpellCastEffectKind::CharacterBuff)
     {
@@ -1026,6 +1210,7 @@ PartySpellCastResult PartySpellSystem::castSpell(
                     skillMastery,
                     static_cast<uint32_t>(request.casterMemberIndex));
                 castSucceeded = true;
+                appendAffectedCharacterIndex(result.affectedCharacterIndices, memberIndex);
             };
 
         if (spellId == SpellId::Bless)
@@ -1082,6 +1267,13 @@ PartySpellCastResult PartySpellSystem::castSpell(
                 applyBuffToMember(*request.targetCharacterIndex, CharacterBuffId::Regeneration);
             }
         }
+        else if (spellId == SpellId::FireAura)
+        {
+            if (request.targetCharacterIndex)
+            {
+                applyBuffToMember(*request.targetCharacterIndex, CharacterBuffId::FireAura);
+            }
+        }
         else if (spellId == SpellId::Hammerhands)
         {
             if (skillMastery == SkillMastery::Grandmaster)
@@ -1094,6 +1286,13 @@ PartySpellCastResult PartySpellSystem::castSpell(
             else if (request.targetCharacterIndex)
             {
                 applyBuffToMember(*request.targetCharacterIndex, CharacterBuffId::Hammerhands);
+            }
+        }
+        else if (spellId == SpellId::VampiricWeapon)
+        {
+            if (request.targetCharacterIndex)
+            {
+                applyBuffToMember(*request.targetCharacterIndex, CharacterBuffId::VampiricWeapon);
             }
         }
         else if (spellId == SpellId::PainReflection)
@@ -1110,6 +1309,20 @@ PartySpellCastResult PartySpellSystem::castSpell(
                 applyBuffToMember(*request.targetCharacterIndex, CharacterBuffId::PainReflection);
             }
         }
+        else if (spellId == SpellId::Mistform)
+        {
+            if (request.targetCharacterIndex)
+            {
+                applyBuffToMember(*request.targetCharacterIndex, CharacterBuffId::Mistform);
+            }
+        }
+        else if (spellId == SpellId::Glamour)
+        {
+            if (request.targetCharacterIndex)
+            {
+                applyBuffToMember(*request.targetCharacterIndex, CharacterBuffId::Glamour);
+            }
+        }
     }
     else if (rule->effectKind == PartySpellCastEffectKind::CharacterRestore)
     {
@@ -1123,6 +1336,8 @@ PartySpellCastResult PartySpellSystem::castSpell(
                 "Need character target");
         }
 
+        castSucceeded = true;
+
         if (spellId == SpellId::Heal)
         {
             const int healAmount =
@@ -1133,27 +1348,31 @@ PartySpellCastResult PartySpellSystem::castSpell(
                     : skillMastery == SkillMastery::Expert
                     ? 5 + static_cast<int>(3 * skillLevel)
                     : 5 + static_cast<int>(2 * skillLevel);
-            castSucceeded = party.healMember(*request.targetCharacterIndex, healAmount);
+            party.healMember(*request.targetCharacterIndex, healAmount);
         }
         else
         {
-            castSucceeded = applyCharacterRestoreSpell(
+            applyCharacterRestoreSpell(
                 party,
                 request.spellId,
                 *request.targetCharacterIndex,
                 skillLevel);
         }
+
+        if (castSucceeded)
+        {
+            appendAffectedCharacterIndex(result.affectedCharacterIndices, *request.targetCharacterIndex);
+        }
     }
     else if (rule->effectKind == PartySpellCastEffectKind::PartyRestore)
     {
+        castSucceeded = true;
+
         if (spellId == SpellId::Awaken)
         {
-            castSucceeded = false;
-
             for (size_t memberIndex = 0; memberIndex < party.members().size(); ++memberIndex)
             {
-                castSucceeded =
-                    party.clearMemberCondition(memberIndex, CharacterCondition::Asleep) || castSucceeded;
+                party.clearMemberCondition(memberIndex, CharacterCondition::Asleep);
             }
         }
         else if (spellId == SpellId::SharedLife)
@@ -1172,7 +1391,7 @@ PartySpellCastResult PartySpellSystem::castSpell(
 
             for (size_t memberIndex = 0; memberIndex < party.members().size(); ++memberIndex)
             {
-                castSucceeded = party.healMember(memberIndex, share) || castSucceeded;
+                party.healMember(memberIndex, share);
             }
         }
         else if (spellId == SpellId::PowerCure)
@@ -1181,7 +1400,7 @@ PartySpellCastResult PartySpellSystem::castSpell(
 
             for (size_t memberIndex = 0; memberIndex < party.members().size(); ++memberIndex)
             {
-                castSucceeded = party.healMember(memberIndex, healAmount) || castSucceeded;
+                party.healMember(memberIndex, healAmount);
             }
         }
         else if (spellId == SpellId::DivineIntervention)
@@ -1198,8 +1417,12 @@ PartySpellCastResult PartySpellSystem::castSpell(
                 pMember->conditions.reset();
                 pMember->health = pMember->maxHealth;
                 pMember->spellPoints = pMember->maxSpellPoints;
-                castSucceeded = true;
             }
+        }
+
+        if (castSucceeded)
+        {
+            appendAllPartyMemberIndices(party, result.affectedCharacterIndices);
         }
     }
     else if (rule->effectKind == PartySpellCastEffectKind::Jump)
@@ -1217,9 +1440,9 @@ PartySpellCastResult PartySpellSystem::castSpell(
         worldRequest.spellId = request.spellId;
         worldRequest.skillLevel = skillLevel;
         worldRequest.skillMastery = static_cast<uint32_t>(skillMastery);
-        worldRequest.damage = rollSpellDamage(*rule, skillLevel);
+        worldRequest.damage = rollSpellDamage(*rule, *pSpellEntry, skillLevel);
         worldRequest.attackBonus = 0;
-        worldRequest.useActorHitChance = spellName != "lightning bolt" && spellName != "acid burst";
+        worldRequest.useActorHitChance = false;
         worldRequest.sourceX = sourceX;
         worldRequest.sourceY = sourceY;
         worldRequest.sourceZ = sourceZ;
@@ -1251,9 +1474,9 @@ PartySpellCastResult PartySpellSystem::castSpell(
             worldRequest.spellId = request.spellId;
             worldRequest.skillLevel = skillLevel;
             worldRequest.skillMastery = static_cast<uint32_t>(skillMastery);
-            worldRequest.damage = rollSpellDamage(*rule, skillLevel);
+            worldRequest.damage = rollSpellDamage(*rule, *pSpellEntry, skillLevel);
             worldRequest.attackBonus = 0;
-            worldRequest.useActorHitChance = true;
+            worldRequest.useActorHitChance = false;
             worldRequest.sourceX = sourceX;
             worldRequest.sourceY = sourceY;
             worldRequest.sourceZ = sourceZ;
@@ -1277,10 +1500,53 @@ PartySpellCastResult PartySpellSystem::castSpell(
                 request.spellId,
                 skillLevel,
                 skillMastery,
-                rollSpellDamage(*rule, skillLevel),
+                rollSpellDamage(*rule, *pSpellEntry, skillLevel),
                 sourceX,
                 sourceY,
                 moveState.footZ);
+
+            if (castSucceeded && spellId == SpellId::Lifedrain)
+            {
+                const int healAmount =
+                    skillMastery == SkillMastery::Grandmaster
+                        ? 7 + static_cast<int>(7 * skillLevel)
+                        : skillMastery == SkillMastery::Master
+                        ? 5 + static_cast<int>(5 * skillLevel)
+                        : 3 + static_cast<int>(3 * skillLevel);
+                party.healMember(request.casterMemberIndex, std::max(1, healAmount / 3));
+            }
+
+            if (castSucceeded && spellId == SpellId::Fear && skillMastery >= SkillMastery::Master)
+            {
+                const float radius = skillMastery == SkillMastery::Grandmaster ? 4096.0f : 512.0f;
+                const std::vector<size_t> actorIndices = worldRuntime.collectMapActorIndicesWithinRadius(
+                    targetPoint.x,
+                    targetPoint.y,
+                    targetPoint.z,
+                    radius,
+                    skillMastery == SkillMastery::Grandmaster,
+                    sourceX,
+                    sourceY,
+                    sourceZ);
+
+                for (size_t nearbyActorIndex : actorIndices)
+                {
+                    if (nearbyActorIndex == *request.targetActorIndex)
+                    {
+                        continue;
+                    }
+
+                    worldRuntime.applyPartySpellToMapActor(
+                        nearbyActorIndex,
+                        request.spellId,
+                        skillLevel,
+                        skillMastery,
+                        0,
+                        sourceX,
+                        sourceY,
+                        moveState.footZ);
+                }
+            }
         }
         else if (request.targetCharacterIndex)
         {
@@ -1298,6 +1564,7 @@ PartySpellCastResult PartySpellSystem::castSpell(
                     skillMastery,
                     static_cast<uint32_t>(request.casterMemberIndex));
                 castSucceeded = true;
+                appendAffectedCharacterIndex(result.affectedCharacterIndices, *request.targetCharacterIndex);
             }
             else if (spellId == SpellId::Reanimate)
             {
@@ -1305,11 +1572,48 @@ PartySpellCastResult PartySpellSystem::castSpell(
                     *request.targetCharacterIndex,
                     std::max(1, static_cast<int>(skillLevel) * 20),
                     false);
+
+                if (castSucceeded)
+                {
+                    appendAffectedCharacterIndex(result.affectedCharacterIndices, *request.targetCharacterIndex);
+                }
             }
         }
     }
     else if (rule->effectKind == PartySpellCastEffectKind::AreaEffect)
     {
+        if (spellId == SpellId::SummonWisp)
+        {
+            const int16_t monsterId =
+                skillMastery == SkillMastery::Grandmaster
+                    ? 99
+                    : skillMastery == SkillMastery::Master
+                    ? 98
+                    : 97;
+            const uint32_t count =
+                skillMastery == SkillMastery::Grandmaster
+                    ? 5
+                    : skillMastery == SkillMastery::Master
+                    ? 3
+                    : 1;
+            const float durationSeconds =
+                skillMastery == SkillMastery::Grandmaster
+                    ? secondsFromHours(static_cast<float>(skillLevel))
+                    : skillMastery == SkillMastery::Master
+                    ? secondsFromMinutes(static_cast<float>(15 * skillLevel))
+                    : secondsFromMinutes(static_cast<float>(5 * skillLevel));
+            castSucceeded = worldRuntime.summonFriendlyMonsterById(
+                monsterId,
+                count,
+                durationSeconds,
+                sourceX,
+                sourceY,
+                moveState.footZ);
+        }
+
+        const float effectCenterX = request.hasTargetPoint ? targetPoint.x : sourceX;
+        const float effectCenterY = request.hasTargetPoint ? targetPoint.y : sourceY;
+        const float effectCenterZ = request.hasTargetPoint ? targetPoint.z : (moveState.footZ + 64.0f);
         const bool outdoorsOnly =
             spellId == SpellId::MeteorShower
             || spellId == SpellId::Starburst
@@ -1330,20 +1634,29 @@ PartySpellCastResult PartySpellSystem::castSpell(
         }
 
         const float effectRadius =
-            spellId == SpellId::SpiritLash
+            spellId == SpellId::FireSpike
+                ? 384.0f
+                : spellId == SpellId::WingBuffet
+                ? 768.0f
+                : spellId == SpellId::SummonWisp
+                ? 0.0f
+                : spellId == SpellId::SpiritLash
                 ? 768.0f
                 : spellId == SpellId::Armageddon
                 ? 8192.0f
                 : 4096.0f;
-        const std::vector<size_t> actorIndices = worldRuntime.collectMapActorIndicesWithinRadius(
-            sourceX,
-            sourceY,
-            moveState.footZ + 64.0f,
-            effectRadius,
-            spellId != SpellId::Armageddon,
-            sourceX,
-            sourceY,
-            sourceZ);
+        const std::vector<size_t> actorIndices =
+            effectRadius > 0.0f
+                ? worldRuntime.collectMapActorIndicesWithinRadius(
+                    effectCenterX,
+                    effectCenterY,
+                    effectCenterZ,
+                    effectRadius,
+                    spellId != SpellId::Armageddon,
+                    sourceX,
+                    sourceY,
+                    sourceZ)
+                : std::vector<size_t>{};
 
         for (size_t actorIndex : actorIndices)
         {
@@ -1359,7 +1672,7 @@ PartySpellCastResult PartySpellSystem::castSpell(
                 request.spellId,
                 skillLevel,
                 skillMastery,
-                rollSpellDamage(*rule, skillLevel),
+                rollSpellDamage(*rule, *pSpellEntry, skillLevel),
                 sourceX,
                 sourceY,
                 moveState.footZ)

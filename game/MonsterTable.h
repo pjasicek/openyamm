@@ -100,6 +100,7 @@ public:
         int hostility = 0;
         int speed = 0;
         int recovery = 0;
+        uint32_t attackPreferences = 0;
         bool canFly = false;
         MonsterMovementType movementType = MonsterMovementType::Short;
         MonsterAiType aiType = MonsterAiType::Suicide;

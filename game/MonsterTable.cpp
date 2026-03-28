@@ -427,6 +427,8 @@ bool MonsterTable::loadStatsFromRows(const std::vector<std::vector<std::string>>
         entry.hostility = row[12].empty() ? 0 : std::stoi(row[12]);
         entry.speed = row[13].empty() ? 0 : std::stoi(row[13]);
         entry.recovery = row[14].empty() ? 0 : std::stoi(row[14]);
+        entry.attackPreferences =
+            row.size() > 15 && isNumericString(row[15]) ? static_cast<uint32_t>(std::stoul(row[15])) : 0;
         entry.attack1MissileType = row.size() > 19 ? row[19] : std::string();
         entry.attack1HasMissile = hasMonsterAbilityDescriptor(entry.attack1MissileType);
         entry.attack1Damage = row.size() > 18 ? parseDamageProfile(row[18]) : MonsterStatsEntry::DamageProfile();

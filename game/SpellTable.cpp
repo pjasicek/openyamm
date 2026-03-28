@@ -52,6 +52,10 @@ bool SpellTable::loadFromRows(const std::vector<std::vector<std::string>> &rows)
         entry.id = std::stoi(row[0]);
         entry.name = row[2];
         entry.normalizedName = normalizeName(entry.name);
+        entry.normalManaCost = row[11].empty() ? 0 : std::stoi(row[11]);
+        entry.expertManaCost = row[12].empty() ? 0 : std::stoi(row[12]);
+        entry.masterManaCost = row[13].empty() ? 0 : std::stoi(row[13]);
+        entry.grandmasterManaCost = row[14].empty() ? 0 : std::stoi(row[14]);
         entry.normalRecoveryTicks = row[15].empty() ? 0 : std::stoi(row[15]);
         entry.expertRecoveryTicks = row[16].empty() ? 0 : std::stoi(row[16]);
         entry.masterRecoveryTicks = row[17].empty() ? 0 : std::stoi(row[17]);
@@ -59,6 +63,8 @@ bool SpellTable::loadFromRows(const std::vector<std::vector<std::string>> &rows)
         entry.effectSoundId = row[19].empty() ? 0 : std::stoi(row[19]);
         entry.displayObjectId = row[20].empty() ? 0 : std::stoi(row[20]);
         entry.impactDisplayObjectId = row[21].empty() ? 0 : std::stoi(row[21]);
+        entry.damageBase = row[22].empty() ? 0 : std::stoi(row[22]);
+        entry.damageDiceSides = row[23].empty() ? 0 : std::stoi(row[23]);
         m_entryIndexById[entry.id] = m_entries.size();
         m_entryIndexByNormalizedName[entry.normalizedName] = m_entries.size();
         m_entries.push_back(std::move(entry));

@@ -13,6 +13,7 @@
 #include "game/SpriteObjectDefs.h"
 #include "game/SpriteTables.h"
 #include "game/StringUtils.h"
+#include "engine/TextTable.h"
 
 #include <bx/math.h>
 
@@ -22,6 +23,7 @@
 
 #include <algorithm>
 #include <array>
+#include <cctype>
 #include <cmath>
 #include <cstring>
 #include <cstdlib>
@@ -44,6 +46,47 @@ namespace
 {
 using SpellbookSchool = OutdoorGameView::SpellbookSchool;
 using SpellbookPointerTargetType = OutdoorGameView::SpellbookPointerTargetType;
+
+bool tryParseScrollSpellId(const InventoryItem &item, const ItemTable *pItemTable, uint32_t &spellId)
+{
+    if (pItemTable == nullptr)
+    {
+        return false;
+    }
+
+    const ItemDefinition *pItemDefinition = pItemTable->get(item.objectDescriptionId);
+
+    if (pItemDefinition == nullptr || pItemDefinition->equipStat != "Sscroll")
+    {
+        return false;
+    }
+
+    const std::string &token = pItemDefinition->mod1;
+
+    if (token.size() < 2 || (token[0] != 'S' && token[0] != 's'))
+    {
+        return false;
+    }
+
+    for (size_t index = 1; index < token.size(); ++index)
+    {
+        if (!std::isdigit(static_cast<unsigned char>(token[index])))
+        {
+            return false;
+        }
+    }
+
+    try
+    {
+        spellId = static_cast<uint32_t>(std::stoul(token.substr(1)));
+    }
+    catch (...)
+    {
+        return false;
+    }
+
+    return spellId > 0;
+}
 
 bool shouldSkipSpriteObjectInspectTarget(const SpriteObjectBillboard &object, const ObjectEntry *pObjectEntry)
 {
@@ -448,7 +491,7 @@ PortraitAggroIndicator classifyPortraitAggroIndicator(
 {
     if (!GameMechanics::canAct(member))
     {
-        return PortraitAggroIndicator::Black;
+        return PortraitAggroIndicator::Hidden;
     }
 
     if (member.recoverySecondsRemaining > 0.0f)
@@ -2198,6 +2241,150 @@ uint32_t currentAnimationTicks()
     return static_cast<uint32_t>((static_cast<uint64_t>(SDL_GetTicks()) * 128ULL) / 1000ULL);
 }
 
+uint32_t secondsToAnimationTicks(float deltaSeconds)
+{
+    if (deltaSeconds <= 0.0f)
+    {
+        return 0;
+    }
+
+    return static_cast<uint32_t>(std::max(0.0f, std::round(deltaSeconds * 128.0f)));
+}
+
+std::string portraitTextureNameForPictureFrame(uint32_t pictureId, uint16_t frameIndex)
+{
+    char buffer[16] = {};
+    std::snprintf(buffer, sizeof(buffer), "PC%02u-%02u", pictureId + 1, std::max<uint16_t>(1, frameIndex));
+    return buffer;
+}
+
+uint32_t mixPortraitSequenceValue(uint32_t value)
+{
+    value ^= value >> 16;
+    value *= 0x7feb352du;
+    value ^= value >> 15;
+    value *= 0x846ca68bu;
+    value ^= value >> 16;
+    return value;
+}
+
+PortraitId pickIdlePortrait(uint32_t sequenceValue)
+{
+    const uint32_t randomValue = sequenceValue % 100u;
+
+    if (randomValue < 25u)
+    {
+        return PortraitId::Blink;
+    }
+
+    if (randomValue < 31u)
+    {
+        return PortraitId::Wink;
+    }
+
+    if (randomValue < 37u)
+    {
+        return PortraitId::MouthOpenRandom;
+    }
+
+    if (randomValue < 43u)
+    {
+        return PortraitId::PurseLipsRandom;
+    }
+
+    if (randomValue < 46u)
+    {
+        return PortraitId::LookUp;
+    }
+
+    if (randomValue < 52u)
+    {
+        return PortraitId::LookRight;
+    }
+
+    if (randomValue < 58u)
+    {
+        return PortraitId::LookLeft;
+    }
+
+    if (randomValue < 64u)
+    {
+        return PortraitId::LookDown;
+    }
+
+    if (randomValue < 70u)
+    {
+        return PortraitId::Portrait54;
+    }
+
+    if (randomValue < 76u)
+    {
+        return PortraitId::Portrait55;
+    }
+
+    if (randomValue < 82u)
+    {
+        return PortraitId::Portrait56;
+    }
+
+    if (randomValue < 88u)
+    {
+        return PortraitId::Portrait57;
+    }
+
+    if (randomValue < 94u)
+    {
+        return PortraitId::PurseLips1;
+    }
+
+    return PortraitId::PurseLips2;
+}
+
+uint32_t pickNormalPortraitDurationTicks(uint32_t sequenceValue)
+{
+    return 32u + (sequenceValue % 257u);
+}
+
+bool portraitExpressionAllowedForCondition(
+    const std::optional<CharacterCondition> &displayedCondition,
+    PortraitId newPortrait)
+{
+    if (!displayedCondition)
+    {
+        return true;
+    }
+
+    const std::optional<PortraitId> currentPortrait = portraitIdForCondition(*displayedCondition);
+
+    if (!currentPortrait)
+    {
+        return true;
+    }
+
+    if (*currentPortrait == PortraitId::Dead || *currentPortrait == PortraitId::Eradicated)
+    {
+        return false;
+    }
+
+    if (*currentPortrait == PortraitId::Petrified)
+    {
+        return newPortrait == PortraitId::WakeUp;
+    }
+
+    if (*currentPortrait == PortraitId::Sleep && newPortrait == PortraitId::WakeUp)
+    {
+        return true;
+    }
+
+    if ((*currentPortrait >= PortraitId::Cursed && *currentPortrait <= PortraitId::Unconscious)
+        && *currentPortrait != PortraitId::Poisoned)
+    {
+        return isDamagePortrait(newPortrait);
+    }
+
+    return true;
+}
+
 using OutdoorFaceGeometry = OutdoorFaceGeometryData;
 
 const char *outdoorSupportKindName(OutdoorSupportKind supportKind)
@@ -3065,7 +3252,9 @@ OutdoorGameView::OutdoorGameView()
     , m_characterMemberCycleLatch(false)
     , m_characterPressedTarget({})
     , m_partyPortraitClickLatch(false)
+    , m_partyPortraitRightClickLatch(false)
     , m_partyPortraitPressedIndex(std::nullopt)
+    , m_partyPortraitRightPressedIndex(std::nullopt)
     , m_lastPartyPortraitClickTicks(0)
     , m_lastPartyPortraitClickedIndex(std::nullopt)
     , m_heldInventoryItem({})
@@ -3190,6 +3379,18 @@ bool OutdoorGameView::initialize(
     m_globalEventIrProgram = globalEventIrProgram;
     m_pOutdoorPartyRuntime = pOutdoorPartyRuntime;
     m_pOutdoorWorldRuntime = pOutdoorWorldRuntime;
+    m_portraitSpellFxStates.assign(5, {});
+
+    if (!loadPortraitAnimationData(assetFileSystem))
+    {
+        std::cout << "HUD portrait animation load failed\n";
+    }
+
+    if (!loadPortraitSpellFxData(assetFileSystem))
+    {
+        std::cout << "HUD portrait spell FX load failed\n";
+    }
+
     rebuildInteractiveDecorationBindings();
     seedInteractiveDecorationRuntimeStateIfNeeded();
     buildDecorationBillboardSpatialIndex();
@@ -3579,6 +3780,7 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
     }
 
     updateStatusBarEvent(deltaSeconds);
+    updatePartyPortraitAnimations(deltaSeconds);
 
     if (m_pAssetFileSystem != nullptr)
     {
@@ -4261,6 +4463,15 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
                                     const OutdoorWorldRuntime::MapActorState *pAfterActor =
                                         m_pOutdoorWorldRuntime->mapActorState(*runtimeActorIndex);
                                     killed = pAfterActor != nullptr && beforeHp > 0 && pAfterActor->currentHp <= 0;
+
+                                    if (pAttacker->vampiricHealFraction > 0.0f && attack.damage > 0)
+                                    {
+                                        party.healMember(
+                                            party.activeMemberIndex(),
+                                            std::max(1, static_cast<int>(std::round(
+                                                static_cast<float>(attack.damage) * pAttacker->vampiricHealFraction))));
+                                    }
+
                                     refreshInteractionInspectHit();
                                     refreshHoverInspectHit();
                                 }
@@ -4341,6 +4552,18 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
                         if (actionPerformed)
                         {
                             party.applyRecoveryToActiveMember(attack.recoverySeconds);
+
+                            if (attack.mode == CharacterAttackMode::Melee)
+                            {
+                                triggerPortraitFaceAnimation(
+                                    party.activeMemberIndex(),
+                                    attacked && attack.hit ? FaceAnimationId::AttackHit : FaceAnimationId::AttackMiss);
+                            }
+                            else
+                            {
+                                triggerPortraitFaceAnimation(party.activeMemberIndex(), FaceAnimationId::Shoot);
+                            }
+
                             party.switchToNextReadyMember();
                         }
 
@@ -5228,6 +5451,8 @@ void OutdoorGameView::renderGameplayHudArt(int width, int height)
     const HudTextureHandle *pSelectionRing = ensureHudTextureLoaded(pPartyStripLayout->secondaryAsset);
     const HudTextureHandle *pManaFrame = ensureHudTextureLoaded(pPartyStripLayout->tertiaryAsset);
     const HudTextureHandle *pHealthBar = ensureHudTextureLoaded(pPartyStripLayout->quaternaryAsset);
+    const HudTextureHandle *pHealthBarYellow = ensureHudTextureLoaded("manaY");
+    const HudTextureHandle *pHealthBarRed = ensureHudTextureLoaded("manar");
     const HudTextureHandle *pManaBar = ensureHudTextureLoaded(pPartyStripLayout->quinaryAsset);
     const HudTextureHandle *pAggroBlack = ensureHudTextureLoaded("statBL");
     const HudTextureHandle *pAggroRed = ensureHudTextureLoaded("statR");
@@ -5460,26 +5685,12 @@ void OutdoorGameView::renderGameplayHudArt(int width, int height)
 
             if (normalizedLayoutId == "outdoorbuffskullpanel")
             {
-                return party.hasPartyBuff(PartyBuffId::TorchLight)
-                    || party.hasPartyBuff(PartyBuffId::WizardEye)
-                    || party.hasPartyBuff(PartyBuffId::FeatherFall)
-                    || party.hasPartyBuff(PartyBuffId::Stoneskin)
-                    || party.hasPartyBuff(PartyBuffId::DayOfGods)
-                    || party.hasPartyBuff(PartyBuffId::ProtectionFromMagic);
+                return true;
             }
 
             if (normalizedLayoutId == "outdoorbuffbodypanel")
             {
-                return party.hasPartyBuff(PartyBuffId::FireResistance)
-                    || party.hasPartyBuff(PartyBuffId::WaterResistance)
-                    || party.hasPartyBuff(PartyBuffId::AirResistance)
-                    || party.hasPartyBuff(PartyBuffId::EarthResistance)
-                    || party.hasPartyBuff(PartyBuffId::MindResistance)
-                    || party.hasPartyBuff(PartyBuffId::BodyResistance)
-                    || party.hasPartyBuff(PartyBuffId::Shield)
-                    || party.hasPartyBuff(PartyBuffId::Heroism)
-                    || party.hasPartyBuff(PartyBuffId::Haste)
-                    || party.hasPartyBuff(PartyBuffId::Immolation);
+                return true;
             }
 
             if (normalizedLayoutId == "outdoorbuffskull_torchlight")
@@ -5629,7 +5840,8 @@ void OutdoorGameView::renderGameplayHudArt(int width, int height)
         const Character &member = members[memberIndex];
         const float portraitX = portraitStartX + static_cast<float>(memberIndex) * portraitDeltaX;
         const float portraitInset = 2.0f * uiScale;
-        const HudTextureHandle *pPortrait = ensureHudTextureLoaded(member.portraitTextureName);
+        const std::string portraitTextureName = resolvePortraitTextureName(member);
+        const HudTextureHandle *pPortrait = ensureHudTextureLoaded(portraitTextureName);
 
         if (pPortrait != nullptr)
         {
@@ -5642,6 +5854,7 @@ void OutdoorGameView::renderGameplayHudArt(int width, int height)
             );
         }
 
+        renderPortraitSpellFx(memberIndex, portraitX, portraitY, portraitWidth, portraitHeight);
         submitTexturedQuad(*pFaceMask, portraitX, portraitY, portraitWidth, portraitHeight);
 
         if (activeMemberReadyForSelection
@@ -5708,10 +5921,23 @@ void OutdoorGameView::renderGameplayHudArt(int width, int height)
                 ? std::clamp(static_cast<float>(member.spellPoints) / static_cast<float>(member.maxSpellPoints), 0.0f, 1.0f)
                 : 0.0f;
 
-            if (pHealthBar != nullptr && healthPercent > 0.0f)
+            const HudTextureHandle *pResolvedHealthBar = pHealthBar;
+            if (healthPercent > 0.0f)
+            {
+                if (healthPercent <= 0.25f && pHealthBarRed != nullptr)
+                {
+                    pResolvedHealthBar = pHealthBarRed;
+                }
+                else if (healthPercent <= 0.5f && pHealthBarYellow != nullptr)
+                {
+                    pResolvedHealthBar = pHealthBarYellow;
+                }
+            }
+
+            if (pResolvedHealthBar != nullptr && healthPercent > 0.0f)
             {
                 submitTexturedQuadUv(
-                    *pHealthBar,
+                    *pResolvedHealthBar,
                     leftFillX,
                     fillY + (1.0f - healthPercent) * fillHeight,
                     fillWidth,
@@ -7024,6 +7250,11 @@ void OutdoorGameView::shutdown()
     m_pCharacterDollTable = nullptr;
     m_pObjectTable = nullptr;
     m_pSpellTable = nullptr;
+    m_faceAnimationTable = {};
+    m_iconFrameTable = {};
+    m_portraitFrameTable = {};
+    m_spellFxTable = {};
+    m_lastPortraitAnimationUpdateTicks = 0;
     m_localEventIrProgram.reset();
     m_globalEventIrProgram.reset();
     m_outdoorDecorationBillboardSet.reset();
@@ -7068,6 +7299,10 @@ void OutdoorGameView::shutdown()
     m_characterClickLatch = false;
     m_characterMemberCycleLatch = false;
     m_characterPressedTarget = {};
+    m_partyPortraitClickLatch = false;
+    m_partyPortraitRightClickLatch = false;
+    m_partyPortraitPressedIndex = std::nullopt;
+    m_partyPortraitRightPressedIndex = std::nullopt;
     m_heldInventoryItem = {};
     m_actorInspectOverlay = {};
     m_spellbook = {};
@@ -7096,6 +7331,7 @@ void OutdoorGameView::shutdown()
     m_lastMouseX = 0.0f;
     m_lastMouseY = 0.0f;
     m_pressedInspectHit = {};
+    m_portraitSpellFxStates.clear();
 }
 
 void OutdoorGameView::updateHouseVideoPlayback(float deltaSeconds)
@@ -8610,35 +8846,507 @@ bool OutdoorGameView::tryBeginQuickSpellCast()
         return false;
     }
 
+    return tryCastSpellFromMember(
+        party.activeMemberIndex(),
+        static_cast<uint32_t>(pSpellEntry->id),
+        pSpellEntry->name);
+}
+
+bool OutdoorGameView::tryCastSpellFromMember(size_t casterMemberIndex, uint32_t spellId, const std::string &spellName)
+{
     PartySpellCastRequest request = {};
-    request.casterMemberIndex = party.activeMemberIndex();
-    request.spellId = static_cast<uint32_t>(pSpellEntry->id);
+    request.casterMemberIndex = casterMemberIndex;
+    request.spellId = spellId;
+    return tryCastSpellRequest(request, spellName);
+}
+
+bool OutdoorGameView::loadPortraitAnimationData(const Engine::AssetFileSystem &assetFileSystem)
+{
+    m_faceAnimationTable = {};
+    m_portraitFrameTable = {};
+
+    const std::optional<std::vector<uint8_t>> portraitFrameBytes =
+        assetFileSystem.readBinaryFile("Data/EnglishT/dpft.bin");
+
+    if (!portraitFrameBytes || !m_portraitFrameTable.loadFromBytes(*portraitFrameBytes))
+    {
+        return false;
+    }
+
+    const std::optional<std::string> faceAnimationText = assetFileSystem.readTextFile("Data/FACE_ANIMATIONS.txt");
+
+    if (!faceAnimationText)
+    {
+        return false;
+    }
+
+    const std::optional<Engine::TextTable> parsedTable = Engine::TextTable::parseTabSeparated(*faceAnimationText);
+
+    if (!parsedTable)
+    {
+        return false;
+    }
+
+    std::vector<std::vector<std::string>> rows;
+    rows.reserve(parsedTable->getRowCount());
+
+    for (size_t rowIndex = 0; rowIndex < parsedTable->getRowCount(); ++rowIndex)
+    {
+        rows.push_back(parsedTable->getRow(rowIndex));
+    }
+
+    return m_faceAnimationTable.loadFromRows(rows);
+}
+
+void OutdoorGameView::updatePartyPortraitAnimations(float deltaSeconds)
+{
+    if (m_pOutdoorPartyRuntime == nullptr)
+    {
+        return;
+    }
+
+    (void)deltaSeconds;
+    const uint32_t nowTicks = currentAnimationTicks();
+
+    if (m_lastPortraitAnimationUpdateTicks == 0)
+    {
+        m_lastPortraitAnimationUpdateTicks = nowTicks;
+    }
+
+    const uint32_t deltaTicks = nowTicks - m_lastPortraitAnimationUpdateTicks;
+    m_lastPortraitAnimationUpdateTicks = nowTicks;
+
+    if (deltaTicks == 0)
+    {
+        return;
+    }
+
+    Party &party = m_pOutdoorPartyRuntime->party();
+
+    for (size_t memberIndex = 0; memberIndex < party.members().size(); ++memberIndex)
+    {
+        Character *pMember = party.member(memberIndex);
+
+        if (pMember == nullptr)
+        {
+            continue;
+        }
+
+        updatePortraitAnimation(*pMember, memberIndex, deltaTicks);
+    }
+}
+
+void OutdoorGameView::updatePortraitAnimation(Character &member, size_t memberIndex, uint32_t deltaTicks)
+{
+    member.portraitElapsedTicks += deltaTicks;
+    const std::optional<CharacterCondition> displayedCondition = GameMechanics::displayedCondition(member);
+
+    if (displayedCondition)
+    {
+        const std::optional<PortraitId> conditionPortrait = portraitIdForCondition(*displayedCondition);
+
+        if (conditionPortrait)
+        {
+            if (isDamagePortrait(member.portraitState)
+                && member.portraitDurationTicks > 0
+                && member.portraitElapsedTicks < member.portraitDurationTicks)
+            {
+                return;
+            }
+
+            if (member.portraitState != *conditionPortrait || member.portraitDurationTicks != 0)
+            {
+                member.portraitState = *conditionPortrait;
+                member.portraitElapsedTicks = 0;
+                member.portraitDurationTicks = 0;
+            }
+
+            return;
+        }
+    }
+
+    if (member.portraitDurationTicks > 0 && member.portraitElapsedTicks < member.portraitDurationTicks)
+    {
+        return;
+    }
+
+    member.portraitElapsedTicks = 0;
+    const uint32_t sequenceValue = mixPortraitSequenceValue(
+        static_cast<uint32_t>(memberIndex + 1u) * 2654435761u + member.portraitSequenceCounter++);
+
+    if (member.portraitState != PortraitId::Normal || (sequenceValue % 5u) != 0u)
+    {
+        member.portraitState = PortraitId::Normal;
+        member.portraitDurationTicks = pickNormalPortraitDurationTicks(sequenceValue);
+        return;
+    }
+
+    member.portraitState = pickIdlePortrait(sequenceValue);
+    member.portraitDurationTicks = defaultPortraitAnimationLengthTicks(member.portraitState);
+}
+
+void OutdoorGameView::playPortraitExpression(
+    size_t memberIndex,
+    PortraitId portraitId,
+    std::optional<uint32_t> durationTicks)
+{
+    if (m_pOutdoorPartyRuntime == nullptr)
+    {
+        return;
+    }
+
+    Character *pMember = m_pOutdoorPartyRuntime->party().member(memberIndex);
+
+    if (pMember == nullptr)
+    {
+        return;
+    }
+
+    const std::optional<CharacterCondition> displayedCondition = GameMechanics::displayedCondition(*pMember);
+
+    if (!portraitExpressionAllowedForCondition(displayedCondition, portraitId))
+    {
+        return;
+    }
+
+    pMember->portraitState = portraitId;
+    pMember->portraitElapsedTicks = 0;
+    pMember->portraitDurationTicks = durationTicks.value_or(defaultPortraitAnimationLengthTicks(portraitId));
+    pMember->portraitSequenceCounter += 1;
+}
+
+void OutdoorGameView::triggerPortraitFaceAnimation(size_t memberIndex, FaceAnimationId animationId)
+{
+    const FaceAnimationEntry *pEntry = m_faceAnimationTable.find(animationId);
+
+    if (pEntry == nullptr || pEntry->portraitIds.empty())
+    {
+        return;
+    }
+
+    const uint32_t sequenceValue = mixPortraitSequenceValue(
+        currentAnimationTicks() ^ static_cast<uint32_t>(memberIndex + 1u) ^ static_cast<uint32_t>(pEntry->portraitIds.size()));
+    const size_t choiceIndex = static_cast<size_t>(sequenceValue % pEntry->portraitIds.size());
+
+    playPortraitExpression(memberIndex, pEntry->portraitIds[choiceIndex]);
+}
+
+void OutdoorGameView::triggerPortraitFaceAnimationForAllLivingMembers(FaceAnimationId animationId)
+{
+    if (m_pOutdoorPartyRuntime == nullptr)
+    {
+        return;
+    }
+
+    const std::vector<Character> &members = m_pOutdoorPartyRuntime->party().members();
+
+    for (size_t memberIndex = 0; memberIndex < members.size(); ++memberIndex)
+    {
+        if (members[memberIndex].health <= 0)
+        {
+            continue;
+        }
+
+        triggerPortraitFaceAnimation(memberIndex, animationId);
+    }
+}
+
+uint32_t OutdoorGameView::defaultPortraitAnimationLengthTicks(PortraitId portraitId) const
+{
+    const int32_t animationLengthTicks = m_portraitFrameTable.animationLengthTicks(portraitId);
+
+    if (animationLengthTicks > 0)
+    {
+        return static_cast<uint32_t>(animationLengthTicks);
+    }
+
+    return 48u;
+}
+
+std::string OutdoorGameView::resolvePortraitTextureName(const Character &character) const
+{
+    if (character.portraitState == PortraitId::Eradicated)
+    {
+        return "ERADCATE";
+    }
+
+    if (character.portraitState == PortraitId::Dead)
+    {
+        return "DEAD";
+    }
+
+    if (character.portraitState == PortraitId::Normal)
+    {
+        const std::string basePortraitTextureName = portraitTextureNameForPictureFrame(character.portraitPictureId, 1);
+
+        if (!basePortraitTextureName.empty())
+        {
+            return basePortraitTextureName;
+        }
+
+        return character.portraitTextureName;
+    }
+
+    const PortraitFrameEntry *pFrame = m_portraitFrameTable.getFrame(character.portraitState, character.portraitElapsedTicks);
+
+    if (pFrame != nullptr && pFrame->textureIndex > 0)
+    {
+        return portraitTextureNameForPictureFrame(character.portraitPictureId, pFrame->textureIndex);
+    }
+
+    return character.portraitTextureName;
+}
+
+bool OutdoorGameView::loadPortraitSpellFxData(const Engine::AssetFileSystem &assetFileSystem)
+{
+    m_iconFrameTable = {};
+    m_spellFxTable = {};
+
+    const std::optional<std::vector<uint8_t>> iconFrameBytes =
+        assetFileSystem.readBinaryFile("Data/EnglishT/dift.bin");
+
+    if (!iconFrameBytes || !m_iconFrameTable.loadFromBytes(*iconFrameBytes))
+    {
+        return false;
+    }
+
+    const std::optional<std::string> spellFxText = assetFileSystem.readTextFile("Data/SPELL_FX.txt");
+
+    if (!spellFxText)
+    {
+        return false;
+    }
+
+    const std::optional<Engine::TextTable> parsedTable = Engine::TextTable::parseTabSeparated(*spellFxText);
+
+    if (!parsedTable)
+    {
+        return false;
+    }
+
+    std::vector<std::vector<std::string>> rows;
+    rows.reserve(parsedTable->getRowCount());
+
+    for (size_t rowIndex = 0; rowIndex < parsedTable->getRowCount(); ++rowIndex)
+    {
+        rows.push_back(parsedTable->getRow(rowIndex));
+    }
+
+    return m_spellFxTable.loadFromRows(rows);
+}
+
+void OutdoorGameView::triggerPortraitSpellFx(const PartySpellCastResult &result)
+{
+    const SpellFxEntry *pSpellFxEntry = m_spellFxTable.findBySpellId(result.spellId);
+
+    if (pSpellFxEntry == nullptr)
+    {
+        return;
+    }
+
+    const std::optional<size_t> animationId = m_iconFrameTable.findAnimationIdByName(pSpellFxEntry->animationName);
+
+    if (!animationId)
+    {
+        return;
+    }
+
+    if (result.affectedCharacterIndices.empty())
+    {
+        return;
+    }
+
+    const uint32_t startedTicks = currentAnimationTicks();
+
+    for (size_t memberIndex : result.affectedCharacterIndices)
+    {
+        if (memberIndex >= m_portraitSpellFxStates.size())
+        {
+            continue;
+        }
+
+        PortraitSpellFxState &state = m_portraitSpellFxStates[memberIndex];
+        state.active = true;
+        state.animationId = *animationId;
+        state.startedTicks = startedTicks;
+    }
+}
+
+void OutdoorGameView::renderPortraitSpellFx(
+    size_t memberIndex,
+    float portraitX,
+    float portraitY,
+    float portraitWidth,
+    float portraitHeight) const
+{
+    if (memberIndex >= m_portraitSpellFxStates.size())
+    {
+        return;
+    }
+
+    const PortraitSpellFxState &state = m_portraitSpellFxStates[memberIndex];
+
+    if (!state.active)
+    {
+        return;
+    }
+
+    const int32_t animationLengthTicks = m_iconFrameTable.animationLengthTicks(state.animationId);
+    const uint32_t nowTicks = currentAnimationTicks();
+    const uint32_t elapsedTicks = nowTicks - state.startedTicks;
+
+    if (animationLengthTicks <= 0 || elapsedTicks >= static_cast<uint32_t>(animationLengthTicks))
+    {
+        return;
+    }
+
+    const IconFrameEntry *pFrame = m_iconFrameTable.getFrame(state.animationId, elapsedTicks);
+
+    if (pFrame == nullptr || pFrame->textureName.empty())
+    {
+        return;
+    }
+
+    const HudTextureHandle *pTexture = const_cast<OutdoorGameView *>(this)->ensureHudTextureLoaded(pFrame->textureName);
+
+    if (pTexture == nullptr || pTexture->width <= 0 || pTexture->height <= 0)
+    {
+        return;
+    }
+
+    const float textureAspectRatio = static_cast<float>(pTexture->width) / static_cast<float>(pTexture->height);
+    const float renderHeight = portraitHeight;
+    const float renderWidth = renderHeight * textureAspectRatio;
+    const float renderX = portraitX + (portraitWidth - renderWidth) * 0.5f;
+    const float renderY = portraitY;
+    submitHudTexturedQuad(*pTexture, renderX, renderY, renderWidth, renderHeight);
+}
+
+void OutdoorGameView::submitHudTexturedQuad(
+    const HudTextureHandle &texture,
+    float x,
+    float y,
+    float quadWidth,
+    float quadHeight) const
+{
+    if (!bgfx::isValid(texture.textureHandle)
+        || quadWidth <= 0.0f
+        || quadHeight <= 0.0f
+        || bgfx::getAvailTransientVertexBuffer(6, TexturedTerrainVertex::ms_layout) < 6)
+    {
+        return;
+    }
+
+    bgfx::TransientVertexBuffer transientVertexBuffer = {};
+    bgfx::allocTransientVertexBuffer(&transientVertexBuffer, 6, TexturedTerrainVertex::ms_layout);
+    TexturedTerrainVertex *pVertices = reinterpret_cast<TexturedTerrainVertex *>(transientVertexBuffer.data);
+    pVertices[0] = {x, y, 0.0f, 0.0f, 0.0f};
+    pVertices[1] = {x + quadWidth, y, 0.0f, 1.0f, 0.0f};
+    pVertices[2] = {x + quadWidth, y + quadHeight, 0.0f, 1.0f, 1.0f};
+    pVertices[3] = {x, y, 0.0f, 0.0f, 0.0f};
+    pVertices[4] = {x + quadWidth, y + quadHeight, 0.0f, 1.0f, 1.0f};
+    pVertices[5] = {x, y + quadHeight, 0.0f, 0.0f, 1.0f};
+
+    float modelMatrix[16] = {};
+    bx::mtxIdentity(modelMatrix);
+    bgfx::setTransform(modelMatrix);
+    bgfx::setVertexBuffer(0, &transientVertexBuffer);
+    bgfx::setTexture(0, m_terrainTextureSamplerHandle, texture.textureHandle);
+    bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_BLEND_ALPHA);
+    bgfx::submit(HudViewId, m_texturedTerrainProgramHandle);
+}
+
+bool OutdoorGameView::tryCastSpellRequest(const PartySpellCastRequest &request, const std::string &spellName)
+{
+    if (m_pOutdoorPartyRuntime == nullptr || m_pOutdoorWorldRuntime == nullptr || m_pSpellTable == nullptr)
+    {
+        return false;
+    }
+
+    Party &party = m_pOutdoorPartyRuntime->party();
+    Character *pCaster = party.member(request.casterMemberIndex);
+
+    if (pCaster == nullptr || !GameMechanics::canSelectInGameplay(*pCaster))
+    {
+        setStatusBarEvent("Nobody is in condition");
+        return false;
+    }
+
     const PartySpellCastResult result =
         PartySpellSystem::castSpell(party, *m_pOutdoorPartyRuntime, *m_pOutdoorWorldRuntime, *m_pSpellTable, request);
 
     if (result.succeeded())
     {
-        clearPendingSpellCast("Cast " + pSpellEntry->name);
+        triggerPortraitFaceAnimation(request.casterMemberIndex, FaceAnimationId::CastSpell);
+        triggerPortraitSpellFx(result);
+        clearPendingSpellCast("Cast " + spellName);
         return true;
     }
 
     if (result.status == PartySpellCastStatus::NeedActorTarget
         || result.status == PartySpellCastStatus::NeedCharacterTarget
-        || result.status == PartySpellCastStatus::NeedActorOrCharacterTarget)
+        || result.status == PartySpellCastStatus::NeedActorOrCharacterTarget
+        || result.status == PartySpellCastStatus::NeedGroundPoint)
     {
         m_pendingSpellCast.active = true;
         m_pendingSpellCast.casterMemberIndex = request.casterMemberIndex;
         m_pendingSpellCast.spellId = request.spellId;
+        m_pendingSpellCast.skillLevelOverride = request.skillLevelOverride;
+        m_pendingSpellCast.skillMasteryOverride = request.skillMasteryOverride;
+        m_pendingSpellCast.spendMana = request.spendMana;
+        m_pendingSpellCast.applyRecovery = request.applyRecovery;
         m_pendingSpellCast.targetKind = result.targetKind;
-        m_pendingSpellCast.spellName = pSpellEntry->name;
+        m_pendingSpellCast.spellName = spellName;
         m_pendingSpellTargetClickLatch = false;
         m_cachedHoverInspectHitValid = false;
-        setStatusBarEvent("Select target for " + pSpellEntry->name, 4.0f);
+        setStatusBarEvent("Select target for " + spellName, 4.0f);
         return true;
     }
 
+    triggerPortraitFaceAnimation(request.casterMemberIndex, FaceAnimationId::SpellFailed);
     setStatusBarEvent(result.statusText.empty() ? "Spell failed" : result.statusText);
     return false;
+}
+
+bool OutdoorGameView::tryCastHeldScrollOnPartyMember(size_t memberIndex)
+{
+    if (!m_heldInventoryItem.active || m_pItemTable == nullptr || m_pSpellTable == nullptr)
+    {
+        return false;
+    }
+
+    uint32_t spellId = 0;
+
+    if (!tryParseScrollSpellId(m_heldInventoryItem.item, m_pItemTable, spellId))
+    {
+        return false;
+    }
+
+    const SpellEntry *pSpellEntry = m_pSpellTable->findById(static_cast<int>(spellId));
+
+    if (pSpellEntry == nullptr)
+    {
+        setStatusBarEvent("Unknown scroll spell");
+        return false;
+    }
+
+    PartySpellCastRequest request = {};
+    request.casterMemberIndex = memberIndex;
+    request.spellId = spellId;
+    request.skillLevelOverride = 5;
+    request.skillMasteryOverride = SkillMastery::Master;
+    request.spendMana = false;
+    request.applyRecovery = true;
+
+    if (!tryCastSpellRequest(request, pSpellEntry->name))
+    {
+        return false;
+    }
+
+    m_heldInventoryItem = {};
+    m_characterScreenOpen = false;
+    m_characterDollJewelryOverlayOpen = false;
+    return true;
 }
 
 void OutdoorGameView::clearPendingSpellCast(const std::string &statusText)
@@ -8665,6 +9373,10 @@ bool OutdoorGameView::tryResolvePendingSpellCast(
     PartySpellCastRequest request = {};
     request.casterMemberIndex = m_pendingSpellCast.casterMemberIndex;
     request.spellId = m_pendingSpellCast.spellId;
+    request.skillLevelOverride = m_pendingSpellCast.skillLevelOverride;
+    request.skillMasteryOverride = m_pendingSpellCast.skillMasteryOverride;
+    request.spendMana = m_pendingSpellCast.spendMana;
+    request.applyRecovery = m_pendingSpellCast.applyRecovery;
     const bool actorTargetAllowed =
         m_pendingSpellCast.targetKind == PartySpellCastTargetKind::Actor
         || m_pendingSpellCast.targetKind == PartySpellCastTargetKind::ActorOrCharacter;
@@ -8686,6 +9398,19 @@ bool OutdoorGameView::tryResolvePendingSpellCast(
         request.targetCharacterIndex = *portraitMemberIndex;
     }
 
+    if (m_pendingSpellCast.targetKind == PartySpellCastTargetKind::GroundPoint)
+    {
+        const std::optional<bx::Vec3> groundTargetPoint = resolvePendingSpellGroundTargetPoint(actorInspectHit);
+
+        if (groundTargetPoint)
+        {
+            request.hasTargetPoint = true;
+            request.targetX = groundTargetPoint->x;
+            request.targetY = groundTargetPoint->y;
+            request.targetZ = groundTargetPoint->z;
+        }
+    }
+
     const auto setPendingTargetPrompt =
         [this]()
         {
@@ -8694,6 +9419,8 @@ bool OutdoorGameView::tryResolvePendingSpellCast(
                     ? "Select actor for "
                     : m_pendingSpellCast.targetKind == PartySpellCastTargetKind::Character
                     ? "Select character for "
+                    : m_pendingSpellCast.targetKind == PartySpellCastTargetKind::GroundPoint
+                    ? "Select ground point for "
                     : "Select target for ";
             setStatusBarEvent(prompt + m_pendingSpellCast.spellName, 4.0f);
         };
@@ -8718,6 +9445,12 @@ bool OutdoorGameView::tryResolvePendingSpellCast(
         return false;
     }
 
+    if (m_pendingSpellCast.targetKind == PartySpellCastTargetKind::GroundPoint && !request.hasTargetPoint)
+    {
+        setPendingTargetPrompt();
+        return false;
+    }
+
     const PartySpellCastResult result = PartySpellSystem::castSpell(
         m_pOutdoorPartyRuntime->party(),
         *m_pOutdoorPartyRuntime,
@@ -8735,14 +9468,71 @@ bool OutdoorGameView::tryResolvePendingSpellCast(
         }
         else
         {
+            triggerPortraitFaceAnimation(request.casterMemberIndex, FaceAnimationId::SpellFailed);
             setStatusBarEvent(result.statusText.empty() ? "Spell failed" : result.statusText);
         }
 
         return false;
     }
 
+    triggerPortraitFaceAnimation(request.casterMemberIndex, FaceAnimationId::CastSpell);
+    triggerPortraitSpellFx(result);
     clearPendingSpellCast("Cast " + m_pendingSpellCast.spellName);
     return true;
+}
+
+std::optional<bx::Vec3> OutdoorGameView::resolvePendingSpellGroundTargetPoint(const InspectHit &inspectHit) const
+{
+    if (inspectHit.hasHit)
+    {
+        if (inspectHit.kind == "actor")
+        {
+            const std::optional<size_t> runtimeActorIndex = resolveRuntimeActorIndexForInspectHit(inspectHit);
+            const OutdoorWorldRuntime::MapActorState *pActor =
+                runtimeActorIndex && m_pOutdoorWorldRuntime != nullptr
+                    ? m_pOutdoorWorldRuntime->mapActorState(*runtimeActorIndex)
+                    : nullptr;
+
+            if (pActor != nullptr)
+            {
+                return bx::Vec3 {
+                    pActor->preciseX,
+                    pActor->preciseY,
+                    pActor->preciseZ + std::max(48.0f, static_cast<float>(pActor->height) * 0.6f)
+                };
+            }
+        }
+
+        return bx::Vec3 {inspectHit.hitX, inspectHit.hitY, inspectHit.hitZ};
+    }
+
+    if (m_outdoorMapData.has_value())
+    {
+        const bx::Vec3 rayOrigin = {
+            m_cameraTargetX,
+            m_cameraTargetY,
+            m_cameraTargetZ
+        };
+        const float cosPitch = std::cos(m_cameraPitchRadians);
+        const bx::Vec3 rayDirection = {
+            std::cos(m_cameraYawRadians) * cosPitch,
+            -std::sin(m_cameraYawRadians) * cosPitch,
+            std::sin(m_cameraPitchRadians)
+        };
+        const std::optional<float> terrainDistance =
+            intersectOutdoorTerrainRay(*m_outdoorMapData, rayOrigin, rayDirection);
+
+        if (terrainDistance)
+        {
+            return bx::Vec3 {
+                rayOrigin.x + rayDirection.x * *terrainDistance,
+                rayOrigin.y + rayDirection.y * *terrainDistance,
+                rayOrigin.z + rayDirection.z * *terrainDistance
+            };
+        }
+    }
+
+    return std::nullopt;
 }
 
 void OutdoorGameView::renderPendingSpellTargetingOverlay(int width, int height) const
@@ -8841,6 +9631,8 @@ void OutdoorGameView::renderPendingSpellTargetingOverlay(int width, int height) 
             ? "Select actor for " + m_pendingSpellCast.spellName + "  LMB cast  Esc cancel"
             : m_pendingSpellCast.targetKind == PartySpellCastTargetKind::Character
             ? "Select character for " + m_pendingSpellCast.spellName + "  LMB cast  Esc cancel"
+            : m_pendingSpellCast.targetKind == PartySpellCastTargetKind::GroundPoint
+            ? "Select ground point for " + m_pendingSpellCast.spellName + "  LMB cast  Esc cancel"
             : "Select target for " + m_pendingSpellCast.spellName + "  LMB cast  Esc cancel";
     HudLayoutElement promptLayout = {};
     promptLayout.fontName = "arrus";
@@ -10264,8 +11056,9 @@ void OutdoorGameView::renderCharacterOverlay(int width, int height, bool renderA
             && pCharacter != nullptr
             && !pCharacter->portraitTextureName.empty())
         {
+            const std::string portraitTextureName = resolvePortraitTextureName(*pCharacter);
             const HudTextureHandle *pPortraitTexture =
-                const_cast<OutdoorGameView *>(this)->ensureHudTextureLoaded(pCharacter->portraitTextureName);
+                const_cast<OutdoorGameView *>(this)->ensureHudTextureLoaded(portraitTextureName);
 
             if (pPortraitTexture != nullptr && pPortraitTexture->width > 0 && pPortraitTexture->height > 0)
             {
@@ -19391,6 +20184,21 @@ OutdoorGameView::InspectHit OutdoorGameView::inspectBModelFace(
         }
     }
 
+    if (!bestHit.hasHit && terrainBlockDistance < std::numeric_limits<float>::max())
+    {
+        bestHit.hasHit = true;
+        bestHit.kind = "terrain";
+        bestHit.name = "terrain";
+        bestHit.distance = terrainBlockDistance;
+    }
+
+    if (bestHit.hasHit && bestHit.distance < std::numeric_limits<float>::max())
+    {
+        bestHit.hitX = rayOrigin.x + rayDirection.x * bestHit.distance;
+        bestHit.hitY = rayOrigin.y + rayDirection.y * bestHit.distance;
+        bestHit.hitZ = rayOrigin.z + rayDirection.z * bestHit.distance;
+    }
+
     return bestHit;
 }
 
@@ -20044,17 +20852,32 @@ void OutdoorGameView::applyPendingCombatEvents()
 
             if (!event.hit)
             {
+                triggerPortraitFaceAnimation(event.sourcePartyMemberIndex, FaceAnimationId::AttackMiss);
                 setStatusBarEvent(sourceName + " misses " + targetName);
             }
             else if (event.killed)
             {
+                triggerPortraitFaceAnimation(event.sourcePartyMemberIndex, FaceAnimationId::AttackHit);
                 setStatusBarEvent(
                     sourceName + " inflicts " + std::to_string(event.damage) + " points killing " + targetName);
             }
             else
             {
+                triggerPortraitFaceAnimation(event.sourcePartyMemberIndex, FaceAnimationId::AttackHit);
                 setStatusBarEvent(
                     sourceName + " shoots " + targetName + " for " + std::to_string(event.damage) + " points");
+            }
+
+            if (event.hit
+                && event.damage > 0
+                && event.spellId == 0
+                && pSourceMember != nullptr
+                && pSourceMember->vampiricHealFraction > 0.0f)
+            {
+                m_pOutdoorPartyRuntime->party().healMember(
+                    event.sourcePartyMemberIndex,
+                    std::max(1, static_cast<int>(std::round(
+                        static_cast<float>(event.damage) * pSourceMember->vampiricHealFraction))));
             }
 
             continue;
@@ -20067,6 +20890,7 @@ void OutdoorGameView::applyPendingCombatEvents()
         }
 
         std::string sourceName = "monster";
+        uint32_t sourceAttackPreferences = 0;
 
         for (size_t actorIndex = 0; actorIndex < m_pOutdoorWorldRuntime->mapActorCount(); ++actorIndex)
         {
@@ -20075,6 +20899,15 @@ void OutdoorGameView::applyPendingCombatEvents()
             if (pActor != nullptr && pActor->actorId == event.sourceId)
             {
                 sourceName = pActor->displayName;
+
+                if (m_monsterTable)
+                {
+                    if (const MonsterTable::MonsterStatsEntry *pStats = m_monsterTable->findStatsById(pActor->monsterId))
+                    {
+                        sourceAttackPreferences = pStats->attackPreferences;
+                    }
+                }
+
                 break;
             }
         }
@@ -20090,8 +20923,44 @@ void OutdoorGameView::applyPendingCombatEvents()
                 + (event.spellId > 0 ? " spell hit party for " : " projectile hit party for ")
                 + std::to_string(event.damage);
 
-        if (m_pOutdoorPartyRuntime->party().applyDamageToActiveMember(event.damage, status))
+        Party &party = m_pOutdoorPartyRuntime->party();
+        std::optional<size_t> targetMemberIndex = std::nullopt;
+
+        if (!event.affectsAllParty)
         {
+            targetMemberIndex = party.chooseMonsterAttackTarget(
+                sourceAttackPreferences,
+                event.sourceId ^ static_cast<uint32_t>(event.damage) ^ static_cast<uint32_t>(event.spellId));
+        }
+
+        Character *pTargetMember =
+            targetMemberIndex ? m_pOutdoorPartyRuntime->party().member(*targetMemberIndex) : nullptr;
+        const bool ignorePhysicalDamage =
+            pTargetMember != nullptr
+            && pTargetMember->physicalDamageImmune
+            && (event.type == OutdoorWorldRuntime::CombatEvent::Type::MonsterMeleeImpact || event.spellId == 0);
+
+        if (ignorePhysicalDamage)
+        {
+            setStatusBarEvent("Mistform ignores physical damage");
+            continue;
+        }
+
+        const bool damagedParty = event.affectsAllParty
+            ? party.applyDamageToAllLivingMembers(event.damage, status)
+            : (targetMemberIndex ? party.applyDamageToMember(*targetMemberIndex, event.damage, status) : false);
+
+        if (damagedParty)
+        {
+            if (event.affectsAllParty)
+            {
+                triggerPortraitFaceAnimationForAllLivingMembers(FaceAnimationId::DamagedParty);
+            }
+            else
+            {
+                triggerPortraitFaceAnimation(*targetMemberIndex, FaceAnimationId::Damaged);
+            }
+
             std::cout << "Party damaged source=" << sourceName
                       << " damage=" << event.damage
                       << " kind="
@@ -20223,11 +21092,43 @@ void OutdoorGameView::updateCameraFromInput(float deltaSeconds)
                     }
                 }
             });
+
+        const bool allowHeldScrollPortraitCast =
+            m_characterScreenOpen
+            && m_characterPage == CharacterPage::Inventory
+            && m_heldInventoryItem.active
+            && !hasPendingSpellCast;
+        const HudPointerState portraitRightPointerState = {
+            portraitMouseX,
+            portraitMouseY,
+            (portraitMouseButtons & SDL_BUTTON_RMASK) != 0
+        };
+
+        handlePointerClickRelease(
+            portraitRightPointerState,
+            m_partyPortraitRightClickLatch,
+            m_partyPortraitRightPressedIndex,
+            std::optional<size_t>{},
+            [this, screenWidth, screenHeight](float x, float y) -> std::optional<size_t>
+            {
+                return resolvePartyPortraitIndexAtPoint(screenWidth, screenHeight, x, y);
+            },
+            [this, allowHeldScrollPortraitCast](const std::optional<size_t> &memberIndex)
+            {
+                if (!allowHeldScrollPortraitCast || !memberIndex)
+                {
+                    return;
+                }
+
+                tryCastHeldScrollOnPartyMember(*memberIndex);
+            });
     }
     else
     {
         m_partyPortraitClickLatch = false;
         m_partyPortraitPressedIndex = std::nullopt;
+        m_partyPortraitRightClickLatch = false;
+        m_partyPortraitRightPressedIndex = std::nullopt;
     }
 
     if (pKeyboardState[SDL_SCANCODE_C])
@@ -20887,7 +21788,10 @@ void OutdoorGameView::updateCameraFromInput(float deltaSeconds)
                             pSpellEntry != nullptr && !pSpellEntry->name.empty()
                                 ? pSpellEntry->name
                                 : ("Spell " + std::to_string(target.spellId));
-                        closeSpellbook("TODO: Spell " + spellName + " cast effect");
+                        const size_t casterMemberIndex =
+                            m_pOutdoorPartyRuntime != nullptr ? m_pOutdoorPartyRuntime->party().activeMemberIndex() : 0;
+                        tryCastSpellFromMember(casterMemberIndex, target.spellId, spellName);
+                        closeSpellbook();
                     }
 
                     return;

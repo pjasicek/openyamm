@@ -15,14 +15,18 @@
 #include "game/EvtProgram.h"
 #include "game/EventIr.h"
 #include "game/EventRuntime.h"
+#include "game/FaceAnimationTable.h"
 #include "game/HouseVideoPlayer.h"
 #include "game/HouseTable.h"
+#include "game/IconFrameTable.h"
 #include "game/ItemEquipPosTable.h"
 #include "game/NpcDialogTable.h"
 #include "game/ObjectTable.h"
 #include "game/PartySpellSystem.h"
+#include "game/PortraitFrameTable.h"
 #include "game/RosterTable.h"
 #include "game/SpellTable.h"
+#include "game/SpellFxTable.h"
 #include "game/StrTable.h"
 #include "engine/AssetFileSystem.h"
 
@@ -338,6 +342,13 @@ private:
         float sourceHeight = 0.0f;
     };
 
+    struct PortraitSpellFxState
+    {
+        bool active = false;
+        size_t animationId = 0;
+        uint32_t startedTicks = 0;
+    };
+
     struct CharacterInspectMasteryLine
     {
         std::string text;
@@ -374,6 +385,10 @@ private:
         bool active = false;
         size_t casterMemberIndex = 0;
         uint32_t spellId = 0;
+        uint32_t skillLevelOverride = 0;
+        SkillMastery skillMasteryOverride = SkillMastery::None;
+        bool spendMana = true;
+        bool applyRecovery = true;
         PartySpellCastTargetKind targetKind = PartySpellCastTargetKind::None;
         std::string spellName;
     };
@@ -523,6 +538,9 @@ private:
         uint16_t objectDescriptionId = 0;
         uint16_t objectSpriteId = 0;
         int32_t spellId = 0;
+        float hitX = 0.0f;
+        float hitY = 0.0f;
+        float hitZ = 0.0f;
     };
 
     enum class DecorationPickMode
@@ -724,6 +742,7 @@ private:
     void renderActorInspectOverlay(int width, int height);
     void renderPendingSpellTargetingOverlay(int width, int height) const;
     void renderSpellbookOverlay(int width, int height) const;
+    void submitHudTexturedQuad(const HudTextureHandle &texture, float x, float y, float quadWidth, float quadHeight) const;
     std::optional<std::string> findCachedAssetPath(const std::string &directoryPath, const std::string &fileName);
     std::optional<std::vector<uint8_t>> readCachedBinaryFile(const std::string &assetPath);
     std::optional<std::array<uint8_t, 256 * 3>> loadCachedActPalette(int16_t paletteId);
@@ -743,18 +762,33 @@ private:
     std::optional<size_t> resolvePartyPortraitIndexAtPoint(int width, int height, float x, float y);
     bool trySelectPartyMember(size_t memberIndex, bool requireGameplayReady);
     bool tryAutoPlaceHeldItemOnPartyMember(size_t memberIndex, bool showFailureStatus = true);
+    bool tryCastHeldScrollOnPartyMember(size_t memberIndex);
     void openInventoryNestedOverlay(InventoryNestedOverlayMode mode);
     void closeInventoryNestedOverlay();
     void updateItemInspectOverlayState(int width, int height);
     void updateCharacterInspectOverlayState(int width, int height);
     void updateActorInspectOverlayState(int width, int height);
+    bool loadPortraitAnimationData(const Engine::AssetFileSystem &assetFileSystem);
+    bool loadPortraitSpellFxData(const Engine::AssetFileSystem &assetFileSystem);
+    void updatePartyPortraitAnimations(float deltaSeconds);
+    void updatePortraitAnimation(Character &member, size_t memberIndex, uint32_t deltaTicks);
+    void playPortraitExpression(size_t memberIndex, PortraitId portraitId, std::optional<uint32_t> durationTicks = std::nullopt);
+    void triggerPortraitFaceAnimation(size_t memberIndex, FaceAnimationId animationId);
+    void triggerPortraitFaceAnimationForAllLivingMembers(FaceAnimationId animationId);
+    uint32_t defaultPortraitAnimationLengthTicks(PortraitId portraitId) const;
+    std::string resolvePortraitTextureName(const Character &character) const;
+    void triggerPortraitSpellFx(const PartySpellCastResult &result);
+    void renderPortraitSpellFx(size_t memberIndex, float portraitX, float portraitY, float portraitWidth, float portraitHeight) const;
     bool tryBeginQuickSpellCast();
+    bool tryCastSpellFromMember(size_t casterMemberIndex, uint32_t spellId, const std::string &spellName);
+    bool tryCastSpellRequest(const PartySpellCastRequest &request, const std::string &spellName);
     void openSpellbook();
     void closeSpellbook(const std::string &statusText = "");
     void clearPendingSpellCast(const std::string &statusText = "");
     bool tryResolvePendingSpellCast(
         const InspectHit &actorInspectHit,
         const std::optional<size_t> &portraitMemberIndex);
+    std::optional<bx::Vec3> resolvePendingSpellGroundTargetPoint(const InspectHit &inspectHit) const;
     std::optional<size_t> resolveRuntimeActorIndexForInspectHit(const InspectHit &inspectHit) const;
     bool isOpaqueHudPixelAtPoint(const RenderedInspectableHudItem &item, float x, float y) const;
     std::string resolveEquippedItemHudTextureName(
@@ -795,6 +829,10 @@ private:
     std::optional<ActorPreviewBillboardSet> m_outdoorActorPreviewBillboardSet;
     std::optional<SpriteObjectBillboardSet> m_outdoorSpriteObjectBillboardSet;
     std::optional<MapDeltaData> m_outdoorMapDeltaData;
+    FaceAnimationTable m_faceAnimationTable;
+    IconFrameTable m_iconFrameTable;
+    PortraitFrameTable m_portraitFrameTable;
+    SpellFxTable m_spellFxTable;
     std::optional<HouseTable> m_houseTable;
     std::optional<ClassSkillTable> m_classSkillTable;
     std::optional<NpcDialogTable> m_npcDialogTable;
@@ -837,6 +875,7 @@ private:
     std::unordered_map<int16_t, std::unordered_map<std::string, size_t>> m_billboardTextureIndexByPalette;
     std::unordered_map<std::string, size_t> m_decorationBitmapTextureIndexByName;
     SpriteLoadCache m_spriteLoadCache;
+    uint32_t m_lastPortraitAnimationUpdateTicks = 0;
     std::vector<uint16_t> m_pendingSpriteFrameWarmups;
     std::vector<bool> m_queuedSpriteFrameWarmups;
     size_t m_nextPendingSpriteFrameWarmupIndex;
@@ -862,6 +901,7 @@ private:
     float m_cameraDistance;
     float m_cameraOrthoScale;
     bool m_showFilledTerrain;
+    std::vector<PortraitSpellFxState> m_portraitSpellFxStates;
     bool m_showTerrainWireframe;
     bool m_showBModels;
     bool m_showBModelWireframe;
@@ -914,7 +954,9 @@ private:
     bool m_characterMemberCycleLatch;
     CharacterPointerTarget m_characterPressedTarget;
     bool m_partyPortraitClickLatch;
+    bool m_partyPortraitRightClickLatch;
     std::optional<size_t> m_partyPortraitPressedIndex;
+    std::optional<size_t> m_partyPortraitRightPressedIndex;
     uint64_t m_lastPartyPortraitClickTicks;
     std::optional<size_t> m_lastPartyPortraitClickedIndex;
     HeldInventoryItemState m_heldInventoryItem;

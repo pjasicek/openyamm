@@ -1,0 +1,19 @@
+AnimationId	Name	Expressions
+24	Damaged	DamageReceivedMinor, DamageReceivedModerate, DamageReceivedMajor
+25	Weak	Weak
+26	Afraid	Fear
+27	Poisoned	Poisoned
+28	Diseased	Diseased
+29	Insane	Insane
+30	Cursed	Cursed
+31	Drunk	Drunk
+32	Unconscious	Unconscious
+33	Death	Dead
+34	Stoned	Petrified
+35	Eradicated	Eradicated
+43	SpellFailed	Sad, Portrait48
+44	DamagedParty	Portrait41, Portrait42
+49	CastSpell	CastSpell
+50	Shoot	Sad
+51	AttackHit	Smile, WideSmile
+52	AttackMiss	Portrait48, Portrait49, Portrait50

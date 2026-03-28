@@ -135,6 +135,7 @@ public:
         float stunRemainingSeconds = 0.0f;
         float paralyzeRemainingSeconds = 0.0f;
         float fearRemainingSeconds = 0.0f;
+        float blindRemainingSeconds = 0.0f;
         float controlRemainingSeconds = 0.0f;
         ActorControlMode controlMode = ActorControlMode::None;
         float shrinkRemainingSeconds = 0.0f;
@@ -168,6 +169,7 @@ public:
         MonsterAttackAbility ability = MonsterAttackAbility::Attack1;
         int damage = 0;
         int spellId = 0;
+        bool affectsAllParty = false;
         bool hit = false;
         bool killed = false;
     };
@@ -507,6 +509,14 @@ public:
         uint32_t group,
         uint32_t uniqueNameId
     );
+    bool summonFriendlyMonsterById(
+        int16_t monsterId,
+        uint32_t count,
+        float durationSeconds,
+        float x,
+        float y,
+        float z
+    );
     bool checkMonstersKilled(uint32_t checkType, uint32_t id, uint32_t count, bool invisibleAsDead) const;
 
 public:
@@ -675,7 +685,12 @@ private:
     void materializeMapDeltaWorldItems();
     void updateWorldItems(float deltaSeconds);
     void updateProjectiles(float deltaSeconds, float partyX, float partyY, float partyZ);
-    void spawnProjectileImpact(const ProjectileState &projectile, float x, float y, float z);
+    void spawnProjectileImpact(
+        const ProjectileState &projectile,
+        float x,
+        float y,
+        float z,
+        bool centerVertically = false);
 
     int m_mapId = 0;
     int m_mapTreasureLevel = 0;
