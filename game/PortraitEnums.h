@@ -125,6 +125,11 @@ enum class FaceAnimationId : uint16_t
     Shoot = 50,
     AttackHit = 51,
     AttackMiss = 52,
+    ShopIdentify = 53,
+    ShopRepair = 54,
+    AlreadyIdentified = 55,
+    ItemSold = 56,
+    WrongShop = 57,
 };
 
 std::optional<PortraitId> portraitIdFromName(std::string_view name);

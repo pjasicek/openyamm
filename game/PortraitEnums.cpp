@@ -165,6 +165,11 @@ std::optional<FaceAnimationId> faceAnimationIdFromName(std::string_view name)
         {"Shoot", FaceAnimationId::Shoot},
         {"AttackHit", FaceAnimationId::AttackHit},
         {"AttackMiss", FaceAnimationId::AttackMiss},
+        {"ShopIdentify", FaceAnimationId::ShopIdentify},
+        {"ShopRepair", FaceAnimationId::ShopRepair},
+        {"AlreadyIdentified", FaceAnimationId::AlreadyIdentified},
+        {"ItemSold", FaceAnimationId::ItemSold},
+        {"WrongShop", FaceAnimationId::WrongShop},
     });
 
     return findEnumByName(FaceAnimationNames, name);

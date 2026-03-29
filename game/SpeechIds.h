@@ -60,6 +60,11 @@ enum class SpeechId : uint16_t
     TempleDonate,
     TravelBoat,
     TravelHorse,
+    ShopIdentify,
+    ShopRepair,
+    AlreadyIdentified,
+    ItemSold,
+    WrongShop,
     BankDeposit,
     LevelUp,
 };

@@ -1576,7 +1576,7 @@ bool Party::tryGrantItem(uint32_t objectDescriptionId, uint32_t quantity)
     return true;
 }
 
-bool Party::tryGrantInventoryItem(const InventoryItem &item)
+bool Party::tryGrantInventoryItem(const InventoryItem &item, size_t *pRecipientMemberIndex)
 {
     if (item.objectDescriptionId == 0 || item.quantity == 0)
     {
@@ -1585,11 +1585,19 @@ bool Party::tryGrantInventoryItem(const InventoryItem &item)
 
     std::vector<Character> testMembers = m_members;
 
-    for (Character &member : testMembers)
+    for (size_t memberIndex = 0; memberIndex < testMembers.size(); ++memberIndex)
     {
+        Character &member = testMembers[memberIndex];
+
         if (member.addInventoryItem(item))
         {
             m_members = std::move(testMembers);
+
+            if (pRecipientMemberIndex != nullptr)
+            {
+                *pRecipientMemberIndex = memberIndex;
+            }
+
             return true;
         }
     }

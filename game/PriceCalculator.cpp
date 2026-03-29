@@ -127,7 +127,7 @@ int PriceCalculator::itemBuyingPrice(
     float priceMultiplier)
 {
     const int realValue = std::max(1, itemDefinition.value);
-    int price = applyMerchantDiscount(pCharacter, static_cast<int>(std::round(realValue * priceMultiplier)));
+    int price = applyMerchantDiscount(pCharacter, static_cast<int>(static_cast<float>(realValue) * priceMultiplier));
     return std::max(realValue, price);
 }
 
@@ -158,7 +158,7 @@ int PriceCalculator::itemSellingPrice(
 
 int PriceCalculator::itemIdentificationPrice(const Character *pCharacter, float priceMultiplier)
 {
-    const int basePrice = std::max(1, static_cast<int>(std::round(priceMultiplier * 50.0f)));
+    const int basePrice = std::max(1, static_cast<int>(priceMultiplier * 50.0f));
     const int minimumPrice = std::max(1, basePrice / 3);
     return std::max(minimumPrice, applyMerchantDiscount(pCharacter, basePrice));
 }
@@ -169,8 +169,7 @@ int PriceCalculator::itemRepairPrice(
     float priceMultiplier)
 {
     const int realValue = std::max(1, itemDefinition.value);
-    const float denominator = std::max(0.5f, 6.0f - priceMultiplier);
-    const int basePrice = std::max(1, static_cast<int>(std::round(static_cast<float>(realValue) / denominator)));
+    const int basePrice = std::max(1, static_cast<int>(static_cast<float>(realValue) / (6.0f - priceMultiplier)));
     const int minimumPrice = std::max(1, basePrice / 3);
     return std::max(minimumPrice, applyMerchantDiscount(pCharacter, basePrice));
 }

@@ -25,6 +25,19 @@ enum class HouseStockMode : uint8_t
 class HouseServiceRuntime
 {
 public:
+    enum class ShopItemServiceResult
+    {
+        None,
+        Success,
+        NoItem,
+        Unavailable,
+        WrongShop,
+        AlreadyIdentified,
+        NothingToRepair,
+        NotEnoughGold,
+        Failed,
+    };
+
     static bool supportsGeneratedStock(const HouseEntry &houseEntry);
     static bool supportsEquipmentSell(const HouseEntry &houseEntry);
     static bool supportsIdentify(const HouseEntry &houseEntry);
@@ -78,7 +91,8 @@ public:
         size_t memberIndex,
         uint8_t gridX,
         uint8_t gridY,
-        std::string &statusText);
+        std::string &statusText,
+        ShopItemServiceResult *pResult = nullptr);
     static bool tryIdentifyInventoryItem(
         Party &party,
         const ItemTable &itemTable,
@@ -86,7 +100,8 @@ public:
         size_t memberIndex,
         uint8_t gridX,
         uint8_t gridY,
-        std::string &statusText);
+        std::string &statusText,
+        ShopItemServiceResult *pResult = nullptr);
     static bool tryRepairInventoryItem(
         Party &party,
         const ItemTable &itemTable,
@@ -94,6 +109,7 @@ public:
         size_t memberIndex,
         uint8_t gridX,
         uint8_t gridY,
-        std::string &statusText);
+        std::string &statusText,
+        ShopItemServiceResult *pResult = nullptr);
 };
 }

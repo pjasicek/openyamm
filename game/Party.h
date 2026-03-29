@@ -235,7 +235,7 @@ public:
     void addFood(int amount);
     void requestSound(SoundId soundId);
     bool tryGrantItem(uint32_t objectDescriptionId, uint32_t quantity = 1);
-    bool tryGrantInventoryItem(const InventoryItem &item);
+    bool tryGrantInventoryItem(const InventoryItem &item, size_t *pRecipientMemberIndex = nullptr);
     void grantItem(uint32_t objectDescriptionId, uint32_t quantity = 1);
     bool removeItem(uint32_t objectDescriptionId, uint32_t quantity = 1);
     bool needsHealing() const;

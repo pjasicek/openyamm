@@ -8450,7 +8450,21 @@ void OutdoorGameView::openPendingEventDialog(size_t previousMessageCount, bool a
     m_eventDialogSelectionIndex = 0;
     m_eventDialogSelectUpLatch = false;
     m_eventDialogSelectDownLatch = false;
-    m_eventDialogAcceptLatch = false;
+    const bool suppressInitialAccept =
+        ([]() -> bool
+        {
+            const bool *pKeyboardState = SDL_GetKeyboardState(nullptr);
+
+            if (pKeyboardState == nullptr)
+            {
+                return false;
+            }
+
+            return pKeyboardState[SDL_SCANCODE_SPACE]
+                || pKeyboardState[SDL_SCANCODE_RETURN]
+                || pKeyboardState[SDL_SCANCODE_KP_ENTER];
+        })();
+    m_eventDialogAcceptLatch = suppressInitialAccept;
     m_eventDialogPartySelectLatches.fill(false);
 
     if (pPendingHouseEntry == nullptr || resolveHouseServiceType(*pPendingHouseEntry) != HouseServiceType::Bank)
@@ -23107,7 +23121,9 @@ bool OutdoorGameView::tryActivateInspectEvent(const InspectHit &inspectHit)
             return true;
         }
 
-        if (m_pOutdoorPartyRuntime->party().tryGrantInventoryItem(pWorldItem->item))
+        size_t recipientMemberIndex = 0;
+
+        if (m_pOutdoorPartyRuntime->party().tryGrantInventoryItem(pWorldItem->item, &recipientMemberIndex))
         {
             OutdoorWorldRuntime::WorldItemState worldItem = {};
 
@@ -23117,6 +23133,7 @@ bool OutdoorGameView::tryActivateInspectEvent(const InspectHit &inspectHit)
             }
 
             m_pOutdoorPartyRuntime->party().requestSound(SoundId::Gold);
+            playSpeechReaction(recipientMemberIndex, SpeechId::FoundItem, true);
             setStatusBarEvent("Picked up " + itemName);
 
             if (EventRuntimeState *pEventRuntimeState = m_pOutdoorWorldRuntime->eventRuntimeState())
@@ -23143,6 +23160,7 @@ bool OutdoorGameView::tryActivateInspectEvent(const InspectHit &inspectHit)
             m_heldInventoryItem.grabOffsetX = 0.0f;
             m_heldInventoryItem.grabOffsetY = 0.0f;
             m_pOutdoorPartyRuntime->party().requestSound(SoundId::Gold);
+            playSpeechReaction(m_pOutdoorPartyRuntime->party().activeMemberIndex(), SpeechId::FoundItem, true);
             setStatusBarEvent("Picked up " + itemName);
 
             if (EventRuntimeState *pEventRuntimeState = m_pOutdoorWorldRuntime->eventRuntimeState())
@@ -24571,6 +24589,8 @@ void OutdoorGameView::updateCameraFromInput(float deltaSeconds)
                     0,
                     Character::InventoryHeight - 1));
                 std::string statusText;
+                HouseServiceRuntime::ShopItemServiceResult serviceResult =
+                    HouseServiceRuntime::ShopItemServiceResult::None;
 
                 if (m_inventoryNestedOverlay.mode == InventoryNestedOverlayMode::ShopSell)
                 {
@@ -24581,7 +24601,8 @@ void OutdoorGameView::updateCameraFromInput(float deltaSeconds)
                         m_pOutdoorPartyRuntime->party().activeMemberIndex(),
                         gridX,
                         gridY,
-                        statusText);
+                        statusText,
+                        &serviceResult);
                 }
                 else if (m_inventoryNestedOverlay.mode == InventoryNestedOverlayMode::ShopIdentify)
                 {
@@ -24592,7 +24613,8 @@ void OutdoorGameView::updateCameraFromInput(float deltaSeconds)
                         m_pOutdoorPartyRuntime->party().activeMemberIndex(),
                         gridX,
                         gridY,
-                        statusText);
+                        statusText,
+                        &serviceResult);
                 }
                 else if (m_inventoryNestedOverlay.mode == InventoryNestedOverlayMode::ShopRepair)
                 {
@@ -24603,7 +24625,53 @@ void OutdoorGameView::updateCameraFromInput(float deltaSeconds)
                         m_pOutdoorPartyRuntime->party().activeMemberIndex(),
                         gridX,
                         gridY,
-                        statusText);
+                        statusText,
+                        &serviceResult);
+                }
+
+                const size_t activeMemberIndex = m_pOutdoorPartyRuntime->party().activeMemberIndex();
+
+                if (serviceResult == HouseServiceRuntime::ShopItemServiceResult::WrongShop)
+                {
+                    if (m_pGameAudioSystem != nullptr)
+                    {
+                        m_pGameAudioSystem->playCommonSound(SoundId::Error, GameAudioSystem::PlaybackGroup::Ui);
+                    }
+
+                    playSpeechReaction(activeMemberIndex, SpeechId::WrongShop, true);
+                }
+                else if (serviceResult == HouseServiceRuntime::ShopItemServiceResult::AlreadyIdentified
+                    || serviceResult == HouseServiceRuntime::ShopItemServiceResult::NothingToRepair)
+                {
+                    playSpeechReaction(activeMemberIndex, SpeechId::AlreadyIdentified, true);
+                }
+                else if (serviceResult == HouseServiceRuntime::ShopItemServiceResult::NotEnoughGold)
+                {
+                    if (m_pGameAudioSystem != nullptr)
+                    {
+                        const std::optional<uint32_t> soundId =
+                            deriveHouseSoundId(*pDialogueHouseEntry, HouseSoundType::GeneralNotEnoughGold);
+
+                        if (soundId.has_value())
+                        {
+                            m_pGameAudioSystem->playSound(*soundId, GameAudioSystem::PlaybackGroup::HouseSpeech);
+                        }
+                    }
+                }
+                else if (serviceResult == HouseServiceRuntime::ShopItemServiceResult::Success)
+                {
+                    if (m_inventoryNestedOverlay.mode == InventoryNestedOverlayMode::ShopSell)
+                    {
+                        playSpeechReaction(activeMemberIndex, SpeechId::ItemSold, true);
+                    }
+                    else if (m_inventoryNestedOverlay.mode == InventoryNestedOverlayMode::ShopIdentify)
+                    {
+                        playSpeechReaction(activeMemberIndex, SpeechId::ShopIdentify, true);
+                    }
+                    else if (m_inventoryNestedOverlay.mode == InventoryNestedOverlayMode::ShopRepair)
+                    {
+                        playSpeechReaction(activeMemberIndex, SpeechId::ShopRepair, true);
+                    }
                 }
 
                 if (!statusText.empty())

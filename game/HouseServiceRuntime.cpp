@@ -574,7 +574,7 @@ std::string buildSellPhrase(
 
     if (!hasMerchantSkillForPhrase(pActiveMember))
     {
-        return "Hmph. Looks like junk to me. I suppose I could give you oh, say, "
+        return "Hmph. Looks like junk to me. <yawn> I suppose I could give you oh, say, "
             + std::to_string(actualPrice) + " gold pieces for it.";
     }
 
@@ -597,6 +597,12 @@ std::string buildIdentifyPhrase(
     if (!ItemRuntime::requiresIdentification(itemDefinition) || item.identified)
     {
         return ItemRuntime::displayName(item, itemDefinition);
+    }
+
+    if (!isShopItemFamilyAllowed(houseEntry, itemDefinition))
+    {
+        return "Sorry, I can't identify a " + itemDisplayName(item, itemDefinition)
+            + " because I'm a " + merchantProfessionName(houseEntry) + ". I don't know anything about those.";
     }
 
     const int actualPrice = PriceCalculator::itemIdentificationPrice(pActiveMember, houseEntry.priceMultiplier);
@@ -624,8 +630,7 @@ std::string buildRepairPhrase(
     const int actualPrice = PriceCalculator::itemRepairPrice(pActiveMember, itemDefinition, houseEntry.priceMultiplier);
     const int listedPrice = std::max(
         1,
-        static_cast<int>(std::round(static_cast<float>(std::max(1, itemDefinition.value))
-            / std::max(0.5f, 6.0f - houseEntry.priceMultiplier))));
+        static_cast<int>(static_cast<float>(std::max(1, itemDefinition.value)) / (6.0f - houseEntry.priceMultiplier)));
     const int realValue = std::max(1, itemDefinition.value);
 
     if (!hasMerchantSkillForPhrase(pActiveMember))
@@ -902,9 +907,15 @@ bool HouseServiceRuntime::trySellInventoryItem(
     size_t memberIndex,
     uint8_t gridX,
     uint8_t gridY,
-    std::string &statusText)
+    std::string &statusText,
+    ShopItemServiceResult *pResult)
 {
     statusText.clear();
+
+    if (pResult != nullptr)
+    {
+        *pResult = ShopItemServiceResult::None;
+    }
 
     if (memberIndex >= party.members().size())
     {
@@ -917,12 +928,22 @@ bool HouseServiceRuntime::trySellInventoryItem(
     if (pItem == nullptr)
     {
         statusText = "No item there.";
+
+        if (pResult != nullptr)
+        {
+            *pResult = ShopItemServiceResult::NoItem;
+        }
+
         return false;
     }
 
     if (!canSellItemToHouse(itemTable, houseEntry, *pItem))
     {
-        statusText = "That shop will not buy this item.";
+        if (pResult != nullptr)
+        {
+            *pResult = ShopItemServiceResult::WrongShop;
+        }
+
         return false;
     }
 
@@ -931,6 +952,12 @@ bool HouseServiceRuntime::trySellInventoryItem(
     if (pItemDefinition == nullptr)
     {
         statusText = "That item is unavailable.";
+
+        if (pResult != nullptr)
+        {
+            *pResult = ShopItemServiceResult::Unavailable;
+        }
+
         return false;
     }
 
@@ -940,11 +967,23 @@ bool HouseServiceRuntime::trySellInventoryItem(
     if (!party.takeItemFromMemberInventoryCell(memberIndex, pItem->gridX, pItem->gridY, removedItem))
     {
         statusText = "Could not take the item.";
+
+        if (pResult != nullptr)
+        {
+            *pResult = ShopItemServiceResult::Failed;
+        }
+
         return false;
     }
 
     party.addGold(price);
     statusText = "Sold " + itemDisplayName(*pItem, *pItemDefinition) + " for " + std::to_string(price) + " gold.";
+
+    if (pResult != nullptr)
+    {
+        *pResult = ShopItemServiceResult::Success;
+    }
+
     return true;
 }
 
@@ -955,9 +994,15 @@ bool HouseServiceRuntime::tryIdentifyInventoryItem(
     size_t memberIndex,
     uint8_t gridX,
     uint8_t gridY,
-    std::string &statusText)
+    std::string &statusText,
+    ShopItemServiceResult *pResult)
 {
     statusText.clear();
+
+    if (pResult != nullptr)
+    {
+        *pResult = ShopItemServiceResult::None;
+    }
 
     if (memberIndex >= party.members().size())
     {
@@ -970,6 +1015,12 @@ bool HouseServiceRuntime::tryIdentifyInventoryItem(
     if (pItem == nullptr)
     {
         statusText = "No item there.";
+
+        if (pResult != nullptr)
+        {
+            *pResult = ShopItemServiceResult::NoItem;
+        }
+
         return false;
     }
 
@@ -978,18 +1029,32 @@ bool HouseServiceRuntime::tryIdentifyInventoryItem(
     if (pItemDefinition == nullptr)
     {
         statusText = "That item is unavailable.";
-        return false;
-    }
 
-    if (!supportsIdentify(houseEntry) || !isShopItemFamilyAllowed(houseEntry, *pItemDefinition))
-    {
-        statusText = "That shop cannot identify this item.";
+        if (pResult != nullptr)
+        {
+            *pResult = ShopItemServiceResult::Unavailable;
+        }
+
         return false;
     }
 
     if (!ItemRuntime::requiresIdentification(*pItemDefinition) || pItem->identified)
     {
-        statusText = ItemRuntime::displayName(*pItem, *pItemDefinition);
+        if (pResult != nullptr)
+        {
+            *pResult = ShopItemServiceResult::AlreadyIdentified;
+        }
+
+        return false;
+    }
+
+    if (!supportsIdentify(houseEntry) || !isShopItemFamilyAllowed(houseEntry, *pItemDefinition))
+    {
+        if (pResult != nullptr)
+        {
+            *pResult = ShopItemServiceResult::WrongShop;
+        }
+
         return false;
     }
 
@@ -997,7 +1062,13 @@ bool HouseServiceRuntime::tryIdentifyInventoryItem(
 
     if (party.gold() < price)
     {
-        statusText = "Not enough gold.";
+        statusText = "You don't have enough gold";
+
+        if (pResult != nullptr)
+        {
+            *pResult = ShopItemServiceResult::NotEnoughGold;
+        }
+
         return false;
     }
 
@@ -1006,11 +1077,23 @@ bool HouseServiceRuntime::tryIdentifyInventoryItem(
     if (!party.identifyMemberInventoryItem(memberIndex, gridX, gridY, identifyStatus))
     {
         statusText = identifyStatus.empty() ? "Identification failed." : identifyStatus;
+
+        if (pResult != nullptr)
+        {
+            *pResult = ShopItemServiceResult::Failed;
+        }
+
         return false;
     }
 
     party.addGold(-price);
-    statusText = identifyStatus;
+    statusText = "Done!";
+
+    if (pResult != nullptr)
+    {
+        *pResult = ShopItemServiceResult::Success;
+    }
+
     return true;
 }
 
@@ -1021,9 +1104,15 @@ bool HouseServiceRuntime::tryRepairInventoryItem(
     size_t memberIndex,
     uint8_t gridX,
     uint8_t gridY,
-    std::string &statusText)
+    std::string &statusText,
+    ShopItemServiceResult *pResult)
 {
     statusText.clear();
+
+    if (pResult != nullptr)
+    {
+        *pResult = ShopItemServiceResult::None;
+    }
 
     if (memberIndex >= party.members().size())
     {
@@ -1036,6 +1125,12 @@ bool HouseServiceRuntime::tryRepairInventoryItem(
     if (pItem == nullptr)
     {
         statusText = "No item there.";
+
+        if (pResult != nullptr)
+        {
+            *pResult = ShopItemServiceResult::NoItem;
+        }
+
         return false;
     }
 
@@ -1044,18 +1139,32 @@ bool HouseServiceRuntime::tryRepairInventoryItem(
     if (pItemDefinition == nullptr)
     {
         statusText = "That item is unavailable.";
-        return false;
-    }
 
-    if (!supportsRepair(houseEntry) || !isShopItemFamilyAllowed(houseEntry, *pItemDefinition))
-    {
-        statusText = "That shop cannot repair this item.";
+        if (pResult != nullptr)
+        {
+            *pResult = ShopItemServiceResult::Unavailable;
+        }
+
         return false;
     }
 
     if (!pItem->broken)
     {
-        statusText.clear();
+        if (pResult != nullptr)
+        {
+            *pResult = ShopItemServiceResult::NothingToRepair;
+        }
+
+        return false;
+    }
+
+    if (!supportsRepair(houseEntry) || !isShopItemFamilyAllowed(houseEntry, *pItemDefinition))
+    {
+        if (pResult != nullptr)
+        {
+            *pResult = ShopItemServiceResult::WrongShop;
+        }
+
         return false;
     }
 
@@ -1063,7 +1172,13 @@ bool HouseServiceRuntime::tryRepairInventoryItem(
 
     if (party.gold() < price)
     {
-        statusText = "Not enough gold.";
+        statusText = "You don't have enough gold";
+
+        if (pResult != nullptr)
+        {
+            *pResult = ShopItemServiceResult::NotEnoughGold;
+        }
+
         return false;
     }
 
@@ -1072,11 +1187,23 @@ bool HouseServiceRuntime::tryRepairInventoryItem(
     if (!party.repairMemberInventoryItem(memberIndex, gridX, gridY, repairStatus))
     {
         statusText = repairStatus.empty() ? "Repair failed." : repairStatus;
+
+        if (pResult != nullptr)
+        {
+            *pResult = ShopItemServiceResult::Failed;
+        }
+
         return false;
     }
 
     party.addGold(-price);
-    statusText = repairStatus;
+    statusText = "Good as New!";
+
+    if (pResult != nullptr)
+    {
+        *pResult = ShopItemServiceResult::Success;
+    }
+
     return true;
 }
 }
