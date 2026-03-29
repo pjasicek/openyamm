@@ -228,6 +228,7 @@ bool ItemTable::load(
         entry.mod2 = getCell(row, 7);
         entry.material = parseInt(getCell(row, 8));
         entry.idRepSt = getCell(row, 9);
+        entry.identifyRepairDifficulty = parseInt(entry.idRepSt);
         entry.unidentifiedName = getCell(row, 10);
         entry.spriteIndex = static_cast<uint16_t>(std::max(0, parseInt(getCell(row, 11))));
         entry.varA = parseInt(getCell(row, 12));

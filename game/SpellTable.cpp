@@ -103,4 +103,9 @@ const SpellEntry *SpellTable::findByName(const std::string &name) const
 
     return &m_entries[entryIt->second];
 }
+
+const std::vector<SpellEntry> &SpellTable::entries() const
+{
+    return m_entries;
+}
 }

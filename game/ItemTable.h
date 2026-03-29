@@ -23,6 +23,7 @@ struct ItemDefinition
     std::string mod2;
     int material = 0;
     std::string idRepSt;
+    int identifyRepairDifficulty = 0;
     std::string unidentifiedName;
     uint16_t spriteIndex = 0;
     int varA = 0;

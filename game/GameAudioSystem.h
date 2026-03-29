@@ -5,6 +5,7 @@
 #include "game/Party.h"
 #include "game/SoundCatalog.h"
 #include "game/SoundIds.h"
+#include "game/SpellTable.h"
 #include "game/SpeechIds.h"
 #include "game/SpeechReactionTable.h"
 
@@ -34,7 +35,10 @@ public:
         float z = 0.0f;
     };
 
-    bool initialize(const Engine::AssetFileSystem &assetFileSystem, const CharacterDollTable &characterDollTable);
+    bool initialize(
+        const Engine::AssetFileSystem &assetFileSystem,
+        const CharacterDollTable &characterDollTable,
+        const SpellTable &spellTable);
     void shutdown();
     void update(float listenerX, float listenerY, float listenerZ);
 
@@ -53,6 +57,7 @@ public:
 
 private:
     static bool isExclusiveGroup(PlaybackGroup group);
+    void preloadSpellBuffSounds(const SpellTable &spellTable);
     uint64_t playResolvedSound(
         const std::string &virtualPath,
         PlaybackGroup group,

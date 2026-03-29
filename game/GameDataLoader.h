@@ -7,6 +7,7 @@
 #include "game/ClassSkillTable.h"
 #include "game/HouseTable.h"
 #include "game/ItemEquipPosTable.h"
+#include "game/ItemEnchantTables.h"
 #include "game/ItemTable.h"
 #include "game/MapAssetLoader.h"
 #include "game/MapRegistry.h"
@@ -54,6 +55,8 @@ public:
     const ObjectTable &getObjectTable() const;
     const SpellTable &getSpellTable() const;
     const ItemTable &getItemTable() const;
+    const StandardItemEnchantTable &getStandardItemEnchantTable() const;
+    const SpecialItemEnchantTable &getSpecialItemEnchantTable() const;
     const ItemEquipPosTable &getItemEquipPosTable() const;
     const ChestTable &getChestTable() const;
     const HouseTable &getHouseTable() const;
@@ -80,6 +83,7 @@ private:
     bool loadObjectTable(const Engine::AssetFileSystem &assetFileSystem);
     bool loadSpellTable(const Engine::AssetFileSystem &assetFileSystem);
     bool loadItemTable(const Engine::AssetFileSystem &assetFileSystem);
+    bool loadItemEnchantTables(const Engine::AssetFileSystem &assetFileSystem);
     bool loadItemEquipPosTable(const Engine::AssetFileSystem &assetFileSystem);
     bool loadChestTable(const Engine::AssetFileSystem &assetFileSystem);
     bool loadHouseTable(const Engine::AssetFileSystem &assetFileSystem);
@@ -107,6 +111,8 @@ private:
     ObjectTable m_objectTable;
     SpellTable m_spellTable;
     ItemTable m_itemTable;
+    StandardItemEnchantTable m_standardItemEnchantTable;
+    SpecialItemEnchantTable m_specialItemEnchantTable;
     ItemEquipPosTable m_itemEquipPosTable;
     ChestTable m_chestTable;
     HouseTable m_houseTable;

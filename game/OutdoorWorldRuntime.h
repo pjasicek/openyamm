@@ -472,7 +472,11 @@ public:
     void clearPendingCombatEvents();
     size_t worldItemCount() const;
     const WorldItemState *worldItemState(size_t worldItemIndex) const;
+    WorldItemState *worldItemStateMutable(size_t worldItemIndex);
     bool takeWorldItem(size_t worldItemIndex, WorldItemState &item);
+    bool identifyWorldItem(size_t worldItemIndex, std::string &statusText);
+    bool tryIdentifyWorldItem(size_t worldItemIndex, const Character &inspector, std::string &statusText);
+    bool tryRepairWorldItem(size_t worldItemIndex, const Character &inspector, std::string &statusText);
     bool spawnWorldItem(
         const InventoryItem &item,
         float sourceX,

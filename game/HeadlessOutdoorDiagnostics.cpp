@@ -10,6 +10,7 @@
 #include "game/GameMechanics.h"
 #include "game/GenericActorDialog.h"
 #include "game/HouseInteraction.h"
+#include "game/HouseServiceRuntime.h"
 #include "game/MasteryTeacherDialog.h"
 #include "game/OutdoorMovementController.h"
 #include "game/OutdoorPartyRuntime.h"
@@ -1198,23 +1199,28 @@ bool executeDialogActionInScenario(
         }
         else
         {
-            std::vector<std::string> messages;
             HouseActionOption option = {};
             option.id = static_cast<HouseActionId>(action.id);
             option.label = action.label;
             option.argument = action.argument;
-            performHouseAction(
+            const HouseActionResult result = performHouseAction(
                 option,
                 *pHouseEntry,
                 scenario.party,
                 &gameDataLoader.getClassSkillTable(),
-                &scenario.world,
-                messages
+                &scenario.world
             );
 
-            for (const std::string &message : messages)
+            const bool suppressDialogueMessages =
+                option.id == HouseActionId::TrainingTrainActiveMember
+                || option.id == HouseActionId::TempleDonate;
+
+            for (const std::string &message : result.messages)
             {
-                scenario.pEventRuntimeState->messages.push_back(message);
+                if (!suppressDialogueMessages)
+                {
+                    scenario.pEventRuntimeState->messages.push_back(message);
+                }
             }
         }
 
@@ -2551,21 +2557,19 @@ int HeadlessOutdoorDiagnostics::runDialogSequence(
             }
             else
             {
-                std::vector<std::string> messages;
                 HouseActionOption option = {};
                 option.id = static_cast<HouseActionId>(action.id);
                 option.label = action.label;
                 option.argument = action.argument;
-                performHouseAction(
+                const HouseActionResult result = performHouseAction(
                     option,
                     *pHouseEntry,
                     party,
                     &gameDataLoader.getClassSkillTable(),
-                    &outdoorWorldRuntime,
-                    messages
+                    &outdoorWorldRuntime
                 );
 
-                for (const std::string &message : messages)
+                for (const std::string &message : result.messages)
                 {
                     pEventRuntimeState->messages.push_back(message);
                 }
@@ -3457,6 +3461,84 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
             if (scenario.pEventRuntimeState->decorVars[0] != 2)
             {
                 failure = "campfire clear state was " + std::to_string(scenario.pEventRuntimeState->decorVars[0]);
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "barrel_global_event_adds_permanent_stat_and_clears",
+        [&](std::string &failure)
+        {
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            if (scenario.pEventRuntimeState == nullptr)
+            {
+                failure = "missing event runtime state";
+                return false;
+            }
+
+            Character *pActiveMember = scenario.party.activeMember();
+
+            if (pActiveMember == nullptr)
+            {
+                failure = "missing active party member";
+                return false;
+            }
+
+            const uint32_t initialIntellect = pActiveMember->intellect;
+
+            EventRuntimeState::ActiveDecorationContext context = {};
+            context.decorVarIndex = 2;
+            context.baseEventId = 268;
+            context.currentEventId = 272;
+            context.eventCount = 8;
+            context.hideWhenCleared = false;
+            scenario.pEventRuntimeState->activeDecorationContext = context;
+
+            const bool executed = scenario.eventRuntime.executeEventById(
+                std::nullopt,
+                selectedMap->globalEventIrProgram,
+                272,
+                *scenario.pEventRuntimeState,
+                &scenario.party,
+                &scenario.world);
+            scenario.pEventRuntimeState->activeDecorationContext.reset();
+
+            if (!executed)
+            {
+                failure = "barrel event 272 did not execute";
+                return false;
+            }
+
+            scenario.world.applyEventRuntimeState();
+            scenario.party.applyEventRuntimeState(*scenario.pEventRuntimeState);
+
+            pActiveMember = scenario.party.activeMember();
+
+            if (pActiveMember == nullptr)
+            {
+                failure = "missing active party member after event";
+                return false;
+            }
+
+            if (pActiveMember->intellect != initialIntellect + 2)
+            {
+                failure = "barrel event changed intellect to " + std::to_string(pActiveMember->intellect);
+                return false;
+            }
+
+            if (scenario.pEventRuntimeState->decorVars[2] != 0)
+            {
+                failure = "barrel clear state was " + std::to_string(scenario.pEventRuntimeState->decorVars[2]);
                 return false;
             }
 
@@ -8639,6 +8721,279 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
                 return false;
             }
 
+            const std::optional<size_t> sellIndex = findActionIndexByLabel(dialog, "Sell");
+            const std::optional<size_t> identifyIndex = findActionIndexByLabel(dialog, "Identify");
+            const std::optional<size_t> repairIndex = findActionIndexByLabel(dialog, "Repair");
+
+            if (!sellIndex || !dialog.actions[*sellIndex].enabled)
+            {
+                failure = "shop sell action should now be enabled";
+                return false;
+            }
+
+            if (!identifyIndex || !dialog.actions[*identifyIndex].enabled)
+            {
+                failure = "shop identify action should now be enabled";
+                return false;
+            }
+
+            if (!repairIndex || !dialog.actions[*repairIndex].enabled)
+            {
+                failure = "shop repair action should now be enabled";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "house_service_shop_standard_stock_generates_and_buys",
+        [&](std::string &failure)
+        {
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            const HouseEntry *pHouseEntry = gameDataLoader.getHouseTable().get(1);
+
+            if (pHouseEntry == nullptr)
+            {
+                failure = "weapon shop house entry missing";
+                return false;
+            }
+
+            scenario.party.addGold(50000);
+            const std::vector<uint32_t> &stock = HouseServiceRuntime::ensureStock(
+                scenario.party,
+                gameDataLoader.getItemTable(),
+                *pHouseEntry,
+                scenario.world.gameMinutes(),
+                HouseStockMode::ShopStandard);
+            const auto stockIt = std::find_if(stock.begin(), stock.end(), [](uint32_t itemId) { return itemId != 0; });
+
+            if (stockIt == stock.end())
+            {
+                failure = "shop standard stock did not generate any items";
+                return false;
+            }
+
+            const size_t slotIndex = static_cast<size_t>(std::distance(stock.begin(), stockIt));
+            const int initialGold = scenario.party.gold();
+            const size_t initialInventoryCount = scenario.party.inventoryItemCount();
+            std::string statusText;
+
+            if (!HouseServiceRuntime::tryBuyStockItem(
+                    scenario.party,
+                    gameDataLoader.getItemTable(),
+                    *pHouseEntry,
+                    scenario.world.gameMinutes(),
+                    HouseStockMode::ShopStandard,
+                    slotIndex,
+                    statusText))
+            {
+                failure = "buy failed: " + statusText;
+                return false;
+            }
+
+            if (scenario.party.gold() >= initialGold)
+            {
+                failure = "buy did not reduce gold";
+                return false;
+            }
+
+            if (scenario.party.inventoryItemCount() <= initialInventoryCount)
+            {
+                failure = "buy did not add an inventory item";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "house_service_guild_spellbook_stock_generates_and_buys",
+        [&](std::string &failure)
+        {
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            const HouseEntry *pHouseEntry = gameDataLoader.getHouseTable().get(139);
+
+            if (pHouseEntry == nullptr)
+            {
+                failure = "guild house entry missing";
+                return false;
+            }
+
+            scenario.party.addGold(50000);
+            const std::vector<uint32_t> &stock = HouseServiceRuntime::ensureStock(
+                scenario.party,
+                gameDataLoader.getItemTable(),
+                *pHouseEntry,
+                scenario.world.gameMinutes(),
+                HouseStockMode::GuildSpellbooks);
+            const auto stockIt = std::find_if(stock.begin(), stock.end(), [](uint32_t itemId) { return itemId != 0; });
+
+            if (stockIt == stock.end())
+            {
+                failure = "guild stock did not generate spellbooks";
+                return false;
+            }
+
+            const ItemDefinition *pSpellbook = gameDataLoader.getItemTable().get(*stockIt);
+
+            if (pSpellbook == nullptr || pSpellbook->equipStat != "Book")
+            {
+                failure = "guild stock generated a non-spellbook item";
+                return false;
+            }
+
+            const size_t slotIndex = static_cast<size_t>(std::distance(stock.begin(), stockIt));
+            const size_t initialInventoryCount = scenario.party.inventoryItemCount();
+            std::string statusText;
+
+            if (!HouseServiceRuntime::tryBuyStockItem(
+                    scenario.party,
+                    gameDataLoader.getItemTable(),
+                    *pHouseEntry,
+                    scenario.world.gameMinutes(),
+                    HouseStockMode::GuildSpellbooks,
+                    slotIndex,
+                    statusText))
+            {
+                failure = "spellbook buy failed: " + statusText;
+                return false;
+            }
+
+            if (scenario.party.inventoryItemCount() <= initialInventoryCount)
+            {
+                failure = "spellbook buy did not add an inventory item";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "house_service_shop_sell_accepts_matching_item",
+        [&](std::string &failure)
+        {
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            const HouseEntry *pHouseEntry = gameDataLoader.getHouseTable().get(1);
+
+            if (pHouseEntry == nullptr)
+            {
+                failure = "weapon shop house entry missing";
+                return false;
+            }
+
+            std::optional<uint32_t> sellableItemId;
+
+            for (const ItemDefinition &itemDefinition : gameDataLoader.getItemTable().entries())
+            {
+                if (itemDefinition.itemId == 0)
+                {
+                    continue;
+                }
+
+                InventoryItem candidate = {};
+                candidate.objectDescriptionId = itemDefinition.itemId;
+                candidate.quantity = 1;
+                candidate.width = itemDefinition.inventoryWidth;
+                candidate.height = itemDefinition.inventoryHeight;
+
+                if (HouseServiceRuntime::canSellItemToHouse(gameDataLoader.getItemTable(), *pHouseEntry, candidate))
+                {
+                    sellableItemId = itemDefinition.itemId;
+                    break;
+                }
+            }
+
+            if (!sellableItemId)
+            {
+                failure = "no sellable item found for the weapon shop";
+                return false;
+            }
+
+            if (!scenario.party.grantItemToMember(scenario.party.activeMemberIndex(), *sellableItemId, 1))
+            {
+                failure = "could not seed sellable item into active member inventory";
+                return false;
+            }
+
+            const Character *pMember = scenario.party.activeMember();
+
+            if (pMember == nullptr)
+            {
+                failure = "active member missing";
+                return false;
+            }
+
+            std::optional<std::pair<uint8_t, uint8_t>> matchingCell;
+
+            for (const InventoryItem &item : pMember->inventory)
+            {
+                if (item.objectDescriptionId == *sellableItemId)
+                {
+                    matchingCell = std::pair<uint8_t, uint8_t>(item.gridX, item.gridY);
+                    break;
+                }
+            }
+
+            if (!matchingCell)
+            {
+                failure = "seeded sellable item is not present in inventory";
+                return false;
+            }
+
+            const int initialGold = scenario.party.gold();
+            const size_t initialInventoryCount = scenario.party.inventoryItemCount();
+            std::string statusText;
+
+            if (!HouseServiceRuntime::trySellInventoryItem(
+                    scenario.party,
+                    gameDataLoader.getItemTable(),
+                    *pHouseEntry,
+                    scenario.party.activeMemberIndex(),
+                    matchingCell->first,
+                    matchingCell->second,
+                    statusText))
+            {
+                failure = "sell failed: " + statusText;
+                return false;
+            }
+
+            if (scenario.party.gold() <= initialGold)
+            {
+                failure = "sell did not increase gold";
+                return false;
+            }
+
+            if (scenario.party.inventoryItemCount() >= initialInventoryCount)
+            {
+                failure = "sell did not remove the inventory item";
+                return false;
+            }
+
             return true;
         }
     );
@@ -8831,6 +9186,13 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
                 return false;
             }
 
+            if (scenario.party.activeMember() == nullptr)
+            {
+                failure = "missing active member";
+                return false;
+            }
+
+            scenario.party.activeMember()->experience = 50000;
             EventDialogContent dialog = {};
 
             if (!openLocalEventDialogInScenario(gameDataLoader, *selectedMap, scenario, 187, dialog))
@@ -8839,11 +9201,11 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
                 return false;
             }
 
-            const std::optional<size_t> trainIndex = findActionIndexByLabelPrefix(dialog, "Train Ariel ");
+            const std::optional<size_t> trainIndex = findActionIndexByLabelPrefix(dialog, "Train to level ");
 
             if (!trainIndex)
             {
-                failure = "training hall did not target the default active member";
+                failure = "training hall missing dynamic training action";
                 return false;
             }
 
@@ -8853,11 +9215,81 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
                 return false;
             }
 
+            if (scenario.party.activeMember() == nullptr)
+            {
+                failure = "missing switched active member";
+                return false;
+            }
+
+            scenario.party.activeMember()->experience = 50000;
+
             dialog = buildScenarioDialog(gameDataLoader, *selectedMap, scenario, scenario.pEventRuntimeState->messages.size(), true);
 
-            if (!findActionIndexByLabelPrefix(dialog, "Train Brom "))
+            if (!findActionIndexByLabelPrefix(dialog, "Train to level "))
             {
-                failure = "training hall did not update for the selected character";
+                failure = "training hall did not update the dynamic training action";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "dwi_training_service_stays_open_after_success",
+        [&](std::string &failure)
+        {
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            Character *pMember = scenario.party.activeMember();
+
+            if (pMember == nullptr)
+            {
+                failure = "missing active member";
+                return false;
+            }
+
+            pMember->experience = 50000;
+            const uint32_t expectedLevel = pMember->level + 1;
+            const uint32_t expectedSkillPoints = 5 + expectedLevel / 10;
+            EventDialogContent dialog = {};
+
+            if (!openLocalEventDialogInScenario(gameDataLoader, *selectedMap, scenario, 187, dialog))
+            {
+                failure = "could not open training hall";
+                return false;
+            }
+
+            const std::optional<size_t> trainIndex = findActionIndexByLabelPrefix(dialog, "Train to level ");
+
+            if (!trainIndex
+                || !executeDialogActionInScenario(gameDataLoader, *selectedMap, scenario, *trainIndex, dialog))
+            {
+                failure = "could not execute training action";
+                return false;
+            }
+
+            if (!dialog.isActive)
+            {
+                failure = "training dialog should stay open after success";
+                return false;
+            }
+
+            if (pMember->level != expectedLevel)
+            {
+                failure = "training did not increase level";
+                return false;
+            }
+
+            if (pMember->skillPoints < expectedSkillPoints)
+            {
+                failure = "training did not award skill points";
                 return false;
             }
 
@@ -8949,10 +9381,18 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
                 return false;
             }
 
-            const std::optional<size_t> depositIndex = findActionIndexByLabel(dialog, "Deposit all carried gold");
+            const std::optional<size_t> depositIndex = findActionIndexByLabel(dialog, "Deposit");
 
-            if (!depositIndex
-                || !executeDialogActionInScenario(gameDataLoader, *selectedMap, scenario, *depositIndex, dialog))
+            if (!depositIndex)
+            {
+                failure = "bank is missing Deposit action";
+                return false;
+            }
+
+            const int carriedGold = scenario.party.gold();
+            const int depositedGold = scenario.party.depositGoldToBank(carriedGold);
+
+            if (depositedGold != carriedGold)
             {
                 failure = "could not deposit gold";
                 return false;
@@ -8964,10 +9404,19 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
                 return false;
             }
 
-            const std::optional<size_t> withdrawIndex = findActionIndexByLabelPrefix(dialog, "Withdraw all banked gold ");
+            dialog = buildScenarioDialog(gameDataLoader, *selectedMap, scenario, scenario.pEventRuntimeState->messages.size(), true);
+            const std::optional<size_t> withdrawIndex = findActionIndexByLabel(dialog, "Withdraw");
 
-            if (!withdrawIndex
-                || !executeDialogActionInScenario(gameDataLoader, *selectedMap, scenario, *withdrawIndex, dialog))
+            if (!withdrawIndex)
+            {
+                failure = "bank is missing Withdraw action";
+                return false;
+            }
+
+            const int bankGold = scenario.party.bankGold();
+            const int withdrawnGold = scenario.party.withdrawBankGold(bankGold);
+
+            if (withdrawnGold != bankGold)
             {
                 failure = "could not withdraw gold";
                 return false;

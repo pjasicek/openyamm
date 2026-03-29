@@ -115,4 +115,34 @@ struct CharacterEquipment
     uint32_t ring5 = 0;
     uint32_t ring6 = 0;
 };
+
+struct EquippedItemRuntimeState
+{
+    bool identified = true;
+    bool broken = false;
+    bool stolen = false;
+    uint16_t standardEnchantId = 0;
+    uint16_t specialEnchantId = 0;
+    uint16_t artifactId = 0;
+};
+
+struct CharacterEquipmentRuntimeState
+{
+    EquippedItemRuntimeState offHand = {};
+    EquippedItemRuntimeState mainHand = {};
+    EquippedItemRuntimeState bow = {};
+    EquippedItemRuntimeState armor = {};
+    EquippedItemRuntimeState helm = {};
+    EquippedItemRuntimeState belt = {};
+    EquippedItemRuntimeState cloak = {};
+    EquippedItemRuntimeState gauntlets = {};
+    EquippedItemRuntimeState boots = {};
+    EquippedItemRuntimeState amulet = {};
+    EquippedItemRuntimeState ring1 = {};
+    EquippedItemRuntimeState ring2 = {};
+    EquippedItemRuntimeState ring3 = {};
+    EquippedItemRuntimeState ring4 = {};
+    EquippedItemRuntimeState ring5 = {};
+    EquippedItemRuntimeState ring6 = {};
+};
 }

@@ -124,6 +124,7 @@ struct EventRuntimeState
     std::array<uint8_t, 125> decorVars = {};
     std::optional<ActiveDecorationContext> activeDecorationContext;
     std::vector<std::string> messages;
+    std::vector<std::string> statusMessages;
     std::vector<uint32_t> openedChestIds;
     std::vector<uint32_t> grantedItemIds;
     std::vector<uint32_t> removedItemIds;
@@ -180,6 +181,10 @@ private:
         Awards,
         Players,
         ClassId,
+        BaseStat,
+        StatBonus,
+        BaseResistance,
+        ResistanceBonus,
     };
 
     struct VariableRef

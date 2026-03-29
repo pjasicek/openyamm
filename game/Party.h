@@ -11,6 +11,7 @@
 #include <cstdint>
 #include <optional>
 #include <string>
+#include <unordered_map>
 #include <vector>
 
 namespace OpenYAMM::Game
@@ -27,6 +28,12 @@ struct InventoryItem
     uint8_t height = 1;
     uint8_t gridX = 0;
     uint8_t gridY = 0;
+    bool identified = true;
+    bool broken = false;
+    bool stolen = false;
+    uint16_t standardEnchantId = 0;
+    uint16_t specialEnchantId = 0;
+    uint16_t artifactId = 0;
 };
 
 struct Character
@@ -68,6 +75,7 @@ struct Character
     CharacterResistanceImmunitySet permanentImmunities = {};
     CharacterResistanceImmunitySet magicalImmunities = {};
     CharacterEquipment equipment = {};
+    CharacterEquipmentRuntimeState equipmentRuntime = {};
     std::bitset<CharacterConditionCount> conditions = {};
     std::unordered_map<std::string, CharacterSkill> skills;
     std::unordered_set<uint32_t> awards;
@@ -187,6 +195,16 @@ struct CharacterBuffState
 class Party
 {
 public:
+    struct HouseStockState
+    {
+        uint32_t houseId = 0;
+        float nextRefreshGameMinutes = 0.0f;
+        uint32_t refreshSequence = 0;
+        std::vector<uint32_t> standardStock;
+        std::vector<uint32_t> specialStock;
+        std::vector<uint32_t> spellbookStock;
+    };
+
     struct PendingAudioRequest
     {
         enum class Kind : uint8_t
@@ -215,7 +233,9 @@ public:
     std::optional<size_t> chooseMonsterAttackTarget(uint32_t attackPreferences, uint32_t seedHint);
     void addGold(int amount);
     void addFood(int amount);
+    void requestSound(SoundId soundId);
     bool tryGrantItem(uint32_t objectDescriptionId, uint32_t quantity = 1);
+    bool tryGrantInventoryItem(const InventoryItem &item);
     void grantItem(uint32_t objectDescriptionId, uint32_t quantity = 1);
     bool removeItem(uint32_t objectDescriptionId, uint32_t quantity = 1);
     bool needsHealing() const;
@@ -228,6 +248,8 @@ public:
     bool learnActiveMemberSkill(const std::string &skillName);
     bool canIncreaseActiveMemberSkillLevel(const std::string &skillName) const;
     bool increaseActiveMemberSkillLevel(const std::string &skillName);
+    int depositGoldToBank(int amount);
+    int withdrawBankGold(int amount);
     int depositAllGoldToBank();
     int withdrawAllBankGold();
     bool isFull() const;
@@ -258,6 +280,47 @@ public:
         std::optional<EquipmentSlot> displacedSlot,
         bool autoStoreDisplacedItem,
         std::optional<InventoryItem> &heldReplacement);
+    std::optional<InventoryItem> equippedItem(size_t memberIndex, EquipmentSlot slot) const;
+    bool tryIdentifyMemberInventoryItem(
+        size_t memberIndex,
+        uint8_t gridX,
+        uint8_t gridY,
+        size_t inspectorMemberIndex,
+        std::string &statusText);
+    bool tryRepairMemberInventoryItem(
+        size_t memberIndex,
+        uint8_t gridX,
+        uint8_t gridY,
+        size_t inspectorMemberIndex,
+        std::string &statusText);
+    bool identifyMemberInventoryItem(
+        size_t memberIndex,
+        uint8_t gridX,
+        uint8_t gridY,
+        std::string &statusText);
+    bool repairMemberInventoryItem(
+        size_t memberIndex,
+        uint8_t gridX,
+        uint8_t gridY,
+        std::string &statusText);
+    bool tryIdentifyEquippedItem(
+        size_t memberIndex,
+        EquipmentSlot slot,
+        size_t inspectorMemberIndex,
+        std::string &statusText);
+    bool tryRepairEquippedItem(
+        size_t memberIndex,
+        EquipmentSlot slot,
+        size_t inspectorMemberIndex,
+        std::string &statusText);
+    bool identifyEquippedItem(
+        size_t memberIndex,
+        EquipmentSlot slot,
+        std::string &statusText);
+    bool repairEquippedItem(
+        size_t memberIndex,
+        EquipmentSlot slot,
+        std::string &statusText);
     bool setMemberClassName(size_t memberIndex, const std::string &className);
     const Character *member(size_t memberIndex) const;
     Character *member(size_t memberIndex);
@@ -307,6 +370,10 @@ public:
     int gold() const;
     int bankGold() const;
     int food() const;
+    HouseStockState *houseStockState(uint32_t houseId);
+    const HouseStockState *houseStockState(uint32_t houseId) const;
+    HouseStockState &ensureHouseStockState(uint32_t houseId);
+    void clearHouseStockStates();
     size_t inventoryItemCount() const;
     size_t usedInventoryCells() const;
     size_t inventoryCapacity() const;
@@ -347,6 +414,7 @@ private:
     uint32_t m_monsterTargetSelectionCounter = 0;
     float m_lastFallDamageDistance = 0.0f;
     std::string m_lastStatus;
+    std::unordered_map<uint32_t, HouseStockState> m_houseStockStates;
     std::vector<PendingAudioRequest> m_pendingAudioRequests;
 };
 }

@@ -1,0 +1,53 @@
+Id	Name	CommentKey	FaceAnimation
+SelectCharacter	Select Character	select_character	Hello
+StoreClosed	Store Closed	closed_store	StoreClosed
+IdentifyWeakItem	Identify Weak Item	identify_weak_item	IdentifyUseless
+IdentifyGreatItem	Identify Great Item	identify_powerful_item	IdentifyGreat
+IdentifyFailItem	Identify Fail Item	fail_to_identify_item	IdentifyFail
+RepairSuccess	Repair Success	repair_item	RepairItem
+RepairFail	Repair Fail	fail_to_repair_item	RepairFail
+SetQuickSpell	Set Quick Spell	set_new_readied_spell	SetQuickSpell
+Hungry	Hungry	hungry	Tired
+DamageMinor	Damage Minor	barely_wounded	Damaged
+DamageMajor	Damage Major	badly_wounded	Damaged
+Dying	Dying	dying	AlmostDead
+Drunk	Drunk	become_drunk	Drunk
+Insane	Insane	become_insane	Insane
+Poisoned	Poisoned	become_poisoned_diseased	Poisoned
+Cursed	Cursed	become_cursed	Cursed
+Falling	Falling	falling	Damaged
+CantRestHere	Can't Rest Here	unable_to_rest	CantRestHere
+NotEnoughGold	Not Enough Gold	not_enough_gold	NotEnoughGold
+PotionSuccess	Potion Success	mixed_potion_successfully	DrinkPotion
+PotionFail	Potion Fail	mixed_potion_unsuccessfully	PotionExplode
+DoorLocked	Door Locked	locked_door	DoorLocked
+LearnSpell	Learn Spell	learned_a_new_spell	LearnSpell
+CantLearnSpell	Can't Learn Spell	can't_learn_spell	CantLearnSpell
+CantEquip	Can't Equip	can't_equip_item	CantEquip
+HelloDay	Hello Day	greeting1	Hello
+HelloEvening	Hello Evening	greeting2	HelloNight
+HelloHouse	Hello House	greeting3	Hello
+KillStrongEnemy	Kill Strong Enemy	killed_powerful_monster	AttackHit
+KillWeakEnemy	Kill Weak Enemy	killed_weak_monster	AttackHit
+LastPersonStanding	Last Person Standing	last_person_standing	Yell
+LeaveDungeon	Leave Dungeon	leaving_dungeon_party_thrashed	LeaveDungeon
+EnterDungeon	Enter Dungeon	entering_dungeonfirst_time	EnterDungeon
+Yes	Yes	yes	AttackHit
+ThankYou	Thank You	thank_you	AttackHit
+Indignant	Indignant	indignant	AttackMiss
+Yell	Yell	yell	Yell
+AttackHit	Attack Hit		AttackHit
+AttackMiss	Attack Miss		AttackMiss
+Shoot	Shoot		Shoot
+CastSpell	Cast Spell		CastSpell
+DamagedParty	Damaged Party	last_person_standing	DamagedParty
+FoundItem	Found Item	thank_you	AttackHit
+SkillIncreased	Skill Increased	thank_you	SkillIncreased
+QuestGot	Quest Got	thank_you	AttackHit
+AwardGot	Award Got	thank_you	AttackHit
+TempleHeal	Temple Heal		AttackHit
+TempleDonate	Temple Donate		AttackHit
+TravelBoat	Travel Boat	thank_you	AttackHit
+TravelHorse	Travel Horse	thank_you	AttackHit
+BankDeposit	Bank Deposit		AttackHit
+LevelUp	Level Up		AttackHit

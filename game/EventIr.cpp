@@ -54,6 +54,39 @@ std::string decodeVariableRef(uint32_t rawValue)
         return "Awards[" + std::to_string(index) + "]";
     }
 
+    switch (tag)
+    {
+        case 0x0019: return "MightBonus";
+        case 0x001A: return "IntellectBonus";
+        case 0x001B: return "PersonalityBonus";
+        case 0x001C: return "EnduranceBonus";
+        case 0x001D: return "SpeedBonus";
+        case 0x001E: return "AccuracyBonus";
+        case 0x001F: return "LuckBonus";
+        case 0x0020: return "BaseMight";
+        case 0x0021: return "BaseIntellect";
+        case 0x0022: return "BasePersonality";
+        case 0x0023: return "BaseEndurance";
+        case 0x0024: return "BaseSpeed";
+        case 0x0025: return "BaseAccuracy";
+        case 0x0026: return "BaseLuck";
+        case 0x002E: return "FireResistance";
+        case 0x002F: return "AirResistance";
+        case 0x0030: return "WaterResistance";
+        case 0x0031: return "EarthResistance";
+        case 0x0032: return "SpiritResistance";
+        case 0x0033: return "MindResistance";
+        case 0x0034: return "BodyResistance";
+        case 0x0039: return "FireResistanceBonus";
+        case 0x003A: return "AirResistanceBonus";
+        case 0x003B: return "WaterResistanceBonus";
+        case 0x003C: return "EarthResistanceBonus";
+        case 0x003D: return "SpiritResistanceBonus";
+        case 0x003E: return "MindResistanceBonus";
+        case 0x003F: return "BodyResistanceBonus";
+        default: break;
+    }
+
     if (tag == 0x0006 || tag == 0x013e)
     {
         return "Players[" + std::to_string(index) + "]";

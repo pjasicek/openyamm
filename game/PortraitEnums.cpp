@@ -112,7 +112,30 @@ std::optional<PortraitId> portraitIdFromName(std::string_view name)
 
 std::optional<FaceAnimationId> faceAnimationIdFromName(std::string_view name)
 {
-    static const std::array<std::pair<std::string_view, FaceAnimationId>, 16> FaceAnimationNames = {{
+    static const auto FaceAnimationNames = std::to_array<std::pair<std::string_view, FaceAnimationId>>({
+        {"KillSmallEnemy", FaceAnimationId::KillSmallEnemy},
+        {"KillBigEnemy", FaceAnimationId::KillBigEnemy},
+        {"StoreClosed", FaceAnimationId::StoreClosed},
+        {"DisarmTrap", FaceAnimationId::DisarmTrap},
+        {"TrapExploded", FaceAnimationId::TrapExploded},
+        {"AvoidDamage", FaceAnimationId::AvoidDamage},
+        {"IdentifyUseless", FaceAnimationId::IdentifyUseless},
+        {"IdentifyGreat", FaceAnimationId::IdentifyGreat},
+        {"IdentifyFail", FaceAnimationId::IdentifyFail},
+        {"RepairItem", FaceAnimationId::RepairItem},
+        {"RepairFail", FaceAnimationId::RepairFail},
+        {"SetQuickSpell", FaceAnimationId::SetQuickSpell},
+        {"CantRestHere", FaceAnimationId::CantRestHere},
+        {"SkillIncreased", FaceAnimationId::SkillIncreased},
+        {"CantCarry", FaceAnimationId::CantCarry},
+        {"MixPotion", FaceAnimationId::MixPotion},
+        {"PotionExplode", FaceAnimationId::PotionExplode},
+        {"DoorLocked", FaceAnimationId::DoorLocked},
+        {"WontBudge", FaceAnimationId::WontBudge},
+        {"CantLearnSpell", FaceAnimationId::CantLearnSpell},
+        {"LearnSpell", FaceAnimationId::LearnSpell},
+        {"Hello", FaceAnimationId::Hello},
+        {"HelloNight", FaceAnimationId::HelloNight},
         {"Damaged", FaceAnimationId::Damaged},
         {"Weak", FaceAnimationId::Weak},
         {"Afraid", FaceAnimationId::Afraid},
@@ -125,28 +148,26 @@ std::optional<FaceAnimationId> faceAnimationIdFromName(std::string_view name)
         {"Death", FaceAnimationId::Death},
         {"Stoned", FaceAnimationId::Stoned},
         {"Eradicated", FaceAnimationId::Eradicated},
+        {"DrinkPotion", FaceAnimationId::DrinkPotion},
+        {"ReadScroll", FaceAnimationId::ReadScroll},
+        {"NotEnoughGold", FaceAnimationId::NotEnoughGold},
+        {"CantEquip", FaceAnimationId::CantEquip},
+        {"ItemBrokenStolen", FaceAnimationId::ItemBrokenStolen},
+        {"SpellPointsDrained", FaceAnimationId::SpellPointsDrained},
+        {"Aged", FaceAnimationId::Aged},
         {"SpellFailed", FaceAnimationId::SpellFailed},
         {"DamagedParty", FaceAnimationId::DamagedParty},
+        {"Tired", FaceAnimationId::Tired},
+        {"EnterDungeon", FaceAnimationId::EnterDungeon},
+        {"LeaveDungeon", FaceAnimationId::LeaveDungeon},
+        {"AlmostDead", FaceAnimationId::AlmostDead},
         {"CastSpell", FaceAnimationId::CastSpell},
         {"Shoot", FaceAnimationId::Shoot},
-    }};
+        {"AttackHit", FaceAnimationId::AttackHit},
+        {"AttackMiss", FaceAnimationId::AttackMiss},
+    });
 
-    if (const std::optional<FaceAnimationId> named = findEnumByName(FaceAnimationNames, name))
-    {
-        return named;
-    }
-
-    if (normalizeToken(name) == "attackhit")
-    {
-        return FaceAnimationId::AttackHit;
-    }
-
-    if (normalizeToken(name) == "attackmiss")
-    {
-        return FaceAnimationId::AttackMiss;
-    }
-
-    return std::nullopt;
+    return findEnumByName(FaceAnimationNames, name);
 }
 
 std::optional<PortraitId> portraitIdForCondition(CharacterCondition condition)

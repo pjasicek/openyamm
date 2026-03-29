@@ -49,6 +49,28 @@ enum class HouseActionId : uint32_t
     TavernArcomagePlay,
 };
 
+enum class HouseSoundType : uint32_t
+{
+    None = 0,
+    GeneralGreeting = 1,
+    GeneralNotEnoughGold = 2,
+    MagicGuildMembersOnly = 3,
+    ShopGoodbyeRude = 3,
+    ShopGoodbyePolite = 4,
+    AlchemyShopGoodbyeRegular = 3,
+    AlchemyShopGoodbyeBought = 4,
+    TempleGoodbye = 3,
+    BankGoodbye = 3,
+    TavernRentRoom = 2,
+    TavernBuyFood = 3,
+    TavernNotEnoughGold = 4,
+    TrainingTrain = 2,
+    TrainingCantTrain = 3,
+    TrainingNotEnoughGold = 4,
+    TransportTravel = 2,
+    TransportNotEnoughGold = 3,
+};
+
 struct HouseActionOption
 {
     HouseActionId id = HouseActionId::TempleHeal;
@@ -58,7 +80,15 @@ struct HouseActionOption
     std::string disabledReason;
 };
 
+struct HouseActionResult
+{
+    bool succeeded = false;
+    std::optional<HouseSoundType> soundType;
+    std::vector<std::string> messages;
+};
+
 HouseServiceType resolveHouseServiceType(const HouseEntry &houseEntry);
+std::optional<uint32_t> deriveHouseSoundId(const HouseEntry &houseEntry, HouseSoundType soundType);
 
 std::vector<std::string> buildHouseServiceInfoLines(
     const HouseEntry &houseEntry,
@@ -75,12 +105,11 @@ std::vector<HouseActionOption> buildHouseActionOptions(
     DialogueMenuId menuId
 );
 
-bool performHouseAction(
+HouseActionResult performHouseAction(
     const HouseActionOption &action,
     const HouseEntry &houseEntry,
     Party &party,
     const ClassSkillTable *pClassSkillTable,
-    OutdoorWorldRuntime *pOutdoorWorldRuntime,
-    std::vector<std::string> &messages
+    OutdoorWorldRuntime *pOutdoorWorldRuntime
 );
 }

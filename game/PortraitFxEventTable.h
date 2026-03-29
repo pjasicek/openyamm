@@ -16,6 +16,7 @@ enum class PortraitFxEventKind : uint8_t
     Disease,
     AwardGain,
     QuestComplete,
+    StatIncrease,
     StatDecrease,
 };
 

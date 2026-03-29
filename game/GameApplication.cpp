@@ -47,7 +47,10 @@ bool GameApplication::loadGameData(const Engine::AssetFileSystem &assetFileSyste
         return false;
     }
 
-    if (!m_gameAudioSystem.initialize(assetFileSystem, m_gameDataLoader.getCharacterDollTable()))
+    if (!m_gameAudioSystem.initialize(
+            assetFileSystem,
+            m_gameDataLoader.getCharacterDollTable(),
+            m_gameDataLoader.getSpellTable()))
     {
         return false;
     }

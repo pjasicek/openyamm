@@ -40,6 +40,7 @@ public:
     bool loadFromRows(const std::vector<std::vector<std::string>> &rows);
     const SpellEntry *findById(int id) const;
     const SpellEntry *findByName(const std::string &name) const;
+    const std::vector<SpellEntry> &entries() const;
 
 private:
     std::vector<SpellEntry> m_entries;

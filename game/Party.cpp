@@ -2,6 +2,8 @@
 
 #include "game/EventRuntime.h"
 #include "game/GameMechanics.h"
+#include "game/ItemGenerator.h"
+#include "game/ItemRuntime.h"
 #include "game/ItemTable.h"
 #include "game/RosterTable.h"
 #include "game/SpellIds.h"
@@ -10,11 +12,30 @@
 #include <algorithm>
 #include <array>
 #include <cctype>
+#include <iostream>
 
 namespace OpenYAMM::Game
 {
 namespace
 {
+bool characterNeedsTempleHealing(const Character &member)
+{
+    if (member.health < member.maxHealth || member.spellPoints < member.maxSpellPoints)
+    {
+        return true;
+    }
+
+    for (size_t conditionIndex = 0; conditionIndex < CharacterConditionCount; ++conditionIndex)
+    {
+        if (member.conditions.test(conditionIndex))
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 void grantSeedSkill(Character &character, const std::string &skillName, uint32_t level = 1)
 {
     CharacterSkill skill = {};
@@ -102,6 +123,22 @@ void grantSeedInventoryLoadout(Character &character)
     {
         character.inventory.push_back({itemId, 1, 0, 0, 0, 0});
     }
+}
+
+void grantSeedInventoryItem(
+    Character &character,
+    uint32_t itemId,
+    bool identified,
+    bool broken)
+{
+    InventoryItem item = {};
+    item.objectDescriptionId = itemId;
+    item.quantity = 1;
+    item.width = 0;
+    item.height = 0;
+    item.identified = identified;
+    item.broken = broken;
+    character.inventory.push_back(item);
 }
 
 std::string normalizeRoleName(const std::string &className)
@@ -239,6 +276,71 @@ bool inventoryItemContainsCell(const InventoryItem &item, uint8_t gridX, uint8_t
         && gridY < item.gridY + item.height;
 }
 
+const char *equipmentSlotName(EquipmentSlot slot)
+{
+    switch (slot)
+    {
+        case EquipmentSlot::MainHand:
+            return "MainHand";
+        case EquipmentSlot::OffHand:
+            return "OffHand";
+        case EquipmentSlot::Bow:
+            return "Bow";
+        case EquipmentSlot::Armor:
+            return "Armor";
+        case EquipmentSlot::Helm:
+            return "Helm";
+        case EquipmentSlot::Belt:
+            return "Belt";
+        case EquipmentSlot::Cloak:
+            return "Cloak";
+        case EquipmentSlot::Gauntlets:
+            return "Gauntlets";
+        case EquipmentSlot::Boots:
+            return "Boots";
+        case EquipmentSlot::Amulet:
+            return "Amulet";
+        case EquipmentSlot::Ring1:
+            return "Ring1";
+        case EquipmentSlot::Ring2:
+            return "Ring2";
+        case EquipmentSlot::Ring3:
+            return "Ring3";
+        case EquipmentSlot::Ring4:
+            return "Ring4";
+        case EquipmentSlot::Ring5:
+            return "Ring5";
+        case EquipmentSlot::Ring6:
+            return "Ring6";
+    }
+
+    return "Unknown";
+}
+
+void logItemInteractionResult(
+    const char *pAction,
+    const Character *pInspector,
+    const Character *pOwner,
+    const ItemDefinition *pItemDefinition,
+    const std::string &location,
+    bool success,
+    const std::string &statusText)
+{
+    std::cout << "Item " << pAction
+              << ": inspector=\"" << (pInspector != nullptr ? pInspector->name : "")
+              << "\" owner=\"" << (pOwner != nullptr ? pOwner->name : "")
+              << "\" item=\"" << (pItemDefinition != nullptr ? pItemDefinition->name : "")
+              << "\" location=" << location
+              << " result=" << (success ? "success" : "failed");
+
+    if (!statusText.empty())
+    {
+        std::cout << " status=\"" << statusText << "\"";
+    }
+
+    std::cout << '\n';
+}
+
 constexpr uint32_t AttackPreferenceKnight = 0x0001;
 constexpr uint32_t AttackPreferencePaladin = 0x0002;
 constexpr uint32_t AttackPreferenceArcher = 0x0004;
@@ -319,6 +421,11 @@ bool matchesMonsterAttackPreference(const Character &member, uint32_t preference
         default:
             return false;
     }
+}
+
+uint64_t experienceRequiredForNextLevel(uint32_t currentLevel)
+{
+    return 1000ull * currentLevel * (currentLevel + 1) / 2;
 }
 
 void updateMemberIncapacitatedCondition(Character &member, bool preservationActive)
@@ -468,6 +575,231 @@ uint32_t equippedItemId(const CharacterEquipment &equipment, EquipmentSlot slot)
     }
 
     return 0;
+}
+
+EquippedItemRuntimeState &equippedItemRuntimeState(CharacterEquipmentRuntimeState &equipmentRuntime, EquipmentSlot slot)
+{
+    switch (slot)
+    {
+        case EquipmentSlot::OffHand:
+            return equipmentRuntime.offHand;
+
+        case EquipmentSlot::MainHand:
+            return equipmentRuntime.mainHand;
+
+        case EquipmentSlot::Bow:
+            return equipmentRuntime.bow;
+
+        case EquipmentSlot::Armor:
+            return equipmentRuntime.armor;
+
+        case EquipmentSlot::Helm:
+            return equipmentRuntime.helm;
+
+        case EquipmentSlot::Belt:
+            return equipmentRuntime.belt;
+
+        case EquipmentSlot::Cloak:
+            return equipmentRuntime.cloak;
+
+        case EquipmentSlot::Gauntlets:
+            return equipmentRuntime.gauntlets;
+
+        case EquipmentSlot::Boots:
+            return equipmentRuntime.boots;
+
+        case EquipmentSlot::Amulet:
+            return equipmentRuntime.amulet;
+
+        case EquipmentSlot::Ring1:
+            return equipmentRuntime.ring1;
+
+        case EquipmentSlot::Ring2:
+            return equipmentRuntime.ring2;
+
+        case EquipmentSlot::Ring3:
+            return equipmentRuntime.ring3;
+
+        case EquipmentSlot::Ring4:
+            return equipmentRuntime.ring4;
+
+        case EquipmentSlot::Ring5:
+            return equipmentRuntime.ring5;
+
+        case EquipmentSlot::Ring6:
+            return equipmentRuntime.ring6;
+    }
+
+    return equipmentRuntime.mainHand;
+}
+
+const EquippedItemRuntimeState &equippedItemRuntimeState(
+    const CharacterEquipmentRuntimeState &equipmentRuntime,
+    EquipmentSlot slot)
+{
+    switch (slot)
+    {
+        case EquipmentSlot::OffHand:
+            return equipmentRuntime.offHand;
+
+        case EquipmentSlot::MainHand:
+            return equipmentRuntime.mainHand;
+
+        case EquipmentSlot::Bow:
+            return equipmentRuntime.bow;
+
+        case EquipmentSlot::Armor:
+            return equipmentRuntime.armor;
+
+        case EquipmentSlot::Helm:
+            return equipmentRuntime.helm;
+
+        case EquipmentSlot::Belt:
+            return equipmentRuntime.belt;
+
+        case EquipmentSlot::Cloak:
+            return equipmentRuntime.cloak;
+
+        case EquipmentSlot::Gauntlets:
+            return equipmentRuntime.gauntlets;
+
+        case EquipmentSlot::Boots:
+            return equipmentRuntime.boots;
+
+        case EquipmentSlot::Amulet:
+            return equipmentRuntime.amulet;
+
+        case EquipmentSlot::Ring1:
+            return equipmentRuntime.ring1;
+
+        case EquipmentSlot::Ring2:
+            return equipmentRuntime.ring2;
+
+        case EquipmentSlot::Ring3:
+            return equipmentRuntime.ring3;
+
+        case EquipmentSlot::Ring4:
+            return equipmentRuntime.ring4;
+
+        case EquipmentSlot::Ring5:
+            return equipmentRuntime.ring5;
+
+        case EquipmentSlot::Ring6:
+            return equipmentRuntime.ring6;
+    }
+
+    return equipmentRuntime.mainHand;
+}
+
+InventoryItem makeInventoryItem(
+    const ItemTable *pItemTable,
+    uint32_t objectDescriptionId,
+    ItemGenerationMode mode = ItemGenerationMode::Generic)
+{
+    if (pItemTable == nullptr)
+    {
+        InventoryItem item = {};
+        item.objectDescriptionId = objectDescriptionId;
+        return item;
+    }
+
+    return ItemGenerator::makeInventoryItem(objectDescriptionId, *pItemTable, mode);
+}
+
+InventoryItem makeInventoryItem(
+    const ItemTable *pItemTable,
+    uint32_t objectDescriptionId,
+    const EquippedItemRuntimeState &runtimeState)
+{
+    InventoryItem item = makeInventoryItem(pItemTable, objectDescriptionId, ItemGenerationMode::Generic);
+    item.identified = runtimeState.identified;
+    item.broken = runtimeState.broken;
+    item.stolen = runtimeState.stolen;
+    item.standardEnchantId = runtimeState.standardEnchantId;
+    item.specialEnchantId = runtimeState.specialEnchantId;
+    item.artifactId = runtimeState.artifactId;
+    return item;
+}
+
+InventoryItem *inventoryItemAtMutable(Character &character, uint8_t gridX, uint8_t gridY)
+{
+    for (InventoryItem &item : character.inventory)
+    {
+        if (inventoryItemContainsCell(item, gridX, gridY))
+        {
+            return &item;
+        }
+    }
+
+    return nullptr;
+}
+
+bool identifyInventoryItemInstance(InventoryItem &item, const ItemDefinition &itemDefinition, std::string &statusText)
+{
+    if (item.identified || !ItemRuntime::requiresIdentification(itemDefinition))
+    {
+        statusText = "Already identified.";
+        return false;
+    }
+
+    item.identified = true;
+    statusText = "Identified " + ItemRuntime::displayName(item, itemDefinition) + ".";
+    return true;
+}
+
+bool repairInventoryItemInstance(InventoryItem &item, const ItemDefinition &itemDefinition, std::string &statusText)
+{
+    if (!item.broken)
+    {
+        statusText = "Nothing to repair.";
+        return false;
+    }
+
+    item.broken = false;
+    item.identified = true;
+    statusText = "Repaired " + ItemRuntime::displayName(item, itemDefinition) + ".";
+    return true;
+}
+
+bool identifyEquippedItemInstance(EquippedItemRuntimeState &runtimeState, const ItemDefinition &itemDefinition, std::string &statusText)
+{
+    if (runtimeState.identified || !ItemRuntime::requiresIdentification(itemDefinition))
+    {
+        statusText = "Already identified.";
+        return false;
+    }
+
+    runtimeState.identified = true;
+    InventoryItem displayItem = {};
+    displayItem.identified = runtimeState.identified;
+    displayItem.broken = runtimeState.broken;
+    displayItem.stolen = runtimeState.stolen;
+    displayItem.standardEnchantId = runtimeState.standardEnchantId;
+    displayItem.specialEnchantId = runtimeState.specialEnchantId;
+    displayItem.artifactId = runtimeState.artifactId;
+    statusText = "Identified " + ItemRuntime::displayName(displayItem, itemDefinition) + ".";
+    return true;
+}
+
+bool repairEquippedItemInstance(EquippedItemRuntimeState &runtimeState, const ItemDefinition &itemDefinition, std::string &statusText)
+{
+    if (!runtimeState.broken)
+    {
+        statusText = "Nothing to repair.";
+        return false;
+    }
+
+    runtimeState.broken = false;
+    runtimeState.identified = true;
+    InventoryItem displayItem = {};
+    displayItem.identified = runtimeState.identified;
+    displayItem.broken = runtimeState.broken;
+    displayItem.stolen = runtimeState.stolen;
+    displayItem.standardEnchantId = runtimeState.standardEnchantId;
+    displayItem.specialEnchantId = runtimeState.specialEnchantId;
+    displayItem.artifactId = runtimeState.artifactId;
+    statusText = "Repaired " + ItemRuntime::displayName(displayItem, itemDefinition) + ".";
+    return true;
 }
 }
 
@@ -718,7 +1050,14 @@ PartySeed Party::createDefaultSeed()
     cleric.spellPoints = 120;
     grantDefaultEquipmentSkills(cleric);
     grantAllMagicSchools(cleric, 10, SkillMastery::Grandmaster);
-    grantSeedInventoryLoadout(cleric);
+    grantSeedSkill(cleric, "IdentifyItem", 10, SkillMastery::Grandmaster);
+    grantSeedSkill(cleric, "RepairItem", 10, SkillMastery::Grandmaster);
+    grantSeedInventoryItem(cleric, 137, false, false);
+    grantSeedInventoryItem(cleric, 137, true, true);
+    grantSeedInventoryItem(cleric, 138, false, false);
+    grantSeedInventoryItem(cleric, 138, true, true);
+    grantSeedInventoryItem(cleric, 145, false, false);
+    grantSeedInventoryItem(cleric, 145, true, true);
     seed.members.push_back(cleric);
 
     Character femaleKnight = {};
@@ -729,8 +1068,8 @@ PartySeed Party::createDefaultSeed()
     femaleKnight.portraitPictureId = 1;
     femaleKnight.characterDataId = 2;
     femaleKnight.birthYear = 1144;
-    femaleKnight.experience = 10000;
-    femaleKnight.level = 5;
+    femaleKnight.experience = 50000;
+    femaleKnight.level = 1;
     femaleKnight.skillPoints = 30;
     femaleKnight.might = 16;
     femaleKnight.intellect = 9;
@@ -858,6 +1197,7 @@ void Party::seed(const PartySeed &seed)
     m_bankGold = 0;
     m_food = std::max(0, seed.food);
     m_monsterTargetSelectionCounter = 0;
+    m_houseStockStates.clear();
 
     for (Character &member : m_members)
     {
@@ -1196,6 +1536,11 @@ void Party::addFood(int amount)
     }
 }
 
+void Party::requestSound(SoundId soundId)
+{
+    queueSound(soundId);
+}
+
 bool Party::tryGrantItem(uint32_t objectDescriptionId, uint32_t quantity)
 {
     if (objectDescriptionId == 0 || quantity == 0)
@@ -1207,11 +1552,7 @@ bool Party::tryGrantItem(uint32_t objectDescriptionId, uint32_t quantity)
 
     for (uint32_t itemCount = 0; itemCount < quantity; ++itemCount)
     {
-        InventoryItem item = {};
-        item.objectDescriptionId = objectDescriptionId;
-        item.quantity = 1;
-        item.width = resolveInventoryWidth(objectDescriptionId);
-        item.height = resolveInventoryHeight(objectDescriptionId);
+        InventoryItem item = makeInventoryItem(m_pItemTable, objectDescriptionId);
 
         bool added = false;
 
@@ -1233,6 +1574,28 @@ bool Party::tryGrantItem(uint32_t objectDescriptionId, uint32_t quantity)
 
     m_members = std::move(testMembers);
     return true;
+}
+
+bool Party::tryGrantInventoryItem(const InventoryItem &item)
+{
+    if (item.objectDescriptionId == 0 || item.quantity == 0)
+    {
+        return false;
+    }
+
+    std::vector<Character> testMembers = m_members;
+
+    for (Character &member : testMembers)
+    {
+        if (member.addInventoryItem(item))
+        {
+            m_members = std::move(testMembers);
+            return true;
+        }
+    }
+
+    m_lastStatus = "inventory full";
+    return false;
 }
 
 void Party::grantItem(uint32_t objectDescriptionId, uint32_t quantity)
@@ -1285,7 +1648,7 @@ bool Party::needsHealing() const
 {
     for (const Character &member : m_members)
     {
-        if (member.health < member.maxHealth || member.spellPoints < member.maxSpellPoints)
+        if (characterNeedsTempleHealing(member))
         {
             return true;
         }
@@ -1303,7 +1666,7 @@ bool Party::activeMemberNeedsHealing() const
         return false;
     }
 
-    return pMember->health < pMember->maxHealth || pMember->spellPoints < pMember->maxSpellPoints;
+    return characterNeedsTempleHealing(*pMember);
 }
 
 void Party::restoreAll()
@@ -1349,6 +1712,11 @@ bool Party::trainLeader(uint32_t maxLevel, uint32_t &newLevel, uint32_t &skillPo
         return false;
     }
 
+    if (leader.experience < experienceRequiredForNextLevel(leader.level))
+    {
+        return false;
+    }
+
     leader.level += 1;
     skillPointsEarned = 5 + leader.level / 10;
     leader.skillPoints += skillPointsEarned;
@@ -1371,6 +1739,11 @@ bool Party::trainActiveMember(uint32_t maxLevel, uint32_t &newLevel, uint32_t &s
     }
 
     if (maxLevel > 0 && pMember->level >= maxLevel)
+    {
+        return false;
+    }
+
+    if (pMember->experience < experienceRequiredForNextLevel(pMember->level))
     {
         return false;
     }
@@ -1466,20 +1839,42 @@ bool Party::increaseActiveMemberSkillLevel(const std::string &skillName)
     return true;
 }
 
+int Party::depositGoldToBank(int amount)
+{
+    const int transferableGold = std::clamp(amount, 0, m_gold);
+
+    if (transferableGold <= 0)
+    {
+        return 0;
+    }
+
+    addGold(-transferableGold);
+    m_bankGold += transferableGold;
+    return transferableGold;
+}
+
+int Party::withdrawBankGold(int amount)
+{
+    const int transferableGold = std::clamp(amount, 0, m_bankGold);
+
+    if (transferableGold <= 0)
+    {
+        return 0;
+    }
+
+    m_bankGold -= transferableGold;
+    addGold(transferableGold);
+    return transferableGold;
+}
+
 int Party::depositAllGoldToBank()
 {
-    const int depositedGold = m_gold;
-    m_bankGold += depositedGold;
-    m_gold = 0;
-    return depositedGold;
+    return depositGoldToBank(m_gold);
 }
 
 int Party::withdrawAllBankGold()
 {
-    const int withdrawnGold = m_bankGold;
-    m_gold += withdrawnGold;
-    m_bankGold = 0;
-    return withdrawnGold;
+    return withdrawBankGold(m_bankGold);
 }
 
 bool Party::isFull() const
@@ -1684,11 +2079,7 @@ bool Party::grantItemToMember(size_t memberIndex, uint32_t objectDescriptionId, 
 
     for (uint32_t itemIndex = 0; itemIndex < quantity; ++itemIndex)
     {
-        InventoryItem item = {};
-        item.objectDescriptionId = objectDescriptionId;
-        item.quantity = 1;
-        item.width = resolveInventoryWidth(objectDescriptionId);
-        item.height = resolveInventoryHeight(objectDescriptionId);
+        InventoryItem item = makeInventoryItem(m_pItemTable, objectDescriptionId);
 
         if (!pMember->addInventoryItem(item))
         {
@@ -1799,11 +2190,9 @@ bool Party::takeEquippedItemFromMember(size_t memberIndex, EquipmentSlot slot, I
     }
 
     item = {};
-    item.objectDescriptionId = itemId;
-    item.quantity = 1;
-    item.width = resolveInventoryWidth(itemId);
-    item.height = resolveInventoryHeight(itemId);
+    item = makeInventoryItem(m_pItemTable, itemId, equippedItemRuntimeState(pMember->equipmentRuntime, slot));
     equippedItemId(pMember->equipment, slot) = 0;
+    equippedItemRuntimeState(pMember->equipmentRuntime, slot) = {};
     m_lastStatus = "item unequipped";
     return true;
 }
@@ -1837,14 +2226,15 @@ bool Party::tryEquipItemOnMember(
 
     const uint32_t displacedItemId =
         displacedSlot ? equippedItemId(pMember->equipment, *displacedSlot) : 0;
+    const EquippedItemRuntimeState displacedRuntimeState =
+        displacedSlot ? equippedItemRuntimeState(pMember->equipmentRuntime, *displacedSlot) : EquippedItemRuntimeState {};
 
     if (autoStoreDisplacedItem && displacedItemId != 0)
     {
-        InventoryItem displacedInventoryItem = {};
-        displacedInventoryItem.objectDescriptionId = displacedItemId;
-        displacedInventoryItem.quantity = 1;
-        displacedInventoryItem.width = resolveInventoryWidth(displacedItemId);
-        displacedInventoryItem.height = resolveInventoryHeight(displacedItemId);
+        InventoryItem displacedInventoryItem = makeInventoryItem(
+            m_pItemTable,
+            displacedItemId,
+            displacedRuntimeState);
 
         if (!pMember->addInventoryItem(displacedInventoryItem))
         {
@@ -1856,17 +2246,21 @@ bool Party::tryEquipItemOnMember(
     if (displacedSlot)
     {
         equippedItemId(pMember->equipment, *displacedSlot) = 0;
+        equippedItemRuntimeState(pMember->equipmentRuntime, *displacedSlot) = {};
     }
 
     equippedItemId(pMember->equipment, targetSlot) = item.objectDescriptionId;
+    EquippedItemRuntimeState &targetRuntimeState = equippedItemRuntimeState(pMember->equipmentRuntime, targetSlot);
+    targetRuntimeState.identified = item.identified;
+    targetRuntimeState.broken = item.broken;
+    targetRuntimeState.stolen = item.stolen;
+    targetRuntimeState.standardEnchantId = item.standardEnchantId;
+    targetRuntimeState.specialEnchantId = item.specialEnchantId;
+    targetRuntimeState.artifactId = item.artifactId;
 
     if (!autoStoreDisplacedItem && displacedItemId != 0)
     {
-        InventoryItem displacedInventoryItem = {};
-        displacedInventoryItem.objectDescriptionId = displacedItemId;
-        displacedInventoryItem.quantity = 1;
-        displacedInventoryItem.width = resolveInventoryWidth(displacedItemId);
-        displacedInventoryItem.height = resolveInventoryHeight(displacedItemId);
+        InventoryItem displacedInventoryItem = makeInventoryItem(m_pItemTable, displacedItemId, displacedRuntimeState);
         heldReplacement = displacedInventoryItem;
         m_lastStatus = "item swapped";
     }
@@ -1876,6 +2270,659 @@ bool Party::tryEquipItemOnMember(
     }
 
     return true;
+}
+
+std::optional<InventoryItem> Party::equippedItem(size_t memberIndex, EquipmentSlot slot) const
+{
+    const Character *pMember = member(memberIndex);
+
+    if (pMember == nullptr)
+    {
+        return std::nullopt;
+    }
+
+    const uint32_t itemId = equippedItemId(pMember->equipment, slot);
+
+    if (itemId == 0)
+    {
+        return std::nullopt;
+    }
+
+    return makeInventoryItem(m_pItemTable, itemId, equippedItemRuntimeState(pMember->equipmentRuntime, slot));
+}
+
+bool Party::tryIdentifyMemberInventoryItem(
+    size_t memberIndex,
+    uint8_t gridX,
+    uint8_t gridY,
+    size_t inspectorMemberIndex,
+    std::string &statusText)
+{
+    statusText.clear();
+    Character *pMember = member(memberIndex);
+    const Character *pInspector = member(inspectorMemberIndex);
+
+    if (pMember == nullptr || pInspector == nullptr || m_pItemTable == nullptr)
+    {
+        return false;
+    }
+
+    InventoryItem *pItem = inventoryItemAtMutable(*pMember, gridX, gridY);
+
+    if (pItem == nullptr)
+    {
+        statusText = "No item there.";
+        logItemInteractionResult(
+            "identify",
+            pInspector,
+            pMember,
+            nullptr,
+            "inventory(" + std::to_string(gridX) + "," + std::to_string(gridY) + ")",
+            false,
+            statusText);
+        return false;
+    }
+
+    const ItemDefinition *pItemDefinition = m_pItemTable->get(pItem->objectDescriptionId);
+
+    if (pItemDefinition == nullptr)
+    {
+        statusText = "Unavailable.";
+        logItemInteractionResult(
+            "identify",
+            pInspector,
+            pMember,
+            nullptr,
+            "inventory(" + std::to_string(gridX) + "," + std::to_string(gridY) + ")",
+            false,
+            statusText);
+        return false;
+    }
+
+    if (pItem->identified || !ItemRuntime::requiresIdentification(*pItemDefinition))
+    {
+        statusText = "Already identified.";
+        logItemInteractionResult(
+            "identify",
+            pInspector,
+            pMember,
+            pItemDefinition,
+            "inventory(" + std::to_string(gridX) + "," + std::to_string(gridY) + ")",
+            false,
+            statusText);
+        return false;
+    }
+
+    if (!ItemRuntime::canCharacterIdentifyItem(*pInspector, *pItemDefinition))
+    {
+        statusText = "Not skilled enough.";
+        logItemInteractionResult(
+            "identify",
+            pInspector,
+            pMember,
+            pItemDefinition,
+            "inventory(" + std::to_string(gridX) + "," + std::to_string(gridY) + ")",
+            false,
+            statusText);
+        return false;
+    }
+
+    const bool identified = identifyInventoryItemInstance(*pItem, *pItemDefinition, statusText);
+
+    if (identified)
+    {
+        m_lastStatus = "item identified";
+    }
+
+    logItemInteractionResult(
+        "identify",
+        pInspector,
+        pMember,
+        pItemDefinition,
+        "inventory(" + std::to_string(gridX) + "," + std::to_string(gridY) + ")",
+        identified,
+        statusText);
+
+    return identified;
+}
+
+bool Party::tryRepairMemberInventoryItem(
+    size_t memberIndex,
+    uint8_t gridX,
+    uint8_t gridY,
+    size_t inspectorMemberIndex,
+    std::string &statusText)
+{
+    statusText.clear();
+    Character *pMember = member(memberIndex);
+    const Character *pInspector = member(inspectorMemberIndex);
+
+    if (pMember == nullptr || pInspector == nullptr || m_pItemTable == nullptr)
+    {
+        return false;
+    }
+
+    InventoryItem *pItem = inventoryItemAtMutable(*pMember, gridX, gridY);
+
+    if (pItem == nullptr)
+    {
+        statusText = "No item there.";
+        logItemInteractionResult(
+            "repair",
+            pInspector,
+            pMember,
+            nullptr,
+            "inventory(" + std::to_string(gridX) + "," + std::to_string(gridY) + ")",
+            false,
+            statusText);
+        return false;
+    }
+
+    const ItemDefinition *pItemDefinition = m_pItemTable->get(pItem->objectDescriptionId);
+
+    if (pItemDefinition == nullptr)
+    {
+        statusText = "Unavailable.";
+        logItemInteractionResult(
+            "repair",
+            pInspector,
+            pMember,
+            nullptr,
+            "inventory(" + std::to_string(gridX) + "," + std::to_string(gridY) + ")",
+            false,
+            statusText);
+        return false;
+    }
+
+    if (!pItem->broken)
+    {
+        statusText = "Nothing to repair.";
+        logItemInteractionResult(
+            "repair",
+            pInspector,
+            pMember,
+            pItemDefinition,
+            "inventory(" + std::to_string(gridX) + "," + std::to_string(gridY) + ")",
+            false,
+            statusText);
+        return false;
+    }
+
+    if (!ItemRuntime::canCharacterRepairItem(*pInspector, *pItemDefinition))
+    {
+        statusText = "Not skilled enough.";
+        logItemInteractionResult(
+            "repair",
+            pInspector,
+            pMember,
+            pItemDefinition,
+            "inventory(" + std::to_string(gridX) + "," + std::to_string(gridY) + ")",
+            false,
+            statusText);
+        return false;
+    }
+
+    const bool repaired = repairInventoryItemInstance(*pItem, *pItemDefinition, statusText);
+
+    if (repaired)
+    {
+        m_lastStatus = "item repaired";
+    }
+
+    logItemInteractionResult(
+        "repair",
+        pInspector,
+        pMember,
+        pItemDefinition,
+        "inventory(" + std::to_string(gridX) + "," + std::to_string(gridY) + ")",
+        repaired,
+        statusText);
+
+    return repaired;
+}
+
+bool Party::identifyMemberInventoryItem(
+    size_t memberIndex,
+    uint8_t gridX,
+    uint8_t gridY,
+    std::string &statusText)
+{
+    statusText.clear();
+    Character *pMember = member(memberIndex);
+
+    if (pMember == nullptr || m_pItemTable == nullptr)
+    {
+        return false;
+    }
+
+    InventoryItem *pItem = inventoryItemAtMutable(*pMember, gridX, gridY);
+
+    if (pItem == nullptr)
+    {
+        statusText = "No item there.";
+        logItemInteractionResult(
+            "identify",
+            nullptr,
+            pMember,
+            nullptr,
+            "inventory(" + std::to_string(gridX) + "," + std::to_string(gridY) + ")",
+            false,
+            statusText);
+        return false;
+    }
+
+    const ItemDefinition *pItemDefinition = m_pItemTable->get(pItem->objectDescriptionId);
+
+    if (pItemDefinition == nullptr)
+    {
+        statusText = "Unavailable.";
+        logItemInteractionResult(
+            "identify",
+            nullptr,
+            pMember,
+            nullptr,
+            "inventory(" + std::to_string(gridX) + "," + std::to_string(gridY) + ")",
+            false,
+            statusText);
+        return false;
+    }
+
+    const bool identified = identifyInventoryItemInstance(*pItem, *pItemDefinition, statusText);
+
+    if (identified)
+    {
+        m_lastStatus = "item identified";
+    }
+
+    logItemInteractionResult(
+        "identify",
+        nullptr,
+        pMember,
+        pItemDefinition,
+        "inventory(" + std::to_string(gridX) + "," + std::to_string(gridY) + ")",
+        identified,
+        statusText);
+
+    return identified;
+}
+
+bool Party::repairMemberInventoryItem(
+    size_t memberIndex,
+    uint8_t gridX,
+    uint8_t gridY,
+    std::string &statusText)
+{
+    statusText.clear();
+    Character *pMember = member(memberIndex);
+
+    if (pMember == nullptr || m_pItemTable == nullptr)
+    {
+        return false;
+    }
+
+    InventoryItem *pItem = inventoryItemAtMutable(*pMember, gridX, gridY);
+
+    if (pItem == nullptr)
+    {
+        statusText = "No item there.";
+        logItemInteractionResult(
+            "repair",
+            nullptr,
+            pMember,
+            nullptr,
+            "inventory(" + std::to_string(gridX) + "," + std::to_string(gridY) + ")",
+            false,
+            statusText);
+        return false;
+    }
+
+    const ItemDefinition *pItemDefinition = m_pItemTable->get(pItem->objectDescriptionId);
+
+    if (pItemDefinition == nullptr)
+    {
+        statusText = "Unavailable.";
+        logItemInteractionResult(
+            "repair",
+            nullptr,
+            pMember,
+            nullptr,
+            "inventory(" + std::to_string(gridX) + "," + std::to_string(gridY) + ")",
+            false,
+            statusText);
+        return false;
+    }
+
+    const bool repaired = repairInventoryItemInstance(*pItem, *pItemDefinition, statusText);
+
+    if (repaired)
+    {
+        m_lastStatus = "item repaired";
+    }
+
+    logItemInteractionResult(
+        "repair",
+        nullptr,
+        pMember,
+        pItemDefinition,
+        "inventory(" + std::to_string(gridX) + "," + std::to_string(gridY) + ")",
+        repaired,
+        statusText);
+
+    return repaired;
+}
+
+bool Party::tryIdentifyEquippedItem(
+    size_t memberIndex,
+    EquipmentSlot slot,
+    size_t inspectorMemberIndex,
+    std::string &statusText)
+{
+    statusText.clear();
+    Character *pMember = member(memberIndex);
+    const Character *pInspector = member(inspectorMemberIndex);
+
+    if (pMember == nullptr || pInspector == nullptr || m_pItemTable == nullptr)
+    {
+        return false;
+    }
+
+    const uint32_t itemId = equippedItemId(pMember->equipment, slot);
+
+    if (itemId == 0)
+    {
+        statusText = "No item there.";
+        logItemInteractionResult(
+            "identify",
+            pInspector,
+            pMember,
+            nullptr,
+            std::string("equipped(") + equipmentSlotName(slot) + ")",
+            false,
+            statusText);
+        return false;
+    }
+
+    EquippedItemRuntimeState &runtimeState = equippedItemRuntimeState(pMember->equipmentRuntime, slot);
+    const ItemDefinition *pItemDefinition = m_pItemTable->get(itemId);
+
+    if (pItemDefinition == nullptr)
+    {
+        statusText = "Unavailable.";
+        logItemInteractionResult(
+            "identify",
+            pInspector,
+            pMember,
+            nullptr,
+            std::string("equipped(") + equipmentSlotName(slot) + ")",
+            false,
+            statusText);
+        return false;
+    }
+
+    if (runtimeState.identified || !ItemRuntime::requiresIdentification(*pItemDefinition))
+    {
+        statusText = "Already identified.";
+        logItemInteractionResult(
+            "identify",
+            pInspector,
+            pMember,
+            pItemDefinition,
+            std::string("equipped(") + equipmentSlotName(slot) + ")",
+            false,
+            statusText);
+        return false;
+    }
+
+    if (!ItemRuntime::canCharacterIdentifyItem(*pInspector, *pItemDefinition))
+    {
+        statusText = "Not skilled enough.";
+        logItemInteractionResult(
+            "identify",
+            pInspector,
+            pMember,
+            pItemDefinition,
+            std::string("equipped(") + equipmentSlotName(slot) + ")",
+            false,
+            statusText);
+        return false;
+    }
+
+    const bool identified = identifyEquippedItemInstance(runtimeState, *pItemDefinition, statusText);
+
+    if (identified)
+    {
+        m_lastStatus = "item identified";
+    }
+
+    logItemInteractionResult(
+        "identify",
+        pInspector,
+        pMember,
+        pItemDefinition,
+        std::string("equipped(") + equipmentSlotName(slot) + ")",
+        identified,
+        statusText);
+
+    return identified;
+}
+
+bool Party::tryRepairEquippedItem(
+    size_t memberIndex,
+    EquipmentSlot slot,
+    size_t inspectorMemberIndex,
+    std::string &statusText)
+{
+    statusText.clear();
+    Character *pMember = member(memberIndex);
+    const Character *pInspector = member(inspectorMemberIndex);
+
+    if (pMember == nullptr || pInspector == nullptr || m_pItemTable == nullptr)
+    {
+        return false;
+    }
+
+    const uint32_t itemId = equippedItemId(pMember->equipment, slot);
+
+    if (itemId == 0)
+    {
+        statusText = "No item there.";
+        logItemInteractionResult(
+            "repair",
+            pInspector,
+            pMember,
+            nullptr,
+            std::string("equipped(") + equipmentSlotName(slot) + ")",
+            false,
+            statusText);
+        return false;
+    }
+
+    EquippedItemRuntimeState &runtimeState = equippedItemRuntimeState(pMember->equipmentRuntime, slot);
+    const ItemDefinition *pItemDefinition = m_pItemTable->get(itemId);
+
+    if (pItemDefinition == nullptr)
+    {
+        statusText = "Unavailable.";
+        logItemInteractionResult(
+            "repair",
+            pInspector,
+            pMember,
+            nullptr,
+            std::string("equipped(") + equipmentSlotName(slot) + ")",
+            false,
+            statusText);
+        return false;
+    }
+
+    if (!runtimeState.broken)
+    {
+        statusText = "Nothing to repair.";
+        logItemInteractionResult(
+            "repair",
+            pInspector,
+            pMember,
+            pItemDefinition,
+            std::string("equipped(") + equipmentSlotName(slot) + ")",
+            false,
+            statusText);
+        return false;
+    }
+
+    if (!ItemRuntime::canCharacterRepairItem(*pInspector, *pItemDefinition))
+    {
+        statusText = "Not skilled enough.";
+        logItemInteractionResult(
+            "repair",
+            pInspector,
+            pMember,
+            pItemDefinition,
+            std::string("equipped(") + equipmentSlotName(slot) + ")",
+            false,
+            statusText);
+        return false;
+    }
+
+    const bool repaired = repairEquippedItemInstance(runtimeState, *pItemDefinition, statusText);
+
+    if (repaired)
+    {
+        m_lastStatus = "item repaired";
+    }
+
+    logItemInteractionResult(
+        "repair",
+        pInspector,
+        pMember,
+        pItemDefinition,
+        std::string("equipped(") + equipmentSlotName(slot) + ")",
+        repaired,
+        statusText);
+
+    return repaired;
+}
+
+bool Party::identifyEquippedItem(size_t memberIndex, EquipmentSlot slot, std::string &statusText)
+{
+    statusText.clear();
+    Character *pMember = member(memberIndex);
+
+    if (pMember == nullptr || m_pItemTable == nullptr)
+    {
+        return false;
+    }
+
+    const uint32_t itemId = equippedItemId(pMember->equipment, slot);
+
+    if (itemId == 0)
+    {
+        statusText = "No item there.";
+        logItemInteractionResult(
+            "identify",
+            nullptr,
+            pMember,
+            nullptr,
+            std::string("equipped(") + equipmentSlotName(slot) + ")",
+            false,
+            statusText);
+        return false;
+    }
+
+    EquippedItemRuntimeState &runtimeState = equippedItemRuntimeState(pMember->equipmentRuntime, slot);
+    const ItemDefinition *pItemDefinition = m_pItemTable->get(itemId);
+
+    if (pItemDefinition == nullptr)
+    {
+        statusText = "Unavailable.";
+        logItemInteractionResult(
+            "identify",
+            nullptr,
+            pMember,
+            nullptr,
+            std::string("equipped(") + equipmentSlotName(slot) + ")",
+            false,
+            statusText);
+        return false;
+    }
+
+    const bool identified = identifyEquippedItemInstance(runtimeState, *pItemDefinition, statusText);
+
+    if (identified)
+    {
+        m_lastStatus = "item identified";
+    }
+
+    logItemInteractionResult(
+        "identify",
+        nullptr,
+        pMember,
+        pItemDefinition,
+        std::string("equipped(") + equipmentSlotName(slot) + ")",
+        identified,
+        statusText);
+
+    return identified;
+}
+
+bool Party::repairEquippedItem(size_t memberIndex, EquipmentSlot slot, std::string &statusText)
+{
+    statusText.clear();
+    Character *pMember = member(memberIndex);
+
+    if (pMember == nullptr || m_pItemTable == nullptr)
+    {
+        return false;
+    }
+
+    const uint32_t itemId = equippedItemId(pMember->equipment, slot);
+
+    if (itemId == 0)
+    {
+        statusText = "No item there.";
+        logItemInteractionResult(
+            "repair",
+            nullptr,
+            pMember,
+            nullptr,
+            std::string("equipped(") + equipmentSlotName(slot) + ")",
+            false,
+            statusText);
+        return false;
+    }
+
+    EquippedItemRuntimeState &runtimeState = equippedItemRuntimeState(pMember->equipmentRuntime, slot);
+    const ItemDefinition *pItemDefinition = m_pItemTable->get(itemId);
+
+    if (pItemDefinition == nullptr)
+    {
+        statusText = "Unavailable.";
+        logItemInteractionResult(
+            "repair",
+            nullptr,
+            pMember,
+            nullptr,
+            std::string("equipped(") + equipmentSlotName(slot) + ")",
+            false,
+            statusText);
+        return false;
+    }
+
+    const bool repaired = repairEquippedItemInstance(runtimeState, *pItemDefinition, statusText);
+
+    if (repaired)
+    {
+        m_lastStatus = "item repaired";
+    }
+
+    logItemInteractionResult(
+        "repair",
+        nullptr,
+        pMember,
+        pItemDefinition,
+        std::string("equipped(") + equipmentSlotName(slot) + ")",
+        repaired,
+        statusText);
+
+    return repaired;
 }
 
 bool Party::setMemberClassName(size_t memberIndex, const std::string &className)
@@ -2361,6 +3408,30 @@ int Party::bankGold() const
 int Party::food() const
 {
     return m_food;
+}
+
+Party::HouseStockState *Party::houseStockState(uint32_t houseId)
+{
+    const std::unordered_map<uint32_t, HouseStockState>::iterator stateIt = m_houseStockStates.find(houseId);
+    return stateIt != m_houseStockStates.end() ? &stateIt->second : nullptr;
+}
+
+const Party::HouseStockState *Party::houseStockState(uint32_t houseId) const
+{
+    const std::unordered_map<uint32_t, HouseStockState>::const_iterator stateIt = m_houseStockStates.find(houseId);
+    return stateIt != m_houseStockStates.end() ? &stateIt->second : nullptr;
+}
+
+Party::HouseStockState &Party::ensureHouseStockState(uint32_t houseId)
+{
+    HouseStockState &state = m_houseStockStates[houseId];
+    state.houseId = houseId;
+    return state;
+}
+
+void Party::clearHouseStockStates()
+{
+    m_houseStockStates.clear();
 }
 
 size_t Party::inventoryItemCount() const

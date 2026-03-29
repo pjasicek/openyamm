@@ -145,6 +145,7 @@ private:
         std::string textureName;
         int width = 0;
         int height = 0;
+        std::vector<uint8_t> bgraPixels;
         bgfx::TextureHandle textureHandle = BGFX_INVALID_HANDLE;
     };
 
@@ -173,6 +174,13 @@ private:
     struct HudFontColorTextureHandle
     {
         std::string fontName;
+        uint32_t colorAbgr = 0xffffffffu;
+        bgfx::TextureHandle textureHandle = BGFX_INVALID_HANDLE;
+    };
+
+    struct HudTextureColorTextureHandle
+    {
+        std::string textureName;
         uint32_t colorAbgr = 0xffffffffu;
         bgfx::TextureHandle textureHandle = BGFX_INVALID_HANDLE;
     };
@@ -295,6 +303,14 @@ public:
     };
 
 private:
+    enum class HouseShopMode
+    {
+        None,
+        BuyStandard,
+        BuySpecial,
+        BuySpellbooks
+    };
+
     enum class InventoryNestedOverlayMode
     {
         None,
@@ -308,6 +324,14 @@ private:
     {
         None,
         CloseButton
+    };
+
+    enum class ItemInspectSourceType
+    {
+        None,
+        Inventory,
+        Equipment,
+        WorldItem
     };
 
     struct CharacterPointerTarget
@@ -337,6 +361,14 @@ private:
     {
         bool active = false;
         uint32_t objectDescriptionId = 0;
+        bool hasItemState = false;
+        InventoryItem itemState = {};
+        ItemInspectSourceType sourceType = ItemInspectSourceType::None;
+        size_t sourceMemberIndex = 0;
+        uint8_t sourceGridX = 0;
+        uint8_t sourceGridY = 0;
+        EquipmentSlot sourceEquipmentSlot = EquipmentSlot::MainHand;
+        size_t sourceWorldItemIndex = 0;
         bool hasValueOverride = false;
         int valueOverride = 0;
         float sourceX = 0.0f;
@@ -431,6 +463,12 @@ private:
     struct RenderedInspectableHudItem
     {
         uint32_t objectDescriptionId = 0;
+        bool hasItemState = false;
+        InventoryItem itemState = {};
+        ItemInspectSourceType sourceType = ItemInspectSourceType::None;
+        size_t sourceMemberIndex = 0;
+        uint8_t sourceGridX = 0;
+        uint8_t sourceGridY = 0;
         EquipmentSlot equipmentSlot = EquipmentSlot::MainHand;
         std::string textureName;
         bool hasValueOverride = false;
@@ -460,6 +498,34 @@ private:
     {
         bool active = false;
         InventoryNestedOverlayMode mode = InventoryNestedOverlayMode::None;
+        uint32_t houseId = 0;
+    };
+
+    struct HouseShopOverlayState
+    {
+        bool active = false;
+        uint32_t houseId = 0;
+        HouseShopMode mode = HouseShopMode::None;
+    };
+
+    enum class HouseBankInputMode : uint8_t
+    {
+        None = 0,
+        Deposit,
+        Withdraw,
+    };
+
+    struct HouseBankState
+    {
+        uint32_t houseId = 0;
+        HouseBankInputMode inputMode = HouseBankInputMode::None;
+        std::string inputText;
+        bool transactionPerformed = false;
+
+        bool inputActive() const
+        {
+            return inputMode != HouseBankInputMode::None;
+        }
     };
 
     struct InventoryNestedOverlayPointerTarget
@@ -689,6 +755,7 @@ private:
     void renderInventoryNestedOverlay(int width, int height, bool renderAboveHud) const;
     std::optional<ResolvedHudLayoutElement> resolveChestGridArea(int width, int height) const;
     std::optional<ResolvedHudLayoutElement> resolveInventoryNestedOverlayGridArea(int width, int height) const;
+    std::optional<ResolvedHudLayoutElement> resolveHouseShopOverlayFrame(int width, int height) const;
     void renderEventDialogPanel(int width, int height, bool renderAboveHud);
     void renderActorCollisionOverlays(uint16_t viewId, const bx::Vec3 &cameraPosition) const;
     void renderActorPreviewBillboards(uint16_t viewId, const float *pViewMatrix, const bx::Vec3 &cameraPosition);
@@ -720,6 +787,9 @@ private:
         float fontScale) const;
     bgfx::TextureHandle ensureHudFontMainTextureColor(
         const HudFontHandle &font,
+        uint32_t colorAbgr) const;
+    bgfx::TextureHandle ensureHudTextureColor(
+        const HudTextureHandle &texture,
         uint32_t colorAbgr) const;
     void renderLayoutLabel(
         const HudLayoutElement &layout,
@@ -776,7 +846,22 @@ private:
         const std::string &textureName,
         int &width,
         int &height);
+    bool tryGetOpaqueHudTextureBounds(
+        const std::string &textureName,
+        int &width,
+        int &height,
+        int &opaqueMinX,
+        int &opaqueMinY,
+        int &opaqueMaxX,
+        int &opaqueMaxY);
     void executeActiveDialogAction();
+    void openHouseShopOverlay(uint32_t houseId, HouseShopMode mode);
+    void closeHouseShopOverlay();
+    void beginHouseBankInput(uint32_t houseId, HouseBankInputMode mode);
+    void refreshHouseBankInputDialog();
+    void returnToHouseBankMainDialog();
+    void confirmHouseBankInput();
+    void clearHouseBankState();
     void openPendingEventDialog(size_t previousMessageCount, bool allowNpcFallbackContent);
     void closeActiveEventDialog();
     bool hasActiveEventDialog() const;
@@ -784,9 +869,10 @@ private:
     bool trySelectPartyMember(size_t memberIndex, bool requireGameplayReady);
     bool tryAutoPlaceHeldItemOnPartyMember(size_t memberIndex, bool showFailureStatus = true);
     bool tryCastHeldScrollOnPartyMember(size_t memberIndex);
-    void openInventoryNestedOverlay(InventoryNestedOverlayMode mode);
+    void openInventoryNestedOverlay(InventoryNestedOverlayMode mode, uint32_t houseId = 0);
     void closeInventoryNestedOverlay();
     void updateItemInspectOverlayState(int width, int height);
+    void tryApplyItemInspectSkillInteraction();
     void updateCharacterInspectOverlayState(int width, int height);
     void updateActorInspectOverlayState(int width, int height);
     void updateSpellInspectOverlayState(int width, int height);
@@ -921,6 +1007,7 @@ private:
     std::vector<HudTextureHandle> m_hudTextureHandles;
     std::vector<HudFontHandle> m_hudFontHandles;
     mutable std::vector<HudFontColorTextureHandle> m_hudFontColorTextureHandles;
+    mutable std::vector<HudTextureColorTextureHandle> m_hudTextureColorTextureHandles;
     std::vector<std::string> m_hudLayoutOrder;
     std::unordered_map<std::string, HudLayoutElement> m_hudLayoutElements;
     mutable std::unordered_map<std::string, float> m_hudLayoutRuntimeHeightOverrides;
@@ -1001,6 +1088,8 @@ private:
     std::optional<size_t> m_lastPartyPortraitClickedIndex;
     HeldInventoryItemState m_heldInventoryItem;
     ItemInspectOverlayState m_itemInspectOverlay;
+    bool m_itemInspectInteractionLatch;
+    uint64_t m_itemInspectInteractionKey;
     CharacterInspectOverlayState m_characterInspectOverlay;
     ActorInspectOverlayState m_actorInspectOverlay;
     SpellInspectOverlayState m_spellInspectOverlay;
@@ -1015,13 +1104,20 @@ private:
     bool m_closeOverlayLatch;
     bool m_dialogueClickLatch;
     DialoguePointerTarget m_dialoguePressedTarget;
+    bool m_houseShopClickLatch;
+    size_t m_houseShopPressedSlotIndex;
     bool m_chestClickLatch;
     bool m_chestItemClickLatch;
     ChestPointerTarget m_chestPressedTarget;
     InventoryNestedOverlayState m_inventoryNestedOverlay;
+    HouseShopOverlayState m_houseShopOverlay;
+    HouseBankState m_houseBankState;
     bool m_inventoryNestedOverlayClickLatch;
     bool m_inventoryNestedOverlayItemClickLatch;
     InventoryNestedOverlayPointerTarget m_inventoryNestedOverlayPressedTarget;
+    std::array<bool, 10> m_houseBankDigitLatches;
+    bool m_houseBankBackspaceLatch;
+    bool m_houseBankConfirmLatch;
     bool m_lootChestItemLatch;
     bool m_chestSelectUpLatch;
     bool m_chestSelectDownLatch;

@@ -73,6 +73,7 @@ add_executable(openyamm
     GameMechanics.cpp
     GenericActorDialog.cpp
     HouseInteraction.cpp
+    HouseServiceRuntime.cpp
     HouseVideoPlayer.cpp
     MapDeltaData.cpp
     GameDataLoader.cpp
@@ -80,6 +81,9 @@ add_executable(openyamm
     HouseTable.cpp
     IconFrameTable.cpp
     ItemEquipPosTable.cpp
+    ItemEnchantTables.cpp
+    ItemGenerator.cpp
+    ItemRuntime.cpp
     ItemTable.cpp
     IndoorDebugRenderer.cpp
     IndoorMapData.cpp
@@ -99,6 +103,7 @@ add_executable(openyamm
     OutdoorWorldRuntime.cpp
     Party.cpp
     PartySpellSystem.cpp
+    PriceCalculator.cpp
     PortraitFxEventTable.cpp
     PortraitEnums.cpp
     PortraitFrameTable.cpp

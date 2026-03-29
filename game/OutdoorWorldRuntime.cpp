@@ -2,6 +2,7 @@
 
 #include "game/ChestTable.h"
 #include "game/GameMechanics.h"
+#include "game/ItemRuntime.h"
 #include "game/ItemTable.h"
 #include "game/OutdoorGeometryUtils.h"
 #include "game/SpellIds.h"
@@ -7357,6 +7358,16 @@ const OutdoorWorldRuntime::WorldItemState *OutdoorWorldRuntime::worldItemState(s
     return &m_worldItems[worldItemIndex];
 }
 
+OutdoorWorldRuntime::WorldItemState *OutdoorWorldRuntime::worldItemStateMutable(size_t worldItemIndex)
+{
+    if (worldItemIndex >= m_worldItems.size())
+    {
+        return nullptr;
+    }
+
+    return &m_worldItems[worldItemIndex];
+}
+
 bool OutdoorWorldRuntime::takeWorldItem(size_t worldItemIndex, WorldItemState &item)
 {
     if (worldItemIndex >= m_worldItems.size())
@@ -7366,6 +7377,122 @@ bool OutdoorWorldRuntime::takeWorldItem(size_t worldItemIndex, WorldItemState &i
 
     item = m_worldItems[worldItemIndex];
     m_worldItems.erase(m_worldItems.begin() + static_cast<std::ptrdiff_t>(worldItemIndex));
+    return true;
+}
+
+bool OutdoorWorldRuntime::identifyWorldItem(size_t worldItemIndex, std::string &statusText)
+{
+    statusText.clear();
+    WorldItemState *pWorldItem = worldItemStateMutable(worldItemIndex);
+
+    if (pWorldItem == nullptr || m_pItemTable == nullptr || pWorldItem->isGold)
+    {
+        return false;
+    }
+
+    const ItemDefinition *pItemDefinition = m_pItemTable->get(pWorldItem->item.objectDescriptionId);
+
+    if (pItemDefinition == nullptr)
+    {
+        statusText = "Unavailable.";
+        return false;
+    }
+
+    if (pWorldItem->item.identified || !ItemRuntime::requiresIdentification(*pItemDefinition))
+    {
+        statusText = "Already identified.";
+        return false;
+    }
+
+    pWorldItem->item.identified = true;
+    statusText = "Identified " + ItemRuntime::displayName(pWorldItem->item, *pItemDefinition) + ".";
+    return true;
+}
+
+bool OutdoorWorldRuntime::tryIdentifyWorldItem(size_t worldItemIndex, const Character &inspector, std::string &statusText)
+{
+    statusText.clear();
+    WorldItemState *pWorldItem = worldItemStateMutable(worldItemIndex);
+
+    if (pWorldItem == nullptr || m_pItemTable == nullptr || pWorldItem->isGold)
+    {
+        return false;
+    }
+
+    const ItemDefinition *pItemDefinition = m_pItemTable->get(pWorldItem->item.objectDescriptionId);
+
+    if (pItemDefinition == nullptr)
+    {
+        statusText = "Unavailable.";
+        return false;
+    }
+
+    if (pWorldItem->item.identified || !ItemRuntime::requiresIdentification(*pItemDefinition))
+    {
+        statusText = "Already identified.";
+        return false;
+    }
+
+    if (!ItemRuntime::canCharacterIdentifyItem(inspector, *pItemDefinition))
+    {
+        statusText = "Not skilled enough.";
+        std::cout << "Item identify: inspector=\"" << inspector.name
+                  << "\" owner=\"ground\" item=\"" << pItemDefinition->name
+                  << "\" location=ground(" << worldItemIndex << ") result=failed status=\""
+                  << statusText << "\"\n";
+        return false;
+    }
+
+    pWorldItem->item.identified = true;
+    statusText = "Identified " + ItemRuntime::displayName(pWorldItem->item, *pItemDefinition) + ".";
+    std::cout << "Item identify: inspector=\"" << inspector.name
+              << "\" owner=\"ground\" item=\"" << pItemDefinition->name
+              << "\" location=ground(" << worldItemIndex << ") result=success status=\""
+              << statusText << "\"\n";
+    return true;
+}
+
+bool OutdoorWorldRuntime::tryRepairWorldItem(size_t worldItemIndex, const Character &inspector, std::string &statusText)
+{
+    statusText.clear();
+    WorldItemState *pWorldItem = worldItemStateMutable(worldItemIndex);
+
+    if (pWorldItem == nullptr || m_pItemTable == nullptr || pWorldItem->isGold)
+    {
+        return false;
+    }
+
+    const ItemDefinition *pItemDefinition = m_pItemTable->get(pWorldItem->item.objectDescriptionId);
+
+    if (pItemDefinition == nullptr)
+    {
+        statusText = "Unavailable.";
+        return false;
+    }
+
+    if (!pWorldItem->item.broken)
+    {
+        statusText = "Nothing to repair.";
+        return false;
+    }
+
+    if (!ItemRuntime::canCharacterRepairItem(inspector, *pItemDefinition))
+    {
+        statusText = "Not skilled enough.";
+        std::cout << "Item repair: inspector=\"" << inspector.name
+                  << "\" owner=\"ground\" item=\"" << pItemDefinition->name
+                  << "\" location=ground(" << worldItemIndex << ") result=failed status=\""
+                  << statusText << "\"\n";
+        return false;
+    }
+
+    pWorldItem->item.broken = false;
+    pWorldItem->item.identified = true;
+    statusText = "Repaired " + ItemRuntime::displayName(pWorldItem->item, *pItemDefinition) + ".";
+    std::cout << "Item repair: inspector=\"" << inspector.name
+              << "\" owner=\"ground\" item=\"" << pItemDefinition->name
+              << "\" location=ground(" << worldItemIndex << ") result=success status=\""
+              << statusText << "\"\n";
     return true;
 }
 

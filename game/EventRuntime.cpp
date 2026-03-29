@@ -139,6 +139,13 @@ std::vector<size_t> resolveTargetMemberIndices(const PartySelector &selector, co
         {
             result.push_back(memberIndex);
         }
+
+        return result;
+    }
+
+    if (!pParty->members().empty())
+    {
+        result.push_back(pParty->activeMemberIndex());
     }
 
     return result;
@@ -211,6 +218,157 @@ void queuePortraitFxRequest(
     request.memberIndices = memberIndices;
     runtimeState.portraitFxRequests.push_back(std::move(request));
 }
+
+std::optional<std::string> permanentVariableDisplayName(uint32_t rawId)
+{
+    switch (rawId)
+    {
+        case 0x20: return "Might";
+        case 0x21: return "Intellect";
+        case 0x22: return "Personality";
+        case 0x23: return "Endurance";
+        case 0x24: return "Speed";
+        case 0x25: return "Accuracy";
+        case 0x26: return "Luck";
+        case 0x2E: return "Fire Resistance";
+        case 0x2F: return "Air Resistance";
+        case 0x30: return "Water Resistance";
+        case 0x31: return "Earth Resistance";
+        case 0x32: return "Spirit Resistance";
+        case 0x33: return "Mind Resistance";
+        case 0x34: return "Body Resistance";
+        default: return std::nullopt;
+    }
+}
+
+std::optional<std::string> formatPermanentVariableStatusText(uint32_t rawId, int32_t delta)
+{
+    if (delta <= 0)
+    {
+        return std::nullopt;
+    }
+
+    const std::optional<std::string> name = permanentVariableDisplayName(rawId);
+
+    if (!name)
+    {
+        return std::nullopt;
+    }
+
+    return *name + " +" + std::to_string(delta) + " (Permanent)";
+}
+
+void queuePermanentVariableStatusMessage(
+    EventRuntimeState &runtimeState,
+    uint32_t rawId,
+    int32_t delta,
+    size_t repeatCount
+)
+{
+    const std::optional<std::string> text = formatPermanentVariableStatusText(rawId, delta);
+
+    if (!text)
+    {
+        return;
+    }
+
+    const size_t count = std::max<size_t>(1, repeatCount);
+
+    for (size_t i = 0; i < count; ++i)
+    {
+        runtimeState.statusMessages.push_back(*text);
+    }
+}
+
+int32_t readCharacterVariableValue(const Character &member, uint32_t rawId)
+{
+    switch (rawId)
+    {
+        case 0x19:
+        case 0x27: return member.permanentBonuses.might;
+        case 0x1A:
+        case 0x28: return member.permanentBonuses.intellect;
+        case 0x1B:
+        case 0x29: return member.permanentBonuses.personality;
+        case 0x1C:
+        case 0x2A: return member.permanentBonuses.endurance;
+        case 0x1D:
+        case 0x2B: return member.permanentBonuses.speed;
+        case 0x1E:
+        case 0x2C: return member.permanentBonuses.accuracy;
+        case 0x1F:
+        case 0x2D: return member.permanentBonuses.luck;
+        case 0x20: return static_cast<int32_t>(member.might);
+        case 0x21: return static_cast<int32_t>(member.intellect);
+        case 0x22: return static_cast<int32_t>(member.personality);
+        case 0x23: return static_cast<int32_t>(member.endurance);
+        case 0x24: return static_cast<int32_t>(member.speed);
+        case 0x25: return static_cast<int32_t>(member.accuracy);
+        case 0x26: return static_cast<int32_t>(member.luck);
+        case 0x2E: return member.baseResistances.fire;
+        case 0x2F: return member.baseResistances.air;
+        case 0x30: return member.baseResistances.water;
+        case 0x31: return member.baseResistances.earth;
+        case 0x32: return member.baseResistances.spirit;
+        case 0x33: return member.baseResistances.mind;
+        case 0x34: return member.baseResistances.body;
+        case 0x39: return member.permanentBonuses.resistances.fire;
+        case 0x3A: return member.permanentBonuses.resistances.air;
+        case 0x3B: return member.permanentBonuses.resistances.water;
+        case 0x3C: return member.permanentBonuses.resistances.earth;
+        case 0x3D: return member.permanentBonuses.resistances.spirit;
+        case 0x3E: return member.permanentBonuses.resistances.mind;
+        case 0x3F: return member.permanentBonuses.resistances.body;
+        default: break;
+    }
+
+    return 0;
+}
+
+void writeCharacterVariableValue(Character &member, uint32_t rawId, int32_t value)
+{
+    const int clampedValue = std::clamp(value, 0, 255);
+
+    switch (rawId)
+    {
+        case 0x19:
+        case 0x27: member.permanentBonuses.might = clampedValue; return;
+        case 0x1A:
+        case 0x28: member.permanentBonuses.intellect = clampedValue; return;
+        case 0x1B:
+        case 0x29: member.permanentBonuses.personality = clampedValue; return;
+        case 0x1C:
+        case 0x2A: member.permanentBonuses.endurance = clampedValue; return;
+        case 0x1D:
+        case 0x2B: member.permanentBonuses.speed = clampedValue; return;
+        case 0x1E:
+        case 0x2C: member.permanentBonuses.accuracy = clampedValue; return;
+        case 0x1F:
+        case 0x2D: member.permanentBonuses.luck = clampedValue; return;
+        case 0x20: member.might = clampedValue; return;
+        case 0x21: member.intellect = clampedValue; return;
+        case 0x22: member.personality = clampedValue; return;
+        case 0x23: member.endurance = clampedValue; return;
+        case 0x24: member.speed = clampedValue; return;
+        case 0x25: member.accuracy = clampedValue; return;
+        case 0x26: member.luck = clampedValue; return;
+        case 0x2E: member.baseResistances.fire = clampedValue; return;
+        case 0x2F: member.baseResistances.air = clampedValue; return;
+        case 0x30: member.baseResistances.water = clampedValue; return;
+        case 0x31: member.baseResistances.earth = clampedValue; return;
+        case 0x32: member.baseResistances.spirit = clampedValue; return;
+        case 0x33: member.baseResistances.mind = clampedValue; return;
+        case 0x34: member.baseResistances.body = clampedValue; return;
+        case 0x39: member.permanentBonuses.resistances.fire = clampedValue; return;
+        case 0x3A: member.permanentBonuses.resistances.air = clampedValue; return;
+        case 0x3B: member.permanentBonuses.resistances.water = clampedValue; return;
+        case 0x3C: member.permanentBonuses.resistances.earth = clampedValue; return;
+        case 0x3D: member.permanentBonuses.resistances.spirit = clampedValue; return;
+        case 0x3E: member.permanentBonuses.resistances.mind = clampedValue; return;
+        case 0x3F: member.permanentBonuses.resistances.body = clampedValue; return;
+        default: break;
+    }
+}
 }
 
 EventRuntime::VariableRef EventRuntime::decodeVariable(uint32_t rawId)
@@ -254,6 +412,26 @@ EventRuntime::VariableRef EventRuntime::decodeVariable(uint32_t rawId)
     {
         variable.kind = VariableKind::Players;
         variable.rawId = rawId;
+    }
+    else if (variable.tag >= 0x0020 && variable.tag <= 0x0026)
+    {
+        variable.kind = VariableKind::BaseStat;
+        variable.rawId = variable.tag;
+    }
+    else if ((variable.tag >= 0x0019 && variable.tag <= 0x001f) || (variable.tag >= 0x0027 && variable.tag <= 0x002d))
+    {
+        variable.kind = VariableKind::StatBonus;
+        variable.rawId = variable.tag;
+    }
+    else if (variable.tag >= 0x002e && variable.tag <= 0x0034)
+    {
+        variable.kind = VariableKind::BaseResistance;
+        variable.rawId = variable.tag;
+    }
+    else if (variable.tag >= 0x0039 && variable.tag <= 0x003f)
+    {
+        variable.kind = VariableKind::ResistanceBonus;
+        variable.rawId = variable.tag;
     }
     else if (variable.tag == 0x0087 || variable.tag == 0x0088 || variable.tag == 0x0089)
     {
@@ -336,6 +514,20 @@ int32_t EventRuntime::getVariableValue(
 
         const std::optional<uint32_t> classId = mm8ClassIdForClassName(pMember->className);
         return classId ? static_cast<int32_t>(*classId) : 0;
+    }
+
+    if (variable.kind == VariableKind::BaseStat
+        || variable.kind == VariableKind::StatBonus
+        || variable.kind == VariableKind::BaseResistance
+        || variable.kind == VariableKind::ResistanceBonus)
+    {
+        if (!memberIndex || pParty == nullptr)
+        {
+            return 0;
+        }
+
+        const Character *pMember = pParty->member(*memberIndex);
+        return pMember != nullptr ? readCharacterVariableValue(*pMember, variable.rawId) : 0;
     }
 
     if (variable.kind == VariableKind::QBits || variable.kind == VariableKind::BoolFlag)
@@ -475,6 +667,51 @@ void EventRuntime::setVariableValue(
         return;
     }
 
+    if (variable.kind == VariableKind::BaseStat
+        || variable.kind == VariableKind::StatBonus
+        || variable.kind == VariableKind::BaseResistance
+        || variable.kind == VariableKind::ResistanceBonus)
+    {
+        if (pParty == nullptr || targetMemberIndices.empty())
+        {
+            return;
+        }
+
+        for (size_t memberIndex : targetMemberIndices)
+        {
+            Character *pMember = pParty->member(memberIndex);
+
+            if (pMember == nullptr)
+            {
+                continue;
+            }
+
+            writeCharacterVariableValue(*pMember, variable.rawId, value);
+        }
+
+        if (value > previousValue)
+        {
+            queuePortraitFxRequest(runtimeState, PortraitFxEventKind::StatIncrease, pParty, targetMemberIndices);
+        }
+        else if (value < previousValue)
+        {
+            queuePortraitFxRequest(runtimeState, PortraitFxEventKind::StatDecrease, pParty, targetMemberIndices);
+        }
+
+        if ((variable.kind == VariableKind::BaseStat || variable.kind == VariableKind::BaseResistance)
+            && value > previousValue)
+        {
+            queuePermanentVariableStatusMessage(
+                runtimeState,
+                variable.rawId,
+                value - previousValue,
+                targetMemberIndices.size()
+            );
+        }
+
+        return;
+    }
+
     if (variable.kind == VariableKind::QBits || variable.kind == VariableKind::BoolFlag)
     {
         runtimeState.variables[variable.rawId] = value != 0 ? 1 : 0;
@@ -576,6 +813,52 @@ void EventRuntime::addVariableValue(
         return;
     }
 
+    if (variable.kind == VariableKind::BaseStat
+        || variable.kind == VariableKind::StatBonus
+        || variable.kind == VariableKind::BaseResistance
+        || variable.kind == VariableKind::ResistanceBonus)
+    {
+        if (pParty == nullptr || targetMemberIndices.empty())
+        {
+            return;
+        }
+
+        for (size_t memberIndex : targetMemberIndices)
+        {
+            Character *pMember = pParty->member(memberIndex);
+
+            if (pMember == nullptr)
+            {
+                continue;
+            }
+
+            const int32_t currentValue = readCharacterVariableValue(*pMember, variable.rawId);
+            writeCharacterVariableValue(*pMember, variable.rawId, currentValue + value);
+        }
+
+        if (value > 0)
+        {
+            queuePortraitFxRequest(runtimeState, PortraitFxEventKind::StatIncrease, pParty, targetMemberIndices);
+        }
+        else if (value < 0)
+        {
+            queuePortraitFxRequest(runtimeState, PortraitFxEventKind::StatDecrease, pParty, targetMemberIndices);
+        }
+
+        if ((variable.kind == VariableKind::BaseStat || variable.kind == VariableKind::BaseResistance)
+            && value > 0)
+        {
+            queuePermanentVariableStatusMessage(
+                runtimeState,
+                variable.rawId,
+                value,
+                targetMemberIndices.size()
+            );
+        }
+
+        return;
+    }
+
     if (variable.kind == VariableKind::QBits || variable.kind == VariableKind::BoolFlag)
     {
         runtimeState.variables[variable.rawId] = value != 0 ? 1 : 0;
@@ -665,6 +948,37 @@ void EventRuntime::subtractVariableValue(
 
     if (variable.kind == VariableKind::ClassId)
     {
+        return;
+    }
+
+    if (variable.kind == VariableKind::BaseStat
+        || variable.kind == VariableKind::StatBonus
+        || variable.kind == VariableKind::BaseResistance
+        || variable.kind == VariableKind::ResistanceBonus)
+    {
+        if (pParty == nullptr || targetMemberIndices.empty())
+        {
+            return;
+        }
+
+        for (size_t memberIndex : targetMemberIndices)
+        {
+            Character *pMember = pParty->member(memberIndex);
+
+            if (pMember == nullptr)
+            {
+                continue;
+            }
+
+            const int32_t currentValue = readCharacterVariableValue(*pMember, variable.rawId);
+            writeCharacterVariableValue(*pMember, variable.rawId, currentValue - value);
+        }
+
+        if (value > 0)
+        {
+            queuePortraitFxRequest(runtimeState, PortraitFxEventKind::StatDecrease, pParty, targetMemberIndices);
+        }
+
         return;
     }
 

@@ -507,18 +507,38 @@ EventDialogContent buildEventDialogContent(
         }
     }
 
-    if (dialog.isHouseDialog && eventMessageLines.empty() && !dialog.actions.empty())
-    {
-        dialog.lines.clear();
-    }
-
     if (context.kind == DialogueContextKind::HouseService)
     {
         dialog.lines.clear();
-        eventMessageLines.clear();
-    }
 
-    dialog.lines.insert(dialog.lines.end(), eventMessageLines.begin(), eventMessageLines.end());
+        if (!eventMessageLines.empty())
+        {
+            dialog.lines.insert(dialog.lines.end(), eventMessageLines.begin(), eventMessageLines.end());
+        }
+        else if (!dialog.actions.empty())
+        {
+            const HouseEntry *pHouseEntry = pHouseTable != nullptr ? pHouseTable->get(dialog.sourceId) : nullptr;
+
+            if (pHouseEntry != nullptr)
+            {
+                const DialogueMenuId menuId = currentDialogueMenuId(eventRuntimeState);
+                dialog.lines = buildHouseServiceInfoLines(*pHouseEntry, pParty, pClassSkillTable, menuId);
+            }
+        }
+        else
+        {
+            dialog.lines.push_back("The house is empty.");
+        }
+    }
+    else
+    {
+        if (dialog.isHouseDialog && eventMessageLines.empty() && !dialog.actions.empty())
+        {
+            dialog.lines.clear();
+        }
+
+        dialog.lines.insert(dialog.lines.end(), eventMessageLines.begin(), eventMessageLines.end());
+    }
 
     if (!dialog.isHouseDialog
         && context.kind != DialogueContextKind::NpcNews

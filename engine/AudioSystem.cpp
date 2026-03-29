@@ -66,6 +66,12 @@ bool AudioSystem::initialize(const AssetFileSystem &assetFileSystem)
     return true;
 }
 
+bool AudioSystem::preloadClip(const std::string &virtualPath)
+{
+    const std::shared_ptr<AudioClip> pClip = loadClip(virtualPath);
+    return pClip != nullptr && pClip->frameCount > 0;
+}
+
 void AudioSystem::shutdown()
 {
     stopAll();

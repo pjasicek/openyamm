@@ -42,6 +42,7 @@ public:
     bool initialize(const AssetFileSystem &assetFileSystem);
     void shutdown();
 
+    bool preloadClip(const std::string &virtualPath);
     uint64_t playClip(const std::string &virtualPath, const PlaybackOptions &options);
     void stopClip(uint64_t instanceId);
     void stopAll();

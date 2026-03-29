@@ -391,6 +391,80 @@ const ItemDefinition *getEquippedItem(const Character &character, EquipmentSlot 
         return nullptr;
     }
 
+    const EquippedItemRuntimeState *pRuntimeState = nullptr;
+
+    switch (slot)
+    {
+        case EquipmentSlot::OffHand:
+            pRuntimeState = &character.equipmentRuntime.offHand;
+            break;
+
+        case EquipmentSlot::MainHand:
+            pRuntimeState = &character.equipmentRuntime.mainHand;
+            break;
+
+        case EquipmentSlot::Bow:
+            pRuntimeState = &character.equipmentRuntime.bow;
+            break;
+
+        case EquipmentSlot::Armor:
+            pRuntimeState = &character.equipmentRuntime.armor;
+            break;
+
+        case EquipmentSlot::Helm:
+            pRuntimeState = &character.equipmentRuntime.helm;
+            break;
+
+        case EquipmentSlot::Belt:
+            pRuntimeState = &character.equipmentRuntime.belt;
+            break;
+
+        case EquipmentSlot::Cloak:
+            pRuntimeState = &character.equipmentRuntime.cloak;
+            break;
+
+        case EquipmentSlot::Gauntlets:
+            pRuntimeState = &character.equipmentRuntime.gauntlets;
+            break;
+
+        case EquipmentSlot::Boots:
+            pRuntimeState = &character.equipmentRuntime.boots;
+            break;
+
+        case EquipmentSlot::Amulet:
+            pRuntimeState = &character.equipmentRuntime.amulet;
+            break;
+
+        case EquipmentSlot::Ring1:
+            pRuntimeState = &character.equipmentRuntime.ring1;
+            break;
+
+        case EquipmentSlot::Ring2:
+            pRuntimeState = &character.equipmentRuntime.ring2;
+            break;
+
+        case EquipmentSlot::Ring3:
+            pRuntimeState = &character.equipmentRuntime.ring3;
+            break;
+
+        case EquipmentSlot::Ring4:
+            pRuntimeState = &character.equipmentRuntime.ring4;
+            break;
+
+        case EquipmentSlot::Ring5:
+            pRuntimeState = &character.equipmentRuntime.ring5;
+            break;
+
+        case EquipmentSlot::Ring6:
+            pRuntimeState = &character.equipmentRuntime.ring6;
+            break;
+    }
+
+    if (pRuntimeState != nullptr && pRuntimeState->broken)
+    {
+        return nullptr;
+    }
+
     const uint32_t itemId = equippedItemId(character.equipment, slot);
     return itemId != 0 ? pItemTable->get(itemId) : nullptr;
 }

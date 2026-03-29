@@ -1,12 +1,16 @@
 #include "game/GameAudioSystem.h"
 
 #include "engine/TextTable.h"
+#include "game/SpellIds.h"
 
 #include <SDL3/SDL.h>
 
 namespace OpenYAMM::Game
 {
-bool GameAudioSystem::initialize(const Engine::AssetFileSystem &assetFileSystem, const CharacterDollTable &characterDollTable)
+bool GameAudioSystem::initialize(
+    const Engine::AssetFileSystem &assetFileSystem,
+    const CharacterDollTable &characterDollTable,
+    const SpellTable &spellTable)
 {
     shutdown();
     m_pCharacterDollTable = &characterDollTable;
@@ -53,6 +57,7 @@ bool GameAudioSystem::initialize(const Engine::AssetFileSystem &assetFileSystem,
     }
 
     m_soundCatalog.initializeVirtualPathIndex(assetFileSystem);
+    preloadSpellBuffSounds(spellTable);
     return true;
 }
 
@@ -73,6 +78,55 @@ void GameAudioSystem::update(float listenerX, float listenerY, float listenerZ)
     listenerState.y = listenerY;
     listenerState.z = listenerZ;
     m_audioSystem.update(listenerState);
+}
+
+void GameAudioSystem::preloadSpellBuffSounds(const SpellTable &spellTable)
+{
+    const std::array<SpellId, 24> preloadSpellIds = {
+        SpellId::TorchLight,
+        SpellId::FireResistance,
+        SpellId::Haste,
+        SpellId::WizardEye,
+        SpellId::FeatherFall,
+        SpellId::AirResistance,
+        SpellId::Shield,
+        SpellId::Invisibility,
+        SpellId::Fly,
+        SpellId::WaterResistance,
+        SpellId::WaterWalk,
+        SpellId::EarthResistance,
+        SpellId::StoneSkin,
+        SpellId::DetectLife,
+        SpellId::Bless,
+        SpellId::Preservation,
+        SpellId::Heroism,
+        SpellId::MindResistance,
+        SpellId::BodyResistance,
+        SpellId::Regeneration,
+        SpellId::ProtectionFromMagic,
+        SpellId::DayOfGods,
+        SpellId::DayOfProtection,
+        SpellId::HourOfPower
+    };
+
+    for (SpellId spellId : preloadSpellIds)
+    {
+        const SpellEntry *pSpellEntry = spellTable.findById(static_cast<int>(spellIdValue(spellId)));
+
+        if (pSpellEntry == nullptr || pSpellEntry->effectSoundId <= 0)
+        {
+            continue;
+        }
+
+        const std::optional<std::string> virtualPath = m_soundCatalog.buildVirtualPath(pSpellEntry->effectSoundId);
+
+        if (!virtualPath)
+        {
+            continue;
+        }
+
+        m_audioSystem.preloadClip(*virtualPath);
+    }
 }
 
 bool GameAudioSystem::playSound(

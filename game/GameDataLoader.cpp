@@ -687,6 +687,11 @@ bool GameDataLoader::loadInternal(const Engine::AssetFileSystem &assetFileSystem
         return false;
     }
 
+    if (!loadItemEnchantTables(assetFileSystem))
+    {
+        return false;
+    }
+
     if (!loadItemEquipPosTable(assetFileSystem))
     {
         return false;
@@ -859,6 +864,16 @@ const SpellTable &GameDataLoader::getSpellTable() const
 const ItemTable &GameDataLoader::getItemTable() const
 {
     return m_itemTable;
+}
+
+const StandardItemEnchantTable &GameDataLoader::getStandardItemEnchantTable() const
+{
+    return m_standardItemEnchantTable;
+}
+
+const SpecialItemEnchantTable &GameDataLoader::getSpecialItemEnchantTable() const
+{
+    return m_specialItemEnchantTable;
 }
 
 const ItemEquipPosTable &GameDataLoader::getItemEquipPosTable() const
@@ -1425,6 +1440,44 @@ bool GameDataLoader::loadItemTable(const Engine::AssetFileSystem &assetFileSyste
     if (!m_itemTable.load(assetFileSystem, itemRows, randomItemRows))
     {
         std::cerr << "Failed to parse item table: Data/EnglishT/ITEMS.txt / rnditems.txt\n";
+        return false;
+    }
+
+    return true;
+}
+
+bool GameDataLoader::loadItemEnchantTables(const Engine::AssetFileSystem &assetFileSystem)
+{
+    std::vector<std::vector<std::string>> standardRows;
+    std::vector<std::vector<std::string>> specialRows;
+
+    if (!loadFirstTextTableRows(
+            assetFileSystem,
+            {
+                "Data/EnglishT/STDITEMS.TXT",
+                "Data/EnglishT/stditems.txt",
+            },
+            standardRows))
+    {
+        std::cerr << "Failed to read standard item enchant table: STDITEMS.TXT\n";
+        return false;
+    }
+
+    if (!loadFirstTextTableRows(
+            assetFileSystem,
+            {
+                "Data/EnglishT/SPCITEMS.TXT",
+                "Data/EnglishT/spcitems.txt",
+            },
+            specialRows))
+    {
+        std::cerr << "Failed to read special item enchant table: SPCITEMS.TXT\n";
+        return false;
+    }
+
+    if (!m_standardItemEnchantTable.load(standardRows) || !m_specialItemEnchantTable.load(specialRows))
+    {
+        std::cerr << "Failed to parse item enchant tables: STDITEMS / SPCITEMS\n";
         return false;
     }
 

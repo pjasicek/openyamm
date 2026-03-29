@@ -79,6 +79,7 @@ std::optional<SpeechId> speechIdFromName(const std::string &value)
         {"templedonate", SpeechId::TempleDonate},
         {"travelboat", SpeechId::TravelBoat},
         {"travelhorse", SpeechId::TravelHorse},
+        {"bankdeposit", SpeechId::BankDeposit},
         {"levelup", SpeechId::LevelUp},
     };
 
