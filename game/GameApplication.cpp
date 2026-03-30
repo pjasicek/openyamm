@@ -94,6 +94,8 @@ bool GameApplication::initializeRenderer()
             m_gameDataLoader.getObjectTable(),
             m_gameDataLoader.getSpellTable(),
             m_gameDataLoader.getItemTable(),
+            m_gameDataLoader.getStandardItemEnchantTable(),
+            m_gameDataLoader.getSpecialItemEnchantTable(),
             &m_gameDataLoader.getChestTable(),
             selectedMap->outdoorMapData,
             selectedMap->outdoorMapDeltaData,
@@ -116,11 +118,17 @@ bool GameApplication::initializeRenderer()
             ),
             m_gameDataLoader.getItemTable()
         );
+        m_pOutdoorPartyRuntime->party().setItemEnchantTables(
+            &m_gameDataLoader.getStandardItemEnchantTable(),
+            &m_gameDataLoader.getSpecialItemEnchantTable());
         m_pOutdoorPartyRuntime->party().setClassSkillTable(&m_gameDataLoader.getClassSkillTable());
 
         if (m_partyState)
         {
             m_partyState->setItemTable(&m_gameDataLoader.getItemTable());
+            m_partyState->setItemEnchantTables(
+                &m_gameDataLoader.getStandardItemEnchantTable(),
+                &m_gameDataLoader.getSpecialItemEnchantTable());
             m_partyState->setClassSkillTable(&m_gameDataLoader.getClassSkillTable());
             m_pOutdoorPartyRuntime->setParty(*m_partyState);
         }
@@ -151,6 +159,8 @@ bool GameApplication::initializeRenderer()
             m_gameDataLoader.getObjectTable(),
             m_gameDataLoader.getSpellTable(),
             m_gameDataLoader.getItemTable(),
+            m_gameDataLoader.getStandardItemEnchantTable(),
+            m_gameDataLoader.getSpecialItemEnchantTable(),
             m_gameDataLoader.getItemEquipPosTable(),
             selectedMap->localStrTable,
             selectedMap->localEvtProgram,

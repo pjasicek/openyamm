@@ -2,6 +2,8 @@
 
 #include "game/EventRuntime.h"
 #include "game/GameMechanics.h"
+#include "game/ItemEnchantRuntime.h"
+#include "game/ItemEnchantTables.h"
 #include "game/ItemGenerator.h"
 #include "game/ItemRuntime.h"
 #include "game/ItemTable.h"
@@ -13,6 +15,7 @@
 #include <array>
 #include <cctype>
 #include <iostream>
+#include <random>
 
 namespace OpenYAMM::Game
 {
@@ -151,6 +154,15 @@ std::string normalizeRoleName(const std::string &className)
     }
 
     return displayClassName(canonicalName);
+}
+
+uint32_t generateHouseStockSeed()
+{
+    std::random_device randomDevice;
+    const uint32_t first = static_cast<uint32_t>(randomDevice());
+    const uint32_t second = static_cast<uint32_t>(randomDevice());
+    const uint32_t mixed = first ^ (second * 1664525u) ^ 0x9e3779b9u;
+    return mixed != 0 ? mixed : 1u;
 }
 
 std::string portraitTextureNameFromPictureId(uint32_t pictureId)
@@ -716,6 +728,7 @@ InventoryItem makeInventoryItem(
     item.broken = runtimeState.broken;
     item.stolen = runtimeState.stolen;
     item.standardEnchantId = runtimeState.standardEnchantId;
+    item.standardEnchantPower = runtimeState.standardEnchantPower;
     item.specialEnchantId = runtimeState.specialEnchantId;
     item.artifactId = runtimeState.artifactId;
     return item;
@@ -775,6 +788,7 @@ bool identifyEquippedItemInstance(EquippedItemRuntimeState &runtimeState, const 
     displayItem.broken = runtimeState.broken;
     displayItem.stolen = runtimeState.stolen;
     displayItem.standardEnchantId = runtimeState.standardEnchantId;
+    displayItem.standardEnchantPower = runtimeState.standardEnchantPower;
     displayItem.specialEnchantId = runtimeState.specialEnchantId;
     displayItem.artifactId = runtimeState.artifactId;
     statusText = "Identified " + ItemRuntime::displayName(displayItem, itemDefinition) + ".";
@@ -796,6 +810,7 @@ bool repairEquippedItemInstance(EquippedItemRuntimeState &runtimeState, const It
     displayItem.broken = runtimeState.broken;
     displayItem.stolen = runtimeState.stolen;
     displayItem.standardEnchantId = runtimeState.standardEnchantId;
+    displayItem.standardEnchantPower = runtimeState.standardEnchantPower;
     displayItem.specialEnchantId = runtimeState.specialEnchantId;
     displayItem.artifactId = runtimeState.artifactId;
     statusText = "Repaired " + ItemRuntime::displayName(displayItem, itemDefinition) + ".";
@@ -1026,6 +1041,23 @@ PartySeed Party::createDefaultSeed()
     seed.gold = 10000;
     seed.food = 7;
 
+    auto grantSeedEquippedItem = [](
+        Character &character,
+        EquipmentSlot slot,
+        uint32_t itemId,
+        uint16_t standardEnchantId = 0,
+        uint16_t standardEnchantPower = 0,
+        uint16_t specialEnchantId = 0)
+    {
+        equippedItemId(character.equipment, slot) = itemId;
+        EquippedItemRuntimeState &runtimeState = equippedItemRuntimeState(character.equipmentRuntime, slot);
+        runtimeState = {};
+        runtimeState.identified = true;
+        runtimeState.standardEnchantId = standardEnchantId;
+        runtimeState.standardEnchantPower = standardEnchantPower;
+        runtimeState.specialEnchantId = specialEnchantId;
+    };
+
     Character cleric = {};
     cleric.name = "Ariel";
     cleric.className = "Cleric";
@@ -1052,6 +1084,13 @@ PartySeed Party::createDefaultSeed()
     grantAllMagicSchools(cleric, 10, SkillMastery::Grandmaster);
     grantSeedSkill(cleric, "IdentifyItem", 10, SkillMastery::Grandmaster);
     grantSeedSkill(cleric, "RepairItem", 10, SkillMastery::Grandmaster);
+    grantSeedEquippedItem(cleric, EquipmentSlot::MainHand, 79, 0, 0, 16);
+    grantSeedEquippedItem(cleric, EquipmentSlot::Armor, 90, 0, 0, 1);
+    grantSeedEquippedItem(cleric, EquipmentSlot::Helm, 111, 2, 8);
+    grantSeedEquippedItem(cleric, EquipmentSlot::Boots, 135, 0, 0, 72);
+    grantSeedEquippedItem(cleric, EquipmentSlot::Amulet, 151, 0, 0, 26);
+    grantSeedEquippedItem(cleric, EquipmentSlot::Ring1, 145, 0, 0, 17);
+    grantSeedEquippedItem(cleric, EquipmentSlot::Ring2, 146, 9, 12);
     grantSeedInventoryItem(cleric, 137, false, false);
     grantSeedInventoryItem(cleric, 137, true, true);
     grantSeedInventoryItem(cleric, 138, false, false);
@@ -1170,6 +1209,14 @@ void Party::setItemTable(const ItemTable *pItemTable)
     m_pItemTable = pItemTable;
 }
 
+void Party::setItemEnchantTables(
+    const StandardItemEnchantTable *pStandardItemEnchantTable,
+    const SpecialItemEnchantTable *pSpecialItemEnchantTable)
+{
+    m_pStandardItemEnchantTable = pStandardItemEnchantTable;
+    m_pSpecialItemEnchantTable = pSpecialItemEnchantTable;
+}
+
 void Party::setClassSkillTable(const ClassSkillTable *pClassSkillTable)
 {
     m_pClassSkillTable = pClassSkillTable;
@@ -1197,6 +1244,7 @@ void Party::seed(const PartySeed &seed)
     m_bankGold = 0;
     m_food = std::max(0, seed.food);
     m_monsterTargetSelectionCounter = 0;
+    m_houseStockSeed = generateHouseStockSeed();
     m_houseStockStates.clear();
 
     for (Character &member : m_members)
@@ -1271,6 +1319,11 @@ void Party::applyMovementEffects(const OutdoorMovementEffects &effects)
     {
         for (size_t memberIndex = 0; memberIndex < m_members.size(); ++memberIndex)
         {
+            if (m_members[memberIndex].waterWalking)
+            {
+                continue;
+            }
+
             const int damage = std::max(1, m_members[memberIndex].maxHealth / 10);
             applyDamageToMember(memberIndex, damage, "");
         }
@@ -1297,6 +1350,11 @@ void Party::applyMovementEffects(const OutdoorMovementEffects &effects)
 
         for (size_t memberIndex = 0; memberIndex < m_members.size(); ++memberIndex)
         {
+            if (m_members[memberIndex].featherFalling)
+            {
+                continue;
+            }
+
             const int damage =
                 std::max(0, static_cast<int>(effects.maxFallDamageDistance * (m_members[memberIndex].maxHealth / 10.0f) / 256.0f));
             applyDamageToMember(memberIndex, damage, "");
@@ -2201,6 +2259,7 @@ bool Party::takeEquippedItemFromMember(size_t memberIndex, EquipmentSlot slot, I
     item = makeInventoryItem(m_pItemTable, itemId, equippedItemRuntimeState(pMember->equipmentRuntime, slot));
     equippedItemId(pMember->equipment, slot) = 0;
     equippedItemRuntimeState(pMember->equipmentRuntime, slot) = {};
+    rebuildMagicalBonusesFromBuffs();
     m_lastStatus = "item unequipped";
     return true;
 }
@@ -2263,6 +2322,7 @@ bool Party::tryEquipItemOnMember(
     targetRuntimeState.broken = item.broken;
     targetRuntimeState.stolen = item.stolen;
     targetRuntimeState.standardEnchantId = item.standardEnchantId;
+    targetRuntimeState.standardEnchantPower = item.standardEnchantPower;
     targetRuntimeState.specialEnchantId = item.specialEnchantId;
     targetRuntimeState.artifactId = item.artifactId;
 
@@ -2277,6 +2337,7 @@ bool Party::tryEquipItemOnMember(
         m_lastStatus = "item equipped";
     }
 
+    rebuildMagicalBonusesFromBuffs();
     return true;
 }
 
@@ -2474,6 +2535,7 @@ bool Party::tryRepairMemberInventoryItem(
 
     if (repaired)
     {
+        rebuildMagicalBonusesFromBuffs();
         m_lastStatus = "item repaired";
     }
 
@@ -2604,6 +2666,7 @@ bool Party::repairMemberInventoryItem(
 
     if (repaired)
     {
+        rebuildMagicalBonusesFromBuffs();
         m_lastStatus = "item repaired";
     }
 
@@ -3092,7 +3155,34 @@ void Party::updateRecovery(float deltaSeconds)
 
     for (Character &member : m_members)
     {
-        member.recoverySecondsRemaining = std::max(0.0f, member.recoverySecondsRemaining - deltaSeconds);
+        const float recoveryDelta = deltaSeconds * std::max(0.0f, member.recoveryProgressMultiplier);
+        member.recoverySecondsRemaining = std::max(0.0f, member.recoverySecondsRemaining - recoveryDelta);
+
+        if (member.healthRegenPerSecond > 0.0f)
+        {
+            member.healthRegenAccumulator += member.healthRegenPerSecond * deltaSeconds;
+            const int healAmount = std::max(0, static_cast<int>(member.healthRegenAccumulator));
+
+            if (healAmount > 0)
+            {
+                member.healthRegenAccumulator -= static_cast<float>(healAmount);
+                member.health = std::min(member.maxHealth + member.magicalBonuses.maxHealth, member.health + healAmount);
+            }
+        }
+
+        if (member.spellRegenPerSecond > 0.0f)
+        {
+            member.spellRegenAccumulator += member.spellRegenPerSecond * deltaSeconds;
+            const int spellAmount = std::max(0, static_cast<int>(member.spellRegenAccumulator));
+
+            if (spellAmount > 0)
+            {
+                member.spellRegenAccumulator -= static_cast<float>(spellAmount);
+                member.spellPoints = std::min(
+                    member.maxSpellPoints + member.magicalBonuses.maxSpellPoints,
+                    member.spellPoints + spellAmount);
+            }
+        }
     }
 
     bool buffsChanged = false;
@@ -3418,6 +3508,11 @@ int Party::food() const
     return m_food;
 }
 
+uint32_t Party::houseStockSeed() const
+{
+    return m_houseStockSeed;
+}
+
 Party::HouseStockState *Party::houseStockState(uint32_t houseId)
 {
     const std::unordered_map<uint32_t, HouseStockState>::iterator stateIt = m_houseStockStates.find(houseId);
@@ -3561,6 +3656,16 @@ void Party::rebuildMagicalBonusesFromBuffs()
         member.vampiricHealFraction = 0.0f;
         member.physicalAttackDisabled = false;
         member.physicalDamageImmune = false;
+        member.halfMissileDamage = false;
+        member.waterWalking = false;
+        member.featherFalling = false;
+        member.healthRegenPerSecond = 0.0f;
+        member.spellRegenPerSecond = 0.0f;
+        member.healthRegenAccumulator = 0.0f;
+        member.spellRegenAccumulator = 0.0f;
+        member.attackRecoveryReductionTicks = 0;
+        member.recoveryProgressMultiplier = 1.0f;
+        member.itemSkillBonuses.clear();
     }
 
     const auto applyResistanceBonus =
@@ -3683,6 +3788,54 @@ void Party::rebuildMagicalBonusesFromBuffs()
         {
             member.merchantBonus += pBuff->power;
         }
+    }
+
+    if (m_pItemTable == nullptr)
+    {
+        return;
+    }
+
+    const auto applyEquippedItemEnchant =
+        [this](Character &member, uint32_t itemId, const EquippedItemRuntimeState &runtimeState)
+        {
+            if (itemId == 0 || runtimeState.broken)
+            {
+                return;
+            }
+
+            const ItemDefinition *pItemDefinition = m_pItemTable->get(itemId);
+
+            if (pItemDefinition == nullptr)
+            {
+                return;
+            }
+
+            ItemEnchantRuntime::applyEquippedEnchantEffects(
+                *pItemDefinition,
+                runtimeState,
+                m_pStandardItemEnchantTable,
+                m_pSpecialItemEnchantTable,
+                member);
+        };
+
+    for (Character &member : m_members)
+    {
+        applyEquippedItemEnchant(member, member.equipment.offHand, member.equipmentRuntime.offHand);
+        applyEquippedItemEnchant(member, member.equipment.mainHand, member.equipmentRuntime.mainHand);
+        applyEquippedItemEnchant(member, member.equipment.bow, member.equipmentRuntime.bow);
+        applyEquippedItemEnchant(member, member.equipment.armor, member.equipmentRuntime.armor);
+        applyEquippedItemEnchant(member, member.equipment.helm, member.equipmentRuntime.helm);
+        applyEquippedItemEnchant(member, member.equipment.belt, member.equipmentRuntime.belt);
+        applyEquippedItemEnchant(member, member.equipment.cloak, member.equipmentRuntime.cloak);
+        applyEquippedItemEnchant(member, member.equipment.gauntlets, member.equipmentRuntime.gauntlets);
+        applyEquippedItemEnchant(member, member.equipment.boots, member.equipmentRuntime.boots);
+        applyEquippedItemEnchant(member, member.equipment.amulet, member.equipmentRuntime.amulet);
+        applyEquippedItemEnchant(member, member.equipment.ring1, member.equipmentRuntime.ring1);
+        applyEquippedItemEnchant(member, member.equipment.ring2, member.equipmentRuntime.ring2);
+        applyEquippedItemEnchant(member, member.equipment.ring3, member.equipmentRuntime.ring3);
+        applyEquippedItemEnchant(member, member.equipment.ring4, member.equipmentRuntime.ring4);
+        applyEquippedItemEnchant(member, member.equipment.ring5, member.equipmentRuntime.ring5);
+        applyEquippedItemEnchant(member, member.equipment.ring6, member.equipmentRuntime.ring6);
     }
 }
 

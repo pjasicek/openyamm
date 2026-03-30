@@ -24,6 +24,8 @@ namespace OpenYAMM::Game
 {
 class ItemTable;
 class ChestTable;
+class StandardItemEnchantTable;
+class SpecialItemEnchantTable;
 
 class OutdoorWorldRuntime
 {
@@ -328,6 +330,7 @@ public:
 
     struct ChestItemState
     {
+        InventoryItem item = {};
         uint32_t itemId = 0;
         uint32_t quantity = 0;
         uint32_t goldAmount = 0;
@@ -385,6 +388,8 @@ public:
         const ObjectTable &objectTable,
         const SpellTable &spellTable,
         const ItemTable &itemTable,
+        const StandardItemEnchantTable &standardItemEnchantTable,
+        const SpecialItemEnchantTable &specialItemEnchantTable,
         const ChestTable *pChestTable,
         const std::optional<OutdoorMapData> &outdoorMapData,
         const std::optional<MapDeltaData> &outdoorMapDeltaData,
@@ -721,6 +726,8 @@ private:
     std::optional<ChestViewState> m_activeChestView;
     std::optional<EventRuntimeState> m_eventRuntimeState;
     const ItemTable *m_pItemTable = nullptr;
+    const StandardItemEnchantTable *m_pStandardItemEnchantTable = nullptr;
+    const SpecialItemEnchantTable *m_pSpecialItemEnchantTable = nullptr;
     const ChestTable *m_pChestTable = nullptr;
     const MonsterTable *m_pMonsterTable = nullptr;
     const MonsterProjectileTable *m_pMonsterProjectileTable = nullptr;

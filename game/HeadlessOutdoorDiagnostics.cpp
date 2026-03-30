@@ -211,6 +211,52 @@ float hostilePartyAcquisitionRange(
     return relationRange > 0.0f ? relationRange : 0.0f;
 }
 
+int firstTreasureLevelForItem(const ItemDefinition &itemDefinition)
+{
+    for (size_t tierIndex = 0; tierIndex < itemDefinition.randomTreasureWeights.size(); ++tierIndex)
+    {
+        if (itemDefinition.randomTreasureWeights[tierIndex] > 0)
+        {
+            return static_cast<int>(tierIndex) + 1;
+        }
+    }
+
+    return 0;
+}
+
+bool itemHasTreasureWeightAtOrAboveTier(const ItemDefinition &itemDefinition, int tier)
+{
+    const int startTier = std::clamp(tier, 1, static_cast<int>(itemDefinition.randomTreasureWeights.size())) - 1;
+
+    for (size_t tierIndex = static_cast<size_t>(startTier); tierIndex < itemDefinition.randomTreasureWeights.size();
+         ++tierIndex)
+    {
+        if (itemDefinition.randomTreasureWeights[tierIndex] > 0)
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+std::optional<uint16_t> findSpecialEnchantId(
+    const SpecialItemEnchantTable &table,
+    SpecialItemEnchantKind kind)
+{
+    const std::vector<SpecialItemEnchantEntry> &entries = table.entries();
+
+    for (size_t index = 0; index < entries.size(); ++index)
+    {
+        if (entries[index].kind == kind)
+        {
+            return static_cast<uint16_t>(index + 1);
+        }
+    }
+
+    return std::nullopt;
+}
+
 float signedDistanceToOutdoorFace(const OutdoorFaceGeometryData &geometry, const bx::Vec3 &point)
 {
     if (!geometry.hasPlane || geometry.vertices.empty())
@@ -923,6 +969,8 @@ bool initializeRegressionScenario(
         gameDataLoader.getObjectTable(),
         gameDataLoader.getSpellTable(),
         gameDataLoader.getItemTable(),
+        gameDataLoader.getStandardItemEnchantTable(),
+        gameDataLoader.getSpecialItemEnchantTable(),
         &gameDataLoader.getChestTable(),
         selectedMap.outdoorMapData,
         selectedMap.outdoorMapDeltaData,
@@ -931,11 +979,15 @@ bool initializeRegressionScenario(
         selectedMap.outdoorLandMask,
         selectedMap.outdoorDecorationCollisionSet,
         selectedMap.outdoorActorCollisionSet,
-        selectedMap.outdoorSpriteObjectCollisionSet
+        selectedMap.outdoorSpriteObjectCollisionSet,
+        selectedMap.outdoorSpriteObjectBillboardSet
     );
 
     scenario.party = {};
     scenario.party.setItemTable(&gameDataLoader.getItemTable());
+    scenario.party.setItemEnchantTables(
+        &gameDataLoader.getStandardItemEnchantTable(),
+        &gameDataLoader.getSpecialItemEnchantTable());
     scenario.party.setClassSkillTable(&gameDataLoader.getClassSkillTable());
     scenario.party.seed(createRegressionPartySeed());
     scenario.pEventRuntimeState = scenario.world.eventRuntimeState();
@@ -1518,10 +1570,18 @@ int HeadlessOutdoorDiagnostics::runSimulateActor(
         gameDataLoader.getObjectTable(),
         gameDataLoader.getSpellTable(),
         gameDataLoader.getItemTable(),
+        gameDataLoader.getStandardItemEnchantTable(),
+        gameDataLoader.getSpecialItemEnchantTable(),
         &gameDataLoader.getChestTable(),
         selectedMap->outdoorMapData,
         selectedMap->outdoorMapDeltaData,
-        selectedMap->eventRuntimeState
+        selectedMap->eventRuntimeState,
+        selectedMap->outdoorActorPreviewBillboardSet,
+        selectedMap->outdoorLandMask,
+        selectedMap->outdoorDecorationCollisionSet,
+        selectedMap->outdoorActorCollisionSet,
+        selectedMap->outdoorSpriteObjectCollisionSet,
+        selectedMap->outdoorSpriteObjectBillboardSet
     );
 
     const OutdoorWorldRuntime::MapActorState *pStartActor = outdoorWorldRuntime.mapActorState(actorIndex);
@@ -1625,10 +1685,18 @@ int HeadlessOutdoorDiagnostics::runTraceActorAi(
         gameDataLoader.getObjectTable(),
         gameDataLoader.getSpellTable(),
         gameDataLoader.getItemTable(),
+        gameDataLoader.getStandardItemEnchantTable(),
+        gameDataLoader.getSpecialItemEnchantTable(),
         &gameDataLoader.getChestTable(),
         selectedMap->outdoorMapData,
         selectedMap->outdoorMapDeltaData,
-        selectedMap->eventRuntimeState
+        selectedMap->eventRuntimeState,
+        selectedMap->outdoorActorPreviewBillboardSet,
+        selectedMap->outdoorLandMask,
+        selectedMap->outdoorDecorationCollisionSet,
+        selectedMap->outdoorActorCollisionSet,
+        selectedMap->outdoorSpriteObjectCollisionSet,
+        selectedMap->outdoorSpriteObjectBillboardSet
     );
 
     const OutdoorWorldRuntime::MapActorState *pStartActor = outdoorWorldRuntime.mapActorState(actorIndex);
@@ -2110,14 +2178,25 @@ int HeadlessOutdoorDiagnostics::runOpenEvent(
         gameDataLoader.getObjectTable(),
         gameDataLoader.getSpellTable(),
         gameDataLoader.getItemTable(),
+        gameDataLoader.getStandardItemEnchantTable(),
+        gameDataLoader.getSpecialItemEnchantTable(),
         &gameDataLoader.getChestTable(),
         selectedMap->outdoorMapData,
         selectedMap->outdoorMapDeltaData,
-        selectedMap->eventRuntimeState
+        selectedMap->eventRuntimeState,
+        selectedMap->outdoorActorPreviewBillboardSet,
+        selectedMap->outdoorLandMask,
+        selectedMap->outdoorDecorationCollisionSet,
+        selectedMap->outdoorActorCollisionSet,
+        selectedMap->outdoorSpriteObjectCollisionSet,
+        selectedMap->outdoorSpriteObjectBillboardSet
     );
 
     Party party = {};
     party.setItemTable(&gameDataLoader.getItemTable());
+    party.setItemEnchantTables(
+        &gameDataLoader.getStandardItemEnchantTable(),
+        &gameDataLoader.getSpecialItemEnchantTable());
     party.setClassSkillTable(&gameDataLoader.getClassSkillTable());
     party.reset();
 
@@ -2322,14 +2401,25 @@ int HeadlessOutdoorDiagnostics::runOpenActor(
         gameDataLoader.getObjectTable(),
         gameDataLoader.getSpellTable(),
         gameDataLoader.getItemTable(),
+        gameDataLoader.getStandardItemEnchantTable(),
+        gameDataLoader.getSpecialItemEnchantTable(),
         &gameDataLoader.getChestTable(),
         selectedMap->outdoorMapData,
         selectedMap->outdoorMapDeltaData,
-        selectedMap->eventRuntimeState
+        selectedMap->eventRuntimeState,
+        selectedMap->outdoorActorPreviewBillboardSet,
+        selectedMap->outdoorLandMask,
+        selectedMap->outdoorDecorationCollisionSet,
+        selectedMap->outdoorActorCollisionSet,
+        selectedMap->outdoorSpriteObjectCollisionSet,
+        selectedMap->outdoorSpriteObjectBillboardSet
     );
 
     Party party = {};
     party.setItemTable(&gameDataLoader.getItemTable());
+    party.setItemEnchantTables(
+        &gameDataLoader.getStandardItemEnchantTable(),
+        &gameDataLoader.getSpecialItemEnchantTable());
     party.setClassSkillTable(&gameDataLoader.getClassSkillTable());
     party.reset();
 
@@ -2467,14 +2557,25 @@ int HeadlessOutdoorDiagnostics::runDialogSequence(
         gameDataLoader.getObjectTable(),
         gameDataLoader.getSpellTable(),
         gameDataLoader.getItemTable(),
+        gameDataLoader.getStandardItemEnchantTable(),
+        gameDataLoader.getSpecialItemEnchantTable(),
         &gameDataLoader.getChestTable(),
         selectedMap->outdoorMapData,
         selectedMap->outdoorMapDeltaData,
-        selectedMap->eventRuntimeState
+        selectedMap->eventRuntimeState,
+        selectedMap->outdoorActorPreviewBillboardSet,
+        selectedMap->outdoorLandMask,
+        selectedMap->outdoorDecorationCollisionSet,
+        selectedMap->outdoorActorCollisionSet,
+        selectedMap->outdoorSpriteObjectCollisionSet,
+        selectedMap->outdoorSpriteObjectBillboardSet
     );
 
     Party party = {};
     party.setItemTable(&gameDataLoader.getItemTable());
+    party.setItemEnchantTables(
+        &gameDataLoader.getStandardItemEnchantTable(),
+        &gameDataLoader.getSpecialItemEnchantTable());
     party.setClassSkillTable(&gameDataLoader.getClassSkillTable());
     party.reset();
 
@@ -7978,6 +8079,82 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
     );
 
     runCase(
+        "recovery_enchant_increases_recovery_progress",
+        [&](std::string &failure)
+        {
+            const std::optional<uint16_t> recoveryEnchantId =
+                findSpecialEnchantId(gameDataLoader.getSpecialItemEnchantTable(), SpecialItemEnchantKind::Recovery);
+
+            if (!recoveryEnchantId)
+            {
+                failure = "recovery enchant id missing";
+                return false;
+            }
+
+            Party party = {};
+            party.setItemTable(&gameDataLoader.getItemTable());
+            party.setItemEnchantTables(
+                &gameDataLoader.getStandardItemEnchantTable(),
+                &gameDataLoader.getSpecialItemEnchantTable());
+            party.seed(createRegressionPartySeed());
+            Character *pMember = party.member(0);
+            const ItemDefinition *pRingDefinition = gameDataLoader.getItemTable().get(137);
+
+            if (pMember == nullptr || pRingDefinition == nullptr)
+            {
+                failure = "member or ring definition missing";
+                return false;
+            }
+
+            InventoryItem enchantedRing = {
+                pRingDefinition->itemId,
+                1,
+                pRingDefinition->inventoryWidth,
+                pRingDefinition->inventoryHeight,
+                0,
+                0,
+                true,
+                false,
+                false,
+                0,
+                0,
+                *recoveryEnchantId,
+                0
+            };
+            std::optional<InventoryItem> heldReplacement;
+
+            if (!party.tryEquipItemOnMember(
+                    0,
+                    EquipmentSlot::Ring1,
+                    enchantedRing,
+                    std::nullopt,
+                    false,
+                    heldReplacement))
+            {
+                failure = "could not equip recovery ring";
+                return false;
+            }
+
+            if (std::abs(pMember->recoveryProgressMultiplier - 1.5f) > 0.001f)
+            {
+                failure = "recovery enchant did not update recovery multiplier";
+                return false;
+            }
+
+            pMember->recoverySecondsRemaining = 2.0f;
+            party.updateRecovery(1.0f);
+
+            if (std::abs(pMember->recoverySecondsRemaining - 0.5f) > 0.001f)
+            {
+                failure = "recovery enchant did not accelerate recovery countdown";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
         "hostile_melee_actor_respects_recovery_after_attack",
         [&](std::string &failure)
         {
@@ -8768,13 +8945,16 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
             }
 
             scenario.party.addGold(50000);
-            const std::vector<uint32_t> &stock = HouseServiceRuntime::ensureStock(
+            const std::vector<InventoryItem> &stock = HouseServiceRuntime::ensureStock(
                 scenario.party,
                 gameDataLoader.getItemTable(),
+                gameDataLoader.getStandardItemEnchantTable(),
+                gameDataLoader.getSpecialItemEnchantTable(),
                 *pHouseEntry,
                 scenario.world.gameMinutes(),
                 HouseStockMode::ShopStandard);
-            const auto stockIt = std::find_if(stock.begin(), stock.end(), [](uint32_t itemId) { return itemId != 0; });
+            const auto stockIt =
+                std::find_if(stock.begin(), stock.end(), [](const InventoryItem &item) { return item.objectDescriptionId != 0; });
 
             if (stockIt == stock.end())
             {
@@ -8790,6 +8970,8 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
             if (!HouseServiceRuntime::tryBuyStockItem(
                     scenario.party,
                     gameDataLoader.getItemTable(),
+                    gameDataLoader.getStandardItemEnchantTable(),
+                    gameDataLoader.getSpecialItemEnchantTable(),
                     *pHouseEntry,
                     scenario.world.gameMinutes(),
                     HouseStockMode::ShopStandard,
@@ -8817,6 +8999,97 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
     );
 
     runCase(
+        "house_service_shop_stock_uses_house_data_tiers",
+        [&](std::string &failure)
+        {
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            const HouseEntry *pHouseEntry = gameDataLoader.getHouseTable().get(1);
+
+            if (pHouseEntry == nullptr)
+            {
+                failure = "weapon shop house entry missing";
+                return false;
+            }
+
+            if (pHouseEntry->standardStockTier != 1 || pHouseEntry->specialStockTier != 2)
+            {
+                failure = "unexpected DWI weapon shop stock tiers";
+                return false;
+            }
+
+            const std::vector<InventoryItem> &standardStock = HouseServiceRuntime::ensureStock(
+                scenario.party,
+                gameDataLoader.getItemTable(),
+                gameDataLoader.getStandardItemEnchantTable(),
+                gameDataLoader.getSpecialItemEnchantTable(),
+                *pHouseEntry,
+                scenario.world.gameMinutes(),
+                HouseStockMode::ShopStandard);
+            const std::vector<InventoryItem> &specialStock = HouseServiceRuntime::ensureStock(
+                scenario.party,
+                gameDataLoader.getItemTable(),
+                gameDataLoader.getStandardItemEnchantTable(),
+                gameDataLoader.getSpecialItemEnchantTable(),
+                *pHouseEntry,
+                scenario.world.gameMinutes(),
+                HouseStockMode::ShopSpecial);
+
+            for (const InventoryItem &item : standardStock)
+            {
+                if (item.objectDescriptionId == 0)
+                {
+                    continue;
+                }
+
+                const ItemDefinition *pItemDefinition = gameDataLoader.getItemTable().get(item.objectDescriptionId);
+
+                if (pItemDefinition == nullptr)
+                {
+                    failure = "standard stock item missing from item table";
+                    return false;
+                }
+
+                if (firstTreasureLevelForItem(*pItemDefinition) > pHouseEntry->standardStockTier)
+                {
+                    failure = "standard stock generated item above DWI tier ceiling";
+                    return false;
+                }
+            }
+
+            for (const InventoryItem &item : specialStock)
+            {
+                if (item.objectDescriptionId == 0)
+                {
+                    continue;
+                }
+
+                const ItemDefinition *pItemDefinition = gameDataLoader.getItemTable().get(item.objectDescriptionId);
+
+                if (pItemDefinition == nullptr)
+                {
+                    failure = "special stock item missing from item table";
+                    return false;
+                }
+
+                if (!itemHasTreasureWeightAtOrAboveTier(*pItemDefinition, pHouseEntry->specialStockTier))
+                {
+                    failure = "special stock generated item below DWI special tier";
+                    return false;
+                }
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
         "house_service_guild_spellbook_stock_generates_and_buys",
         [&](std::string &failure)
         {
@@ -8837,13 +9110,16 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
             }
 
             scenario.party.addGold(50000);
-            const std::vector<uint32_t> &stock = HouseServiceRuntime::ensureStock(
+            const std::vector<InventoryItem> &stock = HouseServiceRuntime::ensureStock(
                 scenario.party,
                 gameDataLoader.getItemTable(),
+                gameDataLoader.getStandardItemEnchantTable(),
+                gameDataLoader.getSpecialItemEnchantTable(),
                 *pHouseEntry,
                 scenario.world.gameMinutes(),
                 HouseStockMode::GuildSpellbooks);
-            const auto stockIt = std::find_if(stock.begin(), stock.end(), [](uint32_t itemId) { return itemId != 0; });
+            const auto stockIt =
+                std::find_if(stock.begin(), stock.end(), [](const InventoryItem &item) { return item.objectDescriptionId != 0; });
 
             if (stockIt == stock.end())
             {
@@ -8851,7 +9127,7 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
                 return false;
             }
 
-            const ItemDefinition *pSpellbook = gameDataLoader.getItemTable().get(*stockIt);
+            const ItemDefinition *pSpellbook = gameDataLoader.getItemTable().get(stockIt->objectDescriptionId);
 
             if (pSpellbook == nullptr || pSpellbook->equipStat != "Book")
             {
@@ -8866,6 +9142,8 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
             if (!HouseServiceRuntime::tryBuyStockItem(
                     scenario.party,
                     gameDataLoader.getItemTable(),
+                    gameDataLoader.getStandardItemEnchantTable(),
+                    gameDataLoader.getSpecialItemEnchantTable(),
                     *pHouseEntry,
                     scenario.world.gameMinutes(),
                     HouseStockMode::GuildSpellbooks,
@@ -8972,6 +9250,8 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
             if (!HouseServiceRuntime::trySellInventoryItem(
                     scenario.party,
                     gameDataLoader.getItemTable(),
+                    gameDataLoader.getStandardItemEnchantTable(),
+                    gameDataLoader.getSpecialItemEnchantTable(),
                     *pHouseEntry,
                     scenario.party.activeMemberIndex(),
                     matchingCell->first,

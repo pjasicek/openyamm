@@ -565,7 +565,9 @@ bool resolveSpellSkill(
         return false;
     }
 
-    skillLevel = pSkill->level;
+    const auto bonusIt = caster.itemSkillBonuses.find(*skillName);
+    const int bonusLevel = bonusIt != caster.itemSkillBonuses.end() ? bonusIt->second : 0;
+    skillLevel = std::max(0, static_cast<int>(pSkill->level) + bonusLevel);
     skillMastery = pSkill->mastery;
     return skillLevel > 0;
 }

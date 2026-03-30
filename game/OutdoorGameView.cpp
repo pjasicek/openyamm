@@ -4,6 +4,7 @@
 #include "game/GameMechanics.h"
 #include "game/HouseInteraction.h"
 #include "game/HouseServiceRuntime.h"
+#include "game/ItemEnchantRuntime.h"
 #include "game/ItemGenerator.h"
 #include "game/ItemRuntime.h"
 #include "game/ItemTable.h"
@@ -11,6 +12,7 @@
 #include "game/OutdoorGeometryUtils.h"
 #include "game/OutdoorPartyRuntime.h"
 #include "game/OutdoorWorldRuntime.h"
+#include "game/PriceCalculator.h"
 #include "game/SpawnPreview.h"
 #include "game/SpellIds.h"
 #include "game/SpriteObjectDefs.h"
@@ -1293,6 +1295,39 @@ bool isBodyEquipmentVisualSlot(EquipmentSlot slot)
     }
 
     return false;
+}
+
+bool isJewelryOverlayEquipmentSlot(EquipmentSlot slot)
+{
+    switch (slot)
+    {
+        case EquipmentSlot::Gauntlets:
+        case EquipmentSlot::Amulet:
+        case EquipmentSlot::Ring1:
+        case EquipmentSlot::Ring2:
+        case EquipmentSlot::Ring3:
+        case EquipmentSlot::Ring4:
+        case EquipmentSlot::Ring5:
+        case EquipmentSlot::Ring6:
+            return true;
+
+        case EquipmentSlot::OffHand:
+        case EquipmentSlot::MainHand:
+        case EquipmentSlot::Bow:
+        case EquipmentSlot::Armor:
+        case EquipmentSlot::Helm:
+        case EquipmentSlot::Belt:
+        case EquipmentSlot::Cloak:
+        case EquipmentSlot::Boots:
+            return false;
+    }
+
+    return false;
+}
+
+bool isVisibleInCharacterDollOverlay(EquipmentSlot slot, bool jewelryOverlayOpen)
+{
+    return jewelryOverlayOpen ? isJewelryOverlayEquipmentSlot(slot) : !isJewelryOverlayEquipmentSlot(slot);
 }
 
 bool usesAlternateCloakBeltEquippedVariant(EquipmentSlot slot)
@@ -3680,6 +3715,8 @@ OutdoorGameView::OutdoorGameView()
     , m_pAssetFileSystem(nullptr)
     , m_pOutdoorWorldRuntime(nullptr)
     , m_pItemTable(nullptr)
+    , m_pStandardItemEnchantTable(nullptr)
+    , m_pSpecialItemEnchantTable(nullptr)
     , m_pItemEquipPosTable(nullptr)
     , m_pRosterTable(nullptr)
     , m_pCharacterDollTable(nullptr)
@@ -3730,6 +3767,8 @@ bool OutdoorGameView::initialize(
     const ObjectTable &objectTable,
     const SpellTable &spellTable,
     const ItemTable &itemTable,
+    const StandardItemEnchantTable &standardItemEnchantTable,
+    const SpecialItemEnchantTable &specialItemEnchantTable,
     const ItemEquipPosTable &itemEquipPosTable,
     const std::optional<StrTable> &localStrTable,
     const std::optional<EvtProgram> &localEvtProgram,
@@ -3764,6 +3803,8 @@ bool OutdoorGameView::initialize(
     m_pSpellTable = &spellTable;
     m_pGameAudioSystem = pGameAudioSystem;
     m_pItemTable = &itemTable;
+    m_pStandardItemEnchantTable = &standardItemEnchantTable;
+    m_pSpecialItemEnchantTable = &specialItemEnchantTable;
     m_pItemEquipPosTable = &itemEquipPosTable;
     m_localStrTable = localStrTable;
     m_localEvtProgram = localEvtProgram;
@@ -7763,6 +7804,8 @@ void OutdoorGameView::shutdown()
     m_pAssetFileSystem = nullptr;
     m_pOutdoorWorldRuntime = nullptr;
     m_pItemTable = nullptr;
+    m_pStandardItemEnchantTable = nullptr;
+    m_pSpecialItemEnchantTable = nullptr;
     m_pItemEquipPosTable = nullptr;
     m_pRosterTable = nullptr;
     m_pCharacterDollTable = nullptr;
@@ -12851,16 +12894,7 @@ void OutdoorGameView::renderCharacterOverlay(int width, int height, bool renderA
 
         const std::optional<EquipmentSlot> slot = characterEquipmentSlotForLayoutId(layoutId);
 
-        if (slot
-            && (m_characterDollJewelryOverlayOpen
-                || (*slot != EquipmentSlot::Amulet
-                    && *slot != EquipmentSlot::Gauntlets
-                    && *slot != EquipmentSlot::Ring1
-                    && *slot != EquipmentSlot::Ring2
-                    && *slot != EquipmentSlot::Ring3
-                    && *slot != EquipmentSlot::Ring4
-                    && *slot != EquipmentSlot::Ring5
-                    && *slot != EquipmentSlot::Ring6)))
+        if (slot && isVisibleInCharacterDollOverlay(*slot, m_characterDollJewelryOverlayOpen))
         {
             const ItemDefinition *pItemDefinition = getEquippedItemDefinition(*slot);
 
@@ -13645,16 +13679,34 @@ void OutdoorGameView::renderItemInspectOverlay(int width, int height) const
         && pItemState != nullptr
         && !pItemState->identified
         && ItemRuntime::requiresIdentification(*pItemDefinition);
-    const std::string itemName = ItemRuntime::displayName(resolvedItemState, *pItemDefinition);
+    const std::string itemName = ItemRuntime::displayName(
+        resolvedItemState,
+        *pItemDefinition,
+        m_pStandardItemEnchantTable,
+        m_pSpecialItemEnchantTable);
     const std::string itemType =
         showBrokenOnly || showUnidentifiedOnly ? std::string {} : resolveItemInspectTypeText(pItemState, *pItemDefinition);
     const std::string itemDetail =
         showBrokenOnly || showUnidentifiedOnly ? std::string {} : resolveItemInspectDetailText(pItemState, *pItemDefinition);
+    const std::string enchantDescription = ItemEnchantRuntime::buildEnchantDescription(
+        resolvedItemState,
+        m_pStandardItemEnchantTable,
+        m_pSpecialItemEnchantTable);
+    const std::string itemSpecialDetail =
+        showBrokenOnly || showUnidentifiedOnly || enchantDescription.empty() ? std::string {} : "Special: " + enchantDescription;
     const std::string itemDescription = showBrokenOnly
         ? "Broken item"
-        : (showUnidentifiedOnly ? "Not identified" : pItemDefinition->notes);
+        : (showUnidentifiedOnly
+            ? "Not identified"
+            : pItemDefinition->notes);
     const int resolvedItemValue =
-        m_itemInspectOverlay.hasValueOverride ? m_itemInspectOverlay.valueOverride : pItemDefinition->value;
+        m_itemInspectOverlay.hasValueOverride
+        ? m_itemInspectOverlay.valueOverride
+        : PriceCalculator::itemValue(
+            resolvedItemState,
+            *pItemDefinition,
+            m_pStandardItemEnchantTable,
+            m_pSpecialItemEnchantTable);
     const std::string itemValue = std::to_string(std::max(0, resolvedItemValue));
     const HudTextureHandle *pItemTexture =
         !pItemDefinition->iconName.empty()
@@ -13799,19 +13851,55 @@ void OutdoorGameView::renderItemInspectOverlay(int width, int height) const
         std::max(0.0f, descriptionWidthScaled / std::max(1.0f, popupScale));
     const std::vector<std::string> descriptionLines =
         pBodyFont != nullptr ? wrapHudTextToWidth(*pBodyFont, itemDescription, descriptionWidth) : std::vector<std::string>{itemDescription};
-    const float descriptionHeight = descriptionLines.empty() ? bodyLineHeight : bodyLineHeight * static_cast<float>(descriptionLines.size());
     const bool showDetail = !itemDetail.empty();
+    const bool showSpecialDetail = !itemSpecialDetail.empty();
+    const float descriptionHeight =
+        itemDescription.empty() || descriptionLines.empty() ? 0.0f : bodyLineHeight * static_cast<float>(descriptionLines.size());
+    const float detailRowHeight = pDetailRowLayout->height * popupScale;
+    const HudFontHandle *pDetailFont = findHudFont(pDetailValueLayout->fontName);
+    float detailFontScale = popupScale * std::max(0.1f, pDetailValueLayout->textScale);
+
+    if (detailFontScale >= 1.0f)
+    {
+        detailFontScale = snappedHudFontScale(detailFontScale);
+    }
+    else
+    {
+        detailFontScale = std::max(0.5f, detailFontScale);
+    }
+
+    const float detailLineHeight =
+        pDetailFont != nullptr ? static_cast<float>(pDetailFont->fontHeight) * detailFontScale : detailRowHeight;
+    const float detailTextWidthScaled =
+        std::max(0.0f, pDetailValueLayout->width * popupScale - std::abs(pDetailValueLayout->textPadX * popupScale) * 2.0f);
+    const float detailTextWidth =
+        std::max(0.0f, detailTextWidthScaled / std::max(0.1f, detailFontScale));
+    const std::vector<std::string> specialDetailLines =
+        showSpecialDetail && pDetailFont != nullptr
+        ? wrapHudTextToWidth(*pDetailFont, itemSpecialDetail, detailTextWidth)
+        : std::vector<std::string>{itemSpecialDetail};
+    const float specialDetailHeight = showSpecialDetail
+        ? std::max(detailRowHeight, detailLineHeight * static_cast<float>(std::max<size_t>(1, specialDetailLines.size())))
+        : 0.0f;
+    const int detailRowCount = (showDetail ? 1 : 0) + (showSpecialDetail ? 1 : 0);
     static constexpr float ItemInspectTypeToDetailGap = 3.0f;
     static constexpr float ItemInspectDetailToDescriptionGap = 8.0f;
     static constexpr float ItemInspectDescriptionToValueGap = 8.0f;
     static constexpr float ItemInspectBottomPadding = 8.0f;
+    const float detailSectionHeight = detailRowCount > 0
+        ? ItemInspectTypeToDetailGap * popupScale
+            + (showDetail ? detailRowHeight : 0.0f)
+            + (showSpecialDetail ? specialDetailHeight : 0.0f)
+            + ItemInspectTypeToDetailGap * popupScale * static_cast<float>(detailRowCount - 1)
+        : 0.0f;
+    const float descriptionSectionHeight =
+        descriptionHeight > 0.0f ? ItemInspectDetailToDescriptionGap * popupScale + descriptionHeight : 0.0f;
     const float previewContentHeight = previewImageHeight + 20.0f * popupScale;
     const float textContentHeight =
         typeRectForSizing.y
         + typeRectForSizing.height
-        + (showDetail ? (ItemInspectTypeToDetailGap + pDetailRowLayout->height) * popupScale : 0.0f)
-        + ItemInspectDetailToDescriptionGap * popupScale
-        + descriptionHeight
+        + detailSectionHeight
+        + descriptionSectionHeight
         + ItemInspectDescriptionToValueGap * popupScale
         + pValueLayout->height * popupScale
         + ItemInspectBottomPadding * popupScale;
@@ -14070,13 +14158,82 @@ void OutdoorGameView::renderItemInspectOverlay(int width, int height) const
         renderLayoutLabel(*pDetailValueLayout, detailValueRect, itemDetail);
     }
 
+    if (showSpecialDetail && typeRect && detailRowBaseRect)
+    {
+        ResolvedHudLayoutElement specialRowRect = *detailRowBaseRect;
+        specialRowRect.y = std::round(
+            typeRect->y
+            + typeRect->height
+            + ItemInspectTypeToDetailGap * popupScale
+            + (showDetail ? detailRowHeight + ItemInspectTypeToDetailGap * popupScale : 0.0f));
+        specialRowRect.height = std::round(specialDetailHeight);
+        const ResolvedHudLayoutElement specialValueRect = resolveAttachedHudLayoutRect(
+            pDetailValueLayout->attachTo,
+            specialRowRect,
+            pDetailValueLayout->width * popupScale,
+            specialRowRect.height,
+            pDetailValueLayout->gapX,
+            pDetailValueLayout->gapY,
+            popupScale);
+
+        if (pDetailFont != nullptr && !specialDetailLines.empty())
+        {
+            bgfx::TextureHandle coloredMainTextureHandle =
+                ensureHudFontMainTextureColor(*pDetailFont, pDetailValueLayout->textColorAbgr);
+
+            if (!bgfx::isValid(coloredMainTextureHandle))
+            {
+                coloredMainTextureHandle = pDetailFont->mainTextureHandle;
+            }
+
+            const float totalSpecialTextHeight =
+                detailLineHeight * static_cast<float>(std::max<size_t>(1, specialDetailLines.size()));
+            float textX = std::round(specialValueRect.x + pDetailValueLayout->textPadX * popupScale);
+            float textY = specialValueRect.y + pDetailValueLayout->textPadY * popupScale;
+
+            switch (pDetailValueLayout->textAlignY)
+            {
+                case HudTextAlignY::Top:
+                    break;
+
+                case HudTextAlignY::Middle:
+                    textY =
+                        specialValueRect.y
+                        + (specialValueRect.height - totalSpecialTextHeight) * 0.5f
+                        + pDetailValueLayout->textPadY * popupScale;
+                    break;
+
+                case HudTextAlignY::Bottom:
+                    textY =
+                        specialValueRect.y
+                        + specialValueRect.height
+                        - totalSpecialTextHeight
+                        + pDetailValueLayout->textPadY * popupScale;
+                    break;
+            }
+
+            textY = std::round(textY);
+
+            for (const std::string &wrappedLine : specialDetailLines)
+            {
+                renderHudFontLayer(*pDetailFont, pDetailFont->shadowTextureHandle, wrappedLine, textX, textY, detailFontScale);
+                renderHudFontLayer(*pDetailFont, coloredMainTextureHandle, wrappedLine, textX, textY, detailFontScale);
+                textY += detailLineHeight;
+            }
+        }
+        else
+        {
+            renderLayoutLabel(*pDetailValueLayout, specialValueRect, itemSpecialDetail);
+        }
+    }
+
     const float dynamicDescriptionY =
         typeRect
         ? std::round(
             typeRect->y
             + typeRect->height
-            + (showDetail ? (ItemInspectTypeToDetailGap + pDetailRowLayout->height) * popupScale : 0.0f)
-            + ItemInspectDetailToDescriptionGap * popupScale)
+            + detailSectionHeight
+            + (descriptionHeight > 0.0f ? ItemInspectDetailToDescriptionGap * popupScale : 0.0f))
         : 0.0f;
     const std::optional<ResolvedHudLayoutElement> resolvedDescription =
         descriptionBaseRect
@@ -15717,9 +15874,11 @@ void OutdoorGameView::renderDialogueOverlay(int width, int height, bool renderAb
             }
 
             Party &party = m_pOutdoorPartyRuntime->party();
-            const std::vector<uint32_t> &stock = HouseServiceRuntime::ensureStock(
+            const std::vector<InventoryItem> &stock = HouseServiceRuntime::ensureStock(
                 party,
                 *m_pItemTable,
+                *m_pStandardItemEnchantTable,
+                *m_pSpecialItemEnchantTable,
                 *pHouseEntry,
                 m_pOutdoorWorldRuntime->gameMinutes(),
                 *stockMode);
@@ -15731,14 +15890,14 @@ void OutdoorGameView::renderDialogueOverlay(int width, int height, bool renderAb
                  slotIndex < slotCount && slotIndex < stock.size() && slotIndex < overlayLayout.slots.size();
                  ++slotIndex)
             {
-                const uint32_t itemId = stock[slotIndex];
+                const InventoryItem &item = stock[slotIndex];
 
-                if (itemId == 0)
+                if (item.objectDescriptionId == 0)
                 {
                     continue;
                 }
 
-                const ItemDefinition *pItemDefinition = m_pItemTable->get(itemId);
+                const ItemDefinition *pItemDefinition = m_pItemTable->get(item.objectDescriptionId);
 
                 if (pItemDefinition == nullptr || pItemDefinition->iconName.empty())
                 {
@@ -15785,7 +15944,13 @@ void OutdoorGameView::renderDialogueOverlay(int width, int height, bool renderAb
                     && dialogMouseY < drawRect.y + drawRect.height)
                 {
                     hoveredHouseServiceTopicText =
-                        HouseServiceRuntime::buildBuyHoverText(party, *m_pItemTable, *pHouseEntry, itemId);
+                        HouseServiceRuntime::buildBuyHoverText(
+                            party,
+                            *m_pItemTable,
+                            *m_pStandardItemEnchantTable,
+                            *m_pSpecialItemEnchantTable,
+                            *pHouseEntry,
+                            item);
                     return;
                 }
             }
@@ -16079,6 +16244,8 @@ void OutdoorGameView::renderDialogueOverlay(int width, int height, bool renderAb
                             hoveredHouseServiceTopicText = HouseServiceRuntime::buildSellHoverText(
                                 m_pOutdoorPartyRuntime->party(),
                                 *m_pItemTable,
+                                *m_pStandardItemEnchantTable,
+                                *m_pSpecialItemEnchantTable,
                                 *pHostHouseEntry,
                                 *pItem);
                         }
@@ -16087,6 +16254,8 @@ void OutdoorGameView::renderDialogueOverlay(int width, int height, bool renderAb
                             hoveredHouseServiceTopicText = HouseServiceRuntime::buildIdentifyHoverText(
                                 m_pOutdoorPartyRuntime->party(),
                                 *m_pItemTable,
+                                *m_pStandardItemEnchantTable,
+                                *m_pSpecialItemEnchantTable,
                                 *pHostHouseEntry,
                                 *pItem);
                         }
@@ -16095,6 +16264,8 @@ void OutdoorGameView::renderDialogueOverlay(int width, int height, bool renderAb
                             const std::string hoverText = HouseServiceRuntime::buildRepairHoverText(
                                 m_pOutdoorPartyRuntime->party(),
                                 *m_pItemTable,
+                                *m_pStandardItemEnchantTable,
+                                *m_pSpecialItemEnchantTable,
                                 *pHostHouseEntry,
                                 *pItem);
 
@@ -16193,9 +16364,11 @@ void OutdoorGameView::renderDialogueOverlay(int width, int height, bool renderAb
             }
 
             Party &party = m_pOutdoorPartyRuntime->party();
-            const std::vector<uint32_t> &stock = HouseServiceRuntime::ensureStock(
+            const std::vector<InventoryItem> &stock = HouseServiceRuntime::ensureStock(
                 party,
                 *m_pItemTable,
+                *m_pStandardItemEnchantTable,
+                *m_pSpecialItemEnchantTable,
                 *pHouseEntry,
                 m_pOutdoorWorldRuntime->gameMinutes(),
                 *stockMode);
@@ -16208,14 +16381,14 @@ void OutdoorGameView::renderDialogueOverlay(int width, int height, bool renderAb
                  slotIndex < slotCount && slotIndex < stock.size() && slotIndex < overlayLayout.slots.size();
                  ++slotIndex)
             {
-                const uint32_t itemId = stock[slotIndex];
+                const InventoryItem &item = stock[slotIndex];
 
-                if (itemId == 0)
+                if (item.objectDescriptionId == 0)
                 {
                     continue;
                 }
 
-                const ItemDefinition *pItemDefinition = m_pItemTable->get(itemId);
+                const ItemDefinition *pItemDefinition = m_pItemTable->get(item.objectDescriptionId);
 
                 if (pItemDefinition == nullptr || pItemDefinition->iconName.empty())
                 {
@@ -16258,9 +16431,9 @@ void OutdoorGameView::renderDialogueOverlay(int width, int height, bool renderAb
                 submitHudTexturedQuad(*pItemTexture, drawRect.x, drawRect.y, drawRect.width, drawRect.height);
 
                 RenderedInspectableHudItem inspectableItem = {};
-                inspectableItem.objectDescriptionId = itemId;
+                inspectableItem.objectDescriptionId = item.objectDescriptionId;
                 inspectableItem.hasItemState = true;
-                inspectableItem.itemState = ItemGenerator::makeInventoryItem(itemId, *m_pItemTable, ItemGenerationMode::Shop);
+                inspectableItem.itemState = item;
                 inspectableItem.textureName = pItemDefinition->iconName;
                 inspectableItem.x = drawRect.x;
                 inspectableItem.y = drawRect.y;
@@ -23867,9 +24040,54 @@ void OutdoorGameView::applyPendingCombatEvents()
             continue;
         }
 
-        const bool damagedParty = event.affectsAllParty
-            ? party.applyDamageToAllLivingMembers(event.damage, status)
-            : (targetMemberIndex ? party.applyDamageToMember(*targetMemberIndex, event.damage, status) : false);
+        const bool isPhysicalProjectile =
+            event.type == OutdoorWorldRuntime::CombatEvent::Type::PartyProjectileImpact && event.spellId == 0;
+        const auto adjustedDamageForMember =
+            [event, isPhysicalProjectile](const Character &member) -> int
+            {
+                if (isPhysicalProjectile && member.halfMissileDamage)
+                {
+                    return std::max(1, (event.damage + 1) / 2);
+                }
+
+                return event.damage;
+            };
+        bool damagedParty = false;
+
+        if (event.affectsAllParty)
+        {
+            bool wroteStatus = false;
+
+            for (size_t memberIndex = 0; memberIndex < party.members().size(); ++memberIndex)
+            {
+                Character *pMember = party.member(memberIndex);
+
+                if (pMember == nullptr || pMember->health <= 0)
+                {
+                    continue;
+                }
+
+                if (pMember->physicalDamageImmune
+                    && (event.type == OutdoorWorldRuntime::CombatEvent::Type::MonsterMeleeImpact || event.spellId == 0))
+                {
+                    continue;
+                }
+
+                damagedParty =
+                    party.applyDamageToMember(
+                        memberIndex,
+                        adjustedDamageForMember(*pMember),
+                        wroteStatus ? "" : status)
+                    || damagedParty;
+                wroteStatus = wroteStatus || damagedParty;
+            }
+        }
+        else
+        {
+            const int adjustedDamage =
+                pTargetMember != nullptr ? adjustedDamageForMember(*pTargetMember) : event.damage;
+            damagedParty = targetMemberIndex ? party.applyDamageToMember(*targetMemberIndex, adjustedDamage, status) : false;
+        }
 
         if (damagedParty)
         {
@@ -24436,9 +24654,11 @@ void OutdoorGameView::updateCameraFromInput(float deltaSeconds)
             if (resolvedFrame && stockMode)
             {
                 Party &party = m_pOutdoorPartyRuntime->party();
-                const std::vector<uint32_t> &stock = HouseServiceRuntime::ensureStock(
+                const std::vector<InventoryItem> &stock = HouseServiceRuntime::ensureStock(
                     party,
                     *m_pItemTable,
+                    *m_pStandardItemEnchantTable,
+                    *m_pSpecialItemEnchantTable,
                     *pDialogueHouseEntry,
                     m_pOutdoorWorldRuntime->gameMinutes(),
                     *stockMode);
@@ -24456,14 +24676,14 @@ void OutdoorGameView::updateCameraFromInput(float deltaSeconds)
                              slotIndex < slotCount && slotIndex < stock.size() && slotIndex < overlayLayout.slots.size();
                              ++slotIndex)
                         {
-                            const uint32_t itemId = stock[slotIndex];
+                            const InventoryItem &item = stock[slotIndex];
 
-                            if (itemId == 0 || m_pItemTable == nullptr)
+                            if (item.objectDescriptionId == 0 || m_pItemTable == nullptr)
                             {
                                 continue;
                             }
 
-                            const ItemDefinition *pItemDefinition = m_pItemTable->get(itemId);
+                            const ItemDefinition *pItemDefinition = m_pItemTable->get(item.objectDescriptionId);
 
                             if (pItemDefinition == nullptr || pItemDefinition->iconName.empty())
                             {
@@ -24542,6 +24762,8 @@ void OutdoorGameView::updateCameraFromInput(float deltaSeconds)
                         HouseServiceRuntime::tryBuyStockItem(
                             m_pOutdoorPartyRuntime->party(),
                             *m_pItemTable,
+                            *m_pStandardItemEnchantTable,
+                            *m_pSpecialItemEnchantTable,
                             *pDialogueHouseEntry,
                             m_pOutdoorWorldRuntime->gameMinutes(),
                             *stockMode,
@@ -24597,6 +24819,8 @@ void OutdoorGameView::updateCameraFromInput(float deltaSeconds)
                     HouseServiceRuntime::trySellInventoryItem(
                         m_pOutdoorPartyRuntime->party(),
                         *m_pItemTable,
+                        *m_pStandardItemEnchantTable,
+                        *m_pSpecialItemEnchantTable,
                         *pDialogueHouseEntry,
                         m_pOutdoorPartyRuntime->party().activeMemberIndex(),
                         gridX,
@@ -24609,6 +24833,8 @@ void OutdoorGameView::updateCameraFromInput(float deltaSeconds)
                     HouseServiceRuntime::tryIdentifyInventoryItem(
                         m_pOutdoorPartyRuntime->party(),
                         *m_pItemTable,
+                        *m_pStandardItemEnchantTable,
+                        *m_pSpecialItemEnchantTable,
                         *pDialogueHouseEntry,
                         m_pOutdoorPartyRuntime->party().activeMemberIndex(),
                         gridX,
@@ -24621,6 +24847,8 @@ void OutdoorGameView::updateCameraFromInput(float deltaSeconds)
                     HouseServiceRuntime::tryRepairInventoryItem(
                         m_pOutdoorPartyRuntime->party(),
                         *m_pItemTable,
+                        *m_pStandardItemEnchantTable,
+                        *m_pSpecialItemEnchantTable,
                         *pDialogueHouseEntry,
                         m_pOutdoorPartyRuntime->party().activeMemberIndex(),
                         gridX,
@@ -25382,186 +25610,192 @@ void OutdoorGameView::updateCameraFromInput(float deltaSeconds)
                     }
                 }
 
+                if (!m_heldInventoryItem.active)
+                {
+                    for (auto it = m_renderedInspectableHudItems.rbegin(); it != m_renderedInspectableHudItems.rend(); ++it)
+                    {
+                        if (it->sourceType != ItemInspectSourceType::Equipment
+                            || !isVisibleInCharacterDollOverlay(it->equipmentSlot, m_characterDollJewelryOverlayOpen))
+                        {
+                            continue;
+                        }
+
+                        if (!isOpaqueHudPixelAtPoint(*it, pointerX, pointerY))
+                        {
+                            continue;
+                        }
+
+                        CharacterPointerTarget pointerTarget = {};
+                        pointerTarget.type = CharacterPointerTargetType::EquipmentSlot;
+                        pointerTarget.page = m_characterPage;
+                        pointerTarget.equipmentSlot = it->equipmentSlot;
+                        return pointerTarget;
+                    }
+                }
+
+                struct CharacterEquipmentSlotTarget
+                {
+                    const char *layoutId;
+                    EquipmentSlot slot;
+                    bool jewelryOverlayOnly;
+                };
+
+                static constexpr CharacterEquipmentSlotTarget EquipmentSlotTargets[] = {
+                    {"CharacterDollBowSlot", EquipmentSlot::Bow, false},
+                    {"CharacterDollRightHandSlot", EquipmentSlot::MainHand, false},
+                    {"CharacterDollLeftHandSlot", EquipmentSlot::OffHand, false},
+                    {"CharacterDollArmorSlot", EquipmentSlot::Armor, false},
+                    {"CharacterDollHelmetSlot", EquipmentSlot::Helm, false},
+                    {"CharacterDollBeltSlot", EquipmentSlot::Belt, false},
+                    {"CharacterDollCloakSlot", EquipmentSlot::Cloak, false},
+                    {"CharacterDollBootsSlot", EquipmentSlot::Boots, false},
+                    {"CharacterDollAmuletSlot", EquipmentSlot::Amulet, true},
+                    {"CharacterDollGauntletsSlot", EquipmentSlot::Gauntlets, true},
+                    {"CharacterDollRing1Slot", EquipmentSlot::Ring1, true},
+                    {"CharacterDollRing2Slot", EquipmentSlot::Ring2, true},
+                    {"CharacterDollRing3Slot", EquipmentSlot::Ring3, true},
+                    {"CharacterDollRing4Slot", EquipmentSlot::Ring4, true},
+                    {"CharacterDollRing5Slot", EquipmentSlot::Ring5, true},
+                    {"CharacterDollRing6Slot", EquipmentSlot::Ring6, true},
+                };
+
+                for (const CharacterEquipmentSlotTarget &target : EquipmentSlotTargets)
+                {
+                    if (!isVisibleInCharacterDollOverlay(target.slot, m_characterDollJewelryOverlayOpen))
+                    {
+                        continue;
+                    }
+
+                    if (m_heldInventoryItem.active && !target.jewelryOverlayOnly)
+                    {
+                        continue;
+                    }
+
+                    const HudLayoutElement *pLayout = findHudLayoutElement(target.layoutId);
+
+                    if (pLayout == nullptr)
+                    {
+                        continue;
+                    }
+
+                    const uint32_t equippedId =
+                        pActiveCharacter != nullptr ? equippedItemId(pActiveCharacter->equipment, target.slot) : 0;
+                    const ItemDefinition *pItemDefinition =
+                        equippedId != 0 && m_pItemTable != nullptr ? m_pItemTable->get(equippedId) : nullptr;
+                    std::optional<ResolvedHudLayoutElement> dynamicRect;
+
+                    std::string dynamicTextureName;
+
+                    if (pItemDefinition != nullptr && !pItemDefinition->iconName.empty())
+                    {
+                        const bool hasRightHandWeapon =
+                            pActiveCharacter != nullptr && pActiveCharacter->equipment.mainHand != 0;
+                        const uint32_t dollTypeId =
+                            pActiveCharacterDollType != nullptr ? pActiveCharacterDollType->id : 0;
+                        dynamicTextureName = resolveEquippedItemHudTextureName(
+                            *pItemDefinition,
+                            dollTypeId,
+                            hasRightHandWeapon,
+                            target.slot);
+                        const HudTextureHandle *pTexture = ensureHudTextureLoaded(dynamicTextureName);
+
+                        if (pTexture != nullptr)
+                        {
+                            dynamicRect = resolveCharacterEquipmentRenderRect(
+                                *pLayout,
+                                *pItemDefinition,
+                                *pTexture,
+                                pActiveCharacterDollType,
+                                target.slot,
+                                screenWidth,
+                                screenHeight);
+                        }
+                    }
+
+                    bool pointerInsideDynamicRect = false;
+
+                    if (dynamicRect)
+                    {
+                        if (m_heldInventoryItem.active)
+                        {
+                            pointerInsideDynamicRect =
+                                pointerX >= dynamicRect->x
+                                && pointerX < dynamicRect->x + dynamicRect->width
+                                && pointerY >= dynamicRect->y
+                                && pointerY < dynamicRect->y + dynamicRect->height;
+                        }
+                        else if (!dynamicTextureName.empty() && pItemDefinition != nullptr)
+                        {
+                            RenderedInspectableHudItem renderedItem = {};
+                            renderedItem.objectDescriptionId = pItemDefinition->itemId;
+                            renderedItem.textureName = dynamicTextureName;
+                            renderedItem.x = dynamicRect->x;
+                            renderedItem.y = dynamicRect->y;
+                            renderedItem.width = dynamicRect->width;
+                            renderedItem.height = dynamicRect->height;
+                            pointerInsideDynamicRect = isOpaqueHudPixelAtPoint(renderedItem, pointerX, pointerY);
+                        }
+                    }
+
+                    const std::optional<ResolvedHudLayoutElement> resolved =
+                        m_heldInventoryItem.active && !dynamicRect
+                        ? resolveHudLayoutElement(
+                            target.layoutId,
+                            screenWidth,
+                            screenHeight,
+                            pLayout->width,
+                            pLayout->height)
+                        : std::nullopt;
+                    const bool pointerInsideLayoutRect =
+                        resolved
+                        && pointerX >= resolved->x
+                        && pointerX < resolved->x + resolved->width
+                        && pointerY >= resolved->y
+                        && pointerY < resolved->y + resolved->height;
+
+                    if (!pointerInsideDynamicRect && !pointerInsideLayoutRect)
+                    {
+                        continue;
+                    }
+
+                    if (m_heldInventoryItem.active
+                        || (pActiveCharacter != nullptr
+                            && equippedItemId(pActiveCharacter->equipment, target.slot) != 0))
+                    {
+                        CharacterPointerTarget pointerTarget = {};
+                        pointerTarget.type = CharacterPointerTargetType::EquipmentSlot;
+                        pointerTarget.page = m_characterPage;
+                        pointerTarget.equipmentSlot = target.slot;
+                        return pointerTarget;
+                    }
+                }
+
+                if (m_heldInventoryItem.active)
+                {
+                    const HudLayoutElement *pDollLayout = findHudLayoutElement("CharacterDollPanel");
+
+                    if (pDollLayout != nullptr)
+                    {
+                        const std::optional<ResolvedHudLayoutElement> resolvedDoll = resolveHudLayoutElement(
+                            "CharacterDollPanel",
+                            screenWidth,
+                            screenHeight,
+                            pDollLayout->width,
+                            pDollLayout->height);
+
+                        if (resolvedDoll
+                            && pointerX >= resolvedDoll->x
+                            && pointerX < resolvedDoll->x + resolvedDoll->width
+                            && pointerY >= resolvedDoll->y
+                            && pointerY < resolvedDoll->y + resolvedDoll->height)
+                        {
+                            return {CharacterPointerTargetType::DollPanel, m_characterPage};
+                        }
+                    }
+                }
+
                 if (m_characterPage == CharacterPage::Inventory)
                 {
-                    if (!m_heldInventoryItem.active)
-                    {
-                        for (auto it = m_renderedInspectableHudItems.rbegin(); it != m_renderedInspectableHudItems.rend(); ++it)
-                        {
-                            if (!isOpaqueHudPixelAtPoint(*it, pointerX, pointerY))
-                            {
-                                continue;
-                            }
-
-                            CharacterPointerTarget pointerTarget = {};
-                            pointerTarget.type = CharacterPointerTargetType::EquipmentSlot;
-                            pointerTarget.page = CharacterPage::Inventory;
-                            pointerTarget.equipmentSlot = it->equipmentSlot;
-                            return pointerTarget;
-                        }
-                    }
-
-                    struct CharacterEquipmentSlotTarget
-                    {
-                        const char *layoutId;
-                        EquipmentSlot slot;
-                        bool jewelryOverlayOnly;
-                    };
-
-                    static constexpr CharacterEquipmentSlotTarget EquipmentSlotTargets[] = {
-                        {"CharacterDollBowSlot", EquipmentSlot::Bow, false},
-                        {"CharacterDollRightHandSlot", EquipmentSlot::MainHand, false},
-                        {"CharacterDollLeftHandSlot", EquipmentSlot::OffHand, false},
-                        {"CharacterDollArmorSlot", EquipmentSlot::Armor, false},
-                        {"CharacterDollHelmetSlot", EquipmentSlot::Helm, false},
-                        {"CharacterDollBeltSlot", EquipmentSlot::Belt, false},
-                        {"CharacterDollCloakSlot", EquipmentSlot::Cloak, false},
-                        {"CharacterDollBootsSlot", EquipmentSlot::Boots, false},
-                        {"CharacterDollAmuletSlot", EquipmentSlot::Amulet, true},
-                        {"CharacterDollGauntletsSlot", EquipmentSlot::Gauntlets, true},
-                        {"CharacterDollRing1Slot", EquipmentSlot::Ring1, true},
-                        {"CharacterDollRing2Slot", EquipmentSlot::Ring2, true},
-                        {"CharacterDollRing3Slot", EquipmentSlot::Ring3, true},
-                        {"CharacterDollRing4Slot", EquipmentSlot::Ring4, true},
-                        {"CharacterDollRing5Slot", EquipmentSlot::Ring5, true},
-                        {"CharacterDollRing6Slot", EquipmentSlot::Ring6, true},
-                    };
-
-                    for (const CharacterEquipmentSlotTarget &target : EquipmentSlotTargets)
-                    {
-                        if (m_heldInventoryItem.active && !target.jewelryOverlayOnly)
-                        {
-                            continue;
-                        }
-
-                        if (target.jewelryOverlayOnly && !m_characterDollJewelryOverlayOpen)
-                        {
-                            continue;
-                        }
-
-                        const HudLayoutElement *pLayout = findHudLayoutElement(target.layoutId);
-
-                        if (pLayout == nullptr)
-                        {
-                            continue;
-                        }
-
-                        const uint32_t equippedId =
-                            pActiveCharacter != nullptr ? equippedItemId(pActiveCharacter->equipment, target.slot) : 0;
-                        const ItemDefinition *pItemDefinition =
-                            equippedId != 0 && m_pItemTable != nullptr ? m_pItemTable->get(equippedId) : nullptr;
-                        std::optional<ResolvedHudLayoutElement> dynamicRect;
-
-                        std::string dynamicTextureName;
-
-                        if (pItemDefinition != nullptr && !pItemDefinition->iconName.empty())
-                        {
-                            const bool hasRightHandWeapon =
-                                pActiveCharacter != nullptr && pActiveCharacter->equipment.mainHand != 0;
-                            const uint32_t dollTypeId =
-                                pActiveCharacterDollType != nullptr ? pActiveCharacterDollType->id : 0;
-                            dynamicTextureName = resolveEquippedItemHudTextureName(
-                                *pItemDefinition,
-                                dollTypeId,
-                                hasRightHandWeapon,
-                                target.slot);
-                            const HudTextureHandle *pTexture = ensureHudTextureLoaded(dynamicTextureName);
-
-                            if (pTexture != nullptr)
-                            {
-                                dynamicRect = resolveCharacterEquipmentRenderRect(
-                                    *pLayout,
-                                    *pItemDefinition,
-                                    *pTexture,
-                                    pActiveCharacterDollType,
-                                    target.slot,
-                                    screenWidth,
-                                    screenHeight);
-                            }
-                        }
-
-                        bool pointerInsideDynamicRect = false;
-
-                        if (dynamicRect)
-                        {
-                            if (m_heldInventoryItem.active)
-                            {
-                                pointerInsideDynamicRect =
-                                    pointerX >= dynamicRect->x
-                                    && pointerX < dynamicRect->x + dynamicRect->width
-                                    && pointerY >= dynamicRect->y
-                                    && pointerY < dynamicRect->y + dynamicRect->height;
-                            }
-                            else if (!dynamicTextureName.empty() && pItemDefinition != nullptr)
-                            {
-                                RenderedInspectableHudItem renderedItem = {};
-                                renderedItem.objectDescriptionId = pItemDefinition->itemId;
-                                renderedItem.textureName = dynamicTextureName;
-                                renderedItem.x = dynamicRect->x;
-                                renderedItem.y = dynamicRect->y;
-                                renderedItem.width = dynamicRect->width;
-                                renderedItem.height = dynamicRect->height;
-                                pointerInsideDynamicRect = isOpaqueHudPixelAtPoint(renderedItem, pointerX, pointerY);
-                            }
-                        }
-
-                        const std::optional<ResolvedHudLayoutElement> resolved =
-                            m_heldInventoryItem.active && !dynamicRect
-                            ? resolveHudLayoutElement(
-                                target.layoutId,
-                                screenWidth,
-                                screenHeight,
-                                pLayout->width,
-                                pLayout->height)
-                            : std::nullopt;
-                        const bool pointerInsideLayoutRect =
-                            resolved
-                            && pointerX >= resolved->x
-                            && pointerX < resolved->x + resolved->width
-                            && pointerY >= resolved->y
-                            && pointerY < resolved->y + resolved->height;
-
-                        if (!pointerInsideDynamicRect && !pointerInsideLayoutRect)
-                        {
-                            continue;
-                        }
-
-                        if (m_heldInventoryItem.active
-                            || (pActiveCharacter != nullptr
-                                && equippedItemId(pActiveCharacter->equipment, target.slot) != 0))
-                        {
-                            CharacterPointerTarget pointerTarget = {};
-                            pointerTarget.type = CharacterPointerTargetType::EquipmentSlot;
-                            pointerTarget.page = CharacterPage::Inventory;
-                            pointerTarget.equipmentSlot = target.slot;
-                            return pointerTarget;
-                        }
-                    }
-
-                    if (m_heldInventoryItem.active)
-                    {
-                        const HudLayoutElement *pDollLayout = findHudLayoutElement("CharacterDollPanel");
-
-                        if (pDollLayout != nullptr)
-                        {
-                            const std::optional<ResolvedHudLayoutElement> resolvedDoll = resolveHudLayoutElement(
-                                "CharacterDollPanel",
-                                screenWidth,
-                                screenHeight,
-                                pDollLayout->width,
-                                pDollLayout->height);
-
-                            if (resolvedDoll
-                                && pointerX >= resolvedDoll->x
-                                && pointerX < resolvedDoll->x + resolvedDoll->width
-                                && pointerY >= resolvedDoll->y
-                                && pointerY < resolvedDoll->y + resolvedDoll->height)
-                            {
-                                return {CharacterPointerTargetType::DollPanel, CharacterPage::Inventory};
-                            }
-                        }
-                    }
-
                     const std::optional<ResolvedHudLayoutElement> resolvedInventoryGrid = resolveCharacterInventoryGrid();
 
                     if (resolvedInventoryGrid
@@ -26425,6 +26659,7 @@ void OutdoorGameView::updateCameraFromInput(float deltaSeconds)
                 if (m_heldInventoryItem.active)
                 {
                     OutdoorWorldRuntime::ChestItemState chestItem = {};
+                    chestItem.item = m_heldInventoryItem.item;
                     chestItem.itemId = m_heldInventoryItem.item.objectDescriptionId;
                     chestItem.quantity = m_heldInventoryItem.item.quantity;
                     chestItem.width = m_heldInventoryItem.item.width;
@@ -26480,7 +26715,9 @@ void OutdoorGameView::updateCameraFromInput(float deltaSeconds)
                         else
                         {
                             m_heldInventoryItem.active = true;
-                            m_heldInventoryItem.item.objectDescriptionId = takenItem.itemId;
+                            m_heldInventoryItem.item = takenItem.item;
+                            m_heldInventoryItem.item.objectDescriptionId =
+                                takenItem.item.objectDescriptionId != 0 ? takenItem.item.objectDescriptionId : takenItem.itemId;
                             m_heldInventoryItem.item.quantity = takenItem.quantity;
                             m_heldInventoryItem.item.width = takenItem.width;
                             m_heldInventoryItem.item.height = takenItem.height;
@@ -26501,12 +26738,7 @@ void OutdoorGameView::updateCameraFromInput(float deltaSeconds)
                                 if (pItemTexture != nullptr)
                                 {
                                     InventoryItem heldItem = {};
-                                    heldItem.objectDescriptionId = takenItem.itemId;
-                                    heldItem.quantity = takenItem.quantity;
-                                    heldItem.width = takenItem.width;
-                                    heldItem.height = takenItem.height;
-                                    heldItem.gridX = takenItem.gridX;
-                                    heldItem.gridY = takenItem.gridY;
+                                    heldItem = m_heldInventoryItem.item;
                                     const float itemWidth = static_cast<float>(pItemTexture->width) * chestGridMetrics.scale;
                                     const float itemHeight = static_cast<float>(pItemTexture->height) * chestGridMetrics.scale;
                                     const InventoryItemScreenRect itemRect =
@@ -26601,7 +26833,7 @@ void OutdoorGameView::updateCameraFromInput(float deltaSeconds)
 
                     if (!item.isGold)
                     {
-                        canLoot = m_pOutdoorPartyRuntime->party().tryGrantItem(item.itemId, item.quantity);
+                        canLoot = m_pOutdoorPartyRuntime->party().tryGrantInventoryItem(item.item);
                     }
 
                     if (canLoot)

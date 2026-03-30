@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <cctype>
+#include <cmath>
 #include <cstdlib>
 #include <limits>
 #include <sstream>
@@ -40,6 +41,34 @@ int parseTrainingMaxLevel(const std::string &value)
     }
 
     return std::atoi(value.c_str());
+}
+
+int parseStandardStockTier(float priceMultiplier)
+{
+    if (priceMultiplier <= 0.0f)
+    {
+        return 0;
+    }
+
+    return std::clamp(static_cast<int>(std::floor(priceMultiplier)), 1, 6);
+}
+
+int parseSpecialStockTier(float priceMultiplier, float skillPriceMultiplier)
+{
+    const int standardTier = parseStandardStockTier(priceMultiplier);
+
+    if (standardTier == 0)
+    {
+        return 0;
+    }
+
+    if (skillPriceMultiplier <= 0.0f)
+    {
+        return standardTier;
+    }
+
+    const int bonusTier = std::max(1, static_cast<int>(std::ceil(skillPriceMultiplier * 0.5f)));
+    return std::clamp(standardTier + bonusTier, standardTier, 6);
 }
 }
 
@@ -82,6 +111,8 @@ bool HouseTable::loadFromRows(const std::vector<std::vector<std::string>> &rows)
             (row.size() > 12 && !row[12].empty()) ? std::strtof(row[12].c_str(), nullptr) : 0.0f;
         entry.skillPriceMultiplier =
             (row.size() > 13 && !row[13].empty()) ? std::strtof(row[13].c_str(), nullptr) : 0.0f;
+        entry.standardStockTier = parseStandardStockTier(entry.priceMultiplier);
+        entry.specialStockTier = parseSpecialStockTier(entry.priceMultiplier, entry.skillPriceMultiplier);
         entry.stockRefreshDays = (row.size() > 15 && !row[15].empty()) ? std::atoi(row[15].c_str()) : 0;
         entry.trainingMaxLevel = row.size() > 17 ? parseTrainingMaxLevel(row[17]) : 0;
         entry.openHour = (row.size() > 18 && !row[18].empty()) ? std::atoi(row[18].c_str()) : 0;

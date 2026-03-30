@@ -105,6 +105,18 @@ elements:
           default: evt
         notes: Video playback area
 
+      - id: DialogueShopOverlayFrame
+        anchor: top_left
+        offset_x: 8
+        offset_y: 28
+        width: 460
+        height: 344
+        bottom_to: OutdoorBasebar
+        z_index: 20
+        asset:
+          default: evt
+        notes: Minimal reusable shop buy overlay drawn over the house video area.
+
       - id: DialogueEventDialog
         anchor: top_right
         width: 172

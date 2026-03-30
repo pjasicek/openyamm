@@ -14,6 +14,8 @@ struct InventoryItem;
 struct ItemDefinition;
 class ItemTable;
 class Party;
+class StandardItemEnchantTable;
+class SpecialItemEnchantTable;
 
 enum class HouseStockMode : uint8_t
 {
@@ -43,42 +45,62 @@ public:
     static bool supportsIdentify(const HouseEntry &houseEntry);
     static bool supportsRepair(const HouseEntry &houseEntry);
     static size_t slotCountForStockMode(const HouseEntry &houseEntry, HouseStockMode mode);
-    static const std::vector<uint32_t> &ensureStock(
+    static const std::vector<InventoryItem> &ensureStock(
         Party &party,
         const ItemTable &itemTable,
+        const StandardItemEnchantTable &standardItemEnchantTable,
+        const SpecialItemEnchantTable &specialItemEnchantTable,
         const HouseEntry &houseEntry,
         float gameMinutes,
         HouseStockMode mode);
-    static int buyPrice(const Party &party, const ItemTable &itemTable, const HouseEntry &houseEntry, uint32_t itemId);
+    static int buyPrice(
+        const Party &party,
+        const ItemTable &itemTable,
+        const StandardItemEnchantTable &standardItemEnchantTable,
+        const SpecialItemEnchantTable &specialItemEnchantTable,
+        const HouseEntry &houseEntry,
+        const InventoryItem &item);
     static int sellPrice(
         const Party &party,
         const ItemTable &itemTable,
+        const StandardItemEnchantTable &standardItemEnchantTable,
+        const SpecialItemEnchantTable &specialItemEnchantTable,
         const HouseEntry &houseEntry,
         const InventoryItem &item);
     static bool canSellItemToHouse(const ItemTable &itemTable, const HouseEntry &houseEntry, const InventoryItem &item);
     static std::string buildBuyHoverText(
         const Party &party,
         const ItemTable &itemTable,
+        const StandardItemEnchantTable &standardItemEnchantTable,
+        const SpecialItemEnchantTable &specialItemEnchantTable,
         const HouseEntry &houseEntry,
-        uint32_t itemId);
+        const InventoryItem &item);
     static std::string buildSellHoverText(
         const Party &party,
         const ItemTable &itemTable,
+        const StandardItemEnchantTable &standardItemEnchantTable,
+        const SpecialItemEnchantTable &specialItemEnchantTable,
         const HouseEntry &houseEntry,
         const InventoryItem &item);
     static std::string buildIdentifyHoverText(
         const Party &party,
         const ItemTable &itemTable,
+        const StandardItemEnchantTable &standardItemEnchantTable,
+        const SpecialItemEnchantTable &specialItemEnchantTable,
         const HouseEntry &houseEntry,
         const InventoryItem &item);
     static std::string buildRepairHoverText(
         const Party &party,
         const ItemTable &itemTable,
+        const StandardItemEnchantTable &standardItemEnchantTable,
+        const SpecialItemEnchantTable &specialItemEnchantTable,
         const HouseEntry &houseEntry,
         const InventoryItem &item);
     static bool tryBuyStockItem(
         Party &party,
         const ItemTable &itemTable,
+        const StandardItemEnchantTable &standardItemEnchantTable,
+        const SpecialItemEnchantTable &specialItemEnchantTable,
         const HouseEntry &houseEntry,
         float gameMinutes,
         HouseStockMode mode,
@@ -87,6 +109,8 @@ public:
     static bool trySellInventoryItem(
         Party &party,
         const ItemTable &itemTable,
+        const StandardItemEnchantTable &standardItemEnchantTable,
+        const SpecialItemEnchantTable &specialItemEnchantTable,
         const HouseEntry &houseEntry,
         size_t memberIndex,
         uint8_t gridX,
@@ -96,6 +120,8 @@ public:
     static bool tryIdentifyInventoryItem(
         Party &party,
         const ItemTable &itemTable,
+        const StandardItemEnchantTable &standardItemEnchantTable,
+        const SpecialItemEnchantTable &specialItemEnchantTable,
         const HouseEntry &houseEntry,
         size_t memberIndex,
         uint8_t gridX,
@@ -105,6 +131,8 @@ public:
     static bool tryRepairInventoryItem(
         Party &party,
         const ItemTable &itemTable,
+        const StandardItemEnchantTable &standardItemEnchantTable,
+        const SpecialItemEnchantTable &specialItemEnchantTable,
         const HouseEntry &houseEntry,
         size_t memberIndex,
         uint8_t gridX,

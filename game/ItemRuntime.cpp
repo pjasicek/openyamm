@@ -1,5 +1,7 @@
 #include "game/ItemRuntime.h"
 
+#include "game/ItemEnchantRuntime.h"
+#include "game/ItemEnchantTables.h"
 #include "game/ItemTable.h"
 #include "game/SkillData.h"
 
@@ -35,18 +37,22 @@ int masteryMultiplier(SkillMastery mastery)
 int identifyRepairSkillScore(const Character &character, const char *pSkillName)
 {
     const CharacterSkill *pSkill = character.findSkill(pSkillName);
+    const auto bonusIt = character.itemSkillBonuses.find(std::string(pSkillName));
+    const int bonusLevel = bonusIt != character.itemSkillBonuses.end() ? bonusIt->second : 0;
 
-    if (pSkill == nullptr || pSkill->mastery == SkillMastery::None || pSkill->level == 0)
+    if ((pSkill == nullptr || pSkill->mastery == SkillMastery::None || pSkill->level == 0) && bonusLevel == 0)
     {
         return 0;
     }
 
-    if (pSkill->mastery == SkillMastery::Grandmaster)
+    if (pSkill != nullptr && pSkill->mastery == SkillMastery::Grandmaster)
     {
         return std::numeric_limits<int>::max();
     }
 
-    return static_cast<int>(pSkill->level) * masteryMultiplier(pSkill->mastery);
+    const int baseLevel = pSkill != nullptr ? static_cast<int>(pSkill->level) : 0;
+    const SkillMastery mastery = pSkill != nullptr ? pSkill->mastery : SkillMastery::Normal;
+    return (baseLevel + bonusLevel) * masteryMultiplier(mastery);
 }
 
 bool hasMeaningfulUnidentifiedName(const ItemDefinition &itemDefinition)
@@ -86,9 +92,23 @@ bool ItemRuntime::canCharacterRepairItem(const Character &character, const ItemD
 
 std::string ItemRuntime::displayName(const InventoryItem &item, const ItemDefinition &itemDefinition)
 {
+    return displayName(item, itemDefinition, nullptr, nullptr);
+}
+
+std::string ItemRuntime::displayName(
+    const InventoryItem &item,
+    const ItemDefinition &itemDefinition,
+    const StandardItemEnchantTable *pStandardEnchantTable,
+    const SpecialItemEnchantTable *pSpecialEnchantTable)
+{
     if (!item.identified && hasMeaningfulUnidentifiedName(itemDefinition))
     {
         return itemDefinition.unidentifiedName;
+    }
+
+    if (item.standardEnchantId != 0 || item.specialEnchantId != 0)
+    {
+        return ItemEnchantRuntime::displayName(item, itemDefinition, pStandardEnchantTable, pSpecialEnchantTable);
     }
 
     if (!itemDefinition.name.empty())

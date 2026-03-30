@@ -7,6 +7,8 @@
 namespace OpenYAMM::Game
 {
 struct ItemDefinition;
+class StandardItemEnchantTable;
+class SpecialItemEnchantTable;
 
 class ItemRuntime
 {
@@ -16,5 +18,10 @@ public:
     static bool canCharacterIdentifyItem(const Character &character, const ItemDefinition &itemDefinition);
     static bool canCharacterRepairItem(const Character &character, const ItemDefinition &itemDefinition);
     static std::string displayName(const InventoryItem &item, const ItemDefinition &itemDefinition);
+    static std::string displayName(
+        const InventoryItem &item,
+        const ItemDefinition &itemDefinition,
+        const StandardItemEnchantTable *pStandardEnchantTable,
+        const SpecialItemEnchantTable *pSpecialEnchantTable);
 };
 }

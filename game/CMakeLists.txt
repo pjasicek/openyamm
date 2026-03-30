@@ -82,6 +82,7 @@ add_executable(openyamm
     IconFrameTable.cpp
     ItemEquipPosTable.cpp
     ItemEnchantTables.cpp
+    ItemEnchantRuntime.cpp
     ItemGenerator.cpp
     ItemRuntime.cpp
     ItemTable.cpp

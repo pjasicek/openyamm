@@ -1,5 +1,7 @@
 #include "game/ItemGenerator.h"
 
+#include "game/ItemEnchantRuntime.h"
+#include "game/ItemEnchantTables.h"
 #include "game/ItemRuntime.h"
 #include "game/ItemTable.h"
 
@@ -45,10 +47,108 @@ InventoryItem ItemGenerator::makeInventoryItem(
     return item;
 }
 
+std::optional<InventoryItem> ItemGenerator::generateRandomInventoryItem(
+    const ItemTable &itemTable,
+    const StandardItemEnchantTable &standardItemEnchantTable,
+    const SpecialItemEnchantTable &specialItemEnchantTable,
+    const ItemGenerationRequest &request,
+    std::mt19937 &rng,
+    const std::function<bool(const ItemDefinition &)> &filter)
+{
+    const std::optional<uint32_t> itemId = chooseRandomBaseItem(itemTable, request.treasureLevel, rng, filter);
+
+    if (!itemId)
+    {
+        return std::nullopt;
+    }
+
+    InventoryItem item = makeInventoryItem(*itemId, itemTable, request.mode);
+    const ItemDefinition *pItemDefinition = itemTable.get(*itemId);
+
+    if (pItemDefinition == nullptr || !ItemEnchantRuntime::isEnchantable(*pItemDefinition))
+    {
+        return item;
+    }
+
+    const int clampedTreasureLevel = std::clamp(request.treasureLevel, 1, 6);
+    const bool canHaveStandardEnchant = ItemEnchantRuntime::canHaveStandardEnchant(*pItemDefinition);
+    const bool canHaveSpecialEnchant = ItemEnchantRuntime::canHaveSpecialEnchant(*pItemDefinition);
+    const int standardChance =
+        canHaveStandardEnchant ? ItemEnchantRuntime::standardEnchantChance(clampedTreasureLevel) : 0;
+    const int specialChance =
+        canHaveSpecialEnchant ? ItemEnchantRuntime::specialEnchantChance(*pItemDefinition, clampedTreasureLevel) : 0;
+
+    if (!canHaveStandardEnchant)
+    {
+        if (specialChance <= 0)
+        {
+            return item;
+        }
+
+        if (specialChance > 0 && std::uniform_int_distribution<int>(0, 99)(rng) < specialChance)
+        {
+            const std::optional<uint16_t> specialEnchantId =
+                ItemEnchantRuntime::chooseSpecialEnchantId(*pItemDefinition, specialItemEnchantTable, clampedTreasureLevel, rng);
+
+            if (specialEnchantId)
+            {
+                item.specialEnchantId = *specialEnchantId;
+            }
+        }
+
+        return item;
+    }
+
+    if (standardChance <= 0)
+    {
+        return item;
+    }
+
+    const int roll = std::uniform_int_distribution<int>(0, 99)(rng);
+
+    if (roll < standardChance)
+    {
+        const std::optional<uint16_t> standardEnchantId =
+            ItemEnchantRuntime::chooseStandardEnchantId(*pItemDefinition, standardItemEnchantTable, rng);
+
+        if (standardEnchantId)
+        {
+            item.standardEnchantId = *standardEnchantId;
+
+            const StandardItemEnchantEntry *pEntry = standardItemEnchantTable.get(*standardEnchantId);
+
+            if (pEntry != nullptr)
+            {
+                item.standardEnchantPower =
+                    static_cast<uint16_t>(ItemEnchantRuntime::generateStandardEnchantPower(
+                        pEntry->kind,
+                        clampedTreasureLevel,
+                        rng));
+            }
+        }
+
+        return item;
+    }
+
+    if (roll < standardChance + specialChance)
+    {
+        const std::optional<uint16_t> specialEnchantId =
+            ItemEnchantRuntime::chooseSpecialEnchantId(*pItemDefinition, specialItemEnchantTable, clampedTreasureLevel, rng);
+
+        if (specialEnchantId)
+        {
+            item.specialEnchantId = *specialEnchantId;
+        }
+    }
+
+    return item;
+}
+
 std::optional<uint32_t> ItemGenerator::chooseRandomBaseItem(
     const ItemTable &itemTable,
     int treasureLevel,
-    std::mt19937 &rng)
+    std::mt19937 &rng,
+    const std::function<bool(const ItemDefinition &)> &filter)
 {
     const int clampedTreasureLevel = std::clamp(treasureLevel, 1, 6);
     const size_t weightIndex = static_cast<size_t>(clampedTreasureLevel - 1);
@@ -58,6 +158,11 @@ std::optional<uint32_t> ItemGenerator::chooseRandomBaseItem(
     for (const ItemDefinition &entry : itemTable.entries())
     {
         if (entry.itemId == 0 || weightIndex >= entry.randomTreasureWeights.size())
+        {
+            continue;
+        }
+
+        if (filter && !filter(entry))
         {
             continue;
         }

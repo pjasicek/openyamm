@@ -229,7 +229,9 @@ bool hasCondition(const Character &character, CharacterCondition condition)
 int skillLevel(const Character &character, std::string_view skillName)
 {
     const CharacterSkill *pSkill = character.findSkill(std::string(skillName));
-    return pSkill != nullptr ? static_cast<int>(pSkill->level) : 0;
+    const auto bonusIt = character.itemSkillBonuses.find(std::string(skillName));
+    const int bonusLevel = bonusIt != character.itemSkillBonuses.end() ? bonusIt->second : 0;
+    return (pSkill != nullptr ? static_cast<int>(pSkill->level) : 0) + bonusLevel;
 }
 
 SkillMastery skillMastery(const Character &character, std::string_view skillName)
@@ -1229,7 +1231,8 @@ float resolveAttackRecoverySeconds(
     }
 
     int recoveryTicks = weaponRecoveryTicks + shieldRecoveryTicks + armorRecoveryTicks
-        - playerSpeedRecoveryReduction - weaponSkillRecoveryReduction - armsmasterRecoveryReduction;
+        - playerSpeedRecoveryReduction - weaponSkillRecoveryReduction - armsmasterRecoveryReduction
+        - character.attackRecoveryReductionTicks;
     int minimumRecoveryTicks = OeMinimumMeleeRecoveryTicks;
 
     if (mode == CharacterAttackMode::Blaster)
@@ -1383,6 +1386,7 @@ CharacterSheetSummary GameMechanics::buildCharacterSheetSummary(const Character 
         meleeMightBonus
             + resolveMeleeMinDamageItemBonus(equippedItems)
             + resolveMeleeDamageSkillBonus(character, equippedItems)
+            + character.weaponEnchantmentDamageBonus
             + character.permanentBonuses.meleeDamage
             + character.magicalBonuses.meleeDamage);
     const int meleeMaxDamage = std::max(
@@ -1390,6 +1394,7 @@ CharacterSheetSummary GameMechanics::buildCharacterSheetSummary(const Character 
         meleeMightBonus
             + resolveMeleeMaxDamageItemBonus(equippedItems)
             + resolveMeleeDamageSkillBonus(character, equippedItems)
+            + character.weaponEnchantmentDamageBonus
             + character.permanentBonuses.meleeDamage
             + character.magicalBonuses.meleeDamage);
 
@@ -1410,12 +1415,14 @@ CharacterSheetSummary GameMechanics::buildCharacterSheetSummary(const Character 
             0,
             weaponMinDamage(*equippedItems.pBow)
                 + resolveRangedDamageSkillBonus(character, equippedItems)
+                + character.weaponEnchantmentDamageBonus
                 + character.permanentBonuses.rangedDamage
                 + character.magicalBonuses.rangedDamage);
         const int rangedMaxDamage = std::max(
             0,
             weaponMaxDamage(*equippedItems.pBow)
                 + resolveRangedDamageSkillBonus(character, equippedItems)
+                + character.weaponEnchantmentDamageBonus
                 + character.permanentBonuses.rangedDamage
                 + character.magicalBonuses.rangedDamage);
         summary.combat.rangedDamageText = formatDamageRange(rangedMinDamage, rangedMaxDamage);
@@ -1473,6 +1480,7 @@ CharacterAttackProfile GameMechanics::buildCharacterAttackProfile(
         meleeMightBonus
             + resolveMeleeMinDamageItemBonus(equippedItems)
             + resolveMeleeDamageSkillBonus(character, equippedItems)
+            + character.weaponEnchantmentDamageBonus
             + character.permanentBonuses.meleeDamage
             + character.magicalBonuses.meleeDamage);
     profile.meleeMaxDamage = std::max(
@@ -1480,6 +1488,7 @@ CharacterAttackProfile GameMechanics::buildCharacterAttackProfile(
         meleeMightBonus
             + resolveMeleeMaxDamageItemBonus(equippedItems)
             + resolveMeleeDamageSkillBonus(character, equippedItems)
+            + character.weaponEnchantmentDamageBonus
             + character.permanentBonuses.meleeDamage
             + character.magicalBonuses.meleeDamage);
 
@@ -1494,12 +1503,14 @@ CharacterAttackProfile GameMechanics::buildCharacterAttackProfile(
             0,
             resolveRangedDamageSkillBonus(character, equippedItems)
                 + (equippedItems.pBow != nullptr ? weaponMinDamage(*equippedItems.pBow) : 0)
+                + character.weaponEnchantmentDamageBonus
                 + character.permanentBonuses.rangedDamage
                 + character.magicalBonuses.rangedDamage);
         profile.rangedMaxDamage = std::max(
             profile.rangedMinDamage,
             resolveRangedDamageSkillBonus(character, equippedItems)
                 + (equippedItems.pBow != nullptr ? weaponMaxDamage(*equippedItems.pBow) : 0)
+                + character.weaponEnchantmentDamageBonus
                 + character.permanentBonuses.rangedDamage
                 + character.magicalBonuses.rangedDamage);
     }

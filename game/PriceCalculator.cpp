@@ -2,6 +2,8 @@
 
 #include "game/CharacterState.h"
 #include "game/HouseTable.h"
+#include "game/ItemEnchantRuntime.h"
+#include "game/ItemEnchantTables.h"
 #include "game/ItemTable.h"
 #include "game/Party.h"
 #include "game/SkillData.h"
@@ -123,26 +125,37 @@ int PriceCalculator::applyMerchantDiscount(const Character *pCharacter, int gold
 
 int PriceCalculator::itemBuyingPrice(
     const Character *pCharacter,
-    const ItemDefinition &itemDefinition,
+    int realValue,
     float priceMultiplier)
 {
-    const int realValue = std::max(1, itemDefinition.value);
-    int price = applyMerchantDiscount(pCharacter, static_cast<int>(static_cast<float>(realValue) * priceMultiplier));
-    return std::max(realValue, price);
+    const int clampedValue = std::max(1, realValue);
+    int price = applyMerchantDiscount(pCharacter, static_cast<int>(static_cast<float>(clampedValue) * priceMultiplier));
+    return std::max(clampedValue, price);
+}
+
+int PriceCalculator::itemValue(
+    const InventoryItem &item,
+    const ItemDefinition &itemDefinition,
+    const StandardItemEnchantTable *pStandardEnchantTable,
+    const SpecialItemEnchantTable *pSpecialEnchantTable)
+{
+    return ItemEnchantRuntime::itemValue(item, itemDefinition, pStandardEnchantTable, pSpecialEnchantTable);
 }
 
 int PriceCalculator::itemSellingPrice(
     const Character *pCharacter,
     const InventoryItem &item,
     const ItemDefinition &itemDefinition,
-    float priceMultiplier)
+    float priceMultiplier,
+    const StandardItemEnchantTable *pStandardEnchantTable,
+    const SpecialItemEnchantTable *pSpecialEnchantTable)
 {
     if (item.broken)
     {
         return 1;
     }
 
-    const int realValue = std::max(0, itemDefinition.value);
+    const int realValue = itemValue(item, itemDefinition, pStandardEnchantTable, pSpecialEnchantTable);
 
     if (realValue <= 0)
     {
@@ -156,19 +169,29 @@ int PriceCalculator::itemSellingPrice(
     return std::clamp(result, 1, realValue) * std::max(1u, item.quantity);
 }
 
-int PriceCalculator::itemIdentificationPrice(const Character *pCharacter, float priceMultiplier)
+int PriceCalculator::itemIdentificationPrice(
+    const Character *pCharacter,
+    const InventoryItem &item,
+    const ItemDefinition &itemDefinition,
+    float priceMultiplier,
+    const StandardItemEnchantTable *pStandardEnchantTable,
+    const SpecialItemEnchantTable *pSpecialEnchantTable)
 {
-    const int basePrice = std::max(1, static_cast<int>(priceMultiplier * 50.0f));
+    const int realValue = itemValue(item, itemDefinition, pStandardEnchantTable, pSpecialEnchantTable);
+    const int basePrice = std::max(1, static_cast<int>(static_cast<float>(realValue) * priceMultiplier / 32.0f));
     const int minimumPrice = std::max(1, basePrice / 3);
     return std::max(minimumPrice, applyMerchantDiscount(pCharacter, basePrice));
 }
 
 int PriceCalculator::itemRepairPrice(
     const Character *pCharacter,
+    const InventoryItem &item,
     const ItemDefinition &itemDefinition,
-    float priceMultiplier)
+    float priceMultiplier,
+    const StandardItemEnchantTable *pStandardEnchantTable,
+    const SpecialItemEnchantTable *pSpecialEnchantTable)
 {
-    const int realValue = std::max(1, itemDefinition.value);
+    const int realValue = std::max(1, itemValue(item, itemDefinition, pStandardEnchantTable, pSpecialEnchantTable));
     const int basePrice = std::max(1, static_cast<int>(static_cast<float>(realValue) / (6.0f - priceMultiplier)));
     const int minimumPrice = std::max(1, basePrice / 3);
     return std::max(minimumPrice, applyMerchantDiscount(pCharacter, basePrice));

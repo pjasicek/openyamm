@@ -21,6 +21,7 @@
 #include "game/HouseTable.h"
 #include "game/IconFrameTable.h"
 #include "game/ItemEquipPosTable.h"
+#include "game/ItemEnchantTables.h"
 #include "game/NpcDialogTable.h"
 #include "game/ObjectTable.h"
 #include "game/PartySpellSystem.h"
@@ -85,6 +86,8 @@ public:
         const ObjectTable &objectTable,
         const SpellTable &spellTable,
         const ItemTable &itemTable,
+        const StandardItemEnchantTable &standardItemEnchantTable,
+        const SpecialItemEnchantTable &specialItemEnchantTable,
         const ItemEquipPosTable &itemEquipPosTable,
         const std::optional<StrTable> &localStrTable,
         const std::optional<EvtProgram> &localEvtProgram,
@@ -958,6 +961,8 @@ private:
     const CharacterDollTable *m_pCharacterDollTable;
     std::optional<ChestTable> m_chestTable;
     const ItemTable *m_pItemTable;
+    const StandardItemEnchantTable *m_pStandardItemEnchantTable;
+    const SpecialItemEnchantTable *m_pSpecialItemEnchantTable;
     const ItemEquipPosTable *m_pItemEquipPosTable;
     std::optional<StrTable> m_localStrTable;
     std::optional<EvtProgram> m_localEvtProgram;

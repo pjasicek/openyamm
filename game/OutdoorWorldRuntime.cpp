@@ -2,6 +2,7 @@
 
 #include "game/ChestTable.h"
 #include "game/GameMechanics.h"
+#include "game/ItemGenerator.h"
 #include "game/ItemRuntime.h"
 #include "game/ItemTable.h"
 #include "game/OutdoorGeometryUtils.h"
@@ -2747,9 +2748,17 @@ void OutdoorWorldRuntime::appendChestItem(std::vector<ChestItemState> &items, co
 
     for (ChestItemState &existing : items)
     {
-        if (!existing.isGold && existing.itemId == item.itemId)
+        if (!existing.isGold
+            && existing.itemId == item.itemId
+            && existing.item.standardEnchantId == item.item.standardEnchantId
+            && existing.item.standardEnchantPower == item.item.standardEnchantPower
+            && existing.item.specialEnchantId == item.item.specialEnchantId
+            && existing.item.artifactId == item.item.artifactId
+            && existing.item.identified == item.item.identified
+            && existing.item.broken == item.item.broken)
         {
             existing.quantity += item.quantity;
+            existing.item.quantity += item.item.quantity;
             return;
         }
     }
@@ -2933,13 +2942,26 @@ OutdoorWorldRuntime::CorpseViewState OutdoorWorldRuntime::buildCorpseView(
         && std::uniform_int_distribution<int>(0, 99)(rng) < loot.itemChance)
     {
         const int remappedTreasureLevel = remapTreasureLevel(loot.itemLevel, m_mapTreasureLevel);
-        const uint32_t itemId = generateRandomLootItemId(remappedTreasureLevel, loot.itemKind, rng);
+        const std::optional<InventoryItem> generatedItem =
+            m_pItemTable != nullptr && m_pStandardItemEnchantTable != nullptr && m_pSpecialItemEnchantTable != nullptr
+            ? ItemGenerator::generateRandomInventoryItem(
+                *m_pItemTable,
+                *m_pStandardItemEnchantTable,
+                *m_pSpecialItemEnchantTable,
+                ItemGenerationRequest{remappedTreasureLevel, ItemGenerationMode::MonsterLoot},
+                rng,
+                [kind = loot.itemKind](const ItemDefinition &entry)
+                {
+                    return itemMatchesLootKind(entry, kind);
+                })
+            : std::nullopt;
 
-        if (itemId != 0)
+        if (generatedItem && generatedItem->objectDescriptionId != 0)
         {
             ChestItemState item = {};
-            item.itemId = itemId;
-            item.quantity = 1;
+            item.item = *generatedItem;
+            item.itemId = item.item.objectDescriptionId;
+            item.quantity = item.item.quantity;
             view.items.push_back(item);
         }
     }
@@ -3064,6 +3086,7 @@ OutdoorWorldRuntime::ChestViewState OutdoorWorldRuntime::buildChestView(uint32_t
                 return;
             }
 
+            item.itemId = item.item.objectDescriptionId != 0 ? item.item.objectDescriptionId : item.itemId;
             const ItemDefinition *pItemDefinition = m_pItemTable != nullptr ? m_pItemTable->get(item.itemId) : nullptr;
             item.width = pItemDefinition != nullptr ? std::max<uint8_t>(1, pItemDefinition->inventoryWidth) : 1;
             item.height = pItemDefinition != nullptr ? std::max<uint8_t>(1, pItemDefinition->inventoryHeight) : 1;
@@ -3082,8 +3105,12 @@ OutdoorWorldRuntime::ChestViewState OutdoorWorldRuntime::buildChestView(uint32_t
             if (rawItemId > 0)
             {
                 ChestItemState item = {};
-                item.itemId = static_cast<uint32_t>(rawItemId);
-                item.quantity = 1;
+                item.item = ItemGenerator::makeInventoryItem(
+                    static_cast<uint32_t>(rawItemId),
+                    *m_pItemTable,
+                    ItemGenerationMode::ChestLoot);
+                item.itemId = item.item.objectDescriptionId;
+                item.quantity = item.item.quantity;
                 resolveChestItemSize(item);
                 generatedItems.push_back(item);
                 return generatedItems;
@@ -3125,14 +3152,22 @@ OutdoorWorldRuntime::ChestViewState OutdoorWorldRuntime::buildChestView(uint32_t
                 }
                 else
                 {
-                    const int generationLevel = std::min(resolvedTreasureLevel, SpawnableItemTreasureLevels);
-                    item.itemId = generateRandomItemId(generationLevel, rng);
-                    item.quantity = 1;
+                    const std::optional<InventoryItem> generatedItem =
+                        ItemGenerator::generateRandomInventoryItem(
+                            *m_pItemTable,
+                            *m_pStandardItemEnchantTable,
+                            *m_pSpecialItemEnchantTable,
+                            ItemGenerationRequest{std::min(resolvedTreasureLevel, SpawnableItemTreasureLevels), ItemGenerationMode::ChestLoot},
+                            rng);
 
-                    if (item.itemId == 0)
+                    if (!generatedItem)
                     {
                         continue;
                     }
+
+                    item.item = *generatedItem;
+                    item.itemId = item.item.objectDescriptionId;
+                    item.quantity = item.item.quantity;
                 }
 
                 resolveChestItemSize(item);
@@ -3304,6 +3339,8 @@ void OutdoorWorldRuntime::initialize(
     const ObjectTable &objectTable,
     const SpellTable &spellTable,
     const ItemTable &itemTable,
+    const StandardItemEnchantTable &standardItemEnchantTable,
+    const SpecialItemEnchantTable &specialItemEnchantTable,
     const ChestTable *pChestTable,
     const std::optional<OutdoorMapData> &outdoorMapData,
     const std::optional<MapDeltaData> &outdoorMapDeltaData,
@@ -3337,6 +3374,8 @@ void OutdoorWorldRuntime::initialize(
     m_activeChestView.reset();
     m_eventRuntimeState = eventRuntimeState;
     m_pItemTable = &itemTable;
+    m_pStandardItemEnchantTable = &standardItemEnchantTable;
+    m_pSpecialItemEnchantTable = &specialItemEnchantTable;
     m_pChestTable = pChestTable;
     m_pMonsterTable = &monsterTable;
     m_pMonsterProjectileTable = &monsterProjectileTable;

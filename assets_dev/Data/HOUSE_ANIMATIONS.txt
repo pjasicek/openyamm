@@ -1,16 +1,16 @@
-# House Id	Animation Id	Building Name	NPC List	Video Name	Enter Sound
+# House Id	Animation Id	Building Name	NPC List	Video Name	Enter Sound	Room Sound Id
 # Note: HouseId stays in this table because current BUILDINGS.txt contains house-specific overrides
 # that cannot be reduced to AnimationId alone without losing information.
-1	6	True Mettle	TODO	lwpshp	TODO
-15	7	The Tannery	TODO	larmshp	TODO
-29	9	Fearsome Fetishes	TODO	lmagshp	TODO
-42	8	Herbal Elixirs	TODO	lalcshop	TODO
-74	5	Mystic Medicine	TODO	ltemple	TODO
-89	11	Rites of Passage	TODO	ltrhall	TODO
-107	13	The Grog and Grub	TODO	ltavern	TODO
-115	91	Pirate's Rest	296	tavern	TODO
-128	12	The Some Place Safe	TODO	lbank	TODO
-139	139	Cures and Curses	TODO	lsplshp	TODO
+1	6	True Mettle	TODO	lwpshp	TODO	2
+15	7	The Tannery	TODO	larmshp	TODO	3
+29	9	Fearsome Fetishes	TODO	lmagshp	TODO	5
+42	8	Herbal Elixirs	TODO	lalcshop	TODO	4
+74	5	Mystic Medicine	TODO	ltemple	TODO	1
+89	11	Rites of Passage	TODO	ltrhall	TODO	7
+107	13	The Grog and Grub	TODO	ltavern	TODO	9
+115	91	Pirate's Rest	296	tavern	TODO	64
+128	12	The Some Place Safe	TODO	lbank	TODO	8
+139	139	Cures and Curses	TODO	lsplshp	TODO	6
 173	14	Clan Leader's Hall	1,2	lchwar	TODO
 174	81	Wererat Smuggler Leader	4	smg_cove	TODO
 175	30	Council Chamber Door	53	decouncl	TODO

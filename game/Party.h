@@ -19,6 +19,8 @@ namespace OpenYAMM::Game
 class ItemTable;
 struct RosterEntry;
 struct EventRuntimeState;
+class StandardItemEnchantTable;
+class SpecialItemEnchantTable;
 
 struct InventoryItem
 {
@@ -32,6 +34,7 @@ struct InventoryItem
     bool broken = false;
     bool stolen = false;
     uint16_t standardEnchantId = 0;
+    uint16_t standardEnchantPower = 0;
     uint16_t specialEnchantId = 0;
     uint16_t artifactId = 0;
 };
@@ -85,6 +88,16 @@ struct Character
     float vampiricHealFraction = 0.0f;
     bool physicalAttackDisabled = false;
     bool physicalDamageImmune = false;
+    bool halfMissileDamage = false;
+    bool waterWalking = false;
+    bool featherFalling = false;
+    float healthRegenPerSecond = 0.0f;
+    float spellRegenPerSecond = 0.0f;
+    float healthRegenAccumulator = 0.0f;
+    float spellRegenAccumulator = 0.0f;
+    int attackRecoveryReductionTicks = 0;
+    float recoveryProgressMultiplier = 1.0f;
+    std::unordered_map<std::string, int> itemSkillBonuses;
 
     bool addInventoryItem(const InventoryItem &item);
     bool addInventoryItemAt(const InventoryItem &item, uint8_t gridX, uint8_t gridY);
@@ -200,9 +213,9 @@ public:
         uint32_t houseId = 0;
         float nextRefreshGameMinutes = 0.0f;
         uint32_t refreshSequence = 0;
-        std::vector<uint32_t> standardStock;
-        std::vector<uint32_t> specialStock;
-        std::vector<uint32_t> spellbookStock;
+        std::vector<InventoryItem> standardStock;
+        std::vector<InventoryItem> specialStock;
+        std::vector<InventoryItem> spellbookStock;
     };
 
     struct PendingAudioRequest
@@ -222,6 +235,9 @@ public:
     static PartySeed createDefaultSeed();
 
     void setItemTable(const ItemTable *pItemTable);
+    void setItemEnchantTables(
+        const StandardItemEnchantTable *pStandardItemEnchantTable,
+        const SpecialItemEnchantTable *pSpecialItemEnchantTable);
     void setClassSkillTable(const ClassSkillTable *pClassSkillTable);
     void reset();
     void seed(const PartySeed &seed);
@@ -370,6 +386,7 @@ public:
     int gold() const;
     int bankGold() const;
     int food() const;
+    uint32_t houseStockSeed() const;
     HouseStockState *houseStockState(uint32_t houseId);
     const HouseStockState *houseStockState(uint32_t houseId) const;
     HouseStockState &ensureHouseStockState(uint32_t houseId);
@@ -398,6 +415,8 @@ private:
     void queueSpeech(size_t memberIndex, SpeechId speechId);
 
     const ItemTable *m_pItemTable = nullptr;
+    const StandardItemEnchantTable *m_pStandardItemEnchantTable = nullptr;
+    const SpecialItemEnchantTable *m_pSpecialItemEnchantTable = nullptr;
     const ClassSkillTable *m_pClassSkillTable = nullptr;
     std::vector<Character> m_members;
     size_t m_activeMemberIndex = 0;
@@ -412,6 +431,7 @@ private:
     uint32_t m_landingSoundCount = 0;
     uint32_t m_hardLandingSoundCount = 0;
     uint32_t m_monsterTargetSelectionCounter = 0;
+    uint32_t m_houseStockSeed = 0;
     float m_lastFallDamageDistance = 0.0f;
     std::string m_lastStatus;
     std::unordered_map<uint32_t, HouseStockState> m_houseStockStates;

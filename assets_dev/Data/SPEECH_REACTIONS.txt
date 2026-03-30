@@ -41,7 +41,7 @@ AttackMiss	Attack Miss		AttackMiss
 Shoot	Shoot		Shoot
 CastSpell	Cast Spell		CastSpell
 DamagedParty	Damaged Party	last_person_standing	DamagedParty
-FoundItem	Found Item	thank_you	AttackHit
+FoundItem	Found Item		AttackHit
 SkillIncreased	Skill Increased	thank_you	SkillIncreased
 QuestGot	Quest Got	thank_you	AttackHit
 AwardGot	Award Got	thank_you	AttackHit
@@ -49,5 +49,10 @@ TempleHeal	Temple Heal		AttackHit
 TempleDonate	Temple Donate		AttackHit
 TravelBoat	Travel Boat	thank_you	AttackHit
 TravelHorse	Travel Horse	thank_you	AttackHit
+ShopIdentify	Shop Identify		ShopIdentify
+ShopRepair	Shop Repair		ShopRepair
+AlreadyIdentified	Already Identified		AlreadyIdentified
+ItemSold	Item Sold		ItemSold
+WrongShop	Wrong Shop		WrongShop
 BankDeposit	Bank Deposit		AttackHit
 LevelUp	Level Up		AttackHit

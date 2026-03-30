@@ -21,6 +21,8 @@ struct HouseEntry
     std::string proprietorTitle;
     float priceMultiplier = 0.0f;
     float skillPriceMultiplier = 0.0f;
+    int standardStockTier = 0;
+    int specialStockTier = 0;
     int stockRefreshDays = 0;
     int trainingMaxLevel = 0;
     int openHour = 0;
