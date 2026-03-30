@@ -1,5 +1,6 @@
 #pragma once
 
+#include "game/ItemTable.h"
 #include "game/SkillData.h"
 
 #include <bitset>
@@ -125,6 +126,7 @@ struct EquippedItemRuntimeState
     uint16_t standardEnchantPower = 0;
     uint16_t specialEnchantId = 0;
     uint16_t artifactId = 0;
+    ItemRarity rarity = ItemRarity::Common;
 };
 
 struct CharacterEquipmentRuntimeState

@@ -58,6 +58,35 @@ void OutdoorMovementDriver::initialize(float x, float y, float footZHint)
     m_burningDamageTimerSeconds = 0.0f;
 }
 
+void OutdoorMovementDriver::restoreState(
+    const OutdoorMoveState &state,
+    const OutdoorPartyMovementState &partyMovementState)
+{
+    m_state = state;
+    m_partyMovementState = partyMovementState;
+    m_tuning = {};
+    m_lastEvents = {};
+    m_lastConsequences = {};
+    m_pendingEffects = {};
+    m_jumpHeld = false;
+    m_pendingJumpPress = false;
+    m_movementAccumulatorSeconds = 0.0f;
+    m_startedFallingEventSeconds = 0.0f;
+    m_landedEventSeconds = 0.0f;
+    m_enteredWaterEventSeconds = 0.0f;
+    m_leftWaterEventSeconds = 0.0f;
+    m_enteredBurningEventSeconds = 0.0f;
+    m_leftBurningEventSeconds = 0.0f;
+    m_waterDamageConsequenceSeconds = 0.0f;
+    m_burningDamageConsequenceSeconds = 0.0f;
+    m_fallDamageConsequenceSeconds = 0.0f;
+    m_splashSoundConsequenceSeconds = 0.0f;
+    m_landingSoundConsequenceSeconds = 0.0f;
+    m_hardLandingSoundConsequenceSeconds = 0.0f;
+    m_waterDamageTimerSeconds = 0.0f;
+    m_burningDamageTimerSeconds = 0.0f;
+}
+
 void OutdoorMovementDriver::update(const OutdoorMovementInput &input, float deltaSeconds)
 {
     const bool jumpPressed = input.jump && !m_jumpHeld;

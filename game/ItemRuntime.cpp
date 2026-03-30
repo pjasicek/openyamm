@@ -61,6 +61,40 @@ bool hasMeaningfulUnidentifiedName(const ItemDefinition &itemDefinition)
         && itemDefinition.unidentifiedName != "0"
         && itemDefinition.unidentifiedName != "N / A";
 }
+
+bool matchesClassOrPromotion(const std::string &characterClassName, const std::string &requiredClassName)
+{
+    const std::string canonicalCharacterClass = canonicalClassName(characterClassName);
+    const std::string canonicalRequiredClass = canonicalClassName(requiredClassName);
+
+    if (canonicalCharacterClass.empty() || canonicalRequiredClass.empty())
+    {
+        return false;
+    }
+
+    if (canonicalCharacterClass == canonicalRequiredClass)
+    {
+        return true;
+    }
+
+    std::vector<std::string> pendingClasses = promotionClassNames(canonicalRequiredClass);
+
+    while (!pendingClasses.empty())
+    {
+        const std::string className = canonicalClassName(pendingClasses.back());
+        pendingClasses.pop_back();
+
+        if (className == canonicalCharacterClass)
+        {
+            return true;
+        }
+
+        const std::vector<std::string> nextPromotions = promotionClassNames(className);
+        pendingClasses.insert(pendingClasses.end(), nextPromotions.begin(), nextPromotions.end());
+    }
+
+    return false;
+}
 }
 
 bool ItemRuntime::requiresIdentification(const ItemDefinition &itemDefinition)
@@ -73,6 +107,69 @@ bool ItemRuntime::requiresIdentification(const ItemDefinition &itemDefinition)
 int ItemRuntime::identifyRepairDifficulty(const ItemDefinition &itemDefinition)
 {
     return std::max(0, itemDefinition.identifyRepairDifficulty);
+}
+
+bool ItemRuntime::isRareItem(const ItemDefinition &itemDefinition)
+{
+    return itemDefinition.rarity != ItemRarity::Common;
+}
+
+bool ItemRuntime::isUniquelyGeneratedRareItem(const ItemDefinition &itemDefinition)
+{
+    return (itemDefinition.rarity == ItemRarity::Artifact || itemDefinition.rarity == ItemRarity::Relic)
+        && itemDefinition.value > 0;
+}
+
+std::optional<std::string> ItemRuntime::classRestriction(const ItemDefinition &itemDefinition)
+{
+    switch (itemDefinition.itemId)
+    {
+        case 515:
+            return "Knight";
+
+        case 516:
+            return "Cleric";
+
+        case 521:
+            return "Lich";
+
+        case 529:
+            return "Necromancer";
+
+        default:
+            return std::nullopt;
+    }
+}
+
+std::optional<std::string> ItemRuntime::raceRestriction(const ItemDefinition &itemDefinition)
+{
+    switch (itemDefinition.itemId)
+    {
+        case 504:
+            return "Minotaur";
+
+        case 508:
+            return "Vampire";
+
+        case 514:
+        case 532:
+            return "DarkElf";
+
+        default:
+            return std::nullopt;
+    }
+}
+
+bool ItemRuntime::characterMeetsClassRestriction(const Character &character, const ItemDefinition &itemDefinition)
+{
+    const std::optional<std::string> restriction = classRestriction(itemDefinition);
+    return !restriction || matchesClassOrPromotion(character.className, *restriction);
+}
+
+bool ItemRuntime::characterMeetsRaceRestriction(const Character &character, const ItemDefinition &itemDefinition)
+{
+    const std::optional<std::string> restriction = raceRestriction(itemDefinition);
+    return !restriction || matchesClassOrPromotion(character.className, *restriction);
 }
 
 bool ItemRuntime::canCharacterIdentifyItem(const Character &character, const ItemDefinition &itemDefinition)

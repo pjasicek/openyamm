@@ -2,6 +2,7 @@
 
 #include "game/ChestTable.h"
 #include "game/GameMechanics.h"
+#include "game/ItemEnchantRuntime.h"
 #include "game/ItemGenerator.h"
 #include "game/ItemRuntime.h"
 #include "game/ItemTable.h"
@@ -2800,112 +2801,6 @@ int OutdoorWorldRuntime::remapTreasureLevel(int itemTreasureLevel, int mapTreasu
     return (minLevel + maxLevel) / 2;
 }
 
-uint32_t OutdoorWorldRuntime::generateRandomItemId(int treasureLevel, std::mt19937 &rng) const
-{
-    if (m_pItemTable == nullptr)
-    {
-        return 0;
-    }
-
-    const int weightIndex = std::clamp(treasureLevel, 1, SpawnableItemTreasureLevels) - 1;
-    int totalWeight = 0;
-
-    for (const ItemDefinition &entry : m_pItemTable->entries())
-    {
-        if (entry.itemId == 0 || entry.randomTreasureWeights[weightIndex] <= 0)
-        {
-            continue;
-        }
-
-        totalWeight += entry.randomTreasureWeights[weightIndex];
-    }
-
-    if (totalWeight <= 0)
-    {
-        return 0;
-    }
-
-    const int pick = std::uniform_int_distribution<int>(1, totalWeight)(rng);
-    int runningWeight = 0;
-
-    for (const ItemDefinition &entry : m_pItemTable->entries())
-    {
-        if (entry.itemId == 0 || entry.randomTreasureWeights[weightIndex] <= 0)
-        {
-            continue;
-        }
-
-        runningWeight += entry.randomTreasureWeights[weightIndex];
-
-        if (runningWeight >= pick)
-        {
-            return entry.itemId;
-        }
-    }
-
-    return 0;
-}
-
-uint32_t OutdoorWorldRuntime::generateRandomLootItemId(
-    int treasureLevel,
-    MonsterTable::LootItemKind itemKind,
-    std::mt19937 &rng
-) const
-{
-    if (m_pItemTable == nullptr)
-    {
-        return 0;
-    }
-
-    const int weightIndex = std::clamp(treasureLevel, 1, SpawnableItemTreasureLevels) - 1;
-    int totalWeight = 0;
-
-    for (const ItemDefinition &entry : m_pItemTable->entries())
-    {
-        if (entry.itemId == 0 || entry.randomTreasureWeights[weightIndex] <= 0)
-        {
-            continue;
-        }
-
-        if (!itemMatchesLootKind(entry, itemKind))
-        {
-            continue;
-        }
-
-        totalWeight += entry.randomTreasureWeights[weightIndex];
-    }
-
-    if (totalWeight <= 0)
-    {
-        return itemKind == MonsterTable::LootItemKind::Any ? generateRandomItemId(treasureLevel, rng) : 0;
-    }
-
-    int targetWeight = std::uniform_int_distribution<int>(1, totalWeight)(rng);
-    int runningWeight = 0;
-
-    for (const ItemDefinition &entry : m_pItemTable->entries())
-    {
-        if (entry.itemId == 0 || entry.randomTreasureWeights[weightIndex] <= 0)
-        {
-            continue;
-        }
-
-        if (!itemMatchesLootKind(entry, itemKind))
-        {
-            continue;
-        }
-
-        runningWeight += entry.randomTreasureWeights[weightIndex];
-
-        if (runningWeight >= targetWeight)
-        {
-            return entry.itemId;
-        }
-    }
-
-    return 0;
-}
-
 OutdoorWorldRuntime::CorpseViewState OutdoorWorldRuntime::buildCorpseView(
     const std::string &title,
     const MonsterTable::LootPrototype &loot,
@@ -2949,6 +2844,7 @@ OutdoorWorldRuntime::CorpseViewState OutdoorWorldRuntime::buildCorpseView(
                 *m_pStandardItemEnchantTable,
                 *m_pSpecialItemEnchantTable,
                 ItemGenerationRequest{remappedTreasureLevel, ItemGenerationMode::MonsterLoot},
+                m_pParty,
                 rng,
                 [kind = loot.itemKind](const ItemDefinition &entry)
                 {
@@ -3158,6 +3054,7 @@ OutdoorWorldRuntime::ChestViewState OutdoorWorldRuntime::buildChestView(uint32_t
                             *m_pStandardItemEnchantTable,
                             *m_pSpecialItemEnchantTable,
                             ItemGenerationRequest{std::min(resolvedTreasureLevel, SpawnableItemTreasureLevels), ItemGenerationMode::ChestLoot},
+                            m_pParty,
                             rng);
 
                     if (!generatedItem)
@@ -3339,6 +3236,7 @@ void OutdoorWorldRuntime::initialize(
     const ObjectTable &objectTable,
     const SpellTable &spellTable,
     const ItemTable &itemTable,
+    Party *pParty,
     const StandardItemEnchantTable &standardItemEnchantTable,
     const SpecialItemEnchantTable &specialItemEnchantTable,
     const ChestTable *pChestTable,
@@ -3374,6 +3272,7 @@ void OutdoorWorldRuntime::initialize(
     m_activeChestView.reset();
     m_eventRuntimeState = eventRuntimeState;
     m_pItemTable = &itemTable;
+    m_pParty = pParty;
     m_pStandardItemEnchantTable = &standardItemEnchantTable;
     m_pSpecialItemEnchantTable = &specialItemEnchantTable;
     m_pChestTable = pChestTable;
@@ -3920,6 +3819,70 @@ int OutdoorWorldRuntime::mapId() const
 const std::string &OutdoorWorldRuntime::mapName() const
 {
     return m_mapName;
+}
+
+OutdoorWorldRuntime::Snapshot OutdoorWorldRuntime::snapshot() const
+{
+    Snapshot snapshot = {};
+    snapshot.gameMinutes = m_gameMinutes;
+    snapshot.timers = m_timers;
+    snapshot.mapActors = m_mapActors;
+    snapshot.chests = m_chests;
+    snapshot.materializedChestViews = m_materializedChestViews;
+    snapshot.activeChestView = m_activeChestView;
+    snapshot.eventRuntimeState = m_eventRuntimeState;
+    snapshot.actorUpdateAccumulatorSeconds = m_actorUpdateAccumulatorSeconds;
+    snapshot.sessionChestSeed = m_sessionChestSeed;
+    snapshot.nextActorId = m_nextActorId;
+    snapshot.mapActorCorpseViews = m_mapActorCorpseViews;
+    snapshot.activeCorpseView = m_activeCorpseView;
+    snapshot.worldItems = m_worldItems;
+    snapshot.nextWorldItemId = m_nextWorldItemId;
+    snapshot.nextProjectileId = m_nextProjectileId;
+    snapshot.nextProjectileImpactId = m_nextProjectileImpactId;
+    snapshot.projectiles = m_projectiles;
+    snapshot.projectileImpacts = m_projectileImpacts;
+    snapshot.openedChestFlags.reserve(m_openedChests.size());
+
+    for (bool opened : m_openedChests)
+    {
+        snapshot.openedChestFlags.push_back(opened ? 1u : 0u);
+    }
+
+    return snapshot;
+}
+
+void OutdoorWorldRuntime::restoreSnapshot(const Snapshot &snapshot)
+{
+    m_gameMinutes = snapshot.gameMinutes;
+    m_timers = snapshot.timers;
+    m_mapActors = snapshot.mapActors;
+    m_chests = snapshot.chests;
+    m_materializedChestViews = snapshot.materializedChestViews;
+    m_activeChestView = snapshot.activeChestView;
+    m_eventRuntimeState = snapshot.eventRuntimeState;
+    m_actorUpdateAccumulatorSeconds = snapshot.actorUpdateAccumulatorSeconds;
+    m_sessionChestSeed = snapshot.sessionChestSeed;
+    m_nextActorId = snapshot.nextActorId;
+    m_mapActorCorpseViews = snapshot.mapActorCorpseViews;
+    m_activeCorpseView = snapshot.activeCorpseView;
+    m_worldItems = snapshot.worldItems;
+    m_nextWorldItemId = snapshot.nextWorldItemId;
+    m_nextProjectileId = snapshot.nextProjectileId;
+    m_nextProjectileImpactId = snapshot.nextProjectileImpactId;
+    m_projectiles = snapshot.projectiles;
+    m_projectileImpacts = snapshot.projectileImpacts;
+    m_openedChests.clear();
+    m_openedChests.reserve(snapshot.openedChestFlags.size());
+
+    for (uint8_t opened : snapshot.openedChestFlags)
+    {
+        m_openedChests.push_back(opened != 0);
+    }
+
+    m_pendingAudioEvents.clear();
+    m_pendingCombatEvents.clear();
+    applyEventRuntimeState();
 }
 
 float OutdoorWorldRuntime::gameMinutes() const
@@ -5711,6 +5674,29 @@ void OutdoorWorldRuntime::updateProjectiles(float deltaSeconds, float partyX, fl
                                 projectile.attackBonus,
                                 distanceToTarget,
                                 rng);
+                        }
+
+                        if (hit
+                            && damage > 0
+                            && projectile.spellId == 0
+                            && m_pParty != nullptr
+                            && m_pMonsterTable != nullptr
+                            && m_pItemTable != nullptr)
+                        {
+                            const Character *pSourceMember = m_pParty->member(projectile.sourcePartyMemberIndex);
+                            const MonsterTable::MonsterStatsEntry *pStats =
+                                m_pMonsterTable->findStatsById(m_mapActors[bestActorIndex].monsterId);
+
+                            if (pSourceMember != nullptr && pStats != nullptr)
+                            {
+                                damage *= ItemEnchantRuntime::characterAttackDamageMultiplierAgainstMonster(
+                                    *pSourceMember,
+                                    CharacterAttackMode::Bow,
+                                    m_pItemTable,
+                                    m_pSpecialItemEnchantTable,
+                                    pStats->name,
+                                    pStats->pictureName);
+                            }
                         }
 
                         if (hit && damage > 0)

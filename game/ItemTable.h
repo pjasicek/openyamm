@@ -10,6 +10,14 @@
 
 namespace OpenYAMM::Game
 {
+enum class ItemRarity : uint8_t
+{
+    Common = 0,
+    Artifact,
+    Relic,
+    Special,
+};
+
 struct ItemDefinition
 {
     uint32_t itemId = 0;
@@ -22,6 +30,8 @@ struct ItemDefinition
     std::string mod1;
     std::string mod2;
     int material = 0;
+    std::string materialName;
+    ItemRarity rarity = ItemRarity::Common;
     std::string idRepSt;
     int identifyRepairDifficulty = 0;
     std::string unidentifiedName;

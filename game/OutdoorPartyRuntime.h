@@ -12,6 +12,12 @@ class ItemTable;
 class OutdoorPartyRuntime
 {
 public:
+    struct Snapshot
+    {
+        OutdoorMoveState movementState = {};
+        OutdoorPartyMovementState partyMovementState = {};
+    };
+
     OutdoorPartyRuntime(OutdoorMovementDriver movementDriver, const ItemTable &itemTable);
 
     void initialize(float x, float y, float footZHint, bool resetParty = true);
@@ -27,6 +33,8 @@ public:
     const Party &party() const;
     Party &party();
     void setParty(const Party &party);
+    Snapshot snapshot() const;
+    void restoreSnapshot(const Snapshot &snapshot);
 
     void toggleRunning();
     void toggleFlying();

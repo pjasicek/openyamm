@@ -435,6 +435,15 @@ bool matchesMonsterAttackPreference(const Character &member, uint32_t preference
     }
 }
 
+bool hasConditionImmunity(const Character &member, CharacterCondition condition)
+{
+    const size_t conditionIndex = static_cast<size_t>(condition);
+
+    return conditionIndex < CharacterConditionCount
+        && (member.permanentConditionImmunities.test(conditionIndex)
+            || member.magicalConditionImmunities.test(conditionIndex));
+}
+
 uint64_t experienceRequiredForNextLevel(uint32_t currentLevel)
 {
     return 1000ull * currentLevel * (currentLevel + 1) / 2;
@@ -731,6 +740,26 @@ InventoryItem makeInventoryItem(
     item.standardEnchantPower = runtimeState.standardEnchantPower;
     item.specialEnchantId = runtimeState.specialEnchantId;
     item.artifactId = runtimeState.artifactId;
+    item.rarity = runtimeState.rarity;
+
+    if (pItemTable != nullptr)
+    {
+        const ItemDefinition *pItemDefinition = pItemTable->get(objectDescriptionId);
+
+        if (pItemDefinition != nullptr)
+        {
+            if (item.rarity == ItemRarity::Common)
+            {
+                item.rarity = pItemDefinition->rarity;
+            }
+
+            if (item.artifactId == 0 && ItemRuntime::isRareItem(*pItemDefinition))
+            {
+                item.artifactId = static_cast<uint16_t>(std::min<uint32_t>(pItemDefinition->itemId, 0xFFFFu));
+            }
+        }
+    }
+
     return item;
 }
 
@@ -791,6 +820,7 @@ bool identifyEquippedItemInstance(EquippedItemRuntimeState &runtimeState, const 
     displayItem.standardEnchantPower = runtimeState.standardEnchantPower;
     displayItem.specialEnchantId = runtimeState.specialEnchantId;
     displayItem.artifactId = runtimeState.artifactId;
+    displayItem.rarity = runtimeState.rarity;
     statusText = "Identified " + ItemRuntime::displayName(displayItem, itemDefinition) + ".";
     return true;
 }
@@ -813,6 +843,7 @@ bool repairEquippedItemInstance(EquippedItemRuntimeState &runtimeState, const It
     displayItem.standardEnchantPower = runtimeState.standardEnchantPower;
     displayItem.specialEnchantId = runtimeState.specialEnchantId;
     displayItem.artifactId = runtimeState.artifactId;
+    displayItem.rarity = runtimeState.rarity;
     statusText = "Repaired " + ItemRuntime::displayName(displayItem, itemDefinition) + ".";
     return true;
 }
@@ -1234,6 +1265,74 @@ void Party::setClassSkillTable(const ClassSkillTable *pClassSkillTable)
     }
 }
 
+Party::Snapshot Party::snapshot() const
+{
+    Snapshot snapshot = {};
+    snapshot.members = m_members;
+    snapshot.activeMemberIndex = m_activeMemberIndex;
+    snapshot.partyBuffs = m_partyBuffs;
+    snapshot.characterBuffs = m_characterBuffs;
+    snapshot.gold = m_gold;
+    snapshot.bankGold = m_bankGold;
+    snapshot.food = m_food;
+    snapshot.waterDamageTicks = m_waterDamageTicks;
+    snapshot.burningDamageTicks = m_burningDamageTicks;
+    snapshot.splashCount = m_splashCount;
+    snapshot.landingSoundCount = m_landingSoundCount;
+    snapshot.hardLandingSoundCount = m_hardLandingSoundCount;
+    snapshot.monsterTargetSelectionCounter = m_monsterTargetSelectionCounter;
+    snapshot.houseStockSeed = m_houseStockSeed;
+    snapshot.lastFallDamageDistance = m_lastFallDamageDistance;
+    snapshot.foundArtifactItems = m_foundArtifactItems;
+
+    for (const auto &[houseId, state] : m_houseStockStates)
+    {
+        (void)houseId;
+        snapshot.houseStockStates.push_back(state);
+    }
+
+    return snapshot;
+}
+
+void Party::restoreSnapshot(const Snapshot &snapshot)
+{
+    m_members = snapshot.members;
+    m_activeMemberIndex = snapshot.activeMemberIndex;
+    m_partyBuffs = snapshot.partyBuffs;
+    m_characterBuffs = snapshot.characterBuffs;
+    m_gold = snapshot.gold;
+    m_bankGold = snapshot.bankGold;
+    m_food = snapshot.food;
+    m_waterDamageTicks = snapshot.waterDamageTicks;
+    m_burningDamageTicks = snapshot.burningDamageTicks;
+    m_splashCount = snapshot.splashCount;
+    m_landingSoundCount = snapshot.landingSoundCount;
+    m_hardLandingSoundCount = snapshot.hardLandingSoundCount;
+    m_monsterTargetSelectionCounter = snapshot.monsterTargetSelectionCounter;
+    m_houseStockSeed = snapshot.houseStockSeed;
+    m_lastFallDamageDistance = snapshot.lastFallDamageDistance;
+    m_foundArtifactItems = snapshot.foundArtifactItems;
+    m_houseStockStates.clear();
+
+    for (const HouseStockState &state : snapshot.houseStockStates)
+    {
+        m_houseStockStates[state.houseId] = state;
+    }
+
+    if (m_members.empty())
+    {
+        m_activeMemberIndex = 0;
+    }
+    else
+    {
+        m_activeMemberIndex = std::min(m_activeMemberIndex, m_members.size() - 1);
+    }
+
+    m_lastStatus.clear();
+    m_pendingAudioRequests.clear();
+    rebuildMagicalBonusesFromBuffs();
+}
+
 void Party::seed(const PartySeed &seed)
 {
     m_members = seed.members;
@@ -1245,6 +1344,7 @@ void Party::seed(const PartySeed &seed)
     m_food = std::max(0, seed.food);
     m_monsterTargetSelectionCounter = 0;
     m_houseStockSeed = generateHouseStockSeed();
+    m_foundArtifactItems.clear();
     m_houseStockStates.clear();
 
     for (Character &member : m_members)
@@ -1274,11 +1374,42 @@ void Party::seed(const PartySeed &seed)
             {
                 continue;
             }
+
+            markArtifactItemFoundIfRelevant(resolvedItem);
         }
 
         if (member.skills.empty())
         {
             applyDefaultStartingSkills(member);
+        }
+
+        for (EquipmentSlot slot : {
+                 EquipmentSlot::OffHand,
+                 EquipmentSlot::MainHand,
+                 EquipmentSlot::Bow,
+                 EquipmentSlot::Armor,
+                 EquipmentSlot::Helm,
+                 EquipmentSlot::Belt,
+                 EquipmentSlot::Cloak,
+                 EquipmentSlot::Gauntlets,
+                 EquipmentSlot::Boots,
+                 EquipmentSlot::Amulet,
+                 EquipmentSlot::Ring1,
+                 EquipmentSlot::Ring2,
+                 EquipmentSlot::Ring3,
+                 EquipmentSlot::Ring4,
+                 EquipmentSlot::Ring5,
+                 EquipmentSlot::Ring6})
+        {
+            const uint32_t itemId = equippedItemId(member.equipment, slot);
+
+            if (itemId == 0)
+            {
+                continue;
+            }
+
+            markArtifactItemFoundIfRelevant(
+                makeInventoryItem(m_pItemTable, itemId, equippedItemRuntimeState(member.equipmentRuntime, slot)));
         }
 
         initializePortraitRuntimeState(member);
@@ -1631,6 +1762,7 @@ bool Party::tryGrantItem(uint32_t objectDescriptionId, uint32_t quantity)
     }
 
     m_members = std::move(testMembers);
+    markArtifactItemFoundIfRelevant(makeInventoryItem(m_pItemTable, objectDescriptionId));
     return true;
 }
 
@@ -1650,6 +1782,7 @@ bool Party::tryGrantInventoryItem(const InventoryItem &item, size_t *pRecipientM
         if (member.addInventoryItem(item))
         {
             m_members = std::move(testMembers);
+            markArtifactItemFoundIfRelevant(item);
 
             if (pRecipientMemberIndex != nullptr)
             {
@@ -2151,6 +2284,8 @@ bool Party::grantItemToMember(size_t memberIndex, uint32_t objectDescriptionId, 
         {
             return false;
         }
+
+        markArtifactItemFoundIfRelevant(item);
     }
 
     m_lastStatus = "item granted";
@@ -2281,6 +2416,16 @@ bool Party::tryEquipItemOnMember(
         return false;
     }
 
+    const ItemDefinition *pItemDefinition = m_pItemTable != nullptr ? m_pItemTable->get(item.objectDescriptionId) : nullptr;
+
+    if (pItemDefinition == nullptr
+        || !ItemRuntime::characterMeetsClassRestriction(*pMember, *pItemDefinition)
+        || !ItemRuntime::characterMeetsRaceRestriction(*pMember, *pItemDefinition))
+    {
+        m_lastStatus = "cannot equip";
+        return false;
+    }
+
     if (displacedSlot && *displacedSlot != targetSlot && equippedItemId(pMember->equipment, targetSlot) != 0)
     {
         return false;
@@ -2325,6 +2470,17 @@ bool Party::tryEquipItemOnMember(
     targetRuntimeState.standardEnchantPower = item.standardEnchantPower;
     targetRuntimeState.specialEnchantId = item.specialEnchantId;
     targetRuntimeState.artifactId = item.artifactId;
+    targetRuntimeState.rarity = item.rarity;
+
+    if (targetRuntimeState.rarity == ItemRarity::Common && ItemRuntime::isRareItem(*pItemDefinition))
+    {
+        targetRuntimeState.rarity = pItemDefinition->rarity;
+    }
+
+    if (targetRuntimeState.artifactId == 0 && ItemRuntime::isRareItem(*pItemDefinition))
+    {
+        targetRuntimeState.artifactId = static_cast<uint16_t>(std::min<uint32_t>(pItemDefinition->itemId, 0xFFFFu));
+    }
 
     if (!autoStoreDisplacedItem && displacedItemId != 0)
     {
@@ -2338,6 +2494,7 @@ bool Party::tryEquipItemOnMember(
     }
 
     rebuildMagicalBonusesFromBuffs();
+    markArtifactItemFoundIfRelevant(item);
     return true;
 }
 
@@ -3205,7 +3362,8 @@ void Party::updateRecovery(float deltaSeconds)
             {
                 for (Character &member : m_members)
                 {
-                    member.conditions.set(static_cast<size_t>(CharacterCondition::Weak));
+                    const size_t memberIndex = static_cast<size_t>(&member - m_members.data());
+                    applyMemberCondition(memberIndex, CharacterCondition::Weak);
                 }
             }
         }
@@ -3401,6 +3559,25 @@ bool Party::clearMemberCondition(size_t memberIndex, CharacterCondition conditio
     return true;
 }
 
+bool Party::applyMemberCondition(size_t memberIndex, CharacterCondition condition)
+{
+    Character *pMember = member(memberIndex);
+
+    if (pMember == nullptr || hasConditionImmunity(*pMember, condition))
+    {
+        return false;
+    }
+
+    pMember->conditions.set(static_cast<size_t>(condition));
+    return true;
+}
+
+bool Party::hasMemberConditionImmunity(size_t memberIndex, CharacterCondition condition) const
+{
+    const Character *pMember = member(memberIndex);
+    return pMember != nullptr && hasConditionImmunity(*pMember, condition);
+}
+
 bool Party::healMember(size_t memberIndex, int amount)
 {
     Character *pMember = member(memberIndex);
@@ -3438,7 +3615,7 @@ bool Party::reviveMember(size_t memberIndex, int health, bool applyWeak)
 
     if (applyWeak)
     {
-        pMember->conditions.set(static_cast<size_t>(CharacterCondition::Weak));
+        applyMemberCondition(memberIndex, CharacterCondition::Weak);
     }
 
     return true;
@@ -3511,6 +3688,24 @@ int Party::food() const
 uint32_t Party::houseStockSeed() const
 {
     return m_houseStockSeed;
+}
+
+bool Party::hasFoundArtifactItem(uint32_t itemId) const
+{
+    return itemId != 0 && m_foundArtifactItems.contains(itemId);
+}
+
+void Party::markArtifactItemFound(uint32_t itemId)
+{
+    if (itemId != 0)
+    {
+        m_foundArtifactItems.insert(itemId);
+    }
+}
+
+void Party::clearFoundArtifactItems()
+{
+    m_foundArtifactItems.clear();
 }
 
 Party::HouseStockState *Party::houseStockState(uint32_t houseId)
@@ -3651,6 +3846,7 @@ void Party::rebuildMagicalBonusesFromBuffs()
     {
         member.magicalBonuses = {};
         member.magicalImmunities = {};
+        member.magicalConditionImmunities = {};
         member.merchantBonus = 0;
         member.weaponEnchantmentDamageBonus = 0;
         member.vampiricHealFraction = 0.0f;
@@ -3852,5 +4048,33 @@ void Party::applyDefaultStartingSkills(Character &member) const
     {
         member.skills[skill.name] = skill;
     }
+}
+
+void Party::markArtifactItemFoundIfRelevant(const InventoryItem &item)
+{
+    if (item.objectDescriptionId == 0)
+    {
+        return;
+    }
+
+    if (item.artifactId != 0)
+    {
+        markArtifactItemFound(item.artifactId);
+        return;
+    }
+
+    if (m_pItemTable == nullptr)
+    {
+        return;
+    }
+
+    const ItemDefinition *pItemDefinition = m_pItemTable->get(item.objectDescriptionId);
+
+    if (pItemDefinition == nullptr || !ItemRuntime::isUniquelyGeneratedRareItem(*pItemDefinition))
+    {
+        return;
+    }
+
+    markArtifactItemFound(pItemDefinition->itemId);
 }
 }

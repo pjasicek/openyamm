@@ -100,6 +100,9 @@ public:
     );
     void render(int width, int height, float mouseWheelDelta, float deltaSeconds);
     void shutdown();
+    float cameraYawRadians() const;
+    float cameraPitchRadians() const;
+    void setCameraAngles(float yawRadians, float pitchRadians);
 
 private:
     struct TerrainVertex

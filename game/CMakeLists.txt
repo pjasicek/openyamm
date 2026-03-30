@@ -109,6 +109,7 @@ add_executable(openyamm
     PortraitEnums.cpp
     PortraitFrameTable.cpp
     RosterTable.cpp
+    SaveGame.cpp
     SoundCatalog.cpp
     SpawnPreview.cpp
     SkillData.cpp

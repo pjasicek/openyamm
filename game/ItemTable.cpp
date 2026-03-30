@@ -59,6 +59,28 @@ int parseInt(const std::string &value)
     }
 }
 
+ItemRarity parseItemRarity(const std::string &value)
+{
+    const std::string normalized = toLowerCopy(trimCopy(value));
+
+    if (normalized == "artifact")
+    {
+        return ItemRarity::Artifact;
+    }
+
+    if (normalized == "relic")
+    {
+        return ItemRarity::Relic;
+    }
+
+    if (normalized == "special")
+    {
+        return ItemRarity::Special;
+    }
+
+    return ItemRarity::Common;
+}
+
 std::optional<uint32_t> parseItemId(const std::vector<std::string> &row)
 {
     const std::string rawItemId = getCell(row, 0);
@@ -227,6 +249,8 @@ bool ItemTable::load(
         entry.mod1 = getCell(row, 6);
         entry.mod2 = getCell(row, 7);
         entry.material = parseInt(getCell(row, 8));
+        entry.materialName = getCell(row, 8);
+        entry.rarity = parseItemRarity(entry.materialName);
         entry.idRepSt = getCell(row, 9);
         entry.identifyRepairDifficulty = parseInt(entry.idRepSt);
         entry.unidentifiedName = getCell(row, 10);

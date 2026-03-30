@@ -3851,7 +3851,7 @@ bool OutdoorGameView::initialize(
     m_cameraTargetY = initialY;
     if (m_pOutdoorPartyRuntime)
     {
-        m_pOutdoorPartyRuntime->initialize(m_cameraTargetX, m_cameraTargetY, initialFootZ);
+        m_pOutdoorPartyRuntime->initialize(m_cameraTargetX, m_cameraTargetY, initialFootZ, false);
         m_cameraTargetZ = m_pOutdoorPartyRuntime->movementState().footZ + m_cameraEyeHeight;
         m_lastFootstepX = m_pOutdoorPartyRuntime->movementState().x;
         m_lastFootstepY = m_pOutdoorPartyRuntime->movementState().y;
@@ -4894,10 +4894,31 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
                             if (runtimeActorIndex && pTargetActor != nullptr && targetInMeleeRange
                                 && attack.hit && attack.damage > 0)
                             {
+                                int appliedDamage = attack.damage;
+
+                                if (m_monsterTable.has_value() && m_pItemTable != nullptr)
+                                {
+                                    const MonsterTable::MonsterStatsEntry *pStats =
+                                        m_monsterTable->findStatsById(pTargetActor->monsterId);
+
+                                    if (pStats != nullptr)
+                                    {
+                                        const int multiplier =
+                                            ItemEnchantRuntime::characterAttackDamageMultiplierAgainstMonster(
+                                                *pAttacker,
+                                                CharacterAttackMode::Melee,
+                                                m_pItemTable,
+                                                m_pSpecialItemEnchantTable,
+                                                pStats->name,
+                                                pStats->pictureName);
+                                        appliedDamage *= multiplier;
+                                    }
+                                }
+
                                 const int beforeHp = pTargetActor->currentHp;
                                 attacked = m_pOutdoorWorldRuntime->applyPartyAttackToMapActor(
                                     *runtimeActorIndex,
-                                    attack.damage,
+                                    appliedDamage,
                                     moveState.x,
                                     moveState.y,
                                     moveState.footZ);
@@ -4908,12 +4929,12 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
                                         m_pOutdoorWorldRuntime->mapActorState(*runtimeActorIndex);
                                     killed = pAfterActor != nullptr && beforeHp > 0 && pAfterActor->currentHp <= 0;
 
-                                    if (pAttacker->vampiricHealFraction > 0.0f && attack.damage > 0)
+                                    if (pAttacker->vampiricHealFraction > 0.0f && appliedDamage > 0)
                                     {
                                         party.healMember(
                                             party.activeMemberIndex(),
                                             std::max(1, static_cast<int>(std::round(
-                                                static_cast<float>(attack.damage) * pAttacker->vampiricHealFraction))));
+                                                static_cast<float>(appliedDamage) * pAttacker->vampiricHealFraction))));
                                     }
 
                                     refreshInteractionInspectHit();
@@ -7903,6 +7924,33 @@ void OutdoorGameView::shutdown()
     m_memberSpeechCooldownUntilTicks.clear();
     m_memberCombatSpeechCooldownUntilTicks.clear();
     m_activeHouseAudioHostId = 0;
+}
+
+float OutdoorGameView::cameraYawRadians() const
+{
+    return m_cameraYawRadians;
+}
+
+float OutdoorGameView::cameraPitchRadians() const
+{
+    return m_cameraPitchRadians;
+}
+
+void OutdoorGameView::setCameraAngles(float yawRadians, float pitchRadians)
+{
+    m_cameraYawRadians = yawRadians;
+    m_cameraPitchRadians = pitchRadians;
+
+    if (m_cameraYawRadians > Pi)
+    {
+        m_cameraYawRadians -= Pi * 2.0f;
+    }
+    else if (m_cameraYawRadians < -Pi)
+    {
+        m_cameraYawRadians += Pi * 2.0f;
+    }
+
+    m_cameraPitchRadians = std::clamp(m_cameraPitchRadians, -1.55f, 1.55f);
 }
 
 void OutdoorGameView::updateHouseVideoPlayback(float deltaSeconds)

@@ -1,5 +1,6 @@
 #include "game/ItemEnchantRuntime.h"
 
+#include "game/GameMechanics.h"
 #include "game/ItemTable.h"
 
 #include <algorithm>
@@ -34,6 +35,11 @@ bool isWeaponCategory(ItemEnchantCategory category)
     return category == ItemEnchantCategory::OneHandedWeapon
         || category == ItemEnchantCategory::TwoHandedWeapon
         || category == ItemEnchantCategory::Missile;
+}
+
+bool isMeleeWeaponCategory(ItemEnchantCategory category)
+{
+    return category == ItemEnchantCategory::OneHandedWeapon || category == ItemEnchantCategory::TwoHandedWeapon;
 }
 
 size_t standardSlotIndex(ItemEnchantCategory category)
@@ -120,6 +126,194 @@ size_t specialSlotIndex(ItemEnchantCategory category)
         default:
             return std::numeric_limits<size_t>::max();
     }
+}
+
+void addConditionImmunity(Character &member, CharacterCondition condition)
+{
+    member.magicalConditionImmunities.set(static_cast<size_t>(condition));
+}
+
+void addPoisonImmunity(Character &member)
+{
+    addConditionImmunity(member, CharacterCondition::PoisonWeak);
+    addConditionImmunity(member, CharacterCondition::PoisonMedium);
+    addConditionImmunity(member, CharacterCondition::PoisonSevere);
+}
+
+void addDiseaseImmunity(Character &member)
+{
+    addConditionImmunity(member, CharacterCondition::DiseaseWeak);
+    addConditionImmunity(member, CharacterCondition::DiseaseMedium);
+    addConditionImmunity(member, CharacterCondition::DiseaseSevere);
+}
+
+bool nameContainsToken(const std::string &name, const std::vector<std::string_view> &tokens)
+{
+    const std::string normalizedName = toLowerCopy(name);
+
+    for (std::string_view token : tokens)
+    {
+        if (normalizedName.find(std::string(token)) != std::string::npos)
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+bool monsterMatchesAnyToken(
+    const std::string &monsterName,
+    const std::string &monsterPictureName,
+    const std::vector<std::string_view> &tokens)
+{
+    return nameContainsToken(monsterName, tokens) || nameContainsToken(monsterPictureName, tokens);
+}
+
+bool monsterLooksOgreFamily(const std::string &monsterName, const std::string &monsterPictureName)
+{
+    static const std::vector<std::string_view> OgreTokens = {"ogre", "troll", "cyclops"};
+    return monsterMatchesAnyToken(monsterName, monsterPictureName, OgreTokens);
+}
+
+bool monsterLooksDragon(const std::string &monsterName, const std::string &monsterPictureName)
+{
+    static const std::vector<std::string_view> DragonTokens = {"dragon", "wyrm"};
+    return monsterMatchesAnyToken(monsterName, monsterPictureName, DragonTokens);
+}
+
+bool monsterLooksElemental(const std::string &monsterName, const std::string &monsterPictureName)
+{
+    static const std::vector<std::string_view> ElementalTokens = {
+        "fire elemental",
+        "air elemental",
+        "water elemental",
+        "earth elemental",
+        "elemental",
+    };
+    return monsterMatchesAnyToken(monsterName, monsterPictureName, ElementalTokens);
+}
+
+bool monsterLooksUndead(const std::string &monsterName, const std::string &monsterPictureName)
+{
+    static const std::vector<std::string_view> UndeadTokens = {
+        "skeleton",
+        "zombie",
+        "ghost",
+        "ghoul",
+        "vampire",
+        "lich",
+        "mummy",
+        "wight",
+        "spectre",
+        "spirit",
+        "undead",
+    };
+    return monsterMatchesAnyToken(monsterName, monsterPictureName, UndeadTokens);
+}
+
+bool monsterLooksTitan(const std::string &monsterName, const std::string &monsterPictureName)
+{
+    static const std::vector<std::string_view> TitanTokens = {"titan"};
+    return monsterMatchesAnyToken(monsterName, monsterPictureName, TitanTokens);
+}
+
+uint32_t rareItemId(const ItemDefinition &itemDefinition, const EquippedItemRuntimeState &runtimeState)
+{
+    if (runtimeState.artifactId != 0)
+    {
+        return runtimeState.artifactId;
+    }
+
+    return itemDefinition.rarity != ItemRarity::Common ? itemDefinition.itemId : 0;
+}
+
+int rareItemDamageMultiplierAgainstMonster(
+    uint32_t itemId,
+    const std::string &monsterName,
+    const std::string &monsterPictureName)
+{
+    switch (itemId)
+    {
+        case 503:
+            return monsterLooksOgreFamily(monsterName, monsterPictureName) ? 2 : 1;
+
+        case 506:
+        case 539:
+        case 540:
+            return monsterLooksDragon(monsterName, monsterPictureName) ? 2 : 1;
+
+        case 538:
+            return monsterLooksElemental(monsterName, monsterPictureName) ? 2 : 1;
+
+        default:
+            return 1;
+    }
+}
+
+int specialEnchantDamageMultiplierAgainstMonster(
+    uint16_t specialEnchantId,
+    const SpecialItemEnchantTable *pSpecialTable,
+    const std::string &monsterName,
+    const std::string &monsterPictureName)
+{
+    if (specialEnchantId == 0 || pSpecialTable == nullptr)
+    {
+        return 1;
+    }
+
+    const SpecialItemEnchantEntry *pEntry = pSpecialTable->get(specialEnchantId);
+
+    if (pEntry == nullptr)
+    {
+        return 1;
+    }
+
+    switch (pEntry->kind)
+    {
+        case SpecialItemEnchantKind::OgreSlaying:
+            return monsterLooksOgreFamily(monsterName, monsterPictureName) ? 2 : 1;
+
+        case SpecialItemEnchantKind::DragonSlaying:
+            return monsterLooksDragon(monsterName, monsterPictureName) ? 2 : 1;
+
+        case SpecialItemEnchantKind::ElementalSlaying:
+            return monsterLooksElemental(monsterName, monsterPictureName) ? 2 : 1;
+
+        case SpecialItemEnchantKind::UndeadSlaying:
+            return monsterLooksUndead(monsterName, monsterPictureName) ? 2 : 1;
+
+        case SpecialItemEnchantKind::David:
+            return monsterLooksTitan(monsterName, monsterPictureName) ? 2 : 1;
+
+        default:
+            return 1;
+    }
+}
+
+int weaponDamageMultiplierAgainstMonster(
+    const ItemDefinition &itemDefinition,
+    const EquippedItemRuntimeState &runtimeState,
+    const SpecialItemEnchantTable *pSpecialTable,
+    const std::string &monsterName,
+    const std::string &monsterPictureName)
+{
+    if (runtimeState.broken)
+    {
+        return 1;
+    }
+
+    const int rareMultiplier = rareItemDamageMultiplierAgainstMonster(
+        rareItemId(itemDefinition, runtimeState),
+        monsterName,
+        monsterPictureName);
+    const int specialMultiplier = specialEnchantDamageMultiplierAgainstMonster(
+        runtimeState.specialEnchantId,
+        pSpecialTable,
+        monsterName,
+        monsterPictureName);
+
+    return std::max(rareMultiplier, specialMultiplier);
 }
 
 bool isSpellSchoolSkill(const std::string &skillName)
@@ -308,6 +502,27 @@ void applySpecialEnchantBonus(Character &member, SpecialItemEnchantKind kind)
             break;
 
         case SpecialItemEnchantKind::Immunity:
+            addDiseaseImmunity(member);
+            break;
+
+        case SpecialItemEnchantKind::Sanity:
+            addConditionImmunity(member, CharacterCondition::Insane);
+            break;
+
+        case SpecialItemEnchantKind::Freedom:
+            addConditionImmunity(member, CharacterCondition::Paralyzed);
+            break;
+
+        case SpecialItemEnchantKind::Antidotes:
+            addPoisonImmunity(member);
+            break;
+
+        case SpecialItemEnchantKind::Alarms:
+            addConditionImmunity(member, CharacterCondition::Asleep);
+            break;
+
+        case SpecialItemEnchantKind::Medusa:
+            addConditionImmunity(member, CharacterCondition::Petrified);
             break;
 
         case SpecialItemEnchantKind::Force:
@@ -526,11 +741,6 @@ void applySpecialEnchantBonus(Character &member, SpecialItemEnchantKind kind)
             member.featherFalling = true;
             break;
 
-        case SpecialItemEnchantKind::Sanity:
-        case SpecialItemEnchantKind::Freedom:
-        case SpecialItemEnchantKind::Antidotes:
-        case SpecialItemEnchantKind::Alarms:
-        case SpecialItemEnchantKind::Medusa:
         case SpecialItemEnchantKind::Cold:
         case SpecialItemEnchantKind::Frost:
         case SpecialItemEnchantKind::Ice:
@@ -544,6 +754,274 @@ void applySpecialEnchantBonus(Character &member, SpecialItemEnchantKind kind)
         case SpecialItemEnchantKind::Venom:
         case SpecialItemEnchantKind::Acid:
         case SpecialItemEnchantKind::None:
+        default:
+            break;
+    }
+}
+
+void addAllPrimaryStats(Character &member, int amount)
+{
+    member.magicalBonuses.might += amount;
+    member.magicalBonuses.intellect += amount;
+    member.magicalBonuses.personality += amount;
+    member.magicalBonuses.endurance += amount;
+    member.magicalBonuses.speed += amount;
+    member.magicalBonuses.accuracy += amount;
+    member.magicalBonuses.luck += amount;
+}
+
+void addAllMagicResistances(Character &member, int amount, bool includeSpirit = true)
+{
+    member.magicalBonuses.resistances.fire += amount;
+    member.magicalBonuses.resistances.air += amount;
+    member.magicalBonuses.resistances.water += amount;
+    member.magicalBonuses.resistances.earth += amount;
+    member.magicalBonuses.resistances.mind += amount;
+    member.magicalBonuses.resistances.body += amount;
+
+    if (includeSpirit)
+    {
+        member.magicalBonuses.resistances.spirit += amount;
+    }
+}
+
+void applyRareItemBonus(Character &member, uint32_t itemId)
+{
+    switch (itemId)
+    {
+        case 500:
+            member.magicalBonuses.accuracy += 40;
+            member.weaponEnchantmentDamageBonus += 20;
+            break;
+
+        case 501:
+            member.magicalBonuses.might += 40;
+            member.weaponEnchantmentDamageBonus += 20;
+            break;
+
+        case 502:
+            addSkillBonus(member, "Armsmaster", 7);
+            member.magicalBonuses.resistances.air += 30;
+            break;
+
+        case 503:
+            member.magicalBonuses.endurance += 40;
+            member.magicalBonuses.luck += 40;
+            break;
+
+        case 504:
+            member.magicalBonuses.might += 20;
+            member.attackRecoveryReductionTicks += 20;
+            member.weaponEnchantmentDamageBonus += 12;
+            break;
+
+        case 505:
+            member.magicalBonuses.resistances.fire += 40;
+            member.weaponEnchantmentDamageBonus += 20;
+            break;
+
+        case 506:
+            member.magicalBonuses.endurance += 20;
+            member.attackRecoveryReductionTicks += 20;
+            break;
+
+        case 507:
+            addAllPrimaryStats(member, 10);
+            member.weaponEnchantmentDamageBonus += 20;
+            break;
+
+        case 508:
+            member.vampiricHealFraction = std::max(member.vampiricHealFraction, 0.2f);
+            member.weaponEnchantmentDamageBonus += 10;
+            break;
+
+        case 509:
+            member.magicalBonuses.personality += 40;
+            member.healthRegenPerSecond += 1.0f;
+            break;
+
+        case 510:
+            member.magicalBonuses.might += 20;
+            member.magicalBonuses.endurance += 20;
+            member.weaponEnchantmentDamageBonus += 20;
+            break;
+
+        case 511:
+            member.halfMissileDamage = true;
+            addDiseaseImmunity(member);
+            addPoisonImmunity(member);
+            addConditionImmunity(member, CharacterCondition::Paralyzed);
+            break;
+
+        case 512:
+            member.magicalBonuses.accuracy += 50;
+            addSkillBonus(member, "Bow", 4);
+            member.attackRecoveryReductionTicks += 20;
+            break;
+
+        case 513:
+            member.magicalBonuses.endurance += 30;
+            member.spellRegenPerSecond += 1.0f;
+            break;
+
+        case 514:
+            addAllPrimaryStats(member, 10);
+            addAllMagicResistances(member, 10);
+            break;
+
+        case 515:
+            member.attackRecoveryReductionTicks += 20;
+            member.magicalBonuses.speed += 15;
+            member.magicalBonuses.accuracy += 15;
+            break;
+
+        case 516:
+            addHalfLearnedSkillBonus(member, "SpiritMagic");
+            addHalfLearnedSkillBonus(member, "MindMagic");
+            addHalfLearnedSkillBonus(member, "BodyMagic");
+            break;
+
+        case 517:
+            addSkillBonus(member, "Disarm", 8);
+            addSkillBonus(member, "Bow", 8);
+            addSkillBonus(member, "Armsmaster", 8);
+            break;
+
+        case 518:
+            member.magicalBonuses.speed += 30;
+            member.attackRecoveryReductionTicks += 20;
+            addConditionImmunity(member, CharacterCondition::Asleep);
+            break;
+
+        case 519:
+            member.magicalBonuses.resistances.fire += 40;
+            member.magicalBonuses.resistances.air += 40;
+            member.magicalBonuses.resistances.water += 40;
+            member.magicalBonuses.resistances.earth += 40;
+            break;
+
+        case 520:
+            member.magicalBonuses.personality += 15;
+            member.magicalBonuses.intellect += 15;
+            member.healthRegenPerSecond += 1.0f;
+            break;
+
+        case 521:
+            member.magicalBonuses.intellect += 50;
+            addHalfLearnedSkillBonus(member, "DarkMagic");
+            break;
+
+        case 522:
+            member.featherFalling = true;
+            member.magicalBonuses.intellect += 30;
+            addAllMagicResistances(member, 10);
+            break;
+
+        case 523:
+            member.magicalBonuses.resistances.water -= 50;
+            member.magicalBonuses.personality -= 15;
+            break;
+
+        case 524:
+            member.magicalBonuses.speed += 70;
+            member.magicalBonuses.accuracy += 70;
+            member.magicalBonuses.armorClass -= 20;
+            break;
+
+        case 525:
+            member.magicalBonuses.speed -= 20;
+            member.weaponEnchantmentDamageBonus += 20;
+            break;
+
+        case 526:
+            member.magicalBonuses.might += 70;
+            member.magicalBonuses.accuracy += 70;
+            member.magicalBonuses.personality -= 50;
+            member.magicalBonuses.intellect -= 50;
+            break;
+
+        case 527:
+            member.vampiricHealFraction = std::max(member.vampiricHealFraction, 0.2f);
+            member.magicalBonuses.might += 50;
+            member.magicalBonuses.luck -= 40;
+            break;
+
+        case 528:
+            member.waterWalking = true;
+            member.magicalBonuses.resistances.water += 70;
+            member.magicalBonuses.resistances.fire -= 70;
+            break;
+
+        case 529:
+            member.magicalBonuses.might += 40;
+            member.weaponEnchantmentDamageBonus += 10;
+            member.magicalBonuses.accuracy -= 40;
+            break;
+
+        case 530:
+            addHalfLearnedSkillBonus(member, "AirMagic");
+            addHalfLearnedSkillBonus(member, "FireMagic");
+            addHalfLearnedSkillBonus(member, "WaterMagic");
+            addHalfLearnedSkillBonus(member, "EarthMagic");
+            member.magicalBonuses.armorClass -= 40;
+            break;
+
+        case 531:
+            member.magicalBonuses.accuracy += 100;
+            addSkillBonus(member, "Bow", 5);
+            member.magicalBonuses.armorClass -= 20;
+            break;
+
+        case 532:
+            member.attackRecoveryReductionTicks += 20;
+            member.magicalBonuses.accuracy -= 50;
+            break;
+
+        case 533:
+            member.magicalBonuses.personality += 80;
+            member.magicalBonuses.intellect += 70;
+            member.magicalBonuses.resistances.mind -= 30;
+            member.magicalBonuses.resistances.spirit -= 30;
+            break;
+
+        case 534:
+            addConditionImmunity(member, CharacterCondition::Fear);
+            addConditionImmunity(member, CharacterCondition::Petrified);
+            addConditionImmunity(member, CharacterCondition::Paralyzed);
+            addConditionImmunity(member, CharacterCondition::Asleep);
+            member.magicalBonuses.personality -= 15;
+            member.magicalBonuses.luck -= 15;
+            break;
+
+        case 535:
+            addHalfLearnedSkillBonus(member, "WaterMagic");
+            addSkillBonus(member, "Alchemy", 5);
+            member.magicalBonuses.intellect += 40;
+            member.magicalBonuses.endurance -= 20;
+            break;
+
+        case 536:
+            member.magicalBonuses.luck += 90;
+            member.magicalBonuses.personality -= 50;
+            break;
+
+        case 537:
+            member.magicalBonuses.might += 100;
+            addConditionImmunity(member, CharacterCondition::Fear);
+            member.magicalBonuses.accuracy -= 30;
+            member.magicalBonuses.armorClass -= 15;
+            break;
+
+        case 541:
+            member.weaponEnchantmentDamageBonus += 12;
+            break;
+
+        case 542:
+            break;
+
+        case 538:
+        case 539:
+        case 540:
         default:
             break;
     }
@@ -891,11 +1369,23 @@ void ItemEnchantRuntime::applyEquippedEnchantEffects(
         return;
     }
 
+    const uint32_t rareItemId = runtimeState.artifactId != 0
+        ? runtimeState.artifactId
+        : (itemDefinition.rarity != ItemRarity::Common ? itemDefinition.itemId : 0);
+
+    if (rareItemId != 0)
+    {
+        applyRareItemBonus(member, rareItemId);
+    }
+
     if (runtimeState.standardEnchantId != 0 && pStandardTable != nullptr)
     {
         if (const StandardItemEnchantEntry *pEntry = pStandardTable->get(runtimeState.standardEnchantId))
         {
-            applyStandardEnchantBonus(member, pEntry->kind, std::max(1, static_cast<int>(runtimeState.standardEnchantPower)));
+            applyStandardEnchantBonus(
+                member,
+                pEntry->kind,
+                std::max(1, static_cast<int>(runtimeState.standardEnchantPower)));
         }
     }
 
@@ -922,6 +1412,77 @@ void ItemEnchantRuntime::applyEquippedEnchantEffects(
                 pSpecialTable);
         }
     }
+}
+
+int ItemEnchantRuntime::characterAttackDamageMultiplierAgainstMonster(
+    const Character &character,
+    CharacterAttackMode attackMode,
+    const ItemTable *pItemTable,
+    const SpecialItemEnchantTable *pSpecialTable,
+    const std::string &monsterName,
+    const std::string &monsterPictureName)
+{
+    if (pItemTable == nullptr)
+    {
+        return 1;
+    }
+
+    int multiplier = 1;
+    const auto tryWeapon = [&](
+                               uint32_t itemId,
+                               const EquippedItemRuntimeState &runtimeState,
+                               bool requireMissileCategory)
+    {
+        if (itemId == 0)
+        {
+            return;
+        }
+
+        const ItemDefinition *pItemDefinition = pItemTable->get(itemId);
+
+        if (pItemDefinition == nullptr)
+        {
+            return;
+        }
+
+        const ItemEnchantCategory category = categoryForItem(*pItemDefinition);
+
+        if (requireMissileCategory)
+        {
+            if (category != ItemEnchantCategory::Missile)
+            {
+                return;
+            }
+        }
+        else if (!isMeleeWeaponCategory(category))
+        {
+            return;
+        }
+
+        multiplier = std::max(
+            multiplier,
+            weaponDamageMultiplierAgainstMonster(
+                *pItemDefinition,
+                runtimeState,
+                pSpecialTable,
+                monsterName,
+                monsterPictureName));
+    };
+
+    if (attackMode == CharacterAttackMode::Bow)
+    {
+        tryWeapon(character.equipment.bow, character.equipmentRuntime.bow, true);
+        return multiplier;
+    }
+
+    if (attackMode != CharacterAttackMode::Melee)
+    {
+        return 1;
+    }
+
+    tryWeapon(character.equipment.mainHand, character.equipmentRuntime.mainHand, false);
+    tryWeapon(character.equipment.offHand, character.equipmentRuntime.offHand, false);
+    return multiplier;
 }
 
 int ItemEnchantRuntime::elementalDamageBonus(const InventoryItem &item, const SpecialItemEnchantTable *pSpecialTable)

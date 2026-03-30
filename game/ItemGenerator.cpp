@@ -25,6 +25,50 @@ bool defaultIdentifiedState(const ItemDefinition &itemDefinition, ItemGeneration
 
     return false;
 }
+
+bool shouldTryGenerateRareItem(const ItemGenerationRequest &request)
+{
+    return request.allowRareItems
+        && request.mode != ItemGenerationMode::Shop
+        && std::clamp(request.treasureLevel, 1, 6) >= 6;
+}
+
+std::optional<uint32_t> chooseRandomRareItem(
+    const ItemTable &itemTable,
+    Party *pParty,
+    std::mt19937 &rng,
+    const std::function<bool(const ItemDefinition &)> &filter)
+{
+    std::vector<uint32_t> candidateIds;
+
+    for (const ItemDefinition &entry : itemTable.entries())
+    {
+        if (entry.itemId == 0 || !ItemRuntime::isUniquelyGeneratedRareItem(entry))
+        {
+            continue;
+        }
+
+        if (filter && !filter(entry))
+        {
+            continue;
+        }
+
+        if (pParty != nullptr && pParty->hasFoundArtifactItem(entry.itemId))
+        {
+            continue;
+        }
+
+        candidateIds.push_back(entry.itemId);
+    }
+
+    if (candidateIds.empty())
+    {
+        return std::nullopt;
+    }
+
+    const size_t index = std::uniform_int_distribution<size_t>(0, candidateIds.size() - 1)(rng);
+    return candidateIds[index];
+}
 }
 
 InventoryItem ItemGenerator::makeInventoryItem(
@@ -42,6 +86,12 @@ InventoryItem ItemGenerator::makeInventoryItem(
         item.width = std::max<uint8_t>(1, pItemDefinition->inventoryWidth);
         item.height = std::max<uint8_t>(1, pItemDefinition->inventoryHeight);
         item.identified = defaultIdentifiedState(*pItemDefinition, mode);
+        item.rarity = pItemDefinition->rarity;
+
+        if (ItemRuntime::isRareItem(*pItemDefinition))
+        {
+            item.artifactId = static_cast<uint16_t>(std::min<uint32_t>(pItemDefinition->itemId, 0xFFFFu));
+        }
     }
 
     return item;
@@ -52,9 +102,27 @@ std::optional<InventoryItem> ItemGenerator::generateRandomInventoryItem(
     const StandardItemEnchantTable &standardItemEnchantTable,
     const SpecialItemEnchantTable &specialItemEnchantTable,
     const ItemGenerationRequest &request,
+    Party *pParty,
     std::mt19937 &rng,
     const std::function<bool(const ItemDefinition &)> &filter)
 {
+    if (shouldTryGenerateRareItem(request) && std::uniform_int_distribution<int>(0, 99)(rng) < 5)
+    {
+        const std::optional<uint32_t> rareItemId = chooseRandomRareItem(itemTable, pParty, rng, filter);
+
+        if (rareItemId)
+        {
+            InventoryItem item = makeInventoryItem(*rareItemId, itemTable, request.mode);
+
+            if (pParty != nullptr)
+            {
+                pParty->markArtifactItemFound(*rareItemId);
+            }
+
+            return item;
+        }
+    }
+
     const std::optional<uint32_t> itemId = chooseRandomBaseItem(itemTable, request.treasureLevel, rng, filter);
 
     if (!itemId)
@@ -65,7 +133,9 @@ std::optional<InventoryItem> ItemGenerator::generateRandomInventoryItem(
     InventoryItem item = makeInventoryItem(*itemId, itemTable, request.mode);
     const ItemDefinition *pItemDefinition = itemTable.get(*itemId);
 
-    if (pItemDefinition == nullptr || !ItemEnchantRuntime::isEnchantable(*pItemDefinition))
+    if (pItemDefinition == nullptr
+        || ItemRuntime::isRareItem(*pItemDefinition)
+        || !ItemEnchantRuntime::isEnchantable(*pItemDefinition))
     {
         return item;
     }
@@ -158,6 +228,11 @@ std::optional<uint32_t> ItemGenerator::chooseRandomBaseItem(
     for (const ItemDefinition &entry : itemTable.entries())
     {
         if (entry.itemId == 0 || weightIndex >= entry.randomTreasureWeights.size())
+        {
+            continue;
+        }
+
+        if (ItemRuntime::isRareItem(entry))
         {
             continue;
         }

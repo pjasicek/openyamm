@@ -81,6 +81,19 @@ void OutdoorPartyRuntime::setParty(const Party &party)
     syncSpellMovementStatesFromPartyBuffs();
 }
 
+OutdoorPartyRuntime::Snapshot OutdoorPartyRuntime::snapshot() const
+{
+    Snapshot snapshot = {};
+    snapshot.movementState = m_movementDriver.state();
+    snapshot.partyMovementState = m_movementDriver.partyMovementState();
+    return snapshot;
+}
+
+void OutdoorPartyRuntime::restoreSnapshot(const Snapshot &snapshot)
+{
+    m_movementDriver.restoreState(snapshot.movementState, snapshot.partyMovementState);
+}
+
 void OutdoorPartyRuntime::toggleRunning()
 {
     m_movementDriver.toggleRunning();

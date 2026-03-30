@@ -309,7 +309,8 @@ std::vector<InventoryItem> generateStockItems(
                 itemTable,
                 standardItemEnchantTable,
                 specialItemEnchantTable,
-                ItemGenerationRequest{treasureLevel, ItemGenerationMode::Shop},
+                ItemGenerationRequest{treasureLevel, ItemGenerationMode::Shop, false},
+                nullptr,
                 rng,
                 [itemId](const ItemDefinition &entry)
                 {
@@ -577,11 +578,29 @@ Party::HouseStockState &ensureHouseStockGenerated(
         houseEntry,
         HouseStockMode::GuildSpellbooks);
     state.standardStock =
-        generateShopStandardStock(itemTable, standardItemEnchantTable, specialItemEnchantTable, houseEntry, rng, standardCount);
+        generateShopStandardStock(
+            itemTable,
+            standardItemEnchantTable,
+            specialItemEnchantTable,
+            houseEntry,
+            rng,
+            standardCount);
     state.specialStock =
-        generateShopSpecialStock(itemTable, standardItemEnchantTable, specialItemEnchantTable, houseEntry, rng, specialCount);
+        generateShopSpecialStock(
+            itemTable,
+            standardItemEnchantTable,
+            specialItemEnchantTable,
+            houseEntry,
+            rng,
+            specialCount);
     state.spellbookStock =
-        generateGuildSpellbookStock(itemTable, standardItemEnchantTable, specialItemEnchantTable, houseEntry, rng, spellbookCount);
+        generateGuildSpellbookStock(
+            itemTable,
+            standardItemEnchantTable,
+            specialItemEnchantTable,
+            houseEntry,
+            rng,
+            spellbookCount);
     return state;
 }
 

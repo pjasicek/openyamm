@@ -11,7 +11,9 @@
 namespace OpenYAMM::Game
 {
 struct Character;
+class ItemTable;
 struct ItemDefinition;
+enum class CharacterAttackMode;
 
 enum class ItemEnchantCategory : uint8_t
 {
@@ -70,6 +72,13 @@ public:
         const StandardItemEnchantTable *pStandardTable,
         const SpecialItemEnchantTable *pSpecialTable,
         Character &member);
+    static int characterAttackDamageMultiplierAgainstMonster(
+        const Character &character,
+        CharacterAttackMode attackMode,
+        const ItemTable *pItemTable,
+        const SpecialItemEnchantTable *pSpecialTable,
+        const std::string &monsterName,
+        const std::string &monsterPictureName);
     static int elementalDamageBonus(
         const InventoryItem &item,
         const SpecialItemEnchantTable *pSpecialTable);

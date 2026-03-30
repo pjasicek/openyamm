@@ -381,6 +381,29 @@ public:
         bool positional = true;
     };
 
+    struct Snapshot
+    {
+        float gameMinutes = 0.0f;
+        std::vector<TimerState> timers;
+        std::vector<MapActorState> mapActors;
+        std::vector<MapDeltaChest> chests;
+        std::vector<uint8_t> openedChestFlags;
+        std::vector<std::optional<ChestViewState>> materializedChestViews;
+        std::optional<ChestViewState> activeChestView;
+        std::optional<EventRuntimeState> eventRuntimeState;
+        float actorUpdateAccumulatorSeconds = 0.0f;
+        uint32_t sessionChestSeed = 0;
+        uint32_t nextActorId = 0;
+        std::vector<std::optional<CorpseViewState>> mapActorCorpseViews;
+        std::optional<CorpseViewState> activeCorpseView;
+        std::vector<WorldItemState> worldItems;
+        uint32_t nextWorldItemId = 1;
+        uint32_t nextProjectileId = 1;
+        uint32_t nextProjectileImpactId = 1;
+        std::vector<ProjectileState> projectiles;
+        std::vector<ProjectileImpactState> projectileImpacts;
+    };
+
     void initialize(
         const MapStatsEntry &map,
         const MonsterTable &monsterTable,
@@ -388,6 +411,7 @@ public:
         const ObjectTable &objectTable,
         const SpellTable &spellTable,
         const ItemTable &itemTable,
+        Party *pParty,
         const StandardItemEnchantTable &standardItemEnchantTable,
         const SpecialItemEnchantTable &specialItemEnchantTable,
         const ChestTable *pChestTable,
@@ -405,6 +429,8 @@ public:
     bool isInitialized() const;
     int mapId() const;
     const std::string &mapName() const;
+    Snapshot snapshot() const;
+    void restoreSnapshot(const Snapshot &snapshot);
     float gameMinutes() const;
     int currentHour() const;
     void advanceGameMinutes(float minutes);
@@ -609,12 +635,6 @@ private:
     static int generateGoldAmount(int treasureLevel, std::mt19937 &rng);
     static int remapTreasureLevel(int itemTreasureLevel, int mapTreasureLevel);
 
-    uint32_t generateRandomItemId(int treasureLevel, std::mt19937 &rng) const;
-    uint32_t generateRandomLootItemId(
-        int treasureLevel,
-        MonsterTable::LootItemKind itemKind,
-        std::mt19937 &rng
-    ) const;
     bool applyMonsterAttackToMapActor(size_t actorIndex, int damage, uint32_t sourceActorId);
     bool spawnEncounterFromResolvedData(
         int encounterSlot,
@@ -726,6 +746,7 @@ private:
     std::optional<ChestViewState> m_activeChestView;
     std::optional<EventRuntimeState> m_eventRuntimeState;
     const ItemTable *m_pItemTable = nullptr;
+    Party *m_pParty = nullptr;
     const StandardItemEnchantTable *m_pStandardItemEnchantTable = nullptr;
     const SpecialItemEnchantTable *m_pSpecialItemEnchantTable = nullptr;
     const ChestTable *m_pChestTable = nullptr;

@@ -9,8 +9,11 @@
 #include "game/GameDataLoader.h"
 #include "game/GameMechanics.h"
 #include "game/GenericActorDialog.h"
+#include "game/GameApplication.h"
 #include "game/HouseInteraction.h"
 #include "game/HouseServiceRuntime.h"
+#include "game/ItemEnchantRuntime.h"
+#include "game/ItemGenerator.h"
 #include "game/MasteryTeacherDialog.h"
 #include "game/OutdoorMovementController.h"
 #include "game/OutdoorPartyRuntime.h"
@@ -18,6 +21,7 @@
 #include "game/OutdoorGeometryUtils.h"
 #include "game/Party.h"
 #include "game/PartySpellSystem.h"
+#include "game/SaveGame.h"
 #include "game/SpellIds.h"
 #include "game/SpriteObjectDefs.h"
 
@@ -26,13 +30,101 @@
 #include <algorithm>
 #include <array>
 #include <cmath>
+#include <cstdlib>
 #include <cstring>
+#include <filesystem>
 #include <iostream>
 #include <limits>
 #include <optional>
 
 namespace OpenYAMM::Game
 {
+struct GameApplicationTestAccess
+{
+    static bool loadGameData(GameApplication &application, const Engine::AssetFileSystem &assetFileSystem)
+    {
+        return application.loadGameData(assetFileSystem);
+    }
+
+    static bool loadMapByFileNameForGameplay(
+        GameApplication &application,
+        const Engine::AssetFileSystem &assetFileSystem,
+        const std::string &mapFileName)
+    {
+        return application.m_gameDataLoader.loadMapByFileNameForGameplay(assetFileSystem, mapFileName);
+    }
+
+    static void shutdownRenderer(GameApplication &application)
+    {
+        application.shutdownRenderer();
+    }
+
+    static bool initializeSelectedMapRuntime(GameApplication &application, bool initializeView)
+    {
+        return application.initializeSelectedMapRuntime(initializeView);
+    }
+
+    static OutdoorPartyRuntime *outdoorPartyRuntime(GameApplication &application)
+    {
+        return application.m_pOutdoorPartyRuntime.get();
+    }
+
+    static const OutdoorPartyRuntime *outdoorPartyRuntime(const GameApplication &application)
+    {
+        return application.m_pOutdoorPartyRuntime.get();
+    }
+
+    static OutdoorWorldRuntime *outdoorWorldRuntime(GameApplication &application)
+    {
+        return application.m_pOutdoorWorldRuntime.get();
+    }
+
+    static const OutdoorWorldRuntime *outdoorWorldRuntime(const GameApplication &application)
+    {
+        return application.m_pOutdoorWorldRuntime.get();
+    }
+
+    static GameDataLoader &gameDataLoader(GameApplication &application)
+    {
+        return application.m_gameDataLoader;
+    }
+
+    static const GameDataLoader &gameDataLoader(const GameApplication &application)
+    {
+        return application.m_gameDataLoader;
+    }
+
+    static bool quickSaveToPath(GameApplication &application, const std::filesystem::path &path)
+    {
+        return application.quickSaveToPath(path);
+    }
+
+    static bool quickLoadFromPath(GameApplication &application, const std::filesystem::path &path, bool initializeView)
+    {
+        return application.quickLoadFromPath(path, initializeView);
+    }
+
+    static void captureCurrentOutdoorWorldState(GameApplication &application)
+    {
+        application.captureCurrentOutdoorWorldState();
+    }
+
+    static void setCameraAngles(GameApplication &application, float yawRadians, float pitchRadians)
+    {
+        application.m_outdoorGameView.setCameraAngles(yawRadians, pitchRadians);
+    }
+
+    static float cameraYawRadians(const GameApplication &application)
+    {
+        return application.m_outdoorGameView.cameraYawRadians();
+    }
+
+    static float cameraPitchRadians(const GameApplication &application)
+    {
+        return application.m_outdoorGameView.cameraPitchRadians();
+    }
+};
+
 namespace
 {
 constexpr uint32_t AdventurersInnHouseId = 185;
@@ -969,6 +1061,7 @@ bool initializeRegressionScenario(
         gameDataLoader.getObjectTable(),
         gameDataLoader.getSpellTable(),
         gameDataLoader.getItemTable(),
+        &scenario.party,
         gameDataLoader.getStandardItemEnchantTable(),
         gameDataLoader.getSpecialItemEnchantTable(),
         &gameDataLoader.getChestTable(),
@@ -992,6 +1085,135 @@ bool initializeRegressionScenario(
     scenario.party.seed(createRegressionPartySeed());
     scenario.pEventRuntimeState = scenario.world.eventRuntimeState();
     return scenario.pEventRuntimeState != nullptr;
+}
+
+bool initializeHeadlessGameApplication(
+    const std::string &mapFileName,
+    const Engine::AssetFileSystem &assetFileSystem,
+    GameApplication &application,
+    std::string &failure)
+{
+    SDL_Environment *pEnvironment = SDL_GetEnvironment();
+
+    if (pEnvironment == nullptr || !SDL_SetEnvironmentVariable(pEnvironment, "SDL_AUDIODRIVER", "dummy", true))
+    {
+        failure = "could not force dummy audio driver for headless application";
+        return false;
+    }
+
+    if (!GameApplicationTestAccess::loadGameData(application, assetFileSystem))
+    {
+        failure = "could not load gameplay data";
+        return false;
+    }
+
+    if (!GameApplicationTestAccess::loadMapByFileNameForGameplay(application, assetFileSystem, mapFileName))
+    {
+        failure = "could not load gameplay map";
+        return false;
+    }
+
+    GameApplicationTestAccess::shutdownRenderer(application);
+
+    if (!GameApplicationTestAccess::initializeSelectedMapRuntime(application, false))
+    {
+        failure = "could not initialize gameplay runtime";
+        return false;
+    }
+
+    if (GameApplicationTestAccess::outdoorPartyRuntime(application) == nullptr
+        || GameApplicationTestAccess::outdoorWorldRuntime(application) == nullptr)
+    {
+        failure = "outdoor runtime was not initialized";
+        return false;
+    }
+
+    return true;
+}
+
+bool loadHeadlessGameApplicationMap(
+    GameApplication &application,
+    const Engine::AssetFileSystem &assetFileSystem,
+    const std::string &mapFileName,
+    std::string &failure)
+{
+    GameApplicationTestAccess::captureCurrentOutdoorWorldState(application);
+
+    if (!GameApplicationTestAccess::loadMapByFileNameForGameplay(application, assetFileSystem, mapFileName))
+    {
+        failure = "could not load target gameplay map";
+        return false;
+    }
+
+    GameApplicationTestAccess::shutdownRenderer(application);
+
+    if (!GameApplicationTestAccess::initializeSelectedMapRuntime(application, false))
+    {
+        failure = "could not initialize target gameplay map";
+        return false;
+    }
+
+    if (GameApplicationTestAccess::outdoorPartyRuntime(application) == nullptr
+        || GameApplicationTestAccess::outdoorWorldRuntime(application) == nullptr)
+    {
+        failure = "target outdoor runtime was not initialized";
+        return false;
+    }
+
+    return true;
+}
+
+bool initializeRegressionScenarioFromApplication(
+    const GameApplication &application,
+    RegressionScenario &scenario,
+    std::string &failure)
+{
+    const std::optional<MapAssetInfo> &selectedMap = GameApplicationTestAccess::gameDataLoader(application).getSelectedMap();
+
+    if (!selectedMap || !selectedMap->outdoorMapData || !selectedMap->outdoorMapDeltaData)
+    {
+        failure = "application selected map is not an outdoor map";
+        return false;
+    }
+
+    scenario.party = GameApplicationTestAccess::outdoorPartyRuntime(application)->party();
+    scenario.party.setItemTable(&GameApplicationTestAccess::gameDataLoader(application).getItemTable());
+    scenario.party.setItemEnchantTables(
+        &GameApplicationTestAccess::gameDataLoader(application).getStandardItemEnchantTable(),
+        &GameApplicationTestAccess::gameDataLoader(application).getSpecialItemEnchantTable());
+    scenario.party.setClassSkillTable(&GameApplicationTestAccess::gameDataLoader(application).getClassSkillTable());
+
+    scenario.world.initialize(
+        selectedMap->map,
+        GameApplicationTestAccess::gameDataLoader(application).getMonsterTable(),
+        GameApplicationTestAccess::gameDataLoader(application).getMonsterProjectileTable(),
+        GameApplicationTestAccess::gameDataLoader(application).getObjectTable(),
+        GameApplicationTestAccess::gameDataLoader(application).getSpellTable(),
+        GameApplicationTestAccess::gameDataLoader(application).getItemTable(),
+        &scenario.party,
+        GameApplicationTestAccess::gameDataLoader(application).getStandardItemEnchantTable(),
+        GameApplicationTestAccess::gameDataLoader(application).getSpecialItemEnchantTable(),
+        &GameApplicationTestAccess::gameDataLoader(application).getChestTable(),
+        selectedMap->outdoorMapData,
+        selectedMap->outdoorMapDeltaData,
+        selectedMap->eventRuntimeState,
+        selectedMap->outdoorActorPreviewBillboardSet,
+        selectedMap->outdoorLandMask,
+        selectedMap->outdoorDecorationCollisionSet,
+        selectedMap->outdoorActorCollisionSet,
+        selectedMap->outdoorSpriteObjectCollisionSet,
+        selectedMap->outdoorSpriteObjectBillboardSet
+    );
+    scenario.world.restoreSnapshot(GameApplicationTestAccess::outdoorWorldRuntime(application)->snapshot());
+    scenario.pEventRuntimeState = scenario.world.eventRuntimeState();
+
+    if (scenario.pEventRuntimeState == nullptr)
+    {
+        failure = "application scenario event runtime state is missing";
+        return false;
+    }
+
+    return true;
 }
 
 void applyPendingCombatEventsToScenarioParty(RegressionScenario &scenario)
@@ -1570,6 +1792,7 @@ int HeadlessOutdoorDiagnostics::runSimulateActor(
         gameDataLoader.getObjectTable(),
         gameDataLoader.getSpellTable(),
         gameDataLoader.getItemTable(),
+        nullptr,
         gameDataLoader.getStandardItemEnchantTable(),
         gameDataLoader.getSpecialItemEnchantTable(),
         &gameDataLoader.getChestTable(),
@@ -1685,6 +1908,7 @@ int HeadlessOutdoorDiagnostics::runTraceActorAi(
         gameDataLoader.getObjectTable(),
         gameDataLoader.getSpellTable(),
         gameDataLoader.getItemTable(),
+        nullptr,
         gameDataLoader.getStandardItemEnchantTable(),
         gameDataLoader.getSpecialItemEnchantTable(),
         &gameDataLoader.getChestTable(),
@@ -2178,6 +2402,7 @@ int HeadlessOutdoorDiagnostics::runOpenEvent(
         gameDataLoader.getObjectTable(),
         gameDataLoader.getSpellTable(),
         gameDataLoader.getItemTable(),
+        nullptr,
         gameDataLoader.getStandardItemEnchantTable(),
         gameDataLoader.getSpecialItemEnchantTable(),
         &gameDataLoader.getChestTable(),
@@ -2401,6 +2626,7 @@ int HeadlessOutdoorDiagnostics::runOpenActor(
         gameDataLoader.getObjectTable(),
         gameDataLoader.getSpellTable(),
         gameDataLoader.getItemTable(),
+        nullptr,
         gameDataLoader.getStandardItemEnchantTable(),
         gameDataLoader.getSpecialItemEnchantTable(),
         &gameDataLoader.getChestTable(),
@@ -2557,6 +2783,7 @@ int HeadlessOutdoorDiagnostics::runDialogSequence(
         gameDataLoader.getObjectTable(),
         gameDataLoader.getSpellTable(),
         gameDataLoader.getItemTable(),
+        nullptr,
         gameDataLoader.getStandardItemEnchantTable(),
         gameDataLoader.getSpecialItemEnchantTable(),
         &gameDataLoader.getChestTable(),
@@ -2939,10 +3166,17 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
 
     int passedCount = 0;
     int failedCount = 0;
+    const char *pFilter = std::getenv("OPENYAMM_REGRESSION_FILTER");
+    const std::string caseFilter = pFilter != nullptr ? pFilter : "";
 
     auto runCase =
         [&](const std::string &caseName, auto &&fn)
         {
+            if (!caseFilter.empty() && caseName.find(caseFilter) == std::string::npos)
+            {
+                return;
+            }
+
             std::string failure;
             const bool passed = fn(failure);
             std::cout << "["
@@ -9090,6 +9324,148 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
     );
 
     runCase(
+        "house_service_shop_stock_excludes_rare_items",
+        [&](std::string &failure)
+        {
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            const HouseEntry *pHouseEntry = gameDataLoader.getHouseTable().get(1);
+
+            if (pHouseEntry == nullptr)
+            {
+                failure = "weapon shop house entry missing";
+                return false;
+            }
+
+            const auto validateStock =
+                [&](const std::vector<InventoryItem> &stock, const char *pStockName)
+                {
+                    for (const InventoryItem &item : stock)
+                    {
+                        if (item.objectDescriptionId == 0)
+                        {
+                            continue;
+                        }
+
+                        const ItemDefinition *pItemDefinition =
+                            gameDataLoader.getItemTable().get(item.objectDescriptionId);
+
+                        if (pItemDefinition == nullptr)
+                        {
+                            failure = std::string(pStockName) + " stock item missing from item table";
+                            return false;
+                        }
+
+                        if (pItemDefinition->rarity != ItemRarity::Common)
+                        {
+                            failure = std::string(pStockName) + " stock generated rare item "
+                                + pItemDefinition->name;
+                            return false;
+                        }
+                    }
+
+                    return true;
+                };
+
+            const std::vector<InventoryItem> &standardStock = HouseServiceRuntime::ensureStock(
+                scenario.party,
+                gameDataLoader.getItemTable(),
+                gameDataLoader.getStandardItemEnchantTable(),
+                gameDataLoader.getSpecialItemEnchantTable(),
+                *pHouseEntry,
+                scenario.world.gameMinutes(),
+                HouseStockMode::ShopStandard);
+            const std::vector<InventoryItem> &specialStock = HouseServiceRuntime::ensureStock(
+                scenario.party,
+                gameDataLoader.getItemTable(),
+                gameDataLoader.getStandardItemEnchantTable(),
+                gameDataLoader.getSpecialItemEnchantTable(),
+                *pHouseEntry,
+                scenario.world.gameMinutes(),
+                HouseStockMode::ShopSpecial);
+
+            return validateStock(standardStock, "standard") && validateStock(specialStock, "special");
+        }
+    );
+
+    runCase(
+        "item_generator_unique_rare_item_marks_party_and_does_not_repeat",
+        [&](std::string &failure)
+        {
+            Party party = {};
+            party.setItemTable(&gameDataLoader.getItemTable());
+            party.seed(createRegressionPartySeed());
+
+            std::mt19937 rng(1337);
+            std::optional<InventoryItem> firstRare;
+
+            for (int attempt = 0; attempt < 2000 && !firstRare; ++attempt)
+            {
+                firstRare = ItemGenerator::generateRandomInventoryItem(
+                    gameDataLoader.getItemTable(),
+                    gameDataLoader.getStandardItemEnchantTable(),
+                    gameDataLoader.getSpecialItemEnchantTable(),
+                    ItemGenerationRequest{6, ItemGenerationMode::ChestLoot, true},
+                    &party,
+                    rng,
+                    [](const ItemDefinition &entry)
+                    {
+                        return entry.itemId == 519;
+                    });
+            }
+
+            if (!firstRare)
+            {
+                failure = "generator never produced filtered rare item";
+                return false;
+            }
+
+            if (firstRare->objectDescriptionId != 519
+                || firstRare->artifactId != 519
+                || firstRare->rarity != ItemRarity::Artifact)
+            {
+                failure = "generated item did not preserve rare item identity";
+                return false;
+            }
+
+            if (!party.hasFoundArtifactItem(519))
+            {
+                failure = "party did not remember found rare item";
+                return false;
+            }
+
+            for (int attempt = 0; attempt < 256; ++attempt)
+            {
+                const std::optional<InventoryItem> repeatedRare = ItemGenerator::generateRandomInventoryItem(
+                    gameDataLoader.getItemTable(),
+                    gameDataLoader.getStandardItemEnchantTable(),
+                    gameDataLoader.getSpecialItemEnchantTable(),
+                    ItemGenerationRequest{6, ItemGenerationMode::ChestLoot, true},
+                    &party,
+                    rng,
+                    [](const ItemDefinition &entry)
+                    {
+                        return entry.itemId == 519;
+                    });
+
+                if (repeatedRare)
+                {
+                    failure = "generator repeated unique rare item after discovery";
+                    return false;
+                }
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
         "house_service_guild_spellbook_stock_generates_and_buys",
         [&](std::string &failure)
         {
@@ -11703,6 +12079,1073 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
             if (GameMechanics::canCharacterEquipItem(character, *pHelm, &dollType))
             {
                 failure = "doll type helm restriction was ignored";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "party_rejects_race_restricted_artifact_for_wrong_member",
+        [&](std::string &failure)
+        {
+            Party party = {};
+            party.setItemTable(&gameDataLoader.getItemTable());
+            party.seed(createRegressionPartySeed());
+            Character *pMember = party.member(0);
+
+            if (pMember == nullptr)
+            {
+                failure = "missing member 0";
+                return false;
+            }
+
+            pMember->equipment = {};
+            pMember->className = "Knight";
+            InventoryItem glomenmail =
+                ItemGenerator::makeInventoryItem(514, gameDataLoader.getItemTable(), ItemGenerationMode::ChestLoot);
+            glomenmail.identified = true;
+            std::optional<InventoryItem> heldReplacement;
+
+            if (party.tryEquipItemOnMember(
+                    0,
+                    EquipmentSlot::Armor,
+                    glomenmail,
+                    std::nullopt,
+                    false,
+                    heldReplacement))
+            {
+                failure = "non-dark-elf member equipped race-restricted artifact";
+                return false;
+            }
+
+            if (party.lastStatus() != "cannot equip")
+            {
+                failure = "failed restricted equip did not report cannot equip";
+                return false;
+            }
+
+            pMember->className = "Patriarch";
+
+            if (!party.tryEquipItemOnMember(
+                    0,
+                    EquipmentSlot::Armor,
+                    glomenmail,
+                    std::nullopt,
+                    false,
+                    heldReplacement))
+            {
+                failure = "dark elf promotion could not equip race-restricted artifact";
+                return false;
+            }
+
+            if (pMember->equipment.armor != 514)
+            {
+                failure = "artifact armor was not equipped after restriction passed";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "equip_rules_respect_class_restricted_artifacts",
+        [&](std::string &failure)
+        {
+            const ItemDefinition *pCrown = gameDataLoader.getItemTable().get(521);
+
+            if (pCrown == nullptr)
+            {
+                failure = "class-restricted artifact missing";
+                return false;
+            }
+
+            CharacterDollTypeEntry dollType = {};
+            dollType.canEquipHelm = true;
+
+            Character necromancer = {};
+            necromancer.className = "Necromancer";
+
+            if (GameMechanics::canCharacterEquipItem(necromancer, *pCrown, &dollType))
+            {
+                failure = "necromancer should not equip lich-restricted crown";
+                return false;
+            }
+
+            Character lich = {};
+            lich.className = "Lich";
+
+            if (!GameMechanics::canCharacterEquipItem(lich, *pCrown, &dollType))
+            {
+                failure = "lich should equip lich-restricted crown";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "artifact_ring_of_planes_applies_resistance_bonuses",
+        [&](std::string &failure)
+        {
+            Party party = {};
+            party.setItemTable(&gameDataLoader.getItemTable());
+            party.setItemEnchantTables(
+                &gameDataLoader.getStandardItemEnchantTable(),
+                &gameDataLoader.getSpecialItemEnchantTable());
+            party.seed(createRegressionPartySeed());
+            Character *pMember = party.member(0);
+
+            if (pMember == nullptr)
+            {
+                failure = "missing member 0";
+                return false;
+            }
+
+            pMember->equipment = {};
+            pMember->equipmentRuntime = {};
+            pMember->magicalBonuses = {};
+
+            InventoryItem ringOfPlanes =
+                ItemGenerator::makeInventoryItem(519, gameDataLoader.getItemTable(), ItemGenerationMode::ChestLoot);
+            ringOfPlanes.identified = true;
+            std::optional<InventoryItem> heldReplacement;
+
+            if (!party.tryEquipItemOnMember(
+                    0,
+                    EquipmentSlot::Ring1,
+                    ringOfPlanes,
+                    std::nullopt,
+                    false,
+                    heldReplacement))
+            {
+                failure = "could not equip Ring of Planes";
+                return false;
+            }
+
+            if (pMember->magicalBonuses.resistances.fire != 40
+                || pMember->magicalBonuses.resistances.air != 40
+                || pMember->magicalBonuses.resistances.water != 40
+                || pMember->magicalBonuses.resistances.earth != 40)
+            {
+                failure = "Ring of Planes did not apply elemental resistances";
+                return false;
+            }
+
+            if (!party.hasFoundArtifactItem(519))
+            {
+                failure = "equipped artifact was not recorded as found";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "artifact_shield_blocks_condition_application",
+        [&](std::string &failure)
+        {
+            Party party = {};
+            party.setItemTable(&gameDataLoader.getItemTable());
+            party.setItemEnchantTables(
+                &gameDataLoader.getStandardItemEnchantTable(),
+                &gameDataLoader.getSpecialItemEnchantTable());
+            party.seed(createRegressionPartySeed());
+            Character *pMember = party.member(0);
+
+            if (pMember == nullptr)
+            {
+                failure = "missing member 0";
+                return false;
+            }
+
+            pMember->equipment = {};
+            pMember->equipmentRuntime = {};
+            pMember->conditions = {};
+
+            InventoryItem shield =
+                ItemGenerator::makeInventoryItem(534, gameDataLoader.getItemTable(), ItemGenerationMode::ChestLoot);
+            shield.identified = true;
+            std::optional<InventoryItem> heldReplacement;
+
+            if (!party.tryEquipItemOnMember(
+                    0,
+                    EquipmentSlot::OffHand,
+                    shield,
+                    std::nullopt,
+                    false,
+                    heldReplacement))
+            {
+                failure = "could not equip Herondale's Lost Shield";
+                return false;
+            }
+
+            for (CharacterCondition condition : {
+                     CharacterCondition::Fear,
+                     CharacterCondition::Petrified,
+                     CharacterCondition::Paralyzed,
+                     CharacterCondition::Asleep})
+            {
+                if (!party.hasMemberConditionImmunity(0, condition))
+                {
+                    failure = "artifact shield immunity was not applied";
+                    return false;
+                }
+
+                if (party.applyMemberCondition(0, condition))
+                {
+                    failure = "artifact shield did not block protected condition";
+                    return false;
+                }
+
+                if (pMember->conditions.test(static_cast<size_t>(condition)))
+                {
+                    failure = "protected condition was still set on the member";
+                    return false;
+                }
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "special_antidotes_enchant_blocks_poison_application",
+        [&](std::string &failure)
+        {
+            const std::optional<uint16_t> antidotesEnchantId =
+                findSpecialEnchantId(gameDataLoader.getSpecialItemEnchantTable(), SpecialItemEnchantKind::Antidotes);
+            const ItemDefinition *pRingDefinition = gameDataLoader.getItemTable().get(137);
+
+            if (!antidotesEnchantId || pRingDefinition == nullptr)
+            {
+                failure = "antidotes enchant or ring definition missing";
+                return false;
+            }
+
+            Party party = {};
+            party.setItemTable(&gameDataLoader.getItemTable());
+            party.setItemEnchantTables(
+                &gameDataLoader.getStandardItemEnchantTable(),
+                &gameDataLoader.getSpecialItemEnchantTable());
+            party.seed(createRegressionPartySeed());
+            Character *pMember = party.member(0);
+
+            if (pMember == nullptr)
+            {
+                failure = "missing member 0";
+                return false;
+            }
+
+            pMember->equipment = {};
+            pMember->equipmentRuntime = {};
+            pMember->conditions = {};
+
+            const InventoryItem ring = {
+                pRingDefinition->itemId,
+                1,
+                pRingDefinition->inventoryWidth,
+                pRingDefinition->inventoryHeight,
+                0,
+                0,
+                true,
+                false,
+                false,
+                0,
+                0,
+                *antidotesEnchantId,
+                0
+            };
+            std::optional<InventoryItem> heldReplacement;
+
+            if (!party.tryEquipItemOnMember(
+                    0,
+                    EquipmentSlot::Ring1,
+                    ring,
+                    std::nullopt,
+                    false,
+                    heldReplacement))
+            {
+                failure = "could not equip antidotes ring";
+                return false;
+            }
+
+            for (CharacterCondition condition : {
+                     CharacterCondition::PoisonWeak,
+                     CharacterCondition::PoisonMedium,
+                     CharacterCondition::PoisonSevere})
+            {
+                if (!party.hasMemberConditionImmunity(0, condition))
+                {
+                    failure = "antidotes enchant immunity was not applied";
+                    return false;
+                }
+
+                if (party.applyMemberCondition(0, condition))
+                {
+                    failure = "antidotes enchant did not block poison";
+                    return false;
+                }
+
+                if (pMember->conditions.test(static_cast<size_t>(condition)))
+                {
+                    failure = "poison condition was still set on the member";
+                    return false;
+                }
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "rare_and_special_slaying_damage_multipliers_match_target_family",
+        [&](std::string &failure)
+        {
+            const std::optional<uint16_t> dragonSlayingEnchantId = findSpecialEnchantId(
+                gameDataLoader.getSpecialItemEnchantTable(),
+                SpecialItemEnchantKind::DragonSlaying);
+            const ItemDefinition *pBowDefinition = gameDataLoader.getItemTable().get(56);
+
+            if (!dragonSlayingEnchantId || pBowDefinition == nullptr)
+            {
+                failure = "dragon slaying enchant or bow definition missing";
+                return false;
+            }
+
+            Character meleeCharacter = {};
+            meleeCharacter.equipment.mainHand = 503;
+            meleeCharacter.equipmentRuntime.mainHand.artifactId = 503;
+            meleeCharacter.equipmentRuntime.mainHand.rarity = ItemRarity::Artifact;
+
+            const int ogreMultiplier = ItemEnchantRuntime::characterAttackDamageMultiplierAgainstMonster(
+                meleeCharacter,
+                CharacterAttackMode::Melee,
+                &gameDataLoader.getItemTable(),
+                &gameDataLoader.getSpecialItemEnchantTable(),
+                "Cyclops",
+                "Cyclops");
+
+            if (ogreMultiplier != 2)
+            {
+                failure = "ogre slaying rare item did not match cyclops family";
+                return false;
+            }
+
+            const int neutralMultiplier = ItemEnchantRuntime::characterAttackDamageMultiplierAgainstMonster(
+                meleeCharacter,
+                CharacterAttackMode::Melee,
+                &gameDataLoader.getItemTable(),
+                &gameDataLoader.getSpecialItemEnchantTable(),
+                "Lizardman",
+                "Lizardman");
+
+            if (neutralMultiplier != 1)
+            {
+                failure = "slayer multiplier affected unrelated monster family";
+                return false;
+            }
+
+            Character rangedCharacter = {};
+            rangedCharacter.equipment.bow = pBowDefinition->itemId;
+            rangedCharacter.equipmentRuntime.bow.specialEnchantId = *dragonSlayingEnchantId;
+
+            const int dragonMultiplier = ItemEnchantRuntime::characterAttackDamageMultiplierAgainstMonster(
+                rangedCharacter,
+                CharacterAttackMode::Bow,
+                &gameDataLoader.getItemTable(),
+                &gameDataLoader.getSpecialItemEnchantTable(),
+                "Red Dragon",
+                "Dragon");
+
+            if (dragonMultiplier != 2)
+            {
+                failure = "dragon slaying enchant did not match dragon family";
+                return false;
+            }
+
+            const int nonDragonMultiplier = ItemEnchantRuntime::characterAttackDamageMultiplierAgainstMonster(
+                rangedCharacter,
+                CharacterAttackMode::Bow,
+                &gameDataLoader.getItemTable(),
+                &gameDataLoader.getSpecialItemEnchantTable(),
+                "Minotaur",
+                "Minotaur");
+
+            if (nonDragonMultiplier != 1)
+            {
+                failure = "dragon slaying enchant affected unrelated monster family";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "save_game_roundtrip_restores_party_world_and_movement_state",
+        [&](std::string &failure)
+        {
+            if (!selectedMap || !selectedMap->outdoorMapData || !selectedMap->outdoorMapDeltaData)
+            {
+                failure = "selected map is not an outdoor gameplay map";
+                return false;
+            }
+
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            scenario.party.addGold(123);
+            scenario.party.depositGoldToBank(50);
+            scenario.party.markArtifactItemFound(519);
+            scenario.party.applyPartyBuff(PartyBuffId::Haste, 60.0f, 1, 6, 1, SkillMastery::Normal, 0);
+            scenario.world.advanceGameMinutes(37.5f);
+
+            Character *pActiveMember = scenario.party.activeMember();
+
+            if (pActiveMember == nullptr)
+            {
+                failure = "missing active party member";
+                return false;
+            }
+
+            pActiveMember->permanentBonuses.intellect = 2;
+            pActiveMember->intellect += 2;
+
+            InventoryItem savedInventoryItem =
+                ItemGenerator::makeInventoryItem(137, gameDataLoader.getItemTable(), ItemGenerationMode::ChestLoot);
+            savedInventoryItem.identified = true;
+            savedInventoryItem.gridX = 4;
+            savedInventoryItem.gridY = 2;
+
+            if (!pActiveMember->addInventoryItemAt(savedInventoryItem, savedInventoryItem.gridX, savedInventoryItem.gridY))
+            {
+                failure = "could not seed saved inventory item";
+                return false;
+            }
+
+            Party::HouseStockState &shopState = scenario.party.ensureHouseStockState(1);
+            shopState.nextRefreshGameMinutes = scenario.world.gameMinutes() + 1440.0f;
+            shopState.refreshSequence = 7;
+            shopState.standardStock.push_back(savedInventoryItem);
+
+            InventoryItem savedShopItem =
+                ItemGenerator::makeInventoryItem(143, gameDataLoader.getItemTable(), ItemGenerationMode::Shop);
+            savedShopItem.identified = true;
+            shopState.specialStock.push_back(savedShopItem);
+
+            InventoryItem savedSpellbook =
+                ItemGenerator::makeInventoryItem(400, gameDataLoader.getItemTable(), ItemGenerationMode::Shop);
+            savedSpellbook.identified = true;
+            shopState.spellbookStock.push_back(savedSpellbook);
+
+            if (scenario.world.mapActorCount() == 0)
+            {
+                failure = "scenario has no actors to persist";
+                return false;
+            }
+
+            if (!scenario.world.setMapActorDead(0, true, false))
+            {
+                failure = "could not mark actor dead before save";
+                return false;
+            }
+
+            InventoryItem droppedItem =
+                ItemGenerator::makeInventoryItem(137, gameDataLoader.getItemTable(), ItemGenerationMode::ChestLoot);
+            droppedItem.identified = true;
+
+            if (!scenario.world.spawnWorldItem(droppedItem, 8704.0f, 2000.0f, 686.0f, 0.0f))
+            {
+                failure = "could not spawn world item before save";
+                return false;
+            }
+
+            EventRuntimeState *pEventRuntimeState = scenario.world.eventRuntimeState();
+
+            if (pEventRuntimeState == nullptr)
+            {
+                failure = "missing event runtime state";
+                return false;
+            }
+
+            pEventRuntimeState->variables[0x1234u] = 99;
+            pEventRuntimeState->messages.push_back("save roundtrip");
+
+            GameSaveData saveData = {};
+            saveData.mapFileName = selectedMap->map.fileName;
+            saveData.party = scenario.party.snapshot();
+            saveData.outdoorParty.movementState.x = 123.0f;
+            saveData.outdoorParty.movementState.y = -456.0f;
+            saveData.outdoorParty.movementState.footZ = 789.0f;
+            saveData.outdoorParty.movementState.verticalVelocity = 10.0f;
+            saveData.outdoorParty.movementState.airborne = true;
+            saveData.outdoorParty.partyMovementState.running = false;
+            saveData.outdoorParty.partyMovementState.flying = true;
+            saveData.outdoorParty.partyMovementState.waterWalk = true;
+            saveData.outdoorParty.partyMovementState.featherFall = true;
+            saveData.outdoorWorld = scenario.world.snapshot();
+            saveData.outdoorWorldStates[saveData.mapFileName] = saveData.outdoorWorld;
+            saveData.outdoorWorldStates["Data/games/out02.odm"] = saveData.outdoorWorld;
+            saveData.outdoorWorldStates["Data/games/out02.odm"].gameMinutes += 12.0f;
+            saveData.outdoorCameraYawRadians = 1.25f;
+            saveData.outdoorCameraPitchRadians = -0.45f;
+
+            const std::filesystem::path savePath = "/tmp/openyamm_save_roundtrip.oysav";
+            std::string error;
+
+            if (!saveGameDataToPath(savePath, saveData, error))
+            {
+                failure = "save failed: " + error;
+                return false;
+            }
+
+            const std::optional<GameSaveData> loadedSave = loadGameDataFromPath(savePath, error);
+            std::error_code removeError;
+            std::filesystem::remove(savePath, removeError);
+
+            if (!loadedSave)
+            {
+                failure = "load failed: " + error;
+                return false;
+            }
+
+            if (loadedSave->mapFileName != selectedMap->map.fileName)
+            {
+                failure = "loaded save used the wrong map file";
+                return false;
+            }
+
+            const std::unordered_map<std::string, OutdoorWorldRuntime::Snapshot>::const_iterator savedOut02It =
+                loadedSave->outdoorWorldStates.find("Data/games/out02.odm");
+
+            if (!loadedSave->outdoorWorldStates.contains(saveData.mapFileName)
+                || savedOut02It == loadedSave->outdoorWorldStates.end()
+                || std::abs(savedOut02It->second.gameMinutes - (scenario.world.gameMinutes() + 12.0f)) > 0.01f)
+            {
+                failure = "visited map world states did not roundtrip";
+                return false;
+            }
+
+            if (std::abs(loadedSave->outdoorCameraYawRadians - 1.25f) > 0.0001f
+                || std::abs(loadedSave->outdoorCameraPitchRadians + 0.45f) > 0.0001f)
+            {
+                failure = "camera heading did not roundtrip";
+                return false;
+            }
+
+            Party restoredParty = {};
+            restoredParty.setItemTable(&gameDataLoader.getItemTable());
+            restoredParty.setItemEnchantTables(
+                &gameDataLoader.getStandardItemEnchantTable(),
+                &gameDataLoader.getSpecialItemEnchantTable());
+            restoredParty.setClassSkillTable(&gameDataLoader.getClassSkillTable());
+            restoredParty.restoreSnapshot(loadedSave->party);
+
+            if (restoredParty.gold() != scenario.party.gold() || restoredParty.bankGold() != scenario.party.bankGold())
+            {
+                failure = "party gold or bank gold did not roundtrip";
+                return false;
+            }
+
+            if (!restoredParty.hasFoundArtifactItem(519) || !restoredParty.hasPartyBuff(PartyBuffId::Haste))
+            {
+                failure = "party artifact or buff state did not roundtrip";
+                return false;
+            }
+
+            const Character *pRestoredMember = restoredParty.activeMember();
+
+            if (pRestoredMember == nullptr)
+            {
+                failure = "missing restored active member";
+                return false;
+            }
+
+            if (pRestoredMember->permanentBonuses.intellect != 2 || pRestoredMember->intellect != pActiveMember->intellect)
+            {
+                failure = "permanent stat changes did not roundtrip";
+                return false;
+            }
+
+            const InventoryItem *pRestoredInventoryItem = pRestoredMember->inventoryItemAt(4, 2);
+
+            if (pRestoredInventoryItem == nullptr || pRestoredInventoryItem->objectDescriptionId != 137)
+            {
+                failure = "member inventory did not roundtrip";
+                return false;
+            }
+
+            const Party::HouseStockState *pRestoredShopState = restoredParty.houseStockState(1);
+
+            if (pRestoredShopState == nullptr
+                || pRestoredShopState->refreshSequence != 7
+                || pRestoredShopState->standardStock.size() != 1
+                || pRestoredShopState->specialStock.size() != 1
+                || pRestoredShopState->spellbookStock.size() != 1)
+            {
+                failure = "house stock state did not roundtrip";
+                return false;
+            }
+
+            OutdoorPartyRuntime restoredPartyRuntime(
+                OutdoorMovementDriver(
+                    *selectedMap->outdoorMapData,
+                    selectedMap->outdoorLandMask,
+                    selectedMap->outdoorDecorationCollisionSet,
+                    selectedMap->outdoorActorCollisionSet,
+                    selectedMap->outdoorSpriteObjectCollisionSet),
+                gameDataLoader.getItemTable());
+            restoredPartyRuntime.setParty(restoredParty);
+            restoredPartyRuntime.restoreSnapshot(loadedSave->outdoorParty);
+
+            if (std::abs(restoredPartyRuntime.movementState().x - 123.0f) > 0.01f
+                || std::abs(restoredPartyRuntime.movementState().y + 456.0f) > 0.01f
+                || !restoredPartyRuntime.movementState().airborne
+                || restoredPartyRuntime.partyMovementState().running
+                || !restoredPartyRuntime.partyMovementState().flying)
+            {
+                failure = "party movement state did not roundtrip";
+                return false;
+            }
+
+            OutdoorWorldRuntime restoredWorld = {};
+            restoredWorld.initialize(
+                selectedMap->map,
+                gameDataLoader.getMonsterTable(),
+                gameDataLoader.getMonsterProjectileTable(),
+                gameDataLoader.getObjectTable(),
+                gameDataLoader.getSpellTable(),
+                gameDataLoader.getItemTable(),
+                &restoredPartyRuntime.party(),
+                gameDataLoader.getStandardItemEnchantTable(),
+                gameDataLoader.getSpecialItemEnchantTable(),
+                &gameDataLoader.getChestTable(),
+                selectedMap->outdoorMapData,
+                selectedMap->outdoorMapDeltaData,
+                selectedMap->eventRuntimeState,
+                selectedMap->outdoorActorPreviewBillboardSet,
+                selectedMap->outdoorLandMask,
+                selectedMap->outdoorDecorationCollisionSet,
+                selectedMap->outdoorActorCollisionSet,
+                selectedMap->outdoorSpriteObjectCollisionSet,
+                selectedMap->outdoorSpriteObjectBillboardSet);
+            restoredWorld.restoreSnapshot(loadedSave->outdoorWorld);
+
+            if (std::abs(restoredWorld.gameMinutes() - scenario.world.gameMinutes()) > 0.01f)
+            {
+                failure = "world time did not roundtrip";
+                return false;
+            }
+
+            if (restoredWorld.worldItemCount() != scenario.world.worldItemCount())
+            {
+                failure = "world item count did not roundtrip";
+                return false;
+            }
+
+            const OutdoorWorldRuntime::MapActorState *pRestoredActor = restoredWorld.mapActorState(0);
+
+            if (pRestoredActor == nullptr || !pRestoredActor->isDead)
+            {
+                failure = "actor death state did not roundtrip";
+                return false;
+            }
+
+            EventRuntimeState *pRestoredEventRuntimeState = restoredWorld.eventRuntimeState();
+
+            if (pRestoredEventRuntimeState == nullptr
+                || !pRestoredEventRuntimeState->variables.contains(0x1234u)
+                || pRestoredEventRuntimeState->variables[0x1234u] != 99)
+            {
+                failure = "event runtime variables did not roundtrip";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "app_quicksave_quickload_restores_inventory_barrel_shop_and_qbits",
+        [&](std::string &failure)
+        {
+            GameApplication application(m_config);
+
+            if (!initializeHeadlessGameApplication(
+                    "out01.odm",
+                    assetFileSystem,
+                    application,
+                    failure))
+            {
+                return false;
+            }
+
+            const std::optional<MapAssetInfo> &appSelectedMap =
+                GameApplicationTestAccess::gameDataLoader(application).getSelectedMap();
+
+            if (!appSelectedMap)
+            {
+                failure = "application did not select a map";
+                return false;
+            }
+
+            Party &party = GameApplicationTestAccess::outdoorPartyRuntime(application)->party();
+            OutdoorWorldRuntime &world = *GameApplicationTestAccess::outdoorWorldRuntime(application);
+            EventRuntimeState *pEventRuntimeState = world.eventRuntimeState();
+            Character *pActiveMember = party.activeMember();
+
+            if (pEventRuntimeState == nullptr || pActiveMember == nullptr)
+            {
+                failure = "application runtime state is incomplete";
+                return false;
+            }
+
+            party.addGold(100000);
+            const uint32_t baseIntellect = pActiveMember->intellect;
+            GameApplicationTestAccess::setCameraAngles(application, 0.75f, -0.35f);
+
+            EventRuntime eventRuntime;
+            EventRuntimeState::ActiveDecorationContext context = {};
+            context.decorVarIndex = 2;
+            context.baseEventId = 268;
+            context.currentEventId = 272;
+            context.eventCount = 8;
+            context.hideWhenCleared = false;
+            pEventRuntimeState->activeDecorationContext = context;
+
+            const bool barrelExecuted = eventRuntime.executeEventById(
+                std::nullopt,
+                appSelectedMap->globalEventIrProgram,
+                272,
+                *pEventRuntimeState,
+                &party,
+                &world);
+            pEventRuntimeState->activeDecorationContext.reset();
+
+            if (!barrelExecuted)
+            {
+                failure = "barrel event 272 did not execute in application runtime";
+                return false;
+            }
+
+            world.applyEventRuntimeState();
+            party.applyEventRuntimeState(*pEventRuntimeState);
+
+            if (pActiveMember->intellect != baseIntellect + 2)
+            {
+                failure = "barrel event did not update intellect before save";
+                return false;
+            }
+
+            const HouseEntry *pHouseEntry = GameApplicationTestAccess::gameDataLoader(application).getHouseTable().get(1);
+
+            if (pHouseEntry == nullptr)
+            {
+                failure = "missing house 1 entry";
+                return false;
+            }
+
+            const std::vector<InventoryItem> &stock = HouseServiceRuntime::ensureStock(
+                party,
+                GameApplicationTestAccess::gameDataLoader(application).getItemTable(),
+                GameApplicationTestAccess::gameDataLoader(application).getStandardItemEnchantTable(),
+                GameApplicationTestAccess::gameDataLoader(application).getSpecialItemEnchantTable(),
+                *pHouseEntry,
+                world.gameMinutes(),
+                HouseStockMode::ShopStandard);
+
+            size_t purchasedSlotIndex = stock.size();
+
+            for (size_t slotIndex = 0; slotIndex < stock.size(); ++slotIndex)
+            {
+                if (stock[slotIndex].objectDescriptionId != 0)
+                {
+                    purchasedSlotIndex = slotIndex;
+                    break;
+                }
+            }
+
+            if (purchasedSlotIndex >= stock.size())
+            {
+                failure = "shop stock did not generate a purchasable item";
+                return false;
+            }
+
+            const InventoryItem purchasedItem = stock[purchasedSlotIndex];
+            std::string statusText;
+
+            if (!HouseServiceRuntime::tryBuyStockItem(
+                    party,
+                    GameApplicationTestAccess::gameDataLoader(application).getItemTable(),
+                    GameApplicationTestAccess::gameDataLoader(application).getStandardItemEnchantTable(),
+                    GameApplicationTestAccess::gameDataLoader(application).getSpecialItemEnchantTable(),
+                    *pHouseEntry,
+                    world.gameMinutes(),
+                    HouseStockMode::ShopStandard,
+                    purchasedSlotIndex,
+                    statusText))
+            {
+                failure = "shop buy failed before save: " + statusText;
+                return false;
+            }
+
+            const uint32_t qbitRawId = 458768;
+            pEventRuntimeState->variables[qbitRawId] = 7;
+
+            const std::filesystem::path savePath = "/tmp/openyamm_app_quicksave_state.oysav";
+
+            if (!GameApplicationTestAccess::quickSaveToPath(application, savePath))
+            {
+                failure = "application quick save failed";
+                return false;
+            }
+
+            pActiveMember->permanentBonuses.intellect = 0;
+            pActiveMember->intellect = baseIntellect;
+            pActiveMember->inventory.clear();
+            party.clearHouseStockStates();
+            pEventRuntimeState->variables.erase(qbitRawId);
+
+            if (!GameApplicationTestAccess::quickLoadFromPath(application, savePath, true))
+            {
+                failure = "application quick load failed";
+                return false;
+            }
+
+            std::error_code removeError;
+            std::filesystem::remove(savePath, removeError);
+
+            pActiveMember = GameApplicationTestAccess::outdoorPartyRuntime(application)->party().activeMember();
+            pEventRuntimeState = GameApplicationTestAccess::outdoorWorldRuntime(application)->eventRuntimeState();
+
+            if (pActiveMember == nullptr || pEventRuntimeState == nullptr)
+            {
+                failure = "loaded application runtime state is incomplete";
+                return false;
+            }
+
+            if (pActiveMember->intellect != baseIntellect + 2)
+            {
+                failure = "barrel intellect bonus did not persist through app quick load";
+                return false;
+            }
+
+            bool foundPurchasedItem = false;
+
+            for (const InventoryItem &item : pActiveMember->inventory)
+            {
+                if (item.objectDescriptionId == purchasedItem.objectDescriptionId
+                    && item.standardEnchantId == purchasedItem.standardEnchantId
+                    && item.specialEnchantId == purchasedItem.specialEnchantId)
+                {
+                    foundPurchasedItem = true;
+                    break;
+                }
+            }
+
+            if (!foundPurchasedItem)
+            {
+                failure = "purchased inventory item did not persist through app quick load";
+                return false;
+            }
+
+            const Party::HouseStockState *pLoadedShopState =
+                GameApplicationTestAccess::outdoorPartyRuntime(application)->party().houseStockState(1);
+
+            if (pLoadedShopState == nullptr
+                || purchasedSlotIndex >= pLoadedShopState->standardStock.size()
+                || pLoadedShopState->standardStock[purchasedSlotIndex].objectDescriptionId != 0)
+            {
+                failure = "shop stock purchase state did not persist through app quick load";
+                return false;
+            }
+
+            if (!pEventRuntimeState->variables.contains(qbitRawId) || pEventRuntimeState->variables[qbitRawId] != 7)
+            {
+                failure = "event qbit state did not persist through app quick load";
+                return false;
+            }
+
+            if (std::abs(GameApplicationTestAccess::cameraYawRadians(application) - 0.75f) > 0.0001f
+                || std::abs(GameApplicationTestAccess::cameraPitchRadians(application) + 0.35f) > 0.0001f)
+            {
+                failure = "camera heading did not persist through app quick load";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "app_quicksave_quickload_preserves_empty_house_after_departure",
+        [&](std::string &failure)
+        {
+            GameApplication application(m_config);
+
+            if (!initializeHeadlessGameApplication(
+                    "out01.odm",
+                    assetFileSystem,
+                    application,
+                    failure))
+            {
+                return false;
+            }
+
+            EventRuntimeState *pEventRuntimeState = GameApplicationTestAccess::outdoorWorldRuntime(application)->eventRuntimeState();
+
+            if (pEventRuntimeState == nullptr)
+            {
+                failure = "missing application event runtime state";
+                return false;
+            }
+
+            pEventRuntimeState->unavailableNpcIds.insert(32);
+
+            const std::filesystem::path savePath = "/tmp/openyamm_app_empty_house.oysav";
+
+            if (!GameApplicationTestAccess::quickSaveToPath(application, savePath))
+            {
+                failure = "application quick save failed";
+                return false;
+            }
+
+            pEventRuntimeState->unavailableNpcIds.clear();
+
+            if (!GameApplicationTestAccess::quickLoadFromPath(application, savePath, true))
+            {
+                failure = "application quick load failed";
+                return false;
+            }
+
+            std::error_code removeError;
+            std::filesystem::remove(savePath, removeError);
+
+            RegressionScenario loadedScenario = {};
+
+            if (!initializeRegressionScenarioFromApplication(application, loadedScenario, failure))
+            {
+                return false;
+            }
+
+            const std::optional<MapAssetInfo> &loadedMap =
+                GameApplicationTestAccess::gameDataLoader(application).getSelectedMap();
+
+            if (!loadedMap)
+            {
+                failure = "application map was not selected after load";
+                return false;
+            }
+
+            if (!executeLocalEventInScenario(GameApplicationTestAccess::gameDataLoader(application), *loadedMap, loadedScenario, 37))
+            {
+                failure = "event 37 failed after app quick load";
+                return false;
+            }
+
+            const EventDialogContent dialog =
+                buildScenarioDialog(GameApplicationTestAccess::gameDataLoader(application), *loadedMap, loadedScenario, 0, true);
+
+            if (!dialogContainsText(dialog, "The house is empty."))
+            {
+                failure = "loaded house did not remain empty after departure";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "app_quicksave_quickload_preserves_visited_map_runtime_state",
+        [&](std::string &failure)
+        {
+            GameApplication application(m_config);
+
+            if (!initializeHeadlessGameApplication(
+                    "out01.odm",
+                    assetFileSystem,
+                    application,
+                    failure))
+            {
+                return false;
+            }
+
+            EventRuntimeState *pOut01State = GameApplicationTestAccess::outdoorWorldRuntime(application)->eventRuntimeState();
+
+            if (pOut01State == nullptr)
+            {
+                failure = "missing out01 event runtime state";
+                return false;
+            }
+
+            pOut01State->variables[0x1234u] = 77;
+
+            if (!loadHeadlessGameApplicationMap(application, assetFileSystem, "out02.odm", failure))
+            {
+                return false;
+            }
+
+            EventRuntimeState *pOut02State = GameApplicationTestAccess::outdoorWorldRuntime(application)->eventRuntimeState();
+
+            if (pOut02State == nullptr)
+            {
+                failure = "missing out02 event runtime state";
+                return false;
+            }
+
+            pOut02State->variables[0x2345u] = 88;
+
+            const std::filesystem::path savePath = "/tmp/openyamm_app_cross_map.oysav";
+
+            if (!GameApplicationTestAccess::quickSaveToPath(application, savePath))
+            {
+                failure = "application quick save failed";
+                return false;
+            }
+
+            if (!GameApplicationTestAccess::quickLoadFromPath(application, savePath, true))
+            {
+                failure = "application quick load failed";
+                return false;
+            }
+
+            if (!loadHeadlessGameApplicationMap(application, assetFileSystem, "out01.odm", failure))
+            {
+                return false;
+            }
+
+            pOut01State = GameApplicationTestAccess::outdoorWorldRuntime(application)->eventRuntimeState();
+
+            if (pOut01State == nullptr || !pOut01State->variables.contains(0x1234u) || pOut01State->variables[0x1234u] != 77)
+            {
+                failure = "visited out01 state did not persist across app quick load";
+                return false;
+            }
+
+            if (!loadHeadlessGameApplicationMap(application, assetFileSystem, "out02.odm", failure))
+            {
+                return false;
+            }
+
+            std::error_code removeError;
+            std::filesystem::remove(savePath, removeError);
+
+            pOut02State = GameApplicationTestAccess::outdoorWorldRuntime(application)->eventRuntimeState();
+
+            if (pOut02State == nullptr || !pOut02State->variables.contains(0x2345u) || pOut02State->variables[0x2345u] != 88)
+            {
+                failure = "current-map out02 state did not persist across app quick load";
                 return false;
             }
 

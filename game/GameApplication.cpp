@@ -4,7 +4,9 @@
 #include <bgfx/bgfx.h>
 
 #include <algorithm>
+#include <filesystem>
 #include <functional>
+#include <iostream>
 
 namespace OpenYAMM::Game
 {
@@ -41,6 +43,7 @@ int GameApplication::run()
 bool GameApplication::loadGameData(const Engine::AssetFileSystem &assetFileSystem)
 {
     m_pAssetFileSystem = &assetFileSystem;
+    m_outdoorWorldStates.clear();
 
     if (!m_gameDataLoader.loadForGameplay(assetFileSystem))
     {
@@ -76,7 +79,11 @@ bool GameApplication::loadGameData(const Engine::AssetFileSystem &assetFileSyste
 bool GameApplication::initializeRenderer()
 {
     shutdownRenderer();
+    return initializeSelectedMapRuntime(true);
+}
 
+bool GameApplication::initializeSelectedMapRuntime(bool initializeView)
+{
     const std::optional<MapAssetInfo> &selectedMap = m_gameDataLoader.getSelectedMap();
 
     if (!selectedMap)
@@ -86,28 +93,6 @@ bool GameApplication::initializeRenderer()
 
     if (selectedMap->outdoorMapData)
     {
-        m_pOutdoorWorldRuntime = std::make_unique<OutdoorWorldRuntime>();
-        m_pOutdoorWorldRuntime->initialize(
-            selectedMap->map,
-            m_gameDataLoader.getMonsterTable(),
-            m_gameDataLoader.getMonsterProjectileTable(),
-            m_gameDataLoader.getObjectTable(),
-            m_gameDataLoader.getSpellTable(),
-            m_gameDataLoader.getItemTable(),
-            m_gameDataLoader.getStandardItemEnchantTable(),
-            m_gameDataLoader.getSpecialItemEnchantTable(),
-            &m_gameDataLoader.getChestTable(),
-            selectedMap->outdoorMapData,
-            selectedMap->outdoorMapDeltaData,
-            selectedMap->eventRuntimeState,
-            selectedMap->outdoorActorPreviewBillboardSet,
-            selectedMap->outdoorLandMask,
-            selectedMap->outdoorDecorationCollisionSet,
-            selectedMap->outdoorActorCollisionSet,
-            selectedMap->outdoorSpriteObjectCollisionSet,
-            selectedMap->outdoorSpriteObjectBillboardSet
-        );
-
         m_pOutdoorPartyRuntime = std::make_unique<OutdoorPartyRuntime>(
             OutdoorMovementDriver(
                 *selectedMap->outdoorMapData,
@@ -131,6 +116,41 @@ bool GameApplication::initializeRenderer()
                 &m_gameDataLoader.getSpecialItemEnchantTable());
             m_partyState->setClassSkillTable(&m_gameDataLoader.getClassSkillTable());
             m_pOutdoorPartyRuntime->setParty(*m_partyState);
+        }
+        else
+        {
+            m_pOutdoorPartyRuntime->party().reset();
+            m_partyState = m_pOutdoorPartyRuntime->party();
+        }
+
+        m_pOutdoorWorldRuntime = std::make_unique<OutdoorWorldRuntime>();
+        m_pOutdoorWorldRuntime->initialize(
+            selectedMap->map,
+            m_gameDataLoader.getMonsterTable(),
+            m_gameDataLoader.getMonsterProjectileTable(),
+            m_gameDataLoader.getObjectTable(),
+            m_gameDataLoader.getSpellTable(),
+            m_gameDataLoader.getItemTable(),
+            &m_pOutdoorPartyRuntime->party(),
+            m_gameDataLoader.getStandardItemEnchantTable(),
+            m_gameDataLoader.getSpecialItemEnchantTable(),
+            &m_gameDataLoader.getChestTable(),
+            selectedMap->outdoorMapData,
+            selectedMap->outdoorMapDeltaData,
+            selectedMap->eventRuntimeState,
+            selectedMap->outdoorActorPreviewBillboardSet,
+            selectedMap->outdoorLandMask,
+            selectedMap->outdoorDecorationCollisionSet,
+            selectedMap->outdoorActorCollisionSet,
+            selectedMap->outdoorSpriteObjectCollisionSet,
+            selectedMap->outdoorSpriteObjectBillboardSet
+        );
+
+        restoreSavedOutdoorWorldStateForSelectedMap();
+
+        if (!initializeView)
+        {
+            return true;
         }
 
         return m_outdoorGameView.initialize(
@@ -175,6 +195,11 @@ bool GameApplication::initializeRenderer()
 
     if (selectedMap->indoorMapData)
     {
+        if (!initializeView)
+        {
+            return true;
+        }
+
         return m_indoorDebugRenderer.initialize(
             selectedMap->map,
             m_gameDataLoader.getMonsterTable(),
@@ -198,6 +223,38 @@ bool GameApplication::initializeRenderer()
     return false;
 }
 
+void GameApplication::captureCurrentOutdoorWorldState()
+{
+    const std::optional<MapAssetInfo> &selectedMap = m_gameDataLoader.getSelectedMap();
+
+    if (!selectedMap || m_pOutdoorWorldRuntime == nullptr || !selectedMap->outdoorMapData)
+    {
+        return;
+    }
+
+    m_outdoorWorldStates[selectedMap->map.fileName] = m_pOutdoorWorldRuntime->snapshot();
+}
+
+void GameApplication::restoreSavedOutdoorWorldStateForSelectedMap()
+{
+    const std::optional<MapAssetInfo> &selectedMap = m_gameDataLoader.getSelectedMap();
+
+    if (!selectedMap || m_pOutdoorWorldRuntime == nullptr || !selectedMap->outdoorMapData)
+    {
+        return;
+    }
+
+    const std::unordered_map<std::string, OutdoorWorldRuntime::Snapshot>::const_iterator stateIt =
+        m_outdoorWorldStates.find(selectedMap->map.fileName);
+
+    if (stateIt == m_outdoorWorldStates.end())
+    {
+        return;
+    }
+
+    m_pOutdoorWorldRuntime->restoreSnapshot(stateIt->second);
+}
+
 void GameApplication::shutdownRenderer()
 {
     m_outdoorGameView.shutdown();
@@ -213,6 +270,8 @@ bool GameApplication::reloadSelectedMap()
         return false;
     }
 
+    captureCurrentOutdoorWorldState();
+
     const std::vector<MapStatsEntry> &entries = m_gameDataLoader.getMapStats().getEntries();
 
     if (entries.empty() || m_mapPickerIndex >= entries.size())
@@ -226,6 +285,181 @@ bool GameApplication::reloadSelectedMap()
     }
 
     return initializeRenderer();
+}
+
+void GameApplication::updateQuickSaveInput()
+{
+    const bool *pKeyboardState = SDL_GetKeyboardState(nullptr);
+
+    if (pKeyboardState == nullptr)
+    {
+        return;
+    }
+
+    if (pKeyboardState[SDL_SCANCODE_F9])
+    {
+        if (!m_quickSaveLatch)
+        {
+            m_pendingQuickSave = true;
+            m_quickSaveLatch = true;
+        }
+    }
+    else
+    {
+        m_quickSaveLatch = false;
+    }
+
+    if (pKeyboardState[SDL_SCANCODE_F10])
+    {
+        if (!m_quickLoadLatch)
+        {
+            m_pendingQuickLoad = true;
+            m_quickLoadLatch = true;
+        }
+    }
+    else
+    {
+        m_quickLoadLatch = false;
+    }
+}
+
+bool GameApplication::processPendingQuickSaveInput()
+{
+    if (m_pendingQuickLoad)
+    {
+        m_pendingQuickLoad = false;
+        m_pendingQuickSave = false;
+        return quickLoad();
+    }
+
+    if (m_pendingQuickSave)
+    {
+        m_pendingQuickSave = false;
+        return quickSave();
+    }
+
+    return false;
+}
+
+bool GameApplication::quickSave()
+{
+    return quickSaveToPath(std::filesystem::path("saves") / "quicksave.oysav");
+}
+
+bool GameApplication::quickSaveToPath(const std::filesystem::path &path)
+{
+    const std::optional<MapAssetInfo> &selectedMap = m_gameDataLoader.getSelectedMap();
+
+    if (!selectedMap || m_pOutdoorPartyRuntime == nullptr || m_pOutdoorWorldRuntime == nullptr)
+    {
+        reportQuickSaveStatus("Quick save unavailable");
+        return false;
+    }
+
+    GameSaveData saveData = {};
+    saveData.mapFileName = selectedMap->map.fileName;
+    saveData.party = m_pOutdoorPartyRuntime->party().snapshot();
+    saveData.outdoorParty = m_pOutdoorPartyRuntime->snapshot();
+    saveData.outdoorWorld = m_pOutdoorWorldRuntime->snapshot();
+    captureCurrentOutdoorWorldState();
+    saveData.outdoorWorldStates = m_outdoorWorldStates;
+    saveData.outdoorCameraYawRadians = m_outdoorGameView.cameraYawRadians();
+    saveData.outdoorCameraPitchRadians = m_outdoorGameView.cameraPitchRadians();
+
+    std::string error;
+
+    if (!saveGameDataToPath(path, saveData, error))
+    {
+        reportQuickSaveStatus("Quick save failed: " + error);
+        return false;
+    }
+
+    m_partyState = m_pOutdoorPartyRuntime->party();
+    reportQuickSaveStatus("Quick save written");
+    return true;
+}
+
+bool GameApplication::quickLoad()
+{
+    return quickLoadFromPath(std::filesystem::path("saves") / "quicksave.oysav", true);
+}
+
+bool GameApplication::quickLoadFromPath(const std::filesystem::path &path, bool initializeView)
+{
+    if (m_pAssetFileSystem == nullptr)
+    {
+        reportQuickSaveStatus("Quick load unavailable");
+        return false;
+    }
+
+    std::string error;
+    const std::optional<GameSaveData> saveData = loadGameDataFromPath(path, error);
+
+    if (!saveData)
+    {
+        reportQuickSaveStatus("Quick load failed: " + error);
+        return false;
+    }
+
+    Party restoredParty = {};
+    restoredParty.setItemTable(&m_gameDataLoader.getItemTable());
+    restoredParty.setItemEnchantTables(
+        &m_gameDataLoader.getStandardItemEnchantTable(),
+        &m_gameDataLoader.getSpecialItemEnchantTable());
+    restoredParty.setClassSkillTable(&m_gameDataLoader.getClassSkillTable());
+    restoredParty.restoreSnapshot(saveData->party);
+    m_partyState = restoredParty;
+    m_outdoorWorldStates = saveData->outdoorWorldStates;
+    m_outdoorWorldStates[saveData->mapFileName] = saveData->outdoorWorld;
+
+    if (!m_gameDataLoader.loadMapByFileNameForGameplay(*m_pAssetFileSystem, saveData->mapFileName))
+    {
+        reportQuickSaveStatus("Quick load failed: map load failed");
+        return false;
+    }
+
+    shutdownRenderer();
+
+    if (!initializeSelectedMapRuntime(initializeView) || m_pOutdoorPartyRuntime == nullptr || m_pOutdoorWorldRuntime == nullptr)
+    {
+        reportQuickSaveStatus("Quick load failed: runtime init failed");
+        return false;
+    }
+
+    m_outdoorGameView.setCameraAngles(saveData->outdoorCameraYawRadians, saveData->outdoorCameraPitchRadians);
+    m_pOutdoorPartyRuntime->restoreSnapshot(saveData->outdoorParty);
+    m_partyState = m_pOutdoorPartyRuntime->party();
+
+    const std::vector<MapStatsEntry> &entries = m_gameDataLoader.getMapStats().getEntries();
+    const std::optional<MapAssetInfo> &selectedMap = m_gameDataLoader.getSelectedMap();
+
+    if (selectedMap)
+    {
+        for (size_t mapIndex = 0; mapIndex < entries.size(); ++mapIndex)
+        {
+            if (entries[mapIndex].id == selectedMap->map.id)
+            {
+                m_mapPickerIndex = mapIndex;
+                break;
+            }
+        }
+    }
+
+    reportQuickSaveStatus("Quick load applied");
+    return true;
+}
+
+void GameApplication::reportQuickSaveStatus(const std::string &status) const
+{
+    std::cout << status << '\n';
+
+    if (m_pOutdoorWorldRuntime != nullptr)
+    {
+        if (EventRuntimeState *pEventRuntimeState = m_pOutdoorWorldRuntime->eventRuntimeState())
+        {
+            pEventRuntimeState->lastActivationResult = status;
+        }
+    }
 }
 
 void GameApplication::updateMapPickerInput()
@@ -372,6 +606,7 @@ void GameApplication::renderMapPickerOverlay() const
 
 void GameApplication::renderFrame(int width, int height, float mouseWheelDelta, float deltaSeconds)
 {
+    updateQuickSaveInput();
     updateMapPickerInput();
     const std::optional<MapAssetInfo> &selectedMap = m_gameDataLoader.getSelectedMap();
 
@@ -390,6 +625,12 @@ void GameApplication::renderFrame(int width, int height, float mouseWheelDelta, 
         }
 
         processPendingOutdoorMapMove();
+
+        if (processPendingQuickSaveInput())
+        {
+            return;
+        }
+
         renderMapPickerOverlay();
         return;
     }
@@ -398,6 +639,12 @@ void GameApplication::renderFrame(int width, int height, float mouseWheelDelta, 
     {
         m_indoorDebugRenderer.render(width, height, mouseWheelDelta, deltaSeconds);
         m_gameAudioSystem.update(0.0f, 0.0f, 0.0f);
+
+        if (processPendingQuickSaveInput())
+        {
+            return;
+        }
+
         renderMapPickerOverlay();
     }
 }
@@ -440,6 +687,7 @@ bool GameApplication::processPendingOutdoorMapMove()
     }
 
     const std::string targetMapName = *pendingMapMove->mapName;
+    captureCurrentOutdoorWorldState();
 
     if (!m_gameDataLoader.loadMapByFileNameForGameplay(*m_pAssetFileSystem, targetMapName))
     {

@@ -25,6 +25,7 @@ struct ItemGenerationRequest
 {
     int treasureLevel = 1;
     ItemGenerationMode mode = ItemGenerationMode::Generic;
+    bool allowRareItems = true;
 };
 
 class ItemGenerator
@@ -39,6 +40,7 @@ public:
         const StandardItemEnchantTable &standardItemEnchantTable,
         const SpecialItemEnchantTable &specialItemEnchantTable,
         const ItemGenerationRequest &request,
+        Party *pParty,
         std::mt19937 &rng,
         const std::function<bool(const ItemDefinition &)> &filter = {});
     static std::optional<uint32_t> chooseRandomBaseItem(

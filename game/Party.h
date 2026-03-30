@@ -8,10 +8,12 @@
 #include "game/SpeechIds.h"
 
 #include <array>
+#include <bitset>
 #include <cstdint>
 #include <optional>
 #include <string>
 #include <unordered_map>
+#include <unordered_set>
 #include <vector>
 
 namespace OpenYAMM::Game
@@ -37,6 +39,7 @@ struct InventoryItem
     uint16_t standardEnchantPower = 0;
     uint16_t specialEnchantId = 0;
     uint16_t artifactId = 0;
+    ItemRarity rarity = ItemRarity::Common;
 };
 
 struct Character
@@ -77,6 +80,8 @@ struct Character
     CharacterStatBonuses magicalBonuses = {};
     CharacterResistanceImmunitySet permanentImmunities = {};
     CharacterResistanceImmunitySet magicalImmunities = {};
+    std::bitset<CharacterConditionCount> permanentConditionImmunities = {};
+    std::bitset<CharacterConditionCount> magicalConditionImmunities = {};
     CharacterEquipment equipment = {};
     CharacterEquipmentRuntimeState equipmentRuntime = {};
     std::bitset<CharacterConditionCount> conditions = {};
@@ -218,6 +223,27 @@ public:
         std::vector<InventoryItem> spellbookStock;
     };
 
+    struct Snapshot
+    {
+        std::vector<Character> members;
+        size_t activeMemberIndex = 0;
+        std::array<PartyBuffState, PartyBuffCount> partyBuffs = {};
+        std::array<std::array<CharacterBuffState, CharacterBuffCount>, 5> characterBuffs = {};
+        int gold = 0;
+        int bankGold = 0;
+        int food = 0;
+        uint32_t waterDamageTicks = 0;
+        uint32_t burningDamageTicks = 0;
+        uint32_t splashCount = 0;
+        uint32_t landingSoundCount = 0;
+        uint32_t hardLandingSoundCount = 0;
+        uint32_t monsterTargetSelectionCounter = 0;
+        uint32_t houseStockSeed = 0;
+        float lastFallDamageDistance = 0.0f;
+        std::unordered_set<uint32_t> foundArtifactItems;
+        std::vector<HouseStockState> houseStockStates;
+    };
+
     struct PendingAudioRequest
     {
         enum class Kind : uint8_t
@@ -239,6 +265,8 @@ public:
         const StandardItemEnchantTable *pStandardItemEnchantTable,
         const SpecialItemEnchantTable *pSpecialItemEnchantTable);
     void setClassSkillTable(const ClassSkillTable *pClassSkillTable);
+    Snapshot snapshot() const;
+    void restoreSnapshot(const Snapshot &snapshot);
     void reset();
     void seed(const PartySeed &seed);
     void applyMovementEffects(const OutdoorMovementEffects &effects);
@@ -373,7 +401,9 @@ public:
     bool hasCharacterBuff(size_t memberIndex, CharacterBuffId buffId) const;
     const PartyBuffState *partyBuff(PartyBuffId buffId) const;
     const CharacterBuffState *characterBuff(size_t memberIndex, CharacterBuffId buffId) const;
+    bool applyMemberCondition(size_t memberIndex, CharacterCondition condition);
     bool clearMemberCondition(size_t memberIndex, CharacterCondition condition);
+    bool hasMemberConditionImmunity(size_t memberIndex, CharacterCondition condition) const;
     bool healMember(size_t memberIndex, int amount);
     bool reviveMember(size_t memberIndex, int health, bool applyWeak);
 
@@ -387,6 +417,9 @@ public:
     int bankGold() const;
     int food() const;
     uint32_t houseStockSeed() const;
+    bool hasFoundArtifactItem(uint32_t itemId) const;
+    void markArtifactItemFound(uint32_t itemId);
+    void clearFoundArtifactItems();
     HouseStockState *houseStockState(uint32_t houseId);
     const HouseStockState *houseStockState(uint32_t houseId) const;
     HouseStockState &ensureHouseStockState(uint32_t houseId);
@@ -411,6 +444,7 @@ private:
     uint8_t resolveInventoryHeight(uint32_t objectDescriptionId) const;
     void applyDefaultStartingSkills(Character &member) const;
     void rebuildMagicalBonusesFromBuffs();
+    void markArtifactItemFoundIfRelevant(const InventoryItem &item);
     void queueSound(SoundId soundId);
     void queueSpeech(size_t memberIndex, SpeechId speechId);
 
@@ -434,6 +468,7 @@ private:
     uint32_t m_houseStockSeed = 0;
     float m_lastFallDamageDistance = 0.0f;
     std::string m_lastStatus;
+    std::unordered_set<uint32_t> m_foundArtifactItems;
     std::unordered_map<uint32_t, HouseStockState> m_houseStockStates;
     std::vector<PendingAudioRequest> m_pendingAudioRequests;
 };

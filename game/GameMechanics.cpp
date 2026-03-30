@@ -1,6 +1,7 @@
 #include "game/GameMechanics.h"
 
 #include "game/CharacterDollTable.h"
+#include "game/ItemRuntime.h"
 #include "game/ItemTable.h"
 #include "game/SpellTable.h"
 
@@ -1777,8 +1778,8 @@ bool GameMechanics::canCharacterEquipItem(
         return false;
     }
 
-    // TODO: enforce artifact/relic/class/race-specific item restrictions once those data tables are wired.
-    return true;
+    return ItemRuntime::characterMeetsClassRestriction(character, itemDefinition)
+        && ItemRuntime::characterMeetsRaceRestriction(character, itemDefinition);
 }
 
 std::optional<CharacterEquipPlan> GameMechanics::resolveCharacterEquipPlan(
