@@ -1119,6 +1119,13 @@ bool GameDataLoader::loadHouseTable(const Engine::AssetFileSystem &assetFileSyst
         m_houseTable.loadAnimationRows(animationRows);
     }
 
+    std::vector<std::vector<std::string>> transportRows;
+
+    if (loadTextTableRows(assetFileSystem, "Data/TRANSPORT_SCHEDULES.txt", transportRows))
+    {
+        m_houseTable.loadTransportScheduleRows(transportRows);
+    }
+
     return true;
 }
 

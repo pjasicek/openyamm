@@ -70,6 +70,46 @@ int parseSpecialStockTier(float priceMultiplier, float skillPriceMultiplier)
     const int bonusTier = std::max(1, static_cast<int>(std::ceil(skillPriceMultiplier * 0.5f)));
     return std::clamp(standardTier + bonusTier, standardTier, 6);
 }
+
+uint32_t parseUnsigned(const std::string &value)
+{
+    if (value.empty())
+    {
+        return 0;
+    }
+
+    return static_cast<uint32_t>(std::strtoul(value.c_str(), nullptr, 10));
+}
+
+int parseSigned(const std::string &value)
+{
+    if (value.empty())
+    {
+        return 0;
+    }
+
+    return std::atoi(value.c_str());
+}
+
+bool parseBoolDefaultTrue(const std::string &value)
+{
+    if (value.empty())
+    {
+        return true;
+    }
+
+    std::string lowered = value;
+    std::transform(
+        lowered.begin(),
+        lowered.end(),
+        lowered.begin(),
+        [](unsigned char character)
+        {
+            return static_cast<char>(std::tolower(character));
+        });
+
+    return lowered == "1" || lowered == "true" || lowered == "yes" || lowered == "y";
+}
 }
 
 bool HouseTable::loadFromRows(const std::vector<std::vector<std::string>> &rows)
@@ -212,6 +252,70 @@ bool HouseTable::loadAnimationRows(const std::vector<std::vector<std::string>> &
 
             startPosition = commaPosition + 1;
         }
+    }
+
+    return true;
+}
+
+bool HouseTable::loadTransportScheduleRows(const std::vector<std::vector<std::string>> &rows)
+{
+    for (const std::vector<std::string> &row : rows)
+    {
+        if (row.empty() || row[0].empty() || row[0][0] == '#')
+        {
+            continue;
+        }
+
+        const uint32_t houseId = parseUnsigned(row[0]);
+
+        if (houseId == 0)
+        {
+            continue;
+        }
+
+        HouseEntry &entry = m_entries[houseId];
+        entry.id = houseId;
+
+        HouseEntry::TransportRoute route = {};
+        route.routeIndex = row.size() > 1 ? parseUnsigned(row[1]) : 0;
+        route.destinationName = row.size() > 2 ? row[2] : "";
+        route.mapFileName = row.size() > 3 ? row[3] : "";
+        route.travelDays = row.size() > 4 ? parseUnsigned(row[4]) : 0;
+
+        for (size_t dayIndex = 0; dayIndex < route.daysAvailable.size(); ++dayIndex)
+        {
+            route.daysAvailable[dayIndex] = row.size() > (5 + dayIndex)
+                ? parseBoolDefaultTrue(row[5 + dayIndex])
+                : true;
+        }
+
+        route.x = row.size() > 12 ? parseSigned(row[12]) : 0;
+        route.y = row.size() > 13 ? parseSigned(row[13]) : 0;
+        route.z = row.size() > 14 ? parseSigned(row[14]) : 0;
+        route.directionDegrees = row.size() > 15 ? parseSigned(row[15]) : 0;
+        route.requiredQBit = row.size() > 16 ? parseUnsigned(row[16]) : 0;
+        route.useMapStartPosition =
+            row.size() > 17
+            ? parseBoolDefaultTrue(row[17])
+            : (row.size() <= 14 || (row[12].empty() && row[13].empty() && row[14].empty()));
+        entry.transportRoutes.push_back(std::move(route));
+    }
+
+    for (auto &[houseId, entry] : m_entries)
+    {
+        (void)houseId;
+        std::sort(
+            entry.transportRoutes.begin(),
+            entry.transportRoutes.end(),
+            [](const HouseEntry::TransportRoute &left, const HouseEntry::TransportRoute &right)
+            {
+                if (left.routeIndex != right.routeIndex)
+                {
+                    return left.routeIndex < right.routeIndex;
+                }
+
+                return left.destinationName < right.destinationName;
+            });
     }
 
     return true;

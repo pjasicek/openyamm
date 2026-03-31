@@ -13,6 +13,7 @@
 namespace OpenYAMM::Game
 {
 class Party;
+class OutdoorWorldRuntime;
 
 enum class EventDialogActionKind
 {
@@ -60,6 +61,7 @@ EventDialogContent buildEventDialogContent(
     const ClassSkillTable *pClassSkillTable,
     const NpcDialogTable *pNpcDialogTable,
     const Party *pParty,
+    const OutdoorWorldRuntime *pOutdoorWorldRuntime,
     float currentGameMinutes
 );
 }

@@ -22,6 +22,7 @@ enum class HouseServiceType : uint32_t
     Tavern,
     TrainingHall,
     Guild,
+    Transport,
 };
 
 enum class HouseActionId : uint32_t
@@ -47,6 +48,7 @@ enum class HouseActionId : uint32_t
     TavernArcomageRules,
     TavernArcomageVictoryConditions,
     TavernArcomagePlay,
+    TransportRoute,
 };
 
 enum class HouseSoundType : uint32_t
@@ -103,6 +105,7 @@ std::vector<HouseActionOption> buildHouseActionOptions(
     const HouseEntry &houseEntry,
     const Party *pParty,
     const ClassSkillTable *pClassSkillTable,
+    const OutdoorWorldRuntime *pOutdoorWorldRuntime,
     float currentGameMinutes,
     DialogueMenuId menuId
 );

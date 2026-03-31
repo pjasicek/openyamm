@@ -13,7 +13,7 @@ namespace OpenYAMM::Game
 {
 namespace
 {
-constexpr uint32_t SaveVersion = 4;
+constexpr uint32_t SaveVersion = 5;
 constexpr char SaveMagic[8] = {'O', 'Y', 'S', 'A', 'V', 'E', '1', '\0'};
 
 class BinaryWriter
@@ -878,6 +878,8 @@ void writeValue(BinaryWriter &writer, const EventRuntimeState::PendingMapMove &v
     writeValue(writer, value.y);
     writeValue(writer, value.z);
     writeValue(writer, value.mapName);
+    writeValue(writer, value.directionDegrees);
+    writeValue(writer, value.useMapStartPosition);
 }
 
 bool readValue(BinaryReader &reader, EventRuntimeState::PendingMapMove &value)
@@ -885,7 +887,9 @@ bool readValue(BinaryReader &reader, EventRuntimeState::PendingMapMove &value)
     return readValue(reader, value.x)
         && readValue(reader, value.y)
         && readValue(reader, value.z)
-        && readValue(reader, value.mapName);
+        && readValue(reader, value.mapName)
+        && readValue(reader, value.directionDegrees)
+        && readValue(reader, value.useMapStartPosition);
 }
 
 void writeValue(BinaryWriter &writer, const EventRuntimeState::DialogueOfferState &value)

@@ -169,6 +169,7 @@ EventDialogContent buildEventDialogContent(
     const ClassSkillTable *pClassSkillTable,
     const NpcDialogTable *pNpcDialogTable,
     const Party *pParty,
+    const OutdoorWorldRuntime *pOutdoorWorldRuntime,
     float currentGameMinutes
 )
 {
@@ -192,6 +193,7 @@ EventDialogContent buildEventDialogContent(
                 *pHouseEntry,
                 pParty,
                 pClassSkillTable,
+                pOutdoorWorldRuntime,
                 currentGameMinutes,
                 currentDialogueMenuId(eventRuntimeState)
             );
@@ -292,6 +294,7 @@ EventDialogContent buildEventDialogContent(
                 *pHouseEntry,
                 pParty,
                 pClassSkillTable,
+                pOutdoorWorldRuntime,
                 currentGameMinutes,
                 currentDialogueMenuId(eventRuntimeState)
             );

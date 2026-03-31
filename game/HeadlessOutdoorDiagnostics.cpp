@@ -23,6 +23,7 @@
 #include "game/OutdoorGeometryUtils.h"
 #include "game/Party.h"
 #include "game/PartySpellSystem.h"
+#include "game/PriceCalculator.h"
 #include "game/SaveGame.h"
 #include "game/SpellIds.h"
 #include "game/SpriteObjectDefs.h"
@@ -147,6 +148,26 @@ struct GameApplicationTestAccess
     static bool hasActiveEventDialog(const GameApplication &application)
     {
         return application.m_outdoorGameView.m_activeEventDialog.isActive;
+    }
+
+    static const EventDialogContent &activeEventDialog(const GameApplication &application)
+    {
+        return application.m_outdoorGameView.m_activeEventDialog;
+    }
+
+    static void setEventDialogSelectionIndex(GameApplication &application, size_t selectionIndex)
+    {
+        application.m_outdoorGameView.m_eventDialogSelectionIndex = selectionIndex;
+    }
+
+    static void executeActiveDialogAction(GameApplication &application)
+    {
+        application.m_outdoorGameView.executeActiveDialogAction();
+    }
+
+    static bool processPendingOutdoorMapMove(GameApplication &application)
+    {
+        return application.processPendingOutdoorMapMove();
     }
 };
 
@@ -905,6 +926,7 @@ void promoteSingleResidentHouseContext(
         *pHouseEntry,
         nullptr,
         nullptr,
+        nullptr,
         currentGameMinutes,
         eventRuntimeState.dialogueState.menuStack.empty()
             ? DialogueMenuId::None
@@ -953,6 +975,7 @@ EventDialogContent buildHeadlessDialog(
         &gameDataLoader.getClassSkillTable(),
         &gameDataLoader.getNpcDialogTable(),
         pParty,
+        nullptr,
         currentGameMinutes
     );
 }
@@ -13673,6 +13696,385 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
     );
 
     runCase(
+        "transport_routes_filter_by_weekday_and_qbit",
+        [&](std::string &failure)
+        {
+            const HouseEntry *pSmugglerHouse = gameDataLoader.getHouseTable().get(65);
+            const HouseEntry *pQBitHouse = gameDataLoader.getHouseTable().get(69);
+
+            if (pSmugglerHouse == nullptr || pQBitHouse == nullptr)
+            {
+                failure = "transport house entries are missing";
+                return false;
+            }
+
+            const std::vector<HouseActionOption> mondayActions = buildHouseActionOptions(
+                *pSmugglerHouse,
+                nullptr,
+                nullptr,
+                nullptr,
+                0.0f,
+                DialogueMenuId::None
+            );
+            const std::vector<HouseActionOption> tuesdayActions = buildHouseActionOptions(
+                *pSmugglerHouse,
+                nullptr,
+                nullptr,
+                nullptr,
+                24.0f * 60.0f,
+                DialogueMenuId::None
+            );
+
+            const auto hasDestination = [](const std::vector<HouseActionOption> &actions, const std::string &destination)
+            {
+                return std::any_of(
+                    actions.begin(),
+                    actions.end(),
+                    [&](const HouseActionOption &action)
+                    {
+                        return action.label.find(destination) != std::string::npos;
+                    });
+            };
+
+            if (!hasDestination(mondayActions, "Ravage Roaming") || hasDestination(mondayActions, "Shadowspire"))
+            {
+                failure = "monday smuggler routes did not filter by weekday";
+                return false;
+            }
+
+            if (!hasDestination(tuesdayActions, "Shadowspire") || hasDestination(tuesdayActions, "Ravage Roaming"))
+            {
+                failure = "tuesday smuggler routes did not filter by weekday";
+                return false;
+            }
+
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            const std::vector<HouseActionOption> lockedActions = buildHouseActionOptions(
+                *pQBitHouse,
+                &scenario.party,
+                &gameDataLoader.getClassSkillTable(),
+                &scenario.world,
+                scenario.world.gameMinutes(),
+                DialogueMenuId::None
+            );
+
+            if (!lockedActions.empty())
+            {
+                failure = "qbit-gated transport route was visible before its qbit was set";
+                return false;
+            }
+
+            EventRuntimeState *pEventRuntimeState = scenario.world.eventRuntimeState();
+
+            if (pEventRuntimeState == nullptr)
+            {
+                failure = "missing scenario event runtime state";
+                return false;
+            }
+
+            pEventRuntimeState->variables[900] = 1;
+
+            const std::vector<HouseActionOption> unlockedActions = buildHouseActionOptions(
+                *pQBitHouse,
+                &scenario.party,
+                &gameDataLoader.getClassSkillTable(),
+                &scenario.world,
+                scenario.world.gameMinutes(),
+                DialogueMenuId::None
+            );
+
+            if (unlockedActions.size() != 1 || !hasDestination(unlockedActions, "Ravenshore"))
+            {
+                failure = "qbit-gated transport route did not unlock after its qbit was set";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "transport_action_spends_gold_advances_time_and_queues_map_move",
+        [&](std::string &failure)
+        {
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            const HouseEntry *pHouseEntry = gameDataLoader.getHouseTable().get(63);
+
+            if (pHouseEntry == nullptr)
+            {
+                failure = "missing transport house entry 63";
+                return false;
+            }
+
+            scenario.party.addGold(1000);
+            const float initialGameMinutes = scenario.world.gameMinutes();
+            const int initialGold = scenario.party.gold();
+            const Character *pMember = scenario.party.activeMember();
+            const int expectedPrice = PriceCalculator::transportPrice(pMember, *pHouseEntry, true);
+            Character *pActiveMember = scenario.party.activeMember();
+
+            if (pActiveMember == nullptr)
+            {
+                failure = "missing active member";
+                return false;
+            }
+
+            scenario.party.applyPartyBuff(PartyBuffId::TorchLight, 600.0f, 1, 0, 0, SkillMastery::None, 0);
+            pActiveMember->health = std::max(1, pActiveMember->health - 20);
+            pActiveMember->spellPoints = std::max(0, pActiveMember->spellPoints - 5);
+            pActiveMember->recoverySecondsRemaining = 3.0f;
+            pActiveMember->conditions.set(static_cast<size_t>(CharacterCondition::Weak));
+            pActiveMember->conditions.set(static_cast<size_t>(CharacterCondition::Fear));
+
+            const std::vector<HouseActionOption> actions = buildHouseActionOptions(
+                *pHouseEntry,
+                &scenario.party,
+                &gameDataLoader.getClassSkillTable(),
+                &scenario.world,
+                0.0f,
+                DialogueMenuId::None
+            );
+
+            if (actions.size() != 1 || actions[0].id != HouseActionId::TransportRoute)
+            {
+                failure = "transport house 63 did not expose the expected route action";
+                return false;
+            }
+
+            const HouseActionResult result = performHouseAction(
+                actions[0],
+                *pHouseEntry,
+                scenario.party,
+                &gameDataLoader.getClassSkillTable(),
+                &scenario.world
+            );
+
+            if (!result.succeeded || result.soundType != HouseSoundType::TransportTravel)
+            {
+                failure = "transport action did not succeed with the expected sound type";
+                return false;
+            }
+
+            if (scenario.party.gold() != initialGold - expectedPrice)
+            {
+                failure = "transport action did not deduct the expected price";
+                return false;
+            }
+
+            if (std::abs(scenario.world.gameMinutes() - (initialGameMinutes + 24.0f * 60.0f)) > 0.01f)
+            {
+                failure = "transport action did not advance time by the route travel days";
+                return false;
+            }
+
+            pActiveMember = scenario.party.activeMember();
+
+            if (pActiveMember == nullptr)
+            {
+                failure = "active member disappeared after transport";
+                return false;
+            }
+
+            if (pActiveMember->health != pActiveMember->maxHealth || pActiveMember->spellPoints != pActiveMember->maxSpellPoints)
+            {
+                failure = "transport action did not restore health and spell points";
+                return false;
+            }
+
+            if (pActiveMember->conditions.test(static_cast<size_t>(CharacterCondition::Weak))
+                || pActiveMember->conditions.test(static_cast<size_t>(CharacterCondition::Fear))
+                || pActiveMember->recoverySecondsRemaining > 0.0f)
+            {
+                failure = "transport action did not clear recoverable rest conditions";
+                return false;
+            }
+
+            if (scenario.party.hasPartyBuff(PartyBuffId::TorchLight))
+            {
+                failure = "transport action did not clear party buffs like a full rest";
+                return false;
+            }
+
+            const EventRuntimeState::PendingMapMove *pPendingMapMove = scenario.world.pendingMapMove();
+
+            if (pPendingMapMove == nullptr
+                || !pPendingMapMove->mapName.has_value()
+                || *pPendingMapMove->mapName != "Out02.odm"
+                || !pPendingMapMove->directionDegrees.has_value()
+                || *pPendingMapMove->directionDegrees != 180
+                || !pPendingMapMove->useMapStartPosition)
+            {
+                failure = "transport action did not queue the expected pending map move";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "tavern_rest_and_transport_share_full_rest_recovery",
+        [&](std::string &failure)
+        {
+            RegressionScenario tavernScenario = {};
+            RegressionScenario transportScenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, tavernScenario)
+                || !initializeRegressionScenario(gameDataLoader, *selectedMap, transportScenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            const HouseEntry *pTavernHouse = gameDataLoader.getHouseTable().get(107);
+            const HouseEntry *pTransportHouse = gameDataLoader.getHouseTable().get(63);
+
+            if (pTavernHouse == nullptr || pTransportHouse == nullptr)
+            {
+                failure = "missing tavern or transport house entry";
+                return false;
+            }
+
+            Character *pTavernMember = tavernScenario.party.activeMember();
+            Character *pTransportMember = transportScenario.party.activeMember();
+
+            if (pTavernMember == nullptr || pTransportMember == nullptr)
+            {
+                failure = "missing active member";
+                return false;
+            }
+
+            tavernScenario.party.addGold(1000);
+            transportScenario.party.addGold(1000);
+            tavernScenario.party.applyPartyBuff(PartyBuffId::WizardEye, 600.0f, 1, 0, 0, SkillMastery::None, 0);
+            transportScenario.party.applyPartyBuff(PartyBuffId::WizardEye, 600.0f, 1, 0, 0, SkillMastery::None, 0);
+            pTavernMember->health = std::max(1, pTavernMember->health - 17);
+            pTransportMember->health = std::max(1, pTransportMember->health - 17);
+            pTavernMember->spellPoints = std::max(0, pTavernMember->spellPoints - 4);
+            pTransportMember->spellPoints = std::max(0, pTransportMember->spellPoints - 4);
+            pTavernMember->conditions.set(static_cast<size_t>(CharacterCondition::Asleep));
+            pTransportMember->conditions.set(static_cast<size_t>(CharacterCondition::Asleep));
+            pTavernMember->recoverySecondsRemaining = 2.0f;
+            pTransportMember->recoverySecondsRemaining = 2.0f;
+
+            const HouseActionResult tavernResult = performHouseAction(
+                HouseActionOption{HouseActionId::TavernRentRoom, "Rent room", "", true, ""},
+                *pTavernHouse,
+                tavernScenario.party,
+                &gameDataLoader.getClassSkillTable(),
+                &tavernScenario.world);
+            const HouseActionResult transportResult = performHouseAction(
+                HouseActionOption{
+                    HouseActionId::TransportRoute,
+                    "Travel",
+                    std::to_string(pTransportHouse->transportRoutes.front().routeIndex),
+                    true,
+                    ""},
+                *pTransportHouse,
+                transportScenario.party,
+                &gameDataLoader.getClassSkillTable(),
+                &transportScenario.world);
+
+            if (!tavernResult.succeeded || !transportResult.succeeded)
+            {
+                failure = "tavern or transport action failed";
+                return false;
+            }
+
+            pTavernMember = tavernScenario.party.activeMember();
+            pTransportMember = transportScenario.party.activeMember();
+
+            if (pTavernMember == nullptr || pTransportMember == nullptr)
+            {
+                failure = "active member missing after rest";
+                return false;
+            }
+
+            if (pTavernMember->health != pTransportMember->health
+                || pTavernMember->spellPoints != pTransportMember->spellPoints
+                || pTavernMember->recoverySecondsRemaining != pTransportMember->recoverySecondsRemaining
+                || pTavernMember->conditions != pTransportMember->conditions
+                || tavernScenario.party.hasPartyBuff(PartyBuffId::WizardEye)
+                    != transportScenario.party.hasPartyBuff(PartyBuffId::WizardEye))
+            {
+                failure = "tavern and transport recovery diverged";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "app_transport_map_move_applies_cross_map_heading",
+        [&](std::string &failure)
+        {
+            GameApplication application(m_config);
+
+            if (!initializeHeadlessGameApplication(
+                    "out01.odm",
+                    assetFileSystem,
+                    application,
+                    failure))
+            {
+                return false;
+            }
+
+            EventRuntimeState *pEventRuntimeState = GameApplicationTestAccess::outdoorWorldRuntime(application)->eventRuntimeState();
+
+            if (pEventRuntimeState == nullptr)
+            {
+                failure = "missing application event runtime state";
+                return false;
+            }
+
+            EventRuntimeState::PendingMapMove pendingMapMove = {};
+            pendingMapMove.mapName = std::string("Out02.odm");
+            pendingMapMove.directionDegrees = 135;
+            pendingMapMove.useMapStartPosition = true;
+            pEventRuntimeState->pendingMapMove = std::move(pendingMapMove);
+
+            if (!GameApplicationTestAccess::processPendingOutdoorMapMove(application))
+            {
+                failure = "application did not process the pending transport map move";
+                return false;
+            }
+
+            const std::optional<MapAssetInfo> &loadedMap = GameApplicationTestAccess::gameDataLoader(application).getSelectedMap();
+
+            if (!loadedMap || toLowerCopy(loadedMap->map.fileName) != "out02.odm")
+            {
+                failure = "transport map move did not load the destination map";
+                return false;
+            }
+
+            const float expectedYawRadians = 135.0f * 3.14159265358979323846f / 180.0f;
+
+            if (std::abs(GameApplicationTestAccess::cameraYawRadians(application) - expectedYawRadians) > 0.0001f)
+            {
+                failure = "transport map move did not apply the arrival heading";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
         "app_quicksave_quickload_restores_inventory_barrel_shop_and_qbits",
         [&](std::string &failure)
         {
@@ -14040,6 +14442,102 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
             if (!dialogContainsText(dialog, "The house is empty."))
             {
                 failure = "loaded house did not remain empty after departure";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "app_open_house_action_rejects_after_closing_time",
+        [&](std::string &failure)
+        {
+            GameApplication application(m_config);
+
+            if (!initializeHeadlessGameApplication(
+                    "out01.odm",
+                    assetFileSystem,
+                    application,
+                    failure))
+            {
+                return false;
+            }
+
+            GameApplicationTestAccess::shutdownRenderer(application);
+
+            if (!GameApplicationTestAccess::initializeSelectedMapRuntime(application, true))
+            {
+                failure = "could not initialize gameplay view";
+                return false;
+            }
+
+            OutdoorWorldRuntime *pWorld = GameApplicationTestAccess::outdoorWorldRuntime(application);
+            EventRuntimeState *pEventRuntimeState = pWorld != nullptr ? pWorld->eventRuntimeState() : nullptr;
+            const HouseEntry *pHouseEntry = GameApplicationTestAccess::gameDataLoader(application).getHouseTable().get(1);
+
+            if (pWorld == nullptr || pEventRuntimeState == nullptr || pHouseEntry == nullptr)
+            {
+                failure = "application state is incomplete";
+                return false;
+            }
+
+            const float openMinuteOfDay = static_cast<float>((pHouseEntry->openHour % 24) * 60);
+            const float openGameMinutes = nextGameMinuteAtOrAfter(pWorld->gameMinutes(), openMinuteOfDay);
+            pWorld->advanceGameMinutes(openGameMinutes - pWorld->gameMinutes());
+
+            EventRuntimeState::PendingDialogueContext context = {};
+            context.kind = DialogueContextKind::HouseService;
+            context.sourceId = pHouseEntry->id;
+            context.hostHouseId = pHouseEntry->id;
+            pEventRuntimeState->dialogueState.hostHouseId = pHouseEntry->id;
+            pEventRuntimeState->pendingDialogueContext = std::move(context);
+
+            GameApplicationTestAccess::openPendingEventDialog(application, pEventRuntimeState->messages.size(), true);
+
+            if (!GameApplicationTestAccess::hasActiveEventDialog(application))
+            {
+                failure = "open house did not enter house mode";
+                return false;
+            }
+
+            const EventDialogContent &dialog = GameApplicationTestAccess::activeEventDialog(application);
+
+            if (dialog.actions.empty())
+            {
+                failure = "open house dialog had no actions";
+                return false;
+            }
+
+            const float closedMinuteOfDay = definitelyClosedMinuteOfDay(*pHouseEntry);
+
+            if (closedMinuteOfDay < 0.0f)
+            {
+                failure = "house 1 does not have meaningful open/close hours";
+                return false;
+            }
+
+            const float closedGameMinutes = nextGameMinuteAtOrAfter(pWorld->gameMinutes(), closedMinuteOfDay);
+            pWorld->advanceGameMinutes(closedGameMinutes - pWorld->gameMinutes());
+
+            GameApplicationTestAccess::setEventDialogSelectionIndex(application, 0);
+            GameApplicationTestAccess::executeActiveDialogAction(application);
+
+            if (GameApplicationTestAccess::hasActiveEventDialog(application))
+            {
+                failure = "house action still executed after closing time";
+                return false;
+            }
+
+            if (GameApplicationTestAccess::statusBarEventText(application) != buildClosedStatusText(*pHouseEntry))
+            {
+                failure = "late closed house action did not use closed status text";
+                return false;
+            }
+
+            if (pEventRuntimeState->pendingDialogueContext.has_value())
+            {
+                failure = "late closed house action left a pending dialogue context";
                 return false;
             }
 

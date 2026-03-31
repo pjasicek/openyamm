@@ -2064,12 +2064,64 @@ bool Party::activeMemberNeedsHealing() const
 
 void Party::restoreAll()
 {
+    restAndHealAll();
+}
+
+void Party::restAndHealAll()
+{
+    m_partyBuffs = {};
+    m_characterBuffs = {};
+    rebuildMagicalBonusesFromBuffs();
+
     for (Character &member : m_members)
     {
-        member.health = member.maxHealth;
-        member.spellPoints = member.maxSpellPoints;
+        if (member.conditions.test(static_cast<size_t>(CharacterCondition::Dead))
+            || member.conditions.test(static_cast<size_t>(CharacterCondition::Petrified))
+            || member.conditions.test(static_cast<size_t>(CharacterCondition::Eradicated)))
+        {
+            continue;
+        }
+
         member.conditions.reset(static_cast<size_t>(CharacterCondition::Unconscious));
-        member.conditions.reset(static_cast<size_t>(CharacterCondition::Dead));
+        member.conditions.reset(static_cast<size_t>(CharacterCondition::Drunk));
+        member.conditions.reset(static_cast<size_t>(CharacterCondition::Fear));
+        member.conditions.reset(static_cast<size_t>(CharacterCondition::Asleep));
+        member.conditions.reset(static_cast<size_t>(CharacterCondition::Weak));
+        member.recoverySecondsRemaining = 0.0f;
+
+        const int maxHealth = std::max(1, member.maxHealth + member.magicalBonuses.maxHealth);
+        const int maxSpellPoints = std::max(0, member.maxSpellPoints + member.magicalBonuses.maxSpellPoints);
+        member.health = maxHealth;
+        member.spellPoints = maxSpellPoints;
+
+        if (member.conditions.test(static_cast<size_t>(CharacterCondition::Zombie)))
+        {
+            member.health = std::max(1, member.health / 2);
+            member.spellPoints = 0;
+        }
+        else if (member.conditions.test(static_cast<size_t>(CharacterCondition::PoisonSevere))
+            || member.conditions.test(static_cast<size_t>(CharacterCondition::DiseaseSevere)))
+        {
+            member.health = std::max(1, member.health / 4);
+            member.spellPoints /= 4;
+        }
+        else if (member.conditions.test(static_cast<size_t>(CharacterCondition::PoisonMedium))
+            || member.conditions.test(static_cast<size_t>(CharacterCondition::DiseaseMedium)))
+        {
+            member.health = std::max(1, member.health / 3);
+            member.spellPoints /= 3;
+        }
+        else if (member.conditions.test(static_cast<size_t>(CharacterCondition::PoisonWeak))
+            || member.conditions.test(static_cast<size_t>(CharacterCondition::DiseaseWeak)))
+        {
+            member.health = std::max(1, member.health / 2);
+            member.spellPoints /= 2;
+        }
+
+        if (member.conditions.test(static_cast<size_t>(CharacterCondition::Insane)))
+        {
+            member.spellPoints = 0;
+        }
     }
 }
 

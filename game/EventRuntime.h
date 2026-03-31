@@ -71,6 +71,8 @@ struct EventRuntimeState
         int32_t y = 0;
         int32_t z = 0;
         std::optional<std::string> mapName;
+        std::optional<int32_t> directionDegrees;
+        bool useMapStartPosition = false;
     };
 
     struct DialogueOfferState

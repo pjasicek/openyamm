@@ -292,6 +292,7 @@ public:
     bool needsHealing() const;
     bool activeMemberNeedsHealing() const;
     void restoreAll();
+    void restAndHealAll();
     void restoreActiveMember();
     bool trainLeader(uint32_t maxLevel, uint32_t &newLevel, uint32_t &skillPointsEarned);
     bool trainActiveMember(uint32_t maxLevel, uint32_t &newLevel, uint32_t &skillPointsEarned);

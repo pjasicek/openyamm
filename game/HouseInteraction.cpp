@@ -4,6 +4,7 @@
 #include "game/HouseServiceRuntime.h"
 #include "game/OutdoorWorldRuntime.h"
 #include "game/Party.h"
+#include "game/PriceCalculator.h"
 #include "game/SkillData.h"
 
 #include <algorithm>
@@ -16,19 +17,32 @@ namespace
 {
 constexpr int RestTargetHour = 6;
 constexpr int TavernFoodTarget = 14;
+constexpr int MinutesPerDay = 24 * 60;
 
 int minuteOfDayFromGameMinutes(float currentGameMinutes)
 {
-    const int minutesPerDay = 24 * 60;
     int minuteOfDay = static_cast<int>(std::floor(currentGameMinutes));
-    minuteOfDay %= minutesPerDay;
+    minuteOfDay %= MinutesPerDay;
 
     if (minuteOfDay < 0)
     {
-        minuteOfDay += minutesPerDay;
+        minuteOfDay += MinutesPerDay;
     }
 
     return minuteOfDay;
+}
+
+int dayOfWeekFromGameMinutes(float currentGameMinutes)
+{
+    int day = static_cast<int>(std::floor(currentGameMinutes / static_cast<float>(MinutesPerDay)));
+    day %= 7;
+
+    if (day < 0)
+    {
+        day += 7;
+    }
+
+    return day;
 }
 
 std::string amPmSuffixForHour(int hour24)
@@ -52,6 +66,71 @@ bool isHouseType(const HouseEntry &houseEntry, const char *pTypeName)
 const Character *selectedMember(const Party *pParty)
 {
     return pParty != nullptr ? pParty->activeMember() : nullptr;
+}
+
+bool isTransportHouseType(const HouseEntry &houseEntry)
+{
+    return isHouseType(houseEntry, "Stables") || isHouseType(houseEntry, "Boats");
+}
+
+bool isBoatHouse(const HouseEntry &houseEntry)
+{
+    return isHouseType(houseEntry, "Boats");
+}
+
+bool routeQBitSatisfied(
+    const HouseEntry::TransportRoute &route,
+    const OutdoorWorldRuntime *pOutdoorWorldRuntime)
+{
+    if (route.requiredQBit == 0)
+    {
+        return true;
+    }
+
+    if (pOutdoorWorldRuntime == nullptr)
+    {
+        return false;
+    }
+
+    const EventRuntimeState *pEventRuntimeState = pOutdoorWorldRuntime->eventRuntimeState();
+
+    if (pEventRuntimeState == nullptr)
+    {
+        return false;
+    }
+
+    const auto it = pEventRuntimeState->variables.find(route.requiredQBit);
+    return it != pEventRuntimeState->variables.end() && it->second != 0;
+}
+
+bool routeAvailableToday(const HouseEntry::TransportRoute &route, float currentGameMinutes)
+{
+    if (currentGameMinutes < 0.0f)
+    {
+        return true;
+    }
+
+    return route.daysAvailable[dayOfWeekFromGameMinutes(currentGameMinutes)];
+}
+
+const HouseEntry::TransportRoute *findTransportRoute(const HouseEntry &houseEntry, const std::string &argument)
+{
+    if (argument.empty())
+    {
+        return nullptr;
+    }
+
+    const uint32_t routeIndex = static_cast<uint32_t>(std::strtoul(argument.c_str(), nullptr, 10));
+
+    for (const HouseEntry::TransportRoute &route : houseEntry.transportRoutes)
+    {
+        if (route.routeIndex == routeIndex)
+        {
+            return &route;
+        }
+    }
+
+    return nullptr;
 }
 
 }
@@ -280,6 +359,11 @@ HouseServiceType resolveHouseServiceType(const HouseEntry &houseEntry)
         return HouseServiceType::Guild;
     }
 
+    if (isTransportHouseType(houseEntry))
+    {
+        return HouseServiceType::Transport;
+    }
+
     return HouseServiceType::None;
 }
 
@@ -330,6 +414,7 @@ std::vector<HouseActionOption> buildHouseActionOptions(
     const HouseEntry &houseEntry,
     const Party *pParty,
     const ClassSkillTable *pClassSkillTable,
+    const OutdoorWorldRuntime *pOutdoorWorldRuntime,
     float currentGameMinutes,
     DialogueMenuId menuId
 )
@@ -585,6 +670,49 @@ std::vector<HouseActionOption> buildHouseActionOptions(
         ));
 
         options.push_back(makeOption(HouseActionId::OpenLearnSkillsMenu, "Learn Skills", isHouseOpenNow, closedReason));
+        return options;
+    }
+
+    if (serviceType == HouseServiceType::Transport)
+    {
+        const Character *pMember = selectedMember(pParty);
+        bool anyRouteVisible = false;
+        bool anyRouteSkippedForDay = false;
+
+        for (const HouseEntry::TransportRoute &route : houseEntry.transportRoutes)
+        {
+            if (!routeQBitSatisfied(route, pOutdoorWorldRuntime))
+            {
+                continue;
+            }
+
+            if (!routeAvailableToday(route, currentGameMinutes))
+            {
+                anyRouteSkippedForDay = true;
+                continue;
+            }
+
+            anyRouteVisible = true;
+            const int price = PriceCalculator::transportPrice(pMember, houseEntry, isBoatHouse(houseEntry));
+            HouseActionOption transport = makeOption(
+                HouseActionId::TransportRoute,
+                "Travel to " + route.destinationName + " for " + std::to_string(price) + " gold",
+                isHouseOpenNow,
+                closedReason
+            );
+            transport.argument = std::to_string(route.routeIndex);
+            options.push_back(std::move(transport));
+        }
+
+        if (!anyRouteVisible && anyRouteSkippedForDay)
+        {
+            HouseActionOption noRoute = {};
+            noRoute.id = HouseActionId::TransportRoute;
+            noRoute.label = "Sorry, come back another day";
+            noRoute.enabled = false;
+            noRoute.disabledReason = "Sorry, come back another day";
+            options.push_back(std::move(noRoute));
+        }
     }
 
     return options;
@@ -668,7 +796,7 @@ HouseActionResult performHouseAction(
             }
 
             party.addGold(-price);
-            party.restoreAll();
+            party.restAndHealAll();
 
             if (pOutdoorWorldRuntime != nullptr)
             {
@@ -837,6 +965,77 @@ HouseActionResult performHouseAction(
         case HouseActionId::GuildBuySpellbooks:
         {
             result.messages.push_back("This service is not implemented yet.");
+            return result;
+        }
+
+        case HouseActionId::TransportRoute:
+        {
+            const HouseEntry::TransportRoute *pRoute = findTransportRoute(houseEntry, action.argument);
+
+            if (pRoute == nullptr)
+            {
+                result.messages.push_back("That route is not available.");
+                return result;
+            }
+
+            if (pOutdoorWorldRuntime == nullptr)
+            {
+                result.messages.push_back("Travel is unavailable right now.");
+                return result;
+            }
+
+            if (!routeQBitSatisfied(*pRoute, pOutdoorWorldRuntime))
+            {
+                result.messages.push_back("That route is not available.");
+                return result;
+            }
+
+            if (!routeAvailableToday(*pRoute, pOutdoorWorldRuntime->gameMinutes()))
+            {
+                result.messages.push_back("Sorry, come back another day");
+                return result;
+            }
+
+            const Character *pMember = party.activeMember();
+            const int price = PriceCalculator::transportPrice(pMember, houseEntry, isBoatHouse(houseEntry));
+
+            if (party.gold() < price)
+            {
+                result.messages.push_back("You don't have enough gold.");
+                result.soundType = HouseSoundType::TransportNotEnoughGold;
+                return result;
+            }
+
+            EventRuntimeState *pEventRuntimeState = pOutdoorWorldRuntime->eventRuntimeState();
+
+            if (pEventRuntimeState == nullptr)
+            {
+                result.messages.push_back("Travel is unavailable right now.");
+                return result;
+            }
+
+            party.addGold(-price);
+            party.restAndHealAll();
+            pOutdoorWorldRuntime->advanceGameMinutes(static_cast<float>(pRoute->travelDays * MinutesPerDay));
+
+            EventRuntimeState::PendingMapMove pendingMapMove = {};
+            pendingMapMove.mapName = pRoute->mapFileName;
+            pendingMapMove.x = pRoute->x;
+            pendingMapMove.y = pRoute->y;
+            pendingMapMove.z = pRoute->z;
+            pendingMapMove.directionDegrees = pRoute->directionDegrees;
+            pendingMapMove.useMapStartPosition = pRoute->useMapStartPosition;
+            pEventRuntimeState->pendingMapMove = std::move(pendingMapMove);
+
+            result.messages.push_back(
+                "It will take "
+                + std::to_string(pRoute->travelDays)
+                + " days to travel to "
+                + pRoute->destinationName
+                + "."
+            );
+            result.succeeded = true;
+            result.soundType = HouseSoundType::TransportTravel;
             return result;
         }
 

@@ -874,6 +874,7 @@ private:
         int &opaqueMaxX,
         int &opaqueMaxY);
     void executeActiveDialogAction();
+    bool rejectClosedHouseInteraction(const HouseEntry &houseEntry, EventRuntimeState &eventRuntimeState);
     void openHouseShopOverlay(uint32_t houseId, HouseShopMode mode);
     void closeHouseShopOverlay();
     void beginHouseBankInput(uint32_t houseId, HouseBankInputMode mode);

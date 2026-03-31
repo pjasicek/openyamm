@@ -10,6 +10,11 @@
 
 namespace OpenYAMM::Game
 {
+namespace
+{
+constexpr float Pi = 3.14159265358979323846f;
+}
+
 GameApplication::GameApplication(const Engine::ApplicationConfig &config)
     : m_engineApplication(
         config,
@@ -690,6 +695,12 @@ bool GameApplication::processPendingOutdoorMapMove()
             );
         }
 
+        if (pendingMapMove->directionDegrees.has_value())
+        {
+            const float yawRadians = static_cast<float>(*pendingMapMove->directionDegrees) * Pi / 180.0f;
+            m_outdoorGameView.setCameraAngles(yawRadians, m_outdoorGameView.cameraPitchRadians());
+        }
+
         return true;
     }
 
@@ -706,13 +717,19 @@ bool GameApplication::processPendingOutdoorMapMove()
         return false;
     }
 
-    if (m_pOutdoorPartyRuntime != nullptr)
+    if (m_pOutdoorPartyRuntime != nullptr && !pendingMapMove->useMapStartPosition)
     {
         m_pOutdoorPartyRuntime->teleportTo(
             static_cast<float>(-pendingMapMove->x),
             static_cast<float>(pendingMapMove->y),
             static_cast<float>(pendingMapMove->z)
         );
+    }
+
+    if (pendingMapMove->directionDegrees.has_value())
+    {
+        const float yawRadians = static_cast<float>(*pendingMapMove->directionDegrees) * Pi / 180.0f;
+        m_outdoorGameView.setCameraAngles(yawRadians, m_outdoorGameView.cameraPitchRadians());
     }
 
     const std::vector<MapStatsEntry> &entries = m_gameDataLoader.getMapStats().getEntries();

@@ -8073,6 +8073,11 @@ void OutdoorGameView::executeActiveDialogAction()
             return;
         }
 
+        if (rejectClosedHouseInteraction(*pHouseEntry, *pEventRuntimeState))
+        {
+            return;
+        }
+
         const DialogueMenuId menuId = dialogueMenuIdForHouseAction(static_cast<HouseActionId>(action.id));
 
         if (menuId != DialogueMenuId::None)
@@ -8177,6 +8182,15 @@ void OutdoorGameView::executeActiveDialogAction()
             if (result.succeeded && option.id == HouseActionId::TempleDonate)
             {
                 playSpeechReaction(m_pOutdoorPartyRuntime->party().activeMemberIndex(), SpeechId::TempleDonate, true);
+            }
+
+            if (result.succeeded && option.id == HouseActionId::TransportRoute)
+            {
+                playSpeechReaction(
+                    m_pOutdoorPartyRuntime->party().activeMemberIndex(),
+                    isHouseType(*pHouseEntry, "Boats") ? SpeechId::TravelBoat : SpeechId::TravelHorse,
+                    true
+                );
             }
         }
 
@@ -8453,6 +8467,32 @@ void OutdoorGameView::executeActiveDialogAction()
     }
 }
 
+bool OutdoorGameView::rejectClosedHouseInteraction(
+    const HouseEntry &houseEntry,
+    EventRuntimeState &eventRuntimeState)
+{
+    if (m_pOutdoorWorldRuntime == nullptr
+        || isHouseOpenAtGameMinute(houseEntry, m_pOutdoorWorldRuntime->gameMinutes()))
+    {
+        return false;
+    }
+
+    closeHouseShopOverlay();
+    closeInventoryNestedOverlay();
+    setStatusBarEvent(buildClosedStatusText(houseEntry));
+
+    if (m_pOutdoorPartyRuntime != nullptr)
+    {
+        playSpeechReaction(m_pOutdoorPartyRuntime->party().activeMemberIndex(), SpeechId::StoreClosed, true);
+    }
+
+    eventRuntimeState.pendingDialogueContext.reset();
+    eventRuntimeState.dialogueState = {};
+    clearHouseBankState();
+    m_activeEventDialog = {};
+    return true;
+}
+
 void OutdoorGameView::openPendingEventDialog(size_t previousMessageCount, bool allowNpcFallbackContent)
 {
     EventRuntimeState *pEventRuntimeState =
@@ -8475,16 +8515,8 @@ void OutdoorGameView::openPendingEventDialog(size_t previousMessageCount, bool a
     {
         const HouseEntry *pHouseEntry = m_houseTable->get(pEventRuntimeState->pendingDialogueContext->sourceId);
 
-        if (pHouseEntry != nullptr && !isHouseOpenAtGameMinute(*pHouseEntry, m_pOutdoorWorldRuntime->gameMinutes()))
+        if (pHouseEntry != nullptr && rejectClosedHouseInteraction(*pHouseEntry, *pEventRuntimeState))
         {
-            closeHouseShopOverlay();
-            closeInventoryNestedOverlay();
-            setStatusBarEvent(buildClosedStatusText(*pHouseEntry));
-            playSpeechReaction(m_pOutdoorPartyRuntime->party().activeMemberIndex(), SpeechId::StoreClosed, true);
-            pEventRuntimeState->pendingDialogueContext.reset();
-            pEventRuntimeState->dialogueState = {};
-            clearHouseBankState();
-            m_activeEventDialog = {};
             return;
         }
     }
@@ -8514,6 +8546,7 @@ void OutdoorGameView::openPendingEventDialog(size_t previousMessageCount, bool a
                 *pHouseEntry,
                 m_pOutdoorPartyRuntime != nullptr ? &m_pOutdoorPartyRuntime->party() : nullptr,
                 m_classSkillTable ? &*m_classSkillTable : nullptr,
+                m_pOutdoorWorldRuntime,
                 m_pOutdoorWorldRuntime != nullptr ? m_pOutdoorWorldRuntime->gameMinutes() : -1.0f,
                 pEventRuntimeState->dialogueState.menuStack.empty()
                     ? DialogueMenuId::None
@@ -8548,6 +8581,7 @@ void OutdoorGameView::openPendingEventDialog(size_t previousMessageCount, bool a
         m_classSkillTable ? &*m_classSkillTable : nullptr,
         m_npcDialogTable ? &*m_npcDialogTable : nullptr,
         m_pOutdoorPartyRuntime != nullptr ? &m_pOutdoorPartyRuntime->party() : nullptr,
+        m_pOutdoorWorldRuntime,
         m_pOutdoorWorldRuntime != nullptr ? m_pOutdoorWorldRuntime->gameMinutes() : -1.0f
     );
 
