@@ -8,6 +8,7 @@
 #include "game/ItemRuntime.h"
 #include "game/ItemTable.h"
 #include "game/RosterTable.h"
+#include "game/SpellSchool.h"
 #include "game/SpellIds.h"
 #include "game/StringUtils.h"
 
@@ -21,6 +22,8 @@ namespace OpenYAMM::Game
 {
 namespace
 {
+constexpr uint32_t OeMaxCharacterExperience = 4000000000u;
+
 bool characterNeedsTempleHealing(const Character &member)
 {
     if (member.health < member.maxHealth || member.spellPoints < member.maxSpellPoints)
@@ -74,6 +77,36 @@ void grantAllMagicSchools(Character &character, uint32_t level, SkillMastery mas
     for (const char *pSkillName : skillNames)
     {
         grantSeedSkill(character, pSkillName, level, mastery);
+    }
+}
+
+void grantAllSpellsForMagicSkill(Character &character, const std::string &skillName)
+{
+    const std::optional<std::pair<uint32_t, uint32_t>> spellRange = spellIdRangeForMagicSkill(skillName);
+
+    if (!spellRange)
+    {
+        return;
+    }
+
+    for (uint32_t spellId = spellRange->first; spellId <= spellRange->second; ++spellId)
+    {
+        character.learnSpell(spellId);
+    }
+}
+
+void forgetAllSpellsForMagicSkill(Character &character, const std::string &skillName)
+{
+    const std::optional<std::pair<uint32_t, uint32_t>> spellRange = spellIdRangeForMagicSkill(skillName);
+
+    if (!spellRange)
+    {
+        return;
+    }
+
+    for (uint32_t spellId = spellRange->first; spellId <= spellRange->second; ++spellId)
+    {
+        character.forgetSpell(spellId);
     }
 }
 
@@ -447,6 +480,43 @@ bool hasConditionImmunity(const Character &member, CharacterCondition condition)
 uint64_t experienceRequiredForNextLevel(uint32_t currentLevel)
 {
     return 1000ull * currentLevel * (currentLevel + 1) / 2;
+}
+
+int learningPercentForExperienceGain(const Character &member)
+{
+    const CharacterSkill *pSkill = member.findSkill("Learning");
+
+    if (pSkill == nullptr || pSkill->level == 0)
+    {
+        return 0;
+    }
+
+    switch (pSkill->mastery)
+    {
+        case SkillMastery::Normal:
+            return 9 + static_cast<int>(pSkill->level);
+
+        case SkillMastery::Expert:
+            return 9 + 2 * static_cast<int>(pSkill->level);
+
+        case SkillMastery::Master:
+            return 9 + 3 * static_cast<int>(pSkill->level);
+
+        case SkillMastery::Grandmaster:
+            return 9 + 5 * static_cast<int>(pSkill->level);
+
+        case SkillMastery::None:
+        default:
+            return 0;
+    }
+}
+
+bool canReceiveSharedExperience(const Character &member)
+{
+    return !member.conditions.test(static_cast<size_t>(CharacterCondition::Unconscious))
+        && !member.conditions.test(static_cast<size_t>(CharacterCondition::Dead))
+        && !member.conditions.test(static_cast<size_t>(CharacterCondition::Petrified))
+        && !member.conditions.test(static_cast<size_t>(CharacterCondition::Eradicated));
 }
 
 void updateMemberIncapacitatedCondition(Character &member, bool preservationActive)
@@ -1044,6 +1114,31 @@ bool Character::setSkillMastery(const std::string &skillName, SkillMastery maste
     return true;
 }
 
+bool Character::knowsSpell(uint32_t spellId) const
+{
+    return spellId != 0 && knownSpellIds.contains(spellId);
+}
+
+bool Character::learnSpell(uint32_t spellId)
+{
+    if (spellId == 0)
+    {
+        return false;
+    }
+
+    return knownSpellIds.insert(spellId).second;
+}
+
+bool Character::forgetSpell(uint32_t spellId)
+{
+    if (spellId == 0)
+    {
+        return false;
+    }
+
+    return knownSpellIds.erase(spellId) > 0;
+}
+
 size_t Character::inventoryItemCount() const
 {
     return inventory.size();
@@ -1113,6 +1208,20 @@ PartySeed Party::createDefaultSeed()
     cleric.spellPoints = 120;
     grantDefaultEquipmentSkills(cleric);
     grantAllMagicSchools(cleric, 10, SkillMastery::Grandmaster);
+    grantAllSpellsForMagicSkill(cleric, "FireMagic");
+    grantAllSpellsForMagicSkill(cleric, "AirMagic");
+    grantAllSpellsForMagicSkill(cleric, "WaterMagic");
+    grantAllSpellsForMagicSkill(cleric, "EarthMagic");
+    grantAllSpellsForMagicSkill(cleric, "SpiritMagic");
+    grantAllSpellsForMagicSkill(cleric, "MindMagic");
+    grantAllSpellsForMagicSkill(cleric, "BodyMagic");
+    grantAllSpellsForMagicSkill(cleric, "LightMagic");
+    grantAllSpellsForMagicSkill(cleric, "DarkMagic");
+    cleric.skills.erase("AirMagic");
+    forgetAllSpellsForMagicSkill(cleric, "AirMagic");
+    grantSeedSkill(cleric, "FireMagic", 10, SkillMastery::Master);
+    cleric.forgetSpell(spellIdValue(SpellId::FireBolt));
+    cleric.forgetSpell(spellIdValue(SpellId::Incinerate));
     grantSeedSkill(cleric, "IdentifyItem", 10, SkillMastery::Grandmaster);
     grantSeedSkill(cleric, "RepairItem", 10, SkillMastery::Grandmaster);
     grantSeedEquippedItem(cleric, EquipmentSlot::MainHand, 79, 0, 0, 16);
@@ -1128,6 +1237,16 @@ PartySeed Party::createDefaultSeed()
     grantSeedInventoryItem(cleric, 138, true, true);
     grantSeedInventoryItem(cleric, 145, false, false);
     grantSeedInventoryItem(cleric, 145, true, true);
+    grantSeedInventoryItem(cleric, 401, true, false);
+    grantSeedInventoryItem(cleric, 410, true, false);
+    grantSeedInventoryItem(cleric, 411, true, false);
+    grantSeedInventoryItem(cleric, 400, true, false);
+    grantSeedInventoryItem(cleric, 741, true, false);
+    grantSeedInventoryItem(cleric, 222, true, false);
+    grantSeedInventoryItem(cleric, 223, true, false);
+    grantSeedInventoryItem(cleric, 266, true, false);
+    grantSeedInventoryItem(cleric, 253, true, false);
+    grantSeedInventoryItem(cleric, 656, true, false);
     seed.members.push_back(cleric);
 
     Character femaleKnight = {};
@@ -1634,6 +1753,81 @@ bool Party::applyDamageToAllLivingMembers(int damage, const std::string &status)
     }
 
     return applied;
+}
+
+uint32_t Party::addExperienceToMember(size_t memberIndex, int64_t amount)
+{
+    Character *pMember = member(memberIndex);
+
+    if (pMember == nullptr)
+    {
+        return 0;
+    }
+
+    const int64_t clampedExperience = std::clamp<int64_t>(
+        static_cast<int64_t>(pMember->experience) + amount,
+        0,
+        static_cast<int64_t>(OeMaxCharacterExperience));
+    pMember->experience = static_cast<uint32_t>(clampedExperience);
+    return pMember->experience;
+}
+
+uint32_t Party::setMemberExperience(size_t memberIndex, uint32_t experience)
+{
+    Character *pMember = member(memberIndex);
+
+    if (pMember == nullptr)
+    {
+        return 0;
+    }
+
+    pMember->experience = std::min(experience, OeMaxCharacterExperience);
+    return pMember->experience;
+}
+
+uint32_t Party::grantSharedExperience(uint32_t totalExperience)
+{
+    if (totalExperience == 0)
+    {
+        return 0;
+    }
+
+    size_t eligibleMemberCount = 0;
+
+    for (const Character &member : m_members)
+    {
+        if (canReceiveSharedExperience(member))
+        {
+            ++eligibleMemberCount;
+        }
+    }
+
+    if (eligibleMemberCount == 0)
+    {
+        return 0;
+    }
+
+    const uint32_t experiencePerEligibleMember = totalExperience / eligibleMemberCount;
+    uint32_t totalGrantedExperience = 0;
+
+    for (size_t memberIndex = 0; memberIndex < m_members.size(); ++memberIndex)
+    {
+        const Character &member = m_members[memberIndex];
+
+        if (!canReceiveSharedExperience(member))
+        {
+            continue;
+        }
+
+        const int learningPercent = learningPercentForExperienceGain(member);
+        const uint32_t grantedExperience =
+            experiencePerEligibleMember
+            + experiencePerEligibleMember * std::max(0, learningPercent) / 100;
+        addExperienceToMember(memberIndex, grantedExperience);
+        totalGrantedExperience += grantedExperience;
+    }
+
+    return totalGrantedExperience;
 }
 
 std::optional<size_t> Party::chooseMonsterAttackTarget(uint32_t attackPreferences, uint32_t seedHint)

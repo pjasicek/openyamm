@@ -83,6 +83,7 @@ struct EventIrEvent
 class EventIrProgram
 {
 public:
+    static EventIrProgram fromEvents(std::vector<EventIrEvent> events);
     bool buildFromEvtProgram(
         const EvtProgram &evtProgram,
         const StrTable &strTable,

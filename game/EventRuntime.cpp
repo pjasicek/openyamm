@@ -5,6 +5,7 @@
 
 #include <iostream>
 #include <algorithm>
+#include <limits>
 #include <unordered_map>
 
 namespace OpenYAMM::Game
@@ -408,6 +409,11 @@ EventRuntime::VariableRef EventRuntime::decodeVariable(uint32_t rawId)
         variable.kind = VariableKind::ClassId;
         variable.rawId = rawId;
     }
+    else if (variable.tag == 0x000d)
+    {
+        variable.kind = VariableKind::Experience;
+        variable.rawId = variable.tag;
+    }
     else if (variable.tag == 0x0006 || variable.tag == 0x013e)
     {
         variable.kind = VariableKind::Players;
@@ -514,6 +520,19 @@ int32_t EventRuntime::getVariableValue(
 
         const std::optional<uint32_t> classId = mm8ClassIdForClassName(pMember->className);
         return classId ? static_cast<int32_t>(*classId) : 0;
+    }
+
+    if (variable.kind == VariableKind::Experience)
+    {
+        if (!memberIndex || pParty == nullptr)
+        {
+            return 0;
+        }
+
+        const Character *pMember = pParty->member(*memberIndex);
+        return pMember != nullptr
+            ? static_cast<int32_t>(std::min<uint32_t>(pMember->experience, static_cast<uint32_t>(std::numeric_limits<int32_t>::max())))
+            : 0;
     }
 
     if (variable.kind == VariableKind::BaseStat
@@ -667,6 +686,30 @@ void EventRuntime::setVariableValue(
         return;
     }
 
+    if (variable.kind == VariableKind::Experience)
+    {
+        if (pParty == nullptr || targetMemberIndices.empty())
+        {
+            return;
+        }
+
+        for (size_t memberIndex : targetMemberIndices)
+        {
+            pParty->setMemberExperience(memberIndex, std::max(0, value));
+        }
+
+        if (value > previousValue)
+        {
+            queuePortraitFxRequest(runtimeState, PortraitFxEventKind::AwardGain, pParty, targetMemberIndices);
+        }
+        else if (value < previousValue)
+        {
+            queuePortraitFxRequest(runtimeState, PortraitFxEventKind::StatDecrease, pParty, targetMemberIndices);
+        }
+
+        return;
+    }
+
     if (variable.kind == VariableKind::BaseStat
         || variable.kind == VariableKind::StatBonus
         || variable.kind == VariableKind::BaseResistance
@@ -813,6 +856,30 @@ void EventRuntime::addVariableValue(
         return;
     }
 
+    if (variable.kind == VariableKind::Experience)
+    {
+        if (pParty == nullptr || targetMemberIndices.empty())
+        {
+            return;
+        }
+
+        for (size_t memberIndex : targetMemberIndices)
+        {
+            pParty->addExperienceToMember(memberIndex, value);
+        }
+
+        if (value > 0)
+        {
+            queuePortraitFxRequest(runtimeState, PortraitFxEventKind::QuestComplete, pParty, targetMemberIndices);
+        }
+        else if (value < 0)
+        {
+            queuePortraitFxRequest(runtimeState, PortraitFxEventKind::StatDecrease, pParty, targetMemberIndices);
+        }
+
+        return;
+    }
+
     if (variable.kind == VariableKind::BaseStat
         || variable.kind == VariableKind::StatBonus
         || variable.kind == VariableKind::BaseResistance
@@ -948,6 +1015,26 @@ void EventRuntime::subtractVariableValue(
 
     if (variable.kind == VariableKind::ClassId)
     {
+        return;
+    }
+
+    if (variable.kind == VariableKind::Experience)
+    {
+        if (pParty == nullptr || targetMemberIndices.empty())
+        {
+            return;
+        }
+
+        for (size_t memberIndex : targetMemberIndices)
+        {
+            pParty->addExperienceToMember(memberIndex, -static_cast<int64_t>(value));
+        }
+
+        if (value > 0)
+        {
+            queuePortraitFxRequest(runtimeState, PortraitFxEventKind::StatDecrease, pParty, targetMemberIndices);
+        }
+
         return;
     }
 

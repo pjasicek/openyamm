@@ -96,6 +96,7 @@ public:
         int level = 0;
         int hitPoints = 0;
         int armorClass = 0;
+        int experience = 0;
         std::string attack1Type;
         int hostility = 0;
         int speed = 0;

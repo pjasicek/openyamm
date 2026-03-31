@@ -169,7 +169,7 @@ EventDialogContent buildEventDialogContent(
     const ClassSkillTable *pClassSkillTable,
     const NpcDialogTable *pNpcDialogTable,
     const Party *pParty,
-    int currentHour
+    float currentGameMinutes
 )
 {
     EventDialogContent dialog = {};
@@ -192,7 +192,7 @@ EventDialogContent buildEventDialogContent(
                 *pHouseEntry,
                 pParty,
                 pClassSkillTable,
-                currentHour,
+                currentGameMinutes,
                 currentDialogueMenuId(eventRuntimeState)
             );
             const std::optional<uint32_t> residentNpcId = singleSelectableResidentNpcId(
@@ -292,7 +292,7 @@ EventDialogContent buildEventDialogContent(
                 *pHouseEntry,
                 pParty,
                 pClassSkillTable,
-                currentHour,
+                currentGameMinutes,
                 currentDialogueMenuId(eventRuntimeState)
             );
 

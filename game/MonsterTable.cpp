@@ -418,6 +418,7 @@ bool MonsterTable::loadStatsFromRows(const std::vector<std::vector<std::string>>
         entry.level = row[3].empty() ? 0 : std::stoi(row[3]);
         entry.hitPoints = row[4].empty() ? 0 : std::stoi(row[4]);
         entry.armorClass = row[5].empty() ? 0 : std::stoi(row[5]);
+        entry.experience = row.size() > 6 && !row[6].empty() ? std::stoi(row[6]) : 0;
         entry.attack1Type = row.size() > 17 ? row[17] : std::string();
         entry.canFly = row.size() > 9 && !row[9].empty() && toLowerCopy(row[9]) == "y";
         entry.movementType = row.size() > 10 ? parseMovementType(row[10]) : MonsterMovementType::Short;

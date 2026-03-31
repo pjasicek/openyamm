@@ -104,6 +104,7 @@ struct CharacterSheetSummary
     CharacterSheetValue bodyResistance = {};
     std::string ageText;
     std::string experienceText;
+    bool canTrainToNextLevel = false;
     std::string conditionText;
     std::string quickSpellText;
     CharacterCombatSummary combat = {};
@@ -119,6 +120,9 @@ struct CharacterEquipPlan
 class GameMechanics
 {
 public:
+    static uint64_t experienceRequiredForNextLevel(uint32_t currentLevel);
+    static uint32_t maximumTrainableLevelFromExperience(const Character &character);
+    static std::string buildExperienceInspectSupplement(const Character &character);
     static CharacterSheetSummary buildCharacterSheetSummary(const Character &character, const ItemTable *pItemTable);
     static CharacterAttackProfile buildCharacterAttackProfile(
         const Character &character,

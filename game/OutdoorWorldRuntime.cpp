@@ -5914,6 +5914,9 @@ bool OutdoorWorldRuntime::updateTimers(
         return false;
     }
 
+    const float deltaGameMinutes = deltaSeconds * GameMinutesPerRealSecond;
+    m_gameMinutes += deltaGameMinutes;
+
     if (m_timers.empty())
     {
         appendTimersFromProgram(localEventIrProgram, m_timers);
@@ -5924,9 +5927,6 @@ bool OutdoorWorldRuntime::updateTimers(
     {
         return false;
     }
-
-    const float deltaGameMinutes = deltaSeconds * GameMinutesPerRealSecond;
-    m_gameMinutes += deltaGameMinutes;
 
     bool executedAny = false;
 
@@ -6547,6 +6547,11 @@ bool OutdoorWorldRuntime::applyPartyAttackToMapActor(
         {
             if (const MonsterTable::MonsterStatsEntry *pStats = m_pMonsterTable->findStatsById(actor.monsterId))
             {
+                if (m_pParty != nullptr && pStats->experience > 0)
+                {
+                    m_pParty->grantSharedExperience(static_cast<uint32_t>(pStats->experience));
+                }
+
                 pushAudioEvent(
                     pStats->deathSoundId,
                     actor.actorId,

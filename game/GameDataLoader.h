@@ -16,6 +16,7 @@
 #include "game/MonsterTable.h"
 #include "game/NpcDialogTable.h"
 #include "game/ObjectTable.h"
+#include "game/ReadableScrollTable.h"
 #include "game/RosterTable.h"
 #include "game/SpellTable.h"
 
@@ -65,6 +66,7 @@ public:
     const RosterTable &getRosterTable() const;
     const CharacterDollTable &getCharacterDollTable() const;
     const CharacterInspectTable &getCharacterInspectTable() const;
+    const ReadableScrollTable &getReadableScrollTable() const;
 
 private:
     bool loadInternal(const Engine::AssetFileSystem &assetFileSystem, MapLoadPurpose mapLoadPurpose);
@@ -92,6 +94,7 @@ private:
     bool loadRosterTable(const Engine::AssetFileSystem &assetFileSystem);
     bool loadCharacterDollTable(const Engine::AssetFileSystem &assetFileSystem);
     bool loadCharacterInspectTable(const Engine::AssetFileSystem &assetFileSystem);
+    bool loadReadableScrollTable(const Engine::AssetFileSystem &assetFileSystem);
     bool loadFirstTextTableRows(
         const Engine::AssetFileSystem &assetFileSystem,
         const std::vector<std::string> &virtualPaths,
@@ -121,6 +124,7 @@ private:
     RosterTable m_rosterTable;
     CharacterDollTable m_characterDollTable;
     CharacterInspectTable m_characterInspectTable;
+    ReadableScrollTable m_readableScrollTable;
     std::optional<MapAssetInfo> m_selectedMap;
 };
 }

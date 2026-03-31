@@ -31,6 +31,21 @@ constexpr int ParameterBonusValues[29] = {
     7, 6, 5, 4, 3, 2, 1, 0, -1, -2, -3, -4, -5, -6,
 };
 
+uint64_t experienceRequiredForNextLevel(uint32_t currentLevel)
+{
+    return 1000ull * currentLevel * (currentLevel + 1) / 2;
+}
+
+bool canTrainToNextLevel(const Character &character)
+{
+    return static_cast<uint64_t>(character.experience) >= experienceRequiredForNextLevel(character.level);
+}
+
+std::string experienceInspectSubject(const Character &character)
+{
+    return character.name.empty() ? "This character" : character.name;
+}
+
 struct DamageDice
 {
     int rolls = 0;
@@ -1283,6 +1298,44 @@ bool characterAttackHitsArmorClass(
 }
 }
 
+uint64_t GameMechanics::experienceRequiredForNextLevel(uint32_t currentLevel)
+{
+    return OpenYAMM::Game::experienceRequiredForNextLevel(currentLevel);
+}
+
+uint32_t GameMechanics::maximumTrainableLevelFromExperience(const Character &character)
+{
+    uint32_t trainableLevel = character.level;
+
+    while (static_cast<uint64_t>(character.experience) >= experienceRequiredForNextLevel(trainableLevel))
+    {
+        ++trainableLevel;
+    }
+
+    return trainableLevel;
+}
+
+std::string GameMechanics::buildExperienceInspectSupplement(const Character &character)
+{
+    const std::string subject = experienceInspectSubject(character);
+    const uint64_t nextLevelExperience = experienceRequiredForNextLevel(character.level);
+
+    if (static_cast<uint64_t>(character.experience) < nextLevelExperience)
+    {
+        return subject
+            + " needs "
+            + std::to_string(nextLevelExperience - static_cast<uint64_t>(character.experience))
+            + " more experience to train to level "
+            + std::to_string(character.level + 1)
+            + ".";
+    }
+
+    return subject
+        + " is eligible to train up to level "
+        + std::to_string(maximumTrainableLevelFromExperience(character))
+        + ".";
+}
+
 CharacterSheetSummary GameMechanics::buildCharacterSheetSummary(const Character &character, const ItemTable *pItemTable)
 {
     CharacterSheetSummary summary = {};
@@ -1371,6 +1424,7 @@ CharacterSheetSummary GameMechanics::buildCharacterSheetSummary(const Character 
     }
 
     summary.experienceText = std::to_string(character.experience);
+    summary.canTrainToNextLevel = canTrainToNextLevel(character);
     summary.conditionText = resolveConditionText(character);
     summary.quickSpellText = character.quickSpellName.empty() ? "None" : character.quickSpellName;
 

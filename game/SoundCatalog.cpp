@@ -49,7 +49,10 @@ std::string normalizeComment(const std::string &value)
         {
             normalized.push_back(static_cast<char>(std::tolower(static_cast<unsigned char>(character))));
         }
-        else if (std::isspace(static_cast<unsigned char>(character)) != 0 || character == '/' || character == '-')
+        else if (std::isspace(static_cast<unsigned char>(character)) != 0
+            || character == '/'
+            || character == '-'
+            || character == '_')
         {
             if (!normalized.empty() && normalized.back() != '_')
             {
@@ -213,8 +216,9 @@ std::optional<uint32_t> SoundCatalog::pickSpeechSoundId(uint32_t voiceId, const 
         return std::nullopt;
     }
 
+    const std::string normalizedCommentKey = normalizeComment(commentKey);
     const std::unordered_map<std::string, std::vector<uint32_t>>::const_iterator speechIt =
-        voiceIt->second.find(commentKey);
+        voiceIt->second.find(normalizedCommentKey);
 
     if (speechIt == voiceIt->second.end() || speechIt->second.empty())
     {

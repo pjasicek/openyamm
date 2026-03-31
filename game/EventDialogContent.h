@@ -60,6 +60,6 @@ EventDialogContent buildEventDialogContent(
     const ClassSkillTable *pClassSkillTable,
     const NpcDialogTable *pNpcDialogTable,
     const Party *pParty,
-    int currentHour
+    float currentGameMinutes
 );
 }

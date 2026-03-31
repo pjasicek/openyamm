@@ -117,6 +117,13 @@ std::string decodeActorBit(uint32_t rawValue)
 }
 }
 
+EventIrProgram EventIrProgram::fromEvents(std::vector<EventIrEvent> events)
+{
+    EventIrProgram program = {};
+    program.m_events = std::move(events);
+    return program;
+}
+
 bool EventIrProgram::buildFromEvtProgram(
     const EvtProgram &evtProgram,
     const StrTable &strTable,

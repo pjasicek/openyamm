@@ -36,6 +36,11 @@ constexpr int HouseVideoAudioChannels = 2;
 constexpr int HouseVideoAudioQueueTargetMilliseconds = 100;
 constexpr size_t InvalidFrameIndex = std::numeric_limits<size_t>::max();
 
+bool isAudioSubsystemInitialized()
+{
+    return (SDL_WasInit(SDL_INIT_AUDIO) & SDL_INIT_AUDIO) != 0;
+}
+
 struct AvFormatContextCloser
 {
     void operator()(AVFormatContext *pFormatContext) const
@@ -373,7 +378,7 @@ bool HouseVideoPlayer::initialize()
         return true;
     }
 
-    if ((SDL_WasInit(SDL_INIT_AUDIO) & SDL_INIT_AUDIO) == 0)
+    if (!isAudioSubsystemInitialized())
     {
         if (!SDL_InitSubSystem(SDL_INIT_AUDIO))
         {
@@ -397,7 +402,11 @@ void HouseVideoPlayer::shutdown()
 
     if (m_pAudioStream != nullptr)
     {
-        SDL_DestroyAudioStream(m_pAudioStream);
+        if (isAudioSubsystemInitialized())
+        {
+            SDL_DestroyAudioStream(m_pAudioStream);
+        }
+
         m_pAudioStream = nullptr;
     }
 
@@ -412,7 +421,11 @@ void HouseVideoPlayer::shutdown()
 
     if (m_initializedAudioSubsystem)
     {
-        SDL_QuitSubSystem(SDL_INIT_AUDIO);
+        if (isAudioSubsystemInitialized())
+        {
+            SDL_QuitSubSystem(SDL_INIT_AUDIO);
+        }
+
         m_initializedAudioSubsystem = false;
     }
 
@@ -428,7 +441,7 @@ void HouseVideoPlayer::stop()
     m_nextAudioSampleIndex = 0;
     m_totalQueuedAudioFrames = 0;
 
-    if (m_pAudioStream != nullptr)
+    if (m_pAudioStream != nullptr && isAudioSubsystemInitialized())
     {
         SDL_ClearAudioStream(m_pAudioStream);
     }

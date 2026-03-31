@@ -1,4 +1,6 @@
 AnimationId	Name	Expressions
+20	CantLearnSpell	No
+21	LearnSpell	Yes
 24	Damaged	DamageReceivedMinor, DamageReceivedModerate, DamageReceivedMajor
 25	Weak	Weak
 26	Afraid	Fear
@@ -11,6 +13,8 @@ AnimationId	Name	Expressions
 33	Death	Dead
 34	Stoned	Petrified
 35	Eradicated	Eradicated
+36	DrinkPotion	Smile
+37	ReadScroll	Portrait49
 43	SpellFailed	Sad, Portrait48
 44	DamagedParty	Portrait41, Portrait42
 49	CastSpell	CastSpell

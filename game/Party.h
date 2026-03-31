@@ -75,6 +75,7 @@ struct Character
     int maxSpellPoints = 0;
     int spellPoints = 0;
     std::string quickSpellName;
+    std::unordered_set<uint32_t> knownSpellIds;
     CharacterResistanceSet baseResistances = {};
     CharacterStatBonuses permanentBonuses = {};
     CharacterStatBonuses magicalBonuses = {};
@@ -121,6 +122,9 @@ struct Character
     const CharacterSkill *findSkill(const std::string &skillName) const;
     CharacterSkill *findSkill(const std::string &skillName);
     bool setSkillMastery(const std::string &skillName, SkillMastery mastery);
+    bool knowsSpell(uint32_t spellId) const;
+    bool learnSpell(uint32_t spellId);
+    bool forgetSpell(uint32_t spellId);
 
     std::vector<InventoryItem> inventory;
 };
@@ -274,6 +278,9 @@ public:
     bool applyDamageToMember(size_t memberIndex, int damage, const std::string &status);
     bool applyDamageToActiveMember(int damage, const std::string &status);
     bool applyDamageToAllLivingMembers(int damage, const std::string &status);
+    uint32_t addExperienceToMember(size_t memberIndex, int64_t amount);
+    uint32_t setMemberExperience(size_t memberIndex, uint32_t experience);
+    uint32_t grantSharedExperience(uint32_t totalExperience);
     std::optional<size_t> chooseMonsterAttackTarget(uint32_t attackPreferences, uint32_t seedHint);
     void addGold(int amount);
     void addFood(int amount);

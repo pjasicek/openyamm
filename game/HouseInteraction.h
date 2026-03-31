@@ -89,6 +89,8 @@ struct HouseActionResult
 
 HouseServiceType resolveHouseServiceType(const HouseEntry &houseEntry);
 std::optional<uint32_t> deriveHouseSoundId(const HouseEntry &houseEntry, HouseSoundType soundType);
+bool isHouseOpenAtGameMinute(const HouseEntry &houseEntry, float currentGameMinutes);
+std::string buildClosedStatusText(const HouseEntry &houseEntry);
 
 std::vector<std::string> buildHouseServiceInfoLines(
     const HouseEntry &houseEntry,
@@ -101,7 +103,7 @@ std::vector<HouseActionOption> buildHouseActionOptions(
     const HouseEntry &houseEntry,
     const Party *pParty,
     const ClassSkillTable *pClassSkillTable,
-    int currentHour,
+    float currentGameMinutes,
     DialogueMenuId menuId
 );
 

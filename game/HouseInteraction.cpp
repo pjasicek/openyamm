@@ -17,6 +17,33 @@ namespace
 constexpr int RestTargetHour = 6;
 constexpr int TavernFoodTarget = 14;
 
+int minuteOfDayFromGameMinutes(float currentGameMinutes)
+{
+    const int minutesPerDay = 24 * 60;
+    int minuteOfDay = static_cast<int>(std::floor(currentGameMinutes));
+    minuteOfDay %= minutesPerDay;
+
+    if (minuteOfDay < 0)
+    {
+        minuteOfDay += minutesPerDay;
+    }
+
+    return minuteOfDay;
+}
+
+std::string amPmSuffixForHour(int hour24)
+{
+    const int normalizedHour = ((hour24 % 24) + 24) % 24;
+    return normalizedHour >= 12 ? "PM" : "AM";
+}
+
+int displayHourAmPm(int hour24)
+{
+    const int normalizedHour = ((hour24 % 24) + 24) % 24;
+    const int hour12 = normalizedHour % 12;
+    return hour12 == 0 ? 12 : hour12;
+}
+
 bool isHouseType(const HouseEntry &houseEntry, const char *pTypeName)
 {
     return houseEntry.type == pTypeName;
@@ -27,28 +54,35 @@ const Character *selectedMember(const Party *pParty)
     return pParty != nullptr ? pParty->activeMember() : nullptr;
 }
 
-bool isHouseOpen(const HouseEntry &houseEntry, int currentHour)
+}
+
+bool isHouseOpenAtGameMinute(const HouseEntry &houseEntry, float currentGameMinutes)
 {
-    if (currentHour < 0 || houseEntry.openHour == houseEntry.closeHour)
+    if (currentGameMinutes < 0.0f || houseEntry.openHour == houseEntry.closeHour)
     {
         return true;
     }
 
+    const int currentMinuteOfDay = minuteOfDayFromGameMinutes(currentGameMinutes);
+    const int openMinuteOfDay = std::max(0, houseEntry.openHour) * 60;
+    const int closeMinuteOfDay = std::max(0, houseEntry.closeHour) * 60;
+
     if (houseEntry.openHour < houseEntry.closeHour)
     {
-        return currentHour >= houseEntry.openHour && currentHour < houseEntry.closeHour;
+        return currentMinuteOfDay >= openMinuteOfDay && currentMinuteOfDay <= closeMinuteOfDay;
     }
 
-    return currentHour >= houseEntry.openHour || currentHour < houseEntry.closeHour;
+    return currentMinuteOfDay >= openMinuteOfDay || currentMinuteOfDay <= closeMinuteOfDay;
 }
 
-std::string buildClosedReason(const HouseEntry &houseEntry)
+std::string buildClosedStatusText(const HouseEntry &houseEntry)
 {
-    return "Closed. Hours: "
-        + std::to_string(houseEntry.openHour)
-        + ":00 - "
-        + std::to_string(houseEntry.closeHour)
-        + ":00";
+    return "This place is open from "
+        + std::to_string(displayHourAmPm(houseEntry.openHour))
+        + amPmSuffixForHour(houseEntry.openHour)
+        + " to "
+        + std::to_string(displayHourAmPm(houseEntry.closeHour))
+        + amPmSuffixForHour(houseEntry.closeHour);
 }
 
 int roundPrice(float multiplier, int scale, int minimumPrice)
@@ -206,7 +240,6 @@ std::string houseWelcomeLine(const HouseEntry &houseEntry)
 {
     return "Welcome to " + houseEntry.name;
 }
-}
 
 HouseServiceType resolveHouseServiceType(const HouseEntry &houseEntry)
 {
@@ -297,13 +330,13 @@ std::vector<HouseActionOption> buildHouseActionOptions(
     const HouseEntry &houseEntry,
     const Party *pParty,
     const ClassSkillTable *pClassSkillTable,
-    int currentHour,
+    float currentGameMinutes,
     DialogueMenuId menuId
 )
 {
     std::vector<HouseActionOption> options;
-    const bool isHouseOpenNow = isHouseOpen(houseEntry, currentHour);
-    const std::string closedReason = buildClosedReason(houseEntry);
+    const bool isHouseOpenNow = isHouseOpenAtGameMinute(houseEntry, currentGameMinutes);
+    const std::string closedReason = buildClosedStatusText(houseEntry);
     const HouseServiceType serviceType = resolveHouseServiceType(houseEntry);
 
     if (menuId == DialogueMenuId::LearnSkills)

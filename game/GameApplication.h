@@ -34,6 +34,7 @@ private:
     friend struct GameApplicationTestAccess;
 
     bool loadGameData(const Engine::AssetFileSystem &assetFileSystem);
+    void shutdownApplication();
     bool initializeSelectedMapRuntime(bool initializeView);
     bool initializeRenderer();
     void shutdownRenderer();

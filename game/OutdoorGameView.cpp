@@ -4,6 +4,7 @@
 #include "game/GameMechanics.h"
 #include "game/HouseInteraction.h"
 #include "game/HouseServiceRuntime.h"
+#include "game/InventoryItemUseRuntime.h"
 #include "game/ItemEnchantRuntime.h"
 #include "game/ItemGenerator.h"
 #include "game/ItemRuntime.h"
@@ -14,6 +15,7 @@
 #include "game/OutdoorWorldRuntime.h"
 #include "game/PriceCalculator.h"
 #include "game/SpawnPreview.h"
+#include "game/SpellSchool.h"
 #include "game/SpellIds.h"
 #include "game/SpriteObjectDefs.h"
 #include "game/SpriteTables.h"
@@ -470,6 +472,8 @@ bool bypassSpeechCooldown(SpeechId speechId)
         case SpeechId::IdentifyFailItem:
         case SpeechId::RepairSuccess:
         case SpeechId::RepairFail:
+        case SpeechId::CantLearnSpell:
+        case SpeechId::LearnSpell:
             return true;
 
         default:
@@ -3661,9 +3665,7 @@ OutdoorGameView::OutdoorGameView()
     , m_characterMemberCycleLatch(false)
     , m_characterPressedTarget({})
     , m_partyPortraitClickLatch(false)
-    , m_partyPortraitRightClickLatch(false)
     , m_partyPortraitPressedIndex(std::nullopt)
-    , m_partyPortraitRightPressedIndex(std::nullopt)
     , m_lastPartyPortraitClickTicks(0)
     , m_lastPartyPortraitClickedIndex(std::nullopt)
     , m_heldInventoryItem({})
@@ -3672,6 +3674,8 @@ OutdoorGameView::OutdoorGameView()
     , m_itemInspectInteractionKey(0)
     , m_characterInspectOverlay({})
     , m_actorInspectOverlay({})
+    , m_spellInspectOverlay({})
+    , m_readableScrollOverlay({})
     , m_spellbook({})
     , m_spellbookPressedTarget({})
     , m_lastSpellbookSpellClickTicks(0)
@@ -3722,6 +3726,7 @@ OutdoorGameView::OutdoorGameView()
     , m_pCharacterDollTable(nullptr)
     , m_pObjectTable(nullptr)
     , m_pSpellTable(nullptr)
+    , m_pReadableScrollTable(nullptr)
     , m_pGameAudioSystem(nullptr)
     , m_nextPendingSpriteFrameWarmupIndex(0)
     , m_runtimeActorBillboardTexturesQueuedCount(0)
@@ -3767,6 +3772,7 @@ bool OutdoorGameView::initialize(
     const ObjectTable &objectTable,
     const SpellTable &spellTable,
     const ItemTable &itemTable,
+    const ReadableScrollTable &readableScrollTable,
     const StandardItemEnchantTable &standardItemEnchantTable,
     const SpecialItemEnchantTable &specialItemEnchantTable,
     const ItemEquipPosTable &itemEquipPosTable,
@@ -3801,6 +3807,7 @@ bool OutdoorGameView::initialize(
     m_pCharacterDollTable = &characterDollTable;
     m_pObjectTable = &objectTable;
     m_pSpellTable = &spellTable;
+    m_pReadableScrollTable = &readableScrollTable;
     m_pGameAudioSystem = pGameAudioSystem;
     m_pItemTable = &itemTable;
     m_pStandardItemEnchantTable = &standardItemEnchantTable;
@@ -5927,6 +5934,7 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
             renderCharacterInspectOverlay(width, height);
             renderActorInspectOverlay(width, height);
             renderSpellInspectOverlay(width, height);
+            renderReadableScrollOverlay(width, height);
             renderPendingSpellTargetingOverlay(width, height);
         }
 
@@ -7832,6 +7840,7 @@ void OutdoorGameView::shutdown()
     m_pCharacterDollTable = nullptr;
     m_pObjectTable = nullptr;
     m_pSpellTable = nullptr;
+    m_pReadableScrollTable = nullptr;
     m_pGameAudioSystem = nullptr;
     m_faceAnimationTable = {};
     m_iconFrameTable = {};
@@ -7883,12 +7892,11 @@ void OutdoorGameView::shutdown()
     m_characterMemberCycleLatch = false;
     m_characterPressedTarget = {};
     m_partyPortraitClickLatch = false;
-    m_partyPortraitRightClickLatch = false;
     m_partyPortraitPressedIndex = std::nullopt;
-    m_partyPortraitRightPressedIndex = std::nullopt;
     m_heldInventoryItem = {};
     m_actorInspectOverlay = {};
     m_spellInspectOverlay = {};
+    m_readableScrollOverlay = {};
     m_spellbook = {};
     m_spellbookPressedTarget = {};
     m_lastSpellbookSpellClickTicks = 0;
@@ -8460,6 +8468,27 @@ void OutdoorGameView::openPendingEventDialog(size_t previousMessageCount, bool a
         return;
     }
 
+    if (pEventRuntimeState->pendingDialogueContext->kind == DialogueContextKind::HouseService
+        && m_houseTable
+        && m_pOutdoorWorldRuntime != nullptr
+        && m_pOutdoorPartyRuntime != nullptr)
+    {
+        const HouseEntry *pHouseEntry = m_houseTable->get(pEventRuntimeState->pendingDialogueContext->sourceId);
+
+        if (pHouseEntry != nullptr && !isHouseOpenAtGameMinute(*pHouseEntry, m_pOutdoorWorldRuntime->gameMinutes()))
+        {
+            closeHouseShopOverlay();
+            closeInventoryNestedOverlay();
+            setStatusBarEvent(buildClosedStatusText(*pHouseEntry));
+            playSpeechReaction(m_pOutdoorPartyRuntime->party().activeMemberIndex(), SpeechId::StoreClosed, true);
+            pEventRuntimeState->pendingDialogueContext.reset();
+            pEventRuntimeState->dialogueState = {};
+            clearHouseBankState();
+            m_activeEventDialog = {};
+            return;
+        }
+    }
+
     const uint32_t pendingHouseId =
         pEventRuntimeState->pendingDialogueContext->kind == DialogueContextKind::HouseService
         ? pEventRuntimeState->pendingDialogueContext->sourceId
@@ -8485,7 +8514,7 @@ void OutdoorGameView::openPendingEventDialog(size_t previousMessageCount, bool a
                 *pHouseEntry,
                 m_pOutdoorPartyRuntime != nullptr ? &m_pOutdoorPartyRuntime->party() : nullptr,
                 m_classSkillTable ? &*m_classSkillTable : nullptr,
-                m_pOutdoorWorldRuntime != nullptr ? m_pOutdoorWorldRuntime->currentHour() : -1,
+                m_pOutdoorWorldRuntime != nullptr ? m_pOutdoorWorldRuntime->gameMinutes() : -1.0f,
                 pEventRuntimeState->dialogueState.menuStack.empty()
                     ? DialogueMenuId::None
                     : pEventRuntimeState->dialogueState.menuStack.back()
@@ -8519,7 +8548,7 @@ void OutdoorGameView::openPendingEventDialog(size_t previousMessageCount, bool a
         m_classSkillTable ? &*m_classSkillTable : nullptr,
         m_npcDialogTable ? &*m_npcDialogTable : nullptr,
         m_pOutdoorPartyRuntime != nullptr ? &m_pOutdoorPartyRuntime->party() : nullptr,
-        m_pOutdoorWorldRuntime != nullptr ? m_pOutdoorWorldRuntime->currentHour() : -1
+        m_pOutdoorWorldRuntime != nullptr ? m_pOutdoorWorldRuntime->gameMinutes() : -1.0f
     );
 
     if (!m_activeEventDialog.isActive)
@@ -9333,6 +9362,17 @@ void OutdoorGameView::updateCharacterInspectOverlayState(int width, int height)
             m_characterInspectOverlay.active = true;
             m_characterInspectOverlay.title = pEntry->name;
             m_characterInspectOverlay.body = pEntry->description;
+
+            if (std::string_view(row.pStatName) == "Experience")
+            {
+                const std::string supplement = GameMechanics::buildExperienceInspectSupplement(*pCharacter);
+
+                if (!supplement.empty())
+                {
+                    m_characterInspectOverlay.body += "\n" + supplement;
+                }
+            }
+
             m_characterInspectOverlay.sourceX = rowRect.x;
             m_characterInspectOverlay.sourceY = rowRect.y;
             m_characterInspectOverlay.sourceWidth = rowRect.width;
@@ -9811,6 +9851,15 @@ void OutdoorGameView::openSpellbook()
         m_pGameAudioSystem->playCommonSound(SoundId::OpenBook, GameAudioSystem::PlaybackGroup::Ui);
     }
 
+    for (const SpellbookSchoolUiDefinition &definition : SpellbookSchoolUiDefinitions)
+    {
+        if (activeMemberHasSpellbookSchool(definition.school))
+        {
+            m_spellbook.school = definition.school;
+            break;
+        }
+    }
+
     if (m_pOutdoorPartyRuntime == nullptr || m_pSpellTable == nullptr)
     {
         return;
@@ -9838,7 +9887,11 @@ void OutdoorGameView::openSpellbook()
         return;
     }
 
-    m_spellbook.school = pDefinition->school;
+    if (activeMemberHasSpellbookSchool(pDefinition->school))
+    {
+        m_spellbook.school = pDefinition->school;
+    }
+
     m_spellbook.selectedSpellId = 0;
 }
 
@@ -9862,6 +9915,11 @@ void OutdoorGameView::closeSpellbook(const std::string &statusText)
     {
         setStatusBarEvent(statusText);
     }
+}
+
+void OutdoorGameView::closeReadableScrollOverlay()
+{
+    m_readableScrollOverlay = {};
 }
 
 void OutdoorGameView::openHouseShopOverlay(uint32_t houseId, HouseShopMode mode)
@@ -10139,8 +10197,139 @@ bool OutdoorGameView::tryBeginQuickSpellCast()
         pSpellEntry->name);
 }
 
+bool OutdoorGameView::activeMemberKnowsSpell(uint32_t spellId) const
+{
+    if (m_pOutdoorPartyRuntime == nullptr)
+    {
+        return false;
+    }
+
+    const Character *pMember = m_pOutdoorPartyRuntime->party().activeMember();
+    return pMember != nullptr && pMember->knowsSpell(spellId);
+}
+
+bool OutdoorGameView::activeMemberHasSpellbookSchool(SpellbookSchool school) const
+{
+    if (m_pOutdoorPartyRuntime == nullptr)
+    {
+        return false;
+    }
+
+    const SpellbookSchoolUiDefinition *pDefinition = findSpellbookSchoolUiDefinition(school);
+    const Character *pMember = m_pOutdoorPartyRuntime->party().activeMember();
+
+    if (pDefinition == nullptr || pMember == nullptr)
+    {
+        return false;
+    }
+
+    const std::optional<std::string> skillName = resolveMagicSkillName(pDefinition->firstSpellId);
+
+    if (!skillName)
+    {
+        return false;
+    }
+
+    const CharacterSkill *pSkill = pMember->findSkill(*skillName);
+    return pSkill != nullptr && pSkill->level > 0 && pSkill->mastery != SkillMastery::None;
+}
+
+void OutdoorGameView::updateReadableScrollOverlayForHeldItem(
+    size_t memberIndex,
+    const CharacterPointerTarget &pointerTarget,
+    bool isLeftMousePressed)
+{
+    m_readableScrollOverlay = {};
+
+    if (!isLeftMousePressed
+        || !m_heldInventoryItem.active
+        || m_pItemTable == nullptr
+        || m_pOutdoorPartyRuntime == nullptr
+        || (pointerTarget.type != CharacterPointerTargetType::EquipmentSlot
+            && pointerTarget.type != CharacterPointerTargetType::DollPanel))
+    {
+        return;
+    }
+
+    const InventoryItemUseAction useAction =
+        InventoryItemUseRuntime::classifyItemUse(m_heldInventoryItem.item, *m_pItemTable);
+
+    if (useAction != InventoryItemUseAction::ReadMessageScroll)
+    {
+        return;
+    }
+
+    Party &party = m_pOutdoorPartyRuntime->party();
+    const InventoryItemUseResult useResult =
+        InventoryItemUseRuntime::useItemOnMember(
+            party,
+            memberIndex,
+            m_heldInventoryItem.item,
+            *m_pItemTable,
+            m_pReadableScrollTable);
+
+    if (!useResult.handled || useResult.action != InventoryItemUseAction::ReadMessageScroll)
+    {
+        return;
+    }
+
+    m_readableScrollOverlay.active = true;
+    m_readableScrollOverlay.title = useResult.readableTitle;
+    m_readableScrollOverlay.body = useResult.readableBody;
+}
+
+void OutdoorGameView::triggerPortraitEventFxWithoutSpeech(size_t memberIndex, PortraitFxEventKind kind)
+{
+    const PortraitFxEventEntry *pEntry = m_portraitFxEventTable.findByKind(kind);
+
+    if (pEntry == nullptr)
+    {
+        return;
+    }
+
+    triggerPortraitFxAnimation(pEntry->animationName, {memberIndex});
+
+    if (pEntry->faceAnimationId.has_value())
+    {
+        triggerPortraitFaceAnimation(memberIndex, *pEntry->faceAnimationId);
+    }
+
+    if (m_pGameAudioSystem == nullptr)
+    {
+        return;
+    }
+
+    switch (kind)
+    {
+        case PortraitFxEventKind::AwardGain:
+            m_pGameAudioSystem->playCommonSound(SoundId::Chimes, GameAudioSystem::PlaybackGroup::Ui);
+            break;
+
+        case PortraitFxEventKind::QuestComplete:
+        case PortraitFxEventKind::StatIncrease:
+            m_pGameAudioSystem->playCommonSound(SoundId::Quest, GameAudioSystem::PlaybackGroup::Ui);
+            break;
+
+        case PortraitFxEventKind::StatDecrease:
+        case PortraitFxEventKind::Disease:
+        case PortraitFxEventKind::None:
+            break;
+    }
+}
+
 bool OutdoorGameView::tryCastSpellFromMember(size_t casterMemberIndex, uint32_t spellId, const std::string &spellName)
 {
+    if (m_pOutdoorPartyRuntime != nullptr)
+    {
+        const Character *pCaster = m_pOutdoorPartyRuntime->party().member(casterMemberIndex);
+
+        if (pCaster == nullptr || !pCaster->knowsSpell(spellId))
+        {
+            setStatusBarEvent("Spell not learned");
+            return false;
+        }
+    }
+
     PartySpellCastRequest request = {};
     request.casterMemberIndex = casterMemberIndex;
     request.spellId = spellId;
@@ -11087,44 +11276,110 @@ bool OutdoorGameView::tryCastSpellRequest(const PartySpellCastRequest &request, 
     return false;
 }
 
-bool OutdoorGameView::tryCastHeldScrollOnPartyMember(size_t memberIndex)
+bool OutdoorGameView::tryUseHeldItemOnPartyMember(size_t memberIndex, bool keepCharacterScreenOpen)
 {
-    if (!m_heldInventoryItem.active || m_pItemTable == nullptr || m_pSpellTable == nullptr)
+    if (!m_heldInventoryItem.active || m_pItemTable == nullptr || m_pOutdoorPartyRuntime == nullptr)
     {
         return false;
     }
 
-    uint32_t spellId = 0;
+    Party &party = m_pOutdoorPartyRuntime->party();
+    const InventoryItemUseResult useResult =
+        InventoryItemUseRuntime::useItemOnMember(
+            party,
+            memberIndex,
+            m_heldInventoryItem.item,
+            *m_pItemTable,
+            m_pReadableScrollTable);
 
-    if (!tryParseScrollSpellId(m_heldInventoryItem.item, m_pItemTable, spellId))
+    if (!useResult.handled)
     {
         return false;
     }
 
-    const SpellEntry *pSpellEntry = m_pSpellTable->findById(static_cast<int>(spellId));
-
-    if (pSpellEntry == nullptr)
+    if (useResult.action == InventoryItemUseAction::CastScroll)
     {
-        setStatusBarEvent("Unknown scroll spell");
-        return false;
+        if (m_pSpellTable == nullptr)
+        {
+            return false;
+        }
+
+        const SpellEntry *pSpellEntry = m_pSpellTable->findById(static_cast<int>(useResult.spellId));
+
+        if (pSpellEntry == nullptr)
+        {
+            setStatusBarEvent("Unknown scroll spell");
+            return true;
+        }
+
+        PartySpellCastRequest request = {};
+        request.casterMemberIndex = memberIndex;
+        request.spellId = useResult.spellId;
+        request.skillLevelOverride = useResult.spellSkillLevelOverride;
+        request.skillMasteryOverride = useResult.spellSkillMasteryOverride;
+        request.spendMana = false;
+        request.applyRecovery = true;
+
+        if (!tryCastSpellRequest(request, pSpellEntry->name))
+        {
+            return true;
+        }
+
+        if (useResult.consumed)
+        {
+            m_heldInventoryItem = {};
+        }
+    }
+    else if (useResult.action == InventoryItemUseAction::ReadMessageScroll)
+    {
+        m_readableScrollOverlay.active = true;
+        m_readableScrollOverlay.title = useResult.readableTitle;
+        m_readableScrollOverlay.body = useResult.readableBody;
+    }
+    else
+    {
+        if (useResult.consumed)
+        {
+            m_heldInventoryItem = {};
+        }
+
+        if (useResult.action == InventoryItemUseAction::ConsumePotion
+            && useResult.consumed
+            && m_pGameAudioSystem != nullptr)
+        {
+            m_pGameAudioSystem->playCommonSound(SoundId::Drink, GameAudioSystem::PlaybackGroup::Ui);
+            triggerPortraitFaceAnimation(memberIndex, FaceAnimationId::DrinkPotion);
+        }
+
+        if (useResult.action == InventoryItemUseAction::UseHorseshoe && useResult.consumed)
+        {
+            triggerPortraitEventFxWithoutSpeech(memberIndex, PortraitFxEventKind::QuestComplete);
+        }
+        else if (useResult.action == InventoryItemUseAction::LearnSpell
+                 && !useResult.consumed
+                 && useResult.alreadyKnown
+                 && m_pGameAudioSystem != nullptr)
+        {
+            m_pGameAudioSystem->playCommonSound(SoundId::Error, GameAudioSystem::PlaybackGroup::Ui);
+        }
+
+        if (useResult.speechId.has_value())
+        {
+            playSpeechReaction(memberIndex, *useResult.speechId, true);
+        }
     }
 
-    PartySpellCastRequest request = {};
-    request.casterMemberIndex = memberIndex;
-    request.spellId = spellId;
-    request.skillLevelOverride = 5;
-    request.skillMasteryOverride = SkillMastery::Master;
-    request.spendMana = false;
-    request.applyRecovery = true;
-
-    if (!tryCastSpellRequest(request, pSpellEntry->name))
+    if (!useResult.statusText.empty())
     {
-        return false;
+        setStatusBarEvent(useResult.statusText);
     }
 
-    m_heldInventoryItem = {};
-    m_characterScreenOpen = false;
-    m_characterDollJewelryOverlayOpen = false;
+    if (!keepCharacterScreenOpen)
+    {
+        m_characterScreenOpen = false;
+        m_characterDollJewelryOverlayOpen = false;
+    }
+
     return true;
 }
 
@@ -11580,7 +11835,7 @@ void OutdoorGameView::renderSpellbookOverlay(int width, int height) const
     const SpellbookSchoolUiDefinition *pSchoolDefinition =
         findSpellbookSchoolUiDefinition(m_spellbook.school);
 
-    if (pSchoolDefinition == nullptr)
+    if (pSchoolDefinition == nullptr || !activeMemberHasSpellbookSchool(m_spellbook.school))
     {
         return;
     }
@@ -11589,6 +11844,11 @@ void OutdoorGameView::renderSpellbookOverlay(int width, int height) const
 
     for (const SpellbookSchoolUiDefinition &definition : SpellbookSchoolUiDefinitions)
     {
+        if (!activeMemberHasSpellbookSchool(definition.school))
+        {
+            continue;
+        }
+
         const HudLayoutElement *pLayout = findHudLayoutElement(definition.pButtonLayoutId);
 
         if (pLayout == nullptr || pLayout->primaryAsset.empty())
@@ -11688,6 +11948,12 @@ void OutdoorGameView::renderSpellbookOverlay(int width, int height) const
     {
         const uint32_t spellOrdinal = spellOffset + 1;
         const uint32_t spellId = pSchoolDefinition->firstSpellId + spellOffset;
+
+        if (!activeMemberKnowsSpell(spellId))
+        {
+            continue;
+        }
+
         const std::string layoutId = spellbookSpellLayoutId(m_spellbook.school, spellOrdinal);
         const HudLayoutElement *pLayout = findHudLayoutElement(layoutId);
 
@@ -12395,6 +12661,7 @@ void OutdoorGameView::renderCharacterOverlay(int width, int height, bool renderA
     std::string bodyResistanceValue = "0 / 0";
     std::string awards;
     std::string inventoryInfo;
+    bool canTrainToNextLevel = false;
     const HudFontHandle *pSkillRowFont = findHudFont("Lucida");
     const float skillRowHeight = pSkillRowFont != nullptr
         ? static_cast<float>(std::max(1, pSkillRowFont->fontHeight - 3))
@@ -12425,6 +12692,7 @@ void OutdoorGameView::renderCharacterOverlay(int width, int height, bool renderA
         ageValue = summary.ageText;
         levelValue = formatSheetValue(summary.level);
         experienceValue = summary.experienceText;
+        canTrainToNextLevel = summary.canTrainToNextLevel;
         attackValue = std::to_string(summary.combat.attack);
         meleeDamageValue = summary.combat.meleeDamageText;
         shootValue = summary.combat.shoot ? std::to_string(*summary.combat.shoot) : "N/A";
@@ -12442,6 +12710,11 @@ void OutdoorGameView::renderCharacterOverlay(int width, int height, bool renderA
     m_hudLayoutRuntimeHeightOverrides.clear();
     const uint32_t skillPointsValueColorAbgr =
         pCharacter != nullptr && pCharacter->skillPoints > 0
+        ? makeAbgrColor(0, 255, 0)
+        : makeAbgrColor(255, 255, 255);
+    const uint32_t experienceValueColorAbgr =
+        pCharacter != nullptr
+            && canTrainToNextLevel
         ? makeAbgrColor(0, 255, 0)
         : makeAbgrColor(255, 255, 255);
 
@@ -13133,6 +13406,10 @@ void OutdoorGameView::renderCharacterOverlay(int width, int height, bool renderA
         {
             layoutForRender.textColorAbgr = skillPointsValueColorAbgr;
         }
+        else if (toLowerCopy(layoutId) == "characterstatexperiencevalue")
+        {
+            layoutForRender.textColorAbgr = experienceValueColorAbgr;
+        }
 
         std::string label = pLayout->labelText;
         label = replaceAll(label, "{gold}", std::to_string(party.gold()));
@@ -13536,13 +13813,20 @@ void OutdoorGameView::updateSpellInspectOverlayState(int width, int height)
 
     const SpellbookSchoolUiDefinition *pDefinition = findSpellbookSchoolUiDefinition(m_spellbook.school);
 
-    if (pDefinition == nullptr)
+    if (pDefinition == nullptr || !activeMemberHasSpellbookSchool(m_spellbook.school))
     {
         return;
     }
 
     for (uint32_t spellOffset = 0; spellOffset < pDefinition->spellCount; ++spellOffset)
     {
+        const uint32_t spellId = pDefinition->firstSpellId + spellOffset;
+
+        if (!activeMemberKnowsSpell(spellId))
+        {
+            continue;
+        }
+
         const uint32_t spellOrdinal = spellOffset + 1;
         const std::string layoutId = spellbookSpellLayoutId(m_spellbook.school, spellOrdinal);
         const HudLayoutElement *pLayout = findHudLayoutElement(layoutId);
@@ -13564,7 +13848,6 @@ void OutdoorGameView::updateSpellInspectOverlayState(int width, int height)
             continue;
         }
 
-        const uint32_t spellId = pDefinition->firstSpellId + spellOffset;
         const SpellEntry *pSpellEntry = m_pSpellTable->findById(static_cast<int>(spellId));
 
         if (pSpellEntry == nullptr)
@@ -15176,6 +15459,221 @@ void OutdoorGameView::renderSpellInspectOverlay(int width, int height) const
                 renderWrappedRow(*pGrandmasterLayout, *grandmasterRect, nextRowY, grandmasterLines);
             }
         }
+    }
+}
+
+void OutdoorGameView::renderReadableScrollOverlay(int width, int height) const
+{
+    if (!m_readableScrollOverlay.active
+        || !bgfx::isValid(m_texturedTerrainProgramHandle)
+        || !bgfx::isValid(m_terrainTextureSamplerHandle)
+        || width <= 0
+        || height <= 0)
+    {
+        return;
+    }
+
+    const HudLayoutElement *pRootLayout = findHudLayoutElement("SpellInspectRoot");
+    const HudLayoutElement *pTitleLayout = findHudLayoutElement("SpellInspectTitle");
+    const HudLayoutElement *pBodyLayout = findHudLayoutElement("SpellInspectBody");
+
+    if (pRootLayout == nullptr || pTitleLayout == nullptr || pBodyLayout == nullptr)
+    {
+        return;
+    }
+
+    const UiViewportRect uiViewport = computeUiViewportRect(width, height);
+    const float baseScale = std::min(uiViewport.width / HudReferenceWidth, uiViewport.height / HudReferenceHeight);
+    const float popupScale = std::clamp(baseScale, pRootLayout->minScale, pRootLayout->maxScale);
+    const ResolvedHudLayoutElement provisionalRoot = {
+        0.0f,
+        0.0f,
+        pRootLayout->width * popupScale,
+        pRootLayout->height * popupScale,
+        popupScale
+    };
+    const HudFontHandle *pBodyFont = findHudFont("SMALLNUM");
+    const float bodyLineHeight =
+        pBodyFont != nullptr ? static_cast<float>(pBodyFont->fontHeight) * popupScale : 12.0f * popupScale;
+    const ResolvedHudLayoutElement bodyRectForSizing = resolveAttachedHudLayoutRect(
+        pBodyLayout->attachTo,
+        provisionalRoot,
+        pBodyLayout->width * popupScale,
+        pBodyLayout->height * popupScale,
+        pBodyLayout->gapX,
+        pBodyLayout->gapY,
+        popupScale);
+    const float bodyWidthScaled =
+        std::max(0.0f, bodyRectForSizing.width - std::abs(pBodyLayout->textPadX * popupScale) * 2.0f);
+    const float bodyWidth = std::max(0.0f, bodyWidthScaled / std::max(1.0f, popupScale));
+    const std::vector<std::string> bodyLines =
+        pBodyFont != nullptr
+            ? wrapHudTextToWidth(*pBodyFont, m_readableScrollOverlay.body, bodyWidth)
+            : std::vector<std::string>{m_readableScrollOverlay.body};
+    const float bodyHeight = bodyLines.empty() ? bodyLineHeight : bodyLineHeight * static_cast<float>(bodyLines.size());
+    static constexpr float ReadableScrollBottomPadding = 15.0f;
+    const float rootWidth = provisionalRoot.width;
+    const float rootHeight = std::max(
+        provisionalRoot.height,
+        bodyRectForSizing.y + bodyHeight + ReadableScrollBottomPadding * popupScale);
+    const float rootX = std::round(uiViewport.x + (uiViewport.width - rootWidth) * 0.5f);
+    const float rootY = std::round(uiViewport.y + (uiViewport.height - rootHeight) * 0.5f);
+    const ResolvedHudLayoutElement rootRect = {rootX, rootY, rootWidth, rootHeight, popupScale};
+
+    float projectionMatrix[16] = {};
+    bx::mtxOrtho(
+        projectionMatrix,
+        0.0f,
+        static_cast<float>(width),
+        static_cast<float>(height),
+        0.0f,
+        0.0f,
+        1000.0f,
+        0.0f,
+        bgfx::getCaps()->homogeneousDepth
+    );
+    bgfx::setViewRect(HudViewId, 0, 0, static_cast<uint16_t>(width), static_cast<uint16_t>(height));
+    bgfx::setViewTransform(HudViewId, nullptr, projectionMatrix);
+    bgfx::touch(HudViewId);
+
+    const HudTextureHandle *pBackgroundTexture =
+        const_cast<OutdoorGameView *>(this)->ensureHudTextureLoaded(pRootLayout->primaryAsset);
+
+    if (pBackgroundTexture != nullptr)
+    {
+        submitHudTexturedQuad(*pBackgroundTexture, rootRect.x, rootRect.y, rootRect.width, rootRect.height);
+    }
+
+    std::function<std::optional<ResolvedHudLayoutElement>(const std::string &)> resolveLayout;
+    resolveLayout =
+        [this, &rootRect, popupScale, &resolveLayout](
+            const std::string &layoutId) -> std::optional<ResolvedHudLayoutElement>
+        {
+            const HudLayoutElement *pLayout = findHudLayoutElement(layoutId);
+
+            if (pLayout == nullptr)
+            {
+                return std::nullopt;
+            }
+
+            float resolvedWidth = pLayout->width * popupScale;
+            float resolvedHeight = pLayout->height * popupScale;
+            const std::string normalizedLayoutId = toLowerCopy(layoutId);
+
+            if ((pLayout->width <= 0.0f || pLayout->height <= 0.0f) && !pLayout->primaryAsset.empty())
+            {
+                const HudTextureHandle *pTexture =
+                    const_cast<OutdoorGameView *>(this)->ensureHudTextureLoaded(pLayout->primaryAsset);
+
+                if (pTexture != nullptr)
+                {
+                    if (pLayout->width <= 0.0f)
+                    {
+                        resolvedWidth = static_cast<float>(pTexture->width) * popupScale;
+                    }
+
+                    if (pLayout->height <= 0.0f)
+                    {
+                        resolvedHeight = static_cast<float>(pTexture->height) * popupScale;
+                    }
+                }
+            }
+
+            if (normalizedLayoutId == "spellinspectcorner_topedge"
+                || normalizedLayoutId == "spellinspectcorner_bottomedge")
+            {
+                resolvedWidth = rootRect.width;
+            }
+
+            if (normalizedLayoutId == "spellinspectcorner_leftedge"
+                || normalizedLayoutId == "spellinspectcorner_rightedge")
+            {
+                resolvedHeight = rootRect.height;
+            }
+
+            ResolvedHudLayoutElement parent = rootRect;
+
+            if (!pLayout->parentId.empty() && toLowerCopy(pLayout->parentId) != "spellinspectroot")
+            {
+                const std::optional<ResolvedHudLayoutElement> resolvedParent = resolveLayout(pLayout->parentId);
+
+                if (resolvedParent)
+                {
+                    parent = *resolvedParent;
+                }
+            }
+
+            return resolveAttachedHudLayoutRect(
+                pLayout->attachTo,
+                parent,
+                resolvedWidth,
+                resolvedHeight,
+                pLayout->gapX,
+                pLayout->gapY,
+                popupScale);
+        };
+
+    const std::vector<std::string> orderedLayoutIds = sortedHudLayoutIdsForScreen("SpellInspect");
+
+    for (const std::string &layoutId : orderedLayoutIds)
+    {
+        const HudLayoutElement *pLayout = findHudLayoutElement(layoutId);
+
+        if (pLayout == nullptr
+            || !pLayout->visible
+            || pLayout->primaryAsset.empty()
+            || toLowerCopy(pLayout->id) == "spellinspectroot")
+        {
+            continue;
+        }
+
+        const HudTextureHandle *pTexture =
+            const_cast<OutdoorGameView *>(this)->ensureHudTextureLoaded(pLayout->primaryAsset);
+        const std::optional<ResolvedHudLayoutElement> resolved = resolveLayout(layoutId);
+
+        if (pTexture == nullptr || !resolved)
+        {
+            continue;
+        }
+
+        submitHudTexturedQuad(*pTexture, resolved->x, resolved->y, resolved->width, resolved->height);
+    }
+
+    const std::optional<ResolvedHudLayoutElement> titleRect = resolveLayout("SpellInspectTitle");
+
+    if (titleRect)
+    {
+        renderLayoutLabel(*pTitleLayout, *titleRect, m_readableScrollOverlay.title);
+    }
+
+    if (pBodyFont == nullptr)
+    {
+        return;
+    }
+
+    const std::optional<ResolvedHudLayoutElement> bodyBaseRect = resolveLayout("SpellInspectBody");
+
+    if (!bodyBaseRect)
+    {
+        return;
+    }
+
+    bgfx::TextureHandle coloredMainTextureHandle =
+        ensureHudFontMainTextureColor(*pBodyFont, pBodyLayout->textColorAbgr);
+
+    if (!bgfx::isValid(coloredMainTextureHandle))
+    {
+        coloredMainTextureHandle = pBodyFont->mainTextureHandle;
+    }
+
+    float textX = std::round(bodyBaseRect->x + pBodyLayout->textPadX * popupScale);
+    float textY = std::round(bodyBaseRect->y + pBodyLayout->textPadY * popupScale);
+
+    for (const std::string &line : bodyLines)
+    {
+        renderHudFontLayer(*pBodyFont, pBodyFont->shadowTextureHandle, line, textX, textY, popupScale);
+        renderHudFontLayer(*pBodyFont, coloredMainTextureHandle, line, textX, textY, popupScale);
+        textY += bodyLineHeight;
     }
 }
 
@@ -24280,42 +24778,11 @@ void OutdoorGameView::updateCameraFromInput(float deltaSeconds)
                 }
             });
 
-        const bool allowHeldScrollPortraitCast =
-            m_characterScreenOpen
-            && m_characterPage == CharacterPage::Inventory
-            && m_heldInventoryItem.active
-            && !hasPendingSpellCast;
-        const HudPointerState portraitRightPointerState = {
-            portraitMouseX,
-            portraitMouseY,
-            (portraitMouseButtons & SDL_BUTTON_RMASK) != 0
-        };
-
-        handlePointerClickRelease(
-            portraitRightPointerState,
-            m_partyPortraitRightClickLatch,
-            m_partyPortraitRightPressedIndex,
-            std::optional<size_t>{},
-            [this, screenWidth, screenHeight](float x, float y) -> std::optional<size_t>
-            {
-                return resolvePartyPortraitIndexAtPoint(screenWidth, screenHeight, x, y);
-            },
-            [this, allowHeldScrollPortraitCast](const std::optional<size_t> &memberIndex)
-            {
-                if (!allowHeldScrollPortraitCast || !memberIndex)
-                {
-                    return;
-                }
-
-                tryCastHeldScrollOnPartyMember(*memberIndex);
-            });
     }
     else
     {
         m_partyPortraitClickLatch = false;
         m_partyPortraitPressedIndex = std::nullopt;
-        m_partyPortraitRightClickLatch = false;
-        m_partyPortraitRightPressedIndex = std::nullopt;
     }
 
     if (pKeyboardState[SDL_SCANCODE_C])
@@ -25273,6 +25740,11 @@ void OutdoorGameView::updateCameraFromInput(float deltaSeconds)
             {
                 for (const SpellbookSchoolUiDefinition &definition : SpellbookSchoolUiDefinitions)
                 {
+                    if (!activeMemberHasSpellbookSchool(definition.school))
+                    {
+                        continue;
+                    }
+
                     const HudLayoutElement *pLayout = findHudLayoutElement(definition.pButtonLayoutId);
 
                     if (pLayout == nullptr)
@@ -25351,6 +25823,13 @@ void OutdoorGameView::updateCameraFromInput(float deltaSeconds)
 
                 for (uint32_t spellOffset = 0; spellOffset < pDefinition->spellCount; ++spellOffset)
                 {
+                    const uint32_t spellId = pDefinition->firstSpellId + spellOffset;
+
+                    if (!activeMemberKnowsSpell(spellId))
+                    {
+                        continue;
+                    }
+
                     const uint32_t spellOrdinal = spellOffset + 1;
                     const std::string layoutId = spellbookSpellLayoutId(m_spellbook.school, spellOrdinal);
                     const HudLayoutElement *pLayout = findHudLayoutElement(layoutId);
@@ -25372,7 +25851,7 @@ void OutdoorGameView::updateCameraFromInput(float deltaSeconds)
                         SpellbookPointerTarget target = {};
                         target.type = SpellbookPointerTargetType::SpellButton;
                         target.school = m_spellbook.school;
-                        target.spellId = pDefinition->firstSpellId + spellOffset;
+                        target.spellId = spellId;
                         return target;
                     }
                 }
@@ -25422,6 +25901,12 @@ void OutdoorGameView::updateCameraFromInput(float deltaSeconds)
 
                     if (isDoubleClick)
                     {
+                        if (!activeMemberKnowsSpell(target.spellId))
+                        {
+                            setStatusBarEvent("Spell not learned");
+                            return;
+                        }
+
                         const SpellEntry *pSpellEntry =
                             m_pSpellTable != nullptr ? m_pSpellTable->findById(static_cast<int>(target.spellId)) : nullptr;
                         const std::string spellName =
@@ -25430,8 +25915,11 @@ void OutdoorGameView::updateCameraFromInput(float deltaSeconds)
                                 : ("Spell " + std::to_string(target.spellId));
                         const size_t casterMemberIndex =
                             m_pOutdoorPartyRuntime != nullptr ? m_pOutdoorPartyRuntime->party().activeMemberIndex() : 0;
-                        tryCastSpellFromMember(casterMemberIndex, target.spellId, spellName);
-                        closeSpellbook();
+
+                        if (tryCastSpellFromMember(casterMemberIndex, target.spellId, spellName))
+                        {
+                            closeSpellbook();
+                        }
                     }
 
                     return;
@@ -25458,6 +25946,12 @@ void OutdoorGameView::updateCameraFromInput(float deltaSeconds)
                     if (pActiveMember == nullptr || pSpellEntry == nullptr)
                     {
                         setStatusBarEvent("Can't set quick spell");
+                        return;
+                    }
+
+                    if (!pActiveMember->knowsSpell(m_spellbook.selectedSpellId))
+                    {
+                        setStatusBarEvent("Spell not learned");
                         return;
                     }
 
@@ -26015,6 +26509,20 @@ void OutdoorGameView::updateCameraFromInput(float deltaSeconds)
             isLeftMousePressed
         };
         const CharacterPointerTarget noneCharacterTarget = {};
+        const CharacterPointerTarget hoveredCharacterTarget = findCharacterPointerTarget(mouseX, mouseY);
+
+        if (m_pOutdoorPartyRuntime != nullptr)
+        {
+            updateReadableScrollOverlayForHeldItem(
+                m_pOutdoorPartyRuntime->party().activeMemberIndex(),
+                hoveredCharacterTarget,
+                isLeftMousePressed);
+        }
+        else
+        {
+            closeReadableScrollOverlay();
+        }
+
         handlePointerClickRelease(
             pointerState,
             m_characterClickLatch,
@@ -26194,6 +26702,23 @@ void OutdoorGameView::updateCameraFromInput(float deltaSeconds)
                         return;
                     }
 
+                    if (m_pItemTable != nullptr)
+                    {
+                        const InventoryItemUseAction useAction =
+                            InventoryItemUseRuntime::classifyItemUse(m_heldInventoryItem.item, *m_pItemTable);
+
+                        if (useAction == InventoryItemUseAction::ReadMessageScroll)
+                        {
+                            return;
+                        }
+
+                        if (useAction != InventoryItemUseAction::None && useAction != InventoryItemUseAction::Equip)
+                        {
+                            tryUseHeldItemOnPartyMember(party.activeMemberIndex(), true);
+                            return;
+                        }
+                    }
+
                     const ItemDefinition *pItemDefinition =
                         m_pItemTable != nullptr
                         ? m_pItemTable->get(m_heldInventoryItem.item.objectDescriptionId)
@@ -26355,6 +26880,24 @@ void OutdoorGameView::updateCameraFromInput(float deltaSeconds)
                     }
 
                     Party &party = m_pOutdoorPartyRuntime->party();
+
+                    if (m_pItemTable != nullptr)
+                    {
+                        const InventoryItemUseAction useAction =
+                            InventoryItemUseRuntime::classifyItemUse(m_heldInventoryItem.item, *m_pItemTable);
+
+                        if (useAction == InventoryItemUseAction::ReadMessageScroll)
+                        {
+                            return;
+                        }
+
+                        if (useAction != InventoryItemUseAction::None && useAction != InventoryItemUseAction::Equip)
+                        {
+                            tryUseHeldItemOnPartyMember(party.activeMemberIndex(), true);
+                            return;
+                        }
+                    }
+
                     const ItemDefinition *pItemDefinition =
                         m_pItemTable != nullptr
                         ? m_pItemTable->get(m_heldInventoryItem.item.objectDescriptionId)
@@ -26436,6 +26979,7 @@ void OutdoorGameView::updateCameraFromInput(float deltaSeconds)
     m_characterClickLatch = false;
     m_characterMemberCycleLatch = false;
     m_characterPressedTarget = {};
+    closeReadableScrollOverlay();
 
     if (hasActiveLootView)
     {

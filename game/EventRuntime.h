@@ -181,6 +181,7 @@ private:
         Awards,
         Players,
         ClassId,
+        Experience,
         BaseStat,
         StatBonus,
         BaseResistance,

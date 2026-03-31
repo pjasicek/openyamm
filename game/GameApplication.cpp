@@ -23,7 +23,7 @@ GameApplication::GameApplication(const Engine::ApplicationConfig &config)
             std::placeholders::_3,
             std::placeholders::_4
         ),
-        std::bind(&GameApplication::shutdownRenderer, this)
+        std::bind(&GameApplication::shutdownApplication, this)
     )
     , m_pAssetFileSystem(nullptr)
     , m_mapPickerIndex(0)
@@ -38,6 +38,12 @@ GameApplication::GameApplication(const Engine::ApplicationConfig &config)
 int GameApplication::run()
 {
     return m_engineApplication.run();
+}
+
+void GameApplication::shutdownApplication()
+{
+    shutdownRenderer();
+    m_gameAudioSystem.shutdown();
 }
 
 bool GameApplication::loadGameData(const Engine::AssetFileSystem &assetFileSystem)
@@ -179,6 +185,7 @@ bool GameApplication::initializeSelectedMapRuntime(bool initializeView)
             m_gameDataLoader.getObjectTable(),
             m_gameDataLoader.getSpellTable(),
             m_gameDataLoader.getItemTable(),
+            m_gameDataLoader.getReadableScrollTable(),
             m_gameDataLoader.getStandardItemEnchantTable(),
             m_gameDataLoader.getSpecialItemEnchantTable(),
             m_gameDataLoader.getItemEquipPosTable(),

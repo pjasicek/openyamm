@@ -13,7 +13,7 @@ namespace OpenYAMM::Game
 {
 namespace
 {
-constexpr uint32_t SaveVersion = 3;
+constexpr uint32_t SaveVersion = 4;
 constexpr char SaveMagic[8] = {'O', 'Y', 'S', 'A', 'V', 'E', '1', '\0'};
 
 class BinaryWriter
@@ -608,6 +608,7 @@ void writeValue(BinaryWriter &writer, const Character &value)
     writeValue(writer, value.maxSpellPoints);
     writeValue(writer, value.spellPoints);
     writeValue(writer, value.quickSpellName);
+    writeValue(writer, value.knownSpellIds);
     writeValue(writer, value.baseResistances);
     writeValue(writer, value.permanentBonuses);
     writeValue(writer, value.permanentImmunities);
@@ -653,6 +654,7 @@ bool readValue(BinaryReader &reader, Character &value)
         && readValue(reader, value.maxSpellPoints)
         && readValue(reader, value.spellPoints)
         && readValue(reader, value.quickSpellName)
+        && readValue(reader, value.knownSpellIds)
         && readValue(reader, value.baseResistances)
         && readValue(reader, value.permanentBonuses)
         && readValue(reader, value.permanentImmunities)

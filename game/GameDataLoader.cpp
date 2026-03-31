@@ -717,6 +717,11 @@ bool GameDataLoader::loadInternal(const Engine::AssetFileSystem &assetFileSystem
         return false;
     }
 
+    if (!loadReadableScrollTable(assetFileSystem))
+    {
+        return false;
+    }
+
     if (!loadNpcDialogTable(assetFileSystem))
     {
         return false;
@@ -741,7 +746,8 @@ bool GameDataLoader::loadInternal(const Engine::AssetFileSystem &assetFileSystem
 
     const std::vector<std::string> tablePaths = {
         "Data/EnglishT/Spells.txt",
-        "Data/EnglishT/rnditems.txt"
+        "Data/EnglishT/rnditems.txt",
+        "Data/EnglishT/scroll.txt"
     };
 
     for (const std::string &tablePath : tablePaths)
@@ -914,6 +920,11 @@ const CharacterDollTable &GameDataLoader::getCharacterDollTable() const
 const CharacterInspectTable &GameDataLoader::getCharacterInspectTable() const
 {
     return m_characterInspectTable;
+}
+
+const ReadableScrollTable &GameDataLoader::getReadableScrollTable() const
+{
+    return m_readableScrollTable;
 }
 
 bool GameDataLoader::loadTable(
@@ -1284,6 +1295,25 @@ bool GameDataLoader::loadCharacterInspectTable(const Engine::AssetFileSystem &as
     if (!m_characterInspectTable.loadStatRows(statRows) || !m_characterInspectTable.loadSkillRows(skillRows))
     {
         std::cerr << "Failed to parse character inspect tables\n";
+        return false;
+    }
+
+    return true;
+}
+
+bool GameDataLoader::loadReadableScrollTable(const Engine::AssetFileSystem &assetFileSystem)
+{
+    std::vector<std::vector<std::string>> rows;
+
+    if (!loadFirstTextTableRows(assetFileSystem, {"Data/EnglishT/scroll.txt", "Data/EnglishT/SCROLL.txt"}, rows))
+    {
+        std::cerr << "Failed to read readable scroll table\n";
+        return false;
+    }
+
+    if (!m_readableScrollTable.loadFromRows(rows))
+    {
+        std::cerr << "Failed to parse readable scroll table\n";
         return false;
     }
 

@@ -3,6 +3,7 @@
 #include "game/GameMechanics.h"
 #include "game/OutdoorPartyRuntime.h"
 #include "game/OutdoorWorldRuntime.h"
+#include "game/SpellSchool.h"
 #include "game/SpellIds.h"
 #include "game/SpellTable.h"
 
@@ -231,71 +232,6 @@ float secondsFromHours(float hours)
 float secondsFromMinutes(float minutes)
 {
     return minutes * 60.0f;
-}
-
-std::optional<std::string> resolveMagicSkillName(uint32_t spellId)
-{
-    if (spellIdInRange(spellId, SpellId::TorchLight, SpellId::Incinerate))
-    {
-        return "FireMagic";
-    }
-
-    if (spellIdInRange(spellId, SpellId::WizardEye, SpellId::Starburst))
-    {
-        return "AirMagic";
-    }
-
-    if (spellIdInRange(spellId, SpellId::Awaken, SpellId::LloydsBeacon))
-    {
-        return "WaterMagic";
-    }
-
-    if (spellIdInRange(spellId, SpellId::Stun, SpellId::MassDistortion))
-    {
-        return "EarthMagic";
-    }
-
-    if (spellIdInRange(spellId, SpellId::DetectLife, SpellId::Resurrection))
-    {
-        return "SpiritMagic";
-    }
-
-    if (spellIdInRange(spellId, SpellId::Telepathy, SpellId::Enslave))
-    {
-        return "MindMagic";
-    }
-
-    if (spellIdInRange(spellId, SpellId::CureWeakness, SpellId::PowerCure))
-    {
-        return "BodyMagic";
-    }
-
-    if (spellIdInRange(spellId, SpellId::LightBolt, SpellId::DivineIntervention))
-    {
-        return "LightMagic";
-    }
-
-    if (spellIdInRange(spellId, SpellId::Reanimate, SpellId::SoulDrinker))
-    {
-        return "DarkMagic";
-    }
-
-    if (spellIdInRange(spellId, SpellId::Glamour, SpellId::DarkfireBolt))
-    {
-        return "DarkElfAbility";
-    }
-
-    if (spellIdInRange(spellId, SpellId::Lifedrain, SpellId::Mistform))
-    {
-        return "VampireAbility";
-    }
-
-    if (spellIdInRange(spellId, SpellId::Fear, SpellId::WingBuffet))
-    {
-        return "DragonAbility";
-    }
-
-    return std::nullopt;
 }
 
 std::optional<BackendSpellRule> resolveBackendSpellRule(uint32_t spellId, SkillMastery mastery)

@@ -3,6 +3,7 @@
 #include "game/StringUtils.h"
 
 #include "engine/AssetFileSystem.h"
+#include "engine/AudioSystem.h"
 #include "game/CharacterDollTable.h"
 #include "game/EventDialogContent.h"
 #include "game/EventRuntime.h"
@@ -12,6 +13,7 @@
 #include "game/GameApplication.h"
 #include "game/HouseInteraction.h"
 #include "game/HouseServiceRuntime.h"
+#include "game/InventoryItemUseRuntime.h"
 #include "game/ItemEnchantRuntime.h"
 #include "game/ItemGenerator.h"
 #include "game/MasteryTeacherDialog.h"
@@ -123,6 +125,29 @@ struct GameApplicationTestAccess
     {
         return application.m_outdoorGameView.cameraPitchRadians();
     }
+
+    static GameAudioSystem &gameAudioSystem(GameApplication &application)
+    {
+        return application.m_gameAudioSystem;
+    }
+
+    static void openPendingEventDialog(
+        GameApplication &application,
+        size_t previousMessageCount,
+        bool allowNpcFallbackContent)
+    {
+        application.m_outdoorGameView.openPendingEventDialog(previousMessageCount, allowNpcFallbackContent);
+    }
+
+    static const std::string &statusBarEventText(const GameApplication &application)
+    {
+        return application.m_outdoorGameView.m_statusBarEventText;
+    }
+
+    static bool hasActiveEventDialog(const GameApplication &application)
+    {
+        return application.m_outdoorGameView.m_activeEventDialog.isActive;
+    }
 };
 
 namespace
@@ -132,6 +157,28 @@ constexpr float HostilityCloseRange = 1024.0f;
 constexpr float HostilityShortRange = 2560.0f;
 constexpr float HostilityMediumRange = 5120.0f;
 constexpr float HostilityLongRange = 10240.0f;
+
+float nextGameMinuteAtOrAfter(float currentGameMinutes, float targetMinuteOfDay)
+{
+    float targetGameMinutes = targetMinuteOfDay;
+
+    while (targetGameMinutes <= currentGameMinutes)
+    {
+        targetGameMinutes += 24.0f * 60.0f;
+    }
+
+    return targetGameMinutes;
+}
+
+float definitelyClosedMinuteOfDay(const HouseEntry &houseEntry)
+{
+    if (houseEntry.openHour == houseEntry.closeHour)
+    {
+        return -1.0f;
+    }
+
+    return static_cast<float>(((houseEntry.closeHour + 1) % 24) * 60);
+}
 
 DialogueMenuId dialogueMenuIdForHouseAction(HouseActionId actionId)
 {
@@ -838,7 +885,7 @@ void promoteSingleResidentHouseContext(
     EventRuntimeState &eventRuntimeState,
     const HouseTable &houseTable,
     const NpcDialogTable &npcDialogTable,
-    int currentHour
+    float currentGameMinutes
 )
 {
     if (!eventRuntimeState.pendingDialogueContext
@@ -858,7 +905,7 @@ void promoteSingleResidentHouseContext(
         *pHouseEntry,
         nullptr,
         nullptr,
-        currentHour,
+        currentGameMinutes,
         eventRuntimeState.dialogueState.menuStack.empty()
             ? DialogueMenuId::None
             : eventRuntimeState.dialogueState.menuStack.back()
@@ -887,14 +934,14 @@ EventDialogContent buildHeadlessDialog(
     const std::optional<EventIrProgram> &globalEventIrProgram,
     const GameDataLoader &gameDataLoader,
     Party *pParty,
-    int currentHour
+    float currentGameMinutes
 )
 {
     promoteSingleResidentHouseContext(
         eventRuntimeState,
         gameDataLoader.getHouseTable(),
         gameDataLoader.getNpcDialogTable(),
-        currentHour
+        currentGameMinutes
     );
 
     return buildEventDialogContent(
@@ -906,7 +953,7 @@ EventDialogContent buildHeadlessDialog(
         &gameDataLoader.getClassSkillTable(),
         &gameDataLoader.getNpcDialogTable(),
         pParty,
-        currentHour
+        currentGameMinutes
     );
 }
 
@@ -1427,7 +1474,7 @@ EventDialogContent buildScenarioDialog(
         selectedMap.globalEventIrProgram,
         gameDataLoader,
         &scenario.party,
-        scenario.world.currentHour()
+        scenario.world.gameMinutes()
     );
 }
 
@@ -11922,6 +11969,77 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
     );
 
     runCase(
+        "character_sheet_marks_experience_as_trainable_at_oe_threshold",
+        [&](std::string &failure)
+        {
+            Character character = {};
+            character.level = 4;
+            character.experience = 9999;
+
+            CharacterSheetSummary summary =
+                GameMechanics::buildCharacterSheetSummary(character, &gameDataLoader.getItemTable());
+
+            if (summary.canTrainToNextLevel)
+            {
+                failure = "experience should not be trainable below threshold";
+                return false;
+            }
+
+            character.experience = 10000;
+            summary = GameMechanics::buildCharacterSheetSummary(character, &gameDataLoader.getItemTable());
+
+            if (!summary.canTrainToNextLevel)
+            {
+                failure = "experience should be trainable at OE threshold";
+                return false;
+            }
+
+            if (summary.experienceText != "10000")
+            {
+                failure = "experience text should remain numeric";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "experience_inspect_supplement_reports_shortfall_and_max_trainable_level",
+        [&](std::string &failure)
+        {
+            Character character = {};
+            character.name = "Ariel";
+            character.level = 4;
+            character.experience = 9500;
+
+            if (GameMechanics::buildExperienceInspectSupplement(character)
+                != "Ariel needs 500 more experience to train to level 5.")
+            {
+                failure = "shortfall experience inspect text mismatch";
+                return false;
+            }
+
+            character.experience = 21000;
+
+            if (GameMechanics::maximumTrainableLevelFromExperience(character) != 7)
+            {
+                failure = "expected max trainable level 7";
+                return false;
+            }
+
+            if (GameMechanics::buildExperienceInspectSupplement(character)
+                != "Ariel is eligible to train up to level 7.")
+            {
+                failure = "eligible experience inspect text mismatch";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
         "recruit_roster_member_loads_birth_experience_resistances_and_items",
         [&](std::string &failure)
         {
@@ -11967,6 +12085,748 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
             {
                 failure = "roster starting items not granted to inventory";
                 return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "party_shared_experience_uses_learning_and_skips_incapacitated_members",
+        [&](std::string &failure)
+        {
+            Party party = {};
+            party.seed(createRegressionPartySeed());
+
+            Character *pFirst = party.member(0);
+            Character *pSecond = party.member(1);
+            Character *pThird = party.member(2);
+            Character *pFourth = party.member(3);
+
+            if (pFirst == nullptr || pSecond == nullptr || pThird == nullptr || pFourth == nullptr)
+            {
+                failure = "missing seeded party members";
+                return false;
+            }
+
+            pFirst->skills["Learning"] = {"Learning", 5, SkillMastery::Normal};
+            pFourth->skills["Learning"] = {"Learning", 10, SkillMastery::Grandmaster};
+            pSecond->conditions.set(static_cast<size_t>(CharacterCondition::Unconscious));
+            pThird->conditions.set(static_cast<size_t>(CharacterCondition::Eradicated));
+
+            const uint32_t totalGrantedExperience = party.grantSharedExperience(200);
+
+            if (pFirst->experience != 114)
+            {
+                failure = "normal learning member received unexpected shared experience";
+                return false;
+            }
+
+            if (pSecond->experience != 0 || pThird->experience != 0)
+            {
+                failure = "incapacitated members should not receive shared experience";
+                return false;
+            }
+
+            if (pFourth->experience != 159)
+            {
+                failure = "grandmaster learning member received unexpected shared experience";
+                return false;
+            }
+
+            if (totalGrantedExperience != 273)
+            {
+                failure = "shared experience total did not include learning bonuses";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "event_experience_variable_awards_direct_member_experience_without_learning_bonus",
+        [&](std::string &failure)
+        {
+            Party party = {};
+            party.seed(createRegressionPartySeed());
+            Character *pFirst = party.member(0);
+            Character *pSecond = party.member(1);
+
+            if (pFirst == nullptr || pSecond == nullptr)
+            {
+                failure = "missing seeded party members";
+                return false;
+            }
+
+            pFirst->skills["Learning"] = {"Learning", 10, SkillMastery::Grandmaster};
+            pSecond->conditions.set(static_cast<size_t>(CharacterCondition::Dead));
+
+            EventIrInstruction selectAllMembers = {};
+            selectAllMembers.eventId = 1;
+            selectAllMembers.step = 0;
+            selectAllMembers.operation = EventIrOperation::ForPartyMember;
+            selectAllMembers.arguments = {5};
+
+            EventIrInstruction addExperience = {};
+            addExperience.eventId = 1;
+            addExperience.step = 1;
+            addExperience.operation = EventIrOperation::Add;
+            addExperience.arguments = {0x000du, 50u};
+
+            EventIrInstruction exitInstruction = {};
+            exitInstruction.eventId = 1;
+            exitInstruction.step = 2;
+            exitInstruction.operation = EventIrOperation::Exit;
+
+            EventIrEvent event = {};
+            event.eventId = 1;
+            event.instructions = {selectAllMembers, addExperience, exitInstruction};
+
+            EventIrProgram program = EventIrProgram::fromEvents({event});
+            EventRuntime eventRuntime = {};
+            EventRuntimeState runtimeState = {};
+
+            if (!eventRuntime.executeEventById(program, std::nullopt, 1, runtimeState, &party, nullptr))
+            {
+                failure = "event runtime did not execute synthetic experience event";
+                return false;
+            }
+
+            if (pFirst->experience != 50 || pSecond->experience != 50)
+            {
+                failure = "event experience should directly add to each selected member";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "member_experience_mutation_clamps_like_oe",
+        [&](std::string &failure)
+        {
+            Party party = {};
+            party.seed(createRegressionPartySeed());
+
+            if (party.setMemberExperience(0, 3999999990u) != 3999999990u)
+            {
+                failure = "setMemberExperience did not preserve valid experience";
+                return false;
+            }
+
+            if (party.addExperienceToMember(0, 1000) != 4000000000u)
+            {
+                failure = "experience did not clamp to OE max";
+                return false;
+            }
+
+            if (party.addExperienceToMember(0, -5000000000ll) != 0)
+            {
+                failure = "experience did not clamp to zero";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "party_monster_kill_grants_shared_experience",
+        [&](std::string &failure)
+        {
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            size_t targetActorIndex = std::numeric_limits<size_t>::max();
+            const MonsterTable::MonsterStatsEntry *pTargetStats = nullptr;
+
+            for (size_t actorIndex = 0; actorIndex < scenario.world.mapActorCount(); ++actorIndex)
+            {
+                const OutdoorWorldRuntime::MapActorState *pActor = scenario.world.mapActorState(actorIndex);
+
+                if (pActor == nullptr || pActor->isDead)
+                {
+                    continue;
+                }
+
+                const MonsterTable::MonsterStatsEntry *pStats =
+                    gameDataLoader.getMonsterTable().findStatsById(pActor->monsterId);
+
+                if (pStats != nullptr && pStats->experience >= 10)
+                {
+                    targetActorIndex = actorIndex;
+                    pTargetStats = pStats;
+                    break;
+                }
+            }
+
+            if (targetActorIndex == std::numeric_limits<size_t>::max() || pTargetStats == nullptr)
+            {
+                failure = "no suitable monster with experience found";
+                return false;
+            }
+
+            Character *pFirst = scenario.party.member(0);
+            Character *pSecond = scenario.party.member(1);
+            Character *pThird = scenario.party.member(2);
+            Character *pFourth = scenario.party.member(3);
+            const OutdoorWorldRuntime::MapActorState *pTargetActor = scenario.world.mapActorState(targetActorIndex);
+
+            if (pFirst == nullptr || pSecond == nullptr || pThird == nullptr || pFourth == nullptr || pTargetActor == nullptr)
+            {
+                failure = "missing scenario state";
+                return false;
+            }
+
+            pFirst->skills["Learning"] = {"Learning", 5, SkillMastery::Normal};
+            pSecond->conditions.set(static_cast<size_t>(CharacterCondition::Unconscious));
+            pThird->conditions.set(static_cast<size_t>(CharacterCondition::Petrified));
+
+            const uint32_t expectedBaseExperience = static_cast<uint32_t>(pTargetStats->experience) / 2u;
+
+            if (!scenario.world.applyPartyAttackToMapActor(
+                    targetActorIndex,
+                    pTargetActor->currentHp + 1000,
+                    pTargetActor->preciseX + 64.0f,
+                    pTargetActor->preciseY,
+                    pTargetActor->preciseZ))
+            {
+                failure = "party attack did not apply";
+                return false;
+            }
+
+            if (pFirst->experience != expectedBaseExperience + expectedBaseExperience * 14u / 100u)
+            {
+                failure = "first member received unexpected monster experience";
+                return false;
+            }
+
+            if (pSecond->experience != 0 || pThird->experience != 0)
+            {
+                failure = "incapacitated members received monster experience";
+                return false;
+            }
+
+            if (pFourth->experience != expectedBaseExperience)
+            {
+                failure = "fourth member received unexpected monster experience";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "inventory_item_use_spell_scroll_prepares_master_cast",
+        [&](std::string &failure)
+        {
+            Party party = {};
+            party.seed(createRegressionPartySeed());
+
+            InventoryItem scroll = {};
+            scroll.objectDescriptionId = 300;
+
+            const InventoryItemUseResult result = InventoryItemUseRuntime::useItemOnMember(
+                party,
+                0,
+                scroll,
+                gameDataLoader.getItemTable(),
+                &gameDataLoader.getReadableScrollTable());
+
+            if (!result.handled || result.action != InventoryItemUseAction::CastScroll)
+            {
+                failure = "spell scroll did not resolve as a castable scroll";
+                return false;
+            }
+
+            if (result.spellId != spellIdValue(SpellId::TorchLight))
+            {
+                failure = "spell scroll resolved to the wrong spell id";
+                return false;
+            }
+
+            if (result.spellSkillLevelOverride != 5 || result.spellSkillMasteryOverride != SkillMastery::Master)
+            {
+                failure = "spell scroll did not use the expected OE-style cast overrides";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "inventory_item_use_spellbook_consumes_on_success_when_school_and_mastery_match",
+        [&](std::string &failure)
+        {
+            Party party = {};
+            party.seed(createRegressionPartySeed());
+            Character *pMember = party.member(0);
+
+            if (pMember == nullptr)
+            {
+                failure = "missing member 0";
+                return false;
+            }
+
+            pMember->skills["FireMagic"] = {"FireMagic", 4, SkillMastery::Normal};
+            pMember->forgetSpell(spellIdValue(SpellId::FireBolt));
+
+            InventoryItem spellbook = {};
+            spellbook.objectDescriptionId = 401;
+
+            const InventoryItemUseResult result = InventoryItemUseRuntime::useItemOnMember(
+                party,
+                0,
+                spellbook,
+                gameDataLoader.getItemTable(),
+                &gameDataLoader.getReadableScrollTable());
+
+            if (!result.handled || result.action != InventoryItemUseAction::LearnSpell || !result.consumed)
+            {
+                failure = "spellbook was not consumed on successful learn";
+                return false;
+            }
+
+            if (!pMember->knowsSpell(spellIdValue(SpellId::FireBolt)))
+            {
+                failure = "spellbook did not teach Fire Bolt";
+                return false;
+            }
+
+            if (result.speechId != SpeechId::LearnSpell)
+            {
+                failure = "successful learn did not request learn spell speech";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "spellbook_speech_audio_resolves_for_success_failure_and_store_closed",
+        [&](std::string &failure)
+        {
+            GameApplication application(m_config);
+
+            if (!initializeHeadlessGameApplication(
+                    "out01.odm",
+                    assetFileSystem,
+                    application,
+                    failure))
+            {
+                return false;
+            }
+
+            Party &party = GameApplicationTestAccess::outdoorPartyRuntime(application)->party();
+            Character *pMember = party.member(0);
+
+            if (pMember == nullptr)
+            {
+                failure = "missing first party member";
+                return false;
+            }
+
+            pMember->skills["FireMagic"] = {"FireMagic", 4, SkillMastery::Normal};
+            pMember->forgetSpell(spellIdValue(SpellId::FireBolt));
+            pMember->skills.erase("AirMagic");
+            pMember->forgetSpell(spellIdValue(SpellId::WizardEye));
+
+            InventoryItem fireBoltBook = {};
+            fireBoltBook.objectDescriptionId = 401;
+
+            const InventoryItemUseResult successResult = InventoryItemUseRuntime::useItemOnMember(
+                party,
+                0,
+                fireBoltBook,
+                gameDataLoader.getItemTable(),
+                &gameDataLoader.getReadableScrollTable());
+
+            if (successResult.speechId != SpeechId::LearnSpell)
+            {
+                failure = "learn spell case did not request LearnSpell speech";
+                return false;
+            }
+
+            if (!GameApplicationTestAccess::gameAudioSystem(application).playSpeech(
+                    *pMember,
+                    *successResult.speechId,
+                    0x1234u,
+                    1))
+            {
+                failure = "LearnSpell speech did not resolve to playable audio";
+                return false;
+            }
+
+            InventoryItem wizardEyeBook = {};
+            wizardEyeBook.objectDescriptionId = 411;
+
+            const InventoryItemUseResult failureResult = InventoryItemUseRuntime::useItemOnMember(
+                party,
+                0,
+                wizardEyeBook,
+                gameDataLoader.getItemTable(),
+                &gameDataLoader.getReadableScrollTable());
+
+            if (failureResult.speechId != SpeechId::CantLearnSpell)
+            {
+                failure = "cant learn case did not request CantLearnSpell speech";
+                return false;
+            }
+
+            if (!GameApplicationTestAccess::gameAudioSystem(application).playSpeech(
+                    *pMember,
+                    *failureResult.speechId,
+                    0x5678u,
+                    1))
+            {
+                failure = "CantLearnSpell speech did not resolve to playable audio";
+                return false;
+            }
+
+            if (!GameApplicationTestAccess::gameAudioSystem(application).playSpeech(
+                    *pMember,
+                    SpeechId::StoreClosed,
+                    0x9abcu,
+                    1))
+            {
+                failure = "StoreClosed speech did not resolve to playable audio";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "inventory_item_use_spellbook_fails_when_spell_is_already_known",
+        [&](std::string &failure)
+        {
+            Party party = {};
+            party.seed(createRegressionPartySeed());
+            Character *pMember = party.member(0);
+
+            if (pMember == nullptr)
+            {
+                failure = "missing member 0";
+                return false;
+            }
+
+            pMember->skills["FireMagic"] = {"FireMagic", 4, SkillMastery::Normal};
+            pMember->learnSpell(spellIdValue(SpellId::TorchLight));
+
+            InventoryItem spellbook = {};
+            spellbook.objectDescriptionId = 400;
+
+            const InventoryItemUseResult result = InventoryItemUseRuntime::useItemOnMember(
+                party,
+                0,
+                spellbook,
+                gameDataLoader.getItemTable(),
+                &gameDataLoader.getReadableScrollTable());
+
+            if (!result.handled || result.action != InventoryItemUseAction::LearnSpell || result.consumed)
+            {
+                failure = "already known spellbook should be handled without consuming";
+                return false;
+            }
+
+            if (!result.alreadyKnown || result.speechId.has_value())
+            {
+                failure = "already known spellbook should signal alreadyKnown without voice reaction";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "inventory_item_use_spellbook_fails_without_matching_school_and_preserves_item",
+        [&](std::string &failure)
+        {
+            Party party = {};
+            party.seed(createRegressionPartySeed());
+            Character *pMember = party.member(0);
+
+            if (pMember == nullptr)
+            {
+                failure = "missing member 0";
+                return false;
+            }
+
+            pMember->skills.erase("AirMagic");
+            pMember->forgetSpell(spellIdValue(SpellId::WizardEye));
+
+            InventoryItem spellbook = {};
+            spellbook.objectDescriptionId = 411;
+
+            const InventoryItemUseResult result = InventoryItemUseRuntime::useItemOnMember(
+                party,
+                0,
+                spellbook,
+                gameDataLoader.getItemTable(),
+                &gameDataLoader.getReadableScrollTable());
+
+            if (!result.handled || result.action != InventoryItemUseAction::LearnSpell || result.consumed)
+            {
+                failure = "failed learn should not consume the spellbook";
+                return false;
+            }
+
+            if (pMember->knowsSpell(spellIdValue(SpellId::WizardEye)))
+            {
+                failure = "spellbook taught Wizard Eye without Air Magic";
+                return false;
+            }
+
+            if (result.speechId != SpeechId::CantLearnSpell)
+            {
+                failure = "failed learn did not request cant learn spell speech";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "inventory_item_use_spellbook_fails_without_required_mastery_and_preserves_item",
+        [&](std::string &failure)
+        {
+            Party party = {};
+            party.seed(createRegressionPartySeed());
+            Character *pMember = party.member(0);
+
+            if (pMember == nullptr)
+            {
+                failure = "missing member 0";
+                return false;
+            }
+
+            pMember->skills["FireMagic"] = {"FireMagic", 10, SkillMastery::Master};
+            pMember->forgetSpell(spellIdValue(SpellId::Incinerate));
+
+            InventoryItem spellbook = {};
+            spellbook.objectDescriptionId = 410;
+
+            const InventoryItemUseResult result = InventoryItemUseRuntime::useItemOnMember(
+                party,
+                0,
+                spellbook,
+                gameDataLoader.getItemTable(),
+                &gameDataLoader.getReadableScrollTable());
+
+            if (!result.handled || result.action != InventoryItemUseAction::LearnSpell || result.consumed)
+            {
+                failure = "mastery-gated learn should not consume the spellbook";
+                return false;
+            }
+
+            if (pMember->knowsSpell(spellIdValue(SpellId::Incinerate)))
+            {
+                failure = "spellbook taught Incinerate without grandmaster Fire Magic";
+                return false;
+            }
+
+            if (result.speechId != SpeechId::CantLearnSpell)
+            {
+                failure = "mastery-gated learn did not request cant learn spell speech";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "inventory_item_use_readable_scroll_returns_text_without_consuming",
+        [&](std::string &failure)
+        {
+            Party party = {};
+            party.seed(createRegressionPartySeed());
+
+            InventoryItem readable = {};
+            readable.objectDescriptionId = 741;
+
+            const InventoryItemUseResult result = InventoryItemUseRuntime::useItemOnMember(
+                party,
+                0,
+                readable,
+                gameDataLoader.getItemTable(),
+                &gameDataLoader.getReadableScrollTable());
+
+            if (!result.handled || result.action != InventoryItemUseAction::ReadMessageScroll || result.consumed)
+            {
+                failure = "readable scroll did not remain in inventory after use";
+                return false;
+            }
+
+            if (result.readableTitle != "Dadeross' Letter to Fellmoon" || result.readableBody.empty())
+            {
+                failure = "readable scroll text did not load correctly";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "inventory_item_use_potions_and_horseshoe_apply_expected_effects",
+        [&](std::string &failure)
+        {
+            Party party = {};
+            party.seed(createRegressionPartySeed());
+            Character *pMember = party.member(0);
+
+            if (pMember == nullptr)
+            {
+                failure = "missing member 0";
+                return false;
+            }
+
+            pMember->health = 10;
+            pMember->spellPoints = 0;
+            pMember->skillPoints = 3;
+            pMember->permanentBonuses.intellect = 0;
+
+            InventoryItem cureWounds = {};
+            cureWounds.objectDescriptionId = 222;
+            const InventoryItemUseResult healResult = InventoryItemUseRuntime::useItemOnMember(
+                party,
+                0,
+                cureWounds,
+                gameDataLoader.getItemTable(),
+                &gameDataLoader.getReadableScrollTable());
+
+            InventoryItem magicPotion = {};
+            magicPotion.objectDescriptionId = 223;
+            const InventoryItemUseResult manaResult = InventoryItemUseRuntime::useItemOnMember(
+                party,
+                0,
+                magicPotion,
+                gameDataLoader.getItemTable(),
+                &gameDataLoader.getReadableScrollTable());
+
+            InventoryItem blackPotion = {};
+            blackPotion.objectDescriptionId = 266;
+            const InventoryItemUseResult statResult = InventoryItemUseRuntime::useItemOnMember(
+                party,
+                0,
+                blackPotion,
+                gameDataLoader.getItemTable(),
+                &gameDataLoader.getReadableScrollTable());
+
+            InventoryItem horseshoe = {};
+            horseshoe.objectDescriptionId = 656;
+            const InventoryItemUseResult horseshoeResult = InventoryItemUseRuntime::useItemOnMember(
+                party,
+                0,
+                horseshoe,
+                gameDataLoader.getItemTable(),
+                &gameDataLoader.getReadableScrollTable());
+
+            if (!healResult.consumed || pMember->health <= 10)
+            {
+                failure = "Cure Wounds did not heal and consume";
+                return false;
+            }
+
+            if (!manaResult.consumed || pMember->spellPoints <= 0)
+            {
+                failure = "Magic Potion did not restore spell points";
+                return false;
+            }
+
+            if (!statResult.consumed || pMember->permanentBonuses.intellect != 50)
+            {
+                failure = "black potion did not grant permanent intellect";
+                return false;
+            }
+
+            if (!horseshoeResult.consumed || pMember->skillPoints != 5)
+            {
+                failure = "horseshoe did not grant two skill points";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "default_party_seed_first_member_matches_requested_spell_state_and_inventory",
+        [&](std::string &failure)
+        {
+            Party party = {};
+            party.seed(Party::createDefaultSeed());
+            const Character *pMember = party.member(0);
+
+            if (pMember == nullptr)
+            {
+                failure = "missing default party member 0";
+                return false;
+            }
+
+            const CharacterSkill *pFireMagic = pMember->findSkill("FireMagic");
+
+            if (pMember->findSkill("AirMagic") != nullptr)
+            {
+                failure = "first member still has Air Magic";
+                return false;
+            }
+
+            if (pFireMagic == nullptr || pFireMagic->mastery != SkillMastery::Master)
+            {
+                failure = "first member Fire Magic mastery is not Master";
+                return false;
+            }
+
+            if (pMember->knowsSpell(spellIdValue(SpellId::Incinerate)))
+            {
+                failure = "first member should not start knowing Incinerate";
+                return false;
+            }
+
+            if (pMember->knowsSpell(spellIdValue(SpellId::FireBolt)))
+            {
+                failure = "first member should not start knowing Fire Bolt";
+                return false;
+            }
+
+            if (!pMember->knowsSpell(spellIdValue(SpellId::TorchLight)))
+            {
+                failure = "first member should still know Torch Light";
+                return false;
+            }
+
+            const std::array<uint32_t, 10> expectedInventoryIds = {401, 410, 411, 400, 741, 222, 223, 266, 253, 656};
+
+            for (uint32_t itemId : expectedInventoryIds)
+            {
+                const bool found = std::any_of(
+                    pMember->inventory.begin(),
+                    pMember->inventory.end(),
+                    [itemId](const InventoryItem &item)
+                    {
+                        return item.objectDescriptionId == itemId;
+                    });
+
+                if (!found)
+                {
+                    failure = "first member inventory is missing item " + std::to_string(itemId);
+                    return false;
+                }
             }
 
             return true;
@@ -12487,6 +13347,43 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
     );
 
     runCase(
+        "outdoor_world_time_advances_without_timer_programs",
+        [&](std::string &failure)
+        {
+            if (!selectedMap || !selectedMap->outdoorMapData || !selectedMap->outdoorMapDeltaData)
+            {
+                failure = "selected map is not an outdoor gameplay map";
+                return false;
+            }
+
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            const float beforeMinutes = scenario.world.gameMinutes();
+            EventRuntime eventRuntime = {};
+
+            if (scenario.world.updateTimers(1.0f, eventRuntime, std::nullopt, std::nullopt))
+            {
+                failure = "timer update unexpectedly executed an event";
+                return false;
+            }
+
+            if (scenario.world.gameMinutes() <= beforeMinutes)
+            {
+                failure = "world time did not advance without timer programs";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
         "save_game_roundtrip_restores_party_world_and_movement_state",
         [&](std::string &failure)
         {
@@ -12813,6 +13710,8 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
             party.addGold(100000);
             const uint32_t baseIntellect = pActiveMember->intellect;
             GameApplicationTestAccess::setCameraAngles(application, 0.75f, -0.35f);
+            const float savedGameMinutes = world.gameMinutes() + 123.0f;
+            world.advanceGameMinutes(savedGameMinutes - world.gameMinutes());
 
             EventRuntime eventRuntime;
             EventRuntimeState::ActiveDecorationContext context = {};
@@ -12980,6 +13879,88 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
                 || std::abs(GameApplicationTestAccess::cameraPitchRadians(application) + 0.35f) > 0.0001f)
             {
                 failure = "camera heading did not persist through app quick load";
+                return false;
+            }
+
+            if (std::abs(GameApplicationTestAccess::outdoorWorldRuntime(application)->gameMinutes() - savedGameMinutes) > 0.01f)
+            {
+                failure = "current game time did not persist through app quick load";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "closed_house_entry_is_rejected_before_house_mode_with_oe_status_text",
+        [&](std::string &failure)
+        {
+            GameApplication application(m_config);
+
+            if (!initializeHeadlessGameApplication(
+                    "out01.odm",
+                    assetFileSystem,
+                    application,
+                    failure))
+            {
+                return false;
+            }
+
+            GameApplicationTestAccess::shutdownRenderer(application);
+
+            if (!GameApplicationTestAccess::initializeSelectedMapRuntime(application, true))
+            {
+                failure = "could not initialize gameplay view";
+                return false;
+            }
+
+            OutdoorWorldRuntime *pWorld = GameApplicationTestAccess::outdoorWorldRuntime(application);
+            OutdoorPartyRuntime *pPartyRuntime = GameApplicationTestAccess::outdoorPartyRuntime(application);
+            EventRuntimeState *pEventRuntimeState = pWorld != nullptr ? pWorld->eventRuntimeState() : nullptr;
+            const HouseEntry *pHouseEntry = GameApplicationTestAccess::gameDataLoader(application).getHouseTable().get(1);
+
+            if (pWorld == nullptr || pPartyRuntime == nullptr || pEventRuntimeState == nullptr || pHouseEntry == nullptr)
+            {
+                failure = "application state is incomplete";
+                return false;
+            }
+
+            const float closedMinuteOfDay = definitelyClosedMinuteOfDay(*pHouseEntry);
+
+            if (closedMinuteOfDay < 0.0f)
+            {
+                failure = "house 1 does not have meaningful open/close hours";
+                return false;
+            }
+
+            const float targetGameMinutes = nextGameMinuteAtOrAfter(pWorld->gameMinutes(), closedMinuteOfDay);
+            pWorld->advanceGameMinutes(targetGameMinutes - pWorld->gameMinutes());
+
+            EventRuntimeState::PendingDialogueContext context = {};
+            context.kind = DialogueContextKind::HouseService;
+            context.sourceId = pHouseEntry->id;
+            context.hostHouseId = pHouseEntry->id;
+            pEventRuntimeState->dialogueState.hostHouseId = pHouseEntry->id;
+            pEventRuntimeState->pendingDialogueContext = std::move(context);
+
+            GameApplicationTestAccess::openPendingEventDialog(application, pEventRuntimeState->messages.size(), true);
+
+            if (GameApplicationTestAccess::hasActiveEventDialog(application))
+            {
+                failure = "closed house still entered house mode";
+                return false;
+            }
+
+            if (GameApplicationTestAccess::statusBarEventText(application) != buildClosedStatusText(*pHouseEntry))
+            {
+                failure = "closed house did not use the OE-style status text";
+                return false;
+            }
+
+            if (pEventRuntimeState->pendingDialogueContext.has_value())
+            {
+                failure = "closed house left a pending dialogue context behind";
                 return false;
             }
 
@@ -13524,6 +14505,32 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
                 return false;
             }
 
+            return true;
+        }
+    );
+
+    runCase(
+        "audio_shutdown_remains_safe_after_sdl_quit",
+        [&](std::string &failure)
+        {
+            SDL_Environment *pEnvironment = SDL_GetEnvironment();
+
+            if (pEnvironment == nullptr || !SDL_SetEnvironmentVariable(pEnvironment, "SDL_AUDIODRIVER", "dummy", true))
+            {
+                failure = "could not force dummy audio driver";
+                return false;
+            }
+
+            Engine::AudioSystem audioSystem;
+
+            if (!audioSystem.initialize(assetFileSystem))
+            {
+                failure = "could not initialize audio system";
+                return false;
+            }
+
+            SDL_Quit();
+            audioSystem.shutdown();
             return true;
         }
     );

@@ -75,6 +75,7 @@ add_executable(openyamm
     HouseInteraction.cpp
     HouseServiceRuntime.cpp
     HouseVideoPlayer.cpp
+    InventoryItemUseRuntime.cpp
     MapDeltaData.cpp
     GameDataLoader.cpp
     HeadlessOutdoorDiagnostics.cpp
@@ -105,6 +106,7 @@ add_executable(openyamm
     Party.cpp
     PartySpellSystem.cpp
     PriceCalculator.cpp
+    ReadableScrollTable.cpp
     PortraitFxEventTable.cpp
     PortraitEnums.cpp
     PortraitFrameTable.cpp
@@ -114,6 +116,7 @@ add_executable(openyamm
     SpawnPreview.cpp
     SkillData.cpp
     SpeechReactionTable.cpp
+    SpellSchool.cpp
     SpellTable.cpp
     SpellFxTable.cpp
     SpriteTables.cpp

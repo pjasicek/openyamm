@@ -27,6 +27,7 @@
 #include "game/PartySpellSystem.h"
 #include "game/PortraitFxEventTable.h"
 #include "game/PortraitFrameTable.h"
+#include "game/ReadableScrollTable.h"
 #include "game/RosterTable.h"
 #include "game/SpellTable.h"
 #include "game/SpellFxTable.h"
@@ -49,6 +50,7 @@ namespace OpenYAMM::Game
 class OutdoorPartyRuntime;
 class OutdoorWorldRuntime;
 class ItemTable;
+struct GameApplicationTestAccess;
 struct ItemDefinition;
 
 class OutdoorGameView
@@ -86,6 +88,7 @@ public:
         const ObjectTable &objectTable,
         const SpellTable &spellTable,
         const ItemTable &itemTable,
+        const ReadableScrollTable &readableScrollTable,
         const StandardItemEnchantTable &standardItemEnchantTable,
         const SpecialItemEnchantTable &specialItemEnchantTable,
         const ItemEquipPosTable &itemEquipPosTable,
@@ -105,6 +108,8 @@ public:
     void setCameraAngles(float yawRadians, float pitchRadians);
 
 private:
+    friend struct GameApplicationTestAccess;
+
     struct TerrainVertex
     {
         float x;
@@ -435,6 +440,13 @@ private:
         float sourceY = 0.0f;
         float sourceWidth = 0.0f;
         float sourceHeight = 0.0f;
+    };
+
+    struct ReadableScrollOverlayState
+    {
+        bool active = false;
+        std::string title;
+        std::string body;
     };
 
     struct PendingSpellCastState
@@ -837,6 +849,7 @@ private:
     void renderCharacterInspectOverlay(int width, int height) const;
     void renderActorInspectOverlay(int width, int height);
     void renderSpellInspectOverlay(int width, int height) const;
+    void renderReadableScrollOverlay(int width, int height) const;
     void renderPendingSpellTargetingOverlay(int width, int height) const;
     void renderSpellbookOverlay(int width, int height) const;
     void submitHudTexturedQuad(const HudTextureHandle &texture, float x, float y, float quadWidth, float quadHeight) const;
@@ -874,7 +887,7 @@ private:
     std::optional<size_t> resolvePartyPortraitIndexAtPoint(int width, int height, float x, float y);
     bool trySelectPartyMember(size_t memberIndex, bool requireGameplayReady);
     bool tryAutoPlaceHeldItemOnPartyMember(size_t memberIndex, bool showFailureStatus = true);
-    bool tryCastHeldScrollOnPartyMember(size_t memberIndex);
+    bool tryUseHeldItemOnPartyMember(size_t memberIndex, bool keepCharacterScreenOpen);
     void openInventoryNestedOverlay(InventoryNestedOverlayMode mode, uint32_t houseId = 0);
     void closeInventoryNestedOverlay();
     void updateItemInspectOverlayState(int width, int height);
@@ -903,9 +916,14 @@ private:
     void renderPortraitFx(size_t memberIndex, float portraitX, float portraitY, float portraitWidth, float portraitHeight) const;
     bool tryBeginQuickSpellCast();
     bool tryCastSpellFromMember(size_t casterMemberIndex, uint32_t spellId, const std::string &spellName);
+    bool activeMemberKnowsSpell(uint32_t spellId) const;
+    bool activeMemberHasSpellbookSchool(SpellbookSchool school) const;
+    void updateReadableScrollOverlayForHeldItem(size_t memberIndex, const CharacterPointerTarget &pointerTarget, bool isLeftMousePressed);
+    void triggerPortraitEventFxWithoutSpeech(size_t memberIndex, PortraitFxEventKind kind);
     bool tryCastSpellRequest(const PartySpellCastRequest &request, const std::string &spellName);
     void openSpellbook();
     void closeSpellbook(const std::string &statusText = "");
+    void closeReadableScrollOverlay();
     void clearPendingSpellCast(const std::string &statusText = "");
     bool tryResolvePendingSpellCast(
         const InspectHit &actorInspectHit,
@@ -960,6 +978,7 @@ private:
     std::optional<ClassSkillTable> m_classSkillTable;
     std::optional<NpcDialogTable> m_npcDialogTable;
     std::optional<CharacterInspectTable> m_characterInspectTable;
+    const ReadableScrollTable *m_pReadableScrollTable;
     const RosterTable *m_pRosterTable;
     const CharacterDollTable *m_pCharacterDollTable;
     std::optional<ChestTable> m_chestTable;
@@ -1089,9 +1108,7 @@ private:
     bool m_characterMemberCycleLatch;
     CharacterPointerTarget m_characterPressedTarget;
     bool m_partyPortraitClickLatch;
-    bool m_partyPortraitRightClickLatch;
     std::optional<size_t> m_partyPortraitPressedIndex;
-    std::optional<size_t> m_partyPortraitRightPressedIndex;
     uint64_t m_lastPartyPortraitClickTicks;
     std::optional<size_t> m_lastPartyPortraitClickedIndex;
     HeldInventoryItemState m_heldInventoryItem;
@@ -1101,6 +1118,7 @@ private:
     CharacterInspectOverlayState m_characterInspectOverlay;
     ActorInspectOverlayState m_actorInspectOverlay;
     SpellInspectOverlayState m_spellInspectOverlay;
+    ReadableScrollOverlayState m_readableScrollOverlay;
     SpellbookState m_spellbook;
     SpellbookPointerTarget m_spellbookPressedTarget;
     uint64_t m_lastSpellbookSpellClickTicks;
