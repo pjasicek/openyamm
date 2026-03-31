@@ -11,6 +11,11 @@ namespace
 {
 constexpr float GlobalSoundGain = 1.0f / 3.0f;
 
+bool isAudioSubsystemInitialized()
+{
+    return (SDL_WasInit(SDL_INIT_AUDIO) & SDL_INIT_AUDIO) != 0;
+}
+
 SDL_AudioSpec buildOutputSpec()
 {
     SDL_AudioSpec spec = {};
@@ -36,7 +41,7 @@ bool AudioSystem::initialize(const AssetFileSystem &assetFileSystem)
     shutdown();
     m_pAssetFileSystem = &assetFileSystem;
 
-    if (!SDL_WasInit(SDL_INIT_AUDIO))
+    if (!isAudioSubsystemInitialized())
     {
         if (!SDL_InitSubSystem(SDL_INIT_AUDIO))
         {
@@ -72,6 +77,29 @@ bool AudioSystem::preloadClip(const std::string &virtualPath)
     return pClip != nullptr && pClip->frameCount > 0;
 }
 
+bool AudioSystem::registerClip(const std::string &virtualPath, std::vector<float> samples, uint32_t frameCount)
+{
+    if (virtualPath.empty() || samples.empty())
+    {
+        return false;
+    }
+
+    std::shared_ptr<AudioClip> pClip = std::make_shared<AudioClip>();
+    pClip->virtualPath = virtualPath;
+    pClip->samples = std::move(samples);
+    pClip->frameCount = frameCount != 0
+        ? frameCount
+        : static_cast<uint32_t>(pClip->samples.size() / OutputChannels);
+
+    if (pClip->frameCount == 0)
+    {
+        return false;
+    }
+
+    m_clipCache[virtualPath] = pClip;
+    return true;
+}
+
 void AudioSystem::shutdown()
 {
     stopAll();
@@ -79,7 +107,11 @@ void AudioSystem::shutdown()
 
     if (m_pAudioStream != nullptr)
     {
-        SDL_DestroyAudioStream(m_pAudioStream);
+        if (isAudioSubsystemInitialized())
+        {
+            SDL_DestroyAudioStream(m_pAudioStream);
+        }
+
         m_pAudioStream = nullptr;
     }
 
@@ -122,11 +154,36 @@ void AudioSystem::stopClip(uint64_t instanceId)
         m_playingInstances.end());
 }
 
+void AudioSystem::setClipVolume(uint64_t instanceId, float volume)
+{
+    for (PlayingInstance &instance : m_playingInstances)
+    {
+        if (instance.instanceId != instanceId)
+        {
+            continue;
+        }
+
+        instance.volume = std::clamp(volume * GlobalSoundGain, 0.0f, 2.0f);
+        return;
+    }
+}
+
+bool AudioSystem::isClipPlaying(uint64_t instanceId) const
+{
+    return std::any_of(
+        m_playingInstances.begin(),
+        m_playingInstances.end(),
+        [instanceId](const PlayingInstance &instance)
+        {
+            return instance.instanceId == instanceId;
+        });
+}
+
 void AudioSystem::stopAll()
 {
     m_playingInstances.clear();
 
-    if (m_pAudioStream != nullptr)
+    if (m_pAudioStream != nullptr && isAudioSubsystemInitialized())
     {
         SDL_ClearAudioStream(m_pAudioStream);
     }

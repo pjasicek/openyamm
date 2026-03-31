@@ -1,0 +1,194 @@
+screen: LoadMenu
+
+elements:
+  - id: LoadMenuRoot
+    anchor: center
+    width: 640
+    height: 480
+    notes: >
+      Save/load browser scaffold based on screenshot 230. The runtime should populate save slots, selected save
+      metadata, and screenshot preview dynamically.
+    children:
+      - id: LoadMenuBackground
+        anchor: center_in
+        width: 640
+        height: 480
+        z_index: 10
+        asset:
+          default: lsave640
+
+      - id: LoadMenuTitle
+        anchor: top_center
+        offset_y: 14
+        width: 180
+        height: 22
+        z_index: 40
+        text:
+          value: "Load Game"
+          font: Create
+          color: white
+          align_x: center
+          align_y: middle
+
+      - id: LoadMenuSlotListFrame
+        anchor: top_left
+        offset_x: 34
+        offset_y: 58
+        width: 252
+        height: 314
+        z_index: 30
+        notes: Visible slot list region from screenshot 230.
+        children:
+          - id: LoadMenuSlotRepeater
+            anchor: top_left
+            width: 220
+            height: 314
+            notes: >
+              Runtime repeated list container. Each entry should expose save name, selected state, empty state, and
+              index.
+
+          - id: LoadMenuScrollUpButton
+            anchor: top_right
+            width: 24
+            height: 24
+            interactive: true
+            asset:
+              default: bt_16xU
+              pressed: bt_16xD
+            text:
+              value: "^"
+              font: Create
+              color: white
+              align_x: center
+              align_y: middle
+
+          - id: LoadMenuScrollTrack
+            anchor: top_right
+            offset_y: 30
+            width: 24
+            height: 254
+            notes: Scrollbar channel.
+
+          - id: LoadMenuScrollKnob
+            anchor: top_right
+            offset_y: 78
+            width: 24
+            height: 48
+            interactive: true
+            asset:
+              default: bt_32xU
+              pressed: bt_32xD
+            notes: Data-driven draggable scroll knob.
+
+          - id: LoadMenuScrollDownButton
+            anchor: bottom_right
+            width: 24
+            height: 24
+            interactive: true
+            asset:
+              default: bt_16xU
+              pressed: bt_16xD
+            text:
+              value: "v"
+              font: Create
+              color: white
+              align_x: center
+              align_y: middle
+
+      - id: LoadMenuSelectedLocation
+        anchor: top_left
+        offset_x: 312
+        offset_y: 60
+        width: 290
+        height: 18
+        z_index: 40
+        text:
+          value: "{selected_save_location}"
+          font: Create
+          color: white
+          align_x: center
+          align_y: middle
+        notes: Dynamic location line, for example "Ravenshore" or "Dagger Wound Island".
+
+      - id: LoadMenuPreviewFrame
+        anchor: top_left
+        offset_x: 314
+        offset_y: 86
+        width: 284
+        height: 214
+        z_index: 30
+        notes: Save preview screenshot region.
+        children:
+          - id: LoadMenuPreviewImage
+            anchor: center_in
+            width: 272
+            height: 204
+            notes: Runtime screenshot surface for the selected save.
+
+          - id: LoadMenuPreviewTimeRow
+            anchor: bottom_left
+            offset_x: 10
+            offset_y: -26
+            width: 250
+            height: 14
+            z_index: 45
+            text:
+              value: "{save_weekday} {save_clock}"
+              font: SMALLNUM
+              color: white
+              align_x: left
+              align_y: middle
+            notes: Example: Monday 08:41PM.
+
+          - id: LoadMenuPreviewDateRow
+            anchor: bottom_left
+            offset_x: 10
+            offset_y: -10
+            width: 250
+            height: 14
+            z_index: 45
+            text:
+              value: "{save_day} {save_month} {save_year}"
+              font: SMALLNUM
+              color: white
+              align_x: left
+              align_y: middle
+            notes: Example: 14 January 1172.
+
+      - id: LoadMenuLoadButton
+        anchor: bottom_right
+        offset_x: -150
+        offset_y: -18
+        width: 92
+        height: 34
+        z_index: 50
+        interactive: true
+        asset:
+          default: bu_loadU
+          highlighted: bu_loadH
+          pressed: bu_loadD
+        text:
+          value: "Load"
+          font: Create
+          color: white
+          align_x: center
+          align_y: middle
+
+      - id: LoadMenuCancelButton
+        anchor: bottom_right
+        offset_x: -36
+        offset_y: -18
+        width: 92
+        height: 34
+        z_index: 50
+        interactive: true
+        asset:
+          default: bu_rtrnU
+          highlighted: bu_rtrnH
+          pressed: bu_rtrnD
+        text:
+          value: "Cancel"
+          font: Create
+          color: white
+          align_x: center
+          align_y: middle

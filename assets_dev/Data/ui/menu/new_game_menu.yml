@@ -1,0 +1,199 @@
+screen: NewGameMenu
+
+elements:
+  - id: NewGameMenuRoot
+    anchor: center
+    width: 640
+    height: 480
+    notes: >
+      Party creation / new game scaffold based on screenshot 229. The screen is centered around choosing one
+      data-driven starting character, previewing that portrait, editing stats, and adjusting starting skills before
+      confirming.
+    children:
+      - id: NewGameMenuBackground
+        anchor: center_in
+        width: 640
+        height: 480
+        z_index: 10
+        asset:
+          default: mm6title
+        notes: Placeholder background until the exact character-creation backing art is wired.
+
+      - id: NewGameMenuCharacterStrip
+        anchor: top_left
+        offset_x: 26
+        offset_y: 34
+        width: 172
+        height: 390
+        z_index: 40
+        notes: Vertical candidate list seen on the left side of screenshot 229.
+        children:
+          - id: NewGameMenuCharacterList
+            anchor: top_left
+            width: 172
+            height: 334
+            notes: >
+              Runtime repeated list of pre-authored starting characters. Each row should expose portrait thumbnail,
+              name, selected state, and disabled state.
+
+          - id: NewGameMenuBackButton
+            anchor: bottom_left
+            width: 78
+            height: 30
+            interactive: true
+            asset:
+              default: bt_backU
+              highlighted: bt_backH
+              pressed: bt_backD
+            text:
+              value: "Back"
+              font: Create
+              color: white
+              align_x: center
+              align_y: middle
+
+          - id: NewGameMenuContinueButton
+            anchor: bottom_right
+            width: 78
+            height: 30
+            interactive: true
+            asset:
+              default: bt_contU
+              highlighted: bt_contH
+              pressed: bt_contD
+            text:
+              value: "Continue"
+              font: Create
+              color: white
+              align_x: center
+              align_y: middle
+
+      - id: NewGameMenuPreviewPanel
+        anchor: top_left
+        offset_x: 214
+        offset_y: 28
+        width: 182
+        height: 204
+        z_index: 30
+        notes: Active character portrait and basic identity block.
+        children:
+          - id: NewGameMenuPreviewPortrait
+            anchor: top_center
+            offset_y: 8
+            width: 144
+            height: 144
+            notes: Runtime character portrait render target.
+
+          - id: NewGameMenuPreviewName
+            anchor: bottom_left
+            offset_x: 10
+            offset_y: -40
+            width: 162
+            height: 16
+            text:
+              value: "{selected_character_name}"
+              font: CCHAR
+              color: white
+              align_x: center
+              align_y: middle
+
+          - id: NewGameMenuPreviewClass
+            anchor: bottom_left
+            offset_x: 10
+            offset_y: -22
+            width: 162
+            height: 14
+            text:
+              value: "{selected_character_race_class}"
+              font: Create
+              color: white
+              align_x: center
+              align_y: middle
+
+      - id: NewGameMenuStatsPanel
+        anchor: top_left
+        offset_x: 410
+        offset_y: 28
+        width: 198
+        height: 204
+        z_index: 30
+        notes: Primary stat editor on the upper-right, derived from screenshot 229.
+        children:
+          - id: NewGameMenuStatsTitle
+            anchor: top_center
+            offset_y: 6
+            width: 150
+            height: 16
+            text:
+              value: "Statistics"
+              font: Create
+              color: white
+              align_x: center
+              align_y: middle
+
+          - id: NewGameMenuStatRows
+            anchor: top_left
+            offset_x: 10
+            offset_y: 30
+            width: 178
+            height: 150
+            notes: >
+              Runtime repeated rows for Might, Intellect, Personality, Endurance, Accuracy, Speed, and Luck. Each row
+              should expose current value plus optional +/- controls when the selected template allows editing.
+
+          - id: NewGameMenuBonusPoints
+            anchor: bottom_left
+            offset_x: 10
+            offset_y: -10
+            width: 178
+            height: 16
+            text:
+              value: "Bonus Points: {bonus_points}"
+              font: Create
+              color: white
+              align_x: left
+              align_y: middle
+
+      - id: NewGameMenuSkillsPanel
+        anchor: top_left
+        offset_x: 214
+        offset_y: 248
+        width: 394
+        height: 170
+        z_index: 30
+        notes: Starting skill editor occupying the lower half of screenshot 229.
+        children:
+          - id: NewGameMenuSkillsTitle
+            anchor: top_center
+            offset_y: 6
+            width: 180
+            height: 16
+            text:
+              value: "Starting Skills"
+              font: Create
+              color: white
+              align_x: center
+              align_y: middle
+
+          - id: NewGameMenuSkillList
+            anchor: top_left
+            offset_x: 12
+            offset_y: 30
+            width: 370
+            height: 106
+            notes: >
+              Runtime repeated list of editable starting skills with mastery icon, invested points, and +/- buttons.
+
+          - id: NewGameMenuCharacterDescription
+            anchor: bottom_left
+            offset_x: 12
+            offset_y: -12
+            width: 370
+            height: 26
+            text:
+              value: "{selected_character_description}"
+              font: SMALLNUM
+              color: white
+              align_x: left
+              align_y: top
+            notes: Short race/class or biography summary under the skills block.

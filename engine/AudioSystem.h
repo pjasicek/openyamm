@@ -43,8 +43,11 @@ public:
     void shutdown();
 
     bool preloadClip(const std::string &virtualPath);
+    bool registerClip(const std::string &virtualPath, std::vector<float> samples, uint32_t frameCount = 0);
     uint64_t playClip(const std::string &virtualPath, const PlaybackOptions &options);
     void stopClip(uint64_t instanceId);
+    void setClipVolume(uint64_t instanceId, float volume);
+    bool isClipPlaying(uint64_t instanceId) const;
     void stopAll();
     void update(const ListenerState &listenerState);
 

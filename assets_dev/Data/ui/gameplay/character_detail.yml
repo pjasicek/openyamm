@@ -1,0 +1,101 @@
+screen: CharacterDetail
+
+elements:
+  - id: CharacterDetailRoot
+    anchor: top_left
+    width: 330
+    height: 210
+    z_index: 526
+    visible: false
+    asset:
+      default: parchment
+    children:
+      - id: CharacterDetailTitle
+        anchor: top_center
+        offset_x: 0
+        offset_y: 12
+        width: 220
+        height: 22
+        text:
+          value: "{title}"
+          font: Create
+          color: "#ffff9b"
+          align_x: center
+          align_y: middle
+
+      - id: CharacterDetailBody
+        anchor: top_left
+        offset_x: 18
+        offset_y: 40
+        width: 294
+        height: 146
+        text:
+          value: "{body}"
+          font: SMALLNUM
+          color: white
+          align_x: left
+          align_y: top
+
+      - id: CharacterDetailCorner_UR
+        anchor: top_right
+        offset_x: 7
+        width: 39
+        height: 32
+        z_index: 580
+        asset:
+          default: cornr_UR
+
+      - id: CharacterDetailCorner_UL
+        anchor: top_left
+        z_index: 580
+        asset:
+          default: cornr_UL
+
+      - id: CharacterDetailCorner_LR
+        anchor: bottom_right
+        z_index: 580
+        offset_x: 7
+        offset_y: 7
+        asset:
+          default: cornr_LR
+
+      - id: CharacterDetailCorner_LL
+        anchor: bottom_left
+        z_index: 580
+        offset_y: 7
+        asset:
+          default: cornr_LL
+
+      - id: CharacterDetailCorner_TopEdge
+        anchor: top_left
+        width: 330
+        height: 10
+        z_index: 570
+        asset:
+          default: edge_top
+
+      - id: CharacterDetailCorner_BottomEdge
+        anchor: bottom_left
+        offset_y: 7
+        width: 330
+        height: 16
+        z_index: 570
+        asset:
+          default: edge_btm
+
+      - id: CharacterDetailCorner_LeftEdge
+        anchor: top_left
+        width: 11
+        height: 260
+        z_index: 570
+        asset:
+          default: edge_lf
+
+      - id: CharacterDetailCorner_RightEdge
+        anchor: top_right
+        offset_x: 6
+        width: 16
+        height: 260
+        z_index: 570
+        asset:
+          default: edge_rt
