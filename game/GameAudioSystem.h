@@ -23,6 +23,7 @@ public:
         Ui,
         World,
         Speech,
+        Music,
         Walking,
         HouseDoor,
         HouseSpeech,
@@ -40,7 +41,10 @@ public:
         const CharacterDollTable &characterDollTable,
         const SpellTable &spellTable);
     void shutdown();
-    void update(float listenerX, float listenerY, float listenerZ);
+    void update(float listenerX, float listenerY, float listenerZ, float deltaSeconds);
+    void setBackgroundMusicTrack(int redbookTrack);
+    void stopBackgroundMusic();
+    int currentBackgroundMusicTrack() const;
 
     bool playSound(
         uint32_t soundId,
@@ -58,6 +62,8 @@ public:
 private:
     static bool isExclusiveGroup(PlaybackGroup group);
     void preloadSpellBuffSounds(const SpellTable &spellTable);
+    bool ensureBackgroundMusicTrackLoaded(int redbookTrack);
+    bool startBackgroundMusicTrack(int redbookTrack);
     uint64_t playResolvedSound(
         const std::string &virtualPath,
         PlaybackGroup group,
@@ -66,10 +72,17 @@ private:
     std::optional<uint32_t> resolveCharacterVoiceId(const Character &character) const;
 
     const CharacterDollTable *m_pCharacterDollTable = nullptr;
+    const Engine::AssetFileSystem *m_pAssetFileSystem = nullptr;
     SoundCatalog m_soundCatalog;
     SpeechReactionTable m_speechReactionTable;
     Engine::AudioSystem m_audioSystem;
     std::unordered_map<PlaybackGroup, uint64_t> m_activeGroupInstanceIds;
     std::unordered_map<uint32_t, uint64_t> m_activeSpeechInstanceIds;
+    std::unordered_map<int, std::string> m_loadedMusicClipKeys;
+    int m_activeMusicTrack = 0;
+    int m_pendingMusicTrack = 0;
+    uint64_t m_activeMusicInstanceId = 0;
+    float m_activeMusicVolume = 0.0f;
+    float m_musicFadeVelocity = 0.0f;
 };
 }

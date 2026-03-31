@@ -4,6 +4,12 @@
 
 namespace OpenYAMM::Game
 {
+namespace
+{
+constexpr float GameMinutesPerRealSecond = 0.5f;
+constexpr float GameSecondsPerRealSecond = GameMinutesPerRealSecond * 60.0f;
+}
+
 OutdoorPartyRuntime::OutdoorPartyRuntime(OutdoorMovementDriver movementDriver, const ItemTable &itemTable)
     : m_movementDriver(std::move(movementDriver))
 {
@@ -31,6 +37,7 @@ void OutdoorPartyRuntime::update(const OutdoorMovementInput &input, float deltaS
 {
     m_movementDriver.update(input, deltaSeconds);
     m_party.updateRecovery(deltaSeconds);
+    m_party.advanceTimedStates(deltaSeconds * GameSecondsPerRealSecond);
     syncSpellMovementStatesFromPartyBuffs();
     m_party.applyMovementEffects(m_movementDriver.consumePendingEffects());
 }

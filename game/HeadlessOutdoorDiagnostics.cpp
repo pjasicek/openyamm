@@ -169,6 +169,12 @@ struct GameApplicationTestAccess
     {
         return application.processPendingOutdoorMapMove();
     }
+
+    static bool advanceTimeByOneHourHotkey(GameApplication &application)
+    {
+        application.m_pendingAdvanceTime = true;
+        return application.processPendingQuickSaveInput();
+    }
 };
 
 namespace
@@ -13514,6 +13520,12 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
             saveData.outdoorParty.partyMovementState.waterWalk = true;
             saveData.outdoorParty.partyMovementState.featherFall = true;
             saveData.outdoorWorld = scenario.world.snapshot();
+            saveData.outdoorWorld.atmosphere.sourceSkyTextureName = "sky06";
+            saveData.outdoorWorld.atmosphere.skyTextureName = "sunsetclouds";
+            saveData.outdoorWorld.atmosphere.weatherFlags = 1;
+            saveData.outdoorWorld.atmosphere.fogWeakDistance = 2048;
+            saveData.outdoorWorld.atmosphere.fogStrongDistance = 4096;
+            saveData.outdoorWorld.gameMinutes = 20.0f * 60.0f + 30.0f;
             saveData.outdoorWorldStates[saveData.mapFileName] = saveData.outdoorWorld;
             saveData.outdoorWorldStates["Data/games/out02.odm"] = saveData.outdoorWorld;
             saveData.outdoorWorldStates["Data/games/out02.odm"].gameMinutes += 12.0f;
@@ -13550,7 +13562,7 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
 
             if (!loadedSave->outdoorWorldStates.contains(saveData.mapFileName)
                 || savedOut02It == loadedSave->outdoorWorldStates.end()
-                || std::abs(savedOut02It->second.gameMinutes - (scenario.world.gameMinutes() + 12.0f)) > 0.01f)
+                || std::abs(savedOut02It->second.gameMinutes - (saveData.outdoorWorld.gameMinutes + 12.0f)) > 0.01f)
             {
                 failure = "visited map world states did not roundtrip";
                 return false;
@@ -13661,9 +13673,21 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
                 selectedMap->outdoorSpriteObjectBillboardSet);
             restoredWorld.restoreSnapshot(loadedSave->outdoorWorld);
 
-            if (std::abs(restoredWorld.gameMinutes() - scenario.world.gameMinutes()) > 0.01f)
+            if (std::abs(restoredWorld.gameMinutes() - saveData.outdoorWorld.gameMinutes) > 0.01f)
             {
                 failure = "world time did not roundtrip";
+                return false;
+            }
+
+            if (restoredWorld.atmosphereState().sourceSkyTextureName != "sky06"
+                || restoredWorld.atmosphereState().skyTextureName != "sunsetclouds"
+                || restoredWorld.atmosphereState().weatherFlags != 1
+                || restoredWorld.atmosphereState().fogWeakDistance != 2048
+                || restoredWorld.atmosphereState().fogStrongDistance != 4096
+                || restoredWorld.atmosphereState().isNight
+                || std::abs(restoredWorld.atmosphereState().fogDensity - 0.5f) > 0.01f)
+            {
+                failure = "outdoor atmosphere state did not roundtrip";
                 return false;
             }
 
@@ -13688,6 +13712,327 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
                 || pRestoredEventRuntimeState->variables[0x1234u] != 99)
             {
                 failure = "event runtime variables did not roundtrip";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "outdoor_atmosphere_prefers_delta_sky_and_matches_oe_time_windows",
+        [&](std::string &failure)
+        {
+            if (!selectedMap || !selectedMap->outdoorMapData)
+            {
+                failure = "selected map missing outdoor data";
+                return false;
+            }
+
+            MapAssetInfo modifiedMap = *selectedMap;
+            modifiedMap.map.id = 999;
+            modifiedMap.map.environmentName = "FOREST";
+            modifiedMap.outdoorMapData = *selectedMap->outdoorMapData;
+            modifiedMap.outdoorMapData->skyTexture = "plansky1";
+            modifiedMap.outdoorMapDeltaData = selectedMap->outdoorMapDeltaData
+                ? *selectedMap->outdoorMapDeltaData
+                : MapDeltaData{};
+            modifiedMap.outdoorMapDeltaData->locationTime.skyTextureName = "sky05";
+            modifiedMap.outdoorMapDeltaData->locationTime.weatherFlags = 1;
+            modifiedMap.outdoorMapDeltaData->locationTime.fogWeakDistance = 4096;
+            modifiedMap.outdoorMapDeltaData->locationTime.fogStrongDistance = 8192;
+
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, modifiedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            const OutdoorWorldRuntime::AtmosphereState &initialAtmosphere = scenario.world.atmosphereState();
+
+            if (initialAtmosphere.sourceSkyTextureName != "sky05"
+                || initialAtmosphere.skyTextureName != "sky05"
+                || initialAtmosphere.weatherFlags != 1
+                || initialAtmosphere.fogWeakDistance != 4096
+                || initialAtmosphere.fogStrongDistance != 8192)
+            {
+                failure = "delta location time did not win atmosphere source precedence";
+                return false;
+            }
+
+            OutdoorWorldRuntime::Snapshot snapshot = scenario.world.snapshot();
+            snapshot.gameMinutes = 4.0f * 60.0f;
+            scenario.world.restoreSnapshot(snapshot);
+
+            if (!scenario.world.atmosphereState().isNight || std::abs(scenario.world.atmosphereState().fogDensity - 1.0f) > 0.01f)
+            {
+                failure = "4AM atmosphere did not match OE night window";
+                return false;
+            }
+
+            snapshot.gameMinutes = 5.0f * 60.0f + 30.0f;
+            scenario.world.restoreSnapshot(snapshot);
+
+            if (scenario.world.atmosphereState().isNight
+                || std::abs(scenario.world.atmosphereState().fogDensity - 0.5f) > 0.01f)
+            {
+                failure = "5:30AM atmosphere did not match OE dawn window";
+                return false;
+            }
+
+            const float dawnAmbient = scenario.world.atmosphereState().ambientBrightness;
+
+            snapshot.gameMinutes = 12.0f * 60.0f;
+            scenario.world.restoreSnapshot(snapshot);
+
+            if (scenario.world.atmosphereState().fogDensity > 0.001f
+                || scenario.world.atmosphereState().ambientBrightness <= dawnAmbient)
+            {
+                failure = "midday atmosphere did not brighten as expected";
+                return false;
+            }
+
+            snapshot.gameMinutes = 20.0f * 60.0f + 30.0f;
+            scenario.world.restoreSnapshot(snapshot);
+
+            if (scenario.world.atmosphereState().isNight
+                || std::abs(scenario.world.atmosphereState().fogDensity - 0.5f) > 0.01f
+                || scenario.world.atmosphereState().skyTextureName != "sunsetclouds")
+            {
+                failure = "8:30PM atmosphere did not match OE dusk window";
+                return false;
+            }
+
+            snapshot.gameMinutes = 22.0f * 60.0f;
+            scenario.world.restoreSnapshot(snapshot);
+
+            if (!scenario.world.atmosphereState().isNight
+                || scenario.world.atmosphereState().skyTextureName != "sky6pm")
+            {
+                failure = "10PM atmosphere did not switch to the expected night sky";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "outdoor_atmosphere_falls_back_to_environment_mapping",
+        [&](std::string &failure)
+        {
+            if (!selectedMap || !selectedMap->outdoorMapData)
+            {
+                failure = "selected map missing outdoor data";
+                return false;
+            }
+
+            MapAssetInfo modifiedMap = *selectedMap;
+            modifiedMap.map.id = 999;
+            modifiedMap.map.environmentName = "MOUNTAIN";
+            modifiedMap.outdoorMapData = *selectedMap->outdoorMapData;
+            modifiedMap.outdoorMapData->skyTexture.clear();
+            modifiedMap.outdoorMapDeltaData = selectedMap->outdoorMapDeltaData
+                ? *selectedMap->outdoorMapDeltaData
+                : MapDeltaData{};
+            modifiedMap.outdoorMapDeltaData->locationTime.skyTextureName.clear();
+            modifiedMap.outdoorMapDeltaData->locationTime.weatherFlags = 0;
+            modifiedMap.outdoorMapDeltaData->locationTime.fogWeakDistance = 0;
+            modifiedMap.outdoorMapDeltaData->locationTime.fogStrongDistance = 0;
+
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, modifiedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            if (scenario.world.atmosphereState().sourceSkyTextureName != "plansky1"
+                || scenario.world.atmosphereState().skyTextureName != "sky05")
+            {
+                failure = "environment fallback did not resolve the expected sky";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "app_background_music_follows_selected_map",
+        [&](std::string &failure)
+        {
+            GameApplication application(m_config);
+
+            if (!initializeHeadlessGameApplication(
+                    "out01.odm",
+                    assetFileSystem,
+                    application,
+                    failure))
+            {
+                return false;
+            }
+
+            const std::optional<MapAssetInfo> &initialMap =
+                GameApplicationTestAccess::gameDataLoader(application).getSelectedMap();
+
+            if (!initialMap)
+            {
+                failure = "application did not select an initial map";
+                return false;
+            }
+
+            if (GameApplicationTestAccess::gameAudioSystem(application).currentBackgroundMusicTrack()
+                != initialMap->map.redbookTrack)
+            {
+                failure = "initial map music track did not match the selected map";
+                return false;
+            }
+
+            if (!GameApplicationTestAccess::loadMapByFileNameForGameplay(application, assetFileSystem, "out02.odm"))
+            {
+                failure = "failed to load the second map for music test";
+                return false;
+            }
+
+            if (!GameApplicationTestAccess::initializeSelectedMapRuntime(application, false))
+            {
+                failure = "failed to initialize the second map runtime for music test";
+                return false;
+            }
+
+            for (int iteration = 0; iteration < 4; ++iteration)
+            {
+                GameApplicationTestAccess::gameAudioSystem(application).update(0.0f, 0.0f, 0.0f, 1.0f);
+            }
+
+            const std::optional<MapAssetInfo> &secondMap =
+                GameApplicationTestAccess::gameDataLoader(application).getSelectedMap();
+
+            if (!secondMap)
+            {
+                failure = "application did not select the second map";
+                return false;
+            }
+
+            if (GameApplicationTestAccess::gameAudioSystem(application).currentBackgroundMusicTrack()
+                != secondMap->map.redbookTrack)
+            {
+                failure = "second map music track did not match the selected map";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "app_f5_time_advance_reduces_party_buff_duration",
+        [&](std::string &failure)
+        {
+            GameApplication application(m_config);
+
+            if (!initializeHeadlessGameApplication(
+                    "out01.odm",
+                    assetFileSystem,
+                    application,
+                    failure))
+            {
+                return false;
+            }
+
+            OutdoorPartyRuntime *pPartyRuntime = GameApplicationTestAccess::outdoorPartyRuntime(application);
+            OutdoorWorldRuntime *pWorldRuntime = GameApplicationTestAccess::outdoorWorldRuntime(application);
+
+            if (pPartyRuntime == nullptr || pWorldRuntime == nullptr)
+            {
+                failure = "application runtimes were not initialized";
+                return false;
+            }
+
+            Party &party = pPartyRuntime->party();
+            party.applyPartyBuff(PartyBuffId::WizardEye, 7200.0f, 1, 0, 0, SkillMastery::None, 0);
+            const PartyBuffState *pInitialBuff = party.partyBuff(PartyBuffId::WizardEye);
+
+            if (pInitialBuff == nullptr || std::abs(pInitialBuff->remainingSeconds - 7200.0f) > 0.01f)
+            {
+                failure = "could not seed the initial party buff";
+                return false;
+            }
+
+            const float initialGameMinutes = pWorldRuntime->gameMinutes();
+
+            if (!GameApplicationTestAccess::advanceTimeByOneHourHotkey(application))
+            {
+                failure = "F5-style time advance failed";
+                return false;
+            }
+
+            const PartyBuffState *pAdvancedBuff = party.partyBuff(PartyBuffId::WizardEye);
+
+            if (std::abs(pWorldRuntime->gameMinutes() - (initialGameMinutes + 60.0f)) > 0.01f)
+            {
+                failure = "world time did not advance by one hour";
+                return false;
+            }
+
+            if (pAdvancedBuff == nullptr || std::abs(pAdvancedBuff->remainingSeconds - 3600.0f) > 0.01f)
+            {
+                failure = "party buff duration did not drop by one hour";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "outdoor_party_runtime_wait_advances_buff_durations_with_game_clock",
+        [&](std::string &failure)
+        {
+            if (!selectedMap || !selectedMap->outdoorMapData)
+            {
+                failure = "selected map missing outdoor data";
+                return false;
+            }
+
+            OutdoorMovementDriver movementDriver(
+                *selectedMap->outdoorMapData,
+                selectedMap->outdoorLandMask,
+                selectedMap->outdoorDecorationCollisionSet,
+                selectedMap->outdoorActorCollisionSet,
+                selectedMap->outdoorSpriteObjectCollisionSet);
+            OutdoorPartyRuntime partyRuntime(std::move(movementDriver), gameDataLoader.getItemTable());
+            Party party = {};
+            party.setItemTable(&gameDataLoader.getItemTable());
+            party.setItemEnchantTables(
+                &gameDataLoader.getStandardItemEnchantTable(),
+                &gameDataLoader.getSpecialItemEnchantTable());
+            party.setClassSkillTable(&gameDataLoader.getClassSkillTable());
+            party.seed(createRegressionPartySeed());
+            party.applyPartyBuff(PartyBuffId::FireResistance, 36000.0f, 1, 0, 0, SkillMastery::None, 0);
+            partyRuntime.setParty(party);
+            partyRuntime.initialize(8704.0f, 2000.0f, 686.0f, false);
+
+            const PartyBuffState *pInitialBuff = partyRuntime.party().partyBuff(PartyBuffId::FireResistance);
+
+            if (pInitialBuff == nullptr || std::abs(pInitialBuff->remainingSeconds - 36000.0f) > 0.01f)
+            {
+                failure = "could not seed initial fire resistance buff";
+                return false;
+            }
+
+            OutdoorMovementInput idleInput = {};
+            partyRuntime.update(idleInput, 2.0f);
+
+            const PartyBuffState *pUpdatedBuff = partyRuntime.party().partyBuff(PartyBuffId::FireResistance);
+
+            if (pUpdatedBuff == nullptr || std::abs(pUpdatedBuff->remainingSeconds - 35940.0f) > 0.01f)
+            {
+                failure = "outdoor party runtime did not age the buff by one game minute over two real seconds";
                 return false;
             }
 

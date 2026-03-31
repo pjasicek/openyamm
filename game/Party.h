@@ -382,6 +382,7 @@ public:
     bool canSpendSpellPoints(size_t memberIndex, int amount) const;
     bool spendSpellPoints(size_t memberIndex, int amount);
     bool spendSpellPointsOnActiveMember(int amount);
+    void advanceTimedStates(float deltaSeconds);
     void updateRecovery(float deltaSeconds);
     bool applyRecoveryToMember(size_t memberIndex, float recoverySeconds);
     bool applyRecoveryToActiveMember(float recoverySeconds);

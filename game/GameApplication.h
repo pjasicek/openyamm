@@ -69,8 +69,10 @@ private:
     bool m_pickerApplyLatch;
     bool m_quickSaveLatch = false;
     bool m_quickLoadLatch = false;
+    bool m_advanceTimeLatch = false;
     bool m_pendingQuickSave = false;
     bool m_pendingQuickLoad = false;
+    bool m_pendingAdvanceTime = false;
     uint64_t m_pickerNextUpRepeatTick;
     uint64_t m_pickerNextDownRepeatTick;
 };

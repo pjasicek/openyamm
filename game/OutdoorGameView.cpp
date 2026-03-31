@@ -398,8 +398,10 @@ bool shouldSkipSpriteObjectInspectTarget(const SpriteObjectBillboard &object, co
     return false;
 }
 
-constexpr uint16_t MainViewId = 0;
-constexpr uint16_t HudViewId = 1;
+constexpr uint16_t SkyViewId = 0;
+constexpr uint16_t MainViewId = 1;
+constexpr uint16_t HudViewId = 2;
+constexpr float DefaultOutdoorFarClip = 200000.0f;
 constexpr float Pi = 3.14159265358979323846f;
 constexpr float CameraVerticalFovDegrees = 60.0f;
 constexpr float RuntimeProjectileRenderDistance = 12288.0f;
@@ -444,6 +446,8 @@ constexpr float HudReferenceWidth = 640.0f;
 constexpr float HudReferenceHeight = 480.0f;
 constexpr float HudFontIntegerSnapThreshold = 0.1f;
 constexpr float MaxUiViewportAspect = 4.0f / 3.0f;
+constexpr uint32_t SkyDomeHorizontalSegmentCount = 24;
+constexpr uint32_t SkyDomeVerticalSegmentCount = 8;
 constexpr uint64_t PartyPortraitDoubleClickWindowMs = 500;
 constexpr uint64_t HoverInspectRefreshNanoseconds = 20 * 1000 * 1000;
 constexpr uint32_t SpeechReactionCooldownMs = 900;
@@ -813,6 +817,51 @@ std::string spellbookSpellLayoutId(SpellbookSchool school, uint32_t spellOrdinal
     std::ostringstream stream;
     stream << pDefinition->pPageLayoutId << "Spell" << std::setw(2) << std::setfill('0') << spellOrdinal;
     return stream.str();
+}
+
+void appendPopupBodyLine(std::string &body, const std::string &line)
+{
+    if (line.empty())
+    {
+        return;
+    }
+
+    if (!body.empty())
+    {
+        body.push_back('\n');
+    }
+
+    body += line;
+}
+
+std::string formatRemainingDuration(float remainingSeconds)
+{
+    const int totalSeconds = std::max(0, static_cast<int>(std::lround(remainingSeconds)));
+    const int hours = totalSeconds / 3600;
+    const int minutes = (totalSeconds % 3600) / 60;
+    const int seconds = totalSeconds % 60;
+
+    if (hours > 0)
+    {
+        if (minutes > 0)
+        {
+            return std::to_string(hours) + "h " + std::to_string(minutes) + "m";
+        }
+
+        return std::to_string(hours) + "h";
+    }
+
+    if (minutes > 0)
+    {
+        if (seconds > 0 && minutes < 5)
+        {
+            return std::to_string(minutes) + "m " + std::to_string(seconds) + "s";
+        }
+
+        return std::to_string(minutes) + "m";
+    }
+
+    return std::to_string(seconds) + "s";
 }
 
 struct GoldHeapVisual
@@ -3587,6 +3636,7 @@ OutdoorGameView::OutdoorGameView()
     , m_outdoorMapData(std::nullopt)
     , m_vertexBufferHandle(BGFX_INVALID_HANDLE)
     , m_indexBufferHandle(BGFX_INVALID_HANDLE)
+    , m_skyVertexBufferHandle(BGFX_INVALID_HANDLE)
     , m_texturedTerrainVertexBufferHandle(BGFX_INVALID_HANDLE)
     , m_filledTerrainVertexBufferHandle(BGFX_INVALID_HANDLE)
     , m_bmodelVertexBufferHandle(BGFX_INVALID_HANDLE)
@@ -3895,6 +3945,9 @@ bool OutdoorGameView::initialize(
         texturedTerrainVertices = buildTexturedTerrainVertices(outdoorMapData, *outdoorTerrainTextureAtlas);
     }
 
+    m_baseTexturedTerrainVertices = texturedTerrainVertices;
+    m_animatedTexturedTerrainVertices = texturedTerrainVertices;
+
     if (vertices.empty() || indices.empty())
     {
         std::cerr << "OutdoorGameView received empty terrain mesh.\n";
@@ -3912,12 +3965,13 @@ bool OutdoorGameView::initialize(
 
     if (!texturedTerrainVertices.empty())
     {
-        m_texturedTerrainVertexBufferHandle = bgfx::createVertexBuffer(
+        m_texturedTerrainVertexBufferHandle = bgfx::createDynamicVertexBuffer(
             bgfx::copy(
                 texturedTerrainVertices.data(),
                 static_cast<uint32_t>(texturedTerrainVertices.size() * sizeof(TexturedTerrainVertex))
             ),
-            TexturedTerrainVertex::ms_layout
+            TexturedTerrainVertex::ms_layout,
+            BGFX_BUFFER_NONE
         );
     }
 
@@ -4131,7 +4185,7 @@ bool OutdoorGameView::initialize(
 
     if (!loadHudLayout(assetFileSystem))
     {
-        std::cerr << "OutdoorGameView failed to load HUD layout data from Data/ui/*.yml\n";
+        std::cerr << "OutdoorGameView failed to load HUD layout data from Data/ui/gameplay/*.yml\n";
     }
     else
     {
@@ -4198,6 +4252,11 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
         return;
     }
 
+    if (deltaSeconds > 0.0f)
+    {
+        m_elapsedTime += deltaSeconds;
+    }
+
     const uint64_t renderStartTickCount = SDL_GetTicksNS();
     uint64_t cameraStageNanoseconds = 0;
     uint64_t inspectStageNanoseconds = 0;
@@ -4212,11 +4271,21 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
 
     const uint16_t viewWidth = static_cast<uint16_t>(std::max(width, 1));
     const uint16_t viewHeight = static_cast<uint16_t>(std::max(height, 1));
+    const OutdoorWorldRuntime::AtmosphereState *pAtmosphereState =
+        m_pOutdoorWorldRuntime != nullptr ? &m_pOutdoorWorldRuntime->atmosphereState() : nullptr;
+    const uint32_t clearColorAbgr = pAtmosphereState != nullptr ? pAtmosphereState->clearColorAbgr : 0x000000ffu;
+    const float farClipDistance = pAtmosphereState != nullptr
+        ? std::clamp(pAtmosphereState->visibilityDistance, 4096.0f, DefaultOutdoorFarClip)
+        : DefaultOutdoorFarClip;
 
+    bgfx::setViewRect(SkyViewId, 0, 0, viewWidth, viewHeight);
+    bgfx::setViewClear(SkyViewId, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, clearColorAbgr, 1.0f, 0);
     bgfx::setViewRect(MainViewId, 0, 0, viewWidth, viewHeight);
+    bgfx::setViewClear(MainViewId, BGFX_CLEAR_DEPTH, 0, 1.0f, 0);
 
     if (!m_isRenderable)
     {
+        bgfx::touch(SkyViewId);
         bgfx::touch(MainViewId);
         bgfx::dbgTextClear();
         bgfx::dbgTextPrintf(0, 1, 0x0f, "bgfx noop renderer active");
@@ -4234,6 +4303,8 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
     updateHouseVideoPlayback(deltaSeconds);
     updateItemInspectOverlayState(width, height);
     updateCharacterInspectOverlayState(width, height);
+    updateBuffInspectOverlayState(width, height);
+    updateCharacterDetailOverlayState(width, height);
     updateActorInspectOverlayState(width, height);
     updateSpellInspectOverlayState(width, height);
     m_renderedInspectableHudItems.clear();
@@ -4281,10 +4352,16 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
         CameraVerticalFovDegrees,
         wireframeAspectRatio,
         0.1f,
-        200000.0f,
+        farClipDistance,
         bgfx::getCaps()->homogeneousDepth
     );
 
+    const bx::Vec3 cameraForward = vecNormalize(vecSubtract(wireframeAt, wireframeEye));
+    const bx::Vec3 cameraRight = vecNormalize(bx::cross(cameraForward, wireframeUp));
+    const bx::Vec3 cameraUp = vecNormalize(bx::cross(cameraRight, cameraForward));
+
+    bgfx::setViewTransform(SkyViewId, wireframeViewMatrix, wireframeProjectionMatrix);
+    bgfx::touch(SkyViewId);
     bgfx::setViewTransform(MainViewId, wireframeViewMatrix, wireframeProjectionMatrix);
     bgfx::touch(MainViewId);
 
@@ -5154,6 +5231,20 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
     float modelMatrix[16] = {};
     bx::mtxIdentity(modelMatrix);
 
+    if (pAtmosphereState != nullptr)
+    {
+        renderOutdoorSky(
+            SkyViewId,
+            viewWidth,
+            viewHeight,
+            wireframeEye,
+            cameraForward,
+            cameraRight,
+            cameraUp,
+            farClipDistance
+        );
+    }
+
     {
         const uint64_t stageStartTickCount = SDL_GetTicksNS();
         bgfx::setTransform(modelMatrix);
@@ -5176,13 +5267,28 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
             && bgfx::isValid(m_terrainTextureAtlasHandle)
             && bgfx::isValid(m_terrainTextureSamplerHandle))
         {
+            if (!m_baseTexturedTerrainVertices.empty()
+                && m_baseTexturedTerrainVertices.size() == m_animatedTexturedTerrainVertices.size())
+            {
+                m_animatedTexturedTerrainVertices = m_baseTexturedTerrainVertices;
+
+                bgfx::update(
+                    m_texturedTerrainVertexBufferHandle,
+                    0,
+                    bgfx::copy(
+                        m_animatedTexturedTerrainVertices.data(),
+                        static_cast<uint32_t>(m_animatedTexturedTerrainVertices.size() * sizeof(TexturedTerrainVertex))
+                    )
+                );
+            }
+
             bgfx::setVertexBuffer(0, m_texturedTerrainVertexBufferHandle);
             bgfx::setTexture(0, m_terrainTextureSamplerHandle, m_terrainTextureAtlasHandle);
             bgfx::setState(
                 BGFX_STATE_WRITE_RGB
                 | BGFX_STATE_WRITE_A
+                | BGFX_STATE_WRITE_Z
                 | BGFX_STATE_DEPTH_TEST_LEQUAL
-                | BGFX_STATE_BLEND_ALPHA
             );
             bgfx::submit(MainViewId, m_texturedTerrainProgramHandle);
         }
@@ -5328,6 +5434,20 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
         }
 
         spawnStageNanoseconds += SDL_GetTicksNS() - stageStartTickCount;
+    }
+
+    if (pAtmosphereState != nullptr && pAtmosphereState->darknessOverlayAlpha > 0.001f)
+    {
+        renderOutdoorDarknessOverlay(
+            MainViewId,
+            wireframeEye,
+            cameraForward,
+            cameraRight,
+            cameraUp,
+            wireframeAspectRatio,
+            pAtmosphereState->darknessOverlayAlpha,
+            pAtmosphereState->darknessOverlayColorAbgr
+        );
     }
 
     {
@@ -5932,6 +6052,8 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
             renderHeldInventoryItem(width, height);
             renderItemInspectOverlay(width, height);
             renderCharacterInspectOverlay(width, height);
+            renderBuffInspectOverlay(width, height);
+            renderCharacterDetailOverlay(width, height);
             renderActorInspectOverlay(width, height);
             renderSpellInspectOverlay(width, height);
             renderReadableScrollOverlay(width, height);
@@ -5962,6 +6084,295 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
                   << " hud_ms=" << (static_cast<float>(hudStageNanoseconds) / 1000000.0f)
                   << '\n';
     }
+}
+
+const OutdoorGameView::SkyTextureHandle *OutdoorGameView::findSkyTexture(const std::string &textureName) const
+{
+    const std::string normalizedTextureName = toLowerCopy(textureName);
+    const auto it = m_skyTextureIndexByName.find(normalizedTextureName);
+
+    if (it == m_skyTextureIndexByName.end() || it->second >= m_skyTextureHandles.size())
+    {
+        return nullptr;
+    }
+
+    return &m_skyTextureHandles[it->second];
+}
+
+const OutdoorGameView::SkyTextureHandle *OutdoorGameView::ensureSkyTexture(const std::string &textureName)
+{
+    if (textureName.empty())
+    {
+        return nullptr;
+    }
+
+    if (const SkyTextureHandle *pExistingTexture = findSkyTexture(textureName))
+    {
+        return pExistingTexture;
+    }
+
+    const std::optional<std::string> bitmapPath = findCachedAssetPath("Data/bitmaps", textureName + ".bmp");
+
+    if (!bitmapPath)
+    {
+        return nullptr;
+    }
+
+    const std::optional<std::vector<uint8_t>> bitmapBytes = readCachedBinaryFile(*bitmapPath);
+
+    if (!bitmapBytes || bitmapBytes->empty())
+    {
+        return nullptr;
+    }
+
+    SDL_IOStream *pIoStream = SDL_IOFromConstMem(bitmapBytes->data(), bitmapBytes->size());
+
+    if (pIoStream == nullptr)
+    {
+        return nullptr;
+    }
+
+    SDL_Surface *pLoadedSurface = SDL_LoadBMP_IO(pIoStream, true);
+
+    if (pLoadedSurface == nullptr)
+    {
+        return nullptr;
+    }
+
+    SDL_Surface *pConvertedSurface = SDL_ConvertSurface(pLoadedSurface, SDL_PIXELFORMAT_BGRA32);
+    SDL_DestroySurface(pLoadedSurface);
+
+    if (pConvertedSurface == nullptr)
+    {
+        return nullptr;
+    }
+
+    const int textureWidth = pConvertedSurface->w;
+    const int textureHeight = pConvertedSurface->h;
+    const size_t pixelCount = static_cast<size_t>(textureWidth) * static_cast<size_t>(textureHeight) * 4;
+    std::vector<uint8_t> pixels(pixelCount);
+    std::memcpy(pixels.data(), pConvertedSurface->pixels, pixelCount);
+    SDL_DestroySurface(pConvertedSurface);
+
+    SkyTextureHandle textureHandle = {};
+    textureHandle.textureName = toLowerCopy(textureName);
+    textureHandle.width = textureWidth;
+    textureHandle.height = textureHeight;
+    textureHandle.textureHandle = bgfx::createTexture2D(
+        static_cast<uint16_t>(textureHandle.width),
+        static_cast<uint16_t>(textureHandle.height),
+        false,
+        1,
+        bgfx::TextureFormat::BGRA8,
+        BGFX_SAMPLER_U_MIRROR | BGFX_SAMPLER_V_CLAMP | BGFX_SAMPLER_MIN_POINT | BGFX_SAMPLER_MAG_POINT,
+        bgfx::copy(pixels.data(), static_cast<uint32_t>(pixels.size()))
+    );
+
+    if (!bgfx::isValid(textureHandle.textureHandle))
+    {
+        return nullptr;
+    }
+
+    m_skyTextureHandles.push_back(std::move(textureHandle));
+    m_skyTextureIndexByName[m_skyTextureHandles.back().textureName] = m_skyTextureHandles.size() - 1;
+    return &m_skyTextureHandles.back();
+}
+
+void OutdoorGameView::renderOutdoorSky(
+    uint16_t viewId,
+    uint16_t viewWidth,
+    uint16_t viewHeight,
+    const bx::Vec3 &cameraPosition,
+    const bx::Vec3 &cameraForward,
+    const bx::Vec3 &cameraRight,
+    const bx::Vec3 &cameraUp,
+    float renderDistance
+)
+{
+    (void)cameraForward;
+    (void)cameraRight;
+    (void)cameraUp;
+
+    if (!bgfx::isValid(m_texturedTerrainProgramHandle) || !bgfx::isValid(m_terrainTextureSamplerHandle))
+    {
+        return;
+    }
+
+    const OutdoorWorldRuntime::AtmosphereState *pAtmosphereState =
+        m_pOutdoorWorldRuntime != nullptr ? &m_pOutdoorWorldRuntime->atmosphereState() : nullptr;
+
+    if (pAtmosphereState == nullptr)
+    {
+        return;
+    }
+
+    const SkyTextureHandle *pTexture = ensureSkyTexture(pAtmosphereState->skyTextureName);
+
+    if (pTexture == nullptr || !bgfx::isValid(pTexture->textureHandle) || viewWidth == 0 || viewHeight == 0)
+    {
+        return;
+    }
+
+    const float domeRadius = std::max(renderDistance * 0.85f, 8192.0f);
+    const float domeCenterZ = cameraPosition.z - domeRadius * 0.15f;
+    const float skyUpdateElapsedTime = std::floor(m_elapsedTime * 30.0f) / 30.0f;
+    const float horizontalDrift = skyUpdateElapsedTime * 0.0015f;
+    const float verticalDrift = skyUpdateElapsedTime * 0.0002f;
+    const uint32_t vertexCount = SkyDomeHorizontalSegmentCount * SkyDomeVerticalSegmentCount * 6;
+
+    if (!bgfx::isValid(m_skyVertexBufferHandle))
+    {
+        m_skyVertexBufferHandle = bgfx::createDynamicVertexBuffer(
+            vertexCount,
+            TexturedTerrainVertex::ms_layout,
+            BGFX_BUFFER_NONE
+        );
+    }
+
+    if (!bgfx::isValid(m_skyVertexBufferHandle))
+    {
+        return;
+    }
+
+    if (m_cachedSkyVertices.size() != vertexCount)
+    {
+        m_cachedSkyVertices.resize(vertexCount);
+    }
+
+    if (m_lastSkyUpdateElapsedTime != skyUpdateElapsedTime || m_cachedSkyTextureName != pTexture->textureName)
+    {
+        uint32_t vertexIndex = 0;
+
+        for (uint32_t verticalIndex = 0; verticalIndex < SkyDomeVerticalSegmentCount; ++verticalIndex)
+        {
+            const float phi0 =
+                (static_cast<float>(verticalIndex) / static_cast<float>(SkyDomeVerticalSegmentCount)) * (Pi * 0.5f);
+            const float phi1 =
+                (static_cast<float>(verticalIndex + 1) / static_cast<float>(SkyDomeVerticalSegmentCount))
+                * (Pi * 0.5f);
+            const float sinPhi0 = std::sin(phi0);
+            const float sinPhi1 = std::sin(phi1);
+            const float cosPhi0 = std::cos(phi0);
+            const float cosPhi1 = std::cos(phi1);
+            const float ringRadius0 = domeRadius * sinPhi0;
+            const float ringRadius1 = domeRadius * sinPhi1;
+            const float z0 = domeCenterZ + domeRadius * cosPhi0;
+            const float z1 = domeCenterZ + domeRadius * cosPhi1;
+            const float v0 = (phi0 / (Pi * 0.5f)) * 0.92f + verticalDrift;
+            const float v1 = (phi1 / (Pi * 0.5f)) * 0.92f + verticalDrift;
+
+            for (uint32_t horizontalIndex = 0; horizontalIndex < SkyDomeHorizontalSegmentCount; ++horizontalIndex)
+            {
+                const float theta0 =
+                    (static_cast<float>(horizontalIndex) / static_cast<float>(SkyDomeHorizontalSegmentCount))
+                    * (Pi * 2.0f);
+                const float theta1 =
+                    (static_cast<float>(horizontalIndex + 1) / static_cast<float>(SkyDomeHorizontalSegmentCount))
+                    * (Pi * 2.0f);
+                const float cosTheta0 = std::cos(theta0);
+                const float sinTheta0 = std::sin(theta0);
+                const float cosTheta1 = std::cos(theta1);
+                const float sinTheta1 = std::sin(theta1);
+                const float x00 = cameraPosition.x + ringRadius0 * cosTheta0;
+                const float y00 = cameraPosition.y + ringRadius0 * sinTheta0;
+                const float x01 = cameraPosition.x + ringRadius0 * cosTheta1;
+                const float y01 = cameraPosition.y + ringRadius0 * sinTheta1;
+                const float x10 = cameraPosition.x + ringRadius1 * cosTheta0;
+                const float y10 = cameraPosition.y + ringRadius1 * sinTheta0;
+                const float x11 = cameraPosition.x + ringRadius1 * cosTheta1;
+                const float y11 = cameraPosition.y + ringRadius1 * sinTheta1;
+                const float u0 =
+                    static_cast<float>(horizontalIndex) / static_cast<float>(SkyDomeHorizontalSegmentCount)
+                    + horizontalDrift;
+                const float u1 =
+                    static_cast<float>(horizontalIndex + 1) / static_cast<float>(SkyDomeHorizontalSegmentCount)
+                    + horizontalDrift;
+
+                m_cachedSkyVertices[vertexIndex++] = {x00, y00, z0, u0, v0};
+                m_cachedSkyVertices[vertexIndex++] = {x10, y10, z1, u0, v1};
+                m_cachedSkyVertices[vertexIndex++] = {x11, y11, z1, u1, v1};
+                m_cachedSkyVertices[vertexIndex++] = {x00, y00, z0, u0, v0};
+                m_cachedSkyVertices[vertexIndex++] = {x11, y11, z1, u1, v1};
+                m_cachedSkyVertices[vertexIndex++] = {x01, y01, z0, u1, v0};
+            }
+        }
+
+        bgfx::update(
+            m_skyVertexBufferHandle,
+            0,
+            bgfx::copy(
+                m_cachedSkyVertices.data(),
+                static_cast<uint32_t>(m_cachedSkyVertices.size() * sizeof(TexturedTerrainVertex))
+            )
+        );
+        m_lastSkyUpdateElapsedTime = skyUpdateElapsedTime;
+        m_cachedSkyTextureName = pTexture->textureName;
+    }
+
+    float modelMatrix[16] = {};
+    bx::mtxIdentity(modelMatrix);
+    bgfx::setTransform(modelMatrix);
+    bgfx::setVertexBuffer(0, m_skyVertexBufferHandle, 0, vertexCount);
+    bgfx::setTexture(0, m_terrainTextureSamplerHandle, pTexture->textureHandle);
+    bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_BLEND_ALPHA);
+    bgfx::submit(viewId, m_texturedTerrainProgramHandle);
+}
+
+void OutdoorGameView::renderOutdoorDarknessOverlay(
+    uint16_t viewId,
+    const bx::Vec3 &cameraPosition,
+    const bx::Vec3 &cameraForward,
+    const bx::Vec3 &cameraRight,
+    const bx::Vec3 &cameraUp,
+    float aspectRatio,
+    float overlayAlpha,
+    uint32_t overlayColorAbgr
+)
+{
+    if (!bgfx::isValid(m_programHandle) || overlayAlpha <= 0.0f)
+    {
+        return;
+    }
+
+    const float planeDistance = 1.0f;
+    const float planeHalfHeight = std::tan(bx::toRad(CameraVerticalFovDegrees * 0.5f)) * planeDistance;
+    const float planeHalfWidth = planeHalfHeight * std::max(aspectRatio, 0.1f);
+    const bx::Vec3 overlayCenter = {
+        cameraPosition.x + cameraForward.x * planeDistance,
+        cameraPosition.y + cameraForward.y * planeDistance,
+        cameraPosition.z + cameraForward.z * planeDistance
+    };
+    const bx::Vec3 planeRight = {
+        cameraRight.x * planeHalfWidth,
+        cameraRight.y * planeHalfWidth,
+        cameraRight.z * planeHalfWidth
+    };
+    const bx::Vec3 planeUp = {
+        cameraUp.x * planeHalfHeight,
+        cameraUp.y * planeHalfHeight,
+        cameraUp.z * planeHalfHeight
+    };
+    const uint8_t alpha = static_cast<uint8_t>(std::clamp(std::lround(overlayAlpha * 255.0f), 0l, 255l));
+    const uint32_t abgr = (overlayColorAbgr & 0x00ffffffu) | (static_cast<uint32_t>(alpha) << 24);
+    const std::array<TerrainVertex, 6> vertices = {{
+        {overlayCenter.x - planeRight.x + planeUp.x, overlayCenter.y - planeRight.y + planeUp.y, overlayCenter.z - planeRight.z + planeUp.z, abgr},
+        {overlayCenter.x - planeRight.x - planeUp.x, overlayCenter.y - planeRight.y - planeUp.y, overlayCenter.z - planeRight.z - planeUp.z, abgr},
+        {overlayCenter.x + planeRight.x - planeUp.x, overlayCenter.y + planeRight.y - planeUp.y, overlayCenter.z + planeRight.z - planeUp.z, abgr},
+        {overlayCenter.x - planeRight.x + planeUp.x, overlayCenter.y - planeRight.y + planeUp.y, overlayCenter.z - planeRight.z + planeUp.z, abgr},
+        {overlayCenter.x + planeRight.x - planeUp.x, overlayCenter.y + planeRight.y - planeUp.y, overlayCenter.z + planeRight.z - planeUp.z, abgr},
+        {overlayCenter.x + planeRight.x + planeUp.x, overlayCenter.y + planeRight.y + planeUp.y, overlayCenter.z + planeRight.z + planeUp.z, abgr}
+    }};
+
+    bgfx::TransientVertexBuffer transientVertexBuffer = {};
+    bgfx::allocTransientVertexBuffer(&transientVertexBuffer, 6, TerrainVertex::ms_layout);
+    std::memcpy(transientVertexBuffer.data, vertices.data(), sizeof(vertices));
+
+    float modelMatrix[16] = {};
+    bx::mtxIdentity(modelMatrix);
+    bgfx::setTransform(modelMatrix);
+    bgfx::setVertexBuffer(0, &transientVertexBuffer, 0, 6);
+    bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_BLEND_ALPHA);
+    bgfx::submit(viewId, m_programHandle);
 }
 
 void OutdoorGameView::renderGameplayHudArt(int width, int height)
@@ -7729,6 +8140,18 @@ void OutdoorGameView::shutdown()
 
     m_billboardTextureHandles.clear();
     m_billboardTextureIndexByPalette.clear();
+
+    for (SkyTextureHandle &textureHandle : m_skyTextureHandles)
+    {
+        if (bgfx::isValid(textureHandle.textureHandle))
+        {
+            bgfx::destroy(textureHandle.textureHandle);
+            textureHandle.textureHandle = BGFX_INVALID_HANDLE;
+        }
+    }
+
+    m_skyTextureHandles.clear();
+    m_skyTextureIndexByName.clear();
     m_spriteLoadCache.directoryAssetPathsByPath.clear();
     m_spriteLoadCache.assetPathByKey.clear();
     m_spriteLoadCache.binaryFilesByPath.clear();
@@ -7787,6 +8210,12 @@ void OutdoorGameView::shutdown()
     m_hudTextureColorTextureHandles.clear();
     m_hudLayoutElements.clear();
     m_interactiveDecorationBindings.clear();
+
+    if (bgfx::isValid(m_skyVertexBufferHandle))
+    {
+        bgfx::destroy(m_skyVertexBufferHandle);
+        m_skyVertexBufferHandle = BGFX_INVALID_HANDLE;
+    }
 
     if (bgfx::isValid(m_texturedTerrainVertexBufferHandle))
     {
@@ -7857,6 +8286,9 @@ void OutdoorGameView::shutdown()
     m_characterInspectTable.reset();
     m_elapsedTime = 0.0f;
     m_framesPerSecond = 0.0f;
+    m_cachedSkyVertices.clear();
+    m_cachedSkyTextureName.clear();
+    m_lastSkyUpdateElapsedTime = -1.0f;
     m_bmodelLineVertexCount = 0;
     m_bmodelCollisionVertexCount = 0;
     m_bmodelFaceCount = 0;
@@ -8685,11 +9117,10 @@ bool OutdoorGameView::hasActiveEventDialog() const
     return m_activeEventDialog.isActive;
 }
 
-std::optional<size_t> OutdoorGameView::resolvePartyPortraitIndexAtPoint(
+std::optional<OutdoorGameView::ResolvedHudLayoutElement> OutdoorGameView::resolvePartyPortraitRect(
     int width,
     int height,
-    float x,
-    float y)
+    size_t memberIndex)
 {
     if (m_pOutdoorPartyRuntime == nullptr || width <= 0 || height <= 0)
     {
@@ -8732,7 +9163,7 @@ std::optional<size_t> OutdoorGameView::resolvePartyPortraitIndexAtPoint(
 
     const std::vector<Character> &members = m_pOutdoorPartyRuntime->party().members();
 
-    if (members.empty())
+    if (memberIndex >= members.size())
     {
         return std::nullopt;
     }
@@ -8743,14 +9174,43 @@ std::optional<size_t> OutdoorGameView::resolvePartyPortraitIndexAtPoint(
     const float portraitY = resolvedPartyStrip->y + resolvedPartyStrip->height * (23.0f / 92.0f);
     const float portraitDeltaX = resolvedPartyStrip->width * (94.0f / 471.0f);
 
+    return ResolvedHudLayoutElement{
+        portraitStartX + static_cast<float>(memberIndex) * portraitDeltaX,
+        portraitY,
+        portraitWidth,
+        portraitHeight,
+        resolvedBasebar->scale
+    };
+}
+
+std::optional<size_t> OutdoorGameView::resolvePartyPortraitIndexAtPoint(
+    int width,
+    int height,
+    float x,
+    float y)
+{
+    if (m_pOutdoorPartyRuntime == nullptr || width <= 0 || height <= 0)
+    {
+        return std::nullopt;
+    }
+
+    const std::vector<Character> &members = m_pOutdoorPartyRuntime->party().members();
+
+    if (members.empty())
+    {
+        return std::nullopt;
+    }
+
     for (size_t memberIndex = 0; memberIndex < members.size(); ++memberIndex)
     {
-        const float portraitX = portraitStartX + static_cast<float>(memberIndex) * portraitDeltaX;
+        const std::optional<ResolvedHudLayoutElement> portraitRect =
+            resolvePartyPortraitRect(width, height, memberIndex);
 
-        if (x >= portraitX
-            && x < portraitX + portraitWidth
-            && y >= portraitY
-            && y < portraitY + portraitHeight)
+        if (portraitRect
+            && x >= portraitRect->x
+            && x < portraitRect->x + portraitRect->width
+            && y >= portraitRect->y
+            && y < portraitRect->y + portraitRect->height)
         {
             return memberIndex;
         }
@@ -9543,6 +10003,306 @@ void OutdoorGameView::updateCharacterInspectOverlayState(int width, int height)
     }
 
     tryShowSkillPopup("CharacterSkillsMiscListRegion", "CharacterSkillsMiscLevelHeader", skillUiData.miscRows);
+}
+
+void OutdoorGameView::updateBuffInspectOverlayState(int width, int height)
+{
+    m_buffInspectOverlay = {};
+
+    if (width <= 0
+        || height <= 0
+        || m_pOutdoorPartyRuntime == nullptr
+        || !m_showGameplayHud
+        || currentHudScreenState() != HudScreenState::Gameplay
+        || m_characterScreenOpen
+        || hasActiveEventDialog()
+        || m_spellbook.active)
+    {
+        return;
+    }
+
+    float mouseX = 0.0f;
+    float mouseY = 0.0f;
+    const SDL_MouseButtonFlags mouseButtons = SDL_GetMouseState(&mouseX, &mouseY);
+
+    if ((mouseButtons & (SDL_BUTTON_RMASK | SDL_BUTTON_LMASK)) == 0 || m_itemInspectOverlay.active)
+    {
+        return;
+    }
+
+    const Party &party = m_pOutdoorPartyRuntime->party();
+
+    struct PartyBuffInspectTarget
+    {
+        const char *pLayoutId;
+        const char *pLabel;
+        PartyBuffId buffId;
+        bool skullPanel;
+    };
+
+    static constexpr PartyBuffInspectTarget BuffTargets[] = {
+        {"OutdoorBuffSkull_Torchlight", "Torch Light", PartyBuffId::TorchLight, true},
+        {"OutdoorBuffSkull_WizardEye", "Wizard Eye", PartyBuffId::WizardEye, true},
+        {"OutdoorBuffSkull_Featherfall", "Feather Fall", PartyBuffId::FeatherFall, true},
+        {"OutdoorBuffSkull_Stoneskin", "Stoneskin", PartyBuffId::Stoneskin, true},
+        {"OutdoorBuffSkull_DayOfGods", "Day of the Gods", PartyBuffId::DayOfGods, true},
+        {"OutdoorBuffSkull_ProtectionFromGods", "Protection from Magic", PartyBuffId::ProtectionFromMagic, true},
+        {"OutdoorBuffBody_FireResistance", "Fire Resistance", PartyBuffId::FireResistance, false},
+        {"OutdoorBuffBody_WaterResistance", "Water Resistance", PartyBuffId::WaterResistance, false},
+        {"OutdoorBuffBody_AirResistance", "Air Resistance", PartyBuffId::AirResistance, false},
+        {"OutdoorBuffBody_EarthResistance", "Earth Resistance", PartyBuffId::EarthResistance, false},
+        {"OutdoorBuffBody_MindResistance", "Mind Resistance", PartyBuffId::MindResistance, false},
+        {"OutdoorBuffBody_BodyResistance", "Body Resistance", PartyBuffId::BodyResistance, false},
+        {"OutdoorBuffBody_Shield", "Shield", PartyBuffId::Shield, false},
+        {"OutdoorBuffBody_Heroism", "Heroism", PartyBuffId::Heroism, false},
+        {"OutdoorBuffBody_Haste", "Haste", PartyBuffId::Haste, false},
+        {"OutdoorBuffBody_Immolation", "Immolation", PartyBuffId::Immolation, false},
+    };
+
+    const auto populateBuffPanelOverlay =
+        [this, &party](bool skullPanel, const ResolvedHudLayoutElement &rect)
+        {
+            std::string body;
+
+            for (const PartyBuffInspectTarget &target : BuffTargets)
+            {
+                if (target.skullPanel != skullPanel)
+                {
+                    continue;
+                }
+
+                const PartyBuffState *pBuff = party.partyBuff(target.buffId);
+
+                if (pBuff == nullptr)
+                {
+                    continue;
+                }
+
+                appendPopupBodyLine(
+                    body,
+                    std::string(target.pLabel) + " - " + formatRemainingDuration(pBuff->remainingSeconds));
+            }
+
+            if (body.empty())
+            {
+                body = "No active buffs";
+            }
+
+            m_buffInspectOverlay.active = true;
+            m_buffInspectOverlay.title = "Active Buffs";
+            m_buffInspectOverlay.body = body;
+            m_buffInspectOverlay.sourceX = rect.x;
+            m_buffInspectOverlay.sourceY = rect.y;
+            m_buffInspectOverlay.sourceWidth = rect.width;
+            m_buffInspectOverlay.sourceHeight = rect.height;
+        };
+
+    for (const PartyBuffInspectTarget &target : BuffTargets)
+    {
+        const PartyBuffState *pBuff = party.partyBuff(target.buffId);
+
+        if (pBuff == nullptr)
+        {
+            continue;
+        }
+
+        const HudLayoutElement *pLayout = findHudLayoutElement(target.pLayoutId);
+
+        if (pLayout == nullptr)
+        {
+            continue;
+        }
+
+        const std::optional<ResolvedHudLayoutElement> resolved = resolveHudLayoutElement(
+            target.pLayoutId,
+            width,
+            height,
+            pLayout->width,
+            pLayout->height);
+
+        if (!resolved || !isPointerInsideResolvedElement(*resolved, mouseX, mouseY))
+        {
+            continue;
+        }
+
+        populateBuffPanelOverlay(target.skullPanel, *resolved);
+        return;
+    }
+
+    struct BuffPanelTarget
+    {
+        const char *pLayoutId;
+        const char *pTitle;
+        bool skullPanel;
+    };
+
+    static constexpr BuffPanelTarget PanelTargets[] = {
+        {"OutdoorBuffSkullPanel", "Skull Buffs", true},
+        {"OutdoorBuffBodyPanel", "Body Buffs", false},
+    };
+
+    for (const BuffPanelTarget &panelTarget : PanelTargets)
+    {
+        const HudLayoutElement *pPanelLayout = findHudLayoutElement(panelTarget.pLayoutId);
+
+        if (pPanelLayout == nullptr)
+        {
+            continue;
+        }
+
+        const std::optional<ResolvedHudLayoutElement> resolvedPanel = resolveHudLayoutElement(
+            panelTarget.pLayoutId,
+            width,
+            height,
+            pPanelLayout->width,
+            pPanelLayout->height);
+
+        if (!resolvedPanel || !isPointerInsideResolvedElement(*resolvedPanel, mouseX, mouseY))
+        {
+            continue;
+        }
+
+        populateBuffPanelOverlay(panelTarget.skullPanel, *resolvedPanel);
+        return;
+    }
+}
+
+void OutdoorGameView::updateCharacterDetailOverlayState(int width, int height)
+{
+    m_characterDetailOverlay = {};
+
+    if (width <= 0 || height <= 0 || m_pOutdoorPartyRuntime == nullptr)
+    {
+        return;
+    }
+
+    float mouseX = 0.0f;
+    float mouseY = 0.0f;
+    const SDL_MouseButtonFlags mouseButtons = SDL_GetMouseState(&mouseX, &mouseY);
+
+    if ((mouseButtons & SDL_BUTTON_RMASK) == 0
+        || m_itemInspectOverlay.active
+        || m_characterInspectOverlay.active
+        || m_buffInspectOverlay.active
+        || m_spellInspectOverlay.active
+        || hasActiveEventDialog()
+        || m_spellbook.active)
+    {
+        return;
+    }
+
+    const Party &party = m_pOutdoorPartyRuntime->party();
+    const Character *pCharacter = nullptr;
+    std::optional<ResolvedHudLayoutElement> sourceRect;
+
+    if (m_characterScreenOpen)
+    {
+        pCharacter = party.activeMember();
+        const HudLayoutElement *pDollLayout = findHudLayoutElement("CharacterDollPanel");
+
+        if (pCharacter != nullptr && pDollLayout != nullptr)
+        {
+            sourceRect = resolveHudLayoutElement(
+                "CharacterDollPanel",
+                width,
+                height,
+                pDollLayout->width,
+                pDollLayout->height);
+        }
+    }
+    else if (currentHudScreenState() == HudScreenState::Gameplay)
+    {
+        const std::optional<size_t> memberIndex = resolvePartyPortraitIndexAtPoint(width, height, mouseX, mouseY);
+
+        if (memberIndex)
+        {
+            pCharacter = party.member(*memberIndex);
+            sourceRect = resolvePartyPortraitRect(width, height, *memberIndex);
+        }
+    }
+
+    if (pCharacter == nullptr || !sourceRect || !isPointerInsideResolvedElement(*sourceRect, mouseX, mouseY))
+    {
+        return;
+    }
+
+    const CharacterSheetSummary summary = GameMechanics::buildCharacterSheetSummary(*pCharacter, m_pItemTable);
+    std::string body;
+
+    appendPopupBodyLine(body, "Condition: " + summary.conditionText);
+    appendPopupBodyLine(
+        body,
+        "HP " + std::to_string(summary.health.current) + " / " + std::to_string(summary.health.maximum)
+            + "   SP " + std::to_string(summary.spellPoints.current) + " / " + std::to_string(summary.spellPoints.maximum));
+    appendPopupBodyLine(
+        body,
+        "AC " + std::to_string(summary.armorClass.actual)
+            + "   Level " + std::to_string(summary.level.actual)
+            + "   Exp " + summary.experienceText);
+    appendPopupBodyLine(
+        body,
+        "Resists: F" + (summary.fireResistance.infinite ? std::string("Imm") : std::to_string(summary.fireResistance.actual))
+            + " A" + (summary.airResistance.infinite ? std::string("Imm") : std::to_string(summary.airResistance.actual))
+            + " W" + (summary.waterResistance.infinite ? std::string("Imm") : std::to_string(summary.waterResistance.actual))
+            + " E" + (summary.earthResistance.infinite ? std::string("Imm") : std::to_string(summary.earthResistance.actual))
+            + " M" + (summary.mindResistance.infinite ? std::string("Imm") : std::to_string(summary.mindResistance.actual))
+            + " B" + (summary.bodyResistance.infinite ? std::string("Imm") : std::to_string(summary.bodyResistance.actual)));
+
+    std::string buffsLine;
+
+    struct CharacterBuffInspectLine
+    {
+        const char *pLabel;
+        CharacterBuffId buffId;
+    };
+
+    static constexpr CharacterBuffInspectLine CharacterBuffLines[] = {
+        {"Bless", CharacterBuffId::Bless},
+        {"Fate", CharacterBuffId::Fate},
+        {"Preservation", CharacterBuffId::Preservation},
+        {"Regeneration", CharacterBuffId::Regeneration},
+        {"Hammerhands", CharacterBuffId::Hammerhands},
+        {"Pain Reflection", CharacterBuffId::PainReflection},
+        {"Fire Aura", CharacterBuffId::FireAura},
+        {"Vampiric Weapon", CharacterBuffId::VampiricWeapon},
+        {"Mistform", CharacterBuffId::Mistform},
+        {"Glamour", CharacterBuffId::Glamour},
+    };
+
+    const size_t memberIndex = static_cast<size_t>(pCharacter - party.members().data());
+
+    for (const CharacterBuffInspectLine &buffLine : CharacterBuffLines)
+    {
+        const CharacterBuffState *pBuff = party.characterBuff(memberIndex, buffLine.buffId);
+
+        if (pBuff == nullptr)
+        {
+            continue;
+        }
+
+        if (!buffsLine.empty())
+        {
+            buffsLine += ", ";
+        }
+
+        buffsLine += std::string(buffLine.pLabel) + " " + formatRemainingDuration(pBuff->remainingSeconds);
+    }
+
+    appendPopupBodyLine(body, "Buffs: " + (buffsLine.empty() ? std::string("None") : buffsLine));
+    appendPopupBodyLine(
+        body,
+        "Attack " + std::to_string(summary.combat.attack)
+            + "   Shoot " + (summary.combat.shoot ? std::to_string(*summary.combat.shoot) : std::string("N/A")));
+
+    m_characterDetailOverlay.active = true;
+    m_characterDetailOverlay.title = pCharacter->name.empty()
+        ? ("Member " + std::to_string(memberIndex + 1))
+        : pCharacter->name;
+    m_characterDetailOverlay.body = body;
+    m_characterDetailOverlay.sourceX = sourceRect->x;
+    m_characterDetailOverlay.sourceY = sourceRect->y;
+    m_characterDetailOverlay.sourceWidth = sourceRect->width;
+    m_characterDetailOverlay.sourceHeight = sourceRect->height;
 }
 
 bool OutdoorGameView::isOpaqueHudPixelAtPoint(const RenderedInspectableHudItem &item, float x, float y) const
@@ -15711,6 +16471,428 @@ void OutdoorGameView::renderReadableScrollOverlay(int width, int height) const
     }
 }
 
+void OutdoorGameView::renderBuffInspectOverlay(int width, int height) const
+{
+    if (!m_buffInspectOverlay.active
+        || !bgfx::isValid(m_texturedTerrainProgramHandle)
+        || !bgfx::isValid(m_terrainTextureSamplerHandle)
+        || width <= 0
+        || height <= 0)
+    {
+        return;
+    }
+
+    const HudLayoutElement *pRootLayout = findHudLayoutElement("BuffInspectRoot");
+    const HudLayoutElement *pTitleLayout = findHudLayoutElement("BuffInspectTitle");
+    const HudLayoutElement *pBodyLayout = findHudLayoutElement("BuffInspectBody");
+
+    if (pRootLayout == nullptr || pTitleLayout == nullptr || pBodyLayout == nullptr)
+    {
+        return;
+    }
+
+    const UiViewportRect uiViewport = computeUiViewportRect(width, height);
+    const float baseScale = std::min(uiViewport.width / HudReferenceWidth, uiViewport.height / HudReferenceHeight);
+    const float popupScale = std::clamp(baseScale, pRootLayout->minScale, pRootLayout->maxScale);
+    const ResolvedHudLayoutElement provisionalRoot = {
+        0.0f,
+        0.0f,
+        pRootLayout->width * popupScale,
+        pRootLayout->height * popupScale,
+        popupScale
+    };
+    const HudFontHandle *pBodyFont = findHudFont("SMALLNUM");
+    const float bodyLineHeight =
+        pBodyFont != nullptr ? static_cast<float>(pBodyFont->fontHeight) * popupScale : 12.0f * popupScale;
+    const ResolvedHudLayoutElement bodyRectForSizing = resolveAttachedHudLayoutRect(
+        pBodyLayout->attachTo,
+        provisionalRoot,
+        pBodyLayout->width * popupScale,
+        pBodyLayout->height * popupScale,
+        pBodyLayout->gapX,
+        pBodyLayout->gapY,
+        popupScale);
+    const float bodyWidthScaled =
+        std::max(0.0f, bodyRectForSizing.width - std::abs(pBodyLayout->textPadX * popupScale) * 2.0f);
+    const float bodyWidth = std::max(0.0f, bodyWidthScaled / std::max(1.0f, popupScale));
+    const std::vector<std::string> bodyLines =
+        pBodyFont != nullptr
+            ? wrapHudTextToWidth(*pBodyFont, m_buffInspectOverlay.body, bodyWidth)
+            : std::vector<std::string>{m_buffInspectOverlay.body};
+    const float bodyHeight = bodyLines.empty() ? bodyLineHeight : bodyLineHeight * static_cast<float>(bodyLines.size());
+    static constexpr float BuffInspectBottomPadding = 14.0f;
+    const float rootWidth = provisionalRoot.width;
+    const float rootHeight = std::max(
+        provisionalRoot.height,
+        bodyRectForSizing.y + bodyHeight + BuffInspectBottomPadding * popupScale);
+    const float popupGap = 10.0f * popupScale;
+    float rootX = m_buffInspectOverlay.sourceX + m_buffInspectOverlay.sourceWidth + popupGap;
+
+    if (rootX + rootWidth > uiViewport.x + uiViewport.width)
+    {
+        rootX = m_buffInspectOverlay.sourceX - rootWidth - popupGap;
+    }
+
+    rootX = std::clamp(rootX, uiViewport.x, uiViewport.x + uiViewport.width - rootWidth);
+    float rootY = m_buffInspectOverlay.sourceY + (m_buffInspectOverlay.sourceHeight - rootHeight) * 0.5f;
+    rootY = std::clamp(rootY, uiViewport.y, uiViewport.y + uiViewport.height - rootHeight);
+    const ResolvedHudLayoutElement rootRect = {
+        std::round(rootX),
+        std::round(rootY),
+        std::round(rootWidth),
+        std::round(rootHeight),
+        popupScale
+    };
+
+    float projectionMatrix[16] = {};
+    bx::mtxOrtho(
+        projectionMatrix,
+        0.0f,
+        static_cast<float>(width),
+        static_cast<float>(height),
+        0.0f,
+        0.0f,
+        1000.0f,
+        0.0f,
+        bgfx::getCaps()->homogeneousDepth
+    );
+    bgfx::setViewRect(HudViewId, 0, 0, static_cast<uint16_t>(width), static_cast<uint16_t>(height));
+    bgfx::setViewTransform(HudViewId, nullptr, projectionMatrix);
+    bgfx::touch(HudViewId);
+
+    const HudTextureHandle *pBackgroundTexture =
+        const_cast<OutdoorGameView *>(this)->ensureHudTextureLoaded(pRootLayout->primaryAsset);
+
+    if (pBackgroundTexture != nullptr)
+    {
+        submitHudTexturedQuad(*pBackgroundTexture, rootRect.x, rootRect.y, rootRect.width, rootRect.height);
+    }
+
+    std::function<std::optional<ResolvedHudLayoutElement>(const std::string &)> resolveLayout;
+    resolveLayout =
+        [this, &rootRect, popupScale, &resolveLayout](
+            const std::string &layoutId) -> std::optional<ResolvedHudLayoutElement>
+        {
+            const HudLayoutElement *pLayout = findHudLayoutElement(layoutId);
+
+            if (pLayout == nullptr)
+            {
+                return std::nullopt;
+            }
+
+            float resolvedWidth = pLayout->width * popupScale;
+            float resolvedHeight = pLayout->height * popupScale;
+            const std::string normalizedLayoutId = toLowerCopy(layoutId);
+
+            if (normalizedLayoutId == "buffinspectcorner_topedge"
+                || normalizedLayoutId == "buffinspectcorner_bottomedge")
+            {
+                resolvedWidth = rootRect.width;
+            }
+
+            if (normalizedLayoutId == "buffinspectcorner_leftedge"
+                || normalizedLayoutId == "buffinspectcorner_rightedge")
+            {
+                resolvedHeight = rootRect.height;
+            }
+
+            ResolvedHudLayoutElement parent = rootRect;
+
+            if (!pLayout->parentId.empty() && toLowerCopy(pLayout->parentId) != "buffinspectroot")
+            {
+                const std::optional<ResolvedHudLayoutElement> resolvedParent = resolveLayout(pLayout->parentId);
+
+                if (resolvedParent)
+                {
+                    parent = *resolvedParent;
+                }
+            }
+
+            return resolveAttachedHudLayoutRect(
+                pLayout->attachTo,
+                parent,
+                resolvedWidth,
+                resolvedHeight,
+                pLayout->gapX,
+                pLayout->gapY,
+                popupScale);
+        };
+
+    const std::vector<std::string> orderedLayoutIds = sortedHudLayoutIdsForScreen("BuffInspect");
+
+    for (const std::string &layoutId : orderedLayoutIds)
+    {
+        const HudLayoutElement *pLayout = findHudLayoutElement(layoutId);
+
+        if (pLayout == nullptr
+            || !pLayout->visible
+            || pLayout->primaryAsset.empty()
+            || toLowerCopy(pLayout->id) == "buffinspectroot")
+        {
+            continue;
+        }
+
+        const HudTextureHandle *pTexture =
+            const_cast<OutdoorGameView *>(this)->ensureHudTextureLoaded(pLayout->primaryAsset);
+        const std::optional<ResolvedHudLayoutElement> resolved = resolveLayout(layoutId);
+
+        if (pTexture == nullptr || !resolved)
+        {
+            continue;
+        }
+
+        submitHudTexturedQuad(*pTexture, resolved->x, resolved->y, resolved->width, resolved->height);
+    }
+
+    const std::optional<ResolvedHudLayoutElement> titleRect = resolveLayout("BuffInspectTitle");
+
+    if (titleRect)
+    {
+        renderLayoutLabel(*pTitleLayout, *titleRect, m_buffInspectOverlay.title);
+    }
+
+    if (pBodyFont == nullptr)
+    {
+        return;
+    }
+
+    const std::optional<ResolvedHudLayoutElement> bodyBaseRect = resolveLayout("BuffInspectBody");
+
+    if (!bodyBaseRect)
+    {
+        return;
+    }
+
+    bgfx::TextureHandle coloredMainTextureHandle =
+        ensureHudFontMainTextureColor(*pBodyFont, pBodyLayout->textColorAbgr);
+
+    if (!bgfx::isValid(coloredMainTextureHandle))
+    {
+        coloredMainTextureHandle = pBodyFont->mainTextureHandle;
+    }
+
+    float textX = std::round(bodyBaseRect->x + pBodyLayout->textPadX * popupScale);
+    float textY = std::round(bodyBaseRect->y + pBodyLayout->textPadY * popupScale);
+
+    for (const std::string &line : bodyLines)
+    {
+        renderHudFontLayer(*pBodyFont, pBodyFont->shadowTextureHandle, line, textX, textY, popupScale);
+        renderHudFontLayer(*pBodyFont, coloredMainTextureHandle, line, textX, textY, popupScale);
+        textY += bodyLineHeight;
+    }
+}
+
+void OutdoorGameView::renderCharacterDetailOverlay(int width, int height) const
+{
+    if (!m_characterDetailOverlay.active
+        || !bgfx::isValid(m_texturedTerrainProgramHandle)
+        || !bgfx::isValid(m_terrainTextureSamplerHandle)
+        || width <= 0
+        || height <= 0)
+    {
+        return;
+    }
+
+    const HudLayoutElement *pRootLayout = findHudLayoutElement("CharacterDetailRoot");
+    const HudLayoutElement *pTitleLayout = findHudLayoutElement("CharacterDetailTitle");
+    const HudLayoutElement *pBodyLayout = findHudLayoutElement("CharacterDetailBody");
+
+    if (pRootLayout == nullptr || pTitleLayout == nullptr || pBodyLayout == nullptr)
+    {
+        return;
+    }
+
+    const UiViewportRect uiViewport = computeUiViewportRect(width, height);
+    const float baseScale = std::min(uiViewport.width / HudReferenceWidth, uiViewport.height / HudReferenceHeight);
+    const float popupScale = std::clamp(baseScale, pRootLayout->minScale, pRootLayout->maxScale);
+    const ResolvedHudLayoutElement provisionalRoot = {
+        0.0f,
+        0.0f,
+        pRootLayout->width * popupScale,
+        pRootLayout->height * popupScale,
+        popupScale
+    };
+    const HudFontHandle *pBodyFont = findHudFont("SMALLNUM");
+    const float bodyLineHeight =
+        pBodyFont != nullptr ? static_cast<float>(pBodyFont->fontHeight) * popupScale : 12.0f * popupScale;
+    const ResolvedHudLayoutElement bodyRectForSizing = resolveAttachedHudLayoutRect(
+        pBodyLayout->attachTo,
+        provisionalRoot,
+        pBodyLayout->width * popupScale,
+        pBodyLayout->height * popupScale,
+        pBodyLayout->gapX,
+        pBodyLayout->gapY,
+        popupScale);
+    const float bodyWidthScaled =
+        std::max(0.0f, bodyRectForSizing.width - std::abs(pBodyLayout->textPadX * popupScale) * 2.0f);
+    const float bodyWidth = std::max(0.0f, bodyWidthScaled / std::max(1.0f, popupScale));
+    const std::vector<std::string> bodyLines =
+        pBodyFont != nullptr
+            ? wrapHudTextToWidth(*pBodyFont, m_characterDetailOverlay.body, bodyWidth)
+            : std::vector<std::string>{m_characterDetailOverlay.body};
+    const float bodyHeight = bodyLines.empty() ? bodyLineHeight : bodyLineHeight * static_cast<float>(bodyLines.size());
+    static constexpr float CharacterDetailBottomPadding = 15.0f;
+    const float rootWidth = provisionalRoot.width;
+    const float rootHeight = std::max(
+        provisionalRoot.height,
+        bodyRectForSizing.y + bodyHeight + CharacterDetailBottomPadding * popupScale);
+    const float popupGap = 12.0f * popupScale;
+    float rootX = m_characterDetailOverlay.sourceX + m_characterDetailOverlay.sourceWidth + popupGap;
+
+    if (rootX + rootWidth > uiViewport.x + uiViewport.width)
+    {
+        rootX = m_characterDetailOverlay.sourceX - rootWidth - popupGap;
+    }
+
+    rootX = std::clamp(rootX, uiViewport.x, uiViewport.x + uiViewport.width - rootWidth);
+    float rootY = m_characterDetailOverlay.sourceY + (m_characterDetailOverlay.sourceHeight - rootHeight) * 0.5f;
+    rootY = std::clamp(rootY, uiViewport.y, uiViewport.y + uiViewport.height - rootHeight);
+    const ResolvedHudLayoutElement rootRect = {
+        std::round(rootX),
+        std::round(rootY),
+        std::round(rootWidth),
+        std::round(rootHeight),
+        popupScale
+    };
+
+    float projectionMatrix[16] = {};
+    bx::mtxOrtho(
+        projectionMatrix,
+        0.0f,
+        static_cast<float>(width),
+        static_cast<float>(height),
+        0.0f,
+        0.0f,
+        1000.0f,
+        0.0f,
+        bgfx::getCaps()->homogeneousDepth
+    );
+    bgfx::setViewRect(HudViewId, 0, 0, static_cast<uint16_t>(width), static_cast<uint16_t>(height));
+    bgfx::setViewTransform(HudViewId, nullptr, projectionMatrix);
+    bgfx::touch(HudViewId);
+
+    const HudTextureHandle *pBackgroundTexture =
+        const_cast<OutdoorGameView *>(this)->ensureHudTextureLoaded(pRootLayout->primaryAsset);
+
+    if (pBackgroundTexture != nullptr)
+    {
+        submitHudTexturedQuad(*pBackgroundTexture, rootRect.x, rootRect.y, rootRect.width, rootRect.height);
+    }
+
+    std::function<std::optional<ResolvedHudLayoutElement>(const std::string &)> resolveLayout;
+    resolveLayout =
+        [this, &rootRect, popupScale, &resolveLayout](
+            const std::string &layoutId) -> std::optional<ResolvedHudLayoutElement>
+        {
+            const HudLayoutElement *pLayout = findHudLayoutElement(layoutId);
+
+            if (pLayout == nullptr)
+            {
+                return std::nullopt;
+            }
+
+            float resolvedWidth = pLayout->width * popupScale;
+            float resolvedHeight = pLayout->height * popupScale;
+            const std::string normalizedLayoutId = toLowerCopy(layoutId);
+
+            if (normalizedLayoutId == "characterdetailcorner_topedge"
+                || normalizedLayoutId == "characterdetailcorner_bottomedge")
+            {
+                resolvedWidth = rootRect.width;
+            }
+
+            if (normalizedLayoutId == "characterdetailcorner_leftedge"
+                || normalizedLayoutId == "characterdetailcorner_rightedge")
+            {
+                resolvedHeight = rootRect.height;
+            }
+
+            ResolvedHudLayoutElement parent = rootRect;
+
+            if (!pLayout->parentId.empty() && toLowerCopy(pLayout->parentId) != "characterdetailroot")
+            {
+                const std::optional<ResolvedHudLayoutElement> resolvedParent = resolveLayout(pLayout->parentId);
+
+                if (resolvedParent)
+                {
+                    parent = *resolvedParent;
+                }
+            }
+
+            return resolveAttachedHudLayoutRect(
+                pLayout->attachTo,
+                parent,
+                resolvedWidth,
+                resolvedHeight,
+                pLayout->gapX,
+                pLayout->gapY,
+                popupScale);
+        };
+
+    const std::vector<std::string> orderedLayoutIds = sortedHudLayoutIdsForScreen("CharacterDetail");
+
+    for (const std::string &layoutId : orderedLayoutIds)
+    {
+        const HudLayoutElement *pLayout = findHudLayoutElement(layoutId);
+
+        if (pLayout == nullptr
+            || !pLayout->visible
+            || pLayout->primaryAsset.empty()
+            || toLowerCopy(pLayout->id) == "characterdetailroot")
+        {
+            continue;
+        }
+
+        const HudTextureHandle *pTexture =
+            const_cast<OutdoorGameView *>(this)->ensureHudTextureLoaded(pLayout->primaryAsset);
+        const std::optional<ResolvedHudLayoutElement> resolved = resolveLayout(layoutId);
+
+        if (pTexture == nullptr || !resolved)
+        {
+            continue;
+        }
+
+        submitHudTexturedQuad(*pTexture, resolved->x, resolved->y, resolved->width, resolved->height);
+    }
+
+    const std::optional<ResolvedHudLayoutElement> titleRect = resolveLayout("CharacterDetailTitle");
+
+    if (titleRect)
+    {
+        renderLayoutLabel(*pTitleLayout, *titleRect, m_characterDetailOverlay.title);
+    }
+
+    if (pBodyFont == nullptr)
+    {
+        return;
+    }
+
+    const std::optional<ResolvedHudLayoutElement> bodyBaseRect = resolveLayout("CharacterDetailBody");
+
+    if (!bodyBaseRect)
+    {
+        return;
+    }
+
+    bgfx::TextureHandle coloredMainTextureHandle =
+        ensureHudFontMainTextureColor(*pBodyFont, pBodyLayout->textColorAbgr);
+
+    if (!bgfx::isValid(coloredMainTextureHandle))
+    {
+        coloredMainTextureHandle = pBodyFont->mainTextureHandle;
+    }
+
+    float textX = std::round(bodyBaseRect->x + pBodyLayout->textPadX * popupScale);
+    float textY = std::round(bodyBaseRect->y + pBodyLayout->textPadY * popupScale);
+
+    for (const std::string &line : bodyLines)
+    {
+        renderHudFontLayer(*pBodyFont, pBodyFont->shadowTextureHandle, line, textX, textY, popupScale);
+        renderHudFontLayer(*pBodyFont, coloredMainTextureHandle, line, textX, textY, popupScale);
+        textY += bodyLineHeight;
+    }
+}
+
 void OutdoorGameView::renderActorInspectOverlay(int width, int height)
 {
     if (!m_actorInspectOverlay.active
@@ -18186,16 +19368,18 @@ bool OutdoorGameView::loadHudLayout(const Engine::AssetFileSystem &assetFileSyst
     m_hudLayoutElements.clear();
     m_hudLayoutOrder.clear();
 
-    const std::array<std::string, 9> layoutFiles = {
-        "Data/ui/gameplay.yml",
-        "Data/ui/chest.yml",
-        "Data/ui/dialogue.yml",
-        "Data/ui/character.yml",
-        "Data/ui/spellbook.yml",
-        "Data/ui/item_inspect.yml",
-        "Data/ui/character_inspect.yml",
-        "Data/ui/actor_inspect.yml",
-        "Data/ui/spell_inspect.yml"
+    const std::array<std::string, 11> layoutFiles = {
+        "Data/ui/gameplay/gameplay.yml",
+        "Data/ui/gameplay/chest.yml",
+        "Data/ui/gameplay/dialogue.yml",
+        "Data/ui/gameplay/character.yml",
+        "Data/ui/gameplay/spellbook.yml",
+        "Data/ui/gameplay/item_inspect.yml",
+        "Data/ui/gameplay/character_inspect.yml",
+        "Data/ui/gameplay/buff_inspect.yml",
+        "Data/ui/gameplay/character_detail.yml",
+        "Data/ui/gameplay/actor_inspect.yml",
+        "Data/ui/gameplay/spell_inspect.yml"
     };
 
     bool loadedAnyLayout = false;
@@ -18206,7 +19390,7 @@ bool OutdoorGameView::loadHudLayout(const Engine::AssetFileSystem &assetFileSyst
 
         if (!fileContents)
         {
-            if (layoutFile == "Data/ui/gameplay.yml")
+            if (layoutFile == "Data/ui/gameplay/gameplay.yml")
             {
                 return false;
             }
@@ -22850,7 +24034,6 @@ std::vector<OutdoorGameView::TexturedTerrainVertex> OutdoorGameView::buildTextur
 
     return vertices;
 }
-
 std::vector<OutdoorGameView::TexturedTerrainVertex> OutdoorGameView::buildTexturedBModelVertices(
     const OutdoorMapData &outdoorMapData,
     const OutdoorBitmapTexture &texture
@@ -27560,8 +28743,11 @@ void OutdoorGameView::updateCameraFromInput(float deltaSeconds)
     float mouseY = 0.0f;
     const SDL_MouseButtonFlags mouseButtons = SDL_GetMouseState(&mouseX, &mouseY);
     const bool isRightMousePressed = (mouseButtons & SDL_BUTTON_RMASK) != 0;
+    const bool blockCameraRotation =
+        m_buffInspectOverlay.active
+        || m_characterDetailOverlay.active;
 
-    if (isRightMousePressed && !hasPendingSpellCast)
+    if (isRightMousePressed && !hasPendingSpellCast && !blockCameraRotation)
     {
         if (m_isRotatingCamera)
         {

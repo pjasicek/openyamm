@@ -30,6 +30,7 @@ struct OutdoorTerrainAtlasRegion
     float u1 = 0.0f;
     float v1 = 0.0f;
     bool isValid = false;
+    bool isWater = false;
 };
 
 struct OutdoorTerrainTextureAtlas

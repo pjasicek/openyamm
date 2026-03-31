@@ -159,6 +159,8 @@ bool GameApplication::initializeSelectedMapRuntime(bool initializeView)
 
         restoreSavedOutdoorWorldStateForSelectedMap();
 
+        m_gameAudioSystem.setBackgroundMusicTrack(selectedMap->map.redbookTrack);
+
         if (!initializeView)
         {
             return true;
@@ -207,6 +209,8 @@ bool GameApplication::initializeSelectedMapRuntime(bool initializeView)
 
     if (selectedMap->indoorMapData)
     {
+        m_gameAudioSystem.setBackgroundMusicTrack(selectedMap->map.redbookTrack);
+
         if (!initializeView)
         {
             return true;
@@ -333,10 +337,44 @@ void GameApplication::updateQuickSaveInput()
     {
         m_quickLoadLatch = false;
     }
+
+    if (pKeyboardState[SDL_SCANCODE_F5])
+    {
+        if (!m_advanceTimeLatch)
+        {
+            m_pendingAdvanceTime = true;
+            m_advanceTimeLatch = true;
+        }
+    }
+    else
+    {
+        m_advanceTimeLatch = false;
+    }
 }
 
 bool GameApplication::processPendingQuickSaveInput()
 {
+    if (m_pendingAdvanceTime)
+    {
+        m_pendingAdvanceTime = false;
+
+        if (m_pOutdoorWorldRuntime != nullptr)
+        {
+            m_pOutdoorWorldRuntime->advanceGameMinutes(60.0f);
+
+            if (m_pOutdoorPartyRuntime != nullptr)
+            {
+                m_pOutdoorPartyRuntime->party().advanceTimedStates(60.0f * 60.0f);
+            }
+
+            reportQuickSaveStatus("Advanced time by 1 hour");
+            return true;
+        }
+
+        reportQuickSaveStatus("Time advance unavailable");
+        return false;
+    }
+
     if (m_pendingQuickLoad)
     {
         m_pendingQuickLoad = false;
@@ -629,11 +667,11 @@ void GameApplication::renderFrame(int width, int height, float mouseWheelDelta, 
         if (m_pOutdoorPartyRuntime != nullptr)
         {
             const OutdoorMoveState &moveState = m_pOutdoorPartyRuntime->movementState();
-            m_gameAudioSystem.update(moveState.x, moveState.y, moveState.footZ + 96.0f);
+            m_gameAudioSystem.update(moveState.x, moveState.y, moveState.footZ + 96.0f, deltaSeconds);
         }
         else
         {
-            m_gameAudioSystem.update(0.0f, 0.0f, 0.0f);
+            m_gameAudioSystem.update(0.0f, 0.0f, 0.0f, deltaSeconds);
         }
 
         processPendingOutdoorMapMove();
@@ -650,7 +688,7 @@ void GameApplication::renderFrame(int width, int height, float mouseWheelDelta, 
     if (selectedMap && selectedMap->indoorMapData)
     {
         m_indoorDebugRenderer.render(width, height, mouseWheelDelta, deltaSeconds);
-        m_gameAudioSystem.update(0.0f, 0.0f, 0.0f);
+        m_gameAudioSystem.update(0.0f, 0.0f, 0.0f, deltaSeconds);
 
         if (processPendingQuickSaveInput())
         {

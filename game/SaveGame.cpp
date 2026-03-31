@@ -13,7 +13,7 @@ namespace OpenYAMM::Game
 {
 namespace
 {
-constexpr uint32_t SaveVersion = 5;
+constexpr uint32_t SaveVersion = 8;
 constexpr char SaveMagic[8] = {'O', 'Y', 'S', 'A', 'V', 'E', '1', '\0'};
 
 class BinaryWriter
@@ -1442,9 +1442,48 @@ bool readValue(BinaryReader &reader, OutdoorWorldRuntime::ProjectileImpactState 
         && readValue(reader, value.isExpired);
 }
 
+void writeValue(BinaryWriter &writer, const OutdoorWorldRuntime::AtmosphereState &value)
+{
+    writeValue(writer, value.sourceSkyTextureName);
+    writeValue(writer, value.skyTextureName);
+    writeValue(writer, value.weatherFlags);
+    writeValue(writer, value.fogWeakDistance);
+    writeValue(writer, value.fogStrongDistance);
+    writeValue(writer, value.isNight);
+    writeValue(writer, value.fogDensity);
+    writeValue(writer, value.ambientBrightness);
+    writeValue(writer, value.visibilityDistance);
+    writeValue(writer, value.darknessOverlayAlpha);
+    writeValue(writer, value.darknessOverlayColorAbgr);
+    writeValue(writer, value.sunDirectionX);
+    writeValue(writer, value.sunDirectionY);
+    writeValue(writer, value.sunDirectionZ);
+    writeValue(writer, value.clearColorAbgr);
+}
+
+bool readValue(BinaryReader &reader, OutdoorWorldRuntime::AtmosphereState &value)
+{
+    return readValue(reader, value.sourceSkyTextureName)
+        && readValue(reader, value.skyTextureName)
+        && readValue(reader, value.weatherFlags)
+        && readValue(reader, value.fogWeakDistance)
+        && readValue(reader, value.fogStrongDistance)
+        && readValue(reader, value.isNight)
+        && readValue(reader, value.fogDensity)
+        && readValue(reader, value.ambientBrightness)
+        && readValue(reader, value.visibilityDistance)
+        && readValue(reader, value.darknessOverlayAlpha)
+        && readValue(reader, value.darknessOverlayColorAbgr)
+        && readValue(reader, value.sunDirectionX)
+        && readValue(reader, value.sunDirectionY)
+        && readValue(reader, value.sunDirectionZ)
+        && readValue(reader, value.clearColorAbgr);
+}
+
 void writeValue(BinaryWriter &writer, const OutdoorWorldRuntime::Snapshot &value)
 {
     writeValue(writer, value.gameMinutes);
+    writeValue(writer, value.atmosphere);
     writeValue(writer, value.timers);
     writeValue(writer, value.mapActors);
     writeValue(writer, value.chests);
@@ -1468,6 +1507,7 @@ void writeValue(BinaryWriter &writer, const OutdoorWorldRuntime::Snapshot &value
 bool readValue(BinaryReader &reader, OutdoorWorldRuntime::Snapshot &value)
 {
     return readValue(reader, value.gameMinutes)
+        && readValue(reader, value.atmosphere)
         && readValue(reader, value.timers)
         && readValue(reader, value.mapActors)
         && readValue(reader, value.chests)

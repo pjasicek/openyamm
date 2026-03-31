@@ -91,6 +91,122 @@ constexpr float WorldItemBounceFactor = 0.5f;
 constexpr float WorldItemGroundDamping = 0.89263916f;
 constexpr float WorldItemRestingHorizontalSpeedSquared = 400.0f;
 constexpr float WorldItemBounceStopVelocity = 10.0f;
+constexpr int32_t MapWeatherFoggy = 1;
+constexpr float DefaultOutdoorVisibilityDistance = 200000.0f;
+
+uint32_t makeAbgr(uint8_t red, uint8_t green, uint8_t blue)
+{
+    return 0xff000000u
+        | (static_cast<uint32_t>(blue) << 16)
+        | (static_cast<uint32_t>(green) << 8)
+        | static_cast<uint32_t>(red);
+}
+
+std::string resolveFallbackSkyTextureName(const MapStatsEntry &map, const std::optional<OutdoorMapData> &outdoorMapData)
+{
+    if (outdoorMapData && !outdoorMapData->skyTexture.empty())
+    {
+        return toLowerCopy(outdoorMapData->skyTexture);
+    }
+
+    const std::string environmentName = toLowerCopy(map.environmentName);
+
+    if (environmentName == "plains" || environmentName == "forest" || environmentName == "city")
+    {
+        return "plansky3";
+    }
+
+    if (environmentName == "underwater")
+    {
+        return "sky01";
+    }
+
+    return "plansky1";
+}
+
+bool isGenericSkySourceTextureName(const std::string &textureName)
+{
+    if (textureName.empty())
+    {
+        return true;
+    }
+
+    if (textureName.starts_with("plansky"))
+    {
+        return true;
+    }
+
+    return textureName == "sky01"
+        || textureName == "sky03"
+        || textureName == "sky04"
+        || textureName == "sky05"
+        || textureName == "sky06"
+        || textureName == "cloudsabove";
+}
+
+std::string resolveRenderedSkyTextureName(const std::string &sourceSkyTextureName, float minutesOfDay)
+{
+    const std::string normalizedSourceSkyTextureName = toLowerCopy(sourceSkyTextureName);
+
+    if (!isGenericSkySourceTextureName(normalizedSourceSkyTextureName))
+    {
+        return normalizedSourceSkyTextureName;
+    }
+
+    if (minutesOfDay >= 1200.0f && minutesOfDay < 1260.0f)
+    {
+        return "sunsetclouds";
+    }
+
+    if (minutesOfDay >= 1260.0f || minutesOfDay < 300.0f)
+    {
+        return "sky6pm";
+    }
+
+    if (minutesOfDay >= 300.0f && minutesOfDay < 360.0f)
+    {
+        return "sunsetclouds";
+    }
+
+    if (normalizedSourceSkyTextureName.starts_with("plansky") || normalizedSourceSkyTextureName.empty())
+    {
+        return "sky05";
+    }
+
+    return normalizedSourceSkyTextureName;
+}
+
+OutdoorWorldRuntime::AtmosphereState buildAtmosphereSourceState(
+    const MapStatsEntry &map,
+    const std::optional<OutdoorMapData> &outdoorMapData,
+    const std::optional<MapDeltaData> &outdoorMapDeltaData)
+{
+    OutdoorWorldRuntime::AtmosphereState result = {};
+
+    if (outdoorMapDeltaData)
+    {
+        result.sourceSkyTextureName = toLowerCopy(outdoorMapDeltaData->locationTime.skyTextureName);
+        result.weatherFlags = outdoorMapDeltaData->locationTime.weatherFlags;
+        result.fogWeakDistance = outdoorMapDeltaData->locationTime.fogWeakDistance;
+        result.fogStrongDistance = outdoorMapDeltaData->locationTime.fogStrongDistance;
+    }
+
+    if (result.sourceSkyTextureName.empty())
+    {
+        result.sourceSkyTextureName = resolveFallbackSkyTextureName(map, outdoorMapData);
+    }
+
+    result.skyTextureName = result.sourceSkyTextureName;
+
+    return result;
+}
+
+float normalizedAmbientBrightness(float minutesOfDay)
+{
+    const float ambient =
+        0.15f + (std::sin(((minutesOfDay - 360.0f) * 2.0f * Pi) / 1440.0f) + 1.0f) * 0.27f;
+    return std::clamp(ambient, 0.15f, 0.69f);
+}
 
 std::optional<uint32_t> resolveSpellImpactSoundId(const OutdoorWorldRuntime::ProjectileState &projectile)
 {
@@ -3256,6 +3372,7 @@ void OutdoorWorldRuntime::initialize(
     m_mapName = map.name;
     m_mapTreasureLevel = map.treasureLevel;
     m_gameMinutes = 9.0f * 60.0f;
+    m_atmosphereState = buildAtmosphereSourceState(map, outdoorMapData, outdoorMapDeltaData);
     m_timers.clear();
     m_mapActors.clear();
     m_spawnPoints.clear();
@@ -3301,6 +3418,7 @@ void OutdoorWorldRuntime::initialize(
     m_nextProjectileImpactId = 1;
 
     materializeMapDeltaWorldItems();
+    refreshAtmosphereState();
 
     if (outdoorActorPreviewBillboardSet)
     {
@@ -3825,6 +3943,7 @@ OutdoorWorldRuntime::Snapshot OutdoorWorldRuntime::snapshot() const
 {
     Snapshot snapshot = {};
     snapshot.gameMinutes = m_gameMinutes;
+    snapshot.atmosphere = m_atmosphereState;
     snapshot.timers = m_timers;
     snapshot.mapActors = m_mapActors;
     snapshot.chests = m_chests;
@@ -3855,6 +3974,7 @@ OutdoorWorldRuntime::Snapshot OutdoorWorldRuntime::snapshot() const
 void OutdoorWorldRuntime::restoreSnapshot(const Snapshot &snapshot)
 {
     m_gameMinutes = snapshot.gameMinutes;
+    m_atmosphereState = snapshot.atmosphere;
     m_timers = snapshot.timers;
     m_mapActors = snapshot.mapActors;
     m_chests = snapshot.chests;
@@ -3882,6 +4002,7 @@ void OutdoorWorldRuntime::restoreSnapshot(const Snapshot &snapshot)
 
     m_pendingAudioEvents.clear();
     m_pendingCombatEvents.clear();
+    refreshAtmosphereState();
     applyEventRuntimeState();
 }
 
@@ -3902,6 +4023,11 @@ int OutdoorWorldRuntime::currentHour() const
     return currentHour;
 }
 
+const OutdoorWorldRuntime::AtmosphereState &OutdoorWorldRuntime::atmosphereState() const
+{
+    return m_atmosphereState;
+}
+
 void OutdoorWorldRuntime::advanceGameMinutes(float minutes)
 {
     if (minutes <= 0.0f)
@@ -3910,6 +4036,140 @@ void OutdoorWorldRuntime::advanceGameMinutes(float minutes)
     }
 
     m_gameMinutes += minutes;
+    refreshAtmosphereState();
+}
+
+void OutdoorWorldRuntime::refreshAtmosphereState()
+{
+    const float minutesOfDay = std::fmod(std::max(m_gameMinutes, 0.0f), 1440.0f);
+
+    if (minutesOfDay < 300.0f || minutesOfDay >= 1260.0f)
+    {
+        m_atmosphereState.isNight = true;
+        m_atmosphereState.fogDensity = 1.0f;
+    }
+    else if (minutesOfDay < 360.0f)
+    {
+        m_atmosphereState.isNight = false;
+        m_atmosphereState.fogDensity = (360.0f - minutesOfDay) / 60.0f;
+    }
+    else if (minutesOfDay < 1200.0f)
+    {
+        m_atmosphereState.isNight = false;
+        m_atmosphereState.fogDensity = 0.0f;
+    }
+    else if (minutesOfDay < 1260.0f)
+    {
+        m_atmosphereState.isNight = false;
+        m_atmosphereState.fogDensity = (minutesOfDay - 1200.0f) / 60.0f;
+    }
+    else
+    {
+        m_atmosphereState.isNight = true;
+        m_atmosphereState.fogDensity = 1.0f;
+    }
+
+    m_atmosphereState.skyTextureName =
+        resolveRenderedSkyTextureName(m_atmosphereState.sourceSkyTextureName, minutesOfDay);
+
+    if (m_mapId == DwiMapId)
+    {
+        m_atmosphereState.skyTextureName = "sunsetclouds";
+    }
+
+    m_atmosphereState.ambientBrightness = normalizedAmbientBrightness(minutesOfDay);
+    const float normalizedBrightness = std::clamp(
+        (m_atmosphereState.ambientBrightness - 0.15f) / (0.69f - 0.15f),
+        0.0f,
+        1.0f);
+    m_atmosphereState.darknessOverlayAlpha = (1.0f - normalizedBrightness) * 0.55f;
+
+    if (m_atmosphereState.isNight)
+    {
+        m_atmosphereState.darknessOverlayColorAbgr = makeAbgr(16, 24, 52);
+    }
+    else
+    {
+        const float twilightFactor = std::clamp(m_atmosphereState.fogDensity, 0.0f, 1.0f);
+        const uint8_t red = static_cast<uint8_t>(std::clamp(std::lround(92.0f * twilightFactor), 0l, 255l));
+        const uint8_t green = static_cast<uint8_t>(std::clamp(std::lround(36.0f * twilightFactor), 0l, 255l));
+        const uint8_t blue = static_cast<uint8_t>(std::clamp(std::lround(30.0f * twilightFactor), 0l, 255l));
+        m_atmosphereState.darknessOverlayColorAbgr = makeAbgr(red, green, blue);
+    }
+
+    if (minutesOfDay >= 300.0f && minutesOfDay < 1260.0f)
+    {
+        const float daylightMinutes = minutesOfDay - 300.0f;
+        const float sunlightRadians = (daylightMinutes * Pi) / 960.0f;
+        m_atmosphereState.sunDirectionX = std::cos(sunlightRadians);
+        m_atmosphereState.sunDirectionY = 0.0f;
+        m_atmosphereState.sunDirectionZ = std::sin(sunlightRadians);
+    }
+    else
+    {
+        m_atmosphereState.sunDirectionX = 0.0f;
+        m_atmosphereState.sunDirectionY = 0.0f;
+        m_atmosphereState.sunDirectionZ = 1.0f;
+    }
+
+    m_atmosphereState.visibilityDistance = DefaultOutdoorVisibilityDistance;
+
+    if (m_atmosphereState.fogStrongDistance > 0 && (m_atmosphereState.weatherFlags & MapWeatherFoggy) != 0)
+    {
+        m_atmosphereState.visibilityDistance =
+            std::min(m_atmosphereState.visibilityDistance, static_cast<float>(m_atmosphereState.fogStrongDistance) * 2.0f);
+    }
+
+    if (m_atmosphereState.fogDensity > 0.0f)
+    {
+        const float dayNightVisibility =
+            DefaultOutdoorVisibilityDistance
+            - (DefaultOutdoorVisibilityDistance - 24576.0f) * std::min(m_atmosphereState.fogDensity, 1.0f);
+        m_atmosphereState.visibilityDistance = std::min(m_atmosphereState.visibilityDistance, dayNightVisibility);
+    }
+
+    m_atmosphereState.visibilityDistance = std::max(m_atmosphereState.visibilityDistance, 4096.0f);
+
+    if ((m_atmosphereState.weatherFlags & MapWeatherFoggy) != 0)
+    {
+        if (m_atmosphereState.isNight)
+        {
+            m_atmosphereState.clearColorAbgr = makeAbgr(48, 48, 56);
+        }
+        else
+        {
+            const uint8_t fogLevel = static_cast<uint8_t>(std::clamp(
+                std::lround((1.0f - m_atmosphereState.fogDensity) * 200.0f + m_atmosphereState.fogDensity * 31.0f),
+                0l,
+                255l));
+            m_atmosphereState.clearColorAbgr = makeAbgr(fogLevel, fogLevel, fogLevel);
+        }
+    }
+    else if (m_atmosphereState.isNight)
+    {
+        m_atmosphereState.clearColorAbgr = makeAbgr(8, 16, 32);
+    }
+    else
+    {
+        const float skyBias = std::clamp(normalizedBrightness, 0.0f, 1.0f);
+        const float twilightFactor = std::clamp(m_atmosphereState.fogDensity, 0.0f, 1.0f);
+        const float dayRed = 24.0f + skyBias * 76.0f;
+        const float dayGreen = 48.0f + skyBias * 96.0f;
+        const float dayBlue = 84.0f + skyBias * 132.0f;
+        const uint8_t red = static_cast<uint8_t>(std::clamp(
+            std::lround(dayRed * (1.0f - twilightFactor) + 112.0f * twilightFactor),
+            0l,
+            255l));
+        const uint8_t green = static_cast<uint8_t>(std::clamp(
+            std::lround(dayGreen * (1.0f - twilightFactor) + 60.0f * twilightFactor),
+            0l,
+            255l));
+        const uint8_t blue = static_cast<uint8_t>(std::clamp(
+            std::lround(dayBlue * (1.0f - twilightFactor) + 72.0f * twilightFactor),
+            0l,
+            255l));
+        m_atmosphereState.clearColorAbgr = makeAbgr(red, green, blue);
+    }
 }
 
 void OutdoorWorldRuntime::updateMapActors(float deltaSeconds, float partyX, float partyY, float partyZ)
@@ -5916,6 +6176,7 @@ bool OutdoorWorldRuntime::updateTimers(
 
     const float deltaGameMinutes = deltaSeconds * GameMinutesPerRealSecond;
     m_gameMinutes += deltaGameMinutes;
+    refreshAtmosphereState();
 
     if (m_timers.empty())
     {

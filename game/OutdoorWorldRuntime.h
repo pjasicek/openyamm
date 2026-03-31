@@ -30,6 +30,25 @@ class SpecialItemEnchantTable;
 class OutdoorWorldRuntime
 {
 public:
+    struct AtmosphereState
+    {
+        std::string sourceSkyTextureName;
+        std::string skyTextureName;
+        int32_t weatherFlags = 0;
+        int32_t fogWeakDistance = 0;
+        int32_t fogStrongDistance = 0;
+        bool isNight = false;
+        float fogDensity = 0.0f;
+        float ambientBrightness = 0.69f;
+        float visibilityDistance = 200000.0f;
+        float darknessOverlayAlpha = 0.0f;
+        uint32_t darknessOverlayColorAbgr = 0x00000000u;
+        float sunDirectionX = 0.0f;
+        float sunDirectionY = 0.0f;
+        float sunDirectionZ = 1.0f;
+        uint32_t clearColorAbgr = 0x000000ffu;
+    };
+
     enum class ActorAiState
     {
         Standing,
@@ -384,6 +403,7 @@ public:
     struct Snapshot
     {
         float gameMinutes = 0.0f;
+        AtmosphereState atmosphere = {};
         std::vector<TimerState> timers;
         std::vector<MapActorState> mapActors;
         std::vector<MapDeltaChest> chests;
@@ -433,6 +453,7 @@ public:
     void restoreSnapshot(const Snapshot &snapshot);
     float gameMinutes() const;
     int currentHour() const;
+    const AtmosphereState &atmosphereState() const;
     void advanceGameMinutes(float minutes);
     void updateMapActors(float deltaSeconds, float partyX, float partyY, float partyZ);
 
@@ -737,6 +758,7 @@ private:
     MapStatsEntry m_map = {};
     std::string m_mapName;
     float m_gameMinutes = 9.0f * 60.0f;
+    AtmosphereState m_atmosphereState = {};
     std::vector<TimerState> m_timers;
     std::vector<MapActorState> m_mapActors;
     std::vector<SpawnPointState> m_spawnPoints;
@@ -780,5 +802,7 @@ private:
     uint32_t m_nextProjectileImpactId = 1;
     std::vector<ProjectileState> m_projectiles;
     std::vector<ProjectileImpactState> m_projectileImpacts;
+
+    void refreshAtmosphereState();
 };
 }

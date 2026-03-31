@@ -38,9 +38,13 @@ add_custom_command(
         --enable-swscale
         --enable-protocol=file
         --enable-demuxer=ogg
+        --enable-demuxer=mp3
         --enable-decoder=theora
         --enable-decoder=vorbis
+        --enable-decoder=mp3
+        --enable-decoder=mp3float
         --enable-parser=vorbis
+        --enable-parser=mpegaudio
     COMMAND ${CMAKE_MAKE_PROGRAM} -j4
     COMMAND ${CMAKE_MAKE_PROGRAM} install
     WORKING_DIRECTORY "${OPENYAMM_FFMPEG_BUILD_DIR}"

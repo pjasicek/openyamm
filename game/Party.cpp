@@ -3549,43 +3549,11 @@ bool Party::spendSpellPointsOnActiveMember(int amount)
     return spendSpellPoints(activeMemberIndex(), amount);
 }
 
-void Party::updateRecovery(float deltaSeconds)
+void Party::advanceTimedStates(float deltaSeconds)
 {
     if (deltaSeconds <= 0.0f)
     {
         return;
-    }
-
-    for (Character &member : m_members)
-    {
-        const float recoveryDelta = deltaSeconds * std::max(0.0f, member.recoveryProgressMultiplier);
-        member.recoverySecondsRemaining = std::max(0.0f, member.recoverySecondsRemaining - recoveryDelta);
-
-        if (member.healthRegenPerSecond > 0.0f)
-        {
-            member.healthRegenAccumulator += member.healthRegenPerSecond * deltaSeconds;
-            const int healAmount = std::max(0, static_cast<int>(member.healthRegenAccumulator));
-
-            if (healAmount > 0)
-            {
-                member.healthRegenAccumulator -= static_cast<float>(healAmount);
-                member.health = std::min(member.maxHealth + member.magicalBonuses.maxHealth, member.health + healAmount);
-            }
-        }
-
-        if (member.spellRegenPerSecond > 0.0f)
-        {
-            member.spellRegenAccumulator += member.spellRegenPerSecond * deltaSeconds;
-            const int spellAmount = std::max(0, static_cast<int>(member.spellRegenAccumulator));
-
-            if (spellAmount > 0)
-            {
-                member.spellRegenAccumulator -= static_cast<float>(spellAmount);
-                member.spellPoints = std::min(
-                    member.maxSpellPoints + member.magicalBonuses.maxSpellPoints,
-                    member.spellPoints + spellAmount);
-            }
-        }
     }
 
     bool buffsChanged = false;
@@ -3660,6 +3628,46 @@ void Party::updateRecovery(float deltaSeconds)
     if (!canSelectMemberInGameplay(m_activeMemberIndex))
     {
         switchToNextReadyMember();
+    }
+}
+
+void Party::updateRecovery(float deltaSeconds)
+{
+    if (deltaSeconds <= 0.0f)
+    {
+        return;
+    }
+
+    for (Character &member : m_members)
+    {
+        const float recoveryDelta = deltaSeconds * std::max(0.0f, member.recoveryProgressMultiplier);
+        member.recoverySecondsRemaining = std::max(0.0f, member.recoverySecondsRemaining - recoveryDelta);
+
+        if (member.healthRegenPerSecond > 0.0f)
+        {
+            member.healthRegenAccumulator += member.healthRegenPerSecond * deltaSeconds;
+            const int healAmount = std::max(0, static_cast<int>(member.healthRegenAccumulator));
+
+            if (healAmount > 0)
+            {
+                member.healthRegenAccumulator -= static_cast<float>(healAmount);
+                member.health = std::min(member.maxHealth + member.magicalBonuses.maxHealth, member.health + healAmount);
+            }
+        }
+
+        if (member.spellRegenPerSecond > 0.0f)
+        {
+            member.spellRegenAccumulator += member.spellRegenPerSecond * deltaSeconds;
+            const int spellAmount = std::max(0, static_cast<int>(member.spellRegenAccumulator));
+
+            if (spellAmount > 0)
+            {
+                member.spellRegenAccumulator -= static_cast<float>(spellAmount);
+                member.spellPoints = std::min(
+                    member.maxSpellPoints + member.magicalBonuses.maxSpellPoints,
+                    member.spellPoints + spellAmount);
+            }
+        }
     }
 }
 

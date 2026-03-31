@@ -160,6 +160,14 @@ private:
         bgfx::TextureHandle textureHandle = BGFX_INVALID_HANDLE;
     };
 
+    struct SkyTextureHandle
+    {
+        std::string textureName;
+        int width = 0;
+        int height = 0;
+        bgfx::TextureHandle textureHandle = BGFX_INVALID_HANDLE;
+    };
+
     struct HudFontGlyphMetrics
     {
         int leftSpacing = 0;
@@ -410,6 +418,28 @@ private:
         CharacterInspectMasteryLine expert = {};
         CharacterInspectMasteryLine master = {};
         CharacterInspectMasteryLine grandmaster = {};
+        float sourceX = 0.0f;
+        float sourceY = 0.0f;
+        float sourceWidth = 0.0f;
+        float sourceHeight = 0.0f;
+    };
+
+    struct BuffInspectOverlayState
+    {
+        bool active = false;
+        std::string title;
+        std::string body;
+        float sourceX = 0.0f;
+        float sourceY = 0.0f;
+        float sourceWidth = 0.0f;
+        float sourceHeight = 0.0f;
+    };
+
+    struct CharacterDetailOverlayState
+    {
+        bool active = false;
+        std::string title;
+        std::string body;
         float sourceX = 0.0f;
         float sourceY = 0.0f;
         float sourceWidth = 0.0f;
@@ -767,6 +797,26 @@ private:
         const float *pViewMatrix,
         const bx::Vec3 &cameraPosition
     );
+    void renderOutdoorSky(
+        uint16_t viewId,
+        uint16_t viewWidth,
+        uint16_t viewHeight,
+        const bx::Vec3 &cameraPosition,
+        const bx::Vec3 &cameraForward,
+        const bx::Vec3 &cameraRight,
+        const bx::Vec3 &cameraUp,
+        float renderDistance
+    );
+    void renderOutdoorDarknessOverlay(
+        uint16_t viewId,
+        const bx::Vec3 &cameraPosition,
+        const bx::Vec3 &cameraForward,
+        const bx::Vec3 &cameraRight,
+        const bx::Vec3 &cameraUp,
+        float aspectRatio,
+        float overlayAlpha,
+        uint32_t overlayColorAbgr
+    );
     void renderGameplayHudArt(int width, int height);
     void renderGameplayHud(int width, int height) const;
     void renderChestPanel(int width, int height, bool renderAboveHud) const;
@@ -847,12 +897,16 @@ private:
     void renderHeldInventoryItem(int width, int height) const;
     void renderItemInspectOverlay(int width, int height) const;
     void renderCharacterInspectOverlay(int width, int height) const;
+    void renderBuffInspectOverlay(int width, int height) const;
+    void renderCharacterDetailOverlay(int width, int height) const;
     void renderActorInspectOverlay(int width, int height);
     void renderSpellInspectOverlay(int width, int height) const;
     void renderReadableScrollOverlay(int width, int height) const;
     void renderPendingSpellTargetingOverlay(int width, int height) const;
     void renderSpellbookOverlay(int width, int height) const;
     void submitHudTexturedQuad(const HudTextureHandle &texture, float x, float y, float quadWidth, float quadHeight) const;
+    const SkyTextureHandle *findSkyTexture(const std::string &textureName) const;
+    const SkyTextureHandle *ensureSkyTexture(const std::string &textureName);
     std::optional<std::string> findCachedAssetPath(const std::string &directoryPath, const std::string &fileName);
     std::optional<std::vector<uint8_t>> readCachedBinaryFile(const std::string &assetPath);
     std::optional<std::array<uint8_t, 256 * 3>> loadCachedActPalette(int16_t paletteId);
@@ -886,6 +940,7 @@ private:
     void closeActiveEventDialog();
     bool hasActiveEventDialog() const;
     std::optional<size_t> resolvePartyPortraitIndexAtPoint(int width, int height, float x, float y);
+    std::optional<ResolvedHudLayoutElement> resolvePartyPortraitRect(int width, int height, size_t memberIndex);
     bool trySelectPartyMember(size_t memberIndex, bool requireGameplayReady);
     bool tryAutoPlaceHeldItemOnPartyMember(size_t memberIndex, bool showFailureStatus = true);
     bool tryUseHeldItemOnPartyMember(size_t memberIndex, bool keepCharacterScreenOpen);
@@ -894,6 +949,8 @@ private:
     void updateItemInspectOverlayState(int width, int height);
     void tryApplyItemInspectSkillInteraction();
     void updateCharacterInspectOverlayState(int width, int height);
+    void updateBuffInspectOverlayState(int width, int height);
+    void updateCharacterDetailOverlayState(int width, int height);
     void updateActorInspectOverlayState(int width, int height);
     void updateSpellInspectOverlayState(int width, int height);
     bool loadPortraitAnimationData(const Engine::AssetFileSystem &assetFileSystem);
@@ -999,7 +1056,8 @@ private:
     OutdoorWorldRuntime *m_pOutdoorWorldRuntime;
     bgfx::VertexBufferHandle m_vertexBufferHandle;
     bgfx::IndexBufferHandle m_indexBufferHandle;
-    bgfx::VertexBufferHandle m_texturedTerrainVertexBufferHandle;
+    bgfx::DynamicVertexBufferHandle m_skyVertexBufferHandle;
+    bgfx::DynamicVertexBufferHandle m_texturedTerrainVertexBufferHandle;
     bgfx::VertexBufferHandle m_filledTerrainVertexBufferHandle;
     bgfx::VertexBufferHandle m_bmodelVertexBufferHandle;
     bgfx::VertexBufferHandle m_bmodelCollisionVertexBufferHandle;
@@ -1020,6 +1078,13 @@ private:
     std::vector<BillboardTextureHandle> m_billboardTextureHandles;
     std::unordered_map<int16_t, std::unordered_map<std::string, size_t>> m_billboardTextureIndexByPalette;
     std::unordered_map<std::string, size_t> m_decorationBitmapTextureIndexByName;
+    std::vector<SkyTextureHandle> m_skyTextureHandles;
+    std::unordered_map<std::string, size_t> m_skyTextureIndexByName;
+    std::vector<TexturedTerrainVertex> m_cachedSkyVertices;
+    std::string m_cachedSkyTextureName;
+    float m_lastSkyUpdateElapsedTime = -1.0f;
+    std::vector<TexturedTerrainVertex> m_baseTexturedTerrainVertices;
+    std::vector<TexturedTerrainVertex> m_animatedTexturedTerrainVertices;
     SpriteLoadCache m_spriteLoadCache;
     uint32_t m_lastPortraitAnimationUpdateTicks = 0;
     std::vector<uint16_t> m_pendingSpriteFrameWarmups;
@@ -1117,6 +1182,8 @@ private:
     bool m_itemInspectInteractionLatch;
     uint64_t m_itemInspectInteractionKey;
     CharacterInspectOverlayState m_characterInspectOverlay;
+    BuffInspectOverlayState m_buffInspectOverlay;
+    CharacterDetailOverlayState m_characterDetailOverlay;
     ActorInspectOverlayState m_actorInspectOverlay;
     SpellInspectOverlayState m_spellInspectOverlay;
     ReadableScrollOverlayState m_readableScrollOverlay;

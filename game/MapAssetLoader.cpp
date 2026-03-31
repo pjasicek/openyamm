@@ -1939,6 +1939,7 @@ std::optional<OutdoorTerrainTextureAtlas> buildOutdoorTerrainTextureAtlas(
         region.u1 = static_cast<float>(atlasX + TerrainTextureTileSize) / static_cast<float>(textureAtlas.width);
         region.v1 = static_cast<float>(atlasY + TerrainTextureTileSize) / static_cast<float>(textureAtlas.height);
         region.isValid = true;
+        region.isWater = textureName == reinterpret_cast<const char *>(WaterTileName);
         textureAtlas.tileRegions[static_cast<size_t>(tileIndex)] = region;
     }
 
