@@ -1,5 +1,6 @@
 #include "game/RosterTable.h"
 
+#include <algorithm>
 #include <cctype>
 #include <cstdlib>
 
@@ -208,5 +209,31 @@ const RosterEntry *RosterTable::findByName(const std::string &name) const
     }
 
     return nullptr;
+}
+
+std::vector<const RosterEntry *> RosterTable::getEntriesSortedById() const
+{
+    std::vector<const RosterEntry *> entries;
+    entries.reserve(m_entries.size());
+
+    for (const auto &[id, entry] : m_entries)
+    {
+        static_cast<void>(id);
+        entries.push_back(&entry);
+    }
+
+    std::sort(
+        entries.begin(),
+        entries.end(),
+        [](const RosterEntry *pLeft, const RosterEntry *pRight)
+        {
+            if (pLeft == nullptr || pRight == nullptr)
+            {
+                return pLeft != nullptr;
+            }
+
+            return pLeft->id < pRight->id;
+        });
+    return entries;
 }
 }

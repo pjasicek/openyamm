@@ -92,57 +92,19 @@ DialogueMenuId currentDialogueMenuId(const EventRuntimeState &eventRuntimeState)
     return eventRuntimeState.dialogueState.menuStack.back();
 }
 
+std::vector<uint32_t> collectSelectableResidentNpcIdsImpl(
+    const HouseEntry &houseEntry,
+    const NpcDialogTable &npcDialogTable,
+    const EventRuntimeState &eventRuntimeState);
+
 std::optional<uint32_t> singleSelectableResidentNpcId(
     const HouseEntry &houseEntry,
     const NpcDialogTable &npcDialogTable,
     const EventRuntimeState &eventRuntimeState
 )
 {
-    const auto residentNpcIdsForHouse = [&]()
-    {
-        std::vector<uint32_t> residentNpcIds;
-
-        auto appendNpcId = [&](uint32_t npcId)
-        {
-            if (std::find(residentNpcIds.begin(), residentNpcIds.end(), npcId) != residentNpcIds.end())
-            {
-                return;
-            }
-
-            const NpcEntry *pResident = npcDialogTable.getNpc(npcId);
-
-            if (pResident == nullptr || pResident->name.empty())
-            {
-                return;
-            }
-
-            if (eventRuntimeState.unavailableNpcIds.contains(npcId))
-            {
-                return;
-            }
-
-            const auto overrideIt = eventRuntimeState.npcHouseOverrides.find(npcId);
-
-            if (overrideIt != eventRuntimeState.npcHouseOverrides.end() && overrideIt->second != houseEntry.id)
-            {
-                return;
-            }
-
-            residentNpcIds.push_back(npcId);
-        };
-
-        for (uint32_t npcId : houseEntry.residentNpcIds)
-        {
-            appendNpcId(npcId);
-        }
-
-        for (uint32_t npcId : npcDialogTable.getNpcIdsForHouse(houseEntry.id, &eventRuntimeState.npcHouseOverrides))
-        {
-            appendNpcId(npcId);
-        }
-
-        return residentNpcIds;
-    }();
+    const std::vector<uint32_t> residentNpcIdsForHouse =
+        collectSelectableResidentNpcIdsImpl(houseEntry, npcDialogTable, eventRuntimeState);
 
     std::optional<uint32_t> residentNpcId;
 
@@ -158,6 +120,63 @@ std::optional<uint32_t> singleSelectableResidentNpcId(
 
     return residentNpcId;
 }
+
+std::vector<uint32_t> collectSelectableResidentNpcIdsImpl(
+    const HouseEntry &houseEntry,
+    const NpcDialogTable &npcDialogTable,
+    const EventRuntimeState &eventRuntimeState)
+{
+    std::vector<uint32_t> residentNpcIds;
+
+    auto appendNpcId = [&](uint32_t npcId)
+    {
+        if (std::find(residentNpcIds.begin(), residentNpcIds.end(), npcId) != residentNpcIds.end())
+        {
+            return;
+        }
+
+        const NpcEntry *pResident = npcDialogTable.getNpc(npcId);
+
+        if (pResident == nullptr || pResident->name.empty())
+        {
+            return;
+        }
+
+        if (eventRuntimeState.unavailableNpcIds.contains(npcId))
+        {
+            return;
+        }
+
+        const auto overrideIt = eventRuntimeState.npcHouseOverrides.find(npcId);
+
+        if (overrideIt != eventRuntimeState.npcHouseOverrides.end() && overrideIt->second != houseEntry.id)
+        {
+            return;
+        }
+
+        residentNpcIds.push_back(npcId);
+    };
+
+    for (uint32_t npcId : houseEntry.residentNpcIds)
+    {
+        appendNpcId(npcId);
+    }
+
+    for (uint32_t npcId : npcDialogTable.getNpcIdsForHouse(houseEntry.id, &eventRuntimeState.npcHouseOverrides))
+    {
+        appendNpcId(npcId);
+    }
+
+    return residentNpcIds;
+}
+}
+
+std::vector<uint32_t> collectSelectableResidentNpcIds(
+    const HouseEntry &houseEntry,
+    const NpcDialogTable &npcDialogTable,
+    const EventRuntimeState &eventRuntimeState)
+{
+    return collectSelectableResidentNpcIdsImpl(houseEntry, npcDialogTable, eventRuntimeState);
 }
 
 EventDialogContent buildEventDialogContent(

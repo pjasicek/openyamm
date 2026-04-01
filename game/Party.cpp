@@ -231,6 +231,44 @@ std::optional<uint32_t> tryParsePictureIdFromPortraitTextureName(const std::stri
     return faceNumber - 1;
 }
 
+Character buildCharacterFromRosterEntry(const RosterEntry &rosterEntry)
+{
+    Character member = {};
+    member.name = rosterEntry.name;
+    member.className = canonicalClassName(rosterEntry.className);
+    member.role = normalizeRoleName(member.className);
+    member.portraitTextureName = portraitTextureNameFromPictureId(rosterEntry.pictureId);
+    member.portraitPictureId = rosterEntry.pictureId;
+    member.rosterId = rosterEntry.id;
+    member.birthYear = rosterEntry.birthYear;
+    member.experience = rosterEntry.experience;
+    member.level = std::max<uint32_t>(1, rosterEntry.level);
+    member.skillPoints = rosterEntry.skillPoints;
+    member.might = rosterEntry.might;
+    member.intellect = rosterEntry.intellect;
+    member.personality = rosterEntry.personality;
+    member.endurance = rosterEntry.endurance;
+    member.speed = rosterEntry.speed;
+    member.accuracy = rosterEntry.accuracy;
+    member.luck = rosterEntry.luck;
+    member.baseResistances = rosterEntry.baseResistances;
+    member.skills = rosterEntry.skills;
+
+    const int endurance = std::max(10, static_cast<int>(rosterEntry.endurance));
+    const int intellect = std::max(0, static_cast<int>(rosterEntry.intellect));
+    const int personality = std::max(0, static_cast<int>(rosterEntry.personality));
+
+    member.maxHealth = std::max(1, 40 + endurance * 2 + static_cast<int>(member.level) * 5);
+    member.health = member.maxHealth;
+
+    const bool isCaster = intellect > 0 || personality > 0;
+    member.maxSpellPoints = isCaster
+        ? std::max(0, ((intellect + personality) / 2) + static_cast<int>(member.level) * 3)
+        : 0;
+    member.spellPoints = member.maxSpellPoints;
+    return member;
+}
+
 void initializePortraitRuntimeState(Character &member)
 {
     const std::optional<uint32_t> parsedPictureId = tryParsePictureIdFromPortraitTextureName(member.portraitTextureName);
@@ -2334,41 +2372,7 @@ bool Party::recruitRosterMember(const RosterEntry &rosterEntry)
         return false;
     }
 
-    Character member = {};
-    member.name = rosterEntry.name;
-    member.className = canonicalClassName(rosterEntry.className);
-    member.role = normalizeRoleName(member.className);
-    member.portraitTextureName = portraitTextureNameFromPictureId(rosterEntry.pictureId);
-    member.portraitPictureId = rosterEntry.pictureId;
-    member.rosterId = rosterEntry.id;
-    member.birthYear = rosterEntry.birthYear;
-    member.experience = rosterEntry.experience;
-    member.level = std::max<uint32_t>(1, rosterEntry.level);
-    member.skillPoints = rosterEntry.skillPoints;
-    member.might = rosterEntry.might;
-    member.intellect = rosterEntry.intellect;
-    member.personality = rosterEntry.personality;
-    member.endurance = rosterEntry.endurance;
-    member.speed = rosterEntry.speed;
-    member.accuracy = rosterEntry.accuracy;
-    member.luck = rosterEntry.luck;
-    member.baseResistances = rosterEntry.baseResistances;
-    member.skills = rosterEntry.skills;
-
-    const int endurance = std::max(10, static_cast<int>(rosterEntry.endurance));
-    const int intellect = std::max(0, static_cast<int>(rosterEntry.intellect));
-    const int personality = std::max(0, static_cast<int>(rosterEntry.personality));
-
-    member.maxHealth = std::max(1, 40 + endurance * 2 + static_cast<int>(member.level) * 5);
-    member.health = member.maxHealth;
-
-    const bool isCaster = intellect > 0 || personality > 0;
-    member.maxSpellPoints = isCaster
-        ? std::max(0, ((intellect + personality) / 2) + static_cast<int>(member.level) * 3)
-        : 0;
-    member.spellPoints = member.maxSpellPoints;
-
-    m_members.push_back(std::move(member));
+    m_members.push_back(buildCharacterFromRosterEntry(rosterEntry));
 
     const size_t memberIndex = m_members.size() - 1;
 
@@ -2378,6 +2382,25 @@ bool Party::recruitRosterMember(const RosterEntry &rosterEntry)
     }
 
     m_lastStatus = "party member recruited";
+    return true;
+}
+
+bool Party::replaceMemberWithRosterEntry(size_t memberIndex, const RosterEntry &rosterEntry)
+{
+    if (memberIndex >= m_members.size())
+    {
+        return false;
+    }
+
+    m_members[memberIndex] = buildCharacterFromRosterEntry(rosterEntry);
+
+    for (uint32_t itemId : rosterEntry.startingInventoryItemIds)
+    {
+        grantItemToMember(memberIndex, itemId);
+    }
+
+    rebuildMagicalBonusesFromBuffs();
+    m_lastStatus = "party member replaced from roster";
     return true;
 }
 

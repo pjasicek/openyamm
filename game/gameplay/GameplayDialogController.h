@@ -1,0 +1,92 @@
+#pragma once
+
+#include "game/EventDialogContent.h"
+#include "game/EventRuntime.h"
+#include "game/SoundIds.h"
+#include "game/SpeechIds.h"
+#include "game/ui/GameplayUiController.h"
+
+#include <cstddef>
+#include <cstdint>
+#include <functional>
+
+namespace OpenYAMM::Game
+{
+class ClassSkillTable;
+class HouseTable;
+class NpcDialogTable;
+class OutdoorWorldRuntime;
+class Party;
+class RosterTable;
+struct HouseEntry;
+
+class GameplayDialogController
+{
+public:
+    struct Callbacks
+    {
+        std::function<void(size_t, SpeechId, bool)> playSpeechReaction;
+        std::function<void(uint32_t)> playHouseSound;
+        std::function<void(SoundId)> playCommonSound;
+        std::function<bool(uint16_t, size_t &)> executeNpcTopicEvent;
+    };
+
+    struct Context
+    {
+        GameplayUiController &uiController;
+        EventRuntimeState &eventRuntimeState;
+        EventDialogContent &activeEventDialog;
+        size_t &selectionIndex;
+        Party *pParty = nullptr;
+        OutdoorWorldRuntime *pOutdoorWorldRuntime = nullptr;
+        const std::optional<EventIrProgram> *pGlobalEventIrProgram = nullptr;
+        const HouseTable *pHouseTable = nullptr;
+        const ClassSkillTable *pClassSkillTable = nullptr;
+        const NpcDialogTable *pNpcDialogTable = nullptr;
+        const RosterTable *pRosterTable = nullptr;
+        bool dialogueHudActive = false;
+        Callbacks callbacks = {};
+    };
+
+    struct Result
+    {
+        size_t previousMessageCount = 0;
+        bool shouldOpenPendingEventDialog = false;
+        bool allowNpcFallbackContent = true;
+    };
+
+    struct PresentPendingDialogResult
+    {
+        bool dialogOpened = false;
+        bool wasDialogAlreadyActive = false;
+        EventRuntimeState::PendingDialogueContext resolvedContext = {};
+    };
+
+    struct CloseDialogRequestResult
+    {
+        size_t previousMessageCount = 0;
+        bool shouldOpenPendingEventDialog = false;
+        bool allowNpcFallbackContent = true;
+        bool shouldCloseActiveDialog = false;
+    };
+
+    Result executeActiveDialogAction(Context &context) const;
+    PresentPendingDialogResult presentPendingEventDialog(
+        Context &context,
+        size_t previousMessageCount,
+        bool allowNpcFallbackContent,
+        bool showBankInputCursor) const;
+    Result openNpcDialogue(Context &context, uint32_t npcId, uint32_t hostHouseId = 0) const;
+    Result openNpcNews(
+        Context &context,
+        uint32_t npcId,
+        uint32_t newsId,
+        const std::string &titleOverride,
+        const std::string &newsText) const;
+    CloseDialogRequestResult handleDialogueCloseRequest(Context &context) const;
+    bool refreshHouseBankInputDialog(Context &context, bool showCursor) const;
+    Result returnToHouseBankMainDialog(Context &context) const;
+    Result confirmHouseBankInput(Context &context) const;
+    bool rejectClosedHouseInteraction(Context &context, const HouseEntry &houseEntry) const;
+};
+}

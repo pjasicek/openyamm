@@ -32,6 +32,10 @@
 #include "game/SpellTable.h"
 #include "game/SpellFxTable.h"
 #include "game/StrTable.h"
+#include "game/gameplay/GameplayDialogController.h"
+#include "game/ui/GameplayUiController.h"
+#include "game/ui/GameplayOverlayContext.h"
+#include "game/ui/UiLayoutManager.h"
 #include "engine/AssetFileSystem.h"
 
 #include <bgfx/bgfx.h>
@@ -48,7 +52,16 @@
 namespace OpenYAMM::Game
 {
 class OutdoorPartyRuntime;
+class OutdoorSceneRuntime;
 class OutdoorWorldRuntime;
+class OutdoorBillboardRenderer;
+class OutdoorPresentationController;
+class GameplayDialogueRenderer;
+class GameplayPartyOverlayRenderer;
+class GameplayHudOverlayRenderer;
+class GameplayPartyOverlayInputController;
+class GameplayOverlayInputController;
+class GameplayOverlayContext;
 class ItemTable;
 struct GameApplicationTestAccess;
 struct ItemDefinition;
@@ -95,11 +108,8 @@ public:
         const std::optional<StrTable> &localStrTable,
         const std::optional<EvtProgram> &localEvtProgram,
         const std::optional<EvtProgram> &globalEvtProgram,
-        const std::optional<EventIrProgram> &localEventIrProgram,
-        const std::optional<EventIrProgram> &globalEventIrProgram,
         GameAudioSystem *pGameAudioSystem,
-        OutdoorPartyRuntime *pOutdoorPartyRuntime,
-        OutdoorWorldRuntime *pOutdoorWorldRuntime
+        OutdoorSceneRuntime &sceneRuntime
     );
     void render(int width, int height, float mouseWheelDelta, float deltaSeconds);
     void shutdown();
@@ -109,6 +119,11 @@ public:
 
 private:
     friend struct GameApplicationTestAccess;
+    friend class GameplayOverlayContext;
+    friend class GameplayPartyOverlayRenderer;
+    friend class GameplayPartyOverlayInputController;
+    friend class OutdoorBillboardRenderer;
+    friend class OutdoorPresentationController;
 
     struct TerrainVertex
     {
@@ -204,52 +219,10 @@ private:
         bgfx::TextureHandle textureHandle = BGFX_INVALID_HANDLE;
     };
 
-    enum class HudLayoutAnchor
-    {
-        TopLeft,
-        TopCenter,
-        TopRight,
-        Left,
-        Center,
-        Right,
-        BottomLeft,
-        BottomCenter,
-        BottomRight
-    };
-
-    enum class HudLayoutAttachMode
-    {
-        None,
-        RightOf,
-        LeftOf,
-        Above,
-        Below,
-        CenterAbove,
-        CenterBelow,
-        InsideLeft,
-        InsideRight,
-        InsideTopCenter,
-        InsideTopLeft,
-        InsideTopRight,
-        InsideBottomLeft,
-        InsideBottomCenter,
-        InsideBottomRight,
-        CenterIn
-    };
-
-    enum class HudTextAlignX
-    {
-        Left,
-        Center,
-        Right
-    };
-
-    enum class HudTextAlignY
-    {
-        Top,
-        Middle,
-        Bottom
-    };
+    using HudLayoutAnchor = UiLayoutManager::LayoutAnchor;
+    using HudLayoutAttachMode = UiLayoutManager::LayoutAttachMode;
+    using HudTextAlignX = UiLayoutManager::TextAlignX;
+    using HudTextAlignY = UiLayoutManager::TextAlignY;
 
     enum class HudScreenState
     {
@@ -260,13 +233,7 @@ private:
         Spellbook
     };
 
-    enum class CharacterPage
-    {
-        Stats,
-        Skills,
-        Inventory,
-        Awards
-    };
+    using CharacterPage = GameplayUiController::CharacterPage;
 
     enum class CharacterPointerTargetType
     {
@@ -282,35 +249,16 @@ private:
         DollPanel
     };
 
-    enum class DialoguePointerTargetType
-    {
-        None,
-        Action,
-        CloseButton
-    };
-
-    enum class ChestPointerTargetType
-    {
-        None,
-        CloseButton
-    };
-
 public:
-    enum class SpellbookSchool
-    {
-        Fire,
-        Air,
-        Water,
-        Earth,
-        Spirit,
-        Mind,
-        Body,
-        Light,
-        Dark,
-        DarkElf,
-        Vampire,
-        Dragon
-    };
+    using SpellbookSchool = GameplayUiController::SpellbookSchool;
+    using HouseShopMode = GameplayUiController::HouseShopMode;
+    using InventoryNestedOverlayMode = GameplayUiController::InventoryNestedOverlayMode;
+    using HouseBankInputMode = GameplayUiController::HouseBankInputMode;
+    using DialoguePointerTargetType = GameplayDialoguePointerTargetType;
+    using DialoguePointerTarget = GameplayDialoguePointerTarget;
+    using ChestPointerTargetType = GameplayChestPointerTargetType;
+    using ChestPointerTarget = GameplayChestPointerTarget;
+    using RenderedInspectableHudItem = GameplayRenderedInspectableHudItem;
 
     enum class SpellbookPointerTargetType
     {
@@ -322,36 +270,13 @@ public:
     };
 
 private:
-    enum class HouseShopMode
-    {
-        None,
-        BuyStandard,
-        BuySpecial,
-        BuySpellbooks
-    };
-
-    enum class InventoryNestedOverlayMode
-    {
-        None,
-        ChestTransfer,
-        ShopSell,
-        ShopIdentify,
-        ShopRepair
-    };
-
     enum class InventoryNestedOverlayPointerTargetType
     {
         None,
         CloseButton
     };
 
-    enum class ItemInspectSourceType
-    {
-        None,
-        Inventory,
-        Equipment,
-        WorldItem
-    };
+    using ItemInspectSourceType = GameplayUiController::ItemInspectSourceType;
 
     struct CharacterPointerTarget
     {
@@ -366,35 +291,8 @@ private:
         bool operator==(const CharacterPointerTarget &other) const = default;
     };
 
-    struct HeldInventoryItemState
-    {
-        bool active = false;
-        InventoryItem item = {};
-        uint8_t grabCellOffsetX = 0;
-        uint8_t grabCellOffsetY = 0;
-        float grabOffsetX = 0.0f;
-        float grabOffsetY = 0.0f;
-    };
-
-    struct ItemInspectOverlayState
-    {
-        bool active = false;
-        uint32_t objectDescriptionId = 0;
-        bool hasItemState = false;
-        InventoryItem itemState = {};
-        ItemInspectSourceType sourceType = ItemInspectSourceType::None;
-        size_t sourceMemberIndex = 0;
-        uint8_t sourceGridX = 0;
-        uint8_t sourceGridY = 0;
-        EquipmentSlot sourceEquipmentSlot = EquipmentSlot::MainHand;
-        size_t sourceWorldItemIndex = 0;
-        bool hasValueOverride = false;
-        int valueOverride = 0;
-        float sourceX = 0.0f;
-        float sourceY = 0.0f;
-        float sourceWidth = 0.0f;
-        float sourceHeight = 0.0f;
-    };
+    using HeldInventoryItemState = GameplayUiController::HeldInventoryItemState;
+    using ItemInspectOverlayState = GameplayUiController::ItemInspectOverlayState;
 
     struct PortraitFxState
     {
@@ -403,81 +301,13 @@ private:
         uint32_t startedTicks = 0;
     };
 
-    struct CharacterInspectMasteryLine
-    {
-        std::string text;
-        int availability = 0;
-        bool visible = false;
-    };
-
-    struct CharacterInspectOverlayState
-    {
-        bool active = false;
-        std::string title;
-        std::string body;
-        CharacterInspectMasteryLine expert = {};
-        CharacterInspectMasteryLine master = {};
-        CharacterInspectMasteryLine grandmaster = {};
-        float sourceX = 0.0f;
-        float sourceY = 0.0f;
-        float sourceWidth = 0.0f;
-        float sourceHeight = 0.0f;
-    };
-
-    struct BuffInspectOverlayState
-    {
-        bool active = false;
-        std::string title;
-        std::string body;
-        float sourceX = 0.0f;
-        float sourceY = 0.0f;
-        float sourceWidth = 0.0f;
-        float sourceHeight = 0.0f;
-    };
-
-    struct CharacterDetailOverlayState
-    {
-        bool active = false;
-        std::string title;
-        std::string body;
-        float sourceX = 0.0f;
-        float sourceY = 0.0f;
-        float sourceWidth = 0.0f;
-        float sourceHeight = 0.0f;
-    };
-
-    struct ActorInspectOverlayState
-    {
-        bool active = false;
-        size_t runtimeActorIndex = static_cast<size_t>(-1);
-        float sourceX = 0.0f;
-        float sourceY = 0.0f;
-        float sourceWidth = 0.0f;
-        float sourceHeight = 0.0f;
-    };
-
-    struct SpellInspectOverlayState
-    {
-        bool active = false;
-        uint32_t spellId = 0;
-        std::string title;
-        std::string body;
-        std::string normal;
-        std::string expert;
-        std::string master;
-        std::string grandmaster;
-        float sourceX = 0.0f;
-        float sourceY = 0.0f;
-        float sourceWidth = 0.0f;
-        float sourceHeight = 0.0f;
-    };
-
-    struct ReadableScrollOverlayState
-    {
-        bool active = false;
-        std::string title;
-        std::string body;
-    };
+    using CharacterInspectMasteryLine = GameplayUiController::CharacterInspectMasteryLine;
+    using CharacterInspectOverlayState = GameplayUiController::CharacterInspectOverlayState;
+    using BuffInspectOverlayState = GameplayUiController::BuffInspectOverlayState;
+    using CharacterDetailOverlayState = GameplayUiController::CharacterDetailOverlayState;
+    using ActorInspectOverlayState = GameplayUiController::ActorInspectOverlayState;
+    using SpellInspectOverlayState = GameplayUiController::SpellInspectOverlayState;
+    using ReadableScrollOverlayState = GameplayUiController::ReadableScrollOverlayState;
 
     struct PendingSpellCastState
     {
@@ -501,80 +331,7 @@ private:
         bool operator==(const SpellbookPointerTarget &other) const = default;
     };
 
-    struct SpellbookState
-    {
-        bool active = false;
-        SpellbookSchool school = SpellbookSchool::Fire;
-        uint32_t selectedSpellId = 0;
-    };
-
-    struct RenderedInspectableHudItem
-    {
-        uint32_t objectDescriptionId = 0;
-        bool hasItemState = false;
-        InventoryItem itemState = {};
-        ItemInspectSourceType sourceType = ItemInspectSourceType::None;
-        size_t sourceMemberIndex = 0;
-        uint8_t sourceGridX = 0;
-        uint8_t sourceGridY = 0;
-        EquipmentSlot equipmentSlot = EquipmentSlot::MainHand;
-        std::string textureName;
-        bool hasValueOverride = false;
-        int valueOverride = 0;
-        float x = 0.0f;
-        float y = 0.0f;
-        float width = 0.0f;
-        float height = 0.0f;
-    };
-
-    struct DialoguePointerTarget
-    {
-        DialoguePointerTargetType type = DialoguePointerTargetType::None;
-        size_t index = 0;
-
-        bool operator==(const DialoguePointerTarget &other) const = default;
-    };
-
-    struct ChestPointerTarget
-    {
-        ChestPointerTargetType type = ChestPointerTargetType::None;
-
-        bool operator==(const ChestPointerTarget &other) const = default;
-    };
-
-    struct InventoryNestedOverlayState
-    {
-        bool active = false;
-        InventoryNestedOverlayMode mode = InventoryNestedOverlayMode::None;
-        uint32_t houseId = 0;
-    };
-
-    struct HouseShopOverlayState
-    {
-        bool active = false;
-        uint32_t houseId = 0;
-        HouseShopMode mode = HouseShopMode::None;
-    };
-
-    enum class HouseBankInputMode : uint8_t
-    {
-        None = 0,
-        Deposit,
-        Withdraw,
-    };
-
-    struct HouseBankState
-    {
-        uint32_t houseId = 0;
-        HouseBankInputMode inputMode = HouseBankInputMode::None;
-        std::string inputText;
-        bool transactionPerformed = false;
-
-        bool inputActive() const
-        {
-            return inputMode != HouseBankInputMode::None;
-        }
-    };
+    using SpellbookState = GameplayUiController::SpellbookState;
 
     struct InventoryNestedOverlayPointerTarget
     {
@@ -583,44 +340,11 @@ private:
         bool operator==(const InventoryNestedOverlayPointerTarget &other) const = default;
     };
 
-    struct HudLayoutElement
-    {
-        std::string id;
-        std::string screen;
-        HudLayoutAnchor anchor = HudLayoutAnchor::TopLeft;
-        std::string parentId;
-        HudLayoutAttachMode attachTo = HudLayoutAttachMode::None;
-        float gapX = 0.0f;
-        float gapY = 0.0f;
-        float offsetX = 0.0f;
-        float offsetY = 0.0f;
-        float width = 0.0f;
-        float height = 0.0f;
-        std::string bottomToId;
-        float bottomGap = 0.0f;
-        float minScale = 1.0f;
-        float maxScale = 3.0f;
-        bool hasExplicitScale = false;
-        int zIndex = 0;
-        bool visible = true;
-        bool interactive = false;
-        std::string primaryAsset;
-        std::string hoverAsset;
-        std::string pressedAsset;
-        std::string secondaryAsset;
-        std::string tertiaryAsset;
-        std::string quaternaryAsset;
-        std::string quinaryAsset;
-        std::string fontName;
-        std::string labelText;
-        uint32_t textColorAbgr = 0xffffffffu;
-        HudTextAlignX textAlignX = HudTextAlignX::Left;
-        HudTextAlignY textAlignY = HudTextAlignY::Top;
-        float textScale = 1.0f;
-        float textPadX = 0.0f;
-        float textPadY = 0.0f;
-        std::string notes;
-    };
+    using InventoryNestedOverlayState = GameplayUiController::InventoryNestedOverlayState;
+    using HouseShopOverlayState = GameplayUiController::HouseShopOverlayState;
+    using HouseBankState = GameplayUiController::HouseBankState;
+
+    using HudLayoutElement = UiLayoutManager::LayoutElement;
 
     struct ResolvedHudLayoutElement
     {
@@ -630,6 +354,12 @@ private:
         float height = 0.0f;
         float scale = 1.0f;
     };
+
+public:
+    using OverlayResolvedHudLayoutElement = ResolvedHudLayoutElement;
+    using OverlayHudScreenState = HudScreenState;
+
+private:
 
     struct SpriteLoadCache
     {
@@ -837,7 +567,6 @@ private:
     void queueEventSpellBillboardTextureWarmup(const EventIrProgram &eventIrProgram);
     void processPendingSpriteFrameWarmups(size_t maxSpriteFrames);
     bool loadHudLayout(const Engine::AssetFileSystem &assetFileSystem);
-    bool loadHudLayoutFile(const Engine::AssetFileSystem &assetFileSystem, const std::string &path);
     const HudLayoutElement *findHudLayoutElement(const std::string &layoutId) const;
     std::vector<std::string> sortedHudLayoutIdsForScreen(const std::string &screen) const;
     int maxHudLayoutZIndexForScreen(const std::string &screen) const;
@@ -892,6 +621,7 @@ private:
     void updateHouseVideoPlayback(float deltaSeconds);
     void handleDialogueCloseRequest();
     void openDebugNpcDialogue(uint32_t npcId);
+    GameplayDialogController::Context createGameplayDialogContext(EventRuntimeState &eventRuntimeState);
     void renderCharacterOverlay(int width, int height, bool renderAboveHud) const;
     void renderDialogueOverlay(int width, int height, bool renderAboveHud);
     void renderHeldInventoryItem(int width, int height) const;
@@ -988,7 +718,7 @@ private:
         const std::optional<size_t> &portraitMemberIndex);
     std::optional<bx::Vec3> resolvePendingSpellGroundTargetPoint(const InspectHit &inspectHit) const;
     std::optional<size_t> resolveRuntimeActorIndexForInspectHit(const InspectHit &inspectHit) const;
-    bool isOpaqueHudPixelAtPoint(const RenderedInspectableHudItem &item, float x, float y) const;
+    bool isOpaqueHudPixelAtPoint(const GameplayRenderedInspectableHudItem &item, float x, float y) const;
     std::string resolveEquippedItemHudTextureName(
         const ItemDefinition &itemDefinition,
         uint32_t dollTypeId,
@@ -1047,12 +777,10 @@ private:
     std::optional<StrTable> m_localStrTable;
     std::optional<EvtProgram> m_localEvtProgram;
     std::optional<EvtProgram> m_globalEvtProgram;
-    EventRuntime m_eventRuntime;
-    std::optional<EventIrProgram> m_localEventIrProgram;
-    std::optional<EventIrProgram> m_globalEventIrProgram;
     const ObjectTable *m_pObjectTable;
     const SpellTable *m_pSpellTable;
     GameAudioSystem *m_pGameAudioSystem;
+    OutdoorSceneRuntime *m_pOutdoorSceneRuntime;
     OutdoorWorldRuntime *m_pOutdoorWorldRuntime;
     bgfx::VertexBufferHandle m_vertexBufferHandle;
     bgfx::IndexBufferHandle m_indexBufferHandle;
@@ -1101,8 +829,7 @@ private:
     std::vector<HudFontHandle> m_hudFontHandles;
     mutable std::vector<HudFontColorTextureHandle> m_hudFontColorTextureHandles;
     mutable std::vector<HudTextureColorTextureHandle> m_hudTextureColorTextureHandles;
-    std::vector<std::string> m_hudLayoutOrder;
-    std::unordered_map<std::string, HudLayoutElement> m_hudLayoutElements;
+    UiLayoutManager m_uiLayoutManager;
     mutable std::unordered_map<std::string, float> m_hudLayoutRuntimeHeightOverrides;
     float m_cameraTargetX;
     float m_cameraTargetY;
@@ -1167,9 +894,11 @@ private:
     bool m_spellbookClickLatch;
     bool m_pendingSpellTargetClickLatch;
     bool m_inventoryScreenToggleLatch;
-    bool m_characterScreenOpen;
-    bool m_characterDollJewelryOverlayOpen;
-    CharacterPage m_characterPage;
+    GameplayUiController m_gameplayUiController;
+    GameplayDialogController m_gameplayDialogController;
+    bool &m_characterScreenOpen;
+    bool &m_characterDollJewelryOverlayOpen;
+    CharacterPage &m_characterPage;
     bool m_characterClickLatch;
     bool m_characterMemberCycleLatch;
     CharacterPointerTarget m_characterPressedTarget;
@@ -1177,35 +906,35 @@ private:
     std::optional<size_t> m_partyPortraitPressedIndex;
     uint64_t m_lastPartyPortraitClickTicks;
     std::optional<size_t> m_lastPartyPortraitClickedIndex;
-    HeldInventoryItemState m_heldInventoryItem;
-    ItemInspectOverlayState m_itemInspectOverlay;
+    HeldInventoryItemState &m_heldInventoryItem;
+    ItemInspectOverlayState &m_itemInspectOverlay;
     bool m_itemInspectInteractionLatch;
     uint64_t m_itemInspectInteractionKey;
-    CharacterInspectOverlayState m_characterInspectOverlay;
-    BuffInspectOverlayState m_buffInspectOverlay;
-    CharacterDetailOverlayState m_characterDetailOverlay;
-    ActorInspectOverlayState m_actorInspectOverlay;
-    SpellInspectOverlayState m_spellInspectOverlay;
-    ReadableScrollOverlayState m_readableScrollOverlay;
-    SpellbookState m_spellbook;
+    CharacterInspectOverlayState &m_characterInspectOverlay;
+    BuffInspectOverlayState &m_buffInspectOverlay;
+    CharacterDetailOverlayState &m_characterDetailOverlay;
+    ActorInspectOverlayState &m_actorInspectOverlay;
+    SpellInspectOverlayState &m_spellInspectOverlay;
+    ReadableScrollOverlayState &m_readableScrollOverlay;
+    SpellbookState &m_spellbook;
+    InventoryNestedOverlayState &m_inventoryNestedOverlay;
+    HouseShopOverlayState &m_houseShopOverlay;
+    HouseBankState &m_houseBankState;
     SpellbookPointerTarget m_spellbookPressedTarget;
     uint64_t m_lastSpellbookSpellClickTicks;
     uint32_t m_lastSpellbookClickedSpellId;
     PendingSpellCastState m_pendingSpellCast;
-    mutable std::vector<RenderedInspectableHudItem> m_renderedInspectableHudItems;
+    mutable std::vector<GameplayRenderedInspectableHudItem> m_renderedInspectableHudItems;
     mutable HudScreenState m_renderedInspectableHudState = HudScreenState::Gameplay;
     bool m_heldInventoryDropLatch;
     bool m_closeOverlayLatch;
     bool m_dialogueClickLatch;
-    DialoguePointerTarget m_dialoguePressedTarget;
+    GameplayDialoguePointerTarget m_dialoguePressedTarget;
     bool m_houseShopClickLatch;
     size_t m_houseShopPressedSlotIndex;
     bool m_chestClickLatch;
     bool m_chestItemClickLatch;
-    ChestPointerTarget m_chestPressedTarget;
-    InventoryNestedOverlayState m_inventoryNestedOverlay;
-    HouseShopOverlayState m_houseShopOverlay;
-    HouseBankState m_houseBankState;
+    GameplayChestPointerTarget m_chestPressedTarget;
     bool m_inventoryNestedOverlayClickLatch;
     bool m_inventoryNestedOverlayItemClickLatch;
     InventoryNestedOverlayPointerTarget m_inventoryNestedOverlayPressedTarget;
@@ -1220,14 +949,14 @@ private:
     bool m_eventDialogAcceptLatch;
     std::array<bool, 5> m_eventDialogPartySelectLatches;
     size_t m_chestSelectionIndex;
-    size_t m_eventDialogSelectionIndex;
-    std::string m_statusBarHoverText;
-    std::string m_statusBarEventText;
-    float m_statusBarEventRemainingSeconds;
+    size_t &m_eventDialogSelectionIndex;
+    std::string &m_statusBarHoverText;
+    std::string &m_statusBarEventText;
+    float &m_statusBarEventRemainingSeconds;
     bool m_cachedHoverInspectHitValid;
     uint64_t m_lastHoverInspectUpdateNanoseconds;
     InspectHit m_cachedHoverInspectHit;
-    EventDialogContent m_activeEventDialog;
+    EventDialogContent &m_activeEventDialog;
     HouseVideoPlayer m_houseVideoPlayer;
     OutdoorPartyRuntime *m_pOutdoorPartyRuntime;
     const Engine::AssetFileSystem *m_pAssetFileSystem;

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "game/scene/IndoorSceneRuntime.h"
+#include "game/scene/SceneKind.h"
 #include "game/OutdoorPartyRuntime.h"
 #include "game/OutdoorWorldRuntime.h"
 #include "game/Party.h"
@@ -13,11 +15,17 @@ namespace OpenYAMM::Game
 {
 struct GameSaveData
 {
+    SceneKind currentSceneKind = SceneKind::Outdoor;
     std::string mapFileName;
     Party::Snapshot party;
+    bool hasOutdoorRuntimeState = false;
     OutdoorPartyRuntime::Snapshot outdoorParty;
     OutdoorWorldRuntime::Snapshot outdoorWorld;
     std::unordered_map<std::string, OutdoorWorldRuntime::Snapshot> outdoorWorldStates;
+    bool hasIndoorSceneState = false;
+    IndoorSceneRuntime::Snapshot indoorScene;
+    std::unordered_map<std::string, IndoorSceneRuntime::Snapshot> indoorSceneStates;
+    float savedGameMinutes = 0.0f;
     float outdoorCameraYawRadians = 0.0f;
     float outdoorCameraPitchRadians = 0.0f;
 };

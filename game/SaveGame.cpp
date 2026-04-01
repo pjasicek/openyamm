@@ -13,7 +13,7 @@ namespace OpenYAMM::Game
 {
 namespace
 {
-constexpr uint32_t SaveVersion = 8;
+constexpr uint32_t SaveVersion = 9;
 constexpr char SaveMagic[8] = {'O', 'Y', 'S', 'A', 'V', 'E', '1', '\0'};
 
 class BinaryWriter
@@ -1044,6 +1044,258 @@ bool readValue(BinaryReader &reader, MapDeltaChest &value)
         && readValue(reader, value.inventoryMatrix);
 }
 
+void writeValue(BinaryWriter &writer, const MapDeltaLocationInfo &value)
+{
+    writeValue(writer, value.respawnCount);
+    writeValue(writer, value.lastRespawnDay);
+    writeValue(writer, value.reputation);
+    writeValue(writer, value.alertStatus);
+    writeValue(writer, value.totalFacesCount);
+    writeValue(writer, value.decorationCount);
+    writeValue(writer, value.bmodelCount);
+}
+
+bool readValue(BinaryReader &reader, MapDeltaLocationInfo &value)
+{
+    return readValue(reader, value.respawnCount)
+        && readValue(reader, value.lastRespawnDay)
+        && readValue(reader, value.reputation)
+        && readValue(reader, value.alertStatus)
+        && readValue(reader, value.totalFacesCount)
+        && readValue(reader, value.decorationCount)
+        && readValue(reader, value.bmodelCount);
+}
+
+void writeValue(BinaryWriter &writer, const MapDeltaPersistentVariables &value)
+{
+    writeValue(writer, value.mapVars);
+    writeValue(writer, value.decorVars);
+}
+
+bool readValue(BinaryReader &reader, MapDeltaPersistentVariables &value)
+{
+    return readValue(reader, value.mapVars)
+        && readValue(reader, value.decorVars);
+}
+
+void writeValue(BinaryWriter &writer, const MapDeltaLocationTime &value)
+{
+    writeValue(writer, value.lastVisitTime);
+    writeValue(writer, value.skyTextureName);
+    writeValue(writer, value.weatherFlags);
+    writeValue(writer, value.fogWeakDistance);
+    writeValue(writer, value.fogStrongDistance);
+    writeValue(writer, value.reserved);
+}
+
+bool readValue(BinaryReader &reader, MapDeltaLocationTime &value)
+{
+    return readValue(reader, value.lastVisitTime)
+        && readValue(reader, value.skyTextureName)
+        && readValue(reader, value.weatherFlags)
+        && readValue(reader, value.fogWeakDistance)
+        && readValue(reader, value.fogStrongDistance)
+        && readValue(reader, value.reserved);
+}
+
+void writeValue(BinaryWriter &writer, const MapDeltaActor &value)
+{
+    writeValue(writer, value.name);
+    writeValue(writer, value.npcId);
+    writeValue(writer, value.attributes);
+    writeValue(writer, value.hp);
+    writeValue(writer, value.hostilityType);
+    writeValue(writer, value.monsterInfoId);
+    writeValue(writer, value.monsterId);
+    writeValue(writer, value.radius);
+    writeValue(writer, value.height);
+    writeValue(writer, value.moveSpeed);
+    writeValue(writer, value.x);
+    writeValue(writer, value.y);
+    writeValue(writer, value.z);
+    writeValue(writer, value.spriteIds);
+    writeValue(writer, value.sectorId);
+    writeValue(writer, value.currentActionAnimation);
+    writeValue(writer, value.group);
+    writeValue(writer, value.ally);
+    writeValue(writer, value.uniqueNameIndex);
+}
+
+bool readValue(BinaryReader &reader, MapDeltaActor &value)
+{
+    return readValue(reader, value.name)
+        && readValue(reader, value.npcId)
+        && readValue(reader, value.attributes)
+        && readValue(reader, value.hp)
+        && readValue(reader, value.hostilityType)
+        && readValue(reader, value.monsterInfoId)
+        && readValue(reader, value.monsterId)
+        && readValue(reader, value.radius)
+        && readValue(reader, value.height)
+        && readValue(reader, value.moveSpeed)
+        && readValue(reader, value.x)
+        && readValue(reader, value.y)
+        && readValue(reader, value.z)
+        && readValue(reader, value.spriteIds)
+        && readValue(reader, value.sectorId)
+        && readValue(reader, value.currentActionAnimation)
+        && readValue(reader, value.group)
+        && readValue(reader, value.ally)
+        && readValue(reader, value.uniqueNameIndex);
+}
+
+void writeValue(BinaryWriter &writer, const MapDeltaSpriteObject &value)
+{
+    writeValue(writer, value.spriteId);
+    writeValue(writer, value.objectDescriptionId);
+    writeValue(writer, value.x);
+    writeValue(writer, value.y);
+    writeValue(writer, value.z);
+    writeValue(writer, value.velocityX);
+    writeValue(writer, value.velocityY);
+    writeValue(writer, value.velocityZ);
+    writeValue(writer, value.yawAngle);
+    writeValue(writer, value.soundId);
+    writeValue(writer, value.attributes);
+    writeValue(writer, value.sectorId);
+    writeValue(writer, value.timeSinceCreated);
+    writeValue(writer, value.temporaryLifetime);
+    writeValue(writer, value.glowRadiusMultiplier);
+    writeValue(writer, value.spellId);
+    writeValue(writer, value.spellLevel);
+    writeValue(writer, value.spellSkill);
+    writeValue(writer, value.field54);
+    writeValue(writer, value.spellCasterPid);
+    writeValue(writer, value.spellTargetPid);
+    writeValue(writer, value.lodDistance);
+    writeValue(writer, value.spellCasterAbility);
+    writeValue(writer, value.initialX);
+    writeValue(writer, value.initialY);
+    writeValue(writer, value.initialZ);
+    writeValue(writer, value.rawContainingItem);
+}
+
+bool readValue(BinaryReader &reader, MapDeltaSpriteObject &value)
+{
+    return readValue(reader, value.spriteId)
+        && readValue(reader, value.objectDescriptionId)
+        && readValue(reader, value.x)
+        && readValue(reader, value.y)
+        && readValue(reader, value.z)
+        && readValue(reader, value.velocityX)
+        && readValue(reader, value.velocityY)
+        && readValue(reader, value.velocityZ)
+        && readValue(reader, value.yawAngle)
+        && readValue(reader, value.soundId)
+        && readValue(reader, value.attributes)
+        && readValue(reader, value.sectorId)
+        && readValue(reader, value.timeSinceCreated)
+        && readValue(reader, value.temporaryLifetime)
+        && readValue(reader, value.glowRadiusMultiplier)
+        && readValue(reader, value.spellId)
+        && readValue(reader, value.spellLevel)
+        && readValue(reader, value.spellSkill)
+        && readValue(reader, value.field54)
+        && readValue(reader, value.spellCasterPid)
+        && readValue(reader, value.spellTargetPid)
+        && readValue(reader, value.lodDistance)
+        && readValue(reader, value.spellCasterAbility)
+        && readValue(reader, value.initialX)
+        && readValue(reader, value.initialY)
+        && readValue(reader, value.initialZ)
+        && readValue(reader, value.rawContainingItem);
+}
+
+void writeValue(BinaryWriter &writer, const MapDeltaDoor &value)
+{
+    writeValue(writer, value.slotIndex);
+    writeValue(writer, value.attributes);
+    writeValue(writer, value.doorId);
+    writeValue(writer, value.timeSinceTriggered);
+    writeValue(writer, value.directionX);
+    writeValue(writer, value.directionY);
+    writeValue(writer, value.directionZ);
+    writeValue(writer, value.moveLength);
+    writeValue(writer, value.openSpeed);
+    writeValue(writer, value.closeSpeed);
+    writeValue(writer, value.numVertices);
+    writeValue(writer, value.numFaces);
+    writeValue(writer, value.numSectors);
+    writeValue(writer, value.numOffsets);
+    writeValue(writer, value.state);
+    writeValue(writer, value.vertexIds);
+    writeValue(writer, value.faceIds);
+    writeValue(writer, value.sectorIds);
+    writeValue(writer, value.deltaUs);
+    writeValue(writer, value.deltaVs);
+    writeValue(writer, value.xOffsets);
+    writeValue(writer, value.yOffsets);
+    writeValue(writer, value.zOffsets);
+}
+
+bool readValue(BinaryReader &reader, MapDeltaDoor &value)
+{
+    return readValue(reader, value.slotIndex)
+        && readValue(reader, value.attributes)
+        && readValue(reader, value.doorId)
+        && readValue(reader, value.timeSinceTriggered)
+        && readValue(reader, value.directionX)
+        && readValue(reader, value.directionY)
+        && readValue(reader, value.directionZ)
+        && readValue(reader, value.moveLength)
+        && readValue(reader, value.openSpeed)
+        && readValue(reader, value.closeSpeed)
+        && readValue(reader, value.numVertices)
+        && readValue(reader, value.numFaces)
+        && readValue(reader, value.numSectors)
+        && readValue(reader, value.numOffsets)
+        && readValue(reader, value.state)
+        && readValue(reader, value.vertexIds)
+        && readValue(reader, value.faceIds)
+        && readValue(reader, value.sectorIds)
+        && readValue(reader, value.deltaUs)
+        && readValue(reader, value.deltaVs)
+        && readValue(reader, value.xOffsets)
+        && readValue(reader, value.yOffsets)
+        && readValue(reader, value.zOffsets);
+}
+
+void writeValue(BinaryWriter &writer, const MapDeltaData &value)
+{
+    writeValue(writer, value.locationInfo);
+    writeValue(writer, value.fullyRevealedCells);
+    writeValue(writer, value.partiallyRevealedCells);
+    writeValue(writer, value.visibleOutlines);
+    writeValue(writer, value.faceAttributes);
+    writeValue(writer, value.decorationFlags);
+    writeValue(writer, value.actors);
+    writeValue(writer, value.spriteObjects);
+    writeValue(writer, value.chests);
+    writeValue(writer, value.doorSlotCount);
+    writeValue(writer, value.doors);
+    writeValue(writer, value.doorsData);
+    writeValue(writer, value.eventVariables);
+    writeValue(writer, value.locationTime);
+}
+
+bool readValue(BinaryReader &reader, MapDeltaData &value)
+{
+    return readValue(reader, value.locationInfo)
+        && readValue(reader, value.fullyRevealedCells)
+        && readValue(reader, value.partiallyRevealedCells)
+        && readValue(reader, value.visibleOutlines)
+        && readValue(reader, value.faceAttributes)
+        && readValue(reader, value.decorationFlags)
+        && readValue(reader, value.actors)
+        && readValue(reader, value.spriteObjects)
+        && readValue(reader, value.chests)
+        && readValue(reader, value.doorSlotCount)
+        && readValue(reader, value.doors)
+        && readValue(reader, value.doorsData)
+        && readValue(reader, value.eventVariables)
+        && readValue(reader, value.locationTime);
+}
+
 void writeValue(BinaryWriter &writer, const OutdoorWorldRuntime::TimerState &value)
 {
     writeValue(writer, value.eventId);
@@ -1528,26 +1780,73 @@ bool readValue(BinaryReader &reader, OutdoorWorldRuntime::Snapshot &value)
         && readValue(reader, value.projectileImpacts);
 }
 
+void writeValue(BinaryWriter &writer, const IndoorSceneRuntime::Snapshot &value)
+{
+    writeValue(writer, value.mapDeltaData);
+    writeValue(writer, value.eventRuntimeState);
+    writeValue(writer, value.mechanismAccumulatorMilliseconds);
+}
+
+bool readValue(BinaryReader &reader, IndoorSceneRuntime::Snapshot &value)
+{
+    return readValue(reader, value.mapDeltaData)
+        && readValue(reader, value.eventRuntimeState)
+        && readValue(reader, value.mechanismAccumulatorMilliseconds);
+}
+
 void writeValue(BinaryWriter &writer, const GameSaveData &value)
 {
+    writeValue(writer, value.currentSceneKind);
     writeValue(writer, value.mapFileName);
     writeValue(writer, value.party);
+    writeValue(writer, value.hasOutdoorRuntimeState);
     writeValue(writer, value.outdoorParty);
     writeValue(writer, value.outdoorWorld);
     writeValue(writer, value.outdoorWorldStates);
+    writeValue(writer, value.hasIndoorSceneState);
+    writeValue(writer, value.indoorScene);
+    writeValue(writer, value.indoorSceneStates);
+    writeValue(writer, value.savedGameMinutes);
     writeValue(writer, value.outdoorCameraYawRadians);
     writeValue(writer, value.outdoorCameraPitchRadians);
 }
 
 bool readValue(BinaryReader &reader, GameSaveData &value)
 {
-    return readValue(reader, value.mapFileName)
+    return readValue(reader, value.currentSceneKind)
+        && readValue(reader, value.mapFileName)
         && readValue(reader, value.party)
+        && readValue(reader, value.hasOutdoorRuntimeState)
         && readValue(reader, value.outdoorParty)
         && readValue(reader, value.outdoorWorld)
         && readValue(reader, value.outdoorWorldStates)
+        && readValue(reader, value.hasIndoorSceneState)
+        && readValue(reader, value.indoorScene)
+        && readValue(reader, value.indoorSceneStates)
+        && readValue(reader, value.savedGameMinutes)
         && readValue(reader, value.outdoorCameraYawRadians)
         && readValue(reader, value.outdoorCameraPitchRadians);
+}
+
+bool readVersion8GameSaveData(BinaryReader &reader, GameSaveData &value)
+{
+    value = {};
+    value.currentSceneKind = SceneKind::Outdoor;
+
+    if (!readValue(reader, value.mapFileName)
+        || !readValue(reader, value.party)
+        || !readValue(reader, value.outdoorParty)
+        || !readValue(reader, value.outdoorWorld)
+        || !readValue(reader, value.outdoorWorldStates)
+        || !readValue(reader, value.outdoorCameraYawRadians)
+        || !readValue(reader, value.outdoorCameraPitchRadians))
+    {
+        return false;
+    }
+
+    value.hasOutdoorRuntimeState = true;
+    value.savedGameMinutes = value.outdoorWorld.gameMinutes;
+    return true;
 }
 }
 
@@ -1620,7 +1919,7 @@ std::optional<GameSaveData> loadGameDataFromPath(const std::filesystem::path &pa
         return std::nullopt;
     }
 
-    if (version != SaveVersion)
+    if (version != 8 && version != SaveVersion)
     {
         error = "unsupported save version";
         return std::nullopt;
@@ -1628,7 +1927,11 @@ std::optional<GameSaveData> loadGameDataFromPath(const std::filesystem::path &pa
 
     GameSaveData data = {};
 
-    if (!reader.read(data) || reader.failed())
+    const bool decoded = version == 8
+        ? readVersion8GameSaveData(reader, data)
+        : reader.read(data);
+
+    if (!decoded || reader.failed())
     {
         error = "save data is corrupted";
         return std::nullopt;

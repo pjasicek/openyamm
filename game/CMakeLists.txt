@@ -63,7 +63,9 @@ add_custom_target(openyamm_ffmpeg_build
 )
 
 add_executable(openyamm
+    ScreenManager.cpp
     ActorNameResolver.cpp
+    GameSession.cpp
     GameAudioSystem.cpp
     ChestTable.cpp
     CharacterInspectTable.cpp
@@ -75,6 +77,10 @@ add_executable(openyamm
     EvtProgram.cpp
     FaceAnimationTable.cpp
     GameMechanics.cpp
+    gameplay/GameplayController.cpp
+    gameplay/GameplayDialogController.cpp
+    gameplay/GameplayOverlayInputController.cpp
+    gameplay/GameplayPartyOverlayInputController.cpp
     GenericActorDialog.cpp
     HouseInteraction.cpp
     HouseServiceRuntime.cpp
@@ -101,7 +107,9 @@ add_executable(openyamm
     MonsterTable.cpp
     NpcDialogTable.cpp
     ObjectTable.cpp
+    OutdoorBillboardRenderer.cpp
     OutdoorMapData.cpp
+    OutdoorPresentationController.cpp
     OutdoorGeometryUtils.cpp
     OutdoorMovementController.cpp
     OutdoorMovementDriver.cpp
@@ -120,12 +128,25 @@ add_executable(openyamm
     SpawnPreview.cpp
     SkillData.cpp
     SpeechReactionTable.cpp
+    SpellbookUiLayout.cpp
     SpellSchool.cpp
     SpellTable.cpp
     SpellFxTable.cpp
     SpriteTables.cpp
     StrTable.cpp
     OutdoorGameView.cpp
+    ui/GameplayDialogueRenderer.cpp
+    ui/GameplayHudOverlayRenderer.cpp
+    ui/GameplayOverlayContext.cpp
+    ui/GameplayPartyOverlayRenderer.cpp
+    ui/MenuScreenBase.cpp
+    ui/GameplayUiController.cpp
+    ui/UiLayoutManager.cpp
+    ui/screens/MainMenuScreen.cpp
+    ui/screens/LoadMenuScreen.cpp
+    ui/screens/NewGameScreen.cpp
+    scene/IndoorSceneRuntime.cpp
+    scene/OutdoorSceneRuntime.cpp
     main.cpp
     GameApplication.cpp
 )

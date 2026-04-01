@@ -1,5 +1,6 @@
 #pragma once
 
+#include "game/ISceneEventContext.h"
 #include "game/EventRuntime.h"
 #include "game/EventIr.h"
 #include "game/MapAssetLoader.h"
@@ -27,7 +28,7 @@ class ChestTable;
 class StandardItemEnchantTable;
 class SpecialItemEnchantTable;
 
-class OutdoorWorldRuntime
+class OutdoorWorldRuntime : public ISceneEventContext
 {
 public:
     struct AtmosphereState
@@ -556,7 +557,7 @@ public:
         int32_t toX,
         int32_t toY,
         int32_t toZ
-    );
+    ) override;
     bool castPartySpell(const SpellCastRequest &request);
     bool spawnPartyProjectile(const PartyProjectileRequest &request);
     bool summonMonsters(
@@ -568,7 +569,7 @@ public:
         int32_t z,
         uint32_t group,
         uint32_t uniqueNameId
-    );
+    ) override;
     bool summonFriendlyMonsterById(
         int16_t monsterId,
         uint32_t count,
@@ -577,7 +578,7 @@ public:
         float y,
         float z
     );
-    bool checkMonstersKilled(uint32_t checkType, uint32_t id, uint32_t count, bool invisibleAsDead) const;
+    bool checkMonstersKilled(uint32_t checkType, uint32_t id, uint32_t count, bool invisibleAsDead) const override;
 
 public:
     struct ResolvedProjectileDefinition

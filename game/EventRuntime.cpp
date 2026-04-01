@@ -1,5 +1,5 @@
+#include "game/ISceneEventContext.h"
 #include "game/EventRuntime.h"
-#include "game/OutdoorWorldRuntime.h"
 #include "game/Party.h"
 #include "game/SkillData.h"
 
@@ -1133,7 +1133,7 @@ bool EventRuntime::executeEventById(
     uint16_t eventId,
     EventRuntimeState &runtimeState,
     Party *pParty,
-    OutdoorWorldRuntime *pOutdoorWorldRuntime
+    ISceneEventContext *pSceneEventContext
 ) const
 {
     if (eventId == 0)
@@ -1147,7 +1147,7 @@ bool EventRuntime::executeEventById(
 
         if (pEvent != nullptr)
         {
-            return executeEvent(*pEvent, runtimeState, pParty, pOutdoorWorldRuntime);
+            return executeEvent(*pEvent, runtimeState, pParty, pSceneEventContext);
         }
     }
 
@@ -1157,7 +1157,7 @@ bool EventRuntime::executeEventById(
 
         if (pEvent != nullptr)
         {
-            return executeEvent(*pEvent, runtimeState, pParty, pOutdoorWorldRuntime);
+            return executeEvent(*pEvent, runtimeState, pParty, pSceneEventContext);
         }
     }
 
@@ -1515,7 +1515,7 @@ bool EventRuntime::executeEvent(
     const EventIrEvent &event,
     EventRuntimeState &runtimeState,
     Party *pParty,
-    OutdoorWorldRuntime *pOutdoorWorldRuntime
+    ISceneEventContext *pSceneEventContext
 )
 {
     runtimeState.lastAffectedMechanismIds.clear();
@@ -1657,8 +1657,8 @@ bool EventRuntime::executeEvent(
                     const int32_t toY = static_cast<int32_t>(instruction.arguments[7]);
                     const int32_t toZ = static_cast<int32_t>(instruction.arguments[8]);
                     const bool casted =
-                        pOutdoorWorldRuntime != nullptr
-                        && pOutdoorWorldRuntime->castEventSpell(
+                        pSceneEventContext != nullptr
+                        && pSceneEventContext->castEventSpell(
                             spellId,
                             skillLevel,
                             skillMastery,
@@ -1737,8 +1737,8 @@ bool EventRuntime::executeEvent(
                     const uint32_t id = instruction.arguments[1];
                     const uint32_t count = instruction.arguments[2];
                     const bool invisibleAsDead = instruction.arguments[3] != 0;
-                    const bool killed = pOutdoorWorldRuntime != nullptr
-                        && pOutdoorWorldRuntime->checkMonstersKilled(checkType, id, count, invisibleAsDead);
+                    const bool killed = pSceneEventContext != nullptr
+                        && pSceneEventContext->checkMonstersKilled(checkType, id, count, invisibleAsDead);
 
                     std::cout << "  check_monsters_killed type=" << checkType
                               << " id=" << id
@@ -1796,8 +1796,8 @@ bool EventRuntime::executeEvent(
                     const int32_t z = static_cast<int32_t>(instruction.arguments[5]);
                     const uint32_t group = instruction.arguments[6];
                     const uint32_t uniqueNameId = instruction.arguments[7];
-                    const bool summoned = pOutdoorWorldRuntime != nullptr
-                        && pOutdoorWorldRuntime->summonMonsters(
+                    const bool summoned = pSceneEventContext != nullptr
+                        && pSceneEventContext->summonMonsters(
                             typeIndex,
                             level,
                             count,

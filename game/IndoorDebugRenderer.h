@@ -21,6 +21,8 @@
 
 namespace OpenYAMM::Game
 {
+class IndoorSceneRuntime;
+
 class IndoorDebugRenderer
 {
 public:
@@ -34,19 +36,16 @@ public:
         const MapStatsEntry &map,
         const MonsterTable &monsterTable,
         const IndoorMapData &indoorMapData,
-        const std::optional<MapDeltaData> &indoorMapDeltaData,
         const std::optional<IndoorTextureSet> &indoorTextureSet,
         const std::optional<DecorationBillboardSet> &indoorDecorationBillboardSet,
         const std::optional<ActorPreviewBillboardSet> &indoorActorPreviewBillboardSet,
         const std::optional<SpriteObjectBillboardSet> &indoorSpriteObjectBillboardSet,
-        const std::optional<EventRuntimeState> &eventRuntimeState,
+        IndoorSceneRuntime &sceneRuntime,
         const ChestTable &chestTable,
         const HouseTable &houseTable,
         const std::optional<StrTable> &localStrTable,
         const std::optional<EvtProgram> &localEvtProgram,
-        const std::optional<EvtProgram> &globalEvtProgram,
-        const std::optional<EventIrProgram> &localEventIrProgram,
-        const std::optional<EventIrProgram> &globalEventIrProgram
+        const std::optional<EvtProgram> &globalEvtProgram
     );
     void render(int width, int height, float mouseWheelDelta, float deltaSeconds);
     void shutdown();
@@ -201,6 +200,10 @@ private:
     void renderSpriteObjectBillboards(uint16_t viewId, const float *pViewMatrix, const bx::Vec3 &cameraPosition);
     const bgfx::TextureHandle *findIndoorTextureHandle(const std::string &textureName) const;
     const BillboardTextureHandle *findBillboardTexture(const std::string &textureName, int16_t paletteId = 0) const;
+    const std::optional<MapDeltaData> &runtimeMapDeltaData() const;
+    const std::optional<EventRuntimeState> &runtimeEventRuntimeStateStorage() const;
+    EventRuntimeState *runtimeEventRuntimeState();
+    const EventRuntimeState *runtimeEventRuntimeState() const;
     bool hasScriptVisualOverrides() const;
     void rebuildMechanismBindings();
     bool rebuildAllTexturedBatches(uint64_t &texturedBuildNanoseconds);
@@ -213,10 +216,8 @@ private:
     std::optional<MonsterTable> m_monsterTable;
     std::optional<IndoorMapData> m_indoorMapData;
     std::vector<IndoorVertex> m_renderVertices;
-    std::optional<MapDeltaData> m_indoorMapDeltaData;
+    IndoorSceneRuntime *m_pSceneRuntime = nullptr;
     std::optional<IndoorTextureSet> m_indoorTextureSet;
-    std::optional<EventRuntimeState> m_eventRuntimeState;
-    EventRuntime m_eventRuntime;
     std::optional<DecorationBillboardSet> m_indoorDecorationBillboardSet;
     std::optional<ActorPreviewBillboardSet> m_indoorActorPreviewBillboardSet;
     std::optional<SpriteObjectBillboardSet> m_indoorSpriteObjectBillboardSet;
@@ -225,8 +226,6 @@ private:
     std::optional<StrTable> m_localStrTable;
     std::optional<EvtProgram> m_localEvtProgram;
     std::optional<EvtProgram> m_globalEvtProgram;
-    std::optional<EventIrProgram> m_localEventIrProgram;
-    std::optional<EventIrProgram> m_globalEventIrProgram;
     bgfx::DynamicVertexBufferHandle m_wireframeVertexBufferHandle;
     bgfx::DynamicVertexBufferHandle m_portalVertexBufferHandle;
     bgfx::VertexBufferHandle m_entityMarkerVertexBufferHandle;
@@ -257,7 +256,6 @@ private:
     float m_cameraPositionZ;
     float m_cameraYawRadians;
     float m_cameraPitchRadians;
-    float m_mechanismAccumulatorMilliseconds;
     bool m_showFilled;
     bool m_showWireframe;
     bool m_showPortals;

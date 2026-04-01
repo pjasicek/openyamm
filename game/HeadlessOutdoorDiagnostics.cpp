@@ -25,6 +25,7 @@
 #include "game/PartySpellSystem.h"
 #include "game/PriceCalculator.h"
 #include "game/SaveGame.h"
+#include "game/SpellbookUiLayout.h"
 #include "game/SpellIds.h"
 #include "game/SpriteObjectDefs.h"
 
@@ -67,6 +68,16 @@ struct GameApplicationTestAccess
         return application.initializeSelectedMapRuntime(initializeView);
     }
 
+    static bool initializeStartupSession(GameApplication &application, bool initializeView)
+    {
+        return application.initializeStartupSession(initializeView);
+    }
+
+    static bool bootSeededDwiOnNextRendererInit(const GameApplication &application)
+    {
+        return application.m_bootSeededDwiOnNextRendererInit;
+    }
+
     static OutdoorPartyRuntime *outdoorPartyRuntime(GameApplication &application)
     {
         return application.m_pOutdoorPartyRuntime.get();
@@ -97,6 +108,11 @@ struct GameApplicationTestAccess
         return application.m_gameDataLoader;
     }
 
+    static const std::string &currentSessionMapFileName(const GameApplication &application)
+    {
+        return application.m_gameSession.currentMapFileName();
+    }
+
     static bool quickSaveToPath(GameApplication &application, const std::filesystem::path &path)
     {
         return application.quickSaveToPath(path);
@@ -107,9 +123,9 @@ struct GameApplicationTestAccess
         return application.quickLoadFromPath(path, initializeView);
     }
 
-    static void captureCurrentOutdoorWorldState(GameApplication &application)
+    static void captureCurrentSceneState(GameApplication &application)
     {
-        application.captureCurrentOutdoorWorldState();
+        application.captureCurrentSceneState();
     }
 
     static void setCameraAngles(GameApplication &application, float yawRadians, float pitchRadians)
@@ -165,9 +181,14 @@ struct GameApplicationTestAccess
         application.m_outdoorGameView.executeActiveDialogAction();
     }
 
-    static bool processPendingOutdoorMapMove(GameApplication &application)
+    static bool processPendingMapMove(GameApplication &application)
     {
-        return application.processPendingOutdoorMapMove();
+        return application.processPendingMapMove();
+    }
+
+    static SceneKind currentSceneKind(const GameApplication &application)
+    {
+        return application.m_gameSession.currentSceneKind();
     }
 
     static bool advanceTimeByOneHourHotkey(GameApplication &application)
@@ -1213,7 +1234,7 @@ bool loadHeadlessGameApplicationMap(
     const std::string &mapFileName,
     std::string &failure)
 {
-    GameApplicationTestAccess::captureCurrentOutdoorWorldState(application);
+    GameApplicationTestAccess::captureCurrentSceneState(application);
 
     if (!GameApplicationTestAccess::loadMapByFileNameForGameplay(application, assetFileSystem, mapFileName))
     {
@@ -13510,6 +13531,7 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
             GameSaveData saveData = {};
             saveData.mapFileName = selectedMap->map.fileName;
             saveData.party = scenario.party.snapshot();
+            saveData.hasOutdoorRuntimeState = true;
             saveData.outdoorParty.movementState.x = 123.0f;
             saveData.outdoorParty.movementState.y = -456.0f;
             saveData.outdoorParty.movementState.footZ = 789.0f;
@@ -13529,6 +13551,7 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
             saveData.outdoorWorldStates[saveData.mapFileName] = saveData.outdoorWorld;
             saveData.outdoorWorldStates["Data/games/out02.odm"] = saveData.outdoorWorld;
             saveData.outdoorWorldStates["Data/games/out02.odm"].gameMinutes += 12.0f;
+            saveData.savedGameMinutes = saveData.outdoorWorld.gameMinutes;
             saveData.outdoorCameraYawRadians = 1.25f;
             saveData.outdoorCameraPitchRadians = -0.45f;
 
@@ -14393,7 +14416,7 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
             pendingMapMove.useMapStartPosition = true;
             pEventRuntimeState->pendingMapMove = std::move(pendingMapMove);
 
-            if (!GameApplicationTestAccess::processPendingOutdoorMapMove(application))
+            if (!GameApplicationTestAccess::processPendingMapMove(application))
             {
                 failure = "application did not process the pending transport map move";
                 return false;
@@ -14884,6 +14907,374 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
             {
                 failure = "late closed house action left a pending dialogue context";
                 return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "app_service_house_entry_opens_true_mettle_root_menu",
+        [&](std::string &failure)
+        {
+            GameApplication application(m_config);
+
+            if (!initializeHeadlessGameApplication(
+                    "out01.odm",
+                    assetFileSystem,
+                    application,
+                    failure))
+            {
+                return false;
+            }
+
+            GameApplicationTestAccess::shutdownRenderer(application);
+
+            if (!GameApplicationTestAccess::initializeSelectedMapRuntime(application, true))
+            {
+                failure = "could not initialize gameplay view";
+                return false;
+            }
+
+            OutdoorWorldRuntime *pWorld = GameApplicationTestAccess::outdoorWorldRuntime(application);
+            EventRuntimeState *pEventRuntimeState = pWorld != nullptr ? pWorld->eventRuntimeState() : nullptr;
+            const HouseEntry *pHouseEntry = GameApplicationTestAccess::gameDataLoader(application).getHouseTable().get(1);
+
+            if (pWorld == nullptr || pEventRuntimeState == nullptr || pHouseEntry == nullptr)
+            {
+                failure = "application state is incomplete";
+                return false;
+            }
+
+            const float openMinuteOfDay = static_cast<float>((pHouseEntry->openHour % 24) * 60);
+            const float openGameMinutes = nextGameMinuteAtOrAfter(pWorld->gameMinutes(), openMinuteOfDay);
+            pWorld->advanceGameMinutes(openGameMinutes - pWorld->gameMinutes());
+
+            EventRuntimeState::PendingDialogueContext context = {};
+            context.kind = DialogueContextKind::HouseService;
+            context.sourceId = pHouseEntry->id;
+            context.hostHouseId = pHouseEntry->id;
+            pEventRuntimeState->dialogueState.hostHouseId = pHouseEntry->id;
+            pEventRuntimeState->pendingDialogueContext = std::move(context);
+
+            GameApplicationTestAccess::openPendingEventDialog(application, pEventRuntimeState->messages.size(), true);
+
+            if (!GameApplicationTestAccess::hasActiveEventDialog(application))
+            {
+                failure = "service house did not open an active dialog";
+                return false;
+            }
+
+            const EventDialogContent &dialog = GameApplicationTestAccess::activeEventDialog(application);
+
+            if (!dialogHasActionLabel(dialog, "Buy Standard")
+                || !dialogHasActionLabel(dialog, "Buy Special")
+                || !dialogHasActionLabel(dialog, "Display Equipment")
+                || !dialogHasActionLabel(dialog, "Learn Skills"))
+            {
+                failure = "service house root menu is incomplete";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "app_regular_house_entry_auto_opens_single_resident_dialog",
+        [&](std::string &failure)
+        {
+            GameApplication application(m_config);
+
+            if (!initializeHeadlessGameApplication(
+                    "out01.odm",
+                    assetFileSystem,
+                    application,
+                    failure))
+            {
+                return false;
+            }
+
+            GameApplicationTestAccess::shutdownRenderer(application);
+
+            if (!GameApplicationTestAccess::initializeSelectedMapRuntime(application, true))
+            {
+                failure = "could not initialize gameplay view";
+                return false;
+            }
+
+            OutdoorWorldRuntime *pWorld = GameApplicationTestAccess::outdoorWorldRuntime(application);
+            EventRuntimeState *pEventRuntimeState = pWorld != nullptr ? pWorld->eventRuntimeState() : nullptr;
+            const HouseEntry *pHouseEntry = GameApplicationTestAccess::gameDataLoader(application).getHouseTable().get(237);
+
+            if (pWorld == nullptr || pEventRuntimeState == nullptr || pHouseEntry == nullptr)
+            {
+                failure = "application state is incomplete";
+                return false;
+            }
+
+            const float openMinuteOfDay = static_cast<float>((pHouseEntry->openHour % 24) * 60);
+            const float openGameMinutes = nextGameMinuteAtOrAfter(pWorld->gameMinutes(), openMinuteOfDay);
+            pWorld->advanceGameMinutes(openGameMinutes - pWorld->gameMinutes());
+
+            EventRuntimeState::PendingDialogueContext context = {};
+            context.kind = DialogueContextKind::HouseService;
+            context.sourceId = pHouseEntry->id;
+            context.hostHouseId = pHouseEntry->id;
+            pEventRuntimeState->dialogueState.hostHouseId = pHouseEntry->id;
+            pEventRuntimeState->pendingDialogueContext = std::move(context);
+
+            GameApplicationTestAccess::openPendingEventDialog(application, pEventRuntimeState->messages.size(), true);
+
+            if (!GameApplicationTestAccess::hasActiveEventDialog(application))
+            {
+                failure = "regular house did not open an active dialog";
+                return false;
+            }
+
+            const EventDialogContent &dialog = GameApplicationTestAccess::activeEventDialog(application);
+
+            if (dialog.title != "Fredrick Talimere")
+            {
+                failure = "regular house opened unexpected resident dialog title";
+                return false;
+            }
+
+            if (!dialogHasActionLabel(dialog, "Portals of Stone") || !dialogHasActionLabel(dialog, "Cataclysm"))
+            {
+                failure = "regular house resident dialog is missing expected topics";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "app_pending_map_move_loads_indoor_runtime",
+        [&](std::string &failure)
+        {
+            GameApplication application(m_config);
+
+            if (!initializeHeadlessGameApplication(
+                    "out01.odm",
+                    assetFileSystem,
+                    application,
+                    failure))
+            {
+                return false;
+            }
+
+            EventRuntimeState *pEventRuntimeState = GameApplicationTestAccess::outdoorWorldRuntime(application)->eventRuntimeState();
+
+            if (pEventRuntimeState == nullptr)
+            {
+                failure = "missing application event runtime state";
+                return false;
+            }
+
+            EventRuntimeState::PendingMapMove pendingMapMove = {};
+            pendingMapMove.mapName = std::string("D05.blv");
+            pendingMapMove.useMapStartPosition = true;
+            pEventRuntimeState->pendingMapMove = std::move(pendingMapMove);
+
+            if (!GameApplicationTestAccess::processPendingMapMove(application))
+            {
+                failure = "application did not process the indoor pending map move";
+                return false;
+            }
+
+            const std::optional<MapAssetInfo> &loadedMap = GameApplicationTestAccess::gameDataLoader(application).getSelectedMap();
+
+            if (!loadedMap || toLowerCopy(loadedMap->map.fileName) != "d05.blv" || !loadedMap->indoorMapData)
+            {
+                failure = "indoor pending map move did not load the destination indoor map";
+                return false;
+            }
+
+            if (GameApplicationTestAccess::currentSceneKind(application) != SceneKind::Indoor)
+            {
+                failure = "application did not switch to indoor scene kind";
+                return false;
+            }
+
+            if (GameApplicationTestAccess::outdoorPartyRuntime(application) != nullptr
+                || GameApplicationTestAccess::outdoorWorldRuntime(application) != nullptr)
+            {
+                failure = "outdoor runtime remained active after indoor transition";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "spellbook_ui_layout_uses_canonical_school_slot_mapping",
+        [&](std::string &failure)
+        {
+            const SpellbookSchoolUiDefinition *pBodyDefinition =
+                findSpellbookSchoolUiDefinition(GameplayUiController::SpellbookSchool::Body);
+            const SpellbookSchoolUiDefinition *pLightDefinition =
+                findSpellbookSchoolUiDefinition(GameplayUiController::SpellbookSchool::Light);
+            const SpellbookSchoolUiDefinition *pMindDefinition =
+                findSpellbookSchoolUiDefinition(GameplayUiController::SpellbookSchool::Mind);
+
+            if (pBodyDefinition == nullptr || pLightDefinition == nullptr || pMindDefinition == nullptr)
+            {
+                failure = "missing canonical spellbook school definitions";
+                return false;
+            }
+
+            if (pBodyDefinition->firstSpellId != spellIdValue(SpellId::CureWeakness)
+                || pLightDefinition->firstSpellId != spellIdValue(SpellId::LightBolt)
+                || pMindDefinition->firstSpellId != spellIdValue(SpellId::Telepathy))
+            {
+                failure = "canonical spellbook school spell ranges are incorrect";
+                return false;
+            }
+
+            if (spellbookSpellLayoutId(GameplayUiController::SpellbookSchool::Body, 2)
+                != "SpellbookPageBodySpellHeal")
+            {
+                failure = "body spell slot 2 should be Heal";
+                return false;
+            }
+
+            if (spellbookSpellLayoutId(GameplayUiController::SpellbookSchool::Body, 5)
+                != "SpellbookPageBodySpellRegeneration")
+            {
+                failure = "body spell slot 5 should be Regeneration";
+                return false;
+            }
+
+            if (spellbookSpellLayoutId(GameplayUiController::SpellbookSchool::Body, 7)
+                != "SpellbookPageBodySpellHammerhands")
+            {
+                failure = "body spell slot 7 should be Hammerhands";
+                return false;
+            }
+
+            if (spellbookSpellLayoutId(GameplayUiController::SpellbookSchool::Light, 9)
+                != "SpellbookPageLightSpellHourofpower")
+            {
+                failure = "light spell slot 9 should be Hour of Power";
+                return false;
+            }
+
+            if (spellbookSpellLayoutId(GameplayUiController::SpellbookSchool::Mind, 2)
+                != "SpellbookPageMindSpellRemovefear")
+            {
+                failure = "mind spell slot 2 should be Remove Fear";
+                return false;
+            }
+
+            const SpellbookSchoolUiDefinition *pHourOfPowerDefinition =
+                findSpellbookSchoolUiDefinitionForSpellId(spellIdValue(SpellId::HourOfPower));
+
+            if (pHourOfPowerDefinition == nullptr
+                || pHourOfPowerDefinition->school != GameplayUiController::SpellbookSchool::Light)
+            {
+                failure = "Hour of Power should resolve to the light spellbook school";
+                return false;
+            }
+
+            if (!spellbookSpellLayoutId(GameplayUiController::SpellbookSchool::Light, 12).empty())
+            {
+                failure = "out of range spell ordinals should not resolve to a spellbook layout";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "app_startup_boots_seeded_out01_session",
+        [&](std::string &failure)
+        {
+            GameApplication application(m_config);
+
+            if (!GameApplicationTestAccess::loadGameData(application, assetFileSystem))
+            {
+                failure = "could not load gameplay data";
+                return false;
+            }
+
+            if (!GameApplicationTestAccess::bootSeededDwiOnNextRendererInit(application))
+            {
+                failure = "startup boot flag was not armed after load";
+                return false;
+            }
+
+            if (!GameApplicationTestAccess::initializeStartupSession(application, false))
+            {
+                failure = "could not initialize startup session";
+                return false;
+            }
+
+            if (GameApplicationTestAccess::bootSeededDwiOnNextRendererInit(application))
+            {
+                failure = "startup boot flag was not consumed";
+                return false;
+            }
+
+            OutdoorPartyRuntime *pPartyRuntime = GameApplicationTestAccess::outdoorPartyRuntime(application);
+            OutdoorWorldRuntime *pWorldRuntime = GameApplicationTestAccess::outdoorWorldRuntime(application);
+
+            if (pPartyRuntime == nullptr || pWorldRuntime == nullptr)
+            {
+                failure = "startup session did not initialize outdoor runtime";
+                return false;
+            }
+
+            const std::string currentMapFileName = toLowerCopy(
+                std::filesystem::path(GameApplicationTestAccess::currentSessionMapFileName(application))
+                    .filename()
+                    .string());
+
+            if (currentMapFileName != "out01.odm")
+            {
+                failure = "startup session did not select out01.odm";
+                return false;
+            }
+
+            const std::optional<MapAssetInfo> &selectedMap =
+                GameApplicationTestAccess::gameDataLoader(application).getSelectedMap();
+
+            const std::string selectedMapFileName =
+                selectedMap
+                ? toLowerCopy(std::filesystem::path(selectedMap->map.fileName).filename().string())
+                : std::string {};
+
+            if (!selectedMap || selectedMapFileName != "out01.odm")
+            {
+                failure = "startup session did not load DWI map assets";
+                return false;
+            }
+
+            const std::vector<Character> &members = pPartyRuntime->party().members();
+            static constexpr std::array<const char *, 5> expectedNames = {
+                "Ariel",
+                "Leane",
+                "Arius",
+                "Overdune",
+                "Ithilgore"
+            };
+
+            if (members.size() != expectedNames.size())
+            {
+                failure = "startup party did not use the seeded party";
+                return false;
+            }
+
+            for (size_t memberIndex = 0; memberIndex < expectedNames.size(); ++memberIndex)
+            {
+                if (members[memberIndex].name != expectedNames[memberIndex])
+                {
+                    failure = "startup party member " + std::to_string(memberIndex) + " mismatch";
+                    return false;
+                }
             }
 
             return true;

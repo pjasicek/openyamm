@@ -52,6 +52,12 @@ struct EventDialogContent
     std::vector<EventDialogAction> actions;
 };
 
+std::vector<uint32_t> collectSelectableResidentNpcIds(
+    const HouseEntry &houseEntry,
+    const NpcDialogTable &npcDialogTable,
+    const EventRuntimeState &eventRuntimeState
+);
+
 EventDialogContent buildEventDialogContent(
     EventRuntimeState &eventRuntimeState,
     size_t previousMessageCount,

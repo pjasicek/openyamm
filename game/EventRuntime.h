@@ -14,7 +14,7 @@
 namespace OpenYAMM::Game
 {
 class Party;
-class OutdoorWorldRuntime;
+class ISceneEventContext;
 
 enum class DialogueContextKind
 {
@@ -158,7 +158,7 @@ public:
         uint16_t eventId,
         EventRuntimeState &runtimeState,
         Party *pParty = nullptr,
-        OutdoorWorldRuntime *pOutdoorWorldRuntime = nullptr
+        ISceneEventContext *pSceneEventContext = nullptr
     ) const;
     bool canShowTopic(
         const std::optional<EventIrProgram> &globalProgram,
@@ -247,7 +247,7 @@ private:
         const EventIrEvent &event,
         EventRuntimeState &runtimeState,
         Party *pParty,
-        OutdoorWorldRuntime *pOutdoorWorldRuntime
+        ISceneEventContext *pSceneEventContext
     );
 };
 }

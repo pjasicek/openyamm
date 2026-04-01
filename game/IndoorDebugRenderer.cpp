@@ -1,5 +1,6 @@
 #include "game/IndoorDebugRenderer.h"
 
+#include "game/scene/IndoorSceneRuntime.h"
 #include "game/SpawnPreview.h"
 #include "game/StringUtils.h"
 
@@ -547,7 +548,6 @@ IndoorDebugRenderer::IndoorDebugRenderer()
     : m_isInitialized(false)
     , m_isRenderable(false)
     , m_indoorMapData(std::nullopt)
-    , m_indoorMapDeltaData(std::nullopt)
     , m_wireframeVertexBufferHandle(BGFX_INVALID_HANDLE)
     , m_portalVertexBufferHandle(BGFX_INVALID_HANDLE)
     , m_entityMarkerVertexBufferHandle(BGFX_INVALID_HANDLE)
@@ -571,7 +571,6 @@ IndoorDebugRenderer::IndoorDebugRenderer()
     , m_cameraPositionZ(256.0f)
     , m_cameraYawRadians(0.0f)
     , m_cameraPitchRadians(0.15f)
-    , m_mechanismAccumulatorMilliseconds(0.0f)
     , m_showFilled(true)
     , m_showWireframe(false)
     , m_showPortals(false)
@@ -608,19 +607,16 @@ bool IndoorDebugRenderer::initialize(
     const MapStatsEntry &map,
     const MonsterTable &monsterTable,
     const IndoorMapData &indoorMapData,
-    const std::optional<MapDeltaData> &indoorMapDeltaData,
     const std::optional<IndoorTextureSet> &indoorTextureSet,
     const std::optional<DecorationBillboardSet> &indoorDecorationBillboardSet,
     const std::optional<ActorPreviewBillboardSet> &indoorActorPreviewBillboardSet,
     const std::optional<SpriteObjectBillboardSet> &indoorSpriteObjectBillboardSet,
-    const std::optional<EventRuntimeState> &eventRuntimeState,
+    IndoorSceneRuntime &sceneRuntime,
     const ChestTable &chestTable,
     const HouseTable &houseTable,
     const std::optional<StrTable> &localStrTable,
     const std::optional<EvtProgram> &localEvtProgram,
-    const std::optional<EvtProgram> &globalEvtProgram,
-    const std::optional<EventIrProgram> &localEventIrProgram,
-    const std::optional<EventIrProgram> &globalEventIrProgram
+    const std::optional<EvtProgram> &globalEvtProgram
 )
 {
     shutdown();
@@ -628,10 +624,12 @@ bool IndoorDebugRenderer::initialize(
     m_map = map;
     m_monsterTable = monsterTable;
     m_indoorMapData = indoorMapData;
-    m_renderVertices = buildMechanismAdjustedVertices(indoorMapData, indoorMapDeltaData, eventRuntimeState);
-    m_indoorMapDeltaData = indoorMapDeltaData;
+    m_pSceneRuntime = &sceneRuntime;
+    m_renderVertices = buildMechanismAdjustedVertices(
+        indoorMapData,
+        runtimeMapDeltaData(),
+        runtimeEventRuntimeStateStorage());
     m_indoorTextureSet = indoorTextureSet;
-    m_eventRuntimeState = eventRuntimeState;
     m_indoorDecorationBillboardSet = indoorDecorationBillboardSet;
     m_indoorActorPreviewBillboardSet = indoorActorPreviewBillboardSet;
     m_indoorSpriteObjectBillboardSet = indoorSpriteObjectBillboardSet;
@@ -640,8 +638,6 @@ bool IndoorDebugRenderer::initialize(
     m_localStrTable = localStrTable;
     m_localEvtProgram = localEvtProgram;
     m_globalEvtProgram = globalEvtProgram;
-    m_localEventIrProgram = localEventIrProgram;
-    m_globalEventIrProgram = globalEventIrProgram;
     rebuildMechanismBindings();
 
     if (bgfx::getRendererType() == bgfx::RendererType::Noop)
@@ -846,67 +842,9 @@ void IndoorDebugRenderer::render(int width, int height, float mouseWheelDelta, f
     const float deltaMilliseconds = deltaSeconds * 1000.0f;
     updateCameraFromInput(deltaSeconds);
 
-    if (m_eventRuntimeState && m_indoorMapDeltaData && deltaMilliseconds > 0.0f)
+    if (m_pSceneRuntime != nullptr && m_pSceneRuntime->advanceSimulation(deltaMilliseconds))
     {
-        bool hadMovingMechanism = false;
-
-        for (const auto &entry : m_eventRuntimeState->mechanisms)
-        {
-            if (entry.second.isMoving)
-            {
-                hadMovingMechanism = true;
-                break;
-            }
-        }
-
-        int mechanismSteps = 0;
-        constexpr float MechanismStepMilliseconds = 1000.0f / 120.0f;
-        constexpr int MaximumMechanismStepsPerFrame = 8;
-
-        if (hadMovingMechanism)
-        {
-            m_mechanismAccumulatorMilliseconds += deltaMilliseconds;
-
-            while (
-                m_mechanismAccumulatorMilliseconds >= MechanismStepMilliseconds
-                && mechanismSteps < MaximumMechanismStepsPerFrame
-            )
-            {
-                m_eventRuntime.advanceMechanisms(m_indoorMapDeltaData, MechanismStepMilliseconds, *m_eventRuntimeState);
-                m_mechanismAccumulatorMilliseconds -= MechanismStepMilliseconds;
-                ++mechanismSteps;
-            }
-
-            if (
-                mechanismSteps == MaximumMechanismStepsPerFrame
-                && m_mechanismAccumulatorMilliseconds > MechanismStepMilliseconds
-            )
-            {
-                m_mechanismAccumulatorMilliseconds = MechanismStepMilliseconds;
-            }
-        }
-        else
-        {
-            m_mechanismAccumulatorMilliseconds = 0.0f;
-        }
-
-        bool hasMovingMechanism = false;
-
-        for (const auto &entry : m_eventRuntimeState->mechanisms)
-        {
-            if (entry.second.isMoving)
-            {
-                hasMovingMechanism = true;
-            }
-        }
-
-        if (hasMovingMechanism)
-        {
-            if (mechanismSteps > 0)
-            {
-                rebuildDerivedGeometryResources();
-            }
-        }
+        rebuildDerivedGeometryResources();
     }
 
     const float cosPitch = std::cos(m_cameraPitchRadians);
@@ -1135,7 +1073,7 @@ void IndoorDebugRenderer::render(int width, int height, float mouseWheelDelta, f
         m_indoorDecorationBillboardSet ? static_cast<unsigned>(m_indoorDecorationBillboardSet->billboards.size()) : 0u,
         m_indoorMapData ? static_cast<unsigned>(m_indoorMapData->entities.size()) : 0u,
         m_indoorMapData ? static_cast<unsigned>(m_indoorMapData->spawns.size()) : 0u,
-        m_indoorMapDeltaData ? static_cast<unsigned>(m_indoorMapDeltaData->doors.size()) : 0u
+        runtimeMapDeltaData() ? static_cast<unsigned>(runtimeMapDeltaData()->doors.size()) : 0u
     );
     if (m_inspectMode)
     {
@@ -1173,14 +1111,14 @@ void IndoorDebugRenderer::render(int width, int height, float mouseWheelDelta, f
                 );
                 const std::string primaryChestSummary = summarizeLinkedChests(
                     inspectHit.eventIdPrimary,
-                    m_indoorMapDeltaData,
+                    runtimeMapDeltaData(),
                     m_chestTable,
                     m_localEvtProgram,
                     m_globalEvtProgram
                 );
                 const std::string secondaryChestSummary = summarizeLinkedChests(
                     inspectHit.eventIdSecondary,
-                    m_indoorMapDeltaData,
+                    runtimeMapDeltaData(),
                     m_chestTable,
                     m_localEvtProgram,
                     m_globalEvtProgram
@@ -1221,7 +1159,7 @@ void IndoorDebugRenderer::render(int width, int height, float mouseWheelDelta, f
                 );
                 const std::string faceChestSummary = summarizeLinkedChests(
                     inspectHit.cogTriggered,
-                    m_indoorMapDeltaData,
+                    runtimeMapDeltaData(),
                     m_chestTable,
                     m_localEvtProgram,
                     m_globalEvtProgram
@@ -1283,7 +1221,7 @@ void IndoorDebugRenderer::render(int width, int height, float mouseWheelDelta, f
             {
                 const std::string mechanismChestSummary = summarizeLinkedChests(
                     inspectHit.mechanismLinkedEventId,
-                    m_indoorMapDeltaData,
+                    runtimeMapDeltaData(),
                     m_chestTable,
                     m_localEvtProgram,
                     m_globalEvtProgram
@@ -1330,16 +1268,22 @@ void IndoorDebugRenderer::render(int width, int height, float mouseWheelDelta, f
                 bgfx::dbgTextPrintf(0, 10, 0x0f, "Cursor: %.0f %.0f", mouseX, mouseY);
             }
 
-            if (m_eventRuntimeState && m_eventRuntimeState->lastActivationResult)
+            if (const EventRuntimeState *pEventRuntimeState = runtimeEventRuntimeState();
+                pEventRuntimeState != nullptr && pEventRuntimeState->lastActivationResult)
             {
                 const uint16_t activationLine = inspectHit.kind == "mechanism" ? 13 : 12;
-                bgfx::dbgTextPrintf(0, activationLine, 0x0f, "Activate: %s", m_eventRuntimeState->lastActivationResult->c_str());
+                bgfx::dbgTextPrintf(
+                    0,
+                    activationLine,
+                    0x0f,
+                    "Activate: %s",
+                    pEventRuntimeState->lastActivationResult->c_str());
 
-                if (!m_eventRuntimeState->lastAffectedMechanismIds.empty())
+                if (!pEventRuntimeState->lastAffectedMechanismIds.empty())
                 {
                     std::string mechanismsLine = "Affected mechs:";
 
-                    for (uint32_t mechanismId : m_eventRuntimeState->lastAffectedMechanismIds)
+                    for (uint32_t mechanismId : pEventRuntimeState->lastAffectedMechanismIds)
                     {
                         mechanismsLine += " " + std::to_string(mechanismId);
                     }
@@ -1353,15 +1297,16 @@ void IndoorDebugRenderer::render(int width, int height, float mouseWheelDelta, f
             bgfx::dbgTextPrintf(0, 7, 0x0f, "Inspect: no face/entity/spawn/mechanism under cursor");
             bgfx::dbgTextPrintf(0, 8, 0x0f, "Cursor: %.0f %.0f", mouseX, mouseY);
 
-            if (m_eventRuntimeState && m_eventRuntimeState->lastActivationResult)
+            if (const EventRuntimeState *pEventRuntimeState = runtimeEventRuntimeState();
+                pEventRuntimeState != nullptr && pEventRuntimeState->lastActivationResult)
             {
-                bgfx::dbgTextPrintf(0, 9, 0x0f, "Activate: %s", m_eventRuntimeState->lastActivationResult->c_str());
+                bgfx::dbgTextPrintf(0, 9, 0x0f, "Activate: %s", pEventRuntimeState->lastActivationResult->c_str());
 
-                if (!m_eventRuntimeState->lastAffectedMechanismIds.empty())
+                if (!pEventRuntimeState->lastAffectedMechanismIds.empty())
                 {
                     std::string mechanismsLine = "Affected mechs:";
 
-                    for (uint32_t mechanismId : m_eventRuntimeState->lastAffectedMechanismIds)
+                    for (uint32_t mechanismId : pEventRuntimeState->lastAffectedMechanismIds)
                     {
                         mechanismsLine += " " + std::to_string(mechanismId);
                     }
@@ -1377,9 +1322,8 @@ void IndoorDebugRenderer::shutdown()
 {
     m_indoorMapData.reset();
     m_renderVertices.clear();
-    m_indoorMapDeltaData.reset();
+    m_pSceneRuntime = nullptr;
     m_indoorTextureSet.reset();
-    m_eventRuntimeState.reset();
     m_map.reset();
     m_monsterTable.reset();
     m_indoorDecorationBillboardSet.reset();
@@ -1389,9 +1333,6 @@ void IndoorDebugRenderer::shutdown()
     m_localStrTable.reset();
     m_localEvtProgram.reset();
     m_globalEvtProgram.reset();
-    m_localEventIrProgram.reset();
-    m_globalEventIrProgram.reset();
-    m_mechanismAccumulatorMilliseconds = 0.0f;
     m_mechanismBindings.clear();
 
     if (bgfx::isValid(m_programHandle))
@@ -1480,6 +1421,28 @@ void IndoorDebugRenderer::shutdown()
     m_toggleInspectLatch = false;
     m_isRenderable = false;
     m_isInitialized = false;
+}
+
+const std::optional<MapDeltaData> &IndoorDebugRenderer::runtimeMapDeltaData() const
+{
+    static const std::optional<MapDeltaData> EmptyMapDeltaData = std::nullopt;
+    return m_pSceneRuntime != nullptr ? m_pSceneRuntime->mapDeltaData() : EmptyMapDeltaData;
+}
+
+const std::optional<EventRuntimeState> &IndoorDebugRenderer::runtimeEventRuntimeStateStorage() const
+{
+    static const std::optional<EventRuntimeState> EmptyEventRuntimeState = std::nullopt;
+    return m_pSceneRuntime != nullptr ? m_pSceneRuntime->eventRuntimeStateStorage() : EmptyEventRuntimeState;
+}
+
+EventRuntimeState *IndoorDebugRenderer::runtimeEventRuntimeState()
+{
+    return m_pSceneRuntime != nullptr ? m_pSceneRuntime->eventRuntimeState() : nullptr;
+}
+
+const EventRuntimeState *IndoorDebugRenderer::runtimeEventRuntimeState() const
+{
+    return m_pSceneRuntime != nullptr ? m_pSceneRuntime->eventRuntimeState() : nullptr;
 }
 
 void IndoorDebugRenderer::TerrainVertex::init()
@@ -1985,30 +1948,33 @@ const bgfx::TextureHandle *IndoorDebugRenderer::findIndoorTextureHandle(const st
 
 bool IndoorDebugRenderer::hasScriptVisualOverrides() const
 {
-    if (!m_eventRuntimeState)
+    const EventRuntimeState *pEventRuntimeState = runtimeEventRuntimeState();
+
+    if (pEventRuntimeState == nullptr)
     {
         return false;
     }
 
-    return !m_eventRuntimeState->textureOverrides.empty()
-        || !m_eventRuntimeState->facetSetMasks.empty()
-        || !m_eventRuntimeState->facetClearMasks.empty();
+    return !pEventRuntimeState->textureOverrides.empty()
+        || !pEventRuntimeState->facetSetMasks.empty()
+        || !pEventRuntimeState->facetClearMasks.empty();
 }
 
 void IndoorDebugRenderer::rebuildMechanismBindings()
 {
     m_mechanismBindings.clear();
+    const std::optional<MapDeltaData> &mapDeltaData = runtimeMapDeltaData();
 
-    if (!m_indoorMapDeltaData || !m_indoorMapData)
+    if (!mapDeltaData || !m_indoorMapData)
     {
         return;
     }
 
-    m_mechanismBindings.resize(m_indoorMapDeltaData->doors.size());
+    m_mechanismBindings.resize(mapDeltaData->doors.size());
 
-    for (size_t doorIndex = 0; doorIndex < m_indoorMapDeltaData->doors.size(); ++doorIndex)
+    for (size_t doorIndex = 0; doorIndex < mapDeltaData->doors.size(); ++doorIndex)
     {
-        const MapDeltaDoor &door = m_indoorMapDeltaData->doors[doorIndex];
+        const MapDeltaDoor &door = mapDeltaData->doors[doorIndex];
         MechanismBinding binding = {};
         std::string faceSummary = "faces:";
         size_t shownFaceCount = 0;
@@ -2092,20 +2058,22 @@ void IndoorDebugRenderer::rebuildMechanismBindings()
 std::vector<size_t> IndoorDebugRenderer::collectMovingMechanismFaceIndices() const
 {
     std::vector<size_t> faceIndices;
+    const std::optional<MapDeltaData> &mapDeltaData = runtimeMapDeltaData();
+    const EventRuntimeState *pEventRuntimeState = runtimeEventRuntimeState();
 
-    if (!m_indoorMapDeltaData || !m_eventRuntimeState)
+    if (!mapDeltaData || pEventRuntimeState == nullptr || !m_indoorMapData)
     {
         return faceIndices;
     }
 
     std::vector<bool> seen(m_indoorMapData->faces.size(), false);
 
-    for (const MapDeltaDoor &door : m_indoorMapDeltaData->doors)
+    for (const MapDeltaDoor &door : mapDeltaData->doors)
     {
         const std::unordered_map<uint32_t, RuntimeMechanismState>::const_iterator iterator =
-            m_eventRuntimeState->mechanisms.find(door.doorId);
+            pEventRuntimeState->mechanisms.find(door.doorId);
 
-        if (iterator == m_eventRuntimeState->mechanisms.end() || !iterator->second.isMoving)
+        if (iterator == pEventRuntimeState->mechanisms.end() || !iterator->second.isMoving)
         {
             continue;
         }
@@ -2143,18 +2111,19 @@ bool IndoorDebugRenderer::rebuildAllTexturedBatches(uint64_t &texturedBuildNanos
     m_faceVertexCounts.assign(m_indoorMapData->faces.size(), 0);
 
     std::unordered_map<std::string, size_t> batchIndicesByTexture;
+    const std::optional<EventRuntimeState> &eventRuntimeState = runtimeEventRuntimeStateStorage();
 
     for (size_t faceIndex = 0; faceIndex < m_indoorMapData->faces.size(); ++faceIndex)
     {
         const IndoorFace &face = m_indoorMapData->faces[faceIndex];
-        const std::string textureName = resolveFaceTextureName(face, m_eventRuntimeState);
+        const std::string textureName = resolveFaceTextureName(face, eventRuntimeState);
 
         if (face.isPortal || textureName.empty() || face.vertexIndices.size() < 3)
         {
             continue;
         }
 
-        if (!isFaceVisible(faceIndex, face, m_eventRuntimeState))
+        if (!isFaceVisible(faceIndex, face, eventRuntimeState))
         {
             continue;
         }
@@ -2249,8 +2218,13 @@ bool IndoorDebugRenderer::rebuildAllTexturedBatches(uint64_t &texturedBuildNanos
         }
 
         const uint64_t faceBuildBeginTickCount = SDL_GetTicksNS();
-        const std::vector<TexturedVertex> faceVertices =
-            buildFaceTexturedVertices(*m_indoorMapData, m_renderVertices, *pTexture, faceIndex, m_eventRuntimeState);
+        const std::vector<TexturedVertex> faceVertices = buildFaceTexturedVertices(
+            *m_indoorMapData,
+            m_renderVertices,
+            *pTexture,
+            faceIndex,
+            eventRuntimeState
+        );
         texturedBuildNanoseconds += SDL_GetTicksNS() - faceBuildBeginTickCount;
 
         if (faceVertices.empty())
@@ -2301,6 +2275,7 @@ bool IndoorDebugRenderer::updateMovingMechanismFaceVertices(
 )
 {
     const std::vector<size_t> faceIndices = collectMovingMechanismFaceIndices();
+    const std::optional<EventRuntimeState> &eventRuntimeState = runtimeEventRuntimeStateStorage();
 
     for (size_t faceIndex : faceIndices)
     {
@@ -2342,8 +2317,13 @@ bool IndoorDebugRenderer::updateMovingMechanismFaceVertices(
         }
 
         const uint64_t faceBuildBeginTickCount = SDL_GetTicksNS();
-        const std::vector<TexturedVertex> faceVertices =
-            buildFaceTexturedVertices(*m_indoorMapData, m_renderVertices, *pTexture, faceIndex, m_eventRuntimeState);
+        const std::vector<TexturedVertex> faceVertices = buildFaceTexturedVertices(
+            *m_indoorMapData,
+            m_renderVertices,
+            *pTexture,
+            faceIndex,
+            eventRuntimeState
+        );
         texturedBuildNanoseconds += SDL_GetTicksNS() - faceBuildBeginTickCount;
 
         if (faceVertices.size() != vertexCount)
@@ -2503,7 +2483,10 @@ bool IndoorDebugRenderer::rebuildDerivedGeometryResources()
         return false;
     }
 
-    m_renderVertices = buildMechanismAdjustedVertices(*m_indoorMapData, m_indoorMapDeltaData, m_eventRuntimeState);
+    const std::optional<MapDeltaData> &mapDeltaData = runtimeMapDeltaData();
+    const std::optional<EventRuntimeState> &eventRuntimeState = runtimeEventRuntimeStateStorage();
+
+    m_renderVertices = buildMechanismAdjustedVertices(*m_indoorMapData, mapDeltaData, eventRuntimeState);
 
     if (bgfx::getRendererType() == bgfx::RendererType::Noop)
     {
@@ -2511,11 +2494,11 @@ bool IndoorDebugRenderer::rebuildDerivedGeometryResources()
     }
 
     const std::vector<TerrainVertex> wireframeVertices =
-        buildWireframeVertices(*m_indoorMapData, m_renderVertices, m_eventRuntimeState);
+        buildWireframeVertices(*m_indoorMapData, m_renderVertices, eventRuntimeState);
     const std::vector<TerrainVertex> portalVertices = buildPortalVertices(*m_indoorMapData, m_renderVertices);
     const std::vector<TerrainVertex> doorMarkerVertices =
-        m_indoorMapDeltaData
-            ? buildDoorMarkerVertices(m_renderVertices, *m_indoorMapDeltaData, m_eventRuntimeState)
+        mapDeltaData
+            ? buildDoorMarkerVertices(m_renderVertices, *mapDeltaData, eventRuntimeState)
             : std::vector<TerrainVertex>();
 
     if (!updateDynamicVertexBuffer(
@@ -2579,7 +2562,7 @@ bool IndoorDebugRenderer::rebuildDerivedGeometryResources()
 
 bool IndoorDebugRenderer::tryActivateInspectEvent(const InspectHit &inspectHit)
 {
-    if (!m_indoorMapData || !m_eventRuntimeState)
+    if (!m_indoorMapData || m_pSceneRuntime == nullptr)
     {
         return false;
     }
@@ -2605,36 +2588,23 @@ bool IndoorDebugRenderer::tryActivateInspectEvent(const InspectHit &inspectHit)
         return false;
     }
 
-    if (eventId == 0)
+    if (!m_pSceneRuntime->activateEvent(eventId, inspectHit.kind, inspectHit.index))
     {
-        m_eventRuntimeState->lastActivationResult = "no event on hovered target";
-        return false;
-    }
-
-    std::cout << "Activating indoor event " << eventId
-              << " from " << inspectHit.kind
-              << " index=" << inspectHit.index << '\n';
-
-    bool executed = m_eventRuntime.executeEventById(
-        m_localEventIrProgram,
-        m_globalEventIrProgram,
-        eventId,
-        *m_eventRuntimeState
-    );
-
-    if (!executed)
-    {
-        m_eventRuntimeState->lastActivationResult = "event " + std::to_string(eventId) + " unresolved";
         return false;
     }
 
     if (!rebuildDerivedGeometryResources())
     {
-        m_eventRuntimeState->lastActivationResult = "event " + std::to_string(eventId) + " execute failed";
+        EventRuntimeState *pEventRuntimeState = runtimeEventRuntimeState();
+
+        if (pEventRuntimeState != nullptr)
+        {
+            pEventRuntimeState->lastActivationResult = "event " + std::to_string(eventId) + " execute failed";
+        }
+
         return false;
     }
 
-    m_eventRuntimeState->lastActivationResult = "event " + std::to_string(eventId) + " executed";
     return true;
 }
 
@@ -2913,6 +2883,7 @@ IndoorDebugRenderer::InspectHit IndoorDebugRenderer::inspectAtCursor(
 {
     InspectHit bestHit = {};
     float bestDistance = std::numeric_limits<float>::max();
+    const std::optional<EventRuntimeState> &eventRuntimeState = runtimeEventRuntimeStateStorage();
 
     for (size_t faceIndex = 0; faceIndex < indoorMapData.faces.size(); ++faceIndex)
     {
@@ -2923,7 +2894,7 @@ IndoorDebugRenderer::InspectHit IndoorDebugRenderer::inspectAtCursor(
             continue;
         }
 
-        if (!isFaceVisible(faceIndex, face, m_eventRuntimeState))
+        if (!isFaceVisible(faceIndex, face, eventRuntimeState))
         {
             continue;
         }
@@ -3150,11 +3121,13 @@ IndoorDebugRenderer::InspectHit IndoorDebugRenderer::inspectAtCursor(
         }
     }
 
-    if (m_indoorMapDeltaData)
+    const std::optional<MapDeltaData> &mapDeltaData = runtimeMapDeltaData();
+
+    if (mapDeltaData)
     {
-        for (size_t doorIndex = 0; doorIndex < m_indoorMapDeltaData->doors.size(); ++doorIndex)
+        for (size_t doorIndex = 0; doorIndex < mapDeltaData->doors.size(); ++doorIndex)
         {
-            const MapDeltaDoor &door = m_indoorMapDeltaData->doors[doorIndex];
+            const MapDeltaDoor &door = mapDeltaData->doors[doorIndex];
 
             if (door.vertexIds.empty())
             {

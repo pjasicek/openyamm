@@ -9,24 +9,31 @@
 #include "game/ItemGenerator.h"
 #include "game/ItemRuntime.h"
 #include "game/ItemTable.h"
-#include "game/MasteryTeacherDialog.h"
+#include "game/OutdoorBillboardRenderer.h"
 #include "game/OutdoorGeometryUtils.h"
 #include "game/OutdoorPartyRuntime.h"
+#include "game/OutdoorPresentationController.h"
 #include "game/OutdoorWorldRuntime.h"
 #include "game/PriceCalculator.h"
+#include "game/scene/OutdoorSceneRuntime.h"
 #include "game/SpawnPreview.h"
+#include "game/SpellbookUiLayout.h"
 #include "game/SpellSchool.h"
 #include "game/SpellIds.h"
 #include "game/SpriteObjectDefs.h"
 #include "game/SpriteTables.h"
 #include "game/StringUtils.h"
+#include "game/gameplay/GameplayOverlayInputController.h"
+#include "game/gameplay/GameplayPartyOverlayInputController.h"
+#include "game/ui/GameplayDialogueRenderer.h"
+#include "game/ui/GameplayHudOverlayRenderer.h"
+#include "game/ui/GameplayPartyOverlayRenderer.h"
 #include "engine/TextTable.h"
 
 #include <bx/math.h>
 
 #include <bgfx/bgfx.h>
 #include <SDL3/SDL.h>
-#include <yaml-cpp/yaml.h>
 
 #include <algorithm>
 #include <array>
@@ -39,7 +46,6 @@
 #include <fstream>
 #include <functional>
 #include <future>
-#include <iomanip>
 #include <iostream>
 #include <iterator>
 #include <limits>
@@ -535,288 +541,6 @@ uint32_t itemTintColorAbgr(
     }
 
     return 0xffffffffu;
-}
-
-struct SpellbookSchoolUiDefinition
-{
-    SpellbookSchool school = SpellbookSchool::Fire;
-    const char *pPageLayoutId = "";
-    const char *pButtonLayoutId = "";
-    uint32_t firstSpellId = 0;
-    uint32_t spellCount = 0;
-};
-
-constexpr std::array<SpellbookSchoolUiDefinition, 12> SpellbookSchoolUiDefinitions = {{
-    {SpellbookSchool::Fire, "SpellbookPageFire", "SpellbookSchoolButtonFire", spellIdValue(SpellId::TorchLight), 11},
-    {SpellbookSchool::Air, "SpellbookPageAir", "SpellbookSchoolButtonAir", spellIdValue(SpellId::WizardEye), 11},
-    {SpellbookSchool::Water, "SpellbookPageWater", "SpellbookSchoolButtonWater", spellIdValue(SpellId::Awaken), 11},
-    {SpellbookSchool::Earth, "SpellbookPageEarth", "SpellbookSchoolButtonEarth", spellIdValue(SpellId::Stun), 11},
-    {SpellbookSchool::Spirit, "SpellbookPageSpirit", "SpellbookSchoolButtonSpirit", spellIdValue(SpellId::DetectLife), 11},
-    {SpellbookSchool::Mind, "SpellbookPageMind", "SpellbookSchoolButtonMind", spellIdValue(SpellId::Telepathy), 11},
-    {SpellbookSchool::Body, "SpellbookPageBody", "SpellbookSchoolButtonBody", spellIdValue(SpellId::CureWeakness), 11},
-    {SpellbookSchool::Light, "SpellbookPageLight", "SpellbookSchoolButtonLight", spellIdValue(SpellId::LightBolt), 11},
-    {SpellbookSchool::Dark, "SpellbookPageDark", "SpellbookSchoolButtonDark", spellIdValue(SpellId::Reanimate), 11},
-    {SpellbookSchool::DarkElf, "SpellbookPageDarkElf", "SpellbookSchoolButtonDarkElf", spellIdValue(SpellId::Glamour), 4},
-    {SpellbookSchool::Vampire, "SpellbookPageVampire", "SpellbookSchoolButtonVampire", spellIdValue(SpellId::Lifedrain), 4},
-    {SpellbookSchool::Dragon, "SpellbookPageDragon", "SpellbookSchoolButtonDragon", spellIdValue(SpellId::Fear), 4},
-}};
-
-const SpellbookSchoolUiDefinition *findSpellbookSchoolUiDefinition(SpellbookSchool school)
-{
-    for (const SpellbookSchoolUiDefinition &definition : SpellbookSchoolUiDefinitions)
-    {
-        if (definition.school == school)
-        {
-            return &definition;
-        }
-    }
-
-    return nullptr;
-}
-
-const SpellbookSchoolUiDefinition *findSpellbookSchoolUiDefinitionForSpellId(uint32_t spellId)
-{
-    for (const SpellbookSchoolUiDefinition &definition : SpellbookSchoolUiDefinitions)
-    {
-        if (spellId >= definition.firstSpellId && spellId < definition.firstSpellId + definition.spellCount)
-        {
-            return &definition;
-        }
-    }
-
-    return nullptr;
-}
-
-std::string spellbookSpellLayoutId(SpellbookSchool school, uint32_t spellOrdinal)
-{
-    const SpellbookSchoolUiDefinition *pDefinition = findSpellbookSchoolUiDefinition(school);
-
-    if (pDefinition == nullptr)
-    {
-        return "";
-    }
-
-    const auto spellLayoutIdForSuffixes =
-        [pDefinition, spellOrdinal](const auto &suffixes) -> std::string
-        {
-            if (spellOrdinal >= 1 && spellOrdinal <= suffixes.size())
-            {
-                return std::string(pDefinition->pPageLayoutId) + "Spell" + suffixes[spellOrdinal - 1];
-            }
-
-            return "";
-        };
-
-    if (school == SpellbookSchool::Fire)
-    {
-        static constexpr std::array<const char *, 11> FireSpellLayoutSuffixes = {{
-            "Torchlight",
-            "Firebolt",
-            "Fireresistance",
-            "Fireaura",
-            "Haste",
-            "Fireball",
-            "Firespike",
-            "Immolation",
-            "Meteorshower",
-            "Inferno",
-            "Incinerate",
-        }};
-
-        return spellLayoutIdForSuffixes(FireSpellLayoutSuffixes);
-    }
-
-    if (school == SpellbookSchool::Air)
-    {
-        static constexpr std::array<const char *, 11> AirSpellLayoutSuffixes = {{
-            "Wizardeye",
-            "Featherfall",
-            "Airresistance",
-            "Sparks",
-            "Jump",
-            "Shield",
-            "Lightningbolt",
-            "Invisibility",
-            "Implosion",
-            "Fly",
-            "Starburst",
-        }};
-
-        return spellLayoutIdForSuffixes(AirSpellLayoutSuffixes);
-    }
-
-    if (school == SpellbookSchool::Water)
-    {
-        static constexpr std::array<const char *, 11> WaterSpellLayoutSuffixes = {{
-            "Awaken",
-            "Poisonspray",
-            "Waterresistance",
-            "Icebolt",
-            "Waterwalk",
-            "Rechargeitem",
-            "Acidburst",
-            "Enchantitem",
-            "Townportal",
-            "Iceblast",
-            "Lloydsbeacon",
-        }};
-
-        return spellLayoutIdForSuffixes(WaterSpellLayoutSuffixes);
-    }
-
-    if (school == SpellbookSchool::Earth)
-    {
-        static constexpr std::array<const char *, 11> EarthSpellLayoutSuffixes = {{
-            "Stun",
-            "Slow",
-            "Earthresistance",
-            "Deadlyswarm",
-            "Stoneskin",
-            "Blades",
-            "Stonetoflesh",
-            "Rockblast",
-            "Telekinesis",
-            "Deathblossom",
-            "Massdistortion",
-        }};
-
-        return spellLayoutIdForSuffixes(EarthSpellLayoutSuffixes);
-    }
-
-    if (school == SpellbookSchool::Spirit)
-    {
-        static constexpr std::array<const char *, 11> SpiritSpellLayoutSuffixes = {{
-            "Detectlife",
-            "Bless",
-            "Fate",
-            "Turnundead",
-            "Removecurse",
-            "Preservation",
-            "Heroism",
-            "Spiritlash",
-            "Raisedead",
-            "Sharedlife",
-            "Resurrection",
-        }};
-
-        return spellLayoutIdForSuffixes(SpiritSpellLayoutSuffixes);
-    }
-
-    if (school == SpellbookSchool::Mind)
-    {
-        static constexpr std::array<const char *, 11> MindSpellLayoutSuffixes = {{
-            "Telepathy",
-            "Removefear",
-            "Mindresistance",
-            "Mindblast",
-            "Charm",
-            "Cureparalysis",
-            "Berserk",
-            "Massfear",
-            "Cureinsanity",
-            "Psychicshock",
-            "Enslave",
-        }};
-
-        return spellLayoutIdForSuffixes(MindSpellLayoutSuffixes);
-    }
-
-    if (school == SpellbookSchool::Body)
-    {
-        static constexpr std::array<const char *, 11> BodySpellLayoutSuffixes = {{
-            "Cureweakness",
-            "Heal",
-            "Bodyresistance",
-            "Harm",
-            "Regeneration",
-            "Curepoison",
-            "Hammerhands",
-            "Curedisease",
-            "Protectionfrommagic",
-            "Flyingfist",
-            "Powercure",
-        }};
-
-        return spellLayoutIdForSuffixes(BodySpellLayoutSuffixes);
-    }
-
-    if (school == SpellbookSchool::Light)
-    {
-        static constexpr std::array<const char *, 11> LightSpellLayoutSuffixes = {{
-            "Lightbolt",
-            "Destroyundead",
-            "Dispelmagic",
-            "Paralyze",
-            "Summonwisp",
-            "Dayofthegods",
-            "Prismaticlight",
-            "Dayofprotection",
-            "Hourofpower",
-            "Sunray",
-            "Divineintervention",
-        }};
-
-        return spellLayoutIdForSuffixes(LightSpellLayoutSuffixes);
-    }
-
-    if (school == SpellbookSchool::Dark)
-    {
-        static constexpr std::array<const char *, 11> DarkSpellLayoutSuffixes = {{
-            "Reanimate",
-            "Toxiccloud",
-            "Vampiricweapon",
-            "Shrinkingray",
-            "Shrapmetal",
-            "Controlundead",
-            "Painreflection",
-            "Darkgrasp",
-            "Dragonbreath",
-            "Armageddon",
-            "Souldrinker",
-        }};
-
-        return spellLayoutIdForSuffixes(DarkSpellLayoutSuffixes);
-    }
-
-    if (school == SpellbookSchool::DarkElf)
-    {
-        static constexpr std::array<const char *, 4> DarkElfSpellLayoutSuffixes = {{
-            "Glamour",
-            "Travelersboon",
-            "Blind",
-            "Darkfirebolt",
-        }};
-
-        return spellLayoutIdForSuffixes(DarkElfSpellLayoutSuffixes);
-    }
-
-    if (school == SpellbookSchool::Vampire)
-    {
-        static constexpr std::array<const char *, 4> VampireSpellLayoutSuffixes = {{
-            "Lifedrain",
-            "Levitate",
-            "Charm",
-            "Mistform",
-        }};
-
-        return spellLayoutIdForSuffixes(VampireSpellLayoutSuffixes);
-    }
-
-    if (school == SpellbookSchool::Dragon)
-    {
-        static constexpr std::array<const char *, 4> DragonSpellLayoutSuffixes = {{
-            "Fear",
-            "Flameblast",
-            "Flight",
-            "Wingbuffet",
-        }};
-
-        return spellLayoutIdForSuffixes(DragonSpellLayoutSuffixes);
-    }
-
-    std::ostringstream stream;
-    stream << pDefinition->pPageLayoutId << "Spell" << std::setw(2) << std::setfill('0') << spellOrdinal;
-    return stream.str();
 }
 
 void appendPopupBodyLine(std::string &body, const std::string &line)
@@ -2234,24 +1958,6 @@ UiViewportRect computeUiViewportRect(int screenWidth, int screenHeight)
     return viewport;
 }
 
-DialogueMenuId dialogueMenuIdForHouseAction(HouseActionId actionId)
-{
-    switch (actionId)
-    {
-        case HouseActionId::OpenLearnSkillsMenu:
-            return DialogueMenuId::LearnSkills;
-
-        case HouseActionId::OpenShopEquipmentMenu:
-            return DialogueMenuId::ShopEquipment;
-
-        case HouseActionId::OpenTavernArcomageMenu:
-            return DialogueMenuId::TavernArcomage;
-
-        default:
-            return DialogueMenuId::None;
-    }
-}
-
 uint32_t currentDialogueHostHouseId(const EventRuntimeState *pEventRuntimeState)
 {
     return pEventRuntimeState != nullptr ? pEventRuntimeState->dialogueState.hostHouseId : 0;
@@ -2416,7 +2122,6 @@ struct DecodedSpriteTexture
 };
 constexpr uint8_t OutdoorPolygonFloor = 0x3;
 constexpr uint8_t OutdoorPolygonInBetweenFloorAndWall = 0x4;
-constexpr uint32_t AdventurersInnHouseId = 185;
 constexpr int DwiMapId = 1;
 constexpr uint16_t DwiMeteorShowerEventId = 456;
 
@@ -2649,55 +2354,6 @@ std::optional<OutdoorPartyStartPoint> resolveOutdoorPartyStartPoint(
     return std::nullopt;
 }
 
-std::vector<OutdoorActorCollision> buildRuntimeActorColliders(const OutdoorWorldRuntime &worldRuntime)
-{
-    std::vector<OutdoorActorCollision> colliders;
-    colliders.reserve(worldRuntime.mapActorCount());
-
-    for (size_t actorIndex = 0; actorIndex < worldRuntime.mapActorCount(); ++actorIndex)
-    {
-        const OutdoorWorldRuntime::MapActorState *pActor = worldRuntime.mapActorState(actorIndex);
-
-        if (pActor == nullptr
-            || pActor->isDead
-            || pActor->currentHp <= 0
-            || pActor->aiState == OutdoorWorldRuntime::ActorAiState::Dying
-            || pActor->aiState == OutdoorWorldRuntime::ActorAiState::Dead
-            || pActor->isInvisible
-            || !pActor->hostileToParty
-            || pActor->radius == 0
-            || pActor->height == 0)
-        {
-            continue;
-        }
-
-        OutdoorActorCollision collider = {};
-        collider.sourceIndex = actorIndex;
-        collider.source = OutdoorActorCollisionSource::MapDelta;
-        collider.radius = pActor->radius;
-        collider.height = pActor->height;
-        collider.worldX = pActor->x;
-        collider.worldY = pActor->y;
-        collider.worldZ = pActor->z;
-        collider.group = pActor->group;
-        collider.name = pActor->displayName;
-        colliders.push_back(std::move(collider));
-    }
-
-    return colliders;
-}
-
-void notifyFriendlyActorContacts(
-    OutdoorWorldRuntime &worldRuntime,
-    const OutdoorMoveState &partyMoveState,
-    const OutdoorMovementEvents &movementEvents)
-{
-    for (size_t actorIndex : movementEvents.contactedActorIndices)
-    {
-        worldRuntime.notifyPartyContactWithMapActor(actorIndex, partyMoveState.x, partyMoveState.y, partyMoveState.footZ);
-    }
-}
-
 uint32_t currentAnimationTicks()
 {
     return static_cast<uint32_t>((static_cast<uint64_t>(SDL_GetTicks()) * 128ULL) / 1000ULL);
@@ -2861,73 +2517,6 @@ const char *outdoorSupportKindName(OutdoorSupportKind supportKind)
         default:
             return "none";
     }
-}
-
-std::vector<uint32_t> collectSelectableResidentNpcIds(
-    const HouseEntry &houseEntry,
-    const NpcDialogTable &npcDialogTable,
-    const EventRuntimeState &eventRuntimeState
-)
-{
-    std::vector<uint32_t> residentNpcIds;
-
-    auto appendNpcId = [&](uint32_t npcId)
-    {
-        if (std::find(residentNpcIds.begin(), residentNpcIds.end(), npcId) != residentNpcIds.end())
-        {
-            return;
-        }
-
-        const NpcEntry *pResident = npcDialogTable.getNpc(npcId);
-
-        if (pResident == nullptr || pResident->name.empty())
-        {
-            return;
-        }
-
-        if (eventRuntimeState.unavailableNpcIds.contains(npcId))
-        {
-            return;
-        }
-
-        const auto overrideIt = eventRuntimeState.npcHouseOverrides.find(npcId);
-
-        if (overrideIt != eventRuntimeState.npcHouseOverrides.end() && overrideIt->second != houseEntry.id)
-        {
-            return;
-        }
-
-        residentNpcIds.push_back(npcId);
-    };
-
-    for (uint32_t npcId : houseEntry.residentNpcIds)
-    {
-        appendNpcId(npcId);
-    }
-
-    for (uint32_t npcId : npcDialogTable.getNpcIdsForHouse(houseEntry.id, &eventRuntimeState.npcHouseOverrides))
-    {
-        appendNpcId(npcId);
-    }
-
-    return residentNpcIds;
-}
-
-std::optional<uint32_t> singleSelectableResidentNpcId(
-    const HouseEntry &houseEntry,
-    const NpcDialogTable &npcDialogTable,
-    const EventRuntimeState &eventRuntimeState
-)
-{
-    const std::vector<uint32_t> residentNpcIds =
-        collectSelectableResidentNpcIds(houseEntry, npcDialogTable, eventRuntimeState);
-
-    if (residentNpcIds.size() != 1)
-    {
-        return std::nullopt;
-    }
-
-    return residentNpcIds.front();
 }
 
 std::vector<std::string> wrapDebugText(const std::string &text, size_t width)
@@ -3708,9 +3297,10 @@ OutdoorGameView::OutdoorGameView()
     , m_spellbookClickLatch(false)
     , m_pendingSpellTargetClickLatch(false)
     , m_inventoryScreenToggleLatch(false)
-    , m_characterScreenOpen(false)
-    , m_characterDollJewelryOverlayOpen(false)
-    , m_characterPage(CharacterPage::Inventory)
+    , m_gameplayUiController()
+    , m_characterScreenOpen(m_gameplayUiController.characterScreen().open)
+    , m_characterDollJewelryOverlayOpen(m_gameplayUiController.characterScreen().dollJewelryOverlayOpen)
+    , m_characterPage(m_gameplayUiController.characterScreen().page)
     , m_characterClickLatch(false)
     , m_characterMemberCycleLatch(false)
     , m_characterPressedTarget({})
@@ -3718,15 +3308,20 @@ OutdoorGameView::OutdoorGameView()
     , m_partyPortraitPressedIndex(std::nullopt)
     , m_lastPartyPortraitClickTicks(0)
     , m_lastPartyPortraitClickedIndex(std::nullopt)
-    , m_heldInventoryItem({})
-    , m_itemInspectOverlay({})
+    , m_heldInventoryItem(m_gameplayUiController.heldInventoryItem())
+    , m_itemInspectOverlay(m_gameplayUiController.itemInspectOverlay())
     , m_itemInspectInteractionLatch(false)
     , m_itemInspectInteractionKey(0)
-    , m_characterInspectOverlay({})
-    , m_actorInspectOverlay({})
-    , m_spellInspectOverlay({})
-    , m_readableScrollOverlay({})
-    , m_spellbook({})
+    , m_characterInspectOverlay(m_gameplayUiController.characterInspectOverlay())
+    , m_buffInspectOverlay(m_gameplayUiController.buffInspectOverlay())
+    , m_characterDetailOverlay(m_gameplayUiController.characterDetailOverlay())
+    , m_actorInspectOverlay(m_gameplayUiController.actorInspectOverlay())
+    , m_spellInspectOverlay(m_gameplayUiController.spellInspectOverlay())
+    , m_readableScrollOverlay(m_gameplayUiController.readableScrollOverlay())
+    , m_spellbook(m_gameplayUiController.spellbook())
+    , m_inventoryNestedOverlay(m_gameplayUiController.inventoryNestedOverlay())
+    , m_houseShopOverlay(m_gameplayUiController.houseShopOverlay())
+    , m_houseBankState(m_gameplayUiController.houseBankState())
     , m_spellbookPressedTarget({})
     , m_lastSpellbookSpellClickTicks(0)
     , m_lastSpellbookClickedSpellId(0)
@@ -3740,9 +3335,6 @@ OutdoorGameView::OutdoorGameView()
     , m_dialoguePressedTarget({})
     , m_chestClickLatch(false)
     , m_chestPressedTarget({})
-    , m_inventoryNestedOverlay({})
-    , m_houseShopOverlay({})
-    , m_houseBankState({})
     , m_inventoryNestedOverlayClickLatch(false)
     , m_inventoryNestedOverlayItemClickLatch(false)
     , m_inventoryNestedOverlayPressedTarget({})
@@ -3757,16 +3349,17 @@ OutdoorGameView::OutdoorGameView()
     , m_eventDialogAcceptLatch(false)
     , m_eventDialogPartySelectLatches({})
     , m_chestSelectionIndex(0)
-    , m_eventDialogSelectionIndex(0)
-    , m_statusBarHoverText()
-    , m_statusBarEventText()
-    , m_statusBarEventRemainingSeconds(0.0f)
+    , m_eventDialogSelectionIndex(m_gameplayUiController.eventDialog().selectionIndex)
+    , m_statusBarHoverText(m_gameplayUiController.statusBar().hoverText)
+    , m_statusBarEventText(m_gameplayUiController.statusBar().eventText)
+    , m_statusBarEventRemainingSeconds(m_gameplayUiController.statusBar().eventRemainingSeconds)
     , m_cachedHoverInspectHitValid(false)
     , m_lastHoverInspectUpdateNanoseconds(0)
     , m_cachedHoverInspectHit({})
-    , m_activeEventDialog({})
+    , m_activeEventDialog(m_gameplayUiController.eventDialog().content)
     , m_pOutdoorPartyRuntime(nullptr)
     , m_pAssetFileSystem(nullptr)
+    , m_pOutdoorSceneRuntime(nullptr)
     , m_pOutdoorWorldRuntime(nullptr)
     , m_pItemTable(nullptr)
     , m_pStandardItemEnchantTable(nullptr)
@@ -3829,11 +3422,8 @@ bool OutdoorGameView::initialize(
     const std::optional<StrTable> &localStrTable,
     const std::optional<EvtProgram> &localEvtProgram,
     const std::optional<EvtProgram> &globalEvtProgram,
-    const std::optional<EventIrProgram> &localEventIrProgram,
-    const std::optional<EventIrProgram> &globalEventIrProgram,
     GameAudioSystem *pGameAudioSystem,
-    OutdoorPartyRuntime *pOutdoorPartyRuntime,
-    OutdoorWorldRuntime *pOutdoorWorldRuntime
+    OutdoorSceneRuntime &sceneRuntime
 )
 {
     shutdown();
@@ -3866,10 +3456,9 @@ bool OutdoorGameView::initialize(
     m_localStrTable = localStrTable;
     m_localEvtProgram = localEvtProgram;
     m_globalEvtProgram = globalEvtProgram;
-    m_localEventIrProgram = localEventIrProgram;
-    m_globalEventIrProgram = globalEventIrProgram;
-    m_pOutdoorPartyRuntime = pOutdoorPartyRuntime;
-    m_pOutdoorWorldRuntime = pOutdoorWorldRuntime;
+    m_pOutdoorSceneRuntime = &sceneRuntime;
+    m_pOutdoorPartyRuntime = &sceneRuntime.partyRuntime();
+    m_pOutdoorWorldRuntime = &sceneRuntime.worldRuntime();
     m_portraitSpellFxStates.assign(5, {});
 
     if (!loadPortraitAnimationData(assetFileSystem))
@@ -4137,14 +3726,14 @@ bool OutdoorGameView::initialize(
         }
     }
 
-    if (m_localEventIrProgram)
+    if (m_pOutdoorSceneRuntime != nullptr && m_pOutdoorSceneRuntime->localEventIrProgram())
     {
-        queueEventSpellBillboardTextureWarmup(*m_localEventIrProgram);
+        queueEventSpellBillboardTextureWarmup(*m_pOutdoorSceneRuntime->localEventIrProgram());
     }
 
-    if (m_globalEventIrProgram)
+    if (m_pOutdoorSceneRuntime != nullptr && m_pOutdoorSceneRuntime->globalEventIrProgram())
     {
-        queueEventSpellBillboardTextureWarmup(*m_globalEventIrProgram);
+        queueEventSpellBillboardTextureWarmup(*m_pOutdoorSceneRuntime->globalEventIrProgram());
     }
 
     queueRuntimeActorBillboardTextureWarmup();
@@ -4189,7 +3778,7 @@ bool OutdoorGameView::initialize(
     }
     else
     {
-            for (const auto &[id, element] : m_hudLayoutElements)
+            for (const auto &[id, element] : m_uiLayoutManager.elements())
             {
                 BX_UNUSED(id);
                 for (const std::string *pAssetName : {
@@ -4231,8 +3820,12 @@ bool OutdoorGameView::initialize(
     {
         const std::vector<std::string> relevantHouseVideoStems = collectRelevantHouseVideoStemsForMap(
             outdoorMapData,
-            m_localEventIrProgram,
-            m_globalEventIrProgram,
+            m_pOutdoorSceneRuntime != nullptr
+                ? m_pOutdoorSceneRuntime->localEventIrProgram()
+                : std::nullopt,
+            m_pOutdoorSceneRuntime != nullptr
+                ? m_pOutdoorSceneRuntime->globalEventIrProgram()
+                : std::nullopt,
             *m_houseTable);
 
         for (const std::string &videoStem : relevantHouseVideoStems)
@@ -7405,274 +6998,10 @@ void OutdoorGameView::renderChestPanel(int width, int height, bool renderAboveHu
         return;
     }
 
-    auto submitTexturedQuad =
-        [this](
-            const HudTextureHandle &texture,
-            float x,
-            float y,
-            float quadWidth,
-            float quadHeight)
-        {
-            if (bgfx::getAvailTransientVertexBuffer(6, TexturedTerrainVertex::ms_layout) < 6)
-            {
-                return;
-            }
-
-            bgfx::TransientVertexBuffer transientVertexBuffer;
-            bgfx::allocTransientVertexBuffer(&transientVertexBuffer, 6, TexturedTerrainVertex::ms_layout);
-            TexturedTerrainVertex *pVertices = reinterpret_cast<TexturedTerrainVertex *>(transientVertexBuffer.data);
-
-            pVertices[0] = {x, y, 0.0f, 0.0f, 0.0f};
-            pVertices[1] = {x + quadWidth, y, 0.0f, 1.0f, 0.0f};
-            pVertices[2] = {x + quadWidth, y + quadHeight, 0.0f, 1.0f, 1.0f};
-            pVertices[3] = {x, y, 0.0f, 0.0f, 0.0f};
-            pVertices[4] = {x + quadWidth, y + quadHeight, 0.0f, 1.0f, 1.0f};
-            pVertices[5] = {x, y + quadHeight, 0.0f, 0.0f, 1.0f};
-
-            float modelMatrix[16] = {};
-            bx::mtxIdentity(modelMatrix);
-            bgfx::setTransform(modelMatrix);
-            bgfx::setVertexBuffer(0, &transientVertexBuffer);
-            bgfx::setTexture(0, m_terrainTextureSamplerHandle, texture.textureHandle);
-            bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_BLEND_ALPHA);
-            bgfx::submit(HudViewId, m_texturedTerrainProgramHandle);
-        };
-
     if (pChestView != nullptr)
     {
-        float chestMouseX = 0.0f;
-        float chestMouseY = 0.0f;
-        const SDL_MouseButtonFlags chestMouseButtons = SDL_GetMouseState(&chestMouseX, &chestMouseY);
-        const bool isLeftMousePressed = (chestMouseButtons & SDL_BUTTON_LMASK) != 0;
-        const ChestEntry *pChestEntry = m_chestTable->get(pChestView->chestTypeId);
-        const std::vector<std::string> orderedChestLayoutIds = sortedHudLayoutIdsForScreen("Chest");
-        const Party *pParty = m_pOutdoorPartyRuntime != nullptr ? &m_pOutdoorPartyRuntime->party() : nullptr;
-        const int hudZThreshold = defaultHudLayoutZIndexForScreen("OutdoorHud");
-        const auto shouldRenderInCurrentPass =
-            [renderAboveHud, hudZThreshold](int zIndex) -> bool
-            {
-                return renderAboveHud ? zIndex >= hudZThreshold : zIndex < hudZThreshold;
-            };
-
-        const auto replaceAll = [](std::string text, const std::string &from, const std::string &to) -> std::string
-        {
-            size_t position = 0;
-
-            while ((position = text.find(from, position)) != std::string::npos)
-            {
-                text.replace(position, from.size(), to);
-                position += to.size();
-            }
-
-            return text;
-        };
-
-        for (const std::string &layoutId : orderedChestLayoutIds)
-        {
-            const HudLayoutElement *pLayout = findHudLayoutElement(layoutId);
-            const std::string normalizedLayoutId = toLowerCopy(layoutId);
-
-            if (pLayout == nullptr || !pLayout->visible)
-            {
-                continue;
-            }
-
-            if (normalizedLayoutId.rfind("chestnestedinventory", 0) == 0)
-            {
-                continue;
-            }
-
-            if (!shouldRenderInCurrentPass(pLayout->zIndex))
-            {
-                continue;
-            }
-
-            const float fallbackWidth = pLayout->width > 0.0f ? pLayout->width : 0.0f;
-            const float fallbackHeight = pLayout->height > 0.0f ? pLayout->height : 0.0f;
-            const std::optional<ResolvedHudLayoutElement> resolved = resolveHudLayoutElement(
-                layoutId,
-                width,
-                height,
-                fallbackWidth,
-                fallbackHeight);
-
-            if (!resolved)
-            {
-                continue;
-            }
-
-            std::string assetName = pLayout->primaryAsset;
-
-            if (normalizedLayoutId == "chestbackground" && pChestEntry != nullptr && !pChestEntry->textureName.empty())
-            {
-                assetName = pChestEntry->textureName;
-            }
-            else if (pLayout->interactive)
-            {
-                const std::optional<ResolvedHudLayoutElement> interactiveResolved = resolveHudLayoutElement(
-                    layoutId,
-                    width,
-                    height,
-                    pLayout->width,
-                    pLayout->height);
-
-                if (interactiveResolved)
-                {
-                    if (const std::string *pInteractiveAsset = resolveInteractiveAssetName(
-                            *pLayout,
-                            *interactiveResolved,
-                            chestMouseX,
-                            chestMouseY,
-                            isLeftMousePressed))
-                    {
-                        assetName = *pInteractiveAsset;
-                    }
-                }
-            }
-
-            if (!assetName.empty())
-            {
-                const HudTextureHandle *pTexture = const_cast<OutdoorGameView *>(this)->ensureHudTextureLoaded(assetName);
-
-                if (pTexture != nullptr)
-                {
-                    if (normalizedLayoutId == "chesticonbackground")
-                    {
-                        const HudTextureHandle *pPortraitBorder =
-                            const_cast<OutdoorGameView *>(this)->ensureHudTextureLoaded("evtnpc");
-
-                        if (pPortraitBorder != nullptr)
-                        {
-                            const float borderSize = std::min(resolved->width, resolved->height);
-                            const float borderX = std::round(resolved->x + (resolved->width - borderSize) * 0.5f);
-                            const float borderY = std::round(resolved->y + (resolved->height - borderSize) * 0.5f);
-                            submitTexturedQuad(*pPortraitBorder, borderX, borderY, borderSize, borderSize);
-                        }
-                    }
-
-                    const float renderWidth =
-                        pLayout->width > 0.0f ? resolved->width : static_cast<float>(pTexture->width) * resolved->scale;
-                    const float renderHeight =
-                        pLayout->height > 0.0f ? resolved->height : static_cast<float>(pTexture->height) * resolved->scale;
-                    submitTexturedQuad(*pTexture, resolved->x, resolved->y, renderWidth, renderHeight);
-                }
-            }
-
-            if (!pLayout->fontName.empty() && !pLayout->labelText.empty())
-            {
-                std::string label = pLayout->labelText;
-
-                if (pParty != nullptr)
-                {
-                    label = replaceAll(label, "{gold}", std::to_string(pParty->gold()));
-                    label = replaceAll(label, "{food}", std::to_string(pParty->food()));
-                }
-
-                renderLayoutLabel(*pLayout, *resolved, label);
-            }
-
-            if (normalizedLayoutId == "chestgridarea")
-            {
-                const std::optional<ResolvedHudLayoutElement> resolvedGrid = resolveChestGridArea(width, height);
-
-                if (!resolvedGrid || pChestView->gridWidth == 0 || pChestView->gridHeight == 0)
-                {
-                    continue;
-                }
-
-                const InventoryGridMetrics gridMetrics = computeInventoryGridMetrics(
-                    resolvedGrid->x,
-                    resolvedGrid->y,
-                    resolvedGrid->width,
-                    resolvedGrid->height,
-                    resolvedGrid->scale,
-                    pChestView->gridWidth,
-                    pChestView->gridHeight);
-
-                for (const OutdoorWorldRuntime::ChestItemState &item : pChestView->items)
-                {
-                    InventoryItem renderItem = {};
-                    renderItem.objectDescriptionId = item.itemId;
-                    renderItem.quantity = item.quantity;
-                    renderItem.width = item.width;
-                    renderItem.height = item.height;
-                    renderItem.gridX = item.gridX;
-                    renderItem.gridY = item.gridY;
-
-                    if (item.isGold)
-                    {
-                        const GoldHeapVisual goldVisual = classifyGoldHeapVisual(item.goldAmount);
-                        renderItem.width = goldVisual.width;
-                        renderItem.height = goldVisual.height;
-
-                        const HudTextureHandle *pGoldTexture =
-                            const_cast<OutdoorGameView *>(this)->ensureHudTextureLoaded(goldVisual.pTextureName);
-
-                        if (pGoldTexture == nullptr)
-                        {
-                            continue;
-                        }
-
-                        const float itemWidth = static_cast<float>(pGoldTexture->width) * gridMetrics.scale;
-                        const float itemHeight = static_cast<float>(pGoldTexture->height) * gridMetrics.scale;
-                        const InventoryItemScreenRect itemRect =
-                            computeInventoryItemScreenRect(gridMetrics, renderItem, itemWidth, itemHeight);
-                        submitTexturedQuad(*pGoldTexture, itemRect.x, itemRect.y, itemRect.width, itemRect.height);
-
-                        RenderedInspectableHudItem inspectableItem = {};
-                        inspectableItem.objectDescriptionId = goldVisual.objectDescriptionId;
-                        inspectableItem.textureName = goldVisual.pTextureName;
-                        inspectableItem.hasValueOverride = true;
-                        inspectableItem.valueOverride =
-                            std::min(item.goldAmount, static_cast<uint32_t>(std::numeric_limits<int>::max()));
-                        inspectableItem.x = itemRect.x;
-                        inspectableItem.y = itemRect.y;
-                        inspectableItem.width = itemRect.width;
-                        inspectableItem.height = itemRect.height;
-                        m_renderedInspectableHudItems.push_back(std::move(inspectableItem));
-                        continue;
-                    }
-
-                    const ItemDefinition *pItemDefinition =
-                        m_pItemTable != nullptr ? m_pItemTable->get(item.itemId) : nullptr;
-
-                    if (pItemDefinition == nullptr || pItemDefinition->iconName.empty())
-                    {
-                        continue;
-                    }
-
-                    const HudTextureHandle *pItemTexture =
-                        const_cast<OutdoorGameView *>(this)->ensureHudTextureLoaded(pItemDefinition->iconName);
-
-                    if (pItemTexture == nullptr)
-                    {
-                        continue;
-                    }
-
-                    const float itemWidth = static_cast<float>(pItemTexture->width) * gridMetrics.scale;
-                    const float itemHeight = static_cast<float>(pItemTexture->height) * gridMetrics.scale;
-                    const InventoryItemScreenRect itemRect =
-                        computeInventoryItemScreenRect(gridMetrics, renderItem, itemWidth, itemHeight);
-                    submitTexturedQuad(*pItemTexture, itemRect.x, itemRect.y, itemRect.width, itemRect.height);
-
-                    if (pItemDefinition->itemId != 0)
-                    {
-                        RenderedInspectableHudItem inspectableItem = {};
-                        inspectableItem.objectDescriptionId = pItemDefinition->itemId;
-                        inspectableItem.textureName = pItemDefinition->iconName;
-                        inspectableItem.x = itemRect.x;
-                        inspectableItem.y = itemRect.y;
-                        inspectableItem.width = itemRect.width;
-                        inspectableItem.height = itemRect.height;
-                        m_renderedInspectableHudItems.push_back(std::move(inspectableItem));
-                    }
-                }
-            }
-        }
-    }
-
-    if (pChestView != nullptr)
-    {
+        GameplayOverlayContext overlayContext(*const_cast<OutdoorGameView *>(this));
+        GameplayHudOverlayRenderer::renderChestPanel(overlayContext, width, height, renderAboveHud);
         return;
     }
 
@@ -7801,165 +7130,12 @@ void OutdoorGameView::renderChestPanel(int width, int height, bool renderAboveHu
 
 void OutdoorGameView::renderInventoryNestedOverlay(int width, int height, bool renderAboveHud) const
 {
-    const bool isChestTransfer =
-        m_inventoryNestedOverlay.mode == InventoryNestedOverlayMode::ChestTransfer
-        && currentHudScreenState() == HudScreenState::Chest;
-    const bool isInventoryService =
-        (m_inventoryNestedOverlay.mode == InventoryNestedOverlayMode::ShopSell
-            || m_inventoryNestedOverlay.mode == InventoryNestedOverlayMode::ShopIdentify
-            || m_inventoryNestedOverlay.mode == InventoryNestedOverlayMode::ShopRepair)
-        && currentHudScreenState() == HudScreenState::Dialogue;
-
-    if (renderAboveHud
-        || !m_inventoryNestedOverlay.active
-        || (!isChestTransfer && !isInventoryService)
-        || m_pOutdoorPartyRuntime == nullptr
-        || width <= 0
-        || height <= 0)
-    {
-        return;
-    }
-
-    const HudLayoutElement *pPageLayout = findHudLayoutElement("ChestNestedInventoryPage");
-    const std::optional<ResolvedHudLayoutElement> resolvedPage =
-        pPageLayout != nullptr
-        ? resolveHudLayoutElement(
-            "ChestNestedInventoryPage",
-            width,
-            height,
-            pPageLayout->width,
-            pPageLayout->height)
-        : std::nullopt;
-
-    if (pPageLayout == nullptr || !resolvedPage)
-    {
-        return;
-    }
-
-    auto submitTexturedQuad =
-        [this](
-            const HudTextureHandle &texture,
-            float x,
-            float y,
-            float quadWidth,
-            float quadHeight)
-        {
-            if (bgfx::getAvailTransientVertexBuffer(6, TexturedTerrainVertex::ms_layout) < 6)
-            {
-                return;
-            }
-
-            bgfx::TransientVertexBuffer transientVertexBuffer;
-            bgfx::allocTransientVertexBuffer(&transientVertexBuffer, 6, TexturedTerrainVertex::ms_layout);
-            TexturedTerrainVertex *pVertices = reinterpret_cast<TexturedTerrainVertex *>(transientVertexBuffer.data);
-
-            pVertices[0] = {x, y, 0.0f, 0.0f, 0.0f};
-            pVertices[1] = {x + quadWidth, y, 0.0f, 1.0f, 0.0f};
-            pVertices[2] = {x + quadWidth, y + quadHeight, 0.0f, 1.0f, 1.0f};
-            pVertices[3] = {x, y, 0.0f, 0.0f, 0.0f};
-            pVertices[4] = {x + quadWidth, y + quadHeight, 0.0f, 1.0f, 1.0f};
-            pVertices[5] = {x, y + quadHeight, 0.0f, 0.0f, 1.0f};
-
-            float modelMatrix[16] = {};
-            bx::mtxIdentity(modelMatrix);
-            bgfx::setTransform(modelMatrix);
-            bgfx::setVertexBuffer(0, &transientVertexBuffer);
-            bgfx::setTexture(0, m_terrainTextureSamplerHandle, texture.textureHandle);
-            bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_BLEND_ALPHA);
-            bgfx::submit(HudViewId, m_texturedTerrainProgramHandle);
-        };
-
-    if (!pPageLayout->primaryAsset.empty())
-    {
-        const HudTextureHandle *pPageTexture =
-            const_cast<OutdoorGameView *>(this)->ensureHudTextureLoaded(pPageLayout->primaryAsset);
-
-        if (pPageTexture != nullptr)
-        {
-            submitTexturedQuad(*pPageTexture, resolvedPage->x, resolvedPage->y, resolvedPage->width, resolvedPage->height);
-        }
-    }
-
-    const Character *pCharacter = m_pOutdoorPartyRuntime->party().activeMember();
-    const std::optional<ResolvedHudLayoutElement> resolvedInventoryGrid = resolveInventoryNestedOverlayGridArea(width, height);
-
-    if (pCharacter == nullptr || !resolvedInventoryGrid)
-    {
-        return;
-    }
-
-    const InventoryGridMetrics gridMetrics = computeInventoryGridMetrics(
-        resolvedInventoryGrid->x,
-        resolvedInventoryGrid->y,
-        resolvedInventoryGrid->width,
-        resolvedInventoryGrid->height,
-        resolvedInventoryGrid->scale);
-
-    for (const InventoryItem &item : pCharacter->inventory)
-    {
-        const ItemDefinition *pItemDefinition =
-            m_pItemTable != nullptr ? m_pItemTable->get(item.objectDescriptionId) : nullptr;
-
-        if (pItemDefinition == nullptr || pItemDefinition->iconName.empty())
-        {
-            continue;
-        }
-
-        const HudTextureHandle *pItemTexture =
-            const_cast<OutdoorGameView *>(this)->ensureHudTextureLoaded(pItemDefinition->iconName);
-
-        if (pItemTexture == nullptr)
-        {
-            continue;
-        }
-
-        const float itemWidth = static_cast<float>(pItemTexture->width) * gridMetrics.scale;
-        const float itemHeight = static_cast<float>(pItemTexture->height) * gridMetrics.scale;
-        const InventoryItemScreenRect itemRect =
-            computeInventoryItemScreenRect(gridMetrics, item, itemWidth, itemHeight);
-        submitTexturedQuad(*pItemTexture, itemRect.x, itemRect.y, itemRect.width, itemRect.height);
-
-        ItemTintContext tintContext = ItemTintContext::None;
-
-        switch (m_inventoryNestedOverlay.mode)
-        {
-            case InventoryNestedOverlayMode::ShopIdentify:
-                tintContext = ItemTintContext::ShopIdentify;
-                break;
-
-            case InventoryNestedOverlayMode::ShopRepair:
-                tintContext = ItemTintContext::ShopRepair;
-                break;
-
-            default:
-                break;
-        }
-
-        const bgfx::TextureHandle tintedTextureHandle =
-            ensureHudTextureColor(*pItemTexture, itemTintColorAbgr(&item, pItemDefinition, tintContext));
-
-        if (bgfx::isValid(tintedTextureHandle) && tintedTextureHandle.idx != pItemTexture->textureHandle.idx)
-        {
-            HudTextureHandle tintedTexture = *pItemTexture;
-            tintedTexture.textureHandle = tintedTextureHandle;
-            submitTexturedQuad(tintedTexture, itemRect.x, itemRect.y, itemRect.width, itemRect.height);
-        }
-
-        RenderedInspectableHudItem inspectableItem = {};
-        inspectableItem.objectDescriptionId = pItemDefinition->itemId;
-        inspectableItem.hasItemState = true;
-        inspectableItem.itemState = item;
-        inspectableItem.sourceType = ItemInspectSourceType::Inventory;
-        inspectableItem.sourceMemberIndex = m_pOutdoorPartyRuntime->party().activeMemberIndex();
-        inspectableItem.sourceGridX = item.gridX;
-        inspectableItem.sourceGridY = item.gridY;
-        inspectableItem.textureName = pItemDefinition->iconName;
-        inspectableItem.x = itemRect.x;
-        inspectableItem.y = itemRect.y;
-        inspectableItem.width = itemRect.width;
-        inspectableItem.height = itemRect.height;
-        m_renderedInspectableHudItems.push_back(std::move(inspectableItem));
-    }
+    GameplayOverlayContext overlayContext(*const_cast<OutdoorGameView *>(this));
+    GameplayHudOverlayRenderer::renderInventoryNestedOverlay(
+        overlayContext,
+        width,
+        height,
+        renderAboveHud);
 }
 
 void OutdoorGameView::renderEventDialogPanel(int width, int height, bool renderAboveHud)
@@ -8074,7 +7250,106 @@ void OutdoorGameView::renderEventDialogPanel(int width, int height, bool renderA
 
 void OutdoorGameView::shutdown()
 {
+    if (!m_isInitialized)
+    {
+        return;
+    }
+
+    auto resetRuntimeState = [this]()
+    {
+        m_isRenderable = false;
+        m_isInitialized = false;
+        m_map.reset();
+        m_monsterTable.reset();
+        m_outdoorMapData.reset();
+        m_pOutdoorPartyRuntime = nullptr;
+        m_pAssetFileSystem = nullptr;
+        m_pOutdoorSceneRuntime = nullptr;
+        m_pOutdoorWorldRuntime = nullptr;
+        m_pItemTable = nullptr;
+        m_pStandardItemEnchantTable = nullptr;
+        m_pSpecialItemEnchantTable = nullptr;
+        m_pItemEquipPosTable = nullptr;
+        m_pRosterTable = nullptr;
+        m_pCharacterDollTable = nullptr;
+    };
+
+    m_gameplayUiController.clearRuntimeState();
     m_houseVideoPlayer.shutdown();
+
+    if (bgfx::getInternalData() == nullptr)
+    {
+        m_programHandle = BGFX_INVALID_HANDLE;
+        m_texturedTerrainProgramHandle = BGFX_INVALID_HANDLE;
+        m_terrainTextureAtlasHandle = BGFX_INVALID_HANDLE;
+        m_terrainTextureSamplerHandle = BGFX_INVALID_HANDLE;
+        m_indexBufferHandle = BGFX_INVALID_HANDLE;
+        m_filledTerrainVertexBufferHandle = BGFX_INVALID_HANDLE;
+        m_skyVertexBufferHandle = BGFX_INVALID_HANDLE;
+        m_texturedTerrainVertexBufferHandle = BGFX_INVALID_HANDLE;
+        m_bmodelVertexBufferHandle = BGFX_INVALID_HANDLE;
+        m_bmodelCollisionVertexBufferHandle = BGFX_INVALID_HANDLE;
+        m_entityMarkerVertexBufferHandle = BGFX_INVALID_HANDLE;
+        m_spawnMarkerVertexBufferHandle = BGFX_INVALID_HANDLE;
+        m_vertexBufferHandle = BGFX_INVALID_HANDLE;
+
+        for (TexturedBModelBatch &batch : m_texturedBModelBatches)
+        {
+            batch.vertexBufferHandle = BGFX_INVALID_HANDLE;
+            batch.textureHandle = BGFX_INVALID_HANDLE;
+        }
+
+        for (BillboardTextureHandle &textureHandle : m_billboardTextureHandles)
+        {
+            textureHandle.textureHandle = BGFX_INVALID_HANDLE;
+        }
+
+        for (SkyTextureHandle &textureHandle : m_skyTextureHandles)
+        {
+            textureHandle.textureHandle = BGFX_INVALID_HANDLE;
+        }
+
+        for (HudTextureHandle &textureHandle : m_hudTextureHandles)
+        {
+            textureHandle.textureHandle = BGFX_INVALID_HANDLE;
+        }
+
+        for (HudFontHandle &fontHandle : m_hudFontHandles)
+        {
+            fontHandle.mainTextureHandle = BGFX_INVALID_HANDLE;
+            fontHandle.shadowTextureHandle = BGFX_INVALID_HANDLE;
+        }
+
+        for (HudFontColorTextureHandle &textureHandle : m_hudFontColorTextureHandles)
+        {
+            textureHandle.textureHandle = BGFX_INVALID_HANDLE;
+        }
+
+        for (HudTextureColorTextureHandle &textureHandle : m_hudTextureColorTextureHandles)
+        {
+            textureHandle.textureHandle = BGFX_INVALID_HANDLE;
+        }
+
+        m_texturedBModelBatches.clear();
+        m_billboardTextureHandles.clear();
+        m_billboardTextureIndexByPalette.clear();
+        m_skyTextureHandles.clear();
+        m_skyTextureIndexByName.clear();
+        m_spriteLoadCache.directoryAssetPathsByPath.clear();
+        m_spriteLoadCache.assetPathByKey.clear();
+        m_spriteLoadCache.binaryFilesByPath.clear();
+        m_spriteLoadCache.actPalettesById.clear();
+        m_pendingSpriteFrameWarmups.clear();
+        m_queuedSpriteFrameWarmups.clear();
+        m_hudTextureHandles.clear();
+        m_hudFontHandles.clear();
+        m_hudFontColorTextureHandles.clear();
+        m_hudTextureColorTextureHandles.clear();
+        m_uiLayoutManager.clear();
+        m_interactiveDecorationBindings.clear();
+        resetRuntimeState();
+        return;
+    }
 
     if (bgfx::isValid(m_programHandle))
     {
@@ -8208,7 +7483,7 @@ void OutdoorGameView::shutdown()
     }
 
     m_hudTextureColorTextureHandles.clear();
-    m_hudLayoutElements.clear();
+    m_uiLayoutManager.clear();
     m_interactiveDecorationBindings.clear();
 
     if (bgfx::isValid(m_skyVertexBufferHandle))
@@ -8253,20 +7528,7 @@ void OutdoorGameView::shutdown()
         m_vertexBufferHandle = BGFX_INVALID_HANDLE;
     }
 
-    m_isRenderable = false;
-    m_isInitialized = false;
-    m_map.reset();
-    m_monsterTable.reset();
-    m_outdoorMapData.reset();
-    m_pOutdoorPartyRuntime = nullptr;
-    m_pAssetFileSystem = nullptr;
-    m_pOutdoorWorldRuntime = nullptr;
-    m_pItemTable = nullptr;
-    m_pStandardItemEnchantTable = nullptr;
-    m_pSpecialItemEnchantTable = nullptr;
-    m_pItemEquipPosTable = nullptr;
-    m_pRosterTable = nullptr;
-    m_pCharacterDollTable = nullptr;
+    resetRuntimeState();
     m_pObjectTable = nullptr;
     m_pSpellTable = nullptr;
     m_pReadableScrollTable = nullptr;
@@ -8276,8 +7538,6 @@ void OutdoorGameView::shutdown()
     m_portraitFrameTable = {};
     m_spellFxTable = {};
     m_lastPortraitAnimationUpdateTicks = 0;
-    m_localEventIrProgram.reset();
-    m_globalEventIrProgram.reset();
     m_outdoorDecorationBillboardSet.reset();
     m_outdoorActorPreviewBillboardSet.reset();
     m_outdoorSpriteObjectBillboardSet.reset();
@@ -8444,14 +7704,61 @@ void OutdoorGameView::updateHouseVideoPlayback(float deltaSeconds)
     }
 }
 
+GameplayDialogController::Context OutdoorGameView::createGameplayDialogContext(EventRuntimeState &eventRuntimeState)
+{
+    GameplayDialogController::Callbacks callbacks = {};
+    callbacks.playSpeechReaction =
+        [this](size_t memberIndex, SpeechId speechId, bool triggerFaceAnimation)
+        {
+            playSpeechReaction(memberIndex, speechId, triggerFaceAnimation);
+        };
+    callbacks.playHouseSound =
+        [this](uint32_t soundId)
+        {
+            if (m_pGameAudioSystem != nullptr)
+            {
+                m_pGameAudioSystem->playSound(soundId, GameAudioSystem::PlaybackGroup::HouseSpeech);
+            }
+        };
+    callbacks.playCommonSound =
+        [this](SoundId soundId)
+        {
+            if (m_pGameAudioSystem != nullptr)
+            {
+                m_pGameAudioSystem->playCommonSound(soundId, GameAudioSystem::PlaybackGroup::Ui);
+            }
+        };
+    callbacks.executeNpcTopicEvent =
+        [this](uint16_t eventId, size_t &previousMessageCount)
+        {
+            return m_pOutdoorSceneRuntime != nullptr
+                && m_pOutdoorSceneRuntime->executeEventById(
+                    std::nullopt,
+                    eventId,
+                    std::nullopt,
+                    previousMessageCount
+                );
+        };
+
+    return {
+        m_gameplayUiController,
+        eventRuntimeState,
+        m_activeEventDialog,
+        m_eventDialogSelectionIndex,
+        m_pOutdoorPartyRuntime != nullptr ? &m_pOutdoorPartyRuntime->party() : nullptr,
+        m_pOutdoorWorldRuntime,
+        m_pOutdoorSceneRuntime != nullptr ? &m_pOutdoorSceneRuntime->globalEventIrProgram() : nullptr,
+        m_houseTable ? &*m_houseTable : nullptr,
+        m_classSkillTable ? &*m_classSkillTable : nullptr,
+        m_npcDialogTable ? &*m_npcDialogTable : nullptr,
+        m_pRosterTable,
+        currentHudScreenState() == HudScreenState::Dialogue,
+        std::move(callbacks)
+    };
+}
+
 void OutdoorGameView::executeActiveDialogAction()
 {
-    if (!m_activeEventDialog.isActive
-        || m_eventDialogSelectionIndex >= m_activeEventDialog.actions.size())
-    {
-        return;
-    }
-
     EventRuntimeState *pEventRuntimeState =
         m_pOutdoorWorldRuntime != nullptr ? m_pOutdoorWorldRuntime->eventRuntimeState() : nullptr;
 
@@ -8460,442 +7767,12 @@ void OutdoorGameView::executeActiveDialogAction()
         return;
     }
 
-    const EventDialogAction &action = m_activeEventDialog.actions[m_eventDialogSelectionIndex];
-    const size_t previousMessageCount = pEventRuntimeState->messages.size();
-    closeHouseShopOverlay();
+    GameplayDialogController::Context context = createGameplayDialogContext(*pEventRuntimeState);
+    const GameplayDialogController::Result result = m_gameplayDialogController.executeActiveDialogAction(context);
 
-    if (m_inventoryNestedOverlay.active && currentHudScreenState() == HudScreenState::Dialogue)
+    if (result.shouldOpenPendingEventDialog)
     {
-        closeInventoryNestedOverlay();
-    }
-
-    if (!action.enabled)
-    {
-        if (action.kind == EventDialogActionKind::HouseService)
-        {
-            if (!action.disabledReason.empty()
-                && static_cast<HouseActionId>(action.id) != HouseActionId::TrainingTrainActiveMember)
-            {
-                setStatusBarEvent(action.disabledReason);
-            }
-
-            return;
-        }
-
-        if (!action.disabledReason.empty())
-        {
-            pEventRuntimeState->messages.push_back(action.disabledReason);
-            openPendingEventDialog(previousMessageCount, true);
-        }
-
-        return;
-    }
-
-    if (action.kind == EventDialogActionKind::HouseService)
-    {
-        if (m_pOutdoorPartyRuntime == nullptr || !m_houseTable)
-        {
-            return;
-        }
-
-        const HouseEntry *pHouseEntry = m_houseTable->get(m_activeEventDialog.sourceId);
-
-        if (pHouseEntry == nullptr)
-        {
-            return;
-        }
-
-        if (rejectClosedHouseInteraction(*pHouseEntry, *pEventRuntimeState))
-        {
-            return;
-        }
-
-        const DialogueMenuId menuId = dialogueMenuIdForHouseAction(static_cast<HouseActionId>(action.id));
-
-        if (menuId != DialogueMenuId::None)
-        {
-            pEventRuntimeState->dialogueState.menuStack.push_back(menuId);
-        }
-        else if (static_cast<HouseActionId>(action.id) == HouseActionId::BankDepositAll)
-        {
-            beginHouseBankInput(pHouseEntry->id, HouseBankInputMode::Deposit);
-            return;
-        }
-        else if (static_cast<HouseActionId>(action.id) == HouseActionId::BankWithdrawAll)
-        {
-            beginHouseBankInput(pHouseEntry->id, HouseBankInputMode::Withdraw);
-            return;
-        }
-        else if (static_cast<HouseActionId>(action.id) == HouseActionId::ShopBuyStandard)
-        {
-            openHouseShopOverlay(pHouseEntry->id, HouseShopMode::BuyStandard);
-            return;
-        }
-        else if (static_cast<HouseActionId>(action.id) == HouseActionId::ShopBuySpecial)
-        {
-            openHouseShopOverlay(pHouseEntry->id, HouseShopMode::BuySpecial);
-            return;
-        }
-        else if (static_cast<HouseActionId>(action.id) == HouseActionId::GuildBuySpellbooks)
-        {
-            openHouseShopOverlay(pHouseEntry->id, HouseShopMode::BuySpellbooks);
-            return;
-        }
-        else if (static_cast<HouseActionId>(action.id) == HouseActionId::ShopSell)
-        {
-            openInventoryNestedOverlay(InventoryNestedOverlayMode::ShopSell, pHouseEntry->id);
-            return;
-        }
-        else if (static_cast<HouseActionId>(action.id) == HouseActionId::ShopIdentify)
-        {
-            openInventoryNestedOverlay(InventoryNestedOverlayMode::ShopIdentify, pHouseEntry->id);
-            return;
-        }
-        else if (static_cast<HouseActionId>(action.id) == HouseActionId::ShopRepair)
-        {
-            openInventoryNestedOverlay(InventoryNestedOverlayMode::ShopRepair, pHouseEntry->id);
-            return;
-        }
-        else
-        {
-            HouseActionOption option = {};
-            option.id = static_cast<HouseActionId>(action.id);
-            option.label = action.label;
-            option.argument = action.argument;
-            const HouseActionResult result = performHouseAction(
-                option,
-                *pHouseEntry,
-                m_pOutdoorPartyRuntime->party(),
-                m_classSkillTable ? &*m_classSkillTable : nullptr,
-                m_pOutdoorWorldRuntime
-            );
-
-            if (result.soundType.has_value() && m_pGameAudioSystem != nullptr)
-            {
-                const std::optional<uint32_t> soundId = deriveHouseSoundId(*pHouseEntry, *result.soundType);
-
-                if (soundId.has_value())
-                {
-                    m_pGameAudioSystem->playSound(
-                        *soundId,
-                        GameAudioSystem::PlaybackGroup::HouseSpeech);
-                }
-            }
-
-            const bool suppressDialogueMessages =
-                option.id == HouseActionId::TrainingTrainActiveMember
-                || option.id == HouseActionId::TempleDonate;
-
-            for (const std::string &message : result.messages)
-            {
-                if (!suppressDialogueMessages)
-                {
-                    pEventRuntimeState->messages.push_back(message);
-                }
-
-                setStatusBarEvent(message);
-            }
-
-            if (result.succeeded && option.id == HouseActionId::TrainingTrainActiveMember)
-            {
-                playSpeechReaction(m_pOutdoorPartyRuntime->party().activeMemberIndex(), SpeechId::LevelUp, true);
-            }
-
-            if (result.succeeded && option.id == HouseActionId::TempleHeal)
-            {
-                if (m_pGameAudioSystem != nullptr)
-                {
-                    m_pGameAudioSystem->playCommonSound(SoundId::Heal, GameAudioSystem::PlaybackGroup::Ui);
-                }
-
-                playSpeechReaction(m_pOutdoorPartyRuntime->party().activeMemberIndex(), SpeechId::TempleHeal, true);
-            }
-
-            if (result.succeeded && option.id == HouseActionId::TempleDonate)
-            {
-                playSpeechReaction(m_pOutdoorPartyRuntime->party().activeMemberIndex(), SpeechId::TempleDonate, true);
-            }
-
-            if (result.succeeded && option.id == HouseActionId::TransportRoute)
-            {
-                playSpeechReaction(
-                    m_pOutdoorPartyRuntime->party().activeMemberIndex(),
-                    isHouseType(*pHouseEntry, "Boats") ? SpeechId::TravelBoat : SpeechId::TravelHorse,
-                    true
-                );
-            }
-        }
-
-        EventRuntimeState::PendingDialogueContext context = {};
-        context.kind = DialogueContextKind::HouseService;
-        context.sourceId = m_activeEventDialog.sourceId;
-        context.hostHouseId = m_activeEventDialog.sourceId;
-        pEventRuntimeState->dialogueState.hostHouseId = m_activeEventDialog.sourceId;
-        pEventRuntimeState->pendingDialogueContext = std::move(context);
-        openPendingEventDialog(previousMessageCount, true);
-        return;
-    }
-
-    if (action.kind == EventDialogActionKind::HouseResident)
-    {
-        EventRuntimeState::PendingDialogueContext context = {};
-        context.kind = DialogueContextKind::NpcTalk;
-        context.sourceId = action.id;
-        context.hostHouseId = m_activeEventDialog.sourceId;
-        pEventRuntimeState->dialogueState.hostHouseId = m_activeEventDialog.sourceId;
-        pEventRuntimeState->pendingDialogueContext = std::move(context);
-        openPendingEventDialog(previousMessageCount, true);
-        return;
-    }
-
-    if (action.kind == EventDialogActionKind::RosterJoinOffer)
-    {
-        if (!m_npcDialogTable)
-        {
-            return;
-        }
-
-        const std::optional<NpcDialogTable::RosterJoinOffer> offer =
-            m_npcDialogTable->getRosterJoinOfferForTopic(action.id);
-
-        if (!offer)
-        {
-            pEventRuntimeState->messages.push_back("That companion is not ready to join yet.");
-            openPendingEventDialog(previousMessageCount, true);
-            return;
-        }
-
-        const std::optional<std::string> inviteText = m_npcDialogTable->getText(offer->inviteTextId);
-
-        if (inviteText && !inviteText->empty())
-        {
-            pEventRuntimeState->messages.push_back(*inviteText);
-        }
-
-        EventRuntimeState::DialogueOfferState offerState = {};
-        offerState.kind = DialogueOfferKind::RosterJoin;
-        offerState.npcId = m_activeEventDialog.sourceId;
-        offerState.topicId = action.id;
-        offerState.messageTextId = offer->inviteTextId;
-        offerState.rosterId = offer->rosterId;
-        offerState.partyFullTextId = offer->partyFullTextId;
-        pEventRuntimeState->dialogueState.currentOffer = std::move(offerState);
-
-        EventRuntimeState::PendingDialogueContext context = {};
-        context.kind = DialogueContextKind::NpcTalk;
-        context.sourceId = m_activeEventDialog.sourceId;
-        context.hostHouseId = currentDialogueHostHouseId(pEventRuntimeState);
-        pEventRuntimeState->pendingDialogueContext = std::move(context);
-        openPendingEventDialog(previousMessageCount, true);
-        return;
-    }
-
-    if (action.kind == EventDialogActionKind::RosterJoinAccept)
-    {
-        if (!pEventRuntimeState->dialogueState.currentOffer
-            || pEventRuntimeState->dialogueState.currentOffer->kind != DialogueOfferKind::RosterJoin
-            || m_pOutdoorPartyRuntime == nullptr
-            || m_pRosterTable == nullptr)
-        {
-            return;
-        }
-
-        const EventRuntimeState::DialogueOfferState invite = *pEventRuntimeState->dialogueState.currentOffer;
-        pEventRuntimeState->dialogueState.currentOffer.reset();
-
-        if (m_pOutdoorPartyRuntime->party().isFull())
-        {
-            pEventRuntimeState->npcHouseOverrides[invite.npcId] = AdventurersInnHouseId;
-
-            if (m_npcDialogTable)
-            {
-                const std::optional<std::string> fullPartyText = m_npcDialogTable->getText(invite.partyFullTextId);
-
-                if (fullPartyText && !fullPartyText->empty())
-                {
-                    pEventRuntimeState->messages.push_back(*fullPartyText);
-                }
-            }
-
-            EventRuntimeState::PendingDialogueContext context = {};
-            context.kind = DialogueContextKind::NpcTalk;
-            context.sourceId = invite.npcId;
-            context.hostHouseId = currentDialogueHostHouseId(pEventRuntimeState);
-            pEventRuntimeState->pendingDialogueContext = std::move(context);
-            openPendingEventDialog(previousMessageCount, false);
-            return;
-        }
-
-        const RosterEntry *pRosterEntry = m_pRosterTable->get(invite.rosterId);
-
-        if (pRosterEntry == nullptr || !m_pOutdoorPartyRuntime->party().recruitRosterMember(*pRosterEntry))
-        {
-            pEventRuntimeState->messages.push_back("Recruitment is not available for this companion yet.");
-
-            EventRuntimeState::PendingDialogueContext context = {};
-            context.kind = DialogueContextKind::NpcTalk;
-            context.sourceId = invite.npcId;
-            context.hostHouseId = currentDialogueHostHouseId(pEventRuntimeState);
-            pEventRuntimeState->pendingDialogueContext = std::move(context);
-            openPendingEventDialog(previousMessageCount, true);
-            return;
-        }
-
-        pEventRuntimeState->unavailableNpcIds.insert(invite.npcId);
-        pEventRuntimeState->npcHouseOverrides.erase(invite.npcId);
-        pEventRuntimeState->messages.push_back(pRosterEntry->name + " joined the party.");
-
-        EventRuntimeState::PendingDialogueContext context = {};
-        context.kind = DialogueContextKind::NpcTalk;
-        context.sourceId = invite.npcId;
-        context.hostHouseId = currentDialogueHostHouseId(pEventRuntimeState);
-        pEventRuntimeState->pendingDialogueContext = std::move(context);
-        openPendingEventDialog(previousMessageCount, false);
-        return;
-    }
-
-    if (action.kind == EventDialogActionKind::RosterJoinDecline)
-    {
-        const uint32_t npcId =
-            (pEventRuntimeState->dialogueState.currentOffer
-             && pEventRuntimeState->dialogueState.currentOffer->kind == DialogueOfferKind::RosterJoin)
-            ? pEventRuntimeState->dialogueState.currentOffer->npcId
-            : m_activeEventDialog.sourceId;
-        pEventRuntimeState->dialogueState.currentOffer.reset();
-
-        EventRuntimeState::PendingDialogueContext context = {};
-        context.kind = DialogueContextKind::NpcTalk;
-        context.sourceId = npcId;
-        context.hostHouseId = currentDialogueHostHouseId(pEventRuntimeState);
-        pEventRuntimeState->pendingDialogueContext = std::move(context);
-        openPendingEventDialog(previousMessageCount, true);
-        return;
-    }
-
-    if (action.kind == EventDialogActionKind::MasteryTeacherOffer)
-    {
-        EventRuntimeState::DialogueOfferState offer = {};
-        offer.kind = DialogueOfferKind::MasteryTeacher;
-        offer.npcId = m_activeEventDialog.sourceId;
-        offer.topicId = action.id;
-        pEventRuntimeState->dialogueState.currentOffer = std::move(offer);
-
-        EventRuntimeState::PendingDialogueContext context = {};
-        context.kind = DialogueContextKind::NpcTalk;
-        context.sourceId = m_activeEventDialog.sourceId;
-        context.hostHouseId = currentDialogueHostHouseId(pEventRuntimeState);
-        pEventRuntimeState->pendingDialogueContext = std::move(context);
-        openPendingEventDialog(previousMessageCount, true);
-        return;
-    }
-
-    if (action.kind == EventDialogActionKind::MasteryTeacherLearn)
-    {
-        if (!pEventRuntimeState->dialogueState.currentOffer
-            || pEventRuntimeState->dialogueState.currentOffer->kind != DialogueOfferKind::MasteryTeacher
-            || m_pOutdoorPartyRuntime == nullptr
-            || !m_classSkillTable
-            || !m_npcDialogTable)
-        {
-            return;
-        }
-
-        std::string message;
-
-        if (applyMasteryTeacherTopic(
-                pEventRuntimeState->dialogueState.currentOffer->topicId,
-                m_pOutdoorPartyRuntime->party(),
-                *m_classSkillTable,
-                *m_npcDialogTable,
-                message))
-        {
-            if (!message.empty())
-            {
-                setStatusBarEvent(message);
-            }
-
-            EventRuntimeState::PendingDialogueContext context = {};
-            context.kind = DialogueContextKind::NpcTalk;
-            context.sourceId = pEventRuntimeState->dialogueState.currentOffer->npcId;
-            context.hostHouseId = currentDialogueHostHouseId(pEventRuntimeState);
-            pEventRuntimeState->pendingDialogueContext = std::move(context);
-            openPendingEventDialog(previousMessageCount, true);
-        }
-        else
-        {
-            const std::optional<MasteryTeacherEvaluation> evaluation = evaluateMasteryTeacherTopic(
-                pEventRuntimeState->dialogueState.currentOffer->topicId,
-                m_pOutdoorPartyRuntime->party(),
-                *m_classSkillTable,
-                *m_npcDialogTable
-            );
-
-            if (evaluation && !evaluation->displayText.empty())
-            {
-                setStatusBarEvent(evaluation->displayText);
-            }
-
-            openPendingEventDialog(previousMessageCount, true);
-        }
-
-        return;
-    }
-
-    if (action.kind == EventDialogActionKind::NpcTopic)
-    {
-        const uint32_t npcId = m_activeEventDialog.sourceId;
-        bool executed = false;
-
-        if (action.textOnly && m_npcDialogTable)
-        {
-            const std::optional<NpcDialogTable::ResolvedTopic> topic =
-                m_npcDialogTable->getTopicById(action.secondaryId != 0 ? action.secondaryId : action.id);
-
-            if (topic && !topic->text.empty())
-            {
-                pEventRuntimeState->messages.push_back(topic->text);
-                executed = true;
-            }
-        }
-        else
-        {
-            executed = m_eventRuntime.executeEventById(
-                std::nullopt,
-                m_globalEventIrProgram,
-                static_cast<uint16_t>(action.id),
-                *pEventRuntimeState,
-                m_pOutdoorPartyRuntime != nullptr ? &m_pOutdoorPartyRuntime->party() : nullptr,
-                m_pOutdoorWorldRuntime
-            );
-        }
-
-        if (executed)
-        {
-            if (m_pOutdoorWorldRuntime != nullptr)
-            {
-                m_pOutdoorWorldRuntime->applyEventRuntimeState();
-            }
-
-            if (m_pOutdoorPartyRuntime != nullptr)
-            {
-                m_pOutdoorPartyRuntime->applyEventRuntimeState(*pEventRuntimeState);
-            }
-        }
-        else
-        {
-            pEventRuntimeState->messages.push_back("That topic does not have an event yet.");
-        }
-
-        if (!pEventRuntimeState->pendingDialogueContext)
-        {
-            EventRuntimeState::PendingDialogueContext context = {};
-            context.kind = DialogueContextKind::NpcTalk;
-            context.sourceId = npcId;
-            context.hostHouseId = currentDialogueHostHouseId(pEventRuntimeState);
-            pEventRuntimeState->pendingDialogueContext = std::move(context);
-        }
-
-        openPendingEventDialog(previousMessageCount, true);
+        openPendingEventDialog(result.previousMessageCount, result.allowNpcFallbackContent);
     }
 }
 
@@ -8903,26 +7780,8 @@ bool OutdoorGameView::rejectClosedHouseInteraction(
     const HouseEntry &houseEntry,
     EventRuntimeState &eventRuntimeState)
 {
-    if (m_pOutdoorWorldRuntime == nullptr
-        || isHouseOpenAtGameMinute(houseEntry, m_pOutdoorWorldRuntime->gameMinutes()))
-    {
-        return false;
-    }
-
-    closeHouseShopOverlay();
-    closeInventoryNestedOverlay();
-    setStatusBarEvent(buildClosedStatusText(houseEntry));
-
-    if (m_pOutdoorPartyRuntime != nullptr)
-    {
-        playSpeechReaction(m_pOutdoorPartyRuntime->party().activeMemberIndex(), SpeechId::StoreClosed, true);
-    }
-
-    eventRuntimeState.pendingDialogueContext.reset();
-    eventRuntimeState.dialogueState = {};
-    clearHouseBankState();
-    m_activeEventDialog = {};
-    return true;
+    GameplayDialogController::Context context = createGameplayDialogContext(eventRuntimeState);
+    return m_gameplayDialogController.rejectClosedHouseInteraction(context, houseEntry);
 }
 
 void OutdoorGameView::openPendingEventDialog(size_t previousMessageCount, bool allowNpcFallbackContent)
@@ -8935,102 +7794,20 @@ void OutdoorGameView::openPendingEventDialog(size_t previousMessageCount, bool a
         return;
     }
 
-    if (!pEventRuntimeState->pendingDialogueContext)
-    {
-        return;
-    }
-
-    if (pEventRuntimeState->pendingDialogueContext->kind == DialogueContextKind::HouseService
-        && m_houseTable
-        && m_pOutdoorWorldRuntime != nullptr
-        && m_pOutdoorPartyRuntime != nullptr)
-    {
-        const HouseEntry *pHouseEntry = m_houseTable->get(pEventRuntimeState->pendingDialogueContext->sourceId);
-
-        if (pHouseEntry != nullptr && rejectClosedHouseInteraction(*pHouseEntry, *pEventRuntimeState))
-        {
-            return;
-        }
-    }
-
-    const uint32_t pendingHouseId =
-        pEventRuntimeState->pendingDialogueContext->kind == DialogueContextKind::HouseService
-        ? pEventRuntimeState->pendingDialogueContext->sourceId
-        : pEventRuntimeState->pendingDialogueContext->hostHouseId;
-    const HouseEntry *pPendingHouseEntry =
-        (pendingHouseId != 0 && m_houseTable.has_value()) ? m_houseTable->get(pendingHouseId) : nullptr;
-
     closeHouseShopOverlay();
     closeInventoryNestedOverlay();
+    const bool showBankInputCursor = (SDL_GetTicks() / 500u) % 2u == 0u;
+    GameplayDialogController::Context context = createGameplayDialogContext(*pEventRuntimeState);
+    const GameplayDialogController::PresentPendingDialogResult result =
+        m_gameplayDialogController.presentPendingEventDialog(
+            context,
+            previousMessageCount,
+            allowNpcFallbackContent,
+            showBankInputCursor);
 
-    const bool wasDialogAlreadyActive = m_activeEventDialog.isActive;
-    const EventRuntimeState::PendingDialogueContext originalContext = *pEventRuntimeState->pendingDialogueContext;
-
-    if (pEventRuntimeState->pendingDialogueContext->kind == DialogueContextKind::HouseService
-        && m_houseTable
-        && m_npcDialogTable)
+    if (!result.dialogOpened)
     {
-        const HouseEntry *pHouseEntry = m_houseTable->get(pEventRuntimeState->pendingDialogueContext->sourceId);
-
-        if (pHouseEntry != nullptr)
-        {
-            const std::vector<HouseActionOption> houseActions = buildHouseActionOptions(
-                *pHouseEntry,
-                m_pOutdoorPartyRuntime != nullptr ? &m_pOutdoorPartyRuntime->party() : nullptr,
-                m_classSkillTable ? &*m_classSkillTable : nullptr,
-                m_pOutdoorWorldRuntime,
-                m_pOutdoorWorldRuntime != nullptr ? m_pOutdoorWorldRuntime->gameMinutes() : -1.0f,
-                pEventRuntimeState->dialogueState.menuStack.empty()
-                    ? DialogueMenuId::None
-                    : pEventRuntimeState->dialogueState.menuStack.back()
-            );
-            const std::optional<uint32_t> residentNpcId = singleSelectableResidentNpcId(
-                *pHouseEntry,
-                *m_npcDialogTable,
-                *pEventRuntimeState
-            );
-
-            if (residentNpcId && houseActions.empty())
-            {
-                EventRuntimeState::PendingDialogueContext context = {};
-                context.kind = DialogueContextKind::NpcTalk;
-                context.sourceId = *residentNpcId;
-                context.hostHouseId = pHouseEntry->id;
-                pEventRuntimeState->dialogueState.hostHouseId = pHouseEntry->id;
-                pEventRuntimeState->pendingDialogueContext = std::move(context);
-            }
-        }
-    }
-
-    const EventRuntimeState::PendingDialogueContext resolvedContext = *pEventRuntimeState->pendingDialogueContext;
-
-    m_activeEventDialog = buildEventDialogContent(
-        *pEventRuntimeState,
-        previousMessageCount,
-        allowNpcFallbackContent,
-        &m_globalEventIrProgram,
-        m_houseTable ? &*m_houseTable : nullptr,
-        m_classSkillTable ? &*m_classSkillTable : nullptr,
-        m_npcDialogTable ? &*m_npcDialogTable : nullptr,
-        m_pOutdoorPartyRuntime != nullptr ? &m_pOutdoorPartyRuntime->party() : nullptr,
-        m_pOutdoorWorldRuntime,
-        m_pOutdoorWorldRuntime != nullptr ? m_pOutdoorWorldRuntime->gameMinutes() : -1.0f
-    );
-
-    if (!m_activeEventDialog.isActive)
-    {
-        pEventRuntimeState->pendingDialogueContext.reset();
-        clearHouseBankState();
         return;
-    }
-
-    if (originalContext.hostHouseId != 0)
-    {
-        pEventRuntimeState->dialogueState.hostHouseId = originalContext.hostHouseId;
-    }
-    else if (originalContext.kind == DialogueContextKind::HouseService)
-    {
-        pEventRuntimeState->dialogueState.hostHouseId = originalContext.sourceId;
     }
 
     m_eventDialogSelectionIndex = 0;
@@ -9053,28 +7830,14 @@ void OutdoorGameView::openPendingEventDialog(size_t previousMessageCount, bool a
     m_eventDialogAcceptLatch = suppressInitialAccept;
     m_eventDialogPartySelectLatches.fill(false);
 
-    if (pPendingHouseEntry == nullptr || resolveHouseServiceType(*pPendingHouseEntry) != HouseServiceType::Bank)
-    {
-        clearHouseBankState();
-    }
-    else
-    {
-        m_houseBankState.houseId = pPendingHouseEntry->id;
-
-        if (m_houseBankState.inputActive())
-        {
-            refreshHouseBankInputDialog();
-        }
-    }
-
     std::cout << "Opened "
               << (m_activeEventDialog.isHouseDialog ? "house" : "npc")
               << " dialog for id=" << m_activeEventDialog.sourceId << '\n';
 
-    if (!wasDialogAlreadyActive
-        && (resolvedContext.kind == DialogueContextKind::NpcTalk
-            || resolvedContext.kind == DialogueContextKind::NpcNews)
-        && resolvedContext.sourceId != 0
+    if (!result.wasDialogAlreadyActive
+        && (result.resolvedContext.kind == DialogueContextKind::NpcTalk
+            || result.resolvedContext.kind == DialogueContextKind::NpcNews)
+        && result.resolvedContext.sourceId != 0
         && m_pOutdoorPartyRuntime != nullptr)
     {
         const size_t activeMemberIndex = m_pOutdoorPartyRuntime->party().activeMemberIndex();
@@ -9099,7 +7862,7 @@ void OutdoorGameView::closeActiveEventDialog()
         pEventRuntimeState->dialogueState = {};
     }
 
-    m_activeEventDialog = {};
+    m_gameplayUiController.clearEventDialog();
     m_eventDialogSelectionIndex = 0;
     m_eventDialogSelectUpLatch = false;
     m_eventDialogSelectDownLatch = false;
@@ -10629,11 +9392,7 @@ OutdoorGameView::HudScreenState OutdoorGameView::currentHudScreenState() const
 
 void OutdoorGameView::openSpellbook()
 {
-    m_spellbook = {};
-    m_spellInspectOverlay = {};
-    m_spellbook.active = true;
-    m_spellbook.school = SpellbookSchool::Fire;
-    m_spellbook.selectedSpellId = 0;
+    m_gameplayUiController.openSpellbook();
     m_spellbookToggleLatch = false;
     m_spellbookClickLatch = false;
     m_spellbookPressedTarget = {};
@@ -10645,7 +9404,7 @@ void OutdoorGameView::openSpellbook()
         m_pGameAudioSystem->playCommonSound(SoundId::OpenBook, GameAudioSystem::PlaybackGroup::Ui);
     }
 
-    for (const SpellbookSchoolUiDefinition &definition : SpellbookSchoolUiDefinitions)
+    for (const SpellbookSchoolUiDefinition &definition : spellbookSchoolUiDefinitions())
     {
         if (activeMemberHasSpellbookSchool(definition.school))
         {
@@ -10692,8 +9451,7 @@ void OutdoorGameView::openSpellbook()
 void OutdoorGameView::closeSpellbook(const std::string &statusText)
 {
     const bool wasActive = m_spellbook.active;
-    m_spellbook = {};
-    m_spellInspectOverlay = {};
+    m_gameplayUiController.closeSpellbook();
     m_spellbookToggleLatch = false;
     m_spellbookClickLatch = false;
     m_spellbookPressedTarget = {};
@@ -10713,7 +9471,7 @@ void OutdoorGameView::closeSpellbook(const std::string &statusText)
 
 void OutdoorGameView::closeReadableScrollOverlay()
 {
-    m_readableScrollOverlay = {};
+    m_gameplayUiController.closeReadableScrollOverlay();
 }
 
 void OutdoorGameView::openHouseShopOverlay(uint32_t houseId, HouseShopMode mode)
@@ -10725,16 +9483,14 @@ void OutdoorGameView::openHouseShopOverlay(uint32_t houseId, HouseShopMode mode)
     }
 
     closeInventoryNestedOverlay();
-    m_houseShopOverlay.active = true;
-    m_houseShopOverlay.houseId = houseId;
-    m_houseShopOverlay.mode = mode;
+    m_gameplayUiController.openHouseShopOverlay(houseId, mode);
     m_houseShopClickLatch = false;
     m_houseShopPressedSlotIndex = std::numeric_limits<size_t>::max();
 }
 
 void OutdoorGameView::closeHouseShopOverlay()
 {
-    m_houseShopOverlay = {};
+    m_gameplayUiController.closeHouseShopOverlay();
     m_houseShopClickLatch = false;
     m_houseShopPressedSlotIndex = std::numeric_limits<size_t>::max();
 }
@@ -10749,9 +9505,7 @@ void OutdoorGameView::beginHouseBankInput(uint32_t houseId, HouseBankInputMode m
 
     closeHouseShopOverlay();
     closeInventoryNestedOverlay();
-    m_houseBankState.houseId = houseId;
-    m_houseBankState.inputMode = mode;
-    m_houseBankState.inputText.clear();
+    m_gameplayUiController.beginHouseBankInput(houseId, mode);
     m_houseBankDigitLatches.fill(false);
     m_houseBankBackspaceLatch = false;
     m_houseBankConfirmLatch = false;
@@ -10760,46 +9514,21 @@ void OutdoorGameView::beginHouseBankInput(uint32_t houseId, HouseBankInputMode m
 
 void OutdoorGameView::refreshHouseBankInputDialog()
 {
-    if (!m_houseBankState.inputActive())
-    {
-        return;
-    }
-
-    const EventRuntimeState *pEventRuntimeState =
+    EventRuntimeState *pEventRuntimeState =
         m_pOutdoorWorldRuntime != nullptr ? m_pOutdoorWorldRuntime->eventRuntimeState() : nullptr;
-    const uint32_t hostHouseId = currentDialogueHostHouseId(pEventRuntimeState);
-    const HouseEntry *pHouseEntry =
-        (hostHouseId != 0 && m_houseTable.has_value()) ? m_houseTable->get(hostHouseId) : nullptr;
 
-    if (pHouseEntry == nullptr || pHouseEntry->id != m_houseBankState.houseId || !m_activeEventDialog.isActive)
+    if (pEventRuntimeState == nullptr)
     {
         return;
     }
 
-    const Party *pParty = m_pOutdoorPartyRuntime != nullptr ? &m_pOutdoorPartyRuntime->party() : nullptr;
-    const std::string promptLabel =
-        m_houseBankState.inputMode == HouseBankInputMode::Deposit ? "Deposit" : "Withdraw";
     const bool showCursor = (SDL_GetTicks() / 500u) % 2u == 0u;
-    const std::string enteredText = m_houseBankState.inputText.empty()
-        ? (showCursor ? "_" : "")
-        : (m_houseBankState.inputText + (showCursor ? "_" : ""));
-
-    m_activeEventDialog.lines.clear();
-    m_activeEventDialog.lines.push_back("Balance: " + std::to_string(pParty != nullptr ? pParty->bankGold() : 0));
-    m_activeEventDialog.lines.push_back(std::string {});
-    m_activeEventDialog.lines.push_back(promptLabel);
-    m_activeEventDialog.lines.push_back("How Much?");
-    m_activeEventDialog.lines.push_back(std::string {});
-    m_activeEventDialog.lines.push_back(enteredText);
-    m_activeEventDialog.actions.clear();
-    m_eventDialogSelectionIndex = 0;
+    GameplayDialogController::Context context = createGameplayDialogContext(*pEventRuntimeState);
+    m_gameplayDialogController.refreshHouseBankInputDialog(context, showCursor);
 }
 
 void OutdoorGameView::returnToHouseBankMainDialog()
 {
-    const uint32_t houseId = m_houseBankState.houseId;
-    m_houseBankState.inputMode = HouseBankInputMode::None;
-    m_houseBankState.inputText.clear();
     m_houseBankDigitLatches.fill(false);
     m_houseBankBackspaceLatch = false;
     m_houseBankConfirmLatch = false;
@@ -10807,110 +9536,45 @@ void OutdoorGameView::returnToHouseBankMainDialog()
     EventRuntimeState *pEventRuntimeState =
         m_pOutdoorWorldRuntime != nullptr ? m_pOutdoorWorldRuntime->eventRuntimeState() : nullptr;
 
-    if (pEventRuntimeState == nullptr || houseId == 0)
+    if (pEventRuntimeState == nullptr)
     {
         return;
     }
+    
+    GameplayDialogController::Context context = createGameplayDialogContext(*pEventRuntimeState);
+    const GameplayDialogController::Result result = m_gameplayDialogController.returnToHouseBankMainDialog(context);
 
-    EventRuntimeState::PendingDialogueContext context = {};
-    context.kind = DialogueContextKind::HouseService;
-    context.sourceId = houseId;
-    context.hostHouseId = houseId;
-    pEventRuntimeState->dialogueState.hostHouseId = houseId;
-    pEventRuntimeState->pendingDialogueContext = std::move(context);
-    openPendingEventDialog(pEventRuntimeState->messages.size(), true);
+    if (result.shouldOpenPendingEventDialog)
+    {
+        openPendingEventDialog(result.previousMessageCount, result.allowNpcFallbackContent);
+    }
 }
 
 void OutdoorGameView::confirmHouseBankInput()
 {
-    if (!m_houseBankState.inputActive() || m_pOutdoorPartyRuntime == nullptr)
-    {
-        returnToHouseBankMainDialog();
-        return;
-    }
-
     EventRuntimeState *pEventRuntimeState =
         m_pOutdoorWorldRuntime != nullptr ? m_pOutdoorWorldRuntime->eventRuntimeState() : nullptr;
-    const uint32_t hostHouseId = currentDialogueHostHouseId(pEventRuntimeState);
-    const HouseEntry *pHouseEntry =
-        (hostHouseId != 0 && m_houseTable.has_value()) ? m_houseTable->get(hostHouseId) : nullptr;
 
-    if (pHouseEntry == nullptr || pHouseEntry->id != m_houseBankState.houseId)
+    if (pEventRuntimeState == nullptr)
     {
-        returnToHouseBankMainDialog();
         return;
     }
 
-    const int requestedAmount = m_houseBankState.inputText.empty() ? 0 : std::atoi(m_houseBankState.inputText.c_str());
+    GameplayDialogController::Context context = createGameplayDialogContext(*pEventRuntimeState);
+    const GameplayDialogController::Result result = m_gameplayDialogController.confirmHouseBankInput(context);
+    m_houseBankDigitLatches.fill(false);
+    m_houseBankBackspaceLatch = false;
+    m_houseBankConfirmLatch = false;
 
-    if (requestedAmount <= 0)
+    if (result.shouldOpenPendingEventDialog)
     {
-        returnToHouseBankMainDialog();
-        return;
+        openPendingEventDialog(result.previousMessageCount, result.allowNpcFallbackContent);
     }
-
-    Party &party = m_pOutdoorPartyRuntime->party();
-
-    if (m_houseBankState.inputMode == HouseBankInputMode::Deposit)
-    {
-        int depositedAmount = requestedAmount;
-
-        if (depositedAmount > party.gold())
-        {
-            if (m_pGameAudioSystem != nullptr)
-            {
-                const std::optional<uint32_t> soundId =
-                    deriveHouseSoundId(*pHouseEntry, HouseSoundType::GeneralNotEnoughGold);
-
-                if (soundId.has_value())
-                {
-                    m_pGameAudioSystem->playSound(*soundId, GameAudioSystem::PlaybackGroup::HouseSpeech);
-                }
-            }
-
-            depositedAmount = party.gold();
-        }
-
-        if (depositedAmount > 0)
-        {
-            party.depositGoldToBank(depositedAmount);
-            m_houseBankState.transactionPerformed = true;
-            playSpeechReaction(party.activeMemberIndex(), SpeechId::BankDeposit, true);
-        }
-    }
-    else if (m_houseBankState.inputMode == HouseBankInputMode::Withdraw)
-    {
-        int withdrawnAmount = requestedAmount;
-
-        if (withdrawnAmount > party.bankGold())
-        {
-            if (m_pGameAudioSystem != nullptr)
-            {
-                const std::optional<uint32_t> soundId =
-                    deriveHouseSoundId(*pHouseEntry, HouseSoundType::GeneralNotEnoughGold);
-
-                if (soundId.has_value())
-                {
-                    m_pGameAudioSystem->playSound(*soundId, GameAudioSystem::PlaybackGroup::HouseSpeech);
-                }
-            }
-
-            withdrawnAmount = party.bankGold();
-        }
-
-        if (withdrawnAmount > 0)
-        {
-            party.withdrawBankGold(withdrawnAmount);
-            m_houseBankState.transactionPerformed = true;
-        }
-    }
-
-    returnToHouseBankMainDialog();
 }
 
 void OutdoorGameView::clearHouseBankState()
 {
-    m_houseBankState = {};
+    m_gameplayUiController.clearHouseBankState();
     m_houseBankDigitLatches.fill(false);
     m_houseBankBackspaceLatch = false;
     m_houseBankConfirmLatch = false;
@@ -10925,9 +9589,7 @@ void OutdoorGameView::openInventoryNestedOverlay(InventoryNestedOverlayMode mode
     }
 
     closeHouseShopOverlay();
-    m_inventoryNestedOverlay.active = true;
-    m_inventoryNestedOverlay.mode = mode;
-    m_inventoryNestedOverlay.houseId = houseId;
+    m_gameplayUiController.openInventoryNestedOverlay(mode, houseId);
     m_inventoryNestedOverlayClickLatch = false;
     m_inventoryNestedOverlayItemClickLatch = false;
     m_inventoryNestedOverlayPressedTarget = {};
@@ -10935,7 +9597,7 @@ void OutdoorGameView::openInventoryNestedOverlay(InventoryNestedOverlayMode mode
 
 void OutdoorGameView::closeInventoryNestedOverlay()
 {
-    m_inventoryNestedOverlay = {};
+    m_gameplayUiController.closeInventoryNestedOverlay();
     m_inventoryNestedOverlayClickLatch = false;
     m_inventoryNestedOverlayItemClickLatch = false;
     m_inventoryNestedOverlayPressedTarget = {};
@@ -11170,89 +9832,12 @@ bool OutdoorGameView::loadPortraitAnimationData(const Engine::AssetFileSystem &a
 
 void OutdoorGameView::updatePartyPortraitAnimations(float deltaSeconds)
 {
-    if (m_pOutdoorPartyRuntime == nullptr)
-    {
-        return;
-    }
-
-    (void)deltaSeconds;
-    const uint32_t nowTicks = currentAnimationTicks();
-
-    if (m_lastPortraitAnimationUpdateTicks == 0)
-    {
-        m_lastPortraitAnimationUpdateTicks = nowTicks;
-    }
-
-    const uint32_t deltaTicks = nowTicks - m_lastPortraitAnimationUpdateTicks;
-    m_lastPortraitAnimationUpdateTicks = nowTicks;
-
-    if (deltaTicks == 0)
-    {
-        return;
-    }
-
-    Party &party = m_pOutdoorPartyRuntime->party();
-
-    for (size_t memberIndex = 0; memberIndex < party.members().size(); ++memberIndex)
-    {
-        Character *pMember = party.member(memberIndex);
-
-        if (pMember == nullptr)
-        {
-            continue;
-        }
-
-        updatePortraitAnimation(*pMember, memberIndex, deltaTicks);
-    }
+    OutdoorPresentationController::updatePartyPortraitAnimations(*this, deltaSeconds);
 }
 
 void OutdoorGameView::updatePortraitAnimation(Character &member, size_t memberIndex, uint32_t deltaTicks)
 {
-    member.portraitElapsedTicks += deltaTicks;
-    const std::optional<CharacterCondition> displayedCondition = GameMechanics::displayedCondition(member);
-
-    if (displayedCondition)
-    {
-        const std::optional<PortraitId> conditionPortrait = portraitIdForCondition(*displayedCondition);
-
-        if (conditionPortrait)
-        {
-            if (isDamagePortrait(member.portraitState)
-                && member.portraitDurationTicks > 0
-                && member.portraitElapsedTicks < member.portraitDurationTicks)
-            {
-                return;
-            }
-
-            if (member.portraitState != *conditionPortrait || member.portraitDurationTicks != 0)
-            {
-                member.portraitState = *conditionPortrait;
-                member.portraitElapsedTicks = 0;
-                member.portraitDurationTicks = 0;
-            }
-
-            return;
-        }
-    }
-
-    if (member.portraitDurationTicks > 0 && member.portraitElapsedTicks < member.portraitDurationTicks)
-    {
-        return;
-    }
-
-    member.portraitElapsedTicks = 0;
-    const uint32_t sequenceValue = mixPortraitSequenceValue(
-        static_cast<uint32_t>(memberIndex + 1u) * 2654435761u + member.portraitSequenceCounter++);
-
-    if (member.portraitState != PortraitId::Normal || (sequenceValue % 5u) != 0u)
-    {
-        member.portraitState = PortraitId::Normal;
-        member.portraitDurationTicks = pickNormalPortraitDurationTicks(sequenceValue);
-        return;
-    }
-
-    member.portraitState = pickIdlePortrait(sequenceValue);
-    member.portraitDurationTicks = defaultPortraitAnimationLengthTicks(member.portraitState);
+    OutdoorPresentationController::updatePortraitAnimation(*this, member, memberIndex, deltaTicks);
 }
 
 void OutdoorGameView::playPortraitExpression(
@@ -11260,65 +9845,17 @@ void OutdoorGameView::playPortraitExpression(
     PortraitId portraitId,
     std::optional<uint32_t> durationTicks)
 {
-    if (m_pOutdoorPartyRuntime == nullptr)
-    {
-        return;
-    }
-
-    Character *pMember = m_pOutdoorPartyRuntime->party().member(memberIndex);
-
-    if (pMember == nullptr)
-    {
-        return;
-    }
-
-    const std::optional<CharacterCondition> displayedCondition = GameMechanics::displayedCondition(*pMember);
-
-    if (!portraitExpressionAllowedForCondition(displayedCondition, portraitId))
-    {
-        return;
-    }
-
-    pMember->portraitState = portraitId;
-    pMember->portraitElapsedTicks = 0;
-    pMember->portraitDurationTicks = durationTicks.value_or(defaultPortraitAnimationLengthTicks(portraitId));
-    pMember->portraitSequenceCounter += 1;
+    OutdoorPresentationController::playPortraitExpression(*this, memberIndex, portraitId, durationTicks);
 }
 
 void OutdoorGameView::triggerPortraitFaceAnimation(size_t memberIndex, FaceAnimationId animationId)
 {
-    const FaceAnimationEntry *pEntry = m_faceAnimationTable.find(animationId);
-
-    if (pEntry == nullptr || pEntry->portraitIds.empty())
-    {
-        return;
-    }
-
-    const uint32_t sequenceValue = mixPortraitSequenceValue(
-        currentAnimationTicks() ^ static_cast<uint32_t>(memberIndex + 1u) ^ static_cast<uint32_t>(pEntry->portraitIds.size()));
-    const size_t choiceIndex = static_cast<size_t>(sequenceValue % pEntry->portraitIds.size());
-
-    playPortraitExpression(memberIndex, pEntry->portraitIds[choiceIndex]);
+    OutdoorPresentationController::triggerPortraitFaceAnimation(*this, memberIndex, animationId);
 }
 
 void OutdoorGameView::triggerPortraitFaceAnimationForAllLivingMembers(FaceAnimationId animationId)
 {
-    if (m_pOutdoorPartyRuntime == nullptr)
-    {
-        return;
-    }
-
-    const std::vector<Character> &members = m_pOutdoorPartyRuntime->party().members();
-
-    for (size_t memberIndex = 0; memberIndex < members.size(); ++memberIndex)
-    {
-        if (members[memberIndex].health <= 0)
-        {
-            continue;
-        }
-
-        triggerPortraitFaceAnimation(memberIndex, animationId);
-    }
+    OutdoorPresentationController::triggerPortraitFaceAnimationForAllLivingMembers(*this, animationId);
 }
 
 uint32_t OutdoorGameView::defaultPortraitAnimationLengthTicks(PortraitId portraitId) const
@@ -11423,489 +9960,47 @@ bool OutdoorGameView::triggerPortraitFxAnimation(
     const std::string &animationName,
     const std::vector<size_t> &memberIndices)
 {
-    if (memberIndices.empty())
-    {
-        return false;
-    }
-
-    const std::optional<size_t> animationId = m_iconFrameTable.findAnimationIdByName(animationName);
-
-    if (!animationId)
-    {
-        return false;
-    }
-
-    const uint32_t startedTicks = currentAnimationTicks();
-    bool triggered = false;
-
-    for (size_t memberIndex : memberIndices)
-    {
-        if (memberIndex >= m_portraitSpellFxStates.size())
-        {
-            continue;
-        }
-
-        PortraitFxState &state = m_portraitSpellFxStates[memberIndex];
-        state.active = true;
-        state.animationId = *animationId;
-        state.startedTicks = startedTicks;
-        triggered = true;
-    }
-
-    return triggered;
+    return OutdoorPresentationController::triggerPortraitFxAnimation(*this, animationName, memberIndices);
 }
 
 void OutdoorGameView::triggerPortraitSpellFx(const PartySpellCastResult &result)
 {
-    const SpellFxEntry *pSpellFxEntry = m_spellFxTable.findBySpellId(result.spellId);
-
-    if (pSpellFxEntry == nullptr)
-    {
-        return;
-    }
-
-    triggerPortraitFxAnimation(pSpellFxEntry->animationName, result.affectedCharacterIndices);
+    OutdoorPresentationController::triggerPortraitSpellFx(*this, result);
 }
 
 void OutdoorGameView::triggerPortraitEventFx(const EventRuntimeState::PortraitFxRequest &request)
 {
-    const PortraitFxEventEntry *pEntry = m_portraitFxEventTable.findByKind(request.kind);
-
-    if (pEntry == nullptr)
-    {
-        return;
-    }
-
-    triggerPortraitFxAnimation(pEntry->animationName, request.memberIndices);
-
-    if (!pEntry->faceAnimationId)
-    {
-        return;
-    }
-
-    for (size_t memberIndex : request.memberIndices)
-    {
-        triggerPortraitFaceAnimation(memberIndex, *pEntry->faceAnimationId);
-    }
-
-    if (m_pGameAudioSystem == nullptr || request.memberIndices.empty())
-    {
-        return;
-    }
-
-    switch (request.kind)
-    {
-        case PortraitFxEventKind::AwardGain:
-            m_pGameAudioSystem->playCommonSound(SoundId::Chimes, GameAudioSystem::PlaybackGroup::Ui);
-            playSpeechReaction(request.memberIndices.front(), SpeechId::AwardGot, false);
-            break;
-
-        case PortraitFxEventKind::QuestComplete:
-            m_pGameAudioSystem->playCommonSound(SoundId::Quest, GameAudioSystem::PlaybackGroup::Ui);
-            playSpeechReaction(request.memberIndices.front(), SpeechId::QuestGot, false);
-            break;
-
-        case PortraitFxEventKind::StatIncrease:
-            m_pGameAudioSystem->playCommonSound(SoundId::Quest, GameAudioSystem::PlaybackGroup::Ui);
-            break;
-
-        case PortraitFxEventKind::StatDecrease:
-            playSpeechReaction(request.memberIndices.front(), SpeechId::Indignant, false);
-            break;
-
-        case PortraitFxEventKind::Disease:
-            playSpeechReaction(request.memberIndices.front(), SpeechId::Poisoned, false);
-            break;
-
-        case PortraitFxEventKind::None:
-            break;
-    }
+    OutdoorPresentationController::triggerPortraitEventFx(*this, request);
 }
 
 void OutdoorGameView::playSpeechReaction(size_t memberIndex, SpeechId speechId, bool triggerFaceAnimation)
 {
-    if (m_pOutdoorPartyRuntime == nullptr)
-    {
-        return;
-    }
-
-    const Character *pMember = m_pOutdoorPartyRuntime->party().member(memberIndex);
-
-    if (pMember == nullptr)
-    {
-        return;
-    }
-
-    const uint32_t nowTicks = currentAnimationTicks();
-
-    if (!canPlaySpeechReaction(memberIndex, speechId, nowTicks))
-    {
-        return;
-    }
-
-    const SpeechReactionEntry *pReaction =
-        m_pGameAudioSystem != nullptr ? m_pGameAudioSystem->findSpeechReaction(speechId) : nullptr;
-    bool speechPlayed = false;
-
-    if (m_pGameAudioSystem != nullptr)
-    {
-        speechPlayed = m_pGameAudioSystem->playSpeech(
-            *pMember,
-            speechId,
-            nowTicks ^ static_cast<uint32_t>(memberIndex),
-            static_cast<uint32_t>(memberIndex + 1));
-    }
-
-    if (speechPlayed)
-    {
-        if (memberIndex >= m_memberSpeechCooldownUntilTicks.size())
-        {
-            m_memberSpeechCooldownUntilTicks.resize(memberIndex + 1, 0);
-            m_memberCombatSpeechCooldownUntilTicks.resize(memberIndex + 1, 0);
-        }
-
-        if (!bypassSpeechCooldown(speechId))
-        {
-            m_memberSpeechCooldownUntilTicks[memberIndex] = nowTicks + SpeechReactionCooldownMs;
-        }
-
-        switch (speechId)
-        {
-            case SpeechId::DamageMinor:
-            case SpeechId::DamageMajor:
-            case SpeechId::AttackHit:
-            case SpeechId::AttackMiss:
-            case SpeechId::Shoot:
-            case SpeechId::CastSpell:
-            case SpeechId::DamagedParty:
-            case SpeechId::KillWeakEnemy:
-            case SpeechId::KillStrongEnemy:
-                m_memberCombatSpeechCooldownUntilTicks[memberIndex] = nowTicks + CombatSpeechReactionCooldownMs;
-                break;
-
-            default:
-                break;
-        }
-    }
-
-    if (!triggerFaceAnimation)
-    {
-        return;
-    }
-
-    if (pReaction != nullptr && pReaction->faceAnimationId)
-    {
-        triggerPortraitFaceAnimation(memberIndex, *pReaction->faceAnimationId);
-    }
+    OutdoorPresentationController::playSpeechReaction(*this, memberIndex, speechId, triggerFaceAnimation);
 }
 
 bool OutdoorGameView::canPlaySpeechReaction(size_t memberIndex, SpeechId speechId, uint32_t nowTicks)
 {
-    if (memberIndex >= m_memberSpeechCooldownUntilTicks.size())
-    {
-        return true;
-    }
-
-    if (bypassSpeechCooldown(speechId))
-    {
-        return true;
-    }
-
-    if (nowTicks < m_memberSpeechCooldownUntilTicks[memberIndex])
-    {
-        return false;
-    }
-
-    switch (speechId)
-    {
-        case SpeechId::KillWeakEnemy:
-        case SpeechId::KillStrongEnemy:
-            return true;
-
-        case SpeechId::DamageMinor:
-        case SpeechId::DamageMajor:
-        case SpeechId::AttackHit:
-        case SpeechId::AttackMiss:
-        case SpeechId::Shoot:
-        case SpeechId::CastSpell:
-        case SpeechId::DamagedParty:
-            return nowTicks >= m_memberCombatSpeechCooldownUntilTicks[memberIndex];
-
-        default:
-            return true;
-    }
+    return OutdoorPresentationController::canPlaySpeechReaction(*this, memberIndex, speechId, nowTicks);
 }
 
 void OutdoorGameView::consumePendingPartyAudioRequests()
 {
-    if (m_pGameAudioSystem == nullptr || m_pOutdoorPartyRuntime == nullptr)
-    {
-        return;
-    }
-
-    Party &party = m_pOutdoorPartyRuntime->party();
-    const std::vector<Party::PendingAudioRequest> requests = party.pendingAudioRequests();
-
-    if (requests.empty())
-    {
-        return;
-    }
-
-    std::optional<GameAudioSystem::WorldPosition> listenerPosition = std::nullopt;
-
-    if (m_pOutdoorPartyRuntime != nullptr)
-    {
-        const OutdoorMoveState &moveState = m_pOutdoorPartyRuntime->movementState();
-        listenerPosition = GameAudioSystem::WorldPosition{
-            moveState.x,
-            moveState.y,
-            moveState.footZ + m_cameraEyeHeight
-        };
-    }
-
-    for (const Party::PendingAudioRequest &request : requests)
-    {
-        if (request.kind == Party::PendingAudioRequest::Kind::Speech)
-        {
-            playSpeechReaction(request.memberIndex, request.speechId, true);
-            continue;
-        }
-
-        GameAudioSystem::PlaybackGroup group = GameAudioSystem::PlaybackGroup::Ui;
-        std::optional<GameAudioSystem::WorldPosition> position = std::nullopt;
-
-        if (request.soundId == SoundId::Splash)
-        {
-            group = GameAudioSystem::PlaybackGroup::World;
-            position = listenerPosition;
-        }
-
-        m_pGameAudioSystem->playCommonSound(request.soundId, group, position);
-    }
-
-    party.clearPendingAudioRequests();
+    OutdoorPresentationController::consumePendingPartyAudioRequests(*this);
 }
 
 void OutdoorGameView::consumePendingWorldAudioEvents()
 {
-    if (m_pGameAudioSystem == nullptr || m_pOutdoorWorldRuntime == nullptr)
-    {
-        return;
-    }
-
-    const std::vector<OutdoorWorldRuntime::AudioEvent> &events = m_pOutdoorWorldRuntime->pendingAudioEvents();
-
-    if (events.empty())
-    {
-        return;
-    }
-
-    for (const OutdoorWorldRuntime::AudioEvent &event : events)
-    {
-        std::optional<GameAudioSystem::WorldPosition> position = std::nullopt;
-
-        if (event.positional)
-        {
-            position = GameAudioSystem::WorldPosition{event.x, event.y, event.z};
-        }
-
-        m_pGameAudioSystem->playSound(event.soundId, GameAudioSystem::PlaybackGroup::World, position);
-    }
-
-    m_pOutdoorWorldRuntime->clearPendingAudioEvents();
+    OutdoorPresentationController::consumePendingWorldAudioEvents(*this);
 }
 
 void OutdoorGameView::updateFootstepAudio(float deltaSeconds)
 {
-    if (deltaSeconds <= 0.0f || m_pGameAudioSystem == nullptr || m_pOutdoorPartyRuntime == nullptr || !m_outdoorMapData)
-    {
-        return;
-    }
-
-    if (currentHudScreenState() != HudScreenState::Gameplay)
-    {
-        m_pGameAudioSystem->stopGroup(GameAudioSystem::PlaybackGroup::Walking);
-        m_walkingMotionHoldSeconds = 0.0f;
-        m_activeWalkingSoundId = std::nullopt;
-        return;
-    }
-
-    const OutdoorMoveState &moveState = m_pOutdoorPartyRuntime->movementState();
-
-    if (!m_hasLastFootstepPosition)
-    {
-        m_lastFootstepX = moveState.x;
-        m_lastFootstepY = moveState.y;
-        m_hasLastFootstepPosition = true;
-        return;
-    }
-
-    const float deltaX = moveState.x - m_lastFootstepX;
-    const float deltaY = moveState.y - m_lastFootstepY;
-    m_lastFootstepX = moveState.x;
-    m_lastFootstepY = moveState.y;
-    const float movedDistance = std::sqrt(deltaX * deltaX + deltaY * deltaY);
-    const float movementSpeed = movedDistance / std::max(deltaSeconds, 0.0001f);
-
-    if (movementSpeed >= WalkingSoundMovementSpeedThreshold)
-    {
-        m_walkingMotionHoldSeconds = WalkingMotionHoldSeconds;
-    }
-    else
-    {
-        m_walkingMotionHoldSeconds = std::max(0.0f, m_walkingMotionHoldSeconds - deltaSeconds);
-    }
-
-    if (moveState.airborne || m_walkingMotionHoldSeconds <= 0.0f)
-    {
-        m_pGameAudioSystem->stopGroup(GameAudioSystem::PlaybackGroup::Walking);
-        m_activeWalkingSoundId = std::nullopt;
-        return;
-    }
-
-    const OutdoorPartyMovementState &partyMovementState = m_pOutdoorPartyRuntime->partyMovementState();
-    const bool running = partyMovementState.running;
-
-    const auto chooseBModelFootstepSound =
-        [this, running, &moveState]() -> SoundId
-        {
-            if (!m_outdoorMapData
-                || moveState.supportKind != OutdoorSupportKind::BModelFace
-                || moveState.supportBModelIndex >= m_outdoorMapData->bmodels.size())
-            {
-                return running ? SoundId::RunStone : SoundId::WalkStone;
-            }
-
-            const OutdoorBModel &bmodel = m_outdoorMapData->bmodels[moveState.supportBModelIndex];
-
-            if (moveState.supportFaceIndex >= bmodel.faces.size())
-            {
-                return running ? SoundId::RunStone : SoundId::WalkStone;
-            }
-
-            const std::string textureName = toLowerCopy(bmodel.faces[moveState.supportFaceIndex].textureName);
-
-            if (textureName.find("wood") != std::string::npos || textureName.find("plank") != std::string::npos)
-            {
-                return running ? SoundId::RunWood : SoundId::WalkWood;
-            }
-
-            if (textureName.find("carpet") != std::string::npos || textureName.find("rug") != std::string::npos)
-            {
-                return running ? SoundId::RunCarpet : SoundId::WalkCarpet;
-            }
-
-            if (textureName.find("road") != std::string::npos)
-            {
-                return running ? SoundId::RunRoad : SoundId::WalkRoad;
-            }
-
-            if (textureName.find("dirt") != std::string::npos || textureName.find("earth") != std::string::npos)
-            {
-                return running ? SoundId::RunDirt : SoundId::WalkDirt;
-            }
-
-            return running ? SoundId::RunStone : SoundId::WalkStone;
-        };
-
-    const auto chooseTerrainFootstepSound =
-        [this, running]() -> SoundId
-        {
-            if (!m_outdoorMapData)
-            {
-                return running ? SoundId::RunGround : SoundId::WalkGround;
-            }
-
-            const std::string tileset = toLowerCopy(m_outdoorMapData->groundTilesetName);
-
-            if (tileset.find("grass") != std::string::npos)
-            {
-                return running ? SoundId::RunGrass : SoundId::WalkGrass;
-            }
-
-            if (tileset.find("desert") != std::string::npos || tileset.find("sand") != std::string::npos)
-            {
-                return running ? SoundId::RunDesert : SoundId::WalkDesert;
-            }
-
-            if (tileset.find("snow") != std::string::npos || tileset.find("ice") != std::string::npos)
-            {
-                return running ? SoundId::RunSnow : SoundId::WalkSnow;
-            }
-
-            if (tileset.find("swamp") != std::string::npos)
-            {
-                return running ? SoundId::RunSwamp : SoundId::WalkSwamp;
-            }
-
-            if (tileset.find("badland") != std::string::npos)
-            {
-                return running ? SoundId::RunBadlands : SoundId::WalkBadlands;
-            }
-
-            if (tileset.find("road") != std::string::npos)
-            {
-                return running ? SoundId::RunRoad : SoundId::WalkRoad;
-            }
-
-            return running ? SoundId::RunGround : SoundId::WalkGround;
-        };
-
-    SoundId soundId = SoundId::None;
-
-    if (moveState.supportOnWater)
-    {
-        soundId = running ? SoundId::RunWater : SoundId::WalkWater;
-    }
-    else if (moveState.supportKind == OutdoorSupportKind::BModelFace)
-    {
-        soundId = chooseBModelFootstepSound();
-    }
-    else
-    {
-        soundId = chooseTerrainFootstepSound();
-    }
-
-    if (soundId == SoundId::None)
-    {
-        m_pGameAudioSystem->stopGroup(GameAudioSystem::PlaybackGroup::Walking);
-        m_activeWalkingSoundId = std::nullopt;
-        return;
-    }
-
-    if (m_activeWalkingSoundId && *m_activeWalkingSoundId == soundId)
-    {
-        return;
-    }
-
-    if (m_pGameAudioSystem->playLoopingSound(
-            static_cast<uint32_t>(soundId),
-            GameAudioSystem::PlaybackGroup::Walking))
-    {
-        m_activeWalkingSoundId = soundId;
-    }
+    OutdoorPresentationController::updateFootstepAudio(*this, deltaSeconds);
 }
 
 void OutdoorGameView::consumePendingPortraitEventFxRequests()
 {
-    if (m_pOutdoorWorldRuntime == nullptr)
-    {
-        return;
-    }
-
-    EventRuntimeState *pEventRuntimeState = m_pOutdoorWorldRuntime->eventRuntimeState();
-
-    if (pEventRuntimeState == nullptr || pEventRuntimeState->portraitFxRequests.empty())
-    {
-        return;
-    }
-
-    for (const EventRuntimeState::PortraitFxRequest &request : pEventRuntimeState->portraitFxRequests)
-    {
-        triggerPortraitEventFx(request);
-    }
-
-    pEventRuntimeState->portraitFxRequests.clear();
+    OutdoorPresentationController::consumePendingPortraitEventFxRequests(*this);
 }
 
 void OutdoorGameView::renderPortraitFx(
@@ -11915,47 +10010,7 @@ void OutdoorGameView::renderPortraitFx(
     float portraitWidth,
     float portraitHeight) const
 {
-    if (memberIndex >= m_portraitSpellFxStates.size())
-    {
-        return;
-    }
-
-    const PortraitFxState &state = m_portraitSpellFxStates[memberIndex];
-
-    if (!state.active)
-    {
-        return;
-    }
-
-    const int32_t animationLengthTicks = m_iconFrameTable.animationLengthTicks(state.animationId);
-    const uint32_t nowTicks = currentAnimationTicks();
-    const uint32_t elapsedTicks = nowTicks - state.startedTicks;
-
-    if (animationLengthTicks <= 0 || elapsedTicks >= static_cast<uint32_t>(animationLengthTicks))
-    {
-        return;
-    }
-
-    const IconFrameEntry *pFrame = m_iconFrameTable.getFrame(state.animationId, elapsedTicks);
-
-    if (pFrame == nullptr || pFrame->textureName.empty())
-    {
-        return;
-    }
-
-    const HudTextureHandle *pTexture = const_cast<OutdoorGameView *>(this)->ensureHudTextureLoaded(pFrame->textureName);
-
-    if (pTexture == nullptr || pTexture->width <= 0 || pTexture->height <= 0)
-    {
-        return;
-    }
-
-    const float textureAspectRatio = static_cast<float>(pTexture->width) / static_cast<float>(pTexture->height);
-    const float renderHeight = portraitHeight;
-    const float renderWidth = renderHeight * textureAspectRatio;
-    const float renderX = portraitX + (portraitWidth - renderWidth) * 0.5f;
-    const float renderY = portraitY;
-    submitHudTexturedQuad(*pTexture, renderX, renderY, renderWidth, renderHeight);
+    OutdoorPresentationController::renderPortraitFx(*this, memberIndex, portraitX, portraitY, portraitWidth, portraitHeight);
 }
 
 void OutdoorGameView::submitHudTexturedQuad(
@@ -12504,320 +10559,17 @@ void OutdoorGameView::renderPendingSpellTargetingOverlay(int width, int height) 
 
 void OutdoorGameView::renderSpellbookOverlay(int width, int height) const
 {
-    if (!m_spellbook.active
-        || !bgfx::isValid(m_texturedTerrainProgramHandle)
-        || !bgfx::isValid(m_terrainTextureSamplerHandle)
-        || width <= 0
-        || height <= 0)
-    {
-        return;
-    }
-
-    const HudLayoutElement *pRootLayout = findHudLayoutElement("SpellbookRoot");
-
-    if (pRootLayout == nullptr)
-    {
-        return;
-    }
-
-    const std::optional<ResolvedHudLayoutElement> resolvedRoot = resolveHudLayoutElement(
-        "SpellbookRoot",
-        width,
-        height,
-        pRootLayout->width,
-        pRootLayout->height);
-
-    if (!resolvedRoot)
-    {
-        return;
-    }
-
-    const auto loadHudTexture =
-        [this](const std::string &textureName) -> const HudTextureHandle *
-        {
-            return const_cast<OutdoorGameView *>(this)->ensureHudTextureLoaded(textureName);
-        };
-
-    float projectionMatrix[16] = {};
-    bx::mtxOrtho(
-        projectionMatrix,
-        0.0f,
-        static_cast<float>(width),
-        static_cast<float>(height),
-        0.0f,
-        0.0f,
-        1000.0f,
-        0.0f,
-        bgfx::getCaps()->homogeneousDepth
-    );
-    bgfx::setViewRect(HudViewId, 0, 0, static_cast<uint16_t>(width), static_cast<uint16_t>(height));
-    bgfx::setViewTransform(HudViewId, nullptr, projectionMatrix);
-    bgfx::touch(HudViewId);
-
-    float mouseX = 0.0f;
-    float mouseY = 0.0f;
-    const SDL_MouseButtonFlags mouseButtons = SDL_GetMouseState(&mouseX, &mouseY);
-    const bool isLeftMousePressed = (mouseButtons & SDL_BUTTON_LMASK) != 0;
-
-    const auto submitTexturedQuad =
-        [this](const HudTextureHandle &texture, float x, float y, float quadWidth, float quadHeight)
-        {
-            if (!bgfx::isValid(texture.textureHandle)
-                || quadWidth <= 0.0f
-                || quadHeight <= 0.0f
-                || bgfx::getAvailTransientVertexBuffer(6, TexturedTerrainVertex::ms_layout) < 6)
-            {
-                return;
-            }
-
-            bgfx::TransientVertexBuffer transientVertexBuffer = {};
-            bgfx::allocTransientVertexBuffer(&transientVertexBuffer, 6, TexturedTerrainVertex::ms_layout);
-            TexturedTerrainVertex *pVertices = reinterpret_cast<TexturedTerrainVertex *>(transientVertexBuffer.data);
-            pVertices[0] = {x, y, 0.0f, 0.0f, 0.0f};
-            pVertices[1] = {x + quadWidth, y, 0.0f, 1.0f, 0.0f};
-            pVertices[2] = {x + quadWidth, y + quadHeight, 0.0f, 1.0f, 1.0f};
-            pVertices[3] = {x, y, 0.0f, 0.0f, 0.0f};
-            pVertices[4] = {x + quadWidth, y + quadHeight, 0.0f, 1.0f, 1.0f};
-            pVertices[5] = {x, y + quadHeight, 0.0f, 0.0f, 1.0f};
-
-            float modelMatrix[16] = {};
-            bx::mtxIdentity(modelMatrix);
-            bgfx::setTransform(modelMatrix);
-            bgfx::setVertexBuffer(0, &transientVertexBuffer);
-            bgfx::setTexture(0, m_terrainTextureSamplerHandle, texture.textureHandle);
-            bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_BLEND_ALPHA);
-            bgfx::submit(HudViewId, m_texturedTerrainProgramHandle);
-        };
-
-    const auto renderLayoutPrimaryAsset =
-        [this,
-         width,
-         height,
-         &loadHudTexture,
-         &submitTexturedQuad](
-            const std::string &layoutId)
-        {
-            const HudLayoutElement *pLayout = findHudLayoutElement(layoutId);
-
-            if (pLayout == nullptr || pLayout->primaryAsset.empty())
-            {
-                return;
-            }
-
-            const HudTextureHandle *pTexture = loadHudTexture(pLayout->primaryAsset);
-
-            if (pTexture == nullptr)
-            {
-                return;
-            }
-
-            const std::optional<ResolvedHudLayoutElement> resolved = resolveHudLayoutElement(
-                layoutId,
-                width,
-                height,
-                pLayout->width > 0.0f ? pLayout->width : static_cast<float>(pTexture->width),
-                pLayout->height > 0.0f ? pLayout->height : static_cast<float>(pTexture->height));
-
-            if (!resolved)
-            {
-                return;
-            }
-
-            submitTexturedQuad(*pTexture, resolved->x, resolved->y, resolved->width, resolved->height);
-        };
-
-    const SpellbookSchoolUiDefinition *pSchoolDefinition =
-        findSpellbookSchoolUiDefinition(m_spellbook.school);
-
-    if (pSchoolDefinition == nullptr || !activeMemberHasSpellbookSchool(m_spellbook.school))
-    {
-        return;
-    }
-
-    renderLayoutPrimaryAsset(pSchoolDefinition->pPageLayoutId);
-
-    for (const SpellbookSchoolUiDefinition &definition : SpellbookSchoolUiDefinitions)
-    {
-        if (!activeMemberHasSpellbookSchool(definition.school))
-        {
-            continue;
-        }
-
-        const HudLayoutElement *pLayout = findHudLayoutElement(definition.pButtonLayoutId);
-
-        if (pLayout == nullptr || pLayout->primaryAsset.empty())
-        {
-            continue;
-        }
-
-        const HudTextureHandle *pDefaultTexture = loadHudTexture(pLayout->primaryAsset);
-
-        if (pDefaultTexture == nullptr)
-        {
-            continue;
-        }
-
-        const std::optional<ResolvedHudLayoutElement> resolved = resolveHudLayoutElement(
-            definition.pButtonLayoutId,
-            width,
-            height,
-            pLayout->width > 0.0f ? pLayout->width : static_cast<float>(pDefaultTexture->width),
-            pLayout->height > 0.0f ? pLayout->height : static_cast<float>(pDefaultTexture->height));
-
-        if (!resolved)
-        {
-            continue;
-        }
-
-        const bool isHovered = isPointerInsideResolvedElement(*resolved, mouseX, mouseY);
-        const bool isActive = definition.school == m_spellbook.school;
-        const std::string *pInteractiveAssetName =
-            resolveInteractiveAssetName(*pLayout, *resolved, mouseX, mouseY, isLeftMousePressed);
-        const std::string *pSelectedAssetName =
-            !pLayout->pressedAsset.empty()
-                ? &pLayout->pressedAsset
-                : (!pLayout->hoverAsset.empty() ? &pLayout->hoverAsset : &pLayout->primaryAsset);
-        const std::string *pAssetName = isActive ? pSelectedAssetName : pInteractiveAssetName;
-        const HudTextureHandle *pTexture =
-            pAssetName != nullptr ? loadHudTexture(*pAssetName) : pDefaultTexture;
-
-        if (pTexture != nullptr)
-        {
-            submitTexturedQuad(*pTexture, resolved->x, resolved->y, resolved->width, resolved->height);
-        }
-    }
-
-    const auto renderInteractiveButton =
-        [this,
-         width,
-         height,
-         mouseX,
-         mouseY,
-         isLeftMousePressed,
-         &loadHudTexture,
-         &submitTexturedQuad](
-            const std::string &layoutId)
-        {
-            const HudLayoutElement *pLayout = findHudLayoutElement(layoutId);
-
-            if (pLayout == nullptr || pLayout->primaryAsset.empty())
-            {
-                return;
-            }
-
-            const HudTextureHandle *pDefaultTexture = loadHudTexture(pLayout->primaryAsset);
-
-            if (pDefaultTexture == nullptr)
-            {
-                return;
-            }
-
-            const std::optional<ResolvedHudLayoutElement> resolved = resolveHudLayoutElement(
-                layoutId,
-                width,
-                height,
-                pLayout->width > 0.0f ? pLayout->width : static_cast<float>(pDefaultTexture->width),
-                pLayout->height > 0.0f ? pLayout->height : static_cast<float>(pDefaultTexture->height));
-
-            if (!resolved)
-            {
-                return;
-            }
-
-            const std::string *pAssetName =
-                resolveInteractiveAssetName(*pLayout, *resolved, mouseX, mouseY, isLeftMousePressed);
-            const HudTextureHandle *pTexture =
-                pAssetName != nullptr ? loadHudTexture(*pAssetName) : pDefaultTexture;
-
-            if (pTexture != nullptr)
-            {
-                submitTexturedQuad(*pTexture, resolved->x, resolved->y, resolved->width, resolved->height);
-            }
-        };
-
-    renderInteractiveButton("SpellbookCloseButton");
-    renderInteractiveButton("SpellbookQuickCastButton");
-
-    for (uint32_t spellOffset = 0; spellOffset < pSchoolDefinition->spellCount; ++spellOffset)
-    {
-        const uint32_t spellOrdinal = spellOffset + 1;
-        const uint32_t spellId = pSchoolDefinition->firstSpellId + spellOffset;
-
-        if (!activeMemberKnowsSpell(spellId))
-        {
-            continue;
-        }
-
-        const std::string layoutId = spellbookSpellLayoutId(m_spellbook.school, spellOrdinal);
-        const HudLayoutElement *pLayout = findHudLayoutElement(layoutId);
-
-        if (pLayout == nullptr)
-        {
-            continue;
-        }
-
-        const HudTextureHandle *pDefaultTexture = loadHudTexture(pLayout->primaryAsset);
-
-        if (pDefaultTexture == nullptr)
-        {
-            continue;
-        }
-
-        const std::optional<ResolvedHudLayoutElement> resolved = resolveHudLayoutElement(
-            layoutId,
-            width,
-            height,
-            pLayout->width > 0.0f ? pLayout->width : static_cast<float>(pDefaultTexture->width),
-            pLayout->height > 0.0f ? pLayout->height : static_cast<float>(pDefaultTexture->height));
-
-        if (!resolved)
-        {
-            continue;
-        }
-
-        const bool isHovered = isPointerInsideResolvedElement(*resolved, mouseX, mouseY);
-        const bool isSelected = m_spellbook.selectedSpellId == spellId;
-        const std::string *pInteractiveAssetName =
-            resolveInteractiveAssetName(*pLayout, *resolved, mouseX, mouseY, isLeftMousePressed);
-        const std::string *pSelectedAssetName =
-            !pLayout->pressedAsset.empty()
-                ? &pLayout->pressedAsset
-                : (!pLayout->hoverAsset.empty() ? &pLayout->hoverAsset : &pLayout->primaryAsset);
-        const std::string *pAssetName = isSelected ? pSelectedAssetName : pInteractiveAssetName;
-        const HudTextureHandle *pTexture =
-            pAssetName != nullptr ? loadHudTexture(*pAssetName) : pDefaultTexture;
-
-        if (pTexture != nullptr)
-        {
-            submitTexturedQuad(*pTexture, resolved->x, resolved->y, resolved->width, resolved->height);
-        }
-    }
+    GameplayPartyOverlayRenderer::renderSpellbookOverlay(*this, width, height);
 }
 
 void OutdoorGameView::setStatusBarEvent(const std::string &text, float durationSeconds)
 {
-    if (text.empty())
-    {
-        return;
-    }
-
-    m_statusBarEventText = text;
-    m_statusBarEventRemainingSeconds = std::max(0.0f, durationSeconds);
+    m_gameplayUiController.setStatusBarEvent(text, durationSeconds);
 }
 
 void OutdoorGameView::updateStatusBarEvent(float deltaSeconds)
 {
-    if (m_statusBarEventRemainingSeconds <= 0.0f)
-    {
-        return;
-    }
-
-    m_statusBarEventRemainingSeconds = std::max(0.0f, m_statusBarEventRemainingSeconds - deltaSeconds);
-
-    if (m_statusBarEventRemainingSeconds <= 0.0f)
-    {
-        m_statusBarEventText.clear();
-    }
+    m_gameplayUiController.updateStatusBarEvent(deltaSeconds);
 }
 
 void OutdoorGameView::rebuildInteractiveDecorationBindings()
@@ -13170,95 +10922,23 @@ void OutdoorGameView::handleDialogueCloseRequest()
     EventRuntimeState *pEventRuntimeState =
         m_pOutdoorWorldRuntime != nullptr ? m_pOutdoorWorldRuntime->eventRuntimeState() : nullptr;
 
-    if (pEventRuntimeState != nullptr && !pEventRuntimeState->dialogueState.menuStack.empty())
+    if (pEventRuntimeState == nullptr)
     {
-        EventRuntimeState::PendingDialogueContext context = {};
-        context.kind = DialogueContextKind::HouseService;
-        context.sourceId = currentDialogueHostHouseId(pEventRuntimeState) != 0
-            ? currentDialogueHostHouseId(pEventRuntimeState)
-            : m_activeEventDialog.sourceId;
-        context.hostHouseId = context.sourceId;
-        pEventRuntimeState->dialogueState.menuStack.pop_back();
-        pEventRuntimeState->pendingDialogueContext = std::move(context);
-        openPendingEventDialog(pEventRuntimeState->messages.size(), true);
+        closeActiveEventDialog();
+        m_activateInspectLatch = true;
         return;
     }
 
-    if (pEventRuntimeState != nullptr
-        && pEventRuntimeState->dialogueState.currentOffer
-        && pEventRuntimeState->dialogueState.currentOffer->kind != DialogueOfferKind::None)
-    {
-        const uint32_t npcId = pEventRuntimeState->dialogueState.currentOffer->npcId;
-        pEventRuntimeState->dialogueState.currentOffer.reset();
+    GameplayDialogController::Context context = createGameplayDialogContext(*pEventRuntimeState);
+    const GameplayDialogController::CloseDialogRequestResult result =
+        m_gameplayDialogController.handleDialogueCloseRequest(context);
 
-        EventRuntimeState::PendingDialogueContext context = {};
-        context.kind = DialogueContextKind::NpcTalk;
-        context.sourceId = npcId != 0 ? npcId : m_activeEventDialog.sourceId;
-        context.hostHouseId = currentDialogueHostHouseId(pEventRuntimeState);
-        pEventRuntimeState->pendingDialogueContext = std::move(context);
-        openPendingEventDialog(pEventRuntimeState->messages.size(), true);
-        return;
+    if (result.shouldOpenPendingEventDialog)
+    {
+        openPendingEventDialog(result.previousMessageCount, result.allowNpcFallbackContent);
     }
-
-    const bool isResidentSelectionMode =
-        !m_activeEventDialog.actions.empty()
-        && std::all_of(
-            m_activeEventDialog.actions.begin(),
-            m_activeEventDialog.actions.end(),
-            [](const EventDialogAction &action)
-            {
-                return action.kind == EventDialogActionKind::HouseResident;
-            });
-    const HouseEntry *pHostHouseEntry =
-        (currentDialogueHostHouseId(pEventRuntimeState) != 0 && m_houseTable.has_value())
-        ? m_houseTable->get(currentDialogueHostHouseId(pEventRuntimeState))
-        : nullptr;
-    const bool showDialogueVideoArea = pHostHouseEntry != nullptr;
-    const std::vector<uint32_t> hostResidentNpcIds =
-        (pHostHouseEntry != nullptr && m_npcDialogTable.has_value() && pEventRuntimeState != nullptr)
-        ? collectSelectableResidentNpcIds(*pHostHouseEntry, *m_npcDialogTable, *pEventRuntimeState)
-        : std::vector<uint32_t>{};
-
-    if (!m_activeEventDialog.isHouseDialog
-        && !isResidentSelectionMode
-        && pEventRuntimeState != nullptr
-        && hostResidentNpcIds.size() > 1)
+    else if (result.shouldCloseActiveDialog)
     {
-        EventRuntimeState::PendingDialogueContext context = {};
-        context.kind = DialogueContextKind::HouseService;
-        context.sourceId = currentDialogueHostHouseId(pEventRuntimeState);
-        context.hostHouseId = context.sourceId;
-        pEventRuntimeState->pendingDialogueContext = std::move(context);
-        openPendingEventDialog(pEventRuntimeState->messages.size(), true);
-    }
-    else
-    {
-        if (pHostHouseEntry != nullptr
-            && resolveHouseServiceType(*pHostHouseEntry) == HouseServiceType::Temple
-            && m_pGameAudioSystem != nullptr)
-        {
-            const std::optional<uint32_t> soundId =
-                deriveHouseSoundId(*pHostHouseEntry, HouseSoundType::TempleGoodbye);
-
-            if (soundId.has_value())
-            {
-                m_pGameAudioSystem->playSound(*soundId, GameAudioSystem::PlaybackGroup::HouseSpeech);
-            }
-        }
-
-        if (pHostHouseEntry != nullptr
-            && resolveHouseServiceType(*pHostHouseEntry) == HouseServiceType::Bank
-            && m_houseBankState.transactionPerformed
-            && m_pGameAudioSystem != nullptr)
-        {
-            const std::optional<uint32_t> soundId = deriveHouseSoundId(*pHostHouseEntry, HouseSoundType::BankGoodbye);
-
-            if (soundId.has_value())
-            {
-                m_pGameAudioSystem->playSound(*soundId, GameAudioSystem::PlaybackGroup::HouseSpeech);
-            }
-        }
-
         closeActiveEventDialog();
         m_activateInspectLatch = true;
     }
@@ -13274,14 +10954,14 @@ void OutdoorGameView::openDebugNpcDialogue(uint32_t npcId)
         return;
     }
 
-    const size_t previousMessageCount = pEventRuntimeState->messages.size();
-    EventRuntimeState::PendingDialogueContext context = {};
-    context.kind = DialogueContextKind::NpcTalk;
-    context.sourceId = npcId;
-    pEventRuntimeState->dialogueState.hostHouseId = 0;
-    pEventRuntimeState->pendingDialogueContext = std::move(context);
+    GameplayDialogController::Context context = createGameplayDialogContext(*pEventRuntimeState);
+    const GameplayDialogController::Result result = m_gameplayDialogController.openNpcDialogue(context, npcId);
     pEventRuntimeState->lastActivationResult = "debug npc " + std::to_string(npcId) + " engaged";
-    openPendingEventDialog(previousMessageCount, true);
+
+    if (result.shouldOpenPendingEventDialog)
+    {
+        openPendingEventDialog(result.previousMessageCount, result.allowNpcFallbackContent);
+    }
 }
 
 void OutdoorGameView::renderCharacterOverlay(int width, int height, bool renderAboveHud) const
@@ -14671,96 +12351,7 @@ void OutdoorGameView::updateSpellInspectOverlayState(int width, int height)
 
 void OutdoorGameView::renderHeldInventoryItem(int width, int height) const
 {
-    if (!m_heldInventoryItem.active
-        || m_pItemTable == nullptr
-        || !bgfx::isValid(m_texturedTerrainProgramHandle)
-        || !bgfx::isValid(m_terrainTextureSamplerHandle)
-        || width <= 0
-        || height <= 0)
-    {
-        return;
-    }
-
-    const ItemDefinition *pItemDefinition = m_pItemTable->get(m_heldInventoryItem.item.objectDescriptionId);
-
-    if (pItemDefinition == nullptr || pItemDefinition->iconName.empty())
-    {
-        return;
-    }
-
-    const HudTextureHandle *pTexture =
-        const_cast<OutdoorGameView *>(this)->ensureHudTextureLoaded(pItemDefinition->iconName);
-
-    if (pTexture == nullptr)
-    {
-        return;
-    }
-
-    float projectionMatrix[16] = {};
-    bx::mtxOrtho(
-        projectionMatrix,
-        0.0f,
-        static_cast<float>(width),
-        static_cast<float>(height),
-        0.0f,
-        0.0f,
-        1000.0f,
-        0.0f,
-        bgfx::getCaps()->homogeneousDepth
-    );
-    bgfx::setViewRect(HudViewId, 0, 0, static_cast<uint16_t>(width), static_cast<uint16_t>(height));
-    bgfx::setViewTransform(HudViewId, nullptr, projectionMatrix);
-    bgfx::touch(HudViewId);
-
-    const UiViewportRect uiViewport = computeUiViewportRect(width, height);
-    const float scale = std::min(
-        uiViewport.width / HudReferenceWidth,
-        uiViewport.height / HudReferenceHeight);
-    float mouseX = 0.0f;
-    float mouseY = 0.0f;
-    SDL_GetMouseState(&mouseX, &mouseY);
-    const float itemX = std::round(mouseX - m_heldInventoryItem.grabOffsetX);
-    const float itemY = std::round(mouseY - m_heldInventoryItem.grabOffsetY);
-    const float itemWidth = static_cast<float>(pTexture->width) * scale;
-    const float itemHeight = static_cast<float>(pTexture->height) * scale;
-
-    bgfx::TransientVertexBuffer transientVertexBuffer;
-
-    if (bgfx::getAvailTransientVertexBuffer(6, TexturedTerrainVertex::ms_layout) < 6)
-    {
-        return;
-    }
-
-    bgfx::allocTransientVertexBuffer(&transientVertexBuffer, 6, TexturedTerrainVertex::ms_layout);
-    TexturedTerrainVertex *pVertices = reinterpret_cast<TexturedTerrainVertex *>(transientVertexBuffer.data);
-    pVertices[0] = {itemX, itemY, 0.0f, 0.0f, 0.0f};
-    pVertices[1] = {itemX + itemWidth, itemY, 0.0f, 1.0f, 0.0f};
-    pVertices[2] = {itemX + itemWidth, itemY + itemHeight, 0.0f, 1.0f, 1.0f};
-    pVertices[3] = {itemX, itemY, 0.0f, 0.0f, 0.0f};
-    pVertices[4] = {itemX + itemWidth, itemY + itemHeight, 0.0f, 1.0f, 1.0f};
-    pVertices[5] = {itemX, itemY + itemHeight, 0.0f, 0.0f, 1.0f};
-
-    float modelMatrix[16] = {};
-    bx::mtxIdentity(modelMatrix);
-    bgfx::setTransform(modelMatrix);
-    bgfx::setVertexBuffer(0, &transientVertexBuffer);
-    bgfx::setTexture(0, m_terrainTextureSamplerHandle, pTexture->textureHandle);
-    bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_BLEND_ALPHA);
-    bgfx::submit(HudViewId, m_texturedTerrainProgramHandle);
-
-    const bgfx::TextureHandle tintedTextureHandle =
-        ensureHudTextureColor(
-            *pTexture,
-            itemTintColorAbgr(&m_heldInventoryItem.item, pItemDefinition, ItemTintContext::Held));
-
-    if (bgfx::isValid(tintedTextureHandle) && tintedTextureHandle.idx != pTexture->textureHandle.idx)
-    {
-        bgfx::setTransform(modelMatrix);
-        bgfx::setVertexBuffer(0, &transientVertexBuffer);
-        bgfx::setTexture(0, m_terrainTextureSamplerHandle, tintedTextureHandle);
-        bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_BLEND_ALPHA);
-        bgfx::submit(HudViewId, m_texturedTerrainProgramHandle);
-    }
+    GameplayPartyOverlayRenderer::renderHeldInventoryItem(*this, width, height);
 }
 
 void OutdoorGameView::renderItemInspectOverlay(int width, int height) const
@@ -17494,56 +15085,12 @@ void OutdoorGameView::renderDialogueOverlay(int width, int height, bool renderAb
     float dialogMouseX = 0.0f;
     float dialogMouseY = 0.0f;
     SDL_GetMouseState(&dialogMouseX, &dialogMouseY);
-    static constexpr uint32_t HoveredDialogueTopicTextColorAbgr = 0xff23cde1u;
     const UiViewportRect uiViewport = computeUiViewportRect(width, height);
+    GameplayOverlayContext overlayContext(*this);
 
     if (!renderAboveHud && uiViewport.x > 0.5f)
     {
-        const HudTextureHandle *pBlackTexture = ensureSolidHudTextureLoaded("__dialogue_blackout__", 0xff000000u);
-
-        if (pBlackTexture != nullptr)
-        {
-            const auto drawSolidRect =
-                [this, pBlackTexture](float x, float y, float rectWidth, float rectHeight)
-                {
-                    if (rectWidth <= 0.0f || rectHeight <= 0.0f)
-                    {
-                        return;
-                    }
-
-                    bgfx::TransientVertexBuffer transientVertexBuffer;
-
-                    if (bgfx::getAvailTransientVertexBuffer(6, TexturedTerrainVertex::ms_layout) < 6)
-                    {
-                        return;
-                    }
-
-                    bgfx::allocTransientVertexBuffer(&transientVertexBuffer, 6, TexturedTerrainVertex::ms_layout);
-                    TexturedTerrainVertex *pVertices =
-                        reinterpret_cast<TexturedTerrainVertex *>(transientVertexBuffer.data);
-                    pVertices[0] = {x, y, 0.0f, 0.0f, 0.0f};
-                    pVertices[1] = {x + rectWidth, y, 0.0f, 1.0f, 0.0f};
-                    pVertices[2] = {x + rectWidth, y + rectHeight, 0.0f, 1.0f, 1.0f};
-                    pVertices[3] = {x, y, 0.0f, 0.0f, 0.0f};
-                    pVertices[4] = {x + rectWidth, y + rectHeight, 0.0f, 1.0f, 1.0f};
-                    pVertices[5] = {x, y + rectHeight, 0.0f, 0.0f, 1.0f};
-
-                    float modelMatrix[16] = {};
-                    bx::mtxIdentity(modelMatrix);
-                    bgfx::setTransform(modelMatrix);
-                    bgfx::setVertexBuffer(0, &transientVertexBuffer);
-                    bgfx::setTexture(0, m_terrainTextureSamplerHandle, pBlackTexture->textureHandle);
-                    bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_BLEND_ALPHA);
-                    bgfx::submit(HudViewId, m_texturedTerrainProgramHandle);
-                };
-
-            drawSolidRect(0.0f, 0.0f, uiViewport.x, static_cast<float>(height));
-            drawSolidRect(
-                uiViewport.x + uiViewport.width,
-                0.0f,
-                static_cast<float>(width) - (uiViewport.x + uiViewport.width),
-                static_cast<float>(height));
-        }
+        GameplayDialogueRenderer::renderBlackoutBackdrop(overlayContext, width, height, uiViewport.x, uiViewport.width);
     }
 
     const bool isResidentSelectionMode =
@@ -17561,10 +15108,6 @@ void OutdoorGameView::renderDialogueOverlay(int width, int height, bool renderAb
         (currentDialogueHostHouseId(pEventRuntimeState) != 0 && m_houseTable.has_value())
         ? m_houseTable->get(currentDialogueHostHouseId(pEventRuntimeState))
         : nullptr;
-    const std::vector<uint32_t> hostResidentNpcIds =
-        (pHostHouseEntry != nullptr && m_npcDialogTable.has_value() && pEventRuntimeState != nullptr)
-        ? collectSelectableResidentNpcIds(*pHostHouseEntry, *m_npcDialogTable, *pEventRuntimeState)
-        : std::vector<uint32_t>{};
     const bool showDialogueVideoArea = pHostHouseEntry != nullptr;
     const bool hasDialogueParticipantIdentity =
         !m_activeEventDialog.title.empty()
@@ -17588,166 +15131,13 @@ void OutdoorGameView::renderDialogueOverlay(int width, int height, bool renderAb
                 || m_inventoryNestedOverlay.mode == InventoryNestedOverlayMode::ShopIdentify
                 || m_inventoryNestedOverlay.mode == InventoryNestedOverlayMode::ShopRepair));
     const Party *pParty = m_pOutdoorPartyRuntime != nullptr ? &m_pOutdoorPartyRuntime->party() : nullptr;
-    const auto updateHouseShopHoverTopicText =
-        [this, width, height, dialogMouseX, dialogMouseY, &hoveredHouseServiceTopicText]()
-        {
-            if (!m_houseShopOverlay.active
-                || m_pOutdoorPartyRuntime == nullptr
-                || m_pOutdoorWorldRuntime == nullptr
-                || m_pItemTable == nullptr
-                || !m_houseTable)
-            {
-                return;
-            }
-
-            const HouseEntry *pHouseEntry = m_houseTable->get(m_houseShopOverlay.houseId);
-
-            if (pHouseEntry == nullptr)
-            {
-                return;
-            }
-
-            const std::optional<ResolvedHudLayoutElement> resolvedFrame = resolveHouseShopOverlayFrame(width, height);
-
-            if (!resolvedFrame)
-            {
-                return;
-            }
-
-            std::optional<HouseStockMode> stockMode;
-
-            switch (m_houseShopOverlay.mode)
-            {
-                case HouseShopMode::BuyStandard:
-                    stockMode = HouseStockMode::ShopStandard;
-                    break;
-
-                case HouseShopMode::BuySpecial:
-                    stockMode = HouseStockMode::ShopSpecial;
-                    break;
-
-                case HouseShopMode::BuySpellbooks:
-                    stockMode = HouseStockMode::GuildSpellbooks;
-                    break;
-
-                case HouseShopMode::None:
-                default:
-                    return;
-            }
-
-            Party &party = m_pOutdoorPartyRuntime->party();
-            const std::vector<InventoryItem> &stock = HouseServiceRuntime::ensureStock(
-                party,
-                *m_pItemTable,
-                *m_pStandardItemEnchantTable,
-                *m_pSpecialItemEnchantTable,
-                *pHouseEntry,
-                m_pOutdoorWorldRuntime->gameMinutes(),
-                *stockMode);
-            const size_t slotCount = HouseServiceRuntime::slotCountForStockMode(*pHouseEntry, *stockMode);
-            const HouseShopVisualLayout overlayLayout =
-                buildHouseShopVisualLayout(*pHouseEntry, m_houseShopOverlay.mode == HouseShopMode::BuySpellbooks);
-
-            for (size_t slotIndex = 0;
-                 slotIndex < slotCount && slotIndex < stock.size() && slotIndex < overlayLayout.slots.size();
-                 ++slotIndex)
-            {
-                const InventoryItem &item = stock[slotIndex];
-
-                if (item.objectDescriptionId == 0)
-                {
-                    continue;
-                }
-
-                const ItemDefinition *pItemDefinition = m_pItemTable->get(item.objectDescriptionId);
-
-                if (pItemDefinition == nullptr || pItemDefinition->iconName.empty())
-                {
-                    continue;
-                }
-
-                const HudTextureHandle *pItemTexture = ensureHudTextureLoaded(pItemDefinition->iconName);
-
-                if (pItemTexture == nullptr)
-                {
-                    continue;
-                }
-
-                int opaqueTextureWidth = pItemTexture->width;
-                int opaqueTextureHeight = pItemTexture->height;
-                int opaqueMinX = 0;
-                int opaqueMinY = 0;
-                int opaqueMaxX = pItemTexture->width - 1;
-                int opaqueMaxY = pItemTexture->height - 1;
-                tryGetOpaqueHudTextureBounds(
-                    pItemDefinition->iconName,
-                    opaqueTextureWidth,
-                    opaqueTextureHeight,
-                    opaqueMinX,
-                    opaqueMinY,
-                    opaqueMaxX,
-                    opaqueMaxY);
-                const HouseShopItemDrawRect drawRect = resolveHouseShopItemDrawRect(
-                    resolvedFrame->x,
-                    resolvedFrame->y,
-                    static_cast<float>(resolvedFrame->width),
-                    static_cast<float>(resolvedFrame->height),
-                    resolvedFrame->scale,
-                    overlayLayout.slots[slotIndex],
-                    slotIndex,
-                    pItemTexture->width,
-                    pItemTexture->height,
-                    opaqueMinY,
-                    opaqueMaxY);
-
-                if (dialogMouseX >= drawRect.x
-                    && dialogMouseX < drawRect.x + drawRect.width
-                    && dialogMouseY >= drawRect.y
-                    && dialogMouseY < drawRect.y + drawRect.height)
-                {
-                    hoveredHouseServiceTopicText =
-                        HouseServiceRuntime::buildBuyHoverText(
-                            party,
-                            *m_pItemTable,
-                            *m_pStandardItemEnchantTable,
-                            *m_pSpecialItemEnchantTable,
-                            *pHouseEntry,
-                            item);
-                    return;
-                }
-            }
-        };
-    const int hudZThreshold = defaultHudLayoutZIndexForScreen("OutdoorHud");
-    const auto shouldRenderInCurrentPass =
-        [renderAboveHud, hudZThreshold](int zIndex) -> bool
-        {
-            return renderAboveHud ? zIndex >= hudZThreshold : zIndex < hudZThreshold;
-        };
-    const auto isDialogueFrameSubtree =
-        [this](const HudLayoutElement &layout) -> bool
-        {
-            std::string currentLayoutId = layout.id;
-
-            while (!currentLayoutId.empty())
-            {
-                if (toLowerCopy(currentLayoutId) == "dialogueframe")
-                {
-                    return true;
-                }
-
-                const HudLayoutElement *pCurrentLayout = findHudLayoutElement(currentLayoutId);
-
-                if (pCurrentLayout == nullptr || pCurrentLayout->parentId.empty())
-                {
-                    break;
-                }
-
-                currentLayoutId = pCurrentLayout->parentId;
-            }
-
-            return false;
-        };
-    updateHouseShopHoverTopicText();
+    GameplayDialogueRenderer::updateHouseShopHoverTopicText(
+        overlayContext,
+        width,
+        height,
+        dialogMouseX,
+        dialogMouseY,
+        hoveredHouseServiceTopicText);
 
     const HudLayoutElement *pDialogueFrameLayout = findHudLayoutElement("DialogueFrame");
     const HudLayoutElement *pDialogueTextLayout = findHudLayoutElement("DialogueText");
@@ -17794,144 +15184,6 @@ void OutdoorGameView::renderDialogueOverlay(int width, int height, bool renderAb
 
         }
     }
-
-    const std::optional<ResolvedHudLayoutElement> resolvedText =
-        pDialogueTextLayout != nullptr
-        && toLowerCopy(pDialogueTextLayout->screen) == "dialogue"
-        ? resolveHudLayoutElement(
-            "DialogueText",
-            width,
-            height,
-            pDialogueTextLayout->width,
-            pDialogueTextLayout->height)
-        : std::nullopt;
-
-    const auto renderDialogueVideoArea =
-        [this](const ResolvedHudLayoutElement &resolvedVideoArea)
-        {
-            const auto drawSolidRect =
-                [this](const HudTextureHandle &texture, float x, float y, float rectWidth, float rectHeight)
-                {
-                    if (rectWidth <= 0.0f || rectHeight <= 0.0f)
-                    {
-                        return;
-                    }
-
-                    bgfx::TransientVertexBuffer transientVertexBuffer;
-
-                    if (bgfx::getAvailTransientVertexBuffer(6, TexturedTerrainVertex::ms_layout) < 6)
-                    {
-                        return;
-                    }
-
-                    bgfx::allocTransientVertexBuffer(&transientVertexBuffer, 6, TexturedTerrainVertex::ms_layout);
-                    TexturedTerrainVertex *pVertices =
-                        reinterpret_cast<TexturedTerrainVertex *>(transientVertexBuffer.data);
-                    pVertices[0] = {x, y, 0.0f, 0.0f, 0.0f};
-                    pVertices[1] = {x + rectWidth, y, 0.0f, 1.0f, 0.0f};
-                    pVertices[2] = {x + rectWidth, y + rectHeight, 0.0f, 1.0f, 1.0f};
-                    pVertices[3] = {x, y, 0.0f, 0.0f, 0.0f};
-                    pVertices[4] = {x + rectWidth, y + rectHeight, 0.0f, 1.0f, 1.0f};
-                    pVertices[5] = {x, y + rectHeight, 0.0f, 0.0f, 1.0f};
-
-                    float modelMatrix[16] = {};
-                    bx::mtxIdentity(modelMatrix);
-                    bgfx::setTransform(modelMatrix);
-                    bgfx::setVertexBuffer(0, &transientVertexBuffer);
-                    bgfx::setTexture(0, m_terrainTextureSamplerHandle, texture.textureHandle);
-                    bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_BLEND_ALPHA);
-                    bgfx::submit(HudViewId, m_texturedTerrainProgramHandle);
-                };
-
-            const auto drawTexture =
-                [this](bgfx::TextureHandle textureHandle, float x, float y, float rectWidth, float rectHeight)
-                {
-                    if (!bgfx::isValid(textureHandle) || rectWidth <= 0.0f || rectHeight <= 0.0f)
-                    {
-                        return;
-                    }
-
-                    bgfx::TransientVertexBuffer transientVertexBuffer;
-
-                    if (bgfx::getAvailTransientVertexBuffer(6, TexturedTerrainVertex::ms_layout) < 6)
-                    {
-                        return;
-                    }
-
-                    bgfx::allocTransientVertexBuffer(&transientVertexBuffer, 6, TexturedTerrainVertex::ms_layout);
-                    TexturedTerrainVertex *pVertices =
-                        reinterpret_cast<TexturedTerrainVertex *>(transientVertexBuffer.data);
-                    pVertices[0] = {x, y, 0.0f, 0.0f, 0.0f};
-                    pVertices[1] = {x + rectWidth, y, 0.0f, 1.0f, 0.0f};
-                    pVertices[2] = {x + rectWidth, y + rectHeight, 0.0f, 1.0f, 1.0f};
-                    pVertices[3] = {x, y, 0.0f, 0.0f, 0.0f};
-                    pVertices[4] = {x + rectWidth, y + rectHeight, 0.0f, 1.0f, 1.0f};
-                    pVertices[5] = {x, y + rectHeight, 0.0f, 0.0f, 1.0f};
-
-                    float modelMatrix[16] = {};
-                    bx::mtxIdentity(modelMatrix);
-                    bgfx::setTransform(modelMatrix);
-                    bgfx::setVertexBuffer(0, &transientVertexBuffer);
-                    bgfx::setTexture(0, m_terrainTextureSamplerHandle, textureHandle);
-                    bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_BLEND_ALPHA);
-                    bgfx::submit(HudViewId, m_texturedTerrainProgramHandle);
-                };
-
-            if (m_houseVideoPlayer.hasActiveFrame())
-            {
-                drawTexture(
-                    m_houseVideoPlayer.textureHandle(),
-                    resolvedVideoArea.x,
-                    resolvedVideoArea.y,
-                    resolvedVideoArea.width,
-                    resolvedVideoArea.height);
-                return;
-            }
-
-            const HudTextureHandle *pVideoFillTexture =
-                ensureSolidHudTextureLoaded("__dialogue_video_area_fill__", 0xa0181818u);
-            const HudTextureHandle *pVideoBorderTexture =
-                ensureSolidHudTextureLoaded("__dialogue_video_area_border__", 0xff505050u);
-
-            if (pVideoFillTexture != nullptr)
-            {
-                drawSolidRect(
-                    *pVideoFillTexture,
-                    resolvedVideoArea.x,
-                    resolvedVideoArea.y,
-                    resolvedVideoArea.width,
-                    resolvedVideoArea.height);
-            }
-
-            if (pVideoBorderTexture != nullptr)
-            {
-                static constexpr float BorderThickness = 2.0f;
-                drawSolidRect(
-                    *pVideoBorderTexture,
-                    resolvedVideoArea.x,
-                    resolvedVideoArea.y,
-                    resolvedVideoArea.width,
-                    BorderThickness);
-                drawSolidRect(
-                    *pVideoBorderTexture,
-                    resolvedVideoArea.x,
-                    resolvedVideoArea.y + resolvedVideoArea.height - BorderThickness,
-                    resolvedVideoArea.width,
-                    BorderThickness);
-                drawSolidRect(
-                    *pVideoBorderTexture,
-                    resolvedVideoArea.x,
-                    resolvedVideoArea.y,
-                    BorderThickness,
-                    resolvedVideoArea.height);
-                drawSolidRect(
-                    *pVideoBorderTexture,
-                    resolvedVideoArea.x + resolvedVideoArea.width - BorderThickness,
-                    resolvedVideoArea.y,
-                    BorderThickness,
-                    resolvedVideoArea.height);
-            }
-        };
 
     std::string dialogueResponseHintText =
         m_activeEventDialog.actions.empty()
@@ -18042,303 +15294,6 @@ void OutdoorGameView::renderDialogueOverlay(int width, int height, bool renderAb
         }
     }
 
-    const auto renderHouseShopOverlay =
-        [this,
-         width,
-         height,
-         dialogMouseX,
-         dialogMouseY,
-         &dialogueResponseHintText,
-         &shouldRenderInCurrentPass]()
-        {
-            if (!m_houseShopOverlay.active
-                || m_pOutdoorPartyRuntime == nullptr
-                || m_pOutdoorWorldRuntime == nullptr
-                || m_pItemTable == nullptr
-                || !m_houseTable)
-            {
-                return;
-            }
-
-            const HouseEntry *pHouseEntry = m_houseTable->get(m_houseShopOverlay.houseId);
-
-            if (pHouseEntry == nullptr)
-            {
-                return;
-            }
-
-            const std::optional<ResolvedHudLayoutElement> resolvedFrame = resolveHouseShopOverlayFrame(width, height);
-
-            if (!resolvedFrame)
-            {
-                return;
-            }
-
-            if (const HudLayoutElement *pFrameLayout = findHudLayoutElement("DialogueShopOverlayFrame"))
-            {
-                if (!shouldRenderInCurrentPass(pFrameLayout->zIndex))
-                {
-                    return;
-                }
-
-                const HouseShopVisualLayout overlayLayout =
-                    buildHouseShopVisualLayout(
-                        *pHouseEntry,
-                        m_houseShopOverlay.mode == HouseShopMode::BuySpellbooks);
-                const std::string backgroundAsset =
-                    !overlayLayout.backgroundAsset.empty() ? overlayLayout.backgroundAsset : pFrameLayout->primaryAsset;
-
-                if (!backgroundAsset.empty())
-                {
-                    const HudTextureHandle *pFrameTexture = ensureHudTextureLoaded(backgroundAsset);
-
-                    if (pFrameTexture != nullptr)
-                    {
-                        submitHudTexturedQuad(
-                            *pFrameTexture,
-                            resolvedFrame->x,
-                            resolvedFrame->y,
-                            resolvedFrame->width,
-                            resolvedFrame->height);
-                    }
-                }
-            }
-
-            std::optional<HouseStockMode> stockMode;
-
-            switch (m_houseShopOverlay.mode)
-            {
-                case HouseShopMode::BuyStandard:
-                    stockMode = HouseStockMode::ShopStandard;
-                    break;
-
-                case HouseShopMode::BuySpecial:
-                    stockMode = HouseStockMode::ShopSpecial;
-                    break;
-
-                case HouseShopMode::BuySpellbooks:
-                    stockMode = HouseStockMode::GuildSpellbooks;
-                    break;
-
-                case HouseShopMode::None:
-                default:
-                    return;
-            }
-
-            Party &party = m_pOutdoorPartyRuntime->party();
-            const std::vector<InventoryItem> &stock = HouseServiceRuntime::ensureStock(
-                party,
-                *m_pItemTable,
-                *m_pStandardItemEnchantTable,
-                *m_pSpecialItemEnchantTable,
-                *pHouseEntry,
-                m_pOutdoorWorldRuntime->gameMinutes(),
-                *stockMode);
-            const size_t slotCount = HouseServiceRuntime::slotCountForStockMode(*pHouseEntry, *stockMode);
-            const HouseShopVisualLayout overlayLayout =
-                buildHouseShopVisualLayout(*pHouseEntry, m_houseShopOverlay.mode == HouseShopMode::BuySpellbooks);
-            bool hoveredItem = false;
-
-            for (size_t slotIndex = 0;
-                 slotIndex < slotCount && slotIndex < stock.size() && slotIndex < overlayLayout.slots.size();
-                 ++slotIndex)
-            {
-                const InventoryItem &item = stock[slotIndex];
-
-                if (item.objectDescriptionId == 0)
-                {
-                    continue;
-                }
-
-                const ItemDefinition *pItemDefinition = m_pItemTable->get(item.objectDescriptionId);
-
-                if (pItemDefinition == nullptr || pItemDefinition->iconName.empty())
-                {
-                    continue;
-                }
-
-                const HudTextureHandle *pItemTexture = ensureHudTextureLoaded(pItemDefinition->iconName);
-
-                if (pItemTexture == nullptr)
-                {
-                    continue;
-                }
-
-                int opaqueTextureWidth = pItemTexture->width;
-                int opaqueTextureHeight = pItemTexture->height;
-                int opaqueMinX = 0;
-                int opaqueMinY = 0;
-                int opaqueMaxX = pItemTexture->width - 1;
-                int opaqueMaxY = pItemTexture->height - 1;
-                const_cast<OutdoorGameView *>(this)->tryGetOpaqueHudTextureBounds(
-                    pItemDefinition->iconName,
-                    opaqueTextureWidth,
-                    opaqueTextureHeight,
-                    opaqueMinX,
-                    opaqueMinY,
-                    opaqueMaxX,
-                    opaqueMaxY);
-                const HouseShopItemDrawRect drawRect = resolveHouseShopItemDrawRect(
-                    resolvedFrame->x,
-                    resolvedFrame->y,
-                    static_cast<float>(resolvedFrame->width),
-                    static_cast<float>(resolvedFrame->height),
-                    resolvedFrame->scale,
-                    overlayLayout.slots[slotIndex],
-                    slotIndex,
-                    pItemTexture->width,
-                    pItemTexture->height,
-                    opaqueMinY,
-                    opaqueMaxY);
-                submitHudTexturedQuad(*pItemTexture, drawRect.x, drawRect.y, drawRect.width, drawRect.height);
-
-                RenderedInspectableHudItem inspectableItem = {};
-                inspectableItem.objectDescriptionId = item.objectDescriptionId;
-                inspectableItem.hasItemState = true;
-                inspectableItem.itemState = item;
-                inspectableItem.textureName = pItemDefinition->iconName;
-                inspectableItem.x = drawRect.x;
-                inspectableItem.y = drawRect.y;
-                inspectableItem.width = drawRect.width;
-                inspectableItem.height = drawRect.height;
-                m_renderedInspectableHudItems.push_back(std::move(inspectableItem));
-
-                if (dialogMouseX >= drawRect.x
-                    && dialogMouseX < drawRect.x + drawRect.width
-                    && dialogMouseY >= drawRect.y
-                    && dialogMouseY < drawRect.y + drawRect.height)
-                {
-                    hoveredItem = true;
-                }
-            }
-
-            if (!hoveredItem && (m_statusBarEventRemainingSeconds <= 0.0f || m_statusBarEventText.empty()))
-            {
-                dialogueResponseHintText = "LMB buy  RMB inspect  Esc close";
-            }
-        };
-
-    const auto renderDialogueTextureElement =
-        [this,
-         width,
-         height,
-         dialogMouseX,
-         dialogMouseY,
-         showDialogueTextFrame,
-         showDialogueVideoArea,
-         showEventDialogPanel,
-         &isDialogueFrameSubtree,
-         &shouldRenderInCurrentPass,
-         &renderDialogueVideoArea](
-            const std::string &layoutId)
-        {
-            const HudLayoutElement *pLayout = findHudLayoutElement(layoutId);
-
-            if (pLayout == nullptr || !pLayout->visible || toLowerCopy(pLayout->screen) != "dialogue")
-            {
-                return;
-            }
-
-            const std::string normalizedLayoutId = toLowerCopy(layoutId);
-
-            if (normalizedLayoutId == "dialoguenpcportrait"
-                || normalizedLayoutId == "dialoguetext"
-                || normalizedLayoutId == "dialogueshopoverlayframe")
-            {
-                return;
-            }
-
-            if (!showDialogueTextFrame && isDialogueFrameSubtree(*pLayout))
-            {
-                return;
-            }
-
-            if (normalizedLayoutId == "dialoguevideoarea" && !showDialogueVideoArea)
-            {
-                return;
-            }
-
-            if (normalizedLayoutId == "dialogueeventdialog" && !showEventDialogPanel)
-            {
-                return;
-            }
-
-            if (!shouldRenderInCurrentPass(pLayout->zIndex))
-            {
-                return;
-            }
-
-            const HudTextureHandle *pBaseTexture = nullptr;
-
-            if ((pLayout->width <= 0.0f || pLayout->height <= 0.0f) && !pLayout->primaryAsset.empty())
-            {
-                pBaseTexture = ensureHudTextureLoaded(pLayout->primaryAsset);
-            }
-
-            const std::optional<ResolvedHudLayoutElement> resolved = resolveHudLayoutElement(
-                layoutId,
-                width,
-                height,
-                pLayout->width > 0.0f
-                    ? pLayout->width
-                    : (pBaseTexture != nullptr ? static_cast<float>(pBaseTexture->width) : 0.0f),
-                pLayout->height > 0.0f
-                    ? pLayout->height
-                    : (pBaseTexture != nullptr ? static_cast<float>(pBaseTexture->height) : 0.0f));
-
-            if (!resolved)
-            {
-                return;
-            }
-
-            if (normalizedLayoutId == "dialoguevideoarea")
-            {
-                renderDialogueVideoArea(*resolved);
-                return;
-            }
-
-            const bool isLeftMousePressed = (SDL_GetMouseState(nullptr, nullptr) & SDL_BUTTON_LMASK) != 0;
-            const std::string *pAssetName =
-                resolveInteractiveAssetName(*pLayout, *resolved, dialogMouseX, dialogMouseY, isLeftMousePressed);
-
-            if (pAssetName->empty())
-            {
-                return;
-            }
-
-            const HudTextureHandle *pTexture = ensureHudTextureLoaded(*pAssetName);
-
-            if (pTexture == nullptr)
-            {
-                return;
-            }
-
-            bgfx::TransientVertexBuffer transientVertexBuffer;
-
-            if (bgfx::getAvailTransientVertexBuffer(6, TexturedTerrainVertex::ms_layout) < 6)
-            {
-                return;
-            }
-
-            bgfx::allocTransientVertexBuffer(&transientVertexBuffer, 6, TexturedTerrainVertex::ms_layout);
-            TexturedTerrainVertex *pVertices = reinterpret_cast<TexturedTerrainVertex *>(transientVertexBuffer.data);
-
-            pVertices[0] = {resolved->x, resolved->y, 0.0f, 0.0f, 0.0f};
-            pVertices[1] = {resolved->x + resolved->width, resolved->y, 0.0f, 1.0f, 0.0f};
-            pVertices[2] = {resolved->x + resolved->width, resolved->y + resolved->height, 0.0f, 1.0f, 1.0f};
-            pVertices[3] = {resolved->x, resolved->y, 0.0f, 0.0f, 0.0f};
-            pVertices[4] = {resolved->x + resolved->width, resolved->y + resolved->height, 0.0f, 1.0f, 1.0f};
-            pVertices[5] = {resolved->x, resolved->y + resolved->height, 0.0f, 0.0f, 1.0f};
-
-            float modelMatrix[16] = {};
-            bx::mtxIdentity(modelMatrix);
-            bgfx::setTransform(modelMatrix);
-            bgfx::setVertexBuffer(0, &transientVertexBuffer);
-            bgfx::setTexture(0, m_terrainTextureSamplerHandle, pTexture->textureHandle);
-            bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_BLEND_ALPHA);
-            bgfx::submit(HudViewId, m_texturedTerrainProgramHandle);
-        };
-
     const std::vector<std::string> orderedDialogueLayoutIds = sortedHudLayoutIdsForScreen("Dialogue");
 
     for (const std::string &layoutId : orderedDialogueLayoutIds)
@@ -18350,838 +15305,74 @@ void OutdoorGameView::renderDialogueOverlay(int width, int height, bool renderAb
             continue;
         }
 
-        renderDialogueTextureElement(layoutId);
-    }
-
-    renderHouseShopOverlay();
-
-    const auto renderDialogueLabelById =
-        [this, width, height, &shouldRenderInCurrentPass](const std::string &layoutId, const std::string &label)
-        {
-            const HudLayoutElement *pLayout = findHudLayoutElement(layoutId);
-
-            if (pLayout == nullptr || !pLayout->visible || toLowerCopy(pLayout->screen) != "dialogue")
-            {
-                return;
-            }
-
-            if (!shouldRenderInCurrentPass(pLayout->zIndex))
-            {
-                return;
-            }
-
-            const std::optional<ResolvedHudLayoutElement> resolved = resolveHudLayoutElement(
-                layoutId,
-                width,
-                height,
-                pLayout->width,
-                pLayout->height);
-
-            if (!resolved)
-            {
-                return;
-            }
-
-            renderLayoutLabel(*pLayout, *resolved, label);
-        };
-
-    renderDialogueLabelById(
-        "DialogueGoodbyeButton",
-        "Close");
-    renderDialogueLabelById(
-        "DialogueGoldLabel",
-        pParty != nullptr ? std::to_string(pParty->gold()) : "");
-    renderDialogueLabelById(
-        "DialogueFoodLabel",
-        pParty != nullptr ? std::to_string(pParty->food()) : "");
-    renderDialogueLabelById(
-        "DialogueResponseHint",
-        dialogueResponseHintText);
-
-    const HudLayoutElement *pEventDialogLayout = findHudLayoutElement("DialogueEventDialog");
-    const HudLayoutElement *pNpcPortraitLayout = findHudLayoutElement("DialogueNpcPortrait");
-    const HudLayoutElement *pHouseTitleLayout = findHudLayoutElement("DialogueHouseTitle");
-    const HudLayoutElement *pNpcNameLayout = findHudLayoutElement("DialogueNpcName");
-    const HudLayoutElement *pTopicRowLayout = findHudLayoutElement("DialogueTopicRow_1");
-
-    if (showEventDialogPanel && pEventDialogLayout != nullptr)
-    {
-        const std::optional<ResolvedHudLayoutElement> resolvedEventDialog = resolveHudLayoutElement(
-            "DialogueEventDialog",
+        GameplayDialogueRenderer::renderDialogueTextureElement(
+            overlayContext,
+            layoutId,
             width,
             height,
-            pEventDialogLayout->width,
-            pEventDialogLayout->height);
-
-        if (resolvedEventDialog && shouldRenderInCurrentPass(pEventDialogLayout->zIndex))
-        {
-            const float panelScale = resolvedEventDialog->scale;
-            const float panelPaddingX = 10.0f * panelScale;
-            const float panelPaddingY = 10.0f * panelScale;
-            const float panelInnerX = resolvedEventDialog->x + panelPaddingX;
-            const float panelInnerY = resolvedEventDialog->y + panelPaddingY;
-            const float panelInnerWidth = resolvedEventDialog->width - panelPaddingX * 2.0f;
-            const float portraitInset = 4.0f * panelScale;
-            const float sectionGap = 8.0f * panelScale;
-            const float houseTitleToPortraitGap = 2.0f * panelScale;
-            float contentY = panelInnerY;
-            const std::optional<ResolvedHudLayoutElement> resolvedPortraitTemplate =
-                pNpcPortraitLayout != nullptr
-                ? resolveHudLayoutElement(
-                    "DialogueNpcPortrait",
-                    width,
-                    height,
-                    pNpcPortraitLayout->width,
-                    pNpcPortraitLayout->height)
-                : std::nullopt;
-            const std::optional<ResolvedHudLayoutElement> resolvedNpcNameTemplate =
-                pNpcNameLayout != nullptr
-                ? resolveHudLayoutElement(
-                    "DialogueNpcName",
-                    width,
-                    height,
-                    pNpcNameLayout->width,
-                    pNpcNameLayout->height)
-                : std::nullopt;
-            const std::optional<ResolvedHudLayoutElement> resolvedTopicRowTemplate =
-                pTopicRowLayout != nullptr
-                ? resolveHudLayoutElement(
-                    "DialogueTopicRow_1",
-                    width,
-                    height,
-                    pTopicRowLayout->width,
-                    pTopicRowLayout->height)
-                : std::nullopt;
-            const HudLayoutElement *pEffectiveHouseTitleLayout = pHouseTitleLayout != nullptr ? pHouseTitleLayout : pNpcNameLayout;
-            const std::optional<ResolvedHudLayoutElement> resolvedHouseTitleTemplate =
-                pEffectiveHouseTitleLayout != nullptr
-                ? resolveHudLayoutElement(
-                    pEffectiveHouseTitleLayout->id,
-                    width,
-                    height,
-                    pEffectiveHouseTitleLayout->width,
-                    pEffectiveHouseTitleLayout->height)
-                : std::nullopt;
-            const float portraitAreaWidth = resolvedPortraitTemplate ? resolvedPortraitTemplate->width : 80.0f * panelScale;
-            const float portraitAreaHeight = resolvedPortraitTemplate ? resolvedPortraitTemplate->height : 80.0f * panelScale;
-            const float portraitBorderSize = std::min(portraitAreaWidth, portraitAreaHeight);
-            const float portraitAreaX = resolvedPortraitTemplate
-                ? resolvedPortraitTemplate->x
-                : std::round(panelInnerX + (panelInnerWidth - portraitAreaWidth) * 0.5f);
-            const float portraitBaseY = resolvedPortraitTemplate ? resolvedPortraitTemplate->y : panelInnerY;
-            const float nameWidth = resolvedNpcNameTemplate ? resolvedNpcNameTemplate->width : panelInnerWidth;
-            const float nameHeight = resolvedNpcNameTemplate ? resolvedNpcNameTemplate->height : 20.0f * panelScale;
-            const float nameX = resolvedNpcNameTemplate ? resolvedNpcNameTemplate->x : panelInnerX;
-            const float nameScale = resolvedNpcNameTemplate ? resolvedNpcNameTemplate->scale : panelScale;
-            const float nameOffsetY = resolvedNpcNameTemplate && resolvedPortraitTemplate
-                ? (resolvedNpcNameTemplate->y - resolvedPortraitTemplate->y)
-                : portraitBorderSize + 2.0f * panelScale;
-
-            if (pHostHouseEntry != nullptr && pEffectiveHouseTitleLayout != nullptr)
-            {
-                ResolvedHudLayoutElement resolvedHouseTitle = {};
-                resolvedHouseTitle.x = resolvedHouseTitleTemplate ? resolvedHouseTitleTemplate->x : panelInnerX;
-                resolvedHouseTitle.y = resolvedHouseTitleTemplate ? resolvedHouseTitleTemplate->y : contentY;
-                resolvedHouseTitle.width = resolvedHouseTitleTemplate ? resolvedHouseTitleTemplate->width : panelInnerWidth;
-                resolvedHouseTitle.height = resolvedHouseTitleTemplate ? resolvedHouseTitleTemplate->height : 20.0f * panelScale;
-                resolvedHouseTitle.scale = resolvedHouseTitleTemplate ? resolvedHouseTitleTemplate->scale : panelScale;
-
-                if (shouldRenderInCurrentPass(pEffectiveHouseTitleLayout->zIndex))
-                {
-                    const std::string &houseTitle = !m_activeEventDialog.houseTitle.empty()
-                        ? m_activeEventDialog.houseTitle
-                        : pHostHouseEntry->name;
-                    renderLayoutLabel(*pEffectiveHouseTitleLayout, resolvedHouseTitle, houseTitle);
-                }
-
-                contentY += resolvedHouseTitle.height + houseTitleToPortraitGap;
-            }
-
-            contentY = std::max(contentY, portraitBaseY);
-
-            const auto renderEventNpcPortraitCard =
-                [this, pNpcNameLayout, panelScale, portraitBorderSize, portraitInset, panelInnerWidth](
-                    float portraitY,
-                    const std::string &name,
-                    uint32_t pictureId,
-                    bool selected) -> float
-                {
-                    const float portraitX = std::round(
-                        panelInnerWidth >= portraitBorderSize
-                            ? (panelInnerWidth - portraitBorderSize) * 0.5f
-                            : 0.0f);
-                    const float absolutePortraitX =
-                        std::round((panelInnerWidth >= portraitBorderSize ? portraitX : 0.0f) + 0.0f);
-                    BX_UNUSED(absolutePortraitX);
-                    return portraitY;
-                };
-            BX_UNUSED(renderEventNpcPortraitCard);
-
-            auto drawEventNpcCard =
-                [this,
-                 pNpcNameLayout,
-                 nameHeight,
-                 nameOffsetY,
-                 nameScale,
-                 nameWidth,
-                 nameX,
-                 portraitAreaHeight,
-                 portraitAreaWidth,
-                 portraitAreaX,
-                 portraitBorderSize,
-                 portraitInset,
-                 &shouldRenderInCurrentPass](
-                    float startY,
-                    const std::string &name,
-                    uint32_t pictureId,
-                    bool selected) -> float
-                {
-                    const float portraitY = std::round(startY);
-                    const float portraitX = std::round(portraitAreaX + (portraitAreaWidth - portraitBorderSize) * 0.5f);
-                    const float portraitBorderY =
-                        std::round(portraitY + (portraitAreaHeight - portraitBorderSize) * 0.5f);
-                    const HudTextureHandle *pPortraitBorder = ensureHudTextureLoaded("evtnpc");
-
-                    if (pPortraitBorder != nullptr)
-                    {
-                        bgfx::TransientVertexBuffer transientVertexBuffer;
-
-                        if (bgfx::getAvailTransientVertexBuffer(6, TexturedTerrainVertex::ms_layout) >= 6)
-                        {
-                            bgfx::allocTransientVertexBuffer(&transientVertexBuffer, 6, TexturedTerrainVertex::ms_layout);
-                            TexturedTerrainVertex *pVertices =
-                                reinterpret_cast<TexturedTerrainVertex *>(transientVertexBuffer.data);
-                            pVertices[0] = {portraitX, portraitBorderY, 0.0f, 0.0f, 0.0f};
-                            pVertices[1] = {portraitX + portraitBorderSize, portraitBorderY, 0.0f, 1.0f, 0.0f};
-                            pVertices[2] = {
-                                portraitX + portraitBorderSize,
-                                portraitBorderY + portraitBorderSize,
-                                0.0f,
-                                1.0f,
-                                1.0f};
-                            pVertices[3] = {portraitX, portraitBorderY, 0.0f, 0.0f, 0.0f};
-                            pVertices[4] = {
-                                portraitX + portraitBorderSize,
-                                portraitBorderY + portraitBorderSize,
-                                0.0f,
-                                1.0f,
-                                1.0f};
-                            pVertices[5] = {portraitX, portraitBorderY + portraitBorderSize, 0.0f, 0.0f, 1.0f};
-                            float modelMatrix[16] = {};
-                            bx::mtxIdentity(modelMatrix);
-                            bgfx::setTransform(modelMatrix);
-                            bgfx::setVertexBuffer(0, &transientVertexBuffer);
-                            bgfx::setTexture(0, m_terrainTextureSamplerHandle, pPortraitBorder->textureHandle);
-                            bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_BLEND_ALPHA);
-                            bgfx::submit(HudViewId, m_texturedTerrainProgramHandle);
-                        }
-                    }
-
-                    if (pictureId > 0)
-                    {
-                        char textureName[16] = {};
-                        std::snprintf(textureName, sizeof(textureName), "npc%04u", pictureId);
-                        const HudTextureHandle *pPortraitTexture = ensureHudTextureLoaded(textureName);
-
-                        if (pPortraitTexture != nullptr)
-                        {
-                            const float imageWidth = static_cast<float>(pPortraitTexture->width);
-                            const float imageHeight = static_cast<float>(pPortraitTexture->height);
-                            const float targetSize = portraitBorderSize - portraitInset * 2.0f;
-                            const float portraitScale = std::max(
-                                targetSize / std::max(1.0f, imageWidth),
-                                targetSize / std::max(1.0f, imageHeight));
-                            const float scaledWidth = imageWidth * portraitScale;
-                            const float scaledHeight = imageHeight * portraitScale;
-                            const float innerX = std::round(portraitX + portraitInset);
-                            const float innerY = std::round(portraitBorderY + portraitInset);
-                            const float drawWidth = std::round(targetSize);
-                            const float drawHeight = std::round(targetSize);
-                            float u0 = 0.0f;
-                            float v0 = 0.0f;
-                            float u1 = 1.0f;
-                            float v1 = 1.0f;
-
-                            if (scaledWidth > targetSize)
-                            {
-                                const float croppedFraction = (scaledWidth - targetSize) / scaledWidth;
-                                u0 = croppedFraction * 0.5f;
-                                u1 = 1.0f - croppedFraction * 0.5f;
-                            }
-
-                            if (scaledHeight > targetSize)
-                            {
-                                const float croppedFraction = (scaledHeight - targetSize) / scaledHeight;
-                                v0 = croppedFraction * 0.5f;
-                                v1 = 1.0f - croppedFraction * 0.5f;
-                            }
-
-                            bgfx::TransientVertexBuffer transientVertexBuffer;
-
-                            if (bgfx::getAvailTransientVertexBuffer(6, TexturedTerrainVertex::ms_layout) >= 6)
-                            {
-                                bgfx::allocTransientVertexBuffer(&transientVertexBuffer, 6, TexturedTerrainVertex::ms_layout);
-                                TexturedTerrainVertex *pVertices =
-                                    reinterpret_cast<TexturedTerrainVertex *>(transientVertexBuffer.data);
-                                pVertices[0] = {innerX, innerY, 0.0f, u0, v0};
-                                pVertices[1] = {innerX + drawWidth, innerY, 0.0f, u1, v0};
-                                pVertices[2] = {innerX + drawWidth, innerY + drawHeight, 0.0f, u1, v1};
-                                pVertices[3] = {innerX, innerY, 0.0f, u0, v0};
-                                pVertices[4] = {innerX + drawWidth, innerY + drawHeight, 0.0f, u1, v1};
-                                pVertices[5] = {innerX, innerY + drawHeight, 0.0f, u0, v1};
-                                float modelMatrix[16] = {};
-                                bx::mtxIdentity(modelMatrix);
-                                bgfx::setTransform(modelMatrix);
-                                bgfx::setVertexBuffer(0, &transientVertexBuffer);
-                                bgfx::setTexture(0, m_terrainTextureSamplerHandle, pPortraitTexture->textureHandle);
-                                bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_BLEND_ALPHA);
-                                bgfx::submit(HudViewId, m_texturedTerrainProgramHandle);
-                            }
-                        }
-                    }
-
-                    if (selected)
-                    {
-                        const HudTextureHandle *pHighlight =
-                            ensureSolidHudTextureLoaded("__dialogue_event_npc_highlight__", 0x40ffffaaU);
-
-                        if (pHighlight != nullptr)
-                        {
-                            bgfx::TransientVertexBuffer transientVertexBuffer;
-
-                            if (bgfx::getAvailTransientVertexBuffer(6, TexturedTerrainVertex::ms_layout) >= 6)
-                            {
-                                bgfx::allocTransientVertexBuffer(&transientVertexBuffer, 6, TexturedTerrainVertex::ms_layout);
-                                TexturedTerrainVertex *pVertices =
-                                    reinterpret_cast<TexturedTerrainVertex *>(transientVertexBuffer.data);
-                                pVertices[0] = {portraitX, portraitBorderY, 0.0f, 0.0f, 0.0f};
-                                pVertices[1] = {portraitX + portraitBorderSize, portraitBorderY, 0.0f, 1.0f, 0.0f};
-                                pVertices[2] = {
-                                    portraitX + portraitBorderSize,
-                                    portraitBorderY + portraitBorderSize,
-                                    0.0f,
-                                    1.0f,
-                                    1.0f};
-                                pVertices[3] = {portraitX, portraitBorderY, 0.0f, 0.0f, 0.0f};
-                                pVertices[4] = {
-                                    portraitX + portraitBorderSize,
-                                    portraitBorderY + portraitBorderSize,
-                                    0.0f,
-                                    1.0f,
-                                    1.0f};
-                                pVertices[5] = {portraitX, portraitBorderY + portraitBorderSize, 0.0f, 0.0f, 1.0f};
-                                float modelMatrix[16] = {};
-                                bx::mtxIdentity(modelMatrix);
-                                bgfx::setTransform(modelMatrix);
-                                bgfx::setVertexBuffer(0, &transientVertexBuffer);
-                                bgfx::setTexture(0, m_terrainTextureSamplerHandle, pHighlight->textureHandle);
-                                bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_BLEND_ALPHA);
-                                bgfx::submit(HudViewId, m_texturedTerrainProgramHandle);
-                            }
-                        }
-                    }
-
-                    float nextY = portraitY + portraitAreaHeight;
-
-                    if (pNpcNameLayout != nullptr && shouldRenderInCurrentPass(pNpcNameLayout->zIndex))
-                    {
-                        ResolvedHudLayoutElement resolvedName = {};
-                        resolvedName.x = nameX;
-                        resolvedName.y = portraitY + nameOffsetY;
-                        resolvedName.width = nameWidth;
-                        resolvedName.height = nameHeight;
-                        resolvedName.scale = nameScale;
-                        renderLayoutLabel(*pNpcNameLayout, resolvedName, name);
-                        nextY = resolvedName.y + resolvedName.height;
-                    }
-
-                    return nextY;
-                };
-
-            if (isResidentSelectionMode)
-            {
-                for (size_t actionIndex = 0; actionIndex < m_activeEventDialog.actions.size(); ++actionIndex)
-                {
-                    const EventDialogAction &action = m_activeEventDialog.actions[actionIndex];
-                    const NpcEntry *pNpc = m_npcDialogTable ? m_npcDialogTable->getNpc(action.id) : nullptr;
-                    const uint32_t pictureId = pNpc != nullptr ? pNpc->pictureId : 0;
-                    contentY = drawEventNpcCard(
-                        contentY,
-                        action.label,
-                        pictureId,
-                        false);
-                    contentY += sectionGap;
-                }
-            }
-            else
-            {
-                uint32_t pictureId = m_activeEventDialog.participantPictureId;
-
-                if (pictureId == 0)
-                {
-                    const NpcEntry *pNpc =
-                        m_npcDialogTable ? m_npcDialogTable->getNpc(m_activeEventDialog.sourceId) : nullptr;
-                    pictureId = pNpc != nullptr
-                        ? pNpc->pictureId
-                        : (pHostHouseEntry != nullptr ? pHostHouseEntry->proprietorPictureId : 0);
-                }
-
-                contentY = drawEventNpcCard(contentY, m_activeEventDialog.title, pictureId, false);
-                contentY += sectionGap;
-
-                if (pTopicRowLayout != nullptr
-                    && ((!suppressServiceTopicsForShopOverlay && !m_activeEventDialog.actions.empty())
-                        || hoveredHouseServiceTopicText.has_value()))
-                {
-                    const HudFontHandle *pTopicFont = findHudFont(pTopicRowLayout->fontName);
-                    const float topicFontScale = snappedHudFontScale(
-                        resolvedTopicRowTemplate ? resolvedTopicRowTemplate->scale : panelScale);
-                    const float topicLineHeight = pTopicFont != nullptr
-                        ? static_cast<float>(pTopicFont->fontHeight) * topicFontScale
-                        : 20.0f * panelScale;
-                    const float topicWrapWidth = 140.0f * (resolvedTopicRowTemplate
-                        ? resolvedTopicRowTemplate->scale
-                        : panelScale);
-                    const float topicTextWidthScaled = std::max(
-                        0.0f,
-                        std::min(
-                            resolvedTopicRowTemplate ? resolvedTopicRowTemplate->width : panelInnerWidth,
-                            topicWrapWidth)
-                            - std::abs(pTopicRowLayout->textPadX * topicFontScale) * 2.0f
-                            - 4.0f * topicFontScale);
-                    const float topicTextWidth = std::max(0.0f, topicTextWidthScaled / std::max(1.0f, topicFontScale));
-                    const float rowGap = 4.0f * panelScale;
-                    const bool showHoveredShopTopic = hoveredHouseServiceTopicText.has_value();
-                    const size_t visibleActionCount =
-                        showHoveredShopTopic
-                        ? 1
-                        : (suppressServiceTopicsForShopOverlay
-                            ? 0
-                            : std::min<size_t>(m_activeEventDialog.actions.size(), 5));
-                    const float availableTop = contentY;
-                    const float availableHeight =
-                        resolvedEventDialog->y + resolvedEventDialog->height - panelPaddingY - availableTop;
-                    std::vector<std::vector<std::string>> wrappedActionLabels;
-                    std::vector<float> actionRowHeights;
-                    std::vector<float> actionPressHeights;
-                    wrappedActionLabels.reserve(visibleActionCount);
-                    actionRowHeights.reserve(visibleActionCount);
-                    actionPressHeights.reserve(visibleActionCount);
-
-                    for (size_t actionIndex = 0; actionIndex < visibleActionCount; ++actionIndex)
-                    {
-                        std::string label = showHoveredShopTopic
-                            ? *hoveredHouseServiceTopicText
-                            : m_activeEventDialog.actions[actionIndex].label;
-
-                        if (!showHoveredShopTopic
-                            && !m_activeEventDialog.actions[actionIndex].enabled
-                            && !m_activeEventDialog.actions[actionIndex].disabledReason.empty())
-                        {
-                            label += " [disabled]";
-                        }
-
-                        std::vector<std::string> wrappedLines = pTopicFont != nullptr
-                            ? wrapHudTextToWidth(*pTopicFont, label, topicTextWidth)
-                            : std::vector<std::string>{label};
-
-                        if (wrappedLines.empty())
-                        {
-                            wrappedLines.push_back(label);
-                        }
-
-                        const float minimumRowHeight = resolvedTopicRowTemplate
-                            ? resolvedTopicRowTemplate->height
-                            : pTopicRowLayout->height * panelScale;
-                        const float wrappedRowHeight = static_cast<float>(wrappedLines.size()) * topicLineHeight;
-                        wrappedActionLabels.push_back(std::move(wrappedLines));
-                        actionRowHeights.push_back(std::max(minimumRowHeight, wrappedRowHeight));
-                        actionPressHeights.push_back(wrappedRowHeight);
-                    }
-
-                    float totalHeight = 0.0f;
-
-                    for (size_t actionIndex = 0; actionIndex < actionRowHeights.size(); ++actionIndex)
-                    {
-                        totalHeight += actionRowHeights[actionIndex];
-
-                        if (actionIndex + 1 < actionRowHeights.size())
-                        {
-                            totalHeight += rowGap;
-                        }
-                    }
-
-                    const float topicListCenterOffsetY = 8.0f * panelScale;
-                    float rowY = availableTop + std::max(0.0f, (availableHeight - totalHeight) * 0.5f)
-                        - topicListCenterOffsetY;
-
-                    for (size_t actionIndex = 0; actionIndex < visibleActionCount; ++actionIndex)
-                    {
-                        ResolvedHudLayoutElement resolvedRow = {};
-                        resolvedRow.x = resolvedTopicRowTemplate ? resolvedTopicRowTemplate->x : panelInnerX;
-                        resolvedRow.y = rowY;
-                        resolvedRow.width = resolvedTopicRowTemplate ? resolvedTopicRowTemplate->width : panelInnerWidth;
-                        resolvedRow.height = actionRowHeights[actionIndex];
-                        resolvedRow.scale = resolvedTopicRowTemplate ? resolvedTopicRowTemplate->scale : panelScale;
-                        if (shouldRenderInCurrentPass(pTopicRowLayout->zIndex))
-                        {
-                            const float pressAreaInsetY = 2.0f * panelScale;
-                            const float pressAreaHeight =
-                                std::min(
-                                    resolvedRow.height,
-                                    std::max(topicLineHeight, actionPressHeights[actionIndex]) + pressAreaInsetY * 2.0f);
-                            const float pressAreaY = resolvedRow.y + (resolvedRow.height - pressAreaHeight) * 0.5f;
-                            const bool isHovered = !showHoveredShopTopic
-                                && dialogMouseX >= resolvedRow.x
-                                && dialogMouseX < resolvedRow.x + resolvedRow.width
-                                && dialogMouseY >= pressAreaY
-                                && dialogMouseY < pressAreaY + pressAreaHeight;
-
-                            if (pTopicFont != nullptr)
-                            {
-                                float lineY = pressAreaY;
-                                HudLayoutElement hoveredTopicRowLayout = *pTopicRowLayout;
-
-                                if (isHovered)
-                                {
-                                    hoveredTopicRowLayout.textColorAbgr = HoveredDialogueTopicTextColorAbgr;
-                                }
-
-                                for (const std::string &wrappedLine : wrappedActionLabels[actionIndex])
-                                {
-                                    ResolvedHudLayoutElement resolvedLine = resolvedRow;
-                                    resolvedLine.y = lineY;
-                                    resolvedLine.height = topicLineHeight;
-                                    renderLayoutLabel(
-                                        isHovered ? hoveredTopicRowLayout : *pTopicRowLayout,
-                                        resolvedLine,
-                                        wrappedLine);
-                                    lineY += topicLineHeight;
-                                }
-                            }
-                            else
-                            {
-                                HudLayoutElement hoveredTopicRowLayout = *pTopicRowLayout;
-
-                                if (isHovered)
-                                {
-                                    hoveredTopicRowLayout.textColorAbgr = HoveredDialogueTopicTextColorAbgr;
-                                }
-
-                                renderLayoutLabel(
-                                    isHovered ? hoveredTopicRowLayout : *pTopicRowLayout,
-                                    resolvedRow,
-                                    showHoveredShopTopic
-                                        ? *hoveredHouseServiceTopicText
-                                        : m_activeEventDialog.actions[actionIndex].label);
-                            }
-                        }
-
-                        rowY += actionRowHeights[actionIndex] + rowGap;
-                    }
-                }
-            }
-        }
+            dialogMouseX,
+            dialogMouseY,
+            showDialogueTextFrame,
+            showDialogueVideoArea,
+            showEventDialogPanel,
+            renderAboveHud);
     }
 
-    if (showDialogueTextFrame
-        && pDialogueTextLayout != nullptr
-        && resolvedText
-        && toLowerCopy(pDialogueTextLayout->screen) == "dialogue"
-        && shouldRenderInCurrentPass(pDialogueTextLayout->zIndex))
-    {
-        const HudFontHandle *pFont = findHudFont(pDialogueTextLayout->fontName);
+    GameplayDialogueRenderer::renderHouseShopOverlay(
+        overlayContext,
+        width,
+        height,
+        dialogMouseX,
+        dialogMouseY,
+        dialogueResponseHintText,
+        renderAboveHud);
 
-        if (pFont != nullptr)
-        {
-            static constexpr float DialogueTextTopInset = 2.0f;
-            static constexpr float DialogueTextRightInset = 6.0f;
-            const float fontScale = snappedHudFontScale(resolvedText->scale);
-            bgfx::TextureHandle coloredMainTextureHandle =
-                ensureHudFontMainTextureColor(*pFont, pDialogueTextLayout->textColorAbgr);
-            if (!bgfx::isValid(coloredMainTextureHandle))
-            {
-                coloredMainTextureHandle = pFont->mainTextureHandle;
-            }
-            const float lineHeight = static_cast<float>(pFont->fontHeight) * fontScale;
-            float textX = resolvedText->x + pDialogueTextLayout->textPadX * fontScale;
-            float textY = resolvedText->y + (pDialogueTextLayout->textPadY + DialogueTextTopInset) * fontScale;
-            textX = std::round(textX);
-            textY = std::round(textY);
-            const float textWrapWidth = std::max(
-                0.0f,
-                (resolvedText->width
-                    - std::abs(pDialogueTextLayout->textPadX * fontScale) * 2.0f
-                    - DialogueTextRightInset * fontScale)
-                    / std::max(1.0f, fontScale));
-            const size_t maxVisibleLines = std::max<size_t>(
-                1,
-                static_cast<size_t>(resolvedText->height / std::max(1.0f, lineHeight)));
-            size_t visibleLineIndex = 0;
-
-            for (const std::string &sourceLine : dialogueBodyLines)
-            {
-                const std::vector<std::string> wrappedLines = wrapHudTextToWidth(
-                    *pFont,
-                    sourceLine,
-                    textWrapWidth);
-
-                for (const std::string &wrappedLine : wrappedLines)
-                {
-                    if (visibleLineIndex >= maxVisibleLines)
-                    {
-                        break;
-                    }
-
-                    renderHudFontLayer(*pFont, pFont->shadowTextureHandle, wrappedLine, textX, textY, fontScale);
-                    renderHudFontLayer(*pFont, coloredMainTextureHandle, wrappedLine, textX, textY, fontScale);
-                    textY += lineHeight;
-                    ++visibleLineIndex;
-                }
-
-                if (visibleLineIndex >= maxVisibleLines)
-                {
-                    break;
-                }
-            }
-        }
-    }
-
-    if (false && isResidentSelectionMode)
-    {
-        const HudLayoutElement *pPortraitLayout = findHudLayoutElement("DialogueNpcPortrait");
-
-        if (pPortraitLayout != nullptr)
-        {
-            const std::optional<ResolvedHudLayoutElement> resolvedPortrait = resolveHudLayoutElement(
-                "DialogueNpcPortrait",
-                width,
-                height,
-                pPortraitLayout->width,
-                pPortraitLayout->height);
-
-            if (resolvedPortrait)
-            {
-                const float portraitGap = 8.0f * resolvedPortrait->scale;
-                const HudLayoutElement *pNameLayout = findHudLayoutElement("DialogueNpcName");
-
-                for (size_t actionIndex = 0; actionIndex < m_activeEventDialog.actions.size(); ++actionIndex)
-                {
-                    const EventDialogAction &action = m_activeEventDialog.actions[actionIndex];
-                    const NpcEntry *pNpc = m_npcDialogTable ? m_npcDialogTable->getNpc(action.id) : nullptr;
-                    char textureName[16] = {};
-
-                    if (pNpc != nullptr && pNpc->pictureId > 0)
-                    {
-                        std::snprintf(textureName, sizeof(textureName), "npc%04u", pNpc->pictureId);
-                        const HudTextureHandle *pPortraitTexture = ensureHudTextureLoaded(textureName);
-
-                        if (pPortraitTexture != nullptr)
-                        {
-                            bgfx::TransientVertexBuffer transientVertexBuffer;
-
-                            if (bgfx::getAvailTransientVertexBuffer(6, TexturedTerrainVertex::ms_layout) >= 6)
-                            {
-                                const float portraitX = resolvedPortrait->x;
-                                const float portraitY =
-                                    resolvedPortrait->y + static_cast<float>(actionIndex)
-                                        * (resolvedPortrait->height + portraitGap);
-                                bgfx::allocTransientVertexBuffer(
-                                    &transientVertexBuffer,
-                                    6,
-                                    TexturedTerrainVertex::ms_layout);
-                                TexturedTerrainVertex *pVertices =
-                                    reinterpret_cast<TexturedTerrainVertex *>(transientVertexBuffer.data);
-
-                                pVertices[0] = {portraitX, portraitY, 0.0f, 0.0f, 0.0f};
-                                pVertices[1] = {portraitX + resolvedPortrait->width, portraitY, 0.0f, 1.0f, 0.0f};
-                                pVertices[2] = {
-                                    portraitX + resolvedPortrait->width,
-                                    portraitY + resolvedPortrait->height,
-                                    0.0f,
-                                    1.0f,
-                                    1.0f};
-                                pVertices[3] = {portraitX, portraitY, 0.0f, 0.0f, 0.0f};
-                                pVertices[4] = {
-                                    portraitX + resolvedPortrait->width,
-                                    portraitY + resolvedPortrait->height,
-                                    0.0f,
-                                    1.0f,
-                                    1.0f};
-                                pVertices[5] = {portraitX, portraitY + resolvedPortrait->height, 0.0f, 0.0f, 1.0f};
-
-                                float modelMatrix[16] = {};
-                                bx::mtxIdentity(modelMatrix);
-                                bgfx::setTransform(modelMatrix);
-                                bgfx::setVertexBuffer(0, &transientVertexBuffer);
-                                bgfx::setTexture(0, m_terrainTextureSamplerHandle, pPortraitTexture->textureHandle);
-                                bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_BLEND_ALPHA);
-                                bgfx::submit(HudViewId, m_texturedTerrainProgramHandle);
-
-                                if (actionIndex == m_eventDialogSelectionIndex)
-                                {
-                                    const HudTextureHandle *pHighlight =
-                                        ensureSolidHudTextureLoaded("__dialogue_resident_highlight__", 0x60ffffaaU);
-
-                                    if (pHighlight != nullptr
-                                        && bgfx::getAvailTransientVertexBuffer(6, TexturedTerrainVertex::ms_layout) >= 6)
-                                    {
-                                        bgfx::allocTransientVertexBuffer(
-                                            &transientVertexBuffer,
-                                            6,
-                                            TexturedTerrainVertex::ms_layout);
-                                        pVertices = reinterpret_cast<TexturedTerrainVertex *>(transientVertexBuffer.data);
-                                        pVertices[0] = {portraitX, portraitY, 0.0f, 0.0f, 0.0f};
-                                        pVertices[1] = {
-                                            portraitX + resolvedPortrait->width,
-                                            portraitY,
-                                            0.0f,
-                                            1.0f,
-                                            0.0f};
-                                        pVertices[2] = {
-                                            portraitX + resolvedPortrait->width,
-                                            portraitY + resolvedPortrait->height,
-                                            0.0f,
-                                            1.0f,
-                                            1.0f};
-                                        pVertices[3] = {portraitX, portraitY, 0.0f, 0.0f, 0.0f};
-                                        pVertices[4] = {
-                                            portraitX + resolvedPortrait->width,
-                                            portraitY + resolvedPortrait->height,
-                                            0.0f,
-                                            1.0f,
-                                            1.0f};
-                                        pVertices[5] = {
-                                            portraitX,
-                                            portraitY + resolvedPortrait->height,
-                                            0.0f,
-                                            0.0f,
-                                            1.0f};
-                                        bx::mtxIdentity(modelMatrix);
-                                        bgfx::setTransform(modelMatrix);
-                                        bgfx::setVertexBuffer(0, &transientVertexBuffer);
-                                        bgfx::setTexture(0, m_terrainTextureSamplerHandle, pHighlight->textureHandle);
-                                        bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_BLEND_ALPHA);
-                                        bgfx::submit(HudViewId, m_texturedTerrainProgramHandle);
-                                    }
-                                }
-
-                                if (pNameLayout != nullptr)
-                                {
-                                    ResolvedHudLayoutElement resolvedName = {};
-                                    resolvedName.x = portraitX;
-                                    resolvedName.y = portraitY + resolvedPortrait->height + 2.0f * resolvedPortrait->scale;
-                                    resolvedName.width = resolvedPortrait->width;
-                                    resolvedName.height = 22.0f * resolvedPortrait->scale;
-                                    resolvedName.scale = resolvedPortrait->scale;
-                                    renderLayoutLabel(*pNameLayout, resolvedName, action.label);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-    else if (false)
-    {
-        const HudLayoutElement *pTopicListLayout = findHudLayoutElement("DialogueTopicList");
-        const HudLayoutElement *pTopicRowLayout = findHudLayoutElement("DialogueTopicRow_1");
-
-        if (pTopicListLayout != nullptr
-            && pTopicRowLayout != nullptr
-            && toLowerCopy(pTopicListLayout->screen) == "dialogue"
-            && toLowerCopy(pTopicRowLayout->screen) == "dialogue")
-        {
-            const std::optional<ResolvedHudLayoutElement> resolvedTopicList = resolveHudLayoutElement(
-                "DialogueTopicList",
-                width,
-                height,
-                pTopicListLayout->width,
-                pTopicListLayout->height);
-
-            if (resolvedTopicList)
-            {
-                const float rowHeight = pTopicRowLayout->height * resolvedTopicList->scale;
-                const float rowGap = 4.0f * resolvedTopicList->scale;
-                const size_t visibleActionCount = std::min<size_t>(m_activeEventDialog.actions.size(), 5);
-                const float totalHeight = visibleActionCount > 0
-                    ? static_cast<float>(visibleActionCount) * rowHeight
-                        + static_cast<float>(visibleActionCount - 1) * rowGap
-                    : 0.0f;
-                float rowY = resolvedTopicList->y + (resolvedTopicList->height - totalHeight) * 0.5f;
-
-                for (size_t actionIndex = 0; actionIndex < visibleActionCount; ++actionIndex)
-                {
-                    const EventDialogAction &action = m_activeEventDialog.actions[actionIndex];
-                    std::string label = action.label;
-
-                    if (actionIndex == m_eventDialogSelectionIndex)
-                    {
-                        label = "> " + label;
-                    }
-
-                    if (!action.enabled)
-                    {
-                        label += " [disabled]";
-                    }
-
-                    ResolvedHudLayoutElement resolvedRow = {};
-                    resolvedRow.x = resolvedTopicList->x;
-                    resolvedRow.y = rowY;
-                    resolvedRow.width = resolvedTopicList->width;
-                    resolvedRow.height = rowHeight;
-                    resolvedRow.scale = resolvedTopicList->scale;
-                    if (shouldRenderInCurrentPass(pTopicRowLayout->zIndex))
-                    {
-                        renderLayoutLabel(*pTopicRowLayout, resolvedRow, label);
-                    }
-
-                    rowY += rowHeight + rowGap;
-                }
-            }
-        }
-
-        if (pDialogueTextLayout != nullptr
-            && resolvedText
-            && toLowerCopy(pDialogueTextLayout->screen) == "dialogue"
-            && shouldRenderInCurrentPass(pDialogueTextLayout->zIndex))
-        {
-            const HudFontHandle *pFont = findHudFont(pDialogueTextLayout->fontName);
-
-            if (pFont != nullptr)
-            {
-                const float fontScale = snappedHudFontScale(resolvedText->scale);
-                bgfx::TextureHandle coloredMainTextureHandle =
-                    ensureHudFontMainTextureColor(*pFont, pDialogueTextLayout->textColorAbgr);
-                if (!bgfx::isValid(coloredMainTextureHandle))
-                {
-                    coloredMainTextureHandle = pFont->mainTextureHandle;
-                }
-                const float lineHeight = static_cast<float>(pFont->fontHeight) * fontScale;
-                float textX = resolvedText->x + pDialogueTextLayout->textPadX * fontScale;
-                float textY = resolvedText->y + pDialogueTextLayout->textPadY * fontScale;
-                textX = std::round(textX);
-                textY = std::round(textY);
-                const size_t maxVisibleLines = std::max<size_t>(
-                    1,
-                    static_cast<size_t>(resolvedText->height / std::max(1.0f, lineHeight)));
-
-                for (size_t lineIndex = 0;
-                     lineIndex < m_activeEventDialog.lines.size() && lineIndex < maxVisibleLines;
-                     ++lineIndex)
-                {
-                    const std::string clampedLine = clampHudTextToWidth(
-                        *pFont,
-                        m_activeEventDialog.lines[lineIndex],
-                        std::max(0.0f, resolvedText->width - std::abs(pDialogueTextLayout->textPadX * fontScale) * 2.0f));
-                    renderHudFontLayer(*pFont, pFont->shadowTextureHandle, clampedLine, textX, textY, fontScale);
-                    renderHudFontLayer(*pFont, coloredMainTextureHandle, clampedLine, textX, textY, fontScale);
-                    textY += lineHeight;
-                }
-            }
-        }
-    }
+    GameplayDialogueRenderer::renderDialogueLabelById(
+        overlayContext,
+        "DialogueGoodbyeButton",
+        "Close",
+        width,
+        height,
+        renderAboveHud);
+    GameplayDialogueRenderer::renderDialogueLabelById(
+        overlayContext,
+        "DialogueGoldLabel",
+        pParty != nullptr ? std::to_string(pParty->gold()) : "",
+        width,
+        height,
+        renderAboveHud);
+    GameplayDialogueRenderer::renderDialogueLabelById(
+        overlayContext,
+        "DialogueFoodLabel",
+        pParty != nullptr ? std::to_string(pParty->food()) : "",
+        width,
+        height,
+        renderAboveHud);
+    GameplayDialogueRenderer::renderDialogueLabelById(
+        overlayContext,
+        "DialogueResponseHint",
+        dialogueResponseHintText,
+        width,
+        height,
+        renderAboveHud);
+    GameplayDialogueRenderer::renderDialogueEventPanel(
+        overlayContext,
+        width,
+        height,
+        dialogMouseX,
+        dialogMouseY,
+        renderAboveHud,
+        showEventDialogPanel,
+        isResidentSelectionMode,
+        pHostHouseEntry,
+        hoveredHouseServiceTopicText,
+        suppressServiceTopicsForShopOverlay);
+    GameplayDialogueRenderer::renderDialogueBodyText(
+        overlayContext,
+        width,
+        height,
+        renderAboveHud,
+        dialogueBodyLines);
 
     m_hudLayoutRuntimeHeightOverrides.clear();
 }
@@ -19365,598 +15556,34 @@ bgfx::ShaderHandle OutdoorGameView::loadShader(const char *pShaderName)
 
 bool OutdoorGameView::loadHudLayout(const Engine::AssetFileSystem &assetFileSystem)
 {
-    m_hudLayoutElements.clear();
-    m_hudLayoutOrder.clear();
+    m_uiLayoutManager.clear();
 
-    const std::array<std::string, 11> layoutFiles = {
-        "Data/ui/gameplay/gameplay.yml",
-        "Data/ui/gameplay/chest.yml",
-        "Data/ui/gameplay/dialogue.yml",
-        "Data/ui/gameplay/character.yml",
-        "Data/ui/gameplay/spellbook.yml",
-        "Data/ui/gameplay/item_inspect.yml",
-        "Data/ui/gameplay/character_inspect.yml",
-        "Data/ui/gameplay/buff_inspect.yml",
-        "Data/ui/gameplay/character_detail.yml",
-        "Data/ui/gameplay/actor_inspect.yml",
-        "Data/ui/gameplay/spell_inspect.yml"
-    };
-
-    bool loadedAnyLayout = false;
-
-    for (const std::string &layoutFile : layoutFiles)
-    {
-        const std::optional<std::string> fileContents = assetFileSystem.readTextFile(layoutFile);
-
-        if (!fileContents)
+    return m_gameplayUiController.loadGameplayLayouts(
+        assetFileSystem,
+        [this, &assetFileSystem](const std::string &path) -> bool
         {
-            if (layoutFile == "Data/ui/gameplay/gameplay.yml")
-            {
-                return false;
-            }
-
-            continue;
-        }
-
-        if (!loadHudLayoutFile(assetFileSystem, layoutFile))
-        {
-            return false;
-        }
-
-        loadedAnyLayout = true;
-    }
-
-    return loadedAnyLayout;
-}
-
-bool OutdoorGameView::loadHudLayoutFile(const Engine::AssetFileSystem &assetFileSystem, const std::string &path)
-{
-    const std::optional<std::string> fileContents = assetFileSystem.readTextFile(path);
-
-    if (!fileContents)
-    {
-        return false;
-    }
-
-    const auto normalizeLayoutToken = [](const std::string &value) -> std::string
-    {
-        const std::string lowerValue = toLowerCopy(value);
-        std::string normalizedValue;
-
-        for (char character : lowerValue)
-        {
-            if (character != '_' && character != '-' && character != ' ')
-            {
-                normalizedValue.push_back(character);
-            }
-        }
-
-        return normalizedValue;
-    };
-
-    const auto parseRootAnchor = [&normalizeLayoutToken](const std::string &value) -> std::optional<HudLayoutAnchor>
-    {
-        const std::string normalizedValue = normalizeLayoutToken(value);
-
-        if (normalizedValue == "topleft")
-        {
-            return HudLayoutAnchor::TopLeft;
-        }
-
-        if (normalizedValue == "topcenter")
-        {
-            return HudLayoutAnchor::TopCenter;
-        }
-
-        if (normalizedValue == "topright")
-        {
-            return HudLayoutAnchor::TopRight;
-        }
-
-        if (normalizedValue == "left")
-        {
-            return HudLayoutAnchor::Left;
-        }
-
-        if (normalizedValue == "center")
-        {
-            return HudLayoutAnchor::Center;
-        }
-
-        if (normalizedValue == "right")
-        {
-            return HudLayoutAnchor::Right;
-        }
-
-        if (normalizedValue == "bottomleft")
-        {
-            return HudLayoutAnchor::BottomLeft;
-        }
-
-        if (normalizedValue == "bottomcenter")
-        {
-            return HudLayoutAnchor::BottomCenter;
-        }
-
-        if (normalizedValue == "bottomright")
-        {
-            return HudLayoutAnchor::BottomRight;
-        }
-
-        return std::nullopt;
-    };
-
-    const auto parseChildAnchor = [&normalizeLayoutToken](const std::string &value) -> std::optional<HudLayoutAttachMode>
-    {
-        const std::string normalizedValue = normalizeLayoutToken(value);
-
-        if (normalizedValue.empty() || normalizedValue == "none")
-        {
-            return HudLayoutAttachMode::None;
-        }
-
-        if (normalizedValue == "rightof")
-        {
-            return HudLayoutAttachMode::RightOf;
-        }
-
-        if (normalizedValue == "leftof")
-        {
-            return HudLayoutAttachMode::LeftOf;
-        }
-
-        if (normalizedValue == "right" || normalizedValue == "insideright")
-        {
-            return HudLayoutAttachMode::InsideRight;
-        }
-
-        if (normalizedValue == "left" || normalizedValue == "insideleft")
-        {
-            return HudLayoutAttachMode::InsideLeft;
-        }
-
-        if (normalizedValue == "above")
-        {
-            return HudLayoutAttachMode::Above;
-        }
-
-        if (normalizedValue == "below")
-        {
-            return HudLayoutAttachMode::Below;
-        }
-
-        if (normalizedValue == "centerabove")
-        {
-            return HudLayoutAttachMode::CenterAbove;
-        }
-
-        if (normalizedValue == "centerbelow")
-        {
-            return HudLayoutAttachMode::CenterBelow;
-        }
-
-        if (normalizedValue == "top"
-            || normalizedValue == "topcenter"
-            || normalizedValue == "insidetopcenter")
-        {
-            return HudLayoutAttachMode::InsideTopCenter;
-        }
-
-        if (normalizedValue == "topleft" || normalizedValue == "insidetopleft")
-        {
-            return HudLayoutAttachMode::InsideTopLeft;
-        }
-
-        if (normalizedValue == "topright" || normalizedValue == "insidetopright")
-        {
-            return HudLayoutAttachMode::InsideTopRight;
-        }
-
-        if (normalizedValue == "bottomleft" || normalizedValue == "insidebottomleft")
-        {
-            return HudLayoutAttachMode::InsideBottomLeft;
-        }
-
-        if (normalizedValue == "bottomcenter" || normalizedValue == "insidebottomcenter")
-        {
-            return HudLayoutAttachMode::InsideBottomCenter;
-        }
-
-        if (normalizedValue == "bottomright" || normalizedValue == "insidebottomright")
-        {
-            return HudLayoutAttachMode::InsideBottomRight;
-        }
-
-        if (normalizedValue == "center" || normalizedValue == "centerin")
-        {
-            return HudLayoutAttachMode::CenterIn;
-        }
-
-        return std::nullopt;
-    };
-
-    const auto parseTextAlignX = [&normalizeLayoutToken](const std::string &value) -> std::optional<HudTextAlignX>
-    {
-        const std::string normalizedValue = normalizeLayoutToken(value);
-
-        if (normalizedValue.empty() || normalizedValue == "left")
-        {
-            return HudTextAlignX::Left;
-        }
-
-        if (normalizedValue == "center")
-        {
-            return HudTextAlignX::Center;
-        }
-
-        if (normalizedValue == "right")
-        {
-            return HudTextAlignX::Right;
-        }
-
-        return std::nullopt;
-    };
-
-    const auto parseTextAlignY = [&normalizeLayoutToken](const std::string &value) -> std::optional<HudTextAlignY>
-    {
-        const std::string normalizedValue = normalizeLayoutToken(value);
-
-        if (normalizedValue.empty() || normalizedValue == "top")
-        {
-            return HudTextAlignY::Top;
-        }
-
-        if (normalizedValue == "middle" || normalizedValue == "center")
-        {
-            return HudTextAlignY::Middle;
-        }
-
-        if (normalizedValue == "bottom")
-        {
-            return HudTextAlignY::Bottom;
-        }
-
-        return std::nullopt;
-    };
-
-    const auto yamlBoolOrDefault = [](const YAML::Node &node, const char *key, bool defaultValue) -> bool
-    {
-        const YAML::Node child = node[key];
-        return child ? child.as<bool>() : defaultValue;
-    };
-
-    const auto yamlFloatOrDefault = [](const YAML::Node &node, const char *key, float defaultValue) -> float
-    {
-        const YAML::Node child = node[key];
-        return child ? child.as<float>() : defaultValue;
-    };
-
-    const auto yamlStringOrEmpty = [](const YAML::Node &node, const char *key) -> std::string
-    {
-        const YAML::Node child = node[key];
-        return child ? child.as<std::string>() : "";
-    };
-
-    try
-    {
-        const YAML::Node root = YAML::Load(*fileContents);
-
-        if (!root.IsMap())
-        {
-            return false;
-        }
-
-        const YAML::Node screenNode = root["screen"];
-        const YAML::Node elementsNode = root["elements"];
-
-        if (!screenNode || !screenNode.IsScalar() || !elementsNode || !elementsNode.IsSequence())
-        {
-            return false;
-        }
-
-        const std::string screen = screenNode.as<std::string>();
-        std::function<bool(const YAML::Node &, const std::string &)> appendElement;
-
-        appendElement =
-            [&](const YAML::Node &node, const std::string &parentId) -> bool
-            {
-                if (!node.IsMap())
-                {
-                    return false;
-                }
-
-                const YAML::Node idNode = node["id"];
-                const YAML::Node anchorNode = node["anchor"];
-
-                if (!idNode || !idNode.IsScalar() || !anchorNode || !anchorNode.IsScalar())
-                {
-                    return false;
-                }
-
-                HudLayoutElement element = {};
-                element.id = idNode.as<std::string>();
-                element.screen = screen;
-                element.parentId = parentId;
-                element.zIndex = defaultHudLayoutZIndexForScreen(screen);
-
-                if (parentId.empty())
-                {
-                    const std::optional<HudLayoutAnchor> anchor = parseRootAnchor(anchorNode.as<std::string>());
-
-                    if (!anchor)
-                    {
-                        return false;
-                    }
-
-                    element.anchor = *anchor;
-                    element.offsetX = yamlFloatOrDefault(node, "offset_x", 0.0f);
-                    element.offsetY = yamlFloatOrDefault(node, "offset_y", 0.0f);
-                }
-                else
-                {
-                    const HudLayoutElement *pParent = findHudLayoutElement(parentId);
-
-                    if (pParent != nullptr)
-                    {
-                        element.zIndex = pParent->zIndex;
-                    }
-
-                    const std::optional<HudLayoutAttachMode> attachTo = parseChildAnchor(anchorNode.as<std::string>());
-
-                    if (!attachTo)
-                    {
-                        return false;
-                    }
-
-                    element.attachTo = *attachTo;
-                    element.gapX = yamlFloatOrDefault(node, "offset_x", 0.0f);
-                    element.gapY = yamlFloatOrDefault(node, "offset_y", 0.0f);
-                }
-
-                const YAML::Node zIndexNode = node["z_index"];
-
-                if (zIndexNode && zIndexNode.IsScalar())
-                {
-                    element.zIndex = zIndexNode.as<int>();
-                }
-
-                element.width = yamlFloatOrDefault(node, "width", 0.0f);
-                element.height = yamlFloatOrDefault(node, "height", 0.0f);
-                element.bottomToId = yamlStringOrEmpty(node, "bottom_to");
-                element.bottomGap = yamlFloatOrDefault(node, "bottom_gap", 0.0f);
-                element.visible = yamlBoolOrDefault(node, "visible", true);
-                element.interactive = yamlBoolOrDefault(node, "interactive", false);
-                element.notes = yamlStringOrEmpty(node, "notes");
-
-                const YAML::Node scaleNode = node["scale"];
-
-                if (scaleNode && scaleNode.IsMap())
-                {
-                    element.hasExplicitScale = true;
-                    element.minScale = yamlFloatOrDefault(scaleNode, "min", 1.0f);
-                    element.maxScale = yamlFloatOrDefault(scaleNode, "max", element.minScale);
-                }
-
-                const YAML::Node assetNode = node["asset"];
-
-                if (assetNode)
-                {
-                    if (assetNode.IsScalar())
-                    {
-                        element.primaryAsset = assetNode.as<std::string>();
-                    }
-                    else if (assetNode.IsMap())
-                    {
-                        element.primaryAsset = yamlStringOrEmpty(assetNode, "default");
-                        element.hoverAsset = yamlStringOrEmpty(assetNode, "highlighted");
-
-                        if (element.hoverAsset.empty())
-                        {
-                            element.hoverAsset = yamlStringOrEmpty(assetNode, "hover");
-                        }
-
-                        element.pressedAsset = yamlStringOrEmpty(assetNode, "pressed");
-                        element.secondaryAsset = yamlStringOrEmpty(assetNode, "selected");
-
-                        element.tertiaryAsset = yamlStringOrEmpty(assetNode, "frame");
-                        element.quaternaryAsset = yamlStringOrEmpty(assetNode, "health_bar");
-                        element.quinaryAsset = yamlStringOrEmpty(assetNode, "mana_bar");
-                    }
-                }
-
-                const YAML::Node textNode = node["text"];
-
-                if (textNode && textNode.IsMap())
-                {
-                    element.fontName = yamlStringOrEmpty(textNode, "font");
-                    element.labelText = yamlStringOrEmpty(textNode, "value");
-                    const std::string textColor = yamlStringOrEmpty(textNode, "color");
-
-                    const std::optional<HudTextAlignX> textAlignX =
-                        parseTextAlignX(yamlStringOrEmpty(textNode, "align_x"));
-                    const std::optional<HudTextAlignY> textAlignY =
-                        parseTextAlignY(yamlStringOrEmpty(textNode, "align_y"));
-
-                    if (!textAlignX || !textAlignY)
-                    {
-                        return false;
-                    }
-
-                    element.textAlignX = *textAlignX;
-                    element.textAlignY = *textAlignY;
-                    element.textScale = yamlFloatOrDefault(textNode, "scale", 1.0f);
-                    element.textPadX = yamlFloatOrDefault(textNode, "pad_x", 0.0f);
-                    element.textPadY = yamlFloatOrDefault(textNode, "pad_y", 0.0f);
-
-                    if (!textColor.empty())
-                    {
-                        const std::string normalizedTextColor = normalizeLayoutToken(textColor);
-                        std::string hexTextColor = toLowerCopy(textColor);
-
-                        hexTextColor.erase(
-                            std::remove_if(
-                                hexTextColor.begin(),
-                                hexTextColor.end(),
-                                [](char character)
-                                {
-                                    return character == ' ' || character == '\t';
-                                }),
-                            hexTextColor.end());
-
-                        if (normalizedTextColor == "white")
-                        {
-                            element.textColorAbgr = makeAbgrColor(255, 255, 255);
-                        }
-                        else if (normalizedTextColor == "easternblue")
-                        {
-                            element.textColorAbgr = makeAbgrColor(21, 153, 233);
-                        }
-                        else if (hexTextColor.size() == 6
-                                 || (hexTextColor.size() == 7 && hexTextColor[0] == '#'))
-                        {
-                            std::string hex = hexTextColor;
-
-                            if (!hex.empty() && hex[0] == '#')
-                            {
-                                hex.erase(hex.begin());
-                            }
-
-                            if (hex.size() == 6)
-                            {
-                                const uint32_t rgb = static_cast<uint32_t>(std::strtoul(hex.c_str(), nullptr, 16));
-                                element.textColorAbgr = makeAbgrColor(
-                                    static_cast<uint8_t>((rgb >> 16) & 0xff),
-                                    static_cast<uint8_t>((rgb >> 8) & 0xff),
-                                    static_cast<uint8_t>(rgb & 0xff));
-                            }
-                            else
-                            {
-                                return false;
-                            }
-                        }
-                        else
-                        {
-                            return false;
-                        }
-                    }
-                }
-
-                m_hudLayoutOrder.push_back(element.id);
-                m_hudLayoutElements[toLowerCopy(element.id)] = element;
-
-                const YAML::Node childrenNode = node["children"];
-
-                if (childrenNode)
-                {
-                    if (!childrenNode.IsSequence())
-                    {
-                        return false;
-                    }
-
-                    for (const YAML::Node &childNode : childrenNode)
-                    {
-                        if (!appendElement(childNode, element.id))
-                        {
-                            return false;
-                        }
-                    }
-                }
-
-                return true;
-            };
-
-        for (const YAML::Node &elementNode : elementsNode)
-        {
-            if (!appendElement(elementNode, ""))
-            {
-                std::cerr << "HUD layout YAML parse failed in " << path << '\n';
-                return false;
-            }
-        }
-
-        return true;
-    }
-    catch (const YAML::Exception &exception)
-    {
-        std::cerr << "HUD layout YAML exception in " << path << ": " << exception.what() << '\n';
-        return false;
-    }
+            return m_uiLayoutManager.loadLayoutFile(assetFileSystem, path);
+        });
 }
 
 const OutdoorGameView::HudLayoutElement *OutdoorGameView::findHudLayoutElement(const std::string &layoutId) const
 {
-    const auto iterator = m_hudLayoutElements.find(toLowerCopy(layoutId));
-
-    if (iterator == m_hudLayoutElements.end())
-    {
-        return nullptr;
-    }
-
-    return &iterator->second;
+    return m_uiLayoutManager.findElement(layoutId);
 }
 
 std::vector<std::string> OutdoorGameView::sortedHudLayoutIdsForScreen(const std::string &screen) const
 {
-    std::vector<std::string> result;
-    const std::string normalizedScreen = toLowerCopy(screen);
-
-    for (const std::string &layoutId : m_hudLayoutOrder)
-    {
-        const HudLayoutElement *pLayout = findHudLayoutElement(layoutId);
-
-        if (pLayout == nullptr || toLowerCopy(pLayout->screen) != normalizedScreen)
-        {
-            continue;
-        }
-
-        result.push_back(layoutId);
-    }
-
-    std::stable_sort(
-        result.begin(),
-        result.end(),
-        [this](const std::string &leftId, const std::string &rightId)
-        {
-            const HudLayoutElement *pLeft = findHudLayoutElement(leftId);
-            const HudLayoutElement *pRight = findHudLayoutElement(rightId);
-
-            if (pLeft == nullptr || pRight == nullptr)
-            {
-                return false;
-            }
-
-            return pLeft->zIndex < pRight->zIndex;
-        });
-
-    return result;
+    return m_uiLayoutManager.sortedLayoutIdsForScreen(screen);
 }
 
 int OutdoorGameView::maxHudLayoutZIndexForScreen(const std::string &screen) const
 {
-    int maxZIndex = defaultHudLayoutZIndexForScreen(screen);
-    const std::string normalizedScreen = toLowerCopy(screen);
-
-    for (const auto &[id, element] : m_hudLayoutElements)
-    {
-        BX_UNUSED(id);
-
-        if (toLowerCopy(element.screen) == normalizedScreen)
-        {
-            maxZIndex = std::max(maxZIndex, element.zIndex);
-        }
-    }
-
-    return maxZIndex;
+    return m_uiLayoutManager.maxZIndexForScreen(screen);
 }
 
 int OutdoorGameView::defaultHudLayoutZIndexForScreen(const std::string &screen)
 {
-    if (toLowerCopy(screen) == "outdoorhud")
-    {
-        return 100;
-    }
-
-    return 0;
+    return UiLayoutManager::defaultZIndexForScreen(screen);
 }
 
 const OutdoorGameView::HudFontHandle *OutdoorGameView::findHudFont(const std::string &fontName) const
@@ -20738,14 +16365,14 @@ std::optional<OutdoorGameView::ResolvedHudLayoutElement> OutdoorGameView::resolv
     }
 
     visited.insert(normalizedLayoutId);
-    const auto iterator = m_hudLayoutElements.find(toLowerCopy(layoutId));
+    const HudLayoutElement *pElement = findHudLayoutElement(layoutId);
 
-    if (iterator == m_hudLayoutElements.end())
+    if (pElement == nullptr)
     {
         return std::nullopt;
     }
 
-    const HudLayoutElement &element = iterator->second;
+    const HudLayoutElement &element = *pElement;
     const UiViewportRect uiViewport = computeUiViewportRect(screenWidth, screenHeight);
     const float baseScale = std::min(
         uiViewport.width / HudReferenceWidth,
@@ -22514,230 +18141,7 @@ void OutdoorGameView::renderDecorationBillboards(
     const bx::Vec3 &cameraPosition
 )
 {
-    if (!m_outdoorDecorationBillboardSet
-        || !bgfx::isValid(m_texturedTerrainProgramHandle)
-        || !bgfx::isValid(m_terrainTextureSamplerHandle))
-    {
-        return;
-    }
-
-    const bx::Vec3 cameraRight = {pViewMatrix[0], pViewMatrix[4], pViewMatrix[8]};
-    const bx::Vec3 cameraUp = {pViewMatrix[1], pViewMatrix[5], pViewMatrix[9]};
-    const float cosPitch = std::cos(m_cameraPitchRadians);
-    const bx::Vec3 cameraForward = {
-        std::cos(m_cameraYawRadians) * cosPitch,
-        -std::sin(m_cameraYawRadians) * cosPitch,
-        std::sin(m_cameraPitchRadians)
-    };
-    const uint32_t animationTimeTicks = currentAnimationTicks();
-    const uint64_t actorRenderStartTickCount = SDL_GetTicksNS();
-    uint64_t gatherStageNanoseconds = 0;
-    uint64_t placeholderStageNanoseconds = 0;
-    uint64_t sortStageNanoseconds = 0;
-    uint64_t submitStageNanoseconds = 0;
-    size_t textureGroupCount = 0;
-    size_t ensuredTextureLoadCount = 0;
-    struct BillboardDrawItem
-    {
-        const DecorationBillboard *pBillboard = nullptr;
-        const SpriteFrameEntry *pFrame = nullptr;
-        const BillboardTextureHandle *pTexture = nullptr;
-        bool mirrored = false;
-        float distanceSquared = 0.0f;
-    };
-
-    std::vector<size_t> candidateBillboardIndices;
-    collectDecorationBillboardCandidates(
-        cameraPosition.x - DecorationBillboardRenderDistance,
-        cameraPosition.y - DecorationBillboardRenderDistance,
-        cameraPosition.x + DecorationBillboardRenderDistance,
-        cameraPosition.y + DecorationBillboardRenderDistance,
-        candidateBillboardIndices);
-
-    if (candidateBillboardIndices.empty())
-    {
-        return;
-    }
-
-    std::vector<BillboardDrawItem> drawItems;
-    drawItems.reserve(candidateBillboardIndices.size());
-
-    for (size_t billboardIndex : candidateBillboardIndices)
-    {
-        const DecorationBillboard &billboard = m_outdoorDecorationBillboardSet->billboards[billboardIndex];
-
-        if (isInteractiveDecorationHidden(billboard.entityIndex))
-        {
-            continue;
-        }
-
-        if (billboard.spriteId == 0)
-        {
-            continue;
-        }
-
-        const float baseX = static_cast<float>(-billboard.x);
-        const float baseY = static_cast<float>(billboard.y);
-        const float baseZ = static_cast<float>(billboard.z);
-        const float deltaX = baseX - cameraPosition.x;
-        const float deltaY = baseY - cameraPosition.y;
-        const float deltaZ = baseZ - cameraPosition.z;
-        const float distanceSquared = deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ;
-
-        if (distanceSquared > DecorationBillboardRenderDistanceSquared)
-        {
-            continue;
-        }
-
-        if (deltaX * cameraForward.x + deltaY * cameraForward.y + deltaZ * cameraForward.z <= BillboardNearDepth)
-        {
-            continue;
-        }
-
-        const uint32_t animationOffsetTicks =
-            animationTimeTicks + static_cast<uint32_t>(std::abs(billboard.x + billboard.y));
-        const SpriteFrameEntry *pFrame =
-            m_outdoorDecorationBillboardSet->spriteFrameTable.getFrame(billboard.spriteId, animationOffsetTicks);
-
-        if (pFrame == nullptr)
-        {
-            continue;
-        }
-
-        const float facingRadians = static_cast<float>(billboard.facing) * Pi / 180.0f;
-        const float angleToCamera = std::atan2(
-            static_cast<float>(-billboard.x) - cameraPosition.x,
-            static_cast<float>(billboard.y) - cameraPosition.y
-        );
-        const float octantAngle = facingRadians - angleToCamera + Pi + (Pi / 8.0f);
-        const int octant = static_cast<int>(std::floor(octantAngle / (Pi / 4.0f))) & 7;
-        const ResolvedSpriteTexture resolvedTexture = SpriteFrameTable::resolveTexture(*pFrame, octant);
-        const BillboardTextureHandle *pTexture = findBillboardTexture(resolvedTexture.textureName);
-
-        if (pTexture == nullptr || !bgfx::isValid(pTexture->textureHandle) || pTexture->width <= 0 || pTexture->height <= 0)
-        {
-            continue;
-        }
-
-        BillboardDrawItem drawItem = {};
-        drawItem.pBillboard = &billboard;
-        drawItem.pFrame = pFrame;
-        drawItem.pTexture = pTexture;
-        drawItem.mirrored = resolvedTexture.mirrored;
-        drawItem.distanceSquared = distanceSquared;
-        drawItems.push_back(drawItem);
-    }
-
-    std::sort(
-        drawItems.begin(),
-        drawItems.end(),
-        [](const BillboardDrawItem &left, const BillboardDrawItem &right)
-        {
-            const uint16_t leftTextureId = left.pTexture != nullptr ? left.pTexture->textureHandle.idx : 0;
-            const uint16_t rightTextureId = right.pTexture != nullptr ? right.pTexture->textureHandle.idx : 0;
-
-            if (leftTextureId != rightTextureId)
-            {
-                return leftTextureId < rightTextureId;
-            }
-
-            return left.distanceSquared > right.distanceSquared;
-        }
-    );
-
-    size_t groupBegin = 0;
-
-    while (groupBegin < drawItems.size())
-    {
-        const BillboardTextureHandle *pTexture = drawItems[groupBegin].pTexture;
-
-        if (pTexture == nullptr || !bgfx::isValid(pTexture->textureHandle))
-        {
-            ++groupBegin;
-            continue;
-        }
-
-        size_t groupEnd = groupBegin + 1;
-
-        while (groupEnd < drawItems.size() && drawItems[groupEnd].pTexture == pTexture)
-        {
-            ++groupEnd;
-        }
-
-        const uint32_t vertexCount = static_cast<uint32_t>((groupEnd - groupBegin) * 6);
-
-        if (bgfx::getAvailTransientVertexBuffer(vertexCount, TexturedTerrainVertex::ms_layout) < vertexCount)
-        {
-            groupBegin = groupEnd;
-            continue;
-        }
-
-        std::vector<TexturedTerrainVertex> vertices;
-        vertices.reserve(static_cast<size_t>(vertexCount));
-
-        for (size_t index = groupBegin; index < groupEnd; ++index)
-        {
-            const BillboardDrawItem &drawItem = drawItems[index];
-            const DecorationBillboard &billboard = *drawItem.pBillboard;
-            const SpriteFrameEntry &frame = *drawItem.pFrame;
-            const float spriteScale = std::max(frame.scale, 0.01f);
-            const float worldWidth = static_cast<float>(pTexture->width) * spriteScale;
-            const float worldHeight = static_cast<float>(pTexture->height) * spriteScale;
-            const float halfWidth = worldWidth * 0.5f;
-            const bx::Vec3 center = {
-                static_cast<float>(-billboard.x),
-                static_cast<float>(billboard.y),
-                static_cast<float>(billboard.z) + worldHeight * 0.5f
-            };
-            const bx::Vec3 right = {
-                cameraRight.x * halfWidth,
-                cameraRight.y * halfWidth,
-                cameraRight.z * halfWidth
-            };
-            const bx::Vec3 up = {
-                cameraUp.x * worldHeight * 0.5f,
-                cameraUp.y * worldHeight * 0.5f,
-                cameraUp.z * worldHeight * 0.5f
-            };
-            const float u0 = drawItem.mirrored ? 1.0f : 0.0f;
-            const float u1 = drawItem.mirrored ? 0.0f : 1.0f;
-
-            vertices.push_back(
-                {center.x - right.x - up.x, center.y - right.y - up.y, center.z - right.z - up.z, u0, 1.0f});
-            vertices.push_back(
-                {center.x - right.x + up.x, center.y - right.y + up.y, center.z - right.z + up.z, u0, 0.0f});
-            vertices.push_back(
-                {center.x + right.x + up.x, center.y + right.y + up.y, center.z + right.z + up.z, u1, 0.0f});
-            vertices.push_back(
-                {center.x - right.x - up.x, center.y - right.y - up.y, center.z - right.z - up.z, u0, 1.0f});
-            vertices.push_back(
-                {center.x + right.x + up.x, center.y + right.y + up.y, center.z + right.z + up.z, u1, 0.0f});
-            vertices.push_back(
-                {center.x + right.x - up.x, center.y + right.y - up.y, center.z + right.z - up.z, u1, 1.0f});
-        }
-
-        bgfx::TransientVertexBuffer transientVertexBuffer = {};
-        bgfx::allocTransientVertexBuffer(
-            &transientVertexBuffer,
-            vertexCount,
-            TexturedTerrainVertex::ms_layout
-        );
-        std::memcpy(
-            transientVertexBuffer.data,
-            vertices.data(),
-            static_cast<size_t>(vertices.size() * sizeof(TexturedTerrainVertex))
-        );
-
-        float modelMatrix[16] = {};
-        bx::mtxIdentity(modelMatrix);
-        bgfx::setTransform(modelMatrix);
-        bgfx::setVertexBuffer(0, &transientVertexBuffer, 0, vertexCount);
-        bgfx::setTexture(0, m_terrainTextureSamplerHandle, pTexture->textureHandle);
-        bgfx::setState(BillboardAlphaRenderState);
-        bgfx::submit(viewId, m_texturedTerrainProgramHandle);
-
-        groupBegin = groupEnd;
-    }
+    OutdoorBillboardRenderer::renderDecorationBillboards(*this, viewId, viewWidth, viewHeight, pViewMatrix, cameraPosition);
 }
 
 void OutdoorGameView::renderActorPreviewBillboards(
@@ -22746,472 +18150,7 @@ void OutdoorGameView::renderActorPreviewBillboards(
     const bx::Vec3 &cameraPosition
 )
 {
-    if (!m_outdoorActorPreviewBillboardSet && !m_outdoorDecorationBillboardSet)
-    {
-        return;
-    }
-
-    const bx::Vec3 cameraRight = {pViewMatrix[0], pViewMatrix[4], pViewMatrix[8]};
-    const bx::Vec3 cameraUp = {pViewMatrix[1], pViewMatrix[5], pViewMatrix[9]};
-    const float cosPitch = std::cos(m_cameraPitchRadians);
-    const bx::Vec3 cameraForward = {
-        std::cos(m_cameraYawRadians) * cosPitch,
-        -std::sin(m_cameraYawRadians) * cosPitch,
-        std::sin(m_cameraPitchRadians)
-    };
-    const uint32_t animationTimeTicks = currentAnimationTicks();
-    const uint64_t actorRenderStartTickCount = SDL_GetTicksNS();
-    uint64_t gatherStageNanoseconds = 0;
-    uint64_t placeholderStageNanoseconds = 0;
-    uint64_t sortStageNanoseconds = 0;
-    uint64_t submitStageNanoseconds = 0;
-    size_t textureGroupCount = 0;
-    size_t ensuredTextureLoadCount = 0;
-
-    struct BillboardDrawItem
-    {
-        const SpriteFrameEntry *pFrame = nullptr;
-        const BillboardTextureHandle *pTexture = nullptr;
-        bool mirrored = false;
-        float x = 0.0f;
-        float y = 0.0f;
-        float z = 0.0f;
-        float heightScale = 1.0f;
-        float distanceSquared = 0.0f;
-        float cameraDepth = 0.0f;
-    };
-
-    std::vector<BillboardDrawItem> drawItems;
-    if (m_outdoorActorPreviewBillboardSet)
-    {
-        drawItems.reserve(m_outdoorActorPreviewBillboardSet->billboards.size());
-    }
-    else if (m_outdoorDecorationBillboardSet)
-    {
-        drawItems.reserve(m_outdoorDecorationBillboardSet->billboards.size());
-    }
-
-    std::vector<TerrainVertex> placeholderVertices;
-    if (m_outdoorActorPreviewBillboardSet)
-    {
-        placeholderVertices.reserve(m_outdoorActorPreviewBillboardSet->billboards.size() * 6);
-    }
-    std::vector<bool> coveredRuntimeActors;
-
-    if (m_pOutdoorWorldRuntime != nullptr)
-    {
-        coveredRuntimeActors.assign(m_pOutdoorWorldRuntime->mapActorCount(), false);
-    }
-
-    auto appendActorDrawItem =
-        [&](const OutdoorWorldRuntime::MapActorState *pRuntimeActor,
-            int actorX,
-            int actorY,
-            int actorZ,
-            uint16_t actorRadius,
-            uint16_t actorHeight,
-            uint16_t sourceBillboardHeight,
-            uint16_t spriteFrameIndex,
-            const std::array<uint16_t, 8> &actionSpriteFrameIndices,
-            bool useStaticFrame)
-        {
-            if (pRuntimeActor != nullptr && pRuntimeActor->isInvisible)
-            {
-                return;
-            }
-
-            const float deltaX = static_cast<float>(actorX) - cameraPosition.x;
-            const float deltaY = static_cast<float>(actorY) - cameraPosition.y;
-            const float deltaZ = static_cast<float>(actorZ) - cameraPosition.z;
-            const float distanceSquared = deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ;
-
-            if (distanceSquared > ActorBillboardRenderDistanceSquared)
-            {
-                return;
-            }
-
-            if (deltaX * cameraForward.x + deltaY * cameraForward.y + deltaZ * cameraForward.z <= BillboardNearDepth)
-            {
-                return;
-            }
-
-            uint32_t frameTimeTicks = useStaticFrame ? 0U : animationTimeTicks;
-
-            if (pRuntimeActor != nullptr)
-            {
-                const size_t animationIndex = static_cast<size_t>(pRuntimeActor->animation);
-
-                if (animationIndex < actionSpriteFrameIndices.size() && actionSpriteFrameIndices[animationIndex] != 0)
-                {
-                    spriteFrameIndex = actionSpriteFrameIndices[animationIndex];
-                }
-
-                frameTimeTicks = static_cast<uint32_t>(std::max(0.0f, pRuntimeActor->animationTimeTicks));
-            }
-
-            const SpriteFrameEntry *pFrame =
-                m_outdoorActorPreviewBillboardSet->spriteFrameTable.getFrame(spriteFrameIndex, frameTimeTicks);
-
-            if (pFrame == nullptr)
-            {
-                const float markerHalfSize =
-                    std::max(48.0f, static_cast<float>(std::max(actorRadius, static_cast<uint16_t>(48))));
-                const float baseX = static_cast<float>(actorX);
-                const float baseY = static_cast<float>(actorY);
-                const float baseZ = static_cast<float>(actorZ) + 96.0f;
-                const uint32_t markerColor = 0xff3030ff;
-
-                placeholderVertices.push_back({baseX - markerHalfSize, baseY, baseZ - markerHalfSize, markerColor});
-                placeholderVertices.push_back({baseX + markerHalfSize, baseY, baseZ + markerHalfSize, markerColor});
-                placeholderVertices.push_back({baseX + markerHalfSize, baseY, baseZ - markerHalfSize, markerColor});
-                placeholderVertices.push_back({baseX - markerHalfSize, baseY, baseZ + markerHalfSize, markerColor});
-                placeholderVertices.push_back({baseX, baseY - markerHalfSize, baseZ, markerColor});
-                placeholderVertices.push_back({baseX, baseY + markerHalfSize, baseZ, markerColor});
-                return;
-            }
-
-            const float angleToCamera = std::atan2(
-                static_cast<float>(actorX) - cameraPosition.x,
-                static_cast<float>(actorY) - cameraPosition.y);
-            const float actorYaw = pRuntimeActor != nullptr ? ((Pi * 0.5f) - pRuntimeActor->yawRadians) : 0.0f;
-            const float octantAngle = actorYaw - angleToCamera + Pi + (Pi / 8.0f);
-            const int octant = static_cast<int>(std::floor(octantAngle / (Pi / 4.0f))) & 7;
-            const ResolvedSpriteTexture resolvedTexture = SpriteFrameTable::resolveTexture(*pFrame, octant);
-            const BillboardTextureHandle *pExistingTexture =
-                findBillboardTexture(resolvedTexture.textureName, pFrame->paletteId);
-            const BillboardTextureHandle *pTexture =
-                pExistingTexture != nullptr
-                    ? pExistingTexture
-                    : ensureSpriteBillboardTexture(resolvedTexture.textureName, pFrame->paletteId);
-
-            if (pExistingTexture == nullptr && pTexture != nullptr)
-            {
-                ++ensuredTextureLoadCount;
-            }
-
-            if (pTexture == nullptr || !bgfx::isValid(pTexture->textureHandle))
-            {
-                const float markerHalfSize =
-                    std::max(48.0f, static_cast<float>(std::max(actorRadius, static_cast<uint16_t>(48))));
-                const float baseX = static_cast<float>(actorX);
-                const float baseY = static_cast<float>(actorY);
-                const float baseZ = static_cast<float>(actorZ) + 96.0f;
-                const uint32_t markerColor = 0xff3030ff;
-
-                placeholderVertices.push_back({baseX - markerHalfSize, baseY, baseZ - markerHalfSize, markerColor});
-                placeholderVertices.push_back({baseX + markerHalfSize, baseY, baseZ + markerHalfSize, markerColor});
-                placeholderVertices.push_back({baseX + markerHalfSize, baseY, baseZ - markerHalfSize, markerColor});
-                placeholderVertices.push_back({baseX - markerHalfSize, baseY, baseZ + markerHalfSize, markerColor});
-                placeholderVertices.push_back({baseX, baseY - markerHalfSize, baseZ, markerColor});
-                placeholderVertices.push_back({baseX, baseY + markerHalfSize, baseZ, markerColor});
-                return;
-            }
-
-            BillboardDrawItem drawItem = {};
-            drawItem.pFrame = pFrame;
-            drawItem.pTexture = pTexture;
-            drawItem.mirrored = resolvedTexture.mirrored;
-            drawItem.x = static_cast<float>(actorX);
-            drawItem.y = static_cast<float>(actorY);
-            drawItem.z = static_cast<float>(actorZ);
-            drawItem.heightScale =
-                pRuntimeActor != nullptr && sourceBillboardHeight > 0
-                    ? static_cast<float>(actorHeight) / static_cast<float>(sourceBillboardHeight)
-                    : 1.0f;
-            drawItem.distanceSquared = distanceSquared;
-            drawItem.cameraDepth = deltaX * cameraForward.x + deltaY * cameraForward.y + deltaZ * cameraForward.z;
-            drawItems.push_back(drawItem);
-        };
-
-    if (m_showDecorationBillboards && m_outdoorDecorationBillboardSet)
-    {
-        for (const DecorationBillboard &billboard : m_outdoorDecorationBillboardSet->billboards)
-        {
-            if (isInteractiveDecorationHidden(billboard.entityIndex))
-            {
-                continue;
-            }
-
-            const float deltaX = static_cast<float>(-billboard.x) - cameraPosition.x;
-            const float deltaY = static_cast<float>(billboard.y) - cameraPosition.y;
-            const float deltaZ = static_cast<float>(billboard.z) - cameraPosition.z;
-            const float distanceSquared = deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ;
-            const float cameraDepth = deltaX * cameraForward.x + deltaY * cameraForward.y + deltaZ * cameraForward.z;
-
-            if (distanceSquared > DecorationBillboardRenderDistanceSquared || cameraDepth <= BillboardNearDepth)
-            {
-                continue;
-            }
-
-            const uint32_t animationOffsetTicks =
-                animationTimeTicks + static_cast<uint32_t>(std::abs(billboard.x + billboard.y));
-            const SpriteFrameEntry *pFrame =
-                m_outdoorDecorationBillboardSet->spriteFrameTable.getFrame(billboard.spriteId, animationOffsetTicks);
-
-            if (pFrame == nullptr)
-            {
-                continue;
-            }
-
-            const float facingRadians = static_cast<float>(billboard.facing) * Pi / 180.0f;
-            const float angleToCamera = std::atan2(
-                static_cast<float>(-billboard.x) - cameraPosition.x,
-                static_cast<float>(billboard.y) - cameraPosition.y
-            );
-            const float octantAngle = facingRadians - angleToCamera + Pi + (Pi / 8.0f);
-            const int octant = static_cast<int>(std::floor(octantAngle / (Pi / 4.0f))) & 7;
-            const ResolvedSpriteTexture resolvedTexture = SpriteFrameTable::resolveTexture(*pFrame, octant);
-            const BillboardTextureHandle *pTexture = findBillboardTexture(resolvedTexture.textureName);
-
-            if (pTexture == nullptr || !bgfx::isValid(pTexture->textureHandle))
-            {
-                continue;
-            }
-
-            BillboardDrawItem drawItem = {};
-            drawItem.pFrame = pFrame;
-            drawItem.pTexture = pTexture;
-            drawItem.mirrored = resolvedTexture.mirrored;
-            drawItem.x = static_cast<float>(-billboard.x);
-            drawItem.y = static_cast<float>(billboard.y);
-            drawItem.z = static_cast<float>(billboard.z);
-            drawItem.heightScale = 1.0f;
-            drawItem.distanceSquared = distanceSquared;
-            drawItem.cameraDepth = cameraDepth;
-            drawItems.push_back(drawItem);
-        }
-    }
-
-    if (m_showActors && m_outdoorActorPreviewBillboardSet)
-    {
-        for (size_t billboardIndex = 0; billboardIndex < m_outdoorActorPreviewBillboardSet->billboards.size(); ++billboardIndex)
-        {
-            const ActorPreviewBillboard &billboard = m_outdoorActorPreviewBillboardSet->billboards[billboardIndex];
-
-            if (billboard.source != ActorPreviewSource::Companion)
-            {
-                continue;
-            }
-
-            const OutdoorWorldRuntime::MapActorState *pRuntimeActor = runtimeActorStateForBillboard(billboard);
-
-            const int actorX = pRuntimeActor != nullptr ? pRuntimeActor->x : -billboard.x;
-            const int actorY = pRuntimeActor != nullptr ? pRuntimeActor->y : billboard.y;
-            const int actorZ = pRuntimeActor != nullptr ? pRuntimeActor->z : billboard.z;
-            const uint16_t actorRadius = pRuntimeActor != nullptr ? pRuntimeActor->radius : billboard.radius;
-            const uint16_t actorHeight = pRuntimeActor != nullptr ? pRuntimeActor->height : billboard.height;
-
-            if (pRuntimeActor != nullptr && billboard.runtimeActorIndex < coveredRuntimeActors.size())
-            {
-                coveredRuntimeActors[billboard.runtimeActorIndex] = true;
-            }
-
-            appendActorDrawItem(
-                pRuntimeActor,
-                actorX,
-                actorY,
-                actorZ,
-                actorRadius,
-                actorHeight,
-                billboard.height,
-                billboard.spriteFrameIndex,
-                billboard.actionSpriteFrameIndices,
-                billboard.useStaticFrame);
-        }
-    }
-
-    if (m_showActors && m_pOutdoorWorldRuntime != nullptr)
-    {
-        for (size_t actorIndex = 0; actorIndex < m_pOutdoorWorldRuntime->mapActorCount(); ++actorIndex)
-        {
-            if (actorIndex < coveredRuntimeActors.size() && coveredRuntimeActors[actorIndex])
-            {
-                continue;
-            }
-
-            const OutdoorWorldRuntime::MapActorState *pRuntimeActor = m_pOutdoorWorldRuntime->mapActorState(actorIndex);
-
-            if (pRuntimeActor == nullptr)
-            {
-                continue;
-            }
-
-            appendActorDrawItem(
-                pRuntimeActor,
-                pRuntimeActor->x,
-                pRuntimeActor->y,
-                pRuntimeActor->z,
-                pRuntimeActor->radius,
-                pRuntimeActor->height,
-                pRuntimeActor->height,
-                pRuntimeActor->spriteFrameIndex,
-                pRuntimeActor->actionSpriteFrameIndices,
-                pRuntimeActor->useStaticSpriteFrame);
-        }
-    }
-
-    gatherStageNanoseconds += SDL_GetTicksNS() - actorRenderStartTickCount;
-
-    if (!placeholderVertices.empty())
-    {
-        const uint64_t placeholderStageStartTickCount = SDL_GetTicksNS();
-
-        if (bgfx::getAvailTransientVertexBuffer(
-                static_cast<uint32_t>(placeholderVertices.size()),
-                TerrainVertex::ms_layout) >= placeholderVertices.size())
-        {
-            bgfx::TransientVertexBuffer transientVertexBuffer = {};
-            bgfx::allocTransientVertexBuffer(
-                &transientVertexBuffer,
-                static_cast<uint32_t>(placeholderVertices.size()),
-                TerrainVertex::ms_layout
-            );
-            std::memcpy(
-                transientVertexBuffer.data,
-                placeholderVertices.data(),
-                static_cast<size_t>(placeholderVertices.size() * sizeof(TerrainVertex))
-            );
-
-            float modelMatrix[16] = {};
-            bx::mtxIdentity(modelMatrix);
-            bgfx::setTransform(modelMatrix);
-            bgfx::setVertexBuffer(0, &transientVertexBuffer, 0, static_cast<uint32_t>(placeholderVertices.size()));
-            bgfx::setState(
-                BGFX_STATE_WRITE_RGB
-                | BGFX_STATE_WRITE_Z
-                | BGFX_STATE_PT_LINES
-                | BGFX_STATE_LINEAA
-                | BGFX_STATE_DEPTH_TEST_LEQUAL
-            );
-            bgfx::submit(viewId, m_programHandle);
-        }
-
-        placeholderStageNanoseconds += SDL_GetTicksNS() - placeholderStageStartTickCount;
-    }
-
-    if (!bgfx::isValid(m_texturedTerrainProgramHandle) || !bgfx::isValid(m_terrainTextureSamplerHandle))
-    {
-        const uint64_t totalActorRenderNanoseconds = SDL_GetTicksNS() - actorRenderStartTickCount;
-
-        if (DebugActorRenderHitchLogging && totalActorRenderNanoseconds >= RenderHitchLogThresholdNanoseconds)
-        {
-            std::cout << "Actor render hitch: total_ms="
-                      << static_cast<double>(totalActorRenderNanoseconds) / 1000000.0
-                      << " gather_ms=" << static_cast<double>(gatherStageNanoseconds) / 1000000.0
-                      << " placeholder_ms=" << static_cast<double>(placeholderStageNanoseconds) / 1000000.0
-                      << " sort_ms=" << static_cast<double>(sortStageNanoseconds) / 1000000.0
-                      << " submit_ms=" << static_cast<double>(submitStageNanoseconds) / 1000000.0
-                      << " draw_items=" << drawItems.size()
-                      << " placeholder_vertices=" << placeholderVertices.size()
-                      << " texture_groups=" << textureGroupCount
-                      << " ensured_loads=" << ensuredTextureLoadCount
-                      << '\n';
-        }
-
-        return;
-    }
-
-    const uint64_t sortStageStartTickCount = SDL_GetTicksNS();
-    std::sort(
-        drawItems.begin(),
-        drawItems.end(),
-        [](const BillboardDrawItem &left, const BillboardDrawItem &right)
-        {
-            if (left.cameraDepth != right.cameraDepth)
-            {
-                return left.cameraDepth > right.cameraDepth;
-            }
-
-            return left.distanceSquared > right.distanceSquared;
-        }
-    );
-    sortStageNanoseconds += SDL_GetTicksNS() - sortStageStartTickCount;
-
-    const uint32_t vertexCount = 6;
-
-    for (const BillboardDrawItem &drawItem : drawItems)
-    {
-        const BillboardTextureHandle *pTexture = drawItem.pTexture;
-
-        if (pTexture == nullptr || !bgfx::isValid(pTexture->textureHandle))
-        {
-            continue;
-        }
-
-        if (bgfx::getAvailTransientVertexBuffer(vertexCount, TexturedTerrainVertex::ms_layout) < vertexCount)
-        {
-            continue;
-        }
-
-        ++textureGroupCount;
-
-        const uint64_t submitStageStartTickCount = SDL_GetTicksNS();
-        const SpriteFrameEntry &frame = *drawItem.pFrame;
-        const float spriteScale = std::max(frame.scale * drawItem.heightScale, 0.01f);
-        const float worldWidth = static_cast<float>(pTexture->width) * spriteScale;
-        const float worldHeight = static_cast<float>(pTexture->height) * spriteScale;
-        const float halfWidth = worldWidth * 0.5f;
-        const bx::Vec3 center = {
-            drawItem.x,
-            drawItem.y,
-            drawItem.z + worldHeight * 0.5f
-        };
-        const bx::Vec3 right = {
-            cameraRight.x * halfWidth,
-            cameraRight.y * halfWidth,
-            cameraRight.z * halfWidth
-        };
-        const bx::Vec3 up = {
-            cameraUp.x * worldHeight * 0.5f,
-            cameraUp.y * worldHeight * 0.5f,
-            cameraUp.z * worldHeight * 0.5f
-        };
-        const float u0 = drawItem.mirrored ? 1.0f : 0.0f;
-        const float u1 = drawItem.mirrored ? 0.0f : 1.0f;
-
-        const std::array<TexturedTerrainVertex, 6> vertices = {{
-            {center.x - right.x - up.x, center.y - right.y - up.y, center.z - right.z - up.z, u0, 1.0f},
-            {center.x - right.x + up.x, center.y - right.y + up.y, center.z - right.z + up.z, u0, 0.0f},
-            {center.x + right.x + up.x, center.y + right.y + up.y, center.z + right.z + up.z, u1, 0.0f},
-            {center.x - right.x - up.x, center.y - right.y - up.y, center.z - right.z - up.z, u0, 1.0f},
-            {center.x + right.x + up.x, center.y + right.y + up.y, center.z + right.z + up.z, u1, 0.0f},
-            {center.x + right.x - up.x, center.y + right.y - up.y, center.z + right.z - up.z, u1, 1.0f}
-        }};
-
-        bgfx::TransientVertexBuffer transientVertexBuffer = {};
-        bgfx::allocTransientVertexBuffer(&transientVertexBuffer, vertexCount, TexturedTerrainVertex::ms_layout);
-        std::memcpy(
-            transientVertexBuffer.data,
-            vertices.data(),
-            static_cast<size_t>(vertices.size() * sizeof(TexturedTerrainVertex))
-        );
-
-        float modelMatrix[16] = {};
-        bx::mtxIdentity(modelMatrix);
-        bgfx::setTransform(modelMatrix);
-        bgfx::setVertexBuffer(0, &transientVertexBuffer, 0, vertexCount);
-        bgfx::setTexture(0, m_terrainTextureSamplerHandle, pTexture->textureHandle);
-        bgfx::setState(BillboardAlphaRenderState);
-        bgfx::submit(viewId, m_texturedTerrainProgramHandle);
-        submitStageNanoseconds += SDL_GetTicksNS() - submitStageStartTickCount;
-    }
-
-    const uint64_t totalActorRenderNanoseconds = SDL_GetTicksNS() - actorRenderStartTickCount;
-
-    if (DebugActorRenderHitchLogging && totalActorRenderNanoseconds >= RenderHitchLogThresholdNanoseconds)
-    {
-        std::cout << "Actor render hitch: total_ms="
-                  << static_cast<double>(totalActorRenderNanoseconds) / 1000000.0
-                  << " gather_ms=" << static_cast<double>(gatherStageNanoseconds) / 1000000.0
-                  << " placeholder_ms=" << static_cast<double>(placeholderStageNanoseconds) / 1000000.0
-                  << " sort_ms=" << static_cast<double>(sortStageNanoseconds) / 1000000.0
-                  << " submit_ms=" << static_cast<double>(submitStageNanoseconds) / 1000000.0
-                  << " draw_items=" << drawItems.size()
-                  << " placeholder_vertices=" << placeholderVertices.size()
-                  << " texture_groups=" << textureGroupCount
-                  << " ensured_loads=" << ensuredTextureLoadCount
-                  << '\n';
-    }
+    OutdoorBillboardRenderer::renderActorPreviewBillboards(*this, viewId, pViewMatrix, cameraPosition);
 }
 
 void OutdoorGameView::renderRuntimeWorldItems(
@@ -23219,174 +18158,7 @@ void OutdoorGameView::renderRuntimeWorldItems(
     const float *pViewMatrix,
     const bx::Vec3 &cameraPosition)
 {
-    if (m_pOutdoorWorldRuntime == nullptr)
-    {
-        return;
-    }
-
-    const SpriteFrameTable *pSpriteFrameTable = nullptr;
-
-    if (m_outdoorSpriteObjectBillboardSet)
-    {
-        pSpriteFrameTable = &m_outdoorSpriteObjectBillboardSet->spriteFrameTable;
-    }
-    else if (m_outdoorActorPreviewBillboardSet)
-    {
-        pSpriteFrameTable = &m_outdoorActorPreviewBillboardSet->spriteFrameTable;
-    }
-
-    if (pSpriteFrameTable == nullptr)
-    {
-        return;
-    }
-
-    const bx::Vec3 cameraRight = {pViewMatrix[0], pViewMatrix[4], pViewMatrix[8]};
-    const bx::Vec3 cameraUp = {pViewMatrix[1], pViewMatrix[5], pViewMatrix[9]};
-
-    struct BillboardDrawItem
-    {
-        const OutdoorWorldRuntime::WorldItemState *pWorldItem = nullptr;
-        const SpriteFrameEntry *pFrame = nullptr;
-        const BillboardTextureHandle *pTexture = nullptr;
-        bool mirrored = false;
-        float distanceSquared = 0.0f;
-    };
-
-    std::vector<BillboardDrawItem> drawItems;
-    drawItems.reserve(m_pOutdoorWorldRuntime->worldItemCount());
-
-    for (size_t worldItemIndex = 0; worldItemIndex < m_pOutdoorWorldRuntime->worldItemCount(); ++worldItemIndex)
-    {
-        const OutdoorWorldRuntime::WorldItemState *pWorldItem =
-            m_pOutdoorWorldRuntime->worldItemState(worldItemIndex);
-
-        if (pWorldItem == nullptr)
-        {
-            continue;
-        }
-
-        uint16_t spriteFrameIndex = pWorldItem->objectSpriteFrameIndex;
-
-        if (spriteFrameIndex == 0 && !pWorldItem->objectSpriteName.empty())
-        {
-            const std::optional<uint16_t> spriteFrameIndexByName =
-                pSpriteFrameTable->findFrameIndexBySpriteName(pWorldItem->objectSpriteName);
-
-            if (spriteFrameIndexByName)
-            {
-                spriteFrameIndex = *spriteFrameIndexByName;
-            }
-        }
-
-        if (spriteFrameIndex == 0)
-        {
-            spriteFrameIndex = pWorldItem->objectSpriteId;
-        }
-
-        if (spriteFrameIndex == 0)
-        {
-            continue;
-        }
-
-        const SpriteFrameEntry *pFrame =
-            pSpriteFrameTable->getFrame(spriteFrameIndex, pWorldItem->timeSinceCreatedTicks);
-
-        if (pFrame == nullptr)
-        {
-            continue;
-        }
-
-        const ResolvedSpriteTexture resolvedTexture = SpriteFrameTable::resolveTexture(*pFrame, 0);
-        const BillboardTextureHandle *pTexture =
-            ensureSpriteBillboardTexture(resolvedTexture.textureName, pFrame->paletteId);
-
-        if (pTexture == nullptr || !bgfx::isValid(pTexture->textureHandle))
-        {
-            continue;
-        }
-
-        const float deltaX = pWorldItem->x - cameraPosition.x;
-        const float deltaY = pWorldItem->y - cameraPosition.y;
-        const float deltaZ = pWorldItem->z - cameraPosition.z;
-
-        BillboardDrawItem drawItem = {};
-        drawItem.pWorldItem = pWorldItem;
-        drawItem.pFrame = pFrame;
-        drawItem.pTexture = pTexture;
-        drawItem.mirrored = resolvedTexture.mirrored;
-        drawItem.distanceSquared = deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ;
-        drawItems.push_back(drawItem);
-    }
-
-    std::sort(
-        drawItems.begin(),
-        drawItems.end(),
-        [](const BillboardDrawItem &left, const BillboardDrawItem &right)
-        {
-            return left.distanceSquared > right.distanceSquared;
-        }
-    );
-
-    for (const BillboardDrawItem &drawItem : drawItems)
-    {
-        const OutdoorWorldRuntime::WorldItemState &worldItem = *drawItem.pWorldItem;
-        const SpriteFrameEntry &frame = *drawItem.pFrame;
-        const BillboardTextureHandle &texture = *drawItem.pTexture;
-        const float spriteScale = std::max(frame.scale, 0.01f);
-        const float worldWidth = float(texture.width) * spriteScale;
-        const float worldHeight = float(texture.height) * spriteScale;
-        const float halfWidth = worldWidth * 0.5f;
-        const bx::Vec3 center = {
-            worldItem.x,
-            worldItem.y,
-            worldItem.z + worldHeight * 0.5f
-        };
-        const bx::Vec3 right = {cameraRight.x * halfWidth, cameraRight.y * halfWidth, cameraRight.z * halfWidth};
-        const bx::Vec3 up = {
-            cameraUp.x * worldHeight * 0.5f,
-            cameraUp.y * worldHeight * 0.5f,
-            cameraUp.z * worldHeight * 0.5f
-        };
-        const float u0 = drawItem.mirrored ? 1.0f : 0.0f;
-        const float u1 = drawItem.mirrored ? 0.0f : 1.0f;
-
-        std::array<TexturedTerrainVertex, 6> vertices = {{
-            {center.x - right.x - up.x, center.y - right.y - up.y, center.z - right.z - up.z, u0, 1.0f},
-            {center.x - right.x + up.x, center.y - right.y + up.y, center.z - right.z + up.z, u0, 0.0f},
-            {center.x + right.x + up.x, center.y + right.y + up.y, center.z + right.z + up.z, u1, 0.0f},
-            {center.x - right.x - up.x, center.y - right.y - up.y, center.z - right.z - up.z, u0, 1.0f},
-            {center.x + right.x + up.x, center.y + right.y + up.y, center.z + right.z + up.z, u1, 0.0f},
-            {center.x + right.x - up.x, center.y + right.y - up.y, center.z + right.z - up.z, u1, 1.0f}
-        }};
-
-        if (bgfx::getAvailTransientVertexBuffer(
-                static_cast<uint32_t>(vertices.size()),
-                TexturedTerrainVertex::ms_layout)
-            < vertices.size())
-        {
-            continue;
-        }
-
-        bgfx::TransientVertexBuffer transientVertexBuffer = {};
-        bgfx::allocTransientVertexBuffer(
-            &transientVertexBuffer,
-            static_cast<uint32_t>(vertices.size()),
-            TexturedTerrainVertex::ms_layout
-        );
-        std::memcpy(
-            transientVertexBuffer.data,
-            vertices.data(),
-            static_cast<size_t>(vertices.size() * sizeof(TexturedTerrainVertex))
-        );
-
-        float modelMatrix[16] = {};
-        bx::mtxIdentity(modelMatrix);
-        bgfx::setTransform(modelMatrix);
-        bgfx::setVertexBuffer(0, &transientVertexBuffer, 0, static_cast<uint32_t>(vertices.size()));
-        bgfx::setTexture(0, m_terrainTextureSamplerHandle, texture.textureHandle);
-        bgfx::setState(BillboardAlphaRenderState);
-        bgfx::submit(viewId, m_texturedTerrainProgramHandle);
-    }
+    OutdoorBillboardRenderer::renderRuntimeWorldItems(*this, viewId, pViewMatrix, cameraPosition);
 }
 
 void OutdoorGameView::renderRuntimeProjectiles(
@@ -23394,385 +18166,7 @@ void OutdoorGameView::renderRuntimeProjectiles(
     const float *pViewMatrix,
     const bx::Vec3 &cameraPosition)
 {
-    if (m_pOutdoorWorldRuntime == nullptr)
-    {
-        return;
-    }
-
-    const SpriteFrameTable *pSpriteFrameTable = nullptr;
-
-    if (m_outdoorSpriteObjectBillboardSet)
-    {
-        pSpriteFrameTable = &m_outdoorSpriteObjectBillboardSet->spriteFrameTable;
-    }
-    else if (m_outdoorActorPreviewBillboardSet)
-    {
-        pSpriteFrameTable = &m_outdoorActorPreviewBillboardSet->spriteFrameTable;
-    }
-
-    if (pSpriteFrameTable == nullptr)
-    {
-        return;
-    }
-
-    const bx::Vec3 cameraRight = {pViewMatrix[0], pViewMatrix[4], pViewMatrix[8]};
-    const bx::Vec3 cameraUp = {pViewMatrix[1], pViewMatrix[5], pViewMatrix[9]};
-
-    struct BillboardDrawItem
-    {
-        float x = 0.0f;
-        float y = 0.0f;
-        float z = 0.0f;
-        const SpriteFrameEntry *pFrame = nullptr;
-        const BillboardTextureHandle *pTexture = nullptr;
-        bool mirrored = false;
-        float distanceSquared = 0.0f;
-    };
-
-    std::vector<BillboardDrawItem> drawItems;
-    drawItems.reserve(m_pOutdoorWorldRuntime->projectileCount() + m_pOutdoorWorldRuntime->projectileImpactCount());
-    std::vector<TerrainVertex> trailVertices;
-    trailVertices.reserve(m_pOutdoorWorldRuntime->projectileCount() * 2);
-
-    auto appendRuntimeDrawItem =
-        [&](uint32_t runtimeId,
-            const char *kind,
-            float x,
-            float y,
-            float z,
-            uint16_t cachedSpriteFrameIndex,
-            uint16_t spriteId,
-            const std::string &spriteName,
-            uint32_t timeTicks)
-        {
-            uint16_t spriteFrameIndex = cachedSpriteFrameIndex;
-            const bool shouldLog = DebugProjectileDrawLogging && timeTicks <= 16;
-            const char *pResolutionSource = cachedSpriteFrameIndex != 0 ? "cached" : "none";
-            const float deltaX = x - cameraPosition.x;
-            const float deltaY = y - cameraPosition.y;
-            const float deltaZ = z - cameraPosition.z;
-            const float distanceSquared = deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ;
-
-            if (distanceSquared > RuntimeProjectileRenderDistanceSquared)
-            {
-                return;
-            }
-
-            if (spriteFrameIndex == 0 && !spriteName.empty())
-            {
-                const std::optional<uint16_t> spriteFrameIndexByName =
-                    pSpriteFrameTable->findFrameIndexBySpriteName(spriteName);
-
-                if (spriteFrameIndexByName)
-                {
-                    spriteFrameIndex = *spriteFrameIndexByName;
-                    pResolutionSource = "name";
-                }
-            }
-
-            if (spriteFrameIndex == 0)
-            {
-                spriteFrameIndex = spriteId;
-                pResolutionSource = "id";
-            }
-
-            if (spriteFrameIndex == 0)
-            {
-                if (shouldLog)
-                {
-                    std::cout
-                        << "Projectile draw skipped kind=" << kind
-                        << " id=" << runtimeId
-                        << " sprite=\"" << (spriteName.empty() ? "<none>" : spriteName) << "\""
-                        << " spriteId=" << spriteId
-                        << " reason=no_frame_index"
-                        << '\n';
-                }
-                return;
-            }
-
-            const SpriteFrameEntry *pFrame = pSpriteFrameTable->getFrame(spriteFrameIndex, timeTicks);
-
-            if (pFrame == nullptr)
-            {
-                if (shouldLog)
-                {
-                    std::cout
-                        << "Projectile draw skipped kind=" << kind
-                        << " id=" << runtimeId
-                        << " sprite=\"" << (spriteName.empty() ? "<none>" : spriteName) << "\""
-                        << " spriteId=" << spriteId
-                        << " frameIndex=" << spriteFrameIndex
-                        << " source=" << pResolutionSource
-                        << " reason=frame_missing"
-                        << '\n';
-                }
-                return;
-            }
-
-            const ResolvedSpriteTexture resolvedTexture = SpriteFrameTable::resolveTexture(*pFrame, 0);
-            const BillboardTextureHandle *pTexture =
-                ensureSpriteBillboardTexture(resolvedTexture.textureName, pFrame->paletteId);
-
-            if (pTexture == nullptr || !bgfx::isValid(pTexture->textureHandle))
-            {
-                if (shouldLog)
-                {
-                    std::cout
-                        << "Projectile draw skipped kind=" << kind
-                        << " id=" << runtimeId
-                        << " sprite=\"" << (spriteName.empty() ? "<none>" : spriteName) << "\""
-                        << " spriteId=" << spriteId
-                        << " frameIndex=" << spriteFrameIndex
-                        << " source=" << pResolutionSource
-                        << " texture=\"" << resolvedTexture.textureName << "\""
-                        << " palette=" << pFrame->paletteId
-                        << " reason=texture_missing"
-                        << '\n';
-                }
-                return;
-            }
-
-            const float spriteScale = std::max(pFrame->scale, 0.01f);
-            const float worldWidth = static_cast<float>(pTexture->width) * spriteScale;
-            const float worldHeight = static_cast<float>(pTexture->height) * spriteScale;
-
-            if (shouldLog)
-            {
-                std::cout
-                    << "Projectile draw kind=" << kind
-                    << " id=" << runtimeId
-                    << " sprite=\"" << (spriteName.empty() ? "<none>" : spriteName) << "\""
-                    << " spriteId=" << spriteId
-                    << " frameIndex=" << spriteFrameIndex
-                    << " source=" << pResolutionSource
-                    << " texture=\"" << resolvedTexture.textureName << "\""
-                    << " palette=" << pFrame->paletteId
-                    << " texSize=(" << pTexture->width << ", " << pTexture->height << ")"
-                    << " scale=" << spriteScale
-                    << " worldSize=(" << worldWidth << ", " << worldHeight << ")"
-                    << " pos=(" << x << ", " << y << ", " << z << ")"
-                    << " ageTicks=" << timeTicks
-                    << '\n';
-            }
-
-            BillboardDrawItem drawItem = {};
-            drawItem.x = x;
-            drawItem.y = y;
-            drawItem.z = z;
-            drawItem.pFrame = pFrame;
-            drawItem.pTexture = pTexture;
-            drawItem.mirrored = resolvedTexture.mirrored;
-            drawItem.distanceSquared = distanceSquared;
-            drawItems.push_back(drawItem);
-        };
-
-    for (size_t projectileIndex = 0; projectileIndex < m_pOutdoorWorldRuntime->projectileCount(); ++projectileIndex)
-    {
-        const OutdoorWorldRuntime::ProjectileState *pProjectile =
-            m_pOutdoorWorldRuntime->projectileState(projectileIndex);
-
-        if (pProjectile == nullptr)
-        {
-            continue;
-        }
-
-        const float projectileDeltaX = pProjectile->x - cameraPosition.x;
-        const float projectileDeltaY = pProjectile->y - cameraPosition.y;
-        const float projectileDeltaZ = pProjectile->z - cameraPosition.z;
-        const float projectileDistanceSquared =
-            projectileDeltaX * projectileDeltaX
-            + projectileDeltaY * projectileDeltaY
-            + projectileDeltaZ * projectileDeltaZ;
-
-        if (projectileDistanceSquared <= RuntimeProjectileRenderDistanceSquared)
-        {
-            const bx::Vec3 trailStart = {
-                pProjectile->x,
-                pProjectile->y,
-                pProjectile->z
-            };
-            const bx::Vec3 trailEnd = {
-                pProjectile->x - pProjectile->velocityX * DebugProjectileTrailSeconds,
-                pProjectile->y - pProjectile->velocityY * DebugProjectileTrailSeconds,
-                pProjectile->z - pProjectile->velocityZ * DebugProjectileTrailSeconds
-            };
-            trailVertices.push_back({trailStart.x, trailStart.y, trailStart.z, 0xff40ffffu});
-            trailVertices.push_back({trailEnd.x, trailEnd.y, trailEnd.z, 0xff40ffffu});
-        }
-
-            appendRuntimeDrawItem(
-                pProjectile->projectileId,
-                "projectile",
-                pProjectile->x,
-                pProjectile->y,
-                pProjectile->z,
-                pProjectile->objectSpriteFrameIndex,
-                pProjectile->objectSpriteId,
-                pProjectile->objectSpriteName,
-                pProjectile->timeSinceCreatedTicks);
-    }
-
-    for (size_t effectIndex = 0; effectIndex < m_pOutdoorWorldRuntime->projectileImpactCount(); ++effectIndex)
-    {
-        const OutdoorWorldRuntime::ProjectileImpactState *pEffect =
-            m_pOutdoorWorldRuntime->projectileImpactState(effectIndex);
-
-        if (pEffect == nullptr)
-        {
-            continue;
-        }
-
-            appendRuntimeDrawItem(
-                pEffect->effectId,
-                "impact",
-                pEffect->x,
-                pEffect->y,
-                pEffect->z,
-                pEffect->objectSpriteFrameIndex,
-                pEffect->objectSpriteId,
-                pEffect->objectSpriteName,
-                pEffect->timeSinceCreatedTicks);
-    }
-
-    if (!trailVertices.empty())
-    {
-        if (bgfx::getAvailTransientVertexBuffer(static_cast<uint32_t>(trailVertices.size()), TerrainVertex::ms_layout)
-            >= trailVertices.size())
-        {
-            bgfx::TransientVertexBuffer transientVertexBuffer = {};
-            bgfx::allocTransientVertexBuffer(
-                &transientVertexBuffer,
-                static_cast<uint32_t>(trailVertices.size()),
-                TerrainVertex::ms_layout
-            );
-            std::memcpy(
-                transientVertexBuffer.data,
-                trailVertices.data(),
-                static_cast<size_t>(trailVertices.size() * sizeof(TerrainVertex))
-            );
-
-            float modelMatrix[16] = {};
-            bx::mtxIdentity(modelMatrix);
-            bgfx::setTransform(modelMatrix);
-            bgfx::setVertexBuffer(0, &transientVertexBuffer, 0, static_cast<uint32_t>(trailVertices.size()));
-            bgfx::setState(
-                BGFX_STATE_WRITE_RGB
-                | BGFX_STATE_WRITE_A
-                | BGFX_STATE_WRITE_Z
-                | BGFX_STATE_DEPTH_TEST_LEQUAL
-                | BGFX_STATE_PT_LINES
-                | BGFX_STATE_LINEAA
-            );
-            bgfx::submit(viewId, m_programHandle);
-        }
-    }
-
-    std::sort(
-        drawItems.begin(),
-        drawItems.end(),
-        [](const BillboardDrawItem &left, const BillboardDrawItem &right)
-        {
-            const uint16_t leftTextureId = left.pTexture != nullptr ? left.pTexture->textureHandle.idx : 0;
-            const uint16_t rightTextureId = right.pTexture != nullptr ? right.pTexture->textureHandle.idx : 0;
-
-            if (leftTextureId != rightTextureId)
-            {
-                return leftTextureId < rightTextureId;
-            }
-
-            return left.distanceSquared > right.distanceSquared;
-        }
-    );
-
-    size_t groupBegin = 0;
-
-    while (groupBegin < drawItems.size())
-    {
-        const BillboardTextureHandle *pTexture = drawItems[groupBegin].pTexture;
-
-        if (pTexture == nullptr || !bgfx::isValid(pTexture->textureHandle))
-        {
-            ++groupBegin;
-            continue;
-        }
-
-        size_t groupEnd = groupBegin + 1;
-
-        while (groupEnd < drawItems.size() && drawItems[groupEnd].pTexture == pTexture)
-        {
-            ++groupEnd;
-        }
-
-        const uint32_t vertexCount = static_cast<uint32_t>((groupEnd - groupBegin) * 6);
-
-        if (bgfx::getAvailTransientVertexBuffer(vertexCount, TexturedTerrainVertex::ms_layout) < vertexCount)
-        {
-            groupBegin = groupEnd;
-            continue;
-        }
-
-        std::vector<TexturedTerrainVertex> vertices;
-        vertices.reserve(static_cast<size_t>(vertexCount));
-
-        for (size_t index = groupBegin; index < groupEnd; ++index)
-        {
-            const BillboardDrawItem &drawItem = drawItems[index];
-            const SpriteFrameEntry &frame = *drawItem.pFrame;
-            const float spriteScale = std::max(frame.scale, 0.01f);
-            const float worldWidth = static_cast<float>(pTexture->width) * spriteScale;
-            const float worldHeight = static_cast<float>(pTexture->height) * spriteScale;
-            const float halfWidth = worldWidth * 0.5f;
-            const bx::Vec3 center = {drawItem.x, drawItem.y, drawItem.z + worldHeight * 0.5f};
-            const bx::Vec3 right = {
-                cameraRight.x * halfWidth,
-                cameraRight.y * halfWidth,
-                cameraRight.z * halfWidth
-            };
-            const bx::Vec3 up = {
-                cameraUp.x * worldHeight * 0.5f,
-                cameraUp.y * worldHeight * 0.5f,
-                cameraUp.z * worldHeight * 0.5f
-            };
-            const float u0 = drawItem.mirrored ? 1.0f : 0.0f;
-            const float u1 = drawItem.mirrored ? 0.0f : 1.0f;
-
-            vertices.push_back(
-                {center.x - right.x - up.x, center.y - right.y - up.y, center.z - right.z - up.z, u0, 1.0f});
-            vertices.push_back(
-                {center.x - right.x + up.x, center.y - right.y + up.y, center.z - right.z + up.z, u0, 0.0f});
-            vertices.push_back(
-                {center.x + right.x + up.x, center.y + right.y + up.y, center.z + right.z + up.z, u1, 0.0f});
-            vertices.push_back(
-                {center.x - right.x - up.x, center.y - right.y - up.y, center.z - right.z - up.z, u0, 1.0f});
-            vertices.push_back(
-                {center.x + right.x + up.x, center.y + right.y + up.y, center.z + right.z + up.z, u1, 0.0f});
-            vertices.push_back(
-                {center.x + right.x - up.x, center.y + right.y - up.y, center.z + right.z - up.z, u1, 1.0f});
-        }
-
-        bgfx::TransientVertexBuffer transientVertexBuffer = {};
-        bgfx::allocTransientVertexBuffer(
-            &transientVertexBuffer,
-            static_cast<uint32_t>(vertices.size()),
-            TexturedTerrainVertex::ms_layout
-        );
-        std::memcpy(
-            transientVertexBuffer.data,
-            vertices.data(),
-            static_cast<size_t>(vertices.size() * sizeof(TexturedTerrainVertex))
-        );
-
-        float modelMatrix[16] = {};
-        bx::mtxIdentity(modelMatrix);
-        bgfx::setTransform(modelMatrix);
-        bgfx::setVertexBuffer(0, &transientVertexBuffer, 0, static_cast<uint32_t>(vertices.size()));
-        bgfx::setTexture(0, m_terrainTextureSamplerHandle, pTexture->textureHandle);
-        bgfx::setState(BillboardAlphaRenderState);
-        bgfx::submit(viewId, m_texturedTerrainProgramHandle);
-
-        groupBegin = groupEnd;
-    }
+    OutdoorBillboardRenderer::renderRuntimeProjectiles(*this, viewId, pViewMatrix, cameraPosition);
 }
 
 void OutdoorGameView::renderSpriteObjectBillboards(
@@ -23781,123 +18175,7 @@ void OutdoorGameView::renderSpriteObjectBillboards(
     const bx::Vec3 &cameraPosition
 )
 {
-    if (!m_outdoorSpriteObjectBillboardSet)
-    {
-        return;
-    }
-
-    const bx::Vec3 cameraRight = {pViewMatrix[0], pViewMatrix[4], pViewMatrix[8]};
-    const bx::Vec3 cameraUp = {pViewMatrix[1], pViewMatrix[5], pViewMatrix[9]};
-
-    struct BillboardDrawItem
-    {
-        const SpriteObjectBillboard *pBillboard = nullptr;
-        const SpriteFrameEntry *pFrame = nullptr;
-        const BillboardTextureHandle *pTexture = nullptr;
-        bool mirrored = false;
-        float distanceSquared = 0.0f;
-    };
-
-    std::vector<BillboardDrawItem> drawItems;
-    drawItems.reserve(m_outdoorSpriteObjectBillboardSet->billboards.size());
-
-    for (const SpriteObjectBillboard &billboard : m_outdoorSpriteObjectBillboardSet->billboards)
-    {
-        const SpriteFrameEntry *pFrame =
-            m_outdoorSpriteObjectBillboardSet->spriteFrameTable.getFrame(
-                billboard.objectSpriteId,
-                billboard.timeSinceCreatedTicks
-            );
-
-        if (pFrame == nullptr)
-        {
-            continue;
-        }
-
-        const ResolvedSpriteTexture resolvedTexture = SpriteFrameTable::resolveTexture(*pFrame, 0);
-        const BillboardTextureHandle *pTexture = findBillboardTexture(resolvedTexture.textureName);
-
-        if (pTexture == nullptr || !bgfx::isValid(pTexture->textureHandle))
-        {
-            continue;
-        }
-
-        const float deltaX = float(-billboard.x) - cameraPosition.x;
-        const float deltaY = float(billboard.y) - cameraPosition.y;
-        const float deltaZ = float(billboard.z) - cameraPosition.z;
-
-        BillboardDrawItem drawItem = {};
-        drawItem.pBillboard = &billboard;
-        drawItem.pFrame = pFrame;
-        drawItem.pTexture = pTexture;
-        drawItem.mirrored = resolvedTexture.mirrored;
-        drawItem.distanceSquared = deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ;
-        drawItems.push_back(drawItem);
-    }
-
-    std::sort(
-        drawItems.begin(),
-        drawItems.end(),
-        [](const BillboardDrawItem &left, const BillboardDrawItem &right)
-        {
-            return left.distanceSquared > right.distanceSquared;
-        }
-    );
-
-    for (const BillboardDrawItem &drawItem : drawItems)
-    {
-        const SpriteObjectBillboard &billboard = *drawItem.pBillboard;
-        const SpriteFrameEntry &frame = *drawItem.pFrame;
-        const BillboardTextureHandle &texture = *drawItem.pTexture;
-        const float spriteScale = std::max(frame.scale, 0.01f);
-        const float worldWidth = float(texture.width) * spriteScale;
-        const float worldHeight = float(texture.height) * spriteScale;
-        const float halfWidth = worldWidth * 0.5f;
-        const bx::Vec3 center = {
-            float(-billboard.x),
-            float(billboard.y),
-            float(billboard.z) + worldHeight * 0.5f
-        };
-        const bx::Vec3 right = {cameraRight.x * halfWidth, cameraRight.y * halfWidth, cameraRight.z * halfWidth};
-        const bx::Vec3 up = {cameraUp.x * worldHeight * 0.5f, cameraUp.y * worldHeight * 0.5f, cameraUp.z * worldHeight * 0.5f};
-        const float u0 = drawItem.mirrored ? 1.0f : 0.0f;
-        const float u1 = drawItem.mirrored ? 0.0f : 1.0f;
-
-        std::array<TexturedTerrainVertex, 6> vertices = {{
-            {center.x - right.x - up.x, center.y - right.y - up.y, center.z - right.z - up.z, u0, 1.0f},
-            {center.x - right.x + up.x, center.y - right.y + up.y, center.z - right.z + up.z, u0, 0.0f},
-            {center.x + right.x + up.x, center.y + right.y + up.y, center.z + right.z + up.z, u1, 0.0f},
-            {center.x - right.x - up.x, center.y - right.y - up.y, center.z - right.z - up.z, u0, 1.0f},
-            {center.x + right.x + up.x, center.y + right.y + up.y, center.z + right.z + up.z, u1, 0.0f},
-            {center.x + right.x - up.x, center.y + right.y - up.y, center.z + right.z - up.z, u1, 1.0f}
-        }};
-
-        if (bgfx::getAvailTransientVertexBuffer(static_cast<uint32_t>(vertices.size()), TexturedTerrainVertex::ms_layout)
-            < vertices.size())
-        {
-            continue;
-        }
-
-        bgfx::TransientVertexBuffer transientVertexBuffer = {};
-        bgfx::allocTransientVertexBuffer(
-            &transientVertexBuffer,
-            static_cast<uint32_t>(vertices.size()),
-            TexturedTerrainVertex::ms_layout
-        );
-        std::memcpy(
-            transientVertexBuffer.data,
-            vertices.data(),
-            static_cast<size_t>(vertices.size() * sizeof(TexturedTerrainVertex))
-        );
-
-        float modelMatrix[16] = {};
-        bx::mtxIdentity(modelMatrix);
-        bgfx::setTransform(modelMatrix);
-        bgfx::setVertexBuffer(0, &transientVertexBuffer, 0, static_cast<uint32_t>(vertices.size()));
-        bgfx::setTexture(0, m_terrainTextureSamplerHandle, texture.textureHandle);
-        bgfx::setState(BillboardAlphaRenderState);
-        bgfx::submit(viewId, m_texturedTerrainProgramHandle);
-    }
+    OutdoorBillboardRenderer::renderSpriteObjectBillboards(*this, viewId, pViewMatrix, cameraPosition);
 }
 
 std::vector<OutdoorGameView::TerrainVertex> OutdoorGameView::buildVertices(const OutdoorMapData &outdoorMapData)
@@ -25331,12 +19609,16 @@ bool OutdoorGameView::tryActivateInspectEvent(const InspectHit &inspectHit)
     if (inspectHit.kind == "actor" && inspectHit.npcId > 0)
     {
         faceTalkingActor();
-        EventRuntimeState::PendingDialogueContext context = {};
-        context.kind = DialogueContextKind::NpcTalk;
-        context.sourceId = static_cast<uint32_t>(inspectHit.npcId);
-        pEventRuntimeState->pendingDialogueContext = std::move(context);
+        GameplayDialogController::Context context = createGameplayDialogContext(*pEventRuntimeState);
+        const GameplayDialogController::Result result =
+            m_gameplayDialogController.openNpcDialogue(context, static_cast<uint32_t>(inspectHit.npcId));
         pEventRuntimeState->lastActivationResult = "npc " + std::to_string(inspectHit.npcId) + " engaged";
-        openPendingEventDialog(pEventRuntimeState->messages.size(), true);
+
+        if (result.shouldOpenPendingEventDialog)
+        {
+            openPendingEventDialog(result.previousMessageCount, result.allowNpcFallbackContent);
+        }
+
         std::cout << "Opening direct NPC dialog for npc=" << inspectHit.npcId << '\n';
         return true;
     }
@@ -25362,16 +19644,21 @@ bool OutdoorGameView::tryActivateInspectEvent(const InspectHit &inspectHit)
             }
 
             faceTalkingActor();
-            EventRuntimeState::PendingDialogueContext context = {};
-            context.kind = DialogueContextKind::NpcNews;
-            context.sourceId = resolution->npcId;
-            context.newsId = resolution->newsId;
-            context.titleOverride = inspectHit.name;
-            pEventRuntimeState->pendingDialogueContext = std::move(context);
-            pEventRuntimeState->messages.push_back(*newsText);
+            GameplayDialogController::Context context = createGameplayDialogContext(*pEventRuntimeState);
+            const GameplayDialogController::Result result = m_gameplayDialogController.openNpcNews(
+                context,
+                resolution->npcId,
+                resolution->newsId,
+                inspectHit.name,
+                *newsText);
             pEventRuntimeState->lastActivationResult =
                 "npc news group " + std::to_string(inspectHit.actorGroup) + " engaged";
-            openPendingEventDialog(pEventRuntimeState->messages.size() - 1, true);
+
+            if (result.shouldOpenPendingEventDialog)
+            {
+                openPendingEventDialog(result.previousMessageCount, result.allowNpcFallbackContent);
+            }
+
             std::cout << "Opening generic NPC news for actor group=" << inspectHit.actorGroup
                       << " npc=" << resolution->npcId
                       << " news=" << resolution->newsId << '\n';
@@ -25464,34 +19751,21 @@ bool OutdoorGameView::tryActivateInspectEvent(const InspectHit &inspectHit)
               << " from " << inspectHit.kind
               << " index=" << inspectHit.bModelIndex << '\n';
 
-    const size_t previousMessageCount = pEventRuntimeState->messages.size();
-    pEventRuntimeState->activeDecorationContext = decorationContext;
+    size_t previousMessageCount = 0;
 
-    const bool executed = m_eventRuntime.executeEventById(
-        m_localEventIrProgram,
-        m_globalEventIrProgram,
-        eventId,
-        *pEventRuntimeState,
-        m_pOutdoorPartyRuntime != nullptr ? &m_pOutdoorPartyRuntime->party() : nullptr,
-        m_pOutdoorWorldRuntime
-    );
-    pEventRuntimeState->activeDecorationContext.reset();
+    const bool executed = m_pOutdoorSceneRuntime != nullptr
+        && m_pOutdoorSceneRuntime->executeEventById(
+            m_pOutdoorSceneRuntime->localEventIrProgram(),
+            eventId,
+            decorationContext,
+            previousMessageCount
+        );
 
     if (!executed)
     {
         pEventRuntimeState->lastActivationResult = "event " + std::to_string(eventId) + " unresolved";
         std::cout << "Outdoor event " << eventId << " unresolved\n";
         return false;
-    }
-
-    if (m_pOutdoorWorldRuntime != nullptr)
-    {
-        m_pOutdoorWorldRuntime->applyEventRuntimeState();
-    }
-
-    if (m_pOutdoorPartyRuntime)
-    {
-        m_pOutdoorPartyRuntime->applyEventRuntimeState(*pEventRuntimeState);
     }
 
     for (const std::string &statusMessage : pEventRuntimeState->statusMessages)
@@ -25626,31 +19900,20 @@ bool OutdoorGameView::tryTriggerLocalEventById(uint16_t eventId)
 
     std::cout << "Triggering local outdoor event " << eventId << " from hotkey\n";
 
-    const size_t previousMessageCount = pEventRuntimeState->messages.size();
-    const bool executed = m_eventRuntime.executeEventById(
-        m_localEventIrProgram,
-        m_globalEventIrProgram,
-        eventId,
-        *pEventRuntimeState,
-        m_pOutdoorPartyRuntime != nullptr ? &m_pOutdoorPartyRuntime->party() : nullptr,
-        m_pOutdoorWorldRuntime
-    );
+    size_t previousMessageCount = 0;
+    const bool executed = m_pOutdoorSceneRuntime != nullptr
+        && m_pOutdoorSceneRuntime->executeEventById(
+            m_pOutdoorSceneRuntime->localEventIrProgram(),
+            eventId,
+            std::nullopt,
+            previousMessageCount
+        );
 
     if (!executed)
     {
         pEventRuntimeState->lastActivationResult = "event " + std::to_string(eventId) + " unresolved";
         std::cout << "Outdoor hotkey event " << eventId << " unresolved\n";
         return false;
-    }
-
-    if (m_pOutdoorWorldRuntime != nullptr)
-    {
-        m_pOutdoorWorldRuntime->applyEventRuntimeState();
-    }
-
-    if (m_pOutdoorPartyRuntime != nullptr)
-    {
-        m_pOutdoorPartyRuntime->applyEventRuntimeState(*pEventRuntimeState);
     }
 
     for (const std::string &statusMessage : pEventRuntimeState->statusMessages)
@@ -26105,816 +20368,13 @@ void OutdoorGameView::updateCameraFromInput(float deltaSeconds)
 
     if (isEventDialogActive)
     {
-        if (m_pOutdoorPartyRuntime != nullptr)
-        {
-            static constexpr SDL_Scancode PartySelectScancodes[5] = {
-                SDL_SCANCODE_1,
-                SDL_SCANCODE_2,
-                SDL_SCANCODE_3,
-                SDL_SCANCODE_4,
-                SDL_SCANCODE_5,
-            };
-
-            for (size_t memberIndex = 0; memberIndex < std::size(PartySelectScancodes); ++memberIndex)
-            {
-                if (pKeyboardState[PartySelectScancodes[memberIndex]])
-                {
-                    if (!m_eventDialogPartySelectLatches[memberIndex])
-                    {
-                        trySelectPartyMember(memberIndex, false);
-
-                        m_eventDialogPartySelectLatches[memberIndex] = true;
-                    }
-                }
-                else
-                {
-                    m_eventDialogPartySelectLatches[memberIndex] = false;
-                }
-            }
-        }
-        else
-        {
-            m_eventDialogPartySelectLatches.fill(false);
-        }
-
-        if (m_houseBankState.inputActive())
-        {
-            static constexpr SDL_Scancode DigitScancodes[10] = {
-                SDL_SCANCODE_0,
-                SDL_SCANCODE_1,
-                SDL_SCANCODE_2,
-                SDL_SCANCODE_3,
-                SDL_SCANCODE_4,
-                SDL_SCANCODE_5,
-                SDL_SCANCODE_6,
-                SDL_SCANCODE_7,
-                SDL_SCANCODE_8,
-                SDL_SCANCODE_9,
-            };
-            static constexpr SDL_Scancode KeypadDigitScancodes[10] = {
-                SDL_SCANCODE_KP_0,
-                SDL_SCANCODE_KP_1,
-                SDL_SCANCODE_KP_2,
-                SDL_SCANCODE_KP_3,
-                SDL_SCANCODE_KP_4,
-                SDL_SCANCODE_KP_5,
-                SDL_SCANCODE_KP_6,
-                SDL_SCANCODE_KP_7,
-                SDL_SCANCODE_KP_8,
-                SDL_SCANCODE_KP_9,
-            };
-
-            for (size_t digit = 0; digit < m_houseBankDigitLatches.size(); ++digit)
-            {
-                const bool pressed = pKeyboardState[DigitScancodes[digit]] || pKeyboardState[KeypadDigitScancodes[digit]];
-
-                if (pressed)
-                {
-                    if (!m_houseBankDigitLatches[digit] && m_houseBankState.inputText.size() < 10)
-                    {
-                        m_houseBankState.inputText.push_back(static_cast<char>('0' + digit));
-                    }
-
-                    m_houseBankDigitLatches[digit] = true;
-                }
-                else
-                {
-                    m_houseBankDigitLatches[digit] = false;
-                }
-            }
-
-            const bool backspacePressed = pKeyboardState[SDL_SCANCODE_BACKSPACE];
-
-            if (backspacePressed)
-            {
-                if (!m_houseBankBackspaceLatch && !m_houseBankState.inputText.empty())
-                {
-                    m_houseBankState.inputText.pop_back();
-                }
-
-                m_houseBankBackspaceLatch = true;
-            }
-            else
-            {
-                m_houseBankBackspaceLatch = false;
-            }
-
-            const bool confirmPressed = pKeyboardState[SDL_SCANCODE_RETURN] || pKeyboardState[SDL_SCANCODE_KP_ENTER];
-
-            if (confirmPressed)
-            {
-                if (!m_houseBankConfirmLatch)
-                {
-                    confirmHouseBankInput();
-                    m_houseBankConfirmLatch = true;
-                }
-            }
-            else
-            {
-                m_houseBankConfirmLatch = false;
-            }
-
-            refreshHouseBankInputDialog();
-
-            float dialogMouseX = 0.0f;
-            float dialogMouseY = 0.0f;
-            const SDL_MouseButtonFlags dialogMouseButtons = SDL_GetMouseState(&dialogMouseX, &dialogMouseY);
-            const bool isLeftMousePressed = (dialogMouseButtons & SDL_BUTTON_LMASK) != 0;
-            const HudPointerState pointerState = {
-                dialogMouseX,
-                dialogMouseY,
-                isLeftMousePressed
-            };
-            const DialoguePointerTarget noneDialogueTarget = {};
-            const auto findDialogueCloseTarget =
-                [this, screenWidth, screenHeight](float mouseX, float mouseY) -> DialoguePointerTarget
-                {
-                    const HudLayoutElement *pGoodbyeLayout = findHudLayoutElement("DialogueGoodbyeButton");
-                    const std::optional<ResolvedHudLayoutElement> resolvedGoodbye = pGoodbyeLayout != nullptr
-                        ? resolveHudLayoutElement(
-                            "DialogueGoodbyeButton",
-                            screenWidth,
-                            screenHeight,
-                            pGoodbyeLayout->width,
-                            pGoodbyeLayout->height)
-                        : std::nullopt;
-
-                    if (resolvedGoodbye
-                        && mouseX >= resolvedGoodbye->x
-                        && mouseX < resolvedGoodbye->x + resolvedGoodbye->width
-                        && mouseY >= resolvedGoodbye->y
-                        && mouseY < resolvedGoodbye->y + resolvedGoodbye->height)
-                    {
-                        return {DialoguePointerTargetType::CloseButton, 0};
-                    }
-
-                    return {};
-                };
-
-            handlePointerClickRelease(
-                pointerState,
-                m_dialogueClickLatch,
-                m_dialoguePressedTarget,
-                noneDialogueTarget,
-                findDialogueCloseTarget,
-                [this](const DialoguePointerTarget &target)
-                {
-                    if (target.type == DialoguePointerTargetType::CloseButton)
-                    {
-                        handleDialogueCloseRequest();
-                    }
-                });
-
-            const bool closePressed = pKeyboardState[SDL_SCANCODE_ESCAPE] || pKeyboardState[SDL_SCANCODE_E];
-
-            if (closePressed)
-            {
-                if (!m_closeOverlayLatch)
-                {
-                    handleDialogueCloseRequest();
-                    m_closeOverlayLatch = true;
-                }
-            }
-            else
-            {
-                m_closeOverlayLatch = false;
-            }
-
-            return;
-        }
-
-        if (!m_activeEventDialog.actions.empty() && !isResidentSelectionMode)
-        {
-            if (pKeyboardState[SDL_SCANCODE_UP])
-            {
-                if (!m_eventDialogSelectUpLatch)
-                {
-                    m_eventDialogSelectionIndex = m_eventDialogSelectionIndex == 0
-                        ? (m_activeEventDialog.actions.size() - 1)
-                        : (m_eventDialogSelectionIndex - 1);
-                    m_eventDialogSelectUpLatch = true;
-                }
-            }
-            else
-            {
-                m_eventDialogSelectUpLatch = false;
-            }
-
-            if (pKeyboardState[SDL_SCANCODE_DOWN])
-            {
-                if (!m_eventDialogSelectDownLatch)
-                {
-                    m_eventDialogSelectionIndex =
-                        (m_eventDialogSelectionIndex + 1) % m_activeEventDialog.actions.size();
-                    m_eventDialogSelectDownLatch = true;
-                }
-            }
-            else
-            {
-                m_eventDialogSelectDownLatch = false;
-            }
-        }
-        else
-        {
-            m_eventDialogSelectUpLatch = false;
-            m_eventDialogSelectDownLatch = false;
-        }
-
-        const bool acceptPressed = pKeyboardState[SDL_SCANCODE_RETURN] || pKeyboardState[SDL_SCANCODE_SPACE];
-
-        if (acceptPressed && !isResidentSelectionMode)
-        {
-            if (!m_eventDialogAcceptLatch)
-            {
-                if (m_activeEventDialog.actions.empty())
-                {
-                    handleDialogueCloseRequest();
-                }
-                else
-                {
-                    executeActiveDialogAction();
-                }
-
-                m_eventDialogAcceptLatch = true;
-            }
-        }
-        else
-        {
-            m_eventDialogAcceptLatch = false;
-        }
-
-        float dialogMouseX = 0.0f;
-        float dialogMouseY = 0.0f;
-        const SDL_MouseButtonFlags dialogMouseButtons = SDL_GetMouseState(&dialogMouseX, &dialogMouseY);
-        const bool isLeftMousePressed = (dialogMouseButtons & SDL_BUTTON_LMASK) != 0;
-        const EventRuntimeState *pDialogueEventRuntimeState =
-            m_pOutdoorWorldRuntime != nullptr ? m_pOutdoorWorldRuntime->eventRuntimeState() : nullptr;
-        const HouseEntry *pDialogueHouseEntry =
-            (currentDialogueHostHouseId(pDialogueEventRuntimeState) != 0 && m_houseTable.has_value())
-            ? m_houseTable->get(currentDialogueHostHouseId(pDialogueEventRuntimeState))
-            : nullptr;
-
-        if (m_houseShopOverlay.active
-            && pDialogueHouseEntry != nullptr
-            && m_pOutdoorPartyRuntime != nullptr
-            && m_pOutdoorWorldRuntime != nullptr
-            && m_pItemTable != nullptr)
-        {
-            const std::optional<ResolvedHudLayoutElement> resolvedFrame =
-                resolveHouseShopOverlayFrame(screenWidth, screenHeight);
-            std::optional<HouseStockMode> stockMode;
-
-            switch (m_houseShopOverlay.mode)
-            {
-                case HouseShopMode::BuyStandard:
-                    stockMode = HouseStockMode::ShopStandard;
-                    break;
-
-                case HouseShopMode::BuySpecial:
-                    stockMode = HouseStockMode::ShopSpecial;
-                    break;
-
-                case HouseShopMode::BuySpellbooks:
-                    stockMode = HouseStockMode::GuildSpellbooks;
-                    break;
-
-                case HouseShopMode::None:
-                default:
-                    break;
-            }
-
-            if (resolvedFrame && stockMode)
-            {
-                Party &party = m_pOutdoorPartyRuntime->party();
-                const std::vector<InventoryItem> &stock = HouseServiceRuntime::ensureStock(
-                    party,
-                    *m_pItemTable,
-                    *m_pStandardItemEnchantTable,
-                    *m_pSpecialItemEnchantTable,
-                    *pDialogueHouseEntry,
-                    m_pOutdoorWorldRuntime->gameMinutes(),
-                    *stockMode);
-                const size_t slotCount = HouseServiceRuntime::slotCountForStockMode(*pDialogueHouseEntry, *stockMode);
-                const HouseShopVisualLayout overlayLayout =
-                    buildHouseShopVisualLayout(
-                        *pDialogueHouseEntry,
-                        m_houseShopOverlay.mode == HouseShopMode::BuySpellbooks);
-                const auto resolveHoveredSlotIndex =
-                    [this, &stock, slotCount, resolvedFrame, &overlayLayout](
-                        float mouseX,
-                        float mouseY) -> size_t
-                    {
-                        for (size_t slotIndex = 0;
-                             slotIndex < slotCount && slotIndex < stock.size() && slotIndex < overlayLayout.slots.size();
-                             ++slotIndex)
-                        {
-                            const InventoryItem &item = stock[slotIndex];
-
-                            if (item.objectDescriptionId == 0 || m_pItemTable == nullptr)
-                            {
-                                continue;
-                            }
-
-                            const ItemDefinition *pItemDefinition = m_pItemTable->get(item.objectDescriptionId);
-
-                            if (pItemDefinition == nullptr || pItemDefinition->iconName.empty())
-                            {
-                                continue;
-                            }
-
-                            const HudTextureHandle *pItemTexture = ensureHudTextureLoaded(pItemDefinition->iconName);
-
-                            if (pItemTexture == nullptr)
-                            {
-                                continue;
-                            }
-
-                            int opaqueTextureWidth = pItemTexture->width;
-                            int opaqueTextureHeight = pItemTexture->height;
-                            int opaqueMinX = 0;
-                            int opaqueMinY = 0;
-                            int opaqueMaxX = pItemTexture->width - 1;
-                            int opaqueMaxY = pItemTexture->height - 1;
-                            const_cast<OutdoorGameView *>(this)->tryGetOpaqueHudTextureBounds(
-                                pItemDefinition->iconName,
-                                opaqueTextureWidth,
-                                opaqueTextureHeight,
-                                opaqueMinX,
-                                opaqueMinY,
-                                opaqueMaxX,
-                                opaqueMaxY);
-                            const HouseShopItemDrawRect drawRect = resolveHouseShopItemDrawRect(
-                                resolvedFrame->x,
-                                resolvedFrame->y,
-                                static_cast<float>(resolvedFrame->width),
-                                static_cast<float>(resolvedFrame->height),
-                                resolvedFrame->scale,
-                                overlayLayout.slots[slotIndex],
-                                slotIndex,
-                                pItemTexture->width,
-                                pItemTexture->height,
-                                opaqueMinY,
-                                opaqueMaxY);
-
-                            if (mouseX >= drawRect.x
-                                && mouseX < drawRect.x + drawRect.width
-                                && mouseY >= drawRect.y
-                                && mouseY < drawRect.y + drawRect.height)
-                            {
-                                return slotIndex;
-                            }
-                        }
-
-                        return std::numeric_limits<size_t>::max();
-                    };
-                const HudPointerState houseShopPointerState = {
-                    dialogMouseX,
-                    dialogMouseY,
-                    isLeftMousePressed
-                };
-
-                handlePointerClickRelease(
-                    houseShopPointerState,
-                    m_houseShopClickLatch,
-                    m_houseShopPressedSlotIndex,
-                    std::numeric_limits<size_t>::max(),
-                    resolveHoveredSlotIndex,
-                    [this, pDialogueHouseEntry, stockMode](size_t slotIndex)
-                    {
-                        if (slotIndex == std::numeric_limits<size_t>::max()
-                            || m_pOutdoorPartyRuntime == nullptr
-                            || m_pItemTable == nullptr
-                            || m_pOutdoorWorldRuntime == nullptr
-                            || !stockMode)
-                        {
-                            return;
-                        }
-
-                        std::string statusText;
-                        HouseServiceRuntime::tryBuyStockItem(
-                            m_pOutdoorPartyRuntime->party(),
-                            *m_pItemTable,
-                            *m_pStandardItemEnchantTable,
-                            *m_pSpecialItemEnchantTable,
-                            *pDialogueHouseEntry,
-                            m_pOutdoorWorldRuntime->gameMinutes(),
-                            *stockMode,
-                            slotIndex,
-                            statusText);
-
-                        if (!statusText.empty())
-                        {
-                            setStatusBarEvent(statusText);
-                        }
-                    });
-            }
-        }
-
-        if (m_inventoryNestedOverlay.active
-            && (m_inventoryNestedOverlay.mode == InventoryNestedOverlayMode::ShopSell
-                || m_inventoryNestedOverlay.mode == InventoryNestedOverlayMode::ShopIdentify
-                || m_inventoryNestedOverlay.mode == InventoryNestedOverlayMode::ShopRepair)
-            && pDialogueHouseEntry != nullptr
-            && m_pOutdoorPartyRuntime != nullptr)
-        {
-            const std::optional<ResolvedHudLayoutElement> resolvedInventoryGrid =
-                resolveInventoryNestedOverlayGridArea(screenWidth, screenHeight);
-
-            if (resolvedInventoryGrid
-                && isLeftMousePressed
-                && !m_inventoryNestedOverlayItemClickLatch
-                && dialogMouseX >= resolvedInventoryGrid->x
-                && dialogMouseX < resolvedInventoryGrid->x + resolvedInventoryGrid->width
-                && dialogMouseY >= resolvedInventoryGrid->y
-                && dialogMouseY < resolvedInventoryGrid->y + resolvedInventoryGrid->height)
-            {
-                const InventoryGridMetrics gridMetrics = computeInventoryGridMetrics(
-                    resolvedInventoryGrid->x,
-                    resolvedInventoryGrid->y,
-                    resolvedInventoryGrid->width,
-                    resolvedInventoryGrid->height,
-                    resolvedInventoryGrid->scale);
-                const uint8_t gridX = static_cast<uint8_t>(std::clamp(
-                    static_cast<int>((dialogMouseX - resolvedInventoryGrid->x) / gridMetrics.cellWidth),
-                    0,
-                    Character::InventoryWidth - 1));
-                const uint8_t gridY = static_cast<uint8_t>(std::clamp(
-                    static_cast<int>((dialogMouseY - resolvedInventoryGrid->y) / gridMetrics.cellHeight),
-                    0,
-                    Character::InventoryHeight - 1));
-                std::string statusText;
-                HouseServiceRuntime::ShopItemServiceResult serviceResult =
-                    HouseServiceRuntime::ShopItemServiceResult::None;
-
-                if (m_inventoryNestedOverlay.mode == InventoryNestedOverlayMode::ShopSell)
-                {
-                    HouseServiceRuntime::trySellInventoryItem(
-                        m_pOutdoorPartyRuntime->party(),
-                        *m_pItemTable,
-                        *m_pStandardItemEnchantTable,
-                        *m_pSpecialItemEnchantTable,
-                        *pDialogueHouseEntry,
-                        m_pOutdoorPartyRuntime->party().activeMemberIndex(),
-                        gridX,
-                        gridY,
-                        statusText,
-                        &serviceResult);
-                }
-                else if (m_inventoryNestedOverlay.mode == InventoryNestedOverlayMode::ShopIdentify)
-                {
-                    HouseServiceRuntime::tryIdentifyInventoryItem(
-                        m_pOutdoorPartyRuntime->party(),
-                        *m_pItemTable,
-                        *m_pStandardItemEnchantTable,
-                        *m_pSpecialItemEnchantTable,
-                        *pDialogueHouseEntry,
-                        m_pOutdoorPartyRuntime->party().activeMemberIndex(),
-                        gridX,
-                        gridY,
-                        statusText,
-                        &serviceResult);
-                }
-                else if (m_inventoryNestedOverlay.mode == InventoryNestedOverlayMode::ShopRepair)
-                {
-                    HouseServiceRuntime::tryRepairInventoryItem(
-                        m_pOutdoorPartyRuntime->party(),
-                        *m_pItemTable,
-                        *m_pStandardItemEnchantTable,
-                        *m_pSpecialItemEnchantTable,
-                        *pDialogueHouseEntry,
-                        m_pOutdoorPartyRuntime->party().activeMemberIndex(),
-                        gridX,
-                        gridY,
-                        statusText,
-                        &serviceResult);
-                }
-
-                const size_t activeMemberIndex = m_pOutdoorPartyRuntime->party().activeMemberIndex();
-
-                if (serviceResult == HouseServiceRuntime::ShopItemServiceResult::WrongShop)
-                {
-                    if (m_pGameAudioSystem != nullptr)
-                    {
-                        m_pGameAudioSystem->playCommonSound(SoundId::Error, GameAudioSystem::PlaybackGroup::Ui);
-                    }
-
-                    playSpeechReaction(activeMemberIndex, SpeechId::WrongShop, true);
-                }
-                else if (serviceResult == HouseServiceRuntime::ShopItemServiceResult::AlreadyIdentified
-                    || serviceResult == HouseServiceRuntime::ShopItemServiceResult::NothingToRepair)
-                {
-                    playSpeechReaction(activeMemberIndex, SpeechId::AlreadyIdentified, true);
-                }
-                else if (serviceResult == HouseServiceRuntime::ShopItemServiceResult::NotEnoughGold)
-                {
-                    if (m_pGameAudioSystem != nullptr)
-                    {
-                        const std::optional<uint32_t> soundId =
-                            deriveHouseSoundId(*pDialogueHouseEntry, HouseSoundType::GeneralNotEnoughGold);
-
-                        if (soundId.has_value())
-                        {
-                            m_pGameAudioSystem->playSound(*soundId, GameAudioSystem::PlaybackGroup::HouseSpeech);
-                        }
-                    }
-                }
-                else if (serviceResult == HouseServiceRuntime::ShopItemServiceResult::Success)
-                {
-                    if (m_inventoryNestedOverlay.mode == InventoryNestedOverlayMode::ShopSell)
-                    {
-                        playSpeechReaction(activeMemberIndex, SpeechId::ItemSold, true);
-                    }
-                    else if (m_inventoryNestedOverlay.mode == InventoryNestedOverlayMode::ShopIdentify)
-                    {
-                        playSpeechReaction(activeMemberIndex, SpeechId::ShopIdentify, true);
-                    }
-                    else if (m_inventoryNestedOverlay.mode == InventoryNestedOverlayMode::ShopRepair)
-                    {
-                        playSpeechReaction(activeMemberIndex, SpeechId::ShopRepair, true);
-                    }
-                }
-
-                if (!statusText.empty())
-                {
-                    setStatusBarEvent(statusText);
-                }
-
-                m_inventoryNestedOverlayItemClickLatch = true;
-            }
-            else if (!isLeftMousePressed)
-            {
-                m_inventoryNestedOverlayItemClickLatch = false;
-            }
-        }
-
-        const auto findDialoguePointerTarget =
-            [this, isResidentSelectionMode, screenWidth, screenHeight](
-                float mouseX,
-                float mouseY) -> DialoguePointerTarget
-            {
-                if (screenWidth <= 0 || screenHeight <= 0)
-                {
-                    return {};
-                }
-
-                const EventRuntimeState *pEventRuntimeState =
-                    m_pOutdoorWorldRuntime != nullptr ? m_pOutdoorWorldRuntime->eventRuntimeState() : nullptr;
-                const HouseEntry *pHostHouseEntry =
-                    (currentDialogueHostHouseId(pEventRuntimeState) != 0 && m_houseTable.has_value())
-                    ? m_houseTable->get(currentDialogueHostHouseId(pEventRuntimeState))
-                    : nullptr;
-                const bool showEventDialogPanel =
-                    isResidentSelectionMode || !m_activeEventDialog.actions.empty() || pHostHouseEntry != nullptr;
-
-                if (isResidentSelectionMode)
-                {
-                    const HudLayoutElement *pEventDialogLayout = findHudLayoutElement("DialogueEventDialog");
-                    const std::optional<ResolvedHudLayoutElement> resolvedEventDialog = showEventDialogPanel
-                        && pEventDialogLayout != nullptr
-                        ? resolveHudLayoutElement(
-                            "DialogueEventDialog",
-                            screenWidth,
-                            screenHeight,
-                            pEventDialogLayout->width,
-                            pEventDialogLayout->height)
-                        : std::nullopt;
-
-                    if (resolvedEventDialog)
-                    {
-                        const float panelScale = resolvedEventDialog->scale;
-                        const float panelPaddingX = 10.0f * panelScale;
-                        const float panelPaddingY = 10.0f * panelScale;
-                        const float panelInnerX = resolvedEventDialog->x + panelPaddingX;
-                        const float panelInnerY = resolvedEventDialog->y + panelPaddingY;
-                        const float panelInnerWidth = resolvedEventDialog->width - panelPaddingX * 2.0f;
-                        const float portraitBorderSize = 80.0f * panelScale;
-                        const float sectionGap = 8.0f * panelScale;
-                        float contentY = panelInnerY;
-
-                        if (pHostHouseEntry != nullptr)
-                        {
-                            contentY += 20.0f * panelScale + sectionGap;
-                        }
-
-                        for (size_t actionIndex = 0; actionIndex < m_activeEventDialog.actions.size(); ++actionIndex)
-                        {
-                            const float portraitX =
-                                std::round(panelInnerX + (panelInnerWidth - portraitBorderSize) * 0.5f);
-                            const float portraitY = std::round(contentY);
-
-                            if (mouseX >= portraitX
-                                && mouseX < portraitX + portraitBorderSize
-                                && mouseY >= portraitY
-                                && mouseY < portraitY + portraitBorderSize)
-                            {
-                                return {DialoguePointerTargetType::Action, actionIndex};
-                            }
-
-                            contentY += portraitBorderSize + 20.0f * panelScale + sectionGap;
-                        }
-                    }
-                }
-                else
-                {
-                    const HudLayoutElement *pEventDialogLayout = findHudLayoutElement("DialogueEventDialog");
-                    const HudLayoutElement *pTopicRowLayout = findHudLayoutElement("DialogueTopicRow_1");
-                    const std::optional<ResolvedHudLayoutElement> resolvedTopicRowTemplate =
-                        pTopicRowLayout != nullptr
-                        ? resolveHudLayoutElement(
-                            "DialogueTopicRow_1",
-                            screenWidth,
-                            screenHeight,
-                            pTopicRowLayout->width,
-                            pTopicRowLayout->height)
-                        : std::nullopt;
-                    const std::optional<ResolvedHudLayoutElement> resolvedEventDialog =
-                        (showEventDialogPanel && pEventDialogLayout != nullptr && pTopicRowLayout != nullptr)
-                        ? resolveHudLayoutElement(
-                            "DialogueEventDialog",
-                            screenWidth,
-                            screenHeight,
-                            pEventDialogLayout->width,
-                            pEventDialogLayout->height)
-                        : std::nullopt;
-
-                    if (resolvedEventDialog && pTopicRowLayout != nullptr)
-                    {
-                        const float panelScale = resolvedEventDialog->scale;
-                        const float panelPaddingX = 10.0f * panelScale;
-                        const float panelPaddingY = 10.0f * panelScale;
-                        const float panelInnerX = resolvedEventDialog->x + panelPaddingX;
-                        const float panelInnerY = resolvedEventDialog->y + panelPaddingY;
-                        const float panelInnerWidth = resolvedEventDialog->width - panelPaddingX * 2.0f;
-                        const float portraitBorderSize = 80.0f * panelScale;
-                        const float sectionGap = 8.0f * panelScale;
-                        const HudFontHandle *pTopicFont = findHudFont(pTopicRowLayout->fontName);
-                        const float topicFontScale = snappedHudFontScale(
-                            resolvedTopicRowTemplate ? resolvedTopicRowTemplate->scale : panelScale);
-                        const float topicLineHeight = pTopicFont != nullptr
-                            ? static_cast<float>(pTopicFont->fontHeight) * topicFontScale
-                            : 20.0f * panelScale;
-                        const float topicWrapWidth = 140.0f * (resolvedTopicRowTemplate
-                            ? resolvedTopicRowTemplate->scale
-                            : panelScale);
-                        const float topicTextWidthScaled = std::max(
-                            0.0f,
-                            std::min(
-                                resolvedTopicRowTemplate ? resolvedTopicRowTemplate->width : panelInnerWidth,
-                                topicWrapWidth)
-                                - std::abs(pTopicRowLayout->textPadX * topicFontScale) * 2.0f
-                                - 4.0f * topicFontScale);
-                        const float topicTextWidth =
-                            std::max(0.0f, topicTextWidthScaled / std::max(1.0f, topicFontScale));
-                        const float rowGap = 4.0f * panelScale;
-                        const size_t visibleActionCount = std::min<size_t>(m_activeEventDialog.actions.size(), 5);
-                        float contentY = panelInnerY;
-                        std::vector<float> actionRowHeights;
-                        std::vector<float> actionPressHeights;
-
-                        actionRowHeights.reserve(visibleActionCount);
-                        actionPressHeights.reserve(visibleActionCount);
-
-                        if (pHostHouseEntry != nullptr)
-                        {
-                            contentY += 20.0f * panelScale + sectionGap;
-                        }
-
-                        contentY += portraitBorderSize + 20.0f * panelScale + sectionGap;
-                        const float availableHeight =
-                            resolvedEventDialog->y + resolvedEventDialog->height - panelPaddingY - contentY;
-
-                        for (size_t actionIndex = 0; actionIndex < visibleActionCount; ++actionIndex)
-                        {
-                            std::string label = m_activeEventDialog.actions[actionIndex].label;
-
-                            if (!m_activeEventDialog.actions[actionIndex].enabled
-                                && !m_activeEventDialog.actions[actionIndex].disabledReason.empty())
-                            {
-                                label += " [disabled]";
-                            }
-
-                            std::vector<std::string> wrappedLines = pTopicFont != nullptr
-                                ? wrapHudTextToWidth(*pTopicFont, label, topicTextWidth)
-                                : std::vector<std::string>{label};
-
-                            if (wrappedLines.empty())
-                            {
-                                wrappedLines.push_back(label);
-                            }
-
-                            const float minimumRowHeight = resolvedTopicRowTemplate
-                                ? resolvedTopicRowTemplate->height
-                                : pTopicRowLayout->height * panelScale;
-                            const float wrappedRowHeight = static_cast<float>(wrappedLines.size()) * topicLineHeight;
-                            actionRowHeights.push_back(std::max(minimumRowHeight, wrappedRowHeight));
-                            actionPressHeights.push_back(std::max(topicLineHeight, wrappedRowHeight));
-                        }
-
-                        float totalHeight = 0.0f;
-
-                        for (size_t actionIndex = 0; actionIndex < actionRowHeights.size(); ++actionIndex)
-                        {
-                            totalHeight += actionRowHeights[actionIndex];
-
-                            if (actionIndex + 1 < actionRowHeights.size())
-                            {
-                                totalHeight += rowGap;
-                            }
-                        }
-
-                        const float topicListCenterOffsetY = 8.0f * panelScale;
-                        float rowY = contentY + std::max(0.0f, (availableHeight - totalHeight) * 0.5f)
-                            - topicListCenterOffsetY;
-
-                        for (size_t actionIndex = 0; actionIndex < visibleActionCount; ++actionIndex)
-                        {
-                            const float rowX = resolvedTopicRowTemplate ? resolvedTopicRowTemplate->x : panelInnerX;
-                            const float rowWidth = resolvedTopicRowTemplate
-                                ? resolvedTopicRowTemplate->width
-                                : panelInnerWidth;
-                            const float rowHeight = actionRowHeights[actionIndex];
-                            const float pressAreaInsetY = 2.0f * panelScale;
-                            const float pressAreaHeight = std::min(
-                                rowHeight,
-                                actionPressHeights[actionIndex] + pressAreaInsetY * 2.0f);
-                            const float pressAreaY = rowY + (rowHeight - pressAreaHeight) * 0.5f;
-
-                            if (mouseX >= rowX
-                                && mouseX < rowX + rowWidth
-                                && mouseY >= pressAreaY
-                                && mouseY < pressAreaY + pressAreaHeight)
-                            {
-                                return {DialoguePointerTargetType::Action, actionIndex};
-                            }
-
-                            rowY += rowHeight + rowGap;
-                        }
-                    }
-                }
-
-                const HudLayoutElement *pGoodbyeLayout = findHudLayoutElement("DialogueGoodbyeButton");
-                const std::optional<ResolvedHudLayoutElement> resolvedGoodbye = pGoodbyeLayout != nullptr
-                    ? resolveHudLayoutElement(
-                        "DialogueGoodbyeButton",
-                        screenWidth,
-                        screenHeight,
-                        pGoodbyeLayout->width,
-                        pGoodbyeLayout->height)
-                    : std::nullopt;
-
-                if (resolvedGoodbye
-                    && mouseX >= resolvedGoodbye->x
-                    && mouseX < resolvedGoodbye->x + resolvedGoodbye->width
-                    && mouseY >= resolvedGoodbye->y
-                    && mouseY < resolvedGoodbye->y + resolvedGoodbye->height)
-                {
-                    return {DialoguePointerTargetType::CloseButton, 0};
-                }
-
-                return {};
-            };
-
-        const HudPointerState pointerState = {
-            dialogMouseX,
-            dialogMouseY,
-            isLeftMousePressed
-        };
-        const DialoguePointerTarget noneDialogueTarget = {};
-        handlePointerClickRelease(
-            pointerState,
-            m_dialogueClickLatch,
-            m_dialoguePressedTarget,
-            noneDialogueTarget,
-            findDialoguePointerTarget,
-            [this](const DialoguePointerTarget &target)
-            {
-                if (target.type == DialoguePointerTargetType::Action
-                    && target.index < m_activeEventDialog.actions.size())
-                {
-                    m_eventDialogSelectionIndex = target.index;
-                    executeActiveDialogAction();
-                }
-                else if (target.type == DialoguePointerTargetType::CloseButton)
-                {
-                    handleDialogueCloseRequest();
-                }
-            });
-
-        const bool closePressed = pKeyboardState[SDL_SCANCODE_ESCAPE] || pKeyboardState[SDL_SCANCODE_E];
-
-        if (closePressed)
-        {
-            if (!m_closeOverlayLatch)
-            {
-                handleDialogueCloseRequest();
-                m_closeOverlayLatch = true;
-            }
-        }
-        else
-        {
-            m_closeOverlayLatch = false;
-        }
-
+        GameplayOverlayContext overlayContext(*this);
+        GameplayOverlayInputController::handleDialogueOverlayInput(
+            overlayContext,
+            pKeyboardState,
+            screenWidth,
+            screenHeight,
+            isResidentSelectionMode);
         return;
     }
 
@@ -26927,1269 +20387,13 @@ void OutdoorGameView::updateCameraFromInput(float deltaSeconds)
 
     if (m_spellbook.active)
     {
-        const bool closePressed = pKeyboardState[SDL_SCANCODE_ESCAPE];
-
-        if (closePressed)
-        {
-            if (!m_closeOverlayLatch)
-            {
-                closeSpellbook();
-                m_closeOverlayLatch = true;
-            }
-        }
-        else
-        {
-            m_closeOverlayLatch = false;
-        }
-
-        float mouseX = 0.0f;
-        float mouseY = 0.0f;
-        const SDL_MouseButtonFlags mouseButtons = SDL_GetMouseState(&mouseX, &mouseY);
-        const bool isLeftMousePressed = (mouseButtons & SDL_BUTTON_LMASK) != 0;
-        const HudPointerState pointerState = {
-            mouseX,
-            mouseY,
-            isLeftMousePressed
-        };
-        const SpellbookPointerTarget noneSpellbookTarget = {};
-        const auto findSpellbookPointerTarget =
-            [this, screenWidth, screenHeight](float pointerX, float pointerY) -> SpellbookPointerTarget
-            {
-                for (const SpellbookSchoolUiDefinition &definition : SpellbookSchoolUiDefinitions)
-                {
-                    if (!activeMemberHasSpellbookSchool(definition.school))
-                    {
-                        continue;
-                    }
-
-                    const HudLayoutElement *pLayout = findHudLayoutElement(definition.pButtonLayoutId);
-
-                    if (pLayout == nullptr)
-                    {
-                        continue;
-                    }
-
-                    const std::optional<ResolvedHudLayoutElement> resolved = resolveHudLayoutElement(
-                        definition.pButtonLayoutId,
-                        screenWidth,
-                        screenHeight,
-                        pLayout->width,
-                        pLayout->height);
-
-                    if (resolved && isPointerInsideResolvedElement(*resolved, pointerX, pointerY))
-                    {
-                        SpellbookPointerTarget target = {};
-                        target.type = SpellbookPointerTargetType::SchoolButton;
-                        target.school = definition.school;
-                        return target;
-                    }
-                }
-
-                const auto resolveSimpleButtonTarget =
-                    [this, screenWidth, screenHeight, pointerX, pointerY](
-                        const char *pLayoutId,
-                        SpellbookPointerTargetType type) -> SpellbookPointerTarget
-                    {
-                        const HudLayoutElement *pLayout = findHudLayoutElement(pLayoutId);
-
-                        if (pLayout == nullptr)
-                        {
-                            return {};
-                        }
-
-                        const std::optional<ResolvedHudLayoutElement> resolved = resolveHudLayoutElement(
-                            pLayoutId,
-                            screenWidth,
-                            screenHeight,
-                            pLayout->width,
-                            pLayout->height);
-
-                        if (!resolved || !isPointerInsideResolvedElement(*resolved, pointerX, pointerY))
-                        {
-                            return {};
-                        }
-
-                        SpellbookPointerTarget target = {};
-                        target.type = type;
-                        return target;
-                    };
-
-                const SpellbookPointerTarget closeTarget =
-                    resolveSimpleButtonTarget("SpellbookCloseButton", SpellbookPointerTargetType::CloseButton);
-
-                if (closeTarget.type != SpellbookPointerTargetType::None)
-                {
-                    return closeTarget;
-                }
-
-                const SpellbookPointerTarget quickCastTarget =
-                    resolveSimpleButtonTarget("SpellbookQuickCastButton", SpellbookPointerTargetType::QuickCastButton);
-
-                if (quickCastTarget.type != SpellbookPointerTargetType::None)
-                {
-                    return quickCastTarget;
-                }
-
-                const SpellbookSchoolUiDefinition *pDefinition =
-                    findSpellbookSchoolUiDefinition(m_spellbook.school);
-
-                if (pDefinition == nullptr)
-                {
-                    return {};
-                }
-
-                for (uint32_t spellOffset = 0; spellOffset < pDefinition->spellCount; ++spellOffset)
-                {
-                    const uint32_t spellId = pDefinition->firstSpellId + spellOffset;
-
-                    if (!activeMemberKnowsSpell(spellId))
-                    {
-                        continue;
-                    }
-
-                    const uint32_t spellOrdinal = spellOffset + 1;
-                    const std::string layoutId = spellbookSpellLayoutId(m_spellbook.school, spellOrdinal);
-                    const HudLayoutElement *pLayout = findHudLayoutElement(layoutId);
-
-                    if (pLayout == nullptr)
-                    {
-                        continue;
-                    }
-
-                    const std::optional<ResolvedHudLayoutElement> resolved = resolveHudLayoutElement(
-                        layoutId,
-                        screenWidth,
-                        screenHeight,
-                        pLayout->width,
-                        pLayout->height);
-
-                    if (resolved && isPointerInsideResolvedElement(*resolved, pointerX, pointerY))
-                    {
-                        SpellbookPointerTarget target = {};
-                        target.type = SpellbookPointerTargetType::SpellButton;
-                        target.school = m_spellbook.school;
-                        target.spellId = spellId;
-                        return target;
-                    }
-                }
-
-                return {};
-            };
-
-        handlePointerClickRelease(
-            pointerState,
-            m_spellbookClickLatch,
-            m_spellbookPressedTarget,
-            noneSpellbookTarget,
-            findSpellbookPointerTarget,
-            [this](const SpellbookPointerTarget &target)
-            {
-                if (target.type == SpellbookPointerTargetType::SchoolButton)
-                {
-                    const SpellbookSchoolUiDefinition *pDefinition = findSpellbookSchoolUiDefinition(target.school);
-
-                    if (pDefinition != nullptr)
-                    {
-                        if (m_pGameAudioSystem != nullptr && m_spellbook.school != target.school)
-                        {
-                            m_pGameAudioSystem->playCommonSound(
-                                SoundId::TurnPageDown,
-                                GameAudioSystem::PlaybackGroup::Ui);
-                        }
-
-                        m_spellbook.school = target.school;
-                        m_spellbook.selectedSpellId = 0;
-                    }
-
-                    return;
-                }
-
-                if (target.type == SpellbookPointerTargetType::SpellButton)
-                {
-                    const uint64_t nowTicks = SDL_GetTicks();
-                    const bool isDoubleClick =
-                        target.spellId != 0
-                        && target.spellId == m_lastSpellbookClickedSpellId
-                        && nowTicks >= m_lastSpellbookSpellClickTicks
-                        && nowTicks - m_lastSpellbookSpellClickTicks <= PartyPortraitDoubleClickWindowMs;
-                    m_spellbook.selectedSpellId = target.spellId;
-                    m_lastSpellbookSpellClickTicks = nowTicks;
-                    m_lastSpellbookClickedSpellId = target.spellId;
-
-                    if (isDoubleClick)
-                    {
-                        if (!activeMemberKnowsSpell(target.spellId))
-                        {
-                            setStatusBarEvent("Spell not learned");
-                            return;
-                        }
-
-                        const SpellEntry *pSpellEntry =
-                            m_pSpellTable != nullptr ? m_pSpellTable->findById(static_cast<int>(target.spellId)) : nullptr;
-                        const std::string spellName =
-                            pSpellEntry != nullptr && !pSpellEntry->name.empty()
-                                ? pSpellEntry->name
-                                : ("Spell " + std::to_string(target.spellId));
-                        const size_t casterMemberIndex =
-                            m_pOutdoorPartyRuntime != nullptr ? m_pOutdoorPartyRuntime->party().activeMemberIndex() : 0;
-
-                        if (tryCastSpellFromMember(casterMemberIndex, target.spellId, spellName))
-                        {
-                            closeSpellbook();
-                        }
-                    }
-
-                    return;
-                }
-
-                if (target.type == SpellbookPointerTargetType::CloseButton)
-                {
-                    closeSpellbook();
-                    return;
-                }
-
-                if (target.type == SpellbookPointerTargetType::QuickCastButton)
-                {
-                    if (m_spellbook.selectedSpellId == 0 || m_pOutdoorPartyRuntime == nullptr || m_pSpellTable == nullptr)
-                    {
-                        setStatusBarEvent("Select spell");
-                        return;
-                    }
-
-                    Character *pActiveMember = m_pOutdoorPartyRuntime->party().activeMember();
-                    const SpellEntry *pSpellEntry =
-                        m_pSpellTable->findById(static_cast<int>(m_spellbook.selectedSpellId));
-
-                    if (pActiveMember == nullptr || pSpellEntry == nullptr)
-                    {
-                        setStatusBarEvent("Can't set quick spell");
-                        return;
-                    }
-
-                    if (!pActiveMember->knowsSpell(m_spellbook.selectedSpellId))
-                    {
-                        setStatusBarEvent("Spell not learned");
-                        return;
-                    }
-
-                    pActiveMember->quickSpellName = pSpellEntry->name;
-                    if (m_pGameAudioSystem != nullptr)
-                    {
-                        m_pGameAudioSystem->playCommonSound(SoundId::ClickSkill, GameAudioSystem::PlaybackGroup::Ui);
-                    }
-                    playSpeechReaction(m_pOutdoorPartyRuntime->party().activeMemberIndex(), SpeechId::SetQuickSpell, true);
-                    setStatusBarEvent("Quick spell set to " + pSpellEntry->name);
-                }
-            });
-
+        GameplayPartyOverlayInputController::handleSpellbookOverlayInput(*this, pKeyboardState, screenWidth, screenHeight);
         return;
     }
 
     if (m_characterScreenOpen)
     {
-        Character *pActiveCharacter =
-            m_pOutdoorPartyRuntime != nullptr ? m_pOutdoorPartyRuntime->party().activeMember() : nullptr;
-        const CharacterDollEntry *pActiveCharacterDollEntry =
-            resolveCharacterDollEntry(m_pCharacterDollTable, pActiveCharacter);
-        const CharacterDollTypeEntry *pActiveCharacterDollType =
-            pActiveCharacterDollEntry != nullptr && m_pCharacterDollTable != nullptr
-            ? m_pCharacterDollTable->getDollType(pActiveCharacterDollEntry->dollTypeId)
-            : nullptr;
-        const CharacterSkillUiData skillUiData = buildCharacterSkillUiData(pActiveCharacter);
-        const HudFontHandle *pSkillRowFont = findHudFont("Lucida");
-        const float skillRowTextScale = pSkillRowFont != nullptr
-            ? std::max(
-                0.5f,
-                static_cast<float>(std::max(1, pSkillRowFont->fontHeight - 2))
-                    / static_cast<float>(pSkillRowFont->fontHeight))
-            : 0.85f;
-        const float skillRowHeight = pSkillRowFont != nullptr
-            ? static_cast<float>(std::max(1, pSkillRowFont->fontHeight - 3))
-            : 11.0f;
-        setCharacterSkillRegionHeight(m_hudLayoutRuntimeHeightOverrides, skillRowHeight, "CharacterSkillsWeaponsListRegion", skillUiData.weaponRows.size());
-        setCharacterSkillRegionHeight(m_hudLayoutRuntimeHeightOverrides, skillRowHeight, "CharacterSkillsMagicListRegion", skillUiData.magicRows.size());
-        setCharacterSkillRegionHeight(m_hudLayoutRuntimeHeightOverrides, skillRowHeight, "CharacterSkillsArmorListRegion", skillUiData.armorRows.size());
-        setCharacterSkillRegionHeight(m_hudLayoutRuntimeHeightOverrides, skillRowHeight, "CharacterSkillsMiscListRegion", skillUiData.miscRows.size());
-        const bool closePressed = pKeyboardState[SDL_SCANCODE_ESCAPE] || pKeyboardState[SDL_SCANCODE_E];
-
-        if (closePressed)
-        {
-            if (!m_closeOverlayLatch)
-            {
-                m_characterScreenOpen = false;
-                m_characterDollJewelryOverlayOpen = false;
-                m_closeOverlayLatch = true;
-            }
-        }
-        else
-        {
-            m_closeOverlayLatch = false;
-        }
-
-        if (pKeyboardState[SDL_SCANCODE_TAB])
-        {
-            if (!m_characterMemberCycleLatch && m_pOutdoorPartyRuntime != nullptr)
-            {
-                const std::vector<Character> &members = m_pOutdoorPartyRuntime->party().members();
-
-                if (!members.empty())
-                {
-                    const size_t nextMemberIndex =
-                        (m_pOutdoorPartyRuntime->party().activeMemberIndex() + 1) % members.size();
-                    trySelectPartyMember(nextMemberIndex, false);
-                }
-
-                m_characterMemberCycleLatch = true;
-            }
-        }
-        else
-        {
-            m_characterMemberCycleLatch = false;
-        }
-
-        float mouseX = 0.0f;
-        float mouseY = 0.0f;
-        const SDL_MouseButtonFlags mouseButtons = SDL_GetMouseState(&mouseX, &mouseY);
-        const bool isLeftMousePressed = (mouseButtons & SDL_BUTTON_LMASK) != 0;
-
-        const auto resolveCharacterInventoryGrid =
-            [this, screenWidth, screenHeight]() -> std::optional<ResolvedHudLayoutElement>
-            {
-                const HudLayoutElement *pInventoryGridLayout = findHudLayoutElement("CharacterInventoryGrid");
-
-                if (pInventoryGridLayout == nullptr)
-                {
-                    return std::nullopt;
-                }
-
-                return resolveHudLayoutElement(
-                    "CharacterInventoryGrid",
-                    screenWidth,
-                    screenHeight,
-                    pInventoryGridLayout->width,
-                    pInventoryGridLayout->height);
-            };
-
-        const auto findCharacterPointerTarget =
-            [this,
-             screenWidth,
-             screenHeight,
-             skillRowHeight,
-             &skillUiData,
-             pActiveCharacter,
-             pActiveCharacterDollEntry,
-             pActiveCharacterDollType,
-             &resolveCharacterInventoryGrid](
-                float pointerX,
-                float pointerY) -> CharacterPointerTarget
-            {
-                if (screenWidth <= 0 || screenHeight <= 0)
-                {
-                    return {};
-                }
-
-                struct CharacterTabTarget
-                {
-                    const char *layoutId;
-                    CharacterPage page;
-                };
-
-                static constexpr CharacterTabTarget TabTargets[] = {
-                    {"CharacterStatsButton", CharacterPage::Stats},
-                    {"CharacterSkillsButton", CharacterPage::Skills},
-                    {"CharacterInventoryButton", CharacterPage::Inventory},
-                    {"CharacterAwardsButton", CharacterPage::Awards},
-                };
-
-                for (const CharacterTabTarget &target : TabTargets)
-                {
-                    const HudLayoutElement *pLayout = findHudLayoutElement(target.layoutId);
-
-                    if (pLayout == nullptr)
-                    {
-                        continue;
-                    }
-
-                    const std::optional<ResolvedHudLayoutElement> resolved = resolveHudLayoutElement(
-                        target.layoutId,
-                        screenWidth,
-                        screenHeight,
-                        pLayout->width,
-                        pLayout->height);
-
-                    if (resolved
-                        && pointerX >= resolved->x
-                        && pointerX < resolved->x + resolved->width
-                        && pointerY >= resolved->y
-                        && pointerY < resolved->y + resolved->height)
-                    {
-                        return {CharacterPointerTargetType::PageButton, target.page};
-                    }
-                }
-
-                const HudLayoutElement *pExitLayout = findHudLayoutElement("CharacterExitButton");
-
-                if (pExitLayout != nullptr)
-                {
-                    const std::optional<ResolvedHudLayoutElement> resolved = resolveHudLayoutElement(
-                        "CharacterExitButton",
-                        screenWidth,
-                        screenHeight,
-                        pExitLayout->width,
-                        pExitLayout->height);
-
-                    if (resolved
-                        && pointerX >= resolved->x
-                        && pointerX < resolved->x + resolved->width
-                        && pointerY >= resolved->y
-                        && pointerY < resolved->y + resolved->height)
-                    {
-                        return {CharacterPointerTargetType::ExitButton, CharacterPage::Inventory};
-                    }
-                }
-
-                const HudLayoutElement *pMagnifyLayout = findHudLayoutElement("CharacterMagnifyButton");
-
-                if (pMagnifyLayout != nullptr)
-                {
-                    const std::optional<ResolvedHudLayoutElement> resolved = resolveHudLayoutElement(
-                        "CharacterMagnifyButton",
-                        screenWidth,
-                        screenHeight,
-                        pMagnifyLayout->width,
-                        pMagnifyLayout->height);
-
-                    if (resolved
-                        && pointerX >= resolved->x
-                        && pointerX < resolved->x + resolved->width
-                        && pointerY >= resolved->y
-                        && pointerY < resolved->y + resolved->height)
-                    {
-                        return {CharacterPointerTargetType::MagnifyButton, CharacterPage::Inventory};
-                    }
-                }
-
-                if (!m_heldInventoryItem.active)
-                {
-                    for (auto it = m_renderedInspectableHudItems.rbegin(); it != m_renderedInspectableHudItems.rend(); ++it)
-                    {
-                        if (it->sourceType != ItemInspectSourceType::Equipment
-                            || !isVisibleInCharacterDollOverlay(it->equipmentSlot, m_characterDollJewelryOverlayOpen))
-                        {
-                            continue;
-                        }
-
-                        if (!isOpaqueHudPixelAtPoint(*it, pointerX, pointerY))
-                        {
-                            continue;
-                        }
-
-                        CharacterPointerTarget pointerTarget = {};
-                        pointerTarget.type = CharacterPointerTargetType::EquipmentSlot;
-                        pointerTarget.page = m_characterPage;
-                        pointerTarget.equipmentSlot = it->equipmentSlot;
-                        return pointerTarget;
-                    }
-                }
-
-                struct CharacterEquipmentSlotTarget
-                {
-                    const char *layoutId;
-                    EquipmentSlot slot;
-                    bool jewelryOverlayOnly;
-                };
-
-                static constexpr CharacterEquipmentSlotTarget EquipmentSlotTargets[] = {
-                    {"CharacterDollBowSlot", EquipmentSlot::Bow, false},
-                    {"CharacterDollRightHandSlot", EquipmentSlot::MainHand, false},
-                    {"CharacterDollLeftHandSlot", EquipmentSlot::OffHand, false},
-                    {"CharacterDollArmorSlot", EquipmentSlot::Armor, false},
-                    {"CharacterDollHelmetSlot", EquipmentSlot::Helm, false},
-                    {"CharacterDollBeltSlot", EquipmentSlot::Belt, false},
-                    {"CharacterDollCloakSlot", EquipmentSlot::Cloak, false},
-                    {"CharacterDollBootsSlot", EquipmentSlot::Boots, false},
-                    {"CharacterDollAmuletSlot", EquipmentSlot::Amulet, true},
-                    {"CharacterDollGauntletsSlot", EquipmentSlot::Gauntlets, true},
-                    {"CharacterDollRing1Slot", EquipmentSlot::Ring1, true},
-                    {"CharacterDollRing2Slot", EquipmentSlot::Ring2, true},
-                    {"CharacterDollRing3Slot", EquipmentSlot::Ring3, true},
-                    {"CharacterDollRing4Slot", EquipmentSlot::Ring4, true},
-                    {"CharacterDollRing5Slot", EquipmentSlot::Ring5, true},
-                    {"CharacterDollRing6Slot", EquipmentSlot::Ring6, true},
-                };
-
-                for (const CharacterEquipmentSlotTarget &target : EquipmentSlotTargets)
-                {
-                    if (!isVisibleInCharacterDollOverlay(target.slot, m_characterDollJewelryOverlayOpen))
-                    {
-                        continue;
-                    }
-
-                    if (m_heldInventoryItem.active && !target.jewelryOverlayOnly)
-                    {
-                        continue;
-                    }
-
-                    const HudLayoutElement *pLayout = findHudLayoutElement(target.layoutId);
-
-                    if (pLayout == nullptr)
-                    {
-                        continue;
-                    }
-
-                    const uint32_t equippedId =
-                        pActiveCharacter != nullptr ? equippedItemId(pActiveCharacter->equipment, target.slot) : 0;
-                    const ItemDefinition *pItemDefinition =
-                        equippedId != 0 && m_pItemTable != nullptr ? m_pItemTable->get(equippedId) : nullptr;
-                    std::optional<ResolvedHudLayoutElement> dynamicRect;
-
-                    std::string dynamicTextureName;
-
-                    if (pItemDefinition != nullptr && !pItemDefinition->iconName.empty())
-                    {
-                        const bool hasRightHandWeapon =
-                            pActiveCharacter != nullptr && pActiveCharacter->equipment.mainHand != 0;
-                        const uint32_t dollTypeId =
-                            pActiveCharacterDollType != nullptr ? pActiveCharacterDollType->id : 0;
-                        dynamicTextureName = resolveEquippedItemHudTextureName(
-                            *pItemDefinition,
-                            dollTypeId,
-                            hasRightHandWeapon,
-                            target.slot);
-                        const HudTextureHandle *pTexture = ensureHudTextureLoaded(dynamicTextureName);
-
-                        if (pTexture != nullptr)
-                        {
-                            dynamicRect = resolveCharacterEquipmentRenderRect(
-                                *pLayout,
-                                *pItemDefinition,
-                                *pTexture,
-                                pActiveCharacterDollType,
-                                target.slot,
-                                screenWidth,
-                                screenHeight);
-                        }
-                    }
-
-                    bool pointerInsideDynamicRect = false;
-
-                    if (dynamicRect)
-                    {
-                        if (m_heldInventoryItem.active)
-                        {
-                            pointerInsideDynamicRect =
-                                pointerX >= dynamicRect->x
-                                && pointerX < dynamicRect->x + dynamicRect->width
-                                && pointerY >= dynamicRect->y
-                                && pointerY < dynamicRect->y + dynamicRect->height;
-                        }
-                        else if (!dynamicTextureName.empty() && pItemDefinition != nullptr)
-                        {
-                            RenderedInspectableHudItem renderedItem = {};
-                            renderedItem.objectDescriptionId = pItemDefinition->itemId;
-                            renderedItem.textureName = dynamicTextureName;
-                            renderedItem.x = dynamicRect->x;
-                            renderedItem.y = dynamicRect->y;
-                            renderedItem.width = dynamicRect->width;
-                            renderedItem.height = dynamicRect->height;
-                            pointerInsideDynamicRect = isOpaqueHudPixelAtPoint(renderedItem, pointerX, pointerY);
-                        }
-                    }
-
-                    const std::optional<ResolvedHudLayoutElement> resolved =
-                        m_heldInventoryItem.active && !dynamicRect
-                        ? resolveHudLayoutElement(
-                            target.layoutId,
-                            screenWidth,
-                            screenHeight,
-                            pLayout->width,
-                            pLayout->height)
-                        : std::nullopt;
-                    const bool pointerInsideLayoutRect =
-                        resolved
-                        && pointerX >= resolved->x
-                        && pointerX < resolved->x + resolved->width
-                        && pointerY >= resolved->y
-                        && pointerY < resolved->y + resolved->height;
-
-                    if (!pointerInsideDynamicRect && !pointerInsideLayoutRect)
-                    {
-                        continue;
-                    }
-
-                    if (m_heldInventoryItem.active
-                        || (pActiveCharacter != nullptr
-                            && equippedItemId(pActiveCharacter->equipment, target.slot) != 0))
-                    {
-                        CharacterPointerTarget pointerTarget = {};
-                        pointerTarget.type = CharacterPointerTargetType::EquipmentSlot;
-                        pointerTarget.page = m_characterPage;
-                        pointerTarget.equipmentSlot = target.slot;
-                        return pointerTarget;
-                    }
-                }
-
-                if (m_heldInventoryItem.active)
-                {
-                    const HudLayoutElement *pDollLayout = findHudLayoutElement("CharacterDollPanel");
-
-                    if (pDollLayout != nullptr)
-                    {
-                        const std::optional<ResolvedHudLayoutElement> resolvedDoll = resolveHudLayoutElement(
-                            "CharacterDollPanel",
-                            screenWidth,
-                            screenHeight,
-                            pDollLayout->width,
-                            pDollLayout->height);
-
-                        if (resolvedDoll
-                            && pointerX >= resolvedDoll->x
-                            && pointerX < resolvedDoll->x + resolvedDoll->width
-                            && pointerY >= resolvedDoll->y
-                            && pointerY < resolvedDoll->y + resolvedDoll->height)
-                        {
-                            return {CharacterPointerTargetType::DollPanel, m_characterPage};
-                        }
-                    }
-                }
-
-                if (m_characterPage == CharacterPage::Inventory)
-                {
-                    const std::optional<ResolvedHudLayoutElement> resolvedInventoryGrid = resolveCharacterInventoryGrid();
-
-                    if (resolvedInventoryGrid
-                        && pointerX >= resolvedInventoryGrid->x
-                        && pointerX < resolvedInventoryGrid->x + resolvedInventoryGrid->width
-                        && pointerY >= resolvedInventoryGrid->y
-                        && pointerY < resolvedInventoryGrid->y + resolvedInventoryGrid->height)
-                    {
-                        const float cellWidth =
-                            resolvedInventoryGrid->width / static_cast<float>(Character::InventoryWidth);
-                        const float cellHeight =
-                            resolvedInventoryGrid->height / static_cast<float>(Character::InventoryHeight);
-                        const uint8_t gridX = static_cast<uint8_t>(std::clamp(
-                            static_cast<int>((pointerX - resolvedInventoryGrid->x) / cellWidth),
-                            0,
-                            Character::InventoryWidth - 1));
-                        const uint8_t gridY = static_cast<uint8_t>(std::clamp(
-                            static_cast<int>((pointerY - resolvedInventoryGrid->y) / cellHeight),
-                            0,
-                            Character::InventoryHeight - 1));
-
-                        if (m_heldInventoryItem.active)
-                        {
-                            CharacterPointerTarget target = {};
-                            target.type = CharacterPointerTargetType::InventoryCell;
-                            target.page = CharacterPage::Inventory;
-                            target.gridX = gridX;
-                            target.gridY = gridY;
-                            return target;
-                        }
-
-                        if (pActiveCharacter != nullptr)
-                        {
-                            const InventoryItem *pItem = pActiveCharacter->inventoryItemAt(gridX, gridY);
-
-                            if (pItem != nullptr)
-                            {
-                                CharacterPointerTarget target = {};
-                                target.type = CharacterPointerTargetType::InventoryItem;
-                                target.page = CharacterPage::Inventory;
-                                target.gridX = pItem->gridX;
-                                target.gridY = pItem->gridY;
-                                return target;
-                            }
-                        }
-                    }
-                }
-
-                if (m_characterPage == CharacterPage::Skills)
-                {
-                    const auto findSkillRowTarget =
-                        [this, screenWidth, screenHeight, pointerX, pointerY, skillRowHeight](
-                            const char *pRegionId,
-                            const char *pLevelHeaderId,
-                            const std::vector<CharacterSkillUiRow> &rows) -> CharacterPointerTarget
-                        {
-                            if (rows.empty())
-                            {
-                                return {};
-                            }
-
-                            const HudLayoutElement *pRegionLayout = findHudLayoutElement(pRegionId);
-                            const HudLayoutElement *pLevelLayout = findHudLayoutElement(pLevelHeaderId);
-
-                            if (pRegionLayout == nullptr || pLevelLayout == nullptr)
-                            {
-                                return {};
-                            }
-
-                            const std::optional<ResolvedHudLayoutElement> resolvedRegion = resolveHudLayoutElement(
-                                pRegionId,
-                                screenWidth,
-                                screenHeight,
-                                pRegionLayout->width,
-                                pRegionLayout->height);
-                            const std::optional<ResolvedHudLayoutElement> resolvedLevelHeader = resolveHudLayoutElement(
-                                pLevelHeaderId,
-                                screenWidth,
-                                screenHeight,
-                                pLevelLayout->width,
-                                pLevelLayout->height);
-
-                            if (!resolvedRegion || !resolvedLevelHeader)
-                            {
-                                return {};
-                            }
-
-                            const float rowHeightPixels = skillRowHeight * resolvedRegion->scale;
-                            const float rowWidth = resolvedLevelHeader->x + resolvedLevelHeader->width - resolvedRegion->x;
-
-                            for (size_t rowIndex = 0; rowIndex < rows.size(); ++rowIndex)
-                            {
-                                const CharacterSkillUiRow &row = rows[rowIndex];
-
-                                if (!row.upgradeable)
-                                {
-                                    continue;
-                                }
-
-                                const float rowY = resolvedRegion->y + static_cast<float>(rowIndex) * rowHeightPixels;
-
-                                if (pointerX >= resolvedRegion->x
-                                    && pointerX < resolvedRegion->x + rowWidth
-                                    && pointerY >= rowY
-                                    && pointerY < rowY + rowHeightPixels)
-                                {
-                                    CharacterPointerTarget target = {};
-                                    target.type = CharacterPointerTargetType::SkillRow;
-                                    target.page = CharacterPage::Skills;
-                                    target.skillName = row.canonicalName;
-                                    return target;
-                                }
-                            }
-
-                            return {};
-                        };
-
-                    const CharacterPointerTarget weaponTarget =
-                        findSkillRowTarget(
-                            "CharacterSkillsWeaponsListRegion",
-                            "CharacterSkillsWeaponsLevelHeader",
-                            skillUiData.weaponRows);
-
-                    if (weaponTarget.type == CharacterPointerTargetType::SkillRow)
-                    {
-                        return weaponTarget;
-                    }
-
-                    const CharacterPointerTarget magicTarget =
-                        findSkillRowTarget(
-                            "CharacterSkillsMagicListRegion",
-                            "CharacterSkillsMagicLevelHeader",
-                            skillUiData.magicRows);
-
-                    if (magicTarget.type == CharacterPointerTargetType::SkillRow)
-                    {
-                        return magicTarget;
-                    }
-
-                    const CharacterPointerTarget armorTarget =
-                        findSkillRowTarget(
-                            "CharacterSkillsArmorListRegion",
-                            "CharacterSkillsArmorLevelHeader",
-                            skillUiData.armorRows);
-
-                    if (armorTarget.type == CharacterPointerTargetType::SkillRow)
-                    {
-                        return armorTarget;
-                    }
-
-                    const CharacterPointerTarget miscTarget =
-                        findSkillRowTarget(
-                            "CharacterSkillsMiscListRegion",
-                            "CharacterSkillsMiscLevelHeader",
-                            skillUiData.miscRows);
-
-                    if (miscTarget.type == CharacterPointerTargetType::SkillRow)
-                    {
-                        return miscTarget;
-                    }
-                }
-
-                return {};
-            };
-
-        const HudPointerState pointerState = {
-            mouseX,
-            mouseY,
-            isLeftMousePressed
-        };
-        const CharacterPointerTarget noneCharacterTarget = {};
-        const CharacterPointerTarget hoveredCharacterTarget = findCharacterPointerTarget(mouseX, mouseY);
-
-        if (m_pOutdoorPartyRuntime != nullptr)
-        {
-            updateReadableScrollOverlayForHeldItem(
-                m_pOutdoorPartyRuntime->party().activeMemberIndex(),
-                hoveredCharacterTarget,
-                isLeftMousePressed);
-        }
-        else
-        {
-            closeReadableScrollOverlay();
-        }
-
-        handlePointerClickRelease(
-            pointerState,
-            m_characterClickLatch,
-            m_characterPressedTarget,
-            noneCharacterTarget,
-            findCharacterPointerTarget,
-            [this, screenWidth, screenHeight, mouseX, mouseY, &resolveCharacterInventoryGrid, pActiveCharacterDollType](
-                const CharacterPointerTarget &target)
-            {
-                const auto resolveItemLogName =
-                    [this](uint32_t objectDescriptionId) -> std::string
-                    {
-                        const ItemDefinition *pItemDefinition =
-                            m_pItemTable != nullptr ? m_pItemTable->get(objectDescriptionId) : nullptr;
-
-                        if (pItemDefinition == nullptr || pItemDefinition->name.empty())
-                        {
-                            return std::to_string(objectDescriptionId);
-                        }
-
-                        return pItemDefinition->name;
-                    };
-
-                const auto logCharacterItemAction =
-                    [this, &resolveItemLogName](const char *pAction, uint32_t objectDescriptionId, const std::string &detail)
-                    {
-                        const size_t memberIndex =
-                            m_pOutdoorPartyRuntime != nullptr ? m_pOutdoorPartyRuntime->party().activeMemberIndex() : 0;
-                        std::cout << "Character item " << pAction
-                                  << ": member=" << memberIndex
-                                  << " item=\"" << resolveItemLogName(objectDescriptionId) << "\"";
-
-                        if (!detail.empty())
-                        {
-                            std::cout << " " << detail;
-                        }
-
-                        std::cout << '\n';
-                    };
-
-                const auto setHeldItem =
-                    [this](const InventoryItem &item)
-                    {
-                        m_heldInventoryItem.active = true;
-                        m_heldInventoryItem.item = item;
-                        m_heldInventoryItem.grabCellOffsetX = 0;
-                        m_heldInventoryItem.grabCellOffsetY = 0;
-                        m_heldInventoryItem.grabOffsetX = 0.0f;
-                        m_heldInventoryItem.grabOffsetY = 0.0f;
-                    };
-
-                if (target.type == CharacterPointerTargetType::PageButton)
-                {
-                    if (m_characterPage != target.page)
-                    {
-                        m_characterPage = target.page;
-
-                        if (m_pGameAudioSystem != nullptr)
-                        {
-                            m_pGameAudioSystem->playCommonSound(
-                                SoundId::ClickIn,
-                                GameAudioSystem::PlaybackGroup::Ui);
-                        }
-                    }
-                }
-                else if (target.type == CharacterPointerTargetType::ExitButton)
-                {
-                    m_characterScreenOpen = false;
-                    m_characterDollJewelryOverlayOpen = false;
-                }
-                else if (target.type == CharacterPointerTargetType::MagnifyButton)
-                {
-                    m_characterDollJewelryOverlayOpen = !m_characterDollJewelryOverlayOpen;
-                }
-                else if (target.type == CharacterPointerTargetType::SkillRow
-                         && m_pOutdoorPartyRuntime != nullptr)
-                {
-                    if (m_pOutdoorPartyRuntime->party().increaseActiveMemberSkillLevel(target.skillName))
-                    {
-                        if (m_pGameAudioSystem != nullptr)
-                        {
-                            m_pGameAudioSystem->playCommonSound(
-                                SoundId::Quest,
-                                GameAudioSystem::PlaybackGroup::Ui);
-                        }
-
-                        playSpeechReaction(
-                            m_pOutdoorPartyRuntime->party().activeMemberIndex(),
-                            SpeechId::SkillIncreased,
-                            true);
-                    }
-                }
-                else if (target.type == CharacterPointerTargetType::InventoryItem
-                         && m_pOutdoorPartyRuntime != nullptr)
-                {
-                    Party &party = m_pOutdoorPartyRuntime->party();
-                    InventoryItem heldItem = {};
-
-                    if (party.takeItemFromMemberInventoryCell(
-                            party.activeMemberIndex(),
-                            target.gridX,
-                            target.gridY,
-                            heldItem))
-                    {
-                        setHeldItem(heldItem);
-                        logCharacterItemAction(
-                            "picked_up",
-                            heldItem.objectDescriptionId,
-                            "source=inventory cell=(" + std::to_string(target.gridX) + "," + std::to_string(target.gridY)
-                                + ")");
-
-                        const std::optional<ResolvedHudLayoutElement> resolvedInventoryGrid =
-                            resolveCharacterInventoryGrid();
-
-                        if (resolvedInventoryGrid)
-                        {
-                            const InventoryGridMetrics gridMetrics = computeInventoryGridMetrics(
-                                resolvedInventoryGrid->x,
-                                resolvedInventoryGrid->y,
-                                resolvedInventoryGrid->width,
-                                resolvedInventoryGrid->height,
-                                resolvedInventoryGrid->scale);
-                            const uint8_t hoveredGridX = static_cast<uint8_t>(std::clamp(
-                                static_cast<int>((mouseX - resolvedInventoryGrid->x) / gridMetrics.cellWidth),
-                                0,
-                                Character::InventoryWidth - 1));
-                            const uint8_t hoveredGridY = static_cast<uint8_t>(std::clamp(
-                                static_cast<int>((mouseY - resolvedInventoryGrid->y) / gridMetrics.cellHeight),
-                                0,
-                                Character::InventoryHeight - 1));
-                            m_heldInventoryItem.grabCellOffsetX = hoveredGridX - heldItem.gridX;
-                            m_heldInventoryItem.grabCellOffsetY = hoveredGridY - heldItem.gridY;
-                            const ItemDefinition *pItemDefinition =
-                                m_pItemTable != nullptr ? m_pItemTable->get(heldItem.objectDescriptionId) : nullptr;
-
-                            if (pItemDefinition != nullptr && !pItemDefinition->iconName.empty())
-                            {
-                                const HudTextureHandle *pItemTexture =
-                                    ensureHudTextureLoaded(pItemDefinition->iconName);
-
-                                if (pItemTexture != nullptr)
-                                {
-                                    const float itemWidth =
-                                        static_cast<float>(pItemTexture->width) * gridMetrics.scale;
-                                    const float itemHeight =
-                                        static_cast<float>(pItemTexture->height) * gridMetrics.scale;
-                                    const InventoryItemScreenRect itemRect =
-                                        computeInventoryItemScreenRect(gridMetrics, heldItem, itemWidth, itemHeight);
-                                    m_heldInventoryItem.grabOffsetX = mouseX - itemRect.x;
-                                    m_heldInventoryItem.grabOffsetY = mouseY - itemRect.y;
-                                }
-                            }
-                        }
-                    }
-                }
-                else if (target.type == CharacterPointerTargetType::EquipmentSlot
-                         && m_pOutdoorPartyRuntime != nullptr)
-                {
-                    Party &party = m_pOutdoorPartyRuntime->party();
-
-                    if (!m_heldInventoryItem.active)
-                    {
-                        InventoryItem unequippedItem = {};
-
-                        if (party.takeEquippedItemFromMember(
-                                party.activeMemberIndex(),
-                                target.equipmentSlot,
-                                unequippedItem))
-                        {
-                            setHeldItem(unequippedItem);
-                            logCharacterItemAction(
-                                "removed_from_doll",
-                                unequippedItem.objectDescriptionId,
-                                "slot=" + std::string(equipmentSlotName(target.equipmentSlot)));
-                        }
-
-                        return;
-                    }
-
-                    if (m_pItemTable != nullptr)
-                    {
-                        const InventoryItemUseAction useAction =
-                            InventoryItemUseRuntime::classifyItemUse(m_heldInventoryItem.item, *m_pItemTable);
-
-                        if (useAction == InventoryItemUseAction::ReadMessageScroll)
-                        {
-                            return;
-                        }
-
-                        if (useAction != InventoryItemUseAction::None && useAction != InventoryItemUseAction::Equip)
-                        {
-                            tryUseHeldItemOnPartyMember(party.activeMemberIndex(), true);
-                            return;
-                        }
-                    }
-
-                    const ItemDefinition *pItemDefinition =
-                        m_pItemTable != nullptr
-                        ? m_pItemTable->get(m_heldInventoryItem.item.objectDescriptionId)
-                        : nullptr;
-
-                    if (pItemDefinition == nullptr)
-                    {
-                        return;
-                    }
-
-                    const std::optional<CharacterEquipPlan> plan =
-                        GameMechanics::resolveCharacterEquipPlan(
-                            *party.activeMember(),
-                            *pItemDefinition,
-                            m_pItemTable,
-                            pActiveCharacterDollType,
-                            target.equipmentSlot,
-                            false);
-
-                    if (!plan)
-                    {
-                        logCharacterItemAction(
-                            "equip_rejected",
-                            m_heldInventoryItem.item.objectDescriptionId,
-                            "target=" + std::string(equipmentSlotName(target.equipmentSlot)));
-                        setStatusBarEvent("Can't equip that item there");
-                        return;
-                    }
-
-                    std::optional<InventoryItem> heldReplacement;
-
-                    if (!party.tryEquipItemOnMember(
-                            party.activeMemberIndex(),
-                            plan->targetSlot,
-                            m_heldInventoryItem.item,
-                            plan->displacedSlot,
-                            plan->autoStoreDisplacedItem,
-                            heldReplacement))
-                    {
-                        logCharacterItemAction(
-                            "equip_failed",
-                            m_heldInventoryItem.item.objectDescriptionId,
-                            "target=" + std::string(equipmentSlotName(plan->targetSlot))
-                                + " reason=\"" + party.lastStatus() + "\"");
-                        setStatusBarEvent(party.lastStatus().empty() ? "Can't equip that item" : party.lastStatus());
-                        return;
-                    }
-
-                    logCharacterItemAction(
-                        "placed_on_doll",
-                        m_heldInventoryItem.item.objectDescriptionId,
-                        "slot=" + std::string(equipmentSlotName(plan->targetSlot)));
-
-                    if (heldReplacement)
-                    {
-                        setHeldItem(*heldReplacement);
-                    }
-                    else
-                    {
-                        m_heldInventoryItem = {};
-                    }
-                }
-                else if (target.type == CharacterPointerTargetType::InventoryCell
-                         && m_pOutdoorPartyRuntime != nullptr
-                         && m_heldInventoryItem.active)
-                {
-                    const std::optional<ResolvedHudLayoutElement> resolvedInventoryGrid =
-                        resolveCharacterInventoryGrid();
-
-                    if (!resolvedInventoryGrid)
-                    {
-                        return;
-                    }
-
-                    const ItemDefinition *pItemDefinition =
-                        m_pItemTable != nullptr
-                        ? m_pItemTable->get(m_heldInventoryItem.item.objectDescriptionId)
-                        : nullptr;
-
-                    if (pItemDefinition == nullptr || pItemDefinition->iconName.empty())
-                    {
-                        return;
-                    }
-
-                    const HudTextureHandle *pItemTexture = ensureHudTextureLoaded(
-                        pItemDefinition->iconName);
-
-                    if (pItemTexture == nullptr)
-                    {
-                        return;
-                    }
-
-                    const InventoryGridMetrics gridMetrics = computeInventoryGridMetrics(
-                        resolvedInventoryGrid->x,
-                        resolvedInventoryGrid->y,
-                        resolvedInventoryGrid->width,
-                        resolvedInventoryGrid->height,
-                        resolvedInventoryGrid->scale);
-                    const float itemWidth = static_cast<float>(pItemTexture->width) * gridMetrics.scale;
-                    const float itemHeight = static_cast<float>(pItemTexture->height) * gridMetrics.scale;
-                    const float drawX = mouseX - m_heldInventoryItem.grabOffsetX;
-                    const float drawY = mouseY - m_heldInventoryItem.grabOffsetY;
-                    const std::optional<std::pair<int, int>> placement =
-                        computeHeldInventoryPlacement(
-                            gridMetrics,
-                            m_heldInventoryItem.item.width,
-                            m_heldInventoryItem.item.height,
-                            itemWidth,
-                            itemHeight,
-                            drawX,
-                            drawY);
-
-                    if (!placement)
-                    {
-                        return;
-                    }
-
-                    const int destinationGridX = placement->first;
-                    const int destinationGridY = placement->second;
-
-                    if (destinationGridX < 0
-                        || destinationGridY < 0
-                        || destinationGridX >= Character::InventoryWidth
-                        || destinationGridY >= Character::InventoryHeight)
-                    {
-                        return;
-                    }
-
-                    Party &party = m_pOutdoorPartyRuntime->party();
-                    std::optional<InventoryItem> replacedItem;
-
-                    if (party.tryPlaceItemInMemberInventoryCell(
-                            party.activeMemberIndex(),
-                            m_heldInventoryItem.item,
-                            static_cast<uint8_t>(destinationGridX),
-                            static_cast<uint8_t>(destinationGridY),
-                            replacedItem))
-                    {
-                        if (replacedItem)
-                        {
-                            m_heldInventoryItem.item = *replacedItem;
-                            m_heldInventoryItem.grabCellOffsetX = 0;
-                            m_heldInventoryItem.grabCellOffsetY = 0;
-                            m_heldInventoryItem.grabOffsetX = 0.0f;
-                            m_heldInventoryItem.grabOffsetY = 0.0f;
-                        }
-                        else
-                        {
-                            m_heldInventoryItem = {};
-                        }
-                    }
-                }
-                else if (target.type == CharacterPointerTargetType::DollPanel
-                         && m_heldInventoryItem.active)
-                {
-                    if (m_pOutdoorPartyRuntime == nullptr)
-                    {
-                        return;
-                    }
-
-                    Party &party = m_pOutdoorPartyRuntime->party();
-
-                    if (m_pItemTable != nullptr)
-                    {
-                        const InventoryItemUseAction useAction =
-                            InventoryItemUseRuntime::classifyItemUse(m_heldInventoryItem.item, *m_pItemTable);
-
-                        if (useAction == InventoryItemUseAction::ReadMessageScroll)
-                        {
-                            return;
-                        }
-
-                        if (useAction != InventoryItemUseAction::None && useAction != InventoryItemUseAction::Equip)
-                        {
-                            tryUseHeldItemOnPartyMember(party.activeMemberIndex(), true);
-                            return;
-                        }
-                    }
-
-                    const ItemDefinition *pItemDefinition =
-                        m_pItemTable != nullptr
-                        ? m_pItemTable->get(m_heldInventoryItem.item.objectDescriptionId)
-                        : nullptr;
-
-                    if (pItemDefinition == nullptr)
-                    {
-                        return;
-                    }
-
-                    const HudLayoutElement *pDollLayout = findHudLayoutElement("CharacterDollPanel");
-                    const std::optional<ResolvedHudLayoutElement> resolvedDoll = pDollLayout != nullptr
-                        ? resolveHudLayoutElement(
-                            "CharacterDollPanel",
-                            screenWidth,
-                            screenHeight,
-                            pDollLayout->width,
-                            pDollLayout->height)
-                        : std::nullopt;
-                    const bool preferOffHand =
-                        resolvedDoll && mouseX >= resolvedDoll->x + resolvedDoll->width * 0.5f;
-                    const std::optional<CharacterEquipPlan> plan =
-                        GameMechanics::resolveCharacterEquipPlan(
-                            *party.activeMember(),
-                            *pItemDefinition,
-                            m_pItemTable,
-                            pActiveCharacterDollType,
-                            std::nullopt,
-                            preferOffHand);
-
-                    if (!plan)
-                    {
-                        logCharacterItemAction(
-                            "equip_rejected",
-                            m_heldInventoryItem.item.objectDescriptionId,
-                            "target=auto");
-                        setStatusBarEvent("Can't equip that item");
-                        return;
-                    }
-
-                    std::optional<InventoryItem> heldReplacement;
-
-                    if (!party.tryEquipItemOnMember(
-                            party.activeMemberIndex(),
-                            plan->targetSlot,
-                            m_heldInventoryItem.item,
-                            plan->displacedSlot,
-                            plan->autoStoreDisplacedItem,
-                            heldReplacement))
-                    {
-                        logCharacterItemAction(
-                            "equip_failed",
-                            m_heldInventoryItem.item.objectDescriptionId,
-                            "target=" + std::string(equipmentSlotName(plan->targetSlot))
-                                + " reason=\"" + party.lastStatus() + "\"");
-                        setStatusBarEvent(party.lastStatus().empty() ? "Can't equip that item" : party.lastStatus());
-                        return;
-                    }
-
-                    logCharacterItemAction(
-                        "placed_on_doll",
-                        m_heldInventoryItem.item.objectDescriptionId,
-                        "slot=" + std::string(equipmentSlotName(plan->targetSlot)));
-
-                    if (heldReplacement)
-                    {
-                        setHeldItem(*heldReplacement);
-                    }
-                    else
-                    {
-                        m_heldInventoryItem = {};
-                    }
-                }
-            });
-
+        GameplayPartyOverlayInputController::handleCharacterOverlayInput(*this, pKeyboardState, screenWidth, screenHeight);
         return;
     }
 
@@ -28198,544 +20402,13 @@ void OutdoorGameView::updateCameraFromInput(float deltaSeconds)
     m_characterPressedTarget = {};
     closeReadableScrollOverlay();
 
-    if (hasActiveLootView)
-    {
-        const OutdoorWorldRuntime::ChestViewState *pChestView = m_pOutdoorWorldRuntime->activeChestView();
-        const OutdoorWorldRuntime::CorpseViewState *pCorpseView = m_pOutdoorWorldRuntime->activeCorpseView();
-        const size_t itemCount =
-            pChestView != nullptr ? pChestView->items.size() : (pCorpseView != nullptr ? pCorpseView->items.size() : 0);
-
-        if (pChestView != nullptr && screenWidth > 0 && screenHeight > 0)
-        {
-            float chestMouseX = 0.0f;
-            float chestMouseY = 0.0f;
-            const SDL_MouseButtonFlags chestMouseButtons = SDL_GetMouseState(&chestMouseX, &chestMouseY);
-            const bool isChestLeftMousePressed = (chestMouseButtons & SDL_BUTTON_LMASK) != 0;
-            const HudPointerState chestPointerState = {
-                chestMouseX,
-                chestMouseY,
-                isChestLeftMousePressed
-            };
-            const auto setHeldItem =
-                [this](const InventoryItem &item)
-                {
-                    m_heldInventoryItem.active = true;
-                    m_heldInventoryItem.item = item;
-                    m_heldInventoryItem.grabCellOffsetX = 0;
-                    m_heldInventoryItem.grabCellOffsetY = 0;
-                    m_heldInventoryItem.grabOffsetX = 0.0f;
-                    m_heldInventoryItem.grabOffsetY = 0.0f;
-                };
-            const auto findChestPointerTarget =
-                [this, screenWidth, screenHeight](float mouseX, float mouseY) -> ChestPointerTarget
-                {
-                    const HudLayoutElement *pCloseLayout = findHudLayoutElement("ChestCloseButton");
-
-                    if (pCloseLayout == nullptr)
-                    {
-                        return {};
-                    }
-
-                    const std::optional<ResolvedHudLayoutElement> resolvedClose = resolveHudLayoutElement(
-                        "ChestCloseButton",
-                        screenWidth,
-                        screenHeight,
-                        pCloseLayout->width,
-                        pCloseLayout->height);
-
-                    if (!resolvedClose)
-                    {
-                        return {};
-                    }
-
-                    if (mouseX >= resolvedClose->x
-                        && mouseX < resolvedClose->x + resolvedClose->width
-                        && mouseY >= resolvedClose->y
-                        && mouseY < resolvedClose->y + resolvedClose->height)
-                    {
-                        return {ChestPointerTargetType::CloseButton};
-                    }
-
-                    return {};
-                };
-            const bool inventoryNestedOverlayActive =
-                m_inventoryNestedOverlay.active
-                && m_inventoryNestedOverlay.mode == InventoryNestedOverlayMode::ChestTransfer
-                && m_pOutdoorPartyRuntime != nullptr;
-
-            if (inventoryNestedOverlayActive)
-            {
-                if (m_inventoryNestedOverlay.active)
-                {
-                    const std::optional<ResolvedHudLayoutElement> resolvedInventoryGrid =
-                        resolveInventoryNestedOverlayGridArea(screenWidth, screenHeight);
-
-                    if (resolvedInventoryGrid
-                        && isChestLeftMousePressed
-                        && !m_inventoryNestedOverlayItemClickLatch
-                        && chestMouseX >= resolvedInventoryGrid->x
-                        && chestMouseX < resolvedInventoryGrid->x + resolvedInventoryGrid->width
-                        && chestMouseY >= resolvedInventoryGrid->y
-                        && chestMouseY < resolvedInventoryGrid->y + resolvedInventoryGrid->height)
-                    {
-                        Party &party = m_pOutdoorPartyRuntime->party();
-                        const Character *pCharacter = party.activeMember();
-                        const InventoryGridMetrics gridMetrics = computeInventoryGridMetrics(
-                            resolvedInventoryGrid->x,
-                            resolvedInventoryGrid->y,
-                            resolvedInventoryGrid->width,
-                            resolvedInventoryGrid->height,
-                            resolvedInventoryGrid->scale);
-                        const uint8_t gridX = static_cast<uint8_t>(std::clamp(
-                            static_cast<int>((chestMouseX - resolvedInventoryGrid->x) / gridMetrics.cellWidth),
-                            0,
-                            Character::InventoryWidth - 1));
-                        const uint8_t gridY = static_cast<uint8_t>(std::clamp(
-                            static_cast<int>((chestMouseY - resolvedInventoryGrid->y) / gridMetrics.cellHeight),
-                            0,
-                            Character::InventoryHeight - 1));
-
-                        if (m_heldInventoryItem.active)
-                        {
-                            const ItemDefinition *pItemDefinition =
-                                m_pItemTable != nullptr
-                                ? m_pItemTable->get(m_heldInventoryItem.item.objectDescriptionId)
-                                : nullptr;
-
-                            if (pItemDefinition != nullptr && !pItemDefinition->iconName.empty())
-                            {
-                                const HudTextureHandle *pItemTexture = ensureHudTextureLoaded(pItemDefinition->iconName);
-
-                                if (pItemTexture != nullptr)
-                                {
-                                    const float itemWidth = static_cast<float>(pItemTexture->width) * gridMetrics.scale;
-                                    const float itemHeight = static_cast<float>(pItemTexture->height) * gridMetrics.scale;
-                                    const float drawX = chestMouseX - m_heldInventoryItem.grabOffsetX;
-                                    const float drawY = chestMouseY - m_heldInventoryItem.grabOffsetY;
-                                    const std::optional<std::pair<int, int>> placement =
-                                        computeHeldInventoryPlacement(
-                                            gridMetrics,
-                                            m_heldInventoryItem.item.width,
-                                            m_heldInventoryItem.item.height,
-                                            itemWidth,
-                                            itemHeight,
-                                            drawX,
-                                            drawY);
-
-                                    if (placement
-                                        && placement->first >= 0
-                                        && placement->second >= 0
-                                        && placement->first < Character::InventoryWidth
-                                        && placement->second < Character::InventoryHeight)
-                                    {
-                                        std::optional<InventoryItem> replacedItem;
-
-                                        if (party.tryPlaceItemInMemberInventoryCell(
-                                                party.activeMemberIndex(),
-                                                m_heldInventoryItem.item,
-                                                static_cast<uint8_t>(placement->first),
-                                                static_cast<uint8_t>(placement->second),
-                                                replacedItem))
-                                        {
-                                            if (replacedItem)
-                                            {
-                                                m_heldInventoryItem.item = *replacedItem;
-                                                m_heldInventoryItem.grabCellOffsetX = 0;
-                                                m_heldInventoryItem.grabCellOffsetY = 0;
-                                                m_heldInventoryItem.grabOffsetX = 0.0f;
-                                                m_heldInventoryItem.grabOffsetY = 0.0f;
-                                            }
-                                            else
-                                            {
-                                                m_heldInventoryItem = {};
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                        else if (pCharacter != nullptr)
-                        {
-                            const InventoryItem *pItem = pCharacter->inventoryItemAt(gridX, gridY);
-                            InventoryItem heldItem = {};
-
-                            if (pItem != nullptr
-                                && party.takeItemFromMemberInventoryCell(
-                                    party.activeMemberIndex(),
-                                    pItem->gridX,
-                                    pItem->gridY,
-                                    heldItem))
-                            {
-                                setHeldItem(heldItem);
-                                const ItemDefinition *pItemDefinition =
-                                    m_pItemTable != nullptr ? m_pItemTable->get(heldItem.objectDescriptionId) : nullptr;
-
-                                if (pItemDefinition != nullptr && !pItemDefinition->iconName.empty())
-                                {
-                                    const HudTextureHandle *pItemTexture = ensureHudTextureLoaded(pItemDefinition->iconName);
-
-                                    if (pItemTexture != nullptr)
-                                    {
-                                        const float itemWidth =
-                                            static_cast<float>(pItemTexture->width) * gridMetrics.scale;
-                                        const float itemHeight =
-                                            static_cast<float>(pItemTexture->height) * gridMetrics.scale;
-                                        const InventoryItemScreenRect itemRect =
-                                            computeInventoryItemScreenRect(gridMetrics, heldItem, itemWidth, itemHeight);
-                                        m_heldInventoryItem.grabOffsetX = chestMouseX - itemRect.x;
-                                        m_heldInventoryItem.grabOffsetY = chestMouseY - itemRect.y;
-                                    }
-                                }
-                            }
-                        }
-
-                        m_inventoryNestedOverlayItemClickLatch = true;
-                    }
-                    else if (!isChestLeftMousePressed)
-                    {
-                        m_inventoryNestedOverlayItemClickLatch = false;
-                    }
-                }
-            }
-
-            const ChestPointerTarget noneChestTarget = {};
-            handlePointerClickRelease(
-                chestPointerState,
-                m_chestClickLatch,
-                m_chestPressedTarget,
-                noneChestTarget,
-                findChestPointerTarget,
-                [this](const ChestPointerTarget &target)
-                {
-                    if (target.type != ChestPointerTargetType::CloseButton)
-                    {
-                        return;
-                    }
-
-                    if (m_inventoryNestedOverlay.active)
-                    {
-                        closeInventoryNestedOverlay();
-                        return;
-                    }
-
-                    if (m_pOutdoorWorldRuntime != nullptr)
-                    {
-                        if (m_pGameAudioSystem != nullptr && m_pOutdoorWorldRuntime->activeChestView() != nullptr)
-                        {
-                            m_pGameAudioSystem->playCommonSound(
-                                SoundId::ChestClose,
-                                GameAudioSystem::PlaybackGroup::Ui);
-                        }
-
-                        m_pOutdoorWorldRuntime->closeActiveChestView();
-                        m_pOutdoorWorldRuntime->closeActiveCorpseView();
-                        closeInventoryNestedOverlay();
-                        m_activateInspectLatch = true;
-                        m_chestSelectionIndex = 0;
-                    }
-                });
-
-            const std::optional<ResolvedHudLayoutElement> resolvedChestGrid = resolveChestGridArea(screenWidth, screenHeight);
-            const ChestPointerTarget hoveredChestTarget = findChestPointerTarget(chestMouseX, chestMouseY);
-
-            if (!inventoryNestedOverlayActive
-                && resolvedChestGrid
-                && isChestLeftMousePressed
-                && !m_chestItemClickLatch
-                && hoveredChestTarget.type == ChestPointerTargetType::None
-                && chestMouseX >= resolvedChestGrid->x
-                && chestMouseX < resolvedChestGrid->x + resolvedChestGrid->width
-                && chestMouseY >= resolvedChestGrid->y
-                && chestMouseY < resolvedChestGrid->y + resolvedChestGrid->height)
-            {
-                const InventoryGridMetrics chestGridMetrics = computeInventoryGridMetrics(
-                    resolvedChestGrid->x,
-                    resolvedChestGrid->y,
-                    resolvedChestGrid->width,
-                    resolvedChestGrid->height,
-                    resolvedChestGrid->scale,
-                    pChestView->gridWidth,
-                    pChestView->gridHeight);
-                const uint8_t gridX = static_cast<uint8_t>(std::clamp(
-                    static_cast<int>((chestMouseX - resolvedChestGrid->x) / chestGridMetrics.cellWidth),
-                    0,
-                    static_cast<int>(pChestView->gridWidth) - 1));
-                const uint8_t gridY = static_cast<uint8_t>(std::clamp(
-                    static_cast<int>((chestMouseY - resolvedChestGrid->y) / chestGridMetrics.cellHeight),
-                    0,
-                    static_cast<int>(pChestView->gridHeight) - 1));
-
-                if (m_heldInventoryItem.active)
-                {
-                    OutdoorWorldRuntime::ChestItemState chestItem = {};
-                    chestItem.item = m_heldInventoryItem.item;
-                    chestItem.itemId = m_heldInventoryItem.item.objectDescriptionId;
-                    chestItem.quantity = m_heldInventoryItem.item.quantity;
-                    chestItem.width = m_heldInventoryItem.item.width;
-                    chestItem.height = m_heldInventoryItem.item.height;
-                    const ItemDefinition *pItemDefinition =
-                        m_pItemTable != nullptr ? m_pItemTable->get(m_heldInventoryItem.item.objectDescriptionId) : nullptr;
-
-                    if (pItemDefinition != nullptr)
-                    {
-                        const HudTextureHandle *pItemTexture = ensureHudTextureLoaded(pItemDefinition->iconName);
-
-                        if (pItemTexture != nullptr)
-                        {
-                            const float itemWidth = static_cast<float>(pItemTexture->width) * chestGridMetrics.scale;
-                            const float itemHeight = static_cast<float>(pItemTexture->height) * chestGridMetrics.scale;
-                            const float drawX = chestMouseX - m_heldInventoryItem.grabOffsetX;
-                            const float drawY = chestMouseY - m_heldInventoryItem.grabOffsetY;
-                            const std::optional<std::pair<int, int>> placement =
-                                computeHeldInventoryPlacement(
-                                    chestGridMetrics,
-                                    chestItem.width,
-                                    chestItem.height,
-                                    itemWidth,
-                                    itemHeight,
-                                    drawX,
-                                    drawY);
-
-                            if (placement
-                                && placement->first >= 0
-                                && placement->second >= 0
-                                && placement->first < pChestView->gridWidth
-                                && placement->second < pChestView->gridHeight
-                                && m_pOutdoorWorldRuntime->tryPlaceActiveChestItemAt(
-                                    chestItem,
-                                    static_cast<uint8_t>(placement->first),
-                                    static_cast<uint8_t>(placement->second)))
-                            {
-                                m_heldInventoryItem = {};
-                            }
-                        }
-                    }
-                }
-                else if (m_pOutdoorWorldRuntime != nullptr && m_pOutdoorPartyRuntime != nullptr)
-                {
-                    OutdoorWorldRuntime::ChestItemState takenItem = {};
-
-                    if (m_pOutdoorWorldRuntime->takeActiveChestItemAt(gridX, gridY, takenItem))
-                    {
-                        if (takenItem.isGold)
-                        {
-                            m_pOutdoorPartyRuntime->party().addGold(static_cast<int>(takenItem.goldAmount));
-                        }
-                        else
-                        {
-                            m_heldInventoryItem.active = true;
-                            m_heldInventoryItem.item = takenItem.item;
-                            m_heldInventoryItem.item.objectDescriptionId =
-                                takenItem.item.objectDescriptionId != 0 ? takenItem.item.objectDescriptionId : takenItem.itemId;
-                            m_heldInventoryItem.item.quantity = takenItem.quantity;
-                            m_heldInventoryItem.item.width = takenItem.width;
-                            m_heldInventoryItem.item.height = takenItem.height;
-                            m_heldInventoryItem.item.gridX = takenItem.gridX;
-                            m_heldInventoryItem.item.gridY = takenItem.gridY;
-                            m_heldInventoryItem.grabCellOffsetX = 0;
-                            m_heldInventoryItem.grabCellOffsetY = 0;
-                            m_heldInventoryItem.grabOffsetX = 0.0f;
-                            m_heldInventoryItem.grabOffsetY = 0.0f;
-
-                            const ItemDefinition *pItemDefinition =
-                                m_pItemTable != nullptr ? m_pItemTable->get(takenItem.itemId) : nullptr;
-
-                            if (pItemDefinition != nullptr && !pItemDefinition->iconName.empty())
-                            {
-                                const HudTextureHandle *pItemTexture = ensureHudTextureLoaded(pItemDefinition->iconName);
-
-                                if (pItemTexture != nullptr)
-                                {
-                                    InventoryItem heldItem = {};
-                                    heldItem = m_heldInventoryItem.item;
-                                    const float itemWidth = static_cast<float>(pItemTexture->width) * chestGridMetrics.scale;
-                                    const float itemHeight = static_cast<float>(pItemTexture->height) * chestGridMetrics.scale;
-                                    const InventoryItemScreenRect itemRect =
-                                        computeInventoryItemScreenRect(chestGridMetrics, heldItem, itemWidth, itemHeight);
-                                    m_heldInventoryItem.grabOffsetX = chestMouseX - itemRect.x;
-                                    m_heldInventoryItem.grabOffsetY = chestMouseY - itemRect.y;
-                                }
-                            }
-                        }
-                    }
-                }
-
-                m_chestItemClickLatch = true;
-            }
-            else if (!isChestLeftMousePressed)
-            {
-                m_chestItemClickLatch = false;
-            }
-        }
-        else
-        {
-            m_chestClickLatch = false;
-            m_chestItemClickLatch = false;
-            m_chestPressedTarget = {};
-            m_inventoryNestedOverlayClickLatch = false;
-            m_inventoryNestedOverlayItemClickLatch = false;
-            m_inventoryNestedOverlayPressedTarget = {};
-        }
-
-        if (itemCount == 0)
-        {
-            m_chestSelectionIndex = 0;
-        }
-        else if (m_chestSelectionIndex >= itemCount)
-        {
-            m_chestSelectionIndex = itemCount - 1;
-        }
-
-        if (pKeyboardState[SDL_SCANCODE_UP])
-        {
-            if (!m_chestSelectUpLatch && itemCount > 0)
-            {
-                m_chestSelectionIndex = (m_chestSelectionIndex == 0) ? (itemCount - 1) : (m_chestSelectionIndex - 1);
-                m_chestSelectUpLatch = true;
-            }
-        }
-        else
-        {
-            m_chestSelectUpLatch = false;
-        }
-
-        if (pKeyboardState[SDL_SCANCODE_DOWN])
-        {
-            if (!m_chestSelectDownLatch && itemCount > 0)
-            {
-                m_chestSelectionIndex = (m_chestSelectionIndex + 1) % itemCount;
-                m_chestSelectDownLatch = true;
-            }
-        }
-        else
-        {
-            m_chestSelectDownLatch = false;
-        }
-
-        const bool lootPressed = pKeyboardState[SDL_SCANCODE_RETURN] || pKeyboardState[SDL_SCANCODE_SPACE];
-
-        if (lootPressed)
-        {
-            if (!m_lootChestItemLatch
-                && !m_inventoryNestedOverlay.active
-                && itemCount > 0
-                && m_pOutdoorPartyRuntime != nullptr)
-            {
-                const OutdoorWorldRuntime::ChestViewState *pCurrentChestView = m_pOutdoorWorldRuntime->activeChestView();
-                const OutdoorWorldRuntime::CorpseViewState *pCurrentCorpseView = m_pOutdoorWorldRuntime->activeCorpseView();
-
-                const std::vector<OutdoorWorldRuntime::ChestItemState> *pItems = nullptr;
-
-                if (pCurrentChestView != nullptr)
-                {
-                    pItems = &pCurrentChestView->items;
-                }
-                else if (pCurrentCorpseView != nullptr)
-                {
-                    pItems = &pCurrentCorpseView->items;
-                }
-
-                if (pItems != nullptr && m_chestSelectionIndex < pItems->size())
-                {
-                    const OutdoorWorldRuntime::ChestItemState item = (*pItems)[m_chestSelectionIndex];
-                    bool canLoot = true;
-
-                    if (!item.isGold)
-                    {
-                        canLoot = m_pOutdoorPartyRuntime->party().tryGrantInventoryItem(item.item);
-                    }
-
-                    if (canLoot)
-                    {
-                        OutdoorWorldRuntime::ChestItemState removedItem = {};
-                        const bool removed = pCurrentChestView != nullptr
-                            ? m_pOutdoorWorldRuntime->takeActiveChestItem(m_chestSelectionIndex, removedItem)
-                            : m_pOutdoorWorldRuntime->takeActiveCorpseItem(m_chestSelectionIndex, removedItem);
-
-                        if (removed)
-                        {
-                            if (removedItem.isGold)
-                            {
-                                m_pOutdoorPartyRuntime->party().addGold(static_cast<int>(removedItem.goldAmount));
-                            }
-
-                            const OutdoorWorldRuntime::ChestViewState *pUpdatedChestView =
-                                m_pOutdoorWorldRuntime->activeChestView();
-                            const OutdoorWorldRuntime::CorpseViewState *pUpdatedCorpseView =
-                                m_pOutdoorWorldRuntime->activeCorpseView();
-                            const std::vector<OutdoorWorldRuntime::ChestItemState> *pUpdatedItems = nullptr;
-
-                            if (pUpdatedChestView != nullptr)
-                            {
-                                pUpdatedItems = &pUpdatedChestView->items;
-                            }
-                            else if (pUpdatedCorpseView != nullptr)
-                            {
-                                pUpdatedItems = &pUpdatedCorpseView->items;
-                            }
-
-                            if (pUpdatedItems != nullptr && !pUpdatedItems->empty()
-                                && m_chestSelectionIndex >= pUpdatedItems->size())
-                            {
-                                m_chestSelectionIndex = pUpdatedItems->size() - 1;
-                            }
-                        }
-                    }
-                }
-
-                m_lootChestItemLatch = true;
-            }
-        }
-        else
-        {
-            m_lootChestItemLatch = false;
-        }
-
-        const bool closePressed = pKeyboardState[SDL_SCANCODE_ESCAPE] || pKeyboardState[SDL_SCANCODE_E];
-
-        if (closePressed)
-        {
-            if (!m_closeOverlayLatch)
-            {
-                if (m_inventoryNestedOverlay.active)
-                {
-                    closeInventoryNestedOverlay();
-                }
-                else if (m_pOutdoorWorldRuntime != nullptr)
-                {
-                    if (m_pGameAudioSystem != nullptr && m_pOutdoorWorldRuntime->activeChestView() != nullptr)
-                    {
-                        m_pGameAudioSystem->playCommonSound(
-                            SoundId::ChestClose,
-                            GameAudioSystem::PlaybackGroup::Ui);
-                    }
-
-                    m_pOutdoorWorldRuntime->closeActiveChestView();
-                    m_pOutdoorWorldRuntime->closeActiveCorpseView();
-                    m_activateInspectLatch = true;
-                    m_chestSelectionIndex = 0;
-                }
-
-                m_closeOverlayLatch = true;
-            }
-        }
-        else
-        {
-            m_closeOverlayLatch = false;
-        }
-    }
-    else
-    {
-        m_closeOverlayLatch = false;
-        m_chestClickLatch = false;
-        m_chestItemClickLatch = false;
-        m_chestPressedTarget = {};
-        closeInventoryNestedOverlay();
-        m_lootChestItemLatch = false;
-        m_chestSelectUpLatch = false;
-        m_chestSelectDownLatch = false;
-        m_chestSelectionIndex = 0;
-    }
+    GameplayOverlayContext overlayContext(*this);
+    GameplayOverlayInputController::handleLootOverlayInput(
+        overlayContext,
+        pKeyboardState,
+        screenWidth,
+        screenHeight,
+        hasActiveLootView);
 
     const bool turboSpeed = pKeyboardState[SDL_SCANCODE_LSHIFT] || pKeyboardState[SDL_SCANCODE_RSHIFT];
     const float mouseRotateSpeed = 0.0045f;
@@ -28783,11 +20456,6 @@ void OutdoorGameView::updateCameraFromInput(float deltaSeconds)
     {
         if (m_pOutdoorPartyRuntime)
         {
-            if (!hasActiveLootView && !hasPendingSpellCast && m_pOutdoorWorldRuntime != nullptr)
-            {
-                m_pOutdoorPartyRuntime->setActorColliders(buildRuntimeActorColliders(*m_pOutdoorWorldRuntime));
-            }
-
             if (!hasActiveLootView && !hasPendingSpellCast)
             {
                 const OutdoorMovementInput movementInput = {
@@ -28800,35 +20468,17 @@ void OutdoorGameView::updateCameraFromInput(float deltaSeconds)
                     turboSpeed,
                     m_cameraYawRadians
                 };
-                m_pOutdoorPartyRuntime->update(movementInput, deltaSeconds);
-
-                size_t previousMessageCount = 0;
-
-                if (m_pOutdoorWorldRuntime != nullptr && m_pOutdoorWorldRuntime->eventRuntimeState() != nullptr)
+                if (m_pOutdoorSceneRuntime != nullptr)
                 {
-                    previousMessageCount = m_pOutdoorWorldRuntime->eventRuntimeState()->messages.size();
-                }
+                    const OutdoorSceneRuntime::AdvanceFrameResult frameAdvanceResult =
+                        m_pOutdoorSceneRuntime->advanceFrame(movementInput, deltaSeconds);
 
-                if (m_pOutdoorWorldRuntime != nullptr
-                    && m_pOutdoorWorldRuntime->updateTimers(
-                        deltaSeconds,
-                        m_eventRuntime,
-                        m_localEventIrProgram,
-                        m_globalEventIrProgram))
-                {
-                    m_pOutdoorPartyRuntime->applyEventRuntimeState(*m_pOutdoorWorldRuntime->eventRuntimeState());
-                    openPendingEventDialog(previousMessageCount, true);
-                }
-
-                if (m_pOutdoorWorldRuntime != nullptr)
-                {
-                    const OutdoorMoveState &moveState = m_pOutdoorPartyRuntime->movementState();
-                    m_pOutdoorWorldRuntime->updateMapActors(deltaSeconds, moveState.x, moveState.y, moveState.footZ);
                     applyPendingCombatEvents();
-                    notifyFriendlyActorContacts(
-                        *m_pOutdoorWorldRuntime,
-                        moveState,
-                        m_pOutdoorPartyRuntime->movementEvents());
+
+                    if (frameAdvanceResult.shouldOpenEventDialog)
+                    {
+                        openPendingEventDialog(frameAdvanceResult.previousMessageCount, true);
+                    }
                 }
             }
 
@@ -29074,7 +20724,8 @@ void OutdoorGameView::updateCameraFromInput(float deltaSeconds)
                 m_map.has_value()
                 && m_map->id == DwiMapId
                 && m_outdoorMapData.has_value()
-                && m_localEventIrProgram.has_value();
+                && m_pOutdoorSceneRuntime != nullptr
+                && m_pOutdoorSceneRuntime->localEventIrProgram().has_value();
 
             if (isDwiOutdoor)
             {

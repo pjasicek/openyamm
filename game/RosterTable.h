@@ -39,6 +39,7 @@ public:
 
     const RosterEntry *get(uint32_t rosterId) const;
     const RosterEntry *findByName(const std::string &name) const;
+    std::vector<const RosterEntry *> getEntriesSortedById() const;
 
 private:
     std::unordered_map<uint32_t, RosterEntry> m_entries;
