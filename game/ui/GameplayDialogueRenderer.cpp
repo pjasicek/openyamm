@@ -1,10 +1,10 @@
 #include "game/ui/GameplayDialogueRenderer.h"
 #include "game/ui/GameplayOverlayContext.h"
 
-#include "game/HouseServiceRuntime.h"
-#include "game/ItemTable.h"
-#include "game/OutdoorPartyRuntime.h"
-#include "game/OutdoorWorldRuntime.h"
+#include "game/gameplay/HouseServiceRuntime.h"
+#include "game/tables/ItemTable.h"
+#include "game/outdoor/OutdoorPartyRuntime.h"
+#include "game/outdoor/OutdoorWorldRuntime.h"
 #include "game/StringUtils.h"
 
 #include <bx/math.h>

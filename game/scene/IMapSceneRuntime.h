@@ -1,7 +1,7 @@
 #pragma once
 
-#include "game/EventRuntime.h"
-#include "game/Party.h"
+#include "game/events/EventRuntime.h"
+#include "game/party/Party.h"
 #include "game/scene/SceneKind.h"
 
 #include <optional>

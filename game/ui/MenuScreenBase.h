@@ -1,7 +1,7 @@
 #pragma once
 
 #include "engine/AssetFileSystem.h"
-#include "game/IScreen.h"
+#include "game/ui/IScreen.h"
 
 #include <bgfx/bgfx.h>
 

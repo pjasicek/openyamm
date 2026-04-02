@@ -1,6 +1,6 @@
 #include "game/ui/screens/LoadMenuScreen.h"
 
-#include "game/SaveGame.h"
+#include "game/maps/SaveGame.h"
 
 #include <algorithm>
 #include <array>

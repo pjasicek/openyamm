@@ -1,11 +1,11 @@
 #include "game/gameplay/GameplayOverlayInputController.h"
 
-#include "game/HouseInteraction.h"
-#include "game/HouseServiceRuntime.h"
-#include "game/ItemTable.h"
-#include "game/OutdoorGameView.h"
-#include "game/OutdoorPartyRuntime.h"
-#include "game/OutdoorWorldRuntime.h"
+#include "game/gameplay/HouseInteraction.h"
+#include "game/gameplay/HouseServiceRuntime.h"
+#include "game/tables/ItemTable.h"
+#include "game/outdoor/OutdoorGameView.h"
+#include "game/outdoor/OutdoorPartyRuntime.h"
+#include "game/outdoor/OutdoorWorldRuntime.h"
 #include "game/StringUtils.h"
 #include "game/ui/GameplayOverlayContext.h"
 

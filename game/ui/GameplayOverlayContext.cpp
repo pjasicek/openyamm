@@ -1,15 +1,17 @@
 #include "game/ui/GameplayOverlayContext.h"
 
-#include "game/ChestTable.h"
-#include "game/GameAudioSystem.h"
-#include "game/HouseTable.h"
-#include "game/IconFrameTable.h"
-#include "game/ItemEnchantTables.h"
-#include "game/ItemTable.h"
-#include "game/NpcDialogTable.h"
-#include "game/OutdoorGameView.h"
-#include "game/OutdoorPartyRuntime.h"
-#include "game/OutdoorWorldRuntime.h"
+#include "game/tables/ChestTable.h"
+#include "game/audio/GameAudioSystem.h"
+#include "game/tables/HouseTable.h"
+#include "game/tables/IconFrameTable.h"
+#include "game/items/ItemEnchantTables.h"
+#include "game/tables/ItemTable.h"
+#include "game/tables/NpcDialogTable.h"
+#include "game/outdoor/OutdoorGameView.h"
+#include "game/outdoor/OutdoorInteractionController.h"
+#include "game/outdoor/OutdoorPartyRuntime.h"
+#include "game/outdoor/OutdoorWorldRuntime.h"
+#include "game/ui/HudUiService.h"
 
 namespace OpenYAMM::Game
 {
@@ -269,22 +271,22 @@ void GameplayOverlayContext::setStatusBarEvent(const std::string &text, float du
 
 void GameplayOverlayContext::handleDialogueCloseRequest()
 {
-    m_view.handleDialogueCloseRequest();
+    OutdoorInteractionController::handleDialogueCloseRequest(m_view);
 }
 
 void GameplayOverlayContext::executeActiveDialogAction()
 {
-    m_view.executeActiveDialogAction();
+    OutdoorInteractionController::executeActiveDialogAction(m_view);
 }
 
 void GameplayOverlayContext::refreshHouseBankInputDialog()
 {
-    m_view.refreshHouseBankInputDialog();
+    OutdoorInteractionController::refreshHouseBankInputDialog(m_view);
 }
 
 void GameplayOverlayContext::confirmHouseBankInput()
 {
-    m_view.confirmHouseBankInput();
+    OutdoorInteractionController::confirmHouseBankInput(m_view);
 }
 
 void GameplayOverlayContext::closeInventoryNestedOverlay()
@@ -326,12 +328,12 @@ const HouseEntry *GameplayOverlayContext::findHouseEntry(uint32_t houseId) const
 const GameplayOverlayContext::HudLayoutElement *GameplayOverlayContext::findHudLayoutElement(
     const std::string &layoutId) const
 {
-    return m_view.findHudLayoutElement(layoutId);
+    return HudUiService::findHudLayoutElement(m_view, layoutId);
 }
 
 int GameplayOverlayContext::defaultHudLayoutZIndexForScreen(const std::string &screen) const
 {
-    return OutdoorGameView::defaultHudLayoutZIndexForScreen(screen);
+    return HudUiService::defaultHudLayoutZIndexForScreen(screen);
 }
 
 GameplayHudScreenState GameplayOverlayContext::currentHudScreenState() const
@@ -341,7 +343,7 @@ GameplayHudScreenState GameplayOverlayContext::currentHudScreenState() const
 
 std::vector<std::string> GameplayOverlayContext::sortedHudLayoutIdsForScreen(const std::string &screen) const
 {
-    return m_view.sortedHudLayoutIdsForScreen(screen);
+    return HudUiService::sortedHudLayoutIdsForScreen(m_view, screen);
 }
 
 std::optional<GameplayOverlayContext::ResolvedHudLayoutElement> GameplayOverlayContext::resolveHudLayoutElement(
@@ -352,7 +354,7 @@ std::optional<GameplayOverlayContext::ResolvedHudLayoutElement> GameplayOverlayC
     float fallbackHeight) const
 {
     const std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolved =
-        m_view.resolveHudLayoutElement(layoutId, screenWidth, screenHeight, fallbackWidth, fallbackHeight);
+        HudUiService::resolveHudLayoutElement(m_view, layoutId, screenWidth, screenHeight, fallbackWidth, fallbackHeight);
 
     if (!resolved)
     {
@@ -412,7 +414,7 @@ bool GameplayOverlayContext::isPointerInsideResolvedElement(
     float pointerX,
     float pointerY) const
 {
-    return m_view.isPointerInsideResolvedElement(toOutdoorResolvedHudLayoutElement(resolved), pointerX, pointerY);
+    return HudUiService::isPointerInsideResolvedElement(toOutdoorResolvedHudLayoutElement(resolved), pointerX, pointerY);
 }
 
 const std::string *GameplayOverlayContext::resolveInteractiveAssetName(
@@ -423,7 +425,7 @@ const std::string *GameplayOverlayContext::resolveInteractiveAssetName(
     bool isLeftMousePressed) const
 {
     m_resolvedInteractiveAssetName.reset();
-    const std::string *pAssetName = m_view.resolveInteractiveAssetName(
+    const std::string *pAssetName = HudUiService::resolveInteractiveAssetName(
         layout,
         toOutdoorResolvedHudLayoutElement(resolved),
         pointerX,
@@ -442,7 +444,7 @@ const std::string *GameplayOverlayContext::resolveInteractiveAssetName(
 std::optional<GameplayOverlayContext::HudTextureHandle> GameplayOverlayContext::ensureHudTextureLoaded(
     const std::string &textureName)
 {
-    const OutdoorGameView::HudTextureHandle *pTexture = m_view.ensureHudTextureLoaded(textureName);
+    const OutdoorGameView::HudTextureHandle *pTexture = HudUiService::ensureHudTextureLoaded(m_view, textureName);
 
     if (pTexture == nullptr)
     {
@@ -461,7 +463,10 @@ std::optional<GameplayOverlayContext::HudTextureHandle> GameplayOverlayContext::
     const std::string &textureName,
     uint32_t abgrColor)
 {
-    const OutdoorGameView::HudTextureHandle *pTexture = m_view.ensureSolidHudTextureLoaded(textureName, abgrColor);
+    const OutdoorGameView::HudTextureHandle *pTexture = HudUiService::ensureSolidHudTextureLoaded(
+        m_view,
+        textureName,
+        abgrColor);
 
     if (pTexture == nullptr)
     {
@@ -499,7 +504,8 @@ bool GameplayOverlayContext::tryGetOpaqueHudTextureBounds(
     int &opaqueMaxX,
     int &opaqueMaxY)
 {
-    return m_view.tryGetOpaqueHudTextureBounds(
+    return HudUiService::tryGetOpaqueHudTextureBounds(
+        m_view,
         textureName,
         width,
         height,
@@ -531,7 +537,7 @@ bgfx::TextureHandle GameplayOverlayContext::ensureHudTextureColor(const HudTextu
     resolvedTexture.width = texture.width;
     resolvedTexture.height = texture.height;
     resolvedTexture.textureHandle = texture.textureHandle;
-    return m_view.ensureHudTextureColor(resolvedTexture, colorAbgr);
+    return HudUiService::ensureHudTextureColor(m_view, resolvedTexture, colorAbgr);
 }
 
 void GameplayOverlayContext::renderLayoutLabel(
@@ -539,12 +545,12 @@ void GameplayOverlayContext::renderLayoutLabel(
     const ResolvedHudLayoutElement &resolved,
     const std::string &label) const
 {
-    m_view.renderLayoutLabel(layout, toOutdoorResolvedHudLayoutElement(resolved), label);
+    HudUiService::renderLayoutLabel(m_view, layout, toOutdoorResolvedHudLayoutElement(resolved), label);
 }
 
 std::optional<GameplayOverlayContext::HudFontHandle> GameplayOverlayContext::findHudFont(const std::string &fontName) const
 {
-    const OutdoorGameView::HudFontHandle *pFont = m_view.findHudFont(fontName);
+    const OutdoorGameView::HudFontHandle *pFont = HudUiService::findHudFont(m_view, fontName);
 
     if (pFont == nullptr)
     {
@@ -561,8 +567,8 @@ std::optional<GameplayOverlayContext::HudFontHandle> GameplayOverlayContext::fin
 
 float GameplayOverlayContext::measureHudTextWidth(const HudFontHandle &font, const std::string &text) const
 {
-    const OutdoorGameView::HudFontHandle *pFont = m_view.findHudFont(font.fontName);
-    return pFont != nullptr ? m_view.measureHudTextWidth(*pFont, text) : 0.0f;
+    const OutdoorGameView::HudFontHandle *pFont = HudUiService::findHudFont(m_view, font.fontName);
+    return pFont != nullptr ? HudUiService::measureHudTextWidth(m_view, *pFont, text) : 0.0f;
 }
 
 std::vector<std::string> GameplayOverlayContext::wrapHudTextToWidth(
@@ -570,19 +576,21 @@ std::vector<std::string> GameplayOverlayContext::wrapHudTextToWidth(
     const std::string &text,
     float maxWidth) const
 {
-    const OutdoorGameView::HudFontHandle *pFont = m_view.findHudFont(font.fontName);
-    return pFont != nullptr ? m_view.wrapHudTextToWidth(*pFont, text, maxWidth) : std::vector<std::string>{text};
+    const OutdoorGameView::HudFontHandle *pFont = HudUiService::findHudFont(m_view, font.fontName);
+    return pFont != nullptr
+        ? HudUiService::wrapHudTextToWidth(m_view, *pFont, text, maxWidth)
+        : std::vector<std::string>{text};
 }
 
 bgfx::TextureHandle GameplayOverlayContext::ensureHudFontMainTextureColor(
     const HudFontHandle &font,
     uint32_t colorAbgr) const
 {
-    const OutdoorGameView::HudFontHandle *pFont = m_view.findHudFont(font.fontName);
+    const OutdoorGameView::HudFontHandle *pFont = HudUiService::findHudFont(m_view, font.fontName);
 
     if (pFont != nullptr)
     {
-        return m_view.ensureHudFontMainTextureColor(*pFont, colorAbgr);
+        return HudUiService::ensureHudFontMainTextureColor(m_view, *pFont, colorAbgr);
     }
 
     bgfx::TextureHandle invalidHandle = BGFX_INVALID_HANDLE;
@@ -597,14 +605,14 @@ void GameplayOverlayContext::renderHudFontLayer(
     float textY,
     float fontScale) const
 {
-    const OutdoorGameView::HudFontHandle *pFont = m_view.findHudFont(font.fontName);
+    const OutdoorGameView::HudFontHandle *pFont = HudUiService::findHudFont(m_view, font.fontName);
 
     if (pFont == nullptr)
     {
         return;
     }
 
-    m_view.renderHudFontLayer(*pFont, textureHandle, text, textX, textY, fontScale);
+    HudUiService::renderHudFontLayer(m_view, *pFont, textureHandle, text, textX, textY, fontScale);
 }
 
 float GameplayOverlayContext::measureHudTextWidth(const std::string &fontName, const std::string &text) const

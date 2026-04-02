@@ -1,7 +1,7 @@
 #pragma once
 
-#include "game/MonsterTable.h"
-#include "game/MapStats.h"
+#include "game/tables/MonsterTable.h"
+#include "game/tables/MapStats.h"
 
 #include <cstdint>
 #include <string>

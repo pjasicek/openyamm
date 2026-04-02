@@ -1,11 +1,11 @@
 #include "game/gameplay/GameplayDialogController.h"
 
-#include "game/HouseInteraction.h"
-#include "game/MasteryTeacherDialog.h"
-#include "game/NpcDialogTable.h"
-#include "game/OutdoorWorldRuntime.h"
-#include "game/Party.h"
-#include "game/RosterTable.h"
+#include "game/gameplay/HouseInteraction.h"
+#include "game/gameplay/MasteryTeacherDialog.h"
+#include "game/tables/NpcDialogTable.h"
+#include "game/outdoor/OutdoorWorldRuntime.h"
+#include "game/party/Party.h"
+#include "game/tables/RosterTable.h"
 
 #include <cstdlib>
 #include <optional>

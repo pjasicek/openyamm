@@ -1,7 +1,7 @@
 #pragma once
 
-#include "game/EventRuntime.h"
-#include "game/MapDeltaData.h"
+#include "game/events/EventRuntime.h"
+#include "game/maps/MapDeltaData.h"
 #include "game/scene/IMapSceneRuntime.h"
 
 #include <cstddef>

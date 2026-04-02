@@ -1,6 +1,6 @@
 #pragma once
 
-#include "game/RosterTable.h"
+#include "game/tables/RosterTable.h"
 #include "game/ui/MenuScreenBase.h"
 
 #include <functional>

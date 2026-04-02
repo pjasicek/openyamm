@@ -63,82 +63,87 @@ add_custom_target(openyamm_ffmpeg_build
 )
 
 add_executable(openyamm
-    ScreenManager.cpp
-    ActorNameResolver.cpp
-    GameSession.cpp
-    GameAudioSystem.cpp
-    ChestTable.cpp
-    CharacterInspectTable.cpp
-    CharacterDollTable.cpp
-    ClassSkillTable.cpp
-    EventDialogContent.cpp
-    EventIr.cpp
-    EventRuntime.cpp
-    EvtProgram.cpp
-    FaceAnimationTable.cpp
-    GameMechanics.cpp
+    app/ScreenManager.cpp
+    data/ActorNameResolver.cpp
+    app/GameSession.cpp
+    audio/GameAudioSystem.cpp
+    tables/ChestTable.cpp
+    tables/CharacterInspectTable.cpp
+    tables/CharacterDollTable.cpp
+    tables/ClassSkillTable.cpp
+    events/EventDialogContent.cpp
+    events/EventIr.cpp
+    events/EventRuntime.cpp
+    events/EvtProgram.cpp
+    tables/FaceAnimationTable.cpp
+    gameplay/GameMechanics.cpp
     gameplay/GameplayController.cpp
     gameplay/GameplayDialogController.cpp
     gameplay/GameplayOverlayInputController.cpp
     gameplay/GameplayPartyOverlayInputController.cpp
-    GenericActorDialog.cpp
-    HouseInteraction.cpp
-    HouseServiceRuntime.cpp
-    HouseVideoPlayer.cpp
-    InventoryItemUseRuntime.cpp
-    MapDeltaData.cpp
-    GameDataLoader.cpp
-    HeadlessOutdoorDiagnostics.cpp
-    HouseTable.cpp
-    IconFrameTable.cpp
-    ItemEquipPosTable.cpp
-    ItemEnchantTables.cpp
-    ItemEnchantRuntime.cpp
-    ItemGenerator.cpp
-    ItemRuntime.cpp
-    ItemTable.cpp
-    IndoorDebugRenderer.cpp
-    IndoorMapData.cpp
-    MapAssetLoader.cpp
-    MapRegistry.cpp
-    MapStats.cpp
-    MasteryTeacherDialog.cpp
-    MonsterProjectileTable.cpp
-    MonsterTable.cpp
-    NpcDialogTable.cpp
-    ObjectTable.cpp
-    OutdoorBillboardRenderer.cpp
-    OutdoorMapData.cpp
-    OutdoorPresentationController.cpp
-    OutdoorGeometryUtils.cpp
-    OutdoorMovementController.cpp
-    OutdoorMovementDriver.cpp
-    OutdoorPartyRuntime.cpp
-    OutdoorWorldRuntime.cpp
-    Party.cpp
-    PartySpellSystem.cpp
-    PriceCalculator.cpp
-    ReadableScrollTable.cpp
-    PortraitFxEventTable.cpp
-    PortraitEnums.cpp
-    PortraitFrameTable.cpp
-    RosterTable.cpp
-    SaveGame.cpp
-    SoundCatalog.cpp
+    gameplay/GenericActorDialog.cpp
+    gameplay/HouseInteraction.cpp
+    gameplay/HouseServiceRuntime.cpp
+    audio/HouseVideoPlayer.cpp
+    items/InventoryItemUseRuntime.cpp
+    maps/MapDeltaData.cpp
+    data/GameDataLoader.cpp
+    outdoor/HeadlessOutdoorDiagnostics.cpp
+    tables/HouseTable.cpp
+    tables/IconFrameTable.cpp
+    items/ItemEquipPosTable.cpp
+    items/ItemEnchantTables.cpp
+    items/ItemEnchantRuntime.cpp
+    items/ItemGenerator.cpp
+    items/ItemRuntime.cpp
+    tables/ItemTable.cpp
+    indoor/IndoorDebugRenderer.cpp
+    indoor/IndoorMapData.cpp
+    maps/MapAssetLoader.cpp
+    maps/MapRegistry.cpp
+    tables/MapStats.cpp
+    gameplay/MasteryTeacherDialog.cpp
+    tables/MonsterProjectileTable.cpp
+    tables/MonsterTable.cpp
+    tables/NpcDialogTable.cpp
+    tables/ObjectTable.cpp
+    outdoor/OutdoorBillboardRenderer.cpp
+    outdoor/OutdoorGameplayInputController.cpp
+    outdoor/OutdoorInteractionController.cpp
+    outdoor/OutdoorMapData.cpp
+    outdoor/OutdoorPresentationController.cpp
+    outdoor/OutdoorRenderer.cpp
+    outdoor/OutdoorGeometryUtils.cpp
+    outdoor/OutdoorMovementController.cpp
+    outdoor/OutdoorMovementDriver.cpp
+    outdoor/OutdoorPartyRuntime.cpp
+    outdoor/OutdoorWorldRuntime.cpp
+    party/Party.cpp
+    party/PartySpellSystem.cpp
+    items/PriceCalculator.cpp
+    tables/ReadableScrollTable.cpp
+    tables/PortraitFxEventTable.cpp
+    tables/PortraitEnums.cpp
+    tables/PortraitFrameTable.cpp
+    tables/RosterTable.cpp
+    maps/SaveGame.cpp
+    audio/SoundCatalog.cpp
     SpawnPreview.cpp
-    SkillData.cpp
-    SpeechReactionTable.cpp
-    SpellbookUiLayout.cpp
-    SpellSchool.cpp
-    SpellTable.cpp
-    SpellFxTable.cpp
-    SpriteTables.cpp
-    StrTable.cpp
-    OutdoorGameView.cpp
+    party/SkillData.cpp
+    tables/SpeechReactionTable.cpp
+    ui/SpellbookUiLayout.cpp
+    party/SpellSchool.cpp
+    tables/SpellTable.cpp
+    tables/SpellFxTable.cpp
+    tables/SpriteTables.cpp
+    tables/StrTable.cpp
+    outdoor/OutdoorGameView.cpp
     ui/GameplayDialogueRenderer.cpp
+    ui/GameplayHudRenderer.cpp
     ui/GameplayHudOverlayRenderer.cpp
     ui/GameplayOverlayContext.cpp
     ui/GameplayPartyOverlayRenderer.cpp
+    ui/HudUiService.cpp
     ui/MenuScreenBase.cpp
     ui/GameplayUiController.cpp
     ui/UiLayoutManager.cpp
@@ -147,8 +152,8 @@ add_executable(openyamm
     ui/screens/NewGameScreen.cpp
     scene/IndoorSceneRuntime.cpp
     scene/OutdoorSceneRuntime.cpp
-    main.cpp
-    GameApplication.cpp
+    app/main.cpp
+    app/GameApplication.cpp
 )
 
 target_include_directories(openyamm

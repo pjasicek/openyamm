@@ -1,10 +1,10 @@
 #include "game/ui/GameplayHudOverlayRenderer.h"
 #include "game/ui/GameplayOverlayContext.h"
 
-#include "game/ItemRuntime.h"
-#include "game/ItemTable.h"
-#include "game/OutdoorPartyRuntime.h"
-#include "game/OutdoorWorldRuntime.h"
+#include "game/items/ItemRuntime.h"
+#include "game/tables/ItemTable.h"
+#include "game/outdoor/OutdoorPartyRuntime.h"
+#include "game/outdoor/OutdoorWorldRuntime.h"
 #include "game/StringUtils.h"
 
 #include <SDL3/SDL.h>

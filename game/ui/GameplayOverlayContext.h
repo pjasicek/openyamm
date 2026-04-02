@@ -1,10 +1,10 @@
 #pragma once
 
-#include "game/ChestTable.h"
-#include "game/EventDialogContent.h"
-#include "game/HouseTable.h"
-#include "game/NpcDialogTable.h"
-#include "game/Party.h"
+#include "game/tables/ChestTable.h"
+#include "game/events/EventDialogContent.h"
+#include "game/tables/HouseTable.h"
+#include "game/tables/NpcDialogTable.h"
+#include "game/party/Party.h"
 #include "game/ui/GameplayUiController.h"
 #include "game/ui/UiLayoutManager.h"
 

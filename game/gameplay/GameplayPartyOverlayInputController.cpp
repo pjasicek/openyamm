@@ -1,13 +1,14 @@
 #include "game/gameplay/GameplayPartyOverlayInputController.h"
 
-#include "game/CharacterDollTable.h"
-#include "game/GameMechanics.h"
-#include "game/InventoryItemUseRuntime.h"
-#include "game/OutdoorGameView.h"
-#include "game/OutdoorPartyRuntime.h"
-#include "game/SkillData.h"
-#include "game/SpellbookUiLayout.h"
+#include "game/tables/CharacterDollTable.h"
+#include "game/gameplay/GameMechanics.h"
+#include "game/items/InventoryItemUseRuntime.h"
+#include "game/outdoor/OutdoorGameView.h"
+#include "game/outdoor/OutdoorPartyRuntime.h"
+#include "game/party/SkillData.h"
+#include "game/ui/SpellbookUiLayout.h"
 #include "game/StringUtils.h"
+#include "game/ui/HudUiService.h"
 
 #include <SDL3/SDL.h>
 
@@ -514,21 +515,21 @@ void GameplayPartyOverlayInputController::handleSpellbookOverlayInput(
                     continue;
                 }
 
-                const OutdoorGameView::HudLayoutElement *pLayout = view.findHudLayoutElement(definition.pButtonLayoutId);
+                const OutdoorGameView::HudLayoutElement *pLayout = HudUiService::findHudLayoutElement(view, definition.pButtonLayoutId);
 
                 if (pLayout == nullptr)
                 {
                     continue;
                 }
 
-                const std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolved = view.resolveHudLayoutElement(
+                const std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolved = HudUiService::resolveHudLayoutElement(view, 
                     definition.pButtonLayoutId,
                     screenWidth,
                     screenHeight,
                     pLayout->width,
                     pLayout->height);
 
-                if (resolved && view.isPointerInsideResolvedElement(*resolved, pointerX, pointerY))
+                if (resolved && HudUiService::isPointerInsideResolvedElement(*resolved, pointerX, pointerY))
                 {
                     OutdoorGameView::SpellbookPointerTarget target = {};
                     target.type = OutdoorGameView::SpellbookPointerTargetType::SchoolButton;
@@ -542,21 +543,21 @@ void GameplayPartyOverlayInputController::handleSpellbookOverlayInput(
                     const char *pLayoutId,
                     OutdoorGameView::SpellbookPointerTargetType type) -> OutdoorGameView::SpellbookPointerTarget
                 {
-                    const OutdoorGameView::HudLayoutElement *pLayout = view.findHudLayoutElement(pLayoutId);
+                    const OutdoorGameView::HudLayoutElement *pLayout = HudUiService::findHudLayoutElement(view, pLayoutId);
 
                     if (pLayout == nullptr)
                     {
                         return {};
                     }
 
-                    const std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolved = view.resolveHudLayoutElement(
+                    const std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolved = HudUiService::resolveHudLayoutElement(view, 
                         pLayoutId,
                         screenWidth,
                         screenHeight,
                         pLayout->width,
                         pLayout->height);
 
-                    if (!resolved || !view.isPointerInsideResolvedElement(*resolved, pointerX, pointerY))
+                    if (!resolved || !HudUiService::isPointerInsideResolvedElement(*resolved, pointerX, pointerY))
                     {
                         return {};
                     }
@@ -600,21 +601,21 @@ void GameplayPartyOverlayInputController::handleSpellbookOverlayInput(
 
                 const uint32_t spellOrdinal = spellOffset + 1;
                 const std::string layoutId = spellbookSpellLayoutId(view.m_spellbook.school, spellOrdinal);
-                const OutdoorGameView::HudLayoutElement *pLayout = view.findHudLayoutElement(layoutId);
+                const OutdoorGameView::HudLayoutElement *pLayout = HudUiService::findHudLayoutElement(view, layoutId);
 
                 if (pLayout == nullptr)
                 {
                     continue;
                 }
 
-                const std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolved = view.resolveHudLayoutElement(
+                const std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolved = HudUiService::resolveHudLayoutElement(view, 
                     layoutId,
                     screenWidth,
                     screenHeight,
                     pLayout->width,
                     pLayout->height);
 
-                if (resolved && view.isPointerInsideResolvedElement(*resolved, pointerX, pointerY))
+                if (resolved && HudUiService::isPointerInsideResolvedElement(*resolved, pointerX, pointerY))
                 {
                     OutdoorGameView::SpellbookPointerTarget target = {};
                     target.type = OutdoorGameView::SpellbookPointerTargetType::SpellButton;
@@ -756,7 +757,7 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
             ? view.m_pCharacterDollTable->getDollType(pActiveCharacterDollEntry->dollTypeId)
             : nullptr;
     const CharacterSkillUiData skillUiData = buildCharacterSkillUiData(pActiveCharacter);
-    const OutdoorGameView::HudFontHandle *pSkillRowFont = view.findHudFont("Lucida");
+    const OutdoorGameView::HudFontHandle *pSkillRowFont = HudUiService::findHudFont(view, "Lucida");
     const float skillRowHeight = pSkillRowFont != nullptr
         ? static_cast<float>(std::max(1, pSkillRowFont->fontHeight - 3))
         : 11.0f;
@@ -826,14 +827,14 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
     const auto resolveCharacterInventoryGrid =
         [&view, screenWidth, screenHeight]() -> std::optional<OutdoorGameView::ResolvedHudLayoutElement>
         {
-            const OutdoorGameView::HudLayoutElement *pInventoryGridLayout = view.findHudLayoutElement("CharacterInventoryGrid");
+            const OutdoorGameView::HudLayoutElement *pInventoryGridLayout = HudUiService::findHudLayoutElement(view, "CharacterInventoryGrid");
 
             if (pInventoryGridLayout == nullptr)
             {
                 return std::nullopt;
             }
 
-            return view.resolveHudLayoutElement(
+            return HudUiService::resolveHudLayoutElement(view, 
                 "CharacterInventoryGrid",
                 screenWidth,
                 screenHeight,
@@ -873,14 +874,14 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
 
             for (const CharacterTabTarget &target : TabTargets)
             {
-                const OutdoorGameView::HudLayoutElement *pLayout = view.findHudLayoutElement(target.layoutId);
+                const OutdoorGameView::HudLayoutElement *pLayout = HudUiService::findHudLayoutElement(view, target.layoutId);
 
                 if (pLayout == nullptr)
                 {
                     continue;
                 }
 
-                const std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolved = view.resolveHudLayoutElement(
+                const std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolved = HudUiService::resolveHudLayoutElement(view, 
                     target.layoutId,
                     screenWidth,
                     screenHeight,
@@ -897,11 +898,11 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                 }
             }
 
-            const OutdoorGameView::HudLayoutElement *pExitLayout = view.findHudLayoutElement("CharacterExitButton");
+            const OutdoorGameView::HudLayoutElement *pExitLayout = HudUiService::findHudLayoutElement(view, "CharacterExitButton");
 
             if (pExitLayout != nullptr)
             {
-                const std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolved = view.resolveHudLayoutElement(
+                const std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolved = HudUiService::resolveHudLayoutElement(view, 
                     "CharacterExitButton",
                     screenWidth,
                     screenHeight,
@@ -918,11 +919,11 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                 }
             }
 
-            const OutdoorGameView::HudLayoutElement *pMagnifyLayout = view.findHudLayoutElement("CharacterMagnifyButton");
+            const OutdoorGameView::HudLayoutElement *pMagnifyLayout = HudUiService::findHudLayoutElement(view, "CharacterMagnifyButton");
 
             if (pMagnifyLayout != nullptr)
             {
-                const std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolved = view.resolveHudLayoutElement(
+                const std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolved = HudUiService::resolveHudLayoutElement(view, 
                     "CharacterMagnifyButton",
                     screenWidth,
                     screenHeight,
@@ -1000,7 +1001,7 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                     continue;
                 }
 
-                const OutdoorGameView::HudLayoutElement *pLayout = view.findHudLayoutElement(target.layoutId);
+                const OutdoorGameView::HudLayoutElement *pLayout = HudUiService::findHudLayoutElement(view, target.layoutId);
 
                 if (pLayout == nullptr)
                 {
@@ -1025,7 +1026,7 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                         dollTypeId,
                         hasRightHandWeapon,
                         target.slot);
-                    const OutdoorGameView::HudTextureHandle *pTexture = view.ensureHudTextureLoaded(dynamicTextureName);
+                    const OutdoorGameView::HudTextureHandle *pTexture = HudUiService::ensureHudTextureLoaded(view, dynamicTextureName);
 
                     if (pTexture != nullptr)
                     {
@@ -1067,7 +1068,7 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
 
                 const std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolved =
                     view.m_heldInventoryItem.active && !dynamicRect
-                        ? view.resolveHudLayoutElement(
+                        ? HudUiService::resolveHudLayoutElement(view, 
                             target.layoutId,
                             screenWidth,
                             screenHeight,
@@ -1099,11 +1100,11 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
 
             if (view.m_heldInventoryItem.active)
             {
-                const OutdoorGameView::HudLayoutElement *pDollLayout = view.findHudLayoutElement("CharacterDollPanel");
+                const OutdoorGameView::HudLayoutElement *pDollLayout = HudUiService::findHudLayoutElement(view, "CharacterDollPanel");
 
                 if (pDollLayout != nullptr)
                 {
-                    const std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolvedDoll = view.resolveHudLayoutElement(
+                    const std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolvedDoll = HudUiService::resolveHudLayoutElement(view, 
                         "CharacterDollPanel",
                         screenWidth,
                         screenHeight,
@@ -1185,21 +1186,21 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                             return {};
                         }
 
-                        const OutdoorGameView::HudLayoutElement *pRegionLayout = view.findHudLayoutElement(pRegionId);
-                        const OutdoorGameView::HudLayoutElement *pLevelLayout = view.findHudLayoutElement(pLevelHeaderId);
+                        const OutdoorGameView::HudLayoutElement *pRegionLayout = HudUiService::findHudLayoutElement(view, pRegionId);
+                        const OutdoorGameView::HudLayoutElement *pLevelLayout = HudUiService::findHudLayoutElement(view, pLevelHeaderId);
 
                         if (pRegionLayout == nullptr || pLevelLayout == nullptr)
                         {
                             return {};
                         }
 
-                        const std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolvedRegion = view.resolveHudLayoutElement(
+                        const std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolvedRegion = HudUiService::resolveHudLayoutElement(view, 
                             pRegionId,
                             screenWidth,
                             screenHeight,
                             pRegionLayout->width,
                             pRegionLayout->height);
-                        const std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolvedLevelHeader = view.resolveHudLayoutElement(
+                        const std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolvedLevelHeader = HudUiService::resolveHudLayoutElement(view, 
                             pLevelHeaderId,
                             screenWidth,
                             screenHeight,
@@ -1426,7 +1427,7 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                         if (pItemDefinition != nullptr && !pItemDefinition->iconName.empty())
                         {
                             const OutdoorGameView::HudTextureHandle *pItemTexture =
-                                view.ensureHudTextureLoaded(pItemDefinition->iconName);
+                                HudUiService::ensureHudTextureLoaded(view, pItemDefinition->iconName);
 
                             if (pItemTexture != nullptr)
                             {
@@ -1562,7 +1563,7 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                     return;
                 }
 
-                const OutdoorGameView::HudTextureHandle *pItemTexture = view.ensureHudTextureLoaded(pItemDefinition->iconName);
+                const OutdoorGameView::HudTextureHandle *pItemTexture = HudUiService::ensureHudTextureLoaded(view, pItemDefinition->iconName);
 
                 if (pItemTexture == nullptr)
                 {
@@ -1666,9 +1667,9 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                     return;
                 }
 
-                const OutdoorGameView::HudLayoutElement *pDollLayout = view.findHudLayoutElement("CharacterDollPanel");
+                const OutdoorGameView::HudLayoutElement *pDollLayout = HudUiService::findHudLayoutElement(view, "CharacterDollPanel");
                 const std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolvedDoll = pDollLayout != nullptr
-                    ? view.resolveHudLayoutElement(
+                    ? HudUiService::resolveHudLayoutElement(view, 
                         "CharacterDollPanel",
                         screenWidth,
                         screenHeight,

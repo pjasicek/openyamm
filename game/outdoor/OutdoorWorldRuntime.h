@@ -1,0 +1,809 @@
+#pragma once
+
+#include "game/events/ISceneEventContext.h"
+#include "game/events/EventRuntime.h"
+#include "game/events/EventIr.h"
+#include "game/maps/MapAssetLoader.h"
+#include "game/maps/MapDeltaData.h"
+#include "game/tables/MapStats.h"
+#include "game/tables/MonsterProjectileTable.h"
+#include "game/tables/MonsterTable.h"
+#include "game/tables/ObjectTable.h"
+#include "game/outdoor/OutdoorGeometryUtils.h"
+#include "game/outdoor/OutdoorMapData.h"
+#include "game/outdoor/OutdoorMovementController.h"
+#include "game/party/Party.h"
+#include "game/tables/SpellTable.h"
+
+#include <random>
+#include <optional>
+#include <string>
+#include <unordered_map>
+#include <vector>
+
+namespace OpenYAMM::Game
+{
+class ItemTable;
+class ChestTable;
+class StandardItemEnchantTable;
+class SpecialItemEnchantTable;
+
+class OutdoorWorldRuntime : public ISceneEventContext
+{
+public:
+    struct AtmosphereState
+    {
+        std::string sourceSkyTextureName;
+        std::string skyTextureName;
+        int32_t weatherFlags = 0;
+        int32_t fogWeakDistance = 0;
+        int32_t fogStrongDistance = 0;
+        bool isNight = false;
+        float fogDensity = 0.0f;
+        float ambientBrightness = 0.69f;
+        float visibilityDistance = 200000.0f;
+        float darknessOverlayAlpha = 0.0f;
+        uint32_t darknessOverlayColorAbgr = 0x00000000u;
+        float sunDirectionX = 0.0f;
+        float sunDirectionY = 0.0f;
+        float sunDirectionZ = 1.0f;
+        uint32_t clearColorAbgr = 0x000000ffu;
+    };
+
+    enum class ActorAiState
+    {
+        Standing,
+        Wandering,
+        Pursuing,
+        Fleeing,
+        Stunned,
+        Attacking,
+        Dying,
+        Dead,
+    };
+
+    enum class ActorAnimation
+    {
+        Standing = 0,
+        Walking = 1,
+        AttackMelee = 2,
+        AttackRanged = 3,
+        GotHit = 4,
+        Dying = 5,
+        Dead = 6,
+        Bored = 7,
+    };
+
+    enum class MonsterAttackAbility
+    {
+        Attack1,
+        Attack2,
+        Spell1,
+        Spell2,
+    };
+
+    enum class DebugTargetKind
+    {
+        None,
+        Party,
+        Actor,
+    };
+
+    enum class ActorControlMode : uint8_t
+    {
+        None = 0,
+        Charm,
+        Berserk,
+        Enslaved,
+        ControlUndead,
+        Reanimated,
+    };
+
+    struct SpellCastRequest;
+    struct PartyProjectileRequest;
+
+    struct MapActorState
+    {
+        uint32_t actorId = 0;
+        int16_t monsterId = 0;
+        std::string displayName;
+        uint32_t uniqueNameId = 0;
+        bool spawnedAtRuntime = false;
+        bool fromSpawnPoint = false;
+        size_t spawnPointIndex = static_cast<size_t>(-1);
+        uint32_t group = 0;
+        uint8_t hostilityType = 0;
+        int currentHp = 0;
+        int maxHp = 0;
+        int x = 0;
+        int y = 0;
+        int z = 0;
+        float preciseX = 0.0f;
+        float preciseY = 0.0f;
+        float preciseZ = 0.0f;
+        int homeX = 0;
+        int homeY = 0;
+        int homeZ = 0;
+        float homePreciseX = 0.0f;
+        float homePreciseY = 0.0f;
+        float homePreciseZ = 0.0f;
+        uint16_t radius = 0;
+        uint16_t height = 0;
+        uint16_t moveSpeed = 0;
+        uint16_t spriteFrameIndex = 0;
+        std::array<uint16_t, 8> actionSpriteFrameIndices = {};
+        bool useStaticSpriteFrame = false;
+        bool hostileToParty = false;
+        bool isDead = false;
+        bool isInvisible = false;
+        bool hasDetectedParty = false;
+        ActorAiState aiState = ActorAiState::Standing;
+        ActorAnimation animation = ActorAnimation::Standing;
+        float animationTimeTicks = 0.0f;
+        float recoverySeconds = 0.0f;
+        float attackAnimationSeconds = 0.3f;
+        float attackCooldownSeconds = 0.0f;
+        float idleDecisionSeconds = 0.0f;
+        float actionSeconds = 0.0f;
+        float moveDirectionX = 0.0f;
+        float moveDirectionY = 0.0f;
+        float velocityX = 0.0f;
+        float velocityY = 0.0f;
+        float velocityZ = 0.0f;
+        float yawRadians = 0.0f;
+        float slowRemainingSeconds = 0.0f;
+        float slowMoveMultiplier = 1.0f;
+        float slowRecoveryMultiplier = 1.0f;
+        float stunRemainingSeconds = 0.0f;
+        float paralyzeRemainingSeconds = 0.0f;
+        float fearRemainingSeconds = 0.0f;
+        float blindRemainingSeconds = 0.0f;
+        float controlRemainingSeconds = 0.0f;
+        ActorControlMode controlMode = ActorControlMode::None;
+        float shrinkRemainingSeconds = 0.0f;
+        float shrinkDamageMultiplier = 1.0f;
+        float shrinkArmorClassMultiplier = 1.0f;
+        float darkGraspRemainingSeconds = 0.0f;
+        uint32_t idleDecisionCount = 0;
+        uint32_t pursueDecisionCount = 0;
+        uint32_t attackDecisionCount = 0;
+        bool attackImpactTriggered = false;
+        MonsterAttackAbility queuedAttackAbility = MonsterAttackAbility::Attack1;
+        OutdoorMoveState movementState = {};
+        bool movementStateInitialized = false;
+    };
+
+    struct CombatEvent
+    {
+        enum class Type
+        {
+            MonsterMeleeImpact,
+            MonsterRangedRelease,
+            PartyProjectileImpact,
+            PartyProjectileActorImpact,
+        };
+
+        Type type = Type::MonsterMeleeImpact;
+        uint32_t sourceId = 0;
+        uint32_t sourcePartyMemberIndex = 0;
+        uint32_t targetActorId = 0;
+        bool fromSummonedMonster = false;
+        MonsterAttackAbility ability = MonsterAttackAbility::Attack1;
+        int damage = 0;
+        int spellId = 0;
+        bool affectsAllParty = false;
+        bool hit = false;
+        bool killed = false;
+    };
+
+    struct ActorDecisionDebugInfo
+    {
+        size_t actorIndex = static_cast<size_t>(-1);
+        int16_t monsterId = 0;
+        uint8_t hostilityType = 0;
+        bool hostileToParty = false;
+        bool hasDetectedParty = false;
+        ActorAiState aiState = ActorAiState::Standing;
+        ActorAnimation animation = ActorAnimation::Standing;
+        float idleDecisionSeconds = 0.0f;
+        float actionSeconds = 0.0f;
+        float attackCooldownSeconds = 0.0f;
+        uint32_t idleDecisionCount = 0;
+        uint32_t pursueDecisionCount = 0;
+        uint32_t attackDecisionCount = 0;
+        int monsterAiType = 0;
+        bool movementAllowed = false;
+        float partySenseRange = 0.0f;
+        float distanceToParty = 0.0f;
+        bool canSenseParty = false;
+        DebugTargetKind targetKind = DebugTargetKind::None;
+        size_t targetActorIndex = static_cast<size_t>(-1);
+        int16_t targetMonsterId = 0;
+        int relationToTarget = 0;
+        float targetDistance = 0.0f;
+        float targetEdgeDistance = 0.0f;
+        bool targetCanSense = false;
+        bool shouldPromoteHostility = false;
+        float promotionRange = 0.0f;
+        bool shouldEngageTarget = false;
+        bool shouldFlee = false;
+        bool inMeleeRange = false;
+        bool attackJustCompleted = false;
+        bool attackInProgress = false;
+        bool friendlyNearParty = false;
+    };
+
+    struct ProjectileState
+    {
+        enum class SourceKind
+        {
+            Actor,
+            Event,
+            Party,
+        };
+
+        uint32_t projectileId = 0;
+        SourceKind sourceKind = SourceKind::Actor;
+        uint32_t sourceId = 0;
+        uint32_t sourcePartyMemberIndex = 0;
+        int16_t sourceMonsterId = 0;
+        bool fromSummonedMonster = false;
+        MonsterAttackAbility ability = MonsterAttackAbility::Attack1;
+        uint16_t objectDescriptionId = 0;
+        uint16_t objectSpriteId = 0;
+        uint16_t objectSpriteFrameIndex = 0;
+        uint16_t impactObjectDescriptionId = 0;
+        uint16_t radius = 0;
+        uint16_t height = 0;
+        int spellId = 0;
+        int effectSoundId = 0;
+        uint32_t skillLevel = 0;
+        uint32_t skillMastery = 0;
+        std::string objectName;
+        std::string objectSpriteName;
+        float sourceX = 0.0f;
+        float sourceY = 0.0f;
+        float sourceZ = 0.0f;
+        float x = 0.0f;
+        float y = 0.0f;
+        float z = 0.0f;
+        float velocityX = 0.0f;
+        float velocityY = 0.0f;
+        float velocityZ = 0.0f;
+        int damage = 0;
+        int attackBonus = 0;
+        bool useActorHitChance = false;
+        uint32_t timeSinceCreatedTicks = 0;
+        uint32_t lifetimeTicks = 0;
+        bool isExpired = false;
+    };
+
+    struct ProjectileImpactState
+    {
+        uint32_t effectId = 0;
+        uint16_t objectDescriptionId = 0;
+        uint16_t objectSpriteId = 0;
+        uint16_t objectSpriteFrameIndex = 0;
+        std::string objectName;
+        std::string objectSpriteName;
+        float x = 0.0f;
+        float y = 0.0f;
+        float z = 0.0f;
+        uint32_t timeSinceCreatedTicks = 0;
+        uint32_t lifetimeTicks = 0;
+        bool isExpired = false;
+    };
+
+    struct WorldItemState
+    {
+        uint32_t worldItemId = 0;
+        InventoryItem item = {};
+        uint32_t goldAmount = 0;
+        bool isGold = false;
+        uint16_t objectDescriptionId = 0;
+        uint16_t objectSpriteId = 0;
+        uint16_t objectSpriteFrameIndex = 0;
+        uint16_t objectFlags = 0;
+        uint16_t radius = 0;
+        uint16_t height = 0;
+        uint16_t soundId = 0;
+        uint16_t attributes = 0;
+        int16_t sectorId = 0;
+        std::string objectName;
+        std::string objectSpriteName;
+        float x = 0.0f;
+        float y = 0.0f;
+        float z = 0.0f;
+        float velocityX = 0.0f;
+        float velocityY = 0.0f;
+        float velocityZ = 0.0f;
+        float initialX = 0.0f;
+        float initialY = 0.0f;
+        float initialZ = 0.0f;
+        uint32_t timeSinceCreatedTicks = 0;
+        uint32_t lifetimeTicks = 0;
+        bool spawnedByPlayer = false;
+        bool isExpired = false;
+    };
+
+    struct SpawnPointState
+    {
+        int x = 0;
+        int y = 0;
+        int z = 0;
+        uint16_t radius = 0;
+        uint16_t typeId = 0;
+        uint16_t index = 0;
+        uint16_t attributes = 0;
+        uint32_t group = 0;
+        int encounterSlot = 0;
+        bool isFixedTier = false;
+        char fixedTier = '\0';
+        int minCount = 0;
+        int maxCount = 0;
+        int16_t representativeMonsterId = 0;
+        uint8_t hostilityType = 0;
+        bool hostileToParty = false;
+        std::string monsterFamilyName;
+        std::string representativePictureName;
+    };
+
+    struct ChestItemState
+    {
+        InventoryItem item = {};
+        uint32_t itemId = 0;
+        uint32_t quantity = 0;
+        uint32_t goldAmount = 0;
+        uint32_t goldRollCount = 0;
+        bool isGold = false;
+        uint8_t width = 1;
+        uint8_t height = 1;
+        uint8_t gridX = 0;
+        uint8_t gridY = 0;
+    };
+
+    struct ChestViewState
+    {
+        uint32_t chestId = 0;
+        uint16_t chestTypeId = 0;
+        uint16_t flags = 0;
+        uint8_t gridWidth = 0;
+        uint8_t gridHeight = 0;
+        std::vector<ChestItemState> items;
+    };
+
+    struct TimerState
+    {
+        uint16_t eventId = 0;
+        bool repeating = false;
+        float intervalGameMinutes = 0.0f;
+        float remainingGameMinutes = 0.0f;
+        std::optional<int> targetHour;
+        bool hasFired = false;
+    };
+
+    struct CorpseViewState
+    {
+        bool fromSummonedMonster = false;
+        uint32_t sourceIndex = 0;
+        std::string title;
+        std::vector<ChestItemState> items;
+    };
+
+    struct AudioEvent
+    {
+        uint32_t soundId = 0;
+        uint32_t sourceId = 0;
+        std::string reason;
+        float x = 0.0f;
+        float y = 0.0f;
+        float z = 0.0f;
+        bool positional = true;
+    };
+
+    struct Snapshot
+    {
+        float gameMinutes = 0.0f;
+        AtmosphereState atmosphere = {};
+        std::vector<TimerState> timers;
+        std::vector<MapActorState> mapActors;
+        std::vector<MapDeltaChest> chests;
+        std::vector<uint8_t> openedChestFlags;
+        std::vector<std::optional<ChestViewState>> materializedChestViews;
+        std::optional<ChestViewState> activeChestView;
+        std::optional<EventRuntimeState> eventRuntimeState;
+        float actorUpdateAccumulatorSeconds = 0.0f;
+        uint32_t sessionChestSeed = 0;
+        uint32_t nextActorId = 0;
+        std::vector<std::optional<CorpseViewState>> mapActorCorpseViews;
+        std::optional<CorpseViewState> activeCorpseView;
+        std::vector<WorldItemState> worldItems;
+        uint32_t nextWorldItemId = 1;
+        uint32_t nextProjectileId = 1;
+        uint32_t nextProjectileImpactId = 1;
+        std::vector<ProjectileState> projectiles;
+        std::vector<ProjectileImpactState> projectileImpacts;
+    };
+
+    void initialize(
+        const MapStatsEntry &map,
+        const MonsterTable &monsterTable,
+        const MonsterProjectileTable &monsterProjectileTable,
+        const ObjectTable &objectTable,
+        const SpellTable &spellTable,
+        const ItemTable &itemTable,
+        Party *pParty,
+        const StandardItemEnchantTable &standardItemEnchantTable,
+        const SpecialItemEnchantTable &specialItemEnchantTable,
+        const ChestTable *pChestTable,
+        const std::optional<OutdoorMapData> &outdoorMapData,
+        const std::optional<MapDeltaData> &outdoorMapDeltaData,
+        const std::optional<EventRuntimeState> &eventRuntimeState,
+        const std::optional<ActorPreviewBillboardSet> &outdoorActorPreviewBillboardSet = std::nullopt,
+        const std::optional<std::vector<uint8_t>> &outdoorLandMask = std::nullopt,
+        const std::optional<OutdoorDecorationCollisionSet> &outdoorDecorationCollisionSet = std::nullopt,
+        const std::optional<OutdoorActorCollisionSet> &outdoorActorCollisionSet = std::nullopt,
+        const std::optional<OutdoorSpriteObjectCollisionSet> &outdoorSpriteObjectCollisionSet = std::nullopt,
+        const std::optional<SpriteObjectBillboardSet> &outdoorSpriteObjectBillboardSet = std::nullopt
+    );
+
+    bool isInitialized() const;
+    int mapId() const;
+    const std::string &mapName() const;
+    Snapshot snapshot() const;
+    void restoreSnapshot(const Snapshot &snapshot);
+    float gameMinutes() const;
+    int currentHour() const;
+    const AtmosphereState &atmosphereState() const;
+    void advanceGameMinutes(float minutes);
+    void updateMapActors(float deltaSeconds, float partyX, float partyY, float partyZ);
+
+    void applyEventRuntimeState();
+    bool updateTimers(
+        float deltaSeconds,
+        const EventRuntime &eventRuntime,
+        const std::optional<EventIrProgram> &localEventIrProgram,
+        const std::optional<EventIrProgram> &globalEventIrProgram
+    );
+    bool isChestOpened(uint32_t chestId) const;
+    size_t mapActorCount() const;
+    const MapActorState *mapActorState(size_t actorIndex) const;
+    std::optional<ActorDecisionDebugInfo> debugActorDecisionInfo(
+        size_t actorIndex,
+        float partyX,
+        float partyY,
+        float partyZ
+    ) const;
+    bool debugSpawnMapActorProjectile(
+        size_t actorIndex,
+        MonsterAttackAbility ability,
+        float targetX,
+        float targetY,
+        float targetZ);
+    bool debugSpawnEncounterFromSpawnPoint(size_t spawnIndex, uint32_t countOverride = 0);
+    bool setMapActorDead(size_t actorIndex, bool isDead, bool emitAudio = true);
+    bool applyPartyAttackToMapActor(size_t actorIndex, int damage, float partyX, float partyY, float partyZ);
+    bool applyPartySpellToMapActor(
+        size_t actorIndex,
+        uint32_t spellId,
+        uint32_t skillLevel,
+        SkillMastery skillMastery,
+        int damage,
+        float partyX,
+        float partyY,
+        float partyZ);
+    bool healMapActor(size_t actorIndex, int amount);
+    bool resurrectMapActor(size_t actorIndex, int health, bool friendlyToParty);
+    bool clearMapActorSpellEffects(size_t actorIndex);
+    int effectiveMapActorArmorClass(size_t actorIndex) const;
+    std::vector<size_t> collectMapActorIndicesWithinRadius(
+        float centerX,
+        float centerY,
+        float centerZ,
+        float radius,
+        bool requireLineOfSight,
+        float sourceX,
+        float sourceY,
+        float sourceZ) const;
+    bool notifyPartyContactWithMapActor(size_t actorIndex, float partyX, float partyY, float partyZ);
+    size_t spawnPointCount() const;
+    const SpawnPointState *spawnPointState(size_t spawnIndex) const;
+    size_t chestCount() const;
+    size_t openedChestCount() const;
+    const ChestViewState *activeChestView() const;
+    bool takeActiveChestItem(size_t itemIndex, ChestItemState &item);
+    bool takeActiveChestItemAt(uint8_t gridX, uint8_t gridY, ChestItemState &item);
+    bool tryPlaceActiveChestItemAt(const ChestItemState &item, uint8_t gridX, uint8_t gridY);
+    void closeActiveChestView();
+    const CorpseViewState *activeCorpseView() const;
+    bool openMapActorCorpseView(size_t actorIndex);
+    bool takeActiveCorpseItem(size_t itemIndex, ChestItemState &item);
+    void closeActiveCorpseView();
+    const std::vector<AudioEvent> &pendingAudioEvents() const;
+    void clearPendingAudioEvents();
+    const std::vector<CombatEvent> &pendingCombatEvents() const;
+    void clearPendingCombatEvents();
+    size_t worldItemCount() const;
+    const WorldItemState *worldItemState(size_t worldItemIndex) const;
+    WorldItemState *worldItemStateMutable(size_t worldItemIndex);
+    bool takeWorldItem(size_t worldItemIndex, WorldItemState &item);
+    bool identifyWorldItem(size_t worldItemIndex, std::string &statusText);
+    bool tryIdentifyWorldItem(size_t worldItemIndex, const Character &inspector, std::string &statusText);
+    bool tryRepairWorldItem(size_t worldItemIndex, const Character &inspector, std::string &statusText);
+    bool spawnWorldItem(
+        const InventoryItem &item,
+        float sourceX,
+        float sourceY,
+        float sourceZ,
+        float yawRadians
+    );
+    size_t projectileCount() const;
+    const ProjectileState *projectileState(size_t projectileIndex) const;
+    size_t projectileImpactCount() const;
+    const ProjectileImpactState *projectileImpactState(size_t effectIndex) const;
+
+    const EventRuntimeState::PendingMapMove *pendingMapMove() const;
+    std::optional<EventRuntimeState::PendingMapMove> consumePendingMapMove();
+
+    EventRuntimeState *eventRuntimeState();
+    const EventRuntimeState *eventRuntimeState() const;
+    bool castEventSpell(
+        uint32_t spellId,
+        uint32_t skillLevel,
+        uint32_t skillMastery,
+        int32_t fromX,
+        int32_t fromY,
+        int32_t fromZ,
+        int32_t toX,
+        int32_t toY,
+        int32_t toZ
+    ) override;
+    bool castPartySpell(const SpellCastRequest &request);
+    bool spawnPartyProjectile(const PartyProjectileRequest &request);
+    bool summonMonsters(
+        uint32_t typeIndexInMapStats,
+        uint32_t level,
+        uint32_t count,
+        int32_t x,
+        int32_t y,
+        int32_t z,
+        uint32_t group,
+        uint32_t uniqueNameId
+    ) override;
+    bool summonFriendlyMonsterById(
+        int16_t monsterId,
+        uint32_t count,
+        float durationSeconds,
+        float x,
+        float y,
+        float z
+    );
+    bool checkMonstersKilled(uint32_t checkType, uint32_t id, uint32_t count, bool invisibleAsDead) const override;
+
+public:
+    struct ResolvedProjectileDefinition
+    {
+        uint16_t objectDescriptionId = 0;
+        uint16_t objectSpriteId = 0;
+        uint16_t impactObjectDescriptionId = 0;
+        uint16_t impactObjectSpriteId = 0;
+        uint16_t radius = 0;
+        uint16_t height = 0;
+        uint32_t lifetimeTicks = 0;
+        float speed = 0.0f;
+        int spellId = 0;
+        int effectSoundId = 0;
+        std::string objectName;
+        std::string objectSpriteName;
+        std::string impactObjectName;
+        std::string impactObjectSpriteName;
+    };
+
+    enum class RuntimeSpellSourceKind
+    {
+        Actor,
+        Event,
+        Party,
+    };
+
+    struct SpellCastRequest
+    {
+        RuntimeSpellSourceKind sourceKind = RuntimeSpellSourceKind::Event;
+        uint32_t sourceId = 0;
+        int16_t sourceMonsterId = 0;
+        bool fromSummonedMonster = false;
+        MonsterAttackAbility ability = MonsterAttackAbility::Spell1;
+        uint32_t spellId = 0;
+        uint32_t skillLevel = 0;
+        uint32_t skillMastery = 0;
+        uint32_t sourcePartyMemberIndex = 0;
+        int damage = 0;
+        int attackBonus = 0;
+        bool useActorHitChance = false;
+        float sourceX = 0.0f;
+        float sourceY = 0.0f;
+        float sourceZ = 0.0f;
+        float targetX = 0.0f;
+        float targetY = 0.0f;
+        float targetZ = 0.0f;
+    };
+
+    struct PartyProjectileRequest
+    {
+        uint32_t sourcePartyMemberIndex = 0;
+        uint32_t objectId = 0;
+        uint32_t impactObjectId = 0;
+        int damage = 0;
+        int attackBonus = 0;
+        bool useActorHitChance = false;
+        float sourceX = 0.0f;
+        float sourceY = 0.0f;
+        float sourceZ = 0.0f;
+        float targetX = 0.0f;
+        float targetY = 0.0f;
+        float targetZ = 0.0f;
+    };
+
+    struct MonsterVisualState
+    {
+        uint16_t spriteFrameIndex = 0;
+        std::array<uint16_t, 8> actionSpriteFrameIndices = {};
+        bool useStaticFrame = false;
+    };
+
+private:
+    static uint32_t makeChestSeed(uint32_t sessionSeed, int mapId, uint32_t chestId, uint32_t salt);
+    static void appendChestItem(std::vector<ChestItemState> &items, const ChestItemState &item);
+    static int generateGoldAmount(int treasureLevel, std::mt19937 &rng);
+    static int remapTreasureLevel(int itemTreasureLevel, int mapTreasureLevel);
+
+    bool applyMonsterAttackToMapActor(size_t actorIndex, int damage, uint32_t sourceActorId);
+    bool spawnEncounterFromResolvedData(
+        int encounterSlot,
+        char fixedTier,
+        uint32_t count,
+        float x,
+        float y,
+        float z,
+        uint16_t radius,
+        uint16_t attributes,
+        uint32_t group,
+        uint32_t uniqueNameId,
+        bool fromSpawnPoint,
+        size_t spawnPointIndex,
+        bool aggro);
+    bool setMapActorHostileToParty(size_t actorIndex, float partyX, float partyY, float partyZ, bool resetActionState);
+    void aggroNearbyMapActorFaction(size_t actorIndex, float partyX, float partyY, float partyZ);
+    ChestViewState buildChestView(uint32_t chestId) const;
+    void activateChestView(uint32_t chestId);
+    CorpseViewState buildCorpseView(const std::string &title, const MonsterTable::LootPrototype &loot, uint32_t seed) const;
+    void pushAudioEvent(
+        uint32_t soundId,
+        uint32_t sourceId,
+        const std::string &reason,
+        float x,
+        float y,
+        float z,
+        bool positional = true);
+    bool spawnProjectileFromMapActor(
+        const MapActorState &actor,
+        const MonsterTable::MonsterStatsEntry &stats,
+        MonsterAttackAbility ability,
+        float targetX,
+        float targetY,
+        float targetZ
+    );
+    bool castSpellFromMapActor(
+        const MapActorState &actor,
+        const MonsterTable::MonsterStatsEntry &stats,
+        MonsterAttackAbility ability,
+        float targetX,
+        float targetY,
+        float targetZ
+    );
+    bool castSpell(const SpellCastRequest &request);
+    bool resolveObjectProjectileDefinition(
+        int objectId,
+        int impactObjectId,
+        ResolvedProjectileDefinition &definition) const;
+    bool castDirectSpellProjectile(
+        const SpellCastRequest &request,
+        const ResolvedProjectileDefinition &definition
+    );
+    bool castMeteorShower(
+        const SpellCastRequest &request,
+        const ResolvedProjectileDefinition &definition
+    );
+    bool projectileSourceIsFriendlyToActor(const ProjectileState &projectile, const MapActorState &actor) const;
+    bool spawnSpellProjectile(
+        const SpellCastRequest &request,
+        const ResolvedProjectileDefinition &definition,
+        float sourceX,
+        float sourceY,
+        float sourceZ,
+        float targetX,
+        float targetY,
+        float targetZ,
+        float spawnForwardOffset
+    );
+    bool hasClearOutdoorLineOfSight(const bx::Vec3 &start, const bx::Vec3 &end) const;
+    void updateActorSpellEffects(MapActorState &actor, float deltaSeconds);
+    void restoreActorHostilityAfterControlEffect(MapActorState &actor);
+    int effectiveArmorClassForActor(
+        const MapActorState &actor,
+        const MonsterTable::MonsterStatsEntry *pStats) const;
+    void buildOutdoorFaceSpatialIndex();
+    void collectOutdoorFaceCandidates(float minX, float minY, float maxX, float maxY, std::vector<size_t> &indices) const;
+    bool resolveWorldItemVisual(
+        uint32_t itemId,
+        uint16_t &objectDescriptionId,
+        uint16_t &objectSpriteId,
+        uint16_t &objectSpriteFrameIndex,
+        uint16_t &objectFlags,
+        uint16_t &radius,
+        uint16_t &height,
+        std::string &objectName,
+        std::string &objectSpriteName) const;
+    void materializeMapDeltaWorldItems();
+    void updateWorldItems(float deltaSeconds);
+    void updateProjectiles(float deltaSeconds, float partyX, float partyY, float partyZ);
+    void spawnProjectileImpact(
+        const ProjectileState &projectile,
+        float x,
+        float y,
+        float z,
+        bool centerVertically = false);
+
+    int m_mapId = 0;
+    int m_mapTreasureLevel = 0;
+    MapStatsEntry m_map = {};
+    std::string m_mapName;
+    float m_gameMinutes = 9.0f * 60.0f;
+    AtmosphereState m_atmosphereState = {};
+    std::vector<TimerState> m_timers;
+    std::vector<MapActorState> m_mapActors;
+    std::vector<SpawnPointState> m_spawnPoints;
+    std::vector<MapDeltaChest> m_chests;
+    std::vector<bool> m_openedChests;
+    std::vector<std::optional<ChestViewState>> m_materializedChestViews;
+    std::optional<ChestViewState> m_activeChestView;
+    std::optional<EventRuntimeState> m_eventRuntimeState;
+    const ItemTable *m_pItemTable = nullptr;
+    Party *m_pParty = nullptr;
+    const StandardItemEnchantTable *m_pStandardItemEnchantTable = nullptr;
+    const SpecialItemEnchantTable *m_pSpecialItemEnchantTable = nullptr;
+    const ChestTable *m_pChestTable = nullptr;
+    const MonsterTable *m_pMonsterTable = nullptr;
+    const MonsterProjectileTable *m_pMonsterProjectileTable = nullptr;
+    const ObjectTable *m_pObjectTable = nullptr;
+    const OutdoorMapData *m_pOutdoorMapData = nullptr;
+    const MapDeltaData *m_pOutdoorMapDeltaData = nullptr;
+    const SpellTable *m_pSpellTable = nullptr;
+    const SpriteFrameTable *m_pActorSpriteFrameTable = nullptr;
+    const SpriteFrameTable *m_pProjectileSpriteFrameTable = nullptr;
+    std::optional<std::vector<uint8_t>> m_outdoorLandMask;
+    std::vector<OutdoorFaceGeometryData> m_outdoorFaces;
+    std::vector<std::vector<size_t>> m_outdoorFaceGridCells;
+    float m_outdoorFaceGridMinX = 0.0f;
+    float m_outdoorFaceGridMinY = 0.0f;
+    size_t m_outdoorFaceGridWidth = 0;
+    size_t m_outdoorFaceGridHeight = 0;
+    std::optional<OutdoorMovementController> m_outdoorMovementController;
+    std::unordered_map<int16_t, MonsterVisualState> m_monsterVisualsById;
+    float m_actorUpdateAccumulatorSeconds = 0.0f;
+    uint32_t m_sessionChestSeed = 0;
+    uint32_t m_nextActorId = 0;
+    std::vector<std::optional<CorpseViewState>> m_mapActorCorpseViews;
+    std::optional<CorpseViewState> m_activeCorpseView;
+    std::vector<AudioEvent> m_pendingAudioEvents;
+    std::vector<CombatEvent> m_pendingCombatEvents;
+    std::vector<WorldItemState> m_worldItems;
+    uint32_t m_nextWorldItemId = 1;
+    uint32_t m_nextProjectileId = 1;
+    uint32_t m_nextProjectileImpactId = 1;
+    std::vector<ProjectileState> m_projectiles;
+    std::vector<ProjectileImpactState> m_projectileImpacts;
+
+    void refreshAtmosphereState();
+};
+}

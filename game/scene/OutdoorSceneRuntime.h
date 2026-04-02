@@ -1,9 +1,9 @@
 #pragma once
 
-#include "game/EventIr.h"
-#include "game/EventRuntime.h"
-#include "game/OutdoorPartyRuntime.h"
-#include "game/OutdoorWorldRuntime.h"
+#include "game/events/EventIr.h"
+#include "game/events/EventRuntime.h"
+#include "game/outdoor/OutdoorPartyRuntime.h"
+#include "game/outdoor/OutdoorWorldRuntime.h"
 #include "game/scene/IMapSceneRuntime.h"
 
 #include <optional>

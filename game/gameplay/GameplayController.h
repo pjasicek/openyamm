@@ -1,6 +1,6 @@
 #pragma once
 
-#include "game/GameSession.h"
+#include "game/app/GameSession.h"
 #include "game/scene/IMapSceneRuntime.h"
 
 #include <optional>

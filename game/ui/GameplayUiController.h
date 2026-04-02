@@ -1,11 +1,11 @@
 #pragma once
 
 #include "engine/AssetFileSystem.h"
-#include "game/CharacterState.h"
-#include "game/EventDialogContent.h"
-#include "game/Party.h"
-#include "game/PartySpellSystem.h"
-#include "game/SkillData.h"
+#include "game/party/CharacterState.h"
+#include "game/events/EventDialogContent.h"
+#include "game/party/Party.h"
+#include "game/party/PartySpellSystem.h"
+#include "game/party/SkillData.h"
 
 #include <cstddef>
 #include <cstdint>

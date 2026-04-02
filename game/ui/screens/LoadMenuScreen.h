@@ -1,6 +1,6 @@
 #pragma once
 
-#include "game/MapStats.h"
+#include "game/tables/MapStats.h"
 #include "game/ui/MenuScreenBase.h"
 
 #include <filesystem>

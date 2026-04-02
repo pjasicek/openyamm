@@ -1,9 +1,9 @@
 #pragma once
 
-#include "game/EventDialogContent.h"
-#include "game/EventRuntime.h"
-#include "game/SoundIds.h"
-#include "game/SpeechIds.h"
+#include "game/events/EventDialogContent.h"
+#include "game/events/EventRuntime.h"
+#include "game/audio/SoundIds.h"
+#include "game/party/SpeechIds.h"
 #include "game/ui/GameplayUiController.h"
 
 #include <cstddef>
