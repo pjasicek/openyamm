@@ -141,6 +141,60 @@ bool shouldSkipSpriteObjectCollision(const MapDeltaSpriteObject &spriteObject, c
     return false;
 }
 
+bool isWaterTransitionTerrainTexture(const std::string &textureName)
+{
+    const std::string normalizedTextureName = toLowerCopy(textureName);
+    return normalizedTextureName.starts_with("wtrdr") || normalizedTextureName.starts_with("hwtrdr");
+}
+
+std::vector<uint8_t> compositeTerrainOverlayOverBase(
+    const std::vector<uint8_t> &basePixels,
+    const std::vector<uint8_t> &overlayPixels)
+{
+    if (basePixels.size() != overlayPixels.size())
+    {
+        return overlayPixels;
+    }
+
+    std::vector<uint8_t> compositedPixels = basePixels;
+
+    for (size_t offset = 0; offset + 3 < compositedPixels.size(); offset += 4)
+    {
+        const uint32_t sourceAlpha = overlayPixels[offset + 3];
+
+        if (sourceAlpha == 0)
+        {
+            continue;
+        }
+
+        if (sourceAlpha >= 255)
+        {
+            compositedPixels[offset + 0] = overlayPixels[offset + 0];
+            compositedPixels[offset + 1] = overlayPixels[offset + 1];
+            compositedPixels[offset + 2] = overlayPixels[offset + 2];
+            compositedPixels[offset + 3] = 255;
+            continue;
+        }
+
+        const uint32_t destinationAlpha = compositedPixels[offset + 3];
+        const uint32_t inverseSourceAlpha = 255 - sourceAlpha;
+        const uint32_t outAlpha = sourceAlpha + (destinationAlpha * inverseSourceAlpha + 127) / 255;
+
+        for (int channel = 0; channel < 3; ++channel)
+        {
+            const uint32_t source = overlayPixels[offset + static_cast<size_t>(channel)];
+            const uint32_t destination = compositedPixels[offset + static_cast<size_t>(channel)];
+            const uint32_t blended =
+                (source * sourceAlpha + destination * inverseSourceAlpha + 127) / 255;
+            compositedPixels[offset + static_cast<size_t>(channel)] = static_cast<uint8_t>(blended);
+        }
+
+        compositedPixels[offset + 3] = static_cast<uint8_t>(std::min(outAlpha, 255u));
+    }
+
+    return compositedPixels;
+}
+
 bool loadDecorationDisplayRows(
     const Engine::AssetFileSystem &assetFileSystem,
     std::vector<std::vector<std::string>> &rows)
@@ -1887,6 +1941,24 @@ std::optional<OutdoorTerrainTextureAtlas> buildOutdoorTerrainTextureAtlas(
     textureAtlas.height = TerrainTextureAtlasColumns * TerrainTextureTileSize;
     textureAtlas.pixels.resize(static_cast<size_t>(textureAtlas.width * textureAtlas.height * 4), 0);
 
+    int waterTextureWidth = 0;
+    int waterTextureHeight = 0;
+    const std::optional<std::vector<uint8_t>> waterTilePixels =
+        loadBitmapPixelsBgra(
+            assetFileSystem,
+            "Data/bitmaps",
+            reinterpret_cast<const char *>(WaterTileName),
+            waterTextureWidth,
+            waterTextureHeight,
+            true,
+            false,
+            bitmapLoadCache
+        );
+    const bool hasWaterTilePixels =
+        waterTilePixels
+        && waterTextureWidth == TerrainTextureTileSize
+        && waterTextureHeight == TerrainTextureTileSize;
+
     for (int tileIndex = 0; tileIndex < 256; ++tileIndex)
     {
         const std::string &textureName = (*tileTextureNames)[tileIndex];
@@ -1915,6 +1987,13 @@ std::optional<OutdoorTerrainTextureAtlas> buildOutdoorTerrainTextureAtlas(
             continue;
         }
 
+        std::vector<uint8_t> resolvedTilePixels = *tilePixels;
+
+        if (hasWaterTilePixels && isWaterTransitionTerrainTexture(textureName))
+        {
+            resolvedTilePixels = compositeTerrainOverlayOverBase(*waterTilePixels, resolvedTilePixels);
+        }
+
         const int atlasColumn = tileIndex % TerrainTextureAtlasColumns;
         const int atlasRow = tileIndex / TerrainTextureAtlasColumns;
         const int atlasX = atlasColumn * TerrainTextureTileSize;
@@ -1928,7 +2007,7 @@ std::optional<OutdoorTerrainTextureAtlas> buildOutdoorTerrainTextureAtlas(
             );
             std::memcpy(
                 textureAtlas.pixels.data() + static_cast<ptrdiff_t>(targetOffset),
-                tilePixels->data() + static_cast<ptrdiff_t>(sourceOffset),
+                resolvedTilePixels.data() + static_cast<ptrdiff_t>(sourceOffset),
                 static_cast<size_t>(TerrainTextureTileSize * 4)
             );
         }

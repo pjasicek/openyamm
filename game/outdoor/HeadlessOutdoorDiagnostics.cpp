@@ -15191,6 +15191,83 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
     );
 
     runCase(
+        "dwi_terrain_atlas_does_not_leave_opaque_magenta_water_transition_fill",
+        [&](std::string &failure)
+        {
+            GameApplication application(m_config);
+
+            if (!initializeHeadlessGameApplication(
+                    "out01.odm",
+                    assetFileSystem,
+                    application,
+                    failure))
+            {
+                return false;
+            }
+
+            const std::optional<MapAssetInfo> &selectedMap =
+                GameApplicationTestAccess::gameDataLoader(application).getSelectedMap();
+
+            if (!selectedMap || !selectedMap->outdoorMapData || !selectedMap->outdoorTerrainTextureAtlas)
+            {
+                failure = "selected DWI map is missing outdoor atlas data";
+                return false;
+            }
+
+            const OutdoorMapData &outdoorMapData = *selectedMap->outdoorMapData;
+            const OutdoorTerrainTextureAtlas &atlas = *selectedMap->outdoorTerrainTextureAtlas;
+            std::array<bool, 256> usedTileIds = {};
+
+            for (uint8_t tileId : outdoorMapData.tileMap)
+            {
+                usedTileIds[static_cast<size_t>(tileId)] = true;
+            }
+
+            for (size_t tileIndex = 0; tileIndex < usedTileIds.size(); ++tileIndex)
+            {
+                if (!usedTileIds[tileIndex])
+                {
+                    continue;
+                }
+
+                const OutdoorTerrainAtlasRegion &region = atlas.tileRegions[tileIndex];
+
+                if (!region.isValid)
+                {
+                    continue;
+                }
+
+                const int atlasX = static_cast<int>(region.u0 * static_cast<float>(atlas.width));
+                const int atlasY = static_cast<int>(region.v0 * static_cast<float>(atlas.height));
+                std::vector<uint8_t> tilePixels(static_cast<size_t>(atlas.tileSize * atlas.tileSize * 4), 0);
+
+                for (int row = 0; row < atlas.tileSize; ++row)
+                {
+                    const size_t sourceOffset = static_cast<size_t>(((atlasY + row) * atlas.width + atlasX) * 4);
+                    const size_t targetOffset = static_cast<size_t>(row * atlas.tileSize * 4);
+                    std::memcpy(
+                        tilePixels.data() + static_cast<ptrdiff_t>(targetOffset),
+                        atlas.pixels.data() + static_cast<ptrdiff_t>(sourceOffset),
+                        static_cast<size_t>(atlas.tileSize * 4)
+                    );
+                }
+
+                const TextureColorStats colorStats = analyzeTextureColors(tilePixels);
+
+                if (colorStats.magentaPixelCount > 0)
+                {
+                    failure =
+                        "used terrain atlas tile " + std::to_string(tileIndex)
+                        + " still contains opaque magenta fill";
+                    return false;
+                }
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
         "app_startup_boots_seeded_out01_session",
         [&](std::string &failure)
         {
