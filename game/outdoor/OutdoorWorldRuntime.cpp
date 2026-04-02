@@ -7458,6 +7458,148 @@ bool OutdoorWorldRuntime::takeActiveChestItem(size_t itemIndex, ChestItemState &
     return true;
 }
 
+bool OutdoorWorldRuntime::identifyActiveChestItem(size_t itemIndex, std::string &statusText)
+{
+    statusText.clear();
+
+    if (!m_activeChestView || itemIndex >= m_activeChestView->items.size() || m_pItemTable == nullptr)
+    {
+        return false;
+    }
+
+    ChestItemState &chestItem = m_activeChestView->items[itemIndex];
+
+    if (chestItem.isGold)
+    {
+        return false;
+    }
+
+    const ItemDefinition *pItemDefinition = m_pItemTable->get(chestItem.item.objectDescriptionId);
+
+    if (pItemDefinition == nullptr)
+    {
+        statusText = "Unavailable.";
+        return false;
+    }
+
+    if (chestItem.item.identified || !ItemRuntime::requiresIdentification(*pItemDefinition))
+    {
+        statusText = "Already identified.";
+        return false;
+    }
+
+    chestItem.item.identified = true;
+    statusText = "Identified " + ItemRuntime::displayName(chestItem.item, *pItemDefinition) + ".";
+    const uint32_t chestId = m_activeChestView->chestId;
+
+    if (chestId < m_materializedChestViews.size() && m_materializedChestViews[chestId].has_value())
+    {
+        m_materializedChestViews[chestId] = *m_activeChestView;
+    }
+
+    return true;
+}
+
+bool OutdoorWorldRuntime::tryIdentifyActiveChestItem(
+    size_t itemIndex,
+    const Character &inspector,
+    std::string &statusText)
+{
+    statusText.clear();
+
+    if (!m_activeChestView || itemIndex >= m_activeChestView->items.size() || m_pItemTable == nullptr)
+    {
+        return false;
+    }
+
+    ChestItemState &chestItem = m_activeChestView->items[itemIndex];
+
+    if (chestItem.isGold)
+    {
+        return false;
+    }
+
+    const ItemDefinition *pItemDefinition = m_pItemTable->get(chestItem.item.objectDescriptionId);
+
+    if (pItemDefinition == nullptr)
+    {
+        statusText = "Unavailable.";
+        return false;
+    }
+
+    if (chestItem.item.identified || !ItemRuntime::requiresIdentification(*pItemDefinition))
+    {
+        statusText = "Already identified.";
+        return false;
+    }
+
+    if (!ItemRuntime::canCharacterIdentifyItem(inspector, *pItemDefinition))
+    {
+        statusText = "Not skilled enough.";
+        return false;
+    }
+
+    chestItem.item.identified = true;
+    statusText = "Identified " + ItemRuntime::displayName(chestItem.item, *pItemDefinition) + ".";
+    const uint32_t chestId = m_activeChestView->chestId;
+
+    if (chestId < m_materializedChestViews.size() && m_materializedChestViews[chestId].has_value())
+    {
+        m_materializedChestViews[chestId] = *m_activeChestView;
+    }
+
+    return true;
+}
+
+bool OutdoorWorldRuntime::tryRepairActiveChestItem(size_t itemIndex, const Character &inspector, std::string &statusText)
+{
+    statusText.clear();
+
+    if (!m_activeChestView || itemIndex >= m_activeChestView->items.size() || m_pItemTable == nullptr)
+    {
+        return false;
+    }
+
+    ChestItemState &chestItem = m_activeChestView->items[itemIndex];
+
+    if (chestItem.isGold)
+    {
+        return false;
+    }
+
+    const ItemDefinition *pItemDefinition = m_pItemTable->get(chestItem.item.objectDescriptionId);
+
+    if (pItemDefinition == nullptr)
+    {
+        statusText = "Unavailable.";
+        return false;
+    }
+
+    if (!chestItem.item.broken)
+    {
+        statusText = "Nothing to repair.";
+        return false;
+    }
+
+    if (!ItemRuntime::canCharacterRepairItem(inspector, *pItemDefinition))
+    {
+        statusText = "Not skilled enough.";
+        return false;
+    }
+
+    chestItem.item.broken = false;
+    chestItem.item.identified = true;
+    statusText = "Repaired " + ItemRuntime::displayName(chestItem.item, *pItemDefinition) + ".";
+    const uint32_t chestId = m_activeChestView->chestId;
+
+    if (chestId < m_materializedChestViews.size() && m_materializedChestViews[chestId].has_value())
+    {
+        m_materializedChestViews[chestId] = *m_activeChestView;
+    }
+
+    return true;
+}
+
 bool OutdoorWorldRuntime::takeActiveChestItemAt(uint8_t gridX, uint8_t gridY, ChestItemState &item)
 {
     if (!m_activeChestView)
@@ -7600,6 +7742,148 @@ bool OutdoorWorldRuntime::takeActiveCorpseItem(size_t itemIndex, ChestItemState 
         m_activeCorpseView.reset();
         return true;
     }
+
+    if (m_activeCorpseView->sourceIndex < m_mapActorCorpseViews.size())
+    {
+        m_mapActorCorpseViews[m_activeCorpseView->sourceIndex] = *m_activeCorpseView;
+    }
+
+    return true;
+}
+
+bool OutdoorWorldRuntime::identifyActiveCorpseItem(size_t itemIndex, std::string &statusText)
+{
+    statusText.clear();
+
+    if (!m_activeCorpseView || itemIndex >= m_activeCorpseView->items.size() || m_pItemTable == nullptr)
+    {
+        return false;
+    }
+
+    ChestItemState &corpseItem = m_activeCorpseView->items[itemIndex];
+
+    if (corpseItem.isGold)
+    {
+        return false;
+    }
+
+    const ItemDefinition *pItemDefinition = m_pItemTable->get(corpseItem.item.objectDescriptionId);
+
+    if (pItemDefinition == nullptr)
+    {
+        statusText = "Unavailable.";
+        return false;
+    }
+
+    if (corpseItem.item.identified || !ItemRuntime::requiresIdentification(*pItemDefinition))
+    {
+        statusText = "Already identified.";
+        return false;
+    }
+
+    corpseItem.item.identified = true;
+    statusText = "Identified " + ItemRuntime::displayName(corpseItem.item, *pItemDefinition) + ".";
+
+    if (m_activeCorpseView->sourceIndex < m_mapActorCorpseViews.size())
+    {
+        m_mapActorCorpseViews[m_activeCorpseView->sourceIndex] = *m_activeCorpseView;
+    }
+
+    return true;
+}
+
+bool OutdoorWorldRuntime::tryIdentifyActiveCorpseItem(
+    size_t itemIndex,
+    const Character &inspector,
+    std::string &statusText)
+{
+    statusText.clear();
+
+    if (!m_activeCorpseView || itemIndex >= m_activeCorpseView->items.size() || m_pItemTable == nullptr)
+    {
+        return false;
+    }
+
+    ChestItemState &corpseItem = m_activeCorpseView->items[itemIndex];
+
+    if (corpseItem.isGold)
+    {
+        return false;
+    }
+
+    const ItemDefinition *pItemDefinition = m_pItemTable->get(corpseItem.item.objectDescriptionId);
+
+    if (pItemDefinition == nullptr)
+    {
+        statusText = "Unavailable.";
+        return false;
+    }
+
+    if (corpseItem.item.identified || !ItemRuntime::requiresIdentification(*pItemDefinition))
+    {
+        statusText = "Already identified.";
+        return false;
+    }
+
+    if (!ItemRuntime::canCharacterIdentifyItem(inspector, *pItemDefinition))
+    {
+        statusText = "Not skilled enough.";
+        return false;
+    }
+
+    corpseItem.item.identified = true;
+    statusText = "Identified " + ItemRuntime::displayName(corpseItem.item, *pItemDefinition) + ".";
+
+    if (m_activeCorpseView->sourceIndex < m_mapActorCorpseViews.size())
+    {
+        m_mapActorCorpseViews[m_activeCorpseView->sourceIndex] = *m_activeCorpseView;
+    }
+
+    return true;
+}
+
+bool OutdoorWorldRuntime::tryRepairActiveCorpseItem(
+    size_t itemIndex,
+    const Character &inspector,
+    std::string &statusText)
+{
+    statusText.clear();
+
+    if (!m_activeCorpseView || itemIndex >= m_activeCorpseView->items.size() || m_pItemTable == nullptr)
+    {
+        return false;
+    }
+
+    ChestItemState &corpseItem = m_activeCorpseView->items[itemIndex];
+
+    if (corpseItem.isGold)
+    {
+        return false;
+    }
+
+    const ItemDefinition *pItemDefinition = m_pItemTable->get(corpseItem.item.objectDescriptionId);
+
+    if (pItemDefinition == nullptr)
+    {
+        statusText = "Unavailable.";
+        return false;
+    }
+
+    if (!corpseItem.item.broken)
+    {
+        statusText = "Nothing to repair.";
+        return false;
+    }
+
+    if (!ItemRuntime::canCharacterRepairItem(inspector, *pItemDefinition))
+    {
+        statusText = "Not skilled enough.";
+        return false;
+    }
+
+    corpseItem.item.broken = false;
+    corpseItem.item.identified = true;
+    statusText = "Repaired " + ItemRuntime::displayName(corpseItem.item, *pItemDefinition) + ".";
 
     if (m_activeCorpseView->sourceIndex < m_mapActorCorpseViews.size())
     {

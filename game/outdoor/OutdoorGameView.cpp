@@ -6133,6 +6133,7 @@ void OutdoorGameView::updateItemInspectOverlayState(int width, int height)
             m_itemInspectOverlay.sourceGridX = it->sourceGridX;
             m_itemInspectOverlay.sourceGridY = it->sourceGridY;
             m_itemInspectOverlay.sourceEquipmentSlot = it->equipmentSlot;
+            m_itemInspectOverlay.sourceLootItemIndex = it->sourceLootItemIndex;
             m_itemInspectOverlay.hasValueOverride = it->hasValueOverride;
             m_itemInspectOverlay.valueOverride = it->valueOverride;
             m_itemInspectOverlay.sourceX = it->x;
@@ -6347,6 +6348,7 @@ void OutdoorGameView::tryApplyItemInspectSkillInteraction()
     interactionKey ^= static_cast<uint64_t>(m_itemInspectOverlay.sourceGridY) << 32;
     interactionKey ^= static_cast<uint64_t>(m_itemInspectOverlay.sourceEquipmentSlot) << 40;
     interactionKey ^= static_cast<uint64_t>(m_itemInspectOverlay.sourceWorldItemIndex) << 44;
+    interactionKey ^= static_cast<uint64_t>(m_itemInspectOverlay.sourceLootItemIndex) << 48;
     interactionKey ^= static_cast<uint64_t>(m_itemInspectOverlay.sourceType) << 56;
 
     if (m_itemInspectInteractionLatch && m_itemInspectInteractionKey == interactionKey)
@@ -6421,6 +6423,26 @@ void OutdoorGameView::tryApplyItemInspectSkillInteraction()
                     m_itemInspectOverlay.itemState = pWorldItem->item;
                 }
             }
+            else if (m_pOutdoorWorldRuntime != nullptr
+                && m_itemInspectOverlay.sourceType == ItemInspectSourceType::Chest)
+            {
+                const OutdoorWorldRuntime::ChestViewState *pChestView = m_pOutdoorWorldRuntime->activeChestView();
+
+                if (pChestView != nullptr && m_itemInspectOverlay.sourceLootItemIndex < pChestView->items.size())
+                {
+                    m_itemInspectOverlay.itemState = pChestView->items[m_itemInspectOverlay.sourceLootItemIndex].item;
+                }
+            }
+            else if (m_pOutdoorWorldRuntime != nullptr
+                && m_itemInspectOverlay.sourceType == ItemInspectSourceType::Corpse)
+            {
+                const OutdoorWorldRuntime::CorpseViewState *pCorpseView = m_pOutdoorWorldRuntime->activeCorpseView();
+
+                if (pCorpseView != nullptr && m_itemInspectOverlay.sourceLootItemIndex < pCorpseView->items.size())
+                {
+                    m_itemInspectOverlay.itemState = pCorpseView->items[m_itemInspectOverlay.sourceLootItemIndex].item;
+                }
+            }
         };
 
     const auto forceIdentifyWithoutReaction =
@@ -6448,6 +6470,22 @@ void OutdoorGameView::tryApplyItemInspectSkillInteraction()
             {
                 return m_pOutdoorWorldRuntime->identifyWorldItem(
                     m_itemInspectOverlay.sourceWorldItemIndex,
+                    statusText);
+            }
+
+            if (m_itemInspectOverlay.sourceType == ItemInspectSourceType::Chest
+                && m_pOutdoorWorldRuntime != nullptr)
+            {
+                return m_pOutdoorWorldRuntime->identifyActiveChestItem(
+                    m_itemInspectOverlay.sourceLootItemIndex,
+                    statusText);
+            }
+
+            if (m_itemInspectOverlay.sourceType == ItemInspectSourceType::Corpse
+                && m_pOutdoorWorldRuntime != nullptr)
+            {
+                return m_pOutdoorWorldRuntime->identifyActiveCorpseItem(
+                    m_itemInspectOverlay.sourceLootItemIndex,
                     statusText);
             }
 
@@ -6485,6 +6523,24 @@ void OutdoorGameView::tryApplyItemInspectSkillInteraction()
                     statusText);
             }
 
+            if (m_itemInspectOverlay.sourceType == ItemInspectSourceType::Chest
+                && m_pOutdoorWorldRuntime != nullptr)
+            {
+                return m_pOutdoorWorldRuntime->tryIdentifyActiveChestItem(
+                    m_itemInspectOverlay.sourceLootItemIndex,
+                    *pActiveMember,
+                    statusText);
+            }
+
+            if (m_itemInspectOverlay.sourceType == ItemInspectSourceType::Corpse
+                && m_pOutdoorWorldRuntime != nullptr)
+            {
+                return m_pOutdoorWorldRuntime->tryIdentifyActiveCorpseItem(
+                    m_itemInspectOverlay.sourceLootItemIndex,
+                    *pActiveMember,
+                    statusText);
+            }
+
             return false;
         };
 
@@ -6515,6 +6571,24 @@ void OutdoorGameView::tryApplyItemInspectSkillInteraction()
             {
                 return m_pOutdoorWorldRuntime->tryRepairWorldItem(
                     m_itemInspectOverlay.sourceWorldItemIndex,
+                    *pActiveMember,
+                    statusText);
+            }
+
+            if (m_itemInspectOverlay.sourceType == ItemInspectSourceType::Chest
+                && m_pOutdoorWorldRuntime != nullptr)
+            {
+                return m_pOutdoorWorldRuntime->tryRepairActiveChestItem(
+                    m_itemInspectOverlay.sourceLootItemIndex,
+                    *pActiveMember,
+                    statusText);
+            }
+
+            if (m_itemInspectOverlay.sourceType == ItemInspectSourceType::Corpse
+                && m_pOutdoorWorldRuntime != nullptr)
+            {
+                return m_pOutdoorWorldRuntime->tryRepairActiveCorpseItem(
+                    m_itemInspectOverlay.sourceLootItemIndex,
                     *pActiveMember,
                     statusText);
             }

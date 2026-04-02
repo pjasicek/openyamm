@@ -84,6 +84,7 @@ struct GameplayRenderedInspectableHudItem
     uint8_t sourceGridX = 0;
     uint8_t sourceGridY = 0;
     EquipmentSlot equipmentSlot = EquipmentSlot::MainHand;
+    size_t sourceLootItemIndex = 0;
     std::string textureName;
     bool hasValueOverride = false;
     int valueOverride = 0;

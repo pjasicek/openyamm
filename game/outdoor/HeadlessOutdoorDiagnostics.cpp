@@ -17,6 +17,7 @@
 #include "game/items/InventoryItemUseRuntime.h"
 #include "game/items/ItemEnchantRuntime.h"
 #include "game/items/ItemGenerator.h"
+#include "game/items/ItemRuntime.h"
 #include "game/gameplay/MasteryTeacherDialog.h"
 #include "game/outdoor/OutdoorMovementController.h"
 #include "game/outdoor/OutdoorPartyRuntime.h"
@@ -511,6 +512,39 @@ bool itemHasTreasureWeightAtOrAboveTier(const ItemDefinition &itemDefinition, in
     }
 
     return false;
+}
+
+std::optional<uint32_t> findChestLootCandidateItemId(
+    const ItemTable &itemTable,
+    int treasureTier,
+    bool requiresIdentification)
+{
+    for (const ItemDefinition &itemDefinition : itemTable.entries())
+    {
+        if (itemDefinition.itemId == 0)
+        {
+            continue;
+        }
+
+        if (ItemRuntime::isRareItem(itemDefinition))
+        {
+            continue;
+        }
+
+        if (!itemHasTreasureWeightAtOrAboveTier(itemDefinition, treasureTier))
+        {
+            continue;
+        }
+
+        if (ItemRuntime::requiresIdentification(itemDefinition) != requiresIdentification)
+        {
+            continue;
+        }
+
+        return itemDefinition.itemId;
+    }
+
+    return std::nullopt;
 }
 
 std::optional<uint16_t> findSpecialEnchantId(
@@ -3409,6 +3443,116 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
                             + std::to_string(actual.width) + "x" + std::to_string(actual.height);
                         return false;
                     }
+                }
+
+                return true;
+            }
+        );
+
+        runCase(
+            "chest_loot_fixed_items_follow_item_identification_rule",
+            [&](std::string &failure)
+            {
+                const std::optional<uint32_t> unidentifiedItemId =
+                    findChestLootCandidateItemId(gameDataLoader.getItemTable(), 3, true);
+                const std::optional<uint32_t> identifiedItemId =
+                    findChestLootCandidateItemId(gameDataLoader.getItemTable(), 3, false);
+
+                if (!unidentifiedItemId || !identifiedItemId)
+                {
+                    failure = "could not find chest-loot identification fixture items";
+                    return false;
+                }
+
+                const InventoryItem unidentifiedItem =
+                    ItemGenerator::makeInventoryItem(
+                        *unidentifiedItemId,
+                        gameDataLoader.getItemTable(),
+                        ItemGenerationMode::ChestLoot);
+                const InventoryItem identifiedItem =
+                    ItemGenerator::makeInventoryItem(
+                        *identifiedItemId,
+                        gameDataLoader.getItemTable(),
+                        ItemGenerationMode::ChestLoot);
+
+                if (unidentifiedItem.identified)
+                {
+                    failure = "fixed chest item requiring identification spawned identified";
+                    return false;
+                }
+
+                if (!identifiedItem.identified)
+                {
+                    failure = "fixed chest item that should always be identified spawned unidentified";
+                    return false;
+                }
+
+                return true;
+            }
+        );
+
+        runCase(
+            "chest_loot_random_generation_follows_item_identification_rule",
+            [&](std::string &failure)
+            {
+                const std::optional<uint32_t> unidentifiedItemId =
+                    findChestLootCandidateItemId(gameDataLoader.getItemTable(), 3, true);
+                const std::optional<uint32_t> identifiedItemId =
+                    findChestLootCandidateItemId(gameDataLoader.getItemTable(), 3, false);
+
+                if (!unidentifiedItemId || !identifiedItemId)
+                {
+                    failure = "could not find random chest-loot identification fixture items";
+                    return false;
+                }
+
+                std::mt19937 unidentifiedRng(1337);
+                std::mt19937 identifiedRng(7331);
+                const std::optional<InventoryItem> unidentifiedItem = ItemGenerator::generateRandomInventoryItem(
+                    gameDataLoader.getItemTable(),
+                    gameDataLoader.getStandardItemEnchantTable(),
+                    gameDataLoader.getSpecialItemEnchantTable(),
+                    ItemGenerationRequest{3, ItemGenerationMode::ChestLoot, false},
+                    nullptr,
+                    unidentifiedRng,
+                    [targetItemId = *unidentifiedItemId](const ItemDefinition &entry)
+                    {
+                        return entry.itemId == targetItemId;
+                    });
+                const std::optional<InventoryItem> identifiedItem = ItemGenerator::generateRandomInventoryItem(
+                    gameDataLoader.getItemTable(),
+                    gameDataLoader.getStandardItemEnchantTable(),
+                    gameDataLoader.getSpecialItemEnchantTable(),
+                    ItemGenerationRequest{3, ItemGenerationMode::ChestLoot, false},
+                    nullptr,
+                    identifiedRng,
+                    [targetItemId = *identifiedItemId](const ItemDefinition &entry)
+                    {
+                        return entry.itemId == targetItemId;
+                    });
+
+                if (!unidentifiedItem || unidentifiedItem->objectDescriptionId != *unidentifiedItemId)
+                {
+                    failure = "could not generate unidentified chest-loot fixture item";
+                    return false;
+                }
+
+                if (!identifiedItem || identifiedItem->objectDescriptionId != *identifiedItemId)
+                {
+                    failure = "could not generate identified chest-loot fixture item";
+                    return false;
+                }
+
+                if (unidentifiedItem->identified)
+                {
+                    failure = "random chest item requiring identification spawned identified";
+                    return false;
+                }
+
+                if (!identifiedItem->identified)
+                {
+                    failure = "random chest item that should always be identified spawned unidentified";
+                    return false;
                 }
 
                 return true;

@@ -18,6 +18,9 @@ bool defaultIdentifiedState(const ItemDefinition &itemDefinition, ItemGeneration
         return true;
     }
 
+    // Loot identification is item-driven, not chest-driven:
+    // items that do not require identification spawn identified,
+    // while loot items that do require identification do not.
     if (!ItemRuntime::requiresIdentification(itemDefinition))
     {
         return true;

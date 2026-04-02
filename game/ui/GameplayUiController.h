@@ -46,7 +46,9 @@ public:
         None,
         Inventory,
         Equipment,
-        WorldItem
+        WorldItem,
+        Chest,
+        Corpse
     };
 
     enum class HouseShopMode
@@ -95,6 +97,7 @@ public:
         uint8_t sourceGridY = 0;
         EquipmentSlot sourceEquipmentSlot = EquipmentSlot::MainHand;
         size_t sourceWorldItemIndex = 0;
+        size_t sourceLootItemIndex = 0;
         bool hasValueOverride = false;
         int valueOverride = 0;
         float sourceX = 0.0f;

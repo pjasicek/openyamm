@@ -514,10 +514,16 @@ public:
     bool takeActiveChestItem(size_t itemIndex, ChestItemState &item);
     bool takeActiveChestItemAt(uint8_t gridX, uint8_t gridY, ChestItemState &item);
     bool tryPlaceActiveChestItemAt(const ChestItemState &item, uint8_t gridX, uint8_t gridY);
+    bool identifyActiveChestItem(size_t itemIndex, std::string &statusText);
+    bool tryIdentifyActiveChestItem(size_t itemIndex, const Character &inspector, std::string &statusText);
+    bool tryRepairActiveChestItem(size_t itemIndex, const Character &inspector, std::string &statusText);
     void closeActiveChestView();
     const CorpseViewState *activeCorpseView() const;
     bool openMapActorCorpseView(size_t actorIndex);
     bool takeActiveCorpseItem(size_t itemIndex, ChestItemState &item);
+    bool identifyActiveCorpseItem(size_t itemIndex, std::string &statusText);
+    bool tryIdentifyActiveCorpseItem(size_t itemIndex, const Character &inspector, std::string &statusText);
+    bool tryRepairActiveCorpseItem(size_t itemIndex, const Character &inspector, std::string &statusText);
     void closeActiveCorpseView();
     const std::vector<AudioEvent> &pendingAudioEvents() const;
     void clearPendingAudioEvents();

@@ -327,8 +327,9 @@ void GameplayHudOverlayRenderer::renderChestPanel(GameplayOverlayContext &view, 
             pChestView->gridWidth,
             pChestView->gridHeight);
 
-        for (const OutdoorWorldRuntime::ChestItemState &item : pChestView->items)
+        for (size_t itemIndex = 0; itemIndex < pChestView->items.size(); ++itemIndex)
         {
+            const OutdoorWorldRuntime::ChestItemState &item = pChestView->items[itemIndex];
             InventoryItem renderItem = {};
             renderItem.objectDescriptionId = item.itemId;
             renderItem.quantity = item.quantity;
@@ -398,6 +399,10 @@ void GameplayHudOverlayRenderer::renderChestPanel(GameplayOverlayContext &view, 
 
             GameplayRenderedInspectableHudItem inspectableItem = {};
             inspectableItem.objectDescriptionId = pItemDefinition->itemId;
+            inspectableItem.hasItemState = true;
+            inspectableItem.itemState = item.item;
+            inspectableItem.sourceType = GameplayUiController::ItemInspectSourceType::Chest;
+            inspectableItem.sourceLootItemIndex = itemIndex;
             inspectableItem.textureName = pItemDefinition->iconName;
             inspectableItem.x = itemRect.x;
             inspectableItem.y = itemRect.y;
