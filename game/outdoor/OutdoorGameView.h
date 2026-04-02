@@ -193,6 +193,14 @@ private:
         bgfx::TextureHandle textureHandle = BGFX_INVALID_HANDLE;
     };
 
+    struct AnimatedWaterTerrainTileState
+    {
+        OutdoorTerrainAtlasRegion region;
+        std::vector<uint8_t> basePixels;
+        std::vector<uint8_t> overlayPixels;
+        std::vector<uint8_t> animatedPixels;
+    };
+
     struct HudFontGlyphMetrics
     {
         int leftSpacing = 0;
@@ -629,6 +637,9 @@ private:
     float m_lastSkyUpdateElapsedTime = -1.0f;
     std::vector<TexturedTerrainVertex> m_baseTexturedTerrainVertices;
     std::vector<TexturedTerrainVertex> m_animatedTexturedTerrainVertices;
+    std::vector<AnimatedWaterTerrainTileState> m_animatedWaterTerrainTiles;
+    int m_lastWaterTerrainScrollX = -1;
+    int m_lastWaterTerrainScrollY = -1;
     SpriteLoadCache m_spriteLoadCache;
     uint32_t m_lastPortraitAnimationUpdateTicks = 0;
     std::vector<uint16_t> m_pendingSpriteFrameWarmups;

@@ -207,6 +207,91 @@ constexpr float HostilityShortRange = 2560.0f;
 constexpr float HostilityMediumRange = 5120.0f;
 constexpr float HostilityLongRange = 10240.0f;
 
+struct SyntheticOutdoorWaterBoundaryScenario
+{
+    OutdoorMapData mapData;
+    float landX = 0.0f;
+    float landY = 0.0f;
+    float waterX = 0.0f;
+    float waterY = 0.0f;
+};
+
+bool isOutdoorLandMaskWaterForDiagnostics(
+    const std::optional<std::vector<uint8_t>> &outdoorLandMask,
+    float x,
+    float y)
+{
+    if (!outdoorLandMask || outdoorLandMask->empty())
+    {
+        return false;
+    }
+
+    const float gridX = 64.0f - (x / static_cast<float>(OutdoorMapData::TerrainTileSize));
+    const float gridY = 64.0f - (y / static_cast<float>(OutdoorMapData::TerrainTileSize));
+    const int tileX = std::clamp(static_cast<int>(std::floor(gridX)), 0, OutdoorMapData::TerrainWidth - 2);
+    const int tileY = std::clamp(static_cast<int>(std::floor(gridY)), 0, OutdoorMapData::TerrainHeight - 2);
+    const int landMaskWidth = OutdoorMapData::TerrainWidth - 1;
+    const size_t tileIndex = static_cast<size_t>(tileY * landMaskWidth + tileX);
+
+    if (tileIndex >= outdoorLandMask->size())
+    {
+        return false;
+    }
+
+    return (*outdoorLandMask)[tileIndex] == 0;
+}
+
+bool isOutdoorPositionWaterForDiagnostics(
+    const OutdoorMapData &outdoorMapData,
+    const std::optional<std::vector<uint8_t>> &outdoorLandMask,
+    float x,
+    float y)
+{
+    return isOutdoorTerrainWater(outdoorMapData, x, y)
+        || isOutdoorLandMaskWaterForDiagnostics(outdoorLandMask, x, y);
+}
+
+SyntheticOutdoorWaterBoundaryScenario createSyntheticOutdoorWaterBoundaryScenario()
+{
+    SyntheticOutdoorWaterBoundaryScenario scenario = {};
+    scenario.mapData.heightMap.resize(
+        static_cast<size_t>(OutdoorMapData::TerrainWidth * OutdoorMapData::TerrainHeight),
+        0);
+    scenario.mapData.attributeMap.resize(
+        static_cast<size_t>(OutdoorMapData::TerrainWidth * OutdoorMapData::TerrainHeight),
+        0);
+    const int landTileX = 63;
+    const int landTileY = 63;
+    const int waterTileX = 62;
+    const int waterTileY = 63;
+    const size_t waterTileIndex = static_cast<size_t>(waterTileY * OutdoorMapData::TerrainWidth + waterTileX);
+
+    if (waterTileIndex < scenario.mapData.attributeMap.size())
+    {
+        scenario.mapData.attributeMap[waterTileIndex] = 0x02;
+    }
+
+    const float halfTile = static_cast<float>(OutdoorMapData::TerrainTileSize) * 0.5f;
+
+    auto tileCenter =
+        [halfTile](int tileX, int tileY) -> std::pair<float, float>
+    {
+        const float worldX =
+            static_cast<float>((64 - tileX - 1) * OutdoorMapData::TerrainTileSize) + halfTile;
+        const float worldY =
+            static_cast<float>((64 - tileY) * OutdoorMapData::TerrainTileSize) - halfTile;
+        return {worldX, worldY};
+    };
+
+    const auto [landX, landY] = tileCenter(landTileX, landTileY);
+    const auto [waterX, waterY] = tileCenter(waterTileX, waterTileY);
+    scenario.landX = landX;
+    scenario.landY = landY;
+    scenario.waterX = waterX;
+    scenario.waterY = waterY;
+    return scenario;
+}
+
 float nextGameMinuteAtOrAfter(float currentGameMinutes, float targetMinuteOfDay)
 {
     float targetGameMinutes = targetMinuteOfDay;
@@ -5774,6 +5859,7 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
                 false,
                 false,
                 false,
+                false,
                 0.0f,
                 0.0f,
                 0.5f,
@@ -5858,6 +5944,7 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
                 false,
                 false,
                 false,
+                false,
                 0.0f,
                 0.0f,
                 0.5f,
@@ -5910,6 +5997,7 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
                 state,
                 0.0f,
                 0.0f,
+                false,
                 false,
                 false,
                 false,
@@ -5967,6 +6055,7 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
                 false,
                 false,
                 false,
+                false,
                 0.0f,
                 0.0f,
                 1.0f / 60.0f,
@@ -5981,6 +6070,107 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
             if (contactedActorIndices.front() != 123)
             {
                 failure = "movement controller reported wrong actor contact index";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "party_ground_movement_blocks_water_entry_without_water_walk",
+        [&](std::string &failure)
+        {
+            const SyntheticOutdoorWaterBoundaryScenario boundary = createSyntheticOutdoorWaterBoundaryScenario();
+
+            OutdoorMovementController movementController(
+                boundary.mapData,
+                std::nullopt,
+                std::nullopt,
+                std::nullopt,
+                std::nullopt);
+
+            OutdoorMoveState state = movementController.initializeState(boundary.landX, boundary.landY, 0.0f);
+            const float moveVelocityX = (boundary.waterX - boundary.landX) * 2.0f;
+            const float moveVelocityY = (boundary.waterY - boundary.landY) * 2.0f;
+            const OutdoorMoveState resolved = movementController.resolveMove(
+                state,
+                moveVelocityX,
+                moveVelocityY,
+                false,
+                false,
+                false,
+                false,
+                512.0f,
+                0.0f,
+                0.5f);
+
+            if (resolved.supportOnWater)
+            {
+                failure = "grounded movement entered water without water walk";
+                return false;
+            }
+
+            if (isOutdoorPositionWaterForDiagnostics(
+                    boundary.mapData,
+                    std::nullopt,
+                    resolved.x,
+                    resolved.y))
+            {
+                failure = "grounded movement crossed onto water tile";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "party_airborne_movement_allows_water_entry_without_water_walk",
+        [&](std::string &failure)
+        {
+            const SyntheticOutdoorWaterBoundaryScenario boundary = createSyntheticOutdoorWaterBoundaryScenario();
+
+            OutdoorMovementController movementController(
+                boundary.mapData,
+                std::nullopt,
+                std::nullopt,
+                std::nullopt,
+                std::nullopt);
+
+            OutdoorMoveState state = movementController.initializeState(boundary.landX, boundary.landY, 0.0f);
+            state.footZ += 64.0f;
+            state.airborne = true;
+            state.verticalVelocity = 0.0f;
+            state.fallStartZ = state.footZ;
+
+            if (!state.airborne)
+            {
+                failure = "party was not configured airborne for water approach";
+                return false;
+            }
+
+            const float moveVelocityX = (boundary.waterX - boundary.landX) * 2.0f;
+            const float moveVelocityY = (boundary.waterY - boundary.landY) * 2.0f;
+            const OutdoorMoveState resolved = movementController.resolveMove(
+                state,
+                moveVelocityX,
+                moveVelocityY,
+                false,
+                false,
+                false,
+                false,
+                512.0f,
+                0.0f,
+                0.5f);
+
+            if (!isOutdoorPositionWaterForDiagnostics(
+                    boundary.mapData,
+                    std::nullopt,
+                    resolved.x,
+                    resolved.y))
+            {
+                failure = "airborne movement did not reach water tile";
                 return false;
             }
 

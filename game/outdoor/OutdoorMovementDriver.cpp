@@ -183,6 +183,7 @@ void OutdoorMovementDriver::update(const OutdoorMovementInput &input, float delt
             jumpRequestedThisStep,
             input.flyDown,
             m_partyMovementState.flying,
+            m_partyMovementState.waterWalk,
             m_tuning.jumpVelocity,
             m_tuning.flyVerticalSpeed,
             OutdoorMovementStepSeconds,

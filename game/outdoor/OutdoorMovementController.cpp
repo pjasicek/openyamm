@@ -224,6 +224,15 @@ bool isOutdoorLandMaskWater(const std::optional<std::vector<uint8_t>> &outdoorLa
     return (*outdoorLandMask)[tileIndex] == 0;
 }
 
+bool isOutdoorPositionWater(
+    const OutdoorMapData &outdoorMapData,
+    const std::optional<std::vector<uint8_t>> &outdoorLandMask,
+    float x,
+    float y)
+{
+    return isOutdoorTerrainWater(outdoorMapData, x, y) || isOutdoorLandMaskWater(outdoorLandMask, x, y);
+}
+
 float pointSegmentDistanceSquared2d(
     float pointX,
     float pointY,
@@ -1454,6 +1463,7 @@ OutdoorMoveState OutdoorMovementController::resolveMove(
     bool jumpRequested,
     bool flyDownRequested,
     bool flyingActive,
+    bool waterWalkActive,
     float jumpVelocity,
     float flyVerticalSpeed,
     float deltaSeconds,
@@ -1468,6 +1478,7 @@ OutdoorMoveState OutdoorMovementController::resolveMove(
         jumpRequested,
         flyDownRequested,
         flyingActive,
+        waterWalkActive,
         jumpVelocity,
         flyVerticalSpeed,
         deltaSeconds,
@@ -1482,6 +1493,7 @@ OutdoorMoveState OutdoorMovementController::resolveMoveForBody(
     bool jumpRequested,
     bool flyDownRequested,
     bool flyingActive,
+    bool waterWalkActive,
     float jumpVelocity,
     float flyVerticalSpeed,
     float deltaSeconds,
@@ -1569,7 +1581,7 @@ OutdoorMoveState OutdoorMovementController::resolveMoveForBody(
 
     const auto runCollisionPass =
         [this, deltaSeconds, &state, pContactedActorIndices, bodyRadius, bodyHeight, &ignoredActorCollider,
-            &candidateFaceIndices](
+            &candidateFaceIndices, partyCloseToGround, flyingActive, waterWalkActive](
             bx::Vec3 &passPosition,
             bx::Vec3 &passInputSpeed,
             bool &passPartyNotOnModel)
@@ -1697,6 +1709,14 @@ OutdoorMoveState OutdoorMovementController::resolveMoveForBody(
             {
                 bool moveInX = true;
                 bool moveInY = true;
+                const bool currentOnWater =
+                    isOutdoorPositionWater(*m_pOutdoorMapData, m_outdoorLandMask, passPosition.x, passPosition.y);
+                const bool xAdvanceOnWater =
+                    isOutdoorPositionWater(*m_pOutdoorMapData, m_outdoorLandMask, newPosLow.x, passPosition.y);
+                const bool yAdvanceOnWater =
+                    isOutdoorPositionWater(*m_pOutdoorMapData, m_outdoorLandMask, passPosition.x, newPosLow.y);
+                const bool allowGroundedWaterEntry =
+                    flyingActive || !partyCloseToGround || waterWalkActive || currentOnWater;
 
                 if (terrainSlopeTooHigh(*m_pOutdoorMapData, newPosLow.x, passPosition.y)
                     && xAdvanceFloor.height > passPosition.z)
@@ -1706,6 +1726,16 @@ OutdoorMoveState OutdoorMovementController::resolveMoveForBody(
 
                 if (terrainSlopeTooHigh(*m_pOutdoorMapData, passPosition.x, newPosLow.y)
                     && yAdvanceFloor.height > passPosition.z)
+                {
+                    moveInY = false;
+                }
+
+                if (!allowGroundedWaterEntry && xAdvanceOnWater)
+                {
+                    moveInX = false;
+                }
+
+                if (!allowGroundedWaterEntry && yAdvanceOnWater)
                 {
                     moveInY = false;
                 }
@@ -1975,8 +2005,11 @@ OutdoorMoveState OutdoorMovementController::resolveMoveForBody(
     result.supportOnWater = !result.airborne
         && (finalFloor.isFluid
             || (!finalFloor.fromBModel
-                && (isOutdoorTerrainWater(*m_pOutdoorMapData, partyNewPosition.x, partyNewPosition.y)
-                    || isOutdoorLandMaskWater(m_outdoorLandMask, partyNewPosition.x, partyNewPosition.y))));
+                && isOutdoorPositionWater(
+                    *m_pOutdoorMapData,
+                    m_outdoorLandMask,
+                    partyNewPosition.x,
+                    partyNewPosition.y)));
     result.supportOnBurning = !result.airborne
         && !finalFloor.fromBModel
         && isOutdoorTerrainBurning(*m_pOutdoorMapData, partyNewPosition.x, partyNewPosition.y);

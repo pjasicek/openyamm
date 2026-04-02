@@ -147,6 +147,21 @@ bool isWaterTransitionTerrainTexture(const std::string &textureName)
     return normalizedTextureName.starts_with("wtrdr") || normalizedTextureName.starts_with("hwtrdr");
 }
 
+bool isAnimatedWaterTerrainTexture(const std::string &textureName)
+{
+    const std::string normalizedTextureName = toLowerCopy(textureName);
+    return normalizedTextureName == "wtrtyl"
+        || normalizedTextureName == "hwtrtyl"
+        || normalizedTextureName.starts_with("wtrdr")
+        || normalizedTextureName.starts_with("hwtrdr");
+}
+
+std::string waterBaseTextureNameForTerrainTexture(const std::string &textureName)
+{
+    const std::string normalizedTextureName = toLowerCopy(textureName);
+    return normalizedTextureName.starts_with("hwtr") ? "hWTRTYL" : std::string(reinterpret_cast<const char *>(WaterTileName));
+}
+
 std::vector<uint8_t> compositeTerrainOverlayOverBase(
     const std::vector<uint8_t> &basePixels,
     const std::vector<uint8_t> &overlayPixels)
@@ -1941,23 +1956,7 @@ std::optional<OutdoorTerrainTextureAtlas> buildOutdoorTerrainTextureAtlas(
     textureAtlas.height = TerrainTextureAtlasColumns * TerrainTextureTileSize;
     textureAtlas.pixels.resize(static_cast<size_t>(textureAtlas.width * textureAtlas.height * 4), 0);
 
-    int waterTextureWidth = 0;
-    int waterTextureHeight = 0;
-    const std::optional<std::vector<uint8_t>> waterTilePixels =
-        loadBitmapPixelsBgra(
-            assetFileSystem,
-            "Data/bitmaps",
-            reinterpret_cast<const char *>(WaterTileName),
-            waterTextureWidth,
-            waterTextureHeight,
-            true,
-            false,
-            bitmapLoadCache
-        );
-    const bool hasWaterTilePixels =
-        waterTilePixels
-        && waterTextureWidth == TerrainTextureTileSize
-        && waterTextureHeight == TerrainTextureTileSize;
+    std::unordered_map<std::string, std::vector<uint8_t>> waterBasePixelsByName;
 
     for (int tileIndex = 0; tileIndex < 256; ++tileIndex)
     {
@@ -1988,10 +1987,56 @@ std::optional<OutdoorTerrainTextureAtlas> buildOutdoorTerrainTextureAtlas(
         }
 
         std::vector<uint8_t> resolvedTilePixels = *tilePixels;
+        std::vector<uint8_t> animatedWaterBasePixels;
+        std::vector<uint8_t> animatedWaterOverlayPixels;
 
-        if (hasWaterTilePixels && isWaterTransitionTerrainTexture(textureName))
+        if (isAnimatedWaterTerrainTexture(textureName))
         {
-            resolvedTilePixels = compositeTerrainOverlayOverBase(*waterTilePixels, resolvedTilePixels);
+            const std::string waterBaseTextureName = waterBaseTextureNameForTerrainTexture(textureName);
+            const std::string normalizedWaterBaseTextureName = toLowerCopy(waterBaseTextureName);
+            const auto cachedWaterBaseIt = waterBasePixelsByName.find(normalizedWaterBaseTextureName);
+
+            if (cachedWaterBaseIt != waterBasePixelsByName.end())
+            {
+                animatedWaterBasePixels = cachedWaterBaseIt->second;
+            }
+            else
+            {
+                int waterTextureWidth = 0;
+                int waterTextureHeight = 0;
+                const std::optional<std::vector<uint8_t>> waterTilePixels =
+                    loadBitmapPixelsBgra(
+                        assetFileSystem,
+                        "Data/bitmaps",
+                        waterBaseTextureName,
+                        waterTextureWidth,
+                        waterTextureHeight,
+                        true,
+                        false,
+                        bitmapLoadCache
+                    );
+
+                if (waterTilePixels
+                    && waterTextureWidth == TerrainTextureTileSize
+                    && waterTextureHeight == TerrainTextureTileSize)
+                {
+                    animatedWaterBasePixels = *waterTilePixels;
+                    waterBasePixelsByName.emplace(normalizedWaterBaseTextureName, animatedWaterBasePixels);
+                }
+            }
+
+            if (!animatedWaterBasePixels.empty())
+            {
+                if (isWaterTransitionTerrainTexture(textureName))
+                {
+                    animatedWaterOverlayPixels = *tilePixels;
+                    resolvedTilePixels = compositeTerrainOverlayOverBase(animatedWaterBasePixels, animatedWaterOverlayPixels);
+                }
+                else
+                {
+                    resolvedTilePixels = animatedWaterBasePixels;
+                }
+            }
         }
 
         const int atlasColumn = tileIndex % TerrainTextureAtlasColumns;
@@ -2018,8 +2063,17 @@ std::optional<OutdoorTerrainTextureAtlas> buildOutdoorTerrainTextureAtlas(
         region.u1 = static_cast<float>(atlasX + TerrainTextureTileSize) / static_cast<float>(textureAtlas.width);
         region.v1 = static_cast<float>(atlasY + TerrainTextureTileSize) / static_cast<float>(textureAtlas.height);
         region.isValid = true;
-        region.isWater = textureName == reinterpret_cast<const char *>(WaterTileName);
+        region.isWater = isAnimatedWaterTerrainTexture(textureName);
         textureAtlas.tileRegions[static_cast<size_t>(tileIndex)] = region;
+
+        if (!animatedWaterBasePixels.empty())
+        {
+            OutdoorAnimatedWaterTileSource animatedWaterTile = {};
+            animatedWaterTile.region = region;
+            animatedWaterTile.basePixels = std::move(animatedWaterBasePixels);
+            animatedWaterTile.overlayPixels = std::move(animatedWaterOverlayPixels);
+            textureAtlas.animatedWaterTiles.push_back(std::move(animatedWaterTile));
+        }
     }
 
     return textureAtlas;

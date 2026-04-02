@@ -33,6 +33,13 @@ struct OutdoorTerrainAtlasRegion
     bool isWater = false;
 };
 
+struct OutdoorAnimatedWaterTileSource
+{
+    OutdoorTerrainAtlasRegion region;
+    std::vector<uint8_t> basePixels;
+    std::vector<uint8_t> overlayPixels;
+};
+
 struct OutdoorTerrainTextureAtlas
 {
     int width = 0;
@@ -40,6 +47,7 @@ struct OutdoorTerrainTextureAtlas
     int tileSize = 0;
     std::vector<uint8_t> pixels;
     std::array<OutdoorTerrainAtlasRegion, 256> tileRegions = {};
+    std::vector<OutdoorAnimatedWaterTileSource> animatedWaterTiles;
 };
 
 struct OutdoorBitmapTexture

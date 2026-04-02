@@ -81,6 +81,10 @@ public:
         const bx::Vec3 &cameraPosition);
 
 private:
+    static void initializeAnimatedWaterTileState(
+        OutdoorGameView &view,
+        const std::optional<OutdoorTerrainTextureAtlas> &outdoorTerrainTextureAtlas);
+    static void updateAnimatedWaterTileTexture(OutdoorGameView &view);
     static std::vector<OutdoorGameView::TerrainVertex> buildTerrainVertices(const OutdoorMapData &mapData);
     static std::vector<uint16_t> buildTerrainIndices();
     static std::vector<OutdoorGameView::TexturedTerrainVertex> buildTexturedTerrainVertices(

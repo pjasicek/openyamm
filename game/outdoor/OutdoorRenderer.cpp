@@ -104,7 +104,200 @@ float resolveActorAabbBaseZ(
         static_cast<float>(actorZ));
 }
 
+std::vector<uint8_t> extractAtlasRegionPixels(
+    const OutdoorTerrainTextureAtlas &textureAtlas,
+    const OutdoorTerrainAtlasRegion &region)
+{
+    if (!region.isValid || textureAtlas.tileSize <= 0 || textureAtlas.width <= 0 || textureAtlas.height <= 0)
+    {
+        return {};
+    }
+
+    const int atlasX = static_cast<int>(std::lround(region.u0 * static_cast<float>(textureAtlas.width)));
+    const int atlasY = static_cast<int>(std::lround(region.v0 * static_cast<float>(textureAtlas.height)));
+    std::vector<uint8_t> regionPixels(static_cast<size_t>(textureAtlas.tileSize * textureAtlas.tileSize * 4), 0);
+
+    for (int row = 0; row < textureAtlas.tileSize; ++row)
+    {
+        const size_t sourceOffset = static_cast<size_t>(((atlasY + row) * textureAtlas.width + atlasX) * 4);
+        const size_t targetOffset = static_cast<size_t>(row * textureAtlas.tileSize * 4);
+        std::memcpy(
+            regionPixels.data() + static_cast<ptrdiff_t>(targetOffset),
+            textureAtlas.pixels.data() + static_cast<ptrdiff_t>(sourceOffset),
+            static_cast<size_t>(textureAtlas.tileSize * 4)
+        );
+    }
+
+    return regionPixels;
+}
+
+std::vector<uint8_t> compositeOverlayPixels(
+    const std::vector<uint8_t> &basePixels,
+    const std::vector<uint8_t> &overlayPixels)
+{
+    if (basePixels.size() != overlayPixels.size())
+    {
+        return basePixels;
+    }
+
+    std::vector<uint8_t> compositedPixels = basePixels;
+
+    for (size_t offset = 0; offset + 3 < compositedPixels.size(); offset += 4)
+    {
+        const uint32_t sourceAlpha = overlayPixels[offset + 3];
+
+        if (sourceAlpha == 0)
+        {
+            continue;
+        }
+
+        if (sourceAlpha >= 255)
+        {
+            compositedPixels[offset + 0] = overlayPixels[offset + 0];
+            compositedPixels[offset + 1] = overlayPixels[offset + 1];
+            compositedPixels[offset + 2] = overlayPixels[offset + 2];
+            compositedPixels[offset + 3] = 255;
+            continue;
+        }
+
+        const uint32_t inverseSourceAlpha = 255 - sourceAlpha;
+
+        for (int channel = 0; channel < 3; ++channel)
+        {
+            const uint32_t source = overlayPixels[offset + static_cast<size_t>(channel)];
+            const uint32_t destination = compositedPixels[offset + static_cast<size_t>(channel)];
+            compositedPixels[offset + static_cast<size_t>(channel)] = static_cast<uint8_t>(
+                (source * sourceAlpha + destination * inverseSourceAlpha + 127) / 255);
+        }
+
+        compositedPixels[offset + 3] = 255;
+    }
+
+    return compositedPixels;
+}
+
 } // namespace
+
+void OutdoorRenderer::initializeAnimatedWaterTileState(
+    OutdoorGameView &view,
+    const std::optional<OutdoorTerrainTextureAtlas> &outdoorTerrainTextureAtlas)
+{
+    view.m_animatedWaterTerrainTiles.clear();
+    view.m_lastWaterTerrainScrollX = -1;
+    view.m_lastWaterTerrainScrollY = -1;
+
+    if (!outdoorTerrainTextureAtlas || outdoorTerrainTextureAtlas->animatedWaterTiles.empty())
+    {
+        return;
+    }
+
+    view.m_animatedWaterTerrainTiles.reserve(outdoorTerrainTextureAtlas->animatedWaterTiles.size());
+
+    for (const OutdoorAnimatedWaterTileSource &source : outdoorTerrainTextureAtlas->animatedWaterTiles)
+    {
+        OutdoorGameView::AnimatedWaterTerrainTileState tileState = {};
+        tileState.region = source.region;
+        tileState.basePixels = source.basePixels;
+        tileState.overlayPixels = source.overlayPixels;
+        tileState.animatedPixels = source.basePixels;
+        view.m_animatedWaterTerrainTiles.push_back(std::move(tileState));
+    }
+}
+
+void OutdoorRenderer::updateAnimatedWaterTileTexture(OutdoorGameView &view)
+{
+    // TODO(outdoor): Replace this CPU-side atlas rewrite with shader-side water animation.
+    // The current approach is intentionally small and works for DWI, but it uploads animated water
+    // regions back into the terrain atlas and recomposites shoreline overlays on the CPU.
+    // Revisit this with a terrain shader uniform / water-specific path so animated water and
+    // shoreline water cost near-zero per frame and no longer depend on atlas subimage updates.
+    if (!bgfx::isValid(view.m_terrainTextureAtlasHandle) || view.m_animatedWaterTerrainTiles.empty())
+    {
+        return;
+    }
+
+    const OutdoorGameView::AnimatedWaterTerrainTileState &firstTile = view.m_animatedWaterTerrainTiles.front();
+    const int tileSize = static_cast<int>(std::lround(std::sqrt(firstTile.basePixels.size() / 4.0)));
+
+    if (tileSize <= 0)
+    {
+        return;
+    }
+
+    const int scrollX = static_cast<int>(view.m_elapsedTime * 10.0f) % tileSize;
+    const int scrollY = static_cast<int>(view.m_elapsedTime * 6.0f) % tileSize;
+
+    if (scrollX == view.m_lastWaterTerrainScrollX && scrollY == view.m_lastWaterTerrainScrollY)
+    {
+        return;
+    }
+
+    view.m_lastWaterTerrainScrollX = scrollX;
+    view.m_lastWaterTerrainScrollY = scrollY;
+
+    for (OutdoorGameView::AnimatedWaterTerrainTileState &tileState : view.m_animatedWaterTerrainTiles)
+    {
+        if (tileState.basePixels.size() != static_cast<size_t>(tileSize * tileSize * 4))
+        {
+            continue;
+        }
+
+        tileState.animatedPixels.resize(tileState.basePixels.size());
+
+        for (int targetY = 0; targetY < tileSize; ++targetY)
+        {
+            const int sourceY = (targetY + scrollY) % tileSize;
+
+            for (int targetX = 0; targetX < tileSize; ++targetX)
+            {
+                const int sourceX = (targetX + scrollX) % tileSize;
+                const size_t sourceOffset = static_cast<size_t>((sourceY * tileSize + sourceX) * 4);
+                const size_t targetOffset = static_cast<size_t>((targetY * tileSize + targetX) * 4);
+
+                tileState.animatedPixels[targetOffset + 0] = tileState.basePixels[sourceOffset + 0];
+                tileState.animatedPixels[targetOffset + 1] = tileState.basePixels[sourceOffset + 1];
+                tileState.animatedPixels[targetOffset + 2] = tileState.basePixels[sourceOffset + 2];
+                tileState.animatedPixels[targetOffset + 3] = tileState.basePixels[sourceOffset + 3];
+            }
+        }
+
+        if (!tileState.overlayPixels.empty())
+        {
+            tileState.animatedPixels = compositeOverlayPixels(tileState.animatedPixels, tileState.overlayPixels);
+        }
+
+        const float regionWidth = tileState.region.u1 - tileState.region.u0;
+        const float regionHeight = tileState.region.v1 - tileState.region.v0;
+
+        if (regionWidth <= 0.0f || regionHeight <= 0.0f)
+        {
+            continue;
+        }
+
+        const int atlasWidth = static_cast<int>(std::lround(static_cast<float>(tileSize) / regionWidth));
+        const int atlasHeight = static_cast<int>(std::lround(static_cast<float>(tileSize) / regionHeight));
+
+        if (atlasWidth <= 0 || atlasHeight <= 0)
+        {
+            continue;
+        }
+
+        const uint16_t atlasX = static_cast<uint16_t>(std::lround(tileState.region.u0 * static_cast<float>(atlasWidth)));
+        const uint16_t atlasY = static_cast<uint16_t>(std::lround(tileState.region.v0 * static_cast<float>(atlasHeight)));
+
+        bgfx::updateTexture2D(
+            view.m_terrainTextureAtlasHandle,
+            0,
+            0,
+            atlasX,
+            atlasY,
+            static_cast<uint16_t>(tileSize),
+            static_cast<uint16_t>(tileSize),
+            bgfx::copy(
+                tileState.animatedPixels.data(),
+                static_cast<uint32_t>(tileState.animatedPixels.size())));
+    }
+}
 
 std::vector<OutdoorGameView::TerrainVertex> OutdoorRenderer::buildTerrainVertices(const OutdoorMapData &mapData)
 {
@@ -647,6 +840,7 @@ bool OutdoorRenderer::initializeWorldRenderResources(
         texturedTerrainVertices = buildTexturedTerrainVertices(outdoorMapData, *outdoorTerrainTextureAtlas);
     }
 
+    initializeAnimatedWaterTileState(view, outdoorTerrainTextureAtlas);
     view.m_baseTexturedTerrainVertices = texturedTerrainVertices;
     view.m_animatedTexturedTerrainVertices = texturedTerrainVertices;
 
@@ -745,10 +939,26 @@ bool OutdoorRenderer::initializeWorldRenderResources(
             false,
             1,
             bgfx::TextureFormat::BGRA8,
-            BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP | BGFX_SAMPLER_MIN_POINT | BGFX_SAMPLER_MAG_POINT,
-            bgfx::copy(
-                outdoorTerrainTextureAtlas->pixels.data(),
-                static_cast<uint32_t>(outdoorTerrainTextureAtlas->pixels.size())));
+            BGFX_SAMPLER_U_CLAMP
+                | BGFX_SAMPLER_V_CLAMP
+                | BGFX_SAMPLER_MIN_POINT
+                | BGFX_SAMPLER_MAG_POINT
+                | BGFX_TEXTURE_BLIT_DST);
+
+        if (bgfx::isValid(view.m_terrainTextureAtlasHandle))
+        {
+            bgfx::updateTexture2D(
+                view.m_terrainTextureAtlasHandle,
+                0,
+                0,
+                0,
+                0,
+                static_cast<uint16_t>(outdoorTerrainTextureAtlas->width),
+                static_cast<uint16_t>(outdoorTerrainTextureAtlas->height),
+                bgfx::copy(
+                    outdoorTerrainTextureAtlas->pixels.data(),
+                    static_cast<uint32_t>(outdoorTerrainTextureAtlas->pixels.size())));
+        }
     }
 
     createBModelTextureBatches(view, outdoorMapData, outdoorBModelTextureSet);
@@ -917,6 +1127,8 @@ OutdoorRenderer::WorldPassTimings OutdoorRenderer::renderWorldPasses(
             && bgfx::isValid(view.m_terrainTextureAtlasHandle)
             && bgfx::isValid(view.m_terrainTextureSamplerHandle))
         {
+            updateAnimatedWaterTileTexture(view);
+
             if (!view.m_baseTexturedTerrainVertices.empty()
                 && view.m_baseTexturedTerrainVertices.size() == view.m_animatedTexturedTerrainVertices.size())
             {
