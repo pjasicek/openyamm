@@ -23,6 +23,8 @@ namespace OpenYAMM::Game
 namespace
 {
 constexpr uint32_t OeMaxCharacterExperience = 4000000000u;
+constexpr uint32_t ArcomageChampionAwardId = 41;
+constexpr size_t ArcomageTavernCount = 11;
 
 bool characterNeedsTempleHealing(const Character &member)
 {
@@ -1441,6 +1443,9 @@ Party::Snapshot Party::snapshot() const
     snapshot.houseStockSeed = m_houseStockSeed;
     snapshot.lastFallDamageDistance = m_lastFallDamageDistance;
     snapshot.foundArtifactItems = m_foundArtifactItems;
+    snapshot.arcomageWonHouseIds = m_arcomageWonHouseIds;
+    snapshot.arcomageWinCount = m_arcomageWinCount;
+    snapshot.arcomageLossCount = m_arcomageLossCount;
 
     for (const auto &[houseId, state] : m_houseStockStates)
     {
@@ -1469,6 +1474,9 @@ void Party::restoreSnapshot(const Snapshot &snapshot)
     m_houseStockSeed = snapshot.houseStockSeed;
     m_lastFallDamageDistance = snapshot.lastFallDamageDistance;
     m_foundArtifactItems = snapshot.foundArtifactItems;
+    m_arcomageWonHouseIds = snapshot.arcomageWonHouseIds;
+    m_arcomageWinCount = snapshot.arcomageWinCount;
+    m_arcomageLossCount = snapshot.arcomageLossCount;
     m_houseStockStates.clear();
 
     for (const HouseStockState &state : snapshot.houseStockStates)
@@ -3983,6 +3991,49 @@ void Party::markArtifactItemFound(uint32_t itemId)
 void Party::clearFoundArtifactItems()
 {
     m_foundArtifactItems.clear();
+}
+
+bool Party::hasArcomageWinAt(uint32_t houseId) const
+{
+    return houseId != 0 && m_arcomageWonHouseIds.contains(houseId);
+}
+
+void Party::recordArcomageWin(uint32_t houseId, int goldReward, uint32_t firstWinAwardId)
+{
+    ++m_arcomageWinCount;
+
+    if (houseId != 0 && m_arcomageWonHouseIds.insert(houseId).second)
+    {
+        if (goldReward > 0)
+        {
+            addGold(goldReward);
+        }
+
+        if (firstWinAwardId != 0)
+        {
+            addAward(firstWinAwardId);
+        }
+
+        if (m_arcomageWonHouseIds.size() >= ArcomageTavernCount)
+        {
+            addAward(ArcomageChampionAwardId);
+        }
+    }
+}
+
+void Party::recordArcomageLoss()
+{
+    ++m_arcomageLossCount;
+}
+
+uint32_t Party::arcomageWinCount() const
+{
+    return m_arcomageWinCount;
+}
+
+uint32_t Party::arcomageLossCount() const
+{
+    return m_arcomageLossCount;
 }
 
 Party::HouseStockState *Party::houseStockState(uint32_t houseId)

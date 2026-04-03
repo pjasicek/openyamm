@@ -2,6 +2,7 @@
 
 #include "game/scene/IndoorSceneRuntime.h"
 #include "game/scene/OutdoorSceneRuntime.h"
+#include "game/ui/screens/ArcomageScreen.h"
 #include "game/ui/screens/LoadMenuScreen.h"
 #include "game/ui/screens/MainMenuScreen.h"
 #include "game/ui/screens/NewGameScreen.h"
@@ -232,6 +233,7 @@ bool GameApplication::initializeSelectedMapRuntime(bool initializeView)
             m_gameDataLoader.getClassSkillTable(),
             m_gameDataLoader.getNpcDialogTable(),
             m_gameDataLoader.getRosterTable(),
+            m_gameDataLoader.getArcomageLibrary(),
             m_gameDataLoader.getCharacterDollTable(),
             m_gameDataLoader.getCharacterInspectTable(),
             m_gameDataLoader.getObjectTable(),
@@ -934,9 +936,12 @@ void GameApplication::renderMapPickerOverlay() const
 
 void GameApplication::renderFrame(int width, int height, float mouseWheelDelta, float deltaSeconds)
 {
+    processPendingArcomageGame();
+
     if (IScreen *pActiveScreen = m_screenManager.activeScreen())
     {
         pActiveScreen->renderFrame(width, height, mouseWheelDelta, deltaSeconds);
+        handleCompletedArcomageScreen();
         m_gameAudioSystem.update(0.0f, 0.0f, 0.0f, deltaSeconds);
         return;
     }
@@ -1070,5 +1075,154 @@ bool GameApplication::processPendingMapMove()
 
     synchronizeSessionFromRuntime();
     return true;
+}
+
+bool GameApplication::processPendingArcomageGame()
+{
+    if (m_screenManager.activeScreen() != nullptr || m_pAssetFileSystem == nullptr)
+    {
+        return false;
+    }
+
+    const std::optional<EventRuntimeState::PendingArcomageGame> pendingArcomageGame =
+        m_gameplayController.consumePendingArcomageGame();
+
+    if (!pendingArcomageGame.has_value())
+    {
+        return false;
+    }
+
+    Party *pParty = nullptr;
+
+    if (m_pOutdoorPartyRuntime != nullptr)
+    {
+        pParty = &m_pOutdoorPartyRuntime->party();
+    }
+    else if (m_gameSession.partyState().has_value())
+    {
+        pParty = &*m_gameSession.partyState();
+    }
+
+    if (pParty == nullptr)
+    {
+        return false;
+    }
+
+    const HouseEntry *pHouseEntry = m_gameDataLoader.getHouseTable().get(pendingArcomageGame->houseId);
+    const ArcomageTavernRule *pRule = m_gameDataLoader.getArcomageLibrary().ruleForHouse(pendingArcomageGame->houseId);
+
+    if (pHouseEntry == nullptr || pRule == nullptr)
+    {
+        return false;
+    }
+
+    const Character *pActiveMember = pParty->activeMember();
+    const std::string playerName =
+        (pActiveMember != nullptr && !pActiveMember->name.empty()) ? pActiveMember->name : "Party";
+    const std::string opponentName =
+        !pHouseEntry->proprietorName.empty() ? pHouseEntry->proprietorName : pHouseEntry->name;
+    int winGoldReward = 0;
+
+    if (!pParty->hasArcomageWinAt(pendingArcomageGame->houseId))
+    {
+        winGoldReward = static_cast<int>(pHouseEntry->priceMultiplier * 100.0f);
+    }
+
+    m_screenManager.setActiveScreen(std::make_unique<ArcomageScreen>(
+        *m_pAssetFileSystem,
+        &m_gameAudioSystem,
+        m_gameDataLoader.getArcomageLibrary(),
+        pendingArcomageGame->houseId,
+        playerName,
+        opponentName,
+        winGoldReward,
+        SDL_GetTicks()
+    ));
+
+    return true;
+}
+
+void GameApplication::handleCompletedArcomageScreen()
+{
+    ArcomageScreen *pArcomageScreen = dynamic_cast<ArcomageScreen *>(m_screenManager.activeScreen());
+
+    if (pArcomageScreen == nullptr || !pArcomageScreen->shouldClose())
+    {
+        return;
+    }
+
+    const ArcomageState &state = pArcomageScreen->state();
+    Party *pParty = nullptr;
+
+    if (m_pOutdoorPartyRuntime != nullptr)
+    {
+        pParty = &m_pOutdoorPartyRuntime->party();
+    }
+    else if (m_gameSession.partyState().has_value())
+    {
+        pParty = &*m_gameSession.partyState();
+    }
+
+    std::optional<std::string> arcomageStatusText;
+
+    if (pParty != nullptr && state.result.finished && state.result.winnerIndex.has_value())
+    {
+        if (*state.result.winnerIndex == 0)
+        {
+            int goldReward = 0;
+            const HouseEntry *pHouseEntry = m_gameDataLoader.getHouseTable().get(state.houseId);
+
+            if (pHouseEntry != nullptr && !pParty->hasArcomageWinAt(state.houseId))
+            {
+                goldReward = static_cast<int>(pHouseEntry->priceMultiplier * 100.0f);
+            }
+
+            uint32_t firstWinAwardId = 0;
+            const ArcomageTavernRule *pRule = m_gameDataLoader.getArcomageLibrary().ruleForHouse(state.houseId);
+
+            if (pRule != nullptr)
+            {
+                firstWinAwardId = pRule->firstWinAwardId;
+            }
+
+            pParty->recordArcomageWin(state.houseId, goldReward, firstWinAwardId);
+            arcomageStatusText = "You have won " + std::to_string(goldReward) + " gold!";
+        }
+        else if (*state.result.winnerIndex == 1)
+        {
+            pParty->recordArcomageLoss();
+        }
+
+        if (m_pOutdoorPartyRuntime != nullptr)
+        {
+            synchronizeSessionFromRuntime();
+        }
+        else
+        {
+            m_gameSession.setPartyState(*pParty);
+        }
+    }
+
+    m_screenManager.setActiveScreen(nullptr);
+
+    if (arcomageStatusText.has_value())
+    {
+        if (EventRuntimeState *pEventRuntimeState = m_gameplayController.eventRuntimeState())
+        {
+            pEventRuntimeState->lastActivationResult = *arcomageStatusText;
+        }
+
+        if (m_pMapSceneRuntime != nullptr && m_pMapSceneRuntime->kind() == SceneKind::Outdoor)
+        {
+            m_outdoorGameView.showStatusBarEvent(*arcomageStatusText, 4.0f);
+        }
+    }
+
+    if (m_pMapSceneRuntime != nullptr)
+    {
+        m_screenManager.setCurrentMode(
+            m_pMapSceneRuntime->kind() == SceneKind::Outdoor ? AppMode::GameplayOutdoor : AppMode::GameplayIndoor
+        );
+    }
 }
 }

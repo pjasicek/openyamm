@@ -67,6 +67,7 @@ class GameplayPartyOverlayInputController;
 class GameplayOverlayInputController;
 class GameplayOverlayContext;
 class HudUiService;
+struct ArcomageLibrary;
 class ItemTable;
 struct GameApplicationTestAccess;
 struct ItemDefinition;
@@ -101,6 +102,7 @@ public:
         const ClassSkillTable &classSkillTable,
         const NpcDialogTable &npcDialogTable,
         const RosterTable &rosterTable,
+        const ArcomageLibrary &arcomageLibrary,
         const CharacterDollTable &characterDollTable,
         const CharacterInspectTable &characterInspectTable,
         const ObjectTable &objectTable,
@@ -452,6 +454,8 @@ public:
         InteractiveDecorationFamily family = InteractiveDecorationFamily::None;
     };
 
+    void showStatusBarEvent(const std::string &text, float durationSeconds = 2.0f);
+
 private:
     static ResolvedHudLayoutElement resolveAttachedHudLayoutRect(
         HudLayoutAttachMode attachTo,
@@ -592,6 +596,7 @@ private:
     std::optional<CharacterInspectTable> m_characterInspectTable;
     const ReadableScrollTable *m_pReadableScrollTable;
     const RosterTable *m_pRosterTable;
+    const ArcomageLibrary *m_pArcomageLibrary;
     const CharacterDollTable *m_pCharacterDollTable;
     std::optional<ChestTable> m_chestTable;
     const ItemTable *m_pItemTable;

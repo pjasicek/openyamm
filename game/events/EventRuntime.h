@@ -75,6 +75,11 @@ struct EventRuntimeState
         bool useMapStartPosition = false;
     };
 
+    struct PendingArcomageGame
+    {
+        uint32_t houseId = 0;
+    };
+
     struct DialogueOfferState
     {
         DialogueOfferKind kind = DialogueOfferKind::None;
@@ -135,6 +140,7 @@ struct EventRuntimeState
     std::vector<PortraitFxRequest> portraitFxRequests;
     std::optional<PendingDialogueContext> pendingDialogueContext;
     std::optional<PendingMapMove> pendingMapMove;
+    std::optional<PendingArcomageGame> pendingArcomageGame;
     std::vector<uint32_t> lastAffectedMechanismIds;
     std::optional<std::string> lastActivationResult;
     size_t localOnLoadEventsExecuted = 0;

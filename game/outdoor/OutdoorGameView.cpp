@@ -3371,6 +3371,7 @@ OutdoorGameView::OutdoorGameView()
     , m_pSpecialItemEnchantTable(nullptr)
     , m_pItemEquipPosTable(nullptr)
     , m_pRosterTable(nullptr)
+    , m_pArcomageLibrary(nullptr)
     , m_pCharacterDollTable(nullptr)
     , m_pObjectTable(nullptr)
     , m_pSpellTable(nullptr)
@@ -3415,6 +3416,7 @@ bool OutdoorGameView::initialize(
     const ClassSkillTable &classSkillTable,
     const NpcDialogTable &npcDialogTable,
     const RosterTable &rosterTable,
+    const ArcomageLibrary &arcomageLibrary,
     const CharacterDollTable &characterDollTable,
     const CharacterInspectTable &characterInspectTable,
     const ObjectTable &objectTable,
@@ -3449,6 +3451,7 @@ bool OutdoorGameView::initialize(
     m_npcDialogTable = npcDialogTable;
     m_characterInspectTable = characterInspectTable;
     m_pRosterTable = &rosterTable;
+    m_pArcomageLibrary = &arcomageLibrary;
     m_pCharacterDollTable = &characterDollTable;
     m_pObjectTable = &objectTable;
     m_pSpellTable = &spellTable;
@@ -5542,6 +5545,7 @@ void OutdoorGameView::shutdown()
         m_pSpecialItemEnchantTable = nullptr;
         m_pItemEquipPosTable = nullptr;
         m_pRosterTable = nullptr;
+        m_pArcomageLibrary = nullptr;
         m_pCharacterDollTable = nullptr;
     };
 
@@ -8632,6 +8636,11 @@ void OutdoorGameView::renderSpellbookOverlay(int width, int height) const
     GameplayPartyOverlayRenderer::renderSpellbookOverlay(*this, width, height);
 }
 
+void OutdoorGameView::showStatusBarEvent(const std::string &text, float durationSeconds)
+{
+    setStatusBarEvent(text, durationSeconds);
+}
+
 void OutdoorGameView::setStatusBarEvent(const std::string &text, float durationSeconds)
 {
     m_gameplayUiController.setStatusBarEvent(text, durationSeconds);
@@ -9688,12 +9697,7 @@ std::optional<std::vector<uint8_t>> OutdoorGameView::loadHudBitmapPixelsBgraCach
     int &width,
     int &height)
 {
-    std::optional<std::string> iconPath = findCachedAssetPath("Data/icons", textureName + ".bmp");
-
-    if (!iconPath)
-    {
-        iconPath = findCachedAssetPath("Data/EnglishD", textureName + ".bmp");
-    }
+    const std::optional<std::string> iconPath = findCachedAssetPath("Data/icons", textureName + ".bmp");
 
     if (!iconPath)
     {

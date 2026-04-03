@@ -2,6 +2,7 @@
 
 #include "game/events/EventDialogContent.h"
 #include "game/events/EventRuntime.h"
+#include "game/arcomage/ArcomageTypes.h"
 #include "game/audio/SoundIds.h"
 #include "game/party/SpeechIds.h"
 #include "game/ui/GameplayUiController.h"
@@ -44,6 +45,7 @@ public:
         const ClassSkillTable *pClassSkillTable = nullptr;
         const NpcDialogTable *pNpcDialogTable = nullptr;
         const RosterTable *pRosterTable = nullptr;
+        const ArcomageLibrary *pArcomageLibrary = nullptr;
         bool dialogueHudActive = false;
         Callbacks callbacks = {};
     };

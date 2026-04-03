@@ -64,6 +64,9 @@ add_custom_target(openyamm_ffmpeg_build
 
 add_executable(openyamm
     app/ScreenManager.cpp
+    arcomage/ArcomageAi.cpp
+    arcomage/ArcomageLoader.cpp
+    arcomage/ArcomageRules.cpp
     data/ActorNameResolver.cpp
     app/GameSession.cpp
     audio/GameAudioSystem.cpp
@@ -148,6 +151,7 @@ add_executable(openyamm
     ui/GameplayUiController.cpp
     ui/UiLayoutManager.cpp
     ui/screens/MainMenuScreen.cpp
+    ui/screens/ArcomageScreen.cpp
     ui/screens/LoadMenuScreen.cpp
     ui/screens/NewGameScreen.cpp
     scene/IndoorSceneRuntime.cpp

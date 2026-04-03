@@ -85,4 +85,18 @@ std::optional<EventRuntimeState::PendingMapMove> GameplayController::consumePend
 
     return m_pRuntime != nullptr ? m_pRuntime->consumePendingMapMove() : std::nullopt;
 }
+
+std::optional<EventRuntimeState::PendingArcomageGame> GameplayController::consumePendingArcomageGame()
+{
+    EventRuntimeState *pRuntimeState = eventRuntimeState();
+
+    if (pRuntimeState == nullptr || !pRuntimeState->pendingArcomageGame.has_value())
+    {
+        return std::nullopt;
+    }
+
+    std::optional<EventRuntimeState::PendingArcomageGame> pendingArcomageGame = pRuntimeState->pendingArcomageGame;
+    pRuntimeState->pendingArcomageGame.reset();
+    return pendingArcomageGame;
+}
 }

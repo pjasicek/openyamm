@@ -795,6 +795,7 @@ GameplayDialogController::Context OutdoorInteractionController::createGameplayDi
         view.m_classSkillTable ? &*view.m_classSkillTable : nullptr,
         view.m_npcDialogTable ? &*view.m_npcDialogTable : nullptr,
         view.m_pRosterTable,
+        view.m_pArcomageLibrary,
         view.currentHudScreenState() == OutdoorGameView::OverlayHudScreenState::Dialogue,
         std::move(callbacks)
     };

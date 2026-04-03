@@ -7,6 +7,7 @@ enum class AppMode
     MainMenu,
     LoadMenu,
     NewGame,
+    Arcomage,
     GameplayOutdoor,
     GameplayIndoor
 };

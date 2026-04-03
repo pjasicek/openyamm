@@ -245,6 +245,9 @@ public:
         uint32_t houseStockSeed = 0;
         float lastFallDamageDistance = 0.0f;
         std::unordered_set<uint32_t> foundArtifactItems;
+        std::unordered_set<uint32_t> arcomageWonHouseIds;
+        uint32_t arcomageWinCount = 0;
+        uint32_t arcomageLossCount = 0;
         std::vector<HouseStockState> houseStockStates;
     };
 
@@ -430,6 +433,11 @@ public:
     bool hasFoundArtifactItem(uint32_t itemId) const;
     void markArtifactItemFound(uint32_t itemId);
     void clearFoundArtifactItems();
+    bool hasArcomageWinAt(uint32_t houseId) const;
+    void recordArcomageWin(uint32_t houseId, int goldReward, uint32_t firstWinAwardId);
+    void recordArcomageLoss();
+    uint32_t arcomageWinCount() const;
+    uint32_t arcomageLossCount() const;
     HouseStockState *houseStockState(uint32_t houseId);
     const HouseStockState *houseStockState(uint32_t houseId) const;
     HouseStockState &ensureHouseStockState(uint32_t houseId);
@@ -479,6 +487,9 @@ private:
     float m_lastFallDamageDistance = 0.0f;
     std::string m_lastStatus;
     std::unordered_set<uint32_t> m_foundArtifactItems;
+    std::unordered_set<uint32_t> m_arcomageWonHouseIds;
+    uint32_t m_arcomageWinCount = 0;
+    uint32_t m_arcomageLossCount = 0;
     std::unordered_map<uint32_t, HouseStockState> m_houseStockStates;
     std::vector<PendingAudioRequest> m_pendingAudioRequests;
 };

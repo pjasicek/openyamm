@@ -62,6 +62,7 @@ public:
 private:
     static bool isExclusiveGroup(PlaybackGroup group);
     void preloadSpellBuffSounds(const SpellTable &spellTable);
+    void preloadArcomageUiSounds();
     bool ensureBackgroundMusicTrackLoaded(int redbookTrack);
     bool startBackgroundMusicTrack(int redbookTrack);
     uint64_t playResolvedSound(

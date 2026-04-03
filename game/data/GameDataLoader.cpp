@@ -1,5 +1,6 @@
 #include "game/data/GameDataLoader.h"
 
+#include "game/arcomage/ArcomageLoader.h"
 #include "engine/TextTable.h"
 #include "game/events/EventRuntime.h"
 #include "game/StringUtils.h"
@@ -722,6 +723,11 @@ bool GameDataLoader::loadInternal(const Engine::AssetFileSystem &assetFileSystem
         return false;
     }
 
+    if (!loadArcomageLibrary(assetFileSystem))
+    {
+        return false;
+    }
+
     if (!loadNpcDialogTable(assetFileSystem))
     {
         return false;
@@ -925,6 +931,11 @@ const CharacterInspectTable &GameDataLoader::getCharacterInspectTable() const
 const ReadableScrollTable &GameDataLoader::getReadableScrollTable() const
 {
     return m_readableScrollTable;
+}
+
+const ArcomageLibrary &GameDataLoader::getArcomageLibrary() const
+{
+    return m_arcomageLibrary;
 }
 
 bool GameDataLoader::loadTable(
@@ -1324,6 +1335,36 @@ bool GameDataLoader::loadReadableScrollTable(const Engine::AssetFileSystem &asse
         return false;
     }
 
+    return true;
+}
+
+bool GameDataLoader::loadArcomageLibrary(const Engine::AssetFileSystem &assetFileSystem)
+{
+    std::vector<std::vector<std::string>> ruleRows;
+
+    if (!loadTextTableRows(assetFileSystem, "Data/ARCOMAGE_RULES.txt", ruleRows))
+    {
+        std::cerr << "Failed to read Arcomage tavern rule table\n";
+        return false;
+    }
+
+    std::vector<std::vector<std::string>> cardRows;
+
+    if (!loadTextTableRows(assetFileSystem, "Data/ARCOMAGE_CARDS.txt", cardRows))
+    {
+        std::cerr << "Failed to read Arcomage card table\n";
+        return false;
+    }
+
+    ArcomageLoader loader;
+
+    if (!loader.load(ruleRows, cardRows))
+    {
+        std::cerr << "Failed to parse Arcomage tables\n";
+        return false;
+    }
+
+    m_arcomageLibrary = loader.library();
     return true;
 }
 

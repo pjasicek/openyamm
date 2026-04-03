@@ -1,6 +1,7 @@
 #pragma once
 
 #include "engine/AssetFileSystem.h"
+#include "game/arcomage/ArcomageTypes.h"
 #include "game/tables/ChestTable.h"
 #include "game/tables/CharacterInspectTable.h"
 #include "game/tables/CharacterDollTable.h"
@@ -67,6 +68,7 @@ public:
     const CharacterDollTable &getCharacterDollTable() const;
     const CharacterInspectTable &getCharacterInspectTable() const;
     const ReadableScrollTable &getReadableScrollTable() const;
+    const ArcomageLibrary &getArcomageLibrary() const;
 
 private:
     bool loadInternal(const Engine::AssetFileSystem &assetFileSystem, MapLoadPurpose mapLoadPurpose);
@@ -95,6 +97,7 @@ private:
     bool loadCharacterDollTable(const Engine::AssetFileSystem &assetFileSystem);
     bool loadCharacterInspectTable(const Engine::AssetFileSystem &assetFileSystem);
     bool loadReadableScrollTable(const Engine::AssetFileSystem &assetFileSystem);
+    bool loadArcomageLibrary(const Engine::AssetFileSystem &assetFileSystem);
     bool loadFirstTextTableRows(
         const Engine::AssetFileSystem &assetFileSystem,
         const std::vector<std::string> &virtualPaths,
@@ -125,6 +128,7 @@ private:
     CharacterDollTable m_characterDollTable;
     CharacterInspectTable m_characterInspectTable;
     ReadableScrollTable m_readableScrollTable;
+    ArcomageLibrary m_arcomageLibrary;
     std::optional<MapAssetInfo> m_selectedMap;
 };
 }

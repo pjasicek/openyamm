@@ -13,8 +13,9 @@ namespace OpenYAMM::Game
 {
 namespace
 {
-constexpr uint32_t SaveVersion = 9;
+constexpr uint32_t SaveVersion = 10;
 constexpr char SaveMagic[8] = {'O', 'Y', 'S', 'A', 'V', 'E', '1', '\0'};
+uint32_t g_loadedSaveVersion = SaveVersion;
 
 class BinaryWriter
 {
@@ -750,12 +751,15 @@ void writeValue(BinaryWriter &writer, const Party::Snapshot &value)
     writeValue(writer, value.houseStockSeed);
     writeValue(writer, value.lastFallDamageDistance);
     writeValue(writer, value.foundArtifactItems);
+    writeValue(writer, value.arcomageWonHouseIds);
+    writeValue(writer, value.arcomageWinCount);
+    writeValue(writer, value.arcomageLossCount);
     writeValue(writer, value.houseStockStates);
 }
 
 bool readValue(BinaryReader &reader, Party::Snapshot &value)
 {
-    return readValue(reader, value.members)
+    const bool decoded = readValue(reader, value.members)
         && readValue(reader, value.activeMemberIndex)
         && readValue(reader, value.partyBuffs)
         && readValue(reader, value.characterBuffs)
@@ -770,8 +774,22 @@ bool readValue(BinaryReader &reader, Party::Snapshot &value)
         && readValue(reader, value.monsterTargetSelectionCounter)
         && readValue(reader, value.houseStockSeed)
         && readValue(reader, value.lastFallDamageDistance)
-        && readValue(reader, value.foundArtifactItems)
-        && readValue(reader, value.houseStockStates);
+        && readValue(reader, value.foundArtifactItems);
+
+    if (!decoded)
+    {
+        return false;
+    }
+
+    if (g_loadedSaveVersion >= 10)
+    {
+        return readValue(reader, value.arcomageWonHouseIds)
+            && readValue(reader, value.arcomageWinCount)
+            && readValue(reader, value.arcomageLossCount)
+            && readValue(reader, value.houseStockStates);
+    }
+
+    return readValue(reader, value.houseStockStates);
 }
 
 void writeValue(BinaryWriter &writer, const OutdoorMoveState &value)
@@ -892,6 +910,16 @@ bool readValue(BinaryReader &reader, EventRuntimeState::PendingMapMove &value)
         && readValue(reader, value.useMapStartPosition);
 }
 
+void writeValue(BinaryWriter &writer, const EventRuntimeState::PendingArcomageGame &value)
+{
+    writeValue(writer, value.houseId);
+}
+
+bool readValue(BinaryReader &reader, EventRuntimeState::PendingArcomageGame &value)
+{
+    return readValue(reader, value.houseId);
+}
+
 void writeValue(BinaryWriter &writer, const EventRuntimeState::DialogueOfferState &value)
 {
     writeValue(writer, value.kind);
@@ -986,6 +1014,7 @@ void writeValue(BinaryWriter &writer, const EventRuntimeState &value)
     writeValue(writer, value.portraitFxRequests);
     writeValue(writer, value.pendingDialogueContext);
     writeValue(writer, value.pendingMapMove);
+    writeValue(writer, value.pendingArcomageGame);
     writeValue(writer, value.lastAffectedMechanismIds);
     writeValue(writer, value.lastActivationResult);
     writeValue(writer, value.localOnLoadEventsExecuted);
@@ -1022,6 +1051,7 @@ bool readValue(BinaryReader &reader, EventRuntimeState &value)
         && readValue(reader, value.portraitFxRequests)
         && readValue(reader, value.pendingDialogueContext)
         && readValue(reader, value.pendingMapMove)
+        && (g_loadedSaveVersion < 10 || readValue(reader, value.pendingArcomageGame))
         && readValue(reader, value.lastAffectedMechanismIds)
         && readValue(reader, value.lastActivationResult)
         && readValue(reader, value.localOnLoadEventsExecuted)
@@ -1919,11 +1949,13 @@ std::optional<GameSaveData> loadGameDataFromPath(const std::filesystem::path &pa
         return std::nullopt;
     }
 
-    if (version != 8 && version != SaveVersion)
+    if (version != 8 && version != 9 && version != SaveVersion)
     {
         error = "unsupported save version";
         return std::nullopt;
     }
+
+    g_loadedSaveVersion = version;
 
     GameSaveData data = {};
 

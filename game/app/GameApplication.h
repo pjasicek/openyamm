@@ -62,6 +62,8 @@ private:
     void openMainMenuScreen();
     void openLoadMenuScreen();
     void openNewGameScreen();
+    bool processPendingArcomageGame();
+    void handleCompletedArcomageScreen();
     bool initializeStartupSession(bool initializeView);
     bool startNewSession(std::optional<uint32_t> rosterId, bool initializeView = true);
     bool loadSessionFromPath(const std::filesystem::path &path);

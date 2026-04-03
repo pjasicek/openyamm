@@ -17,6 +17,7 @@ namespace OpenYAMM::Game
 namespace
 {
 constexpr uint32_t AdventurersInnHouseId = 185;
+constexpr uint32_t ArcomageRulesTextId = 136;
 
 DialogueMenuId dialogueMenuIdForHouseAction(HouseActionId actionId)
 {
@@ -57,6 +58,16 @@ void setPendingDialogueContext(
     context.sourceId = sourceId;
     context.hostHouseId = hostHouseId;
     eventRuntimeState.pendingDialogueContext = std::move(context);
+}
+
+void refreshCurrentHouseServiceDialog(GameplayDialogController::Context &context, uint32_t houseId)
+{
+    context.eventRuntimeState.dialogueState.hostHouseId = houseId;
+    setPendingDialogueContext(
+        context.eventRuntimeState,
+        DialogueContextKind::HouseService,
+        houseId,
+        houseId);
 }
 
 const HouseEntry *pendingHouseEntry(
@@ -140,6 +151,50 @@ GameplayDialogController::Result GameplayDialogController::executeActiveDialogAc
         if (menuId != DialogueMenuId::None)
         {
             context.eventRuntimeState.dialogueState.menuStack.push_back(menuId);
+        }
+        else if (houseActionId == HouseActionId::TavernArcomageRules)
+        {
+            if (context.pNpcDialogTable != nullptr)
+            {
+                const std::optional<std::string> text = context.pNpcDialogTable->getText(ArcomageRulesTextId);
+
+                if (text.has_value() && !text->empty())
+                {
+                    context.eventRuntimeState.messages.push_back(*text);
+                }
+            }
+
+            refreshCurrentHouseServiceDialog(context, pHouseEntry->id);
+            result.shouldOpenPendingEventDialog = true;
+            return result;
+        }
+        else if (houseActionId == HouseActionId::TavernArcomageVictoryConditions)
+        {
+            if (context.pNpcDialogTable != nullptr && context.pArcomageLibrary != nullptr)
+            {
+                const ArcomageTavernRule *pRule = context.pArcomageLibrary->ruleForHouse(pHouseEntry->id);
+
+                if (pRule != nullptr)
+                {
+                    const std::optional<std::string> text = context.pNpcDialogTable->getText(pRule->victoryTextId);
+
+                    if (text.has_value() && !text->empty())
+                    {
+                        context.eventRuntimeState.messages.push_back(*text);
+                    }
+                }
+            }
+
+            refreshCurrentHouseServiceDialog(context, pHouseEntry->id);
+            result.shouldOpenPendingEventDialog = true;
+            return result;
+        }
+        else if (houseActionId == HouseActionId::TavernArcomagePlay)
+        {
+            EventRuntimeState::PendingArcomageGame pendingGame = {};
+            pendingGame.houseId = pHouseEntry->id;
+            context.eventRuntimeState.pendingArcomageGame = std::move(pendingGame);
+            return result;
         }
         else if (houseActionId == HouseActionId::BankDepositAll)
         {

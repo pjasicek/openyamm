@@ -4,6 +4,8 @@
 
 #include "engine/AssetFileSystem.h"
 #include "engine/AudioSystem.h"
+#include "game/arcomage/ArcomageAi.h"
+#include "game/arcomage/ArcomageRules.h"
 #include "game/tables/CharacterDollTable.h"
 #include "game/events/EventDialogContent.h"
 #include "game/events/EventRuntime.h"
@@ -1207,6 +1209,157 @@ struct RegressionScenario
     EventRuntimeState *pEventRuntimeState = nullptr;
 };
 
+int arcomageShownCardCount(const ArcomageState &state)
+{
+    return static_cast<int>(std::count_if(
+        state.shownCards.begin(),
+        state.shownCards.end(),
+        [](const std::optional<ArcomagePlayedCard> &shownCard)
+        {
+            return shownCard.has_value();
+        }));
+}
+
+struct ArcomageRegressionHarness
+{
+    const ArcomageLibrary *pLibrary = nullptr;
+    const ArcomageTavernRule *pRule = nullptr;
+    ArcomageRules rules;
+    ArcomageAi ai;
+    ArcomageState state = {};
+
+    bool initialize(const ArcomageLibrary &library, uint32_t houseId, uint32_t seed = 1u)
+    {
+        pLibrary = &library;
+        pRule = library.ruleForHouse(houseId);
+
+        if (pRule == nullptr)
+        {
+            return false;
+        }
+
+        return rules.initializeMatch(library, houseId, "Ariel", "Innkeeper", seed, state);
+    }
+
+    void clearHands()
+    {
+        for (ArcomagePlayerState &player : state.players)
+        {
+            player.hand.fill(-1);
+        }
+
+        state.mustDiscard = false;
+    }
+
+    bool setHand(size_t playerIndex, const std::vector<uint32_t> &cardIds)
+    {
+        if (playerIndex >= state.players.size() || cardIds.size() > state.players[playerIndex].hand.size())
+        {
+            return false;
+        }
+
+        state.players[playerIndex].hand.fill(-1);
+
+        for (size_t index = 0; index < cardIds.size(); ++index)
+        {
+            state.players[playerIndex].hand[index] = static_cast<int>(cardIds[index]);
+        }
+
+        return true;
+    }
+
+    std::optional<uint32_t> cardIdByName(const std::string &name) const
+    {
+        if (pLibrary == nullptr)
+        {
+            return std::nullopt;
+        }
+
+        const ArcomageCardDefinition *pCard = pLibrary->cardByName(name);
+        return pCard != nullptr ? std::optional<uint32_t>{pCard->id} : std::nullopt;
+    }
+
+    int findHandIndex(size_t playerIndex, uint32_t cardId) const
+    {
+        if (playerIndex >= state.players.size())
+        {
+            return -1;
+        }
+
+        const ArcomagePlayerState &player = state.players[playerIndex];
+
+        for (size_t handIndex = 0; handIndex < player.hand.size(); ++handIndex)
+        {
+            if (player.hand[handIndex] == static_cast<int>(cardId))
+            {
+                return static_cast<int>(handIndex);
+            }
+        }
+
+        return -1;
+    }
+
+    bool playCardById(size_t playerIndex, uint32_t cardId)
+    {
+        if (pLibrary == nullptr)
+        {
+            return false;
+        }
+
+        const int handIndex = findHandIndex(playerIndex, cardId);
+
+        if (handIndex < 0)
+        {
+            return false;
+        }
+
+        state.currentPlayerIndex = playerIndex;
+        state.needsTurnStart = false;
+        return rules.playCard(*pLibrary, static_cast<size_t>(handIndex), state);
+    }
+
+    bool discardCardById(size_t playerIndex, uint32_t cardId)
+    {
+        if (pLibrary == nullptr)
+        {
+            return false;
+        }
+
+        const int handIndex = findHandIndex(playerIndex, cardId);
+
+        if (handIndex < 0)
+        {
+            return false;
+        }
+
+        state.currentPlayerIndex = playerIndex;
+        state.needsTurnStart = false;
+        return rules.discardCard(*pLibrary, static_cast<size_t>(handIndex), state);
+    }
+
+    bool applyAiAction(const ArcomageAi::Action &action)
+    {
+        if (pLibrary == nullptr)
+        {
+            return false;
+        }
+
+        switch (action.kind)
+        {
+            case ArcomageAi::ActionKind::PlayCard:
+                return rules.playCard(*pLibrary, action.handIndex, state);
+
+            case ArcomageAi::ActionKind::DiscardCard:
+                return rules.discardCard(*pLibrary, action.handIndex, state);
+
+            case ArcomageAi::ActionKind::None:
+                return false;
+        }
+
+        return false;
+    }
+};
+
 Character makeRegressionPartyMember(
     const std::string &name,
     const std::string &className,
@@ -1682,16 +1835,49 @@ bool executeDialogActionInScenario(
             return false;
         }
 
-        const DialogueMenuId menuId = dialogueMenuIdForHouseAction(static_cast<HouseActionId>(action.id));
+        const HouseActionId houseActionId = static_cast<HouseActionId>(action.id);
+        const DialogueMenuId menuId = dialogueMenuIdForHouseAction(houseActionId);
 
         if (menuId != DialogueMenuId::None)
         {
             scenario.pEventRuntimeState->dialogueState.menuStack.push_back(menuId);
         }
+        else if (houseActionId == HouseActionId::TavernArcomageRules)
+        {
+            const std::optional<std::string> rulesText = gameDataLoader.getNpcDialogTable().getText(136);
+
+            if (rulesText.has_value() && !rulesText->empty())
+            {
+                scenario.pEventRuntimeState->messages.push_back(*rulesText);
+            }
+        }
+        else if (houseActionId == HouseActionId::TavernArcomageVictoryConditions)
+        {
+            const ArcomageTavernRule *pRule = gameDataLoader.getArcomageLibrary().ruleForHouse(pHouseEntry->id);
+
+            if (pRule != nullptr)
+            {
+                const std::optional<std::string> victoryText =
+                    gameDataLoader.getNpcDialogTable().getText(pRule->victoryTextId);
+
+                if (victoryText.has_value() && !victoryText->empty())
+                {
+                    scenario.pEventRuntimeState->messages.push_back(*victoryText);
+                }
+            }
+        }
+        else if (houseActionId == HouseActionId::TavernArcomagePlay)
+        {
+            EventRuntimeState::PendingArcomageGame pendingGame = {};
+            pendingGame.houseId = pHouseEntry->id;
+            scenario.pEventRuntimeState->pendingArcomageGame = std::move(pendingGame);
+            dialog = {};
+            return true;
+        }
         else
         {
             HouseActionOption option = {};
-            option.id = static_cast<HouseActionId>(action.id);
+            option.id = houseActionId;
             option.label = action.label;
             option.argument = action.argument;
             const HouseActionResult result = performHouseAction(
@@ -3339,7 +3525,7 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
     const std::string &suiteName
 ) const
 {
-    if (suiteName != "dialogue" && suiteName != "chest")
+    if (suiteName != "dialogue" && suiteName != "chest" && suiteName != "arcomage")
     {
         std::cerr << "Unknown regression suite: " << suiteName << '\n';
         return 2;
@@ -3674,6 +3860,600 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
         return failedCount == 0 ? 0 : 1;
     }
 
+    if (suiteName == "arcomage")
+    {
+        runCase(
+            "arcomage_selected_card_data_matches_expected",
+            [&](std::string &failure)
+            {
+                const ArcomageLibrary &library = gameDataLoader.getArcomageLibrary();
+                const ArcomageCardDefinition *pAmethyst = library.cardByName("Amethyst");
+                const ArcomageCardDefinition *pDiscord = library.cardByName("Discord");
+                const ArcomageCardDefinition *pWerewolf = library.cardByName("Werewolf");
+
+                if (pAmethyst == nullptr
+                    || pAmethyst->slot != 42
+                    || pAmethyst->resourceType != ArcomageResourceType::Gems
+                    || pAmethyst->needGems != 2
+                    || pAmethyst->primary.playerTower != 3)
+                {
+                    failure = "Amethyst definition drifted from expected values";
+                    return false;
+                }
+
+                if (pDiscord == nullptr
+                    || pDiscord->slot != 59
+                    || pDiscord->primary.bothMagic != -1
+                    || pDiscord->primary.bothTower != -7)
+                {
+                    failure = "Discord definition drifted from expected values";
+                    return false;
+                }
+
+                if (pWerewolf == nullptr
+                    || pWerewolf->slot != 99
+                    || pWerewolf->resourceType != ArcomageResourceType::Recruits
+                    || pWerewolf->needRecruits != 9
+                    || pWerewolf->primary.enemyBuildings != -9)
+                {
+                    failure = "Werewolf definition drifted from expected values";
+                    return false;
+                }
+
+                return true;
+            }
+        );
+
+        runCase(
+            "arcomage_player_play_amethyst_applies_expected_effects",
+            [&](std::string &failure)
+            {
+                ArcomageRegressionHarness harness = {};
+
+                if (!harness.initialize(gameDataLoader.getArcomageLibrary(), 107))
+                {
+                    failure = "could not initialize Arcomage harness";
+                    return false;
+                }
+
+                const std::optional<uint32_t> amethystId = harness.cardIdByName("Amethyst");
+
+                if (!amethystId.has_value())
+                {
+                    failure = "could not find Amethyst";
+                    return false;
+                }
+
+                harness.clearHands();
+
+                if (!harness.setHand(0, std::vector<uint32_t>{*amethystId}))
+                {
+                    failure = "could not seed player hand";
+                    return false;
+                }
+
+                harness.state.players[0].gems = 10;
+                harness.state.players[0].tower = 15;
+
+                if (!harness.playCardById(0, *amethystId))
+                {
+                    failure = "could not play Amethyst";
+                    return false;
+                }
+
+                if (harness.state.players[0].gems != 8 || harness.state.players[0].tower != 18)
+                {
+                    failure = "Amethyst did not spend gems and add tower as expected";
+                    return false;
+                }
+
+                if (!harness.state.lastPlayedCard.has_value()
+                    || harness.state.lastPlayedCard->cardId != *amethystId
+                    || harness.state.lastPlayedCard->playerIndex != 0
+                    || harness.state.lastPlayedCard->discarded)
+                {
+                    failure = "last played card was not recorded correctly";
+                    return false;
+                }
+
+                if (arcomageShownCardCount(harness.state) != 1)
+                {
+                    failure = "played card was not appended to shown cards";
+                    return false;
+                }
+
+                if (harness.state.currentPlayerIndex != 1 || !harness.state.needsTurnStart)
+                {
+                    failure = "turn did not advance after playing Amethyst";
+                    return false;
+                }
+
+                return true;
+            }
+        );
+
+        runCase(
+            "arcomage_conditional_card_branches_match_expected_effects",
+            [&](std::string &failure)
+            {
+                ArcomageRegressionHarness primaryHarness = {};
+
+                if (!primaryHarness.initialize(gameDataLoader.getArcomageLibrary(), 107))
+                {
+                    failure = "could not initialize primary-branch harness";
+                    return false;
+                }
+
+                primaryHarness.clearHands();
+
+                if (!primaryHarness.setHand(0, std::vector<uint32_t>{4}))
+                {
+                    failure = "could not seed Mother Lode into hand";
+                    return false;
+                }
+
+                primaryHarness.state.players[0].bricks = 20;
+                primaryHarness.state.players[0].quarry = 1;
+                primaryHarness.state.players[1].quarry = 3;
+
+                if (!primaryHarness.playCardById(0, 4))
+                {
+                    failure = "could not play Mother Lode for primary branch";
+                    return false;
+                }
+
+                if (primaryHarness.state.players[0].bricks != 16 || primaryHarness.state.players[0].quarry != 3)
+                {
+                    failure = "Mother Lode primary branch produced the wrong result";
+                    return false;
+                }
+
+                ArcomageRegressionHarness secondaryHarness = {};
+
+                if (!secondaryHarness.initialize(gameDataLoader.getArcomageLibrary(), 107))
+                {
+                    failure = "could not initialize secondary-branch harness";
+                    return false;
+                }
+
+                secondaryHarness.clearHands();
+
+                if (!secondaryHarness.setHand(0, std::vector<uint32_t>{4}))
+                {
+                    failure = "could not seed Mother Lode into hand for secondary branch";
+                    return false;
+                }
+
+                secondaryHarness.state.players[0].bricks = 20;
+                secondaryHarness.state.players[0].quarry = 3;
+                secondaryHarness.state.players[1].quarry = 1;
+
+                if (!secondaryHarness.playCardById(0, 4))
+                {
+                    failure = "could not play Mother Lode for secondary branch";
+                    return false;
+                }
+
+                if (secondaryHarness.state.players[0].bricks != 16 || secondaryHarness.state.players[0].quarry != 4)
+                {
+                    failure = "Mother Lode secondary branch produced the wrong result";
+                    return false;
+                }
+
+                return true;
+            }
+        );
+
+        runCase(
+            "arcomage_player_discard_marks_card_as_discarded",
+            [&](std::string &failure)
+            {
+                ArcomageRegressionHarness harness = {};
+
+                if (!harness.initialize(gameDataLoader.getArcomageLibrary(), 107))
+                {
+                    failure = "could not initialize Arcomage harness";
+                    return false;
+                }
+
+                const std::optional<uint32_t> amethystId = harness.cardIdByName("Amethyst");
+
+                if (!amethystId.has_value())
+                {
+                    failure = "could not find Amethyst";
+                    return false;
+                }
+
+                harness.clearHands();
+
+                if (!harness.setHand(0, std::vector<uint32_t>{*amethystId}))
+                {
+                    failure = "could not seed discard hand";
+                    return false;
+                }
+
+                if (!harness.discardCardById(0, *amethystId))
+                {
+                    failure = "could not discard Amethyst";
+                    return false;
+                }
+
+                if (!harness.state.lastPlayedCard.has_value()
+                    || harness.state.lastPlayedCard->cardId != *amethystId
+                    || !harness.state.lastPlayedCard->discarded)
+                {
+                    failure = "discarded card was not recorded correctly";
+                    return false;
+                }
+
+                if (arcomageShownCardCount(harness.state) != 1 || !harness.state.shownCards[0]->discarded)
+                {
+                    failure = "discarded card did not appear as discarded in shown cards";
+                    return false;
+                }
+
+                return true;
+            }
+        );
+
+        runCase(
+            "arcomage_ai_turn_can_be_simulated_headlessly",
+            [&](std::string &failure)
+            {
+                ArcomageRegressionHarness harness = {};
+
+                if (!harness.initialize(gameDataLoader.getArcomageLibrary(), 107))
+                {
+                    failure = "could not initialize Arcomage harness";
+                    return false;
+                }
+
+                const std::optional<uint32_t> amethystId = harness.cardIdByName("Amethyst");
+
+                if (!amethystId.has_value())
+                {
+                    failure = "could not find Amethyst";
+                    return false;
+                }
+
+                harness.clearHands();
+
+                if (!harness.setHand(1, std::vector<uint32_t>{*amethystId}))
+                {
+                    failure = "could not seed AI hand";
+                    return false;
+                }
+
+                harness.state.currentPlayerIndex = 1;
+                harness.state.needsTurnStart = false;
+                harness.state.players[1].gems = 10;
+                harness.state.players[1].tower = 12;
+                const ArcomageAi::Action action =
+                    harness.ai.chooseAction(gameDataLoader.getArcomageLibrary(), harness.state);
+
+                if (action.kind != ArcomageAi::ActionKind::PlayCard || action.handIndex != 0)
+                {
+                    failure = "AI did not choose the only playable positive card";
+                    return false;
+                }
+
+                if (!harness.applyAiAction(action))
+                {
+                    failure = "AI action could not be applied";
+                    return false;
+                }
+
+                if (harness.state.players[1].gems != 8 || harness.state.players[1].tower != 15)
+                {
+                    failure = "AI play did not apply the expected Amethyst effect";
+                    return false;
+                }
+
+                if (!harness.state.lastPlayedCard.has_value() || harness.state.lastPlayedCard->playerIndex != 1)
+                {
+                    failure = "AI action did not record the acting player";
+                    return false;
+                }
+
+                return true;
+            }
+        );
+
+        runCase(
+            "arcomage_mm8_special_cards_apply_expected_effects",
+            [&](std::string &failure)
+            {
+                ArcomageRegressionHarness floodHarness = {};
+
+                if (!floodHarness.initialize(gameDataLoader.getArcomageLibrary(), 107))
+                {
+                    failure = "could not initialize flood harness";
+                    return false;
+                }
+
+                const std::optional<uint32_t> floodWaterId = floodHarness.cardIdByName("Flood Water");
+                const std::optional<uint32_t> shiftId = floodHarness.cardIdByName("Shift");
+
+                if (!floodWaterId.has_value() || !shiftId.has_value())
+                {
+                    failure = "could not find MM8 special cards";
+                    return false;
+                }
+
+                floodHarness.clearHands();
+
+                if (!floodHarness.setHand(0, std::vector<uint32_t>{*floodWaterId}))
+                {
+                    failure = "could not seed Flood Water into hand";
+                    return false;
+                }
+
+                floodHarness.state.players[0].bricks = 10;
+                floodHarness.state.players[0].wall = 4;
+                floodHarness.state.players[0].tower = 18;
+                floodHarness.state.players[0].dungeon = 3;
+                floodHarness.state.players[1].wall = 8;
+                floodHarness.state.players[1].tower = 20;
+                floodHarness.state.players[1].dungeon = 5;
+
+                if (!floodHarness.playCardById(0, *floodWaterId))
+                {
+                    failure = "could not play Flood Water";
+                    return false;
+                }
+
+                if (floodHarness.state.players[0].dungeon != 2
+                    || floodHarness.state.players[0].tower != 16
+                    || floodHarness.state.players[1].dungeon != 5
+                    || floodHarness.state.players[1].tower != 20)
+                {
+                    failure = "Flood Water did not target the lowest-wall player correctly";
+                    return false;
+                }
+
+                ArcomageRegressionHarness shiftHarness = {};
+
+                if (!shiftHarness.initialize(gameDataLoader.getArcomageLibrary(), 107))
+                {
+                    failure = "could not initialize shift harness";
+                    return false;
+                }
+
+                shiftHarness.clearHands();
+
+                if (!shiftHarness.setHand(0, std::vector<uint32_t>{*shiftId}))
+                {
+                    failure = "could not seed Shift into hand";
+                    return false;
+                }
+
+                shiftHarness.state.players[0].bricks = 20;
+                shiftHarness.state.players[0].wall = 5;
+                shiftHarness.state.players[1].wall = 14;
+
+                if (!shiftHarness.playCardById(0, *shiftId))
+                {
+                    failure = "could not play Shift";
+                    return false;
+                }
+
+                if (shiftHarness.state.players[0].wall != 14 || shiftHarness.state.players[1].wall != 5)
+                {
+                    failure = "Shift did not swap the walls";
+                    return false;
+                }
+
+                return true;
+            }
+        );
+
+        runCase(
+            "arcomage_play_again_refills_hand_like_oe",
+            [&](std::string &failure)
+            {
+                ArcomageRegressionHarness luckyCacheHarness = {};
+
+                if (!luckyCacheHarness.initialize(gameDataLoader.getArcomageLibrary(), 107))
+                {
+                    failure = "could not initialize Lucky Cache harness";
+                    return false;
+                }
+
+                const std::optional<uint32_t> luckyCacheId = luckyCacheHarness.cardIdByName("Lucky Cache");
+                const std::optional<uint32_t> prismId = luckyCacheHarness.cardIdByName("Prism");
+
+                if (!luckyCacheId.has_value() || !prismId.has_value())
+                {
+                    failure = "could not find play-again test cards";
+                    return false;
+                }
+
+                luckyCacheHarness.clearHands();
+
+                if (!luckyCacheHarness.setHand(0, std::vector<uint32_t>{*luckyCacheId, 2u, 3u, 4u, 5u}))
+                {
+                    failure = "could not seed Lucky Cache hand";
+                    return false;
+                }
+
+                luckyCacheHarness.state.players[0].bricks = 10;
+
+                if (!luckyCacheHarness.playCardById(0, *luckyCacheId))
+                {
+                    failure = "could not play Lucky Cache";
+                    return false;
+                }
+
+                if (std::count_if(
+                        luckyCacheHarness.state.players[0].hand.begin(),
+                        luckyCacheHarness.state.players[0].hand.end(),
+                        [](int cardId)
+                        {
+                            return cardId >= 0;
+                        }) != ArcomageState::MinimumHandSize)
+                {
+                    failure = "plain play-again card did not refill the hand back to five";
+                    return false;
+                }
+
+                if (luckyCacheHarness.state.currentPlayerIndex != 0 || luckyCacheHarness.state.needsTurnStart)
+                {
+                    failure = "plain play-again card did not preserve the acting turn";
+                    return false;
+                }
+
+                if (luckyCacheHarness.state.mustDiscard)
+                {
+                    failure = "plain play-again card should not force discard after refill";
+                    return false;
+                }
+
+                ArcomageRegressionHarness prismHarness = {};
+
+                if (!prismHarness.initialize(gameDataLoader.getArcomageLibrary(), 107))
+                {
+                    failure = "could not initialize Prism harness";
+                    return false;
+                }
+
+                prismHarness.clearHands();
+
+                if (!prismHarness.setHand(0, std::vector<uint32_t>{*prismId, 2u, 3u, 4u, 5u}))
+                {
+                    failure = "could not seed Prism hand";
+                    return false;
+                }
+
+                prismHarness.state.players[0].gems = 10;
+
+                if (!prismHarness.playCardById(0, *prismId))
+                {
+                    failure = "could not play Prism";
+                    return false;
+                }
+
+                if (std::count_if(
+                        prismHarness.state.players[0].hand.begin(),
+                        prismHarness.state.players[0].hand.end(),
+                        [](int cardId)
+                        {
+                            return cardId >= 0;
+                        }) != ArcomageState::MinimumHandSize + 1)
+                {
+                    failure = "Prism should leave the player with six cards before discard";
+                    return false;
+                }
+
+                if (!prismHarness.state.mustDiscard)
+                {
+                    failure = "Prism should require discard after the OE refill draw";
+                    return false;
+                }
+
+                if (prismHarness.state.currentPlayerIndex != 0 || prismHarness.state.needsTurnStart)
+                {
+                    failure = "Prism should keep the acting player on turn until discard resolves";
+                    return false;
+                }
+
+                if (!prismHarness.discardCardById(0, 2u))
+                {
+                    failure = "could not discard after Prism";
+                    return false;
+                }
+
+                if (prismHarness.state.currentPlayerIndex != 0 || prismHarness.state.needsTurnStart)
+                {
+                    failure = "discard after Prism should still leave the acting player on turn";
+                    return false;
+                }
+
+                if (prismHarness.state.mustDiscard)
+                {
+                    failure = "single discard after Prism should clear the discard requirement";
+                    return false;
+                }
+
+                return true;
+            }
+        );
+
+        runCase(
+            "arcomage_turn_change_clears_previous_shown_cards",
+            [&](std::string &failure)
+            {
+                ArcomageRegressionHarness harness = {};
+
+                if (!harness.initialize(gameDataLoader.getArcomageLibrary(), 107))
+                {
+                    failure = "could not initialize Arcomage harness";
+                    return false;
+                }
+
+                const std::optional<uint32_t> amethystId = harness.cardIdByName("Amethyst");
+
+                if (!amethystId.has_value())
+                {
+                    failure = "could not find Amethyst";
+                    return false;
+                }
+
+                harness.clearHands();
+
+                if (!harness.setHand(0, std::vector<uint32_t>{*amethystId})
+                    || !harness.setHand(1, std::vector<uint32_t>{*amethystId}))
+                {
+                    failure = "could not seed both player hands";
+                    return false;
+                }
+
+                harness.state.players[0].gems = 10;
+                harness.state.players[1].gems = 10;
+
+                if (!harness.playCardById(0, *amethystId))
+                {
+                    failure = "first player could not play Amethyst";
+                    return false;
+                }
+
+                if (arcomageShownCardCount(harness.state) != 1)
+                {
+                    failure = "first play did not populate shown cards";
+                    return false;
+                }
+
+                if (!harness.rules.startTurn(gameDataLoader.getArcomageLibrary(), harness.state))
+                {
+                    failure = "could not start the next turn";
+                    return false;
+                }
+
+                if (arcomageShownCardCount(harness.state) != 0)
+                {
+                    failure = "shown cards were not cleared when the turn changed";
+                    return false;
+                }
+
+                if (!harness.playCardById(1, *amethystId))
+                {
+                    failure = "second player could not play Amethyst";
+                    return false;
+                }
+
+                if (arcomageShownCardCount(harness.state) != 1)
+                {
+                    failure = "shown cards did not restart from a clean slate";
+                    return false;
+                }
+
+                return true;
+            }
+        );
+
+        std::cout << "Regression suite summary: passed=" << passedCount << " failed=" << failedCount << '\n';
+        return failedCount == 0 ? 0 : 1;
+    }
+
     runCase(
         "default_party_seed_preserves_unique_portrait_picture_ids",
         [&](std::string &failure)
@@ -3700,6 +4480,108 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
                         + " portrait picture id mismatch";
                     return false;
                 }
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "dwi_tavern_arcomage_play_requests_match",
+        [&](std::string &failure)
+        {
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            EventDialogContent dialog = {};
+
+            if (!openLocalEventDialogInScenario(gameDataLoader, *selectedMap, scenario, 191, dialog))
+            {
+                failure = "could not open tavern";
+                return false;
+            }
+
+            const std::optional<size_t> arcomageIndex = findActionIndexByLabel(dialog, "Play Arcomage");
+
+            if (!arcomageIndex
+                || !executeDialogActionInScenario(gameDataLoader, *selectedMap, scenario, *arcomageIndex, dialog))
+            {
+                failure = "could not open Arcomage submenu";
+                return false;
+            }
+
+            const std::optional<size_t> playIndex = findActionIndexByLabel(dialog, "Play");
+
+            if (!playIndex
+                || !executeDialogActionInScenario(gameDataLoader, *selectedMap, scenario, *playIndex, dialog))
+            {
+                failure = "could not request Arcomage match";
+                return false;
+            }
+
+            if (!scenario.pEventRuntimeState->pendingArcomageGame.has_value()
+                || scenario.pEventRuntimeState->pendingArcomageGame->houseId == 0)
+            {
+                failure = "Arcomage play did not queue a pending match";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "arcomage_library_match_sanity",
+        [&](std::string &failure)
+        {
+            const ArcomageLibrary &library = gameDataLoader.getArcomageLibrary();
+
+            if (library.cards.size() != ArcomageLibrary::CardCount)
+            {
+                failure = "unexpected Arcomage card count";
+                return false;
+            }
+
+            const ArcomageTavernRule *pRule = library.ruleForHouse(107);
+
+            if (pRule == nullptr)
+            {
+                failure = "missing first Arcomage tavern rule";
+                return false;
+            }
+
+            ArcomageRules rules;
+            ArcomageState state = {};
+
+            if (!rules.initializeMatch(library, pRule->houseId, "Ariel", "Innkeeper", 1, state))
+            {
+                failure = "match initialization failed";
+                return false;
+            }
+
+            rules.startTurn(library, state);
+            ArcomageAi ai;
+            const ArcomageAi::Action action = ai.chooseAction(library, state);
+
+            if (action.kind == ArcomageAi::ActionKind::None)
+            {
+                failure = "AI did not produce any action";
+                return false;
+            }
+
+            const bool applied = action.kind == ArcomageAi::ActionKind::PlayCard
+                ? rules.playCard(library, action.handIndex, state)
+                : rules.discardCard(library, action.handIndex, state);
+
+            if (!applied)
+            {
+                failure = "AI action could not be applied";
+                return false;
             }
 
             return true;

@@ -518,8 +518,6 @@ std::vector<HouseActionOption> buildHouseActionOptions(
             isHouseOpenNow,
             closedReason
         );
-        play.enabled = false;
-        play.disabledReason = "Arcomage play is not implemented yet.";
         options.push_back(std::move(play));
 
         return options;

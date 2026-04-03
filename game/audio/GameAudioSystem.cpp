@@ -490,6 +490,7 @@ bool GameAudioSystem::initialize(
 
     m_soundCatalog.initializeVirtualPathIndex(assetFileSystem);
     preloadSpellBuffSounds(spellTable);
+    preloadArcomageUiSounds();
     return true;
 }
 
@@ -598,6 +599,54 @@ void GameAudioSystem::preloadSpellBuffSounds(const SpellTable &spellTable)
         }
 
         m_audioSystem.preloadClip(*virtualPath);
+    }
+}
+
+void GameAudioSystem::preloadArcomageUiSounds()
+{
+    if (m_pAssetFileSystem == nullptr)
+    {
+        return;
+    }
+
+    const std::array<SoundId, 11> arcomageSounds = {
+        SoundId::ArcomageBricksDown,
+        SoundId::ArcomageBricksUp,
+        SoundId::ArcomageDamage,
+        SoundId::ArcomageDeal,
+        SoundId::ArcomageDefeat,
+        SoundId::ArcomageQuarryUp,
+        SoundId::ArcomageQuarryDown,
+        SoundId::ArcomageShuffle,
+        SoundId::ArcomageTowerUp,
+        SoundId::ArcomageVictory,
+        SoundId::ArcomageWallUp
+    };
+
+    for (SoundId soundId : arcomageSounds)
+    {
+        const std::optional<std::string> virtualPath = m_soundCatalog.buildVirtualPath(static_cast<uint32_t>(soundId));
+
+        if (!virtualPath)
+        {
+            continue;
+        }
+
+        const std::optional<std::vector<uint8_t>> soundBytes = m_pAssetFileSystem->readBinaryFile(*virtualPath);
+
+        if (!soundBytes || soundBytes->empty())
+        {
+            continue;
+        }
+
+        std::vector<float> decodedSamples;
+
+        if (!decodeAudioSamplesFromBytes(*soundBytes, decodedSamples) || decodedSamples.empty())
+        {
+            continue;
+        }
+
+        m_audioSystem.registerClip(*virtualPath, std::move(decodedSamples));
     }
 }
 
