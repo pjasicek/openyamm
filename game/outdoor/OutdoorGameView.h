@@ -267,6 +267,7 @@ private:
         None,
         PageButton,
         ExitButton,
+        DismissButton,
         MagnifyButton,
         AdventurersInnHireButton,
         AdventurersInnScrollUpButton,
@@ -764,6 +765,8 @@ private:
     std::optional<size_t> m_lastPartyPortraitClickedIndex;
     uint64_t m_lastAdventurersInnPortraitClickTicks;
     std::optional<size_t> m_lastAdventurersInnPortraitClickedIndex;
+    std::optional<size_t> m_pendingCharacterDismissMemberIndex;
+    uint64_t m_pendingCharacterDismissExpiresTicks;
     HeldInventoryItemState &m_heldInventoryItem;
     ItemInspectOverlayState &m_itemInspectOverlay;
     bool m_itemInspectInteractionLatch;

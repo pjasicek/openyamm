@@ -28,6 +28,7 @@ namespace OpenYAMM::Game
 namespace
 {
 constexpr uint64_t PartyPortraitDoubleClickWindowMs = 500;
+constexpr uint64_t CharacterDismissConfirmWindowMs = 2000;
 
 struct HudPointerState
 {
@@ -777,8 +778,27 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
     int screenHeight)
 {
     Character *pActiveCharacter = view.selectedCharacterScreenCharacter();
+    Party *pParty = view.m_pOutdoorPartyRuntime != nullptr ? &view.m_pOutdoorPartyRuntime->party() : nullptr;
     const bool isAdventurersInnMode = view.isAdventurersInnScreenActive();
     const bool isReadOnlyAdventurersInnView = view.isReadOnlyAdventurersInnCharacterViewActive();
+    const auto clearPendingCharacterDismiss =
+        [&view]()
+        {
+            view.m_pendingCharacterDismissMemberIndex = std::nullopt;
+            view.m_pendingCharacterDismissExpiresTicks = 0;
+        };
+    const uint64_t nowTicks = SDL_GetTicks();
+
+    if (pParty == nullptr
+        || view.isAdventurersInnCharacterSourceActive()
+        || (view.m_pendingCharacterDismissMemberIndex.has_value()
+            && (nowTicks > view.m_pendingCharacterDismissExpiresTicks
+                || *view.m_pendingCharacterDismissMemberIndex >= pParty->members().size()
+                || *view.m_pendingCharacterDismissMemberIndex != pParty->activeMemberIndex())))
+    {
+        clearPendingCharacterDismiss();
+    }
+
     const CharacterDollEntry *pActiveCharacterDollEntry =
         resolveCharacterDollEntry(view.m_pCharacterDollTable, pActiveCharacter);
     const CharacterDollTypeEntry *pActiveCharacterDollType =
@@ -820,6 +840,7 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
             view.m_characterScreenOpen = false;
             view.m_characterDollJewelryOverlayOpen = false;
             view.m_adventurersInnRosterOverlayOpen = false;
+            clearPendingCharacterDismiss();
             view.m_closeOverlayLatch = true;
         }
     }
@@ -1186,6 +1207,41 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                     && pointerY < resolved->y + resolved->height)
                 {
                     return {OutdoorGameView::CharacterPointerTargetType::PageButton, target.page};
+                }
+            }
+
+            if (!view.isAdventurersInnCharacterSourceActive() && view.m_pOutdoorPartyRuntime != nullptr)
+            {
+                const size_t activeMemberIndex = view.m_pOutdoorPartyRuntime->party().activeMemberIndex();
+
+                if (activeMemberIndex > 0)
+                {
+                    const OutdoorGameView::HudLayoutElement *pDismissLayout =
+                        HudUiService::findHudLayoutElement(view, "CharacterDismissButton");
+
+                    if (pDismissLayout != nullptr)
+                    {
+                        const std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolved =
+                            HudUiService::resolveHudLayoutElement(
+                                view,
+                                "CharacterDismissButton",
+                                screenWidth,
+                                screenHeight,
+                                pDismissLayout->width,
+                                pDismissLayout->height);
+
+                        if (resolved
+                            && pointerX >= resolved->x
+                            && pointerX < resolved->x + resolved->width
+                            && pointerY >= resolved->y
+                            && pointerY < resolved->y + resolved->height)
+                        {
+                            return {
+                                OutdoorGameView::CharacterPointerTargetType::DismissButton,
+                                OutdoorGameView::CharacterPage::Inventory
+                            };
+                        }
+                    }
                 }
             }
 
@@ -1608,6 +1664,7 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
          screenHeight,
          mouseX,
          mouseY,
+         &clearPendingCharacterDismiss,
          &resolveCharacterInventoryGrid,
          pActiveCharacterDollType,
          isReadOnlyAdventurersInnView](
@@ -1655,6 +1712,11 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                     view.m_heldInventoryItem.grabOffsetY = 0.0f;
                 };
 
+            if (target.type != OutdoorGameView::CharacterPointerTargetType::DismissButton)
+            {
+                clearPendingCharacterDismiss();
+            }
+
             if (target.type == OutdoorGameView::CharacterPointerTargetType::PageButton)
             {
                 if (view.m_characterPage != target.page)
@@ -1679,6 +1741,49 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                     view.m_characterScreenOpen = false;
                     view.m_characterDollJewelryOverlayOpen = false;
                     view.m_adventurersInnRosterOverlayOpen = false;
+                }
+            }
+            else if (target.type == OutdoorGameView::CharacterPointerTargetType::DismissButton
+                && view.m_pOutdoorPartyRuntime != nullptr)
+            {
+                Party &party = view.m_pOutdoorPartyRuntime->party();
+                const size_t memberIndex = party.activeMemberIndex();
+                const Character *pMember = party.member(memberIndex);
+
+                if (pMember == nullptr || memberIndex == 0)
+                {
+                    clearPendingCharacterDismiss();
+                    return;
+                }
+
+                const bool confirmed =
+                    view.m_pendingCharacterDismissMemberIndex.has_value()
+                    && *view.m_pendingCharacterDismissMemberIndex == memberIndex
+                    && SDL_GetTicks() <= view.m_pendingCharacterDismissExpiresTicks;
+
+                if (!confirmed)
+                {
+                    const uint64_t dismissClickTicks = SDL_GetTicks();
+                    view.m_pendingCharacterDismissMemberIndex = memberIndex;
+                    view.m_pendingCharacterDismissExpiresTicks = dismissClickTicks + CharacterDismissConfirmWindowMs;
+                    view.setStatusBarEvent(
+                        "To confirm " + pMember->name + " dismissal press the button again...",
+                        2.0f);
+                }
+                else
+                {
+                    const std::string dismissedName = pMember->name;
+                    clearPendingCharacterDismiss();
+
+                    if (party.dismissMemberToAdventurersInn(memberIndex))
+                    {
+                        view.m_characterDollJewelryOverlayOpen = false;
+                        view.setStatusBarEvent(dismissedName + " dismissed.");
+                    }
+                    else
+                    {
+                        view.setStatusBarEvent("Dismissal failed.");
+                    }
                 }
             }
             else if (target.type == OutdoorGameView::CharacterPointerTargetType::MagnifyButton)

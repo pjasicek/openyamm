@@ -3320,6 +3320,8 @@ OutdoorGameView::OutdoorGameView()
     , m_lastPartyPortraitClickedIndex(std::nullopt)
     , m_lastAdventurersInnPortraitClickTicks(0)
     , m_lastAdventurersInnPortraitClickedIndex(std::nullopt)
+    , m_pendingCharacterDismissMemberIndex(std::nullopt)
+    , m_pendingCharacterDismissExpiresTicks(0)
     , m_heldInventoryItem(m_gameplayUiController.heldInventoryItem())
     , m_itemInspectOverlay(m_gameplayUiController.itemInspectOverlay())
     , m_itemInspectInteractionLatch(false)
@@ -5828,6 +5830,8 @@ void OutdoorGameView::shutdown()
     m_lastPartyPortraitClickedIndex = std::nullopt;
     m_lastAdventurersInnPortraitClickTicks = 0;
     m_lastAdventurersInnPortraitClickedIndex = std::nullopt;
+    m_pendingCharacterDismissMemberIndex = std::nullopt;
+    m_pendingCharacterDismissExpiresTicks = 0;
     m_heldInventoryItem = {};
     m_actorInspectOverlay = {};
     m_spellInspectOverlay = {};

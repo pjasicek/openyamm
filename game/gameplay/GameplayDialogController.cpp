@@ -70,6 +70,34 @@ void refreshCurrentHouseServiceDialog(GameplayDialogController::Context &context
         houseId);
 }
 
+bool tryOpenAdventurersInnOverlay(GameplayDialogController::Context &context, uint32_t houseId)
+{
+    if (houseId != AdventurersInnHouseId || context.pParty == nullptr)
+    {
+        return false;
+    }
+
+    context.eventRuntimeState.pendingDialogueContext.reset();
+    context.eventRuntimeState.dialogueState = {};
+    context.uiController.clearEventDialog();
+
+    if (context.pParty->adventurersInnMembers().empty())
+    {
+        context.uiController.setStatusBarEvent("The Adventurer's Inn is empty.");
+        return true;
+    }
+
+    GameplayUiController::CharacterScreenState &characterScreen = context.uiController.characterScreen();
+    characterScreen.open = true;
+    characterScreen.dollJewelryOverlayOpen = false;
+    characterScreen.adventurersInnRosterOverlayOpen = true;
+    characterScreen.page = GameplayUiController::CharacterPage::Inventory;
+    characterScreen.source = GameplayUiController::CharacterScreenSource::AdventurersInn;
+    characterScreen.sourceIndex = 0;
+    characterScreen.adventurersInnScrollOffset = 0;
+    return true;
+}
+
 const HouseEntry *pendingHouseEntry(
     const EventRuntimeState::PendingDialogueContext &context,
     const HouseTable *pHouseTable)
@@ -619,6 +647,11 @@ GameplayDialogController::PresentPendingDialogResult GameplayDialogController::p
         && context.pOutdoorWorldRuntime != nullptr
         && context.pParty != nullptr)
     {
+        if (tryOpenAdventurersInnOverlay(context, originalContext.sourceId))
+        {
+            return result;
+        }
+
         const HouseEntry *pHouseEntry = context.pHouseTable->get(originalContext.sourceId);
 
         if (pHouseEntry != nullptr && rejectClosedHouseInteraction(context, *pHouseEntry))

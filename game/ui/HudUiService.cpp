@@ -668,7 +668,17 @@ const OutdoorGameView::HudTextureHandle *HudUiService::ensureSolidHudTextureLoad
         return nullptr;
     }
 
-    const OutdoorGameView::HudTextureHandle *pTexture = findHudTexture(view, textureName);
+    const std::string cacheTextureName =
+        toLowerCopy(textureName)
+        + "_"
+        + std::to_string((abgrColor >> 24) & 0xffu)
+        + "_"
+        + std::to_string((abgrColor >> 16) & 0xffu)
+        + "_"
+        + std::to_string((abgrColor >> 8) & 0xffu)
+        + "_"
+        + std::to_string(abgrColor & 0xffu);
+    const OutdoorGameView::HudTextureHandle *pTexture = findHudTexture(view, cacheTextureName);
 
     if (pTexture != nullptr)
     {
@@ -676,14 +686,14 @@ const OutdoorGameView::HudTextureHandle *HudUiService::ensureSolidHudTextureLoad
     }
 
     const std::array<uint8_t, 4> pixel = {
-        static_cast<uint8_t>(abgrColor & 0xff),
-        static_cast<uint8_t>((abgrColor >> 8) & 0xff),
         static_cast<uint8_t>((abgrColor >> 16) & 0xff),
+        static_cast<uint8_t>((abgrColor >> 8) & 0xff),
+        static_cast<uint8_t>(abgrColor & 0xff),
         static_cast<uint8_t>((abgrColor >> 24) & 0xff)
     };
 
     OutdoorGameView::HudTextureHandle textureHandle = {};
-    textureHandle.textureName = toLowerCopy(textureName);
+    textureHandle.textureName = cacheTextureName;
     textureHandle.width = 1;
     textureHandle.height = 1;
     textureHandle.physicalWidth = 1;

@@ -11,6 +11,7 @@
 #include <bgfx/bgfx.h>
 
 #include <algorithm>
+#include <array>
 #include <filesystem>
 #include <functional>
 #include <iostream>
@@ -20,6 +21,78 @@ namespace OpenYAMM::Game
 namespace
 {
 constexpr float Pi = 3.14159265358979323846f;
+constexpr uint32_t DefaultRosterPartyMemberCount = 3;
+
+void seedSimulatedPartyFromRoster(
+    Party &party,
+    const RosterTable &rosterTable,
+    std::optional<uint32_t> selectedRosterId)
+{
+    static constexpr std::array<uint32_t, DefaultRosterPartyMemberCount> DefaultPartyRosterIds = {{11, 5, 4}};
+
+    std::vector<uint32_t> rosterIds;
+    rosterIds.reserve(DefaultRosterPartyMemberCount);
+
+    if (selectedRosterId.has_value())
+    {
+        rosterIds.push_back(*selectedRosterId);
+    }
+
+    for (uint32_t rosterId : DefaultPartyRosterIds)
+    {
+        if (selectedRosterId.has_value() && rosterId == *selectedRosterId)
+        {
+            continue;
+        }
+
+        rosterIds.push_back(rosterId);
+
+        if (rosterIds.size() >= DefaultRosterPartyMemberCount)
+        {
+            break;
+        }
+    }
+
+    if (rosterIds.size() < DefaultRosterPartyMemberCount)
+    {
+        for (const RosterEntry *pEntry : rosterTable.getEntriesSortedById())
+        {
+            if (pEntry == nullptr)
+            {
+                continue;
+            }
+
+            if (std::find(rosterIds.begin(), rosterIds.end(), pEntry->id) != rosterIds.end())
+            {
+                continue;
+            }
+
+            rosterIds.push_back(pEntry->id);
+
+            if (rosterIds.size() >= DefaultRosterPartyMemberCount)
+            {
+                break;
+            }
+        }
+    }
+
+    if (party.members().size() <= 1)
+    {
+        return;
+    }
+
+    const size_t replaceCount = std::min(party.members().size() - 1, rosterIds.size());
+
+    for (size_t memberIndex = 0; memberIndex < replaceCount; ++memberIndex)
+    {
+        const RosterEntry *pRosterEntry = rosterTable.get(rosterIds[memberIndex]);
+
+        if (pRosterEntry != nullptr)
+        {
+            party.replaceMemberWithRosterEntry(memberIndex + 1, *pRosterEntry);
+        }
+    }
+}
 
 void seedSimulatedAdventurersInn(
     Party &party,
@@ -27,13 +100,25 @@ void seedSimulatedAdventurersInn(
     const NpcDialogTable &npcDialogTable,
     std::optional<uint32_t> selectedRosterId)
 {
+    static constexpr std::array<uint32_t, 2> DefaultAdventurersInnRosterIds = {{1, 7}};
+
     party.clearAdventurersInnMembers();
 
-    size_t seededCount = 0;
-
-    for (const RosterEntry *pEntry : rosterTable.getEntriesSortedById())
+    for (uint32_t rosterId : DefaultAdventurersInnRosterIds)
     {
-        if (pEntry == nullptr || pEntry->id == 2 || (selectedRosterId && pEntry->id == *selectedRosterId))
+        if (selectedRosterId.has_value() && rosterId == *selectedRosterId)
+        {
+            continue;
+        }
+
+        if (party.hasRosterMember(rosterId))
+        {
+            continue;
+        }
+
+        const RosterEntry *pEntry = rosterTable.get(rosterId);
+
+        if (pEntry == nullptr)
         {
             continue;
         }
@@ -41,12 +126,6 @@ void seedSimulatedAdventurersInn(
         const NpcEntry *pNpcEntry = npcDialogTable.findNpcByName(pEntry->name);
         const uint32_t innPortraitPictureId = pNpcEntry != nullptr ? pNpcEntry->pictureId : 0;
         party.addAdventurersInnMember(*pEntry, innPortraitPictureId);
-        ++seededCount;
-
-        if (seededCount >= 5)
-        {
-            break;
-        }
     }
 }
 }
@@ -777,6 +856,10 @@ bool GameApplication::startNewSession(std::optional<uint32_t> rosterId, bool ini
     {
         if (m_pOutdoorPartyRuntime != nullptr)
         {
+            seedSimulatedPartyFromRoster(
+                m_pOutdoorPartyRuntime->party(),
+                m_gameDataLoader.getRosterTable(),
+                std::nullopt);
             seedSimulatedAdventurersInn(
                 m_pOutdoorPartyRuntime->party(),
                 m_gameDataLoader.getRosterTable(),
@@ -792,6 +875,10 @@ bool GameApplication::startNewSession(std::optional<uint32_t> rosterId, bool ini
 
     if (pRosterEntry == nullptr)
     {
+        seedSimulatedPartyFromRoster(
+            m_pOutdoorPartyRuntime->party(),
+            m_gameDataLoader.getRosterTable(),
+            std::nullopt);
         seedSimulatedAdventurersInn(
             m_pOutdoorPartyRuntime->party(),
             m_gameDataLoader.getRosterTable(),
@@ -801,7 +888,10 @@ bool GameApplication::startNewSession(std::optional<uint32_t> rosterId, bool ini
         return true;
     }
 
-    m_pOutdoorPartyRuntime->party().replaceMemberWithRosterEntry(0, *pRosterEntry);
+    seedSimulatedPartyFromRoster(
+        m_pOutdoorPartyRuntime->party(),
+        m_gameDataLoader.getRosterTable(),
+        rosterId);
     seedSimulatedAdventurersInn(
         m_pOutdoorPartyRuntime->party(),
         m_gameDataLoader.getRosterTable(),

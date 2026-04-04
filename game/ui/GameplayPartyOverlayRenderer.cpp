@@ -237,7 +237,7 @@ constexpr float AdventurersInnBlurbX = 200.0f;
 constexpr float AdventurersInnBlurbY = 210.0f;
 constexpr float AdventurersInnBlurbWidth = 236.0f;
 constexpr float AdventurersInnColumnLineStep = 16.0f;
-constexpr uint32_t AdventurersInnSelectionColorAbgr = 0xff7fd8ffu;
+constexpr uint32_t AdventurersInnSelectionColorAbgr = 0xff8ed9e9u;
 constexpr uint32_t AdventurersInnTextColorAbgr = 0xffffffffu;
 constexpr float AdventurersInnSelectionThickness = 2.0f;
 
@@ -3740,6 +3740,12 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
             }
         }
 
+        if (normalizedLayoutId == "characterdismissbutton"
+            && (view.isAdventurersInnCharacterSourceActive() || party.activeMemberIndex() == 0))
+        {
+            continue;
+        }
+
         if (normalizedLayoutId == "characterdolljewelryoverlaypanel" && !view.m_characterDollJewelryOverlayOpen)
         {
             continue;
@@ -4541,12 +4547,12 @@ void GameplayPartyOverlayRenderer::renderActorInspectOverlay(OutdoorGameView &vi
                 return;
             }
 
-            const uint32_t solidTextureAbgr =
-                (abgr & 0xff00ff00u) | ((abgr & 0x00ff0000u) >> 16) | ((abgr & 0x000000ffu) << 16);
-            const std::string textureName = "__actor_inspect_solid_" + std::to_string(solidTextureAbgr);
-            const OutdoorGameView::HudTextureHandle *pSolidTexture = HudUiService::ensureSolidHudTextureLoaded(const_cast<OutdoorGameView &>(view), 
-                textureName,
-                solidTextureAbgr);
+            const std::string textureName = "__actor_inspect_solid_" + std::to_string(abgr);
+            const OutdoorGameView::HudTextureHandle *pSolidTexture =
+                HudUiService::ensureSolidHudTextureLoaded(
+                    const_cast<OutdoorGameView &>(view),
+                    textureName,
+                    abgr);
 
             if (pSolidTexture == nullptr)
             {

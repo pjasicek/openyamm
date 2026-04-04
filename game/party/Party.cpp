@@ -37,6 +37,16 @@ uint32_t resolveAdventurersInnPortraitPictureId(const Character &character, uint
     return portraitPictureId;
 }
 
+uint32_t remapCasterMemberIndexAfterDismiss(uint32_t casterMemberIndex, size_t dismissedMemberIndex)
+{
+    if (casterMemberIndex > dismissedMemberIndex)
+    {
+        return casterMemberIndex - 1;
+    }
+
+    return casterMemberIndex == dismissedMemberIndex ? 0 : casterMemberIndex;
+}
+
 bool characterNeedsTempleHealing(const Character &member)
 {
     if (member.health < member.maxHealth || member.spellPoints < member.maxSpellPoints)
@@ -2502,6 +2512,87 @@ bool Party::hireAdventurersInnMember(size_t innIndex)
     m_members.push_back(m_adventurersInnMembers[innIndex].character);
     m_adventurersInnMembers.erase(m_adventurersInnMembers.begin() + innIndex);
     m_lastStatus = "adventurer hired from inn";
+    return true;
+}
+
+bool Party::dismissMemberToAdventurersInn(size_t memberIndex)
+{
+    if (memberIndex == 0 || memberIndex >= m_members.size())
+    {
+        return false;
+    }
+
+    const Character dismissedMember = m_members[memberIndex];
+    const uint32_t portraitPictureId =
+        resolveAdventurersInnPortraitPictureId(dismissedMember, dismissedMember.portraitPictureId);
+
+    if (!addAdventurersInnMember(dismissedMember, portraitPictureId))
+    {
+        return false;
+    }
+
+    m_members.erase(m_members.begin() + memberIndex);
+
+    for (size_t index = memberIndex; index + 1 < m_characterBuffs.size(); ++index)
+    {
+        m_characterBuffs[index] = m_characterBuffs[index + 1];
+    }
+
+    m_characterBuffs.back() = {};
+
+    for (PartyBuffState &buff : m_partyBuffs)
+    {
+        buff.casterMemberIndex = remapCasterMemberIndexAfterDismiss(buff.casterMemberIndex, memberIndex);
+    }
+
+    for (auto &memberBuffs : m_characterBuffs)
+    {
+        for (CharacterBuffState &buff : memberBuffs)
+        {
+            buff.casterMemberIndex = remapCasterMemberIndexAfterDismiss(buff.casterMemberIndex, memberIndex);
+        }
+    }
+
+    m_pendingAudioRequests.erase(
+        std::remove_if(
+            m_pendingAudioRequests.begin(),
+            m_pendingAudioRequests.end(),
+            [memberIndex](PendingAudioRequest &request)
+            {
+                if (request.kind != PendingAudioRequest::Kind::Speech)
+                {
+                    return false;
+                }
+
+                if (request.memberIndex == memberIndex)
+                {
+                    return true;
+                }
+
+                if (request.memberIndex > memberIndex)
+                {
+                    request.memberIndex -= 1;
+                }
+
+                return false;
+            }),
+        m_pendingAudioRequests.end());
+
+    if (m_members.empty())
+    {
+        m_activeMemberIndex = 0;
+    }
+    else if (m_activeMemberIndex > memberIndex)
+    {
+        m_activeMemberIndex -= 1;
+    }
+    else if (m_activeMemberIndex >= m_members.size())
+    {
+        m_activeMemberIndex = m_members.size() - 1;
+    }
+
+    rebuildMagicalBonusesFromBuffs();
+    m_lastStatus = "party member dismissed";
     return true;
 }
 

@@ -319,6 +319,7 @@ public:
     bool addAdventurersInnMember(const RosterEntry &rosterEntry, uint32_t portraitPictureId);
     bool addAdventurersInnMember(const Character &character, uint32_t portraitPictureId);
     bool hireAdventurersInnMember(size_t innIndex);
+    bool dismissMemberToAdventurersInn(size_t memberIndex);
     bool replaceMemberWithRosterEntry(size_t memberIndex, const RosterEntry &rosterEntry);
     bool hasRosterMember(uint32_t rosterId) const;
     bool hasAward(uint32_t awardId) const;

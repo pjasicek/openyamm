@@ -200,6 +200,11 @@ struct GameApplicationTestAccess
         application.m_pendingAdvanceTime = true;
         return application.processPendingQuickSaveInput();
     }
+
+    static const GameplayUiController::CharacterScreenState &characterScreen(const GameApplication &application)
+    {
+        return application.m_outdoorGameView.m_gameplayUiController.characterScreen();
+    }
 };
 
 namespace
@@ -12661,6 +12666,72 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
     );
 
     runCase(
+        "party_dismiss_moves_member_to_adventurers_inn_tail",
+        [&](std::string &failure)
+        {
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            if (scenario.party.members().size() < 3)
+            {
+                failure = "party seed did not contain enough members";
+                return false;
+            }
+
+            const size_t dismissedMemberIndex = 1;
+            const std::string dismissedName = scenario.party.members()[dismissedMemberIndex].name;
+            const size_t initialPartyCount = scenario.party.members().size();
+            const size_t initialInnCount = scenario.party.adventurersInnMembers().size();
+
+            if (scenario.party.dismissMemberToAdventurersInn(0))
+            {
+                failure = "first party member should not be dismissible";
+                return false;
+            }
+
+            if (!scenario.party.dismissMemberToAdventurersInn(dismissedMemberIndex))
+            {
+                failure = "could not dismiss party member";
+                return false;
+            }
+
+            if (scenario.party.members().size() != initialPartyCount - 1)
+            {
+                failure = "party size did not decrease after dismissal";
+                return false;
+            }
+
+            if (scenario.party.adventurersInnMembers().size() != initialInnCount + 1)
+            {
+                failure = "inn size did not increase after dismissal";
+                return false;
+            }
+
+            const AdventurersInnMember *pDismissedMember =
+                scenario.party.adventurersInnMember(scenario.party.adventurersInnMembers().size() - 1);
+
+            if (pDismissedMember == nullptr || pDismissedMember->character.name != dismissedName)
+            {
+                failure = "dismissed character was not appended to inn as last entry";
+                return false;
+            }
+
+            if (scenario.party.lastStatus() != "party member dismissed")
+            {
+                failure = "dismiss did not set expected party status";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
         "adventurers_inn_roster_members_use_roster_portraits_and_identified_items",
         [&](std::string &failure)
         {
@@ -16795,26 +16866,123 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
             }
 
             const std::vector<Character> &members = pPartyRuntime->party().members();
-            static constexpr std::array<const char *, 4> expectedNames = {
+            static constexpr std::array<const char *, 4> ExpectedNames = {
                 "Ariel",
-                "Leane",
+                "Leane Stormlance",
                 "Arius",
-                "Overdune"
+                "Overdune Snapfinger"
             };
+            static constexpr std::array<uint32_t, 4> ExpectedRosterIds = {{0, 11, 5, 4}};
 
-            if (members.size() != expectedNames.size())
+            if (members.size() != ExpectedNames.size())
             {
                 failure = "startup party did not use the seeded party";
                 return false;
             }
 
-            for (size_t memberIndex = 0; memberIndex < expectedNames.size(); ++memberIndex)
+            for (size_t memberIndex = 0; memberIndex < ExpectedNames.size(); ++memberIndex)
             {
-                if (members[memberIndex].name != expectedNames[memberIndex])
+                if (members[memberIndex].name != ExpectedNames[memberIndex])
                 {
                     failure = "startup party member " + std::to_string(memberIndex) + " mismatch";
                     return false;
                 }
+
+                if (members[memberIndex].rosterId != ExpectedRosterIds[memberIndex])
+                {
+                    failure = "startup party member " + std::to_string(memberIndex) + " roster mismatch";
+                    return false;
+                }
+            }
+
+            const std::vector<AdventurersInnMember> &innMembers = pPartyRuntime->party().adventurersInnMembers();
+            static constexpr std::array<const char *, 2> ExpectedInnNames = {
+                "Devlin Arcanus",
+                "Elsbeth Lamentia"
+            };
+
+            if (innMembers.size() != ExpectedInnNames.size())
+            {
+                failure = "startup adventurers inn seed mismatch";
+                return false;
+            }
+
+            for (size_t innIndex = 0; innIndex < ExpectedInnNames.size(); ++innIndex)
+            {
+                if (innMembers[innIndex].character.name != ExpectedInnNames[innIndex])
+                {
+                    failure = "startup adventurers inn member " + std::to_string(innIndex) + " mismatch";
+                    return false;
+                }
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "app_adventurers_inn_house_opens_character_overlay",
+        [&](std::string &failure)
+        {
+            GameApplication application(m_config);
+
+            if (!GameApplicationTestAccess::loadGameData(application, assetFileSystem))
+            {
+                failure = "could not load gameplay data";
+                return false;
+            }
+
+            if (!GameApplicationTestAccess::initializeStartupSession(application, false))
+            {
+                failure = "could not initialize startup session";
+                return false;
+            }
+
+            OutdoorWorldRuntime *pWorldRuntime = GameApplicationTestAccess::outdoorWorldRuntime(application);
+            OutdoorPartyRuntime *pPartyRuntime = GameApplicationTestAccess::outdoorPartyRuntime(application);
+
+            if (pWorldRuntime == nullptr || pPartyRuntime == nullptr)
+            {
+                failure = "startup session did not initialize outdoor runtime";
+                return false;
+            }
+
+            EventRuntimeState *pEventRuntimeState = pWorldRuntime->eventRuntimeState();
+
+            if (pEventRuntimeState == nullptr)
+            {
+                failure = "missing event runtime state";
+                return false;
+            }
+
+            EventRuntimeState::PendingDialogueContext context = {};
+            context.kind = DialogueContextKind::HouseService;
+            context.sourceId = AdventurersInnHouseId;
+            context.hostHouseId = AdventurersInnHouseId;
+            pEventRuntimeState->pendingDialogueContext = context;
+            GameApplicationTestAccess::openPendingEventDialog(application, pEventRuntimeState->messages.size(), true);
+
+            if (GameApplicationTestAccess::hasActiveEventDialog(application))
+            {
+                failure = "adventurers inn house should open overlay instead of a house dialog";
+                return false;
+            }
+
+            const GameplayUiController::CharacterScreenState &characterScreen =
+                GameApplicationTestAccess::characterScreen(application);
+
+            if (!characterScreen.open
+                || !characterScreen.adventurersInnRosterOverlayOpen
+                || characterScreen.source != GameplayUiController::CharacterScreenSource::AdventurersInn)
+            {
+                failure = "adventurers inn overlay did not open with expected state";
+                return false;
+            }
+
+            if (pPartyRuntime->party().adventurersInnMembers().size() != 2)
+            {
+                failure = "startup adventurers inn seed was not available when opening the house";
+                return false;
             }
 
             return true;
