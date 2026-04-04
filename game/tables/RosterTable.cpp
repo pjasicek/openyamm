@@ -95,6 +95,7 @@ bool RosterTable::loadFromRows(const std::vector<std::vector<std::string>> &rows
         entry.id = id;
         entry.name = row[1];
         entry.className = row[2];
+        entry.blurb = row.size() > 123 ? row[123] : "";
 
         if (entry.name.empty() || entry.name == "Placeholder")
         {

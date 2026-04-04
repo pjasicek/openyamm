@@ -3,6 +3,7 @@
 #include <physfs.h>
 
 #include <algorithm>
+#include <array>
 #include <cstdint>
 #include <iostream>
 #include <memory>
@@ -12,6 +13,12 @@ namespace OpenYAMM::Engine
 {
 namespace
 {
+constexpr std::array<const char *, 3> TieredAssetDirectories = {
+    "Data/bitmaps",
+    "Data/sprites",
+    "Data/icons"
+};
+
 struct PhysicsFsListDeleter
 {
     void operator()(char **pList) const
@@ -26,6 +33,7 @@ struct PhysicsFsListDeleter
 
 AssetFileSystem::AssetFileSystem()
     : m_isInitialized(false)
+    , m_assetScaleTier(AssetScaleTier::X1)
 {
 }
 
@@ -34,7 +42,10 @@ AssetFileSystem::~AssetFileSystem()
     shutdown();
 }
 
-bool AssetFileSystem::initialize(const std::filesystem::path &basePath, const std::filesystem::path &assetRoot)
+bool AssetFileSystem::initialize(
+    const std::filesystem::path &basePath,
+    const std::filesystem::path &assetRoot,
+    AssetScaleTier assetScaleTier)
 {
     shutdown();
 
@@ -45,6 +56,13 @@ bool AssetFileSystem::initialize(const std::filesystem::path &basePath, const st
     }
 
     m_isInitialized = true;
+    m_assetScaleTier = assetScaleTier;
+
+    if (!validateTierDirectories(assetRoot))
+    {
+        shutdown();
+        return false;
+    }
 
     if (!mountDevelopmentRoot(assetRoot))
     {
@@ -86,8 +104,8 @@ bool AssetFileSystem::exists(const std::string &virtualPath) const
         return false;
     }
 
-    const std::string normalizedPath = normalizeVirtualPath(virtualPath);
-    return PHYSFS_exists(normalizedPath.c_str()) != 0;
+    const std::string resolvedPath = resolveVirtualPath(virtualPath);
+    return PHYSFS_exists(resolvedPath.c_str()) != 0;
 }
 
 std::vector<std::string> AssetFileSystem::enumerate(const std::string &virtualPath) const
@@ -99,8 +117,8 @@ std::vector<std::string> AssetFileSystem::enumerate(const std::string &virtualPa
         return entries;
     }
 
-    const std::string normalizedPath = normalizeVirtualPath(virtualPath);
-    char **pEnumeratedEntries = PHYSFS_enumerateFiles(normalizedPath.c_str());
+    const std::string resolvedPath = resolveVirtualPath(virtualPath);
+    char **pEnumeratedEntries = PHYSFS_enumerateFiles(resolvedPath.c_str());
     std::unique_ptr<char *, PhysicsFsListDeleter> pEntryList(pEnumeratedEntries);
 
     if (pEnumeratedEntries == nullptr)
@@ -136,8 +154,8 @@ std::optional<std::vector<uint8_t>> AssetFileSystem::readBinaryFile(const std::s
         return std::nullopt;
     }
 
-    const std::string normalizedPath = normalizeVirtualPath(virtualPath);
-    PHYSFS_File *pFile = PHYSFS_openRead(normalizedPath.c_str());
+    const std::string resolvedPath = resolveVirtualPath(virtualPath);
+    PHYSFS_File *pFile = PHYSFS_openRead(resolvedPath.c_str());
 
     if (pFile == nullptr)
     {
@@ -194,6 +212,11 @@ const std::filesystem::path &AssetFileSystem::getDevelopmentRoot() const
     return m_developmentRoot;
 }
 
+AssetScaleTier AssetFileSystem::getAssetScaleTier() const
+{
+    return m_assetScaleTier;
+}
+
 void AssetFileSystem::shutdown()
 {
     if (!isInitialized())
@@ -204,11 +227,49 @@ void AssetFileSystem::shutdown()
     PHYSFS_deinit();
     m_isInitialized = false;
     m_developmentRoot.clear();
+    m_assetScaleTier = AssetScaleTier::X1;
 }
 
 bool AssetFileSystem::isInitialized() const
 {
     return m_isInitialized;
+}
+
+bool AssetFileSystem::validateTierDirectories(const std::filesystem::path &assetRoot) const
+{
+    if (m_assetScaleTier == AssetScaleTier::X1)
+    {
+        return true;
+    }
+
+    const std::string directorySuffix = assetScaleTierDirectorySuffix(m_assetScaleTier);
+
+    for (const char *pCanonicalDirectory : TieredAssetDirectories)
+    {
+        const std::filesystem::path tieredDirectory =
+            assetRoot / std::filesystem::path(std::string(pCanonicalDirectory) + directorySuffix);
+
+        if (!std::filesystem::exists(tieredDirectory))
+        {
+            std::cerr << "Selected asset tier " << assetScaleTierToString(m_assetScaleTier)
+                      << " is missing required directory: " << tieredDirectory << '\n';
+            return false;
+        }
+
+        if (!std::filesystem::is_directory(tieredDirectory))
+        {
+            std::cerr << "Selected asset tier path is not a directory: " << tieredDirectory << '\n';
+            return false;
+        }
+    }
+
+    return true;
+}
+
+std::string AssetFileSystem::resolveVirtualPath(const std::string &virtualPath) const
+{
+    const std::string normalizedPath = normalizeVirtualPath(virtualPath);
+    return remapTieredVirtualPath(normalizedPath, m_assetScaleTier);
 }
 
 std::string AssetFileSystem::normalizeVirtualPath(const std::string &virtualPath)
@@ -222,5 +283,34 @@ std::string AssetFileSystem::normalizeVirtualPath(const std::string &virtualPath
     }
 
     return normalizedPath;
+}
+
+std::string AssetFileSystem::remapTieredVirtualPath(const std::string &virtualPath, AssetScaleTier assetScaleTier)
+{
+    if (assetScaleTier == AssetScaleTier::X1)
+    {
+        return virtualPath;
+    }
+
+    const std::string directorySuffix = assetScaleTierDirectorySuffix(assetScaleTier);
+
+    for (const char *pCanonicalDirectory : TieredAssetDirectories)
+    {
+        const std::string canonicalDirectory = pCanonicalDirectory;
+
+        if (virtualPath == canonicalDirectory)
+        {
+            return canonicalDirectory + directorySuffix;
+        }
+
+        const std::string directoryPrefix = canonicalDirectory + "/";
+
+        if (virtualPath.starts_with(directoryPrefix))
+        {
+            return canonicalDirectory + directorySuffix + virtualPath.substr(canonicalDirectory.size());
+        }
+    }
+
+    return virtualPath;
 }
 }

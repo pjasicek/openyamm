@@ -523,8 +523,10 @@ void appendIndoorScriptTextures(
 
         OutdoorBitmapTexture texture = {};
         texture.textureName = textureName;
-        texture.width = textureWidth;
-        texture.height = textureHeight;
+        texture.width = Engine::scalePhysicalPixelsToLogical(textureWidth, assetFileSystem.getAssetScaleTier());
+        texture.height = Engine::scalePhysicalPixelsToLogical(textureHeight, assetFileSystem.getAssetScaleTier());
+        texture.physicalWidth = textureWidth;
+        texture.physicalHeight = textureHeight;
         texture.pixels = *pixels;
         indoorTextureSet->textures.push_back(std::move(texture));
     }

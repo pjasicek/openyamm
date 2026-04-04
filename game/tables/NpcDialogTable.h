@@ -75,6 +75,7 @@ public:
     void resolveSpecialTopics(const RosterTable &rosterTable);
 
     const NpcEntry *getNpc(uint32_t npcId) const;
+    const NpcEntry *findNpcByName(const std::string &name) const;
     const NpcGreetingEntry *getGreetingForNpc(uint32_t npcId) const;
     std::vector<ResolvedTopic> getTopicsForNpc(
         uint32_t npcId,

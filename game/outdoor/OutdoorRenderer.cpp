@@ -784,8 +784,8 @@ void OutdoorRenderer::createBModelTextureBatches(
                     texturedBModelVertices.size() * sizeof(OutdoorGameView::TexturedTerrainVertex))),
             OutdoorGameView::TexturedTerrainVertex::ms_layout);
         batch.textureHandle = bgfx::createTexture2D(
-            static_cast<uint16_t>(texture.width),
-            static_cast<uint16_t>(texture.height),
+            static_cast<uint16_t>(texture.physicalWidth),
+            static_cast<uint16_t>(texture.physicalHeight),
             false,
             1,
             bgfx::TextureFormat::BGRA8,
@@ -1028,11 +1028,17 @@ const OutdoorGameView::SkyTextureHandle *OutdoorRenderer::ensureSkyTexture(
 
     OutdoorGameView::SkyTextureHandle textureHandle = {};
     textureHandle.textureName = normalizedTextureName;
-    textureHandle.width = textureWidth;
-    textureHandle.height = textureHeight;
+    textureHandle.width = Engine::scalePhysicalPixelsToLogical(
+        textureWidth,
+        view.m_pAssetFileSystem != nullptr ? view.m_pAssetFileSystem->getAssetScaleTier() : Engine::AssetScaleTier::X1);
+    textureHandle.height = Engine::scalePhysicalPixelsToLogical(
+        textureHeight,
+        view.m_pAssetFileSystem != nullptr ? view.m_pAssetFileSystem->getAssetScaleTier() : Engine::AssetScaleTier::X1);
+    textureHandle.physicalWidth = textureWidth;
+    textureHandle.physicalHeight = textureHeight;
     textureHandle.textureHandle = bgfx::createTexture2D(
-        static_cast<uint16_t>(textureHandle.width),
-        static_cast<uint16_t>(textureHandle.height),
+        static_cast<uint16_t>(textureHandle.physicalWidth),
+        static_cast<uint16_t>(textureHandle.physicalHeight),
         false,
         1,
         bgfx::TextureFormat::BGRA8,

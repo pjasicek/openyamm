@@ -20,6 +20,35 @@ namespace OpenYAMM::Game
 namespace
 {
 constexpr float Pi = 3.14159265358979323846f;
+
+void seedSimulatedAdventurersInn(
+    Party &party,
+    const RosterTable &rosterTable,
+    const NpcDialogTable &npcDialogTable,
+    std::optional<uint32_t> selectedRosterId)
+{
+    party.clearAdventurersInnMembers();
+
+    size_t seededCount = 0;
+
+    for (const RosterEntry *pEntry : rosterTable.getEntriesSortedById())
+    {
+        if (pEntry == nullptr || pEntry->id == 2 || (selectedRosterId && pEntry->id == *selectedRosterId))
+        {
+            continue;
+        }
+
+        const NpcEntry *pNpcEntry = npcDialogTable.findNpcByName(pEntry->name);
+        const uint32_t innPortraitPictureId = pNpcEntry != nullptr ? pNpcEntry->pictureId : 0;
+        party.addAdventurersInnMember(*pEntry, innPortraitPictureId);
+        ++seededCount;
+
+        if (seededCount >= 5)
+        {
+            break;
+        }
+    }
+}
 }
 
 GameApplication::GameApplication(const Engine::ApplicationConfig &config)
@@ -276,6 +305,7 @@ bool GameApplication::initializeSelectedMapRuntime(bool initializeView)
 
         if (initializeView
             && !m_indoorDebugRenderer.initialize(
+                m_pAssetFileSystem != nullptr ? m_pAssetFileSystem->getAssetScaleTier() : Engine::AssetScaleTier::X1,
                 selectedMap->map,
                 m_gameDataLoader.getMonsterTable(),
                 *selectedMap->indoorMapData,
@@ -745,6 +775,15 @@ bool GameApplication::startNewSession(std::optional<uint32_t> rosterId, bool ini
 
     if (!rosterId.has_value() || m_pOutdoorPartyRuntime == nullptr)
     {
+        if (m_pOutdoorPartyRuntime != nullptr)
+        {
+            seedSimulatedAdventurersInn(
+                m_pOutdoorPartyRuntime->party(),
+                m_gameDataLoader.getRosterTable(),
+                m_gameDataLoader.getNpcDialogTable(),
+                std::nullopt);
+        }
+
         synchronizeSessionFromRuntime();
         return true;
     }
@@ -753,11 +792,21 @@ bool GameApplication::startNewSession(std::optional<uint32_t> rosterId, bool ini
 
     if (pRosterEntry == nullptr)
     {
+        seedSimulatedAdventurersInn(
+            m_pOutdoorPartyRuntime->party(),
+            m_gameDataLoader.getRosterTable(),
+            m_gameDataLoader.getNpcDialogTable(),
+            std::nullopt);
         synchronizeSessionFromRuntime();
         return true;
     }
 
     m_pOutdoorPartyRuntime->party().replaceMemberWithRosterEntry(0, *pRosterEntry);
+    seedSimulatedAdventurersInn(
+        m_pOutdoorPartyRuntime->party(),
+        m_gameDataLoader.getRosterTable(),
+        m_gameDataLoader.getNpcDialogTable(),
+        rosterId);
     synchronizeSessionFromRuntime();
     return true;
 }

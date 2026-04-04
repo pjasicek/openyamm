@@ -56,6 +56,8 @@ struct OutdoorBitmapTexture
     int16_t paletteId = 0;
     int width = 0;
     int height = 0;
+    int physicalWidth = 0;
+    int physicalHeight = 0;
     std::vector<uint8_t> pixels;
 };
 

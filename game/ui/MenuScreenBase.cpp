@@ -1048,8 +1048,10 @@ const MenuScreenBase::TextureHandle *MenuScreenBase::ensureTexture(const std::st
 
     TextureHandle textureHandle = {};
     textureHandle.normalizedTextureName = toLowerCopy(textureName);
-    textureHandle.width = width;
-    textureHandle.height = height;
+    textureHandle.width = Engine::scalePhysicalPixelsToLogical(width, m_pAssetFileSystem->getAssetScaleTier());
+    textureHandle.height = Engine::scalePhysicalPixelsToLogical(height, m_pAssetFileSystem->getAssetScaleTier());
+    textureHandle.physicalWidth = width;
+    textureHandle.physicalHeight = height;
     textureHandle.bgraPixels = *pixels;
     textureHandle.handle = bgfx::createTexture2D(
         static_cast<uint16_t>(width),
@@ -1240,7 +1242,7 @@ bgfx::TextureHandle MenuScreenBase::ensureTextureColor(const TextureHandle &text
         }
     }
 
-    if (texture.bgraPixels.empty() || texture.width <= 0 || texture.height <= 0)
+    if (texture.bgraPixels.empty() || texture.physicalWidth <= 0 || texture.physicalHeight <= 0)
     {
         return BGFX_INVALID_HANDLE;
     }
@@ -1270,8 +1272,8 @@ bgfx::TextureHandle MenuScreenBase::ensureTextureColor(const TextureHandle &text
     }
 
     const bgfx::TextureHandle textureHandle = bgfx::createTexture2D(
-        static_cast<uint16_t>(texture.width),
-        static_cast<uint16_t>(texture.height),
+        static_cast<uint16_t>(texture.physicalWidth),
+        static_cast<uint16_t>(texture.physicalHeight),
         false,
         1,
         bgfx::TextureFormat::BGRA8,

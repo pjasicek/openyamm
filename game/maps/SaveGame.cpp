@@ -13,7 +13,7 @@ namespace OpenYAMM::Game
 {
 namespace
 {
-constexpr uint32_t SaveVersion = 10;
+constexpr uint32_t SaveVersion = 11;
 constexpr char SaveMagic[8] = {'O', 'Y', 'S', 'A', 'V', 'E', '1', '\0'};
 uint32_t g_loadedSaveVersion = SaveVersion;
 
@@ -733,9 +733,22 @@ bool readValue(BinaryReader &reader, Party::HouseStockState &value)
         && readValue(reader, value.spellbookStock);
 }
 
+void writeValue(BinaryWriter &writer, const AdventurersInnMember &value)
+{
+    writeValue(writer, value.character);
+    writeValue(writer, value.portraitPictureId);
+}
+
+bool readValue(BinaryReader &reader, AdventurersInnMember &value)
+{
+    return readValue(reader, value.character)
+        && readValue(reader, value.portraitPictureId);
+}
+
 void writeValue(BinaryWriter &writer, const Party::Snapshot &value)
 {
     writeValue(writer, value.members);
+    writeValue(writer, value.adventurersInnMembers);
     writeValue(writer, value.activeMemberIndex);
     writeValue(writer, value.partyBuffs);
     writeValue(writer, value.characterBuffs);
@@ -760,6 +773,7 @@ void writeValue(BinaryWriter &writer, const Party::Snapshot &value)
 bool readValue(BinaryReader &reader, Party::Snapshot &value)
 {
     const bool decoded = readValue(reader, value.members)
+        && (g_loadedSaveVersion < 11 || readValue(reader, value.adventurersInnMembers))
         && readValue(reader, value.activeMemberIndex)
         && readValue(reader, value.partyBuffs)
         && readValue(reader, value.characterBuffs)
@@ -1949,7 +1963,7 @@ std::optional<GameSaveData> loadGameDataFromPath(const std::filesystem::path &pa
         return std::nullopt;
     }
 
-    if (version != 8 && version != 9 && version != SaveVersion)
+    if (version != 8 && version != 9 && version != 10 && version != SaveVersion)
     {
         error = "unsupported save version";
         return std::nullopt;

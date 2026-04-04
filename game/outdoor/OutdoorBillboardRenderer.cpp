@@ -190,9 +190,11 @@ void OutdoorBillboardRenderer::initializeBillboardResources(OutdoorGameView &vie
             billboardTexture.paletteId = texture.paletteId;
             billboardTexture.width = texture.width;
             billboardTexture.height = texture.height;
+            billboardTexture.physicalWidth = texture.physicalWidth;
+            billboardTexture.physicalHeight = texture.physicalHeight;
             billboardTexture.textureHandle = bgfx::createTexture2D(
-                static_cast<uint16_t>(texture.width),
-                static_cast<uint16_t>(texture.height),
+                static_cast<uint16_t>(texture.physicalWidth),
+                static_cast<uint16_t>(texture.physicalHeight),
                 false,
                 1,
                 bgfx::TextureFormat::BGRA8,
@@ -240,9 +242,11 @@ void OutdoorBillboardRenderer::initializeBillboardResources(OutdoorGameView &vie
         billboardTexture.paletteId = texture.paletteId;
         billboardTexture.width = texture.width;
         billboardTexture.height = texture.height;
+        billboardTexture.physicalWidth = texture.physicalWidth;
+        billboardTexture.physicalHeight = texture.physicalHeight;
         billboardTexture.textureHandle = bgfx::createTexture2D(
-            static_cast<uint16_t>(texture.width),
-            static_cast<uint16_t>(texture.height),
+            static_cast<uint16_t>(texture.physicalWidth),
+            static_cast<uint16_t>(texture.physicalHeight),
             false,
             1,
             bgfx::TextureFormat::BGRA8,
@@ -436,6 +440,7 @@ void OutdoorBillboardRenderer::preloadPendingSpriteFrameWarmupsParallel(OutdoorG
         return;
     }
 
+    const Engine::AssetScaleTier assetScaleTier = view.m_pAssetFileSystem->getAssetScaleTier();
     const SpriteFrameTable *pSpriteFrameTable = nullptr;
 
     if (view.m_outdoorActorPreviewBillboardSet)
@@ -627,8 +632,10 @@ void OutdoorBillboardRenderer::preloadPendingSpriteFrameWarmupsParallel(OutdoorG
         OutdoorGameView::BillboardTextureHandle billboardTexture = {};
         billboardTexture.textureName = decodedTexture.textureName;
         billboardTexture.paletteId = decodedTexture.paletteId;
-        billboardTexture.width = decodedTexture.width;
-        billboardTexture.height = decodedTexture.height;
+        billboardTexture.width = Engine::scalePhysicalPixelsToLogical(decodedTexture.width, assetScaleTier);
+        billboardTexture.height = Engine::scalePhysicalPixelsToLogical(decodedTexture.height, assetScaleTier);
+        billboardTexture.physicalWidth = decodedTexture.width;
+        billboardTexture.physicalHeight = decodedTexture.height;
         billboardTexture.textureHandle = bgfx::createTexture2D(
             static_cast<uint16_t>(decodedTexture.width),
             static_cast<uint16_t>(decodedTexture.height),
@@ -748,8 +755,11 @@ const OutdoorGameView::BillboardTextureHandle *OutdoorBillboardRenderer::ensureS
     OutdoorGameView::BillboardTextureHandle billboardTexture = {};
     billboardTexture.textureName = toLowerCopy(textureName);
     billboardTexture.paletteId = paletteId;
-    billboardTexture.width = textureWidth;
-    billboardTexture.height = textureHeight;
+    billboardTexture.width = Engine::scalePhysicalPixelsToLogical(textureWidth, view.m_pAssetFileSystem->getAssetScaleTier());
+    billboardTexture.height =
+        Engine::scalePhysicalPixelsToLogical(textureHeight, view.m_pAssetFileSystem->getAssetScaleTier());
+    billboardTexture.physicalWidth = textureWidth;
+    billboardTexture.physicalHeight = textureHeight;
     billboardTexture.textureHandle = bgfx::createTexture2D(
         static_cast<uint16_t>(textureWidth),
         static_cast<uint16_t>(textureHeight),

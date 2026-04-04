@@ -107,6 +107,8 @@ private:
         std::string normalizedTextureName;
         int width = 0;
         int height = 0;
+        int physicalWidth = 0;
+        int physicalHeight = 0;
         std::vector<uint8_t> bgraPixels;
         bgfx::TextureHandle handle = BGFX_INVALID_HANDLE;
     };

@@ -163,6 +163,8 @@ bool loadBitmapDimensions(
 
     width = bitmapWidth;
     height = std::abs(bitmapHeight);
+    width = Engine::scalePhysicalPixelsToLogical(width, assetFileSystem.getAssetScaleTier());
+    height = Engine::scalePhysicalPixelsToLogical(height, assetFileSystem.getAssetScaleTier());
     virtualPath = foundPath->second;
     return true;
 }

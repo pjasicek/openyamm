@@ -169,6 +169,10 @@ void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view
                         if (isGameplayInventoryDoubleClick)
                         {
                             view.m_characterScreenOpen = true;
+                            view.m_adventurersInnRosterOverlayOpen = false;
+                            view.m_characterScreenSource = OutdoorGameView::CharacterScreenSource::Party;
+                            view.m_characterScreenSourceIndex = 0;
+                            view.m_adventurersInnScrollOffset = 0;
                             view.m_characterPage = OutdoorGameView::CharacterPage::Inventory;
                             view.m_characterDollJewelryOverlayOpen = false;
                         }
@@ -214,6 +218,47 @@ void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view
         view.m_spellbookToggleLatch = false;
     }
 
+    const bool canToggleAdventurersInn =
+        !isEventDialogActive
+        && !hasActiveLootView
+        && !hasPendingSpellCast
+        && !view.m_spellbook.active
+        && !view.m_heldInventoryItem.active;
+
+    if (canToggleAdventurersInn && pKeyboardState[SDL_SCANCODE_P])
+    {
+        if (!view.m_adventurersInnToggleLatch)
+        {
+            if (view.isAdventurersInnCharacterSourceActive())
+            {
+                view.m_characterScreenOpen = false;
+                view.m_characterDollJewelryOverlayOpen = false;
+                view.m_adventurersInnRosterOverlayOpen = false;
+            }
+            else if (view.m_pOutdoorPartyRuntime != nullptr
+                && !view.m_pOutdoorPartyRuntime->party().adventurersInnMembers().empty())
+            {
+                view.m_characterScreenOpen = true;
+                view.m_adventurersInnRosterOverlayOpen = true;
+                view.m_characterScreenSource = OutdoorGameView::CharacterScreenSource::AdventurersInn;
+                view.m_characterScreenSourceIndex = 0;
+                view.m_adventurersInnScrollOffset = 0;
+                view.m_characterPage = OutdoorGameView::CharacterPage::Inventory;
+                view.m_characterDollJewelryOverlayOpen = false;
+            }
+            else
+            {
+                view.setStatusBarEvent("The Adventurer's Inn is empty.");
+            }
+
+            view.m_adventurersInnToggleLatch = true;
+        }
+    }
+    else
+    {
+        view.m_adventurersInnToggleLatch = false;
+    }
+
     if (!isEventDialogActive)
     {
         if (pKeyboardState[SDL_SCANCODE_I])
@@ -237,12 +282,17 @@ void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view
 
                     if (view.m_characterScreenOpen)
                     {
+                        view.m_adventurersInnRosterOverlayOpen = false;
+                        view.m_characterScreenSource = OutdoorGameView::CharacterScreenSource::Party;
+                        view.m_characterScreenSourceIndex = 0;
+                        view.m_adventurersInnScrollOffset = 0;
                         view.m_characterPage = OutdoorGameView::CharacterPage::Inventory;
                         view.m_characterDollJewelryOverlayOpen = false;
                     }
                     else
                     {
                         view.m_characterDollJewelryOverlayOpen = false;
+                        view.m_adventurersInnRosterOverlayOpen = false;
                     }
                 }
 

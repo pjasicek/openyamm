@@ -129,6 +129,12 @@ struct Character
     std::vector<InventoryItem> inventory;
 };
 
+struct AdventurersInnMember
+{
+    Character character = {};
+    uint32_t portraitPictureId = 0;
+};
+
 struct PartySeed
 {
     std::vector<Character> members;
@@ -230,6 +236,7 @@ public:
     struct Snapshot
     {
         std::vector<Character> members;
+        std::vector<AdventurersInnMember> adventurersInnMembers;
         size_t activeMemberIndex = 0;
         std::array<PartyBuffState, PartyBuffCount> partyBuffs = {};
         std::array<std::array<CharacterBuffState, CharacterBuffCount>, 5> characterBuffs = {};
@@ -309,6 +316,9 @@ public:
     int withdrawAllBankGold();
     bool isFull() const;
     bool recruitRosterMember(const RosterEntry &rosterEntry);
+    bool addAdventurersInnMember(const RosterEntry &rosterEntry, uint32_t portraitPictureId);
+    bool addAdventurersInnMember(const Character &character, uint32_t portraitPictureId);
+    bool hireAdventurersInnMember(size_t innIndex);
     bool replaceMemberWithRosterEntry(size_t memberIndex, const RosterEntry &rosterEntry);
     bool hasRosterMember(uint32_t rosterId) const;
     bool hasAward(uint32_t awardId) const;
@@ -421,6 +431,12 @@ public:
     bool reviveMember(size_t memberIndex, int health, bool applyWeak);
 
     const std::vector<Character> &members() const;
+    const std::vector<AdventurersInnMember> &adventurersInnMembers() const;
+    const AdventurersInnMember *adventurersInnMember(size_t innIndex) const;
+    AdventurersInnMember *adventurersInnMember(size_t innIndex);
+    const Character *adventurersInnCharacter(size_t innIndex) const;
+    Character *adventurersInnCharacter(size_t innIndex);
+    void clearAdventurersInnMembers();
     const Character *activeMember() const;
     Character *activeMember();
     size_t activeMemberIndex() const;
@@ -471,6 +487,7 @@ private:
     const SpecialItemEnchantTable *m_pSpecialItemEnchantTable = nullptr;
     const ClassSkillTable *m_pClassSkillTable = nullptr;
     std::vector<Character> m_members;
+    std::vector<AdventurersInnMember> m_adventurersInnMembers;
     size_t m_activeMemberIndex = 0;
     std::array<PartyBuffState, PartyBuffCount> m_partyBuffs = {};
     std::array<std::array<CharacterBuffState, CharacterBuffCount>, MaxMembers> m_characterBuffs = {};

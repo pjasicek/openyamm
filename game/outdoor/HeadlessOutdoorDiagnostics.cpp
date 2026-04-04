@@ -659,17 +659,17 @@ const OutdoorBitmapTexture *findBillboardTexture(
 
 bool saveTextureAsPng(const OutdoorBitmapTexture &texture, const std::filesystem::path &outputPath)
 {
-    if (texture.width <= 0 || texture.height <= 0 || texture.pixels.empty())
+    if (texture.physicalWidth <= 0 || texture.physicalHeight <= 0 || texture.pixels.empty())
     {
         return false;
     }
 
     SDL_Surface *pSurface = SDL_CreateSurfaceFrom(
-        texture.width,
-        texture.height,
+        texture.physicalWidth,
+        texture.physicalHeight,
         SDL_PIXELFORMAT_BGRA32,
         const_cast<uint8_t *>(texture.pixels.data()),
-        texture.width * 4);
+        texture.physicalWidth * 4);
 
     if (pSurface == nullptr)
     {
@@ -2115,7 +2115,7 @@ int HeadlessOutdoorDiagnostics::runProfileFullMapLoad(
 {
     Engine::AssetFileSystem assetFileSystem;
 
-    if (!assetFileSystem.initialize(basePath, m_config.assetRoot))
+    if (!assetFileSystem.initialize(basePath, m_config.assetRoot, m_config.assetScaleTier))
     {
         std::cerr << "Headless diagnostic failed: could not initialize asset file system\n";
         return 1;
@@ -2159,7 +2159,7 @@ int HeadlessOutdoorDiagnostics::runSimulateActor(
 {
     Engine::AssetFileSystem assetFileSystem;
 
-    if (!assetFileSystem.initialize(basePath, m_config.assetRoot))
+    if (!assetFileSystem.initialize(basePath, m_config.assetRoot, m_config.assetScaleTier))
     {
         std::cerr << "Headless diagnostic failed: could not initialize asset file system\n";
         return 1;
@@ -2275,7 +2275,7 @@ int HeadlessOutdoorDiagnostics::runTraceActorAi(
 {
     Engine::AssetFileSystem assetFileSystem;
 
-    if (!assetFileSystem.initialize(basePath, m_config.assetRoot))
+    if (!assetFileSystem.initialize(basePath, m_config.assetRoot, m_config.assetScaleTier))
     {
         std::cerr << "Headless diagnostic failed: could not initialize asset file system\n";
         return 1;
@@ -2429,7 +2429,7 @@ int HeadlessOutdoorDiagnostics::runInspectActorPreview(
 {
     Engine::AssetFileSystem assetFileSystem;
 
-    if (!assetFileSystem.initialize(basePath, m_config.assetRoot))
+    if (!assetFileSystem.initialize(basePath, m_config.assetRoot, m_config.assetScaleTier))
     {
         std::cerr << "Headless diagnostic failed: could not initialize asset file system\n";
         return 1;
@@ -2543,7 +2543,7 @@ int HeadlessOutdoorDiagnostics::runDumpActorSupport(
 {
     Engine::AssetFileSystem assetFileSystem;
 
-    if (!assetFileSystem.initialize(basePath, m_config.assetRoot))
+    if (!assetFileSystem.initialize(basePath, m_config.assetRoot, m_config.assetScaleTier))
     {
         std::cerr << "Headless diagnostic failed: could not initialize asset file system\n";
         return 1;
@@ -2681,7 +2681,7 @@ int HeadlessOutdoorDiagnostics::runDumpActorPreviewTexture(
 {
     Engine::AssetFileSystem assetFileSystem;
 
-    if (!assetFileSystem.initialize(basePath, m_config.assetRoot))
+    if (!assetFileSystem.initialize(basePath, m_config.assetRoot, m_config.assetScaleTier))
     {
         std::cerr << "Headless diagnostic failed: could not initialize asset file system\n";
         return 1;
@@ -2769,7 +2769,7 @@ int HeadlessOutdoorDiagnostics::runOpenEvent(
 {
     Engine::AssetFileSystem assetFileSystem;
 
-    if (!assetFileSystem.initialize(basePath, m_config.assetRoot))
+    if (!assetFileSystem.initialize(basePath, m_config.assetRoot, m_config.assetScaleTier))
     {
         std::cerr << "Headless diagnostic failed: could not initialize asset file system\n";
         return 1;
@@ -2987,7 +2987,7 @@ int HeadlessOutdoorDiagnostics::runOpenActor(
 {
     Engine::AssetFileSystem assetFileSystem;
 
-    if (!assetFileSystem.initialize(basePath, m_config.assetRoot))
+    if (!assetFileSystem.initialize(basePath, m_config.assetRoot, m_config.assetScaleTier))
     {
         std::cerr << "Headless diagnostic failed: could not initialize asset file system\n";
         return 1;
@@ -3150,7 +3150,7 @@ int HeadlessOutdoorDiagnostics::runDialogSequence(
 {
     Engine::AssetFileSystem assetFileSystem;
 
-    if (!assetFileSystem.initialize(basePath, m_config.assetRoot))
+    if (!assetFileSystem.initialize(basePath, m_config.assetRoot, m_config.assetScaleTier))
     {
         std::cerr << "Headless diagnostic failed: could not initialize asset file system\n";
         return 1;
@@ -3533,7 +3533,7 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
 
     Engine::AssetFileSystem assetFileSystem;
 
-    if (!assetFileSystem.initialize(basePath, m_config.assetRoot))
+    if (!assetFileSystem.initialize(basePath, m_config.assetRoot, m_config.assetScaleTier))
     {
         std::cerr << "Regression suite failed: could not initialize asset file system\n";
         return 1;
@@ -4463,13 +4463,13 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
 
             const std::vector<Character> &members = party.members();
 
-            if (members.size() < 5)
+            if (members.size() < 4)
             {
                 failure = "default party member count too low";
                 return false;
             }
 
-            static constexpr std::array<uint32_t, 5> ExpectedPictureIds = {{2, 1, 20, 22, 24}};
+            static constexpr std::array<uint32_t, 4> ExpectedPictureIds = {{2, 1, 20, 22}};
 
             for (size_t memberIndex = 0; memberIndex < ExpectedPictureIds.size(); ++memberIndex)
             {
@@ -12608,6 +12608,133 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
     );
 
     runCase(
+        "adventurers_inn_hire_moves_character_into_party",
+        [&](std::string &failure)
+        {
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            const RosterEntry *pRosterEntry = gameDataLoader.getRosterTable().get(3);
+            const NpcEntry *pNpcEntry =
+                pRosterEntry != nullptr ? gameDataLoader.getNpcDialogTable().findNpcByName(pRosterEntry->name) : nullptr;
+
+            if (pRosterEntry == nullptr
+                || !scenario.party.addAdventurersInnMember(*pRosterEntry, pNpcEntry != nullptr ? pNpcEntry->pictureId : 0))
+            {
+                failure = "could not add inn member";
+                return false;
+            }
+
+            const size_t initialPartyCount = scenario.party.members().size();
+
+            if (!scenario.party.hireAdventurersInnMember(0))
+            {
+                failure = "could not hire inn member";
+                return false;
+            }
+
+            if (scenario.party.members().size() != initialPartyCount + 1)
+            {
+                failure = "party size did not increase after hire";
+                return false;
+            }
+
+            if (!scenario.party.hasRosterMember(3))
+            {
+                failure = "hired roster member was not in party state";
+                return false;
+            }
+
+            if (!scenario.party.adventurersInnMembers().empty())
+            {
+                failure = "inn member was not removed after hire";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "adventurers_inn_roster_members_use_roster_portraits_and_identified_items",
+        [&](std::string &failure)
+        {
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            const RosterEntry *pRosterEntry = gameDataLoader.getRosterTable().get(1);
+
+            if (pRosterEntry == nullptr || !scenario.party.addAdventurersInnMember(*pRosterEntry, 1))
+            {
+                failure = "could not add Devlin to the inn";
+                return false;
+            }
+
+            const AdventurersInnMember *pInnMember = scenario.party.adventurersInnMember(0);
+
+            if (pInnMember == nullptr)
+            {
+                failure = "missing inn member after add";
+                return false;
+            }
+
+            if (pInnMember->portraitPictureId != 2909)
+            {
+                failure = "Devlin portrait picture id did not resolve to npc2909";
+                return false;
+            }
+
+            for (const InventoryItem &item : pInnMember->character.inventory)
+            {
+                if (!item.identified)
+                {
+                    failure = "inn inventory item was not identified";
+                    return false;
+                }
+            }
+
+            const auto runtimeIdentified =
+                [](const EquippedItemRuntimeState &runtimeState, uint32_t equippedItemId) -> bool
+                {
+                    return equippedItemId == 0 || runtimeState.identified;
+                };
+
+            if (!runtimeIdentified(pInnMember->character.equipmentRuntime.mainHand, pInnMember->character.equipment.mainHand)
+                || !runtimeIdentified(pInnMember->character.equipmentRuntime.offHand, pInnMember->character.equipment.offHand)
+                || !runtimeIdentified(pInnMember->character.equipmentRuntime.bow, pInnMember->character.equipment.bow)
+                || !runtimeIdentified(pInnMember->character.equipmentRuntime.armor, pInnMember->character.equipment.armor)
+                || !runtimeIdentified(pInnMember->character.equipmentRuntime.helm, pInnMember->character.equipment.helm)
+                || !runtimeIdentified(pInnMember->character.equipmentRuntime.belt, pInnMember->character.equipment.belt)
+                || !runtimeIdentified(pInnMember->character.equipmentRuntime.cloak, pInnMember->character.equipment.cloak)
+                || !runtimeIdentified(pInnMember->character.equipmentRuntime.gauntlets, pInnMember->character.equipment.gauntlets)
+                || !runtimeIdentified(pInnMember->character.equipmentRuntime.boots, pInnMember->character.equipment.boots)
+                || !runtimeIdentified(pInnMember->character.equipmentRuntime.amulet, pInnMember->character.equipment.amulet)
+                || !runtimeIdentified(pInnMember->character.equipmentRuntime.ring1, pInnMember->character.equipment.ring1)
+                || !runtimeIdentified(pInnMember->character.equipmentRuntime.ring2, pInnMember->character.equipment.ring2)
+                || !runtimeIdentified(pInnMember->character.equipmentRuntime.ring3, pInnMember->character.equipment.ring3)
+                || !runtimeIdentified(pInnMember->character.equipmentRuntime.ring4, pInnMember->character.equipment.ring4)
+                || !runtimeIdentified(pInnMember->character.equipmentRuntime.ring5, pInnMember->character.equipment.ring5)
+                || !runtimeIdentified(pInnMember->character.equipmentRuntime.ring6, pInnMember->character.equipment.ring6))
+            {
+                failure = "inn equipped item was not identified";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
         "roster_join_mapping_and_players_can_show_topic",
         [&](std::string &failure)
         {
@@ -13348,10 +13475,107 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
                 return false;
             }
 
-            if (pMember->inventory.empty())
+            const bool hasEquippedStartingItem =
+                pMember->equipment.mainHand != 0
+                || pMember->equipment.offHand != 0
+                || pMember->equipment.bow != 0
+                || pMember->equipment.armor != 0
+                || pMember->equipment.helm != 0
+                || pMember->equipment.belt != 0
+                || pMember->equipment.cloak != 0
+                || pMember->equipment.gauntlets != 0
+                || pMember->equipment.boots != 0
+                || pMember->equipment.amulet != 0
+                || pMember->equipment.ring1 != 0
+                || pMember->equipment.ring2 != 0
+                || pMember->equipment.ring3 != 0
+                || pMember->equipment.ring4 != 0
+                || pMember->equipment.ring5 != 0
+                || pMember->equipment.ring6 != 0;
+
+            if (pMember->inventory.empty() && !hasEquippedStartingItem)
             {
-                failure = "roster starting items not granted to inventory";
+                failure = "roster starting items not applied to inventory or equipment";
                 return false;
+            }
+
+            for (const InventoryItem &item : pMember->inventory)
+            {
+                if (!item.identified)
+                {
+                    failure = "roster inventory item was not identified";
+                    return false;
+                }
+            }
+
+            const auto runtimeIdentified =
+                [](const EquippedItemRuntimeState &runtimeState, uint32_t equippedItemId) -> bool
+                {
+                    return equippedItemId == 0 || runtimeState.identified;
+                };
+
+            if (!runtimeIdentified(pMember->equipmentRuntime.mainHand, pMember->equipment.mainHand)
+                || !runtimeIdentified(pMember->equipmentRuntime.offHand, pMember->equipment.offHand)
+                || !runtimeIdentified(pMember->equipmentRuntime.bow, pMember->equipment.bow)
+                || !runtimeIdentified(pMember->equipmentRuntime.armor, pMember->equipment.armor)
+                || !runtimeIdentified(pMember->equipmentRuntime.helm, pMember->equipment.helm)
+                || !runtimeIdentified(pMember->equipmentRuntime.belt, pMember->equipment.belt)
+                || !runtimeIdentified(pMember->equipmentRuntime.cloak, pMember->equipment.cloak)
+                || !runtimeIdentified(pMember->equipmentRuntime.gauntlets, pMember->equipment.gauntlets)
+                || !runtimeIdentified(pMember->equipmentRuntime.boots, pMember->equipment.boots)
+                || !runtimeIdentified(pMember->equipmentRuntime.amulet, pMember->equipment.amulet)
+                || !runtimeIdentified(pMember->equipmentRuntime.ring1, pMember->equipment.ring1)
+                || !runtimeIdentified(pMember->equipmentRuntime.ring2, pMember->equipment.ring2)
+                || !runtimeIdentified(pMember->equipmentRuntime.ring3, pMember->equipment.ring3)
+                || !runtimeIdentified(pMember->equipmentRuntime.ring4, pMember->equipment.ring4)
+                || !runtimeIdentified(pMember->equipmentRuntime.ring5, pMember->equipment.ring5)
+                || !runtimeIdentified(pMember->equipmentRuntime.ring6, pMember->equipment.ring6))
+            {
+                failure = "roster equipped item was not identified";
+                return false;
+            }
+
+            const auto hasStartingItem =
+                [pMember](uint32_t itemId) -> bool
+                {
+                    if (itemId == 0)
+                    {
+                        return false;
+                    }
+
+                    for (const InventoryItem &item : pMember->inventory)
+                    {
+                        if (item.objectDescriptionId == itemId)
+                        {
+                            return true;
+                        }
+                    }
+
+                    return pMember->equipment.mainHand == itemId
+                        || pMember->equipment.offHand == itemId
+                        || pMember->equipment.bow == itemId
+                        || pMember->equipment.armor == itemId
+                        || pMember->equipment.helm == itemId
+                        || pMember->equipment.belt == itemId
+                        || pMember->equipment.cloak == itemId
+                        || pMember->equipment.gauntlets == itemId
+                        || pMember->equipment.boots == itemId
+                        || pMember->equipment.amulet == itemId
+                        || pMember->equipment.ring1 == itemId
+                        || pMember->equipment.ring2 == itemId
+                        || pMember->equipment.ring3 == itemId
+                        || pMember->equipment.ring4 == itemId
+                        || pMember->equipment.ring5 == itemId
+                        || pMember->equipment.ring6 == itemId;
+                };
+
+            for (uint32_t itemId : pRosterEntry->startingInventoryItemIds)
+            {
+                if (!hasStartingItem(itemId))
+                {
+                    failure = "missing roster starting item " + std::to_string(itemId);
+                    return false;
+                }
             }
 
             return true;
@@ -14745,6 +14969,19 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
             pEventRuntimeState->variables[0x1234u] = 99;
             pEventRuntimeState->messages.push_back("save roundtrip");
 
+            const RosterEntry *pInnRosterEntry = gameDataLoader.getRosterTable().get(3);
+            const NpcEntry *pInnNpcEntry =
+                pInnRosterEntry != nullptr ? gameDataLoader.getNpcDialogTable().findNpcByName(pInnRosterEntry->name) : nullptr;
+
+            if (pInnRosterEntry == nullptr
+                || !scenario.party.addAdventurersInnMember(
+                    *pInnRosterEntry,
+                    pInnNpcEntry != nullptr ? pInnNpcEntry->pictureId : 0))
+            {
+                failure = "could not seed adventurer's inn before save";
+                return false;
+            }
+
             GameSaveData saveData = {};
             saveData.mapFileName = selectedMap->map.fileName;
             saveData.party = scenario.party.snapshot();
@@ -14866,6 +15103,16 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
                 || pRestoredShopState->spellbookStock.size() != 1)
             {
                 failure = "house stock state did not roundtrip";
+                return false;
+            }
+
+            const AdventurersInnMember *pRestoredInnMember = restoredParty.adventurersInnMember(0);
+
+            if (pRestoredInnMember == nullptr
+                || pRestoredInnMember->character.rosterId != 3
+                || pRestoredInnMember->character.name.empty())
+            {
+                failure = "adventurer's inn state did not roundtrip";
                 return false;
             }
 
@@ -16548,12 +16795,11 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
             }
 
             const std::vector<Character> &members = pPartyRuntime->party().members();
-            static constexpr std::array<const char *, 5> expectedNames = {
+            static constexpr std::array<const char *, 4> expectedNames = {
                 "Ariel",
                 "Leane",
                 "Arius",
-                "Overdune",
-                "Ithilgore"
+                "Overdune"
             };
 
             if (members.size() != expectedNames.size())

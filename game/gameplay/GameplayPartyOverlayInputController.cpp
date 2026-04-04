@@ -59,6 +59,7 @@ struct CharacterSkillUiRow
     std::string label;
     std::string level;
     bool upgradeable = false;
+    bool interactive = false;
 };
 
 struct CharacterSkillUiData
@@ -268,7 +269,8 @@ void appendCharacterSkillUiRows(
     std::vector<CharacterSkillUiRow> &rows,
     std::unordered_set<std::string> &shownSkillNames,
     const char *const *pSkillNames,
-    size_t skillCount)
+    size_t skillCount,
+    bool allowUpgradeInteraction)
 {
     for (size_t skillIndex = 0; skillIndex < skillCount; ++skillIndex)
     {
@@ -291,12 +293,13 @@ void appendCharacterSkillUiRows(
 
         row.level = std::to_string(pSkill->level);
         row.upgradeable = character.skillPoints > pSkill->level;
+        row.interactive = row.upgradeable && allowUpgradeInteraction;
         rows.push_back(std::move(row));
         shownSkillNames.insert(canonicalName);
     }
 }
 
-CharacterSkillUiData buildCharacterSkillUiData(const Character *pCharacter)
+CharacterSkillUiData buildCharacterSkillUiData(const Character *pCharacter, bool allowUpgradeInteraction)
 {
     CharacterSkillUiData data = {};
 
@@ -306,10 +309,34 @@ CharacterSkillUiData buildCharacterSkillUiData(const Character *pCharacter)
     }
 
     std::unordered_set<std::string> shownSkillNames;
-    appendCharacterSkillUiRows(*pCharacter, data.weaponRows, shownSkillNames, WeaponSkillNames, std::size(WeaponSkillNames));
-    appendCharacterSkillUiRows(*pCharacter, data.magicRows, shownSkillNames, MagicSkillNames, std::size(MagicSkillNames));
-    appendCharacterSkillUiRows(*pCharacter, data.armorRows, shownSkillNames, ArmorSkillNames, std::size(ArmorSkillNames));
-    appendCharacterSkillUiRows(*pCharacter, data.miscRows, shownSkillNames, MiscSkillNames, std::size(MiscSkillNames));
+    appendCharacterSkillUiRows(
+        *pCharacter,
+        data.weaponRows,
+        shownSkillNames,
+        WeaponSkillNames,
+        std::size(WeaponSkillNames),
+        allowUpgradeInteraction);
+    appendCharacterSkillUiRows(
+        *pCharacter,
+        data.magicRows,
+        shownSkillNames,
+        MagicSkillNames,
+        std::size(MagicSkillNames),
+        allowUpgradeInteraction);
+    appendCharacterSkillUiRows(
+        *pCharacter,
+        data.armorRows,
+        shownSkillNames,
+        ArmorSkillNames,
+        std::size(ArmorSkillNames),
+        allowUpgradeInteraction);
+    appendCharacterSkillUiRows(
+        *pCharacter,
+        data.miscRows,
+        shownSkillNames,
+        MiscSkillNames,
+        std::size(MiscSkillNames),
+        allowUpgradeInteraction);
 
     std::vector<CharacterSkillUiRow> extraMiscRows;
 
@@ -334,6 +361,7 @@ CharacterSkillUiData buildCharacterSkillUiData(const Character *pCharacter)
 
         row.level = std::to_string(skill.level);
         row.upgradeable = pCharacter->skillPoints > skill.level;
+        row.interactive = row.upgradeable && allowUpgradeInteraction;
         extraMiscRows.push_back(std::move(row));
     }
 
@@ -748,15 +776,16 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
     int screenWidth,
     int screenHeight)
 {
-    Character *pActiveCharacter =
-        view.m_pOutdoorPartyRuntime != nullptr ? view.m_pOutdoorPartyRuntime->party().activeMember() : nullptr;
+    Character *pActiveCharacter = view.selectedCharacterScreenCharacter();
+    const bool isAdventurersInnMode = view.isAdventurersInnScreenActive();
+    const bool isReadOnlyAdventurersInnView = view.isReadOnlyAdventurersInnCharacterViewActive();
     const CharacterDollEntry *pActiveCharacterDollEntry =
         resolveCharacterDollEntry(view.m_pCharacterDollTable, pActiveCharacter);
     const CharacterDollTypeEntry *pActiveCharacterDollType =
         pActiveCharacterDollEntry != nullptr && view.m_pCharacterDollTable != nullptr
             ? view.m_pCharacterDollTable->getDollType(pActiveCharacterDollEntry->dollTypeId)
             : nullptr;
-    const CharacterSkillUiData skillUiData = buildCharacterSkillUiData(pActiveCharacter);
+    const CharacterSkillUiData skillUiData = buildCharacterSkillUiData(pActiveCharacter, !isReadOnlyAdventurersInnView);
     const OutdoorGameView::HudFontHandle *pSkillRowFont = HudUiService::findHudFont(view, "Lucida");
     const float skillRowHeight = pSkillRowFont != nullptr
         ? static_cast<float>(std::max(1, pSkillRowFont->fontHeight - 3))
@@ -790,12 +819,273 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
         {
             view.m_characterScreenOpen = false;
             view.m_characterDollJewelryOverlayOpen = false;
+            view.m_adventurersInnRosterOverlayOpen = false;
             view.m_closeOverlayLatch = true;
         }
     }
     else
     {
         view.m_closeOverlayLatch = false;
+    }
+
+    if (isAdventurersInnMode)
+    {
+        constexpr size_t AdventurersInnVisibleColumns = 2;
+        constexpr size_t AdventurersInnVisibleRows = 4;
+        constexpr size_t AdventurersInnVisibleCount = AdventurersInnVisibleColumns * AdventurersInnVisibleRows;
+        constexpr float HudReferenceWidth = 640.0f;
+        constexpr float HudReferenceHeight = 480.0f;
+        constexpr float MaxUiViewportAspect = 4.0f / 3.0f;
+        constexpr float PortraitX = 34.0f;
+        constexpr float PortraitY = 47.0f;
+        constexpr float PortraitWidth = 62.0f;
+        constexpr float PortraitHeight = 72.0f;
+        constexpr float PortraitGapX = 3.0f;
+        constexpr float PortraitGapY = 3.0f;
+
+        auto computeUiViewportRect = [](int width, int height) -> OutdoorGameView::ResolvedHudLayoutElement
+        {
+            OutdoorGameView::ResolvedHudLayoutElement viewport = {};
+            viewport.width = static_cast<float>(width);
+            viewport.height = static_cast<float>(height);
+            viewport.scale = 1.0f;
+
+            if (height > 0)
+            {
+                const float maxWidthForHeight = viewport.height * MaxUiViewportAspect;
+
+                if (viewport.width > maxWidthForHeight)
+                {
+                    viewport.width = maxWidthForHeight;
+                    viewport.x = (static_cast<float>(width) - viewport.width) * 0.5f;
+                }
+            }
+
+            return viewport;
+        };
+
+        float mouseX = 0.0f;
+        float mouseY = 0.0f;
+        const SDL_MouseButtonFlags mouseButtons = SDL_GetMouseState(&mouseX, &mouseY);
+        const bool isLeftMousePressed = (mouseButtons & SDL_BUTTON_LMASK) != 0;
+        const OutdoorGameView::ResolvedHudLayoutElement uiViewport = computeUiViewportRect(screenWidth, screenHeight);
+        const float baseScale = std::min(uiViewport.width / HudReferenceWidth, uiViewport.height / HudReferenceHeight);
+        const Party *pParty = view.m_pOutdoorPartyRuntime != nullptr ? &view.m_pOutdoorPartyRuntime->party() : nullptr;
+        const auto resolveLayoutRect =
+            [&view, screenWidth, screenHeight](const char *pLayoutId)
+                -> std::optional<OutdoorGameView::ResolvedHudLayoutElement>
+            {
+                const OutdoorGameView::HudLayoutElement *pLayout = HudUiService::findHudLayoutElement(view, pLayoutId);
+
+                if (pLayout == nullptr)
+                {
+                    return std::nullopt;
+                }
+
+                return HudUiService::resolveHudLayoutElement(
+                    view,
+                    pLayoutId,
+                    screenWidth,
+                    screenHeight,
+                    pLayout->width,
+                    pLayout->height);
+            };
+        const auto findInnPointerTarget =
+            [&view,
+             pParty,
+             baseScale,
+             uiViewport,
+             &resolveLayoutRect](float pointerX, float pointerY) -> OutdoorGameView::CharacterPointerTarget
+            {
+                if (const std::optional<OutdoorGameView::ResolvedHudLayoutElement> exitRect =
+                        resolveLayoutRect("AdventurersInnExitButton"))
+                {
+                    if (HudUiService::isPointerInsideResolvedElement(*exitRect, pointerX, pointerY))
+                    {
+                        return {OutdoorGameView::CharacterPointerTargetType::ExitButton};
+                    }
+                }
+
+                if (pParty != nullptr && !pParty->isFull())
+                {
+                    if (const std::optional<OutdoorGameView::ResolvedHudLayoutElement> hireRect =
+                            resolveLayoutRect("AdventurersInnHireButton"))
+                    {
+                        if (HudUiService::isPointerInsideResolvedElement(*hireRect, pointerX, pointerY))
+                        {
+                            return {OutdoorGameView::CharacterPointerTargetType::AdventurersInnHireButton};
+                        }
+                    }
+                }
+
+                if (const std::optional<OutdoorGameView::ResolvedHudLayoutElement> upRect =
+                        resolveLayoutRect("AdventurersInnScrollUpButton"))
+                {
+                    if (HudUiService::isPointerInsideResolvedElement(*upRect, pointerX, pointerY))
+                    {
+                        return {OutdoorGameView::CharacterPointerTargetType::AdventurersInnScrollUpButton};
+                    }
+                }
+
+                if (const std::optional<OutdoorGameView::ResolvedHudLayoutElement> downRect =
+                        resolveLayoutRect("AdventurersInnScrollDownButton"))
+                {
+                    if (HudUiService::isPointerInsideResolvedElement(*downRect, pointerX, pointerY))
+                    {
+                        return {OutdoorGameView::CharacterPointerTargetType::AdventurersInnScrollDownButton};
+                    }
+                }
+
+                if (pParty == nullptr)
+                {
+                    return {};
+                }
+
+                const std::vector<AdventurersInnMember> &innMembers = pParty->adventurersInnMembers();
+                const size_t maximumScrollOffset =
+                    innMembers.size() > AdventurersInnVisibleCount ? innMembers.size() - AdventurersInnVisibleCount : 0;
+                const size_t scrollOffset = std::min(view.m_adventurersInnScrollOffset, maximumScrollOffset);
+
+                for (size_t visibleIndex = 0; visibleIndex < AdventurersInnVisibleCount; ++visibleIndex)
+                {
+                    const size_t innIndex = scrollOffset + visibleIndex;
+
+                    if (innIndex >= innMembers.size())
+                    {
+                        continue;
+                    }
+
+                    const size_t column = visibleIndex % AdventurersInnVisibleColumns;
+                    const size_t row = visibleIndex / AdventurersInnVisibleColumns;
+                    const float x =
+                        uiViewport.x
+                        + (PortraitX + static_cast<float>(column) * (PortraitWidth + PortraitGapX)) * baseScale;
+                    const float y =
+                        uiViewport.y
+                        + (PortraitY + static_cast<float>(row) * (PortraitHeight + PortraitGapY)) * baseScale;
+                    const float width = PortraitWidth * baseScale;
+                    const float height = PortraitHeight * baseScale;
+
+                    if (pointerX >= x && pointerX < x + width && pointerY >= y && pointerY < y + height)
+                    {
+                        OutdoorGameView::CharacterPointerTarget target = {};
+                        target.type = OutdoorGameView::CharacterPointerTargetType::AdventurersInnPortrait;
+                        target.innIndex = innIndex;
+                        return target;
+                    }
+                }
+
+                return {};
+            };
+
+        const HudPointerState pointerState = {mouseX, mouseY, isLeftMousePressed};
+        const OutdoorGameView::CharacterPointerTarget noneCharacterTarget = {};
+        handlePointerClickRelease(
+            pointerState,
+            view.m_characterClickLatch,
+            view.m_characterPressedTarget,
+            noneCharacterTarget,
+            findInnPointerTarget,
+            [&view](const OutdoorGameView::CharacterPointerTarget &target)
+            {
+                if (view.m_pOutdoorPartyRuntime == nullptr)
+                {
+                    return;
+                }
+
+                Party &party = view.m_pOutdoorPartyRuntime->party();
+                const size_t innMemberCount = party.adventurersInnMembers().size();
+
+                switch (target.type)
+                {
+                    case OutdoorGameView::CharacterPointerTargetType::ExitButton:
+                        view.m_characterScreenOpen = false;
+                        view.m_characterDollJewelryOverlayOpen = false;
+                        view.m_adventurersInnRosterOverlayOpen = false;
+                        break;
+
+                    case OutdoorGameView::CharacterPointerTargetType::AdventurersInnPortrait:
+                        if (target.innIndex < innMemberCount)
+                        {
+                            const uint64_t nowTicks = SDL_GetTicks();
+                            const bool isDoubleClick =
+                                view.m_lastAdventurersInnPortraitClickedIndex.has_value()
+                                && *view.m_lastAdventurersInnPortraitClickedIndex == target.innIndex
+                                && nowTicks >= view.m_lastAdventurersInnPortraitClickTicks
+                                && nowTicks - view.m_lastAdventurersInnPortraitClickTicks <= PartyPortraitDoubleClickWindowMs;
+                            view.m_characterScreenSourceIndex = target.innIndex;
+                            view.m_lastAdventurersInnPortraitClickTicks = nowTicks;
+                            view.m_lastAdventurersInnPortraitClickedIndex = target.innIndex;
+
+                            if (isDoubleClick)
+                            {
+                                view.m_adventurersInnRosterOverlayOpen = false;
+                                view.m_characterPage = OutdoorGameView::CharacterPage::Inventory;
+                                view.m_characterDollJewelryOverlayOpen = false;
+                            }
+                        }
+
+                        break;
+
+                    case OutdoorGameView::CharacterPointerTargetType::AdventurersInnScrollUpButton:
+                        if (view.m_adventurersInnScrollOffset > 0)
+                        {
+                            --view.m_adventurersInnScrollOffset;
+                        }
+
+                        break;
+
+                    case OutdoorGameView::CharacterPointerTargetType::AdventurersInnScrollDownButton:
+                    {
+                        const size_t maximumScrollOffset =
+                            innMemberCount > AdventurersInnVisibleCount ? innMemberCount - AdventurersInnVisibleCount : 0;
+
+                        if (view.m_adventurersInnScrollOffset < maximumScrollOffset)
+                        {
+                            ++view.m_adventurersInnScrollOffset;
+                        }
+
+                        break;
+                    }
+
+                    case OutdoorGameView::CharacterPointerTargetType::AdventurersInnHireButton:
+                    {
+                        const AdventurersInnMember *pInnMember = party.adventurersInnMember(view.m_characterScreenSourceIndex);
+                        const std::string memberName =
+                            pInnMember != nullptr ? pInnMember->character.name : "Adventurer";
+
+                        if (!party.hireAdventurersInnMember(view.m_characterScreenSourceIndex))
+                        {
+                            view.setStatusBarEvent("The party is full.");
+                            break;
+                        }
+
+                        const size_t remainingCount = party.adventurersInnMembers().size();
+
+                        if (remainingCount == 0)
+                        {
+                            view.m_characterScreenOpen = false;
+                            view.m_characterDollJewelryOverlayOpen = false;
+                            view.m_adventurersInnRosterOverlayOpen = false;
+                        }
+                        else
+                        {
+                            view.m_characterScreenSourceIndex = std::min(view.m_characterScreenSourceIndex, remainingCount - 1);
+                            const size_t maximumScrollOffset =
+                                remainingCount > AdventurersInnVisibleCount ? remainingCount - AdventurersInnVisibleCount : 0;
+                            view.m_adventurersInnScrollOffset =
+                                std::min(view.m_adventurersInnScrollOffset, maximumScrollOffset);
+                        }
+
+                        view.setStatusBarEvent(memberName + " joined the party.");
+                        break;
+                    }
+
+                    default:
+                        break;
+                }
+            });
+        return;
     }
 
     if (pKeyboardState[SDL_SCANCODE_TAB])
@@ -848,6 +1138,7 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
          screenHeight,
          skillRowHeight,
          &skillUiData,
+         isReadOnlyAdventurersInnView,
          pActiveCharacter,
          pActiveCharacterDollType,
          &resolveCharacterInventoryGrid](
@@ -1087,9 +1378,14 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                     continue;
                 }
 
-                if (view.m_heldInventoryItem.active
+                if ((!isReadOnlyAdventurersInnView && view.m_heldInventoryItem.active)
                     || (pActiveCharacter != nullptr && equippedItemId(pActiveCharacter->equipment, target.slot) != 0))
                 {
+                    if (isReadOnlyAdventurersInnView)
+                    {
+                        continue;
+                    }
+
                     OutdoorGameView::CharacterPointerTarget pointerTarget = {};
                     pointerTarget.type = OutdoorGameView::CharacterPointerTargetType::EquipmentSlot;
                     pointerTarget.page = view.m_characterPage;
@@ -1098,7 +1394,7 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                 }
             }
 
-            if (view.m_heldInventoryItem.active)
+            if (!isReadOnlyAdventurersInnView && view.m_heldInventoryItem.active)
             {
                 const OutdoorGameView::HudLayoutElement *pDollLayout = HudUiService::findHudLayoutElement(view, "CharacterDollPanel");
 
@@ -1146,7 +1442,7 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                         0,
                         Character::InventoryHeight - 1));
 
-                    if (view.m_heldInventoryItem.active)
+                    if (!isReadOnlyAdventurersInnView && view.m_heldInventoryItem.active)
                     {
                         OutdoorGameView::CharacterPointerTarget target = {};
                         target.type = OutdoorGameView::CharacterPointerTargetType::InventoryCell;
@@ -1162,12 +1458,15 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
 
                         if (pItem != nullptr)
                         {
-                            OutdoorGameView::CharacterPointerTarget target = {};
-                            target.type = OutdoorGameView::CharacterPointerTargetType::InventoryItem;
-                            target.page = OutdoorGameView::CharacterPage::Inventory;
-                            target.gridX = pItem->gridX;
-                            target.gridY = pItem->gridY;
-                            return target;
+                            if (!isReadOnlyAdventurersInnView)
+                            {
+                                OutdoorGameView::CharacterPointerTarget target = {};
+                                target.type = OutdoorGameView::CharacterPointerTargetType::InventoryItem;
+                                target.page = OutdoorGameView::CharacterPage::Inventory;
+                                target.gridX = pItem->gridX;
+                                target.gridY = pItem->gridY;
+                                return target;
+                            }
                         }
                     }
                 }
@@ -1219,7 +1518,7 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                         {
                             const CharacterSkillUiRow &row = rows[rowIndex];
 
-                            if (!row.upgradeable)
+                            if (!row.interactive)
                             {
                                 continue;
                             }
@@ -1304,7 +1603,14 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
         view.m_characterPressedTarget,
         noneCharacterTarget,
         findCharacterPointerTarget,
-        [&view, screenWidth, screenHeight, mouseX, mouseY, &resolveCharacterInventoryGrid, pActiveCharacterDollType](
+        [&view,
+         screenWidth,
+         screenHeight,
+         mouseX,
+         mouseY,
+         &resolveCharacterInventoryGrid,
+         pActiveCharacterDollType,
+         isReadOnlyAdventurersInnView](
             const OutdoorGameView::CharacterPointerTarget &target)
         {
             const auto resolveItemLogName =
@@ -1363,8 +1669,17 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
             }
             else if (target.type == OutdoorGameView::CharacterPointerTargetType::ExitButton)
             {
-                view.m_characterScreenOpen = false;
-                view.m_characterDollJewelryOverlayOpen = false;
+                if (isReadOnlyAdventurersInnView)
+                {
+                    view.m_characterDollJewelryOverlayOpen = false;
+                    view.m_adventurersInnRosterOverlayOpen = true;
+                }
+                else
+                {
+                    view.m_characterScreenOpen = false;
+                    view.m_characterDollJewelryOverlayOpen = false;
+                    view.m_adventurersInnRosterOverlayOpen = false;
+                }
             }
             else if (target.type == OutdoorGameView::CharacterPointerTargetType::MagnifyButton)
             {

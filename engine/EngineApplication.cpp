@@ -154,6 +154,7 @@ int EngineApplication::run() const
 
     std::cout << m_config.appName << '\n';
     std::cout << "Development assets: " << m_config.assetRoot << '\n';
+    std::cout << "Asset scale: " << assetScaleTierToString(m_config.assetScaleTier) << '\n';
     std::cout << "Window: " << m_config.windowWidth << "x" << m_config.windowHeight << '\n';
     std::cout << "Renderer: " << bgfx::getRendererName(bgfxContext.getRendererType()) << '\n';
     std::cout << "Mounted search paths:\n";
@@ -359,6 +360,6 @@ bool EngineApplication::initializeAssetFileSystem(AssetFileSystem &assetFileSyst
         basePath = pBasePathChars;
     }
 
-    return assetFileSystem.initialize(basePath, m_config.assetRoot);
+    return assetFileSystem.initialize(basePath, m_config.assetRoot, m_config.assetScaleTier);
 }
 }

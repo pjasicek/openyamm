@@ -175,6 +175,8 @@ private:
         int16_t paletteId = 0;
         int width = 0;
         int height = 0;
+        int physicalWidth = 0;
+        int physicalHeight = 0;
         bgfx::TextureHandle textureHandle = BGFX_INVALID_HANDLE;
     };
 
@@ -183,6 +185,8 @@ private:
         std::string textureName;
         int width = 0;
         int height = 0;
+        int physicalWidth = 0;
+        int physicalHeight = 0;
         std::vector<uint8_t> bgraPixels;
         bgfx::TextureHandle textureHandle = BGFX_INVALID_HANDLE;
     };
@@ -192,6 +196,8 @@ private:
         std::string textureName;
         int width = 0;
         int height = 0;
+        int physicalWidth = 0;
+        int physicalHeight = 0;
         bgfx::TextureHandle textureHandle = BGFX_INVALID_HANDLE;
     };
 
@@ -254,6 +260,7 @@ private:
     };
 
     using CharacterPage = GameplayUiController::CharacterPage;
+    using CharacterScreenSource = GameplayUiController::CharacterScreenSource;
 
     enum class CharacterPointerTargetType
     {
@@ -261,6 +268,10 @@ private:
         PageButton,
         ExitButton,
         MagnifyButton,
+        AdventurersInnHireButton,
+        AdventurersInnScrollUpButton,
+        AdventurersInnScrollDownButton,
+        AdventurersInnPortrait,
         StatRow,
         SkillRow,
         InventoryItem,
@@ -351,6 +362,7 @@ private:
         uint8_t gridX = 0;
         uint8_t gridY = 0;
         EquipmentSlot equipmentSlot = EquipmentSlot::MainHand;
+        size_t innIndex = 0;
 
         bool operator==(const CharacterPointerTarget &other) const = default;
     };
@@ -532,6 +544,13 @@ private:
     void triggerPortraitFaceAnimation(size_t memberIndex, FaceAnimationId animationId);
     void triggerPortraitFaceAnimationForAllLivingMembers(FaceAnimationId animationId);
     uint32_t defaultPortraitAnimationLengthTicks(PortraitId portraitId) const;
+    bool isAdventurersInnCharacterSourceActive() const;
+    bool isAdventurersInnScreenActive() const;
+    bool isReadOnlyAdventurersInnCharacterViewActive() const;
+    const Character *selectedCharacterScreenCharacter() const;
+    Character *selectedCharacterScreenCharacter();
+    const AdventurersInnMember *selectedAdventurersInnMember() const;
+    AdventurersInnMember *selectedAdventurersInnMember();
     std::string resolvePortraitTextureName(const Character &character) const;
     bool triggerPortraitFxAnimation(const std::string &animationName, const std::vector<size_t> &memberIndices);
     void triggerPortraitSpellFx(const PartySpellCastResult &result);
@@ -726,11 +745,16 @@ private:
     bool m_spellbookClickLatch;
     bool m_pendingSpellTargetClickLatch;
     bool m_inventoryScreenToggleLatch;
+    bool m_adventurersInnToggleLatch;
     GameplayUiController m_gameplayUiController;
     GameplayDialogController m_gameplayDialogController;
     bool &m_characterScreenOpen;
     bool &m_characterDollJewelryOverlayOpen;
+    bool &m_adventurersInnRosterOverlayOpen;
     CharacterPage &m_characterPage;
+    CharacterScreenSource &m_characterScreenSource;
+    size_t &m_characterScreenSourceIndex;
+    size_t &m_adventurersInnScrollOffset;
     bool m_characterClickLatch;
     bool m_characterMemberCycleLatch;
     CharacterPointerTarget m_characterPressedTarget;
@@ -738,6 +762,8 @@ private:
     std::optional<size_t> m_partyPortraitPressedIndex;
     uint64_t m_lastPartyPortraitClickTicks;
     std::optional<size_t> m_lastPartyPortraitClickedIndex;
+    uint64_t m_lastAdventurersInnPortraitClickTicks;
+    std::optional<size_t> m_lastAdventurersInnPortraitClickedIndex;
     HeldInventoryItemState &m_heldInventoryItem;
     ItemInspectOverlayState &m_itemInspectOverlay;
     bool m_itemInspectInteractionLatch;

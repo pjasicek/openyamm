@@ -410,8 +410,18 @@ GameplayDialogController::Result GameplayDialogController::executeActiveDialogAc
         const EventRuntimeState::DialogueOfferState invite = *context.eventRuntimeState.dialogueState.currentOffer;
         context.eventRuntimeState.dialogueState.currentOffer.reset();
 
+        const RosterEntry *pRosterEntry = context.pRosterTable->get(invite.rosterId);
+
         if (context.pParty->isFull())
         {
+            if (pRosterEntry != nullptr && !context.pParty->hasRosterMember(invite.rosterId))
+            {
+                const NpcEntry *pNpcEntry =
+                    context.pNpcDialogTable != nullptr ? context.pNpcDialogTable->getNpc(invite.npcId) : nullptr;
+                const uint32_t portraitPictureId = pNpcEntry != nullptr ? pNpcEntry->pictureId : 0;
+                context.pParty->addAdventurersInnMember(*pRosterEntry, portraitPictureId);
+            }
+
             context.eventRuntimeState.npcHouseOverrides[invite.npcId] = AdventurersInnHouseId;
 
             if (context.pNpcDialogTable != nullptr)
@@ -434,8 +444,6 @@ GameplayDialogController::Result GameplayDialogController::executeActiveDialogAc
             result.allowNpcFallbackContent = false;
             return result;
         }
-
-        const RosterEntry *pRosterEntry = context.pRosterTable->get(invite.rosterId);
 
         if (pRosterEntry == nullptr || !context.pParty->recruitRosterMember(*pRosterEntry))
         {

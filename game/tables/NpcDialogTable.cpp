@@ -30,6 +30,40 @@ bool parseUnsigned(const std::string &text, uint32_t &value)
     return true;
 }
 
+std::string normalizeName(const std::string &text)
+{
+    std::string normalized;
+    normalized.reserve(text.size());
+
+    bool previousWasSpace = true;
+
+    for (char character : text)
+    {
+        const unsigned char unsignedCharacter = static_cast<unsigned char>(character);
+
+        if (std::isspace(unsignedCharacter) != 0)
+        {
+            if (!previousWasSpace)
+            {
+                normalized.push_back(' ');
+                previousWasSpace = true;
+            }
+
+            continue;
+        }
+
+        normalized.push_back(static_cast<char>(std::tolower(unsignedCharacter)));
+        previousWasSpace = false;
+    }
+
+    if (!normalized.empty() && normalized.back() == ' ')
+    {
+        normalized.pop_back();
+    }
+
+    return normalized;
+}
+
 bool isTeacherHintTopicRow(const std::vector<std::string> &row)
 {
     if (row.size() <= 6)
@@ -337,6 +371,28 @@ const NpcEntry *NpcDialogTable::getNpc(uint32_t npcId) const
     }
 
     return &npcIt->second;
+}
+
+const NpcEntry *NpcDialogTable::findNpcByName(const std::string &name) const
+{
+    const std::string normalizedName = normalizeName(name);
+
+    if (normalizedName.empty())
+    {
+        return nullptr;
+    }
+
+    for (const auto &[npcId, entry] : m_npcs)
+    {
+        static_cast<void>(npcId);
+
+        if (normalizeName(entry.name) == normalizedName)
+        {
+            return &entry;
+        }
+    }
+
+    return nullptr;
 }
 
 const NpcGreetingEntry *NpcDialogTable::getGreetingForNpc(uint32_t npcId) const

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "engine/AssetScaleTier.h"
 #include "game/indoor/IndoorMapData.h"
 #include "game/tables/ChestTable.h"
 #include "game/maps/MapDeltaData.h"
@@ -33,6 +34,7 @@ public:
     IndoorDebugRenderer &operator=(const IndoorDebugRenderer &) = delete;
 
     bool initialize(
+        Engine::AssetScaleTier assetScaleTier,
         const MapStatsEntry &map,
         const MonsterTable &monsterTable,
         const IndoorMapData &indoorMapData,
@@ -96,6 +98,8 @@ private:
         int16_t paletteId = 0;
         int width = 0;
         int height = 0;
+        int physicalWidth = 0;
+        int physicalHeight = 0;
         bgfx::TextureHandle textureHandle = BGFX_INVALID_HANDLE;
     };
 
@@ -226,6 +230,7 @@ private:
     std::optional<StrTable> m_localStrTable;
     std::optional<EvtProgram> m_localEvtProgram;
     std::optional<EvtProgram> m_globalEvtProgram;
+    Engine::AssetScaleTier m_assetScaleTier = Engine::AssetScaleTier::X1;
     bgfx::DynamicVertexBufferHandle m_wireframeVertexBufferHandle;
     bgfx::DynamicVertexBufferHandle m_portalVertexBufferHandle;
     bgfx::VertexBufferHandle m_entityMarkerVertexBufferHandle;

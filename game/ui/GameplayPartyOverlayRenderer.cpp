@@ -17,6 +17,7 @@
 
 #include <algorithm>
 #include <array>
+#include <cstdio>
 #include <cctype>
 #include <cmath>
 #include <cstdint>
@@ -218,6 +219,50 @@ struct CharacterSkillUiData
     std::vector<CharacterSkillUiRow> armorRows;
     std::vector<CharacterSkillUiRow> miscRows;
 };
+
+constexpr size_t AdventurersInnVisibleRows = 4;
+constexpr size_t AdventurersInnVisibleColumns = 2;
+constexpr size_t AdventurersInnVisibleCount = AdventurersInnVisibleRows * AdventurersInnVisibleColumns;
+constexpr float AdventurersInnPortraitX = 34.0f;
+constexpr float AdventurersInnPortraitY = 47.0f;
+constexpr float AdventurersInnPortraitWidth = 62.0f;
+constexpr float AdventurersInnPortraitHeight = 72.0f;
+constexpr float AdventurersInnPortraitGapX = 3.0f;
+constexpr float AdventurersInnPortraitGapY = 3.0f;
+constexpr float AdventurersInnColumn1X = 200.0f;
+constexpr float AdventurersInnColumn1Y = 50.0f;
+constexpr float AdventurersInnColumn2X = 330.0f;
+constexpr float AdventurersInnColumn2Y = 82.0f;
+constexpr float AdventurersInnBlurbX = 200.0f;
+constexpr float AdventurersInnBlurbY = 210.0f;
+constexpr float AdventurersInnBlurbWidth = 236.0f;
+constexpr float AdventurersInnColumnLineStep = 16.0f;
+constexpr uint32_t AdventurersInnSelectionColorAbgr = 0xff7fd8ffu;
+constexpr uint32_t AdventurersInnTextColorAbgr = 0xffffffffu;
+constexpr float AdventurersInnSelectionThickness = 2.0f;
+
+bool shouldRenderCharacterLayoutInAdventurersInn(const std::string &normalizedLayoutId)
+{
+    return normalizedLayoutId.starts_with("adventurersinn")
+        || normalizedLayoutId.starts_with("characterdoll")
+        || normalizedLayoutId == "characterroot"
+        || normalizedLayoutId == "charactertopbar"
+        || normalizedLayoutId == "charactergoldfoodicon"
+        || normalizedLayoutId == "charactergoldlabel"
+        || normalizedLayoutId == "characterfoodlabel";
+}
+
+std::string npcPortraitTextureName(uint32_t pictureId)
+{
+    if (pictureId == 0)
+    {
+        return {};
+    }
+
+    char buffer[16] = {};
+    std::snprintf(buffer, sizeof(buffer), "npc%04u", pictureId);
+    return buffer;
+}
 
 constexpr const char *WeaponSkillNames[] = {
     "Axe",
@@ -3254,7 +3299,8 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
         };
 
     const Party &party = view.m_pOutdoorPartyRuntime->party();
-    const Character *pCharacter = party.activeMember();
+    const bool isAdventurersInnActive = view.isAdventurersInnScreenActive();
+    const Character *pCharacter = view.selectedCharacterScreenCharacter();
     const std::vector<std::string> orderedCharacterLayoutIds = HudUiService::sortedHudLayoutIdsForScreen(view, "Character");
     const int hudZThreshold = HudUiService::defaultHudLayoutZIndexForScreen("OutdoorHud");
     const auto shouldRenderInCurrentPass =
@@ -3262,6 +3308,8 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
         {
             return renderAboveHud ? zIndex >= hudZThreshold : zIndex < hudZThreshold;
         };
+    const size_t characterSourceIndex =
+        view.isAdventurersInnCharacterSourceActive() ? view.m_characterScreenSourceIndex : party.activeMemberIndex();
     const auto formatPair = [](int actualValue, int baseValue) -> std::string
     {
         return std::to_string(actualValue) + " / " + std::to_string(baseValue);
@@ -3303,6 +3351,7 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
     std::string bodyResistanceValue = "0 / 0";
     std::string awards;
     std::string inventoryInfo;
+    std::string adventurersInnBlurb;
     bool canTrainToNextLevel = false;
     const OutdoorGameView::HudFontHandle *pSkillRowFont = HudUiService::findHudFont(view, "Lucida");
     const float skillRowHeight =
@@ -3345,6 +3394,12 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
         mindResistanceValue = formatSheetValue(summary.mindResistance);
         bodyResistanceValue = formatSheetValue(summary.bodyResistance);
         awards = "Awards earned: " + std::to_string(pCharacter->awards.size());
+
+        if (view.m_pRosterTable != nullptr && pCharacter->rosterId != 0)
+        {
+            const RosterEntry *pRosterEntry = view.m_pRosterTable->get(pCharacter->rosterId);
+            adventurersInnBlurb = pRosterEntry != nullptr ? pRosterEntry->blurb : "";
+        }
     }
 
     const CharacterSkillUiData skillUiData = buildCharacterSkillUiData(pCharacter);
@@ -3667,7 +3722,30 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
 
         const std::string normalizedLayoutId = toLowerCopy(layoutId);
 
+        if (isAdventurersInnActive && !shouldRenderCharacterLayoutInAdventurersInn(normalizedLayoutId))
+        {
+            continue;
+        }
+
+        if (normalizedLayoutId.starts_with("adventurersinn"))
+        {
+            if (!isAdventurersInnActive)
+            {
+                continue;
+            }
+
+            if (normalizedLayoutId == "adventurersinnhirebutton" && party.isFull())
+            {
+                continue;
+            }
+        }
+
         if (normalizedLayoutId == "characterdolljewelryoverlaypanel" && !view.m_characterDollJewelryOverlayOpen)
+        {
+            continue;
+        }
+
+        if (isAdventurersInnActive && normalizedLayoutId == "charactermagnifybutton")
         {
             continue;
         }
@@ -3849,7 +3927,7 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
                             baseScale > 0.0f ? iconRect->width / baseScale : iconRect->width,
                             baseScale > 0.0f ? iconRect->height / baseScale : iconRect->height);
                         const std::optional<InventoryItem> equippedItemState =
-                            view.m_pOutdoorPartyRuntime != nullptr
+                            !view.isAdventurersInnCharacterSourceActive() && view.m_pOutdoorPartyRuntime != nullptr
                                 ? view.m_pOutdoorPartyRuntime->party().equippedItem(
                                     view.m_pOutdoorPartyRuntime->party().activeMemberIndex(),
                                     *slot)
@@ -3881,11 +3959,11 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
                                 inspectableItem.itemState = *equippedItemState;
                             }
 
-                            inspectableItem.sourceType = OutdoorGameView::ItemInspectSourceType::Equipment;
-                            inspectableItem.sourceMemberIndex =
-                                view.m_pOutdoorPartyRuntime != nullptr
-                                    ? view.m_pOutdoorPartyRuntime->party().activeMemberIndex()
-                                    : 0;
+                            inspectableItem.sourceType =
+                                view.isAdventurersInnCharacterSourceActive()
+                                    ? OutdoorGameView::ItemInspectSourceType::None
+                                    : OutdoorGameView::ItemInspectSourceType::Equipment;
+                            inspectableItem.sourceMemberIndex = characterSourceIndex;
                             inspectableItem.equipmentSlot = *slot;
                             inspectableItem.textureName = textureName;
                             inspectableItem.x = iconRect->x;
@@ -3900,7 +3978,9 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
         }
     }
 
-    if (view.m_characterPage == OutdoorGameView::CharacterPage::Inventory && pCharacter != nullptr)
+    if (!isAdventurersInnActive
+        && view.m_characterPage == OutdoorGameView::CharacterPage::Inventory
+        && pCharacter != nullptr)
     {
         const OutdoorGameView::HudLayoutElement *pInventoryGridLayout = HudUiService::findHudLayoutElement(view, "CharacterInventoryGrid");
         const std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolvedInventoryGrid =
@@ -3952,8 +4032,11 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
                     inspectableItem.objectDescriptionId = pItemDefinition->itemId;
                     inspectableItem.hasItemState = true;
                     inspectableItem.itemState = item;
-                    inspectableItem.sourceType = OutdoorGameView::ItemInspectSourceType::Inventory;
-                    inspectableItem.sourceMemberIndex = view.m_pOutdoorPartyRuntime->party().activeMemberIndex();
+                    inspectableItem.sourceType =
+                        view.isAdventurersInnCharacterSourceActive()
+                            ? OutdoorGameView::ItemInspectSourceType::None
+                            : OutdoorGameView::ItemInspectSourceType::Inventory;
+                    inspectableItem.sourceMemberIndex = characterSourceIndex;
                     inspectableItem.sourceGridX = item.gridX;
                     inspectableItem.sourceGridY = item.gridY;
                     inspectableItem.textureName = pItemDefinition->iconName;
@@ -3992,13 +4075,32 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
         }
 
         OutdoorGameView::HudLayoutElement layoutForRender = *pLayout;
+        const std::string normalizedLayoutId = toLowerCopy(layoutId);
 
-        if (toLowerCopy(layoutId) == "characterstatsskillpointsvalue"
-            || toLowerCopy(layoutId) == "characterskillsskillpointsvalue")
+        if (isAdventurersInnActive && !shouldRenderCharacterLayoutInAdventurersInn(normalizedLayoutId))
+        {
+            continue;
+        }
+
+        if (normalizedLayoutId.starts_with("adventurersinn"))
+        {
+            if (!isAdventurersInnActive)
+            {
+                continue;
+            }
+
+            if (normalizedLayoutId == "adventurersinnhirebutton" && party.isFull())
+            {
+                continue;
+            }
+        }
+
+        if (normalizedLayoutId == "characterstatsskillpointsvalue"
+            || normalizedLayoutId == "characterskillsskillpointsvalue")
         {
             layoutForRender.textColorAbgr = skillPointsValueColorAbgr;
         }
-        else if (toLowerCopy(layoutId) == "characterstatexperiencevalue")
+        else if (normalizedLayoutId == "characterstatexperiencevalue")
         {
             layoutForRender.textColorAbgr = experienceValueColorAbgr;
         }
@@ -4061,6 +4163,219 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
         }
 
         HudUiService::renderLayoutLabel(view, layoutForRender, *resolved, label);
+    }
+
+    if (isAdventurersInnActive)
+    {
+        const std::vector<AdventurersInnMember> &innMembers = party.adventurersInnMembers();
+        const size_t maximumScrollOffset =
+            innMembers.size() > AdventurersInnVisibleCount ? innMembers.size() - AdventurersInnVisibleCount : 0;
+        const size_t scrollOffset = std::min(view.m_adventurersInnScrollOffset, maximumScrollOffset);
+        const OutdoorGameView::HudFontHandle *pFont = HudUiService::findHudFont(view, "SMALLNUM");
+
+        const auto renderInnLabel =
+            [&view, baseScale](const std::string &text, float x, float y, float width, float height)
+            {
+                OutdoorGameView::HudLayoutElement layout = {};
+                layout.fontName = "SMALLNUM";
+                layout.textColorAbgr = AdventurersInnTextColorAbgr;
+                layout.textAlignX = OutdoorGameView::HudTextAlignX::Left;
+                layout.textAlignY = OutdoorGameView::HudTextAlignY::Top;
+                OutdoorGameView::ResolvedHudLayoutElement resolved = {};
+                resolved.x = std::round(x * baseScale);
+                resolved.y = std::round(y * baseScale);
+                resolved.width = width * baseScale;
+                resolved.height = height * baseScale;
+                resolved.scale = baseScale;
+                HudUiService::renderLayoutLabel(view, layout, resolved, text);
+            };
+
+        for (size_t visibleIndex = 0; visibleIndex < AdventurersInnVisibleCount; ++visibleIndex)
+        {
+            const size_t innIndex = scrollOffset + visibleIndex;
+
+            if (innIndex >= innMembers.size())
+            {
+                continue;
+            }
+
+            const size_t column = visibleIndex % AdventurersInnVisibleColumns;
+            const size_t row = visibleIndex / AdventurersInnVisibleColumns;
+            const float portraitX =
+                uiViewport.x
+                + (AdventurersInnPortraitX
+                    + static_cast<float>(column) * (AdventurersInnPortraitWidth + AdventurersInnPortraitGapX)) * baseScale;
+            const float portraitY =
+                uiViewport.y
+                + (AdventurersInnPortraitY
+                    + static_cast<float>(row) * (AdventurersInnPortraitHeight + AdventurersInnPortraitGapY)) * baseScale;
+            const float portraitWidth = AdventurersInnPortraitWidth * baseScale;
+            const float portraitHeight = AdventurersInnPortraitHeight * baseScale;
+            std::string textureName = npcPortraitTextureName(innMembers[innIndex].portraitPictureId);
+
+            if (textureName.empty())
+            {
+                textureName = view.resolvePortraitTextureName(innMembers[innIndex].character);
+            }
+
+            const OutdoorGameView::HudTextureHandle *pPortraitTexture =
+                HudUiService::ensureHudTextureLoaded(mutableView, textureName);
+
+            if (pPortraitTexture != nullptr)
+            {
+                view.submitHudTexturedQuad(*pPortraitTexture, portraitX, portraitY, portraitWidth, portraitHeight);
+            }
+
+            if (innIndex == view.m_characterScreenSourceIndex)
+            {
+                const OutdoorGameView::HudTextureHandle *pSelectionTexture =
+                    HudUiService::ensureSolidHudTextureLoaded(
+                        mutableView,
+                        "__adventurers_inn_selection__",
+                        AdventurersInnSelectionColorAbgr);
+
+                if (pSelectionTexture != nullptr)
+                {
+                    const float thickness = std::max(1.0f, AdventurersInnSelectionThickness * baseScale);
+                    view.submitHudTexturedQuad(
+                        *pSelectionTexture,
+                        portraitX - thickness,
+                        portraitY - thickness,
+                        portraitWidth + thickness * 2.0f,
+                        thickness);
+                    view.submitHudTexturedQuad(
+                        *pSelectionTexture,
+                        portraitX - thickness,
+                        portraitY + portraitHeight,
+                        portraitWidth + thickness * 2.0f,
+                        thickness);
+                    view.submitHudTexturedQuad(*pSelectionTexture, portraitX - thickness, portraitY, thickness, portraitHeight);
+                    view.submitHudTexturedQuad(*pSelectionTexture, portraitX + portraitWidth, portraitY, thickness, portraitHeight);
+                }
+            }
+        }
+
+        if (pCharacter != nullptr)
+        {
+            const auto formatSignedValue = [](const std::string &value) -> std::string
+            {
+                int parsedValue = 0;
+                return tryParseInteger(value, parsedValue) && parsedValue > 0 ? "+" + value : value;
+            };
+
+            renderInnLabel(
+                "Name: " + pCharacter->name,
+                AdventurersInnColumn1X + uiViewport.x / baseScale,
+                AdventurersInnColumn1Y + uiViewport.y / baseScale,
+                170.0f,
+                16.0f);
+            renderInnLabel(
+                "Class: " + (!pCharacter->className.empty() ? pCharacter->className : pCharacter->role),
+                AdventurersInnColumn1X + uiViewport.x / baseScale,
+                AdventurersInnColumn1Y + AdventurersInnColumnLineStep + uiViewport.y / baseScale,
+                170.0f,
+                16.0f);
+            renderInnLabel(
+                "HP: " + std::to_string(pCharacter->health),
+                AdventurersInnColumn1X + uiViewport.x / baseScale,
+                AdventurersInnColumn1Y + AdventurersInnColumnLineStep * 2.0f + uiViewport.y / baseScale,
+                170.0f,
+                16.0f);
+            renderInnLabel(
+                "AC: " + armorClassValue,
+                AdventurersInnColumn1X + uiViewport.x / baseScale,
+                AdventurersInnColumn1Y + AdventurersInnColumnLineStep * 3.0f + uiViewport.y / baseScale,
+                170.0f,
+                16.0f);
+            renderInnLabel(
+                "Attack: " + formatSignedValue(attackValue),
+                AdventurersInnColumn1X + uiViewport.x / baseScale,
+                AdventurersInnColumn1Y + AdventurersInnColumnLineStep * 4.0f + uiViewport.y / baseScale,
+                170.0f,
+                16.0f);
+            renderInnLabel(
+                "Shoot: " + formatSignedValue(shootValue),
+                AdventurersInnColumn1X + uiViewport.x / baseScale,
+                AdventurersInnColumn1Y + AdventurersInnColumnLineStep * 5.0f + uiViewport.y / baseScale,
+                170.0f,
+                16.0f);
+            renderInnLabel(
+                "Skills: " + std::to_string(pCharacter->skills.size()),
+                AdventurersInnColumn1X + uiViewport.x / baseScale,
+                AdventurersInnColumn1Y + AdventurersInnColumnLineStep * 6.0f + uiViewport.y / baseScale,
+                170.0f,
+                16.0f);
+            renderInnLabel(
+                "Cond: " + conditionValue,
+                AdventurersInnColumn1X + uiViewport.x / baseScale,
+                AdventurersInnColumn1Y + AdventurersInnColumnLineStep * 7.0f + uiViewport.y / baseScale,
+                170.0f,
+                16.0f);
+            renderInnLabel(
+                "QSpell: " + quickSpellValue,
+                AdventurersInnColumn1X + uiViewport.x / baseScale,
+                AdventurersInnColumn1Y + AdventurersInnColumnLineStep * 8.0f + uiViewport.y / baseScale,
+                170.0f,
+                16.0f);
+
+            renderInnLabel(
+                "Level: " + std::to_string(pCharacter->level),
+                AdventurersInnColumn2X + uiViewport.x / baseScale,
+                AdventurersInnColumn2Y + uiViewport.y / baseScale,
+                130.0f,
+                16.0f);
+            renderInnLabel(
+                "SP: " + std::to_string(pCharacter->spellPoints),
+                AdventurersInnColumn2X + uiViewport.x / baseScale,
+                AdventurersInnColumn2Y + AdventurersInnColumnLineStep + uiViewport.y / baseScale,
+                130.0f,
+                16.0f);
+            renderInnLabel(
+                "Dmg: " + meleeDamageValue,
+                AdventurersInnColumn2X + uiViewport.x / baseScale,
+                AdventurersInnColumn2Y + AdventurersInnColumnLineStep * 2.0f + uiViewport.y / baseScale,
+                130.0f,
+                16.0f);
+            renderInnLabel(
+                "Dmg: " + rangedDamageValue,
+                AdventurersInnColumn2X + uiViewport.x / baseScale,
+                AdventurersInnColumn2Y + AdventurersInnColumnLineStep * 3.0f + uiViewport.y / baseScale,
+                130.0f,
+                16.0f);
+            renderInnLabel(
+                "Points: " + std::to_string(pCharacter->skillPoints),
+                AdventurersInnColumn2X + uiViewport.x / baseScale,
+                AdventurersInnColumn2Y + AdventurersInnColumnLineStep * 4.0f + uiViewport.y / baseScale,
+                130.0f,
+                16.0f);
+
+            if (pFont != nullptr && !adventurersInnBlurb.empty())
+            {
+                float fontScale = baseScale >= 1.0f ? snappedHudFontScale(baseScale) : std::max(0.5f, baseScale);
+                const float lineHeight = std::max(1.0f, static_cast<float>(pFont->fontHeight - 2)) * fontScale;
+                const float wrapWidth =
+                    std::max(1.0f, (AdventurersInnBlurbWidth * baseScale) / std::max(0.5f, fontScale));
+                const std::vector<std::string> wrappedLines =
+                    HudUiService::wrapHudTextToWidth(view, *pFont, adventurersInnBlurb, wrapWidth);
+                bgfx::TextureHandle coloredTextureHandle =
+                    HudUiService::ensureHudFontMainTextureColor(view, *pFont, AdventurersInnTextColorAbgr);
+
+                if (!bgfx::isValid(coloredTextureHandle))
+                {
+                    coloredTextureHandle = pFont->mainTextureHandle;
+                }
+
+                float blurbX = std::round(uiViewport.x + AdventurersInnBlurbX * baseScale);
+                float blurbY = std::round(uiViewport.y + AdventurersInnBlurbY * baseScale);
+
+                for (const std::string &line : wrappedLines)
+                {
+                    HudUiService::renderHudFontLayer(view, *pFont, pFont->shadowTextureHandle, line, blurbX, blurbY, fontScale);
+                    HudUiService::renderHudFontLayer(view, *pFont, coloredTextureHandle, line, blurbX, blurbY, fontScale);
+                    blurbY += lineHeight;
+                }
+            }
+        }
     }
 
     const auto renderSkillGroup =

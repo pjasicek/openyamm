@@ -25,6 +25,17 @@ namespace
 constexpr uint32_t OeMaxCharacterExperience = 4000000000u;
 constexpr uint32_t ArcomageChampionAwardId = 41;
 constexpr size_t ArcomageTavernCount = 11;
+constexpr uint32_t RosterNpcPortraitBaseId = 2901;
+
+uint32_t resolveAdventurersInnPortraitPictureId(const Character &character, uint32_t portraitPictureId)
+{
+    if (character.rosterId != 0 && portraitPictureId < RosterNpcPortraitBaseId && character.portraitPictureId != 0)
+    {
+        return RosterNpcPortraitBaseId + character.portraitPictureId;
+    }
+
+    return portraitPictureId;
+}
 
 bool characterNeedsTempleHealing(const Character &member)
 {
@@ -873,6 +884,68 @@ InventoryItem makeInventoryItem(
     return item;
 }
 
+void grantRosterInventoryToCharacter(
+    Character &character,
+    const RosterEntry &rosterEntry,
+    const ItemTable *pItemTable)
+{
+    const auto tryEquipRosterItem =
+        [pItemTable](Character &targetCharacter, uint32_t itemId) -> bool
+        {
+            if (pItemTable == nullptr)
+            {
+                return false;
+            }
+
+            const ItemDefinition *pItemDefinition = pItemTable->get(itemId);
+
+            if (pItemDefinition == nullptr || pItemDefinition->equipStat.empty() || pItemDefinition->equipStat == "0")
+            {
+                return false;
+            }
+
+            const std::optional<CharacterEquipPlan> equipPlan = GameMechanics::resolveCharacterEquipPlan(
+                targetCharacter,
+                *pItemDefinition,
+                pItemTable,
+                nullptr,
+                std::nullopt,
+                false);
+
+            if (!equipPlan || equipPlan->displacedSlot.has_value())
+            {
+                return false;
+            }
+
+            InventoryItem item = makeInventoryItem(pItemTable, itemId);
+            item.identified = true;
+            equippedItemId(targetCharacter.equipment, equipPlan->targetSlot) = item.objectDescriptionId;
+            EquippedItemRuntimeState &runtimeState =
+                equippedItemRuntimeState(targetCharacter.equipmentRuntime, equipPlan->targetSlot);
+            runtimeState.identified = item.identified;
+            runtimeState.broken = item.broken;
+            runtimeState.stolen = item.stolen;
+            runtimeState.standardEnchantId = item.standardEnchantId;
+            runtimeState.standardEnchantPower = item.standardEnchantPower;
+            runtimeState.specialEnchantId = item.specialEnchantId;
+            runtimeState.artifactId = item.artifactId;
+            runtimeState.rarity = item.rarity;
+            return true;
+        };
+
+    for (uint32_t itemId : rosterEntry.startingInventoryItemIds)
+    {
+        if (tryEquipRosterItem(character, itemId))
+        {
+            continue;
+        }
+
+        InventoryItem item = makeInventoryItem(pItemTable, itemId);
+        item.identified = true;
+        character.addInventoryItem(item);
+    }
+}
+
 InventoryItem *inventoryItemAtMutable(Character &character, uint8_t gridX, uint8_t gridY)
 {
     for (InventoryItem &item : character.inventory)
@@ -1361,31 +1434,6 @@ PartySeed Party::createDefaultSeed()
     grantSeedInventoryLoadout(troll);
     seed.members.push_back(troll);
 
-    Character dragon = {};
-    dragon.name = "Ithilgore";
-    dragon.className = "Dragon";
-    dragon.role = "Dragon";
-    dragon.portraitTextureName = "PC25-01";
-    dragon.portraitPictureId = 24;
-    dragon.characterDataId = 25;
-    dragon.birthYear = 1129;
-    dragon.experience = 10000;
-    dragon.level = 5;
-    dragon.skillPoints = 30;
-    dragon.might = 30;
-    dragon.intellect = 17;
-    dragon.personality = 9;
-    dragon.endurance = 21;
-    dragon.speed = 11;
-    dragon.accuracy = 13;
-    dragon.luck = 7;
-    dragon.maxHealth = 160;
-    dragon.health = 160;
-    dragon.maxSpellPoints = 20;
-    dragon.spellPoints = 20;
-    grantSeedInventoryLoadout(dragon);
-    seed.members.push_back(dragon);
-
     return seed;
 }
 
@@ -1422,12 +1470,27 @@ void Party::setClassSkillTable(const ClassSkillTable *pClassSkillTable)
 
         initializePortraitRuntimeState(member);
     }
+
+    for (AdventurersInnMember &member : m_adventurersInnMembers)
+    {
+        member.character.className = canonicalClassName(
+            member.character.className.empty() ? member.character.role : member.character.className);
+
+        if (member.character.skills.empty())
+        {
+            applyDefaultStartingSkills(member.character);
+        }
+
+        initializePortraitRuntimeState(member.character);
+        member.portraitPictureId = resolveAdventurersInnPortraitPictureId(member.character, member.portraitPictureId);
+    }
 }
 
 Party::Snapshot Party::snapshot() const
 {
     Snapshot snapshot = {};
     snapshot.members = m_members;
+    snapshot.adventurersInnMembers = m_adventurersInnMembers;
     snapshot.activeMemberIndex = m_activeMemberIndex;
     snapshot.partyBuffs = m_partyBuffs;
     snapshot.characterBuffs = m_characterBuffs;
@@ -1459,6 +1522,7 @@ Party::Snapshot Party::snapshot() const
 void Party::restoreSnapshot(const Snapshot &snapshot)
 {
     m_members = snapshot.members;
+    m_adventurersInnMembers = snapshot.adventurersInnMembers;
     m_activeMemberIndex = snapshot.activeMemberIndex;
     m_partyBuffs = snapshot.partyBuffs;
     m_characterBuffs = snapshot.characterBuffs;
@@ -1484,6 +1548,17 @@ void Party::restoreSnapshot(const Snapshot &snapshot)
         m_houseStockStates[state.houseId] = state;
     }
 
+    for (Character &member : m_members)
+    {
+        initializePortraitRuntimeState(member);
+    }
+
+    for (AdventurersInnMember &member : m_adventurersInnMembers)
+    {
+        initializePortraitRuntimeState(member.character);
+        member.portraitPictureId = resolveAdventurersInnPortraitPictureId(member.character, member.portraitPictureId);
+    }
+
     if (m_members.empty())
     {
         m_activeMemberIndex = 0;
@@ -1501,6 +1576,7 @@ void Party::restoreSnapshot(const Snapshot &snapshot)
 void Party::seed(const PartySeed &seed)
 {
     m_members = seed.members;
+    m_adventurersInnMembers.clear();
     m_activeMemberIndex = 0;
     m_partyBuffs = {};
     m_characterBuffs = {};
@@ -2381,15 +2457,51 @@ bool Party::recruitRosterMember(const RosterEntry &rosterEntry)
     }
 
     m_members.push_back(buildCharacterFromRosterEntry(rosterEntry));
-
-    const size_t memberIndex = m_members.size() - 1;
-
-    for (uint32_t itemId : rosterEntry.startingInventoryItemIds)
-    {
-        grantItemToMember(memberIndex, itemId);
-    }
+    initializePortraitRuntimeState(m_members.back());
+    grantRosterInventoryToCharacter(m_members.back(), rosterEntry, m_pItemTable);
 
     m_lastStatus = "party member recruited";
+    return true;
+}
+
+bool Party::addAdventurersInnMember(const RosterEntry &rosterEntry, uint32_t portraitPictureId)
+{
+    Character character = buildCharacterFromRosterEntry(rosterEntry);
+    grantRosterInventoryToCharacter(character, rosterEntry, m_pItemTable);
+    const uint32_t resolvedPortraitPictureId = resolveAdventurersInnPortraitPictureId(character, portraitPictureId);
+    return addAdventurersInnMember(character, resolvedPortraitPictureId);
+}
+
+bool Party::addAdventurersInnMember(const Character &character, uint32_t portraitPictureId)
+{
+    AdventurersInnMember member = {};
+    member.character = character;
+    member.character.className = canonicalClassName(
+        member.character.className.empty() ? member.character.role : member.character.className);
+    member.character.role = normalizeRoleName(member.character.className);
+
+    if (member.character.skills.empty() && m_pClassSkillTable != nullptr)
+    {
+        applyDefaultStartingSkills(member.character);
+    }
+
+    initializePortraitRuntimeState(member.character);
+    member.portraitPictureId = resolveAdventurersInnPortraitPictureId(member.character, portraitPictureId);
+    m_adventurersInnMembers.push_back(std::move(member));
+    m_lastStatus = "adventurer moved to inn";
+    return true;
+}
+
+bool Party::hireAdventurersInnMember(size_t innIndex)
+{
+    if (isFull() || innIndex >= m_adventurersInnMembers.size())
+    {
+        return false;
+    }
+
+    m_members.push_back(m_adventurersInnMembers[innIndex].character);
+    m_adventurersInnMembers.erase(m_adventurersInnMembers.begin() + innIndex);
+    m_lastStatus = "adventurer hired from inn";
     return true;
 }
 
@@ -2401,11 +2513,8 @@ bool Party::replaceMemberWithRosterEntry(size_t memberIndex, const RosterEntry &
     }
 
     m_members[memberIndex] = buildCharacterFromRosterEntry(rosterEntry);
-
-    for (uint32_t itemId : rosterEntry.startingInventoryItemIds)
-    {
-        grantItemToMember(memberIndex, itemId);
-    }
+    initializePortraitRuntimeState(m_members[memberIndex]);
+    grantRosterInventoryToCharacter(m_members[memberIndex], rosterEntry, m_pItemTable);
 
     rebuildMagicalBonusesFromBuffs();
     m_lastStatus = "party member replaced from roster";
@@ -2422,6 +2531,14 @@ bool Party::hasRosterMember(uint32_t rosterId) const
     for (const Character &member : m_members)
     {
         if (member.rosterId == rosterId)
+        {
+            return true;
+        }
+    }
+
+    for (const AdventurersInnMember &member : m_adventurersInnMembers)
+    {
+        if (member.character.rosterId == rosterId)
         {
             return true;
         }
@@ -3527,6 +3644,38 @@ uint8_t Party::resolveInventoryHeight(uint32_t objectDescriptionId) const
 const std::vector<Character> &Party::members() const
 {
     return m_members;
+}
+
+const std::vector<AdventurersInnMember> &Party::adventurersInnMembers() const
+{
+    return m_adventurersInnMembers;
+}
+
+const AdventurersInnMember *Party::adventurersInnMember(size_t innIndex) const
+{
+    return innIndex < m_adventurersInnMembers.size() ? &m_adventurersInnMembers[innIndex] : nullptr;
+}
+
+AdventurersInnMember *Party::adventurersInnMember(size_t innIndex)
+{
+    return innIndex < m_adventurersInnMembers.size() ? &m_adventurersInnMembers[innIndex] : nullptr;
+}
+
+const Character *Party::adventurersInnCharacter(size_t innIndex) const
+{
+    const AdventurersInnMember *pMember = adventurersInnMember(innIndex);
+    return pMember != nullptr ? &pMember->character : nullptr;
+}
+
+Character *Party::adventurersInnCharacter(size_t innIndex)
+{
+    AdventurersInnMember *pMember = adventurersInnMember(innIndex);
+    return pMember != nullptr ? &pMember->character : nullptr;
+}
+
+void Party::clearAdventurersInnMembers()
+{
+    m_adventurersInnMembers.clear();
 }
 
 bool Party::setActiveMemberIndex(size_t memberIndex)

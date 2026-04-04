@@ -1,4 +1,5 @@
 #include "engine/ApplicationConfig.h"
+#include "engine/AssetScaleTier.h"
 #include "game/outdoor/HeadlessOutdoorDiagnostics.h"
 #include "game/app/GameApplication.h"
 
@@ -10,14 +11,61 @@
 
 namespace
 {
+bool parseCommonArguments(
+    int argc,
+    char **argv,
+    OpenYAMM::Engine::ApplicationConfig &config,
+    std::vector<std::string> &arguments)
+{
+    bool hasAssetScaleArgument = false;
+
+    for (int argumentIndex = 1; argumentIndex < argc; ++argumentIndex)
+    {
+        const std::string argument = argv[argumentIndex];
+
+        if (argument != "--asset-scale")
+        {
+            arguments.push_back(argument);
+            continue;
+        }
+
+        if (hasAssetScaleArgument || argumentIndex + 1 >= argc)
+        {
+            std::cerr << "Usage: --asset-scale <1|2|4|x1|x2|x4>\n";
+            return false;
+        }
+
+        const std::optional<OpenYAMM::Engine::AssetScaleTier> assetScaleTier =
+            OpenYAMM::Engine::parseAssetScaleTier(argv[argumentIndex + 1]);
+
+        if (!assetScaleTier)
+        {
+            std::cerr << "Invalid asset scale: " << argv[argumentIndex + 1] << '\n';
+            return false;
+        }
+
+        config.assetScaleTier = *assetScaleTier;
+        hasAssetScaleArgument = true;
+        ++argumentIndex;
+    }
+
+    return true;
+}
+
 int runApplication(int argc, char **argv)
 {
-    const OpenYAMM::Engine::ApplicationConfig config = OpenYAMM::Engine::ApplicationConfig::createDefault();
+    OpenYAMM::Engine::ApplicationConfig config = OpenYAMM::Engine::ApplicationConfig::createDefault();
+    std::vector<std::string> arguments;
 
-    if (argc == 4 && std::string(argv[1]) == "--headless-open-event")
+    if (!parseCommonArguments(argc, argv, config, arguments))
     {
-        const std::string mapFileName = argv[2];
-        const int parsedEventId = std::stoi(argv[3]);
+        return 2;
+    }
+
+    if (arguments.size() == 3 && arguments[0] == "--headless-open-event")
+    {
+        const std::string mapFileName = arguments[1];
+        const int parsedEventId = std::stoi(arguments[2]);
 
         if (parsedEventId < 0 || parsedEventId > 65535)
         {
@@ -28,10 +76,10 @@ int runApplication(int argc, char **argv)
         return diagnostics.runOpenEvent(argv[0], mapFileName, static_cast<uint16_t>(parsedEventId));
     }
 
-    if (argc == 4 && std::string(argv[1]) == "--headless-open-actor")
+    if (arguments.size() == 3 && arguments[0] == "--headless-open-actor")
     {
-        const std::string mapFileName = argv[2];
-        const int parsedActorIndex = std::stoi(argv[3]);
+        const std::string mapFileName = arguments[1];
+        const int parsedActorIndex = std::stoi(arguments[2]);
 
         if (parsedActorIndex < 0)
         {
@@ -42,10 +90,10 @@ int runApplication(int argc, char **argv)
         return diagnostics.runOpenActor(argv[0], mapFileName, static_cast<size_t>(parsedActorIndex));
     }
 
-    if (argc >= 5 && std::string(argv[1]) == "--headless-run-dialog-sequence")
+    if (arguments.size() >= 4 && arguments[0] == "--headless-run-dialog-sequence")
     {
-        const std::string mapFileName = argv[2];
-        const int parsedEventId = std::stoi(argv[3]);
+        const std::string mapFileName = arguments[1];
+        const int parsedEventId = std::stoi(arguments[2]);
 
         if (parsedEventId < 0 || parsedEventId > 65535)
         {
@@ -54,9 +102,9 @@ int runApplication(int argc, char **argv)
 
         std::vector<size_t> actionIndices;
 
-        for (int argumentIndex = 4; argumentIndex < argc; ++argumentIndex)
+        for (size_t argumentIndex = 3; argumentIndex < arguments.size(); ++argumentIndex)
         {
-            const int parsedActionIndex = std::stoi(argv[argumentIndex]);
+            const int parsedActionIndex = std::stoi(arguments[argumentIndex]);
 
             if (parsedActionIndex < 0)
             {
@@ -70,24 +118,24 @@ int runApplication(int argc, char **argv)
         return diagnostics.runDialogSequence(argv[0], mapFileName, static_cast<uint16_t>(parsedEventId), actionIndices);
     }
 
-    if (argc == 3 && std::string(argv[1]) == "--headless-run-regression-suite")
+    if (arguments.size() == 2 && arguments[0] == "--headless-run-regression-suite")
     {
         OpenYAMM::Game::HeadlessOutdoorDiagnostics diagnostics(config);
-        return diagnostics.runRegressionSuite(argv[0], argv[2]);
+        return diagnostics.runRegressionSuite(argv[0], arguments[1]);
     }
 
-    if (argc == 3 && std::string(argv[1]) == "--headless-profile-map-load-full")
+    if (arguments.size() == 2 && arguments[0] == "--headless-profile-map-load-full")
     {
         OpenYAMM::Game::HeadlessOutdoorDiagnostics diagnostics(config);
-        return diagnostics.runProfileFullMapLoad(argv[0], argv[2]);
+        return diagnostics.runProfileFullMapLoad(argv[0], arguments[1]);
     }
 
-    if (argc == 6 && std::string(argv[1]) == "--headless-simulate-actor")
+    if (arguments.size() == 5 && arguments[0] == "--headless-simulate-actor")
     {
-        const std::string mapFileName = argv[2];
-        const int parsedActorIndex = std::stoi(argv[3]);
-        const int parsedStepCount = std::stoi(argv[4]);
-        const float deltaSeconds = std::stof(argv[5]);
+        const std::string mapFileName = arguments[1];
+        const int parsedActorIndex = std::stoi(arguments[2]);
+        const int parsedStepCount = std::stoi(arguments[3]);
+        const float deltaSeconds = std::stof(arguments[4]);
 
         if (parsedActorIndex < 0 || parsedStepCount <= 0 || deltaSeconds <= 0.0f)
         {
@@ -103,12 +151,12 @@ int runApplication(int argc, char **argv)
             deltaSeconds);
     }
 
-    if (argc == 6 && std::string(argv[1]) == "--headless-trace-actor-ai")
+    if (arguments.size() == 5 && arguments[0] == "--headless-trace-actor-ai")
     {
-        const std::string mapFileName = argv[2];
-        const int parsedActorIndex = std::stoi(argv[3]);
-        const int parsedStepCount = std::stoi(argv[4]);
-        const float deltaSeconds = std::stof(argv[5]);
+        const std::string mapFileName = arguments[1];
+        const int parsedActorIndex = std::stoi(arguments[2]);
+        const int parsedStepCount = std::stoi(arguments[3]);
+        const float deltaSeconds = std::stof(arguments[4]);
 
         if (parsedActorIndex < 0 || parsedStepCount <= 0 || deltaSeconds <= 0.0f)
         {
@@ -124,10 +172,10 @@ int runApplication(int argc, char **argv)
             deltaSeconds);
     }
 
-    if (argc == 4 && std::string(argv[1]) == "--headless-inspect-actor-preview")
+    if (arguments.size() == 3 && arguments[0] == "--headless-inspect-actor-preview")
     {
-        const std::string mapFileName = argv[2];
-        const int parsedActorIndex = std::stoi(argv[3]);
+        const std::string mapFileName = arguments[1];
+        const int parsedActorIndex = std::stoi(arguments[2]);
 
         if (parsedActorIndex < 0)
         {
@@ -138,10 +186,10 @@ int runApplication(int argc, char **argv)
         return diagnostics.runInspectActorPreview(argv[0], mapFileName, static_cast<size_t>(parsedActorIndex));
     }
 
-    if (argc == 4 && std::string(argv[1]) == "--headless-dump-actor-support")
+    if (arguments.size() == 3 && arguments[0] == "--headless-dump-actor-support")
     {
-        const std::string mapFileName = argv[2];
-        const int parsedActorIndex = std::stoi(argv[3]);
+        const std::string mapFileName = arguments[1];
+        const int parsedActorIndex = std::stoi(arguments[2]);
 
         if (parsedActorIndex < 0)
         {
@@ -152,10 +200,10 @@ int runApplication(int argc, char **argv)
         return diagnostics.runDumpActorSupport(argv[0], mapFileName, static_cast<size_t>(parsedActorIndex));
     }
 
-    if (argc == 5 && std::string(argv[1]) == "--headless-dump-actor-preview-texture")
+    if (arguments.size() == 4 && arguments[0] == "--headless-dump-actor-preview-texture")
     {
-        const std::string mapFileName = argv[2];
-        const int parsedActorIndex = std::stoi(argv[3]);
+        const std::string mapFileName = arguments[1];
+        const int parsedActorIndex = std::stoi(arguments[2]);
 
         if (parsedActorIndex < 0)
         {
@@ -167,7 +215,7 @@ int runApplication(int argc, char **argv)
             argv[0],
             mapFileName,
             static_cast<size_t>(parsedActorIndex),
-            argv[4]);
+            arguments[3]);
     }
 
     OpenYAMM::Game::GameApplication application(config);

@@ -30,6 +30,16 @@ struct UiViewportRect
     float height = 0.0f;
 };
 
+int scaleOpaqueMaxToLogical(int physicalMax, Engine::AssetScaleTier assetScaleTier)
+{
+    if (physicalMax < 0)
+    {
+        return -1;
+    }
+
+    return Engine::scalePhysicalPixelsToLogical(physicalMax + 1, assetScaleTier) - 1;
+}
+
 float snappedHudFontScale(float scale)
 {
     const float roundedScale = std::round(scale);
@@ -432,7 +442,7 @@ bgfx::TextureHandle HudUiService::ensureHudTextureColor(
         }
     }
 
-    if (texture.bgraPixels.empty() || texture.width <= 0 || texture.height <= 0)
+    if (texture.bgraPixels.empty() || texture.physicalWidth <= 0 || texture.physicalHeight <= 0)
     {
         return BGFX_INVALID_HANDLE;
     }
@@ -459,8 +469,8 @@ bgfx::TextureHandle HudUiService::ensureHudTextureColor(
     }
 
     const bgfx::TextureHandle textureHandle = bgfx::createTexture2D(
-        static_cast<uint16_t>(texture.width),
-        static_cast<uint16_t>(texture.height),
+        static_cast<uint16_t>(texture.physicalWidth),
+        static_cast<uint16_t>(texture.physicalHeight),
         false,
         1,
         bgfx::TextureFormat::BGRA8,
@@ -676,6 +686,8 @@ const OutdoorGameView::HudTextureHandle *HudUiService::ensureSolidHudTextureLoad
     textureHandle.textureName = toLowerCopy(textureName);
     textureHandle.width = 1;
     textureHandle.height = 1;
+    textureHandle.physicalWidth = 1;
+    textureHandle.physicalHeight = 1;
     textureHandle.bgraPixels.assign(pixel.begin(), pixel.end());
     textureHandle.textureHandle = bgfx::createTexture2D(
         1,
@@ -931,6 +943,8 @@ bool HudUiService::tryGetOpaqueHudTextureBounds(
     int &opaqueMaxX,
     int &opaqueMaxY)
 {
+    const Engine::AssetScaleTier assetScaleTier =
+        view.m_pAssetFileSystem != nullptr ? view.m_pAssetFileSystem->getAssetScaleTier() : Engine::AssetScaleTier::X1;
     const std::optional<std::vector<uint8_t>> pixels = view.loadHudBitmapPixelsBgraCached(textureName, width, height);
 
     if (!pixels || width <= 0 || height <= 0)
@@ -970,6 +984,19 @@ bool HudUiService::tryGetOpaqueHudTextureBounds(
         opaqueMaxY = height - 1;
     }
 
+    const int scaleFactor = Engine::assetScaleTierFactor(assetScaleTier);
+    const int physicalWidth = width;
+    const int physicalHeight = height;
+    width = Engine::scalePhysicalPixelsToLogical(physicalWidth, assetScaleTier);
+    height = Engine::scalePhysicalPixelsToLogical(physicalHeight, assetScaleTier);
+    opaqueMinX /= scaleFactor;
+    opaqueMinY /= scaleFactor;
+    opaqueMaxX = scaleOpaqueMaxToLogical(opaqueMaxX, assetScaleTier);
+    opaqueMaxY = scaleOpaqueMaxToLogical(opaqueMaxY, assetScaleTier);
+    opaqueMinX = std::clamp(opaqueMinX, 0, width - 1);
+    opaqueMinY = std::clamp(opaqueMinY, 0, height - 1);
+    opaqueMaxX = std::clamp(opaqueMaxX, 0, width - 1);
+    opaqueMaxY = std::clamp(opaqueMaxY, 0, height - 1);
     return true;
 }
 } // namespace OpenYAMM::Game

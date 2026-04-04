@@ -15,6 +15,7 @@ struct RosterEntry
     uint32_t id = 0;
     std::string name;
     std::string className;
+    std::string blurb;
     uint32_t birthYear = 0;
     uint32_t pictureId = 0;
     uint32_t experience = 0;

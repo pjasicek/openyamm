@@ -3302,10 +3302,15 @@ OutdoorGameView::OutdoorGameView()
     , m_spellbookClickLatch(false)
     , m_pendingSpellTargetClickLatch(false)
     , m_inventoryScreenToggleLatch(false)
+    , m_adventurersInnToggleLatch(false)
     , m_gameplayUiController()
     , m_characterScreenOpen(m_gameplayUiController.characterScreen().open)
     , m_characterDollJewelryOverlayOpen(m_gameplayUiController.characterScreen().dollJewelryOverlayOpen)
+    , m_adventurersInnRosterOverlayOpen(m_gameplayUiController.characterScreen().adventurersInnRosterOverlayOpen)
     , m_characterPage(m_gameplayUiController.characterScreen().page)
+    , m_characterScreenSource(m_gameplayUiController.characterScreen().source)
+    , m_characterScreenSourceIndex(m_gameplayUiController.characterScreen().sourceIndex)
+    , m_adventurersInnScrollOffset(m_gameplayUiController.characterScreen().adventurersInnScrollOffset)
     , m_characterClickLatch(false)
     , m_characterMemberCycleLatch(false)
     , m_characterPressedTarget({})
@@ -3313,6 +3318,8 @@ OutdoorGameView::OutdoorGameView()
     , m_partyPortraitPressedIndex(std::nullopt)
     , m_lastPartyPortraitClickTicks(0)
     , m_lastPartyPortraitClickedIndex(std::nullopt)
+    , m_lastAdventurersInnPortraitClickTicks(0)
+    , m_lastAdventurersInnPortraitClickedIndex(std::nullopt)
     , m_heldInventoryItem(m_gameplayUiController.heldInventoryItem())
     , m_itemInspectOverlay(m_gameplayUiController.itemInspectOverlay())
     , m_itemInspectInteractionLatch(false)
@@ -5804,14 +5811,23 @@ void OutdoorGameView::shutdown()
     m_spellbookClickLatch = false;
     m_pendingSpellTargetClickLatch = false;
     m_inventoryScreenToggleLatch = false;
+    m_adventurersInnToggleLatch = false;
     m_characterScreenOpen = false;
     m_characterDollJewelryOverlayOpen = false;
+    m_adventurersInnRosterOverlayOpen = false;
     m_characterPage = CharacterPage::Inventory;
+    m_characterScreenSource = CharacterScreenSource::Party;
+    m_characterScreenSourceIndex = 0;
+    m_adventurersInnScrollOffset = 0;
     m_characterClickLatch = false;
     m_characterMemberCycleLatch = false;
     m_characterPressedTarget = {};
     m_partyPortraitClickLatch = false;
     m_partyPortraitPressedIndex = std::nullopt;
+    m_lastPartyPortraitClickTicks = 0;
+    m_lastPartyPortraitClickedIndex = std::nullopt;
+    m_lastAdventurersInnPortraitClickTicks = 0;
+    m_lastAdventurersInnPortraitClickedIndex = std::nullopt;
     m_heldInventoryItem = {};
     m_actorInspectOverlay = {};
     m_spellInspectOverlay = {};
@@ -6251,12 +6267,15 @@ void OutdoorGameView::updateItemInspectOverlayState(int width, int height)
         }
     }
 
-    if (!m_characterScreenOpen || m_characterPage != CharacterPage::Inventory || m_pOutdoorPartyRuntime == nullptr)
+    if (!m_characterScreenOpen
+        || m_characterPage != CharacterPage::Inventory
+        || m_pOutdoorPartyRuntime == nullptr
+        || isAdventurersInnScreenActive())
     {
         return;
     }
 
-    const Character *pCharacter = m_pOutdoorPartyRuntime->party().activeMember();
+    const Character *pCharacter = selectedCharacterScreenCharacter();
     const HudLayoutElement *pInventoryGridLayout = HudUiService::findHudLayoutElement(*this, "CharacterInventoryGrid");
 
     if (pCharacter == nullptr || pInventoryGridLayout == nullptr)
@@ -6324,8 +6343,10 @@ void OutdoorGameView::updateItemInspectOverlayState(int width, int height)
     m_itemInspectOverlay.objectDescriptionId = pHoveredItem->objectDescriptionId;
     m_itemInspectOverlay.hasItemState = true;
     m_itemInspectOverlay.itemState = *pHoveredItem;
-    m_itemInspectOverlay.sourceType = ItemInspectSourceType::Inventory;
-    m_itemInspectOverlay.sourceMemberIndex = m_pOutdoorPartyRuntime->party().activeMemberIndex();
+    m_itemInspectOverlay.sourceType =
+        isAdventurersInnCharacterSourceActive() ? ItemInspectSourceType::None : ItemInspectSourceType::Inventory;
+    m_itemInspectOverlay.sourceMemberIndex =
+        isAdventurersInnCharacterSourceActive() ? m_characterScreenSourceIndex : m_pOutdoorPartyRuntime->party().activeMemberIndex();
     m_itemInspectOverlay.sourceGridX = gridX;
     m_itemInspectOverlay.sourceGridY = gridY;
     m_itemInspectOverlay.sourceX = itemRect.x;
@@ -6680,6 +6701,7 @@ void OutdoorGameView::updateCharacterInspectOverlayState(int width, int height)
         || height <= 0
         || !m_characterScreenOpen
         || m_pOutdoorPartyRuntime == nullptr
+        || isAdventurersInnScreenActive()
         || !m_characterInspectTable)
     {
         return;
@@ -6694,7 +6716,7 @@ void OutdoorGameView::updateCharacterInspectOverlayState(int width, int height)
         return;
     }
 
-    const Character *pCharacter = m_pOutdoorPartyRuntime->party().activeMember();
+    const Character *pCharacter = selectedCharacterScreenCharacter();
 
     if (pCharacter == nullptr)
     {
@@ -7938,6 +7960,75 @@ uint32_t OutdoorGameView::defaultPortraitAnimationLengthTicks(PortraitId portrai
     }
 
     return 48u;
+}
+
+bool OutdoorGameView::isAdventurersInnCharacterSourceActive() const
+{
+    return m_characterScreenOpen && m_characterScreenSource == CharacterScreenSource::AdventurersInn;
+}
+
+bool OutdoorGameView::isAdventurersInnScreenActive() const
+{
+    return isAdventurersInnCharacterSourceActive() && m_adventurersInnRosterOverlayOpen;
+}
+
+bool OutdoorGameView::isReadOnlyAdventurersInnCharacterViewActive() const
+{
+    return isAdventurersInnCharacterSourceActive() && !m_adventurersInnRosterOverlayOpen;
+}
+
+const Character *OutdoorGameView::selectedCharacterScreenCharacter() const
+{
+    if (m_pOutdoorPartyRuntime == nullptr)
+    {
+        return nullptr;
+    }
+
+    const Party &party = m_pOutdoorPartyRuntime->party();
+
+    if (m_characterScreenSource == CharacterScreenSource::AdventurersInn)
+    {
+        return party.adventurersInnCharacter(m_characterScreenSourceIndex);
+    }
+
+    return party.activeMember();
+}
+
+Character *OutdoorGameView::selectedCharacterScreenCharacter()
+{
+    if (m_pOutdoorPartyRuntime == nullptr)
+    {
+        return nullptr;
+    }
+
+    Party &party = m_pOutdoorPartyRuntime->party();
+
+    if (m_characterScreenSource == CharacterScreenSource::AdventurersInn)
+    {
+        return party.adventurersInnCharacter(m_characterScreenSourceIndex);
+    }
+
+    return party.activeMember();
+}
+
+const AdventurersInnMember *OutdoorGameView::selectedAdventurersInnMember() const
+{
+    if (m_pOutdoorPartyRuntime == nullptr || m_characterScreenSource != CharacterScreenSource::AdventurersInn)
+    {
+        return nullptr;
+    }
+
+    return m_pOutdoorPartyRuntime->party().adventurersInnMember(m_characterScreenSourceIndex);
+}
+
+AdventurersInnMember *OutdoorGameView::selectedAdventurersInnMember()
+{
+    if (m_pOutdoorPartyRuntime == nullptr || m_characterScreenSource != CharacterScreenSource::AdventurersInn)
+    {
+        return nullptr;
+    }
+
+    return m_pOutdoorPartyRuntime->party().adventurersInnMember(m_characterScreenSourceIndex);
 }
 
 std::string OutdoorGameView::resolvePortraitTextureName(const Character &character) const
@@ -9670,8 +9761,10 @@ bool OutdoorGameView::loadHudTexture(const Engine::AssetFileSystem &assetFileSys
 
     HudTextureHandle textureHandle = {};
     textureHandle.textureName = toLowerCopy(textureName);
-    textureHandle.width = width;
-    textureHandle.height = height;
+    textureHandle.width = Engine::scalePhysicalPixelsToLogical(width, assetFileSystem.getAssetScaleTier());
+    textureHandle.height = Engine::scalePhysicalPixelsToLogical(height, assetFileSystem.getAssetScaleTier());
+    textureHandle.physicalWidth = width;
+    textureHandle.physicalHeight = height;
     textureHandle.bgraPixels = *pixels;
     textureHandle.textureHandle = bgfx::createTexture2D(
         static_cast<uint16_t>(width),

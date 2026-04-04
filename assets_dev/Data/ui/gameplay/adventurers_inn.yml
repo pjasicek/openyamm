@@ -1,0 +1,85 @@
+screen: Character
+
+elements:
+  - id: AdventurersInnRoot
+    anchor: center
+    width: 640
+    height: 480
+    scale:
+      min: 1.0
+      max: 3.0
+    z_index: 110
+    notes: Adventurer's Inn overlay layered on top of the standard character screen.
+    children:
+      - id: AdventurersInnBackground
+        anchor: top_left
+        offset_x: 0
+        offset_y: 24
+        width: 460
+        height: 344
+        z_index: 110
+        asset:
+          default: rost_bg
+
+      - id: AdventurersInnScrollUpButton
+        anchor: top_left
+        offset_x: 8
+        offset_y: 45
+        width: 17
+        height: 17
+        z_index: 300
+        interactive: true
+        asset:
+          default: AR_UP_UP
+          highlighted: AR_UP_HT
+          pressed: AR_UP_DN
+
+      - id: AdventurersInnScrollDownButton
+        anchor: top_left
+        offset_x: 8
+        offset_y: 326
+        width: 17
+        height: 17
+        z_index: 300
+        interactive: true
+        asset:
+          default: AR_DN_UP
+          highlighted: AR_DN_HT
+          pressed: AR_DN_DN
+
+      - id: AdventurersInnHireButton
+        anchor: top_left
+        offset_x: 525
+        offset_y: 380
+        width: 75
+        height: 26
+        z_index: 300
+        interactive: true
+        asset:
+          default: but25U
+          highlighted: but25H
+          pressed: but25D
+
+      - id: AdventurersInnExitButton
+        anchor: top_left
+        offset_x: 525
+        offset_y: 450
+        width: 75
+        height: 26
+        z_index: 300
+        interactive: true
+        asset:
+          default: But24U
+          highlighted: But24H
+          pressed: But24D
+
+      - id: AdventurersInnDollDividerBar
+        anchor: top_left
+        offset_x: 460
+        offset_y: 24
+        width: 8
+        height: 347
+        bottom_to: OutdoorBasebar
+        z_index: 110
+        asset:
+          default: IB-8pxbar

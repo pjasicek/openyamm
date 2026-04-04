@@ -1253,7 +1253,8 @@ bool OutdoorInteractionController::hitTestDecorationBillboard(
 
     const OutdoorBitmapTexture *pBitmapTexture = findDecorationBillboardTexture(view, texture.textureName);
 
-    if (pBitmapTexture == nullptr || pBitmapTexture->pixels.empty())
+    if (pBitmapTexture == nullptr || pBitmapTexture->physicalWidth <= 0 || pBitmapTexture->physicalHeight <= 0
+        || pBitmapTexture->pixels.empty())
     {
         return false;
     }
@@ -1340,14 +1341,15 @@ bool OutdoorInteractionController::hitTestDecorationBillboard(
         }
 
         const int pixelX = std::clamp(
-            static_cast<int>(std::floor(normalizedU * static_cast<float>(pBitmapTexture->width))),
+            static_cast<int>(std::floor(normalizedU * static_cast<float>(pBitmapTexture->physicalWidth))),
             0,
-            pBitmapTexture->width - 1);
+            pBitmapTexture->physicalWidth - 1);
         const int pixelY = std::clamp(
-            static_cast<int>(std::floor(normalizedV * static_cast<float>(pBitmapTexture->height))),
+            static_cast<int>(std::floor(normalizedV * static_cast<float>(pBitmapTexture->physicalHeight))),
             0,
-            pBitmapTexture->height - 1);
-        const size_t pixelOffset = static_cast<size_t>((pixelY * pBitmapTexture->width + pixelX) * 4);
+            pBitmapTexture->physicalHeight - 1);
+        const size_t pixelOffset = static_cast<size_t>(
+            (pixelY * pBitmapTexture->physicalWidth + pixelX) * 4);
 
         if (pixelOffset + 3 >= pBitmapTexture->pixels.size() || pBitmapTexture->pixels[pixelOffset + 3] == 0)
         {
@@ -1448,6 +1450,7 @@ bool OutdoorInteractionController::hitTestActorBillboard(
         findActorBillboardTexture(view, resolvedTexture.textureName, pFrame->paletteId);
 
     if (pBitmapTexture == nullptr || pBitmapTexture->width <= 0 || pBitmapTexture->height <= 0
+        || pBitmapTexture->physicalWidth <= 0 || pBitmapTexture->physicalHeight <= 0
         || pBitmapTexture->pixels.empty())
     {
         return false;
@@ -1527,14 +1530,15 @@ bool OutdoorInteractionController::hitTestActorBillboard(
         }
 
         const int pixelX = std::clamp(
-            static_cast<int>(std::floor(normalizedU * static_cast<float>(pBitmapTexture->width))),
+            static_cast<int>(std::floor(normalizedU * static_cast<float>(pBitmapTexture->physicalWidth))),
             0,
-            pBitmapTexture->width - 1);
+            pBitmapTexture->physicalWidth - 1);
         const int pixelY = std::clamp(
-            static_cast<int>(std::floor(normalizedV * static_cast<float>(pBitmapTexture->height))),
+            static_cast<int>(std::floor(normalizedV * static_cast<float>(pBitmapTexture->physicalHeight))),
             0,
-            pBitmapTexture->height - 1);
-        const size_t pixelOffset = static_cast<size_t>((pixelY * pBitmapTexture->width + pixelX) * 4);
+            pBitmapTexture->physicalHeight - 1);
+        const size_t pixelOffset = static_cast<size_t>(
+            (pixelY * pBitmapTexture->physicalWidth + pixelX) * 4);
 
         if (pixelOffset + 3 >= pBitmapTexture->pixels.size() || pBitmapTexture->pixels[pixelOffset + 3] == 0)
         {

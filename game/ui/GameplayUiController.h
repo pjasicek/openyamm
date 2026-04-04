@@ -25,6 +25,12 @@ public:
         Awards
     };
 
+    enum class CharacterScreenSource
+    {
+        Party,
+        AdventurersInn
+    };
+
     enum class SpellbookSchool
     {
         Fire,
@@ -193,7 +199,11 @@ public:
     {
         bool open = false;
         bool dollJewelryOverlayOpen = false;
+        bool adventurersInnRosterOverlayOpen = false;
         CharacterPage page = CharacterPage::Inventory;
+        CharacterScreenSource source = CharacterScreenSource::Party;
+        size_t sourceIndex = 0;
+        size_t adventurersInnScrollOffset = 0;
     };
 
     struct InventoryNestedOverlayState

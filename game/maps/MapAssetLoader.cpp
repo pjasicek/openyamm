@@ -39,6 +39,11 @@ constexpr uint16_t LevelDecorationInvisible = 0x0020;
 
 std::optional<std::string> resolveMonsterNameForSpawn(const MapStatsEntry &map, uint16_t typeId, uint16_t index);
 
+int terrainTexturePhysicalTileSize(Engine::AssetScaleTier assetScaleTier)
+{
+    return TerrainTextureTileSize * Engine::assetScaleTierFactor(assetScaleTier);
+}
+
 std::string trimAsciiWhitespace(const std::string &value)
 {
     size_t begin = 0;
@@ -751,9 +756,11 @@ std::optional<std::vector<uint8_t>> loadBitmapPixelsBgra(
     int16_t paletteId = 0
 )
 {
+    const int forcedTerrainTileSize =
+        forceTerrainTileSize ? terrainTexturePhysicalTileSize(assetFileSystem.getAssetScaleTier()) : 0;
     const std::string cacheKey =
         directoryPath + "|" + toLowerCopy(textureName)
-        + "|" + std::to_string(forceTerrainTileSize ? 1 : 0)
+        + "|" + std::to_string(forcedTerrainTileSize)
         + "|" + std::to_string(applyTransparencyKey ? 1 : 0)
         + "|" + std::to_string(static_cast<int>(paletteId));
     const auto cachedPixelsIt = bitmapLoadCache.pixelsByKey.find(cacheKey);
@@ -842,10 +849,14 @@ std::optional<std::vector<uint8_t>> loadBitmapPixelsBgra(
     SDL_Surface *pSurfaceToCopy = pConvertedSurface;
 
     if (forceTerrainTileSize
-        && (pConvertedSurface->w != TerrainTextureTileSize || pConvertedSurface->h != TerrainTextureTileSize))
+        && (pConvertedSurface->w != forcedTerrainTileSize || pConvertedSurface->h != forcedTerrainTileSize))
     {
         SDL_Surface *pScaledSurface =
-            SDL_ScaleSurface(pConvertedSurface, TerrainTextureTileSize, TerrainTextureTileSize, SDL_SCALEMODE_NEAREST);
+            SDL_ScaleSurface(
+                pConvertedSurface,
+                forcedTerrainTileSize,
+                forcedTerrainTileSize,
+                SDL_SCALEMODE_NEAREST);
         SDL_DestroySurface(pConvertedSurface);
         pSurfaceToCopy = pScaledSurface;
 
@@ -985,8 +996,10 @@ std::optional<DecorationBillboardSet> buildDecorationBillboardSet(
 
         OutdoorBitmapTexture texture = {};
         texture.textureName = textureName;
-        texture.width = textureWidth;
-        texture.height = textureHeight;
+        texture.width = Engine::scalePhysicalPixelsToLogical(textureWidth, assetFileSystem.getAssetScaleTier());
+        texture.height = Engine::scalePhysicalPixelsToLogical(textureHeight, assetFileSystem.getAssetScaleTier());
+        texture.physicalWidth = textureWidth;
+        texture.physicalHeight = textureHeight;
         texture.pixels = *pixels;
         billboardSet.textures.push_back(std::move(texture));
     }
@@ -1312,8 +1325,10 @@ std::optional<SpriteObjectBillboardSet> buildSpriteObjectBillboardSet(
 
         OutdoorBitmapTexture texture = {};
         texture.textureName = textureName;
-        texture.width = textureWidth;
-        texture.height = textureHeight;
+        texture.width = Engine::scalePhysicalPixelsToLogical(textureWidth, assetFileSystem.getAssetScaleTier());
+        texture.height = Engine::scalePhysicalPixelsToLogical(textureHeight, assetFileSystem.getAssetScaleTier());
+        texture.physicalWidth = textureWidth;
+        texture.physicalHeight = textureHeight;
         texture.pixels = *pixels;
         billboardSet.textures.push_back(std::move(texture));
     }
@@ -1824,8 +1839,10 @@ std::optional<ActorPreviewBillboardSet> buildActorPreviewBillboardSet(
             OutdoorBitmapTexture texture = {};
             texture.textureName = textureRequest.textureName;
             texture.paletteId = textureRequest.paletteId;
-            texture.width = textureWidth;
-            texture.height = textureHeight;
+            texture.width = Engine::scalePhysicalPixelsToLogical(textureWidth, assetFileSystem.getAssetScaleTier());
+            texture.height = Engine::scalePhysicalPixelsToLogical(textureHeight, assetFileSystem.getAssetScaleTier());
+            texture.physicalWidth = textureWidth;
+            texture.physicalHeight = textureHeight;
             texture.pixels = *pixels;
             billboardSet.textures.push_back(std::move(texture));
         }
@@ -1950,10 +1967,11 @@ std::optional<OutdoorTerrainTextureAtlas> buildOutdoorTerrainTextureAtlas(
         return std::nullopt;
     }
 
+    const int terrainTileSize = terrainTexturePhysicalTileSize(assetFileSystem.getAssetScaleTier());
     OutdoorTerrainTextureAtlas textureAtlas = {};
-    textureAtlas.tileSize = TerrainTextureTileSize;
-    textureAtlas.width = TerrainTextureAtlasColumns * TerrainTextureTileSize;
-    textureAtlas.height = TerrainTextureAtlasColumns * TerrainTextureTileSize;
+    textureAtlas.tileSize = terrainTileSize;
+    textureAtlas.width = TerrainTextureAtlasColumns * terrainTileSize;
+    textureAtlas.height = TerrainTextureAtlasColumns * terrainTileSize;
     textureAtlas.pixels.resize(static_cast<size_t>(textureAtlas.width * textureAtlas.height * 4), 0);
 
     std::unordered_map<std::string, std::vector<uint8_t>> waterBasePixelsByName;
@@ -1981,7 +1999,7 @@ std::optional<OutdoorTerrainTextureAtlas> buildOutdoorTerrainTextureAtlas(
                 bitmapLoadCache
             );
 
-        if (!tilePixels || textureWidth != TerrainTextureTileSize || textureHeight != TerrainTextureTileSize)
+        if (!tilePixels || textureWidth != terrainTileSize || textureHeight != terrainTileSize)
         {
             continue;
         }
@@ -2017,8 +2035,8 @@ std::optional<OutdoorTerrainTextureAtlas> buildOutdoorTerrainTextureAtlas(
                     );
 
                 if (waterTilePixels
-                    && waterTextureWidth == TerrainTextureTileSize
-                    && waterTextureHeight == TerrainTextureTileSize)
+                    && waterTextureWidth == terrainTileSize
+                    && waterTextureHeight == terrainTileSize)
                 {
                     animatedWaterBasePixels = *waterTilePixels;
                     waterBasePixelsByName.emplace(normalizedWaterBaseTextureName, animatedWaterBasePixels);
@@ -2041,27 +2059,27 @@ std::optional<OutdoorTerrainTextureAtlas> buildOutdoorTerrainTextureAtlas(
 
         const int atlasColumn = tileIndex % TerrainTextureAtlasColumns;
         const int atlasRow = tileIndex / TerrainTextureAtlasColumns;
-        const int atlasX = atlasColumn * TerrainTextureTileSize;
-        const int atlasY = atlasRow * TerrainTextureTileSize;
+        const int atlasX = atlasColumn * terrainTileSize;
+        const int atlasY = atlasRow * terrainTileSize;
 
-        for (int row = 0; row < TerrainTextureTileSize; ++row)
+        for (int row = 0; row < terrainTileSize; ++row)
         {
-            const size_t sourceOffset = static_cast<size_t>(row * TerrainTextureTileSize * 4);
+            const size_t sourceOffset = static_cast<size_t>(row * terrainTileSize * 4);
             const size_t targetOffset = static_cast<size_t>(
                 ((atlasY + row) * textureAtlas.width + atlasX) * 4
             );
             std::memcpy(
                 textureAtlas.pixels.data() + static_cast<ptrdiff_t>(targetOffset),
                 resolvedTilePixels.data() + static_cast<ptrdiff_t>(sourceOffset),
-                static_cast<size_t>(TerrainTextureTileSize * 4)
+                static_cast<size_t>(terrainTileSize * 4)
             );
         }
 
         OutdoorTerrainAtlasRegion region = {};
         region.u0 = static_cast<float>(atlasX) / static_cast<float>(textureAtlas.width);
         region.v0 = static_cast<float>(atlasY) / static_cast<float>(textureAtlas.height);
-        region.u1 = static_cast<float>(atlasX + TerrainTextureTileSize) / static_cast<float>(textureAtlas.width);
-        region.v1 = static_cast<float>(atlasY + TerrainTextureTileSize) / static_cast<float>(textureAtlas.height);
+        region.u1 = static_cast<float>(atlasX + terrainTileSize) / static_cast<float>(textureAtlas.width);
+        region.v1 = static_cast<float>(atlasY + terrainTileSize) / static_cast<float>(textureAtlas.height);
         region.isValid = true;
         region.isWater = isAnimatedWaterTerrainTexture(textureName);
         textureAtlas.tileRegions[static_cast<size_t>(tileIndex)] = region;
@@ -2135,8 +2153,10 @@ std::optional<OutdoorBModelTextureSet> buildOutdoorBModelTextureSet(
 
         OutdoorBitmapTexture texture = {};
         texture.textureName = textureName;
-        texture.width = textureWidth;
-        texture.height = textureHeight;
+        texture.width = Engine::scalePhysicalPixelsToLogical(textureWidth, assetFileSystem.getAssetScaleTier());
+        texture.height = Engine::scalePhysicalPixelsToLogical(textureHeight, assetFileSystem.getAssetScaleTier());
+        texture.physicalWidth = textureWidth;
+        texture.physicalHeight = textureHeight;
         texture.pixels = *pixels;
         textureSet.textures.push_back(std::move(texture));
     }
@@ -2202,8 +2222,10 @@ std::optional<IndoorTextureSet> buildIndoorTextureSet(
 
         OutdoorBitmapTexture texture = {};
         texture.textureName = textureName;
-        texture.width = textureWidth;
-        texture.height = textureHeight;
+        texture.width = Engine::scalePhysicalPixelsToLogical(textureWidth, assetFileSystem.getAssetScaleTier());
+        texture.height = Engine::scalePhysicalPixelsToLogical(textureHeight, assetFileSystem.getAssetScaleTier());
+        texture.physicalWidth = textureWidth;
+        texture.physicalHeight = textureHeight;
         texture.pixels = *pixels;
         textureSet.textures.push_back(std::move(texture));
     }

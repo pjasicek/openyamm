@@ -3,6 +3,7 @@ add_library(openyamm_engine
     AudioSystem.cpp
     ApplicationConfig.cpp
     AssetFileSystem.cpp
+    AssetScaleTier.cpp
     AssetPaths.cpp
     EngineApplication.cpp
     TextTable.cpp

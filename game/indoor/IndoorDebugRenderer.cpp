@@ -604,6 +604,7 @@ IndoorDebugRenderer::~IndoorDebugRenderer()
 }
 
 bool IndoorDebugRenderer::initialize(
+    Engine::AssetScaleTier assetScaleTier,
     const MapStatsEntry &map,
     const MonsterTable &monsterTable,
     const IndoorMapData &indoorMapData,
@@ -622,6 +623,7 @@ bool IndoorDebugRenderer::initialize(
     shutdown();
     m_isInitialized = true;
     m_map = map;
+    m_assetScaleTier = assetScaleTier;
     m_monsterTable = monsterTable;
     m_indoorMapData = indoorMapData;
     m_pSceneRuntime = &sceneRuntime;
@@ -684,9 +686,11 @@ bool IndoorDebugRenderer::initialize(
             billboardTexture.paletteId = texture.paletteId;
             billboardTexture.width = texture.width;
             billboardTexture.height = texture.height;
+            billboardTexture.physicalWidth = texture.physicalWidth;
+            billboardTexture.physicalHeight = texture.physicalHeight;
             billboardTexture.textureHandle = bgfx::createTexture2D(
-                static_cast<uint16_t>(texture.width),
-                static_cast<uint16_t>(texture.height),
+                static_cast<uint16_t>(texture.physicalWidth),
+                static_cast<uint16_t>(texture.physicalHeight),
                 false,
                 1,
                 bgfx::TextureFormat::BGRA8,
@@ -715,9 +719,11 @@ bool IndoorDebugRenderer::initialize(
             billboardTexture.paletteId = texture.paletteId;
             billboardTexture.width = texture.width;
             billboardTexture.height = texture.height;
+            billboardTexture.physicalWidth = texture.physicalWidth;
+            billboardTexture.physicalHeight = texture.physicalHeight;
             billboardTexture.textureHandle = bgfx::createTexture2D(
-                static_cast<uint16_t>(texture.width),
-                static_cast<uint16_t>(texture.height),
+                static_cast<uint16_t>(texture.physicalWidth),
+                static_cast<uint16_t>(texture.physicalHeight),
                 false,
                 1,
                 bgfx::TextureFormat::BGRA8,
@@ -746,9 +752,11 @@ bool IndoorDebugRenderer::initialize(
             billboardTexture.paletteId = texture.paletteId;
             billboardTexture.width = texture.width;
             billboardTexture.height = texture.height;
+            billboardTexture.physicalWidth = texture.physicalWidth;
+            billboardTexture.physicalHeight = texture.physicalHeight;
             billboardTexture.textureHandle = bgfx::createTexture2D(
-                static_cast<uint16_t>(texture.width),
-                static_cast<uint16_t>(texture.height),
+                static_cast<uint16_t>(texture.physicalWidth),
+                static_cast<uint16_t>(texture.physicalHeight),
                 false,
                 1,
                 bgfx::TextureFormat::BGRA8,
@@ -2173,8 +2181,8 @@ bool IndoorDebugRenderer::rebuildAllTexturedBatches(uint64_t &texturedBuildNanos
                 if (pTexture != nullptr)
                 {
                     batch.textureHandle = bgfx::createTexture2D(
-                        static_cast<uint16_t>(pTexture->width),
-                        static_cast<uint16_t>(pTexture->height),
+                        static_cast<uint16_t>(pTexture->physicalWidth),
+                        static_cast<uint16_t>(pTexture->physicalHeight),
                         false,
                         1,
                         bgfx::TextureFormat::BGRA8,
