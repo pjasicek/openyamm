@@ -11,6 +11,7 @@
 #include <cstdint>
 #include <functional>
 #include <string>
+#include <vector>
 
 namespace OpenYAMM::Game
 {
@@ -146,9 +147,21 @@ public:
 
     struct CharacterDetailOverlayState
     {
+        struct ActiveSpellLine
+        {
+            std::string name;
+            std::string duration;
+        };
+
         bool active = false;
         std::string title;
         std::string body;
+        std::string portraitTextureName;
+        std::string hitPointsText;
+        std::string spellPointsText;
+        std::string conditionText;
+        std::string quickSpellText;
+        std::vector<ActiveSpellLine> activeSpells;
         float sourceX = 0.0f;
         float sourceY = 0.0f;
         float sourceWidth = 0.0f;

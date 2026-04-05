@@ -133,6 +133,29 @@ void forgetAllSpellsForMagicSkill(Character &character, const std::string &skill
     }
 }
 
+void applyRosterSpellKnowledge(Character &character, const RosterEntry &rosterEntry)
+{
+    for (const auto &[skillName, knownSpellCount] : rosterEntry.knownSpellCounts)
+    {
+        const std::optional<std::pair<uint32_t, uint32_t>> spellRange = spellIdRangeForMagicSkill(skillName);
+
+        if (!spellRange || knownSpellCount == 0)
+        {
+            continue;
+        }
+
+        const uint32_t firstSpellId = spellRange->first;
+        const uint32_t lastSpellId = spellRange->second;
+        const uint32_t spellCountInSchool = lastSpellId - firstSpellId + 1;
+        const uint32_t learnedSpellCount = std::min(knownSpellCount, spellCountInSchool);
+
+        for (uint32_t spellOffset = 0; spellOffset < learnedSpellCount; ++spellOffset)
+        {
+            character.learnSpell(firstSpellId + spellOffset);
+        }
+    }
+}
+
 void grantDefaultEquipmentSkills(Character &character)
 {
     static const std::array<const char *, 11> skillNames = {
@@ -276,6 +299,7 @@ Character buildCharacterFromRosterEntry(const RosterEntry &rosterEntry)
     member.luck = rosterEntry.luck;
     member.baseResistances = rosterEntry.baseResistances;
     member.skills = rosterEntry.skills;
+    applyRosterSpellKnowledge(member, rosterEntry);
 
     const int endurance = std::max(10, static_cast<int>(rosterEntry.endurance));
     const int intellect = std::max(0, static_cast<int>(rosterEntry.intellect));

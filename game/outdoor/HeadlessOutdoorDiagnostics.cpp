@@ -10785,6 +10785,42 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
     );
 
     runCase(
+        "house_data_magic_guild_types_are_explicit",
+        [&](std::string &failure)
+        {
+            const HouseEntry *pElementalGuild = gameDataLoader.getHouseTable().get(139);
+            const HouseEntry *pLightGuild = gameDataLoader.getHouseTable().get(142);
+            const HouseEntry *pDarkGuild = gameDataLoader.getHouseTable().get(143);
+
+            if (pElementalGuild == nullptr || pLightGuild == nullptr || pDarkGuild == nullptr)
+            {
+                failure = "magic guild house entries missing";
+                return false;
+            }
+
+            if (pElementalGuild->type != "Elemental Guild")
+            {
+                failure = "house 139 is not encoded as Elemental Guild";
+                return false;
+            }
+
+            if (pLightGuild->type != "Light Guild")
+            {
+                failure = "house 142 is not encoded as Light Guild";
+                return false;
+            }
+
+            if (pDarkGuild->type != "Dark Guild")
+            {
+                failure = "house 143 is not encoded as Dark Guild";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
         "house_service_guild_spellbook_stock_generates_and_buys",
         [&](std::string &failure)
         {
@@ -12666,6 +12702,79 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
     );
 
     runCase(
+        "adventurers_inn_hire_preserves_roster_spell_knowledge",
+        [&](std::string &failure)
+        {
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            const RosterEntry *pRosterEntry = gameDataLoader.getRosterTable().get(1);
+
+            if (pRosterEntry == nullptr)
+            {
+                failure = "Devlin roster entry missing";
+                return false;
+            }
+
+            if (!scenario.party.addAdventurersInnMember(*pRosterEntry, 0))
+            {
+                failure = "could not add Devlin to the inn";
+                return false;
+            }
+
+            if (!scenario.party.hireAdventurersInnMember(0))
+            {
+                failure = "could not hire Devlin from the inn";
+                return false;
+            }
+
+            const Character *pHiredMember = nullptr;
+
+            for (const Character &member : scenario.party.members())
+            {
+                if (member.rosterId == 1)
+                {
+                    pHiredMember = &member;
+                    break;
+                }
+            }
+
+            if (pHiredMember == nullptr)
+            {
+                failure = "Devlin was not present in party after hire";
+                return false;
+            }
+
+            if (!pHiredMember->knowsSpell(spellIdValue(SpellId::TorchLight))
+                || !pHiredMember->knowsSpell(spellIdValue(SpellId::FireBolt))
+                || !pHiredMember->knowsSpell(spellIdValue(SpellId::WizardEye))
+                || !pHiredMember->knowsSpell(spellIdValue(SpellId::FeatherFall))
+                || !pHiredMember->knowsSpell(spellIdValue(SpellId::Reanimate))
+                || !pHiredMember->knowsSpell(spellIdValue(SpellId::ToxicCloud))
+                || !pHiredMember->knowsSpell(spellIdValue(SpellId::VampiricWeapon)))
+            {
+                failure = "Devlin did not retain roster spell knowledge after Inn hire";
+                return false;
+            }
+
+            if (pHiredMember->knowsSpell(spellIdValue(SpellId::Inferno))
+                || pHiredMember->knowsSpell(spellIdValue(SpellId::Fly))
+                || pHiredMember->knowsSpell(spellIdValue(SpellId::PainReflection)))
+            {
+                failure = "Devlin learned spells beyond the roster-defined counts";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
         "party_dismiss_moves_member_to_adventurers_inn_tail",
         [&](std::string &failure)
         {
@@ -13918,6 +14027,12 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
             if (result.spellSkillLevelOverride != 5 || result.spellSkillMasteryOverride != SkillMastery::Master)
             {
                 failure = "spell scroll did not use the expected OE-style cast overrides";
+                return false;
+            }
+
+            if (!result.consumed)
+            {
+                failure = "spell scroll did not mark itself consumed";
                 return false;
             }
 

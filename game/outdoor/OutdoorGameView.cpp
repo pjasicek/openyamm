@@ -593,6 +593,56 @@ std::string formatRemainingDuration(float remainingSeconds)
     return std::to_string(seconds) + "s";
 }
 
+std::string formatCharacterDetailDuration(float remainingSeconds)
+{
+    const int totalSeconds = std::max(0, static_cast<int>(std::lround(remainingSeconds)));
+    const int hours = totalSeconds / 3600;
+    const int minutes = (totalSeconds % 3600) / 60;
+    const int seconds = totalSeconds % 60;
+    std::vector<std::string> parts;
+
+    if (hours > 0)
+    {
+        parts.push_back(std::to_string(hours) + (hours == 1 ? " Hour" : " Hours"));
+    }
+
+    if (minutes > 0)
+    {
+        parts.push_back(std::to_string(minutes) + (minutes == 1 ? " Minute" : " Minutes"));
+    }
+
+    if (hours == 0 && seconds > 0)
+    {
+        parts.push_back(std::to_string(seconds) + (seconds == 1 ? " Second" : " Seconds"));
+    }
+
+    if (parts.empty())
+    {
+        return "0 Seconds";
+    }
+
+    std::string result;
+
+    for (const std::string &part : parts)
+    {
+        if (!result.empty())
+        {
+            result += ' ';
+        }
+
+        result += part;
+    }
+
+    return result;
+}
+
+std::string defaultCharacterPortraitTextureName(const Character &character)
+{
+    char buffer[16] = {};
+    std::snprintf(buffer, sizeof(buffer), "PC%02u-01", character.portraitPictureId + 1);
+    return buffer;
+}
+
 struct GoldHeapVisual
 {
     const char *pTextureName = "item204";
@@ -7113,11 +7163,17 @@ void OutdoorGameView::updateCharacterDetailOverlayState(int width, int height)
     const Party &party = m_pOutdoorPartyRuntime->party();
     const Character *pCharacter = nullptr;
     std::optional<ResolvedHudLayoutElement> sourceRect;
+    std::optional<size_t> memberIndex;
 
     if (m_characterScreenOpen)
     {
-        pCharacter = party.activeMember();
+        pCharacter = selectedCharacterScreenCharacter();
         const HudLayoutElement *pDollLayout = HudUiService::findHudLayoutElement(*this, "CharacterDollPanel");
+
+        if (!isAdventurersInnCharacterSourceActive())
+        {
+            memberIndex = party.activeMemberIndex();
+        }
 
         if (pCharacter != nullptr && pDollLayout != nullptr)
         {
@@ -7131,7 +7187,7 @@ void OutdoorGameView::updateCharacterDetailOverlayState(int width, int height)
     }
     else if (currentHudScreenState() == HudScreenState::Gameplay)
     {
-        const std::optional<size_t> memberIndex = resolvePartyPortraitIndexAtPoint(width, height, mouseX, mouseY);
+        memberIndex = resolvePartyPortraitIndexAtPoint(width, height, mouseX, mouseY);
 
         if (memberIndex)
         {
@@ -7146,28 +7202,21 @@ void OutdoorGameView::updateCharacterDetailOverlayState(int width, int height)
     }
 
     const CharacterSheetSummary summary = GameMechanics::buildCharacterSheetSummary(*pCharacter, m_pItemTable);
-    std::string body;
 
-    appendPopupBodyLine(body, "Condition: " + summary.conditionText);
-    appendPopupBodyLine(
-        body,
-        "HP " + std::to_string(summary.health.current) + " / " + std::to_string(summary.health.maximum)
-            + "   SP " + std::to_string(summary.spellPoints.current) + " / " + std::to_string(summary.spellPoints.maximum));
-    appendPopupBodyLine(
-        body,
-        "AC " + std::to_string(summary.armorClass.actual)
-            + "   Level " + std::to_string(summary.level.actual)
-            + "   Exp " + summary.experienceText);
-    appendPopupBodyLine(
-        body,
-        "Resists: F" + (summary.fireResistance.infinite ? std::string("Imm") : std::to_string(summary.fireResistance.actual))
-            + " A" + (summary.airResistance.infinite ? std::string("Imm") : std::to_string(summary.airResistance.actual))
-            + " W" + (summary.waterResistance.infinite ? std::string("Imm") : std::to_string(summary.waterResistance.actual))
-            + " E" + (summary.earthResistance.infinite ? std::string("Imm") : std::to_string(summary.earthResistance.actual))
-            + " M" + (summary.mindResistance.infinite ? std::string("Imm") : std::to_string(summary.mindResistance.actual))
-            + " B" + (summary.bodyResistance.infinite ? std::string("Imm") : std::to_string(summary.bodyResistance.actual)));
-
-    std::string buffsLine;
+    m_characterDetailOverlay.active = true;
+    const std::string characterName = pCharacter->name.empty() ? "Member" : pCharacter->name;
+    const std::string characterClass = !pCharacter->className.empty() ? pCharacter->className : pCharacter->role;
+    m_characterDetailOverlay.title =
+        characterClass.empty() ? characterName : characterName + " the " + characterClass;
+    m_characterDetailOverlay.body.clear();
+    m_characterDetailOverlay.portraitTextureName = defaultCharacterPortraitTextureName(*pCharacter);
+    m_characterDetailOverlay.hitPointsText =
+        std::to_string(summary.health.current) + " / " + std::to_string(summary.health.maximum);
+    m_characterDetailOverlay.spellPointsText =
+        std::to_string(summary.spellPoints.current) + " / " + std::to_string(summary.spellPoints.maximum);
+    m_characterDetailOverlay.conditionText = summary.conditionText;
+    m_characterDetailOverlay.quickSpellText = summary.quickSpellText;
+    m_characterDetailOverlay.activeSpells.clear();
 
     struct CharacterBuffInspectLine
     {
@@ -7188,36 +7237,24 @@ void OutdoorGameView::updateCharacterDetailOverlayState(int width, int height)
         {"Glamour", CharacterBuffId::Glamour},
     };
 
-    const size_t memberIndex = static_cast<size_t>(pCharacter - party.members().data());
-
-    for (const CharacterBuffInspectLine &buffLine : CharacterBuffLines)
+    if (memberIndex)
     {
-        const CharacterBuffState *pBuff = party.characterBuff(memberIndex, buffLine.buffId);
-
-        if (pBuff == nullptr)
+        for (const CharacterBuffInspectLine &buffLine : CharacterBuffLines)
         {
-            continue;
-        }
+            const CharacterBuffState *pBuff = party.characterBuff(*memberIndex, buffLine.buffId);
 
-        if (!buffsLine.empty())
-        {
-            buffsLine += ", ";
-        }
+            if (pBuff == nullptr)
+            {
+                continue;
+            }
 
-        buffsLine += std::string(buffLine.pLabel) + " " + formatRemainingDuration(pBuff->remainingSeconds);
+            OutdoorGameView::CharacterDetailOverlayState::ActiveSpellLine line = {};
+            line.name = buffLine.pLabel;
+            line.duration = formatCharacterDetailDuration(pBuff->remainingSeconds);
+            m_characterDetailOverlay.activeSpells.push_back(std::move(line));
+        }
     }
 
-    appendPopupBodyLine(body, "Buffs: " + (buffsLine.empty() ? std::string("None") : buffsLine));
-    appendPopupBodyLine(
-        body,
-        "Attack " + std::to_string(summary.combat.attack)
-            + "   Shoot " + (summary.combat.shoot ? std::to_string(*summary.combat.shoot) : std::string("N/A")));
-
-    m_characterDetailOverlay.active = true;
-    m_characterDetailOverlay.title = pCharacter->name.empty()
-        ? ("Member " + std::to_string(memberIndex + 1))
-        : pCharacter->name;
-    m_characterDetailOverlay.body = body;
     m_characterDetailOverlay.sourceX = sourceRect->x;
     m_characterDetailOverlay.sourceY = sourceRect->y;
     m_characterDetailOverlay.sourceWidth = sourceRect->width;
@@ -8388,7 +8425,9 @@ bool OutdoorGameView::tryUseHeldItemOnPartyMember(size_t memberIndex, bool keepC
         setStatusBarEvent(useResult.statusText);
     }
 
-    if (!keepCharacterScreenOpen)
+    const bool closeCharacterScreen = !keepCharacterScreenOpen || useResult.action == InventoryItemUseAction::CastScroll;
+
+    if (closeCharacterScreen)
     {
         m_characterScreenOpen = false;
         m_characterDollJewelryOverlayOpen = false;

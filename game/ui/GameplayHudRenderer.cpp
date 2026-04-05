@@ -790,9 +790,9 @@ void GameplayHudRenderer::renderGameplayHudArt(OutdoorGameView &view, int width,
         const OutdoorGameView::HudTextureHandle *pFriendlyMarkerTexture =
             HudUiService::ensureSolidHudTextureLoaded(view, "__minimap_marker_friendly__", 0xff00ff00u);
         const OutdoorGameView::HudTextureHandle *pHostileMarkerTexture =
-            HudUiService::ensureSolidHudTextureLoaded(view, "__minimap_marker_hostile__", 0xffff0000u);
+            HudUiService::ensureSolidHudTextureLoaded(view, "__minimap_marker_hostile__", 0xff0000ffu);
         const OutdoorGameView::HudTextureHandle *pCorpseMarkerTexture =
-            HudUiService::ensureSolidHudTextureLoaded(view, "__minimap_marker_corpse__", 0xffffff00u);
+            HudUiService::ensureSolidHudTextureLoaded(view, "__minimap_marker_corpse__", 0xff00ffffu);
 
         if (view.m_pOutdoorWorldRuntime != nullptr)
         {

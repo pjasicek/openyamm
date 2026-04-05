@@ -52,6 +52,19 @@ elements:
               align_y: middle
             notes: Food counter.
 
+      - id: CharacterDismissButton
+        anchor: top_left
+        offset_x: 525
+        offset_y: 380
+        width: 75
+        height: 26
+        z_index: 300
+        interactive: true
+        asset:
+          default: but26U
+          highlighted: but26H
+          pressed: but26D
+
       - id: CharacterStatsButton
         anchor: bottom_Left
         offset_x: 16

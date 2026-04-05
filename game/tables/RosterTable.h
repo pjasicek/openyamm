@@ -30,6 +30,7 @@ struct RosterEntry
     CharacterResistanceSet baseResistances = {};
     uint32_t skillPoints = 0;
     std::unordered_map<std::string, CharacterSkill> skills;
+    std::unordered_map<std::string, uint32_t> knownSpellCounts;
     std::vector<uint32_t> startingInventoryItemIds;
 };
 

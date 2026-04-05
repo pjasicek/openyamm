@@ -247,6 +247,7 @@ InventoryItemUseResult InventoryItemUseRuntime::useItemOnMember(
             }
 
             result.handled = true;
+            result.consumed = true;
             result.spellId = *spellId;
             result.spellSkillLevelOverride = 5;
             result.spellSkillMasteryOverride = SkillMastery::Master;

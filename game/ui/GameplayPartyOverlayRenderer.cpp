@@ -240,6 +240,7 @@ constexpr float AdventurersInnColumnLineStep = 16.0f;
 constexpr uint32_t AdventurersInnSelectionColorAbgr = 0xff8ed9e9u;
 constexpr uint32_t AdventurersInnTextColorAbgr = 0xffffffffu;
 constexpr float AdventurersInnSelectionThickness = 2.0f;
+constexpr uint32_t CharacterDetailGoldColorAbgr = 0xff8ed9e9u;
 
 bool shouldRenderCharacterLayoutInAdventurersInn(const std::string &normalizedLayoutId)
 {
@@ -3043,37 +3044,22 @@ void GameplayPartyOverlayRenderer::renderCharacterDetailOverlay(const OutdoorGam
     const UiViewportRect uiViewport = computeUiViewportRect(width, height);
     const float baseScale = std::min(uiViewport.width / HudReferenceWidth, uiViewport.height / HudReferenceHeight);
     const float popupScale = std::clamp(baseScale, pRootLayout->minScale, pRootLayout->maxScale);
-    const OutdoorGameView::ResolvedHudLayoutElement provisionalRoot = {
-        0.0f,
-        0.0f,
-        pRootLayout->width * popupScale,
-        pRootLayout->height * popupScale,
-        popupScale
-    };
+    const OutdoorGameView::HudFontHandle *pTitleFont = HudUiService::findHudFont(view, "Create");
     const OutdoorGameView::HudFontHandle *pBodyFont = HudUiService::findHudFont(view, "SMALLNUM");
-    const float bodyLineHeight =
-        pBodyFont != nullptr ? static_cast<float>(pBodyFont->fontHeight) * popupScale : 12.0f * popupScale;
-    const OutdoorGameView::ResolvedHudLayoutElement bodyRectForSizing = OutdoorGameView::resolveAttachedHudLayoutRect(
-        pBodyLayout->attachTo,
-        provisionalRoot,
-        pBodyLayout->width * popupScale,
-        pBodyLayout->height * popupScale,
-        pBodyLayout->gapX,
-        pBodyLayout->gapY,
-        popupScale);
-    const float bodyWidthScaled =
-        std::max(0.0f, bodyRectForSizing.width - std::abs(pBodyLayout->textPadX * popupScale) * 2.0f);
-    const float bodyWidth = std::max(0.0f, bodyWidthScaled / std::max(1.0f, popupScale));
-    const std::vector<std::string> bodyLines =
-        pBodyFont != nullptr
-            ? HudUiService::wrapHudTextToWidth(view, *pBodyFont, view.m_characterDetailOverlay.body, bodyWidth)
-            : std::vector<std::string>{view.m_characterDetailOverlay.body};
-    const float bodyHeight = bodyLines.empty() ? bodyLineHeight : bodyLineHeight * static_cast<float>(bodyLines.size());
-    static constexpr float CharacterDetailBottomPadding = 15.0f;
-    const float rootWidth = provisionalRoot.width;
-    const float rootHeight = std::max(
-        provisionalRoot.height,
-        bodyRectForSizing.y + bodyHeight + CharacterDetailBottomPadding * popupScale);
+
+    if (pTitleFont == nullptr || pBodyFont == nullptr)
+    {
+        return;
+    }
+
+    const float titleFontScale = popupScale;
+    const float bodyFontScale = popupScale;
+    const float titleLineHeight = static_cast<float>(pTitleFont->fontHeight) * titleFontScale;
+    const float bodyLineHeight = static_cast<float>(pBodyFont->fontHeight) * bodyFontScale;
+    const size_t activeSpellRows = std::max<size_t>(1, view.m_characterDetailOverlay.activeSpells.size());
+    const float spellRowsHeight = bodyLineHeight * static_cast<float>(activeSpellRows);
+    const float rootWidth = std::max(425.0f * popupScale, pRootLayout->width * popupScale);
+    const float rootHeight = std::max(200.0f * popupScale, 112.0f * popupScale + spellRowsHeight + 14.0f * popupScale);
     const float popupGap = 12.0f * popupScale;
     float rootX = view.m_characterDetailOverlay.sourceX + view.m_characterDetailOverlay.sourceWidth + popupGap;
 
@@ -3179,41 +3165,174 @@ void GameplayPartyOverlayRenderer::renderCharacterDetailOverlay(const OutdoorGam
         view.submitHudTexturedQuad(*pTexture, resolved->x, resolved->y, resolved->width, resolved->height);
     }
 
-    const std::optional<OutdoorGameView::ResolvedHudLayoutElement> titleRect = resolveLayout("CharacterDetailTitle");
+    const auto renderHudText =
+        [&view](
+            const OutdoorGameView::HudFontHandle &font,
+            const std::string &text,
+            float textX,
+            float textY,
+            float fontScale,
+            uint32_t colorAbgr)
+        {
+            if (text.empty())
+            {
+                return;
+            }
 
-    if (titleRect)
+            bgfx::TextureHandle coloredMainTextureHandle =
+                HudUiService::ensureHudFontMainTextureColor(view, font, colorAbgr);
+
+            if (!bgfx::isValid(coloredMainTextureHandle))
+            {
+                coloredMainTextureHandle = font.mainTextureHandle;
+            }
+
+            HudUiService::renderHudFontLayer(view, font, font.shadowTextureHandle, text, textX, textY, fontScale);
+            HudUiService::renderHudFontLayer(view, font, coloredMainTextureHandle, text, textX, textY, fontScale);
+        };
+    const auto submitSolidQuad =
+        [&view](float x, float y, float quadWidth, float quadHeight, uint32_t abgr)
+        {
+            if (quadWidth <= 0.0f || quadHeight <= 0.0f)
+            {
+                return;
+            }
+
+            const std::string textureName = "__character_detail_solid_" + std::to_string(abgr);
+            const OutdoorGameView::HudTextureHandle *pSolidTexture =
+                HudUiService::ensureSolidHudTextureLoaded(
+                    const_cast<OutdoorGameView &>(view),
+                    textureName,
+                    abgr);
+
+            if (pSolidTexture == nullptr)
+            {
+                return;
+            }
+
+            view.submitHudTexturedQuad(*pSolidTexture, x, y, quadWidth, quadHeight);
+        };
+
+    const float portraitFrameX = std::round(rootRect.x + 15.0f * popupScale);
+    const float portraitFrameY = std::round(rootRect.y + 15.0f * popupScale);
+    const float portraitFrameWidth = std::round(50.0f * popupScale);
+    const float portraitFrameHeight = std::round(64.0f * popupScale);
+    const float portraitBorderThickness = std::max(1.0f, std::round(popupScale));
+
+    submitSolidQuad(
+        portraitFrameX - portraitBorderThickness,
+        portraitFrameY - portraitBorderThickness,
+        portraitFrameWidth + portraitBorderThickness * 2.0f,
+        portraitFrameHeight + portraitBorderThickness * 2.0f,
+        CharacterDetailGoldColorAbgr);
+    submitSolidQuad(
+        portraitFrameX,
+        portraitFrameY,
+        portraitFrameWidth,
+        portraitFrameHeight,
+        makeAbgrColor(0, 0, 0));
+
+    OutdoorGameView &mutableView = const_cast<OutdoorGameView &>(view);
+    const OutdoorGameView::HudTextureHandle *pPortraitTexture =
+        HudUiService::ensureHudTextureLoaded(mutableView, view.m_characterDetailOverlay.portraitTextureName);
+
+    if (pPortraitTexture != nullptr && pPortraitTexture->width > 0 && pPortraitTexture->height > 0)
     {
-        HudUiService::renderLayoutLabel(view, *pTitleLayout, *titleRect, view.m_characterDetailOverlay.title);
+        const float portraitScale = std::min(
+            portraitFrameWidth / static_cast<float>(pPortraitTexture->width),
+            portraitFrameHeight / static_cast<float>(pPortraitTexture->height));
+        const float portraitWidth = static_cast<float>(pPortraitTexture->width) * portraitScale;
+        const float portraitHeight = static_cast<float>(pPortraitTexture->height) * portraitScale;
+        const float portraitX = std::round(portraitFrameX + (portraitFrameWidth - portraitWidth) * 0.5f);
+        const float portraitY = std::round(portraitFrameY + (portraitFrameHeight - portraitHeight) * 0.5f);
+        view.submitHudTexturedQuad(*pPortraitTexture, portraitX, portraitY, portraitWidth, portraitHeight);
     }
 
-    if (pBodyFont == nullptr)
+    const float infoX = std::round(rootRect.x + 80.0f * popupScale);
+    const float titleY = std::round(rootRect.y + 15.0f * popupScale);
+    const float titleAvailableWidth = std::max(0.0f, rootRect.width - (infoX - rootRect.x) - 12.0f * popupScale);
+    std::string titleText = HudUiService::clampHudTextToWidth(
+        view,
+        *pTitleFont,
+        view.m_characterDetailOverlay.title,
+        titleAvailableWidth / titleFontScale);
+
+    if (titleText.empty())
     {
+        titleText = view.m_characterDetailOverlay.title;
+    }
+
+    renderHudText(*pTitleFont, titleText, infoX, titleY, titleFontScale, CharacterDetailGoldColorAbgr);
+
+    const float statsX = infoX;
+    float statsY = std::round(titleY + titleLineHeight + 2.0f * popupScale);
+    renderHudText(
+        *pBodyFont,
+        "Hit Points : " + view.m_characterDetailOverlay.hitPointsText,
+        statsX,
+        statsY,
+        bodyFontScale,
+        pBodyLayout->textColorAbgr);
+    statsY += bodyLineHeight;
+    renderHudText(
+        *pBodyFont,
+        "Spell Points : " + view.m_characterDetailOverlay.spellPointsText,
+        statsX,
+        statsY,
+        bodyFontScale,
+        pBodyLayout->textColorAbgr);
+    statsY += bodyLineHeight;
+    renderHudText(
+        *pBodyFont,
+        "Condition: " + view.m_characterDetailOverlay.conditionText,
+        statsX,
+        statsY,
+        bodyFontScale,
+        pBodyLayout->textColorAbgr);
+    statsY += bodyLineHeight;
+    renderHudText(
+        *pBodyFont,
+        "Quick Spell: " + view.m_characterDetailOverlay.quickSpellText,
+        statsX,
+        statsY,
+        bodyFontScale,
+        pBodyLayout->textColorAbgr);
+
+    const float activeSpellsHeaderX = std::round(rootRect.x + 5.0f * popupScale);
+    const float activeSpellsHeaderY = std::round(rootRect.y + 80.0f * popupScale);
+    renderHudText(
+        *pBodyFont,
+        "Active Spells:",
+        activeSpellsHeaderX,
+        activeSpellsHeaderY,
+        bodyFontScale,
+        pBodyLayout->textColorAbgr);
+
+    const float spellNameX = std::round(rootRect.x + 30.0f * popupScale);
+    const float spellDurationRightX = std::round(rootRect.x + rootRect.width - 15.0f * popupScale);
+    float spellRowY = std::round(rootRect.y + 96.0f * popupScale);
+
+    if (view.m_characterDetailOverlay.activeSpells.empty())
+    {
+        renderHudText(*pBodyFont, "None", spellNameX, spellRowY, bodyFontScale, pBodyLayout->textColorAbgr);
         return;
     }
 
-    const std::optional<OutdoorGameView::ResolvedHudLayoutElement> bodyBaseRect = resolveLayout("CharacterDetailBody");
-
-    if (!bodyBaseRect)
+    for (const OutdoorGameView::CharacterDetailOverlayState::ActiveSpellLine &spellLine :
+         view.m_characterDetailOverlay.activeSpells)
     {
-        return;
-    }
-
-    bgfx::TextureHandle coloredMainTextureHandle =
-        HudUiService::ensureHudFontMainTextureColor(view, *pBodyFont, pBodyLayout->textColorAbgr);
-
-    if (!bgfx::isValid(coloredMainTextureHandle))
-    {
-        coloredMainTextureHandle = pBodyFont->mainTextureHandle;
-    }
-
-    float textX = std::round(bodyBaseRect->x + pBodyLayout->textPadX * popupScale);
-    float textY = std::round(bodyBaseRect->y + pBodyLayout->textPadY * popupScale);
-
-    for (const std::string &line : bodyLines)
-    {
-        HudUiService::renderHudFontLayer(view, *pBodyFont, pBodyFont->shadowTextureHandle, line, textX, textY, popupScale);
-        HudUiService::renderHudFontLayer(view, *pBodyFont, coloredMainTextureHandle, line, textX, textY, popupScale);
-        textY += bodyLineHeight;
+        renderHudText(*pBodyFont, spellLine.name, spellNameX, spellRowY, bodyFontScale, pBodyLayout->textColorAbgr);
+        const float durationWidth =
+            HudUiService::measureHudTextWidth(view, *pBodyFont, spellLine.duration) * bodyFontScale;
+        const float durationX = std::round(spellDurationRightX - durationWidth);
+        renderHudText(
+            *pBodyFont,
+            spellLine.duration,
+            durationX,
+            spellRowY,
+            bodyFontScale,
+            pBodyLayout->textColorAbgr);
+        spellRowY += bodyLineHeight;
     }
 }
 

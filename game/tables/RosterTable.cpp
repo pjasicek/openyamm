@@ -8,6 +8,25 @@ namespace OpenYAMM::Game
 {
 namespace
 {
+std::string trimCopy(const std::string &value)
+{
+    size_t start = 0;
+
+    while (start < value.size() && std::isspace(static_cast<unsigned char>(value[start])) != 0)
+    {
+        ++start;
+    }
+
+    size_t end = value.size();
+
+    while (end > start && std::isspace(static_cast<unsigned char>(value[end - 1])) != 0)
+    {
+        --end;
+    }
+
+    return value.substr(start, end - start);
+}
+
 std::string normalizeName(const std::string &text)
 {
     std::string normalized;
@@ -44,15 +63,17 @@ std::string normalizeName(const std::string &text)
 
 bool parseUnsigned(const std::string &text, uint32_t &value)
 {
-    if (text.empty() || text[0] == '#')
+    const std::string trimmed = trimCopy(text);
+
+    if (trimmed.empty() || trimmed[0] == '#')
     {
         return false;
     }
 
     char *pEnd = nullptr;
-    const unsigned long parsed = std::strtoul(text.c_str(), &pEnd, 10);
+    const unsigned long parsed = std::strtoul(trimmed.c_str(), &pEnd, 10);
 
-    if (pEnd == text.c_str() || *pEnd != '\0')
+    if (pEnd == trimmed.c_str() || *pEnd != '\0')
     {
         return false;
     }
@@ -66,6 +87,7 @@ bool RosterTable::loadFromRows(const std::vector<std::vector<std::string>> &rows
 {
     m_entries.clear();
     std::vector<std::string> skillColumns;
+    std::vector<std::string> spellColumns;
 
     if (rows.size() > 1)
     {
@@ -74,6 +96,11 @@ bool RosterTable::loadFromRows(const std::vector<std::vector<std::string>> &rows
         for (size_t columnIndex = 22; columnIndex < headerRow.size(); columnIndex += 2)
         {
             skillColumns.push_back(canonicalSkillName(headerRow[columnIndex]));
+        }
+
+        for (size_t columnIndex = 100; columnIndex <= 111 && columnIndex < headerRow.size(); ++columnIndex)
+        {
+            spellColumns.push_back(canonicalSkillName(headerRow[columnIndex]));
         }
     }
 
@@ -157,6 +184,25 @@ bool RosterTable::loadFromRows(const std::vector<std::vector<std::string>> &rows
             skill.level = level;
             skill.mastery = mastery;
             entry.skills[skill.name] = std::move(skill);
+        }
+
+        for (size_t spellIndex = 0; spellIndex < spellColumns.size(); ++spellIndex)
+        {
+            const size_t columnIndex = 100 + spellIndex;
+
+            if (columnIndex >= row.size() || spellColumns[spellIndex].empty())
+            {
+                continue;
+            }
+
+            uint32_t knownSpellCount = 0;
+
+            if (!parseUnsigned(row[columnIndex], knownSpellCount) || knownSpellCount == 0)
+            {
+                continue;
+            }
+
+            entry.knownSpellCounts[spellColumns[spellIndex]] = knownSpellCount;
         }
 
         if (row.size() > 113)
