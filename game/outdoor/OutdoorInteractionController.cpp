@@ -35,6 +35,19 @@ bool interactiveDecorationHidesWhenCleared(OutdoorGameView::InteractiveDecoratio
     return family == OutdoorGameView::InteractiveDecorationFamily::CampFire;
 }
 
+struct DirectInteractiveDecorationBindingSpec
+{
+    uint16_t baseEventId = 0;
+    uint8_t eventCount = 0;
+    uint8_t initialState = 0;
+    bool useSeededInitialState = false;
+    bool hideWhenCleared = false;
+    OutdoorGameView::InteractiveDecorationFamily family = OutdoorGameView::InteractiveDecorationFamily::None;
+};
+
+uint16_t interactiveDecorationBaseEventId(OutdoorGameView::InteractiveDecorationFamily family);
+uint8_t interactiveDecorationEventCount(OutdoorGameView::InteractiveDecorationFamily family);
+
 std::string normalizeDecorationKey(const std::string &value)
 {
     const std::string lowered = toLowerCopy(value);
@@ -123,6 +136,97 @@ std::optional<OutdoorGameView::InteractiveDecorationFamily> classifyInteractiveD
     if (decorationMatchesAnyKey(keys, {"keg", "cask", "dec21"}))
     {
         return OutdoorGameView::InteractiveDecorationFamily::Cask;
+    }
+
+    return std::nullopt;
+}
+
+std::optional<int> parseDecorationInternalNumber(const std::string &value)
+{
+    const std::string normalized = normalizeDecorationKey(value);
+
+    if (normalized.size() < 4 || normalized[0] != 'd' || normalized[1] != 'e' || normalized[2] != 'c')
+    {
+        return std::nullopt;
+    }
+
+    int number = 0;
+
+    for (size_t index = 3; index < normalized.size(); ++index)
+    {
+        const char character = normalized[index];
+
+        if (!std::isdigit(static_cast<unsigned char>(character)))
+        {
+            return std::nullopt;
+        }
+
+        number = number * 10 + (character - '0');
+    }
+
+    return number;
+}
+
+std::optional<int> resolveDecorationInternalNumber(
+    const DecorationEntry &decoration,
+    const std::string &instanceName)
+{
+    if (const std::optional<int> internalNumber = parseDecorationInternalNumber(decoration.internalName))
+    {
+        return internalNumber;
+    }
+
+    return parseDecorationInternalNumber(instanceName);
+}
+
+std::optional<DirectInteractiveDecorationBindingSpec> resolveDirectInteractiveDecorationBindingSpec(
+    const DecorationEntry &decoration,
+    const std::string &instanceName)
+{
+    const std::optional<OutdoorGameView::InteractiveDecorationFamily> family =
+        classifyInteractiveDecorationFamily(decoration, instanceName);
+
+    if (family)
+    {
+        const uint16_t baseEventId = interactiveDecorationBaseEventId(*family);
+        const uint8_t eventCount = interactiveDecorationEventCount(*family);
+
+        if (baseEventId == 0 || eventCount == 0)
+        {
+            return std::nullopt;
+        }
+
+        DirectInteractiveDecorationBindingSpec spec = {};
+        spec.baseEventId = baseEventId;
+        spec.eventCount = eventCount;
+        spec.hideWhenCleared = interactiveDecorationHidesWhenCleared(*family);
+        spec.family = *family;
+        return spec;
+    }
+
+    const std::optional<int> internalNumber = resolveDecorationInternalNumber(decoration, instanceName);
+
+    if (!internalNumber)
+    {
+        return std::nullopt;
+    }
+
+    DirectInteractiveDecorationBindingSpec spec = {};
+
+    if (*internalNumber >= 44 && *internalNumber <= 55)
+    {
+        spec.baseEventId = 531;
+        spec.eventCount = 12;
+        spec.initialState = static_cast<uint8_t>(*internalNumber - 44);
+        return spec;
+    }
+
+    if (*internalNumber >= 40 && *internalNumber <= 43)
+    {
+        spec.baseEventId = static_cast<uint16_t>(542 + (*internalNumber - 40) * 7);
+        spec.eventCount = 7;
+        spec.useSeededInitialState = true;
+        return spec;
     }
 
     return std::nullopt;
@@ -564,18 +668,10 @@ void OutdoorInteractionController::rebuildInteractiveDecorationBindings(OutdoorG
             continue;
         }
 
-        const std::optional<OutdoorGameView::InteractiveDecorationFamily> family =
-            classifyInteractiveDecorationFamily(*pDecoration, entity.name);
+        const std::optional<DirectInteractiveDecorationBindingSpec> bindingSpec =
+            resolveDirectInteractiveDecorationBindingSpec(*pDecoration, entity.name);
 
-        if (!family || decorVarIndex >= MaxDecorationVarCount)
-        {
-            continue;
-        }
-
-        const uint16_t baseEventId = interactiveDecorationBaseEventId(*family);
-        const uint8_t eventCount = interactiveDecorationEventCount(*family);
-
-        if (baseEventId == 0 || eventCount == 0)
+        if (!bindingSpec || decorVarIndex >= MaxDecorationVarCount)
         {
             continue;
         }
@@ -584,9 +680,12 @@ void OutdoorInteractionController::rebuildInteractiveDecorationBindings(OutdoorG
         binding.active = true;
         binding.decorVarIndex = decorVarIndex++;
         binding.entityIndex = static_cast<uint16_t>(entityIndex);
-        binding.baseEventId = baseEventId;
-        binding.eventCount = eventCount;
-        binding.family = *family;
+        binding.baseEventId = bindingSpec->baseEventId;
+        binding.eventCount = bindingSpec->eventCount;
+        binding.initialState = bindingSpec->initialState;
+        binding.useSeededInitialState = bindingSpec->useSeededInitialState;
+        binding.hideWhenCleared = bindingSpec->hideWhenCleared;
+        binding.family = bindingSpec->family;
     }
 }
 
@@ -639,9 +738,18 @@ void OutdoorInteractionController::seedInteractiveDecorationRuntimeStateIfNeeded
         }
 
         const OutdoorEntity &entity = view.m_outdoorMapData->entities[binding.entityIndex];
-        const uint8_t initialState = initialInteractiveDecorationState(
-            binding.family,
-            makeInteractiveDecorationSeed(entity, binding.entityIndex));
+        uint8_t initialState = binding.initialState;
+
+        if (binding.useSeededInitialState)
+        {
+            initialState = static_cast<uint8_t>(makeInteractiveDecorationSeed(entity, binding.entityIndex) % binding.eventCount);
+        }
+        else if (binding.family != OutdoorGameView::InteractiveDecorationFamily::None)
+        {
+            initialState = initialInteractiveDecorationState(
+                binding.family,
+                makeInteractiveDecorationSeed(entity, binding.entityIndex));
+        }
 
         if (initialState == 0)
         {
@@ -670,7 +778,7 @@ bool OutdoorInteractionController::isInteractiveDecorationHidden(const OutdoorGa
     const OutdoorGameView::InteractiveDecorationBinding *pBinding =
         findInteractiveDecorationBindingForEntity(view, entityIndex);
 
-    if (pBinding == nullptr || !interactiveDecorationHidesWhenCleared(pBinding->family) || view.m_pOutdoorWorldRuntime == nullptr)
+    if (pBinding == nullptr || !pBinding->hideWhenCleared || view.m_pOutdoorWorldRuntime == nullptr)
     {
         return false;
     }
@@ -706,7 +814,7 @@ std::optional<uint16_t> OutdoorInteractionController::resolveInteractiveDecorati
 
     uint8_t state = pEventRuntimeState->decorVars[pBinding->decorVarIndex];
 
-    if (interactiveDecorationHidesWhenCleared(pBinding->family) && state == pBinding->eventCount)
+    if (pBinding->hideWhenCleared && state == pBinding->eventCount)
     {
         return std::nullopt;
     }
@@ -977,6 +1085,24 @@ std::optional<std::string> OutdoorInteractionController::resolveHoverStatusBarTe
                 resolveInteractiveDecorationHoverText(view, decoration.entityIndex))
         {
             return interactiveText;
+        }
+
+        std::optional<uint16_t> directEventId;
+
+        if (view.m_outdoorMapData && decoration.entityIndex < view.m_outdoorMapData->entities.size())
+        {
+            const OutdoorEntity &entity = view.m_outdoorMapData->entities[decoration.entityIndex];
+            directEventId = entity.eventIdPrimary != 0 ? entity.eventIdPrimary : entity.eventIdSecondary;
+        }
+
+        if (directEventId)
+        {
+            const std::optional<std::string> directEventHint = resolveEventHintText(view, *directEventId);
+
+            if (directEventHint && !directEventHint->empty())
+            {
+                return directEventHint;
+            }
         }
 
         const DecorationEntry *pDecorationEntry =
@@ -1901,7 +2027,14 @@ OutdoorGameView::InspectHit OutdoorInteractionController::inspectBModelFace(
 
             const std::optional<uint16_t> interactiveEventId =
                 resolveInteractiveDecorationEventId(view, decoration.entityIndex);
-            const bool interactiveDecoration = interactiveEventId.has_value();
+            std::optional<uint16_t> directEventId;
+
+            if (view.m_outdoorMapData && decoration.entityIndex < view.m_outdoorMapData->entities.size())
+            {
+                const OutdoorEntity &entity = view.m_outdoorMapData->entities[decoration.entityIndex];
+                directEventId = entity.eventIdPrimary != 0 ? entity.eventIdPrimary : entity.eventIdSecondary;
+            }
+            const bool interactiveDecoration = interactiveEventId.has_value() || directEventId.has_value();
             const DecorationEntry *pDecorationEntry =
                 view.m_outdoorDecorationBillboardSet->decorationTable.get(decoration.decorationId);
 
@@ -2010,6 +2143,13 @@ OutdoorGameView::InspectHit OutdoorInteractionController::inspectBModelFace(
                 bestHit.name = decoration.name;
                 bestHit.distance = distance;
                 bestHit.decorationId = decoration.decorationId;
+
+                if (view.m_outdoorMapData && decoration.entityIndex < view.m_outdoorMapData->entities.size())
+                {
+                    const OutdoorEntity &entity = view.m_outdoorMapData->entities[decoration.entityIndex];
+                    bestHit.eventIdPrimary = entity.eventIdPrimary;
+                    bestHit.eventIdSecondary = entity.eventIdSecondary;
+                }
             }
         }
     }
@@ -2761,9 +2901,14 @@ bool OutdoorInteractionController::tryActivateInspectEvent(OutdoorGameView &view
                 context.baseEventId = pBinding->baseEventId;
                 context.currentEventId = *interactiveEventId;
                 context.eventCount = pBinding->eventCount;
-                context.hideWhenCleared = interactiveDecorationHidesWhenCleared(pBinding->family);
+                context.hideWhenCleared = pBinding->hideWhenCleared;
                 decorationContext = context;
             }
+        }
+
+        if (eventId == 0)
+        {
+            eventId = inspectHit.eventIdPrimary != 0 ? inspectHit.eventIdPrimary : inspectHit.eventIdSecondary;
         }
     }
     else if (inspectHit.kind == "entity")
@@ -2788,7 +2933,7 @@ bool OutdoorInteractionController::tryActivateInspectEvent(OutdoorGameView &view
                     context.baseEventId = pBinding->baseEventId;
                     context.currentEventId = *interactiveEventId;
                     context.eventCount = pBinding->eventCount;
-                    context.hideWhenCleared = interactiveDecorationHidesWhenCleared(pBinding->family);
+                    context.hideWhenCleared = pBinding->hideWhenCleared;
                     decorationContext = context;
                 }
             }
@@ -2921,6 +3066,16 @@ bool OutdoorInteractionController::canActivateInspectEvent(const OutdoorGameView
         }
 
         const DecorationBillboard &decoration = view.m_outdoorDecorationBillboardSet->billboards[inspectHit.bModelIndex];
+        if (view.m_outdoorMapData && decoration.entityIndex < view.m_outdoorMapData->entities.size())
+        {
+            const OutdoorEntity &entity = view.m_outdoorMapData->entities[decoration.entityIndex];
+
+            if (entity.eventIdPrimary != 0 || entity.eventIdSecondary != 0)
+            {
+                return true;
+            }
+        }
+
         return findInteractiveDecorationBindingForEntity(view, decoration.entityIndex) != nullptr
             && resolveInteractiveDecorationEventId(view, decoration.entityIndex).has_value();
     }

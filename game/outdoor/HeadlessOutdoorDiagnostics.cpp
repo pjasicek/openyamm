@@ -23,6 +23,7 @@
 #include "game/gameplay/MasteryTeacherDialog.h"
 #include "game/outdoor/OutdoorMovementController.h"
 #include "game/outdoor/OutdoorPartyRuntime.h"
+#include "game/outdoor/OutdoorPresentationController.h"
 #include "game/outdoor/OutdoorWorldRuntime.h"
 #include "game/outdoor/OutdoorGeometryUtils.h"
 #include "game/party/Party.h"
@@ -204,6 +205,66 @@ struct GameApplicationTestAccess
     static const GameplayUiController::CharacterScreenState &characterScreen(const GameApplication &application)
     {
         return application.m_outdoorGameView.m_gameplayUiController.characterScreen();
+    }
+
+    static OutdoorGameView &outdoorGameView(GameApplication &application)
+    {
+        return application.m_outdoorGameView;
+    }
+
+    static const OutdoorEntity *outdoorEntity(const GameApplication &application, size_t entityIndex)
+    {
+        const std::optional<MapAssetInfo> &selectedMap = application.m_gameDataLoader.getSelectedMap();
+
+        if (!selectedMap || !selectedMap->outdoorMapData || entityIndex >= selectedMap->outdoorMapData->entities.size())
+        {
+            return nullptr;
+        }
+
+        return &selectedMap->outdoorMapData->entities[entityIndex];
+    }
+
+    static void presentPendingEventDialogDirect(
+        GameApplication &application,
+        size_t previousMessageCount,
+        bool allowNpcFallbackContent,
+        bool showBankInputCursor)
+    {
+        EventRuntimeState *pEventRuntimeState =
+            application.m_pOutdoorWorldRuntime != nullptr ? application.m_pOutdoorWorldRuntime->eventRuntimeState() : nullptr;
+
+        if (pEventRuntimeState == nullptr)
+        {
+            return;
+        }
+
+        const std::optional<MapAssetInfo> &selectedMap = application.m_gameDataLoader.getSelectedMap();
+        const std::optional<EventIrProgram> *pGlobalEventIrProgram =
+            selectedMap && selectedMap->globalEventIrProgram
+            ? &selectedMap->globalEventIrProgram
+            : nullptr;
+        GameplayDialogController::Context context = {
+            application.m_outdoorGameView.m_gameplayUiController,
+            *pEventRuntimeState,
+            application.m_outdoorGameView.m_activeEventDialog,
+            application.m_outdoorGameView.m_eventDialogSelectionIndex,
+            application.m_pOutdoorPartyRuntime != nullptr ? &application.m_pOutdoorPartyRuntime->party() : nullptr,
+            application.m_pOutdoorWorldRuntime.get(),
+            pGlobalEventIrProgram,
+            &application.m_gameDataLoader.getHouseTable(),
+            &application.m_gameDataLoader.getClassSkillTable(),
+            &application.m_gameDataLoader.getNpcDialogTable(),
+            &application.m_gameDataLoader.getRosterTable(),
+            &application.m_gameDataLoader.getArcomageLibrary(),
+            false,
+            {}
+        };
+
+        application.m_outdoorGameView.m_gameplayDialogController.presentPendingEventDialog(
+            context,
+            previousMessageCount,
+            allowNpcFallbackContent,
+            showBankInputCursor);
     }
 };
 
@@ -13502,6 +13563,37 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
     );
 
     runCase(
+        "character_sheet_primary_stats_split_equipment_from_temporary_magic",
+        [&](std::string &failure)
+        {
+            Character character = {};
+            character.might = 20;
+            character.equipment.mainHand = 501;
+            character.magicalBonuses.might = 47;
+
+            const CharacterSheetSummary summary = GameMechanics::buildCharacterSheetSummary(
+                character,
+                &gameDataLoader.getItemTable(),
+                &gameDataLoader.getStandardItemEnchantTable(),
+                &gameDataLoader.getSpecialItemEnchantTable());
+
+            if (summary.might.base != 60)
+            {
+                failure = "expected displayed base Might 60 including equipped item bonuses";
+                return false;
+            }
+
+            if (summary.might.actual != 107)
+            {
+                failure = "expected actual Might 107 including equipped item and temporary magic bonuses";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
         "character_sheet_uses_na_for_ranged_without_bow",
         [&](std::string &failure)
         {
@@ -13571,6 +13663,43 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
             if (summary.experienceText != "10000")
             {
                 failure = "experience text should remain numeric";
+                return false;
+            }
+
+            if (summary.level.base != 4 || summary.level.actual != 5)
+            {
+                failure = "trainable character should display level as 5 / 4";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "character_sheet_resistance_split_includes_equipment_on_base_and_magic_on_actual",
+        [&](std::string &failure)
+        {
+            Character character = {};
+            character.baseResistances.fire = 10;
+            character.equipment.mainHand = 505;
+            character.magicalBonuses.resistances.fire = 7;
+
+            const CharacterSheetSummary summary = GameMechanics::buildCharacterSheetSummary(
+                character,
+                &gameDataLoader.getItemTable(),
+                &gameDataLoader.getStandardItemEnchantTable(),
+                &gameDataLoader.getSpecialItemEnchantTable());
+
+            if (summary.fireResistance.base != 50)
+            {
+                failure = "expected displayed base fire resistance 50 including equipped item bonuses";
+                return false;
+            }
+
+            if (summary.fireResistance.actual != 57)
+            {
+                failure = "expected actual fire resistance 57 including temporary magic bonuses";
                 return false;
             }
 
@@ -14095,12 +14224,26 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
         {
             GameApplication application(m_config);
 
-            if (!initializeHeadlessGameApplication(
-                    "out01.odm",
-                    assetFileSystem,
-                    application,
-                    failure))
+            SDL_Environment *pEnvironment = SDL_GetEnvironment();
+
+            if (pEnvironment == nullptr || !SDL_SetEnvironmentVariable(pEnvironment, "SDL_AUDIODRIVER", "dummy", true))
             {
+                failure = "could not force dummy audio driver for headless application";
+                return false;
+            }
+
+            if (!GameApplicationTestAccess::loadGameData(application, assetFileSystem)
+                || !GameApplicationTestAccess::loadMapByFileNameForGameplay(application, assetFileSystem, "out01.odm"))
+            {
+                failure = "could not load gameplay data for entity 700";
+                return false;
+            }
+
+            GameApplicationTestAccess::shutdownRenderer(application);
+
+            if (!GameApplicationTestAccess::initializeSelectedMapRuntime(application, true))
+            {
+                failure = "could not initialize gameplay runtime with view for entity 700";
                 return false;
             }
 
@@ -15540,12 +15683,26 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
         {
             GameApplication application(m_config);
 
-            if (!initializeHeadlessGameApplication(
-                    "out01.odm",
-                    assetFileSystem,
-                    application,
-                    failure))
+            SDL_Environment *pEnvironment = SDL_GetEnvironment();
+
+            if (pEnvironment == nullptr || !SDL_SetEnvironmentVariable(pEnvironment, "SDL_AUDIODRIVER", "dummy", true))
             {
+                failure = "could not force dummy audio driver for headless application";
+                return false;
+            }
+
+            if (!GameApplicationTestAccess::loadGameData(application, assetFileSystem)
+                || !GameApplicationTestAccess::loadMapByFileNameForGameplay(application, assetFileSystem, "out01.odm"))
+            {
+                failure = "could not load gameplay data for entity 730";
+                return false;
+            }
+
+            GameApplicationTestAccess::shutdownRenderer(application);
+
+            if (!GameApplicationTestAccess::initializeSelectedMapRuntime(application, true))
+            {
+                failure = "could not initialize gameplay runtime with view for entity 730";
                 return false;
             }
 
@@ -16701,6 +16858,168 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
     );
 
     runCase(
+        "app_outdoor_decoration_billboard_activation_uses_global_decoration_events",
+        [&](std::string &failure)
+        {
+            GameApplication application(m_config);
+
+            SDL_Environment *pEnvironment = SDL_GetEnvironment();
+
+            if (pEnvironment == nullptr || !SDL_SetEnvironmentVariable(pEnvironment, "SDL_AUDIODRIVER", "dummy", true))
+            {
+                failure = "could not force dummy audio driver for headless application";
+                return false;
+            }
+
+            if (!GameApplicationTestAccess::loadGameData(application, assetFileSystem))
+            {
+                failure = "could not load gameplay data";
+                return false;
+            }
+
+            if (!GameApplicationTestAccess::loadMapByFileNameForGameplay(application, assetFileSystem, "out01.odm"))
+            {
+                failure = "could not load gameplay map";
+                return false;
+            }
+
+            GameApplicationTestAccess::shutdownRenderer(application);
+
+            if (!GameApplicationTestAccess::initializeSelectedMapRuntime(application, true))
+            {
+                failure = "could not initialize gameplay view";
+                return false;
+            }
+
+            const std::optional<MapAssetInfo> &selectedMap =
+                GameApplicationTestAccess::gameDataLoader(application).getSelectedMap();
+
+            if (!selectedMap
+                || !selectedMap->outdoorMapData
+                || !selectedMap->outdoorDecorationBillboardSet)
+            {
+                failure = "selected map is missing outdoor decoration data";
+                return false;
+            }
+
+            const DecorationBillboardSet &billboardSet = *selectedMap->outdoorDecorationBillboardSet;
+            const OutdoorMapData &outdoorMapData = *selectedMap->outdoorMapData;
+            OutdoorGameView &view = GameApplicationTestAccess::outdoorGameView(application);
+            std::optional<size_t> pedestalBillboardIndex;
+            std::optional<size_t> beaconBillboardIndex;
+
+            for (size_t billboardIndex = 0; billboardIndex < billboardSet.billboards.size(); ++billboardIndex)
+            {
+                const DecorationBillboard &billboard = billboardSet.billboards[billboardIndex];
+
+                if (billboard.entityIndex >= outdoorMapData.entities.size())
+                {
+                    continue;
+                }
+
+                if (!pedestalBillboardIndex && toLowerCopy(billboard.name) == "dec49")
+                {
+                    pedestalBillboardIndex = billboardIndex;
+                }
+
+                if (!beaconBillboardIndex && toLowerCopy(billboard.name) == "dec40")
+                {
+                    beaconBillboardIndex = billboardIndex;
+                }
+            }
+
+            if (!pedestalBillboardIndex)
+            {
+                failure = "could not find dec49 pedestal billboard on Out01";
+                return false;
+            }
+
+            const DecorationBillboard &pedestalBillboard = billboardSet.billboards[*pedestalBillboardIndex];
+            const std::optional<uint16_t> pedestalEventId =
+                OutdoorInteractionController::resolveInteractiveDecorationEventId(view, pedestalBillboard.entityIndex);
+
+            if (!pedestalEventId || *pedestalEventId != 536)
+            {
+                failure = "dec49 pedestal resolved to event "
+                    + std::to_string(pedestalEventId.value_or(0))
+                    + " instead of 536";
+                return false;
+            }
+
+            OutdoorGameView::InspectHit pedestalInspectHit = {};
+            pedestalInspectHit.hasHit = true;
+            pedestalInspectHit.kind = "decoration";
+            pedestalInspectHit.bModelIndex = *pedestalBillboardIndex;
+            pedestalInspectHit.name = pedestalBillboard.name;
+            pedestalInspectHit.distance = 0.0f;
+
+            if (!OutdoorInteractionController::tryActivateInspectEvent(view, pedestalInspectHit))
+            {
+                failure = "dec49 pedestal did not activate through decoration inspect path";
+                return false;
+            }
+
+            EventRuntimeState *pEventRuntimeState =
+                GameApplicationTestAccess::outdoorWorldRuntime(application) != nullptr
+                ? GameApplicationTestAccess::outdoorWorldRuntime(application)->eventRuntimeState()
+                : nullptr;
+
+            if (pEventRuntimeState == nullptr || pEventRuntimeState->spellFxRequests.empty())
+            {
+                failure = "dec49 pedestal did not queue spell presentation requests";
+                return false;
+            }
+
+            OutdoorPresentationController::consumePendingPortraitEventFxRequests(view);
+
+            if (!pEventRuntimeState->spellFxRequests.empty())
+            {
+                failure = "dec49 pedestal spell presentation requests were not consumed";
+                return false;
+            }
+
+            Party &party = GameApplicationTestAccess::outdoorPartyRuntime(application)->party();
+
+            if (!party.hasPartyBuff(PartyBuffId::FireResistance))
+            {
+                failure = "dec49 pedestal did not apply fire resistance buff";
+                return false;
+            }
+
+            const PartyBuffState *pFireResistanceBuff = party.partyBuff(PartyBuffId::FireResistance);
+
+            if (pFireResistanceBuff == nullptr
+                || pFireResistanceBuff->skillLevel != 5
+                || pFireResistanceBuff->skillMastery != SkillMastery::Grandmaster
+                || pFireResistanceBuff->power != 20)
+            {
+                failure = "dec49 pedestal applied unexpected fire resistance buff parameters";
+                return false;
+            }
+
+            if (!beaconBillboardIndex)
+            {
+                failure = "could not find dec40 beacon billboard on Out01";
+                return false;
+            }
+
+            const DecorationBillboard &beaconBillboard = billboardSet.billboards[*beaconBillboardIndex];
+            const std::optional<uint16_t> beaconEventId =
+                OutdoorInteractionController::resolveInteractiveDecorationEventId(view, beaconBillboard.entityIndex);
+
+            if (!beaconEventId || *beaconEventId < 542 || *beaconEventId > 548)
+            {
+                failure = "dec40 beacon resolved to event "
+                    + std::to_string(beaconEventId.value_or(0))
+                    + " outside 542..548";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
         "app_pending_map_move_loads_indoor_runtime",
         [&](std::string &failure)
         {
@@ -16934,7 +17253,7 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
                 return false;
             }
 
-            if (!GameApplicationTestAccess::initializeStartupSession(application, false))
+            if (!GameApplicationTestAccess::initializeStartupSession(application, true))
             {
                 failure = "could not initialize startup session";
                 return false;
@@ -17075,7 +17394,11 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
             context.sourceId = AdventurersInnHouseId;
             context.hostHouseId = AdventurersInnHouseId;
             pEventRuntimeState->pendingDialogueContext = context;
-            GameApplicationTestAccess::openPendingEventDialog(application, pEventRuntimeState->messages.size(), true);
+            GameApplicationTestAccess::presentPendingEventDialogDirect(
+                application,
+                pEventRuntimeState->messages.size(),
+                true,
+                false);
 
             if (GameApplicationTestAccess::hasActiveEventDialog(application))
             {
@@ -17090,7 +17413,10 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
                 || !characterScreen.adventurersInnRosterOverlayOpen
                 || characterScreen.source != GameplayUiController::CharacterScreenSource::AdventurersInn)
             {
-                failure = "adventurers inn overlay did not open with expected state";
+                failure = "adventurers inn overlay state mismatch: open="
+                    + std::to_string(characterScreen.open ? 1 : 0)
+                    + " roster=" + std::to_string(characterScreen.adventurersInnRosterOverlayOpen ? 1 : 0)
+                    + " source=" + std::to_string(static_cast<int>(characterScreen.source));
                 return false;
             }
 
@@ -17559,6 +17885,366 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
             if (!dialogContainsText(dialog, "The house is empty."))
             {
                 failure = "missing empty-house text";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "event_fountain_heal_and_refresh_status_work",
+        [&](std::string &failure)
+        {
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            Character *pMember = scenario.party.activeMember();
+
+            if (pMember == nullptr)
+            {
+                failure = "missing active member";
+                return false;
+            }
+
+            pMember->health = std::max(1, pMember->health - 40);
+            const int expectedHealedHealth = std::min(pMember->maxHealth, pMember->health + 25);
+
+            if (!executeLocalEventInScenario(gameDataLoader, *selectedMap, scenario, 104))
+            {
+                failure = "event 104 failed";
+                return false;
+            }
+
+            if (pMember->health != expectedHealedHealth)
+            {
+                failure = "event 104 healed to " + std::to_string(pMember->health)
+                    + " expected " + std::to_string(expectedHealedHealth);
+                return false;
+            }
+
+            if (scenario.pEventRuntimeState->statusMessages.empty()
+                || scenario.pEventRuntimeState->statusMessages.back() != "Your Wounds begin to Heal")
+            {
+                failure = "event 104 did not queue the heal status text";
+                return false;
+            }
+
+            constexpr uint32_t FountainHealAutoNoteRawId = (248u << 16) | 0x00e1u;
+
+            if (!scenario.pEventRuntimeState->variables.contains(FountainHealAutoNoteRawId))
+            {
+                failure = "event 104 did not set the fountain heal autonote";
+                return false;
+            }
+
+            scenario.pEventRuntimeState->statusMessages.clear();
+            pMember->health = pMember->maxHealth;
+
+            if (!executeLocalEventInScenario(gameDataLoader, *selectedMap, scenario, 104))
+            {
+                failure = "event 104 refresh branch failed";
+                return false;
+            }
+
+            if (scenario.pEventRuntimeState->statusMessages.empty()
+                || scenario.pEventRuntimeState->statusMessages.back() != "Refreshing")
+            {
+                failure = "event 104 did not queue the refresh status text";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "event_luck_fountain_grants_permanent_bonus_once",
+        [&](std::string &failure)
+        {
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            Character *pMember = scenario.party.activeMember();
+
+            if (pMember == nullptr)
+            {
+                failure = "missing active member";
+                return false;
+            }
+
+            pMember->luck = 10;
+
+            if (!executeLocalEventInScenario(gameDataLoader, *selectedMap, scenario, 102))
+            {
+                failure = "event 102 failed";
+                return false;
+            }
+
+            if (pMember->luck != 12)
+            {
+                failure = "event 102 set luck to " + std::to_string(pMember->luck) + " instead of 12";
+                return false;
+            }
+
+            if (scenario.pEventRuntimeState->statusMessages.empty()
+                || scenario.pEventRuntimeState->statusMessages.back() != "Luck +2 (Permanent)")
+            {
+                failure = "event 102 did not queue the permanent luck status text";
+                return false;
+            }
+
+            scenario.pEventRuntimeState->statusMessages.clear();
+
+            if (!executeLocalEventInScenario(gameDataLoader, *selectedMap, scenario, 102)
+                || !executeLocalEventInScenario(gameDataLoader, *selectedMap, scenario, 102)
+                || !executeLocalEventInScenario(gameDataLoader, *selectedMap, scenario, 102))
+            {
+                failure = "event 102 follow-up applications failed";
+                return false;
+            }
+
+            if (pMember->luck != 16)
+            {
+                failure = "event 102 did not stop at base luck 16";
+                return false;
+            }
+
+            scenario.pEventRuntimeState->statusMessages.clear();
+
+            if (!executeLocalEventInScenario(gameDataLoader, *selectedMap, scenario, 102))
+            {
+                failure = "event 102 refresh-at-cap branch failed";
+                return false;
+            }
+
+            if (pMember->luck != 16)
+            {
+                failure = "event 102 increased luck past the base 16 cap";
+                return false;
+            }
+
+            if (scenario.pEventRuntimeState->statusMessages.empty()
+                || scenario.pEventRuntimeState->statusMessages.back() != "Refreshing")
+            {
+                failure = "event 102 did not queue refresh after reaching base luck 16";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "event_beacon_actual_stat_checks_include_temporary_bonuses",
+        [&](std::string &failure)
+        {
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            Character *pMember = scenario.party.activeMember();
+
+            if (pMember == nullptr)
+            {
+                failure = "missing active member";
+                return false;
+            }
+
+            pMember->endurance = 20;
+            pMember->permanentBonuses.endurance = 0;
+            pMember->magicalBonuses.endurance = 5;
+
+            if (!executeGlobalEventInScenario(gameDataLoader, *selectedMap, scenario, 544))
+            {
+                failure = "global event 544 failed";
+                return false;
+            }
+
+            if (scenario.pEventRuntimeState->statusMessages.empty()
+                || scenario.pEventRuntimeState->statusMessages.back() != "You win!  +3 Skill Points")
+            {
+                failure = "event 544 did not pass with temporary Endurance bonus included";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "event_beacon_actual_stat_checks_include_equipped_item_bonuses",
+        [&](std::string &failure)
+        {
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            Character *pMember = scenario.party.activeMember();
+
+            if (pMember == nullptr)
+            {
+                failure = "missing active member";
+                return false;
+            }
+
+            pMember->endurance = 20;
+            pMember->permanentBonuses.endurance = 0;
+            pMember->magicalBonuses.endurance = 0;
+            pMember->equipment.mainHand = 503;
+
+            if (!executeGlobalEventInScenario(gameDataLoader, *selectedMap, scenario, 544))
+            {
+                failure = "global event 544 failed";
+                return false;
+            }
+
+            if (scenario.pEventRuntimeState->statusMessages.empty()
+                || scenario.pEventRuntimeState->statusMessages.back() != "You win!  +3 Skill Points")
+            {
+                failure = "event 544 did not pass with equipped Endurance bonus included";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "event_tobersk_buy_and_sell_update_gold_items_and_weekday_price",
+        [&](std::string &failure)
+        {
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            scenario.party.addGold(1000);
+            const int goldBeforeBuy = scenario.party.gold();
+
+            if (!executeGlobalEventInScenario(gameDataLoader, *selectedMap, scenario, 250))
+            {
+                failure = "global event 250 failed";
+                return false;
+            }
+
+            if (scenario.party.gold() != goldBeforeBuy - 200)
+            {
+                failure = "event 250 changed gold by "
+                    + std::to_string(scenario.party.gold() - goldBeforeBuy) + " instead of -200";
+                return false;
+            }
+
+            if (scenario.party.inventoryItemCount(643) != 1)
+            {
+                failure = "event 250 did not grant Tobersk fruit";
+                return false;
+            }
+
+            if (!scenario.party.grantItemToMember(2, 645))
+            {
+                failure = "could not seed Tobersk brandy";
+                return false;
+            }
+
+            scenario.world.advanceGameMinutes(-scenario.world.gameMinutes());
+
+            const int goldBeforeSale = scenario.party.gold();
+
+            if (!executeGlobalEventInScenario(gameDataLoader, *selectedMap, scenario, 251))
+            {
+                failure = "global event 251 failed";
+                return false;
+            }
+
+            if (scenario.party.inventoryItemCount(645) != 0)
+            {
+                failure = "event 251 did not consume Tobersk brandy";
+                return false;
+            }
+
+            if (scenario.party.gold() != goldBeforeSale + 557)
+            {
+                failure = "event 251 added " + std::to_string(scenario.party.gold() - goldBeforeSale)
+                    + " gold instead of 557 for weekday 0";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "event_teacher_hint_sets_autonote_and_note_fx",
+        [&](std::string &failure)
+        {
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            if (!executeGlobalEventInScenario(gameDataLoader, *selectedMap, scenario, 430))
+            {
+                failure = "global event 430 failed";
+                return false;
+            }
+
+            constexpr uint32_t SpearMasterAutoNoteRawId = (141u << 16) | 0x00e1u;
+            const auto noteIt = scenario.pEventRuntimeState->variables.find(SpearMasterAutoNoteRawId);
+
+            if (noteIt == scenario.pEventRuntimeState->variables.end() || noteIt->second == 0)
+            {
+                failure = "event 430 did not set the trainer location autonote";
+                return false;
+            }
+
+            bool sawAutoNoteFx = false;
+
+            for (const EventRuntimeState::PortraitFxRequest &request : scenario.pEventRuntimeState->portraitFxRequests)
+            {
+                if (request.kind == PortraitFxEventKind::AutoNote
+                    && std::find(request.memberIndices.begin(), request.memberIndices.end(), scenario.party.activeMemberIndex())
+                        != request.memberIndices.end())
+                {
+                    sawAutoNoteFx = true;
+                    break;
+                }
+            }
+
+            if (!sawAutoNoteFx)
+            {
+                failure = "event 430 did not queue the autonote portrait fx";
+                return false;
+            }
+
+            if (scenario.pEventRuntimeState->messages.empty()
+                || scenario.pEventRuntimeState->messages.front().find("Ashandra Withersmythe") == std::string::npos)
+            {
+                failure = "event 430 did not keep the trainer hint dialog text";
                 return false;
             }
 

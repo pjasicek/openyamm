@@ -242,6 +242,153 @@ constexpr uint32_t AdventurersInnTextColorAbgr = 0xffffffffu;
 constexpr float AdventurersInnSelectionThickness = 2.0f;
 constexpr uint32_t CharacterDetailGoldColorAbgr = 0xff8ed9e9u;
 
+struct SplitCharacterStatValue
+{
+    std::string actualText = "0";
+    std::string baseText = "0";
+    uint32_t actualColorAbgr = 0xffffffffu;
+    bool active = false;
+};
+
+SplitCharacterStatValue makeSplitCharacterStatValue(const CharacterSheetValue &value)
+{
+    SplitCharacterStatValue result = {};
+    result.active = true;
+    result.baseText = std::to_string(value.base);
+    result.actualText = value.infinite ? "INF" : std::to_string(value.actual);
+
+    if (!value.infinite)
+    {
+        if (value.actual > value.base)
+        {
+            result.actualColorAbgr = makeAbgrColor(0, 255, 0);
+        }
+        else if (value.actual < value.base)
+        {
+            result.actualColorAbgr = makeAbgrColor(255, 0, 0);
+        }
+    }
+
+    return result;
+}
+
+SplitCharacterStatValue makeSplitCharacterResourceValue(int currentValue, int maximumValue)
+{
+    SplitCharacterStatValue result = {};
+    result.active = true;
+    result.actualText = std::to_string(currentValue);
+    result.baseText = std::to_string(maximumValue);
+
+    if (currentValue <= 0)
+    {
+        result.actualColorAbgr = makeAbgrColor(255, 0, 0);
+    }
+    else if (maximumValue > 0 && currentValue * 2 < maximumValue)
+    {
+        result.actualColorAbgr = makeAbgrColor(255, 255, 0);
+    }
+
+    return result;
+}
+
+bool tryGetSplitCharacterStatValue(
+    const std::string &normalizedLayoutId,
+    const CharacterSheetSummary &summary,
+    SplitCharacterStatValue &value)
+{
+    if (normalizedLayoutId == "characterstatmightvalue")
+    {
+        value = makeSplitCharacterStatValue(summary.might);
+        return true;
+    }
+
+    if (normalizedLayoutId == "characterstatintellectvalue")
+    {
+        value = makeSplitCharacterStatValue(summary.intellect);
+        return true;
+    }
+
+    if (normalizedLayoutId == "characterstatpersonalityvalue")
+    {
+        value = makeSplitCharacterStatValue(summary.personality);
+        return true;
+    }
+
+    if (normalizedLayoutId == "characterstatendurancevalue")
+    {
+        value = makeSplitCharacterStatValue(summary.endurance);
+        return true;
+    }
+
+    if (normalizedLayoutId == "characterstataccuracyvalue")
+    {
+        value = makeSplitCharacterStatValue(summary.accuracy);
+        return true;
+    }
+
+    if (normalizedLayoutId == "characterstatspeedvalue")
+    {
+        value = makeSplitCharacterStatValue(summary.speed);
+        return true;
+    }
+
+    if (normalizedLayoutId == "characterstatluckvalue")
+    {
+        value = makeSplitCharacterStatValue(summary.luck);
+        return true;
+    }
+
+    if (normalizedLayoutId == "characterstathitpointsvalue")
+    {
+        value = makeSplitCharacterResourceValue(summary.health.current, summary.health.maximum);
+        return true;
+    }
+
+    if (normalizedLayoutId == "characterstatlevelvalue")
+    {
+        value = makeSplitCharacterStatValue(summary.level);
+        return true;
+    }
+
+    if (normalizedLayoutId == "characterstatfireresistancevalue")
+    {
+        value = makeSplitCharacterStatValue(summary.fireResistance);
+        return true;
+    }
+
+    if (normalizedLayoutId == "characterstatairresistancevalue")
+    {
+        value = makeSplitCharacterStatValue(summary.airResistance);
+        return true;
+    }
+
+    if (normalizedLayoutId == "characterstatwaterresistancevalue")
+    {
+        value = makeSplitCharacterStatValue(summary.waterResistance);
+        return true;
+    }
+
+    if (normalizedLayoutId == "characterstatearthresistancevalue")
+    {
+        value = makeSplitCharacterStatValue(summary.earthResistance);
+        return true;
+    }
+
+    if (normalizedLayoutId == "characterstatmindresistancevalue")
+    {
+        value = makeSplitCharacterStatValue(summary.mindResistance);
+        return true;
+    }
+
+    if (normalizedLayoutId == "characterstatbodyresistancevalue")
+    {
+        value = makeSplitCharacterStatValue(summary.bodyResistance);
+        return true;
+    }
+
+    return false;
+}
+
 bool shouldRenderCharacterLayoutInAdventurersInn(const std::string &normalizedLayoutId)
 {
     return normalizedLayoutId.starts_with("adventurersinn")
@@ -3472,6 +3619,7 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
     std::string inventoryInfo;
     std::string adventurersInnBlurb;
     bool canTrainToNextLevel = false;
+    CharacterSheetSummary summary = {};
     const OutdoorGameView::HudFontHandle *pSkillRowFont = HudUiService::findHudFont(view, "Lucida");
     const float skillRowHeight =
         pSkillRowFont != nullptr ? static_cast<float>(std::max(1, pSkillRowFont->fontHeight - 3)) : 11.0f;
@@ -3483,7 +3631,11 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
 
     if (pCharacter != nullptr)
     {
-        const CharacterSheetSummary summary = GameMechanics::buildCharacterSheetSummary(*pCharacter, view.m_pItemTable);
+        summary = GameMechanics::buildCharacterSheetSummary(
+            *pCharacter,
+            view.m_pItemTable,
+            view.m_pStandardItemEnchantTable,
+            view.m_pSpecialItemEnchantTable);
         mightValue = formatSheetValue(summary.might);
         intellectValue = formatSheetValue(summary.intellect);
         personalityValue = formatSheetValue(summary.personality);
@@ -3797,6 +3949,115 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
 
             const uint32_t itemId = equippedItemId(pCharacter->equipment, slot);
             return itemId != 0 ? view.m_pItemTable->get(itemId) : nullptr;
+        };
+    const auto renderSplitCharacterStatLabel =
+        [&view](
+            const OutdoorGameView::HudLayoutElement &layout,
+            const OutdoorGameView::ResolvedHudLayoutElement &resolved,
+            const SplitCharacterStatValue &value)
+        {
+            const OutdoorGameView::HudFontHandle *pFont = HudUiService::findHudFont(view, layout.fontName);
+
+            if (pFont == nullptr)
+            {
+                return;
+            }
+
+            float fontScale = resolved.scale * std::max(0.1f, layout.textScale);
+
+            if (fontScale >= 1.0f)
+            {
+                fontScale = snappedHudFontScale(fontScale);
+            }
+            else
+            {
+                fontScale = std::max(0.5f, fontScale);
+            }
+
+            const std::string separatorText = " / ";
+            const float actualWidth = HudUiService::measureHudTextWidth(view, *pFont, value.actualText) * fontScale;
+            const float separatorWidth = HudUiService::measureHudTextWidth(view, *pFont, separatorText) * fontScale;
+            const float baseWidth = HudUiService::measureHudTextWidth(view, *pFont, value.baseText) * fontScale;
+            const float totalWidth = actualWidth + separatorWidth + baseWidth;
+            const float labelHeightPixels = static_cast<float>(pFont->fontHeight) * fontScale;
+            float textX = resolved.x + layout.textPadX * resolved.scale;
+            float textY = resolved.y + layout.textPadY * resolved.scale;
+
+            switch (layout.textAlignX)
+            {
+            case OutdoorGameView::HudTextAlignX::Left:
+                break;
+
+            case OutdoorGameView::HudTextAlignX::Center:
+                textX = resolved.x + (resolved.width - totalWidth) * 0.5f + layout.textPadX * resolved.scale;
+                break;
+
+            case OutdoorGameView::HudTextAlignX::Right:
+                textX = resolved.x + resolved.width - totalWidth + layout.textPadX * resolved.scale;
+                break;
+            }
+
+            switch (layout.textAlignY)
+            {
+            case OutdoorGameView::HudTextAlignY::Top:
+                break;
+
+            case OutdoorGameView::HudTextAlignY::Middle:
+                textY = resolved.y + (resolved.height - labelHeightPixels) * 0.5f + layout.textPadY * resolved.scale;
+                break;
+
+            case OutdoorGameView::HudTextAlignY::Bottom:
+                textY = resolved.y + resolved.height - labelHeightPixels + layout.textPadY * resolved.scale;
+                break;
+            }
+
+            textX = std::round(textX);
+            textY = std::round(textY);
+
+            bgfx::TextureHandle actualTexture =
+                HudUiService::ensureHudFontMainTextureColor(view, *pFont, value.actualColorAbgr);
+            bgfx::TextureHandle baseTexture =
+                HudUiService::ensureHudFontMainTextureColor(view, *pFont, layout.textColorAbgr);
+
+            if (!bgfx::isValid(actualTexture))
+            {
+                actualTexture = pFont->mainTextureHandle;
+            }
+
+            if (!bgfx::isValid(baseTexture))
+            {
+                baseTexture = pFont->mainTextureHandle;
+            }
+
+            HudUiService::renderHudFontLayer(
+                view,
+                *pFont,
+                pFont->shadowTextureHandle,
+                value.actualText,
+                textX,
+                textY,
+                fontScale);
+            HudUiService::renderHudFontLayer(view, *pFont, actualTexture, value.actualText, textX, textY, fontScale);
+            textX += actualWidth;
+            HudUiService::renderHudFontLayer(
+                view,
+                *pFont,
+                pFont->shadowTextureHandle,
+                separatorText,
+                textX,
+                textY,
+                fontScale);
+            HudUiService::renderHudFontLayer(view, *pFont, baseTexture, separatorText, textX, textY, fontScale);
+            textX += separatorWidth;
+            HudUiService::renderHudFontLayer(
+                view,
+                *pFont,
+                pFont->shadowTextureHandle,
+                value.baseText,
+                textX,
+                textY,
+                fontScale);
+            HudUiService::renderHudFontLayer(view, *pFont, baseTexture, value.baseText, textX, textY, fontScale);
         };
 
     const ItemDefinition *pMainHandItem = getEquippedItemDefinition(EquipmentSlot::MainHand);
@@ -4285,6 +4546,14 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
         if (label.find('{') != std::string::npos)
         {
             label.clear();
+        }
+
+        SplitCharacterStatValue splitValue = {};
+
+        if (tryGetSplitCharacterStatValue(normalizedLayoutId, summary, splitValue))
+        {
+            renderSplitCharacterStatLabel(layoutForRender, *resolved, splitValue);
+            continue;
         }
 
         HudUiService::renderLayoutLabel(view, layoutForRender, *resolved, label);

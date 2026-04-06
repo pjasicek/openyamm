@@ -453,6 +453,19 @@ void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view
 
                     OutdoorInteractionController::applyPendingCombatEvents(view);
 
+                    EventRuntimeState *pEventRuntimeState =
+                        view.m_pOutdoorWorldRuntime != nullptr ? view.m_pOutdoorWorldRuntime->eventRuntimeState() : nullptr;
+
+                    if (pEventRuntimeState != nullptr)
+                    {
+                        for (const std::string &statusMessage : pEventRuntimeState->statusMessages)
+                        {
+                            view.setStatusBarEvent(statusMessage);
+                        }
+
+                        pEventRuntimeState->statusMessages.clear();
+                    }
+
                     if (frameAdvanceResult.shouldOpenEventDialog)
                     {
                         OutdoorInteractionController::presentPendingEventDialog(view, frameAdvanceResult.previousMessageCount, true);

@@ -10,6 +10,8 @@ namespace OpenYAMM::Game
 {
 class ItemTable;
 class SpellTable;
+class StandardItemEnchantTable;
+class SpecialItemEnchantTable;
 struct ItemDefinition;
 struct CharacterDollTypeEntry;
 
@@ -123,7 +125,23 @@ public:
     static uint64_t experienceRequiredForNextLevel(uint32_t currentLevel);
     static uint32_t maximumTrainableLevelFromExperience(const Character &character);
     static std::string buildExperienceInspectSupplement(const Character &character);
-    static CharacterSheetSummary buildCharacterSheetSummary(const Character &character, const ItemTable *pItemTable);
+    static int resolveCharacterDisplayedBasePrimaryStat(
+        const Character &character,
+        uint32_t rawStatId,
+        const ItemTable *pItemTable,
+        const StandardItemEnchantTable *pStandardItemEnchantTable = nullptr,
+        const SpecialItemEnchantTable *pSpecialItemEnchantTable = nullptr);
+    static int resolveCharacterDisplayedActualPrimaryStat(
+        const Character &character,
+        uint32_t rawStatId,
+        const ItemTable *pItemTable,
+        const StandardItemEnchantTable *pStandardItemEnchantTable = nullptr,
+        const SpecialItemEnchantTable *pSpecialItemEnchantTable = nullptr);
+    static CharacterSheetSummary buildCharacterSheetSummary(
+        const Character &character,
+        const ItemTable *pItemTable,
+        const StandardItemEnchantTable *pStandardItemEnchantTable = nullptr,
+        const SpecialItemEnchantTable *pSpecialItemEnchantTable = nullptr);
     static CharacterAttackProfile buildCharacterAttackProfile(
         const Character &character,
         const ItemTable *pItemTable,

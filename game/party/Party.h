@@ -278,6 +278,9 @@ public:
     void setItemEnchantTables(
         const StandardItemEnchantTable *pStandardItemEnchantTable,
         const SpecialItemEnchantTable *pSpecialItemEnchantTable);
+    const ItemTable *itemTable() const;
+    const StandardItemEnchantTable *standardItemEnchantTable() const;
+    const SpecialItemEnchantTable *specialItemEnchantTable() const;
     void setClassSkillTable(const ClassSkillTable *pClassSkillTable);
     Snapshot snapshot() const;
     void restoreSnapshot(const Snapshot &snapshot);

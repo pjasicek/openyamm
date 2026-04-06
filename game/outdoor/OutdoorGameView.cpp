@@ -7890,6 +7890,10 @@ void OutdoorGameView::triggerPortraitEventFxWithoutSpeech(size_t memberIndex, Po
 
     switch (kind)
     {
+        case PortraitFxEventKind::AutoNote:
+            m_pGameAudioSystem->playCommonSound(SoundId::Quest, GameAudioSystem::PlaybackGroup::Ui);
+            break;
+
         case PortraitFxEventKind::AwardGain:
             m_pGameAudioSystem->playCommonSound(SoundId::Chimes, GameAudioSystem::PlaybackGroup::Ui);
             break;

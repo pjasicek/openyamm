@@ -4,6 +4,8 @@ namespace OpenYAMM::Game
 {
 namespace
 {
+constexpr uint32_t FaceAttributePressurePlate = 0x04000000u;
+
 std::vector<OutdoorActorCollision> buildRuntimeActorColliders(const OutdoorWorldRuntime &worldRuntime)
 {
     std::vector<OutdoorActorCollision> colliders;
@@ -56,6 +58,19 @@ void notifyFriendlyActorContacts(
             partyMoveState.footZ
         );
     }
+}
+
+bool enteredPressurePlateFace(const OutdoorMoveState &previousState, const OutdoorMoveState &currentState)
+{
+    if (currentState.airborne || currentState.supportKind != OutdoorSupportKind::BModelFace)
+    {
+        return false;
+    }
+
+    return previousState.airborne
+        || previousState.supportKind != OutdoorSupportKind::BModelFace
+        || previousState.supportBModelIndex != currentState.supportBModelIndex
+        || previousState.supportFaceIndex != currentState.supportFaceIndex;
 }
 }
 
@@ -148,6 +163,7 @@ OutdoorSceneRuntime::AdvanceFrameResult OutdoorSceneRuntime::advanceFrame(
     float deltaSeconds)
 {
     AdvanceFrameResult result = {};
+    const OutdoorMoveState previousMoveState = m_pPartyRuntime->movementState();
     m_pPartyRuntime->setActorColliders(buildRuntimeActorColliders(*m_pWorldRuntime));
     m_pPartyRuntime->update(movementInput, deltaSeconds);
 
@@ -169,6 +185,41 @@ OutdoorSceneRuntime::AdvanceFrameResult OutdoorSceneRuntime::advanceFrame(
     }
 
     const OutdoorMoveState &moveState = m_pPartyRuntime->movementState();
+
+    if (pEventRuntimeState != nullptr && enteredPressurePlateFace(previousMoveState, moveState))
+    {
+        const OutdoorMapData *pMapData = m_pWorldRuntime->mapData();
+
+        if (pMapData != nullptr
+            && moveState.supportBModelIndex < pMapData->bmodels.size()
+            && moveState.supportFaceIndex < pMapData->bmodels[moveState.supportBModelIndex].faces.size())
+        {
+            const OutdoorBModelFace &face =
+                pMapData->bmodels[moveState.supportBModelIndex].faces[moveState.supportFaceIndex];
+
+            if ((face.attributes & FaceAttributePressurePlate) != 0 && face.cogTriggeredNumber != 0)
+            {
+                const bool executed = m_eventRuntime.executeEventById(
+                    m_localEventIrProgram,
+                    m_globalEventIrProgram,
+                    face.cogTriggeredNumber,
+                    *pEventRuntimeState,
+                    &m_pPartyRuntime->party(),
+                    m_pWorldRuntime
+                );
+
+                if (executed)
+                {
+                    m_pWorldRuntime->applyEventRuntimeState();
+                    m_pPartyRuntime->applyEventRuntimeState(*pEventRuntimeState);
+                    result.shouldOpenEventDialog = result.shouldOpenEventDialog
+                        || pEventRuntimeState->pendingDialogueContext.has_value()
+                        || pEventRuntimeState->messages.size() > result.previousMessageCount;
+                }
+            }
+        }
+    }
+
     m_pWorldRuntime->updateMapActors(deltaSeconds, moveState.x, moveState.y, moveState.footZ);
     notifyFriendlyActorContacts(*m_pWorldRuntime, moveState, m_pPartyRuntime->movementEvents());
     return result;

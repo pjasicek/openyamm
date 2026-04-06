@@ -642,6 +642,7 @@ int resolvePartyBuffPower(uint32_t spellId, uint32_t skillLevel, SkillMastery ma
         case SpellId::AirResistance:
         case SpellId::WaterResistance:
         case SpellId::EarthResistance:
+        case SpellId::MindResistance:
         case SpellId::BodyResistance:
             return mastery == SkillMastery::Normal
                 ? static_cast<int>(skillLevel)

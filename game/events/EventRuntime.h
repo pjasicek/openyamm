@@ -112,6 +112,12 @@ struct EventRuntimeState
         std::vector<size_t> memberIndices;
     };
 
+    struct SpellFxRequest
+    {
+        uint32_t spellId = 0;
+        std::vector<size_t> memberIndices;
+    };
+
     std::unordered_map<uint32_t, int32_t> variables;
     std::unordered_map<uint32_t, uint32_t> facetSetMasks;
     std::unordered_map<uint32_t, uint32_t> facetClearMasks;
@@ -138,6 +144,7 @@ struct EventRuntimeState
     std::vector<uint32_t> grantedAwardIds;
     std::vector<uint32_t> removedAwardIds;
     std::vector<PortraitFxRequest> portraitFxRequests;
+    std::vector<SpellFxRequest> spellFxRequests;
     std::optional<PendingDialogueContext> pendingDialogueContext;
     std::optional<PendingMapMove> pendingMapMove;
     std::optional<PendingArcomageGame> pendingArcomageGame;
@@ -184,13 +191,24 @@ private:
         Generic,
         QBits,
         BoolFlag,
+        AutoNote,
         Food,
         Inventory,
         Awards,
         Players,
         ClassId,
         Experience,
+        CurrentHealth,
+        MaxHealth,
+        CurrentSpellPoints,
+        MaxSpellPoints,
+        Hour,
+        DayOfYear,
+        DayOfWeek,
+        Gold,
+        GoldInBank,
         BaseStat,
+        ActualStat,
         StatBonus,
         BaseResistance,
         ResistanceBonus,

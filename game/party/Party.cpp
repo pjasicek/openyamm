@@ -1489,6 +1489,21 @@ void Party::setItemEnchantTables(
     m_pSpecialItemEnchantTable = pSpecialItemEnchantTable;
 }
 
+const ItemTable *Party::itemTable() const
+{
+    return m_pItemTable;
+}
+
+const StandardItemEnchantTable *Party::standardItemEnchantTable() const
+{
+    return m_pStandardItemEnchantTable;
+}
+
+const SpecialItemEnchantTable *Party::specialItemEnchantTable() const
+{
+    return m_pSpecialItemEnchantTable;
+}
+
 void Party::setClassSkillTable(const ClassSkillTable *pClassSkillTable)
 {
     m_pClassSkillTable = pClassSkillTable;

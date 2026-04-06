@@ -14,6 +14,7 @@ enum class PortraitFxEventKind : uint8_t
 {
     None = 0,
     Disease,
+    AutoNote,
     AwardGain,
     QuestComplete,
     StatIncrease,

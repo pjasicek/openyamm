@@ -464,6 +464,9 @@ public:
         uint16_t entityIndex = 0;
         uint16_t baseEventId = 0;
         uint8_t eventCount = 0;
+        uint8_t initialState = 0;
+        bool useSeededInitialState = false;
+        bool hideWhenCleared = false;
         InteractiveDecorationFamily family = InteractiveDecorationFamily::None;
     };
 

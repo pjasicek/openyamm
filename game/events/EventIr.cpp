@@ -56,6 +56,15 @@ std::string decodeVariableRef(uint32_t rawValue)
 
     switch (tag)
     {
+        case 0x0003: return "CurrentHP";
+        case 0x0004: return "MaxHP";
+        case 0x0005: return "CurrentSP";
+        case 0x0006: return "MaxSP";
+        case 0x0012: return "Hour";
+        case 0x0013: return "DayOfYear";
+        case 0x0014: return "DayOfWeek";
+        case 0x0015:
+        case 0x0016: return "Gold";
         case 0x0019: return "MightBonus";
         case 0x001A: return "IntellectBonus";
         case 0x001B: return "PersonalityBonus";
@@ -70,6 +79,13 @@ std::string decodeVariableRef(uint32_t rawValue)
         case 0x0024: return "BaseSpeed";
         case 0x0025: return "BaseAccuracy";
         case 0x0026: return "BaseLuck";
+        case 0x0027: return "ActualMight";
+        case 0x0028: return "ActualIntellect";
+        case 0x0029: return "ActualPersonality";
+        case 0x002A: return "ActualEndurance";
+        case 0x002B: return "ActualSpeed";
+        case 0x002C: return "ActualAccuracy";
+        case 0x002D: return "ActualLuck";
         case 0x002E: return "FireResistance";
         case 0x002F: return "AirResistance";
         case 0x0030: return "WaterResistance";
@@ -84,10 +100,16 @@ std::string decodeVariableRef(uint32_t rawValue)
         case 0x003D: return "SpiritResistanceBonus";
         case 0x003E: return "MindResistanceBonus";
         case 0x003F: return "BodyResistanceBonus";
+        case 0x0132: return "GoldInBank";
         default: break;
     }
 
-    if (tag == 0x0006 || tag == 0x013e)
+    if (tag == 0x00df || tag == 0x00e1)
+    {
+        return "AutoNote[" + std::to_string(index) + "]";
+    }
+
+    if (tag == 0x013e)
     {
         return "Players[" + std::to_string(index) + "]";
     }
@@ -102,6 +124,9 @@ std::string decodeFacetBit(uint32_t rawValue)
     switch (rawValue)
     {
         case 0x00002000: return "Invisible";
+        case 0x00100000: return "Hint";
+        case 0x02000000: return "Clickable";
+        case 0x04000000: return "PressurePlate";
         case 0x20000000: return "Untouchable";
         default: return hexValue(rawValue);
     }
@@ -490,8 +515,8 @@ EventIrInstruction EventIrProgram::convertInstruction(
     else if (irInstruction.operation == EventIrOperation::CastSpell)
     {
         const std::optional<uint8_t> spellId = readPayloadValue<uint8_t>(evtInstruction.rawPayload, 0);
-        const std::optional<uint8_t> skillLevel = readPayloadValue<uint8_t>(evtInstruction.rawPayload, 1);
-        const std::optional<uint8_t> skillMastery = readPayloadValue<uint8_t>(evtInstruction.rawPayload, 2);
+        const std::optional<uint8_t> skillMasteryRaw = readPayloadValue<uint8_t>(evtInstruction.rawPayload, 1);
+        const std::optional<uint8_t> skillLevel = readPayloadValue<uint8_t>(evtInstruction.rawPayload, 2);
         const std::optional<int32_t> fromX = readPayloadValue<int32_t>(evtInstruction.rawPayload, 3);
         const std::optional<int32_t> fromY = readPayloadValue<int32_t>(evtInstruction.rawPayload, 7);
         const std::optional<int32_t> fromZ = readPayloadValue<int32_t>(evtInstruction.rawPayload, 11);
@@ -499,18 +524,42 @@ EventIrInstruction EventIrProgram::convertInstruction(
         const std::optional<int32_t> toY = readPayloadValue<int32_t>(evtInstruction.rawPayload, 19);
         const std::optional<int32_t> toZ = readPayloadValue<int32_t>(evtInstruction.rawPayload, 23);
 
-        if (spellId && skillLevel && skillMastery && fromX && fromY && fromZ && toX && toY && toZ)
+        if (spellId && skillLevel && skillMasteryRaw && fromX && fromY && fromZ && toX && toY && toZ)
         {
             irInstruction.arguments.clear();
             irInstruction.arguments.push_back(*spellId);
             irInstruction.arguments.push_back(*skillLevel);
-            irInstruction.arguments.push_back(*skillMastery);
+            irInstruction.arguments.push_back(static_cast<uint32_t>(*skillMasteryRaw) + 1);
             irInstruction.arguments.push_back(static_cast<uint32_t>(*fromX));
             irInstruction.arguments.push_back(static_cast<uint32_t>(*fromY));
             irInstruction.arguments.push_back(static_cast<uint32_t>(*fromZ));
             irInstruction.arguments.push_back(static_cast<uint32_t>(*toX));
             irInstruction.arguments.push_back(static_cast<uint32_t>(*toY));
             irInstruction.arguments.push_back(static_cast<uint32_t>(*toZ));
+        }
+    }
+    else if (irInstruction.operation == EventIrOperation::MoveToMap)
+    {
+        const std::optional<int32_t> x = readPayloadValue<int32_t>(evtInstruction.rawPayload, 2);
+        const std::optional<int32_t> y = readPayloadValue<int32_t>(evtInstruction.rawPayload, 6);
+        const std::optional<int32_t> z = readPayloadValue<int32_t>(evtInstruction.rawPayload, 10);
+        const std::optional<int32_t> yaw = readPayloadValue<int32_t>(evtInstruction.rawPayload, 14);
+        const std::optional<int32_t> pitch = readPayloadValue<int32_t>(evtInstruction.rawPayload, 18);
+        const std::optional<int32_t> zSpeed = readPayloadValue<int32_t>(evtInstruction.rawPayload, 22);
+        const std::optional<uint8_t> houseId = readPayloadValue<uint8_t>(evtInstruction.rawPayload, 26);
+        const std::optional<uint8_t> exitPicId = readPayloadValue<uint8_t>(evtInstruction.rawPayload, 27);
+
+        if (x && y && z && yaw && pitch && zSpeed && houseId && exitPicId)
+        {
+            irInstruction.arguments.clear();
+            irInstruction.arguments.push_back(static_cast<uint32_t>(*x));
+            irInstruction.arguments.push_back(static_cast<uint32_t>(*y));
+            irInstruction.arguments.push_back(static_cast<uint32_t>(*z));
+            irInstruction.arguments.push_back(static_cast<uint32_t>(*yaw));
+            irInstruction.arguments.push_back(static_cast<uint32_t>(*pitch));
+            irInstruction.arguments.push_back(static_cast<uint32_t>(*zSpeed));
+            irInstruction.arguments.push_back(*houseId);
+            irInstruction.arguments.push_back(*exitPicId);
         }
     }
 
@@ -642,6 +691,31 @@ EventIrInstruction EventIrProgram::convertInstruction(
                      << static_cast<int32_t>(irInstruction.arguments[6]) << ","
                      << static_cast<int32_t>(irInstruction.arguments[7]) << ","
                      << static_cast<int32_t>(irInstruction.arguments[8]) << ")";
+                irInstruction.note = note.str();
+            }
+            break;
+        }
+
+        case EventIrOperation::MoveToMap:
+        {
+            if (irInstruction.arguments.size() >= 8)
+            {
+                std::ostringstream note;
+                note << "pos=("
+                     << static_cast<int32_t>(irInstruction.arguments[0]) << ","
+                     << static_cast<int32_t>(irInstruction.arguments[1]) << ","
+                     << static_cast<int32_t>(irInstruction.arguments[2]) << ")"
+                     << " yaw=" << static_cast<int32_t>(irInstruction.arguments[3])
+                     << " pitch=" << static_cast<int32_t>(irInstruction.arguments[4])
+                     << " zspeed=" << static_cast<int32_t>(irInstruction.arguments[5])
+                     << " house=" << irInstruction.arguments[6]
+                     << " exit=" << irInstruction.arguments[7];
+
+                if (irInstruction.text && !irInstruction.text->empty())
+                {
+                    note << " map=" << quote(*irInstruction.text);
+                }
+
                 irInstruction.note = note.str();
             }
             break;

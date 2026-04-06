@@ -418,6 +418,10 @@ void OutdoorPresentationController::triggerPortraitEventFx(
 
     switch (request.kind)
     {
+    case PortraitFxEventKind::AutoNote:
+        view.m_pGameAudioSystem->playCommonSound(SoundId::Quest, GameAudioSystem::PlaybackGroup::Ui);
+        break;
+
     case PortraitFxEventKind::AwardGain:
         view.m_pGameAudioSystem->playCommonSound(SoundId::Chimes, GameAudioSystem::PlaybackGroup::Ui);
         view.playSpeechReaction(request.memberIndices.front(), SpeechId::AwardGot, false);
@@ -454,7 +458,12 @@ void OutdoorPresentationController::consumePendingPortraitEventFxRequests(Outdoo
 
     EventRuntimeState *pEventRuntimeState = view.m_pOutdoorWorldRuntime->eventRuntimeState();
 
-    if (pEventRuntimeState == nullptr || pEventRuntimeState->portraitFxRequests.empty())
+    if (pEventRuntimeState == nullptr)
+    {
+        return;
+    }
+
+    if (pEventRuntimeState->portraitFxRequests.empty() && pEventRuntimeState->spellFxRequests.empty())
     {
         return;
     }
@@ -464,7 +473,39 @@ void OutdoorPresentationController::consumePendingPortraitEventFxRequests(Outdoo
         view.triggerPortraitEventFx(request);
     }
 
-    pEventRuntimeState->portraitFxRequests.clear();
+    if (!pEventRuntimeState->portraitFxRequests.empty())
+    {
+        pEventRuntimeState->portraitFxRequests.clear();
+    }
+
+    if (!pEventRuntimeState->spellFxRequests.empty())
+    {
+        for (const EventRuntimeState::SpellFxRequest &request : pEventRuntimeState->spellFxRequests)
+        {
+            const SpellFxEntry *pSpellFxEntry = view.m_spellFxTable.findBySpellId(request.spellId);
+
+            if (pSpellFxEntry != nullptr)
+            {
+                view.triggerPortraitFxAnimation(pSpellFxEntry->animationName, request.memberIndices);
+            }
+
+            if (view.m_pGameAudioSystem == nullptr || view.m_pSpellTable == nullptr)
+            {
+                continue;
+            }
+
+            const SpellEntry *pSpellEntry = view.m_pSpellTable->findById(static_cast<int>(request.spellId));
+
+            if (pSpellEntry != nullptr && pSpellEntry->effectSoundId > 0)
+            {
+                view.m_pGameAudioSystem->playSound(
+                    static_cast<uint32_t>(pSpellEntry->effectSoundId),
+                    GameAudioSystem::PlaybackGroup::Ui);
+            }
+        }
+
+        pEventRuntimeState->spellFxRequests.clear();
+    }
 }
 
 bool OutdoorPresentationController::canPlaySpeechReaction(

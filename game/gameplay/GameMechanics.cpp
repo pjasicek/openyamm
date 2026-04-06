@@ -1,5 +1,6 @@
 #include "game/gameplay/GameMechanics.h"
 
+#include "game/items/ItemEnchantRuntime.h"
 #include "game/tables/CharacterDollTable.h"
 #include "game/items/ItemRuntime.h"
 #include "game/tables/ItemTable.h"
@@ -1057,6 +1058,220 @@ CharacterSheetValue makeResistanceValue(int baseValue, int actualValue, bool imm
     return immune ? makeInfiniteSheetValue(baseValue) : makeSheetValue(baseValue, actualValue);
 }
 
+CharacterStatBonuses resolveEquippedItemStatBonuses(
+    const Character &character,
+    const ItemTable *pItemTable,
+    const StandardItemEnchantTable *pStandardItemEnchantTable,
+    const SpecialItemEnchantTable *pSpecialItemEnchantTable)
+{
+    CharacterStatBonuses bonuses = {};
+
+    if (pItemTable == nullptr)
+    {
+        return bonuses;
+    }
+
+    Character bonusCharacter = {};
+
+    const auto applyEquippedItemEnchant =
+        [&](uint32_t itemId, const EquippedItemRuntimeState &runtimeState)
+        {
+            if (itemId == 0 || runtimeState.broken)
+            {
+                return;
+            }
+
+            const ItemDefinition *pItemDefinition = pItemTable->get(itemId);
+
+            if (pItemDefinition == nullptr)
+            {
+                return;
+            }
+
+            ItemEnchantRuntime::applyEquippedEnchantEffects(
+                *pItemDefinition,
+                runtimeState,
+                pStandardItemEnchantTable,
+                pSpecialItemEnchantTable,
+                bonusCharacter);
+        };
+
+    applyEquippedItemEnchant(character.equipment.offHand, character.equipmentRuntime.offHand);
+    applyEquippedItemEnchant(character.equipment.mainHand, character.equipmentRuntime.mainHand);
+    applyEquippedItemEnchant(character.equipment.bow, character.equipmentRuntime.bow);
+    applyEquippedItemEnchant(character.equipment.armor, character.equipmentRuntime.armor);
+    applyEquippedItemEnchant(character.equipment.helm, character.equipmentRuntime.helm);
+    applyEquippedItemEnchant(character.equipment.belt, character.equipmentRuntime.belt);
+    applyEquippedItemEnchant(character.equipment.cloak, character.equipmentRuntime.cloak);
+    applyEquippedItemEnchant(character.equipment.gauntlets, character.equipmentRuntime.gauntlets);
+    applyEquippedItemEnchant(character.equipment.boots, character.equipmentRuntime.boots);
+    applyEquippedItemEnchant(character.equipment.amulet, character.equipmentRuntime.amulet);
+    applyEquippedItemEnchant(character.equipment.ring1, character.equipmentRuntime.ring1);
+    applyEquippedItemEnchant(character.equipment.ring2, character.equipmentRuntime.ring2);
+    applyEquippedItemEnchant(character.equipment.ring3, character.equipmentRuntime.ring3);
+    applyEquippedItemEnchant(character.equipment.ring4, character.equipmentRuntime.ring4);
+    applyEquippedItemEnchant(character.equipment.ring5, character.equipmentRuntime.ring5);
+    applyEquippedItemEnchant(character.equipment.ring6, character.equipmentRuntime.ring6);
+
+    return bonusCharacter.magicalBonuses;
+}
+
+int resolveCharacterPrimaryStatBaseValue(const Character &character, uint32_t rawStatId)
+{
+    switch (rawStatId)
+    {
+        case 0x20:
+        case 0x27:
+            return static_cast<int>(character.might);
+
+        case 0x21:
+        case 0x28:
+            return static_cast<int>(character.intellect);
+
+        case 0x22:
+        case 0x29:
+            return static_cast<int>(character.personality);
+
+        case 0x23:
+        case 0x2A:
+            return static_cast<int>(character.endurance);
+
+        case 0x24:
+        case 0x2B:
+            return static_cast<int>(character.speed);
+
+        case 0x25:
+        case 0x2C:
+            return static_cast<int>(character.accuracy);
+
+        case 0x26:
+        case 0x2D:
+            return static_cast<int>(character.luck);
+
+        default:
+            break;
+    }
+
+    return 0;
+}
+
+int resolveCharacterPrimaryStatPermanentBonusValue(const Character &character, uint32_t rawStatId)
+{
+    switch (rawStatId)
+    {
+        case 0x20:
+        case 0x27:
+            return character.permanentBonuses.might;
+
+        case 0x21:
+        case 0x28:
+            return character.permanentBonuses.intellect;
+
+        case 0x22:
+        case 0x29:
+            return character.permanentBonuses.personality;
+
+        case 0x23:
+        case 0x2A:
+            return character.permanentBonuses.endurance;
+
+        case 0x24:
+        case 0x2B:
+            return character.permanentBonuses.speed;
+
+        case 0x25:
+        case 0x2C:
+            return character.permanentBonuses.accuracy;
+
+        case 0x26:
+        case 0x2D:
+            return character.permanentBonuses.luck;
+
+        default:
+            break;
+    }
+
+    return 0;
+}
+
+int resolveCharacterPrimaryStatMagicalBonusValue(const Character &character, uint32_t rawStatId)
+{
+    switch (rawStatId)
+    {
+        case 0x20:
+        case 0x27:
+            return character.magicalBonuses.might;
+
+        case 0x21:
+        case 0x28:
+            return character.magicalBonuses.intellect;
+
+        case 0x22:
+        case 0x29:
+            return character.magicalBonuses.personality;
+
+        case 0x23:
+        case 0x2A:
+            return character.magicalBonuses.endurance;
+
+        case 0x24:
+        case 0x2B:
+            return character.magicalBonuses.speed;
+
+        case 0x25:
+        case 0x2C:
+            return character.magicalBonuses.accuracy;
+
+        case 0x26:
+        case 0x2D:
+            return character.magicalBonuses.luck;
+
+        default:
+            break;
+    }
+
+    return 0;
+}
+
+int resolveCharacterPrimaryStatEquippedItemBonusValue(const CharacterStatBonuses &bonuses, uint32_t rawStatId)
+{
+    switch (rawStatId)
+    {
+        case 0x20:
+        case 0x27:
+            return bonuses.might;
+
+        case 0x21:
+        case 0x28:
+            return bonuses.intellect;
+
+        case 0x22:
+        case 0x29:
+            return bonuses.personality;
+
+        case 0x23:
+        case 0x2A:
+            return bonuses.endurance;
+
+        case 0x24:
+        case 0x2B:
+            return bonuses.speed;
+
+        case 0x25:
+        case 0x2C:
+            return bonuses.accuracy;
+
+        case 0x26:
+        case 0x2D:
+            return bonuses.luck;
+
+        default:
+            break;
+    }
+
+    return 0;
+}
+
 std::string resolveConditionText(const Character &character)
 {
     const std::optional<CharacterCondition> condition = GameMechanics::displayedCondition(character);
@@ -1336,26 +1551,139 @@ std::string GameMechanics::buildExperienceInspectSupplement(const Character &cha
         + ".";
 }
 
-CharacterSheetSummary GameMechanics::buildCharacterSheetSummary(const Character &character, const ItemTable *pItemTable)
+int GameMechanics::resolveCharacterDisplayedBasePrimaryStat(
+    const Character &character,
+    uint32_t rawStatId,
+    const ItemTable *pItemTable,
+    const StandardItemEnchantTable *pStandardItemEnchantTable,
+    const SpecialItemEnchantTable *pSpecialItemEnchantTable)
+{
+    const CharacterStatBonuses equippedItemBonuses = resolveEquippedItemStatBonuses(
+        character,
+        pItemTable,
+        pStandardItemEnchantTable,
+        pSpecialItemEnchantTable);
+
+    return resolveCharacterPrimaryStatBaseValue(character, rawStatId)
+        + resolveCharacterPrimaryStatPermanentBonusValue(character, rawStatId)
+        + resolveCharacterPrimaryStatEquippedItemBonusValue(equippedItemBonuses, rawStatId);
+}
+
+int GameMechanics::resolveCharacterDisplayedActualPrimaryStat(
+    const Character &character,
+    uint32_t rawStatId,
+    const ItemTable *pItemTable,
+    const StandardItemEnchantTable *pStandardItemEnchantTable,
+    const SpecialItemEnchantTable *pSpecialItemEnchantTable)
+{
+    return resolveCharacterDisplayedBasePrimaryStat(
+            character,
+            rawStatId,
+            pItemTable,
+            pStandardItemEnchantTable,
+            pSpecialItemEnchantTable)
+        + resolveCharacterPrimaryStatMagicalBonusValue(character, rawStatId);
+}
+
+CharacterSheetSummary GameMechanics::buildCharacterSheetSummary(
+    const Character &character,
+    const ItemTable *pItemTable,
+    const StandardItemEnchantTable *pStandardItemEnchantTable,
+    const SpecialItemEnchantTable *pSpecialItemEnchantTable)
 {
     CharacterSheetSummary summary = {};
     const EquippedItems equippedItems = resolveEquippedItems(character, pItemTable);
+    const CharacterStatBonuses equippedItemBonuses = resolveEquippedItemStatBonuses(
+        character,
+        pItemTable,
+        pStandardItemEnchantTable,
+        pSpecialItemEnchantTable);
 
-    const int baseMight = static_cast<int>(character.might) + character.permanentBonuses.might;
-    const int baseIntellect = static_cast<int>(character.intellect) + character.permanentBonuses.intellect;
-    const int basePersonality = static_cast<int>(character.personality) + character.permanentBonuses.personality;
-    const int baseEndurance = static_cast<int>(character.endurance) + character.permanentBonuses.endurance;
-    const int baseAccuracy = static_cast<int>(character.accuracy) + character.permanentBonuses.accuracy;
-    const int baseSpeed = static_cast<int>(character.speed) + character.permanentBonuses.speed;
-    const int baseLuck = static_cast<int>(character.luck) + character.permanentBonuses.luck;
+    const int baseMight = resolveCharacterDisplayedBasePrimaryStat(
+        character,
+        0x20,
+        pItemTable,
+        pStandardItemEnchantTable,
+        pSpecialItemEnchantTable);
+    const int baseIntellect = resolveCharacterDisplayedBasePrimaryStat(
+        character,
+        0x21,
+        pItemTable,
+        pStandardItemEnchantTable,
+        pSpecialItemEnchantTable);
+    const int basePersonality = resolveCharacterDisplayedBasePrimaryStat(
+        character,
+        0x22,
+        pItemTable,
+        pStandardItemEnchantTable,
+        pSpecialItemEnchantTable);
+    const int baseEndurance = resolveCharacterDisplayedBasePrimaryStat(
+        character,
+        0x23,
+        pItemTable,
+        pStandardItemEnchantTable,
+        pSpecialItemEnchantTable);
+    const int baseAccuracy = resolveCharacterDisplayedBasePrimaryStat(
+        character,
+        0x25,
+        pItemTable,
+        pStandardItemEnchantTable,
+        pSpecialItemEnchantTable);
+    const int baseSpeed = resolveCharacterDisplayedBasePrimaryStat(
+        character,
+        0x24,
+        pItemTable,
+        pStandardItemEnchantTable,
+        pSpecialItemEnchantTable);
+    const int baseLuck = resolveCharacterDisplayedBasePrimaryStat(
+        character,
+        0x26,
+        pItemTable,
+        pStandardItemEnchantTable,
+        pSpecialItemEnchantTable);
 
-    const int actualMight = baseMight + character.magicalBonuses.might;
-    const int actualIntellect = baseIntellect + character.magicalBonuses.intellect;
-    const int actualPersonality = basePersonality + character.magicalBonuses.personality;
-    const int actualEndurance = baseEndurance + character.magicalBonuses.endurance;
-    const int actualAccuracy = baseAccuracy + character.magicalBonuses.accuracy;
-    const int actualSpeed = baseSpeed + character.magicalBonuses.speed;
-    const int actualLuck = baseLuck + character.magicalBonuses.luck;
+    const int actualMight = resolveCharacterDisplayedActualPrimaryStat(
+        character,
+        0x27,
+        pItemTable,
+        pStandardItemEnchantTable,
+        pSpecialItemEnchantTable);
+    const int actualIntellect = resolveCharacterDisplayedActualPrimaryStat(
+        character,
+        0x28,
+        pItemTable,
+        pStandardItemEnchantTable,
+        pSpecialItemEnchantTable);
+    const int actualPersonality = resolveCharacterDisplayedActualPrimaryStat(
+        character,
+        0x29,
+        pItemTable,
+        pStandardItemEnchantTable,
+        pSpecialItemEnchantTable);
+    const int actualEndurance = resolveCharacterDisplayedActualPrimaryStat(
+        character,
+        0x2A,
+        pItemTable,
+        pStandardItemEnchantTable,
+        pSpecialItemEnchantTable);
+    const int actualAccuracy = resolveCharacterDisplayedActualPrimaryStat(
+        character,
+        0x2C,
+        pItemTable,
+        pStandardItemEnchantTable,
+        pSpecialItemEnchantTable);
+    const int actualSpeed = resolveCharacterDisplayedActualPrimaryStat(
+        character,
+        0x2B,
+        pItemTable,
+        pStandardItemEnchantTable,
+        pSpecialItemEnchantTable);
+    const int actualLuck = resolveCharacterDisplayedActualPrimaryStat(
+        character,
+        0x2D,
+        pItemTable,
+        pStandardItemEnchantTable,
+        pSpecialItemEnchantTable);
 
     summary.might = makeSheetValue(baseMight, actualMight);
     summary.intellect = makeSheetValue(baseIntellect, actualIntellect);
@@ -1380,14 +1708,28 @@ CharacterSheetSummary GameMechanics::buildCharacterSheetSummary(const Character 
     const int armorActual = std::max(0, armorBase + character.magicalBonuses.armorClass);
     summary.armorClass = makeSheetValue(std::max(0, armorBase), armorActual);
 
-    summary.level = makeSheetValue(static_cast<int>(character.level), static_cast<int>(character.level));
+    summary.level = makeSheetValue(
+        static_cast<int>(character.level),
+        static_cast<int>(maximumTrainableLevelFromExperience(character)));
 
-    const int fireBase = character.baseResistances.fire + character.permanentBonuses.resistances.fire;
-    const int airBase = character.baseResistances.air + character.permanentBonuses.resistances.air;
-    const int waterBase = character.baseResistances.water + character.permanentBonuses.resistances.water;
-    const int earthBase = character.baseResistances.earth + character.permanentBonuses.resistances.earth;
-    const int mindBase = character.baseResistances.mind + character.permanentBonuses.resistances.mind;
-    const int bodyBase = character.baseResistances.body + character.permanentBonuses.resistances.body;
+    const int fireBase = character.baseResistances.fire
+        + character.permanentBonuses.resistances.fire
+        + equippedItemBonuses.resistances.fire;
+    const int airBase = character.baseResistances.air
+        + character.permanentBonuses.resistances.air
+        + equippedItemBonuses.resistances.air;
+    const int waterBase = character.baseResistances.water
+        + character.permanentBonuses.resistances.water
+        + equippedItemBonuses.resistances.water;
+    const int earthBase = character.baseResistances.earth
+        + character.permanentBonuses.resistances.earth
+        + equippedItemBonuses.resistances.earth;
+    const int mindBase = character.baseResistances.mind
+        + character.permanentBonuses.resistances.mind
+        + equippedItemBonuses.resistances.mind;
+    const int bodyBase = character.baseResistances.body
+        + character.permanentBonuses.resistances.body
+        + equippedItemBonuses.resistances.body;
 
     summary.fireResistance = makeResistanceValue(
         fireBase,

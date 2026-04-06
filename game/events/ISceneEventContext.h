@@ -9,6 +9,8 @@ class ISceneEventContext
 public:
     virtual ~ISceneEventContext() = default;
 
+    virtual float currentGameMinutes() const = 0;
+
     virtual bool castEventSpell(
         uint32_t spellId,
         uint32_t skillLevel,

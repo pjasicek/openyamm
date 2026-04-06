@@ -1,10 +1,12 @@
 #include "game/events/ISceneEventContext.h"
 #include "game/events/EventRuntime.h"
+#include "game/gameplay/GameMechanics.h"
 #include "game/party/Party.h"
 #include "game/party/SkillData.h"
 
 #include <iostream>
 #include <algorithm>
+#include <cmath>
 #include <limits>
 #include <unordered_map>
 
@@ -281,6 +283,52 @@ void queuePermanentVariableStatusMessage(
     }
 }
 
+Character *resolveCharacterForVariableWrite(Party *pParty, const std::optional<size_t> &memberIndex)
+{
+    if (pParty == nullptr || !memberIndex.has_value())
+    {
+        return nullptr;
+    }
+
+    return pParty->member(*memberIndex);
+}
+
+const Character *resolveCharacterForVariableRead(const Party *pParty, const std::optional<size_t> &memberIndex)
+{
+    if (pParty == nullptr || !memberIndex.has_value())
+    {
+        return nullptr;
+    }
+
+    return pParty->member(*memberIndex);
+}
+
+bool grantInventoryItemToTargets(Party &party, const std::vector<size_t> &targetMemberIndices, uint32_t objectDescriptionId)
+{
+    for (size_t memberIndex : targetMemberIndices)
+    {
+        if (party.grantItemToMember(memberIndex, objectDescriptionId))
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+bool removeInventoryItemFromTargets(Party &party, const std::vector<size_t> &targetMemberIndices, uint32_t objectDescriptionId)
+{
+    for (size_t memberIndex : targetMemberIndices)
+    {
+        if (party.removeItemFromMember(memberIndex, objectDescriptionId))
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 int32_t readCharacterVariableValue(const Character &member, uint32_t rawId)
 {
     switch (rawId)
@@ -324,6 +372,16 @@ int32_t readCharacterVariableValue(const Character &member, uint32_t rawId)
     }
 
     return 0;
+}
+
+int32_t readCharacterActualStatValue(const Character &member, uint32_t rawId, const Party *pParty)
+{
+    return GameMechanics::resolveCharacterDisplayedActualPrimaryStat(
+        member,
+        rawId,
+        pParty != nullptr ? pParty->itemTable() : nullptr,
+        pParty != nullptr ? pParty->standardItemEnchantTable() : nullptr,
+        pParty != nullptr ? pParty->specialItemEnchantTable() : nullptr);
 }
 
 void writeCharacterVariableValue(Character &member, uint32_t rawId, int32_t value)
@@ -370,6 +428,42 @@ void writeCharacterVariableValue(Character &member, uint32_t rawId, int32_t valu
         default: break;
     }
 }
+
+int resolveCharacterEffectiveMaxHealth(const Character &member)
+{
+    return std::max(
+        1,
+        member.maxHealth + member.permanentBonuses.maxHealth + member.magicalBonuses.maxHealth
+    );
+}
+
+int resolveCharacterEffectiveMaxSpellPoints(const Character &member)
+{
+    return std::max(
+        0,
+        member.maxSpellPoints + member.permanentBonuses.maxSpellPoints + member.magicalBonuses.maxSpellPoints
+    );
+}
+
+int floorToInt(float value)
+{
+    return static_cast<int>(std::floor(value));
+}
+
+void syncTimeVariablesFromSceneContext(EventRuntimeState &runtimeState, const ISceneEventContext *pSceneEventContext)
+{
+    if (pSceneEventContext == nullptr)
+    {
+        return;
+    }
+
+    constexpr int MinutesPerDay = 24 * 60;
+    const int totalMinutes = std::max(0, floorToInt(pSceneEventContext->currentGameMinutes()));
+    const int totalDays = totalMinutes / MinutesPerDay;
+    runtimeState.variables[0x0012] = (totalMinutes / 60) % 24;
+    runtimeState.variables[0x0013] = totalDays % 365;
+    runtimeState.variables[0x0014] = totalDays % 7;
+}
 }
 
 EventRuntime::VariableRef EventRuntime::decodeVariable(uint32_t rawId)
@@ -394,6 +488,11 @@ EventRuntime::VariableRef EventRuntime::decodeVariable(uint32_t rawId)
         variable.kind = VariableKind::Food;
         variable.rawId = variable.tag;
     }
+    else if (variable.tag == 0x00df || variable.tag == 0x00e1)
+    {
+        variable.kind = VariableKind::AutoNote;
+        variable.rawId = rawId;
+    }
     else if (variable.tag == 0x0011)
     {
         variable.kind = VariableKind::Inventory;
@@ -414,7 +513,52 @@ EventRuntime::VariableRef EventRuntime::decodeVariable(uint32_t rawId)
         variable.kind = VariableKind::Experience;
         variable.rawId = variable.tag;
     }
-    else if (variable.tag == 0x0006 || variable.tag == 0x013e)
+    else if (variable.tag == 0x0003)
+    {
+        variable.kind = VariableKind::CurrentHealth;
+        variable.rawId = variable.tag;
+    }
+    else if (variable.tag == 0x0004)
+    {
+        variable.kind = VariableKind::MaxHealth;
+        variable.rawId = variable.tag;
+    }
+    else if (variable.tag == 0x0005)
+    {
+        variable.kind = VariableKind::CurrentSpellPoints;
+        variable.rawId = variable.tag;
+    }
+    else if (variable.tag == 0x0006)
+    {
+        variable.kind = VariableKind::MaxSpellPoints;
+        variable.rawId = variable.tag;
+    }
+    else if (variable.tag == 0x0012)
+    {
+        variable.kind = VariableKind::Hour;
+        variable.rawId = variable.tag;
+    }
+    else if (variable.tag == 0x0013)
+    {
+        variable.kind = VariableKind::DayOfYear;
+        variable.rawId = variable.tag;
+    }
+    else if (variable.tag == 0x0014)
+    {
+        variable.kind = VariableKind::DayOfWeek;
+        variable.rawId = variable.tag;
+    }
+    else if (variable.tag == 0x0015 || variable.tag == 0x0016)
+    {
+        variable.kind = VariableKind::Gold;
+        variable.rawId = variable.tag;
+    }
+    else if (variable.tag == 0x0132)
+    {
+        variable.kind = VariableKind::GoldInBank;
+        variable.rawId = variable.tag;
+    }
+    else if (variable.tag == 0x013e)
     {
         variable.kind = VariableKind::Players;
         variable.rawId = rawId;
@@ -424,7 +568,12 @@ EventRuntime::VariableRef EventRuntime::decodeVariable(uint32_t rawId)
         variable.kind = VariableKind::BaseStat;
         variable.rawId = variable.tag;
     }
-    else if ((variable.tag >= 0x0019 && variable.tag <= 0x001f) || (variable.tag >= 0x0027 && variable.tag <= 0x002d))
+    else if (variable.tag >= 0x0027 && variable.tag <= 0x002d)
+    {
+        variable.kind = VariableKind::ActualStat;
+        variable.rawId = variable.tag;
+    }
+    else if (variable.tag >= 0x0019 && variable.tag <= 0x001f)
     {
         variable.kind = VariableKind::StatBonus;
         variable.rawId = variable.tag;
@@ -477,6 +626,12 @@ int32_t EventRuntime::getVariableValue(
             return pParty->food();
         }
 
+        const std::unordered_map<uint32_t, int32_t>::const_iterator iterator = runtimeState.variables.find(variable.rawId);
+        return iterator != runtimeState.variables.end() ? iterator->second : 0;
+    }
+
+    if (variable.kind == VariableKind::AutoNote)
+    {
         const std::unordered_map<uint32_t, int32_t>::const_iterator iterator = runtimeState.variables.find(variable.rawId);
         return iterator != runtimeState.variables.end() ? iterator->second : 0;
     }
@@ -535,7 +690,51 @@ int32_t EventRuntime::getVariableValue(
             : 0;
     }
 
+    if (variable.kind == VariableKind::CurrentHealth
+        || variable.kind == VariableKind::MaxHealth
+        || variable.kind == VariableKind::CurrentSpellPoints
+        || variable.kind == VariableKind::MaxSpellPoints)
+    {
+        const Character *pMember = resolveCharacterForVariableRead(pParty, memberIndex);
+
+        if (pMember == nullptr)
+        {
+            return 0;
+        }
+
+        switch (variable.kind)
+        {
+            case VariableKind::CurrentHealth:
+                return pMember->health;
+
+            case VariableKind::MaxHealth:
+                return resolveCharacterEffectiveMaxHealth(*pMember);
+
+            case VariableKind::CurrentSpellPoints:
+                return pMember->spellPoints;
+
+            case VariableKind::MaxSpellPoints:
+                return resolveCharacterEffectiveMaxSpellPoints(*pMember);
+
+            default:
+                break;
+        }
+
+        return 0;
+    }
+
+    if (variable.kind == VariableKind::Gold)
+    {
+        return pParty != nullptr ? pParty->gold() : 0;
+    }
+
+    if (variable.kind == VariableKind::GoldInBank)
+    {
+        return pParty != nullptr ? pParty->bankGold() : 0;
+    }
+
     if (variable.kind == VariableKind::BaseStat
+        || variable.kind == VariableKind::ActualStat
         || variable.kind == VariableKind::StatBonus
         || variable.kind == VariableKind::BaseResistance
         || variable.kind == VariableKind::ResistanceBonus)
@@ -546,7 +745,17 @@ int32_t EventRuntime::getVariableValue(
         }
 
         const Character *pMember = pParty->member(*memberIndex);
-        return pMember != nullptr ? readCharacterVariableValue(*pMember, variable.rawId) : 0;
+        if (pMember == nullptr)
+        {
+            return 0;
+        }
+
+        if (variable.kind == VariableKind::ActualStat)
+        {
+            return readCharacterActualStatValue(*pMember, variable.rawId, pParty);
+        }
+
+        return readCharacterVariableValue(*pMember, variable.rawId);
     }
 
     if (variable.kind == VariableKind::QBits || variable.kind == VariableKind::BoolFlag)
@@ -583,16 +792,13 @@ void EventRuntime::setVariableValue(
     {
         if (pParty != nullptr && !targetMemberIndices.empty())
         {
-            for (size_t memberIndex : targetMemberIndices)
+            if (value != 0)
             {
-                if (value != 0)
-                {
-                    pParty->grantItemToMember(memberIndex, variable.rawId);
-                }
-                else
-                {
-                    pParty->removeItemFromMember(memberIndex, variable.rawId);
-                }
+                grantInventoryItemToTargets(*pParty, targetMemberIndices, variable.rawId);
+            }
+            else
+            {
+                removeInventoryItemFromTargets(*pParty, targetMemberIndices, variable.rawId);
             }
         }
         return;
@@ -659,6 +865,19 @@ void EventRuntime::setVariableValue(
         return;
     }
 
+    if (variable.kind == VariableKind::AutoNote)
+    {
+        const int32_t normalizedValue = value != 0 ? value : 0;
+        runtimeState.variables[variable.rawId] = normalizedValue;
+
+        if (normalizedValue != 0 && previousValue == 0)
+        {
+            queuePortraitFxRequest(runtimeState, PortraitFxEventKind::AutoNote, pParty, targetMemberIndices);
+        }
+
+        return;
+    }
+
     if (variable.kind == VariableKind::ClassId)
     {
         if (pParty == nullptr)
@@ -710,7 +929,103 @@ void EventRuntime::setVariableValue(
         return;
     }
 
+    if (variable.kind == VariableKind::CurrentHealth
+        || variable.kind == VariableKind::MaxHealth
+        || variable.kind == VariableKind::CurrentSpellPoints
+        || variable.kind == VariableKind::MaxSpellPoints)
+    {
+        if (pParty == nullptr || targetMemberIndices.empty())
+        {
+            return;
+        }
+
+        for (size_t targetMemberIndex : targetMemberIndices)
+        {
+            Character *pMember = pParty->member(targetMemberIndex);
+
+            if (pMember == nullptr)
+            {
+                continue;
+            }
+
+            switch (variable.kind)
+            {
+                case VariableKind::CurrentHealth:
+                    pMember->health = std::clamp(value, 0, resolveCharacterEffectiveMaxHealth(*pMember));
+                    break;
+
+                case VariableKind::MaxHealth:
+                    pMember->maxHealth = std::max(1, value);
+                    pMember->health = std::clamp(pMember->health, 0, resolveCharacterEffectiveMaxHealth(*pMember));
+                    break;
+
+                case VariableKind::CurrentSpellPoints:
+                    pMember->spellPoints = std::clamp(value, 0, resolveCharacterEffectiveMaxSpellPoints(*pMember));
+                    break;
+
+                case VariableKind::MaxSpellPoints:
+                    pMember->maxSpellPoints = std::max(0, value);
+                    pMember->spellPoints = std::clamp(pMember->spellPoints, 0, resolveCharacterEffectiveMaxSpellPoints(*pMember));
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
+        if (value > previousValue)
+        {
+            queuePortraitFxRequest(runtimeState, PortraitFxEventKind::StatIncrease, pParty, targetMemberIndices);
+        }
+        else if (value < previousValue)
+        {
+            queuePortraitFxRequest(runtimeState, PortraitFxEventKind::StatDecrease, pParty, targetMemberIndices);
+        }
+
+        return;
+    }
+
+    if (variable.kind == VariableKind::Gold)
+    {
+        if (pParty != nullptr)
+        {
+            pParty->addGold(value - pParty->gold());
+        }
+        else
+        {
+            runtimeState.variables[variable.rawId] = value;
+        }
+
+        if (value > previousValue)
+        {
+            queuePortraitFxRequest(runtimeState, PortraitFxEventKind::AwardGain, pParty, targetMemberIndices);
+        }
+        else if (value < previousValue)
+        {
+            queuePortraitFxRequest(runtimeState, PortraitFxEventKind::StatDecrease, pParty, targetMemberIndices);
+        }
+
+        return;
+    }
+
+    if (variable.kind == VariableKind::GoldInBank)
+    {
+        runtimeState.variables[variable.rawId] = value;
+
+        if (value > previousValue)
+        {
+            queuePortraitFxRequest(runtimeState, PortraitFxEventKind::AwardGain, pParty, targetMemberIndices);
+        }
+        else if (value < previousValue)
+        {
+            queuePortraitFxRequest(runtimeState, PortraitFxEventKind::StatDecrease, pParty, targetMemberIndices);
+        }
+
+        return;
+    }
+
     if (variable.kind == VariableKind::BaseStat
+        || variable.kind == VariableKind::ActualStat
         || variable.kind == VariableKind::StatBonus
         || variable.kind == VariableKind::BaseResistance
         || variable.kind == VariableKind::ResistanceBonus)
@@ -785,12 +1100,9 @@ void EventRuntime::addVariableValue(
     {
         if (pParty != nullptr && !targetMemberIndices.empty())
         {
-            for (size_t memberIndex : targetMemberIndices)
+            if (value > 0)
             {
-                if (value > 0)
-                {
-                    pParty->grantItemToMember(memberIndex, static_cast<uint32_t>(value));
-                }
+                grantInventoryItemToTargets(*pParty, targetMemberIndices, static_cast<uint32_t>(value));
             }
             return;
         }
@@ -850,6 +1162,19 @@ void EventRuntime::addVariableValue(
         return;
     }
 
+    if (variable.kind == VariableKind::AutoNote)
+    {
+        const int32_t updatedValue = previousValue != 0 ? previousValue : value;
+        runtimeState.variables[variable.rawId] = updatedValue;
+
+        if (updatedValue != 0 && previousValue == 0)
+        {
+            queuePortraitFxRequest(runtimeState, PortraitFxEventKind::AutoNote, pParty, targetMemberIndices);
+        }
+
+        return;
+    }
+
     if (variable.kind == VariableKind::ClassId)
     {
         setVariableValue(runtimeState, variable, value, pParty, targetMemberIndices);
@@ -880,7 +1205,90 @@ void EventRuntime::addVariableValue(
         return;
     }
 
+    if (variable.kind == VariableKind::CurrentHealth
+        || variable.kind == VariableKind::CurrentSpellPoints)
+    {
+        if (pParty == nullptr || targetMemberIndices.empty())
+        {
+            return;
+        }
+
+        for (size_t targetMemberIndex : targetMemberIndices)
+        {
+            Character *pMember = pParty->member(targetMemberIndex);
+
+            if (pMember == nullptr)
+            {
+                continue;
+            }
+
+            if (variable.kind == VariableKind::CurrentHealth)
+            {
+                pMember->health = std::clamp(pMember->health + value, 0, resolveCharacterEffectiveMaxHealth(*pMember));
+            }
+            else
+            {
+                pMember->spellPoints = std::clamp(
+                    pMember->spellPoints + value,
+                    0,
+                    resolveCharacterEffectiveMaxSpellPoints(*pMember)
+                );
+            }
+        }
+
+        if (value > 0)
+        {
+            queuePortraitFxRequest(runtimeState, PortraitFxEventKind::StatIncrease, pParty, targetMemberIndices);
+        }
+        else if (value < 0)
+        {
+            queuePortraitFxRequest(runtimeState, PortraitFxEventKind::StatDecrease, pParty, targetMemberIndices);
+        }
+
+        return;
+    }
+
+    if (variable.kind == VariableKind::Gold)
+    {
+        if (pParty != nullptr)
+        {
+            pParty->addGold(value);
+        }
+        else
+        {
+            runtimeState.variables[variable.rawId] = previousValue + value;
+        }
+
+        if (value > 0)
+        {
+            queuePortraitFxRequest(runtimeState, PortraitFxEventKind::AwardGain, pParty, targetMemberIndices);
+        }
+        else if (value < 0)
+        {
+            queuePortraitFxRequest(runtimeState, PortraitFxEventKind::StatDecrease, pParty, targetMemberIndices);
+        }
+
+        return;
+    }
+
+    if (variable.kind == VariableKind::GoldInBank)
+    {
+        runtimeState.variables[variable.rawId] = previousValue + value;
+
+        if (value > 0)
+        {
+            queuePortraitFxRequest(runtimeState, PortraitFxEventKind::AwardGain, pParty, targetMemberIndices);
+        }
+        else if (value < 0)
+        {
+            queuePortraitFxRequest(runtimeState, PortraitFxEventKind::StatDecrease, pParty, targetMemberIndices);
+        }
+
+        return;
+    }
+
     if (variable.kind == VariableKind::BaseStat
+        || variable.kind == VariableKind::ActualStat
         || variable.kind == VariableKind::StatBonus
         || variable.kind == VariableKind::BaseResistance
         || variable.kind == VariableKind::ResistanceBonus)
@@ -953,12 +1361,9 @@ void EventRuntime::subtractVariableValue(
     {
         if (pParty != nullptr && !targetMemberIndices.empty())
         {
-            for (size_t memberIndex : targetMemberIndices)
+            if (value > 0)
             {
-                if (value > 0)
-                {
-                    pParty->removeItemFromMember(memberIndex, static_cast<uint32_t>(value));
-                }
+                removeInventoryItemFromTargets(*pParty, targetMemberIndices, static_cast<uint32_t>(value));
             }
             return;
         }
@@ -967,6 +1372,16 @@ void EventRuntime::subtractVariableValue(
         {
             runtimeState.removedItemIds.push_back(static_cast<uint32_t>(value));
         }
+        return;
+    }
+
+    if (variable.kind == VariableKind::AutoNote)
+    {
+        if (value > 0)
+        {
+            runtimeState.variables[variable.rawId] = 0;
+        }
+
         return;
     }
 
@@ -1038,7 +1453,78 @@ void EventRuntime::subtractVariableValue(
         return;
     }
 
+    if (variable.kind == VariableKind::CurrentHealth
+        || variable.kind == VariableKind::CurrentSpellPoints)
+    {
+        if (pParty == nullptr || targetMemberIndices.empty())
+        {
+            return;
+        }
+
+        for (size_t targetMemberIndex : targetMemberIndices)
+        {
+            Character *pMember = pParty->member(targetMemberIndex);
+
+            if (pMember == nullptr)
+            {
+                continue;
+            }
+
+            if (variable.kind == VariableKind::CurrentHealth)
+            {
+                pMember->health = std::clamp(pMember->health - value, 0, resolveCharacterEffectiveMaxHealth(*pMember));
+            }
+            else
+            {
+                pMember->spellPoints = std::clamp(
+                    pMember->spellPoints - value,
+                    0,
+                    resolveCharacterEffectiveMaxSpellPoints(*pMember)
+                );
+            }
+        }
+
+        if (value > 0)
+        {
+            queuePortraitFxRequest(runtimeState, PortraitFxEventKind::StatDecrease, pParty, targetMemberIndices);
+        }
+
+        return;
+    }
+
+    if (variable.kind == VariableKind::Gold)
+    {
+        if (pParty != nullptr)
+        {
+            pParty->addGold(-value);
+        }
+        else
+        {
+            runtimeState.variables[variable.rawId] = getVariableValue(runtimeState, variable, nullptr) - value;
+        }
+
+        if (value > 0)
+        {
+            queuePortraitFxRequest(runtimeState, PortraitFxEventKind::StatDecrease, pParty, targetMemberIndices);
+        }
+
+        return;
+    }
+
+    if (variable.kind == VariableKind::GoldInBank)
+    {
+        runtimeState.variables[variable.rawId] = getVariableValue(runtimeState, variable, nullptr) - value;
+
+        if (value > 0)
+        {
+            queuePortraitFxRequest(runtimeState, PortraitFxEventKind::StatDecrease, pParty, targetMemberIndices);
+        }
+
+        return;
+    }
+
     if (variable.kind == VariableKind::BaseStat
+        || variable.kind == VariableKind::ActualStat
         || variable.kind == VariableKind::StatBonus
         || variable.kind == VariableKind::BaseResistance
         || variable.kind == VariableKind::ResistanceBonus)
@@ -1438,6 +1924,38 @@ bool EventRuntime::evaluateCompare(
         return currentValue != 0;
     }
 
+    if (variable.kind == VariableKind::AutoNote
+        || variable.kind == VariableKind::QBits
+        || variable.kind == VariableKind::BoolFlag
+        || variable.kind == VariableKind::Inventory)
+    {
+        return currentValue != 0;
+    }
+
+    if (variable.kind == VariableKind::DayOfWeek
+        || variable.kind == VariableKind::DayOfYear
+        || variable.kind == VariableKind::Hour)
+    {
+        return currentValue == compareValue;
+    }
+
+    if ((variable.kind == VariableKind::MaxHealth || variable.kind == VariableKind::MaxSpellPoints) && memberIndex)
+    {
+        const Character *pMember = pParty != nullptr ? pParty->member(*memberIndex) : nullptr;
+
+        if (pMember == nullptr)
+        {
+            return false;
+        }
+
+        if (variable.kind == VariableKind::MaxHealth)
+        {
+            return pMember->health >= resolveCharacterEffectiveMaxHealth(*pMember) + compareValue;
+        }
+
+        return pMember->spellPoints >= resolveCharacterEffectiveMaxSpellPoints(*pMember) + compareValue;
+    }
+
     return variable.kind == VariableKind::QBits
         || variable.kind == VariableKind::BoolFlag
         || variable.kind == VariableKind::Inventory
@@ -1526,6 +2044,7 @@ bool EventRuntime::executeEvent(
     runtimeState.removedAwardIds.clear();
     runtimeState.pendingDialogueContext.reset();
     runtimeState.pendingMapMove.reset();
+    syncTimeVariablesFromSceneContext(runtimeState, pSceneEventContext);
 
     std::unordered_map<uint8_t, size_t> stepToInstructionIndex;
 
@@ -1617,6 +2136,11 @@ bool EventRuntime::executeEvent(
                     pendingMapMove.y = static_cast<int32_t>(instruction.arguments[1]);
                     pendingMapMove.z = static_cast<int32_t>(instruction.arguments[2]);
 
+                    if (instruction.arguments.size() >= 4)
+                    {
+                        pendingMapMove.directionDegrees = static_cast<int32_t>(instruction.arguments[3]);
+                    }
+
                     if (instruction.text && !instruction.text->empty())
                     {
                         const std::string sanitizedName = sanitizeEventString(*instruction.text);
@@ -1632,6 +2156,11 @@ bool EventRuntime::executeEvent(
                               << pendingMapMove.x << ","
                               << pendingMapMove.y << ","
                               << pendingMapMove.z << ")";
+
+                    if (pendingMapMove.directionDegrees)
+                    {
+                        std::cout << " yaw=" << *pendingMapMove.directionDegrees;
+                    }
 
                     if (pendingMapMove.mapName && !pendingMapMove.mapName->empty())
                     {
@@ -1895,11 +2424,19 @@ bool EventRuntime::executeEvent(
             }
 
             case EventIrOperation::ShowMessage:
-            case EventIrOperation::StatusText:
             {
                 if (instruction.text && !instruction.text->empty())
                 {
                     runtimeState.messages.push_back(*instruction.text);
+                }
+                break;
+            }
+
+            case EventIrOperation::StatusText:
+            {
+                if (instruction.text && !instruction.text->empty())
+                {
+                    runtimeState.statusMessages.push_back(*instruction.text);
                 }
                 break;
             }

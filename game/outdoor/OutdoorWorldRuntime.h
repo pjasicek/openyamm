@@ -452,8 +452,10 @@ public:
     const std::string &mapName() const;
     Snapshot snapshot() const;
     void restoreSnapshot(const Snapshot &snapshot);
+    float currentGameMinutes() const override;
     float gameMinutes() const;
     int currentHour() const;
+    const OutdoorMapData *mapData() const;
     const AtmosphereState &atmosphereState() const;
     void advanceGameMinutes(float minutes);
     void updateMapActors(float deltaSeconds, float partyX, float partyY, float partyZ);

@@ -27,6 +27,11 @@ PortraitFxEventKind parsePortraitFxEventKind(const std::string &value)
         return PortraitFxEventKind::Disease;
     }
 
+    if (normalized == "autonote")
+    {
+        return PortraitFxEventKind::AutoNote;
+    }
+
     if (normalized == "awardgain")
     {
         return PortraitFxEventKind::AwardGain;
