@@ -1,5 +1,6 @@
 #pragma once
 
+#include "game/events/EvtEnums.h"
 #include "game/events/EvtProgram.h"
 #include "game/tables/HouseTable.h"
 #include "game/tables/NpcDialogTable.h"
@@ -23,6 +24,8 @@ enum class EventIrOperation
     TriggerOnLongTimer,
     TriggerOnDateTimer,
     EnableDateTimer,
+    PlaySound,
+    LocationName,
     Compare,
     CompareCanShowTopic,
     Jump,
@@ -44,6 +47,11 @@ enum class EventIrOperation
     SummonItem,
     GiveItem,
     CastSpell,
+    ShowFace,
+    ReceiveDamage,
+    SetSnow,
+    ShowMovie,
+    SetSprite,
     ChangeDoorState,
     StopAnimation,
     SetTexture,
@@ -51,15 +59,28 @@ enum class EventIrOperation
     SetFacetBit,
     SetActorFlag,
     SetActorGroupFlag,
+    SetActorGroup,
     SetNpcTopic,
     SetNpcGroupNews,
     SetNpcGreeting,
+    SetNpcItem,
+    SetActorItem,
     CharacterAnimation,
     ForPartyMember,
     CheckItemsCount,
     RemoveItems,
     CheckSkill,
-    IsActorKilled
+    IsActorKilled,
+    IsActorKilledCanShowTopic,
+    ChangeGroup,
+    ChangeGroupAlly,
+    CheckSeason,
+    ToggleChestFlag,
+    InputString,
+    PressAnyKey,
+    SpecialJump,
+    IsTotalBountyHuntingAwardInRange,
+    IsNpcInParty,
 };
 
 struct EventIrInstruction

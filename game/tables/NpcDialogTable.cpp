@@ -395,6 +395,18 @@ const NpcEntry *NpcDialogTable::findNpcByName(const std::string &name) const
     return nullptr;
 }
 
+const NpcGreetingEntry *NpcDialogTable::getGreeting(uint32_t greetingId) const
+{
+    const std::unordered_map<uint32_t, NpcGreetingEntry>::const_iterator greetingIt = m_greetings.find(greetingId);
+
+    if (greetingIt == m_greetings.end())
+    {
+        return nullptr;
+    }
+
+    return &greetingIt->second;
+}
+
 const NpcGreetingEntry *NpcDialogTable::getGreetingForNpc(uint32_t npcId) const
 {
     const NpcEntry *pNpc = getNpc(npcId);
@@ -404,14 +416,7 @@ const NpcGreetingEntry *NpcDialogTable::getGreetingForNpc(uint32_t npcId) const
         return nullptr;
     }
 
-    const std::unordered_map<uint32_t, NpcGreetingEntry>::const_iterator greetingIt = m_greetings.find(pNpc->greetId);
-
-    if (greetingIt == m_greetings.end())
-    {
-        return nullptr;
-    }
-
-    return &greetingIt->second;
+    return getGreeting(pNpc->greetId);
 }
 
 std::vector<NpcDialogTable::ResolvedTopic> NpcDialogTable::getTopicsForNpc(

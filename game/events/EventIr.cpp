@@ -36,107 +36,185 @@ std::string quote(const std::string &value)
 
 std::string decodeVariableRef(uint32_t rawValue)
 {
-    const uint32_t tag = rawValue & 0xFFFF;
+    const EvtVariable variableId = static_cast<EvtVariable>(rawValue & 0xFFFFu);
     const uint32_t index = rawValue >> 16;
 
-    if (tag == 0x0010)
+    if (variableId == EvtVariable::QBits)
     {
         return "QBits[" + std::to_string(index) + "]";
     }
 
-    if (tag == 0x0011)
+    if (variableId == EvtVariable::Inventory)
     {
         return "Inventory[" + std::to_string(index) + "]";
     }
 
-    if (tag == 0x000c)
+    if (variableId == EvtVariable::Awards)
     {
         return "Awards[" + std::to_string(index) + "]";
     }
 
-    switch (tag)
+    if (variableId >= EvtVariable::MapPersistentVariableBegin && variableId <= EvtVariable::MapPersistentVariableEnd)
     {
-        case 0x0003: return "CurrentHP";
-        case 0x0004: return "MaxHP";
-        case 0x0005: return "CurrentSP";
-        case 0x0006: return "MaxSP";
-        case 0x0012: return "Hour";
-        case 0x0013: return "DayOfYear";
-        case 0x0014: return "DayOfWeek";
-        case 0x0015:
-        case 0x0016: return "Gold";
-        case 0x0019: return "MightBonus";
-        case 0x001A: return "IntellectBonus";
-        case 0x001B: return "PersonalityBonus";
-        case 0x001C: return "EnduranceBonus";
-        case 0x001D: return "SpeedBonus";
-        case 0x001E: return "AccuracyBonus";
-        case 0x001F: return "LuckBonus";
-        case 0x0020: return "BaseMight";
-        case 0x0021: return "BaseIntellect";
-        case 0x0022: return "BasePersonality";
-        case 0x0023: return "BaseEndurance";
-        case 0x0024: return "BaseSpeed";
-        case 0x0025: return "BaseAccuracy";
-        case 0x0026: return "BaseLuck";
-        case 0x0027: return "ActualMight";
-        case 0x0028: return "ActualIntellect";
-        case 0x0029: return "ActualPersonality";
-        case 0x002A: return "ActualEndurance";
-        case 0x002B: return "ActualSpeed";
-        case 0x002C: return "ActualAccuracy";
-        case 0x002D: return "ActualLuck";
-        case 0x002E: return "FireResistance";
-        case 0x002F: return "AirResistance";
-        case 0x0030: return "WaterResistance";
-        case 0x0031: return "EarthResistance";
-        case 0x0032: return "SpiritResistance";
-        case 0x0033: return "MindResistance";
-        case 0x0034: return "BodyResistance";
-        case 0x0039: return "FireResistanceBonus";
-        case 0x003A: return "AirResistanceBonus";
-        case 0x003B: return "WaterResistanceBonus";
-        case 0x003C: return "EarthResistanceBonus";
-        case 0x003D: return "SpiritResistanceBonus";
-        case 0x003E: return "MindResistanceBonus";
-        case 0x003F: return "BodyResistanceBonus";
-        case 0x0132: return "GoldInBank";
+        return "MapVar[" + std::to_string(static_cast<uint32_t>(variableId) -
+            static_cast<uint32_t>(EvtVariable::MapPersistentVariableBegin)) + "]";
+    }
+
+    if (variableId >= EvtVariable::MapPersistentDecorVariableBegin
+        && variableId <= EvtVariable::MapPersistentDecorVariableEnd)
+    {
+        return "DecorVar[" + std::to_string(static_cast<uint32_t>(variableId) -
+            static_cast<uint32_t>(EvtVariable::MapPersistentDecorVariableBegin)) + "]";
+    }
+
+    if (variableId >= EvtVariable::UnknownTimeEventBegin && variableId <= EvtVariable::UnknownTimeEventEnd)
+    {
+        return "UnknownTimeEvent[" + std::to_string(static_cast<uint32_t>(variableId) -
+            static_cast<uint32_t>(EvtVariable::UnknownTimeEventBegin)) + "]";
+    }
+
+    if (variableId >= EvtVariable::HistoryBegin && variableId <= EvtVariable::HistoryEnd)
+    {
+        return "History[" + std::to_string(static_cast<uint32_t>(variableId) -
+            static_cast<uint32_t>(EvtVariable::HistoryBegin)) + "]";
+    }
+
+    switch (variableId)
+    {
+        case EvtVariable::Sex: return "Sex";
+        case EvtVariable::ClassId: return "Class";
+        case EvtVariable::CurrentHealth: return "CurrentHP";
+        case EvtVariable::MaxHealth: return "MaxHP";
+        case EvtVariable::CurrentSpellPoints: return "CurrentSP";
+        case EvtVariable::MaxSpellPoints: return "MaxSP";
+        case EvtVariable::ActualArmorClass: return "ActualAC";
+        case EvtVariable::ArmorClassBonus: return "ACModifier";
+        case EvtVariable::BaseLevel: return "BaseLevel";
+        case EvtVariable::LevelBonus: return "LevelModifier";
+        case EvtVariable::Age: return "Age";
+        case EvtVariable::Experience: return "Experience";
+        case EvtVariable::Race: return "Race";
+        case EvtVariable::Hour: return "Hour";
+        case EvtVariable::DayOfYear: return "DayOfYear";
+        case EvtVariable::DayOfWeek: return "DayOfWeek";
+        case EvtVariable::Gold:
+        case EvtVariable::RandomGold: return "Gold";
+        case EvtVariable::Food:
+        case EvtVariable::RandomFood: return "Food";
+        case EvtVariable::MightBonus: return "MightBonus";
+        case EvtVariable::IntellectBonus: return "IntellectBonus";
+        case EvtVariable::PersonalityBonus: return "PersonalityBonus";
+        case EvtVariable::EnduranceBonus: return "EnduranceBonus";
+        case EvtVariable::SpeedBonus: return "SpeedBonus";
+        case EvtVariable::AccuracyBonus: return "AccuracyBonus";
+        case EvtVariable::LuckBonus: return "LuckBonus";
+        case EvtVariable::BaseMight: return "BaseMight";
+        case EvtVariable::BaseIntellect: return "BaseIntellect";
+        case EvtVariable::BasePersonality: return "BasePersonality";
+        case EvtVariable::BaseEndurance: return "BaseEndurance";
+        case EvtVariable::BaseSpeed: return "BaseSpeed";
+        case EvtVariable::BaseAccuracy: return "BaseAccuracy";
+        case EvtVariable::BaseLuck: return "BaseLuck";
+        case EvtVariable::ActualMight: return "ActualMight";
+        case EvtVariable::ActualIntellect: return "ActualIntellect";
+        case EvtVariable::ActualPersonality: return "ActualPersonality";
+        case EvtVariable::ActualEndurance: return "ActualEndurance";
+        case EvtVariable::ActualSpeed: return "ActualSpeed";
+        case EvtVariable::ActualAccuracy: return "ActualAccuracy";
+        case EvtVariable::ActualLuck: return "ActualLuck";
+        case EvtVariable::FireResistance: return "FireResistance";
+        case EvtVariable::AirResistance: return "AirResistance";
+        case EvtVariable::WaterResistance: return "WaterResistance";
+        case EvtVariable::EarthResistance: return "EarthResistance";
+        case EvtVariable::SpiritResistance: return "SpiritResistance";
+        case EvtVariable::MindResistance: return "MindResistance";
+        case EvtVariable::BodyResistance: return "BodyResistance";
+        case EvtVariable::LightResistance: return "LightResistance";
+        case EvtVariable::DarkResistance: return "DarkResistance";
+        case EvtVariable::PhysicalResistance: return "PhysicalResistance";
+        case EvtVariable::MagicResistance: return "MagicResistance";
+        case EvtVariable::FireResistanceBonus: return "FireResistanceBonus";
+        case EvtVariable::AirResistanceBonus: return "AirResistanceBonus";
+        case EvtVariable::WaterResistanceBonus: return "WaterResistanceBonus";
+        case EvtVariable::EarthResistanceBonus: return "EarthResistanceBonus";
+        case EvtVariable::SpiritResistanceBonus: return "SpiritResistanceBonus";
+        case EvtVariable::MindResistanceBonus: return "MindResistanceBonus";
+        case EvtVariable::BodyResistanceBonus: return "BodyResistanceBonus";
+        case EvtVariable::LightResistanceBonus: return "LightResistanceBonus";
+        case EvtVariable::DarkResistanceBonus: return "DarkResistanceBonus";
+        case EvtVariable::PhysicalResistanceBonus: return "PhysicalResistanceBonus";
+        case EvtVariable::MagicResistanceBonus: return "MagicResistanceBonus";
+        case EvtVariable::AutoNotes: return "AutoNotes";
+        case EvtVariable::IsMightMoreThanBase: return "IsMightMoreThanBase";
+        case EvtVariable::IsIntellectMoreThanBase: return "IsIntellectMoreThanBase";
+        case EvtVariable::IsPersonalityMoreThanBase: return "IsPersonalityMoreThanBase";
+        case EvtVariable::IsEnduranceMoreThanBase: return "IsEnduranceMoreThanBase";
+        case EvtVariable::IsSpeedMoreThanBase: return "IsSpeedMoreThanBase";
+        case EvtVariable::IsAccuracyMoreThanBase: return "IsAccuracyMoreThanBase";
+        case EvtVariable::IsLuckMoreThanBase: return "IsLuckMoreThanBase";
+        case EvtVariable::PlayerBits: return "PlayerBits";
+        case EvtVariable::Npcs2: return "NPCs2";
+        case EvtVariable::IsFlying: return "IsFlying";
+        case EvtVariable::HiredNpcHasSpeciality: return "HiredNPCHasSpeciality";
+        case EvtVariable::CircusPrises: return "CircusPrises";
+        case EvtVariable::NumSkillPoints: return "NumSkillPoints";
+        case EvtVariable::MonthIs: return "MonthIs";
+        case EvtVariable::Counter1: return "Counter1";
+        case EvtVariable::Counter2: return "Counter2";
+        case EvtVariable::Counter3: return "Counter3";
+        case EvtVariable::Counter4: return "Counter4";
+        case EvtVariable::Counter5: return "Counter5";
+        case EvtVariable::Counter6: return "Counter6";
+        case EvtVariable::Counter7: return "Counter7";
+        case EvtVariable::Counter8: return "Counter8";
+        case EvtVariable::Counter9: return "Counter9";
+        case EvtVariable::Counter10: return "Counter10";
+        case EvtVariable::ReputationInCurrentLocation: return "ReputationInCurrentLocation";
+        case EvtVariable::Unknown1: return "Unknown1";
+        case EvtVariable::GoldInBank: return "GoldInBank";
+        case EvtVariable::NumDeaths: return "NumDeaths";
+        case EvtVariable::NumBounties: return "NumBounties";
+        case EvtVariable::PrisonTerms: return "PrisonTerms";
+        case EvtVariable::ArenaWinsPage: return "ArenaWinsPage";
+        case EvtVariable::ArenaWinsSquire: return "ArenaWinsSquire";
+        case EvtVariable::ArenaWinsKnight: return "ArenaWinsKnight";
+        case EvtVariable::ArenaWinsLord: return "ArenaWinsLord";
+        case EvtVariable::Invisible: return "Invisible";
+        case EvtVariable::ItemEquipped: return "ItemEquipped";
+        case EvtVariable::Players: return "Players[" + std::to_string(index) + "]";
         default: break;
     }
 
-    if (tag == 0x00df || tag == 0x00e1)
-    {
-        return "AutoNote[" + std::to_string(index) + "]";
-    }
-
-    if (tag == 0x013e)
-    {
-        return "Players[" + std::to_string(index) + "]";
-    }
-
     std::ostringstream stream;
-    stream << "Var(tag=" << hexValue(tag) << ", index=" << index << ")";
+    stream << "Var(tag=" << hexValue(static_cast<uint32_t>(variableId)) << ", index=" << index << ")";
     return stream.str();
 }
 
 std::string decodeFacetBit(uint32_t rawValue)
 {
-    switch (rawValue)
+    switch (static_cast<EvtFaceAttribute>(rawValue))
     {
-        case 0x00002000: return "Invisible";
-        case 0x00100000: return "Hint";
-        case 0x02000000: return "Clickable";
-        case 0x04000000: return "PressurePlate";
-        case 0x20000000: return "Untouchable";
+        case EvtFaceAttribute::Invisible: return "Invisible";
+        case EvtFaceAttribute::HasHint: return "Hint";
+        case EvtFaceAttribute::Clickable: return "Clickable";
+        case EvtFaceAttribute::PressurePlate: return "PressurePlate";
+        case EvtFaceAttribute::Untouchable: return "Untouchable";
         default: return hexValue(rawValue);
     }
 }
 
 std::string decodeActorBit(uint32_t rawValue)
 {
-    switch (rawValue)
+    switch (static_cast<EvtActorAttribute>(rawValue))
     {
-        case 0x00010000: return "Invisible";
+        case EvtActorAttribute::Invisible: return "Invisible";
+        case EvtActorAttribute::FullAi: return "FullAI";
+        case EvtActorAttribute::Active: return "Active";
+        case EvtActorAttribute::Nearby: return "Nearby";
+        case EvtActorAttribute::Fleeing: return "Fleeing";
+        case EvtActorAttribute::Aggressor: return "Aggressor";
+        case EvtActorAttribute::HasItem: return "HasItem";
+        case EvtActorAttribute::Hostile: return "Hostile";
         default: return hexValue(rawValue);
     }
 }
@@ -259,6 +337,8 @@ EventIrOperation EventIrProgram::mapOperation(EvtOpcode opcode)
         case EvtOpcode::OnLongTimer: return EventIrOperation::TriggerOnLongTimer;
         case EvtOpcode::OnDateTimer: return EventIrOperation::TriggerOnDateTimer;
         case EvtOpcode::EnableDateTimer: return EventIrOperation::EnableDateTimer;
+        case EvtOpcode::PlaySound: return EventIrOperation::PlaySound;
+        case EvtOpcode::LocationName: return EventIrOperation::LocationName;
         case EvtOpcode::Compare: return EventIrOperation::Compare;
         case EvtOpcode::OnCanShowDialogItemCmp: return EventIrOperation::CompareCanShowTopic;
         case EvtOpcode::Jmp: return EventIrOperation::Jump;
@@ -280,6 +360,11 @@ EventIrOperation EventIrProgram::mapOperation(EvtOpcode opcode)
         case EvtOpcode::SummonItem: return EventIrOperation::SummonItem;
         case EvtOpcode::GiveItem: return EventIrOperation::GiveItem;
         case EvtOpcode::CastSpell: return EventIrOperation::CastSpell;
+        case EvtOpcode::ShowFace: return EventIrOperation::ShowFace;
+        case EvtOpcode::ReceiveDamage: return EventIrOperation::ReceiveDamage;
+        case EvtOpcode::SetSnow: return EventIrOperation::SetSnow;
+        case EvtOpcode::ShowMovie: return EventIrOperation::ShowMovie;
+        case EvtOpcode::SetSprite: return EventIrOperation::SetSprite;
         case EvtOpcode::ChangeDoorState: return EventIrOperation::ChangeDoorState;
         case EvtOpcode::StopAnimation: return EventIrOperation::StopAnimation;
         case EvtOpcode::SetTexture: return EventIrOperation::SetTexture;
@@ -287,15 +372,29 @@ EventIrOperation EventIrProgram::mapOperation(EvtOpcode opcode)
         case EvtOpcode::SetFacesBit: return EventIrOperation::SetFacetBit;
         case EvtOpcode::ToggleActorFlag: return EventIrOperation::SetActorFlag;
         case EvtOpcode::ToggleActorGroupFlag: return EventIrOperation::SetActorGroupFlag;
+        case EvtOpcode::SetActorGroup: return EventIrOperation::SetActorGroup;
         case EvtOpcode::SetNpcTopic: return EventIrOperation::SetNpcTopic;
         case EvtOpcode::SetNpcGroupNews: return EventIrOperation::SetNpcGroupNews;
         case EvtOpcode::SetNpcGreeting: return EventIrOperation::SetNpcGreeting;
+        case EvtOpcode::NpcSetItem: return EventIrOperation::SetNpcItem;
+        case EvtOpcode::SetActorItem: return EventIrOperation::SetActorItem;
         case EvtOpcode::CharacterAnimation: return EventIrOperation::CharacterAnimation;
         case EvtOpcode::ForPartyMember: return EventIrOperation::ForPartyMember;
         case EvtOpcode::CheckItemsCount: return EventIrOperation::CheckItemsCount;
         case EvtOpcode::RemoveItems: return EventIrOperation::RemoveItems;
         case EvtOpcode::CheckSkill: return EventIrOperation::CheckSkill;
         case EvtOpcode::IsActorKilled: return EventIrOperation::IsActorKilled;
+        case EvtOpcode::CanShowTopicIsActorKilled: return EventIrOperation::IsActorKilledCanShowTopic;
+        case EvtOpcode::ChangeGroup: return EventIrOperation::ChangeGroup;
+        case EvtOpcode::ChangeGroupAlly: return EventIrOperation::ChangeGroupAlly;
+        case EvtOpcode::CheckSeason: return EventIrOperation::CheckSeason;
+        case EvtOpcode::ToggleChestFlag: return EventIrOperation::ToggleChestFlag;
+        case EvtOpcode::InputString: return EventIrOperation::InputString;
+        case EvtOpcode::PressAnyKey: return EventIrOperation::PressAnyKey;
+        case EvtOpcode::SpecialJump: return EventIrOperation::SpecialJump;
+        case EvtOpcode::IsTotalBountyHuntingAwardInRange:
+            return EventIrOperation::IsTotalBountyHuntingAwardInRange;
+        case EvtOpcode::IsNpcInParty: return EventIrOperation::IsNpcInParty;
         default: return EventIrOperation::Unknown;
     }
 }
@@ -312,6 +411,8 @@ std::string EventIrProgram::operationName(EventIrOperation operation)
         case EventIrOperation::TriggerOnLongTimer: return "Trigger.OnLongTimer";
         case EventIrOperation::TriggerOnDateTimer: return "Trigger.OnDateTimer";
         case EventIrOperation::EnableDateTimer: return "EnableDateTimer";
+        case EventIrOperation::PlaySound: return "PlaySound";
+        case EventIrOperation::LocationName: return "LocationName";
         case EventIrOperation::Compare: return "Compare";
         case EventIrOperation::CompareCanShowTopic: return "CompareCanShowTopic";
         case EventIrOperation::Jump: return "Jump";
@@ -333,6 +434,11 @@ std::string EventIrProgram::operationName(EventIrOperation operation)
         case EventIrOperation::SummonItem: return "SummonItem";
         case EventIrOperation::GiveItem: return "GiveItem";
         case EventIrOperation::CastSpell: return "CastSpell";
+        case EventIrOperation::ShowFace: return "ShowFace";
+        case EventIrOperation::ReceiveDamage: return "ReceiveDamage";
+        case EventIrOperation::SetSnow: return "SetSnow";
+        case EventIrOperation::ShowMovie: return "ShowMovie";
+        case EventIrOperation::SetSprite: return "SetSprite";
         case EventIrOperation::ChangeDoorState: return "ChangeMechanismState";
         case EventIrOperation::StopAnimation: return "StopMechanism";
         case EventIrOperation::SetTexture: return "SetTexture";
@@ -340,15 +446,28 @@ std::string EventIrProgram::operationName(EventIrOperation operation)
         case EventIrOperation::SetFacetBit: return "SetFacetBit";
         case EventIrOperation::SetActorFlag: return "SetActorFlag";
         case EventIrOperation::SetActorGroupFlag: return "SetActorGroupFlag";
+        case EventIrOperation::SetActorGroup: return "SetActorGroup";
         case EventIrOperation::SetNpcTopic: return "SetNpcTopic";
         case EventIrOperation::SetNpcGroupNews: return "SetNpcGroupNews";
         case EventIrOperation::SetNpcGreeting: return "SetNpcGreeting";
+        case EventIrOperation::SetNpcItem: return "SetNpcItem";
+        case EventIrOperation::SetActorItem: return "SetActorItem";
         case EventIrOperation::CharacterAnimation: return "CharacterAnimation";
         case EventIrOperation::ForPartyMember: return "ForPartyMember";
         case EventIrOperation::CheckItemsCount: return "CheckItemsCount";
         case EventIrOperation::RemoveItems: return "RemoveItems";
         case EventIrOperation::CheckSkill: return "CheckSkill";
         case EventIrOperation::IsActorKilled: return "IsActorKilled";
+        case EventIrOperation::IsActorKilledCanShowTopic: return "IsActorKilledCanShowTopic";
+        case EventIrOperation::ChangeGroup: return "ChangeGroup";
+        case EventIrOperation::ChangeGroupAlly: return "ChangeGroupAlly";
+        case EventIrOperation::CheckSeason: return "CheckSeason";
+        case EventIrOperation::ToggleChestFlag: return "ToggleChestFlag";
+        case EventIrOperation::InputString: return "InputString";
+        case EventIrOperation::PressAnyKey: return "PressAnyKey";
+        case EventIrOperation::SpecialJump: return "SpecialJump";
+        case EventIrOperation::IsTotalBountyHuntingAwardInRange: return "IsTotalBountyHuntingAwardInRange";
+        case EventIrOperation::IsNpcInParty: return "IsNpcInParty";
         case EventIrOperation::Unknown: break;
     }
 
@@ -457,12 +576,21 @@ EventIrInstruction EventIrProgram::convertInstruction(
         irInstruction.note = note.str();
     }
 
-    if (irInstruction.operation == EventIrOperation::ForPartyMember
-        || irInstruction.operation == EventIrOperation::RandomJump)
+    if (irInstruction.operation == EventIrOperation::ForPartyMember)
     {
         for (uint8_t value : evtInstruction.listValues)
         {
             irInstruction.arguments.push_back(value);
+        }
+    }
+    else if (irInstruction.operation == EventIrOperation::RandomJump)
+    {
+        for (uint8_t value : evtInstruction.listValues)
+        {
+            if (value != 0)
+            {
+                irInstruction.arguments.push_back(value);
+            }
         }
     }
 
@@ -490,7 +618,51 @@ EventIrInstruction EventIrProgram::convertInstruction(
             irInstruction.arguments.push_back(*uniqueNameId);
         }
     }
+    else if (irInstruction.operation == EventIrOperation::SummonItem)
+    {
+        const std::optional<uint32_t> objectId = readPayloadValue<uint32_t>(evtInstruction.rawPayload, 0);
+        const std::optional<int32_t> x = readPayloadValue<int32_t>(evtInstruction.rawPayload, 4);
+        const std::optional<int32_t> y = readPayloadValue<int32_t>(evtInstruction.rawPayload, 8);
+        const std::optional<int32_t> z = readPayloadValue<int32_t>(evtInstruction.rawPayload, 12);
+        const std::optional<int32_t> speed = readPayloadValue<int32_t>(evtInstruction.rawPayload, 16);
+        const std::optional<uint8_t> count = readPayloadValue<uint8_t>(evtInstruction.rawPayload, 20);
+        const std::optional<uint8_t> randomRotate = readPayloadValue<uint8_t>(evtInstruction.rawPayload, 21);
+
+        if (objectId && x && y && z && speed && count && randomRotate)
+        {
+            irInstruction.arguments.clear();
+            irInstruction.arguments.push_back(*objectId);
+            irInstruction.arguments.push_back(static_cast<uint32_t>(*x));
+            irInstruction.arguments.push_back(static_cast<uint32_t>(*y));
+            irInstruction.arguments.push_back(static_cast<uint32_t>(*z));
+            irInstruction.arguments.push_back(static_cast<uint32_t>(*speed));
+            irInstruction.arguments.push_back(*count);
+            irInstruction.arguments.push_back(*randomRotate);
+        }
+    }
     else if (irInstruction.operation == EventIrOperation::IsActorKilled)
+    {
+        const std::optional<uint8_t> policy = readPayloadValue<uint8_t>(evtInstruction.rawPayload, 0);
+        const std::optional<uint32_t> param = readPayloadValue<uint32_t>(evtInstruction.rawPayload, 1);
+        const std::optional<uint8_t> count = readPayloadValue<uint8_t>(evtInstruction.rawPayload, 5);
+        const std::optional<uint8_t> invisibleAsDead = readPayloadValue<uint8_t>(evtInstruction.rawPayload, 6);
+        const std::optional<uint8_t> jump = readPayloadValue<uint8_t>(evtInstruction.rawPayload, 7);
+
+        if (policy && param && count && invisibleAsDead)
+        {
+            irInstruction.arguments.clear();
+            irInstruction.arguments.push_back(*policy);
+            irInstruction.arguments.push_back(*param);
+            irInstruction.arguments.push_back(*count);
+            irInstruction.arguments.push_back(*invisibleAsDead);
+        }
+
+        if (jump)
+        {
+            irInstruction.jumpTargetStep = *jump;
+        }
+    }
+    else if (irInstruction.operation == EventIrOperation::IsActorKilledCanShowTopic)
     {
         const std::optional<uint8_t> policy = readPayloadValue<uint8_t>(evtInstruction.rawPayload, 0);
         const std::optional<uint32_t> param = readPayloadValue<uint32_t>(evtInstruction.rawPayload, 1);
@@ -675,6 +847,24 @@ EventIrInstruction EventIrProgram::convertInstruction(
             break;
         }
 
+        case EventIrOperation::SummonItem:
+        {
+            if (irInstruction.arguments.size() >= 7)
+            {
+                std::ostringstream note;
+                note << "object=" << irInstruction.arguments[0]
+                     << " pos=("
+                     << static_cast<int32_t>(irInstruction.arguments[1]) << ","
+                     << static_cast<int32_t>(irInstruction.arguments[2]) << ","
+                     << static_cast<int32_t>(irInstruction.arguments[3]) << ")"
+                     << " speed=" << static_cast<int32_t>(irInstruction.arguments[4])
+                     << " count=" << irInstruction.arguments[5]
+                     << " randomRotate=" << irInstruction.arguments[6];
+                irInstruction.note = note.str();
+            }
+            break;
+        }
+
         case EventIrOperation::CastSpell:
         {
             if (irInstruction.arguments.size() >= 9)
@@ -722,6 +912,7 @@ EventIrInstruction EventIrProgram::convertInstruction(
         }
 
         case EventIrOperation::IsActorKilled:
+        case EventIrOperation::IsActorKilledCanShowTopic:
         {
             if (irInstruction.arguments.size() >= 4)
             {

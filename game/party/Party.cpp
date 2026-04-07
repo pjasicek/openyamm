@@ -1504,6 +1504,43 @@ const SpecialItemEnchantTable *Party::specialItemEnchantTable() const
     return m_pSpecialItemEnchantTable;
 }
 
+int32_t Party::eventVariableValue(uint16_t variableId) const
+{
+    const auto iterator = m_eventVariables.find(variableId);
+    return iterator != m_eventVariables.end() ? iterator->second : 0;
+}
+
+void Party::setEventVariableValue(uint16_t variableId, int32_t value)
+{
+    if (value == 0)
+    {
+        m_eventVariables.erase(variableId);
+        return;
+    }
+
+    m_eventVariables[variableId] = value;
+}
+
+void Party::addEventVariableValue(uint16_t variableId, int32_t value)
+{
+    if (value == 0)
+    {
+        return;
+    }
+
+    setEventVariableValue(variableId, eventVariableValue(variableId) + value);
+}
+
+void Party::subtractEventVariableValue(uint16_t variableId, int32_t value)
+{
+    if (value == 0)
+    {
+        return;
+    }
+
+    setEventVariableValue(variableId, eventVariableValue(variableId) - value);
+}
+
 void Party::setClassSkillTable(const ClassSkillTable *pClassSkillTable)
 {
     m_pClassSkillTable = pClassSkillTable;
@@ -1558,6 +1595,7 @@ Party::Snapshot Party::snapshot() const
     snapshot.arcomageWonHouseIds = m_arcomageWonHouseIds;
     snapshot.arcomageWinCount = m_arcomageWinCount;
     snapshot.arcomageLossCount = m_arcomageLossCount;
+    snapshot.eventVariables = m_eventVariables;
 
     for (const auto &[houseId, state] : m_houseStockStates)
     {
@@ -1590,6 +1628,7 @@ void Party::restoreSnapshot(const Snapshot &snapshot)
     m_arcomageWonHouseIds = snapshot.arcomageWonHouseIds;
     m_arcomageWinCount = snapshot.arcomageWinCount;
     m_arcomageLossCount = snapshot.arcomageLossCount;
+    m_eventVariables = snapshot.eventVariables;
     m_houseStockStates.clear();
 
     for (const HouseStockState &state : snapshot.houseStockStates)
@@ -1635,6 +1674,7 @@ void Party::seed(const PartySeed &seed)
     m_monsterTargetSelectionCounter = 0;
     m_houseStockSeed = generateHouseStockSeed();
     m_foundArtifactItems.clear();
+    m_eventVariables.clear();
     m_houseStockStates.clear();
 
     for (Character &member : m_members)
@@ -2093,6 +2133,11 @@ void Party::addFood(int amount)
 void Party::requestSound(SoundId soundId)
 {
     queueSound(soundId);
+}
+
+void Party::requestSpeech(size_t memberIndex, SpeechId speechId)
+{
+    queueSpeech(memberIndex, speechId);
 }
 
 bool Party::tryGrantItem(uint32_t objectDescriptionId, uint32_t quantity)

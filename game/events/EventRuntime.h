@@ -1,5 +1,6 @@
 #pragma once
 
+#include "game/events/EvtEnums.h"
 #include "game/events/EventIr.h"
 #include "game/maps/MapDeltaData.h"
 #include "game/tables/PortraitFxEventTable.h"
@@ -75,6 +76,41 @@ struct EventRuntimeState
         bool useMapStartPosition = false;
     };
 
+    struct PendingMovie
+    {
+        std::string movieName;
+        bool restoreAfterPlayback = false;
+    };
+
+    struct PendingInputPrompt
+    {
+        enum class Kind : uint8_t
+        {
+            InputString = 0,
+            PressAnyKey,
+        };
+
+        Kind kind = Kind::InputString;
+        uint16_t eventId = 0;
+        uint8_t continueStep = 0;
+        uint32_t textId = 0;
+        std::optional<std::string> text;
+    };
+
+    struct PendingSound
+    {
+        uint32_t soundId = 0;
+        int32_t x = 0;
+        int32_t y = 0;
+        bool positional = false;
+    };
+
+    struct SpriteOverride
+    {
+        bool hidden = false;
+        std::optional<std::string> textureName;
+    };
+
     struct PendingArcomageGame
     {
         uint32_t houseId = 0;
@@ -119,19 +155,30 @@ struct EventRuntimeState
     };
 
     std::unordered_map<uint32_t, int32_t> variables;
+    std::array<uint8_t, 75> mapVars = {};
     std::unordered_map<uint32_t, uint32_t> facetSetMasks;
     std::unordered_map<uint32_t, uint32_t> facetClearMasks;
     std::unordered_map<uint32_t, RuntimeMechanismState> mechanisms;
     std::unordered_map<uint32_t, std::string> textureOverrides;
+    std::unordered_map<uint32_t, SpriteOverride> spriteOverrides;
     std::unordered_map<uint32_t, bool> indoorLightsEnabled;
+    std::optional<bool> snowEnabled;
     std::unordered_map<uint32_t, uint32_t> actorSetMasks;
     std::unordered_map<uint32_t, uint32_t> actorClearMasks;
     std::unordered_map<uint32_t, uint32_t> actorGroupSetMasks;
     std::unordered_map<uint32_t, uint32_t> actorGroupClearMasks;
+    std::unordered_map<uint32_t, uint32_t> actorIdGroupOverrides;
+    std::unordered_map<uint32_t, uint32_t> actorGroupOverrides;
+    std::unordered_map<uint32_t, uint32_t> actorGroupAllyOverrides;
+    std::unordered_map<uint32_t, uint32_t> chestSetMasks;
+    std::unordered_map<uint32_t, uint32_t> chestClearMasks;
     std::unordered_map<uint32_t, std::unordered_map<uint32_t, uint32_t>> npcTopicOverrides;
     std::unordered_map<uint32_t, uint32_t> npcGroupNews;
+    std::unordered_map<uint32_t, uint32_t> npcGreetingOverrides;
     std::unordered_map<uint32_t, uint32_t> npcGreetingDisplayCounts;
     std::unordered_map<uint32_t, uint32_t> npcHouseOverrides;
+    std::unordered_map<uint32_t, uint32_t> npcItemOverrides;
+    std::unordered_map<uint32_t, uint32_t> actorItemOverrides;
     std::unordered_set<uint32_t> unavailableNpcIds;
     DialogueRuntimeState dialogueState;
     std::array<uint8_t, 125> decorVars = {};
@@ -147,7 +194,10 @@ struct EventRuntimeState
     std::vector<SpellFxRequest> spellFxRequests;
     std::optional<PendingDialogueContext> pendingDialogueContext;
     std::optional<PendingMapMove> pendingMapMove;
+    std::optional<PendingMovie> pendingMovie;
+    std::optional<PendingInputPrompt> pendingInputPrompt;
     std::optional<PendingArcomageGame> pendingArcomageGame;
+    std::vector<PendingSound> pendingSounds;
     std::vector<uint32_t> lastAffectedMechanismIds;
     std::optional<std::string> lastActivationResult;
     size_t localOnLoadEventsExecuted = 0;
@@ -177,7 +227,8 @@ public:
         const std::optional<EventIrProgram> &globalProgram,
         uint16_t topicId,
         const EventRuntimeState &runtimeState,
-        const Party *pParty
+        const Party *pParty,
+        const ISceneEventContext *pSceneEventContext = nullptr
     ) const;
     void advanceMechanisms(
         const std::optional<MapDeltaData> &mapDeltaData,
@@ -189,6 +240,8 @@ private:
     enum class VariableKind
     {
         Generic,
+        PartyState,
+        CharacterState,
         QBits,
         BoolFlag,
         AutoNote,
@@ -207,11 +260,24 @@ private:
         DayOfWeek,
         Gold,
         GoldInBank,
+        BaseLevel,
+        LevelBonus,
+        Sex,
+        Race,
+        Age,
+        ArmorClass,
+        ArmorClassBonus,
         BaseStat,
         ActualStat,
+        StatMoreThanBase,
         StatBonus,
         BaseResistance,
         ResistanceBonus,
+        Skill,
+        Condition,
+        MajorCondition,
+        MapPersistent,
+        DecorPersistent,
     };
 
     struct VariableRef
@@ -266,7 +332,11 @@ private:
         const Party *pParty,
         const std::vector<size_t> &targetMemberIndices
     );
-    static bool evaluateCanShowTopic(const EventIrEvent &event, const EventRuntimeState &runtimeState, const Party *pParty);
+    static bool evaluateCanShowTopic(
+        const EventIrEvent &event,
+        const EventRuntimeState &runtimeState,
+        const Party *pParty,
+        const ISceneEventContext *pSceneEventContext);
     static bool executeEvent(
         const EventIrEvent &event,
         EventRuntimeState &runtimeState,

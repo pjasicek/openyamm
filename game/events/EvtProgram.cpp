@@ -432,6 +432,18 @@ bool EvtProgram::parseInstruction(const std::vector<uint8_t> &record, EvtInstruc
         return value;
     };
 
+    auto tryReadU16 = [&record](size_t offset) -> std::optional<uint16_t>
+    {
+        uint16_t value = 0;
+
+        if (!readValue(record, offset, value))
+        {
+            return std::nullopt;
+        }
+
+        return value;
+    };
+
     switch (instruction.opcode)
     {
         case EvtOpcode::Exit:
@@ -455,14 +467,28 @@ bool EvtProgram::parseInstruction(const std::vector<uint8_t> &record, EvtInstruc
         case EvtOpcode::CheckSeason:
             if (const std::optional<uint8_t> value = tryReadU8(2))
             {
-                instruction.targetStep = *value;
+                if (instruction.opcode == EvtOpcode::CheckSeason)
+                {
+                    instruction.value1 = *value;
+                }
+                else
+                {
+                    instruction.targetStep = *value;
+                }
+            }
+
+            if (instruction.opcode == EvtOpcode::CheckSeason)
+            {
+                if (const std::optional<uint8_t> value = tryReadU8(3))
+                {
+                    instruction.targetStep = *value;
+                }
             }
             break;
 
         case EvtOpcode::LocationName:
         case EvtOpcode::OpenChest:
         case EvtOpcode::SetCanShowDialogItem:
-        case EvtOpcode::CharacterAnimation:
             if (const std::optional<uint8_t> value = tryReadU8(2))
             {
                 instruction.value1 = *value;
@@ -479,7 +505,6 @@ bool EvtProgram::parseInstruction(const std::vector<uint8_t> &record, EvtInstruc
 
         case EvtOpcode::SpeakInHouse:
         case EvtOpcode::SpeakNpc:
-        case EvtOpcode::MoveNpc:
         case EvtOpcode::ChangeEvent:
             if (const std::optional<uint32_t> value = tryReadU32(2))
             {
@@ -487,7 +512,80 @@ bool EvtProgram::parseInstruction(const std::vector<uint8_t> &record, EvtInstruc
             }
             break;
 
-        case EvtOpcode::ShowMovie:
+        case EvtOpcode::MoveNpc:
+        case EvtOpcode::SetActorGroup:
+        case EvtOpcode::ChangeGroup:
+        case EvtOpcode::ChangeGroupAlly:
+            if (const std::optional<uint32_t> value = tryReadU32(2))
+            {
+                instruction.value1 = *value;
+            }
+
+            if (const std::optional<uint32_t> value = tryReadU32(6))
+            {
+                instruction.value2 = *value;
+            }
+            break;
+
+        case EvtOpcode::PlaySound:
+            if (const std::optional<uint32_t> value = tryReadU32(2))
+            {
+                instruction.value1 = *value;
+            }
+
+            if (const std::optional<uint32_t> value = tryReadU32(6))
+            {
+                instruction.value2 = *value;
+            }
+
+            if (const std::optional<uint32_t> value = tryReadU32(10))
+            {
+                instruction.value3 = *value;
+            }
+            break;
+
+        case EvtOpcode::ShowFace:
+        case EvtOpcode::CharacterAnimation:
+            if (const std::optional<uint8_t> value = tryReadU8(2))
+            {
+                instruction.value1 = *value;
+            }
+
+            if (const std::optional<uint8_t> value = tryReadU8(3))
+            {
+                instruction.value2 = *value;
+            }
+            break;
+
+        case EvtOpcode::ReceiveDamage:
+            if (const std::optional<uint8_t> value = tryReadU8(2))
+            {
+                instruction.value1 = *value;
+            }
+
+            if (const std::optional<uint8_t> value = tryReadU8(3))
+            {
+                instruction.value2 = *value;
+            }
+
+            if (const std::optional<uint32_t> value = tryReadU32(4))
+            {
+                instruction.value3 = *value;
+            }
+            break;
+
+        case EvtOpcode::SetSnow:
+            if (const std::optional<uint8_t> value = tryReadU8(2))
+            {
+                instruction.value1 = *value;
+            }
+
+            if (const std::optional<uint8_t> value = tryReadU8(3))
+            {
+                instruction.booleanValue = *value;
+            }
+            break;
+
         case EvtOpcode::SetTexture:
         case EvtOpcode::SetSprite:
             if (const std::optional<uint32_t> value = tryReadU32(2))
@@ -495,18 +593,27 @@ bool EvtProgram::parseInstruction(const std::vector<uint8_t> &record, EvtInstruc
                 instruction.value1 = *value;
             }
 
-            if (instruction.opcode == EvtOpcode::ShowMovie)
-            {
-                instruction.stringValue = readNullTerminatedString(record, 4);
-            }
-            else if (instruction.opcode == EvtOpcode::SetTexture)
+            if (instruction.opcode == EvtOpcode::SetTexture)
             {
                 instruction.stringValue = readNullTerminatedString(record, 6);
             }
             else
             {
+                if (const std::optional<uint8_t> value = tryReadU8(6))
+                {
+                    instruction.booleanValue = *value;
+                }
                 instruction.stringValue = readNullTerminatedString(record, 7);
             }
+            break;
+
+        case EvtOpcode::ShowMovie:
+            if (const std::optional<uint8_t> value = tryReadU8(3))
+            {
+                instruction.booleanValue = *value;
+            }
+
+            instruction.stringValue = readNullTerminatedString(record, 4);
             break;
 
         case EvtOpcode::MoveToMap:
@@ -582,6 +689,13 @@ bool EvtProgram::parseInstruction(const std::vector<uint8_t> &record, EvtInstruc
             }
             break;
 
+        case EvtOpcode::InputString:
+            if (const std::optional<uint32_t> value = tryReadU32(2))
+            {
+                instruction.value1 = *value;
+            }
+            break;
+
         case EvtOpcode::SetFacesBit:
         case EvtOpcode::ToggleActorFlag:
         case EvtOpcode::SetNpcGroupNews:
@@ -621,6 +735,36 @@ bool EvtProgram::parseInstruction(const std::vector<uint8_t> &record, EvtInstruc
             }
             break;
 
+        case EvtOpcode::SetNpcGreeting:
+            if (const std::optional<uint32_t> value = tryReadU32(2))
+            {
+                instruction.value1 = *value;
+            }
+
+            if (const std::optional<uint32_t> value = tryReadU32(6))
+            {
+                instruction.value2 = *value;
+            }
+            break;
+
+        case EvtOpcode::NpcSetItem:
+        case EvtOpcode::SetActorItem:
+            if (const std::optional<uint32_t> value = tryReadU32(2))
+            {
+                instruction.value1 = *value;
+            }
+
+            if (const std::optional<uint32_t> value = tryReadU32(6))
+            {
+                instruction.value2 = *value;
+            }
+
+            if (const std::optional<uint8_t> value = tryReadU8(10))
+            {
+                instruction.booleanValue = *value;
+            }
+            break;
+
         case EvtOpcode::RandomGoTo:
             instruction.listValues.assign(record.begin() + 2, record.end());
             break;
@@ -628,6 +772,120 @@ bool EvtProgram::parseInstruction(const std::vector<uint8_t> &record, EvtInstruc
         case EvtOpcode::OnTimer:
         case EvtOpcode::OnLongTimer:
             instruction.listValues.assign(record.begin() + 2, record.end());
+            break;
+
+        case EvtOpcode::CheckItemsCount:
+            if (const std::optional<uint32_t> value = tryReadU32(2))
+            {
+                instruction.value1 = *value;
+            }
+
+            if (const std::optional<uint16_t> value = tryReadU16(6))
+            {
+                instruction.value2 = *value;
+            }
+
+            if (const std::optional<uint8_t> value = tryReadU8(8))
+            {
+                instruction.targetStep = *value;
+            }
+            break;
+
+        case EvtOpcode::RemoveItems:
+            if (const std::optional<uint32_t> value = tryReadU32(2))
+            {
+                instruction.value1 = *value;
+            }
+
+            if (const std::optional<uint16_t> value = tryReadU16(6))
+            {
+                instruction.value2 = *value;
+            }
+            break;
+
+        case EvtOpcode::CheckSkill:
+            if (const std::optional<uint8_t> value = tryReadU8(2))
+            {
+                instruction.value1 = *value;
+            }
+
+            if (const std::optional<uint8_t> value = tryReadU8(3))
+            {
+                instruction.value2 = *value;
+            }
+
+            if (const std::optional<uint32_t> value = tryReadU32(4))
+            {
+                instruction.value3 = *value;
+            }
+
+            if (const std::optional<uint8_t> value = tryReadU8(8))
+            {
+                instruction.targetStep = *value;
+            }
+            break;
+
+        case EvtOpcode::CanShowTopicIsActorKilled:
+            if (const std::optional<uint8_t> value = tryReadU8(2))
+            {
+                instruction.value1 = *value;
+            }
+
+            if (const std::optional<uint32_t> value = tryReadU32(3))
+            {
+                instruction.value2 = *value;
+            }
+
+            if (const std::optional<uint8_t> value = tryReadU8(7))
+            {
+                instruction.value3 = *value;
+            }
+
+            if (const std::optional<uint8_t> value = tryReadU8(8))
+            {
+                instruction.targetStep = *value;
+            }
+            break;
+
+        case EvtOpcode::SpecialJump:
+            if (const std::optional<uint32_t> value = tryReadU32(2))
+            {
+                instruction.value1 = *value;
+            }
+
+            if (const std::optional<uint8_t> value = tryReadU8(6))
+            {
+                instruction.value2 = *value;
+            }
+            break;
+
+        case EvtOpcode::IsTotalBountyHuntingAwardInRange:
+            if (const std::optional<uint32_t> value = tryReadU32(2))
+            {
+                instruction.value1 = *value;
+            }
+
+            if (const std::optional<uint32_t> value = tryReadU32(6))
+            {
+                instruction.value2 = *value;
+            }
+
+            if (const std::optional<uint8_t> value = tryReadU8(10))
+            {
+                instruction.targetStep = *value;
+            }
+            break;
+
+        case EvtOpcode::IsNpcInParty:
+            if (const std::optional<uint32_t> value = tryReadU32(2))
+            {
+                instruction.value1 = *value;
+            }
+
+            if (const std::optional<uint8_t> value = tryReadU8(6))
+            {
+                instruction.targetStep = *value;
+            }
             break;
 
         default:

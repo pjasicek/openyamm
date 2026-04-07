@@ -563,6 +563,7 @@ private:
     bool canPlaySpeechReaction(size_t memberIndex, SpeechId speechId, uint32_t nowTicks);
     void playSpeechReaction(size_t memberIndex, SpeechId speechId, bool triggerFaceAnimation);
     void consumePendingPartyAudioRequests();
+    void consumePendingEventRuntimeAudioRequests();
     void consumePendingWorldAudioEvents();
     void updateFootstepAudio(float deltaSeconds);
     void renderPortraitFx(size_t memberIndex, float portraitX, float portraitY, float portraitWidth, float portraitHeight) const;

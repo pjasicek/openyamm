@@ -32,13 +32,8 @@ constexpr int RandomChestItemMinLevel = 1;
 constexpr int RandomChestItemMaxLevel = 7;
 constexpr int SpawnableItemTreasureLevels = 6;
 constexpr float GameMinutesPerRealSecond = 0.5f;
-constexpr uint32_t ActorInvisibleBit = 0x00010000u;
-constexpr uint32_t ActorAggressorBit = 0x00080000u;
-constexpr uint32_t CheckActorKilledByAny = 0;
-constexpr uint32_t CheckActorKilledByGroup = 1;
-constexpr uint32_t CheckActorKilledByMonsterId = 2;
-constexpr uint32_t CheckActorKilledByActorIdOe = 3;
-constexpr uint32_t CheckActorKilledByActorIdMm8 = 4;
+constexpr uint32_t ActorInvisibleBit = static_cast<uint32_t>(EvtActorAttribute::Invisible);
+constexpr uint32_t ActorAggressorBit = static_cast<uint32_t>(EvtActorAttribute::Aggressor);
 constexpr float TicksPerSecond = 128.0f;
 constexpr float OeRealtimeRecoveryScale = 2.133333333333333f;
 constexpr float OeMeleeRange = 307.2f;
@@ -2227,6 +2222,7 @@ OutdoorWorldRuntime::MapActorState buildMapActorState(
     state.actorId = actorId;
     state.monsterId = resolveMapActorMonsterId(actor);
     state.group = actor.group;
+    state.ally = actor.ally;
 
     const MonsterTable::MonsterStatsEntry *pStats = monsterTable.findStatsById(state.monsterId);
     const MonsterEntry *pMonsterEntry = resolveMonsterEntry(monsterTable, state.monsterId, pStats);
@@ -2687,6 +2683,7 @@ OutdoorWorldRuntime::MapActorState buildSpawnedMapActorState(
     state.fromSpawnPoint = fromSpawnPoint;
     state.spawnPointIndex = spawnPointIndex;
     state.group = group;
+    state.ally = group;
     state.hostilityType = static_cast<uint8_t>(stats.hostility);
     state.maxHp = stats.hitPoints;
     state.currentHp = stats.hitPoints;
@@ -6565,6 +6562,15 @@ void OutdoorWorldRuntime::applyEventRuntimeState()
         {
             m_mapActors[actorId].isInvisible = true;
         }
+
+        if (actorId < m_mapActors.size()
+            && (setMask & static_cast<uint32_t>(EvtActorAttribute::HasItem)) != 0)
+        {
+            m_mapActors[actorId].specialItemId =
+                m_eventRuntimeState->actorItemOverrides.contains(actorId)
+                    ? m_eventRuntimeState->actorItemOverrides.at(actorId)
+                    : 0;
+        }
     }
 
     for (auto &[actorId, clearMask] : m_eventRuntimeState->actorClearMasks)
@@ -6572,6 +6578,20 @@ void OutdoorWorldRuntime::applyEventRuntimeState()
         if (actorId < m_mapActors.size() && (clearMask & ActorInvisibleBit) != 0)
         {
             m_mapActors[actorId].isInvisible = false;
+        }
+
+        if (actorId < m_mapActors.size()
+            && (clearMask & static_cast<uint32_t>(EvtActorAttribute::HasItem)) != 0)
+        {
+            m_mapActors[actorId].specialItemId = 0;
+        }
+    }
+
+    for (auto &[actorId, groupId] : m_eventRuntimeState->actorIdGroupOverrides)
+    {
+        if (actorId < m_mapActors.size())
+        {
+            m_mapActors[actorId].group = groupId;
         }
     }
 
@@ -6607,6 +6627,68 @@ void OutdoorWorldRuntime::applyEventRuntimeState()
             }
         }
 
+    }
+
+    for (auto &[fromGroupId, toGroupId] : m_eventRuntimeState->actorGroupOverrides)
+    {
+        for (MapActorState &actor : m_mapActors)
+        {
+            if (actor.group == fromGroupId)
+            {
+                actor.group = toGroupId;
+            }
+        }
+    }
+
+    for (auto &[groupId, allyId] : m_eventRuntimeState->actorGroupAllyOverrides)
+    {
+        for (MapActorState &actor : m_mapActors)
+        {
+            if (actor.group == groupId)
+            {
+                actor.ally = allyId;
+            }
+        }
+    }
+
+    for (auto &[chestId, setMask] : m_eventRuntimeState->chestSetMasks)
+    {
+        if (chestId >= m_chests.size())
+        {
+            continue;
+        }
+
+        m_chests[chestId].flags |= static_cast<uint16_t>(setMask);
+
+        if (chestId < m_materializedChestViews.size() && m_materializedChestViews[chestId].has_value())
+        {
+            m_materializedChestViews[chestId]->flags = m_chests[chestId].flags;
+        }
+
+        if (m_activeChestView && m_activeChestView->chestId == chestId)
+        {
+            m_activeChestView->flags = m_chests[chestId].flags;
+        }
+    }
+
+    for (auto &[chestId, clearMask] : m_eventRuntimeState->chestClearMasks)
+    {
+        if (chestId >= m_chests.size())
+        {
+            continue;
+        }
+
+        m_chests[chestId].flags &= ~static_cast<uint16_t>(clearMask);
+
+        if (chestId < m_materializedChestViews.size() && m_materializedChestViews[chestId].has_value())
+        {
+            m_materializedChestViews[chestId]->flags = m_chests[chestId].flags;
+        }
+
+        if (m_activeChestView && m_activeChestView->chestId == chestId)
+        {
+            m_activeChestView->flags = m_chests[chestId].flags;
+        }
     }
 
     for (uint32_t chestId : m_eventRuntimeState->openedChestIds)
@@ -8590,6 +8672,81 @@ bool OutdoorWorldRuntime::summonMonsters(
         false);
 }
 
+bool OutdoorWorldRuntime::summonEventItem(
+    uint32_t objectId,
+    int32_t x,
+    int32_t y,
+    int32_t z,
+    int32_t speed,
+    uint32_t count,
+    bool randomRotate
+)
+{
+    if (m_pObjectTable == nullptr || objectId == 0 || count == 0)
+    {
+        return false;
+    }
+
+    const std::optional<uint16_t> descriptionId = m_pObjectTable->findDescriptionIdByObjectId(static_cast<int16_t>(objectId));
+
+    if (!descriptionId)
+    {
+        return false;
+    }
+
+    const ObjectEntry *pObjectEntry = m_pObjectTable->get(*descriptionId);
+
+    if (pObjectEntry == nullptr || (pObjectEntry->flags & ObjectDescNoSprite) != 0 || pObjectEntry->spriteId == 0)
+    {
+        return false;
+    }
+
+    bool spawnedAny = false;
+    const float baseX = static_cast<float>(-x);
+    const float baseY = static_cast<float>(y);
+    const float baseZ = static_cast<float>(z);
+
+    for (uint32_t itemIndex = 0; itemIndex < count; ++itemIndex)
+    {
+        WorldItemState worldItem = {};
+        worldItem.worldItemId = m_nextWorldItemId++;
+        worldItem.objectDescriptionId = *descriptionId;
+        worldItem.objectSpriteId = pObjectEntry->spriteId;
+        worldItem.objectSpriteFrameIndex = resolveRuntimeSpriteFrameIndex(
+            m_pProjectileSpriteFrameTable,
+            pObjectEntry->spriteId,
+            pObjectEntry->spriteName);
+        worldItem.objectFlags = pObjectEntry->flags;
+        worldItem.radius = static_cast<uint16_t>(std::max<int16_t>(0, pObjectEntry->radius));
+        worldItem.height = static_cast<uint16_t>(std::max<int16_t>(0, pObjectEntry->height));
+        worldItem.objectName = pObjectEntry->internalName;
+        worldItem.objectSpriteName = pObjectEntry->spriteName;
+        worldItem.attributes = SpriteAttrTemporary;
+        worldItem.x = baseX;
+        worldItem.y = baseY;
+        worldItem.z = baseZ;
+        worldItem.initialX = baseX;
+        worldItem.initialY = baseY;
+        worldItem.initialZ = baseZ;
+        worldItem.lifetimeTicks = pObjectEntry->lifetimeTicks > 0 ? pObjectEntry->lifetimeTicks : 0;
+
+        if (speed > 0)
+        {
+            const float angleRadians = randomRotate
+                ? (Pi * 2.0f * static_cast<float>((objectId + itemIndex * 37u) % 2048u) / 2048.0f)
+                : 0.0f;
+            worldItem.velocityX = std::cos(angleRadians) * speed;
+            worldItem.velocityY = std::sin(angleRadians) * speed;
+            worldItem.velocityZ = 0.0f;
+        }
+
+        m_worldItems.push_back(std::move(worldItem));
+        spawnedAny = true;
+    }
+
+    return spawnedAny;
+}
+
 bool OutdoorWorldRuntime::summonFriendlyMonsterById(
     int16_t monsterId,
     uint32_t count,
@@ -8697,20 +8854,20 @@ bool OutdoorWorldRuntime::checkMonstersKilled(
 
         switch (checkType)
         {
-            case CheckActorKilledByAny:
+            case static_cast<uint32_t>(EvtActorKillCheck::Any):
                 matches = true;
                 break;
 
-            case CheckActorKilledByGroup:
+            case static_cast<uint32_t>(EvtActorKillCheck::Group):
                 matches = actor.group == id;
                 break;
 
-            case CheckActorKilledByMonsterId:
+            case static_cast<uint32_t>(EvtActorKillCheck::MonsterId):
                 matches = actor.monsterId == static_cast<int16_t>(id);
                 break;
 
-            case CheckActorKilledByActorIdOe:
-            case CheckActorKilledByActorIdMm8:
+            case static_cast<uint32_t>(EvtActorKillCheck::ActorIdOe):
+            case static_cast<uint32_t>(EvtActorKillCheck::ActorIdMm8):
                 matches = actor.actorId == id;
                 break;
 

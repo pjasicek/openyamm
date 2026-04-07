@@ -14,6 +14,17 @@ namespace OpenYAMM::Game
 {
 namespace
 {
+constexpr int OeDaysPerWeek = 7;
+constexpr int OeDaysPerMonth = 28;
+constexpr int OeDaysPerYear = 12 * OeDaysPerMonth;
+constexpr int OeGameStartingYear = 1168;
+constexpr uint32_t DefaultEventPortraitDurationTicks = 96;
+constexpr uint32_t MaxBitfieldFlagIndex = 31;
+
+int resolveMonthFromDayOfYear(int dayOfYear);
+int currentGameMinutesFromRuntimeState(const EventRuntimeState &runtimeState);
+std::optional<std::string> skillNameForEvtVariable(EvtVariable variableId);
+
 std::string sanitizeEventString(const std::string &value)
 {
     std::string sanitized;
@@ -32,25 +43,25 @@ std::string sanitizeEventString(const std::string &value)
 
 float mechanismDistanceForState(const MapDeltaDoor &door, uint16_t state, float timeSinceTriggeredMs)
 {
-    if (state == 0)
+    if (state == static_cast<uint16_t>(EvtMechanismState::Closed))
     {
         return 0.0f;
     }
 
-    if (state == 2 || (door.attributes & 0x2) != 0)
+    if (state == static_cast<uint16_t>(EvtMechanismState::Open) || (door.attributes & 0x2) != 0)
     {
         return static_cast<float>(door.moveLength);
     }
 
     const float elapsedMilliseconds = static_cast<float>(timeSinceTriggeredMs);
 
-    if (state == 3)
+    if (state == static_cast<uint16_t>(EvtMechanismState::Closing))
     {
         const float openDistance = elapsedMilliseconds * static_cast<float>(door.openSpeed) / 1000.0f;
         return std::max(0.0f, static_cast<float>(door.moveLength) - openDistance);
     }
 
-    if (state == 1)
+    if (state == static_cast<uint16_t>(EvtMechanismState::Opening))
     {
         const float closeDistance = elapsedMilliseconds * static_cast<float>(door.closeSpeed) / 1000.0f;
         return std::min(closeDistance, static_cast<float>(door.moveLength));
@@ -82,7 +93,7 @@ PartySelector decodePartySelector(const EventIrInstruction &instruction)
 
     const uint32_t selectorValue = instruction.arguments[0];
 
-    if (selectorValue <= 4)
+    if (selectorValue <= static_cast<uint32_t>(EvtPartySelector::Member4))
     {
         PartySelector selector = {};
         selector.kind = PartySelectorKind::Member;
@@ -90,14 +101,14 @@ PartySelector decodePartySelector(const EventIrInstruction &instruction)
         return selector;
     }
 
-    if (selectorValue == 5)
+    if (selectorValue == static_cast<uint32_t>(EvtPartySelector::All))
     {
         PartySelector selector = {};
         selector.kind = PartySelectorKind::All;
         return selector;
     }
 
-    if (selectorValue == 7)
+    if (selectorValue == static_cast<uint32_t>(EvtPartySelector::Current))
     {
         PartySelector selector = {};
         selector.kind = PartySelectorKind::Current;
@@ -224,22 +235,26 @@ void queuePortraitFxRequest(
 
 std::optional<std::string> permanentVariableDisplayName(uint32_t rawId)
 {
-    switch (rawId)
+    switch (static_cast<EvtVariable>(rawId))
     {
-        case 0x20: return "Might";
-        case 0x21: return "Intellect";
-        case 0x22: return "Personality";
-        case 0x23: return "Endurance";
-        case 0x24: return "Speed";
-        case 0x25: return "Accuracy";
-        case 0x26: return "Luck";
-        case 0x2E: return "Fire Resistance";
-        case 0x2F: return "Air Resistance";
-        case 0x30: return "Water Resistance";
-        case 0x31: return "Earth Resistance";
-        case 0x32: return "Spirit Resistance";
-        case 0x33: return "Mind Resistance";
-        case 0x34: return "Body Resistance";
+        case EvtVariable::BaseMight: return "Might";
+        case EvtVariable::BaseIntellect: return "Intellect";
+        case EvtVariable::BasePersonality: return "Personality";
+        case EvtVariable::BaseEndurance: return "Endurance";
+        case EvtVariable::BaseSpeed: return "Speed";
+        case EvtVariable::BaseAccuracy: return "Accuracy";
+        case EvtVariable::BaseLuck: return "Luck";
+        case EvtVariable::FireResistance: return "Fire Resistance";
+        case EvtVariable::AirResistance: return "Air Resistance";
+        case EvtVariable::WaterResistance: return "Water Resistance";
+        case EvtVariable::EarthResistance: return "Earth Resistance";
+        case EvtVariable::SpiritResistance: return "Spirit Resistance";
+        case EvtVariable::MindResistance: return "Mind Resistance";
+        case EvtVariable::BodyResistance: return "Body Resistance";
+        case EvtVariable::LightResistance: return "Light Resistance";
+        case EvtVariable::DarkResistance: return "Dark Resistance";
+        case EvtVariable::MagicResistance: return "Magic Resistance";
+        case EvtVariable::PhysicalResistance: return "Physical Resistance";
         default: return std::nullopt;
     }
 }
@@ -329,45 +344,400 @@ bool removeInventoryItemFromTargets(Party &party, const std::vector<size_t> &tar
     return false;
 }
 
+std::optional<CharacterCondition> conditionForEvtVariable(EvtVariable variableId)
+{
+    switch (variableId)
+    {
+        case EvtVariable::Cursed: return CharacterCondition::Cursed;
+        case EvtVariable::Weak: return CharacterCondition::Weak;
+        case EvtVariable::Asleep: return CharacterCondition::Asleep;
+        case EvtVariable::Afraid: return CharacterCondition::Fear;
+        case EvtVariable::Drunk: return CharacterCondition::Drunk;
+        case EvtVariable::Insane: return CharacterCondition::Insane;
+        case EvtVariable::PoisonedGreen: return CharacterCondition::PoisonWeak;
+        case EvtVariable::DiseasedGreen: return CharacterCondition::DiseaseWeak;
+        case EvtVariable::PoisonedYellow: return CharacterCondition::PoisonMedium;
+        case EvtVariable::DiseasedYellow: return CharacterCondition::DiseaseMedium;
+        case EvtVariable::PoisonedRed: return CharacterCondition::PoisonSevere;
+        case EvtVariable::DiseasedRed: return CharacterCondition::DiseaseSevere;
+        case EvtVariable::Paralyzed: return CharacterCondition::Paralyzed;
+        case EvtVariable::Unconscious: return CharacterCondition::Unconscious;
+        case EvtVariable::Dead: return CharacterCondition::Dead;
+        case EvtVariable::Stoned: return CharacterCondition::Petrified;
+        case EvtVariable::Eradicated: return CharacterCondition::Eradicated;
+        default: return std::nullopt;
+    }
+}
+
+std::optional<std::string> skillNameForEvtVariable(EvtVariable variableId)
+{
+    switch (variableId)
+    {
+        case EvtVariable::StaffSkill: return "Staff";
+        case EvtVariable::SwordSkill: return "Sword";
+        case EvtVariable::DaggerSkill: return "Dagger";
+        case EvtVariable::AxeSkill: return "Axe";
+        case EvtVariable::SpearSkill: return "Spear";
+        case EvtVariable::BowSkill: return "Bow";
+        case EvtVariable::MaceSkill: return "Mace";
+        case EvtVariable::BlasterSkill: return "Blaster";
+        case EvtVariable::ShieldSkill: return "Shield";
+        case EvtVariable::LeatherSkill: return "LeatherArmor";
+        case EvtVariable::ChainSkill: return "ChainArmor";
+        case EvtVariable::PlateSkill: return "PlateArmor";
+        case EvtVariable::FireSkill: return "FireMagic";
+        case EvtVariable::AirSkill: return "AirMagic";
+        case EvtVariable::WaterSkill: return "WaterMagic";
+        case EvtVariable::EarthSkill: return "EarthMagic";
+        case EvtVariable::SpiritSkill: return "SpiritMagic";
+        case EvtVariable::MindSkill: return "MindMagic";
+        case EvtVariable::BodySkill: return "BodyMagic";
+        case EvtVariable::LightSkill: return "LightMagic";
+        case EvtVariable::DarkSkill: return "DarkMagic";
+        case EvtVariable::IdentifyItemSkill: return "IdentifyItem";
+        case EvtVariable::MerchantSkill: return "Merchant";
+        case EvtVariable::RepairSkill: return "Repair";
+        case EvtVariable::BodybuildingSkill: return "Bodybuilding";
+        case EvtVariable::MeditationSkill: return "Meditation";
+        case EvtVariable::PerceptionSkill: return "Perception";
+        case EvtVariable::DiplomacySkill: return "Diplomacy";
+        case EvtVariable::ThieverySkill: return "Thievery";
+        case EvtVariable::DisarmTrapSkill: return "DisarmTrap";
+        case EvtVariable::DodgeSkill: return "Dodging";
+        case EvtVariable::UnarmedSkill: return "Unarmed";
+        case EvtVariable::IdentifyMonsterSkill: return "IdentifyMonster";
+        case EvtVariable::ArmsmasterSkill: return "Armsmaster";
+        case EvtVariable::StealingSkill: return "Stealing";
+        case EvtVariable::AlchemySkill: return "Alchemy";
+        case EvtVariable::LearningSkill: return "Learning";
+        default: return std::nullopt;
+    }
+}
+
+SkillMastery masteryFromJoinedValue(uint16_t joinedValue)
+{
+    if ((joinedValue & static_cast<uint16_t>(EvtSkillJoinedMask::Master)) != 0)
+    {
+        return SkillMastery::Grandmaster;
+    }
+
+    if ((joinedValue & static_cast<uint16_t>(EvtSkillJoinedMask::Expert)) != 0)
+    {
+        return SkillMastery::Master;
+    }
+
+    if ((joinedValue & static_cast<uint16_t>(EvtSkillJoinedMask::Normal)) != 0)
+    {
+        return SkillMastery::Expert;
+    }
+
+    return (joinedValue & static_cast<uint16_t>(EvtSkillJoinedMask::Level)) != 0
+        ? SkillMastery::Normal
+        : SkillMastery::None;
+}
+
+uint16_t joinedSkillValue(uint32_t level, SkillMastery mastery)
+{
+    uint16_t joinedValue = static_cast<uint16_t>(
+        std::min<uint32_t>(level, static_cast<uint16_t>(EvtSkillJoinedMask::Level)));
+
+    switch (mastery)
+    {
+        case SkillMastery::Expert:
+            joinedValue |= static_cast<uint16_t>(EvtSkillJoinedMask::Normal);
+            break;
+
+        case SkillMastery::Master:
+            joinedValue |= static_cast<uint16_t>(EvtSkillJoinedMask::Expert);
+            break;
+
+        case SkillMastery::Grandmaster:
+            joinedValue |= static_cast<uint16_t>(EvtSkillJoinedMask::Master);
+            break;
+
+        case SkillMastery::Normal:
+        case SkillMastery::None:
+        default:
+            break;
+    }
+
+    return joinedValue;
+}
+
+EvtSeason currentSeasonFromRuntimeState(const EventRuntimeState &runtimeState)
+{
+    const int currentDayOfYear = std::max(1, currentGameMinutesFromRuntimeState(runtimeState) / (60 * 24));
+    const int monthIndex = (resolveMonthFromDayOfYear(currentDayOfYear) - 1) % 12;
+
+    if (monthIndex <= 2)
+    {
+        return EvtSeason::Spring;
+    }
+
+    if (monthIndex <= 5)
+    {
+        return EvtSeason::Summer;
+    }
+
+    if (monthIndex <= 8)
+    {
+        return EvtSeason::Autumn;
+    }
+
+    return EvtSeason::Winter;
+}
+
+uint32_t randomJumpSeed(const EventIrInstruction &instruction, const EventRuntimeState &runtimeState)
+{
+    return static_cast<uint32_t>(instruction.eventId) * 2654435761u
+        ^ static_cast<uint32_t>(instruction.step) * 40503u
+        ^ static_cast<uint32_t>(std::max(0, currentGameMinutesFromRuntimeState(runtimeState)));
+}
+
+std::optional<PortraitId> eventPortraitId(uint32_t rawPortraitId)
+{
+    if (rawPortraitId == 0)
+    {
+        return std::nullopt;
+    }
+
+    const PortraitId portraitId = static_cast<PortraitId>(rawPortraitId);
+    return portraitId == PortraitId::Invalid ? std::nullopt : std::optional<PortraitId>(portraitId);
+}
+
+std::string damageStatusForEvtVariable(const std::vector<size_t> &targetMemberIndices)
+{
+    return targetMemberIndices.size() > 1 ? "event damaged party" : "event damaged member";
+}
+
+void queuePendingSound(
+    EventRuntimeState &runtimeState,
+    uint32_t soundId,
+    int32_t x,
+    int32_t y,
+    bool positional)
+{
+    if (soundId == 0)
+    {
+        return;
+    }
+
+    EventRuntimeState::PendingSound request = {};
+    request.soundId = soundId;
+    request.x = x;
+    request.y = y;
+    request.positional = positional;
+    runtimeState.pendingSounds.push_back(std::move(request));
+}
+
+bool characterMeetsSkillCheck(const Character &member, EvtVariable skillVariable, SkillMastery mastery, uint32_t level)
+{
+    const std::optional<std::string> skillName = skillNameForEvtVariable(skillVariable);
+
+    if (!skillName)
+    {
+        return false;
+    }
+
+    const CharacterSkill *pSkill = member.findSkill(*skillName);
+
+    if (pSkill == nullptr)
+    {
+        return false;
+    }
+
+    return pSkill->level >= level && pSkill->mastery == mastery;
+}
+
+int resolveCharacterAge(const Character &member)
+{
+    if (member.birthYear > 0 && member.birthYear <= static_cast<uint32_t>(OeGameStartingYear))
+    {
+        return std::max(0, OeGameStartingYear - static_cast<int>(member.birthYear) + member.ageModifier);
+    }
+
+    return std::max(0, member.ageModifier);
+}
+
+int resolveMonthFromDayOfYear(int dayOfYear)
+{
+    const int normalizedDayOfYear = std::max(1, dayOfYear);
+    return ((normalizedDayOfYear - 1) / OeDaysPerMonth) + 1;
+}
+
+int currentGameMinutesFromRuntimeState(const EventRuntimeState &runtimeState)
+{
+    const auto hourIt = runtimeState.variables.find(static_cast<uint32_t>(EvtVariable::Hour));
+    const auto dayIt = runtimeState.variables.find(static_cast<uint32_t>(EvtVariable::DayOfYear));
+    const int hour = hourIt != runtimeState.variables.end() ? std::max(0, hourIt->second) : 0;
+    const int dayOfYear = dayIt != runtimeState.variables.end() ? std::max(1, dayIt->second) : 1;
+    return ((dayOfYear - 1) * 24 + hour) * 60;
+}
+
+int resolveCharacterBaseArmorClass(const Character &member, const Party *pParty)
+{
+    if (pParty == nullptr)
+    {
+        return member.armorClassModifier;
+    }
+
+    const CharacterSheetSummary summary = GameMechanics::buildCharacterSheetSummary(
+        member,
+        pParty->itemTable(),
+        pParty->standardItemEnchantTable(),
+        pParty->specialItemEnchantTable());
+    return summary.armorClass.base + member.armorClassModifier;
+}
+
+int resolveCharacterActualArmorClass(const Character &member, const Party *pParty)
+{
+    if (pParty == nullptr)
+    {
+        return member.armorClassModifier;
+    }
+
+    const CharacterSheetSummary summary = GameMechanics::buildCharacterSheetSummary(
+        member,
+        pParty->itemTable(),
+        pParty->standardItemEnchantTable(),
+        pParty->specialItemEnchantTable());
+    return summary.armorClass.actual + member.armorClassModifier;
+}
+
+int resolveCharacterMajorConditionValue(const Character &member)
+{
+    for (int conditionIndex = static_cast<int>(CharacterCondition::Eradicated);
+         conditionIndex >= static_cast<int>(CharacterCondition::Cursed);
+         --conditionIndex)
+    {
+        if (member.conditions.test(static_cast<size_t>(conditionIndex)))
+        {
+            return conditionIndex;
+        }
+    }
+
+    return 0;
+}
+
 int32_t readCharacterVariableValue(const Character &member, uint32_t rawId)
 {
-    switch (rawId)
+    switch (static_cast<EvtVariable>(rawId))
     {
-        case 0x19:
-        case 0x27: return member.permanentBonuses.might;
-        case 0x1A:
-        case 0x28: return member.permanentBonuses.intellect;
-        case 0x1B:
-        case 0x29: return member.permanentBonuses.personality;
-        case 0x1C:
-        case 0x2A: return member.permanentBonuses.endurance;
-        case 0x1D:
-        case 0x2B: return member.permanentBonuses.speed;
-        case 0x1E:
-        case 0x2C: return member.permanentBonuses.accuracy;
-        case 0x1F:
-        case 0x2D: return member.permanentBonuses.luck;
-        case 0x20: return static_cast<int32_t>(member.might);
-        case 0x21: return static_cast<int32_t>(member.intellect);
-        case 0x22: return static_cast<int32_t>(member.personality);
-        case 0x23: return static_cast<int32_t>(member.endurance);
-        case 0x24: return static_cast<int32_t>(member.speed);
-        case 0x25: return static_cast<int32_t>(member.accuracy);
-        case 0x26: return static_cast<int32_t>(member.luck);
-        case 0x2E: return member.baseResistances.fire;
-        case 0x2F: return member.baseResistances.air;
-        case 0x30: return member.baseResistances.water;
-        case 0x31: return member.baseResistances.earth;
-        case 0x32: return member.baseResistances.spirit;
-        case 0x33: return member.baseResistances.mind;
-        case 0x34: return member.baseResistances.body;
-        case 0x39: return member.permanentBonuses.resistances.fire;
-        case 0x3A: return member.permanentBonuses.resistances.air;
-        case 0x3B: return member.permanentBonuses.resistances.water;
-        case 0x3C: return member.permanentBonuses.resistances.earth;
-        case 0x3D: return member.permanentBonuses.resistances.spirit;
-        case 0x3E: return member.permanentBonuses.resistances.mind;
-        case 0x3F: return member.permanentBonuses.resistances.body;
+        case EvtVariable::MightBonus:
+        case EvtVariable::ActualMight:
+            return member.permanentBonuses.might;
+
+        case EvtVariable::IntellectBonus:
+        case EvtVariable::ActualIntellect:
+            return member.permanentBonuses.intellect;
+
+        case EvtVariable::PersonalityBonus:
+        case EvtVariable::ActualPersonality:
+            return member.permanentBonuses.personality;
+
+        case EvtVariable::EnduranceBonus:
+        case EvtVariable::ActualEndurance:
+            return member.permanentBonuses.endurance;
+
+        case EvtVariable::SpeedBonus:
+        case EvtVariable::ActualSpeed:
+            return member.permanentBonuses.speed;
+
+        case EvtVariable::AccuracyBonus:
+        case EvtVariable::ActualAccuracy:
+            return member.permanentBonuses.accuracy;
+
+        case EvtVariable::LuckBonus:
+        case EvtVariable::ActualLuck:
+            return member.permanentBonuses.luck;
+
+        case EvtVariable::BaseMight:
+            return static_cast<int32_t>(member.might);
+
+        case EvtVariable::BaseIntellect:
+            return static_cast<int32_t>(member.intellect);
+
+        case EvtVariable::BasePersonality:
+            return static_cast<int32_t>(member.personality);
+
+        case EvtVariable::BaseEndurance:
+            return static_cast<int32_t>(member.endurance);
+
+        case EvtVariable::BaseSpeed:
+            return static_cast<int32_t>(member.speed);
+
+        case EvtVariable::BaseAccuracy:
+            return static_cast<int32_t>(member.accuracy);
+
+        case EvtVariable::BaseLuck:
+            return static_cast<int32_t>(member.luck);
+
+        case EvtVariable::FireResistance:
+            return member.baseResistances.fire;
+
+        case EvtVariable::AirResistance:
+            return member.baseResistances.air;
+
+        case EvtVariable::WaterResistance:
+            return member.baseResistances.water;
+
+        case EvtVariable::EarthResistance:
+            return member.baseResistances.earth;
+
+        case EvtVariable::SpiritResistance:
+            return member.baseResistances.spirit;
+
+        case EvtVariable::MindResistance:
+            return member.baseResistances.mind;
+
+        case EvtVariable::BodyResistance:
+            return member.baseResistances.body;
+
+        case EvtVariable::LightResistance:
+            return member.baseResistances.light;
+
+        case EvtVariable::DarkResistance:
+            return member.baseResistances.dark;
+
+        case EvtVariable::PhysicalResistance:
+            return member.baseResistances.physical;
+
+        case EvtVariable::MagicResistance:
+            return member.baseResistances.magic;
+
+        case EvtVariable::FireResistanceBonus:
+            return member.permanentBonuses.resistances.fire;
+
+        case EvtVariable::AirResistanceBonus:
+            return member.permanentBonuses.resistances.air;
+
+        case EvtVariable::WaterResistanceBonus:
+            return member.permanentBonuses.resistances.water;
+
+        case EvtVariable::EarthResistanceBonus:
+            return member.permanentBonuses.resistances.earth;
+
+        case EvtVariable::SpiritResistanceBonus:
+            return member.permanentBonuses.resistances.spirit;
+
+        case EvtVariable::MindResistanceBonus:
+            return member.permanentBonuses.resistances.mind;
+
+        case EvtVariable::BodyResistanceBonus:
+            return member.permanentBonuses.resistances.body;
+
+        case EvtVariable::LightResistanceBonus:
+            return member.permanentBonuses.resistances.light;
+
+        case EvtVariable::DarkResistanceBonus:
+            return member.permanentBonuses.resistances.dark;
+
+        case EvtVariable::PhysicalResistanceBonus:
+            return member.permanentBonuses.resistances.physical;
+
+        case EvtVariable::MagicResistanceBonus:
+            return member.permanentBonuses.resistances.magic;
+
         default: break;
     }
 
@@ -388,43 +758,159 @@ void writeCharacterVariableValue(Character &member, uint32_t rawId, int32_t valu
 {
     const int clampedValue = std::clamp(value, 0, 255);
 
-    switch (rawId)
+    switch (static_cast<EvtVariable>(rawId))
     {
-        case 0x19:
-        case 0x27: member.permanentBonuses.might = clampedValue; return;
-        case 0x1A:
-        case 0x28: member.permanentBonuses.intellect = clampedValue; return;
-        case 0x1B:
-        case 0x29: member.permanentBonuses.personality = clampedValue; return;
-        case 0x1C:
-        case 0x2A: member.permanentBonuses.endurance = clampedValue; return;
-        case 0x1D:
-        case 0x2B: member.permanentBonuses.speed = clampedValue; return;
-        case 0x1E:
-        case 0x2C: member.permanentBonuses.accuracy = clampedValue; return;
-        case 0x1F:
-        case 0x2D: member.permanentBonuses.luck = clampedValue; return;
-        case 0x20: member.might = clampedValue; return;
-        case 0x21: member.intellect = clampedValue; return;
-        case 0x22: member.personality = clampedValue; return;
-        case 0x23: member.endurance = clampedValue; return;
-        case 0x24: member.speed = clampedValue; return;
-        case 0x25: member.accuracy = clampedValue; return;
-        case 0x26: member.luck = clampedValue; return;
-        case 0x2E: member.baseResistances.fire = clampedValue; return;
-        case 0x2F: member.baseResistances.air = clampedValue; return;
-        case 0x30: member.baseResistances.water = clampedValue; return;
-        case 0x31: member.baseResistances.earth = clampedValue; return;
-        case 0x32: member.baseResistances.spirit = clampedValue; return;
-        case 0x33: member.baseResistances.mind = clampedValue; return;
-        case 0x34: member.baseResistances.body = clampedValue; return;
-        case 0x39: member.permanentBonuses.resistances.fire = clampedValue; return;
-        case 0x3A: member.permanentBonuses.resistances.air = clampedValue; return;
-        case 0x3B: member.permanentBonuses.resistances.water = clampedValue; return;
-        case 0x3C: member.permanentBonuses.resistances.earth = clampedValue; return;
-        case 0x3D: member.permanentBonuses.resistances.spirit = clampedValue; return;
-        case 0x3E: member.permanentBonuses.resistances.mind = clampedValue; return;
-        case 0x3F: member.permanentBonuses.resistances.body = clampedValue; return;
+        case EvtVariable::MightBonus:
+        case EvtVariable::ActualMight:
+            member.permanentBonuses.might = clampedValue;
+            return;
+
+        case EvtVariable::IntellectBonus:
+        case EvtVariable::ActualIntellect:
+            member.permanentBonuses.intellect = clampedValue;
+            return;
+
+        case EvtVariable::PersonalityBonus:
+        case EvtVariable::ActualPersonality:
+            member.permanentBonuses.personality = clampedValue;
+            return;
+
+        case EvtVariable::EnduranceBonus:
+        case EvtVariable::ActualEndurance:
+            member.permanentBonuses.endurance = clampedValue;
+            return;
+
+        case EvtVariable::SpeedBonus:
+        case EvtVariable::ActualSpeed:
+            member.permanentBonuses.speed = clampedValue;
+            return;
+
+        case EvtVariable::AccuracyBonus:
+        case EvtVariable::ActualAccuracy:
+            member.permanentBonuses.accuracy = clampedValue;
+            return;
+
+        case EvtVariable::LuckBonus:
+        case EvtVariable::ActualLuck:
+            member.permanentBonuses.luck = clampedValue;
+            return;
+
+        case EvtVariable::BaseMight:
+            member.might = clampedValue;
+            return;
+
+        case EvtVariable::BaseIntellect:
+            member.intellect = clampedValue;
+            return;
+
+        case EvtVariable::BasePersonality:
+            member.personality = clampedValue;
+            return;
+
+        case EvtVariable::BaseEndurance:
+            member.endurance = clampedValue;
+            return;
+
+        case EvtVariable::BaseSpeed:
+            member.speed = clampedValue;
+            return;
+
+        case EvtVariable::BaseAccuracy:
+            member.accuracy = clampedValue;
+            return;
+
+        case EvtVariable::BaseLuck:
+            member.luck = clampedValue;
+            return;
+
+        case EvtVariable::FireResistance:
+            member.baseResistances.fire = clampedValue;
+            return;
+
+        case EvtVariable::AirResistance:
+            member.baseResistances.air = clampedValue;
+            return;
+
+        case EvtVariable::WaterResistance:
+            member.baseResistances.water = clampedValue;
+            return;
+
+        case EvtVariable::EarthResistance:
+            member.baseResistances.earth = clampedValue;
+            return;
+
+        case EvtVariable::SpiritResistance:
+            member.baseResistances.spirit = clampedValue;
+            return;
+
+        case EvtVariable::MindResistance:
+            member.baseResistances.mind = clampedValue;
+            return;
+
+        case EvtVariable::BodyResistance:
+            member.baseResistances.body = clampedValue;
+            return;
+
+        case EvtVariable::LightResistance:
+            member.baseResistances.light = clampedValue;
+            return;
+
+        case EvtVariable::DarkResistance:
+            member.baseResistances.dark = clampedValue;
+            return;
+
+        case EvtVariable::PhysicalResistance:
+            member.baseResistances.physical = clampedValue;
+            return;
+
+        case EvtVariable::MagicResistance:
+            member.baseResistances.magic = clampedValue;
+            return;
+
+        case EvtVariable::FireResistanceBonus:
+            member.permanentBonuses.resistances.fire = clampedValue;
+            return;
+
+        case EvtVariable::AirResistanceBonus:
+            member.permanentBonuses.resistances.air = clampedValue;
+            return;
+
+        case EvtVariable::WaterResistanceBonus:
+            member.permanentBonuses.resistances.water = clampedValue;
+            return;
+
+        case EvtVariable::EarthResistanceBonus:
+            member.permanentBonuses.resistances.earth = clampedValue;
+            return;
+
+        case EvtVariable::SpiritResistanceBonus:
+            member.permanentBonuses.resistances.spirit = clampedValue;
+            return;
+
+        case EvtVariable::MindResistanceBonus:
+            member.permanentBonuses.resistances.mind = clampedValue;
+            return;
+
+        case EvtVariable::BodyResistanceBonus:
+            member.permanentBonuses.resistances.body = clampedValue;
+            return;
+
+        case EvtVariable::LightResistanceBonus:
+            member.permanentBonuses.resistances.light = clampedValue;
+            return;
+
+        case EvtVariable::DarkResistanceBonus:
+            member.permanentBonuses.resistances.dark = clampedValue;
+            return;
+
+        case EvtVariable::PhysicalResistanceBonus:
+            member.permanentBonuses.resistances.physical = clampedValue;
+            return;
+
+        case EvtVariable::MagicResistanceBonus:
+            member.permanentBonuses.resistances.magic = clampedValue;
+            return;
+
         default: break;
     }
 }
@@ -460,9 +946,9 @@ void syncTimeVariablesFromSceneContext(EventRuntimeState &runtimeState, const IS
     constexpr int MinutesPerDay = 24 * 60;
     const int totalMinutes = std::max(0, floorToInt(pSceneEventContext->currentGameMinutes()));
     const int totalDays = totalMinutes / MinutesPerDay;
-    runtimeState.variables[0x0012] = (totalMinutes / 60) % 24;
-    runtimeState.variables[0x0013] = totalDays % 365;
-    runtimeState.variables[0x0014] = totalDays % 7;
+    runtimeState.variables[static_cast<uint32_t>(EvtVariable::Hour)] = (totalMinutes / 60) % 24;
+    runtimeState.variables[static_cast<uint32_t>(EvtVariable::DayOfYear)] = (totalDays % OeDaysPerYear) + 1;
+    runtimeState.variables[static_cast<uint32_t>(EvtVariable::DayOfWeek)] = totalDays % OeDaysPerWeek;
 }
 }
 
@@ -473,125 +959,303 @@ EventRuntime::VariableRef EventRuntime::decodeVariable(uint32_t rawId)
     variable.tag = static_cast<uint16_t>(rawId & 0xFFFF);
     variable.index = rawId >> 16;
 
-    if (variable.tag == 0x0010)
+    const EvtVariable variableId = static_cast<EvtVariable>(variable.tag);
+
+    if (variableId == EvtVariable::QBits)
     {
         variable.kind = VariableKind::QBits;
         variable.rawId = variable.index;
+        return variable;
     }
-    else if ((variable.tag >= 0x007d && variable.tag <= 0x0084) || variable.tag == 0x009a)
-    {
-        variable.kind = VariableKind::BoolFlag;
-        variable.rawId = variable.tag;
-    }
-    else if (variable.tag == 0x0017)
-    {
-        variable.kind = VariableKind::Food;
-        variable.rawId = variable.tag;
-    }
-    else if (variable.tag == 0x00df || variable.tag == 0x00e1)
-    {
-        variable.kind = VariableKind::AutoNote;
-        variable.rawId = rawId;
-    }
-    else if (variable.tag == 0x0011)
+
+    if (variableId == EvtVariable::Inventory)
     {
         variable.kind = VariableKind::Inventory;
         variable.rawId = variable.index;
+        return variable;
     }
-    else if (variable.tag == 0x000c)
+
+    if (variableId == EvtVariable::Awards)
     {
         variable.kind = VariableKind::Awards;
-        variable.rawId = rawId;
+        return variable;
     }
-    else if (variable.tag == 0x0002)
-    {
-        variable.kind = VariableKind::ClassId;
-        variable.rawId = rawId;
-    }
-    else if (variable.tag == 0x000d)
-    {
-        variable.kind = VariableKind::Experience;
-        variable.rawId = variable.tag;
-    }
-    else if (variable.tag == 0x0003)
-    {
-        variable.kind = VariableKind::CurrentHealth;
-        variable.rawId = variable.tag;
-    }
-    else if (variable.tag == 0x0004)
-    {
-        variable.kind = VariableKind::MaxHealth;
-        variable.rawId = variable.tag;
-    }
-    else if (variable.tag == 0x0005)
-    {
-        variable.kind = VariableKind::CurrentSpellPoints;
-        variable.rawId = variable.tag;
-    }
-    else if (variable.tag == 0x0006)
-    {
-        variable.kind = VariableKind::MaxSpellPoints;
-        variable.rawId = variable.tag;
-    }
-    else if (variable.tag == 0x0012)
-    {
-        variable.kind = VariableKind::Hour;
-        variable.rawId = variable.tag;
-    }
-    else if (variable.tag == 0x0013)
-    {
-        variable.kind = VariableKind::DayOfYear;
-        variable.rawId = variable.tag;
-    }
-    else if (variable.tag == 0x0014)
-    {
-        variable.kind = VariableKind::DayOfWeek;
-        variable.rawId = variable.tag;
-    }
-    else if (variable.tag == 0x0015 || variable.tag == 0x0016)
-    {
-        variable.kind = VariableKind::Gold;
-        variable.rawId = variable.tag;
-    }
-    else if (variable.tag == 0x0132)
-    {
-        variable.kind = VariableKind::GoldInBank;
-        variable.rawId = variable.tag;
-    }
-    else if (variable.tag == 0x013e)
+
+    if (variableId == EvtVariable::Players)
     {
         variable.kind = VariableKind::Players;
-        variable.rawId = rawId;
+        return variable;
     }
-    else if (variable.tag >= 0x0020 && variable.tag <= 0x0026)
+
+    if (variableId >= EvtVariable::MapPersistentVariableBegin && variableId <= EvtVariable::MapPersistentVariableEnd)
     {
-        variable.kind = VariableKind::BaseStat;
-        variable.rawId = variable.tag;
+        variable.kind = VariableKind::MapPersistent;
+        variable.index = static_cast<uint32_t>(variableId)
+            - static_cast<uint32_t>(EvtVariable::MapPersistentVariableBegin);
+        variable.rawId = variable.index;
+        return variable;
     }
-    else if (variable.tag >= 0x0027 && variable.tag <= 0x002d)
+
+    if (variableId >= EvtVariable::MapPersistentDecorVariableBegin
+        && variableId <= EvtVariable::MapPersistentDecorVariableEnd)
     {
-        variable.kind = VariableKind::ActualStat;
-        variable.rawId = variable.tag;
+        variable.kind = VariableKind::DecorPersistent;
+        variable.index = static_cast<uint32_t>(variableId)
+            - static_cast<uint32_t>(EvtVariable::MapPersistentDecorVariableBegin);
+        variable.rawId = variable.index;
+        return variable;
     }
-    else if (variable.tag >= 0x0019 && variable.tag <= 0x001f)
+
+    switch (variableId)
     {
-        variable.kind = VariableKind::StatBonus;
-        variable.rawId = variable.tag;
-    }
-    else if (variable.tag >= 0x002e && variable.tag <= 0x0034)
-    {
-        variable.kind = VariableKind::BaseResistance;
-        variable.rawId = variable.tag;
-    }
-    else if (variable.tag >= 0x0039 && variable.tag <= 0x003f)
-    {
-        variable.kind = VariableKind::ResistanceBonus;
-        variable.rawId = variable.tag;
-    }
-    else if (variable.tag == 0x0087 || variable.tag == 0x0088 || variable.tag == 0x0089)
-    {
-        variable.kind = VariableKind::Generic;
-        variable.rawId = variable.tag;
+        case EvtVariable::Food:
+        case EvtVariable::RandomFood:
+            variable.kind = VariableKind::Food;
+            break;
+
+        case EvtVariable::AutoNotes:
+            variable.kind = VariableKind::AutoNote;
+            break;
+
+        case EvtVariable::ClassId:
+            variable.kind = VariableKind::ClassId;
+            break;
+
+        case EvtVariable::Experience:
+            variable.kind = VariableKind::Experience;
+            break;
+
+        case EvtVariable::CurrentHealth:
+            variable.kind = VariableKind::CurrentHealth;
+            break;
+
+        case EvtVariable::MaxHealth:
+            variable.kind = VariableKind::MaxHealth;
+            break;
+
+        case EvtVariable::CurrentSpellPoints:
+            variable.kind = VariableKind::CurrentSpellPoints;
+            break;
+
+        case EvtVariable::MaxSpellPoints:
+            variable.kind = VariableKind::MaxSpellPoints;
+            break;
+
+        case EvtVariable::Hour:
+            variable.kind = VariableKind::Hour;
+            break;
+
+        case EvtVariable::DayOfYear:
+            variable.kind = VariableKind::DayOfYear;
+            break;
+
+        case EvtVariable::DayOfWeek:
+            variable.kind = VariableKind::DayOfWeek;
+            break;
+
+        case EvtVariable::Gold:
+        case EvtVariable::RandomGold:
+            variable.kind = VariableKind::Gold;
+            break;
+
+        case EvtVariable::GoldInBank:
+            variable.kind = VariableKind::GoldInBank;
+            break;
+
+        case EvtVariable::BaseLevel:
+            variable.kind = VariableKind::BaseLevel;
+            break;
+
+        case EvtVariable::LevelBonus:
+            variable.kind = VariableKind::LevelBonus;
+            break;
+
+        case EvtVariable::Sex:
+            variable.kind = VariableKind::Sex;
+            break;
+
+        case EvtVariable::Race:
+            variable.kind = VariableKind::Race;
+            break;
+
+        case EvtVariable::Age:
+            variable.kind = VariableKind::Age;
+            break;
+
+        case EvtVariable::ActualArmorClass:
+            variable.kind = VariableKind::ArmorClass;
+            break;
+
+        case EvtVariable::ArmorClassBonus:
+            variable.kind = VariableKind::ArmorClassBonus;
+            break;
+
+        case EvtVariable::BaseMight:
+        case EvtVariable::BaseIntellect:
+        case EvtVariable::BasePersonality:
+        case EvtVariable::BaseEndurance:
+        case EvtVariable::BaseSpeed:
+        case EvtVariable::BaseAccuracy:
+        case EvtVariable::BaseLuck:
+            variable.kind = VariableKind::BaseStat;
+            break;
+
+        case EvtVariable::ActualMight:
+        case EvtVariable::ActualIntellect:
+        case EvtVariable::ActualPersonality:
+        case EvtVariable::ActualEndurance:
+        case EvtVariable::ActualSpeed:
+        case EvtVariable::ActualAccuracy:
+        case EvtVariable::ActualLuck:
+            variable.kind = VariableKind::ActualStat;
+            break;
+
+        case EvtVariable::IsMightMoreThanBase:
+        case EvtVariable::IsIntellectMoreThanBase:
+        case EvtVariable::IsPersonalityMoreThanBase:
+        case EvtVariable::IsEnduranceMoreThanBase:
+        case EvtVariable::IsSpeedMoreThanBase:
+        case EvtVariable::IsAccuracyMoreThanBase:
+        case EvtVariable::IsLuckMoreThanBase:
+            variable.kind = VariableKind::StatMoreThanBase;
+            break;
+
+        case EvtVariable::MightBonus:
+        case EvtVariable::IntellectBonus:
+        case EvtVariable::PersonalityBonus:
+        case EvtVariable::EnduranceBonus:
+        case EvtVariable::SpeedBonus:
+        case EvtVariable::AccuracyBonus:
+        case EvtVariable::LuckBonus:
+            variable.kind = VariableKind::StatBonus;
+            break;
+
+        case EvtVariable::FireResistance:
+        case EvtVariable::AirResistance:
+        case EvtVariable::WaterResistance:
+        case EvtVariable::EarthResistance:
+        case EvtVariable::SpiritResistance:
+        case EvtVariable::MindResistance:
+        case EvtVariable::BodyResistance:
+        case EvtVariable::LightResistance:
+        case EvtVariable::DarkResistance:
+        case EvtVariable::PhysicalResistance:
+        case EvtVariable::MagicResistance:
+            variable.kind = VariableKind::BaseResistance;
+            break;
+
+        case EvtVariable::FireResistanceBonus:
+        case EvtVariable::AirResistanceBonus:
+        case EvtVariable::WaterResistanceBonus:
+        case EvtVariable::EarthResistanceBonus:
+        case EvtVariable::SpiritResistanceBonus:
+        case EvtVariable::MindResistanceBonus:
+        case EvtVariable::BodyResistanceBonus:
+        case EvtVariable::LightResistanceBonus:
+        case EvtVariable::DarkResistanceBonus:
+        case EvtVariable::PhysicalResistanceBonus:
+        case EvtVariable::MagicResistanceBonus:
+            variable.kind = VariableKind::ResistanceBonus;
+            break;
+
+        case EvtVariable::StaffSkill:
+        case EvtVariable::SwordSkill:
+        case EvtVariable::DaggerSkill:
+        case EvtVariable::AxeSkill:
+        case EvtVariable::SpearSkill:
+        case EvtVariable::BowSkill:
+        case EvtVariable::MaceSkill:
+        case EvtVariable::BlasterSkill:
+        case EvtVariable::ShieldSkill:
+        case EvtVariable::LeatherSkill:
+        case EvtVariable::ChainSkill:
+        case EvtVariable::PlateSkill:
+        case EvtVariable::FireSkill:
+        case EvtVariable::AirSkill:
+        case EvtVariable::WaterSkill:
+        case EvtVariable::EarthSkill:
+        case EvtVariable::SpiritSkill:
+        case EvtVariable::MindSkill:
+        case EvtVariable::BodySkill:
+        case EvtVariable::LightSkill:
+        case EvtVariable::DarkSkill:
+        case EvtVariable::IdentifyItemSkill:
+        case EvtVariable::MerchantSkill:
+        case EvtVariable::RepairSkill:
+        case EvtVariable::BodybuildingSkill:
+        case EvtVariable::MeditationSkill:
+        case EvtVariable::PerceptionSkill:
+        case EvtVariable::DiplomacySkill:
+        case EvtVariable::ThieverySkill:
+        case EvtVariable::DisarmTrapSkill:
+        case EvtVariable::DodgeSkill:
+        case EvtVariable::UnarmedSkill:
+        case EvtVariable::IdentifyMonsterSkill:
+        case EvtVariable::ArmsmasterSkill:
+        case EvtVariable::StealingSkill:
+        case EvtVariable::AlchemySkill:
+        case EvtVariable::LearningSkill:
+            variable.kind = VariableKind::Skill;
+            break;
+
+        case EvtVariable::Cursed:
+        case EvtVariable::Weak:
+        case EvtVariable::Asleep:
+        case EvtVariable::Afraid:
+        case EvtVariable::Drunk:
+        case EvtVariable::Insane:
+        case EvtVariable::PoisonedGreen:
+        case EvtVariable::DiseasedGreen:
+        case EvtVariable::PoisonedYellow:
+        case EvtVariable::DiseasedYellow:
+        case EvtVariable::PoisonedRed:
+        case EvtVariable::DiseasedRed:
+        case EvtVariable::Paralyzed:
+        case EvtVariable::Unconscious:
+        case EvtVariable::Dead:
+        case EvtVariable::Stoned:
+        case EvtVariable::Eradicated:
+            variable.kind = VariableKind::Condition;
+            break;
+
+        case EvtVariable::MajorCondition:
+            variable.kind = VariableKind::MajorCondition;
+            break;
+
+        case EvtVariable::PlayerBits:
+        case EvtVariable::Npcs2:
+        case EvtVariable::IsFlying:
+        case EvtVariable::HiredNpcHasSpeciality:
+        case EvtVariable::CircusPrises:
+        case EvtVariable::NumSkillPoints:
+        case EvtVariable::MonthIs:
+        case EvtVariable::Counter1:
+        case EvtVariable::Counter2:
+        case EvtVariable::Counter3:
+        case EvtVariable::Counter4:
+        case EvtVariable::Counter5:
+        case EvtVariable::Counter6:
+        case EvtVariable::Counter7:
+        case EvtVariable::Counter8:
+        case EvtVariable::Counter9:
+        case EvtVariable::Counter10:
+        case EvtVariable::ReputationInCurrentLocation:
+        case EvtVariable::Unknown1:
+        case EvtVariable::NumDeaths:
+        case EvtVariable::NumBounties:
+        case EvtVariable::PrisonTerms:
+        case EvtVariable::ArenaWinsPage:
+        case EvtVariable::ArenaWinsSquire:
+        case EvtVariable::ArenaWinsKnight:
+        case EvtVariable::ArenaWinsLord:
+        case EvtVariable::Invisible:
+        case EvtVariable::ItemEquipped:
+            variable.kind = VariableKind::PartyState;
+            break;
+
+        default:
+            variable.kind = VariableKind::Generic;
+            break;
     }
 
     return variable;
@@ -604,6 +1268,8 @@ int32_t EventRuntime::getVariableValue(
     const std::optional<size_t> &memberIndex
 )
 {
+    const EvtVariable variableId = static_cast<EvtVariable>(variable.tag);
+
     if (variable.kind == VariableKind::Inventory)
     {
         return getInventoryItemCount(runtimeState, pParty, variable.rawId, memberIndex);
@@ -632,7 +1298,7 @@ int32_t EventRuntime::getVariableValue(
 
     if (variable.kind == VariableKind::AutoNote)
     {
-        const std::unordered_map<uint32_t, int32_t>::const_iterator iterator = runtimeState.variables.find(variable.rawId);
+        const std::unordered_map<uint32_t, int32_t>::const_iterator iterator = runtimeState.variables.find(variable.index);
         return iterator != runtimeState.variables.end() ? iterator->second : 0;
     }
 
@@ -733,6 +1399,51 @@ int32_t EventRuntime::getVariableValue(
         return pParty != nullptr ? pParty->bankGold() : 0;
     }
 
+    if (variable.kind == VariableKind::BaseLevel
+        || variable.kind == VariableKind::LevelBonus
+        || variable.kind == VariableKind::Sex
+        || variable.kind == VariableKind::Race
+        || variable.kind == VariableKind::Age
+        || variable.kind == VariableKind::ArmorClass
+        || variable.kind == VariableKind::ArmorClassBonus)
+    {
+        const Character *pMember = resolveCharacterForVariableRead(pParty, memberIndex);
+
+        if (pMember == nullptr)
+        {
+            return 0;
+        }
+
+        switch (variable.kind)
+        {
+            case VariableKind::BaseLevel:
+                return static_cast<int32_t>(pMember->level);
+
+            case VariableKind::LevelBonus:
+                return pMember->levelModifier;
+
+            case VariableKind::Sex:
+                return static_cast<int32_t>(pMember->sexId);
+
+            case VariableKind::Race:
+                return static_cast<int32_t>(pMember->raceId);
+
+            case VariableKind::Age:
+                return resolveCharacterAge(*pMember);
+
+            case VariableKind::ArmorClass:
+                return resolveCharacterActualArmorClass(*pMember, pParty);
+
+            case VariableKind::ArmorClassBonus:
+                return pMember->armorClassModifier;
+
+            default:
+                break;
+        }
+
+        return 0;
+    }
+
     if (variable.kind == VariableKind::BaseStat
         || variable.kind == VariableKind::ActualStat
         || variable.kind == VariableKind::StatBonus
@@ -758,6 +1469,130 @@ int32_t EventRuntime::getVariableValue(
         return readCharacterVariableValue(*pMember, variable.rawId);
     }
 
+    if (variable.kind == VariableKind::StatMoreThanBase)
+    {
+        const Character *pMember = resolveCharacterForVariableRead(pParty, memberIndex);
+
+        if (pMember == nullptr)
+        {
+            return 0;
+        }
+
+        EvtVariable actualVariableId = EvtVariable::ActualMight;
+        EvtVariable baseVariableId = EvtVariable::BaseMight;
+
+        switch (variableId)
+        {
+            case EvtVariable::IsMightMoreThanBase:
+                actualVariableId = EvtVariable::ActualMight;
+                baseVariableId = EvtVariable::BaseMight;
+                break;
+
+            case EvtVariable::IsIntellectMoreThanBase:
+                actualVariableId = EvtVariable::ActualIntellect;
+                baseVariableId = EvtVariable::BaseIntellect;
+                break;
+
+            case EvtVariable::IsPersonalityMoreThanBase:
+                actualVariableId = EvtVariable::ActualPersonality;
+                baseVariableId = EvtVariable::BasePersonality;
+                break;
+
+            case EvtVariable::IsEnduranceMoreThanBase:
+                actualVariableId = EvtVariable::ActualEndurance;
+                baseVariableId = EvtVariable::BaseEndurance;
+                break;
+
+            case EvtVariable::IsSpeedMoreThanBase:
+                actualVariableId = EvtVariable::ActualSpeed;
+                baseVariableId = EvtVariable::BaseSpeed;
+                break;
+
+            case EvtVariable::IsAccuracyMoreThanBase:
+                actualVariableId = EvtVariable::ActualAccuracy;
+                baseVariableId = EvtVariable::BaseAccuracy;
+                break;
+
+            case EvtVariable::IsLuckMoreThanBase:
+                actualVariableId = EvtVariable::ActualLuck;
+                baseVariableId = EvtVariable::BaseLuck;
+                break;
+
+            default:
+                break;
+        }
+
+        const int actualValue = readCharacterActualStatValue(*pMember, static_cast<uint32_t>(actualVariableId), pParty);
+        const int baseValue = GameMechanics::resolveCharacterDisplayedBasePrimaryStat(
+            *pMember,
+            static_cast<uint32_t>(baseVariableId),
+            pParty != nullptr ? pParty->itemTable() : nullptr,
+            pParty != nullptr ? pParty->standardItemEnchantTable() : nullptr,
+            pParty != nullptr ? pParty->specialItemEnchantTable() : nullptr);
+        return actualValue >= baseValue ? 1 : 0;
+    }
+
+    if (variable.kind == VariableKind::Skill)
+    {
+        const Character *pMember = resolveCharacterForVariableRead(pParty, memberIndex);
+
+        if (pMember == nullptr)
+        {
+            return 0;
+        }
+
+        const std::optional<std::string> skillName = skillNameForEvtVariable(variableId);
+
+        if (!skillName)
+        {
+            return 0;
+        }
+
+        const CharacterSkill *pSkill = pMember->findSkill(*skillName);
+
+        if (pSkill == nullptr)
+        {
+            return 0;
+        }
+
+        return joinedSkillValue(pSkill->level, pSkill->mastery);
+    }
+
+    if (variable.kind == VariableKind::Condition)
+    {
+        const Character *pMember = resolveCharacterForVariableRead(pParty, memberIndex);
+
+        if (pMember == nullptr)
+        {
+            return 0;
+        }
+
+        const std::optional<CharacterCondition> condition = conditionForEvtVariable(variableId);
+
+        if (!condition)
+        {
+            return 0;
+        }
+
+        return pMember->conditions.test(static_cast<size_t>(*condition)) ? 1 : 0;
+    }
+
+    if (variable.kind == VariableKind::MajorCondition)
+    {
+        const Character *pMember = resolveCharacterForVariableRead(pParty, memberIndex);
+        return pMember != nullptr ? resolveCharacterMajorConditionValue(*pMember) : 0;
+    }
+
+    if (variable.kind == VariableKind::MapPersistent)
+    {
+        return variable.index < runtimeState.mapVars.size() ? runtimeState.mapVars[variable.index] : 0;
+    }
+
+    if (variable.kind == VariableKind::DecorPersistent)
+    {
+        return variable.index < runtimeState.decorVars.size() ? runtimeState.decorVars[variable.index] : 0;
+    }
+
     if (variable.kind == VariableKind::QBits || variable.kind == VariableKind::BoolFlag)
     {
         if (variable.kind == VariableKind::QBits
@@ -773,6 +1608,85 @@ int32_t EventRuntime::getVariableValue(
         return iterator != runtimeState.variables.end() ? iterator->second : 0;
     }
 
+    if (variable.kind == VariableKind::PartyState)
+    {
+        const Character *pMember = resolveCharacterForVariableRead(pParty, memberIndex);
+
+        switch (variableId)
+        {
+            case EvtVariable::PlayerBits:
+                return pMember != nullptr
+                    ? ((pMember->playerBits & (1u << std::min<uint32_t>(variable.index, MaxBitfieldFlagIndex))) != 0 ? 1 : 0)
+                    : 0;
+
+            case EvtVariable::Npcs2:
+                return pMember != nullptr
+                    ? ((pMember->npcs2 & (1u << std::min<uint32_t>(variable.index, MaxBitfieldFlagIndex))) != 0 ? 1 : 0)
+                    : 0;
+
+            case EvtVariable::IsFlying:
+                return pParty != nullptr && pParty->hasPartyBuff(PartyBuffId::Fly) ? 1 : 0;
+
+            case EvtVariable::NumSkillPoints:
+                return pMember != nullptr ? static_cast<int32_t>(pMember->skillPoints) : 0;
+
+            case EvtVariable::MonthIs:
+                return resolveMonthFromDayOfYear(getVariableValue(
+                    runtimeState,
+                    decodeVariable(static_cast<uint32_t>(EvtVariable::DayOfYear)),
+                    pParty));
+
+            case EvtVariable::Counter1:
+            case EvtVariable::Counter2:
+            case EvtVariable::Counter3:
+            case EvtVariable::Counter4:
+            case EvtVariable::Counter5:
+            case EvtVariable::Counter6:
+            case EvtVariable::Counter7:
+            case EvtVariable::Counter8:
+            case EvtVariable::Counter9:
+            case EvtVariable::Counter10:
+                return pParty != nullptr ? pParty->eventVariableValue(variable.tag) : 0;
+
+            case EvtVariable::ReputationInCurrentLocation:
+            case EvtVariable::Unknown1:
+            case EvtVariable::NumDeaths:
+            case EvtVariable::NumBounties:
+            case EvtVariable::PrisonTerms:
+            case EvtVariable::ArenaWinsPage:
+            case EvtVariable::ArenaWinsSquire:
+            case EvtVariable::ArenaWinsKnight:
+            case EvtVariable::ArenaWinsLord:
+                return pParty != nullptr ? pParty->eventVariableValue(variable.tag) : 0;
+
+            case EvtVariable::Invisible:
+                return pParty != nullptr && pParty->hasPartyBuff(PartyBuffId::Invisibility) ? 1 : 0;
+
+            default:
+                break;
+        }
+    }
+
+    if (pParty != nullptr)
+    {
+        const int32_t partyValue = pParty->eventVariableValue(variable.tag);
+
+        if (partyValue != 0)
+        {
+            return partyValue;
+        }
+    }
+
+    if (const Character *pMember = resolveCharacterForVariableRead(pParty, memberIndex))
+    {
+        const auto memberIt = pMember->eventVariables.find(variable.tag);
+
+        if (memberIt != pMember->eventVariables.end())
+        {
+            return memberIt->second;
+        }
+    }
+
     const std::unordered_map<uint32_t, int32_t>::const_iterator iterator = runtimeState.variables.find(variable.rawId);
     return iterator != runtimeState.variables.end() ? iterator->second : 0;
 }
@@ -785,6 +1699,7 @@ void EventRuntime::setVariableValue(
     const std::vector<size_t> &targetMemberIndices
 )
 {
+    const EvtVariable variableId = static_cast<EvtVariable>(variable.tag);
     const std::optional<size_t> memberIndex = singleTargetMemberIndex(targetMemberIndices);
     const int32_t previousValue = getVariableValue(runtimeState, variable, pParty, memberIndex);
 
@@ -868,7 +1783,7 @@ void EventRuntime::setVariableValue(
     if (variable.kind == VariableKind::AutoNote)
     {
         const int32_t normalizedValue = value != 0 ? value : 0;
-        runtimeState.variables[variable.rawId] = normalizedValue;
+        runtimeState.variables[variable.index] = normalizedValue;
 
         if (normalizedValue != 0 && previousValue == 0)
         {
@@ -1010,7 +1925,23 @@ void EventRuntime::setVariableValue(
 
     if (variable.kind == VariableKind::GoldInBank)
     {
-        runtimeState.variables[variable.rawId] = value;
+        if (pParty != nullptr)
+        {
+            const int delta = value - pParty->bankGold();
+
+            if (delta >= 0)
+            {
+                pParty->depositGoldToBank(delta);
+            }
+            else
+            {
+                pParty->withdrawBankGold(-delta);
+            }
+        }
+        else
+        {
+            runtimeState.variables[variable.rawId] = value;
+        }
 
         if (value > previousValue)
         {
@@ -1070,6 +2001,248 @@ void EventRuntime::setVariableValue(
         return;
     }
 
+    if (variable.kind == VariableKind::BaseLevel
+        || variable.kind == VariableKind::LevelBonus
+        || variable.kind == VariableKind::Sex
+        || variable.kind == VariableKind::Race
+        || variable.kind == VariableKind::Age
+        || variable.kind == VariableKind::ArmorClassBonus)
+    {
+        if (pParty == nullptr || targetMemberIndices.empty())
+        {
+            return;
+        }
+
+        for (size_t targetMemberIndex : targetMemberIndices)
+        {
+            Character *pMember = pParty->member(targetMemberIndex);
+
+            if (pMember == nullptr)
+            {
+                continue;
+            }
+
+            switch (variable.kind)
+            {
+                case VariableKind::BaseLevel:
+                    pMember->level = std::max(1, value);
+                    break;
+
+                case VariableKind::LevelBonus:
+                    pMember->levelModifier = value;
+                    break;
+
+                case VariableKind::Sex:
+                    pMember->sexId = std::max(0, value);
+                    break;
+
+                case VariableKind::Race:
+                    pMember->raceId = std::max(0, value);
+                    break;
+
+                case VariableKind::Age:
+                    pMember->ageModifier = value;
+                    break;
+
+                case VariableKind::ArmorClassBonus:
+                    pMember->armorClassModifier = value;
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
+        return;
+    }
+
+    if (variable.kind == VariableKind::Skill)
+    {
+        if (pParty == nullptr || targetMemberIndices.empty())
+        {
+            return;
+        }
+
+        const std::optional<std::string> skillName = skillNameForEvtVariable(variableId);
+
+        if (!skillName)
+        {
+            return;
+        }
+
+        const uint16_t joinedValue = static_cast<uint16_t>(std::max(0, value));
+        const uint32_t level = joinedValue & 0x3Fu;
+        const SkillMastery mastery = masteryFromJoinedValue(joinedValue);
+
+        for (size_t targetMemberIndex : targetMemberIndices)
+        {
+            Character *pMember = pParty->member(targetMemberIndex);
+
+            if (pMember == nullptr)
+            {
+                continue;
+            }
+
+            if (level == 0 || mastery == SkillMastery::None)
+            {
+                pMember->skills.erase(*skillName);
+                continue;
+            }
+
+            CharacterSkill &skill = pMember->skills[*skillName];
+            skill.name = *skillName;
+            skill.level = level;
+            skill.mastery = mastery;
+        }
+
+        return;
+    }
+
+    if (variable.kind == VariableKind::Condition)
+    {
+        if (pParty == nullptr || targetMemberIndices.empty())
+        {
+            return;
+        }
+
+        const std::optional<CharacterCondition> condition = conditionForEvtVariable(variableId);
+
+        if (!condition)
+        {
+            return;
+        }
+
+        for (size_t targetMemberIndex : targetMemberIndices)
+        {
+            Character *pMember = pParty->member(targetMemberIndex);
+
+            if (pMember == nullptr)
+            {
+                continue;
+            }
+
+            pMember->conditions.set(static_cast<size_t>(*condition), value != 0);
+        }
+
+        return;
+    }
+
+    if (variable.kind == VariableKind::MajorCondition)
+    {
+        if (pParty == nullptr || targetMemberIndices.empty())
+        {
+            return;
+        }
+
+        for (size_t targetMemberIndex : targetMemberIndices)
+        {
+            Character *pMember = pParty->member(targetMemberIndex);
+
+            if (pMember != nullptr)
+            {
+                pMember->conditions.reset();
+            }
+        }
+
+        return;
+    }
+
+    if (variable.kind == VariableKind::MapPersistent)
+    {
+        if (variable.index < runtimeState.mapVars.size())
+        {
+            runtimeState.mapVars[variable.index] = static_cast<uint8_t>(std::clamp(value, 0, 255));
+        }
+        return;
+    }
+
+    if (variable.kind == VariableKind::DecorPersistent)
+    {
+        if (variable.index < runtimeState.decorVars.size())
+        {
+            runtimeState.decorVars[variable.index] = static_cast<uint8_t>(std::clamp(value, 0, 255));
+        }
+        return;
+    }
+
+    if (variable.kind == VariableKind::PartyState)
+    {
+        if (variableId == EvtVariable::PlayerBits && pParty != nullptr)
+        {
+            for (size_t targetMemberIndex : targetMemberIndices)
+            {
+                Character *pMember = pParty->member(targetMemberIndex);
+
+                if (pMember == nullptr || variable.index >= 32)
+                {
+                    continue;
+                }
+
+                if (value != 0)
+                {
+                    pMember->playerBits |= (1u << std::min<uint32_t>(variable.index, MaxBitfieldFlagIndex));
+                }
+                else
+                {
+                    pMember->playerBits &= ~(1u << std::min<uint32_t>(variable.index, MaxBitfieldFlagIndex));
+                }
+            }
+
+            return;
+        }
+
+        if (variableId == EvtVariable::Npcs2 && pParty != nullptr)
+        {
+            for (size_t targetMemberIndex : targetMemberIndices)
+            {
+                Character *pMember = pParty->member(targetMemberIndex);
+
+                if (pMember == nullptr || variable.index >= 32)
+                {
+                    continue;
+                }
+
+                if (value != 0)
+                {
+                    pMember->npcs2 |= (1u << std::min<uint32_t>(variable.index, MaxBitfieldFlagIndex));
+                }
+                else
+                {
+                    pMember->npcs2 &= ~(1u << std::min<uint32_t>(variable.index, MaxBitfieldFlagIndex));
+                }
+            }
+
+            return;
+        }
+
+        if ((variableId >= EvtVariable::Counter1 && variableId <= EvtVariable::Counter10) && pParty != nullptr)
+        {
+            pParty->setEventVariableValue(variable.tag, currentGameMinutesFromRuntimeState(runtimeState));
+            return;
+        }
+
+        if (variableId == EvtVariable::NumSkillPoints && pParty != nullptr)
+        {
+            for (size_t targetMemberIndex : targetMemberIndices)
+            {
+                Character *pMember = pParty->member(targetMemberIndex);
+
+                if (pMember != nullptr)
+                {
+                    pMember->skillPoints = std::max(0, value);
+                }
+            }
+
+            return;
+        }
+
+        if (pParty != nullptr)
+        {
+            pParty->setEventVariableValue(variable.tag, value);
+            return;
+        }
+    }
+
     if (variable.kind == VariableKind::QBits || variable.kind == VariableKind::BoolFlag)
     {
         runtimeState.variables[variable.rawId] = value != 0 ? 1 : 0;
@@ -1079,6 +2252,30 @@ void EventRuntime::setVariableValue(
             queuePortraitFxRequest(runtimeState, PortraitFxEventKind::AwardGain, pParty, targetMemberIndices);
         }
 
+        return;
+    }
+
+    if (pParty != nullptr && memberIndex)
+    {
+        Character *pMember = pParty->member(*memberIndex);
+
+        if (pMember != nullptr)
+        {
+            if (value == 0)
+            {
+                pMember->eventVariables.erase(variable.tag);
+            }
+            else
+            {
+                pMember->eventVariables[variable.tag] = value;
+            }
+            return;
+        }
+    }
+
+    if (pParty != nullptr)
+    {
+        pParty->setEventVariableValue(variable.tag, value);
         return;
     }
 
@@ -1093,6 +2290,7 @@ void EventRuntime::addVariableValue(
     const std::vector<size_t> &targetMemberIndices
 )
 {
+    const EvtVariable variableId = static_cast<EvtVariable>(variable.tag);
     const std::optional<size_t> memberIndex = singleTargetMemberIndex(targetMemberIndices);
     const int32_t previousValue = getVariableValue(runtimeState, variable, pParty, memberIndex);
 
@@ -1165,7 +2363,7 @@ void EventRuntime::addVariableValue(
     if (variable.kind == VariableKind::AutoNote)
     {
         const int32_t updatedValue = previousValue != 0 ? previousValue : value;
-        runtimeState.variables[variable.rawId] = updatedValue;
+        runtimeState.variables[variable.index] = updatedValue;
 
         if (updatedValue != 0 && previousValue == 0)
         {
@@ -1273,7 +2471,14 @@ void EventRuntime::addVariableValue(
 
     if (variable.kind == VariableKind::GoldInBank)
     {
-        runtimeState.variables[variable.rawId] = previousValue + value;
+        if (pParty != nullptr)
+        {
+            pParty->depositGoldToBank(value);
+        }
+        else
+        {
+            runtimeState.variables[variable.rawId] = previousValue + value;
+        }
 
         if (value > 0)
         {
@@ -1334,6 +2539,82 @@ void EventRuntime::addVariableValue(
         return;
     }
 
+    if (variable.kind == VariableKind::MapPersistent)
+    {
+        if (variable.index < runtimeState.mapVars.size())
+        {
+            const int updatedValue = std::clamp(static_cast<int>(runtimeState.mapVars[variable.index]) + value, 0, 255);
+            runtimeState.mapVars[variable.index] = static_cast<uint8_t>(updatedValue);
+        }
+        return;
+    }
+
+    if (variable.kind == VariableKind::DecorPersistent)
+    {
+        if (variable.index < runtimeState.decorVars.size())
+        {
+            const int updatedValue = std::clamp(static_cast<int>(runtimeState.decorVars[variable.index]) + value, 0, 255);
+            runtimeState.decorVars[variable.index] = static_cast<uint8_t>(updatedValue);
+        }
+        return;
+    }
+
+    if (variable.kind == VariableKind::Skill)
+    {
+        if (pParty == nullptr || targetMemberIndices.empty())
+        {
+            return;
+        }
+
+        const std::optional<std::string> skillName = skillNameForEvtVariable(variableId);
+
+        if (!skillName)
+        {
+            return;
+        }
+
+        for (size_t targetMemberIndex : targetMemberIndices)
+        {
+            Character *pMember = pParty->member(targetMemberIndex);
+
+            if (pMember == nullptr)
+            {
+                continue;
+            }
+
+            CharacterSkill &skill = pMember->skills[*skillName];
+            skill.name = *skillName;
+            skill.level = std::max(0, static_cast<int>(skill.level) + value);
+
+            if (skill.level == 0)
+            {
+                skill.mastery = SkillMastery::None;
+                pMember->skills.erase(*skillName);
+            }
+            else if (skill.mastery == SkillMastery::None)
+            {
+                skill.mastery = SkillMastery::Normal;
+            }
+        }
+
+        return;
+    }
+
+    if (variable.kind == VariableKind::PartyState)
+    {
+        if ((variableId >= EvtVariable::Counter1 && variableId <= EvtVariable::Counter10) && pParty != nullptr)
+        {
+            pParty->setEventVariableValue(variable.tag, currentGameMinutesFromRuntimeState(runtimeState));
+            return;
+        }
+
+        if (pParty != nullptr)
+        {
+            pParty->addEventVariableValue(variable.tag, value);
+            return;
+        }
+    }
+
     if (variable.kind == VariableKind::QBits || variable.kind == VariableKind::BoolFlag)
     {
         runtimeState.variables[variable.rawId] = value != 0 ? 1 : 0;
@@ -1344,6 +2625,27 @@ void EventRuntime::addVariableValue(
         }
 
         return;
+    }
+
+    if (pParty != nullptr && memberIndex)
+    {
+        Character *pMember = pParty->member(*memberIndex);
+
+        if (pMember != nullptr)
+        {
+            const int32_t currentValue = getVariableValue(runtimeState, variable, pParty, memberIndex);
+            const int32_t updatedValue = currentValue + value;
+
+            if (updatedValue == 0)
+            {
+                pMember->eventVariables.erase(variable.tag);
+            }
+            else
+            {
+                pMember->eventVariables[variable.tag] = updatedValue;
+            }
+            return;
+        }
     }
 
     runtimeState.variables[variable.rawId] = getVariableValue(runtimeState, variable, nullptr) + value;
@@ -1357,6 +2659,7 @@ void EventRuntime::subtractVariableValue(
     const std::vector<size_t> &targetMemberIndices
 )
 {
+    const EvtVariable variableId = static_cast<EvtVariable>(variable.tag);
     if (variable.kind == VariableKind::Inventory)
     {
         if (pParty != nullptr && !targetMemberIndices.empty())
@@ -1379,7 +2682,7 @@ void EventRuntime::subtractVariableValue(
     {
         if (value > 0)
         {
-            runtimeState.variables[variable.rawId] = 0;
+            runtimeState.variables[variable.index] = 0;
         }
 
         return;
@@ -1513,7 +2816,14 @@ void EventRuntime::subtractVariableValue(
 
     if (variable.kind == VariableKind::GoldInBank)
     {
-        runtimeState.variables[variable.rawId] = getVariableValue(runtimeState, variable, nullptr) - value;
+        if (pParty != nullptr)
+        {
+            pParty->withdrawBankGold(value);
+        }
+        else
+        {
+            runtimeState.variables[variable.rawId] = getVariableValue(runtimeState, variable, nullptr) - value;
+        }
 
         if (value > 0)
         {
@@ -1555,10 +2865,109 @@ void EventRuntime::subtractVariableValue(
         return;
     }
 
+    if (variable.kind == VariableKind::MapPersistent)
+    {
+        if (variable.index < runtimeState.mapVars.size())
+        {
+            const int updatedValue = std::clamp(static_cast<int>(runtimeState.mapVars[variable.index]) - value, 0, 255);
+            runtimeState.mapVars[variable.index] = static_cast<uint8_t>(updatedValue);
+        }
+        return;
+    }
+
+    if (variable.kind == VariableKind::DecorPersistent)
+    {
+        if (variable.index < runtimeState.decorVars.size())
+        {
+            const int updatedValue = std::clamp(static_cast<int>(runtimeState.decorVars[variable.index]) - value, 0, 255);
+            runtimeState.decorVars[variable.index] = static_cast<uint8_t>(updatedValue);
+        }
+        return;
+    }
+
+    if (variable.kind == VariableKind::Skill)
+    {
+        if (pParty == nullptr || targetMemberIndices.empty())
+        {
+            return;
+        }
+
+        const std::optional<std::string> skillName = skillNameForEvtVariable(variableId);
+
+        if (!skillName)
+        {
+            return;
+        }
+
+        for (size_t targetMemberIndex : targetMemberIndices)
+        {
+            Character *pMember = pParty->member(targetMemberIndex);
+
+            if (pMember == nullptr)
+            {
+                continue;
+            }
+
+            CharacterSkill *pSkill = pMember->findSkill(*skillName);
+
+            if (pSkill == nullptr)
+            {
+                continue;
+            }
+
+            pSkill->level = std::max(0, static_cast<int>(pSkill->level) - value);
+
+            if (pSkill->level == 0)
+            {
+                pMember->skills.erase(*skillName);
+            }
+        }
+
+        return;
+    }
+
+    if (variable.kind == VariableKind::PartyState)
+    {
+        if ((variableId >= EvtVariable::Counter1 && variableId <= EvtVariable::Counter10) && pParty != nullptr)
+        {
+            pParty->setEventVariableValue(variable.tag, 0);
+            return;
+        }
+
+        if (pParty != nullptr)
+        {
+            pParty->subtractEventVariableValue(variable.tag, value);
+            return;
+        }
+    }
+
     if (variable.kind == VariableKind::QBits || variable.kind == VariableKind::BoolFlag)
     {
         runtimeState.variables[variable.rawId] = 0;
         return;
+    }
+
+    const std::optional<size_t> memberIndex = singleTargetMemberIndex(targetMemberIndices);
+
+    if (pParty != nullptr && memberIndex)
+    {
+        Character *pMember = pParty->member(*memberIndex);
+
+        if (pMember != nullptr)
+        {
+            const int32_t currentValue = getVariableValue(runtimeState, variable, pParty, memberIndex);
+            const int32_t updatedValue = currentValue - value;
+
+            if (updatedValue == 0)
+            {
+                pMember->eventVariables.erase(variable.tag);
+            }
+            else
+            {
+                pMember->eventVariables[variable.tag] = updatedValue;
+            }
+            return;
+        }
     }
 
     runtimeState.variables[variable.rawId] = getVariableValue(runtimeState, variable, nullptr) - value;
@@ -1584,19 +2993,15 @@ bool EventRuntime::buildOnLoadState(
             runtimeMechanism.timeSinceTriggeredMs = float(door.timeSinceTriggered);
             runtimeMechanism.currentDistance =
                 mechanismDistanceForState(door, runtimeMechanism.state, runtimeMechanism.timeSinceTriggeredMs);
-            runtimeMechanism.isMoving = door.state == 1 || door.state == 3;
+            runtimeMechanism.isMoving =
+                door.state == static_cast<uint16_t>(EvtMechanismState::Opening)
+                || door.state == static_cast<uint16_t>(EvtMechanismState::Closing);
             runtimeState.mechanisms[door.doorId] = runtimeMechanism;
         }
 
         for (size_t mapVarIndex = 0; mapVarIndex < mapDeltaData->eventVariables.mapVars.size(); ++mapVarIndex)
         {
-            if (mapDeltaData->eventVariables.mapVars[mapVarIndex] == 0)
-            {
-                continue;
-            }
-
-            const uint32_t rawId = static_cast<uint32_t>(mapVarIndex) << 16 | 0x0011u;
-            runtimeState.variables[rawId] = mapDeltaData->eventVariables.mapVars[mapVarIndex];
+            runtimeState.mapVars[mapVarIndex] = mapDeltaData->eventVariables.mapVars[mapVarIndex];
         }
     }
 
@@ -1654,7 +3059,8 @@ bool EventRuntime::canShowTopic(
     const std::optional<EventIrProgram> &globalProgram,
     uint16_t topicId,
     const EventRuntimeState &runtimeState,
-    const Party *pParty
+    const Party *pParty,
+    const ISceneEventContext *pSceneEventContext
 ) const
 {
     if (topicId == 0 || !globalProgram)
@@ -1663,7 +3069,7 @@ bool EventRuntime::canShowTopic(
     }
 
     const EventIrEvent *pEvent = findEventById(*globalProgram, topicId);
-    return pEvent == nullptr ? true : evaluateCanShowTopic(*pEvent, runtimeState, pParty);
+    return pEvent == nullptr ? true : evaluateCanShowTopic(*pEvent, runtimeState, pParty, pSceneEventContext);
 }
 
 void EventRuntime::advanceMechanisms(
@@ -1692,25 +3098,25 @@ void EventRuntime::advanceMechanisms(
         runtimeMechanism.currentDistance =
             calculateMechanismDistance(door, runtimeMechanism);
 
-        if (runtimeMechanism.state == 3)
+        if (runtimeMechanism.state == static_cast<uint16_t>(EvtMechanismState::Closing))
         {
             const float openedDistance = runtimeMechanism.timeSinceTriggeredMs * float(door.openSpeed) / 1000.0f;
 
             if (openedDistance >= float(door.moveLength))
             {
-                runtimeMechanism.state = 0;
+                runtimeMechanism.state = static_cast<uint16_t>(EvtMechanismState::Closed);
                 runtimeMechanism.timeSinceTriggeredMs = 0.0f;
                 runtimeMechanism.currentDistance = 0.0f;
                 runtimeMechanism.isMoving = false;
             }
         }
-        else if (runtimeMechanism.state == 1)
+        else if (runtimeMechanism.state == static_cast<uint16_t>(EvtMechanismState::Opening))
         {
             const float closedDistance = runtimeMechanism.timeSinceTriggeredMs * float(door.closeSpeed) / 1000.0f;
 
             if (closedDistance >= float(door.moveLength))
             {
-                runtimeMechanism.state = 2;
+                runtimeMechanism.state = static_cast<uint16_t>(EvtMechanismState::Open);
                 runtimeMechanism.timeSinceTriggeredMs = 0.0f;
                 runtimeMechanism.currentDistance = static_cast<float>(door.moveLength);
                 runtimeMechanism.isMoving = false;
@@ -1807,20 +3213,21 @@ void EventRuntime::applyMechanismAction(
 {
     if (action == MechanismAction::Trigger)
     {
-        if (runtimeMechanism.state == 1 || runtimeMechanism.state == 3)
+        if (runtimeMechanism.state == static_cast<uint16_t>(EvtMechanismState::Opening)
+            || runtimeMechanism.state == static_cast<uint16_t>(EvtMechanismState::Closing))
         {
             return;
         }
 
         runtimeMechanism.timeSinceTriggeredMs = 0.0f;
 
-        if (runtimeMechanism.state == 2)
+        if (runtimeMechanism.state == static_cast<uint16_t>(EvtMechanismState::Open))
         {
-            runtimeMechanism.state = 3;
+            runtimeMechanism.state = static_cast<uint16_t>(EvtMechanismState::Closing);
         }
         else
         {
-            runtimeMechanism.state = 1;
+            runtimeMechanism.state = static_cast<uint16_t>(EvtMechanismState::Opening);
         }
 
         runtimeMechanism.isMoving = true;
@@ -1829,26 +3236,28 @@ void EventRuntime::applyMechanismAction(
 
     if (action == MechanismAction::Open)
     {
-        if (runtimeMechanism.state == 0 || runtimeMechanism.state == 3)
+        if (runtimeMechanism.state == static_cast<uint16_t>(EvtMechanismState::Closed)
+            || runtimeMechanism.state == static_cast<uint16_t>(EvtMechanismState::Closing))
         {
             return;
         }
 
         runtimeMechanism.timeSinceTriggeredMs = 0.0f;
-        runtimeMechanism.state = 3;
+        runtimeMechanism.state = static_cast<uint16_t>(EvtMechanismState::Closing);
         runtimeMechanism.isMoving = true;
         return;
     }
 
     if (action == MechanismAction::Close)
     {
-        if (runtimeMechanism.state == 2 || runtimeMechanism.state == 1)
+        if (runtimeMechanism.state == static_cast<uint16_t>(EvtMechanismState::Open)
+            || runtimeMechanism.state == static_cast<uint16_t>(EvtMechanismState::Opening))
         {
             return;
         }
 
         runtimeMechanism.timeSinceTriggeredMs = 0.0f;
-        runtimeMechanism.state = 1;
+        runtimeMechanism.state = static_cast<uint16_t>(EvtMechanismState::Opening);
         runtimeMechanism.isMoving = true;
     }
 }
@@ -1897,6 +3306,7 @@ bool EventRuntime::evaluateCompare(
     }
 
     const VariableRef variable = decodeVariable(instruction.arguments[0]);
+    const EvtVariable variableId = static_cast<EvtVariable>(variable.tag);
     const int32_t compareValue = static_cast<int32_t>(instruction.arguments[1]);
     const std::optional<size_t> memberIndex = singleTargetMemberIndex(targetMemberIndices);
     const int32_t currentValue = getVariableValue(runtimeState, variable, pParty, memberIndex);
@@ -1927,9 +3337,15 @@ bool EventRuntime::evaluateCompare(
     if (variable.kind == VariableKind::AutoNote
         || variable.kind == VariableKind::QBits
         || variable.kind == VariableKind::BoolFlag
-        || variable.kind == VariableKind::Inventory)
+        || variable.kind == VariableKind::Condition
+        || variable.kind == VariableKind::StatMoreThanBase)
     {
         return currentValue != 0;
+    }
+
+    if (variable.kind == VariableKind::Inventory)
+    {
+        return currentValue >= compareValue;
     }
 
     if (variable.kind == VariableKind::DayOfWeek
@@ -1950,23 +3366,76 @@ bool EventRuntime::evaluateCompare(
 
         if (variable.kind == VariableKind::MaxHealth)
         {
-            return pMember->health >= resolveCharacterEffectiveMaxHealth(*pMember) + compareValue;
+            return pMember->health >= resolveCharacterEffectiveMaxHealth(*pMember);
         }
 
-        return pMember->spellPoints >= resolveCharacterEffectiveMaxSpellPoints(*pMember) + compareValue;
+        return pMember->spellPoints >= resolveCharacterEffectiveMaxSpellPoints(*pMember);
     }
 
-    return variable.kind == VariableKind::QBits
-        || variable.kind == VariableKind::BoolFlag
-        || variable.kind == VariableKind::Inventory
-        ? (currentValue != 0)
-        : (currentValue >= compareValue);
+    if (variable.kind == VariableKind::PartyState)
+    {
+        if (variableId == EvtVariable::MonthIs)
+        {
+            return currentValue == compareValue;
+        }
+
+        if (variableId >= EvtVariable::Counter1 && variableId <= EvtVariable::Counter10)
+        {
+            if (currentValue == 0)
+            {
+                return false;
+            }
+
+            return currentGameMinutesFromRuntimeState(runtimeState) >= currentValue + compareValue * 60;
+        }
+
+        if (variableId == EvtVariable::Unknown1)
+        {
+            return currentValue == compareValue;
+        }
+
+        if (variableId == EvtVariable::ItemEquipped)
+        {
+            if (!memberIndex || pParty == nullptr)
+            {
+                return false;
+            }
+
+            const Character *pMember = pParty->member(*memberIndex);
+
+            if (pMember == nullptr)
+            {
+                return false;
+            }
+
+            const uint32_t itemId = static_cast<uint32_t>(compareValue);
+            return pMember->equipment.offHand == itemId
+                || pMember->equipment.mainHand == itemId
+                || pMember->equipment.bow == itemId
+                || pMember->equipment.armor == itemId
+                || pMember->equipment.helm == itemId
+                || pMember->equipment.belt == itemId
+                || pMember->equipment.cloak == itemId
+                || pMember->equipment.gauntlets == itemId
+                || pMember->equipment.boots == itemId
+                || pMember->equipment.amulet == itemId
+                || pMember->equipment.ring1 == itemId
+                || pMember->equipment.ring2 == itemId
+                || pMember->equipment.ring3 == itemId
+                || pMember->equipment.ring4 == itemId
+                || pMember->equipment.ring5 == itemId
+                || pMember->equipment.ring6 == itemId;
+        }
+    }
+
+    return currentValue >= compareValue;
 }
 
 bool EventRuntime::evaluateCanShowTopic(
     const EventIrEvent &event,
     const EventRuntimeState &runtimeState,
-    const Party *pParty
+    const Party *pParty,
+    const ISceneEventContext *pSceneEventContext
 )
 {
     std::unordered_map<uint8_t, size_t> stepToInstructionIndex;
@@ -2011,6 +3480,33 @@ bool EventRuntime::evaluateCanShowTopic(
                 break;
             }
 
+            case EventIrOperation::IsActorKilledCanShowTopic:
+            {
+                sawCanShowInstruction = true;
+                if (instruction.arguments.size() >= 4 && pSceneEventContext != nullptr)
+                {
+                    const uint32_t checkType = instruction.arguments[0];
+                    const uint32_t id = instruction.arguments[1];
+                    const uint32_t count = instruction.arguments[2];
+                    const bool invisibleAsDead = instruction.arguments[3] != 0;
+                    const bool killed =
+                        pSceneEventContext->checkMonstersKilled(checkType, id, count, invisibleAsDead);
+
+                    if (killed && instruction.jumpTargetStep)
+                    {
+                        const std::unordered_map<uint8_t, size_t>::const_iterator iterator =
+                            stepToInstructionIndex.find(*instruction.jumpTargetStep);
+
+                        if (iterator != stepToInstructionIndex.end())
+                        {
+                            instructionIndex = iterator->second;
+                            continue;
+                        }
+                    }
+                }
+                break;
+            }
+
             case EventIrOperation::SetCanShowTopic:
                 sawCanShowInstruction = true;
                 isVisible = !instruction.arguments.empty() && instruction.arguments[0] != 0;
@@ -2044,6 +3540,9 @@ bool EventRuntime::executeEvent(
     runtimeState.removedAwardIds.clear();
     runtimeState.pendingDialogueContext.reset();
     runtimeState.pendingMapMove.reset();
+    runtimeState.pendingMovie.reset();
+    runtimeState.pendingInputPrompt.reset();
+    runtimeState.pendingSounds.clear();
     syncTimeVariablesFromSceneContext(runtimeState, pSceneEventContext);
 
     std::unordered_map<uint8_t, size_t> stepToInstructionIndex;
@@ -2076,13 +3575,7 @@ bool EventRuntime::executeEvent(
             case EventIrOperation::CompareCanShowTopic:
             case EventIrOperation::SetCanShowTopic:
             case EventIrOperation::EndCanShowTopic:
-            case EventIrOperation::CheckItemsCount:
-            case EventIrOperation::CheckSkill:
-            case EventIrOperation::MoveNpc:
-            case EventIrOperation::RandomJump:
-            case EventIrOperation::SummonItem:
-            case EventIrOperation::SetNpcGreeting:
-            case EventIrOperation::CharacterAnimation:
+            case EventIrOperation::LocationName:
                 break;
 
             case EventIrOperation::ForPartyMember:
@@ -2090,6 +3583,191 @@ bool EventRuntime::executeEvent(
                 std::cout << "  player_selector="
                           << (instruction.arguments.empty() ? 0 : instruction.arguments[0]) << '\n';
                 break;
+
+            case EventIrOperation::PlaySound:
+            {
+                if (instruction.arguments.size() >= 3)
+                {
+                    const uint32_t soundId = instruction.arguments[0];
+                    const int32_t x = static_cast<int32_t>(instruction.arguments[1]);
+                    const int32_t y = static_cast<int32_t>(instruction.arguments[2]);
+                    const bool positional = x != 0 || y != 0;
+                    queuePendingSound(runtimeState, soundId, x, y, positional);
+                    std::cout << "  play_sound id=" << soundId
+                              << " x=" << x
+                              << " y=" << y
+                              << " positional=" << (positional ? "1" : "0") << '\n';
+                }
+                break;
+            }
+
+            case EventIrOperation::MoveNpc:
+            {
+                if (instruction.arguments.size() >= 2)
+                {
+                    runtimeState.npcHouseOverrides[instruction.arguments[0]] = instruction.arguments[1];
+                    std::cout << "  move_npc npc=" << instruction.arguments[0]
+                              << " house=" << instruction.arguments[1] << '\n';
+                }
+                break;
+            }
+
+            case EventIrOperation::RandomJump:
+            {
+                std::vector<uint32_t> validTargets;
+                validTargets.reserve(instruction.arguments.size());
+
+                for (uint32_t target : instruction.arguments)
+                {
+                    if (target != 0)
+                    {
+                        validTargets.push_back(target);
+                    }
+                }
+
+                if (!validTargets.empty())
+                {
+                    const uint32_t seed = randomJumpSeed(instruction, runtimeState);
+                    const size_t choiceIndex = seed % validTargets.size();
+                    const uint8_t targetStep = static_cast<uint8_t>(validTargets[choiceIndex] & 0xffu);
+                    std::cout << "  random_jump seed=" << seed
+                              << " choice=" << choiceIndex
+                              << " -> " << static_cast<unsigned>(targetStep) << '\n';
+
+                    if (targetStep == 0)
+                    {
+                        break;
+                    }
+
+                    const auto iterator = stepToInstructionIndex.find(targetStep);
+
+                    if (iterator != stepToInstructionIndex.end())
+                    {
+                        instructionIndex = iterator->second;
+                        continue;
+                    }
+                }
+                break;
+            }
+
+            case EventIrOperation::SummonItem:
+            {
+                if (instruction.arguments.size() >= 7)
+                {
+                    const uint32_t objectId = instruction.arguments[0];
+                    const int32_t x = static_cast<int32_t>(instruction.arguments[1]);
+                    const int32_t y = static_cast<int32_t>(instruction.arguments[2]);
+                    const int32_t z = static_cast<int32_t>(instruction.arguments[3]);
+                    const int32_t speed = static_cast<int32_t>(instruction.arguments[4]);
+                    const uint32_t count = instruction.arguments[5];
+                    const bool randomRotate = instruction.arguments[6] != 0;
+                    const bool summoned =
+                        pSceneEventContext != nullptr
+                        && pSceneEventContext->summonEventItem(objectId, x, y, z, speed, count, randomRotate);
+
+                    std::cout << "  summon_item object=" << objectId
+                              << " pos=(" << x << "," << y << "," << z << ")"
+                              << " speed=" << speed
+                              << " count=" << count
+                              << " random_rotate=" << (randomRotate ? "1" : "0")
+                              << " -> " << (summoned ? "true" : "false") << '\n';
+                }
+                break;
+            }
+
+            case EventIrOperation::ShowFace:
+            {
+                if (instruction.arguments.size() >= 2 && pParty != nullptr)
+                {
+                    const std::optional<PortraitId> portraitId = eventPortraitId(instruction.arguments[1]);
+
+                    if (!portraitId)
+                    {
+                        break;
+                    }
+
+                    for (size_t memberIndex : targetMemberIndices)
+                    {
+                        Character *pMember = pParty->member(memberIndex);
+
+                        if (pMember == nullptr)
+                        {
+                            continue;
+                        }
+
+                        pMember->portraitState = *portraitId;
+                        pMember->portraitElapsedTicks = 0;
+                        pMember->portraitDurationTicks = DefaultEventPortraitDurationTicks;
+                        pMember->portraitSequenceCounter += 1;
+                    }
+
+                    std::cout << "  show_face portrait=" << instruction.arguments[1] << '\n';
+                }
+                break;
+            }
+
+            case EventIrOperation::ReceiveDamage:
+            {
+                if (instruction.arguments.size() >= 3 && pParty != nullptr)
+                {
+                    const int damage = static_cast<int>(instruction.arguments[2]);
+                    const std::string status = damageStatusForEvtVariable(targetMemberIndices);
+
+                    for (size_t memberIndex : targetMemberIndices)
+                    {
+                        pParty->applyDamageToMember(memberIndex, damage, status);
+                    }
+
+                    std::cout << "  receive_damage type=" << instruction.arguments[1]
+                              << " damage=" << damage
+                              << " targets=" << targetMemberIndices.size() << '\n';
+                }
+                break;
+            }
+
+            case EventIrOperation::SetSnow:
+            {
+                if (instruction.arguments.size() >= 2 && instruction.arguments[0] == 0)
+                {
+                    runtimeState.snowEnabled = instruction.arguments[1] != 0;
+                    std::cout << "  set_snow enabled=" << (*runtimeState.snowEnabled ? "1" : "0") << '\n';
+                }
+                break;
+            }
+
+            case EventIrOperation::ShowMovie:
+            {
+                if (instruction.text && !instruction.text->empty())
+                {
+                    EventRuntimeState::PendingMovie movie = {};
+                    movie.movieName = sanitizeEventString(*instruction.text);
+                    movie.restoreAfterPlayback = !instruction.arguments.empty() && instruction.arguments[0] != 0;
+                    runtimeState.pendingMovie = std::move(movie);
+                    std::cout << "  show_movie name=\"" << *instruction.text << "\"\n";
+                }
+                break;
+            }
+
+            case EventIrOperation::SetSprite:
+            {
+                if (!instruction.arguments.empty())
+                {
+                    EventRuntimeState::SpriteOverride override = {};
+                    override.hidden = instruction.arguments.size() >= 2 && instruction.arguments[1] != 0;
+
+                    if (instruction.text && !instruction.text->empty())
+                    {
+                        override.textureName = sanitizeEventString(*instruction.text);
+                    }
+
+                    runtimeState.spriteOverrides[instruction.arguments[0]] = std::move(override);
+                    std::cout << "  set_sprite cog=" << instruction.arguments[0]
+                              << " hidden="
+                              << (runtimeState.spriteOverrides[instruction.arguments[0]].hidden ? "1" : "0")
+                              << '\n';
+                }
+                break;
+            }
 
             case EventIrOperation::SpeakInHouse:
             {
@@ -2204,6 +3882,321 @@ bool EventRuntime::executeEvent(
                               << " from=(" << fromX << "," << fromY << "," << fromZ << ")"
                               << " to=(" << toX << "," << toY << "," << toZ << ")"
                               << " -> " << (casted ? "true" : "false") << '\n';
+                }
+                break;
+            }
+
+            case EventIrOperation::CheckItemsCount:
+            {
+                if (instruction.arguments.size() >= 2)
+                {
+                    const uint32_t itemId = instruction.arguments[0];
+                    const int32_t requiredCount = static_cast<int32_t>(instruction.arguments[1]);
+                    const int32_t currentCount = getInventoryItemCount(
+                        runtimeState,
+                        pParty,
+                        itemId,
+                        singleTargetMemberIndex(targetMemberIndices));
+                    const bool hasEnough = currentCount >= requiredCount;
+
+                    std::cout << "  check_items item=" << itemId
+                              << " count=" << requiredCount
+                              << " current=" << currentCount
+                              << " -> " << (hasEnough ? "true" : "false") << '\n';
+
+                    if (hasEnough && instruction.jumpTargetStep)
+                    {
+                        const auto iterator = stepToInstructionIndex.find(*instruction.jumpTargetStep);
+
+                        if (iterator != stepToInstructionIndex.end())
+                        {
+                            instructionIndex = iterator->second;
+                            continue;
+                        }
+                    }
+                }
+                break;
+            }
+
+            case EventIrOperation::CheckSkill:
+            {
+                if (instruction.arguments.size() >= 3 && pParty != nullptr)
+                {
+                    const EvtVariable skillVariable = static_cast<EvtVariable>(instruction.arguments[0]);
+                    const SkillMastery requiredMastery = static_cast<SkillMastery>(instruction.arguments[1]);
+                    const uint32_t requiredLevel = instruction.arguments[2];
+                    bool passed = false;
+
+                    for (size_t memberIndex : targetMemberIndices)
+                    {
+                        const Character *pMember = pParty->member(memberIndex);
+
+                        if (pMember != nullptr
+                            && characterMeetsSkillCheck(*pMember, skillVariable, requiredMastery, requiredLevel))
+                        {
+                            passed = true;
+                            break;
+                        }
+                    }
+
+                    std::cout << "  check_skill var=" << instruction.arguments[0]
+                              << " mastery=" << instruction.arguments[1]
+                              << " level=" << requiredLevel
+                              << " -> " << (passed ? "true" : "false") << '\n';
+
+                    if (passed && instruction.jumpTargetStep)
+                    {
+                        const auto iterator = stepToInstructionIndex.find(*instruction.jumpTargetStep);
+
+                        if (iterator != stepToInstructionIndex.end())
+                        {
+                            instructionIndex = iterator->second;
+                            continue;
+                        }
+                    }
+                }
+                break;
+            }
+
+            case EventIrOperation::SetActorGroup:
+            {
+                if (instruction.arguments.size() >= 2)
+                {
+                    runtimeState.actorIdGroupOverrides[instruction.arguments[0]] = instruction.arguments[1];
+                    std::cout << "  set_actor_group actor=" << instruction.arguments[0]
+                              << " group=" << instruction.arguments[1] << '\n';
+                }
+                break;
+            }
+
+            case EventIrOperation::SetNpcGreeting:
+            {
+                if (instruction.arguments.size() >= 2)
+                {
+                    runtimeState.npcGreetingOverrides[instruction.arguments[0]] = instruction.arguments[1];
+                    runtimeState.npcGreetingDisplayCounts[instruction.arguments[0]] = 0;
+                    std::cout << "  set_npc_greeting npc=" << instruction.arguments[0]
+                              << " greeting=" << instruction.arguments[1] << '\n';
+                }
+                break;
+            }
+
+            case EventIrOperation::SetNpcItem:
+            {
+                if (instruction.arguments.size() >= 2)
+                {
+                    runtimeState.npcItemOverrides[instruction.arguments[0]] =
+                        instruction.arguments.size() >= 3 && instruction.arguments[2] == 0 ? 0 : instruction.arguments[1];
+                    std::cout << "  set_npc_item npc=" << instruction.arguments[0]
+                              << " item=" << instruction.arguments[1] << '\n';
+                }
+                break;
+            }
+
+            case EventIrOperation::SetActorItem:
+            {
+                if (instruction.arguments.size() >= 2)
+                {
+                    const uint32_t actorId = instruction.arguments[0];
+                    const uint32_t itemId = instruction.arguments[1];
+                    const bool isGive = instruction.arguments.size() < 3 || instruction.arguments[2] != 0;
+
+                    if (isGive && itemId != 0)
+                    {
+                        runtimeState.actorItemOverrides[actorId] = itemId;
+                        runtimeState.actorSetMasks[actorId] |= static_cast<uint32_t>(EvtActorAttribute::HasItem);
+                        runtimeState.actorClearMasks[actorId] &= ~static_cast<uint32_t>(EvtActorAttribute::HasItem);
+                    }
+                    else
+                    {
+                        runtimeState.actorItemOverrides.erase(actorId);
+                        runtimeState.actorClearMasks[actorId] |= static_cast<uint32_t>(EvtActorAttribute::HasItem);
+                        runtimeState.actorSetMasks[actorId] &= ~static_cast<uint32_t>(EvtActorAttribute::HasItem);
+                    }
+
+                    std::cout << "  set_actor_item actor=" << actorId
+                              << " item=" << itemId
+                              << " give=" << (isGive ? "1" : "0") << '\n';
+                }
+                break;
+            }
+
+            case EventIrOperation::CharacterAnimation:
+            {
+                if (instruction.arguments.size() >= 2 && pParty != nullptr)
+                {
+                    const SpeechId speechId = static_cast<SpeechId>(instruction.arguments[1]);
+
+                    for (size_t memberIndex : targetMemberIndices)
+                    {
+                        pParty->requestSpeech(memberIndex, speechId);
+                    }
+
+                    std::cout << "  character_animation speech=" << instruction.arguments[1]
+                              << " targets=" << targetMemberIndices.size() << '\n';
+                }
+                break;
+            }
+
+            case EventIrOperation::IsActorKilledCanShowTopic:
+                break;
+
+            case EventIrOperation::ChangeGroup:
+            {
+                if (instruction.arguments.size() >= 2)
+                {
+                    runtimeState.actorGroupOverrides[instruction.arguments[0]] = instruction.arguments[1];
+                    std::cout << "  change_group old=" << instruction.arguments[0]
+                              << " new=" << instruction.arguments[1] << '\n';
+                }
+                break;
+            }
+
+            case EventIrOperation::ChangeGroupAlly:
+            {
+                if (instruction.arguments.size() >= 2)
+                {
+                    runtimeState.actorGroupAllyOverrides[instruction.arguments[0]] = instruction.arguments[1];
+                    std::cout << "  change_group_ally group=" << instruction.arguments[0]
+                              << " ally=" << instruction.arguments[1] << '\n';
+                }
+                break;
+            }
+
+            case EventIrOperation::CheckSeason:
+            {
+                if (!instruction.arguments.empty())
+                {
+                    const bool matches = currentSeasonFromRuntimeState(runtimeState)
+                        == static_cast<EvtSeason>(instruction.arguments[0]);
+
+                    std::cout << "  check_season season=" << instruction.arguments[0]
+                              << " -> " << (matches ? "true" : "false") << '\n';
+
+                    if (matches && instruction.jumpTargetStep)
+                    {
+                        const auto iterator = stepToInstructionIndex.find(*instruction.jumpTargetStep);
+
+                        if (iterator != stepToInstructionIndex.end())
+                        {
+                            instructionIndex = iterator->second;
+                            continue;
+                        }
+                    }
+                }
+                break;
+            }
+
+            case EventIrOperation::ToggleChestFlag:
+            {
+                if (instruction.arguments.size() >= 3)
+                {
+                    const uint32_t chestId = instruction.arguments[0];
+                    const uint32_t flag = instruction.arguments[1];
+                    const bool isOn = instruction.arguments[2] != 0;
+
+                    if (isOn)
+                    {
+                        runtimeState.chestSetMasks[chestId] |= flag;
+                        runtimeState.chestClearMasks[chestId] &= ~flag;
+                    }
+                    else
+                    {
+                        runtimeState.chestClearMasks[chestId] |= flag;
+                        runtimeState.chestSetMasks[chestId] &= ~flag;
+                    }
+
+                    if ((flag & static_cast<uint32_t>(EvtChestFlag::Opened)) != 0 && isOn)
+                    {
+                        runtimeState.openedChestIds.push_back(chestId);
+                    }
+
+                    std::cout << "  toggle_chest_flag chest=" << chestId
+                              << " flag=0x" << std::hex << flag << std::dec
+                              << " on=" << (isOn ? "1" : "0") << '\n';
+                }
+                break;
+            }
+
+            case EventIrOperation::InputString:
+            {
+                EventRuntimeState::PendingInputPrompt prompt = {};
+                prompt.kind = EventRuntimeState::PendingInputPrompt::Kind::InputString;
+                prompt.eventId = event.eventId;
+                prompt.continueStep = instruction.step + 1;
+                prompt.textId = !instruction.arguments.empty() ? instruction.arguments[0] : 0;
+                prompt.text = instruction.text;
+                runtimeState.pendingInputPrompt = std::move(prompt);
+                std::cout << "  input_string text=" << (!instruction.arguments.empty() ? instruction.arguments[0] : 0) << '\n';
+                return true;
+            }
+
+            case EventIrOperation::PressAnyKey:
+            {
+                EventRuntimeState::PendingInputPrompt prompt = {};
+                prompt.kind = EventRuntimeState::PendingInputPrompt::Kind::PressAnyKey;
+                prompt.eventId = event.eventId;
+                prompt.continueStep = instruction.step + 1;
+                runtimeState.pendingInputPrompt = std::move(prompt);
+                std::cout << "  press_any_key\n";
+                return true;
+            }
+
+            case EventIrOperation::SpecialJump:
+                std::cout << "  special_jump a="
+                          << (instruction.arguments.empty() ? 0 : instruction.arguments[0])
+                          << " b=" << (instruction.arguments.size() >= 2 ? instruction.arguments[1] : 0) << '\n';
+                break;
+
+            case EventIrOperation::IsTotalBountyHuntingAwardInRange:
+            {
+                if (instruction.arguments.size() >= 2)
+                {
+                    const int32_t totalBounty =
+                        pParty != nullptr
+                            ? pParty->eventVariableValue(static_cast<uint16_t>(EvtVariable::NumBounties))
+                            : 0;
+                    const int32_t minValue = static_cast<int32_t>(instruction.arguments[0]);
+                    const int32_t maxValue = static_cast<int32_t>(instruction.arguments[1]);
+                    const bool inRange = totalBounty >= minValue && totalBounty <= maxValue;
+
+                    std::cout << "  check_bounty total=" << totalBounty
+                              << " range=[" << minValue << "," << maxValue << "]"
+                              << " -> " << (inRange ? "true" : "false") << '\n';
+
+                    if (inRange && instruction.jumpTargetStep)
+                    {
+                        const auto iterator = stepToInstructionIndex.find(*instruction.jumpTargetStep);
+
+                        if (iterator != stepToInstructionIndex.end())
+                        {
+                            instructionIndex = iterator->second;
+                            continue;
+                        }
+                    }
+                }
+                break;
+            }
+
+            case EventIrOperation::IsNpcInParty:
+            {
+                if (!instruction.arguments.empty())
+                {
+                    const bool inParty = runtimeState.unavailableNpcIds.contains(instruction.arguments[0]);
+
+                    std::cout << "  is_npc_in_party npc=" << instruction.arguments[0]
+                              << " -> " << (inParty ? "true" : "false") << '\n';
+
+                    if (inParty && instruction.jumpTargetStep)
+                    {
+                        const auto iterator = stepToInstructionIndex.find(*instruction.jumpTargetStep);
+
+                        if (iterator != stepToInstructionIndex.end())
+                        {
+                            instructionIndex = iterator->second;
+                            continue;
+                        }
+                    }
                 }
                 break;
             }
@@ -2480,11 +4473,11 @@ bool EventRuntime::executeEvent(
                     const uint32_t actionValue = instruction.arguments[1];
                     MechanismAction action = MechanismAction::Open;
 
-                    if (actionValue == 1)
+                    if (actionValue == static_cast<uint32_t>(EvtMechanismAction::Close))
                     {
                         action = MechanismAction::Close;
                     }
-                    else if (actionValue == 2)
+                    else if (actionValue == static_cast<uint32_t>(EvtMechanismAction::Trigger))
                     {
                         action = MechanismAction::Trigger;
                     }

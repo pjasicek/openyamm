@@ -2,6 +2,7 @@
 
 #include "game/gameplay/HouseInteraction.h"
 #include "game/gameplay/MasteryTeacherDialog.h"
+#include "game/outdoor/OutdoorWorldRuntime.h"
 
 #include <algorithm>
 
@@ -340,8 +341,14 @@ EventDialogContent buildEventDialogContent(
     {
         dialog.title = "NPC #" + std::to_string(dialog.sourceId);
 
+        const uint32_t overriddenGreetingId =
+            eventRuntimeState.npcGreetingOverrides.contains(dialog.sourceId)
+                ? eventRuntimeState.npcGreetingOverrides.at(dialog.sourceId)
+                : 0;
         const NpcGreetingEntry *pGreeting = pNpcDialogTable != nullptr
-            ? pNpcDialogTable->getGreetingForNpc(dialog.sourceId)
+            ? (overriddenGreetingId != 0
+                ? pNpcDialogTable->getGreeting(overriddenGreetingId)
+                : pNpcDialogTable->getGreetingForNpc(dialog.sourceId))
             : nullptr;
         const NpcEntry *pNpc = pNpcDialogTable != nullptr
             ? pNpcDialogTable->getNpc(dialog.sourceId)
@@ -456,7 +463,8 @@ EventDialogContent buildEventDialogContent(
                             globalProgram,
                             static_cast<uint16_t>(topic.id),
                             eventRuntimeState,
-                            pParty))
+                            pParty,
+                            pOutdoorWorldRuntime))
                     {
                         continue;
                     }

@@ -10042,6 +10042,76 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
     );
 
     runCase(
+        "event_can_show_topic_actor_killed_uses_scene_context",
+        [&](std::string &failure)
+        {
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            EventIrInstruction canShowKilled = {};
+            canShowKilled.eventId = 1;
+            canShowKilled.step = 0;
+            canShowKilled.operation = EventIrOperation::IsActorKilledCanShowTopic;
+            canShowKilled.arguments = {
+                static_cast<uint32_t>(EvtActorKillCheck::ActorIdMm8),
+                8u,
+                1u,
+                1u
+            };
+            canShowKilled.jumpTargetStep = 2;
+
+            EventIrInstruction hideTopic = {};
+            hideTopic.eventId = 1;
+            hideTopic.step = 1;
+            hideTopic.operation = EventIrOperation::SetCanShowTopic;
+            hideTopic.arguments = {0u};
+
+            EventIrInstruction showTopic = {};
+            showTopic.eventId = 1;
+            showTopic.step = 2;
+            showTopic.operation = EventIrOperation::SetCanShowTopic;
+            showTopic.arguments = {1u};
+
+            EventIrInstruction endCanShow = {};
+            endCanShow.eventId = 1;
+            endCanShow.step = 3;
+            endCanShow.operation = EventIrOperation::EndCanShowTopic;
+
+            EventIrEvent event = {};
+            event.eventId = 1;
+            event.instructions = {canShowKilled, hideTopic, showTopic, endCanShow};
+
+            EventIrProgram program = EventIrProgram::fromEvents({event});
+            EventRuntime eventRuntime = {};
+
+            if (eventRuntime.canShowTopic(program, 1, *scenario.pEventRuntimeState, &scenario.party, &scenario.world))
+            {
+                failure = "topic should start hidden while actor 8 is alive";
+                return false;
+            }
+
+            if (!scenario.world.setMapActorDead(8, true))
+            {
+                failure = "could not kill actor 8";
+                return false;
+            }
+
+            if (!eventRuntime.canShowTopic(program, 1, *scenario.pEventRuntimeState, &scenario.party, &scenario.world))
+            {
+                failure = "topic should become visible once actor 8 is dead";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
         "world_actor_death_generates_corpse_loot",
         [&](std::string &failure)
         {
@@ -13563,29 +13633,36 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
     );
 
     runCase(
-        "character_sheet_primary_stats_split_equipment_from_temporary_magic",
+        "character_sheet_primary_stats_do_not_double_count_equipment_bonuses",
         [&](std::string &failure)
         {
             Character character = {};
             character.might = 20;
             character.equipment.mainHand = 501;
-            character.magicalBonuses.might = 47;
+            character.magicalBonuses.might = 40;
 
-            const CharacterSheetSummary summary = GameMechanics::buildCharacterSheetSummary(
+            CharacterSheetSummary summary = GameMechanics::buildCharacterSheetSummary(
                 character,
                 &gameDataLoader.getItemTable(),
                 &gameDataLoader.getStandardItemEnchantTable(),
                 &gameDataLoader.getSpecialItemEnchantTable());
 
-            if (summary.might.base != 60)
+            if (summary.might.base != 60 || summary.might.actual != 60)
             {
-                failure = "expected displayed base Might 60 including equipped item bonuses";
+                failure = "expected equipped item Might bonus to apply once to primary stats";
                 return false;
             }
 
-            if (summary.might.actual != 107)
+            character.magicalBonuses.might = 47;
+            summary = GameMechanics::buildCharacterSheetSummary(
+                character,
+                &gameDataLoader.getItemTable(),
+                &gameDataLoader.getStandardItemEnchantTable(),
+                &gameDataLoader.getSpecialItemEnchantTable());
+
+            if (summary.might.base != 60 || summary.might.actual != 67)
             {
-                failure = "expected actual Might 107 including equipped item and temporary magic bonuses";
+                failure = "expected temporary Might bonus to affect actual primary stats";
                 return false;
             }
 
@@ -13677,27 +13754,34 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
     );
 
     runCase(
-        "character_sheet_resistance_split_includes_equipment_on_base_and_magic_on_actual",
+        "character_sheet_resistance_split_does_not_double_count_equipment_bonuses",
         [&](std::string &failure)
         {
             Character character = {};
             character.baseResistances.fire = 10;
             character.equipment.mainHand = 505;
-            character.magicalBonuses.resistances.fire = 7;
+            character.magicalBonuses.resistances.fire = 40;
 
-            const CharacterSheetSummary summary = GameMechanics::buildCharacterSheetSummary(
+            CharacterSheetSummary summary = GameMechanics::buildCharacterSheetSummary(
                 character,
                 &gameDataLoader.getItemTable(),
                 &gameDataLoader.getStandardItemEnchantTable(),
                 &gameDataLoader.getSpecialItemEnchantTable());
 
-            if (summary.fireResistance.base != 50)
+            if (summary.fireResistance.base != 50 || summary.fireResistance.actual != 50)
             {
-                failure = "expected displayed base fire resistance 50 including equipped item bonuses";
+                failure = "expected equipped item fire resistance bonus to apply once";
                 return false;
             }
 
-            if (summary.fireResistance.actual != 57)
+            character.magicalBonuses.resistances.fire = 47;
+            summary = GameMechanics::buildCharacterSheetSummary(
+                character,
+                &gameDataLoader.getItemTable(),
+                &gameDataLoader.getStandardItemEnchantTable(),
+                &gameDataLoader.getSpecialItemEnchantTable());
+
+            if (summary.fireResistance.base != 50 || summary.fireResistance.actual != 57)
             {
                 failure = "expected actual fire resistance 57 including temporary magic bonuses";
                 return false;

@@ -13,7 +13,7 @@ namespace OpenYAMM::Game
 {
 namespace
 {
-constexpr uint32_t SaveVersion = 11;
+constexpr uint32_t SaveVersion = 13;
 constexpr char SaveMagic[8] = {'O', 'Y', 'S', 'A', 'V', 'E', '1', '\0'};
 uint32_t g_loadedSaveVersion = SaveVersion;
 
@@ -594,6 +594,8 @@ void writeValue(BinaryWriter &writer, const Character &value)
     writeValue(writer, value.rosterId);
     writeValue(writer, value.characterDataId);
     writeValue(writer, value.birthYear);
+    writeValue(writer, value.sexId);
+    writeValue(writer, value.raceId);
     writeValue(writer, value.experience);
     writeValue(writer, value.level);
     writeValue(writer, value.skillPoints);
@@ -612,14 +614,23 @@ void writeValue(BinaryWriter &writer, const Character &value)
     writeValue(writer, value.knownSpellIds);
     writeValue(writer, value.baseResistances);
     writeValue(writer, value.permanentBonuses);
+    writeValue(writer, value.magicalBonuses);
     writeValue(writer, value.permanentImmunities);
+    writeValue(writer, value.magicalImmunities);
     writeValue(writer, value.permanentConditionImmunities);
+    writeValue(writer, value.magicalConditionImmunities);
     writeValue(writer, value.equipment);
     writeValue(writer, value.equipmentRuntime);
     writeValue(writer, value.conditions);
     writeValue(writer, value.skills);
     writeValue(writer, value.awards);
+    writeValue(writer, value.eventVariables);
     writeValue(writer, value.recoverySecondsRemaining);
+    writeValue(writer, value.armorClassModifier);
+    writeValue(writer, value.levelModifier);
+    writeValue(writer, value.ageModifier);
+    writeValue(writer, value.playerBits);
+    writeValue(writer, value.npcs2);
     writeValue(writer, value.healthRegenAccumulator);
     writeValue(writer, value.spellRegenAccumulator);
     writeValue(writer, value.inventory);
@@ -640,6 +651,8 @@ bool readValue(BinaryReader &reader, Character &value)
         && readValue(reader, value.rosterId)
         && readValue(reader, value.characterDataId)
         && readValue(reader, value.birthYear)
+        && (g_loadedSaveVersion < 12 || readValue(reader, value.sexId))
+        && (g_loadedSaveVersion < 12 || readValue(reader, value.raceId))
         && readValue(reader, value.experience)
         && readValue(reader, value.level)
         && readValue(reader, value.skillPoints)
@@ -658,14 +671,23 @@ bool readValue(BinaryReader &reader, Character &value)
         && readValue(reader, value.knownSpellIds)
         && readValue(reader, value.baseResistances)
         && readValue(reader, value.permanentBonuses)
+        && (g_loadedSaveVersion < 12 || readValue(reader, value.magicalBonuses))
         && readValue(reader, value.permanentImmunities)
+        && (g_loadedSaveVersion < 12 || readValue(reader, value.magicalImmunities))
         && readValue(reader, value.permanentConditionImmunities)
+        && (g_loadedSaveVersion < 12 || readValue(reader, value.magicalConditionImmunities))
         && readValue(reader, value.equipment)
         && readValue(reader, value.equipmentRuntime)
         && readValue(reader, value.conditions)
         && readValue(reader, value.skills)
         && readValue(reader, value.awards)
+        && (g_loadedSaveVersion < 12 || readValue(reader, value.eventVariables))
         && readValue(reader, value.recoverySecondsRemaining)
+        && (g_loadedSaveVersion < 12 || readValue(reader, value.armorClassModifier))
+        && (g_loadedSaveVersion < 12 || readValue(reader, value.levelModifier))
+        && (g_loadedSaveVersion < 12 || readValue(reader, value.ageModifier))
+        && (g_loadedSaveVersion < 12 || readValue(reader, value.playerBits))
+        && (g_loadedSaveVersion < 12 || readValue(reader, value.npcs2))
         && readValue(reader, value.healthRegenAccumulator)
         && readValue(reader, value.spellRegenAccumulator)
         && readValue(reader, value.inventory);
@@ -768,6 +790,7 @@ void writeValue(BinaryWriter &writer, const Party::Snapshot &value)
     writeValue(writer, value.arcomageWinCount);
     writeValue(writer, value.arcomageLossCount);
     writeValue(writer, value.houseStockStates);
+    writeValue(writer, value.eventVariables);
 }
 
 bool readValue(BinaryReader &reader, Party::Snapshot &value)
@@ -800,10 +823,12 @@ bool readValue(BinaryReader &reader, Party::Snapshot &value)
         return readValue(reader, value.arcomageWonHouseIds)
             && readValue(reader, value.arcomageWinCount)
             && readValue(reader, value.arcomageLossCount)
-            && readValue(reader, value.houseStockStates);
+            && readValue(reader, value.houseStockStates)
+            && (g_loadedSaveVersion < 12 || readValue(reader, value.eventVariables));
     }
 
-    return readValue(reader, value.houseStockStates);
+    return readValue(reader, value.houseStockStates)
+        && (g_loadedSaveVersion < 12 || readValue(reader, value.eventVariables));
 }
 
 void writeValue(BinaryWriter &writer, const OutdoorMoveState &value)
@@ -924,6 +949,64 @@ bool readValue(BinaryReader &reader, EventRuntimeState::PendingMapMove &value)
         && readValue(reader, value.useMapStartPosition);
 }
 
+void writeValue(BinaryWriter &writer, const EventRuntimeState::PendingMovie &value)
+{
+    writeValue(writer, value.movieName);
+    writeValue(writer, value.restoreAfterPlayback);
+}
+
+bool readValue(BinaryReader &reader, EventRuntimeState::PendingMovie &value)
+{
+    return readValue(reader, value.movieName)
+        && readValue(reader, value.restoreAfterPlayback);
+}
+
+void writeValue(BinaryWriter &writer, const EventRuntimeState::PendingInputPrompt &value)
+{
+    writeValue(writer, value.kind);
+    writeValue(writer, value.eventId);
+    writeValue(writer, value.continueStep);
+    writeValue(writer, value.textId);
+    writeValue(writer, value.text);
+}
+
+bool readValue(BinaryReader &reader, EventRuntimeState::PendingInputPrompt &value)
+{
+    return readValue(reader, value.kind)
+        && readValue(reader, value.eventId)
+        && readValue(reader, value.continueStep)
+        && readValue(reader, value.textId)
+        && readValue(reader, value.text);
+}
+
+void writeValue(BinaryWriter &writer, const EventRuntimeState::PendingSound &value)
+{
+    writeValue(writer, value.soundId);
+    writeValue(writer, value.x);
+    writeValue(writer, value.y);
+    writeValue(writer, value.positional);
+}
+
+bool readValue(BinaryReader &reader, EventRuntimeState::PendingSound &value)
+{
+    return readValue(reader, value.soundId)
+        && readValue(reader, value.x)
+        && readValue(reader, value.y)
+        && readValue(reader, value.positional);
+}
+
+void writeValue(BinaryWriter &writer, const EventRuntimeState::SpriteOverride &value)
+{
+    writeValue(writer, value.hidden);
+    writeValue(writer, value.textureName);
+}
+
+bool readValue(BinaryReader &reader, EventRuntimeState::SpriteOverride &value)
+{
+    return readValue(reader, value.hidden)
+        && readValue(reader, value.textureName);
+}
+
 void writeValue(BinaryWriter &writer, const EventRuntimeState::PendingArcomageGame &value)
 {
     writeValue(writer, value.houseId);
@@ -998,22 +1081,45 @@ bool readValue(BinaryReader &reader, EventRuntimeState::PortraitFxRequest &value
         && readValue(reader, value.memberIndices);
 }
 
+void writeValue(BinaryWriter &writer, const EventRuntimeState::SpellFxRequest &value)
+{
+    writeValue(writer, value.spellId);
+    writeValue(writer, value.memberIndices);
+}
+
+bool readValue(BinaryReader &reader, EventRuntimeState::SpellFxRequest &value)
+{
+    return readValue(reader, value.spellId)
+        && readValue(reader, value.memberIndices);
+}
+
 void writeValue(BinaryWriter &writer, const EventRuntimeState &value)
 {
     writeValue(writer, value.variables);
+    writeValue(writer, value.mapVars);
     writeValue(writer, value.facetSetMasks);
     writeValue(writer, value.facetClearMasks);
     writeValue(writer, value.mechanisms);
     writeValue(writer, value.textureOverrides);
+    writeValue(writer, value.spriteOverrides);
     writeValue(writer, value.indoorLightsEnabled);
+    writeValue(writer, value.snowEnabled);
     writeValue(writer, value.actorSetMasks);
     writeValue(writer, value.actorClearMasks);
     writeValue(writer, value.actorGroupSetMasks);
     writeValue(writer, value.actorGroupClearMasks);
+    writeValue(writer, value.actorIdGroupOverrides);
+    writeValue(writer, value.actorGroupOverrides);
+    writeValue(writer, value.actorGroupAllyOverrides);
+    writeValue(writer, value.chestSetMasks);
+    writeValue(writer, value.chestClearMasks);
     writeValue(writer, value.npcTopicOverrides);
     writeValue(writer, value.npcGroupNews);
+    writeValue(writer, value.npcGreetingOverrides);
     writeValue(writer, value.npcGreetingDisplayCounts);
     writeValue(writer, value.npcHouseOverrides);
+    writeValue(writer, value.npcItemOverrides);
+    writeValue(writer, value.actorItemOverrides);
     writeValue(writer, value.unavailableNpcIds);
     writeValue(writer, value.dialogueState);
     writeValue(writer, value.decorVars);
@@ -1026,9 +1132,13 @@ void writeValue(BinaryWriter &writer, const EventRuntimeState &value)
     writeValue(writer, value.grantedAwardIds);
     writeValue(writer, value.removedAwardIds);
     writeValue(writer, value.portraitFxRequests);
+    writeValue(writer, value.spellFxRequests);
     writeValue(writer, value.pendingDialogueContext);
     writeValue(writer, value.pendingMapMove);
+    writeValue(writer, value.pendingMovie);
+    writeValue(writer, value.pendingInputPrompt);
     writeValue(writer, value.pendingArcomageGame);
+    writeValue(writer, value.pendingSounds);
     writeValue(writer, value.lastAffectedMechanismIds);
     writeValue(writer, value.lastActivationResult);
     writeValue(writer, value.localOnLoadEventsExecuted);
@@ -1038,19 +1148,30 @@ void writeValue(BinaryWriter &writer, const EventRuntimeState &value)
 bool readValue(BinaryReader &reader, EventRuntimeState &value)
 {
     return readValue(reader, value.variables)
+        && (g_loadedSaveVersion < 12 || readValue(reader, value.mapVars))
         && readValue(reader, value.facetSetMasks)
         && readValue(reader, value.facetClearMasks)
         && readValue(reader, value.mechanisms)
         && readValue(reader, value.textureOverrides)
+        && (g_loadedSaveVersion < 12 || readValue(reader, value.spriteOverrides))
         && readValue(reader, value.indoorLightsEnabled)
+        && (g_loadedSaveVersion < 12 || readValue(reader, value.snowEnabled))
         && readValue(reader, value.actorSetMasks)
         && readValue(reader, value.actorClearMasks)
         && readValue(reader, value.actorGroupSetMasks)
         && readValue(reader, value.actorGroupClearMasks)
+        && (g_loadedSaveVersion < 13 || readValue(reader, value.actorIdGroupOverrides))
+        && (g_loadedSaveVersion < 12 || readValue(reader, value.actorGroupOverrides))
+        && (g_loadedSaveVersion < 12 || readValue(reader, value.actorGroupAllyOverrides))
+        && (g_loadedSaveVersion < 13 || readValue(reader, value.chestSetMasks))
+        && (g_loadedSaveVersion < 13 || readValue(reader, value.chestClearMasks))
         && readValue(reader, value.npcTopicOverrides)
         && readValue(reader, value.npcGroupNews)
+        && (g_loadedSaveVersion < 13 || readValue(reader, value.npcGreetingOverrides))
         && readValue(reader, value.npcGreetingDisplayCounts)
         && readValue(reader, value.npcHouseOverrides)
+        && (g_loadedSaveVersion < 13 || readValue(reader, value.npcItemOverrides))
+        && (g_loadedSaveVersion < 13 || readValue(reader, value.actorItemOverrides))
         && readValue(reader, value.unavailableNpcIds)
         && readValue(reader, value.dialogueState)
         && readValue(reader, value.decorVars)
@@ -1063,9 +1184,13 @@ bool readValue(BinaryReader &reader, EventRuntimeState &value)
         && readValue(reader, value.grantedAwardIds)
         && readValue(reader, value.removedAwardIds)
         && readValue(reader, value.portraitFxRequests)
+        && (g_loadedSaveVersion < 12 || readValue(reader, value.spellFxRequests))
         && readValue(reader, value.pendingDialogueContext)
         && readValue(reader, value.pendingMapMove)
+        && (g_loadedSaveVersion < 12 || readValue(reader, value.pendingMovie))
+        && (g_loadedSaveVersion < 12 || readValue(reader, value.pendingInputPrompt))
         && (g_loadedSaveVersion < 10 || readValue(reader, value.pendingArcomageGame))
+        && (g_loadedSaveVersion < 12 || readValue(reader, value.pendingSounds))
         && readValue(reader, value.lastAffectedMechanismIds)
         && readValue(reader, value.lastActivationResult)
         && readValue(reader, value.localOnLoadEventsExecuted)
@@ -1370,7 +1495,9 @@ void writeValue(BinaryWriter &writer, const OutdoorWorldRuntime::MapActorState &
     writeValue(writer, value.fromSpawnPoint);
     writeValue(writer, value.spawnPointIndex);
     writeValue(writer, value.group);
+    writeValue(writer, value.ally);
     writeValue(writer, value.hostilityType);
+    writeValue(writer, value.specialItemId);
     writeValue(writer, value.currentHp);
     writeValue(writer, value.maxHp);
     writeValue(writer, value.x);
@@ -1441,7 +1568,9 @@ bool readValue(BinaryReader &reader, OutdoorWorldRuntime::MapActorState &value)
         && readValue(reader, value.fromSpawnPoint)
         && readValue(reader, value.spawnPointIndex)
         && readValue(reader, value.group)
+        && (g_loadedSaveVersion < 13 || readValue(reader, value.ally))
         && readValue(reader, value.hostilityType)
+        && (g_loadedSaveVersion < 13 || readValue(reader, value.specialItemId))
         && readValue(reader, value.currentHp)
         && readValue(reader, value.maxHp)
         && readValue(reader, value.x)

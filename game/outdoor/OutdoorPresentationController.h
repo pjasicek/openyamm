@@ -41,6 +41,7 @@ public:
         bool triggerFaceAnimation);
     static void consumePendingPartyAudioRequests(OutdoorGameView &view);
     static void consumePendingWorldAudioEvents(OutdoorGameView &view);
+    static void consumePendingEventRuntimeAudioRequests(OutdoorGameView &view);
     static void updateFootstepAudio(OutdoorGameView &view, float deltaSeconds);
     static void renderPortraitFx(
         const OutdoorGameView &view,

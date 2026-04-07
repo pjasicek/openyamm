@@ -60,6 +60,8 @@ struct Character
     uint32_t rosterId = 0;
     uint32_t characterDataId = 0;
     uint32_t birthYear = 0;
+    uint32_t sexId = 0;
+    uint32_t raceId = 0;
     uint32_t experience = 0;
     uint32_t level = 1;
     uint32_t skillPoints = 0;
@@ -88,7 +90,13 @@ struct Character
     std::bitset<CharacterConditionCount> conditions = {};
     std::unordered_map<std::string, CharacterSkill> skills;
     std::unordered_set<uint32_t> awards;
+    std::unordered_map<uint16_t, int32_t> eventVariables;
     float recoverySecondsRemaining = 0.0f;
+    int armorClassModifier = 0;
+    int levelModifier = 0;
+    int ageModifier = 0;
+    uint32_t playerBits = 0;
+    uint32_t npcs2 = 0;
     int merchantBonus = 0;
     int weaponEnchantmentDamageBonus = 0;
     float vampiricHealFraction = 0.0f;
@@ -256,6 +264,7 @@ public:
         uint32_t arcomageWinCount = 0;
         uint32_t arcomageLossCount = 0;
         std::vector<HouseStockState> houseStockStates;
+        std::unordered_map<uint16_t, int32_t> eventVariables;
     };
 
     struct PendingAudioRequest
@@ -281,6 +290,10 @@ public:
     const ItemTable *itemTable() const;
     const StandardItemEnchantTable *standardItemEnchantTable() const;
     const SpecialItemEnchantTable *specialItemEnchantTable() const;
+    int32_t eventVariableValue(uint16_t variableId) const;
+    void setEventVariableValue(uint16_t variableId, int32_t value);
+    void addEventVariableValue(uint16_t variableId, int32_t value);
+    void subtractEventVariableValue(uint16_t variableId, int32_t value);
     void setClassSkillTable(const ClassSkillTable *pClassSkillTable);
     Snapshot snapshot() const;
     void restoreSnapshot(const Snapshot &snapshot);
@@ -298,6 +311,7 @@ public:
     void addGold(int amount);
     void addFood(int amount);
     void requestSound(SoundId soundId);
+    void requestSpeech(size_t memberIndex, SpeechId speechId);
     bool tryGrantItem(uint32_t objectDescriptionId, uint32_t quantity = 1);
     bool tryGrantInventoryItem(const InventoryItem &item, size_t *pRecipientMemberIndex = nullptr);
     void grantItem(uint32_t objectDescriptionId, uint32_t quantity = 1);
@@ -512,6 +526,7 @@ private:
     uint32_t m_arcomageWinCount = 0;
     uint32_t m_arcomageLossCount = 0;
     std::unordered_map<uint32_t, HouseStockState> m_houseStockStates;
+    std::unordered_map<uint16_t, int32_t> m_eventVariables;
     std::vector<PendingAudioRequest> m_pendingAudioRequests;
 };
 }

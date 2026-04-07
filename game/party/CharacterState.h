@@ -65,6 +65,10 @@ struct CharacterResistanceSet
     int mind = 0;
     int body = 0;
     int spirit = 0;
+    int light = 0;
+    int dark = 0;
+    int physical = 0;
+    int magic = 0;
 };
 
 struct CharacterResistanceImmunitySet
@@ -76,6 +80,10 @@ struct CharacterResistanceImmunitySet
     bool mind = false;
     bool body = false;
     bool spirit = false;
+    bool light = false;
+    bool dark = false;
+    bool physical = false;
+    bool magic = false;
 };
 
 struct CharacterStatBonuses

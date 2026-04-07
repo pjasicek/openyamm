@@ -34,6 +34,16 @@ public:
         uint32_t uniqueNameId
     ) = 0;
 
+    virtual bool summonEventItem(
+        uint32_t objectId,
+        int32_t x,
+        int32_t y,
+        int32_t z,
+        int32_t speed,
+        uint32_t count,
+        bool randomRotate
+    ) = 0;
+
     virtual bool checkMonstersKilled(
         uint32_t checkType,
         uint32_t id,

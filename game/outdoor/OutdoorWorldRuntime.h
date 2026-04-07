@@ -112,7 +112,9 @@ public:
         bool fromSpawnPoint = false;
         size_t spawnPointIndex = static_cast<size_t>(-1);
         uint32_t group = 0;
+        uint32_t ally = 0;
         uint8_t hostilityType = 0;
+        uint32_t specialItemId = 0;
         int currentHp = 0;
         int maxHp = 0;
         int x = 0;
@@ -577,6 +579,15 @@ public:
         int32_t z,
         uint32_t group,
         uint32_t uniqueNameId
+    ) override;
+    bool summonEventItem(
+        uint32_t objectId,
+        int32_t x,
+        int32_t y,
+        int32_t z,
+        int32_t speed,
+        uint32_t count,
+        bool randomRotate
     ) override;
     bool summonFriendlyMonsterById(
         int16_t monsterId,

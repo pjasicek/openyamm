@@ -1272,6 +1272,26 @@ int resolveCharacterPrimaryStatEquippedItemBonusValue(const CharacterStatBonuses
     return 0;
 }
 
+int resolveCharacterSheetBasePrimaryStatValue(
+    const Character &character,
+    uint32_t rawStatId,
+    const CharacterStatBonuses &equippedItemBonuses)
+{
+    return resolveCharacterPrimaryStatBaseValue(character, rawStatId)
+        + resolveCharacterPrimaryStatPermanentBonusValue(character, rawStatId)
+        + resolveCharacterPrimaryStatEquippedItemBonusValue(equippedItemBonuses, rawStatId);
+}
+
+int resolveCharacterSheetActualPrimaryStatValue(
+    const Character &character,
+    uint32_t rawStatId,
+    const CharacterStatBonuses &equippedItemBonuses)
+{
+    return resolveCharacterSheetBasePrimaryStatValue(character, rawStatId, equippedItemBonuses)
+        + resolveCharacterPrimaryStatMagicalBonusValue(character, rawStatId)
+        - resolveCharacterPrimaryStatEquippedItemBonusValue(equippedItemBonuses, rawStatId);
+}
+
 std::string resolveConditionText(const Character &character)
 {
     const std::optional<CharacterCondition> condition = GameMechanics::displayedCondition(character);
@@ -1599,91 +1619,21 @@ CharacterSheetSummary GameMechanics::buildCharacterSheetSummary(
         pStandardItemEnchantTable,
         pSpecialItemEnchantTable);
 
-    const int baseMight = resolveCharacterDisplayedBasePrimaryStat(
-        character,
-        0x20,
-        pItemTable,
-        pStandardItemEnchantTable,
-        pSpecialItemEnchantTable);
-    const int baseIntellect = resolveCharacterDisplayedBasePrimaryStat(
-        character,
-        0x21,
-        pItemTable,
-        pStandardItemEnchantTable,
-        pSpecialItemEnchantTable);
-    const int basePersonality = resolveCharacterDisplayedBasePrimaryStat(
-        character,
-        0x22,
-        pItemTable,
-        pStandardItemEnchantTable,
-        pSpecialItemEnchantTable);
-    const int baseEndurance = resolveCharacterDisplayedBasePrimaryStat(
-        character,
-        0x23,
-        pItemTable,
-        pStandardItemEnchantTable,
-        pSpecialItemEnchantTable);
-    const int baseAccuracy = resolveCharacterDisplayedBasePrimaryStat(
-        character,
-        0x25,
-        pItemTable,
-        pStandardItemEnchantTable,
-        pSpecialItemEnchantTable);
-    const int baseSpeed = resolveCharacterDisplayedBasePrimaryStat(
-        character,
-        0x24,
-        pItemTable,
-        pStandardItemEnchantTable,
-        pSpecialItemEnchantTable);
-    const int baseLuck = resolveCharacterDisplayedBasePrimaryStat(
-        character,
-        0x26,
-        pItemTable,
-        pStandardItemEnchantTable,
-        pSpecialItemEnchantTable);
+    const int baseMight = resolveCharacterSheetBasePrimaryStatValue(character, 0x20, equippedItemBonuses);
+    const int baseIntellect = resolveCharacterSheetBasePrimaryStatValue(character, 0x21, equippedItemBonuses);
+    const int basePersonality = resolveCharacterSheetBasePrimaryStatValue(character, 0x22, equippedItemBonuses);
+    const int baseEndurance = resolveCharacterSheetBasePrimaryStatValue(character, 0x23, equippedItemBonuses);
+    const int baseAccuracy = resolveCharacterSheetBasePrimaryStatValue(character, 0x25, equippedItemBonuses);
+    const int baseSpeed = resolveCharacterSheetBasePrimaryStatValue(character, 0x24, equippedItemBonuses);
+    const int baseLuck = resolveCharacterSheetBasePrimaryStatValue(character, 0x26, equippedItemBonuses);
 
-    const int actualMight = resolveCharacterDisplayedActualPrimaryStat(
-        character,
-        0x27,
-        pItemTable,
-        pStandardItemEnchantTable,
-        pSpecialItemEnchantTable);
-    const int actualIntellect = resolveCharacterDisplayedActualPrimaryStat(
-        character,
-        0x28,
-        pItemTable,
-        pStandardItemEnchantTable,
-        pSpecialItemEnchantTable);
-    const int actualPersonality = resolveCharacterDisplayedActualPrimaryStat(
-        character,
-        0x29,
-        pItemTable,
-        pStandardItemEnchantTable,
-        pSpecialItemEnchantTable);
-    const int actualEndurance = resolveCharacterDisplayedActualPrimaryStat(
-        character,
-        0x2A,
-        pItemTable,
-        pStandardItemEnchantTable,
-        pSpecialItemEnchantTable);
-    const int actualAccuracy = resolveCharacterDisplayedActualPrimaryStat(
-        character,
-        0x2C,
-        pItemTable,
-        pStandardItemEnchantTable,
-        pSpecialItemEnchantTable);
-    const int actualSpeed = resolveCharacterDisplayedActualPrimaryStat(
-        character,
-        0x2B,
-        pItemTable,
-        pStandardItemEnchantTable,
-        pSpecialItemEnchantTable);
-    const int actualLuck = resolveCharacterDisplayedActualPrimaryStat(
-        character,
-        0x2D,
-        pItemTable,
-        pStandardItemEnchantTable,
-        pSpecialItemEnchantTable);
+    const int actualMight = resolveCharacterSheetActualPrimaryStatValue(character, 0x27, equippedItemBonuses);
+    const int actualIntellect = resolveCharacterSheetActualPrimaryStatValue(character, 0x28, equippedItemBonuses);
+    const int actualPersonality = resolveCharacterSheetActualPrimaryStatValue(character, 0x29, equippedItemBonuses);
+    const int actualEndurance = resolveCharacterSheetActualPrimaryStatValue(character, 0x2A, equippedItemBonuses);
+    const int actualAccuracy = resolveCharacterSheetActualPrimaryStatValue(character, 0x2C, equippedItemBonuses);
+    const int actualSpeed = resolveCharacterSheetActualPrimaryStatValue(character, 0x2B, equippedItemBonuses);
+    const int actualLuck = resolveCharacterSheetActualPrimaryStatValue(character, 0x2D, equippedItemBonuses);
 
     summary.might = makeSheetValue(baseMight, actualMight);
     summary.intellect = makeSheetValue(baseIntellect, actualIntellect);
@@ -1731,29 +1681,48 @@ CharacterSheetSummary GameMechanics::buildCharacterSheetSummary(
         + character.permanentBonuses.resistances.body
         + equippedItemBonuses.resistances.body;
 
+    const int fireActual = fireBase
+        + character.magicalBonuses.resistances.fire
+        - equippedItemBonuses.resistances.fire;
+    const int airActual = airBase
+        + character.magicalBonuses.resistances.air
+        - equippedItemBonuses.resistances.air;
+    const int waterActual = waterBase
+        + character.magicalBonuses.resistances.water
+        - equippedItemBonuses.resistances.water;
+    const int earthActual = earthBase
+        + character.magicalBonuses.resistances.earth
+        - equippedItemBonuses.resistances.earth;
+    const int mindActual = mindBase
+        + character.magicalBonuses.resistances.mind
+        - equippedItemBonuses.resistances.mind;
+    const int bodyActual = bodyBase
+        + character.magicalBonuses.resistances.body
+        - equippedItemBonuses.resistances.body;
+
     summary.fireResistance = makeResistanceValue(
         fireBase,
-        fireBase + character.magicalBonuses.resistances.fire,
+        fireActual,
         character.permanentImmunities.fire || character.magicalImmunities.fire);
     summary.airResistance = makeResistanceValue(
         airBase,
-        airBase + character.magicalBonuses.resistances.air,
+        airActual,
         character.permanentImmunities.air || character.magicalImmunities.air);
     summary.waterResistance = makeResistanceValue(
         waterBase,
-        waterBase + character.magicalBonuses.resistances.water,
+        waterActual,
         character.permanentImmunities.water || character.magicalImmunities.water);
     summary.earthResistance = makeResistanceValue(
         earthBase,
-        earthBase + character.magicalBonuses.resistances.earth,
+        earthActual,
         character.permanentImmunities.earth || character.magicalImmunities.earth);
     summary.mindResistance = makeResistanceValue(
         mindBase,
-        mindBase + character.magicalBonuses.resistances.mind,
+        mindActual,
         character.permanentImmunities.mind || character.magicalImmunities.mind);
     summary.bodyResistance = makeResistanceValue(
         bodyBase,
-        bodyBase + character.magicalBonuses.resistances.body,
+        bodyActual,
         character.permanentImmunities.body || character.magicalImmunities.body);
 
     if (character.birthYear > 0 && character.birthYear <= static_cast<uint32_t>(GameStartingYear))

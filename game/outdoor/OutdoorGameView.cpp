@@ -5280,6 +5280,7 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
 
     updateFootstepAudio(deltaSeconds);
     consumePendingPartyAudioRequests();
+    consumePendingEventRuntimeAudioRequests();
     consumePendingWorldAudioEvents();
 
     const uint64_t renderElapsedNanoseconds = SDL_GetTicksNS() - renderStartTickCount;
@@ -8192,6 +8193,11 @@ bool OutdoorGameView::canPlaySpeechReaction(size_t memberIndex, SpeechId speechI
 void OutdoorGameView::consumePendingPartyAudioRequests()
 {
     OutdoorPresentationController::consumePendingPartyAudioRequests(*this);
+}
+
+void OutdoorGameView::consumePendingEventRuntimeAudioRequests()
+{
+    OutdoorPresentationController::consumePendingEventRuntimeAudioRequests(*this);
 }
 
 void OutdoorGameView::consumePendingWorldAudioEvents()
