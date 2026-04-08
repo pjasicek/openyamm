@@ -18,6 +18,13 @@ namespace
 {
 constexpr uint32_t AdventurersInnHouseId = 185;
 constexpr uint32_t ArcomageRulesTextId = 136;
+constexpr uint32_t AutoNoteVariableTag = 0x00E1u;
+constexpr uint32_t ExpertTrainerTopicIdFirst = 300;
+constexpr uint32_t GrandMasterTrainerTopicIdLast = 416;
+constexpr uint32_t TeacherHintTopicIdFirst = 417;
+constexpr uint32_t TeacherHintTopicIdLast = 530;
+constexpr uint32_t TrainerAutoNoteIdFirst = 128;
+constexpr uint32_t HeroismEffectSoundId = 14060;
 
 DialogueMenuId dialogueMenuIdForHouseAction(HouseActionId actionId)
 {
@@ -70,6 +77,80 @@ void refreshCurrentHouseServiceDialog(GameplayDialogController::Context &context
         houseId);
 }
 
+std::optional<uint32_t> trainerAutoNoteRawIdForTopic(uint32_t topicId)
+{
+    uint32_t noteId = 0;
+
+    // MM8 keeps mastery-teacher topics and trainer-location autonotes in matching table order.
+    if (topicId >= ExpertTrainerTopicIdFirst && topicId <= GrandMasterTrainerTopicIdLast)
+    {
+        noteId = TrainerAutoNoteIdFirst + (topicId - ExpertTrainerTopicIdFirst);
+    }
+    else if (topicId >= TeacherHintTopicIdFirst && topicId <= TeacherHintTopicIdLast)
+    {
+        noteId = TrainerAutoNoteIdFirst + (topicId - TeacherHintTopicIdFirst);
+    }
+    else
+    {
+        return std::nullopt;
+    }
+
+    return (noteId << 16) | AutoNoteVariableTag;
+}
+
+void queuePortraitFxRequest(
+    EventRuntimeState &eventRuntimeState,
+    PortraitFxEventKind kind,
+    const Party *pParty)
+{
+    if (pParty == nullptr || kind == PortraitFxEventKind::None)
+    {
+        return;
+    }
+
+    EventRuntimeState::PortraitFxRequest request = {};
+    request.kind = kind;
+    request.memberIndices.push_back(pParty->activeMemberIndex());
+    eventRuntimeState.portraitFxRequests.push_back(std::move(request));
+}
+
+bool tryUnlockTrainerAutoNote(
+    EventRuntimeState &eventRuntimeState,
+    uint32_t topicId,
+    const Party *pParty)
+{
+    const std::optional<uint32_t> rawId = trainerAutoNoteRawIdForTopic(topicId);
+
+    if (!rawId.has_value())
+    {
+        return false;
+    }
+
+    const auto variableIt = eventRuntimeState.variables.find(*rawId);
+
+    if (variableIt != eventRuntimeState.variables.end() && variableIt->second != 0)
+    {
+        return false;
+    }
+
+    eventRuntimeState.variables[*rawId] = 1;
+    queuePortraitFxRequest(eventRuntimeState, PortraitFxEventKind::AutoNote, pParty);
+    return true;
+}
+
+void queueUiSound(EventRuntimeState &eventRuntimeState, uint32_t soundId)
+{
+    if (soundId == 0)
+    {
+        return;
+    }
+
+    EventRuntimeState::PendingSound request = {};
+    request.soundId = soundId;
+    request.positional = false;
+    eventRuntimeState.pendingSounds.push_back(request);
+}
+
 bool tryOpenAdventurersInnOverlay(GameplayDialogController::Context &context, uint32_t houseId)
 {
     if (houseId != AdventurersInnHouseId || context.pParty == nullptr)
@@ -96,6 +177,27 @@ bool tryOpenAdventurersInnOverlay(GameplayDialogController::Context &context, ui
     characterScreen.sourceIndex = 0;
     characterScreen.adventurersInnScrollOffset = 0;
     return true;
+}
+
+std::optional<uint32_t> masteryTeacherTopicIdForNpc(
+    const NpcDialogTable &npcDialogTable,
+    const EventRuntimeState &eventRuntimeState,
+    uint32_t npcId)
+{
+    const auto overrideIt = eventRuntimeState.npcTopicOverrides.find(npcId);
+    const std::unordered_map<uint32_t, uint32_t> *pTopicOverrides =
+        overrideIt != eventRuntimeState.npcTopicOverrides.end() ? &overrideIt->second : nullptr;
+    const std::vector<NpcDialogTable::ResolvedTopic> topics = npcDialogTable.getTopicsForNpc(npcId, pTopicOverrides);
+
+    for (const NpcDialogTable::ResolvedTopic &topic : topics)
+    {
+        if (topic.specialKind == NpcTopicEntry::SpecialKind::MasteryTeacherOffer)
+        {
+            return topic.id;
+        }
+    }
+
+    return std::nullopt;
 }
 
 const HouseEntry *pendingHouseEntry(
@@ -495,6 +597,7 @@ GameplayDialogController::Result GameplayDialogController::executeActiveDialogAc
         context.eventRuntimeState.unavailableNpcIds.insert(invite.npcId);
         context.eventRuntimeState.npcHouseOverrides.erase(invite.npcId);
         context.eventRuntimeState.messages.push_back(pRosterEntry->name + " joined the party.");
+        queueUiSound(context.eventRuntimeState, HeroismEffectSoundId);
         setPendingDialogueContext(
             context.eventRuntimeState,
             DialogueContextKind::NpcTalk,
@@ -525,6 +628,8 @@ GameplayDialogController::Result GameplayDialogController::executeActiveDialogAc
 
     if (action.kind == EventDialogActionKind::MasteryTeacherOffer)
     {
+        tryUnlockTrainerAutoNote(context.eventRuntimeState, action.id, context.pParty);
+
         EventRuntimeState::DialogueOfferState offer = {};
         offer.kind = DialogueOfferKind::MasteryTeacher;
         offer.npcId = context.activeEventDialog.sourceId;
@@ -604,6 +709,7 @@ GameplayDialogController::Result GameplayDialogController::executeActiveDialogAc
 
             if (topic && !topic->text.empty())
             {
+                tryUnlockTrainerAutoNote(context.eventRuntimeState, topic->id, context.pParty);
                 context.eventRuntimeState.messages.push_back(topic->text);
                 executed = true;
             }
@@ -648,6 +754,19 @@ GameplayDialogController::PresentPendingDialogResult GameplayDialogController::p
     }
 
     const EventRuntimeState::PendingDialogueContext originalContext = *context.eventRuntimeState.pendingDialogueContext;
+
+    if (originalContext.kind == DialogueContextKind::NpcTalk
+        && context.pNpcDialogTable != nullptr
+        && context.pParty != nullptr)
+    {
+        const std::optional<uint32_t> masteryTopicId =
+            masteryTeacherTopicIdForNpc(*context.pNpcDialogTable, context.eventRuntimeState, originalContext.sourceId);
+
+        if (masteryTopicId.has_value())
+        {
+            tryUnlockTrainerAutoNote(context.eventRuntimeState, *masteryTopicId, context.pParty);
+        }
+    }
 
     if (originalContext.kind == DialogueContextKind::HouseService
         && context.pHouseTable != nullptr

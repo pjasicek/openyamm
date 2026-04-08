@@ -69,6 +69,11 @@ constexpr int InnRestDawnHour = 5;
 constexpr uint32_t DeyjaTavernHouseId = 111;
 constexpr uint32_t PitTavernHouseId = 114;
 constexpr uint32_t MountNighonTavernHouseId = 116;
+constexpr std::array<int, 3> JournalMapZoomLevels = {384, 768, 1536};
+constexpr int JournalRevealWidth = 88;
+constexpr int JournalRevealHeight = 88;
+constexpr int JournalRevealBytesPerRow = 11;
+constexpr float JournalMapWorldHalfExtent = 32768.0f;
 
 enum class HouseShopVerticalAlign
 {
@@ -93,6 +98,104 @@ struct HouseShopVisualLayout
     std::string backgroundAsset;
     std::vector<HouseShopSlotLayout> slots;
 };
+
+void ensureJournalRevealMaskSize(std::vector<uint8_t> &bytes)
+{
+    const size_t expectedSize = JournalRevealHeight * JournalRevealBytesPerRow;
+
+    if (bytes.size() != expectedSize)
+    {
+        bytes.assign(expectedSize, 0);
+    }
+}
+
+void setPackedRevealBit(std::vector<uint8_t> &bytes, int cellX, int cellY)
+{
+    if (cellX < 0 || cellX >= JournalRevealWidth || cellY < 0 || cellY >= JournalRevealHeight)
+    {
+        return;
+    }
+
+    const size_t index = static_cast<size_t>(cellY * JournalRevealWidth + cellX);
+    const size_t byteIndex = index / 8;
+
+    if (byteIndex >= bytes.size())
+    {
+        return;
+    }
+
+    const uint8_t mask = static_cast<uint8_t>(1u << (7u - static_cast<unsigned>(index % 8)));
+    bytes[byteIndex] |= mask;
+}
+
+void clampJournalMapState(GameplayUiController::JournalScreenState &journalScreen)
+{
+    journalScreen.mapZoomStep = std::clamp(
+        journalScreen.mapZoomStep,
+        0,
+        static_cast<int>(JournalMapZoomLevels.size()) - 1);
+
+    const int zoom = JournalMapZoomLevels[journalScreen.mapZoomStep];
+    const float zoomFactor = static_cast<float>(zoom) / 384.0f;
+    const float visibleWorldHalfExtent = JournalMapWorldHalfExtent / zoomFactor;
+    const float maxOffset = std::max(0.0f, JournalMapWorldHalfExtent - visibleWorldHalfExtent);
+    journalScreen.mapCenterX = std::clamp(
+        journalScreen.mapCenterX,
+        -maxOffset,
+        maxOffset);
+    journalScreen.mapCenterY = std::clamp(
+        journalScreen.mapCenterY,
+        -maxOffset,
+        maxOffset);
+}
+
+void updateOutdoorJournalRevealMask(
+    const OutdoorPartyRuntime &partyRuntime,
+    std::optional<MapDeltaData> &outdoorMapDeltaData)
+{
+    if (!outdoorMapDeltaData.has_value())
+    {
+        return;
+    }
+
+    ensureJournalRevealMaskSize(outdoorMapDeltaData->fullyRevealedCells);
+    ensureJournalRevealMaskSize(outdoorMapDeltaData->partiallyRevealedCells);
+
+    const OutdoorMoveState &moveState = partyRuntime.movementState();
+    const float centerU = std::clamp(
+        (-moveState.x + JournalMapWorldHalfExtent) / (JournalMapWorldHalfExtent * 2.0f),
+        0.0f,
+        0.999999f);
+    const float centerV = std::clamp(
+        (JournalMapWorldHalfExtent - moveState.y) / (JournalMapWorldHalfExtent * 2.0f),
+        0.0f,
+        0.999999f);
+    const int centerCellX = static_cast<int>(std::floor(centerU * static_cast<float>(JournalRevealWidth)));
+    const int centerCellY = static_cast<int>(std::floor(centerV * static_cast<float>(JournalRevealHeight)));
+
+    for (int offsetY = -10; offsetY < 10; ++offsetY)
+    {
+        const int cellY = centerCellY + offsetY;
+
+        for (int offsetX = -10; offsetX < 10; ++offsetX)
+        {
+            const int cellX = centerCellX + offsetX;
+            const int distanceSquared = offsetX * offsetX + offsetY * offsetY;
+
+            if (distanceSquared > 100)
+            {
+                continue;
+            }
+
+            setPackedRevealBit(outdoorMapDeltaData->partiallyRevealedCells, cellX, cellY);
+
+            if (distanceSquared <= 49)
+            {
+                setPackedRevealBit(outdoorMapDeltaData->fullyRevealedCells, cellX, cellY);
+            }
+        }
+    }
+}
 
 struct HouseShopItemDrawRect
 {
@@ -3358,6 +3461,9 @@ OutdoorGameView::OutdoorGameView()
     , m_pendingSpellTargetClickLatch(false)
     , m_restToggleLatch(false)
     , m_restClickLatch(false)
+    , m_booksButtonClickLatch(false)
+    , m_journalToggleLatch(false)
+    , m_journalClickLatch(false)
     , m_inventoryScreenToggleLatch(false)
     , m_adventurersInnToggleLatch(false)
     , m_gameplayUiController()
@@ -3391,11 +3497,14 @@ OutdoorGameView::OutdoorGameView()
     , m_readableScrollOverlay(m_gameplayUiController.readableScrollOverlay())
     , m_spellbook(m_gameplayUiController.spellbook())
     , m_restScreen(m_gameplayUiController.restScreen())
+    , m_journalScreen(m_gameplayUiController.journalScreen())
     , m_inventoryNestedOverlay(m_gameplayUiController.inventoryNestedOverlay())
     , m_houseShopOverlay(m_gameplayUiController.houseShopOverlay())
     , m_houseBankState(m_gameplayUiController.houseBankState())
     , m_spellbookPressedTarget({})
     , m_restPressedTarget({})
+    , m_booksButtonPressed(false)
+    , m_journalPressedTarget({})
     , m_lastSpellbookSpellClickTicks(0)
     , m_lastSpellbookClickedSpellId(0)
     , m_pendingSpellCast({})
@@ -3443,6 +3552,9 @@ OutdoorGameView::OutdoorGameView()
     , m_pCharacterDollTable(nullptr)
     , m_pObjectTable(nullptr)
     , m_pSpellTable(nullptr)
+    , m_pJournalQuestTable(nullptr)
+    , m_pJournalHistoryTable(nullptr)
+    , m_pJournalAutonoteTable(nullptr)
     , m_pReadableScrollTable(nullptr)
     , m_pGameAudioSystem(nullptr)
     , m_nextPendingSpriteFrameWarmupIndex(0)
@@ -3489,6 +3601,9 @@ bool OutdoorGameView::initialize(
     const CharacterInspectTable &characterInspectTable,
     const ObjectTable &objectTable,
     const SpellTable &spellTable,
+    const JournalQuestTable &journalQuestTable,
+    const JournalHistoryTable &journalHistoryTable,
+    const JournalAutonoteTable &journalAutonoteTable,
     const ItemTable &itemTable,
     const ReadableScrollTable &readableScrollTable,
     const StandardItemEnchantTable &standardItemEnchantTable,
@@ -3523,6 +3638,9 @@ bool OutdoorGameView::initialize(
     m_pCharacterDollTable = &characterDollTable;
     m_pObjectTable = &objectTable;
     m_pSpellTable = &spellTable;
+    m_pJournalQuestTable = &journalQuestTable;
+    m_pJournalHistoryTable = &journalHistoryTable;
+    m_pJournalAutonoteTable = &journalAutonoteTable;
     m_pReadableScrollTable = &readableScrollTable;
     m_pGameAudioSystem = pGameAudioSystem;
     m_pItemTable = &itemTable;
@@ -3722,6 +3840,16 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
     updateRestScreen(deltaSeconds);
     updatePartyPortraitAnimations(deltaSeconds);
 
+    if (m_pOutdoorPartyRuntime != nullptr)
+    {
+        updateOutdoorJournalRevealMask(*m_pOutdoorPartyRuntime, m_outdoorMapDeltaData);
+    }
+
+    if (m_journalScreen.active)
+    {
+        m_journalScreen.hoverAnimationElapsedSeconds += std::max(0.0f, deltaSeconds);
+    }
+
     if (m_pAssetFileSystem != nullptr)
     {
         m_houseVideoPlayer.updateBackgroundPreloads(*m_pAssetFileSystem);
@@ -3738,6 +3866,54 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
     m_renderedInspectableHudState = currentHudScreenState();
 
     const bool wasRestScreenActiveBeforeInput = m_restScreen.active;
+    const bool wasJournalActiveBeforeInput = m_journalScreen.active;
+
+    if (m_journalScreen.active && m_journalScreen.view == JournalView::Map)
+    {
+        const bool *pKeyboardState = SDL_GetKeyboardState(nullptr);
+        const bool journalZoomInPressed =
+            pKeyboardState != nullptr
+            && (pKeyboardState[SDL_SCANCODE_EQUALS]
+                || pKeyboardState[SDL_SCANCODE_KP_PLUS]);
+        const bool journalZoomOutPressed =
+            pKeyboardState != nullptr
+            && (pKeyboardState[SDL_SCANCODE_MINUS]
+                || pKeyboardState[SDL_SCANCODE_KP_MINUS]);
+
+        if (journalZoomInPressed && !m_journalMapKeyZoomLatch)
+        {
+            m_journalScreen.mapZoomStep =
+                std::min(m_journalScreen.mapZoomStep + 1, static_cast<int>(JournalMapZoomLevels.size()) - 1);
+            clampJournalMapState(m_journalScreen);
+            m_cachedJournalMapValid = false;
+            m_journalMapKeyZoomLatch = true;
+        }
+        else if (journalZoomOutPressed && !m_journalMapKeyZoomLatch)
+        {
+            m_journalScreen.mapZoomStep = std::max(m_journalScreen.mapZoomStep - 1, 0);
+            clampJournalMapState(m_journalScreen);
+            m_cachedJournalMapValid = false;
+            m_journalMapKeyZoomLatch = true;
+        }
+        else if (!journalZoomInPressed && !journalZoomOutPressed)
+        {
+            m_journalMapKeyZoomLatch = false;
+        }
+
+        if (mouseWheelDelta > 0.0f)
+        {
+            m_journalScreen.mapZoomStep =
+                std::min(m_journalScreen.mapZoomStep + 1, static_cast<int>(JournalMapZoomLevels.size()) - 1);
+            clampJournalMapState(m_journalScreen);
+            m_cachedJournalMapValid = false;
+        }
+        else if (mouseWheelDelta < 0.0f)
+        {
+            m_journalScreen.mapZoomStep = std::max(m_journalScreen.mapZoomStep - 1, 0);
+            clampJournalMapState(m_journalScreen);
+            m_cachedJournalMapValid = false;
+        }
+    }
 
     {
         const uint64_t stageStartTickCount = SDL_GetTicksNS();
@@ -3755,6 +3931,7 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
     const bool isCharacterScreenActive = m_characterScreenOpen;
     const bool isSpellbookActive = m_spellbook.active;
     const bool isRestScreenInteractionFrame = wasRestScreenActiveBeforeInput || m_restScreen.active;
+    const bool isJournalInteractionFrame = wasJournalActiveBeforeInput || m_journalScreen.active;
 
     const float wireframeAspectRatio = static_cast<float>(viewWidth) / static_cast<float>(viewHeight);
 
@@ -3828,7 +4005,8 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
             && !isEventDialogActive
             && !isCharacterScreenActive
             && !isSpellbookActive
-            && !isRestScreenInteractionFrame)
+            && !isRestScreenInteractionFrame
+            && !isJournalInteractionFrame)
         {
             if (m_pendingSpellCast.active)
             {
@@ -3975,7 +4153,8 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
             && !isEventDialogActive
             && !isCharacterScreenActive
             && !isSpellbookActive
-            && !isRestScreenInteractionFrame)
+            && !isRestScreenInteractionFrame
+            && !isJournalInteractionFrame)
         {
             const SDL_MouseButtonFlags mouseButtons = SDL_GetMouseState(&mouseX, &mouseY);
             const bool isLeftMousePressed = (mouseButtons & SDL_BUTTON_LMASK) != 0;
@@ -4065,7 +4244,8 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
                  && !isEventDialogActive
                  && !isCharacterScreenActive
                  && !isSpellbookActive
-                 && !isRestScreenInteractionFrame)
+                 && !isRestScreenInteractionFrame
+                 && !isJournalInteractionFrame)
         {
             SDL_GetMouseState(&mouseX, &mouseY);
             bx::Vec3 rayOrigin = {0.0f, 0.0f, 0.0f};
@@ -5276,6 +5456,7 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
             }
             renderSpellbookOverlay(width, height);
             renderRestOverlay(width, height);
+            renderJournalOverlay(width, height);
             renderHeldInventoryItem(width, height);
             renderItemInspectOverlay(width, height);
             renderCharacterInspectOverlay(width, height);
@@ -5830,6 +6011,9 @@ void OutdoorGameView::shutdown()
     resetRuntimeState();
     m_pObjectTable = nullptr;
     m_pSpellTable = nullptr;
+    m_pJournalQuestTable = nullptr;
+    m_pJournalHistoryTable = nullptr;
+    m_pJournalAutonoteTable = nullptr;
     m_pReadableScrollTable = nullptr;
     m_pGameAudioSystem = nullptr;
     m_faceAnimationTable = {};
@@ -7577,6 +7761,11 @@ OutdoorGameView::HudScreenState OutdoorGameView::currentHudScreenState() const
         return HudScreenState::Dialogue;
     }
 
+    if (m_journalScreen.active)
+    {
+        return HudScreenState::Journal;
+    }
+
     if (m_restScreen.active)
     {
         return HudScreenState::Rest;
@@ -7708,6 +7897,80 @@ void OutdoorGameView::closeRestScreen()
     m_restClickLatch = false;
     m_restPressedTarget = {};
     clearWorldInteractionInputLatches();
+}
+
+void OutdoorGameView::openJournal()
+{
+    closeSpellbook();
+    closeReadableScrollOverlay();
+    closeInventoryNestedOverlay();
+    m_characterScreenOpen = false;
+    m_characterDollJewelryOverlayOpen = false;
+    m_adventurersInnRosterOverlayOpen = false;
+    m_restScreen = {};
+    m_journalScreen.active = true;
+    m_journalScreen.view = JournalView::Map;
+    m_journalScreen.notesCategory = JournalNotesCategory::Potion;
+    m_journalScreen.questPage = 0;
+    m_journalScreen.storyPage = 0;
+    m_journalScreen.notesPage = 0;
+    m_journalScreen.hoverAnimationElapsedSeconds = 0.0f;
+    m_journalScreen.mapDragActive = false;
+    m_journalScreen.mapDragStartMouseX = 0.0f;
+    m_journalScreen.mapDragStartMouseY = 0.0f;
+    m_journalScreen.mapDragStartCenterX = 0.0f;
+    m_journalScreen.mapDragStartCenterY = 0.0f;
+    m_cachedJournalMapValid = false;
+
+    if (m_pOutdoorPartyRuntime != nullptr)
+    {
+        const OutdoorMoveState &moveState = m_pOutdoorPartyRuntime->movementState();
+        m_journalScreen.mapCenterX = moveState.x;
+        m_journalScreen.mapCenterY = moveState.y;
+    }
+    else
+    {
+        m_journalScreen.mapCenterX = 0.0f;
+        m_journalScreen.mapCenterY = 0.0f;
+    }
+
+    clampJournalMapState(m_journalScreen);
+
+    m_journalToggleLatch = false;
+    m_journalClickLatch = false;
+    m_journalMapKeyZoomLatch = false;
+    m_journalPressedTarget = {};
+    m_closeOverlayLatch = false;
+    clearWorldInteractionInputLatches();
+
+    if (m_pGameAudioSystem != nullptr)
+    {
+        m_pGameAudioSystem->playCommonSound(SoundId::OpenBook, GameAudioSystem::PlaybackGroup::Ui);
+    }
+}
+
+void OutdoorGameView::closeJournal()
+{
+    const bool wasActive = m_journalScreen.active;
+    m_journalScreen.active = false;
+    m_journalScreen.hoverAnimationElapsedSeconds = 0.0f;
+    m_journalScreen.mapDragActive = false;
+    m_journalScreen.mapDragStartMouseX = 0.0f;
+    m_journalScreen.mapDragStartMouseY = 0.0f;
+    m_journalScreen.mapDragStartCenterX = 0.0f;
+    m_journalScreen.mapDragStartCenterY = 0.0f;
+    m_cachedJournalMapValid = false;
+    m_journalToggleLatch = false;
+    m_journalClickLatch = false;
+    m_journalMapKeyZoomLatch = false;
+    m_journalPressedTarget = {};
+    m_closeOverlayLatch = false;
+    clearWorldInteractionInputLatches();
+
+    if (wasActive && m_pGameAudioSystem != nullptr)
+    {
+        m_pGameAudioSystem->playCommonSound(SoundId::CloseBook, GameAudioSystem::PlaybackGroup::Ui);
+    }
 }
 
 void OutdoorGameView::clearWorldInteractionInputLatches()
@@ -9034,6 +9297,11 @@ void OutdoorGameView::renderSpellbookOverlay(int width, int height) const
 void OutdoorGameView::renderRestOverlay(int width, int height) const
 {
     GameplayPartyOverlayRenderer::renderRestOverlay(*this, width, height);
+}
+
+void OutdoorGameView::renderJournalOverlay(int width, int height) const
+{
+    GameplayPartyOverlayRenderer::renderJournalOverlay(*this, width, height);
 }
 
 void OutdoorGameView::showStatusBarEvent(const std::string &text, float durationSeconds)

@@ -20,6 +20,9 @@
 #include "game/audio/GameAudioSystem.h"
 #include "game/tables/HouseTable.h"
 #include "game/tables/IconFrameTable.h"
+#include "game/tables/JournalAutonoteTable.h"
+#include "game/tables/JournalHistoryTable.h"
+#include "game/tables/JournalQuestTable.h"
 #include "game/items/ItemEquipPosTable.h"
 #include "game/items/ItemEnchantTables.h"
 #include "game/tables/NpcDialogTable.h"
@@ -107,6 +110,9 @@ public:
         const CharacterInspectTable &characterInspectTable,
         const ObjectTable &objectTable,
         const SpellTable &spellTable,
+        const JournalQuestTable &journalQuestTable,
+        const JournalHistoryTable &journalHistoryTable,
+        const JournalAutonoteTable &journalAutonoteTable,
         const ItemTable &itemTable,
         const ReadableScrollTable &readableScrollTable,
         const StandardItemEnchantTable &standardItemEnchantTable,
@@ -257,7 +263,8 @@ private:
         Character,
         Chest,
         Spellbook,
-        Rest
+        Rest,
+        Journal
     };
 
     using CharacterPage = GameplayUiController::CharacterPage;
@@ -364,6 +371,30 @@ private:
         CloseButton
     };
 
+    enum class JournalPointerTargetType
+    {
+        None,
+        MainMapView,
+        MainQuestsView,
+        MainStoryView,
+        MainNotesView,
+        PrevPageButton,
+        NextPageButton,
+        NotesPotionButton,
+        NotesFountainButton,
+        NotesObeliskButton,
+        NotesSeerButton,
+        NotesMiscButton,
+        NotesTrainerButton,
+        MapZoomInButton,
+        MapZoomOutButton,
+        MapPanNorthButton,
+        MapPanSouthButton,
+        MapPanEastButton,
+        MapPanWestButton,
+        CloseButton
+    };
+
     using ItemInspectSourceType = GameplayUiController::ItemInspectSourceType;
 
     struct CharacterPointerTarget
@@ -423,6 +454,9 @@ private:
     using SpellbookState = GameplayUiController::SpellbookState;
     using RestScreenState = GameplayUiController::RestScreenState;
     using RestMode = GameplayUiController::RestMode;
+    using JournalScreenState = GameplayUiController::JournalScreenState;
+    using JournalView = GameplayUiController::JournalView;
+    using JournalNotesCategory = GameplayUiController::JournalNotesCategory;
 
     struct RestPointerTarget
     {
@@ -436,6 +470,13 @@ private:
         InventoryNestedOverlayPointerTargetType type = InventoryNestedOverlayPointerTargetType::None;
 
         bool operator==(const InventoryNestedOverlayPointerTarget &other) const = default;
+    };
+
+    struct JournalPointerTarget
+    {
+        JournalPointerTargetType type = JournalPointerTargetType::None;
+
+        bool operator==(const JournalPointerTarget &other) const = default;
     };
 
     using InventoryNestedOverlayState = GameplayUiController::InventoryNestedOverlayState;
@@ -530,6 +571,7 @@ private:
     void renderPendingSpellTargetingOverlay(int width, int height) const;
     void renderSpellbookOverlay(int width, int height) const;
     void renderRestOverlay(int width, int height) const;
+    void renderJournalOverlay(int width, int height) const;
     void submitHudTexturedQuad(const HudTextureHandle &texture, float x, float y, float quadWidth, float quadHeight) const;
     std::optional<std::string> findCachedAssetPath(const std::string &directoryPath, const std::string &fileName);
     std::optional<std::vector<uint8_t>> readCachedBinaryFile(const std::string &assetPath);
@@ -600,6 +642,8 @@ private:
     void closeSpellbook(const std::string &statusText = "");
     void openRestScreen();
     void closeRestScreen();
+    void openJournal();
+    void closeJournal();
     void clearWorldInteractionInputLatches();
     int restFoodRequired() const;
     float innRestDurationMinutes(uint32_t houseId) const;
@@ -663,6 +707,9 @@ private:
     std::optional<EvtProgram> m_globalEvtProgram;
     const ObjectTable *m_pObjectTable;
     const SpellTable *m_pSpellTable;
+    const JournalQuestTable *m_pJournalQuestTable;
+    const JournalHistoryTable *m_pJournalHistoryTable;
+    const JournalAutonoteTable *m_pJournalAutonoteTable;
     GameAudioSystem *m_pGameAudioSystem;
     OutdoorSceneRuntime *m_pOutdoorSceneRuntime;
     OutdoorWorldRuntime *m_pOutdoorWorldRuntime;
@@ -782,6 +829,9 @@ private:
     bool m_pendingSpellTargetClickLatch;
     bool m_restToggleLatch;
     bool m_restClickLatch;
+    bool m_booksButtonClickLatch;
+    bool m_journalToggleLatch;
+    bool m_journalClickLatch;
     bool m_inventoryScreenToggleLatch;
     bool m_adventurersInnToggleLatch;
     GameplayUiController m_gameplayUiController;
@@ -816,11 +866,21 @@ private:
     ReadableScrollOverlayState &m_readableScrollOverlay;
     SpellbookState &m_spellbook;
     RestScreenState &m_restScreen;
+    JournalScreenState &m_journalScreen;
+    bool m_cachedJournalMapValid = false;
+    int m_cachedJournalMapWidth = 0;
+    int m_cachedJournalMapHeight = 0;
+    int m_cachedJournalMapZoomStep = 0;
+    float m_cachedJournalMapCenterX = 0.0f;
+    float m_cachedJournalMapCenterY = 0.0f;
     InventoryNestedOverlayState &m_inventoryNestedOverlay;
     HouseShopOverlayState &m_houseShopOverlay;
     HouseBankState &m_houseBankState;
     SpellbookPointerTarget m_spellbookPressedTarget;
     RestPointerTarget m_restPressedTarget;
+    bool m_booksButtonPressed = false;
+    JournalPointerTarget m_journalPressedTarget;
+    bool m_journalMapKeyZoomLatch = false;
     uint64_t m_lastSpellbookSpellClickTicks;
     uint32_t m_lastSpellbookClickedSpellId;
     PendingSpellCastState m_pendingSpellCast;

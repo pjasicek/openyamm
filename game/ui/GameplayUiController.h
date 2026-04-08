@@ -82,6 +82,24 @@ public:
         Heal
     };
 
+    enum class JournalView : uint8_t
+    {
+        Map = 0,
+        Quests,
+        Story,
+        Notes
+    };
+
+    enum class JournalNotesCategory : uint8_t
+    {
+        Potion = 0,
+        Fountain,
+        Obelisk,
+        Seer,
+        Misc,
+        Trainer
+    };
+
     enum class HouseBankInputMode : uint8_t
     {
         None = 0,
@@ -224,6 +242,25 @@ public:
         float hourglassElapsedSeconds = 0.0f;
     };
 
+    struct JournalScreenState
+    {
+        bool active = false;
+        JournalView view = JournalView::Map;
+        JournalNotesCategory notesCategory = JournalNotesCategory::Potion;
+        size_t questPage = 0;
+        size_t storyPage = 0;
+        size_t notesPage = 0;
+        float mapCenterX = 0.0f;
+        float mapCenterY = 0.0f;
+        int mapZoomStep = 0;
+        bool mapDragActive = false;
+        float mapDragStartMouseX = 0.0f;
+        float mapDragStartMouseY = 0.0f;
+        float mapDragStartCenterX = 0.0f;
+        float mapDragStartCenterY = 0.0f;
+        float hoverAnimationElapsedSeconds = 0.0f;
+    };
+
     struct CharacterScreenState
     {
         bool open = false;
@@ -288,6 +325,7 @@ public:
         ReadableScrollOverlayState readableScrollOverlay = {};
         SpellbookState spellbook = {};
         RestScreenState restScreen = {};
+        JournalScreenState journalScreen = {};
         InventoryNestedOverlayState inventoryNestedOverlay = {};
         HouseShopOverlayState houseShopOverlay = {};
         HouseBankState houseBankState = {};
@@ -335,6 +373,9 @@ public:
 
     RestScreenState &restScreen();
     const RestScreenState &restScreen() const;
+
+    JournalScreenState &journalScreen();
+    const JournalScreenState &journalScreen() const;
 
     InventoryNestedOverlayState &inventoryNestedOverlay();
     const InventoryNestedOverlayState &inventoryNestedOverlay() const;

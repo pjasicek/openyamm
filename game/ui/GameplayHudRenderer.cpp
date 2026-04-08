@@ -420,7 +420,8 @@ void GameplayHudRenderer::renderGameplayHudArt(OutdoorGameView &view, int width,
         || hudScreenState == OutdoorGameView::HudScreenState::Character
         || hudScreenState == OutdoorGameView::HudScreenState::Chest
         || hudScreenState == OutdoorGameView::HudScreenState::Spellbook
-        || hudScreenState == OutdoorGameView::HudScreenState::Rest;
+        || hudScreenState == OutdoorGameView::HudScreenState::Rest
+        || hudScreenState == OutdoorGameView::HudScreenState::Journal;
 
     const auto isGameplayElementVisibleInHudState =
         [&view, hudScreenState, isLimitedOverlayHud](const OutdoorGameView::HudLayoutElement &layout) -> bool
@@ -905,10 +906,12 @@ void GameplayHudRenderer::renderGameplayHud(const OutdoorGameView &view, int wid
         || hudScreenState == OutdoorGameView::HudScreenState::Character
         || hudScreenState == OutdoorGameView::HudScreenState::Chest
         || hudScreenState == OutdoorGameView::HudScreenState::Spellbook
-        || hudScreenState == OutdoorGameView::HudScreenState::Rest;
+        || hudScreenState == OutdoorGameView::HudScreenState::Rest
+        || hudScreenState == OutdoorGameView::HudScreenState::Journal;
     const bool shouldRenderStatusBar =
         hudScreenState != OutdoorGameView::HudScreenState::Spellbook
-        && hudScreenState != OutdoorGameView::HudScreenState::Rest;
+        && hudScreenState != OutdoorGameView::HudScreenState::Rest
+        && hudScreenState != OutdoorGameView::HudScreenState::Journal;
 
     const auto replaceAll =
         [](std::string text, const std::string &from, const std::string &to) -> std::string

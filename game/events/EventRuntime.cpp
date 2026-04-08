@@ -621,7 +621,7 @@ int resolveCharacterMajorConditionValue(const Character &member)
 
 int32_t readCharacterVariableValue(const Character &member, uint32_t rawId)
 {
-    switch (static_cast<EvtVariable>(rawId))
+    switch (static_cast<EvtVariable>(rawId & 0xFFFFu))
     {
         case EvtVariable::MightBonus:
         case EvtVariable::ActualMight:
@@ -748,7 +748,7 @@ int32_t readCharacterActualStatValue(const Character &member, uint32_t rawId, co
 {
     return GameMechanics::resolveCharacterDisplayedActualPrimaryStat(
         member,
-        rawId,
+        rawId & 0xFFFFu,
         pParty != nullptr ? pParty->itemTable() : nullptr,
         pParty != nullptr ? pParty->standardItemEnchantTable() : nullptr,
         pParty != nullptr ? pParty->specialItemEnchantTable() : nullptr);
@@ -758,7 +758,7 @@ void writeCharacterVariableValue(Character &member, uint32_t rawId, int32_t valu
 {
     const int clampedValue = std::clamp(value, 0, 255);
 
-    switch (static_cast<EvtVariable>(rawId))
+    switch (static_cast<EvtVariable>(rawId & 0xFFFFu))
     {
         case EvtVariable::MightBonus:
         case EvtVariable::ActualMight:
@@ -1003,6 +1003,29 @@ EventRuntime::VariableRef EventRuntime::decodeVariable(uint32_t rawId)
         variable.index = static_cast<uint32_t>(variableId)
             - static_cast<uint32_t>(EvtVariable::MapPersistentDecorVariableBegin);
         variable.rawId = variable.index;
+        return variable;
+    }
+
+    if (variable.index != 0 && variableId == EvtVariable::IsIntellectMoreThanBase)
+    {
+        variable.kind = VariableKind::AutoNote;
+        variable.rawId = rawId;
+        return variable;
+    }
+
+    if (variable.index != 0 && variable.tag == 0x00E9u)
+    {
+        variable.kind = VariableKind::BoolFlag;
+        variable.rawId = rawId;
+        return variable;
+    }
+
+    if (variableId >= EvtVariable::HistoryBegin && variableId <= EvtVariable::HistoryEnd)
+    {
+        variable.kind = VariableKind::History;
+        variable.rawId = static_cast<uint32_t>(variableId);
+        variable.index = static_cast<uint32_t>(variableId)
+            - static_cast<uint32_t>(EvtVariable::HistoryBegin) + 1;
         return variable;
     }
 
@@ -1298,7 +1321,13 @@ int32_t EventRuntime::getVariableValue(
 
     if (variable.kind == VariableKind::AutoNote)
     {
-        const std::unordered_map<uint32_t, int32_t>::const_iterator iterator = runtimeState.variables.find(variable.index);
+        const std::unordered_map<uint32_t, int32_t>::const_iterator iterator = runtimeState.variables.find(variable.rawId);
+        return iterator != runtimeState.variables.end() ? iterator->second : 0;
+    }
+
+    if (variable.kind == VariableKind::History)
+    {
+        const std::unordered_map<uint32_t, int32_t>::const_iterator iterator = runtimeState.variables.find(variable.rawId);
         return iterator != runtimeState.variables.end() ? iterator->second : 0;
     }
 
@@ -1783,11 +1812,28 @@ void EventRuntime::setVariableValue(
     if (variable.kind == VariableKind::AutoNote)
     {
         const int32_t normalizedValue = value != 0 ? value : 0;
-        runtimeState.variables[variable.index] = normalizedValue;
+        runtimeState.variables[variable.rawId] = normalizedValue;
 
         if (normalizedValue != 0 && previousValue == 0)
         {
             queuePortraitFxRequest(runtimeState, PortraitFxEventKind::AutoNote, pParty, targetMemberIndices);
+        }
+
+        return;
+    }
+
+    if (variable.kind == VariableKind::History)
+    {
+        const int32_t normalizedValue = value != 0 ? 1 : 0;
+        runtimeState.variables[variable.rawId] = normalizedValue;
+
+        if (normalizedValue != 0 && previousValue == 0)
+        {
+            runtimeState.historyEventTimes[variable.index] = std::max(1, currentGameMinutesFromRuntimeState(runtimeState));
+        }
+        else if (normalizedValue == 0)
+        {
+            runtimeState.historyEventTimes.erase(variable.index);
         }
 
         return;
@@ -2255,6 +2301,23 @@ void EventRuntime::setVariableValue(
         return;
     }
 
+    if (variable.kind == VariableKind::History)
+    {
+        const int32_t normalizedValue = value != 0 ? 1 : 0;
+        runtimeState.variables[variable.rawId] = normalizedValue;
+
+        if (normalizedValue != 0 && previousValue == 0)
+        {
+            runtimeState.historyEventTimes[variable.index] = std::max(1, currentGameMinutesFromRuntimeState(runtimeState));
+        }
+        else if (normalizedValue == 0)
+        {
+            runtimeState.historyEventTimes.erase(variable.index);
+        }
+
+        return;
+    }
+
     if (pParty != nullptr && memberIndex)
     {
         Character *pMember = pParty->member(*memberIndex);
@@ -2363,11 +2426,24 @@ void EventRuntime::addVariableValue(
     if (variable.kind == VariableKind::AutoNote)
     {
         const int32_t updatedValue = previousValue != 0 ? previousValue : value;
-        runtimeState.variables[variable.index] = updatedValue;
+        runtimeState.variables[variable.rawId] = updatedValue;
 
         if (updatedValue != 0 && previousValue == 0)
         {
             queuePortraitFxRequest(runtimeState, PortraitFxEventKind::AutoNote, pParty, targetMemberIndices);
+        }
+
+        return;
+    }
+
+    if (variable.kind == VariableKind::History)
+    {
+        const int32_t updatedValue = previousValue != 0 ? previousValue : (value != 0 ? 1 : 0);
+        runtimeState.variables[variable.rawId] = updatedValue;
+
+        if (updatedValue != 0 && previousValue == 0)
+        {
+            runtimeState.historyEventTimes[variable.index] = std::max(1, currentGameMinutesFromRuntimeState(runtimeState));
         }
 
         return;
@@ -2682,7 +2758,18 @@ void EventRuntime::subtractVariableValue(
     {
         if (value > 0)
         {
-            runtimeState.variables[variable.index] = 0;
+            runtimeState.variables[variable.rawId] = 0;
+        }
+
+        return;
+    }
+
+    if (variable.kind == VariableKind::History)
+    {
+        if (value > 0)
+        {
+            runtimeState.variables[variable.rawId] = 0;
+            runtimeState.historyEventTimes.erase(variable.index);
         }
 
         return;
@@ -3335,6 +3422,7 @@ bool EventRuntime::evaluateCompare(
     }
 
     if (variable.kind == VariableKind::AutoNote
+        || variable.kind == VariableKind::History
         || variable.kind == VariableKind::QBits
         || variable.kind == VariableKind::BoolFlag
         || variable.kind == VariableKind::Condition
@@ -3345,7 +3433,7 @@ bool EventRuntime::evaluateCompare(
 
     if (variable.kind == VariableKind::Inventory)
     {
-        return currentValue >= compareValue;
+        return currentValue != 0;
     }
 
     if (variable.kind == VariableKind::DayOfWeek
@@ -3773,6 +3861,7 @@ bool EventRuntime::executeEvent(
             {
                 if (!instruction.arguments.empty())
                 {
+                    runtimeState.messages.clear();
                     EventRuntimeState::PendingDialogueContext context = {};
                     context.kind = DialogueContextKind::HouseService;
                     context.sourceId = instruction.arguments[0];
@@ -3795,6 +3884,7 @@ bool EventRuntime::executeEvent(
             {
                 if (!instruction.arguments.empty())
                 {
+                    runtimeState.messages.clear();
                     EventRuntimeState::PendingDialogueContext context = {};
                     context.kind = DialogueContextKind::NpcTalk;
                     context.sourceId = instruction.arguments[0];

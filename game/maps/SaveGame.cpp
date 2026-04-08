@@ -13,7 +13,7 @@ namespace OpenYAMM::Game
 {
 namespace
 {
-constexpr uint32_t SaveVersion = 13;
+constexpr uint32_t SaveVersion = 14;
 constexpr char SaveMagic[8] = {'O', 'Y', 'S', 'A', 'V', 'E', '1', '\0'};
 uint32_t g_loadedSaveVersion = SaveVersion;
 
@@ -1096,6 +1096,7 @@ bool readValue(BinaryReader &reader, EventRuntimeState::SpellFxRequest &value)
 void writeValue(BinaryWriter &writer, const EventRuntimeState &value)
 {
     writeValue(writer, value.variables);
+    writeValue(writer, value.historyEventTimes);
     writeValue(writer, value.mapVars);
     writeValue(writer, value.facetSetMasks);
     writeValue(writer, value.facetClearMasks);
@@ -1148,6 +1149,7 @@ void writeValue(BinaryWriter &writer, const EventRuntimeState &value)
 bool readValue(BinaryReader &reader, EventRuntimeState &value)
 {
     return readValue(reader, value.variables)
+        && (g_loadedSaveVersion < 14 || readValue(reader, value.historyEventTimes))
         && (g_loadedSaveVersion < 12 || readValue(reader, value.mapVars))
         && readValue(reader, value.facetSetMasks)
         && readValue(reader, value.facetClearMasks)

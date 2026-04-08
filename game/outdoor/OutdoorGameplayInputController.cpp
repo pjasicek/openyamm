@@ -10,6 +10,7 @@
 #include <SDL3/SDL.h>
 
 #include <algorithm>
+#include <array>
 #include <cmath>
 #include <optional>
 
@@ -21,6 +22,30 @@ constexpr float Pi = 3.14159265358979323846f;
 constexpr uint64_t PartyPortraitDoubleClickWindowMs = 500;
 constexpr int DwiMapId = 1;
 constexpr uint16_t DwiMeteorShowerEventId = 456;
+constexpr std::array<int, 3> JournalMapZoomLevels = {384, 768, 1536};
+constexpr float JournalMapWorldHalfExtent = 32768.0f;
+
+void clampJournalMapState(GameplayUiController::JournalScreenState &journalScreen)
+{
+    journalScreen.mapZoomStep = std::clamp(
+        journalScreen.mapZoomStep,
+        0,
+        static_cast<int>(JournalMapZoomLevels.size()) - 1);
+
+    const int zoom = JournalMapZoomLevels[journalScreen.mapZoomStep];
+    const float zoomFactor = static_cast<float>(zoom) / 384.0f;
+    const float visibleWorldHalfExtent = JournalMapWorldHalfExtent / zoomFactor;
+    const float maxOffset = std::max(0.0f, JournalMapWorldHalfExtent - visibleWorldHalfExtent);
+    journalScreen.mapCenterX = std::clamp(
+        journalScreen.mapCenterX,
+        -maxOffset,
+        maxOffset);
+    journalScreen.mapCenterY = std::clamp(
+        journalScreen.mapCenterY,
+        -maxOffset,
+        maxOffset);
+}
+
 
 struct HudPointerState
 {
@@ -89,6 +114,7 @@ void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view
     const bool hasPendingSpellCast = view.m_pendingSpellCast.active;
     const bool isSpellbookActive = view.m_spellbook.active;
     const bool isRestScreenActive = view.m_restScreen.active;
+    const bool isJournalActive = view.m_journalScreen.active;
     SDL_Window *pWindow = SDL_GetMouseFocus();
 
     if (pWindow == nullptr)
@@ -108,7 +134,8 @@ void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view
         && screenWidth > 0
         && screenHeight > 0
         && !isSpellbookActive
-        && !isRestScreenActive)
+        && !isRestScreenActive
+        && !isJournalActive)
     {
         float portraitMouseX = 0.0f;
         float portraitMouseY = 0.0f;
@@ -123,7 +150,8 @@ void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view
             && !view.m_characterScreenOpen
             && !hasActiveLootView
             && !isSpellbookActive
-            && !isRestScreenActive;
+            && !isRestScreenActive
+            && !isJournalActive;
 
         handlePointerClickRelease(
             portraitPointerState,
@@ -217,6 +245,7 @@ void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view
                      && !hasActiveLootView
                      && !hasPendingSpellCast
                      && !view.m_restScreen.active
+                     && !view.m_journalScreen.active
                      && !view.m_heldInventoryItem.active)
             {
                 view.openSpellbook();
@@ -237,6 +266,7 @@ void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view
         && !hasPendingSpellCast
         && !view.m_spellbook.active
         && !view.m_restScreen.active
+        && !view.m_journalScreen.active
         && !view.m_heldInventoryItem.active;
 
     if (canOpenRestScreen && pKeyboardState[SDL_SCANCODE_R])
@@ -316,7 +346,91 @@ void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view
         && !hasPendingSpellCast
         && !view.m_spellbook.active
         && !view.m_restScreen.active
+        && !view.m_journalScreen.active
         && !view.m_heldInventoryItem.active;
+
+    const bool canToggleJournal =
+        !isEventDialogActive
+        && !view.m_characterScreenOpen
+        && !hasActiveLootView
+        && !hasPendingSpellCast
+        && !view.m_spellbook.active
+        && !view.m_restScreen.active
+        && !view.m_heldInventoryItem.active;
+
+    if (canToggleJournal && screenWidth > 0 && screenHeight > 0)
+    {
+        float booksButtonMouseX = 0.0f;
+        float booksButtonMouseY = 0.0f;
+        const SDL_MouseButtonFlags booksButtonMouseButtons =
+            SDL_GetMouseState(&booksButtonMouseX, &booksButtonMouseY);
+        const HudPointerState booksButtonPointerState = {
+            booksButtonMouseX,
+            booksButtonMouseY,
+            (booksButtonMouseButtons & SDL_BUTTON_LMASK) != 0
+        };
+
+        handlePointerClickRelease(
+            booksButtonPointerState,
+            view.m_booksButtonClickLatch,
+            view.m_booksButtonPressed,
+            false,
+            [&view, screenWidth, screenHeight](float pointerX, float pointerY) -> bool
+            {
+                const OutdoorGameView::HudLayoutElement *pLayout =
+                    HudUiService::findHudLayoutElement(view, "OutdoorButtonBooks");
+
+                if (pLayout == nullptr)
+                {
+                    return false;
+                }
+
+                const std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolved =
+                    HudUiService::resolveHudLayoutElement(
+                        view,
+                        "OutdoorButtonBooks",
+                        screenWidth,
+                        screenHeight,
+                        pLayout->width,
+                        pLayout->height);
+
+                return resolved
+                    && HudUiService::isPointerInsideResolvedElement(*resolved, pointerX, pointerY);
+            },
+            [&view](bool target)
+            {
+                if (target)
+                {
+                    view.openJournal();
+                }
+            });
+    }
+    else if (!view.m_journalScreen.active)
+    {
+        view.m_booksButtonClickLatch = false;
+        view.m_booksButtonPressed = false;
+    }
+
+    if (pKeyboardState[SDL_SCANCODE_M])
+    {
+        if (!view.m_journalToggleLatch)
+        {
+            if (view.m_journalScreen.active)
+            {
+                view.closeJournal();
+            }
+            else if (canToggleJournal)
+            {
+                view.openJournal();
+            }
+
+            view.m_journalToggleLatch = true;
+        }
+    }
+    else
+    {
+        view.m_journalToggleLatch = false;
+    }
 
     if (canToggleAdventurersInn && pKeyboardState[SDL_SCANCODE_P])
     {
@@ -352,7 +466,7 @@ void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view
         view.m_adventurersInnToggleLatch = false;
     }
 
-    if (!isEventDialogActive && !view.m_restScreen.active)
+    if (!isEventDialogActive && !view.m_restScreen.active && !view.m_journalScreen.active)
     {
         if (pKeyboardState[SDL_SCANCODE_I])
         {
@@ -407,7 +521,8 @@ void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view
         && !hasActiveLootView
         && !hasPendingSpellCast
         && !view.m_spellbook.active
-        && !view.m_restScreen.active)
+        && !view.m_restScreen.active
+        && !view.m_journalScreen.active)
     {
         if (pKeyboardState[SDL_SCANCODE_Q])
         {
@@ -654,6 +769,447 @@ void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view
         {
             view.m_restClickLatch = false;
             view.m_restPressedTarget = {};
+        }
+
+        return;
+    }
+
+    if (view.m_journalScreen.active)
+    {
+        const auto adjustPage =
+            [&view](int delta)
+            {
+                if (view.m_journalScreen.view == OutdoorGameView::JournalView::Quests)
+                {
+                    if (delta < 0 && view.m_journalScreen.questPage > 0)
+                    {
+                        --view.m_journalScreen.questPage;
+                    }
+                    else if (delta > 0)
+                    {
+                        ++view.m_journalScreen.questPage;
+                    }
+                }
+                else if (view.m_journalScreen.view == OutdoorGameView::JournalView::Story)
+                {
+                    if (delta < 0 && view.m_journalScreen.storyPage > 0)
+                    {
+                        --view.m_journalScreen.storyPage;
+                    }
+                    else if (delta > 0)
+                    {
+                        ++view.m_journalScreen.storyPage;
+                    }
+                }
+                else if (view.m_journalScreen.view == OutdoorGameView::JournalView::Notes)
+                {
+                    if (delta < 0 && view.m_journalScreen.notesPage > 0)
+                    {
+                        --view.m_journalScreen.notesPage;
+                    }
+                    else if (delta > 0)
+                    {
+                        ++view.m_journalScreen.notesPage;
+                    }
+                }
+            };
+
+        if (pKeyboardState[SDL_SCANCODE_ESCAPE] || pKeyboardState[SDL_SCANCODE_E])
+        {
+            if (!view.m_closeOverlayLatch)
+            {
+                view.closeJournal();
+                view.m_closeOverlayLatch = true;
+            }
+        }
+        else
+        {
+            view.m_closeOverlayLatch = false;
+        }
+
+        if (screenWidth > 0 && screenHeight > 0)
+        {
+            float journalMouseX = 0.0f;
+            float journalMouseY = 0.0f;
+            const SDL_MouseButtonFlags journalMouseButtons = SDL_GetMouseState(&journalMouseX, &journalMouseY);
+            const HudPointerState journalPointerState = {
+                journalMouseX,
+                journalMouseY,
+                (journalMouseButtons & SDL_BUTTON_LMASK) != 0
+            };
+            const OutdoorGameView::JournalPointerTarget noneJournalTarget = {};
+
+            const auto resolveJournalTarget =
+                [&view, screenWidth, screenHeight](
+                    const std::string &layoutId,
+                    OutdoorGameView::JournalPointerTargetType targetType,
+                    float pointerX,
+                    float pointerY) -> OutdoorGameView::JournalPointerTarget
+                {
+                    const OutdoorGameView::HudLayoutElement *pLayout = HudUiService::findHudLayoutElement(view, layoutId);
+
+                    if (pLayout == nullptr)
+                    {
+                        return {};
+                    }
+
+                    const std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolved =
+                        HudUiService::resolveHudLayoutElement(
+                            view,
+                            layoutId,
+                            screenWidth,
+                            screenHeight,
+                            pLayout->width,
+                            pLayout->height);
+
+                    if (!resolved || !HudUiService::isPointerInsideResolvedElement(*resolved, pointerX, pointerY))
+                    {
+                        return {};
+                    }
+
+                    return {targetType};
+                };
+
+            const auto findJournalPointerTarget =
+                [&view, &resolveJournalTarget](float pointerX, float pointerY) -> OutdoorGameView::JournalPointerTarget
+                {
+                    static const std::pair<const char *, OutdoorGameView::JournalPointerTargetType> CommonTargets[] = {
+                        {"JournalMainViewMap", OutdoorGameView::JournalPointerTargetType::MainMapView},
+                        {"JournalMainViewQuests", OutdoorGameView::JournalPointerTargetType::MainQuestsView},
+                        {"JournalMainViewStory", OutdoorGameView::JournalPointerTargetType::MainStoryView},
+                        {"JournalMainViewNotes", OutdoorGameView::JournalPointerTargetType::MainNotesView},
+                        {"JournalCloseButton", OutdoorGameView::JournalPointerTargetType::CloseButton},
+                    };
+                    static const std::pair<const char *, OutdoorGameView::JournalPointerTargetType> MapTargets[] = {
+                        {"JournalMapZoomInButton", OutdoorGameView::JournalPointerTargetType::MapZoomInButton},
+                        {"JournalMapZoomOutButton", OutdoorGameView::JournalPointerTargetType::MapZoomOutButton},
+                    };
+                    static const std::pair<const char *, OutdoorGameView::JournalPointerTargetType> PageTargets[] = {
+                        {"JournalPrevPageButton", OutdoorGameView::JournalPointerTargetType::PrevPageButton},
+                        {"JournalNextPageButton", OutdoorGameView::JournalPointerTargetType::NextPageButton},
+                    };
+                    static const std::pair<const char *, OutdoorGameView::JournalPointerTargetType> NotesTargets[] = {
+                        {"JournalNotesPotionButton", OutdoorGameView::JournalPointerTargetType::NotesPotionButton},
+                        {"JournalNotesFountainButton", OutdoorGameView::JournalPointerTargetType::NotesFountainButton},
+                        {"JournalNotesObeliskButton", OutdoorGameView::JournalPointerTargetType::NotesObeliskButton},
+                        {"JournalNotesSeerButton", OutdoorGameView::JournalPointerTargetType::NotesSeerButton},
+                        {"JournalNotesMiscButton", OutdoorGameView::JournalPointerTargetType::NotesMiscButton},
+                        {"JournalNotesTrainerButton", OutdoorGameView::JournalPointerTargetType::NotesTrainerButton},
+                    };
+
+                    for (const auto &[layoutId, targetType] : CommonTargets)
+                    {
+                        const OutdoorGameView::JournalPointerTarget target =
+                            resolveJournalTarget(layoutId, targetType, pointerX, pointerY);
+
+                        if (target.type != OutdoorGameView::JournalPointerTargetType::None)
+                        {
+                            return target;
+                        }
+                    }
+
+                    if (view.m_journalScreen.view == OutdoorGameView::JournalView::Map)
+                    {
+                        for (const auto &[layoutId, targetType] : MapTargets)
+                        {
+                            const OutdoorGameView::JournalPointerTarget target =
+                                resolveJournalTarget(layoutId, targetType, pointerX, pointerY);
+
+                            if (target.type != OutdoorGameView::JournalPointerTargetType::None)
+                            {
+                                return target;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        for (const auto &[layoutId, targetType] : PageTargets)
+                        {
+                            const OutdoorGameView::JournalPointerTarget target =
+                                resolveJournalTarget(layoutId, targetType, pointerX, pointerY);
+
+                            if (target.type != OutdoorGameView::JournalPointerTargetType::None)
+                            {
+                                return target;
+                            }
+                        }
+
+                        if (view.m_journalScreen.view == OutdoorGameView::JournalView::Notes)
+                        {
+                            for (const auto &[layoutId, targetType] : NotesTargets)
+                            {
+                                const OutdoorGameView::JournalPointerTarget target =
+                                    resolveJournalTarget(layoutId, targetType, pointerX, pointerY);
+
+                                if (target.type != OutdoorGameView::JournalPointerTargetType::None)
+                                {
+                                    return target;
+                                }
+                            }
+                        }
+                    }
+
+                    return {};
+                };
+
+            const auto resolveJournalViewport =
+                [&view, screenWidth, screenHeight]() -> std::optional<OutdoorGameView::ResolvedHudLayoutElement>
+                {
+                    const OutdoorGameView::HudLayoutElement *pLayout =
+                        HudUiService::findHudLayoutElement(view, "JournalMapViewport");
+
+                    if (pLayout == nullptr)
+                    {
+                        return std::nullopt;
+                    }
+
+                    return HudUiService::resolveHudLayoutElement(
+                        view,
+                        "JournalMapViewport",
+                        screenWidth,
+                        screenHeight,
+                        pLayout->width,
+                        pLayout->height);
+                };
+
+            const auto activateJournalTarget =
+                [&view, &adjustPage](const OutdoorGameView::JournalPointerTarget &target)
+                {
+                    switch (target.type)
+                    {
+                        case OutdoorGameView::JournalPointerTargetType::MainMapView:
+                            view.m_journalScreen.view = OutdoorGameView::JournalView::Map;
+                            break;
+                        case OutdoorGameView::JournalPointerTargetType::MainQuestsView:
+                            view.m_journalScreen.view = OutdoorGameView::JournalView::Quests;
+                            view.m_journalScreen.mapDragActive = false;
+                            break;
+                        case OutdoorGameView::JournalPointerTargetType::MainStoryView:
+                            view.m_journalScreen.view = OutdoorGameView::JournalView::Story;
+                            view.m_journalScreen.mapDragActive = false;
+                            break;
+                        case OutdoorGameView::JournalPointerTargetType::MainNotesView:
+                            view.m_journalScreen.view = OutdoorGameView::JournalView::Notes;
+                            view.m_journalScreen.mapDragActive = false;
+                            break;
+                        case OutdoorGameView::JournalPointerTargetType::PrevPageButton:
+                            adjustPage(-1);
+                            break;
+                        case OutdoorGameView::JournalPointerTargetType::NextPageButton:
+                            adjustPage(1);
+                            break;
+                        case OutdoorGameView::JournalPointerTargetType::NotesPotionButton:
+                            view.m_journalScreen.view = OutdoorGameView::JournalView::Notes;
+                            view.m_journalScreen.notesCategory = OutdoorGameView::JournalNotesCategory::Potion;
+                            view.m_journalScreen.notesPage = 0;
+                            break;
+                        case OutdoorGameView::JournalPointerTargetType::NotesFountainButton:
+                            view.m_journalScreen.view = OutdoorGameView::JournalView::Notes;
+                            view.m_journalScreen.notesCategory = OutdoorGameView::JournalNotesCategory::Fountain;
+                            view.m_journalScreen.notesPage = 0;
+                            break;
+                        case OutdoorGameView::JournalPointerTargetType::NotesObeliskButton:
+                            view.m_journalScreen.view = OutdoorGameView::JournalView::Notes;
+                            view.m_journalScreen.notesCategory = OutdoorGameView::JournalNotesCategory::Obelisk;
+                            view.m_journalScreen.notesPage = 0;
+                            break;
+                        case OutdoorGameView::JournalPointerTargetType::NotesSeerButton:
+                            view.m_journalScreen.view = OutdoorGameView::JournalView::Notes;
+                            view.m_journalScreen.notesCategory = OutdoorGameView::JournalNotesCategory::Seer;
+                            view.m_journalScreen.notesPage = 0;
+                            break;
+                        case OutdoorGameView::JournalPointerTargetType::NotesMiscButton:
+                            view.m_journalScreen.view = OutdoorGameView::JournalView::Notes;
+                            view.m_journalScreen.notesCategory = OutdoorGameView::JournalNotesCategory::Misc;
+                            view.m_journalScreen.notesPage = 0;
+                            break;
+                        case OutdoorGameView::JournalPointerTargetType::NotesTrainerButton:
+                            view.m_journalScreen.view = OutdoorGameView::JournalView::Notes;
+                            view.m_journalScreen.notesCategory = OutdoorGameView::JournalNotesCategory::Trainer;
+                            view.m_journalScreen.notesPage = 0;
+                            break;
+                        case OutdoorGameView::JournalPointerTargetType::MapZoomInButton:
+                            view.m_journalScreen.view = OutdoorGameView::JournalView::Map;
+                            view.m_journalScreen.mapZoomStep = std::min(
+                                view.m_journalScreen.mapZoomStep + 1,
+                                static_cast<int>(JournalMapZoomLevels.size()) - 1);
+
+                            if (view.m_pOutdoorPartyRuntime != nullptr)
+                            {
+                                const OutdoorMoveState &moveState = view.m_pOutdoorPartyRuntime->movementState();
+                                view.m_journalScreen.mapCenterX = moveState.x;
+                                view.m_journalScreen.mapCenterY = moveState.y;
+                            }
+
+                            clampJournalMapState(view.m_journalScreen);
+                            view.m_cachedJournalMapValid = false;
+                            break;
+                        case OutdoorGameView::JournalPointerTargetType::MapZoomOutButton:
+                            view.m_journalScreen.view = OutdoorGameView::JournalView::Map;
+                            view.m_journalScreen.mapZoomStep = std::max(view.m_journalScreen.mapZoomStep - 1, 0);
+
+                            if (view.m_pOutdoorPartyRuntime != nullptr)
+                            {
+                                const OutdoorMoveState &moveState = view.m_pOutdoorPartyRuntime->movementState();
+                                view.m_journalScreen.mapCenterX = moveState.x;
+                                view.m_journalScreen.mapCenterY = moveState.y;
+                            }
+
+                            clampJournalMapState(view.m_journalScreen);
+                            view.m_cachedJournalMapValid = false;
+                            break;
+                        case OutdoorGameView::JournalPointerTargetType::MapPanNorthButton:
+                            view.m_journalScreen.view = OutdoorGameView::JournalView::Map;
+                            view.m_journalScreen.mapCenterY += 512.0f;
+                            clampJournalMapState(view.m_journalScreen);
+                            view.m_cachedJournalMapValid = false;
+                            break;
+                        case OutdoorGameView::JournalPointerTargetType::MapPanSouthButton:
+                            view.m_journalScreen.view = OutdoorGameView::JournalView::Map;
+                            view.m_journalScreen.mapCenterY -= 512.0f;
+                            clampJournalMapState(view.m_journalScreen);
+                            view.m_cachedJournalMapValid = false;
+                            break;
+                        case OutdoorGameView::JournalPointerTargetType::MapPanEastButton:
+                            view.m_journalScreen.view = OutdoorGameView::JournalView::Map;
+                            view.m_journalScreen.mapCenterX -= 512.0f;
+                            clampJournalMapState(view.m_journalScreen);
+                            view.m_cachedJournalMapValid = false;
+                            break;
+                        case OutdoorGameView::JournalPointerTargetType::MapPanWestButton:
+                            view.m_journalScreen.view = OutdoorGameView::JournalView::Map;
+                            view.m_journalScreen.mapCenterX += 512.0f;
+                            clampJournalMapState(view.m_journalScreen);
+                            view.m_cachedJournalMapValid = false;
+                            break;
+                        case OutdoorGameView::JournalPointerTargetType::CloseButton:
+                            view.closeJournal();
+                            break;
+                        case OutdoorGameView::JournalPointerTargetType::None:
+                            break;
+                    }
+                };
+
+            const auto isImmediateJournalMapTarget =
+                [](const OutdoorGameView::JournalPointerTarget &target) -> bool
+                {
+                    switch (target.type)
+                    {
+                        case OutdoorGameView::JournalPointerTargetType::MapZoomInButton:
+                        case OutdoorGameView::JournalPointerTargetType::MapZoomOutButton:
+                        case OutdoorGameView::JournalPointerTargetType::MapPanNorthButton:
+                        case OutdoorGameView::JournalPointerTargetType::MapPanSouthButton:
+                        case OutdoorGameView::JournalPointerTargetType::MapPanEastButton:
+                        case OutdoorGameView::JournalPointerTargetType::MapPanWestButton:
+                            return true;
+
+                        case OutdoorGameView::JournalPointerTargetType::None:
+                        case OutdoorGameView::JournalPointerTargetType::MainMapView:
+                        case OutdoorGameView::JournalPointerTargetType::MainQuestsView:
+                        case OutdoorGameView::JournalPointerTargetType::MainStoryView:
+                        case OutdoorGameView::JournalPointerTargetType::MainNotesView:
+                        case OutdoorGameView::JournalPointerTargetType::PrevPageButton:
+                        case OutdoorGameView::JournalPointerTargetType::NextPageButton:
+                        case OutdoorGameView::JournalPointerTargetType::NotesPotionButton:
+                        case OutdoorGameView::JournalPointerTargetType::NotesFountainButton:
+                        case OutdoorGameView::JournalPointerTargetType::NotesObeliskButton:
+                        case OutdoorGameView::JournalPointerTargetType::NotesSeerButton:
+                        case OutdoorGameView::JournalPointerTargetType::NotesMiscButton:
+                        case OutdoorGameView::JournalPointerTargetType::NotesTrainerButton:
+                        case OutdoorGameView::JournalPointerTargetType::CloseButton:
+                            return false;
+                    }
+
+                    return false;
+                };
+
+            if (view.m_journalScreen.mapDragActive)
+            {
+                if (journalPointerState.leftButtonPressed)
+                {
+                    const int zoom = JournalMapZoomLevels[view.m_journalScreen.mapZoomStep];
+                    const float zoomFactor = static_cast<float>(zoom) / 384.0f;
+                    const std::optional<OutdoorGameView::ResolvedHudLayoutElement> mapViewport = resolveJournalViewport();
+                    const float viewportWidth = mapViewport.has_value() ? mapViewport->width : 336.0f;
+                    const float viewportHeight = mapViewport.has_value() ? mapViewport->height : 336.0f;
+                    const float worldUnitsPerPixelX =
+                        (JournalMapWorldHalfExtent * 2.0f) / (zoomFactor * std::max(1.0f, viewportWidth));
+                    const float worldUnitsPerPixelY =
+                        (JournalMapWorldHalfExtent * 2.0f) / (zoomFactor * std::max(1.0f, viewportHeight));
+                    const float deltaX = journalPointerState.x - view.m_journalScreen.mapDragStartMouseX;
+                    const float deltaY = journalPointerState.y - view.m_journalScreen.mapDragStartMouseY;
+                    const float previousCenterX = view.m_journalScreen.mapCenterX;
+                    const float previousCenterY = view.m_journalScreen.mapCenterY;
+
+                    view.m_journalScreen.mapCenterX =
+                        view.m_journalScreen.mapDragStartCenterX - deltaX * worldUnitsPerPixelX;
+                    view.m_journalScreen.mapCenterY =
+                        view.m_journalScreen.mapDragStartCenterY - deltaY * worldUnitsPerPixelY;
+                    clampJournalMapState(view.m_journalScreen);
+
+                    if (std::abs(view.m_journalScreen.mapCenterX - previousCenterX) > 0.01f
+                        || std::abs(view.m_journalScreen.mapCenterY - previousCenterY) > 0.01f)
+                    {
+                        view.m_cachedJournalMapValid = false;
+                    }
+                }
+                else
+                {
+                    view.m_journalScreen.mapDragActive = false;
+                    view.m_journalClickLatch = false;
+                    view.m_journalPressedTarget = noneJournalTarget;
+                }
+
+                return;
+            }
+
+            if (journalPointerState.leftButtonPressed && !view.m_journalClickLatch)
+            {
+                const OutdoorGameView::JournalPointerTarget pressedTarget =
+                    findJournalPointerTarget(journalPointerState.x, journalPointerState.y);
+
+                if (isImmediateJournalMapTarget(pressedTarget))
+                {
+                    activateJournalTarget(pressedTarget);
+                    view.m_journalClickLatch = true;
+                    view.m_journalPressedTarget = noneJournalTarget;
+                    return;
+                }
+
+                if (view.m_journalScreen.view == OutdoorGameView::JournalView::Map && pressedTarget == noneJournalTarget)
+                {
+                    const std::optional<OutdoorGameView::ResolvedHudLayoutElement> mapViewport = resolveJournalViewport();
+
+                    if (mapViewport.has_value()
+                        && HudUiService::isPointerInsideResolvedElement(
+                            *mapViewport,
+                            journalPointerState.x,
+                            journalPointerState.y))
+                    {
+                        view.m_journalScreen.mapDragActive = true;
+                        view.m_journalScreen.mapDragStartMouseX = journalPointerState.x;
+                        view.m_journalScreen.mapDragStartMouseY = journalPointerState.y;
+                        view.m_journalScreen.mapDragStartCenterX = view.m_journalScreen.mapCenterX;
+                        view.m_journalScreen.mapDragStartCenterY = view.m_journalScreen.mapCenterY;
+                        view.m_journalClickLatch = true;
+                        view.m_journalPressedTarget = noneJournalTarget;
+                        return;
+                    }
+                }
+            }
+
+            handlePointerClickRelease(
+                journalPointerState,
+                view.m_journalClickLatch,
+                view.m_journalPressedTarget,
+                noneJournalTarget,
+                findJournalPointerTarget,
+                activateJournalTarget);
+        }
+        else
+        {
+            view.m_journalClickLatch = false;
+            view.m_journalPressedTarget = {};
         }
 
         return;

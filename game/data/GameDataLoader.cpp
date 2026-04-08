@@ -710,6 +710,11 @@ bool GameDataLoader::loadInternal(const Engine::AssetFileSystem &assetFileSystem
         return false;
     }
 
+    if (!loadJournalTables(assetFileSystem))
+    {
+        return false;
+    }
+
     if (!loadClassSkillTable(assetFileSystem))
     {
         return false;
@@ -903,6 +908,21 @@ const ChestTable &GameDataLoader::getChestTable() const
 const HouseTable &GameDataLoader::getHouseTable() const
 {
     return m_houseTable;
+}
+
+const JournalQuestTable &GameDataLoader::getJournalQuestTable() const
+{
+    return m_journalQuestTable;
+}
+
+const JournalHistoryTable &GameDataLoader::getJournalHistoryTable() const
+{
+    return m_journalHistoryTable;
+}
+
+const JournalAutonoteTable &GameDataLoader::getJournalAutonoteTable() const
+{
+    return m_journalAutonoteTable;
 }
 
 const ClassSkillTable &GameDataLoader::getClassSkillTable() const
@@ -1212,6 +1232,53 @@ bool GameDataLoader::loadNpcDialogTable(const Engine::AssetFileSystem &assetFile
         || !m_npcDialogTable.loadNpcRows(npcRows))
     {
         std::cerr << "Failed to parse NPC dialog tables\n";
+        return false;
+    }
+
+    return true;
+}
+
+bool GameDataLoader::loadJournalTables(const Engine::AssetFileSystem &assetFileSystem)
+{
+    std::vector<std::vector<std::string>> questRows;
+
+    if (!loadFirstTextTableRows(assetFileSystem, {"Data/EnglishT/quests.txt", "Data/EnglishT/QUESTS.txt"}, questRows))
+    {
+        std::cerr << "Failed to read journal quest table\n";
+        return false;
+    }
+
+    std::vector<std::vector<std::string>> historyRows;
+
+    if (!loadFirstTextTableRows(assetFileSystem, {"Data/EnglishT/history.txt", "Data/EnglishT/HISTORY.txt"}, historyRows))
+    {
+        std::cerr << "Failed to read journal history table\n";
+        return false;
+    }
+
+    std::vector<std::vector<std::string>> autonoteRows;
+
+    if (!loadFirstTextTableRows(assetFileSystem, {"Data/EnglishT/Autonote.txt", "Data/EnglishT/AUTONOTE.txt"}, autonoteRows))
+    {
+        std::cerr << "Failed to read journal autonote table\n";
+        return false;
+    }
+
+    if (!m_journalQuestTable.loadFromRows(questRows))
+    {
+        std::cerr << "Failed to parse journal quest table\n";
+        return false;
+    }
+
+    if (!m_journalHistoryTable.loadFromRows(historyRows))
+    {
+        std::cerr << "Failed to parse journal history table\n";
+        return false;
+    }
+
+    if (!m_journalAutonoteTable.loadFromRows(autonoteRows))
+    {
+        std::cerr << "Failed to parse journal autonote table\n";
         return false;
     }
 

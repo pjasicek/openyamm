@@ -71,6 +71,9 @@ add_executable(openyamm
     app/GameSession.cpp
     audio/GameAudioSystem.cpp
     tables/ChestTable.cpp
+    tables/JournalAutonoteTable.cpp
+    tables/JournalHistoryTable.cpp
+    tables/JournalQuestTable.cpp
     tables/CharacterInspectTable.cpp
     tables/CharacterDollTable.cpp
     tables/ClassSkillTable.cpp
@@ -87,6 +90,7 @@ add_executable(openyamm
     gameplay/GenericActorDialog.cpp
     gameplay/HouseInteraction.cpp
     gameplay/HouseServiceRuntime.cpp
+    gameplay/StoryTextFormatter.cpp
     audio/HouseVideoPlayer.cpp
     items/InventoryItemUseRuntime.cpp
     maps/MapDeltaData.cpp

@@ -155,6 +155,7 @@ struct EventRuntimeState
     };
 
     std::unordered_map<uint32_t, int32_t> variables;
+    std::unordered_map<uint32_t, int32_t> historyEventTimes;
     std::array<uint8_t, 75> mapVars = {};
     std::unordered_map<uint32_t, uint32_t> facetSetMasks;
     std::unordered_map<uint32_t, uint32_t> facetClearMasks;
@@ -245,6 +246,7 @@ private:
         QBits,
         BoolFlag,
         AutoNote,
+        History,
         Food,
         Inventory,
         Awards,

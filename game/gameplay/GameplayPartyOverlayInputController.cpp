@@ -5,6 +5,7 @@
 #include "game/items/InventoryItemUseRuntime.h"
 #include "game/outdoor/OutdoorGameView.h"
 #include "game/outdoor/OutdoorPartyRuntime.h"
+#include "game/party/SpellIds.h"
 #include "game/party/SkillData.h"
 #include "game/ui/SpellbookUiLayout.h"
 #include "game/StringUtils.h"
@@ -1099,6 +1100,20 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                         }
 
                         view.setStatusBarEvent(memberName + " joined the party.");
+
+                        if (view.m_pGameAudioSystem != nullptr && view.m_pSpellTable != nullptr)
+                        {
+                            const SpellEntry *pSpellEntry =
+                                view.m_pSpellTable->findById(static_cast<int>(spellIdValue(SpellId::Heroism)));
+
+                            if (pSpellEntry != nullptr && pSpellEntry->effectSoundId > 0)
+                            {
+                                view.m_pGameAudioSystem->playSound(
+                                    static_cast<uint32_t>(pSpellEntry->effectSoundId),
+                                    GameAudioSystem::PlaybackGroup::Ui);
+                            }
+                        }
+
                         break;
                     }
 

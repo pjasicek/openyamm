@@ -7,6 +7,9 @@
 #include "game/tables/CharacterDollTable.h"
 #include "game/tables/ClassSkillTable.h"
 #include "game/tables/HouseTable.h"
+#include "game/tables/JournalAutonoteTable.h"
+#include "game/tables/JournalHistoryTable.h"
+#include "game/tables/JournalQuestTable.h"
 #include "game/items/ItemEquipPosTable.h"
 #include "game/items/ItemEnchantTables.h"
 #include "game/tables/ItemTable.h"
@@ -62,6 +65,9 @@ public:
     const ItemEquipPosTable &getItemEquipPosTable() const;
     const ChestTable &getChestTable() const;
     const HouseTable &getHouseTable() const;
+    const JournalQuestTable &getJournalQuestTable() const;
+    const JournalHistoryTable &getJournalHistoryTable() const;
+    const JournalAutonoteTable &getJournalAutonoteTable() const;
     const ClassSkillTable &getClassSkillTable() const;
     const NpcDialogTable &getNpcDialogTable() const;
     const RosterTable &getRosterTable() const;
@@ -91,6 +97,7 @@ private:
     bool loadItemEquipPosTable(const Engine::AssetFileSystem &assetFileSystem);
     bool loadChestTable(const Engine::AssetFileSystem &assetFileSystem);
     bool loadHouseTable(const Engine::AssetFileSystem &assetFileSystem);
+    bool loadJournalTables(const Engine::AssetFileSystem &assetFileSystem);
     bool loadClassSkillTable(const Engine::AssetFileSystem &assetFileSystem);
     bool loadNpcDialogTable(const Engine::AssetFileSystem &assetFileSystem);
     bool loadRosterTable(const Engine::AssetFileSystem &assetFileSystem);
@@ -122,6 +129,9 @@ private:
     ItemEquipPosTable m_itemEquipPosTable;
     ChestTable m_chestTable;
     HouseTable m_houseTable;
+    JournalQuestTable m_journalQuestTable;
+    JournalHistoryTable m_journalHistoryTable;
+    JournalAutonoteTable m_journalAutonoteTable;
     ClassSkillTable m_classSkillTable;
     NpcDialogTable m_npcDialogTable;
     RosterTable m_rosterTable;

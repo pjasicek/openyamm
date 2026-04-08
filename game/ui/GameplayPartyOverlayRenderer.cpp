@@ -1,6 +1,7 @@
 #include "game/ui/GameplayPartyOverlayRenderer.h"
 
 #include "game/gameplay/GameMechanics.h"
+#include "game/gameplay/StoryTextFormatter.h"
 #include "game/items/ItemEnchantRuntime.h"
 #include "game/items/ItemRuntime.h"
 #include "game/outdoor/OutdoorGameView.h"
@@ -23,6 +24,7 @@
 #include <cstdint>
 #include <cstdlib>
 #include <functional>
+#include <filesystem>
 #include <optional>
 #include <string>
 #include <tuple>
@@ -48,6 +50,14 @@ constexpr float RestHourglassLoopSeconds = 4.0f;
 constexpr int RestDaysPerMonth = 28;
 constexpr int RestMonthsPerYear = 12;
 constexpr int RestStartingYear = 1168;
+constexpr int JournalRevealWidth = 88;
+constexpr int JournalRevealHeight = 88;
+constexpr int JournalMapBaseZoom = 384;
+constexpr float JournalMainIconAnimationFps = 10.0f;
+constexpr float JournalMapWorldHalfExtent = 32768.0f;
+constexpr char JournalMapTextureCacheName[] = "__journal_map_composited__";
+constexpr std::array<int, 3> JournalMapZoomLevels = {384, 768, 1536};
+constexpr bool JournalMapForceFullyRevealedForTest = true;
 
 uint32_t currentAnimationTicks()
 {
@@ -216,6 +226,229 @@ std::string formatRestHourglassTextureName(const GameplayUiController::RestScree
     char textureName[16] = {};
     std::snprintf(textureName, sizeof(textureName), "HGLAS%03d", frameIndex);
     return textureName;
+}
+
+bool packedRevealBit(const std::vector<uint8_t> &bytes, size_t index)
+{
+    const size_t byteIndex = index / 8;
+
+    if (byteIndex >= bytes.size())
+    {
+        return false;
+    }
+
+    const uint8_t mask = static_cast<uint8_t>(1u << (7u - static_cast<unsigned>(index % 8)));
+    return (bytes[byteIndex] & mask) != 0;
+}
+
+int clampedJournalMapZoomValue(int zoomStep)
+{
+    const int clampedStep = std::clamp(zoomStep, 0, static_cast<int>(JournalMapZoomLevels.size()) - 1);
+    return JournalMapZoomLevels[clampedStep];
+}
+
+std::string journalMainIconTextureName(
+    const std::string &prefix,
+    int frameCount,
+    bool hovered,
+    float elapsedSeconds)
+{
+    int frameIndex = 1;
+
+    if (hovered && frameCount > 1)
+    {
+        frameIndex = 1 + (static_cast<int>(std::floor(elapsedSeconds * JournalMainIconAnimationFps)) % frameCount);
+    }
+
+    char buffer[32] = {};
+    std::snprintf(buffer, sizeof(buffer), "%s_%02d", prefix.c_str(), frameIndex);
+    return buffer;
+}
+
+std::string journalNotesCategoryTitle(GameplayUiController::JournalNotesCategory category)
+{
+    switch (category)
+    {
+        case GameplayUiController::JournalNotesCategory::Potion:
+            return "Potion Notes";
+        case GameplayUiController::JournalNotesCategory::Fountain:
+            return "Fountains";
+        case GameplayUiController::JournalNotesCategory::Obelisk:
+            return "Obelisk Notes";
+        case GameplayUiController::JournalNotesCategory::Seer:
+            return "Seer Notes";
+        case GameplayUiController::JournalNotesCategory::Misc:
+            return "Miscellaneous";
+        case GameplayUiController::JournalNotesCategory::Trainer:
+            return "Teacher Locations";
+    }
+
+    return "Notes";
+}
+
+struct JournalStackedPageEntry
+{
+    std::vector<std::string> lines;
+};
+
+struct JournalStackedPage
+{
+    std::vector<JournalStackedPageEntry> entries;
+};
+
+struct JournalStoryPage
+{
+    std::string title;
+    std::vector<std::string> lines;
+};
+
+constexpr float Pi = 3.14159265358979323846f;
+
+std::vector<JournalStackedPage> buildJournalStackedPages(
+    const OutdoorGameView &view,
+    const auto &font,
+    const std::vector<std::string> &texts,
+    float pageWidthPixels,
+    float pageHeightPixels,
+    float fontScale)
+{
+    std::vector<JournalStackedPage> pages;
+
+    if (texts.empty())
+    {
+        return pages;
+    }
+
+    const float wrapWidth = std::max(1.0f, pageWidthPixels / std::max(0.1f, fontScale));
+    const float lineHeight = std::max(1.0f, static_cast<float>(font.fontHeight) * fontScale);
+    const float dividerGap = std::max(10.0f, 12.0f * fontScale);
+    const size_t maxLinesPerPage = std::max<size_t>(1, static_cast<size_t>(std::floor(pageHeightPixels / lineHeight)));
+    JournalStackedPage currentPage = {};
+    float currentHeight = 0.0f;
+
+    for (const std::string &text : texts)
+    {
+        std::vector<std::string> wrappedLines = HudUiService::wrapHudTextToWidth(view, font, text, wrapWidth);
+
+        if (wrappedLines.empty())
+        {
+            wrappedLines.push_back("");
+        }
+
+        if (wrappedLines.size() > maxLinesPerPage)
+        {
+            wrappedLines.resize(maxLinesPerPage);
+        }
+
+        const float entryHeight = static_cast<float>(wrappedLines.size()) * lineHeight;
+        const float additionalHeight = currentPage.entries.empty() ? entryHeight : dividerGap + entryHeight;
+
+        if (!currentPage.entries.empty() && currentHeight + additionalHeight > pageHeightPixels)
+        {
+            pages.push_back(std::move(currentPage));
+            currentPage = {};
+            currentHeight = 0.0f;
+        }
+
+        JournalStackedPageEntry entry = {};
+        entry.lines = std::move(wrappedLines);
+        currentPage.entries.push_back(std::move(entry));
+        currentHeight += currentPage.entries.size() == 1 ? entryHeight : dividerGap + entryHeight;
+    }
+
+    if (!currentPage.entries.empty())
+    {
+        pages.push_back(std::move(currentPage));
+    }
+
+    return pages;
+}
+
+std::vector<JournalStoryPage> buildJournalStoryPages(
+    const OutdoorGameView &view,
+    const auto &font,
+    const JournalHistoryTable &historyTable,
+    const EventRuntimeState *pEventRuntimeState,
+    const Party *pParty,
+    float pageWidthPixels,
+    float pageHeightPixels,
+    float fontScale)
+{
+    std::vector<JournalStoryPage> pages;
+
+    if (pEventRuntimeState == nullptr || pParty == nullptr)
+    {
+        return pages;
+    }
+
+    const float wrapWidth = std::max(1.0f, pageWidthPixels / std::max(0.1f, fontScale));
+    const size_t linesPerPage = std::max<size_t>(
+        1,
+        static_cast<size_t>(std::floor(pageHeightPixels / std::max(1.0f, static_cast<float>(font.fontHeight) * fontScale))));
+
+    for (const JournalHistoryEntry &entry : historyTable.entries())
+    {
+        const auto historyTimeIt = pEventRuntimeState->historyEventTimes.find(entry.id);
+
+        if (historyTimeIt == pEventRuntimeState->historyEventTimes.end())
+        {
+            continue;
+        }
+
+        std::vector<std::string> wrappedLines = HudUiService::wrapHudTextToWidth(
+            view,
+            font,
+            StoryTextFormatter::format(entry.text, *pParty, historyTimeIt->second),
+            wrapWidth);
+
+        if (wrappedLines.empty())
+        {
+            wrappedLines.push_back("");
+        }
+
+        for (size_t lineIndex = 0; lineIndex < wrappedLines.size(); lineIndex += linesPerPage)
+        {
+            JournalStoryPage page = {};
+            page.title = entry.pageTitle;
+
+            const size_t endIndex = std::min(wrappedLines.size(), lineIndex + linesPerPage);
+
+            for (size_t chunkIndex = lineIndex; chunkIndex < endIndex; ++chunkIndex)
+            {
+                page.lines.push_back(wrappedLines[chunkIndex]);
+            }
+
+            pages.push_back(std::move(page));
+        }
+    }
+
+    return pages;
+}
+
+void renderHudLines(
+    const OutdoorGameView &view,
+    const auto &font,
+    uint32_t colorAbgr,
+    const std::vector<std::string> &lines,
+    float x,
+    float y,
+    float fontScale)
+{
+    bgfx::TextureHandle coloredMainTextureHandle = HudUiService::ensureHudFontMainTextureColor(view, font, colorAbgr);
+
+    if (!bgfx::isValid(coloredMainTextureHandle))
+    {
+        coloredMainTextureHandle = font.mainTextureHandle;
+    }
+
+    const float lineHeight = static_cast<float>(font.fontHeight) * fontScale;
+
+    for (size_t index = 0; index < lines.size(); ++index)
+    {
+        const float lineY = y + static_cast<float>(index) * lineHeight;
+        HudUiService::renderHudFontLayer(view, font, font.shadowTextureHandle, lines[index], x, lineY, fontScale);
+        HudUiService::renderHudFontLayer(view, font, coloredMainTextureHandle, lines[index], x, lineY, fontScale);
+    }
 }
 
 std::string formatRestTimeText(float gameMinutes)
@@ -1381,6 +1614,764 @@ void GameplayPartyOverlayRenderer::renderRestOverlay(const OutdoorGameView &view
             }
         }
     }
+}
+
+void GameplayPartyOverlayRenderer::renderJournalOverlay(const OutdoorGameView &view, int width, int height)
+{
+    if (!view.m_journalScreen.active
+        || !bgfx::isValid(view.m_texturedTerrainProgramHandle)
+        || !bgfx::isValid(view.m_terrainTextureSamplerHandle)
+        || width <= 0
+        || height <= 0)
+    {
+        return;
+    }
+
+    const OutdoorGameView::HudLayoutElement *pRootLayout = HudUiService::findHudLayoutElement(view, "JournalRoot");
+
+    if (pRootLayout == nullptr)
+    {
+        return;
+    }
+
+    setupHudProjection(width, height);
+
+    float mouseX = 0.0f;
+    float mouseY = 0.0f;
+    const SDL_MouseButtonFlags mouseButtons = SDL_GetMouseState(&mouseX, &mouseY);
+    const bool isLeftMousePressed = (mouseButtons & SDL_BUTTON_LMASK) != 0;
+
+    const auto loadHudTexture =
+        [&view](const std::string &textureName) -> const OutdoorGameView::HudTextureHandle *
+        {
+            return HudUiService::ensureHudTextureLoaded(const_cast<OutdoorGameView &>(view), textureName);
+        };
+
+    const auto resolveLayout =
+        [&view, width, height](const std::string &layoutId) -> std::optional<OutdoorGameView::ResolvedHudLayoutElement>
+        {
+            const OutdoorGameView::HudLayoutElement *pLayout = HudUiService::findHudLayoutElement(view, layoutId);
+
+            if (pLayout == nullptr)
+            {
+                return std::nullopt;
+            }
+
+            return HudUiService::resolveHudLayoutElement(view, layoutId, width, height, pLayout->width, pLayout->height);
+        };
+
+    const auto renderTextureLayout =
+        [&view, &loadHudTexture, &resolveLayout](const std::string &layoutId, const std::string &textureName)
+        {
+            const OutdoorGameView::HudTextureHandle *pTexture = loadHudTexture(textureName);
+            const std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolved = resolveLayout(layoutId);
+
+            if (pTexture == nullptr || !resolved)
+            {
+                return;
+            }
+
+            view.submitHudTexturedQuad(*pTexture, resolved->x, resolved->y, resolved->width, resolved->height);
+        };
+
+    const auto renderInteractiveTextureLayout =
+        [&view, &loadHudTexture, &resolveLayout, mouseX, mouseY, isLeftMousePressed](
+            const std::string &layoutId,
+            const std::string *pOverrideTextureName = nullptr)
+        {
+            const OutdoorGameView::HudLayoutElement *pLayout = HudUiService::findHudLayoutElement(view, layoutId);
+            const std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolved = resolveLayout(layoutId);
+
+            if (pLayout == nullptr || !resolved)
+            {
+                return;
+            }
+
+            std::string textureName = pOverrideTextureName != nullptr ? *pOverrideTextureName : pLayout->primaryAsset;
+
+            if (pOverrideTextureName == nullptr && pLayout->interactive)
+            {
+                const std::string *pInteractiveTextureName =
+                    HudUiService::resolveInteractiveAssetName(*pLayout, *resolved, mouseX, mouseY, isLeftMousePressed);
+
+                if (pInteractiveTextureName != nullptr)
+                {
+                    textureName = *pInteractiveTextureName;
+                }
+            }
+
+            const OutdoorGameView::HudTextureHandle *pTexture = loadHudTexture(textureName);
+
+            if (pTexture == nullptr)
+            {
+                return;
+            }
+
+            view.submitHudTexturedQuad(*pTexture, resolved->x, resolved->y, resolved->width, resolved->height);
+        };
+
+    const auto submitTexturedQuadUv =
+        [&view](const OutdoorGameView::HudTextureHandle &texture,
+                float x,
+                float y,
+                float quadWidth,
+                float quadHeight,
+                float u0,
+                float v0,
+                float u1,
+                float v1)
+        {
+            if (!bgfx::isValid(texture.textureHandle)
+                || bgfx::getAvailTransientVertexBuffer(6, OutdoorGameView::TexturedTerrainVertex::ms_layout) < 6)
+            {
+                return;
+            }
+
+            bgfx::TransientVertexBuffer transientVertexBuffer;
+            bgfx::allocTransientVertexBuffer(&transientVertexBuffer, 6, OutdoorGameView::TexturedTerrainVertex::ms_layout);
+            auto *pVertices = reinterpret_cast<OutdoorGameView::TexturedTerrainVertex *>(transientVertexBuffer.data);
+
+            pVertices[0] = {x, y, 0.0f, u0, v0};
+            pVertices[1] = {x + quadWidth, y, 0.0f, u1, v0};
+            pVertices[2] = {x + quadWidth, y + quadHeight, 0.0f, u1, v1};
+            pVertices[3] = {x, y, 0.0f, u0, v0};
+            pVertices[4] = {x + quadWidth, y + quadHeight, 0.0f, u1, v1};
+            pVertices[5] = {x, y + quadHeight, 0.0f, u0, v1};
+
+            float modelMatrix[16] = {};
+            bx::mtxIdentity(modelMatrix);
+            bgfx::setTransform(modelMatrix);
+            bgfx::setVertexBuffer(0, &transientVertexBuffer);
+            bgfx::setTexture(0, view.m_terrainTextureSamplerHandle, texture.textureHandle);
+            bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_BLEND_ALPHA);
+            bgfx::submit(HudViewId, view.m_texturedTerrainProgramHandle);
+        };
+
+    const auto submitTexturedQuadClipped =
+        [&view](const OutdoorGameView::HudTextureHandle &texture,
+                float x,
+                float y,
+                float quadWidth,
+                float quadHeight,
+                uint16_t scissorX,
+                uint16_t scissorY,
+                uint16_t scissorWidth,
+                uint16_t scissorHeight)
+        {
+            if (!bgfx::isValid(texture.textureHandle)
+                || bgfx::getAvailTransientVertexBuffer(6, OutdoorGameView::TexturedTerrainVertex::ms_layout) < 6)
+            {
+                return;
+            }
+
+            bgfx::TransientVertexBuffer transientVertexBuffer;
+            bgfx::allocTransientVertexBuffer(&transientVertexBuffer, 6, OutdoorGameView::TexturedTerrainVertex::ms_layout);
+            auto *pVertices = reinterpret_cast<OutdoorGameView::TexturedTerrainVertex *>(transientVertexBuffer.data);
+
+            pVertices[0] = {x, y, 0.0f, 0.0f, 0.0f};
+            pVertices[1] = {x + quadWidth, y, 0.0f, 1.0f, 0.0f};
+            pVertices[2] = {x + quadWidth, y + quadHeight, 0.0f, 1.0f, 1.0f};
+            pVertices[3] = {x, y, 0.0f, 0.0f, 0.0f};
+            pVertices[4] = {x + quadWidth, y + quadHeight, 0.0f, 1.0f, 1.0f};
+            pVertices[5] = {x, y + quadHeight, 0.0f, 0.0f, 1.0f};
+
+            float modelMatrix[16] = {};
+            bx::mtxIdentity(modelMatrix);
+            bgfx::setTransform(modelMatrix);
+            bgfx::setVertexBuffer(0, &transientVertexBuffer);
+            bgfx::setTexture(0, view.m_terrainTextureSamplerHandle, texture.textureHandle);
+            bgfx::setScissor(scissorX, scissorY, scissorWidth, scissorHeight);
+            bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_BLEND_ALPHA);
+            bgfx::submit(HudViewId, view.m_texturedTerrainProgramHandle);
+        };
+
+    renderTextureLayout("JournalBackground", "IRBgrnd");
+
+    const bool hoverMap =
+        resolveLayout("JournalMainViewMap")
+        && HudUiService::isPointerInsideResolvedElement(*resolveLayout("JournalMainViewMap"), mouseX, mouseY);
+    const bool hoverQuests =
+        resolveLayout("JournalMainViewQuests")
+        && HudUiService::isPointerInsideResolvedElement(*resolveLayout("JournalMainViewQuests"), mouseX, mouseY);
+    const bool hoverStory =
+        resolveLayout("JournalMainViewStory")
+        && HudUiService::isPointerInsideResolvedElement(*resolveLayout("JournalMainViewStory"), mouseX, mouseY);
+    const bool hoverNotes =
+        resolveLayout("JournalMainViewNotes")
+        && HudUiService::isPointerInsideResolvedElement(*resolveLayout("JournalMainViewNotes"), mouseX, mouseY);
+    const std::string mapIconTexture =
+        journalMainIconTextureName("IRA-1", 10, hoverMap, view.m_journalScreen.hoverAnimationElapsedSeconds);
+    const std::string questsIconTexture =
+        journalMainIconTextureName("IRA-2", 10, hoverQuests, view.m_journalScreen.hoverAnimationElapsedSeconds);
+    const std::string storyIconTexture =
+        journalMainIconTextureName("IRA-3", 9, hoverStory, view.m_journalScreen.hoverAnimationElapsedSeconds);
+    const std::string notesIconTexture =
+        journalMainIconTextureName("IRA-4", 11, hoverNotes, view.m_journalScreen.hoverAnimationElapsedSeconds);
+
+    renderInteractiveTextureLayout("JournalMainViewMap", &mapIconTexture);
+    renderInteractiveTextureLayout("JournalMainViewQuests", &questsIconTexture);
+    renderInteractiveTextureLayout("JournalMainViewStory", &storyIconTexture);
+    renderInteractiveTextureLayout("JournalMainViewNotes", &notesIconTexture);
+
+    switch (view.m_journalScreen.view)
+    {
+        case OutdoorGameView::JournalView::Map:
+            break;
+        case OutdoorGameView::JournalView::Quests:
+            renderTextureLayout("JournalQuestsTopLeftArt", "IRB-2");
+            break;
+        case OutdoorGameView::JournalView::Story:
+            renderTextureLayout("JournalStoryTopLeftArt", "IRB-3");
+            break;
+        case OutdoorGameView::JournalView::Notes:
+            renderTextureLayout("JournalNotesTopLeftArt", "IRB-4");
+            break;
+    }
+
+    const OutdoorGameView::HudLayoutElement *pTitleLayout = HudUiService::findHudLayoutElement(view, "JournalTitleText");
+    const OutdoorGameView::HudLayoutElement *pTextLayout = HudUiService::findHudLayoutElement(view, "JournalTextViewport");
+    const std::optional<OutdoorGameView::ResolvedHudLayoutElement> titleResolved = resolveLayout("JournalTitleText");
+    const std::optional<OutdoorGameView::ResolvedHudLayoutElement> textResolved = resolveLayout("JournalTextViewport");
+    const OutdoorGameView::HudFontHandle *pBodyFont =
+        pTextLayout != nullptr ? HudUiService::findHudFont(view, pTextLayout->fontName) : nullptr;
+
+    if (view.m_journalScreen.view == OutdoorGameView::JournalView::Map)
+    {
+        renderInteractiveTextureLayout("JournalMapZoomInButton");
+        renderInteractiveTextureLayout("JournalMapZoomOutButton");
+
+        const std::optional<OutdoorGameView::ResolvedHudLayoutElement> mapResolved = resolveLayout("JournalMapViewport");
+        const OutdoorGameView::HudLayoutElement *pMapTitleLayout =
+            HudUiService::findHudLayoutElement(view, "JournalMapTitleText");
+        const std::optional<OutdoorGameView::ResolvedHudLayoutElement> mapTitleResolved =
+            resolveLayout("JournalMapTitleText");
+
+        if (pMapTitleLayout != nullptr && mapTitleResolved && view.m_map.has_value())
+        {
+            HudUiService::renderLayoutLabel(view, *pMapTitleLayout, *mapTitleResolved, view.m_map->name);
+        }
+
+        if (mapResolved && view.m_map.has_value())
+        {
+            const std::string mapTextureName =
+                toLowerCopy(std::filesystem::path(view.m_map->fileName).stem().string());
+            const OutdoorGameView::HudTextureHandle *pMapTexture = loadHudTexture(mapTextureName);
+
+            if (pMapTexture != nullptr)
+            {
+                OutdoorGameView &mutableView = const_cast<OutdoorGameView &>(view);
+                const auto uploadJournalMapTexture =
+                    [&mutableView](int width, int height, const std::vector<uint8_t> &pixels)
+                    -> const OutdoorGameView::HudTextureHandle *
+                    {
+                        if (width <= 0
+                            || height <= 0
+                            || pixels.size() != static_cast<size_t>(width) * static_cast<size_t>(height) * 4)
+                        {
+                            return nullptr;
+                        }
+
+                        OutdoorGameView::HudTextureHandle *pTexture = nullptr;
+
+                        for (OutdoorGameView::HudTextureHandle &textureHandle : mutableView.m_hudTextureHandles)
+                        {
+                            if (textureHandle.textureName == JournalMapTextureCacheName)
+                            {
+                                pTexture = &textureHandle;
+                                break;
+                            }
+                        }
+
+                        if (pTexture == nullptr)
+                        {
+                            OutdoorGameView::HudTextureHandle textureHandle = {};
+                            textureHandle.textureName = JournalMapTextureCacheName;
+                            textureHandle.width = width;
+                            textureHandle.height = height;
+                            textureHandle.physicalWidth = width;
+                            textureHandle.physicalHeight = height;
+                            textureHandle.bgraPixels = pixels;
+                            textureHandle.textureHandle = bgfx::createTexture2D(
+                                static_cast<uint16_t>(width),
+                                static_cast<uint16_t>(height),
+                                false,
+                                1,
+                                bgfx::TextureFormat::BGRA8,
+                                BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP
+                                    | BGFX_SAMPLER_MIN_POINT | BGFX_SAMPLER_MAG_POINT
+                                    | BGFX_TEXTURE_BLIT_DST);
+
+                            if (!bgfx::isValid(textureHandle.textureHandle))
+                            {
+                                return nullptr;
+                            }
+
+                            mutableView.m_hudTextureHandles.push_back(std::move(textureHandle));
+                            pTexture = &mutableView.m_hudTextureHandles.back();
+                        }
+                        else if (!bgfx::isValid(pTexture->textureHandle)
+                            || pTexture->physicalWidth != width
+                            || pTexture->physicalHeight != height)
+                        {
+                            if (bgfx::isValid(pTexture->textureHandle))
+                            {
+                                bgfx::destroy(pTexture->textureHandle);
+                            }
+
+                            pTexture->width = width;
+                            pTexture->height = height;
+                            pTexture->physicalWidth = width;
+                            pTexture->physicalHeight = height;
+                            pTexture->bgraPixels = pixels;
+                            pTexture->textureHandle = bgfx::createTexture2D(
+                                static_cast<uint16_t>(width),
+                                static_cast<uint16_t>(height),
+                                false,
+                                1,
+                                bgfx::TextureFormat::BGRA8,
+                                BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP
+                                    | BGFX_SAMPLER_MIN_POINT | BGFX_SAMPLER_MAG_POINT
+                                    | BGFX_TEXTURE_BLIT_DST);
+
+                            if (!bgfx::isValid(pTexture->textureHandle))
+                            {
+                                return nullptr;
+                            }
+                        }
+                        else
+                        {
+                            pTexture->bgraPixels = pixels;
+                        }
+
+                        bgfx::updateTexture2D(
+                            pTexture->textureHandle,
+                            0,
+                            0,
+                            0,
+                            0,
+                            static_cast<uint16_t>(width),
+                            static_cast<uint16_t>(height),
+                            bgfx::copy(pixels.data(), static_cast<uint32_t>(pixels.size())));
+                        return pTexture;
+                    };
+
+                const int zoom = clampedJournalMapZoomValue(view.m_journalScreen.mapZoomStep);
+                const int mapPixelWidth = std::max(1, static_cast<int>(std::lround(mapResolved->width)));
+                const int mapPixelHeight = std::max(1, static_cast<int>(std::lround(mapResolved->height)));
+                const bool needsMapRebuild =
+                    !mutableView.m_cachedJournalMapValid
+                    || mutableView.m_cachedJournalMapWidth != mapPixelWidth
+                    || mutableView.m_cachedJournalMapHeight != mapPixelHeight
+                    || mutableView.m_cachedJournalMapZoomStep != view.m_journalScreen.mapZoomStep
+                    || std::abs(mutableView.m_cachedJournalMapCenterX - view.m_journalScreen.mapCenterX) > 0.01f
+                    || std::abs(mutableView.m_cachedJournalMapCenterY - view.m_journalScreen.mapCenterY) > 0.01f
+                    || HudUiService::findHudTexture(view, JournalMapTextureCacheName) == nullptr;
+                const OutdoorGameView::HudTextureHandle *pJournalMapTexture =
+                    HudUiService::findHudTexture(view, JournalMapTextureCacheName);
+
+                if (needsMapRebuild)
+                {
+                    const float zoomFactor = static_cast<float>(zoom) / static_cast<float>(JournalMapBaseZoom);
+                    const int mapTextureWidth = pMapTexture->physicalWidth;
+                    const int mapTextureHeight = pMapTexture->physicalHeight;
+                    const float sourceCenterX =
+                        ((JournalMapWorldHalfExtent - view.m_journalScreen.mapCenterX)
+                            / (JournalMapWorldHalfExtent * 2.0f))
+                        * static_cast<float>(mapTextureWidth);
+                    const float sourceCenterY =
+                        ((JournalMapWorldHalfExtent - view.m_journalScreen.mapCenterY)
+                            / (JournalMapWorldHalfExtent * 2.0f))
+                        * static_cast<float>(mapTextureHeight);
+                    const float sourceWindowWidth =
+                        static_cast<float>(mapTextureWidth) / std::max(zoomFactor, 0.000001f);
+                    const float sourceWindowHeight =
+                        static_cast<float>(mapTextureHeight) / std::max(zoomFactor, 0.000001f);
+                    const float sourceOriginX = sourceCenterX - sourceWindowWidth * 0.5f;
+                    const float sourceOriginY = sourceCenterY - sourceWindowHeight * 0.5f;
+                    std::vector<uint8_t> composedMapPixels(
+                        static_cast<size_t>(mapPixelWidth) * static_cast<size_t>(mapPixelHeight) * 4,
+                        0);
+
+                    for (int pixelY = 0; pixelY < mapPixelHeight; ++pixelY)
+                    {
+                        const float sourceYFloat =
+                            sourceOriginY
+                            + ((static_cast<float>(pixelY) + 0.5f) / static_cast<float>(mapPixelHeight))
+                                * sourceWindowHeight;
+                        const int sourceY = static_cast<int>(std::floor(sourceYFloat));
+                        const float revealV = std::clamp(
+                            sourceYFloat / static_cast<float>(mapTextureHeight),
+                            0.0f,
+                            0.999999f);
+                        const int revealCellY =
+                            static_cast<int>(std::floor(revealV * static_cast<float>(JournalRevealHeight)));
+
+                        for (int pixelX = 0; pixelX < mapPixelWidth; ++pixelX)
+                        {
+                            const float sourceXFloat =
+                                sourceOriginX
+                                + ((static_cast<float>(pixelX) + 0.5f) / static_cast<float>(mapPixelWidth))
+                                    * sourceWindowWidth;
+                            const int sourceX = static_cast<int>(std::floor(sourceXFloat));
+                            const float revealU = std::clamp(
+                                sourceXFloat / static_cast<float>(mapTextureWidth),
+                                0.0f,
+                                0.999999f);
+                            const int revealCellX =
+                                static_cast<int>(std::floor(revealU * static_cast<float>(JournalRevealWidth)));
+                            const size_t targetOffset =
+                                (static_cast<size_t>(pixelY) * static_cast<size_t>(mapPixelWidth)
+                                    + static_cast<size_t>(pixelX))
+                                * 4;
+                            bool fullyRevealed = JournalMapForceFullyRevealedForTest;
+                            bool partiallyRevealed = false;
+
+                            if (!JournalMapForceFullyRevealedForTest
+                                && view.m_outdoorMapDeltaData.has_value()
+                                && revealCellX >= 0 && revealCellX < JournalRevealWidth
+                                && revealCellY >= 0 && revealCellY < JournalRevealHeight)
+                            {
+                                const size_t revealIndex =
+                                    static_cast<size_t>(revealCellY * JournalRevealWidth + revealCellX);
+                                fullyRevealed =
+                                    packedRevealBit(view.m_outdoorMapDeltaData->fullyRevealedCells, revealIndex);
+                                partiallyRevealed =
+                                    packedRevealBit(view.m_outdoorMapDeltaData->partiallyRevealedCells, revealIndex);
+                            }
+                            else if (!JournalMapForceFullyRevealedForTest && !view.m_outdoorMapDeltaData.has_value())
+                            {
+                                fullyRevealed = true;
+                            }
+
+                            if (!fullyRevealed && !partiallyRevealed)
+                            {
+                                composedMapPixels[targetOffset + 3] = 255;
+                                continue;
+                            }
+
+                            if (sourceX < 0 || sourceX >= mapTextureWidth || sourceY < 0 || sourceY >= mapTextureHeight)
+                            {
+                                composedMapPixels[targetOffset + 3] = 255;
+                                continue;
+                            }
+
+                            const bool drawBlackChecker = partiallyRevealed
+                                && (((pixelX + pixelY + mapPixelWidth / 2) % 2) == 0);
+
+                            if (drawBlackChecker)
+                            {
+                                composedMapPixels[targetOffset + 3] = 255;
+                                continue;
+                            }
+
+                            const size_t sourceOffset =
+                                (static_cast<size_t>(sourceY) * static_cast<size_t>(mapTextureWidth)
+                                    + static_cast<size_t>(sourceX))
+                                * 4;
+                            composedMapPixels[targetOffset + 0] = pMapTexture->bgraPixels[sourceOffset + 0];
+                            composedMapPixels[targetOffset + 1] = pMapTexture->bgraPixels[sourceOffset + 1];
+                            composedMapPixels[targetOffset + 2] = pMapTexture->bgraPixels[sourceOffset + 2];
+                            composedMapPixels[targetOffset + 3] = 255;
+                        }
+                    }
+
+                    pJournalMapTexture = uploadJournalMapTexture(mapPixelWidth, mapPixelHeight, composedMapPixels);
+
+                    if (pJournalMapTexture != nullptr)
+                    {
+                        mutableView.m_cachedJournalMapValid = true;
+                        mutableView.m_cachedJournalMapWidth = mapPixelWidth;
+                        mutableView.m_cachedJournalMapHeight = mapPixelHeight;
+                        mutableView.m_cachedJournalMapZoomStep = view.m_journalScreen.mapZoomStep;
+                        mutableView.m_cachedJournalMapCenterX = view.m_journalScreen.mapCenterX;
+                        mutableView.m_cachedJournalMapCenterY = view.m_journalScreen.mapCenterY;
+                    }
+                    else
+                    {
+                        mutableView.m_cachedJournalMapValid = false;
+                    }
+                }
+
+                if (pJournalMapTexture != nullptr)
+                {
+                    view.submitHudTexturedQuad(
+                        *pJournalMapTexture,
+                        mapResolved->x,
+                        mapResolved->y,
+                        mapResolved->width,
+                        mapResolved->height);
+                }
+
+                if (view.m_pOutdoorPartyRuntime != nullptr)
+                {
+                    const OutdoorMoveState &moveState = view.m_pOutdoorPartyRuntime->movementState();
+                    const int mapTextureWidth = pMapTexture->physicalWidth;
+                    const int mapTextureHeight = pMapTexture->physicalHeight;
+                    const float zoomFactor = static_cast<float>(zoom) / static_cast<float>(JournalMapBaseZoom);
+                    const float sourceCenterX =
+                        ((JournalMapWorldHalfExtent - view.m_journalScreen.mapCenterX)
+                            / (JournalMapWorldHalfExtent * 2.0f))
+                        * static_cast<float>(mapTextureWidth);
+                    const float sourceCenterY =
+                        ((JournalMapWorldHalfExtent - view.m_journalScreen.mapCenterY)
+                            / (JournalMapWorldHalfExtent * 2.0f))
+                        * static_cast<float>(mapTextureHeight);
+                    const float sourceWindowWidth =
+                        static_cast<float>(mapTextureWidth) / std::max(zoomFactor, 0.000001f);
+                    const float sourceWindowHeight =
+                        static_cast<float>(mapTextureHeight) / std::max(zoomFactor, 0.000001f);
+                    const float sourceOriginX = sourceCenterX - sourceWindowWidth * 0.5f;
+                    const float sourceOriginY = sourceCenterY - sourceWindowHeight * 0.5f;
+                    const float partySourceX =
+                        ((JournalMapWorldHalfExtent - moveState.x) / (JournalMapWorldHalfExtent * 2.0f))
+                        * static_cast<float>(mapTextureWidth);
+                    const float partySourceY =
+                        ((JournalMapWorldHalfExtent - moveState.y) / (JournalMapWorldHalfExtent * 2.0f))
+                        * static_cast<float>(mapTextureHeight);
+                    const float markerX =
+                        mapResolved->x
+                        + ((partySourceX - sourceOriginX) / std::max(sourceWindowWidth, 0.000001f))
+                            * mapResolved->width;
+                    const float markerY =
+                        mapResolved->y
+                        + ((partySourceY - sourceOriginY) / std::max(sourceWindowHeight, 0.000001f))
+                            * mapResolved->height;
+                    float normalizedYaw = std::fmod(view.m_cameraYawRadians, Pi * 2.0f);
+
+                    if (normalizedYaw < 0.0f)
+                    {
+                        normalizedYaw += Pi * 2.0f;
+                    }
+
+                    const int octant = static_cast<int>(std::floor((normalizedYaw + Pi * 0.125f) / (Pi * 0.25f))) % 8;
+                    const int arrowIndex = (octant + 3) % 8;
+                    const OutdoorGameView::HudTextureHandle *pArrowTexture =
+                        loadHudTexture("MAPDIR" + std::to_string(arrowIndex + 1));
+
+                    if (pArrowTexture != nullptr)
+                    {
+                        const float arrowWidth = static_cast<float>(pArrowTexture->width) * mapResolved->scale;
+                        const float arrowHeight = static_cast<float>(pArrowTexture->height) * mapResolved->scale;
+                        submitTexturedQuadClipped(
+                            *pArrowTexture,
+                            markerX - arrowWidth * 0.5f,
+                            markerY - arrowHeight * 0.5f,
+                            arrowWidth,
+                            arrowHeight,
+                            static_cast<uint16_t>(std::max(0.0f, std::floor(mapResolved->x))),
+                            static_cast<uint16_t>(std::max(0.0f, std::floor(mapResolved->y))),
+                            static_cast<uint16_t>(std::max(1.0f, std::ceil(mapResolved->width))),
+                            static_cast<uint16_t>(std::max(1.0f, std::ceil(mapResolved->height))));
+                    }
+
+                    const OutdoorGameView::HudLayoutElement *pCoordsLayout =
+                        HudUiService::findHudLayoutElement(view, "JournalMapCoordinatesText");
+                    const std::optional<OutdoorGameView::ResolvedHudLayoutElement> coordsResolved =
+                        resolveLayout("JournalMapCoordinatesText");
+
+                    if (pCoordsLayout != nullptr && coordsResolved)
+                    {
+                        const std::string coordsText =
+                            "X: " + std::to_string(static_cast<int>(std::round(moveState.x)))
+                            + "  Y: " + std::to_string(static_cast<int>(std::round(moveState.y)))
+                            + "  Z: " + std::to_string(zoom);
+                        HudUiService::renderLayoutLabel(view, *pCoordsLayout, *coordsResolved, coordsText);
+                    }
+                }
+            }
+        }
+    }
+    else if (pTitleLayout != nullptr && titleResolved && pTextLayout != nullptr && textResolved && pBodyFont != nullptr)
+    {
+        const float bodyFontScale = textResolved->scale >= 1.0f
+            ? snappedHudFontScale(textResolved->scale)
+            : std::max(0.5f, textResolved->scale);
+        const EventRuntimeState *pEventRuntimeState =
+            view.m_pOutdoorWorldRuntime != nullptr ? view.m_pOutdoorWorldRuntime->eventRuntimeState() : nullptr;
+        const Party *pParty = view.m_pOutdoorPartyRuntime != nullptr ? &view.m_pOutdoorPartyRuntime->party() : nullptr;
+        std::vector<std::string> bodyLines;
+        std::string titleText;
+
+        if (view.m_journalScreen.view == OutdoorGameView::JournalView::Quests)
+        {
+            titleText = "Current Quests";
+            renderInteractiveTextureLayout("JournalPrevPageButton");
+            renderInteractiveTextureLayout("JournalNextPageButton");
+
+            std::vector<std::string> questTexts;
+
+            if (view.m_pJournalQuestTable != nullptr && pEventRuntimeState != nullptr)
+            {
+                for (const JournalQuestEntry &entry : view.m_pJournalQuestTable->entries())
+                {
+                    const auto variableIt = pEventRuntimeState->variables.find(entry.qbitId);
+
+                    if (variableIt != pEventRuntimeState->variables.end() && variableIt->second != 0)
+                    {
+                        questTexts.push_back(entry.text);
+                    }
+                }
+            }
+
+            const std::vector<JournalStackedPage> pages = buildJournalStackedPages(
+                view,
+                *pBodyFont,
+                questTexts,
+                textResolved->width,
+                textResolved->height,
+                bodyFontScale);
+            const size_t pageIndex = pages.empty()
+                ? 0
+                : std::min(view.m_journalScreen.questPage, pages.size() - 1);
+
+            if (!pages.empty())
+            {
+                float textY = textResolved->y;
+                const float lineHeight = static_cast<float>(pBodyFont->fontHeight) * bodyFontScale;
+                const OutdoorGameView::HudTextureHandle *pDivider =
+                    loadHudTexture("DIVBAR");
+
+                for (size_t entryIndex = 0; entryIndex < pages[pageIndex].entries.size(); ++entryIndex)
+                {
+                    const JournalStackedPageEntry &entry = pages[pageIndex].entries[entryIndex];
+                    renderHudLines(view, *pBodyFont, pTextLayout->textColorAbgr, entry.lines, textResolved->x, textY, bodyFontScale);
+                    textY += static_cast<float>(entry.lines.size()) * lineHeight;
+
+                    if (entryIndex + 1 < pages[pageIndex].entries.size() && pDivider != nullptr)
+                    {
+                        const float dividerWidth = std::min(textResolved->width, static_cast<float>(pDivider->width) * textResolved->scale);
+                        const float dividerHeight = static_cast<float>(pDivider->height) * textResolved->scale;
+                        const float dividerX = textResolved->x + (textResolved->width - dividerWidth) * 0.5f;
+                        textY += 7.0f * bodyFontScale;
+                        view.submitHudTexturedQuad(*pDivider, dividerX, textY, dividerWidth, dividerHeight);
+                        textY += dividerHeight + 9.0f * bodyFontScale;
+                    }
+                }
+            }
+        }
+        else if (view.m_journalScreen.view == OutdoorGameView::JournalView::Story)
+        {
+            renderInteractiveTextureLayout("JournalPrevPageButton");
+            renderInteractiveTextureLayout("JournalNextPageButton");
+
+            const std::vector<JournalStoryPage> pages =
+                view.m_pJournalHistoryTable != nullptr
+                    ? buildJournalStoryPages(
+                        view,
+                        *pBodyFont,
+                        *view.m_pJournalHistoryTable,
+                        pEventRuntimeState,
+                        pParty,
+                        textResolved->width,
+                        textResolved->height,
+                        bodyFontScale)
+                    : std::vector<JournalStoryPage>{};
+            const size_t pageIndex = pages.empty()
+                ? 0
+                : std::min(view.m_journalScreen.storyPage, pages.size() - 1);
+
+            if (!pages.empty())
+            {
+                titleText = pages[pageIndex].title;
+                bodyLines = pages[pageIndex].lines;
+            }
+            else
+            {
+                titleText = "Story";
+            }
+        }
+        else
+        {
+            titleText = journalNotesCategoryTitle(view.m_journalScreen.notesCategory);
+            renderInteractiveTextureLayout("JournalPrevPageButton");
+            renderInteractiveTextureLayout("JournalNextPageButton");
+            renderInteractiveTextureLayout("JournalNotesPotionButton");
+            renderInteractiveTextureLayout("JournalNotesFountainButton");
+            renderInteractiveTextureLayout("JournalNotesObeliskButton");
+            renderInteractiveTextureLayout("JournalNotesSeerButton");
+            renderInteractiveTextureLayout("JournalNotesMiscButton");
+            renderInteractiveTextureLayout("JournalNotesTrainerButton");
+
+            std::vector<std::string> noteTexts;
+
+            if (view.m_pJournalAutonoteTable != nullptr && pEventRuntimeState != nullptr)
+            {
+                for (const JournalAutonoteEntry &entry : view.m_pJournalAutonoteTable->entries())
+                {
+                    const auto variableIt = pEventRuntimeState->variables.find(entry.noteBit);
+
+                    if (variableIt == pEventRuntimeState->variables.end() || variableIt->second == 0)
+                    {
+                        continue;
+                    }
+
+                    const bool categoryMatches =
+                        (entry.category == JournalAutonoteCategory::Potion
+                            && view.m_journalScreen.notesCategory == OutdoorGameView::JournalNotesCategory::Potion)
+                        || (entry.category == JournalAutonoteCategory::Fountain
+                            && view.m_journalScreen.notesCategory == OutdoorGameView::JournalNotesCategory::Fountain)
+                        || (entry.category == JournalAutonoteCategory::Obelisk
+                            && view.m_journalScreen.notesCategory == OutdoorGameView::JournalNotesCategory::Obelisk)
+                        || (entry.category == JournalAutonoteCategory::Seer
+                            && view.m_journalScreen.notesCategory == OutdoorGameView::JournalNotesCategory::Seer)
+                        || (entry.category == JournalAutonoteCategory::Misc
+                            && view.m_journalScreen.notesCategory == OutdoorGameView::JournalNotesCategory::Misc)
+                        || (entry.category == JournalAutonoteCategory::Trainer
+                            && view.m_journalScreen.notesCategory == OutdoorGameView::JournalNotesCategory::Trainer);
+
+                    if (categoryMatches)
+                    {
+                        noteTexts.push_back(entry.text);
+                    }
+                }
+            }
+
+            const std::vector<JournalStackedPage> pages = buildJournalStackedPages(
+                view,
+                *pBodyFont,
+                noteTexts,
+                textResolved->width,
+                textResolved->height,
+                bodyFontScale);
+            const size_t pageIndex = pages.empty()
+                ? 0
+                : std::min(view.m_journalScreen.notesPage, pages.size() - 1);
+
+            if (!pages.empty())
+            {
+                float textY = textResolved->y;
+                const float lineHeight = static_cast<float>(pBodyFont->fontHeight) * bodyFontScale;
+                const OutdoorGameView::HudTextureHandle *pDivider =
+                    loadHudTexture("DIVBAR");
+
+                for (size_t entryIndex = 0; entryIndex < pages[pageIndex].entries.size(); ++entryIndex)
+                {
+                    const JournalStackedPageEntry &entry = pages[pageIndex].entries[entryIndex];
+                    renderHudLines(view, *pBodyFont, pTextLayout->textColorAbgr, entry.lines, textResolved->x, textY, bodyFontScale);
+                    textY += static_cast<float>(entry.lines.size()) * lineHeight;
+
+                    if (entryIndex + 1 < pages[pageIndex].entries.size() && pDivider != nullptr)
+                    {
+                        const float dividerWidth = std::min(textResolved->width, static_cast<float>(pDivider->width) * textResolved->scale);
+                        const float dividerHeight = static_cast<float>(pDivider->height) * textResolved->scale;
+                        const float dividerX = textResolved->x + (textResolved->width - dividerWidth) * 0.5f;
+                        textY += 7.0f * bodyFontScale;
+                        view.submitHudTexturedQuad(*pDivider, dividerX, textY, dividerWidth, dividerHeight);
+                        textY += dividerHeight + 9.0f * bodyFontScale;
+                    }
+                }
+            }
+        }
+
+        HudUiService::renderLayoutLabel(view, *pTitleLayout, *titleResolved, titleText);
+
+        if (!bodyLines.empty())
+        {
+            renderHudLines(view, *pBodyFont, pTextLayout->textColorAbgr, bodyLines, textResolved->x, textResolved->y, bodyFontScale);
+        }
+    }
+
+    renderInteractiveTextureLayout("JournalCloseButton");
 }
 
 void GameplayPartyOverlayRenderer::renderSpellbookOverlay(const OutdoorGameView &view, int width, int height)

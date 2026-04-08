@@ -11684,10 +11684,28 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
             }
 
             dialog = buildScenarioDialog(gameDataLoader, *selectedMap, scenario, 0, true);
+            std::vector<std::string> actionLabels;
+
+            for (const EventDialogAction &action : dialog.actions)
+            {
+                actionLabels.push_back(action.label);
+            }
 
             if (!dialogHasActionLabel(dialog, "Power Stone") || !dialogHasActionLabel(dialog, "Abandoned Temple"))
             {
-                failure = "Fredrick missing unlocked quest topics";
+                failure = "Fredrick missing unlocked quest topics: got [";
+
+                for (size_t i = 0; i < actionLabels.size(); ++i)
+                {
+                    if (i != 0)
+                    {
+                        failure += ", ";
+                    }
+
+                    failure += actionLabels[i];
+                }
+
+                failure += "]";
                 return false;
             }
 
