@@ -64,6 +64,11 @@ namespace
 {
 using SpellbookSchool = OutdoorGameView::SpellbookSchool;
 using SpellbookPointerTargetType = OutdoorGameView::SpellbookPointerTargetType;
+constexpr int MinutesPerDay = 24 * 60;
+constexpr int InnRestDawnHour = 5;
+constexpr uint32_t DeyjaTavernHouseId = 111;
+constexpr uint32_t PitTavernHouseId = 114;
+constexpr uint32_t MountNighonTavernHouseId = 116;
 
 enum class HouseShopVerticalAlign
 {
@@ -3351,6 +3356,8 @@ OutdoorGameView::OutdoorGameView()
     , m_spellbookToggleLatch(false)
     , m_spellbookClickLatch(false)
     , m_pendingSpellTargetClickLatch(false)
+    , m_restToggleLatch(false)
+    , m_restClickLatch(false)
     , m_inventoryScreenToggleLatch(false)
     , m_adventurersInnToggleLatch(false)
     , m_gameplayUiController()
@@ -3383,10 +3390,12 @@ OutdoorGameView::OutdoorGameView()
     , m_spellInspectOverlay(m_gameplayUiController.spellInspectOverlay())
     , m_readableScrollOverlay(m_gameplayUiController.readableScrollOverlay())
     , m_spellbook(m_gameplayUiController.spellbook())
+    , m_restScreen(m_gameplayUiController.restScreen())
     , m_inventoryNestedOverlay(m_gameplayUiController.inventoryNestedOverlay())
     , m_houseShopOverlay(m_gameplayUiController.houseShopOverlay())
     , m_houseBankState(m_gameplayUiController.houseBankState())
     , m_spellbookPressedTarget({})
+    , m_restPressedTarget({})
     , m_lastSpellbookSpellClickTicks(0)
     , m_lastSpellbookClickedSpellId(0)
     , m_pendingSpellCast({})
@@ -3710,6 +3719,7 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
     }
 
     updateStatusBarEvent(deltaSeconds);
+    updateRestScreen(deltaSeconds);
     updatePartyPortraitAnimations(deltaSeconds);
 
     if (m_pAssetFileSystem != nullptr)
@@ -3727,6 +3737,8 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
     m_renderedInspectableHudItems.clear();
     m_renderedInspectableHudState = currentHudScreenState();
 
+    const bool wasRestScreenActiveBeforeInput = m_restScreen.active;
+
     {
         const uint64_t stageStartTickCount = SDL_GetTicksNS();
         updateCameraFromInput(deltaSeconds);
@@ -3742,6 +3754,7 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
     const bool isEventDialogActive = hasActiveEventDialog();
     const bool isCharacterScreenActive = m_characterScreenOpen;
     const bool isSpellbookActive = m_spellbook.active;
+    const bool isRestScreenInteractionFrame = wasRestScreenActiveBeforeInput || m_restScreen.active;
 
     const float wireframeAspectRatio = static_cast<float>(viewWidth) / static_cast<float>(viewHeight);
 
@@ -3811,7 +3824,11 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
                 return vecLength(rayDirection) > InspectRayEpsilon;
             };
 
-        if (!hasActiveLootView && !isEventDialogActive && !isCharacterScreenActive && !isSpellbookActive)
+        if (!hasActiveLootView
+            && !isEventDialogActive
+            && !isCharacterScreenActive
+            && !isSpellbookActive
+            && !isRestScreenInteractionFrame)
         {
             if (m_pendingSpellCast.active)
             {
@@ -3957,7 +3974,8 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
             && !hasActiveLootView
             && !isEventDialogActive
             && !isCharacterScreenActive
-            && !isSpellbookActive)
+            && !isSpellbookActive
+            && !isRestScreenInteractionFrame)
         {
             const SDL_MouseButtonFlags mouseButtons = SDL_GetMouseState(&mouseX, &mouseY);
             const bool isLeftMousePressed = (mouseButtons & SDL_BUTTON_LMASK) != 0;
@@ -4046,7 +4064,8 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
                  && !hasActiveLootView
                  && !isEventDialogActive
                  && !isCharacterScreenActive
-                 && !isSpellbookActive)
+                 && !isSpellbookActive
+                 && !isRestScreenInteractionFrame)
         {
             SDL_GetMouseState(&mouseX, &mouseY);
             bx::Vec3 rayOrigin = {0.0f, 0.0f, 0.0f};
@@ -4631,15 +4650,7 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
         }
         else
         {
-            m_heldInventoryDropLatch = false;
-            m_activateInspectLatch = false;
-            m_inspectMouseActivateLatch = false;
-            m_pressedInspectHit = {};
-            m_attackInspectLatch = false;
-            m_cachedHoverInspectHitValid = false;
-            m_lastHoverInspectUpdateNanoseconds = 0;
-            m_cachedHoverInspectHit = {};
-            m_statusBarHoverText.clear();
+            clearWorldInteractionInputLatches();
         }
 
         inspectStageNanoseconds += SDL_GetTicksNS() - stageStartTickCount;
@@ -5264,6 +5275,7 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
                 renderInventoryNestedOverlay(width, height, false);
             }
             renderSpellbookOverlay(width, height);
+            renderRestOverlay(width, height);
             renderHeldInventoryItem(width, height);
             renderItemInspectOverlay(width, height);
             renderCharacterInspectOverlay(width, height);
@@ -7565,6 +7577,11 @@ OutdoorGameView::HudScreenState OutdoorGameView::currentHudScreenState() const
         return HudScreenState::Dialogue;
     }
 
+    if (m_restScreen.active)
+    {
+        return HudScreenState::Rest;
+    }
+
     if (m_characterScreenOpen)
     {
         return HudScreenState::Character;
@@ -7660,6 +7677,240 @@ void OutdoorGameView::closeSpellbook(const std::string &statusText)
     if (!statusText.empty())
     {
         setStatusBarEvent(statusText);
+    }
+}
+
+void OutdoorGameView::openRestScreen()
+{
+    if (m_pOutdoorPartyRuntime == nullptr || m_pOutdoorWorldRuntime == nullptr)
+    {
+        return;
+    }
+
+    closeSpellbook();
+    closeReadableScrollOverlay();
+    closeInventoryNestedOverlay();
+    m_characterScreenOpen = false;
+    m_characterDollJewelryOverlayOpen = false;
+    m_adventurersInnRosterOverlayOpen = false;
+    m_restScreen = {};
+    m_restScreen.active = true;
+    m_restToggleLatch = false;
+    m_restClickLatch = false;
+    m_restPressedTarget = {};
+    clearWorldInteractionInputLatches();
+}
+
+void OutdoorGameView::closeRestScreen()
+{
+    m_restScreen = {};
+    m_restToggleLatch = false;
+    m_restClickLatch = false;
+    m_restPressedTarget = {};
+    clearWorldInteractionInputLatches();
+}
+
+void OutdoorGameView::clearWorldInteractionInputLatches()
+{
+    m_keyboardUseLatch = false;
+    m_pendingSpellTargetClickLatch = false;
+    m_heldInventoryDropLatch = false;
+    m_activateInspectLatch = false;
+    m_inspectMouseActivateLatch = false;
+    m_pressedInspectHit = {};
+    m_attackInspectLatch = false;
+    m_cachedHoverInspectHitValid = false;
+    m_lastHoverInspectUpdateNanoseconds = 0;
+    m_cachedHoverInspectHit = {};
+    m_statusBarHoverText.clear();
+}
+
+int OutdoorGameView::restFoodRequired() const
+{
+    int foodRequired = 2;
+
+    if (m_pOutdoorPartyRuntime != nullptr)
+    {
+        const OutdoorMoveState &moveState = m_pOutdoorPartyRuntime->movementState();
+
+        if (moveState.supportKind == OutdoorSupportKind::Terrain
+            && !moveState.airborne
+            && !moveState.supportOnWater
+            && m_outdoorMapData.has_value())
+        {
+            const std::string tilesetName = toLowerCopy(m_outdoorMapData->groundTilesetName);
+
+            if (tilesetName.find("grass") != std::string::npos || tilesetName.find("gras") != std::string::npos)
+            {
+                foodRequired = 1;
+            }
+            else if (tilesetName.find("desert") != std::string::npos
+                     || tilesetName.find("dsrt") != std::string::npos
+                     || tilesetName.find("sand") != std::string::npos)
+            {
+                foodRequired = 5;
+            }
+            else if (tilesetName.find("snow") != std::string::npos
+                     || tilesetName.find("snw") != std::string::npos
+                     || tilesetName.find("ice") != std::string::npos
+                     || tilesetName.find("swamp") != std::string::npos
+                     || tilesetName.find("swmp") != std::string::npos)
+            {
+                foodRequired = 3;
+            }
+            else if (tilesetName.find("badland") != std::string::npos || tilesetName.find("bad") != std::string::npos)
+            {
+                foodRequired = 4;
+            }
+        }
+
+        const Party &party = m_pOutdoorPartyRuntime->party();
+
+        for (const Character &member : party.members())
+        {
+            constexpr uint32_t DragonRaceId = 5;
+
+            if (member.raceId == DragonRaceId)
+            {
+                ++foodRequired;
+                break;
+            }
+        }
+    }
+
+    return std::max(1, foodRequired);
+}
+
+float OutdoorGameView::innRestDurationMinutes(uint32_t houseId) const
+{
+    if (m_pOutdoorWorldRuntime == nullptr)
+    {
+        return 8.0f * 60.0f;
+    }
+
+    int currentMinuteOfDay = static_cast<int>(std::floor(m_pOutdoorWorldRuntime->gameMinutes()));
+    currentMinuteOfDay %= MinutesPerDay;
+
+    if (currentMinuteOfDay < 0)
+    {
+        currentMinuteOfDay += MinutesPerDay;
+    }
+
+    int minutesUntilDawn = InnRestDawnHour * 60 - currentMinuteOfDay;
+
+    if (minutesUntilDawn <= 0)
+    {
+        minutesUntilDawn += MinutesPerDay;
+    }
+
+    float durationMinutes = static_cast<float>(minutesUntilDawn) + 60.0f;
+
+    if (houseId == DeyjaTavernHouseId
+        || houseId == PitTavernHouseId
+        || houseId == MountNighonTavernHouseId)
+    {
+        durationMinutes += 12.0f * 60.0f;
+    }
+
+    return durationMinutes;
+}
+
+void OutdoorGameView::startInnRest(uint32_t houseId)
+{
+    if (m_pOutdoorPartyRuntime == nullptr || m_pOutdoorWorldRuntime == nullptr)
+    {
+        return;
+    }
+
+    openRestScreen();
+    beginRestAction(RestMode::Heal, innRestDurationMinutes(houseId), false);
+}
+
+void OutdoorGameView::beginRestAction(RestMode mode, float minutes, bool consumeFood)
+{
+    if (!m_restScreen.active || m_pOutdoorPartyRuntime == nullptr || m_pOutdoorWorldRuntime == nullptr)
+    {
+        return;
+    }
+
+    if (m_restScreen.mode != RestMode::None)
+    {
+        setStatusBarEvent("You are already resting.");
+        return;
+    }
+
+    if (mode == RestMode::Heal && consumeFood)
+    {
+        const int foodRequired = restFoodRequired();
+        Party &party = m_pOutdoorPartyRuntime->party();
+
+        if (party.food() < foodRequired)
+        {
+            setStatusBarEvent("You don't have enough food to rest.");
+            return;
+        }
+
+        party.addFood(-foodRequired);
+    }
+
+    m_restScreen.mode = mode;
+    m_restScreen.totalMinutes = std::max(0.0f, minutes);
+    m_restScreen.remainingMinutes = m_restScreen.totalMinutes;
+    m_restScreen.hourglassElapsedSeconds = 0.0f;
+
+    if (m_restScreen.remainingMinutes <= 0.0f)
+    {
+        m_restScreen.mode = RestMode::None;
+    }
+}
+
+void OutdoorGameView::startRestAction(RestMode mode, float minutes)
+{
+    beginRestAction(mode, minutes, true);
+}
+
+void OutdoorGameView::updateRestScreen(float deltaSeconds)
+{
+    if (!m_restScreen.active || m_restScreen.mode == RestMode::None || m_pOutdoorWorldRuntime == nullptr)
+    {
+        return;
+    }
+
+    constexpr float ShortestRestAnimationSeconds = 0.75f;
+    constexpr float LongestRestAnimationSeconds = 4.0f;
+    constexpr float RestMinutesPerAnimationSecond = 120.0f;
+    const float safeDeltaSeconds = std::max(0.0f, deltaSeconds);
+    const float animationDurationSeconds = std::clamp(
+        m_restScreen.totalMinutes / RestMinutesPerAnimationSecond,
+        ShortestRestAnimationSeconds,
+        LongestRestAnimationSeconds);
+    const float gameMinutesPerSecond = animationDurationSeconds > 0.0f
+        ? m_restScreen.totalMinutes / animationDurationSeconds
+        : m_restScreen.totalMinutes;
+    const float advancedMinutes = std::min(
+        m_restScreen.remainingMinutes,
+        gameMinutesPerSecond * safeDeltaSeconds);
+
+    if (advancedMinutes > 0.0f)
+    {
+        m_pOutdoorWorldRuntime->advanceGameMinutes(advancedMinutes);
+        m_restScreen.remainingMinutes = std::max(0.0f, m_restScreen.remainingMinutes - advancedMinutes);
+        m_restScreen.hourglassElapsedSeconds += safeDeltaSeconds;
+    }
+
+    if (m_restScreen.remainingMinutes > 0.0f)
+    {
+        return;
+    }
+
+    const RestMode completedMode = m_restScreen.mode;
+    m_restScreen.mode = RestMode::None;
+    m_restScreen.remainingMinutes = 0.0f;
+
+    if (completedMode == RestMode::Heal && m_pOutdoorPartyRuntime != nullptr)
+    {
+        m_pOutdoorPartyRuntime->party().restAndHealAll();
+        closeRestScreen();
     }
 }
 
@@ -8778,6 +9029,11 @@ void OutdoorGameView::renderPendingSpellTargetingOverlay(int width, int height) 
 void OutdoorGameView::renderSpellbookOverlay(int width, int height) const
 {
     GameplayPartyOverlayRenderer::renderSpellbookOverlay(*this, width, height);
+}
+
+void OutdoorGameView::renderRestOverlay(int width, int height) const
+{
+    GameplayPartyOverlayRenderer::renderRestOverlay(*this, width, height);
 }
 
 void OutdoorGameView::showStatusBarEvent(const std::string &text, float durationSeconds)

@@ -8,13 +8,14 @@ namespace OpenYAMM::Game
 {
 namespace
 {
-const std::array<std::string, 12> GameplayLayoutFiles = {
+const std::array<std::string, 13> GameplayLayoutFiles = {
     "Data/ui/gameplay/gameplay.yml",
     "Data/ui/gameplay/chest.yml",
     "Data/ui/gameplay/dialogue.yml",
     "Data/ui/gameplay/character.yml",
     "Data/ui/gameplay/adventurers_inn.yml",
     "Data/ui/gameplay/spellbook.yml",
+    "Data/ui/gameplay/rest.yml",
     "Data/ui/gameplay/item_inspect.yml",
     "Data/ui/gameplay/character_inspect.yml",
     "Data/ui/gameplay/buff_inspect.yml",
@@ -168,6 +169,16 @@ GameplayUiController::SpellbookState &GameplayUiController::spellbook()
 const GameplayUiController::SpellbookState &GameplayUiController::spellbook() const
 {
     return m_state.spellbook;
+}
+
+GameplayUiController::RestScreenState &GameplayUiController::restScreen()
+{
+    return m_state.restScreen;
+}
+
+const GameplayUiController::RestScreenState &GameplayUiController::restScreen() const
+{
+    return m_state.restScreen;
 }
 
 GameplayUiController::InventoryNestedOverlayState &GameplayUiController::inventoryNestedOverlay()

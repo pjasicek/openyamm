@@ -34,7 +34,8 @@ enum class GameplayHudScreenState
     Dialogue,
     Character,
     Chest,
-    Spellbook
+    Spellbook,
+    Rest
 };
 
 struct GameplayResolvedHudLayoutElement

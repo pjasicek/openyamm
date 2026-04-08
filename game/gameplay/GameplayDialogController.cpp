@@ -359,6 +359,13 @@ GameplayDialogController::Result GameplayDialogController::executeActiveDialogAc
                     isBoatHouse(*pHouseEntry) ? SpeechId::TravelBoat : SpeechId::TravelHorse,
                     true);
             }
+
+            if (houseResult.pendingInnRest.has_value())
+            {
+                result.shouldCloseActiveDialog = true;
+                result.pendingInnRest = houseResult.pendingInnRest;
+                return result;
+            }
         }
 
         context.eventRuntimeState.dialogueState.hostHouseId = context.activeEventDialog.sourceId;

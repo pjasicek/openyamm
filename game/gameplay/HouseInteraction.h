@@ -4,6 +4,7 @@
 #include "game/tables/HouseTable.h"
 
 #include <cstdint>
+#include <optional>
 #include <string>
 #include <vector>
 
@@ -82,11 +83,17 @@ struct HouseActionOption
     std::string disabledReason;
 };
 
+struct InnRestRequest
+{
+    uint32_t houseId = 0;
+};
+
 struct HouseActionResult
 {
     bool succeeded = false;
     std::optional<HouseSoundType> soundType;
     std::vector<std::string> messages;
+    std::optional<InnRestRequest> pendingInnRest;
 };
 
 HouseServiceType resolveHouseServiceType(const HouseEntry &houseEntry);

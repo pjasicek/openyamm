@@ -41,6 +41,13 @@ constexpr float MaxUiViewportAspect = 4.0f / 3.0f;
 constexpr float HudFontIntegerSnapThreshold = 0.1f;
 constexpr uint32_t BrokenItemTintColorAbgr = 0x800000ffu;
 constexpr uint32_t UnidentifiedItemTintColorAbgr = 0x80ff0000u;
+constexpr int RestSkyFrameCount = 244;
+constexpr int RestHourglassFirstFrame = 60;
+constexpr int RestHourglassLastFrame = 119;
+constexpr float RestHourglassLoopSeconds = 4.0f;
+constexpr int RestDaysPerMonth = 28;
+constexpr int RestMonthsPerYear = 12;
+constexpr int RestStartingYear = 1168;
 
 uint32_t currentAnimationTicks()
 {
@@ -164,6 +171,82 @@ uint32_t packHudColorAbgr(uint8_t red, uint8_t green, uint8_t blue)
         | (static_cast<uint32_t>(green) << 8)
         | (static_cast<uint32_t>(blue) << 16)
         | 0xff000000u;
+}
+
+std::string replaceAllText(std::string text, const std::string &from, const std::string &to)
+{
+    size_t position = 0;
+
+    while ((position = text.find(from, position)) != std::string::npos)
+    {
+        text.replace(position, from.size(), to);
+        position += to.size();
+    }
+
+    return text;
+}
+
+std::string formatRestSkyTextureName(float gameMinutes)
+{
+    const float positiveMinutes = std::max(0.0f, gameMinutes);
+    const float minutesOfDay = std::fmod(positiveMinutes, 1440.0f);
+    int frameIndex = static_cast<int>((minutesOfDay / 1440.0f) * static_cast<float>(RestSkyFrameCount));
+    frameIndex = std::clamp(frameIndex, 0, RestSkyFrameCount - 1);
+
+    char textureName[16] = {};
+    std::snprintf(textureName, sizeof(textureName), "terra%04d", frameIndex);
+    return textureName;
+}
+
+std::string formatRestHourglassTextureName(const GameplayUiController::RestScreenState &restScreen)
+{
+    int frameIndex = RestHourglassFirstFrame;
+
+    if (restScreen.mode != GameplayUiController::RestMode::None)
+    {
+        const float loopSeconds = std::fmod(
+            std::max(0.0f, restScreen.hourglassElapsedSeconds),
+            RestHourglassLoopSeconds);
+        const int frameCount = RestHourglassLastFrame - RestHourglassFirstFrame + 1;
+        frameIndex = RestHourglassFirstFrame
+            + static_cast<int>(std::floor((loopSeconds / RestHourglassLoopSeconds) * static_cast<float>(frameCount)));
+        frameIndex = std::clamp(frameIndex, RestHourglassFirstFrame, RestHourglassLastFrame);
+    }
+
+    char textureName[16] = {};
+    std::snprintf(textureName, sizeof(textureName), "HGLAS%03d", frameIndex);
+    return textureName;
+}
+
+std::string formatRestTimeText(float gameMinutes)
+{
+    const int totalMinutes = std::max(0, static_cast<int>(std::floor(gameMinutes + 0.5f)));
+    const int minuteOfDay = totalMinutes % 1440;
+    const int hour24 = minuteOfDay / 60;
+    const int minute = minuteOfDay % 60;
+    const int hour12 = hour24 == 0 ? 12 : hour24 > 12 ? hour24 - 12 : hour24;
+    const char *pMeridiem = hour24 >= 12 ? "pm" : "am";
+
+    char timeText[16] = {};
+    std::snprintf(timeText, sizeof(timeText), "%d:%02d %s", hour12, minute, pMeridiem);
+    return timeText;
+}
+
+struct RestDateText
+{
+    int day = 1;
+    int month = 1;
+    int year = RestStartingYear;
+};
+
+RestDateText formatRestDateText(float gameMinutes)
+{
+    const int totalDays = std::max(0, static_cast<int>(std::floor(gameMinutes / 1440.0f)));
+    RestDateText result = {};
+    result.year = RestStartingYear + totalDays / (RestDaysPerMonth * RestMonthsPerYear);
+    result.month = 1 + (totalDays / RestDaysPerMonth) % RestMonthsPerYear;
+    result.day = 1 + totalDays % RestDaysPerMonth;
+    return result;
 }
 
 bool tryParseInteger(const std::string &value, int &parsedValue)
@@ -1163,6 +1246,142 @@ void setupHudProjection(int width, int height)
 }
 
 } // namespace
+
+void GameplayPartyOverlayRenderer::renderRestOverlay(const OutdoorGameView &view, int width, int height)
+{
+    if (!view.m_restScreen.active
+        || !bgfx::isValid(view.m_texturedTerrainProgramHandle)
+        || !bgfx::isValid(view.m_terrainTextureSamplerHandle)
+        || width <= 0
+        || height <= 0)
+    {
+        return;
+    }
+
+    const OutdoorGameView::HudLayoutElement *pRootLayout = HudUiService::findHudLayoutElement(view, "RestRoot");
+
+    if (pRootLayout == nullptr)
+    {
+        return;
+    }
+
+    setupHudProjection(width, height);
+
+    float mouseX = 0.0f;
+    float mouseY = 0.0f;
+    const SDL_MouseButtonFlags mouseButtons = SDL_GetMouseState(&mouseX, &mouseY);
+    const bool isLeftMousePressed = (mouseButtons & SDL_BUTTON_LMASK) != 0;
+    const float gameMinutes = view.m_pOutdoorWorldRuntime != nullptr
+        ? view.m_pOutdoorWorldRuntime->gameMinutes()
+        : 0.0f;
+    const RestDateText dateText = formatRestDateText(gameMinutes);
+    const std::string timeText = formatRestTimeText(gameMinutes);
+    const std::vector<std::string> orderedLayoutIds = HudUiService::sortedHudLayoutIdsForScreen(view, "Rest");
+
+    for (const std::string &layoutId : orderedLayoutIds)
+    {
+        const OutdoorGameView::HudLayoutElement *pLayout = HudUiService::findHudLayoutElement(view, layoutId);
+
+        if (pLayout == nullptr || !pLayout->visible || toLowerCopy(pLayout->id) == "restroot")
+        {
+            continue;
+        }
+
+        std::string textureName = pLayout->primaryAsset;
+
+        if (pLayout->id == "RestSkyAnimation")
+        {
+            textureName = formatRestSkyTextureName(gameMinutes);
+        }
+        else if (pLayout->id == "RestHourglass")
+        {
+            textureName = formatRestHourglassTextureName(view.m_restScreen);
+        }
+
+        if (!textureName.empty())
+        {
+            if (pLayout->interactive)
+            {
+                const std::optional<OutdoorGameView::ResolvedHudLayoutElement> interactiveResolved =
+                    HudUiService::resolveHudLayoutElement(
+                        view,
+                        layoutId,
+                        width,
+                        height,
+                        pLayout->width,
+                        pLayout->height);
+                const std::string *pAssetName = interactiveResolved
+                    ? HudUiService::resolveInteractiveAssetName(
+                        *pLayout,
+                        *interactiveResolved,
+                        mouseX,
+                        mouseY,
+                        isLeftMousePressed)
+                    : nullptr;
+
+                if (pAssetName != nullptr)
+                {
+                    textureName = *pAssetName;
+                }
+            }
+
+            const OutdoorGameView::HudTextureHandle *pTexture =
+                HudUiService::ensureHudTextureLoaded(const_cast<OutdoorGameView &>(view), textureName);
+
+            if (pTexture != nullptr)
+            {
+                const float fallbackWidth = pLayout->width > 0.0f
+                    ? pLayout->width
+                    : static_cast<float>(pTexture->width);
+                const float fallbackHeight = pLayout->height > 0.0f
+                    ? pLayout->height
+                    : static_cast<float>(pTexture->height);
+                const std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolved =
+                    HudUiService::resolveHudLayoutElement(
+                        view,
+                        layoutId,
+                        width,
+                        height,
+                        fallbackWidth,
+                        fallbackHeight);
+
+                if (resolved)
+                {
+                    view.submitHudTexturedQuad(
+                        *pTexture,
+                        resolved->x,
+                        resolved->y,
+                        resolved->width,
+                        resolved->height);
+                }
+            }
+        }
+
+        if (!pLayout->labelText.empty())
+        {
+            std::string label = pLayout->labelText;
+            label = replaceAllText(label, "{time}", timeText);
+            label = replaceAllText(label, "{day_num}", std::to_string(dateText.day));
+            label = replaceAllText(label, "{month_num}", std::to_string(dateText.month));
+            label = replaceAllText(label, "{year_num}", std::to_string(dateText.year));
+            label = replaceAllText(label, "{rest_food_cost}", std::to_string(view.restFoodRequired()));
+
+            const std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolved =
+                HudUiService::resolveHudLayoutElement(
+                    view,
+                    layoutId,
+                    width,
+                    height,
+                    pLayout->width,
+                    pLayout->height);
+
+            if (resolved)
+            {
+                HudUiService::renderLayoutLabel(view, *pLayout, *resolved, label);
+            }
+        }
+    }
+}
 
 void GameplayPartyOverlayRenderer::renderSpellbookOverlay(const OutdoorGameView &view, int width, int height)
 {

@@ -5,11 +5,13 @@
 #include "game/gameplay/GameplayOverlayInputController.h"
 #include "game/gameplay/GameplayPartyOverlayInputController.h"
 #include "game/scene/OutdoorSceneRuntime.h"
+#include "game/ui/HudUiService.h"
 
 #include <SDL3/SDL.h>
 
 #include <algorithm>
 #include <cmath>
+#include <optional>
 
 namespace OpenYAMM::Game
 {
@@ -86,6 +88,7 @@ void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view
     const bool isEventDialogActive = view.hasActiveEventDialog();
     const bool hasPendingSpellCast = view.m_pendingSpellCast.active;
     const bool isSpellbookActive = view.m_spellbook.active;
+    const bool isRestScreenActive = view.m_restScreen.active;
     SDL_Window *pWindow = SDL_GetMouseFocus();
 
     if (pWindow == nullptr)
@@ -101,7 +104,11 @@ void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view
         SDL_GetWindowSizeInPixels(pWindow, &screenWidth, &screenHeight);
     }
 
-    if (view.m_pOutdoorPartyRuntime != nullptr && screenWidth > 0 && screenHeight > 0 && !isSpellbookActive)
+    if (view.m_pOutdoorPartyRuntime != nullptr
+        && screenWidth > 0
+        && screenHeight > 0
+        && !isSpellbookActive
+        && !isRestScreenActive)
     {
         float portraitMouseX = 0.0f;
         float portraitMouseY = 0.0f;
@@ -112,7 +119,11 @@ void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view
             (portraitMouseButtons & SDL_BUTTON_LMASK) != 0
         };
         const bool requireGameplayReady =
-            !isEventDialogActive && !view.m_characterScreenOpen && !hasActiveLootView && !isSpellbookActive;
+            !isEventDialogActive
+            && !view.m_characterScreenOpen
+            && !hasActiveLootView
+            && !isSpellbookActive
+            && !isRestScreenActive;
 
         handlePointerClickRelease(
             portraitPointerState,
@@ -205,6 +216,7 @@ void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view
                      && !view.m_characterScreenOpen
                      && !hasActiveLootView
                      && !hasPendingSpellCast
+                     && !view.m_restScreen.active
                      && !view.m_heldInventoryItem.active)
             {
                 view.openSpellbook();
@@ -218,11 +230,92 @@ void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view
         view.m_spellbookToggleLatch = false;
     }
 
+    const bool canOpenRestScreen =
+        !isEventDialogActive
+        && !view.m_characterScreenOpen
+        && !hasActiveLootView
+        && !hasPendingSpellCast
+        && !view.m_spellbook.active
+        && !view.m_restScreen.active
+        && !view.m_heldInventoryItem.active;
+
+    if (canOpenRestScreen && pKeyboardState[SDL_SCANCODE_R])
+    {
+        if (!view.m_restToggleLatch)
+        {
+            view.openRestScreen();
+            view.m_restToggleLatch = true;
+        }
+    }
+    else
+    {
+        view.m_restToggleLatch = false;
+    }
+
+    if (canOpenRestScreen && screenWidth > 0 && screenHeight > 0)
+    {
+        float restButtonMouseX = 0.0f;
+        float restButtonMouseY = 0.0f;
+        const SDL_MouseButtonFlags restButtonMouseButtons =
+            SDL_GetMouseState(&restButtonMouseX, &restButtonMouseY);
+        const HudPointerState restButtonPointerState = {
+            restButtonMouseX,
+            restButtonMouseY,
+            (restButtonMouseButtons & SDL_BUTTON_LMASK) != 0
+        };
+        const OutdoorGameView::RestPointerTarget noneRestTarget = {};
+
+        handlePointerClickRelease(
+            restButtonPointerState,
+            view.m_restClickLatch,
+            view.m_restPressedTarget,
+            noneRestTarget,
+            [&view, screenWidth, screenHeight](float pointerX, float pointerY) -> OutdoorGameView::RestPointerTarget
+            {
+                const OutdoorGameView::HudLayoutElement *pLayout =
+                    HudUiService::findHudLayoutElement(view, "OutdoorButtonRest");
+
+                if (pLayout == nullptr)
+                {
+                    return {};
+                }
+
+                const std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolved =
+                    HudUiService::resolveHudLayoutElement(
+                        view,
+                        "OutdoorButtonRest",
+                        screenWidth,
+                        screenHeight,
+                        pLayout->width,
+                        pLayout->height);
+
+                if (!resolved || !HudUiService::isPointerInsideResolvedElement(*resolved, pointerX, pointerY))
+                {
+                    return {};
+                }
+
+                return {OutdoorGameView::RestPointerTargetType::OpenButton};
+            },
+            [&view](const OutdoorGameView::RestPointerTarget &target)
+            {
+                if (target.type == OutdoorGameView::RestPointerTargetType::OpenButton)
+                {
+                    view.openRestScreen();
+                }
+            });
+    }
+    else if (!view.m_restScreen.active)
+    {
+        view.m_restClickLatch = false;
+        view.m_restPressedTarget = {};
+    }
+
     const bool canToggleAdventurersInn =
         !isEventDialogActive
         && !hasActiveLootView
         && !hasPendingSpellCast
         && !view.m_spellbook.active
+        && !view.m_restScreen.active
         && !view.m_heldInventoryItem.active;
 
     if (canToggleAdventurersInn && pKeyboardState[SDL_SCANCODE_P])
@@ -259,7 +352,7 @@ void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view
         view.m_adventurersInnToggleLatch = false;
     }
 
-    if (!isEventDialogActive)
+    if (!isEventDialogActive && !view.m_restScreen.active)
     {
         if (pKeyboardState[SDL_SCANCODE_I])
         {
@@ -313,7 +406,8 @@ void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view
         && !view.m_characterScreenOpen
         && !hasActiveLootView
         && !hasPendingSpellCast
-        && !view.m_spellbook.active)
+        && !view.m_spellbook.active
+        && !view.m_restScreen.active)
     {
         if (pKeyboardState[SDL_SCANCODE_Q])
         {
@@ -362,6 +456,208 @@ void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view
     view.m_eventDialogPartySelectLatches.fill(false);
     view.m_dialogueClickLatch = false;
     view.m_dialoguePressedTarget = {};
+
+    if (view.m_restScreen.active)
+    {
+        const auto finishOrCloseRestScreen =
+            [&view]()
+            {
+                const OutdoorGameView::RestMode mode = view.m_restScreen.mode;
+
+                if (mode != OutdoorGameView::RestMode::None
+                    && view.m_restScreen.remainingMinutes > 0.0f
+                    && view.m_pOutdoorWorldRuntime != nullptr)
+                {
+                    view.m_pOutdoorWorldRuntime->advanceGameMinutes(view.m_restScreen.remainingMinutes);
+
+                    if (mode == OutdoorGameView::RestMode::Heal && view.m_pOutdoorPartyRuntime != nullptr)
+                    {
+                        view.m_pOutdoorPartyRuntime->party().restAndHealAll();
+                    }
+                }
+
+                view.closeRestScreen();
+            };
+        const auto waitUntilDawnMinutes =
+            [&view]() -> float
+            {
+                if (view.m_pOutdoorWorldRuntime == nullptr)
+                {
+                    return 8.0f * 60.0f;
+                }
+
+                constexpr float DawnMinuteOfDay = 6.0f * 60.0f;
+                const float minutesOfDay = std::fmod(
+                    std::max(0.0f, view.m_pOutdoorWorldRuntime->gameMinutes()),
+                    1440.0f);
+                float targetMinuteOfDay = DawnMinuteOfDay;
+
+                if (targetMinuteOfDay <= minutesOfDay)
+                {
+                    targetMinuteOfDay += 1440.0f;
+                }
+
+                return targetMinuteOfDay - minutesOfDay;
+            };
+
+        if (pKeyboardState[SDL_SCANCODE_ESCAPE] || pKeyboardState[SDL_SCANCODE_E])
+        {
+            if (!view.m_closeOverlayLatch)
+            {
+                finishOrCloseRestScreen();
+                view.m_closeOverlayLatch = true;
+            }
+        }
+        else
+        {
+            view.m_closeOverlayLatch = false;
+        }
+
+        if (screenWidth > 0 && screenHeight > 0)
+        {
+            float restMouseX = 0.0f;
+            float restMouseY = 0.0f;
+            const SDL_MouseButtonFlags restMouseButtons = SDL_GetMouseState(&restMouseX, &restMouseY);
+            const HudPointerState restPointerState = {
+                restMouseX,
+                restMouseY,
+                (restMouseButtons & SDL_BUTTON_LMASK) != 0
+            };
+            const OutdoorGameView::RestPointerTarget noneRestTarget = {};
+            const auto resolveRestButtonTarget =
+                [&view, screenWidth, screenHeight](
+                    const std::string &layoutId,
+                    OutdoorGameView::RestPointerTargetType targetType,
+                    float pointerX,
+                    float pointerY) -> OutdoorGameView::RestPointerTarget
+                {
+                    const OutdoorGameView::HudLayoutElement *pLayout =
+                        HudUiService::findHudLayoutElement(view, layoutId);
+
+                    if (pLayout == nullptr)
+                    {
+                        return {};
+                    }
+
+                    const std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolved =
+                        HudUiService::resolveHudLayoutElement(
+                            view,
+                            layoutId,
+                            screenWidth,
+                            screenHeight,
+                            pLayout->width,
+                            pLayout->height);
+
+                    if (!resolved || !HudUiService::isPointerInsideResolvedElement(*resolved, pointerX, pointerY))
+                    {
+                        return {};
+                    }
+
+                    return {targetType};
+                };
+            const auto findRestPointerTarget =
+                [&resolveRestButtonTarget](float pointerX, float pointerY) -> OutdoorGameView::RestPointerTarget
+                {
+                    const OutdoorGameView::RestPointerTarget rest8HoursTarget =
+                        resolveRestButtonTarget(
+                            "RestButton8Hours",
+                            OutdoorGameView::RestPointerTargetType::Rest8HoursButton,
+                            pointerX,
+                            pointerY);
+
+                    if (rest8HoursTarget.type != OutdoorGameView::RestPointerTargetType::None)
+                    {
+                        return rest8HoursTarget;
+                    }
+
+                    const OutdoorGameView::RestPointerTarget dawnTarget =
+                        resolveRestButtonTarget(
+                            "RestButtonUntilDawn",
+                            OutdoorGameView::RestPointerTargetType::WaitUntilDawnButton,
+                            pointerX,
+                            pointerY);
+
+                    if (dawnTarget.type != OutdoorGameView::RestPointerTargetType::None)
+                    {
+                        return dawnTarget;
+                    }
+
+                    const OutdoorGameView::RestPointerTarget oneHourTarget =
+                        resolveRestButtonTarget(
+                            "RestButton1Hour",
+                            OutdoorGameView::RestPointerTargetType::Wait1HourButton,
+                            pointerX,
+                            pointerY);
+
+                    if (oneHourTarget.type != OutdoorGameView::RestPointerTargetType::None)
+                    {
+                        return oneHourTarget;
+                    }
+
+                    const OutdoorGameView::RestPointerTarget fiveMinutesTarget =
+                        resolveRestButtonTarget(
+                            "RestButton5Minutes",
+                            OutdoorGameView::RestPointerTargetType::Wait5MinutesButton,
+                            pointerX,
+                            pointerY);
+
+                    if (fiveMinutesTarget.type != OutdoorGameView::RestPointerTargetType::None)
+                    {
+                        return fiveMinutesTarget;
+                    }
+
+                    return resolveRestButtonTarget(
+                        "RestButtonExit",
+                        OutdoorGameView::RestPointerTargetType::ExitButton,
+                        pointerX,
+                        pointerY);
+                };
+
+            handlePointerClickRelease(
+                restPointerState,
+                view.m_restClickLatch,
+                view.m_restPressedTarget,
+                noneRestTarget,
+                findRestPointerTarget,
+                [&view, &finishOrCloseRestScreen, &waitUntilDawnMinutes](
+                    const OutdoorGameView::RestPointerTarget &target)
+                {
+                    switch (target.type)
+                    {
+                        case OutdoorGameView::RestPointerTargetType::Rest8HoursButton:
+                            view.startRestAction(OutdoorGameView::RestMode::Heal, 8.0f * 60.0f);
+                            break;
+
+                        case OutdoorGameView::RestPointerTargetType::WaitUntilDawnButton:
+                            view.startRestAction(OutdoorGameView::RestMode::Wait, waitUntilDawnMinutes());
+                            break;
+
+                        case OutdoorGameView::RestPointerTargetType::Wait1HourButton:
+                            view.startRestAction(OutdoorGameView::RestMode::Wait, 60.0f);
+                            break;
+
+                        case OutdoorGameView::RestPointerTargetType::Wait5MinutesButton:
+                            view.startRestAction(OutdoorGameView::RestMode::Wait, 5.0f);
+                            break;
+
+                        case OutdoorGameView::RestPointerTargetType::ExitButton:
+                            finishOrCloseRestScreen();
+                            break;
+
+                        case OutdoorGameView::RestPointerTargetType::None:
+                        case OutdoorGameView::RestPointerTargetType::OpenButton:
+                            break;
+                    }
+                });
+        }
+        else
+        {
+            view.m_restClickLatch = false;
+            view.m_restPressedTarget = {};
+        }
+
+        return;
+    }
 
     if (view.m_spellbook.active)
     {
@@ -733,18 +1029,7 @@ void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view
 
     if (view.m_pOutdoorPartyRuntime)
     {
-        if (pKeyboardState[SDL_SCANCODE_R])
-        {
-            if (!view.m_toggleRunningLatch)
-            {
-                view.m_pOutdoorPartyRuntime->toggleRunning();
-                view.m_toggleRunningLatch = true;
-            }
-        }
-        else
-        {
-            view.m_toggleRunningLatch = false;
-        }
+        view.m_toggleRunningLatch = false;
 
         if (pKeyboardState[SDL_SCANCODE_F])
         {

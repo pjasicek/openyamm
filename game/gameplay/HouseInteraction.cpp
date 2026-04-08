@@ -15,7 +15,6 @@ namespace OpenYAMM::Game
 {
 namespace
 {
-constexpr int RestTargetHour = 6;
 constexpr int TavernFoodTarget = 14;
 constexpr int MinutesPerDay = 24 * 60;
 
@@ -219,23 +218,6 @@ std::optional<uint64_t> trainingExperienceShortfall(const Character &member)
     }
 
     return requiredExperience - member.experience;
-}
-
-float restDurationMinutes(int currentHour)
-{
-    if (currentHour < 0)
-    {
-        return 8.0f * 60.0f;
-    }
-
-    int hoursUntilMorning = RestTargetHour - currentHour;
-
-    if (hoursUntilMorning <= 0)
-    {
-        hoursUntilMorning += 24;
-    }
-
-    return static_cast<float>(hoursUntilMorning * 60);
 }
 
 HouseActionOption makeOption(
@@ -794,16 +776,9 @@ HouseActionResult performHouseAction(
             }
 
             party.addGold(-price);
-            party.restAndHealAll();
-
-            if (pOutdoorWorldRuntime != nullptr)
-            {
-                pOutdoorWorldRuntime->advanceGameMinutes(restDurationMinutes(pOutdoorWorldRuntime->currentHour()));
-            }
-
-            result.messages.push_back("The party rents a room, rests, and wakes up refreshed.");
             result.succeeded = true;
             result.soundType = HouseSoundType::TavernRentRoom;
+            result.pendingInnRest = InnRestRequest{houseEntry.id};
             return result;
         }
 

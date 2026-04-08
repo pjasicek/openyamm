@@ -256,7 +256,8 @@ private:
         Dialogue,
         Character,
         Chest,
-        Spellbook
+        Spellbook,
+        Rest
     };
 
     using CharacterPage = GameplayUiController::CharacterPage;
@@ -346,6 +347,17 @@ public:
     };
 
 private:
+    enum class RestPointerTargetType
+    {
+        None,
+        OpenButton,
+        Rest8HoursButton,
+        WaitUntilDawnButton,
+        Wait1HourButton,
+        Wait5MinutesButton,
+        ExitButton
+    };
+
     enum class InventoryNestedOverlayPointerTargetType
     {
         None,
@@ -409,6 +421,15 @@ private:
     };
 
     using SpellbookState = GameplayUiController::SpellbookState;
+    using RestScreenState = GameplayUiController::RestScreenState;
+    using RestMode = GameplayUiController::RestMode;
+
+    struct RestPointerTarget
+    {
+        RestPointerTargetType type = RestPointerTargetType::None;
+
+        bool operator==(const RestPointerTarget &other) const = default;
+    };
 
     struct InventoryNestedOverlayPointerTarget
     {
@@ -508,6 +529,7 @@ private:
     void renderReadableScrollOverlay(int width, int height) const;
     void renderPendingSpellTargetingOverlay(int width, int height) const;
     void renderSpellbookOverlay(int width, int height) const;
+    void renderRestOverlay(int width, int height) const;
     void submitHudTexturedQuad(const HudTextureHandle &texture, float x, float y, float quadWidth, float quadHeight) const;
     std::optional<std::string> findCachedAssetPath(const std::string &directoryPath, const std::string &fileName);
     std::optional<std::vector<uint8_t>> readCachedBinaryFile(const std::string &assetPath);
@@ -576,6 +598,15 @@ private:
     bool tryCastSpellRequest(const PartySpellCastRequest &request, const std::string &spellName);
     void openSpellbook();
     void closeSpellbook(const std::string &statusText = "");
+    void openRestScreen();
+    void closeRestScreen();
+    void clearWorldInteractionInputLatches();
+    int restFoodRequired() const;
+    float innRestDurationMinutes(uint32_t houseId) const;
+    void startInnRest(uint32_t houseId);
+    void beginRestAction(RestMode mode, float minutes, bool consumeFood);
+    void startRestAction(RestMode mode, float minutes);
+    void updateRestScreen(float deltaSeconds);
     void closeReadableScrollOverlay();
     void clearPendingSpellCast(const std::string &statusText = "");
     bool tryResolvePendingSpellCast(
@@ -749,6 +780,8 @@ private:
     bool m_spellbookToggleLatch;
     bool m_spellbookClickLatch;
     bool m_pendingSpellTargetClickLatch;
+    bool m_restToggleLatch;
+    bool m_restClickLatch;
     bool m_inventoryScreenToggleLatch;
     bool m_adventurersInnToggleLatch;
     GameplayUiController m_gameplayUiController;
@@ -782,10 +815,12 @@ private:
     SpellInspectOverlayState &m_spellInspectOverlay;
     ReadableScrollOverlayState &m_readableScrollOverlay;
     SpellbookState &m_spellbook;
+    RestScreenState &m_restScreen;
     InventoryNestedOverlayState &m_inventoryNestedOverlay;
     HouseShopOverlayState &m_houseShopOverlay;
     HouseBankState &m_houseBankState;
     SpellbookPointerTarget m_spellbookPressedTarget;
+    RestPointerTarget m_restPressedTarget;
     uint64_t m_lastSpellbookSpellClickTicks;
     uint32_t m_lastSpellbookClickedSpellId;
     PendingSpellCastState m_pendingSpellCast;

@@ -4,12 +4,14 @@
 #include "game/events/EventRuntime.h"
 #include "game/arcomage/ArcomageTypes.h"
 #include "game/audio/SoundIds.h"
+#include "game/gameplay/HouseInteraction.h"
 #include "game/party/SpeechIds.h"
 #include "game/ui/GameplayUiController.h"
 
 #include <cstddef>
 #include <cstdint>
 #include <functional>
+#include <optional>
 
 namespace OpenYAMM::Game
 {
@@ -55,6 +57,8 @@ public:
         size_t previousMessageCount = 0;
         bool shouldOpenPendingEventDialog = false;
         bool allowNpcFallbackContent = true;
+        bool shouldCloseActiveDialog = false;
+        std::optional<InnRestRequest> pendingInnRest;
     };
 
     struct PresentPendingDialogResult

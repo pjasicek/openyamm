@@ -1,0 +1,211 @@
+screen: Rest
+
+elements:
+  - id: RestRoot
+    anchor: center
+    width: 640
+    height: 480
+    z_index: 430
+    visible: true
+    scale:
+      min: 1.0
+      max: 3.0
+    children:
+      - id: RestBackground
+        anchor: top_left
+        offset_x: 0
+        offset_y: 0
+        width: 640
+        height: 366
+        z_index: 0
+        asset:
+          default: restmain
+
+      - id: RestSkyAnimation
+        anchor: top_left
+        offset_x: 96
+        offset_y: 26
+        width: 444
+        height: 108
+        z_index: 10
+        asset:
+          default: terra0000
+
+      - id: RestHourglass
+        anchor: top_left
+        offset_x: 384
+        offset_y: 163
+        width: 72
+        height: 114
+        z_index: 20
+        asset:
+          default: HGLAS001
+
+      - id: RestButton8Hours
+        anchor: top_left
+        offset_x: 61
+        offset_y: 155
+        width: 272
+        height: 42
+        z_index: 30
+        interactive: true
+        asset:
+          default: R8hU
+          highlighted: R8hH
+          pressed: R8hD
+
+      - id: RestButtonUntilDawn
+        anchor: top_left
+        offset_x: 100
+        offset_y: 239
+        width: 188
+        height: 30
+        z_index: 30
+        interactive: true
+        asset:
+          default: RdawnU
+          highlighted: RdawnH
+          pressed: RdawnD
+
+      - id: RestFoodCostText
+        anchor: top_left
+        offset_x: 287
+        offset_y: 167
+        width: 30
+        height: 20
+        z_index: 40
+        text:
+          value: "{rest_food_cost}"
+          font: Create
+          align_x: right
+          align_y: top
+
+      - id: RestButton1Hour
+        anchor: top_left
+        offset_x: 100
+        offset_y: 271
+        width: 188
+        height: 30
+        z_index: 30
+        interactive: true
+        asset:
+          default: R1hU
+          highlighted: R1hH
+          pressed: R1hD
+
+      - id: RestButton5Minutes
+        anchor: top_left
+        offset_x: 100
+        offset_y: 303
+        width: 188
+        height: 30
+        z_index: 30
+        interactive: true
+        asset:
+          default: R5mU
+          highlighted: R5mH
+          pressed: R5mD
+
+      - id: RestButtonExit
+        anchor: top_left
+        offset_x: 361
+        offset_y: 299
+        width: 185
+        height: 43
+        z_index: 30
+        interactive: true
+        asset:
+          default: RexitU
+          highlighted: RexitH
+          pressed: RexitD
+
+      - id: RestTimeText
+        anchor: top_left
+        offset_x: 485
+        offset_y: 168
+        width: 130
+        height: 20
+        z_index: 40
+        text:
+          value: "{time}"
+          font: Create
+          align_x: left
+          align_y: top
+
+      - id: RestDayText
+        anchor: top_left
+        offset_x: 464
+        offset_y: 190
+        width: 90
+        height: 20
+        z_index: 40
+        text:
+          value: "Day"
+          font: Create
+          align_x: left
+          align_y: top
+
+      - id: RestDayValueText
+        anchor: top_left
+        offset_x: 498
+        offset_y: 190
+        width: 50
+        height: 20
+        z_index: 40
+        text:
+          value: "{day_num}"
+          font: Create
+          align_x: right
+          align_y: top
+
+      - id: RestMonthText
+        anchor: top_left
+        offset_x: 464
+        offset_y: 222
+        width: 90
+        height: 20
+        z_index: 40
+        text:
+          value: "Month"
+          font: Create
+          align_x: left
+          align_y: top
+
+      - id: RestMonthValueText
+        anchor: top_left
+        offset_x: 498
+        offset_y: 222
+        width: 50
+        height: 20
+        z_index: 40
+        text:
+          value: "{month_num}"
+          font: Create
+          align_x: right
+          align_y: top
+
+      - id: RestYearText
+        anchor: top_left
+        offset_x: 464
+        offset_y: 254
+        width: 90
+        height: 20
+        z_index: 40
+        text:
+          value: "Year"
+          font: Create
+          align_x: left
+          align_y: top
+
+      - id: RestYearValueText
+        anchor: top_left
+        offset_x: 498
+        offset_y: 254
+        width: 50
+        height: 20
+        z_index: 40
+        text:
+          value: "{year_num}"
+          font: Create
+          align_x: right
+          align_y: top

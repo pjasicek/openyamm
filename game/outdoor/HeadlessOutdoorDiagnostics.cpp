@@ -171,6 +171,21 @@ struct GameApplicationTestAccess
         return application.m_outdoorGameView.m_activeEventDialog.isActive;
     }
 
+    static bool isRestScreenActive(const GameApplication &application)
+    {
+        return application.m_outdoorGameView.m_restScreen.active;
+    }
+
+    static float restRemainingMinutes(const GameApplication &application)
+    {
+        return application.m_outdoorGameView.m_restScreen.remainingMinutes;
+    }
+
+    static void updateRestScreen(GameApplication &application, float deltaSeconds)
+    {
+        application.m_outdoorGameView.updateRestScreen(deltaSeconds);
+    }
+
     static const EventDialogContent &activeEventDialog(const GameApplication &application)
     {
         return application.m_outdoorGameView.m_activeEventDialog;
@@ -16186,49 +16201,42 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
     );
 
     runCase(
-        "tavern_rest_and_transport_share_full_rest_recovery",
+        "tavern_rent_room_defers_recovery_until_rest_screen",
         [&](std::string &failure)
         {
             RegressionScenario tavernScenario = {};
-            RegressionScenario transportScenario = {};
 
-            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, tavernScenario)
-                || !initializeRegressionScenario(gameDataLoader, *selectedMap, transportScenario))
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, tavernScenario))
             {
                 failure = "scenario init failed";
                 return false;
             }
 
             const HouseEntry *pTavernHouse = gameDataLoader.getHouseTable().get(107);
-            const HouseEntry *pTransportHouse = gameDataLoader.getHouseTable().get(63);
 
-            if (pTavernHouse == nullptr || pTransportHouse == nullptr)
+            if (pTavernHouse == nullptr)
             {
-                failure = "missing tavern or transport house entry";
+                failure = "missing tavern house entry";
                 return false;
             }
 
             Character *pTavernMember = tavernScenario.party.activeMember();
-            Character *pTransportMember = transportScenario.party.activeMember();
 
-            if (pTavernMember == nullptr || pTransportMember == nullptr)
+            if (pTavernMember == nullptr)
             {
                 failure = "missing active member";
                 return false;
             }
 
             tavernScenario.party.addGold(1000);
-            transportScenario.party.addGold(1000);
             tavernScenario.party.applyPartyBuff(PartyBuffId::WizardEye, 600.0f, 1, 0, 0, SkillMastery::None, 0);
-            transportScenario.party.applyPartyBuff(PartyBuffId::WizardEye, 600.0f, 1, 0, 0, SkillMastery::None, 0);
+            const int initialHealth = std::max(1, pTavernMember->health - 17);
+            const int initialSpellPoints = std::max(0, pTavernMember->spellPoints - 4);
             pTavernMember->health = std::max(1, pTavernMember->health - 17);
-            pTransportMember->health = std::max(1, pTransportMember->health - 17);
             pTavernMember->spellPoints = std::max(0, pTavernMember->spellPoints - 4);
-            pTransportMember->spellPoints = std::max(0, pTransportMember->spellPoints - 4);
             pTavernMember->conditions.set(static_cast<size_t>(CharacterCondition::Asleep));
-            pTransportMember->conditions.set(static_cast<size_t>(CharacterCondition::Asleep));
             pTavernMember->recoverySecondsRemaining = 2.0f;
-            pTransportMember->recoverySecondsRemaining = 2.0f;
+            const float initialGameMinutes = tavernScenario.world.gameMinutes();
 
             const HouseActionResult tavernResult = performHouseAction(
                 HouseActionOption{HouseActionId::TavernRentRoom, "Rent room", "", true, ""},
@@ -16236,41 +16244,187 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
                 tavernScenario.party,
                 &gameDataLoader.getClassSkillTable(),
                 &tavernScenario.world);
-            const HouseActionResult transportResult = performHouseAction(
-                HouseActionOption{
-                    HouseActionId::TransportRoute,
-                    "Travel",
-                    std::to_string(pTransportHouse->transportRoutes.front().routeIndex),
-                    true,
-                    ""},
-                *pTransportHouse,
-                transportScenario.party,
-                &gameDataLoader.getClassSkillTable(),
-                &transportScenario.world);
 
-            if (!tavernResult.succeeded || !transportResult.succeeded)
+            if (!tavernResult.succeeded)
             {
-                failure = "tavern or transport action failed";
+                failure = "tavern action failed";
                 return false;
             }
 
-            pTavernMember = tavernScenario.party.activeMember();
-            pTransportMember = transportScenario.party.activeMember();
-
-            if (pTavernMember == nullptr || pTransportMember == nullptr)
+            if (!tavernResult.pendingInnRest.has_value() || tavernResult.pendingInnRest->houseId != pTavernHouse->id)
             {
-                failure = "active member missing after rest";
+                failure = "tavern action did not queue inn rest";
                 return false;
             }
 
-            if (pTavernMember->health != pTransportMember->health
-                || pTavernMember->spellPoints != pTransportMember->spellPoints
-                || pTavernMember->recoverySecondsRemaining != pTransportMember->recoverySecondsRemaining
-                || pTavernMember->conditions != pTransportMember->conditions
-                || tavernScenario.party.hasPartyBuff(PartyBuffId::WizardEye)
-                    != transportScenario.party.hasPartyBuff(PartyBuffId::WizardEye))
+            if (!tavernResult.soundType.has_value() || *tavernResult.soundType != HouseSoundType::TavernRentRoom)
             {
-                failure = "tavern and transport recovery diverged";
+                failure = "tavern action did not use the rent-room sound";
+                return false;
+            }
+
+            if (std::abs(tavernScenario.world.gameMinutes() - initialGameMinutes) > 0.001f)
+            {
+                failure = "tavern action advanced time before the rest screen";
+                return false;
+            }
+
+            if (pTavernMember->health != initialHealth
+                || pTavernMember->spellPoints != initialSpellPoints
+                || pTavernMember->recoverySecondsRemaining != 2.0f
+                || !pTavernMember->conditions.test(static_cast<size_t>(CharacterCondition::Asleep))
+                || !tavernScenario.party.hasPartyBuff(PartyBuffId::WizardEye))
+            {
+                failure = "tavern action applied recovery before the rest screen";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "app_tavern_rent_room_closes_dialog_runs_rest_ui_and_wakes_at_6am",
+        [&](std::string &failure)
+        {
+            GameApplication application(m_config);
+
+            if (!initializeHeadlessGameApplication(
+                    "out01.odm",
+                    assetFileSystem,
+                    application,
+                    failure))
+            {
+                return false;
+            }
+
+            GameApplicationTestAccess::shutdownRenderer(application);
+
+            if (!GameApplicationTestAccess::initializeSelectedMapRuntime(application, true))
+            {
+                failure = "could not initialize gameplay view";
+                return false;
+            }
+
+            OutdoorWorldRuntime *pWorld = GameApplicationTestAccess::outdoorWorldRuntime(application);
+            OutdoorPartyRuntime *pPartyRuntime = GameApplicationTestAccess::outdoorPartyRuntime(application);
+            EventRuntimeState *pEventRuntimeState = pWorld != nullptr ? pWorld->eventRuntimeState() : nullptr;
+            const HouseEntry *pTavernHouse = GameApplicationTestAccess::gameDataLoader(application).getHouseTable().get(107);
+
+            if (pWorld == nullptr || pPartyRuntime == nullptr || pEventRuntimeState == nullptr || pTavernHouse == nullptr)
+            {
+                failure = "application state is incomplete";
+                return false;
+            }
+
+            Party &party = pPartyRuntime->party();
+            Character *pActiveMember = party.activeMember();
+
+            if (pActiveMember == nullptr)
+            {
+                failure = "missing active member";
+                return false;
+            }
+
+            party.addGold(1000);
+            party.applyPartyBuff(PartyBuffId::WizardEye, 600.0f, 1, 0, 0, SkillMastery::None, 0);
+            pActiveMember->health = std::max(1, pActiveMember->health - 17);
+            pActiveMember->spellPoints = std::max(0, pActiveMember->spellPoints - 4);
+            pActiveMember->conditions.set(static_cast<size_t>(CharacterCondition::Asleep));
+            pActiveMember->recoverySecondsRemaining = 2.0f;
+
+            const float targetGameMinutes = nextGameMinuteAtOrAfter(pWorld->gameMinutes(), 16.0f * 60.0f + 30.0f);
+            pWorld->advanceGameMinutes(targetGameMinutes - pWorld->gameMinutes());
+            const float initialGameMinutes = pWorld->gameMinutes();
+            const float expectedRestMinutes = 13.0f * 60.0f + 30.0f;
+
+            EventRuntimeState::PendingDialogueContext context = {};
+            context.kind = DialogueContextKind::HouseService;
+            context.sourceId = pTavernHouse->id;
+            context.hostHouseId = pTavernHouse->id;
+            pEventRuntimeState->dialogueState.hostHouseId = pTavernHouse->id;
+            pEventRuntimeState->pendingDialogueContext = std::move(context);
+
+            GameApplicationTestAccess::openPendingEventDialog(application, pEventRuntimeState->messages.size(), true);
+
+            if (!GameApplicationTestAccess::hasActiveEventDialog(application))
+            {
+                failure = "tavern did not open an active dialog";
+                return false;
+            }
+
+            const EventDialogContent &dialog = GameApplicationTestAccess::activeEventDialog(application);
+
+            if (dialog.actions.empty() || dialog.actions.front().label != "Rent room for 8 gold")
+            {
+                failure = "tavern dialog did not expose rent room as the first action";
+                return false;
+            }
+
+            GameApplicationTestAccess::setEventDialogSelectionIndex(application, 0);
+            GameApplicationTestAccess::executeActiveDialogAction(application);
+
+            if (GameApplicationTestAccess::hasActiveEventDialog(application))
+            {
+                failure = "rent room did not close the active dialog";
+                return false;
+            }
+
+            if (!GameApplicationTestAccess::isRestScreenActive(application))
+            {
+                failure = "rent room did not open the rest screen";
+                return false;
+            }
+
+            if (std::abs(GameApplicationTestAccess::restRemainingMinutes(application) - expectedRestMinutes) > 0.01f)
+            {
+                failure = "rest screen did not use the OE tavern rest duration";
+                return false;
+            }
+
+            if (std::abs(pWorld->gameMinutes() - initialGameMinutes) > 0.01f)
+            {
+                failure = "rent room advanced time immediately instead of waiting in the rest screen";
+                return false;
+            }
+
+            if (pActiveMember->recoverySecondsRemaining != 2.0f
+                || !pActiveMember->conditions.test(static_cast<size_t>(CharacterCondition::Asleep))
+                || !party.hasPartyBuff(PartyBuffId::WizardEye))
+            {
+                failure = "rent room applied recovery before the rest screen completed";
+                return false;
+            }
+
+            GameApplicationTestAccess::updateRestScreen(application, 5.0f);
+
+            if (GameApplicationTestAccess::isRestScreenActive(application))
+            {
+                failure = "rest screen did not close after the inn rest completed";
+                return false;
+            }
+
+            if (std::abs(pWorld->gameMinutes() - (initialGameMinutes + expectedRestMinutes)) > 0.01f)
+            {
+                failure = "inn rest advanced an unexpected amount of time";
+                return false;
+            }
+
+            const float wakeMinuteOfDay = std::fmod(std::max(0.0f, pWorld->gameMinutes()), 1440.0f);
+
+            if (std::abs(wakeMinuteOfDay - 360.0f) > 0.01f)
+            {
+                failure = "inn rest did not finish at 6:00 AM";
+                return false;
+            }
+
+            if (pActiveMember->health != pActiveMember->maxHealth + pActiveMember->magicalBonuses.maxHealth
+                || pActiveMember->spellPoints != pActiveMember->maxSpellPoints + pActiveMember->magicalBonuses.maxSpellPoints
+                || pActiveMember->recoverySecondsRemaining != 0.0f
+                || pActiveMember->conditions.test(static_cast<size_t>(CharacterCondition::Asleep))
+                || party.hasPartyBuff(PartyBuffId::WizardEye))
+            {
+                failure = "inn rest did not apply full rest recovery on completion";
                 return false;
             }
 

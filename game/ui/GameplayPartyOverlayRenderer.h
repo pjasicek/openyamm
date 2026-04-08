@@ -17,5 +17,6 @@ public:
     static void renderReadableScrollOverlay(const OutdoorGameView &view, int width, int height);
     static void renderActorInspectOverlay(OutdoorGameView &view, int width, int height);
     static void renderSpellbookOverlay(const OutdoorGameView &view, int width, int height);
+    static void renderRestOverlay(const OutdoorGameView &view, int width, int height);
 };
 } // namespace OpenYAMM::Game

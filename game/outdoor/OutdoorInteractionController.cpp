@@ -924,6 +924,16 @@ void OutdoorInteractionController::executeActiveDialogAction(OutdoorGameView &vi
     GameplayDialogController::Context context = createGameplayDialogContext(view, *pEventRuntimeState);
     const GameplayDialogController::Result result = view.m_gameplayDialogController.executeActiveDialogAction(context);
 
+    if (result.shouldCloseActiveDialog)
+    {
+        OutdoorInteractionController::closeActiveEventDialog(view);
+    }
+
+    if (result.pendingInnRest.has_value())
+    {
+        view.startInnRest(result.pendingInnRest->houseId);
+    }
+
     if (result.shouldOpenPendingEventDialog)
     {
         OutdoorInteractionController::presentPendingEventDialog(view, result.previousMessageCount, result.allowNpcFallbackContent);

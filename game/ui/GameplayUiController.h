@@ -75,6 +75,13 @@ public:
         ShopRepair
     };
 
+    enum class RestMode
+    {
+        None,
+        Wait,
+        Heal
+    };
+
     enum class HouseBankInputMode : uint8_t
     {
         None = 0,
@@ -208,6 +215,15 @@ public:
         uint32_t selectedSpellId = 0;
     };
 
+    struct RestScreenState
+    {
+        bool active = false;
+        RestMode mode = RestMode::None;
+        float totalMinutes = 0.0f;
+        float remainingMinutes = 0.0f;
+        float hourglassElapsedSeconds = 0.0f;
+    };
+
     struct CharacterScreenState
     {
         bool open = false;
@@ -271,6 +287,7 @@ public:
         SpellInspectOverlayState spellInspectOverlay = {};
         ReadableScrollOverlayState readableScrollOverlay = {};
         SpellbookState spellbook = {};
+        RestScreenState restScreen = {};
         InventoryNestedOverlayState inventoryNestedOverlay = {};
         HouseShopOverlayState houseShopOverlay = {};
         HouseBankState houseBankState = {};
@@ -315,6 +332,9 @@ public:
 
     SpellbookState &spellbook();
     const SpellbookState &spellbook() const;
+
+    RestScreenState &restScreen();
+    const RestScreenState &restScreen() const;
 
     InventoryNestedOverlayState &inventoryNestedOverlay();
     const InventoryNestedOverlayState &inventoryNestedOverlay() const;
