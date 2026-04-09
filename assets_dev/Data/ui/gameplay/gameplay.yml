@@ -148,6 +148,7 @@ elements:
         interactive: true
         asset:
           default: butn4u
+          highlighted: butn4d
           pressed: butn4d
         notes: Options button.
 
@@ -159,6 +160,7 @@ elements:
         interactive: true
         asset:
           default: butn3u
+          highlighted: butn3d
           pressed: butn3d
         notes: Quick reference button.
 
@@ -170,6 +172,7 @@ elements:
         interactive: true
         asset:
           default: butn2u
+          highlighted: butn2d
           pressed: butn2d
         notes: Rest button.
 
@@ -181,6 +184,7 @@ elements:
         interactive: true
         asset:
           default: butn1u
+          highlighted: butn1d
           pressed: butn1d
         notes: Books button.
 

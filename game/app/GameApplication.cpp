@@ -22,6 +22,7 @@ namespace
 {
 constexpr float Pi = 3.14159265358979323846f;
 constexpr uint32_t DefaultRosterPartyMemberCount = 3;
+constexpr const char *DefaultStartupMapFile = "out01.odm";
 
 void seedSimulatedPartyFromRoster(
     Party &party,
@@ -128,6 +129,28 @@ void seedSimulatedAdventurersInn(
         party.addAdventurersInnMember(*pEntry, innPortraitPictureId);
     }
 }
+
+float normalizedVolumeLevel(int level)
+{
+    return std::clamp(static_cast<float>(level) / 10.0f, 0.0f, 1.0f);
+}
+
+float mouseRotateSpeedForTurnRate(TurnRateMode turnRate)
+{
+    switch (turnRate)
+    {
+    case TurnRateMode::X16:
+        return 0.0030f;
+
+    case TurnRateMode::X32:
+        return 0.0045f;
+
+    case TurnRateMode::Smooth:
+        return 0.0060f;
+    }
+
+    return 0.0045f;
+}
 }
 
 GameApplication::GameApplication(const Engine::ApplicationConfig &config)
@@ -160,6 +183,70 @@ int GameApplication::run()
     return m_engineApplication.run();
 }
 
+std::filesystem::path GameApplication::settingsFilePath() const
+{
+    return std::filesystem::path("settings.ini");
+}
+
+void GameApplication::loadOrCreateSettings()
+{
+    m_settings = GameSettings::createDefault();
+    const std::filesystem::path path = settingsFilePath();
+    std::string error;
+
+    if (std::filesystem::exists(path))
+    {
+        const std::optional<GameSettings> loadedSettings = loadGameSettings(path, error);
+
+        if (loadedSettings.has_value())
+        {
+            m_settings = *loadedSettings;
+        }
+        else
+        {
+            std::cerr << "GameApplication: failed to load " << path.string() << ": " << error << '\n';
+        }
+    }
+
+    if (!saveGameSettings(path, m_settings, error))
+    {
+        std::cerr << "GameApplication: failed to write " << path.string() << ": " << error << '\n';
+    }
+}
+
+void GameApplication::applyCurrentSettingsToActiveRuntime()
+{
+    m_gameAudioSystem.setSoundVolume(normalizedVolumeLevel(m_settings.soundVolume));
+    m_gameAudioSystem.setMusicVolume(normalizedVolumeLevel(m_settings.musicVolume));
+    m_gameAudioSystem.setVoiceVolume(normalizedVolumeLevel(m_settings.voiceVolume));
+    m_outdoorGameView.setMouseRotateSpeed(mouseRotateSpeedForTurnRate(m_settings.turnRate));
+    m_outdoorGameView.setWalkSoundEnabled(m_settings.walksound);
+    m_outdoorGameView.setShowHitStatusMessages(m_settings.showHits);
+    m_outdoorGameView.setFlipOnExitEnabled(m_settings.flipOnExit);
+
+    if (m_pOutdoorPartyRuntime != nullptr)
+    {
+        m_pOutdoorPartyRuntime->setRunning(m_settings.alwaysRun);
+        m_pOutdoorPartyRuntime->setDebugFlyingOverride(m_settings.startFlying);
+        m_pOutdoorPartyRuntime->setMovementSpeedMultiplier(m_settings.movementSpeedMultiplier);
+    }
+}
+
+void GameApplication::applyStartupDebugSettingsToActiveRuntime()
+{
+    if (m_pMapSceneRuntime == nullptr
+        || m_pMapSceneRuntime->kind() != SceneKind::Outdoor
+        || m_pOutdoorPartyRuntime == nullptr)
+    {
+        return;
+    }
+
+    if (m_settings.overrideStartPosition)
+    {
+        m_pOutdoorPartyRuntime->teleportTo(m_settings.startX, m_settings.startY, m_settings.startZ);
+    }
+}
+
 void GameApplication::shutdownApplication()
 {
     shutdownRenderer();
@@ -178,6 +265,8 @@ bool GameApplication::loadGameData(const Engine::AssetFileSystem &assetFileSyste
     {
         return false;
     }
+
+    loadOrCreateSettings();
 
     if (!m_gameAudioSystem.initialize(
             assetFileSystem,
@@ -204,8 +293,9 @@ bool GameApplication::loadGameData(const Engine::AssetFileSystem &assetFileSyste
         }
     }
 
+    applyCurrentSettingsToActiveRuntime();
     m_screenManager.setCurrentMode(AppMode::MainMenu);
-    m_bootSeededDwiOnNextRendererInit = true;
+    m_bootSeededDwiOnNextRendererInit = !m_settings.startInMainMenu;
 
     return true;
 }
@@ -314,6 +404,7 @@ bool GameApplication::initializeSelectedMapRuntime(bool initializeView)
         m_screenManager.setCurrentMode(AppMode::GameplayOutdoor);
 
         m_gameAudioSystem.setBackgroundMusicTrack(selectedMap->map.redbookTrack);
+        applyCurrentSettingsToActiveRuntime();
 
         if (!initializeView)
         {
@@ -358,7 +449,22 @@ bool GameApplication::initializeSelectedMapRuntime(bool initializeView)
             selectedMap->localEvtProgram,
             selectedMap->globalEvtProgram,
             &m_gameAudioSystem,
-            *static_cast<OutdoorSceneRuntime *>(m_pMapSceneRuntime.get())
+            *static_cast<OutdoorSceneRuntime *>(m_pMapSceneRuntime.get()),
+            m_gameDataLoader.getMapStats().getEntries(),
+            [this](
+                const std::filesystem::path &path,
+                const std::string &saveName,
+                const std::vector<uint8_t> &previewBmp,
+                std::string &error) -> bool
+            {
+                static_cast<void>(error);
+                return quickSaveToPath(path, saveName, previewBmp);
+            },
+            [this](const std::filesystem::path &path, std::string &error) -> bool
+            {
+                static_cast<void>(error);
+                return quickLoadFromPath(path, true);
+            }
         );
     }
 
@@ -368,6 +474,7 @@ bool GameApplication::initializeSelectedMapRuntime(bool initializeView)
         m_gameSession.setCurrentMapFileName(selectedMap->map.fileName);
         m_screenManager.setCurrentMode(AppMode::GameplayIndoor);
         m_gameAudioSystem.setBackgroundMusicTrack(selectedMap->map.redbookTrack);
+        applyCurrentSettingsToActiveRuntime();
         Party &party = ensureSessionPartyState();
         std::unique_ptr<IndoorSceneRuntime> pIndoorSceneRuntime = std::make_unique<IndoorSceneRuntime>(
             selectedMap->map.fileName,
@@ -517,6 +624,8 @@ bool GameApplication::applyCurrentSessionToRuntime(bool initializeView)
                 m_gameSession.outdoorCameraYawRadians(),
                 m_gameSession.outdoorCameraPitchRadians());
         }
+
+        applyCurrentSettingsToActiveRuntime();
     }
 
     synchronizeSessionFromRuntime();
@@ -685,10 +794,18 @@ bool GameApplication::processPendingQuickSaveInput()
 
 bool GameApplication::quickSave()
 {
+    if (m_pMapSceneRuntime != nullptr && m_pMapSceneRuntime->kind() == SceneKind::Outdoor)
+    {
+        return m_outdoorGameView.requestQuickSave();
+    }
+
     return quickSaveToPath(std::filesystem::path("saves") / "quicksave.oysav");
 }
 
-bool GameApplication::quickSaveToPath(const std::filesystem::path &path)
+bool GameApplication::quickSaveToPath(
+    const std::filesystem::path &path,
+    const std::string &saveName,
+    const std::vector<uint8_t> &previewBmp)
 {
     const std::optional<MapAssetInfo> &selectedMap = m_gameDataLoader.getSelectedMap();
 
@@ -699,13 +816,16 @@ bool GameApplication::quickSaveToPath(const std::filesystem::path &path)
     }
 
     synchronizeSessionFromRuntime();
-    const std::optional<GameSaveData> saveData = m_gameSession.buildSaveData();
+    std::optional<GameSaveData> saveData = m_gameSession.buildSaveData();
 
     if (!saveData)
     {
         reportQuickSaveStatus("Quick save unavailable");
         return false;
     }
+
+    saveData->saveName = saveName;
+    saveData->previewBmp = previewBmp;
 
     std::string error;
 
@@ -841,12 +961,30 @@ bool GameApplication::startNewSession(std::optional<uint32_t> rosterId, bool ini
     m_gameSession.clear();
     m_gameSession.clearCurrentSavePath();
     m_gameSession.setCurrentSceneKind(SceneKind::Outdoor);
-    m_gameSession.setCurrentMapFileName("out01.odm");
+    m_gameSession.setCurrentMapFileName(
+        m_settings.startMapFile.empty() ? std::string(DefaultStartupMapFile) : m_settings.startMapFile);
 
     if (!loadCurrentSessionMap(initializeView))
     {
-        openMainMenuScreen();
-        return false;
+        if (m_gameSession.currentMapFileName() != DefaultStartupMapFile)
+        {
+            m_gameSession.setCurrentMapFileName(DefaultStartupMapFile);
+
+            if (loadCurrentSessionMap(initializeView))
+            {
+                // Use the default startup map when the configured one cannot be loaded.
+            }
+            else
+            {
+                openMainMenuScreen();
+                return false;
+            }
+        }
+        else
+        {
+            openMainMenuScreen();
+            return false;
+        }
     }
 
     if (m_pOutdoorPartyRuntime == nullptr)
@@ -855,9 +993,20 @@ bool GameApplication::startNewSession(std::optional<uint32_t> rosterId, bool ini
         return false;
     }
 
-    if (!rosterId.has_value() || m_pOutdoorPartyRuntime == nullptr)
+    const bool shouldSeedParty = rosterId.has_value() || m_settings.preseedParty;
+    std::optional<uint32_t> effectiveRosterId = rosterId;
+
+    if (!effectiveRosterId.has_value() && m_settings.preseedParty && m_settings.partySeedRosterId != 0)
     {
-        if (m_pOutdoorPartyRuntime != nullptr)
+        effectiveRosterId = m_settings.partySeedRosterId;
+    }
+
+    if (shouldSeedParty)
+    {
+        const RosterEntry *pRosterEntry =
+            effectiveRosterId.has_value() ? m_gameDataLoader.getRosterTable().get(*effectiveRosterId) : nullptr;
+
+        if (effectiveRosterId.has_value() && pRosterEntry == nullptr)
         {
             seedSimulatedPartyFromRoster(
                 m_pOutdoorPartyRuntime->party(),
@@ -869,37 +1018,22 @@ bool GameApplication::startNewSession(std::optional<uint32_t> rosterId, bool ini
                 m_gameDataLoader.getNpcDialogTable(),
                 std::nullopt);
         }
-
-        synchronizeSessionFromRuntime();
-        return true;
+        else
+        {
+            seedSimulatedPartyFromRoster(
+                m_pOutdoorPartyRuntime->party(),
+                m_gameDataLoader.getRosterTable(),
+                effectiveRosterId);
+            seedSimulatedAdventurersInn(
+                m_pOutdoorPartyRuntime->party(),
+                m_gameDataLoader.getRosterTable(),
+                m_gameDataLoader.getNpcDialogTable(),
+                effectiveRosterId);
+        }
     }
 
-    const RosterEntry *pRosterEntry = m_gameDataLoader.getRosterTable().get(*rosterId);
-
-    if (pRosterEntry == nullptr)
-    {
-        seedSimulatedPartyFromRoster(
-            m_pOutdoorPartyRuntime->party(),
-            m_gameDataLoader.getRosterTable(),
-            std::nullopt);
-        seedSimulatedAdventurersInn(
-            m_pOutdoorPartyRuntime->party(),
-            m_gameDataLoader.getRosterTable(),
-            m_gameDataLoader.getNpcDialogTable(),
-            std::nullopt);
-        synchronizeSessionFromRuntime();
-        return true;
-    }
-
-    seedSimulatedPartyFromRoster(
-        m_pOutdoorPartyRuntime->party(),
-        m_gameDataLoader.getRosterTable(),
-        rosterId);
-    seedSimulatedAdventurersInn(
-        m_pOutdoorPartyRuntime->party(),
-        m_gameDataLoader.getRosterTable(),
-        m_gameDataLoader.getNpcDialogTable(),
-        rosterId);
+    applyCurrentSettingsToActiveRuntime();
+    applyStartupDebugSettingsToActiveRuntime();
     synchronizeSessionFromRuntime();
     return true;
 }

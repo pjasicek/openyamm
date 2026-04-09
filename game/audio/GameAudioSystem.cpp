@@ -504,6 +504,9 @@ void GameAudioSystem::shutdown()
     m_activeMusicInstanceId = 0;
     m_activeMusicVolume = 0.0f;
     m_musicFadeVelocity = 0.0f;
+    m_soundVolume = 1.0f;
+    m_musicVolume = 1.0f;
+    m_voiceVolume = 1.0f;
     m_audioSystem.shutdown();
     m_soundCatalog = {};
     m_speechReactionTable = {};
@@ -513,6 +516,8 @@ void GameAudioSystem::shutdown()
 
 void GameAudioSystem::update(float listenerX, float listenerY, float listenerZ, float deltaSeconds)
 {
+    const float musicTargetVolume = targetMusicVolume();
+
     if (m_activeMusicInstanceId != 0 && !m_audioSystem.isClipPlaying(m_activeMusicInstanceId))
     {
         m_activeMusicInstanceId = 0;
@@ -522,7 +527,8 @@ void GameAudioSystem::update(float listenerX, float listenerY, float listenerZ, 
 
     if (m_activeMusicInstanceId != 0 && m_musicFadeVelocity != 0.0f)
     {
-        m_activeMusicVolume = std::clamp(m_activeMusicVolume + m_musicFadeVelocity * deltaSeconds, 0.0f, MusicVolume);
+        m_activeMusicVolume =
+            std::clamp(m_activeMusicVolume + m_musicFadeVelocity * deltaSeconds, 0.0f, musicTargetVolume);
         m_audioSystem.setClipVolume(m_activeMusicInstanceId, m_activeMusicVolume);
 
         if (m_activeMusicVolume <= 0.0f && m_musicFadeVelocity < 0.0f)
@@ -539,9 +545,9 @@ void GameAudioSystem::update(float listenerX, float listenerY, float listenerZ, 
                 startBackgroundMusicTrack(nextTrack);
             }
         }
-        else if (m_activeMusicVolume >= MusicVolume && m_musicFadeVelocity > 0.0f)
+        else if (m_activeMusicVolume >= musicTargetVolume && m_musicFadeVelocity > 0.0f)
         {
-            m_activeMusicVolume = MusicVolume;
+            m_activeMusicVolume = musicTargetVolume;
             m_musicFadeVelocity = 0.0f;
         }
     }
@@ -551,6 +557,36 @@ void GameAudioSystem::update(float listenerX, float listenerY, float listenerZ, 
     listenerState.y = listenerY;
     listenerState.z = listenerZ;
     m_audioSystem.update(listenerState);
+}
+
+void GameAudioSystem::setSoundVolume(float volume)
+{
+    m_soundVolume = std::clamp(volume, 0.0f, 1.0f);
+}
+
+void GameAudioSystem::setMusicVolume(float volume)
+{
+    m_musicVolume = std::clamp(volume, 0.0f, 1.0f);
+
+    if (m_activeMusicInstanceId == 0)
+    {
+        return;
+    }
+
+    if (m_musicFadeVelocity == 0.0f)
+    {
+        m_activeMusicVolume = targetMusicVolume();
+        m_audioSystem.setClipVolume(m_activeMusicInstanceId, m_activeMusicVolume);
+        return;
+    }
+
+    m_activeMusicVolume = std::clamp(m_activeMusicVolume, 0.0f, targetMusicVolume());
+    m_audioSystem.setClipVolume(m_activeMusicInstanceId, m_activeMusicVolume);
+}
+
+void GameAudioSystem::setVoiceVolume(float volume)
+{
+    m_voiceVolume = std::clamp(volume, 0.0f, 1.0f);
 }
 
 void GameAudioSystem::preloadSpellBuffSounds(const SpellTable &spellTable)
@@ -699,6 +735,7 @@ uint64_t GameAudioSystem::playResolvedSound(
     Engine::AudioSystem::PlaybackOptions options = {};
     options.positional = position.has_value();
     options.loop = loop;
+    options.volume = playbackGroupVolume(group);
 
     if (position)
     {
@@ -720,6 +757,32 @@ uint64_t GameAudioSystem::playResolvedSound(
     }
 
     return instanceId;
+}
+
+float GameAudioSystem::targetMusicVolume() const
+{
+    return MusicVolume * m_musicVolume;
+}
+
+float GameAudioSystem::playbackGroupVolume(PlaybackGroup group) const
+{
+    switch (group)
+    {
+    case PlaybackGroup::Music:
+        return targetMusicVolume();
+
+    case PlaybackGroup::Speech:
+    case PlaybackGroup::HouseSpeech:
+        return m_voiceVolume;
+
+    case PlaybackGroup::Ui:
+    case PlaybackGroup::World:
+    case PlaybackGroup::Walking:
+    case PlaybackGroup::HouseDoor:
+        return m_soundVolume;
+    }
+
+    return 1.0f;
 }
 
 bool GameAudioSystem::playCommonSound(

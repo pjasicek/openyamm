@@ -99,12 +99,16 @@ elements:
 
       - id: SpellInspectCorner_UL
         anchor: top_left
+        width: 33
+        height: 32
         z_index: 580
         asset:
           default: cornr_UL
 
       - id: SpellInspectCorner_LR
         anchor: bottom_right
+        width: 39
+        height: 38
         z_index: 580
         offset_x: 7
         offset_y: 7
@@ -113,6 +117,8 @@ elements:
 
       - id: SpellInspectCorner_LL
         anchor: bottom_left
+        width: 33
+        height: 38
         z_index: 580
         offset_y: 7
         asset:

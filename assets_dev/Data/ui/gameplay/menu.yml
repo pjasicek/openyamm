@@ -1,0 +1,114 @@
+screen: Menu
+
+elements:
+  - id: MenuRoot
+    anchor: center
+    width: 640
+    height: 480
+    z_index: 440
+    visible: true
+    scale:
+      min: 1.0
+      max: 3.0
+    children:
+      - id: MenuBackground
+        anchor: top_left
+        offset_x: 0
+        offset_y: 0
+        width: 640
+        height: 480
+        z_index: 0
+        asset:
+          default: Options
+
+      - id: MenuButtonNewGame
+        anchor: top_left
+        offset_x: 71
+        offset_y: 154
+        width: 219
+        height: 64
+        z_index: 10
+        interactive: true
+        asset:
+          default: bt_newU
+          highlighted: bt_newH
+          pressed: bt_newD
+
+      - id: MenuButtonSaveGame
+        anchor: top_left
+        offset_x: 71
+        offset_y: 249
+        width: 219
+        height: 64
+        z_index: 10
+        interactive: true
+        asset:
+          default: bu_saveU
+          highlighted: bu_saveH
+          pressed: bu_saveD
+
+      - id: MenuButtonLoadGame
+        anchor: top_left
+        offset_x: 71
+        offset_y: 342
+        width: 219
+        height: 64
+        z_index: 10
+        interactive: true
+        asset:
+          default: bu_loadU
+          highlighted: bu_loadH
+          pressed: bu_loadD
+
+      - id: MenuButtonControls
+        anchor: top_left
+        offset_x: 353
+        offset_y: 154
+        width: 219
+        height: 64
+        z_index: 10
+        interactive: true
+        asset:
+          default: bt_contU
+          highlighted: bt_contH
+          pressed: bt_contD
+
+      - id: MenuButtonQuit
+        anchor: top_left
+        offset_x: 353
+        offset_y: 249
+        width: 219
+        height: 64
+        z_index: 10
+        interactive: true
+        asset:
+          default: bt_quitU
+          highlighted: bt_quitH
+          pressed: bt_quitD
+
+      - id: MenuButtonReturn
+        anchor: top_left
+        offset_x: 353
+        offset_y: 342
+        width: 219
+        height: 64
+        z_index: 10
+        interactive: true
+        asset:
+          default: bu_rtrnU
+          highlighted: bu_rtrnH
+          pressed: bu_rtrnD
+
+      - id: MenuBottomBarText
+        anchor: top_left
+        offset_x: 68
+        offset_y: 441
+        width: 507
+        height: 22
+        z_index: 20
+        text:
+          value: "{menu_status}"
+          font: Create
+          color: "#ffff9b"
+          align_x: center
+          align_y: middle

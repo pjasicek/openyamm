@@ -13,7 +13,7 @@ namespace OpenYAMM::Game
 {
 namespace
 {
-constexpr uint32_t SaveVersion = 14;
+constexpr uint32_t SaveVersion = 15;
 constexpr char SaveMagic[8] = {'O', 'Y', 'S', 'A', 'V', 'E', '1', '\0'};
 uint32_t g_loadedSaveVersion = SaveVersion;
 
@@ -1984,6 +1984,8 @@ void writeValue(BinaryWriter &writer, const GameSaveData &value)
     writeValue(writer, value.savedGameMinutes);
     writeValue(writer, value.outdoorCameraYawRadians);
     writeValue(writer, value.outdoorCameraPitchRadians);
+    writeValue(writer, value.saveName);
+    writeValue(writer, value.previewBmp);
 }
 
 bool readValue(BinaryReader &reader, GameSaveData &value)
@@ -2000,7 +2002,9 @@ bool readValue(BinaryReader &reader, GameSaveData &value)
         && readValue(reader, value.indoorSceneStates)
         && readValue(reader, value.savedGameMinutes)
         && readValue(reader, value.outdoorCameraYawRadians)
-        && readValue(reader, value.outdoorCameraPitchRadians);
+        && readValue(reader, value.outdoorCameraPitchRadians)
+        && (g_loadedSaveVersion < 15 || readValue(reader, value.saveName))
+        && (g_loadedSaveVersion < 15 || readValue(reader, value.previewBmp));
 }
 
 bool readVersion8GameSaveData(BinaryReader &reader, GameSaveData &value)
@@ -2094,7 +2098,7 @@ std::optional<GameSaveData> loadGameDataFromPath(const std::filesystem::path &pa
         return std::nullopt;
     }
 
-    if (version != 8 && version != 9 && version != 10 && version != SaveVersion)
+    if (version != 8 && version != 9 && version != 10 && version != 14 && version != SaveVersion)
     {
         error = "unsupported save version";
         return std::nullopt;

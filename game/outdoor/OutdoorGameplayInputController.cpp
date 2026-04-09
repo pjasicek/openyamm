@@ -20,10 +20,35 @@ namespace
 {
 constexpr float Pi = 3.14159265358979323846f;
 constexpr uint64_t PartyPortraitDoubleClickWindowMs = 500;
+constexpr uint64_t SaveGameDoubleClickWindowMs = 500;
 constexpr int DwiMapId = 1;
 constexpr uint16_t DwiMeteorShowerEventId = 456;
 constexpr std::array<int, 3> JournalMapZoomLevels = {384, 768, 1536};
 constexpr float JournalMapWorldHalfExtent = 32768.0f;
+constexpr size_t SaveLoadVisibleSlotCount = 10;
+
+struct SaveGameKeyBinding
+{
+    SDL_Scancode scancode;
+    char lower;
+    char upper;
+};
+
+constexpr std::array<SaveGameKeyBinding, 39> SaveGameEditBindings = {{
+    {SDL_SCANCODE_A, 'a', 'A'}, {SDL_SCANCODE_B, 'b', 'B'}, {SDL_SCANCODE_C, 'c', 'C'},
+    {SDL_SCANCODE_D, 'd', 'D'}, {SDL_SCANCODE_E, 'e', 'E'}, {SDL_SCANCODE_F, 'f', 'F'},
+    {SDL_SCANCODE_G, 'g', 'G'}, {SDL_SCANCODE_H, 'h', 'H'}, {SDL_SCANCODE_I, 'i', 'I'},
+    {SDL_SCANCODE_J, 'j', 'J'}, {SDL_SCANCODE_K, 'k', 'K'}, {SDL_SCANCODE_L, 'l', 'L'},
+    {SDL_SCANCODE_M, 'm', 'M'}, {SDL_SCANCODE_N, 'n', 'N'}, {SDL_SCANCODE_O, 'o', 'O'},
+    {SDL_SCANCODE_P, 'p', 'P'}, {SDL_SCANCODE_Q, 'q', 'Q'}, {SDL_SCANCODE_R, 'r', 'R'},
+    {SDL_SCANCODE_S, 's', 'S'}, {SDL_SCANCODE_T, 't', 'T'}, {SDL_SCANCODE_U, 'u', 'U'},
+    {SDL_SCANCODE_V, 'v', 'V'}, {SDL_SCANCODE_W, 'w', 'W'}, {SDL_SCANCODE_X, 'x', 'X'},
+    {SDL_SCANCODE_Y, 'y', 'Y'}, {SDL_SCANCODE_Z, 'z', 'Z'}, {SDL_SCANCODE_1, '1', '!'},
+    {SDL_SCANCODE_2, '2', '@'}, {SDL_SCANCODE_3, '3', '#'}, {SDL_SCANCODE_4, '4', '$'},
+    {SDL_SCANCODE_5, '5', '%'}, {SDL_SCANCODE_6, '6', '^'}, {SDL_SCANCODE_7, '7', '&'},
+    {SDL_SCANCODE_8, '8', '*'}, {SDL_SCANCODE_9, '9', '('}, {SDL_SCANCODE_0, '0', ')'},
+    {SDL_SCANCODE_SPACE, ' ', ' '}, {SDL_SCANCODE_MINUS, '-', '_'}, {SDL_SCANCODE_APOSTROPHE, '\'', '"'}
+}};
 
 void clampJournalMapState(GameplayUiController::JournalScreenState &journalScreen)
 {
@@ -114,6 +139,9 @@ void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view
     const bool hasPendingSpellCast = view.m_pendingSpellCast.active;
     const bool isSpellbookActive = view.m_spellbook.active;
     const bool isRestScreenActive = view.m_restScreen.active;
+    const bool isMenuActive = view.m_menuScreen.active;
+    const bool isSaveGameActive = view.m_saveGameScreen.active;
+    const bool isLoadGameActive = view.m_loadGameScreen.active;
     const bool isJournalActive = view.m_journalScreen.active;
     SDL_Window *pWindow = SDL_GetMouseFocus();
 
@@ -135,6 +163,9 @@ void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view
         && screenHeight > 0
         && !isSpellbookActive
         && !isRestScreenActive
+        && !isMenuActive
+        && !isSaveGameActive
+        && !isLoadGameActive
         && !isJournalActive)
     {
         float portraitMouseX = 0.0f;
@@ -151,6 +182,9 @@ void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view
             && !hasActiveLootView
             && !isSpellbookActive
             && !isRestScreenActive
+            && !isMenuActive
+            && !isSaveGameActive
+            && !isLoadGameActive
             && !isJournalActive;
 
         handlePointerClickRelease(
@@ -259,12 +293,97 @@ void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view
         view.m_spellbookToggleLatch = false;
     }
 
+    const bool canToggleMenu =
+        !isEventDialogActive
+        && !view.m_characterScreenOpen
+        && !hasActiveLootView
+        && !hasPendingSpellCast
+        && !view.m_spellbook.active
+        && !view.m_restScreen.active
+        && !view.m_saveGameScreen.active
+        && !view.m_loadGameScreen.active
+        && !view.m_journalScreen.active
+        && !view.m_heldInventoryItem.active;
+
+    if (!isMenuActive && !isSaveGameActive && !isLoadGameActive && pKeyboardState[SDL_SCANCODE_ESCAPE])
+    {
+        if (!view.m_menuToggleLatch)
+        {
+            if (canToggleMenu)
+            {
+                view.openMenu();
+            }
+
+            view.m_menuToggleLatch = true;
+        }
+    }
+    else if (!isMenuActive && !isSaveGameActive && !isLoadGameActive)
+    {
+        view.m_menuToggleLatch = false;
+    }
+
+    if (canToggleMenu && screenWidth > 0 && screenHeight > 0)
+    {
+        float optionsButtonMouseX = 0.0f;
+        float optionsButtonMouseY = 0.0f;
+        const SDL_MouseButtonFlags optionsButtonMouseButtons =
+            SDL_GetMouseState(&optionsButtonMouseX, &optionsButtonMouseY);
+        const HudPointerState optionsButtonPointerState = {
+            optionsButtonMouseX,
+            optionsButtonMouseY,
+            (optionsButtonMouseButtons & SDL_BUTTON_LMASK) != 0
+        };
+
+        handlePointerClickRelease(
+            optionsButtonPointerState,
+            view.m_optionsButtonClickLatch,
+            view.m_optionsButtonPressed,
+            false,
+            [&view, screenWidth, screenHeight](float pointerX, float pointerY) -> bool
+            {
+                const OutdoorGameView::HudLayoutElement *pLayout =
+                    HudUiService::findHudLayoutElement(view, "OutdoorButtonOptions");
+
+                if (pLayout == nullptr)
+                {
+                    return false;
+                }
+
+                const std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolved =
+                    HudUiService::resolveHudLayoutElement(
+                        view,
+                        "OutdoorButtonOptions",
+                        screenWidth,
+                        screenHeight,
+                        pLayout->width,
+                        pLayout->height);
+
+                return resolved
+                    && HudUiService::isPointerInsideResolvedElement(*resolved, pointerX, pointerY);
+            },
+            [&view](bool target)
+            {
+                if (target)
+                {
+                    view.openMenu();
+                }
+            });
+    }
+    else if (!view.m_menuScreen.active)
+    {
+        view.m_optionsButtonClickLatch = false;
+        view.m_optionsButtonPressed = false;
+    }
+
     const bool canOpenRestScreen =
         !isEventDialogActive
         && !view.m_characterScreenOpen
         && !hasActiveLootView
         && !hasPendingSpellCast
         && !view.m_spellbook.active
+        && !view.m_menuScreen.active
+        && !view.m_saveGameScreen.active
+        && !view.m_loadGameScreen.active
         && !view.m_restScreen.active
         && !view.m_journalScreen.active
         && !view.m_heldInventoryItem.active;
@@ -345,6 +464,9 @@ void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view
         && !hasActiveLootView
         && !hasPendingSpellCast
         && !view.m_spellbook.active
+        && !view.m_menuScreen.active
+        && !view.m_saveGameScreen.active
+        && !view.m_loadGameScreen.active
         && !view.m_restScreen.active
         && !view.m_journalScreen.active
         && !view.m_heldInventoryItem.active;
@@ -355,6 +477,9 @@ void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view
         && !hasActiveLootView
         && !hasPendingSpellCast
         && !view.m_spellbook.active
+        && !view.m_menuScreen.active
+        && !view.m_saveGameScreen.active
+        && !view.m_loadGameScreen.active
         && !view.m_restScreen.active
         && !view.m_heldInventoryItem.active;
 
@@ -466,7 +591,12 @@ void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view
         view.m_adventurersInnToggleLatch = false;
     }
 
-    if (!isEventDialogActive && !view.m_restScreen.active && !view.m_journalScreen.active)
+    if (!isEventDialogActive
+        && !view.m_restScreen.active
+        && !view.m_menuScreen.active
+        && !view.m_saveGameScreen.active
+        && !view.m_loadGameScreen.active
+        && !view.m_journalScreen.active)
     {
         if (pKeyboardState[SDL_SCANCODE_I])
         {
@@ -521,6 +651,9 @@ void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view
         && !hasActiveLootView
         && !hasPendingSpellCast
         && !view.m_spellbook.active
+        && !view.m_menuScreen.active
+        && !view.m_saveGameScreen.active
+        && !view.m_loadGameScreen.active
         && !view.m_restScreen.active
         && !view.m_journalScreen.active)
     {
@@ -1221,6 +1354,608 @@ void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view
         return;
     }
 
+    if (view.m_saveGameScreen.active)
+    {
+        const bool closePressed = pKeyboardState[SDL_SCANCODE_ESCAPE] || pKeyboardState[SDL_SCANCODE_RETURN];
+
+        if (closePressed)
+        {
+            if (!view.m_saveGameToggleLatch)
+            {
+                view.closeSaveGameScreen();
+                view.m_saveGameToggleLatch = true;
+            }
+        }
+        else
+        {
+            view.m_saveGameToggleLatch = false;
+        }
+
+        if (!view.m_saveGameScreen.active)
+        {
+            return;
+        }
+
+        if (view.m_saveGameScreen.editActive)
+        {
+            const bool shiftPressed =
+                pKeyboardState[SDL_SCANCODE_LSHIFT] || pKeyboardState[SDL_SCANCODE_RSHIFT];
+
+            for (size_t bindingIndex = 0; bindingIndex < SaveGameEditBindings.size(); ++bindingIndex)
+            {
+                const SaveGameKeyBinding &binding = SaveGameEditBindings[bindingIndex];
+                const bool pressed = pKeyboardState[binding.scancode];
+
+                if (pressed)
+                {
+                    if (!view.m_saveGameEditKeyLatches[bindingIndex]
+                        && view.m_saveGameScreen.editBuffer.size() < 30)
+                    {
+                        view.m_saveGameScreen.editBuffer.push_back(shiftPressed ? binding.upper : binding.lower);
+                        view.m_saveGameEditKeyLatches[bindingIndex] = true;
+                    }
+                }
+                else
+                {
+                    view.m_saveGameEditKeyLatches[bindingIndex] = false;
+                }
+            }
+
+            if (pKeyboardState[SDL_SCANCODE_BACKSPACE])
+            {
+                if (!view.m_saveGameEditBackspaceLatch && !view.m_saveGameScreen.editBuffer.empty())
+                {
+                    view.m_saveGameScreen.editBuffer.pop_back();
+                    view.m_saveGameEditBackspaceLatch = true;
+                }
+            }
+            else
+            {
+                view.m_saveGameEditBackspaceLatch = false;
+            }
+        }
+        else
+        {
+            view.m_saveGameEditKeyLatches.fill(false);
+            view.m_saveGameEditBackspaceLatch = false;
+        }
+
+        float saveMouseX = 0.0f;
+        float saveMouseY = 0.0f;
+        const SDL_MouseButtonFlags saveMouseButtons = SDL_GetMouseState(&saveMouseX, &saveMouseY);
+        const HudPointerState savePointerState = {
+            saveMouseX,
+            saveMouseY,
+            (saveMouseButtons & SDL_BUTTON_LMASK) != 0
+        };
+        const OutdoorGameView::SaveLoadPointerTarget noneSaveTarget = {};
+        const auto resolveSaveTarget =
+            [&view, screenWidth, screenHeight](
+                const char *pLayoutId,
+                OutdoorGameView::SaveLoadPointerTargetType type,
+                float pointerX,
+                float pointerY) -> OutdoorGameView::SaveLoadPointerTarget
+            {
+                const OutdoorGameView::HudLayoutElement *pLayout = HudUiService::findHudLayoutElement(view, pLayoutId);
+
+                if (pLayout == nullptr)
+                {
+                    return {};
+                }
+
+                const std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolved =
+                    HudUiService::resolveHudLayoutElement(
+                        view,
+                        pLayoutId,
+                        screenWidth,
+                        screenHeight,
+                        pLayout->width,
+                        pLayout->height);
+
+                if (!resolved || !HudUiService::isPointerInsideResolvedElement(*resolved, pointerX, pointerY))
+                {
+                    return {};
+                }
+
+                OutdoorGameView::SaveLoadPointerTarget target = {};
+                target.type = type;
+                return target;
+            };
+        const auto findSavePointerTarget =
+            [&view, &resolveSaveTarget](float pointerX, float pointerY) -> OutdoorGameView::SaveLoadPointerTarget
+            {
+                for (size_t row = 0; row < SaveLoadVisibleSlotCount; ++row)
+                {
+                    const std::string layoutId = "SaveGameSlotRow" + std::to_string(row);
+                    OutdoorGameView::SaveLoadPointerTarget target = resolveSaveTarget(
+                        layoutId.c_str(),
+                        OutdoorGameView::SaveLoadPointerTargetType::Slot,
+                        pointerX,
+                        pointerY);
+
+                    if (target.type != OutdoorGameView::SaveLoadPointerTargetType::None)
+                    {
+                        target.slotIndex = row;
+                        return target;
+                    }
+                }
+
+                OutdoorGameView::SaveLoadPointerTarget target = resolveSaveTarget(
+                    "SaveGameScrollUpButton",
+                    OutdoorGameView::SaveLoadPointerTargetType::ScrollUpButton,
+                    pointerX,
+                    pointerY);
+
+                if (target.type != OutdoorGameView::SaveLoadPointerTargetType::None)
+                {
+                    return target;
+                }
+
+                target = resolveSaveTarget(
+                    "SaveGameScrollDownButton",
+                    OutdoorGameView::SaveLoadPointerTargetType::ScrollDownButton,
+                    pointerX,
+                    pointerY);
+
+                if (target.type != OutdoorGameView::SaveLoadPointerTargetType::None)
+                {
+                    return target;
+                }
+
+                target = resolveSaveTarget(
+                    "SaveGameConfirmButton",
+                    OutdoorGameView::SaveLoadPointerTargetType::ConfirmButton,
+                    pointerX,
+                    pointerY);
+
+                if (target.type != OutdoorGameView::SaveLoadPointerTargetType::None)
+                {
+                    return target;
+                }
+
+                return resolveSaveTarget(
+                    "SaveGameCancelButton",
+                    OutdoorGameView::SaveLoadPointerTargetType::CancelButton,
+                    pointerX,
+                    pointerY);
+            };
+
+        handlePointerClickRelease(
+            savePointerState,
+            view.m_saveGameClickLatch,
+            view.m_saveGamePressedTarget,
+            noneSaveTarget,
+            findSavePointerTarget,
+            [&view](const OutdoorGameView::SaveLoadPointerTarget &target)
+            {
+                switch (target.type)
+                {
+                case OutdoorGameView::SaveLoadPointerTargetType::Slot:
+                    if (!view.m_saveGameScreen.slots.empty())
+                    {
+                        const size_t slotIndex =
+                            std::min(target.slotIndex, view.m_saveGameScreen.slots.size() - 1);
+
+                        if (view.m_saveGameScreen.editActive
+                            && view.m_saveGameScreen.editSlotIndex != slotIndex)
+                        {
+                            view.m_saveGameScreen.editActive = false;
+                            view.m_saveGameScreen.editBuffer.clear();
+                        }
+
+                        view.m_saveGameScreen.selectedIndex = slotIndex;
+                        const uint64_t nowTicks = SDL_GetTicks();
+
+                        if (view.m_lastSaveGameClickedSlotIndex == slotIndex
+                            && nowTicks - view.m_lastSaveGameSlotClickTicks <= SaveGameDoubleClickWindowMs)
+                        {
+                            view.m_saveGameScreen.editActive = true;
+                            view.m_saveGameScreen.editSlotIndex = slotIndex;
+                            view.m_saveGameScreen.editBuffer =
+                                view.m_saveGameScreen.slots[slotIndex].fileLabel == "Empty"
+                                    ? std::string()
+                                    : view.m_saveGameScreen.slots[slotIndex].fileLabel;
+                        }
+
+                        view.m_lastSaveGameSlotClickTicks = nowTicks;
+                        view.m_lastSaveGameClickedSlotIndex = slotIndex;
+                    }
+                    break;
+
+                case OutdoorGameView::SaveLoadPointerTargetType::ScrollUpButton:
+                case OutdoorGameView::SaveLoadPointerTargetType::ScrollDownButton:
+                    break;
+
+                case OutdoorGameView::SaveLoadPointerTargetType::ConfirmButton:
+                    if (view.m_saveGameScreen.editActive
+                        && view.m_saveGameScreen.editSlotIndex < view.m_saveGameScreen.slots.size())
+                    {
+                        view.m_saveGameScreen.slots[view.m_saveGameScreen.editSlotIndex].fileLabel =
+                            view.m_saveGameScreen.editBuffer.empty()
+                                ? "Empty"
+                                : view.m_saveGameScreen.editBuffer;
+                    }
+
+                    view.trySaveToSelectedGameSlot();
+                    break;
+
+                case OutdoorGameView::SaveLoadPointerTargetType::CancelButton:
+                    view.closeSaveGameScreen();
+                    break;
+
+                case OutdoorGameView::SaveLoadPointerTargetType::None:
+                    break;
+                }
+            });
+        return;
+    }
+
+    if (view.m_loadGameScreen.active)
+    {
+        const bool closePressed = pKeyboardState[SDL_SCANCODE_ESCAPE] || pKeyboardState[SDL_SCANCODE_RETURN];
+
+        if (closePressed)
+        {
+            if (!view.m_loadGameToggleLatch)
+            {
+                view.closeLoadGameScreen();
+                view.m_loadGameToggleLatch = true;
+            }
+        }
+        else
+        {
+            view.m_loadGameToggleLatch = false;
+        }
+
+        if (!view.m_loadGameScreen.active)
+        {
+            return;
+        }
+
+        float loadMouseX = 0.0f;
+        float loadMouseY = 0.0f;
+        const SDL_MouseButtonFlags loadMouseButtons = SDL_GetMouseState(&loadMouseX, &loadMouseY);
+        const HudPointerState loadPointerState = {
+            loadMouseX,
+            loadMouseY,
+            (loadMouseButtons & SDL_BUTTON_LMASK) != 0
+        };
+        const OutdoorGameView::SaveLoadPointerTarget noneLoadTarget = {};
+        const auto resolveLoadTarget =
+            [&view, screenWidth, screenHeight](
+                const char *pLayoutId,
+                OutdoorGameView::SaveLoadPointerTargetType type,
+                float pointerX,
+                float pointerY) -> OutdoorGameView::SaveLoadPointerTarget
+            {
+                const OutdoorGameView::HudLayoutElement *pLayout = HudUiService::findHudLayoutElement(view, pLayoutId);
+
+                if (pLayout == nullptr)
+                {
+                    return {};
+                }
+
+                const std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolved =
+                    HudUiService::resolveHudLayoutElement(
+                        view,
+                        pLayoutId,
+                        screenWidth,
+                        screenHeight,
+                        pLayout->width,
+                        pLayout->height);
+
+                if (!resolved || !HudUiService::isPointerInsideResolvedElement(*resolved, pointerX, pointerY))
+                {
+                    return {};
+                }
+
+                OutdoorGameView::SaveLoadPointerTarget target = {};
+                target.type = type;
+                return target;
+            };
+        const auto findLoadPointerTarget =
+            [&view, &resolveLoadTarget](float pointerX, float pointerY) -> OutdoorGameView::SaveLoadPointerTarget
+            {
+                for (size_t row = 0; row < SaveLoadVisibleSlotCount; ++row)
+                {
+                    const std::string layoutId = "LoadGameSlotRow" + std::to_string(row);
+                    OutdoorGameView::SaveLoadPointerTarget target = resolveLoadTarget(
+                        layoutId.c_str(),
+                        OutdoorGameView::SaveLoadPointerTargetType::Slot,
+                        pointerX,
+                        pointerY);
+
+                    if (target.type != OutdoorGameView::SaveLoadPointerTargetType::None)
+                    {
+                        target.slotIndex = view.m_loadGameScreen.scrollOffset + row;
+                        return target;
+                    }
+                }
+
+                OutdoorGameView::SaveLoadPointerTarget target = resolveLoadTarget(
+                    "LoadGameScrollUpButton",
+                    OutdoorGameView::SaveLoadPointerTargetType::ScrollUpButton,
+                    pointerX,
+                    pointerY);
+
+                if (target.type != OutdoorGameView::SaveLoadPointerTargetType::None)
+                {
+                    return target;
+                }
+
+                target = resolveLoadTarget(
+                    "LoadGameScrollDownButton",
+                    OutdoorGameView::SaveLoadPointerTargetType::ScrollDownButton,
+                    pointerX,
+                    pointerY);
+
+                if (target.type != OutdoorGameView::SaveLoadPointerTargetType::None)
+                {
+                    return target;
+                }
+
+                target = resolveLoadTarget(
+                    "LoadGameConfirmButton",
+                    OutdoorGameView::SaveLoadPointerTargetType::ConfirmButton,
+                    pointerX,
+                    pointerY);
+
+                if (target.type != OutdoorGameView::SaveLoadPointerTargetType::None)
+                {
+                    return target;
+                }
+
+                return resolveLoadTarget(
+                    "LoadGameCancelButton",
+                    OutdoorGameView::SaveLoadPointerTargetType::CancelButton,
+                    pointerX,
+                    pointerY);
+            };
+
+        handlePointerClickRelease(
+            loadPointerState,
+            view.m_loadGameClickLatch,
+            view.m_loadGamePressedTarget,
+            noneLoadTarget,
+            findLoadPointerTarget,
+            [&view](const OutdoorGameView::SaveLoadPointerTarget &target)
+            {
+                switch (target.type)
+                {
+                case OutdoorGameView::SaveLoadPointerTargetType::Slot:
+                    if (!view.m_loadGameScreen.slots.empty())
+                    {
+                        const size_t slotIndex =
+                            std::min(target.slotIndex, view.m_loadGameScreen.slots.size() - 1);
+                        view.m_loadGameScreen.selectedIndex = slotIndex;
+                        const uint64_t nowTicks = SDL_GetTicks();
+
+                        if (view.m_lastLoadGameClickedSlotIndex == slotIndex
+                            && nowTicks - view.m_lastLoadGameSlotClickTicks <= SaveGameDoubleClickWindowMs)
+                        {
+                            view.tryLoadFromSelectedGameSlot();
+                        }
+
+                        view.m_lastLoadGameSlotClickTicks = nowTicks;
+                        view.m_lastLoadGameClickedSlotIndex = slotIndex;
+                    }
+                    break;
+
+                case OutdoorGameView::SaveLoadPointerTargetType::ScrollUpButton:
+                    if (view.m_loadGameScreen.scrollOffset > 0)
+                    {
+                        --view.m_loadGameScreen.scrollOffset;
+                    }
+                    break;
+
+                case OutdoorGameView::SaveLoadPointerTargetType::ScrollDownButton:
+                    if (view.m_loadGameScreen.scrollOffset + SaveLoadVisibleSlotCount < view.m_loadGameScreen.slots.size())
+                    {
+                        ++view.m_loadGameScreen.scrollOffset;
+                    }
+                    break;
+
+                case OutdoorGameView::SaveLoadPointerTargetType::ConfirmButton:
+                    view.tryLoadFromSelectedGameSlot();
+                    break;
+
+                case OutdoorGameView::SaveLoadPointerTargetType::CancelButton:
+                    view.closeLoadGameScreen();
+                    break;
+
+                case OutdoorGameView::SaveLoadPointerTargetType::None:
+                    break;
+                }
+            });
+        return;
+    }
+
+    if (view.m_menuScreen.active)
+    {
+        const bool closePressed = pKeyboardState[SDL_SCANCODE_ESCAPE];
+
+        if (closePressed)
+        {
+            if (!view.m_menuToggleLatch)
+            {
+                view.closeMenu();
+                view.m_menuToggleLatch = true;
+            }
+        }
+        else
+        {
+            view.m_menuToggleLatch = false;
+        }
+
+        if (!view.m_menuScreen.active)
+        {
+            return;
+        }
+
+        float menuMouseX = 0.0f;
+        float menuMouseY = 0.0f;
+        const SDL_MouseButtonFlags menuMouseButtons = SDL_GetMouseState(&menuMouseX, &menuMouseY);
+        const HudPointerState menuPointerState = {
+            menuMouseX,
+            menuMouseY,
+            (menuMouseButtons & SDL_BUTTON_LMASK) != 0
+        };
+        const OutdoorGameView::MenuPointerTarget noneMenuTarget = {};
+        const auto resolveMenuButtonTarget =
+            [&view, screenWidth, screenHeight](
+                const char *pLayoutId,
+                OutdoorGameView::MenuPointerTargetType type,
+                float pointerX,
+                float pointerY) -> OutdoorGameView::MenuPointerTarget
+            {
+                const OutdoorGameView::HudLayoutElement *pLayout = HudUiService::findHudLayoutElement(view, pLayoutId);
+
+                if (pLayout == nullptr)
+                {
+                    return {};
+                }
+
+                const std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolved =
+                    HudUiService::resolveHudLayoutElement(
+                        view,
+                        pLayoutId,
+                        screenWidth,
+                        screenHeight,
+                        pLayout->width,
+                        pLayout->height);
+
+                if (!resolved || !HudUiService::isPointerInsideResolvedElement(*resolved, pointerX, pointerY))
+                {
+                    return {};
+                }
+
+                OutdoorGameView::MenuPointerTarget target = {};
+                target.type = type;
+                return target;
+            };
+        const auto findMenuPointerTarget =
+            [&resolveMenuButtonTarget](float pointerX, float pointerY) -> OutdoorGameView::MenuPointerTarget
+            {
+                const OutdoorGameView::MenuPointerTarget newGameTarget =
+                    resolveMenuButtonTarget(
+                        "MenuButtonNewGame",
+                        OutdoorGameView::MenuPointerTargetType::NewGameButton,
+                        pointerX,
+                        pointerY);
+
+                if (newGameTarget.type != OutdoorGameView::MenuPointerTargetType::None)
+                {
+                    return newGameTarget;
+                }
+
+                const OutdoorGameView::MenuPointerTarget saveGameTarget =
+                    resolveMenuButtonTarget(
+                        "MenuButtonSaveGame",
+                        OutdoorGameView::MenuPointerTargetType::SaveGameButton,
+                        pointerX,
+                        pointerY);
+
+                if (saveGameTarget.type != OutdoorGameView::MenuPointerTargetType::None)
+                {
+                    return saveGameTarget;
+                }
+
+                const OutdoorGameView::MenuPointerTarget loadGameTarget =
+                    resolveMenuButtonTarget(
+                        "MenuButtonLoadGame",
+                        OutdoorGameView::MenuPointerTargetType::LoadGameButton,
+                        pointerX,
+                        pointerY);
+
+                if (loadGameTarget.type != OutdoorGameView::MenuPointerTargetType::None)
+                {
+                    return loadGameTarget;
+                }
+
+                const OutdoorGameView::MenuPointerTarget controlsTarget =
+                    resolveMenuButtonTarget(
+                        "MenuButtonControls",
+                        OutdoorGameView::MenuPointerTargetType::ControlsButton,
+                        pointerX,
+                        pointerY);
+
+                if (controlsTarget.type != OutdoorGameView::MenuPointerTargetType::None)
+                {
+                    return controlsTarget;
+                }
+
+                const OutdoorGameView::MenuPointerTarget quitTarget =
+                    resolveMenuButtonTarget(
+                        "MenuButtonQuit",
+                        OutdoorGameView::MenuPointerTargetType::QuitButton,
+                        pointerX,
+                        pointerY);
+
+                if (quitTarget.type != OutdoorGameView::MenuPointerTargetType::None)
+                {
+                    return quitTarget;
+                }
+
+                return resolveMenuButtonTarget(
+                    "MenuButtonReturn",
+                    OutdoorGameView::MenuPointerTargetType::ReturnButton,
+                    pointerX,
+                    pointerY);
+            };
+
+        handlePointerClickRelease(
+            menuPointerState,
+            view.m_menuClickLatch,
+            view.m_menuPressedTarget,
+            noneMenuTarget,
+            findMenuPointerTarget,
+            [&view](const OutdoorGameView::MenuPointerTarget &target)
+            {
+                switch (target.type)
+                {
+                case OutdoorGameView::MenuPointerTargetType::NewGameButton:
+                    view.m_menuScreen.quitConfirmationArmed = false;
+                    view.m_menuScreen.bottomBarText.clear();
+                    break;
+
+                case OutdoorGameView::MenuPointerTargetType::SaveGameButton:
+                    view.openSaveGameScreen();
+                    break;
+
+                case OutdoorGameView::MenuPointerTargetType::LoadGameButton:
+                    view.openLoadGameScreen();
+                    break;
+
+                case OutdoorGameView::MenuPointerTargetType::ControlsButton:
+                    view.m_menuScreen.quitConfirmationArmed = false;
+                    view.m_menuScreen.bottomBarText.clear();
+                    break;
+
+                case OutdoorGameView::MenuPointerTargetType::QuitButton:
+                    if (view.m_menuScreen.quitConfirmationArmed)
+                    {
+                        SDL_Event event = {};
+                        event.type = SDL_EVENT_QUIT;
+                        SDL_PushEvent(&event);
+                    }
+                    else
+                    {
+                        view.m_menuScreen.quitConfirmationArmed = true;
+                        view.m_menuScreen.bottomBarText = "Press Quit again to exit.";
+                    }
+                    break;
+
+                case OutdoorGameView::MenuPointerTargetType::ReturnButton:
+                    view.closeMenu();
+                    break;
+
+                case OutdoorGameView::MenuPointerTargetType::None:
+                    break;
+                }
+            });
+        return;
+    }
+
     if (view.m_characterScreenOpen)
     {
         GameplayPartyOverlayInputController::handleCharacterOverlayInput(view, pKeyboardState, screenWidth, screenHeight);
@@ -1241,7 +1976,6 @@ void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view
         hasActiveLootView);
 
     const bool turboSpeed = pKeyboardState[SDL_SCANCODE_LSHIFT] || pKeyboardState[SDL_SCANCODE_RSHIFT];
-    const float mouseRotateSpeed = 0.0045f;
     float mouseX = 0.0f;
     float mouseY = 0.0f;
     const SDL_MouseButtonFlags mouseButtons = SDL_GetMouseState(&mouseX, &mouseY);
@@ -1256,8 +1990,8 @@ void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view
         {
             const float deltaMouseX = mouseX - view.m_lastMouseX;
             const float deltaMouseY = mouseY - view.m_lastMouseY;
-            view.m_cameraYawRadians -= deltaMouseX * mouseRotateSpeed;
-            view.m_cameraPitchRadians -= deltaMouseY * mouseRotateSpeed;
+            view.m_cameraYawRadians -= deltaMouseX * view.m_mouseRotateSpeed;
+            view.m_cameraPitchRadians -= deltaMouseY * view.m_mouseRotateSpeed;
         }
 
         view.m_isRotatingCamera = true;

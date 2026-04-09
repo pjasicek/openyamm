@@ -9,6 +9,7 @@
 
 #include <cstddef>
 #include <cstdint>
+#include <filesystem>
 #include <functional>
 #include <string>
 #include <vector>
@@ -242,6 +243,45 @@ public:
         float hourglassElapsedSeconds = 0.0f;
     };
 
+    struct MenuScreenState
+    {
+        bool active = false;
+        bool quitConfirmationArmed = false;
+        std::string bottomBarText;
+    };
+
+    struct SaveSlotSummary
+    {
+        std::filesystem::path path;
+        std::string fileLabel;
+        std::string locationName;
+        std::string weekdayClockText;
+        std::string dateText;
+        bool populated = false;
+        int previewWidth = 0;
+        int previewHeight = 0;
+        std::vector<uint8_t> previewPixelsBgra;
+    };
+
+    struct SaveGameScreenState
+    {
+        bool active = false;
+        size_t selectedIndex = 0;
+        size_t scrollOffset = 0;
+        bool editActive = false;
+        size_t editSlotIndex = 0;
+        std::string editBuffer;
+        std::vector<SaveSlotSummary> slots;
+    };
+
+    struct LoadGameScreenState
+    {
+        bool active = false;
+        size_t selectedIndex = 0;
+        size_t scrollOffset = 0;
+        std::vector<SaveSlotSummary> slots;
+    };
+
     struct JournalScreenState
     {
         bool active = false;
@@ -325,6 +365,9 @@ public:
         ReadableScrollOverlayState readableScrollOverlay = {};
         SpellbookState spellbook = {};
         RestScreenState restScreen = {};
+        MenuScreenState menuScreen = {};
+        SaveGameScreenState saveGameScreen = {};
+        LoadGameScreenState loadGameScreen = {};
         JournalScreenState journalScreen = {};
         InventoryNestedOverlayState inventoryNestedOverlay = {};
         HouseShopOverlayState houseShopOverlay = {};
@@ -373,6 +416,15 @@ public:
 
     RestScreenState &restScreen();
     const RestScreenState &restScreen() const;
+
+    MenuScreenState &menuScreen();
+    const MenuScreenState &menuScreen() const;
+
+    SaveGameScreenState &saveGameScreen();
+    const SaveGameScreenState &saveGameScreen() const;
+
+    LoadGameScreenState &loadGameScreen();
+    const LoadGameScreenState &loadGameScreen() const;
 
     JournalScreenState &journalScreen();
     const JournalScreenState &journalScreen() const;

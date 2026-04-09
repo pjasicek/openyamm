@@ -1015,6 +1015,8 @@ void OutdoorInteractionController::closeActiveEventDialog(OutdoorGameView &view)
 {
     EventRuntimeState *pEventRuntimeState =
         view.m_pOutdoorWorldRuntime != nullptr ? view.m_pOutdoorWorldRuntime->eventRuntimeState() : nullptr;
+    const uint32_t hostHouseId =
+        pEventRuntimeState != nullptr ? pEventRuntimeState->dialogueState.hostHouseId : 0;
 
     if (pEventRuntimeState != nullptr)
     {
@@ -1033,6 +1035,11 @@ void OutdoorInteractionController::closeActiveEventDialog(OutdoorGameView &view)
     view.closeHouseShopOverlay();
     view.closeInventoryNestedOverlay();
     view.clearHouseBankState();
+
+    if (hostHouseId != 0 && view.m_flipOnExitEnabled)
+    {
+        view.setCameraAngles(view.cameraYawRadians() + Pi, view.cameraPitchRadians());
+    }
 }
 
 
@@ -3201,7 +3208,7 @@ void OutdoorInteractionController::applyPendingCombatEvents(OutdoorGameView &vie
             {
                 view.triggerPortraitFaceAnimation(event.sourcePartyMemberIndex, FaceAnimationId::AttackMiss);
                 view.playSpeechReaction(event.sourcePartyMemberIndex, SpeechId::AttackMiss, false);
-                view.setStatusBarEvent(sourceName + " misses " + targetName);
+                view.showCombatStatusBarEvent(sourceName + " misses " + targetName);
             }
             else if (event.killed)
             {
@@ -3216,14 +3223,14 @@ void OutdoorInteractionController::applyPendingCombatEvents(OutdoorGameView &vie
                 }
 
                 view.playSpeechReaction(event.sourcePartyMemberIndex, speechId, false);
-                view.setStatusBarEvent(
+                view.showCombatStatusBarEvent(
                     sourceName + " inflicts " + std::to_string(event.damage) + " points killing " + targetName);
             }
             else
             {
                 view.triggerPortraitFaceAnimation(event.sourcePartyMemberIndex, FaceAnimationId::AttackHit);
                 view.playSpeechReaction(event.sourcePartyMemberIndex, SpeechId::AttackHit, false);
-                view.setStatusBarEvent(
+                view.showCombatStatusBarEvent(
                     sourceName + " shoots " + targetName + " for " + std::to_string(event.damage) + " points");
             }
 
@@ -3301,7 +3308,7 @@ void OutdoorInteractionController::applyPendingCombatEvents(OutdoorGameView &vie
 
         if (ignorePhysicalDamage)
         {
-            view.setStatusBarEvent("Mistform ignores physical damage");
+            view.showCombatStatusBarEvent("Mistform ignores physical damage");
             continue;
         }
 

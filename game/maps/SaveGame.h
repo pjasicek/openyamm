@@ -10,6 +10,7 @@
 #include <optional>
 #include <string>
 #include <unordered_map>
+#include <vector>
 
 namespace OpenYAMM::Game
 {
@@ -28,6 +29,8 @@ struct GameSaveData
     float savedGameMinutes = 0.0f;
     float outdoorCameraYawRadians = 0.0f;
     float outdoorCameraPitchRadians = 0.0f;
+    std::string saveName;
+    std::vector<uint8_t> previewBmp;
 };
 
 bool saveGameDataToPath(const std::filesystem::path &path, const GameSaveData &data, std::string &error);

@@ -59,6 +59,12 @@ GameplayHudScreenState toGameplayHudScreenState(OutdoorGameView::OverlayHudScree
         return GameplayHudScreenState::Spellbook;
     case OutdoorGameView::OverlayHudScreenState::Rest:
         return GameplayHudScreenState::Rest;
+    case OutdoorGameView::OverlayHudScreenState::Menu:
+        return GameplayHudScreenState::Menu;
+    case OutdoorGameView::OverlayHudScreenState::SaveGame:
+        return GameplayHudScreenState::SaveGame;
+    case OutdoorGameView::OverlayHudScreenState::LoadGame:
+        return GameplayHudScreenState::LoadGame;
     case OutdoorGameView::OverlayHudScreenState::Journal:
         return GameplayHudScreenState::Journal;
     }

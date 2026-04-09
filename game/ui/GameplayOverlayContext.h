@@ -36,6 +36,9 @@ enum class GameplayHudScreenState
     Chest,
     Spellbook,
     Rest,
+    Menu,
+    SaveGame,
+    LoadGame,
     Journal
 };
 

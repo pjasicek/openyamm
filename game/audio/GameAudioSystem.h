@@ -45,6 +45,9 @@ public:
     void setBackgroundMusicTrack(int redbookTrack);
     void stopBackgroundMusic();
     int currentBackgroundMusicTrack() const;
+    void setSoundVolume(float volume);
+    void setMusicVolume(float volume);
+    void setVoiceVolume(float volume);
 
     bool playSound(
         uint32_t soundId,
@@ -65,6 +68,8 @@ private:
     void preloadArcomageUiSounds();
     bool ensureBackgroundMusicTrackLoaded(int redbookTrack);
     bool startBackgroundMusicTrack(int redbookTrack);
+    float targetMusicVolume() const;
+    float playbackGroupVolume(PlaybackGroup group) const;
     uint64_t playResolvedSound(
         const std::string &virtualPath,
         PlaybackGroup group,
@@ -85,5 +90,8 @@ private:
     uint64_t m_activeMusicInstanceId = 0;
     float m_activeMusicVolume = 0.0f;
     float m_musicFadeVelocity = 0.0f;
+    float m_soundVolume = 1.0f;
+    float m_musicVolume = 1.0f;
+    float m_voiceVolume = 1.0f;
 };
 }

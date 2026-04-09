@@ -421,6 +421,9 @@ void GameplayHudRenderer::renderGameplayHudArt(OutdoorGameView &view, int width,
         || hudScreenState == OutdoorGameView::HudScreenState::Chest
         || hudScreenState == OutdoorGameView::HudScreenState::Spellbook
         || hudScreenState == OutdoorGameView::HudScreenState::Rest
+        || hudScreenState == OutdoorGameView::HudScreenState::Menu
+        || hudScreenState == OutdoorGameView::HudScreenState::SaveGame
+        || hudScreenState == OutdoorGameView::HudScreenState::LoadGame
         || hudScreenState == OutdoorGameView::HudScreenState::Journal;
 
     const auto isGameplayElementVisibleInHudState =
@@ -907,10 +910,16 @@ void GameplayHudRenderer::renderGameplayHud(const OutdoorGameView &view, int wid
         || hudScreenState == OutdoorGameView::HudScreenState::Chest
         || hudScreenState == OutdoorGameView::HudScreenState::Spellbook
         || hudScreenState == OutdoorGameView::HudScreenState::Rest
+        || hudScreenState == OutdoorGameView::HudScreenState::Menu
+        || hudScreenState == OutdoorGameView::HudScreenState::SaveGame
+        || hudScreenState == OutdoorGameView::HudScreenState::LoadGame
         || hudScreenState == OutdoorGameView::HudScreenState::Journal;
     const bool shouldRenderStatusBar =
         hudScreenState != OutdoorGameView::HudScreenState::Spellbook
         && hudScreenState != OutdoorGameView::HudScreenState::Rest
+        && hudScreenState != OutdoorGameView::HudScreenState::Menu
+        && hudScreenState != OutdoorGameView::HudScreenState::SaveGame
+        && hudScreenState != OutdoorGameView::HudScreenState::LoadGame
         && hudScreenState != OutdoorGameView::HudScreenState::Journal;
 
     const auto replaceAll =

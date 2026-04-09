@@ -1,6 +1,7 @@
 #pragma once
 
 #include "game/app/AppMode.h"
+#include "game/app/GameSettings.h"
 #include "game/app/GameSession.h"
 #include "engine/ApplicationConfig.h"
 #include "engine/EngineApplication.h"
@@ -20,6 +21,7 @@
 #include <filesystem>
 #include <memory>
 #include <optional>
+#include <vector>
 
 namespace OpenYAMM::Game
 {
@@ -57,7 +59,10 @@ private:
     bool processPendingQuickSaveInput();
     bool quickSave();
     bool quickLoad();
-    bool quickSaveToPath(const std::filesystem::path &path);
+    bool quickSaveToPath(
+        const std::filesystem::path &path,
+        const std::string &saveName = "",
+        const std::vector<uint8_t> &previewBmp = {});
     bool quickLoadFromPath(const std::filesystem::path &path, bool initializeView);
     void openMainMenuScreen();
     void openLoadMenuScreen();
@@ -67,6 +72,10 @@ private:
     bool initializeStartupSession(bool initializeView);
     bool startNewSession(std::optional<uint32_t> rosterId, bool initializeView = true);
     bool loadSessionFromPath(const std::filesystem::path &path);
+    std::filesystem::path settingsFilePath() const;
+    void loadOrCreateSettings();
+    void applyCurrentSettingsToActiveRuntime();
+    void applyStartupDebugSettingsToActiveRuntime();
     void requestApplicationQuit() const;
     void reportQuickSaveStatus(const std::string &status);
     void renderMapPickerOverlay() const;
@@ -78,6 +87,7 @@ private:
     IndoorDebugRenderer m_indoorDebugRenderer;
     OutdoorGameView m_outdoorGameView;
     ScreenManager m_screenManager;
+    GameSettings m_settings = GameSettings::createDefault();
     GameSession m_gameSession;
     GameplayController m_gameplayController;
     std::unique_ptr<OutdoorPartyRuntime> m_pOutdoorPartyRuntime;

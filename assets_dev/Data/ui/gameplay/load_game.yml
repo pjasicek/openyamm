@@ -1,0 +1,286 @@
+screen: LoadGame
+
+elements:
+  - id: LoadGameRoot
+    anchor: center
+    width: 640
+    height: 480
+    z_index: 440
+    visible: true
+    scale:
+      min: 1.0
+      max: 3.0
+    children:
+      - id: LoadGameBackground
+        anchor: top_left
+        offset_x: 0
+        offset_y: 0
+        width: 640
+        height: 480
+        z_index: 0
+        asset:
+          default: Lsave640
+
+      - id: LoadGameTitle
+        anchor: top_left
+        offset_x: 78
+        offset_y: 142
+        width: 221
+        height: 52
+        z_index: 10
+        asset:
+          default: bt_loagU
+
+      - id: LoadGameSelectedName
+        anchor: top_left
+        offset_x: 338
+        offset_y: 152
+        width: 236
+        height: 32
+        z_index: 10
+        text:
+          value: ""
+          font: Create
+          color: white
+          align_x: center
+          align_y: middle
+
+      - id: LoadGamePreviewRect
+        anchor: top_left
+        offset_x: 319
+        offset_y: 195
+        width: 272
+        height: 169
+        z_index: 5
+
+      - id: LoadGamePreviewLine1
+        anchor: top_left
+        offset_x: 388
+        offset_y: 310
+        width: 155
+        height: 18
+        z_index: 10
+        text:
+          value: ""
+          font: Create
+          color: white
+          align_x: center
+          align_y: middle
+
+      - id: LoadGamePreviewLine2
+        anchor: top_left
+        offset_x: 388
+        offset_y: 329
+        width: 155
+        height: 18
+        z_index: 10
+        text:
+          value: ""
+          font: Create
+          color: white
+          align_x: center
+          align_y: middle
+
+      - id: LoadGameSlotRow0
+        anchor: top_left
+        offset_x: 75
+        offset_y: 206
+        width: 205
+        height: 22
+        z_index: 10
+        interactive: true
+        text:
+          value: ""
+          font: Create
+          color: white
+          align_x: left
+          align_y: middle
+
+      - id: LoadGameSlotRow1
+        anchor: top_left
+        offset_x: 75
+        offset_y: 230
+        width: 205
+        height: 22
+        z_index: 10
+        interactive: true
+        text:
+          value: ""
+          font: Create
+          color: white
+          align_x: left
+          align_y: middle
+
+      - id: LoadGameSlotRow2
+        anchor: top_left
+        offset_x: 75
+        offset_y: 254
+        width: 205
+        height: 22
+        z_index: 10
+        interactive: true
+        text:
+          value: ""
+          font: Create
+          color: white
+          align_x: left
+          align_y: middle
+
+      - id: LoadGameSlotRow3
+        anchor: top_left
+        offset_x: 75
+        offset_y: 278
+        width: 205
+        height: 22
+        z_index: 10
+        interactive: true
+        text:
+          value: ""
+          font: Create
+          color: white
+          align_x: left
+          align_y: middle
+
+      - id: LoadGameSlotRow4
+        anchor: top_left
+        offset_x: 75
+        offset_y: 302
+        width: 205
+        height: 22
+        z_index: 10
+        interactive: true
+        text:
+          value: ""
+          font: Create
+          color: white
+          align_x: left
+          align_y: middle
+
+      - id: LoadGameSlotRow5
+        anchor: top_left
+        offset_x: 75
+        offset_y: 326
+        width: 205
+        height: 22
+        z_index: 10
+        interactive: true
+        text:
+          value: ""
+          font: Create
+          color: white
+          align_x: left
+          align_y: middle
+
+      - id: LoadGameSlotRow6
+        anchor: top_left
+        offset_x: 75
+        offset_y: 350
+        width: 205
+        height: 22
+        z_index: 10
+        interactive: true
+        text:
+          value: ""
+          font: Create
+          color: white
+          align_x: left
+          align_y: middle
+
+      - id: LoadGameSlotRow7
+        anchor: top_left
+        offset_x: 75
+        offset_y: 374
+        width: 205
+        height: 22
+        z_index: 10
+        interactive: true
+        text:
+          value: ""
+          font: Create
+          color: white
+          align_x: left
+          align_y: middle
+
+      - id: LoadGameSlotRow8
+        anchor: top_left
+        offset_x: 75
+        offset_y: 398
+        width: 205
+        height: 22
+        z_index: 10
+        interactive: true
+        text:
+          value: ""
+          font: Create
+          color: white
+          align_x: left
+          align_y: middle
+
+      - id: LoadGameSlotRow9
+        anchor: top_left
+        offset_x: 75
+        offset_y: 422
+        width: 205
+        height: 22
+        z_index: 10
+        interactive: true
+        text:
+          value: ""
+          font: Create
+          color: white
+          align_x: left
+          align_y: middle
+
+      - id: LoadGameScrollUpButton
+        anchor: top_left
+        offset_x: 285
+        offset_y: 206
+        width: 18
+        height: 16
+        z_index: 10
+        interactive: true
+
+      - id: LoadGameScrollThumb
+        anchor: top_left
+        offset_x: 282
+        offset_y: 226
+        width: 17
+        height: 17
+        z_index: 10
+        asset:
+          default: but_thum
+
+      - id: LoadGameScrollDownButton
+        anchor: top_left
+        offset_x: 285
+        offset_y: 420
+        width: 18
+        height: 16
+        z_index: 10
+        interactive: true
+
+      - id: LoadGameConfirmButton
+        anchor: top_left
+        offset_x: 347
+        offset_y: 381
+        width: 106
+        height: 37
+        z_index: 20
+        interactive: true
+        asset:
+          default: bt_loadU
+          highlighted: bt_loadH
+          pressed: bt_loadD
+
+      - id: LoadGameCancelButton
+        anchor: top_left
+        offset_x: 457
+        offset_y: 381
+        width: 106
+        height: 37
+        z_index: 20
+        interactive: true
+        asset:
+          default: bt_cnclU
+          highlighted: bt_cnclH
+          pressed: bt_cnclD

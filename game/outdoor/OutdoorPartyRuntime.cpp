@@ -121,11 +121,27 @@ void OutdoorPartyRuntime::toggleFeatherFall()
     m_movementDriver.toggleFeatherFall();
 }
 
+void OutdoorPartyRuntime::setRunning(bool active)
+{
+    m_movementDriver.setRunning(active);
+}
+
+void OutdoorPartyRuntime::setDebugFlyingOverride(bool active)
+{
+    m_debugFlyingOverride = active;
+    syncSpellMovementStatesFromPartyBuffs();
+}
+
+void OutdoorPartyRuntime::setMovementSpeedMultiplier(float multiplier)
+{
+    m_movementDriver.setSpeedMultiplier(multiplier);
+}
+
 void OutdoorPartyRuntime::syncSpellMovementStatesFromPartyBuffs()
 {
     m_movementDriver.setFeatherFallActive(m_party.hasPartyBuff(PartyBuffId::FeatherFall));
     m_movementDriver.setWaterWalkActive(m_party.hasPartyBuff(PartyBuffId::WaterWalk));
-    m_movementDriver.setFlying(m_party.hasPartyBuff(PartyBuffId::Fly));
+    m_movementDriver.setFlying(m_party.hasPartyBuff(PartyBuffId::Fly) || m_debugFlyingOverride);
 }
 
 void OutdoorPartyRuntime::requestJump()

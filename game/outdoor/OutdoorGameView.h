@@ -46,8 +46,11 @@
 
 #include <array>
 #include <cstdint>
+#include <filesystem>
+#include <functional>
 #include <memory>
 #include <optional>
+#include <string>
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
@@ -122,13 +125,21 @@ public:
         const std::optional<EvtProgram> &localEvtProgram,
         const std::optional<EvtProgram> &globalEvtProgram,
         GameAudioSystem *pGameAudioSystem,
-        OutdoorSceneRuntime &sceneRuntime
+        OutdoorSceneRuntime &sceneRuntime,
+        const std::vector<MapStatsEntry> &mapEntries,
+        std::function<bool(
+            const std::filesystem::path &,
+            const std::string &,
+            const std::vector<uint8_t> &,
+            std::string &)> saveGameToPathCallback,
+        std::function<bool(const std::filesystem::path &, std::string &)> loadGameFromPathCallback
     );
     void render(int width, int height, float mouseWheelDelta, float deltaSeconds);
     void shutdown();
     float cameraYawRadians() const;
     float cameraPitchRadians() const;
     void setCameraAngles(float yawRadians, float pitchRadians);
+    bool requestQuickSave();
 
 private:
     friend struct GameApplicationTestAccess;
@@ -264,6 +275,9 @@ private:
         Chest,
         Spellbook,
         Rest,
+        Menu,
+        SaveGame,
+        LoadGame,
         Journal
     };
 
@@ -351,6 +365,27 @@ public:
         SpellButton,
         CloseButton,
         QuickCastButton
+    };
+
+    enum class MenuPointerTargetType
+    {
+        None,
+        NewGameButton,
+        SaveGameButton,
+        LoadGameButton,
+        ControlsButton,
+        QuitButton,
+        ReturnButton
+    };
+
+    enum class SaveLoadPointerTargetType
+    {
+        None,
+        Slot,
+        ScrollUpButton,
+        ScrollDownButton,
+        ConfirmButton,
+        CancelButton
     };
 
 private:
@@ -454,6 +489,10 @@ private:
     using SpellbookState = GameplayUiController::SpellbookState;
     using RestScreenState = GameplayUiController::RestScreenState;
     using RestMode = GameplayUiController::RestMode;
+    using MenuScreenState = GameplayUiController::MenuScreenState;
+    using SaveSlotSummary = GameplayUiController::SaveSlotSummary;
+    using SaveGameScreenState = GameplayUiController::SaveGameScreenState;
+    using LoadGameScreenState = GameplayUiController::LoadGameScreenState;
     using JournalScreenState = GameplayUiController::JournalScreenState;
     using JournalView = GameplayUiController::JournalView;
     using JournalNotesCategory = GameplayUiController::JournalNotesCategory;
@@ -477,6 +516,32 @@ private:
         JournalPointerTargetType type = JournalPointerTargetType::None;
 
         bool operator==(const JournalPointerTarget &other) const = default;
+    };
+
+    struct MenuPointerTarget
+    {
+        MenuPointerTargetType type = MenuPointerTargetType::None;
+
+        bool operator==(const MenuPointerTarget &other) const = default;
+    };
+
+    struct SaveLoadPointerTarget
+    {
+        SaveLoadPointerTargetType type = SaveLoadPointerTargetType::None;
+        size_t slotIndex = 0;
+
+        bool operator==(const SaveLoadPointerTarget &other) const = default;
+    };
+
+    struct PendingSavePreviewCaptureState
+    {
+        bool active = false;
+        bool screenshotRequested = false;
+        std::filesystem::path savePath;
+        std::string requestId;
+        std::string saveName;
+        bool closeUiOnSuccess = false;
+        uint64_t startedTicks = 0;
     };
 
     using InventoryNestedOverlayState = GameplayUiController::InventoryNestedOverlayState;
@@ -533,6 +598,11 @@ public:
     };
 
     void showStatusBarEvent(const std::string &text, float durationSeconds = 2.0f);
+    void showCombatStatusBarEvent(const std::string &text, float durationSeconds = 2.0f);
+    void setMouseRotateSpeed(float speed);
+    void setWalkSoundEnabled(bool active);
+    void setShowHitStatusMessages(bool active);
+    void setFlipOnExitEnabled(bool active);
 
 private:
     static ResolvedHudLayoutElement resolveAttachedHudLayoutRect(
@@ -571,6 +641,9 @@ private:
     void renderPendingSpellTargetingOverlay(int width, int height) const;
     void renderSpellbookOverlay(int width, int height) const;
     void renderRestOverlay(int width, int height) const;
+    void renderMenuOverlay(int width, int height) const;
+    void renderSaveGameOverlay(int width, int height) const;
+    void renderLoadGameOverlay(int width, int height) const;
     void renderJournalOverlay(int width, int height) const;
     void submitHudTexturedQuad(const HudTextureHandle &texture, float x, float y, float quadWidth, float quadHeight) const;
     std::optional<std::string> findCachedAssetPath(const std::string &directoryPath, const std::string &fileName);
@@ -642,8 +715,20 @@ private:
     void closeSpellbook(const std::string &statusText = "");
     void openRestScreen();
     void closeRestScreen();
+    void openMenu();
+    void closeMenu();
+    void openSaveGameScreen();
+    void closeSaveGameScreen();
+    void openLoadGameScreen();
+    void closeLoadGameScreen();
     void openJournal();
     void closeJournal();
+    void refreshSaveGameSlots();
+    void refreshLoadGameSlots();
+    std::string resolveSaveLocationName(const std::string &mapFileName) const;
+    bool beginSaveWithPreview(const std::filesystem::path &path, const std::string &saveName, bool closeUiOnSuccess);
+    bool trySaveToSelectedGameSlot();
+    bool tryLoadFromSelectedGameSlot();
     void clearWorldInteractionInputLatches();
     int restFoodRequired() const;
     float innRestDurationMinutes(uint32_t houseId) const;
@@ -679,6 +764,7 @@ private:
     bool m_isInitialized;
     bool m_isRenderable;
     std::optional<MapStatsEntry> m_map;
+    std::vector<MapStatsEntry> m_mapEntries;
     std::optional<MonsterTable> m_monsterTable;
     std::optional<OutdoorMapData> m_outdoorMapData;
     std::optional<DecorationBillboardSet> m_outdoorDecorationBillboardSet;
@@ -774,6 +860,7 @@ private:
     float m_cameraEyeHeight;
     float m_cameraDistance;
     float m_cameraOrthoScale;
+    float m_mouseRotateSpeed = 0.0045f;
     bool m_showFilledTerrain;
     std::vector<PortraitFxState> m_portraitSpellFxStates;
     float m_lastFootstepX;
@@ -797,6 +884,9 @@ private:
     bool m_showGameplayHud;
     bool m_showDebugHud;
     bool m_inspectMode;
+    bool m_walkSoundEnabled = true;
+    bool m_showHitStatusMessages = true;
+    bool m_flipOnExitEnabled = false;
     bool m_isRotatingCamera;
     float m_lastMouseX;
     float m_lastMouseY;
@@ -830,7 +920,14 @@ private:
     bool m_pendingSpellTargetClickLatch;
     bool m_restToggleLatch;
     bool m_restClickLatch;
+    bool m_optionsButtonClickLatch;
     bool m_booksButtonClickLatch;
+    bool m_menuToggleLatch;
+    bool m_menuClickLatch;
+    bool m_saveGameToggleLatch;
+    bool m_saveGameClickLatch;
+    bool m_loadGameToggleLatch;
+    bool m_loadGameClickLatch;
     bool m_journalToggleLatch;
     bool m_journalClickLatch;
     bool m_inventoryScreenToggleLatch;
@@ -867,6 +964,9 @@ private:
     ReadableScrollOverlayState &m_readableScrollOverlay;
     SpellbookState &m_spellbook;
     RestScreenState &m_restScreen;
+    MenuScreenState &m_menuScreen;
+    SaveGameScreenState &m_saveGameScreen;
+    LoadGameScreenState &m_loadGameScreen;
     JournalScreenState &m_journalScreen;
     bool m_cachedJournalMapValid = false;
     int m_cachedJournalMapWidth = 0;
@@ -879,7 +979,17 @@ private:
     HouseBankState &m_houseBankState;
     SpellbookPointerTarget m_spellbookPressedTarget;
     RestPointerTarget m_restPressedTarget;
+    bool m_optionsButtonPressed = false;
     bool m_booksButtonPressed = false;
+    MenuPointerTarget m_menuPressedTarget;
+    SaveLoadPointerTarget m_saveGamePressedTarget;
+    SaveLoadPointerTarget m_loadGamePressedTarget;
+    uint64_t m_lastSaveGameSlotClickTicks = 0;
+    std::optional<size_t> m_lastSaveGameClickedSlotIndex;
+    uint64_t m_lastLoadGameSlotClickTicks = 0;
+    std::optional<size_t> m_lastLoadGameClickedSlotIndex;
+    std::array<bool, 39> m_saveGameEditKeyLatches = {};
+    bool m_saveGameEditBackspaceLatch = false;
     JournalPointerTarget m_journalPressedTarget;
     bool m_journalMapKeyZoomLatch = false;
     uint64_t m_lastSpellbookSpellClickTicks;
@@ -922,6 +1032,13 @@ private:
     HouseVideoPlayer m_houseVideoPlayer;
     OutdoorPartyRuntime *m_pOutdoorPartyRuntime;
     const Engine::AssetFileSystem *m_pAssetFileSystem;
+    std::function<bool(
+        const std::filesystem::path &,
+        const std::string &,
+        const std::vector<uint8_t> &,
+        std::string &)> m_saveGameToPathCallback;
+    std::function<bool(const std::filesystem::path &, std::string &)> m_loadGameFromPathCallback;
+    PendingSavePreviewCaptureState m_pendingSavePreviewCapture;
     InspectHit m_pressedInspectHit;
 };
 }

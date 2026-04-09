@@ -21,6 +21,7 @@
 #include <cstdio>
 #include <cctype>
 #include <cmath>
+#include <cstring>
 #include <cstdint>
 #include <cstdlib>
 #include <functional>
@@ -1615,6 +1616,523 @@ void GameplayPartyOverlayRenderer::renderRestOverlay(const OutdoorGameView &view
     }
 }
 
+void GameplayPartyOverlayRenderer::renderMenuOverlay(const OutdoorGameView &view, int width, int height)
+{
+    if (!view.m_menuScreen.active
+        || !bgfx::isValid(view.m_texturedTerrainProgramHandle)
+        || !bgfx::isValid(view.m_terrainTextureSamplerHandle)
+        || width <= 0
+        || height <= 0)
+    {
+        return;
+    }
+
+    const OutdoorGameView::HudLayoutElement *pRootLayout = HudUiService::findHudLayoutElement(view, "MenuRoot");
+
+    if (pRootLayout == nullptr)
+    {
+        return;
+    }
+
+    setupHudProjection(width, height);
+
+    float mouseX = 0.0f;
+    float mouseY = 0.0f;
+    const SDL_MouseButtonFlags mouseButtons = SDL_GetMouseState(&mouseX, &mouseY);
+    const bool isLeftMousePressed = (mouseButtons & SDL_BUTTON_LMASK) != 0;
+    const std::vector<std::string> orderedLayoutIds = HudUiService::sortedHudLayoutIdsForScreen(view, "Menu");
+
+    for (const std::string &layoutId : orderedLayoutIds)
+    {
+        const OutdoorGameView::HudLayoutElement *pLayout = HudUiService::findHudLayoutElement(view, layoutId);
+
+        if (pLayout == nullptr || !pLayout->visible || toLowerCopy(pLayout->id) == "menuroot")
+        {
+            continue;
+        }
+
+        if (!pLayout->primaryAsset.empty())
+        {
+            std::string textureName = pLayout->primaryAsset;
+
+            if (pLayout->interactive)
+            {
+                const std::optional<OutdoorGameView::ResolvedHudLayoutElement> interactiveResolved =
+                    HudUiService::resolveHudLayoutElement(
+                        view,
+                        layoutId,
+                        width,
+                        height,
+                        pLayout->width,
+                        pLayout->height);
+                const std::string *pAssetName = interactiveResolved
+                    ? HudUiService::resolveInteractiveAssetName(
+                        *pLayout,
+                        *interactiveResolved,
+                        mouseX,
+                        mouseY,
+                        isLeftMousePressed)
+                    : nullptr;
+
+                if (pAssetName != nullptr)
+                {
+                    textureName = *pAssetName;
+                }
+            }
+
+            const OutdoorGameView::HudTextureHandle *pTexture =
+                HudUiService::ensureHudTextureLoaded(const_cast<OutdoorGameView &>(view), textureName);
+
+            if (pTexture != nullptr)
+            {
+                const float fallbackWidth = pLayout->width > 0.0f
+                    ? pLayout->width
+                    : static_cast<float>(pTexture->width);
+                const float fallbackHeight = pLayout->height > 0.0f
+                    ? pLayout->height
+                    : static_cast<float>(pTexture->height);
+                const std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolved =
+                    HudUiService::resolveHudLayoutElement(
+                        view,
+                        layoutId,
+                        width,
+                        height,
+                        fallbackWidth,
+                        fallbackHeight);
+
+                if (resolved)
+                {
+                    view.submitHudTexturedQuad(
+                        *pTexture,
+                        resolved->x,
+                        resolved->y,
+                        resolved->width,
+                        resolved->height);
+                }
+            }
+        }
+
+        if (pLayout->id == "MenuBottomBarText")
+        {
+            const std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolved =
+                HudUiService::resolveHudLayoutElement(
+                    view,
+                    layoutId,
+                    width,
+                    height,
+                    pLayout->width,
+                    pLayout->height);
+
+            if (resolved)
+            {
+                HudUiService::renderLayoutLabel(view, *pLayout, *resolved, view.m_menuScreen.bottomBarText);
+            }
+        }
+    }
+}
+
+constexpr size_t SaveLoadVisibleSlotCount = 10;
+
+void GameplayPartyOverlayRenderer::renderSaveLoadOverlay(
+    const OutdoorGameView &view,
+    int width,
+    int height,
+    const char *pScreenName,
+    const char *pRootId,
+    const char *pThumbId,
+    const char *pScrollUpId,
+    const char *pScrollDownId,
+    const char *pPreviewRectId,
+    const char *pSelectedNameId,
+    const char *pPreviewLine1Id,
+    const char *pPreviewLine2Id,
+    const char *pRowPrefix,
+    const std::vector<GameplayUiController::SaveSlotSummary> &slots,
+    size_t scrollOffset,
+    size_t selectedIndex,
+    bool renderSelectedDetails)
+{
+    const OutdoorGameView::HudLayoutElement *pRootLayout = HudUiService::findHudLayoutElement(view, pRootId);
+
+    if (pRootLayout == nullptr)
+    {
+        return;
+    }
+
+    setupHudProjection(width, height);
+
+    float mouseX = 0.0f;
+    float mouseY = 0.0f;
+    const SDL_MouseButtonFlags mouseButtons = SDL_GetMouseState(&mouseX, &mouseY);
+    const bool isLeftMousePressed = (mouseButtons & SDL_BUTTON_LMASK) != 0;
+    const std::vector<std::string> orderedLayoutIds = HudUiService::sortedHudLayoutIdsForScreen(view, pScreenName);
+    const uint32_t rowColor = makeAbgrColor(255, 255, 255);
+    const uint32_t selectedRowColor = makeAbgrColor(255, 255, 0);
+
+    const auto resolveLayout =
+        [&view, width, height](const std::string &layoutId) -> std::optional<OutdoorGameView::ResolvedHudLayoutElement>
+        {
+            const OutdoorGameView::HudLayoutElement *pLayout = HudUiService::findHudLayoutElement(view, layoutId);
+
+            if (pLayout == nullptr)
+            {
+                return std::nullopt;
+            }
+
+            return HudUiService::resolveHudLayoutElement(
+                view,
+                layoutId,
+                width,
+                height,
+                pLayout->width,
+                pLayout->height);
+        };
+    const auto submitSolidQuad =
+        [&view](float x, float y, float quadWidth, float quadHeight, uint32_t abgr)
+        {
+            if (quadWidth <= 0.0f || quadHeight <= 0.0f)
+            {
+                return;
+            }
+
+            const std::string textureName = "__save_load_solid_" + std::to_string(abgr);
+            const OutdoorGameView::HudTextureHandle *pSolidTexture =
+                HudUiService::ensureSolidHudTextureLoaded(
+                    const_cast<OutdoorGameView &>(view),
+                    textureName,
+                    abgr);
+
+            if (pSolidTexture != nullptr)
+            {
+                view.submitHudTexturedQuad(*pSolidTexture, x, y, quadWidth, quadHeight);
+            }
+        };
+
+    for (const std::string &layoutId : orderedLayoutIds)
+    {
+        const OutdoorGameView::HudLayoutElement *pLayout = HudUiService::findHudLayoutElement(view, layoutId);
+
+        if (pLayout == nullptr || !pLayout->visible)
+        {
+            continue;
+        }
+
+        const std::string normalizedId = toLowerCopy(pLayout->id);
+
+        if (normalizedId == toLowerCopy(pRootId)
+            || normalizedId == toLowerCopy(pThumbId)
+            || normalizedId == toLowerCopy(pSelectedNameId)
+            || normalizedId == toLowerCopy(pPreviewLine1Id)
+            || normalizedId == toLowerCopy(pPreviewLine2Id)
+            || normalizedId == toLowerCopy(pPreviewRectId)
+            || normalizedId.rfind(toLowerCopy(pRowPrefix), 0) == 0)
+        {
+            continue;
+        }
+
+        if (!pLayout->primaryAsset.empty())
+        {
+            std::string textureName = pLayout->primaryAsset;
+
+            if (pLayout->interactive)
+            {
+                const std::optional<OutdoorGameView::ResolvedHudLayoutElement> interactiveResolved =
+                    resolveLayout(layoutId);
+                const std::string *pAssetName = interactiveResolved
+                    ? HudUiService::resolveInteractiveAssetName(
+                        *pLayout,
+                        *interactiveResolved,
+                        mouseX,
+                        mouseY,
+                        isLeftMousePressed)
+                    : nullptr;
+
+                if (pAssetName != nullptr)
+                {
+                    textureName = *pAssetName;
+                }
+            }
+
+            const OutdoorGameView::HudTextureHandle *pTexture =
+                HudUiService::ensureHudTextureLoaded(const_cast<OutdoorGameView &>(view), textureName);
+            const std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolved = resolveLayout(layoutId);
+
+            if (pTexture != nullptr && resolved)
+            {
+                view.submitHudTexturedQuad(*pTexture, resolved->x, resolved->y, resolved->width, resolved->height);
+            }
+        }
+    }
+
+    const size_t clampedSelectedIndex = slots.empty() ? 0 : std::min(selectedIndex, slots.size() - 1);
+
+    if (const std::optional<OutdoorGameView::ResolvedHudLayoutElement> previewRect = resolveLayout(pPreviewRectId))
+    {
+        submitSolidQuad(previewRect->x, previewRect->y, previewRect->width, previewRect->height, makeAbgrColor(0, 0, 0));
+
+        if (!slots.empty())
+        {
+            const GameplayUiController::SaveSlotSummary &selectedSlot = slots[clampedSelectedIndex];
+
+            if (selectedSlot.previewWidth > 0
+                && selectedSlot.previewHeight > 0
+                && !selectedSlot.previewPixelsBgra.empty())
+            {
+                const std::string cacheName =
+                    std::string("__save_load_preview_") + toLowerCopy(pScreenName);
+                OutdoorGameView &mutableView = const_cast<OutdoorGameView &>(view);
+                OutdoorGameView::HudTextureHandle *pTexture = nullptr;
+
+                for (OutdoorGameView::HudTextureHandle &textureHandle : mutableView.m_hudTextureHandles)
+                {
+                    if (textureHandle.textureName == cacheName)
+                    {
+                        pTexture = &textureHandle;
+                        break;
+                    }
+                }
+
+                if (pTexture == nullptr)
+                {
+                    OutdoorGameView::HudTextureHandle textureHandle = {};
+                    textureHandle.textureName = cacheName;
+                    textureHandle.width = selectedSlot.previewWidth;
+                    textureHandle.height = selectedSlot.previewHeight;
+                    textureHandle.physicalWidth = selectedSlot.previewWidth;
+                    textureHandle.physicalHeight = selectedSlot.previewHeight;
+                    textureHandle.bgraPixels = selectedSlot.previewPixelsBgra;
+                    textureHandle.textureHandle = bgfx::createTexture2D(
+                        static_cast<uint16_t>(selectedSlot.previewWidth),
+                        static_cast<uint16_t>(selectedSlot.previewHeight),
+                        false,
+                        1,
+                        bgfx::TextureFormat::BGRA8,
+                        BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP
+                            | BGFX_SAMPLER_MIN_POINT | BGFX_SAMPLER_MAG_POINT
+                            | BGFX_TEXTURE_BLIT_DST);
+
+                    if (bgfx::isValid(textureHandle.textureHandle))
+                    {
+                        mutableView.m_hudTextureHandles.push_back(std::move(textureHandle));
+                        pTexture = &mutableView.m_hudTextureHandles.back();
+                    }
+                }
+                else if (pTexture->physicalWidth != selectedSlot.previewWidth
+                    || pTexture->physicalHeight != selectedSlot.previewHeight)
+                {
+                    if (bgfx::isValid(pTexture->textureHandle))
+                    {
+                        bgfx::destroy(pTexture->textureHandle);
+                    }
+
+                    pTexture->width = selectedSlot.previewWidth;
+                    pTexture->height = selectedSlot.previewHeight;
+                    pTexture->physicalWidth = selectedSlot.previewWidth;
+                    pTexture->physicalHeight = selectedSlot.previewHeight;
+                    pTexture->bgraPixels = selectedSlot.previewPixelsBgra;
+                    pTexture->textureHandle = bgfx::createTexture2D(
+                        static_cast<uint16_t>(selectedSlot.previewWidth),
+                        static_cast<uint16_t>(selectedSlot.previewHeight),
+                        false,
+                        1,
+                        bgfx::TextureFormat::BGRA8,
+                        BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP
+                            | BGFX_SAMPLER_MIN_POINT | BGFX_SAMPLER_MAG_POINT
+                            | BGFX_TEXTURE_BLIT_DST);
+                }
+                else
+                {
+                    pTexture->bgraPixels = selectedSlot.previewPixelsBgra;
+                }
+
+                if (pTexture != nullptr && bgfx::isValid(pTexture->textureHandle))
+                {
+                    bgfx::updateTexture2D(
+                        pTexture->textureHandle,
+                        0,
+                        0,
+                        0,
+                        0,
+                        static_cast<uint16_t>(selectedSlot.previewWidth),
+                        static_cast<uint16_t>(selectedSlot.previewHeight),
+                        bgfx::copy(
+                            selectedSlot.previewPixelsBgra.data(),
+                            static_cast<uint32_t>(selectedSlot.previewPixelsBgra.size())));
+
+                    const float previewScale = std::min(
+                        previewRect->width / static_cast<float>(selectedSlot.previewWidth),
+                        previewRect->height / static_cast<float>(selectedSlot.previewHeight));
+                    const float drawWidth = static_cast<float>(selectedSlot.previewWidth) * previewScale;
+                    const float drawHeight = static_cast<float>(selectedSlot.previewHeight) * previewScale;
+                    const float drawX = std::round(previewRect->x + (previewRect->width - drawWidth) * 0.5f);
+                    const float drawY = std::round(previewRect->y + (previewRect->height - drawHeight) * 0.5f);
+                    view.submitHudTexturedQuad(*pTexture, drawX, drawY, drawWidth, drawHeight);
+                }
+            }
+        }
+    }
+
+    if (renderSelectedDetails && !slots.empty())
+    {
+        const GameplayUiController::SaveSlotSummary &selectedSlot = slots[clampedSelectedIndex];
+
+        if (const OutdoorGameView::HudLayoutElement *pLayout = HudUiService::findHudLayoutElement(view, pSelectedNameId))
+        {
+            if (const std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolved = resolveLayout(pSelectedNameId))
+            {
+                HudUiService::renderLayoutLabel(view, *pLayout, *resolved, selectedSlot.locationName);
+            }
+        }
+
+        if (const OutdoorGameView::HudLayoutElement *pLayout = HudUiService::findHudLayoutElement(view, pPreviewLine1Id))
+        {
+            if (const std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolved = resolveLayout(pPreviewLine1Id))
+            {
+                HudUiService::renderLayoutLabel(view, *pLayout, *resolved, selectedSlot.weekdayClockText);
+            }
+        }
+
+        if (const OutdoorGameView::HudLayoutElement *pLayout = HudUiService::findHudLayoutElement(view, pPreviewLine2Id))
+        {
+            if (const std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolved = resolveLayout(pPreviewLine2Id))
+            {
+                HudUiService::renderLayoutLabel(view, *pLayout, *resolved, selectedSlot.dateText);
+            }
+        }
+    }
+
+    for (size_t row = 0; row < SaveLoadVisibleSlotCount; ++row)
+    {
+        const size_t slotIndex = scrollOffset + row;
+        const std::string layoutId = std::string(pRowPrefix) + std::to_string(row);
+        const OutdoorGameView::HudLayoutElement *pLayout = HudUiService::findHudLayoutElement(view, layoutId);
+        const std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolved = resolveLayout(layoutId);
+
+        if (pLayout == nullptr || !resolved)
+        {
+            continue;
+        }
+
+        std::string label = slotIndex < slots.size() ? slots[slotIndex].fileLabel : std::string();
+
+        if (std::strcmp(pScreenName, "SaveGame") == 0
+            && view.m_saveGameScreen.editActive
+            && slotIndex == view.m_saveGameScreen.editSlotIndex)
+        {
+            label = view.m_saveGameScreen.editBuffer;
+
+            if ((SDL_GetTicks() / 500u) % 2u == 0u)
+            {
+                label += "_";
+            }
+        }
+
+        if (label.empty())
+        {
+            continue;
+        }
+
+        OutdoorGameView::HudLayoutElement rowLayout = *pLayout;
+        rowLayout.textColorAbgr = slotIndex == clampedSelectedIndex ? selectedRowColor : rowColor;
+        HudUiService::renderLayoutLabel(view, rowLayout, *resolved, label);
+    }
+
+    const OutdoorGameView::HudLayoutElement *pThumbLayout = HudUiService::findHudLayoutElement(view, pThumbId);
+    const std::optional<OutdoorGameView::ResolvedHudLayoutElement> baseThumbRect = resolveLayout(pThumbId);
+    const std::optional<OutdoorGameView::ResolvedHudLayoutElement> upButtonRect = resolveLayout(pScrollUpId);
+    const std::optional<OutdoorGameView::ResolvedHudLayoutElement> downButtonRect = resolveLayout(pScrollDownId);
+
+    if (pThumbLayout != nullptr && baseThumbRect && upButtonRect && downButtonRect)
+    {
+        const OutdoorGameView::HudTextureHandle *pTexture =
+            HudUiService::ensureHudTextureLoaded(const_cast<OutdoorGameView &>(view), pThumbLayout->primaryAsset);
+
+        if (pTexture != nullptr)
+        {
+            float thumbY = baseThumbRect->y;
+
+            if (slots.size() > SaveLoadVisibleSlotCount)
+            {
+                const float trackTop = upButtonRect->y + upButtonRect->height;
+                const float trackBottom = downButtonRect->y;
+                const float travel = std::max(0.0f, trackBottom - trackTop - baseThumbRect->height);
+                const float maxOffset = static_cast<float>(slots.size() - SaveLoadVisibleSlotCount);
+                const float t = maxOffset > 0.0f ? static_cast<float>(scrollOffset) / maxOffset : 0.0f;
+                thumbY = std::round(trackTop + travel * t);
+            }
+
+            view.submitHudTexturedQuad(
+                *pTexture,
+                baseThumbRect->x,
+                thumbY,
+                baseThumbRect->width,
+                baseThumbRect->height);
+        }
+    }
+}
+
+void GameplayPartyOverlayRenderer::renderSaveGameOverlay(const OutdoorGameView &view, int width, int height)
+{
+    if (!view.m_saveGameScreen.active
+        || !bgfx::isValid(view.m_texturedTerrainProgramHandle)
+        || !bgfx::isValid(view.m_terrainTextureSamplerHandle)
+        || width <= 0
+        || height <= 0)
+    {
+        return;
+    }
+
+    renderSaveLoadOverlay(
+        view,
+        width,
+        height,
+        "SaveGame",
+        "SaveGameRoot",
+        "SaveGameScrollThumb",
+        "SaveGameScrollUpButton",
+        "SaveGameScrollDownButton",
+        "SaveGamePreviewRect",
+        "SaveGameSelectedName",
+        "SaveGamePreviewLine1",
+        "SaveGamePreviewLine2",
+        "SaveGameSlotRow",
+        view.m_saveGameScreen.slots,
+        view.m_saveGameScreen.scrollOffset,
+        view.m_saveGameScreen.selectedIndex,
+        true);
+}
+
+void GameplayPartyOverlayRenderer::renderLoadGameOverlay(const OutdoorGameView &view, int width, int height)
+{
+    if (!view.m_loadGameScreen.active
+        || !bgfx::isValid(view.m_texturedTerrainProgramHandle)
+        || !bgfx::isValid(view.m_terrainTextureSamplerHandle)
+        || width <= 0
+        || height <= 0)
+    {
+        return;
+    }
+
+    renderSaveLoadOverlay(
+        view,
+        width,
+        height,
+        "LoadGame",
+        "LoadGameRoot",
+        "LoadGameScrollThumb",
+        "LoadGameScrollUpButton",
+        "LoadGameScrollDownButton",
+        "LoadGamePreviewRect",
+        "LoadGameSelectedName",
+        "LoadGamePreviewLine1",
+        "LoadGamePreviewLine2",
+        "LoadGameSlotRow",
+        view.m_loadGameScreen.slots,
+        view.m_loadGameScreen.scrollOffset,
+        view.m_loadGameScreen.selectedIndex,
+        true);
+}
+
 void GameplayPartyOverlayRenderer::renderJournalOverlay(const OutdoorGameView &view, int width, int height)
 {
     if (!view.m_journalScreen.active
@@ -2476,7 +2994,7 @@ void GameplayPartyOverlayRenderer::renderSpellbookOverlay(const OutdoorGameView 
     for (const SpellbookSchoolUiDefinition &definition : spellbookSchoolUiDefinitions())
     {
         if (!view.activeMemberHasSpellbookSchool(definition.school)
-            && !(definition.school == SpellbookSchool::Fire && !hasAnySpellbookSchool))
+            && !(definition.school == OutdoorGameView::SpellbookSchool::Fire && !hasAnySpellbookSchool))
         {
             continue;
         }

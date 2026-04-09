@@ -1,0 +1,311 @@
+screen: Journal
+
+elements:
+  - id: JournalRoot
+    anchor: center
+    width: 640
+    height: 480
+    z_index: 440
+    visible: true
+    scale:
+      min: 1.0
+      max: 3.0
+    children:
+      - id: JournalBackground
+        anchor: top_left
+        offset_x: 0
+        offset_y: 0
+        width: 640
+        height: 480
+        z_index: 0
+        asset:
+          default: IRBgrnd
+
+      - id: JournalQuestsTopLeftArt
+        anchor: top_left
+        offset_x: 0
+        offset_y: 0
+        width: 114
+        height: 78
+        z_index: 10
+        asset:
+          default: IRB-2
+
+      - id: JournalStoryTopLeftArt
+        anchor: top_left
+        offset_x: 0
+        offset_y: 0
+        width: 160
+        height: 64
+        z_index: 10
+        asset:
+          default: IRB-3
+
+      - id: JournalNotesTopLeftArt
+        anchor: top_left
+        offset_x: 0
+        offset_y: 0
+        width: 184
+        height: 64
+        z_index: 10
+        asset:
+          default: IRB-4
+
+      - id: JournalMainViewMap
+        anchor: top_left
+        offset_x: 560
+        offset_y: 25
+        width: 80
+        height: 80
+        z_index: 30
+        interactive: true
+        asset:
+          default: IRA-1_01
+          highlighted: IRA-1_01
+          pressed: IRA-1_01
+
+      - id: JournalMainViewQuests
+        anchor: top_left
+        offset_x: 560
+        offset_y: 124
+        width: 80
+        height: 80
+        z_index: 30
+        interactive: true
+        asset:
+          default: IRA-2_01
+          highlighted: IRA-2_01
+          pressed: IRA-2_01
+
+      - id: JournalMainViewStory
+        anchor: top_left
+        offset_x: 560
+        offset_y: 223
+        width: 80
+        height: 80
+        z_index: 30
+        interactive: true
+        asset:
+          default: IRA-3_01
+          highlighted: IRA-3_01
+          pressed: IRA-3_01
+
+      - id: JournalMainViewNotes
+        anchor: top_left
+        offset_x: 560
+        offset_y: 322
+        width: 80
+        height: 80
+        z_index: 30
+        interactive: true
+        asset:
+          default: IRA-4_01
+          highlighted: IRA-4_01
+          pressed: IRA-4_01
+
+      - id: JournalMapViewport
+        anchor: top_left
+        offset_x: 131
+        offset_y: 101
+        width: 300
+        height: 300
+        z_index: 15
+
+      - id: JournalMapTitleText
+        anchor: top_left
+        offset_x: 131
+        offset_y: 60
+        width: 300
+        height: 28
+        z_index: 20
+        text:
+          value: "{map_title}"
+          font: Book2
+          align_x: center
+          align_y: middle
+          scale: 1.0
+
+      - id: JournalMapCoordinatesText
+        anchor: top_left
+        offset_x: 131
+        offset_y: 415
+        width: 300
+        height: 20
+        z_index: 25
+        text:
+          value: "{coords}"
+          font: Create
+          align_x: center
+          align_y: top
+
+      - id: JournalMapZoomInButton
+        anchor: top_left
+        offset_x: 484
+        offset_y: 38
+        width: 62
+        height: 50
+        z_index: 30
+        interactive: true
+        asset:
+          default: IRT09r
+          highlighted: IRT09r
+          pressed: IRT09b
+
+      - id: JournalMapZoomOutButton
+        anchor: top_left
+        offset_x: 484
+        offset_y: 91
+        width: 73
+        height: 55
+        z_index: 30
+        interactive: true
+        asset:
+          default: IRT10r
+          highlighted: IRT10r
+          pressed: IRT10b
+
+      - id: JournalPrevPageButton
+        anchor: top_left
+        offset_x: 484
+        offset_y: 38
+        width: 61
+        height: 47
+        z_index: 30
+        interactive: true
+        asset:
+          default: IRT01r
+          highlighted: IRT01r
+          pressed: IRT01b
+
+      - id: JournalNextPageButton
+        anchor: top_left
+        offset_x: 484
+        offset_y: 91
+        width: 72
+        height: 54
+        z_index: 30
+        interactive: true
+        asset:
+          default: IRT02r
+          highlighted: IRT02r
+          pressed: IRT02b
+
+      - id: JournalTitleText
+        anchor: top_left
+        offset_x: 140
+        offset_y: 58
+        width: 278
+        height: 34
+        z_index: 20
+        text:
+          value: "{title}"
+          font: Book2
+          align_x: center
+          align_y: middle
+          scale: 1.0
+
+      - id: JournalTextViewport
+        anchor: top_left
+        offset_x: 101
+        offset_y: 92
+        width: 377
+        height: 293
+        z_index: 20
+        text:
+          value: "{body}"
+          font: AUTONOTE
+          color: "#000000"
+          align_x: left
+          align_y: top
+          scale: 0.9
+
+      - id: JournalNotesPotionButton
+        anchor: top_left
+        offset_x: 484
+        offset_y: 144
+        width: 77
+        height: 50
+        z_index: 30
+        interactive: true
+        asset:
+          default: IRT03r
+          highlighted: IRT03r
+          pressed: IRT03b
+
+      - id: JournalNotesFountainButton
+        anchor: top_left
+        offset_x: 484
+        offset_y: 191
+        width: 74
+        height: 50
+        z_index: 30
+        interactive: true
+        asset:
+          default: IRT04r
+          highlighted: IRT04r
+          pressed: IRT04b
+
+      - id: JournalNotesObeliskButton
+        anchor: top_left
+        offset_x: 484
+        offset_y: 240
+        width: 74
+        height: 49
+        z_index: 30
+        interactive: true
+        asset:
+          default: IRT05r
+          highlighted: IRT05r
+          pressed: IRT05b
+
+      - id: JournalNotesSeerButton
+        anchor: top_left
+        offset_x: 484
+        offset_y: 289
+        width: 71
+        height: 49
+        z_index: 30
+        interactive: true
+        asset:
+          default: IRT06r
+          highlighted: IRT06r
+          pressed: IRT06b
+
+      - id: JournalNotesMiscButton
+        anchor: top_left
+        offset_x: 484
+        offset_y: 338
+        width: 82
+        height: 48
+        z_index: 30
+        interactive: true
+        asset:
+          default: IRT07r
+          highlighted: IRT07r
+          pressed: IRT07b
+
+      - id: JournalNotesTrainerButton
+        anchor: top_left
+        offset_x: 484
+        offset_y: 384
+        width: 95
+        height: 49
+        z_index: 30
+        interactive: true
+        asset:
+          default: IRT08r
+          highlighted: IRT08r
+          pressed: IRT08b
+
+      - id: JournalCloseButton
+        anchor: bottom_right
+        offset_x: -2
+        offset_y: -5
+        width: 83
+        height: 30
+        z_index: 40
+        interactive: true
+        asset:
+          default: c_close_up
+          pressed: c_close_DN
+          highlighted: c_close_ht

@@ -1,0 +1,286 @@
+screen: SaveGame
+
+elements:
+  - id: SaveGameRoot
+    anchor: center
+    width: 640
+    height: 480
+    z_index: 440
+    visible: true
+    scale:
+      min: 1.0
+      max: 3.0
+    children:
+      - id: SaveGameBackground
+        anchor: top_left
+        offset_x: 0
+        offset_y: 0
+        width: 640
+        height: 480
+        z_index: 0
+        asset:
+          default: Lsave640
+
+      - id: SaveGameTitle
+        anchor: top_left
+        offset_x: 78
+        offset_y: 142
+        width: 221
+        height: 52
+        z_index: 10
+        asset:
+          default: bt_sageU
+
+      - id: SaveGameSelectedName
+        anchor: top_left
+        offset_x: 338
+        offset_y: 152
+        width: 236
+        height: 32
+        z_index: 10
+        text:
+          value: ""
+          font: Create
+          color: white
+          align_x: center
+          align_y: middle
+
+      - id: SaveGamePreviewRect
+        anchor: top_left
+        offset_x: 319
+        offset_y: 195
+        width: 272
+        height: 169
+        z_index: 5
+
+      - id: SaveGamePreviewLine1
+        anchor: top_left
+        offset_x: 392
+        offset_y: 311
+        width: 150
+        height: 18
+        z_index: 10
+        text:
+          value: ""
+          font: Create
+          color: white
+          align_x: center
+          align_y: middle
+
+      - id: SaveGamePreviewLine2
+        anchor: top_left
+        offset_x: 392
+        offset_y: 330
+        width: 150
+        height: 18
+        z_index: 10
+        text:
+          value: ""
+          font: Create
+          color: white
+          align_x: center
+          align_y: middle
+
+      - id: SaveGameSlotRow0
+        anchor: top_left
+        offset_x: 75
+        offset_y: 206
+        width: 205
+        height: 22
+        z_index: 10
+        interactive: true
+        text:
+          value: ""
+          font: Create
+          color: white
+          align_x: left
+          align_y: middle
+
+      - id: SaveGameSlotRow1
+        anchor: top_left
+        offset_x: 75
+        offset_y: 230
+        width: 205
+        height: 22
+        z_index: 10
+        interactive: true
+        text:
+          value: ""
+          font: Create
+          color: white
+          align_x: left
+          align_y: middle
+
+      - id: SaveGameSlotRow2
+        anchor: top_left
+        offset_x: 75
+        offset_y: 254
+        width: 205
+        height: 22
+        z_index: 10
+        interactive: true
+        text:
+          value: ""
+          font: Create
+          color: white
+          align_x: left
+          align_y: middle
+
+      - id: SaveGameSlotRow3
+        anchor: top_left
+        offset_x: 75
+        offset_y: 278
+        width: 205
+        height: 22
+        z_index: 10
+        interactive: true
+        text:
+          value: ""
+          font: Create
+          color: white
+          align_x: left
+          align_y: middle
+
+      - id: SaveGameSlotRow4
+        anchor: top_left
+        offset_x: 75
+        offset_y: 302
+        width: 205
+        height: 22
+        z_index: 10
+        interactive: true
+        text:
+          value: ""
+          font: Create
+          color: white
+          align_x: left
+          align_y: middle
+
+      - id: SaveGameSlotRow5
+        anchor: top_left
+        offset_x: 75
+        offset_y: 326
+        width: 205
+        height: 22
+        z_index: 10
+        interactive: true
+        text:
+          value: ""
+          font: Create
+          color: white
+          align_x: left
+          align_y: middle
+
+      - id: SaveGameSlotRow6
+        anchor: top_left
+        offset_x: 75
+        offset_y: 350
+        width: 205
+        height: 22
+        z_index: 10
+        interactive: true
+        text:
+          value: ""
+          font: Create
+          color: white
+          align_x: left
+          align_y: middle
+
+      - id: SaveGameSlotRow7
+        anchor: top_left
+        offset_x: 75
+        offset_y: 374
+        width: 205
+        height: 22
+        z_index: 10
+        interactive: true
+        text:
+          value: ""
+          font: Create
+          color: white
+          align_x: left
+          align_y: middle
+
+      - id: SaveGameSlotRow8
+        anchor: top_left
+        offset_x: 75
+        offset_y: 398
+        width: 205
+        height: 22
+        z_index: 10
+        interactive: true
+        text:
+          value: ""
+          font: Create
+          color: white
+          align_x: left
+          align_y: middle
+
+      - id: SaveGameSlotRow9
+        anchor: top_left
+        offset_x: 75
+        offset_y: 422
+        width: 205
+        height: 22
+        z_index: 10
+        interactive: true
+        text:
+          value: ""
+          font: Create
+          color: white
+          align_x: left
+          align_y: middle
+
+      - id: SaveGameScrollUpButton
+        anchor: top_left
+        offset_x: 285
+        offset_y: 206
+        width: 18
+        height: 16
+        z_index: 10
+        interactive: true
+
+      - id: SaveGameScrollThumb
+        anchor: top_left
+        offset_x: 282
+        offset_y: 226
+        width: 17
+        height: 17
+        z_index: 10
+        asset:
+          default: but_thum
+
+      - id: SaveGameScrollDownButton
+        anchor: top_left
+        offset_x: 285
+        offset_y: 420
+        width: 18
+        height: 16
+        z_index: 10
+        interactive: true
+
+      - id: SaveGameConfirmButton
+        anchor: top_left
+        offset_x: 347
+        offset_y: 381
+        width: 106
+        height: 37
+        z_index: 20
+        interactive: true
+        asset:
+          default: bt_saveU
+          highlighted: bt_saveH
+          pressed: bt_saveD
+
+      - id: SaveGameCancelButton
+        anchor: top_left
+        offset_x: 457
+        offset_y: 381
+        width: 106
+        height: 37
+        z_index: 20
+        interactive: true
+        asset:
+          default: bt_cnclU
+          highlighted: bt_cnclH
+          pressed: bt_cnclD

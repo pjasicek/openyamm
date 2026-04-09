@@ -162,6 +162,7 @@ add_executable(openyamm
     scene/OutdoorSceneRuntime.cpp
     app/main.cpp
     app/GameApplication.cpp
+    app/GameSettings.cpp
 )
 
 target_include_directories(openyamm

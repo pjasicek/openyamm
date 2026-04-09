@@ -31,7 +31,7 @@ elements:
         height: 146
         text:
           value: "{body}"
-          font: SMALLNUM
+          font: Create
           color: white
           align_x: left
           align_y: top
@@ -47,12 +47,16 @@ elements:
 
       - id: CharacterDetailCorner_UL
         anchor: top_left
+        width: 33
+        height: 32
         z_index: 580
         asset:
           default: cornr_UL
 
       - id: CharacterDetailCorner_LR
         anchor: bottom_right
+        width: 39
+        height: 38
         z_index: 580
         offset_x: 7
         offset_y: 7
@@ -61,6 +65,8 @@ elements:
 
       - id: CharacterDetailCorner_LL
         anchor: bottom_left
+        width: 33
+        height: 38
         z_index: 580
         offset_y: 7
         asset:

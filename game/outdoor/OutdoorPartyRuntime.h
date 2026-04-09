@@ -40,11 +40,15 @@ public:
     void toggleFlying();
     void toggleWaterWalk();
     void toggleFeatherFall();
+    void setRunning(bool active);
+    void setDebugFlyingOverride(bool active);
+    void setMovementSpeedMultiplier(float multiplier);
     void syncSpellMovementStatesFromPartyBuffs();
     void requestJump();
 
 private:
     OutdoorMovementDriver m_movementDriver;
     Party m_party;
+    bool m_debugFlyingOverride = false;
 };
 }

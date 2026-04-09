@@ -56,6 +56,7 @@ void OutdoorMovementDriver::initialize(float x, float y, float footZHint)
     m_hardLandingSoundConsequenceSeconds = 0.0f;
     m_waterDamageTimerSeconds = 0.0f;
     m_burningDamageTimerSeconds = 0.0f;
+    m_speedMultiplier = 1.0f;
 }
 
 void OutdoorMovementDriver::restoreState(
@@ -85,6 +86,7 @@ void OutdoorMovementDriver::restoreState(
     m_hardLandingSoundConsequenceSeconds = 0.0f;
     m_waterDamageTimerSeconds = 0.0f;
     m_burningDamageTimerSeconds = 0.0f;
+    m_speedMultiplier = 1.0f;
 }
 
 void OutdoorMovementDriver::update(const OutdoorMovementInput &input, float deltaSeconds)
@@ -94,6 +96,7 @@ void OutdoorMovementDriver::update(const OutdoorMovementInput &input, float delt
     m_pendingJumpPress = m_pendingJumpPress || jumpPressed;
     const float cosYaw = std::cos(input.yawRadians);
     const float sinYaw = std::sin(input.yawRadians);
+    const float speedMultiplier = std::max(m_speedMultiplier, 0.0f);
     const bx::Vec3 forward = {cosYaw, -sinYaw, 0.0f};
     const bx::Vec3 right = {sinYaw, cosYaw, 0.0f};
     float moveVelocityX = 0.0f;
@@ -103,26 +106,26 @@ void OutdoorMovementDriver::update(const OutdoorMovementInput &input, float delt
     {
         if (input.forward)
         {
-            moveVelocityX += forward.x * m_tuning.turboMoveSpeed;
-            moveVelocityY += forward.y * m_tuning.turboMoveSpeed;
+            moveVelocityX += forward.x * m_tuning.turboMoveSpeed * speedMultiplier;
+            moveVelocityY += forward.y * m_tuning.turboMoveSpeed * speedMultiplier;
         }
 
         if (input.backward)
         {
-            moveVelocityX -= forward.x * m_tuning.turboMoveSpeed;
-            moveVelocityY -= forward.y * m_tuning.turboMoveSpeed;
+            moveVelocityX -= forward.x * m_tuning.turboMoveSpeed * speedMultiplier;
+            moveVelocityY -= forward.y * m_tuning.turboMoveSpeed * speedMultiplier;
         }
 
         if (input.left)
         {
-            moveVelocityX -= right.x * m_tuning.turboMoveSpeed;
-            moveVelocityY -= right.y * m_tuning.turboMoveSpeed;
+            moveVelocityX -= right.x * m_tuning.turboMoveSpeed * speedMultiplier;
+            moveVelocityY -= right.y * m_tuning.turboMoveSpeed * speedMultiplier;
         }
 
         if (input.right)
         {
-            moveVelocityX += right.x * m_tuning.turboMoveSpeed;
-            moveVelocityY += right.y * m_tuning.turboMoveSpeed;
+            moveVelocityX += right.x * m_tuning.turboMoveSpeed * speedMultiplier;
+            moveVelocityY += right.y * m_tuning.turboMoveSpeed * speedMultiplier;
         }
     }
     else
@@ -131,26 +134,26 @@ void OutdoorMovementDriver::update(const OutdoorMovementInput &input, float delt
 
         if (input.left)
         {
-            moveVelocityX -= right.x * m_tuning.walkSpeed * m_tuning.strafeMultiplier;
-            moveVelocityY -= right.y * m_tuning.walkSpeed * m_tuning.strafeMultiplier;
+            moveVelocityX -= right.x * m_tuning.walkSpeed * m_tuning.strafeMultiplier * speedMultiplier;
+            moveVelocityY -= right.y * m_tuning.walkSpeed * m_tuning.strafeMultiplier * speedMultiplier;
         }
 
         if (input.right)
         {
-            moveVelocityX += right.x * m_tuning.walkSpeed * m_tuning.strafeMultiplier;
-            moveVelocityY += right.y * m_tuning.walkSpeed * m_tuning.strafeMultiplier;
+            moveVelocityX += right.x * m_tuning.walkSpeed * m_tuning.strafeMultiplier * speedMultiplier;
+            moveVelocityY += right.y * m_tuning.walkSpeed * m_tuning.strafeMultiplier * speedMultiplier;
         }
 
         if (input.forward)
         {
-            moveVelocityX += forward.x * m_tuning.walkSpeed * forwardSpeedMultiplier;
-            moveVelocityY += forward.y * m_tuning.walkSpeed * forwardSpeedMultiplier;
+            moveVelocityX += forward.x * m_tuning.walkSpeed * forwardSpeedMultiplier * speedMultiplier;
+            moveVelocityY += forward.y * m_tuning.walkSpeed * forwardSpeedMultiplier * speedMultiplier;
         }
 
         if (input.backward)
         {
-            moveVelocityX -= forward.x * m_tuning.walkSpeed * m_tuning.backwardWalkMultiplier;
-            moveVelocityY -= forward.y * m_tuning.walkSpeed * m_tuning.backwardWalkMultiplier;
+            moveVelocityX -= forward.x * m_tuning.walkSpeed * m_tuning.backwardWalkMultiplier * speedMultiplier;
+            moveVelocityY -= forward.y * m_tuning.walkSpeed * m_tuning.backwardWalkMultiplier * speedMultiplier;
         }
     }
 
@@ -184,8 +187,8 @@ void OutdoorMovementDriver::update(const OutdoorMovementInput &input, float delt
             input.flyDown,
             m_partyMovementState.flying,
             m_partyMovementState.waterWalk,
-            m_tuning.jumpVelocity,
-            m_tuning.flyVerticalSpeed,
+            m_tuning.jumpVelocity * speedMultiplier,
+            m_tuning.flyVerticalSpeed * speedMultiplier,
             OutdoorMovementStepSeconds,
             &contactedActorIndices
         );
@@ -406,6 +409,11 @@ void OutdoorMovementDriver::setFlying(bool active)
     }
 }
 
+void OutdoorMovementDriver::setRunning(bool active)
+{
+    m_partyMovementState.running = active;
+}
+
 void OutdoorMovementDriver::setWaterWalkActive(bool active)
 {
     m_partyMovementState.waterWalk = active;
@@ -420,6 +428,11 @@ void OutdoorMovementDriver::setFeatherFallActive(bool active)
         m_state.fallStartZ = m_state.footZ;
         m_state.fallDistance = 0.0f;
     }
+}
+
+void OutdoorMovementDriver::setSpeedMultiplier(float multiplier)
+{
+    m_speedMultiplier = std::clamp(multiplier, 0.1f, 20.0f);
 }
 
 void OutdoorMovementDriver::requestJump()

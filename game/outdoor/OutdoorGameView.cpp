@@ -1,5 +1,6 @@
 #include "game/outdoor/OutdoorGameView.h"
 
+#include "engine/BgfxContext.h"
 #include "game/gameplay/GenericActorDialog.h"
 #include "game/gameplay/GameMechanics.h"
 #include "game/gameplay/HouseInteraction.h"
@@ -18,6 +19,7 @@
 #include "game/outdoor/OutdoorRenderer.h"
 #include "game/outdoor/OutdoorWorldRuntime.h"
 #include "game/items/PriceCalculator.h"
+#include "game/maps/SaveGame.h"
 #include "game/scene/OutdoorSceneRuntime.h"
 #include "game/SpawnPreview.h"
 #include "game/ui/SpellbookUiLayout.h"
@@ -75,6 +77,7 @@ constexpr int JournalRevealHeight = 88;
 constexpr int JournalRevealBytesPerRow = 11;
 constexpr float JournalMapWorldHalfExtent = 32768.0f;
 constexpr uint64_t SpellFailSoundCooldownMs = 250;
+constexpr size_t SaveLoadVisibleSlotCount = 10;
 
 enum class HouseShopVerticalAlign
 {
@@ -99,6 +102,255 @@ struct HouseShopVisualLayout
     std::string backgroundAsset;
     std::vector<HouseShopSlotLayout> slots;
 };
+
+struct CivilTime
+{
+    int year = 1168;
+    int month = 1;
+    int day = 1;
+    int dayOfWeek = 1;
+    int hour24 = 9;
+    int hour12 = 9;
+    int minute = 0;
+    bool isPm = false;
+};
+
+CivilTime civilTimeFromGameMinutes(float gameMinutes)
+{
+    const int totalMinutes = std::max(0, static_cast<int>(std::floor(gameMinutes)));
+    const int totalDays = totalMinutes / (24 * 60);
+    CivilTime time = {};
+    time.year = 1168 + totalDays / (12 * 28);
+    time.month = 1 + (totalDays / 28) % 12;
+    time.day = 1 + totalDays % 28;
+    time.dayOfWeek = 1 + totalDays % 7;
+    time.hour24 = (totalMinutes / 60) % 24;
+    time.minute = totalMinutes % 60;
+    time.isPm = time.hour24 >= 12;
+    time.hour12 = time.hour24 % 12;
+
+    if (time.hour12 == 0)
+    {
+        time.hour12 = 12;
+    }
+
+    return time;
+}
+
+std::string weekdayName(int dayOfWeek)
+{
+    static const std::array<const char *, 7> names = {
+        "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"
+    };
+    return names[std::clamp(dayOfWeek, 1, 7) - 1];
+}
+
+std::string monthName(int month)
+{
+    static const std::array<const char *, 12> names = {
+        "January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+    };
+    return names[std::clamp(month, 1, 12) - 1];
+}
+
+std::string formatClock(const CivilTime &time)
+{
+    char buffer[32] = {};
+    std::snprintf(
+        buffer,
+        sizeof(buffer),
+        "%s %d:%02d%s",
+        weekdayName(time.dayOfWeek).c_str(),
+        time.hour12,
+        time.minute,
+        time.isPm ? "pm" : "am");
+    return buffer;
+}
+
+std::string formatDate(const CivilTime &time)
+{
+    char buffer[64] = {};
+    std::snprintf(buffer, sizeof(buffer), "%d %s %d", time.day, monthName(time.month).c_str(), time.year);
+    return buffer;
+}
+
+std::string friendlySaveFileLabel(const std::filesystem::path &path)
+{
+    const std::string stem = toLowerCopy(path.stem().string());
+
+    if (stem == "autosave")
+    {
+        return "Autosave";
+    }
+
+    if (stem == "quicksave")
+    {
+        return "Quicksave";
+    }
+
+    if (stem.rfind("save", 0) == 0 && stem.size() > 4)
+    {
+        const std::string suffix = stem.substr(4);
+        const bool allDigits = std::all_of(
+            suffix.begin(),
+            suffix.end(),
+            [](char c)
+            {
+                return std::isdigit(static_cast<unsigned char>(c)) != 0;
+            });
+
+        if (allDigits)
+        {
+            return "Save " + std::to_string(std::max(1, std::stoi(suffix)));
+        }
+    }
+
+    std::string label = path.stem().string();
+
+    if (!label.empty())
+    {
+        label[0] = static_cast<char>(std::toupper(static_cast<unsigned char>(label[0])));
+    }
+
+    return label;
+}
+
+bool decodeBmpBytesToBgra(
+    const std::vector<uint8_t> &bmpBytes,
+    int &width,
+    int &height,
+    std::vector<uint8_t> &pixels)
+{
+    SDL_IOStream *pIoStream = SDL_IOFromConstMem(bmpBytes.data(), bmpBytes.size());
+
+    if (pIoStream == nullptr)
+    {
+        return false;
+    }
+
+    SDL_Surface *pLoadedSurface = SDL_LoadBMP_IO(pIoStream, true);
+
+    if (pLoadedSurface == nullptr)
+    {
+        return false;
+    }
+
+    SDL_Surface *pConvertedSurface = SDL_ConvertSurface(pLoadedSurface, SDL_PIXELFORMAT_BGRA32);
+    SDL_DestroySurface(pLoadedSurface);
+
+    if (pConvertedSurface == nullptr)
+    {
+        return false;
+    }
+
+    width = pConvertedSurface->w;
+    height = pConvertedSurface->h;
+    const size_t pixelCount = static_cast<size_t>(width) * static_cast<size_t>(height) * 4;
+    pixels.resize(pixelCount);
+    std::memcpy(pixels.data(), pConvertedSurface->pixels, pixelCount);
+    SDL_DestroySurface(pConvertedSurface);
+    return true;
+}
+
+std::vector<uint8_t> encodeBgraToBmp(int width, int height, const std::vector<uint8_t> &pixels)
+{
+    if (width <= 0
+        || height <= 0
+        || pixels.size() != static_cast<size_t>(width) * static_cast<size_t>(height) * 4)
+    {
+        return {};
+    }
+
+    const uint32_t pixelBytes = static_cast<uint32_t>(pixels.size());
+    const uint32_t fileSize = 54u + pixelBytes;
+    std::vector<uint8_t> bmp(fileSize, 0);
+    bmp[0] = 'B';
+    bmp[1] = 'M';
+
+    const auto writeU32 = [&bmp](size_t offset, uint32_t value)
+    {
+        bmp[offset + 0] = static_cast<uint8_t>(value & 0xffu);
+        bmp[offset + 1] = static_cast<uint8_t>((value >> 8) & 0xffu);
+        bmp[offset + 2] = static_cast<uint8_t>((value >> 16) & 0xffu);
+        bmp[offset + 3] = static_cast<uint8_t>((value >> 24) & 0xffu);
+    };
+    const auto writeU16 = [&bmp](size_t offset, uint16_t value)
+    {
+        bmp[offset + 0] = static_cast<uint8_t>(value & 0xffu);
+        bmp[offset + 1] = static_cast<uint8_t>((value >> 8) & 0xffu);
+    };
+
+    writeU32(2, fileSize);
+    writeU32(10, 54);
+    writeU32(14, 40);
+    writeU32(18, static_cast<uint32_t>(width));
+    writeU32(22, static_cast<uint32_t>(-height));
+    writeU16(26, 1);
+    writeU16(28, 32);
+    writeU32(34, pixelBytes);
+    writeU32(38, 2835);
+    writeU32(42, 2835);
+
+    std::memcpy(bmp.data() + 54, pixels.data(), pixels.size());
+    return bmp;
+}
+
+std::vector<uint8_t> cropAndScaleBgraPreview(
+    const std::vector<uint8_t> &sourcePixels,
+    int sourceWidth,
+    int sourceHeight,
+    int targetWidth,
+    int targetHeight)
+{
+    if (sourceWidth <= 0
+        || sourceHeight <= 0
+        || targetWidth <= 0
+        || targetHeight <= 0
+        || sourcePixels.size() != static_cast<size_t>(sourceWidth) * static_cast<size_t>(sourceHeight) * 4)
+    {
+        return {};
+    }
+
+    int cropX = 0;
+    int cropY = 0;
+    int cropWidth = sourceWidth;
+    int cropHeight = sourceHeight;
+
+    if (sourceWidth * 3 > sourceHeight * 4)
+    {
+        cropWidth = (sourceHeight * 4) / 3;
+        cropX = (sourceWidth - cropWidth) / 2;
+    }
+    else if (sourceWidth * 3 < sourceHeight * 4)
+    {
+        cropHeight = (sourceWidth * 3) / 4;
+        cropY = (sourceHeight - cropHeight) / 2;
+    }
+
+    std::vector<uint8_t> scaledPixels(static_cast<size_t>(targetWidth) * static_cast<size_t>(targetHeight) * 4, 0);
+
+    for (int y = 0; y < targetHeight; ++y)
+    {
+        const int sourceY = cropY + (y * cropHeight) / targetHeight;
+
+        for (int x = 0; x < targetWidth; ++x)
+        {
+            const int sourceX = cropX + (x * cropWidth) / targetWidth;
+            const size_t sourceIndex =
+                (static_cast<size_t>(sourceY) * sourceWidth + static_cast<size_t>(sourceX)) * 4;
+            const size_t targetIndex =
+                (static_cast<size_t>(y) * targetWidth + static_cast<size_t>(x)) * 4;
+
+            scaledPixels[targetIndex + 0] = sourcePixels[sourceIndex + 0];
+            scaledPixels[targetIndex + 1] = sourcePixels[sourceIndex + 1];
+            scaledPixels[targetIndex + 2] = sourcePixels[sourceIndex + 2];
+            scaledPixels[targetIndex + 3] = sourcePixels[sourceIndex + 3];
+        }
+    }
+
+    return scaledPixels;
+}
 
 void ensureJournalRevealMaskSize(std::vector<uint8_t> &bytes)
 {
@@ -3462,7 +3714,14 @@ OutdoorGameView::OutdoorGameView()
     , m_pendingSpellTargetClickLatch(false)
     , m_restToggleLatch(false)
     , m_restClickLatch(false)
+    , m_optionsButtonClickLatch(false)
     , m_booksButtonClickLatch(false)
+    , m_menuToggleLatch(false)
+    , m_menuClickLatch(false)
+    , m_saveGameToggleLatch(false)
+    , m_saveGameClickLatch(false)
+    , m_loadGameToggleLatch(false)
+    , m_loadGameClickLatch(false)
     , m_journalToggleLatch(false)
     , m_journalClickLatch(false)
     , m_inventoryScreenToggleLatch(false)
@@ -3498,13 +3757,20 @@ OutdoorGameView::OutdoorGameView()
     , m_readableScrollOverlay(m_gameplayUiController.readableScrollOverlay())
     , m_spellbook(m_gameplayUiController.spellbook())
     , m_restScreen(m_gameplayUiController.restScreen())
+    , m_menuScreen(m_gameplayUiController.menuScreen())
+    , m_saveGameScreen(m_gameplayUiController.saveGameScreen())
+    , m_loadGameScreen(m_gameplayUiController.loadGameScreen())
     , m_journalScreen(m_gameplayUiController.journalScreen())
     , m_inventoryNestedOverlay(m_gameplayUiController.inventoryNestedOverlay())
     , m_houseShopOverlay(m_gameplayUiController.houseShopOverlay())
     , m_houseBankState(m_gameplayUiController.houseBankState())
     , m_spellbookPressedTarget({})
     , m_restPressedTarget({})
+    , m_optionsButtonPressed(false)
     , m_booksButtonPressed(false)
+    , m_menuPressedTarget({})
+    , m_saveGamePressedTarget({})
+    , m_loadGamePressedTarget({})
     , m_journalPressedTarget({})
     , m_lastSpellbookSpellClickTicks(0)
     , m_lastSpellbookClickedSpellId(0)
@@ -3615,7 +3881,14 @@ bool OutdoorGameView::initialize(
     const std::optional<EvtProgram> &localEvtProgram,
     const std::optional<EvtProgram> &globalEvtProgram,
     GameAudioSystem *pGameAudioSystem,
-    OutdoorSceneRuntime &sceneRuntime
+    OutdoorSceneRuntime &sceneRuntime,
+    const std::vector<MapStatsEntry> &mapEntries,
+    std::function<bool(
+        const std::filesystem::path &,
+        const std::string &,
+        const std::vector<uint8_t> &,
+        std::string &)> saveGameToPathCallback,
+    std::function<bool(const std::filesystem::path &, std::string &)> loadGameFromPathCallback
 )
 {
     shutdown();
@@ -3624,6 +3897,7 @@ bool OutdoorGameView::initialize(
     m_pAssetFileSystem = &assetFileSystem;
     m_houseVideoPlayer.initialize();
     m_map = map;
+    m_mapEntries = mapEntries;
     m_monsterTable = monsterTable;
     m_outdoorMapData = outdoorMapData;
     m_outdoorDecorationBillboardSet = outdoorDecorationBillboardSet;
@@ -3655,6 +3929,8 @@ bool OutdoorGameView::initialize(
     m_pOutdoorSceneRuntime = &sceneRuntime;
     m_pOutdoorPartyRuntime = &sceneRuntime.partyRuntime();
     m_pOutdoorWorldRuntime = &sceneRuntime.worldRuntime();
+    m_saveGameToPathCallback = std::move(saveGameToPathCallback);
+    m_loadGameFromPathCallback = std::move(loadGameFromPathCallback);
     m_portraitSpellFxStates.assign(5, {});
 
     if (!loadPortraitAnimationData(assetFileSystem))
@@ -3803,6 +4079,49 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
         m_elapsedTime += deltaSeconds;
     }
 
+    if (m_pendingSavePreviewCapture.active
+        && m_pendingSavePreviewCapture.screenshotRequested
+        && m_saveGameToPathCallback)
+    {
+        const std::optional<Engine::BgfxContext::ScreenshotCapture> screenshot =
+            Engine::BgfxContext::consumeScreenshot(m_pendingSavePreviewCapture.requestId);
+
+        if (screenshot)
+        {
+            const std::vector<uint8_t> previewPixels =
+                cropAndScaleBgraPreview(
+                    screenshot->bgraPixels,
+                    static_cast<int>(screenshot->width),
+                    static_cast<int>(screenshot->height),
+                    410,
+                    253);
+            const std::vector<uint8_t> previewBmp = encodeBgraToBmp(410, 253, previewPixels);
+            std::string error;
+
+            if (!previewBmp.empty()
+                && m_saveGameToPathCallback(
+                    m_pendingSavePreviewCapture.savePath,
+                    m_pendingSavePreviewCapture.saveName,
+                    previewBmp,
+                    error))
+            {
+                refreshSaveGameSlots();
+
+                if (m_pendingSavePreviewCapture.closeUiOnSuccess)
+                {
+                    m_saveGameScreen = {};
+                    closeMenu();
+                }
+            }
+
+            m_pendingSavePreviewCapture = {};
+        }
+        else if (SDL_GetTicks() - m_pendingSavePreviewCapture.startedTicks > 3000u)
+        {
+            m_pendingSavePreviewCapture = {};
+        }
+    }
+
     const uint64_t renderStartTickCount = SDL_GetTicksNS();
     uint64_t cameraStageNanoseconds = 0;
     uint64_t inspectStageNanoseconds = 0;
@@ -3823,6 +4142,8 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
     const float farClipDistance = pAtmosphereState != nullptr
         ? std::clamp(pAtmosphereState->visibilityDistance, 4096.0f, DefaultOutdoorFarClip)
         : DefaultOutdoorFarClip;
+    const bool captureSavePreviewThisFrame =
+        m_pendingSavePreviewCapture.active && !m_pendingSavePreviewCapture.screenshotRequested;
 
     bgfx::setViewRect(SkyViewId, 0, 0, viewWidth, viewHeight);
     bgfx::setViewClear(SkyViewId, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, clearColorAbgr, 1.0f, 0);
@@ -3868,6 +4189,9 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
     m_renderedInspectableHudState = currentHudScreenState();
 
     const bool wasRestScreenActiveBeforeInput = m_restScreen.active;
+    const bool wasMenuActiveBeforeInput = m_menuScreen.active;
+    const bool wasSaveGameScreenActiveBeforeInput = m_saveGameScreen.active;
+    const bool wasLoadGameScreenActiveBeforeInput = m_loadGameScreen.active;
     const bool wasJournalActiveBeforeInput = m_journalScreen.active;
 
     if (m_journalScreen.active && m_journalScreen.view == JournalView::Map)
@@ -3933,6 +4257,9 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
     const bool isCharacterScreenActive = m_characterScreenOpen;
     const bool isSpellbookActive = m_spellbook.active;
     const bool isRestScreenInteractionFrame = wasRestScreenActiveBeforeInput || m_restScreen.active;
+    const bool isMenuInteractionFrame = wasMenuActiveBeforeInput || m_menuScreen.active;
+    const bool isSaveGameInteractionFrame = wasSaveGameScreenActiveBeforeInput || m_saveGameScreen.active;
+    const bool isLoadGameInteractionFrame = wasLoadGameScreenActiveBeforeInput || m_loadGameScreen.active;
     const bool isJournalInteractionFrame = wasJournalActiveBeforeInput || m_journalScreen.active;
 
     const float wireframeAspectRatio = static_cast<float>(viewWidth) / static_cast<float>(viewHeight);
@@ -4008,6 +4335,9 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
             && !isCharacterScreenActive
             && !isSpellbookActive
             && !isRestScreenInteractionFrame
+            && !isMenuInteractionFrame
+            && !isSaveGameInteractionFrame
+            && !isLoadGameInteractionFrame
             && !isJournalInteractionFrame)
         {
             if (m_pendingSpellCast.active)
@@ -4171,6 +4501,9 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
             && !isCharacterScreenActive
             && !isSpellbookActive
             && !isRestScreenInteractionFrame
+            && !isMenuInteractionFrame
+            && !isSaveGameInteractionFrame
+            && !isLoadGameInteractionFrame
             && !isJournalInteractionFrame)
         {
             const SDL_MouseButtonFlags mouseButtons = SDL_GetMouseState(&mouseX, &mouseY);
@@ -4262,6 +4595,9 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
                  && !isCharacterScreenActive
                  && !isSpellbookActive
                  && !isRestScreenInteractionFrame
+                 && !isMenuInteractionFrame
+                 && !isSaveGameInteractionFrame
+                 && !isLoadGameInteractionFrame
                  && !isJournalInteractionFrame)
         {
             SDL_GetMouseState(&mouseX, &mouseY);
@@ -4799,7 +5135,7 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
                             attack.mode == CharacterAttackMode::Melee && !targetInMeleeRange
                                 ? std::string()
                                 : (pTargetActor != nullptr ? interactionInspectHit.name : std::string());
-                        setStatusBarEvent(
+                        showCombatStatusBarEvent(
                             formatPartyAttackStatusText(
                                 pAttacker->name,
                                 attackTargetName,
@@ -4873,6 +5209,13 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
     spriteStageNanoseconds += worldPassTimings.spriteNanoseconds;
     spawnStageNanoseconds += worldPassTimings.spawnNanoseconds;
 
+    if (captureSavePreviewThisFrame)
+    {
+        bgfx::requestScreenShot(BGFX_INVALID_HANDLE, m_pendingSavePreviewCapture.requestId.c_str());
+        m_pendingSavePreviewCapture.screenshotRequested = true;
+    }
+
+    if (!captureSavePreviewThisFrame)
     {
         const uint64_t stageStartTickCount = SDL_GetTicksNS();
         bgfx::dbgTextClear();
@@ -5444,6 +5787,7 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
         debugTextStageNanoseconds += SDL_GetTicksNS() - stageStartTickCount;
     }
 
+    if (!captureSavePreviewThisFrame)
     {
         const uint64_t stageStartTickCount = SDL_GetTicksNS();
         const bool deferDialogueInventoryServiceOverlay =
@@ -5473,6 +5817,9 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
             }
             renderSpellbookOverlay(width, height);
             renderRestOverlay(width, height);
+            renderMenuOverlay(width, height);
+            renderSaveGameOverlay(width, height);
+            renderLoadGameOverlay(width, height);
             renderJournalOverlay(width, height);
             renderHeldInventoryItem(width, height);
             renderItemInspectOverlay(width, height);
@@ -6379,7 +6726,14 @@ void OutdoorGameView::updateItemInspectOverlayState(int width, int height)
 {
     m_itemInspectOverlay = {};
 
-    if (width <= 0 || height <= 0 || m_pItemTable == nullptr || m_pendingSpellCast.active || m_spellbook.active)
+    if (width <= 0
+        || height <= 0
+        || m_pItemTable == nullptr
+        || m_pendingSpellCast.active
+        || m_spellbook.active
+        || m_menuScreen.active
+        || m_saveGameScreen.active
+        || m_loadGameScreen.active)
     {
         return;
     }
@@ -7199,7 +7553,10 @@ void OutdoorGameView::updateBuffInspectOverlayState(int width, int height)
         || currentHudScreenState() != HudScreenState::Gameplay
         || m_characterScreenOpen
         || hasActiveEventDialog()
-        || m_spellbook.active)
+        || m_spellbook.active
+        || m_menuScreen.active
+        || m_saveGameScreen.active
+        || m_loadGameScreen.active)
     {
         return;
     }
@@ -7369,7 +7726,10 @@ void OutdoorGameView::updateCharacterDetailOverlayState(int width, int height)
         || m_buffInspectOverlay.active
         || m_spellInspectOverlay.active
         || hasActiveEventDialog()
-        || m_spellbook.active)
+        || m_spellbook.active
+        || m_menuScreen.active
+        || m_saveGameScreen.active
+        || m_loadGameScreen.active)
     {
         return;
     }
@@ -7788,6 +8148,21 @@ OutdoorGameView::HudScreenState OutdoorGameView::currentHudScreenState() const
         return HudScreenState::Rest;
     }
 
+    if (m_menuScreen.active)
+    {
+        return HudScreenState::Menu;
+    }
+
+    if (m_saveGameScreen.active)
+    {
+        return HudScreenState::SaveGame;
+    }
+
+    if (m_loadGameScreen.active)
+    {
+        return HudScreenState::LoadGame;
+    }
+
     if (m_characterScreenOpen)
     {
         return HudScreenState::Character;
@@ -7810,6 +8185,7 @@ OutdoorGameView::HudScreenState OutdoorGameView::currentHudScreenState() const
 void OutdoorGameView::openSpellbook()
 {
     m_gameplayUiController.openSpellbook();
+    closeMenu();
     m_spellbookToggleLatch = false;
     m_spellbookClickLatch = false;
     m_spellbookPressedTarget = {};
@@ -7896,6 +8272,7 @@ void OutdoorGameView::openRestScreen()
     }
 
     closeSpellbook();
+    closeMenu();
     closeReadableScrollOverlay();
     closeInventoryNestedOverlay();
     m_characterScreenOpen = false;
@@ -7918,9 +8295,331 @@ void OutdoorGameView::closeRestScreen()
     clearWorldInteractionInputLatches();
 }
 
+void OutdoorGameView::openMenu()
+{
+    closeSpellbook();
+    closeReadableScrollOverlay();
+    closeInventoryNestedOverlay();
+    m_characterScreenOpen = false;
+    m_characterDollJewelryOverlayOpen = false;
+    m_adventurersInnRosterOverlayOpen = false;
+    m_restScreen = {};
+    m_saveGameScreen = {};
+    m_loadGameScreen = {};
+    m_journalScreen.active = false;
+    m_menuScreen = {};
+    m_menuScreen.active = true;
+    m_optionsButtonClickLatch = false;
+    m_optionsButtonPressed = false;
+    m_menuToggleLatch = false;
+    m_menuClickLatch = false;
+    m_menuPressedTarget = {};
+    m_saveGameToggleLatch = false;
+    m_saveGameClickLatch = false;
+    m_saveGamePressedTarget = {};
+    m_loadGameToggleLatch = false;
+    m_loadGameClickLatch = false;
+    m_loadGamePressedTarget = {};
+    m_closeOverlayLatch = false;
+    clearWorldInteractionInputLatches();
+}
+
+void OutdoorGameView::closeMenu()
+{
+    m_menuScreen = {};
+    m_optionsButtonClickLatch = false;
+    m_optionsButtonPressed = false;
+    m_menuToggleLatch = false;
+    m_menuClickLatch = false;
+    m_menuPressedTarget = {};
+    m_closeOverlayLatch = false;
+    clearWorldInteractionInputLatches();
+}
+
+void OutdoorGameView::openSaveGameScreen()
+{
+    m_menuScreen.active = false;
+    m_menuToggleLatch = false;
+    m_menuClickLatch = false;
+    m_menuPressedTarget = {};
+    m_loadGameScreen = {};
+    m_saveGameScreen = {};
+    m_saveGameScreen.active = true;
+    refreshSaveGameSlots();
+    m_saveGameToggleLatch = false;
+    m_saveGameClickLatch = false;
+    m_saveGamePressedTarget = {};
+    clearWorldInteractionInputLatches();
+}
+
+void OutdoorGameView::closeSaveGameScreen()
+{
+    m_saveGameScreen = {};
+    m_saveGameToggleLatch = false;
+    m_saveGameClickLatch = false;
+    m_saveGamePressedTarget = {};
+    m_menuScreen = {};
+    m_menuScreen.active = true;
+    clearWorldInteractionInputLatches();
+}
+
+void OutdoorGameView::openLoadGameScreen()
+{
+    m_menuScreen.active = false;
+    m_menuToggleLatch = false;
+    m_menuClickLatch = false;
+    m_menuPressedTarget = {};
+    m_saveGameScreen = {};
+    m_loadGameScreen = {};
+    m_loadGameScreen.active = true;
+    refreshLoadGameSlots();
+    m_loadGameToggleLatch = false;
+    m_loadGameClickLatch = false;
+    m_loadGamePressedTarget = {};
+    clearWorldInteractionInputLatches();
+}
+
+void OutdoorGameView::closeLoadGameScreen()
+{
+    m_loadGameScreen = {};
+    m_loadGameToggleLatch = false;
+    m_loadGameClickLatch = false;
+    m_loadGamePressedTarget = {};
+    m_menuScreen = {};
+    m_menuScreen.active = true;
+    clearWorldInteractionInputLatches();
+}
+
+void OutdoorGameView::refreshSaveGameSlots()
+{
+    m_saveGameScreen.slots.clear();
+    std::filesystem::create_directories("saves");
+
+    for (size_t index = 0; index < SaveLoadVisibleSlotCount; ++index)
+    {
+        SaveSlotSummary slot = {};
+        slot.path = std::filesystem::path("saves") / ("save" + std::to_string(index + 1) + ".oysav");
+
+        if (std::filesystem::exists(slot.path))
+        {
+            std::string error;
+            const std::optional<GameSaveData> saveData = loadGameDataFromPath(slot.path, error);
+
+            if (saveData)
+            {
+                slot.populated = true;
+                slot.fileLabel =
+                    !saveData->saveName.empty()
+                        ? saveData->saveName
+                        : friendlySaveFileLabel(slot.path);
+                slot.locationName = resolveSaveLocationName(saveData->mapFileName);
+                const CivilTime civilTime = civilTimeFromGameMinutes(saveData->savedGameMinutes);
+                slot.weekdayClockText = formatClock(civilTime);
+                slot.dateText = formatDate(civilTime);
+
+                if (!saveData->previewBmp.empty())
+                {
+                    decodeBmpBytesToBgra(
+                        saveData->previewBmp,
+                        slot.previewWidth,
+                        slot.previewHeight,
+                        slot.previewPixelsBgra);
+                }
+            }
+        }
+
+        if (slot.fileLabel.empty())
+        {
+            slot.fileLabel = "Empty";
+        }
+
+        m_saveGameScreen.slots.push_back(std::move(slot));
+    }
+
+    if (m_saveGameScreen.selectedIndex >= m_saveGameScreen.slots.size())
+    {
+        m_saveGameScreen.selectedIndex = 0;
+    }
+
+    m_saveGameScreen.scrollOffset = 0;
+    m_saveGameScreen.editActive = false;
+    m_saveGameScreen.editSlotIndex = 0;
+    m_saveGameScreen.editBuffer.clear();
+}
+
+void OutdoorGameView::refreshLoadGameSlots()
+{
+    m_loadGameScreen.slots.clear();
+    std::filesystem::create_directories("saves");
+
+    for (const std::filesystem::directory_entry &entry : std::filesystem::directory_iterator("saves"))
+    {
+        if (!entry.is_regular_file() || toLowerCopy(entry.path().extension().string()) != ".oysav")
+        {
+            continue;
+        }
+
+        std::string error;
+        const std::optional<GameSaveData> saveData = loadGameDataFromPath(entry.path(), error);
+
+        if (!saveData)
+        {
+            continue;
+        }
+
+        SaveSlotSummary slot = {};
+        slot.path = entry.path();
+        slot.fileLabel = !saveData->saveName.empty() ? saveData->saveName : friendlySaveFileLabel(entry.path());
+        slot.locationName = resolveSaveLocationName(saveData->mapFileName);
+        slot.populated = true;
+        const CivilTime civilTime = civilTimeFromGameMinutes(saveData->savedGameMinutes);
+        slot.weekdayClockText = formatClock(civilTime);
+        slot.dateText = formatDate(civilTime);
+
+        if (!saveData->previewBmp.empty())
+        {
+            decodeBmpBytesToBgra(
+                saveData->previewBmp,
+                slot.previewWidth,
+                slot.previewHeight,
+                slot.previewPixelsBgra);
+        }
+
+        m_loadGameScreen.slots.push_back(std::move(slot));
+    }
+
+    std::sort(
+        m_loadGameScreen.slots.begin(),
+        m_loadGameScreen.slots.end(),
+        [](const SaveSlotSummary &left, const SaveSlotSummary &right)
+        {
+            const std::string leftLabel = toLowerCopy(left.fileLabel);
+            const std::string rightLabel = toLowerCopy(right.fileLabel);
+
+            if (leftLabel == rightLabel)
+            {
+                return left.path.filename().string() < right.path.filename().string();
+            }
+
+            if (leftLabel == "autosave")
+            {
+                return true;
+            }
+
+            if (rightLabel == "autosave")
+            {
+                return false;
+            }
+
+            if (leftLabel == "quicksave")
+            {
+                return true;
+            }
+
+            if (rightLabel == "quicksave")
+            {
+                return false;
+            }
+
+            return left.path.filename().string() < right.path.filename().string();
+        });
+
+    if (m_loadGameScreen.selectedIndex >= m_loadGameScreen.slots.size())
+    {
+        m_loadGameScreen.selectedIndex = 0;
+    }
+
+    m_loadGameScreen.scrollOffset = 0;
+}
+
+std::string OutdoorGameView::resolveSaveLocationName(const std::string &mapFileName) const
+{
+    for (const MapStatsEntry &entry : m_mapEntries)
+    {
+        if (toLowerCopy(entry.fileName) == toLowerCopy(mapFileName))
+        {
+            return entry.name;
+        }
+    }
+
+    return mapFileName;
+}
+
+bool OutdoorGameView::trySaveToSelectedGameSlot()
+{
+    if (!m_saveGameScreen.active
+        || m_saveGameScreen.slots.empty()
+        || m_saveGameScreen.selectedIndex >= m_saveGameScreen.slots.size()
+        || !m_saveGameToPathCallback)
+    {
+        return false;
+    }
+
+    std::string saveName;
+
+    if (m_saveGameScreen.editActive)
+    {
+        saveName = m_saveGameScreen.editBuffer;
+    }
+    else
+    {
+        const SaveSlotSummary &slot = m_saveGameScreen.slots[m_saveGameScreen.selectedIndex];
+        saveName = slot.fileLabel == "Empty" ? std::string() : slot.fileLabel;
+    }
+
+    if (saveName.empty())
+    {
+        saveName = m_map.has_value() ? m_map->name : "Save Game";
+    }
+
+    return beginSaveWithPreview(m_saveGameScreen.slots[m_saveGameScreen.selectedIndex].path, saveName, true);
+}
+
+bool OutdoorGameView::requestQuickSave()
+{
+    return beginSaveWithPreview(std::filesystem::path("saves") / "quicksave.oysav", "", false);
+}
+
+bool OutdoorGameView::beginSaveWithPreview(
+    const std::filesystem::path &path,
+    const std::string &saveName,
+    bool closeUiOnSuccess)
+{
+    if (!m_saveGameToPathCallback)
+    {
+        return false;
+    }
+
+    m_pendingSavePreviewCapture = {};
+    m_pendingSavePreviewCapture.active = true;
+    m_pendingSavePreviewCapture.screenshotRequested = false;
+    m_pendingSavePreviewCapture.savePath = path;
+    m_pendingSavePreviewCapture.requestId =
+        "save_preview_" + std::to_string(SDL_GetTicks()) + "_" + std::to_string(path.generic_string().size());
+    m_pendingSavePreviewCapture.saveName = saveName;
+    m_pendingSavePreviewCapture.closeUiOnSuccess = closeUiOnSuccess;
+    m_pendingSavePreviewCapture.startedTicks = SDL_GetTicks();
+    return true;
+}
+
+bool OutdoorGameView::tryLoadFromSelectedGameSlot()
+{
+    if (!m_loadGameScreen.active
+        || m_loadGameScreen.slots.empty()
+        || m_loadGameScreen.selectedIndex >= m_loadGameScreen.slots.size()
+        || !m_loadGameFromPathCallback)
+    {
+        return false;
+    }
+
+    std::string error;
+    return m_loadGameFromPathCallback(m_loadGameScreen.slots[m_loadGameScreen.selectedIndex].path, error);
+}
+
 void OutdoorGameView::openJournal()
 {
     closeSpellbook();
+    closeMenu();
     closeReadableScrollOverlay();
     closeInventoryNestedOverlay();
     m_characterScreenOpen = false;
@@ -8283,7 +8982,13 @@ bool OutdoorGameView::tryBeginQuickSpellCast()
         return false;
     }
 
-    if (m_heldInventoryItem.active || m_characterScreenOpen || m_spellbook.active || hasActiveEventDialog()
+    if (m_heldInventoryItem.active
+        || m_characterScreenOpen
+        || m_spellbook.active
+        || m_menuScreen.active
+        || m_saveGameScreen.active
+        || m_loadGameScreen.active
+        || hasActiveEventDialog()
         || m_pOutdoorWorldRuntime->activeChestView() != nullptr
         || m_pOutdoorWorldRuntime->activeCorpseView() != nullptr)
     {
@@ -9339,6 +10044,21 @@ void OutdoorGameView::renderRestOverlay(int width, int height) const
     GameplayPartyOverlayRenderer::renderRestOverlay(*this, width, height);
 }
 
+void OutdoorGameView::renderMenuOverlay(int width, int height) const
+{
+    GameplayPartyOverlayRenderer::renderMenuOverlay(*this, width, height);
+}
+
+void OutdoorGameView::renderSaveGameOverlay(int width, int height) const
+{
+    GameplayPartyOverlayRenderer::renderSaveGameOverlay(*this, width, height);
+}
+
+void OutdoorGameView::renderLoadGameOverlay(int width, int height) const
+{
+    GameplayPartyOverlayRenderer::renderLoadGameOverlay(*this, width, height);
+}
+
 void OutdoorGameView::renderJournalOverlay(int width, int height) const
 {
     GameplayPartyOverlayRenderer::renderJournalOverlay(*this, width, height);
@@ -9347,6 +10067,36 @@ void OutdoorGameView::renderJournalOverlay(int width, int height) const
 void OutdoorGameView::showStatusBarEvent(const std::string &text, float durationSeconds)
 {
     setStatusBarEvent(text, durationSeconds);
+}
+
+void OutdoorGameView::showCombatStatusBarEvent(const std::string &text, float durationSeconds)
+{
+    if (!m_showHitStatusMessages)
+    {
+        return;
+    }
+
+    setStatusBarEvent(text, durationSeconds);
+}
+
+void OutdoorGameView::setMouseRotateSpeed(float speed)
+{
+    m_mouseRotateSpeed = std::clamp(speed, 0.0005f, 0.05f);
+}
+
+void OutdoorGameView::setWalkSoundEnabled(bool active)
+{
+    m_walkSoundEnabled = active;
+}
+
+void OutdoorGameView::setShowHitStatusMessages(bool active)
+{
+    m_showHitStatusMessages = active;
+}
+
+void OutdoorGameView::setFlipOnExitEnabled(bool active)
+{
+    m_flipOnExitEnabled = active;
 }
 
 void OutdoorGameView::setStatusBarEvent(const std::string &text, float durationSeconds)
@@ -9399,6 +10149,9 @@ void OutdoorGameView::updateActorInspectOverlayState(int width, int height)
         || m_heldInventoryItem.active
         || m_pendingSpellCast.active
         || m_spellbook.active
+        || m_menuScreen.active
+        || m_saveGameScreen.active
+        || m_loadGameScreen.active
         || m_characterScreenOpen
         || hasActiveEventDialog())
     {

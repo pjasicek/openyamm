@@ -759,6 +759,14 @@ void OutdoorPresentationController::updateFootstepAudio(OutdoorGameView &view, f
         return;
     }
 
+    if (!view.m_walkSoundEnabled)
+    {
+        view.m_pGameAudioSystem->stopGroup(GameAudioSystem::PlaybackGroup::Walking);
+        view.m_walkingMotionHoldSeconds = 0.0f;
+        view.m_activeWalkingSoundId = std::nullopt;
+        return;
+    }
+
     const OutdoorMoveState &moveState = view.m_pOutdoorPartyRuntime->movementState();
 
     if (!view.m_hasLastFootstepPosition)

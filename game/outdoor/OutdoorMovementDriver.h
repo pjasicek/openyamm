@@ -99,8 +99,10 @@ public:
     void toggleWaterWalk();
     void toggleFeatherFall();
     void setFlying(bool active);
+    void setRunning(bool active);
     void setWaterWalkActive(bool active);
     void setFeatherFallActive(bool active);
+    void setSpeedMultiplier(float multiplier);
     void requestJump();
 
 private:
@@ -128,5 +130,6 @@ private:
     float m_hardLandingSoundConsequenceSeconds = 0.0f;
     float m_waterDamageTimerSeconds = 0.0f;
     float m_burningDamageTimerSeconds = 0.0f;
+    float m_speedMultiplier = 1.0f;
 };
 }
