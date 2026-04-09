@@ -57,7 +57,6 @@ constexpr float JournalMainIconAnimationFps = 10.0f;
 constexpr float JournalMapWorldHalfExtent = 32768.0f;
 constexpr char JournalMapTextureCacheName[] = "__journal_map_composited__";
 constexpr std::array<int, 3> JournalMapZoomLevels = {384, 768, 1536};
-constexpr bool JournalMapForceFullyRevealedForTest = true;
 
 uint32_t currentAnimationTicks()
 {
@@ -2023,11 +2022,10 @@ void GameplayPartyOverlayRenderer::renderJournalOverlay(const OutdoorGameView &v
                                 (static_cast<size_t>(pixelY) * static_cast<size_t>(mapPixelWidth)
                                     + static_cast<size_t>(pixelX))
                                 * 4;
-                            bool fullyRevealed = JournalMapForceFullyRevealedForTest;
+                            bool fullyRevealed = false;
                             bool partiallyRevealed = false;
 
-                            if (!JournalMapForceFullyRevealedForTest
-                                && view.m_outdoorMapDeltaData.has_value()
+                            if (view.m_outdoorMapDeltaData.has_value()
                                 && revealCellX >= 0 && revealCellX < JournalRevealWidth
                                 && revealCellY >= 0 && revealCellY < JournalRevealHeight)
                             {
@@ -2038,7 +2036,7 @@ void GameplayPartyOverlayRenderer::renderJournalOverlay(const OutdoorGameView &v
                                 partiallyRevealed =
                                     packedRevealBit(view.m_outdoorMapDeltaData->partiallyRevealedCells, revealIndex);
                             }
-                            else if (!JournalMapForceFullyRevealedForTest && !view.m_outdoorMapDeltaData.has_value())
+                            else if (!view.m_outdoorMapDeltaData.has_value())
                             {
                                 fullyRevealed = true;
                             }
