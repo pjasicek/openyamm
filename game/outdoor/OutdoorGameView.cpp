@@ -74,6 +74,7 @@ constexpr int JournalRevealWidth = 88;
 constexpr int JournalRevealHeight = 88;
 constexpr int JournalRevealBytesPerRow = 11;
 constexpr float JournalMapWorldHalfExtent = 32768.0f;
+constexpr uint64_t SpellFailSoundCooldownMs = 250;
 
 enum class HouseShopVerticalAlign
 {
@@ -3417,13 +3418,13 @@ OutdoorGameView::OutdoorGameView()
     , m_showFilledTerrain(true)
     , m_showTerrainWireframe(false)
     , m_showBModels(true)
-    , m_showBModelWireframe(true)
+    , m_showBModelWireframe(false)
     , m_showBModelCollisionFaces(false)
     , m_showActorCollisionBoxes(false)
     , m_showDecorationBillboards(true)
     , m_showActors(true)
     , m_showSpriteObjects(true)
-    , m_showEntities(true)
+    , m_showEntities(false)
     , m_showSpawns(false)
     , m_showGameplayHud(true)
     , m_showDebugHud(false)
@@ -3507,6 +3508,7 @@ OutdoorGameView::OutdoorGameView()
     , m_journalPressedTarget({})
     , m_lastSpellbookSpellClickTicks(0)
     , m_lastSpellbookClickedSpellId(0)
+    , m_lastSpellFailSoundTicks(0)
     , m_pendingSpellCast({})
     , m_heldInventoryDropLatch(false)
     , m_closeOverlayLatch(false)
@@ -4035,41 +4037,56 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
                     if (!m_pendingSpellTargetClickLatch)
                     {
                         m_pendingSpellTargetClickLatch = true;
-                    }
-                }
-                else if (m_pendingSpellTargetClickLatch)
-                {
-                    const bool isPointerOverPartyPortrait =
-                        resolvePartyPortraitIndexAtPoint(width, height, mouseX, mouseY).has_value();
-                    InspectHit pendingInspectHit = {};
+                        const std::optional<size_t> portraitMemberIndex =
+                            resolvePartyPortraitIndexAtPoint(width, height, mouseX, mouseY);
+                        InspectHit pendingInspectHit = {};
+                        std::optional<bx::Vec3> pendingGroundTargetPoint;
 
-                    if (!isPointerOverPartyPortrait && m_outdoorMapData.has_value())
-                    {
-                        bx::Vec3 rayOrigin = {0.0f, 0.0f, 0.0f};
-                        bx::Vec3 rayDirection = {0.0f, 0.0f, 0.0f};
-
-                        if (buildInspectRayForScreenPoint(mouseX, mouseY, rayOrigin, rayDirection))
+                        if (!portraitMemberIndex && m_outdoorMapData.has_value())
                         {
-                            pendingInspectHit = OutdoorInteractionController::inspectBModelFace(*this, 
-                                *m_outdoorMapData,
-                                rayOrigin,
-                                rayDirection,
-                                mouseX,
-                                mouseY,
-                                width,
-                                height,
-                                wireframeViewMatrix,
-                                wireframeProjectionMatrix,
-                                OutdoorGameView::DecorationPickMode::Interaction);
+                            bx::Vec3 rayOrigin = {0.0f, 0.0f, 0.0f};
+                            bx::Vec3 rayDirection = {0.0f, 0.0f, 0.0f};
+
+                            if (buildInspectRayForScreenPoint(mouseX, mouseY, rayOrigin, rayDirection))
+                            {
+                                pendingInspectHit = OutdoorInteractionController::inspectBModelFace(*this,
+                                    *m_outdoorMapData,
+                                    rayOrigin,
+                                    rayDirection,
+                                    mouseX,
+                                    mouseY,
+                                    width,
+                                    height,
+                                    wireframeViewMatrix,
+                                    wireframeProjectionMatrix,
+                                    OutdoorGameView::DecorationPickMode::Interaction);
+
+                                const std::optional<float> terrainDistance =
+                                    intersectOutdoorTerrainRay(*m_outdoorMapData, rayOrigin, rayDirection);
+
+                                if (terrainDistance)
+                                {
+                                    pendingGroundTargetPoint = bx::Vec3 {
+                                        rayOrigin.x + rayDirection.x * *terrainDistance,
+                                        rayOrigin.y + rayDirection.y * *terrainDistance,
+                                        rayOrigin.z + rayDirection.z * *terrainDistance
+                                    };
+                                }
+                            }
+                        }
+
+                        if (tryResolvePendingSpellCast(
+                                pendingInspectHit,
+                                portraitMemberIndex,
+                                pendingGroundTargetPoint))
+                        {
+                            m_cachedHoverInspectHitValid = false;
+                            m_cachedHoverInspectHit = {};
                         }
                     }
-
-                    if (!isPointerOverPartyPortrait && tryResolvePendingSpellCast(pendingInspectHit, std::nullopt))
-                    {
-                        m_cachedHoverInspectHitValid = false;
-                        m_cachedHoverInspectHit = {};
-                    }
-
+                }
+                else
+                {
                     m_pendingSpellTargetClickLatch = false;
                 }
 
@@ -7804,6 +7821,8 @@ void OutdoorGameView::openSpellbook()
         m_pGameAudioSystem->playCommonSound(SoundId::OpenBook, GameAudioSystem::PlaybackGroup::Ui);
     }
 
+    m_spellbook.school = SpellbookSchool::Fire;
+
     for (const SpellbookSchoolUiDefinition &definition : spellbookSchoolUiDefinitions())
     {
         if (activeMemberHasSpellbookSchool(definition.school))
@@ -8845,7 +8864,14 @@ bool OutdoorGameView::tryCastSpellRequest(const PartySpellCastRequest &request, 
     triggerPortraitFaceAnimation(request.casterMemberIndex, FaceAnimationId::SpellFailed);
     if (m_pGameAudioSystem != nullptr)
     {
-        m_pGameAudioSystem->playCommonSound(SoundId::SpellFail, GameAudioSystem::PlaybackGroup::Ui);
+        const uint64_t nowTicks = SDL_GetTicks();
+
+        if (nowTicks >= m_lastSpellFailSoundTicks
+            && nowTicks - m_lastSpellFailSoundTicks >= SpellFailSoundCooldownMs)
+        {
+            m_pGameAudioSystem->playCommonSound(SoundId::SpellFail, GameAudioSystem::PlaybackGroup::Ui);
+            m_lastSpellFailSoundTicks = nowTicks;
+        }
     }
     setStatusBarEvent(result.statusText.empty() ? "Spell failed" : result.statusText);
     return false;
@@ -8973,7 +8999,8 @@ void OutdoorGameView::clearPendingSpellCast(const std::string &statusText)
 
 bool OutdoorGameView::tryResolvePendingSpellCast(
     const InspectHit &actorInspectHit,
-    const std::optional<size_t> &portraitMemberIndex)
+    const std::optional<size_t> &portraitMemberIndex,
+    const std::optional<bx::Vec3> &fallbackGroundTargetPoint)
 {
     if (!m_pendingSpellCast.active || m_pOutdoorPartyRuntime == nullptr || m_pOutdoorWorldRuntime == nullptr
         || m_pSpellTable == nullptr)
@@ -9011,7 +9038,12 @@ bool OutdoorGameView::tryResolvePendingSpellCast(
 
     if (m_pendingSpellCast.targetKind == PartySpellCastTargetKind::GroundPoint)
     {
-        const std::optional<bx::Vec3> groundTargetPoint = resolvePendingSpellGroundTargetPoint(actorInspectHit);
+        const std::optional<bx::Vec3> groundTargetPoint =
+            actorInspectHit.hasHit
+                ? resolvePendingSpellGroundTargetPoint(actorInspectHit)
+                : fallbackGroundTargetPoint.has_value()
+                ? fallbackGroundTargetPoint
+                : resolvePendingSpellGroundTargetPoint(actorInspectHit);
 
         if (groundTargetPoint)
         {
@@ -9079,12 +9111,20 @@ bool OutdoorGameView::tryResolvePendingSpellCast(
         }
         else
         {
+            const std::string statusText = result.statusText.empty() ? "Spell failed" : result.statusText;
             triggerPortraitFaceAnimation(request.casterMemberIndex, FaceAnimationId::SpellFailed);
             if (m_pGameAudioSystem != nullptr)
             {
-                m_pGameAudioSystem->playCommonSound(SoundId::SpellFail, GameAudioSystem::PlaybackGroup::Ui);
+                const uint64_t nowTicks = SDL_GetTicks();
+
+                if (nowTicks >= m_lastSpellFailSoundTicks
+                    && nowTicks - m_lastSpellFailSoundTicks >= SpellFailSoundCooldownMs)
+                {
+                    m_pGameAudioSystem->playCommonSound(SoundId::SpellFail, GameAudioSystem::PlaybackGroup::Ui);
+                    m_lastSpellFailSoundTicks = nowTicks;
+                }
             }
-            setStatusBarEvent(result.statusText.empty() ? "Spell failed" : result.statusText);
+            clearPendingSpellCast(statusText);
         }
 
         return false;

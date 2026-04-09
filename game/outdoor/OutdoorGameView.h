@@ -655,7 +655,8 @@ private:
     void clearPendingSpellCast(const std::string &statusText = "");
     bool tryResolvePendingSpellCast(
         const InspectHit &actorInspectHit,
-        const std::optional<size_t> &portraitMemberIndex);
+        const std::optional<size_t> &portraitMemberIndex,
+        const std::optional<bx::Vec3> &fallbackGroundTargetPoint = std::nullopt);
     std::optional<bx::Vec3> resolvePendingSpellGroundTargetPoint(const InspectHit &inspectHit) const;
     std::optional<size_t> resolveRuntimeActorIndexForInspectHit(const InspectHit &inspectHit) const;
     bool isOpaqueHudPixelAtPoint(const GameplayRenderedInspectableHudItem &item, float x, float y) const;
@@ -883,6 +884,7 @@ private:
     bool m_journalMapKeyZoomLatch = false;
     uint64_t m_lastSpellbookSpellClickTicks;
     uint32_t m_lastSpellbookClickedSpellId;
+    uint64_t m_lastSpellFailSoundTicks;
     PendingSpellCastState m_pendingSpellCast;
     mutable std::vector<GameplayRenderedInspectableHudItem> m_renderedInspectableHudItems;
     mutable HudScreenState m_renderedInspectableHudState = HudScreenState::Gameplay;

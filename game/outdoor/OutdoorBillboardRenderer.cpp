@@ -37,7 +37,6 @@ constexpr float ActorBillboardRenderDistanceSquared =
 constexpr uint64_t RenderHitchLogThresholdNanoseconds = 16 * 1000 * 1000;
 constexpr float BillboardNearDepth = 0.1f;
 constexpr bool DebugProjectileDrawLogging = false;
-constexpr float DebugProjectileTrailSeconds = 0.05f;
 constexpr uint64_t BillboardAlphaRenderState =
     BGFX_STATE_WRITE_RGB
     | BGFX_STATE_WRITE_A
@@ -1697,8 +1696,6 @@ void OutdoorBillboardRenderer::renderRuntimeProjectiles(
 
     std::vector<BillboardDrawItem> drawItems;
     drawItems.reserve(view.m_pOutdoorWorldRuntime->projectileCount() + view.m_pOutdoorWorldRuntime->projectileImpactCount());
-    std::vector<OutdoorGameView::TerrainVertex> trailVertices;
-    trailVertices.reserve(view.m_pOutdoorWorldRuntime->projectileCount() * 2);
 
     auto appendRuntimeDrawItem =
         [&](uint32_t runtimeId,
@@ -1841,18 +1838,6 @@ void OutdoorBillboardRenderer::renderRuntimeProjectiles(
         const float projectileDistanceSquared =
             projectileDeltaX * projectileDeltaX + projectileDeltaY * projectileDeltaY + projectileDeltaZ * projectileDeltaZ;
 
-        if (projectileDistanceSquared <= RuntimeProjectileRenderDistanceSquared)
-        {
-            const bx::Vec3 trailStart = {pProjectile->x, pProjectile->y, pProjectile->z};
-            const bx::Vec3 trailEnd = {
-                pProjectile->x - pProjectile->velocityX * DebugProjectileTrailSeconds,
-                pProjectile->y - pProjectile->velocityY * DebugProjectileTrailSeconds,
-                pProjectile->z - pProjectile->velocityZ * DebugProjectileTrailSeconds
-            };
-            trailVertices.push_back({trailStart.x, trailStart.y, trailStart.z, 0xff40ffffu});
-            trailVertices.push_back({trailEnd.x, trailEnd.y, trailEnd.z, 0xff40ffffu});
-        }
-
         appendRuntimeDrawItem(
             pProjectile->projectileId,
             "projectile",
@@ -1884,37 +1869,6 @@ void OutdoorBillboardRenderer::renderRuntimeProjectiles(
             pEffect->objectSpriteId,
             pEffect->objectSpriteName,
             pEffect->timeSinceCreatedTicks);
-    }
-
-    if (!trailVertices.empty())
-    {
-        if (bgfx::getAvailTransientVertexBuffer(
-                static_cast<uint32_t>(trailVertices.size()),
-                OutdoorGameView::TerrainVertex::ms_layout) >= trailVertices.size())
-        {
-            bgfx::TransientVertexBuffer transientVertexBuffer = {};
-            bgfx::allocTransientVertexBuffer(
-                &transientVertexBuffer,
-                static_cast<uint32_t>(trailVertices.size()),
-                OutdoorGameView::TerrainVertex::ms_layout);
-            std::memcpy(
-                transientVertexBuffer.data,
-                trailVertices.data(),
-                static_cast<size_t>(trailVertices.size() * sizeof(OutdoorGameView::TerrainVertex)));
-
-            float modelMatrix[16] = {};
-            bx::mtxIdentity(modelMatrix);
-            bgfx::setTransform(modelMatrix);
-            bgfx::setVertexBuffer(0, &transientVertexBuffer, 0, static_cast<uint32_t>(trailVertices.size()));
-            bgfx::setState(
-                BGFX_STATE_WRITE_RGB
-                | BGFX_STATE_WRITE_A
-                | BGFX_STATE_WRITE_Z
-                | BGFX_STATE_DEPTH_TEST_LEQUAL
-                | BGFX_STATE_PT_LINES
-                | BGFX_STATE_LINEAA);
-            bgfx::submit(viewId, view.m_programHandle);
-        }
     }
 
     std::sort(
