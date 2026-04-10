@@ -21,6 +21,7 @@ extern "C"
 #include <cstring>
 #include <iostream>
 #include <memory>
+#include <string_view>
 #include <vector>
 
 namespace OpenYAMM::Game
@@ -30,6 +31,11 @@ namespace
 constexpr float MusicVolume = 0.34f;
 constexpr float MusicFadeInSeconds = 1.25f;
 constexpr float MusicFadeOutSeconds = 0.6f;
+
+std::string dataTablePath(std::string_view fileName)
+{
+    return "Data/data_tables/" + std::string(fileName);
+}
 
 struct AvFormatContextCloser
 {
@@ -447,8 +453,9 @@ bool GameAudioSystem::initialize(
     m_pCharacterDollTable = &characterDollTable;
     m_pAssetFileSystem = &assetFileSystem;
 
-    const std::optional<std::string> soundCatalogText = assetFileSystem.readTextFile("Data/EnglishT/sounds.txt");
-    const std::optional<std::string> speechReactionText = assetFileSystem.readTextFile("Data/SPEECH_REACTIONS.txt");
+    const std::optional<std::string> soundCatalogText = assetFileSystem.readTextFile(dataTablePath("sounds.txt"));
+    const std::optional<std::string> speechReactionText =
+        assetFileSystem.readTextFile(dataTablePath("speech_reactions.txt"));
 
     if (!soundCatalogText || !speechReactionText)
     {

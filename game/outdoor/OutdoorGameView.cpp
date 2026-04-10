@@ -58,12 +58,18 @@
 #include <limits>
 #include <sstream>
 #include <string>
+#include <string_view>
 #include <vector>
 
 namespace OpenYAMM::Game
 {
 namespace
 {
+std::string dataTablePath(std::string_view fileName)
+{
+    return "Data/data_tables/" + std::string(fileName);
+}
+
 using SpellbookSchool = OutdoorGameView::SpellbookSchool;
 using SpellbookPointerTargetType = OutdoorGameView::SpellbookPointerTargetType;
 constexpr int MinutesPerDay = 24 * 60;
@@ -9280,7 +9286,8 @@ bool OutdoorGameView::loadPortraitAnimationData(const Engine::AssetFileSystem &a
         return false;
     }
 
-    const std::optional<std::string> faceAnimationText = assetFileSystem.readTextFile("Data/FACE_ANIMATIONS.txt");
+    const std::optional<std::string> faceAnimationText =
+        assetFileSystem.readTextFile(dataTablePath("face_animations.txt"));
 
     if (!faceAnimationText)
     {
@@ -9462,9 +9469,9 @@ bool OutdoorGameView::loadPortraitFxData(const Engine::AssetFileSystem &assetFil
         return false;
     }
 
-    const std::optional<std::string> spellFxText = assetFileSystem.readTextFile("Data/SPELL_FX.txt");
+    const std::optional<std::string> spellFxText = assetFileSystem.readTextFile(dataTablePath("spell_fx.txt"));
     const std::optional<std::string> portraitFxEventText =
-        assetFileSystem.readTextFile("Data/PORTRAIT_FX_EVENTS.txt");
+        assetFileSystem.readTextFile(dataTablePath("portrait_fx_events.txt"));
 
     if (!spellFxText || !portraitFxEventText)
     {

@@ -20,6 +20,7 @@
 #include <limits>
 #include <optional>
 #include <string>
+#include <string_view>
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
@@ -28,6 +29,11 @@ namespace OpenYAMM::Game
 {
 namespace
 {
+std::string dataTablePath(std::string_view fileName)
+{
+    return "Data/data_tables/" + std::string(fileName);
+}
+
 constexpr size_t TileDescriptorNameLength = 20;
 constexpr size_t TileDescriptorRecordSize = 26;
 constexpr uint8_t WaterTileName[] = {'w', 't', 'r', 't', 'y', 'l', 0};
@@ -221,7 +227,7 @@ bool loadDecorationDisplayRows(
 {
     rows.clear();
 
-    const std::optional<std::string> contents = assetFileSystem.readTextFile("Data/EnglishT/DECLIST.TXT");
+    const std::optional<std::string> contents = assetFileSystem.readTextFile(dataTablePath("dec_list.txt"));
 
     if (!contents)
     {
