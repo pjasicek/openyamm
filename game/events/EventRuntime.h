@@ -23,6 +23,7 @@ enum class DialogueContextKind
     HouseService,
     NpcTalk,
     NpcNews,
+    MapTransition,
 };
 
 enum class DialogueMenuId : uint32_t

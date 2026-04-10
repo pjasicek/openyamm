@@ -33,6 +33,12 @@ public:
         float height = 0.0f;
     };
 
+    struct TextureSize
+    {
+        float width = 0.0f;
+        float height = 0.0f;
+    };
+
     struct ButtonVisualSet
     {
         std::string defaultTextureName;
@@ -74,6 +80,7 @@ protected:
         const SourceRect &sourceRect,
         const Rect &rect,
         uint32_t colorAbgr);
+    std::optional<TextureSize> textureSize(const std::string &textureName);
     bool drawText(
         const std::string &fontName,
         const std::string &text,

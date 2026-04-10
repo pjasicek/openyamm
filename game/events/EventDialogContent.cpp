@@ -3,6 +3,7 @@
 #include "game/gameplay/HouseInteraction.h"
 #include "game/gameplay/MasteryTeacherDialog.h"
 #include "game/outdoor/OutdoorWorldRuntime.h"
+#include "game/StringUtils.h"
 
 #include <algorithm>
 
@@ -10,6 +11,55 @@ namespace OpenYAMM::Game
 {
 namespace
 {
+const MapStatsEntry *findMapEntryByFileName(
+    const std::vector<MapStatsEntry> *pMapEntries,
+    const std::string &fileName)
+{
+    if (pMapEntries == nullptr)
+    {
+        return nullptr;
+    }
+
+    const std::string normalizedFileName = toLowerCopy(fileName);
+
+    for (const MapStatsEntry &entry : *pMapEntries)
+    {
+        if (toLowerCopy(entry.fileName) == normalizedFileName)
+        {
+            return &entry;
+        }
+    }
+
+    return nullptr;
+}
+
+const std::optional<MapEdgeTransition> *currentMapTransitionForContext(
+    const EventRuntimeState::PendingDialogueContext &context,
+    const MapStatsEntry *pCurrentMap)
+{
+    if (context.kind != DialogueContextKind::MapTransition || pCurrentMap == nullptr)
+    {
+        return nullptr;
+    }
+
+    switch (static_cast<MapBoundaryEdge>(context.sourceId))
+    {
+        case MapBoundaryEdge::North:
+            return &pCurrentMap->northTransition;
+
+        case MapBoundaryEdge::South:
+            return &pCurrentMap->southTransition;
+
+        case MapBoundaryEdge::East:
+            return &pCurrentMap->eastTransition;
+
+        case MapBoundaryEdge::West:
+            return &pCurrentMap->westTransition;
+    }
+
+    return nullptr;
+}
+
 std::vector<std::string> wrapDialogText(const std::string &text, size_t width)
 {
     if (text.empty() || width == 0)
@@ -188,6 +238,8 @@ EventDialogContent buildEventDialogContent(
     const HouseTable *pHouseTable,
     const ClassSkillTable *pClassSkillTable,
     const NpcDialogTable *pNpcDialogTable,
+    const MapStatsEntry *pCurrentMap,
+    const std::vector<MapStatsEntry> *pMapEntries,
     const Party *pParty,
     const OutdoorWorldRuntime *pOutdoorWorldRuntime,
     float currentGameMinutes
@@ -257,7 +309,58 @@ EventDialogContent buildEventDialogContent(
         }
     }
 
-    if (context.kind == DialogueContextKind::HouseService)
+    if (context.kind == DialogueContextKind::MapTransition)
+    {
+        dialog.participantVisual = EventDialogParticipantVisual::MapIcon;
+        dialog.presentation = EventDialogPresentation::Transition;
+        dialog.participantPictureId = 0;
+        const std::optional<MapEdgeTransition> *pTransition =
+            currentMapTransitionForContext(context, pCurrentMap);
+        const MapStatsEntry *pDestinationMap =
+            (pTransition != nullptr && pTransition->has_value())
+                ? findMapEntryByFileName(pMapEntries, (*pTransition)->destinationMapFileName)
+                : nullptr;
+        dialog.title = pDestinationMap != nullptr
+            ? pDestinationMap->name
+            : (context.titleOverride.has_value()
+                ? *context.titleOverride
+                : ((pTransition != nullptr && pTransition->has_value())
+                    ? (*pTransition)->destinationMapFileName
+                    : "Travel"));
+
+        if (pTransition != nullptr && pTransition->has_value() && (*pTransition)->travelDays > 0)
+        {
+            const int travelDays = (*pTransition)->travelDays;
+            dialog.lines.push_back(
+                "It will take "
+                + std::to_string(travelDays)
+                + " day"
+                + (travelDays == 1 ? "" : "s")
+                + " to travel to "
+                + dialog.title
+                + ".");
+        }
+
+        if (pCurrentMap != nullptr && !pCurrentMap->name.empty())
+        {
+            dialog.lines.push_back("Do you wish to leave " + pCurrentMap->name + "?");
+        }
+        else
+        {
+            dialog.lines.push_back("Do you wish to leave this area?");
+        }
+
+        EventDialogAction confirmAction = {};
+        confirmAction.kind = EventDialogActionKind::MapTransitionConfirm;
+        confirmAction.label = "OK";
+        dialog.actions.push_back(std::move(confirmAction));
+
+        EventDialogAction cancelAction = {};
+        cancelAction.kind = EventDialogActionKind::MapTransitionCancel;
+        cancelAction.label = "Close";
+        dialog.actions.push_back(std::move(cancelAction));
+    }
+    else if (context.kind == DialogueContextKind::HouseService)
     {
         const HouseEntry *pHouseEntry = pHouseTable != nullptr ? pHouseTable->get(dialog.sourceId) : nullptr;
         dialog.houseTitle = pHouseEntry != nullptr ? pHouseEntry->name : ("House #" + std::to_string(dialog.sourceId));
@@ -267,6 +370,27 @@ EventDialogContent buildEventDialogContent(
 
         if (pHouseEntry != nullptr)
         {
+            const std::vector<HouseActionOption> houseActions = buildHouseActionOptions(
+                *pHouseEntry,
+                pParty,
+                pClassSkillTable,
+                pOutdoorWorldRuntime,
+                currentGameMinutes,
+                currentDialogueMenuId(eventRuntimeState)
+            );
+
+            for (const HouseActionOption &houseAction : houseActions)
+            {
+                EventDialogAction action = {};
+                action.kind = EventDialogActionKind::HouseService;
+                action.id = static_cast<uint32_t>(houseAction.id);
+                action.label = houseAction.label;
+                action.argument = houseAction.argument;
+                action.enabled = houseAction.enabled;
+                action.disabledReason = houseAction.disabledReason;
+                dialog.actions.push_back(std::move(action));
+            }
+
             if (pNpcDialogTable != nullptr)
             {
                 const std::vector<uint32_t> residentNpcIds =
@@ -308,27 +432,6 @@ EventDialogContent buildEventDialogContent(
                         hasResidentActions = true;
                     }
                 }
-            }
-
-            const std::vector<HouseActionOption> houseActions = buildHouseActionOptions(
-                *pHouseEntry,
-                pParty,
-                pClassSkillTable,
-                pOutdoorWorldRuntime,
-                currentGameMinutes,
-                currentDialogueMenuId(eventRuntimeState)
-            );
-
-            for (const HouseActionOption &houseAction : houseActions)
-            {
-                EventDialogAction action = {};
-                action.kind = EventDialogActionKind::HouseService;
-                action.id = static_cast<uint32_t>(houseAction.id);
-                action.label = houseAction.label;
-                action.argument = houseAction.argument;
-                action.enabled = houseAction.enabled;
-                action.disabledReason = houseAction.disabledReason;
-                dialog.actions.push_back(std::move(action));
             }
 
             if (!hasResidentActions && resolveHouseServiceType(*pHouseEntry) != HouseServiceType::None)
@@ -537,7 +640,10 @@ EventDialogContent buildEventDialogContent(
         }
     }
 
-    if (context.kind == DialogueContextKind::HouseService)
+    if (context.kind == DialogueContextKind::MapTransition)
+    {
+    }
+    else if (context.kind == DialogueContextKind::HouseService)
     {
         dialog.lines.clear();
 
@@ -571,6 +677,7 @@ EventDialogContent buildEventDialogContent(
     }
 
     if (!dialog.isHouseDialog
+        && context.kind != DialogueContextKind::MapTransition
         && context.kind != DialogueContextKind::NpcNews
         && !allowNpcFallbackContent
         && eventMessageLines.empty())

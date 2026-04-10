@@ -3718,6 +3718,8 @@ OutdoorGameView::OutdoorGameView()
     , m_booksButtonClickLatch(false)
     , m_menuToggleLatch(false)
     , m_menuClickLatch(false)
+    , m_controlsToggleLatch(false)
+    , m_controlsClickLatch(false)
     , m_saveGameToggleLatch(false)
     , m_saveGameClickLatch(false)
     , m_loadGameToggleLatch(false)
@@ -3758,6 +3760,7 @@ OutdoorGameView::OutdoorGameView()
     , m_spellbook(m_gameplayUiController.spellbook())
     , m_restScreen(m_gameplayUiController.restScreen())
     , m_menuScreen(m_gameplayUiController.menuScreen())
+    , m_controlsScreen(m_gameplayUiController.controlsScreen())
     , m_saveGameScreen(m_gameplayUiController.saveGameScreen())
     , m_loadGameScreen(m_gameplayUiController.loadGameScreen())
     , m_journalScreen(m_gameplayUiController.journalScreen())
@@ -3769,6 +3772,7 @@ OutdoorGameView::OutdoorGameView()
     , m_optionsButtonPressed(false)
     , m_booksButtonPressed(false)
     , m_menuPressedTarget({})
+    , m_controlsPressedTarget({})
     , m_saveGamePressedTarget({})
     , m_loadGamePressedTarget({})
     , m_journalPressedTarget({})
@@ -3882,13 +3886,15 @@ bool OutdoorGameView::initialize(
     const std::optional<EvtProgram> &globalEvtProgram,
     GameAudioSystem *pGameAudioSystem,
     OutdoorSceneRuntime &sceneRuntime,
+    const GameSettings &settings,
     const std::vector<MapStatsEntry> &mapEntries,
     std::function<bool(
         const std::filesystem::path &,
         const std::string &,
         const std::vector<uint8_t> &,
         std::string &)> saveGameToPathCallback,
-    std::function<bool(const std::filesystem::path &, std::string &)> loadGameFromPathCallback
+    std::function<bool(const std::filesystem::path &, std::string &)> loadGameFromPathCallback,
+    std::function<void(const GameSettings &)> settingsChangedCallback
 )
 {
     shutdown();
@@ -3929,8 +3935,10 @@ bool OutdoorGameView::initialize(
     m_pOutdoorSceneRuntime = &sceneRuntime;
     m_pOutdoorPartyRuntime = &sceneRuntime.partyRuntime();
     m_pOutdoorWorldRuntime = &sceneRuntime.worldRuntime();
+    m_gameSettings = settings;
     m_saveGameToPathCallback = std::move(saveGameToPathCallback);
     m_loadGameFromPathCallback = std::move(loadGameFromPathCallback);
+    m_settingsChangedCallback = std::move(settingsChangedCallback);
     m_portraitSpellFxStates.assign(5, {});
 
     if (!loadPortraitAnimationData(assetFileSystem))
@@ -4190,6 +4198,7 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
 
     const bool wasRestScreenActiveBeforeInput = m_restScreen.active;
     const bool wasMenuActiveBeforeInput = m_menuScreen.active;
+    const bool wasControlsScreenActiveBeforeInput = m_controlsScreen.active;
     const bool wasSaveGameScreenActiveBeforeInput = m_saveGameScreen.active;
     const bool wasLoadGameScreenActiveBeforeInput = m_loadGameScreen.active;
     const bool wasJournalActiveBeforeInput = m_journalScreen.active;
@@ -4258,6 +4267,7 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
     const bool isSpellbookActive = m_spellbook.active;
     const bool isRestScreenInteractionFrame = wasRestScreenActiveBeforeInput || m_restScreen.active;
     const bool isMenuInteractionFrame = wasMenuActiveBeforeInput || m_menuScreen.active;
+    const bool isControlsInteractionFrame = wasControlsScreenActiveBeforeInput || m_controlsScreen.active;
     const bool isSaveGameInteractionFrame = wasSaveGameScreenActiveBeforeInput || m_saveGameScreen.active;
     const bool isLoadGameInteractionFrame = wasLoadGameScreenActiveBeforeInput || m_loadGameScreen.active;
     const bool isJournalInteractionFrame = wasJournalActiveBeforeInput || m_journalScreen.active;
@@ -4336,6 +4346,7 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
             && !isSpellbookActive
             && !isRestScreenInteractionFrame
             && !isMenuInteractionFrame
+            && !isControlsInteractionFrame
             && !isSaveGameInteractionFrame
             && !isLoadGameInteractionFrame
             && !isJournalInteractionFrame)
@@ -4502,6 +4513,7 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
             && !isSpellbookActive
             && !isRestScreenInteractionFrame
             && !isMenuInteractionFrame
+            && !isControlsInteractionFrame
             && !isSaveGameInteractionFrame
             && !isLoadGameInteractionFrame
             && !isJournalInteractionFrame)
@@ -4596,6 +4608,7 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
                  && !isSpellbookActive
                  && !isRestScreenInteractionFrame
                  && !isMenuInteractionFrame
+                 && !isControlsInteractionFrame
                  && !isSaveGameInteractionFrame
                  && !isLoadGameInteractionFrame
                  && !isJournalInteractionFrame)
@@ -5091,8 +5104,16 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
                                 }
                                 else
                                 {
+                                    const Character *pActiveMember = party.activeMember();
+                                    const SoundId attackSoundId =
+                                        pActiveMember != nullptr
+                                        ? GameMechanics::resolveCharacterAttackSoundId(
+                                            *pActiveMember,
+                                            m_pItemTable,
+                                            attack.mode)
+                                        : SoundId::SwingBlunt01;
                                     m_pGameAudioSystem->playCommonSound(
-                                        SoundId::SwingSword01,
+                                        attackSoundId,
                                         GameAudioSystem::PlaybackGroup::World,
                                         GameAudioSystem::WorldPosition{moveState.x, moveState.y, moveState.footZ + 96.0f});
                                 }
@@ -5818,6 +5839,7 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
             renderSpellbookOverlay(width, height);
             renderRestOverlay(width, height);
             renderMenuOverlay(width, height);
+            renderControlsOverlay(width, height);
             renderSaveGameOverlay(width, height);
             renderLoadGameOverlay(width, height);
             renderJournalOverlay(width, height);
@@ -6157,6 +6179,7 @@ void OutdoorGameView::shutdown()
         m_pAssetFileSystem = nullptr;
         m_pOutdoorSceneRuntime = nullptr;
         m_pOutdoorWorldRuntime = nullptr;
+        m_settingsChangedCallback = {};
         m_pItemTable = nullptr;
         m_pStandardItemEnchantTable = nullptr;
         m_pSpecialItemEnchantTable = nullptr;
@@ -6511,6 +6534,24 @@ void OutdoorGameView::setCameraAngles(float yawRadians, float pitchRadians)
     m_cameraPitchRadians = std::clamp(m_cameraPitchRadians, -1.55f, 1.55f);
 }
 
+void OutdoorGameView::requestOpenNewGameScreen()
+{
+    m_pendingOpenNewGameScreen = true;
+    closeMenu();
+}
+
+void OutdoorGameView::reopenMenuScreen()
+{
+    openMenu();
+}
+
+bool OutdoorGameView::consumePendingOpenNewGameScreenRequest()
+{
+    const bool pending = m_pendingOpenNewGameScreen;
+    m_pendingOpenNewGameScreen = false;
+    return pending;
+}
+
 void OutdoorGameView::updateHouseVideoPlayback(float deltaSeconds)
 {
     const EventRuntimeState *pEventRuntimeState =
@@ -6731,6 +6772,7 @@ void OutdoorGameView::updateItemInspectOverlayState(int width, int height)
         || m_pItemTable == nullptr
         || m_pendingSpellCast.active
         || m_spellbook.active
+        || m_controlsScreen.active
         || m_menuScreen.active
         || m_saveGameScreen.active
         || m_loadGameScreen.active)
@@ -7554,6 +7596,7 @@ void OutdoorGameView::updateBuffInspectOverlayState(int width, int height)
         || m_characterScreenOpen
         || hasActiveEventDialog()
         || m_spellbook.active
+        || m_controlsScreen.active
         || m_menuScreen.active
         || m_saveGameScreen.active
         || m_loadGameScreen.active)
@@ -7727,6 +7770,7 @@ void OutdoorGameView::updateCharacterDetailOverlayState(int width, int height)
         || m_spellInspectOverlay.active
         || hasActiveEventDialog()
         || m_spellbook.active
+        || m_controlsScreen.active
         || m_menuScreen.active
         || m_saveGameScreen.active
         || m_loadGameScreen.active)
@@ -8148,6 +8192,11 @@ OutdoorGameView::HudScreenState OutdoorGameView::currentHudScreenState() const
         return HudScreenState::Rest;
     }
 
+    if (m_controlsScreen.active)
+    {
+        return HudScreenState::Controls;
+    }
+
     if (m_menuScreen.active)
     {
         return HudScreenState::Menu;
@@ -8304,6 +8353,7 @@ void OutdoorGameView::openMenu()
     m_characterDollJewelryOverlayOpen = false;
     m_adventurersInnRosterOverlayOpen = false;
     m_restScreen = {};
+    m_controlsScreen = {};
     m_saveGameScreen = {};
     m_loadGameScreen = {};
     m_journalScreen.active = false;
@@ -8314,6 +8364,11 @@ void OutdoorGameView::openMenu()
     m_menuToggleLatch = false;
     m_menuClickLatch = false;
     m_menuPressedTarget = {};
+    m_controlsToggleLatch = false;
+    m_controlsClickLatch = false;
+    m_controlsPressedTarget = {};
+    m_controlsSliderDragActive = false;
+    m_controlsDraggedSlider = ControlsPointerTargetType::None;
     m_saveGameToggleLatch = false;
     m_saveGameClickLatch = false;
     m_saveGamePressedTarget = {};
@@ -8336,12 +8391,47 @@ void OutdoorGameView::closeMenu()
     clearWorldInteractionInputLatches();
 }
 
+void OutdoorGameView::openControlsScreen()
+{
+    m_menuScreen.active = false;
+    m_menuToggleLatch = false;
+    m_menuClickLatch = false;
+    m_menuPressedTarget = {};
+    m_controlsScreen = {};
+    m_controlsScreen.active = true;
+    m_controlsToggleLatch = false;
+    m_controlsClickLatch = false;
+    m_controlsPressedTarget = {};
+    m_controlsSliderDragActive = false;
+    m_controlsDraggedSlider = ControlsPointerTargetType::None;
+    clearWorldInteractionInputLatches();
+}
+
+void OutdoorGameView::closeControlsScreen()
+{
+    m_controlsScreen = {};
+    m_controlsToggleLatch = false;
+    m_controlsClickLatch = false;
+    m_controlsPressedTarget = {};
+    m_controlsSliderDragActive = false;
+    m_controlsDraggedSlider = ControlsPointerTargetType::None;
+    m_menuScreen = {};
+    m_menuScreen.active = true;
+    clearWorldInteractionInputLatches();
+}
+
 void OutdoorGameView::openSaveGameScreen()
 {
     m_menuScreen.active = false;
     m_menuToggleLatch = false;
     m_menuClickLatch = false;
     m_menuPressedTarget = {};
+    m_controlsScreen = {};
+    m_controlsToggleLatch = false;
+    m_controlsClickLatch = false;
+    m_controlsPressedTarget = {};
+    m_controlsSliderDragActive = false;
+    m_controlsDraggedSlider = ControlsPointerTargetType::None;
     m_loadGameScreen = {};
     m_saveGameScreen = {};
     m_saveGameScreen.active = true;
@@ -8369,6 +8459,12 @@ void OutdoorGameView::openLoadGameScreen()
     m_menuToggleLatch = false;
     m_menuClickLatch = false;
     m_menuPressedTarget = {};
+    m_controlsScreen = {};
+    m_controlsToggleLatch = false;
+    m_controlsClickLatch = false;
+    m_controlsPressedTarget = {};
+    m_controlsSliderDragActive = false;
+    m_controlsDraggedSlider = ControlsPointerTargetType::None;
     m_saveGameScreen = {};
     m_loadGameScreen = {};
     m_loadGameScreen.active = true;
@@ -8985,6 +9081,7 @@ bool OutdoorGameView::tryBeginQuickSpellCast()
     if (m_heldInventoryItem.active
         || m_characterScreenOpen
         || m_spellbook.active
+        || m_controlsScreen.active
         || m_menuScreen.active
         || m_saveGameScreen.active
         || m_loadGameScreen.active
@@ -10049,6 +10146,11 @@ void OutdoorGameView::renderMenuOverlay(int width, int height) const
     GameplayPartyOverlayRenderer::renderMenuOverlay(*this, width, height);
 }
 
+void OutdoorGameView::renderControlsOverlay(int width, int height) const
+{
+    GameplayPartyOverlayRenderer::renderControlsOverlay(*this, width, height);
+}
+
 void OutdoorGameView::renderSaveGameOverlay(int width, int height) const
 {
     GameplayPartyOverlayRenderer::renderSaveGameOverlay(*this, width, height);
@@ -10067,6 +10169,11 @@ void OutdoorGameView::renderJournalOverlay(int width, int height) const
 void OutdoorGameView::showStatusBarEvent(const std::string &text, float durationSeconds)
 {
     setStatusBarEvent(text, durationSeconds);
+}
+
+void OutdoorGameView::setSettingsSnapshot(const GameSettings &settings)
+{
+    m_gameSettings = settings;
 }
 
 void OutdoorGameView::showCombatStatusBarEvent(const std::string &text, float durationSeconds)
@@ -10097,6 +10204,14 @@ void OutdoorGameView::setShowHitStatusMessages(bool active)
 void OutdoorGameView::setFlipOnExitEnabled(bool active)
 {
     m_flipOnExitEnabled = active;
+}
+
+void OutdoorGameView::commitSettingsChange()
+{
+    if (m_settingsChangedCallback)
+    {
+        m_settingsChangedCallback(m_gameSettings);
+    }
 }
 
 void OutdoorGameView::setStatusBarEvent(const std::string &text, float durationSeconds)
@@ -10149,6 +10264,7 @@ void OutdoorGameView::updateActorInspectOverlayState(int width, int height)
         || m_heldInventoryItem.active
         || m_pendingSpellCast.active
         || m_spellbook.active
+        || m_controlsScreen.active
         || m_menuScreen.active
         || m_saveGameScreen.active
         || m_loadGameScreen.active
@@ -10735,10 +10851,24 @@ void OutdoorGameView::renderDialogueOverlay(int width, int height, bool renderAb
     GameplayDialogueRenderer::renderDialogueLabelById(
         overlayContext,
         "DialogueGoodbyeButton",
-        "Close",
+        (m_activeEventDialog.presentation == EventDialogPresentation::Transition
+            && m_activeEventDialog.actions.size() > 1)
+            ? m_activeEventDialog.actions[1].label
+            : "Close",
         width,
         height,
         renderAboveHud);
+    if (m_activeEventDialog.presentation == EventDialogPresentation::Transition
+        && !m_activeEventDialog.actions.empty())
+    {
+        GameplayDialogueRenderer::renderDialogueLabelById(
+            overlayContext,
+            "DialogueOkButton",
+            m_activeEventDialog.actions[0].label,
+            width,
+            height,
+            renderAboveHud);
+    }
     GameplayDialogueRenderer::renderDialogueLabelById(
         overlayContext,
         "DialogueGoldLabel",

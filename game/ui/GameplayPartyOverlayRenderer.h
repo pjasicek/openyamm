@@ -21,6 +21,7 @@ public:
     static void renderSpellbookOverlay(const OutdoorGameView &view, int width, int height);
     static void renderRestOverlay(const OutdoorGameView &view, int width, int height);
     static void renderMenuOverlay(const OutdoorGameView &view, int width, int height);
+    static void renderControlsOverlay(const OutdoorGameView &view, int width, int height);
     static void renderSaveGameOverlay(const OutdoorGameView &view, int width, int height);
     static void renderLoadGameOverlay(const OutdoorGameView &view, int width, int height);
     static void renderJournalOverlay(const OutdoorGameView &view, int width, int height);

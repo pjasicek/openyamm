@@ -1,7 +1,13 @@
 #include "game/app/GameApplication.h"
 
+#include "game/gameplay/GameMechanics.h"
 #include "game/scene/IndoorSceneRuntime.h"
 #include "game/scene/OutdoorSceneRuntime.h"
+#include "game/items/ItemGenerator.h"
+#include "game/party/SkillData.h"
+#include "game/party/SpellIds.h"
+#include "game/party/SpellSchool.h"
+#include "game/tables/ItemTable.h"
 #include "game/ui/screens/ArcomageScreen.h"
 #include "game/ui/screens/LoadMenuScreen.h"
 #include "game/ui/screens/MainMenuScreen.h"
@@ -15,6 +21,7 @@
 #include <filesystem>
 #include <functional>
 #include <iostream>
+#include <random>
 
 namespace OpenYAMM::Game
 {
@@ -23,6 +30,222 @@ namespace
 constexpr float Pi = 3.14159265358979323846f;
 constexpr uint32_t DefaultRosterPartyMemberCount = 3;
 constexpr const char *DefaultStartupMapFile = "out01.odm";
+constexpr uint32_t BronzeRingItemId = 137;
+constexpr uint32_t GoldRingItemId = 138;
+constexpr uint32_t PotionBottleItemId = 220;
+constexpr std::array<uint32_t, 3> Level1ReagentItemIds = {{200, 205, 210}};
+
+float mapMoveHeadingDegreesToOutdoorYawRadians(int32_t directionDegrees)
+{
+    return -static_cast<float>(directionDegrees) * Pi / 180.0f;
+}
+
+std::optional<uint32_t> starterItemIdForSkill(const std::string &skillName)
+{
+    const std::string canonicalName = canonicalSkillName(skillName);
+
+    if (canonicalName == "Staff")
+    {
+        return 79;
+    }
+
+    if (canonicalName == "Sword")
+    {
+        return 1;
+    }
+
+    if (canonicalName == "Dagger")
+    {
+        return 21;
+    }
+
+    if (canonicalName == "Axe")
+    {
+        return 31;
+    }
+
+    if (canonicalName == "Spear")
+    {
+        return 41;
+    }
+
+    if (canonicalName == "Bow")
+    {
+        return 56;
+    }
+
+    if (canonicalName == "Mace")
+    {
+        return 66;
+    }
+
+    if (canonicalName == "Shield")
+    {
+        return 99;
+    }
+
+    if (canonicalName == "LeatherArmor")
+    {
+        return 84;
+    }
+
+    if (canonicalName == "ChainArmor")
+    {
+        return 89;
+    }
+
+    if (canonicalName == "PlateArmor")
+    {
+        return 94;
+    }
+
+    return std::nullopt;
+}
+
+bool isStarterMagicSkill(const std::string &skillName)
+{
+    const std::string canonicalName = canonicalSkillName(skillName);
+
+    return canonicalName == "FireMagic"
+        || canonicalName == "AirMagic"
+        || canonicalName == "WaterMagic"
+        || canonicalName == "EarthMagic"
+        || canonicalName == "SpiritMagic"
+        || canonicalName == "MindMagic"
+        || canonicalName == "BodyMagic"
+        || canonicalName == "LightMagic"
+        || canonicalName == "DarkMagic";
+}
+
+std::optional<uint32_t> spellbookItemIdForSpell(
+    const ItemTable &itemTable,
+    uint32_t spellId)
+{
+    if (spellId == 0 || spellId > spellIdValue(SpellId::SoulDrinker))
+    {
+        return std::nullopt;
+    }
+
+    const uint32_t itemId = 399 + spellId;
+    const ItemDefinition *pDefinition = itemTable.get(itemId);
+
+    if (pDefinition == nullptr || pDefinition->equipStat != "Book")
+    {
+        return std::nullopt;
+    }
+
+    return itemId;
+}
+
+void addStarterInventoryItem(Character &character, InventoryItem item)
+{
+    item.identified = true;
+    character.addInventoryItem(item);
+}
+
+InventoryItem makeStarterInventoryItem(
+    uint32_t itemId,
+    const ItemTable &itemTable)
+{
+    InventoryItem item = ItemGenerator::makeInventoryItem(itemId, itemTable, ItemGenerationMode::Generic);
+    item.identified = true;
+    return item;
+}
+
+InventoryItem generateStarterRing(
+    const ItemTable &itemTable,
+    const StandardItemEnchantTable &standardItemEnchantTable,
+    const SpecialItemEnchantTable &specialItemEnchantTable)
+{
+    std::random_device randomDevice;
+    std::mt19937 rng(randomDevice());
+    const ItemGenerationRequest request = {
+        .treasureLevel = 2,
+        .mode = ItemGenerationMode::Generic,
+        .allowRareItems = false
+    };
+
+    const std::optional<InventoryItem> generatedRing = ItemGenerator::generateRandomInventoryItem(
+        itemTable,
+        standardItemEnchantTable,
+        specialItemEnchantTable,
+        request,
+        nullptr,
+        rng,
+        [](const ItemDefinition &entry)
+        {
+            return entry.equipStat == "Ring"
+                && (entry.itemId == BronzeRingItemId || entry.itemId == GoldRingItemId);
+        });
+
+    if (generatedRing)
+    {
+        InventoryItem ring = *generatedRing;
+        ring.identified = true;
+        return ring;
+    }
+
+    return makeStarterInventoryItem(BronzeRingItemId, itemTable);
+}
+
+void grantCreatedCharacterStarterItems(
+    Character &character,
+    const ItemTable &itemTable,
+    const StandardItemEnchantTable &standardItemEnchantTable,
+    const SpecialItemEnchantTable &specialItemEnchantTable)
+{
+    addStarterInventoryItem(
+        character,
+        generateStarterRing(itemTable, standardItemEnchantTable, specialItemEnchantTable));
+    addStarterInventoryItem(character, makeStarterInventoryItem(PotionBottleItemId, itemTable));
+
+    std::random_device randomDevice;
+    std::mt19937 rng(randomDevice());
+    const size_t reagentIndex = std::uniform_int_distribution<size_t>(0, Level1ReagentItemIds.size() - 1)(rng);
+    addStarterInventoryItem(character, makeStarterInventoryItem(Level1ReagentItemIds[reagentIndex], itemTable));
+
+    for (const auto &[skillName, skill] : character.skills)
+    {
+        if (skill.level == 0)
+        {
+            continue;
+        }
+
+        const std::optional<uint32_t> starterItemId = starterItemIdForSkill(skillName);
+
+        if (starterItemId)
+        {
+            addStarterInventoryItem(character, makeStarterInventoryItem(*starterItemId, itemTable));
+            continue;
+        }
+
+        if (!isStarterMagicSkill(skillName))
+        {
+            continue;
+        }
+
+        const std::optional<std::pair<uint32_t, uint32_t>> spellRange = spellIdRangeForMagicSkill(skillName);
+
+        if (!spellRange)
+        {
+            continue;
+        }
+
+        for (uint32_t spellId = spellRange->first;
+             spellId <= spellRange->second && spellId < spellRange->first + 2;
+             ++spellId)
+        {
+            const std::optional<uint32_t> spellbookItemId = spellbookItemIdForSpell(itemTable, spellId);
+
+            if (!spellbookItemId)
+            {
+                continue;
+            }
+
+            addStarterInventoryItem(character, makeStarterInventoryItem(*spellbookItemId, itemTable));
+        }
+    }
+}
 
 void seedSimulatedPartyFromRoster(
     Party &party,
@@ -132,7 +355,7 @@ void seedSimulatedAdventurersInn(
 
 float normalizedVolumeLevel(int level)
 {
-    return std::clamp(static_cast<float>(level) / 10.0f, 0.0f, 1.0f);
+    return std::clamp(static_cast<float>(level) / 9.0f, 0.0f, 1.0f);
 }
 
 float mouseRotateSpeedForTurnRate(TurnRateMode turnRate)
@@ -151,6 +374,63 @@ float mouseRotateSpeedForTurnRate(TurnRateMode turnRate)
 
     return 0.0045f;
 }
+
+Character buildFreshCreatedCharacter(
+    const Character &sourceCharacter,
+    const ItemTable &itemTable,
+    const StandardItemEnchantTable &standardItemEnchantTable,
+    const SpecialItemEnchantTable &specialItemEnchantTable)
+{
+    Character character = sourceCharacter;
+    character.rosterId = 0;
+    character.birthYear = character.birthYear != 0 ? character.birthYear : 1150;
+    character.experience = 0;
+    character.level = 1;
+    character.skillPoints = 0;
+    character.quickSpellName.clear();
+    character.knownSpellIds.clear();
+    character.baseResistances = {};
+    character.permanentBonuses = {};
+    character.magicalBonuses = {};
+    character.permanentImmunities = {};
+    character.magicalImmunities = {};
+    character.permanentConditionImmunities = {};
+    character.magicalConditionImmunities = {};
+    character.equipment = {};
+    character.equipmentRuntime = {};
+    character.conditions = {};
+    character.awards.clear();
+    character.eventVariables.clear();
+    character.recoverySecondsRemaining = 0.0f;
+    character.armorClassModifier = 0;
+    character.levelModifier = 0;
+    character.ageModifier = 0;
+    character.playerBits = 0;
+    character.npcs2 = 0;
+    character.merchantBonus = 0;
+    character.weaponEnchantmentDamageBonus = 0;
+    character.vampiricHealFraction = 0.0f;
+    character.physicalAttackDisabled = false;
+    character.physicalDamageImmune = false;
+    character.halfMissileDamage = false;
+    character.waterWalking = false;
+    character.featherFalling = false;
+    character.healthRegenPerSecond = 0.0f;
+    character.spellRegenPerSecond = 0.0f;
+    character.healthRegenAccumulator = 0.0f;
+    character.spellRegenAccumulator = 0.0f;
+    character.attackRecoveryReductionTicks = 0;
+    character.recoveryProgressMultiplier = 1.0f;
+    character.itemSkillBonuses.clear();
+    character.inventory.clear();
+
+    character.maxHealth = GameMechanics::calculateBaseCharacterMaxHealth(character);
+    character.health = character.maxHealth;
+    character.maxSpellPoints = GameMechanics::calculateBaseCharacterMaxSpellPoints(character);
+    character.spellPoints = character.maxSpellPoints;
+    grantCreatedCharacterStarterItems(character, itemTable, standardItemEnchantTable, specialItemEnchantTable);
+    return character;
+}
 }
 
 GameApplication::GameApplication(const Engine::ApplicationConfig &config)
@@ -158,6 +438,7 @@ GameApplication::GameApplication(const Engine::ApplicationConfig &config)
         config,
         std::bind(&GameApplication::loadGameData, this, std::placeholders::_1),
         std::bind(&GameApplication::initializeRenderer, this),
+        std::bind(&GameApplication::handleSdlEvent, this, std::placeholders::_1),
         std::bind(
             &GameApplication::renderFrame,
             this,
@@ -181,6 +462,16 @@ GameApplication::GameApplication(const Engine::ApplicationConfig &config)
 int GameApplication::run()
 {
     return m_engineApplication.run();
+}
+
+void GameApplication::handleSdlEvent(const SDL_Event &event)
+{
+    IScreen *pActiveScreen = m_screenManager.activeScreen();
+
+    if (pActiveScreen != nullptr)
+    {
+        pActiveScreen->handleSdlEvent(event);
+    }
 }
 
 std::filesystem::path GameApplication::settingsFilePath() const
@@ -223,6 +514,7 @@ void GameApplication::applyCurrentSettingsToActiveRuntime()
     m_outdoorGameView.setWalkSoundEnabled(m_settings.walksound);
     m_outdoorGameView.setShowHitStatusMessages(m_settings.showHits);
     m_outdoorGameView.setFlipOnExitEnabled(m_settings.flipOnExit);
+    m_outdoorGameView.setSettingsSnapshot(m_settings);
 
     if (m_pOutdoorPartyRuntime != nullptr)
     {
@@ -249,6 +541,7 @@ void GameApplication::applyStartupDebugSettingsToActiveRuntime()
 
 void GameApplication::shutdownApplication()
 {
+    m_screenManager.setActiveScreen(nullptr);
     shutdownRenderer();
     m_gameAudioSystem.shutdown();
 }
@@ -347,6 +640,9 @@ bool GameApplication::initializeSelectedMapRuntime(bool initializeView)
         m_pOutdoorPartyRuntime = std::make_unique<OutdoorPartyRuntime>(
             OutdoorMovementDriver(
                 *selectedMap->outdoorMapData,
+                selectedMap->map.outdoorBounds.enabled
+                    ? std::optional<MapBounds>(selectedMap->map.outdoorBounds)
+                    : std::nullopt,
                 selectedMap->outdoorLandMask,
                 selectedMap->outdoorDecorationCollisionSet,
                 selectedMap->outdoorActorCollisionSet,
@@ -354,10 +650,7 @@ bool GameApplication::initializeSelectedMapRuntime(bool initializeView)
             ),
             m_gameDataLoader.getItemTable()
         );
-        m_pOutdoorPartyRuntime->party().setItemEnchantTables(
-            &m_gameDataLoader.getStandardItemEnchantTable(),
-            &m_gameDataLoader.getSpecialItemEnchantTable());
-        m_pOutdoorPartyRuntime->party().setClassSkillTable(&m_gameDataLoader.getClassSkillTable());
+        bindPartyDependencies(m_pOutdoorPartyRuntime->party());
 
         if (m_gameSession.partyState())
         {
@@ -396,6 +689,7 @@ bool GameApplication::initializeSelectedMapRuntime(bool initializeView)
         restoreSavedOutdoorWorldStateForSelectedMap();
         m_pMapSceneRuntime = std::make_unique<OutdoorSceneRuntime>(
             selectedMap->map.fileName,
+            selectedMap->map,
             *m_pOutdoorPartyRuntime,
             *m_pOutdoorWorldRuntime,
             selectedMap->localEventIrProgram,
@@ -450,6 +744,7 @@ bool GameApplication::initializeSelectedMapRuntime(bool initializeView)
             selectedMap->globalEvtProgram,
             &m_gameAudioSystem,
             *static_cast<OutdoorSceneRuntime *>(m_pMapSceneRuntime.get()),
+            m_settings,
             m_gameDataLoader.getMapStats().getEntries(),
             [this](
                 const std::filesystem::path &path,
@@ -464,6 +759,18 @@ bool GameApplication::initializeSelectedMapRuntime(bool initializeView)
             {
                 static_cast<void>(error);
                 return quickLoadFromPath(path, true);
+            },
+            [this](const GameSettings &settings)
+            {
+                m_settings = settings;
+                std::string error;
+
+                if (!saveGameSettings(settingsFilePath(), m_settings, error))
+                {
+                    std::cerr << "GameApplication: failed to write settings.ini: " << error << '\n';
+                }
+
+                applyCurrentSettingsToActiveRuntime();
             }
         );
     }
@@ -540,6 +847,7 @@ Party &GameApplication::ensureSessionPartyState()
 void GameApplication::bindPartyDependencies(Party &party) const
 {
     party.setItemTable(&m_gameDataLoader.getItemTable());
+    party.setCharacterDollTable(&m_gameDataLoader.getCharacterDollTable());
     party.setItemEnchantTables(
         &m_gameDataLoader.getStandardItemEnchantTable(),
         &m_gameDataLoader.getSpecialItemEnchantTable());
@@ -929,23 +1237,44 @@ void GameApplication::openLoadMenuScreen()
         }));
 }
 
-void GameApplication::openNewGameScreen()
+void GameApplication::openNewGameScreen(bool returnToGameplayMenu)
 {
     if (m_pAssetFileSystem == nullptr)
     {
         return;
     }
 
+    m_gameAudioSystem.stopBackgroundMusicImmediate();
+
     m_screenManager.setActiveScreen(std::make_unique<NewGameScreen>(
         *m_pAssetFileSystem,
-        m_gameDataLoader.getRosterTable(),
-        [this](std::optional<uint32_t> rosterId)
+        &m_gameAudioSystem,
+        m_gameDataLoader.getCharacterDollTable(),
+        m_gameDataLoader.getCharacterInspectTable(),
+        m_gameDataLoader.getClassSkillTable(),
+        [this](const Character &character)
         {
-            startNewSession(rosterId);
+            startNewSessionFromCharacterCreation(character);
         },
-        [this]()
+        [this, returnToGameplayMenu]()
         {
-            openMainMenuScreen();
+            if (returnToGameplayMenu)
+            {
+                const std::optional<MapAssetInfo> &selectedMap = m_gameDataLoader.getSelectedMap();
+
+                m_screenManager.setActiveScreen(nullptr);
+                m_outdoorGameView.reopenMenuScreen();
+
+                if (selectedMap)
+                {
+                    m_gameAudioSystem.stopBackgroundMusicImmediate();
+                    m_gameAudioSystem.setBackgroundMusicTrack(selectedMap->map.redbookTrack);
+                }
+            }
+            else
+            {
+                openMainMenuScreen();
+            }
         }));
 }
 
@@ -1034,6 +1363,52 @@ bool GameApplication::startNewSession(std::optional<uint32_t> rosterId, bool ini
 
     applyCurrentSettingsToActiveRuntime();
     applyStartupDebugSettingsToActiveRuntime();
+    synchronizeSessionFromRuntime();
+    return true;
+}
+
+bool GameApplication::startNewSessionFromCharacterCreation(const Character &character, bool initializeView)
+{
+    if (m_pAssetFileSystem == nullptr)
+    {
+        return false;
+    }
+
+    m_screenManager.setActiveScreen(nullptr);
+    shutdownRenderer();
+    m_gameSession.clear();
+    m_gameSession.clearCurrentSavePath();
+    m_gameSession.setCurrentSceneKind(SceneKind::Outdoor);
+    m_gameSession.setCurrentMapFileName(DefaultStartupMapFile);
+
+    if (!loadCurrentSessionMap(initializeView))
+    {
+        openMainMenuScreen();
+        return false;
+    }
+
+    if (m_pOutdoorPartyRuntime == nullptr)
+    {
+        openMainMenuScreen();
+        return false;
+    }
+
+    PartySeed seed = {};
+    seed.gold = 200;
+    seed.food = 5;
+    seed.members.push_back(
+        buildFreshCreatedCharacter(
+            character,
+            m_gameDataLoader.getItemTable(),
+            m_gameDataLoader.getStandardItemEnchantTable(),
+            m_gameDataLoader.getSpecialItemEnchantTable()));
+    m_pOutdoorPartyRuntime->party().seed(seed);
+    seedSimulatedAdventurersInn(
+        m_pOutdoorPartyRuntime->party(),
+        m_gameDataLoader.getRosterTable(),
+        m_gameDataLoader.getNpcDialogTable(),
+        std::nullopt);
+    applyCurrentSettingsToActiveRuntime();
     synchronizeSessionFromRuntime();
     return true;
 }
@@ -1233,6 +1608,12 @@ void GameApplication::renderFrame(int width, int height, float mouseWheelDelta, 
     {
         m_outdoorGameView.render(width, height, mouseWheelDelta, deltaSeconds);
 
+        if (m_outdoorGameView.consumePendingOpenNewGameScreenRequest())
+        {
+            openNewGameScreen(true);
+            return;
+        }
+
         if (m_pOutdoorPartyRuntime != nullptr)
         {
             const OutdoorMoveState &moveState = m_pOutdoorPartyRuntime->movementState();
@@ -1308,7 +1689,7 @@ bool GameApplication::processPendingMapMove()
             && m_pMapSceneRuntime != nullptr
             && m_pMapSceneRuntime->kind() == SceneKind::Outdoor)
         {
-            const float yawRadians = static_cast<float>(*pendingMapMove->directionDegrees) * Pi / 180.0f;
+            const float yawRadians = mapMoveHeadingDegreesToOutdoorYawRadians(*pendingMapMove->directionDegrees);
             m_outdoorGameView.setCameraAngles(yawRadians, m_outdoorGameView.cameraPitchRadians());
         }
 
@@ -1345,7 +1726,7 @@ bool GameApplication::processPendingMapMove()
         && m_pMapSceneRuntime != nullptr
         && m_pMapSceneRuntime->kind() == SceneKind::Outdoor)
     {
-        const float yawRadians = static_cast<float>(*pendingMapMove->directionDegrees) * Pi / 180.0f;
+        const float yawRadians = mapMoveHeadingDegreesToOutdoorYawRadians(*pendingMapMove->directionDegrees);
         m_outdoorGameView.setCameraAngles(yawRadians, m_outdoorGameView.cameraPitchRadians());
     }
 

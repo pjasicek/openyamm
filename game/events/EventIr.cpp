@@ -712,14 +712,14 @@ EventIrInstruction EventIrProgram::convertInstruction(
     }
     else if (irInstruction.operation == EventIrOperation::MoveToMap)
     {
-        const std::optional<int32_t> x = readPayloadValue<int32_t>(evtInstruction.rawPayload, 2);
-        const std::optional<int32_t> y = readPayloadValue<int32_t>(evtInstruction.rawPayload, 6);
-        const std::optional<int32_t> z = readPayloadValue<int32_t>(evtInstruction.rawPayload, 10);
-        const std::optional<int32_t> yaw = readPayloadValue<int32_t>(evtInstruction.rawPayload, 14);
-        const std::optional<int32_t> pitch = readPayloadValue<int32_t>(evtInstruction.rawPayload, 18);
-        const std::optional<int32_t> zSpeed = readPayloadValue<int32_t>(evtInstruction.rawPayload, 22);
-        const std::optional<uint8_t> houseId = readPayloadValue<uint8_t>(evtInstruction.rawPayload, 26);
-        const std::optional<uint8_t> exitPicId = readPayloadValue<uint8_t>(evtInstruction.rawPayload, 27);
+        const std::optional<int32_t> x = readPayloadValue<int32_t>(evtInstruction.rawPayload, 0);
+        const std::optional<int32_t> y = readPayloadValue<int32_t>(evtInstruction.rawPayload, 4);
+        const std::optional<int32_t> z = readPayloadValue<int32_t>(evtInstruction.rawPayload, 8);
+        const std::optional<int32_t> yaw = readPayloadValue<int32_t>(evtInstruction.rawPayload, 12);
+        const std::optional<int32_t> pitch = readPayloadValue<int32_t>(evtInstruction.rawPayload, 16);
+        const std::optional<int32_t> zSpeed = readPayloadValue<int32_t>(evtInstruction.rawPayload, 20);
+        const std::optional<uint8_t> houseId = readPayloadValue<uint8_t>(evtInstruction.rawPayload, 24);
+        const std::optional<uint8_t> exitPicId = readPayloadValue<uint8_t>(evtInstruction.rawPayload, 25);
 
         if (x && y && z && yaw && pitch && zSpeed && houseId && exitPicId)
         {

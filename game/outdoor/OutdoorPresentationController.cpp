@@ -160,17 +160,18 @@ bool bypassSpeechCooldown(SpeechId speechId)
 {
     switch (speechId)
     {
-    case SpeechId::IdentifyWeakItem:
-    case SpeechId::IdentifyGreatItem:
-    case SpeechId::IdentifyFailItem:
-    case SpeechId::RepairSuccess:
-    case SpeechId::RepairFail:
-    case SpeechId::CantLearnSpell:
-    case SpeechId::LearnSpell:
-        return true;
+        case SpeechId::DamageMajor:
+        case SpeechId::IdentifyWeakItem:
+        case SpeechId::IdentifyGreatItem:
+        case SpeechId::IdentifyFailItem:
+        case SpeechId::RepairSuccess:
+        case SpeechId::RepairFail:
+        case SpeechId::CantLearnSpell:
+        case SpeechId::LearnSpell:
+            return true;
 
-    default:
-        return false;
+        default:
+            return false;
     }
 }
 
@@ -535,8 +536,6 @@ bool OutdoorPresentationController::canPlaySpeechReaction(
     case SpeechId::KillStrongEnemy:
         return true;
 
-    case SpeechId::DamageMinor:
-    case SpeechId::DamageMajor:
     case SpeechId::AttackHit:
     case SpeechId::AttackMiss:
     case SpeechId::Shoot:
@@ -602,8 +601,6 @@ void OutdoorPresentationController::playSpeechReaction(
 
         switch (speechId)
         {
-        case SpeechId::DamageMinor:
-        case SpeechId::DamageMajor:
         case SpeechId::AttackHit:
         case SpeechId::AttackMiss:
         case SpeechId::Shoot:
@@ -670,7 +667,21 @@ void OutdoorPresentationController::consumePendingPartyAudioRequests(OutdoorGame
             position = listenerPosition;
         }
 
-        view.m_pGameAudioSystem->playCommonSound(request.soundId, group, position);
+        const bool played = request.soundId == SoundId::DullStrike
+            || request.soundId == SoundId::MetalVsMetal01
+            || request.soundId == SoundId::MetalArmorStrike01
+            || request.soundId == SoundId::MetalArmorStrike02
+            || request.soundId == SoundId::MetalArmorStrike03
+            || request.soundId == SoundId::DullArmorStrike01
+            || request.soundId == SoundId::DullArmorStrike02
+            || request.soundId == SoundId::DullArmorStrike03
+            ? view.m_pGameAudioSystem->playCommonSoundNonResettable(request.soundId, group, position)
+            : view.m_pGameAudioSystem->playCommonSound(request.soundId, group, position);
+
+        if (!played)
+        {
+            continue;
+        }
     }
 
     party.clearPendingAudioRequests();

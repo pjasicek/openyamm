@@ -7,6 +7,7 @@
 #include "game/items/ItemGenerator.h"
 #include "game/items/ItemRuntime.h"
 #include "game/tables/ItemTable.h"
+#include "game/tables/CharacterDollTable.h"
 #include "game/tables/RosterTable.h"
 #include "game/party/SpellSchool.h"
 #include "game/party/SpellIds.h"
@@ -244,6 +245,14 @@ uint32_t generateHouseStockSeed()
     return mixed != 0 ? mixed : 1u;
 }
 
+template <size_t N>
+SoundId pickRandomSoundId(const std::array<SoundId, N> &soundIds)
+{
+    static thread_local std::mt19937 rng(std::random_device{}());
+    std::uniform_int_distribution<size_t> distribution(0, N - 1);
+    return soundIds[distribution(rng)];
+}
+
 std::string portraitTextureNameFromPictureId(uint32_t pictureId)
 {
     char buffer[16] = {};
@@ -285,6 +294,8 @@ Character buildCharacterFromRosterEntry(const RosterEntry &rosterEntry)
     member.role = normalizeRoleName(member.className);
     member.portraitTextureName = portraitTextureNameFromPictureId(rosterEntry.pictureId);
     member.portraitPictureId = rosterEntry.pictureId;
+    member.characterDataId = rosterEntry.pictureId + 1;
+    member.voiceId = rosterEntry.voiceId;
     member.rosterId = rosterEntry.id;
     member.birthYear = rosterEntry.birthYear;
     member.experience = rosterEntry.experience;
@@ -301,17 +312,9 @@ Character buildCharacterFromRosterEntry(const RosterEntry &rosterEntry)
     member.skills = rosterEntry.skills;
     applyRosterSpellKnowledge(member, rosterEntry);
 
-    const int endurance = std::max(10, static_cast<int>(rosterEntry.endurance));
-    const int intellect = std::max(0, static_cast<int>(rosterEntry.intellect));
-    const int personality = std::max(0, static_cast<int>(rosterEntry.personality));
-
-    member.maxHealth = std::max(1, 40 + endurance * 2 + static_cast<int>(member.level) * 5);
+    member.maxHealth = GameMechanics::calculateBaseCharacterMaxHealth(member);
     member.health = member.maxHealth;
-
-    const bool isCaster = intellect > 0 || personality > 0;
-    member.maxSpellPoints = isCaster
-        ? std::max(0, ((intellect + personality) / 2) + static_cast<int>(member.level) * 3)
-        : 0;
+    member.maxSpellPoints = GameMechanics::calculateBaseCharacterMaxSpellPoints(member);
     member.spellPoints = member.maxSpellPoints;
     return member;
 }
@@ -486,6 +489,45 @@ constexpr uint32_t AttackPreferenceHuman = 0x0800;
 constexpr uint32_t AttackPreferenceElf = 0x1000;
 constexpr uint32_t AttackPreferenceDwarf = 0x2000;
 constexpr uint32_t AttackPreferenceGoblin = 0x4000;
+constexpr uint32_t CharacterSexMale = 0;
+constexpr uint32_t CharacterSexFemale = 1;
+constexpr uint32_t CharacterRaceHuman = 0;
+constexpr uint32_t CharacterRaceDarkElf = 2;
+constexpr uint32_t CharacterRaceElf = 7;
+constexpr uint32_t CharacterRaceGoblin = 8;
+
+void applyCharacterIdentityFromDollTable(Character &member, const CharacterDollTable *pCharacterDollTable)
+{
+    if (member.characterDataId == 0
+        && (member.rosterId != 0 || !member.portraitTextureName.empty() || member.portraitPictureId != 0))
+    {
+        member.characterDataId = member.portraitPictureId + 1;
+    }
+
+    if (pCharacterDollTable == nullptr || member.characterDataId == 0)
+    {
+        return;
+    }
+
+    const CharacterDollEntry *pEntry = pCharacterDollTable->getCharacter(member.characterDataId);
+
+    if (pEntry == nullptr)
+    {
+        return;
+    }
+
+    if (member.voiceId < 0)
+    {
+        member.voiceId = static_cast<int32_t>(pEntry->defaultVoiceId);
+    }
+
+    member.sexId = pEntry->defaultSex;
+
+    if (pEntry->raceId >= 0)
+    {
+        member.raceId = static_cast<uint32_t>(pEntry->raceId);
+    }
+}
 
 bool isValidMonsterAttackTarget(const Character &member)
 {
@@ -500,6 +542,9 @@ bool isValidMonsterAttackTarget(const Character &member)
 bool matchesMonsterAttackPreference(const Character &member, uint32_t preferenceFlag)
 {
     const std::string className = canonicalClassName(member.className.empty() ? member.role : member.className);
+    const bool hasCharacterIdentity = member.characterDataId != 0;
+    const std::string normalizedRole = toLowerCopy(member.role);
+    const std::string normalizedClassName = toLowerCopy(className);
 
     switch (preferenceFlag)
     {
@@ -530,8 +575,16 @@ bool matchesMonsterAttackPreference(const Character &member, uint32_t preference
         case AttackPreferenceMonk:
             return className == "Monk";
 
+        case AttackPreferenceMale:
+            return hasCharacterIdentity ? member.sexId == CharacterSexMale : false;
+
+        case AttackPreferenceFemale:
+            return hasCharacterIdentity ? member.sexId == CharacterSexFemale : false;
+
         case AttackPreferenceHuman:
-            return className == "Knight"
+            return hasCharacterIdentity
+                ? member.raceId == CharacterRaceHuman
+                : className == "Knight"
                 || className == "Paladin"
                 || className == "Archer"
                 || className == "Druid"
@@ -542,12 +595,19 @@ bool matchesMonsterAttackPreference(const Character &member, uint32_t preference
                 || className == "Monk";
 
         case AttackPreferenceElf:
-            return className == "DarkElf";
+            return hasCharacterIdentity
+                ? member.raceId == CharacterRaceDarkElf || member.raceId == CharacterRaceElf
+                : className == "DarkElf";
 
-        case AttackPreferenceMale:
-        case AttackPreferenceFemale:
         case AttackPreferenceDwarf:
+            return normalizedClassName.find("dwarf") != std::string::npos
+                || normalizedRole.find("dwarf") != std::string::npos;
+
         case AttackPreferenceGoblin:
+            return hasCharacterIdentity
+                ? member.raceId == CharacterRaceGoblin
+                : className == "Goblin";
+
         default:
             return false;
     }
@@ -1481,6 +1541,21 @@ void Party::setItemTable(const ItemTable *pItemTable)
     m_pItemTable = pItemTable;
 }
 
+void Party::setCharacterDollTable(const CharacterDollTable *pCharacterDollTable)
+{
+    m_pCharacterDollTable = pCharacterDollTable;
+
+    for (Character &member : m_members)
+    {
+        applyCharacterIdentityFromDollTable(member, m_pCharacterDollTable);
+    }
+
+    for (AdventurersInnMember &member : m_adventurersInnMembers)
+    {
+        applyCharacterIdentityFromDollTable(member.character, m_pCharacterDollTable);
+    }
+}
+
 void Party::setItemEnchantTables(
     const StandardItemEnchantTable *pStandardItemEnchantTable,
     const SpecialItemEnchantTable *pSpecialItemEnchantTable)
@@ -1638,11 +1713,13 @@ void Party::restoreSnapshot(const Snapshot &snapshot)
 
     for (Character &member : m_members)
     {
+        applyCharacterIdentityFromDollTable(member, m_pCharacterDollTable);
         initializePortraitRuntimeState(member);
     }
 
     for (AdventurersInnMember &member : m_adventurersInnMembers)
     {
+        applyCharacterIdentityFromDollTable(member.character, m_pCharacterDollTable);
         initializePortraitRuntimeState(member.character);
         member.portraitPictureId = resolveAdventurersInnPortraitPictureId(member.character, member.portraitPictureId);
     }
@@ -1680,6 +1757,7 @@ void Party::seed(const PartySeed &seed)
     for (Character &member : m_members)
     {
         const std::vector<InventoryItem> seededInventory = member.inventory;
+        applyCharacterIdentityFromDollTable(member, m_pCharacterDollTable);
         member.className = canonicalClassName(member.className.empty() ? member.role : member.className);
         member.role = normalizeRoleName(member.className);
         member.level = std::max<uint32_t>(1, member.level);
@@ -1913,6 +1991,7 @@ bool Party::applyDamageToMember(size_t memberIndex, int damage, const std::strin
     }
 
     Character &member = m_members[memberIndex];
+    const int previousHealth = member.health;
 
     if (member.health <= 0)
     {
@@ -1924,12 +2003,21 @@ bool Party::applyDamageToMember(size_t memberIndex, int damage, const std::strin
         m_characterBuffs[memberIndex][static_cast<size_t>(CharacterBuffId::Preservation)].active();
     updateMemberIncapacitatedCondition(member, preservationActive);
 
-    const float healthFraction = member.maxHealth > 0
-        ? static_cast<float>(member.health) / static_cast<float>(member.maxHealth)
-        : 0.0f;
-    queueSpeech(
-        memberIndex,
-        healthFraction <= 0.25f || member.health <= 0 ? SpeechId::DamageMajor : SpeechId::DamageMinor);
+    const bool crossedMajorDamageThreshold =
+        member.maxHealth > 0
+        && previousHealth > member.maxHealth / 4
+        && member.health > 0
+        && member.health <= member.maxHealth / 4;
+
+    if (GameMechanics::canAct(member))
+    {
+        queueSpeech(memberIndex, SpeechId::DamageMinor);
+    }
+
+    if (member.health <= 0 || crossedMajorDamageThreshold)
+    {
+        queueSpeech(memberIndex, SpeechId::DamageMajor);
+    }
 
     if (!status.empty())
     {
@@ -2133,6 +2221,11 @@ void Party::addFood(int amount)
 void Party::requestSound(SoundId soundId)
 {
     queueSound(soundId);
+}
+
+void Party::requestDamageImpactSoundForMember(size_t memberIndex)
+{
+    queueSound(resolveDamageImpactSoundForMember(memberIndex));
 }
 
 void Party::requestSpeech(size_t memberIndex, SpeechId speechId)
@@ -2570,6 +2663,7 @@ bool Party::addAdventurersInnMember(const Character &character, uint32_t portrai
 {
     AdventurersInnMember member = {};
     member.character = character;
+    applyCharacterIdentityFromDollTable(member.character, m_pCharacterDollTable);
     member.character.className = canonicalClassName(
         member.character.className.empty() ? member.character.role : member.character.className);
     member.character.role = normalizeRoleName(member.character.className);
@@ -2594,6 +2688,7 @@ bool Party::hireAdventurersInnMember(size_t innIndex)
     }
 
     m_members.push_back(m_adventurersInnMembers[innIndex].character);
+    applyCharacterIdentityFromDollTable(m_members.back(), m_pCharacterDollTable);
     m_adventurersInnMembers.erase(m_adventurersInnMembers.begin() + innIndex);
     m_lastStatus = "adventurer hired from inn";
     return true;
@@ -2688,6 +2783,7 @@ bool Party::replaceMemberWithRosterEntry(size_t memberIndex, const RosterEntry &
     }
 
     m_members[memberIndex] = buildCharacterFromRosterEntry(rosterEntry);
+    applyCharacterIdentityFromDollTable(m_members[memberIndex], m_pCharacterDollTable);
     initializePortraitRuntimeState(m_members[memberIndex]);
     grantRosterInventoryToCharacter(m_members[memberIndex], rosterEntry, m_pItemTable);
 
@@ -4490,6 +4586,58 @@ void Party::queueSpeech(size_t memberIndex, SpeechId speechId)
     request.speechId = speechId;
     request.memberIndex = memberIndex;
     m_pendingAudioRequests.push_back(request);
+}
+
+SoundId Party::resolveDamageImpactSoundForMember(size_t memberIndex) const
+{
+    if (memberIndex >= m_members.size() || m_pItemTable == nullptr)
+    {
+        return SoundId::DullStrike;
+    }
+
+    const std::optional<InventoryItem> armor = equippedItem(memberIndex, EquipmentSlot::Armor);
+
+    if (!armor.has_value())
+    {
+        return SoundId::DullStrike;
+    }
+
+    const ItemDefinition *pArmorDefinition = m_pItemTable->get(armor->objectDescriptionId);
+
+    if (pArmorDefinition == nullptr)
+    {
+        return SoundId::DullStrike;
+    }
+
+    if (pArmorDefinition->skillGroup == "Chain")
+    {
+        static constexpr std::array<SoundId, 4> MetalArmorSounds = {
+            SoundId::MetalArmorStrike01,
+            SoundId::MetalArmorStrike02,
+            SoundId::MetalArmorStrike03,
+            SoundId::MetalVsMetal01,
+        };
+        return pickRandomSoundId(MetalArmorSounds);
+    }
+
+    if (pArmorDefinition->skillGroup == "Plate")
+    {
+        static constexpr std::array<SoundId, 4> PlateArmorSounds = {
+            SoundId::MetalArmorStrike03,
+            SoundId::MetalArmorStrike02,
+            SoundId::MetalArmorStrike01,
+            SoundId::MetalVsMetal01,
+        };
+        return pickRandomSoundId(PlateArmorSounds);
+    }
+
+    static constexpr std::array<SoundId, 4> DullArmorSounds = {
+        SoundId::DullArmorStrike01,
+        SoundId::DullArmorStrike02,
+        SoundId::DullArmorStrike03,
+        SoundId::DullStrike,
+    };
+    return pickRandomSoundId(DullArmorSounds);
 }
 
 void Party::rebuildMagicalBonusesFromBuffs()

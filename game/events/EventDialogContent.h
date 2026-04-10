@@ -3,6 +3,7 @@
 #include "game/tables/ClassSkillTable.h"
 #include "game/events/EventRuntime.h"
 #include "game/tables/HouseTable.h"
+#include "game/tables/MapStats.h"
 #include "game/tables/NpcDialogTable.h"
 
 #include <cstddef>
@@ -21,11 +22,25 @@ enum class EventDialogActionKind
     HouseService,
     HouseResident,
     NpcTopic,
+    MapTransitionConfirm,
+    MapTransitionCancel,
     RosterJoinOffer,
     RosterJoinAccept,
     RosterJoinDecline,
     MasteryTeacherOffer,
     MasteryTeacherLearn,
+};
+
+enum class EventDialogParticipantVisual
+{
+    Portrait,
+    MapIcon,
+};
+
+enum class EventDialogPresentation
+{
+    Standard,
+    Transition,
 };
 
 struct EventDialogAction
@@ -46,6 +61,8 @@ struct EventDialogContent
     bool isHouseDialog = false;
     uint32_t sourceId = 0;
     uint32_t participantPictureId = 0;
+    EventDialogParticipantVisual participantVisual = EventDialogParticipantVisual::Portrait;
+    EventDialogPresentation presentation = EventDialogPresentation::Standard;
     std::string houseTitle;
     std::string title;
     std::vector<std::string> lines;
@@ -66,6 +83,8 @@ EventDialogContent buildEventDialogContent(
     const HouseTable *pHouseTable,
     const ClassSkillTable *pClassSkillTable,
     const NpcDialogTable *pNpcDialogTable,
+    const MapStatsEntry *pCurrentMap,
+    const std::vector<MapStatsEntry> *pMapEntries,
     const Party *pParty,
     const OutdoorWorldRuntime *pOutdoorWorldRuntime,
     float currentGameMinutes

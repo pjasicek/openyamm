@@ -19,6 +19,7 @@
 namespace OpenYAMM::Game
 {
 class ItemTable;
+class CharacterDollTable;
 struct RosterEntry;
 struct EventRuntimeState;
 class StandardItemEnchantTable;
@@ -59,6 +60,7 @@ struct Character
     uint16_t portraitImageIndex = 0;
     uint32_t rosterId = 0;
     uint32_t characterDataId = 0;
+    int32_t voiceId = -1;
     uint32_t birthYear = 0;
     uint32_t sexId = 0;
     uint32_t raceId = 0;
@@ -284,6 +286,7 @@ public:
     static PartySeed createDefaultSeed();
 
     void setItemTable(const ItemTable *pItemTable);
+    void setCharacterDollTable(const CharacterDollTable *pCharacterDollTable);
     void setItemEnchantTables(
         const StandardItemEnchantTable *pStandardItemEnchantTable,
         const SpecialItemEnchantTable *pSpecialItemEnchantTable);
@@ -311,6 +314,7 @@ public:
     void addGold(int amount);
     void addFood(int amount);
     void requestSound(SoundId soundId);
+    void requestDamageImpactSoundForMember(size_t memberIndex);
     void requestSpeech(size_t memberIndex, SpeechId speechId);
     bool tryGrantItem(uint32_t objectDescriptionId, uint32_t quantity = 1);
     bool tryGrantInventoryItem(const InventoryItem &item, size_t *pRecipientMemberIndex = nullptr);
@@ -499,8 +503,10 @@ private:
     void markArtifactItemFoundIfRelevant(const InventoryItem &item);
     void queueSound(SoundId soundId);
     void queueSpeech(size_t memberIndex, SpeechId speechId);
+    SoundId resolveDamageImpactSoundForMember(size_t memberIndex) const;
 
     const ItemTable *m_pItemTable = nullptr;
+    const CharacterDollTable *m_pCharacterDollTable = nullptr;
     const StandardItemEnchantTable *m_pStandardItemEnchantTable = nullptr;
     const SpecialItemEnchantTable *m_pSpecialItemEnchantTable = nullptr;
     const ClassSkillTable *m_pClassSkillTable = nullptr;

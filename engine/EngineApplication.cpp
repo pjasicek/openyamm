@@ -88,12 +88,14 @@ EngineApplication::EngineApplication(
     const ApplicationConfig &config,
     StartupCallback startupCallback,
     RenderSetupCallback renderSetupCallback,
+    EventCallback eventCallback,
     RenderFrameCallback renderFrameCallback,
     ShutdownCallback shutdownCallback
 )
     : m_config(config)
     , m_startupCallback(std::move(startupCallback))
     , m_renderSetupCallback(std::move(renderSetupCallback))
+    , m_eventCallback(std::move(eventCallback))
     , m_renderFrameCallback(std::move(renderFrameCallback))
     , m_shutdownCallback(std::move(shutdownCallback))
 {
@@ -218,6 +220,11 @@ int EngineApplication::run() const
             if (event.type == SDL_EVENT_MOUSE_WHEEL)
             {
                 mouseWheelDelta += event.wheel.y;
+            }
+
+            if (m_eventCallback)
+            {
+                m_eventCallback(event);
             }
         }
 

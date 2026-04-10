@@ -1,0 +1,266 @@
+screen: Controls
+
+elements:
+  - id: ControlsRoot
+    anchor: center
+    width: 640
+    height: 480
+    z_index: 440
+    visible: true
+    scale:
+      min: 1.0
+      max: 3.0
+    children:
+      - id: ControlsBackground
+        anchor: top_left
+        offset_x: 0
+        offset_y: 0
+        width: 640
+        height: 480
+        z_index: 0
+        asset:
+          default: controlbg
+
+      - id: ControlsConfigureKeyboardButton
+        anchor: top_left
+        offset_x: 80
+        offset_y: 166
+        width: 227
+        height: 50
+        z_index: 20
+        interactive: true
+        asset:
+          default: bt_cfkbU
+          highlighted: bt_cfkbH
+          pressed: bt_cfkbD
+
+      - id: ControlsVideoOptionsButton
+        anchor: top_left
+        offset_x: 80
+        offset_y: 236
+        width: 227
+        height: 50
+        z_index: 20
+        interactive: true
+        asset:
+          default: bt_vdopU
+          highlighted: bt_vdopH
+          pressed: bt_vdopD
+
+      - id: ControlsTurnTitle
+        anchor: top_left
+        offset_x: 80
+        offset_y: 307
+        width: 227
+        height: 28
+        z_index: 20
+        asset:
+          default: bl_turn
+
+      - id: ControlsTurnRate16Button
+        anchor: top_left
+        offset_x: 80
+        offset_y: 341
+        width: 59
+        height: 24
+        z_index: 20
+        interactive: true
+
+      - id: ControlsTurnRate32Button
+        anchor: top_left
+        offset_x: 144
+        offset_y: 341
+        width: 58
+        height: 24
+        z_index: 20
+        interactive: true
+
+      - id: ControlsTurnRateSmoothButton
+        anchor: top_left
+        offset_x: 207
+        offset_y: 341
+        width: 104
+        height: 24
+        z_index: 20
+        interactive: true
+
+      - id: ControlsWalkSoundButton
+        anchor: top_left
+        offset_x: 80
+        offset_y: 375
+        width: 115
+        height: 24
+        z_index: 20
+        interactive: true
+
+      - id: ControlsShowHitsButton
+        anchor: top_left
+        offset_x: 200
+        offset_y: 375
+        width: 113
+        height: 24
+        z_index: 20
+        interactive: true
+
+      - id: ControlsAlwaysRunButton
+        anchor: top_left
+        offset_x: 80
+        offset_y: 404
+        width: 115
+        height: 24
+        z_index: 20
+        interactive: true
+
+      - id: ControlsFlipOnExitButton
+        anchor: top_left
+        offset_x: 200
+        offset_y: 404
+        width: 113
+        height: 24
+        z_index: 20
+        interactive: true
+
+      - id: ControlsSoundTitle
+        anchor: top_left
+        offset_x: 338
+        offset_y: 165
+        width: 227
+        height: 28
+        z_index: 20
+        asset:
+          default: bl_sound
+
+      - id: ControlsMusicTitle
+        anchor: top_left
+        offset_x: 338
+        offset_y: 236
+        width: 227
+        height: 28
+        z_index: 20
+        asset:
+          default: bl_Music
+
+      - id: ControlsVoiceTitle
+        anchor: top_left
+        offset_x: 338
+        offset_y: 306
+        width: 227
+        height: 28
+        z_index: 20
+        asset:
+          default: bl_voice
+
+      - id: ControlsSoundLeftButton
+        anchor: top_left
+        offset_x: 337
+        offset_y: 202
+        width: 17
+        height: 18
+        z_index: 20
+        interactive: true
+        asset:
+          default: ar_lt_up
+          highlighted: ar_lt_ht
+          pressed: ar_lt_dn
+
+      - id: ControlsSoundKnobLane
+        anchor: top_left
+        offset_x: 356
+        offset_y: 203
+        width: 195
+        height: 18
+        z_index: 20
+
+      - id: ControlsSoundRightButton
+        anchor: top_left
+        offset_x: 551
+        offset_y: 202
+        width: 17
+        height: 18
+        z_index: 20
+        interactive: true
+        asset:
+          default: ar_rt_up
+          highlighted: ar_rt_ht
+          pressed: ar_rt_dn
+
+      - id: ControlsMusicLeftButton
+        anchor: top_left
+        offset_x: 337
+        offset_y: 273
+        width: 17
+        height: 18
+        z_index: 20
+        interactive: true
+        asset:
+          default: ar_lt_up
+          highlighted: ar_lt_ht
+          pressed: ar_lt_dn
+
+      - id: ControlsMusicKnobLane
+        anchor: top_left
+        offset_x: 356
+        offset_y: 273
+        width: 195
+        height: 18
+        z_index: 20
+
+      - id: ControlsMusicRightButton
+        anchor: top_left
+        offset_x: 551
+        offset_y: 273
+        width: 17
+        height: 18
+        z_index: 20
+        interactive: true
+        asset:
+          default: ar_rt_up
+          highlighted: ar_rt_ht
+          pressed: ar_rt_dn
+
+      - id: ControlsVoiceLeftButton
+        anchor: top_left
+        offset_x: 337
+        offset_y: 343
+        width: 17
+        height: 18
+        z_index: 20
+        interactive: true
+        asset:
+          default: ar_lt_up
+          highlighted: ar_lt_ht
+          pressed: ar_lt_dn
+
+      - id: ControlsVoiceKnobLane
+        anchor: top_left
+        offset_x: 356
+        offset_y: 343
+        width: 195
+        height: 18
+        z_index: 20
+
+      - id: ControlsVoiceRightButton
+        anchor: top_left
+        offset_x: 551
+        offset_y: 343
+        width: 17
+        height: 18
+        z_index: 20
+        interactive: true
+        asset:
+          default: ar_rt_up
+          highlighted: ar_rt_ht
+          pressed: ar_rt_dn
+
+      - id: ControlsReturnButton
+        anchor: top_left
+        offset_x: 338
+        offset_y: 376
+        width: 227
+        height: 50
+        z_index: 20
+        interactive: true
+        asset:
+          default: bv_rtrnU
+          highlighted: bv_rtrnH
+          pressed: bv_rtrnD

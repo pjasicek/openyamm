@@ -72,15 +72,27 @@ bool enteredPressurePlateFace(const OutdoorMoveState &previousState, const Outdo
         || previousState.supportBModelIndex != currentState.supportBModelIndex
         || previousState.supportFaceIndex != currentState.supportFaceIndex;
 }
+
+bool canOfferMapTransition(
+    const OutdoorPartyRuntime &partyRuntime,
+    const OutdoorMoveState &moveState)
+{
+    return !partyRuntime.partyMovementState().flying
+        && !moveState.airborne
+        && !moveState.supportOnWater
+        && !moveState.supportOnBurning;
+}
 }
 
 OutdoorSceneRuntime::OutdoorSceneRuntime(
     const std::string &mapFileName,
+    const MapStatsEntry &mapEntry,
     OutdoorPartyRuntime &partyRuntime,
     OutdoorWorldRuntime &worldRuntime,
     const std::optional<EventIrProgram> &localEventIrProgram,
     const std::optional<EventIrProgram> &globalEventIrProgram)
     : m_mapFileName(mapFileName)
+    , m_mapEntry(mapEntry)
     , m_pPartyRuntime(&partyRuntime)
     , m_pWorldRuntime(&worldRuntime)
     , m_localEventIrProgram(localEventIrProgram)
@@ -217,6 +229,25 @@ OutdoorSceneRuntime::AdvanceFrameResult OutdoorSceneRuntime::advanceFrame(
                         || pEventRuntimeState->messages.size() > result.previousMessageCount;
                 }
             }
+        }
+    }
+
+    if (pEventRuntimeState != nullptr
+        && !pEventRuntimeState->pendingDialogueContext.has_value()
+        && !pEventRuntimeState->pendingMapMove.has_value()
+        && m_pPartyRuntime->movementEvents().blockedBoundaryEdge.has_value()
+        && canOfferMapTransition(*m_pPartyRuntime, moveState))
+    {
+        const std::optional<MapEdgeTransition> *pTransition =
+            m_mapEntry.edgeTransition(*m_pPartyRuntime->movementEvents().blockedBoundaryEdge);
+
+        if (pTransition != nullptr && pTransition->has_value() && !(*pTransition)->destinationMapFileName.empty())
+        {
+            EventRuntimeState::PendingDialogueContext context = {};
+            context.kind = DialogueContextKind::MapTransition;
+            context.sourceId = static_cast<uint32_t>(*m_pPartyRuntime->movementEvents().blockedBoundaryEdge);
+            pEventRuntimeState->pendingDialogueContext = std::move(context);
+            result.shouldOpenEventDialog = true;
         }
     }
 

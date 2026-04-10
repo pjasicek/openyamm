@@ -124,6 +124,8 @@ class GameMechanics
 public:
     static uint64_t experienceRequiredForNextLevel(uint32_t currentLevel);
     static uint32_t maximumTrainableLevelFromExperience(const Character &character);
+    static int calculateBaseCharacterMaxHealth(const Character &character);
+    static int calculateBaseCharacterMaxSpellPoints(const Character &character);
     static std::string buildExperienceInspectSupplement(const Character &character);
     static int resolveCharacterDisplayedBasePrimaryStat(
         const Character &character,
@@ -153,6 +155,10 @@ public:
         int targetArmorClass,
         float targetDistance,
         std::mt19937 &rng);
+    static SoundId resolveCharacterAttackSoundId(
+        const Character &character,
+        const ItemTable *pItemTable,
+        CharacterAttackMode attackMode);
     static bool characterRangedAttackHitsArmorClass(
         int targetArmorClass,
         int attackBonus,

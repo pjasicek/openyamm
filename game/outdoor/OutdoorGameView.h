@@ -1,5 +1,6 @@
 #pragma once
 
+#include "game/app/GameSettings.h"
 #include "game/outdoor/OutdoorCollisionData.h"
 #include "game/maps/MapAssetLoader.h"
 #include "game/tables/MapStats.h"
@@ -126,20 +127,26 @@ public:
         const std::optional<EvtProgram> &globalEvtProgram,
         GameAudioSystem *pGameAudioSystem,
         OutdoorSceneRuntime &sceneRuntime,
+        const GameSettings &settings,
         const std::vector<MapStatsEntry> &mapEntries,
         std::function<bool(
             const std::filesystem::path &,
             const std::string &,
             const std::vector<uint8_t> &,
             std::string &)> saveGameToPathCallback,
-        std::function<bool(const std::filesystem::path &, std::string &)> loadGameFromPathCallback
+        std::function<bool(const std::filesystem::path &, std::string &)> loadGameFromPathCallback,
+        std::function<void(const GameSettings &)> settingsChangedCallback
     );
     void render(int width, int height, float mouseWheelDelta, float deltaSeconds);
     void shutdown();
     float cameraYawRadians() const;
     float cameraPitchRadians() const;
     void setCameraAngles(float yawRadians, float pitchRadians);
+    void reopenMenuScreen();
+    void requestOpenNewGameScreen();
+    bool consumePendingOpenNewGameScreenRequest();
     bool requestQuickSave();
+    void setSettingsSnapshot(const GameSettings &settings);
 
 private:
     friend struct GameApplicationTestAccess;
@@ -276,6 +283,7 @@ private:
         Spellbook,
         Rest,
         Menu,
+        Controls,
         SaveGame,
         LoadGame,
         Journal
@@ -375,6 +383,30 @@ public:
         LoadGameButton,
         ControlsButton,
         QuitButton,
+        ReturnButton
+    };
+
+    enum class ControlsPointerTargetType
+    {
+        None,
+        ConfigureKeyboardButton,
+        VideoOptionsButton,
+        TurnRate16Button,
+        TurnRate32Button,
+        TurnRateSmoothButton,
+        WalkSoundButton,
+        ShowHitsButton,
+        AlwaysRunButton,
+        FlipOnExitButton,
+        SoundLeftButton,
+        SoundTrack,
+        SoundRightButton,
+        MusicLeftButton,
+        MusicTrack,
+        MusicRightButton,
+        VoiceLeftButton,
+        VoiceTrack,
+        VoiceRightButton,
         ReturnButton
     };
 
@@ -490,6 +522,7 @@ private:
     using RestScreenState = GameplayUiController::RestScreenState;
     using RestMode = GameplayUiController::RestMode;
     using MenuScreenState = GameplayUiController::MenuScreenState;
+    using ControlsScreenState = GameplayUiController::ControlsScreenState;
     using SaveSlotSummary = GameplayUiController::SaveSlotSummary;
     using SaveGameScreenState = GameplayUiController::SaveGameScreenState;
     using LoadGameScreenState = GameplayUiController::LoadGameScreenState;
@@ -531,6 +564,14 @@ private:
         size_t slotIndex = 0;
 
         bool operator==(const SaveLoadPointerTarget &other) const = default;
+    };
+
+    struct ControlsPointerTarget
+    {
+        ControlsPointerTargetType type = ControlsPointerTargetType::None;
+        int sliderValue = 0;
+
+        bool operator==(const ControlsPointerTarget &other) const = default;
     };
 
     struct PendingSavePreviewCaptureState
@@ -642,6 +683,7 @@ private:
     void renderSpellbookOverlay(int width, int height) const;
     void renderRestOverlay(int width, int height) const;
     void renderMenuOverlay(int width, int height) const;
+    void renderControlsOverlay(int width, int height) const;
     void renderSaveGameOverlay(int width, int height) const;
     void renderLoadGameOverlay(int width, int height) const;
     void renderJournalOverlay(int width, int height) const;
@@ -717,6 +759,8 @@ private:
     void closeRestScreen();
     void openMenu();
     void closeMenu();
+    void openControlsScreen();
+    void closeControlsScreen();
     void openSaveGameScreen();
     void closeSaveGameScreen();
     void openLoadGameScreen();
@@ -729,6 +773,7 @@ private:
     bool beginSaveWithPreview(const std::filesystem::path &path, const std::string &saveName, bool closeUiOnSuccess);
     bool trySaveToSelectedGameSlot();
     bool tryLoadFromSelectedGameSlot();
+    void commitSettingsChange();
     void clearWorldInteractionInputLatches();
     int restFoodRequired() const;
     float innRestDurationMinutes(uint32_t houseId) const;
@@ -924,6 +969,8 @@ private:
     bool m_booksButtonClickLatch;
     bool m_menuToggleLatch;
     bool m_menuClickLatch;
+    bool m_controlsToggleLatch;
+    bool m_controlsClickLatch;
     bool m_saveGameToggleLatch;
     bool m_saveGameClickLatch;
     bool m_loadGameToggleLatch;
@@ -965,6 +1012,7 @@ private:
     SpellbookState &m_spellbook;
     RestScreenState &m_restScreen;
     MenuScreenState &m_menuScreen;
+    ControlsScreenState &m_controlsScreen;
     SaveGameScreenState &m_saveGameScreen;
     LoadGameScreenState &m_loadGameScreen;
     JournalScreenState &m_journalScreen;
@@ -982,6 +1030,9 @@ private:
     bool m_optionsButtonPressed = false;
     bool m_booksButtonPressed = false;
     MenuPointerTarget m_menuPressedTarget;
+    ControlsPointerTarget m_controlsPressedTarget;
+    bool m_controlsSliderDragActive = false;
+    ControlsPointerTargetType m_controlsDraggedSlider = ControlsPointerTargetType::None;
     SaveLoadPointerTarget m_saveGamePressedTarget;
     SaveLoadPointerTarget m_loadGamePressedTarget;
     uint64_t m_lastSaveGameSlotClickTicks = 0;
@@ -995,6 +1046,7 @@ private:
     uint64_t m_lastSpellbookSpellClickTicks;
     uint32_t m_lastSpellbookClickedSpellId;
     uint64_t m_lastSpellFailSoundTicks;
+    bool m_pendingOpenNewGameScreen = false;
     PendingSpellCastState m_pendingSpellCast;
     mutable std::vector<GameplayRenderedInspectableHudItem> m_renderedInspectableHudItems;
     mutable HudScreenState m_renderedInspectableHudState = HudScreenState::Gameplay;
@@ -1032,12 +1084,16 @@ private:
     HouseVideoPlayer m_houseVideoPlayer;
     OutdoorPartyRuntime *m_pOutdoorPartyRuntime;
     const Engine::AssetFileSystem *m_pAssetFileSystem;
+    GameSettings m_gameSettings = GameSettings::createDefault();
     std::function<bool(
         const std::filesystem::path &,
         const std::string &,
         const std::vector<uint8_t> &,
         std::string &)> m_saveGameToPathCallback;
+    std::filesystem::path m_autosavePath =
+        std::filesystem::path("saves") / "autosave.oysav";
     std::function<bool(const std::filesystem::path &, std::string &)> m_loadGameFromPathCallback;
+    std::function<void(const GameSettings &)> m_settingsChangedCallback;
     PendingSavePreviewCaptureState m_pendingSavePreviewCapture;
     InspectHit m_pressedInspectHit;
 };

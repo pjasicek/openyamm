@@ -131,6 +131,15 @@ bool RosterTable::loadFromRows(const std::vector<std::vector<std::string>> &rows
 
         parseUnsigned(row[3], entry.birthYear);
         parseUnsigned(row[4], entry.pictureId);
+        if (row.size() > 5)
+        {
+            uint32_t voiceId = 0;
+
+            if (parseUnsigned(row[5], voiceId))
+            {
+                entry.voiceId = static_cast<int32_t>(voiceId);
+            }
+        }
         parseUnsigned(row[6], entry.experience);
         parseUnsigned(row[7], entry.level);
         parseUnsigned(row[8], entry.might);

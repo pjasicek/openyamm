@@ -1060,6 +1060,33 @@ bool GameDataLoader::loadMapStats(const Engine::AssetFileSystem &assetFileSystem
         return false;
     }
 
+    const std::optional<std::string> navigationContents =
+        assetFileSystem.readTextFile("Data/EnglishT/map_navigation.txt");
+
+    if (navigationContents.has_value())
+    {
+        const std::optional<Engine::TextTable> navigationTable =
+            Engine::TextTable::parseTabSeparated(*navigationContents);
+
+        if (!navigationTable)
+        {
+            std::cerr << "Failed to parse typed gameplay table: Data/EnglishT/map_navigation.txt\n";
+            return false;
+        }
+
+        std::vector<std::vector<std::string>> navigationRows;
+
+        for (size_t rowIndex = 0; rowIndex < navigationTable->getRowCount(); ++rowIndex)
+        {
+            navigationRows.push_back(navigationTable->getRow(rowIndex));
+        }
+
+        if (!m_mapStats.applyOutdoorNavigationRows(navigationRows))
+        {
+            return false;
+        }
+    }
+
     m_mapRegistry.initialize(m_mapStats.getEntries());
     return true;
 }

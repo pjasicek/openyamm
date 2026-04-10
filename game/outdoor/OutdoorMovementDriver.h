@@ -69,6 +69,7 @@ struct OutdoorMovementEvents
     bool leftBurning = false;
     float landingFallDistance = 0.0f;
     bool hardLanding = false;
+    std::optional<MapBoundaryEdge> blockedBoundaryEdge;
     std::vector<size_t> contactedActorIndices;
 };
 
@@ -77,6 +78,14 @@ class OutdoorMovementDriver
 public:
     OutdoorMovementDriver(
         const OutdoorMapData &outdoorMapData,
+        const std::optional<std::vector<uint8_t>> &outdoorLandMask,
+        const std::optional<OutdoorDecorationCollisionSet> &outdoorDecorationCollisionSet,
+        const std::optional<OutdoorActorCollisionSet> &outdoorActorCollisionSet,
+        const std::optional<OutdoorSpriteObjectCollisionSet> &outdoorSpriteObjectCollisionSet
+    );
+    OutdoorMovementDriver(
+        const OutdoorMapData &outdoorMapData,
+        const std::optional<MapBounds> &mapBounds,
         const std::optional<std::vector<uint8_t>> &outdoorLandMask,
         const std::optional<OutdoorDecorationCollisionSet> &outdoorDecorationCollisionSet,
         const std::optional<OutdoorActorCollisionSet> &outdoorActorCollisionSet,

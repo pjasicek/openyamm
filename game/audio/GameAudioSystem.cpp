@@ -498,6 +498,7 @@ void GameAudioSystem::shutdown()
 {
     m_activeGroupInstanceIds.clear();
     m_activeSpeechInstanceIds.clear();
+    m_activeNonResettableSoundInstanceIds.clear();
     m_loadedMusicClipKeys.clear();
     m_activeMusicTrack = 0;
     m_pendingMusicTrack = 0;
@@ -793,6 +794,39 @@ bool GameAudioSystem::playCommonSound(
     return playSound(static_cast<uint32_t>(soundId), group, position);
 }
 
+bool GameAudioSystem::playCommonSoundNonResettable(
+    SoundId soundId,
+    PlaybackGroup group,
+    const std::optional<WorldPosition> &position)
+{
+    const uint32_t soundKey = static_cast<uint32_t>(soundId);
+    const std::unordered_map<uint32_t, uint64_t>::const_iterator activeIt =
+        m_activeNonResettableSoundInstanceIds.find(soundKey);
+
+    if (activeIt != m_activeNonResettableSoundInstanceIds.end() && m_audioSystem.isClipPlaying(activeIt->second))
+    {
+        return false;
+    }
+
+    m_activeNonResettableSoundInstanceIds.erase(soundKey);
+    const std::optional<std::string> virtualPath = m_soundCatalog.buildVirtualPath(soundKey);
+
+    if (!virtualPath)
+    {
+        return false;
+    }
+
+    const uint64_t instanceId = playResolvedSound(*virtualPath, group, position, false);
+
+    if (instanceId == 0)
+    {
+        return false;
+    }
+
+    m_activeNonResettableSoundInstanceIds[soundKey] = instanceId;
+    return true;
+}
+
 bool GameAudioSystem::playSpeech(const Character &character, SpeechId speechId, uint32_t seed, uint32_t speakerKey)
 {
     const SpeechReactionEntry *pReaction = m_speechReactionTable.find(speechId);
@@ -886,8 +920,26 @@ void GameAudioSystem::stopGroup(PlaybackGroup group)
     m_activeGroupInstanceIds.erase(activeIt);
 }
 
+void GameAudioSystem::stopAllPlayback()
+{
+    m_audioSystem.stopAll();
+    m_activeGroupInstanceIds.clear();
+    m_activeSpeechInstanceIds.clear();
+    m_activeNonResettableSoundInstanceIds.clear();
+    m_activeMusicTrack = 0;
+    m_pendingMusicTrack = 0;
+    m_activeMusicInstanceId = 0;
+    m_activeMusicVolume = 0.0f;
+    m_musicFadeVelocity = 0.0f;
+}
+
 std::optional<uint32_t> GameAudioSystem::resolveCharacterVoiceId(const Character &character) const
 {
+    if (character.voiceId >= 0)
+    {
+        return static_cast<uint32_t>(character.voiceId);
+    }
+
     if (m_pCharacterDollTable == nullptr)
     {
         return std::nullopt;
@@ -943,6 +995,21 @@ void GameAudioSystem::stopBackgroundMusic()
     }
 
     m_musicFadeVelocity = MusicFadeOutSeconds > 0.0f ? (-MusicVolume / MusicFadeOutSeconds) : -MusicVolume;
+}
+
+void GameAudioSystem::stopBackgroundMusicImmediate()
+{
+    m_pendingMusicTrack = 0;
+
+    if (m_activeMusicInstanceId != 0)
+    {
+        m_audioSystem.stopClip(m_activeMusicInstanceId);
+    }
+
+    m_activeMusicTrack = 0;
+    m_activeMusicInstanceId = 0;
+    m_activeMusicVolume = 0.0f;
+    m_musicFadeVelocity = 0.0f;
 }
 
 int GameAudioSystem::currentBackgroundMusicTrack() const

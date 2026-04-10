@@ -21,8 +21,28 @@ OutdoorMovementDriver::OutdoorMovementDriver(
     const std::optional<OutdoorActorCollisionSet> &outdoorActorCollisionSet,
     const std::optional<OutdoorSpriteObjectCollisionSet> &outdoorSpriteObjectCollisionSet
 )
+    : OutdoorMovementDriver(
+        outdoorMapData,
+        std::nullopt,
+        outdoorLandMask,
+        outdoorDecorationCollisionSet,
+        outdoorActorCollisionSet,
+        outdoorSpriteObjectCollisionSet
+    )
+{
+}
+
+OutdoorMovementDriver::OutdoorMovementDriver(
+    const OutdoorMapData &outdoorMapData,
+    const std::optional<MapBounds> &mapBounds,
+    const std::optional<std::vector<uint8_t>> &outdoorLandMask,
+    const std::optional<OutdoorDecorationCollisionSet> &outdoorDecorationCollisionSet,
+    const std::optional<OutdoorActorCollisionSet> &outdoorActorCollisionSet,
+    const std::optional<OutdoorSpriteObjectCollisionSet> &outdoorSpriteObjectCollisionSet
+)
     : m_movementController(
         outdoorMapData,
+        mapBounds,
         outdoorLandMask,
         outdoorDecorationCollisionSet,
         outdoorActorCollisionSet,
@@ -193,6 +213,15 @@ void OutdoorMovementDriver::update(const OutdoorMovementInput &input, float delt
             &contactedActorIndices
         );
         m_pendingJumpPress = false;
+
+        if (!m_lastEvents.blockedBoundaryEdge.has_value())
+        {
+            m_lastEvents.blockedBoundaryEdge = m_movementController.detectBoundaryBlock(
+                previousState,
+                m_state,
+                moveVelocityX,
+                moveVelocityY);
+        }
 
         for (size_t actorIndex : contactedActorIndices)
         {

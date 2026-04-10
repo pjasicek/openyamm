@@ -1398,7 +1398,26 @@ OutdoorMovementController::OutdoorMovementController(
     const std::optional<OutdoorActorCollisionSet> &outdoorActorCollisionSet,
     const std::optional<OutdoorSpriteObjectCollisionSet> &outdoorSpriteObjectCollisionSet
 )
+    : OutdoorMovementController(
+        outdoorMapData,
+        std::nullopt,
+        outdoorLandMask,
+        outdoorDecorationCollisionSet,
+        outdoorActorCollisionSet,
+        outdoorSpriteObjectCollisionSet)
+{
+}
+
+OutdoorMovementController::OutdoorMovementController(
+    const OutdoorMapData &outdoorMapData,
+    const std::optional<MapBounds> &mapBounds,
+    const std::optional<std::vector<uint8_t>> &outdoorLandMask,
+    const std::optional<OutdoorDecorationCollisionSet> &outdoorDecorationCollisionSet,
+    const std::optional<OutdoorActorCollisionSet> &outdoorActorCollisionSet,
+    const std::optional<OutdoorSpriteObjectCollisionSet> &outdoorSpriteObjectCollisionSet
+)
     : m_pOutdoorMapData(&outdoorMapData)
+    , m_mapBounds(mapBounds)
     , m_outdoorLandMask(outdoorLandMask)
 {
     buildFaceCache();
@@ -1418,6 +1437,7 @@ OutdoorMoveState OutdoorMovementController::initializeStateForBody(
     float footZHint,
     float bodyRadius) const
 {
+    clampPositionToBounds(std::max(1.0f, bodyRadius), x, y);
     std::vector<size_t> candidateFaceIndices;
     collectFaceCandidates(
         x - std::max(bodyRadius, FloorCheckSlack),
@@ -1986,8 +2006,11 @@ OutdoorMoveState OutdoorMovementController::resolveMoveForBody(
     }
 
     OutdoorMoveState result = {};
-    result.x = partyNewPosition.x;
-    result.y = partyNewPosition.y;
+    float clampedX = partyNewPosition.x;
+    float clampedY = partyNewPosition.y;
+    clampPositionToBounds(bodyRadius, clampedX, clampedY);
+    result.x = clampedX;
+    result.y = clampedY;
     result.footZ = partyNewPosition.z;
     result.verticalVelocity = partyInputSpeed.z;
     result.supportKind = finalFloor.fromBModel ? OutdoorSupportKind::BModelFace : OutdoorSupportKind::Terrain;
@@ -2017,6 +2040,50 @@ OutdoorMoveState OutdoorMovementController::resolveMoveForBody(
     result.fallDistance = landedThisFrame ? fallDistance : 0.0f;
     result.fallStartZ = result.airborne ? std::max(fallStartZ, result.footZ) : result.footZ;
     return result;
+}
+
+std::optional<MapBoundaryEdge> OutdoorMovementController::detectBoundaryBlock(
+    const OutdoorMoveState &previousState,
+    const OutdoorMoveState &currentState,
+    float desiredVelocityX,
+    float desiredVelocityY) const
+{
+    (void)previousState;
+
+    if (!m_mapBounds.has_value())
+    {
+        return std::nullopt;
+    }
+
+    constexpr float BoundEpsilon = 0.5f;
+    const MapBounds &bounds = *m_mapBounds;
+    const float boundaryRadius = DefaultBodyRadius;
+    const bool blockedWest = currentState.x <= static_cast<float>(bounds.minX) + boundaryRadius + BoundEpsilon;
+    const bool blockedEast = currentState.x >= static_cast<float>(bounds.maxX) - boundaryRadius - BoundEpsilon;
+    const bool blockedSouth = currentState.y <= static_cast<float>(bounds.minY) + boundaryRadius + BoundEpsilon;
+    const bool blockedNorth = currentState.y >= static_cast<float>(bounds.maxY) - boundaryRadius - BoundEpsilon;
+
+    if (desiredVelocityX < 0.0f && blockedWest)
+    {
+        return MapBoundaryEdge::West;
+    }
+
+    if (desiredVelocityX > 0.0f && blockedEast)
+    {
+        return MapBoundaryEdge::East;
+    }
+
+    if (desiredVelocityY < 0.0f && blockedSouth)
+    {
+        return MapBoundaryEdge::South;
+    }
+
+    if (desiredVelocityY > 0.0f && blockedNorth)
+    {
+        return MapBoundaryEdge::North;
+    }
+
+    return std::nullopt;
 }
 
 OutdoorMoveState OutdoorMovementController::resolveOutdoorActorMove(
@@ -2333,6 +2400,24 @@ OutdoorMoveState OutdoorMovementController::resolveOutdoorActorMove(
 void OutdoorMovementController::setActorColliders(const std::vector<OutdoorActorCollision> &actorColliders)
 {
     m_actorColliders = actorColliders;
+}
+
+void OutdoorMovementController::clampPositionToBounds(float bodyRadius, float &x, float &y) const
+{
+    if (!m_mapBounds.has_value())
+    {
+        return;
+    }
+
+    const MapBounds &bounds = *m_mapBounds;
+    const float radius = std::max(0.0f, bodyRadius);
+    const float minX = static_cast<float>(bounds.minX) + radius;
+    const float maxX = static_cast<float>(bounds.maxX) - radius;
+    const float minY = static_cast<float>(bounds.minY) + radius;
+    const float maxY = static_cast<float>(bounds.maxY) - radius;
+
+    x = std::clamp(x, minX, maxX);
+    y = std::clamp(y, minY, maxY);
 }
 
 void OutdoorMovementController::buildFaceCache()

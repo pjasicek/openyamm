@@ -1067,6 +1067,31 @@ void GameplayOverlayInputController::handleDialogueOverlayInput(
 
                 if (resolvedEventDialog && pTopicRowLayout != nullptr)
                 {
+                    if (view.activeEventDialog().presentation == EventDialogPresentation::Transition)
+                    {
+                        const GameplayOverlayContext::HudLayoutElement *pOkLayout =
+                            view.findHudLayoutElement("DialogueOkButton");
+                        const std::optional<GameplayOverlayContext::ResolvedHudLayoutElement> resolvedOk =
+                            pOkLayout != nullptr
+                            ? view.resolveHudLayoutElement(
+                                "DialogueOkButton",
+                                screenWidth,
+                                screenHeight,
+                                pOkLayout->width,
+                                pOkLayout->height)
+                            : std::nullopt;
+
+                        if (resolvedOk
+                            && !view.activeEventDialog().actions.empty()
+                            && mouseX >= resolvedOk->x
+                            && mouseX < resolvedOk->x + resolvedOk->width
+                            && mouseY >= resolvedOk->y
+                            && mouseY < resolvedOk->y + resolvedOk->height)
+                        {
+                            return {GameplayDialoguePointerTargetType::Action, 0};
+                        }
+                    }
+
                     const float panelScale = resolvedEventDialog->scale;
                     const float panelPaddingX = 10.0f * panelScale;
                     const float panelPaddingY = 10.0f * panelScale;

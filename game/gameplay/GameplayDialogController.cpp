@@ -2,6 +2,7 @@
 
 #include "game/gameplay/HouseInteraction.h"
 #include "game/gameplay/MasteryTeacherDialog.h"
+#include "game/tables/MapStats.h"
 #include "game/tables/NpcDialogTable.h"
 #include "game/outdoor/OutdoorWorldRuntime.h"
 #include "game/party/Party.h"
@@ -25,6 +26,7 @@ constexpr uint32_t TeacherHintTopicIdFirst = 417;
 constexpr uint32_t TeacherHintTopicIdLast = 530;
 constexpr uint32_t TrainerAutoNoteIdFirst = 128;
 constexpr uint32_t HeroismEffectSoundId = 14060;
+constexpr float MinutesPerDay = 24.0f * 60.0f;
 
 DialogueMenuId dialogueMenuIdForHouseAction(HouseActionId actionId)
 {
@@ -212,6 +214,111 @@ const HouseEntry *pendingHouseEntry(
     const uint32_t houseId = context.kind == DialogueContextKind::HouseService ? context.sourceId : context.hostHouseId;
     return houseId != 0 ? pHouseTable->get(houseId) : nullptr;
 }
+
+const std::optional<MapEdgeTransition> *currentMapTransitionForContext(
+    const GameplayDialogController::Context &context,
+    const EventRuntimeState::PendingDialogueContext &dialogueContext)
+{
+    if (dialogueContext.kind != DialogueContextKind::MapTransition || context.pCurrentMap == nullptr)
+    {
+        return nullptr;
+    }
+
+    switch (static_cast<MapBoundaryEdge>(dialogueContext.sourceId))
+    {
+        case MapBoundaryEdge::North:
+            return &context.pCurrentMap->northTransition;
+
+        case MapBoundaryEdge::South:
+            return &context.pCurrentMap->southTransition;
+
+        case MapBoundaryEdge::East:
+            return &context.pCurrentMap->eastTransition;
+
+        case MapBoundaryEdge::West:
+            return &context.pCurrentMap->westTransition;
+    }
+
+    return nullptr;
+}
+
+int boundaryTravelHeadingDegrees(MapBoundaryEdge edge)
+{
+    switch (edge)
+    {
+        case MapBoundaryEdge::North:
+            return 90;
+
+        case MapBoundaryEdge::South:
+            return 270;
+
+        case MapBoundaryEdge::East:
+            return 0;
+
+        case MapBoundaryEdge::West:
+            return 180;
+    }
+
+    return 0;
+}
+
+void applyTravelFoodAndFatigue(Party &party, int travelDays)
+{
+    if (travelDays <= 0)
+    {
+        return;
+    }
+
+    const int availableFood = party.food();
+
+    if (availableFood > 0)
+    {
+        party.addFood(-travelDays);
+    }
+
+    if (availableFood >= travelDays)
+    {
+        return;
+    }
+
+    for (size_t memberIndex = 0; memberIndex < party.members().size(); ++memberIndex)
+    {
+        const Character *pMember = party.member(memberIndex);
+
+        if (pMember == nullptr || pMember->health <= 0)
+        {
+            continue;
+        }
+
+        party.applyMemberCondition(memberIndex, CharacterCondition::Weak);
+    }
+}
+
+void applyMapTransitionTravelSideEffects(
+    GameplayDialogController::Context &context,
+    const MapEdgeTransition &transition)
+{
+    if (context.callbacks.stopTravelAudio)
+    {
+        context.callbacks.stopTravelAudio();
+    }
+
+    if (context.callbacks.requestTravelAutosave)
+    {
+        context.callbacks.requestTravelAutosave();
+    }
+
+    if (context.pOutdoorWorldRuntime != nullptr && transition.travelDays > 0)
+    {
+        context.pOutdoorWorldRuntime->advanceGameMinutes(static_cast<float>(transition.travelDays) * MinutesPerDay);
+    }
+
+    if (context.pParty != nullptr)
+    {
+        context.pParty->restAndHealAll();
+        applyTravelFoodAndFatigue(*context.pParty, transition.travelDays);
+    }
+}
 }
 
 GameplayDialogController::Result GameplayDialogController::executeActiveDialogAction(Context &context) const
@@ -253,6 +360,62 @@ GameplayDialogController::Result GameplayDialogController::executeActiveDialogAc
             result.shouldOpenPendingEventDialog = true;
         }
 
+        return result;
+    }
+
+    if (action.kind == EventDialogActionKind::MapTransitionConfirm)
+    {
+        if (!context.eventRuntimeState.pendingDialogueContext.has_value())
+        {
+            result.shouldCloseActiveDialog = true;
+            return result;
+        }
+
+        const std::optional<MapEdgeTransition> *pTransition =
+            currentMapTransitionForContext(context, *context.eventRuntimeState.pendingDialogueContext);
+
+        if (pTransition == nullptr || !pTransition->has_value())
+        {
+            result.shouldCloseActiveDialog = true;
+            return result;
+        }
+
+        applyMapTransitionTravelSideEffects(context, **pTransition);
+
+        EventRuntimeState::PendingMapMove pendingMapMove = {};
+        pendingMapMove.mapName = (*pTransition)->destinationMapFileName;
+        pendingMapMove.directionDegrees = (*pTransition)->directionDegrees;
+        pendingMapMove.useMapStartPosition = (*pTransition)->useMapStartPosition;
+
+        if (context.eventRuntimeState.pendingDialogueContext->kind == DialogueContextKind::MapTransition)
+        {
+            pendingMapMove.directionDegrees = boundaryTravelHeadingDegrees(
+                static_cast<MapBoundaryEdge>(context.eventRuntimeState.pendingDialogueContext->sourceId));
+        }
+
+        if (!(*pTransition)->useMapStartPosition
+            && (*pTransition)->arrivalX.has_value()
+            && (*pTransition)->arrivalY.has_value()
+            && (*pTransition)->arrivalZ.has_value())
+        {
+            pendingMapMove.x = *(*pTransition)->arrivalX;
+            pendingMapMove.y = *(*pTransition)->arrivalY;
+            pendingMapMove.z = *(*pTransition)->arrivalZ;
+        }
+
+        context.eventRuntimeState.pendingMapMove = std::move(pendingMapMove);
+        result.shouldCloseActiveDialog = true;
+        return result;
+    }
+
+    if (action.kind == EventDialogActionKind::MapTransitionCancel)
+    {
+        if (context.callbacks.cancelMapTransition)
+        {
+            context.callbacks.cancelMapTransition();
+        }
+
+        result.shouldCloseActiveDialog = true;
         return result;
     }
 
@@ -797,6 +960,8 @@ GameplayDialogController::PresentPendingDialogResult GameplayDialogController::p
         context.pHouseTable,
         context.pClassSkillTable,
         context.pNpcDialogTable,
+        context.pCurrentMap,
+        context.pMapEntries,
         context.pParty,
         context.pOutdoorWorldRuntime,
         context.pOutdoorWorldRuntime != nullptr ? context.pOutdoorWorldRuntime->gameMinutes() : -1.0f
@@ -889,6 +1054,18 @@ GameplayDialogController::CloseDialogRequestResult GameplayDialogController::han
 {
     CloseDialogRequestResult result = {};
     result.previousMessageCount = context.eventRuntimeState.messages.size();
+
+    if (context.eventRuntimeState.pendingDialogueContext.has_value()
+        && context.eventRuntimeState.pendingDialogueContext->kind == DialogueContextKind::MapTransition)
+    {
+        if (context.callbacks.cancelMapTransition)
+        {
+            context.callbacks.cancelMapTransition();
+        }
+
+        result.shouldCloseActiveDialog = true;
+        return result;
+    }
 
     if (!context.eventRuntimeState.dialogueState.menuStack.empty())
     {

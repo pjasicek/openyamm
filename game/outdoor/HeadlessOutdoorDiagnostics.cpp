@@ -30,6 +30,7 @@
 #include "game/party/PartySpellSystem.h"
 #include "game/items/PriceCalculator.h"
 #include "game/maps/SaveGame.h"
+#include "game/scene/OutdoorSceneRuntime.h"
 #include "game/ui/SpellbookUiLayout.h"
 #include "game/party/SpellIds.h"
 #include "game/SpriteObjectDefs.h"
@@ -153,6 +154,15 @@ struct GameApplicationTestAccess
         return application.m_gameAudioSystem;
     }
 
+    static void setSpeechCooldowns(
+        OutdoorGameView &view,
+        std::vector<uint32_t> speechCooldownUntilTicks,
+        std::vector<uint32_t> combatSpeechCooldownUntilTicks)
+    {
+        view.m_memberSpeechCooldownUntilTicks = std::move(speechCooldownUntilTicks);
+        view.m_memberCombatSpeechCooldownUntilTicks = std::move(combatSpeechCooldownUntilTicks);
+    }
+
     static void openPendingEventDialog(
         GameApplication &application,
         size_t previousMessageCount,
@@ -201,6 +211,11 @@ struct GameApplicationTestAccess
         OutdoorInteractionController::executeActiveDialogAction(application.m_outdoorGameView);
     }
 
+    static void handleDialogueCloseRequest(GameApplication &application)
+    {
+        OutdoorInteractionController::handleDialogueCloseRequest(application.m_outdoorGameView);
+    }
+
     static bool processPendingMapMove(GameApplication &application)
     {
         return application.processPendingMapMove();
@@ -225,6 +240,11 @@ struct GameApplicationTestAccess
     static OutdoorGameView &outdoorGameView(GameApplication &application)
     {
         return application.m_outdoorGameView;
+    }
+
+    static void setAutosavePath(GameApplication &application, const std::filesystem::path &path)
+    {
+        application.m_outdoorGameView.m_autosavePath = path;
     }
 
     static const OutdoorEntity *outdoorEntity(const GameApplication &application, size_t entityIndex)
@@ -269,6 +289,8 @@ struct GameApplicationTestAccess
             &application.m_gameDataLoader.getHouseTable(),
             &application.m_gameDataLoader.getClassSkillTable(),
             &application.m_gameDataLoader.getNpcDialogTable(),
+            selectedMap ? &selectedMap->map : nullptr,
+            &application.m_gameDataLoader.getMapStats().getEntries(),
             &application.m_gameDataLoader.getRosterTable(),
             &application.m_gameDataLoader.getArcomageLibrary(),
             false,
@@ -280,6 +302,21 @@ struct GameApplicationTestAccess
             previousMessageCount,
             allowNpcFallbackContent,
             showBankInputCursor);
+    }
+
+    static OutdoorSceneRuntime::AdvanceFrameResult advanceOutdoorSceneFrame(
+        GameApplication &application,
+        const OutdoorMovementInput &movementInput,
+        float deltaSeconds)
+    {
+        if (application.m_pMapSceneRuntime == nullptr || application.m_pMapSceneRuntime->kind() != SceneKind::Outdoor)
+        {
+            return {};
+        }
+
+        return static_cast<OutdoorSceneRuntime *>(application.m_pMapSceneRuntime.get())->advanceFrame(
+            movementInput,
+            deltaSeconds);
     }
 };
 
@@ -1204,6 +1241,8 @@ EventDialogContent buildHeadlessDialog(
         &gameDataLoader.getHouseTable(),
         &gameDataLoader.getClassSkillTable(),
         &gameDataLoader.getNpcDialogTable(),
+        nullptr,
+        &gameDataLoader.getMapStats().getEntries(),
         pParty,
         nullptr,
         currentGameMinutes
@@ -1252,6 +1291,19 @@ bool dialogContainsText(const EventDialogContent &dialog, const std::string &fra
 bool dialogHasActionLabel(const EventDialogContent &dialog, const std::string &label)
 {
     return findActionIndexByLabel(dialog, label).has_value();
+}
+
+uint32_t findFirstItemIdBySkillGroup(const ItemTable &itemTable, const std::string &skillGroup)
+{
+    for (const ItemDefinition &entry : itemTable.entries())
+    {
+        if (entry.itemId != 0 && entry.skillGroup == skillGroup)
+        {
+            return entry.itemId;
+        }
+    }
+
+    return 0;
 }
 
 CharacterSkill *ensureCharacterSkill(
@@ -1529,6 +1581,7 @@ bool initializeRegressionScenario(
 
     scenario.party = {};
     scenario.party.setItemTable(&gameDataLoader.getItemTable());
+    scenario.party.setCharacterDollTable(&gameDataLoader.getCharacterDollTable());
     scenario.party.setItemEnchantTables(
         &gameDataLoader.getStandardItemEnchantTable(),
         &gameDataLoader.getSpecialItemEnchantTable());
@@ -1629,6 +1682,7 @@ bool initializeRegressionScenarioFromApplication(
 
     scenario.party = GameApplicationTestAccess::outdoorPartyRuntime(application)->party();
     scenario.party.setItemTable(&GameApplicationTestAccess::gameDataLoader(application).getItemTable());
+    scenario.party.setCharacterDollTable(&GameApplicationTestAccess::gameDataLoader(application).getCharacterDollTable());
     scenario.party.setItemEnchantTables(
         &GameApplicationTestAccess::gameDataLoader(application).getStandardItemEnchantTable(),
         &GameApplicationTestAccess::gameDataLoader(application).getSpecialItemEnchantTable());
@@ -1871,13 +1925,25 @@ EventDialogContent buildScenarioDialog(
     bool allowNpcFallbackContent
 )
 {
-    return buildHeadlessDialog(
+    promoteSingleResidentHouseContext(
+        *scenario.pEventRuntimeState,
+        gameDataLoader.getHouseTable(),
+        gameDataLoader.getNpcDialogTable(),
+        scenario.world.gameMinutes()
+    );
+
+    return buildEventDialogContent(
         *scenario.pEventRuntimeState,
         previousMessageCount,
         allowNpcFallbackContent,
-        selectedMap.globalEventIrProgram,
-        gameDataLoader,
+        &selectedMap.globalEventIrProgram,
+        &gameDataLoader.getHouseTable(),
+        &gameDataLoader.getClassSkillTable(),
+        &gameDataLoader.getNpcDialogTable(),
+        &selectedMap.map,
+        &gameDataLoader.getMapStats().getEntries(),
         &scenario.party,
+        &scenario.world,
         scenario.world.gameMinutes()
     );
 }
@@ -4725,6 +4791,32 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
             if (*targetIndex == 0 || *targetIndex == 1)
             {
                 failure = "invalid target was selected";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "default_seed_monster_target_selection_matches_female_preference",
+        [&](std::string &failure)
+        {
+            Party party = {};
+            party.setCharacterDollTable(&gameDataLoader.getCharacterDollTable());
+            party.seed(Party::createDefaultSeed());
+
+            const std::optional<size_t> targetIndex = party.chooseMonsterAttackTarget(0x0400, 3);
+
+            if (!targetIndex)
+            {
+                failure = "no female target was selected from default seed party";
+                return false;
+            }
+
+            if (*targetIndex != 1)
+            {
+                failure = "female preference did not select the seeded female knight";
                 return false;
             }
 
@@ -9257,6 +9349,9 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
             OutdoorPartyRuntime partyRuntime(
                 OutdoorMovementDriver(
                     *selectedMap->outdoorMapData,
+                    selectedMap->map.outdoorBounds.enabled
+                        ? std::optional<MapBounds>(selectedMap->map.outdoorBounds)
+                        : std::nullopt,
                     selectedMap->outdoorLandMask,
                     selectedMap->outdoorDecorationCollisionSet,
                     selectedMap->outdoorActorCollisionSet,
@@ -9327,6 +9422,9 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
             OutdoorPartyRuntime partyRuntime(
                 OutdoorMovementDriver(
                     *selectedMap->outdoorMapData,
+                    selectedMap->map.outdoorBounds.enabled
+                        ? std::optional<MapBounds>(selectedMap->map.outdoorBounds)
+                        : std::nullopt,
                     selectedMap->outdoorLandMask,
                     selectedMap->outdoorDecorationCollisionSet,
                     selectedMap->outdoorActorCollisionSet,
@@ -9402,6 +9500,9 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
             OutdoorPartyRuntime partyRuntime(
                 OutdoorMovementDriver(
                     *selectedMap->outdoorMapData,
+                    selectedMap->map.outdoorBounds.enabled
+                        ? std::optional<MapBounds>(selectedMap->map.outdoorBounds)
+                        : std::nullopt,
                     selectedMap->outdoorLandMask,
                     selectedMap->outdoorDecorationCollisionSet,
                     selectedMap->outdoorActorCollisionSet,
@@ -9463,6 +9564,9 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
             OutdoorPartyRuntime partyRuntime(
                 OutdoorMovementDriver(
                     *selectedMap->outdoorMapData,
+                    selectedMap->map.outdoorBounds.enabled
+                        ? std::optional<MapBounds>(selectedMap->map.outdoorBounds)
+                        : std::nullopt,
                     selectedMap->outdoorLandMask,
                     selectedMap->outdoorDecorationCollisionSet,
                     selectedMap->outdoorActorCollisionSet,
@@ -9545,6 +9649,9 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
             OutdoorPartyRuntime partyRuntime(
                 OutdoorMovementDriver(
                     *selectedMap->outdoorMapData,
+                    selectedMap->map.outdoorBounds.enabled
+                        ? std::optional<MapBounds>(selectedMap->map.outdoorBounds)
+                        : std::nullopt,
                     selectedMap->outdoorLandMask,
                     selectedMap->outdoorDecorationCollisionSet,
                     selectedMap->outdoorActorCollisionSet,
@@ -9651,6 +9758,9 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
             OutdoorPartyRuntime partyRuntime(
                 OutdoorMovementDriver(
                     *selectedMap->outdoorMapData,
+                    selectedMap->map.outdoorBounds.enabled
+                        ? std::optional<MapBounds>(selectedMap->map.outdoorBounds)
+                        : std::nullopt,
                     selectedMap->outdoorLandMask,
                     selectedMap->outdoorDecorationCollisionSet,
                     selectedMap->outdoorActorCollisionSet,
@@ -10086,20 +10196,20 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
             hideTopic.operation = EventIrOperation::SetCanShowTopic;
             hideTopic.arguments = {0u};
 
+            EventIrInstruction endCanShow = {};
+            endCanShow.eventId = 1;
+            endCanShow.step = 2;
+            endCanShow.operation = EventIrOperation::EndCanShowTopic;
+
             EventIrInstruction showTopic = {};
             showTopic.eventId = 1;
-            showTopic.step = 2;
+            showTopic.step = 3;
             showTopic.operation = EventIrOperation::SetCanShowTopic;
             showTopic.arguments = {1u};
 
-            EventIrInstruction endCanShow = {};
-            endCanShow.eventId = 1;
-            endCanShow.step = 3;
-            endCanShow.operation = EventIrOperation::EndCanShowTopic;
-
             EventIrEvent event = {};
             event.eventId = 1;
-            event.instructions = {canShowKilled, hideTopic, showTopic, endCanShow};
+            event.instructions = {canShowKilled, hideTopic, endCanShow, showTopic};
 
             EventIrProgram program = EventIrProgram::fromEvents({event});
             EventRuntime eventRuntime = {};
@@ -14445,6 +14555,161 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
     );
 
     runCase(
+        "damage_speech_audio_resolves_for_all_default_seed_members",
+        [&](std::string &failure)
+        {
+            GameApplication application(m_config);
+
+            SDL_Environment *pEnvironment = SDL_GetEnvironment();
+
+            if (pEnvironment == nullptr || !SDL_SetEnvironmentVariable(pEnvironment, "SDL_AUDIODRIVER", "dummy", true))
+            {
+                failure = "could not force dummy audio driver for headless application";
+                return false;
+            }
+
+            if (!GameApplicationTestAccess::loadGameData(application, assetFileSystem)
+                || !GameApplicationTestAccess::loadMapByFileNameForGameplay(application, assetFileSystem, "out01.odm"))
+            {
+                failure = "could not load gameplay data for damage speech audio test";
+                return false;
+            }
+
+            GameApplicationTestAccess::shutdownRenderer(application);
+
+            if (!GameApplicationTestAccess::initializeSelectedMapRuntime(application, true))
+            {
+                failure = "could not initialize gameplay runtime with view for damage speech audio test";
+                return false;
+            }
+
+            Party &party = GameApplicationTestAccess::outdoorPartyRuntime(application)->party();
+            party.seed(Party::createDefaultSeed());
+
+            for (size_t memberIndex = 0; memberIndex < party.members().size(); ++memberIndex)
+            {
+                Character *pMember = party.member(memberIndex);
+
+                if (pMember == nullptr)
+                {
+                    failure = "missing default-seed party member " + std::to_string(memberIndex);
+                    return false;
+                }
+
+                if (!GameApplicationTestAccess::gameAudioSystem(application).playSpeech(
+                        *pMember,
+                        SpeechId::DamageMinor,
+                        0x1000u + static_cast<uint32_t>(memberIndex),
+                        static_cast<uint32_t>(memberIndex + 1)))
+                {
+                    failure = "DamageMinor speech did not resolve for member " + std::to_string(memberIndex);
+                    return false;
+                }
+
+                if (!GameApplicationTestAccess::gameAudioSystem(application).playSpeech(
+                        *pMember,
+                        SpeechId::DamageMajor,
+                        0x2000u + static_cast<uint32_t>(memberIndex),
+                        static_cast<uint32_t>(memberIndex + 1)))
+                {
+                    failure = "DamageMajor speech did not resolve for member " + std::to_string(memberIndex);
+                    return false;
+                }
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "damage_speech_audio_resolves_for_roster_seeded_party_members",
+        [&](std::string &failure)
+        {
+            GameApplication application(m_config);
+
+            SDL_Environment *pEnvironment = SDL_GetEnvironment();
+
+            if (pEnvironment == nullptr || !SDL_SetEnvironmentVariable(pEnvironment, "SDL_AUDIODRIVER", "dummy", true))
+            {
+                failure = "could not force dummy audio driver for headless application";
+                return false;
+            }
+
+            if (!GameApplicationTestAccess::loadGameData(application, assetFileSystem)
+                || !GameApplicationTestAccess::loadMapByFileNameForGameplay(application, assetFileSystem, "out01.odm"))
+            {
+                failure = "could not load gameplay data for roster damage speech audio test";
+                return false;
+            }
+
+            GameApplicationTestAccess::shutdownRenderer(application);
+
+            if (!GameApplicationTestAccess::initializeSelectedMapRuntime(application, true))
+            {
+                failure = "could not initialize gameplay runtime with view for roster damage speech audio test";
+                return false;
+            }
+
+            Party &party = GameApplicationTestAccess::outdoorPartyRuntime(application)->party();
+            party.seed(Party::createDefaultSeed());
+
+            const std::array<uint32_t, 3> rosterIds = {11, 5, 4};
+
+            for (size_t rosterIndex = 0; rosterIndex < rosterIds.size(); ++rosterIndex)
+            {
+                const RosterEntry *pRosterEntry = gameDataLoader.getRosterTable().get(rosterIds[rosterIndex]);
+
+                if (pRosterEntry == nullptr)
+                {
+                    failure = "missing roster entry " + std::to_string(rosterIds[rosterIndex]);
+                    return false;
+                }
+
+                if (!party.replaceMemberWithRosterEntry(rosterIndex + 1, *pRosterEntry))
+                {
+                    failure = "could not replace seeded member with roster entry " + std::to_string(rosterIds[rosterIndex]);
+                    return false;
+                }
+            }
+
+            for (size_t memberIndex = 1; memberIndex < party.members().size(); ++memberIndex)
+            {
+                Character *pMember = party.member(memberIndex);
+
+                if (pMember == nullptr)
+                {
+                    failure = "missing roster-seeded party member " + std::to_string(memberIndex);
+                    return false;
+                }
+
+                if (!GameApplicationTestAccess::gameAudioSystem(application).playSpeech(
+                        *pMember,
+                        SpeechId::DamageMinor,
+                        0x3000u + static_cast<uint32_t>(memberIndex),
+                        static_cast<uint32_t>(memberIndex + 1)))
+                {
+                    failure = "DamageMinor speech did not resolve for roster-seeded member "
+                        + std::to_string(memberIndex);
+                    return false;
+                }
+
+                if (!GameApplicationTestAccess::gameAudioSystem(application).playSpeech(
+                        *pMember,
+                        SpeechId::DamageMajor,
+                        0x4000u + static_cast<uint32_t>(memberIndex),
+                        static_cast<uint32_t>(memberIndex + 1)))
+                {
+                    failure = "DamageMajor speech did not resolve for roster-seeded member "
+                        + std::to_string(memberIndex);
+                    return false;
+                }
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
         "inventory_item_use_spellbook_fails_when_spell_is_already_known",
         [&](std::string &failure)
         {
@@ -15565,6 +15830,9 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
             OutdoorPartyRuntime restoredPartyRuntime(
                 OutdoorMovementDriver(
                     *selectedMap->outdoorMapData,
+                    selectedMap->map.outdoorBounds.enabled
+                        ? std::optional<MapBounds>(selectedMap->map.outdoorBounds)
+                        : std::nullopt,
                     selectedMap->outdoorLandMask,
                     selectedMap->outdoorDecorationCollisionSet,
                     selectedMap->outdoorActorCollisionSet,
@@ -16093,6 +16361,655 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
     );
 
     runCase(
+        "map_navigation_matches_authoritative_world_map",
+        [&](std::string &failure)
+        {
+            struct ExpectedMapTransitions
+            {
+                const char *pFileName;
+                const char *pNorth;
+                const char *pSouth;
+                const char *pEast;
+                const char *pWest;
+            };
+
+            const std::array<ExpectedMapTransitions, 9> expectedMaps = {{
+                {"Out01.odm", nullptr, nullptr, nullptr, nullptr},
+                {"Out02.odm", "Out03.odm", nullptr, "Out05.odm", "Out06.odm"},
+                {"Out03.odm", nullptr, "Out02.odm", "Out04.odm", "Out07.odm"},
+                {"Out04.odm", nullptr, "Out05.odm", nullptr, "Out03.odm"},
+                {"Out05.odm", "Out04.odm", "Out08.odm", nullptr, "Out02.odm"},
+                {"Out06.odm", "Out07.odm", nullptr, "Out02.odm", nullptr},
+                {"Out07.odm", nullptr, "Out06.odm", "Out03.odm", nullptr},
+                {"Out08.odm", "Out05.odm", nullptr, nullptr, nullptr},
+                {"Out13.odm", nullptr, nullptr, nullptr, nullptr}
+            }};
+
+            const auto verifyTransition =
+                [&](const std::optional<MapEdgeTransition> &transition,
+                    const char *pExpectedDestination,
+                    const std::string &label) -> bool
+            {
+                if (pExpectedDestination == nullptr)
+                {
+                    if (transition.has_value())
+                    {
+                        failure = label + " unexpectedly had a boundary transition";
+                        return false;
+                    }
+
+                    return true;
+                }
+
+                if (!transition.has_value() || transition->destinationMapFileName != pExpectedDestination)
+                {
+                    failure = label + " did not match the authoritative world map";
+                    return false;
+                }
+
+                return true;
+            };
+
+            for (const ExpectedMapTransitions &expected : expectedMaps)
+            {
+                const MapStatsEntry *pEntry = gameDataLoader.getMapStats().findByFileName(expected.pFileName);
+
+                if (pEntry == nullptr)
+                {
+                    failure = std::string("missing map stats entry for ") + expected.pFileName;
+                    return false;
+                }
+
+                if (!verifyTransition(
+                        pEntry->northTransition,
+                        expected.pNorth,
+                        std::string(expected.pFileName) + " north"))
+                {
+                    return false;
+                }
+
+                if (!verifyTransition(
+                        pEntry->southTransition,
+                        expected.pSouth,
+                        std::string(expected.pFileName) + " south"))
+                {
+                    return false;
+                }
+
+                if (!verifyTransition(
+                        pEntry->eastTransition,
+                        expected.pEast,
+                        std::string(expected.pFileName) + " east"))
+                {
+                    return false;
+                }
+
+                if (!verifyTransition(
+                        pEntry->westTransition,
+                        expected.pWest,
+                        std::string(expected.pFileName) + " west"))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "map_navigation_rows_apply_explicit_arrival_positions",
+        [&](std::string &failure)
+        {
+            const MapStatsEntry *pRavenshore = gameDataLoader.getMapStats().findByFileName("Out02.odm");
+
+            if (pRavenshore == nullptr)
+            {
+                failure = "missing Ravenshore map stats entry";
+                return false;
+            }
+
+            if (!pRavenshore->northTransition.has_value()
+                || pRavenshore->northTransition->destinationMapFileName != "Out03.odm"
+                || pRavenshore->northTransition->useMapStartPosition
+                || !pRavenshore->northTransition->arrivalX.has_value()
+                || !pRavenshore->northTransition->arrivalY.has_value()
+                || !pRavenshore->northTransition->arrivalZ.has_value()
+                || *pRavenshore->northTransition->arrivalX != -15104
+                || *pRavenshore->northTransition->arrivalY != -22200
+                || *pRavenshore->northTransition->arrivalZ != 192)
+            {
+                failure = "Ravenshore north transition did not load the expected explicit arrival position";
+                return false;
+            }
+
+            if (pRavenshore->southTransition.has_value())
+            {
+                failure = "Ravenshore south transition should be absent in the authoritative world map";
+                return false;
+            }
+
+            if (!pRavenshore->eastTransition.has_value()
+                || pRavenshore->eastTransition->destinationMapFileName != "Out05.odm"
+                || pRavenshore->eastTransition->useMapStartPosition
+                || !pRavenshore->eastTransition->arrivalX.has_value()
+                || !pRavenshore->eastTransition->arrivalY.has_value()
+                || !pRavenshore->eastTransition->arrivalZ.has_value()
+                || *pRavenshore->eastTransition->arrivalX != 22096
+                || *pRavenshore->eastTransition->arrivalY != 296
+                || *pRavenshore->eastTransition->arrivalZ != 360)
+            {
+                failure = "Ravenshore east transition did not load the expected explicit arrival position";
+                return false;
+            }
+
+            if (!pRavenshore->westTransition.has_value()
+                || pRavenshore->westTransition->destinationMapFileName != "Out06.odm"
+                || pRavenshore->westTransition->useMapStartPosition
+                || !pRavenshore->westTransition->arrivalX.has_value()
+                || !pRavenshore->westTransition->arrivalY.has_value()
+                || !pRavenshore->westTransition->arrivalZ.has_value()
+                || *pRavenshore->westTransition->arrivalX != -22080
+                || *pRavenshore->westTransition->arrivalY != -5776
+                || *pRavenshore->westTransition->arrivalZ != 480)
+            {
+                failure = "Ravenshore west transition did not load the expected explicit arrival position";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "out02_boundary_transition_opens_west_and_east_neighbor_dialogs",
+        [&](std::string &failure)
+        {
+            GameApplication application(m_config);
+
+            if (!initializeHeadlessGameApplication(
+                    "out02.odm",
+                    assetFileSystem,
+                    application,
+                    failure))
+            {
+                return false;
+            }
+
+            GameApplicationTestAccess::shutdownRenderer(application);
+
+            if (!GameApplicationTestAccess::initializeSelectedMapRuntime(application, true))
+            {
+                failure = "could not initialize gameplay view for Out02 edge transition test";
+                return false;
+            }
+
+            OutdoorPartyRuntime *pPartyRuntime = GameApplicationTestAccess::outdoorPartyRuntime(application);
+            OutdoorWorldRuntime *pWorld = GameApplicationTestAccess::outdoorWorldRuntime(application);
+            const MapStatsEntry *pRavenshore = gameDataLoader.getMapStats().findByFileName("Out02.odm");
+
+            if (pPartyRuntime == nullptr || pWorld == nullptr || pRavenshore == nullptr)
+            {
+                failure = "Out02 runtime state is incomplete";
+                return false;
+            }
+
+            const OutdoorMoveState initialMoveState = pPartyRuntime->movementState();
+            const float bodyRadius = 37.0f;
+            const auto exerciseBoundaryTransition =
+                [&](MapBoundaryEdge edge, float x, float y, float yawRadians, const std::string &expectedTitle) -> bool
+            {
+                pPartyRuntime->teleportTo(x, y, initialMoveState.footZ);
+                EventRuntimeState *pEventRuntimeState = pWorld->eventRuntimeState();
+
+                if (pEventRuntimeState == nullptr)
+                {
+                    failure = "missing event runtime state";
+                    return false;
+                }
+
+                pEventRuntimeState->pendingDialogueContext.reset();
+                pEventRuntimeState->pendingMapMove.reset();
+                pEventRuntimeState->messages.clear();
+
+                const OutdoorMovementInput movementInput = {
+                    true,
+                    false,
+                    false,
+                    false,
+                    false,
+                    false,
+                    false,
+                    yawRadians
+                };
+
+                const OutdoorSceneRuntime::AdvanceFrameResult frameAdvanceResult =
+                    GameApplicationTestAccess::advanceOutdoorSceneFrame(application, movementInput, 0.1f);
+
+                if (!frameAdvanceResult.shouldOpenEventDialog)
+                {
+                    failure = "boundary transition did not request an event dialog for edge "
+                        + std::to_string(static_cast<int>(edge));
+                    return false;
+                }
+
+                GameApplicationTestAccess::openPendingEventDialog(application, frameAdvanceResult.previousMessageCount, true);
+
+                if (!GameApplicationTestAccess::hasActiveEventDialog(application))
+                {
+                    failure = "boundary transition did not open an active event dialog";
+                    return false;
+                }
+
+                const EventDialogContent &dialog = GameApplicationTestAccess::activeEventDialog(application);
+
+                if (dialog.presentation != EventDialogPresentation::Transition || dialog.title != expectedTitle)
+                {
+                    failure = "boundary transition dialog did not target " + expectedTitle;
+                    return false;
+                }
+
+                GameApplicationTestAccess::setEventDialogSelectionIndex(application, 1);
+                GameApplicationTestAccess::executeActiveDialogAction(application);
+                return true;
+            };
+
+            if (!exerciseBoundaryTransition(
+                    MapBoundaryEdge::West,
+                    static_cast<float>(pRavenshore->outdoorBounds.minX) + bodyRadius + 1.0f,
+                    initialMoveState.y,
+                    3.14159265358979323846f,
+                    "Shadowspire"))
+            {
+                return false;
+            }
+
+            if (!exerciseBoundaryTransition(
+                    MapBoundaryEdge::East,
+                    static_cast<float>(pRavenshore->outdoorBounds.maxX) - bodyRadius - 1.0f,
+                    initialMoveState.y,
+                    0.0f,
+                    "Garrote Gorge"))
+            {
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "map_transition_dialog_uses_transition_presentation_and_oe_copy",
+        [&](std::string &failure)
+        {
+            GameApplication application(m_config);
+
+            if (!initializeHeadlessGameApplication(
+                    "out02.odm",
+                    assetFileSystem,
+                    application,
+                    failure))
+            {
+                return false;
+            }
+
+            GameApplicationTestAccess::shutdownRenderer(application);
+
+            if (!GameApplicationTestAccess::initializeSelectedMapRuntime(application, true))
+            {
+                failure = "could not initialize gameplay view for transition dialog test";
+                return false;
+            }
+
+            OutdoorWorldRuntime *pWorld = GameApplicationTestAccess::outdoorWorldRuntime(application);
+            EventRuntimeState *pEventRuntimeState = pWorld != nullptr ? pWorld->eventRuntimeState() : nullptr;
+            const MapStatsEntry *pOriginMap = gameDataLoader.getMapStats().findByFileName("Out02.odm");
+            const MapStatsEntry *pDestinationMap = gameDataLoader.getMapStats().findByFileName("Out05.odm");
+
+            if (pWorld == nullptr || pEventRuntimeState == nullptr || pOriginMap == nullptr || pDestinationMap == nullptr)
+            {
+                failure = "missing transition dialog test state";
+                return false;
+            }
+
+            EventRuntimeState::PendingDialogueContext context = {};
+            context.kind = DialogueContextKind::MapTransition;
+            context.sourceId = static_cast<uint32_t>(MapBoundaryEdge::East);
+            pEventRuntimeState->pendingDialogueContext = context;
+            GameApplicationTestAccess::openPendingEventDialog(application, pEventRuntimeState->messages.size(), true);
+
+            if (!GameApplicationTestAccess::hasActiveEventDialog(application))
+            {
+                failure = "map transition dialog did not open";
+                return false;
+            }
+
+            const EventDialogContent &dialog = GameApplicationTestAccess::activeEventDialog(application);
+
+            if (!dialog.isActive
+                || dialog.presentation != EventDialogPresentation::Transition
+                || dialog.participantVisual != EventDialogParticipantVisual::MapIcon)
+            {
+                failure = "map transition dialog did not use the dedicated transition presentation";
+                return false;
+            }
+
+            if (dialog.title != pDestinationMap->name)
+            {
+                failure = "map transition dialog did not use the destination map title";
+                return false;
+            }
+
+            if (!dialogContainsText(dialog, "It will take 1 day to travel to " + pDestinationMap->name + ".")
+                || !dialogContainsText(dialog, "Do you wish to leave " + pOriginMap->name + "?"))
+            {
+                failure = "map transition dialog did not use the expected OE-style body text";
+                return false;
+            }
+
+            if (!dialogHasActionLabel(dialog, "OK") || !dialogHasActionLabel(dialog, "Close"))
+            {
+                failure = "map transition dialog did not expose the standard OK / Close actions";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "ordinary_damage_queues_minor_speech_reaction",
+        [&](std::string &failure)
+        {
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            Party &party = scenario.party;
+            const size_t memberIndex = party.activeMemberIndex();
+            Character *pMember = party.activeMember();
+
+            if (pMember == nullptr)
+            {
+                failure = "missing active member";
+                return false;
+            }
+
+            party.clearPendingAudioRequests();
+
+            if (!party.applyDamageToMember(memberIndex, 5, ""))
+            {
+                failure = "damage did not apply";
+                return false;
+            }
+
+            const std::vector<Party::PendingAudioRequest> requests = party.pendingAudioRequests();
+
+            if (requests.size() != 1
+                || requests[0].kind != Party::PendingAudioRequest::Kind::Speech
+                || requests[0].speechId != SpeechId::DamageMinor)
+            {
+                failure = "ordinary positive damage did not queue DamageMinor";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "major_damage_threshold_queues_minor_and_major_speech_reactions",
+        [&](std::string &failure)
+        {
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            Party &party = scenario.party;
+            const size_t memberIndex = party.activeMemberIndex();
+            Character *pMember = party.activeMember();
+
+            if (pMember == nullptr)
+            {
+                failure = "missing active member";
+                return false;
+            }
+
+            pMember->health = pMember->maxHealth;
+            party.clearPendingAudioRequests();
+            const int damage = std::max(1, pMember->maxHealth - std::max(1, pMember->maxHealth / 4));
+
+            if (!party.applyDamageToMember(memberIndex, damage, ""))
+            {
+                failure = "damage did not apply";
+                return false;
+            }
+
+            const std::vector<Party::PendingAudioRequest> requests = party.pendingAudioRequests();
+
+            if (requests.size() != 2
+                || requests[0].kind != Party::PendingAudioRequest::Kind::Speech
+                || requests[0].speechId != SpeechId::DamageMinor
+                || requests[1].kind != Party::PendingAudioRequest::Kind::Speech
+                || requests[1].speechId != SpeechId::DamageMajor)
+            {
+                failure = "major threshold damage did not queue DamageMinor followed by DamageMajor";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "damage_minor_speech_ignores_combat_cooldown",
+        [&](std::string &failure)
+        {
+            OutdoorGameView view = {};
+            GameApplicationTestAccess::setSpeechCooldowns(
+                view,
+                std::vector<uint32_t>{1000u},
+                std::vector<uint32_t>{4000u});
+
+            if (!OutdoorPresentationController::canPlaySpeechReaction(view, 0, SpeechId::DamageMinor, 1500u))
+            {
+                failure = "DamageMinor was incorrectly blocked by combat cooldown";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "damage_major_speech_bypasses_active_speech_cooldowns",
+        [&](std::string &failure)
+        {
+            OutdoorGameView view = {};
+            GameApplicationTestAccess::setSpeechCooldowns(
+                view,
+                std::vector<uint32_t>{4000u},
+                std::vector<uint32_t>{4000u});
+
+            if (!OutdoorPresentationController::canPlaySpeechReaction(view, 0, SpeechId::DamageMajor, 1500u))
+            {
+                failure = "DamageMajor was incorrectly blocked by active speech cooldowns";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "damage_impact_sound_request_uses_armor_family_mapping",
+        [&](std::string &failure)
+        {
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            Party &party = scenario.party;
+            const size_t memberIndex = party.activeMemberIndex();
+            Character *pMember = party.activeMember();
+
+            if (pMember == nullptr)
+            {
+                failure = "missing active member";
+                return false;
+            }
+
+            const auto isDullImpactSound =
+                [](SoundId soundId)
+                {
+                    return soundId == SoundId::DullStrike
+                        || soundId == SoundId::DullArmorStrike01
+                        || soundId == SoundId::DullArmorStrike02
+                        || soundId == SoundId::DullArmorStrike03;
+                };
+            const auto isMetalImpactSound =
+                [](SoundId soundId)
+                {
+                    return soundId == SoundId::MetalVsMetal01
+                        || soundId == SoundId::MetalArmorStrike01
+                        || soundId == SoundId::MetalArmorStrike02
+                        || soundId == SoundId::MetalArmorStrike03;
+                };
+
+            party.clearPendingAudioRequests();
+            pMember->equipment.armor = 0;
+            party.requestDamageImpactSoundForMember(memberIndex);
+
+            std::vector<Party::PendingAudioRequest> requests = party.pendingAudioRequests();
+
+            if (requests.size() != 1
+                || requests[0].kind != Party::PendingAudioRequest::Kind::Sound
+                || !isDullImpactSound(requests[0].soundId))
+            {
+                failure = "unarmored damage impact did not use the dull family";
+                return false;
+            }
+
+            const uint32_t chainArmorId = findFirstItemIdBySkillGroup(gameDataLoader.getItemTable(), "Chain");
+
+            if (chainArmorId == 0)
+            {
+                failure = "no chain armor item was available for diagnostics";
+                return false;
+            }
+
+            party.clearPendingAudioRequests();
+            pMember->equipment.armor = chainArmorId;
+            party.requestDamageImpactSoundForMember(memberIndex);
+            requests = party.pendingAudioRequests();
+
+            if (requests.size() != 1
+                || requests[0].kind != Party::PendingAudioRequest::Kind::Sound
+                || !isMetalImpactSound(requests[0].soundId))
+            {
+                failure = "chain armor impact did not use the metal family";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "resolve_character_attack_sound_id_uses_shared_weapon_family_mapping",
+        [&](std::string &failure)
+        {
+            const ItemTable &itemTable = gameDataLoader.getItemTable();
+            Character character = {};
+
+            const uint32_t swordId = findFirstItemIdBySkillGroup(itemTable, "Sword");
+            const uint32_t daggerId = findFirstItemIdBySkillGroup(itemTable, "Dagger");
+            const uint32_t axeId = findFirstItemIdBySkillGroup(itemTable, "Axe");
+            const uint32_t spearId = findFirstItemIdBySkillGroup(itemTable, "Spear");
+            const uint32_t maceId = findFirstItemIdBySkillGroup(itemTable, "Mace");
+
+            if (swordId == 0 || daggerId == 0 || axeId == 0 || spearId == 0 || maceId == 0)
+            {
+                failure = "missing representative melee weapon family entries";
+                return false;
+            }
+
+            character.equipment.mainHand = swordId;
+
+            if (GameMechanics::resolveCharacterAttackSoundId(character, &itemTable, CharacterAttackMode::Melee)
+                != SoundId::SwingSword01)
+            {
+                failure = "sword attacks did not resolve to SwingSword01";
+                return false;
+            }
+
+            character.equipment.mainHand = daggerId;
+
+            if (GameMechanics::resolveCharacterAttackSoundId(character, &itemTable, CharacterAttackMode::Melee)
+                != SoundId::SwingSword02)
+            {
+                failure = "dagger attacks did not resolve to SwingSword02";
+                return false;
+            }
+
+            character.equipment.mainHand = axeId;
+
+            if (GameMechanics::resolveCharacterAttackSoundId(character, &itemTable, CharacterAttackMode::Melee)
+                != SoundId::SwingAxe01)
+            {
+                failure = "axe attacks did not resolve to SwingAxe01";
+                return false;
+            }
+
+            character.equipment.mainHand = spearId;
+
+            if (GameMechanics::resolveCharacterAttackSoundId(character, &itemTable, CharacterAttackMode::Melee)
+                != SoundId::SwingAxe03)
+            {
+                failure = "spear attacks did not resolve to SwingAxe03";
+                return false;
+            }
+
+            character.equipment.mainHand = maceId;
+
+            if (GameMechanics::resolveCharacterAttackSoundId(character, &itemTable, CharacterAttackMode::Melee)
+                != SoundId::SwingBlunt03)
+            {
+                failure = "mace attacks did not resolve to SwingBlunt03";
+                return false;
+            }
+
+            if (GameMechanics::resolveCharacterAttackSoundId(character, &itemTable, CharacterAttackMode::Bow)
+                != SoundId::ShootBow)
+            {
+                failure = "bow attacks did not resolve to ShootBow";
+                return false;
+            }
+
+            if (GameMechanics::resolveCharacterAttackSoundId(character, &itemTable, CharacterAttackMode::Blaster)
+                != SoundId::ShootBlaster)
+            {
+                failure = "blaster attacks did not resolve to ShootBlaster";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
         "transport_action_spends_gold_advances_time_and_queues_map_move",
         [&](std::string &failure)
         {
@@ -16308,7 +17225,7 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
             GameApplication application(m_config);
 
             if (!initializeHeadlessGameApplication(
-                    "out01.odm",
+                    "out02.odm",
                     assetFileSystem,
                     application,
                     failure))
@@ -16372,8 +17289,10 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
             }
 
             const EventDialogContent &dialog = GameApplicationTestAccess::activeEventDialog(application);
+            const std::string expectedRoomActionLabel =
+                "Rent room for " + std::to_string(PriceCalculator::tavernRoomPrice(pActiveMember, *pTavernHouse)) + " gold";
 
-            if (dialog.actions.empty() || dialog.actions.front().label != "Rent room for 8 gold")
+            if (dialog.actions.empty() || dialog.actions.front().label != expectedRoomActionLabel)
             {
                 failure = "tavern dialog did not expose rent room as the first action";
                 return false;
@@ -16493,11 +17412,526 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
                 return false;
             }
 
-            const float expectedYawRadians = 135.0f * 3.14159265358979323846f / 180.0f;
+            const float expectedYawRadians = -135.0f * 3.14159265358979323846f / 180.0f;
 
             if (std::abs(GameApplicationTestAccess::cameraYawRadians(application) - expectedYawRadians) > 0.0001f)
             {
                 failure = "transport map move did not apply the arrival heading";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "app_pending_map_move_loads_outdoor_runtime_at_explicit_coordinates",
+        [&](std::string &failure)
+        {
+            GameApplication application(m_config);
+
+            if (!initializeHeadlessGameApplication(
+                    "out01.odm",
+                    assetFileSystem,
+                    application,
+                    failure))
+            {
+                return false;
+            }
+
+            EventRuntimeState *pEventRuntimeState = GameApplicationTestAccess::outdoorWorldRuntime(application)->eventRuntimeState();
+
+            if (pEventRuntimeState == nullptr)
+            {
+                failure = "missing application event runtime state";
+                return false;
+            }
+
+            EventRuntimeState::PendingMapMove pendingMapMove = {};
+            pendingMapMove.mapName = std::string("Out02.odm");
+            pendingMapMove.x = -15104;
+            pendingMapMove.y = -22200;
+            pendingMapMove.z = 192;
+            pendingMapMove.directionDegrees = 180;
+            pendingMapMove.useMapStartPosition = false;
+            pEventRuntimeState->pendingMapMove = std::move(pendingMapMove);
+
+            if (!GameApplicationTestAccess::processPendingMapMove(application))
+            {
+                failure = "application did not process the explicit outdoor pending map move";
+                return false;
+            }
+
+            const std::optional<MapAssetInfo> &loadedMap = GameApplicationTestAccess::gameDataLoader(application).getSelectedMap();
+
+            if (!loadedMap || toLowerCopy(loadedMap->map.fileName) != "out02.odm")
+            {
+                failure = "explicit outdoor pending map move did not load the destination map";
+                return false;
+            }
+
+            OutdoorPartyRuntime *pPartyRuntime = GameApplicationTestAccess::outdoorPartyRuntime(application);
+
+            if (pPartyRuntime == nullptr)
+            {
+                failure = "destination outdoor runtime is missing after explicit outdoor pending map move";
+                return false;
+            }
+
+            const OutdoorMoveState &moveState = pPartyRuntime->movementState();
+
+            if (std::abs(moveState.x - 15104.0f) > 0.01f
+                || std::abs(moveState.y - (-22200.0f)) > 0.01f)
+            {
+                failure = "explicit outdoor pending map move did not apply the expected arrival position";
+                return false;
+            }
+
+            const float expectedYawRadians = -180.0f * 3.14159265358979323846f / 180.0f;
+
+            if (std::abs(GameApplicationTestAccess::cameraYawRadians(application) - expectedYawRadians) > 0.0001f)
+            {
+                failure = "explicit outdoor pending map move did not apply the arrival heading";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "app_boundary_map_transition_confirm_preserves_world_direction_on_all_edges",
+        [&](std::string &failure)
+        {
+            struct DirectionCase
+            {
+                const char *pOriginMap;
+                MapBoundaryEdge edge;
+                const char *pExpectedDestinationMap;
+                int expectedDirectionDegrees;
+                float expectedYawRadians;
+            };
+
+            const std::array<DirectionCase, 4> cases = {{
+                {"Out02.odm", MapBoundaryEdge::North, "Out03.odm", 90, -1.57079632679489661923f},
+                {"Out03.odm", MapBoundaryEdge::South, "Out02.odm", 270, 1.57079632679489661923f},
+                {"Out02.odm", MapBoundaryEdge::East, "Out05.odm", 0, 0.0f},
+                {"Out02.odm", MapBoundaryEdge::West, "Out06.odm", 180, -3.14159265358979323846f}
+            }};
+
+            for (const DirectionCase &directionCase : cases)
+            {
+                GameApplication application(m_config);
+
+                if (!initializeHeadlessGameApplication(
+                        directionCase.pOriginMap,
+                        assetFileSystem,
+                        application,
+                        failure))
+                {
+                    return false;
+                }
+
+                GameApplicationTestAccess::shutdownRenderer(application);
+
+                if (!GameApplicationTestAccess::initializeSelectedMapRuntime(application, true))
+                {
+                    failure = std::string("could not initialize gameplay view for ")
+                        + directionCase.pOriginMap;
+                    return false;
+                }
+
+                OutdoorWorldRuntime *pWorld = GameApplicationTestAccess::outdoorWorldRuntime(application);
+                EventRuntimeState *pEventRuntimeState = pWorld != nullptr ? pWorld->eventRuntimeState() : nullptr;
+
+                if (pWorld == nullptr || pEventRuntimeState == nullptr)
+                {
+                    failure = std::string("application state is incomplete for ")
+                        + directionCase.pOriginMap;
+                    return false;
+                }
+
+                EventRuntimeState::PendingDialogueContext context = {};
+                context.kind = DialogueContextKind::MapTransition;
+                context.sourceId = static_cast<uint32_t>(directionCase.edge);
+                pEventRuntimeState->pendingDialogueContext = context;
+                pEventRuntimeState->pendingMapMove.reset();
+                pEventRuntimeState->messages.clear();
+
+                GameApplicationTestAccess::openPendingEventDialog(application, pEventRuntimeState->messages.size(), true);
+
+                if (!GameApplicationTestAccess::hasActiveEventDialog(application))
+                {
+                    failure = std::string("map transition did not open an active dialog for ")
+                        + directionCase.pOriginMap;
+                    return false;
+                }
+
+                GameApplicationTestAccess::setEventDialogSelectionIndex(application, 0);
+                GameApplicationTestAccess::executeActiveDialogAction(application);
+
+                const EventRuntimeState::PendingMapMove *pPendingMapMove = pWorld->pendingMapMove();
+
+                if (pPendingMapMove == nullptr
+                    || !pPendingMapMove->mapName.has_value()
+                    || *pPendingMapMove->mapName != directionCase.pExpectedDestinationMap)
+                {
+                    failure = std::string("map transition confirm queued the wrong destination for ")
+                        + directionCase.pOriginMap;
+                    return false;
+                }
+
+                if (!pPendingMapMove->directionDegrees.has_value()
+                    || *pPendingMapMove->directionDegrees != directionCase.expectedDirectionDegrees)
+                {
+                    failure = std::string("map transition confirm queued the wrong arrival heading for ")
+                        + directionCase.pOriginMap;
+                    return false;
+                }
+
+                if (!GameApplicationTestAccess::processPendingMapMove(application))
+                {
+                    failure = std::string("application did not process the confirmed map transition for ")
+                        + directionCase.pOriginMap;
+                    return false;
+                }
+
+                const std::optional<MapAssetInfo> &loadedMap =
+                    GameApplicationTestAccess::gameDataLoader(application).getSelectedMap();
+
+                if (!loadedMap || toLowerCopy(loadedMap->map.fileName) != toLowerCopy(directionCase.pExpectedDestinationMap))
+                {
+                    failure = std::string("map transition confirm did not load the expected destination for ")
+                        + directionCase.pOriginMap;
+                    return false;
+                }
+
+                if (std::abs(GameApplicationTestAccess::cameraYawRadians(application) - directionCase.expectedYawRadians)
+                    > 0.0001f)
+                {
+                    failure = std::string("map transition confirm did not preserve world facing for ")
+                        + directionCase.pOriginMap;
+                    return false;
+                }
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "app_map_transition_confirm_applies_oe_travel_side_effects",
+        [&](std::string &failure)
+        {
+            GameApplication application(m_config);
+
+            if (!initializeHeadlessGameApplication(
+                    "out02.odm",
+                    assetFileSystem,
+                    application,
+                    failure))
+            {
+                return false;
+            }
+
+            GameApplicationTestAccess::shutdownRenderer(application);
+
+            if (!GameApplicationTestAccess::initializeSelectedMapRuntime(application, true))
+            {
+                failure = "could not initialize gameplay view";
+                return false;
+            }
+
+            OutdoorWorldRuntime *pWorld = GameApplicationTestAccess::outdoorWorldRuntime(application);
+            OutdoorPartyRuntime *pPartyRuntime = GameApplicationTestAccess::outdoorPartyRuntime(application);
+            EventRuntimeState *pEventRuntimeState = pWorld != nullptr ? pWorld->eventRuntimeState() : nullptr;
+
+            if (pWorld == nullptr || pPartyRuntime == nullptr || pEventRuntimeState == nullptr)
+            {
+                failure = "application state is incomplete";
+                return false;
+            }
+
+            const MapStatsEntry *pCurrentMap =
+                GameApplicationTestAccess::gameDataLoader(application).getMapStats().findByFileName("Out02.odm");
+
+            if (pCurrentMap == nullptr || !pCurrentMap->eastTransition.has_value())
+            {
+                failure = "missing Out02 east transition";
+                return false;
+            }
+
+            const int expectedTravelDays = pCurrentMap->eastTransition->travelDays;
+            const float initialGameMinutes = pWorld->gameMinutes();
+            Party &party = pPartyRuntime->party();
+            Character *pActiveMember = party.activeMember();
+
+            if (pActiveMember == nullptr)
+            {
+                failure = "missing active member";
+                return false;
+            }
+
+            party.addFood(3 - party.food());
+            const int initialFood = party.food();
+            party.applyPartyBuff(PartyBuffId::TorchLight, 600.0f, 1, 0, 0, SkillMastery::None, 0);
+            pActiveMember->health = std::max(1, pActiveMember->health - 23);
+            pActiveMember->spellPoints = std::max(0, pActiveMember->spellPoints - 7);
+            pActiveMember->recoverySecondsRemaining = 2.0f;
+            pActiveMember->conditions.set(static_cast<size_t>(CharacterCondition::Fear));
+
+            const float bodyRadius = 37.0f;
+            const OutdoorMoveState initialMoveState = pPartyRuntime->movementState();
+            pPartyRuntime->teleportTo(
+                static_cast<float>(pCurrentMap->outdoorBounds.maxX) - bodyRadius - 1.0f,
+                initialMoveState.y,
+                initialMoveState.footZ);
+
+            EventRuntimeState::PendingDialogueContext context = {};
+            context.kind = DialogueContextKind::MapTransition;
+            context.sourceId = static_cast<uint32_t>(MapBoundaryEdge::East);
+            pEventRuntimeState->pendingDialogueContext = context;
+            pEventRuntimeState->pendingMapMove.reset();
+            pEventRuntimeState->messages.clear();
+
+            GameApplicationTestAccess::openPendingEventDialog(application, pEventRuntimeState->messages.size(), true);
+
+            if (!GameApplicationTestAccess::hasActiveEventDialog(application))
+            {
+                failure = "map transition did not open an active dialog";
+                return false;
+            }
+
+            const EventDialogContent &dialog = GameApplicationTestAccess::activeEventDialog(application);
+
+            if (dialog.presentation != EventDialogPresentation::Transition)
+            {
+                failure = "map transition dialog did not use transition presentation";
+                return false;
+            }
+
+            if (dialog.actions.size() < 2
+                || dialog.actions[0].label != "OK"
+                || dialog.actions[1].label != "Close")
+            {
+                failure = "map transition dialog did not expose the standard OK / Close actions";
+                return false;
+            }
+
+            GameApplicationTestAccess::setEventDialogSelectionIndex(application, 0);
+            GameApplicationTestAccess::executeActiveDialogAction(application);
+
+            if (GameApplicationTestAccess::hasActiveEventDialog(application))
+            {
+                failure = "map transition confirm did not close the active dialog";
+                return false;
+            }
+
+            const float expectedGameMinutes =
+                initialGameMinutes + static_cast<float>(expectedTravelDays) * 1440.0f;
+
+            if (std::abs(pWorld->gameMinutes() - expectedGameMinutes) > 0.01f)
+            {
+                failure = "map transition confirm did not advance travel time";
+                return false;
+            }
+
+            if (party.food() != std::max(0, initialFood - expectedTravelDays))
+            {
+                failure = "map transition confirm did not consume travel food";
+                return false;
+            }
+
+            const int expectedHealth = pActiveMember->maxHealth + pActiveMember->magicalBonuses.maxHealth;
+            const int expectedSpellPoints =
+                pActiveMember->maxSpellPoints + pActiveMember->magicalBonuses.maxSpellPoints;
+
+            if (pActiveMember->health != expectedHealth
+                || pActiveMember->spellPoints != expectedSpellPoints
+                || pActiveMember->recoverySecondsRemaining != 0.0f
+                || pActiveMember->conditions.test(static_cast<size_t>(CharacterCondition::Fear))
+                || party.hasPartyBuff(PartyBuffId::TorchLight))
+            {
+                failure = "map transition confirm did not apply full-rest travel recovery";
+                return false;
+            }
+
+            const EventRuntimeState::PendingMapMove *pPendingMapMove = pWorld->pendingMapMove();
+
+            if (pPendingMapMove == nullptr
+                || !pPendingMapMove->mapName.has_value()
+                || *pPendingMapMove->mapName != "Out05.odm")
+            {
+                failure = "map transition confirm did not queue the destination map move";
+                return false;
+            }
+
+            if (!pPendingMapMove->directionDegrees.has_value() || *pPendingMapMove->directionDegrees != 0)
+            {
+                failure = "map transition confirm did not preserve the crossed boundary facing";
+                return false;
+            }
+
+            if (!GameApplicationTestAccess::processPendingMapMove(application))
+            {
+                failure = "application did not process the confirmed map transition";
+                return false;
+            }
+
+            const std::optional<MapAssetInfo> &loadedMap = GameApplicationTestAccess::gameDataLoader(application).getSelectedMap();
+
+            if (!loadedMap || toLowerCopy(loadedMap->map.fileName) != "out05.odm")
+            {
+                failure = "map transition confirm did not load the destination outdoor map";
+                return false;
+            }
+
+            const float expectedYawRadians = 0.0f;
+
+            if (std::abs(GameApplicationTestAccess::cameraYawRadians(application) - expectedYawRadians) > 0.0001f)
+            {
+                failure = "map transition confirm did not face west after a westward boundary arrival";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "app_map_transition_cancel_leaves_state_unchanged",
+        [&](std::string &failure)
+        {
+            GameApplication application(m_config);
+
+            if (!initializeHeadlessGameApplication(
+                    "out02.odm",
+                    assetFileSystem,
+                    application,
+                    failure))
+            {
+                return false;
+            }
+
+            GameApplicationTestAccess::shutdownRenderer(application);
+
+            if (!GameApplicationTestAccess::initializeSelectedMapRuntime(application, true))
+            {
+                failure = "could not initialize gameplay view";
+                return false;
+            }
+
+            const std::filesystem::path autosavePath = "/tmp/openyamm_edge_travel_cancel_autosave.oysav";
+            std::error_code removeError;
+            std::filesystem::remove(autosavePath, removeError);
+            GameApplicationTestAccess::setAutosavePath(application, autosavePath);
+
+            OutdoorWorldRuntime *pWorld = GameApplicationTestAccess::outdoorWorldRuntime(application);
+            OutdoorPartyRuntime *pPartyRuntime = GameApplicationTestAccess::outdoorPartyRuntime(application);
+            EventRuntimeState *pEventRuntimeState = pWorld != nullptr ? pWorld->eventRuntimeState() : nullptr;
+
+            if (pWorld == nullptr || pPartyRuntime == nullptr || pEventRuntimeState == nullptr)
+            {
+                failure = "application state is incomplete";
+                return false;
+            }
+
+            Party &party = pPartyRuntime->party();
+            Character *pActiveMember = party.activeMember();
+
+            if (pActiveMember == nullptr)
+            {
+                failure = "missing active member";
+                return false;
+            }
+
+            pPartyRuntime->teleportTo(26000.0f, 0.0f, pPartyRuntime->movementState().footZ);
+            const float initialGameMinutes = pWorld->gameMinutes();
+            const int initialFood = party.food();
+            const int initialHealth = pActiveMember->health;
+            const int initialSpellPoints = pActiveMember->spellPoints;
+
+            EventRuntimeState::PendingDialogueContext context = {};
+            context.kind = DialogueContextKind::MapTransition;
+            context.sourceId = static_cast<uint32_t>(MapBoundaryEdge::East);
+            pEventRuntimeState->pendingDialogueContext = context;
+
+            GameApplicationTestAccess::openPendingEventDialog(application, pEventRuntimeState->messages.size(), true);
+
+            if (!GameApplicationTestAccess::hasActiveEventDialog(application))
+            {
+                failure = "map transition did not open an active dialog";
+                return false;
+            }
+
+            GameApplicationTestAccess::handleDialogueCloseRequest(application);
+
+            if (GameApplicationTestAccess::hasActiveEventDialog(application))
+            {
+                failure = "map transition cancel did not close the active dialog";
+                return false;
+            }
+
+            if (std::filesystem::exists(autosavePath))
+            {
+                failure = "map transition cancel unexpectedly created an autosave";
+                return false;
+            }
+
+            if (std::abs(pWorld->gameMinutes() - initialGameMinutes) > 0.01f
+                || party.food() != initialFood
+                || pActiveMember->health != initialHealth
+                || pActiveMember->spellPoints != initialSpellPoints)
+            {
+                failure = "map transition cancel changed party state";
+                return false;
+            }
+
+            const OutdoorMoveState &moveState = pPartyRuntime->movementState();
+
+            if (moveState.x >= 25646.0f)
+            {
+                failure = "map transition cancel did not clamp the party back inside the outdoor bounds";
+                return false;
+            }
+
+            if (pWorld->pendingMapMove() != nullptr)
+            {
+                failure = "map transition cancel still queued a map move";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "game_audio_nonresettable_common_sounds_do_not_restart_active_impact_clip",
+        [&](std::string &failure)
+        {
+            GameApplication application(m_config);
+
+            if (!initializeHeadlessGameApplication(
+                    "out01.odm",
+                    assetFileSystem,
+                    application,
+                    failure))
+            {
+                return false;
+            }
+
+            GameAudioSystem &audioSystem = GameApplicationTestAccess::gameAudioSystem(application);
+            const bool playedFirst = audioSystem.playCommonSoundNonResettable(
+                SoundId::DullStrike,
+                GameAudioSystem::PlaybackGroup::Ui);
+            const bool playedSecond = audioSystem.playCommonSoundNonResettable(
+                SoundId::DullStrike,
+                GameAudioSystem::PlaybackGroup::Ui);
+            audioSystem.stopAllPlayback();
+
+            if (!playedFirst || playedSecond)
+            {
+                failure = "non-resettable impact playback did not ignore the second request";
                 return false;
             }
 

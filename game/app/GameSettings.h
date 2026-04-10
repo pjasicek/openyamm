@@ -15,9 +15,9 @@ enum class TurnRateMode
 
 struct GameSettings
 {
-    int soundVolume = 10;
-    int musicVolume = 10;
-    int voiceVolume = 10;
+    int soundVolume = 9;
+    int musicVolume = 9;
+    int voiceVolume = 9;
 
     TurnRateMode turnRate = TurnRateMode::X32;
     bool walksound = true;

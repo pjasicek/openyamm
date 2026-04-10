@@ -3,6 +3,7 @@
 #include "game/outdoor/OutdoorCollisionData.h"
 #include "game/outdoor/OutdoorGeometryUtils.h"
 #include "game/outdoor/OutdoorMapData.h"
+#include "game/tables/MapStats.h"
 
 #include <bx/math.h>
 
@@ -61,6 +62,14 @@ public:
         const std::optional<OutdoorActorCollisionSet> &outdoorActorCollisionSet,
         const std::optional<OutdoorSpriteObjectCollisionSet> &outdoorSpriteObjectCollisionSet
     );
+    OutdoorMovementController(
+        const OutdoorMapData &outdoorMapData,
+        const std::optional<MapBounds> &mapBounds,
+        const std::optional<std::vector<uint8_t>> &outdoorLandMask,
+        const std::optional<OutdoorDecorationCollisionSet> &outdoorDecorationCollisionSet,
+        const std::optional<OutdoorActorCollisionSet> &outdoorActorCollisionSet,
+        const std::optional<OutdoorSpriteObjectCollisionSet> &outdoorSpriteObjectCollisionSet
+    );
 
     OutdoorMoveState initializeState(float x, float y, float footZHint) const;
     OutdoorMoveState initializeStateForBody(
@@ -106,6 +115,11 @@ public:
         float deltaSeconds,
         const std::optional<OutdoorIgnoredActorCollider> &ignoredActorCollider = std::nullopt
     ) const;
+    std::optional<MapBoundaryEdge> detectBoundaryBlock(
+        const OutdoorMoveState &previousState,
+        const OutdoorMoveState &currentState,
+        float desiredVelocityX,
+        float desiredVelocityY) const;
     void setActorColliders(const std::vector<OutdoorActorCollision> &actorColliders);
 
 private:
@@ -128,12 +142,14 @@ private:
     float m_spriteObjectGridMinY = 0.0f;
     size_t m_spriteObjectGridWidth = 0;
     size_t m_spriteObjectGridHeight = 0;
+    std::optional<MapBounds> m_mapBounds;
 
     void buildFaceCache();
     void buildFaceSpatialIndex();
     void buildDecorationColliderCache(const std::optional<OutdoorDecorationCollisionSet> &outdoorDecorationCollisionSet);
     void buildActorColliderCache(const std::optional<OutdoorActorCollisionSet> &outdoorActorCollisionSet);
     void buildSpriteObjectColliderCache(const std::optional<OutdoorSpriteObjectCollisionSet> &outdoorSpriteObjectSet);
+    void clampPositionToBounds(float bodyRadius, float &x, float &y) const;
     void collectFaceCandidates(float minX, float minY, float maxX, float maxY, std::vector<size_t> &faceIndices) const;
     void collectSpriteObjectCandidates(float minX, float minY, float maxX, float maxY, std::vector<size_t> &indices) const;
     const OutdoorFaceGeometryData *findFaceGeometry(size_t bModelIndex, size_t faceIndex) const;

@@ -1,6 +1,7 @@
 #include "game/gameplay/GameMechanics.h"
 
 #include "game/items/ItemEnchantRuntime.h"
+#include "game/party/SkillData.h"
 #include "game/tables/CharacterDollTable.h"
 #include "game/items/ItemRuntime.h"
 #include "game/tables/ItemTable.h"
@@ -30,6 +31,23 @@ constexpr int ParameterBonusThresholds[29] = {
 constexpr int ParameterBonusValues[29] = {
     30, 25, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8,
     7, 6, 5, 4, 3, 2, 1, 0, -1, -2, -3, -4, -5, -6,
+};
+
+enum class ResourceManaMode
+{
+    None,
+    Intellect,
+    Personality,
+    Mixed,
+};
+
+struct CharacterResourceProgression
+{
+    int baseHealth = 0;
+    int healthPerLevel = 0;
+    int baseMana = 0;
+    int manaPerLevel = 0;
+    ResourceManaMode manaMode = ResourceManaMode::None;
 };
 
 uint64_t experienceRequiredForNextLevel(uint32_t currentLevel)
@@ -236,6 +254,56 @@ int parameterBonus(int value)
     }
 
     return ParameterBonusValues[std::size(ParameterBonusValues) - 1];
+}
+
+std::optional<CharacterResourceProgression> resourceProgressionForClassName(const std::string &className)
+{
+    const std::string canonicalClass = canonicalClassName(className);
+
+    if (canonicalClass == "Knight"
+        || canonicalClass == "Cavalier"
+        || canonicalClass == "Champion"
+        || canonicalClass == "BlackKnight"
+        || canonicalClass == "Minotaur"
+        || canonicalClass == "MinotaurLord"
+        || canonicalClass == "Troll"
+        || canonicalClass == "WarTroll")
+    {
+        return CharacterResourceProgression{40, 5, 0, 0, ResourceManaMode::None};
+    }
+
+    if (canonicalClass == "Cleric"
+        || canonicalClass == "Priest")
+    {
+        return CharacterResourceProgression{25, 2, 10, 3, ResourceManaMode::Personality};
+    }
+
+    if (canonicalClass == "Necromancer"
+        || canonicalClass == "Lich"
+        || canonicalClass == "Vampire"
+        || canonicalClass == "Nosferatu")
+    {
+        return CharacterResourceProgression{20, 2, 15, 3, ResourceManaMode::Intellect};
+    }
+
+    if (canonicalClass == "DarkElf"
+        || canonicalClass == "Patriarch")
+    {
+        return CharacterResourceProgression{30, 3, 5, 2, ResourceManaMode::Intellect};
+    }
+
+    if (canonicalClass == "Dragon"
+        || canonicalClass == "GreatWyrm")
+    {
+        return CharacterResourceProgression{40, 5, 0, 0, ResourceManaMode::None};
+    }
+
+    return std::nullopt;
+}
+
+int levelWithBonus(uint32_t level, int statBonus)
+{
+    return static_cast<int>(level) + statBonus;
 }
 
 bool hasCondition(const Character &character, CharacterCondition condition)
@@ -1550,6 +1618,65 @@ uint32_t GameMechanics::maximumTrainableLevelFromExperience(const Character &cha
     return trainableLevel;
 }
 
+int GameMechanics::calculateBaseCharacterMaxHealth(const Character &character)
+{
+    const std::string className = character.className.empty() ? character.role : character.className;
+    const std::optional<CharacterResourceProgression> progression = resourceProgressionForClassName(className);
+
+    if (!progression.has_value())
+    {
+        const int endurance = std::max(10, static_cast<int>(character.endurance));
+        return std::max(1, 40 + endurance * 2 + static_cast<int>(character.level) * 5);
+    }
+
+    const int enduranceBonus = parameterBonus(static_cast<int>(character.endurance));
+    const int healthByLevel =
+        progression->healthPerLevel * levelWithBonus(std::max(character.level, 1u), enduranceBonus);
+    return std::max(0, progression->baseHealth + healthByLevel);
+}
+
+int GameMechanics::calculateBaseCharacterMaxSpellPoints(const Character &character)
+{
+    const std::string className = character.className.empty() ? character.role : character.className;
+    const std::optional<CharacterResourceProgression> progression = resourceProgressionForClassName(className);
+
+    if (!progression.has_value())
+    {
+        const int intellect = std::max(0, static_cast<int>(character.intellect));
+        const int personality = std::max(0, static_cast<int>(character.personality));
+        const bool isCaster = intellect > 0 || personality > 0;
+        return isCaster
+            ? std::max(0, ((intellect + personality) / 2) + static_cast<int>(character.level) * 3)
+            : 0;
+    }
+
+    int statBonus = 0;
+
+    switch (progression->manaMode)
+    {
+        case ResourceManaMode::Intellect:
+            statBonus = parameterBonus(static_cast<int>(character.intellect));
+            break;
+
+        case ResourceManaMode::Personality:
+            statBonus = parameterBonus(static_cast<int>(character.personality));
+            break;
+
+        case ResourceManaMode::Mixed:
+            statBonus = parameterBonus(static_cast<int>(character.intellect))
+                + parameterBonus(static_cast<int>(character.personality));
+            break;
+
+        case ResourceManaMode::None:
+        default:
+            return 0;
+    }
+
+    const int manaByLevel =
+        progression->manaPerLevel * levelWithBonus(std::max(character.level, 1u), statBonus);
+    return std::max(0, progression->baseMana + manaByLevel);
+}
+
 std::string GameMechanics::buildExperienceInspectSupplement(const Character &character)
 {
     const std::string subject = experienceInspectSubject(character);
@@ -2007,6 +2134,68 @@ CharacterAttackResult GameMechanics::resolveCharacterAttackAgainstArmorClass(
     }
 
     return result;
+}
+
+SoundId GameMechanics::resolveCharacterAttackSoundId(
+    const Character &character,
+    const ItemTable *pItemTable,
+    CharacterAttackMode attackMode)
+{
+    if (attackMode == CharacterAttackMode::Bow)
+    {
+        return SoundId::ShootBow;
+    }
+
+    if (attackMode == CharacterAttackMode::Blaster)
+    {
+        return SoundId::ShootBlaster;
+    }
+
+    if (attackMode != CharacterAttackMode::Melee || pItemTable == nullptr)
+    {
+        return SoundId::SwingBlunt01;
+    }
+
+    const uint32_t itemId = character.equipment.mainHand;
+
+    if (itemId == 0)
+    {
+        return SoundId::SwingBlunt01;
+    }
+
+    const ItemDefinition *pItemDefinition = pItemTable->get(itemId);
+
+    if (pItemDefinition == nullptr)
+    {
+        return SoundId::SwingBlunt01;
+    }
+
+    if (pItemDefinition->skillGroup == "Sword")
+    {
+        return SoundId::SwingSword01;
+    }
+
+    if (pItemDefinition->skillGroup == "Dagger")
+    {
+        return SoundId::SwingSword02;
+    }
+
+    if (pItemDefinition->skillGroup == "Axe")
+    {
+        return SoundId::SwingAxe01;
+    }
+
+    if (pItemDefinition->skillGroup == "Spear")
+    {
+        return SoundId::SwingAxe03;
+    }
+
+    if (pItemDefinition->skillGroup == "Mace")
+    {
+        return SoundId::SwingBlunt03;
+    }
+
+    return SoundId::SwingBlunt01;
 }
 
 bool GameMechanics::characterRangedAttackHitsArmorClass(

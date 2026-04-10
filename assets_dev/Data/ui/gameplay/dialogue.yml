@@ -230,8 +230,8 @@ elements:
 
       - id: DialogueGoodbyeButton
         anchor: bottom_right
-        offset_x: -42
-        offset_y: -42
+        offset_x: -37
+        offset_y: -27
         width: 83
         height: 30
         z_index: 300
@@ -241,6 +241,20 @@ elements:
           pressed: c_close_DN
           highlighted: c_close_ht
         notes: Goodbye / exit button.
+
+      - id: DialogueOkButton
+        anchor: bottom_right
+        offset_x: -37
+        offset_y: -62
+        width: 83
+        height: 30
+        z_index: 300
+        interactive: true
+        asset:
+          default: c_ok_up
+          pressed: c_ok_dn
+          highlighted: c_ok_ht
+        notes: Confirmation button shown for travel transitions.
 
       - id: DialogueResponseHint
         anchor: bottom_left

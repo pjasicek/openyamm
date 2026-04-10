@@ -2,6 +2,8 @@
 
 #include "game/app/AppMode.h"
 
+#include <SDL3/SDL.h>
+
 namespace OpenYAMM::Game
 {
 class IScreen
@@ -18,6 +20,11 @@ public:
 
     virtual void onExit()
     {
+    }
+
+    virtual void handleSdlEvent(const SDL_Event &event)
+    {
+        static_cast<void>(event);
     }
 };
 }

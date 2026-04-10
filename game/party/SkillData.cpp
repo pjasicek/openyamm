@@ -217,6 +217,7 @@ const std::unordered_map<std::string, std::string> DisplaySkillNames = {
     {"DragonAbility", "Dragon Ability"},
     {"IdentifyItem", "Identify Item"},
     {"RepairItem", "Repair Item"},
+    {"Bodybuilding", "Body Building"},
     {"IdentifyMonster", "Identify Monster"},
     {"DisarmTraps", "Disarm Traps"},
 };

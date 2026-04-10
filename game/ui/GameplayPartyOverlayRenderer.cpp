@@ -1725,10 +1725,275 @@ void GameplayPartyOverlayRenderer::renderMenuOverlay(const OutdoorGameView &view
 
             if (resolved)
             {
-                HudUiService::renderLayoutLabel(view, *pLayout, *resolved, view.m_menuScreen.bottomBarText);
+                OutdoorGameView::HudLayoutElement layout = *pLayout;
+
+                if (view.m_menuScreen.bottomBarTextUseWhite)
+                {
+                    layout.textColorAbgr = 0xffffffffu;
+                }
+
+                HudUiService::renderLayoutLabel(view, layout, *resolved, view.m_menuScreen.bottomBarText);
             }
         }
     }
+}
+
+void GameplayPartyOverlayRenderer::renderControlsOverlay(const OutdoorGameView &view, int width, int height)
+{
+    if (!view.m_controlsScreen.active
+        || !bgfx::isValid(view.m_texturedTerrainProgramHandle)
+        || !bgfx::isValid(view.m_terrainTextureSamplerHandle)
+        || width <= 0
+        || height <= 0)
+    {
+        return;
+    }
+
+    static const std::array<const char *, 10> VolumeIndicatorAssetNames = {
+        "convol10",
+        "convol20",
+        "convol30",
+        "convol40",
+        "convol50",
+        "convol60",
+        "convol70",
+        "convol80",
+        "convol90",
+        "convol00"
+    };
+
+    const OutdoorGameView::HudLayoutElement *pRootLayout = HudUiService::findHudLayoutElement(view, "ControlsRoot");
+
+    if (pRootLayout == nullptr)
+    {
+        return;
+    }
+
+    setupHudProjection(width, height);
+
+    float mouseX = 0.0f;
+    float mouseY = 0.0f;
+    const SDL_MouseButtonFlags mouseButtons = SDL_GetMouseState(&mouseX, &mouseY);
+    const bool isLeftMousePressed = (mouseButtons & SDL_BUTTON_LMASK) != 0;
+    const std::vector<std::string> orderedLayoutIds = HudUiService::sortedHudLayoutIdsForScreen(view, "Controls");
+    const auto isStateButtonLayoutId =
+        [](const std::string &layoutId) -> bool
+        {
+            return layoutId == "ControlsTurnRate16Button"
+                || layoutId == "ControlsTurnRate32Button"
+                || layoutId == "ControlsTurnRateSmoothButton"
+                || layoutId == "ControlsWalkSoundButton"
+                || layoutId == "ControlsShowHitsButton"
+                || layoutId == "ControlsAlwaysRunButton"
+                || layoutId == "ControlsFlipOnExitButton";
+        };
+
+    const auto resolveLayout =
+        [&view, width, height](const std::string &layoutId) -> std::optional<OutdoorGameView::ResolvedHudLayoutElement>
+        {
+            const OutdoorGameView::HudLayoutElement *pLayout = HudUiService::findHudLayoutElement(view, layoutId);
+
+            if (pLayout == nullptr)
+            {
+                return std::nullopt;
+            }
+
+            return HudUiService::resolveHudLayoutElement(
+                view,
+                layoutId,
+                width,
+                height,
+                pLayout->width,
+                pLayout->height);
+        };
+
+    for (const std::string &layoutId : orderedLayoutIds)
+    {
+        const OutdoorGameView::HudLayoutElement *pLayout = HudUiService::findHudLayoutElement(view, layoutId);
+
+        if (pLayout == nullptr
+            || !pLayout->visible
+            || toLowerCopy(pLayout->id) == "controlsroot"
+            || isStateButtonLayoutId(layoutId))
+        {
+            continue;
+        }
+
+        if (pLayout->primaryAsset.empty())
+        {
+            continue;
+        }
+
+        std::string textureName = pLayout->primaryAsset;
+
+        if (pLayout->interactive)
+        {
+            const std::optional<OutdoorGameView::ResolvedHudLayoutElement> interactiveResolved =
+                HudUiService::resolveHudLayoutElement(
+                    view,
+                    layoutId,
+                    width,
+                    height,
+                    pLayout->width,
+                    pLayout->height);
+            const std::string *pAssetName = interactiveResolved
+                ? HudUiService::resolveInteractiveAssetName(
+                    *pLayout,
+                    *interactiveResolved,
+                    mouseX,
+                    mouseY,
+                    isLeftMousePressed)
+                : nullptr;
+
+            if (pAssetName != nullptr)
+            {
+                textureName = *pAssetName;
+            }
+        }
+
+        const OutdoorGameView::HudTextureHandle *pTexture =
+            HudUiService::ensureHudTextureLoaded(const_cast<OutdoorGameView &>(view), textureName);
+
+        if (pTexture == nullptr)
+        {
+            continue;
+        }
+
+        const std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolved =
+            HudUiService::resolveHudLayoutElement(
+                view,
+                layoutId,
+                width,
+                height,
+                static_cast<float>(pTexture->width),
+                static_cast<float>(pTexture->height));
+
+        if (resolved)
+        {
+            view.submitHudTexturedQuad(*pTexture, resolved->x, resolved->y, resolved->width, resolved->height);
+        }
+    }
+
+    const auto drawStateButton =
+        [&view, &resolveLayout, mouseX, mouseY, isLeftMousePressed](
+            const char *pButtonLayoutId,
+            OutdoorGameView::ControlsPointerTargetType type,
+            const char *pUpAsset,
+            const char *pDownAsset,
+            bool active)
+        {
+            const std::optional<OutdoorGameView::ResolvedHudLayoutElement> hitRect = resolveLayout(pButtonLayoutId);
+
+            if (!hitRect)
+            {
+                return;
+            }
+
+            const bool hovered = HudUiService::isPointerInsideResolvedElement(*hitRect, mouseX, mouseY);
+            const bool pressed =
+                hovered
+                && isLeftMousePressed
+                && view.m_controlsClickLatch
+                && view.m_controlsPressedTarget.type == type;
+            const char *pAssetName = (active && !pressed) ? pUpAsset : pDownAsset;
+            const OutdoorGameView::HudTextureHandle *pTexture =
+                HudUiService::ensureHudTextureLoaded(const_cast<OutdoorGameView &>(view), pAssetName);
+
+            if (pTexture == nullptr)
+            {
+                return;
+            }
+
+            view.submitHudTexturedQuad(
+                *pTexture,
+                hitRect->x,
+                hitRect->y,
+                hitRect->width,
+                hitRect->height);
+        };
+
+    drawStateButton(
+        "ControlsTurnRate16Button",
+        OutdoorGameView::ControlsPointerTargetType::TurnRate16Button,
+        "bt_16xU",
+        "bt_16xD",
+        view.m_gameSettings.turnRate == TurnRateMode::X16);
+    drawStateButton(
+        "ControlsTurnRate32Button",
+        OutdoorGameView::ControlsPointerTargetType::TurnRate32Button,
+        "bt_32xU",
+        "bt_32xD",
+        view.m_gameSettings.turnRate == TurnRateMode::X32);
+    drawStateButton(
+        "ControlsTurnRateSmoothButton",
+        OutdoorGameView::ControlsPointerTargetType::TurnRateSmoothButton,
+        "bt_smooU",
+        "bt_smooD",
+        view.m_gameSettings.turnRate == TurnRateMode::Smooth);
+    drawStateButton(
+        "ControlsWalkSoundButton",
+        OutdoorGameView::ControlsPointerTargetType::WalkSoundButton,
+        "bt_wksdU",
+        "bt_wksdD",
+        view.m_gameSettings.walksound);
+    drawStateButton(
+        "ControlsShowHitsButton",
+        OutdoorGameView::ControlsPointerTargetType::ShowHitsButton,
+        "bt_hitsU",
+        "bt_hitsD",
+        view.m_gameSettings.showHits);
+    drawStateButton(
+        "ControlsAlwaysRunButton",
+        OutdoorGameView::ControlsPointerTargetType::AlwaysRunButton,
+        "bt_runU",
+        "bt_runD",
+        view.m_gameSettings.alwaysRun);
+    drawStateButton(
+        "ControlsFlipOnExitButton",
+        OutdoorGameView::ControlsPointerTargetType::FlipOnExitButton,
+        "bt_flipU",
+        "bt_flipD",
+        view.m_gameSettings.flipOnExit);
+
+    const auto drawVolumeMarker =
+        [&view, &resolveLayout](const char *pTrackLayoutId, int level)
+        {
+            const std::optional<OutdoorGameView::ResolvedHudLayoutElement> trackRect = resolveLayout(pTrackLayoutId);
+
+            if (!trackRect)
+            {
+                return;
+            }
+
+            const int clampedLevel = std::clamp(level, 0, 9);
+            const OutdoorGameView::HudTextureHandle *pTexture =
+                HudUiService::ensureHudTextureLoaded(
+                    const_cast<OutdoorGameView &>(view),
+                    VolumeIndicatorAssetNames[clampedLevel]);
+
+            if (pTexture == nullptr)
+            {
+                return;
+            }
+
+            const float logicalKnobHeight = 18.0f;
+            const float knobScale = logicalKnobHeight > 0.0f ? trackRect->height / logicalKnobHeight : 1.0f;
+            const float drawWidth = static_cast<float>(pTexture->width) * knobScale;
+            const float drawHeight = static_cast<float>(pTexture->height) * knobScale;
+            const float t = static_cast<float>(clampedLevel) / 9.0f;
+            const float drawX = std::round(trackRect->x + (trackRect->width - drawWidth) * t);
+            const float drawY = std::round(trackRect->y + (trackRect->height - drawHeight) * 0.5f);
+            view.submitHudTexturedQuad(
+                *pTexture,
+                drawX,
+                drawY,
+                drawWidth,
+                drawHeight);
+        };
+
+    drawVolumeMarker("ControlsSoundKnobLane", view.m_gameSettings.soundVolume);
+    drawVolumeMarker("ControlsMusicKnobLane", view.m_gameSettings.musicVolume);
+    drawVolumeMarker("ControlsVoiceKnobLane", view.m_gameSettings.voiceVolume);
 }
 
 constexpr size_t SaveLoadVisibleSlotCount = 10;

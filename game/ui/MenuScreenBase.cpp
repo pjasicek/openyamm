@@ -671,6 +671,21 @@ void MenuScreenBase::drawTextureRegionColor(
     bgfx::submit(MenuViewId, m_texturedProgramHandle);
 }
 
+std::optional<MenuScreenBase::TextureSize> MenuScreenBase::textureSize(const std::string &textureName)
+{
+    const TextureHandle *pTexture = ensureTexture(textureName);
+
+    if (pTexture == nullptr || pTexture->width <= 0 || pTexture->height <= 0)
+    {
+        return std::nullopt;
+    }
+
+    return TextureSize{
+        static_cast<float>(pTexture->width),
+        static_cast<float>(pTexture->height)
+    };
+}
+
 bool MenuScreenBase::drawText(
     const std::string &fontName,
     const std::string &text,

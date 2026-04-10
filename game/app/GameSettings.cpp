@@ -247,7 +247,7 @@ std::optional<GameSettings> loadGameSettings(const std::filesystem::path &path, 
 
         if (parseIntValue(*value, parsed))
         {
-            settings.soundVolume = std::clamp(parsed, 0, 10);
+            settings.soundVolume = std::clamp(parsed, 0, 9);
         }
     }
 
@@ -257,7 +257,7 @@ std::optional<GameSettings> loadGameSettings(const std::filesystem::path &path, 
 
         if (parseIntValue(*value, parsed))
         {
-            settings.musicVolume = std::clamp(parsed, 0, 10);
+            settings.musicVolume = std::clamp(parsed, 0, 9);
         }
     }
 
@@ -267,7 +267,7 @@ std::optional<GameSettings> loadGameSettings(const std::filesystem::path &path, 
 
         if (parseIntValue(*value, parsed))
         {
-            settings.voiceVolume = std::clamp(parsed, 0, 10);
+            settings.voiceVolume = std::clamp(parsed, 0, 9);
         }
     }
 
@@ -277,6 +277,16 @@ std::optional<GameSettings> loadGameSettings(const std::filesystem::path &path, 
     }
 
     if (const std::optional<std::string> value = getIniValue(document, "controls", "walksound"))
+    {
+        bool parsed = settings.walksound;
+
+        if (parseBoolValue(*value, parsed))
+        {
+            settings.walksound = parsed;
+        }
+    }
+
+    if (const std::optional<std::string> value = getIniValue(document, "controls", "walk_sound"))
     {
         bool parsed = settings.walksound;
 
@@ -432,11 +442,11 @@ bool saveGameSettings(const std::filesystem::path &path, const GameSettings &set
 
     output
         << "; OpenYAMM settings\n"
-        << "; Volumes use the original-style 0..10 scale.\n\n"
+        << "; Volumes use the original-style 0..9 scale.\n\n"
         << "[audio]\n"
-        << "sound_volume=" << std::clamp(settings.soundVolume, 0, 10) << '\n'
-        << "music_volume=" << std::clamp(settings.musicVolume, 0, 10) << '\n'
-        << "voice_volume=" << std::clamp(settings.voiceVolume, 0, 10) << "\n\n"
+        << "sound_volume=" << std::clamp(settings.soundVolume, 0, 9) << '\n'
+        << "music_volume=" << std::clamp(settings.musicVolume, 0, 9) << '\n'
+        << "voice_volume=" << std::clamp(settings.voiceVolume, 0, 9) << "\n\n"
         << "[controls]\n"
         << "turn_rate=" << turnRateModeString(settings.turnRate) << '\n'
         << "walksound=" << (settings.walksound ? "true" : "false") << '\n'

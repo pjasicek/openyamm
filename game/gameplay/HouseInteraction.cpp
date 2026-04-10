@@ -179,16 +179,6 @@ int templeDonationCost(const HouseEntry &houseEntry)
     return roundPrice(houseEntry.priceMultiplier, 1, 1);
 }
 
-int tavernRoomCost(const HouseEntry &houseEntry)
-{
-    return roundPrice(houseEntry.priceMultiplier, 8, 4);
-}
-
-int tavernFoodCost(const HouseEntry &houseEntry)
-{
-    return roundPrice(houseEntry.priceMultiplier, 3, 2);
-}
-
 int skillLearningCost(const HouseEntry &houseEntry, bool isGuild)
 {
     const float multiplier = isGuild ? houseEntry.priceMultiplier : houseEntry.skillPriceMultiplier;
@@ -529,9 +519,11 @@ std::vector<HouseActionOption> buildHouseActionOptions(
 
     if (serviceType == HouseServiceType::Tavern)
     {
+        const Character *pMember = selectedMember(pParty);
+
         options.push_back(makeOption(
             HouseActionId::TavernRentRoom,
-            "Rent room for " + std::to_string(tavernRoomCost(houseEntry)) + " gold",
+            "Rent room for " + std::to_string(PriceCalculator::tavernRoomPrice(pMember, houseEntry)) + " gold",
             isHouseOpenNow,
             closedReason
         ));
@@ -539,7 +531,7 @@ std::vector<HouseActionOption> buildHouseActionOptions(
         HouseActionOption food = makeOption(
             HouseActionId::TavernBuyFood,
             "Fill packs to " + std::to_string(TavernFoodTarget) + " days for "
-                + std::to_string(tavernFoodCost(houseEntry)) + " gold",
+                + std::to_string(PriceCalculator::tavernFoodPrice(pMember, houseEntry)) + " gold",
             isHouseOpenNow,
             closedReason
         );
@@ -766,7 +758,7 @@ HouseActionResult performHouseAction(
 
         case HouseActionId::TavernRentRoom:
         {
-            const int price = tavernRoomCost(houseEntry);
+            const int price = PriceCalculator::tavernRoomPrice(party.activeMember(), houseEntry);
 
             if (party.gold() < price)
             {
@@ -790,7 +782,7 @@ HouseActionResult performHouseAction(
                 return result;
             }
 
-            const int price = tavernFoodCost(houseEntry);
+            const int price = PriceCalculator::tavernFoodPrice(party.activeMember(), houseEntry);
 
             if (party.gold() < price)
             {

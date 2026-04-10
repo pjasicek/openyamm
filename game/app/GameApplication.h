@@ -66,11 +66,12 @@ private:
     bool quickLoadFromPath(const std::filesystem::path &path, bool initializeView);
     void openMainMenuScreen();
     void openLoadMenuScreen();
-    void openNewGameScreen();
+    void openNewGameScreen(bool returnToGameplayMenu = false);
     bool processPendingArcomageGame();
     void handleCompletedArcomageScreen();
     bool initializeStartupSession(bool initializeView);
     bool startNewSession(std::optional<uint32_t> rosterId, bool initializeView = true);
+    bool startNewSessionFromCharacterCreation(const Character &character, bool initializeView = true);
     bool loadSessionFromPath(const std::filesystem::path &path);
     std::filesystem::path settingsFilePath() const;
     void loadOrCreateSettings();
@@ -79,6 +80,7 @@ private:
     void requestApplicationQuit() const;
     void reportQuickSaveStatus(const std::string &status);
     void renderMapPickerOverlay() const;
+    void handleSdlEvent(const SDL_Event &event);
     void renderFrame(int width, int height, float mouseWheelDelta, float deltaSeconds);
 
     Engine::EngineApplication m_engineApplication;

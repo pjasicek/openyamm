@@ -1,0 +1,460 @@
+screen: CharacterCreation
+
+elements:
+  - id: CharacterCreationRoot
+    anchor: center
+    width: 640
+    height: 480
+    z_index: 0
+    visible: true
+    scale:
+      min: 1.0
+      max: 3.0
+    children:
+      - id: CharacterCreationBackground
+        anchor: top_left
+        offset_x: 0
+        offset_y: 0
+        width: 640
+        height: 480
+        asset:
+          default: makeme
+
+      - id: CharacterCreationNameField
+        anchor: top_left
+        offset_x: 72
+        offset_y: 77
+        width: 110
+        height: 24
+        interactive: true
+
+      - id: CharacterCreationNameValue
+        anchor: top_left
+        offset_x: 72
+        offset_y: 77
+
+      - id: CharacterCreationClassValue
+        anchor: top_left
+        offset_x: 72
+        offset_y: 121
+
+      - id: CharacterCreationPortraitImage
+        anchor: top_left
+        offset_x: 4
+        offset_y: 161
+        width: 59
+        height: 79
+
+      - id: CharacterCreationPortraitLeftButton
+        anchor: top_left
+        offset_x: 69
+        offset_y: 164
+        width: 31
+        height: 17
+        interactive: true
+        asset:
+          default: cc_up_L
+          highlighted: cc_ht_L
+          pressed: cc_dn_L
+
+      - id: CharacterCreationPortraitRightButton
+        anchor: top_left
+        offset_x: 160
+        offset_y: 164
+        width: 31
+        height: 17
+        interactive: true
+        asset:
+          default: cc_up_R
+          highlighted: cc_ht_R
+          pressed: cc_dn_R
+
+      - id: CharacterCreationVoiceLeftButton
+        anchor: top_left
+        offset_x: 69
+        offset_y: 190
+        width: 31
+        height: 17
+        interactive: true
+        asset:
+          default: cc_up_L
+          highlighted: cc_ht_L
+          pressed: cc_dn_L
+
+      - id: CharacterCreationVoiceRightButton
+        anchor: top_left
+        offset_x: 160
+        offset_y: 190
+        width: 31
+        height: 17
+        interactive: true
+        asset:
+          default: cc_up_R
+          highlighted: cc_ht_R
+          pressed: cc_dn_R
+
+      - id: CharacterCreationVoiceDefaultButton
+        anchor: top_left
+        offset_x: 92
+        offset_y: 214
+        width: 75
+        height: 27
+        interactive: true
+        asset:
+          default: c_dft_up
+          highlighted: c_dft_ht
+          pressed: c_dft_dn
+
+      - id: CharacterCreationBonusPoolValue
+        anchor: top_left
+        offset_x: 163
+        offset_y: 262
+
+      - id: CharacterCreationMightLabel
+        anchor: top_left
+        offset_x: 2
+        offset_y: 296
+
+      - id: CharacterCreationIntellectLabel
+        anchor: top_left
+        offset_x: 2
+        offset_y: 314
+
+      - id: CharacterCreationPersonalityLabel
+        anchor: top_left
+        offset_x: 2
+        offset_y: 332
+
+      - id: CharacterCreationEnduranceLabel
+        anchor: top_left
+        offset_x: 2
+        offset_y: 350
+
+      - id: CharacterCreationAccuracyLabel
+        anchor: top_left
+        offset_x: 2
+        offset_y: 368
+
+      - id: CharacterCreationSpeedLabel
+        anchor: top_left
+        offset_x: 2
+        offset_y: 386
+
+      - id: CharacterCreationLuckLabel
+        anchor: top_left
+        offset_x: 2
+        offset_y: 404
+
+      - id: CharacterCreationMightMinusButton
+        anchor: top_left
+        offset_x: 107
+        offset_y: 299
+        width: 16
+        height: 17
+        interactive: true
+        asset:
+          default: cMinup
+          highlighted: cMinHT
+          pressed: cMindn
+
+      - id: CharacterCreationIntellectMinusButton
+        anchor: top_left
+        offset_x: 107
+        offset_y: 317
+        width: 16
+        height: 17
+        interactive: true
+        asset:
+          default: cMinup
+          highlighted: cMinHT
+          pressed: cMindn
+
+      - id: CharacterCreationPersonalityMinusButton
+        anchor: top_left
+        offset_x: 107
+        offset_y: 335
+        width: 16
+        height: 17
+        interactive: true
+        asset:
+          default: cMinup
+          highlighted: cMinHT
+          pressed: cMindn
+
+      - id: CharacterCreationEnduranceMinusButton
+        anchor: top_left
+        offset_x: 107
+        offset_y: 353
+        width: 16
+        height: 17
+        interactive: true
+        asset:
+          default: cMinup
+          highlighted: cMinHT
+          pressed: cMindn
+
+      - id: CharacterCreationAccuracyMinusButton
+        anchor: top_left
+        offset_x: 107
+        offset_y: 371
+        width: 16
+        height: 17
+        interactive: true
+        asset:
+          default: cMinup
+          highlighted: cMinHT
+          pressed: cMindn
+
+      - id: CharacterCreationSpeedMinusButton
+        anchor: top_left
+        offset_x: 107
+        offset_y: 389
+        width: 16
+        height: 17
+        interactive: true
+        asset:
+          default: cMinup
+          highlighted: cMinHT
+          pressed: cMindn
+
+      - id: CharacterCreationLuckMinusButton
+        anchor: top_left
+        offset_x: 107
+        offset_y: 407
+        width: 16
+        height: 17
+        interactive: true
+        asset:
+          default: cMinup
+          highlighted: cMinHT
+          pressed: cMindn
+
+      - id: CharacterCreationMightValue
+        anchor: top_left
+        offset_x: 138
+        offset_y: 299
+
+      - id: CharacterCreationIntellectValue
+        anchor: top_left
+        offset_x: 138
+        offset_y: 317
+
+      - id: CharacterCreationPersonalityValue
+        anchor: top_left
+        offset_x: 138
+        offset_y: 335
+
+      - id: CharacterCreationEnduranceValue
+        anchor: top_left
+        offset_x: 138
+        offset_y: 353
+
+      - id: CharacterCreationAccuracyValue
+        anchor: top_left
+        offset_x: 138
+        offset_y: 371
+
+      - id: CharacterCreationSpeedValue
+        anchor: top_left
+        offset_x: 138
+        offset_y: 389
+
+      - id: CharacterCreationLuckValue
+        anchor: top_left
+        offset_x: 138
+        offset_y: 407
+
+      - id: CharacterCreationMightPlusButton
+        anchor: top_left
+        offset_x: 170
+        offset_y: 299
+        width: 16
+        height: 17
+        interactive: true
+        asset:
+          default: cPlusup
+          highlighted: cPlusht
+          pressed: cPlusdn
+
+      - id: CharacterCreationIntellectPlusButton
+        anchor: top_left
+        offset_x: 170
+        offset_y: 317
+        width: 16
+        height: 17
+        interactive: true
+        asset:
+          default: cPlusup
+          highlighted: cPlusht
+          pressed: cPlusdn
+
+      - id: CharacterCreationPersonalityPlusButton
+        anchor: top_left
+        offset_x: 170
+        offset_y: 335
+        width: 16
+        height: 17
+        interactive: true
+        asset:
+          default: cPlusup
+          highlighted: cPlusht
+          pressed: cPlusdn
+
+      - id: CharacterCreationEndurancePlusButton
+        anchor: top_left
+        offset_x: 170
+        offset_y: 353
+        width: 16
+        height: 17
+        interactive: true
+        asset:
+          default: cPlusup
+          highlighted: cPlusht
+          pressed: cPlusdn
+
+      - id: CharacterCreationAccuracyPlusButton
+        anchor: top_left
+        offset_x: 170
+        offset_y: 371
+        width: 16
+        height: 17
+        interactive: true
+        asset:
+          default: cPlusup
+          highlighted: cPlusht
+          pressed: cPlusdn
+
+      - id: CharacterCreationSpeedPlusButton
+        anchor: top_left
+        offset_x: 170
+        offset_y: 389
+        width: 16
+        height: 17
+        interactive: true
+        asset:
+          default: cPlusup
+          highlighted: cPlusht
+          pressed: cPlusdn
+
+      - id: CharacterCreationLuckPlusButton
+        anchor: top_left
+        offset_x: 170
+        offset_y: 407
+        width: 16
+        height: 17
+        interactive: true
+        asset:
+          default: cPlusup
+          highlighted: cPlusht
+          pressed: cPlusdn
+
+      - id: CharacterCreationSelectedSkill01
+        anchor: top_left
+        offset_x: 273
+        offset_y: 121
+
+      - id: CharacterCreationSelectedSkill02
+        anchor: top_left
+        offset_x: 382
+        offset_y: 121
+
+      - id: CharacterCreationSelectedSkill03
+        anchor: top_left
+        offset_x: 273
+        offset_y: 154
+
+      - id: CharacterCreationSelectedSkill04
+        anchor: top_left
+        offset_x: 382
+        offset_y: 154
+
+      - id: CharacterCreationAvailableSkill01
+        anchor: top_left
+        offset_x: 273
+        offset_y: 252
+
+      - id: CharacterCreationAvailableSkill02
+        anchor: top_left
+        offset_x: 382
+        offset_y: 252
+
+      - id: CharacterCreationAvailableSkill03
+        anchor: top_left
+        offset_x: 273
+        offset_y: 289
+
+      - id: CharacterCreationAvailableSkill04
+        anchor: top_left
+        offset_x: 382
+        offset_y: 289
+
+      - id: CharacterCreationAvailableSkill05
+        anchor: top_left
+        offset_x: 273
+        offset_y: 325
+
+      - id: CharacterCreationAvailableSkill06
+        anchor: top_left
+        offset_x: 382
+        offset_y: 323
+
+      - id: CharacterCreationAvailableSkill07
+        anchor: top_left
+        offset_x: 273
+        offset_y: 353
+
+      - id: CharacterCreationAvailableSkill08
+        anchor: top_left
+        offset_x: 382
+        offset_y: 353
+
+      - id: CharacterCreationAvailableSkill09
+        anchor: top_left
+        offset_x: 327
+        offset_y: 385
+
+      - id: CharacterCreationPreviewAnchor
+        anchor: top_left
+        offset_x: 452
+        offset_y: 54
+
+      - id: CharacterCreationClearButton
+        anchor: top_left
+        offset_x: 373
+        offset_y: 442
+        width: 83
+        height: 30
+        interactive: true
+        asset:
+          default: c_clr_up
+          highlighted: c_clr_ht
+          pressed: c_clr_dn
+
+      - id: CharacterCreationCancelButton
+        anchor: top_left
+        offset_x: 460
+        offset_y: 442
+        width: 83
+        height: 30
+        interactive: true
+        asset:
+          default: c_cncl_up
+          highlighted: c_cncl_ht
+          pressed: c_cncl_dn
+
+      - id: CharacterCreationOkButton
+        anchor: top_left
+        offset_x: 547
+        offset_y: 442
+        width: 83
+        height: 30
+        interactive: true
+        asset:
+          default: c_ok_up
+          highlighted: c_ok_ht
+          pressed: c_ok_dn
+
+      - id: CharacterCreationStatusMessage
+        anchor: top_left
+        offset_x: 70
+        offset_y: 446

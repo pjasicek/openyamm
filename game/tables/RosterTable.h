@@ -18,6 +18,7 @@ struct RosterEntry
     std::string blurb;
     uint32_t birthYear = 0;
     uint32_t pictureId = 0;
+    int32_t voiceId = -1;
     uint32_t experience = 0;
     uint32_t level = 1;
     uint32_t might = 0;

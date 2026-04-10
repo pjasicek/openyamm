@@ -1,7 +1,9 @@
 #include "game/tables/MapStats.h"
 
+#include <algorithm>
 #include <cctype>
 #include <iostream>
+#include <optional>
 #include <string>
 #include <vector>
 
@@ -12,6 +14,35 @@ namespace
 constexpr size_t MapIdColumn = 0;
 constexpr size_t NameColumn = 1;
 constexpr size_t FileNameColumn = 2;
+constexpr size_t NavigationMapFileNameColumn = 0;
+constexpr size_t NavigationMinXColumn = 1;
+constexpr size_t NavigationMaxXColumn = 2;
+constexpr size_t NavigationMinYColumn = 3;
+constexpr size_t NavigationMaxYColumn = 4;
+constexpr size_t NavigationNorthMapColumn = 5;
+constexpr size_t NavigationNorthTravelDaysColumn = 6;
+constexpr size_t NavigationNorthHeadingColumn = 7;
+constexpr size_t NavigationSouthMapColumn = 8;
+constexpr size_t NavigationSouthTravelDaysColumn = 9;
+constexpr size_t NavigationSouthHeadingColumn = 10;
+constexpr size_t NavigationEastMapColumn = 11;
+constexpr size_t NavigationEastTravelDaysColumn = 12;
+constexpr size_t NavigationEastHeadingColumn = 13;
+constexpr size_t NavigationWestMapColumn = 14;
+constexpr size_t NavigationWestTravelDaysColumn = 15;
+constexpr size_t NavigationWestHeadingColumn = 16;
+constexpr size_t NavigationNorthArrivalXColumn = 17;
+constexpr size_t NavigationNorthArrivalYColumn = 18;
+constexpr size_t NavigationNorthArrivalZColumn = 19;
+constexpr size_t NavigationSouthArrivalXColumn = 20;
+constexpr size_t NavigationSouthArrivalYColumn = 21;
+constexpr size_t NavigationSouthArrivalZColumn = 22;
+constexpr size_t NavigationEastArrivalXColumn = 23;
+constexpr size_t NavigationEastArrivalYColumn = 24;
+constexpr size_t NavigationEastArrivalZColumn = 25;
+constexpr size_t NavigationWestArrivalXColumn = 26;
+constexpr size_t NavigationWestArrivalYColumn = 27;
+constexpr size_t NavigationWestArrivalZColumn = 28;
 constexpr size_t TreasureLevelColumn = 11;
 constexpr size_t EncounterChanceColumn = 12;
 constexpr size_t Encounter1ChanceColumn = 13;
@@ -104,7 +135,9 @@ bool parseCountRange(const std::string &value, int &minCount, int &maxCount)
 
 bool parseIntegerLocal(const std::string &value, int &result)
 {
-    if (value.empty())
+    const std::string trimmedValue = trimCopy(value);
+
+    if (trimmedValue.empty())
     {
         result = 0;
         return true;
@@ -114,14 +147,14 @@ bool parseIntegerLocal(const std::string &value, int &result)
 
     try
     {
-        result = std::stoi(value, &processedCharacters);
+        result = std::stoi(trimmedValue, &processedCharacters);
     }
     catch (...)
     {
         return false;
     }
 
-    return processedCharacters == value.size();
+    return processedCharacters == trimmedValue.size();
 }
 
 bool parseEncounterInfo(
@@ -154,6 +187,167 @@ bool parseEncounterInfo(
     encounterInfo.maxCount = maxCount;
     return true;
 }
+
+std::optional<MapBoundaryEdge> parseNavigationEdgeByColumn(size_t mapColumn)
+{
+    switch (mapColumn)
+    {
+        case NavigationNorthMapColumn:
+            return MapBoundaryEdge::North;
+
+        case NavigationSouthMapColumn:
+            return MapBoundaryEdge::South;
+
+        case NavigationEastMapColumn:
+            return MapBoundaryEdge::West;
+
+        case NavigationWestMapColumn:
+            return MapBoundaryEdge::East;
+
+        default:
+            return std::nullopt;
+    }
+}
+
+size_t navigationTravelDaysColumn(MapBoundaryEdge edge)
+{
+    switch (edge)
+    {
+        case MapBoundaryEdge::North:
+            return NavigationNorthTravelDaysColumn;
+
+        case MapBoundaryEdge::South:
+            return NavigationSouthTravelDaysColumn;
+
+        case MapBoundaryEdge::East:
+            return NavigationWestTravelDaysColumn;
+
+        case MapBoundaryEdge::West:
+            return NavigationEastTravelDaysColumn;
+    }
+
+    return NavigationNorthTravelDaysColumn;
+}
+
+size_t navigationHeadingColumn(MapBoundaryEdge edge)
+{
+    switch (edge)
+    {
+        case MapBoundaryEdge::North:
+            return NavigationNorthHeadingColumn;
+
+        case MapBoundaryEdge::South:
+            return NavigationSouthHeadingColumn;
+
+        case MapBoundaryEdge::East:
+            return NavigationWestHeadingColumn;
+
+        case MapBoundaryEdge::West:
+            return NavigationEastHeadingColumn;
+    }
+
+    return NavigationNorthHeadingColumn;
+}
+
+size_t navigationArrivalXColumn(MapBoundaryEdge edge)
+{
+    switch (edge)
+    {
+        case MapBoundaryEdge::North:
+            return NavigationNorthArrivalXColumn;
+
+        case MapBoundaryEdge::South:
+            return NavigationSouthArrivalXColumn;
+
+        case MapBoundaryEdge::East:
+            return NavigationWestArrivalXColumn;
+
+        case MapBoundaryEdge::West:
+            return NavigationEastArrivalXColumn;
+    }
+
+    return NavigationNorthArrivalXColumn;
+}
+
+size_t navigationArrivalYColumn(MapBoundaryEdge edge)
+{
+    switch (edge)
+    {
+        case MapBoundaryEdge::North:
+            return NavigationNorthArrivalYColumn;
+
+        case MapBoundaryEdge::South:
+            return NavigationSouthArrivalYColumn;
+
+        case MapBoundaryEdge::East:
+            return NavigationWestArrivalYColumn;
+
+        case MapBoundaryEdge::West:
+            return NavigationEastArrivalYColumn;
+    }
+
+    return NavigationNorthArrivalYColumn;
+}
+
+size_t navigationArrivalZColumn(MapBoundaryEdge edge)
+{
+    switch (edge)
+    {
+        case MapBoundaryEdge::North:
+            return NavigationNorthArrivalZColumn;
+
+        case MapBoundaryEdge::South:
+            return NavigationSouthArrivalZColumn;
+
+        case MapBoundaryEdge::East:
+            return NavigationWestArrivalZColumn;
+
+        case MapBoundaryEdge::West:
+            return NavigationEastArrivalZColumn;
+    }
+
+    return NavigationNorthArrivalZColumn;
+}
+}
+
+const std::optional<MapEdgeTransition> *MapStatsEntry::edgeTransition(MapBoundaryEdge edge) const
+{
+    switch (edge)
+    {
+        case MapBoundaryEdge::North:
+            return &northTransition;
+
+        case MapBoundaryEdge::South:
+            return &southTransition;
+
+        case MapBoundaryEdge::East:
+            return &eastTransition;
+
+        case MapBoundaryEdge::West:
+            return &westTransition;
+    }
+
+    return &northTransition;
+}
+
+std::optional<MapEdgeTransition> *MapStatsEntry::edgeTransition(MapBoundaryEdge edge)
+{
+    switch (edge)
+    {
+        case MapBoundaryEdge::North:
+            return &northTransition;
+
+        case MapBoundaryEdge::South:
+            return &southTransition;
+
+        case MapBoundaryEdge::East:
+            return &eastTransition;
+
+        case MapBoundaryEdge::West:
+            return &westTransition;
+    }
+
+    return &northTransition;
 }
 
 bool MapStats::loadFromRows(const std::vector<std::vector<std::string>> &rows)
@@ -242,9 +436,151 @@ bool MapStats::loadFromRows(const std::vector<std::vector<std::string>> &rows)
     return true;
 }
 
+bool MapStats::applyOutdoorNavigationRows(const std::vector<std::vector<std::string>> &rows)
+{
+    for (const std::vector<std::string> &row : rows)
+    {
+        const std::string fileName = trimCopy(getColumnValue(row, NavigationMapFileNameColumn));
+
+        if (fileName.empty() || fileName[0] == '/')
+        {
+            continue;
+        }
+
+        MapStatsEntry *pEntry = findMutableByFileName(fileName);
+
+        if (pEntry == nullptr)
+        {
+            std::cerr << "Map navigation row references unknown map file: " << fileName << '\n';
+            return false;
+        }
+
+        MapBounds bounds = {};
+        bounds.enabled = true;
+
+        if (!parseIntegerLocal(getColumnValue(row, NavigationMinXColumn), bounds.minX)
+            || !parseIntegerLocal(getColumnValue(row, NavigationMaxXColumn), bounds.maxX)
+            || !parseIntegerLocal(getColumnValue(row, NavigationMinYColumn), bounds.minY)
+            || !parseIntegerLocal(getColumnValue(row, NavigationMaxYColumn), bounds.maxY))
+        {
+            std::cerr << "Map navigation row has invalid bounds for map file: " << fileName << '\n';
+            return false;
+        }
+
+        if (bounds.minX > bounds.maxX || bounds.minY > bounds.maxY)
+        {
+            std::cerr << "Map navigation row has inverted bounds for map file: " << fileName << '\n';
+            return false;
+        }
+
+        pEntry->outdoorBounds = bounds;
+
+        for (size_t mapColumn : {
+                 NavigationNorthMapColumn,
+                 NavigationSouthMapColumn,
+                 NavigationEastMapColumn,
+                 NavigationWestMapColumn})
+        {
+            const std::optional<MapBoundaryEdge> edge = parseNavigationEdgeByColumn(mapColumn);
+
+            if (!edge.has_value())
+            {
+                continue;
+            }
+
+            std::optional<MapEdgeTransition> *pTransition = pEntry->edgeTransition(*edge);
+
+            if (pTransition == nullptr)
+            {
+                continue;
+            }
+
+            const std::string destinationMap = trimCopy(getColumnValue(row, mapColumn));
+
+            if (destinationMap.empty() || destinationMap == "0")
+            {
+                pTransition->reset();
+                continue;
+            }
+
+            MapEdgeTransition transition = {};
+            transition.destinationMapFileName = destinationMap;
+
+            int travelDays = 0;
+
+            if (!parseIntegerLocal(getColumnValue(row, navigationTravelDaysColumn(*edge)), travelDays))
+            {
+                std::cerr << "Map navigation row has invalid travel days for map file: " << fileName << '\n';
+                return false;
+            }
+
+            transition.travelDays = std::max(0, travelDays);
+            const std::string headingValue = trimCopy(getColumnValue(row, navigationHeadingColumn(*edge)));
+
+            if (!headingValue.empty() && headingValue != "0")
+            {
+                int directionDegrees = 0;
+
+                if (!parseIntegerLocal(headingValue, directionDegrees))
+                {
+                    std::cerr << "Map navigation row has invalid heading for map file: " << fileName << '\n';
+                    return false;
+                }
+
+                transition.directionDegrees = directionDegrees;
+            }
+
+            const std::string arrivalXValue = trimCopy(getColumnValue(row, navigationArrivalXColumn(*edge)));
+            const std::string arrivalYValue = trimCopy(getColumnValue(row, navigationArrivalYColumn(*edge)));
+            const std::string arrivalZValue = trimCopy(getColumnValue(row, navigationArrivalZColumn(*edge)));
+            const bool hasExplicitArrivalPosition =
+                !arrivalXValue.empty() || !arrivalYValue.empty() || !arrivalZValue.empty();
+
+            if (hasExplicitArrivalPosition)
+            {
+                int arrivalX = 0;
+                int arrivalY = 0;
+                int arrivalZ = 0;
+
+                if (!parseIntegerLocal(arrivalXValue, arrivalX)
+                    || !parseIntegerLocal(arrivalYValue, arrivalY)
+                    || !parseIntegerLocal(arrivalZValue, arrivalZ))
+                {
+                    std::cerr << "Map navigation row has invalid arrival position for map file: " << fileName << '\n';
+                    return false;
+                }
+
+                transition.arrivalX = arrivalX;
+                transition.arrivalY = arrivalY;
+                transition.arrivalZ = arrivalZ;
+                transition.useMapStartPosition = false;
+            }
+
+            *pTransition = std::move(transition);
+        }
+    }
+
+    return true;
+}
+
 const std::vector<MapStatsEntry> &MapStats::getEntries() const
 {
     return m_entries;
+}
+
+const MapStatsEntry *MapStats::findByFileName(const std::string &fileName) const
+{
+    const std::string normalizedFileName = normalizeFileName(fileName);
+
+    for (const MapStatsEntry &entry : m_entries)
+    {
+        if (normalizeFileName(entry.fileName) == normalizedFileName)
+        {
+            return &entry;
+        }
+    }
+
+    return nullptr;
 }
 
 bool MapStats::isDataRow(const std::vector<std::string> &row)
@@ -267,7 +603,9 @@ bool MapStats::isDataRow(const std::vector<std::string> &row)
 
 bool MapStats::parseInteger(const std::string &value, int &result)
 {
-    if (value.empty())
+    const std::string trimmedValue = trimCopy(value);
+
+    if (trimmedValue.empty())
     {
         result = 0;
         return true;
@@ -277,13 +615,40 @@ bool MapStats::parseInteger(const std::string &value, int &result)
 
     try
     {
-        result = std::stoi(value, &processedCharacters);
+        result = std::stoi(trimmedValue, &processedCharacters);
     }
     catch (...)
     {
         return false;
     }
 
-    return processedCharacters == value.size();
+    return processedCharacters == trimmedValue.size();
+}
+
+std::string MapStats::normalizeFileName(const std::string &value)
+{
+    std::string result = trimCopy(value);
+
+    for (char &character : result)
+    {
+        character = static_cast<char>(std::tolower(static_cast<unsigned char>(character)));
+    }
+
+    return result;
+}
+
+MapStatsEntry *MapStats::findMutableByFileName(const std::string &fileName)
+{
+    const std::string normalizedFileName = normalizeFileName(fileName);
+
+    for (MapStatsEntry &entry : m_entries)
+    {
+        if (normalizeFileName(entry.fileName) == normalizedFileName)
+        {
+            return &entry;
+        }
+    }
+
+    return nullptr;
 }
 }

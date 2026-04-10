@@ -5,6 +5,7 @@
 #include "game/outdoor/OutdoorPartyRuntime.h"
 #include "game/outdoor/OutdoorWorldRuntime.h"
 #include "game/scene/IMapSceneRuntime.h"
+#include "game/tables/MapStats.h"
 
 #include <optional>
 #include <string>
@@ -22,6 +23,7 @@ public:
 
     OutdoorSceneRuntime(
         const std::string &mapFileName,
+        const MapStatsEntry &mapEntry,
         OutdoorPartyRuntime &partyRuntime,
         OutdoorWorldRuntime &worldRuntime,
         const std::optional<EventIrProgram> &localEventIrProgram,
@@ -52,6 +54,7 @@ public:
 
 private:
     std::string m_mapFileName;
+    MapStatsEntry m_mapEntry;
     OutdoorPartyRuntime *m_pPartyRuntime = nullptr;
     OutdoorWorldRuntime *m_pWorldRuntime = nullptr;
     std::optional<EventIrProgram> m_localEventIrProgram;

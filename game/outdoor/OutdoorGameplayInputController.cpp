@@ -140,6 +140,7 @@ void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view
     const bool isSpellbookActive = view.m_spellbook.active;
     const bool isRestScreenActive = view.m_restScreen.active;
     const bool isMenuActive = view.m_menuScreen.active;
+    const bool isControlsActive = view.m_controlsScreen.active;
     const bool isSaveGameActive = view.m_saveGameScreen.active;
     const bool isLoadGameActive = view.m_loadGameScreen.active;
     const bool isJournalActive = view.m_journalScreen.active;
@@ -164,6 +165,7 @@ void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view
         && !isSpellbookActive
         && !isRestScreenActive
         && !isMenuActive
+        && !isControlsActive
         && !isSaveGameActive
         && !isLoadGameActive
         && !isJournalActive)
@@ -183,6 +185,7 @@ void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view
             && !isSpellbookActive
             && !isRestScreenActive
             && !isMenuActive
+            && !isControlsActive
             && !isSaveGameActive
             && !isLoadGameActive
             && !isJournalActive;
@@ -300,12 +303,13 @@ void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view
         && !hasPendingSpellCast
         && !view.m_spellbook.active
         && !view.m_restScreen.active
+        && !view.m_controlsScreen.active
         && !view.m_saveGameScreen.active
         && !view.m_loadGameScreen.active
         && !view.m_journalScreen.active
         && !view.m_heldInventoryItem.active;
 
-    if (!isMenuActive && !isSaveGameActive && !isLoadGameActive && pKeyboardState[SDL_SCANCODE_ESCAPE])
+    if (!isMenuActive && !isControlsActive && !isSaveGameActive && !isLoadGameActive && pKeyboardState[SDL_SCANCODE_ESCAPE])
     {
         if (!view.m_menuToggleLatch)
         {
@@ -317,7 +321,7 @@ void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view
             view.m_menuToggleLatch = true;
         }
     }
-    else if (!isMenuActive && !isSaveGameActive && !isLoadGameActive)
+    else if (!isMenuActive && !isControlsActive && !isSaveGameActive && !isLoadGameActive)
     {
         view.m_menuToggleLatch = false;
     }
@@ -369,7 +373,7 @@ void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view
                 }
             });
     }
-    else if (!view.m_menuScreen.active)
+    else if (!view.m_menuScreen.active && !view.m_controlsScreen.active)
     {
         view.m_optionsButtonClickLatch = false;
         view.m_optionsButtonPressed = false;
@@ -382,6 +386,7 @@ void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view
         && !hasPendingSpellCast
         && !view.m_spellbook.active
         && !view.m_menuScreen.active
+        && !view.m_controlsScreen.active
         && !view.m_saveGameScreen.active
         && !view.m_loadGameScreen.active
         && !view.m_restScreen.active
@@ -465,6 +470,7 @@ void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view
         && !hasPendingSpellCast
         && !view.m_spellbook.active
         && !view.m_menuScreen.active
+        && !view.m_controlsScreen.active
         && !view.m_saveGameScreen.active
         && !view.m_loadGameScreen.active
         && !view.m_restScreen.active
@@ -478,6 +484,7 @@ void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view
         && !hasPendingSpellCast
         && !view.m_spellbook.active
         && !view.m_menuScreen.active
+        && !view.m_controlsScreen.active
         && !view.m_saveGameScreen.active
         && !view.m_loadGameScreen.active
         && !view.m_restScreen.active
@@ -594,6 +601,7 @@ void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view
     if (!isEventDialogActive
         && !view.m_restScreen.active
         && !view.m_menuScreen.active
+        && !view.m_controlsScreen.active
         && !view.m_saveGameScreen.active
         && !view.m_loadGameScreen.active
         && !view.m_journalScreen.active)
@@ -652,6 +660,7 @@ void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view
         && !hasPendingSpellCast
         && !view.m_spellbook.active
         && !view.m_menuScreen.active
+        && !view.m_controlsScreen.active
         && !view.m_saveGameScreen.active
         && !view.m_loadGameScreen.active
         && !view.m_restScreen.active
@@ -1770,6 +1779,342 @@ void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view
         return;
     }
 
+    if (view.m_controlsScreen.active)
+    {
+        const bool closePressed = pKeyboardState[SDL_SCANCODE_ESCAPE] || pKeyboardState[SDL_SCANCODE_RETURN];
+
+        if (closePressed)
+        {
+            if (!view.m_controlsToggleLatch)
+            {
+                view.closeControlsScreen();
+                view.m_controlsToggleLatch = true;
+            }
+        }
+        else
+        {
+            view.m_controlsToggleLatch = false;
+        }
+
+        if (!view.m_controlsScreen.active)
+        {
+            return;
+        }
+
+        float controlsMouseX = 0.0f;
+        float controlsMouseY = 0.0f;
+        const SDL_MouseButtonFlags controlsMouseButtons = SDL_GetMouseState(&controlsMouseX, &controlsMouseY);
+        const HudPointerState controlsPointerState = {
+            controlsMouseX,
+            controlsMouseY,
+            (controlsMouseButtons & SDL_BUTTON_LMASK) != 0
+        };
+        const OutdoorGameView::ControlsPointerTarget noneControlsTarget = {};
+        const auto resolveControlsTarget =
+            [&view, screenWidth, screenHeight](
+                const char *pLayoutId,
+                OutdoorGameView::ControlsPointerTargetType type,
+                float pointerX,
+                float pointerY) -> OutdoorGameView::ControlsPointerTarget
+            {
+                const OutdoorGameView::HudLayoutElement *pLayout = HudUiService::findHudLayoutElement(view, pLayoutId);
+
+                if (pLayout == nullptr)
+                {
+                    return {};
+                }
+
+                const std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolved =
+                    HudUiService::resolveHudLayoutElement(
+                        view,
+                        pLayoutId,
+                        screenWidth,
+                        screenHeight,
+                        pLayout->width,
+                        pLayout->height);
+
+                if (!resolved || !HudUiService::isPointerInsideResolvedElement(*resolved, pointerX, pointerY))
+                {
+                    return {};
+                }
+
+                OutdoorGameView::ControlsPointerTarget target = {};
+                target.type = type;
+
+                if (type == OutdoorGameView::ControlsPointerTargetType::SoundTrack
+                    || type == OutdoorGameView::ControlsPointerTargetType::MusicTrack
+                    || type == OutdoorGameView::ControlsPointerTargetType::VoiceTrack)
+                {
+                    const float trackWidth = std::max(1.0f, resolved->width);
+                    const float t = std::clamp((pointerX - resolved->x) / trackWidth, 0.0f, 1.0f);
+                    target.sliderValue = std::clamp(static_cast<int>(std::lround(t * 9.0f)), 0, 9);
+                }
+
+                return target;
+            };
+        const auto findControlsPointerTarget =
+            [&resolveControlsTarget](float pointerX, float pointerY) -> OutdoorGameView::ControlsPointerTarget
+            {
+                for (const auto &[pLayoutId, type] : std::array<std::pair<const char *, OutdoorGameView::ControlsPointerTargetType>, 16>{{
+                         {"ControlsConfigureKeyboardButton", OutdoorGameView::ControlsPointerTargetType::ConfigureKeyboardButton},
+                         {"ControlsVideoOptionsButton", OutdoorGameView::ControlsPointerTargetType::VideoOptionsButton},
+                         {"ControlsTurnRate16Button", OutdoorGameView::ControlsPointerTargetType::TurnRate16Button},
+                         {"ControlsTurnRate32Button", OutdoorGameView::ControlsPointerTargetType::TurnRate32Button},
+                         {"ControlsTurnRateSmoothButton", OutdoorGameView::ControlsPointerTargetType::TurnRateSmoothButton},
+                         {"ControlsWalkSoundButton", OutdoorGameView::ControlsPointerTargetType::WalkSoundButton},
+                         {"ControlsShowHitsButton", OutdoorGameView::ControlsPointerTargetType::ShowHitsButton},
+                         {"ControlsAlwaysRunButton", OutdoorGameView::ControlsPointerTargetType::AlwaysRunButton},
+                         {"ControlsFlipOnExitButton", OutdoorGameView::ControlsPointerTargetType::FlipOnExitButton},
+                         {"ControlsSoundLeftButton", OutdoorGameView::ControlsPointerTargetType::SoundLeftButton},
+                         {"ControlsSoundRightButton", OutdoorGameView::ControlsPointerTargetType::SoundRightButton},
+                         {"ControlsMusicLeftButton", OutdoorGameView::ControlsPointerTargetType::MusicLeftButton},
+                         {"ControlsMusicRightButton", OutdoorGameView::ControlsPointerTargetType::MusicRightButton},
+                         {"ControlsVoiceLeftButton", OutdoorGameView::ControlsPointerTargetType::VoiceLeftButton},
+                         {"ControlsVoiceRightButton", OutdoorGameView::ControlsPointerTargetType::VoiceRightButton},
+                         {"ControlsReturnButton", OutdoorGameView::ControlsPointerTargetType::ReturnButton},
+                     }})
+                {
+                    const OutdoorGameView::ControlsPointerTarget target =
+                        resolveControlsTarget(pLayoutId, type, pointerX, pointerY);
+
+                    if (target.type != OutdoorGameView::ControlsPointerTargetType::None)
+                    {
+                        return target;
+                    }
+                }
+
+                return {};
+            };
+        const auto findControlsSliderPressTarget =
+            [&resolveControlsTarget](float pointerX, float pointerY) -> OutdoorGameView::ControlsPointerTarget
+            {
+                for (const auto &[pLayoutId, type] : std::array<std::pair<const char *, OutdoorGameView::ControlsPointerTargetType>, 3>{{
+                         {"ControlsSoundKnobLane", OutdoorGameView::ControlsPointerTargetType::SoundTrack},
+                         {"ControlsMusicKnobLane", OutdoorGameView::ControlsPointerTargetType::MusicTrack},
+                         {"ControlsVoiceKnobLane", OutdoorGameView::ControlsPointerTargetType::VoiceTrack},
+                     }})
+                {
+                    const OutdoorGameView::ControlsPointerTarget target =
+                        resolveControlsTarget(pLayoutId, type, pointerX, pointerY);
+
+                    if (target.type != OutdoorGameView::ControlsPointerTargetType::None)
+                    {
+                        return target;
+                    }
+                }
+
+                return {};
+            };
+        const auto applyControlsSliderValue =
+            [&view](OutdoorGameView::ControlsPointerTargetType type, int sliderValue)
+            {
+                const int clampedValue = std::clamp(sliderValue, 0, 9);
+                int *pSettingValue = nullptr;
+
+                switch (type)
+                {
+                case OutdoorGameView::ControlsPointerTargetType::SoundTrack:
+                    pSettingValue = &view.m_gameSettings.soundVolume;
+                    break;
+
+                case OutdoorGameView::ControlsPointerTargetType::MusicTrack:
+                    pSettingValue = &view.m_gameSettings.musicVolume;
+                    break;
+
+                case OutdoorGameView::ControlsPointerTargetType::VoiceTrack:
+                    pSettingValue = &view.m_gameSettings.voiceVolume;
+                    break;
+
+                default:
+                    break;
+                }
+
+                if (pSettingValue != nullptr && *pSettingValue != clampedValue)
+                {
+                    *pSettingValue = clampedValue;
+                    view.commitSettingsChange();
+                }
+            };
+        const auto updateDraggedControlsSlider =
+            [&view, screenWidth, screenHeight, &applyControlsSliderValue](
+                OutdoorGameView::ControlsPointerTargetType type,
+                float pointerX)
+            {
+                const char *pLayoutId = nullptr;
+
+                switch (type)
+                {
+                case OutdoorGameView::ControlsPointerTargetType::SoundTrack:
+                    pLayoutId = "ControlsSoundKnobLane";
+                    break;
+
+                case OutdoorGameView::ControlsPointerTargetType::MusicTrack:
+                    pLayoutId = "ControlsMusicKnobLane";
+                    break;
+
+                case OutdoorGameView::ControlsPointerTargetType::VoiceTrack:
+                    pLayoutId = "ControlsVoiceKnobLane";
+                    break;
+
+                default:
+                    return;
+                }
+
+                const OutdoorGameView::HudLayoutElement *pLayout =
+                    HudUiService::findHudLayoutElement(view, pLayoutId);
+
+                if (pLayout == nullptr)
+                {
+                    return;
+                }
+
+                const std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolved =
+                    HudUiService::resolveHudLayoutElement(
+                        view,
+                        pLayoutId,
+                        screenWidth,
+                        screenHeight,
+                        pLayout->width,
+                        pLayout->height);
+
+                if (!resolved)
+                {
+                    return;
+                }
+
+                const float trackWidth = std::max(1.0f, resolved->width);
+                const float t = std::clamp((pointerX - resolved->x) / trackWidth, 0.0f, 1.0f);
+                const int sliderValue = std::clamp(static_cast<int>(std::lround(t * 9.0f)), 0, 9);
+                applyControlsSliderValue(type, sliderValue);
+            };
+
+        if (controlsPointerState.leftButtonPressed)
+        {
+            if (!view.m_controlsSliderDragActive)
+            {
+                const OutdoorGameView::ControlsPointerTarget sliderTarget =
+                    findControlsSliderPressTarget(controlsPointerState.x, controlsPointerState.y);
+
+                if (sliderTarget.type == OutdoorGameView::ControlsPointerTargetType::SoundTrack
+                    || sliderTarget.type == OutdoorGameView::ControlsPointerTargetType::MusicTrack
+                    || sliderTarget.type == OutdoorGameView::ControlsPointerTargetType::VoiceTrack)
+                {
+                    view.m_controlsSliderDragActive = true;
+                    view.m_controlsDraggedSlider = sliderTarget.type;
+                    view.m_controlsClickLatch = false;
+                    view.m_controlsPressedTarget = {};
+                    applyControlsSliderValue(sliderTarget.type, sliderTarget.sliderValue);
+                    return;
+                }
+            }
+            else
+            {
+                updateDraggedControlsSlider(view.m_controlsDraggedSlider, controlsPointerState.x);
+                return;
+            }
+        }
+        else if (view.m_controlsSliderDragActive)
+        {
+            view.m_controlsSliderDragActive = false;
+            view.m_controlsDraggedSlider = OutdoorGameView::ControlsPointerTargetType::None;
+            view.m_controlsClickLatch = false;
+            view.m_controlsPressedTarget = {};
+            return;
+        }
+
+        handlePointerClickRelease(
+            controlsPointerState,
+            view.m_controlsClickLatch,
+            view.m_controlsPressedTarget,
+            noneControlsTarget,
+            findControlsPointerTarget,
+            [&view](const OutdoorGameView::ControlsPointerTarget &target)
+            {
+                switch (target.type)
+                {
+                case OutdoorGameView::ControlsPointerTargetType::ConfigureKeyboardButton:
+                case OutdoorGameView::ControlsPointerTargetType::VideoOptionsButton:
+                    break;
+
+                case OutdoorGameView::ControlsPointerTargetType::TurnRate16Button:
+                    view.m_gameSettings.turnRate = TurnRateMode::X16;
+                    view.commitSettingsChange();
+                    break;
+
+                case OutdoorGameView::ControlsPointerTargetType::TurnRate32Button:
+                    view.m_gameSettings.turnRate = TurnRateMode::X32;
+                    view.commitSettingsChange();
+                    break;
+
+                case OutdoorGameView::ControlsPointerTargetType::TurnRateSmoothButton:
+                    view.m_gameSettings.turnRate = TurnRateMode::Smooth;
+                    view.commitSettingsChange();
+                    break;
+
+                case OutdoorGameView::ControlsPointerTargetType::WalkSoundButton:
+                    view.m_gameSettings.walksound = !view.m_gameSettings.walksound;
+                    view.commitSettingsChange();
+                    break;
+
+                case OutdoorGameView::ControlsPointerTargetType::ShowHitsButton:
+                    view.m_gameSettings.showHits = !view.m_gameSettings.showHits;
+                    view.commitSettingsChange();
+                    break;
+
+                case OutdoorGameView::ControlsPointerTargetType::AlwaysRunButton:
+                    view.m_gameSettings.alwaysRun = !view.m_gameSettings.alwaysRun;
+                    view.commitSettingsChange();
+                    break;
+
+                case OutdoorGameView::ControlsPointerTargetType::FlipOnExitButton:
+                    view.m_gameSettings.flipOnExit = !view.m_gameSettings.flipOnExit;
+                    view.commitSettingsChange();
+                    break;
+
+                case OutdoorGameView::ControlsPointerTargetType::SoundLeftButton:
+                    view.m_gameSettings.soundVolume = std::max(0, view.m_gameSettings.soundVolume - 1);
+                    view.commitSettingsChange();
+                    break;
+
+                case OutdoorGameView::ControlsPointerTargetType::SoundRightButton:
+                    view.m_gameSettings.soundVolume = std::min(9, view.m_gameSettings.soundVolume + 1);
+                    view.commitSettingsChange();
+                    break;
+
+                case OutdoorGameView::ControlsPointerTargetType::MusicLeftButton:
+                    view.m_gameSettings.musicVolume = std::max(0, view.m_gameSettings.musicVolume - 1);
+                    view.commitSettingsChange();
+                    break;
+
+                case OutdoorGameView::ControlsPointerTargetType::MusicRightButton:
+                    view.m_gameSettings.musicVolume = std::min(9, view.m_gameSettings.musicVolume + 1);
+                    view.commitSettingsChange();
+                    break;
+
+                case OutdoorGameView::ControlsPointerTargetType::VoiceLeftButton:
+                    view.m_gameSettings.voiceVolume = std::max(0, view.m_gameSettings.voiceVolume - 1);
+                    view.commitSettingsChange();
+                    break;
+
+                case OutdoorGameView::ControlsPointerTargetType::VoiceRightButton:
+                    view.m_gameSettings.voiceVolume = std::min(9, view.m_gameSettings.voiceVolume + 1);
+                    view.commitSettingsChange();
+                    break;
+
+                case OutdoorGameView::ControlsPointerTargetType::ReturnButton:
+                    view.closeControlsScreen();
+                    break;
+
+                case OutdoorGameView::ControlsPointerTargetType::SoundTrack:
+                case OutdoorGameView::ControlsPointerTargetType::MusicTrack:
+                case OutdoorGameView::ControlsPointerTargetType::VoiceTrack:
+                case OutdoorGameView::ControlsPointerTargetType::None:
+                    break;
+                }
+            });
+        return;
+    }
+
     if (view.m_menuScreen.active)
     {
         const bool closePressed = pKeyboardState[SDL_SCANCODE_ESCAPE];
@@ -1914,21 +2259,47 @@ void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view
                 switch (target.type)
                 {
                 case OutdoorGameView::MenuPointerTargetType::NewGameButton:
-                    view.m_menuScreen.quitConfirmationArmed = false;
-                    view.m_menuScreen.bottomBarText.clear();
+                    if (view.m_menuScreen.newGameConfirmationArmed)
+                    {
+                        view.m_menuScreen.bottomBarTextUseWhite = false;
+                        view.requestOpenNewGameScreen();
+                    }
+                    else
+                    {
+                        view.m_menuScreen.newGameConfirmationArmed = true;
+                        view.m_menuScreen.quitConfirmationArmed = false;
+                        view.m_menuScreen.bottomBarTextUseWhite = true;
+                        view.m_menuScreen.bottomBarText = "Press New Game again to abandon current progress.";
+
+                        if (view.m_pGameAudioSystem != nullptr)
+                        {
+                            view.m_pGameAudioSystem->playCommonSound(SoundId::Quest, GameAudioSystem::PlaybackGroup::Ui);
+                        }
+                    }
                     break;
 
                 case OutdoorGameView::MenuPointerTargetType::SaveGameButton:
+                    view.m_menuScreen.newGameConfirmationArmed = false;
+                    view.m_menuScreen.quitConfirmationArmed = false;
+                    view.m_menuScreen.bottomBarTextUseWhite = false;
+                    view.m_menuScreen.bottomBarText.clear();
                     view.openSaveGameScreen();
                     break;
 
                 case OutdoorGameView::MenuPointerTargetType::LoadGameButton:
+                    view.m_menuScreen.newGameConfirmationArmed = false;
+                    view.m_menuScreen.quitConfirmationArmed = false;
+                    view.m_menuScreen.bottomBarTextUseWhite = false;
+                    view.m_menuScreen.bottomBarText.clear();
                     view.openLoadGameScreen();
                     break;
 
                 case OutdoorGameView::MenuPointerTargetType::ControlsButton:
+                    view.m_menuScreen.newGameConfirmationArmed = false;
                     view.m_menuScreen.quitConfirmationArmed = false;
+                    view.m_menuScreen.bottomBarTextUseWhite = false;
                     view.m_menuScreen.bottomBarText.clear();
+                    view.openControlsScreen();
                     break;
 
                 case OutdoorGameView::MenuPointerTargetType::QuitButton:
@@ -1940,12 +2311,23 @@ void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view
                     }
                     else
                     {
+                        view.m_menuScreen.newGameConfirmationArmed = false;
                         view.m_menuScreen.quitConfirmationArmed = true;
+                        view.m_menuScreen.bottomBarTextUseWhite = true;
                         view.m_menuScreen.bottomBarText = "Press Quit again to exit.";
+
+                        if (view.m_pGameAudioSystem != nullptr)
+                        {
+                            view.m_pGameAudioSystem->playCommonSound(SoundId::Quest, GameAudioSystem::PlaybackGroup::Ui);
+                        }
                     }
                     break;
 
                 case OutdoorGameView::MenuPointerTargetType::ReturnButton:
+                    view.m_menuScreen.newGameConfirmationArmed = false;
+                    view.m_menuScreen.quitConfirmationArmed = false;
+                    view.m_menuScreen.bottomBarTextUseWhite = false;
+                    view.m_menuScreen.bottomBarText.clear();
                     view.closeMenu();
                     break;
 

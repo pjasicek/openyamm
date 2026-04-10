@@ -705,6 +705,12 @@ void GameplayDialogueRenderer::renderDialogueTextureElement(
         return;
     }
 
+    if (normalizedLayoutId == "dialogueokbutton"
+        && view.activeEventDialog().presentation != EventDialogPresentation::Transition)
+    {
+        return;
+    }
+
     if (normalizedLayoutId == "dialogueeventdialog" && !showEventDialogPanel)
     {
         return;
@@ -948,6 +954,7 @@ void GameplayDialogueRenderer::renderDialogueEventPanel(
             float startY,
             const std::string &name,
             uint32_t pictureId,
+            EventDialogParticipantVisual participantVisual,
             bool selected) -> float
         {
             const float portraitY = std::round(startY);
@@ -961,7 +968,90 @@ void GameplayDialogueRenderer::renderDialogueEventPanel(
                 view.submitHudTexturedQuad(*portraitBorder, portraitX, portraitBorderY, portraitBorderSize, portraitBorderSize);
             }
 
-            if (pictureId > 0)
+            if (participantVisual == EventDialogParticipantVisual::MapIcon)
+            {
+                const float innerX = std::round(portraitX + portraitInset);
+                const float innerY = std::round(portraitBorderY + portraitInset);
+                const float innerSize = std::round(portraitBorderSize - portraitInset * 2.0f);
+                const std::optional<GameplayOverlayContext::HudTextureHandle> transitionIcon =
+                    view.ensureHudTextureLoaded("Outside");
+
+                if (transitionIcon)
+                {
+                    const float imageWidth = static_cast<float>(transitionIcon->width);
+                    const float imageHeight = static_cast<float>(transitionIcon->height);
+                    const float iconScale = std::max(
+                        innerSize / std::max(1.0f, imageWidth),
+                        innerSize / std::max(1.0f, imageHeight));
+                    const float scaledWidth = imageWidth * iconScale;
+                    const float scaledHeight = imageHeight * iconScale;
+                    float u0 = 0.0f;
+                    float v0 = 0.0f;
+                    float u1 = 1.0f;
+                    float v1 = 1.0f;
+
+                    if (scaledWidth > innerSize)
+                    {
+                        const float croppedFraction = (scaledWidth - innerSize) / scaledWidth;
+                        u0 = croppedFraction * 0.5f;
+                        u1 = 1.0f - croppedFraction * 0.5f;
+                    }
+
+                    if (scaledHeight > innerSize)
+                    {
+                        const float croppedFraction = (scaledHeight - innerSize) / scaledHeight;
+                        v0 = croppedFraction * 0.5f;
+                        v1 = 1.0f - croppedFraction * 0.5f;
+                    }
+
+                    submitTextureHandleQuadUv(
+                        view,
+                        transitionIcon->textureHandle,
+                        innerX,
+                        innerY,
+                        innerSize,
+                        innerSize,
+                        u0,
+                        v0,
+                        u1,
+                        v1);
+                }
+                else
+                {
+                    const std::optional<GameplayOverlayContext::HudTextureHandle> parchment =
+                        view.ensureSolidHudTextureLoaded("__dialogue_map_icon_bg__", 0xffcdb07aU);
+                    const std::optional<GameplayOverlayContext::HudTextureHandle> lineTexture =
+                        view.ensureSolidHudTextureLoaded("__dialogue_map_icon_line__", 0xff5c4228U);
+
+                    if (parchment)
+                    {
+                        view.submitHudTexturedQuad(*parchment, innerX, innerY, innerSize, innerSize);
+                    }
+
+                    if (lineTexture)
+                    {
+                        view.submitHudTexturedQuad(
+                            *lineTexture,
+                            innerX + innerSize * 0.18f,
+                            innerY + innerSize * 0.58f,
+                            innerSize * 0.64f,
+                            innerSize * 0.08f);
+                        view.submitHudTexturedQuad(
+                            *lineTexture,
+                            innerX + innerSize * 0.52f,
+                            innerY + innerSize * 0.20f,
+                            innerSize * 0.08f,
+                            innerSize * 0.54f);
+                        view.submitHudTexturedQuad(
+                            *lineTexture,
+                            innerX + innerSize * 0.26f,
+                            innerY + innerSize * 0.24f,
+                            innerSize * 0.18f,
+                            innerSize * 0.18f);
+                    }
+                }
+            }
+            else if (pictureId > 0)
             {
                 char textureName[16] = {};
                 std::snprintf(textureName, sizeof(textureName), "npc%04u", pictureId);
@@ -1051,7 +1141,12 @@ void GameplayDialogueRenderer::renderDialogueEventPanel(
             const EventDialogAction &action = view.activeEventDialog().actions[actionIndex];
             const NpcEntry *pNpc = view.npcDialogTable() ? view.npcDialogTable()->getNpc(action.id) : nullptr;
             const uint32_t pictureId = pNpc != nullptr ? pNpc->pictureId : 0;
-            contentY = drawEventNpcCard(contentY, action.label, pictureId, false);
+            contentY = drawEventNpcCard(
+                contentY,
+                action.label,
+                pictureId,
+                EventDialogParticipantVisual::Portrait,
+                false);
             contentY += sectionGap;
         }
     }
@@ -1059,7 +1154,7 @@ void GameplayDialogueRenderer::renderDialogueEventPanel(
     {
         uint32_t pictureId = view.activeEventDialog().participantPictureId;
 
-        if (pictureId == 0)
+        if (pictureId == 0 && view.activeEventDialog().participantVisual == EventDialogParticipantVisual::Portrait)
         {
             const NpcEntry *pNpc =
                 view.npcDialogTable() ? view.npcDialogTable()->getNpc(view.activeEventDialog().sourceId) : nullptr;
@@ -1068,10 +1163,16 @@ void GameplayDialogueRenderer::renderDialogueEventPanel(
                 : (pHostHouseEntry != nullptr ? pHostHouseEntry->proprietorPictureId : 0);
         }
 
-        contentY = drawEventNpcCard(contentY, view.activeEventDialog().title, pictureId, false);
+        contentY = drawEventNpcCard(
+            contentY,
+            view.activeEventDialog().title,
+            pictureId,
+            view.activeEventDialog().participantVisual,
+            false);
         contentY += sectionGap;
 
-        if (pTopicRowLayout != nullptr
+        if (view.activeEventDialog().presentation != EventDialogPresentation::Transition
+            && pTopicRowLayout != nullptr
             && ((!suppressServiceTopicsForShopOverlay && !view.activeEventDialog().actions.empty())
                 || hoveredHouseServiceTopicText.has_value()))
         {

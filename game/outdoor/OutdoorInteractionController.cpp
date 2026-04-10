@@ -879,6 +879,65 @@ GameplayDialogController::Context OutdoorInteractionController::createGameplayDi
                 view.m_pGameAudioSystem->playCommonSound(soundId, GameAudioSystem::PlaybackGroup::Ui);
             }
         };
+    callbacks.requestTravelAutosave =
+        [&view]()
+        {
+            if (!view.m_saveGameToPathCallback)
+            {
+                return;
+            }
+
+            std::string error;
+
+            if (view.m_saveGameToPathCallback(view.m_autosavePath, "", {}, error))
+            {
+                view.refreshSaveGameSlots();
+            }
+        };
+    callbacks.stopTravelAudio =
+        [&view]()
+        {
+            if (view.m_pGameAudioSystem != nullptr)
+            {
+                view.m_pGameAudioSystem->stopAllPlayback();
+            }
+        };
+    callbacks.cancelMapTransition =
+        [&view]()
+        {
+            if (!view.m_map.has_value() || view.m_pOutdoorPartyRuntime == nullptr)
+            {
+                return;
+            }
+
+            const MapBounds &bounds = view.m_map->outdoorBounds;
+
+            if (!bounds.enabled)
+            {
+                return;
+            }
+
+            constexpr float CancelClampInset = 1.0f;
+            const OutdoorMoveState &moveState = view.m_pOutdoorPartyRuntime->movementState();
+            const float clampedX = std::clamp(
+                moveState.x,
+                static_cast<float>(bounds.minX) + CancelClampInset,
+                static_cast<float>(bounds.maxX) - CancelClampInset);
+            const float clampedY = std::clamp(
+                moveState.y,
+                static_cast<float>(bounds.minY) + CancelClampInset,
+                static_cast<float>(bounds.maxY) - CancelClampInset);
+
+            if (clampedX == moveState.x && clampedY == moveState.y)
+            {
+                return;
+            }
+
+            view.m_pOutdoorPartyRuntime->teleportTo(clampedX, clampedY, moveState.footZ);
+            view.m_cameraTargetX = clampedX;
+            view.m_cameraTargetY = clampedY;
+            view.m_cameraTargetZ = moveState.footZ + view.m_cameraEyeHeight;
+        };
     callbacks.executeNpcTopicEvent =
         [&view](uint16_t eventId, size_t &previousMessageCount)
         {
@@ -902,6 +961,8 @@ GameplayDialogController::Context OutdoorInteractionController::createGameplayDi
         view.m_houseTable ? &*view.m_houseTable : nullptr,
         view.m_classSkillTable ? &*view.m_classSkillTable : nullptr,
         view.m_npcDialogTable ? &*view.m_npcDialogTable : nullptr,
+        view.m_map ? &*view.m_map : nullptr,
+        &view.m_mapEntries,
         view.m_pRosterTable,
         view.m_pArcomageLibrary,
         view.currentHudScreenState() == OutdoorGameView::OverlayHudScreenState::Dialogue,
@@ -3322,9 +3383,10 @@ void OutdoorInteractionController::applyPendingCombatEvents(OutdoorGameView &vie
                     return std::max(1, (event.damage + 1) / 2);
                 }
 
-                return event.damage;
+        return event.damage;
             };
         bool damagedParty = false;
+        std::vector<size_t> damagedMemberIndices;
 
         if (event.affectsAllParty)
         {
@@ -3345,12 +3407,16 @@ void OutdoorInteractionController::applyPendingCombatEvents(OutdoorGameView &vie
                     continue;
                 }
 
-                damagedParty =
-                    party.applyDamageToMember(
-                        memberIndex,
-                        adjustedDamageForMember(*pMember),
-                        wroteStatus ? "" : status)
-                    || damagedParty;
+                const bool applied = party.applyDamageToMember(
+                    memberIndex,
+                    adjustedDamageForMember(*pMember),
+                    wroteStatus ? "" : status);
+                damagedParty = applied || damagedParty;
+
+                if (applied)
+                {
+                    damagedMemberIndices.push_back(memberIndex);
+                }
                 wroteStatus = wroteStatus || damagedParty;
             }
         }
@@ -3359,10 +3425,24 @@ void OutdoorInteractionController::applyPendingCombatEvents(OutdoorGameView &vie
             const int adjustedDamage =
                 pTargetMember != nullptr ? adjustedDamageForMember(*pTargetMember) : event.damage;
             damagedParty = targetMemberIndex ? party.applyDamageToMember(*targetMemberIndex, adjustedDamage, status) : false;
+
+            if (damagedParty && targetMemberIndex.has_value())
+            {
+                damagedMemberIndices.push_back(*targetMemberIndex);
+            }
         }
 
         if (damagedParty)
         {
+            // We intentionally keep physical projectiles on the same armor-impact path as melee hits.
+            if (event.type == OutdoorWorldRuntime::CombatEvent::Type::MonsterMeleeImpact || isPhysicalProjectile)
+            {
+                for (size_t memberIndex : damagedMemberIndices)
+                {
+                    party.requestDamageImpactSoundForMember(memberIndex);
+                }
+            }
+
             if (event.affectsAllParty)
             {
                 view.triggerPortraitFaceAnimationForAllLivingMembers(FaceAnimationId::DamagedParty);

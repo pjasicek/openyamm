@@ -12,11 +12,13 @@
 #include <cstdint>
 #include <functional>
 #include <optional>
+#include <vector>
 
 namespace OpenYAMM::Game
 {
 class ClassSkillTable;
 class HouseTable;
+struct MapStatsEntry;
 class NpcDialogTable;
 class OutdoorWorldRuntime;
 class Party;
@@ -31,6 +33,9 @@ public:
         std::function<void(size_t, SpeechId, bool)> playSpeechReaction;
         std::function<void(uint32_t)> playHouseSound;
         std::function<void(SoundId)> playCommonSound;
+        std::function<void()> requestTravelAutosave;
+        std::function<void()> stopTravelAudio;
+        std::function<void()> cancelMapTransition;
         std::function<bool(uint16_t, size_t &)> executeNpcTopicEvent;
     };
 
@@ -46,6 +51,8 @@ public:
         const HouseTable *pHouseTable = nullptr;
         const ClassSkillTable *pClassSkillTable = nullptr;
         const NpcDialogTable *pNpcDialogTable = nullptr;
+        const MapStatsEntry *pCurrentMap = nullptr;
+        const std::vector<MapStatsEntry> *pMapEntries = nullptr;
         const RosterTable *pRosterTable = nullptr;
         const ArcomageLibrary *pArcomageLibrary = nullptr;
         bool dialogueHudActive = false;

@@ -25,6 +25,12 @@ int resolveMonthFromDayOfYear(int dayOfYear);
 int currentGameMinutesFromRuntimeState(const EventRuntimeState &runtimeState);
 std::optional<std::string> skillNameForEvtVariable(EvtVariable variableId);
 
+int32_t moveToMapYawUnitsToDegrees(int32_t yawUnits)
+{
+    const int32_t normalizedYawUnits = ((yawUnits % 2048) + 2048) % 2048;
+    return normalizedYawUnits * 360 / 2048;
+}
+
 std::string sanitizeEventString(const std::string &value)
 {
     std::string sanitized;
@@ -3906,7 +3912,12 @@ bool EventRuntime::executeEvent(
 
                     if (instruction.arguments.size() >= 4)
                     {
-                        pendingMapMove.directionDegrees = static_cast<int32_t>(instruction.arguments[3]);
+                        const int32_t rawYawUnits = static_cast<int32_t>(instruction.arguments[3]);
+
+                        if (rawYawUnits >= 0)
+                        {
+                            pendingMapMove.directionDegrees = moveToMapYawUnitsToDegrees(rawYawUnits);
+                        }
                     }
 
                     if (instruction.text && !instruction.text->empty())

@@ -246,8 +246,15 @@ public:
     struct MenuScreenState
     {
         bool active = false;
+        bool newGameConfirmationArmed = false;
         bool quitConfirmationArmed = false;
+        bool bottomBarTextUseWhite = false;
         std::string bottomBarText;
+    };
+
+    struct ControlsScreenState
+    {
+        bool active = false;
     };
 
     struct SaveSlotSummary
@@ -366,6 +373,7 @@ public:
         SpellbookState spellbook = {};
         RestScreenState restScreen = {};
         MenuScreenState menuScreen = {};
+        ControlsScreenState controlsScreen = {};
         SaveGameScreenState saveGameScreen = {};
         LoadGameScreenState loadGameScreen = {};
         JournalScreenState journalScreen = {};
@@ -419,6 +427,9 @@ public:
 
     MenuScreenState &menuScreen();
     const MenuScreenState &menuScreen() const;
+
+    ControlsScreenState &controlsScreen();
+    const ControlsScreenState &controlsScreen() const;
 
     SaveGameScreenState &saveGameScreen();
     const SaveGameScreenState &saveGameScreen() const;
