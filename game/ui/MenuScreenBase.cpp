@@ -408,9 +408,10 @@ std::optional<std::vector<uint8_t>> decodePcxPixelsBgra(const std::vector<uint8_
             pixels[pixelOffset + 2] = red;
 
             const bool isMagentaKey = red >= 248 && green <= 8 && blue >= 248;
+            const bool isPinkKey = red >= 248 && green >= 48 && green <= 64 && blue >= 248;
             const bool isTealKey = red <= 8 && green >= 248 && blue >= 248;
             const bool isBlueKey = red <= 8 && green <= 8 && blue >= 248;
-            pixels[pixelOffset + 3] = (isMagentaKey || isTealKey || isBlueKey) ? 0 : 255;
+            pixels[pixelOffset + 3] = (isMagentaKey || isPinkKey || isTealKey || isBlueKey) ? 0 : 255;
         }
     }
 
@@ -464,9 +465,10 @@ std::optional<std::vector<uint8_t>> loadTexturePixelsBgra(
         const uint8_t green = pixels[pixelOffset + 1];
         const uint8_t red = pixels[pixelOffset + 2];
         const bool isMagentaKey = red >= 248 && green <= 8 && blue >= 248;
+        const bool isPinkKey = red >= 248 && green >= 48 && green <= 64 && blue >= 248;
         const bool isTealKey = red <= 8 && green >= 248 && blue >= 248;
 
-        if (isMagentaKey || isTealKey)
+        if (isMagentaKey || isPinkKey || isTealKey)
         {
             pixels[pixelOffset + 3] = 0;
         }
@@ -607,6 +609,62 @@ void MenuScreenBase::drawTextureRegion(const std::string &textureName, const Sou
 void MenuScreenBase::drawTextureColor(const std::string &textureName, const Rect &rect, uint32_t colorAbgr)
 {
     drawTextureRegionColor(textureName, SourceRect{}, rect, colorAbgr);
+}
+
+void MenuScreenBase::drawPixelsBgra(
+    const std::string &cacheKey,
+    int width,
+    int height,
+    const std::vector<uint8_t> &pixelsBgra,
+    const Rect &rect)
+{
+    if (width <= 0 || height <= 0 || pixelsBgra.empty())
+    {
+        return;
+    }
+
+    const bgfx::TextureHandle textureHandle = ensureDynamicTexture(cacheKey, width, height, pixelsBgra);
+
+    if (!bgfx::isValid(textureHandle))
+    {
+        return;
+    }
+
+    bgfx::TransientVertexBuffer vertexBuffer;
+    bgfx::TransientIndexBuffer indexBuffer;
+
+    if (bgfx::getAvailTransientVertexBuffer(4, MenuVertex::ms_layout) < 4
+        || bgfx::getAvailTransientIndexBuffer(6) < 6)
+    {
+        return;
+    }
+
+    bgfx::allocTransientVertexBuffer(&vertexBuffer, 4, MenuVertex::ms_layout);
+    bgfx::allocTransientIndexBuffer(&indexBuffer, 6);
+
+    MenuVertex *pVertices = reinterpret_cast<MenuVertex *>(vertexBuffer.data);
+    const float left = rect.x;
+    const float right = rect.x + rect.width;
+    const float top = rect.y;
+    const float bottom = rect.y + rect.height;
+    pVertices[0] = MenuVertex{left, top, 0.0f, 0.0f, 0.0f};
+    pVertices[1] = MenuVertex{right, top, 0.0f, 1.0f, 0.0f};
+    pVertices[2] = MenuVertex{right, bottom, 0.0f, 1.0f, 1.0f};
+    pVertices[3] = MenuVertex{left, bottom, 0.0f, 0.0f, 1.0f};
+
+    uint16_t *pIndices = reinterpret_cast<uint16_t *>(indexBuffer.data);
+    pIndices[0] = 0;
+    pIndices[1] = 1;
+    pIndices[2] = 2;
+    pIndices[3] = 0;
+    pIndices[4] = 2;
+    pIndices[5] = 3;
+
+    bgfx::setVertexBuffer(0, &vertexBuffer);
+    bgfx::setIndexBuffer(&indexBuffer);
+    bgfx::setTexture(0, m_textureUniformHandle, textureHandle);
+    bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_BLEND_ALPHA | BGFX_STATE_MSAA);
+    bgfx::submit(MenuViewId, m_texturedProgramHandle);
 }
 
 void MenuScreenBase::drawTextureRegionColor(
@@ -976,6 +1034,17 @@ void MenuScreenBase::destroyRendererResources()
 
     m_textureColorHandles.clear();
 
+    for (DynamicTextureHandle &textureHandle : m_dynamicTextureHandles)
+    {
+        if (bgfx::isValid(textureHandle.handle))
+        {
+            bgfx::destroy(textureHandle.handle);
+            textureHandle.handle = BGFX_INVALID_HANDLE;
+        }
+    }
+
+    m_dynamicTextureHandles.clear();
+
     for (FontHandle &fontHandle : m_fontHandles)
     {
         if (bgfx::isValid(fontHandle.mainTextureHandle))
@@ -1239,6 +1308,93 @@ const MenuScreenBase::FontHandle *MenuScreenBase::ensureFont(const std::string &
     m_fontHandles.push_back(std::move(fontHandle));
     m_fontIndexByName[m_fontHandles.back().normalizedFontName] = m_fontHandles.size() - 1;
     return &m_fontHandles.back();
+}
+
+bgfx::TextureHandle MenuScreenBase::ensureDynamicTexture(
+    const std::string &cacheKey,
+    int width,
+    int height,
+    const std::vector<uint8_t> &pixelsBgra)
+{
+    if (width <= 0 || height <= 0 || pixelsBgra.empty())
+    {
+        return BGFX_INVALID_HANDLE;
+    }
+
+    for (DynamicTextureHandle &textureHandle : m_dynamicTextureHandles)
+    {
+        if (textureHandle.cacheKey != cacheKey)
+        {
+            continue;
+        }
+
+        if (!bgfx::isValid(textureHandle.handle)
+            || textureHandle.width != width
+            || textureHandle.height != height)
+        {
+            if (bgfx::isValid(textureHandle.handle))
+            {
+                bgfx::destroy(textureHandle.handle);
+            }
+
+            textureHandle.width = width;
+            textureHandle.height = height;
+            textureHandle.handle = bgfx::createTexture2D(
+                static_cast<uint16_t>(width),
+                static_cast<uint16_t>(height),
+                false,
+                1,
+                bgfx::TextureFormat::BGRA8,
+                BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP | BGFX_SAMPLER_MIN_POINT | BGFX_SAMPLER_MAG_POINT
+                    | BGFX_TEXTURE_BLIT_DST);
+        }
+
+        if (!bgfx::isValid(textureHandle.handle))
+        {
+            return BGFX_INVALID_HANDLE;
+        }
+
+        bgfx::updateTexture2D(
+            textureHandle.handle,
+            0,
+            0,
+            0,
+            0,
+            static_cast<uint16_t>(width),
+            static_cast<uint16_t>(height),
+            bgfx::copy(pixelsBgra.data(), static_cast<uint32_t>(pixelsBgra.size())));
+        return textureHandle.handle;
+    }
+
+    DynamicTextureHandle textureHandle = {};
+    textureHandle.cacheKey = cacheKey;
+    textureHandle.width = width;
+    textureHandle.height = height;
+    textureHandle.handle = bgfx::createTexture2D(
+        static_cast<uint16_t>(width),
+        static_cast<uint16_t>(height),
+        false,
+        1,
+        bgfx::TextureFormat::BGRA8,
+        BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP | BGFX_SAMPLER_MIN_POINT | BGFX_SAMPLER_MAG_POINT
+            | BGFX_TEXTURE_BLIT_DST);
+
+    if (!bgfx::isValid(textureHandle.handle))
+    {
+        return BGFX_INVALID_HANDLE;
+    }
+
+    bgfx::updateTexture2D(
+        textureHandle.handle,
+        0,
+        0,
+        0,
+        0,
+        static_cast<uint16_t>(width),
+        static_cast<uint16_t>(height),
+        bgfx::copy(pixelsBgra.data(), static_cast<uint32_t>(pixelsBgra.size())));
+    m_dynamicTextureHandles.push_back(std::move(textureHandle));
+    return m_dynamicTextureHandles.back().handle;
 }
 
 bgfx::TextureHandle MenuScreenBase::ensureTextureColor(const TextureHandle &texture, uint32_t colorAbgr)

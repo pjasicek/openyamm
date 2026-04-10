@@ -6558,6 +6558,13 @@ bool OutdoorGameView::consumePendingOpenNewGameScreenRequest()
     return pending;
 }
 
+bool OutdoorGameView::consumePendingOpenLoadGameScreenRequest()
+{
+    const bool pending = m_pendingOpenLoadGameScreen;
+    m_pendingOpenLoadGameScreen = false;
+    return pending;
+}
+
 void OutdoorGameView::updateHouseVideoPlayback(float deltaSeconds)
 {
     const EventRuntimeState *pEventRuntimeState =
@@ -8463,24 +8470,8 @@ void OutdoorGameView::closeSaveGameScreen()
 
 void OutdoorGameView::openLoadGameScreen()
 {
-    m_menuScreen.active = false;
-    m_menuToggleLatch = false;
-    m_menuClickLatch = false;
-    m_menuPressedTarget = {};
-    m_controlsScreen = {};
-    m_controlsToggleLatch = false;
-    m_controlsClickLatch = false;
-    m_controlsPressedTarget = {};
-    m_controlsSliderDragActive = false;
-    m_controlsDraggedSlider = ControlsPointerTargetType::None;
-    m_saveGameScreen = {};
-    m_loadGameScreen = {};
-    m_loadGameScreen.active = true;
-    refreshLoadGameSlots();
-    m_loadGameToggleLatch = false;
-    m_loadGameClickLatch = false;
-    m_loadGamePressedTarget = {};
-    clearWorldInteractionInputLatches();
+    m_pendingOpenLoadGameScreen = true;
+    closeMenu();
 }
 
 void OutdoorGameView::closeLoadGameScreen()

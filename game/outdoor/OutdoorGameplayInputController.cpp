@@ -2262,6 +2262,12 @@ void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view
                     if (view.m_menuScreen.newGameConfirmationArmed)
                     {
                         view.m_menuScreen.bottomBarTextUseWhite = false;
+
+                        if (view.m_pGameAudioSystem != nullptr)
+                        {
+                            view.m_pGameAudioSystem->playCommonSound(SoundId::ClickIn, GameAudioSystem::PlaybackGroup::Ui);
+                        }
+
                         view.requestOpenNewGameScreen();
                     }
                     else
@@ -2283,6 +2289,12 @@ void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view
                     view.m_menuScreen.quitConfirmationArmed = false;
                     view.m_menuScreen.bottomBarTextUseWhite = false;
                     view.m_menuScreen.bottomBarText.clear();
+
+                    if (view.m_pGameAudioSystem != nullptr)
+                    {
+                        view.m_pGameAudioSystem->playCommonSound(SoundId::ClickIn, GameAudioSystem::PlaybackGroup::Ui);
+                    }
+
                     view.openSaveGameScreen();
                     break;
 
@@ -2291,6 +2303,12 @@ void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view
                     view.m_menuScreen.quitConfirmationArmed = false;
                     view.m_menuScreen.bottomBarTextUseWhite = false;
                     view.m_menuScreen.bottomBarText.clear();
+
+                    if (view.m_pGameAudioSystem != nullptr)
+                    {
+                        view.m_pGameAudioSystem->playCommonSound(SoundId::ClickIn, GameAudioSystem::PlaybackGroup::Ui);
+                    }
+
                     view.openLoadGameScreen();
                     break;
 
@@ -2299,12 +2317,23 @@ void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view
                     view.m_menuScreen.quitConfirmationArmed = false;
                     view.m_menuScreen.bottomBarTextUseWhite = false;
                     view.m_menuScreen.bottomBarText.clear();
+
+                    if (view.m_pGameAudioSystem != nullptr)
+                    {
+                        view.m_pGameAudioSystem->playCommonSound(SoundId::ClickIn, GameAudioSystem::PlaybackGroup::Ui);
+                    }
+
                     view.openControlsScreen();
                     break;
 
                 case OutdoorGameView::MenuPointerTargetType::QuitButton:
                     if (view.m_menuScreen.quitConfirmationArmed)
                     {
+                        if (view.m_pGameAudioSystem != nullptr)
+                        {
+                            view.m_pGameAudioSystem->playCommonSound(SoundId::ClickIn, GameAudioSystem::PlaybackGroup::Ui);
+                        }
+
                         SDL_Event event = {};
                         event.type = SDL_EVENT_QUIT;
                         SDL_PushEvent(&event);
@@ -2328,6 +2357,12 @@ void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view
                     view.m_menuScreen.quitConfirmationArmed = false;
                     view.m_menuScreen.bottomBarTextUseWhite = false;
                     view.m_menuScreen.bottomBarText.clear();
+
+                    if (view.m_pGameAudioSystem != nullptr)
+                    {
+                        view.m_pGameAudioSystem->playCommonSound(SoundId::ClickOut, GameAudioSystem::PlaybackGroup::Ui);
+                    }
+
                     view.closeMenu();
                     break;
 

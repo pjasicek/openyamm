@@ -145,6 +145,7 @@ public:
     void reopenMenuScreen();
     void requestOpenNewGameScreen();
     bool consumePendingOpenNewGameScreenRequest();
+    bool consumePendingOpenLoadGameScreenRequest();
     bool requestQuickSave();
     void setSettingsSnapshot(const GameSettings &settings);
 
@@ -1047,6 +1048,7 @@ private:
     uint32_t m_lastSpellbookClickedSpellId;
     uint64_t m_lastSpellFailSoundTicks;
     bool m_pendingOpenNewGameScreen = false;
+    bool m_pendingOpenLoadGameScreen = false;
     PendingSpellCastState m_pendingSpellCast;
     mutable std::vector<GameplayRenderedInspectableHudItem> m_renderedInspectableHudItems;
     mutable HudScreenState m_renderedInspectableHudState = HudScreenState::Gameplay;

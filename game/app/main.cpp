@@ -3,6 +3,9 @@
 #include "game/outdoor/HeadlessOutdoorDiagnostics.h"
 #include "game/app/GameApplication.h"
 
+#include <SDL3/SDL.h>
+
+#include <cstdlib>
 #include <cstdint>
 #include <exception>
 #include <iostream>
@@ -60,6 +63,11 @@ int runApplication(int argc, char **argv)
     if (!parseCommonArguments(argc, argv, config, arguments))
     {
         return 2;
+    }
+
+    if (!arguments.empty() && arguments[0].rfind("--headless-", 0) == 0)
+    {
+        setenv("OPENYAMM_DISABLE_LOADING_OVERLAY", "1", 1);
     }
 
     if (arguments.size() == 3 && arguments[0] == "--headless-open-event")

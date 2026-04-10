@@ -75,6 +75,12 @@ protected:
     void drawTexture(const std::string &textureName, const Rect &rect);
     void drawTextureRegion(const std::string &textureName, const SourceRect &sourceRect, const Rect &rect);
     void drawTextureColor(const std::string &textureName, const Rect &rect, uint32_t colorAbgr);
+    void drawPixelsBgra(
+        const std::string &cacheKey,
+        int width,
+        int height,
+        const std::vector<uint8_t> &pixelsBgra,
+        const Rect &rect);
     void drawTextureRegionColor(
         const std::string &textureName,
         const SourceRect &sourceRect,
@@ -127,6 +133,14 @@ private:
         bgfx::TextureHandle handle = BGFX_INVALID_HANDLE;
     };
 
+    struct DynamicTextureHandle
+    {
+        std::string cacheKey;
+        int width = 0;
+        int height = 0;
+        bgfx::TextureHandle handle = BGFX_INVALID_HANDLE;
+    };
+
     struct FontGlyphMetrics
     {
         int leftSpacing = 0;
@@ -164,6 +178,11 @@ private:
     const TextureHandle *ensureTexture(const std::string &textureName);
     const FontHandle *findFont(const std::string &fontName) const;
     const FontHandle *ensureFont(const std::string &fontName);
+    bgfx::TextureHandle ensureDynamicTexture(
+        const std::string &cacheKey,
+        int width,
+        int height,
+        const std::vector<uint8_t> &pixelsBgra);
     bgfx::TextureHandle ensureTextureColor(const TextureHandle &texture, uint32_t colorAbgr);
     bgfx::TextureHandle ensureFontColor(const FontHandle &font, uint32_t colorAbgr);
     std::optional<std::string> resolveTexturePath(const std::string &textureName);
@@ -184,6 +203,7 @@ private:
     bgfx::UniformHandle m_textureUniformHandle = BGFX_INVALID_HANDLE;
     std::vector<TextureHandle> m_textureHandles;
     std::vector<TextureColorHandle> m_textureColorHandles;
+    std::vector<DynamicTextureHandle> m_dynamicTextureHandles;
     std::vector<FontHandle> m_fontHandles;
     std::vector<FontColorHandle> m_fontColorHandles;
     std::unordered_map<std::string, size_t> m_textureIndexByName;

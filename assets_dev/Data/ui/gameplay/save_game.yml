@@ -56,7 +56,7 @@ elements:
       - id: SaveGamePreviewLine1
         anchor: top_left
         offset_x: 392
-        offset_y: 311
+        offset_y: 319
         width: 150
         height: 18
         z_index: 10
@@ -70,7 +70,7 @@ elements:
       - id: SaveGamePreviewLine2
         anchor: top_left
         offset_x: 392
-        offset_y: 330
+        offset_y: 338
         width: 150
         height: 18
         z_index: 10
@@ -261,8 +261,8 @@ elements:
 
       - id: SaveGameConfirmButton
         anchor: top_left
-        offset_x: 347
-        offset_y: 381
+        offset_x: 345
+        offset_y: 384
         width: 106
         height: 37
         z_index: 20
@@ -274,8 +274,8 @@ elements:
 
       - id: SaveGameCancelButton
         anchor: top_left
-        offset_x: 457
-        offset_y: 381
+        offset_x: 459
+        offset_y: 384
         width: 106
         height: 37
         z_index: 20

@@ -15,12 +15,15 @@
 #include "game/app/ScreenManager.h"
 #include "game/maps/SaveGame.h"
 #include "game/scene/IMapSceneRuntime.h"
+#include "game/ui/screens/LoadingOverlayScreen.h"
 
 #include <cstddef>
 #include <cstdint>
 #include <filesystem>
+#include <functional>
 #include <memory>
 #include <optional>
+#include <string>
 #include <vector>
 
 namespace OpenYAMM::Game
@@ -48,7 +51,9 @@ private:
     Party &ensureSessionPartyState();
     void bindPartyDependencies(Party &party) const;
     void synchronizeSessionFromRuntime();
-    bool loadCurrentSessionMap(bool initializeView);
+    bool loadCurrentSessionMap(
+        bool initializeView,
+        const std::function<void(int)> &progressCallback = {});
     bool applyCurrentSessionToRuntime(bool initializeView);
     void syncMapPickerToSelectedMap();
     bool processPendingMapMove();
@@ -65,14 +70,18 @@ private:
         const std::vector<uint8_t> &previewBmp = {});
     bool quickLoadFromPath(const std::filesystem::path &path, bool initializeView);
     void openMainMenuScreen();
-    void openLoadMenuScreen();
-    void openNewGameScreen(bool returnToGameplayMenu = false);
+    void openLoadGameScreen(bool returnToGameplayMenu = false);
+    void openNewGameScreen();
     bool processPendingArcomageGame();
     void handleCompletedArcomageScreen();
     bool initializeStartupSession(bool initializeView);
     bool startNewSession(std::optional<uint32_t> rosterId, bool initializeView = true);
     bool startNewSessionFromCharacterCreation(const Character &character, bool initializeView = true);
     bool loadSessionFromPath(const std::filesystem::path &path);
+    void beginLoadingOverlay();
+    void renderLoadingOverlayProgress(int progressPercent);
+    void completeLoadingOverlay();
+    void cancelLoadingOverlay();
     std::filesystem::path settingsFilePath() const;
     void loadOrCreateSettings();
     void applyCurrentSettingsToActiveRuntime();
@@ -109,5 +118,10 @@ private:
     bool m_bootSeededDwiOnNextRendererInit = false;
     uint64_t m_pickerNextUpRepeatTick;
     uint64_t m_pickerNextDownRepeatTick;
+    std::unique_ptr<LoadingOverlayScreen> m_pLoadingOverlayScreen;
+    std::string m_loadingOverlayBackgroundTextureName;
+    bool m_loadingOverlayActive = false;
+    int m_lastFrameWidth = 640;
+    int m_lastFrameHeight = 480;
 };
 }

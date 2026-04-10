@@ -5,91 +5,71 @@ elements:
     anchor: center
     width: 640
     height: 480
-    notes: >
-      Main title screen scaffold based on screenshot 228. This keeps only the New Game, Load Game, and Quit actions
-      and intentionally omits Credits for the first pass.
     children:
       - id: MainMenuBackground
-        anchor: center_in
+        anchor: top_left
         width: 640
         height: 480
-        z_index: 10
+        z_index: 0
         asset:
           default: title
-        notes: Full-screen title background from EnglishD/title.pcx.
 
       - id: MainMenuActionColumn
-        anchor: center_in
-        offset_x: 172
-        offset_y: 36
-        width: 180
-        height: 188
-        z_index: 40
-        notes: >
-          Vertical action stack on the right side of the title composition. Spacing is derived from screenshot 228 and
-          should remain data-driven.
-        children:
-          - id: MainMenuNewGameButton
-            anchor: top_center
-            width: 135
-            height: 41
-            interactive: true
-            asset:
-              default: T_new_up
-              highlighted: T_new_ht
-              pressed: T_new_dn
-            text:
-              value: "New Game"
-              font: Create
-              color: white
-              align_x: center
-              align_y: middle
+        anchor: inside_top_right
+        offset_x: -20
+        offset_y: 184
+        width: 135
+        height: 179
+        z_index: 20
 
-          - id: MainMenuLoadGameButton
-            anchor: top_center
-            offset_y: 62
-            width: 135
-            height: 41
-            interactive: true
-            asset:
-              default: T_load_up
-              highlighted: T_load_ht
-              pressed: T_load_dn
-            text:
-              value: "Load Game"
-              font: Create
-              color: white
-              align_x: center
-              align_y: middle
+      - id: MainMenuNewGameButton
+        anchor: top_left
+        offset_x: 515
+        offset_y: 203
+        width: 106
+        height: 32
+        z_index: 20
+        interactive: true
+        asset:
+          default: T_new_up
+          highlighted: T_new_ht
+          pressed: T_new_dn
 
-          - id: MainMenuQuitButton
-            anchor: top_center
-            offset_y: 124
-            width: 135
-            height: 41
-            interactive: true
-            asset:
-              default: T_quit_up
-              highlighted: T_quit_ht
-              pressed: T_quit_dn
-            text:
-              value: "Quit"
-              font: Create
-              color: white
-              align_x: center
-              align_y: middle
+      - id: MainMenuLoadGameButton
+        anchor: top_left
+        offset_x: 515
+        offset_y: 241
+        width: 106
+        height: 32
+        z_index: 20
+        interactive: true
+        asset:
+          default: T_load_up
+          highlighted: T_load_ht
+          pressed: T_load_dn
 
-      - id: MainMenuVersionText
-        anchor: bottom_left
-        offset_x: 16
-        offset_y: -10
-        width: 180
-        height: 14
-        z_index: 60
-        text:
-          value: "{build_version}"
-          font: SMALLNUM
-          color: white
-          align_x: left
-          align_y: middle
-        notes: Optional build/version stamp. Hidden when empty.
+      - id: MainMenuCreditsButton
+        anchor: top_left
+        offset_x: 515
+        offset_y: 279
+        width: 106
+        height: 32
+        z_index: 20
+        interactive: true
+        asset:
+          default: T_cred_up
+          highlighted: T_cred_ht
+          pressed: T_cred_dn
+
+      - id: MainMenuQuitButton
+        anchor: top_left
+        offset_x: 515
+        offset_y: 317
+        width: 106
+        height: 32
+        z_index: 20
+        interactive: true
+        asset:
+          default: T_quit_up
+          highlighted: T_quit_ht
+          pressed: T_quit_dn

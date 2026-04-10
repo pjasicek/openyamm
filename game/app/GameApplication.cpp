@@ -9,7 +9,8 @@
 #include "game/party/SpellSchool.h"
 #include "game/tables/ItemTable.h"
 #include "game/ui/screens/ArcomageScreen.h"
-#include "game/ui/screens/LoadMenuScreen.h"
+#include "game/ui/screens/LoadGameScreen.h"
+#include "game/ui/screens/LoadingOverlayScreen.h"
 #include "game/ui/screens/MainMenuScreen.h"
 #include "game/ui/screens/NewGameScreen.h"
 
@@ -18,6 +19,7 @@
 
 #include <algorithm>
 #include <array>
+#include <cstdlib>
 #include <filesystem>
 #include <functional>
 #include <iostream>
@@ -30,10 +32,18 @@ namespace
 constexpr float Pi = 3.14159265358979323846f;
 constexpr uint32_t DefaultRosterPartyMemberCount = 3;
 constexpr const char *DefaultStartupMapFile = "out01.odm";
+constexpr int MainMenuMusicTrack = 14;
+constexpr int LoadingOverlayBackgroundCount = 5;
 constexpr uint32_t BronzeRingItemId = 137;
 constexpr uint32_t GoldRingItemId = 138;
 constexpr uint32_t PotionBottleItemId = 220;
 constexpr std::array<uint32_t, 3> Level1ReagentItemIds = {{200, 205, 210}};
+
+int remapLoadingProgress(int localProgress, int startProgress, int endProgress)
+{
+    const int clampedLocal = std::clamp(localProgress, 0, 100);
+    return startProgress + (endProgress - startProgress) * clampedLocal / 100;
+}
 
 float mapMoveHeadingDegreesToOutdoorYawRadians(int32_t directionDegrees)
 {
@@ -456,6 +466,8 @@ GameApplication::GameApplication(const Engine::ApplicationConfig &config)
     , m_pickerApplyLatch(false)
     , m_pickerNextUpRepeatTick(0)
     , m_pickerNextDownRepeatTick(0)
+    , m_lastFrameWidth(config.windowWidth)
+    , m_lastFrameHeight(config.windowHeight)
 {
 }
 
@@ -542,6 +554,7 @@ void GameApplication::applyStartupDebugSettingsToActiveRuntime()
 void GameApplication::shutdownApplication()
 {
     m_screenManager.setActiveScreen(nullptr);
+    m_pLoadingOverlayScreen.reset();
     shutdownRenderer();
     m_gameAudioSystem.shutdown();
 }
@@ -889,16 +902,28 @@ void GameApplication::synchronizeSessionFromRuntime()
     }
 }
 
-bool GameApplication::loadCurrentSessionMap(bool initializeView)
+bool GameApplication::loadCurrentSessionMap(
+    bool initializeView,
+    const std::function<void(int)> &progressCallback)
 {
     if (m_pAssetFileSystem == nullptr || !m_gameSession.hasCurrentMapFileName())
     {
         return false;
     }
 
+    if (progressCallback)
+    {
+        progressCallback(10);
+    }
+
     if (!m_gameDataLoader.loadMapByFileNameForGameplay(*m_pAssetFileSystem, m_gameSession.currentMapFileName()))
     {
         return false;
+    }
+
+    if (progressCallback)
+    {
+        progressCallback(55);
     }
 
     shutdownRenderer();
@@ -908,8 +933,91 @@ bool GameApplication::loadCurrentSessionMap(bool initializeView)
         return false;
     }
 
+    if (progressCallback)
+    {
+        progressCallback(90);
+    }
+
     syncMapPickerToSelectedMap();
+
+    if (progressCallback)
+    {
+        progressCallback(100);
+    }
+
     return true;
+}
+
+void GameApplication::beginLoadingOverlay()
+{
+    if (m_pAssetFileSystem == nullptr)
+    {
+        return;
+    }
+
+    const char *pDisableOverlay = std::getenv("OPENYAMM_DISABLE_LOADING_OVERLAY");
+
+    if (pDisableOverlay != nullptr && std::string(pDisableOverlay) == "1")
+    {
+        cancelLoadingOverlay();
+        return;
+    }
+
+    const char *pVideoDriver = SDL_GetCurrentVideoDriver();
+
+    if (pVideoDriver != nullptr && std::string(pVideoDriver) == "dummy")
+    {
+        cancelLoadingOverlay();
+        return;
+    }
+
+    if (m_pLoadingOverlayScreen == nullptr)
+    {
+        m_pLoadingOverlayScreen = std::make_unique<LoadingOverlayScreen>(*m_pAssetFileSystem);
+    }
+
+    std::random_device randomDevice;
+    std::mt19937 rng(randomDevice());
+    const int backgroundIndex = std::uniform_int_distribution<int>(1, LoadingOverlayBackgroundCount)(rng);
+    m_loadingOverlayBackgroundTextureName = "loading" + std::to_string(backgroundIndex);
+    m_loadingOverlayActive = true;
+    renderLoadingOverlayProgress(0);
+}
+
+void GameApplication::renderLoadingOverlayProgress(int progressPercent)
+{
+    if (!m_loadingOverlayActive || m_pLoadingOverlayScreen == nullptr)
+    {
+        return;
+    }
+
+    m_pLoadingOverlayScreen->setBackgroundTextureName(m_loadingOverlayBackgroundTextureName);
+    m_pLoadingOverlayScreen->setProgressPercent(progressPercent);
+    SDL_PumpEvents();
+    m_pLoadingOverlayScreen->renderFrame(
+        std::max(1, m_lastFrameWidth),
+        std::max(1, m_lastFrameHeight),
+        0.0f,
+        1.0f / 60.0f);
+    bgfx::frame();
+}
+
+void GameApplication::completeLoadingOverlay()
+{
+    if (!m_loadingOverlayActive)
+    {
+        return;
+    }
+
+    renderLoadingOverlayProgress(100);
+    m_loadingOverlayActive = false;
+    m_loadingOverlayBackgroundTextureName.clear();
+}
+
+void GameApplication::cancelLoadingOverlay()
+{
+    m_loadingOverlayActive = false;
+    m_loadingOverlayBackgroundTextureName.clear();
 }
 
 bool GameApplication::applyCurrentSessionToRuntime(bool initializeView)
@@ -1161,14 +1269,19 @@ bool GameApplication::quickLoadFromPath(const std::filesystem::path &path, bool 
         return false;
     }
 
+    beginLoadingOverlay();
+
     std::string error;
     const std::optional<GameSaveData> saveData = loadGameDataFromPath(path, error);
 
     if (!saveData)
     {
+        cancelLoadingOverlay();
         reportQuickSaveStatus("Quick load failed: " + error);
         return false;
     }
+
+    renderLoadingOverlayProgress(20);
 
     m_gameSession.restoreFromSaveData(
         *saveData,
@@ -1178,18 +1291,31 @@ bool GameApplication::quickLoadFromPath(const std::filesystem::path &path, bool 
         m_gameDataLoader.getClassSkillTable());
     m_gameSession.setCurrentSavePath(path);
 
-    if (!loadCurrentSessionMap(initializeView))
+    renderLoadingOverlayProgress(35);
+
+    if (!loadCurrentSessionMap(
+            initializeView,
+            [this](int localProgress)
+            {
+                renderLoadingOverlayProgress(remapLoadingProgress(localProgress, 40, 85));
+            }))
     {
+        cancelLoadingOverlay();
         reportQuickSaveStatus("Quick load failed: runtime init failed");
         return false;
     }
 
+    renderLoadingOverlayProgress(90);
+
     if (!applyCurrentSessionToRuntime(initializeView))
     {
+        cancelLoadingOverlay();
         reportQuickSaveStatus("Quick load failed: runtime apply failed");
         return false;
     }
 
+    renderLoadingOverlayProgress(95);
+    completeLoadingOverlay();
     reportQuickSaveStatus("Quick load applied");
     return true;
 }
@@ -1201,15 +1327,18 @@ void GameApplication::openMainMenuScreen()
         return;
     }
 
+    m_gameAudioSystem.setBackgroundMusicTrack(MainMenuMusicTrack);
+
     m_screenManager.setActiveScreen(std::make_unique<MainMenuScreen>(
         *m_pAssetFileSystem,
+        &m_gameAudioSystem,
         [this]()
         {
             openNewGameScreen();
         },
         [this]()
         {
-            openLoadMenuScreen();
+            openLoadGameScreen();
         },
         [this]()
         {
@@ -1217,27 +1346,44 @@ void GameApplication::openMainMenuScreen()
         }));
 }
 
-void GameApplication::openLoadMenuScreen()
+void GameApplication::openLoadGameScreen(bool returnToGameplayMenu)
 {
     if (m_pAssetFileSystem == nullptr)
     {
         return;
     }
 
-    m_screenManager.setActiveScreen(std::make_unique<LoadMenuScreen>(
+    m_screenManager.setActiveScreen(std::make_unique<LoadGameScreen>(
         *m_pAssetFileSystem,
         m_gameDataLoader.getMapStats().getEntries(),
-        [this](const std::filesystem::path &path)
+        [this](const std::filesystem::path &path) -> bool
         {
-            loadSessionFromPath(path);
+            return loadSessionFromPath(path);
         },
-        [this]()
+        [this, returnToGameplayMenu]()
         {
-            openMainMenuScreen();
+            if (returnToGameplayMenu)
+            {
+                m_screenManager.setActiveScreen(nullptr);
+
+                if (m_pMapSceneRuntime != nullptr)
+                {
+                    m_screenManager.setCurrentMode(
+                        m_pMapSceneRuntime->kind() == SceneKind::Indoor
+                            ? AppMode::GameplayIndoor
+                            : AppMode::GameplayOutdoor);
+                }
+
+                m_outdoorGameView.reopenMenuScreen();
+            }
+            else
+            {
+                openMainMenuScreen();
+            }
         }));
 }
 
-void GameApplication::openNewGameScreen(bool returnToGameplayMenu)
+void GameApplication::openNewGameScreen()
 {
     if (m_pAssetFileSystem == nullptr)
     {
@@ -1256,25 +1402,9 @@ void GameApplication::openNewGameScreen(bool returnToGameplayMenu)
         {
             startNewSessionFromCharacterCreation(character);
         },
-        [this, returnToGameplayMenu]()
+        [this]()
         {
-            if (returnToGameplayMenu)
-            {
-                const std::optional<MapAssetInfo> &selectedMap = m_gameDataLoader.getSelectedMap();
-
-                m_screenManager.setActiveScreen(nullptr);
-                m_outdoorGameView.reopenMenuScreen();
-
-                if (selectedMap)
-                {
-                    m_gameAudioSystem.stopBackgroundMusicImmediate();
-                    m_gameAudioSystem.setBackgroundMusicTrack(selectedMap->map.redbookTrack);
-                }
-            }
-            else
-            {
-                openMainMenuScreen();
-            }
+            openMainMenuScreen();
         }));
 }
 
@@ -1375,20 +1505,29 @@ bool GameApplication::startNewSessionFromCharacterCreation(const Character &char
     }
 
     m_screenManager.setActiveScreen(nullptr);
+    beginLoadingOverlay();
     shutdownRenderer();
     m_gameSession.clear();
     m_gameSession.clearCurrentSavePath();
     m_gameSession.setCurrentSceneKind(SceneKind::Outdoor);
     m_gameSession.setCurrentMapFileName(DefaultStartupMapFile);
+    renderLoadingOverlayProgress(15);
 
-    if (!loadCurrentSessionMap(initializeView))
+    if (!loadCurrentSessionMap(
+            initializeView,
+            [this](int localProgress)
+            {
+                renderLoadingOverlayProgress(remapLoadingProgress(localProgress, 20, 80));
+            }))
     {
+        cancelLoadingOverlay();
         openMainMenuScreen();
         return false;
     }
 
     if (m_pOutdoorPartyRuntime == nullptr)
     {
+        cancelLoadingOverlay();
         openMainMenuScreen();
         return false;
     }
@@ -1408,21 +1547,22 @@ bool GameApplication::startNewSessionFromCharacterCreation(const Character &char
         m_gameDataLoader.getRosterTable(),
         m_gameDataLoader.getNpcDialogTable(),
         std::nullopt);
+    renderLoadingOverlayProgress(90);
     applyCurrentSettingsToActiveRuntime();
     synchronizeSessionFromRuntime();
+    renderLoadingOverlayProgress(95);
+    completeLoadingOverlay();
     return true;
 }
 
 bool GameApplication::loadSessionFromPath(const std::filesystem::path &path)
 {
-    m_screenManager.setActiveScreen(nullptr);
-
     if (quickLoadFromPath(path, true))
     {
+        m_screenManager.setActiveScreen(nullptr);
         return true;
     }
 
-    openLoadMenuScreen();
     return false;
 }
 
@@ -1587,6 +1727,8 @@ void GameApplication::renderMapPickerOverlay() const
 
 void GameApplication::renderFrame(int width, int height, float mouseWheelDelta, float deltaSeconds)
 {
+    m_lastFrameWidth = width;
+    m_lastFrameHeight = height;
     processPendingArcomageGame();
 
     if (IScreen *pActiveScreen = m_screenManager.activeScreen())
@@ -1610,7 +1752,13 @@ void GameApplication::renderFrame(int width, int height, float mouseWheelDelta, 
 
         if (m_outdoorGameView.consumePendingOpenNewGameScreenRequest())
         {
-            openNewGameScreen(true);
+            openNewGameScreen();
+            return;
+        }
+
+        if (m_outdoorGameView.consumePendingOpenLoadGameScreenRequest())
+        {
+            openLoadGameScreen(true);
             return;
         }
 
@@ -1703,9 +1851,17 @@ bool GameApplication::processPendingMapMove()
     captureCurrentSceneState();
 
     m_gameSession.setCurrentMapFileName(targetMapName);
+    beginLoadingOverlay();
+    renderLoadingOverlayProgress(15);
 
-    if (!loadCurrentSessionMap(true))
+    if (!loadCurrentSessionMap(
+            true,
+            [this](int localProgress)
+            {
+                renderLoadingOverlayProgress(remapLoadingProgress(localProgress, 20, 85));
+            }))
     {
+        cancelLoadingOverlay();
         m_gameSession.setCurrentMapFileName(previousMapFileName);
         return false;
     }
@@ -1731,6 +1887,8 @@ bool GameApplication::processPendingMapMove()
     }
 
     synchronizeSessionFromRuntime();
+    renderLoadingOverlayProgress(95);
+    completeLoadingOverlay();
     return true;
 }
 
