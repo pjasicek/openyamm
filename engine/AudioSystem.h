@@ -46,6 +46,8 @@ public:
     bool registerClip(const std::string &virtualPath, std::vector<float> samples, uint32_t frameCount = 0);
     uint64_t playClip(const std::string &virtualPath, const PlaybackOptions &options);
     void stopClip(uint64_t instanceId);
+    void pauseClip(uint64_t instanceId);
+    void resumeClip(uint64_t instanceId);
     void setClipVolume(uint64_t instanceId, float volume);
     bool isClipPlaying(uint64_t instanceId) const;
     void stopAll();
@@ -70,6 +72,7 @@ private:
         float x = 0.0f;
         float y = 0.0f;
         float z = 0.0f;
+        bool paused = false;
     };
 
     static constexpr int OutputSampleRate = 48000;
@@ -79,6 +82,7 @@ private:
     static constexpr int TargetQueuedBytes = MixChunkFrames * OutputChannels * sizeof(float) * 3;
 
     std::shared_ptr<AudioClip> loadClip(const std::string &virtualPath);
+    bool hasMixableInstances() const;
     void mixNextChunk(const ListenerState &listenerState);
     static void calculateStereoGains(
         const ListenerState &listenerState,

@@ -6569,6 +6569,7 @@ void OutdoorGameView::updateHouseVideoPlayback(float deltaSeconds)
         if (m_activeHouseAudioHostId != 0 && m_pGameAudioSystem != nullptr)
         {
             m_pGameAudioSystem->playCommonSound(SoundId::WoodDoorClosing, GameAudioSystem::PlaybackGroup::HouseDoor);
+            m_pGameAudioSystem->resumeBackgroundMusic();
         }
 
         m_activeHouseAudioHostId = 0;
@@ -6582,6 +6583,7 @@ void OutdoorGameView::updateHouseVideoPlayback(float deltaSeconds)
 
         if (m_pGameAudioSystem != nullptr)
         {
+            m_pGameAudioSystem->pauseBackgroundMusic();
             m_pGameAudioSystem->playCommonSound(SoundId::Enter, GameAudioSystem::PlaybackGroup::HouseDoor);
             const std::optional<uint32_t> greetingSoundId =
                 deriveHouseSoundId(*pHostHouseEntry, HouseSoundType::GeneralGreeting);

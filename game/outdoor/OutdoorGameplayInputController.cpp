@@ -2434,6 +2434,8 @@ void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view
                         pEventRuntimeState->statusMessages.clear();
                     }
 
+                    OutdoorInteractionController::applyGrantedEventItemsToHeldInventory(view);
+
                     if (frameAdvanceResult.shouldOpenEventDialog)
                     {
                         OutdoorInteractionController::presentPendingEventDialog(view, frameAdvanceResult.previousMessageCount, true);

@@ -1922,11 +1922,19 @@ void Party::applyMovementEffects(const OutdoorMovementEffects &effects)
     }
 }
 
-void Party::applyEventRuntimeState(const EventRuntimeState &runtimeState)
+void Party::applyEventRuntimeState(const EventRuntimeState &runtimeState, bool grantItemsToInventory)
 {
     for (uint32_t itemId : runtimeState.grantedItemIds)
     {
-        grantItem(itemId);
+        if (grantItemsToInventory)
+        {
+            grantItem(itemId);
+        }
+        else if (itemId != 0)
+        {
+            markArtifactItemFoundIfRelevant(makeInventoryItem(m_pItemTable, itemId));
+        }
+
         m_lastStatus = "item granted";
     }
 

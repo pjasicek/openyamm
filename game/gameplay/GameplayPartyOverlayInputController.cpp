@@ -1784,6 +1784,11 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                     view.setStatusBarEvent(
                         "To confirm " + pMember->name + " dismissal press the button again...",
                         2.0f);
+
+                    if (view.m_pGameAudioSystem != nullptr)
+                    {
+                        view.m_pGameAudioSystem->playCommonSound(SoundId::Quest, GameAudioSystem::PlaybackGroup::Ui);
+                    }
                 }
                 else
                 {

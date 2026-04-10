@@ -6,6 +6,7 @@
 #include "game/outdoor/OutdoorPartyRuntime.h"
 #include "game/SpawnPreview.h"
 #include "game/outdoor/OutdoorWorldRuntime.h"
+#include "game/items/ItemGenerator.h"
 #include "game/tables/ItemTable.h"
 #include "game/SpriteObjectDefs.h"
 #include "game/StringUtils.h"
@@ -33,6 +34,29 @@ constexpr uint32_t KillSpeechChancePercent = 20;
 bool interactiveDecorationHidesWhenCleared(OutdoorGameView::InteractiveDecorationFamily family)
 {
     return family == OutdoorGameView::InteractiveDecorationFamily::CampFire;
+}
+
+bool shouldUseHouseTradeItemReaction(
+    const EventRuntimeState &eventRuntimeState,
+    const std::optional<EventDialogAction> &action,
+    int initialGold,
+    const Party *pParty)
+{
+    if (!action.has_value()
+        || action->kind != EventDialogActionKind::NpcTopic
+        || eventRuntimeState.dialogueState.hostHouseId == 0
+        || eventRuntimeState.grantedItemIds.empty()
+        || pParty == nullptr)
+    {
+        return false;
+    }
+
+    if (!eventRuntimeState.removedItemIds.empty())
+    {
+        return true;
+    }
+
+    return pParty->gold() < initialGold;
 }
 
 struct DirectInteractiveDecorationBindingSpec
@@ -970,6 +994,59 @@ GameplayDialogController::Context OutdoorInteractionController::createGameplayDi
     };
 }
 
+void OutdoorInteractionController::setHeldInventoryItem(
+    GameplayUiController::HeldInventoryItemState &heldInventoryItem,
+    const InventoryItem &item)
+{
+    heldInventoryItem.active = true;
+    heldInventoryItem.item = item;
+    heldInventoryItem.grabCellOffsetX = 0;
+    heldInventoryItem.grabCellOffsetY = 0;
+    heldInventoryItem.grabOffsetX = 0.0f;
+    heldInventoryItem.grabOffsetY = 0.0f;
+}
+
+bool OutdoorInteractionController::tryDisplaceHeldInventoryItem(OutdoorGameView &view)
+{
+    if (!view.m_heldInventoryItem.active)
+    {
+        return true;
+    }
+
+    if (view.m_pOutdoorPartyRuntime == nullptr)
+    {
+        return false;
+    }
+
+    Party &party = view.m_pOutdoorPartyRuntime->party();
+
+    if (party.tryGrantInventoryItem(view.m_heldInventoryItem.item))
+    {
+        view.m_heldInventoryItem = {};
+        return true;
+    }
+
+    if (view.m_pOutdoorWorldRuntime == nullptr)
+    {
+        return false;
+    }
+
+    const OutdoorMoveState &moveState = view.m_pOutdoorPartyRuntime->movementState();
+
+    if (!view.m_pOutdoorWorldRuntime->spawnWorldItem(
+            view.m_heldInventoryItem.item,
+            moveState.x,
+            moveState.y,
+            moveState.footZ + view.m_cameraEyeHeight,
+            view.m_cameraYawRadians))
+    {
+        return false;
+    }
+
+    view.m_heldInventoryItem = {};
+    return true;
+}
+
 
 
 void OutdoorInteractionController::executeActiveDialogAction(OutdoorGameView &view)
@@ -982,8 +1059,31 @@ void OutdoorInteractionController::executeActiveDialogAction(OutdoorGameView &vi
         return;
     }
 
+    const std::optional<EventDialogAction> selectedAction =
+        view.m_activeEventDialog.isActive
+            && view.m_eventDialogSelectionIndex < view.m_activeEventDialog.actions.size()
+        ? std::optional<EventDialogAction>(view.m_activeEventDialog.actions[view.m_eventDialogSelectionIndex])
+        : std::nullopt;
+    Party *pParty = view.m_pOutdoorPartyRuntime != nullptr ? &view.m_pOutdoorPartyRuntime->party() : nullptr;
+    const int initialGold = pParty != nullptr ? pParty->gold() : 0;
     GameplayDialogController::Context context = createGameplayDialogContext(view, *pEventRuntimeState);
     const GameplayDialogController::Result result = view.m_gameplayDialogController.executeActiveDialogAction(context);
+    const bool useHouseTradeItemReaction =
+        shouldUseHouseTradeItemReaction(*pEventRuntimeState, selectedAction, initialGold, pParty);
+
+    if (useHouseTradeItemReaction)
+    {
+        pEventRuntimeState->portraitFxRequests.clear();
+
+        if (pParty != nullptr)
+        {
+            view.triggerPortraitFaceAnimation(
+                pParty->activeMemberIndex(),
+                FaceAnimationId::ItemSold);
+        }
+    }
+
+    OutdoorInteractionController::applyGrantedEventItemsToHeldInventory(view);
 
     if (result.shouldCloseActiveDialog)
     {
@@ -997,7 +1097,10 @@ void OutdoorInteractionController::executeActiveDialogAction(OutdoorGameView &vi
 
     if (result.shouldOpenPendingEventDialog)
     {
-        OutdoorInteractionController::presentPendingEventDialog(view, result.previousMessageCount, result.allowNpcFallbackContent);
+        OutdoorInteractionController::presentPendingEventDialog(
+            view,
+            result.previousMessageCount,
+            result.allowNpcFallbackContent);
     }
 }
 
@@ -1315,6 +1418,39 @@ void OutdoorInteractionController::openDebugNpcDialogue(OutdoorGameView &view, u
     }
 }
 
+void OutdoorInteractionController::applyGrantedEventItemsToHeldInventory(OutdoorGameView &view)
+{
+    EventRuntimeState *pEventRuntimeState =
+        view.m_pOutdoorWorldRuntime != nullptr ? view.m_pOutdoorWorldRuntime->eventRuntimeState() : nullptr;
+
+    if (pEventRuntimeState == nullptr
+        || pEventRuntimeState->grantedItemIds.empty()
+        || view.m_pOutdoorPartyRuntime == nullptr
+        || view.m_pItemTable == nullptr)
+    {
+        return;
+    }
+
+    for (uint32_t itemId : pEventRuntimeState->grantedItemIds)
+    {
+        if (itemId == 0)
+        {
+            continue;
+        }
+
+        if (!OutdoorInteractionController::tryDisplaceHeldInventoryItem(view))
+        {
+            continue;
+        }
+
+        const InventoryItem item =
+            ItemGenerator::makeInventoryItem(itemId, *view.m_pItemTable, ItemGenerationMode::Generic);
+        OutdoorInteractionController::setHeldInventoryItem(view.m_heldInventoryItem, item);
+    }
+
+    pEventRuntimeState->grantedItemIds.clear();
+}
+
 
 
 void OutdoorInteractionController::refreshHouseBankInputDialog(OutdoorGameView &view)
@@ -1353,7 +1489,10 @@ void OutdoorInteractionController::returnToHouseBankMainDialog(OutdoorGameView &
 
     if (result.shouldOpenPendingEventDialog)
     {
-        OutdoorInteractionController::presentPendingEventDialog(view, result.previousMessageCount, result.allowNpcFallbackContent);
+        OutdoorInteractionController::presentPendingEventDialog(
+            view,
+            result.previousMessageCount,
+            result.allowNpcFallbackContent);
     }
 }
 
@@ -3062,6 +3201,7 @@ bool OutdoorInteractionController::tryActivateInspectEvent(OutdoorGameView &view
         view.setStatusBarEvent(statusMessage);
     }
     pEventRuntimeState->statusMessages.clear();
+    OutdoorInteractionController::applyGrantedEventItemsToHeldInventory(view);
 
     OutdoorInteractionController::presentPendingEventDialog(view, previousMessageCount, true);
 
@@ -3226,6 +3366,7 @@ bool OutdoorInteractionController::tryTriggerLocalEventById(OutdoorGameView &vie
         view.setStatusBarEvent(statusMessage);
     }
     pEventRuntimeState->statusMessages.clear();
+    OutdoorInteractionController::applyGrantedEventItemsToHeldInventory(view);
 
     OutdoorInteractionController::presentPendingEventDialog(view, previousMessageCount, true);
     pEventRuntimeState->lastActivationResult = "event " + std::to_string(eventId) + " executed";

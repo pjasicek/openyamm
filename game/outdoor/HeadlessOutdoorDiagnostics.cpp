@@ -154,6 +154,11 @@ struct GameApplicationTestAccess
         return application.m_gameAudioSystem;
     }
 
+    static void updateHouseVideoPlayback(GameApplication &application, float deltaSeconds)
+    {
+        application.m_outdoorGameView.updateHouseVideoPlayback(deltaSeconds);
+    }
+
     static void setSpeechCooldowns(
         OutdoorGameView &view,
         std::vector<uint32_t> speechCooldownUntilTicks,
@@ -240,6 +245,26 @@ struct GameApplicationTestAccess
     static OutdoorGameView &outdoorGameView(GameApplication &application)
     {
         return application.m_outdoorGameView;
+    }
+
+    static bool heldInventoryItemActive(const GameApplication &application)
+    {
+        return application.m_outdoorGameView.m_heldInventoryItem.active;
+    }
+
+    static const InventoryItem &heldInventoryItem(const GameApplication &application)
+    {
+        return application.m_outdoorGameView.m_heldInventoryItem.item;
+    }
+
+    static void setHeldInventoryItem(GameApplication &application, const InventoryItem &item)
+    {
+        application.m_outdoorGameView.m_heldInventoryItem.active = true;
+        application.m_outdoorGameView.m_heldInventoryItem.item = item;
+        application.m_outdoorGameView.m_heldInventoryItem.grabCellOffsetX = 0;
+        application.m_outdoorGameView.m_heldInventoryItem.grabCellOffsetY = 0;
+        application.m_outdoorGameView.m_heldInventoryItem.grabOffsetX = 0.0f;
+        application.m_outdoorGameView.m_heldInventoryItem.grabOffsetY = 0.0f;
     }
 
     static void setAutosavePath(GameApplication &application, const std::filesystem::path &path)
@@ -16145,6 +16170,119 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
     );
 
     runCase(
+        "app_house_entry_pauses_background_music_until_exit",
+        [&](std::string &failure)
+        {
+            GameApplication application(m_config);
+
+            if (!initializeHeadlessGameApplication(
+                    "out01.odm",
+                    assetFileSystem,
+                    application,
+                    failure))
+            {
+                return false;
+            }
+
+            GameApplicationTestAccess::shutdownRenderer(application);
+
+            if (!GameApplicationTestAccess::initializeSelectedMapRuntime(application, true))
+            {
+                failure = "could not initialize gameplay runtime with view for house music test";
+                return false;
+            }
+
+            OutdoorWorldRuntime *pWorld = GameApplicationTestAccess::outdoorWorldRuntime(application);
+            EventRuntimeState *pEventRuntimeState = pWorld != nullptr ? pWorld->eventRuntimeState() : nullptr;
+            const HouseEntry *pHouseEntry = GameApplicationTestAccess::gameDataLoader(application).getHouseTable().get(1);
+
+            if (pWorld == nullptr || pEventRuntimeState == nullptr || pHouseEntry == nullptr)
+            {
+                failure = "application state is incomplete";
+                return false;
+            }
+
+            const std::optional<MapAssetInfo> &selectedMap =
+                GameApplicationTestAccess::gameDataLoader(application).getSelectedMap();
+
+            if (!selectedMap)
+            {
+                failure = "application did not select a gameplay map";
+                return false;
+            }
+
+            const int outdoorTrack = selectedMap->map.redbookTrack;
+
+            if (GameApplicationTestAccess::gameAudioSystem(application).currentBackgroundMusicTrack() != outdoorTrack)
+            {
+                failure = "initial outdoor music track did not match the selected map";
+                return false;
+            }
+
+            if (GameApplicationTestAccess::gameAudioSystem(application).isBackgroundMusicPaused())
+            {
+                failure = "background music started paused before entering a house";
+                return false;
+            }
+
+            const float openMinuteOfDay = static_cast<float>((pHouseEntry->openHour % 24) * 60);
+            const float openGameMinutes = nextGameMinuteAtOrAfter(pWorld->gameMinutes(), openMinuteOfDay);
+            pWorld->advanceGameMinutes(openGameMinutes - pWorld->gameMinutes());
+
+            EventRuntimeState::PendingDialogueContext context = {};
+            context.kind = DialogueContextKind::HouseService;
+            context.sourceId = pHouseEntry->id;
+            context.hostHouseId = pHouseEntry->id;
+            pEventRuntimeState->dialogueState.hostHouseId = pHouseEntry->id;
+            pEventRuntimeState->pendingDialogueContext = std::move(context);
+
+            GameApplicationTestAccess::openPendingEventDialog(application, pEventRuntimeState->messages.size(), true);
+            GameApplicationTestAccess::updateHouseVideoPlayback(application, 0.016f);
+
+            if (!GameApplicationTestAccess::hasActiveEventDialog(application))
+            {
+                failure = "house dialog did not open for music pause test";
+                return false;
+            }
+
+            if (!GameApplicationTestAccess::gameAudioSystem(application).isBackgroundMusicPaused())
+            {
+                failure = "background music did not pause after entering a house";
+                return false;
+            }
+
+            if (GameApplicationTestAccess::gameAudioSystem(application).currentBackgroundMusicTrack() != outdoorTrack)
+            {
+                failure = "house entry cleared the outdoor music track instead of preserving it";
+                return false;
+            }
+
+            GameApplicationTestAccess::handleDialogueCloseRequest(application);
+            GameApplicationTestAccess::updateHouseVideoPlayback(application, 0.016f);
+
+            if (GameApplicationTestAccess::hasActiveEventDialog(application))
+            {
+                failure = "house dialog did not close in music pause test";
+                return false;
+            }
+
+            if (GameApplicationTestAccess::gameAudioSystem(application).isBackgroundMusicPaused())
+            {
+                failure = "background music did not resume after leaving the house";
+                return false;
+            }
+
+            if (GameApplicationTestAccess::gameAudioSystem(application).currentBackgroundMusicTrack() != outdoorTrack)
+            {
+                failure = "outdoor music track changed after leaving the house";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
         "app_f5_time_advance_reduces_party_buff_duration",
         [&](std::string &failure)
         {
@@ -19819,6 +19957,48 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
     );
 
     runCase(
+        "long_tail_tobersk_buy_topic_remains_available_after_purchase",
+        [&](std::string &failure)
+        {
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            scenario.party.addGold(1000);
+            EventDialogContent dialog = openNpcDialogInScenario(gameDataLoader, *selectedMap, scenario, 279);
+
+            if (!dialog.isActive || !dialogHasActionLabel(dialog, "Buy Tobersk Fruit for 200 gold"))
+            {
+                failure = "Long-Tail did not expose the Tobersk fruit buy topic before purchase";
+                return false;
+            }
+
+            const std::optional<size_t> buyTopicIndex =
+                findActionIndexByLabel(dialog, "Buy Tobersk Fruit for 200 gold");
+
+            if (!buyTopicIndex || !executeDialogActionInScenario(gameDataLoader, *selectedMap, scenario, *buyTopicIndex, dialog))
+            {
+                failure = "Long-Tail Tobersk fruit buy topic did not execute";
+                return false;
+            }
+
+            dialog = openNpcDialogInScenario(gameDataLoader, *selectedMap, scenario, 279);
+
+            if (!dialog.isActive || !dialogHasActionLabel(dialog, "Buy Tobersk Fruit for 200 gold"))
+            {
+                failure = "Long-Tail Tobersk fruit buy topic disappeared after one purchase";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
         "event_tobersk_buy_and_sell_update_gold_items_and_weekday_price",
         [&](std::string &failure)
         {
@@ -19878,6 +20058,275 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
             {
                 failure = "event 251 added " + std::to_string(scenario.party.gold() - goldBeforeSale)
                     + " gold instead of 557 for weekday 0";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "app_npc_granted_item_enters_held_cursor_slot",
+        [&](std::string &failure)
+        {
+            GameApplication application(m_config);
+
+            if (!initializeHeadlessGameApplication(
+                    "out01.odm",
+                    assetFileSystem,
+                    application,
+                    failure))
+            {
+                return false;
+            }
+
+            GameApplicationTestAccess::shutdownRenderer(application);
+
+            if (!GameApplicationTestAccess::initializeSelectedMapRuntime(application, true))
+            {
+                failure = "could not initialize gameplay view";
+                return false;
+            }
+
+            OutdoorPartyRuntime *pPartyRuntime = GameApplicationTestAccess::outdoorPartyRuntime(application);
+            OutdoorWorldRuntime *pWorldRuntime = GameApplicationTestAccess::outdoorWorldRuntime(application);
+
+            if (pPartyRuntime == nullptr || pWorldRuntime == nullptr)
+            {
+                failure = "missing outdoor runtime state";
+                return false;
+            }
+
+            Party &party = pPartyRuntime->party();
+            EventRuntimeState *pEventRuntimeState = pWorldRuntime->eventRuntimeState();
+            Character *pActiveMember = party.activeMember();
+
+            if (pEventRuntimeState == nullptr || pActiveMember == nullptr)
+            {
+                failure = "missing event runtime or active member";
+                return false;
+            }
+
+            party.addGold(1000);
+            OutdoorInteractionController::openDebugNpcDialogue(
+                GameApplicationTestAccess::outdoorGameView(application),
+                279);
+
+            if (!GameApplicationTestAccess::hasActiveEventDialog(application))
+            {
+                failure = "Long-Tail debug dialog did not open";
+                return false;
+            }
+
+            const EventDialogContent &dialog = GameApplicationTestAccess::activeEventDialog(application);
+            const std::optional<size_t> buyTopicIndex =
+                findActionIndexByLabel(dialog, "Buy Tobersk Fruit for 200 gold");
+
+            if (!buyTopicIndex)
+            {
+                failure = "Long-Tail debug dialog did not expose the Tobersk fruit buy topic";
+                return false;
+            }
+
+            pActiveMember->portraitState = PortraitId::Normal;
+            pActiveMember->portraitElapsedTicks = 0;
+            pActiveMember->portraitDurationTicks = 0;
+
+            GameApplicationTestAccess::setEventDialogSelectionIndex(application, *buyTopicIndex);
+            GameApplicationTestAccess::executeActiveDialogAction(application);
+
+            if (!GameApplicationTestAccess::heldInventoryItemActive(application))
+            {
+                failure = "NPC-granted item did not enter the held cursor slot";
+                return false;
+            }
+
+            if (GameApplicationTestAccess::heldInventoryItem(application).objectDescriptionId != 643)
+            {
+                failure = "held cursor item was not Tobersk fruit after the buy topic";
+                return false;
+            }
+
+            if (party.inventoryItemCount(643) != 0)
+            {
+                failure = "NPC-granted item was incorrectly placed into inventory";
+                return false;
+            }
+
+            if (!pEventRuntimeState->portraitFxRequests.empty())
+            {
+                failure = "house trade topic still queued portrait event fx";
+                return false;
+            }
+
+            if (pActiveMember->portraitState == PortraitId::Normal)
+            {
+                failure = "house trade topic did not trigger the face-only smile reaction";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "app_npc_granted_item_displaces_previous_held_item_to_inventory_or_ground",
+        [&](std::string &failure)
+        {
+            GameApplication application(m_config);
+
+            if (!initializeHeadlessGameApplication(
+                    "out01.odm",
+                    assetFileSystem,
+                    application,
+                    failure))
+            {
+                return false;
+            }
+
+            GameApplicationTestAccess::shutdownRenderer(application);
+
+            if (!GameApplicationTestAccess::initializeSelectedMapRuntime(application, true))
+            {
+                failure = "could not initialize gameplay view";
+                return false;
+            }
+
+            OutdoorPartyRuntime *pPartyRuntime = GameApplicationTestAccess::outdoorPartyRuntime(application);
+            OutdoorWorldRuntime *pWorldRuntime = GameApplicationTestAccess::outdoorWorldRuntime(application);
+            EventRuntimeState *pEventRuntimeState =
+                pWorldRuntime != nullptr ? pWorldRuntime->eventRuntimeState() : nullptr;
+
+            if (pPartyRuntime == nullptr || pWorldRuntime == nullptr || pEventRuntimeState == nullptr)
+            {
+                failure = "application state is incomplete";
+                return false;
+            }
+
+            Party &party = pPartyRuntime->party();
+            const ItemTable &itemTable = GameApplicationTestAccess::gameDataLoader(application).getItemTable();
+            const InventoryItem oldHeldItem =
+                ItemGenerator::makeInventoryItem(645, itemTable, ItemGenerationMode::Generic);
+
+            GameApplicationTestAccess::setHeldInventoryItem(application, oldHeldItem);
+            pEventRuntimeState->grantedItemIds = {643};
+            OutdoorInteractionController::applyGrantedEventItemsToHeldInventory(
+                GameApplicationTestAccess::outdoorGameView(application));
+
+            if (!GameApplicationTestAccess::heldInventoryItemActive(application)
+                || GameApplicationTestAccess::heldInventoryItem(application).objectDescriptionId != 643)
+            {
+                failure = "new granted item did not replace the held cursor item";
+                return false;
+            }
+
+            if (party.inventoryItemCount(645) != 1)
+            {
+                failure = "previously held item was not moved into inventory";
+                return false;
+            }
+
+            GameApplication fullInventoryApplication(m_config);
+
+            if (!initializeHeadlessGameApplication(
+                    "out01.odm",
+                    assetFileSystem,
+                    fullInventoryApplication,
+                    failure))
+            {
+                return false;
+            }
+
+            GameApplicationTestAccess::shutdownRenderer(fullInventoryApplication);
+
+            if (!GameApplicationTestAccess::initializeSelectedMapRuntime(fullInventoryApplication, true))
+            {
+                failure = "could not initialize full-inventory gameplay view";
+                return false;
+            }
+
+            OutdoorPartyRuntime *pFullPartyRuntime = GameApplicationTestAccess::outdoorPartyRuntime(fullInventoryApplication);
+            OutdoorWorldRuntime *pFullWorldRuntime = GameApplicationTestAccess::outdoorWorldRuntime(fullInventoryApplication);
+            EventRuntimeState *pFullEventRuntimeState =
+                pFullWorldRuntime != nullptr ? pFullWorldRuntime->eventRuntimeState() : nullptr;
+
+            if (pFullPartyRuntime == nullptr || pFullWorldRuntime == nullptr || pFullEventRuntimeState == nullptr)
+            {
+                failure = "full-inventory application state is incomplete";
+                return false;
+            }
+
+            Party &fullParty = pFullPartyRuntime->party();
+            InventoryItem fillerItem = {};
+            fillerItem.objectDescriptionId = 643;
+            fillerItem.quantity = 1;
+            fillerItem.width = 1;
+            fillerItem.height = 1;
+
+            for (size_t memberIndex = 0; memberIndex < fullParty.members().size(); ++memberIndex)
+            {
+                Character *pMember = fullParty.member(memberIndex);
+
+                if (pMember == nullptr)
+                {
+                    failure = "missing party member while filling inventory";
+                    return false;
+                }
+
+                pMember->inventory.clear();
+
+                for (uint8_t gridY = 0; gridY < Character::InventoryHeight; ++gridY)
+                {
+                    for (uint8_t gridX = 0; gridX < Character::InventoryWidth; ++gridX)
+                    {
+                        if (!pMember->addInventoryItemAt(fillerItem, gridX, gridY))
+                        {
+                            failure = "could not fill inventory cell "
+                                + std::to_string(memberIndex) + ":" + std::to_string(gridX) + ","
+                                + std::to_string(gridY);
+                            return false;
+                        }
+                    }
+                }
+            }
+
+            GameApplicationTestAccess::setHeldInventoryItem(fullInventoryApplication, oldHeldItem);
+            const size_t initialWorldItemCount = pFullWorldRuntime->worldItemCount();
+            pFullEventRuntimeState->grantedItemIds = {643};
+            OutdoorInteractionController::applyGrantedEventItemsToHeldInventory(
+                GameApplicationTestAccess::outdoorGameView(fullInventoryApplication));
+
+            if (!GameApplicationTestAccess::heldInventoryItemActive(fullInventoryApplication)
+                || GameApplicationTestAccess::heldInventoryItem(fullInventoryApplication).objectDescriptionId != 643)
+            {
+                failure = "new granted item did not remain held when inventory was full";
+                return false;
+            }
+
+            if (fullParty.inventoryItemCount(645) != 0)
+            {
+                failure = "previously held item was duplicated into inventory when inventory was full";
+                return false;
+            }
+
+            if (pFullWorldRuntime->worldItemCount() != initialWorldItemCount + 1)
+            {
+                failure = "previously held item was not thrown to the ground when inventory was full";
+                return false;
+            }
+
+            const OutdoorWorldRuntime::WorldItemState *pDroppedItem =
+                pFullWorldRuntime->worldItemState(pFullWorldRuntime->worldItemCount() - 1);
+
+            if (pDroppedItem == nullptr || pDroppedItem->item.objectDescriptionId != 645)
+            {
+                failure = "the wrong item was thrown to the ground";
+                return false;
+            }
+
+            if (!pFullEventRuntimeState->grantedItemIds.empty())
+            {
+                failure = "granted item ids were not consumed after the held-item handoff";
                 return false;
             }
 

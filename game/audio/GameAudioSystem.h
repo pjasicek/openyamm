@@ -45,7 +45,10 @@ public:
     void setBackgroundMusicTrack(int redbookTrack);
     void stopBackgroundMusic();
     void stopBackgroundMusicImmediate();
+    void pauseBackgroundMusic();
+    void resumeBackgroundMusic();
     int currentBackgroundMusicTrack() const;
+    bool isBackgroundMusicPaused() const;
     void setSoundVolume(float volume);
     void setMusicVolume(float volume);
     void setVoiceVolume(float volume);
@@ -100,6 +103,7 @@ private:
     uint64_t m_activeMusicInstanceId = 0;
     float m_activeMusicVolume = 0.0f;
     float m_musicFadeVelocity = 0.0f;
+    bool m_backgroundMusicPaused = false;
     float m_soundVolume = 1.0f;
     float m_musicVolume = 1.0f;
     float m_voiceVolume = 1.0f;

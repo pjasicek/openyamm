@@ -505,6 +505,7 @@ void GameAudioSystem::shutdown()
     m_activeMusicInstanceId = 0;
     m_activeMusicVolume = 0.0f;
     m_musicFadeVelocity = 0.0f;
+    m_backgroundMusicPaused = false;
     m_soundVolume = 1.0f;
     m_musicVolume = 1.0f;
     m_voiceVolume = 1.0f;
@@ -524,9 +525,10 @@ void GameAudioSystem::update(float listenerX, float listenerY, float listenerZ, 
         m_activeMusicInstanceId = 0;
         m_activeMusicTrack = 0;
         m_activeMusicVolume = 0.0f;
+        m_backgroundMusicPaused = false;
     }
 
-    if (m_activeMusicInstanceId != 0 && m_musicFadeVelocity != 0.0f)
+    if (!m_backgroundMusicPaused && m_activeMusicInstanceId != 0 && m_musicFadeVelocity != 0.0f)
     {
         m_activeMusicVolume =
             std::clamp(m_activeMusicVolume + m_musicFadeVelocity * deltaSeconds, 0.0f, musicTargetVolume);
@@ -538,6 +540,7 @@ void GameAudioSystem::update(float listenerX, float listenerY, float listenerZ, 
             m_activeMusicInstanceId = 0;
             m_activeMusicTrack = 0;
             m_musicFadeVelocity = 0.0f;
+            m_backgroundMusicPaused = false;
 
             if (m_pendingMusicTrack > 0)
             {
@@ -931,6 +934,7 @@ void GameAudioSystem::stopAllPlayback()
     m_activeMusicInstanceId = 0;
     m_activeMusicVolume = 0.0f;
     m_musicFadeVelocity = 0.0f;
+    m_backgroundMusicPaused = false;
 }
 
 std::optional<uint32_t> GameAudioSystem::resolveCharacterVoiceId(const Character &character) const
@@ -965,10 +969,17 @@ void GameAudioSystem::setBackgroundMusicTrack(int redbookTrack)
         return;
     }
 
+    if (m_backgroundMusicPaused && m_activeMusicTrack == normalizedTrack && m_activeMusicInstanceId != 0)
+    {
+        resumeBackgroundMusic();
+        return;
+    }
+
     if (m_activeMusicTrack == normalizedTrack && m_activeMusicInstanceId != 0)
     {
         m_pendingMusicTrack = 0;
         m_musicFadeVelocity = MusicFadeInSeconds > 0.0f ? (MusicVolume / MusicFadeInSeconds) : 0.0f;
+        m_backgroundMusicPaused = false;
         return;
     }
 
@@ -985,6 +996,7 @@ void GameAudioSystem::setBackgroundMusicTrack(int redbookTrack)
 void GameAudioSystem::stopBackgroundMusic()
 {
     m_pendingMusicTrack = 0;
+    m_backgroundMusicPaused = false;
 
     if (m_activeMusicInstanceId == 0)
     {
@@ -1000,6 +1012,7 @@ void GameAudioSystem::stopBackgroundMusic()
 void GameAudioSystem::stopBackgroundMusicImmediate()
 {
     m_pendingMusicTrack = 0;
+    m_backgroundMusicPaused = false;
 
     if (m_activeMusicInstanceId != 0)
     {
@@ -1012,9 +1025,36 @@ void GameAudioSystem::stopBackgroundMusicImmediate()
     m_musicFadeVelocity = 0.0f;
 }
 
+void GameAudioSystem::pauseBackgroundMusic()
+{
+    if (m_activeMusicInstanceId == 0 || m_backgroundMusicPaused)
+    {
+        return;
+    }
+
+    m_audioSystem.pauseClip(m_activeMusicInstanceId);
+    m_backgroundMusicPaused = true;
+}
+
+void GameAudioSystem::resumeBackgroundMusic()
+{
+    if (m_activeMusicInstanceId == 0 || !m_backgroundMusicPaused)
+    {
+        return;
+    }
+
+    m_audioSystem.resumeClip(m_activeMusicInstanceId);
+    m_backgroundMusicPaused = false;
+}
+
 int GameAudioSystem::currentBackgroundMusicTrack() const
 {
     return m_activeMusicTrack;
+}
+
+bool GameAudioSystem::isBackgroundMusicPaused() const
+{
+    return m_backgroundMusicPaused;
 }
 
 bool GameAudioSystem::ensureBackgroundMusicTrackLoaded(int redbookTrack)
@@ -1082,6 +1122,7 @@ bool GameAudioSystem::startBackgroundMusicTrack(int redbookTrack)
     m_activeMusicInstanceId = instanceId;
     m_activeMusicVolume = 0.0f;
     m_musicFadeVelocity = MusicFadeInSeconds > 0.0f ? (MusicVolume / MusicFadeInSeconds) : MusicVolume;
+    m_backgroundMusicPaused = false;
     m_audioSystem.setClipVolume(m_activeMusicInstanceId, m_activeMusicVolume);
     return true;
 }

@@ -47,9 +47,9 @@ void OutdoorPartyRuntime::setActorColliders(const std::vector<OutdoorActorCollis
     m_movementDriver.setActorColliders(actorColliders);
 }
 
-void OutdoorPartyRuntime::applyEventRuntimeState(const EventRuntimeState &runtimeState)
+void OutdoorPartyRuntime::applyEventRuntimeState(const EventRuntimeState &runtimeState, bool grantItemsToInventory)
 {
-    m_party.applyEventRuntimeState(runtimeState);
+    m_party.applyEventRuntimeState(runtimeState, grantItemsToInventory);
 }
 
 const OutdoorMoveState &OutdoorPartyRuntime::movementState() const

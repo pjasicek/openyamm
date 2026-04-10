@@ -324,19 +324,6 @@ const Character *resolveCharacterForVariableRead(const Party *pParty, const std:
     return pParty->member(*memberIndex);
 }
 
-bool grantInventoryItemToTargets(Party &party, const std::vector<size_t> &targetMemberIndices, uint32_t objectDescriptionId)
-{
-    for (size_t memberIndex : targetMemberIndices)
-    {
-        if (party.grantItemToMember(memberIndex, objectDescriptionId))
-        {
-            return true;
-        }
-    }
-
-    return false;
-}
-
 bool removeInventoryItemFromTargets(Party &party, const std::vector<size_t> &targetMemberIndices, uint32_t objectDescriptionId)
 {
     for (size_t memberIndex : targetMemberIndices)
@@ -578,6 +565,26 @@ int currentGameMinutesFromRuntimeState(const EventRuntimeState &runtimeState)
     const int hour = hourIt != runtimeState.variables.end() ? std::max(0, hourIt->second) : 0;
     const int dayOfYear = dayIt != runtimeState.variables.end() ? std::max(1, dayIt->second) : 1;
     return ((dayOfYear - 1) * 24 + hour) * 60;
+}
+
+bool isTradingTriangleBuyTopic(uint16_t topicId)
+{
+    switch (topicId)
+    {
+        case 250:
+        case 252:
+        case 254:
+        case 256:
+        case 258:
+        case 260:
+        case 262:
+        case 264:
+        case 266:
+            return true;
+
+        default:
+            return false;
+    }
 }
 
 int resolveCharacterBaseArmorClass(const Character &member, const Party *pParty)
@@ -1740,17 +1747,15 @@ void EventRuntime::setVariableValue(
 
     if (variable.kind == VariableKind::Inventory)
     {
-        if (pParty != nullptr && !targetMemberIndices.empty())
+        if (value != 0)
         {
-            if (value != 0)
-            {
-                grantInventoryItemToTargets(*pParty, targetMemberIndices, variable.rawId);
-            }
-            else
-            {
-                removeInventoryItemFromTargets(*pParty, targetMemberIndices, variable.rawId);
-            }
+            runtimeState.grantedItemIds.push_back(variable.rawId);
         }
+        else if (pParty != nullptr && !targetMemberIndices.empty())
+        {
+            removeInventoryItemFromTargets(*pParty, targetMemberIndices, variable.rawId);
+        }
+
         return;
     }
 
@@ -2365,15 +2370,6 @@ void EventRuntime::addVariableValue(
 
     if (variable.kind == VariableKind::Inventory)
     {
-        if (pParty != nullptr && !targetMemberIndices.empty())
-        {
-            if (value > 0)
-            {
-                grantInventoryItemToTargets(*pParty, targetMemberIndices, static_cast<uint32_t>(value));
-            }
-            return;
-        }
-
         if (value > 0)
         {
             runtimeState.grantedItemIds.push_back(static_cast<uint32_t>(value));
@@ -3159,6 +3155,11 @@ bool EventRuntime::canShowTopic(
     if (topicId == 0 || !globalProgram)
     {
         return topicId != 0;
+    }
+
+    if (isTradingTriangleBuyTopic(topicId))
+    {
+        return true;
     }
 
     const EventIrEvent *pEvent = findEventById(*globalProgram, topicId);

@@ -192,7 +192,7 @@ OutdoorSceneRuntime::AdvanceFrameResult OutdoorSceneRuntime::advanceFrame(
             m_localEventIrProgram,
             m_globalEventIrProgram))
     {
-        m_pPartyRuntime->applyEventRuntimeState(*m_pWorldRuntime->eventRuntimeState());
+        m_pPartyRuntime->applyEventRuntimeState(*m_pWorldRuntime->eventRuntimeState(), false);
         result.shouldOpenEventDialog = true;
     }
 
@@ -223,7 +223,7 @@ OutdoorSceneRuntime::AdvanceFrameResult OutdoorSceneRuntime::advanceFrame(
                 if (executed)
                 {
                     m_pWorldRuntime->applyEventRuntimeState();
-                    m_pPartyRuntime->applyEventRuntimeState(*pEventRuntimeState);
+                    m_pPartyRuntime->applyEventRuntimeState(*pEventRuntimeState, false);
                     result.shouldOpenEventDialog = result.shouldOpenEventDialog
                         || pEventRuntimeState->pendingDialogueContext.has_value()
                         || pEventRuntimeState->messages.size() > result.previousMessageCount;
@@ -288,7 +288,7 @@ bool OutdoorSceneRuntime::executeEventById(
     }
 
     m_pWorldRuntime->applyEventRuntimeState();
-    m_pPartyRuntime->applyEventRuntimeState(*pEventRuntimeState);
+    m_pPartyRuntime->applyEventRuntimeState(*pEventRuntimeState, false);
     return true;
 }
 }

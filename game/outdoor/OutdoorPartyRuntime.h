@@ -24,7 +24,7 @@ public:
     void teleportTo(float x, float y, float footZHint);
     void update(const OutdoorMovementInput &input, float deltaSeconds);
     void setActorColliders(const std::vector<OutdoorActorCollision> &actorColliders);
-    void applyEventRuntimeState(const EventRuntimeState &runtimeState);
+    void applyEventRuntimeState(const EventRuntimeState &runtimeState, bool grantItemsToInventory = true);
 
     const OutdoorMoveState &movementState() const;
     const OutdoorMovementEvents &movementEvents() const;

@@ -303,7 +303,7 @@ public:
     void reset();
     void seed(const PartySeed &seed);
     void applyMovementEffects(const OutdoorMovementEffects &effects);
-    void applyEventRuntimeState(const EventRuntimeState &runtimeState);
+    void applyEventRuntimeState(const EventRuntimeState &runtimeState, bool grantItemsToInventory = true);
     bool applyDamageToMember(size_t memberIndex, int damage, const std::string &status);
     bool applyDamageToActiveMember(int damage, const std::string &status);
     bool applyDamageToAllLivingMembers(int damage, const std::string &status);

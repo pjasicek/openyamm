@@ -154,6 +154,30 @@ void AudioSystem::stopClip(uint64_t instanceId)
         m_playingInstances.end());
 }
 
+void AudioSystem::pauseClip(uint64_t instanceId)
+{
+    for (PlayingInstance &instance : m_playingInstances)
+    {
+        if (instance.instanceId == instanceId)
+        {
+            instance.paused = true;
+            return;
+        }
+    }
+}
+
+void AudioSystem::resumeClip(uint64_t instanceId)
+{
+    for (PlayingInstance &instance : m_playingInstances)
+    {
+        if (instance.instanceId == instanceId)
+        {
+            instance.paused = false;
+            return;
+        }
+    }
+}
+
 void AudioSystem::setClipVolume(uint64_t instanceId, float volume)
 {
     for (PlayingInstance &instance : m_playingInstances)
@@ -198,7 +222,7 @@ void AudioSystem::update(const ListenerState &listenerState)
 
     while (SDL_GetAudioStreamQueued(m_pAudioStream) < TargetQueuedBytes)
     {
-        if (m_playingInstances.empty())
+        if (!hasMixableInstances())
         {
             break;
         }
@@ -295,13 +319,24 @@ std::shared_ptr<AudioSystem::AudioClip> AudioSystem::loadClip(const std::string 
     return pClip;
 }
 
+bool AudioSystem::hasMixableInstances() const
+{
+    return std::any_of(
+        m_playingInstances.begin(),
+        m_playingInstances.end(),
+        [](const PlayingInstance &instance)
+        {
+            return !instance.paused && instance.pClip != nullptr && instance.pClip->frameCount > 0;
+        });
+}
+
 void AudioSystem::mixNextChunk(const ListenerState &listenerState)
 {
     std::vector<float> mixedSamples(static_cast<size_t>(MixChunkFrames * OutputChannels), 0.0f);
 
     for (PlayingInstance &instance : m_playingInstances)
     {
-        if (instance.pClip == nullptr || instance.pClip->frameCount == 0)
+        if (instance.paused || instance.pClip == nullptr || instance.pClip->frameCount == 0)
         {
             continue;
         }

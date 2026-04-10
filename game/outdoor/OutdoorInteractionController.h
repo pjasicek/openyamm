@@ -72,10 +72,15 @@ public:
     static void returnToHouseBankMainDialog(OutdoorGameView &view);
     static void confirmHouseBankInput(OutdoorGameView &view);
     static void openDebugNpcDialogue(OutdoorGameView &view, uint32_t npcId);
+    static void applyGrantedEventItemsToHeldInventory(OutdoorGameView &view);
     static bool tryTriggerLocalEventById(OutdoorGameView &view, uint16_t eventId);
     static void applyPendingCombatEvents(OutdoorGameView &view);
 
 private:
+    static void setHeldInventoryItem(
+        GameplayUiController::HeldInventoryItemState &heldInventoryItem,
+        const InventoryItem &item);
+    static bool tryDisplaceHeldInventoryItem(OutdoorGameView &view);
     static GameplayDialogController::Context createGameplayDialogContext(
         OutdoorGameView &view,
         EventRuntimeState &eventRuntimeState);
