@@ -21,6 +21,7 @@
 #include "game/tables/NpcDialogTable.h"
 #include "game/tables/ObjectTable.h"
 #include "game/tables/ReadableScrollTable.h"
+#include "game/tables/RaceStartingStatsTable.h"
 #include "game/tables/RosterTable.h"
 #include "game/tables/SpellTable.h"
 
@@ -73,6 +74,7 @@ public:
     const RosterTable &getRosterTable() const;
     const CharacterDollTable &getCharacterDollTable() const;
     const CharacterInspectTable &getCharacterInspectTable() const;
+    const RaceStartingStatsTable &getRaceStartingStatsTable() const;
     const ReadableScrollTable &getReadableScrollTable() const;
     const ArcomageLibrary &getArcomageLibrary() const;
 
@@ -103,6 +105,7 @@ private:
     bool loadRosterTable(const Engine::AssetFileSystem &assetFileSystem);
     bool loadCharacterDollTable(const Engine::AssetFileSystem &assetFileSystem);
     bool loadCharacterInspectTable(const Engine::AssetFileSystem &assetFileSystem);
+    bool loadRaceStartingStatsTable(const Engine::AssetFileSystem &assetFileSystem);
     bool loadReadableScrollTable(const Engine::AssetFileSystem &assetFileSystem);
     bool loadArcomageLibrary(const Engine::AssetFileSystem &assetFileSystem);
     bool loadFirstTextTableRows(
@@ -137,6 +140,7 @@ private:
     RosterTable m_rosterTable;
     CharacterDollTable m_characterDollTable;
     CharacterInspectTable m_characterInspectTable;
+    RaceStartingStatsTable m_raceStartingStatsTable;
     ReadableScrollTable m_readableScrollTable;
     ArcomageLibrary m_arcomageLibrary;
     std::optional<MapAssetInfo> m_selectedMap;

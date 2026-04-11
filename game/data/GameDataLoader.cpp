@@ -736,6 +736,11 @@ bool GameDataLoader::loadInternal(const Engine::AssetFileSystem &assetFileSystem
         return false;
     }
 
+    if (!loadRaceStartingStatsTable(assetFileSystem))
+    {
+        return false;
+    }
+
     if (!loadReadableScrollTable(assetFileSystem))
     {
         return false;
@@ -960,6 +965,11 @@ const CharacterDollTable &GameDataLoader::getCharacterDollTable() const
 const CharacterInspectTable &GameDataLoader::getCharacterInspectTable() const
 {
     return m_characterInspectTable;
+}
+
+const RaceStartingStatsTable &GameDataLoader::getRaceStartingStatsTable() const
+{
+    return m_raceStartingStatsTable;
 }
 
 const ReadableScrollTable &GameDataLoader::getReadableScrollTable() const
@@ -1438,6 +1448,26 @@ bool GameDataLoader::loadCharacterInspectTable(const Engine::AssetFileSystem &as
     if (!m_characterInspectTable.loadStatRows(statRows) || !m_characterInspectTable.loadSkillRows(skillRows))
     {
         std::cerr << "Failed to parse character inspect tables\n";
+        return false;
+    }
+
+    return true;
+}
+
+bool GameDataLoader::loadRaceStartingStatsTable(const Engine::AssetFileSystem &assetFileSystem)
+{
+    std::vector<std::vector<std::string>> rows;
+    const std::string tablePath = dataTablePath("race_starting_stats.txt");
+
+    if (!loadTextTableRows(assetFileSystem, tablePath, rows))
+    {
+        std::cerr << "Failed to read race starting stats table: " << tablePath << '\n';
+        return false;
+    }
+
+    if (!m_raceStartingStatsTable.loadFromRows(rows))
+    {
+        std::cerr << "Failed to parse race starting stats table: " << tablePath << '\n';
         return false;
     }
 

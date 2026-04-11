@@ -1398,6 +1398,7 @@ void GameApplication::openNewGameScreen()
         m_gameDataLoader.getCharacterDollTable(),
         m_gameDataLoader.getCharacterInspectTable(),
         m_gameDataLoader.getClassSkillTable(),
+        m_gameDataLoader.getRaceStartingStatsTable(),
         [this](const Character &character)
         {
             startNewSessionFromCharacterCreation(character);

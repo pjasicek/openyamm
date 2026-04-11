@@ -132,6 +132,7 @@ add_executable(openyamm
     tables/PortraitFxEventTable.cpp
     tables/PortraitEnums.cpp
     tables/PortraitFrameTable.cpp
+    tables/RaceStartingStatsTable.cpp
     tables/RosterTable.cpp
     maps/SaveGame.cpp
     audio/SoundCatalog.cpp

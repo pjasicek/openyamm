@@ -4,6 +4,7 @@
 #include "game/tables/CharacterDollTable.h"
 #include "game/tables/CharacterInspectTable.h"
 #include "game/tables/ClassSkillTable.h"
+#include "game/tables/RaceStartingStatsTable.h"
 #include "game/ui/MenuScreenBase.h"
 #include "game/ui/UiLayoutManager.h"
 
@@ -48,6 +49,9 @@ public:
         const char *pDefaultName = "";
         const char *pClassName = "";
         CreationRace race = CreationRace::Human;
+        bool hasCustomDefaultStats = false;
+        std::array<int, static_cast<size_t>(StatId::Count)> defaultStats = {};
+        std::array<const char *, 2> defaultOptionalSkills = {{"", ""}};
     };
 
     using ContinueAction = std::function<void(const Character &)>;
@@ -59,6 +63,7 @@ public:
         const CharacterDollTable &characterDollTable,
         const CharacterInspectTable &characterInspectTable,
         const ClassSkillTable &classSkillTable,
+        const RaceStartingStatsTable &raceStartingStatsTable,
         ContinueAction continueAction,
         BackAction backAction);
 
@@ -96,9 +101,10 @@ private:
     std::vector<std::string> wrapTextToWidth(const std::string &fontName, const std::string &text, float maxWidth, float scale);
     const CharacterDollEntry *selectedCharacterEntry() const;
     const CreationCandidate &selectedCandidate() const;
+    std::array<int, static_cast<size_t>(StatId::Count)> statsForRace(CreationRace race) const;
     void cycleCandidate(int direction);
     void cycleVoice(int direction);
-    void resetCurrentState();
+    void resetCurrentState(bool applyCandidateDefaults = false);
     void confirmCreation();
     void cancelCreation();
     bool ensureLayoutLoaded();
@@ -128,6 +134,7 @@ private:
     const CharacterDollTable *m_pCharacterDollTable = nullptr;
     const CharacterInspectTable *m_pCharacterInspectTable = nullptr;
     const ClassSkillTable *m_pClassSkillTable = nullptr;
+    const RaceStartingStatsTable *m_pRaceStartingStatsTable = nullptr;
     ContinueAction m_continueAction;
     BackAction m_backAction;
     UiLayoutManager m_layoutManager;

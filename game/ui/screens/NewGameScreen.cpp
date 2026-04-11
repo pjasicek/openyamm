@@ -27,12 +27,13 @@ using CreationCandidate = NewGameScreen::CreationCandidate;
 constexpr float RootWidth = 640.0f;
 constexpr float RootHeight = 480.0f;
 constexpr const char *CharacterCreationLayoutPath = "Data/ui/gameplay/character_creation.yml";
-constexpr uint32_t DefaultCreationCharacterDataId = 2;
+constexpr uint32_t DefaultCreationCharacterDataId = 1;
 constexpr uint32_t CharacterCreationVoicePreviewSpeakerKey = 0x43525650u;
 constexpr int StartingBonusPool = 15;
+constexpr int NeutralBaseStatValue = 11;
 constexpr int MinimumStatOffset = 2;
 constexpr int MaximumStatValue = 25;
-constexpr int BoostedMaximumStatValue = 30;
+constexpr int BoostedMaximumStatValue = 34;
 constexpr float InspectPopupWidth = 425.0f;
 constexpr float InspectPopupGap = 12.0f;
 constexpr size_t MaximumOptionalSkillSelections = 2;
@@ -48,12 +49,6 @@ struct RaceStatRule
 {
     int baseStep = 1;
     int droppedStep = 1;
-};
-
-struct CreationRaceDefinition
-{
-    CreationRace race = CreationRace::Human;
-    std::array<int, static_cast<size_t>(StatId::Count)> baseStats = {};
 };
 
 struct SkillSlotPosition
@@ -82,7 +77,7 @@ constexpr std::array<const char *, static_cast<size_t>(StatId::Count)> StatLabel
 };
 
 constexpr std::array<CreationCandidate, 24> CreationCandidates = {{
-    {1, "Gareth", "Knight", CreationRace::Human},
+    {1, "Gareth", "Knight", CreationRace::Human, true, {18, 9, 9, 15, 15, 15, 11}, {{"Bow", "RepairItem"}}},
     {2, "Kiir", "Knight", CreationRace::Human},
     {3, "Gareth", "Knight", CreationRace::Human},
     {4, "Rhea", "Knight", CreationRace::Human},
@@ -106,29 +101,6 @@ constexpr std::array<CreationCandidate, 24> CreationCandidates = {{
     {22, "Karn", "Minotaur", CreationRace::Minotaur},
     {23, "Overdune", "Troll", CreationRace::Troll},
     {24, "Brakka", "Troll", CreationRace::Troll},
-}};
-
-constexpr std::array<CreationRaceDefinition, 5> RaceDefinitions = {{
-    {CreationRace::Human, {11, 11, 11, 11, 11, 11, 11}},
-    {CreationRace::Vampire, {11, 11, 11, 10, 11, 11, 12}},
-    {CreationRace::DarkElf, {9, 12, 10, 9, 14, 12, 11}},
-    {CreationRace::Minotaur, {14, 8, 7, 13, 13, 10, 12}},
-    {CreationRace::Troll, {13, 7, 7, 14, 13, 11, 12}},
-}};
-
-constexpr std::array<RaceStatRule, static_cast<size_t>(StatId::Count)> HumanRaceRules = {{
-    {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}
-}};
-
-constexpr std::array<RaceStatRule, static_cast<size_t>(StatId::Count)> VampireRaceRules = HumanRaceRules;
-constexpr std::array<RaceStatRule, static_cast<size_t>(StatId::Count)> TrollRaceRules = {{
-    {1, 1}, {1, 1}, {1, 1}, {2, 2}, {1, 1}, {1, 1}, {1, 1}
-}};
-constexpr std::array<RaceStatRule, static_cast<size_t>(StatId::Count)> MinotaurRaceRules = {{
-    {2, 2}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}
-}};
-constexpr std::array<RaceStatRule, static_cast<size_t>(StatId::Count)> DarkElfRaceRules = {{
-    {1, 1}, {1, 1}, {1, 1}, {1, 2}, {2, 1}, {1, 1}, {1, 1}
 }};
 
 constexpr std::array<SkillSlotPosition, 4> SelectedSkillPositions = {{
@@ -515,31 +487,74 @@ std::optional<ResolvedLayoutElement> resolveLayoutElementRecursive(
     return resolved;
 }
 
-std::array<int, static_cast<size_t>(StatId::Count)> statsForRace(CreationRace race)
-{
-    for (const CreationRaceDefinition &definition : RaceDefinitions)
-    {
-        if (race == definition.race)
-        {
-            return definition.baseStats;
-        }
-    }
-
-    return RaceDefinitions[0].baseStats;
-}
-
-const std::array<RaceStatRule, static_cast<size_t>(StatId::Count)> &raceRules(CreationRace race)
+std::string creationRaceName(CreationRace race)
 {
     switch (race)
     {
-        case CreationRace::Vampire: return VampireRaceRules;
-        case CreationRace::DarkElf: return DarkElfRaceRules;
-        case CreationRace::Minotaur: return MinotaurRaceRules;
-        case CreationRace::Troll: return TrollRaceRules;
+        case CreationRace::Vampire:
+            return "Vampire";
+
+        case CreationRace::DarkElf:
+            return "DarkElf";
+
+        case CreationRace::Minotaur:
+            return "Minotaur";
+
+        case CreationRace::Troll:
+            return "Troll";
+
         case CreationRace::Human:
         default:
-            return HumanRaceRules;
+            return "Human";
     }
+}
+
+RaceStatRule raceRuleForBaseStat(int baseStatValue)
+{
+    if (baseStatValue > NeutralBaseStatValue)
+    {
+        return {2, 1};
+    }
+
+    if (baseStatValue < NeutralBaseStatValue)
+    {
+        return {1, 2};
+    }
+
+    return {1, 1};
+}
+
+std::array<RaceStatRule, static_cast<size_t>(StatId::Count)> raceRulesForStats(
+    const std::array<int, static_cast<size_t>(StatId::Count)> &baseStats)
+{
+    std::array<RaceStatRule, static_cast<size_t>(StatId::Count)> rules = {};
+
+    for (size_t statIndex = 0; statIndex < baseStats.size(); ++statIndex)
+    {
+        rules[statIndex] = raceRuleForBaseStat(baseStats[statIndex]);
+    }
+
+    return rules;
+}
+
+uint32_t statLabelColorForStats(const std::array<int, static_cast<size_t>(StatId::Count)> &baseStats, size_t statIndex)
+{
+    if (statIndex >= baseStats.size())
+    {
+        return WhiteColor;
+    }
+
+    if (baseStats[statIndex] > NeutralBaseStatValue)
+    {
+        return GreenColor;
+    }
+
+    if (baseStats[statIndex] < NeutralBaseStatValue)
+    {
+        return RedColor;
+    }
+
+    return WhiteColor;
 }
 
 int maximumStatValueForRule(const RaceStatRule &rule)
@@ -632,6 +647,7 @@ NewGameScreen::NewGameScreen(
     const CharacterDollTable &characterDollTable,
     const CharacterInspectTable &characterInspectTable,
     const ClassSkillTable &classSkillTable,
+    const RaceStartingStatsTable &raceStartingStatsTable,
     ContinueAction continueAction,
     BackAction backAction)
     : MenuScreenBase(assetFileSystem)
@@ -639,6 +655,7 @@ NewGameScreen::NewGameScreen(
     , m_pCharacterDollTable(&characterDollTable)
     , m_pCharacterInspectTable(&characterInspectTable)
     , m_pClassSkillTable(&classSkillTable)
+    , m_pRaceStartingStatsTable(&raceStartingStatsTable)
     , m_continueAction(std::move(continueAction))
     , m_backAction(std::move(backAction))
 {
@@ -727,6 +744,27 @@ const CreationCandidate &NewGameScreen::selectedCandidate() const
     return CreationCandidates[m_state.selectedCandidateIndex];
 }
 
+std::array<int, static_cast<size_t>(StatId::Count)> NewGameScreen::statsForRace(CreationRace race) const
+{
+    const std::array<int, static_cast<size_t>(StatId::Count)> defaultStats = {
+        NeutralBaseStatValue,
+        NeutralBaseStatValue,
+        NeutralBaseStatValue,
+        NeutralBaseStatValue,
+        NeutralBaseStatValue,
+        NeutralBaseStatValue,
+        NeutralBaseStatValue
+    };
+
+    if (m_pRaceStartingStatsTable == nullptr)
+    {
+        return defaultStats;
+    }
+
+    const RaceStartingStatsTable::Entry *pEntry = m_pRaceStartingStatsTable->get(creationRaceName(race));
+    return pEntry != nullptr ? pEntry->stats : defaultStats;
+}
+
 const CharacterDollEntry *NewGameScreen::selectedCharacterEntry() const
 {
     return m_pCharacterDollTable != nullptr
@@ -738,10 +776,10 @@ void NewGameScreen::resetStateForCandidate(size_t candidateIndex)
 {
     m_state = {};
     m_state.selectedCandidateIndex = std::min(candidateIndex, CreationCandidates.size() - 1);
-    resetCurrentState();
+    resetCurrentState(true);
 }
 
-void NewGameScreen::resetCurrentState()
+void NewGameScreen::resetCurrentState(bool applyCandidateDefaults)
 {
     const CreationCandidate &candidate = selectedCandidate();
     const std::array<int, static_cast<size_t>(StatId::Count)> baseStats = statsForRace(candidate.race);
@@ -774,6 +812,34 @@ void NewGameScreen::resetCurrentState()
 
     const CharacterDollEntry *pEntry = selectedCharacterEntry();
     m_state.selectedVoiceId = pEntry != nullptr ? static_cast<int>(pEntry->defaultVoiceId) : 0;
+
+    if (applyCandidateDefaults && candidate.hasCustomDefaultStats)
+    {
+        m_state.currentStats = candidate.defaultStats;
+
+        for (const char *pSkillName : candidate.defaultOptionalSkills)
+        {
+            if (pSkillName == nullptr || *pSkillName == '\0')
+            {
+                continue;
+            }
+
+            const std::string skillName = pSkillName;
+            const bool alreadyDefault =
+                std::find(m_state.defaultSkills.begin(), m_state.defaultSkills.end(), skillName) != m_state.defaultSkills.end();
+            const bool optionalAllowed =
+                std::find(m_state.optionalSkills.begin(), m_state.optionalSkills.end(), skillName) != m_state.optionalSkills.end();
+
+            if (!alreadyDefault
+                && optionalAllowed
+                && std::find(m_state.selectedOptionalSkills.begin(), m_state.selectedOptionalSkills.end(), skillName)
+                    == m_state.selectedOptionalSkills.end())
+            {
+                m_state.selectedOptionalSkills.push_back(skillName);
+            }
+        }
+    }
+
     endNameEditing(false);
 }
 
@@ -823,7 +889,7 @@ void NewGameScreen::endNameEditing(bool commitEdit)
 int NewGameScreen::currentBonusPool() const
 {
     int remainingPoints = StartingBonusPool;
-    const std::array<RaceStatRule, static_cast<size_t>(StatId::Count)> &rules = raceRules(selectedCandidate().race);
+    const std::array<RaceStatRule, static_cast<size_t>(StatId::Count)> rules = raceRulesForStats(m_state.baseStats);
 
     for (size_t statIndex = 0; statIndex < static_cast<size_t>(StatId::Count); ++statIndex)
     {
@@ -959,7 +1025,7 @@ std::vector<std::string> NewGameScreen::wrapTextToWidth(
 bool NewGameScreen::tryIncreaseStat(StatId statId)
 {
     const size_t index = static_cast<size_t>(statId);
-    const std::array<RaceStatRule, static_cast<size_t>(StatId::Count)> &rules = raceRules(selectedCandidate().race);
+    const std::array<RaceStatRule, static_cast<size_t>(StatId::Count)> rules = raceRulesForStats(m_state.baseStats);
     const int baseValue = m_state.baseStats[index];
     const int currentValue = m_state.currentStats[index];
     int amount = rules[index].baseStep;
@@ -984,7 +1050,7 @@ bool NewGameScreen::tryIncreaseStat(StatId statId)
 bool NewGameScreen::tryDecreaseStat(StatId statId)
 {
     const size_t index = static_cast<size_t>(statId);
-    const std::array<RaceStatRule, static_cast<size_t>(StatId::Count)> &rules = raceRules(selectedCandidate().race);
+    const std::array<RaceStatRule, static_cast<size_t>(StatId::Count)> rules = raceRulesForStats(m_state.baseStats);
     const int baseValue = m_state.baseStats[index];
     const int currentValue = m_state.currentStats[index];
     int amount = rules[index].baseStep;
@@ -1750,7 +1816,13 @@ void NewGameScreen::drawScreen(float deltaSeconds)
             resolveRect(StatLabelLayoutIds[statIndex], 2.0f, y - 3.0f, 0.0f, 0.0f);
         const float labelX = labelRect.x;
         const float labelY = labelRect.y;
-        drawText(fontName, StatLabels[statIndex], labelX, labelY, WhiteColor, scale);
+        drawText(
+            fontName,
+            StatLabels[statIndex],
+            labelX,
+            labelY,
+            statLabelColorForStats(m_state.baseStats, statIndex),
+            scale);
 
         const MenuScreenBase::Rect minusRect =
             resolveRect(StatMinusButtonLayoutIds[statIndex], 100.0f, y, 16.0f, 17.0f);
@@ -2061,7 +2133,7 @@ void NewGameScreen::drawScreen(float deltaSeconds)
     if (clearState.clicked)
     {
         playUiClickSound(SoundId::ClickIn);
-        resetCurrentState();
+        resetCurrentState(false);
     }
     else if (cancelState.clicked)
     {
