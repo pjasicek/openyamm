@@ -1569,23 +1569,7 @@ bool GameDataLoader::loadFirstTextTableRows(
 
 bool GameDataLoader::loadObjectTable(const Engine::AssetFileSystem &assetFileSystem)
 {
-    const std::optional<std::vector<uint8_t>> objectTableBytes =
-        assetFileSystem.readBinaryFile("Data/EnglishT/dobjlist.bin");
-
-    if (!objectTableBytes)
-    {
-        std::cerr << "Failed to read object table: Data/EnglishT/dobjlist.bin\n";
-        return false;
-    }
-
-    if (!m_objectTable.loadFromBytes(*objectTableBytes))
-    {
-        std::cerr << "Failed to parse object table: Data/EnglishT/dobjlist.bin\n";
-        return false;
-    }
-
     std::vector<std::vector<std::string>> objectRows;
-
     const std::string objectListPath = dataTablePath("object_list.txt");
 
     if (!loadTextTableRows(assetFileSystem, objectListPath, objectRows))
@@ -1593,9 +1577,9 @@ bool GameDataLoader::loadObjectTable(const Engine::AssetFileSystem &assetFileSys
         return false;
     }
 
-    if (!m_objectTable.loadDisplayRows(objectRows))
+    if (!m_objectTable.loadRows(objectRows))
     {
-        std::cerr << "Failed to augment object table from " << objectListPath << '\n';
+        std::cerr << "Failed to parse object table from " << objectListPath << '\n';
         return false;
     }
 

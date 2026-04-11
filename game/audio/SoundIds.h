@@ -101,6 +101,7 @@ enum class SoundId : uint32_t
     Splash = 153,
     OpenBook = 163,
     CloseBook = 164,
+    Teleport = 165,
     ChestClose = 439,
     Quest = 20001,
 };

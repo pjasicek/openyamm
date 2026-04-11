@@ -28,8 +28,7 @@ struct ObjectEntry
 class ObjectTable
 {
 public:
-    bool loadFromBytes(const std::vector<uint8_t> &bytes);
-    bool loadDisplayRows(const std::vector<std::vector<std::string>> &rows);
+    bool loadRows(const std::vector<std::vector<std::string>> &rows);
     const ObjectEntry *get(uint16_t objectDescriptionId) const;
     const ObjectEntry *findByObjectId(int16_t objectId) const;
     std::optional<uint16_t> findDescriptionIdByObjectId(int16_t objectId) const;

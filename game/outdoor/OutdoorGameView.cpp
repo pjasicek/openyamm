@@ -70,6 +70,13 @@ std::string dataTablePath(std::string_view fileName)
     return "Data/data_tables/" + std::string(fileName);
 }
 
+bool usesBlackTransparencyKey(std::string_view textureName)
+{
+    const std::string normalizedName = toLowerCopy(std::string(textureName));
+
+    return normalizedName.rfind("mapdir", 0) == 0 || normalizedName.rfind("micon", 0) == 0;
+}
+
 using SpellbookSchool = OutdoorGameView::SpellbookSchool;
 using SpellbookPointerTargetType = OutdoorGameView::SpellbookPointerTargetType;
 constexpr int MinutesPerDay = 24 * 60;
@@ -11339,8 +11346,9 @@ std::optional<std::vector<uint8_t>> OutdoorGameView::loadHudBitmapPixelsBgraCach
         const uint8_t red = pixels[pixelOffset + 2];
         const bool isMagentaKey = red >= 248 && green <= 8 && blue >= 248;
         const bool isTealKey = red <= 8 && green >= 248 && blue >= 248;
+        const bool isBlackKey = usesBlackTransparencyKey(textureName) && red <= 8 && green <= 8 && blue <= 8;
 
-        if (isMagentaKey || isTealKey)
+        if (isMagentaKey || isTealKey || isBlackKey)
         {
             pixels[pixelOffset + 3] = 0;
         }

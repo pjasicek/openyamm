@@ -1842,6 +1842,7 @@ bool GameApplication::processPendingMapMove()
             m_outdoorGameView.setCameraAngles(yawRadians, m_outdoorGameView.cameraPitchRadians());
         }
 
+        m_gameAudioSystem.playCommonSound(SoundId::Teleport, GameAudioSystem::PlaybackGroup::Ui);
         synchronizeSessionFromRuntime();
         return true;
     }
