@@ -11,6 +11,7 @@
 #include "game/tables/ObjectTable.h"
 #include "game/outdoor/OutdoorCollisionData.h"
 #include "game/outdoor/OutdoorMapData.h"
+#include "game/tables/SurfaceAnimation.h"
 #include "game/tables/SpriteTables.h"
 #include "game/tables/StrTable.h"
 
@@ -19,6 +20,7 @@
 #include <cstdint>
 #include <optional>
 #include <string>
+#include <utility>
 #include <vector>
 
 namespace OpenYAMM::Game
@@ -36,8 +38,9 @@ struct OutdoorTerrainAtlasRegion
 struct OutdoorAnimatedWaterTileSource
 {
     OutdoorTerrainAtlasRegion region;
-    std::vector<uint8_t> basePixels;
-    std::vector<uint8_t> overlayPixels;
+    std::vector<std::vector<uint8_t>> framePixels;
+    SurfaceAnimationSequence animation;
+    size_t currentFrameIndex = 0;
 };
 
 struct OutdoorTerrainTextureAtlas
@@ -64,6 +67,7 @@ struct OutdoorBitmapTexture
 struct OutdoorBModelTextureSet
 {
     std::vector<OutdoorBitmapTexture> textures;
+    std::vector<std::pair<std::string, SurfaceAnimationSequence>> animationBindings;
 };
 
 struct DecorationBillboard
@@ -167,6 +171,7 @@ struct SpriteObjectBillboardSet
 struct IndoorTextureSet
 {
     std::vector<OutdoorBitmapTexture> textures;
+    std::vector<std::pair<std::string, SurfaceAnimationSequence>> animationBindings;
 };
 
 struct MapAssetInfo

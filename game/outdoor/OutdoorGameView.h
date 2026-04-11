@@ -190,7 +190,9 @@ private:
     struct TexturedBModelBatch
     {
         bgfx::VertexBufferHandle vertexBufferHandle = BGFX_INVALID_HANDLE;
-        bgfx::TextureHandle textureHandle = BGFX_INVALID_HANDLE;
+        std::vector<bgfx::TextureHandle> frameTextureHandles;
+        std::vector<uint32_t> frameLengthTicks;
+        uint32_t animationLengthTicks = 0;
         uint32_t vertexCount = 0;
     };
 
@@ -229,9 +231,10 @@ private:
     struct AnimatedWaterTerrainTileState
     {
         OutdoorTerrainAtlasRegion region;
-        std::vector<uint8_t> basePixels;
-        std::vector<uint8_t> overlayPixels;
-        std::vector<uint8_t> animatedPixels;
+        std::vector<std::vector<uint8_t>> framePixels;
+        std::vector<uint32_t> frameLengthTicks;
+        uint32_t animationLengthTicks = 0;
+        size_t currentFrameIndex = 0;
     };
 
     struct HudFontGlyphMetrics
@@ -875,11 +878,7 @@ private:
     std::vector<TexturedTerrainVertex> m_cachedSkyVertices;
     std::string m_cachedSkyTextureName;
     float m_lastSkyUpdateElapsedTime = -1.0f;
-    std::vector<TexturedTerrainVertex> m_baseTexturedTerrainVertices;
-    std::vector<TexturedTerrainVertex> m_animatedTexturedTerrainVertices;
     std::vector<AnimatedWaterTerrainTileState> m_animatedWaterTerrainTiles;
-    int m_lastWaterTerrainScrollX = -1;
-    int m_lastWaterTerrainScrollY = -1;
     SpriteLoadCache m_spriteLoadCache;
     uint32_t m_lastPortraitAnimationUpdateTicks = 0;
     std::vector<uint16_t> m_pendingSpriteFrameWarmups;

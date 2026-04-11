@@ -176,6 +176,76 @@ std::vector<uint8_t> compositeOverlayPixels(
     return compositedPixels;
 }
 
+const SurfaceAnimationSequence *findTextureAnimationBinding(
+    const std::vector<std::pair<std::string, SurfaceAnimationSequence>> &bindings,
+    const std::string &textureName)
+{
+    const std::string normalizedTextureName = toLowerCopy(textureName);
+
+    for (const auto &binding : bindings)
+    {
+        if (binding.first == normalizedTextureName)
+        {
+            return &binding.second;
+        }
+    }
+
+    return nullptr;
+}
+
+const OutdoorBitmapTexture *findBitmapTexture(
+    const OutdoorBModelTextureSet &textureSet,
+    const std::string &textureName)
+{
+    const std::string normalizedTextureName = toLowerCopy(textureName);
+
+    for (const OutdoorBitmapTexture &texture : textureSet.textures)
+    {
+        if (toLowerCopy(texture.textureName) == normalizedTextureName)
+        {
+            return &texture;
+        }
+    }
+
+    return nullptr;
+}
+
+size_t frameIndexForAnimation(
+    const std::vector<uint32_t> &frameLengthTicks,
+    uint32_t animationLengthTicks,
+    uint32_t elapsedTicks)
+{
+    if (frameLengthTicks.empty() || frameLengthTicks.size() == 1 || animationLengthTicks == 0)
+    {
+        return 0;
+    }
+
+    uint32_t localTicks = elapsedTicks % animationLengthTicks;
+
+    for (size_t frameIndex = 0; frameIndex < frameLengthTicks.size(); ++frameIndex)
+    {
+        const uint32_t length = frameLengthTicks[frameIndex];
+
+        if (length == 0 || localTicks < length)
+        {
+            return frameIndex;
+        }
+
+        localTicks -= length;
+    }
+
+    return frameLengthTicks.size() - 1;
+}
+
+SurfaceAnimationSequence staticSurfaceAnimation(const std::string &textureName)
+{
+    SurfaceAnimationSequence animation = {};
+    SurfaceAnimationFrame frame = {};
+    frame.textureName = textureName;
+    animation.frames.push_back(std::move(frame));
+    return animation;
+}
+
 } // namespace
 
 void OutdoorRenderer::initializeAnimatedWaterTileState(
@@ -183,8 +253,6 @@ void OutdoorRenderer::initializeAnimatedWaterTileState(
     const std::optional<OutdoorTerrainTextureAtlas> &outdoorTerrainTextureAtlas)
 {
     view.m_animatedWaterTerrainTiles.clear();
-    view.m_lastWaterTerrainScrollX = -1;
-    view.m_lastWaterTerrainScrollY = -1;
 
     if (!outdoorTerrainTextureAtlas || outdoorTerrainTextureAtlas->animatedWaterTiles.empty())
     {
@@ -197,79 +265,52 @@ void OutdoorRenderer::initializeAnimatedWaterTileState(
     {
         OutdoorGameView::AnimatedWaterTerrainTileState tileState = {};
         tileState.region = source.region;
-        tileState.basePixels = source.basePixels;
-        tileState.overlayPixels = source.overlayPixels;
-        tileState.animatedPixels = source.basePixels;
+        tileState.framePixels = source.framePixels;
+        tileState.animationLengthTicks = source.animation.animationLengthTicks;
+        tileState.currentFrameIndex = source.currentFrameIndex;
+
+        for (const SurfaceAnimationFrame &frame : source.animation.frames)
+        {
+            tileState.frameLengthTicks.push_back(frame.frameLengthTicks);
+        }
+
         view.m_animatedWaterTerrainTiles.push_back(std::move(tileState));
     }
 }
 
 void OutdoorRenderer::updateAnimatedWaterTileTexture(OutdoorGameView &view)
 {
-    // TODO(outdoor): Replace this CPU-side atlas rewrite with shader-side water animation.
-    // The current approach is intentionally small and works for DWI, but it uploads animated water
-    // regions back into the terrain atlas and recomposites shoreline overlays on the CPU.
-    // Revisit this with a terrain shader uniform / water-specific path so animated water and
-    // shoreline water cost near-zero per frame and no longer depend on atlas subimage updates.
     if (!bgfx::isValid(view.m_terrainTextureAtlasHandle) || view.m_animatedWaterTerrainTiles.empty())
     {
         return;
     }
 
-    const OutdoorGameView::AnimatedWaterTerrainTileState &firstTile = view.m_animatedWaterTerrainTiles.front();
-    const int tileSize = static_cast<int>(std::lround(std::sqrt(firstTile.basePixels.size() / 4.0)));
-
-    if (tileSize <= 0)
-    {
-        return;
-    }
-
-    const int scrollX = static_cast<int>(view.m_elapsedTime * 10.0f) % tileSize;
-    const int scrollY = static_cast<int>(view.m_elapsedTime * 6.0f) % tileSize;
-
-    if (scrollX == view.m_lastWaterTerrainScrollX && scrollY == view.m_lastWaterTerrainScrollY)
-    {
-        return;
-    }
-
-    view.m_lastWaterTerrainScrollX = scrollX;
-    view.m_lastWaterTerrainScrollY = scrollY;
+    const uint32_t animationTicks = static_cast<uint32_t>(std::lround(view.m_elapsedTime * 128.0f));
 
     for (OutdoorGameView::AnimatedWaterTerrainTileState &tileState : view.m_animatedWaterTerrainTiles)
     {
-        if (tileState.basePixels.size() != static_cast<size_t>(tileSize * tileSize * 4))
+        if (tileState.framePixels.empty())
         {
             continue;
         }
 
-        tileState.animatedPixels.resize(tileState.basePixels.size());
+        const size_t frameIndex = frameIndexForAnimation(
+            tileState.frameLengthTicks,
+            tileState.animationLengthTicks,
+            animationTicks);
 
-        for (int targetY = 0; targetY < tileSize; ++targetY)
+        if (frameIndex >= tileState.framePixels.size() || frameIndex == tileState.currentFrameIndex)
         {
-            const int sourceY = (targetY + scrollY) % tileSize;
-
-            for (int targetX = 0; targetX < tileSize; ++targetX)
-            {
-                const int sourceX = (targetX + scrollX) % tileSize;
-                const size_t sourceOffset = static_cast<size_t>((sourceY * tileSize + sourceX) * 4);
-                const size_t targetOffset = static_cast<size_t>((targetY * tileSize + targetX) * 4);
-
-                tileState.animatedPixels[targetOffset + 0] = tileState.basePixels[sourceOffset + 0];
-                tileState.animatedPixels[targetOffset + 1] = tileState.basePixels[sourceOffset + 1];
-                tileState.animatedPixels[targetOffset + 2] = tileState.basePixels[sourceOffset + 2];
-                tileState.animatedPixels[targetOffset + 3] = tileState.basePixels[sourceOffset + 3];
-            }
+            continue;
         }
 
-        if (!tileState.overlayPixels.empty())
-        {
-            tileState.animatedPixels = compositeOverlayPixels(tileState.animatedPixels, tileState.overlayPixels);
-        }
+        const std::vector<uint8_t> &framePixels = tileState.framePixels[frameIndex];
+        const int tileSize = static_cast<int>(std::lround(std::sqrt(framePixels.size() / 4.0)));
 
         const float regionWidth = tileState.region.u1 - tileState.region.u0;
         const float regionHeight = tileState.region.v1 - tileState.region.v0;
 
-        if (regionWidth <= 0.0f || regionHeight <= 0.0f)
+        if (tileSize <= 0 || regionWidth <= 0.0f || regionHeight <= 0.0f)
         {
             continue;
         }
@@ -294,8 +335,10 @@ void OutdoorRenderer::updateAnimatedWaterTileTexture(OutdoorGameView &view)
             static_cast<uint16_t>(tileSize),
             static_cast<uint16_t>(tileSize),
             bgfx::copy(
-                tileState.animatedPixels.data(),
-                static_cast<uint32_t>(tileState.animatedPixels.size())));
+                framePixels.data(),
+                static_cast<uint32_t>(framePixels.size())));
+
+        tileState.currentFrameIndex = frameIndex;
     }
 }
 
@@ -783,26 +826,69 @@ void OutdoorRenderer::createBModelTextureBatches(
                 static_cast<uint32_t>(
                     texturedBModelVertices.size() * sizeof(OutdoorGameView::TexturedTerrainVertex))),
             OutdoorGameView::TexturedTerrainVertex::ms_layout);
-        batch.textureHandle = bgfx::createTexture2D(
-            static_cast<uint16_t>(texture.physicalWidth),
-            static_cast<uint16_t>(texture.physicalHeight),
-            false,
-            1,
-            bgfx::TextureFormat::BGRA8,
-            BGFX_SAMPLER_MIN_POINT | BGFX_SAMPLER_MAG_POINT,
-            bgfx::copy(texture.pixels.data(), static_cast<uint32_t>(texture.pixels.size())));
         batch.vertexCount = static_cast<uint32_t>(texturedBModelVertices.size());
 
-        if (!bgfx::isValid(batch.vertexBufferHandle) || !bgfx::isValid(batch.textureHandle))
+        const SurfaceAnimationSequence *pAnimation =
+            findTextureAnimationBinding(outdoorBModelTextureSet->animationBindings, texture.textureName);
+        SurfaceAnimationSequence animation = pAnimation != nullptr ? *pAnimation : staticSurfaceAnimation(texture.textureName);
+        batch.animationLengthTicks = animation.animationLengthTicks;
+
+        for (const SurfaceAnimationFrame &frame : animation.frames)
+        {
+            const OutdoorBitmapTexture *pFrameTexture = findBitmapTexture(*outdoorBModelTextureSet, frame.textureName);
+
+            if (pFrameTexture == nullptr)
+            {
+                continue;
+            }
+
+            const bgfx::TextureHandle textureHandle = bgfx::createTexture2D(
+                static_cast<uint16_t>(pFrameTexture->physicalWidth),
+                static_cast<uint16_t>(pFrameTexture->physicalHeight),
+                false,
+                1,
+                bgfx::TextureFormat::BGRA8,
+                BGFX_SAMPLER_MIN_POINT | BGFX_SAMPLER_MAG_POINT,
+                bgfx::copy(pFrameTexture->pixels.data(), static_cast<uint32_t>(pFrameTexture->pixels.size())));
+
+            if (bgfx::isValid(textureHandle))
+            {
+                batch.frameTextureHandles.push_back(textureHandle);
+                batch.frameLengthTicks.push_back(frame.frameLengthTicks);
+            }
+        }
+
+        if (batch.frameTextureHandles.empty())
+        {
+            const bgfx::TextureHandle textureHandle = bgfx::createTexture2D(
+                static_cast<uint16_t>(texture.physicalWidth),
+                static_cast<uint16_t>(texture.physicalHeight),
+                false,
+                1,
+                bgfx::TextureFormat::BGRA8,
+                BGFX_SAMPLER_MIN_POINT | BGFX_SAMPLER_MAG_POINT,
+                bgfx::copy(texture.pixels.data(), static_cast<uint32_t>(texture.pixels.size())));
+
+            if (bgfx::isValid(textureHandle))
+            {
+                batch.frameTextureHandles.push_back(textureHandle);
+                batch.frameLengthTicks.push_back(0);
+            }
+        }
+
+        if (!bgfx::isValid(batch.vertexBufferHandle) || batch.frameTextureHandles.empty())
         {
             if (bgfx::isValid(batch.vertexBufferHandle))
             {
                 bgfx::destroy(batch.vertexBufferHandle);
             }
 
-            if (bgfx::isValid(batch.textureHandle))
+            for (bgfx::TextureHandle textureHandle : batch.frameTextureHandles)
             {
-                bgfx::destroy(batch.textureHandle);
+                if (bgfx::isValid(textureHandle))
+                {
+                    bgfx::destroy(textureHandle);
+                }
             }
 
             continue;
@@ -841,8 +927,6 @@ bool OutdoorRenderer::initializeWorldRenderResources(
     }
 
     initializeAnimatedWaterTileState(view, outdoorTerrainTextureAtlas);
-    view.m_baseTexturedTerrainVertices = texturedTerrainVertices;
-    view.m_animatedTexturedTerrainVertices = texturedTerrainVertices;
 
     if (vertices.empty() || indices.empty())
     {
@@ -1135,23 +1219,6 @@ OutdoorRenderer::WorldPassTimings OutdoorRenderer::renderWorldPasses(
         {
             updateAnimatedWaterTileTexture(view);
 
-            if (!view.m_baseTexturedTerrainVertices.empty()
-                && view.m_baseTexturedTerrainVertices.size() == view.m_animatedTexturedTerrainVertices.size())
-            {
-                view.m_animatedTexturedTerrainVertices = view.m_baseTexturedTerrainVertices;
-
-                bgfx::update(
-                    view.m_texturedTerrainVertexBufferHandle,
-                    0,
-                    bgfx::copy(
-                        view.m_animatedTexturedTerrainVertices.data(),
-                        static_cast<uint32_t>(
-                            view.m_animatedTexturedTerrainVertices.size()
-                            * sizeof(OutdoorGameView::TexturedTerrainVertex))
-                    )
-                );
-            }
-
             bgfx::setVertexBuffer(0, view.m_texturedTerrainVertexBufferHandle);
             bgfx::setTexture(0, view.m_terrainTextureSamplerHandle, view.m_terrainTextureAtlasHandle);
             bgfx::setState(
@@ -1194,15 +1261,26 @@ OutdoorRenderer::WorldPassTimings OutdoorRenderer::renderWorldPasses(
                 for (const OutdoorGameView::TexturedBModelBatch &batch : view.m_texturedBModelBatches)
                 {
                     if (!bgfx::isValid(batch.vertexBufferHandle)
-                        || !bgfx::isValid(batch.textureHandle)
+                        || batch.frameTextureHandles.empty()
                         || batch.vertexCount == 0)
+                    {
+                        continue;
+                    }
+
+                    const size_t frameIndex = frameIndexForAnimation(
+                        batch.frameLengthTicks,
+                        batch.animationLengthTicks,
+                        static_cast<uint32_t>(std::lround(view.m_elapsedTime * 128.0f)));
+
+                    if (frameIndex >= batch.frameTextureHandles.size()
+                        || !bgfx::isValid(batch.frameTextureHandles[frameIndex]))
                     {
                         continue;
                     }
 
                     bgfx::setTransform(modelMatrix);
                     bgfx::setVertexBuffer(0, batch.vertexBufferHandle, 0, batch.vertexCount);
-                    bgfx::setTexture(0, view.m_terrainTextureSamplerHandle, batch.textureHandle);
+                    bgfx::setTexture(0, view.m_terrainTextureSamplerHandle, batch.frameTextureHandles[frameIndex]);
                     bgfx::setState(
                         BGFX_STATE_WRITE_RGB
                         | BGFX_STATE_WRITE_A

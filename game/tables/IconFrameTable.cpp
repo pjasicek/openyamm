@@ -1,59 +1,55 @@
 #include "game/tables/IconFrameTable.h"
 
-#include "game/BinaryReader.h"
 #include "game/StringUtils.h"
+
+#include <cctype>
 
 namespace OpenYAMM::Game
 {
 namespace
 {
-constexpr size_t IconFrameRecordSize = 32;
-}
-
-bool IconFrameTable::loadFromBytes(const std::vector<uint8_t> &bytes)
+bool isNumericString(const std::string &value)
 {
-    const ByteReader reader(bytes);
-    uint32_t frameCount = 0;
-
-    if (!reader.readUInt32(0, frameCount))
+    if (value.empty())
     {
         return false;
     }
 
-    const size_t expectedSize = sizeof(uint32_t) + static_cast<size_t>(frameCount) * IconFrameRecordSize;
-
-    if (!reader.canRead(0, expectedSize))
+    for (char character : value)
     {
-        return false;
-    }
-
-    m_frames.clear();
-    m_animationIdByName.clear();
-    m_frames.reserve(frameCount);
-
-    for (uint32_t index = 0; index < frameCount; ++index)
-    {
-        const size_t offset = sizeof(uint32_t) + static_cast<size_t>(index) * IconFrameRecordSize;
-        IconFrameEntry entry = {};
-        int16_t frameLength = 0;
-        int16_t animationLength = 0;
-
-        entry.animationName = reader.readFixedString(offset + 0x00, 12, true);
-        entry.textureName = reader.readFixedString(offset + 0x0c, 12, true);
-
-        if (!reader.readInt16(offset + 0x18, frameLength)
-            || !reader.readInt16(offset + 0x1a, animationLength)
-            || !reader.readUInt16(offset + 0x1c, entry.flags))
+        if (!std::isdigit(static_cast<unsigned char>(character)))
         {
             return false;
         }
+    }
 
-        entry.frameLengthTicks = static_cast<int32_t>(frameLength) * 8;
-        entry.animationLengthTicks = static_cast<int32_t>(animationLength) * 8;
+    return true;
+}
+}
+
+bool IconFrameTable::loadRows(const std::vector<std::vector<std::string>> &rows)
+{
+    m_frames.clear();
+    m_animationIdByName.clear();
+    m_frames.reserve(rows.size());
+
+    for (const std::vector<std::string> &row : rows)
+    {
+        if (row.size() < 5 || !isNumericString(row[2]) || !isNumericString(row[3]))
+        {
+            continue;
+        }
+
+        IconFrameEntry entry = {};
+        entry.animationName = row[0];
+        entry.textureName = row[1];
+        entry.frameLengthTicks = static_cast<int32_t>(std::stoi(row[2])) * 8;
+        entry.animationLengthTicks = static_cast<int32_t>(std::stoi(row[3])) * 8;
+        entry.flags = static_cast<uint16_t>(std::stoul(row[4], nullptr, 0));
 
         if (!entry.animationName.empty() && hasFlag(entry.flags, IconFrameFlag::First))
         {
-            m_animationIdByName[entry.animationName] = m_frames.size();
+            m_animationIdByName[toLowerCopy(entry.animationName)] = m_frames.size();
         }
 
         m_frames.push_back(std::move(entry));

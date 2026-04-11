@@ -3,6 +3,8 @@
 #include "game/outdoor/OutdoorGeometryUtils.h"
 #include "game/SpriteObjectDefs.h"
 #include "game/StringUtils.h"
+#include "game/tables/SurfaceMaterialTable.h"
+#include "game/tables/TextureFrameTable.h"
 #include "engine/TextTable.h"
 
 #include <SDL3/SDL.h>
@@ -250,6 +252,159 @@ bool loadDecorationRows(
     }
 
     return true;
+}
+
+bool loadTextureFrameRows(
+    const Engine::AssetFileSystem &assetFileSystem,
+    std::vector<std::vector<std::string>> &rows)
+{
+    rows.clear();
+
+    const std::optional<std::string> contents =
+        assetFileSystem.readTextFile(dataTablePath("texture_frame_data.txt"));
+
+    if (!contents)
+    {
+        return false;
+    }
+
+    const std::optional<Engine::TextTable> parsedTable = Engine::TextTable::parseTabSeparated(*contents);
+
+    if (!parsedTable)
+    {
+        return false;
+    }
+
+    rows.reserve(parsedTable->getRowCount());
+
+    for (size_t rowIndex = 0; rowIndex < parsedTable->getRowCount(); ++rowIndex)
+    {
+        rows.push_back(parsedTable->getRow(rowIndex));
+    }
+
+    return true;
+}
+
+std::optional<TextureFrameTable> loadTextureFrameTable(const Engine::AssetFileSystem &assetFileSystem)
+{
+    std::vector<std::vector<std::string>> rows;
+
+    if (!loadTextureFrameRows(assetFileSystem, rows))
+    {
+        return std::nullopt;
+    }
+
+    TextureFrameTable textureFrameTable = {};
+
+    if (!textureFrameTable.loadRows(rows))
+    {
+        return std::nullopt;
+    }
+
+    return textureFrameTable;
+}
+
+std::optional<SurfaceMaterialTable> loadSurfaceMaterialTable(const Engine::AssetFileSystem &assetFileSystem)
+{
+    const std::optional<std::string> contents =
+        assetFileSystem.readTextFile("Data/rendering/surface_materials.yml");
+
+    if (!contents)
+    {
+        return std::nullopt;
+    }
+
+    SurfaceMaterialTable materialTable = {};
+    std::string errorMessage;
+
+    if (!materialTable.loadFromYaml(*contents, errorMessage))
+    {
+        std::cerr << "Failed to load surface materials: " << errorMessage << '\n';
+        return std::nullopt;
+    }
+
+    return materialTable;
+}
+
+SurfaceAnimationSequence staticSurfaceAnimation(const std::string &textureName)
+{
+    SurfaceAnimationSequence animation = {};
+    SurfaceAnimationFrame frame = {};
+    frame.textureName = textureName;
+    animation.frames.push_back(std::move(frame));
+    return animation;
+}
+
+SurfaceAnimationSequence resolveSurfaceAnimation(
+    const std::string &textureName,
+    uint32_t faceAttributes,
+    bool isTerrain,
+    const TextureFrameTable *pTextureFrameTable,
+    const SurfaceMaterialTable *pSurfaceMaterialTable,
+    std::optional<size_t> textureFrameTableIndex = std::nullopt)
+{
+    if (pSurfaceMaterialTable != nullptr)
+    {
+        if (const SurfaceMaterialDefinition *pMaterial =
+                pSurfaceMaterialTable->findMatch(textureName, faceAttributes, isTerrain);
+            pMaterial != nullptr && !pMaterial->animation.empty())
+        {
+            return pMaterial->animation;
+        }
+    }
+
+    if (!isTerrain && pTextureFrameTable != nullptr)
+    {
+        if (const std::optional<SurfaceAnimationSequence> animation =
+                pTextureFrameTable->findAnimationSequenceByName(textureName))
+        {
+            return *animation;
+        }
+    }
+
+    if (!isTerrain && pTextureFrameTable != nullptr && textureFrameTableIndex && *textureFrameTableIndex > 0)
+    {
+        if (const std::optional<SurfaceAnimationSequence> animation =
+                pTextureFrameTable->findAnimationSequenceByIndex(*textureFrameTableIndex))
+        {
+            return *animation;
+        }
+    }
+
+    return staticSurfaceAnimation(textureName);
+}
+
+void appendTextureAnimationBindingIfMissing(
+    std::vector<std::pair<std::string, SurfaceAnimationSequence>> &bindings,
+    const std::string &textureName,
+    const SurfaceAnimationSequence &animation)
+{
+    const std::string normalizedTextureName = toLowerCopy(textureName);
+
+    for (const auto &binding : bindings)
+    {
+        if (binding.first == normalizedTextureName)
+        {
+            return;
+        }
+    }
+
+    bindings.emplace_back(normalizedTextureName, animation);
+}
+
+void appendAnimationTextureNamesIfMissing(
+    std::vector<std::string> &textureNames,
+    const SurfaceAnimationSequence &animation)
+{
+    for (const SurfaceAnimationFrame &frame : animation.frames)
+    {
+        const std::string normalizedTextureName = toLowerCopy(frame.textureName);
+
+        if (std::find(textureNames.begin(), textureNames.end(), normalizedTextureName) == textureNames.end())
+        {
+            textureNames.push_back(normalizedTextureName);
+        }
+    }
 }
 
 uint32_t makeAbgr(uint8_t red, uint8_t green, uint8_t blue)
@@ -1950,7 +2105,8 @@ std::optional<std::vector<uint32_t>> buildOutdoorTileColors(
 std::optional<OutdoorTerrainTextureAtlas> buildOutdoorTerrainTextureAtlas(
     const Engine::AssetFileSystem &assetFileSystem,
     const OutdoorMapData &outdoorMapData,
-    BitmapLoadCache &bitmapLoadCache
+    BitmapLoadCache &bitmapLoadCache,
+    const SurfaceMaterialTable *pSurfaceMaterialTable
 )
 {
     const std::optional<std::vector<std::string>> tileTextureNames = loadTileTextureNames(assetFileSystem, outdoorMapData);
@@ -1967,7 +2123,7 @@ std::optional<OutdoorTerrainTextureAtlas> buildOutdoorTerrainTextureAtlas(
     textureAtlas.height = TerrainTextureAtlasColumns * terrainTileSize;
     textureAtlas.pixels.resize(static_cast<size_t>(textureAtlas.width * textureAtlas.height * 4), 0);
 
-    std::unordered_map<std::string, std::vector<uint8_t>> waterBasePixelsByName;
+    std::unordered_map<std::string, std::vector<std::vector<uint8_t>>> animatedTerrainFramesByKey;
 
     for (int tileIndex = 0; tileIndex < 256; ++tileIndex)
     {
@@ -1998,55 +2154,67 @@ std::optional<OutdoorTerrainTextureAtlas> buildOutdoorTerrainTextureAtlas(
         }
 
         std::vector<uint8_t> resolvedTilePixels = *tilePixels;
-        std::vector<uint8_t> animatedWaterBasePixels;
-        std::vector<uint8_t> animatedWaterOverlayPixels;
+        std::vector<std::vector<uint8_t>> animatedSurfaceFrames;
+        SurfaceAnimationSequence surfaceAnimation = staticSurfaceAnimation(textureName);
+        const SurfaceMaterialDefinition *pSurfaceMaterial =
+            pSurfaceMaterialTable != nullptr ? pSurfaceMaterialTable->findMatch(textureName, 0, true) : nullptr;
 
-        if (isAnimatedWaterTerrainTexture(textureName))
+        if (pSurfaceMaterial != nullptr && !pSurfaceMaterial->animation.empty())
         {
-            const std::string waterBaseTextureName = waterBaseTextureNameForTerrainTexture(textureName);
-            const std::string normalizedWaterBaseTextureName = toLowerCopy(waterBaseTextureName);
-            const auto cachedWaterBaseIt = waterBasePixelsByName.find(normalizedWaterBaseTextureName);
+            surfaceAnimation = pSurfaceMaterial->animation;
+            const std::string cacheKey = pSurfaceMaterial->id + "|" + toLowerCopy(textureName);
+            const auto cachedFramesIt = animatedTerrainFramesByKey.find(cacheKey);
 
-            if (cachedWaterBaseIt != waterBasePixelsByName.end())
+            if (cachedFramesIt != animatedTerrainFramesByKey.end())
             {
-                animatedWaterBasePixels = cachedWaterBaseIt->second;
+                animatedSurfaceFrames = cachedFramesIt->second;
             }
             else
             {
-                int waterTextureWidth = 0;
-                int waterTextureHeight = 0;
-                const std::optional<std::vector<uint8_t>> waterTilePixels =
-                    loadBitmapPixelsBgra(
-                        assetFileSystem,
-                        "Data/bitmaps",
-                        waterBaseTextureName,
-                        waterTextureWidth,
-                        waterTextureHeight,
-                        true,
-                        false,
-                        bitmapLoadCache
-                    );
+                animatedSurfaceFrames.reserve(pSurfaceMaterial->animation.frames.size());
 
-                if (waterTilePixels
-                    && waterTextureWidth == terrainTileSize
-                    && waterTextureHeight == terrainTileSize)
+                for (const SurfaceAnimationFrame &frame : pSurfaceMaterial->animation.frames)
                 {
-                    animatedWaterBasePixels = *waterTilePixels;
-                    waterBasePixelsByName.emplace(normalizedWaterBaseTextureName, animatedWaterBasePixels);
+                    int frameWidth = 0;
+                    int frameHeight = 0;
+                    const std::optional<std::vector<uint8_t>> framePixels =
+                        loadBitmapPixelsBgra(
+                            assetFileSystem,
+                            "Data/bitmaps",
+                            frame.textureName,
+                            frameWidth,
+                            frameHeight,
+                            true,
+                            false,
+                            bitmapLoadCache
+                        );
+
+                    if (!framePixels || frameWidth != terrainTileSize || frameHeight != terrainTileSize)
+                    {
+                        animatedSurfaceFrames.clear();
+                        break;
+                    }
+
+                    if (pSurfaceMaterial->terrainTransitionOverlay && isWaterTransitionTerrainTexture(textureName))
+                    {
+                        animatedSurfaceFrames.push_back(
+                            compositeTerrainOverlayOverBase(*framePixels, *tilePixels));
+                    }
+                    else
+                    {
+                        animatedSurfaceFrames.push_back(*framePixels);
+                    }
+                }
+
+                if (!animatedSurfaceFrames.empty())
+                {
+                    animatedTerrainFramesByKey.emplace(cacheKey, animatedSurfaceFrames);
                 }
             }
 
-            if (!animatedWaterBasePixels.empty())
+            if (!animatedSurfaceFrames.empty())
             {
-                if (isWaterTransitionTerrainTexture(textureName))
-                {
-                    animatedWaterOverlayPixels = *tilePixels;
-                    resolvedTilePixels = compositeTerrainOverlayOverBase(animatedWaterBasePixels, animatedWaterOverlayPixels);
-                }
-                else
-                {
-                    resolvedTilePixels = animatedWaterBasePixels;
-                }
+                resolvedTilePixels = animatedSurfaceFrames.front();
             }
         }
 
@@ -2074,15 +2242,17 @@ std::optional<OutdoorTerrainTextureAtlas> buildOutdoorTerrainTextureAtlas(
         region.u1 = static_cast<float>(atlasX + terrainTileSize) / static_cast<float>(textureAtlas.width);
         region.v1 = static_cast<float>(atlasY + terrainTileSize) / static_cast<float>(textureAtlas.height);
         region.isValid = true;
-        region.isWater = isAnimatedWaterTerrainTexture(textureName);
+        region.isWater = pSurfaceMaterial != nullptr
+            && pSurfaceMaterial->semantic == SurfaceMaterialSemantic::Water;
         textureAtlas.tileRegions[static_cast<size_t>(tileIndex)] = region;
 
-        if (!animatedWaterBasePixels.empty())
+        if (!animatedSurfaceFrames.empty())
         {
             OutdoorAnimatedWaterTileSource animatedWaterTile = {};
             animatedWaterTile.region = region;
-            animatedWaterTile.basePixels = std::move(animatedWaterBasePixels);
-            animatedWaterTile.overlayPixels = std::move(animatedWaterOverlayPixels);
+            animatedWaterTile.framePixels = std::move(animatedSurfaceFrames);
+            animatedWaterTile.animation = surfaceAnimation;
+            animatedWaterTile.currentFrameIndex = 0;
             textureAtlas.animatedWaterTiles.push_back(std::move(animatedWaterTile));
         }
     }
@@ -2093,10 +2263,13 @@ std::optional<OutdoorTerrainTextureAtlas> buildOutdoorTerrainTextureAtlas(
 std::optional<OutdoorBModelTextureSet> buildOutdoorBModelTextureSet(
     const Engine::AssetFileSystem &assetFileSystem,
     const OutdoorMapData &outdoorMapData,
-    BitmapLoadCache &bitmapLoadCache
+    BitmapLoadCache &bitmapLoadCache,
+    const TextureFrameTable *pTextureFrameTable,
+    const SurfaceMaterialTable *pSurfaceMaterialTable
 )
 {
     std::vector<std::string> textureNames;
+    std::vector<std::pair<std::string, SurfaceAnimationSequence>> animationBindings;
 
     for (const OutdoorBModel &bmodel : outdoorMapData.bmodels)
     {
@@ -2108,11 +2281,17 @@ std::optional<OutdoorBModelTextureSet> buildOutdoorBModelTextureSet(
             }
 
             const std::string normalizedName = toLowerCopy(face.textureName);
+            const SurfaceAnimationSequence animation =
+                resolveSurfaceAnimation(
+                    face.textureName,
+                    face.attributes,
+                    false,
+                    pTextureFrameTable,
+                    pSurfaceMaterialTable);
 
-            if (std::find(textureNames.begin(), textureNames.end(), normalizedName) == textureNames.end())
-            {
-                textureNames.push_back(normalizedName);
-            }
+            appendTextureNameIfMissing(textureNames, normalizedName);
+            appendAnimationTextureNamesIfMissing(textureNames, animation);
+            appendTextureAnimationBindingIfMissing(animationBindings, normalizedName, animation);
         }
     }
 
@@ -2122,6 +2301,7 @@ std::optional<OutdoorBModelTextureSet> buildOutdoorBModelTextureSet(
     }
 
     OutdoorBModelTextureSet textureSet = {};
+    textureSet.animationBindings = animationBindings;
 
     for (const std::string &textureName : textureNames)
     {
@@ -2165,10 +2345,13 @@ std::optional<OutdoorBModelTextureSet> buildOutdoorBModelTextureSet(
 std::optional<IndoorTextureSet> buildIndoorTextureSet(
     const Engine::AssetFileSystem &assetFileSystem,
     const IndoorMapData &indoorMapData,
-    BitmapLoadCache &bitmapLoadCache
+    BitmapLoadCache &bitmapLoadCache,
+    const TextureFrameTable *pTextureFrameTable,
+    const SurfaceMaterialTable *pSurfaceMaterialTable
 )
 {
     std::vector<std::string> textureNames;
+    std::vector<std::pair<std::string, SurfaceAnimationSequence>> animationBindings;
 
     for (const IndoorFace &face : indoorMapData.faces)
     {
@@ -2178,11 +2361,20 @@ std::optional<IndoorTextureSet> buildIndoorTextureSet(
         }
 
         const std::string normalizedName = toLowerCopy(face.textureName);
+        const std::optional<size_t> textureFrameTableIndex =
+            face.textureFrameTableIndex > 0 ? std::optional<size_t>(face.textureFrameTableIndex) : std::nullopt;
+        const SurfaceAnimationSequence animation =
+            resolveSurfaceAnimation(
+                face.textureName,
+                face.attributes,
+                false,
+                pTextureFrameTable,
+                pSurfaceMaterialTable,
+                textureFrameTableIndex);
 
-        if (std::find(textureNames.begin(), textureNames.end(), normalizedName) == textureNames.end())
-        {
-            textureNames.push_back(normalizedName);
-        }
+        appendTextureNameIfMissing(textureNames, normalizedName);
+        appendAnimationTextureNamesIfMissing(textureNames, animation);
+        appendTextureAnimationBindingIfMissing(animationBindings, normalizedName, animation);
     }
 
     if (textureNames.empty())
@@ -2191,6 +2383,7 @@ std::optional<IndoorTextureSet> buildIndoorTextureSet(
     }
 
     IndoorTextureSet textureSet = {};
+    textureSet.animationBindings = animationBindings;
 
     for (const std::string &textureName : textureNames)
     {
@@ -2295,6 +2488,17 @@ std::optional<MapAssetInfo> MapAssetLoader::load(
         }
     }
 
+    std::optional<TextureFrameTable> textureFrameTable;
+    std::optional<SurfaceMaterialTable> surfaceMaterialTable;
+
+    if (purpose == MapLoadPurpose::Full || purpose == MapLoadPurpose::FullGameplay)
+    {
+        textureFrameTable = loadTextureFrameTable(assetFileSystem);
+        logStageComplete("texture frame table loaded");
+        surfaceMaterialTable = loadSurfaceMaterialTable(assetFileSystem);
+        logStageComplete("surface materials loaded");
+    }
+
     const std::string normalizedFileName = toLowerCopy(map.fileName);
 
     if (normalizedFileName.ends_with(".odm"))
@@ -2324,10 +2528,19 @@ std::optional<MapAssetInfo> MapAssetLoader::load(
                 assetInfo.outdoorTileColors = buildOutdoorTileColors(assetFileSystem, *assetInfo.outdoorMapData);
                 logStageComplete("outdoor tile colors built");
                 assetInfo.outdoorTerrainTextureAtlas =
-                    buildOutdoorTerrainTextureAtlas(assetFileSystem, *assetInfo.outdoorMapData, bitmapLoadCache);
+                    buildOutdoorTerrainTextureAtlas(
+                        assetFileSystem,
+                        *assetInfo.outdoorMapData,
+                        bitmapLoadCache,
+                        surfaceMaterialTable ? &*surfaceMaterialTable : nullptr);
                 logStageComplete("outdoor terrain textures built");
                 assetInfo.outdoorBModelTextureSet =
-                    buildOutdoorBModelTextureSet(assetFileSystem, *assetInfo.outdoorMapData, bitmapLoadCache);
+                    buildOutdoorBModelTextureSet(
+                        assetFileSystem,
+                        *assetInfo.outdoorMapData,
+                        bitmapLoadCache,
+                        textureFrameTable ? &*textureFrameTable : nullptr,
+                        surfaceMaterialTable ? &*surfaceMaterialTable : nullptr);
                 logStageComplete("outdoor bmodel textures built");
                 assetInfo.outdoorDecorationCollisionSet =
                     buildOutdoorDecorationCollisionSet(assetFileSystem, assetInfo.outdoorMapData->entities);
@@ -2447,7 +2660,9 @@ std::optional<MapAssetInfo> MapAssetLoader::load(
                 assetInfo.indoorTextureSet = buildIndoorTextureSet(
                     assetFileSystem,
                     *assetInfo.indoorMapData,
-                    bitmapLoadCache
+                    bitmapLoadCache,
+                    textureFrameTable ? &*textureFrameTable : nullptr,
+                    surfaceMaterialTable ? &*surfaceMaterialTable : nullptr
                 );
                 logStageComplete("indoor textures built");
                 assetInfo.indoorDecorationBillboardSet =

@@ -1,0 +1,413 @@
+// AnimationName is referenced by spell_fx.txt:Animation and portrait_fx_events.txt:Animation
+AnimationName	TextureName	FrameLengthRaw	AnimationLengthRaw	Flags	FlagNames
+	pending	0	0	0x0004	First
+glow01	glow01a	1	6	0x0005	HasMore|First
+glow01	glow01b	1	0	0x0001	HasMore
+glow01	glow01c	1	0	0x0001	HasMore
+glow01	glow01d	1	0	0x0001	HasMore
+glow01	glow01e	1	0	0x0001	HasMore
+glow01	glow01f	1	0	0x0000	
+glow02	glow02a	1	6	0x0005	HasMore|First
+glow02	glow02b	1	0	0x0001	HasMore
+glow02	glow02c	1	0	0x0001	HasMore
+glow02	glow02d	1	0	0x0001	HasMore
+glow02	glow02e	1	0	0x0001	HasMore
+glow02	glow02f	1	0	0x0000	
+glow03	glow03a	1	6	0x0005	HasMore|First
+glow03	glow03b	1	0	0x0001	HasMore
+glow03	glow03c	1	0	0x0001	HasMore
+glow03	glow03d	1	0	0x0001	HasMore
+glow03	glow03e	1	0	0x0001	HasMore
+glow03	glow03f	1	0	0x0000	
+glow04	glow04a	1	6	0x0005	HasMore|First
+glow04	glow04b	1	0	0x0001	HasMore
+glow04	glow04c	1	0	0x0001	HasMore
+glow04	glow04d	1	0	0x0001	HasMore
+glow04	glow04e	1	0	0x0001	HasMore
+glow04	glow04f	1	0	0x0000	
+glow05	glow05a	1	6	0x0005	HasMore|First
+glow05	glow05b	1	0	0x0001	HasMore
+glow05	glow05c	1	0	0x0001	HasMore
+glow05	glow05d	1	0	0x0001	HasMore
+glow05	glow05e	1	0	0x0001	HasMore
+glow05	glow05f	1	0	0x0000	
+fire	fr1	1	30	0x0005	HasMore|First
+fire	fr2	1	0	0x0001	HasMore
+fire	fr3	1	0	0x0001	HasMore
+fire	fr4	1	0	0x0001	HasMore
+fire	fr5	1	0	0x0001	HasMore
+fire	fr6	1	0	0x0001	HasMore
+fire	fr7	1	0	0x0001	HasMore
+fire	fr8	1	0	0x0001	HasMore
+fire	fr9	1	0	0x0001	HasMore
+fire	fr10	1	0	0x0001	HasMore
+fire	fr11	1	0	0x0001	HasMore
+fire	fr12	1	0	0x0001	HasMore
+fire	fr13	1	0	0x0001	HasMore
+fire	fr14	1	0	0x0001	HasMore
+fire	fr15	1	0	0x0001	HasMore
+fire	fr16	1	0	0x0001	HasMore
+fire	fr17	1	0	0x0001	HasMore
+fire	fr18	1	0	0x0001	HasMore
+fire	fr19	1	0	0x0001	HasMore
+fire	fr20	1	0	0x0001	HasMore
+fire	fr21	1	0	0x0001	HasMore
+fire	fr22	1	0	0x0001	HasMore
+fire	fr23	1	0	0x0001	HasMore
+fire	fr24	1	0	0x0001	HasMore
+fire	fr25	1	0	0x0001	HasMore
+fire	fr26	1	0	0x0001	HasMore
+fire	fr27	1	0	0x0001	HasMore
+fire	fr28	1	0	0x0001	HasMore
+fire	fr29	1	0	0x0001	HasMore
+fire	fr30	1	0	0x0000	
+aframe1	aframe1	1	6	0x0005	HasMore|First
+aframe1	aframe2	1	0	0x0001	HasMore
+aframe1	aframe3	1	0	0x0001	HasMore
+aframe1	aframe4	1	0	0x0001	HasMore
+aframe1	aframe5	1	0	0x0001	HasMore
+aframe1	aframe6	1	0	0x0000	
+turnstart	ia01-001	4	40	0x0005	HasMore|First
+turnstart	ia01-002	4	0	0x0001	HasMore
+turnstart	ia01-003	4	0	0x0001	HasMore
+turnstart	ia01-004	4	0	0x0001	HasMore
+turnstart	ia01-005	4	0	0x0001	HasMore
+turnstart	ia01-006	4	0	0x0001	HasMore
+turnstart	ia01-007	4	0	0x0001	HasMore
+turnstart	ia01-008	4	0	0x0001	HasMore
+turnstart	ia01-009	4	0	0x0001	HasMore
+turnstart	ia01-010	4	0	0x0000	
+turn0	ia01-015	3	3	0x0004	First
+turn1	ia01-014	3	3	0x0004	First
+turn2	ia01-013	3	3	0x0004	First
+turn3	ia01-012	3	3	0x0004	First
+turn4	ia01-011	3	3	0x0004	First
+turnstop	ia01-010	4	4	0x0004	First
+turnhour	ia02-001	2	20	0x0005	HasMore|First
+turnhour	ia02-002	2	0	0x0001	HasMore
+turnhour	ia02-003	2	0	0x0001	HasMore
+turnhour	ia02-004	2	0	0x0001	HasMore
+turnhour	ia02-005	2	0	0x0001	HasMore
+turnhour	ia02-006	2	0	0x0001	HasMore
+turnhour	ia02-007	2	0	0x0001	HasMore
+turnhour	ia02-008	2	0	0x0001	HasMore
+turnhour	ia02-009	2	0	0x0001	HasMore
+turnhour	ia02-010	2	0	0x0000	
+torchA	ia-03a-01	2	40	0x0005	HasMore|First
+torchA	ia-03a-02	2	0	0x0001	HasMore
+torchA	ia-03a-03	2	0	0x0001	HasMore
+torchA	ia-03a-04	2	0	0x0001	HasMore
+torchA	ia-03a-05	2	0	0x0001	HasMore
+torchA	ia-03a-06	2	0	0x0001	HasMore
+torchA	ia-03a-07	2	0	0x0001	HasMore
+torchA	ia-03a-08	2	0	0x0001	HasMore
+torchA	ia-03a-09	2	0	0x0001	HasMore
+torchA	ia-03a-10	2	0	0x0001	HasMore
+torchA	ia-03a-11	2	0	0x0001	HasMore
+torchA	ia-03a-12	2	0	0x0001	HasMore
+torchA	ia-03a-13	2	0	0x0001	HasMore
+torchA	ia-03a-14	2	0	0x0001	HasMore
+torchA	ia-03a-15	2	0	0x0001	HasMore
+torchA	ia-03a-16	2	0	0x0001	HasMore
+torchA	ia-03a-17	2	0	0x0001	HasMore
+torchA	ia-03a-18	2	0	0x0001	HasMore
+torchA	ia-03a-19	2	0	0x0001	HasMore
+torchA	ia-03a-20	2	0	0x0000	
+torchB	ia-03b-01	2	40	0x0005	HasMore|First
+torchB	ia-03b-02	2	0	0x0001	HasMore
+torchB	ia-03b-03	2	0	0x0001	HasMore
+torchB	ia-03b-04	2	0	0x0001	HasMore
+torchB	ia-03b-05	2	0	0x0001	HasMore
+torchB	ia-03b-06	2	0	0x0001	HasMore
+torchB	ia-03b-07	2	0	0x0001	HasMore
+torchB	ia-03b-08	2	0	0x0001	HasMore
+torchB	ia-03b-09	2	0	0x0001	HasMore
+torchB	ia-03b-10	2	0	0x0001	HasMore
+torchB	ia-03b-11	2	0	0x0001	HasMore
+torchB	ia-03b-12	2	0	0x0001	HasMore
+torchB	ia-03b-13	2	0	0x0001	HasMore
+torchB	ia-03b-14	2	0	0x0001	HasMore
+torchB	ia-03b-15	2	0	0x0001	HasMore
+torchB	ia-03b-16	2	0	0x0001	HasMore
+torchB	ia-03b-17	2	0	0x0001	HasMore
+torchB	ia-03b-18	2	0	0x0001	HasMore
+torchB	ia-03b-19	2	0	0x0001	HasMore
+torchB	ia-03b-20	2	0	0x0000	
+torchC	ia-03c-01	2	40	0x0005	HasMore|First
+torchC	ia-03c-02	2	0	0x0001	HasMore
+torchC	ia-03c-03	2	0	0x0001	HasMore
+torchC	ia-03c-04	2	0	0x0001	HasMore
+torchC	ia-03c-05	2	0	0x0001	HasMore
+torchC	ia-03c-06	2	0	0x0001	HasMore
+torchC	ia-03c-07	2	0	0x0001	HasMore
+torchC	ia-03c-08	2	0	0x0001	HasMore
+torchC	ia-03c-09	2	0	0x0001	HasMore
+torchC	ia-03c-10	2	0	0x0001	HasMore
+torchC	ia-03c-11	2	0	0x0001	HasMore
+torchC	ia-03c-12	2	0	0x0001	HasMore
+torchC	ia-03c-13	2	0	0x0001	HasMore
+torchC	ia-03c-14	2	0	0x0001	HasMore
+torchC	ia-03c-15	2	0	0x0001	HasMore
+torchC	ia-03c-16	2	0	0x0001	HasMore
+torchC	ia-03c-17	2	0	0x0001	HasMore
+torchC	ia-03c-18	2	0	0x0001	HasMore
+torchC	ia-03c-19	2	0	0x0001	HasMore
+torchC	ia-03c-20	2	0	0x0000	
+wizeyeA	ia-04a-01	2	40	0x0005	HasMore|First
+wizeyeA	ia-04a-02	2	0	0x0001	HasMore
+wizeyeA	ia-04a-03	2	0	0x0001	HasMore
+wizeyeA	ia-04a-04	2	0	0x0001	HasMore
+wizeyeA	ia-04a-05	2	0	0x0001	HasMore
+wizeyeA	ia-04a-06	2	0	0x0001	HasMore
+wizeyeA	ia-04a-07	2	0	0x0001	HasMore
+wizeyeA	ia-04a-08	2	0	0x0001	HasMore
+wizeyeA	ia-04a-09	2	0	0x0001	HasMore
+wizeyeA	ia-04a-10	2	0	0x0001	HasMore
+wizeyeA	ia-04a-11	2	0	0x0001	HasMore
+wizeyeA	ia-04a-12	2	0	0x0001	HasMore
+wizeyeA	ia-04a-13	2	0	0x0001	HasMore
+wizeyeA	ia-04a-14	2	0	0x0001	HasMore
+wizeyeA	ia-04a-15	2	0	0x0001	HasMore
+wizeyeA	ia-04a-16	2	0	0x0001	HasMore
+wizeyeA	ia-04a-17	2	0	0x0001	HasMore
+wizeyeA	ia-04a-18	2	0	0x0001	HasMore
+wizeyeA	ia-04a-19	2	0	0x0001	HasMore
+wizeyeA	ia-04a-20	2	0	0x0000	
+wizeyeB	ia-04b-01	2	40	0x0005	HasMore|First
+wizeyeB	ia-04b-02	2	0	0x0001	HasMore
+wizeyeB	ia-04b-03	2	0	0x0001	HasMore
+wizeyeB	ia-04b-04	2	0	0x0001	HasMore
+wizeyeB	ia-04b-05	2	0	0x0001	HasMore
+wizeyeB	ia-04b-06	2	0	0x0001	HasMore
+wizeyeB	ia-04b-07	2	0	0x0001	HasMore
+wizeyeB	ia-04b-08	2	0	0x0001	HasMore
+wizeyeB	ia-04b-09	2	0	0x0001	HasMore
+wizeyeB	ia-04b-10	2	0	0x0001	HasMore
+wizeyeB	ia-04b-11	2	0	0x0001	HasMore
+wizeyeB	ia-04b-12	2	0	0x0001	HasMore
+wizeyeB	ia-04b-13	2	0	0x0001	HasMore
+wizeyeB	ia-04b-14	2	0	0x0001	HasMore
+wizeyeB	ia-04b-15	2	0	0x0001	HasMore
+wizeyeB	ia-04b-16	2	0	0x0001	HasMore
+wizeyeB	ia-04b-17	2	0	0x0001	HasMore
+wizeyeB	ia-04b-18	2	0	0x0001	HasMore
+wizeyeB	ia-04b-19	2	0	0x0001	HasMore
+wizeyeB	ia-04b-20	2	0	0x0000	
+wizeyeC	ia-04c-01	2	40	0x0005	HasMore|First
+wizeyeC	ia-04c-02	2	0	0x0001	HasMore
+wizeyeC	ia-04c-03	2	0	0x0001	HasMore
+wizeyeC	ia-04c-04	2	0	0x0001	HasMore
+wizeyeC	ia-04c-05	2	0	0x0001	HasMore
+wizeyeC	ia-04c-06	2	0	0x0001	HasMore
+wizeyeC	ia-04c-07	2	0	0x0001	HasMore
+wizeyeC	ia-04c-08	2	0	0x0001	HasMore
+wizeyeC	ia-04c-09	2	0	0x0001	HasMore
+wizeyeC	ia-04c-10	2	0	0x0001	HasMore
+wizeyeC	ia-04c-11	2	0	0x0001	HasMore
+wizeyeC	ia-04c-12	2	0	0x0001	HasMore
+wizeyeC	ia-04c-13	2	0	0x0001	HasMore
+wizeyeC	ia-04c-14	2	0	0x0001	HasMore
+wizeyeC	ia-04c-15	2	0	0x0001	HasMore
+wizeyeC	ia-04c-16	2	0	0x0001	HasMore
+wizeyeC	ia-04c-17	2	0	0x0001	HasMore
+wizeyeC	ia-04c-18	2	0	0x0001	HasMore
+wizeyeC	ia-04c-19	2	0	0x0001	HasMore
+wizeyeC	ia-04c-20	2	0	0x0000	
+spell03	spell03e1	2	16	0x0005	HasMore|First
+spell03	spell03e2	2	0	0x0001	HasMore
+spell03	spell03e3	2	0	0x0001	HasMore
+spell03	spell03e4	2	0	0x0001	HasMore
+spell03	spell03e5	2	0	0x0001	HasMore
+spell03	spell03e6	2	0	0x0001	HasMore
+spell03	spell03e7	2	0	0x0001	HasMore
+spell03	spell03e8	2	0	0x0000	
+spell05	sp05e10	2	16	0x0005	HasMore|First
+spell05	sp05e20	2	0	0x0001	HasMore
+spell05	sp05e30	2	0	0x0001	HasMore
+spell05	sp05e40	2	0	0x0001	HasMore
+spell05	sp05e50	2	0	0x0001	HasMore
+spell05	sp05e60	2	0	0x0001	HasMore
+spell05	sp05e70	2	0	0x0001	HasMore
+spell05	sp05e80	2	0	0x0000	
+spell14	spell14e1	2	16	0x0005	HasMore|First
+spell14	spell14e2	2	0	0x0001	HasMore
+spell14	spell14e3	2	0	0x0001	HasMore
+spell14	spell14e4	2	0	0x0001	HasMore
+spell14	spell14e5	2	0	0x0001	HasMore
+spell14	spell14e6	2	0	0x0001	HasMore
+spell14	spell14e7	2	0	0x0001	HasMore
+spell14	spell14e8	2	0	0x0000	
+spell17	sp17e10	2	16	0x0005	HasMore|First
+spell17	sp17e20	2	0	0x0001	HasMore
+spell17	sp17e30	2	0	0x0001	HasMore
+spell17	sp17e40	2	0	0x0001	HasMore
+spell17	sp17e50	2	0	0x0001	HasMore
+spell17	sp17e60	2	0	0x0001	HasMore
+spell17	sp17e70	2	0	0x0001	HasMore
+spell17	sp17e80	2	0	0x0000	
+spell21	sp21a10	1	8	0x0005	HasMore|First
+spell21	sp21a20	1	0	0x0001	HasMore
+spell21	sp21a30	1	0	0x0001	HasMore
+spell21	sp21a40	1	0	0x0001	HasMore
+spell21	sp21a50	1	0	0x0001	HasMore
+spell21	sp21a60	1	0	0x0001	HasMore
+spell21	sp21a70	1	0	0x0001	HasMore
+spell21	sp21a80	1	0	0x0000	
+spell25	sp25e10	2	16	0x0005	HasMore|First
+spell25	sp25e20	2	0	0x0001	HasMore
+spell25	sp25e30	2	0	0x0001	HasMore
+spell25	sp25e40	2	0	0x0001	HasMore
+spell25	sp25e50	2	0	0x0001	HasMore
+spell25	sp25e60	2	0	0x0001	HasMore
+spell25	sp25e70	2	0	0x0001	HasMore
+spell25	sp25e80	2	0	0x0000	
+spell27	sp27a10	1	8	0x0005	HasMore|First
+spell27	sp27a20	1	0	0x0001	HasMore
+spell27	sp27a30	1	0	0x0001	HasMore
+spell27	sp27a40	1	0	0x0001	HasMore
+spell27	sp27a50	1	0	0x0001	HasMore
+spell27	sp27a60	1	0	0x0001	HasMore
+spell27	sp27a70	1	0	0x0001	HasMore
+spell27	sp27a80	1	0	0x0000	
+spell36	spell36e1	2	16	0x0005	HasMore|First
+spell36	spell36e2	2	0	0x0001	HasMore
+spell36	spell36e3	2	0	0x0001	HasMore
+spell36	spell36e4	2	0	0x0001	HasMore
+spell36	spell36e5	2	0	0x0001	HasMore
+spell36	spell36e6	2	0	0x0001	HasMore
+spell36	spell36e7	2	0	0x0001	HasMore
+spell36	spell36e8	2	0	0x0000	
+spell38	sp38e10	2	16	0x0005	HasMore|First
+spell38	sp38e20	2	0	0x0001	HasMore
+spell38	sp38e30	2	0	0x0001	HasMore
+spell38	sp38e40	2	0	0x0001	HasMore
+spell38	sp38e50	2	0	0x0001	HasMore
+spell38	sp38e60	2	0	0x0001	HasMore
+spell38	sp38e70	2	0	0x0001	HasMore
+spell38	sp38e80	2	0	0x0000	
+spell46	spell46e1	2	16	0x0005	HasMore|First
+spell46	spell46e2	2	0	0x0001	HasMore
+spell46	spell46e3	2	0	0x0001	HasMore
+spell46	spell46e4	2	0	0x0001	HasMore
+spell46	spell46e5	2	0	0x0001	HasMore
+spell46	spell46e6	2	0	0x0001	HasMore
+spell46	spell46e7	2	0	0x0001	HasMore
+spell46	spell46e8	2	0	0x0000	
+spboost1	spell47e1	2	16	0x0005	HasMore|First
+spboost1	spell47e2	2	0	0x0001	HasMore
+spboost1	spell47e3	2	0	0x0001	HasMore
+spboost1	spell47e4	2	0	0x0001	HasMore
+spboost1	spell47e5	2	0	0x0001	HasMore
+spboost1	spell47e6	2	0	0x0001	HasMore
+spboost1	spell47e7	2	0	0x0001	HasMore
+spboost1	spell47e8	2	0	0x0000	
+spell51	sp51e10	2	16	0x0005	HasMore|First
+spell51	sp51e20	2	0	0x0001	HasMore
+spell51	sp51e30	2	0	0x0001	HasMore
+spell51	sp51e40	2	0	0x0001	HasMore
+spell51	sp51e50	2	0	0x0001	HasMore
+spell51	sp51e60	2	0	0x0001	HasMore
+spell51	sp51e70	2	0	0x0001	HasMore
+spell51	sp51e80	2	0	0x0000	
+spell55	PCover01a	2	12	0x0005	HasMore|First
+spell55	PCover01b	2	0	0x0001	HasMore
+spell55	PCover01c	2	0	0x0001	HasMore
+spell55	PCover01d	2	0	0x0001	HasMore
+spell55	PCover01e	2	0	0x0001	HasMore
+spell55	PCover01f	2	0	0x0000	
+spell58	sp58e10	2	16	0x0005	HasMore|First
+spell58	sp58e20	2	0	0x0001	HasMore
+spell58	sp58e30	2	0	0x0001	HasMore
+spell58	sp58e40	2	0	0x0001	HasMore
+spell58	sp58e50	2	0	0x0001	HasMore
+spell58	sp58e60	2	0	0x0001	HasMore
+spell58	sp58e70	2	0	0x0001	HasMore
+spell58	sp58e80	2	0	0x0000	
+spboost2	spell56e1	2	16	0x0005	HasMore|First
+spboost2	spell56e2	2	0	0x0001	HasMore
+spboost2	spell56e3	2	0	0x0001	HasMore
+spboost2	spell56e4	2	0	0x0001	HasMore
+spboost2	spell56e5	2	0	0x0001	HasMore
+spboost2	spell56e6	2	0	0x0001	HasMore
+spboost2	spell56e7	2	0	0x0001	HasMore
+spboost2	spell56e8	2	0	0x0000	
+spheal1	spell67e1	2	16	0x0005	HasMore|First
+spheal1	spell67e2	2	0	0x0001	HasMore
+spheal1	spell67e3	2	0	0x0001	HasMore
+spheal1	spell67e4	2	0	0x0001	HasMore
+spheal1	spell67e5	2	0	0x0001	HasMore
+spheal1	spell67e6	2	0	0x0001	HasMore
+spheal1	spell67e7	2	0	0x0001	HasMore
+spheal1	spell67e8	2	0	0x0000	
+spheal2	spell68e1	2	16	0x0005	HasMore|First
+spheal2	spell68e2	2	0	0x0001	HasMore
+spheal2	spell68e3	2	0	0x0001	HasMore
+spheal2	spell68e4	2	0	0x0001	HasMore
+spheal2	spell68e5	2	0	0x0001	HasMore
+spheal2	spell68e6	2	0	0x0001	HasMore
+spheal2	spell68e7	2	0	0x0001	HasMore
+spheal2	spell68e8	2	0	0x0000	
+spell69	spell69e	16	16	0x0004	First
+spell71	sp71e10	2	16	0x0005	HasMore|First
+spell71	sp71e20	2	0	0x0001	HasMore
+spell71	sp71e30	2	0	0x0001	HasMore
+spell71	sp71e40	2	0	0x0001	HasMore
+spell71	sp71e50	2	0	0x0001	HasMore
+spell71	sp71e60	2	0	0x0001	HasMore
+spell71	sp71e70	2	0	0x0001	HasMore
+spell71	sp71e80	2	0	0x0000	
+spell73	sp73e	16	16	0x0004	First
+spell75	sp75e	16	16	0x0004	First
+spheal3	sp77e10	2	16	0x0005	HasMore|First
+spheal3	sp77e20	2	0	0x0001	HasMore
+spheal3	sp77e30	2	0	0x0001	HasMore
+spheal3	sp77e40	2	0	0x0001	HasMore
+spheal3	sp77e50	2	0	0x0001	HasMore
+spheal3	sp77e60	2	0	0x0001	HasMore
+spheal3	sp77e70	2	0	0x0001	HasMore
+spheal3	sp77e80	2	0	0x0000	
+spboost3	sp83e10	2	16	0x0005	HasMore|First
+spboost3	sp83e20	2	0	0x0001	HasMore
+spboost3	sp83e30	2	0	0x0001	HasMore
+spboost3	sp83e40	2	0	0x0001	HasMore
+spboost3	sp83e50	2	0	0x0001	HasMore
+spboost3	sp83e60	2	0	0x0001	HasMore
+spboost3	sp83e70	2	0	0x0001	HasMore
+spboost3	sp83e80	2	0	0x0000	
+spell96	sp96ha	1	12	0x0005	HasMore|First
+spell96	sp96hb	1	0	0x0001	HasMore
+spell96	sp96hc	1	0	0x0001	HasMore
+spell96	sp96hd	1	0	0x0001	HasMore
+spell96	sp96he	1	0	0x0001	HasMore
+spell96	sp96hf	1	0	0x0001	HasMore
+spell96	sp96hg	1	0	0x0001	HasMore
+spell96	sp96hh	1	0	0x0001	HasMore
+spell96	sp96hi	1	0	0x0001	HasMore
+spell96	sp96hj	1	0	0x0001	HasMore
+spell96	sp96hk	1	0	0x0001	HasMore
+spell96	sp96hl	1	0	0x0000	
+zapp	zapp01	1	6	0x0005	HasMore|First
+zapp	zapp02	1	0	0x0001	HasMore
+zapp	zapp03	1	0	0x0001	HasMore
+zapp	zapp04	1	0	0x0001	HasMore
+zapp	zapp05	1	0	0x0001	HasMore
+zapp	zapp06	1	0	0x0000	
+sp109	sp109-01	1	6	0x0005	HasMore|First
+sp109	sp109-02	1	0	0x0001	HasMore
+sp109	sp109-03	1	0	0x0001	HasMore
+sp109	sp109-04	1	0	0x0001	HasMore
+sp109	sp109-05	1	0	0x0001	HasMore
+sp109	sp109-06	1	0	0x0000	
+sptext01a	sptext01a	1	4	0x0005	HasMore|First
+sptext01b		1	0	0x0001	HasMore
+sptext01c		1	0	0x0001	HasMore
+sptext01d		1	0	0x0000	
+ITEM006	ITEM006	1	1	0x0004	First
+ITEM009	ITEM009	1	1	0x0004	First
+ITEM012	ITEM012	1	1	0x0004	First
+ITEM015	ITEM015	1	1	0x0004	First
+ITEM026	ITEM026	1	1	0x0004	First
+ITEM027	ITEM027	1	1	0x0004	First
+ITEM034	ITEM034	1	1	0x0004	First
+ITEM045	ITEM045	1	1	0x0004	First
+ITEM046	ITEM046	1	1	0x0004	First

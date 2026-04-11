@@ -145,6 +145,8 @@ add_executable(openyamm
     tables/SpellFxTable.cpp
     tables/SpriteTables.cpp
     tables/StrTable.cpp
+    tables/SurfaceMaterialTable.cpp
+    tables/TextureFrameTable.cpp
     outdoor/OutdoorGameView.cpp
     ui/GameplayDialogueRenderer.cpp
     ui/GameplayHudRenderer.cpp

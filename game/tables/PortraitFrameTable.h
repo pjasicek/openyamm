@@ -5,6 +5,7 @@
 #include <cstddef>
 #include <cstdint>
 #include <optional>
+#include <string>
 #include <unordered_map>
 #include <vector>
 
@@ -27,7 +28,7 @@ struct PortraitFrameEntry
 class PortraitFrameTable
 {
 public:
-    bool loadFromBytes(const std::vector<uint8_t> &bytes);
+    bool loadRows(const std::vector<std::vector<std::string>> &rows);
     std::optional<size_t> findAnimationId(PortraitId portraitId) const;
     const PortraitFrameEntry *getFrame(PortraitId portraitId, uint32_t elapsedTicks) const;
     int32_t animationLengthTicks(PortraitId portraitId) const;

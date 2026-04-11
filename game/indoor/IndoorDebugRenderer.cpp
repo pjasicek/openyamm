@@ -84,6 +84,50 @@ uint32_t currentAnimationTicks()
     return static_cast<uint32_t>((static_cast<uint64_t>(SDL_GetTicks()) * 128ULL) / 1000ULL);
 }
 
+const SurfaceAnimationSequence *findTextureAnimationBinding(
+    const std::vector<std::pair<std::string, SurfaceAnimationSequence>> &bindings,
+    const std::string &textureName)
+{
+    const std::string normalizedTextureName = toLowerCopy(textureName);
+
+    for (const auto &binding : bindings)
+    {
+        if (binding.first == normalizedTextureName)
+        {
+            return &binding.second;
+        }
+    }
+
+    return nullptr;
+}
+
+size_t frameIndexForAnimation(
+    const std::vector<uint32_t> &frameLengthTicks,
+    uint32_t animationLengthTicks,
+    uint32_t elapsedTicks)
+{
+    if (frameLengthTicks.empty() || frameLengthTicks.size() == 1 || animationLengthTicks == 0)
+    {
+        return 0;
+    }
+
+    uint32_t localTicks = elapsedTicks % animationLengthTicks;
+
+    for (size_t frameIndex = 0; frameIndex < frameLengthTicks.size(); ++frameIndex)
+    {
+        const uint32_t frameLength = frameLengthTicks[frameIndex];
+
+        if (frameLength == 0 || localTicks < frameLength)
+        {
+            return frameIndex;
+        }
+
+        localTicks -= frameLength;
+    }
+
+    return frameLengthTicks.size() - 1;
+}
+
 bx::Vec3 vecSubtract(const bx::Vec3 &left, const bx::Vec3 &right)
 {
     return {left.x - right.x, left.y - right.y, left.z - right.z};
@@ -944,14 +988,25 @@ void IndoorDebugRenderer::render(int width, int height, float mouseWheelDelta, f
     {
         for (const TexturedBatch &batch : m_texturedBatches)
         {
-            if (!bgfx::isValid(batch.vertexBufferHandle) || !bgfx::isValid(batch.textureHandle) || batch.vertexCount == 0)
+            if (!bgfx::isValid(batch.vertexBufferHandle) || batch.frameTextureHandles.empty() || batch.vertexCount == 0)
+            {
+                continue;
+            }
+
+            const size_t frameIndex = frameIndexForAnimation(
+                batch.frameLengthTicks,
+                batch.animationLengthTicks,
+                currentAnimationTicks());
+
+            if (frameIndex >= batch.frameTextureHandles.size()
+                || !bgfx::isValid(batch.frameTextureHandles[frameIndex]))
             {
                 continue;
             }
 
             bgfx::setTransform(modelMatrix);
             bgfx::setVertexBuffer(0, batch.vertexBufferHandle, 0, batch.vertexCount);
-            bgfx::setTexture(0, m_textureSamplerHandle, batch.textureHandle);
+            bgfx::setTexture(0, m_textureSamplerHandle, batch.frameTextureHandles[frameIndex]);
             bgfx::setState(
                 BGFX_STATE_WRITE_RGB
                 | BGFX_STATE_WRITE_A
@@ -2151,53 +2206,77 @@ bool IndoorDebugRenderer::rebuildAllTexturedBatches(uint64_t &texturedBuildNanos
                 if (previousBatch.textureName == normalizedTextureName)
                 {
                     batch.vertexBufferHandle = previousBatch.vertexBufferHandle;
-                    batch.textureHandle = previousBatch.textureHandle;
                     batch.vertexCapacity = previousBatch.vertexCapacity;
                     previousBatch.vertexBufferHandle = BGFX_INVALID_HANDLE;
-                    previousBatch.textureHandle = BGFX_INVALID_HANDLE;
                     break;
                 }
             }
 
-            const bgfx::TextureHandle *pTextureHandle = findIndoorTextureHandle(textureName);
+            const SurfaceAnimationSequence *pAnimationBinding =
+                findTextureAnimationBinding(m_indoorTextureSet->animationBindings, textureName);
+            SurfaceAnimationSequence animation = {};
 
-            if (pTextureHandle != nullptr)
+            if (pAnimationBinding != nullptr)
             {
-                batch.textureHandle = *pTextureHandle;
+                animation = *pAnimationBinding;
             }
             else
             {
-                const OutdoorBitmapTexture *pTexture = nullptr;
+                SurfaceAnimationFrame frame = {};
+                frame.textureName = textureName;
+                animation.frames.push_back(std::move(frame));
+            }
+
+            batch.animationLengthTicks = animation.animationLengthTicks;
+
+            for (const SurfaceAnimationFrame &frame : animation.frames)
+            {
+                const bgfx::TextureHandle *pTextureHandle = findIndoorTextureHandle(frame.textureName);
+
+                if (pTextureHandle != nullptr)
+                {
+                    batch.frameTextureHandles.push_back(*pTextureHandle);
+                    batch.frameLengthTicks.push_back(frame.frameLengthTicks);
+                    continue;
+                }
+
+                const OutdoorBitmapTexture *pFrameTexture = nullptr;
 
                 for (const OutdoorBitmapTexture &candidate : m_indoorTextureSet->textures)
                 {
-                    if (toLowerCopy(candidate.textureName) == normalizedTextureName)
+                    if (toLowerCopy(candidate.textureName) == toLowerCopy(frame.textureName))
                     {
-                        pTexture = &candidate;
+                        pFrameTexture = &candidate;
                         break;
                     }
                 }
 
-                if (pTexture != nullptr)
+                if (pFrameTexture == nullptr)
                 {
-                    batch.textureHandle = bgfx::createTexture2D(
-                        static_cast<uint16_t>(pTexture->physicalWidth),
-                        static_cast<uint16_t>(pTexture->physicalHeight),
-                        false,
-                        1,
-                        bgfx::TextureFormat::BGRA8,
-                        BGFX_SAMPLER_MIN_POINT | BGFX_SAMPLER_MAG_POINT,
-                        bgfx::copy(pTexture->pixels.data(), static_cast<uint32_t>(pTexture->pixels.size()))
-                    );
-
-                    if (bgfx::isValid(batch.textureHandle))
-                    {
-                        IndoorTextureHandle textureHandle = {};
-                        textureHandle.textureName = normalizedTextureName;
-                        textureHandle.textureHandle = batch.textureHandle;
-                        m_indoorTextureHandles.push_back(std::move(textureHandle));
-                    }
+                    continue;
                 }
+
+                const bgfx::TextureHandle textureHandle = bgfx::createTexture2D(
+                    static_cast<uint16_t>(pFrameTexture->physicalWidth),
+                    static_cast<uint16_t>(pFrameTexture->physicalHeight),
+                    false,
+                    1,
+                    bgfx::TextureFormat::BGRA8,
+                    BGFX_SAMPLER_MIN_POINT | BGFX_SAMPLER_MAG_POINT,
+                    bgfx::copy(pFrameTexture->pixels.data(), static_cast<uint32_t>(pFrameTexture->pixels.size()))
+                );
+
+                if (!bgfx::isValid(textureHandle))
+                {
+                    continue;
+                }
+
+                IndoorTextureHandle textureHandleEntry = {};
+                textureHandleEntry.textureName = toLowerCopy(frame.textureName);
+                textureHandleEntry.textureHandle = textureHandle;
+                m_indoorTextureHandles.push_back(std::move(textureHandleEntry));
+                batch.frameTextureHandles.push_back(textureHandle);
+                batch.frameLengthTicks.push_back(frame.frameLengthTicks);
             }
 
             batchIndex = m_texturedBatches.size();

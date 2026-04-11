@@ -1,55 +1,50 @@
 #include "game/tables/PortraitFrameTable.h"
 
-#include "game/BinaryReader.h"
+#include <cctype>
 
 namespace OpenYAMM::Game
 {
 namespace
 {
-constexpr size_t PortraitFrameRecordSize = 10;
-}
-
-bool PortraitFrameTable::loadFromBytes(const std::vector<uint8_t> &bytes)
+bool isNumericString(const std::string &value)
 {
-    const ByteReader reader(bytes);
-    uint32_t frameCount = 0;
-
-    if (!reader.readUInt32(0, frameCount))
+    if (value.empty())
     {
         return false;
     }
 
-    const size_t expectedSize = sizeof(uint32_t) + static_cast<size_t>(frameCount) * PortraitFrameRecordSize;
-
-    if (!reader.canRead(0, expectedSize))
+    for (char character : value)
     {
-        return false;
-    }
-
-    m_frames.clear();
-    m_animationIdByPortraitId.clear();
-    m_frames.reserve(frameCount);
-
-    for (uint32_t index = 0; index < frameCount; ++index)
-    {
-        const size_t offset = sizeof(uint32_t) + static_cast<size_t>(index) * PortraitFrameRecordSize;
-        PortraitFrameEntry entry = {};
-        uint16_t portraitId = 0;
-        int16_t frameLength = 0;
-        int16_t animationLength = 0;
-
-        if (!reader.readUInt16(offset + 0x00, portraitId)
-            || !reader.readUInt16(offset + 0x02, entry.textureIndex)
-            || !reader.readInt16(offset + 0x04, frameLength)
-            || !reader.readInt16(offset + 0x06, animationLength)
-            || !reader.readUInt16(offset + 0x08, entry.flags))
+        if (!std::isdigit(static_cast<unsigned char>(character)))
         {
             return false;
         }
+    }
 
+    return true;
+}
+}
+
+bool PortraitFrameTable::loadRows(const std::vector<std::vector<std::string>> &rows)
+{
+    m_frames.clear();
+    m_animationIdByPortraitId.clear();
+    m_frames.reserve(rows.size());
+
+    for (const std::vector<std::string> &row : rows)
+    {
+        if (row.size() < 5 || !isNumericString(row[0]))
+        {
+            continue;
+        }
+
+        const uint16_t portraitId = static_cast<uint16_t>(std::stoul(row[0]));
+        PortraitFrameEntry entry = {};
         entry.portraitId = static_cast<PortraitId>(portraitId);
-        entry.frameLengthTicks = static_cast<int32_t>(frameLength) * 8;
-        entry.animationLengthTicks = static_cast<int32_t>(animationLength) * 8;
+        entry.textureIndex = static_cast<uint16_t>(std::stoul(row[1]));
+        entry.frameLengthTicks = static_cast<int32_t>(std::stoi(row[2])) * 8;
+        entry.animationLengthTicks = static_cast<int32_t>(std::stoi(row[3])) * 8;
+        entry.flags = static_cast<uint16_t>(std::stoul(row[4], nullptr, 0));
 
         if (entry.portraitId != PortraitId::Invalid)
         {

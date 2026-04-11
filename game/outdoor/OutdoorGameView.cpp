@@ -6240,7 +6240,9 @@ void OutdoorGameView::shutdown()
         for (TexturedBModelBatch &batch : m_texturedBModelBatches)
         {
             batch.vertexBufferHandle = BGFX_INVALID_HANDLE;
-            batch.textureHandle = BGFX_INVALID_HANDLE;
+            batch.frameTextureHandles.clear();
+            batch.frameLengthTicks.clear();
+            batch.animationLengthTicks = 0;
         }
 
         for (HudTextureHandle &textureHandle : m_hudTextureHandles)
@@ -6321,11 +6323,17 @@ void OutdoorGameView::shutdown()
             batch.vertexBufferHandle = BGFX_INVALID_HANDLE;
         }
 
-        if (bgfx::isValid(batch.textureHandle))
+        for (bgfx::TextureHandle textureHandle : batch.frameTextureHandles)
         {
-            bgfx::destroy(batch.textureHandle);
-            batch.textureHandle = BGFX_INVALID_HANDLE;
+            if (bgfx::isValid(textureHandle))
+            {
+                bgfx::destroy(textureHandle);
+            }
         }
+
+        batch.frameTextureHandles.clear();
+        batch.frameLengthTicks.clear();
+        batch.animationLengthTicks = 0;
     }
 
     m_texturedBModelBatches.clear();
@@ -9292,27 +9300,32 @@ bool OutdoorGameView::loadPortraitAnimationData(const Engine::AssetFileSystem &a
     m_faceAnimationTable = {};
     m_portraitFrameTable = {};
 
-    const std::optional<std::vector<uint8_t>> portraitFrameBytes =
-        assetFileSystem.readBinaryFile("Data/EnglishT/dpft.bin");
-
-    if (!portraitFrameBytes || !m_portraitFrameTable.loadFromBytes(*portraitFrameBytes))
-    {
-        return false;
-    }
+    const std::optional<std::string> portraitFrameText =
+        assetFileSystem.readTextFile(dataTablePath("portrait_frame_data.txt"));
 
     const std::optional<std::string> faceAnimationText =
         assetFileSystem.readTextFile(dataTablePath("face_animations.txt"));
 
-    if (!faceAnimationText)
+    if (!portraitFrameText || !faceAnimationText)
     {
         return false;
     }
 
+    const std::optional<Engine::TextTable> parsedPortraitFrameTable =
+        Engine::TextTable::parseTabSeparated(*portraitFrameText);
     const std::optional<Engine::TextTable> parsedTable = Engine::TextTable::parseTabSeparated(*faceAnimationText);
 
-    if (!parsedTable)
+    if (!parsedPortraitFrameTable || !parsedTable)
     {
         return false;
+    }
+
+    std::vector<std::vector<std::string>> portraitFrameRows;
+    portraitFrameRows.reserve(parsedPortraitFrameTable->getRowCount());
+
+    for (size_t rowIndex = 0; rowIndex < parsedPortraitFrameTable->getRowCount(); ++rowIndex)
+    {
+        portraitFrameRows.push_back(parsedPortraitFrameTable->getRow(rowIndex));
     }
 
     std::vector<std::vector<std::string>> rows;
@@ -9323,7 +9336,8 @@ bool OutdoorGameView::loadPortraitAnimationData(const Engine::AssetFileSystem &a
         rows.push_back(parsedTable->getRow(rowIndex));
     }
 
-    return m_faceAnimationTable.loadFromRows(rows);
+    return m_portraitFrameTable.loadRows(portraitFrameRows)
+        && m_faceAnimationTable.loadFromRows(rows);
 }
 
 void OutdoorGameView::updatePartyPortraitAnimations(float deltaSeconds)
@@ -9475,30 +9489,33 @@ bool OutdoorGameView::loadPortraitFxData(const Engine::AssetFileSystem &assetFil
     m_spellFxTable = {};
     m_portraitFxEventTable = {};
 
-    const std::optional<std::vector<uint8_t>> iconFrameBytes =
-        assetFileSystem.readBinaryFile("Data/EnglishT/dift.bin");
-
-    if (!iconFrameBytes || !m_iconFrameTable.loadFromBytes(*iconFrameBytes))
-    {
-        return false;
-    }
-
+    const std::optional<std::string> iconFrameText =
+        assetFileSystem.readTextFile(dataTablePath("icon_frame_data.txt"));
     const std::optional<std::string> spellFxText = assetFileSystem.readTextFile(dataTablePath("spell_fx.txt"));
     const std::optional<std::string> portraitFxEventText =
         assetFileSystem.readTextFile(dataTablePath("portrait_fx_events.txt"));
 
-    if (!spellFxText || !portraitFxEventText)
+    if (!iconFrameText || !spellFxText || !portraitFxEventText)
     {
         return false;
     }
 
+    const std::optional<Engine::TextTable> parsedIconFrameTable = Engine::TextTable::parseTabSeparated(*iconFrameText);
     const std::optional<Engine::TextTable> parsedSpellFxTable = Engine::TextTable::parseTabSeparated(*spellFxText);
     const std::optional<Engine::TextTable> parsedPortraitFxEventTable =
         Engine::TextTable::parseTabSeparated(*portraitFxEventText);
 
-    if (!parsedSpellFxTable || !parsedPortraitFxEventTable)
+    if (!parsedIconFrameTable || !parsedSpellFxTable || !parsedPortraitFxEventTable)
     {
         return false;
+    }
+
+    std::vector<std::vector<std::string>> iconFrameRows;
+    iconFrameRows.reserve(parsedIconFrameTable->getRowCount());
+
+    for (size_t rowIndex = 0; rowIndex < parsedIconFrameTable->getRowCount(); ++rowIndex)
+    {
+        iconFrameRows.push_back(parsedIconFrameTable->getRow(rowIndex));
     }
 
     std::vector<std::vector<std::string>> spellFxRows;
@@ -9517,7 +9534,8 @@ bool OutdoorGameView::loadPortraitFxData(const Engine::AssetFileSystem &assetFil
         portraitFxEventRows.push_back(parsedPortraitFxEventTable->getRow(rowIndex));
     }
 
-    return m_spellFxTable.loadFromRows(spellFxRows)
+    return m_iconFrameTable.loadRows(iconFrameRows)
+        && m_spellFxTable.loadFromRows(spellFxRows)
         && m_portraitFxEventTable.loadFromRows(portraitFxEventRows);
 }
 

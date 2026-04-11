@@ -27,7 +27,7 @@ struct IconFrameEntry
 class IconFrameTable
 {
 public:
-    bool loadFromBytes(const std::vector<uint8_t> &bytes);
+    bool loadRows(const std::vector<std::vector<std::string>> &rows);
     std::optional<size_t> findAnimationIdByName(const std::string &animationName) const;
     const IconFrameEntry *getFrame(size_t animationId, uint32_t elapsedTicks) const;
     int32_t animationLengthTicks(size_t animationId) const;

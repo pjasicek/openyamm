@@ -1,0 +1,43 @@
+materials:
+  - id: water
+    semantic: water
+    applies_to:
+      - terrain
+      - face
+    match:
+      texture_names:
+        - wtrtyl
+        - hwtrtyl
+      texture_prefixes:
+        - wtrdr
+        - hwtrdr
+    terrain_transition_overlay: true
+    animation:
+      animation_length_ticks: 128
+      frames:
+        - HDWTR000
+        - HDWTR001
+        - HDWTR002
+        - HDWTR003
+        - HDWTR004
+        - HDWTR005
+        - HDWTR006
+
+  - id: lava
+    semantic: lava
+    applies_to:
+      - terrain
+      - face
+    match:
+      texture_names:
+        - lavtyl
+    animation:
+      animation_length_ticks: 128
+      frames:
+        - HDLAV000
+        - HDLAV001
+        - HDLAV002
+        - HDLAV003
+        - HDLAV004
+        - HDLAV005
+        - HDLAV006

@@ -79,8 +79,10 @@ private:
     struct TexturedBatch
     {
         bgfx::DynamicVertexBufferHandle vertexBufferHandle = BGFX_INVALID_HANDLE;
-        bgfx::TextureHandle textureHandle = BGFX_INVALID_HANDLE;
         std::string textureName;
+        std::vector<bgfx::TextureHandle> frameTextureHandles;
+        std::vector<uint32_t> frameLengthTicks;
+        uint32_t animationLengthTicks = 0;
         uint32_t vertexCapacity = 0;
         uint32_t vertexCount = 0;
         std::vector<TexturedVertex> vertices;
