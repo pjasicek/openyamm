@@ -187,6 +187,23 @@ private:
         static bgfx::VertexLayout ms_layout;
     };
 
+    struct ForcePerspectiveVertex
+    {
+        float x;
+        float y;
+        float z;
+        float u;
+        float v;
+        float texW;
+        float screenSpace;
+        float reciprocalW;
+        uint32_t abgr;
+
+        static void init();
+
+        static bgfx::VertexLayout ms_layout;
+    };
+
     struct TexturedBModelBatch
     {
         bgfx::VertexBufferHandle vertexBufferHandle = BGFX_INVALID_HANDLE;
@@ -225,6 +242,8 @@ private:
         int height = 0;
         int physicalWidth = 0;
         int physicalHeight = 0;
+        std::vector<uint8_t> bgraPixels;
+        uint32_t horizonColorAbgr = 0xff000000u;
         bgfx::TextureHandle textureHandle = BGFX_INVALID_HANDLE;
     };
 
@@ -860,8 +879,14 @@ private:
     bgfx::VertexBufferHandle m_spawnMarkerVertexBufferHandle;
     bgfx::ProgramHandle m_programHandle;
     bgfx::ProgramHandle m_texturedTerrainProgramHandle;
+    bgfx::ProgramHandle m_outdoorTexturedFogProgramHandle;
+    bgfx::ProgramHandle m_outdoorForcePerspectiveProgramHandle;
     bgfx::TextureHandle m_terrainTextureAtlasHandle;
+    bgfx::TextureHandle m_forcePerspectiveSolidTextureHandle;
     bgfx::UniformHandle m_terrainTextureSamplerHandle;
+    bgfx::UniformHandle m_outdoorFogColorUniformHandle;
+    bgfx::UniformHandle m_outdoorFogDensitiesUniformHandle;
+    bgfx::UniformHandle m_outdoorFogDistancesUniformHandle;
     float m_elapsedTime;
     float m_framesPerSecond;
     uint32_t m_bmodelLineVertexCount;
@@ -875,7 +900,7 @@ private:
     std::unordered_map<std::string, size_t> m_decorationBitmapTextureIndexByName;
     std::vector<SkyTextureHandle> m_skyTextureHandles;
     std::unordered_map<std::string, size_t> m_skyTextureIndexByName;
-    std::vector<TexturedTerrainVertex> m_cachedSkyVertices;
+    std::vector<ForcePerspectiveVertex> m_cachedSkyVertices;
     std::string m_cachedSkyTextureName;
     float m_lastSkyUpdateElapsedTime = -1.0f;
     std::vector<AnimatedWaterTerrainTileState> m_animatedWaterTerrainTiles;

@@ -786,7 +786,7 @@ bool shouldSkipSpriteObjectInspectTarget(const SpriteObjectBillboard &object, co
 constexpr uint16_t SkyViewId = 0;
 constexpr uint16_t MainViewId = 1;
 constexpr uint16_t HudViewId = 2;
-constexpr float DefaultOutdoorFarClip = 200000.0f;
+constexpr float DefaultOutdoorFarClip = 16192.0f;
 constexpr float Pi = 3.14159265358979323846f;
 constexpr float CameraVerticalFovDegrees = 60.0f;
 constexpr float RuntimeProjectileRenderDistance = 12288.0f;
@@ -3663,6 +3663,7 @@ std::vector<uint8_t> readBinaryFile(const std::filesystem::path &path)
 
 bgfx::VertexLayout OutdoorGameView::TerrainVertex::ms_layout;
 bgfx::VertexLayout OutdoorGameView::TexturedTerrainVertex::ms_layout;
+bgfx::VertexLayout OutdoorGameView::ForcePerspectiveVertex::ms_layout;
 
 OutdoorGameView::OutdoorGameView()
     : m_isInitialized(false)
@@ -3679,8 +3680,14 @@ OutdoorGameView::OutdoorGameView()
     , m_spawnMarkerVertexBufferHandle(BGFX_INVALID_HANDLE)
     , m_programHandle(BGFX_INVALID_HANDLE)
     , m_texturedTerrainProgramHandle(BGFX_INVALID_HANDLE)
+    , m_outdoorTexturedFogProgramHandle(BGFX_INVALID_HANDLE)
+    , m_outdoorForcePerspectiveProgramHandle(BGFX_INVALID_HANDLE)
     , m_terrainTextureAtlasHandle(BGFX_INVALID_HANDLE)
+    , m_forcePerspectiveSolidTextureHandle(BGFX_INVALID_HANDLE)
     , m_terrainTextureSamplerHandle(BGFX_INVALID_HANDLE)
+    , m_outdoorFogColorUniformHandle(BGFX_INVALID_HANDLE)
+    , m_outdoorFogDensitiesUniformHandle(BGFX_INVALID_HANDLE)
+    , m_outdoorFogDistancesUniformHandle(BGFX_INVALID_HANDLE)
     , m_elapsedTime(0.0f)
     , m_framesPerSecond(0.0f)
     , m_bmodelLineVertexCount(0)
@@ -4074,8 +4081,18 @@ bool OutdoorGameView::initialize(
     }
 
     m_terrainTextureSamplerHandle = bgfx::createUniform("s_texColor", bgfx::UniformType::Sampler);
+    m_outdoorFogColorUniformHandle = bgfx::createUniform("u_fogColor", bgfx::UniformType::Vec4);
+    m_outdoorFogDensitiesUniformHandle = bgfx::createUniform("u_fogDensities", bgfx::UniformType::Vec4);
+    m_outdoorFogDistancesUniformHandle = bgfx::createUniform("u_fogDistances", bgfx::UniformType::Vec4);
 
-    if (!bgfx::isValid(m_vertexBufferHandle) || !bgfx::isValid(m_indexBufferHandle) || !bgfx::isValid(m_programHandle))
+    if (!bgfx::isValid(m_vertexBufferHandle)
+        || !bgfx::isValid(m_indexBufferHandle)
+        || !bgfx::isValid(m_programHandle)
+        || !bgfx::isValid(m_outdoorTexturedFogProgramHandle)
+        || !bgfx::isValid(m_outdoorForcePerspectiveProgramHandle)
+        || !bgfx::isValid(m_outdoorFogColorUniformHandle)
+        || !bgfx::isValid(m_outdoorFogDensitiesUniformHandle)
+        || !bgfx::isValid(m_outdoorFogDistancesUniformHandle))
     {
         std::cerr << "OutdoorGameView failed to create bgfx resources.\n";
         shutdown();
@@ -4176,9 +4193,7 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
     const OutdoorWorldRuntime::AtmosphereState *pAtmosphereState =
         m_pOutdoorWorldRuntime != nullptr ? &m_pOutdoorWorldRuntime->atmosphereState() : nullptr;
     const uint32_t clearColorAbgr = pAtmosphereState != nullptr ? pAtmosphereState->clearColorAbgr : 0x000000ffu;
-    const float farClipDistance = pAtmosphereState != nullptr
-        ? std::clamp(pAtmosphereState->visibilityDistance, 4096.0f, DefaultOutdoorFarClip)
-        : DefaultOutdoorFarClip;
+    const float farClipDistance = DefaultOutdoorFarClip;
     const bool captureSavePreviewThisFrame =
         m_pendingSavePreviewCapture.active && !m_pendingSavePreviewCapture.screenshotRequested;
 
@@ -6225,8 +6240,14 @@ void OutdoorGameView::shutdown()
     {
         m_programHandle = BGFX_INVALID_HANDLE;
         m_texturedTerrainProgramHandle = BGFX_INVALID_HANDLE;
+        m_outdoorTexturedFogProgramHandle = BGFX_INVALID_HANDLE;
+        m_outdoorForcePerspectiveProgramHandle = BGFX_INVALID_HANDLE;
         m_terrainTextureAtlasHandle = BGFX_INVALID_HANDLE;
+        m_forcePerspectiveSolidTextureHandle = BGFX_INVALID_HANDLE;
         m_terrainTextureSamplerHandle = BGFX_INVALID_HANDLE;
+        m_outdoorFogColorUniformHandle = BGFX_INVALID_HANDLE;
+        m_outdoorFogDensitiesUniformHandle = BGFX_INVALID_HANDLE;
+        m_outdoorFogDistancesUniformHandle = BGFX_INVALID_HANDLE;
         m_indexBufferHandle = BGFX_INVALID_HANDLE;
         m_filledTerrainVertexBufferHandle = BGFX_INVALID_HANDLE;
         m_skyVertexBufferHandle = BGFX_INVALID_HANDLE;
@@ -6291,16 +6312,52 @@ void OutdoorGameView::shutdown()
         m_texturedTerrainProgramHandle = BGFX_INVALID_HANDLE;
     }
 
+    if (bgfx::isValid(m_outdoorTexturedFogProgramHandle))
+    {
+        bgfx::destroy(m_outdoorTexturedFogProgramHandle);
+        m_outdoorTexturedFogProgramHandle = BGFX_INVALID_HANDLE;
+    }
+
+    if (bgfx::isValid(m_outdoorForcePerspectiveProgramHandle))
+    {
+        bgfx::destroy(m_outdoorForcePerspectiveProgramHandle);
+        m_outdoorForcePerspectiveProgramHandle = BGFX_INVALID_HANDLE;
+    }
+
     if (bgfx::isValid(m_terrainTextureAtlasHandle))
     {
         bgfx::destroy(m_terrainTextureAtlasHandle);
         m_terrainTextureAtlasHandle = BGFX_INVALID_HANDLE;
     }
 
+    if (bgfx::isValid(m_forcePerspectiveSolidTextureHandle))
+    {
+        bgfx::destroy(m_forcePerspectiveSolidTextureHandle);
+        m_forcePerspectiveSolidTextureHandle = BGFX_INVALID_HANDLE;
+    }
+
     if (bgfx::isValid(m_terrainTextureSamplerHandle))
     {
         bgfx::destroy(m_terrainTextureSamplerHandle);
         m_terrainTextureSamplerHandle = BGFX_INVALID_HANDLE;
+    }
+
+    if (bgfx::isValid(m_outdoorFogColorUniformHandle))
+    {
+        bgfx::destroy(m_outdoorFogColorUniformHandle);
+        m_outdoorFogColorUniformHandle = BGFX_INVALID_HANDLE;
+    }
+
+    if (bgfx::isValid(m_outdoorFogDensitiesUniformHandle))
+    {
+        bgfx::destroy(m_outdoorFogDensitiesUniformHandle);
+        m_outdoorFogDensitiesUniformHandle = BGFX_INVALID_HANDLE;
+    }
+
+    if (bgfx::isValid(m_outdoorFogDistancesUniformHandle))
+    {
+        bgfx::destroy(m_outdoorFogDistancesUniformHandle);
+        m_outdoorFogDistancesUniformHandle = BGFX_INVALID_HANDLE;
     }
 
     if (bgfx::isValid(m_indexBufferHandle))
@@ -10966,6 +11023,16 @@ void OutdoorGameView::TexturedTerrainVertex::init()
     ms_layout.begin()
         .add(bgfx::Attrib::Position, 3, bgfx::AttribType::Float)
         .add(bgfx::Attrib::TexCoord0, 2, bgfx::AttribType::Float)
+        .end();
+}
+
+void OutdoorGameView::ForcePerspectiveVertex::init()
+{
+    ms_layout.begin()
+        .add(bgfx::Attrib::Position, 3, bgfx::AttribType::Float)
+        .add(bgfx::Attrib::TexCoord1, 4, bgfx::AttribType::Float)
+        .add(bgfx::Attrib::TexCoord2, 1, bgfx::AttribType::Float)
+        .add(bgfx::Attrib::Color0, 4, bgfx::AttribType::Uint8, true)
         .end();
 }
 

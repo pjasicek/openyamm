@@ -33,8 +33,9 @@ constexpr float CameraVerticalFovDegrees = 60.0f;
 constexpr float ActorBillboardRenderDistance = 16384.0f;
 constexpr float ActorBillboardRenderDistanceSquared =
     ActorBillboardRenderDistance * ActorBillboardRenderDistance;
-constexpr uint32_t SkyDomeHorizontalSegmentCount = 24;
-constexpr uint32_t SkyDomeVerticalSegmentCount = 8;
+constexpr float SkyProjectionPitchOffsetRadians = Pi / 64.0f;
+constexpr float SkyFogHorizonPixels = 39.0f;
+constexpr int32_t MapWeatherFoggy = 1;
 
 uint32_t makeAbgr(uint8_t red, uint8_t green, uint8_t blue)
 {
@@ -43,6 +44,134 @@ uint32_t makeAbgr(uint8_t red, uint8_t green, uint8_t blue)
         | (static_cast<uint32_t>(green) << 8)
         | static_cast<uint32_t>(red);
 }
+
+uint32_t withAlpha(uint32_t abgr, uint8_t alpha)
+{
+    return (abgr & 0x00ffffffu) | (static_cast<uint32_t>(alpha) << 24);
+}
+
+float smoothstep(float edge0, float edge1, float value)
+{
+    if (edge0 == edge1)
+    {
+        return value < edge0 ? 0.0f : 1.0f;
+    }
+
+    const float t = std::clamp((value - edge0) / (edge1 - edge0), 0.0f, 1.0f);
+    return t * t * (3.0f - 2.0f * t);
+}
+
+uint32_t computeOutdoorSkyTintAbgr(const OutdoorWorldRuntime &worldRuntime)
+{
+    const float minutesOfDay = std::fmod(std::max(worldRuntime.gameMinutes(), 0.0f), 1440.0f);
+
+    if (minutesOfDay < 300.0f || minutesOfDay >= 1260.0f)
+    {
+        return makeAbgr(39, 39, 39);
+    }
+
+    const float daylightMinutes = minutesOfDay - 300.0f;
+    const float mirroredDaylightMinutes = daylightMinutes >= 480.0f ? 960.0f - daylightMinutes : daylightMinutes;
+    const int maxTerrainDimmingLevel = static_cast<int>(20.0f - mirroredDaylightMinutes / 480.0f * 20.0f);
+    const int skyValue = std::clamp(255 - 8 * maxTerrainDimmingLevel, 0, 255);
+    return makeAbgr(
+        static_cast<uint8_t>(skyValue),
+        static_cast<uint8_t>(skyValue),
+        static_cast<uint8_t>(skyValue));
+}
+
+uint32_t computeOutdoorSkyFogColorAbgr(const OutdoorWorldRuntime::AtmosphereState &atmosphereState)
+{
+    if ((atmosphereState.weatherFlags & MapWeatherFoggy) == 0)
+    {
+        return 0xff000000u;
+    }
+
+    if (atmosphereState.isNight)
+    {
+        return makeAbgr(31, 31, 31);
+    }
+
+    const int fogLevel = std::clamp(
+        static_cast<int>(std::lround((1.0f - atmosphereState.fogDensity) * 200.0f + atmosphereState.fogDensity * 31.0f)),
+        0,
+        255);
+    return makeAbgr(
+        static_cast<uint8_t>(fogLevel),
+        static_cast<uint8_t>(fogLevel),
+        static_cast<uint8_t>(fogLevel));
+}
+
+struct OutdoorSkyVertex
+{
+    float screenX = 0.0f;
+    float screenY = 0.0f;
+    float reciprocalW = 1.0f;
+    float u = 0.0f;
+    float v = 0.0f;
+};
+
+OutdoorSkyVertex computeOutdoorSkyVertex(
+    float screenX,
+    float screenY,
+    float viewWidth,
+    float viewHeight,
+    float cameraZ,
+    float cameraYawRadians,
+    float cameraPitchRadians,
+    float farClipDistance,
+    float elapsedTimeSeconds,
+    float textureWidth,
+    float textureHeight)
+{
+    const float viewPlaneDistancePixels =
+        (viewHeight * 0.5f) / std::tan((CameraVerticalFovDegrees * Pi / 180.0f) * 0.5f);
+    const float viewportCenterX = viewWidth * 0.5f;
+    const float viewportCenterY = viewHeight * 0.5f;
+    const float horizonHeightOffset =
+        (viewPlaneDistancePixels * cameraZ) / (viewPlaneDistancePixels + farClipDistance) + viewportCenterY;
+    const float xDistance = (viewportCenterX - screenX) / viewPlaneDistancePixels;
+    const float yDistance = (horizonHeightOffset - screenY) / viewPlaneDistancePixels;
+    const float oeViewPitchRadians = -cameraPitchRadians;
+    const float cosYaw = std::cos(cameraYawRadians);
+    const float sinYaw = std::sin(cameraYawRadians);
+    const float cosPitch = std::cos(oeViewPitchRadians);
+    const float sinPitch = std::sin(oeViewPitchRadians);
+    const float skyLeft =
+        (-sinYaw * xDistance)
+        + (cosYaw * sinPitch * yDistance)
+        + (cosYaw * cosPitch);
+    const float skyFront =
+        (cosYaw * xDistance)
+        + (sinYaw * sinPitch * yDistance)
+        + (sinYaw * cosPitch);
+    const float v18x = -std::sin((-oeViewPitchRadians + SkyProjectionPitchOffsetRadians));
+    const float v18z = -std::cos(oeViewPitchRadians + SkyProjectionPitchOffsetRadians);
+    float topProjection = v18x + v18z * yDistance;
+
+    if (topProjection > -0.0000001f)
+    {
+        topProjection = -0.0000001f;
+    }
+
+    const float reciprocalW = -64.0f / topProjection;
+    const float textureOffsetU = elapsedTimeSeconds + skyLeft * reciprocalW;
+    const float textureOffsetV = elapsedTimeSeconds + skyFront * reciprocalW;
+    return {
+        screenX,
+        screenY,
+        reciprocalW,
+        textureOffsetU / textureWidth,
+        textureOffsetV / textureHeight
+    };
+}
+
+struct OutdoorFogParameters
+{
+    std::array<float, 4> color = {0.0f, 0.0f, 0.0f, 1.0f};
+    std::array<float, 4> densities = {0.0f, 0.0f, 0.0f, 0.0f};
+    std::array<float, 4> distances = {1.0f, 1.0f, 2.0f, 0.0f};
+};
 
 std::filesystem::path getShaderPath(bgfx::RendererType::Enum rendererType, const char *pShaderName)
 {
@@ -244,6 +373,140 @@ SurfaceAnimationSequence staticSurfaceAnimation(const std::string &textureName)
     frame.textureName = textureName;
     animation.frames.push_back(std::move(frame));
     return animation;
+}
+
+OutdoorFogParameters buildOutdoorWorldFogParameters(
+    const OutdoorWorldRuntime *pOutdoorWorldRuntime,
+    const OutdoorWorldRuntime::AtmosphereState *pAtmosphereState,
+    float farClipDistance)
+{
+    OutdoorFogParameters parameters = {};
+    const float clampedFarClipDistance = std::max(farClipDistance, 1.0f);
+
+    if (pOutdoorWorldRuntime == nullptr)
+    {
+        parameters.distances = {
+            clampedFarClipDistance,
+            clampedFarClipDistance,
+            clampedFarClipDistance + 1.0f,
+            0.0f};
+        return parameters;
+    }
+
+    const uint32_t skyTintAbgr = computeOutdoorSkyTintAbgr(*pOutdoorWorldRuntime);
+    parameters.color = {
+        static_cast<float>(skyTintAbgr & 0xffu) / 255.0f,
+        static_cast<float>((skyTintAbgr >> 8) & 0xffu) / 255.0f,
+        static_cast<float>((skyTintAbgr >> 16) & 0xffu) / 255.0f,
+        1.0f
+    };
+
+    if (pAtmosphereState != nullptr
+        && (pAtmosphereState->weatherFlags & MapWeatherFoggy) != 0
+        && pAtmosphereState->fogWeakDistance > 0
+        && pAtmosphereState->fogStrongDistance > 0)
+    {
+        const uint32_t fogColorAbgr = computeOutdoorSkyFogColorAbgr(*pAtmosphereState);
+        parameters.color = {
+            static_cast<float>(fogColorAbgr & 0xffu) / 255.0f,
+            static_cast<float>((fogColorAbgr >> 8) & 0xffu) / 255.0f,
+            static_cast<float>((fogColorAbgr >> 16) & 0xffu) / 255.0f,
+            1.0f
+        };
+        parameters.densities = {0.25f, 0.85f, 0.0f, 0.0f};
+        parameters.distances = {
+            static_cast<float>(pAtmosphereState->fogWeakDistance),
+            static_cast<float>(pAtmosphereState->fogStrongDistance),
+            clampedFarClipDistance,
+            0.0f
+        };
+        return parameters;
+    }
+
+    parameters.densities = {0.0f, 0.0f, 0.0f, 0.0f};
+    parameters.distances = {
+        clampedFarClipDistance,
+        clampedFarClipDistance,
+        clampedFarClipDistance,
+        0.0f
+    };
+    return parameters;
+}
+
+OutdoorFogParameters buildOutdoorSkyFogParameters(
+    const OutdoorWorldRuntime *pOutdoorWorldRuntime,
+    const OutdoorWorldRuntime::AtmosphereState *pAtmosphereState,
+    float renderDistance)
+{
+    OutdoorFogParameters parameters = {};
+    const float clampedRenderDistance = std::max(renderDistance, 1.0f);
+
+    if (pOutdoorWorldRuntime == nullptr)
+    {
+        parameters.distances = {
+            clampedRenderDistance,
+            clampedRenderDistance,
+            clampedRenderDistance + 1.0f,
+            0.0f};
+        return parameters;
+    }
+
+    const uint32_t skyTintAbgr = computeOutdoorSkyTintAbgr(*pOutdoorWorldRuntime);
+    parameters.color = {
+        static_cast<float>(skyTintAbgr & 0xffu) / 255.0f,
+        static_cast<float>((skyTintAbgr >> 8) & 0xffu) / 255.0f,
+        static_cast<float>((skyTintAbgr >> 16) & 0xffu) / 255.0f,
+        1.0f
+    };
+
+    if (pAtmosphereState != nullptr
+        && (pAtmosphereState->weatherFlags & MapWeatherFoggy) != 0
+        && pAtmosphereState->fogWeakDistance > 0
+        && pAtmosphereState->fogStrongDistance > 0)
+    {
+        const uint32_t fogColorAbgr = computeOutdoorSkyFogColorAbgr(*pAtmosphereState);
+        parameters.color = {
+            static_cast<float>(fogColorAbgr & 0xffu) / 255.0f,
+            static_cast<float>((fogColorAbgr >> 8) & 0xffu) / 255.0f,
+            static_cast<float>((fogColorAbgr >> 16) & 0xffu) / 255.0f,
+            1.0f
+        };
+        parameters.densities = {0.25f, 0.85f, 0.0f, 0.0f};
+        parameters.distances = {
+            static_cast<float>(pAtmosphereState->fogWeakDistance),
+            static_cast<float>(pAtmosphereState->fogStrongDistance),
+            clampedRenderDistance,
+            0.0f
+        };
+        return parameters;
+    }
+
+    parameters.densities = {0.0f, 0.0f, 0.0f, 0.0f};
+    parameters.distances = {
+        clampedRenderDistance,
+        clampedRenderDistance,
+        clampedRenderDistance,
+        0.0f
+    };
+    return parameters;
+}
+
+void applyOutdoorFogUniforms(
+    bgfx::UniformHandle fogColorUniformHandle,
+    bgfx::UniformHandle fogDensitiesUniformHandle,
+    bgfx::UniformHandle fogDistancesUniformHandle,
+    const OutdoorFogParameters &parameters)
+{
+    if (!bgfx::isValid(fogColorUniformHandle)
+        || !bgfx::isValid(fogDensitiesUniformHandle)
+        || !bgfx::isValid(fogDistancesUniformHandle))
+    {
+        return;
+    }
+
+    bgfx::setUniform(fogColorUniformHandle, parameters.color.data());
+    bgfx::setUniform(fogDensitiesUniformHandle, parameters.densities.data());
+    bgfx::setUniform(fogDistancesUniformHandle, parameters.distances.data());
 }
 
 } // namespace
@@ -907,6 +1170,7 @@ bool OutdoorRenderer::initializeWorldRenderResources(
 {
     OutdoorGameView::TerrainVertex::init();
     OutdoorGameView::TexturedTerrainVertex::init();
+    OutdoorGameView::ForcePerspectiveVertex::init();
     const std::vector<OutdoorGameView::TerrainVertex> vertices = buildTerrainVertices(outdoorMapData);
     const std::vector<uint16_t> indices = buildTerrainIndices();
     std::vector<OutdoorGameView::TexturedTerrainVertex> texturedTerrainVertices;
@@ -1014,6 +1278,10 @@ bool OutdoorRenderer::initializeWorldRenderResources(
 
     view.m_programHandle = loadProgramHandle("vs_cubes", "fs_cubes");
     view.m_texturedTerrainProgramHandle = loadProgramHandle("vs_shadowmaps_texture", "fs_shadowmaps_texture");
+    view.m_outdoorTexturedFogProgramHandle =
+        loadProgramHandle("vs_outdoor_textured_fog", "fs_outdoor_textured_fog");
+    view.m_outdoorForcePerspectiveProgramHandle =
+        loadProgramHandle("vs_outdoor_force_perspective", "fs_outdoor_force_perspective");
 
     if (outdoorTerrainTextureAtlas && !outdoorTerrainTextureAtlas->pixels.empty())
     {
@@ -1120,13 +1388,41 @@ const OutdoorGameView::SkyTextureHandle *OutdoorRenderer::ensureSkyTexture(
         view.m_pAssetFileSystem != nullptr ? view.m_pAssetFileSystem->getAssetScaleTier() : Engine::AssetScaleTier::X1);
     textureHandle.physicalWidth = textureWidth;
     textureHandle.physicalHeight = textureHeight;
+    textureHandle.bgraPixels = pixels;
+    {
+        const int sampleRowCount = std::max(1, std::min(textureHeight, 8));
+        uint64_t blueSum = 0;
+        uint64_t greenSum = 0;
+        uint64_t redSum = 0;
+        uint64_t sampleCount = 0;
+
+        for (int row = textureHeight - sampleRowCount; row < textureHeight; ++row)
+        {
+            for (int column = 0; column < textureWidth; ++column)
+            {
+                const size_t pixelIndex = static_cast<size_t>((row * textureWidth + column) * 4);
+                blueSum += pixels[pixelIndex + 0];
+                greenSum += pixels[pixelIndex + 1];
+                redSum += pixels[pixelIndex + 2];
+                ++sampleCount;
+            }
+        }
+
+        if (sampleCount > 0)
+        {
+            const uint8_t red = static_cast<uint8_t>(redSum / sampleCount);
+            const uint8_t green = static_cast<uint8_t>(greenSum / sampleCount);
+            const uint8_t blue = static_cast<uint8_t>(blueSum / sampleCount);
+            textureHandle.horizonColorAbgr = makeAbgr(red, green, blue);
+        }
+    }
     textureHandle.textureHandle = bgfx::createTexture2D(
         static_cast<uint16_t>(textureHandle.physicalWidth),
         static_cast<uint16_t>(textureHandle.physicalHeight),
         false,
         1,
         bgfx::TextureFormat::BGRA8,
-        BGFX_SAMPLER_U_MIRROR | BGFX_SAMPLER_V_CLAMP | BGFX_SAMPLER_MIN_POINT | BGFX_SAMPLER_MAG_POINT,
+        BGFX_SAMPLER_MIN_POINT | BGFX_SAMPLER_MAG_POINT,
         bgfx::copy(pixels.data(), static_cast<uint32_t>(pixels.size())));
 
     if (!bgfx::isValid(textureHandle.textureHandle))
@@ -1180,6 +1476,10 @@ OutdoorRenderer::WorldPassTimings OutdoorRenderer::renderWorldPasses(
     WorldPassTimings timings = {};
     float modelMatrix[16] = {};
     bx::mtxIdentity(modelMatrix);
+    const OutdoorFogParameters worldFogParameters = buildOutdoorWorldFogParameters(
+        view.m_pOutdoorWorldRuntime,
+        pAtmosphereState,
+        farClipDistance);
 
     if (pAtmosphereState != nullptr)
     {
@@ -1213,7 +1513,7 @@ OutdoorRenderer::WorldPassTimings OutdoorRenderer::renderWorldPasses(
 
         if (view.m_showFilledTerrain
             && bgfx::isValid(view.m_texturedTerrainVertexBufferHandle)
-            && bgfx::isValid(view.m_texturedTerrainProgramHandle)
+            && bgfx::isValid(view.m_outdoorTexturedFogProgramHandle)
             && bgfx::isValid(view.m_terrainTextureAtlasHandle)
             && bgfx::isValid(view.m_terrainTextureSamplerHandle))
         {
@@ -1221,13 +1521,18 @@ OutdoorRenderer::WorldPassTimings OutdoorRenderer::renderWorldPasses(
 
             bgfx::setVertexBuffer(0, view.m_texturedTerrainVertexBufferHandle);
             bgfx::setTexture(0, view.m_terrainTextureSamplerHandle, view.m_terrainTextureAtlasHandle);
+            applyOutdoorFogUniforms(
+                view.m_outdoorFogColorUniformHandle,
+                view.m_outdoorFogDensitiesUniformHandle,
+                view.m_outdoorFogDistancesUniformHandle,
+                worldFogParameters);
             bgfx::setState(
                 BGFX_STATE_WRITE_RGB
                 | BGFX_STATE_WRITE_A
                 | BGFX_STATE_WRITE_Z
                 | BGFX_STATE_DEPTH_TEST_LEQUAL
             );
-            bgfx::submit(MainViewId, view.m_texturedTerrainProgramHandle);
+            bgfx::submit(MainViewId, view.m_outdoorTexturedFogProgramHandle);
         }
 
         if (view.m_showTerrainWireframe)
@@ -1255,7 +1560,7 @@ OutdoorRenderer::WorldPassTimings OutdoorRenderer::renderWorldPasses(
             && bgfx::isValid(view.m_bmodelVertexBufferHandle)
             && view.m_bmodelLineVertexCount > 0)
         {
-            if (bgfx::isValid(view.m_texturedTerrainProgramHandle)
+            if (bgfx::isValid(view.m_outdoorTexturedFogProgramHandle)
                 && bgfx::isValid(view.m_terrainTextureSamplerHandle))
             {
                 for (const OutdoorGameView::TexturedBModelBatch &batch : view.m_texturedBModelBatches)
@@ -1281,14 +1586,18 @@ OutdoorRenderer::WorldPassTimings OutdoorRenderer::renderWorldPasses(
                     bgfx::setTransform(modelMatrix);
                     bgfx::setVertexBuffer(0, batch.vertexBufferHandle, 0, batch.vertexCount);
                     bgfx::setTexture(0, view.m_terrainTextureSamplerHandle, batch.frameTextureHandles[frameIndex]);
+                    applyOutdoorFogUniforms(
+                        view.m_outdoorFogColorUniformHandle,
+                        view.m_outdoorFogDensitiesUniformHandle,
+                        view.m_outdoorFogDistancesUniformHandle,
+                        worldFogParameters);
                     bgfx::setState(
                         BGFX_STATE_WRITE_RGB
                         | BGFX_STATE_WRITE_A
                         | BGFX_STATE_WRITE_Z
                         | BGFX_STATE_DEPTH_TEST_LEQUAL
-                        | BGFX_STATE_BLEND_ALPHA
                     );
-                    bgfx::submit(MainViewId, view.m_texturedTerrainProgramHandle);
+                    bgfx::submit(MainViewId, view.m_outdoorTexturedFogProgramHandle);
                 }
             }
 
@@ -1424,17 +1733,22 @@ void OutdoorRenderer::renderOutdoorSky(
     const bx::Vec3 &cameraUp,
     float renderDistance)
 {
-    (void)cameraForward;
     (void)cameraRight;
     (void)cameraUp;
 
-    if (!bgfx::isValid(view.m_texturedTerrainProgramHandle) || !bgfx::isValid(view.m_terrainTextureSamplerHandle))
+    if (!bgfx::isValid(view.m_outdoorForcePerspectiveProgramHandle)
+        || !bgfx::isValid(view.m_terrainTextureSamplerHandle))
     {
         return;
     }
 
     const OutdoorWorldRuntime::AtmosphereState *pAtmosphereState =
         view.m_pOutdoorWorldRuntime != nullptr ? &view.m_pOutdoorWorldRuntime->atmosphereState() : nullptr;
+    const bool hasAtmosphericFog =
+        pAtmosphereState != nullptr
+        && (pAtmosphereState->weatherFlags & MapWeatherFoggy) != 0
+        && pAtmosphereState->fogWeakDistance > 0
+        && pAtmosphereState->fogStrongDistance > 0;
 
     if (pAtmosphereState == nullptr)
     {
@@ -1448,21 +1762,51 @@ void OutdoorRenderer::renderOutdoorSky(
         return;
     }
 
-    const float domeRadius = std::max(renderDistance * 0.85f, 8192.0f);
-    const float domeCenterZ = cameraPosition.z - domeRadius * 0.15f;
-    const float skyUpdateElapsedTime = std::floor(view.m_elapsedTime * 30.0f) / 30.0f;
-    const float horizontalDrift = skyUpdateElapsedTime * 0.0015f;
-    const float verticalDrift = skyUpdateElapsedTime * 0.0002f;
-    const uint32_t vertexCount = SkyDomeHorizontalSegmentCount * SkyDomeVerticalSegmentCount * 6;
+    if (hasAtmosphericFog && !bgfx::isValid(view.m_forcePerspectiveSolidTextureHandle))
+    {
+        const uint32_t whitePixel = 0xffffffffu;
+        view.m_forcePerspectiveSolidTextureHandle = bgfx::createTexture2D(
+            1,
+            1,
+            false,
+            1,
+            bgfx::TextureFormat::BGRA8,
+            BGFX_SAMPLER_MIN_POINT | BGFX_SAMPLER_MAG_POINT,
+            bgfx::copy(&whitePixel, sizeof(whitePixel)));
+    }
+
+    const uint32_t vertexCount = 6;
+    const float cameraPitchRadians =
+        std::atan2(cameraForward.z, std::sqrt(cameraForward.x * cameraForward.x + cameraForward.y * cameraForward.y));
+    const float cameraYawRadians = std::atan2(-cameraForward.y, cameraForward.x);
+    const float viewPlaneDistancePixels =
+        (static_cast<float>(viewHeight) * 0.5f) / std::tan((CameraVerticalFovDegrees * Pi / 180.0f) * 0.5f);
+    const float viewportCenterY = static_cast<float>(viewHeight) * 0.5f;
+    const float oeViewPitchRadians = -cameraPitchRadians;
+    const float depthToFarClip = std::cos(oeViewPitchRadians) * renderDistance;
+    const float heightToFarClip = std::sin(oeViewPitchRadians) * renderDistance;
+    float skyBottomY = static_cast<float>(viewHeight);
+
+    if (depthToFarClip > 0.0001f)
+    {
+        skyBottomY =
+            viewportCenterY
+            - viewPlaneDistancePixels / depthToFarClip * (heightToFarClip - cameraPosition.z)
+            + 1.0f;
+    }
+    skyBottomY = std::clamp(skyBottomY, 1.0f, static_cast<float>(viewHeight));
 
     if (!bgfx::isValid(view.m_skyVertexBufferHandle))
     {
         view.m_skyVertexBufferHandle = bgfx::createDynamicVertexBuffer(
             vertexCount,
-            OutdoorGameView::TexturedTerrainVertex::ms_layout,
+            OutdoorGameView::ForcePerspectiveVertex::ms_layout,
             BGFX_BUFFER_NONE
         );
     }
+
+    const OutdoorFogParameters skyFogParameters =
+        buildOutdoorSkyFogParameters(view.m_pOutdoorWorldRuntime, pAtmosphereState, renderDistance);
 
     if (!bgfx::isValid(view.m_skyVertexBufferHandle))
     {
@@ -1474,85 +1818,287 @@ void OutdoorRenderer::renderOutdoorSky(
         view.m_cachedSkyVertices.resize(vertexCount);
     }
 
-    if (view.m_lastSkyUpdateElapsedTime != skyUpdateElapsedTime || view.m_cachedSkyTextureName != pTexture->textureName)
-    {
-        uint32_t vertexIndex = 0;
+    const OutdoorSkyVertex topLeft = computeOutdoorSkyVertex(
+        0.0f,
+        0.0f,
+        static_cast<float>(viewWidth),
+        static_cast<float>(viewHeight),
+        cameraPosition.z,
+        cameraYawRadians,
+        cameraPitchRadians,
+        renderDistance,
+        view.m_elapsedTime,
+        static_cast<float>(pTexture->physicalWidth),
+        static_cast<float>(pTexture->physicalHeight));
+    const OutdoorSkyVertex bottomLeft = computeOutdoorSkyVertex(
+        0.0f,
+        skyBottomY,
+        static_cast<float>(viewWidth),
+        static_cast<float>(viewHeight),
+        cameraPosition.z,
+        cameraYawRadians,
+        cameraPitchRadians,
+        renderDistance,
+        view.m_elapsedTime,
+        static_cast<float>(pTexture->physicalWidth),
+        static_cast<float>(pTexture->physicalHeight));
+    const OutdoorSkyVertex bottomRight = computeOutdoorSkyVertex(
+        static_cast<float>(viewWidth - 1),
+        skyBottomY,
+        static_cast<float>(viewWidth),
+        static_cast<float>(viewHeight),
+        cameraPosition.z,
+        cameraYawRadians,
+        cameraPitchRadians,
+        renderDistance,
+        view.m_elapsedTime,
+        static_cast<float>(pTexture->physicalWidth),
+        static_cast<float>(pTexture->physicalHeight));
+    const OutdoorSkyVertex topRight = computeOutdoorSkyVertex(
+        static_cast<float>(viewWidth - 1),
+        0.0f,
+        static_cast<float>(viewWidth),
+        static_cast<float>(viewHeight),
+        cameraPosition.z,
+        cameraYawRadians,
+        cameraPitchRadians,
+        renderDistance,
+        view.m_elapsedTime,
+        static_cast<float>(pTexture->physicalWidth),
+        static_cast<float>(pTexture->physicalHeight));
+    const uint32_t skyTintAbgr =
+        view.m_pOutdoorWorldRuntime != nullptr ? computeOutdoorSkyTintAbgr(*view.m_pOutdoorWorldRuntime) : 0xffffffffu;
+    view.m_cachedSkyVertices[0] = {
+        topLeft.screenX, topLeft.screenY, 1.0f, topLeft.u, topLeft.v, 1.0f, renderDistance, topLeft.reciprocalW, skyTintAbgr};
+    view.m_cachedSkyVertices[1] = {
+        bottomLeft.screenX,
+        bottomLeft.screenY,
+        1.0f,
+        bottomLeft.u,
+        bottomLeft.v,
+        1.0f,
+        renderDistance,
+        bottomLeft.reciprocalW,
+        skyTintAbgr};
+    view.m_cachedSkyVertices[2] = {
+        bottomRight.screenX,
+        bottomRight.screenY,
+        1.0f,
+        bottomRight.u,
+        bottomRight.v,
+        1.0f,
+        renderDistance,
+        bottomRight.reciprocalW,
+        skyTintAbgr
+    };
+    view.m_cachedSkyVertices[3] = {
+        topLeft.screenX, topLeft.screenY, 1.0f, topLeft.u, topLeft.v, 1.0f, renderDistance, topLeft.reciprocalW, skyTintAbgr};
+    view.m_cachedSkyVertices[4] = {
+        bottomRight.screenX,
+        bottomRight.screenY,
+        1.0f,
+        bottomRight.u,
+        bottomRight.v,
+        1.0f,
+        renderDistance,
+        bottomRight.reciprocalW,
+        skyTintAbgr
+    };
+    view.m_cachedSkyVertices[5] = {
+        topRight.screenX, topRight.screenY, 1.0f, topRight.u, topRight.v, 1.0f, renderDistance, topRight.reciprocalW, skyTintAbgr};
 
-        for (uint32_t verticalIndex = 0; verticalIndex < SkyDomeVerticalSegmentCount; ++verticalIndex)
-        {
-            const float phi0 =
-                (static_cast<float>(verticalIndex) / static_cast<float>(SkyDomeVerticalSegmentCount))
-                * (Pi * 0.5f);
-            const float phi1 =
-                (static_cast<float>(verticalIndex + 1) / static_cast<float>(SkyDomeVerticalSegmentCount))
-                * (Pi * 0.5f);
-            const float sinPhi0 = std::sin(phi0);
-            const float sinPhi1 = std::sin(phi1);
-            const float cosPhi0 = std::cos(phi0);
-            const float cosPhi1 = std::cos(phi1);
-            const float ringRadius0 = domeRadius * sinPhi0;
-            const float ringRadius1 = domeRadius * sinPhi1;
-            const float z0 = domeCenterZ + domeRadius * cosPhi0;
-            const float z1 = domeCenterZ + domeRadius * cosPhi1;
-            const float v0 = (phi0 / (Pi * 0.5f)) * 0.92f + verticalDrift;
-            const float v1 = (phi1 / (Pi * 0.5f)) * 0.92f + verticalDrift;
+    bgfx::update(
+        view.m_skyVertexBufferHandle,
+        0,
+        bgfx::copy(
+            view.m_cachedSkyVertices.data(),
+            static_cast<uint32_t>(
+                view.m_cachedSkyVertices.size() * sizeof(OutdoorGameView::ForcePerspectiveVertex))
+        )
+    );
+    view.m_lastSkyUpdateElapsedTime = view.m_elapsedTime;
+    view.m_cachedSkyTextureName = pTexture->textureName;
 
-            for (uint32_t horizontalIndex = 0; horizontalIndex < SkyDomeHorizontalSegmentCount; ++horizontalIndex)
-            {
-                const float theta0 =
-                    (static_cast<float>(horizontalIndex) / static_cast<float>(SkyDomeHorizontalSegmentCount))
-                    * (Pi * 2.0f);
-                const float theta1 =
-                    (static_cast<float>(horizontalIndex + 1) / static_cast<float>(SkyDomeHorizontalSegmentCount))
-                    * (Pi * 2.0f);
-                const float cosTheta0 = std::cos(theta0);
-                const float sinTheta0 = std::sin(theta0);
-                const float cosTheta1 = std::cos(theta1);
-                const float sinTheta1 = std::sin(theta1);
-                const float x00 = cameraPosition.x + ringRadius0 * cosTheta0;
-                const float y00 = cameraPosition.y + ringRadius0 * sinTheta0;
-                const float x01 = cameraPosition.x + ringRadius0 * cosTheta1;
-                const float y01 = cameraPosition.y + ringRadius0 * sinTheta1;
-                const float x10 = cameraPosition.x + ringRadius1 * cosTheta0;
-                const float y10 = cameraPosition.y + ringRadius1 * sinTheta0;
-                const float x11 = cameraPosition.x + ringRadius1 * cosTheta1;
-                const float y11 = cameraPosition.y + ringRadius1 * sinTheta1;
-                const float u0 =
-                    static_cast<float>(horizontalIndex) / static_cast<float>(SkyDomeHorizontalSegmentCount)
-                    + horizontalDrift;
-                const float u1 =
-                    static_cast<float>(horizontalIndex + 1) / static_cast<float>(SkyDomeHorizontalSegmentCount)
-                    + horizontalDrift;
-
-                view.m_cachedSkyVertices[vertexIndex++] = {x00, y00, z0, u0, v0};
-                view.m_cachedSkyVertices[vertexIndex++] = {x10, y10, z1, u0, v1};
-                view.m_cachedSkyVertices[vertexIndex++] = {x11, y11, z1, u1, v1};
-                view.m_cachedSkyVertices[vertexIndex++] = {x00, y00, z0, u0, v0};
-                view.m_cachedSkyVertices[vertexIndex++] = {x11, y11, z1, u1, v1};
-                view.m_cachedSkyVertices[vertexIndex++] = {x01, y01, z0, u1, v0};
-            }
-        }
-
-        bgfx::update(
-            view.m_skyVertexBufferHandle,
-            0,
-            bgfx::copy(
-                view.m_cachedSkyVertices.data(),
-                static_cast<uint32_t>(
-                    view.m_cachedSkyVertices.size() * sizeof(OutdoorGameView::TexturedTerrainVertex))
-            )
-        );
-        view.m_lastSkyUpdateElapsedTime = skyUpdateElapsedTime;
-        view.m_cachedSkyTextureName = pTexture->textureName;
-    }
+    float projectionMatrix[16] = {};
+    bx::mtxOrtho(
+        projectionMatrix,
+        0.0f,
+        static_cast<float>(viewWidth),
+        static_cast<float>(viewHeight),
+        0.0f,
+        0.0f,
+        1000.0f,
+        0.0f,
+        bgfx::getCaps()->homogeneousDepth
+    );
+    bgfx::setViewTransform(viewId, nullptr, projectionMatrix);
 
     float modelMatrix[16] = {};
     bx::mtxIdentity(modelMatrix);
     bgfx::setTransform(modelMatrix);
     bgfx::setVertexBuffer(0, view.m_skyVertexBufferHandle, 0, vertexCount);
     bgfx::setTexture(0, view.m_terrainTextureSamplerHandle, pTexture->textureHandle);
+    applyOutdoorFogUniforms(
+        view.m_outdoorFogColorUniformHandle,
+        view.m_outdoorFogDensitiesUniformHandle,
+        view.m_outdoorFogDistancesUniformHandle,
+        skyFogParameters);
     bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_BLEND_ALPHA);
-    bgfx::submit(viewId, view.m_texturedTerrainProgramHandle);
+    bgfx::submit(viewId, view.m_outdoorForcePerspectiveProgramHandle);
+
+    if (hasAtmosphericFog && bgfx::isValid(view.m_forcePerspectiveSolidTextureHandle))
+    {
+        const float lowerSkyTopY = std::max(skyBottomY - SkyFogHorizonPixels, 0.0f);
+        const uint32_t transparentSkyTintAbgr = withAlpha(skyTintAbgr, 0);
+        const uint32_t opaqueSkyTintAbgr = withAlpha(skyTintAbgr, 255);
+        const uint32_t lowerSkyVertexCount = 12u;
+
+        if (bgfx::getAvailTransientVertexBuffer(lowerSkyVertexCount, OutdoorGameView::ForcePerspectiveVertex::ms_layout)
+            >= lowerSkyVertexCount)
+        {
+            bgfx::TransientVertexBuffer transientVertexBuffer = {};
+            bgfx::allocTransientVertexBuffer(
+                &transientVertexBuffer,
+                lowerSkyVertexCount,
+                OutdoorGameView::ForcePerspectiveVertex::ms_layout);
+            OutdoorGameView::ForcePerspectiveVertex *pVertices =
+                reinterpret_cast<OutdoorGameView::ForcePerspectiveVertex *>(transientVertexBuffer.data);
+
+            pVertices[0] = {
+                0.0f,
+                0.0f,
+                1.0f,
+                0.5f,
+                0.5f,
+                1.0f,
+                renderDistance,
+                1.0f,
+                transparentSkyTintAbgr};
+            pVertices[1] = {
+                0.0f,
+                lowerSkyTopY,
+                1.0f,
+                0.5f,
+                0.5f,
+                1.0f,
+                renderDistance,
+                1.0f,
+                opaqueSkyTintAbgr};
+            pVertices[2] = {
+                static_cast<float>(viewWidth - 1),
+                lowerSkyTopY,
+                1.0f,
+                0.5f,
+                0.5f,
+                1.0f,
+                renderDistance,
+                1.0f,
+                opaqueSkyTintAbgr};
+            pVertices[3] = {
+                0.0f,
+                0.0f,
+                1.0f,
+                0.5f,
+                0.5f,
+                1.0f,
+                renderDistance,
+                1.0f,
+                transparentSkyTintAbgr};
+            pVertices[4] = {
+                static_cast<float>(viewWidth - 1),
+                lowerSkyTopY,
+                1.0f,
+                0.5f,
+                0.5f,
+                1.0f,
+                renderDistance,
+                1.0f,
+                opaqueSkyTintAbgr};
+            pVertices[5] = {
+                static_cast<float>(viewWidth - 1),
+                0.0f,
+                1.0f,
+                0.5f,
+                0.5f,
+                1.0f,
+                renderDistance,
+                1.0f,
+                transparentSkyTintAbgr};
+
+            const uint32_t subSkyOffset = 6u;
+            pVertices[subSkyOffset + 0] = {
+                0.0f,
+                lowerSkyTopY,
+                1.0f,
+                0.5f,
+                0.5f,
+                1.0f,
+                renderDistance,
+                1.0f,
+                opaqueSkyTintAbgr};
+            pVertices[subSkyOffset + 1] = {
+                0.0f,
+                static_cast<float>(viewHeight),
+                1.0f,
+                0.5f,
+                0.5f,
+                1.0f,
+                renderDistance,
+                1.0f,
+                opaqueSkyTintAbgr};
+            pVertices[subSkyOffset + 2] = {
+                static_cast<float>(viewWidth - 1),
+                static_cast<float>(viewHeight),
+                1.0f,
+                0.5f,
+                0.5f,
+                1.0f,
+                renderDistance,
+                1.0f,
+                opaqueSkyTintAbgr};
+            pVertices[subSkyOffset + 3] = {
+                0.0f,
+                lowerSkyTopY,
+                1.0f,
+                0.5f,
+                0.5f,
+                1.0f,
+                renderDistance,
+                1.0f,
+                opaqueSkyTintAbgr};
+            pVertices[subSkyOffset + 4] = {
+                static_cast<float>(viewWidth - 1),
+                static_cast<float>(viewHeight),
+                1.0f,
+                0.5f,
+                0.5f,
+                1.0f,
+                renderDistance,
+                1.0f,
+                opaqueSkyTintAbgr};
+            pVertices[subSkyOffset + 5] = {
+                static_cast<float>(viewWidth - 1),
+                lowerSkyTopY,
+                1.0f,
+                0.5f,
+                0.5f,
+                1.0f,
+                renderDistance,
+                1.0f,
+                opaqueSkyTintAbgr};
+
+            bgfx::setTransform(modelMatrix);
+            bgfx::setVertexBuffer(0, &transientVertexBuffer, 0, lowerSkyVertexCount);
+            bgfx::setTexture(0, view.m_terrainTextureSamplerHandle, view.m_forcePerspectiveSolidTextureHandle);
+            applyOutdoorFogUniforms(
+                view.m_outdoorFogColorUniformHandle,
+                view.m_outdoorFogDensitiesUniformHandle,
+                view.m_outdoorFogDistancesUniformHandle,
+                skyFogParameters);
+            bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_BLEND_ALPHA);
+            bgfx::submit(viewId, view.m_outdoorForcePerspectiveProgramHandle);
+        }
+    }
 }
 
 void OutdoorRenderer::renderOutdoorDarknessOverlay(
