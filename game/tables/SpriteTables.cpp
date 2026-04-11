@@ -5,12 +5,13 @@
 #include <algorithm>
 #include <array>
 #include <cctype>
+#include <cstdlib>
+#include <limits>
 
 namespace OpenYAMM::Game
 {
 namespace
 {
-constexpr size_t DecorationRecordSize = 84;
 constexpr size_t SpriteFrameRecordSize = 60;
 
 bool isNumericString(const std::string &value)
@@ -50,44 +51,221 @@ void appendUnique(std::vector<std::string> &names, const std::string &name)
     }
 }
 
+std::string trimCopy(const std::string &value)
+{
+    size_t begin = 0;
+
+    while (begin < value.size() && std::isspace(static_cast<unsigned char>(value[begin])) != 0)
+    {
+        ++begin;
+    }
+
+    size_t end = value.size();
+
+    while (end > begin && std::isspace(static_cast<unsigned char>(value[end - 1])) != 0)
+    {
+        --end;
+    }
+
+    return value.substr(begin, end - begin);
 }
 
-bool DecorationTable::loadFromBytes(const std::vector<uint8_t> &bytes)
+bool parseInt16Cell(const std::vector<std::string> &row, size_t index, int16_t &value)
 {
-    const ByteReader reader(bytes);
-    uint32_t entryCount = 0;
-
-    if (!reader.readUInt32(0, entryCount))
+    if (index >= row.size())
     {
         return false;
     }
 
-    const size_t expectedSize =
-        sizeof(uint32_t) + static_cast<size_t>(entryCount) * DecorationRecordSize;
+    const std::string trimmed = trimCopy(row[index]);
 
-    if (!reader.canRead(0, expectedSize))
+    if (trimmed.empty())
     {
         return false;
     }
 
+    char *pEnd = nullptr;
+    const long parsed = std::strtol(trimmed.c_str(), &pEnd, 0);
+
+    if (pEnd == nullptr || *pEnd != '\0')
+    {
+        return false;
+    }
+
+    if (parsed < std::numeric_limits<int16_t>::min() || parsed > std::numeric_limits<int16_t>::max())
+    {
+        return false;
+    }
+
+    value = static_cast<int16_t>(parsed);
+    return true;
+}
+
+bool parseUInt16Cell(const std::vector<std::string> &row, size_t index, uint16_t &value)
+{
+    if (index >= row.size())
+    {
+        return false;
+    }
+
+    const std::string trimmed = trimCopy(row[index]);
+
+    if (trimmed.empty() || trimmed.front() == '-')
+    {
+        return false;
+    }
+
+    char *pEnd = nullptr;
+    const unsigned long parsed = std::strtoul(trimmed.c_str(), &pEnd, 0);
+
+    if (pEnd == nullptr || *pEnd != '\0' || parsed > std::numeric_limits<uint16_t>::max())
+    {
+        return false;
+    }
+
+    value = static_cast<uint16_t>(parsed);
+    return true;
+}
+
+bool parseUInt8Cell(const std::vector<std::string> &row, size_t index, uint8_t &value)
+{
+    uint16_t parsed = 0;
+
+    if (!parseUInt16Cell(row, index, parsed) || parsed > std::numeric_limits<uint8_t>::max())
+    {
+        return false;
+    }
+
+    value = static_cast<uint8_t>(parsed);
+    return true;
+}
+
+bool parseDecorationFlagsCell(const std::vector<std::string> &row, size_t index, uint16_t &flags)
+{
+    if (index >= row.size())
+    {
+        return false;
+    }
+
+    const std::string trimmed = trimCopy(row[index]);
+
+    if (trimmed.empty() || trimmed == "0")
+    {
+        flags = 0;
+        return true;
+    }
+
+    if (isNumericString(trimmed) || trimmed.starts_with("0x") || trimmed.starts_with("0X"))
+    {
+        return parseUInt16Cell(row, index, flags);
+    }
+
+    flags = 0;
+    size_t tokenBegin = 0;
+
+    while (tokenBegin < trimmed.size())
+    {
+        size_t tokenEnd = trimmed.find(',', tokenBegin);
+
+        if (tokenEnd == std::string::npos)
+        {
+            tokenEnd = trimmed.size();
+        }
+
+        const std::string token = toLowerCopy(trimCopy(trimmed.substr(tokenBegin, tokenEnd - tokenBegin)));
+
+        if (!token.empty())
+        {
+            if (token == "movethrough")
+            {
+                flags |= 0x0001;
+            }
+            else if (token == "dontdraw" || token == "invisible")
+            {
+                flags |= 0x0002;
+            }
+            else if (token == "flickerslow")
+            {
+                flags |= 0x0004;
+            }
+            else if (token == "flickeraverage")
+            {
+                flags |= 0x0008;
+            }
+            else if (token == "flickerfast")
+            {
+                flags |= 0x0010;
+            }
+            else if (token == "marker")
+            {
+                flags |= 0x0020;
+            }
+            else if (token == "slowloop")
+            {
+                flags |= 0x0040;
+            }
+            else if (token == "emitfire")
+            {
+                flags |= 0x0080;
+            }
+            else if (token == "soundondawn")
+            {
+                flags |= 0x0100;
+            }
+            else if (token == "soundondusk")
+            {
+                flags |= 0x0200;
+            }
+            else if (token == "emitsmoke" || token == "emitsmoke")
+            {
+                flags |= 0x0400;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        tokenBegin = tokenEnd + 1;
+    }
+
+    return true;
+}
+
+}
+
+bool DecorationTable::loadRows(const std::vector<std::vector<std::string>> &rows)
+{
     m_entries.clear();
-    m_entries.reserve(entryCount);
-
-    for (uint32_t index = 0; index < entryCount; ++index)
+    for (const std::vector<std::string> &row : rows)
     {
-        const size_t offset = sizeof(uint32_t) + static_cast<size_t>(index) * DecorationRecordSize;
+        if (row.empty() || !isNumericString(trimCopy(row[0])))
+        {
+            continue;
+        }
+
+        const int decorationNumber = std::stoi(trimCopy(row[0]));
+        const int decorationId = decorationNumber - 1;
+
+        if (decorationId < 0 || static_cast<size_t>(decorationId) != m_entries.size())
+        {
+            return false;
+        }
+
         DecorationEntry entry = {};
+        entry.internalName = row.size() > 1 ? toLowerCopy(trimCopy(row[1])) : std::string();
+        entry.hint = row.size() > 2 ? trimCopy(row[2]) : std::string();
 
-        entry.internalName = reader.readFixedString(offset + 0x00, 32, true);
-        entry.hint = reader.readFixedString(offset + 0x20, 32, true);
-
-        if (!reader.readInt16(offset + 0x40, entry.type)
-            || !reader.readUInt16(offset + 0x42, entry.height)
-            || !reader.readInt16(offset + 0x44, entry.radius)
-            || !reader.readInt16(offset + 0x46, entry.lightRadius)
-            || !reader.readUInt16(offset + 0x48, entry.spriteId)
-            || !reader.readUInt16(offset + 0x4a, entry.flags)
-            || !reader.readInt16(offset + 0x4c, entry.soundId))
+        if (!parseInt16Cell(row, 3, entry.type)
+            || !parseInt16Cell(row, 4, entry.radius)
+            || !parseUInt16Cell(row, 5, entry.height)
+            || !parseInt16Cell(row, 6, entry.lightRadius)
+            || !parseUInt8Cell(row, 7, entry.lightRed)
+            || !parseUInt8Cell(row, 8, entry.lightGreen)
+            || !parseUInt8Cell(row, 9, entry.lightBlue)
+            || !parseInt16Cell(row, 10, entry.soundId)
+            || !parseDecorationFlagsCell(row, 11, entry.flags)
+            || !parseUInt16Cell(row, 12, entry.spriteId))
         {
             return false;
         }
@@ -96,39 +274,6 @@ bool DecorationTable::loadFromBytes(const std::vector<uint8_t> &bytes)
     }
 
     return !m_entries.empty();
-}
-
-bool DecorationTable::loadDisplayRows(const std::vector<std::vector<std::string>> &rows)
-{
-    for (const std::vector<std::string> &row : rows)
-    {
-        if (row.size() < 3 || !isNumericString(row[0]))
-        {
-            continue;
-        }
-
-        const int decorationNumber = std::stoi(row[0]);
-        const int decorationId = decorationNumber - 1;
-
-        if (decorationId < 0 || static_cast<size_t>(decorationId) >= m_entries.size())
-        {
-            continue;
-        }
-
-        DecorationEntry &entry = m_entries[static_cast<size_t>(decorationId)];
-
-        if (row.size() > 1 && !row[1].empty() && toLowerCopy(row[1]) != "null")
-        {
-            entry.internalName = toLowerCopy(row[1]);
-        }
-
-        if (!row[2].empty() && toLowerCopy(row[2]) != "null")
-        {
-            entry.hint = row[2];
-        }
-    }
-
-    return true;
 }
 
 const DecorationEntry *DecorationTable::get(uint16_t decorationId) const

@@ -22,8 +22,7 @@ struct ChestEntry
 class ChestTable
 {
 public:
-    bool loadFromBytes(const std::vector<uint8_t> &bytes);
-    bool loadUiLayoutFromText(const std::string &text);
+    bool loadRows(const std::vector<std::vector<std::string>> &rows);
     const ChestEntry *get(uint16_t chestTypeId) const;
     const std::vector<ChestEntry> &getEntries() const;
 

@@ -1116,39 +1116,39 @@ bool GameDataLoader::loadMapStats(const Engine::AssetFileSystem &assetFileSystem
 
 bool GameDataLoader::loadMonsterTable(const Engine::AssetFileSystem &assetFileSystem)
 {
-    const std::optional<std::vector<uint8_t>> monsterTableBytes =
-        assetFileSystem.readBinaryFile("Data/EnglishT/dmonlist.bin");
+    std::vector<std::vector<std::string>> monsterDataRows;
 
-    if (!monsterTableBytes)
-    {
-        std::cerr << "Failed to read monster table: Data/EnglishT/dmonlist.bin\n";
-        return false;
-    }
+    const std::string monsterDataPath = dataTablePath("monster_data.txt");
 
-    if (!m_monsterTable.loadFromBytes(*monsterTableBytes))
-    {
-        std::cerr << "Failed to parse monster table: Data/EnglishT/dmonlist.bin\n";
-        return false;
-    }
-
-    std::vector<std::vector<std::string>> monsterRows;
-
-    const std::string monstersPath = dataTablePath("monsters.txt");
-
-    if (!loadTextTableRows(assetFileSystem, monstersPath, monsterRows))
+    if (!loadTextTableRows(assetFileSystem, monsterDataPath, monsterDataRows))
     {
         return false;
     }
 
-    if (!m_monsterTable.loadDisplayNamesFromRows(monsterRows))
+    std::vector<std::vector<std::string>> monsterDescriptorRows;
+
+    const std::string monsterDescriptorPath = dataTablePath("monster_descriptors.txt");
+
+    if (!loadTextTableRows(assetFileSystem, monsterDescriptorPath, monsterDescriptorRows))
     {
-        std::cerr << "Failed to parse monster display names: " << monstersPath << '\n';
         return false;
     }
 
-    if (!m_monsterTable.loadStatsFromRows(monsterRows))
+    if (!m_monsterTable.loadEntriesFromRows(monsterDescriptorRows))
     {
-        std::cerr << "Failed to parse monster runtime stats: " << monstersPath << '\n';
+        std::cerr << "Failed to parse monster descriptor data: " << monsterDescriptorPath << '\n';
+        return false;
+    }
+
+    if (!m_monsterTable.loadDisplayNamesFromRows(monsterDataRows))
+    {
+        std::cerr << "Failed to parse monster display names: " << monsterDataPath << '\n';
+        return false;
+    }
+
+    if (!m_monsterTable.loadStatsFromRows(monsterDataRows))
+    {
+        std::cerr << "Failed to parse monster runtime stats: " << monsterDataPath << '\n';
         return false;
     }
 
@@ -1729,32 +1729,18 @@ bool GameDataLoader::loadItemEquipPosTable(const Engine::AssetFileSystem &assetF
 
 bool GameDataLoader::loadChestTable(const Engine::AssetFileSystem &assetFileSystem)
 {
-    const std::optional<std::vector<uint8_t>> chestTableBytes =
-        assetFileSystem.readBinaryFile("Data/EnglishT/dchest.bin");
-    const std::string chestUiPath = dataTablePath("chest_ui.txt");
-    const std::optional<std::string> chestUiText = assetFileSystem.readTextFile(chestUiPath);
+    std::vector<std::vector<std::string>> chestRows;
 
-    if (!chestTableBytes)
+    const std::string chestDataPath = dataTablePath("chest_data.txt");
+
+    if (!loadTextTableRows(assetFileSystem, chestDataPath, chestRows))
     {
-        std::cerr << "Failed to read chest table: Data/EnglishT/dchest.bin\n";
         return false;
     }
 
-    if (!chestUiText)
+    if (!m_chestTable.loadRows(chestRows))
     {
-        std::cerr << "Failed to read chest UI table: " << chestUiPath << '\n';
-        return false;
-    }
-
-    if (!m_chestTable.loadFromBytes(*chestTableBytes))
-    {
-        std::cerr << "Failed to parse chest table: Data/EnglishT/dchest.bin\n";
-        return false;
-    }
-
-    if (!m_chestTable.loadUiLayoutFromText(*chestUiText))
-    {
-        std::cerr << "Failed to parse chest UI table: " << chestUiPath << '\n';
+        std::cerr << "Failed to parse chest table: " << chestDataPath << '\n';
         return false;
     }
 

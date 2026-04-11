@@ -1,63 +1,33 @@
 #include "game/tables/ChestTable.h"
 
 #include <algorithm>
-#include <cstring>
+#include <cctype>
+#include <cstdlib>
+#include <limits>
 #include <sstream>
 #include <string>
-#include <vector>
 
 namespace OpenYAMM::Game
 {
 namespace
 {
-constexpr size_t RecordSize = 36;
-constexpr size_t NameSize = 32;
-
-std::string trim(const std::string &value)
+std::string trimCopy(const std::string &value)
 {
-    const size_t first = value.find_first_not_of(" \t\r\n");
+    const auto begin = std::find_if_not(value.begin(), value.end(), [](unsigned char character)
+    {
+        return std::isspace(character) != 0;
+    });
+    const auto end = std::find_if_not(value.rbegin(), value.rend(), [](unsigned char character)
+    {
+        return std::isspace(character) != 0;
+    }).base();
 
-    if (first == std::string::npos)
+    if (begin >= end)
     {
         return {};
     }
 
-    const size_t last = value.find_last_not_of(" \t\r\n");
-    return value.substr(first, last - first + 1);
-}
-
-std::vector<std::string> splitTabSeparatedRow(const std::string &line)
-{
-    std::vector<std::string> tokens;
-    std::string token;
-    std::istringstream stream(line);
-
-    while (std::getline(stream, token, '\t'))
-    {
-        tokens.push_back(trim(token));
-    }
-
-    return tokens;
-}
-
-std::string readFixedString(const uint8_t *pData, size_t size)
-{
-    std::string value;
-    value.reserve(size);
-
-    for (size_t index = 0; index < size; ++index)
-    {
-        const char character = static_cast<char>(pData[index]);
-
-        if (character == '\0')
-        {
-            break;
-        }
-
-        value.push_back(character);
-    }
-
-    return value;
+    return std::string(begin, end);
 }
 
 std::string buildTextureName(int16_t textureId)
@@ -78,91 +48,104 @@ std::string buildTextureName(int16_t textureId)
     stream << textureId;
     return stream.str();
 }
+
+bool parseIntCell(const std::vector<std::string> &row, size_t index, int &value)
+{
+    if (index >= row.size())
+    {
+        return false;
+    }
+
+    const std::string trimmed = trimCopy(row[index]);
+
+    if (trimmed.empty())
+    {
+        return false;
+    }
+
+    char *pEnd = nullptr;
+    const long parsed = std::strtol(trimmed.c_str(), &pEnd, 0);
+
+    if (pEnd == nullptr || *pEnd != '\0')
+    {
+        return false;
+    }
+
+    if (parsed < std::numeric_limits<int>::min() || parsed > std::numeric_limits<int>::max())
+    {
+        return false;
+    }
+
+    value = static_cast<int>(parsed);
+    return true;
+}
 }
 
-bool ChestTable::loadFromBytes(const std::vector<uint8_t> &bytes)
+bool ChestTable::loadRows(const std::vector<std::vector<std::string>> &rows)
 {
     m_entries.clear();
 
-    if (bytes.size() < sizeof(uint32_t))
+    for (const std::vector<std::string> &row : rows)
     {
-        return false;
-    }
+        if (row.empty())
+        {
+            continue;
+        }
 
-    uint32_t entryCount = 0;
-    std::memcpy(&entryCount, bytes.data(), sizeof(entryCount));
+        const std::string idText = trimCopy(row[0]);
 
-    const size_t requiredSize = sizeof(uint32_t) + static_cast<size_t>(entryCount) * RecordSize;
+        if (idText.empty() || !std::isdigit(static_cast<unsigned char>(idText[0])))
+        {
+            continue;
+        }
 
-    if (bytes.size() < requiredSize)
-    {
-        return false;
-    }
+        int chestTypeId = 0;
 
-    m_entries.reserve(entryCount);
+        if (!parseIntCell(row, 0, chestTypeId) || chestTypeId < 0)
+        {
+            return false;
+        }
 
-    for (uint32_t entryIndex = 0; entryIndex < entryCount; ++entryIndex)
-    {
-        const uint8_t *pRecord = bytes.data() + sizeof(uint32_t) + static_cast<size_t>(entryIndex) * RecordSize;
+        if (static_cast<size_t>(chestTypeId) != m_entries.size())
+        {
+            return false;
+        }
+
+        int width = 0;
+        int height = 0;
+        int textureId = 0;
+        int gridOffsetX = 0;
+        int gridOffsetY = 0;
+        int gridWidth = 0;
+        int gridHeight = 0;
+
+        if (!parseIntCell(row, 2, width)
+            || !parseIntCell(row, 3, height)
+            || !parseIntCell(row, 4, textureId)
+            || !parseIntCell(row, 6, gridOffsetX)
+            || !parseIntCell(row, 7, gridOffsetY)
+            || !parseIntCell(row, 8, gridWidth)
+            || !parseIntCell(row, 9, gridHeight))
+        {
+            return false;
+        }
+
         ChestEntry entry = {};
-        entry.name = readFixedString(pRecord, NameSize);
-        entry.width = pRecord[32];
-        entry.height = pRecord[33];
-        std::memcpy(&entry.textureId, pRecord + 34, sizeof(entry.textureId));
-        entry.textureName = buildTextureName(entry.textureId);
+        entry.name = row.size() > 1 ? trimCopy(row[1]) : std::string();
+        entry.width = static_cast<uint8_t>(std::max(0, width));
+        entry.height = static_cast<uint8_t>(std::max(0, height));
+        entry.textureId = static_cast<int16_t>(textureId);
+        entry.textureName = row.size() > 5 && !trimCopy(row[5]).empty()
+            ? trimCopy(row[5])
+            : buildTextureName(entry.textureId);
+        entry.gridOffsetX = static_cast<int16_t>(gridOffsetX);
+        entry.gridOffsetY = static_cast<int16_t>(gridOffsetY);
+        entry.gridWidth = static_cast<uint8_t>(std::max(0, gridWidth));
+        entry.gridHeight = static_cast<uint8_t>(std::max(0, gridHeight));
         m_entries.push_back(std::move(entry));
     }
 
-    return true;
-}
-
-bool ChestTable::loadUiLayoutFromText(const std::string &text)
-{
-    std::istringstream stream(text);
-    std::string line;
-    bool headerSkipped = false;
-
-    while (std::getline(stream, line))
-    {
-        const std::string trimmedLine = trim(line);
-
-        if (trimmedLine.empty() || trimmedLine[0] == '#')
-        {
-            continue;
-        }
-
-        if (!headerSkipped)
-        {
-            headerSkipped = true;
-            continue;
-        }
-
-        const std::vector<std::string> columns = splitTabSeparatedRow(trimmedLine);
-
-        if (columns.size() < 3)
-        {
-            return false;
-        }
-
-        const int chestTypeId = std::stoi(columns[0]);
-
-        if (chestTypeId < 0 || static_cast<size_t>(chestTypeId) >= m_entries.size())
-        {
-            return false;
-        }
-
-        ChestEntry &entry = m_entries[chestTypeId];
-        entry.gridOffsetX = static_cast<int16_t>(std::stoi(columns[1]));
-        entry.gridOffsetY = static_cast<int16_t>(std::stoi(columns[2]));
-
-        if (columns.size() >= 5)
-        {
-            entry.gridWidth = static_cast<uint8_t>(std::max(0, std::stoi(columns[3])));
-            entry.gridHeight = static_cast<uint8_t>(std::max(0, std::stoi(columns[4])));
-        }
-    }
-
-    return true;
+    return !m_entries.empty();
 }
 
 const ChestEntry *ChestTable::get(uint16_t chestTypeId) const

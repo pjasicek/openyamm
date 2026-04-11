@@ -2741,17 +2741,33 @@ std::optional<OutdoorPartyStartPoint> resolveOutdoorPartyStartPoint(
     const Engine::AssetFileSystem &assetFileSystem,
     const OutdoorMapData &outdoorMapData)
 {
-    const std::optional<std::vector<uint8_t>> decorationTableBytes =
-        assetFileSystem.readBinaryFile("Data/EnglishT/ddeclist.bin");
+    const std::optional<std::string> decorationTableText =
+        assetFileSystem.readTextFile(dataTablePath("decoration_data.txt"));
 
-    if (!decorationTableBytes)
+    if (!decorationTableText)
     {
         return std::nullopt;
     }
 
+    const std::optional<Engine::TextTable> parsedDecorationTable =
+        Engine::TextTable::parseTabSeparated(*decorationTableText);
+
+    if (!parsedDecorationTable)
+    {
+        return std::nullopt;
+    }
+
+    std::vector<std::vector<std::string>> decorationRows;
+    decorationRows.reserve(parsedDecorationTable->getRowCount());
+
+    for (size_t rowIndex = 0; rowIndex < parsedDecorationTable->getRowCount(); ++rowIndex)
+    {
+        decorationRows.push_back(parsedDecorationTable->getRow(rowIndex));
+    }
+
     DecorationTable decorationTable;
 
-    if (!decorationTable.loadFromBytes(*decorationTableBytes))
+    if (!decorationTable.loadRows(decorationRows))
     {
         return std::nullopt;
     }

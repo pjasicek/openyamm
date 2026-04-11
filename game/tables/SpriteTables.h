@@ -38,6 +38,9 @@ struct DecorationEntry
     uint16_t height = 0;
     int16_t radius = 0;
     int16_t lightRadius = 0;
+    uint8_t lightRed = 255;
+    uint8_t lightGreen = 255;
+    uint8_t lightBlue = 255;
     uint16_t spriteId = 0;
     uint16_t flags = 0;
     int16_t soundId = 0;
@@ -46,8 +49,7 @@ struct DecorationEntry
 class DecorationTable
 {
 public:
-    bool loadFromBytes(const std::vector<uint8_t> &bytes);
-    bool loadDisplayRows(const std::vector<std::vector<std::string>> &rows);
+    bool loadRows(const std::vector<std::vector<std::string>> &rows);
     const DecorationEntry *get(uint16_t decorationId) const;
     const DecorationEntry *findByInternalName(const std::string &internalName) const;
 

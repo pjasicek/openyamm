@@ -13,6 +13,25 @@ namespace
 {
 constexpr size_t MonsterRecordSize = 184;
 
+std::string trimCopy(const std::string &value)
+{
+    size_t begin = 0;
+
+    while (begin < value.size() && std::isspace(static_cast<unsigned char>(value[begin])) != 0)
+    {
+        ++begin;
+    }
+
+    size_t end = value.size();
+
+    while (end > begin && std::isspace(static_cast<unsigned char>(value[end - 1])) != 0)
+    {
+        --end;
+    }
+
+    return value.substr(begin, end - begin);
+}
+
 std::string relationFactionKey(const std::string &label)
 {
     std::vector<std::string> tokens;
@@ -150,6 +169,23 @@ bool isNumericString(const std::string &value)
     }
 
     return true;
+}
+
+uint32_t parseUnsignedIntegerValue(const std::string &value)
+{
+    if (value.empty())
+    {
+        return 0;
+    }
+
+    const std::string trimmed = trimCopy(value);
+
+    if (trimmed.empty())
+    {
+        return 0;
+    }
+
+    return static_cast<uint32_t>(std::stoul(trimmed, nullptr, 0));
 }
 
 MonsterTable::MonsterMovementType parseMovementType(const std::string &value)
@@ -365,6 +401,80 @@ bool MonsterTable::loadFromBytes(const std::vector<uint8_t> &bytes)
         for (size_t spriteIndex = 0; spriteIndex < entry.spriteNames.size(); ++spriteIndex)
         {
             entry.spriteNames[spriteIndex] = reader.readFixedString(offset + 0x54 + spriteIndex * 10, 10);
+        }
+
+        m_entries.push_back(std::move(entry));
+    }
+
+    return !m_entries.empty();
+}
+
+bool MonsterTable::loadEntriesFromRows(const std::vector<std::vector<std::string>> &rows)
+{
+    static constexpr size_t ColumnId = 0;
+    static constexpr size_t ColumnInternalName = 1;
+    static constexpr size_t ColumnHeight = 2;
+    static constexpr size_t ColumnRadius = 3;
+    static constexpr size_t ColumnMovementSpeed = 4;
+    static constexpr size_t ColumnToHitRadius = 5;
+    static constexpr size_t ColumnTintColor = 6;
+    static constexpr size_t ColumnAttackSoundId = 7;
+    static constexpr size_t ColumnDeathSoundId = 8;
+    static constexpr size_t ColumnWinceSoundId = 9;
+    static constexpr size_t ColumnAwareSoundId = 10;
+    static constexpr size_t ColumnSpriteStanding = 11;
+
+    m_entries.clear();
+
+    for (const std::vector<std::string> &row : rows)
+    {
+        if (row.size() <= ColumnInternalName || !isNumericString(trimCopy(row[ColumnId])))
+        {
+            continue;
+        }
+
+        MonsterEntry entry = {};
+        entry.internalName = trimCopy(row[ColumnInternalName]);
+
+        if (entry.internalName.empty())
+        {
+            continue;
+        }
+
+        entry.height = row.size() > ColumnHeight && !trimCopy(row[ColumnHeight]).empty()
+            ? static_cast<uint16_t>(std::stoi(trimCopy(row[ColumnHeight])))
+            : 0;
+        entry.radius = row.size() > ColumnRadius && !trimCopy(row[ColumnRadius]).empty()
+            ? static_cast<uint16_t>(std::stoi(trimCopy(row[ColumnRadius])))
+            : 0;
+        entry.movementSpeed = row.size() > ColumnMovementSpeed && !trimCopy(row[ColumnMovementSpeed]).empty()
+            ? static_cast<uint16_t>(std::stoi(trimCopy(row[ColumnMovementSpeed])))
+            : 0;
+        entry.toHitRadius = row.size() > ColumnToHitRadius && !trimCopy(row[ColumnToHitRadius]).empty()
+            ? static_cast<int16_t>(std::stoi(trimCopy(row[ColumnToHitRadius])))
+            : 0;
+        entry.tintColor = row.size() > ColumnTintColor ? parseUnsignedIntegerValue(row[ColumnTintColor]) : 0;
+        entry.soundSampleIds[0] = row.size() > ColumnAttackSoundId && !trimCopy(row[ColumnAttackSoundId]).empty()
+            ? static_cast<uint16_t>(std::stoi(trimCopy(row[ColumnAttackSoundId])))
+            : 0;
+        entry.soundSampleIds[1] = row.size() > ColumnDeathSoundId && !trimCopy(row[ColumnDeathSoundId]).empty()
+            ? static_cast<uint16_t>(std::stoi(trimCopy(row[ColumnDeathSoundId])))
+            : 0;
+        entry.soundSampleIds[2] = row.size() > ColumnWinceSoundId && !trimCopy(row[ColumnWinceSoundId]).empty()
+            ? static_cast<uint16_t>(std::stoi(trimCopy(row[ColumnWinceSoundId])))
+            : 0;
+        entry.soundSampleIds[3] = row.size() > ColumnAwareSoundId && !trimCopy(row[ColumnAwareSoundId]).empty()
+            ? static_cast<uint16_t>(std::stoi(trimCopy(row[ColumnAwareSoundId])))
+            : 0;
+
+        for (size_t spriteIndex = 0; spriteIndex < entry.spriteNames.size(); ++spriteIndex)
+        {
+            const size_t columnIndex = ColumnSpriteStanding + spriteIndex;
+
+            if (row.size() > columnIndex)
+            {
+                entry.spriteNames[spriteIndex] = trimCopy(row[columnIndex]);
+            }
         }
 
         m_entries.push_back(std::move(entry));

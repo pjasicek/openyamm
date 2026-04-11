@@ -147,6 +147,7 @@ public:
         std::string displayName;
     };
 
+    bool loadEntriesFromRows(const std::vector<std::vector<std::string>> &rows);
     bool loadFromBytes(const std::vector<uint8_t> &bytes);
     bool loadDisplayNamesFromRows(const std::vector<std::vector<std::string>> &rows);
     bool loadStatsFromRows(const std::vector<std::vector<std::string>> &rows);

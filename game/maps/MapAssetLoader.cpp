@@ -221,13 +221,14 @@ std::vector<uint8_t> compositeTerrainOverlayOverBase(
     return compositedPixels;
 }
 
-bool loadDecorationDisplayRows(
+bool loadDecorationRows(
     const Engine::AssetFileSystem &assetFileSystem,
     std::vector<std::vector<std::string>> &rows)
 {
     rows.clear();
 
-    const std::optional<std::string> contents = assetFileSystem.readTextFile(dataTablePath("dec_list.txt"));
+    const std::optional<std::string> contents =
+        assetFileSystem.readTextFile(dataTablePath("decoration_data.txt"));
 
     if (!contents)
     {
@@ -911,29 +912,27 @@ std::optional<DecorationBillboardSet> buildDecorationBillboardSet(
     BitmapLoadCache &bitmapLoadCache
 )
 {
-    const std::optional<std::vector<uint8_t>> decorationTableBytes =
-        assetFileSystem.readBinaryFile("Data/EnglishT/ddeclist.bin");
     const std::optional<std::vector<uint8_t>> spriteFrameTableBytes =
         assetFileSystem.readBinaryFile("Data/EnglishT/dsft.bin");
 
-    if (!decorationTableBytes || !spriteFrameTableBytes)
+    if (!spriteFrameTableBytes)
     {
         return std::nullopt;
     }
 
     DecorationBillboardSet billboardSet = {};
 
-    if (!billboardSet.decorationTable.loadFromBytes(*decorationTableBytes)
-        || !billboardSet.spriteFrameTable.loadFromBytes(*spriteFrameTableBytes))
+    if (!billboardSet.spriteFrameTable.loadFromBytes(*spriteFrameTableBytes))
     {
         return std::nullopt;
     }
 
     std::vector<std::vector<std::string>> decorationRows;
 
-    if (loadDecorationDisplayRows(assetFileSystem, decorationRows))
+    if (!loadDecorationRows(assetFileSystem, decorationRows)
+        || !billboardSet.decorationTable.loadRows(decorationRows))
     {
-        billboardSet.decorationTable.loadDisplayRows(decorationRows);
+        return std::nullopt;
     }
 
     std::vector<std::string> textureNames;
@@ -1019,26 +1018,14 @@ std::optional<OutdoorDecorationCollisionSet> buildOutdoorDecorationCollisionSet(
     const std::vector<EntityType> &entities
 )
 {
-    const std::optional<std::vector<uint8_t>> decorationTableBytes =
-        assetFileSystem.readBinaryFile("Data/EnglishT/ddeclist.bin");
-
-    if (!decorationTableBytes)
-    {
-        return std::nullopt;
-    }
-
     DecorationTable decorationTable;
-
-    if (!decorationTable.loadFromBytes(*decorationTableBytes))
-    {
-        return std::nullopt;
-    }
 
     std::vector<std::vector<std::string>> decorationRows;
 
-    if (loadDecorationDisplayRows(assetFileSystem, decorationRows))
+    if (!loadDecorationRows(assetFileSystem, decorationRows)
+        || !decorationTable.loadRows(decorationRows))
     {
-        decorationTable.loadDisplayRows(decorationRows);
+        return std::nullopt;
     }
 
     OutdoorDecorationCollisionSet collisionSet = {};
