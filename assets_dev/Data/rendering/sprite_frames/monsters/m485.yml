@@ -1,0 +1,201 @@
+# Monster sprite frame groups for family m485.
+# sprite_id is the first frame index referenced by runtime tables.
+sprites:
+  - sprite_id: 3055
+    sprite_name: "m485a"
+    animation_length_raw: 14
+    frames:
+      - texture_name: "m484aa"
+        frame_length_raw: 2
+        flags: [HasMore, First, Mirror5, Mirror6, Mirror7]
+        scale: 1.5
+        palette_id: 485
+      - texture_name: "m484ab"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.5
+        palette_id: 485
+      - texture_name: "m484ac"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.5
+        palette_id: 485
+      - texture_name: "m484ad"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.5
+        palette_id: 485
+      - texture_name: "m484ae"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.5
+        palette_id: 485
+      - texture_name: "m484af"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.5
+        palette_id: 485
+      - texture_name: "m484ag"
+        frame_length_raw: 2
+        flags: [Mirror5, Mirror6, Mirror7]
+        scale: 1.5
+        palette_id: 485
+  - sprite_id: 3062
+    sprite_name: "m485d"
+    animation_length_raw: 12
+    frames:
+      - texture_name: "m484na0"
+        frame_length_raw: 2
+        flags: [HasMore, First, Image1]
+        scale: 1.5
+        palette_id: 485
+      - texture_name: "m484nb0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        scale: 1.5
+        palette_id: 485
+      - texture_name: "m484da0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        scale: 1.5
+        palette_id: 485
+      - texture_name: "m484db0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        scale: 1.5
+        palette_id: 485
+      - texture_name: "m484dc0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        scale: 1.5
+        palette_id: 485
+      - texture_name: "m484dd0"
+        frame_length_raw: 2
+        flags: [Image1]
+        scale: 1.5
+        palette_id: 485
+  - sprite_id: 3068
+    sprite_name: "m485x"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "m484xa0"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        scale: 1.5
+        palette_id: 485
+  - sprite_id: 3069
+    sprite_name: "m485f"
+    animation_length_raw: 10
+    frames:
+      - texture_name: "m484fa"
+        frame_length_raw: 2
+        flags: [HasMore, First, Mirror5, Mirror6, Mirror7]
+        scale: 1.5
+        palette_id: 485
+      - texture_name: "m484fb"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.5
+        palette_id: 485
+      - texture_name: "m484fc"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.5
+        palette_id: 485
+      - texture_name: "m484fd"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.5
+        palette_id: 485
+      - texture_name: "m484fe"
+        frame_length_raw: 2
+        flags: [Mirror5, Mirror6, Mirror7]
+        scale: 1.5
+        palette_id: 485
+  - sprite_id: 3074
+    sprite_name: "m485n"
+    animation_length_raw: 12
+    frames:
+      - texture_name: "m484na"
+        frame_length_raw: 2
+        flags: [HasMore, First, Mirror5, Mirror6, Mirror7]
+        scale: 1.5
+        palette_id: 485
+      - texture_name: "m484nb"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.5
+        palette_id: 485
+      - texture_name: "m484nc"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.5
+        palette_id: 485
+      - texture_name: "m484nd"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.5
+        palette_id: 485
+      - texture_name: "m484ne"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.5
+        palette_id: 485
+      - texture_name: "m484nf"
+        frame_length_raw: 2
+        flags: [Mirror5, Mirror6, Mirror7]
+        scale: 1.5
+        palette_id: 485
+  - sprite_id: 3080
+    sprite_name: "m485s"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "m484sa"
+        frame_length_raw: 2
+        flags: [First, Mirror5, Mirror6, Mirror7]
+        scale: 1.5
+        palette_id: 485
+  - sprite_id: 3081
+    sprite_name: "m485w"
+    animation_length_raw: 16
+    frames:
+      - texture_name: "m484wa"
+        frame_length_raw: 2
+        flags: [HasMore, First, Mirror5, Mirror6, Mirror7]
+        scale: 1.5
+        palette_id: 485
+      - texture_name: "m484wb"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.5
+        palette_id: 485
+      - texture_name: "m484wc"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.5
+        palette_id: 485
+      - texture_name: "m484wd"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.5
+        palette_id: 485
+      - texture_name: "m484we"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.5
+        palette_id: 485
+      - texture_name: "m484wf"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.5
+        palette_id: 485
+      - texture_name: "m484wg"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.5
+        palette_id: 485
+      - texture_name: "m484wh"
+        frame_length_raw: 2
+        flags: [Mirror5, Mirror6, Mirror7]
+        scale: 1.5
+        palette_id: 485

@@ -1,0 +1,6246 @@
+# Common sprite frame groups used by decorations, objects, spells, and shared effects.
+# sprite_id is the first frame index referenced by runtime tables.
+sprites:
+  - sprite_id: 0
+    sprite_name: "null"
+    frames:
+      - texture_name: "null"
+        frame_length_raw: 0
+        flags: [First]
+        scale: 0.0
+  - sprite_id: 1
+    sprite_name: "pending"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "pending"
+        frame_length_raw: 2
+        flags: [Lit, First, Image1, Glowing]
+        glow_radius: 128
+        palette_id: 5
+  - sprite_id: 2
+    sprite_name: "obj001"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj001"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 3
+    sprite_name: "obj006"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj006"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 4
+    sprite_name: "obj009"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj009"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 5
+    sprite_name: "obj012"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj012"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 6
+    sprite_name: "obj016"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj016"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 7
+    sprite_name: "obj020"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj020"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 8
+    sprite_name: "obj023"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj023"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 9
+    sprite_name: "obj028"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj028"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 10
+    sprite_name: "obj031"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj031"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 11
+    sprite_name: "obj036"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj036"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 12
+    sprite_name: "obj039"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj039"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 13
+    sprite_name: "obj042"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj042"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 14
+    sprite_name: "obj047"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj047"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 15
+    sprite_name: "obj050"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj050"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 16
+    sprite_name: "obj055"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj055"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 17
+    sprite_name: "obj058"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj058"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 18
+    sprite_name: "obj061"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj061"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 19
+    sprite_name: "obj064"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj064"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 20
+    sprite_name: "obj065"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj065"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 21
+    sprite_name: "obj066"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj066"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 22
+    sprite_name: "obj071"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj071"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 23
+    sprite_name: "obj076"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj076"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 24
+    sprite_name: "obj079"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj079"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 25
+    sprite_name: "obj084"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj084"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 26
+    sprite_name: "obj090"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj090"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 27
+    sprite_name: "obj094"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj094"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 28
+    sprite_name: "obj097"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj097"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 29
+    sprite_name: "obj100"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj100"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 30
+    sprite_name: "obj105"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj105"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 31
+    sprite_name: "obj109"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj109"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 32
+    sprite_name: "obj111"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj111"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 33
+    sprite_name: "obj115"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj115"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 34
+    sprite_name: "obj120"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj120"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 35
+    sprite_name: "obj131"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj131"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 36
+    sprite_name: "obj133"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj133"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 37
+    sprite_name: "obj134"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj134"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 38
+    sprite_name: "obj135"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj135"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 39
+    sprite_name: "obj140"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj140"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 40
+    sprite_name: "obj141"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj141"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 41
+    sprite_name: "obj142"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj142"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 42
+    sprite_name: "obj143"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj143"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 43
+    sprite_name: "obj144"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj144"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 44
+    sprite_name: "obj145"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj145"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 45
+    sprite_name: "obj146"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj146"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 46
+    sprite_name: "obj147"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj147"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 47
+    sprite_name: "obj148"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj148"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 48
+    sprite_name: "obj149"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj149"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 49
+    sprite_name: "obj150"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj150"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 50
+    sprite_name: "obj151"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj151"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 51
+    sprite_name: "obj152"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj152"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 52
+    sprite_name: "obj153"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj153"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 53
+    sprite_name: "obj154"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj154"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 54
+    sprite_name: "obj155"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj155"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 55
+    sprite_name: "obj156"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj156"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 56
+    sprite_name: "obj157"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj157"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 57
+    sprite_name: "obj158"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj158"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 58
+    sprite_name: "obj159"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj159"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 59
+    sprite_name: "obj160"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj160"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 60
+    sprite_name: "obj161"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj161"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 61
+    sprite_name: "obj162"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj162"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 62
+    sprite_name: "obj163"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj163"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 63
+    sprite_name: "obj164"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj164"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 64
+    sprite_name: "obj165"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj165"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 65
+    sprite_name: "obj166"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj166"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 66
+    sprite_name: "obj167"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj167"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 67
+    sprite_name: "obj168"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj168"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 68
+    sprite_name: "obj169"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj169"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 69
+    sprite_name: "obj170"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj170"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 70
+    sprite_name: "obj171"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj171"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 71
+    sprite_name: "obj172"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj172"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 72
+    sprite_name: "obj173"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj173"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 73
+    sprite_name: "obj174"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj174"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 74
+    sprite_name: "obj175"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj175"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 75
+    sprite_name: "obj176"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj176"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 76
+    sprite_name: "obj177"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj177"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 77
+    sprite_name: "obj178"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj178"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 78
+    sprite_name: "obj179"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj179"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 79
+    sprite_name: "obj180"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj180"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 80
+    sprite_name: "obj181"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj181"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 81
+    sprite_name: "obj182"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj182"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 82
+    sprite_name: "obj187"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj187"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 83
+    sprite_name: "obj188"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj188"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 84
+    sprite_name: "obj189"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj189"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 85
+    sprite_name: "obj190"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj190"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 86
+    sprite_name: "obj195"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj195"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 87
+    sprite_name: "obj205"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj205"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 88
+    sprite_name: "obj247"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj247"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 89
+    sprite_name: "obj250"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj250"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 90
+    sprite_name: "obj251"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj251"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 91
+    sprite_name: "obj251"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj251"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 92
+    sprite_name: "obj259"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj259"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 93
+    sprite_name: "obj260"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj260"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 94
+    sprite_name: "obj261"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj261"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 95
+    sprite_name: "obj262"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj262"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 96
+    sprite_name: "obj263"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj263"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 97
+    sprite_name: "obj264"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj264"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 98
+    sprite_name: "obj265"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj265"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 99
+    sprite_name: "obj268"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj268"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 100
+    sprite_name: "obj269"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj269"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 101
+    sprite_name: "obj270"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj270"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 102
+    sprite_name: "obj271"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj271"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 103
+    sprite_name: "obj272"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj272"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 104
+    sprite_name: "obj273"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj273"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 105
+    sprite_name: "obj274"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj274"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 106
+    sprite_name: "obj275"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj275"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 107
+    sprite_name: "obj276"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj276"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 108
+    sprite_name: "obj277"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj277"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 109
+    sprite_name: "obj278"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj278"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 110
+    sprite_name: "obj279"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj279"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 111
+    sprite_name: "obj280"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj280"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 112
+    sprite_name: "obj281"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj281"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 113
+    sprite_name: "obj282"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj282"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 114
+    sprite_name: "obj283"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj283"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 115
+    sprite_name: "obj284"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj284"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 116
+    sprite_name: "obj285"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj285"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 117
+    sprite_name: "obj287"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj287"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 118
+    sprite_name: "obj288"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj288"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 119
+    sprite_name: "obj289"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj289"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 120
+    sprite_name: "obj290"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj290"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 121
+    sprite_name: "obj294"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj294"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 122
+    sprite_name: "obj295"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj295"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 123
+    sprite_name: "obj296"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj296"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 124
+    sprite_name: "obj297"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj297"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 125
+    sprite_name: "obj298"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj298"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 126
+    sprite_name: "obj299"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj299"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 127
+    sprite_name: "obj300"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj300"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 128
+    sprite_name: "obj301"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj301"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 129
+    sprite_name: "obj302"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj302"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 130
+    sprite_name: "obj303"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj303"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 131
+    sprite_name: "obj304"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj304"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 132
+    sprite_name: "obj305"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj305"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 133
+    sprite_name: "obj306"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj306"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 134
+    sprite_name: "obj307"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj307"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 135
+    sprite_name: "obj308"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj308"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 136
+    sprite_name: "obj309"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj309"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 137
+    sprite_name: "obj310"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj310"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 138
+    sprite_name: "obj311"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj311"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 139
+    sprite_name: "obj312"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj312"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 140
+    sprite_name: "obj353"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj353"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 141
+    sprite_name: "obj354"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj354"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 142
+    sprite_name: "obj355"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj355"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 143
+    sprite_name: "obj356"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj356"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 144
+    sprite_name: "obj357"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj357"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 145
+    sprite_name: "obj358"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj358"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 146
+    sprite_name: "obj361"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj361"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 147
+    sprite_name: "obj365"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj365"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 148
+    sprite_name: "obj366"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj366"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 149
+    sprite_name: "obj367"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj367"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 150
+    sprite_name: "obj368"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj368"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 151
+    sprite_name: "obj369"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj369"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 152
+    sprite_name: "obj370"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj370"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 153
+    sprite_name: "obj371"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj371"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 154
+    sprite_name: "obj372"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj372"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 155
+    sprite_name: "obj373"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj373"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 156
+    sprite_name: "obj374"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj374"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 157
+    sprite_name: "obj375"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj375"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 158
+    sprite_name: "splash"
+    animation_length_raw: 12
+    frames:
+      - texture_name: "splash1"
+        frame_length_raw: 2
+        flags: [HasMore, First, Image1]
+        scale: 1.75
+        palette_id: 6
+      - texture_name: "splash2"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        scale: 1.75
+        palette_id: 6
+      - texture_name: "splash3"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        scale: 1.75
+        palette_id: 6
+      - texture_name: "splash4"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        scale: 1.75
+        palette_id: 6
+      - texture_name: "splash5"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        scale: 1.75
+        palette_id: 6
+      - texture_name: "splash6"
+        frame_length_raw: 2
+        flags: [Image1]
+        scale: 1.75
+        palette_id: 6
+  - sprite_id: 164
+    sprite_name: "obj376"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "obj376"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 7
+  - sprite_id: 165
+    sprite_name: "dec01"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "dec01a"
+        frame_length_raw: 2
+        flags: [First, Mirror5, Mirror6, Mirror7]
+        palette_id: 8
+  - sprite_id: 166
+    sprite_name: "dec02"
+    animation_length_raw: 12
+    frames:
+      - texture_name: "dec02a"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, First, Image1]
+        glow_radius: 128
+        palette_id: 8
+      - texture_name: "dec02b"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        glow_radius: 128
+        palette_id: 8
+      - texture_name: "dec02c"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec02d"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        glow_radius: 32
+        palette_id: 8
+      - texture_name: "dec02e"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec02f"
+        frame_length_raw: 2
+        flags: [Lit, Image1]
+        glow_radius: 128
+        palette_id: 8
+  - sprite_id: 172
+    sprite_name: "dec03"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "dec03"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 8
+  - sprite_id: 173
+    sprite_name: "dec04"
+    animation_length_raw: 16
+    frames:
+      - texture_name: "dec04a"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, First, Image1]
+        glow_radius: 128
+        palette_id: 8
+      - texture_name: "dec04b"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        glow_radius: 128
+        palette_id: 8
+      - texture_name: "dec04c"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec04d"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        glow_radius: 32
+        palette_id: 8
+      - texture_name: "dec04e"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec04f"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec04g"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        glow_radius: 128
+        palette_id: 8
+      - texture_name: "dec04h"
+        frame_length_raw: 2
+        flags: [Lit, Image1]
+        glow_radius: 128
+        palette_id: 8
+  - sprite_id: 181
+    sprite_name: "dec05"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "dec05"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        scale: 0.799988
+        palette_id: 8
+  - sprite_id: 182
+    sprite_name: "dec06"
+    animation_length_raw: 16
+    frames:
+      - texture_name: "dec06a"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, First, Image1]
+        glow_radius: 128
+        palette_id: 8
+      - texture_name: "dec06b"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        glow_radius: 128
+        palette_id: 8
+      - texture_name: "dec06c"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec06d"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        glow_radius: 32
+        palette_id: 8
+      - texture_name: "dec06e"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec06f"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        glow_radius: 32
+        palette_id: 8
+      - texture_name: "dec06g"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec06h"
+        frame_length_raw: 2
+        flags: [Lit, Image1]
+        glow_radius: 128
+        palette_id: 8
+  - sprite_id: 190
+    sprite_name: "dec07"
+    animation_length_raw: 12
+    frames:
+      - texture_name: "dec07a"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, First, Image1]
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec07b"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec07c"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        glow_radius: 32
+        palette_id: 8
+      - texture_name: "dec07d"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec07e"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec07f"
+        frame_length_raw: 2
+        flags: [Lit, Image1]
+        glow_radius: 64
+        palette_id: 8
+  - sprite_id: 196
+    sprite_name: "dec08"
+    animation_length_raw: 12
+    frames:
+      - texture_name: "dec08a"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, First, Image1]
+        glow_radius: 32
+        palette_id: 8
+      - texture_name: "dec08b"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec08b"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec08b"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec08a"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        glow_radius: 32
+        palette_id: 8
+      - texture_name: "dec08b"
+        frame_length_raw: 2
+        flags: [Lit, Image1]
+        glow_radius: 64
+        palette_id: 8
+  - sprite_id: 202
+    sprite_name: "dec09"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "dec09"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 8
+  - sprite_id: 203
+    sprite_name: "dec10"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "dec10"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 8
+  - sprite_id: 204
+    sprite_name: "dec11"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "dec11"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 8
+  - sprite_id: 205
+    sprite_name: "dec12"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "dec12"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 8
+  - sprite_id: 206
+    sprite_name: "dec13"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "dec13"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 8
+  - sprite_id: 207
+    sprite_name: "dec14"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "dec14"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 8
+  - sprite_id: 208
+    sprite_name: "dec15"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "dec15"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 8
+  - sprite_id: 209
+    sprite_name: "dec16"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "dec16"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 8
+  - sprite_id: 210
+    sprite_name: "dec17"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "dec17"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 8
+  - sprite_id: 211
+    sprite_name: "dec18"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "dec18"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 8
+  - sprite_id: 212
+    sprite_name: "dec20"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "dec20"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 8
+  - sprite_id: 213
+    sprite_name: "dec21"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "dec21"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 8
+  - sprite_id: 214
+    sprite_name: "dec22"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "dec22"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 8
+  - sprite_id: 215
+    sprite_name: "dec23"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "dec23"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 8
+  - sprite_id: 216
+    sprite_name: "dec24"
+    animation_length_raw: 16
+    frames:
+      - texture_name: "dec24a"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, First, Image1]
+        glow_radius: 128
+        palette_id: 8
+      - texture_name: "dec24b"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        glow_radius: 96
+        palette_id: 8
+      - texture_name: "dec24c"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec24d"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        glow_radius: 32
+        palette_id: 8
+      - texture_name: "dec24e"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec24f"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        glow_radius: 96
+        palette_id: 8
+      - texture_name: "dec24g"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        glow_radius: 96
+        palette_id: 8
+      - texture_name: "dec24h"
+        frame_length_raw: 2
+        flags: [Lit, Image1]
+        glow_radius: 128
+        palette_id: 8
+  - sprite_id: 224
+    sprite_name: "dec24x"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "dec24x"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 8
+  - sprite_id: 225
+    sprite_name: "dec25"
+    animation_length_raw: 16
+    frames:
+      - texture_name: "dec25a"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, First, Image1]
+        glow_radius: 128
+        palette_id: 8
+      - texture_name: "dec25b"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        glow_radius: 128
+        palette_id: 8
+      - texture_name: "dec25c"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec25d"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        glow_radius: 32
+        palette_id: 8
+      - texture_name: "dec25e"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec25f"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec25g"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        glow_radius: 128
+        palette_id: 8
+      - texture_name: "dec25h"
+        frame_length_raw: 2
+        flags: [Lit, Image1]
+        glow_radius: 128
+        palette_id: 8
+  - sprite_id: 233
+    sprite_name: "dec26"
+    animation_length_raw: 14
+    frames:
+      - texture_name: "dec26a"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, First, Image1]
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec26b"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec26c"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        glow_radius: 32
+        palette_id: 8
+      - texture_name: "dec26d"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        glow_radius: 32
+        palette_id: 8
+      - texture_name: "dec26e"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec26f"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        glow_radius: 32
+        palette_id: 8
+      - texture_name: "dec26g"
+        frame_length_raw: 2
+        flags: [Lit, Image1]
+        glow_radius: 64
+        palette_id: 8
+  - sprite_id: 240
+    sprite_name: "dec27"
+    animation_length_raw: 12
+    frames:
+      - texture_name: "dec27a"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, First, Image1]
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec27b"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec27c"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        glow_radius: 32
+        palette_id: 8
+      - texture_name: "dec27d"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        glow_radius: 72
+        palette_id: 8
+      - texture_name: "dec27e"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        glow_radius: 32
+        palette_id: 8
+      - texture_name: "dec27f"
+        frame_length_raw: 2
+        flags: [Lit, Image1]
+        glow_radius: 64
+        palette_id: 8
+  - sprite_id: 246
+    sprite_name: "dec28"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "dec28"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 8
+  - sprite_id: 247
+    sprite_name: "dec29"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "dec29"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 8
+  - sprite_id: 248
+    sprite_name: "dec30"
+    animation_length_raw: 16
+    frames:
+      - texture_name: "dec30a"
+        frame_length_raw: 2
+        flags: [HasMore, First, Image1]
+        palette_id: 8
+      - texture_name: "dec30b"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 8
+      - texture_name: "dec30c"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 8
+      - texture_name: "dec30d"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 8
+      - texture_name: "dec30e"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 8
+      - texture_name: "dec30f"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 8
+      - texture_name: "dec30g"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 8
+      - texture_name: "dec30h"
+        frame_length_raw: 2
+        flags: [Image1]
+        palette_id: 8
+  - sprite_id: 256
+    sprite_name: "dec31"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "dec31"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 8
+  - sprite_id: 257
+    sprite_name: "dec32"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "dec32"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 8
+  - sprite_id: 258
+    sprite_name: "dec33"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "dec33"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 8
+  - sprite_id: 259
+    sprite_name: "dec34"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "dec34"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 8
+  - sprite_id: 260
+    sprite_name: "dec35"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "dec35"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 8
+  - sprite_id: 261
+    sprite_name: "dec36"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "dec36"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 8
+  - sprite_id: 262
+    sprite_name: "dec37"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "dec37"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 8
+  - sprite_id: 263
+    sprite_name: "dec38"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "dec38"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 8
+  - sprite_id: 264
+    sprite_name: "dec39"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "dec39"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 8
+  - sprite_id: 265
+    sprite_name: "dec40"
+    animation_length_raw: 16
+    frames:
+      - texture_name: "dec40a"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, First, Image1]
+        scale: 1.599991
+        glow_radius: 96
+        palette_id: 8
+      - texture_name: "dec40b"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        scale: 1.599991
+        glow_radius: 96
+        palette_id: 8
+      - texture_name: "dec40c"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        scale: 1.599991
+        glow_radius: 72
+        palette_id: 8
+      - texture_name: "dec40d"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        scale: 1.599991
+        glow_radius: 72
+        palette_id: 8
+      - texture_name: "dec40e"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        scale: 1.599991
+        glow_radius: 96
+        palette_id: 8
+      - texture_name: "dec40f"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        scale: 1.599991
+        glow_radius: 96
+        palette_id: 8
+      - texture_name: "dec40g"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        scale: 1.599991
+        glow_radius: 72
+        palette_id: 8
+      - texture_name: "dec40h"
+        frame_length_raw: 2
+        flags: [Lit, Image1]
+        scale: 1.599991
+        glow_radius: 96
+        palette_id: 8
+  - sprite_id: 273
+    sprite_name: "dec41"
+    animation_length_raw: 16
+    frames:
+      - texture_name: "dec41a"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, First, Image1]
+        scale: 1.599991
+        glow_radius: 96
+        palette_id: 8
+      - texture_name: "dec41b"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        scale: 1.599991
+        glow_radius: 96
+        palette_id: 8
+      - texture_name: "dec41c"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        scale: 1.599991
+        glow_radius: 72
+        palette_id: 8
+      - texture_name: "dec41d"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        scale: 1.599991
+        glow_radius: 72
+        palette_id: 8
+      - texture_name: "dec41e"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        scale: 1.599991
+        glow_radius: 96
+        palette_id: 8
+      - texture_name: "dec41f"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        scale: 1.599991
+        glow_radius: 96
+        palette_id: 8
+      - texture_name: "dec41g"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        scale: 1.599991
+        glow_radius: 72
+        palette_id: 8
+      - texture_name: "dec41h"
+        frame_length_raw: 2
+        flags: [Lit, Image1]
+        scale: 1.599991
+        glow_radius: 96
+        palette_id: 8
+  - sprite_id: 281
+    sprite_name: "dec42"
+    animation_length_raw: 16
+    frames:
+      - texture_name: "dec42a"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, First, Image1]
+        scale: 1.599991
+        glow_radius: 96
+        palette_id: 8
+      - texture_name: "dec42b"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        scale: 1.599991
+        glow_radius: 96
+        palette_id: 8
+      - texture_name: "dec42c"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        scale: 1.599991
+        glow_radius: 72
+        palette_id: 8
+      - texture_name: "dec42d"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        scale: 1.599991
+        glow_radius: 72
+        palette_id: 8
+      - texture_name: "dec42e"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        scale: 1.599991
+        glow_radius: 96
+        palette_id: 8
+      - texture_name: "dec42f"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        scale: 1.599991
+        glow_radius: 96
+        palette_id: 8
+      - texture_name: "dec42g"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        scale: 1.599991
+        glow_radius: 72
+        palette_id: 8
+      - texture_name: "dec42h"
+        frame_length_raw: 2
+        flags: [Lit, Image1]
+        scale: 1.599991
+        glow_radius: 96
+        palette_id: 8
+  - sprite_id: 289
+    sprite_name: "dec43"
+    animation_length_raw: 16
+    frames:
+      - texture_name: "dec43a"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, First, Image1]
+        scale: 1.599991
+        glow_radius: 96
+        palette_id: 8
+      - texture_name: "dec43b"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        scale: 1.599991
+        glow_radius: 96
+        palette_id: 8
+      - texture_name: "dec43c"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        scale: 1.599991
+        glow_radius: 72
+        palette_id: 8
+      - texture_name: "dec43d"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        scale: 1.599991
+        glow_radius: 72
+        palette_id: 8
+      - texture_name: "dec43e"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        scale: 1.599991
+        glow_radius: 96
+        palette_id: 8
+      - texture_name: "dec43f"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        scale: 1.599991
+        glow_radius: 96
+        palette_id: 8
+      - texture_name: "dec43g"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        scale: 1.599991
+        glow_radius: 72
+        palette_id: 8
+      - texture_name: "dec43h"
+        frame_length_raw: 2
+        flags: [Lit, Image1]
+        scale: 1.599991
+        glow_radius: 96
+        palette_id: 8
+  - sprite_id: 297
+    sprite_name: "dec44"
+    animation_length_raw: 16
+    frames:
+      - texture_name: "dec44a"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, First, Image1]
+        scale: 1.599991
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec44b"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        scale: 1.599991
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec44c"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        scale: 1.599991
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec44d"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        scale: 1.599991
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec44e"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        scale: 1.599991
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec44f"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        scale: 1.599991
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec44g"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        scale: 1.599991
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec44h"
+        frame_length_raw: 2
+        flags: [Lit, Image1]
+        scale: 1.599991
+        glow_radius: 64
+        palette_id: 8
+  - sprite_id: 305
+    sprite_name: "dec45"
+    animation_length_raw: 16
+    frames:
+      - texture_name: "dec45a"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, First, Image1]
+        scale: 1.599991
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec45b"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        scale: 1.599991
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec45c"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        scale: 1.599991
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec45d"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        scale: 1.599991
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec45e"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        scale: 1.599991
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec45f"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        scale: 1.599991
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec45g"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        scale: 1.599991
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec45h"
+        frame_length_raw: 2
+        flags: [Lit, Image1]
+        scale: 1.599991
+        glow_radius: 64
+        palette_id: 8
+  - sprite_id: 313
+    sprite_name: "dec46"
+    animation_length_raw: 16
+    frames:
+      - texture_name: "dec46a"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, First, Image1]
+        scale: 1.599991
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec46b"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        scale: 1.599991
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec46c"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        scale: 1.599991
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec46d"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        scale: 1.599991
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec46e"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        scale: 1.599991
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec46f"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        scale: 1.599991
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec46g"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        scale: 1.599991
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec46h"
+        frame_length_raw: 2
+        flags: [Lit, Image1]
+        scale: 1.599991
+        glow_radius: 64
+        palette_id: 8
+  - sprite_id: 321
+    sprite_name: "dec47"
+    animation_length_raw: 16
+    frames:
+      - texture_name: "dec47a"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, First, Image1]
+        scale: 1.599991
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec47b"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        scale: 1.599991
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec47c"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        scale: 1.599991
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec47d"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        scale: 1.599991
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec47e"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        scale: 1.599991
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec47f"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        scale: 1.599991
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec47g"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        scale: 1.599991
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec47h"
+        frame_length_raw: 2
+        flags: [Lit, Image1]
+        scale: 1.599991
+        glow_radius: 64
+        palette_id: 8
+  - sprite_id: 329
+    sprite_name: "dec48"
+    animation_length_raw: 16
+    frames:
+      - texture_name: "dec48a"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, First, Image1]
+        scale: 1.599991
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec48b"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        scale: 1.599991
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec48c"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        scale: 1.599991
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec48d"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        scale: 1.599991
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec48e"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        scale: 1.599991
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec48f"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        scale: 1.599991
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec48g"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        scale: 1.599991
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec48h"
+        frame_length_raw: 2
+        flags: [Lit, Image1]
+        scale: 1.599991
+        glow_radius: 64
+        palette_id: 8
+  - sprite_id: 337
+    sprite_name: "dec49"
+    animation_length_raw: 16
+    frames:
+      - texture_name: "dec49a"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, First, Image1]
+        scale: 1.599991
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec49b"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        scale: 1.599991
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec49c"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        scale: 1.599991
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec49d"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        scale: 1.599991
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec49e"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        scale: 1.599991
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec49f"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        scale: 1.599991
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec49g"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        scale: 1.599991
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec49h"
+        frame_length_raw: 2
+        flags: [Lit, Image1]
+        scale: 1.599991
+        glow_radius: 64
+        palette_id: 8
+  - sprite_id: 345
+    sprite_name: "dec50"
+    animation_length_raw: 16
+    frames:
+      - texture_name: "dec50a"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, First, Image1]
+        scale: 1.599991
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec50b"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        scale: 1.599991
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec50c"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        scale: 1.599991
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec50d"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        scale: 1.599991
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec50e"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        scale: 1.599991
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec50f"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        scale: 1.599991
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec50g"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        scale: 1.599991
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec50h"
+        frame_length_raw: 2
+        flags: [Lit, Image1]
+        scale: 1.599991
+        glow_radius: 64
+        palette_id: 8
+  - sprite_id: 353
+    sprite_name: "dec51"
+    animation_length_raw: 16
+    frames:
+      - texture_name: "dec51a"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, First, Image1]
+        scale: 1.599991
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec51b"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        scale: 1.599991
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec51c"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        scale: 1.599991
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec51d"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        scale: 1.599991
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec51e"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        scale: 1.599991
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec51f"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        scale: 1.599991
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec51g"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        scale: 1.599991
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec51h"
+        frame_length_raw: 2
+        flags: [Lit, Image1]
+        scale: 1.599991
+        glow_radius: 64
+        palette_id: 8
+  - sprite_id: 361
+    sprite_name: "dec52"
+    animation_length_raw: 16
+    frames:
+      - texture_name: "dec52a"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, First, Image1]
+        scale: 1.599991
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec52b"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        scale: 1.599991
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec52c"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        scale: 1.599991
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec52d"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        scale: 1.599991
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec52e"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        scale: 1.599991
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec52f"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        scale: 1.599991
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec52g"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        scale: 1.599991
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec52h"
+        frame_length_raw: 2
+        flags: [Lit, Image1]
+        scale: 1.599991
+        glow_radius: 64
+        palette_id: 8
+  - sprite_id: 369
+    sprite_name: "dec53"
+    animation_length_raw: 16
+    frames:
+      - texture_name: "dec53a"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, First, Image1]
+        scale: 1.599991
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec53b"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        scale: 1.599991
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec53c"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        scale: 1.599991
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec53d"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        scale: 1.599991
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec53e"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        scale: 1.599991
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec53f"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        scale: 1.599991
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec53g"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        scale: 1.599991
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec53h"
+        frame_length_raw: 2
+        flags: [Lit, Image1]
+        scale: 1.599991
+        glow_radius: 64
+        palette_id: 8
+  - sprite_id: 377
+    sprite_name: "dec54"
+    animation_length_raw: 16
+    frames:
+      - texture_name: "dec54a"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, First, Image1]
+        scale: 1.599991
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec54b"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        scale: 1.599991
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec54c"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        scale: 1.599991
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec54d"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        scale: 1.599991
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec54e"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        scale: 1.599991
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec54f"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        scale: 1.599991
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec54g"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        scale: 1.599991
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec54h"
+        frame_length_raw: 2
+        flags: [Lit, Image1]
+        scale: 1.599991
+        glow_radius: 64
+        palette_id: 8
+  - sprite_id: 385
+    sprite_name: "dec55"
+    animation_length_raw: 16
+    frames:
+      - texture_name: "dec55a"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, First, Image1]
+        scale: 1.599991
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec55b"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        scale: 1.599991
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec55c"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        scale: 1.599991
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec55d"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        scale: 1.599991
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec55e"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        scale: 1.599991
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec55f"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        scale: 1.599991
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec55g"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        scale: 1.599991
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec55h"
+        frame_length_raw: 2
+        flags: [Lit, Image1]
+        scale: 1.599991
+        glow_radius: 64
+        palette_id: 8
+  - sprite_id: 393
+    sprite_name: "dec56"
+    animation_length_raw: 16
+    frames:
+      - texture_name: "dec56a"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, First, Image1]
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec56b"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec56c"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        glow_radius: 32
+        palette_id: 8
+      - texture_name: "dec56d"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec56e"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        glow_radius: 32
+        palette_id: 8
+      - texture_name: "dec56f"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec56g"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        glow_radius: 64
+        palette_id: 8
+      - texture_name: "dec56h"
+        frame_length_raw: 2
+        flags: [Lit, Image1]
+        glow_radius: 64
+        palette_id: 8
+  - sprite_id: 401
+    sprite_name: "dec57"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "dec57"
+        frame_length_raw: 2
+        flags: [Lit, First, Image1]
+        scale: 0.5
+        glow_radius: 64
+        palette_id: 8
+  - sprite_id: 402
+    sprite_name: "dec58"
+    animation_length_raw: 20
+    frames:
+      - texture_name: "weed010"
+        frame_length_raw: 2
+        flags: [HasMore, First, Image1]
+        palette_id: 335
+      - texture_name: "weed011"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 335
+      - texture_name: "weed012"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 335
+      - texture_name: "weed013"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 335
+      - texture_name: "weed014"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 335
+      - texture_name: "weed015"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 335
+      - texture_name: "weed016"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 335
+      - texture_name: "weed017"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 335
+      - texture_name: "weed018"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 335
+      - texture_name: "weed019"
+        frame_length_raw: 2
+        flags: [Image1]
+        palette_id: 335
+  - sprite_id: 412
+    sprite_name: "dec59"
+    animation_length_raw: 20
+    frames:
+      - texture_name: "weed020"
+        frame_length_raw: 2
+        flags: [HasMore, First, Image1]
+        palette_id: 335
+      - texture_name: "weed021"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 335
+      - texture_name: "weed022"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 335
+      - texture_name: "weed023"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 335
+      - texture_name: "weed024"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 335
+      - texture_name: "weed025"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 335
+      - texture_name: "weed026"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 335
+      - texture_name: "weed027"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 335
+      - texture_name: "weed028"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 335
+      - texture_name: "weed029"
+        frame_length_raw: 2
+        flags: [Image1]
+        palette_id: 335
+  - sprite_id: 422
+    sprite_name: "plant01"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "plant01"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        scale: 0.659988
+        palette_id: 335
+  - sprite_id: 423
+    sprite_name: "plant02"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "plant02"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        scale: 1.199997
+        palette_id: 335
+  - sprite_id: 424
+    sprite_name: "plant03"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "plant03"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        scale: 0.659988
+        palette_id: 335
+  - sprite_id: 425
+    sprite_name: "plant04"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "plant04"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        scale: 0.659988
+        palette_id: 335
+  - sprite_id: 426
+    sprite_name: "plant05"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "plant05"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        scale: 1.199997
+        palette_id: 335
+  - sprite_id: 427
+    sprite_name: "plant06"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "plant06"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        scale: 0.659988
+        palette_id: 335
+  - sprite_id: 428
+    sprite_name: "plant07"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "plant07"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        scale: 0.659988
+        palette_id: 335
+  - sprite_id: 429
+    sprite_name: "plant08"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "plant08"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        scale: 1.199997
+        palette_id: 335
+  - sprite_id: 430
+    sprite_name: "plant09"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "plant09"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        scale: 0.659988
+        palette_id: 335
+  - sprite_id: 431
+    sprite_name: "plant10"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "plant10"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        scale: 1.199997
+        palette_id: 335
+  - sprite_id: 432
+    sprite_name: "plant11"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "plant11"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        scale: 0.659988
+        palette_id: 335
+  - sprite_id: 433
+    sprite_name: "plant12"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "plant12"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        scale: 0.659988
+        palette_id: 335
+  - sprite_id: 434
+    sprite_name: "plant13"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "plant13"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        scale: 0.659988
+        palette_id: 335
+  - sprite_id: 435
+    sprite_name: "plant14"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "plant14"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        scale: 0.659988
+        palette_id: 335
+  - sprite_id: 436
+    sprite_name: "plant15"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "plant15"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        scale: 0.659988
+        palette_id: 335
+  - sprite_id: 437
+    sprite_name: "plant16"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "plant16"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        scale: 0.659988
+        palette_id: 335
+  - sprite_id: 438
+    sprite_name: "plant17"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "plant17"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        scale: 0.659988
+        palette_id: 335
+  - sprite_id: 439
+    sprite_name: "plant18"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "plant18"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 335
+  - sprite_id: 440
+    sprite_name: "plant19"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "plant19"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        scale: 0.659988
+        palette_id: 335
+  - sprite_id: 441
+    sprite_name: "plant20"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "plant20"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        scale: 0.659988
+        palette_id: 335
+  - sprite_id: 442
+    sprite_name: "plant21"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "plant21"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        scale: 0.659988
+        palette_id: 335
+  - sprite_id: 443
+    sprite_name: "plant22"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "plant22"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        scale: 0.659988
+        palette_id: 335
+  - sprite_id: 444
+    sprite_name: "plant23"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "plant23"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        scale: 0.659988
+        palette_id: 335
+  - sprite_id: 445
+    sprite_name: "plant24"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "plant24"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        scale: 0.659988
+        palette_id: 335
+  - sprite_id: 446
+    sprite_name: "plant25"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "plant25"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        scale: 0.659988
+        palette_id: 335
+  - sprite_id: 447
+    sprite_name: "plant26"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "plant26"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 335
+  - sprite_id: 448
+    sprite_name: "plant27"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "plant27"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        scale: 0.659988
+        palette_id: 335
+  - sprite_id: 449
+    sprite_name: "plant28"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "plant28"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 335
+  - sprite_id: 450
+    sprite_name: "plant29"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "plant29"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 335
+  - sprite_id: 451
+    sprite_name: "plant30"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "plant30"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        scale: 1.299988
+        palette_id: 335
+  - sprite_id: 452
+    sprite_name: "plant31"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "plant31"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 335
+  - sprite_id: 453
+    sprite_name: "plant32"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "plant32"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        scale: 1.299988
+        palette_id: 335
+  - sprite_id: 454
+    sprite_name: "plant33"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "plant33"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 335
+  - sprite_id: 455
+    sprite_name: "plant34"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "plant34"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        scale: 2.0
+        palette_id: 335
+  - sprite_id: 456
+    sprite_name: "plant35"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "plant35"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        scale: 2.0
+        palette_id: 335
+  - sprite_id: 457
+    sprite_name: "plant36"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "plant36"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        scale: 2.0
+        palette_id: 335
+  - sprite_id: 458
+    sprite_name: "plant37"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "plant37"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 335
+  - sprite_id: 459
+    sprite_name: "plant38"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "plant38"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 335
+  - sprite_id: 460
+    sprite_name: "plant39"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "plant39"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 335
+  - sprite_id: 461
+    sprite_name: "plant40"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "plant40"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 335
+  - sprite_id: 462
+    sprite_name: "plant41"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "plant41"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 335
+  - sprite_id: 463
+    sprite_name: "plant42"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "plant42"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 335
+  - sprite_id: 464
+    sprite_name: "plant43"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "plant43"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 335
+  - sprite_id: 465
+    sprite_name: "plant44"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "plant44"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 335
+  - sprite_id: 466
+    sprite_name: "plant45"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "plant45"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 335
+  - sprite_id: 467
+    sprite_name: "plant46"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "plant46"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 335
+  - sprite_id: 468
+    sprite_name: "plant47"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "plant47"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 335
+  - sprite_id: 469
+    sprite_name: "plant48"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "plant48"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 335
+  - sprite_id: 470
+    sprite_name: "plant49"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "plant49"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 335
+  - sprite_id: 471
+    sprite_name: "plant50"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "plant50"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 335
+  - sprite_id: 472
+    sprite_name: "plant51"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "plant51"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 335
+  - sprite_id: 473
+    sprite_name: "plant52"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "plant52"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        scale: 2.0
+        palette_id: 335
+  - sprite_id: 474
+    sprite_name: "plant53"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "plant53"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        scale: 2.0
+        palette_id: 335
+  - sprite_id: 475
+    sprite_name: "plant54"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "plant54"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        scale: 2.0
+        palette_id: 335
+  - sprite_id: 476
+    sprite_name: "plant55"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "plant55"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 335
+  - sprite_id: 477
+    sprite_name: "plant56"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "plant56"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 335
+  - sprite_id: 478
+    sprite_name: "plant57"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "plant57"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 335
+  - sprite_id: 479
+    sprite_name: "plant58"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "plant58"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 335
+  - sprite_id: 480
+    sprite_name: "plant59"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "plant59"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 335
+  - sprite_id: 481
+    sprite_name: "plant60"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "plant60"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 335
+  - sprite_id: 482
+    sprite_name: "rock01"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "rock01"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 336
+  - sprite_id: 483
+    sprite_name: "rock02"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "rock02"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 336
+  - sprite_id: 484
+    sprite_name: "rock03"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "rock03"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 336
+  - sprite_id: 485
+    sprite_name: "rock04"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "rock04"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 336
+  - sprite_id: 486
+    sprite_name: "rock05"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "rock05"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 336
+  - sprite_id: 487
+    sprite_name: "rock06"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "rock06"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 336
+  - sprite_id: 488
+    sprite_name: "rock07"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "rock07"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 336
+  - sprite_id: 489
+    sprite_name: "rock08"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "rock08"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 336
+  - sprite_id: 490
+    sprite_name: "rock09"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "rock09"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 336
+  - sprite_id: 491
+    sprite_name: "rock10"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "rock10"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 336
+  - sprite_id: 492
+    sprite_name: "rock11"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "rock11"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 336
+  - sprite_id: 493
+    sprite_name: "rock12"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "rock12"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 336
+  - sprite_id: 494
+    sprite_name: "rock13"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "rock13"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 336
+  - sprite_id: 495
+    sprite_name: "rock14"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "rock14"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 336
+  - sprite_id: 496
+    sprite_name: "rock15"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "rock15"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 336
+  - sprite_id: 497
+    sprite_name: "rock16"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "rock16"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 336
+  - sprite_id: 498
+    sprite_name: "rock17"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "rock17"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 336
+  - sprite_id: 499
+    sprite_name: "rock18"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "rock18"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 336
+  - sprite_id: 500
+    sprite_name: "rock19"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "rock19"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 336
+  - sprite_id: 501
+    sprite_name: "rock20"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "rock20"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 336
+  - sprite_id: 502
+    sprite_name: "rock21"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "rock21"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 336
+  - sprite_id: 503
+    sprite_name: "rock22"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "rock22"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 336
+  - sprite_id: 504
+    sprite_name: "rock23"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "rock23"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 336
+  - sprite_id: 505
+    sprite_name: "rock24"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "rock24"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 336
+  - sprite_id: 506
+    sprite_name: "rock25"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "rock25"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 336
+  - sprite_id: 507
+    sprite_name: "rock26"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "rock26"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 336
+  - sprite_id: 508
+    sprite_name: "rock27"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "rock27"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 336
+  - sprite_id: 509
+    sprite_name: "rock28"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "rock28"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 336
+  - sprite_id: 510
+    sprite_name: "rock29"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "rock29"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 336
+  - sprite_id: 511
+    sprite_name: "rock30"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "rock30"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 336
+  - sprite_id: 512
+    sprite_name: "rock31"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "rock31"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 336
+  - sprite_id: 513
+    sprite_name: "rock32"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "rock32"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 336
+  - sprite_id: 514
+    sprite_name: "rock33"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "rock33"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 336
+  - sprite_id: 515
+    sprite_name: "rock34"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "rock34"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 336
+  - sprite_id: 516
+    sprite_name: "rock35"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "rock35"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 336
+  - sprite_id: 517
+    sprite_name: "rock36"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "rock36"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 336
+  - sprite_id: 518
+    sprite_name: "rock37"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "rock37"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 336
+  - sprite_id: 519
+    sprite_name: "rock38"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "rock38"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 336
+  - sprite_id: 520
+    sprite_name: "rock39"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "rock39"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 336
+  - sprite_id: 521
+    sprite_name: "rock40"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "rock40"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 336
+  - sprite_id: 522
+    sprite_name: "rock41"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "rock41"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 336
+  - sprite_id: 523
+    sprite_name: "rock42"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "rock42"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 336
+  - sprite_id: 524
+    sprite_name: "rock43"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "rock43"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 336
+  - sprite_id: 525
+    sprite_name: "rock44"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "rock44"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 336
+  - sprite_id: 526
+    sprite_name: "rock45"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "rock45"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 336
+  - sprite_id: 527
+    sprite_name: "rock46"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "rock46"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 336
+  - sprite_id: 528
+    sprite_name: "rock47"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "rock47"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 336
+  - sprite_id: 529
+    sprite_name: "rock48"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "rock48"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 336
+  - sprite_id: 530
+    sprite_name: "rock49"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "rock49"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 336
+  - sprite_id: 531
+    sprite_name: "rock50"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "rock50"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 336
+  - sprite_id: 532
+    sprite_name: "rock51"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "rock51"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 336
+  - sprite_id: 533
+    sprite_name: "rock52"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "rock52"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 336
+  - sprite_id: 534
+    sprite_name: "rock53"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "rock53"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 336
+  - sprite_id: 535
+    sprite_name: "rock54"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "rock54"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 336
+  - sprite_id: 536
+    sprite_name: "rock55"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "rock55"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 336
+  - sprite_id: 537
+    sprite_name: "rock56"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "rock56"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 336
+  - sprite_id: 538
+    sprite_name: "rock57"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "rock57"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 336
+  - sprite_id: 539
+    sprite_name: "rock58"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "rock58"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 336
+  - sprite_id: 540
+    sprite_name: "rock59"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "rock59"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 336
+  - sprite_id: 541
+    sprite_name: "rock60"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "rock60"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 336
+  - sprite_id: 542
+    sprite_name: "rock61"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "rock61"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 336
+  - sprite_id: 543
+    sprite_name: "rock62"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "rock62"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 336
+  - sprite_id: 544
+    sprite_name: "rock63"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "rock63"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 336
+  - sprite_id: 545
+    sprite_name: "rock64"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "rock64"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 336
+  - sprite_id: 546
+    sprite_name: "rock65"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "rock65"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        scale: 1.25
+        palette_id: 336
+  - sprite_id: 547
+    sprite_name: "rock66"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "rock66"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        scale: 1.25
+        palette_id: 336
+  - sprite_id: 548
+    sprite_name: "rock67"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "rock67"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 336
+  - sprite_id: 549
+    sprite_name: "rock68"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "rock68"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 336
+  - sprite_id: 550
+    sprite_name: "rock69"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "rock69"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 336
+  - sprite_id: 551
+    sprite_name: "rock70"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "rock70"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 336
+  - sprite_id: 552
+    sprite_name: "tree01"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "tree01"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        scale: 4.0
+        palette_id: 337
+  - sprite_id: 553
+    sprite_name: "tree02"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "tree02"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        scale: 4.0
+        palette_id: 337
+  - sprite_id: 554
+    sprite_name: "tree03"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "tree03"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        scale: 4.0
+        palette_id: 337
+  - sprite_id: 555
+    sprite_name: "tree04"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "tree04"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        scale: 4.0
+        palette_id: 337
+  - sprite_id: 556
+    sprite_name: "tree05"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "tree05"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        scale: 4.0
+        palette_id: 337
+  - sprite_id: 557
+    sprite_name: "tree06"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "tree06"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        scale: 4.0
+        palette_id: 337
+  - sprite_id: 558
+    sprite_name: "tree07"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "tree07"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        scale: 4.0
+        palette_id: 337
+  - sprite_id: 559
+    sprite_name: "tree08"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "tree08"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        scale: 4.0
+        palette_id: 337
+  - sprite_id: 560
+    sprite_name: "tree09"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "tree09"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        scale: 4.0
+        palette_id: 337
+  - sprite_id: 561
+    sprite_name: "tree10"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "tree10"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        scale: 4.0
+        palette_id: 337
+  - sprite_id: 562
+    sprite_name: "tree11"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "tree11"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        scale: 4.0
+        palette_id: 337
+  - sprite_id: 563
+    sprite_name: "tree12"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "tree12"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        scale: 4.0
+        palette_id: 337
+  - sprite_id: 564
+    sprite_name: "tree13"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "tree13"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        scale: 4.0
+        palette_id: 337
+  - sprite_id: 565
+    sprite_name: "tree14"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "tree14"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        scale: 4.0
+        palette_id: 337
+  - sprite_id: 566
+    sprite_name: "tree15"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "tree15"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        scale: 4.0
+        palette_id: 337
+  - sprite_id: 567
+    sprite_name: "tree16"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "tree16"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        scale: 4.0
+        palette_id: 337
+  - sprite_id: 568
+    sprite_name: "tree17"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "tree17"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        scale: 4.0
+        palette_id: 337
+  - sprite_id: 569
+    sprite_name: "tree18"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "tree18"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        scale: 4.0
+        palette_id: 337
+  - sprite_id: 570
+    sprite_name: "tree19"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "tree19"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        scale: 4.0
+        palette_id: 337
+  - sprite_id: 571
+    sprite_name: "tree20"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "tree20"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        scale: 4.0
+        palette_id: 337
+  - sprite_id: 572
+    sprite_name: "tree21"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "tree21"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        scale: 4.0
+        palette_id: 337
+  - sprite_id: 573
+    sprite_name: "tree22"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "tree22"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        scale: 4.0
+        palette_id: 337
+  - sprite_id: 574
+    sprite_name: "tree23"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "tree23"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        scale: 4.0
+        palette_id: 337
+  - sprite_id: 575
+    sprite_name: "tree24"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "tree24"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        scale: 4.0
+        palette_id: 337
+  - sprite_id: 576
+    sprite_name: "tree25"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "tree25"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        scale: 4.0
+        palette_id: 337
+  - sprite_id: 577
+    sprite_name: "tree26"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "tree26"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        scale: 4.0
+        palette_id: 337
+  - sprite_id: 578
+    sprite_name: "tree27"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "tree27"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        scale: 4.0
+        palette_id: 337
+  - sprite_id: 579
+    sprite_name: "tree28"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "tree28"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        scale: 4.0
+        palette_id: 337
+  - sprite_id: 580
+    sprite_name: "tree29"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "tree29"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        scale: 4.0
+        palette_id: 337
+  - sprite_id: 581
+    sprite_name: "tree30"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "tree30"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        scale: 4.0
+        palette_id: 337
+  - sprite_id: 582
+    sprite_name: "tree31"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "tree31"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        scale: 4.0
+        palette_id: 337
+  - sprite_id: 583
+    sprite_name: "tree59"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "tree59"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        scale: 4.0
+        palette_id: 337
+  - sprite_id: 584
+    sprite_name: "tree59b"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "tree59b"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        scale: 4.0
+        palette_id: 337
+  - sprite_id: 585
+    sprite_name: "tree60a"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "tree60a"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        scale: 4.0
+        palette_id: 337
+  - sprite_id: 586
+    sprite_name: "tree60b"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "tree60b"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        scale: 4.0
+        palette_id: 337
+  - sprite_id: 587
+    sprite_name: "tree60d"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "tree60d"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        scale: 4.0
+        palette_id: 337
+  - sprite_id: 588
+    sprite_name: "tree61a"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "tree61a"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        scale: 4.0
+        palette_id: 337
+  - sprite_id: 589
+    sprite_name: "tree61d"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "tree61d"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        scale: 4.0
+        palette_id: 337
+  - sprite_id: 590
+    sprite_name: "tree62a"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "tree62a"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        scale: 4.0
+        palette_id: 337
+  - sprite_id: 591
+    sprite_name: "tree62b"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "tree62b"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        scale: 4.0
+        palette_id: 337
+  - sprite_id: 592
+    sprite_name: "tree62c"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "tree62c"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        scale: 4.0
+        palette_id: 337
+  - sprite_id: 593
+    sprite_name: "tree62"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "tree63"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        scale: 4.0
+        palette_id: 337
+  - sprite_id: 594
+    sprite_name: "tree63b"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "tree63b"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        scale: 4.0
+        palette_id: 337
+  - sprite_id: 595
+    sprite_name: "tree63d"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "tree63d"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        scale: 4.0
+        palette_id: 337
+  - sprite_id: 596
+    sprite_name: "tree63"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "tree64"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        scale: 4.0
+        palette_id: 337
+  - sprite_id: 597
+    sprite_name: "tree64d"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "tree64d"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        scale: 4.0
+        palette_id: 337
+  - sprite_id: 598
+    sprite_name: "spell01"
+    animation_length_raw: 12
+    frames:
+      - texture_name: "spell01a"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, First, Image1, Center]
+        scale: 3.0
+        glow_radius: 64
+        palette_id: 5
+      - texture_name: "spell01b"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        scale: 3.0
+        glow_radius: 80
+        palette_id: 5
+      - texture_name: "spell01c"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        scale: 3.0
+        glow_radius: 96
+        palette_id: 5
+      - texture_name: "spell01d"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        scale: 3.0
+        glow_radius: 112
+        palette_id: 5
+      - texture_name: "spell01e"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        scale: 3.0
+        glow_radius: 128
+        palette_id: 5
+      - texture_name: "spell01f"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        scale: 3.0
+        glow_radius: 144
+        palette_id: 5
+      - texture_name: "spell01g"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        scale: 3.0
+        glow_radius: 128
+        palette_id: 5
+      - texture_name: "spell01h"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        scale: 3.0
+        glow_radius: 112
+        palette_id: 5
+      - texture_name: "spell01i"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        scale: 3.0
+        glow_radius: 96
+        palette_id: 5
+      - texture_name: "spell01j"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        scale: 3.0
+        glow_radius: 80
+        palette_id: 5
+      - texture_name: "spell01k"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        scale: 3.0
+        glow_radius: 64
+        palette_id: 5
+      - texture_name: "spell01l"
+        frame_length_raw: 1
+        flags: [Lit, Image1, Center]
+        scale: 3.0
+        glow_radius: 48
+        palette_id: 5
+  - sprite_id: 610
+    sprite_name: "spell02"
+    animation_length_raw: 12
+    frames:
+      - texture_name: "spell02a"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, First, Image1]
+        glow_radius: 48
+        palette_id: 6
+      - texture_name: "spell02b"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1]
+        glow_radius: 80
+        palette_id: 6
+      - texture_name: "spell02c"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1]
+        glow_radius: 48
+        palette_id: 6
+      - texture_name: "spell02d"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1]
+        glow_radius: 80
+        palette_id: 6
+      - texture_name: "spell02e"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1]
+        glow_radius: 48
+        palette_id: 6
+      - texture_name: "spell02f"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1]
+        glow_radius: 80
+        palette_id: 6
+      - texture_name: "spell02g"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1]
+        glow_radius: 48
+        palette_id: 6
+      - texture_name: "spell02h"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1]
+        glow_radius: 80
+        palette_id: 6
+      - texture_name: "spell02i"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1]
+        glow_radius: 48
+        palette_id: 6
+      - texture_name: "spell02j"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1]
+        glow_radius: 80
+        palette_id: 6
+      - texture_name: "spell02k"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1]
+        glow_radius: 48
+        palette_id: 6
+      - texture_name: "spell02l"
+        frame_length_raw: 1
+        flags: [Lit, Image1]
+        glow_radius: 80
+        palette_id: 6
+  - sprite_id: 622
+    sprite_name: "spell03"
+    animation_length_raw: 6
+    frames:
+      - texture_name: "spell03a"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, First, Image1, Center]
+        glow_radius: 64
+        palette_id: 6
+      - texture_name: "spell03a"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        scale: 1.5
+        glow_radius: 64
+        palette_id: 6
+      - texture_name: "spell03a"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        scale: 2.0
+        glow_radius: 64
+        palette_id: 6
+      - texture_name: "spell03a"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        scale: 2.5
+        glow_radius: 64
+        palette_id: 6
+      - texture_name: "spell03a"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        scale: 2.0
+        glow_radius: 64
+        palette_id: 6
+      - texture_name: "spell03a"
+        frame_length_raw: 1
+        flags: [Lit, Image1, Center]
+        scale: 1.5
+        glow_radius: 64
+        palette_id: 6
+  - sprite_id: 628
+    sprite_name: "spell07"
+    animation_length_raw: 1
+    frames:
+      - texture_name: "sp07h1"
+        frame_length_raw: 1
+        flags: [First, Mirror5, Mirror6, Mirror7]
+        palette_id: 6
+  - sprite_id: 629
+    sprite_name: "spell09"
+    animation_length_raw: 12
+    frames:
+      - texture_name: "sp09ba"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, First, Image1, Center]
+        glow_radius: 128
+        palette_id: 5
+      - texture_name: "sp09bb"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 128
+        palette_id: 5
+      - texture_name: "sp09bc"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 128
+        palette_id: 5
+      - texture_name: "sp09bd"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 128
+        palette_id: 5
+      - texture_name: "sp09be"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 128
+        palette_id: 5
+      - texture_name: "sp09bf"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 128
+        palette_id: 5
+      - texture_name: "sp09bg"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 128
+        palette_id: 5
+      - texture_name: "sp09bh"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 128
+        palette_id: 5
+      - texture_name: "sp09bi"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 128
+        palette_id: 5
+      - texture_name: "sp09bj"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 128
+        palette_id: 5
+      - texture_name: "sp09bk"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 128
+        palette_id: 5
+      - texture_name: "sp09bl"
+        frame_length_raw: 1
+        flags: [Lit, Image1, Center]
+        glow_radius: 128
+        palette_id: 5
+  - sprite_id: 641
+    sprite_name: "spell11"
+    animation_length_raw: 12
+    frames:
+      - texture_name: "sp11ba"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, First, Image1, Center]
+        glow_radius: 128
+        palette_id: 5
+      - texture_name: "sp11bb"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 128
+        palette_id: 5
+      - texture_name: "sp11bc"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 128
+        palette_id: 5
+      - texture_name: "sp11bd"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 128
+        palette_id: 5
+      - texture_name: "sp11be"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 128
+        palette_id: 5
+      - texture_name: "sp11bf"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 128
+        palette_id: 5
+      - texture_name: "sp11bg"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 128
+        palette_id: 5
+      - texture_name: "sp11bh"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 128
+        palette_id: 5
+      - texture_name: "sp11bi"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 128
+        palette_id: 5
+      - texture_name: "sp11bj"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 128
+        palette_id: 5
+      - texture_name: "sp11bk"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 128
+        palette_id: 5
+      - texture_name: "sp11bl"
+        frame_length_raw: 1
+        flags: [Lit, Image1, Center]
+        glow_radius: 128
+        palette_id: 5
+  - sprite_id: 653
+    sprite_name: "spell18"
+    animation_length_raw: 6
+    frames:
+      - texture_name: "sp18b1"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, First, Center, Mirror5, Mirror6, Mirror7]
+        glow_radius: 256
+        palette_id: 6
+      - texture_name: "sp18b2"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Center, Mirror5, Mirror6, Mirror7]
+        glow_radius: 256
+        palette_id: 6
+      - texture_name: "sp18b3"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Center, Mirror5, Mirror6, Mirror7]
+        glow_radius: 256
+        palette_id: 6
+      - texture_name: "sp18b4"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Center, Mirror5, Mirror6, Mirror7]
+        glow_radius: 256
+        palette_id: 6
+      - texture_name: "sp18b5"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Center, Mirror5, Mirror6, Mirror7]
+        glow_radius: 256
+        palette_id: 6
+      - texture_name: "sp18b6"
+        frame_length_raw: 1
+        flags: [Lit, Center, Mirror5, Mirror6, Mirror7]
+        glow_radius: 256
+        palette_id: 6
+  - sprite_id: 659
+    sprite_name: "spell22"
+    animation_length_raw: 11
+    frames:
+      - texture_name: "sp22ba"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, First, Image1, Center]
+        glow_radius: 256
+        palette_id: 5
+      - texture_name: "sp22bb"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 256
+        palette_id: 5
+      - texture_name: "sp22bc"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 256
+        palette_id: 5
+      - texture_name: "sp22bd"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 256
+        palette_id: 5
+      - texture_name: "sp22be"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 256
+        palette_id: 5
+      - texture_name: "sp22bf"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 256
+        palette_id: 5
+      - texture_name: "sp22bg"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 256
+        palette_id: 5
+      - texture_name: "sp22bh"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 256
+        palette_id: 5
+      - texture_name: "sp22bi"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 256
+        palette_id: 5
+      - texture_name: "sp22bj"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 256
+        palette_id: 5
+      - texture_name: "sp22bk"
+        frame_length_raw: 1
+        flags: [Lit, Image1, Center]
+        glow_radius: 256
+        palette_id: 5
+  - sprite_id: 670
+    sprite_name: "spell26"
+    animation_length_raw: 8
+    frames:
+      - texture_name: "sp26b10"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, First, Image1, Center]
+        glow_radius: 128
+        palette_id: 6
+      - texture_name: "sp26b20"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 108
+        palette_id: 6
+      - texture_name: "sp26b30"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 88
+        palette_id: 6
+      - texture_name: "sp26b40"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 68
+        palette_id: 6
+      - texture_name: "sp26b50"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 48
+        palette_id: 6
+      - texture_name: "sp26b60"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 68
+        palette_id: 6
+      - texture_name: "sp26b70"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 88
+        palette_id: 6
+      - texture_name: "sp26b80"
+        frame_length_raw: 1
+        flags: [Lit, Image1, Center]
+        glow_radius: 108
+        palette_id: 6
+  - sprite_id: 678
+    sprite_name: "spell29"
+    animation_length_raw: 8
+    frames:
+      - texture_name: "sp29c10"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, First, Image1]
+        glow_radius: 32
+        palette_id: 6
+      - texture_name: "sp29c20"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1]
+        glow_radius: 64
+        palette_id: 6
+      - texture_name: "sp29c30"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1]
+        glow_radius: 32
+        palette_id: 6
+      - texture_name: "sp29c40"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1]
+        glow_radius: 64
+        palette_id: 6
+      - texture_name: "sp29c50"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1]
+        glow_radius: 32
+        palette_id: 6
+      - texture_name: "sp29c60"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1]
+        glow_radius: 64
+        palette_id: 6
+      - texture_name: "sp29c70"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1]
+        glow_radius: 32
+        palette_id: 6
+      - texture_name: "sp29c80"
+        frame_length_raw: 1
+        flags: [Lit, Image1]
+        glow_radius: 64
+        palette_id: 6
+  - sprite_id: 686
+    sprite_name: "spell37"
+    animation_length_raw: 5
+    frames:
+      - texture_name: "sp37b10"
+        frame_length_raw: 1
+        flags: [HasMore, First, Image1, Center]
+        palette_id: 6
+      - texture_name: "sp37b20"
+        frame_length_raw: 1
+        flags: [HasMore, Image1, Center]
+        palette_id: 6
+      - texture_name: "sp37b30"
+        frame_length_raw: 1
+        flags: [HasMore, Image1, Center]
+        palette_id: 6
+      - texture_name: "sp37b40"
+        frame_length_raw: 1
+        flags: [HasMore, Image1, Center]
+        palette_id: 6
+      - texture_name: "sp37b50"
+        frame_length_raw: 1
+        flags: [Image1, Center]
+        palette_id: 6
+  - sprite_id: 691
+    sprite_name: "spell37c"
+    animation_length_raw: 16
+    frames:
+      - texture_name: "sp37ca"
+        frame_length_raw: 1
+        flags: [HasMore, First, Image1, Center]
+        palette_id: 6
+      - texture_name: "sp37cb"
+        frame_length_raw: 1
+        flags: [HasMore, Image1, Center]
+        palette_id: 6
+      - texture_name: "sp37cc"
+        frame_length_raw: 1
+        flags: [HasMore, Image1, Center]
+        palette_id: 6
+      - texture_name: "sp37cd"
+        frame_length_raw: 1
+        flags: [HasMore, Image1, Center]
+        palette_id: 6
+      - texture_name: "sp37ce"
+        frame_length_raw: 1
+        flags: [HasMore, Image1, Center]
+        palette_id: 6
+      - texture_name: "sp37cf"
+        frame_length_raw: 1
+        flags: [HasMore, Image1, Center]
+        palette_id: 6
+      - texture_name: "sp37cg"
+        frame_length_raw: 1
+        flags: [HasMore, Image1, Center]
+        palette_id: 6
+      - texture_name: "sp37ch"
+        frame_length_raw: 1
+        flags: [HasMore, Image1, Center]
+        palette_id: 6
+      - texture_name: "sp37ci"
+        frame_length_raw: 1
+        flags: [HasMore, Image1, Center]
+        palette_id: 6
+      - texture_name: "sp37cj"
+        frame_length_raw: 1
+        flags: [HasMore, Image1, Center]
+        palette_id: 6
+      - texture_name: "sp37ck"
+        frame_length_raw: 1
+        flags: [HasMore, Image1, Center]
+        palette_id: 6
+      - texture_name: "sp37cg"
+        frame_length_raw: 1
+        flags: [HasMore, Image1, Center]
+        palette_id: 6
+      - texture_name: "sp37ch"
+        frame_length_raw: 1
+        flags: [HasMore, Image1, Center]
+        palette_id: 6
+      - texture_name: "sp37ci"
+        frame_length_raw: 1
+        flags: [HasMore, Image1, Center]
+        palette_id: 6
+      - texture_name: "sp37cj"
+        frame_length_raw: 1
+        flags: [HasMore, Image1, Center]
+        palette_id: 6
+      - texture_name: "sp37ck"
+        frame_length_raw: 1
+        flags: [Image1, Center]
+        palette_id: 6
+  - sprite_id: 707
+    sprite_name: "spell39"
+    animation_length_raw: 6
+    frames:
+      - texture_name: "sp391"
+        frame_length_raw: 1
+        flags: [HasMore, First, Center, Mirror5, Mirror6, Mirror7]
+        palette_id: 6
+      - texture_name: "sp392"
+        frame_length_raw: 1
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        palette_id: 6
+      - texture_name: "sp393"
+        frame_length_raw: 1
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        palette_id: 6
+      - texture_name: "sp394"
+        frame_length_raw: 1
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        palette_id: 6
+      - texture_name: "sp395"
+        frame_length_raw: 1
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        palette_id: 6
+      - texture_name: "sp396"
+        frame_length_raw: 1
+        flags: [Center, Mirror5, Mirror6, Mirror7]
+        palette_id: 6
+  - sprite_id: 713
+    sprite_name: "spell39c"
+    animation_length_raw: 1
+    frames:
+      - texture_name: "sp39c10"
+        frame_length_raw: 1
+        flags: [First, Image1, Center]
+        palette_id: 6
+  - sprite_id: 714
+    sprite_name: "spell41"
+    animation_length_raw: 8
+    frames:
+      - texture_name: "sp41b10"
+        frame_length_raw: 1
+        flags: [HasMore, First, Image1, Center]
+        palette_id: 5
+      - texture_name: "sp41b20"
+        frame_length_raw: 1
+        flags: [HasMore, Image1, Center]
+        palette_id: 5
+      - texture_name: "sp41b30"
+        frame_length_raw: 1
+        flags: [HasMore, Image1, Center]
+        palette_id: 5
+      - texture_name: "sp41b40"
+        frame_length_raw: 1
+        flags: [HasMore, Image1, Center]
+        palette_id: 5
+      - texture_name: "sp41b50"
+        frame_length_raw: 1
+        flags: [HasMore, Image1, Center]
+        palette_id: 5
+      - texture_name: "sp41b60"
+        frame_length_raw: 1
+        flags: [HasMore, Image1, Center]
+        palette_id: 5
+      - texture_name: "sp41b70"
+        frame_length_raw: 1
+        flags: [HasMore, Image1, Center]
+        palette_id: 5
+      - texture_name: "sp41b80"
+        frame_length_raw: 1
+        flags: [Image1, Center]
+        palette_id: 5
+  - sprite_id: 722
+    sprite_name: "spell57"
+    animation_length_raw: 8
+    frames:
+      - texture_name: "sp57b1"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, First, Center, Mirror5, Mirror6, Mirror7]
+        glow_radius: 128
+        palette_id: 5
+      - texture_name: "sp57b2"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Center, Mirror5, Mirror6, Mirror7]
+        glow_radius: 128
+        palette_id: 5
+      - texture_name: "sp57b3"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Center, Mirror5, Mirror6, Mirror7]
+        glow_radius: 128
+        palette_id: 5
+      - texture_name: "sp57b4"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Center, Mirror5, Mirror6, Mirror7]
+        glow_radius: 128
+        palette_id: 5
+      - texture_name: "sp57b5"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Center, Mirror5, Mirror6, Mirror7]
+        glow_radius: 128
+        palette_id: 5
+      - texture_name: "sp57b6"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Center, Mirror5, Mirror6, Mirror7]
+        glow_radius: 128
+        palette_id: 5
+      - texture_name: "sp57b7"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Center, Mirror5, Mirror6, Mirror7]
+        glow_radius: 128
+        palette_id: 5
+      - texture_name: "sp57b8"
+        frame_length_raw: 1
+        flags: [Lit, Center, Mirror5, Mirror6, Mirror7]
+        glow_radius: 128
+        palette_id: 5
+  - sprite_id: 730
+    sprite_name: "spell57c"
+    animation_length_raw: 1
+    frames:
+      - texture_name: "sp57c"
+        frame_length_raw: 1
+        flags: [First, Image1, Center]
+        palette_id: 6
+  - sprite_id: 731
+    sprite_name: "spell59"
+    animation_length_raw: 8
+    frames:
+      - texture_name: "sp59c10"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, First, Image1, Center]
+        glow_radius: 64
+        palette_id: 6
+      - texture_name: "sp59c20"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 64
+        palette_id: 6
+      - texture_name: "sp59c30"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 64
+        palette_id: 6
+      - texture_name: "sp59c40"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 64
+        palette_id: 6
+      - texture_name: "sp59c50"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 64
+        palette_id: 6
+      - texture_name: "sp59c60"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 64
+        palette_id: 6
+      - texture_name: "sp59c70"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 64
+        palette_id: 6
+      - texture_name: "sp59c80"
+        frame_length_raw: 1
+        flags: [Lit, Image1, Center]
+        glow_radius: 64
+        palette_id: 6
+  - sprite_id: 739
+    sprite_name: "spell60"
+    animation_length_raw: 8
+    frames:
+      - texture_name: "sp60c10"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, First, Image1, Center]
+        glow_radius: 64
+        palette_id: 6
+      - texture_name: "sp60c20"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 64
+        palette_id: 6
+      - texture_name: "sp60c30"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 64
+        palette_id: 6
+      - texture_name: "sp60c40"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 64
+        palette_id: 6
+      - texture_name: "sp60c50"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 64
+        palette_id: 6
+      - texture_name: "sp60c60"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 64
+        palette_id: 6
+      - texture_name: "sp60c70"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 64
+        palette_id: 6
+      - texture_name: "sp60c80"
+        frame_length_raw: 1
+        flags: [Lit, Image1, Center]
+        glow_radius: 64
+        palette_id: 6
+  - sprite_id: 747
+    sprite_name: "spell62"
+    animation_length_raw: 8
+    frames:
+      - texture_name: "sp62c10"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, First, Image1]
+        glow_radius: 80
+        palette_id: 5
+      - texture_name: "sp62c20"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1]
+        glow_radius: 80
+        palette_id: 5
+      - texture_name: "sp62c30"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1]
+        glow_radius: 80
+        palette_id: 5
+      - texture_name: "sp62c40"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1]
+        glow_radius: 80
+        palette_id: 5
+      - texture_name: "sp62c50"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1]
+        glow_radius: 80
+        palette_id: 5
+      - texture_name: "sp62c60"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1]
+        glow_radius: 80
+        palette_id: 5
+      - texture_name: "sp62c70"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1]
+        glow_radius: 80
+        palette_id: 5
+      - texture_name: "sp62c80"
+        frame_length_raw: 1
+        flags: [Lit, Image1]
+        glow_radius: 80
+        palette_id: 5
+  - sprite_id: 755
+    sprite_name: "spell65"
+    animation_length_raw: 4
+    frames:
+      - texture_name: "sp65b10"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, First, Image1]
+        glow_radius: 128
+        palette_id: 6
+      - texture_name: "sp65b20"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1]
+        glow_radius: 128
+        palette_id: 6
+      - texture_name: "sp65b30"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1]
+        glow_radius: 128
+        palette_id: 6
+      - texture_name: "sp65b40"
+        frame_length_raw: 1
+        flags: [Lit, Image1]
+        glow_radius: 128
+        palette_id: 6
+  - sprite_id: 759
+    sprite_name: "spell66"
+    animation_length_raw: 8
+    frames:
+      - texture_name: "sp66c10"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, First, Image1]
+        glow_radius: 64
+        palette_id: 5
+      - texture_name: "sp66c20"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1]
+        glow_radius: 64
+        palette_id: 5
+      - texture_name: "sp66c30"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1]
+        glow_radius: 64
+        palette_id: 5
+      - texture_name: "sp66c40"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1]
+        glow_radius: 64
+        palette_id: 5
+      - texture_name: "sp66c50"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1]
+        glow_radius: 80
+        palette_id: 5
+      - texture_name: "sp66c60"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1]
+        glow_radius: 64
+        palette_id: 5
+      - texture_name: "sp66c70"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1]
+        glow_radius: 64
+        palette_id: 5
+      - texture_name: "sp66c80"
+        frame_length_raw: 1
+        flags: [Lit, Image1]
+        glow_radius: 64
+        palette_id: 5
+  - sprite_id: 767
+    sprite_name: "spell70"
+    animation_length_raw: 8
+    frames:
+      - texture_name: "spell70b1"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, First, Center, Mirror5, Mirror6, Mirror7]
+        glow_radius: 64
+        palette_id: 5
+      - texture_name: "spell70b2"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Center, Mirror5, Mirror6, Mirror7]
+        glow_radius: 128
+        palette_id: 5
+      - texture_name: "spell70b3"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Center, Mirror5, Mirror6, Mirror7]
+        glow_radius: 64
+        palette_id: 5
+      - texture_name: "spell70b4"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Center, Mirror5, Mirror6, Mirror7]
+        glow_radius: 128
+        palette_id: 5
+      - texture_name: "spell70b5"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Center, Mirror5, Mirror6, Mirror7]
+        glow_radius: 64
+        palette_id: 5
+      - texture_name: "spell70b6"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Center, Mirror5, Mirror6, Mirror7]
+        glow_radius: 128
+        palette_id: 5
+      - texture_name: "spell70b7"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Center, Mirror5, Mirror6, Mirror7]
+        glow_radius: 64
+        palette_id: 5
+      - texture_name: "spell70b8"
+        frame_length_raw: 1
+        flags: [Lit, Center, Mirror5, Mirror6, Mirror7]
+        glow_radius: 128
+        palette_id: 5
+  - sprite_id: 775
+    sprite_name: "spell70c"
+    animation_length_raw: 1
+    frames:
+      - texture_name: "spell70c"
+        frame_length_raw: 1
+        flags: [First, Image1, Center]
+        scale: 2.5
+        palette_id: 5
+  - sprite_id: 776
+    sprite_name: "spell76"
+    animation_length_raw: 8
+    frames:
+      - texture_name: "sp76b1"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, First, Center, Mirror5, Mirror6, Mirror7]
+        glow_radius: 32
+        palette_id: 6
+      - texture_name: "sp76b2"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Center, Mirror5, Mirror6, Mirror7]
+        glow_radius: 32
+        palette_id: 6
+      - texture_name: "sp76b3"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Center, Mirror5, Mirror6, Mirror7]
+        glow_radius: 32
+        palette_id: 6
+      - texture_name: "sp76b4"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Center, Mirror5, Mirror6, Mirror7]
+        glow_radius: 32
+        palette_id: 6
+      - texture_name: "sp76b5"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Center, Mirror5, Mirror6, Mirror7]
+        glow_radius: 32
+        palette_id: 6
+      - texture_name: "sp76b6"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Center, Mirror5, Mirror6, Mirror7]
+        glow_radius: 32
+        palette_id: 6
+      - texture_name: "sp76b7"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Center, Mirror5, Mirror6, Mirror7]
+        glow_radius: 32
+        palette_id: 6
+      - texture_name: "sp76b8"
+        frame_length_raw: 1
+        flags: [Lit, Center, Mirror5, Mirror6, Mirror7]
+        glow_radius: 32
+        palette_id: 6
+  - sprite_id: 784
+    sprite_name: "spell78b"
+    animation_length_raw: 1
+    frames:
+      - texture_name: "sp78b"
+        frame_length_raw: 1
+        flags: [Lit, First, Center, Mirror5, Mirror6, Mirror7]
+        glow_radius: 80
+        palette_id: 5
+  - sprite_id: 785
+    sprite_name: "spell78c"
+    animation_length_raw: 1
+    frames:
+      - texture_name: "sp78c"
+        frame_length_raw: 1
+        flags: [Lit, First, Center, Mirror5, Mirror6, Mirror7]
+        glow_radius: 256
+        palette_id: 5
+  - sprite_id: 786
+    sprite_name: "spell84"
+    animation_length_raw: 10
+    frames:
+      - texture_name: "sp84ba"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, First, Image1]
+        glow_radius: 128
+        palette_id: 6
+      - texture_name: "sp84bb"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1]
+        glow_radius: 128
+        palette_id: 6
+      - texture_name: "sp84bc"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1]
+        glow_radius: 128
+        palette_id: 6
+      - texture_name: "sp84bd"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1]
+        glow_radius: 128
+        palette_id: 6
+      - texture_name: "sp84be"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1]
+        glow_radius: 128
+        palette_id: 6
+      - texture_name: "sp84bf"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1]
+        glow_radius: 128
+        palette_id: 6
+      - texture_name: "sp84bg"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1]
+        glow_radius: 128
+        palette_id: 6
+      - texture_name: "sp84bh"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1]
+        glow_radius: 128
+        palette_id: 6
+      - texture_name: "sp84bi"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1]
+        glow_radius: 128
+        palette_id: 6
+      - texture_name: "sp84bj"
+        frame_length_raw: 1
+        flags: [Lit, Image1]
+        glow_radius: 128
+        palette_id: 6
+  - sprite_id: 796
+    sprite_name: "spell87"
+    animation_length_raw: 1
+    frames:
+      - texture_name: "sp87b"
+        frame_length_raw: 1
+        flags: [Lit, First, Image1]
+        glow_radius: 256
+        palette_id: 6
+  - sprite_id: 797
+    sprite_name: "spell90"
+    animation_length_raw: 12
+    frames:
+      - texture_name: "sp90ba"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, First, Image1, Center]
+        glow_radius: 32
+        palette_id: 6
+      - texture_name: "sp90bb"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 32
+        palette_id: 6
+      - texture_name: "sp90bc"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 32
+        palette_id: 6
+      - texture_name: "sp90bd"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 32
+        palette_id: 6
+      - texture_name: "sp90be"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 32
+        palette_id: 6
+      - texture_name: "sp90bf"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 32
+        palette_id: 6
+      - texture_name: "sp90bg"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 32
+        palette_id: 6
+      - texture_name: "sp90bh"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 32
+        palette_id: 6
+      - texture_name: "sp90bi"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 32
+        palette_id: 6
+      - texture_name: "sp90bj"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 32
+        palette_id: 6
+      - texture_name: "sp90bk"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 32
+        palette_id: 6
+      - texture_name: "sp90bl"
+        frame_length_raw: 1
+        flags: [Lit, Image1, Center]
+        glow_radius: 32
+        palette_id: 6
+  - sprite_id: 809
+    sprite_name: "spell92"
+    animation_length_raw: 1
+    frames:
+      - texture_name: "sp92b"
+        frame_length_raw: 1
+        flags: [Lit, First, Image1, Center]
+        glow_radius: 64
+        palette_id: 5
+  - sprite_id: 810
+    sprite_name: "spell93"
+    animation_length_raw: 8
+    frames:
+      - texture_name: "sp93bb10"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, First, Image1, Center]
+        glow_radius: 16
+        palette_id: 6
+      - texture_name: "sp93bb20"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 16
+        palette_id: 6
+      - texture_name: "sp93bb30"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 16
+        palette_id: 6
+      - texture_name: "sp93bb40"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 16
+        palette_id: 6
+      - texture_name: "sp93bb50"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 16
+        palette_id: 6
+      - texture_name: "sp93bb60"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 16
+        palette_id: 6
+      - texture_name: "sp93bb70"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 16
+        palette_id: 6
+      - texture_name: "sp93bb80"
+        frame_length_raw: 1
+        flags: [Lit, Image1, Center]
+        glow_radius: 16
+        palette_id: 6
+  - sprite_id: 818
+    sprite_name: "spell94"
+    animation_length_raw: 9
+    frames:
+      - texture_name: "sp94c10"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, First, Image1, Center]
+        glow_radius: 64
+        palette_id: 5
+      - texture_name: "sp94c20"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 128
+        palette_id: 5
+      - texture_name: "sp94c30"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 64
+        palette_id: 5
+      - texture_name: "sp94c40"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 128
+        palette_id: 5
+      - texture_name: "sp94c50"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 64
+        palette_id: 5
+      - texture_name: "sp94c60"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 128
+        palette_id: 5
+      - texture_name: "sp94c70"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 64
+        palette_id: 5
+      - texture_name: "sp94c80"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 128
+        palette_id: 5
+      - texture_name: "sp94c90"
+        frame_length_raw: 1
+        flags: [Lit, Image1, Center]
+        glow_radius: 64
+        palette_id: 5
+  - sprite_id: 827
+    sprite_name: "spell97"
+    animation_length_raw: 6
+    frames:
+      - texture_name: "sp97b10"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, First, Image1, Center]
+        glow_radius: 128
+        palette_id: 5
+      - texture_name: "sp97b20"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 128
+        palette_id: 5
+      - texture_name: "sp97b30"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 128
+        palette_id: 5
+      - texture_name: "sp97b40"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 128
+        palette_id: 5
+      - texture_name: "sp97b50"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 128
+        palette_id: 5
+      - texture_name: "sp97b60"
+        frame_length_raw: 1
+        flags: [Lit, Image1, Center]
+        glow_radius: 128
+        palette_id: 5
+  - sprite_id: 833
+    sprite_name: "spell97c"
+    animation_length_raw: 8
+    frames:
+      - texture_name: "sp97c10"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, First, Image1, Center]
+        scale: 1.5
+        glow_radius: 128
+        palette_id: 5
+      - texture_name: "sp97c20"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        scale: 1.5
+        glow_radius: 256
+        palette_id: 5
+      - texture_name: "sp97c30"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        scale: 1.5
+        glow_radius: 128
+        palette_id: 5
+      - texture_name: "sp97c40"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        scale: 1.5
+        glow_radius: 256
+        palette_id: 5
+      - texture_name: "sp97c50"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        scale: 1.5
+        glow_radius: 128
+        palette_id: 5
+      - texture_name: "sp97c60"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        scale: 1.5
+        glow_radius: 256
+        palette_id: 5
+      - texture_name: "sp97c70"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        scale: 1.5
+        glow_radius: 128
+        palette_id: 5
+      - texture_name: "sp97c80"
+        frame_length_raw: 1
+        flags: [Lit, Image1, Center]
+        scale: 1.5
+        glow_radius: 256
+        palette_id: 5
+  - sprite_id: 841
+    sprite_name: "spell98"
+    animation_length_raw: 8
+    frames:
+      - texture_name: "spbl98a"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, First, Image1, Center]
+        glow_radius: 64
+        palette_id: 6
+      - texture_name: "spbl98b"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 64
+        palette_id: 6
+      - texture_name: "spbl98c"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 64
+        palette_id: 6
+      - texture_name: "spbl98d"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 64
+        palette_id: 6
+      - texture_name: "spbl98e"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 64
+        palette_id: 6
+      - texture_name: "spbl98f"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 64
+        palette_id: 6
+      - texture_name: "spbl98g"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 64
+        palette_id: 6
+      - texture_name: "spbl98h"
+        frame_length_raw: 1
+        flags: [Lit, Image1, Center]
+        glow_radius: 64
+        palette_id: 6
+  - sprite_id: 849
+    sprite_name: "spell99"
+    animation_length_raw: 8
+    frames:
+      - texture_name: "spdf99a"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, First, Image1, Center]
+        glow_radius: 64
+        palette_id: 6
+      - texture_name: "spdf99b"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 64
+        palette_id: 6
+      - texture_name: "spdf99c"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 64
+        palette_id: 6
+      - texture_name: "spdf99d"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 64
+        palette_id: 6
+      - texture_name: "spdf99e"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 64
+        palette_id: 6
+      - texture_name: "spdf99f"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 64
+        palette_id: 6
+      - texture_name: "spdf99g"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 64
+        palette_id: 6
+      - texture_name: "spdf99h"
+        frame_length_raw: 1
+        flags: [Lit, Image1, Center]
+        glow_radius: 64
+        palette_id: 6
+  - sprite_id: 857
+    sprite_name: "spell99x"
+    animation_length_raw: 1
+    frames:
+      - texture_name: "spdf99x"
+        frame_length_raw: 1
+        flags: [Lit, First, Image1, Center]
+        glow_radius: 64
+        palette_id: 6
+  - sprite_id: 858
+    sprite_name: "spell100"
+    animation_length_raw: 8
+    frames:
+      - texture_name: "spdb100a"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, First, Image1, Center]
+        glow_radius: 64
+        palette_id: 5
+      - texture_name: "spdb100b"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 64
+        palette_id: 5
+      - texture_name: "spdb100c"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 64
+        palette_id: 5
+      - texture_name: "spdb100d"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 64
+        palette_id: 5
+      - texture_name: "spdb100e"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 64
+        palette_id: 5
+      - texture_name: "spdb100f"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 64
+        palette_id: 5
+      - texture_name: "spdb100g"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 64
+        palette_id: 5
+      - texture_name: "spdb100h"
+        frame_length_raw: 1
+        flags: [Lit, Image1, Center]
+        glow_radius: 64
+        palette_id: 5
+  - sprite_id: 866
+    sprite_name: "spell100x"
+    animation_length_raw: 1
+    frames:
+      - texture_name: "spdb100x"
+        frame_length_raw: 1
+        flags: [Lit, First, Image1, Center]
+        glow_radius: 64
+        palette_id: 5
+  - sprite_id: 867
+    sprite_name: "spell101"
+    animation_length_raw: 6
+    frames:
+      - texture_name: "sp101b01"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, First, Image1, Center]
+        glow_radius: 64
+        palette_id: 6
+      - texture_name: "sp101b02"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 64
+        palette_id: 6
+      - texture_name: "sp101b03"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 64
+        palette_id: 6
+      - texture_name: "sp101b04"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 64
+        palette_id: 6
+      - texture_name: "sp101b05"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 64
+        palette_id: 6
+      - texture_name: "sp101b06"
+        frame_length_raw: 1
+        flags: [Lit, Image1, Center]
+        glow_radius: 64
+        palette_id: 6
+  - sprite_id: 873
+    sprite_name: "spell101c"
+    animation_length_raw: 1
+    frames:
+      - texture_name: "sp101c"
+        frame_length_raw: 1
+        flags: [Lit, First, Image1, Center]
+        glow_radius: 64
+        palette_id: 6
+  - sprite_id: 874
+    sprite_name: "spell102"
+    animation_length_raw: 6
+    frames:
+      - texture_name: "sp102b01"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, First, Image1, Center]
+        glow_radius: 64
+        palette_id: 5
+      - texture_name: "sp102b02"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 64
+        palette_id: 5
+      - texture_name: "sp102b03"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 64
+        palette_id: 5
+      - texture_name: "sp102b04"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 64
+        palette_id: 5
+      - texture_name: "sp102b05"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 64
+        palette_id: 5
+      - texture_name: "sp102b06"
+        frame_length_raw: 1
+        flags: [Lit, Image1, Center]
+        glow_radius: 64
+        palette_id: 5
+  - sprite_id: 880
+    sprite_name: "spell102c"
+    animation_length_raw: 1
+    frames:
+      - texture_name: "sp102c"
+        frame_length_raw: 1
+        flags: [Lit, First, Image1, Center]
+        glow_radius: 64
+        palette_id: 5
+  - sprite_id: 881
+    sprite_name: "spell103"
+    animation_length_raw: 6
+    frames:
+      - texture_name: "sp103b01"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, First, Image1, Center]
+        glow_radius: 64
+        palette_id: 5
+      - texture_name: "sp103b02"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 64
+        palette_id: 5
+      - texture_name: "sp103b03"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 64
+        palette_id: 5
+      - texture_name: "sp103b04"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 64
+        palette_id: 5
+      - texture_name: "sp103b05"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 64
+        palette_id: 5
+      - texture_name: "sp103b06"
+        frame_length_raw: 1
+        flags: [Lit, Image1, Center]
+        glow_radius: 64
+        palette_id: 5
+  - sprite_id: 887
+    sprite_name: "spell104"
+    animation_length_raw: 6
+    frames:
+      - texture_name: "sp104b01"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, First, Image1, Center]
+        glow_radius: 64
+        palette_id: 6
+      - texture_name: "sp104b02"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 64
+        palette_id: 6
+      - texture_name: "sp104b03"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 64
+        palette_id: 6
+      - texture_name: "sp104b04"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 64
+        palette_id: 6
+      - texture_name: "sp104b05"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 64
+        palette_id: 6
+      - texture_name: "sp104b06"
+        frame_length_raw: 1
+        flags: [Lit, Image1, Center]
+        glow_radius: 64
+        palette_id: 6
+  - sprite_id: 893
+    sprite_name: "spell104c"
+    animation_length_raw: 1
+    frames:
+      - texture_name: "sp104c"
+        frame_length_raw: 1
+        flags: [Lit, First, Image1, Center]
+        glow_radius: 64
+        palette_id: 6
+  - sprite_id: 894
+    sprite_name: "spell105"
+    animation_length_raw: 6
+    frames:
+      - texture_name: "sp105b01"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, First, Image1, Center]
+        glow_radius: 64
+        palette_id: 6
+      - texture_name: "sp105b02"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 64
+        palette_id: 6
+      - texture_name: "sp105b03"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 64
+        palette_id: 6
+      - texture_name: "sp105b04"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 64
+        palette_id: 6
+      - texture_name: "sp105b05"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 64
+        palette_id: 6
+      - texture_name: "sp105b06"
+        frame_length_raw: 1
+        flags: [Lit, Image1, Center]
+        glow_radius: 64
+        palette_id: 6
+  - sprite_id: 900
+    sprite_name: "spell105c"
+    animation_length_raw: 1
+    frames:
+      - texture_name: "sp105c"
+        frame_length_raw: 1
+        flags: [Lit, First, Image1, Center]
+        glow_radius: 64
+        palette_id: 6
+  - sprite_id: 901
+    sprite_name: "spell106"
+    animation_length_raw: 6
+    frames:
+      - texture_name: "sp106b01"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, First, Image1, Center]
+        glow_radius: 64
+        palette_id: 6
+      - texture_name: "sp106b02"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 64
+        palette_id: 6
+      - texture_name: "sp106b03"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 64
+        palette_id: 6
+      - texture_name: "sp106b04"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 64
+        palette_id: 6
+      - texture_name: "sp106b05"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 64
+        palette_id: 6
+      - texture_name: "sp106b06"
+        frame_length_raw: 1
+        flags: [Lit, Image1, Center]
+        glow_radius: 64
+        palette_id: 6
+  - sprite_id: 907
+    sprite_name: "spell106c"
+    animation_length_raw: 1
+    frames:
+      - texture_name: "sp106c"
+        frame_length_raw: 1
+        flags: [Lit, First, Image1, Center]
+        glow_radius: 64
+        palette_id: 6
+  - sprite_id: 908
+    sprite_name: "spell107"
+    animation_length_raw: 12
+    frames:
+      - texture_name: "sp107b01"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, First, Image1, Center]
+        glow_radius: 64
+        palette_id: 5
+      - texture_name: "sp107b02"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 64
+        palette_id: 5
+      - texture_name: "sp107b03"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 64
+        palette_id: 5
+      - texture_name: "sp107b04"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 64
+        palette_id: 5
+      - texture_name: "sp107b05"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1, Center]
+        glow_radius: 64
+        palette_id: 5
+      - texture_name: "sp107b06"
+        frame_length_raw: 2
+        flags: [Lit, Image1, Center]
+        glow_radius: 64
+        palette_id: 5
+  - sprite_id: 914
+    sprite_name: "spell107c"
+    animation_length_raw: 1
+    frames:
+      - texture_name: "sp107c"
+        frame_length_raw: 1
+        flags: [Lit, First, Image1, Center]
+        glow_radius: 64
+        palette_id: 5
+  - sprite_id: 915
+    sprite_name: "lzrbolt"
+    animation_length_raw: 1
+    frames:
+      - texture_name: "sp92b"
+        frame_length_raw: 1
+        flags: [Lit, First, Image1, Center]
+        scale: 0.349991
+        glow_radius: 256
+        palette_id: 5
+  - sprite_id: 916
+    sprite_name: "arrow"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "arrowa"
+        frame_length_raw: 2
+        flags: [First, Center, Mirror5, Mirror6, Mirror7]
+        scale: 0.649994
+        palette_id: 338
+  - sprite_id: 917
+    sprite_name: "frarw"
+    animation_length_raw: 12
+    frames:
+      - texture_name: "frarwa"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, First, Center, Mirror5, Mirror6, Mirror7]
+        glow_radius: 128
+        palette_id: 5
+      - texture_name: "frarwb"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Center, Mirror5, Mirror6, Mirror7]
+        glow_radius: 128
+        palette_id: 5
+      - texture_name: "frarwc"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Center, Mirror5, Mirror6, Mirror7]
+        glow_radius: 128
+        palette_id: 5
+      - texture_name: "frarwd"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Center, Mirror5, Mirror6, Mirror7]
+        glow_radius: 128
+        palette_id: 5
+      - texture_name: "frarwe"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Center, Mirror5, Mirror6, Mirror7]
+        glow_radius: 128
+        palette_id: 5
+      - texture_name: "frarwf"
+        frame_length_raw: 2
+        flags: [Lit, Center, Mirror5, Mirror6, Mirror7]
+        glow_radius: 128
+        palette_id: 5
+  - sprite_id: 923
+    sprite_name: "boulder"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "boulder"
+        frame_length_raw: 2
+        flags: [First, Image1, Center]
+        palette_id: 5
+  - sprite_id: 924
+    sprite_name: "cannonball"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "spell70c"
+        frame_length_raw: 2
+        flags: [First, Image1, Center]
+        scale: 2.0
+        palette_id: 6

@@ -36,6 +36,11 @@ std::string dataTablePath(std::string_view fileName)
     return "Data/data_tables/" + std::string(fileName);
 }
 
+std::string monsterSpriteFrameFamilyPath(std::string_view familyRoot)
+{
+    return "Data/rendering/sprite_frames/monsters/" + std::string(familyRoot) + ".yml";
+}
+
 constexpr size_t TileDescriptorNameLength = 20;
 constexpr size_t TileDescriptorRecordSize = 26;
 constexpr uint8_t WaterTileName[] = {'w', 't', 'r', 't', 'y', 'l', 0};
@@ -304,6 +309,132 @@ std::optional<TextureFrameTable> loadTextureFrameTable(const Engine::AssetFileSy
     return textureFrameTable;
 }
 
+std::optional<std::string> monsterSpriteFamilyRoot(const std::string &spriteName)
+{
+    if (spriteName.size() < 4 || spriteName[0] != 'm')
+    {
+        return std::nullopt;
+    }
+
+    if (std::isdigit(static_cast<unsigned char>(spriteName[1])) == 0
+        || std::isdigit(static_cast<unsigned char>(spriteName[2])) == 0
+        || std::isdigit(static_cast<unsigned char>(spriteName[3])) == 0)
+    {
+        return std::nullopt;
+    }
+
+    return spriteName.substr(0, 4);
+}
+
+void appendMonsterSpriteFamilies(
+    std::unordered_set<std::string> &families,
+    const MonsterEntry *pMonsterEntry)
+{
+    if (pMonsterEntry == nullptr)
+    {
+        return;
+    }
+
+    for (const std::string &spriteName : pMonsterEntry->spriteNames)
+    {
+        if (const std::optional<std::string> familyRoot = monsterSpriteFamilyRoot(spriteName))
+        {
+            families.insert(*familyRoot);
+        }
+    }
+}
+
+template <typename SpawnType>
+void collectSpawnMonsterSpriteFamilies(
+    std::unordered_set<std::string> &families,
+    const MapStatsEntry &map,
+    const MonsterTable &monsterTable,
+    const std::vector<SpawnType> &spawns)
+{
+    for (const SpawnType &spawn : spawns)
+    {
+        const std::optional<std::string> monsterName = resolveMonsterNameForSpawn(map, spawn.typeId, spawn.index);
+
+        if (!monsterName)
+        {
+            continue;
+        }
+
+        appendMonsterSpriteFamilies(families, monsterTable.findByInternalName(*monsterName));
+    }
+}
+
+void collectMapDeltaMonsterSpriteFamilies(
+    std::unordered_set<std::string> &families,
+    const MonsterTable &monsterTable,
+    const std::optional<MapDeltaData> &mapDeltaData)
+{
+    if (!mapDeltaData)
+    {
+        return;
+    }
+
+    for (const MapDeltaActor &actor : mapDeltaData->actors)
+    {
+        const MonsterTable::MonsterDisplayNameEntry *pDisplayEntry =
+            monsterTable.findDisplayEntryById(actor.monsterInfoId);
+        const MonsterEntry *pMonsterEntry = nullptr;
+
+        if (pDisplayEntry != nullptr)
+        {
+            pMonsterEntry = monsterTable.findByInternalName(pDisplayEntry->pictureName);
+        }
+
+        if (pMonsterEntry == nullptr)
+        {
+            pMonsterEntry = monsterTable.findById(actor.monsterId);
+        }
+
+        appendMonsterSpriteFamilies(families, pMonsterEntry);
+    }
+}
+
+void collectEncounterMonsterSpriteFamilies(
+    std::unordered_set<std::string> &families,
+    const MonsterTable &monsterTable,
+    const MapStatsEntry &map)
+{
+    const std::array<const MapEncounterInfo *, 3> encounters = {{
+        &map.encounter1,
+        &map.encounter2,
+        &map.encounter3,
+    }};
+
+    for (const MapEncounterInfo *pEncounter : encounters)
+    {
+        if (pEncounter == nullptr)
+        {
+            continue;
+        }
+
+        const std::string pictureBase = trimAsciiWhitespace(
+            pEncounter->pictureName.empty() ? pEncounter->monsterName : pEncounter->pictureName);
+
+        if (pictureBase.empty())
+        {
+            continue;
+        }
+
+        for (const char tierLetter : {'A', 'B', 'C'})
+        {
+            const MonsterTable::MonsterStatsEntry *pStats =
+                monsterTable.findStatsByPictureName(pictureBase + " " + std::string(1, tierLetter));
+
+            if (pStats == nullptr)
+            {
+                continue;
+            }
+
+            appendMonsterSpriteFamilies(families, monsterTable.findById(static_cast<int16_t>(pStats->id)));
+        }
+    }
+}
+
 std::optional<SurfaceMaterialTable> loadSurfaceMaterialTable(const Engine::AssetFileSystem &assetFileSystem)
 {
     const std::optional<std::string> contents =
@@ -324,6 +455,52 @@ std::optional<SurfaceMaterialTable> loadSurfaceMaterialTable(const Engine::Asset
     }
 
     return materialTable;
+}
+
+std::optional<SpriteFrameTable> loadSpriteFrameTable(
+    const Engine::AssetFileSystem &assetFileSystem,
+    const std::unordered_set<std::string> &monsterFamilies = {})
+{
+    const std::optional<std::string> contents =
+        assetFileSystem.readTextFile("Data/rendering/sprite_frame_data_common.yml");
+
+    if (!contents)
+    {
+        return std::nullopt;
+    }
+
+    SpriteFrameTable spriteFrameTable = {};
+    std::string errorMessage;
+
+    if (!spriteFrameTable.loadFromYaml(*contents, errorMessage))
+    {
+        std::cerr << "Failed to load sprite frame data: " << errorMessage << '\n';
+        return std::nullopt;
+    }
+
+    std::vector<std::string> sortedFamilies(monsterFamilies.begin(), monsterFamilies.end());
+    std::sort(sortedFamilies.begin(), sortedFamilies.end());
+
+    for (const std::string &familyRoot : sortedFamilies)
+    {
+        const std::optional<std::string> familyContents =
+            assetFileSystem.readTextFile(monsterSpriteFrameFamilyPath(familyRoot));
+
+        if (!familyContents)
+        {
+            std::cerr << "Failed to load monster sprite frame family: " << familyRoot << '\n';
+            return std::nullopt;
+        }
+
+        if (!spriteFrameTable.loadFromYaml(*familyContents, errorMessage, true))
+        {
+            std::cerr << "Failed to load monster sprite frame family " << familyRoot
+                      << ": " << errorMessage << '\n';
+            return std::nullopt;
+        }
+    }
+
+    return spriteFrameTable;
 }
 
 SurfaceAnimationSequence staticSurfaceAnimation(const std::string &textureName)
@@ -1067,20 +1244,16 @@ std::optional<DecorationBillboardSet> buildDecorationBillboardSet(
     BitmapLoadCache &bitmapLoadCache
 )
 {
-    const std::optional<std::vector<uint8_t>> spriteFrameTableBytes =
-        assetFileSystem.readBinaryFile("Data/EnglishT/dsft.bin");
-
-    if (!spriteFrameTableBytes)
-    {
-        return std::nullopt;
-    }
-
     DecorationBillboardSet billboardSet = {};
 
-    if (!billboardSet.spriteFrameTable.loadFromBytes(*spriteFrameTableBytes))
+    const std::optional<SpriteFrameTable> spriteFrameTable = loadSpriteFrameTable(assetFileSystem);
+
+    if (!spriteFrameTable)
     {
         return std::nullopt;
     }
+
+    billboardSet.spriteFrameTable = *spriteFrameTable;
 
     std::vector<std::vector<std::string>> decorationRows;
 
@@ -1371,20 +1544,16 @@ std::optional<SpriteObjectBillboardSet> buildSpriteObjectBillboardSet(
         return std::nullopt;
     }
 
-    const std::optional<std::vector<uint8_t>> spriteFrameTableBytes =
-        assetFileSystem.readBinaryFile("Data/EnglishT/dsft.bin");
-
-    if (!spriteFrameTableBytes)
-    {
-        return std::nullopt;
-    }
-
     SpriteObjectBillboardSet billboardSet = {};
 
-    if (!billboardSet.spriteFrameTable.loadFromBytes(*spriteFrameTableBytes))
+    const std::optional<SpriteFrameTable> spriteFrameTable = loadSpriteFrameTable(assetFileSystem);
+
+    if (!spriteFrameTable)
     {
         return std::nullopt;
     }
+
+    billboardSet.spriteFrameTable = *spriteFrameTable;
 
     std::vector<std::string> textureNames;
 
@@ -1932,20 +2101,22 @@ std::optional<ActorPreviewBillboardSet> buildActorPreviewBillboardSet(
     bool decodeTextures = true
 )
 {
-    const std::optional<std::vector<uint8_t>> spriteFrameTableBytes =
-        assetFileSystem.readBinaryFile("Data/EnglishT/dsft.bin");
-
-    if (!spriteFrameTableBytes)
-    {
-        return std::nullopt;
-    }
-
     ActorPreviewBillboardSet billboardSet = {};
 
-    if (!billboardSet.spriteFrameTable.loadFromBytes(*spriteFrameTableBytes))
+    std::unordered_set<std::string> neededMonsterFamilies;
+    collectMapDeltaMonsterSpriteFamilies(neededMonsterFamilies, monsterTable, mapDeltaData);
+    collectSpawnMonsterSpriteFamilies(neededMonsterFamilies, map, monsterTable, spawns);
+    collectEncounterMonsterSpriteFamilies(neededMonsterFamilies, monsterTable, map);
+
+    const std::optional<SpriteFrameTable> spriteFrameTable =
+        loadSpriteFrameTable(assetFileSystem, neededMonsterFamilies);
+
+    if (!spriteFrameTable)
     {
         return std::nullopt;
     }
+
+    billboardSet.spriteFrameTable = *spriteFrameTable;
 
     std::vector<BitmapTextureRequest> textureRequests;
 

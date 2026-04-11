@@ -1,0 +1,173 @@
+# Monster sprite frame groups for family m475.
+# sprite_id is the first frame index referenced by runtime tables.
+sprites:
+  - sprite_id: 2817
+    sprite_name: "m475a"
+    animation_length_raw: 16
+    frames:
+      - texture_name: "m472aa"
+        frame_length_raw: 2
+        flags: [HasMore, First, Mirror5, Mirror6, Mirror7]
+        palette_id: 475
+      - texture_name: "m472ab"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Mirror5, Mirror6, Mirror7]
+        glow_radius: 64
+        palette_id: 475
+      - texture_name: "m472ac"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Mirror5, Mirror6, Mirror7]
+        glow_radius: 72
+        palette_id: 475
+      - texture_name: "m472ad"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Mirror5, Mirror6, Mirror7]
+        glow_radius: 96
+        palette_id: 475
+      - texture_name: "m472ae"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Mirror5, Mirror6, Mirror7]
+        glow_radius: 72
+        palette_id: 475
+      - texture_name: "m472af"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Mirror5, Mirror6, Mirror7]
+        glow_radius: 64
+        palette_id: 475
+      - texture_name: "m472ag"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Mirror5, Mirror6, Mirror7]
+        glow_radius: 64
+        palette_id: 475
+      - texture_name: "m472ah"
+        frame_length_raw: 2
+        flags: [Mirror5, Mirror6, Mirror7]
+        palette_id: 475
+  - sprite_id: 2825
+    sprite_name: "m475d"
+    animation_length_raw: 12
+    frames:
+      - texture_name: "m472na"
+        frame_length_raw: 2
+        flags: [HasMore, First, Mirror5, Mirror6, Mirror7]
+        palette_id: 475
+      - texture_name: "m472nb"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 475
+      - texture_name: "m472da"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 475
+      - texture_name: "m472db"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 475
+      - texture_name: "m472dc"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 475
+      - texture_name: "m472dd"
+        frame_length_raw: 2
+        flags: [Mirror5, Mirror6, Mirror7]
+        palette_id: 475
+  - sprite_id: 2831
+    sprite_name: "m475x"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "m472xa"
+        frame_length_raw: 2
+        flags: [First, Mirror5, Mirror6, Mirror7]
+        palette_id: 475
+  - sprite_id: 2832
+    sprite_name: "m475f"
+    animation_length_raw: 10
+    frames:
+      - texture_name: "m472fa"
+        frame_length_raw: 2
+        flags: [HasMore, First, Mirror5, Mirror6, Mirror7]
+        palette_id: 475
+      - texture_name: "m472fb"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 475
+      - texture_name: "m472fc"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 475
+      - texture_name: "m472fd"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 475
+      - texture_name: "m472fe"
+        frame_length_raw: 2
+        flags: [Mirror5, Mirror6, Mirror7]
+        palette_id: 475
+  - sprite_id: 2837
+    sprite_name: "m475n"
+    animation_length_raw: 10
+    frames:
+      - texture_name: "m472na"
+        frame_length_raw: 2
+        flags: [HasMore, First, Mirror5, Mirror6, Mirror7]
+        palette_id: 475
+      - texture_name: "m472nb"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 475
+      - texture_name: "m472nc"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 475
+      - texture_name: "m472nd"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 475
+      - texture_name: "m472ne"
+        frame_length_raw: 2
+        flags: [Mirror5, Mirror6, Mirror7]
+        palette_id: 475
+  - sprite_id: 2842
+    sprite_name: "m475s"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "m472sa"
+        frame_length_raw: 2
+        flags: [First, Mirror5, Mirror6, Mirror7]
+        palette_id: 475
+  - sprite_id: 2843
+    sprite_name: "m475w"
+    animation_length_raw: 16
+    frames:
+      - texture_name: "m472wa"
+        frame_length_raw: 2
+        flags: [HasMore, First, Mirror5, Mirror6, Mirror7]
+        palette_id: 475
+      - texture_name: "m472wb"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 475
+      - texture_name: "m472wc"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 475
+      - texture_name: "m472wd"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 475
+      - texture_name: "m472we"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 475
+      - texture_name: "m472wf"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 475
+      - texture_name: "m472wg"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 475
+      - texture_name: "m472wh"
+        frame_length_raw: 2
+        flags: [Mirror5, Mirror6, Mirror7]
+        palette_id: 475

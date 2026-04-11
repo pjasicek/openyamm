@@ -1,0 +1,201 @@
+# Monster sprite frame groups for family m569.
+# sprite_id is the first frame index referenced by runtime tables.
+sprites:
+  - sprite_id: 5253
+    sprite_name: "m569a"
+    animation_length_raw: 16
+    frames:
+      - texture_name: "m568aa"
+        frame_length_raw: 2
+        flags: [HasMore, First, Mirror5, Mirror6, Mirror7]
+        scale: 1.299988
+        palette_id: 569
+      - texture_name: "m568ab"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.299988
+        palette_id: 569
+      - texture_name: "m568ac"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.299988
+        palette_id: 569
+      - texture_name: "m568ad"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.299988
+        palette_id: 569
+      - texture_name: "m568ae"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.299988
+        palette_id: 569
+      - texture_name: "m568af"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.299988
+        palette_id: 569
+      - texture_name: "m568ag"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.299988
+        palette_id: 569
+      - texture_name: "m568ah"
+        frame_length_raw: 2
+        flags: [Mirror5, Mirror6, Mirror7]
+        scale: 1.299988
+        palette_id: 569
+  - sprite_id: 5261
+    sprite_name: "m569d"
+    animation_length_raw: 12
+    frames:
+      - texture_name: "m568na0"
+        frame_length_raw: 2
+        flags: [HasMore, First, Image1]
+        scale: 1.299988
+        palette_id: 569
+      - texture_name: "m568nb0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        scale: 1.299988
+        palette_id: 569
+      - texture_name: "m568da0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        scale: 1.299988
+        palette_id: 569
+      - texture_name: "m568db0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        scale: 1.299988
+        palette_id: 569
+      - texture_name: "m568dc0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        scale: 1.299988
+        palette_id: 569
+      - texture_name: "m568dd0"
+        frame_length_raw: 2
+        flags: [Image1]
+        scale: 1.299988
+        palette_id: 569
+  - sprite_id: 5267
+    sprite_name: "m569x"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "m568xa0"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        scale: 1.299988
+        palette_id: 569
+  - sprite_id: 5268
+    sprite_name: "m569f"
+    animation_length_raw: 10
+    frames:
+      - texture_name: "m568fa"
+        frame_length_raw: 2
+        flags: [HasMore, First, Mirror5, Mirror6, Mirror7]
+        scale: 1.299988
+        palette_id: 569
+      - texture_name: "m568fb"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.299988
+        palette_id: 569
+      - texture_name: "m568fc"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.299988
+        palette_id: 569
+      - texture_name: "m568fd"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.299988
+        palette_id: 569
+      - texture_name: "m568fe"
+        frame_length_raw: 2
+        flags: [Mirror5, Mirror6, Mirror7]
+        scale: 1.299988
+        palette_id: 569
+  - sprite_id: 5273
+    sprite_name: "m569s"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "m568sa"
+        frame_length_raw: 2
+        flags: [First, Mirror5, Mirror6, Mirror7]
+        scale: 1.299988
+        palette_id: 569
+  - sprite_id: 5274
+    sprite_name: "m569w"
+    animation_length_raw: 16
+    frames:
+      - texture_name: "m568wa"
+        frame_length_raw: 2
+        flags: [HasMore, First, Mirror5, Mirror6, Mirror7]
+        scale: 1.299988
+        palette_id: 569
+      - texture_name: "m568wb"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.299988
+        palette_id: 569
+      - texture_name: "m568wc"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.299988
+        palette_id: 569
+      - texture_name: "m568wd"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.299988
+        palette_id: 569
+      - texture_name: "m568we"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.299988
+        palette_id: 569
+      - texture_name: "m568wf"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.299988
+        palette_id: 569
+      - texture_name: "m568wg"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.299988
+        palette_id: 569
+      - texture_name: "m568wh"
+        frame_length_raw: 2
+        flags: [Mirror5, Mirror6, Mirror7]
+        scale: 1.299988
+        palette_id: 569
+  - sprite_id: 5282
+    sprite_name: "m569n"
+    animation_length_raw: 10
+    frames:
+      - texture_name: "m568na"
+        frame_length_raw: 2
+        flags: [HasMore, First, Mirror5, Mirror6, Mirror7]
+        scale: 1.299988
+        palette_id: 569
+      - texture_name: "m568nb"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.299988
+        palette_id: 569
+      - texture_name: "m568nc"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.299988
+        palette_id: 569
+      - texture_name: "m568nd"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.299988
+        palette_id: 569
+      - texture_name: "m568ne"
+        frame_length_raw: 2
+        flags: [Mirror5, Mirror6, Mirror7]
+        scale: 1.299988
+        palette_id: 569

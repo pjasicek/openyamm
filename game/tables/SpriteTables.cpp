@@ -2,10 +2,13 @@
 #include "game/BinaryReader.h"
 #include "game/StringUtils.h"
 
+#include <yaml-cpp/yaml.h>
+
 #include <algorithm>
 #include <array>
 #include <cctype>
 #include <cstdlib>
+#include <exception>
 #include <limits>
 
 namespace OpenYAMM::Game
@@ -30,6 +33,188 @@ bool isNumericString(const std::string &value)
     }
 
     return true;
+}
+
+std::string trimCopy(const std::string &value);
+
+std::optional<SpriteFrameFlag> parseSpriteFrameFlagName(const std::string &value)
+{
+    const std::string normalizedValue = toLowerCopy(value);
+
+    if (normalizedValue == "hasmore")
+    {
+        return SpriteFrameFlag::HasMore;
+    }
+
+    if (normalizedValue == "lit")
+    {
+        return SpriteFrameFlag::Lit;
+    }
+
+    if (normalizedValue == "first")
+    {
+        return SpriteFrameFlag::First;
+    }
+
+    if (normalizedValue == "image1")
+    {
+        return SpriteFrameFlag::Image1;
+    }
+
+    if (normalizedValue == "center")
+    {
+        return SpriteFrameFlag::Center;
+    }
+
+    if (normalizedValue == "fidget")
+    {
+        return SpriteFrameFlag::Fidget;
+    }
+
+    if (normalizedValue == "loaded")
+    {
+        return SpriteFrameFlag::Loaded;
+    }
+
+    if (normalizedValue == "mirror0")
+    {
+        return SpriteFrameFlag::Mirror0;
+    }
+
+    if (normalizedValue == "mirror1")
+    {
+        return SpriteFrameFlag::Mirror1;
+    }
+
+    if (normalizedValue == "mirror2")
+    {
+        return SpriteFrameFlag::Mirror2;
+    }
+
+    if (normalizedValue == "mirror3")
+    {
+        return SpriteFrameFlag::Mirror3;
+    }
+
+    if (normalizedValue == "mirror4")
+    {
+        return SpriteFrameFlag::Mirror4;
+    }
+
+    if (normalizedValue == "mirror5")
+    {
+        return SpriteFrameFlag::Mirror5;
+    }
+
+    if (normalizedValue == "mirror6")
+    {
+        return SpriteFrameFlag::Mirror6;
+    }
+
+    if (normalizedValue == "mirror7")
+    {
+        return SpriteFrameFlag::Mirror7;
+    }
+
+    if (normalizedValue == "images3")
+    {
+        return SpriteFrameFlag::Images3;
+    }
+
+    if (normalizedValue == "glowing")
+    {
+        return SpriteFrameFlag::Glowing;
+    }
+
+    if (normalizedValue == "transparent")
+    {
+        return SpriteFrameFlag::Transparent;
+    }
+
+    return std::nullopt;
+}
+
+bool parseSpriteFrameFlagsNode(const YAML::Node &node, uint32_t &flags)
+{
+    flags = 0;
+
+    if (!node)
+    {
+        return true;
+    }
+
+    if (node.IsScalar())
+    {
+        const std::string value = trimCopy(node.as<std::string>());
+
+        if (value.empty())
+        {
+            return true;
+        }
+
+        if (isNumericString(value) || value.starts_with("0x") || value.starts_with("0X"))
+        {
+            flags = static_cast<uint32_t>(std::stoul(value, nullptr, 0));
+            return true;
+        }
+
+        const std::optional<SpriteFrameFlag> flag = parseSpriteFrameFlagName(value);
+
+        if (!flag)
+        {
+            return false;
+        }
+
+        flags = static_cast<uint32_t>(*flag);
+        return true;
+    }
+
+    if (!node.IsSequence())
+    {
+        return false;
+    }
+
+    for (const YAML::Node &entryNode : node)
+    {
+        if (!entryNode.IsScalar())
+        {
+            return false;
+        }
+
+        const std::optional<SpriteFrameFlag> flag = parseSpriteFrameFlagName(entryNode.as<std::string>());
+
+        if (!flag)
+        {
+            return false;
+        }
+
+        flags |= static_cast<uint32_t>(*flag);
+    }
+
+    return true;
+}
+
+std::vector<uint16_t> buildSortedFirstFrameIndices(
+    const std::vector<SpriteFrameEntry> &frames,
+    const std::vector<bool> &framePresent)
+{
+    std::vector<uint16_t> firstFrameIndices;
+
+    for (size_t frameIndex = 0; frameIndex < frames.size(); ++frameIndex)
+    {
+        if (frameIndex < framePresent.size() && framePresent[frameIndex] && !frames[frameIndex].spriteName.empty())
+        {
+            firstFrameIndices.push_back(static_cast<uint16_t>(frameIndex));
+        }
+    }
+
+    std::sort(firstFrameIndices.begin(), firstFrameIndices.end(),
+        [&frames](uint16_t leftIndex, uint16_t rightIndex)
+        {
+            return toLowerCopy(frames[leftIndex].spriteName) < toLowerCopy(frames[rightIndex].spriteName);
+        });
+
+    return firstFrameIndices;
 }
 
 int mirroredSourceOctant(int octant)
@@ -338,7 +523,9 @@ bool SpriteFrameTable::loadFromBytes(const std::vector<uint8_t> &bytes)
     }
 
     m_frames.clear();
+    m_framePresent.clear();
     m_frames.reserve(frameCount);
+    m_framePresent.reserve(frameCount);
 
     for (uint32_t index = 0; index < frameCount; ++index)
     {
@@ -367,6 +554,7 @@ bool SpriteFrameTable::loadFromBytes(const std::vector<uint8_t> &bytes)
         entry.frameLengthTicks = static_cast<int32_t>(frameLengthTicks) * 8;
         entry.animationLengthTicks = static_cast<int32_t>(animationLengthTicks) * 8;
         m_frames.push_back(std::move(entry));
+        m_framePresent.push_back(true);
     }
 
     m_eFrames.clear();
@@ -387,9 +575,148 @@ bool SpriteFrameTable::loadFromBytes(const std::vector<uint8_t> &bytes)
     return !m_frames.empty();
 }
 
+bool SpriteFrameTable::loadFromYaml(const std::string &yamlText, std::string &errorMessage, bool append)
+{
+    if (!append)
+    {
+        m_frames.clear();
+        m_framePresent.clear();
+        m_eFrames.clear();
+    }
+
+    YAML::Node root;
+
+    try
+    {
+        root = YAML::Load(yamlText);
+    }
+    catch (const std::exception &exception)
+    {
+        errorMessage = exception.what();
+        return false;
+    }
+
+    const YAML::Node spritesNode = root["sprites"];
+
+    if (!spritesNode || !spritesNode.IsSequence())
+    {
+        errorMessage = "sprites must be a YAML sequence";
+        return false;
+    }
+
+    for (const YAML::Node &spriteNode : spritesNode)
+    {
+        if (!spriteNode.IsMap())
+        {
+            continue;
+        }
+
+        const YAML::Node spriteNameNode = spriteNode["sprite_name"];
+        const YAML::Node framesNode = spriteNode["frames"];
+
+        if (!spriteNameNode || !spriteNameNode.IsScalar() || !framesNode || !framesNode.IsSequence()
+            || framesNode.size() == 0)
+        {
+            continue;
+        }
+
+        const YAML::Node spriteIdNode = spriteNode["sprite_id"];
+
+        if (!spriteIdNode || !spriteIdNode.IsScalar())
+        {
+            errorMessage = "sprite_id is required for each sprite group";
+            return false;
+        }
+
+        const size_t spriteId = spriteIdNode.as<size_t>();
+
+        const std::string spriteName = toLowerCopy(trimCopy(spriteNameNode.as<std::string>()));
+        const int32_t animationLengthRaw = spriteNode["animation_length_raw"].as<int32_t>(0);
+
+        for (size_t frameOffset = 0; frameOffset < framesNode.size(); ++frameOffset)
+        {
+            const YAML::Node frameNode = framesNode[frameOffset];
+
+            if (!frameNode.IsMap())
+            {
+                errorMessage = "frames entries must be maps";
+                return false;
+            }
+
+            const YAML::Node textureNameNode = frameNode["texture_name"];
+            const YAML::Node frameLengthNode = frameNode["frame_length_raw"];
+
+            if (!textureNameNode || !textureNameNode.IsScalar() || !frameLengthNode || !frameLengthNode.IsScalar())
+            {
+                errorMessage = "frame entries require texture_name and frame_length_raw";
+                return false;
+            }
+
+            SpriteFrameEntry entry = {};
+            entry.spriteName = frameOffset == 0 ? spriteName : std::string();
+            entry.textureName = toLowerCopy(trimCopy(textureNameNode.as<std::string>()));
+            entry.scale = frameNode["scale"].as<float>(1.0f);
+            entry.glowRadius = frameNode["glow_radius"].as<int16_t>(0);
+            entry.paletteId = frameNode["palette_id"].as<int16_t>(0);
+            entry.frameLengthTicks = frameLengthNode.as<int32_t>() * 8;
+            entry.animationLengthTicks = frameOffset == 0 ? animationLengthRaw * 8 : 0;
+
+            if (!parseSpriteFrameFlagsNode(frameNode["flags"], entry.flags))
+            {
+                errorMessage = "invalid sprite frame flags";
+                return false;
+            }
+
+            if (frameOffset == 0)
+            {
+                entry.flags |= static_cast<uint32_t>(SpriteFrameFlag::First);
+            }
+            else
+            {
+                entry.flags &= ~static_cast<uint32_t>(SpriteFrameFlag::First);
+            }
+
+            if (frameOffset + 1 < framesNode.size())
+            {
+                entry.flags |= static_cast<uint32_t>(SpriteFrameFlag::HasMore);
+            }
+            else
+            {
+                entry.flags &= ~static_cast<uint32_t>(SpriteFrameFlag::HasMore);
+            }
+
+            const size_t targetFrameIndex = spriteId + frameOffset;
+
+            if (targetFrameIndex > std::numeric_limits<uint16_t>::max())
+            {
+                errorMessage = "sprite_id exceeds supported frame index range";
+                return false;
+            }
+
+            if (targetFrameIndex >= m_frames.size())
+            {
+                m_frames.resize(targetFrameIndex + 1);
+                m_framePresent.resize(targetFrameIndex + 1, false);
+            }
+
+            if (m_framePresent[targetFrameIndex])
+            {
+                errorMessage = "duplicate sprite frame index in YAML data";
+                return false;
+            }
+
+            m_frames[targetFrameIndex] = std::move(entry);
+            m_framePresent[targetFrameIndex] = true;
+        }
+    }
+
+    rebuildSpriteNameIndex();
+    return !m_frames.empty();
+}
+
 const SpriteFrameEntry *SpriteFrameTable::getFrame(uint16_t spriteId, uint32_t timeTicks) const
 {
-    if (spriteId >= m_frames.size())
+    if (spriteId >= m_frames.size() || spriteId >= m_framePresent.size() || !m_framePresent[spriteId])
     {
         return nullptr;
     }
@@ -406,6 +733,11 @@ const SpriteFrameEntry *SpriteFrameTable::getFrame(uint16_t spriteId, uint32_t t
 
     while (frameIndex < m_frames.size())
     {
+        if (frameIndex >= m_framePresent.size() || !m_framePresent[frameIndex])
+        {
+            return pFrame;
+        }
+
         const SpriteFrameEntry &frame = m_frames[frameIndex];
 
         if (frame.frameLengthTicks <= 0 || localTimeTicks < static_cast<uint32_t>(frame.frameLengthTicks))
@@ -430,7 +762,7 @@ std::vector<std::string> SpriteFrameTable::collectTextureNames(uint16_t spriteId
 {
     std::vector<std::string> textureNames;
 
-    if (spriteId >= m_frames.size())
+    if (spriteId >= m_frames.size() || spriteId >= m_framePresent.size() || !m_framePresent[spriteId])
     {
         return textureNames;
     }
@@ -439,6 +771,11 @@ std::vector<std::string> SpriteFrameTable::collectTextureNames(uint16_t spriteId
 
     while (frameIndex < m_frames.size())
     {
+        if (frameIndex >= m_framePresent.size() || !m_framePresent[frameIndex])
+        {
+            break;
+        }
+
         const SpriteFrameEntry &frame = m_frames[frameIndex];
 
         for (int octant = 0; octant < 8; ++octant)
@@ -462,15 +799,34 @@ std::optional<uint16_t> SpriteFrameTable::findFrameIndexBySpriteName(const std::
 {
     const std::string normalizedName = toLowerCopy(spriteName);
 
+    if (!m_eFrames.empty())
+    {
+        const auto entryIt = std::lower_bound(m_eFrames.begin(), m_eFrames.end(), normalizedName,
+            [this](uint16_t frameIndex, const std::string &name)
+            {
+                return toLowerCopy(m_frames[frameIndex].spriteName) < name;
+            });
+
+        if (entryIt != m_eFrames.end() && toLowerCopy(m_frames[*entryIt].spriteName) == normalizedName)
+        {
+            return *entryIt;
+        }
+    }
+
     for (size_t index = 0; index < m_frames.size(); ++index)
     {
-        if (m_frames[index].spriteName == normalizedName)
+        if (toLowerCopy(m_frames[index].spriteName) == normalizedName)
         {
             return static_cast<uint16_t>(index);
         }
     }
 
     return std::nullopt;
+}
+
+void SpriteFrameTable::rebuildSpriteNameIndex()
+{
+    m_eFrames = buildSortedFirstFrameIndices(m_frames, m_framePresent);
 }
 
 ResolvedSpriteTexture SpriteFrameTable::resolveTexture(const SpriteFrameEntry &frame, int octant)

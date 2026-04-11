@@ -1,0 +1,247 @@
+# Monster sprite frame groups for family m537.
+# sprite_id is the first frame index referenced by runtime tables.
+sprites:
+  - sprite_id: 4473
+    sprite_name: "m537a"
+    animation_length_raw: 20
+    frames:
+      - texture_name: "m536aa"
+        frame_length_raw: 2
+        flags: [HasMore, First, Mirror5, Mirror6, Mirror7]
+        scale: 1.699997
+        palette_id: 537
+      - texture_name: "m536ab"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Mirror5, Mirror6, Mirror7]
+        scale: 1.699997
+        glow_radius: 32
+        palette_id: 537
+      - texture_name: "m536ac"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Mirror5, Mirror6, Mirror7]
+        scale: 1.699997
+        glow_radius: 64
+        palette_id: 537
+      - texture_name: "m536ab"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Mirror5, Mirror6, Mirror7]
+        scale: 1.699997
+        glow_radius: 32
+        palette_id: 537
+      - texture_name: "m536ac"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Mirror5, Mirror6, Mirror7]
+        scale: 1.699997
+        glow_radius: 64
+        palette_id: 537
+      - texture_name: "m536ad"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Mirror5, Mirror6, Mirror7]
+        scale: 1.699997
+        glow_radius: 64
+        palette_id: 537
+      - texture_name: "m536ae"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Mirror5, Mirror6, Mirror7]
+        scale: 1.699997
+        glow_radius: 32
+        palette_id: 537
+      - texture_name: "m536af"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.699997
+        palette_id: 537
+      - texture_name: "m536ag"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.699997
+        palette_id: 537
+      - texture_name: "m536ah"
+        frame_length_raw: 2
+        flags: [Mirror5, Mirror6, Mirror7]
+        scale: 1.699997
+        palette_id: 537
+  - sprite_id: 4483
+    sprite_name: "m537d"
+    animation_length_raw: 12
+    frames:
+      - texture_name: "m536na"
+        frame_length_raw: 2
+        flags: [HasMore, First, Mirror5, Mirror6, Mirror7]
+        scale: 1.699997
+        palette_id: 537
+      - texture_name: "m536nb"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.699997
+        palette_id: 537
+      - texture_name: "m536da"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.699997
+        palette_id: 537
+      - texture_name: "m536db"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.699997
+        palette_id: 537
+      - texture_name: "m536dc"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.699997
+        palette_id: 537
+      - texture_name: "m536dd"
+        frame_length_raw: 2
+        flags: [Mirror5, Mirror6, Mirror7]
+        scale: 1.699997
+        palette_id: 537
+  - sprite_id: 4489
+    sprite_name: "m537x"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "m536xa"
+        frame_length_raw: 2
+        flags: [First, Mirror5, Mirror6, Mirror7]
+        scale: 1.699997
+        palette_id: 537
+  - sprite_id: 4490
+    sprite_name: "m537w"
+    animation_length_raw: 14
+    frames:
+      - texture_name: "m536wa"
+        frame_length_raw: 2
+        flags: [HasMore, First, Mirror5, Mirror6, Mirror7]
+        scale: 1.699997
+        palette_id: 537
+      - texture_name: "m536wb"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.699997
+        palette_id: 537
+      - texture_name: "m536wc"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.699997
+        palette_id: 537
+      - texture_name: "m536wd"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.699997
+        palette_id: 537
+      - texture_name: "m536we"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.699997
+        palette_id: 537
+      - texture_name: "m536wf"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.699997
+        palette_id: 537
+      - texture_name: "m536wg"
+        frame_length_raw: 2
+        flags: [Mirror5, Mirror6, Mirror7]
+        scale: 1.699997
+        palette_id: 537
+  - sprite_id: 4497
+    sprite_name: "m537n"
+    animation_length_raw: 10
+    frames:
+      - texture_name: "m536na"
+        frame_length_raw: 2
+        flags: [HasMore, First, Mirror5, Mirror6, Mirror7]
+        scale: 1.699997
+        palette_id: 537
+      - texture_name: "m536nb"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.699997
+        palette_id: 537
+      - texture_name: "m536nc"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.699997
+        palette_id: 537
+      - texture_name: "m536nd"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.699997
+        palette_id: 537
+      - texture_name: "m536ne"
+        frame_length_raw: 2
+        flags: [Mirror5, Mirror6, Mirror7]
+        scale: 1.699997
+        palette_id: 537
+  - sprite_id: 4502
+    sprite_name: "m537f"
+    animation_length_raw: 12
+    frames:
+      - texture_name: "m536fa"
+        frame_length_raw: 2
+        flags: [HasMore, First, Mirror5, Mirror6, Mirror7]
+        scale: 1.699997
+        palette_id: 537
+      - texture_name: "m536fb"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.699997
+        palette_id: 537
+      - texture_name: "m536fc"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.699997
+        palette_id: 537
+      - texture_name: "m536fd"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.699997
+        palette_id: 537
+      - texture_name: "m536fe"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.699997
+        palette_id: 537
+      - texture_name: "m536ff"
+        frame_length_raw: 2
+        flags: [Mirror5, Mirror6, Mirror7]
+        scale: 1.699997
+        palette_id: 537
+  - sprite_id: 4508
+    sprite_name: "m537s"
+    animation_length_raw: 14
+    frames:
+      - texture_name: "m536wa"
+        frame_length_raw: 2
+        flags: [HasMore, First, Mirror5, Mirror6, Mirror7]
+        scale: 1.699997
+        palette_id: 537
+      - texture_name: "m536wb"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.699997
+        palette_id: 537
+      - texture_name: "m536wc"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.699997
+        palette_id: 537
+      - texture_name: "m536wd"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.699997
+        palette_id: 537
+      - texture_name: "m536we"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.699997
+        palette_id: 537
+      - texture_name: "m536wf"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.699997
+        palette_id: 537
+      - texture_name: "m536wg"
+        frame_length_raw: 2
+        flags: [Mirror5, Mirror6, Mirror7]
+        scale: 1.699997
+        palette_id: 537

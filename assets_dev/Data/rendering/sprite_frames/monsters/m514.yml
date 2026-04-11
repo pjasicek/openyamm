@@ -1,0 +1,191 @@
+# Monster sprite frame groups for family m514.
+# sprite_id is the first frame index referenced by runtime tables.
+sprites:
+  - sprite_id: 3849
+    sprite_name: "m514a"
+    animation_length_raw: 14
+    frames:
+      - texture_name: "m512aa"
+        frame_length_raw: 2
+        flags: [HasMore, First, Mirror5, Mirror6, Mirror7]
+        scale: 2.299988
+        palette_id: 512
+      - texture_name: "m512ab"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 2.299988
+        palette_id: 512
+      - texture_name: "m512ac"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 2.299988
+        palette_id: 512
+      - texture_name: "m512ad"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 2.299988
+        palette_id: 512
+      - texture_name: "m512ae"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 2.299988
+        palette_id: 512
+      - texture_name: "m512af"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 2.299988
+        palette_id: 512
+      - texture_name: "m512ag"
+        frame_length_raw: 2
+        flags: [Mirror5, Mirror6, Mirror7]
+        scale: 2.299988
+        palette_id: 512
+  - sprite_id: 3857
+    sprite_name: "m514d"
+    animation_length_raw: 10
+    frames:
+      - texture_name: "m512na"
+        frame_length_raw: 2
+        flags: [HasMore, First, Mirror5, Mirror6, Mirror7]
+        scale: 2.299988
+        palette_id: 512
+      - texture_name: "m512nb"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 2.299988
+        palette_id: 512
+      - texture_name: "m512da"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 2.299988
+        palette_id: 512
+      - texture_name: "m512db"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 2.299988
+        palette_id: 512
+      - texture_name: "m512dc"
+        frame_length_raw: 2
+        flags: [Mirror5, Mirror6, Mirror7]
+        scale: 2.299988
+        palette_id: 512
+  - sprite_id: 3862
+    sprite_name: "m514f"
+    animation_length_raw: 10
+    frames:
+      - texture_name: "m512fa"
+        frame_length_raw: 2
+        flags: [HasMore, First, Mirror5, Mirror6, Mirror7]
+        scale: 2.299988
+        palette_id: 512
+      - texture_name: "m512fb"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 2.299988
+        palette_id: 512
+      - texture_name: "m512fc"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 2.299988
+        palette_id: 512
+      - texture_name: "m512fd"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 2.299988
+        palette_id: 512
+      - texture_name: "m512fe"
+        frame_length_raw: 2
+        flags: [Mirror5, Mirror6, Mirror7]
+        scale: 2.299988
+        palette_id: 512
+  - sprite_id: 3867
+    sprite_name: "m514n"
+    animation_length_raw: 10
+    frames:
+      - texture_name: "m512na"
+        frame_length_raw: 2
+        flags: [HasMore, First, Mirror5, Mirror6, Mirror7]
+        scale: 2.299988
+        palette_id: 512
+      - texture_name: "m512nb"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 2.299988
+        palette_id: 512
+      - texture_name: "m512nc"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 2.299988
+        palette_id: 512
+      - texture_name: "m512nd"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 2.299988
+        palette_id: 512
+      - texture_name: "m512ne"
+        frame_length_raw: 2
+        flags: [Mirror5, Mirror6, Mirror7]
+        scale: 2.299988
+        palette_id: 512
+  - sprite_id: 3872
+    sprite_name: "m514x"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "m512xa"
+        frame_length_raw: 2
+        flags: [First, Mirror5, Mirror6, Mirror7]
+        scale: 2.299988
+        palette_id: 512
+  - sprite_id: 3873
+    sprite_name: "m514w"
+    animation_length_raw: 16
+    frames:
+      - texture_name: "m512wa"
+        frame_length_raw: 2
+        flags: [HasMore, First, Mirror5, Mirror6, Mirror7]
+        scale: 2.299988
+        palette_id: 512
+      - texture_name: "m512wb"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 2.299988
+        palette_id: 512
+      - texture_name: "m512wc"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 2.299988
+        palette_id: 512
+      - texture_name: "m512wd"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 2.299988
+        palette_id: 512
+      - texture_name: "m512we"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 2.299988
+        palette_id: 512
+      - texture_name: "m512wf"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 2.299988
+        palette_id: 512
+      - texture_name: "m512wg"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 2.299988
+        palette_id: 512
+      - texture_name: "m512wh"
+        frame_length_raw: 2
+        flags: [Mirror5, Mirror6, Mirror7]
+        scale: 2.299988
+        palette_id: 512
+  - sprite_id: 3881
+    sprite_name: "m514s"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "m512sa"
+        frame_length_raw: 2
+        flags: [First, Mirror5, Mirror6, Mirror7]
+        scale: 2.299988
+        palette_id: 512

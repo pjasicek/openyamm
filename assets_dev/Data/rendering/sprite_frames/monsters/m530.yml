@@ -1,0 +1,241 @@
+# Monster sprite frame groups for family m530.
+# sprite_id is the first frame index referenced by runtime tables.
+sprites:
+  - sprite_id: 4264
+    sprite_name: "m530a"
+    animation_length_raw: 12
+    frames:
+      - texture_name: "m528aa0"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, First, Image1, Center]
+        scale: 1.299988
+        glow_radius: 200
+        palette_id: 528
+      - texture_name: "m528ac0"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        scale: 1.299988
+        glow_radius: 216
+        palette_id: 528
+      - texture_name: "m528ad0"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        scale: 1.299988
+        glow_radius: 232
+        palette_id: 528
+      - texture_name: "m528ae0"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        scale: 1.299988
+        glow_radius: 232
+        palette_id: 528
+      - texture_name: "m528ag0"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        scale: 1.299988
+        glow_radius: 264
+        palette_id: 528
+      - texture_name: "m528ai0"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        scale: 1.299988
+        glow_radius: 264
+        palette_id: 528
+      - texture_name: "m528ak0"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        scale: 1.299988
+        glow_radius: 232
+        palette_id: 528
+      - texture_name: "m528am0"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        scale: 1.299988
+        glow_radius: 200
+        palette_id: 528
+      - texture_name: "m528ao0"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        scale: 1.299988
+        glow_radius: 200
+        palette_id: 528
+      - texture_name: "m528ap0"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        scale: 1.299988
+        glow_radius: 200
+        palette_id: 528
+      - texture_name: "m528aq0"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        scale: 1.299988
+        glow_radius: 200
+        palette_id: 528
+      - texture_name: "m528as0"
+        frame_length_raw: 1
+        flags: [Lit, Image1, Center]
+        scale: 1.299988
+        glow_radius: 200
+        palette_id: 528
+  - sprite_id: 4276
+    sprite_name: "m530d"
+    animation_length_raw: 9
+    frames:
+      - texture_name: "m528da0"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, First, Image1, Center]
+        scale: 1.299988
+        glow_radius: 200
+        palette_id: 528
+      - texture_name: "m528dc0"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        scale: 1.299988
+        glow_radius: 200
+        palette_id: 528
+      - texture_name: "m528de0"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        scale: 1.299988
+        glow_radius: 200
+        palette_id: 528
+      - texture_name: "m528dg0"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        scale: 1.299988
+        glow_radius: 200
+        palette_id: 528
+      - texture_name: "m528di0"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        scale: 1.299988
+        glow_radius: 200
+        palette_id: 528
+      - texture_name: "m528dk0"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        scale: 1.299988
+        glow_radius: 200
+        palette_id: 528
+      - texture_name: "m528dm0"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        scale: 1.299988
+        glow_radius: 200
+        palette_id: 528
+      - texture_name: "m528do0"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        scale: 1.299988
+        glow_radius: 200
+        palette_id: 528
+      - texture_name: "m528dq0"
+        frame_length_raw: 1
+        flags: [Lit, Image1, Center]
+        scale: 1.299988
+        glow_radius: 200
+        palette_id: 528
+  - sprite_id: 4285
+    sprite_name: "m530w"
+    animation_length_raw: 10
+    frames:
+      - texture_name: "m528wa0"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, First, Image1, Center]
+        scale: 1.299988
+        glow_radius: 200
+        palette_id: 528
+      - texture_name: "m528wc0"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        scale: 1.299988
+        glow_radius: 200
+        palette_id: 528
+      - texture_name: "m528we0"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        scale: 1.299988
+        glow_radius: 200
+        palette_id: 528
+      - texture_name: "m528wg0"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        scale: 1.299988
+        glow_radius: 200
+        palette_id: 528
+      - texture_name: "m528wi0"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        scale: 1.299988
+        glow_radius: 200
+        palette_id: 528
+      - texture_name: "m528wk0"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        scale: 1.299988
+        glow_radius: 200
+        palette_id: 528
+      - texture_name: "m528wm0"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        scale: 1.299988
+        glow_radius: 200
+        palette_id: 528
+      - texture_name: "m528wo0"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        scale: 1.299988
+        glow_radius: 200
+        palette_id: 528
+      - texture_name: "m528wq0"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        scale: 1.299988
+        glow_radius: 200
+        palette_id: 528
+      - texture_name: "m528ws0"
+        frame_length_raw: 1
+        flags: [Lit, Image1, Center]
+        scale: 1.299988
+        glow_radius: 200
+        palette_id: 528
+  - sprite_id: 4295
+    sprite_name: "m530n"
+    animation_length_raw: 6
+    frames:
+      - texture_name: "m528aa0"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, First, Image1, Center]
+        scale: 1.299988
+        glow_radius: 200
+        palette_id: 528
+      - texture_name: "m528ac0"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        scale: 1.299988
+        glow_radius: 200
+        palette_id: 528
+      - texture_name: "m528ac0"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        scale: 1.299988
+        glow_radius: 200
+        palette_id: 528
+      - texture_name: "m528af0"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        scale: 1.299988
+        glow_radius: 200
+        palette_id: 528
+      - texture_name: "m528dd0"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        scale: 1.299988
+        glow_radius: 200
+        palette_id: 528
+      - texture_name: "m528dc0"
+        frame_length_raw: 1
+        flags: [Lit, Image1, Center]
+        scale: 1.299988
+        glow_radius: 200
+        palette_id: 528

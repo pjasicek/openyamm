@@ -1,0 +1,173 @@
+# Monster sprite frame groups for family m575.
+# sprite_id is the first frame index referenced by runtime tables.
+sprites:
+  - sprite_id: 5405
+    sprite_name: "m575a"
+    animation_length_raw: 14
+    frames:
+      - texture_name: "m572aa"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, First, Mirror5, Mirror6, Mirror7]
+        scale: 1.75
+        glow_radius: 128
+        palette_id: 575
+      - texture_name: "m572ab"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Mirror5, Mirror6, Mirror7]
+        scale: 1.75
+        glow_radius: 128
+        palette_id: 575
+      - texture_name: "m572ac"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Mirror5, Mirror6, Mirror7]
+        scale: 1.75
+        glow_radius: 128
+        palette_id: 575
+      - texture_name: "m572ad"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Mirror5, Mirror6, Mirror7]
+        scale: 1.75
+        glow_radius: 128
+        palette_id: 575
+      - texture_name: "m572ae"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Mirror5, Mirror6, Mirror7]
+        scale: 1.75
+        glow_radius: 128
+        palette_id: 575
+      - texture_name: "m572af"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Mirror5, Mirror6, Mirror7]
+        scale: 1.75
+        glow_radius: 128
+        palette_id: 575
+      - texture_name: "m572ag"
+        frame_length_raw: 2
+        flags: [Lit, Mirror5, Mirror6, Mirror7]
+        scale: 1.75
+        glow_radius: 128
+        palette_id: 575
+  - sprite_id: 5412
+    sprite_name: "m575d"
+    animation_length_raw: 8
+    frames:
+      - texture_name: "m572na0"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, First, Image1]
+        scale: 1.75
+        glow_radius: 128
+        palette_id: 575
+      - texture_name: "m572nb0"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        scale: 1.75
+        glow_radius: 128
+        palette_id: 575
+      - texture_name: "m572da0"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        scale: 1.75
+        glow_radius: 128
+        palette_id: 575
+      - texture_name: "m572db0"
+        frame_length_raw: 2
+        flags: [Lit, Image1]
+        scale: 1.75
+        glow_radius: 128
+        palette_id: 575
+  - sprite_id: 5416
+    sprite_name: "m575x"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "m572xa0"
+        frame_length_raw: 2
+        flags: [Lit, First, Image1]
+        scale: 1.75
+        glow_radius: 128
+        palette_id: 575
+  - sprite_id: 5417
+    sprite_name: "m575w"
+    animation_length_raw: 16
+    frames:
+      - texture_name: "m572wa"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, First, Mirror5, Mirror6, Mirror7]
+        scale: 1.75
+        glow_radius: 128
+        palette_id: 575
+      - texture_name: "m572wb"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Mirror5, Mirror6, Mirror7]
+        scale: 1.75
+        glow_radius: 128
+        palette_id: 575
+      - texture_name: "m572wc"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Mirror5, Mirror6, Mirror7]
+        scale: 1.75
+        glow_radius: 128
+        palette_id: 575
+      - texture_name: "m572wd"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Mirror5, Mirror6, Mirror7]
+        scale: 1.75
+        glow_radius: 128
+        palette_id: 575
+      - texture_name: "m572we"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Mirror5, Mirror6, Mirror7]
+        scale: 1.75
+        glow_radius: 128
+        palette_id: 575
+      - texture_name: "m572wf"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Mirror5, Mirror6, Mirror7]
+        scale: 1.75
+        glow_radius: 128
+        palette_id: 575
+      - texture_name: "m572wg"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Mirror5, Mirror6, Mirror7]
+        scale: 1.75
+        glow_radius: 128
+        palette_id: 575
+      - texture_name: "m572wh"
+        frame_length_raw: 2
+        flags: [Lit, Mirror5, Mirror6, Mirror7]
+        scale: 1.75
+        glow_radius: 128
+        palette_id: 575
+  - sprite_id: 5425
+    sprite_name: "m575n"
+    animation_length_raw: 10
+    frames:
+      - texture_name: "m572na"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, First, Mirror5, Mirror6, Mirror7]
+        scale: 1.75
+        glow_radius: 128
+        palette_id: 575
+      - texture_name: "m572nb"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Mirror5, Mirror6, Mirror7]
+        scale: 1.75
+        glow_radius: 128
+        palette_id: 575
+      - texture_name: "m572nc"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Mirror5, Mirror6, Mirror7]
+        scale: 1.75
+        glow_radius: 128
+        palette_id: 575
+      - texture_name: "m572nd"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Mirror5, Mirror6, Mirror7]
+        scale: 1.75
+        glow_radius: 128
+        palette_id: 575
+      - texture_name: "m572ne"
+        frame_length_raw: 2
+        flags: [Lit, Mirror5, Mirror6, Mirror7]
+        scale: 1.75
+        glow_radius: 128
+        palette_id: 575

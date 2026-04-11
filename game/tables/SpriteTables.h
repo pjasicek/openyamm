@@ -79,6 +79,7 @@ class SpriteFrameTable
 {
 public:
     bool loadFromBytes(const std::vector<uint8_t> &bytes);
+    bool loadFromYaml(const std::string &yamlText, std::string &errorMessage, bool append = false);
     const SpriteFrameEntry *getFrame(uint16_t spriteId, uint32_t timeTicks) const;
     std::vector<std::string> collectTextureNames(uint16_t spriteId) const;
     std::optional<uint16_t> findFrameIndexBySpriteName(const std::string &spriteName) const;
@@ -88,9 +89,11 @@ public:
 private:
     static uint32_t mirrorFlagForOctant(int octant);
     static std::string buildTextureName(const std::string &baseName, int suffixIndex);
+    void rebuildSpriteNameIndex();
 
 private:
     std::vector<SpriteFrameEntry> m_frames;
+    std::vector<bool> m_framePresent;
     std::vector<uint16_t> m_eFrames;
 };
 }
