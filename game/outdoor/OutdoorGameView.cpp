@@ -3756,6 +3756,8 @@ OutdoorGameView::OutdoorGameView()
     , m_menuClickLatch(false)
     , m_controlsToggleLatch(false)
     , m_controlsClickLatch(false)
+    , m_videoOptionsToggleLatch(false)
+    , m_videoOptionsClickLatch(false)
     , m_saveGameToggleLatch(false)
     , m_saveGameClickLatch(false)
     , m_loadGameToggleLatch(false)
@@ -3797,6 +3799,7 @@ OutdoorGameView::OutdoorGameView()
     , m_restScreen(m_gameplayUiController.restScreen())
     , m_menuScreen(m_gameplayUiController.menuScreen())
     , m_controlsScreen(m_gameplayUiController.controlsScreen())
+    , m_videoOptionsScreen(m_gameplayUiController.videoOptionsScreen())
     , m_saveGameScreen(m_gameplayUiController.saveGameScreen())
     , m_loadGameScreen(m_gameplayUiController.loadGameScreen())
     , m_journalScreen(m_gameplayUiController.journalScreen())
@@ -3809,6 +3812,7 @@ OutdoorGameView::OutdoorGameView()
     , m_booksButtonPressed(false)
     , m_menuPressedTarget({})
     , m_controlsPressedTarget({})
+    , m_videoOptionsPressedTarget({})
     , m_saveGamePressedTarget({})
     , m_loadGamePressedTarget({})
     , m_journalPressedTarget({})
@@ -4243,6 +4247,7 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
     const bool wasRestScreenActiveBeforeInput = m_restScreen.active;
     const bool wasMenuActiveBeforeInput = m_menuScreen.active;
     const bool wasControlsScreenActiveBeforeInput = m_controlsScreen.active;
+    const bool wasVideoOptionsScreenActiveBeforeInput = m_videoOptionsScreen.active;
     const bool wasSaveGameScreenActiveBeforeInput = m_saveGameScreen.active;
     const bool wasLoadGameScreenActiveBeforeInput = m_loadGameScreen.active;
     const bool wasJournalActiveBeforeInput = m_journalScreen.active;
@@ -4312,6 +4317,8 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
     const bool isRestScreenInteractionFrame = wasRestScreenActiveBeforeInput || m_restScreen.active;
     const bool isMenuInteractionFrame = wasMenuActiveBeforeInput || m_menuScreen.active;
     const bool isControlsInteractionFrame = wasControlsScreenActiveBeforeInput || m_controlsScreen.active;
+    const bool isVideoOptionsInteractionFrame =
+        wasVideoOptionsScreenActiveBeforeInput || m_videoOptionsScreen.active;
     const bool isSaveGameInteractionFrame = wasSaveGameScreenActiveBeforeInput || m_saveGameScreen.active;
     const bool isLoadGameInteractionFrame = wasLoadGameScreenActiveBeforeInput || m_loadGameScreen.active;
     const bool isJournalInteractionFrame = wasJournalActiveBeforeInput || m_journalScreen.active;
@@ -4391,6 +4398,7 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
             && !isRestScreenInteractionFrame
             && !isMenuInteractionFrame
             && !isControlsInteractionFrame
+            && !isVideoOptionsInteractionFrame
             && !isSaveGameInteractionFrame
             && !isLoadGameInteractionFrame
             && !isJournalInteractionFrame)
@@ -4558,6 +4566,7 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
             && !isRestScreenInteractionFrame
             && !isMenuInteractionFrame
             && !isControlsInteractionFrame
+            && !isVideoOptionsInteractionFrame
             && !isSaveGameInteractionFrame
             && !isLoadGameInteractionFrame
             && !isJournalInteractionFrame)
@@ -4653,6 +4662,7 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
                  && !isRestScreenInteractionFrame
                  && !isMenuInteractionFrame
                  && !isControlsInteractionFrame
+                 && !isVideoOptionsInteractionFrame
                  && !isSaveGameInteractionFrame
                  && !isLoadGameInteractionFrame
                  && !isJournalInteractionFrame)
@@ -5884,6 +5894,7 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
             renderRestOverlay(width, height);
             renderMenuOverlay(width, height);
             renderControlsOverlay(width, height);
+            renderVideoOptionsOverlay(width, height);
             renderSaveGameOverlay(width, height);
             renderLoadGameOverlay(width, height);
             renderJournalOverlay(width, height);
@@ -8295,6 +8306,11 @@ OutdoorGameView::HudScreenState OutdoorGameView::currentHudScreenState() const
         return HudScreenState::Rest;
     }
 
+    if (m_videoOptionsScreen.active)
+    {
+        return HudScreenState::VideoOptions;
+    }
+
     if (m_controlsScreen.active)
     {
         return HudScreenState::Controls;
@@ -8507,6 +8523,10 @@ void OutdoorGameView::openControlsScreen()
     m_controlsPressedTarget = {};
     m_controlsSliderDragActive = false;
     m_controlsDraggedSlider = ControlsPointerTargetType::None;
+    m_videoOptionsScreen = {};
+    m_videoOptionsToggleLatch = false;
+    m_videoOptionsClickLatch = false;
+    m_videoOptionsPressedTarget = {};
     clearWorldInteractionInputLatches();
 }
 
@@ -8518,8 +8538,44 @@ void OutdoorGameView::closeControlsScreen()
     m_controlsPressedTarget = {};
     m_controlsSliderDragActive = false;
     m_controlsDraggedSlider = ControlsPointerTargetType::None;
+    m_videoOptionsScreen = {};
+    m_videoOptionsToggleLatch = false;
+    m_videoOptionsClickLatch = false;
+    m_videoOptionsPressedTarget = {};
     m_menuScreen = {};
     m_menuScreen.active = true;
+    clearWorldInteractionInputLatches();
+}
+
+void OutdoorGameView::openVideoOptionsScreen()
+{
+    m_controlsScreen.active = false;
+    m_controlsToggleLatch = false;
+    m_controlsClickLatch = false;
+    m_controlsPressedTarget = {};
+    m_controlsSliderDragActive = false;
+    m_controlsDraggedSlider = ControlsPointerTargetType::None;
+    m_videoOptionsScreen = {};
+    m_videoOptionsScreen.active = true;
+    m_videoOptionsToggleLatch = false;
+    m_videoOptionsClickLatch = false;
+    m_videoOptionsPressedTarget = {};
+    clearWorldInteractionInputLatches();
+}
+
+void OutdoorGameView::closeVideoOptionsScreen()
+{
+    m_videoOptionsScreen = {};
+    m_videoOptionsToggleLatch = false;
+    m_videoOptionsClickLatch = false;
+    m_videoOptionsPressedTarget = {};
+    m_controlsScreen = {};
+    m_controlsScreen.active = true;
+    m_controlsToggleLatch = false;
+    m_controlsClickLatch = false;
+    m_controlsPressedTarget = {};
+    m_controlsSliderDragActive = false;
+    m_controlsDraggedSlider = ControlsPointerTargetType::None;
     clearWorldInteractionInputLatches();
 }
 
@@ -8535,6 +8591,10 @@ void OutdoorGameView::openSaveGameScreen()
     m_controlsPressedTarget = {};
     m_controlsSliderDragActive = false;
     m_controlsDraggedSlider = ControlsPointerTargetType::None;
+    m_videoOptionsScreen = {};
+    m_videoOptionsToggleLatch = false;
+    m_videoOptionsClickLatch = false;
+    m_videoOptionsPressedTarget = {};
     m_loadGameScreen = {};
     m_saveGameScreen = {};
     m_saveGameScreen.active = true;
@@ -10247,6 +10307,11 @@ void OutdoorGameView::renderMenuOverlay(int width, int height) const
 void OutdoorGameView::renderControlsOverlay(int width, int height) const
 {
     GameplayPartyOverlayRenderer::renderControlsOverlay(*this, width, height);
+}
+
+void OutdoorGameView::renderVideoOptionsOverlay(int width, int height) const
+{
+    GameplayPartyOverlayRenderer::renderVideoOptionsOverlay(*this, width, height);
 }
 
 void OutdoorGameView::renderSaveGameOverlay(int width, int height) const

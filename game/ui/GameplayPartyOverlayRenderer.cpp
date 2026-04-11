@@ -1996,6 +1996,190 @@ void GameplayPartyOverlayRenderer::renderControlsOverlay(const OutdoorGameView &
     drawVolumeMarker("ControlsVoiceKnobLane", view.m_gameSettings.voiceVolume);
 }
 
+void GameplayPartyOverlayRenderer::renderVideoOptionsOverlay(const OutdoorGameView &view, int width, int height)
+{
+    if (!view.m_videoOptionsScreen.active
+        || !bgfx::isValid(view.m_texturedTerrainProgramHandle)
+        || !bgfx::isValid(view.m_terrainTextureSamplerHandle)
+        || width <= 0
+        || height <= 0)
+    {
+        return;
+    }
+
+    const OutdoorGameView::HudLayoutElement *pRootLayout = HudUiService::findHudLayoutElement(view, "VideoOptionsRoot");
+
+    if (pRootLayout == nullptr)
+    {
+        return;
+    }
+
+    setupHudProjection(width, height);
+
+    float mouseX = 0.0f;
+    float mouseY = 0.0f;
+    const SDL_MouseButtonFlags mouseButtons = SDL_GetMouseState(&mouseX, &mouseY);
+    const bool isLeftMousePressed = (mouseButtons & SDL_BUTTON_LMASK) != 0;
+    const std::vector<std::string> orderedLayoutIds = HudUiService::sortedHudLayoutIdsForScreen(view, "VideoOptions");
+
+    const auto isStateButtonLayoutId =
+        [](const std::string &layoutId) -> bool
+        {
+            return layoutId == "VideoOptionsBloodSplatsButton"
+                || layoutId == "VideoOptionsColoredLightsButton"
+                || layoutId == "VideoOptionsTintingButton";
+        };
+
+    const auto resolveLayout =
+        [&view, width, height](const std::string &layoutId) -> std::optional<OutdoorGameView::ResolvedHudLayoutElement>
+        {
+            const OutdoorGameView::HudLayoutElement *pLayout = HudUiService::findHudLayoutElement(view, layoutId);
+
+            if (pLayout == nullptr)
+            {
+                return std::nullopt;
+            }
+
+            return HudUiService::resolveHudLayoutElement(
+                view,
+                layoutId,
+                width,
+                height,
+                pLayout->width,
+                pLayout->height);
+        };
+
+    for (const std::string &layoutId : orderedLayoutIds)
+    {
+        const OutdoorGameView::HudLayoutElement *pLayout = HudUiService::findHudLayoutElement(view, layoutId);
+
+        if (pLayout == nullptr
+            || !pLayout->visible
+            || toLowerCopy(pLayout->id) == "videooptionsroot"
+            || isStateButtonLayoutId(layoutId))
+        {
+            continue;
+        }
+
+        if (pLayout->primaryAsset.empty())
+        {
+            continue;
+        }
+
+        std::string textureName = pLayout->primaryAsset;
+
+        if (pLayout->interactive)
+        {
+            const std::optional<OutdoorGameView::ResolvedHudLayoutElement> interactiveResolved =
+                HudUiService::resolveHudLayoutElement(
+                    view,
+                    layoutId,
+                    width,
+                    height,
+                    pLayout->width,
+                    pLayout->height);
+            const std::string *pAssetName = interactiveResolved
+                ? HudUiService::resolveInteractiveAssetName(
+                    *pLayout,
+                    *interactiveResolved,
+                    mouseX,
+                    mouseY,
+                    isLeftMousePressed)
+                : nullptr;
+
+            if (pAssetName != nullptr)
+            {
+                textureName = *pAssetName;
+            }
+        }
+
+        const OutdoorGameView::HudTextureHandle *pTexture =
+            HudUiService::ensureHudTextureLoaded(const_cast<OutdoorGameView &>(view), textureName);
+
+        if (pTexture == nullptr)
+        {
+            continue;
+        }
+
+        const std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolved =
+            HudUiService::resolveHudLayoutElement(
+                view,
+                layoutId,
+                width,
+                height,
+                static_cast<float>(pTexture->width),
+                static_cast<float>(pTexture->height));
+
+        if (resolved)
+        {
+            view.submitHudTexturedQuad(*pTexture, resolved->x, resolved->y, resolved->width, resolved->height);
+        }
+    }
+
+    const auto drawStateButton =
+        [&view, &resolveLayout, mouseX, mouseY, isLeftMousePressed](
+            const char *pButtonLayoutId,
+            OutdoorGameView::VideoOptionsPointerTargetType type,
+            bool active)
+        {
+            const std::optional<OutdoorGameView::ResolvedHudLayoutElement> hitRect = resolveLayout(pButtonLayoutId);
+
+            if (!hitRect)
+            {
+                return;
+            }
+
+            const OutdoorGameView::HudLayoutElement *pLayout = HudUiService::findHudLayoutElement(view, pButtonLayoutId);
+
+            if (pLayout == nullptr || pLayout->primaryAsset.empty())
+            {
+                return;
+            }
+
+            const bool hovered = HudUiService::isPointerInsideResolvedElement(*hitRect, mouseX, mouseY);
+            const bool pressed =
+                hovered
+                && isLeftMousePressed
+                && view.m_videoOptionsClickLatch
+                && view.m_videoOptionsPressedTarget.type == type;
+            const std::string *pAssetName =
+                active || pLayout->pressedAsset.empty() ? &pLayout->primaryAsset : &pLayout->pressedAsset;
+
+            if (pressed && !pLayout->pressedAsset.empty())
+            {
+                pAssetName = &pLayout->pressedAsset;
+            }
+
+            const OutdoorGameView::HudTextureHandle *pTexture =
+                HudUiService::ensureHudTextureLoaded(const_cast<OutdoorGameView &>(view), *pAssetName);
+
+            if (pTexture == nullptr)
+            {
+                return;
+            }
+
+            view.submitHudTexturedQuad(
+                *pTexture,
+                hitRect->x,
+                hitRect->y,
+                hitRect->width,
+                hitRect->height);
+        };
+
+    drawStateButton(
+        "VideoOptionsBloodSplatsButton",
+        OutdoorGameView::VideoOptionsPointerTargetType::BloodSplatsButton,
+        view.m_gameSettings.bloodSplats);
+    drawStateButton(
+        "VideoOptionsColoredLightsButton",
+        OutdoorGameView::VideoOptionsPointerTargetType::ColoredLightsButton,
+        view.m_gameSettings.coloredLights);
+    drawStateButton(
+        "VideoOptionsTintingButton",
+        OutdoorGameView::VideoOptionsPointerTargetType::TintingButton,
+        view.m_gameSettings.tinting);
+}
+
 constexpr size_t SaveLoadVisibleSlotCount = 10;
 
 void GameplayPartyOverlayRenderer::renderSaveLoadOverlay(

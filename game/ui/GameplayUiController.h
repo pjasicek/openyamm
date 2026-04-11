@@ -257,6 +257,11 @@ public:
         bool active = false;
     };
 
+    struct VideoOptionsScreenState
+    {
+        bool active = false;
+    };
+
     struct SaveSlotSummary
     {
         std::filesystem::path path;
@@ -374,6 +379,7 @@ public:
         RestScreenState restScreen = {};
         MenuScreenState menuScreen = {};
         ControlsScreenState controlsScreen = {};
+        VideoOptionsScreenState videoOptionsScreen = {};
         SaveGameScreenState saveGameScreen = {};
         LoadGameScreenState loadGameScreen = {};
         JournalScreenState journalScreen = {};
@@ -430,6 +436,8 @@ public:
 
     ControlsScreenState &controlsScreen();
     const ControlsScreenState &controlsScreen() const;
+    VideoOptionsScreenState &videoOptionsScreen();
+    const VideoOptionsScreenState &videoOptionsScreen() const;
 
     SaveGameScreenState &saveGameScreen();
     const SaveGameScreenState &saveGameScreen() const;

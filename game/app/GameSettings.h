@@ -24,6 +24,9 @@ struct GameSettings
     bool showHits = true;
     bool alwaysRun = true;
     bool flipOnExit = false;
+    bool bloodSplats = true;
+    bool coloredLights = true;
+    bool tinting = true;
 
     bool startInMainMenu = false;
     bool preseedParty = true;

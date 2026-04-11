@@ -307,6 +307,7 @@ private:
         Rest,
         Menu,
         Controls,
+        VideoOptions,
         SaveGame,
         LoadGame,
         Journal
@@ -433,6 +434,15 @@ public:
         ReturnButton
     };
 
+    enum class VideoOptionsPointerTargetType
+    {
+        None,
+        BloodSplatsButton,
+        ColoredLightsButton,
+        TintingButton,
+        ReturnButton
+    };
+
     enum class SaveLoadPointerTargetType
     {
         None,
@@ -546,6 +556,7 @@ private:
     using RestMode = GameplayUiController::RestMode;
     using MenuScreenState = GameplayUiController::MenuScreenState;
     using ControlsScreenState = GameplayUiController::ControlsScreenState;
+    using VideoOptionsScreenState = GameplayUiController::VideoOptionsScreenState;
     using SaveSlotSummary = GameplayUiController::SaveSlotSummary;
     using SaveGameScreenState = GameplayUiController::SaveGameScreenState;
     using LoadGameScreenState = GameplayUiController::LoadGameScreenState;
@@ -595,6 +606,13 @@ private:
         int sliderValue = 0;
 
         bool operator==(const ControlsPointerTarget &other) const = default;
+    };
+
+    struct VideoOptionsPointerTarget
+    {
+        VideoOptionsPointerTargetType type = VideoOptionsPointerTargetType::None;
+
+        bool operator==(const VideoOptionsPointerTarget &other) const = default;
     };
 
     struct PendingSavePreviewCaptureState
@@ -707,6 +725,7 @@ private:
     void renderRestOverlay(int width, int height) const;
     void renderMenuOverlay(int width, int height) const;
     void renderControlsOverlay(int width, int height) const;
+    void renderVideoOptionsOverlay(int width, int height) const;
     void renderSaveGameOverlay(int width, int height) const;
     void renderLoadGameOverlay(int width, int height) const;
     void renderJournalOverlay(int width, int height) const;
@@ -784,6 +803,8 @@ private:
     void closeMenu();
     void openControlsScreen();
     void closeControlsScreen();
+    void openVideoOptionsScreen();
+    void closeVideoOptionsScreen();
     void openSaveGameScreen();
     void closeSaveGameScreen();
     void openLoadGameScreen();
@@ -996,6 +1017,8 @@ private:
     bool m_menuClickLatch;
     bool m_controlsToggleLatch;
     bool m_controlsClickLatch;
+    bool m_videoOptionsToggleLatch;
+    bool m_videoOptionsClickLatch;
     bool m_saveGameToggleLatch;
     bool m_saveGameClickLatch;
     bool m_loadGameToggleLatch;
@@ -1038,6 +1061,7 @@ private:
     RestScreenState &m_restScreen;
     MenuScreenState &m_menuScreen;
     ControlsScreenState &m_controlsScreen;
+    VideoOptionsScreenState &m_videoOptionsScreen;
     SaveGameScreenState &m_saveGameScreen;
     LoadGameScreenState &m_loadGameScreen;
     JournalScreenState &m_journalScreen;
@@ -1056,6 +1080,7 @@ private:
     bool m_booksButtonPressed = false;
     MenuPointerTarget m_menuPressedTarget;
     ControlsPointerTarget m_controlsPressedTarget;
+    VideoOptionsPointerTarget m_videoOptionsPressedTarget;
     bool m_controlsSliderDragActive = false;
     ControlsPointerTargetType m_controlsDraggedSlider = ControlsPointerTargetType::None;
     SaveLoadPointerTarget m_saveGamePressedTarget;

@@ -326,6 +326,36 @@ std::optional<GameSettings> loadGameSettings(const std::filesystem::path &path, 
         }
     }
 
+    if (const std::optional<std::string> value = getIniValue(document, "video", "blood_splats"))
+    {
+        bool parsed = settings.bloodSplats;
+
+        if (parseBoolValue(*value, parsed))
+        {
+            settings.bloodSplats = parsed;
+        }
+    }
+
+    if (const std::optional<std::string> value = getIniValue(document, "video", "colored_lights"))
+    {
+        bool parsed = settings.coloredLights;
+
+        if (parseBoolValue(*value, parsed))
+        {
+            settings.coloredLights = parsed;
+        }
+    }
+
+    if (const std::optional<std::string> value = getIniValue(document, "video", "tinting"))
+    {
+        bool parsed = settings.tinting;
+
+        if (parseBoolValue(*value, parsed))
+        {
+            settings.tinting = parsed;
+        }
+    }
+
     if (const std::optional<std::string> value = getIniValue(document, "startup", "start_in_main_menu"))
     {
         bool parsed = settings.startInMainMenu;
@@ -458,7 +488,9 @@ bool saveGameSettings(const std::filesystem::path &path, const GameSettings &set
         << "[keyboard]\n"
         << "; reserved for the future keyboard configuration page\n\n"
         << "[video]\n"
-        << "; reserved for the future video options page\n\n"
+        << "blood_splats=" << (settings.bloodSplats ? "true" : "false") << '\n'
+        << "colored_lights=" << (settings.coloredLights ? "true" : "false") << '\n'
+        << "tinting=" << (settings.tinting ? "true" : "false") << "\n\n"
         << "[debug]\n"
         << "preseed_party=" << (settings.preseedParty ? "true" : "false") << '\n'
         << "party_seed_roster_id=" << settings.partySeedRosterId << '\n'

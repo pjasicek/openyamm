@@ -1,0 +1,91 @@
+screen: VideoOptions
+
+elements:
+  - id: VideoOptionsRoot
+    anchor: center
+    width: 640
+    height: 480
+    z_index: 440
+    visible: true
+    scale:
+      min: 1.0
+      max: 3.0
+    children:
+      - id: VideoOptionsBackground
+        anchor: top_left
+        offset_x: 0
+        offset_y: 0
+        width: 640
+        height: 480
+        z_index: 0
+        asset:
+          default: optvid
+
+      - id: VideoOptionsBrightnessTitle
+        anchor: top_left
+        offset_x: 70
+        offset_y: 153
+        width: 227
+        height: 28
+        z_index: 20
+        asset:
+          default: bl_brite
+
+      - id: VideoOptionsPreviewTitle
+        anchor: top_left
+        offset_x: 351
+        offset_y: 153
+        width: 227
+        height: 28
+        z_index: 20
+        asset:
+          default: bl_prevu
+
+      - id: VideoOptionsBloodSplatsButton
+        anchor: top_left
+        offset_x: 66
+        offset_y: 354
+        width: 235
+        height: 24
+        z_index: 20
+        interactive: true
+        asset:
+          default: bl_blspU
+          pressed: bl_blspD
+
+      - id: VideoOptionsColoredLightsButton
+        anchor: top_left
+        offset_x: 66
+        offset_y: 383
+        width: 235
+        height: 24
+        z_index: 20
+        interactive: true
+        asset:
+          default: bl_coltU
+          pressed: bl_coltD
+
+      - id: VideoOptionsTintingButton
+        anchor: top_left
+        offset_x: 66
+        offset_y: 412
+        width: 235
+        height: 24
+        z_index: 20
+        interactive: true
+        asset:
+          default: bl_tintU
+          pressed: bl_tintD
+
+      - id: VideoOptionsReturnButton
+        anchor: top_left
+        offset_x: 350
+        offset_y: 381
+        width: 227
+        height: 50
+        z_index: 20
+        interactive: true
+        asset:
+          default: bv_rtrnU
+          highlighted: bv_rtrnH
+          pressed: bv_rtrnD
