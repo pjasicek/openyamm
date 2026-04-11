@@ -33,6 +33,7 @@ add_executable(openyamm
     audio/HouseVideoPlayer.cpp
     items/InventoryItemUseRuntime.cpp
     maps/MapDeltaData.cpp
+    maps/OutdoorSceneYml.cpp
     data/GameDataLoader.cpp
     outdoor/HeadlessOutdoorDiagnostics.cpp
     tables/HouseTable.cpp

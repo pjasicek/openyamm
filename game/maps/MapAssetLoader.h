@@ -174,6 +174,19 @@ struct IndoorTextureSet
     std::vector<std::pair<std::string, SurfaceAnimationSequence>> animationBindings;
 };
 
+enum class AuthoredCompanionSource
+{
+    None,
+    LegacyCompanion,
+    SceneYml,
+};
+
+struct MapCompanionLoadOptions
+{
+    bool allowSceneYml = true;
+    bool allowLegacyCompanion = true;
+};
+
 struct MapAssetInfo
 {
     MapStatsEntry map;
@@ -182,6 +195,9 @@ struct MapAssetInfo
     std::vector<uint8_t> geometryHeader;
     std::optional<std::string> companionPath;
     std::optional<size_t> companionSize;
+    std::optional<std::string> scenePath;
+    std::optional<size_t> sceneSize;
+    AuthoredCompanionSource authoredCompanionSource = AuthoredCompanionSource::None;
     std::optional<OutdoorMapData> outdoorMapData;
     std::optional<IndoorMapData> indoorMapData;
     std::optional<MapDeltaData> outdoorMapDeltaData;
@@ -223,7 +239,8 @@ public:
         const MapStatsEntry &map,
         const MonsterTable &monsterTable,
         const ObjectTable &objectTable,
-        MapLoadPurpose purpose = MapLoadPurpose::Full
+        MapLoadPurpose purpose = MapLoadPurpose::Full,
+        const MapCompanionLoadOptions &companionLoadOptions = {}
     ) const;
 
 private:
@@ -233,5 +250,6 @@ private:
         const std::string &fileName
     );
     static std::optional<std::string> buildCompanionFileName(const std::string &fileName);
+    static std::optional<std::string> buildSceneFileName(const std::string &fileName);
 };
 }

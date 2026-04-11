@@ -1962,8 +1962,23 @@ bool GameDataLoader::loadSelectedMap(
 
     if (m_selectedMap->companionPath && m_selectedMap->companionSize)
     {
-        std::cout << "  companion=" << *m_selectedMap->companionPath
+        std::cout << "  legacy_companion=" << *m_selectedMap->companionPath
                   << " (" << *m_selectedMap->companionSize << " bytes)\n";
+    }
+
+    if (m_selectedMap->scenePath && m_selectedMap->sceneSize)
+    {
+        std::cout << "  scene=" << *m_selectedMap->scenePath
+                  << " (" << *m_selectedMap->sceneSize << " bytes)\n";
+    }
+
+    if (m_selectedMap->authoredCompanionSource == AuthoredCompanionSource::SceneYml)
+    {
+        std::cout << "  authored_source=scene_yml\n";
+    }
+    else if (m_selectedMap->authoredCompanionSource == AuthoredCompanionSource::LegacyCompanion)
+    {
+        std::cout << "  authored_source=legacy_companion\n";
     }
 
     if (m_selectedMap->localStrTable)

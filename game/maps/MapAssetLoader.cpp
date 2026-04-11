@@ -1,5 +1,6 @@
 #include "game/data/ActorNameResolver.h"
 #include "game/maps/MapAssetLoader.h"
+#include "game/maps/OutdoorSceneYml.h"
 #include "game/outdoor/OutdoorGeometryUtils.h"
 #include "game/SpriteObjectDefs.h"
 #include "game/StringUtils.h"
@@ -2601,7 +2602,8 @@ std::optional<MapAssetInfo> MapAssetLoader::load(
     const MapStatsEntry &map,
     const MonsterTable &monsterTable,
     const ObjectTable &objectTable,
-    MapLoadPurpose purpose
+    MapLoadPurpose purpose,
+    const MapCompanionLoadOptions &companionLoadOptions
 ) const
 {
     const auto loadStart = std::chrono::steady_clock::now();
@@ -2640,7 +2642,10 @@ std::optional<MapAssetInfo> MapAssetLoader::load(
     );
 
     std::optional<std::vector<uint8_t>> companionBytes;
-    const std::optional<std::string> companionFileName = buildCompanionFileName(map.fileName);
+    std::optional<std::string> sceneText;
+
+    const std::optional<std::string> companionFileName =
+        companionLoadOptions.allowLegacyCompanion ? buildCompanionFileName(map.fileName) : std::nullopt;
 
     if (companionFileName)
     {
@@ -2655,6 +2660,26 @@ std::optional<MapAssetInfo> MapAssetLoader::load(
                 assetInfo.companionPath = companionPath;
                 assetInfo.companionSize = companionBytes->size();
                 logStageComplete("companion bytes loaded");
+            }
+        }
+    }
+
+    const std::optional<std::string> sceneFileName =
+        companionLoadOptions.allowSceneYml ? buildSceneFileName(map.fileName) : std::nullopt;
+
+    if (sceneFileName)
+    {
+        const std::optional<std::string> scenePath = findAssetPath(assetFileSystem, *sceneFileName);
+
+        if (scenePath)
+        {
+            sceneText = assetFileSystem.readTextFile(*scenePath);
+
+            if (sceneText)
+            {
+                assetInfo.scenePath = scenePath;
+                assetInfo.sceneSize = sceneText->size();
+                logStageComplete("scene yml loaded");
             }
         }
     }
@@ -2680,7 +2705,45 @@ std::optional<MapAssetInfo> MapAssetLoader::load(
 
         if (assetInfo.outdoorMapData)
         {
-            if (companionBytes)
+            if (sceneText)
+            {
+                OutdoorSceneYmlLoader sceneLoader = {};
+                std::string sceneError;
+                const std::optional<OutdoorSceneData> sceneData = sceneLoader.loadFromText(*sceneText, sceneError);
+
+                if (!sceneData)
+                {
+                    std::cerr << "Failed to parse outdoor scene yml for " << map.fileName
+                              << ": " << sceneError << '\n';
+                    return std::nullopt;
+                }
+
+                if (!sceneData->geometryFile.empty()
+                    && toLowerCopy(sceneData->geometryFile) != toLowerCopy(map.fileName))
+                {
+                    std::cerr << "Failed to build outdoor scene state for " << map.fileName
+                              << ": scene geometry_file does not match loaded outdoor geometry\n";
+                    return std::nullopt;
+                }
+
+                MapDeltaData sceneMapDeltaData = {};
+
+                if (!buildOutdoorMapStateFromScene(
+                        *sceneData,
+                        *assetInfo.outdoorMapData,
+                        sceneMapDeltaData,
+                        sceneError))
+                {
+                    std::cerr << "Failed to build outdoor scene state for " << map.fileName
+                              << ": " << sceneError << '\n';
+                    return std::nullopt;
+                }
+
+                assetInfo.outdoorMapDeltaData = std::move(sceneMapDeltaData);
+                assetInfo.authoredCompanionSource = AuthoredCompanionSource::SceneYml;
+                logStageComplete("outdoor scene yml applied");
+            }
+            else if (companionBytes)
             {
                 const MapDeltaDataLoader mapDeltaDataLoader;
                 assetInfo.outdoorMapDeltaData =
@@ -2688,6 +2751,7 @@ std::optional<MapAssetInfo> MapAssetLoader::load(
 
                 if (assetInfo.outdoorMapDeltaData)
                 {
+                    assetInfo.authoredCompanionSource = AuthoredCompanionSource::LegacyCompanion;
                     logStageComplete("outdoor map delta parsed");
                 }
             }
@@ -2971,6 +3035,26 @@ std::optional<std::string> MapAssetLoader::buildCompanionFileName(const std::str
     if (extension == ".blv")
     {
         return stem + ".dlv";
+    }
+
+    return std::nullopt;
+}
+
+std::optional<std::string> MapAssetLoader::buildSceneFileName(const std::string &fileName)
+{
+    const std::string normalized = toLower(fileName);
+
+    if (normalized.size() < 4)
+    {
+        return std::nullopt;
+    }
+
+    const std::string stem = normalized.substr(0, normalized.size() - 4);
+    const std::string extension = normalized.substr(normalized.size() - 4);
+
+    if (extension == ".odm")
+    {
+        return stem + ".scene.yml";
     }
 
     return std::nullopt;
