@@ -81,6 +81,7 @@ protected:
         int height,
         const std::vector<uint8_t> &pixelsBgra,
         const Rect &rect);
+    void drawTextureHandle(bgfx::TextureHandle textureHandle, const Rect &rect);
     void drawTextureRegionColor(
         const std::string &textureName,
         const SourceRect &sourceRect,

@@ -667,6 +667,50 @@ void MenuScreenBase::drawPixelsBgra(
     bgfx::submit(MenuViewId, m_texturedProgramHandle);
 }
 
+void MenuScreenBase::drawTextureHandle(bgfx::TextureHandle textureHandle, const Rect &rect)
+{
+    if (!bgfx::isValid(textureHandle))
+    {
+        return;
+    }
+
+    bgfx::TransientVertexBuffer vertexBuffer;
+    bgfx::TransientIndexBuffer indexBuffer;
+
+    if (bgfx::getAvailTransientVertexBuffer(4, MenuVertex::ms_layout) < 4
+        || bgfx::getAvailTransientIndexBuffer(6) < 6)
+    {
+        return;
+    }
+
+    bgfx::allocTransientVertexBuffer(&vertexBuffer, 4, MenuVertex::ms_layout);
+    bgfx::allocTransientIndexBuffer(&indexBuffer, 6);
+
+    MenuVertex *pVertices = reinterpret_cast<MenuVertex *>(vertexBuffer.data);
+    const float left = rect.x;
+    const float right = rect.x + rect.width;
+    const float top = rect.y;
+    const float bottom = rect.y + rect.height;
+    pVertices[0] = MenuVertex{left, top, 0.0f, 0.0f, 0.0f};
+    pVertices[1] = MenuVertex{right, top, 0.0f, 1.0f, 0.0f};
+    pVertices[2] = MenuVertex{right, bottom, 0.0f, 1.0f, 1.0f};
+    pVertices[3] = MenuVertex{left, bottom, 0.0f, 0.0f, 1.0f};
+
+    uint16_t *pIndices = reinterpret_cast<uint16_t *>(indexBuffer.data);
+    pIndices[0] = 0;
+    pIndices[1] = 1;
+    pIndices[2] = 2;
+    pIndices[3] = 0;
+    pIndices[4] = 2;
+    pIndices[5] = 3;
+
+    bgfx::setVertexBuffer(0, &vertexBuffer);
+    bgfx::setIndexBuffer(&indexBuffer);
+    bgfx::setTexture(0, m_textureUniformHandle, textureHandle);
+    bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_BLEND_ALPHA | BGFX_STATE_MSAA);
+    bgfx::submit(MenuViewId, m_texturedProgramHandle);
+}
+
 void MenuScreenBase::drawTextureRegionColor(
     const std::string &textureName,
     const SourceRect &sourceRect,

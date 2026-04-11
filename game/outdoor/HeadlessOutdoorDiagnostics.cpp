@@ -136,6 +136,21 @@ struct GameApplicationTestAccess
         application.captureCurrentSceneState();
     }
 
+    static bool shouldTriggerPartyDefeat(GameApplication &application)
+    {
+        return application.shouldTriggerPartyDefeat();
+    }
+
+    static std::string resolvePartyDefeatRespawnMapFileName(const GameApplication &application)
+    {
+        return application.resolvePartyDefeatRespawnMapFileName();
+    }
+
+    static void applyPartyDefeatConsequences(GameApplication &application)
+    {
+        application.applyPartyDefeatConsequences();
+    }
+
     static void setCameraAngles(GameApplication &application, float yawRadians, float pitchRadians)
     {
         application.m_outdoorGameView.setCameraAngles(yawRadians, pitchRadians);
@@ -19223,6 +19238,111 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
                 || !dialogHasActionLabel(dialog, "Learn Skills"))
             {
                 failure = "service house root menu is incomplete";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "app_party_defeat_zeros_gold_increments_num_deaths_and_uses_expected_respawn_map",
+        [&](std::string &failure)
+        {
+            GameApplication application(m_config);
+
+            if (!initializeHeadlessGameApplication(
+                    "out01.odm",
+                    assetFileSystem,
+                    application,
+                    failure))
+            {
+                return false;
+            }
+
+            OutdoorPartyRuntime *pPartyRuntime = GameApplicationTestAccess::outdoorPartyRuntime(application);
+
+            if (pPartyRuntime == nullptr)
+            {
+                failure = "missing party runtime";
+                return false;
+            }
+
+            Party &party = pPartyRuntime->party();
+            party.addGold(1234);
+            party.depositGoldToBank(234);
+
+            for (size_t memberIndex = 0; memberIndex < party.members().size(); ++memberIndex)
+            {
+                Character *pMember = party.member(memberIndex);
+
+                if (pMember == nullptr)
+                {
+                    continue;
+                }
+
+                Character &member = *pMember;
+                member.health = 0;
+                member.conditions.set(static_cast<size_t>(CharacterCondition::Dead));
+            }
+
+            if (!GameApplicationTestAccess::shouldTriggerPartyDefeat(application))
+            {
+                failure = "party defeat did not trigger when all members were dead";
+                return false;
+            }
+
+            if (GameApplicationTestAccess::resolvePartyDefeatRespawnMapFileName(application) != "out01.odm")
+            {
+                failure = "DWI defeat did not resolve to the DWI start map";
+                return false;
+            }
+
+            if (!loadHeadlessGameApplicationMap(application, assetFileSystem, "d09.blv", failure))
+            {
+                return false;
+            }
+
+            if (GameApplicationTestAccess::resolvePartyDefeatRespawnMapFileName(application) != "out01.odm")
+            {
+                failure = "DWI indoor defeat did not resolve to the DWI start map";
+                return false;
+            }
+
+            GameApplicationTestAccess::applyPartyDefeatConsequences(application);
+
+            if (party.gold() != 0)
+            {
+                failure = "party defeat did not remove carried gold";
+                return false;
+            }
+
+            if (party.bankGold() != 234)
+            {
+                failure = "party defeat should not remove bank gold";
+                return false;
+            }
+
+            if (party.eventVariableValue(static_cast<uint16_t>(EvtVariable::NumDeaths)) != 1)
+            {
+                failure = "party defeat did not increment NumDeaths";
+                return false;
+            }
+
+            if (!party.hasActableMember())
+            {
+                failure = "party defeat did not revive the party";
+                return false;
+            }
+
+            if (!loadHeadlessGameApplicationMap(application, assetFileSystem, "out02.odm", failure))
+            {
+                return false;
+            }
+
+            if (GameApplicationTestAccess::resolvePartyDefeatRespawnMapFileName(application) != "out02.odm")
+            {
+                failure = "non-DWI defeat did not resolve to Ravenshore";
                 return false;
             }
 

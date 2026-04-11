@@ -324,6 +324,7 @@ public:
     bool activeMemberNeedsHealing() const;
     void restoreAll();
     void restAndHealAll();
+    void reviveAndRestoreAll();
     void restoreActiveMember();
     bool trainLeader(uint32_t maxLevel, uint32_t &newLevel, uint32_t &skillPointsEarned);
     bool trainActiveMember(uint32_t maxLevel, uint32_t &newLevel, uint32_t &skillPointsEarned);
@@ -414,6 +415,7 @@ public:
     Character *member(size_t memberIndex);
     bool canSelectMemberInGameplay(size_t memberIndex) const;
     bool hasSelectableMemberInGameplay() const;
+    bool hasActableMember() const;
     bool setActiveMemberIndex(size_t memberIndex);
     bool canSpendSpellPoints(size_t memberIndex, int amount) const;
     bool spendSpellPoints(size_t memberIndex, int amount);

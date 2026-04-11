@@ -35,6 +35,12 @@ constexpr int HouseVideoAudioFrequency = 48000;
 constexpr int HouseVideoAudioChannels = 2;
 constexpr int HouseVideoAudioQueueTargetMilliseconds = 100;
 constexpr size_t InvalidFrameIndex = std::numeric_limits<size_t>::max();
+constexpr const char *DefaultHouseVideoDirectory = "Videos/Houses";
+
+std::string makeClipKey(const std::string &videoDirectory, const std::string &videoStem)
+{
+    return videoDirectory + "/" + videoStem;
+}
 
 bool isAudioSubsystemInitialized()
 {
@@ -398,7 +404,7 @@ void HouseVideoPlayer::shutdown()
 {
     stop();
     clearBackgroundPreloads();
-    m_cachedClipsByStem.clear();
+    m_cachedClipsByKey.clear();
 
     if (m_pAudioStream != nullptr)
     {
@@ -435,7 +441,7 @@ void HouseVideoPlayer::shutdown()
 void HouseVideoPlayer::stop()
 {
     m_pActiveClip.reset();
-    m_activeStem.clear();
+    m_activeClipKey.clear();
     m_playbackSeconds = 0.0f;
     m_uploadedFrameIndex = InvalidFrameIndex;
     m_nextAudioSampleIndex = 0;
@@ -448,6 +454,14 @@ void HouseVideoPlayer::stop()
 }
 
 bool HouseVideoPlayer::play(const Engine::AssetFileSystem &assetFileSystem, const std::string &videoStem)
+{
+    return play(assetFileSystem, videoStem, DefaultHouseVideoDirectory);
+}
+
+bool HouseVideoPlayer::play(
+    const Engine::AssetFileSystem &assetFileSystem,
+    const std::string &videoStem,
+    const std::string &videoDirectory)
 {
     if (videoStem.empty())
     {
@@ -462,12 +476,14 @@ bool HouseVideoPlayer::play(const Engine::AssetFileSystem &assetFileSystem, cons
 
     finishCompletedBackgroundPreload();
 
-    if (m_pActiveClip != nullptr && m_activeStem == videoStem)
+    const std::string clipKey = makeClipKey(videoDirectory, videoStem);
+
+    if (m_pActiveClip != nullptr && m_activeClipKey == clipKey)
     {
         return true;
     }
 
-    const std::shared_ptr<DecodedClip> pClip = getOrDecodeClip(assetFileSystem, videoStem);
+    const std::shared_ptr<DecodedClip> pClip = getOrDecodeClip(assetFileSystem, videoStem, videoDirectory);
 
     if (pClip == nullptr)
     {
@@ -476,7 +492,7 @@ bool HouseVideoPlayer::play(const Engine::AssetFileSystem &assetFileSystem, cons
     }
 
     m_pActiveClip = pClip;
-    m_activeStem = videoStem;
+    m_activeClipKey = clipKey;
     m_playbackSeconds = 0.0f;
     m_uploadedFrameIndex = InvalidFrameIndex;
     m_nextAudioSampleIndex = 0;
@@ -495,6 +511,14 @@ bool HouseVideoPlayer::play(const Engine::AssetFileSystem &assetFileSystem, cons
 
 bool HouseVideoPlayer::preload(const Engine::AssetFileSystem &assetFileSystem, const std::string &videoStem)
 {
+    return preload(assetFileSystem, videoStem, DefaultHouseVideoDirectory);
+}
+
+bool HouseVideoPlayer::preload(
+    const Engine::AssetFileSystem &assetFileSystem,
+    const std::string &videoStem,
+    const std::string &videoDirectory)
+{
     if (videoStem.empty())
     {
         return false;
@@ -507,13 +531,13 @@ bool HouseVideoPlayer::preload(const Engine::AssetFileSystem &assetFileSystem, c
 
     finishCompletedBackgroundPreload();
 
-    return getOrDecodeClip(assetFileSystem, videoStem) != nullptr;
+    return getOrDecodeClip(assetFileSystem, videoStem, videoDirectory) != nullptr;
 }
 
 void HouseVideoPlayer::queueBackgroundPreload(const std::string &videoStem)
 {
     if (videoStem.empty()
-        || m_cachedClipsByStem.contains(videoStem)
+        || m_cachedClipsByKey.contains(makeClipKey(DefaultHouseVideoDirectory, videoStem))
         || std::find(m_pendingBackgroundPreloadStems.begin(), m_pendingBackgroundPreloadStems.end(), videoStem)
             != m_pendingBackgroundPreloadStems.end()
         || (m_backgroundPreloadJob.has_value() && m_backgroundPreloadJob->videoStem == videoStem))
@@ -539,7 +563,7 @@ void HouseVideoPlayer::updateBackgroundPreloads(const Engine::AssetFileSystem &a
         const std::string videoStem = m_pendingBackgroundPreloadStems.front();
         m_pendingBackgroundPreloadStems.erase(m_pendingBackgroundPreloadStems.begin());
 
-        if (videoStem.empty() || m_cachedClipsByStem.contains(videoStem))
+        if (videoStem.empty() || m_cachedClipsByKey.contains(makeClipKey(DefaultHouseVideoDirectory, videoStem)))
         {
             continue;
         }
@@ -550,7 +574,7 @@ void HouseVideoPlayer::updateBackgroundPreloads(const Engine::AssetFileSystem &a
                 std::launch::async,
                 [&assetFileSystem, videoStem]()
                 {
-                    return decodeClip(assetFileSystem, videoStem);
+                    return decodeClip(assetFileSystem, videoStem, DefaultHouseVideoDirectory);
                 })};
         break;
     }
@@ -604,9 +628,26 @@ bool HouseVideoPlayer::hasActiveFrame() const
     return m_pActiveClip != nullptr && bgfx::isValid(m_videoTextureHandle);
 }
 
+bool HouseVideoPlayer::hasFinishedPlayback() const
+{
+    return m_pActiveClip != nullptr
+        && m_pActiveClip->durationSeconds > 0.0f
+        && m_playbackSeconds >= m_pActiveClip->durationSeconds;
+}
+
 bgfx::TextureHandle HouseVideoPlayer::textureHandle() const
 {
     return m_videoTextureHandle;
+}
+
+int HouseVideoPlayer::videoTextureWidth() const
+{
+    return m_videoTextureWidth;
+}
+
+int HouseVideoPlayer::videoTextureHeight() const
+{
+    return m_videoTextureHeight;
 }
 
 bool HouseVideoPlayer::ensureAudioStream()
@@ -843,7 +884,7 @@ void HouseVideoPlayer::finishCompletedBackgroundPreload()
 
     if (pClip != nullptr)
     {
-        m_cachedClipsByStem[m_backgroundPreloadJob->videoStem] = pClip;
+        m_cachedClipsByKey[makeClipKey(DefaultHouseVideoDirectory, m_backgroundPreloadJob->videoStem)] = pClip;
     }
 
     m_backgroundPreloadJob.reset();
@@ -862,7 +903,7 @@ void HouseVideoPlayer::clearBackgroundPreloads()
 
     if (pClip != nullptr)
     {
-        m_cachedClipsByStem[m_backgroundPreloadJob->videoStem] = pClip;
+        m_cachedClipsByKey[makeClipKey(DefaultHouseVideoDirectory, m_backgroundPreloadJob->videoStem)] = pClip;
     }
 
     m_backgroundPreloadJob.reset();
@@ -870,36 +911,40 @@ void HouseVideoPlayer::clearBackgroundPreloads()
 
 std::shared_ptr<HouseVideoPlayer::DecodedClip> HouseVideoPlayer::getOrDecodeClip(
     const Engine::AssetFileSystem &assetFileSystem,
-    const std::string &videoStem)
+    const std::string &videoStem,
+    const std::string &videoDirectory)
 {
     finishCompletedBackgroundPreload();
+    const std::string clipKey = makeClipKey(videoDirectory, videoStem);
 
     const std::unordered_map<std::string, std::shared_ptr<DecodedClip>>::const_iterator cachedIt =
-        m_cachedClipsByStem.find(videoStem);
+        m_cachedClipsByKey.find(clipKey);
 
-    if (cachedIt != m_cachedClipsByStem.end())
+    if (cachedIt != m_cachedClipsByKey.end())
     {
         return cachedIt->second;
     }
 
-    if (m_backgroundPreloadJob.has_value() && m_backgroundPreloadJob->videoStem == videoStem)
+    if (videoDirectory == DefaultHouseVideoDirectory
+        && m_backgroundPreloadJob.has_value()
+        && m_backgroundPreloadJob->videoStem == videoStem)
     {
         const std::shared_ptr<DecodedClip> pClip = m_backgroundPreloadJob->future.get();
 
         if (pClip != nullptr)
         {
-            m_cachedClipsByStem.emplace(videoStem, pClip);
+            m_cachedClipsByKey.emplace(clipKey, pClip);
         }
 
         m_backgroundPreloadJob.reset();
         return pClip;
     }
 
-    const std::shared_ptr<DecodedClip> pClip = decodeClip(assetFileSystem, videoStem);
+    const std::shared_ptr<DecodedClip> pClip = decodeClip(assetFileSystem, videoStem, videoDirectory);
 
     if (pClip != nullptr)
     {
-        m_cachedClipsByStem.emplace(videoStem, pClip);
+        m_cachedClipsByKey.emplace(clipKey, pClip);
     }
 
     return pClip;
@@ -907,9 +952,10 @@ std::shared_ptr<HouseVideoPlayer::DecodedClip> HouseVideoPlayer::getOrDecodeClip
 
 std::shared_ptr<HouseVideoPlayer::DecodedClip> HouseVideoPlayer::decodeClip(
     const Engine::AssetFileSystem &assetFileSystem,
-    const std::string &videoStem)
+    const std::string &videoStem,
+    const std::string &videoDirectory)
 {
-    const std::string virtualPath = "Videos/Houses/" + videoStem + ".ogv";
+    const std::string virtualPath = videoDirectory + "/" + videoStem + ".ogv";
     const std::optional<std::vector<uint8_t>> clipBytes = assetFileSystem.readBinaryFile(virtualPath);
 
     if (!clipBytes || clipBytes->empty())

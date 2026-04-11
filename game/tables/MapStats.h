@@ -57,6 +57,7 @@ struct MapStatsEntry
     MapEncounterInfo encounter3;
     int redbookTrack;
     std::string environmentName;
+    int areaId = 0;
     bool isTopLevelArea;
     MapBounds outdoorBounds = {};
     std::optional<MapEdgeTransition> northTransition;

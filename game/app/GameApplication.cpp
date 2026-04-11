@@ -1,5 +1,6 @@
 #include "game/app/GameApplication.h"
 
+#include "game/StringUtils.h"
 #include "game/gameplay/GameMechanics.h"
 #include "game/scene/IndoorSceneRuntime.h"
 #include "game/scene/OutdoorSceneRuntime.h"
@@ -7,8 +8,10 @@
 #include "game/party/SkillData.h"
 #include "game/party/SpellIds.h"
 #include "game/party/SpellSchool.h"
+#include "game/events/EvtEnums.h"
 #include "game/tables/ItemTable.h"
 #include "game/ui/screens/ArcomageScreen.h"
+#include "game/ui/screens/CutsceneVideoScreen.h"
 #include "game/ui/screens/LoadGameScreen.h"
 #include "game/ui/screens/LoadingOverlayScreen.h"
 #include "game/ui/screens/MainMenuScreen.h"
@@ -37,6 +40,10 @@ constexpr int LoadingOverlayBackgroundCount = 5;
 constexpr uint32_t BronzeRingItemId = 137;
 constexpr uint32_t GoldRingItemId = 138;
 constexpr uint32_t PotionBottleItemId = 220;
+constexpr const char *DwiRespawnMapFile = "out01.odm";
+constexpr const char *RavenshoreRespawnMapFile = "out02.odm";
+constexpr const char *PartyDefeatCutsceneDirectory = "Videos/Cutscenes";
+constexpr const char *PartyDefeatCutsceneStem = "LoseGame";
 constexpr std::array<uint32_t, 3> Level1ReagentItemIds = {{200, 205, 210}};
 
 int remapLoadingProgress(int localProgress, int startProgress, int endProgress)
@@ -1735,6 +1742,7 @@ void GameApplication::renderFrame(int width, int height, float mouseWheelDelta, 
     if (IScreen *pActiveScreen = m_screenManager.activeScreen())
     {
         pActiveScreen->renderFrame(width, height, mouseWheelDelta, deltaSeconds);
+        handleCompletedPartyDefeatScreen();
         handleCompletedArcomageScreen();
         m_gameAudioSystem.update(0.0f, 0.0f, 0.0f, deltaSeconds);
         return;
@@ -1742,6 +1750,19 @@ void GameApplication::renderFrame(int width, int height, float mouseWheelDelta, 
 
     updateQuickSaveInput();
     updateMapPickerInput();
+
+    if (processPendingPartyDefeat())
+    {
+        if (IScreen *pActiveScreen = m_screenManager.activeScreen())
+        {
+            pActiveScreen->renderFrame(width, height, mouseWheelDelta, deltaSeconds);
+            handleCompletedPartyDefeatScreen();
+        }
+
+        m_gameAudioSystem.update(0.0f, 0.0f, 0.0f, deltaSeconds);
+        return;
+    }
+
     const std::optional<MapAssetInfo> &selectedMap = m_gameDataLoader.getSelectedMap();
 
     if (m_pMapSceneRuntime != nullptr
@@ -1956,6 +1977,127 @@ bool GameApplication::processPendingArcomageGame()
         SDL_GetTicks()
     ));
 
+    return true;
+}
+
+bool GameApplication::processPendingPartyDefeat()
+{
+    if (m_pAssetFileSystem == nullptr
+        || m_screenManager.activeScreen() != nullptr
+        || m_pendingPartyDefeatRespawnMapFileName.has_value()
+        || !shouldTriggerPartyDefeat())
+    {
+        return false;
+    }
+
+    m_pendingPartyDefeatRespawnMapFileName = resolvePartyDefeatRespawnMapFileName();
+    m_screenManager.setActiveScreen(std::make_unique<CutsceneVideoScreen>(
+        *m_pAssetFileSystem,
+        &m_gameAudioSystem,
+        PartyDefeatCutsceneDirectory,
+        PartyDefeatCutsceneStem,
+        m_screenManager.currentMode()));
+    return true;
+}
+
+void GameApplication::handleCompletedPartyDefeatScreen()
+{
+    CutsceneVideoScreen *pCutsceneScreen = dynamic_cast<CutsceneVideoScreen *>(m_screenManager.activeScreen());
+
+    if (pCutsceneScreen == nullptr || !pCutsceneScreen->shouldClose())
+    {
+        return;
+    }
+
+    m_screenManager.setActiveScreen(nullptr);
+    applyPartyDefeatConsequences();
+    respawnPartyAfterDefeat(true);
+    m_pendingPartyDefeatRespawnMapFileName.reset();
+}
+
+bool GameApplication::shouldTriggerPartyDefeat() const
+{
+    if (m_pMapSceneRuntime == nullptr)
+    {
+        return false;
+    }
+
+    return !m_pMapSceneRuntime->party().hasActableMember();
+}
+
+std::string GameApplication::resolvePartyDefeatRespawnMapFileName() const
+{
+    const std::string currentMapFileName = toLowerCopy(m_gameSession.currentMapFileName());
+    const MapStatsEntry *pCurrentMap = m_gameDataLoader.getMapStats().findByFileName(currentMapFileName);
+
+    if (pCurrentMap != nullptr)
+    {
+        const int effectiveAreaId = pCurrentMap->isTopLevelArea ? pCurrentMap->id : pCurrentMap->areaId;
+
+        if (effectiveAreaId == 1)
+        {
+            return DwiRespawnMapFile;
+        }
+    }
+
+    if (currentMapFileName == DwiRespawnMapFile)
+    {
+        return DwiRespawnMapFile;
+    }
+
+    return RavenshoreRespawnMapFile;
+}
+
+void GameApplication::applyPartyDefeatConsequences()
+{
+    if (m_pMapSceneRuntime == nullptr)
+    {
+        return;
+    }
+
+    Party &party = m_pMapSceneRuntime->party();
+    const int carriedGold = party.gold();
+
+    if (carriedGold > 0)
+    {
+        party.addGold(-carriedGold);
+        m_gameAudioSystem.playCommonSound(SoundId::Gold, GameAudioSystem::PlaybackGroup::Ui);
+    }
+
+    const uint16_t numDeathsVariableId = static_cast<uint16_t>(EvtVariable::NumDeaths);
+    party.setEventVariableValue(numDeathsVariableId, party.eventVariableValue(numDeathsVariableId) + 1);
+    party.reviveAndRestoreAll();
+    synchronizeSessionFromRuntime();
+}
+
+bool GameApplication::respawnPartyAfterDefeat(bool initializeView)
+{
+    if (!m_pendingPartyDefeatRespawnMapFileName.has_value())
+    {
+        return false;
+    }
+
+    const std::string previousMapFileName = m_gameSession.currentMapFileName();
+    captureCurrentSceneState();
+    m_gameSession.setCurrentMapFileName(*m_pendingPartyDefeatRespawnMapFileName);
+    beginLoadingOverlay();
+    renderLoadingOverlayProgress(15);
+
+    if (!loadCurrentSessionMap(
+            initializeView,
+            [this](int localProgress)
+            {
+                renderLoadingOverlayProgress(remapLoadingProgress(localProgress, 20, 85));
+            }))
+    {
+        cancelLoadingOverlay();
+        m_gameSession.setCurrentMapFileName(previousMapFileName);
+        return false;
+    }
+
+    synchronizeSessionFromRuntime();
+    renderLoadingOverlayProgress(95);
+    completeLoadingOverlay();
     return true;
 }
 

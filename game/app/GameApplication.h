@@ -57,6 +57,12 @@ private:
     bool applyCurrentSessionToRuntime(bool initializeView);
     void syncMapPickerToSelectedMap();
     bool processPendingMapMove();
+    bool processPendingPartyDefeat();
+    void handleCompletedPartyDefeatScreen();
+    bool shouldTriggerPartyDefeat() const;
+    std::string resolvePartyDefeatRespawnMapFileName() const;
+    void applyPartyDefeatConsequences();
+    bool respawnPartyAfterDefeat(bool initializeView);
     void captureCurrentSceneState();
     void restoreSavedOutdoorWorldStateForSelectedMap();
     void updateMapPickerInput();
@@ -123,5 +129,6 @@ private:
     bool m_loadingOverlayActive = false;
     int m_lastFrameWidth = 640;
     int m_lastFrameHeight = 480;
+    std::optional<std::string> m_pendingPartyDefeatRespawnMapFileName;
 };
 }

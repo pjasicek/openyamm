@@ -29,12 +29,23 @@ public:
     void shutdown();
     void stop();
     bool play(const Engine::AssetFileSystem &assetFileSystem, const std::string &videoStem);
+    bool play(
+        const Engine::AssetFileSystem &assetFileSystem,
+        const std::string &videoStem,
+        const std::string &videoDirectory);
     bool preload(const Engine::AssetFileSystem &assetFileSystem, const std::string &videoStem);
+    bool preload(
+        const Engine::AssetFileSystem &assetFileSystem,
+        const std::string &videoStem,
+        const std::string &videoDirectory);
     void queueBackgroundPreload(const std::string &videoStem);
     void updateBackgroundPreloads(const Engine::AssetFileSystem &assetFileSystem);
     void update(float deltaSeconds);
     bool hasActiveFrame() const;
+    bool hasFinishedPlayback() const;
     bgfx::TextureHandle textureHandle() const;
+    int videoTextureWidth() const;
+    int videoTextureHeight() const;
 
 private:
     struct DecodedClip
@@ -69,10 +80,12 @@ private:
     void clearBackgroundPreloads();
     std::shared_ptr<DecodedClip> getOrDecodeClip(
         const Engine::AssetFileSystem &assetFileSystem,
-        const std::string &videoStem);
+        const std::string &videoStem,
+        const std::string &videoDirectory);
     static std::shared_ptr<DecodedClip> decodeClip(
         const Engine::AssetFileSystem &assetFileSystem,
-        const std::string &videoStem);
+        const std::string &videoStem,
+        const std::string &videoDirectory);
 
     bool m_isInitialized;
     bool m_initializedAudioSubsystem;
@@ -81,12 +94,12 @@ private:
     int m_videoTextureHeight;
     SDL_AudioStream *m_pAudioStream;
     std::shared_ptr<DecodedClip> m_pActiveClip;
-    std::string m_activeStem;
+    std::string m_activeClipKey;
     float m_playbackSeconds;
     size_t m_uploadedFrameIndex;
     size_t m_nextAudioSampleIndex;
     uint64_t m_totalQueuedAudioFrames;
-    std::unordered_map<std::string, std::shared_ptr<DecodedClip>> m_cachedClipsByStem;
+    std::unordered_map<std::string, std::shared_ptr<DecodedClip>> m_cachedClipsByKey;
     std::vector<std::string> m_pendingBackgroundPreloadStems;
     std::optional<BackgroundPreloadJob> m_backgroundPreloadJob;
 };

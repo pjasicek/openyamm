@@ -62,6 +62,7 @@ constexpr size_t Encounter3DifficultyColumn = 26;
 constexpr size_t Encounter3CountColumn = 27;
 constexpr size_t RedbookTrackColumn = 28;
 constexpr size_t EnvironmentColumn = 29;
+constexpr size_t AreaIdColumn = 32;
 constexpr size_t InAreaColumn = 33;
 
 std::string getColumnValue(const std::vector<std::string> &row, size_t index)
@@ -422,6 +423,8 @@ bool MapStats::loadFromRows(const std::vector<std::vector<std::string>> &rows)
         entry.name = getColumnValue(row, NameColumn);
         entry.fileName = getColumnValue(row, FileNameColumn);
         entry.environmentName = getColumnValue(row, EnvironmentColumn);
+        entry.areaId = 0;
+        parseIntegerLocal(getColumnValue(row, AreaIdColumn), entry.areaId);
         entry.isTopLevelArea = !getColumnValue(row, InAreaColumn).empty();
 
         m_entries.push_back(entry);

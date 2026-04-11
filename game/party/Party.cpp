@@ -2384,6 +2384,29 @@ void Party::restoreAll()
     restAndHealAll();
 }
 
+void Party::reviveAndRestoreAll()
+{
+    m_partyBuffs = {};
+    m_characterBuffs = {};
+    rebuildMagicalBonusesFromBuffs();
+
+    for (Character &member : m_members)
+    {
+        member.conditions.reset();
+        member.recoverySecondsRemaining = 0.0f;
+        member.healthRegenAccumulator = 0.0f;
+        member.spellRegenAccumulator = 0.0f;
+        member.health = std::max(1, member.maxHealth + member.magicalBonuses.maxHealth);
+        member.spellPoints = std::max(0, member.maxSpellPoints + member.magicalBonuses.maxSpellPoints);
+    }
+
+    if (!canSelectMemberInGameplay(m_activeMemberIndex))
+    {
+        m_activeMemberIndex = 0;
+        switchToNextReadyMember();
+    }
+}
+
 void Party::restAndHealAll()
 {
     m_partyBuffs = {};
@@ -3878,6 +3901,23 @@ bool Party::hasSelectableMemberInGameplay() const
     for (size_t memberIndex = 0; memberIndex < m_members.size(); ++memberIndex)
     {
         if (canSelectMemberInGameplay(memberIndex))
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+bool Party::hasActableMember() const
+{
+    for (const Character &member : m_members)
+    {
+        if (!member.conditions.test(static_cast<size_t>(CharacterCondition::Paralyzed))
+            && !member.conditions.test(static_cast<size_t>(CharacterCondition::Unconscious))
+            && !member.conditions.test(static_cast<size_t>(CharacterCondition::Dead))
+            && !member.conditions.test(static_cast<size_t>(CharacterCondition::Petrified))
+            && !member.conditions.test(static_cast<size_t>(CharacterCondition::Eradicated)))
         {
             return true;
         }

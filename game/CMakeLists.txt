@@ -99,6 +99,7 @@ add_executable(openyamm
     ui/UiLayoutManager.cpp
     ui/screens/MainMenuScreen.cpp
     ui/screens/ArcomageScreen.cpp
+    ui/screens/CutsceneVideoScreen.cpp
     ui/screens/LoadGameScreen.cpp
     ui/screens/LoadingOverlayScreen.cpp
     ui/screens/NewGameScreen.cpp
