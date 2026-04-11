@@ -23,6 +23,9 @@ constexpr uint32_t SpeechReactionCooldownMs = 900;
 constexpr uint32_t CombatSpeechReactionCooldownMs = 2500;
 constexpr float WalkingSoundMovementSpeedThreshold = 20.0f;
 constexpr float WalkingMotionHoldSeconds = 0.125f;
+constexpr uint8_t FirstRoadTileId = 198;
+constexpr uint8_t EndRoadTileId = 234;
+constexpr uint8_t EndDirtTileId = 90;
 
 uint32_t currentAnimationTicks()
 {
@@ -114,6 +117,37 @@ PortraitId pickIdlePortrait(uint32_t sequenceValue)
 uint32_t pickNormalPortraitDurationTicks(uint32_t sequenceValue)
 {
     return 32u + (sequenceValue % 257u);
+}
+
+std::optional<uint8_t> sampleOutdoorTerrainTileId(const OutdoorMapData &outdoorMapData, float x, float y)
+{
+    if (outdoorMapData.tileMap.empty())
+    {
+        return std::nullopt;
+    }
+
+    const float gridX = 64.0f - (x / static_cast<float>(OutdoorMapData::TerrainTileSize));
+    const float gridY = 64.0f - (y / static_cast<float>(OutdoorMapData::TerrainTileSize));
+    const int tileX = std::clamp(static_cast<int>(std::floor(gridX)), 0, OutdoorMapData::TerrainWidth - 2);
+    const int tileY = std::clamp(static_cast<int>(std::floor(gridY)), 0, OutdoorMapData::TerrainHeight - 2);
+    const size_t tileIndex = static_cast<size_t>(tileY * OutdoorMapData::TerrainWidth + tileX);
+
+    if (tileIndex >= outdoorMapData.tileMap.size())
+    {
+        return std::nullopt;
+    }
+
+    return outdoorMapData.tileMap[tileIndex];
+}
+
+bool isRoadTerrainTileId(uint8_t tileId)
+{
+    return tileId >= FirstRoadTileId && tileId < EndRoadTileId;
+}
+
+bool isDirtTerrainTileId(uint8_t tileId)
+{
+    return tileId > 0 && tileId < EndDirtTileId;
 }
 
 bool portraitExpressionAllowedForCondition(
@@ -872,11 +906,24 @@ void OutdoorPresentationController::updateFootstepAudio(OutdoorGameView &view, f
         };
 
     const auto chooseTerrainFootstepSound =
-        [&view, running]() -> SoundId
+        [&view, running, &moveState]() -> SoundId
         {
             if (!view.m_outdoorMapData)
             {
                 return running ? SoundId::RunGround : SoundId::WalkGround;
+            }
+
+            if (const std::optional<uint8_t> tileId = sampleOutdoorTerrainTileId(*view.m_outdoorMapData, moveState.x, moveState.y))
+            {
+                if (isRoadTerrainTileId(*tileId))
+                {
+                    return running ? SoundId::RunRoad : SoundId::WalkRoad;
+                }
+
+                if (isDirtTerrainTileId(*tileId))
+                {
+                    return running ? SoundId::RunDirt : SoundId::WalkDirt;
+                }
             }
 
             const std::string tileset = toLowerCopy(view.m_outdoorMapData->groundTilesetName);
