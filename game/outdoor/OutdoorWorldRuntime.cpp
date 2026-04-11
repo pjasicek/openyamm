@@ -43,6 +43,8 @@ constexpr float HostilityMediumRange = 5120.0f;
 constexpr float HostilityLongRange = 10240.0f;
 constexpr float ActiveActorUpdateRange = 6144.0f;
 constexpr size_t MaxActiveActorUpdates = 48;
+constexpr uint32_t InactiveActorFidgetChancePercent = 5;
+constexpr float InactiveActorDecisionIntervalSeconds = 1.5f;
 constexpr float PeasantAggroRadius = 4096.0f;
 constexpr float FleeThresholdRange = 10240.0f;
 constexpr float PartyCollisionRadius = 37.0f;
@@ -2906,6 +2908,57 @@ void beginStandAwhile(OutdoorWorldRuntime::MapActorState &actor, bool bored)
     actor.animationTimeTicks = 0.0f;
 }
 
+void updateInactiveActorPresentation(
+    OutdoorWorldRuntime::MapActorState &actor,
+    float partyX,
+    float partyY)
+{
+    actor.aiState = OutdoorWorldRuntime::ActorAiState::Standing;
+    actor.moveDirectionX = 0.0f;
+    actor.moveDirectionY = 0.0f;
+    actor.velocityX = 0.0f;
+    actor.velocityY = 0.0f;
+    actor.velocityZ = 0.0f;
+    actor.hasDetectedParty = false;
+    actor.attackImpactTriggered = false;
+
+    const float deltaX = partyX - actor.preciseX;
+    const float deltaY = partyY - actor.preciseY;
+
+    if (std::abs(deltaX) > 0.01f || std::abs(deltaY) > 0.01f)
+    {
+        actor.yawRadians = std::atan2(deltaY, deltaX);
+    }
+
+    actor.animationTimeTicks += ActorUpdateStepSeconds * TicksPerSecond;
+    actor.actionSeconds = std::max(0.0f, actor.actionSeconds - ActorUpdateStepSeconds);
+    actor.idleDecisionSeconds = std::max(0.0f, actor.idleDecisionSeconds - ActorUpdateStepSeconds);
+
+    if (actor.animation == OutdoorWorldRuntime::ActorAnimation::Bored && actor.actionSeconds > 0.0f)
+    {
+        return;
+    }
+
+    actor.animation = OutdoorWorldRuntime::ActorAnimation::Standing;
+
+    if (actor.idleDecisionSeconds > 0.0f)
+    {
+        return;
+    }
+
+    const uint32_t decisionSeed =
+        static_cast<uint32_t>(actor.actorId + 1) * 1103515245u
+        + actor.idleDecisionCount * 2654435761u
+        + 0x7f4a7c15u;
+    ++actor.idleDecisionCount;
+    actor.idleDecisionSeconds = InactiveActorDecisionIntervalSeconds;
+
+    if ((decisionSeed % 100u) < InactiveActorFidgetChancePercent)
+    {
+        beginStandAwhile(actor, true);
+    }
+}
+
 bool beginIdleWander(
     OutdoorWorldRuntime::MapActorState &actor,
     uint32_t decisionSeed,
@@ -4731,15 +4784,7 @@ void OutdoorWorldRuntime::updateMapActors(float deltaSeconds, float partyX, floa
 
             if (!activeActorMask[actorIndex])
             {
-                actor.aiState = ActorAiState::Standing;
-                actor.animation = ActorAnimation::Standing;
-                actor.moveDirectionX = 0.0f;
-                actor.moveDirectionY = 0.0f;
-                actor.velocityX = 0.0f;
-                actor.velocityY = 0.0f;
-                actor.velocityZ = 0.0f;
-                actor.hasDetectedParty = false;
-                actor.attackImpactTriggered = false;
+                updateInactiveActorPresentation(actor, partyX, partyY);
                 continue;
             }
 

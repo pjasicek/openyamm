@@ -2331,7 +2331,9 @@ void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view
                     {
                         if (view.m_pGameAudioSystem != nullptr)
                         {
-                            view.m_pGameAudioSystem->playCommonSound(SoundId::ClickIn, GameAudioSystem::PlaybackGroup::Ui);
+                            view.m_pGameAudioSystem->playCommonSound(
+                                SoundId::WoodDoorClosing,
+                                GameAudioSystem::PlaybackGroup::Ui);
                         }
 
                         SDL_Event event = {};
@@ -2357,11 +2359,6 @@ void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view
                     view.m_menuScreen.quitConfirmationArmed = false;
                     view.m_menuScreen.bottomBarTextUseWhite = false;
                     view.m_menuScreen.bottomBarText.clear();
-
-                    if (view.m_pGameAudioSystem != nullptr)
-                    {
-                        view.m_pGameAudioSystem->playCommonSound(SoundId::ClickOut, GameAudioSystem::PlaybackGroup::Ui);
-                    }
 
                     view.closeMenu();
                     break;

@@ -1714,13 +1714,13 @@ void NewGameScreen::drawScreen(float deltaSeconds)
     }
     else if (voiceLeftState.clicked)
     {
-        playUiClickSound(SoundId::ClickIn);
+        playUiClickSound(SoundId::SelectingNewCharacter);
         cycleVoice(-1);
         playVoicePreview();
     }
     else if (voiceRightState.clicked)
     {
-        playUiClickSound(SoundId::ClickIn);
+        playUiClickSound(SoundId::SelectingNewCharacter);
         cycleVoice(1);
         playVoicePreview();
     }
@@ -1729,7 +1729,7 @@ void NewGameScreen::drawScreen(float deltaSeconds)
         endNameEditing(true);
         m_state.selectedVoiceId = static_cast<int>(pEntry->defaultVoiceId);
         m_state.statusMessage.clear();
-        playUiClickSound(SoundId::ClickIn);
+        playUiClickSound(SoundId::SelectingNewCharacter);
         playVoicePreview();
     }
 
@@ -2065,7 +2065,7 @@ void NewGameScreen::drawScreen(float deltaSeconds)
     }
     else if (cancelState.clicked)
     {
-        playUiClickSound(SoundId::ClickOut);
+        playUiClickSound(SoundId::ClickIn);
         cancelCreation();
         return;
     }

@@ -160,6 +160,8 @@ bool bypassSpeechCooldown(SpeechId speechId)
 {
     switch (speechId)
     {
+        case SpeechId::HelloDay:
+        case SpeechId::HelloEvening:
         case SpeechId::DamageMajor:
         case SpeechId::IdentifyWeakItem:
         case SpeechId::IdentifyGreatItem:
@@ -172,6 +174,19 @@ bool bypassSpeechCooldown(SpeechId speechId)
 
         default:
             return false;
+    }
+}
+
+uint32_t speechSpeakerKey(size_t memberIndex, SpeechId speechId)
+{
+    switch (speechId)
+    {
+        case SpeechId::HelloDay:
+        case SpeechId::HelloEvening:
+            return 0x80000000u;
+
+        default:
+            return static_cast<uint32_t>(memberIndex + 1);
     }
 }
 
@@ -583,7 +598,7 @@ void OutdoorPresentationController::playSpeechReaction(
             *pMember,
             speechId,
             nowTicks ^ static_cast<uint32_t>(memberIndex),
-            static_cast<uint32_t>(memberIndex + 1));
+            speechSpeakerKey(memberIndex, speechId));
     }
 
     if (speechPlayed)

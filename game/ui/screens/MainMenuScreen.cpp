@@ -301,14 +301,14 @@ void MainMenuScreen::drawScreen(float deltaSeconds)
 
     if (newGameButton.clicked && m_newGameAction)
     {
-        playUiClickSound(SoundId::ClickIn);
+        playUiClickSound(SoundId::SelectingNewCharacter);
         m_newGameAction();
         return;
     }
 
     if (loadGameButton.clicked && m_loadGameAction)
     {
-        playUiClickSound(SoundId::ClickIn);
+        playUiClickSound(SoundId::SelectingNewCharacter);
         m_loadGameAction();
         return;
     }
