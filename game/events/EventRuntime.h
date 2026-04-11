@@ -5,6 +5,7 @@
 #include "game/maps/MapDeltaData.h"
 #include "game/tables/PortraitFxEventTable.h"
 
+#include <array>
 #include <cstdint>
 #include <optional>
 #include <string>
@@ -132,6 +133,7 @@ struct EventRuntimeState
         uint32_t hostHouseId = 0;
         std::vector<DialogueMenuId> menuStack;
         std::optional<DialogueOfferState> currentOffer;
+        std::array<uint8_t, 4> templeDonationCounters = {};
     };
 
     struct ActiveDecorationContext

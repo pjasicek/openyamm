@@ -307,7 +307,22 @@ bool applyCompositeEventPartyBuff(Party &party, uint32_t spellId, uint32_t skill
             party.applyPartyBuff(PartyBuffId::Heroism, durationSeconds, power, spellId, skillLevel, mastery, 0);
             party.applyPartyBuff(PartyBuffId::Shield, durationSeconds, 0, spellId, skillLevel, mastery, 0);
             party.applyPartyBuff(PartyBuffId::Stoneskin, durationSeconds, power, spellId, skillLevel, mastery, 0);
-            party.applyPartyBuff(PartyBuffId::Haste, hasteDurationSeconds, 0, spellId, skillLevel, mastery, 0);
+
+            bool anyWeak = false;
+
+            for (const Character &member : party.members())
+            {
+                if (member.conditions.test(static_cast<size_t>(CharacterCondition::Weak)))
+                {
+                    anyWeak = true;
+                    break;
+                }
+            }
+
+            if (!anyWeak)
+            {
+                party.applyPartyBuff(PartyBuffId::Haste, hasteDurationSeconds, 0, spellId, skillLevel, mastery, 0);
+            }
 
             for (size_t memberIndex = 0; memberIndex < party.members().size(); ++memberIndex)
             {
@@ -336,6 +351,92 @@ bool applyCompositeEventPartyBuff(Party &party, uint32_t spellId, uint32_t skill
             party.applyPartyBuff(PartyBuffId::WaterWalk, durationSeconds, 0, spellId, skillLevel, mastery, 0);
             party.applyPartyBuff(PartyBuffId::FeatherFall, durationSeconds, 0, spellId, skillLevel, mastery, 0);
             return true;
+
+        default:
+            return false;
+    }
+}
+
+float resolveEventCharacterBuffDurationSeconds(uint32_t spellId, uint32_t skillLevel, SkillMastery mastery)
+{
+    switch (spellIdFromValue(spellId))
+    {
+        case SpellId::Bless:
+            return mastery == SkillMastery::Normal
+                ? secondsFromHours(1.0f) + secondsFromMinutes(static_cast<float>(5 * skillLevel))
+                : mastery == SkillMastery::Expert
+                ? secondsFromHours(1.0f) + secondsFromMinutes(static_cast<float>(5 * skillLevel))
+                : mastery == SkillMastery::Master
+                ? secondsFromHours(1.0f) + secondsFromMinutes(static_cast<float>(15 * skillLevel))
+                : secondsFromHours(1.0f + static_cast<float>(skillLevel));
+
+        case SpellId::Preservation:
+            return mastery == SkillMastery::Expert
+                ? secondsFromHours(1.0f) + secondsFromMinutes(static_cast<float>(5 * skillLevel))
+                : mastery == SkillMastery::Master
+                ? secondsFromHours(1.0f) + secondsFromMinutes(static_cast<float>(5 * skillLevel))
+                : mastery == SkillMastery::Grandmaster
+                ? secondsFromHours(1.0f) + secondsFromMinutes(static_cast<float>(15 * skillLevel))
+                : secondsFromHours(1.0f) + secondsFromMinutes(static_cast<float>(15 * skillLevel));
+
+        default:
+            return 0.0f;
+    }
+}
+
+bool tryApplyEventCharacterBuff(Party &party, uint32_t spellId, uint32_t skillLevel, uint32_t rawSkillMastery)
+{
+    const SkillMastery mastery = normalizeEventSkillMastery(rawSkillMastery);
+    const float durationSeconds = resolveEventCharacterBuffDurationSeconds(spellId, skillLevel, mastery);
+
+    if (durationSeconds <= 0.0f)
+    {
+        return false;
+    }
+
+    switch (spellIdFromValue(spellId))
+    {
+        case SpellId::Bless:
+            if (mastery == SkillMastery::Normal)
+            {
+                return false;
+            }
+
+            for (size_t memberIndex = 0; memberIndex < party.members().size(); ++memberIndex)
+            {
+                party.applyCharacterBuff(
+                    memberIndex,
+                    CharacterBuffId::Bless,
+                    durationSeconds,
+                    5 + static_cast<int>(skillLevel),
+                    spellId,
+                    skillLevel,
+                    mastery,
+                    0);
+            }
+
+            return true;
+
+        case SpellId::Preservation:
+            if (mastery == SkillMastery::Master || mastery == SkillMastery::Grandmaster)
+            {
+                for (size_t memberIndex = 0; memberIndex < party.members().size(); ++memberIndex)
+                {
+                    party.applyCharacterBuff(
+                        memberIndex,
+                        CharacterBuffId::Preservation,
+                        durationSeconds,
+                        0,
+                        spellId,
+                        skillLevel,
+                        mastery,
+                        0);
+                }
+
+                return true;
+            }
+
+            return false;
 
         default:
             return false;
@@ -4528,6 +4629,27 @@ int OutdoorWorldRuntime::currentHour() const
     }
 
     return currentHour;
+}
+
+int OutdoorWorldRuntime::currentLocationReputation() const
+{
+    if (m_pOutdoorMapDeltaData == nullptr)
+    {
+        return 0;
+    }
+
+    return m_pOutdoorMapDeltaData->locationInfo.reputation;
+}
+
+void OutdoorWorldRuntime::setCurrentLocationReputation(int reputation)
+{
+    if (m_pOutdoorMapDeltaData == nullptr)
+    {
+        return;
+    }
+
+    MapDeltaData *pMutableMapDeltaData = const_cast<MapDeltaData *>(m_pOutdoorMapDeltaData);
+    pMutableMapDeltaData->locationInfo.reputation = reputation;
 }
 
 const OutdoorWorldRuntime::AtmosphereState &OutdoorWorldRuntime::atmosphereState() const
@@ -8975,7 +9097,9 @@ bool OutdoorWorldRuntime::castEventSpell(
     int32_t toZ
 )
 {
-    if (m_pParty != nullptr && tryApplyEventPartyBuff(*m_pParty, spellId, skillLevel, skillMastery))
+    if (m_pParty != nullptr
+        && (tryApplyEventPartyBuff(*m_pParty, spellId, skillLevel, skillMastery)
+            || tryApplyEventCharacterBuff(*m_pParty, spellId, skillLevel, skillMastery)))
     {
         if (m_eventRuntimeState)
         {

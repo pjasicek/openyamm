@@ -457,6 +457,8 @@ public:
     float currentGameMinutes() const override;
     float gameMinutes() const;
     int currentHour() const;
+    int currentLocationReputation() const;
+    void setCurrentLocationReputation(int reputation);
     const OutdoorMapData *mapData() const;
     const AtmosphereState &atmosphereState() const;
     void advanceGameMinutes(float minutes);

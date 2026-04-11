@@ -3,6 +3,7 @@
 #include "game/tables/ClassSkillTable.h"
 #include "game/gameplay/HouseServiceRuntime.h"
 #include "game/outdoor/OutdoorWorldRuntime.h"
+#include "game/party/SpellIds.h"
 #include "game/party/Party.h"
 #include "game/items/PriceCalculator.h"
 #include "game/party/SkillData.h"
@@ -42,6 +43,83 @@ int dayOfWeekFromGameMinutes(float currentGameMinutes)
     }
 
     return day;
+}
+
+int dayOfMonthFromGameMinutes(float currentGameMinutes)
+{
+    const int totalMinutes = std::max(0, static_cast<int>(std::floor(currentGameMinutes)));
+    const int totalDays = totalMinutes / MinutesPerDay;
+    return 1 + totalDays % 28;
+}
+
+uint32_t templeSpellLevelFromGameMinutes(float currentGameMinutes)
+{
+    return static_cast<uint32_t>(dayOfMonthFromGameMinutes(currentGameMinutes) % 7 + 1);
+}
+
+int templeDonationTriggerIndexFromGameMinutes(float currentGameMinutes)
+{
+    return dayOfMonthFromGameMinutes(currentGameMinutes) % 7;
+}
+
+void castTempleDonationSpell(OutdoorWorldRuntime &outdoorWorldRuntime, uint32_t spellId, uint32_t spellLevel)
+{
+    outdoorWorldRuntime.castEventSpell(
+        spellId,
+        spellLevel,
+        static_cast<uint32_t>(SkillMastery::Master),
+        0,
+        0,
+        0,
+        0,
+        0,
+        0);
+}
+
+void tryApplyTempleDonationBuffs(
+    OutdoorWorldRuntime &outdoorWorldRuntime,
+    EventRuntimeState::DialogueRuntimeState &dialogueState,
+    size_t activeMemberIndex)
+{
+    if (activeMemberIndex >= dialogueState.templeDonationCounters.size())
+    {
+        return;
+    }
+
+    const uint8_t counter = dialogueState.templeDonationCounters[activeMemberIndex] % 7;
+
+    if (counter != templeDonationTriggerIndexFromGameMinutes(outdoorWorldRuntime.gameMinutes()))
+    {
+        return;
+    }
+
+    const uint32_t spellLevel = templeSpellLevelFromGameMinutes(outdoorWorldRuntime.gameMinutes());
+    const int reputation = outdoorWorldRuntime.currentLocationReputation();
+
+    if (reputation <= -5)
+    {
+        castTempleDonationSpell(outdoorWorldRuntime, spellIdValue(SpellId::Bless), spellLevel);
+    }
+
+    if (reputation <= -10)
+    {
+        castTempleDonationSpell(outdoorWorldRuntime, spellIdValue(SpellId::Preservation), spellLevel);
+    }
+
+    if (reputation <= -15)
+    {
+        castTempleDonationSpell(outdoorWorldRuntime, spellIdValue(SpellId::ProtectionFromMagic), spellLevel);
+    }
+
+    if (reputation <= -20)
+    {
+        castTempleDonationSpell(outdoorWorldRuntime, spellIdValue(SpellId::HourOfPower), spellLevel);
+    }
+
+    if (reputation <= -25)
+    {
+        castTempleDonationSpell(outdoorWorldRuntime, spellIdValue(SpellId::DayOfProtection), spellLevel);
+    }
 }
 
 std::string amPmSuffixForHour(int hour24)
@@ -747,10 +825,35 @@ HouseActionResult performHouseAction(
             if (party.gold() < price)
             {
                 result.messages.push_back("You need " + std::to_string(price) + " gold to donate here.");
+                result.soundType = HouseSoundType::GeneralNotEnoughGold;
                 return result;
             }
 
             party.addGold(-price);
+
+            if (pOutdoorWorldRuntime != nullptr)
+            {
+                if (pOutdoorWorldRuntime->currentLocationReputation() > -5)
+                {
+                    pOutdoorWorldRuntime->setCurrentLocationReputation(
+                        pOutdoorWorldRuntime->currentLocationReputation() - 1);
+                }
+
+                if (EventRuntimeState *pEventRuntimeState = pOutdoorWorldRuntime->eventRuntimeState())
+                {
+                    const size_t activeMemberIndex = party.activeMemberIndex();
+                    tryApplyTempleDonationBuffs(
+                        *pOutdoorWorldRuntime,
+                        pEventRuntimeState->dialogueState,
+                        activeMemberIndex);
+
+                    if (activeMemberIndex < pEventRuntimeState->dialogueState.templeDonationCounters.size())
+                    {
+                        ++pEventRuntimeState->dialogueState.templeDonationCounters[activeMemberIndex];
+                    }
+                }
+            }
+
             result.messages.push_back("Thank You");
             result.succeeded = true;
             return result;

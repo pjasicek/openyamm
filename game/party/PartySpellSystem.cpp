@@ -91,6 +91,19 @@ bool ruleHasExplicitRecovery(const BackendSpellRule &rule)
     return false;
 }
 
+bool anyPartyMemberWeak(const Party &party)
+{
+    for (const Character &member : party.members())
+    {
+        if (member.conditions.test(static_cast<size_t>(CharacterCondition::Weak)))
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 void appendAffectedCharacterIndex(std::vector<size_t> &indices, size_t memberIndex)
 {
     if (std::find(indices.begin(), indices.end(), memberIndex) == indices.end())
@@ -709,7 +722,19 @@ void applyCompositePartyBuff(
             party.applyPartyBuff(PartyBuffId::Heroism, durationSeconds, power, spellId, skillLevel, mastery, casterMemberIndex);
             party.applyPartyBuff(PartyBuffId::Shield, durationSeconds, 0, spellId, skillLevel, mastery, casterMemberIndex);
             party.applyPartyBuff(PartyBuffId::Stoneskin, durationSeconds, power, spellId, skillLevel, mastery, casterMemberIndex);
-            party.applyPartyBuff(PartyBuffId::Haste, hasteDurationSeconds, 0, spellId, skillLevel, mastery, casterMemberIndex);
+
+            if (!anyPartyMemberWeak(party))
+            {
+                party.applyPartyBuff(
+                    PartyBuffId::Haste,
+                    hasteDurationSeconds,
+                    0,
+                    spellId,
+                    skillLevel,
+                    mastery,
+                    casterMemberIndex);
+            }
+
             for (size_t memberIndex = 0; memberIndex < party.members().size(); ++memberIndex)
             {
                 party.applyCharacterBuff(
@@ -763,6 +788,8 @@ float resolveCharacterBuffDurationSeconds(uint32_t spellId, uint32_t skillLevel,
             return mastery == SkillMastery::Expert
                 ? secondsFromHours(1.0f) + secondsFromMinutes(static_cast<float>(5 * skillLevel))
                 : mastery == SkillMastery::Master
+                ? secondsFromHours(1.0f) + secondsFromMinutes(static_cast<float>(5 * skillLevel))
+                : mastery == SkillMastery::Grandmaster
                 ? secondsFromHours(1.0f) + secondsFromMinutes(static_cast<float>(15 * skillLevel))
                 : secondsFromHours(1.0f) + secondsFromMinutes(static_cast<float>(15 * skillLevel));
         case SpellId::FireAura:

@@ -17357,6 +17357,200 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
     );
 
     runCase(
+        "temple_donate_applies_oe_reputation_gating_and_buffs",
+        [&](std::string &failure)
+        {
+            RegressionScenario templeScenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, templeScenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            EventRuntimeState *pEventRuntimeState = templeScenario.pEventRuntimeState;
+            const HouseEntry *pTempleHouse = gameDataLoader.getHouseTable().get(74);
+
+            if (pEventRuntimeState == nullptr || pTempleHouse == nullptr)
+            {
+                failure = "missing temple house or event runtime state";
+                return false;
+            }
+
+            templeScenario.party.addGold(5000);
+            templeScenario.world.advanceGameMinutes(24.0f * 60.0f);
+            templeScenario.world.setCurrentLocationReputation(-25);
+
+            Character *pWeakMember = templeScenario.party.member(1);
+
+            if (pWeakMember == nullptr)
+            {
+                failure = "missing secondary party member";
+                return false;
+            }
+
+            pWeakMember->conditions.set(static_cast<size_t>(CharacterCondition::Weak));
+            const int donationPrice = std::max(
+                1,
+                static_cast<int>(std::round(pTempleHouse->priceMultiplier)));
+            const int initialGold = templeScenario.party.gold();
+
+            for (int donationIndex = 0; donationIndex < 3; ++donationIndex)
+            {
+                const HouseActionResult result = performHouseAction(
+                    HouseActionOption{HouseActionId::TempleDonate, "Donate", "", true, ""},
+                    *pTempleHouse,
+                    templeScenario.party,
+                    &gameDataLoader.getClassSkillTable(),
+                    &templeScenario.world);
+
+                if (!result.succeeded)
+                {
+                    failure = "temple donation failed";
+                    return false;
+                }
+
+                if (result.messages.size() != 1 || result.messages[0] != "Thank You")
+                {
+                    failure = "temple donation did not return the OE thank-you text";
+                    return false;
+                }
+            }
+
+            if (templeScenario.party.gold() != initialGold - donationPrice * 3)
+            {
+                failure = "temple donation did not deduct the expected amount of gold";
+                return false;
+            }
+
+            if (templeScenario.world.currentLocationReputation() != -25)
+            {
+                failure = "temple donation changed a reputation that was already at the OE floor";
+                return false;
+            }
+
+            if (pEventRuntimeState->dialogueState.templeDonationCounters[templeScenario.party.activeMemberIndex()] != 3)
+            {
+                failure = "temple donation did not advance the per-visit counter";
+                return false;
+            }
+
+            const PartyBuffState *pWizardEye = templeScenario.party.partyBuff(PartyBuffId::WizardEye);
+            const PartyBuffState *pFeatherFall = templeScenario.party.partyBuff(PartyBuffId::FeatherFall);
+            const PartyBuffState *pProtectionFromMagic =
+                templeScenario.party.partyBuff(PartyBuffId::ProtectionFromMagic);
+            const PartyBuffState *pHeroism = templeScenario.party.partyBuff(PartyBuffId::Heroism);
+            const PartyBuffState *pShield = templeScenario.party.partyBuff(PartyBuffId::Shield);
+            const PartyBuffState *pStoneskin = templeScenario.party.partyBuff(PartyBuffId::Stoneskin);
+            const PartyBuffState *pBodyResistance = templeScenario.party.partyBuff(PartyBuffId::BodyResistance);
+
+            if (pFeatherFall == nullptr
+                || !pFeatherFall->active()
+                || std::abs(pFeatherFall->remainingSeconds - 43200.0f) > 0.01f)
+            {
+                failure = "temple donation did not apply Day of Protection feather fall";
+                return false;
+            }
+
+            if (pWizardEye == nullptr
+                || !pWizardEye->active()
+                || std::abs(pWizardEye->remainingSeconds - 43200.0f) > 0.01f
+                || pWizardEye->power != 0)
+            {
+                failure = "temple donation did not preserve Day of Protection wizard eye";
+                return false;
+            }
+
+            if (pProtectionFromMagic == nullptr
+                || !pProtectionFromMagic->active()
+                || std::abs(pProtectionFromMagic->remainingSeconds - 10800.0f) > 0.01f
+                || pProtectionFromMagic->power != 3)
+            {
+                failure = "temple donation did not apply the OE Protection from Magic buff";
+                return false;
+            }
+
+            if (pHeroism == nullptr
+                || !pHeroism->active()
+                || std::abs(pHeroism->remainingSeconds - 14400.0f) > 0.01f
+                || pHeroism->power != 8)
+            {
+                failure = "temple donation did not apply the OE Hour of Power heroism buff";
+                return false;
+            }
+
+            if (pShield == nullptr || !pShield->active() || std::abs(pShield->remainingSeconds - 14400.0f) > 0.01f)
+            {
+                failure = "temple donation did not apply the OE Hour of Power shield buff";
+                return false;
+            }
+
+            if (pStoneskin == nullptr
+                || !pStoneskin->active()
+                || std::abs(pStoneskin->remainingSeconds - 14400.0f) > 0.01f
+                || pStoneskin->power != 8)
+            {
+                failure = "temple donation did not apply the OE Hour of Power stoneskin buff";
+                return false;
+            }
+
+            if (pBodyResistance == nullptr
+                || !pBodyResistance->active()
+                || std::abs(pBodyResistance->remainingSeconds - 43200.0f) > 0.01f
+                || pBodyResistance->power != 12)
+            {
+                failure = "temple donation did not apply the OE Day of Protection resist buff";
+                return false;
+            }
+
+            if (templeScenario.party.hasPartyBuff(PartyBuffId::Haste))
+            {
+                failure = "Hour of Power incorrectly applied Haste while a party member was Weak";
+                return false;
+            }
+
+            for (size_t memberIndex = 0; memberIndex < templeScenario.party.members().size(); ++memberIndex)
+            {
+                const CharacterBuffState *pBless =
+                    templeScenario.party.characterBuff(memberIndex, CharacterBuffId::Bless);
+                const CharacterBuffState *pPreservation =
+                    templeScenario.party.characterBuff(memberIndex, CharacterBuffId::Preservation);
+
+                if (pBless == nullptr
+                    || !pBless->active()
+                    || std::abs(pBless->remainingSeconds - 14400.0f) > 0.01f
+                    || pBless->power != 8)
+                {
+                    failure = "temple donation did not apply MM8 Bless as the first temple reward";
+                    return false;
+                }
+
+                if (pPreservation == nullptr
+                    || !pPreservation->active()
+                    || std::abs(pPreservation->remainingSeconds - 4500.0f) > 0.01f)
+                {
+                    failure = "temple donation did not apply OE Preservation to the whole party";
+                    return false;
+                }
+            }
+
+            if (pEventRuntimeState->spellFxRequests.size() != 5)
+            {
+                failure = "temple donation did not queue the expected spell FX sequence";
+                return false;
+            }
+
+            if (pEventRuntimeState->spellFxRequests[0].spellId != spellIdValue(SpellId::Bless))
+            {
+                failure = "temple donation did not queue Bless as the first temple spell";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
         "app_tavern_rent_room_closes_dialog_runs_rest_ui_and_wakes_at_6am",
         [&](std::string &failure)
         {

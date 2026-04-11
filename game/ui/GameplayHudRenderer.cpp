@@ -162,6 +162,7 @@ void GameplayHudRenderer::renderGameplayHudArt(OutdoorGameView &view, int width,
     const OutdoorGameView::HudTextureHandle *pAggroRed = HudUiService::ensureHudTextureLoaded(view, "statR");
     const OutdoorGameView::HudTextureHandle *pAggroYellow = HudUiService::ensureHudTextureLoaded(view, "statY");
     const OutdoorGameView::HudTextureHandle *pAggroGreen = HudUiService::ensureHudTextureLoaded(view, "statG");
+    const OutdoorGameView::HudTextureHandle *pBlessIcon = HudUiService::ensureHudTextureLoaded(view, "IB_spelico");
     const Party &party = view.m_pOutdoorPartyRuntime->party();
     const std::vector<Character> &members = party.members();
 
@@ -546,6 +547,16 @@ void GameplayHudRenderer::renderGameplayHudArt(OutdoorGameView &view, int width,
             const float barFrameWidth = pManaFrame->width * uiScale;
             const float barFrameHeight = pManaFrame->height * uiScale;
             const float barFrameY = basebarY + basebarHeight - barFrameHeight - partyStripHeight * (1.0f / 92.0f);
+
+            if (pBlessIcon != nullptr && party.hasCharacterBuff(memberIndex, CharacterBuffId::Bless))
+            {
+                const float blessIconWidth = static_cast<float>(pBlessIcon->width) * uiScale;
+                const float blessIconHeight = static_cast<float>(pBlessIcon->height) * uiScale;
+                const float blessIconX = barFrameX - blessIconWidth - uiScale;
+                const float blessIconY = portraitY + portraitHeight - blessIconHeight + 3.0f * uiScale;
+                submitTexturedQuad(*pBlessIcon, blessIconX, blessIconY, blessIconWidth, blessIconHeight);
+            }
+
             submitTexturedQuad(*pManaFrame, barFrameX, barFrameY, barFrameWidth, barFrameHeight);
 
             const float fillHeight = 49.0f * uiScale;
