@@ -835,7 +835,7 @@ void OutdoorBillboardRenderer::renderDecorationBillboards(
     const float cosPitch = std::cos(view.m_cameraPitchRadians);
     const bx::Vec3 cameraForward = {
         std::cos(view.m_cameraYawRadians) * cosPitch,
-        -std::sin(view.m_cameraYawRadians) * cosPitch,
+        std::sin(view.m_cameraYawRadians) * cosPitch,
         std::sin(view.m_cameraPitchRadians)
     };
     const uint32_t animationTimeTicks = currentAnimationTicks();
@@ -875,7 +875,7 @@ void OutdoorBillboardRenderer::renderDecorationBillboards(
             continue;
         }
 
-        const float baseX = static_cast<float>(-billboard.x);
+        const float baseX = static_cast<float>(billboard.x);
         const float baseY = static_cast<float>(billboard.y);
         const float baseZ = static_cast<float>(billboard.z);
         const float deltaX = baseX - cameraPosition.x;
@@ -905,8 +905,8 @@ void OutdoorBillboardRenderer::renderDecorationBillboards(
 
         const float facingRadians = static_cast<float>(billboard.facing) * Pi / 180.0f;
         const float angleToCamera = std::atan2(
-            static_cast<float>(-billboard.x) - cameraPosition.x,
-            static_cast<float>(billboard.y) - cameraPosition.y);
+            static_cast<float>(billboard.y) - cameraPosition.y,
+            static_cast<float>(billboard.x) - cameraPosition.x);
         const float octantAngle = facingRadians - angleToCamera + Pi + (Pi / 8.0f);
         const int octant = static_cast<int>(std::floor(octantAngle / (Pi / 4.0f))) & 7;
         const ResolvedSpriteTexture resolvedTexture = SpriteFrameTable::resolveTexture(*pFrame, octant);
@@ -982,7 +982,7 @@ void OutdoorBillboardRenderer::renderDecorationBillboards(
             const float worldHeight = static_cast<float>(pTexture->height) * spriteScale;
             const float halfWidth = worldWidth * 0.5f;
             const bx::Vec3 center = {
-                static_cast<float>(-billboard.x),
+                static_cast<float>(billboard.x),
                 static_cast<float>(billboard.y),
                 static_cast<float>(billboard.z) + worldHeight * 0.5f
             };
@@ -1041,7 +1041,7 @@ void OutdoorBillboardRenderer::renderActorPreviewBillboards(
     const float cosPitch = std::cos(view.m_cameraPitchRadians);
     const bx::Vec3 cameraForward = {
         std::cos(view.m_cameraYawRadians) * cosPitch,
-        -std::sin(view.m_cameraYawRadians) * cosPitch,
+        std::sin(view.m_cameraYawRadians) * cosPitch,
         std::sin(view.m_cameraPitchRadians)
     };
     const uint32_t animationTimeTicks = currentAnimationTicks();
@@ -1159,9 +1159,9 @@ void OutdoorBillboardRenderer::renderActorPreviewBillboards(
             }
 
             const float angleToCamera = std::atan2(
-                static_cast<float>(actorX) - cameraPosition.x,
-                static_cast<float>(actorY) - cameraPosition.y);
-            const float actorYaw = pRuntimeActor != nullptr ? ((Pi * 0.5f) - pRuntimeActor->yawRadians) : 0.0f;
+                static_cast<float>(actorY) - cameraPosition.y,
+                static_cast<float>(actorX) - cameraPosition.x);
+            const float actorYaw = pRuntimeActor != nullptr ? pRuntimeActor->yawRadians : 0.0f;
             const float octantAngle = actorYaw - angleToCamera + Pi + (Pi / 8.0f);
             const int octant = static_cast<int>(std::floor(octantAngle / (Pi / 4.0f))) & 7;
             const ResolvedSpriteTexture resolvedTexture = SpriteFrameTable::resolveTexture(*pFrame, octant);
@@ -1220,7 +1220,7 @@ void OutdoorBillboardRenderer::renderActorPreviewBillboards(
                 continue;
             }
 
-            const float deltaX = static_cast<float>(-billboard.x) - cameraPosition.x;
+            const float deltaX = static_cast<float>(billboard.x) - cameraPosition.x;
             const float deltaY = static_cast<float>(billboard.y) - cameraPosition.y;
             const float deltaZ = static_cast<float>(billboard.z) - cameraPosition.z;
             const float distanceSquared = deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ;
@@ -1243,8 +1243,8 @@ void OutdoorBillboardRenderer::renderActorPreviewBillboards(
 
             const float facingRadians = static_cast<float>(billboard.facing) * Pi / 180.0f;
             const float angleToCamera = std::atan2(
-                static_cast<float>(-billboard.x) - cameraPosition.x,
-                static_cast<float>(billboard.y) - cameraPosition.y);
+                static_cast<float>(billboard.y) - cameraPosition.y,
+                static_cast<float>(billboard.x) - cameraPosition.x);
             const float octantAngle = facingRadians - angleToCamera + Pi + (Pi / 8.0f);
             const int octant = static_cast<int>(std::floor(octantAngle / (Pi / 4.0f))) & 7;
             const ResolvedSpriteTexture resolvedTexture = SpriteFrameTable::resolveTexture(*pFrame, octant);
@@ -1259,7 +1259,7 @@ void OutdoorBillboardRenderer::renderActorPreviewBillboards(
             drawItem.pFrame = pFrame;
             drawItem.pTexture = pTexture;
             drawItem.mirrored = resolvedTexture.mirrored;
-            drawItem.x = static_cast<float>(-billboard.x);
+            drawItem.x = static_cast<float>(billboard.x);
             drawItem.y = static_cast<float>(billboard.y);
             drawItem.z = static_cast<float>(billboard.z);
             drawItem.heightScale = 1.0f;
@@ -1281,7 +1281,7 @@ void OutdoorBillboardRenderer::renderActorPreviewBillboards(
             }
 
             const OutdoorWorldRuntime::MapActorState *pRuntimeActor = OutdoorInteractionController::runtimeActorStateForBillboard(view, billboard);
-            const int actorX = pRuntimeActor != nullptr ? pRuntimeActor->x : -billboard.x;
+            const int actorX = pRuntimeActor != nullptr ? pRuntimeActor->x : billboard.x;
             const int actorY = pRuntimeActor != nullptr ? pRuntimeActor->y : billboard.y;
             const int actorZ = pRuntimeActor != nullptr ? pRuntimeActor->z : billboard.z;
             const uint16_t actorRadius = pRuntimeActor != nullptr ? pRuntimeActor->radius : billboard.radius;
@@ -2011,7 +2011,7 @@ void OutdoorBillboardRenderer::renderSpriteObjectBillboards(
             continue;
         }
 
-        const float deltaX = static_cast<float>(-billboard.x) - cameraPosition.x;
+        const float deltaX = static_cast<float>(billboard.x) - cameraPosition.x;
         const float deltaY = static_cast<float>(billboard.y) - cameraPosition.y;
         const float deltaZ = static_cast<float>(billboard.z) - cameraPosition.z;
 
@@ -2042,7 +2042,7 @@ void OutdoorBillboardRenderer::renderSpriteObjectBillboards(
         const float worldHeight = static_cast<float>(texture.height) * spriteScale;
         const float halfWidth = worldWidth * 0.5f;
         const bx::Vec3 center = {
-            static_cast<float>(-billboard.x),
+            static_cast<float>(billboard.x),
             static_cast<float>(billboard.y),
             static_cast<float>(billboard.z) + worldHeight * 0.5f
         };

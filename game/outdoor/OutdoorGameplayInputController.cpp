@@ -2568,12 +2568,12 @@ void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view
     const float sinYaw = std::sin(view.m_cameraYawRadians);
     const bx::Vec3 forward = {
         cosYaw,
-        -sinYaw,
+        sinYaw,
         0.0f
     };
     const bx::Vec3 right = {
         sinYaw,
-        cosYaw,
+        -cosYaw,
         0.0f
     };
 

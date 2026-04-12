@@ -161,8 +161,8 @@ bool bboxIntersects(
 
 bool terrainSlopeTooHigh(const OutdoorMapData &outdoorMapData, float x, float y)
 {
-    const float gridXFloat = 64.0f - (x / static_cast<float>(OutdoorMapData::TerrainTileSize));
-    const float gridYFloat = 64.0f - (y / static_cast<float>(OutdoorMapData::TerrainTileSize));
+    const float gridXFloat = outdoorWorldToGridXFloat(x);
+    const float gridYFloat = outdoorWorldToGridYFloat(y);
     const int gridX = std::clamp(static_cast<int>(std::floor(gridXFloat)), 0, OutdoorMapData::TerrainWidth - 2);
     const int gridY = std::clamp(static_cast<int>(std::floor(gridYFloat)), 0, OutdoorMapData::TerrainHeight - 2);
     const size_t index00 = static_cast<size_t>(gridY * OutdoorMapData::TerrainWidth + gridX);
@@ -174,10 +174,8 @@ bool terrainSlopeTooHigh(const OutdoorMapData &outdoorMapData, float x, float y)
     const int z10 = static_cast<int>(outdoorMapData.heightMap[index10]) * OutdoorMapData::TerrainHeightScale;
     const int z11 = static_cast<int>(outdoorMapData.heightMap[index11]) * OutdoorMapData::TerrainHeightScale;
 
-    const float tileMinWorldX =
-        static_cast<float>((64 - gridX - 1) * OutdoorMapData::TerrainTileSize);
-    const float tileTopWorldY =
-        static_cast<float>((64 - gridY) * OutdoorMapData::TerrainTileSize);
+    const float tileMinWorldX = outdoorGridCornerWorldX(gridX);
+    const float tileTopWorldY = outdoorGridCornerWorldY(gridY);
     const int dx = static_cast<int>(std::clamp(x - tileMinWorldX, 0.0f, 511.999f));
     const int dy = static_cast<int>(std::clamp(tileTopWorldY - y, 0.0f, 511.999f));
     int triangleZ1 = 0;
@@ -209,8 +207,8 @@ bool isOutdoorLandMaskWater(const std::optional<std::vector<uint8_t>> &outdoorLa
         return false;
     }
 
-    const float gridX = 64.0f - (x / static_cast<float>(OutdoorMapData::TerrainTileSize));
-    const float gridY = 64.0f - (y / static_cast<float>(OutdoorMapData::TerrainTileSize));
+    const float gridX = outdoorWorldToGridXFloat(x);
+    const float gridY = outdoorWorldToGridYFloat(y);
     const int tileX = std::clamp(static_cast<int>(std::floor(gridX)), 0, OutdoorMapData::TerrainWidth - 2);
     const int tileY = std::clamp(static_cast<int>(std::floor(gridY)), 0, OutdoorMapData::TerrainHeight - 2);
     const int landMaskWidth = OutdoorMapData::TerrainWidth - 1;
@@ -2445,7 +2443,6 @@ void OutdoorMovementController::buildFaceCache()
                 continue;
             }
 
-            geometry.normal = vecScale(geometry.normal, -1.0f);
             m_faces.push_back(std::move(geometry));
             const uint64_t faceId =
                 (static_cast<uint64_t>(bModelIndex) << 32) | static_cast<uint32_t>(faceIndex);

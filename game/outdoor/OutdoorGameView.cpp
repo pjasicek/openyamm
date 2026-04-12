@@ -429,7 +429,7 @@ void updateOutdoorJournalRevealMask(
 
     const OutdoorMoveState &moveState = partyRuntime.movementState();
     const float centerU = std::clamp(
-        (-moveState.x + JournalMapWorldHalfExtent) / (JournalMapWorldHalfExtent * 2.0f),
+        (moveState.x + JournalMapWorldHalfExtent) / (JournalMapWorldHalfExtent * 2.0f),
         0.0f,
         0.999999f);
     const float centerV = std::clamp(
@@ -2559,6 +2559,7 @@ struct OutdoorPartyStartPoint
     float x = 0.0f;
     float y = 0.0f;
     float z = 0.0f;
+    std::optional<float> yawRadians;
 };
 
 struct ParsedHudFontGlyphMetrics
@@ -2790,9 +2791,10 @@ std::optional<OutdoorPartyStartPoint> resolveOutdoorPartyStartPoint(
         }
 
         OutdoorPartyStartPoint startPoint = {};
-        startPoint.x = static_cast<float>(-entity.x);
+        startPoint.x = static_cast<float>(entity.x);
         startPoint.y = static_cast<float>(entity.y);
         startPoint.z = static_cast<float>(entity.z);
+        startPoint.yawRadians = static_cast<float>(entity.facing) * Pi / 180.0f;
         return startPoint;
     }
 
@@ -3544,23 +3546,23 @@ std::optional<float> intersectOutdoorTerrainRay(
                 static_cast<size_t>((gridY + 1) * OutdoorMapData::TerrainWidth + (gridX + 1));
 
             const bx::Vec3 topLeft = {
-                static_cast<float>((64 - gridX) * OutdoorMapData::TerrainTileSize),
-                static_cast<float>((64 - gridY) * OutdoorMapData::TerrainTileSize),
+                outdoorGridCornerWorldX(gridX),
+                outdoorGridCornerWorldY(gridY),
                 static_cast<float>(outdoorMapData.heightMap[topLeftIndex] * OutdoorMapData::TerrainHeightScale)
             };
             const bx::Vec3 topRight = {
-                static_cast<float>((64 - (gridX + 1)) * OutdoorMapData::TerrainTileSize),
-                static_cast<float>((64 - gridY) * OutdoorMapData::TerrainTileSize),
+                outdoorGridCornerWorldX(gridX + 1),
+                outdoorGridCornerWorldY(gridY),
                 static_cast<float>(outdoorMapData.heightMap[topRightIndex] * OutdoorMapData::TerrainHeightScale)
             };
             const bx::Vec3 bottomLeft = {
-                static_cast<float>((64 - gridX) * OutdoorMapData::TerrainTileSize),
-                static_cast<float>((64 - (gridY + 1)) * OutdoorMapData::TerrainTileSize),
+                outdoorGridCornerWorldX(gridX),
+                outdoorGridCornerWorldY(gridY + 1),
                 static_cast<float>(outdoorMapData.heightMap[bottomLeftIndex] * OutdoorMapData::TerrainHeightScale)
             };
             const bx::Vec3 bottomRight = {
-                static_cast<float>((64 - (gridX + 1)) * OutdoorMapData::TerrainTileSize),
-                static_cast<float>((64 - (gridY + 1)) * OutdoorMapData::TerrainTileSize),
+                outdoorGridCornerWorldX(gridX + 1),
+                outdoorGridCornerWorldY(gridY + 1),
                 static_cast<float>(outdoorMapData.heightMap[bottomRightIndex] * OutdoorMapData::TerrainHeightScale)
             };
 
@@ -4004,6 +4006,7 @@ bool OutdoorGameView::initialize(
     float initialX = 0.0f;
     float initialY = 0.0f;
     float initialFootZ = centerHeightWorld;
+    std::optional<float> initialYawRadians;
 
     if (const std::optional<OutdoorPartyStartPoint> startPoint =
             resolveOutdoorPartyStartPoint(assetFileSystem, outdoorMapData))
@@ -4011,6 +4014,7 @@ bool OutdoorGameView::initialize(
         initialX = startPoint->x;
         initialY = startPoint->y;
         initialFootZ = startPoint->z;
+        initialYawRadians = startPoint->yawRadians;
     }
 
     m_cameraTargetX = initialX;
@@ -4027,7 +4031,7 @@ bool OutdoorGameView::initialize(
     {
         m_cameraTargetZ = initialFootZ + m_cameraEyeHeight;
     }
-    m_cameraYawRadians = -Pi * 0.5f;
+    m_cameraYawRadians = initialYawRadians.value_or(-Pi * 0.5f);
     m_cameraPitchRadians = -0.15f;
     m_cameraDistance = 0.0f;
     m_cameraOrthoScale = 1.2f;
@@ -4339,18 +4343,24 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
     };
     const bx::Vec3 wireframeAt = {
         m_cameraTargetX + cosYaw * cosPitch,
-        m_cameraTargetY - sinYaw * cosPitch,
+        m_cameraTargetY + sinYaw * cosPitch,
         m_cameraTargetZ + sinPitch
     };
     const bx::Vec3 wireframeUp = {0.0f, 0.0f, 1.0f};
-    bx::mtxLookAt(wireframeViewMatrix, wireframeEye, wireframeAt, wireframeUp);
+    bx::mtxLookAt(
+        wireframeViewMatrix,
+        wireframeEye,
+        wireframeAt,
+        wireframeUp,
+        bx::Handedness::Right);
     bx::mtxProj(
         wireframeProjectionMatrix,
         CameraVerticalFovDegrees,
         wireframeAspectRatio,
         0.1f,
         farClipDistance,
-        bgfx::getCaps()->homogeneousDepth
+        bgfx::getCaps()->homogeneousDepth,
+        bx::Handedness::Right
     );
 
     const bx::Vec3 cameraForward = vecNormalize(vecSubtract(wireframeAt, wireframeEye));
@@ -5069,7 +5079,7 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
                             const float sourceZ = moveState.footZ + 96.0f;
                             bx::Vec3 rangedTarget = {
                                 sourceX + std::cos(m_cameraYawRadians) * 5120.0f,
-                                sourceY - std::sin(m_cameraYawRadians) * 5120.0f,
+                                sourceY + std::sin(m_cameraYawRadians) * 5120.0f,
                                 sourceZ + std::sin(m_cameraPitchRadians) * 5120.0f
                             };
 
@@ -5647,10 +5657,10 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
 
                         frameTimeTicks = static_cast<uint32_t>(std::max(0.0f, pActorState->animationTimeTicks));
                         const float angleToCamera = std::atan2(
-                            static_cast<float>(pActorState->x) - wireframeEye.x,
-                            static_cast<float>(pActorState->y) - wireframeEye.y
+                            static_cast<float>(pActorState->y) - wireframeEye.y,
+                            static_cast<float>(pActorState->x) - wireframeEye.x
                         );
-                        const float actorYaw = (Pi * 0.5f) - pActorState->yawRadians;
+                        const float actorYaw = pActorState->yawRadians;
                         const float octantAngle = actorYaw - angleToCamera + Pi + (Pi / 8.0f);
                         octant = static_cast<int>(std::floor(octantAngle / (Pi / 4.0f))) & 7;
 
@@ -6980,18 +6990,19 @@ void OutdoorGameView::updateItemInspectOverlayState(int width, int height)
                 };
                 const bx::Vec3 at = {
                     m_cameraTargetX + cosYaw * cosPitch,
-                    m_cameraTargetY - sinYaw * cosPitch,
+                    m_cameraTargetY + sinYaw * cosPitch,
                     m_cameraTargetZ + sinPitch
                 };
                 const bx::Vec3 up = {0.0f, 0.0f, 1.0f};
-                bx::mtxLookAt(viewMatrix, eye, at, up);
+                bx::mtxLookAt(viewMatrix, eye, at, up, bx::Handedness::Right);
                 bx::mtxProj(
                     projectionMatrix,
                     CameraVerticalFovDegrees,
                     aspectRatio,
                     0.1f,
                     200000.0f,
-                    bgfx::getCaps()->homogeneousDepth
+                    bgfx::getCaps()->homogeneousDepth,
+                    bx::Handedness::Right
                 );
 
                 const float normalizedMouseX = ((mouseX / static_cast<float>(viewWidth)) * 2.0f) - 1.0f;
@@ -10153,7 +10164,7 @@ std::optional<bx::Vec3> OutdoorGameView::resolvePendingSpellGroundTargetPoint(co
         const float cosPitch = std::cos(m_cameraPitchRadians);
         const bx::Vec3 rayDirection = {
             std::cos(m_cameraYawRadians) * cosPitch,
-            -std::sin(m_cameraYawRadians) * cosPitch,
+            std::sin(m_cameraYawRadians) * cosPitch,
             std::sin(m_cameraPitchRadians)
         };
         const std::optional<float> terrainDistance =
@@ -10480,18 +10491,19 @@ void OutdoorGameView::updateActorInspectOverlayState(int width, int height)
         };
         const bx::Vec3 at = {
             m_cameraTargetX + cosYaw * cosPitch,
-            m_cameraTargetY - sinYaw * cosPitch,
+            m_cameraTargetY + sinYaw * cosPitch,
             m_cameraTargetZ + sinPitch
         };
         const bx::Vec3 up = {0.0f, 0.0f, 1.0f};
-        bx::mtxLookAt(viewMatrix, eye, at, up);
+        bx::mtxLookAt(viewMatrix, eye, at, up, bx::Handedness::Right);
         bx::mtxProj(
             projectionMatrix,
             CameraVerticalFovDegrees,
             aspectRatio,
             0.1f,
             200000.0f,
-            bgfx::getCaps()->homogeneousDepth
+            bgfx::getCaps()->homogeneousDepth,
+            bx::Handedness::Right
         );
 
         const float normalizedMouseX = ((mouseX / static_cast<float>(viewWidth)) * 2.0f) - 1.0f;
@@ -10552,18 +10564,19 @@ void OutdoorGameView::updateActorInspectOverlayState(int width, int height)
     };
     const bx::Vec3 at = {
         m_cameraTargetX + cosYaw * cosPitch,
-        m_cameraTargetY - sinYaw * cosPitch,
+        m_cameraTargetY + sinYaw * cosPitch,
         m_cameraTargetZ + sinPitch
     };
     const bx::Vec3 up = {0.0f, 0.0f, 1.0f};
-    bx::mtxLookAt(viewMatrix, eye, at, up);
+    bx::mtxLookAt(viewMatrix, eye, at, up, bx::Handedness::Right);
     bx::mtxProj(
         projectionMatrix,
         CameraVerticalFovDegrees,
         aspectRatio,
         0.1f,
         200000.0f,
-        bgfx::getCaps()->homogeneousDepth
+        bgfx::getCaps()->homogeneousDepth,
+        bx::Handedness::Right
     );
     float viewProjectionMatrix[16] = {};
     bx::mtxMul(viewProjectionMatrix, viewMatrix, projectionMatrix);

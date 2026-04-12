@@ -38,6 +38,7 @@
 
 #include <SDL3/SDL.h>
 
+#include <fstream>
 #include <algorithm>
 #include <array>
 #include <cmath>
@@ -389,8 +390,8 @@ bool isOutdoorLandMaskWaterForDiagnostics(
         return false;
     }
 
-    const float gridX = 64.0f - (x / static_cast<float>(OutdoorMapData::TerrainTileSize));
-    const float gridY = 64.0f - (y / static_cast<float>(OutdoorMapData::TerrainTileSize));
+    const float gridX = outdoorWorldToGridXFloat(x);
+    const float gridY = outdoorWorldToGridYFloat(y);
     const int tileX = std::clamp(static_cast<int>(std::floor(gridX)), 0, OutdoorMapData::TerrainWidth - 2);
     const int tileY = std::clamp(static_cast<int>(std::floor(gridY)), 0, OutdoorMapData::TerrainHeight - 2);
     const int landMaskWidth = OutdoorMapData::TerrainWidth - 1;
@@ -959,9 +960,9 @@ std::string resolveRuntimeActorTextureKey(
     }
 
     const float angleToCamera = std::atan2(
-        static_cast<float>(actorState.x) - cameraX,
-        static_cast<float>(actorState.y) - cameraY);
-    const float actorYaw = (Pi * 0.5f) - actorState.yawRadians;
+        static_cast<float>(actorState.y) - cameraY,
+        static_cast<float>(actorState.x) - cameraX);
+    const float actorYaw = actorState.yawRadians;
     const float octantAngle = actorYaw - angleToCamera + Pi + (Pi / 8.0f);
     const int octant = static_cast<int>(std::floor(octantAngle / (Pi / 4.0f))) & 7;
     const ResolvedSpriteTexture resolvedTexture = SpriteFrameTable::resolveTexture(*pFrame, octant);
@@ -3095,7 +3096,7 @@ int HeadlessOutdoorDiagnostics::runDumpActorSupport(
     }
 
     const MapDeltaActor &rawActor = selectedMap->outdoorMapDeltaData->actors[actorIndex];
-    const float worldX = static_cast<float>(-rawActor.x);
+    const float worldX = static_cast<float>(rawActor.x);
     const float worldY = static_cast<float>(rawActor.y);
     const float worldZ = static_cast<float>(rawActor.z);
     const float terrainHeight = sampleOutdoorTerrainHeight(*selectedMap->outdoorMapData, worldX, worldY);
@@ -6534,7 +6535,7 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
             }
 
             const MapDeltaActor &rawActor = selectedMap->outdoorMapDeltaData->actors[51];
-            const float worldX = static_cast<float>(-rawActor.x);
+            const float worldX = static_cast<float>(rawActor.x);
             const float worldY = static_cast<float>(rawActor.y);
             const float terrainHeight = sampleOutdoorTerrainHeight(*selectedMap->outdoorMapData, worldX, worldY);
             const float placementHeight = sampleOutdoorPlacementFloorHeight(
@@ -18180,9 +18181,9 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
                 return false;
             }
 
-            const float expectedYawRadians = -135.0f * 3.14159265358979323846f / 180.0f;
+            const float expectedYawRadians = 135.0f * 3.14159265358979323846f / 180.0f;
 
-            if (std::abs(GameApplicationTestAccess::cameraYawRadians(application) - expectedYawRadians) > 0.0001f)
+            if (angleDistanceRadians(GameApplicationTestAccess::cameraYawRadians(application), expectedYawRadians) > 0.0001f)
             {
                 failure = "transport map move did not apply the arrival heading";
                 return false;
@@ -18248,18 +18249,203 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
 
             const OutdoorMoveState &moveState = pPartyRuntime->movementState();
 
-            if (std::abs(moveState.x - 15104.0f) > 0.01f
+            if (std::abs(moveState.x - (-15104.0f)) > 0.01f
                 || std::abs(moveState.y - (-22200.0f)) > 0.01f)
             {
                 failure = "explicit outdoor pending map move did not apply the expected arrival position";
                 return false;
             }
 
-            const float expectedYawRadians = -180.0f * 3.14159265358979323846f / 180.0f;
+            const float expectedYawRadians = 180.0f * 3.14159265358979323846f / 180.0f;
 
-            if (std::abs(GameApplicationTestAccess::cameraYawRadians(application) - expectedYawRadians) > 0.0001f)
+            if (angleDistanceRadians(GameApplicationTestAccess::cameraYawRadians(application), expectedYawRadians) > 0.0001f)
             {
                 failure = "explicit outdoor pending map move did not apply the arrival heading";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "outdoor_scene_start_uses_authored_party_start_facing",
+        [&](std::string &failure)
+        {
+            GameApplication application(m_config);
+
+            if (!initializeHeadlessGameApplication(
+                    "out01.odm",
+                    assetFileSystem,
+                    application,
+                    failure))
+            {
+                return false;
+            }
+
+            GameApplicationTestAccess::shutdownRenderer(application);
+
+            if (!GameApplicationTestAccess::initializeSelectedMapRuntime(application, true))
+            {
+                failure = "could not initialize gameplay view";
+                return false;
+            }
+
+            if (angleDistanceRadians(GameApplicationTestAccess::cameraYawRadians(application), 0.0f) > 0.0001f)
+            {
+                failure = "outdoor startup did not use the authored party start facing";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "outdoor_scene_forward_motion_follows_positive_world_yaw",
+        [&](std::string &failure)
+        {
+            GameApplication application(m_config);
+
+            if (!initializeHeadlessGameApplication(
+                    "out01.odm",
+                    assetFileSystem,
+                    application,
+                    failure))
+            {
+                return false;
+            }
+
+            GameApplicationTestAccess::shutdownRenderer(application);
+
+            if (!GameApplicationTestAccess::initializeSelectedMapRuntime(application, true))
+            {
+                failure = "could not initialize gameplay view";
+                return false;
+            }
+
+            OutdoorPartyRuntime *pPartyRuntime = GameApplicationTestAccess::outdoorPartyRuntime(application);
+
+            if (pPartyRuntime == nullptr)
+            {
+                failure = "missing outdoor party runtime";
+                return false;
+            }
+
+            const OutdoorMoveState startState = pPartyRuntime->movementState();
+            const OutdoorMovementInput forwardInput = {
+                true,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                0.0f
+            };
+
+            GameApplicationTestAccess::setCameraAngles(application, 0.0f, 0.0f);
+            GameApplicationTestAccess::advanceOutdoorSceneFrame(application, forwardInput, 0.1f);
+            const OutdoorMoveState eastState = pPartyRuntime->movementState();
+
+            if (eastState.x <= startState.x + 1.0f || std::abs(eastState.y - startState.y) > 64.0f)
+            {
+                failure = "forward movement at yaw 0 did not move east in world space";
+                return false;
+            }
+
+            pPartyRuntime->teleportTo(startState.x, startState.y, startState.footZ);
+
+            OutdoorMovementInput northInput = forwardInput;
+            northInput.yawRadians = 3.14159265358979323846f * 0.5f;
+            GameApplicationTestAccess::setCameraAngles(application, 3.14159265358979323846f * 0.5f, 0.0f);
+            GameApplicationTestAccess::advanceOutdoorSceneFrame(application, northInput, 0.1f);
+            const OutdoorMoveState northState = pPartyRuntime->movementState();
+
+            if (northState.y <= startState.y + 1.0f || std::abs(northState.x - startState.x) > 64.0f)
+            {
+                failure = "forward movement at yaw +pi/2 did not move north in world space";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "outdoor_support_floor_resolves_the_windling_at_original_coordinates",
+        [&](std::string &failure)
+        {
+            GameApplication application(m_config);
+
+            if (!initializeHeadlessGameApplication(
+                    "out01.odm",
+                    assetFileSystem,
+                    application,
+                    failure))
+            {
+                return false;
+            }
+
+            const std::optional<MapAssetInfo> &loadedMap = GameApplicationTestAccess::gameDataLoader(application).getSelectedMap();
+
+            if (!loadedMap || !loadedMap->outdoorMapData)
+            {
+                failure = "missing outdoor map data for Windling support-floor test";
+                return false;
+            }
+
+            constexpr float WindlingX = 16973.0f;
+            constexpr float WindlingY = 21513.0f;
+            constexpr float WindlingZ = 369.0f;
+            constexpr size_t WindlingBModelIndex = 126;
+            const OutdoorSupportFloorSample support = sampleOutdoorSupportFloor(
+                *loadedMap->outdoorMapData,
+                WindlingX,
+                WindlingY,
+                WindlingZ,
+                std::numeric_limits<float>::max(),
+                5.0f);
+
+            if (!support.fromBModel)
+            {
+                failure = "Windling support-floor sample did not resolve to a bmodel face; bmodel="
+                    + std::to_string(support.bModelIndex)
+                    + " height=" + std::to_string(support.height);
+                return false;
+            }
+
+            if (support.bModelIndex != WindlingBModelIndex)
+            {
+                failure = "Windling support-floor sample did not resolve to runtime bmodel 126 (original 127); actual="
+                    + std::to_string(support.bModelIndex)
+                    + " height=" + std::to_string(support.height);
+                return false;
+            }
+
+            OutdoorPartyRuntime *pPartyRuntime = GameApplicationTestAccess::outdoorPartyRuntime(application);
+
+            if (pPartyRuntime == nullptr)
+            {
+                failure = "missing outdoor party runtime for Windling support-floor test";
+                return false;
+            }
+
+            pPartyRuntime->teleportTo(WindlingX, WindlingY, WindlingZ);
+            const OutdoorMoveState &moveState = pPartyRuntime->movementState();
+
+            if (moveState.supportKind != OutdoorSupportKind::BModelFace)
+            {
+                failure = "party support kind on Windling was not a bmodel face; kind="
+                    + std::to_string(static_cast<int>(moveState.supportKind))
+                    + " bmodel=" + std::to_string(moveState.supportBModelIndex);
+                return false;
+            }
+
+            if (moveState.supportBModelIndex != WindlingBModelIndex)
+            {
+                failure = "party support bmodel on Windling was not runtime bmodel 126 (original 127); actual="
+                    + std::to_string(moveState.supportBModelIndex);
                 return false;
             }
 
@@ -18281,10 +18467,10 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
             };
 
             const std::array<DirectionCase, 4> cases = {{
-                {"Out02.odm", MapBoundaryEdge::North, "Out03.odm", 90, -1.57079632679489661923f},
-                {"Out03.odm", MapBoundaryEdge::South, "Out02.odm", 270, 1.57079632679489661923f},
+                {"Out02.odm", MapBoundaryEdge::North, "Out03.odm", 90, 1.57079632679489661923f},
+                {"Out03.odm", MapBoundaryEdge::South, "Out02.odm", 270, -1.57079632679489661923f},
                 {"Out02.odm", MapBoundaryEdge::East, "Out05.odm", 0, 0.0f},
-                {"Out02.odm", MapBoundaryEdge::West, "Out06.odm", 180, -3.14159265358979323846f}
+                {"Out02.odm", MapBoundaryEdge::West, "Out06.odm", 180, 3.14159265358979323846f}
             }};
 
             for (const DirectionCase &directionCase : cases)
@@ -18374,7 +18560,7 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
                     return false;
                 }
 
-                if (std::abs(GameApplicationTestAccess::cameraYawRadians(application) - directionCase.expectedYawRadians)
+                if (angleDistanceRadians(GameApplicationTestAccess::cameraYawRadians(application), directionCase.expectedYawRadians)
                     > 0.0001f)
                 {
                     failure = std::string("map transition confirm did not preserve world facing for ")
@@ -18556,9 +18742,9 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
 
             const float expectedYawRadians = 0.0f;
 
-            if (std::abs(GameApplicationTestAccess::cameraYawRadians(application) - expectedYawRadians) > 0.0001f)
+            if (angleDistanceRadians(GameApplicationTestAccess::cameraYawRadians(application), expectedYawRadians) > 0.0001f)
             {
-                failure = "map transition confirm did not face west after a westward boundary arrival";
+                failure = "map transition confirm did not face east after an eastward boundary arrival";
                 return false;
             }
 

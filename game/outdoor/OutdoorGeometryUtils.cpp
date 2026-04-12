@@ -62,7 +62,7 @@ bool isOutdoorWalkablePolygonType(uint8_t polygonType)
 bx::Vec3 outdoorBModelPointToWorld(int x, int y, int z)
 {
     return {
-        static_cast<float>(-x),
+        static_cast<float>(x),
         static_cast<float>(y),
         static_cast<float>(z)
     };
@@ -75,8 +75,8 @@ bx::Vec3 outdoorBModelVertexToWorld(const OutdoorBModelVertex &vertex)
 
 float sampleOutdoorTerrainHeight(const OutdoorMapData &outdoorMapData, float x, float y)
 {
-    const float gridX = 64.0f - (x / static_cast<float>(OutdoorMapData::TerrainTileSize));
-    const float gridY = 64.0f - (y / static_cast<float>(OutdoorMapData::TerrainTileSize));
+    const float gridX = outdoorWorldToGridXFloat(x);
+    const float gridY = outdoorWorldToGridYFloat(y);
     const int sampleX0 = std::clamp(static_cast<int>(std::floor(gridX)), 0, OutdoorMapData::TerrainWidth - 1);
     const int sampleY0 = std::clamp(static_cast<int>(std::floor(gridY)), 0, OutdoorMapData::TerrainHeight - 1);
     const int sampleX1 = std::clamp(sampleX0 + 1, 0, OutdoorMapData::TerrainWidth - 1);
@@ -115,8 +115,8 @@ float sampleOutdoorTerrainNormalZ(const OutdoorMapData &outdoorMapData, float x,
 
 bool outdoorTerrainSlopeTooHigh(const OutdoorMapData &outdoorMapData, float x, float y)
 {
-    const float gridXFloat = 64.0f - (x / static_cast<float>(OutdoorMapData::TerrainTileSize));
-    const float gridYFloat = 64.0f - (y / static_cast<float>(OutdoorMapData::TerrainTileSize));
+    const float gridXFloat = outdoorWorldToGridXFloat(x);
+    const float gridYFloat = outdoorWorldToGridYFloat(y);
     const int gridX = std::clamp(static_cast<int>(std::floor(gridXFloat)), 0, OutdoorMapData::TerrainWidth - 2);
     const int gridY = std::clamp(static_cast<int>(std::floor(gridYFloat)), 0, OutdoorMapData::TerrainHeight - 2);
     const size_t index00 = static_cast<size_t>(gridY * OutdoorMapData::TerrainWidth + gridX);
@@ -139,8 +139,8 @@ uint8_t sampleOutdoorTerrainTileAttributes(const OutdoorMapData &outdoorMapData,
         return 0;
     }
 
-    const float gridX = 64.0f - (x / static_cast<float>(OutdoorMapData::TerrainTileSize));
-    const float gridY = 64.0f - (y / static_cast<float>(OutdoorMapData::TerrainTileSize));
+    const float gridX = outdoorWorldToGridXFloat(x);
+    const float gridY = outdoorWorldToGridYFloat(y);
     const int tileX = std::clamp(static_cast<int>(std::floor(gridX)), 0, OutdoorMapData::TerrainWidth - 2);
     const int tileY = std::clamp(static_cast<int>(std::floor(gridY)), 0, OutdoorMapData::TerrainHeight - 2);
     const size_t tileIndex = static_cast<size_t>(tileY * OutdoorMapData::TerrainWidth + tileX);

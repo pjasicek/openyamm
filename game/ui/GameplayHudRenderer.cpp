@@ -44,6 +44,19 @@ enum class PortraitAggroIndicator
     Red,
 };
 
+int outdoorMinimapArrowIndex(float yawRadians)
+{
+    float normalizedYaw = std::fmod(yawRadians, Pi * 2.0f);
+
+    if (normalizedYaw < 0.0f)
+    {
+        normalizedYaw += Pi * 2.0f;
+    }
+
+    const int octant = static_cast<int>(std::floor((normalizedYaw + Pi * 0.125f) / (Pi * 0.25f))) % 8;
+    return (octant + 7) % 8;
+}
+
 UiViewportRect computeUiViewportRect(int screenWidth, int screenHeight)
 {
     UiViewportRect viewport = {};
@@ -704,7 +717,7 @@ void GameplayHudRenderer::renderGameplayHudArt(OutdoorGameView &view, int width,
                 }
 
                 const OutdoorMoveState &moveState = view.m_pOutdoorPartyRuntime->movementState();
-                const float partyU = std::clamp((-moveState.x + 32768.0f) / 65536.0f, 0.0f, 1.0f);
+                const float partyU = std::clamp((moveState.x + 32768.0f) / 65536.0f, 0.0f, 1.0f);
                 const float partyV = std::clamp((32768.0f - moveState.y) / 65536.0f, 0.0f, 1.0f);
                 const float uSpan = std::min(1.0f, pLayout->width / OutdoorMinimapZoom);
                 const float vSpan = std::min(1.0f, pLayout->height / OutdoorMinimapZoom);
@@ -786,7 +799,7 @@ void GameplayHudRenderer::renderGameplayHudArt(OutdoorGameView &view, int width,
     if (hudScreenState == OutdoorGameView::HudScreenState::Gameplay && minimapOverlay.valid && view.m_pOutdoorPartyRuntime != nullptr)
     {
         const OutdoorMoveState &moveState = view.m_pOutdoorPartyRuntime->movementState();
-        const float partyU = std::clamp((-moveState.x + 32768.0f) / 65536.0f, 0.0f, 1.0f);
+        const float partyU = std::clamp((moveState.x + 32768.0f) / 65536.0f, 0.0f, 1.0f);
         const float partyV = std::clamp((32768.0f - moveState.y) / 65536.0f, 0.0f, 1.0f);
         const float minimapCenterX = minimapOverlay.x + ((partyU - minimapOverlay.u0) / minimapOverlay.uSpan) * minimapOverlay.width;
         const float minimapCenterY = minimapOverlay.y + ((partyV - minimapOverlay.v0) / minimapOverlay.vSpan) * minimapOverlay.height;
@@ -821,7 +834,7 @@ void GameplayHudRenderer::renderGameplayHudArt(OutdoorGameView &view, int width,
                     continue;
                 }
 
-                const float actorU = (-static_cast<float>(pActor->x) + 32768.0f) / 65536.0f;
+                const float actorU = (static_cast<float>(pActor->x) + 32768.0f) / 65536.0f;
                 const float actorV = (32768.0f - static_cast<float>(pActor->y)) / 65536.0f;
                 const float markerCenterX =
                     minimapOverlay.x + ((actorU - minimapOverlay.u0) / minimapOverlay.uSpan) * minimapOverlay.width;
@@ -856,15 +869,7 @@ void GameplayHudRenderer::renderGameplayHudArt(OutdoorGameView &view, int width,
             }
         }
 
-        float normalizedYaw = std::fmod(view.m_cameraYawRadians, Pi * 2.0f);
-
-        if (normalizedYaw < 0.0f)
-        {
-            normalizedYaw += Pi * 2.0f;
-        }
-
-        const int octant = static_cast<int>(std::floor((normalizedYaw + Pi * 0.125f) / (Pi * 0.25f))) % 8;
-        const int arrowIndex = (octant + 3) % 8;
+        const int arrowIndex = outdoorMinimapArrowIndex(view.m_cameraYawRadians);
         const std::string arrowTextureName = "MAPDIR" + std::to_string(arrowIndex + 1);
         const OutdoorGameView::HudTextureHandle *pArrowTexture =
             HudUiService::ensureHudTextureLoaded(view, arrowTextureName);

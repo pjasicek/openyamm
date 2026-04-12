@@ -126,8 +126,8 @@ std::optional<uint8_t> sampleOutdoorTerrainTileId(const OutdoorMapData &outdoorM
         return std::nullopt;
     }
 
-    const float gridX = 64.0f - (x / static_cast<float>(OutdoorMapData::TerrainTileSize));
-    const float gridY = 64.0f - (y / static_cast<float>(OutdoorMapData::TerrainTileSize));
+    const float gridX = outdoorWorldToGridXFloat(x);
+    const float gridY = outdoorWorldToGridYFloat(y);
     const int tileX = std::clamp(static_cast<int>(std::floor(gridX)), 0, OutdoorMapData::TerrainWidth - 2);
     const int tileY = std::clamp(static_cast<int>(std::floor(gridY)), 0, OutdoorMapData::TerrainHeight - 2);
     const size_t tileIndex = static_cast<size_t>(tileY * OutdoorMapData::TerrainWidth + tileX);
@@ -789,7 +789,7 @@ void OutdoorPresentationController::consumePendingEventRuntimeAudioRequests(Outd
         if (request.positional)
         {
             position = GameAudioSystem::WorldPosition{
-                static_cast<float>(-request.x),
+                static_cast<float>(request.x),
                 static_cast<float>(request.y),
                 pMoveState != nullptr ? pMoveState->footZ + view.m_cameraEyeHeight : 0.0f
             };

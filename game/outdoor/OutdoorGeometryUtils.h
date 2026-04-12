@@ -11,6 +11,26 @@
 
 namespace OpenYAMM::Game
 {
+inline float outdoorGridCornerWorldX(int gridX)
+{
+    return static_cast<float>((gridX - 64) * OutdoorMapData::TerrainTileSize);
+}
+
+inline float outdoorGridCornerWorldY(int gridY)
+{
+    return static_cast<float>((64 - gridY) * OutdoorMapData::TerrainTileSize);
+}
+
+inline float outdoorWorldToGridXFloat(float x)
+{
+    return x / static_cast<float>(OutdoorMapData::TerrainTileSize) + 64.0f;
+}
+
+inline float outdoorWorldToGridYFloat(float y)
+{
+    return 64.0f - (y / static_cast<float>(OutdoorMapData::TerrainTileSize));
+}
+
 struct OutdoorFaceGeometryData
 {
     size_t bModelIndex = 0;

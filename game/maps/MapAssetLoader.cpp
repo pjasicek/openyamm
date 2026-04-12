@@ -1381,7 +1381,7 @@ std::optional<OutdoorDecorationCollisionSet> buildOutdoorDecorationCollisionSet(
         collision.instanceFlags = entity.aiAttributes;
         collision.radius = pDecoration->radius;
         collision.height = pDecoration->height;
-        collision.worldX = -entity.x;
+        collision.worldX = entity.x;
         collision.worldY = entity.y;
         collision.worldZ = entity.z;
         collision.name = entity.name.empty() ? pDecoration->internalName : entity.name;
@@ -1417,7 +1417,7 @@ void appendMapDeltaActorCollisions(
         {
             actorZ = static_cast<int>(std::lround(sampleOutdoorPlacementFloorHeight(
                 *pOutdoorMapData,
-                static_cast<float>(-actor.x),
+                static_cast<float>(actor.x),
                 static_cast<float>(actor.y),
                 static_cast<float>(actorZ))));
         }
@@ -1427,7 +1427,7 @@ void appendMapDeltaActorCollisions(
         collision.source = OutdoorActorCollisionSource::MapDelta;
         collision.radius = actor.radius;
         collision.height = actor.height;
-        collision.worldX = -actor.x;
+        collision.worldX = actor.x;
         collision.worldY = actor.y;
         collision.worldZ = actorZ;
         collision.attributes = actor.attributes;
@@ -1469,7 +1469,7 @@ void appendSpawnActorCollisions(
         {
             actorZ = static_cast<int>(std::lround(sampleOutdoorPlacementFloorHeight(
                 *pOutdoorMapData,
-                static_cast<float>(-spawn.x),
+                static_cast<float>(spawn.x),
                 static_cast<float>(spawn.y),
                 static_cast<float>(actorZ))));
         }
@@ -1479,7 +1479,7 @@ void appendSpawnActorCollisions(
         collision.source = OutdoorActorCollisionSource::Spawn;
         collision.radius = pMonsterEntry->radius;
         collision.height = pMonsterEntry->height;
-        collision.worldX = -spawn.x;
+        collision.worldX = spawn.x;
         collision.worldY = spawn.y;
         collision.worldZ = actorZ;
         collision.attributes = spawn.attributes;
@@ -1714,7 +1714,7 @@ std::optional<OutdoorSpriteObjectCollisionSet> buildOutdoorSpriteObjectCollision
         collision.objectFlags = pObjectEntry->flags;
         collision.radius = static_cast<uint16_t>(pObjectEntry->radius);
         collision.height = static_cast<uint16_t>(pObjectEntry->height);
-        collision.worldX = -spriteObject.x;
+        collision.worldX = spriteObject.x;
         collision.worldY = spriteObject.y;
         collision.worldZ = spriteObject.z;
         collision.spellId = spriteObject.spellId;
@@ -1972,7 +1972,7 @@ void appendMapDeltaActors(
         {
             billboard.z = static_cast<int>(std::lround(sampleOutdoorPlacementFloorHeight(
                 *pOutdoorMapData,
-                static_cast<float>(-actor.x),
+                static_cast<float>(actor.x),
                 static_cast<float>(actor.y),
                 static_cast<float>(billboard.z))));
         }
@@ -2066,7 +2066,7 @@ void appendSpawnActors(
         {
             billboard.z = static_cast<int>(std::lround(sampleOutdoorPlacementFloorHeight(
                 *pOutdoorMapData,
-                static_cast<float>(-spawn.x),
+                static_cast<float>(spawn.x),
                 static_cast<float>(spawn.y),
                 static_cast<float>(billboard.z))));
         }

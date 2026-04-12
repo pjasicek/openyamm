@@ -54,7 +54,7 @@ int remapLoadingProgress(int localProgress, int startProgress, int endProgress)
 
 float mapMoveHeadingDegreesToOutdoorYawRadians(int32_t directionDegrees)
 {
-    return -static_cast<float>(directionDegrees) * Pi / 180.0f;
+    return static_cast<float>(directionDegrees) * Pi / 180.0f;
 }
 
 std::optional<uint32_t> starterItemIdForSkill(const std::string &skillName)
@@ -1849,7 +1849,7 @@ bool GameApplication::processPendingMapMove()
             && m_pOutdoorPartyRuntime != nullptr)
         {
             m_pOutdoorPartyRuntime->teleportTo(
-                static_cast<float>(-pendingMapMove->x),
+                static_cast<float>(pendingMapMove->x),
                 static_cast<float>(pendingMapMove->y),
                 static_cast<float>(pendingMapMove->z)
             );
@@ -1895,7 +1895,7 @@ bool GameApplication::processPendingMapMove()
         && !pendingMapMove->useMapStartPosition)
     {
         m_pOutdoorPartyRuntime->teleportTo(
-            static_cast<float>(-pendingMapMove->x),
+            static_cast<float>(pendingMapMove->x),
             static_cast<float>(pendingMapMove->y),
             static_cast<float>(pendingMapMove->z)
         );

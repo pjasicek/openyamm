@@ -622,8 +622,8 @@ std::vector<OutdoorGameView::TerrainVertex> OutdoorRenderer::buildTerrainVertice
             const float heightSample = static_cast<float>(mapData.heightMap[sampleIndex]);
             const float normalizedHeight = (heightSample - minHeight) / heightRange;
             OutdoorGameView::TerrainVertex vertex = {};
-            vertex.x = static_cast<float>((64 - gridX) * OutdoorMapData::TerrainTileSize);
-            vertex.y = static_cast<float>((64 - gridY) * OutdoorMapData::TerrainTileSize);
+            vertex.x = outdoorGridCornerWorldX(gridX);
+            vertex.y = outdoorGridCornerWorldY(gridY);
             vertex.z = heightSample * static_cast<float>(OutdoorMapData::TerrainHeightScale);
             vertex.abgr = makeAbgr(
                 static_cast<uint8_t>(32.0f + normalizedHeight * 96.0f),
@@ -693,29 +693,29 @@ std::vector<OutdoorGameView::TexturedTerrainVertex> OutdoorRenderer::buildTextur
             const size_t bottomRightIndex = bottomLeftIndex + 1;
 
             OutdoorGameView::TexturedTerrainVertex topLeft = {};
-            topLeft.x = static_cast<float>((64 - gridX) * OutdoorMapData::TerrainTileSize);
-            topLeft.y = static_cast<float>((64 - gridY) * OutdoorMapData::TerrainTileSize);
+            topLeft.x = outdoorGridCornerWorldX(gridX);
+            topLeft.y = outdoorGridCornerWorldY(gridY);
             topLeft.z = static_cast<float>(mapData.heightMap[topLeftIndex] * OutdoorMapData::TerrainHeightScale);
             topLeft.u = region.u0;
             topLeft.v = region.v0;
 
             OutdoorGameView::TexturedTerrainVertex topRight = {};
-            topRight.x = static_cast<float>((64 - (gridX + 1)) * OutdoorMapData::TerrainTileSize);
-            topRight.y = static_cast<float>((64 - gridY) * OutdoorMapData::TerrainTileSize);
+            topRight.x = outdoorGridCornerWorldX(gridX + 1);
+            topRight.y = outdoorGridCornerWorldY(gridY);
             topRight.z = static_cast<float>(mapData.heightMap[topRightIndex] * OutdoorMapData::TerrainHeightScale);
             topRight.u = region.u1;
             topRight.v = region.v0;
 
             OutdoorGameView::TexturedTerrainVertex bottomLeft = {};
-            bottomLeft.x = static_cast<float>((64 - gridX) * OutdoorMapData::TerrainTileSize);
-            bottomLeft.y = static_cast<float>((64 - (gridY + 1)) * OutdoorMapData::TerrainTileSize);
+            bottomLeft.x = outdoorGridCornerWorldX(gridX);
+            bottomLeft.y = outdoorGridCornerWorldY(gridY + 1);
             bottomLeft.z = static_cast<float>(mapData.heightMap[bottomLeftIndex] * OutdoorMapData::TerrainHeightScale);
             bottomLeft.u = region.u0;
             bottomLeft.v = region.v1;
 
             OutdoorGameView::TexturedTerrainVertex bottomRight = {};
-            bottomRight.x = static_cast<float>((64 - (gridX + 1)) * OutdoorMapData::TerrainTileSize);
-            bottomRight.y = static_cast<float>((64 - (gridY + 1)) * OutdoorMapData::TerrainTileSize);
+            bottomRight.x = outdoorGridCornerWorldX(gridX + 1);
+            bottomRight.y = outdoorGridCornerWorldY(gridY + 1);
             bottomRight.z = static_cast<float>(mapData.heightMap[bottomRightIndex] * OutdoorMapData::TerrainHeightScale);
             bottomRight.u = region.u1;
             bottomRight.v = region.v1;
@@ -834,27 +834,27 @@ std::vector<OutdoorGameView::TerrainVertex> OutdoorRenderer::buildFilledTerrainV
             const uint32_t tileColor = tileColors ? (*tileColors)[tileColorIndex] : fallbackColor;
 
             OutdoorGameView::TerrainVertex topLeft = {};
-            topLeft.x = static_cast<float>((64 - gridX) * OutdoorMapData::TerrainTileSize);
-            topLeft.y = static_cast<float>((64 - gridY) * OutdoorMapData::TerrainTileSize);
+            topLeft.x = outdoorGridCornerWorldX(gridX);
+            topLeft.y = outdoorGridCornerWorldY(gridY);
             topLeft.z = static_cast<float>(mapData.heightMap[topLeftIndex] * OutdoorMapData::TerrainHeightScale);
             topLeft.abgr = tileColor;
 
             OutdoorGameView::TerrainVertex topRight = {};
-            topRight.x = static_cast<float>((64 - (gridX + 1)) * OutdoorMapData::TerrainTileSize);
-            topRight.y = static_cast<float>((64 - gridY) * OutdoorMapData::TerrainTileSize);
+            topRight.x = outdoorGridCornerWorldX(gridX + 1);
+            topRight.y = outdoorGridCornerWorldY(gridY);
             topRight.z = static_cast<float>(mapData.heightMap[topRightIndex] * OutdoorMapData::TerrainHeightScale);
             topRight.abgr = tileColor;
 
             OutdoorGameView::TerrainVertex bottomLeft = {};
-            bottomLeft.x = static_cast<float>((64 - gridX) * OutdoorMapData::TerrainTileSize);
-            bottomLeft.y = static_cast<float>((64 - (gridY + 1)) * OutdoorMapData::TerrainTileSize);
+            bottomLeft.x = outdoorGridCornerWorldX(gridX);
+            bottomLeft.y = outdoorGridCornerWorldY(gridY + 1);
             bottomLeft.z =
                 static_cast<float>(mapData.heightMap[bottomLeftIndex] * OutdoorMapData::TerrainHeightScale);
             bottomLeft.abgr = tileColor;
 
             OutdoorGameView::TerrainVertex bottomRight = {};
-            bottomRight.x = static_cast<float>((64 - (gridX + 1)) * OutdoorMapData::TerrainTileSize);
-            bottomRight.y = static_cast<float>((64 - (gridY + 1)) * OutdoorMapData::TerrainTileSize);
+            bottomRight.x = outdoorGridCornerWorldX(gridX + 1);
+            bottomRight.y = outdoorGridCornerWorldY(gridY + 1);
             bottomRight.z =
                 static_cast<float>(mapData.heightMap[bottomRightIndex] * OutdoorMapData::TerrainHeightScale);
             bottomRight.abgr = tileColor;
@@ -983,7 +983,7 @@ std::vector<OutdoorGameView::TerrainVertex> OutdoorRenderer::buildEntityMarkerVe
 
     for (const OutdoorEntity &entity : mapData.entities)
     {
-        const float centerX = static_cast<float>(-entity.x);
+        const float centerX = static_cast<float>(entity.x);
         const float centerY = static_cast<float>(entity.y);
         const float baseZ = static_cast<float>(entity.z);
 
@@ -1007,12 +1007,12 @@ std::vector<OutdoorGameView::TerrainVertex> OutdoorRenderer::buildSpawnMarkerVer
 
     for (const OutdoorSpawn &spawn : mapData.spawns)
     {
-        const float centerX = static_cast<float>(-spawn.x);
+        const float centerX = static_cast<float>(spawn.x);
         const float centerY = static_cast<float>(spawn.y);
         const float halfExtent = static_cast<float>(std::max<uint16_t>(spawn.radius, 64));
         const float groundHeight = sampleOutdoorTerrainHeight(
             mapData,
-            static_cast<float>(-spawn.x),
+            static_cast<float>(spawn.x),
             static_cast<float>(spawn.y));
         const int groundedZ = std::max(spawn.z, static_cast<int>(std::lround(groundHeight)));
         const float centerZ = static_cast<float>(groundedZ) + halfExtent;
@@ -1778,7 +1778,7 @@ void OutdoorRenderer::renderOutdoorSky(
     const uint32_t vertexCount = 6;
     const float cameraPitchRadians =
         std::atan2(cameraForward.z, std::sqrt(cameraForward.x * cameraForward.x + cameraForward.y * cameraForward.y));
-    const float cameraYawRadians = std::atan2(-cameraForward.y, cameraForward.x);
+    const float cameraYawRadians = std::atan2(cameraForward.y, cameraForward.x);
     const float viewPlaneDistancePixels =
         (static_cast<float>(viewHeight) * 0.5f) / std::tan((CameraVerticalFovDegrees * Pi / 180.0f) * 0.5f);
     const float viewportCenterY = static_cast<float>(viewHeight) * 0.5f;
@@ -2275,7 +2275,7 @@ void OutdoorRenderer::renderActorCollisionOverlays(
             }
 
             const float overlayDeltaX =
-                static_cast<float>(pRuntimeActor != nullptr ? pRuntimeActor->x : -billboard.x) - cameraPosition.x;
+                static_cast<float>(pRuntimeActor != nullptr ? pRuntimeActor->x : billboard.x) - cameraPosition.x;
             const float overlayDeltaY =
                 static_cast<float>(pRuntimeActor != nullptr ? pRuntimeActor->y : billboard.y) - cameraPosition.y;
             const float overlayDeltaZ =
@@ -2289,7 +2289,7 @@ void OutdoorRenderer::renderActorCollisionOverlays(
             }
 
             appendActorOverlay(
-                pRuntimeActor != nullptr ? pRuntimeActor->x : -billboard.x,
+                pRuntimeActor != nullptr ? pRuntimeActor->x : billboard.x,
                 pRuntimeActor != nullptr ? pRuntimeActor->y : billboard.y,
                 pRuntimeActor != nullptr ? pRuntimeActor->z : billboard.z,
                 pRuntimeActor != nullptr ? pRuntimeActor->radius : billboard.radius,

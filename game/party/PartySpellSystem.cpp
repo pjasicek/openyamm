@@ -1447,7 +1447,7 @@ PartySpellCastResult PartySpellSystem::castSpell(
             worldRequest.sourceY = sourceY;
             worldRequest.sourceZ = sourceZ;
             worldRequest.targetX = sourceX + std::cos(yawRadians) * std::max(512.0f, distance);
-            worldRequest.targetY = sourceY - std::sin(yawRadians) * std::max(512.0f, distance);
+            worldRequest.targetY = sourceY + std::sin(yawRadians) * std::max(512.0f, distance);
             worldRequest.targetZ = baseTargetZ;
             castSucceeded = worldRuntime.castPartySpell(worldRequest) || castSucceeded;
         }

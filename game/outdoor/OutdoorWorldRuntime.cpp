@@ -1087,8 +1087,8 @@ bool isOutdoorLandMaskWater(const std::optional<std::vector<uint8_t>> &outdoorLa
         return false;
     }
 
-    const float gridX = 64.0f - (x / static_cast<float>(OutdoorMapData::TerrainTileSize));
-    const float gridY = 64.0f - (y / static_cast<float>(OutdoorMapData::TerrainTileSize));
+    const float gridX = outdoorWorldToGridXFloat(x);
+    const float gridY = outdoorWorldToGridYFloat(y);
     const int tileX = std::clamp(static_cast<int>(std::floor(gridX)), 0, OutdoorMapData::TerrainWidth - 2);
     const int tileY = std::clamp(static_cast<int>(std::floor(gridY)), 0, OutdoorMapData::TerrainHeight - 2);
     const int landMaskWidth = OutdoorMapData::TerrainWidth - 1;
@@ -1124,8 +1124,8 @@ bool canMonsterWalkOnWater(const MonsterTable::MonsterStatsEntry *pStats)
 bx::Vec3 outdoorTerrainTileCenter(int tileX, int tileY)
 {
     return {
-        (64.0f - (static_cast<float>(tileX) + 0.5f)) * static_cast<float>(OutdoorMapData::TerrainTileSize),
-        (64.0f - (static_cast<float>(tileY) + 0.5f)) * static_cast<float>(OutdoorMapData::TerrainTileSize),
+        outdoorGridCornerWorldX(tileX) + static_cast<float>(OutdoorMapData::TerrainTileSize) * 0.5f,
+        outdoorGridCornerWorldY(tileY) - static_cast<float>(OutdoorMapData::TerrainTileSize) * 0.5f,
         0.0f
     };
 }
@@ -2332,16 +2332,16 @@ OutdoorWorldRuntime::MapActorState buildMapActorState(
     state.displayName = pStats != nullptr ? pStats->name : actor.name;
     state.maxHp = pStats != nullptr ? pStats->hitPoints : std::max(0, static_cast<int>(actor.hp));
     state.currentHp = actor.hp > 0 ? actor.hp : state.maxHp;
-    state.x = -actor.x;
+    state.x = actor.x;
     state.y = actor.y;
     state.z = actor.z;
-    state.preciseX = static_cast<float>(-actor.x);
+    state.preciseX = static_cast<float>(actor.x);
     state.preciseY = static_cast<float>(actor.y);
     state.preciseZ = static_cast<float>(actor.z);
-    state.homeX = -actor.x;
+    state.homeX = actor.x;
     state.homeY = actor.y;
     state.homeZ = actor.z;
-    state.homePreciseX = static_cast<float>(-actor.x);
+    state.homePreciseX = static_cast<float>(actor.x);
     state.homePreciseY = static_cast<float>(actor.y);
     state.homePreciseZ = static_cast<float>(actor.z);
     state.radius = actor.radius;
@@ -4210,7 +4210,7 @@ void OutdoorWorldRuntime::initialize(
                     spawn.encounterSlot,
                     spawn.fixedTier,
                     resolvedCount,
-                    static_cast<float>(-spawn.x),
+                    static_cast<float>(spawn.x),
                     static_cast<float>(spawn.y),
                     static_cast<float>(spawn.z),
                     spawn.radius,
@@ -4361,13 +4361,13 @@ void OutdoorWorldRuntime::materializeMapDeltaWorldItems()
         worldItem.sectorId = spriteObject.sectorId;
         worldItem.objectName = objectName;
         worldItem.objectSpriteName = objectSpriteName;
-        worldItem.x = static_cast<float>(-spriteObject.x);
+        worldItem.x = static_cast<float>(spriteObject.x);
         worldItem.y = static_cast<float>(spriteObject.y);
         worldItem.z = static_cast<float>(spriteObject.z);
-        worldItem.velocityX = static_cast<float>(-spriteObject.velocityX);
+        worldItem.velocityX = static_cast<float>(spriteObject.velocityX);
         worldItem.velocityY = static_cast<float>(spriteObject.velocityY);
         worldItem.velocityZ = static_cast<float>(spriteObject.velocityZ);
-        worldItem.initialX = static_cast<float>(-spriteObject.initialX);
+        worldItem.initialX = static_cast<float>(spriteObject.initialX);
         worldItem.initialY = static_cast<float>(spriteObject.initialY);
         worldItem.initialZ = static_cast<float>(spriteObject.initialZ);
         worldItem.timeSinceCreatedTicks = uint32_t(spriteObject.timeSinceCreated) * 8;
@@ -4414,7 +4414,7 @@ bool OutdoorWorldRuntime::spawnWorldItem(
     }
 
     const float directionX = std::cos(yawRadians);
-    const float directionY = -std::sin(yawRadians);
+    const float directionY = std::sin(yawRadians);
     const float horizontalSpeed = WorldItemThrowSpeed * std::cos(WorldItemThrowPitchRadians);
     const float verticalSpeed = WorldItemThrowSpeed * std::sin(WorldItemThrowPitchRadians);
 
@@ -7134,7 +7134,7 @@ bool OutdoorWorldRuntime::debugSpawnEncounterFromSpawnPoint(size_t spawnIndex, u
         spawn.encounterSlot,
         spawn.fixedTier,
         resolvedCount,
-        static_cast<float>(-spawn.x),
+        static_cast<float>(spawn.x),
         static_cast<float>(spawn.y),
         static_cast<float>(spawn.z),
         spawn.radius,

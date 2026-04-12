@@ -58,10 +58,24 @@ constexpr float JournalMainIconAnimationFps = 10.0f;
 constexpr float JournalMapWorldHalfExtent = 32768.0f;
 constexpr char JournalMapTextureCacheName[] = "__journal_map_composited__";
 constexpr std::array<int, 3> JournalMapZoomLevels = {384, 768, 1536};
+constexpr float Pi = 3.14159265358979323846f;
 
 uint32_t currentAnimationTicks()
 {
     return static_cast<uint32_t>((static_cast<uint64_t>(SDL_GetTicks()) * 128ULL) / 1000ULL);
+}
+
+int outdoorMinimapArrowIndex(float yawRadians)
+{
+    float normalizedYaw = std::fmod(yawRadians, Pi * 2.0f);
+
+    if (normalizedYaw < 0.0f)
+    {
+        normalizedYaw += Pi * 2.0f;
+    }
+
+    const int octant = static_cast<int>(std::floor((normalizedYaw + Pi * 0.125f) / (Pi * 0.25f))) % 8;
+    return (octant + 7) % 8;
 }
 
 struct UiViewportRect
@@ -301,8 +315,6 @@ struct JournalStoryPage
     std::string title;
     std::vector<std::string> lines;
 };
-
-constexpr float Pi = 3.14159265358979323846f;
 
 std::vector<JournalStackedPage> buildJournalStackedPages(
     const OutdoorGameView &view,
@@ -2941,7 +2953,7 @@ void GameplayPartyOverlayRenderer::renderJournalOverlay(const OutdoorGameView &v
                     const int mapTextureWidth = pMapTexture->physicalWidth;
                     const int mapTextureHeight = pMapTexture->physicalHeight;
                     const float sourceCenterX =
-                        ((JournalMapWorldHalfExtent - view.m_journalScreen.mapCenterX)
+                        ((view.m_journalScreen.mapCenterX + JournalMapWorldHalfExtent)
                             / (JournalMapWorldHalfExtent * 2.0f))
                         * static_cast<float>(mapTextureWidth);
                     const float sourceCenterY =
@@ -3074,7 +3086,7 @@ void GameplayPartyOverlayRenderer::renderJournalOverlay(const OutdoorGameView &v
                     const int mapTextureHeight = pMapTexture->physicalHeight;
                     const float zoomFactor = static_cast<float>(zoom) / static_cast<float>(JournalMapBaseZoom);
                     const float sourceCenterX =
-                        ((JournalMapWorldHalfExtent - view.m_journalScreen.mapCenterX)
+                        ((view.m_journalScreen.mapCenterX + JournalMapWorldHalfExtent)
                             / (JournalMapWorldHalfExtent * 2.0f))
                         * static_cast<float>(mapTextureWidth);
                     const float sourceCenterY =
@@ -3088,7 +3100,7 @@ void GameplayPartyOverlayRenderer::renderJournalOverlay(const OutdoorGameView &v
                     const float sourceOriginX = sourceCenterX - sourceWindowWidth * 0.5f;
                     const float sourceOriginY = sourceCenterY - sourceWindowHeight * 0.5f;
                     const float partySourceX =
-                        ((JournalMapWorldHalfExtent - moveState.x) / (JournalMapWorldHalfExtent * 2.0f))
+                        ((moveState.x + JournalMapWorldHalfExtent) / (JournalMapWorldHalfExtent * 2.0f))
                         * static_cast<float>(mapTextureWidth);
                     const float partySourceY =
                         ((JournalMapWorldHalfExtent - moveState.y) / (JournalMapWorldHalfExtent * 2.0f))
@@ -3101,15 +3113,7 @@ void GameplayPartyOverlayRenderer::renderJournalOverlay(const OutdoorGameView &v
                         mapResolved->y
                         + ((partySourceY - sourceOriginY) / std::max(sourceWindowHeight, 0.000001f))
                             * mapResolved->height;
-                    float normalizedYaw = std::fmod(view.m_cameraYawRadians, Pi * 2.0f);
-
-                    if (normalizedYaw < 0.0f)
-                    {
-                        normalizedYaw += Pi * 2.0f;
-                    }
-
-                    const int octant = static_cast<int>(std::floor((normalizedYaw + Pi * 0.125f) / (Pi * 0.25f))) % 8;
-                    const int arrowIndex = (octant + 3) % 8;
+                    const int arrowIndex = outdoorMinimapArrowIndex(view.m_cameraYawRadians);
                     const OutdoorGameView::HudTextureHandle *pArrowTexture =
                         loadHudTexture("MAPDIR" + std::to_string(arrowIndex + 1));
 

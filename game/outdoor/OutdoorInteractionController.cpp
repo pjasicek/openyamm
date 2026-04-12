@@ -610,23 +610,23 @@ std::optional<float> intersectOutdoorTerrainRay(
                 static_cast<size_t>((gridY + 1) * OutdoorMapData::TerrainWidth + (gridX + 1));
 
             const bx::Vec3 topLeft = {
-                static_cast<float>((64 - gridX) * OutdoorMapData::TerrainTileSize),
-                static_cast<float>((64 - gridY) * OutdoorMapData::TerrainTileSize),
+                outdoorGridCornerWorldX(gridX),
+                outdoorGridCornerWorldY(gridY),
                 static_cast<float>(outdoorMapData.heightMap[topLeftIndex] * OutdoorMapData::TerrainHeightScale)
             };
             const bx::Vec3 topRight = {
-                static_cast<float>((64 - (gridX + 1)) * OutdoorMapData::TerrainTileSize),
-                static_cast<float>((64 - gridY) * OutdoorMapData::TerrainTileSize),
+                outdoorGridCornerWorldX(gridX + 1),
+                outdoorGridCornerWorldY(gridY),
                 static_cast<float>(outdoorMapData.heightMap[topRightIndex] * OutdoorMapData::TerrainHeightScale)
             };
             const bx::Vec3 bottomLeft = {
-                static_cast<float>((64 - gridX) * OutdoorMapData::TerrainTileSize),
-                static_cast<float>((64 - (gridY + 1)) * OutdoorMapData::TerrainTileSize),
+                outdoorGridCornerWorldX(gridX),
+                outdoorGridCornerWorldY(gridY + 1),
                 static_cast<float>(outdoorMapData.heightMap[bottomLeftIndex] * OutdoorMapData::TerrainHeightScale)
             };
             const bx::Vec3 bottomRight = {
-                static_cast<float>((64 - (gridX + 1)) * OutdoorMapData::TerrainTileSize),
-                static_cast<float>((64 - (gridY + 1)) * OutdoorMapData::TerrainTileSize),
+                outdoorGridCornerWorldX(gridX + 1),
+                outdoorGridCornerWorldY(gridY + 1),
                 static_cast<float>(outdoorMapData.heightMap[bottomRightIndex] * OutdoorMapData::TerrainHeightScale)
             };
 
@@ -1619,7 +1619,7 @@ bool OutdoorInteractionController::hitTestDecorationBillboard(
     const bx::Vec3 cameraRight = {pViewMatrix[0], pViewMatrix[4], pViewMatrix[8]};
     const bx::Vec3 cameraUp = {pViewMatrix[1], pViewMatrix[5], pViewMatrix[9]};
     const bx::Vec3 center = {
-        static_cast<float>(-billboard.x),
+        static_cast<float>(billboard.x),
         static_cast<float>(billboard.y),
         static_cast<float>(billboard.z) + worldHeight * 0.5f
     };
@@ -1783,9 +1783,9 @@ bool OutdoorInteractionController::hitTestActorBillboard(
         view.m_cameraTargetZ
     };
     const float angleToCamera = std::atan2(
-        static_cast<float>(actorX) - cameraPosition.x,
-        static_cast<float>(actorY) - cameraPosition.y);
-    const float actorYaw = pRuntimeActor != nullptr ? ((Pi * 0.5f) - pRuntimeActor->yawRadians) : 0.0f;
+        static_cast<float>(actorY) - cameraPosition.y,
+        static_cast<float>(actorX) - cameraPosition.x);
+    const float actorYaw = pRuntimeActor != nullptr ? pRuntimeActor->yawRadians : 0.0f;
     const float octantAngle = actorYaw - angleToCamera + Pi + (Pi / 8.0f);
     const int octant = static_cast<int>(std::floor(octantAngle / (Pi / 4.0f))) & 7;
     const ResolvedSpriteTexture resolvedTexture = SpriteFrameTable::resolveTexture(*pFrame, octant);
@@ -1945,7 +1945,7 @@ void OutdoorInteractionController::buildDecorationBillboardSpatialIndex(OutdoorG
 
     for (const DecorationBillboard &billboard : view.m_outdoorDecorationBillboardSet->billboards)
     {
-        const float x = static_cast<float>(-billboard.x);
+        const float x = static_cast<float>(billboard.x);
         const float y = static_cast<float>(billboard.y);
         minX = std::min(minX, x);
         minY = std::min(minY, y);
@@ -1964,7 +1964,7 @@ void OutdoorInteractionController::buildDecorationBillboardSpatialIndex(OutdoorG
     for (size_t billboardIndex = 0; billboardIndex < view.m_outdoorDecorationBillboardSet->billboards.size(); ++billboardIndex)
     {
         const DecorationBillboard &billboard = view.m_outdoorDecorationBillboardSet->billboards[billboardIndex];
-        const float x = static_cast<float>(-billboard.x);
+        const float x = static_cast<float>(billboard.x);
         const float y = static_cast<float>(billboard.y);
         const size_t cellX = std::min(
             static_cast<size_t>(std::max(0.0f, std::floor((x - minX) / BillboardSpatialCellSize))),
@@ -2184,12 +2184,12 @@ OutdoorGameView::InspectHit OutdoorInteractionController::inspectBModelFace(
         float distance = 0.0f;
 
         const bx::Vec3 minBounds = {
-            static_cast<float>(-entity.x) - halfExtent,
+            static_cast<float>(entity.x) - halfExtent,
             static_cast<float>(entity.y) - halfExtent,
             static_cast<float>(entity.z)
         };
         const bx::Vec3 maxBounds = {
-            static_cast<float>(-entity.x) + halfExtent,
+            static_cast<float>(entity.x) + halfExtent,
             static_cast<float>(entity.y) + halfExtent,
             static_cast<float>(entity.z) + 192.0f
         };
@@ -2297,8 +2297,8 @@ OutdoorGameView::InspectHit OutdoorInteractionController::inspectBModelFace(
                     };
                     const float facingRadians = static_cast<float>(decoration.facing) * Pi / 180.0f;
                     const float angleToCamera = std::atan2(
-                        static_cast<float>(-decoration.x) - cameraPosition.x,
-                        static_cast<float>(decoration.y) - cameraPosition.y
+                        static_cast<float>(decoration.y) - cameraPosition.y,
+                        static_cast<float>(decoration.x) - cameraPosition.x
                     );
                     const float octantAngle = facingRadians - angleToCamera + Pi + (Pi / 8.0f);
                     const int octant = static_cast<int>(std::floor(octantAngle / (Pi / 4.0f))) & 7;
@@ -2313,12 +2313,12 @@ OutdoorGameView::InspectHit OutdoorInteractionController::inspectBModelFace(
                         const float expandedHalfExtent = std::max(broadPhaseHalfExtent, worldWidth * 0.5f);
                         const float expandedHeight = std::max(broadPhaseHeight, worldHeight);
                         const bx::Vec3 minBounds = {
-                            static_cast<float>(-decoration.x) - expandedHalfExtent,
+                            static_cast<float>(decoration.x) - expandedHalfExtent,
                             static_cast<float>(decoration.y) - expandedHalfExtent,
                             static_cast<float>(decoration.z)
                         };
                         const bx::Vec3 maxBounds = {
-                            static_cast<float>(-decoration.x) + expandedHalfExtent,
+                            static_cast<float>(decoration.x) + expandedHalfExtent,
                             static_cast<float>(decoration.y) + expandedHalfExtent,
                             static_cast<float>(decoration.z) + expandedHeight
                         };
@@ -2401,7 +2401,7 @@ OutdoorGameView::InspectHit OutdoorInteractionController::inspectBModelFace(
                 continue;
             }
 
-            const int actorX = pActorState != nullptr ? pActorState->x : -actor.x;
+            const int actorX = pActorState != nullptr ? pActorState->x : actor.x;
             const int actorY = pActorState != nullptr ? pActorState->y : actor.y;
             const int actorZ = pActorState != nullptr ? pActorState->z : actor.z;
             const uint16_t actorRadius = pActorState != nullptr ? pActorState->radius : actor.radius;
@@ -2658,12 +2658,12 @@ OutdoorGameView::InspectHit OutdoorInteractionController::inspectBModelFace(
             const float height = std::max(64.0f, float(std::max(object.height, int16_t(64))));
             float distance = 0.0f;
             const bx::Vec3 minBounds = {
-                float(-object.x) - halfExtent,
+                float(object.x) - halfExtent,
                 float(object.y) - halfExtent,
                 float(object.z)
             };
             const bx::Vec3 maxBounds = {
-                float(-object.x) + halfExtent,
+                float(object.x) + halfExtent,
                 float(object.y) + halfExtent,
                 float(object.z) + height
             };
