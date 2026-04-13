@@ -1916,6 +1916,7 @@ bool loadOutdoorMapWithCompanionOptions(
     const Engine::AssetFileSystem &assetFileSystem,
     const GameDataLoader &gameDataLoader,
     const std::string &mapFileName,
+    MapLoadPurpose loadPurpose,
     const MapCompanionLoadOptions &loadOptions,
     MapAssetInfo &mapAssetInfo,
     std::string &failure)
@@ -1934,7 +1935,7 @@ bool loadOutdoorMapWithCompanionOptions(
         *pMapEntry,
         gameDataLoader.getMonsterTable(),
         gameDataLoader.getObjectTable(),
-        MapLoadPurpose::HeadlessGameplay,
+        loadPurpose,
         loadOptions);
 
     if (!loadedMap)
@@ -16754,6 +16755,64 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
     );
 
     runCase(
+        "outdoor_terrain_texture_atlas_builds_for_non_default_master_tiles",
+        [&](std::string &failure)
+        {
+            static constexpr std::array<const char *, 2> RequiredMaps = {
+                "out04.odm",
+                "out06.odm",
+            };
+
+            for (const char *pMapFileName : RequiredMaps)
+            {
+                MapAssetInfo loadedMap = {};
+
+                if (!loadOutdoorMapWithCompanionOptions(
+                        assetFileSystem,
+                        gameDataLoader,
+                        pMapFileName,
+                        MapLoadPurpose::Full,
+                        MapCompanionLoadOptions{.allowSceneYml = true, .allowLegacyCompanion = true},
+                        loadedMap,
+                        failure))
+                {
+                    return false;
+                }
+
+                if (!loadedMap.outdoorMapData)
+                {
+                    failure = std::string("loaded map missing outdoor geometry for ") + pMapFileName;
+                    return false;
+                }
+
+                if (!loadedMap.outdoorTerrainTextureAtlas)
+                {
+                    failure = std::string("terrain texture atlas missing for ") + pMapFileName;
+                    return false;
+                }
+
+                size_t validTileCount = 0;
+
+                for (const OutdoorTerrainAtlasRegion &region : loadedMap.outdoorTerrainTextureAtlas->tileRegions)
+                {
+                    if (region.isValid)
+                    {
+                        ++validTileCount;
+                    }
+                }
+
+                if (validTileCount == 0)
+                {
+                    failure = std::string("terrain texture atlas had no valid tiles for ") + pMapFileName;
+                    return false;
+                }
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
         "lua_event_runtime_has_complete_handler_inventory_for_every_scripted_map",
         [&](std::string &failure)
         {
@@ -17093,6 +17152,7 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
                         assetFileSystem,
                         gameDataLoader,
                         pMapFileName,
+                        MapLoadPurpose::HeadlessGameplay,
                         MapCompanionLoadOptions{.allowSceneYml = false, .allowLegacyCompanion = true},
                         legacyMap,
                         failure))
@@ -17106,6 +17166,7 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
                         assetFileSystem,
                         gameDataLoader,
                         pMapFileName,
+                        MapLoadPurpose::HeadlessGameplay,
                         MapCompanionLoadOptions{.allowSceneYml = true, .allowLegacyCompanion = false},
                         migratedMap,
                         failure))
@@ -17134,6 +17195,7 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
                         assetFileSystem,
                         gameDataLoader,
                         pMapFileName,
+                        MapLoadPurpose::HeadlessGameplay,
                         MapCompanionLoadOptions{.allowSceneYml = true, .allowLegacyCompanion = true},
                         mixedMap,
                         failure))

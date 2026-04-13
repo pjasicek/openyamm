@@ -1,6 +1,7 @@
 #include "game/data/ActorNameResolver.h"
 #include "game/maps/MapAssetLoader.h"
 #include "game/maps/OutdoorSceneYml.h"
+#include "game/maps/TerrainTileData.h"
 #include "game/outdoor/OutdoorGeometryUtils.h"
 #include "game/SpriteObjectDefs.h"
 #include "game/StringUtils.h"
@@ -42,8 +43,6 @@ std::string monsterSpriteFrameFamilyPath(std::string_view familyRoot)
     return "Data/rendering/sprite_frames/monsters/" + std::string(familyRoot) + ".yml";
 }
 
-constexpr size_t TileDescriptorNameLength = 20;
-constexpr size_t TileDescriptorRecordSize = 26;
 constexpr uint8_t WaterTileName[] = {'w', 't', 'r', 't', 'y', 'l', 0};
 constexpr int TerrainTextureTileSize = 128;
 constexpr int TerrainTextureAtlasColumns = 16;
@@ -648,92 +647,6 @@ uint32_t colorFromTextureName(const std::string &textureName)
     const uint8_t green = static_cast<uint8_t>(96 + ((hash >> 6) & 0x3f));
     const uint8_t blue = static_cast<uint8_t>(96 + ((hash >> 12) & 0x3f));
     return makeAbgr(red, green, blue);
-}
-
-std::string buildTileDescriptorPath(uint8_t masterTile)
-{
-    if (masterTile == 1)
-    {
-        return "Data/EnglishT/dtile2.bin";
-    }
-
-    if (masterTile == 2)
-    {
-        return "Data/EnglishT/dtile3.bin";
-    }
-
-    return "Data/EnglishT/dtile.bin";
-}
-
-std::optional<std::vector<std::string>> loadTileTextureNames(
-    const Engine::AssetFileSystem &assetFileSystem,
-    const OutdoorMapData &outdoorMapData
-)
-{
-    const std::optional<std::vector<uint8_t>> descriptorBytes =
-        assetFileSystem.readBinaryFile(buildTileDescriptorPath(outdoorMapData.masterTile));
-
-    if (!descriptorBytes || descriptorBytes->size() < sizeof(int32_t))
-    {
-        return std::nullopt;
-    }
-
-    int descriptorCount = 0;
-    std::memcpy(&descriptorCount, descriptorBytes->data(), sizeof(descriptorCount));
-
-    if (descriptorCount <= 0)
-    {
-        return std::nullopt;
-    }
-
-    const size_t expectedSize = sizeof(int32_t) + static_cast<size_t>(descriptorCount) * TileDescriptorRecordSize;
-
-    if (descriptorBytes->size() < expectedSize)
-    {
-        return std::nullopt;
-    }
-
-    std::vector<std::string> tileTextureNames(256);
-
-    for (int tileIndex = 0; tileIndex < 256; ++tileIndex)
-    {
-        int descriptorIndex = 0;
-
-        if (tileIndex >= 0xc6)
-        {
-            descriptorIndex = tileIndex - 0xc6 + outdoorMapData.tileSetLookupIndices[3];
-        }
-        else if (tileIndex < 0x5a)
-        {
-            descriptorIndex = tileIndex;
-        }
-        else
-        {
-            const int bandIndex = (tileIndex - 0x5a) / 0x24;
-            descriptorIndex = static_cast<int>(outdoorMapData.tileSetLookupIndices[bandIndex]) - (bandIndex * 0x24);
-            descriptorIndex += tileIndex - 0x5a;
-        }
-
-        if (descriptorIndex < 0 || descriptorIndex >= descriptorCount)
-        {
-            return std::nullopt;
-        }
-
-        const size_t descriptorOffset = sizeof(int32_t) + static_cast<size_t>(descriptorIndex) * TileDescriptorRecordSize;
-        const char *pName = reinterpret_cast<const char *>(descriptorBytes->data() + descriptorOffset);
-        const size_t rawNameLength = strnlen(pName, TileDescriptorNameLength);
-
-        if (rawNameLength == 0)
-        {
-            tileTextureNames[tileIndex] = "pending";
-        }
-        else
-        {
-            tileTextureNames[tileIndex] = std::string(pName, rawNameLength);
-        }
-    }
-
-    return tileTextureNames;
 }
 
 void appendTextureNameIfMissing(std::vector<std::string> &textureNames, const std::string &textureName)
@@ -2213,7 +2126,8 @@ std::optional<std::vector<uint8_t>> buildOutdoorLandMask(
     const OutdoorMapData &outdoorMapData
 )
 {
-    const std::optional<std::vector<std::string>> tileTextureNames = loadTileTextureNames(assetFileSystem, outdoorMapData);
+    const std::optional<std::vector<std::string>> tileTextureNames =
+        loadTerrainTileTextureNames(assetFileSystem, outdoorMapData);
 
     if (!tileTextureNames)
     {
@@ -2246,7 +2160,8 @@ std::optional<std::vector<uint32_t>> buildOutdoorTileColors(
     const OutdoorMapData &outdoorMapData
 )
 {
-    const std::optional<std::vector<std::string>> tileTextureNames = loadTileTextureNames(assetFileSystem, outdoorMapData);
+    const std::optional<std::vector<std::string>> tileTextureNames =
+        loadTerrainTileTextureNames(assetFileSystem, outdoorMapData);
 
     if (!tileTextureNames)
     {
@@ -2281,7 +2196,8 @@ std::optional<OutdoorTerrainTextureAtlas> buildOutdoorTerrainTextureAtlas(
     const SurfaceMaterialTable *pSurfaceMaterialTable
 )
 {
-    const std::optional<std::vector<std::string>> tileTextureNames = loadTileTextureNames(assetFileSystem, outdoorMapData);
+    const std::optional<std::vector<std::string>> tileTextureNames =
+        loadTerrainTileTextureNames(assetFileSystem, outdoorMapData);
 
     if (!tileTextureNames)
     {
@@ -2296,6 +2212,9 @@ std::optional<OutdoorTerrainTextureAtlas> buildOutdoorTerrainTextureAtlas(
     textureAtlas.pixels.resize(static_cast<size_t>(textureAtlas.width * textureAtlas.height * 4), 0);
 
     std::unordered_map<std::string, std::vector<std::vector<uint8_t>>> animatedTerrainFramesByKey;
+    std::unordered_set<std::string> missingTextureNames;
+    std::unordered_set<std::string> invalidSizeTextureNames;
+    size_t validTileCount = 0;
 
     for (int tileIndex = 0; tileIndex < 256; ++tileIndex)
     {
@@ -2320,8 +2239,16 @@ std::optional<OutdoorTerrainTextureAtlas> buildOutdoorTerrainTextureAtlas(
                 bitmapLoadCache
             );
 
-        if (!tilePixels || textureWidth != terrainTileSize || textureHeight != terrainTileSize)
+        if (!tilePixels)
         {
+            missingTextureNames.insert(textureName);
+            continue;
+        }
+
+        if (textureWidth != terrainTileSize || textureHeight != terrainTileSize)
+        {
+            invalidSizeTextureNames.insert(
+                textureName + " (" + std::to_string(textureWidth) + "x" + std::to_string(textureHeight) + ")");
             continue;
         }
 
@@ -2426,6 +2353,27 @@ std::optional<OutdoorTerrainTextureAtlas> buildOutdoorTerrainTextureAtlas(
             animatedWaterTile.animation = surfaceAnimation;
             animatedWaterTile.currentFrameIndex = 0;
             textureAtlas.animatedWaterTiles.push_back(std::move(animatedWaterTile));
+        }
+
+        ++validTileCount;
+    }
+
+    if (!missingTextureNames.empty() || !invalidSizeTextureNames.empty())
+    {
+        std::cout << "Terrain atlas diagnostics for " << outdoorMapData.fileName
+                  << ": master_tile=" << static_cast<int>(outdoorMapData.masterTile)
+                  << " valid_tiles=" << validTileCount
+                  << " missing_textures=" << missingTextureNames.size()
+                  << " invalid_size_textures=" << invalidSizeTextureNames.size() << '\n';
+
+        for (const std::string &textureName : missingTextureNames)
+        {
+            std::cout << "  missing terrain bitmap: " << textureName << '\n';
+        }
+
+        for (const std::string &textureName : invalidSizeTextureNames)
+        {
+            std::cout << "  invalid terrain bitmap size: " << textureName << '\n';
         }
     }
 

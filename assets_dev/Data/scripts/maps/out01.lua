@@ -1,10 +1,5 @@
 -- Dagger Wound Island
---
--- This is the authored-style reference script for outdoor maps.
--- The engine boundary stays event-id based, but event bodies are written as normal Lua.
---
--- Shared helpers such as RegisterEvent, Point, MoveToMap, and selector
--- packing come from Data/scripts/common/event_support.lua.
+-- normalized from legacy EVT/STR
 
 SetMapMetadata({
     onLoad = {1, 2, 3, 4},

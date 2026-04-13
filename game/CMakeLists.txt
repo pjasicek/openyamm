@@ -33,6 +33,7 @@ add_executable(openyamm
     items/InventoryItemUseRuntime.cpp
     maps/MapDeltaData.cpp
     maps/OutdoorSceneYml.cpp
+    maps/TerrainTileData.cpp
     data/GameDataLoader.cpp
     outdoor/HeadlessOutdoorDiagnostics.cpp
     tables/HouseTable.cpp
