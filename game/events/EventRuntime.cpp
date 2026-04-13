@@ -1,6 +1,8 @@
 #include "game/events/ISceneEventContext.h"
 #include "game/events/EventRuntime.h"
+#include "engine/scripting/LuaStateOwner.h"
 #include "game/gameplay/GameMechanics.h"
+#include "game/items/ItemGenerator.h"
 #include "game/party/Party.h"
 #include "game/party/SkillData.h"
 
@@ -8,7 +10,14 @@
 #include <algorithm>
 #include <cmath>
 #include <limits>
+#include <sstream>
+#include <string_view>
 #include <unordered_map>
+
+extern "C"
+{
+#include <lauxlib.h>
+}
 
 namespace OpenYAMM::Game
 {
@@ -23,7 +32,14 @@ constexpr uint32_t MaxBitfieldFlagIndex = 31;
 
 int resolveMonthFromDayOfYear(int dayOfYear);
 int currentGameMinutesFromRuntimeState(const EventRuntimeState &runtimeState);
+uint32_t randomJumpSeed(uint16_t eventId, uint8_t step, const EventRuntimeState &runtimeState);
 std::optional<std::string> skillNameForEvtVariable(EvtVariable variableId);
+bool evaluateCompareValue(
+    const EventRuntimeState &runtimeState,
+    uint32_t rawVariableId,
+    int32_t compareValue,
+    const Party *pParty,
+    const std::vector<size_t> &targetMemberIndices);
 
 int32_t moveToMapYawUnitsToDegrees(int32_t yawUnits)
 {
@@ -45,6 +61,109 @@ std::string sanitizeEventString(const std::string &value)
     }
 
     return sanitized;
+}
+
+bool matchesRandomGiveItemType(const ItemDefinition &itemDefinition, uint32_t treasureType)
+{
+    const std::string &equipStat = itemDefinition.equipStat;
+
+    switch (treasureType)
+    {
+        case 0:
+            return true;
+
+        case 20: // const.ItemType.Weapon_
+            return equipStat == "Weapon"
+                || equipStat == "Weapon1or2"
+                || equipStat == "Weapon2"
+                || equipStat == "Missile";
+
+        case 21: // const.ItemType.Armor_
+            return equipStat == "Armor"
+                || equipStat == "Shield"
+                || equipStat == "Helm"
+                || equipStat == "Belt"
+                || equipStat == "Cloak"
+                || equipStat == "Gauntlets"
+                || equipStat == "Boots"
+                || equipStat == "Amulet";
+
+        case 22: // const.ItemType.Misc
+            return equipStat == "Misc"
+                || equipStat == "Bottle"
+                || equipStat == "Reagent"
+                || equipStat == "Gold"
+                || equipStat == "Gem"
+                || equipStat == "Message"
+                || equipStat == "0"
+                || equipStat == "N / A"
+                || equipStat.empty();
+
+        case 40: // const.ItemType.Ring_
+            return equipStat == "Ring";
+
+        case 43: // const.ItemType.Scroll_
+            return equipStat == "Sscroll"
+                || equipStat == "Mscroll"
+                || equipStat == "Book";
+
+        default:
+            return true;
+    }
+}
+
+std::optional<InventoryItem> createGrantedEventItem(
+    EventRuntimeState &runtimeState,
+    Party *pParty,
+    uint16_t eventId,
+    uint32_t treasureLevel,
+    uint32_t treasureType,
+    uint32_t itemId)
+{
+    const ItemTable *pItemTable = pParty != nullptr ? pParty->itemTable() : nullptr;
+
+    if (itemId != 0)
+    {
+        if (pItemTable != nullptr)
+        {
+            return ItemGenerator::makeInventoryItem(itemId, *pItemTable, ItemGenerationMode::Generic);
+        }
+
+        InventoryItem item = {};
+        item.objectDescriptionId = itemId;
+        item.quantity = 1;
+        return item;
+    }
+
+    if (pParty == nullptr
+        || pItemTable == nullptr
+        || pParty->standardItemEnchantTable() == nullptr
+        || pParty->specialItemEnchantTable() == nullptr)
+    {
+        return std::nullopt;
+    }
+
+    ItemGenerationRequest request = {};
+    request.treasureLevel = std::clamp(static_cast<int>(treasureLevel), 1, 6);
+    request.mode = ItemGenerationMode::Generic;
+    request.allowRareItems = true;
+
+    std::mt19937 rng(randomJumpSeed(
+        eventId,
+        static_cast<uint8_t>(runtimeState.grantedItems.size() & 0xFFu),
+        runtimeState));
+
+    return ItemGenerator::generateRandomInventoryItem(
+        *pItemTable,
+        *pParty->standardItemEnchantTable(),
+        *pParty->specialItemEnchantTable(),
+        request,
+        pParty,
+        rng,
+        [treasureType](const ItemDefinition &itemDefinition)
+        {
+            return matchesRandomGiveItemType(itemDefinition, treasureType);
+        });
 }
 
 float mechanismDistanceForState(const MapDeltaDoor &door, uint16_t state, float timeSinceTriggeredMs)
@@ -90,15 +209,8 @@ struct PartySelector
     size_t memberIndex = 0;
 };
 
-PartySelector decodePartySelector(const EventIrInstruction &instruction)
+PartySelector decodePartySelector(uint32_t selectorValue)
 {
-    if (instruction.operation != EventIrOperation::ForPartyMember || instruction.arguments.empty())
-    {
-        return {};
-    }
-
-    const uint32_t selectorValue = instruction.arguments[0];
-
     if (selectorValue <= static_cast<uint32_t>(EvtPartySelector::Member4))
     {
         PartySelector selector = {};
@@ -122,6 +234,11 @@ PartySelector decodePartySelector(const EventIrInstruction &instruction)
     }
 
     return {};
+}
+
+void markOutdoorSurfaceStateChanged(EventRuntimeState &runtimeState)
+{
+    ++runtimeState.outdoorSurfaceRevision;
 }
 
 std::vector<size_t> resolveTargetMemberIndices(const PartySelector &selector, const Party *pParty)
@@ -480,10 +597,10 @@ EvtSeason currentSeasonFromRuntimeState(const EventRuntimeState &runtimeState)
     return EvtSeason::Winter;
 }
 
-uint32_t randomJumpSeed(const EventIrInstruction &instruction, const EventRuntimeState &runtimeState)
+uint32_t randomJumpSeed(uint16_t eventId, uint8_t step, const EventRuntimeState &runtimeState)
 {
-    return static_cast<uint32_t>(instruction.eventId) * 2654435761u
-        ^ static_cast<uint32_t>(instruction.step) * 40503u
+    return static_cast<uint32_t>(eventId) * 2654435761u
+        ^ static_cast<uint32_t>(step) * 40503u
         ^ static_cast<uint32_t>(std::max(0, currentGameMinutesFromRuntimeState(runtimeState)));
 }
 
@@ -1020,6 +1137,13 @@ EventRuntime::VariableRef EventRuntime::decodeVariable(uint32_t rawId)
     }
 
     if (variable.index != 0 && variableId == EvtVariable::IsIntellectMoreThanBase)
+    {
+        variable.kind = VariableKind::AutoNote;
+        variable.rawId = rawId;
+        return variable;
+    }
+
+    if (variable.index != 0 && variableId == EvtVariable::AutoNotes)
     {
         variable.kind = VariableKind::AutoNote;
         variable.rawId = rawId;
@@ -2686,6 +2810,31 @@ void EventRuntime::addVariableValue(
             return;
         }
 
+        if (variableId == EvtVariable::NumSkillPoints && pParty != nullptr)
+        {
+            for (size_t targetMemberIndex : targetMemberIndices)
+            {
+                Character *pMember = pParty->member(targetMemberIndex);
+
+                if (pMember != nullptr)
+                {
+                    const int updatedSkillPoints = std::max(0, int(pMember->skillPoints) + value);
+                    pMember->skillPoints = updatedSkillPoints;
+                }
+            }
+
+            if (value > 0)
+            {
+                queuePortraitFxRequest(runtimeState, PortraitFxEventKind::AwardGain, pParty, targetMemberIndices);
+            }
+            else if (value < 0)
+            {
+                queuePortraitFxRequest(runtimeState, PortraitFxEventKind::StatDecrease, pParty, targetMemberIndices);
+            }
+
+            return;
+        }
+
         if (pParty != nullptr)
         {
             pParty->addEventVariableValue(variable.tag, value);
@@ -3023,6 +3172,27 @@ void EventRuntime::subtractVariableValue(
             return;
         }
 
+        if (variableId == EvtVariable::NumSkillPoints && pParty != nullptr)
+        {
+            for (size_t targetMemberIndex : targetMemberIndices)
+            {
+                Character *pMember = pParty->member(targetMemberIndex);
+
+                if (pMember != nullptr)
+                {
+                    const int updatedSkillPoints = std::max(0, int(pMember->skillPoints) - value);
+                    pMember->skillPoints = updatedSkillPoints;
+                }
+            }
+
+            if (value > 0)
+            {
+                queuePortraitFxRequest(runtimeState, PortraitFxEventKind::StatDecrease, pParty, targetMemberIndices);
+            }
+
+            return;
+        }
+
         if (pParty != nullptr)
         {
             pParty->subtractEventVariableValue(variable.tag, value);
@@ -3062,9 +3232,1361 @@ void EventRuntime::subtractVariableValue(
     runtimeState.variables[variable.rawId] = getVariableValue(runtimeState, variable, nullptr) - value;
 }
 
+namespace
+{
+constexpr char LuaScopeMap[] = "map";
+constexpr char LuaScopeGlobal[] = "global";
+constexpr char LuaScopeCanShowTopic[] = "CanShowTopic";
+int LuaSessionRegistryKey = 0;
+
+struct LuaScopeProgram
+{
+    std::unordered_map<uint16_t, int> handlers;
+    std::unordered_map<uint16_t, int> canShowTopicHandlers;
+    std::vector<uint16_t> onLoadEventIds;
+};
+
+struct LuaExecutionContext
+{
+    EventRuntimeState *pRuntimeState = nullptr;
+    const EventRuntimeState *pReadonlyRuntimeState = nullptr;
+    Party *pParty = nullptr;
+    const Party *pReadonlyParty = nullptr;
+    ISceneEventContext *pSceneEventContext = nullptr;
+    const ISceneEventContext *pReadonlySceneEventContext = nullptr;
+    PartySelector selector = {};
+    std::optional<std::string> pendingMessageText;
+    std::optional<bool> canShowTopicVisible;
+    uint16_t currentEventId = 0;
+    bool readonly = false;
+};
+
+}
+
+struct LuaSessionCache
+{
+    Engine::LuaStateOwner lua;
+    std::optional<std::string> lastError;
+    LuaScopeProgram localScope;
+    LuaScopeProgram globalScope;
+    LuaExecutionContext *pExecutionContext = nullptr;
+};
+
+namespace
+{
+void prepareRuntimeStateForEventExecution(EventRuntimeState &runtimeState, const ISceneEventContext *pSceneEventContext)
+{
+    runtimeState.lastAffectedMechanismIds.clear();
+    runtimeState.openedChestIds.clear();
+    runtimeState.grantedItems.clear();
+    runtimeState.grantedItemIds.clear();
+    runtimeState.removedItemIds.clear();
+    runtimeState.grantedAwardIds.clear();
+    runtimeState.removedAwardIds.clear();
+    runtimeState.pendingDialogueContext.reset();
+    runtimeState.pendingMapMove.reset();
+    runtimeState.pendingMovie.reset();
+    runtimeState.pendingInputPrompt.reset();
+    runtimeState.pendingSounds.clear();
+    syncTimeVariablesFromSceneContext(runtimeState, pSceneEventContext);
+}
+
+LuaSessionCache *luaSessionFromLua(lua_State *pLuaState)
+{
+    lua_pushlightuserdata(pLuaState, &LuaSessionRegistryKey);
+    lua_rawget(pLuaState, LUA_REGISTRYINDEX);
+    LuaSessionCache *pSession = static_cast<LuaSessionCache *>(lua_touserdata(pLuaState, -1));
+    lua_pop(pLuaState, 1);
+    return pSession;
+}
+
+LuaExecutionContext *executionContextFromLua(lua_State *pLuaState)
+{
+    LuaSessionCache *pSession = luaSessionFromLua(pLuaState);
+    return pSession != nullptr ? pSession->pExecutionContext : nullptr;
+}
+
+const Party *readonlyParty(const LuaExecutionContext *pExecutionContext)
+{
+    if (pExecutionContext == nullptr)
+    {
+        return nullptr;
+    }
+
+    return pExecutionContext->readonly ? pExecutionContext->pReadonlyParty : pExecutionContext->pParty;
+}
+
+const ISceneEventContext *readonlySceneEventContext(const LuaExecutionContext *pExecutionContext)
+{
+    if (pExecutionContext == nullptr)
+    {
+        return nullptr;
+    }
+
+    return pExecutionContext->readonly
+        ? pExecutionContext->pReadonlySceneEventContext
+        : pExecutionContext->pSceneEventContext;
+}
+
+EventRuntimeState *writableRuntimeState(lua_State *pLuaState)
+{
+    LuaExecutionContext *pExecutionContext = executionContextFromLua(pLuaState);
+
+    if (pExecutionContext == nullptr || pExecutionContext->readonly)
+    {
+        return nullptr;
+    }
+
+    return pExecutionContext->pRuntimeState;
+}
+
+const EventRuntimeState *readableRuntimeState(lua_State *pLuaState)
+{
+    const LuaExecutionContext *pExecutionContext = executionContextFromLua(pLuaState);
+
+    if (pExecutionContext == nullptr)
+    {
+        return nullptr;
+    }
+
+    return pExecutionContext->readonly ? pExecutionContext->pReadonlyRuntimeState : pExecutionContext->pRuntimeState;
+}
+
+const Party *readableParty(lua_State *pLuaState)
+{
+    LuaExecutionContext *pExecutionContext = executionContextFromLua(pLuaState);
+    return pExecutionContext != nullptr ? readonlyParty(pExecutionContext) : nullptr;
+}
+
+Party *writableParty(lua_State *pLuaState)
+{
+    LuaExecutionContext *pExecutionContext = executionContextFromLua(pLuaState);
+
+    if (pExecutionContext == nullptr || pExecutionContext->readonly)
+    {
+        return nullptr;
+    }
+
+    return pExecutionContext->pParty;
+}
+
+std::vector<size_t> selectedTargetMemberIndices(lua_State *pLuaState)
+{
+    LuaExecutionContext *pExecutionContext = executionContextFromLua(pLuaState);
+    return pExecutionContext != nullptr ? resolveTargetMemberIndices(pExecutionContext->selector, readableParty(pLuaState))
+                                        : std::vector<size_t>();
+}
+
+int luaBeginEvent(lua_State *pLuaState)
+{
+    LuaExecutionContext *pExecutionContext = executionContextFromLua(pLuaState);
+    EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState);
+
+    if (pExecutionContext != nullptr && pRuntimeState != nullptr)
+    {
+        pExecutionContext->currentEventId = static_cast<uint16_t>(luaL_checkinteger(pLuaState, 1));
+        pExecutionContext->selector = {};
+        pExecutionContext->pendingMessageText.reset();
+        prepareRuntimeStateForEventExecution(*pRuntimeState, pExecutionContext->pSceneEventContext);
+    }
+
+    return 0;
+}
+
+int luaBeginCanShowTopic(lua_State *pLuaState)
+{
+    LuaExecutionContext *pExecutionContext = executionContextFromLua(pLuaState);
+
+    if (pExecutionContext != nullptr)
+    {
+        pExecutionContext->currentEventId = static_cast<uint16_t>(luaL_checkinteger(pLuaState, 1));
+        pExecutionContext->selector = {};
+        pExecutionContext->pendingMessageText.reset();
+        pExecutionContext->canShowTopicVisible.reset();
+    }
+
+    return 0;
+}
+
+int luaForPlayer(lua_State *pLuaState)
+{
+    LuaExecutionContext *pExecutionContext = executionContextFromLua(pLuaState);
+
+    if (pExecutionContext != nullptr)
+    {
+        pExecutionContext->selector = decodePartySelector(static_cast<uint32_t>(luaL_checkinteger(pLuaState, 1)));
+    }
+
+    return 0;
+}
+
+int luaCompare(lua_State *pLuaState)
+{
+    const uint32_t rawVariableId = static_cast<uint32_t>(luaL_checkinteger(pLuaState, 1));
+    const int32_t compareValue = static_cast<int32_t>(luaL_checkinteger(pLuaState, 2));
+    lua_pushboolean(
+        pLuaState,
+        evaluateCompareValue(
+            *readableRuntimeState(pLuaState),
+            rawVariableId,
+            compareValue,
+            readableParty(pLuaState),
+            selectedTargetMemberIndices(pLuaState)));
+    return 1;
+}
+
+int luaPlaySound(lua_State *pLuaState)
+{
+    EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState);
+    const uint32_t soundId = static_cast<uint32_t>(luaL_checkinteger(pLuaState, 1));
+    const int32_t x = static_cast<int32_t>(luaL_optinteger(pLuaState, 2, 0));
+    const int32_t y = static_cast<int32_t>(luaL_optinteger(pLuaState, 3, 0));
+    queuePendingSound(*pRuntimeState, soundId, x, y, x != 0 || y != 0);
+    return 0;
+}
+
+int luaMoveNpc(lua_State *pLuaState)
+{
+    EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState);
+    pRuntimeState->npcHouseOverrides[static_cast<uint32_t>(luaL_checkinteger(pLuaState, 1))] =
+        static_cast<uint32_t>(luaL_checkinteger(pLuaState, 2));
+    return 0;
+}
+
+int luaRandomJump(lua_State *pLuaState)
+{
+    const uint16_t eventId = static_cast<uint16_t>(luaL_checkinteger(pLuaState, 1));
+    const uint8_t step = static_cast<uint8_t>(luaL_checkinteger(pLuaState, 2));
+    const EventRuntimeState *pRuntimeState = readableRuntimeState(pLuaState);
+    luaL_checktype(pLuaState, 3, LUA_TTABLE);
+
+    const size_t count = lua_rawlen(pLuaState, 3);
+    std::vector<uint32_t> validTargets;
+    validTargets.reserve(count);
+
+    for (size_t index = 1; index <= count; ++index)
+    {
+        lua_rawgeti(pLuaState, 3, index);
+        const uint32_t target = static_cast<uint32_t>(lua_tointeger(pLuaState, -1));
+
+        if (target != 0)
+        {
+            validTargets.push_back(target);
+        }
+
+        lua_pop(pLuaState, 1);
+    }
+
+    if (validTargets.empty())
+    {
+        lua_pushinteger(pLuaState, 0);
+        return 1;
+    }
+
+    const uint32_t seed = randomJumpSeed(eventId, step, *pRuntimeState);
+    lua_pushinteger(pLuaState, validTargets[seed % validTargets.size()]);
+    return 1;
+}
+
+int luaDamagePlayer(lua_State *pLuaState)
+{
+    Party *pParty = writableParty(pLuaState);
+
+    if (pParty == nullptr)
+    {
+        return 0;
+    }
+
+    const int damage = static_cast<int>(luaL_checkinteger(pLuaState, 3));
+    const std::vector<size_t> targets = selectedTargetMemberIndices(pLuaState);
+    const std::string status = damageStatusForEvtVariable(targets);
+
+    for (size_t memberIndex : targets)
+    {
+        pParty->applyDamageToMember(memberIndex, damage, status);
+    }
+
+    return 0;
+}
+
+int luaSetSnow(lua_State *pLuaState)
+{
+    EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState);
+
+    if (static_cast<uint32_t>(luaL_checkinteger(pLuaState, 1)) == 0)
+    {
+        pRuntimeState->snowEnabled = lua_toboolean(pLuaState, 2) != 0;
+    }
+
+    return 0;
+}
+
+int luaShowMovie(lua_State *pLuaState)
+{
+    EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState);
+    EventRuntimeState::PendingMovie movie = {};
+    movie.movieName = sanitizeEventString(luaL_checkstring(pLuaState, 1));
+    movie.restoreAfterPlayback = lua_toboolean(pLuaState, 2) != 0;
+    pRuntimeState->pendingMovie = std::move(movie);
+    return 0;
+}
+
+int luaSetSprite(lua_State *pLuaState)
+{
+    EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState);
+    const uint32_t cogNumber = static_cast<uint32_t>(luaL_checkinteger(pLuaState, 1));
+    EventRuntimeState::SpriteOverride spriteOverride = {};
+    spriteOverride.hidden = lua_toboolean(pLuaState, 2) != 0;
+
+    if (lua_gettop(pLuaState) >= 3 && lua_type(pLuaState, 3) == LUA_TSTRING)
+    {
+        spriteOverride.textureName = sanitizeEventString(lua_tostring(pLuaState, 3));
+    }
+
+    pRuntimeState->spriteOverrides[cogNumber] = std::move(spriteOverride);
+    return 0;
+}
+
+int luaEnterHouse(lua_State *pLuaState)
+{
+    EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState);
+    pRuntimeState->messages.clear();
+    EventRuntimeState::PendingDialogueContext context = {};
+    context.kind = DialogueContextKind::HouseService;
+    context.sourceId = static_cast<uint32_t>(luaL_checkinteger(pLuaState, 1));
+    context.hostHouseId = context.sourceId;
+    pRuntimeState->dialogueState.hostHouseId = context.sourceId;
+    pRuntimeState->pendingDialogueContext = std::move(context);
+    return 0;
+}
+
+int luaSpeakNpc(lua_State *pLuaState)
+{
+    EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState);
+    pRuntimeState->messages.clear();
+    EventRuntimeState::PendingDialogueContext context = {};
+    context.kind = DialogueContextKind::NpcTalk;
+    context.sourceId = static_cast<uint32_t>(luaL_checkinteger(pLuaState, 1));
+    context.hostHouseId = pRuntimeState->dialogueState.hostHouseId;
+    pRuntimeState->pendingDialogueContext = std::move(context);
+    return 0;
+}
+
+int luaMoveToMap(lua_State *pLuaState)
+{
+    EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState);
+    EventRuntimeState::PendingMapMove move = {};
+    move.x = static_cast<int32_t>(luaL_checkinteger(pLuaState, 1));
+    move.y = static_cast<int32_t>(luaL_checkinteger(pLuaState, 2));
+    move.z = static_cast<int32_t>(luaL_checkinteger(pLuaState, 3));
+
+    if (lua_gettop(pLuaState) >= 4 && lua_type(pLuaState, 4) != LUA_TNIL)
+    {
+        move.directionDegrees = moveToMapYawUnitsToDegrees(static_cast<int32_t>(luaL_checkinteger(pLuaState, 4)));
+    }
+
+    if (lua_gettop(pLuaState) >= 5 && lua_type(pLuaState, 5) == LUA_TSTRING)
+    {
+        const std::string mapName = sanitizeEventString(lua_tostring(pLuaState, 5));
+
+        if (!mapName.empty())
+        {
+            move.mapName = mapName;
+        }
+    }
+
+    pRuntimeState->pendingMapMove = std::move(move);
+    return 0;
+}
+
+int luaCastSpell(lua_State *pLuaState)
+{
+    LuaExecutionContext *pExecutionContext = executionContextFromLua(pLuaState);
+
+    if (pExecutionContext == nullptr || pExecutionContext->pSceneEventContext == nullptr)
+    {
+        return 0;
+    }
+
+    pExecutionContext->pSceneEventContext->castEventSpell(
+        static_cast<uint32_t>(luaL_checkinteger(pLuaState, 1)),
+        static_cast<uint32_t>(luaL_checkinteger(pLuaState, 2)),
+        static_cast<uint32_t>(luaL_checkinteger(pLuaState, 3)),
+        static_cast<int32_t>(luaL_checkinteger(pLuaState, 4)),
+        static_cast<int32_t>(luaL_checkinteger(pLuaState, 5)),
+        static_cast<int32_t>(luaL_checkinteger(pLuaState, 6)),
+        static_cast<int32_t>(luaL_checkinteger(pLuaState, 7)),
+        static_cast<int32_t>(luaL_checkinteger(pLuaState, 8)),
+        static_cast<int32_t>(luaL_checkinteger(pLuaState, 9)));
+    return 0;
+}
+
+int luaFaceExpression(lua_State *pLuaState)
+{
+    Party *pParty = writableParty(pLuaState);
+
+    if (pParty == nullptr)
+    {
+        return 0;
+    }
+
+    const std::optional<PortraitId> portraitId = eventPortraitId(static_cast<uint32_t>(luaL_checkinteger(pLuaState, 1)));
+
+    if (!portraitId)
+    {
+        return 0;
+    }
+
+    for (size_t memberIndex : selectedTargetMemberIndices(pLuaState))
+    {
+        Character *pMember = pParty->member(memberIndex);
+
+        if (pMember == nullptr)
+        {
+            continue;
+        }
+
+        pMember->portraitState = *portraitId;
+        pMember->portraitElapsedTicks = 0;
+        pMember->portraitDurationTicks = DefaultEventPortraitDurationTicks;
+        pMember->portraitSequenceCounter += 1;
+    }
+
+    return 0;
+}
+
+int luaCheckItemsCount(lua_State *pLuaState)
+{
+    const EventRuntimeState *pRuntimeState = readableRuntimeState(pLuaState);
+    const int32_t currentCount = EventRuntime::getInventoryItemCount(
+        *pRuntimeState,
+        readableParty(pLuaState),
+        static_cast<uint32_t>(luaL_checkinteger(pLuaState, 1)),
+        singleTargetMemberIndex(selectedTargetMemberIndices(pLuaState)));
+    lua_pushboolean(pLuaState, currentCount >= static_cast<int32_t>(luaL_checkinteger(pLuaState, 2)));
+    return 1;
+}
+
+int luaCheckSkill(lua_State *pLuaState)
+{
+    const Party *pParty = readableParty(pLuaState);
+
+    if (pParty == nullptr)
+    {
+        lua_pushboolean(pLuaState, 0);
+        return 1;
+    }
+
+    const EvtVariable skillVariable = static_cast<EvtVariable>(luaL_checkinteger(pLuaState, 1));
+    const SkillMastery mastery = static_cast<SkillMastery>(luaL_checkinteger(pLuaState, 2));
+    const uint32_t level = static_cast<uint32_t>(luaL_checkinteger(pLuaState, 3));
+    bool passed = false;
+
+    for (size_t memberIndex : selectedTargetMemberIndices(pLuaState))
+    {
+        const Character *pMember = pParty->member(memberIndex);
+
+        if (pMember != nullptr && characterMeetsSkillCheck(*pMember, skillVariable, mastery, level))
+        {
+            passed = true;
+            break;
+        }
+    }
+
+    lua_pushboolean(pLuaState, passed);
+    return 1;
+}
+
+int luaSummonItem(lua_State *pLuaState)
+{
+    LuaExecutionContext *pExecutionContext = executionContextFromLua(pLuaState);
+
+    if (pExecutionContext == nullptr || pExecutionContext->pSceneEventContext == nullptr)
+    {
+        return 0;
+    }
+
+    pExecutionContext->pSceneEventContext->summonEventItem(
+        static_cast<uint32_t>(luaL_checkinteger(pLuaState, 1)),
+        static_cast<int32_t>(luaL_checkinteger(pLuaState, 2)),
+        static_cast<int32_t>(luaL_checkinteger(pLuaState, 3)),
+        static_cast<int32_t>(luaL_checkinteger(pLuaState, 4)),
+        static_cast<int32_t>(luaL_checkinteger(pLuaState, 5)),
+        static_cast<uint32_t>(luaL_optinteger(pLuaState, 6, 1)),
+        lua_toboolean(pLuaState, 7) != 0);
+    return 0;
+}
+
+int luaSetMonsterGroup(lua_State *pLuaState)
+{
+    EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState);
+    pRuntimeState->actorIdGroupOverrides[static_cast<uint32_t>(luaL_checkinteger(pLuaState, 1))] =
+        static_cast<uint32_t>(luaL_checkinteger(pLuaState, 2));
+    return 0;
+}
+
+int luaSetNpcGreeting(lua_State *pLuaState)
+{
+    EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState);
+    const uint32_t npcId = static_cast<uint32_t>(luaL_checkinteger(pLuaState, 1));
+    pRuntimeState->npcGreetingOverrides[npcId] = static_cast<uint32_t>(luaL_checkinteger(pLuaState, 2));
+    pRuntimeState->npcGreetingDisplayCounts[npcId] = 0;
+    return 0;
+}
+
+int luaSetNpcItem(lua_State *pLuaState)
+{
+    EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState);
+    const uint32_t npcId = static_cast<uint32_t>(luaL_checkinteger(pLuaState, 1));
+    const uint32_t itemId = static_cast<uint32_t>(luaL_checkinteger(pLuaState, 2));
+    const bool isGive = lua_gettop(pLuaState) < 3 || lua_toboolean(pLuaState, 3) != 0;
+    pRuntimeState->npcItemOverrides[npcId] = isGive ? itemId : 0;
+    return 0;
+}
+
+int luaSetMonsterItem(lua_State *pLuaState)
+{
+    EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState);
+    const uint32_t actorId = static_cast<uint32_t>(luaL_checkinteger(pLuaState, 1));
+    const uint32_t itemId = static_cast<uint32_t>(luaL_checkinteger(pLuaState, 2));
+    const bool isGive = lua_gettop(pLuaState) < 3 || lua_toboolean(pLuaState, 3) != 0;
+
+    if (isGive && itemId != 0)
+    {
+        pRuntimeState->actorItemOverrides[actorId] = itemId;
+        pRuntimeState->actorSetMasks[actorId] |= static_cast<uint32_t>(EvtActorAttribute::HasItem);
+        pRuntimeState->actorClearMasks[actorId] &= ~static_cast<uint32_t>(EvtActorAttribute::HasItem);
+    }
+    else
+    {
+        pRuntimeState->actorItemOverrides.erase(actorId);
+        pRuntimeState->actorClearMasks[actorId] |= static_cast<uint32_t>(EvtActorAttribute::HasItem);
+        pRuntimeState->actorSetMasks[actorId] &= ~static_cast<uint32_t>(EvtActorAttribute::HasItem);
+    }
+
+    return 0;
+}
+
+int luaFaceAnimation(lua_State *pLuaState)
+{
+    Party *pParty = writableParty(pLuaState);
+
+    if (pParty == nullptr)
+    {
+        return 0;
+    }
+
+    const SpeechId speechId = static_cast<SpeechId>(luaL_checkinteger(pLuaState, 1));
+
+    for (size_t memberIndex : selectedTargetMemberIndices(pLuaState))
+    {
+        pParty->requestSpeech(memberIndex, speechId);
+    }
+
+    return 0;
+}
+
+int luaChangeGroupToGroup(lua_State *pLuaState)
+{
+    EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState);
+    pRuntimeState->actorGroupOverrides[static_cast<uint32_t>(luaL_checkinteger(pLuaState, 1))] =
+        static_cast<uint32_t>(luaL_checkinteger(pLuaState, 2));
+    return 0;
+}
+
+int luaChangeGroupAlly(lua_State *pLuaState)
+{
+    EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState);
+    pRuntimeState->actorGroupAllyOverrides[static_cast<uint32_t>(luaL_checkinteger(pLuaState, 1))] =
+        static_cast<uint32_t>(luaL_checkinteger(pLuaState, 2));
+    return 0;
+}
+
+int luaCheckSeason(lua_State *pLuaState)
+{
+    lua_pushboolean(
+        pLuaState,
+        currentSeasonFromRuntimeState(*readableRuntimeState(pLuaState))
+            == static_cast<EvtSeason>(luaL_checkinteger(pLuaState, 1)));
+    return 1;
+}
+
+int luaSetChestBit(lua_State *pLuaState)
+{
+    EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState);
+    const uint32_t chestId = static_cast<uint32_t>(luaL_checkinteger(pLuaState, 1));
+    const uint32_t flag = static_cast<uint32_t>(luaL_checkinteger(pLuaState, 2));
+    const bool isOn = lua_toboolean(pLuaState, 3) != 0;
+
+    if (isOn)
+    {
+        pRuntimeState->chestSetMasks[chestId] |= flag;
+        pRuntimeState->chestClearMasks[chestId] &= ~flag;
+    }
+    else
+    {
+        pRuntimeState->chestClearMasks[chestId] |= flag;
+        pRuntimeState->chestSetMasks[chestId] &= ~flag;
+    }
+
+    if ((flag & static_cast<uint32_t>(EvtChestFlag::Opened)) != 0 && isOn)
+    {
+        pRuntimeState->openedChestIds.push_back(chestId);
+    }
+
+    return 0;
+}
+
+int luaInputString(lua_State *pLuaState)
+{
+    EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState);
+    EventRuntimeState::PendingInputPrompt prompt = {};
+    prompt.kind = EventRuntimeState::PendingInputPrompt::Kind::InputString;
+    prompt.eventId = static_cast<uint16_t>(luaL_checkinteger(pLuaState, 1));
+    prompt.continueStep = static_cast<uint8_t>(luaL_checkinteger(pLuaState, 2));
+    prompt.textId = static_cast<uint32_t>(luaL_optinteger(pLuaState, 3, 0));
+
+    if (lua_gettop(pLuaState) >= 4 && lua_type(pLuaState, 4) == LUA_TSTRING)
+    {
+        prompt.text = lua_tostring(pLuaState, 4);
+    }
+
+    pRuntimeState->pendingInputPrompt = std::move(prompt);
+    return 0;
+}
+
+int luaPressAnyKey(lua_State *pLuaState)
+{
+    EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState);
+    EventRuntimeState::PendingInputPrompt prompt = {};
+    prompt.kind = EventRuntimeState::PendingInputPrompt::Kind::PressAnyKey;
+    prompt.eventId = static_cast<uint16_t>(luaL_checkinteger(pLuaState, 1));
+    prompt.continueStep = static_cast<uint8_t>(luaL_checkinteger(pLuaState, 2));
+    pRuntimeState->pendingInputPrompt = std::move(prompt);
+    return 0;
+}
+
+int luaSpecialJump(lua_State *pLuaState)
+{
+    (void)pLuaState;
+    return 0;
+}
+
+int luaJump(lua_State *pLuaState)
+{
+    return luaSpecialJump(pLuaState);
+}
+
+int luaIsTotalBountyInRange(lua_State *pLuaState)
+{
+    const Party *pParty = readableParty(pLuaState);
+    const int32_t totalBounty = pParty != nullptr
+        ? pParty->eventVariableValue(static_cast<uint16_t>(EvtVariable::NumBounties))
+        : 0;
+    const int32_t minValue = static_cast<int32_t>(luaL_checkinteger(pLuaState, 1));
+    const int32_t maxValue = static_cast<int32_t>(luaL_checkinteger(pLuaState, 2));
+    lua_pushboolean(pLuaState, totalBounty >= minValue && totalBounty <= maxValue);
+    return 1;
+}
+
+int luaIsNpcInParty(lua_State *pLuaState)
+{
+    const EventRuntimeState *pRuntimeState = readableRuntimeState(pLuaState);
+    lua_pushboolean(
+        pLuaState,
+        pRuntimeState->unavailableNpcIds.contains(static_cast<uint32_t>(luaL_checkinteger(pLuaState, 1))));
+    return 1;
+}
+
+int luaCheckMonstersKilled(lua_State *pLuaState)
+{
+    const LuaExecutionContext *pExecutionContext = executionContextFromLua(pLuaState);
+
+    if (pExecutionContext == nullptr || readonlySceneEventContext(pExecutionContext) == nullptr)
+    {
+        lua_pushboolean(pLuaState, 0);
+        return 1;
+    }
+
+    lua_pushboolean(
+        pLuaState,
+        readonlySceneEventContext(pExecutionContext)->checkMonstersKilled(
+            static_cast<uint32_t>(luaL_checkinteger(pLuaState, 1)),
+            static_cast<uint32_t>(luaL_checkinteger(pLuaState, 2)),
+            static_cast<uint32_t>(luaL_checkinteger(pLuaState, 3)),
+            lua_toboolean(pLuaState, 4) != 0));
+    return 1;
+}
+
+int luaAdd(lua_State *pLuaState)
+{
+    EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState);
+    EventRuntime::addVariableValue(
+        *pRuntimeState,
+        EventRuntime::decodeVariable(static_cast<uint32_t>(luaL_checkinteger(pLuaState, 1))),
+        static_cast<int32_t>(luaL_checkinteger(pLuaState, 2)),
+        writableParty(pLuaState),
+        selectedTargetMemberIndices(pLuaState));
+    return 0;
+}
+
+int luaSubtract(lua_State *pLuaState)
+{
+    EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState);
+    EventRuntime::subtractVariableValue(
+        *pRuntimeState,
+        EventRuntime::decodeVariable(static_cast<uint32_t>(luaL_checkinteger(pLuaState, 1))),
+        static_cast<int32_t>(luaL_checkinteger(pLuaState, 2)),
+        writableParty(pLuaState),
+        selectedTargetMemberIndices(pLuaState));
+    return 0;
+}
+
+int luaSet(lua_State *pLuaState)
+{
+    EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState);
+    EventRuntime::setVariableValue(
+        *pRuntimeState,
+        EventRuntime::decodeVariable(static_cast<uint32_t>(luaL_checkinteger(pLuaState, 1))),
+        static_cast<int32_t>(luaL_checkinteger(pLuaState, 2)),
+        writableParty(pLuaState),
+        selectedTargetMemberIndices(pLuaState));
+    return 0;
+}
+
+int luaSummonMonsters(lua_State *pLuaState)
+{
+    LuaExecutionContext *pExecutionContext = executionContextFromLua(pLuaState);
+
+    if (pExecutionContext == nullptr || pExecutionContext->pSceneEventContext == nullptr)
+    {
+        return 0;
+    }
+
+    pExecutionContext->pSceneEventContext->summonMonsters(
+        static_cast<uint32_t>(luaL_checkinteger(pLuaState, 1)),
+        static_cast<uint32_t>(luaL_checkinteger(pLuaState, 2)),
+        static_cast<uint32_t>(luaL_checkinteger(pLuaState, 3)),
+        static_cast<int32_t>(luaL_checkinteger(pLuaState, 4)),
+        static_cast<int32_t>(luaL_checkinteger(pLuaState, 5)),
+        static_cast<int32_t>(luaL_checkinteger(pLuaState, 6)),
+        static_cast<uint32_t>(luaL_checkinteger(pLuaState, 7)),
+        static_cast<uint32_t>(luaL_checkinteger(pLuaState, 8)));
+    return 0;
+}
+
+int luaChangeEvent(lua_State *pLuaState)
+{
+    EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState);
+
+    if (pRuntimeState->activeDecorationContext)
+    {
+        EventRuntimeState::ActiveDecorationContext &context = *pRuntimeState->activeDecorationContext;
+        const uint16_t targetEventId = static_cast<uint16_t>(luaL_checkinteger(pLuaState, 1));
+        uint8_t newState = 0;
+
+        if (targetEventId == 0)
+        {
+            newState = context.hideWhenCleared ? context.eventCount : 0;
+        }
+        else if (targetEventId >= context.baseEventId)
+        {
+            const uint16_t delta = targetEventId - context.baseEventId;
+            newState = delta > std::numeric_limits<uint8_t>::max()
+                ? std::numeric_limits<uint8_t>::max()
+                : static_cast<uint8_t>(delta);
+        }
+
+        pRuntimeState->decorVars[context.decorVarIndex] = newState;
+        context.currentEventId = targetEventId;
+    }
+
+    return 0;
+}
+
+int luaStatusText(lua_State *pLuaState)
+{
+    EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState);
+    pRuntimeState->statusMessages.push_back(luaL_checkstring(pLuaState, 1));
+    return 0;
+}
+
+int luaOpenChest(lua_State *pLuaState)
+{
+    EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState);
+    pRuntimeState->openedChestIds.push_back(static_cast<uint32_t>(luaL_checkinteger(pLuaState, 1)));
+    return 0;
+}
+
+int luaGiveItem(lua_State *pLuaState)
+{
+    EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState);
+    Party *pParty = writableParty(pLuaState);
+
+    if (pRuntimeState == nullptr)
+    {
+        return 0;
+    }
+
+    const int argumentCount = lua_gettop(pLuaState);
+
+    if (argumentCount <= 0)
+    {
+        return 0;
+    }
+
+    if (argumentCount == 1)
+    {
+        const uint32_t itemId = static_cast<uint32_t>(luaL_checkinteger(pLuaState, 1));
+        const std::optional<InventoryItem> item = createGrantedEventItem(*pRuntimeState, pParty, 0, 1, 0, itemId);
+
+        if (item)
+        {
+            pRuntimeState->grantedItems.push_back(*item);
+        }
+
+        return 0;
+    }
+
+    const uint32_t treasureLevel = static_cast<uint32_t>(luaL_checkinteger(pLuaState, 1));
+    const uint32_t treasureType = static_cast<uint32_t>(luaL_checkinteger(pLuaState, 2));
+    const uint32_t itemId =
+        argumentCount >= 3 ? static_cast<uint32_t>(luaL_checkinteger(pLuaState, 3)) : 0;
+    LuaExecutionContext *pExecutionContext = executionContextFromLua(pLuaState);
+    const uint16_t eventId = pExecutionContext != nullptr ? pExecutionContext->currentEventId : 0;
+    const std::optional<InventoryItem> item =
+        createGrantedEventItem(*pRuntimeState, pParty, eventId, treasureLevel, treasureType, itemId);
+
+    if (item)
+    {
+        pRuntimeState->grantedItems.push_back(*item);
+    }
+
+    return 0;
+}
+
+int luaRemoveItems(lua_State *pLuaState)
+{
+    EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState);
+    pRuntimeState->removedItemIds.push_back(static_cast<uint32_t>(luaL_checkinteger(pLuaState, 1)));
+    return 0;
+}
+
+int luaSetDoorState(lua_State *pLuaState)
+{
+    EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState);
+    const uint32_t mechanismId = static_cast<uint32_t>(luaL_checkinteger(pLuaState, 1));
+    const uint32_t actionValue = static_cast<uint32_t>(luaL_checkinteger(pLuaState, 2));
+    RuntimeMechanismState &runtimeMechanism = pRuntimeState->mechanisms[mechanismId];
+    MechanismAction action = MechanismAction::Open;
+
+    if (actionValue == static_cast<uint32_t>(EvtMechanismAction::Close))
+    {
+        action = MechanismAction::Close;
+    }
+    else if (actionValue == static_cast<uint32_t>(EvtMechanismAction::Trigger))
+    {
+        action = MechanismAction::Trigger;
+    }
+
+    EventRuntime::applyMechanismAction(runtimeMechanism, action);
+    pRuntimeState->lastAffectedMechanismIds.push_back(mechanismId);
+    return 0;
+}
+
+int luaStopDoor(lua_State *pLuaState)
+{
+    EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState);
+    const uint32_t mechanismId = static_cast<uint32_t>(luaL_checkinteger(pLuaState, 1));
+    pRuntimeState->mechanisms[mechanismId].isMoving = false;
+    pRuntimeState->lastAffectedMechanismIds.push_back(mechanismId);
+    return 0;
+}
+
+int luaSetTexture(lua_State *pLuaState)
+{
+    EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState);
+    const uint32_t cogNumber = static_cast<uint32_t>(luaL_checkinteger(pLuaState, 1));
+
+    if (lua_gettop(pLuaState) >= 2 && lua_type(pLuaState, 2) == LUA_TSTRING)
+    {
+        pRuntimeState->textureOverrides[cogNumber] = sanitizeEventString(lua_tostring(pLuaState, 2));
+    }
+    else
+    {
+        pRuntimeState->textureOverrides.erase(cogNumber);
+    }
+
+    markOutdoorSurfaceStateChanged(*pRuntimeState);
+    return 0;
+}
+
+int luaSetLight(lua_State *pLuaState)
+{
+    EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState);
+    pRuntimeState->indoorLightsEnabled[static_cast<uint32_t>(luaL_checkinteger(pLuaState, 1))] =
+        lua_toboolean(pLuaState, 2) != 0;
+    return 0;
+}
+
+int luaSetFacetBit(lua_State *pLuaState)
+{
+    EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState);
+    const uint32_t faceId = static_cast<uint32_t>(luaL_checkinteger(pLuaState, 1));
+    const uint32_t bit = static_cast<uint32_t>(luaL_checkinteger(pLuaState, 2));
+    const bool isOn = lua_toboolean(pLuaState, 3) != 0;
+
+    if (isOn)
+    {
+        pRuntimeState->facetSetMasks[faceId] |= bit;
+        pRuntimeState->facetClearMasks[faceId] &= ~bit;
+    }
+    else
+    {
+        pRuntimeState->facetClearMasks[faceId] |= bit;
+        pRuntimeState->facetSetMasks[faceId] &= ~bit;
+    }
+
+    markOutdoorSurfaceStateChanged(*pRuntimeState);
+    return 0;
+}
+
+int luaSetMonsterBit(lua_State *pLuaState)
+{
+    EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState);
+    const uint32_t actorId = static_cast<uint32_t>(luaL_checkinteger(pLuaState, 1));
+    const uint32_t bit = static_cast<uint32_t>(luaL_checkinteger(pLuaState, 2));
+    const bool isOn = lua_toboolean(pLuaState, 3) != 0;
+
+    if (isOn)
+    {
+        pRuntimeState->actorSetMasks[actorId] |= bit;
+        pRuntimeState->actorClearMasks[actorId] &= ~bit;
+    }
+    else
+    {
+        pRuntimeState->actorClearMasks[actorId] |= bit;
+        pRuntimeState->actorSetMasks[actorId] &= ~bit;
+    }
+
+    return 0;
+}
+
+int luaSetMonGroupBit(lua_State *pLuaState)
+{
+    EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState);
+    const uint32_t groupId = static_cast<uint32_t>(luaL_checkinteger(pLuaState, 1));
+    const uint32_t bit = static_cast<uint32_t>(luaL_checkinteger(pLuaState, 2));
+    const bool isOn = lua_toboolean(pLuaState, 3) != 0;
+
+    if (isOn)
+    {
+        pRuntimeState->actorGroupSetMasks[groupId] |= bit;
+        pRuntimeState->actorGroupClearMasks[groupId] &= ~bit;
+    }
+    else
+    {
+        pRuntimeState->actorGroupClearMasks[groupId] |= bit;
+        pRuntimeState->actorGroupSetMasks[groupId] &= ~bit;
+    }
+
+    return 0;
+}
+
+int luaSetNpcTopic(lua_State *pLuaState)
+{
+    EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState);
+    pRuntimeState->npcTopicOverrides[static_cast<uint32_t>(luaL_checkinteger(pLuaState, 1))]
+                                  [static_cast<uint32_t>(luaL_checkinteger(pLuaState, 2))] =
+        static_cast<uint32_t>(luaL_checkinteger(pLuaState, 3));
+    return 0;
+}
+
+int luaSetNpcGroupNews(lua_State *pLuaState)
+{
+    EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState);
+    pRuntimeState->npcGroupNews[static_cast<uint32_t>(luaL_checkinteger(pLuaState, 1))] =
+        static_cast<uint32_t>(luaL_checkinteger(pLuaState, 2));
+    return 0;
+}
+
+int luaSetMessage(lua_State *pLuaState)
+{
+    LuaExecutionContext *pExecutionContext = executionContextFromLua(pLuaState);
+
+    if (pExecutionContext != nullptr)
+    {
+        pExecutionContext->pendingMessageText = luaL_checkstring(pLuaState, 1);
+    }
+
+    return 0;
+}
+
+int luaSimpleMessage(lua_State *pLuaState)
+{
+    EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState);
+
+    if (lua_gettop(pLuaState) >= 1 && lua_type(pLuaState, 1) == LUA_TSTRING)
+    {
+        pRuntimeState->messages.push_back(lua_tostring(pLuaState, 1));
+        return 0;
+    }
+
+    LuaExecutionContext *pExecutionContext = executionContextFromLua(pLuaState);
+
+    if (pExecutionContext != nullptr && pExecutionContext->pendingMessageText)
+    {
+        pRuntimeState->messages.push_back(*pExecutionContext->pendingMessageText);
+    }
+
+    return 0;
+}
+
+int luaCanPlayerAct(lua_State *pLuaState)
+{
+    const Party *pParty = readableParty(pLuaState);
+
+    if (pParty == nullptr)
+    {
+        lua_pushboolean(pLuaState, 0);
+        return 1;
+    }
+
+    const int rosterId = static_cast<int>(luaL_checkinteger(pLuaState, 1));
+
+    for (const Character &member : pParty->members())
+    {
+        if (member.rosterId == rosterId)
+        {
+            lua_pushboolean(pLuaState, GameMechanics::canAct(member));
+            return 1;
+        }
+    }
+
+    lua_pushboolean(pLuaState, 0);
+    return 1;
+}
+
+int luaRefundChestArtifacts(lua_State *pLuaState)
+{
+    (void)pLuaState;
+    return 0;
+}
+
+int luaQuestion(lua_State *pLuaState)
+{
+    EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState);
+    EventRuntimeState::PendingInputPrompt prompt = {};
+    prompt.kind = EventRuntimeState::PendingInputPrompt::Kind::InputString;
+    prompt.eventId = executionContextFromLua(pLuaState) != nullptr
+        ? executionContextFromLua(pLuaState)->currentEventId
+        : 0;
+    prompt.continueStep = 0;
+    prompt.text = luaL_checkstring(pLuaState, 1);
+    pRuntimeState->pendingInputPrompt = std::move(prompt);
+    return 0;
+}
+
+void registerLuaFunction(lua_State *pLuaState, const char *pName, lua_CFunction function)
+{
+    lua_pushcfunction(pLuaState, function);
+    lua_setfield(pLuaState, -2, pName);
+}
+
+void registerEventBindings(LuaSessionCache &session)
+{
+    lua_State *pLuaState = session.lua.state();
+    lua_newtable(pLuaState);
+
+    registerLuaFunction(pLuaState, "_BeginEvent", luaBeginEvent);
+    registerLuaFunction(pLuaState, "_BeginCanShowTopic", luaBeginCanShowTopic);
+    registerLuaFunction(pLuaState, "_RandomJump", luaRandomJump);
+    registerLuaFunction(pLuaState, "_InputString", luaInputString);
+    registerLuaFunction(pLuaState, "_PressAnyKey", luaPressAnyKey);
+    registerLuaFunction(pLuaState, "_SpecialJump", luaSpecialJump);
+    registerLuaFunction(pLuaState, "_IsNpcInParty", luaIsNpcInParty);
+
+    registerLuaFunction(pLuaState, "ForPlayer", luaForPlayer);
+    registerLuaFunction(pLuaState, "Cmp", luaCompare);
+    registerLuaFunction(pLuaState, "EnterHouse", luaEnterHouse);
+    registerLuaFunction(pLuaState, "PlaySound", luaPlaySound);
+    registerLuaFunction(pLuaState, "MoveToMap", luaMoveToMap);
+    registerLuaFunction(pLuaState, "OpenChest", luaOpenChest);
+    registerLuaFunction(pLuaState, "FaceExpression", luaFaceExpression);
+    registerLuaFunction(pLuaState, "DamagePlayer", luaDamagePlayer);
+    registerLuaFunction(pLuaState, "SetSnow", luaSetSnow);
+    registerLuaFunction(pLuaState, "SetTexture", luaSetTexture);
+    registerLuaFunction(pLuaState, "SetTextureOutdoors", luaSetTexture);
+    registerLuaFunction(pLuaState, "ShowMovie", luaShowMovie);
+    registerLuaFunction(pLuaState, "SetSprite", luaSetSprite);
+    registerLuaFunction(pLuaState, "SetDoorState", luaSetDoorState);
+    registerLuaFunction(pLuaState, "Add", luaAdd);
+    registerLuaFunction(pLuaState, "Subtract", luaSubtract);
+    registerLuaFunction(pLuaState, "Set", luaSet);
+    registerLuaFunction(pLuaState, "SummonMonsters", luaSummonMonsters);
+    registerLuaFunction(pLuaState, "CastSpell", luaCastSpell);
+    registerLuaFunction(pLuaState, "SpeakNPC", luaSpeakNpc);
+    registerLuaFunction(pLuaState, "SetFacetBit", luaSetFacetBit);
+    registerLuaFunction(pLuaState, "SetFacetBitOutdoors", luaSetFacetBit);
+    registerLuaFunction(pLuaState, "SetMonsterBit", luaSetMonsterBit);
+    registerLuaFunction(pLuaState, "Question", luaQuestion);
+    registerLuaFunction(pLuaState, "StatusText", luaStatusText);
+    registerLuaFunction(pLuaState, "SetMessage", luaSetMessage);
+    registerLuaFunction(pLuaState, "SetLight", luaSetLight);
+    registerLuaFunction(pLuaState, "SimpleMessage", luaSimpleMessage);
+    registerLuaFunction(pLuaState, "SummonItem", luaSummonItem);
+    registerLuaFunction(pLuaState, "SummonObject", luaSummonItem);
+    registerLuaFunction(pLuaState, "SetNPCTopic", luaSetNpcTopic);
+    registerLuaFunction(pLuaState, "MoveNPC", luaMoveNpc);
+    registerLuaFunction(pLuaState, "GiveItem", luaGiveItem);
+    registerLuaFunction(pLuaState, "ChangeEvent", luaChangeEvent);
+    registerLuaFunction(pLuaState, "CheckSkill", luaCheckSkill);
+    registerLuaFunction(pLuaState, "SetNPCGroupNews", luaSetNpcGroupNews);
+    registerLuaFunction(pLuaState, "SetMonsterGroup", luaSetMonsterGroup);
+    registerLuaFunction(pLuaState, "SetNPCItem", luaSetNpcItem);
+    registerLuaFunction(pLuaState, "SetNPCGreeting", luaSetNpcGreeting);
+    registerLuaFunction(pLuaState, "CheckMonstersKilled", luaCheckMonstersKilled);
+    registerLuaFunction(pLuaState, "ChangeGroupToGroup", luaChangeGroupToGroup);
+    registerLuaFunction(pLuaState, "ChangeGroupAlly", luaChangeGroupAlly);
+    registerLuaFunction(pLuaState, "CheckSeason", luaCheckSeason);
+    registerLuaFunction(pLuaState, "SetMonGroupBit", luaSetMonGroupBit);
+    registerLuaFunction(pLuaState, "SetChestBit", luaSetChestBit);
+    registerLuaFunction(pLuaState, "FaceAnimation", luaFaceAnimation);
+    registerLuaFunction(pLuaState, "SetMonsterItem", luaSetMonsterItem);
+    registerLuaFunction(pLuaState, "StopDoor", luaStopDoor);
+    registerLuaFunction(pLuaState, "CheckItemsCount", luaCheckItemsCount);
+    registerLuaFunction(pLuaState, "RemoveItems", luaRemoveItems);
+    registerLuaFunction(pLuaState, "Jump", luaJump);
+    registerLuaFunction(pLuaState, "IsTotalBountyInRange", luaIsTotalBountyInRange);
+    registerLuaFunction(pLuaState, "CanPlayerAct", luaCanPlayerAct);
+    registerLuaFunction(pLuaState, "RefundChestArtifacts", luaRefundChestArtifacts);
+
+    lua_newtable(pLuaState);
+    lua_setfield(pLuaState, -2, LuaScopeGlobal);
+    lua_newtable(pLuaState);
+    lua_setfield(pLuaState, -2, LuaScopeMap);
+    lua_newtable(pLuaState);
+    lua_setfield(pLuaState, -2, LuaScopeCanShowTopic);
+    lua_newtable(pLuaState);
+    lua_setfield(pLuaState, -2, "hint");
+    lua_newtable(pLuaState);
+    lua_setfield(pLuaState, -2, "house");
+    lua_newtable(pLuaState);
+    lua_setfield(pLuaState, -2, "str");
+    lua_newtable(pLuaState);
+    lua_setfield(pLuaState, -2, "VarNum");
+    lua_newtable(pLuaState);
+    lua_pushinteger(pLuaState, static_cast<int>(EvtPartySelector::Member0));
+    lua_setfield(pLuaState, -2, "Player0");
+    lua_pushinteger(pLuaState, static_cast<int>(EvtPartySelector::Member1));
+    lua_setfield(pLuaState, -2, "Player1");
+    lua_pushinteger(pLuaState, static_cast<int>(EvtPartySelector::Member2));
+    lua_setfield(pLuaState, -2, "Player2");
+    lua_pushinteger(pLuaState, static_cast<int>(EvtPartySelector::Member3));
+    lua_setfield(pLuaState, -2, "Player3");
+    lua_pushinteger(pLuaState, static_cast<int>(EvtPartySelector::Member4));
+    lua_setfield(pLuaState, -2, "Player4");
+    lua_pushinteger(pLuaState, static_cast<int>(EvtPartySelector::All));
+    lua_setfield(pLuaState, -2, "All");
+    lua_pushinteger(pLuaState, static_cast<int>(EvtPartySelector::Current));
+    lua_setfield(pLuaState, -2, "Current");
+    lua_setfield(pLuaState, -2, "Players");
+    lua_pushinteger(pLuaState, static_cast<int>(EvtPartySelector::Current));
+    lua_setfield(pLuaState, -2, "CurrentPlayer");
+    lua_pushinteger(pLuaState, static_cast<int>(EvtPartySelector::Current));
+    lua_setfield(pLuaState, -2, "Player");
+    lua_newtable(pLuaState);
+    lua_setfield(pLuaState, -2, "const");
+
+    lua_newtable(pLuaState);
+    lua_newtable(pLuaState);
+    lua_setfield(pLuaState, -2, LuaScopeGlobal);
+    lua_newtable(pLuaState);
+    lua_setfield(pLuaState, -2, LuaScopeMap);
+    lua_setfield(pLuaState, -2, "meta");
+
+    lua_setglobal(pLuaState, "evt");
+}
+
+void releaseScopeProgram(Engine::LuaStateOwner &lua, LuaScopeProgram &scopeProgram)
+{
+    for (auto &[eventId, reference] : scopeProgram.handlers)
+    {
+        (void)eventId;
+        lua.releaseRegistryReference(reference);
+    }
+
+    for (auto &[topicId, reference] : scopeProgram.canShowTopicHandlers)
+    {
+        (void)topicId;
+        lua.releaseRegistryReference(reference);
+    }
+
+    scopeProgram.handlers.clear();
+    scopeProgram.canShowTopicHandlers.clear();
+    scopeProgram.onLoadEventIds.clear();
+}
+
+void freezeHandlerTable(
+    Engine::LuaStateOwner &lua,
+    const char *pTableName,
+    std::unordered_map<uint16_t, int> &targetHandlers)
+{
+    lua_State *pLuaState = lua.state();
+    lua_getglobal(pLuaState, "evt");
+    lua_getfield(pLuaState, -1, pTableName);
+
+    lua_pushnil(pLuaState);
+
+    while (lua_next(pLuaState, -2) != 0)
+    {
+        if (lua_isinteger(pLuaState, -2) && lua_isfunction(pLuaState, -1))
+        {
+            const uint16_t eventId = static_cast<uint16_t>(lua_tointeger(pLuaState, -2));
+            targetHandlers[eventId] = lua.createRegistryReference();
+        }
+        else
+        {
+            lua_pop(pLuaState, 1);
+        }
+    }
+
+    lua_pop(pLuaState, 2);
+}
+
+LuaScopeProgram buildScopeProgram(
+    LuaSessionCache &session,
+    const ScriptedEventProgram &program,
+    std::string_view scopeName,
+    const std::string &chunkName)
+{
+    LuaScopeProgram scopeProgram = {};
+    if (!program.luaSourceText().has_value())
+    {
+        session.lastError = "scripted event program is missing lua source text";
+        return scopeProgram;
+    }
+
+    const std::string &chunkText = *program.luaSourceText();
+    const std::string resolvedChunkName = program.luaSourceName().has_value() ? *program.luaSourceName() : chunkName;
+
+    if (!session.lua.runChunk(chunkText, resolvedChunkName, session.lastError))
+    {
+        return scopeProgram;
+    }
+
+    freezeHandlerTable(session.lua, scopeName == LuaScopeGlobal ? LuaScopeGlobal : LuaScopeMap, scopeProgram.handlers);
+
+    if (scopeName == LuaScopeGlobal)
+    {
+        freezeHandlerTable(session.lua, LuaScopeCanShowTopic, scopeProgram.canShowTopicHandlers);
+    }
+
+    scopeProgram.onLoadEventIds = program.onLoadEventIds();
+
+    return scopeProgram;
+}
+
+bool ensureLuaSession(
+    const EventRuntime &eventRuntime,
+    const std::optional<ScriptedEventProgram> &localProgram,
+    const std::optional<ScriptedEventProgram> &globalProgram)
+{
+    const ScriptedEventProgram *pLocalProgram = localProgram ? &*localProgram : nullptr;
+    const ScriptedEventProgram *pGlobalProgram = globalProgram ? &*globalProgram : nullptr;
+
+    if (eventRuntime.m_luaSessionCache != nullptr
+        && eventRuntime.m_pCachedLocalProgram == pLocalProgram
+        && eventRuntime.m_pCachedGlobalProgram == pGlobalProgram)
+    {
+        return true;
+    }
+
+    auto session = std::make_unique<LuaSessionCache>();
+
+    if (!session->lua.isValid())
+    {
+        return false;
+    }
+
+    session->lua.openApprovedLibraries();
+    registerEventBindings(*session);
+
+    lua_State *pLuaState = session->lua.state();
+    lua_pushlightuserdata(pLuaState, &LuaSessionRegistryKey);
+    lua_pushlightuserdata(pLuaState, session.get());
+    lua_rawset(pLuaState, LUA_REGISTRYINDEX);
+
+    if (globalProgram)
+    {
+        session->globalScope = buildScopeProgram(*session, *globalProgram, LuaScopeGlobal, "@Global.lua");
+
+        if (session->lastError)
+        {
+            return false;
+        }
+    }
+
+    if (localProgram)
+    {
+        session->localScope = buildScopeProgram(*session, *localProgram, LuaScopeMap, "@Local.lua");
+
+        if (session->lastError)
+        {
+            return false;
+        }
+    }
+
+    eventRuntime.m_pCachedLocalProgram = pLocalProgram;
+    eventRuntime.m_pCachedGlobalProgram = pGlobalProgram;
+    eventRuntime.m_luaSessionCache = std::move(session);
+    return true;
+}
+
+bool invokeLuaHandler(
+    const EventRuntime &eventRuntime,
+    int handlerReference,
+    LuaExecutionContext &executionContext,
+    std::optional<bool> *pBooleanResult = nullptr)
+{
+    if (eventRuntime.m_luaSessionCache == nullptr)
+    {
+        return false;
+    }
+
+    LuaSessionCache &session = *eventRuntime.m_luaSessionCache;
+    session.pExecutionContext = &executionContext;
+    lua_State *pLuaState = session.lua.state();
+    session.lua.pushRegistryReference(handlerReference);
+    std::optional<std::string> errorMessage;
+    const bool ok = session.lua.call(0, pBooleanResult != nullptr ? 1 : 0, errorMessage);
+    session.pExecutionContext = nullptr;
+
+    if (!ok)
+    {
+        session.lastError = errorMessage;
+        return false;
+    }
+
+    if (pBooleanResult != nullptr)
+    {
+        *pBooleanResult = lua_toboolean(pLuaState, -1) != 0;
+        lua_pop(pLuaState, 1);
+    }
+
+    return true;
+}
+}
+
+EventRuntime::EventRuntime() = default;
+EventRuntime::~EventRuntime() = default;
+EventRuntime::EventRuntime(EventRuntime &&other) noexcept = default;
+EventRuntime &EventRuntime::operator=(EventRuntime &&other) noexcept = default;
+
+
 bool EventRuntime::buildOnLoadState(
-    const std::optional<EventIrProgram> &localProgram,
-    const std::optional<EventIrProgram> &globalProgram,
+    const std::optional<ScriptedEventProgram> &localProgram,
+    const std::optional<ScriptedEventProgram> &globalProgram,
     const std::optional<MapDeltaData> &mapDeltaData,
     EventRuntimeState &runtimeState
 ) const
@@ -3094,22 +4616,122 @@ bool EventRuntime::buildOnLoadState(
         }
     }
 
-    if (globalProgram)
+    if (!ensureLuaSession(*this, localProgram, globalProgram))
     {
-        executeProgramOnLoad(*globalProgram, runtimeState, runtimeState.globalOnLoadEventsExecuted);
+        return false;
     }
 
-    if (localProgram)
+    if (m_luaSessionCache == nullptr)
     {
-        executeProgramOnLoad(*localProgram, runtimeState, runtimeState.localOnLoadEventsExecuted);
+        return true;
+    }
+
+    LuaExecutionContext executionContext = {};
+    executionContext.pRuntimeState = &runtimeState;
+
+    for (uint16_t eventId : m_luaSessionCache->globalScope.onLoadEventIds)
+    {
+        const auto iterator = m_luaSessionCache->globalScope.handlers.find(eventId);
+
+        if (iterator == m_luaSessionCache->globalScope.handlers.end())
+        {
+            continue;
+        }
+
+        if (invokeLuaHandler(*this, iterator->second, executionContext))
+        {
+            ++runtimeState.globalOnLoadEventsExecuted;
+        }
+    }
+
+    for (uint16_t eventId : m_luaSessionCache->localScope.onLoadEventIds)
+    {
+        const auto iterator = m_luaSessionCache->localScope.handlers.find(eventId);
+
+        if (iterator == m_luaSessionCache->localScope.handlers.end())
+        {
+            continue;
+        }
+
+        if (invokeLuaHandler(*this, iterator->second, executionContext))
+        {
+            ++runtimeState.localOnLoadEventsExecuted;
+        }
     }
 
     return true;
 }
 
+bool EventRuntime::validateProgramBindings(
+    const std::optional<ScriptedEventProgram> &localProgram,
+    const std::optional<ScriptedEventProgram> &globalProgram,
+    EventRuntimeBindingReport &report
+) const
+{
+    report = {};
+
+    if (!ensureLuaSession(*this, localProgram, globalProgram))
+    {
+        if (m_luaSessionCache != nullptr && m_luaSessionCache->lastError.has_value())
+        {
+            report.errorMessage = *m_luaSessionCache->lastError;
+        }
+
+        return false;
+    }
+
+    if (m_luaSessionCache == nullptr)
+    {
+        return true;
+    }
+
+    if (localProgram)
+    {
+        report.localEventCount = localProgram->eventIds().size();
+        report.localHandlerCount = m_luaSessionCache->localScope.handlers.size();
+
+        for (uint16_t eventId : localProgram->eventIds())
+        {
+            if (!m_luaSessionCache->localScope.handlers.contains(eventId))
+            {
+                report.missingLocalHandlerEventIds.push_back(eventId);
+            }
+        }
+    }
+
+    if (globalProgram)
+    {
+        report.globalEventCount = globalProgram->eventIds().size();
+        report.globalHandlerCount = m_luaSessionCache->globalScope.handlers.size();
+        report.canShowTopicHandlerCount = m_luaSessionCache->globalScope.canShowTopicHandlers.size();
+
+        for (uint16_t eventId : globalProgram->eventIds())
+        {
+            if (!m_luaSessionCache->globalScope.handlers.contains(eventId))
+            {
+                report.missingGlobalHandlerEventIds.push_back(eventId);
+            }
+        }
+
+        report.canShowTopicEventCount = globalProgram->canShowTopicEventIds().size();
+
+        for (uint16_t topicId : globalProgram->canShowTopicEventIds())
+        {
+            if (!m_luaSessionCache->globalScope.canShowTopicHandlers.contains(topicId))
+            {
+                report.missingCanShowTopicEventIds.push_back(topicId);
+            }
+        }
+    }
+
+    return report.missingLocalHandlerEventIds.empty()
+        && report.missingGlobalHandlerEventIds.empty()
+        && report.missingCanShowTopicEventIds.empty();
+}
+
 bool EventRuntime::executeEventById(
-    const std::optional<EventIrProgram> &localProgram,
-    const std::optional<EventIrProgram> &globalProgram,
+    const std::optional<ScriptedEventProgram> &localProgram,
+    const std::optional<ScriptedEventProgram> &globalProgram,
     uint16_t eventId,
     EventRuntimeState &runtimeState,
     Party *pParty,
@@ -3121,31 +4743,35 @@ bool EventRuntime::executeEventById(
         return false;
     }
 
-    if (localProgram)
+    if (!ensureLuaSession(*this, localProgram, globalProgram) || m_luaSessionCache == nullptr)
     {
-        const EventIrEvent *pEvent = findEventById(*localProgram, eventId);
-
-        if (pEvent != nullptr)
-        {
-            return executeEvent(*pEvent, runtimeState, pParty, pSceneEventContext);
-        }
+        return false;
     }
 
-    if (globalProgram)
-    {
-        const EventIrEvent *pEvent = findEventById(*globalProgram, eventId);
+    LuaExecutionContext executionContext = {};
+    executionContext.pRuntimeState = &runtimeState;
+    executionContext.pParty = pParty;
+    executionContext.pSceneEventContext = pSceneEventContext;
 
-        if (pEvent != nullptr)
-        {
-            return executeEvent(*pEvent, runtimeState, pParty, pSceneEventContext);
-        }
+    const auto localIterator = m_luaSessionCache->localScope.handlers.find(eventId);
+
+    if (localIterator != m_luaSessionCache->localScope.handlers.end())
+    {
+        return invokeLuaHandler(*this, localIterator->second, executionContext);
+    }
+
+    const auto globalIterator = m_luaSessionCache->globalScope.handlers.find(eventId);
+
+    if (globalIterator != m_luaSessionCache->globalScope.handlers.end())
+    {
+        return invokeLuaHandler(*this, globalIterator->second, executionContext);
     }
 
     return false;
 }
 
 bool EventRuntime::canShowTopic(
-    const std::optional<EventIrProgram> &globalProgram,
+    const std::optional<ScriptedEventProgram> &globalProgram,
     uint16_t topicId,
     const EventRuntimeState &runtimeState,
     const Party *pParty,
@@ -3162,8 +4788,31 @@ bool EventRuntime::canShowTopic(
         return true;
     }
 
-    const EventIrEvent *pEvent = findEventById(*globalProgram, topicId);
-    return pEvent == nullptr ? true : evaluateCanShowTopic(*pEvent, runtimeState, pParty, pSceneEventContext);
+    if (!ensureLuaSession(*this, std::nullopt, globalProgram) || m_luaSessionCache == nullptr)
+    {
+        return false;
+    }
+
+    const auto iterator = m_luaSessionCache->globalScope.canShowTopicHandlers.find(topicId);
+
+    if (iterator == m_luaSessionCache->globalScope.canShowTopicHandlers.end())
+    {
+        return true;
+    }
+
+    LuaExecutionContext executionContext = {};
+    executionContext.pReadonlyRuntimeState = &runtimeState;
+    executionContext.pReadonlyParty = pParty;
+    executionContext.pReadonlySceneEventContext = pSceneEventContext;
+    executionContext.readonly = true;
+    std::optional<bool> visible = std::nullopt;
+
+    if (!invokeLuaHandler(*this, iterator->second, executionContext, &visible))
+    {
+        return false;
+    }
+
+    return visible.value_or(true);
 }
 
 void EventRuntime::advanceMechanisms(
@@ -3223,73 +4872,44 @@ void EventRuntime::advanceMechanisms(
     }
 }
 
-void EventRuntime::executeProgramOnLoad(
-    const EventIrProgram &program,
-    EventRuntimeState &runtimeState,
-    size_t &executedCount
+
+int32_t EventRuntime::getInventoryItemCount(
+    const EventRuntimeState &runtimeState,
+    const Party *pParty,
+    uint32_t objectDescriptionId,
+    const std::optional<size_t> &memberIndex
 )
 {
-    for (const EventIrEvent &event : program.getEvents())
-    {
-        bool hasOnLoadTrigger = false;
+    int32_t itemCount = pParty != nullptr ? pParty->inventoryItemCount(objectDescriptionId, memberIndex) : 0;
 
-        for (const EventIrInstruction &instruction : event.instructions)
+    if (!memberIndex)
+    {
+        for (const InventoryItem &item : runtimeState.grantedItems)
         {
-            if (instruction.operation == EventIrOperation::TriggerOnLoadMap)
+            if (item.objectDescriptionId == objectDescriptionId)
             {
-                hasOnLoadTrigger = true;
-                break;
+                itemCount += static_cast<int32_t>(std::max<uint32_t>(1, item.quantity));
             }
         }
 
-        if (!hasOnLoadTrigger)
+        for (uint32_t grantedItemId : runtimeState.grantedItemIds)
         {
-            continue;
-        }
-
-        if (executeEvent(event, runtimeState, nullptr, nullptr))
-        {
-            ++executedCount;
-        }
-    }
-}
-
-const EventIrEvent *EventRuntime::findEventById(const EventIrProgram &program, uint16_t eventId)
-{
-    for (const EventIrEvent &event : program.getEvents())
-    {
-        if (event.eventId == eventId)
-        {
-            return &event;
-        }
-    }
-
-    return nullptr;
-}
-
-void EventRuntime::executeTimerEvents(const EventIrProgram &program, EventRuntimeState &runtimeState)
-{
-    for (const EventIrEvent &event : program.getEvents())
-    {
-        bool hasTimerTrigger = false;
-
-        for (const EventIrInstruction &instruction : event.instructions)
-        {
-            if (instruction.operation == EventIrOperation::TriggerOnTimer)
+            if (grantedItemId == objectDescriptionId)
             {
-                hasTimerTrigger = true;
-                break;
+                itemCount += 1;
             }
         }
 
-        if (!hasTimerTrigger)
+        for (uint32_t removedItemId : runtimeState.removedItemIds)
         {
-            continue;
+            if (removedItemId == objectDescriptionId)
+            {
+                itemCount = std::max(0, itemCount - 1);
+            }
         }
-
-        std::cout << "Executing timer event " << event.eventId << '\n';
-        executeEvent(event, runtimeState, nullptr, nullptr);
     }
+
+    return itemCount;
 }
 
 float EventRuntime::calculateMechanismDistance(
@@ -3314,16 +4934,9 @@ void EventRuntime::applyMechanismAction(
         }
 
         runtimeMechanism.timeSinceTriggeredMs = 0.0f;
-
-        if (runtimeMechanism.state == static_cast<uint16_t>(EvtMechanismState::Open))
-        {
-            runtimeMechanism.state = static_cast<uint16_t>(EvtMechanismState::Closing);
-        }
-        else
-        {
-            runtimeMechanism.state = static_cast<uint16_t>(EvtMechanismState::Opening);
-        }
-
+        runtimeMechanism.state = runtimeMechanism.state == static_cast<uint16_t>(EvtMechanismState::Open)
+            ? static_cast<uint16_t>(EvtMechanismState::Closing)
+            : static_cast<uint16_t>(EvtMechanismState::Opening);
         runtimeMechanism.isMoving = true;
         return;
     }
@@ -3356,56 +4969,22 @@ void EventRuntime::applyMechanismAction(
     }
 }
 
-int32_t EventRuntime::getInventoryItemCount(
-    const EventRuntimeState &runtimeState,
-    const Party *pParty,
-    uint32_t objectDescriptionId,
-    const std::optional<size_t> &memberIndex
-)
+namespace
 {
-    int32_t itemCount = pParty != nullptr ? pParty->inventoryItemCount(objectDescriptionId, memberIndex) : 0;
-
-    if (!memberIndex)
-    {
-        for (uint32_t grantedItemId : runtimeState.grantedItemIds)
-        {
-            if (grantedItemId == objectDescriptionId)
-            {
-                itemCount += 1;
-            }
-        }
-
-        for (uint32_t removedItemId : runtimeState.removedItemIds)
-        {
-            if (removedItemId == objectDescriptionId)
-            {
-                itemCount = std::max(0, itemCount - 1);
-            }
-        }
-    }
-
-    return itemCount;
-}
-
-bool EventRuntime::evaluateCompare(
+bool evaluateCompareValue(
     const EventRuntimeState &runtimeState,
-    const EventIrInstruction &instruction,
+    uint32_t rawVariableId,
+    int32_t compareValue,
     const Party *pParty,
     const std::vector<size_t> &targetMemberIndices
 )
 {
-    if (instruction.arguments.size() < 2)
-    {
-        return false;
-    }
-
-    const VariableRef variable = decodeVariable(instruction.arguments[0]);
+    const EventRuntime::VariableRef variable = EventRuntime::decodeVariable(rawVariableId);
     const EvtVariable variableId = static_cast<EvtVariable>(variable.tag);
-    const int32_t compareValue = static_cast<int32_t>(instruction.arguments[1]);
     const std::optional<size_t> memberIndex = singleTargetMemberIndex(targetMemberIndices);
-    const int32_t currentValue = getVariableValue(runtimeState, variable, pParty, memberIndex);
+    const int32_t currentValue = EventRuntime::getVariableValue(runtimeState, variable, pParty, memberIndex);
 
-    if (variable.kind == VariableKind::ClassId)
+    if (variable.kind == EventRuntime::VariableKind::ClassId)
     {
         if (targetMemberIndices.empty())
         {
@@ -3414,7 +4993,7 @@ bool EventRuntime::evaluateCompare(
 
         for (size_t targetMemberIndex : targetMemberIndices)
         {
-            if (getVariableValue(runtimeState, variable, pParty, targetMemberIndex) == compareValue)
+            if (EventRuntime::getVariableValue(runtimeState, variable, pParty, targetMemberIndex) == compareValue)
             {
                 return true;
             }
@@ -3423,34 +5002,37 @@ bool EventRuntime::evaluateCompare(
         return false;
     }
 
-    if (variable.kind == VariableKind::Awards || variable.kind == VariableKind::Players)
+    if (variable.kind == EventRuntime::VariableKind::Awards
+        || variable.kind == EventRuntime::VariableKind::Players)
     {
         return currentValue != 0;
     }
 
-    if (variable.kind == VariableKind::AutoNote
-        || variable.kind == VariableKind::History
-        || variable.kind == VariableKind::QBits
-        || variable.kind == VariableKind::BoolFlag
-        || variable.kind == VariableKind::Condition
-        || variable.kind == VariableKind::StatMoreThanBase)
+    if (variable.kind == EventRuntime::VariableKind::AutoNote
+        || variable.kind == EventRuntime::VariableKind::History
+        || variable.kind == EventRuntime::VariableKind::QBits
+        || variable.kind == EventRuntime::VariableKind::BoolFlag
+        || variable.kind == EventRuntime::VariableKind::Condition
+        || variable.kind == EventRuntime::VariableKind::StatMoreThanBase)
     {
         return currentValue != 0;
     }
 
-    if (variable.kind == VariableKind::Inventory)
+    if (variable.kind == EventRuntime::VariableKind::Inventory)
     {
         return currentValue != 0;
     }
 
-    if (variable.kind == VariableKind::DayOfWeek
-        || variable.kind == VariableKind::DayOfYear
-        || variable.kind == VariableKind::Hour)
+    if (variable.kind == EventRuntime::VariableKind::DayOfWeek
+        || variable.kind == EventRuntime::VariableKind::DayOfYear
+        || variable.kind == EventRuntime::VariableKind::Hour)
     {
         return currentValue == compareValue;
     }
 
-    if ((variable.kind == VariableKind::MaxHealth || variable.kind == VariableKind::MaxSpellPoints) && memberIndex)
+    if ((variable.kind == EventRuntime::VariableKind::MaxHealth
+         || variable.kind == EventRuntime::VariableKind::MaxSpellPoints)
+        && memberIndex)
     {
         const Character *pMember = pParty != nullptr ? pParty->member(*memberIndex) : nullptr;
 
@@ -3459,7 +5041,7 @@ bool EventRuntime::evaluateCompare(
             return false;
         }
 
-        if (variable.kind == VariableKind::MaxHealth)
+        if (variable.kind == EventRuntime::VariableKind::MaxHealth)
         {
             return pMember->health >= resolveCharacterEffectiveMaxHealth(*pMember);
         }
@@ -3467,7 +5049,7 @@ bool EventRuntime::evaluateCompare(
         return pMember->spellPoints >= resolveCharacterEffectiveMaxSpellPoints(*pMember);
     }
 
-    if (variable.kind == VariableKind::PartyState)
+    if (variable.kind == EventRuntime::VariableKind::PartyState)
     {
         if (variableId == EvtVariable::MonthIs)
         {
@@ -3526,1229 +5108,6 @@ bool EventRuntime::evaluateCompare(
     return currentValue >= compareValue;
 }
 
-bool EventRuntime::evaluateCanShowTopic(
-    const EventIrEvent &event,
-    const EventRuntimeState &runtimeState,
-    const Party *pParty,
-    const ISceneEventContext *pSceneEventContext
-)
-{
-    std::unordered_map<uint8_t, size_t> stepToInstructionIndex;
-
-    for (size_t instructionIndex = 0; instructionIndex < event.instructions.size(); ++instructionIndex)
-    {
-        stepToInstructionIndex[event.instructions[instructionIndex].step] = instructionIndex;
-    }
-
-    bool sawCanShowInstruction = false;
-    bool isVisible = true;
-    size_t instructionIndex = 0;
-    PartySelector selector = {};
-
-    while (instructionIndex < event.instructions.size())
-    {
-        const EventIrInstruction &instruction = event.instructions[instructionIndex];
-        const std::vector<size_t> targetMemberIndices = resolveTargetMemberIndices(selector, pParty);
-
-        switch (instruction.operation)
-        {
-            case EventIrOperation::ForPartyMember:
-                selector = decodePartySelector(instruction);
-                break;
-
-            case EventIrOperation::CompareCanShowTopic:
-            {
-                sawCanShowInstruction = true;
-                const bool compareSucceeded = evaluateCompare(runtimeState, instruction, pParty, targetMemberIndices);
-
-                if (compareSucceeded && instruction.jumpTargetStep)
-                {
-                    const std::unordered_map<uint8_t, size_t>::const_iterator iterator =
-                        stepToInstructionIndex.find(*instruction.jumpTargetStep);
-
-                    if (iterator != stepToInstructionIndex.end())
-                    {
-                        instructionIndex = iterator->second;
-                        continue;
-                    }
-                }
-                break;
-            }
-
-            case EventIrOperation::IsActorKilledCanShowTopic:
-            {
-                sawCanShowInstruction = true;
-                if (instruction.arguments.size() >= 4 && pSceneEventContext != nullptr)
-                {
-                    const uint32_t checkType = instruction.arguments[0];
-                    const uint32_t id = instruction.arguments[1];
-                    const uint32_t count = instruction.arguments[2];
-                    const bool invisibleAsDead = instruction.arguments[3] != 0;
-                    const bool killed =
-                        pSceneEventContext->checkMonstersKilled(checkType, id, count, invisibleAsDead);
-
-                    if (killed && instruction.jumpTargetStep)
-                    {
-                        const std::unordered_map<uint8_t, size_t>::const_iterator iterator =
-                            stepToInstructionIndex.find(*instruction.jumpTargetStep);
-
-                        if (iterator != stepToInstructionIndex.end())
-                        {
-                            instructionIndex = iterator->second;
-                            continue;
-                        }
-                    }
-                }
-                break;
-            }
-
-            case EventIrOperation::SetCanShowTopic:
-                sawCanShowInstruction = true;
-                isVisible = !instruction.arguments.empty() && instruction.arguments[0] != 0;
-                break;
-
-            case EventIrOperation::EndCanShowTopic:
-                return isVisible;
-
-            default:
-                return sawCanShowInstruction ? isVisible : true;
-        }
-
-        ++instructionIndex;
-    }
-
-    return sawCanShowInstruction ? isVisible : true;
 }
 
-bool EventRuntime::executeEvent(
-    const EventIrEvent &event,
-    EventRuntimeState &runtimeState,
-    Party *pParty,
-    ISceneEventContext *pSceneEventContext
-)
-{
-    runtimeState.lastAffectedMechanismIds.clear();
-    runtimeState.openedChestIds.clear();
-    runtimeState.grantedItemIds.clear();
-    runtimeState.removedItemIds.clear();
-    runtimeState.grantedAwardIds.clear();
-    runtimeState.removedAwardIds.clear();
-    runtimeState.pendingDialogueContext.reset();
-    runtimeState.pendingMapMove.reset();
-    runtimeState.pendingMovie.reset();
-    runtimeState.pendingInputPrompt.reset();
-    runtimeState.pendingSounds.clear();
-    syncTimeVariablesFromSceneContext(runtimeState, pSceneEventContext);
-
-    std::unordered_map<uint8_t, size_t> stepToInstructionIndex;
-
-    for (size_t instructionIndex = 0; instructionIndex < event.instructions.size(); ++instructionIndex)
-    {
-        stepToInstructionIndex[event.instructions[instructionIndex].step] = instructionIndex;
-    }
-
-    size_t instructionIndex = 0;
-    PartySelector selector = {};
-
-    while (instructionIndex < event.instructions.size())
-    {
-        const EventIrInstruction &instruction = event.instructions[instructionIndex];
-        const std::vector<size_t> targetMemberIndices = resolveTargetMemberIndices(selector, pParty);
-
-        switch (instruction.operation)
-        {
-            case EventIrOperation::Exit:
-                return true;
-
-            case EventIrOperation::TriggerMouseOver:
-            case EventIrOperation::TriggerOnLoadMap:
-            case EventIrOperation::TriggerOnLeaveMap:
-            case EventIrOperation::TriggerOnTimer:
-            case EventIrOperation::TriggerOnLongTimer:
-            case EventIrOperation::TriggerOnDateTimer:
-            case EventIrOperation::EnableDateTimer:
-            case EventIrOperation::CompareCanShowTopic:
-            case EventIrOperation::SetCanShowTopic:
-            case EventIrOperation::EndCanShowTopic:
-            case EventIrOperation::LocationName:
-                break;
-
-            case EventIrOperation::ForPartyMember:
-                selector = decodePartySelector(instruction);
-                std::cout << "  player_selector="
-                          << (instruction.arguments.empty() ? 0 : instruction.arguments[0]) << '\n';
-                break;
-
-            case EventIrOperation::PlaySound:
-            {
-                if (instruction.arguments.size() >= 3)
-                {
-                    const uint32_t soundId = instruction.arguments[0];
-                    const int32_t x = static_cast<int32_t>(instruction.arguments[1]);
-                    const int32_t y = static_cast<int32_t>(instruction.arguments[2]);
-                    const bool positional = x != 0 || y != 0;
-                    queuePendingSound(runtimeState, soundId, x, y, positional);
-                    std::cout << "  play_sound id=" << soundId
-                              << " x=" << x
-                              << " y=" << y
-                              << " positional=" << (positional ? "1" : "0") << '\n';
-                }
-                break;
-            }
-
-            case EventIrOperation::MoveNpc:
-            {
-                if (instruction.arguments.size() >= 2)
-                {
-                    runtimeState.npcHouseOverrides[instruction.arguments[0]] = instruction.arguments[1];
-                    std::cout << "  move_npc npc=" << instruction.arguments[0]
-                              << " house=" << instruction.arguments[1] << '\n';
-                }
-                break;
-            }
-
-            case EventIrOperation::RandomJump:
-            {
-                std::vector<uint32_t> validTargets;
-                validTargets.reserve(instruction.arguments.size());
-
-                for (uint32_t target : instruction.arguments)
-                {
-                    if (target != 0)
-                    {
-                        validTargets.push_back(target);
-                    }
-                }
-
-                if (!validTargets.empty())
-                {
-                    const uint32_t seed = randomJumpSeed(instruction, runtimeState);
-                    const size_t choiceIndex = seed % validTargets.size();
-                    const uint8_t targetStep = static_cast<uint8_t>(validTargets[choiceIndex] & 0xffu);
-                    std::cout << "  random_jump seed=" << seed
-                              << " choice=" << choiceIndex
-                              << " -> " << static_cast<unsigned>(targetStep) << '\n';
-
-                    if (targetStep == 0)
-                    {
-                        break;
-                    }
-
-                    const auto iterator = stepToInstructionIndex.find(targetStep);
-
-                    if (iterator != stepToInstructionIndex.end())
-                    {
-                        instructionIndex = iterator->second;
-                        continue;
-                    }
-                }
-                break;
-            }
-
-            case EventIrOperation::SummonItem:
-            {
-                if (instruction.arguments.size() >= 7)
-                {
-                    const uint32_t objectId = instruction.arguments[0];
-                    const int32_t x = static_cast<int32_t>(instruction.arguments[1]);
-                    const int32_t y = static_cast<int32_t>(instruction.arguments[2]);
-                    const int32_t z = static_cast<int32_t>(instruction.arguments[3]);
-                    const int32_t speed = static_cast<int32_t>(instruction.arguments[4]);
-                    const uint32_t count = instruction.arguments[5];
-                    const bool randomRotate = instruction.arguments[6] != 0;
-                    const bool summoned =
-                        pSceneEventContext != nullptr
-                        && pSceneEventContext->summonEventItem(objectId, x, y, z, speed, count, randomRotate);
-
-                    std::cout << "  summon_item object=" << objectId
-                              << " pos=(" << x << "," << y << "," << z << ")"
-                              << " speed=" << speed
-                              << " count=" << count
-                              << " random_rotate=" << (randomRotate ? "1" : "0")
-                              << " -> " << (summoned ? "true" : "false") << '\n';
-                }
-                break;
-            }
-
-            case EventIrOperation::ShowFace:
-            {
-                if (instruction.arguments.size() >= 2 && pParty != nullptr)
-                {
-                    const std::optional<PortraitId> portraitId = eventPortraitId(instruction.arguments[1]);
-
-                    if (!portraitId)
-                    {
-                        break;
-                    }
-
-                    for (size_t memberIndex : targetMemberIndices)
-                    {
-                        Character *pMember = pParty->member(memberIndex);
-
-                        if (pMember == nullptr)
-                        {
-                            continue;
-                        }
-
-                        pMember->portraitState = *portraitId;
-                        pMember->portraitElapsedTicks = 0;
-                        pMember->portraitDurationTicks = DefaultEventPortraitDurationTicks;
-                        pMember->portraitSequenceCounter += 1;
-                    }
-
-                    std::cout << "  show_face portrait=" << instruction.arguments[1] << '\n';
-                }
-                break;
-            }
-
-            case EventIrOperation::ReceiveDamage:
-            {
-                if (instruction.arguments.size() >= 3 && pParty != nullptr)
-                {
-                    const int damage = static_cast<int>(instruction.arguments[2]);
-                    const std::string status = damageStatusForEvtVariable(targetMemberIndices);
-
-                    for (size_t memberIndex : targetMemberIndices)
-                    {
-                        pParty->applyDamageToMember(memberIndex, damage, status);
-                    }
-
-                    std::cout << "  receive_damage type=" << instruction.arguments[1]
-                              << " damage=" << damage
-                              << " targets=" << targetMemberIndices.size() << '\n';
-                }
-                break;
-            }
-
-            case EventIrOperation::SetSnow:
-            {
-                if (instruction.arguments.size() >= 2 && instruction.arguments[0] == 0)
-                {
-                    runtimeState.snowEnabled = instruction.arguments[1] != 0;
-                    std::cout << "  set_snow enabled=" << (*runtimeState.snowEnabled ? "1" : "0") << '\n';
-                }
-                break;
-            }
-
-            case EventIrOperation::ShowMovie:
-            {
-                if (instruction.text && !instruction.text->empty())
-                {
-                    EventRuntimeState::PendingMovie movie = {};
-                    movie.movieName = sanitizeEventString(*instruction.text);
-                    movie.restoreAfterPlayback = !instruction.arguments.empty() && instruction.arguments[0] != 0;
-                    runtimeState.pendingMovie = std::move(movie);
-                    std::cout << "  show_movie name=\"" << *instruction.text << "\"\n";
-                }
-                break;
-            }
-
-            case EventIrOperation::SetSprite:
-            {
-                if (!instruction.arguments.empty())
-                {
-                    EventRuntimeState::SpriteOverride override = {};
-                    override.hidden = instruction.arguments.size() >= 2 && instruction.arguments[1] != 0;
-
-                    if (instruction.text && !instruction.text->empty())
-                    {
-                        override.textureName = sanitizeEventString(*instruction.text);
-                    }
-
-                    runtimeState.spriteOverrides[instruction.arguments[0]] = std::move(override);
-                    std::cout << "  set_sprite cog=" << instruction.arguments[0]
-                              << " hidden="
-                              << (runtimeState.spriteOverrides[instruction.arguments[0]].hidden ? "1" : "0")
-                              << '\n';
-                }
-                break;
-            }
-
-            case EventIrOperation::SpeakInHouse:
-            {
-                if (!instruction.arguments.empty())
-                {
-                    runtimeState.messages.clear();
-                    EventRuntimeState::PendingDialogueContext context = {};
-                    context.kind = DialogueContextKind::HouseService;
-                    context.sourceId = instruction.arguments[0];
-                    context.hostHouseId = instruction.arguments[0];
-                    runtimeState.dialogueState.hostHouseId = instruction.arguments[0];
-                    runtimeState.pendingDialogueContext = std::move(context);
-                    std::cout << "  house=" << instruction.arguments[0];
-
-                    if (instruction.text && !instruction.text->empty())
-                    {
-                        std::cout << " name=\"" << *instruction.text << "\"";
-                    }
-
-                    std::cout << '\n';
-                }
-                break;
-            }
-
-            case EventIrOperation::SpeakNpc:
-            {
-                if (!instruction.arguments.empty())
-                {
-                    runtimeState.messages.clear();
-                    EventRuntimeState::PendingDialogueContext context = {};
-                    context.kind = DialogueContextKind::NpcTalk;
-                    context.sourceId = instruction.arguments[0];
-                    context.hostHouseId = runtimeState.dialogueState.hostHouseId;
-                    runtimeState.pendingDialogueContext = std::move(context);
-                    std::cout << "  npc=" << instruction.arguments[0] << '\n';
-                }
-                break;
-            }
-
-            case EventIrOperation::MoveToMap:
-            {
-                if (instruction.arguments.size() >= 3)
-                {
-                    EventRuntimeState::PendingMapMove pendingMapMove = {};
-                    pendingMapMove.x = static_cast<int32_t>(instruction.arguments[0]);
-                    pendingMapMove.y = static_cast<int32_t>(instruction.arguments[1]);
-                    pendingMapMove.z = static_cast<int32_t>(instruction.arguments[2]);
-
-                    if (instruction.arguments.size() >= 4)
-                    {
-                        const int32_t rawYawUnits = static_cast<int32_t>(instruction.arguments[3]);
-
-                        if (rawYawUnits >= 0)
-                        {
-                            pendingMapMove.directionDegrees = moveToMapYawUnitsToDegrees(rawYawUnits);
-                        }
-                    }
-
-                    if (instruction.text && !instruction.text->empty())
-                    {
-                        const std::string sanitizedName = sanitizeEventString(*instruction.text);
-
-                        if (!sanitizedName.empty())
-                        {
-                            pendingMapMove.mapName = sanitizedName;
-                        }
-                    }
-
-                    runtimeState.pendingMapMove = pendingMapMove;
-                    std::cout << "  move_to_map=("
-                              << pendingMapMove.x << ","
-                              << pendingMapMove.y << ","
-                              << pendingMapMove.z << ")";
-
-                    if (pendingMapMove.directionDegrees)
-                    {
-                        std::cout << " yaw=" << *pendingMapMove.directionDegrees;
-                    }
-
-                    if (pendingMapMove.mapName && !pendingMapMove.mapName->empty())
-                    {
-                        std::cout << " name=\"" << *pendingMapMove.mapName << "\"";
-                    }
-
-                    std::cout << '\n';
-                }
-                break;
-            }
-
-            case EventIrOperation::CastSpell:
-            {
-                if (instruction.arguments.size() >= 9)
-                {
-                    const uint32_t spellId = instruction.arguments[0];
-                    const uint32_t skillLevel = instruction.arguments[1];
-                    const uint32_t skillMastery = instruction.arguments[2];
-                    const int32_t fromX = static_cast<int32_t>(instruction.arguments[3]);
-                    const int32_t fromY = static_cast<int32_t>(instruction.arguments[4]);
-                    const int32_t fromZ = static_cast<int32_t>(instruction.arguments[5]);
-                    const int32_t toX = static_cast<int32_t>(instruction.arguments[6]);
-                    const int32_t toY = static_cast<int32_t>(instruction.arguments[7]);
-                    const int32_t toZ = static_cast<int32_t>(instruction.arguments[8]);
-                    const bool casted =
-                        pSceneEventContext != nullptr
-                        && pSceneEventContext->castEventSpell(
-                            spellId,
-                            skillLevel,
-                            skillMastery,
-                            fromX,
-                            fromY,
-                            fromZ,
-                            toX,
-                            toY,
-                            toZ);
-
-                    std::cout << "  cast_spell spell=" << spellId
-                              << " skill=" << skillLevel
-                              << " mastery=" << skillMastery
-                              << " from=(" << fromX << "," << fromY << "," << fromZ << ")"
-                              << " to=(" << toX << "," << toY << "," << toZ << ")"
-                              << " -> " << (casted ? "true" : "false") << '\n';
-                }
-                break;
-            }
-
-            case EventIrOperation::CheckItemsCount:
-            {
-                if (instruction.arguments.size() >= 2)
-                {
-                    const uint32_t itemId = instruction.arguments[0];
-                    const int32_t requiredCount = static_cast<int32_t>(instruction.arguments[1]);
-                    const int32_t currentCount = getInventoryItemCount(
-                        runtimeState,
-                        pParty,
-                        itemId,
-                        singleTargetMemberIndex(targetMemberIndices));
-                    const bool hasEnough = currentCount >= requiredCount;
-
-                    std::cout << "  check_items item=" << itemId
-                              << " count=" << requiredCount
-                              << " current=" << currentCount
-                              << " -> " << (hasEnough ? "true" : "false") << '\n';
-
-                    if (hasEnough && instruction.jumpTargetStep)
-                    {
-                        const auto iterator = stepToInstructionIndex.find(*instruction.jumpTargetStep);
-
-                        if (iterator != stepToInstructionIndex.end())
-                        {
-                            instructionIndex = iterator->second;
-                            continue;
-                        }
-                    }
-                }
-                break;
-            }
-
-            case EventIrOperation::CheckSkill:
-            {
-                if (instruction.arguments.size() >= 3 && pParty != nullptr)
-                {
-                    const EvtVariable skillVariable = static_cast<EvtVariable>(instruction.arguments[0]);
-                    const SkillMastery requiredMastery = static_cast<SkillMastery>(instruction.arguments[1]);
-                    const uint32_t requiredLevel = instruction.arguments[2];
-                    bool passed = false;
-
-                    for (size_t memberIndex : targetMemberIndices)
-                    {
-                        const Character *pMember = pParty->member(memberIndex);
-
-                        if (pMember != nullptr
-                            && characterMeetsSkillCheck(*pMember, skillVariable, requiredMastery, requiredLevel))
-                        {
-                            passed = true;
-                            break;
-                        }
-                    }
-
-                    std::cout << "  check_skill var=" << instruction.arguments[0]
-                              << " mastery=" << instruction.arguments[1]
-                              << " level=" << requiredLevel
-                              << " -> " << (passed ? "true" : "false") << '\n';
-
-                    if (passed && instruction.jumpTargetStep)
-                    {
-                        const auto iterator = stepToInstructionIndex.find(*instruction.jumpTargetStep);
-
-                        if (iterator != stepToInstructionIndex.end())
-                        {
-                            instructionIndex = iterator->second;
-                            continue;
-                        }
-                    }
-                }
-                break;
-            }
-
-            case EventIrOperation::SetActorGroup:
-            {
-                if (instruction.arguments.size() >= 2)
-                {
-                    runtimeState.actorIdGroupOverrides[instruction.arguments[0]] = instruction.arguments[1];
-                    std::cout << "  set_actor_group actor=" << instruction.arguments[0]
-                              << " group=" << instruction.arguments[1] << '\n';
-                }
-                break;
-            }
-
-            case EventIrOperation::SetNpcGreeting:
-            {
-                if (instruction.arguments.size() >= 2)
-                {
-                    runtimeState.npcGreetingOverrides[instruction.arguments[0]] = instruction.arguments[1];
-                    runtimeState.npcGreetingDisplayCounts[instruction.arguments[0]] = 0;
-                    std::cout << "  set_npc_greeting npc=" << instruction.arguments[0]
-                              << " greeting=" << instruction.arguments[1] << '\n';
-                }
-                break;
-            }
-
-            case EventIrOperation::SetNpcItem:
-            {
-                if (instruction.arguments.size() >= 2)
-                {
-                    runtimeState.npcItemOverrides[instruction.arguments[0]] =
-                        instruction.arguments.size() >= 3 && instruction.arguments[2] == 0 ? 0 : instruction.arguments[1];
-                    std::cout << "  set_npc_item npc=" << instruction.arguments[0]
-                              << " item=" << instruction.arguments[1] << '\n';
-                }
-                break;
-            }
-
-            case EventIrOperation::SetActorItem:
-            {
-                if (instruction.arguments.size() >= 2)
-                {
-                    const uint32_t actorId = instruction.arguments[0];
-                    const uint32_t itemId = instruction.arguments[1];
-                    const bool isGive = instruction.arguments.size() < 3 || instruction.arguments[2] != 0;
-
-                    if (isGive && itemId != 0)
-                    {
-                        runtimeState.actorItemOverrides[actorId] = itemId;
-                        runtimeState.actorSetMasks[actorId] |= static_cast<uint32_t>(EvtActorAttribute::HasItem);
-                        runtimeState.actorClearMasks[actorId] &= ~static_cast<uint32_t>(EvtActorAttribute::HasItem);
-                    }
-                    else
-                    {
-                        runtimeState.actorItemOverrides.erase(actorId);
-                        runtimeState.actorClearMasks[actorId] |= static_cast<uint32_t>(EvtActorAttribute::HasItem);
-                        runtimeState.actorSetMasks[actorId] &= ~static_cast<uint32_t>(EvtActorAttribute::HasItem);
-                    }
-
-                    std::cout << "  set_actor_item actor=" << actorId
-                              << " item=" << itemId
-                              << " give=" << (isGive ? "1" : "0") << '\n';
-                }
-                break;
-            }
-
-            case EventIrOperation::CharacterAnimation:
-            {
-                if (instruction.arguments.size() >= 2 && pParty != nullptr)
-                {
-                    const SpeechId speechId = static_cast<SpeechId>(instruction.arguments[1]);
-
-                    for (size_t memberIndex : targetMemberIndices)
-                    {
-                        pParty->requestSpeech(memberIndex, speechId);
-                    }
-
-                    std::cout << "  character_animation speech=" << instruction.arguments[1]
-                              << " targets=" << targetMemberIndices.size() << '\n';
-                }
-                break;
-            }
-
-            case EventIrOperation::IsActorKilledCanShowTopic:
-                break;
-
-            case EventIrOperation::ChangeGroup:
-            {
-                if (instruction.arguments.size() >= 2)
-                {
-                    runtimeState.actorGroupOverrides[instruction.arguments[0]] = instruction.arguments[1];
-                    std::cout << "  change_group old=" << instruction.arguments[0]
-                              << " new=" << instruction.arguments[1] << '\n';
-                }
-                break;
-            }
-
-            case EventIrOperation::ChangeGroupAlly:
-            {
-                if (instruction.arguments.size() >= 2)
-                {
-                    runtimeState.actorGroupAllyOverrides[instruction.arguments[0]] = instruction.arguments[1];
-                    std::cout << "  change_group_ally group=" << instruction.arguments[0]
-                              << " ally=" << instruction.arguments[1] << '\n';
-                }
-                break;
-            }
-
-            case EventIrOperation::CheckSeason:
-            {
-                if (!instruction.arguments.empty())
-                {
-                    const bool matches = currentSeasonFromRuntimeState(runtimeState)
-                        == static_cast<EvtSeason>(instruction.arguments[0]);
-
-                    std::cout << "  check_season season=" << instruction.arguments[0]
-                              << " -> " << (matches ? "true" : "false") << '\n';
-
-                    if (matches && instruction.jumpTargetStep)
-                    {
-                        const auto iterator = stepToInstructionIndex.find(*instruction.jumpTargetStep);
-
-                        if (iterator != stepToInstructionIndex.end())
-                        {
-                            instructionIndex = iterator->second;
-                            continue;
-                        }
-                    }
-                }
-                break;
-            }
-
-            case EventIrOperation::ToggleChestFlag:
-            {
-                if (instruction.arguments.size() >= 3)
-                {
-                    const uint32_t chestId = instruction.arguments[0];
-                    const uint32_t flag = instruction.arguments[1];
-                    const bool isOn = instruction.arguments[2] != 0;
-
-                    if (isOn)
-                    {
-                        runtimeState.chestSetMasks[chestId] |= flag;
-                        runtimeState.chestClearMasks[chestId] &= ~flag;
-                    }
-                    else
-                    {
-                        runtimeState.chestClearMasks[chestId] |= flag;
-                        runtimeState.chestSetMasks[chestId] &= ~flag;
-                    }
-
-                    if ((flag & static_cast<uint32_t>(EvtChestFlag::Opened)) != 0 && isOn)
-                    {
-                        runtimeState.openedChestIds.push_back(chestId);
-                    }
-
-                    std::cout << "  toggle_chest_flag chest=" << chestId
-                              << " flag=0x" << std::hex << flag << std::dec
-                              << " on=" << (isOn ? "1" : "0") << '\n';
-                }
-                break;
-            }
-
-            case EventIrOperation::InputString:
-            {
-                EventRuntimeState::PendingInputPrompt prompt = {};
-                prompt.kind = EventRuntimeState::PendingInputPrompt::Kind::InputString;
-                prompt.eventId = event.eventId;
-                prompt.continueStep = instruction.step + 1;
-                prompt.textId = !instruction.arguments.empty() ? instruction.arguments[0] : 0;
-                prompt.text = instruction.text;
-                runtimeState.pendingInputPrompt = std::move(prompt);
-                std::cout << "  input_string text=" << (!instruction.arguments.empty() ? instruction.arguments[0] : 0) << '\n';
-                return true;
-            }
-
-            case EventIrOperation::PressAnyKey:
-            {
-                EventRuntimeState::PendingInputPrompt prompt = {};
-                prompt.kind = EventRuntimeState::PendingInputPrompt::Kind::PressAnyKey;
-                prompt.eventId = event.eventId;
-                prompt.continueStep = instruction.step + 1;
-                runtimeState.pendingInputPrompt = std::move(prompt);
-                std::cout << "  press_any_key\n";
-                return true;
-            }
-
-            case EventIrOperation::SpecialJump:
-                std::cout << "  special_jump a="
-                          << (instruction.arguments.empty() ? 0 : instruction.arguments[0])
-                          << " b=" << (instruction.arguments.size() >= 2 ? instruction.arguments[1] : 0) << '\n';
-                break;
-
-            case EventIrOperation::IsTotalBountyHuntingAwardInRange:
-            {
-                if (instruction.arguments.size() >= 2)
-                {
-                    const int32_t totalBounty =
-                        pParty != nullptr
-                            ? pParty->eventVariableValue(static_cast<uint16_t>(EvtVariable::NumBounties))
-                            : 0;
-                    const int32_t minValue = static_cast<int32_t>(instruction.arguments[0]);
-                    const int32_t maxValue = static_cast<int32_t>(instruction.arguments[1]);
-                    const bool inRange = totalBounty >= minValue && totalBounty <= maxValue;
-
-                    std::cout << "  check_bounty total=" << totalBounty
-                              << " range=[" << minValue << "," << maxValue << "]"
-                              << " -> " << (inRange ? "true" : "false") << '\n';
-
-                    if (inRange && instruction.jumpTargetStep)
-                    {
-                        const auto iterator = stepToInstructionIndex.find(*instruction.jumpTargetStep);
-
-                        if (iterator != stepToInstructionIndex.end())
-                        {
-                            instructionIndex = iterator->second;
-                            continue;
-                        }
-                    }
-                }
-                break;
-            }
-
-            case EventIrOperation::IsNpcInParty:
-            {
-                if (!instruction.arguments.empty())
-                {
-                    const bool inParty = runtimeState.unavailableNpcIds.contains(instruction.arguments[0]);
-
-                    std::cout << "  is_npc_in_party npc=" << instruction.arguments[0]
-                              << " -> " << (inParty ? "true" : "false") << '\n';
-
-                    if (inParty && instruction.jumpTargetStep)
-                    {
-                        const auto iterator = stepToInstructionIndex.find(*instruction.jumpTargetStep);
-
-                        if (iterator != stepToInstructionIndex.end())
-                        {
-                            instructionIndex = iterator->second;
-                            continue;
-                        }
-                    }
-                }
-                break;
-            }
-
-            case EventIrOperation::Compare:
-            {
-                if (instruction.arguments.size() >= 2)
-                {
-                    const VariableRef variable = decodeVariable(instruction.arguments[0]);
-                    const int32_t compareValue = static_cast<int32_t>(instruction.arguments[1]);
-                    const std::optional<size_t> memberIndex = singleTargetMemberIndex(targetMemberIndices);
-                    const int32_t currentValue = getVariableValue(runtimeState, variable, pParty, memberIndex);
-                    const bool compareSucceeded = evaluateCompare(runtimeState, instruction, pParty, targetMemberIndices);
-
-                    std::cout << "  cmp raw=" << instruction.arguments[0]
-                              << " current=" << currentValue
-                              << " expect=" << compareValue
-                              << " -> " << (compareSucceeded ? "true" : "false") << '\n';
-
-                    if (compareSucceeded && instruction.jumpTargetStep)
-                    {
-                        const std::unordered_map<uint8_t, size_t>::const_iterator iterator =
-                            stepToInstructionIndex.find(*instruction.jumpTargetStep);
-
-                        if (iterator != stepToInstructionIndex.end())
-                        {
-                            instructionIndex = iterator->second;
-                            continue;
-                        }
-                    }
-                }
-                break;
-            }
-
-            case EventIrOperation::Jump:
-            {
-                std::cout << "  jump -> "
-                          << (instruction.jumpTargetStep ? std::to_string(*instruction.jumpTargetStep) : "-")
-                          << '\n';
-
-                if (instruction.jumpTargetStep)
-                {
-                    const std::unordered_map<uint8_t, size_t>::const_iterator iterator =
-                        stepToInstructionIndex.find(*instruction.jumpTargetStep);
-
-                    if (iterator != stepToInstructionIndex.end())
-                    {
-                        instructionIndex = iterator->second;
-                        continue;
-                    }
-                }
-                break;
-            }
-
-            case EventIrOperation::IsActorKilled:
-            {
-                if (instruction.arguments.size() >= 4)
-                {
-                    const uint32_t checkType = instruction.arguments[0];
-                    const uint32_t id = instruction.arguments[1];
-                    const uint32_t count = instruction.arguments[2];
-                    const bool invisibleAsDead = instruction.arguments[3] != 0;
-                    const bool killed = pSceneEventContext != nullptr
-                        && pSceneEventContext->checkMonstersKilled(checkType, id, count, invisibleAsDead);
-
-                    std::cout << "  check_monsters_killed type=" << checkType
-                              << " id=" << id
-                              << " count=" << count
-                              << " invisible_as_dead=" << (invisibleAsDead ? "1" : "0")
-                              << " -> " << (killed ? "true" : "false") << '\n';
-
-                    if (killed && instruction.jumpTargetStep)
-                    {
-                        const std::unordered_map<uint8_t, size_t>::const_iterator iterator =
-                            stepToInstructionIndex.find(*instruction.jumpTargetStep);
-
-                        if (iterator != stepToInstructionIndex.end())
-                        {
-                            instructionIndex = iterator->second;
-                            continue;
-                        }
-                    }
-                }
-                break;
-            }
-
-            case EventIrOperation::Add:
-            {
-                if (instruction.arguments.size() >= 2)
-                {
-                    const VariableRef variable = decodeVariable(instruction.arguments[0]);
-                    addVariableValue(
-                        runtimeState,
-                        variable,
-                        static_cast<int32_t>(instruction.arguments[1]),
-                        pParty,
-                        targetMemberIndices
-                    );
-                    std::cout << "  add raw=" << instruction.arguments[0]
-                              << " value=" << instruction.arguments[1]
-                              << " -> " << getVariableValue(
-                                  runtimeState,
-                                  variable,
-                                  pParty,
-                                  singleTargetMemberIndex(targetMemberIndices)) << '\n';
-                }
-                break;
-            }
-
-            case EventIrOperation::SummonMonsters:
-            {
-                if (instruction.arguments.size() >= 8)
-                {
-                    const uint32_t typeIndex = instruction.arguments[0];
-                    const uint32_t level = instruction.arguments[1];
-                    const uint32_t count = instruction.arguments[2];
-                    const int32_t x = static_cast<int32_t>(instruction.arguments[3]);
-                    const int32_t y = static_cast<int32_t>(instruction.arguments[4]);
-                    const int32_t z = static_cast<int32_t>(instruction.arguments[5]);
-                    const uint32_t group = instruction.arguments[6];
-                    const uint32_t uniqueNameId = instruction.arguments[7];
-                    const bool summoned = pSceneEventContext != nullptr
-                        && pSceneEventContext->summonMonsters(
-                            typeIndex,
-                            level,
-                            count,
-                            x,
-                            y,
-                            z,
-                            group,
-                            uniqueNameId);
-
-                    std::cout << "  summon_monsters type=" << typeIndex
-                              << " level=" << level
-                              << " count=" << count
-                              << " pos=(" << x << "," << y << "," << z << ")"
-                              << " group=" << group
-                              << " unique=" << uniqueNameId
-                              << " -> " << (summoned ? "true" : "false") << '\n';
-                }
-                break;
-            }
-
-            case EventIrOperation::Subtract:
-            {
-                if (instruction.arguments.size() >= 2)
-                {
-                    const VariableRef variable = decodeVariable(instruction.arguments[0]);
-                    subtractVariableValue(
-                        runtimeState,
-                        variable,
-                        static_cast<int32_t>(instruction.arguments[1]),
-                        pParty,
-                        targetMemberIndices
-                    );
-                    std::cout << "  sub raw=" << instruction.arguments[0]
-                              << " value=" << instruction.arguments[1]
-                              << " -> " << getVariableValue(
-                                  runtimeState,
-                                  variable,
-                                  pParty,
-                                  singleTargetMemberIndex(targetMemberIndices)) << '\n';
-                }
-                break;
-            }
-
-            case EventIrOperation::ChangeEvent:
-            {
-                if (!instruction.arguments.empty() && runtimeState.activeDecorationContext)
-                {
-                    EventRuntimeState::ActiveDecorationContext &context = *runtimeState.activeDecorationContext;
-                    const uint16_t targetEventId = static_cast<uint16_t>(instruction.arguments[0]);
-                    uint8_t newState = 0;
-
-                    if (targetEventId == 0)
-                    {
-                        newState = context.hideWhenCleared ? context.eventCount : 0;
-                    }
-                    else if (targetEventId >= context.baseEventId)
-                    {
-                        const uint16_t delta = targetEventId - context.baseEventId;
-                        newState = delta > std::numeric_limits<uint8_t>::max()
-                            ? std::numeric_limits<uint8_t>::max()
-                            : static_cast<uint8_t>(delta);
-                    }
-
-                    runtimeState.decorVars[context.decorVarIndex] = newState;
-                    context.currentEventId = targetEventId;
-
-                    std::cout << "  change_event target=" << targetEventId
-                              << " decor_var[" << static_cast<int>(context.decorVarIndex) << "]="
-                              << static_cast<int>(newState) << '\n';
-                }
-                break;
-            }
-
-            case EventIrOperation::Set:
-            {
-                if (instruction.arguments.size() >= 2)
-                {
-                    const VariableRef variable = decodeVariable(instruction.arguments[0]);
-                    setVariableValue(
-                        runtimeState,
-                        variable,
-                        static_cast<int32_t>(instruction.arguments[1]),
-                        pParty,
-                        targetMemberIndices
-                    );
-                    std::cout << "  set raw=" << instruction.arguments[0]
-                              << " value=" << instruction.arguments[1]
-                              << " -> " << getVariableValue(
-                                  runtimeState,
-                                  variable,
-                                  pParty,
-                                  singleTargetMemberIndex(targetMemberIndices)) << '\n';
-                }
-                break;
-            }
-
-            case EventIrOperation::ShowMessage:
-            {
-                if (instruction.text && !instruction.text->empty())
-                {
-                    runtimeState.messages.push_back(*instruction.text);
-                }
-                break;
-            }
-
-            case EventIrOperation::StatusText:
-            {
-                if (instruction.text && !instruction.text->empty())
-                {
-                    runtimeState.statusMessages.push_back(*instruction.text);
-                }
-                break;
-            }
-
-            case EventIrOperation::OpenChest:
-            {
-                if (!instruction.arguments.empty())
-                {
-                    runtimeState.openedChestIds.push_back(instruction.arguments[0]);
-                    std::cout << "  open_chest=" << instruction.arguments[0] << '\n';
-                }
-                break;
-            }
-
-            case EventIrOperation::GiveItem:
-            {
-                if (!instruction.arguments.empty())
-                {
-                    runtimeState.grantedItemIds.push_back(instruction.arguments[0]);
-                    std::cout << "  give_item=" << instruction.arguments[0] << '\n';
-                }
-                break;
-            }
-
-            case EventIrOperation::RemoveItems:
-            {
-                if (!instruction.arguments.empty())
-                {
-                    runtimeState.removedItemIds.push_back(instruction.arguments[0]);
-                    std::cout << "  remove_item=" << instruction.arguments[0] << '\n';
-                }
-                break;
-            }
-
-            case EventIrOperation::ChangeDoorState:
-            {
-                if (instruction.arguments.size() >= 2)
-                {
-                    const uint32_t mechanismId = instruction.arguments[0];
-                    RuntimeMechanismState &runtimeMechanism = runtimeState.mechanisms[mechanismId];
-                    const uint32_t actionValue = instruction.arguments[1];
-                    MechanismAction action = MechanismAction::Open;
-
-                    if (actionValue == static_cast<uint32_t>(EvtMechanismAction::Close))
-                    {
-                        action = MechanismAction::Close;
-                    }
-                    else if (actionValue == static_cast<uint32_t>(EvtMechanismAction::Trigger))
-                    {
-                        action = MechanismAction::Trigger;
-                    }
-
-                    applyMechanismAction(runtimeMechanism, action);
-                    runtimeState.lastAffectedMechanismIds.push_back(mechanismId);
-                    std::cout << "  mech " << mechanismId
-                              << " action=" << actionValue
-                              << " state=" << runtimeMechanism.state
-                              << " moving=" << (runtimeMechanism.isMoving ? "yes" : "no") << '\n';
-                }
-                break;
-            }
-
-            case EventIrOperation::StopAnimation:
-            {
-                if (!instruction.arguments.empty())
-                {
-                    const uint32_t mechanismId = instruction.arguments[0];
-                    RuntimeMechanismState &runtimeMechanism = runtimeState.mechanisms[mechanismId];
-                    runtimeMechanism.isMoving = false;
-                    runtimeState.lastAffectedMechanismIds.push_back(mechanismId);
-                    std::cout << "  mech " << mechanismId
-                              << " stopped at distance=" << runtimeMechanism.currentDistance << '\n';
-                }
-                break;
-            }
-
-            case EventIrOperation::SetTexture:
-            {
-                if (instruction.arguments.empty())
-                {
-                    break;
-                }
-
-                const uint32_t cogNumber = instruction.arguments[0];
-
-                if (instruction.text && !instruction.text->empty())
-                {
-                    runtimeState.textureOverrides[cogNumber] = *instruction.text;
-                    std::cout << "  texture cog=" << cogNumber << " name=\"" << *instruction.text << "\"\n";
-                }
-                else
-                {
-                    runtimeState.textureOverrides.erase(cogNumber);
-                    std::cout << "  texture cog=" << cogNumber << " cleared\n";
-                }
-                break;
-            }
-
-            case EventIrOperation::ToggleIndoorLight:
-            {
-                if (instruction.arguments.size() >= 2)
-                {
-                    const uint32_t lightId = instruction.arguments[0];
-                    const bool isEnabled = instruction.arguments[1] != 0;
-                    runtimeState.indoorLightsEnabled[lightId] = isEnabled;
-                    std::cout << "  light " << lightId << " on=" << (isEnabled ? "1" : "0") << '\n';
-                }
-                break;
-            }
-
-            case EventIrOperation::SetFacetBit:
-            {
-                if (instruction.arguments.size() >= 3)
-                {
-                    const uint32_t faceId = instruction.arguments[0];
-                    const uint32_t bit = instruction.arguments[1];
-                    const bool isOn = instruction.arguments[2] != 0;
-
-                    if (isOn)
-                    {
-                        runtimeState.facetSetMasks[faceId] |= bit;
-                        runtimeState.facetClearMasks[faceId] &= ~bit;
-                    }
-                    else
-                    {
-                        runtimeState.facetClearMasks[faceId] |= bit;
-                        runtimeState.facetSetMasks[faceId] &= ~bit;
-                    }
-
-                    std::cout << "  facet " << faceId
-                              << " bit=0x" << std::hex << bit << std::dec
-                              << " on=" << (isOn ? "1" : "0") << '\n';
-                }
-                break;
-            }
-
-            case EventIrOperation::SetActorFlag:
-            {
-                if (instruction.arguments.size() >= 3)
-                {
-                    const uint32_t actorId = instruction.arguments[0];
-                    const uint32_t bit = instruction.arguments[1];
-                    const bool isOn = instruction.arguments[2] != 0;
-
-                    if (isOn)
-                    {
-                        runtimeState.actorSetMasks[actorId] |= bit;
-                        runtimeState.actorClearMasks[actorId] &= ~bit;
-                    }
-                    else
-                    {
-                        runtimeState.actorClearMasks[actorId] |= bit;
-                        runtimeState.actorSetMasks[actorId] &= ~bit;
-                    }
-
-                    std::cout << "  actor " << actorId
-                              << " bit=0x" << std::hex << bit << std::dec
-                              << " on=" << (isOn ? "1" : "0") << '\n';
-                }
-                break;
-            }
-
-            case EventIrOperation::SetActorGroupFlag:
-            {
-                if (instruction.arguments.size() >= 3)
-                {
-                    const uint32_t groupId = instruction.arguments[0];
-                    const uint32_t bit = instruction.arguments[1];
-                    const bool isOn = instruction.arguments[2] != 0;
-
-                    if (isOn)
-                    {
-                        runtimeState.actorGroupSetMasks[groupId] |= bit;
-                        runtimeState.actorGroupClearMasks[groupId] &= ~bit;
-                    }
-                    else
-                    {
-                        runtimeState.actorGroupClearMasks[groupId] |= bit;
-                        runtimeState.actorGroupSetMasks[groupId] &= ~bit;
-                    }
-
-                    std::cout << "  actor_group " << groupId
-                              << " bit=0x" << std::hex << bit << std::dec
-                              << " on=" << (isOn ? "1" : "0") << '\n';
-                }
-                break;
-            }
-
-            case EventIrOperation::SetNpcTopic:
-            {
-                if (instruction.arguments.size() >= 3)
-                {
-                    runtimeState.npcTopicOverrides[instruction.arguments[0]][instruction.arguments[1]] =
-                        instruction.arguments[2];
-                    std::cout << "  npc_topic npc=" << instruction.arguments[0]
-                              << " slot=" << instruction.arguments[1]
-                              << " event=" << instruction.arguments[2] << '\n';
-                }
-                break;
-            }
-
-            case EventIrOperation::SetNpcGroupNews:
-            {
-                if (instruction.arguments.size() >= 2)
-                {
-                    runtimeState.npcGroupNews[instruction.arguments[0]] = instruction.arguments[1];
-                }
-                break;
-            }
-
-            case EventIrOperation::Unknown:
-                break;
-        }
-
-        ++instructionIndex;
-    }
-
-    return true;
-}
 }

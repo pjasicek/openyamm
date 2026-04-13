@@ -712,8 +712,8 @@ bool GameApplication::initializeSelectedMapRuntime(bool initializeView)
             selectedMap->map,
             *m_pOutdoorPartyRuntime,
             *m_pOutdoorWorldRuntime,
-            selectedMap->localEventIrProgram,
-            selectedMap->globalEventIrProgram);
+            selectedMap->localEventProgram,
+            selectedMap->globalEventProgram);
         m_gameplayController.bindRuntime(m_pMapSceneRuntime.get());
         m_screenManager.setCurrentMode(AppMode::GameplayOutdoor);
 
@@ -759,9 +759,6 @@ bool GameApplication::initializeSelectedMapRuntime(bool initializeView)
             m_gameDataLoader.getStandardItemEnchantTable(),
             m_gameDataLoader.getSpecialItemEnchantTable(),
             m_gameDataLoader.getItemEquipPosTable(),
-            selectedMap->localStrTable,
-            selectedMap->localEvtProgram,
-            selectedMap->globalEvtProgram,
             &m_gameAudioSystem,
             *static_cast<OutdoorSceneRuntime *>(m_pMapSceneRuntime.get()),
             m_settings,
@@ -808,8 +805,8 @@ bool GameApplication::initializeSelectedMapRuntime(bool initializeView)
             party,
             selectedMap->indoorMapDeltaData,
             selectedMap->eventRuntimeState,
-            selectedMap->localEventIrProgram,
-            selectedMap->globalEventIrProgram
+            selectedMap->localEventProgram,
+            selectedMap->globalEventProgram
         );
         const std::unordered_map<std::string, IndoorSceneRuntime::Snapshot>::const_iterator indoorStateIt =
             m_gameSession.indoorSceneStates().find(selectedMap->map.fileName);
@@ -831,10 +828,7 @@ bool GameApplication::initializeSelectedMapRuntime(bool initializeView)
                 selectedMap->indoorSpriteObjectBillboardSet,
                 *pIndoorSceneRuntime,
                 m_gameDataLoader.getChestTable(),
-                m_gameDataLoader.getHouseTable(),
-                selectedMap->localStrTable,
-                selectedMap->localEvtProgram,
-                selectedMap->globalEvtProgram))
+                m_gameDataLoader.getHouseTable()))
         {
             return false;
         }

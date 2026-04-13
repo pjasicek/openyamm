@@ -2865,7 +2865,7 @@ void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view
                 && view.m_map->id == DwiMapId
                 && view.m_outdoorMapData.has_value()
                 && view.m_pOutdoorSceneRuntime != nullptr
-                && view.m_pOutdoorSceneRuntime->localEventIrProgram().has_value();
+                && view.m_pOutdoorSceneRuntime->localEventProgram().has_value();
 
             if (isDwiOutdoor)
             {

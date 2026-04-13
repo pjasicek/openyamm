@@ -377,5 +377,5 @@ std::string portraitIdName(PortraitId portraitId)
     }
 
     return "Unknown";
-}
+    }
 }

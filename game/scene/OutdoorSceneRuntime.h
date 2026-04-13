@@ -1,6 +1,6 @@
 #pragma once
 
-#include "game/events/EventIr.h"
+#include "game/events/ScriptedEventProgram.h"
 #include "game/events/EventRuntime.h"
 #include "game/outdoor/OutdoorPartyRuntime.h"
 #include "game/outdoor/OutdoorWorldRuntime.h"
@@ -26,8 +26,8 @@ public:
         const MapStatsEntry &mapEntry,
         OutdoorPartyRuntime &partyRuntime,
         OutdoorWorldRuntime &worldRuntime,
-        const std::optional<EventIrProgram> &localEventIrProgram,
-        const std::optional<EventIrProgram> &globalEventIrProgram
+        const std::optional<ScriptedEventProgram> &localEventProgram,
+        const std::optional<ScriptedEventProgram> &globalEventProgram
     );
 
     SceneKind kind() const override;
@@ -42,11 +42,11 @@ public:
     const OutdoorPartyRuntime &partyRuntime() const;
     OutdoorWorldRuntime &worldRuntime();
     const OutdoorWorldRuntime &worldRuntime() const;
-    const std::optional<EventIrProgram> &localEventIrProgram() const;
-    const std::optional<EventIrProgram> &globalEventIrProgram() const;
+    const std::optional<ScriptedEventProgram> &localEventProgram() const;
+    const std::optional<ScriptedEventProgram> &globalEventProgram() const;
     AdvanceFrameResult advanceFrame(const OutdoorMovementInput &movementInput, float deltaSeconds);
     bool executeEventById(
-        const std::optional<EventIrProgram> &localEventIrProgram,
+        const std::optional<ScriptedEventProgram> &localEventProgram,
         uint16_t eventId,
         const std::optional<EventRuntimeState::ActiveDecorationContext> &activeDecorationContext,
         size_t &previousMessageCount
@@ -57,8 +57,8 @@ private:
     MapStatsEntry m_mapEntry;
     OutdoorPartyRuntime *m_pPartyRuntime = nullptr;
     OutdoorWorldRuntime *m_pWorldRuntime = nullptr;
-    std::optional<EventIrProgram> m_localEventIrProgram;
-    std::optional<EventIrProgram> m_globalEventIrProgram;
+    std::optional<ScriptedEventProgram> m_localEventProgram;
+    std::optional<ScriptedEventProgram> m_globalEventProgram;
     EventRuntime m_eventRuntime;
 };
 }

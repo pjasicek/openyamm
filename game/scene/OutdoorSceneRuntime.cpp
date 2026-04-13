@@ -89,14 +89,14 @@ OutdoorSceneRuntime::OutdoorSceneRuntime(
     const MapStatsEntry &mapEntry,
     OutdoorPartyRuntime &partyRuntime,
     OutdoorWorldRuntime &worldRuntime,
-    const std::optional<EventIrProgram> &localEventIrProgram,
-    const std::optional<EventIrProgram> &globalEventIrProgram)
+    const std::optional<ScriptedEventProgram> &localEventProgram,
+    const std::optional<ScriptedEventProgram> &globalEventProgram)
     : m_mapFileName(mapFileName)
     , m_mapEntry(mapEntry)
     , m_pPartyRuntime(&partyRuntime)
     , m_pWorldRuntime(&worldRuntime)
-    , m_localEventIrProgram(localEventIrProgram)
-    , m_globalEventIrProgram(globalEventIrProgram)
+    , m_localEventProgram(localEventProgram)
+    , m_globalEventProgram(globalEventProgram)
 {
 }
 
@@ -160,14 +160,14 @@ const OutdoorWorldRuntime &OutdoorSceneRuntime::worldRuntime() const
     return *m_pWorldRuntime;
 }
 
-const std::optional<EventIrProgram> &OutdoorSceneRuntime::localEventIrProgram() const
+const std::optional<ScriptedEventProgram> &OutdoorSceneRuntime::localEventProgram() const
 {
-    return m_localEventIrProgram;
+    return m_localEventProgram;
 }
 
-const std::optional<EventIrProgram> &OutdoorSceneRuntime::globalEventIrProgram() const
+const std::optional<ScriptedEventProgram> &OutdoorSceneRuntime::globalEventProgram() const
 {
-    return m_globalEventIrProgram;
+    return m_globalEventProgram;
 }
 
 OutdoorSceneRuntime::AdvanceFrameResult OutdoorSceneRuntime::advanceFrame(
@@ -189,8 +189,8 @@ OutdoorSceneRuntime::AdvanceFrameResult OutdoorSceneRuntime::advanceFrame(
     if (m_pWorldRuntime->updateTimers(
             deltaSeconds,
             m_eventRuntime,
-            m_localEventIrProgram,
-            m_globalEventIrProgram))
+            m_localEventProgram,
+            m_globalEventProgram))
     {
         m_pPartyRuntime->applyEventRuntimeState(*m_pWorldRuntime->eventRuntimeState(), false);
         result.shouldOpenEventDialog = true;
@@ -212,8 +212,8 @@ OutdoorSceneRuntime::AdvanceFrameResult OutdoorSceneRuntime::advanceFrame(
             if ((face.attributes & FaceAttributePressurePlate) != 0 && face.cogTriggeredNumber != 0)
             {
                 const bool executed = m_eventRuntime.executeEventById(
-                    m_localEventIrProgram,
-                    m_globalEventIrProgram,
+                    m_localEventProgram,
+                    m_globalEventProgram,
                     face.cogTriggeredNumber,
                     *pEventRuntimeState,
                     &m_pPartyRuntime->party(),
@@ -257,7 +257,7 @@ OutdoorSceneRuntime::AdvanceFrameResult OutdoorSceneRuntime::advanceFrame(
 }
 
 bool OutdoorSceneRuntime::executeEventById(
-    const std::optional<EventIrProgram> &localEventIrProgram,
+    const std::optional<ScriptedEventProgram> &localEventProgram,
     uint16_t eventId,
     const std::optional<EventRuntimeState::ActiveDecorationContext> &activeDecorationContext,
     size_t &previousMessageCount)
@@ -273,8 +273,8 @@ bool OutdoorSceneRuntime::executeEventById(
     pEventRuntimeState->activeDecorationContext = activeDecorationContext;
 
     const bool executed = m_eventRuntime.executeEventById(
-        localEventIrProgram,
-        m_globalEventIrProgram,
+        localEventProgram,
+        m_globalEventProgram,
         eventId,
         *pEventRuntimeState,
         &m_pPartyRuntime->party(),

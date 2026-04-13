@@ -17,9 +17,8 @@ add_executable(openyamm
     tables/CharacterDollTable.cpp
     tables/ClassSkillTable.cpp
     events/EventDialogContent.cpp
-    events/EventIr.cpp
     events/EventRuntime.cpp
-    events/EvtProgram.cpp
+    events/ScriptedEventProgram.cpp
     tables/FaceAnimationTable.cpp
     gameplay/GameMechanics.cpp
     gameplay/GameplayController.cpp
@@ -84,7 +83,6 @@ add_executable(openyamm
     tables/SpellTable.cpp
     tables/SpellFxTable.cpp
     tables/SpriteTables.cpp
-    tables/StrTable.cpp
     tables/SurfaceMaterialTable.cpp
     tables/TextureFrameTable.cpp
     outdoor/OutdoorGameView.cpp

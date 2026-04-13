@@ -1117,6 +1117,7 @@ void writeValue(BinaryWriter &writer, const EventRuntimeState &value)
     writeValue(writer, value.messages);
     writeValue(writer, value.statusMessages);
     writeValue(writer, value.openedChestIds);
+    writeValue(writer, value.grantedItems);
     writeValue(writer, value.grantedItemIds);
     writeValue(writer, value.removedItemIds);
     writeValue(writer, value.grantedAwardIds);
@@ -1170,6 +1171,7 @@ bool readValue(BinaryReader &reader, EventRuntimeState &value)
         && readValue(reader, value.messages)
         && readValue(reader, value.statusMessages)
         && readValue(reader, value.openedChestIds)
+        && readValue(reader, value.grantedItems)
         && readValue(reader, value.grantedItemIds)
         && readValue(reader, value.removedItemIds)
         && readValue(reader, value.grantedAwardIds)
@@ -1763,6 +1765,7 @@ void writeValue(BinaryWriter &writer, const OutdoorWorldRuntime::ProjectileState
     writeValue(writer, value.objectSpriteId);
     writeValue(writer, value.objectSpriteFrameIndex);
     writeValue(writer, value.impactObjectDescriptionId);
+    writeValue(writer, value.objectFlags);
     writeValue(writer, value.radius);
     writeValue(writer, value.height);
     writeValue(writer, value.spellId);
@@ -1801,6 +1804,7 @@ bool readValue(BinaryReader &reader, OutdoorWorldRuntime::ProjectileState &value
         && readValue(reader, value.objectSpriteId)
         && readValue(reader, value.objectSpriteFrameIndex)
         && readValue(reader, value.impactObjectDescriptionId)
+        && readValue(reader, value.objectFlags)
         && readValue(reader, value.radius)
         && readValue(reader, value.height)
         && readValue(reader, value.spellId)

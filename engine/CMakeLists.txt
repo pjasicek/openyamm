@@ -6,6 +6,7 @@ add_library(openyamm_engine
     AssetScaleTier.cpp
     AssetPaths.cpp
     EngineApplication.cpp
+    scripting/LuaStateOwner.cpp
     TextTable.cpp
 )
 
@@ -28,4 +29,5 @@ target_link_libraries(openyamm_engine
         openyamm_bgfx
         SDL3::SDL3
         physfs-static
+        ${OPENYAMM_LUA_TARGET}
 )

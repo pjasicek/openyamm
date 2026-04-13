@@ -1,10 +1,6 @@
 #pragma once
 
 #include "game/events/EvtEnums.h"
-#include "game/events/EvtProgram.h"
-#include "game/tables/HouseTable.h"
-#include "game/tables/NpcDialogTable.h"
-#include "game/tables/StrTable.h"
 
 #include <cstdint>
 #include <optional>
@@ -88,7 +84,7 @@ struct EventIrInstruction
     uint16_t eventId = 0;
     uint8_t step = 0;
     EventIrOperation operation = EventIrOperation::Unknown;
-    EvtOpcode sourceOpcode = EvtOpcode::Invalid;
+    uint32_t sourceOpcode = 0;
     std::vector<uint32_t> arguments;
     std::optional<uint8_t> jumpTargetStep;
     std::optional<std::string> text;
@@ -105,27 +101,27 @@ class EventIrProgram
 {
 public:
     static EventIrProgram fromEvents(std::vector<EventIrEvent> events);
-    bool buildFromEvtProgram(
-        const EvtProgram &evtProgram,
-        const StrTable &strTable,
-        const HouseTable &houseTable,
-        const NpcDialogTable &npcDialogTable
-    );
+
     const std::vector<EventIrEvent> &getEvents() const;
     size_t getInstructionCount() const;
+    bool hasEvent(uint16_t eventId) const;
+    std::optional<std::string> getHint(uint16_t eventId) const;
+    std::optional<std::string> summarizeEvent(uint16_t eventId) const;
+    std::vector<uint32_t> getOpenedChestIds(uint16_t eventId) const;
     std::string dump() const;
+    std::string saveToYamlText() const;
+    bool loadFromYamlText(const std::string &text, std::string &error);
+    void setLuaSource(std::string chunkText, std::string chunkName);
+    const std::optional<std::string> &luaSourceText() const;
+    const std::optional<std::string> &luaSourceName() const;
 
 private:
-    static EventIrOperation mapOperation(EvtOpcode opcode);
     static std::string operationName(EventIrOperation operation);
-    static EventIrInstruction convertInstruction(
-        uint16_t eventId,
-        const EvtInstruction &evtInstruction,
-        const StrTable &strTable,
-        const HouseTable &houseTable,
-        const NpcDialogTable &npcDialogTable
-    );
+
+    const EventIrEvent *findEvent(uint16_t eventId) const;
 
     std::vector<EventIrEvent> m_events;
+    std::optional<std::string> m_luaSourceText;
+    std::optional<std::string> m_luaSourceName;
 };
 }

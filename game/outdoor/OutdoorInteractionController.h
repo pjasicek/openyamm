@@ -83,7 +83,8 @@ private:
     static bool tryDisplaceHeldInventoryItem(OutdoorGameView &view);
     static GameplayDialogController::Context createGameplayDialogContext(
         OutdoorGameView &view,
-        EventRuntimeState &eventRuntimeState);
+        EventRuntimeState &eventRuntimeState,
+        const char *reason);
     static std::optional<std::string> resolveEventHintText(const OutdoorGameView &view, uint16_t eventId);
     static const OutdoorBitmapTexture *findDecorationBillboardTexture(
         const OutdoorGameView &view,
@@ -93,8 +94,9 @@ private:
         const std::string &textureName,
         int16_t paletteId);
     static bool hitTestDecorationBillboard(
-        const OutdoorGameView &view,
+        OutdoorGameView &view,
         const DecorationBillboard &billboard,
+        uint16_t spriteId,
         const OutdoorGameView::BillboardTextureHandle &texture,
         bool mirrored,
         float mouseX,

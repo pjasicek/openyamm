@@ -211,14 +211,14 @@ void OutdoorBillboardRenderer::initializeBillboardResources(OutdoorGameView &vie
         }
     }
 
-    if (view.m_pOutdoorSceneRuntime != nullptr && view.m_pOutdoorSceneRuntime->localEventIrProgram())
+    if (view.m_pOutdoorSceneRuntime != nullptr && view.m_pOutdoorSceneRuntime->localEventProgram())
     {
-        queueEventSpellBillboardTextureWarmup(view, *view.m_pOutdoorSceneRuntime->localEventIrProgram());
+        queueEventSpellBillboardTextureWarmup(view, *view.m_pOutdoorSceneRuntime->localEventProgram());
     }
 
-    if (view.m_pOutdoorSceneRuntime != nullptr && view.m_pOutdoorSceneRuntime->globalEventIrProgram())
+    if (view.m_pOutdoorSceneRuntime != nullptr && view.m_pOutdoorSceneRuntime->globalEventProgram())
     {
-        queueEventSpellBillboardTextureWarmup(view, *view.m_pOutdoorSceneRuntime->globalEventIrProgram());
+        queueEventSpellBillboardTextureWarmup(view, *view.m_pOutdoorSceneRuntime->globalEventProgram());
     }
 
     queueRuntimeActorBillboardTextureWarmup(view);
@@ -263,7 +263,7 @@ void OutdoorBillboardRenderer::initializeBillboardResources(OutdoorGameView &vie
 
 void OutdoorBillboardRenderer::queueEventSpellBillboardTextureWarmup(
     OutdoorGameView &view,
-    const EventIrProgram &eventIrProgram)
+    const ScriptedEventProgram &eventProgram)
 {
     if (view.m_pSpellTable == nullptr || view.m_pObjectTable == nullptr)
     {
@@ -329,25 +329,17 @@ void OutdoorBillboardRenderer::queueEventSpellBillboardTextureWarmup(
             }
         };
 
-    for (const EventIrEvent &event : eventIrProgram.getEvents())
+    for (uint32_t spellId : eventProgram.castSpellIds())
     {
-        for (const EventIrInstruction &instruction : event.instructions)
+        const SpellEntry *pSpellEntry = view.m_pSpellTable->findById(static_cast<int>(spellId));
+
+        if (pSpellEntry == nullptr)
         {
-            if (instruction.operation != EventIrOperation::CastSpell || instruction.arguments.empty())
-            {
-                continue;
-            }
-
-            const SpellEntry *pSpellEntry = view.m_pSpellTable->findById(static_cast<int>(instruction.arguments[0]));
-
-            if (pSpellEntry == nullptr)
-            {
-                continue;
-            }
-
-            queueSpellObjectSpriteFrame(pSpellEntry->displayObjectId);
-            queueSpellObjectSpriteFrame(pSpellEntry->impactDisplayObjectId);
+            continue;
         }
+
+        queueSpellObjectSpriteFrame(pSpellEntry->displayObjectId);
+        queueSpellObjectSpriteFrame(pSpellEntry->impactDisplayObjectId);
     }
 }
 
@@ -848,6 +840,54 @@ void OutdoorBillboardRenderer::renderDecorationBillboards(
         bool mirrored = false;
         float distanceSquared = 0.0f;
     };
+    const auto resolveBillboardVisual = [&view](const DecorationBillboard &billboard, bool &hidden)
+    {
+        hidden = false;
+        uint16_t spriteId = billboard.spriteId;
+
+        if (!view.m_outdoorDecorationBillboardSet || view.m_pOutdoorWorldRuntime == nullptr)
+        {
+            return spriteId;
+        }
+
+        const EventRuntimeState *pEventRuntimeState = view.m_pOutdoorWorldRuntime->eventRuntimeState();
+
+        if (pEventRuntimeState == nullptr)
+        {
+            return spriteId;
+        }
+
+        const auto overrideIterator =
+            pEventRuntimeState->spriteOverrides.find(static_cast<uint32_t>(billboard.entityIndex));
+
+        if (overrideIterator == pEventRuntimeState->spriteOverrides.end())
+        {
+            return spriteId;
+        }
+
+        hidden = overrideIterator->second.hidden;
+
+        if (!overrideIterator->second.textureName.has_value() || overrideIterator->second.textureName->empty())
+        {
+            return spriteId;
+        }
+
+        if (const DecorationEntry *pDecoration =
+                view.m_outdoorDecorationBillboardSet->decorationTable.findByInternalName(
+                    *overrideIterator->second.textureName))
+        {
+            return pDecoration->spriteId;
+        }
+
+        if (const std::optional<uint16_t> overrideSpriteId =
+                view.m_outdoorDecorationBillboardSet->spriteFrameTable.findFrameIndexBySpriteName(
+                    *overrideIterator->second.textureName))
+        {
+            return *overrideSpriteId;
+        }
+
+        return spriteId;
+    };
 
     std::vector<size_t> candidateBillboardIndices;
     OutdoorInteractionController::collectDecorationBillboardCandidates(view, 
@@ -868,9 +908,12 @@ void OutdoorBillboardRenderer::renderDecorationBillboards(
     for (size_t billboardIndex : candidateBillboardIndices)
     {
         const DecorationBillboard &billboard = view.m_outdoorDecorationBillboardSet->billboards[billboardIndex];
+        bool hidden = false;
+        const uint16_t spriteId = resolveBillboardVisual(billboard, hidden);
 
         if (OutdoorInteractionController::isInteractiveDecorationHidden(view, billboard.entityIndex)
-            || billboard.spriteId == 0)
+            || hidden
+            || spriteId == 0)
         {
             continue;
         }
@@ -896,7 +939,7 @@ void OutdoorBillboardRenderer::renderDecorationBillboards(
         const uint32_t animationOffsetTicks =
             animationTimeTicks + static_cast<uint32_t>(std::abs(billboard.x + billboard.y));
         const SpriteFrameEntry *pFrame =
-            view.m_outdoorDecorationBillboardSet->spriteFrameTable.getFrame(billboard.spriteId, animationOffsetTicks);
+            view.m_outdoorDecorationBillboardSet->spriteFrameTable.getFrame(spriteId, animationOffsetTicks);
 
         if (pFrame == nullptr)
         {
@@ -910,7 +953,8 @@ void OutdoorBillboardRenderer::renderDecorationBillboards(
         const float octantAngle = facingRadians - angleToCamera + Pi + (Pi / 8.0f);
         const int octant = static_cast<int>(std::floor(octantAngle / (Pi / 4.0f))) & 7;
         const ResolvedSpriteTexture resolvedTexture = SpriteFrameTable::resolveTexture(*pFrame, octant);
-        const OutdoorGameView::BillboardTextureHandle *pTexture = view.findBillboardTexture(resolvedTexture.textureName);
+        const OutdoorGameView::BillboardTextureHandle *pTexture =
+            ensureSpriteBillboardTexture(view, resolvedTexture.textureName, pFrame->paletteId);
 
         if (pTexture == nullptr || !bgfx::isValid(pTexture->textureHandle) || pTexture->width <= 0 || pTexture->height <= 0)
         {
@@ -1076,6 +1120,54 @@ void OutdoorBillboardRenderer::renderActorPreviewBillboards(
     {
         drawItems.reserve(view.m_outdoorDecorationBillboardSet->billboards.size());
     }
+    const auto resolveDecorationBillboardSpriteId = [&view](const DecorationBillboard &billboard, bool &hidden)
+    {
+        hidden = false;
+        uint16_t spriteId = billboard.spriteId;
+
+        if (!view.m_outdoorDecorationBillboardSet || view.m_pOutdoorWorldRuntime == nullptr)
+        {
+            return spriteId;
+        }
+
+        const EventRuntimeState *pEventRuntimeState = view.m_pOutdoorWorldRuntime->eventRuntimeState();
+
+        if (pEventRuntimeState == nullptr)
+        {
+            return spriteId;
+        }
+
+        const auto overrideIterator =
+            pEventRuntimeState->spriteOverrides.find(static_cast<uint32_t>(billboard.entityIndex));
+
+        if (overrideIterator == pEventRuntimeState->spriteOverrides.end())
+        {
+            return spriteId;
+        }
+
+        hidden = overrideIterator->second.hidden;
+
+        if (!overrideIterator->second.textureName.has_value() || overrideIterator->second.textureName->empty())
+        {
+            return spriteId;
+        }
+
+        if (const DecorationEntry *pDecoration =
+                view.m_outdoorDecorationBillboardSet->decorationTable.findByInternalName(
+                    *overrideIterator->second.textureName))
+        {
+            return pDecoration->spriteId;
+        }
+
+        if (const std::optional<uint16_t> overrideSpriteId =
+                view.m_outdoorDecorationBillboardSet->spriteFrameTable.findFrameIndexBySpriteName(
+                    *overrideIterator->second.textureName))
+        {
+            return *overrideSpriteId;
+        }
+
+        return spriteId;
+    };
 
     std::vector<OutdoorGameView::TerrainVertex> placeholderVertices;
 
@@ -1215,7 +1307,12 @@ void OutdoorBillboardRenderer::renderActorPreviewBillboards(
     {
         for (const DecorationBillboard &billboard : view.m_outdoorDecorationBillboardSet->billboards)
         {
-            if (OutdoorInteractionController::isInteractiveDecorationHidden(view, billboard.entityIndex))
+            bool hidden = false;
+            const uint16_t spriteId = resolveDecorationBillboardSpriteId(billboard, hidden);
+
+            if (OutdoorInteractionController::isInteractiveDecorationHidden(view, billboard.entityIndex)
+                || hidden
+                || spriteId == 0)
             {
                 continue;
             }
@@ -1234,7 +1331,7 @@ void OutdoorBillboardRenderer::renderActorPreviewBillboards(
             const uint32_t animationOffsetTicks =
                 animationTimeTicks + static_cast<uint32_t>(std::abs(billboard.x + billboard.y));
             const SpriteFrameEntry *pFrame =
-                view.m_outdoorDecorationBillboardSet->spriteFrameTable.getFrame(billboard.spriteId, animationOffsetTicks);
+                view.m_outdoorDecorationBillboardSet->spriteFrameTable.getFrame(spriteId, animationOffsetTicks);
 
             if (pFrame == nullptr)
             {
@@ -1248,7 +1345,8 @@ void OutdoorBillboardRenderer::renderActorPreviewBillboards(
             const float octantAngle = facingRadians - angleToCamera + Pi + (Pi / 8.0f);
             const int octant = static_cast<int>(std::floor(octantAngle / (Pi / 4.0f))) & 7;
             const ResolvedSpriteTexture resolvedTexture = SpriteFrameTable::resolveTexture(*pFrame, octant);
-            const OutdoorGameView::BillboardTextureHandle *pTexture = view.findBillboardTexture(resolvedTexture.textureName);
+            const OutdoorGameView::BillboardTextureHandle *pTexture =
+                ensureSpriteBillboardTexture(view, resolvedTexture.textureName, pFrame->paletteId);
 
             if (pTexture == nullptr || !bgfx::isValid(pTexture->textureHandle))
             {

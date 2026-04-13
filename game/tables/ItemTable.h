@@ -55,6 +55,7 @@ public:
         const std::vector<std::vector<std::string>> &randomItemRows
     );
     const ItemDefinition *get(uint32_t itemId) const;
+    const ItemDefinition *findBySpriteIndex(uint16_t spriteIndex) const;
     const std::vector<ItemDefinition> &entries() const;
 
 private:

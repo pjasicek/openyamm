@@ -57,6 +57,7 @@ public:
     bool loadTransportScheduleRows(const std::vector<std::vector<std::string>> &rows);
     std::optional<std::string> getName(uint32_t houseId) const;
     const HouseEntry *get(uint32_t houseId) const;
+    const std::unordered_map<uint32_t, HouseEntry> &entries() const;
 
 private:
     std::unordered_map<uint32_t, HouseEntry> m_entries;

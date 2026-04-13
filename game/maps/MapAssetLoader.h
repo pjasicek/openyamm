@@ -1,9 +1,8 @@
 #pragma once
 
 #include "engine/AssetFileSystem.h"
-#include "game/events/EventIr.h"
+#include "game/events/ScriptedEventProgram.h"
 #include "game/events/EventRuntime.h"
-#include "game/events/EvtProgram.h"
 #include "game/maps/MapDeltaData.h"
 #include "game/indoor/IndoorMapData.h"
 #include "game/tables/MapStats.h"
@@ -13,7 +12,6 @@
 #include "game/outdoor/OutdoorMapData.h"
 #include "game/tables/SurfaceAnimation.h"
 #include "game/tables/SpriteTables.h"
-#include "game/tables/StrTable.h"
 
 #include <array>
 #include <cstddef>
@@ -202,11 +200,8 @@ struct MapAssetInfo
     std::optional<IndoorMapData> indoorMapData;
     std::optional<MapDeltaData> outdoorMapDeltaData;
     std::optional<MapDeltaData> indoorMapDeltaData;
-    std::optional<StrTable> localStrTable;
-    std::optional<EvtProgram> localEvtProgram;
-    std::optional<EvtProgram> globalEvtProgram;
-    std::optional<EventIrProgram> localEventIrProgram;
-    std::optional<EventIrProgram> globalEventIrProgram;
+    std::optional<ScriptedEventProgram> localEventProgram;
+    std::optional<ScriptedEventProgram> globalEventProgram;
     std::optional<EventRuntimeState> eventRuntimeState;
     std::optional<std::vector<uint8_t>> outdoorLandMask;
     std::optional<std::vector<uint32_t>> outdoorTileColors;

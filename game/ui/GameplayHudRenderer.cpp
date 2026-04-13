@@ -26,7 +26,6 @@ constexpr float MaxUiViewportAspect = 4.0f / 3.0f;
 constexpr float OutdoorMinimapZoom = 512.0f;
 constexpr float OeMeleeAlertDistance = 307.2f;
 constexpr float OeYellowAlertDistance = 5120.0f;
-
 struct UiViewportRect
 {
     float x = 0.0f;

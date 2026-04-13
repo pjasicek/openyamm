@@ -14,7 +14,6 @@
 #include "game/StringUtils.h"
 
 #include <algorithm>
-#include <chrono>
 #include <cmath>
 #include <cstring>
 #include <iostream>
@@ -89,6 +88,7 @@ constexpr float WorldItemGroundDamping = 0.89263916f;
 constexpr float WorldItemRestingHorizontalSpeedSquared = 400.0f;
 constexpr float WorldItemBounceStopVelocity = 10.0f;
 constexpr int32_t MapWeatherFoggy = 1;
+constexpr int32_t MapWeatherSnowing = 2;
 constexpr float DefaultOutdoorVisibilityDistance = 200000.0f;
 
 uint32_t makeAbgr(uint8_t red, uint8_t green, uint8_t blue)
@@ -1383,6 +1383,7 @@ bool resolveProjectileDefinition(
 
         definition.objectDescriptionId = *objectDescriptionId;
         definition.objectSpriteId = pObjectEntry->spriteId;
+        definition.objectFlags = pObjectEntry->flags;
         definition.radius = static_cast<uint16_t>(std::max<int>(pObjectEntry->radius, 16));
         definition.height = static_cast<uint16_t>(std::max<int>(pObjectEntry->height, 16));
         definition.lifetimeTicks = static_cast<uint32_t>(std::max<int>(pObjectEntry->lifetimeTicks, 64));
@@ -1435,6 +1436,7 @@ bool resolveProjectileDefinition(
 
     definition.objectDescriptionId = *objectDescriptionId;
     definition.objectSpriteId = pObjectEntry->spriteId;
+    definition.objectFlags = pObjectEntry->flags;
     definition.radius = static_cast<uint16_t>(std::max<int>(pObjectEntry->radius, 16));
     definition.height = static_cast<uint16_t>(std::max<int>(pObjectEntry->height, 16));
     definition.lifetimeTicks = static_cast<uint32_t>(std::max<int>(pObjectEntry->lifetimeTicks, 64));
@@ -1486,6 +1488,7 @@ bool resolveSpellDefinition(
 
     definition.objectDescriptionId = *objectDescriptionId;
     definition.objectSpriteId = pObjectEntry->spriteId;
+    definition.objectFlags = pObjectEntry->flags;
     definition.radius = static_cast<uint16_t>(std::max<int>(pObjectEntry->radius, 16));
     definition.height = static_cast<uint16_t>(std::max<int>(pObjectEntry->height, 16));
     definition.lifetimeTicks = static_cast<uint32_t>(std::max<int>(pObjectEntry->lifetimeTicks, 64));
@@ -1538,6 +1541,7 @@ bool resolveObjectProjectileDefinition(
 
     definition.objectDescriptionId = *objectDescriptionId;
     definition.objectSpriteId = pObjectEntry->spriteId;
+    definition.objectFlags = pObjectEntry->flags;
     definition.radius = static_cast<uint16_t>(std::max<int>(pObjectEntry->radius, 16));
     definition.height = static_cast<uint16_t>(std::max<int>(pObjectEntry->height, 16));
     definition.lifetimeTicks = static_cast<uint32_t>(std::max<int>(pObjectEntry->lifetimeTicks, 64));
@@ -2211,7 +2215,7 @@ std::vector<int> parseCsvIntegers(const std::optional<std::string> &note)
 }
 
 void appendTimersFromProgram(
-    const std::optional<EventIrProgram> &program,
+    const std::optional<ScriptedEventProgram> &program,
     std::vector<OutdoorWorldRuntime::TimerState> &timers
 )
 {
@@ -2220,44 +2224,15 @@ void appendTimersFromProgram(
         return;
     }
 
-    for (const EventIrEvent &event : program->getEvents())
+    for (const ScriptedEventProgram::TimerTrigger &trigger : program->timerTriggers())
     {
-        for (const EventIrInstruction &instruction : event.instructions)
-        {
-            if (instruction.operation != EventIrOperation::TriggerOnTimer)
-            {
-                continue;
-            }
-
-            const std::vector<int> values = parseCsvIntegers(instruction.note);
-            OutdoorWorldRuntime::TimerState timer = {};
-            timer.eventId = event.eventId;
-
-            if (values.size() > 6 && values[6] > 0)
-            {
-                timer.repeating = true;
-                timer.intervalGameMinutes = static_cast<float>(values[6]) * 0.5f;
-                timer.remainingGameMinutes = timer.intervalGameMinutes;
-                timers.push_back(timer);
-                break;
-            }
-
-            if (values.size() > 3 && values[3] > 0)
-            {
-                timer.repeating = false;
-                timer.targetHour = values[3];
-                timer.intervalGameMinutes = static_cast<float>(values[3]) * 60.0f;
-                timer.remainingGameMinutes = timer.intervalGameMinutes - 9.0f * 60.0f;
-
-                if (timer.remainingGameMinutes < 0.0f)
-                {
-                    timer.remainingGameMinutes += 24.0f * 60.0f;
-                }
-
-                timers.push_back(timer);
-                break;
-            }
-        }
+        OutdoorWorldRuntime::TimerState timer = {};
+        timer.eventId = trigger.eventId;
+        timer.repeating = trigger.repeating;
+        timer.targetHour = trigger.targetHour;
+        timer.intervalGameMinutes = trigger.intervalGameMinutes;
+        timer.remainingGameMinutes = trigger.remainingGameMinutes;
+        timers.push_back(std::move(timer));
     }
 }
 
@@ -4396,6 +4371,7 @@ bool OutdoorWorldRuntime::spawnWorldItem(
     uint16_t objectFlags = 0;
     uint16_t radius = 0;
     uint16_t height = 0;
+    uint32_t lifetimeTicks = 0;
     std::string objectName;
     std::string objectSpriteName;
 
@@ -4670,6 +4646,18 @@ void OutdoorWorldRuntime::advanceGameMinutes(float minutes)
 
 void OutdoorWorldRuntime::refreshAtmosphereState()
 {
+    if (m_eventRuntimeState && m_eventRuntimeState->snowEnabled.has_value())
+    {
+        if (*m_eventRuntimeState->snowEnabled)
+        {
+            m_atmosphereState.weatherFlags |= MapWeatherSnowing;
+        }
+        else
+        {
+            m_atmosphereState.weatherFlags &= ~MapWeatherSnowing;
+        }
+    }
+
     const float minutesOfDay = std::fmod(std::max(m_gameMinutes, 0.0f), 1440.0f);
 
     if (minutesOfDay < 300.0f || minutesOfDay >= 1260.0f)
@@ -5698,6 +5686,7 @@ bool OutdoorWorldRuntime::spawnProjectileFromMapActor(
         definition.objectSpriteId,
         definition.objectSpriteName);
     projectile.impactObjectDescriptionId = definition.impactObjectDescriptionId;
+    projectile.objectFlags = definition.objectFlags;
     projectile.radius = definition.radius;
     projectile.height = definition.height;
     projectile.spellId = definition.spellId;
@@ -5995,6 +5984,7 @@ bool OutdoorWorldRuntime::spawnSpellProjectile(
         definition.objectSpriteId,
         definition.objectSpriteName);
     projectile.impactObjectDescriptionId = definition.impactObjectDescriptionId;
+    projectile.objectFlags = definition.objectFlags;
     projectile.radius = definition.radius;
     projectile.height = definition.height;
     projectile.spellId = definition.spellId;
@@ -6239,6 +6229,7 @@ void OutdoorWorldRuntime::collectOutdoorFaceCandidates(
             }
         }
     }
+
 }
 
 bool OutdoorWorldRuntime::hasClearOutdoorLineOfSight(const bx::Vec3 &start, const bx::Vec3 &end) const
@@ -6327,6 +6318,11 @@ void OutdoorWorldRuntime::updateProjectiles(float deltaSeconds, float partyX, fl
             logProjectileLifetimeExpiry(projectile);
             projectile.isExpired = true;
             continue;
+        }
+
+        if ((projectile.objectFlags & ObjectDescNoGravity) == 0)
+        {
+            projectile.velocityZ -= WorldItemGravity * deltaSeconds;
         }
 
         const bx::Vec3 segmentStart = {projectile.x, projectile.y, projectile.z};
@@ -6871,8 +6867,8 @@ void OutdoorWorldRuntime::applyEventRuntimeState()
 bool OutdoorWorldRuntime::updateTimers(
     float deltaSeconds,
     const EventRuntime &eventRuntime,
-    const std::optional<EventIrProgram> &localEventIrProgram,
-    const std::optional<EventIrProgram> &globalEventIrProgram
+    const std::optional<ScriptedEventProgram> &localEventProgram,
+    const std::optional<ScriptedEventProgram> &globalEventProgram
 )
 {
     if (!m_eventRuntimeState || deltaSeconds <= 0.0f)
@@ -6886,8 +6882,8 @@ bool OutdoorWorldRuntime::updateTimers(
 
     if (m_timers.empty())
     {
-        appendTimersFromProgram(localEventIrProgram, m_timers);
-        appendTimersFromProgram(globalEventIrProgram, m_timers);
+        appendTimersFromProgram(localEventProgram, m_timers);
+        appendTimersFromProgram(globalEventProgram, m_timers);
     }
 
     if (m_timers.empty())
@@ -6912,8 +6908,8 @@ bool OutdoorWorldRuntime::updateTimers(
         }
 
         if (eventRuntime.executeEventById(
-                localEventIrProgram,
-                globalEventIrProgram,
+                localEventProgram,
+                globalEventProgram,
                 timer.eventId,
                 *m_eventRuntimeState,
                 nullptr,
@@ -8840,7 +8836,7 @@ bool OutdoorWorldRuntime::summonMonsters(
 }
 
 bool OutdoorWorldRuntime::summonEventItem(
-    uint32_t objectId,
+    uint32_t itemId,
     int32_t x,
     int32_t y,
     int32_t z,
@@ -8849,23 +8845,93 @@ bool OutdoorWorldRuntime::summonEventItem(
     bool randomRotate
 )
 {
-    if (m_pObjectTable == nullptr || objectId == 0 || count == 0)
+    if (m_pObjectTable == nullptr || itemId == 0 || count == 0)
     {
         return false;
     }
 
-    const std::optional<uint16_t> descriptionId = m_pObjectTable->findDescriptionIdByObjectId(static_cast<int16_t>(objectId));
+    uint16_t objectDescriptionId = 0;
+    uint16_t objectSpriteId = 0;
+    uint16_t objectSpriteFrameIndex = 0;
+    uint16_t objectFlags = 0;
+    uint16_t radius = 0;
+    uint16_t height = 0;
+    uint32_t lifetimeTicks = 0;
+    std::string objectName;
+    std::string objectSpriteName;
+    const ItemDefinition *pItemDefinition = nullptr;
+    bool payloadResolved = false;
 
-    if (!descriptionId)
+    const std::optional<uint16_t> descriptionId =
+        m_pObjectTable->findDescriptionIdByObjectId(static_cast<int16_t>(itemId));
+
+    if (descriptionId)
     {
+        const ObjectEntry *pObjectEntry = m_pObjectTable->get(*descriptionId);
+
+        if (pObjectEntry != nullptr && (pObjectEntry->flags & ObjectDescNoSprite) == 0 && pObjectEntry->spriteId != 0)
+        {
+            objectDescriptionId = *descriptionId;
+            objectSpriteId = pObjectEntry->spriteId;
+            objectSpriteFrameIndex = resolveRuntimeSpriteFrameIndex(
+                m_pProjectileSpriteFrameTable,
+                pObjectEntry->spriteId,
+                pObjectEntry->spriteName);
+            objectFlags = pObjectEntry->flags;
+            radius = static_cast<uint16_t>(std::max<int16_t>(0, pObjectEntry->radius));
+            height = static_cast<uint16_t>(std::max<int16_t>(0, pObjectEntry->height));
+            lifetimeTicks = pObjectEntry->lifetimeTicks > 0 ? pObjectEntry->lifetimeTicks : 0;
+            objectName = pObjectEntry->internalName;
+            objectSpriteName = pObjectEntry->spriteName;
+            payloadResolved = true;
+
+            if (m_pItemTable != nullptr)
+            {
+                pItemDefinition = m_pItemTable->findBySpriteIndex(static_cast<uint16_t>(itemId));
+            }
+        }
+    }
+
+    if (!payloadResolved && m_pItemTable != nullptr)
+    {
+        pItemDefinition = m_pItemTable->get(itemId);
+
+        if (pItemDefinition != nullptr)
+        {
+            if (resolveWorldItemVisual(
+                    itemId,
+                    objectDescriptionId,
+                    objectSpriteId,
+                    objectSpriteFrameIndex,
+                    objectFlags,
+                    radius,
+                    height,
+                    objectName,
+                    objectSpriteName))
+            {
+                payloadResolved = true;
+            }
+            else
+            {
+                pItemDefinition = nullptr;
+            }
+        }
+    }
+
+    if (!payloadResolved)
+    {
+        std::cout << "Event summon unresolved payload=" << itemId << '\n';
         return false;
     }
 
-    const ObjectEntry *pObjectEntry = m_pObjectTable->get(*descriptionId);
-
-    if (pObjectEntry == nullptr || (pObjectEntry->flags & ObjectDescNoSprite) != 0 || pObjectEntry->spriteId == 0)
+    if (lifetimeTicks == 0)
     {
-        return false;
+        const ObjectEntry *pObjectEntry = m_pObjectTable->get(objectDescriptionId);
+
+        if (pObjectEntry != nullptr)
+        {
+            lifetimeTicks = pObjectEntry->lifetimeTicks > 0 ? pObjectEntry->lifetimeTicks : 0;
+        }
     }
 
     bool spawnedAny = false;
@@ -8877,17 +8943,14 @@ bool OutdoorWorldRuntime::summonEventItem(
     {
         WorldItemState worldItem = {};
         worldItem.worldItemId = m_nextWorldItemId++;
-        worldItem.objectDescriptionId = *descriptionId;
-        worldItem.objectSpriteId = pObjectEntry->spriteId;
-        worldItem.objectSpriteFrameIndex = resolveRuntimeSpriteFrameIndex(
-            m_pProjectileSpriteFrameTable,
-            pObjectEntry->spriteId,
-            pObjectEntry->spriteName);
-        worldItem.objectFlags = pObjectEntry->flags;
-        worldItem.radius = static_cast<uint16_t>(std::max<int16_t>(0, pObjectEntry->radius));
-        worldItem.height = static_cast<uint16_t>(std::max<int16_t>(0, pObjectEntry->height));
-        worldItem.objectName = pObjectEntry->internalName;
-        worldItem.objectSpriteName = pObjectEntry->spriteName;
+        worldItem.objectDescriptionId = objectDescriptionId;
+        worldItem.objectSpriteId = objectSpriteId;
+        worldItem.objectSpriteFrameIndex = objectSpriteFrameIndex;
+        worldItem.objectFlags = objectFlags;
+        worldItem.radius = radius;
+        worldItem.height = height;
+        worldItem.objectName = objectName;
+        worldItem.objectSpriteName = objectSpriteName;
         worldItem.attributes = SpriteAttrTemporary;
         worldItem.x = baseX;
         worldItem.y = baseY;
@@ -8895,12 +8958,22 @@ bool OutdoorWorldRuntime::summonEventItem(
         worldItem.initialX = baseX;
         worldItem.initialY = baseY;
         worldItem.initialZ = baseZ;
-        worldItem.lifetimeTicks = pObjectEntry->lifetimeTicks > 0 ? pObjectEntry->lifetimeTicks : 0;
+        worldItem.lifetimeTicks = lifetimeTicks;
+
+        if (pItemDefinition != nullptr)
+        {
+            worldItem.item.objectDescriptionId = pItemDefinition->itemId;
+            worldItem.item.quantity = 1;
+            worldItem.item.width = pItemDefinition->inventoryWidth;
+            worldItem.item.height = pItemDefinition->inventoryHeight;
+            worldItem.goldAmount = isGoldHeapItemId(worldItem.item.objectDescriptionId) ? 1u : 0u;
+            worldItem.isGold = worldItem.goldAmount > 0 && isGoldHeapItemId(worldItem.item.objectDescriptionId);
+        }
 
         if (speed > 0)
         {
             const float angleRadians = randomRotate
-                ? (Pi * 2.0f * static_cast<float>((objectId + itemIndex * 37u) % 2048u) / 2048.0f)
+                ? (Pi * 2.0f * static_cast<float>((itemId + itemIndex * 37u) % 2048u) / 2048.0f)
                 : 0.0f;
             worldItem.velocityX = std::cos(angleRadians) * speed;
             worldItem.velocityY = std::sin(angleRadians) * speed;
@@ -9119,10 +9192,10 @@ bool OutdoorWorldRuntime::castEventSpell(
     request.spellId = spellId;
     request.skillLevel = skillLevel;
     request.skillMastery = static_cast<uint32_t>(normalizeEventSkillMastery(skillMastery));
-    request.sourceX = static_cast<float>(-fromX);
+    request.sourceX = static_cast<float>(fromX);
     request.sourceY = static_cast<float>(fromY);
     request.sourceZ = static_cast<float>(fromZ);
-    request.targetX = static_cast<float>(-toX);
+    request.targetX = static_cast<float>(toX);
     request.targetY = static_cast<float>(toY);
     request.targetZ = static_cast<float>(toZ);
     return castSpell(request);
@@ -9175,6 +9248,7 @@ bool OutdoorWorldRuntime::spawnPartyProjectile(const PartyProjectileRequest &req
         definition.objectSpriteId,
         definition.objectSpriteName);
     projectile.impactObjectDescriptionId = definition.impactObjectDescriptionId;
+    projectile.objectFlags = definition.objectFlags;
     projectile.radius = definition.radius;
     projectile.height = definition.height;
     projectile.effectSoundId = definition.effectSoundId;

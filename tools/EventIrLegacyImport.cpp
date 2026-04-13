@@ -1,6 +1,5 @@
-#include "game/events/EventIr.h"
+#include "tools/EventIrLegacyImport.h"
 
-#include <algorithm>
 #include <cstring>
 #include <sstream>
 
@@ -195,7 +194,7 @@ std::string decodeFacetBit(uint32_t rawValue)
     switch (static_cast<EvtFaceAttribute>(rawValue))
     {
         case EvtFaceAttribute::Invisible: return "Invisible";
-        case EvtFaceAttribute::HasHint: return "Hint";
+        case EvtFaceAttribute::HasHint: return "HasHint";
         case EvtFaceAttribute::Clickable: return "Clickable";
         case EvtFaceAttribute::PressurePlate: return "PressurePlate";
         case EvtFaceAttribute::Untouchable: return "Untouchable";
@@ -218,114 +217,8 @@ std::string decodeActorBit(uint32_t rawValue)
         default: return hexValue(rawValue);
     }
 }
-}
 
-EventIrProgram EventIrProgram::fromEvents(std::vector<EventIrEvent> events)
-{
-    EventIrProgram program = {};
-    program.m_events = std::move(events);
-    return program;
-}
-
-bool EventIrProgram::buildFromEvtProgram(
-    const EvtProgram &evtProgram,
-    const StrTable &strTable,
-    const HouseTable &houseTable,
-    const NpcDialogTable &npcDialogTable
-)
-{
-    m_events.clear();
-
-    for (const EvtEvent &evtEvent : evtProgram.getEvents())
-    {
-        EventIrEvent irEvent = {};
-        irEvent.eventId = evtEvent.eventId;
-
-        for (const EvtInstruction &evtInstruction : evtEvent.instructions)
-        {
-            irEvent.instructions.push_back(
-                convertInstruction(evtEvent.eventId, evtInstruction, strTable, houseTable, npcDialogTable)
-            );
-        }
-
-        m_events.push_back(std::move(irEvent));
-    }
-
-    return true;
-}
-
-const std::vector<EventIrEvent> &EventIrProgram::getEvents() const
-{
-    return m_events;
-}
-
-size_t EventIrProgram::getInstructionCount() const
-{
-    size_t instructionCount = 0;
-
-    for (const EventIrEvent &event : m_events)
-    {
-        instructionCount += event.instructions.size();
-    }
-
-    return instructionCount;
-}
-
-std::string EventIrProgram::dump() const
-{
-    std::ostringstream stream;
-
-    for (const EventIrEvent &event : m_events)
-    {
-        stream << "event " << event.eventId << '\n';
-
-        for (const EventIrInstruction &instruction : event.instructions)
-        {
-            stream << "  " << static_cast<unsigned>(instruction.step) << ": "
-                   << operationName(instruction.operation);
-
-            if (!instruction.arguments.empty())
-            {
-                stream << " [";
-
-                for (size_t index = 0; index < instruction.arguments.size(); ++index)
-                {
-                    if (index > 0)
-                    {
-                        stream << ", ";
-                    }
-
-                    stream << instruction.arguments[index];
-                }
-
-                stream << "]";
-            }
-
-            if (instruction.jumpTargetStep)
-            {
-                stream << " -> " << static_cast<unsigned>(*instruction.jumpTargetStep);
-            }
-
-            if (instruction.text && !instruction.text->empty())
-            {
-                stream << " " << quote(*instruction.text);
-            }
-
-            if (instruction.note && !instruction.note->empty())
-            {
-                stream << " ; " << *instruction.note;
-            }
-
-            stream << '\n';
-        }
-
-        stream << "end\n\n";
-    }
-
-    return stream.str();
-}
-
-EventIrOperation EventIrProgram::mapOperation(EvtOpcode opcode)
+EventIrOperation mapOperation(EvtOpcode opcode)
 {
     switch (opcode)
     {
@@ -392,101 +285,25 @@ EventIrOperation EventIrProgram::mapOperation(EvtOpcode opcode)
         case EvtOpcode::InputString: return EventIrOperation::InputString;
         case EvtOpcode::PressAnyKey: return EventIrOperation::PressAnyKey;
         case EvtOpcode::SpecialJump: return EventIrOperation::SpecialJump;
-        case EvtOpcode::IsTotalBountyHuntingAwardInRange:
-            return EventIrOperation::IsTotalBountyHuntingAwardInRange;
+        case EvtOpcode::IsTotalBountyHuntingAwardInRange: return EventIrOperation::IsTotalBountyHuntingAwardInRange;
         case EvtOpcode::IsNpcInParty: return EventIrOperation::IsNpcInParty;
         default: return EventIrOperation::Unknown;
     }
 }
 
-std::string EventIrProgram::operationName(EventIrOperation operation)
-{
-    switch (operation)
-    {
-        case EventIrOperation::Exit: return "Exit";
-        case EventIrOperation::TriggerMouseOver: return "Trigger.MouseOver";
-        case EventIrOperation::TriggerOnLoadMap: return "Trigger.OnLoadMap";
-        case EventIrOperation::TriggerOnLeaveMap: return "Trigger.OnLeaveMap";
-        case EventIrOperation::TriggerOnTimer: return "Trigger.OnTimer";
-        case EventIrOperation::TriggerOnLongTimer: return "Trigger.OnLongTimer";
-        case EventIrOperation::TriggerOnDateTimer: return "Trigger.OnDateTimer";
-        case EventIrOperation::EnableDateTimer: return "EnableDateTimer";
-        case EventIrOperation::PlaySound: return "PlaySound";
-        case EventIrOperation::LocationName: return "LocationName";
-        case EventIrOperation::Compare: return "Compare";
-        case EventIrOperation::CompareCanShowTopic: return "CompareCanShowTopic";
-        case EventIrOperation::Jump: return "Jump";
-        case EventIrOperation::SetCanShowTopic: return "SetCanShowTopic";
-        case EventIrOperation::EndCanShowTopic: return "EndCanShowTopic";
-        case EventIrOperation::Add: return "Add";
-        case EventIrOperation::Subtract: return "Subtract";
-        case EventIrOperation::Set: return "Set";
-        case EventIrOperation::ShowMessage: return "ShowMessage";
-        case EventIrOperation::StatusText: return "StatusText";
-        case EventIrOperation::SpeakInHouse: return "SpeakInHouse";
-        case EventIrOperation::SpeakNpc: return "SpeakNpc";
-        case EventIrOperation::MoveToMap: return "MoveToMap";
-        case EventIrOperation::MoveNpc: return "MoveNpc";
-        case EventIrOperation::ChangeEvent: return "ChangeEvent";
-        case EventIrOperation::OpenChest: return "OpenChest";
-        case EventIrOperation::RandomJump: return "RandomJump";
-        case EventIrOperation::SummonMonsters: return "SummonMonsters";
-        case EventIrOperation::SummonItem: return "SummonItem";
-        case EventIrOperation::GiveItem: return "GiveItem";
-        case EventIrOperation::CastSpell: return "CastSpell";
-        case EventIrOperation::ShowFace: return "ShowFace";
-        case EventIrOperation::ReceiveDamage: return "ReceiveDamage";
-        case EventIrOperation::SetSnow: return "SetSnow";
-        case EventIrOperation::ShowMovie: return "ShowMovie";
-        case EventIrOperation::SetSprite: return "SetSprite";
-        case EventIrOperation::ChangeDoorState: return "ChangeMechanismState";
-        case EventIrOperation::StopAnimation: return "StopMechanism";
-        case EventIrOperation::SetTexture: return "SetTexture";
-        case EventIrOperation::ToggleIndoorLight: return "ToggleIndoorLight";
-        case EventIrOperation::SetFacetBit: return "SetFacetBit";
-        case EventIrOperation::SetActorFlag: return "SetActorFlag";
-        case EventIrOperation::SetActorGroupFlag: return "SetActorGroupFlag";
-        case EventIrOperation::SetActorGroup: return "SetActorGroup";
-        case EventIrOperation::SetNpcTopic: return "SetNpcTopic";
-        case EventIrOperation::SetNpcGroupNews: return "SetNpcGroupNews";
-        case EventIrOperation::SetNpcGreeting: return "SetNpcGreeting";
-        case EventIrOperation::SetNpcItem: return "SetNpcItem";
-        case EventIrOperation::SetActorItem: return "SetActorItem";
-        case EventIrOperation::CharacterAnimation: return "CharacterAnimation";
-        case EventIrOperation::ForPartyMember: return "ForPartyMember";
-        case EventIrOperation::CheckItemsCount: return "CheckItemsCount";
-        case EventIrOperation::RemoveItems: return "RemoveItems";
-        case EventIrOperation::CheckSkill: return "CheckSkill";
-        case EventIrOperation::IsActorKilled: return "IsActorKilled";
-        case EventIrOperation::IsActorKilledCanShowTopic: return "IsActorKilledCanShowTopic";
-        case EventIrOperation::ChangeGroup: return "ChangeGroup";
-        case EventIrOperation::ChangeGroupAlly: return "ChangeGroupAlly";
-        case EventIrOperation::CheckSeason: return "CheckSeason";
-        case EventIrOperation::ToggleChestFlag: return "ToggleChestFlag";
-        case EventIrOperation::InputString: return "InputString";
-        case EventIrOperation::PressAnyKey: return "PressAnyKey";
-        case EventIrOperation::SpecialJump: return "SpecialJump";
-        case EventIrOperation::IsTotalBountyHuntingAwardInRange: return "IsTotalBountyHuntingAwardInRange";
-        case EventIrOperation::IsNpcInParty: return "IsNpcInParty";
-        case EventIrOperation::Unknown: break;
-    }
-
-    return "Unknown";
-}
-
-EventIrInstruction EventIrProgram::convertInstruction(
+EventIrInstruction convertInstruction(
     uint16_t eventId,
     const EvtInstruction &evtInstruction,
     const StrTable &strTable,
-    const HouseTable &houseTable,
-    const NpcDialogTable &npcDialogTable
+    const std::function<std::optional<std::string>(uint32_t)> &resolveHouseName,
+    const std::function<std::optional<std::string>(uint32_t)> &resolveNpcText
 )
 {
     EventIrInstruction irInstruction = {};
     irInstruction.eventId = eventId;
     irInstruction.step = evtInstruction.step;
     irInstruction.operation = mapOperation(evtInstruction.opcode);
-    irInstruction.sourceOpcode = evtInstruction.opcode;
+    irInstruction.sourceOpcode = static_cast<uint32_t>(evtInstruction.opcode);
 
     if (evtInstruction.value1)
     {
@@ -535,7 +352,7 @@ EventIrInstruction EventIrProgram::convertInstruction(
 
         if (!text)
         {
-            text = npcDialogTable.getText(*evtInstruction.value1);
+            text = resolveNpcText ? resolveNpcText(*evtInstruction.value1) : std::nullopt;
         }
 
         if (text)
@@ -546,7 +363,8 @@ EventIrInstruction EventIrProgram::convertInstruction(
 
     if (evtInstruction.opcode == EvtOpcode::SpeakInHouse && evtInstruction.value1)
     {
-        const std::optional<std::string> houseName = houseTable.getName(*evtInstruction.value1);
+        const std::optional<std::string> houseName =
+            resolveHouseName ? resolveHouseName(*evtInstruction.value1) : std::nullopt;
 
         if (houseName)
         {
@@ -607,15 +425,16 @@ EventIrInstruction EventIrProgram::convertInstruction(
 
         if (typeIndex && level && count && x && y && z && group && uniqueNameId)
         {
-            irInstruction.arguments.clear();
-            irInstruction.arguments.push_back(*typeIndex);
-            irInstruction.arguments.push_back(*level);
-            irInstruction.arguments.push_back(*count);
-            irInstruction.arguments.push_back(static_cast<uint32_t>(*x));
-            irInstruction.arguments.push_back(static_cast<uint32_t>(*y));
-            irInstruction.arguments.push_back(static_cast<uint32_t>(*z));
-            irInstruction.arguments.push_back(*group);
-            irInstruction.arguments.push_back(*uniqueNameId);
+            irInstruction.arguments = {
+                *typeIndex,
+                *level,
+                *count,
+                static_cast<uint32_t>(*x),
+                static_cast<uint32_t>(*y),
+                static_cast<uint32_t>(*z),
+                *group,
+                *uniqueNameId
+            };
         }
     }
     else if (irInstruction.operation == EventIrOperation::SummonItem)
@@ -630,17 +449,19 @@ EventIrInstruction EventIrProgram::convertInstruction(
 
         if (objectId && x && y && z && speed && count && randomRotate)
         {
-            irInstruction.arguments.clear();
-            irInstruction.arguments.push_back(*objectId);
-            irInstruction.arguments.push_back(static_cast<uint32_t>(*x));
-            irInstruction.arguments.push_back(static_cast<uint32_t>(*y));
-            irInstruction.arguments.push_back(static_cast<uint32_t>(*z));
-            irInstruction.arguments.push_back(static_cast<uint32_t>(*speed));
-            irInstruction.arguments.push_back(*count);
-            irInstruction.arguments.push_back(*randomRotate);
+            irInstruction.arguments = {
+                *objectId,
+                static_cast<uint32_t>(*x),
+                static_cast<uint32_t>(*y),
+                static_cast<uint32_t>(*z),
+                static_cast<uint32_t>(*speed),
+                *count,
+                *randomRotate
+            };
         }
     }
-    else if (irInstruction.operation == EventIrOperation::IsActorKilled)
+    else if (irInstruction.operation == EventIrOperation::IsActorKilled
+        || irInstruction.operation == EventIrOperation::IsActorKilledCanShowTopic)
     {
         const std::optional<uint8_t> policy = readPayloadValue<uint8_t>(evtInstruction.rawPayload, 0);
         const std::optional<uint32_t> param = readPayloadValue<uint32_t>(evtInstruction.rawPayload, 1);
@@ -650,33 +471,7 @@ EventIrInstruction EventIrProgram::convertInstruction(
 
         if (policy && param && count && invisibleAsDead)
         {
-            irInstruction.arguments.clear();
-            irInstruction.arguments.push_back(*policy);
-            irInstruction.arguments.push_back(*param);
-            irInstruction.arguments.push_back(*count);
-            irInstruction.arguments.push_back(*invisibleAsDead);
-        }
-
-        if (jump)
-        {
-            irInstruction.jumpTargetStep = *jump;
-        }
-    }
-    else if (irInstruction.operation == EventIrOperation::IsActorKilledCanShowTopic)
-    {
-        const std::optional<uint8_t> policy = readPayloadValue<uint8_t>(evtInstruction.rawPayload, 0);
-        const std::optional<uint32_t> param = readPayloadValue<uint32_t>(evtInstruction.rawPayload, 1);
-        const std::optional<uint8_t> count = readPayloadValue<uint8_t>(evtInstruction.rawPayload, 5);
-        const std::optional<uint8_t> invisibleAsDead = readPayloadValue<uint8_t>(evtInstruction.rawPayload, 6);
-        const std::optional<uint8_t> jump = readPayloadValue<uint8_t>(evtInstruction.rawPayload, 7);
-
-        if (policy && param && count && invisibleAsDead)
-        {
-            irInstruction.arguments.clear();
-            irInstruction.arguments.push_back(*policy);
-            irInstruction.arguments.push_back(*param);
-            irInstruction.arguments.push_back(*count);
-            irInstruction.arguments.push_back(*invisibleAsDead);
+            irInstruction.arguments = {*policy, *param, *count, *invisibleAsDead};
         }
 
         if (jump)
@@ -698,16 +493,17 @@ EventIrInstruction EventIrProgram::convertInstruction(
 
         if (spellId && skillLevel && skillMasteryRaw && fromX && fromY && fromZ && toX && toY && toZ)
         {
-            irInstruction.arguments.clear();
-            irInstruction.arguments.push_back(*spellId);
-            irInstruction.arguments.push_back(*skillLevel);
-            irInstruction.arguments.push_back(static_cast<uint32_t>(*skillMasteryRaw) + 1);
-            irInstruction.arguments.push_back(static_cast<uint32_t>(*fromX));
-            irInstruction.arguments.push_back(static_cast<uint32_t>(*fromY));
-            irInstruction.arguments.push_back(static_cast<uint32_t>(*fromZ));
-            irInstruction.arguments.push_back(static_cast<uint32_t>(*toX));
-            irInstruction.arguments.push_back(static_cast<uint32_t>(*toY));
-            irInstruction.arguments.push_back(static_cast<uint32_t>(*toZ));
+            irInstruction.arguments = {
+                *spellId,
+                *skillLevel,
+                static_cast<uint32_t>(*skillMasteryRaw) + 1,
+                static_cast<uint32_t>(*fromX),
+                static_cast<uint32_t>(*fromY),
+                static_cast<uint32_t>(*fromZ),
+                static_cast<uint32_t>(*toX),
+                static_cast<uint32_t>(*toY),
+                static_cast<uint32_t>(*toZ)
+            };
         }
     }
     else if (irInstruction.operation == EventIrOperation::MoveToMap)
@@ -723,15 +519,16 @@ EventIrInstruction EventIrProgram::convertInstruction(
 
         if (x && y && z && yaw && pitch && zSpeed && houseId && exitPicId)
         {
-            irInstruction.arguments.clear();
-            irInstruction.arguments.push_back(static_cast<uint32_t>(*x));
-            irInstruction.arguments.push_back(static_cast<uint32_t>(*y));
-            irInstruction.arguments.push_back(static_cast<uint32_t>(*z));
-            irInstruction.arguments.push_back(static_cast<uint32_t>(*yaw));
-            irInstruction.arguments.push_back(static_cast<uint32_t>(*pitch));
-            irInstruction.arguments.push_back(static_cast<uint32_t>(*zSpeed));
-            irInstruction.arguments.push_back(*houseId);
-            irInstruction.arguments.push_back(*exitPicId);
+            irInstruction.arguments = {
+                static_cast<uint32_t>(*x),
+                static_cast<uint32_t>(*y),
+                static_cast<uint32_t>(*z),
+                static_cast<uint32_t>(*yaw),
+                static_cast<uint32_t>(*pitch),
+                static_cast<uint32_t>(*zSpeed),
+                *houseId,
+                *exitPicId
+            };
         }
     }
 
@@ -777,15 +574,11 @@ EventIrInstruction EventIrProgram::convertInstruction(
         }
 
         case EventIrOperation::SetCanShowTopic:
-        {
             if (evtInstruction.value1)
             {
-                std::ostringstream note;
-                note << "topic=" << *evtInstruction.value1;
-                irInstruction.note = note.str();
+                irInstruction.note = "topic=" + std::to_string(*evtInstruction.value1);
             }
             break;
-        }
 
         case EventIrOperation::CompareCanShowTopic:
         {
@@ -807,26 +600,20 @@ EventIrInstruction EventIrProgram::convertInstruction(
 
         case EventIrOperation::CheckItemsCount:
         case EventIrOperation::RemoveItems:
-        {
             if (evtInstruction.value1 && evtInstruction.value2)
             {
-                std::ostringstream note;
-                note << "item=" << *evtInstruction.value1 << " count=" << *evtInstruction.value2;
-                irInstruction.note = note.str();
+                irInstruction.note = "item=" + std::to_string(*evtInstruction.value1)
+                    + " count=" + std::to_string(*evtInstruction.value2);
             }
             break;
-        }
 
         case EventIrOperation::CheckSkill:
-        {
             if (evtInstruction.value1 && evtInstruction.value2)
             {
-                std::ostringstream note;
-                note << "skill=" << *evtInstruction.value1 << " mastery=" << *evtInstruction.value2;
-                irInstruction.note = note.str();
+                irInstruction.note = "skill=" + std::to_string(*evtInstruction.value1)
+                    + " mastery=" + std::to_string(*evtInstruction.value2);
             }
             break;
-        }
 
         case EventIrOperation::SummonMonsters:
         {
@@ -927,54 +714,40 @@ EventIrInstruction EventIrProgram::convertInstruction(
         }
 
         case EventIrOperation::SetFacetBit:
-        {
             if (evtInstruction.value1 && evtInstruction.value2 && evtInstruction.booleanValue)
             {
-                std::ostringstream note;
-                note << "facet=" << *evtInstruction.value1
-                     << " bit=" << decodeFacetBit(*evtInstruction.value2)
-                     << " on=" << static_cast<unsigned>(*evtInstruction.booleanValue);
-                irInstruction.note = note.str();
+                irInstruction.note = "facet=" + std::to_string(*evtInstruction.value1)
+                    + " bit=" + decodeFacetBit(*evtInstruction.value2)
+                    + " on=" + std::to_string(static_cast<unsigned>(*evtInstruction.booleanValue));
             }
             break;
-        }
 
         case EventIrOperation::SetActorFlag:
         case EventIrOperation::SetActorGroupFlag:
-        {
             if (evtInstruction.value1 && evtInstruction.value2 && evtInstruction.booleanValue)
             {
-                std::ostringstream note;
-                note << "target=" << *evtInstruction.value1
-                     << " bit=" << decodeActorBit(*evtInstruction.value2)
-                     << " on=" << static_cast<unsigned>(*evtInstruction.booleanValue);
-                irInstruction.note = note.str();
+                irInstruction.note = "target=" + std::to_string(*evtInstruction.value1)
+                    + " bit=" + decodeActorBit(*evtInstruction.value2)
+                    + " on=" + std::to_string(static_cast<unsigned>(*evtInstruction.booleanValue));
             }
             break;
-        }
 
         case EventIrOperation::ChangeDoorState:
-        {
             if (evtInstruction.value1 && evtInstruction.value2)
             {
-                std::ostringstream note;
-                note << "mechanism=" << *evtInstruction.value1 << " action=" << *evtInstruction.value2;
-                irInstruction.note = note.str();
+                irInstruction.note = "mechanism=" + std::to_string(*evtInstruction.value1)
+                    + " action=" + std::to_string(*evtInstruction.value2);
             }
             break;
-        }
 
         case EventIrOperation::StopAnimation:
-        {
             if (evtInstruction.value1)
             {
                 irInstruction.note = "mechanism=" + std::to_string(*evtInstruction.value1);
             }
             break;
-        }
 
         case EventIrOperation::SetTexture:
-        {
             if (evtInstruction.value1)
             {
                 std::ostringstream note;
@@ -988,10 +761,8 @@ EventIrInstruction EventIrProgram::convertInstruction(
                 irInstruction.note = note.str();
             }
             break;
-        }
 
         case EventIrOperation::ToggleIndoorLight:
-        {
             if (evtInstruction.value1)
             {
                 std::ostringstream note;
@@ -1005,43 +776,32 @@ EventIrInstruction EventIrProgram::convertInstruction(
                 irInstruction.note = note.str();
             }
             break;
-        }
 
         case EventIrOperation::OpenChest:
-        {
             if (evtInstruction.value1)
             {
                 irInstruction.note = "chest=" + std::to_string(*evtInstruction.value1);
             }
             break;
-        }
 
         case EventIrOperation::SetNpcTopic:
-        {
             if (evtInstruction.value1 && evtInstruction.value2 && evtInstruction.value3)
             {
-                std::ostringstream note;
-                note << "npc=" << *evtInstruction.value1
-                     << " slot=" << *evtInstruction.value2
-                     << " event=" << *evtInstruction.value3;
-                irInstruction.note = note.str();
+                irInstruction.note = "npc=" + std::to_string(*evtInstruction.value1)
+                    + " slot=" + std::to_string(*evtInstruction.value2)
+                    + " event=" + std::to_string(*evtInstruction.value3);
             }
             break;
-        }
 
         case EventIrOperation::SetNpcGroupNews:
-        {
             if (evtInstruction.value1 && evtInstruction.value2)
             {
-                std::ostringstream note;
-                note << "group=" << *evtInstruction.value1 << " news=" << *evtInstruction.value2;
-                irInstruction.note = note.str();
+                irInstruction.note = "group=" + std::to_string(*evtInstruction.value1)
+                    + " news=" + std::to_string(*evtInstruction.value2);
             }
             break;
-        }
 
         case EventIrOperation::RandomJump:
-        {
             if (!evtInstruction.listValues.empty())
             {
                 std::ostringstream note;
@@ -1060,32 +820,57 @@ EventIrInstruction EventIrProgram::convertInstruction(
                 irInstruction.note = note.str();
             }
             break;
-        }
 
         default:
             break;
     }
 
-    if (irInstruction.operation != EventIrOperation::Unknown &&
-        !evtInstruction.rawPayload.empty() &&
-        irInstruction.arguments.empty() &&
-        !irInstruction.jumpTargetStep &&
-        !irInstruction.text &&
-        !irInstruction.note)
+    if (irInstruction.operation != EventIrOperation::Unknown
+        && !evtInstruction.rawPayload.empty()
+        && irInstruction.arguments.empty()
+        && !irInstruction.jumpTargetStep
+        && !irInstruction.text
+        && !irInstruction.note)
     {
-        std::ostringstream note;
-        note << "raw=" << evtInstruction.rawPayload.size() << " bytes";
-        irInstruction.note = note.str();
+        irInstruction.note = "raw=" + std::to_string(evtInstruction.rawPayload.size()) + " bytes";
     }
 
     if (irInstruction.operation == EventIrOperation::Unknown)
     {
-        std::ostringstream note;
-        note << "opcode=" << static_cast<unsigned>(evtInstruction.opcode)
-             << " raw=" << evtInstruction.rawPayload.size() << " bytes";
-        irInstruction.note = note.str();
+        irInstruction.note = "opcode=" + std::to_string(static_cast<unsigned>(evtInstruction.opcode))
+            + " raw=" + std::to_string(evtInstruction.rawPayload.size()) + " bytes";
     }
 
     return irInstruction;
+}
+}
+
+bool buildEventIrProgramFromLegacySource(
+    EventIrProgram &program,
+    const EvtProgram &evtProgram,
+    const StrTable &strTable,
+    const std::function<std::optional<std::string>(uint32_t)> &resolveHouseName,
+    const std::function<std::optional<std::string>(uint32_t)> &resolveNpcText
+)
+{
+    std::vector<EventIrEvent> events;
+
+    for (const EvtEvent &evtEvent : evtProgram.getEvents())
+    {
+        EventIrEvent irEvent = {};
+        irEvent.eventId = evtEvent.eventId;
+
+        for (const EvtInstruction &evtInstruction : evtEvent.instructions)
+        {
+            irEvent.instructions.push_back(
+                convertInstruction(evtEvent.eventId, evtInstruction, strTable, resolveHouseName, resolveNpcText)
+            );
+        }
+
+        events.push_back(std::move(irEvent));
+    }
+
+    program = EventIrProgram::fromEvents(std::move(events));
+    return true;
 }
 }

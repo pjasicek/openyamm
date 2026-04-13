@@ -1,4 +1,4 @@
-#include "game/events/EvtProgram.h"
+#include "tools/legacy_events/EvtProgram.h"
 
 #include <algorithm>
 #include <cstring>

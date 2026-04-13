@@ -35,7 +35,7 @@ public:
     ) = 0;
 
     virtual bool summonEventItem(
-        uint32_t objectId,
+        uint32_t itemId,
         int32_t x,
         int32_t y,
         int32_t z,

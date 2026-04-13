@@ -344,4 +344,9 @@ const HouseEntry *HouseTable::get(uint32_t houseId) const
 
     return &entryIt->second;
 }
+
+const std::unordered_map<uint32_t, HouseEntry> &HouseTable::entries() const
+{
+    return m_entries;
+}
 }

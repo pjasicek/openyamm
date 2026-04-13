@@ -2,6 +2,10 @@ include_guard(GLOBAL)
 
 include(FetchContent)
 
+if (POLICY CMP0169)
+    cmake_policy(SET CMP0169 OLD)
+endif()
+
 set(OPENYAMM_SDL3_VERSION "3.4.2")
 set(OPENYAMM_SDL3_URL
     "https://github.com/libsdl-org/SDL/releases/download/release-${OPENYAMM_SDL3_VERSION}/SDL3-${OPENYAMM_SDL3_VERSION}.tar.gz"
@@ -22,11 +26,6 @@ set(OPENYAMM_FFMPEG_VERSION "n8.0.1")
 set(OPENYAMM_YAML_CPP_VERSION "0.8.0")
 
 function(openyamm_populate_dependency dependencyName outputSourceDirVariable)
-    if (POLICY CMP0169)
-        cmake_policy(PUSH)
-        cmake_policy(SET CMP0169 OLD)
-    endif()
-
     FetchContent_GetProperties(${dependencyName})
 
     if (NOT ${dependencyName}_POPULATED)
@@ -34,10 +33,6 @@ function(openyamm_populate_dependency dependencyName outputSourceDirVariable)
     endif()
 
     FetchContent_GetProperties(${dependencyName})
-
-    if (POLICY CMP0169)
-        cmake_policy(POP)
-    endif()
 
     set(${outputSourceDirVariable} "${${dependencyName}_SOURCE_DIR}" PARENT_SCOPE)
 endfunction()
@@ -205,21 +200,21 @@ function(openyamm_fetch_bgfx_stack)
         bx
         GIT_REPOSITORY https://github.com/bkaradzic/bx.git
         GIT_TAG ${OPENYAMM_BX_VERSION}
-        GIT_SHALLOW TRUE
+        GIT_SHALLOW FALSE
     )
 
     FetchContent_Declare(
         bimg
         GIT_REPOSITORY https://github.com/bkaradzic/bimg.git
         GIT_TAG ${OPENYAMM_BIMG_VERSION}
-        GIT_SHALLOW TRUE
+        GIT_SHALLOW FALSE
     )
 
     FetchContent_Declare(
         bgfx
         GIT_REPOSITORY https://github.com/bkaradzic/bgfx.git
         GIT_TAG ${OPENYAMM_BGFX_VERSION}
-        GIT_SHALLOW TRUE
+        GIT_SHALLOW FALSE
     )
 
     openyamm_populate_dependency(bx bxSourceDir)

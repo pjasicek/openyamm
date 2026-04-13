@@ -21,29 +21,7 @@ namespace OpenYAMM::Game
 {
 namespace
 {
-std::string toUpperCopy(const std::string &value)
-{
-    std::string result = value;
-
-    for (char &character : result)
-    {
-        character = static_cast<char>(std::toupper(static_cast<unsigned char>(character)));
-    }
-
-    return result;
-}
-
-std::vector<std::string> buildScriptPathCandidates(const std::string &baseName, const std::string &extension)
-{
-    std::vector<std::string> candidates;
-    candidates.push_back("Data/EnglishT/" + baseName + extension);
-    candidates.push_back("Data/EnglishT/" + toUpperCopy(baseName) + extension);
-    candidates.push_back("Data/EnglishT/" + baseName + toUpperCopy(extension));
-    candidates.push_back("Data/EnglishT/" + toUpperCopy(baseName) + toUpperCopy(extension));
-    return candidates;
-}
-
-std::optional<std::vector<uint8_t>> readFirstExistingBinary(
+std::optional<std::string> readFirstExistingText(
     const Engine::AssetFileSystem &assetFileSystem,
     const std::vector<std::string> &candidates,
     std::string &resolvedPath
@@ -51,12 +29,12 @@ std::optional<std::vector<uint8_t>> readFirstExistingBinary(
 {
     for (const std::string &candidate : candidates)
     {
-        const std::optional<std::vector<uint8_t>> bytes = assetFileSystem.readBinaryFile(candidate);
+        const std::optional<std::string> text = assetFileSystem.readTextFile(candidate);
 
-        if (bytes)
+        if (text)
         {
             resolvedPath = candidate;
-            return bytes;
+            return text;
         }
     }
 
@@ -69,6 +47,48 @@ std::string mapScriptBaseName(const std::string &fileName)
     return path.stem().string();
 }
 
+std::vector<std::string> buildLuaScriptPathCandidates(const std::string &baseName, bool globalScope)
+{
+    if (globalScope)
+    {
+        return {
+            "Data/scripts/Global.lua",
+            "Data/scripts/global.lua",
+        };
+    }
+
+    const std::string lowerBaseName = toLowerCopy(baseName);
+    return {
+        "Data/scripts/maps/" + lowerBaseName + ".lua",
+        "Data/scripts/maps/" + baseName + ".lua",
+    };
+}
+
+std::vector<std::string> buildLuaSupportPathCandidates()
+{
+    return {
+        "Data/scripts/common/event_support.lua",
+        "Data/scripts/common/EventSupport.lua",
+    };
+}
+
+std::string prependLuaSupport(
+    const std::optional<std::string> &supportSource,
+    const std::optional<std::string> &scriptSource)
+{
+    if (!scriptSource)
+    {
+        return {};
+    }
+
+    if (!supportSource || supportSource->empty())
+    {
+        return *scriptSource;
+    }
+
+    return *supportSource + "\n\n" + *scriptSource;
+}
+
 std::string dataTablePath(std::string_view fileName)
 {
     return "Data/data_tables/" + std::string(fileName);
@@ -77,13 +97,6 @@ std::string dataTablePath(std::string_view fileName)
 std::string englishDataTablePath(std::string_view fileName)
 {
     return "Data/data_tables/english/" + std::string(fileName);
-}
-
-void writeTextFile(const std::filesystem::path &path, const std::string &text)
-{
-    std::filesystem::create_directories(path.parent_path());
-    std::ofstream outputStream(path);
-    outputStream << text;
 }
 
 size_t countChestItemSlots(const MapDeltaChest &chest)
@@ -103,8 +116,8 @@ size_t countChestItemSlots(const MapDeltaChest &chest)
 
 std::vector<uint32_t> getOpenedChestIds(
     uint16_t eventId,
-    const std::optional<EvtProgram> &localEvtProgram,
-    const std::optional<EvtProgram> &globalEvtProgram
+    const std::optional<ScriptedEventProgram> &localEventProgram,
+    const std::optional<ScriptedEventProgram> &globalEventProgram
 )
 {
     if (eventId == 0)
@@ -112,14 +125,14 @@ std::vector<uint32_t> getOpenedChestIds(
         return {};
     }
 
-    if (localEvtProgram && localEvtProgram->hasEvent(eventId))
+    if (localEventProgram && localEventProgram->hasEvent(eventId))
     {
-        return localEvtProgram->getOpenedChestIds(eventId);
+        return localEventProgram->getOpenedChestIds(eventId);
     }
 
-    if (globalEvtProgram && globalEvtProgram->hasEvent(eventId))
+    if (globalEventProgram && globalEventProgram->hasEvent(eventId))
     {
-        return globalEvtProgram->getOpenedChestIds(eventId);
+        return globalEventProgram->getOpenedChestIds(eventId);
     }
 
     return {};
@@ -173,8 +186,8 @@ void logOutdoorChestLinks(
     const OutdoorMapData &outdoorMapData,
     const MapDeltaData &mapDeltaData,
     const ChestTable &chestTable,
-    const std::optional<EvtProgram> &localEvtProgram,
-    const std::optional<EvtProgram> &globalEvtProgram
+    const std::optional<ScriptedEventProgram> &localEventProgram,
+    const std::optional<ScriptedEventProgram> &globalEventProgram
 )
 {
     bool anyLinks = false;
@@ -185,7 +198,7 @@ void logOutdoorChestLinks(
 
         for (const uint16_t eventId : {entity.eventIdPrimary, entity.eventIdSecondary})
         {
-            const std::vector<uint32_t> chestIds = getOpenedChestIds(eventId, localEvtProgram, globalEvtProgram);
+            const std::vector<uint32_t> chestIds = getOpenedChestIds(eventId, localEventProgram, globalEventProgram);
 
             if (chestIds.empty())
             {
@@ -214,8 +227,8 @@ void logOutdoorChestLinks(
             const OutdoorBModelFace &face = bmodel.faces[faceIndex];
             const std::vector<uint32_t> chestIds = getOpenedChestIds(
                 face.cogTriggeredNumber,
-                localEvtProgram,
-                globalEvtProgram
+                localEventProgram,
+                globalEventProgram
             );
 
             if (chestIds.empty())
@@ -242,8 +255,8 @@ void logIndoorChestLinks(
     const IndoorMapData &indoorMapData,
     const MapDeltaData &mapDeltaData,
     const ChestTable &chestTable,
-    const std::optional<EvtProgram> &localEvtProgram,
-    const std::optional<EvtProgram> &globalEvtProgram
+    const std::optional<ScriptedEventProgram> &localEventProgram,
+    const std::optional<ScriptedEventProgram> &globalEventProgram
 )
 {
     bool anyLinks = false;
@@ -254,7 +267,7 @@ void logIndoorChestLinks(
 
         for (const uint16_t eventId : {entity.eventIdPrimary, entity.eventIdSecondary})
         {
-            const std::vector<uint32_t> chestIds = getOpenedChestIds(eventId, localEvtProgram, globalEvtProgram);
+            const std::vector<uint32_t> chestIds = getOpenedChestIds(eventId, localEventProgram, globalEventProgram);
 
             if (chestIds.empty())
             {
@@ -277,7 +290,7 @@ void logIndoorChestLinks(
     for (size_t faceIndex = 0; faceIndex < indoorMapData.faces.size(); ++faceIndex)
     {
         const IndoorFace &face = indoorMapData.faces[faceIndex];
-        const std::vector<uint32_t> chestIds = getOpenedChestIds(face.cogTriggered, localEvtProgram, globalEvtProgram);
+        const std::vector<uint32_t> chestIds = getOpenedChestIds(face.cogTriggered, localEventProgram, globalEventProgram);
 
         if (chestIds.empty())
         {
@@ -317,7 +330,7 @@ void logIndoorChestLinks(
             }
         }
 
-        const std::vector<uint32_t> chestIds = getOpenedChestIds(eventId, localEvtProgram, globalEvtProgram);
+        const std::vector<uint32_t> chestIds = getOpenedChestIds(eventId, localEventProgram, globalEventProgram);
 
         if (chestIds.empty())
         {
@@ -449,31 +462,119 @@ std::optional<std::vector<uint8_t>> loadBitmapPixelsBgra(
     return pixels;
 }
 
-void collectSetTextureNames(const EvtProgram &evtProgram, std::vector<std::string> &textureNames)
+void appendDecorationScriptBillboardTextures(
+    const Engine::AssetFileSystem &assetFileSystem,
+    const std::optional<ScriptedEventProgram> &localEventProgram,
+    const std::optional<ScriptedEventProgram> &globalEventProgram,
+    std::optional<DecorationBillboardSet> &billboardSet
+)
 {
-    for (const EvtEvent &event : evtProgram.getEvents())
+    if (!billboardSet)
     {
-        for (const EvtInstruction &instruction : event.instructions)
+        return;
+    }
+
+    std::vector<std::string> spriteNames;
+
+    if (localEventProgram)
+    {
+        spriteNames.insert(
+            spriteNames.end(),
+            localEventProgram->spriteNames().begin(),
+            localEventProgram->spriteNames().end());
+    }
+
+    if (globalEventProgram)
+    {
+        spriteNames.insert(
+            spriteNames.end(),
+            globalEventProgram->spriteNames().begin(),
+            globalEventProgram->spriteNames().end());
+    }
+
+    std::sort(spriteNames.begin(), spriteNames.end());
+    spriteNames.erase(std::unique(spriteNames.begin(), spriteNames.end()), spriteNames.end());
+
+    if (spriteNames.empty())
+    {
+        return;
+    }
+
+    std::unordered_map<std::string, std::unordered_map<std::string, std::string>> directoryAssetPathsByPath;
+    std::unordered_map<std::string, std::optional<std::string>> bitmapPathByKey;
+
+    for (const std::string &spriteName : spriteNames)
+    {
+        uint16_t spriteId = 0;
+
+        if (const DecorationEntry *pDecoration = billboardSet->decorationTable.findByInternalName(spriteName))
         {
-            if (instruction.opcode != EvtOpcode::SetTexture || !instruction.stringValue || instruction.stringValue->empty())
+            spriteId = pDecoration->spriteId;
+        }
+        else if (const std::optional<uint16_t> frameIndex =
+                     billboardSet->spriteFrameTable.findFrameIndexBySpriteName(spriteName))
+        {
+            spriteId = *frameIndex;
+        }
+
+        if (spriteId == 0)
+        {
+            continue;
+        }
+
+        const std::vector<std::string> textureNames = billboardSet->spriteFrameTable.collectTextureNames(spriteId);
+
+        for (const std::string &textureName : textureNames)
+        {
+            bool alreadyPresent = false;
+
+            for (const OutdoorBitmapTexture &texture : billboardSet->textures)
+            {
+                if (toLowerCopy(texture.textureName) == toLowerCopy(textureName))
+                {
+                    alreadyPresent = true;
+                    break;
+                }
+            }
+
+            if (alreadyPresent)
             {
                 continue;
             }
 
-            const std::string normalizedName = toLowerCopy(*instruction.stringValue);
+            int textureWidth = 0;
+            int textureHeight = 0;
+            const std::optional<std::vector<uint8_t>> pixels =
+                loadBitmapPixelsBgra(
+                    assetFileSystem,
+                    "Data/bitmaps",
+                    textureName,
+                    textureWidth,
+                    textureHeight,
+                    directoryAssetPathsByPath,
+                    bitmapPathByKey);
 
-            if (std::find(textureNames.begin(), textureNames.end(), normalizedName) == textureNames.end())
+            if (!pixels || textureWidth <= 0 || textureHeight <= 0)
             {
-                textureNames.push_back(normalizedName);
+                continue;
             }
+
+            OutdoorBitmapTexture texture = {};
+            texture.textureName = toLowerCopy(textureName);
+            texture.width = Engine::scalePhysicalPixelsToLogical(textureWidth, assetFileSystem.getAssetScaleTier());
+            texture.height = Engine::scalePhysicalPixelsToLogical(textureHeight, assetFileSystem.getAssetScaleTier());
+            texture.physicalWidth = textureWidth;
+            texture.physicalHeight = textureHeight;
+            texture.pixels = *pixels;
+            billboardSet->textures.push_back(std::move(texture));
         }
     }
 }
 
 void appendIndoorScriptTextures(
     const Engine::AssetFileSystem &assetFileSystem,
-    const std::optional<EvtProgram> &localEvtProgram,
-    const std::optional<EvtProgram> &globalEvtProgram,
+    const std::optional<ScriptedEventProgram> &localEventProgram,
+    const std::optional<ScriptedEventProgram> &globalEventProgram,
     std::optional<IndoorTextureSet> &indoorTextureSet
 )
 {
@@ -484,15 +585,24 @@ void appendIndoorScriptTextures(
 
     std::vector<std::string> textureNames;
 
-    if (localEvtProgram)
+    if (localEventProgram)
     {
-        collectSetTextureNames(*localEvtProgram, textureNames);
+        textureNames.insert(
+            textureNames.end(),
+            localEventProgram->textureNames().begin(),
+            localEventProgram->textureNames().end());
     }
 
-    if (globalEvtProgram)
+    if (globalEventProgram)
     {
-        collectSetTextureNames(*globalEvtProgram, textureNames);
+        textureNames.insert(
+            textureNames.end(),
+            globalEventProgram->textureNames().begin(),
+            globalEventProgram->textureNames().end());
     }
+
+    std::sort(textureNames.begin(), textureNames.end());
+    textureNames.erase(std::unique(textureNames.begin(), textureNames.end()), textureNames.end());
 
     std::unordered_map<std::string, std::unordered_map<std::string, std::string>> directoryAssetPathsByPath;
     std::unordered_map<std::string, std::optional<std::string>> bitmapPathByKey;
@@ -1808,134 +1918,86 @@ bool GameDataLoader::loadSelectedMap(
     }
 
     const std::string localScriptBaseName = mapScriptBaseName(selectedMap->fileName);
-    std::string resolvedEvtPath;
-    const std::optional<std::vector<uint8_t>> localEvtBytes = readFirstExistingBinary(
+    std::string resolvedSupportLuaPath;
+    const std::optional<std::string> supportLuaSource = readFirstExistingText(
         assetFileSystem,
-        buildScriptPathCandidates(localScriptBaseName, ".evt"),
-        resolvedEvtPath
-    );
+        buildLuaSupportPathCandidates(),
+        resolvedSupportLuaPath);
 
-    if (localEvtBytes)
     {
-        EvtProgram evtProgram = {};
+        std::string resolvedLuaPath;
+        const std::optional<std::string> luaSource = readFirstExistingText(
+            assetFileSystem,
+            buildLuaScriptPathCandidates(localScriptBaseName, false),
+            resolvedLuaPath
+        );
 
-        if (!evtProgram.loadFromBytes(*localEvtBytes))
+        if (luaSource)
         {
-            std::cerr << "Failed to parse local event program: " << resolvedEvtPath << '\n';
-            return false;
-        }
+            std::string error;
+            const std::string combinedLuaSource = prependLuaSupport(supportLuaSource, luaSource);
+            std::optional<ScriptedEventProgram> program = ScriptedEventProgram::loadFromLuaText(
+                combinedLuaSource,
+                "@" + resolvedLuaPath,
+                ScriptedEventScope::Map,
+                error);
 
-        m_selectedMap->localEvtProgram = std::move(evtProgram);
+            if (!program)
+            {
+                std::cerr << "Failed to load local event Lua: " << resolvedLuaPath << ": " << error << '\n';
+                return false;
+            }
+
+            m_selectedMap->localEventProgram = std::move(program);
+        }
     }
 
-    std::string resolvedStrPath;
-    const std::optional<std::vector<uint8_t>> localStrBytes = readFirstExistingBinary(
-        assetFileSystem,
-        buildScriptPathCandidates(localScriptBaseName, ".str"),
-        resolvedStrPath
-    );
-
-    if (localStrBytes)
     {
-        StrTable strTable = {};
+        std::string resolvedLuaPath;
+        const std::optional<std::string> luaSource = readFirstExistingText(
+            assetFileSystem,
+            buildLuaScriptPathCandidates("Global", true),
+            resolvedLuaPath
+        );
 
-        if (!strTable.loadFromBytes(*localStrBytes))
+        if (luaSource)
         {
-            std::cerr << "Failed to parse local string table: " << resolvedStrPath << '\n';
-            return false;
+            std::string error;
+            const std::string combinedLuaSource = prependLuaSupport(supportLuaSource, luaSource);
+            std::optional<ScriptedEventProgram> program = ScriptedEventProgram::loadFromLuaText(
+                combinedLuaSource,
+                "@" + resolvedLuaPath,
+                ScriptedEventScope::Global,
+                error);
+
+            if (!program)
+            {
+                std::cerr << "Failed to load global event Lua: " << resolvedLuaPath << ": " << error << '\n';
+                return false;
+            }
+
+            m_selectedMap->globalEventProgram = std::move(program);
         }
-
-        m_selectedMap->localStrTable = std::move(strTable);
-    }
-
-    std::string resolvedGlobalEvtPath;
-    const std::optional<std::vector<uint8_t>> globalEvtBytes = readFirstExistingBinary(
-        assetFileSystem,
-        buildScriptPathCandidates("Global", ".evt"),
-        resolvedGlobalEvtPath
-    );
-
-    if (globalEvtBytes)
-    {
-        EvtProgram evtProgram = {};
-
-        if (!evtProgram.loadFromBytes(*globalEvtBytes))
-        {
-            std::cerr << "Failed to parse global event program: " << resolvedGlobalEvtPath << '\n';
-            return false;
-        }
-
-        m_selectedMap->globalEvtProgram = std::move(evtProgram);
-    }
-
-    std::string resolvedGlobalStrPath;
-    std::optional<StrTable> globalStrTable;
-    const std::optional<std::vector<uint8_t>> globalStrBytes = readFirstExistingBinary(
-        assetFileSystem,
-        buildScriptPathCandidates("Global", ".str"),
-        resolvedGlobalStrPath
-    );
-
-    if (globalStrBytes)
-    {
-        StrTable strTable = {};
-
-        if (!strTable.loadFromBytes(*globalStrBytes))
-        {
-            std::cerr << "Failed to parse global string table: " << resolvedGlobalStrPath << '\n';
-            return false;
-        }
-
-        globalStrTable = std::move(strTable);
     }
 
     appendIndoorScriptTextures(
         assetFileSystem,
-        m_selectedMap->localEvtProgram,
-        m_selectedMap->globalEvtProgram,
+        m_selectedMap->localEventProgram,
+        m_selectedMap->globalEventProgram,
         m_selectedMap->indoorTextureSet
     );
-
-    const HouseTable &houseTable = m_houseTable;
-    const StrTable emptyStrTable = {};
-    const StrTable &resolvedLocalStrTable = m_selectedMap->localStrTable ? *m_selectedMap->localStrTable : emptyStrTable;
-    const StrTable &resolvedGlobalStrTable = globalStrTable ? *globalStrTable : emptyStrTable;
-
-    if (m_selectedMap->localEvtProgram)
-    {
-        const std::filesystem::path dumpPath =
-            std::filesystem::path("script_dumps") / (localScriptBaseName + ".evt.txt");
-        writeTextFile(dumpPath, m_selectedMap->localEvtProgram->dump(resolvedLocalStrTable));
-
-        EventIrProgram eventIrProgram = {};
-        eventIrProgram.buildFromEvtProgram(
-            *m_selectedMap->localEvtProgram,
-            resolvedLocalStrTable,
-            houseTable,
-            m_npcDialogTable
-        );
-        const std::filesystem::path irDumpPath =
-            std::filesystem::path("script_dumps") / (localScriptBaseName + ".ir.txt");
-        writeTextFile(irDumpPath, eventIrProgram.dump());
-        m_selectedMap->localEventIrProgram = std::move(eventIrProgram);
-    }
-
-    if (m_selectedMap->globalEvtProgram)
-    {
-        const std::filesystem::path dumpPath = std::filesystem::path("script_dumps") / "Global.evt.txt";
-        writeTextFile(dumpPath, m_selectedMap->globalEvtProgram->dump(resolvedGlobalStrTable));
-
-        EventIrProgram eventIrProgram = {};
-        eventIrProgram.buildFromEvtProgram(
-            *m_selectedMap->globalEvtProgram,
-            resolvedGlobalStrTable,
-            houseTable,
-            m_npcDialogTable
-        );
-        const std::filesystem::path irDumpPath = std::filesystem::path("script_dumps") / "Global.ir.txt";
-        writeTextFile(irDumpPath, eventIrProgram.dump());
-        m_selectedMap->globalEventIrProgram = std::move(eventIrProgram);
-    }
+    appendDecorationScriptBillboardTextures(
+        assetFileSystem,
+        m_selectedMap->localEventProgram,
+        m_selectedMap->globalEventProgram,
+        m_selectedMap->indoorDecorationBillboardSet
+    );
+    appendDecorationScriptBillboardTextures(
+        assetFileSystem,
+        m_selectedMap->localEventProgram,
+        m_selectedMap->globalEventProgram,
+        m_selectedMap->outdoorDecorationBillboardSet
+    );
 
     {
         EventRuntime eventRuntime = {};
@@ -1944,8 +2006,8 @@ bool GameDataLoader::loadSelectedMap(
             : m_selectedMap->indoorMapDeltaData;
         EventRuntimeState runtimeState = {};
         eventRuntime.buildOnLoadState(
-            m_selectedMap->localEventIrProgram,
-            m_selectedMap->globalEventIrProgram,
+            m_selectedMap->localEventProgram,
+            m_selectedMap->globalEventProgram,
             mapDeltaData,
             runtimeState
         );
@@ -1981,41 +2043,23 @@ bool GameDataLoader::loadSelectedMap(
         std::cout << "  authored_source=legacy_companion\n";
     }
 
-    if (m_selectedMap->localStrTable)
+    if (m_selectedMap->localEventProgram)
     {
-        std::cout << "  local_str_entries=" << m_selectedMap->localStrTable->getEntries().size() << '\n';
-    }
+        std::cout << "  local_lua_events=" << m_selectedMap->localEventProgram->eventIds().size() << '\n';
 
-    if (m_selectedMap->localEvtProgram)
-    {
-        std::cout << "  local_evt_events=" << m_selectedMap->localEvtProgram->getEvents().size() << '\n';
-        std::cout << "  local_evt_instructions=" << m_selectedMap->localEvtProgram->getInstructionCount() << '\n';
-        std::cout << "  local_evt_dump=script_dumps/" << localScriptBaseName << ".evt.txt\n";
-
-        if (m_selectedMap->localEventIrProgram)
+        if (m_selectedMap->localEventProgram->luaSourceName())
         {
-            std::cout << "  local_ir_events=" << m_selectedMap->localEventIrProgram->getEvents().size() << '\n';
-            std::cout << "  local_ir_instructions=" << m_selectedMap->localEventIrProgram->getInstructionCount() << '\n';
-            std::cout << "  local_ir_dump=script_dumps/" << localScriptBaseName << ".ir.txt\n";
+            std::cout << "  local_lua_source=" << *m_selectedMap->localEventProgram->luaSourceName() << '\n';
         }
     }
 
-    if (m_selectedMap->globalEvtProgram)
+    if (m_selectedMap->globalEventProgram)
     {
-        if (globalStrTable)
-        {
-            std::cout << "  global_str_entries=" << globalStrTable->getEntries().size() << '\n';
-        }
+        std::cout << "  global_lua_events=" << m_selectedMap->globalEventProgram->eventIds().size() << '\n';
 
-        std::cout << "  global_evt_events=" << m_selectedMap->globalEvtProgram->getEvents().size() << '\n';
-        std::cout << "  global_evt_instructions=" << m_selectedMap->globalEvtProgram->getInstructionCount() << '\n';
-        std::cout << "  global_evt_dump=script_dumps/Global.evt.txt\n";
-
-        if (m_selectedMap->globalEventIrProgram)
+        if (m_selectedMap->globalEventProgram->luaSourceName())
         {
-            std::cout << "  global_ir_events=" << m_selectedMap->globalEventIrProgram->getEvents().size() << '\n';
-            std::cout << "  global_ir_instructions=" << m_selectedMap->globalEventIrProgram->getInstructionCount() << '\n';
-            std::cout << "  global_ir_dump=script_dumps/Global.ir.txt\n";
+            std::cout << "  global_lua_source=" << *m_selectedMap->globalEventProgram->luaSourceName() << '\n';
         }
     }
 

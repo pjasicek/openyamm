@@ -1,5 +1,6 @@
 #pragma once
 
+#include "game/events/ScriptedEventProgram.h"
 #include "game/outdoor/OutdoorGameView.h"
 
 #include <bgfx/bgfx.h>
@@ -10,13 +11,11 @@
 
 namespace OpenYAMM::Game
 {
-class EventIrProgram;
-
 class OutdoorBillboardRenderer
 {
 public:
     static void initializeBillboardResources(OutdoorGameView &view);
-    static void queueEventSpellBillboardTextureWarmup(OutdoorGameView &view, const EventIrProgram &eventIrProgram);
+    static void queueEventSpellBillboardTextureWarmup(OutdoorGameView &view, const ScriptedEventProgram &eventProgram);
     static void queueRuntimeActorBillboardTextureWarmup(OutdoorGameView &view);
     static void preloadPendingSpriteFrameWarmupsParallel(OutdoorGameView &view);
     static void processPendingSpriteFrameWarmups(OutdoorGameView &view, size_t maxSpriteFrames);

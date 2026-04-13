@@ -8,9 +8,7 @@
 #include "game/tables/MapStats.h"
 #include "game/tables/MonsterTable.h"
 #include "game/events/EventRuntime.h"
-#include "game/events/EvtProgram.h"
 #include "game/tables/HouseTable.h"
-#include "game/tables/StrTable.h"
 
 #include <bgfx/bgfx.h>
 #include <bx/math.h>
@@ -44,10 +42,7 @@ public:
         const std::optional<SpriteObjectBillboardSet> &indoorSpriteObjectBillboardSet,
         IndoorSceneRuntime &sceneRuntime,
         const ChestTable &chestTable,
-        const HouseTable &houseTable,
-        const std::optional<StrTable> &localStrTable,
-        const std::optional<EvtProgram> &localEvtProgram,
-        const std::optional<EvtProgram> &globalEvtProgram
+        const HouseTable &houseTable
     );
     void render(int width, int height, float mouseWheelDelta, float deltaSeconds);
     void shutdown();
@@ -229,9 +224,6 @@ private:
     std::optional<SpriteObjectBillboardSet> m_indoorSpriteObjectBillboardSet;
     std::optional<HouseTable> m_houseTable;
     std::optional<ChestTable> m_chestTable;
-    std::optional<StrTable> m_localStrTable;
-    std::optional<EvtProgram> m_localEvtProgram;
-    std::optional<EvtProgram> m_globalEvtProgram;
     Engine::AssetScaleTier m_assetScaleTier = Engine::AssetScaleTier::X1;
     bgfx::DynamicVertexBufferHandle m_wireframeVertexBufferHandle;
     bgfx::DynamicVertexBufferHandle m_portalVertexBufferHandle;

@@ -18,16 +18,6 @@ namespace OpenYAMM::Game
 class OutdoorRenderer
 {
 public:
-    struct WorldPassTimings
-    {
-        uint64_t terrainNanoseconds = 0;
-        uint64_t bmodelNanoseconds = 0;
-        uint64_t decorationNanoseconds = 0;
-        uint64_t actorNanoseconds = 0;
-        uint64_t spriteNanoseconds = 0;
-        uint64_t spawnNanoseconds = 0;
-    };
-
     static bool initializeWorldRenderResources(
         OutdoorGameView &view,
         const OutdoorMapData &outdoorMapData,
@@ -40,7 +30,7 @@ public:
     static void invalidateSkyResources(OutdoorGameView &view);
     static void destroySkyResources(OutdoorGameView &view);
 
-    static WorldPassTimings renderWorldPasses(
+    static void renderWorldPasses(
         OutdoorGameView &view,
         uint16_t viewWidth,
         uint16_t viewHeight,
@@ -90,9 +80,12 @@ private:
     static std::vector<OutdoorGameView::TexturedTerrainVertex> buildTexturedTerrainVertices(
         const OutdoorMapData &mapData,
         const OutdoorTerrainTextureAtlas &textureAtlas);
-    static std::vector<OutdoorGameView::TexturedTerrainVertex> buildTexturedBModelVertices(
+    static std::vector<OutdoorGameView::TexturedTerrainVertex> buildTexturedBModelFaceVertices(
         const OutdoorMapData &mapData,
-        const OutdoorBitmapTexture &texture);
+        size_t bModelIndex,
+        size_t faceIndex,
+        int textureWidth,
+        int textureHeight);
     static std::vector<OutdoorGameView::TerrainVertex> buildFilledTerrainVertices(
         const OutdoorMapData &mapData,
         const std::optional<std::vector<uint32_t>> &tileColors);
@@ -107,5 +100,7 @@ private:
         OutdoorGameView &view,
         const OutdoorMapData &outdoorMapData,
         const std::optional<OutdoorBModelTextureSet> &outdoorBModelTextureSet);
+    static void destroyResolvedBModelDrawGroups(OutdoorGameView &view);
+    static void rebuildResolvedBModelDrawGroups(OutdoorGameView &view);
 };
 } // namespace OpenYAMM::Game

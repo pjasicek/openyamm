@@ -320,6 +320,24 @@ const ItemDefinition *ItemTable::get(uint32_t itemId) const
     return &entry;
 }
 
+const ItemDefinition *ItemTable::findBySpriteIndex(uint16_t spriteIndex) const
+{
+    if (spriteIndex == 0)
+    {
+        return nullptr;
+    }
+
+    for (const ItemDefinition &entry : m_entries)
+    {
+        if (entry.itemId != 0 && entry.spriteIndex == spriteIndex)
+        {
+            return &entry;
+        }
+    }
+
+    return nullptr;
+}
+
 const std::vector<ItemDefinition> &ItemTable::entries() const
 {
     return m_entries;

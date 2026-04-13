@@ -25,14 +25,14 @@ IndoorSceneRuntime::IndoorSceneRuntime(
     Party &party,
     const std::optional<MapDeltaData> &indoorMapDeltaData,
     const std::optional<EventRuntimeState> &eventRuntimeState,
-    const std::optional<EventIrProgram> &localEventIrProgram,
-    const std::optional<EventIrProgram> &globalEventIrProgram)
+    const std::optional<ScriptedEventProgram> &localEventProgram,
+    const std::optional<ScriptedEventProgram> &globalEventProgram)
     : m_mapFileName(mapFileName)
     , m_pParty(&party)
     , m_mapDeltaData(indoorMapDeltaData)
     , m_eventRuntimeState(eventRuntimeState)
-    , m_localEventIrProgram(localEventIrProgram)
-    , m_globalEventIrProgram(globalEventIrProgram)
+    , m_localEventProgram(localEventProgram)
+    , m_globalEventProgram(globalEventProgram)
 {
 }
 
@@ -93,14 +93,14 @@ const std::optional<EventRuntimeState> &IndoorSceneRuntime::eventRuntimeStateSto
     return m_eventRuntimeState;
 }
 
-const std::optional<EventIrProgram> &IndoorSceneRuntime::localEventIrProgram() const
+const std::optional<ScriptedEventProgram> &IndoorSceneRuntime::localEventProgram() const
 {
-    return m_localEventIrProgram;
+    return m_localEventProgram;
 }
 
-const std::optional<EventIrProgram> &IndoorSceneRuntime::globalEventIrProgram() const
+const std::optional<ScriptedEventProgram> &IndoorSceneRuntime::globalEventProgram() const
 {
-    return m_globalEventIrProgram;
+    return m_globalEventProgram;
 }
 
 IndoorSceneRuntime::Snapshot IndoorSceneRuntime::snapshot() const
@@ -176,8 +176,8 @@ bool IndoorSceneRuntime::activateEvent(uint16_t eventId, const std::string &sour
               << " index=" << sourceIndex << '\n';
 
     const bool executed = m_eventRuntime.executeEventById(
-        m_localEventIrProgram,
-        m_globalEventIrProgram,
+        m_localEventProgram,
+        m_globalEventProgram,
         eventId,
         *m_eventRuntimeState,
         m_pParty,

@@ -799,7 +799,6 @@ constexpr float ActorBillboardRenderDistance = 16384.0f;
 constexpr float ActorBillboardRenderDistanceSquared =
     ActorBillboardRenderDistance * ActorBillboardRenderDistance;
 constexpr float BillboardSpatialCellSize = 2048.0f;
-constexpr uint64_t RenderHitchLogThresholdNanoseconds = 16 * 1000 * 1000;
 constexpr float CameraVerticalFovRadians = CameraVerticalFovDegrees * (Pi / 180.0f);
 constexpr int DebugTextCellWidthPixels = 8;
 constexpr int DebugTextCellHeightPixels = 16;
@@ -824,7 +823,6 @@ constexpr uint64_t BillboardAlphaRenderState =
     | BGFX_STATE_DEPTH_TEST_LEQUAL
     | BGFX_STATE_BLEND_ALPHA;
 constexpr bool DebugSpritePreloadLogging = false;
-constexpr bool DebugRenderHitchLogging = false;
 constexpr bool DebugActorRenderHitchLogging = false;
 constexpr std::string_view PartyStartDecorationName = "party start";
 constexpr float HudReferenceWidth = 640.0f;
@@ -2392,131 +2390,34 @@ uint32_t currentDialogueHostHouseId(const EventRuntimeState *pEventRuntimeState)
     return pEventRuntimeState != nullptr ? pEventRuntimeState->dialogueState.hostHouseId : 0;
 }
 
-const EventIrEvent *findEventById(const EventIrProgram &program, uint16_t eventId)
-{
-    for (const EventIrEvent &event : program.getEvents())
-    {
-        if (event.eventId == eventId)
-        {
-            return &event;
-        }
-    }
-
-    return nullptr;
-}
-
-const EventIrEvent *findCurrentMapEventById(
-    const std::optional<EventIrProgram> &localProgram,
-    const std::optional<EventIrProgram> &globalProgram,
-    uint16_t eventId)
-{
-    if (eventId == 0)
-    {
-        return nullptr;
-    }
-
-    if (localProgram)
-    {
-        const EventIrEvent *pLocalEvent = findEventById(*localProgram, eventId);
-
-        if (pLocalEvent != nullptr)
-        {
-            return pLocalEvent;
-        }
-    }
-
-    if (globalProgram)
-    {
-        return findEventById(*globalProgram, eventId);
-    }
-
-    return nullptr;
-}
-
 std::vector<std::string> collectRelevantHouseVideoStemsForMap(
     const OutdoorMapData &outdoorMapData,
-    const std::optional<EventIrProgram> &localProgram,
-    const std::optional<EventIrProgram> &globalProgram,
+    const std::optional<ScriptedEventProgram> &localProgram,
+    const std::optional<ScriptedEventProgram> &globalProgram,
     const HouseTable &houseTable)
 {
-    std::unordered_set<uint16_t> rootEventIds;
+    static_cast<void>(outdoorMapData);
+    static_cast<void>(localProgram);
+    static_cast<void>(globalProgram);
 
-    for (const OutdoorEntity &entity : outdoorMapData.entities)
-    {
-        if (entity.eventIdPrimary != 0)
-        {
-            rootEventIds.insert(entity.eventIdPrimary);
-        }
-
-        if (entity.eventIdSecondary != 0)
-        {
-            rootEventIds.insert(entity.eventIdSecondary);
-        }
-    }
-
-    for (const OutdoorBModel &bmodel : outdoorMapData.bmodels)
-    {
-        for (const OutdoorBModelFace &face : bmodel.faces)
-        {
-            if (face.cogTriggeredNumber != 0)
-            {
-                rootEventIds.insert(face.cogTriggeredNumber);
-            }
-        }
-    }
-
-    std::unordered_set<uint16_t> visitedEventIds;
-    std::vector<uint16_t> pendingEventIds(rootEventIds.begin(), rootEventIds.end());
     std::unordered_set<std::string> seenVideoStems;
     std::vector<std::string> videoStems;
 
-    while (!pendingEventIds.empty())
+    for (const auto &[houseId, houseEntry] : houseTable.entries())
     {
-        const uint16_t eventId = pendingEventIds.back();
-        pendingEventIds.pop_back();
+        (void)houseId;
 
-        if (!visitedEventIds.insert(eventId).second)
+        if (houseEntry.videoName.empty())
         {
             continue;
         }
 
-        const EventIrEvent *pEvent = findCurrentMapEventById(localProgram, globalProgram, eventId);
-
-        if (pEvent == nullptr)
+        if (!seenVideoStems.insert(houseEntry.videoName).second)
         {
             continue;
         }
 
-        for (const EventIrInstruction &instruction : pEvent->instructions)
-        {
-            if (instruction.operation == EventIrOperation::SpeakInHouse
-                && !instruction.arguments.empty())
-            {
-                const HouseEntry *pHouseEntry = houseTable.get(instruction.arguments[0]);
-
-                if (pHouseEntry != nullptr
-                    && !pHouseEntry->videoName.empty()
-                    && seenVideoStems.insert(pHouseEntry->videoName).second)
-                {
-                    videoStems.push_back(pHouseEntry->videoName);
-                }
-            }
-            else if (instruction.operation == EventIrOperation::ChangeEvent
-                && !instruction.arguments.empty())
-            {
-                pendingEventIds.push_back(static_cast<uint16_t>(instruction.arguments[0]));
-            }
-            else if (instruction.operation == EventIrOperation::RandomJump)
-            {
-                for (uint32_t targetEventId : instruction.arguments)
-                {
-                    if (targetEventId != 0)
-                    {
-                        pendingEventIds.push_back(static_cast<uint16_t>(targetEventId));
-                    }
-                }
-            }
-        }
+        videoStems.push_back(houseEntry.videoName);
     }
 
     std::sort(videoStems.begin(), videoStems.end());
@@ -3318,24 +3219,20 @@ float pointSegmentDistanceSquared2d(
 std::string summarizeLinkedEvent(
     uint16_t eventId,
     const std::optional<HouseTable> &houseTable,
-    const std::optional<StrTable> &localStrTable,
-    const std::optional<EvtProgram> &localEvtProgram,
-    const std::optional<EvtProgram> &globalEvtProgram
+    const std::optional<ScriptedEventProgram> &localEventProgram,
+    const std::optional<ScriptedEventProgram> &globalEventProgram
 )
 {
+    static_cast<void>(houseTable);
+
     if (eventId == 0)
     {
         return "-";
     }
 
-    const HouseTable emptyHouseTable = {};
-    const HouseTable &resolvedHouseTable = houseTable ? *houseTable : emptyHouseTable;
-    const StrTable emptyStrTable = {};
-    const StrTable &strTable = localStrTable ? *localStrTable : emptyStrTable;
-
-    if (localEvtProgram)
+    if (localEventProgram)
     {
-        const std::optional<std::string> summary = localEvtProgram->summarizeEvent(eventId, strTable, resolvedHouseTable);
+        const std::optional<std::string> summary = localEventProgram->summarizeEvent(eventId);
 
         if (summary)
         {
@@ -3343,9 +3240,9 @@ std::string summarizeLinkedEvent(
         }
     }
 
-    if (globalEvtProgram)
+    if (globalEventProgram)
     {
-        const std::optional<std::string> summary = globalEvtProgram->summarizeEvent(eventId, emptyStrTable, resolvedHouseTable);
+        const std::optional<std::string> summary = globalEventProgram->summarizeEvent(eventId);
 
         if (summary)
         {
@@ -3375,8 +3272,8 @@ std::string summarizeLinkedChests(
     uint16_t eventId,
     const std::optional<MapDeltaData> &mapDeltaData,
     const std::optional<ChestTable> &chestTable,
-    const std::optional<EvtProgram> &localEvtProgram,
-    const std::optional<EvtProgram> &globalEvtProgram
+    const std::optional<ScriptedEventProgram> &localEventProgram,
+    const std::optional<ScriptedEventProgram> &globalEventProgram
 )
 {
     if (eventId == 0 || !mapDeltaData || !chestTable)
@@ -3386,13 +3283,13 @@ std::string summarizeLinkedChests(
 
     std::vector<uint32_t> chestIds;
 
-    if (localEvtProgram && localEvtProgram->hasEvent(eventId))
+    if (localEventProgram && localEventProgram->hasEvent(eventId))
     {
-        chestIds = localEvtProgram->getOpenedChestIds(eventId);
+        chestIds = localEventProgram->getOpenedChestIds(eventId);
     }
-    else if (globalEvtProgram && globalEvtProgram->hasEvent(eventId))
+    else if (globalEventProgram && globalEventProgram->hasEvent(eventId))
     {
-        chestIds = globalEvtProgram->getOpenedChestIds(eventId);
+        chestIds = globalEventProgram->getOpenedChestIds(eventId);
     }
 
     if (chestIds.empty())
@@ -3923,9 +3820,6 @@ bool OutdoorGameView::initialize(
     const StandardItemEnchantTable &standardItemEnchantTable,
     const SpecialItemEnchantTable &specialItemEnchantTable,
     const ItemEquipPosTable &itemEquipPosTable,
-    const std::optional<StrTable> &localStrTable,
-    const std::optional<EvtProgram> &localEvtProgram,
-    const std::optional<EvtProgram> &globalEvtProgram,
     GameAudioSystem *pGameAudioSystem,
     OutdoorSceneRuntime &sceneRuntime,
     const GameSettings &settings,
@@ -3971,9 +3865,6 @@ bool OutdoorGameView::initialize(
     m_pStandardItemEnchantTable = &standardItemEnchantTable;
     m_pSpecialItemEnchantTable = &specialItemEnchantTable;
     m_pItemEquipPosTable = &itemEquipPosTable;
-    m_localStrTable = localStrTable;
-    m_localEvtProgram = localEvtProgram;
-    m_globalEvtProgram = globalEvtProgram;
     m_pOutdoorSceneRuntime = &sceneRuntime;
     m_pOutdoorPartyRuntime = &sceneRuntime.partyRuntime();
     m_pOutdoorWorldRuntime = &sceneRuntime.worldRuntime();
@@ -4112,10 +4003,10 @@ bool OutdoorGameView::initialize(
         const std::vector<std::string> relevantHouseVideoStems = collectRelevantHouseVideoStemsForMap(
             outdoorMapData,
             m_pOutdoorSceneRuntime != nullptr
-                ? m_pOutdoorSceneRuntime->localEventIrProgram()
+                ? m_pOutdoorSceneRuntime->localEventProgram()
                 : std::nullopt,
             m_pOutdoorSceneRuntime != nullptr
-                ? m_pOutdoorSceneRuntime->globalEventIrProgram()
+                ? m_pOutdoorSceneRuntime->globalEventProgram()
                 : std::nullopt,
             *m_houseTable);
 
@@ -4185,17 +4076,6 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
     }
 
     const uint64_t renderStartTickCount = SDL_GetTicksNS();
-    uint64_t cameraStageNanoseconds = 0;
-    uint64_t inspectStageNanoseconds = 0;
-    uint64_t terrainStageNanoseconds = 0;
-    uint64_t bmodelStageNanoseconds = 0;
-    uint64_t decorationStageNanoseconds = 0;
-    uint64_t actorStageNanoseconds = 0;
-    uint64_t spriteStageNanoseconds = 0;
-    uint64_t spawnStageNanoseconds = 0;
-    uint64_t debugTextStageNanoseconds = 0;
-    uint64_t hudStageNanoseconds = 0;
-
     const uint16_t viewWidth = static_cast<uint16_t>(std::max(width, 1));
     const uint16_t viewHeight = static_cast<uint16_t>(std::max(height, 1));
     const OutdoorWorldRuntime::AtmosphereState *pAtmosphereState =
@@ -4303,11 +4183,7 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
         }
     }
 
-    {
-        const uint64_t stageStartTickCount = SDL_GetTicksNS();
-        updateCameraFromInput(deltaSeconds);
-        cameraStageNanoseconds += SDL_GetTicksNS() - stageStartTickCount;
-    }
+    updateCameraFromInput(deltaSeconds);
 
     OutdoorBillboardRenderer::queueRuntimeActorBillboardTextureWarmup(*this);
     OutdoorBillboardRenderer::processPendingSpriteFrameWarmups(*this, 1);
@@ -4377,7 +4253,6 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
     float mouseY = 0.0f;
 
     {
-        const uint64_t stageStartTickCount = SDL_GetTicksNS();
         const bool *pKeyboardState = SDL_GetKeyboardState(nullptr);
         const auto buildInspectRayForScreenPoint =
             [&](float screenX, float screenY, bx::Vec3 &rayOrigin, bx::Vec3 &rayDirection) -> bool
@@ -5270,29 +5145,20 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
         {
             clearWorldInteractionInputLatches();
         }
-
-        inspectStageNanoseconds += SDL_GetTicksNS() - stageStartTickCount;
     }
 
-    const OutdoorRenderer::WorldPassTimings worldPassTimings =
-        OutdoorRenderer::renderWorldPasses(
-            *this,
-            viewWidth,
-            viewHeight,
-            wireframeAspectRatio,
-            farClipDistance,
-            pAtmosphereState,
-            wireframeEye,
-            cameraForward,
-            cameraRight,
-            cameraUp,
-            wireframeViewMatrix);
-    terrainStageNanoseconds += worldPassTimings.terrainNanoseconds;
-    bmodelStageNanoseconds += worldPassTimings.bmodelNanoseconds;
-    decorationStageNanoseconds += worldPassTimings.decorationNanoseconds;
-    actorStageNanoseconds += worldPassTimings.actorNanoseconds;
-    spriteStageNanoseconds += worldPassTimings.spriteNanoseconds;
-    spawnStageNanoseconds += worldPassTimings.spawnNanoseconds;
+    OutdoorRenderer::renderWorldPasses(
+        *this,
+        viewWidth,
+        viewHeight,
+        wireframeAspectRatio,
+        farClipDistance,
+        pAtmosphereState,
+        wireframeEye,
+        cameraForward,
+        cameraRight,
+        cameraUp,
+        wireframeViewMatrix);
 
     if (captureSavePreviewThisFrame)
     {
@@ -5302,7 +5168,6 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
 
     if (!captureSavePreviewThisFrame)
     {
-        const uint64_t stageStartTickCount = SDL_GetTicksNS();
         bgfx::dbgTextClear();
 
         int nextHudLine = 1;
@@ -5505,7 +5370,11 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
                 runtimeSummary += " chest=" + std::to_string(pEventRuntimeState->openedChestIds.back());
             }
 
-            if (!pEventRuntimeState->grantedItemIds.empty())
+            if (!pEventRuntimeState->grantedItems.empty())
+            {
+                runtimeSummary += " give=" + std::to_string(pEventRuntimeState->grantedItems.back().objectDescriptionId);
+            }
+            else if (!pEventRuntimeState->grantedItemIds.empty())
             {
                 runtimeSummary += " give=" + std::to_string(pEventRuntimeState->grantedItemIds.back());
             }
@@ -5536,35 +5405,38 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
 
         if (inspectHit.hasHit)
         {
+            const std::optional<ScriptedEventProgram> &localEventProgram =
+                m_pOutdoorSceneRuntime != nullptr ? m_pOutdoorSceneRuntime->localEventProgram() : std::optional<ScriptedEventProgram>{};
+            const std::optional<ScriptedEventProgram> &globalEventProgram =
+                m_pOutdoorSceneRuntime != nullptr ? m_pOutdoorSceneRuntime->globalEventProgram() : std::optional<ScriptedEventProgram>{};
+
             if (inspectHit.kind == "entity")
             {
                 const std::string primaryEventSummary = summarizeLinkedEvent(
                     inspectHit.eventIdPrimary,
                     m_houseTable,
-                    m_localStrTable,
-                    m_localEvtProgram,
-                    m_globalEvtProgram
+                    localEventProgram,
+                    globalEventProgram
                 );
                 const std::string secondaryEventSummary = summarizeLinkedEvent(
                     inspectHit.eventIdSecondary,
                     m_houseTable,
-                    m_localStrTable,
-                    m_localEvtProgram,
-                    m_globalEvtProgram
+                    localEventProgram,
+                    globalEventProgram
                 );
                 const std::string primaryChestSummary = summarizeLinkedChests(
                     inspectHit.eventIdPrimary,
                     m_outdoorMapDeltaData,
                     m_chestTable,
-                    m_localEvtProgram,
-                    m_globalEvtProgram
+                    localEventProgram,
+                    globalEventProgram
                 );
                 const std::string secondaryChestSummary = summarizeLinkedChests(
                     inspectHit.eventIdSecondary,
                     m_outdoorMapDeltaData,
                     m_chestTable,
-                    m_localEvtProgram,
-                    m_globalEvtProgram
+                    localEventProgram,
+                    globalEventProgram
                 );
                 bgfx::dbgTextPrintf(
                     0,
@@ -5814,16 +5686,15 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
                 const std::string faceEventSummary = summarizeLinkedEvent(
                     inspectHit.cogTriggeredNumber,
                     m_houseTable,
-                    m_localStrTable,
-                    m_localEvtProgram,
-                    m_globalEvtProgram
+                    localEventProgram,
+                    globalEventProgram
                 );
                 const std::string faceChestSummary = summarizeLinkedChests(
                     inspectHit.cogTriggeredNumber,
                     m_outdoorMapDeltaData,
                     m_chestTable,
-                    m_localEvtProgram,
-                    m_globalEvtProgram
+                    localEventProgram,
+                    globalEventProgram
                 );
                 bgfx::dbgTextPrintf(
                     0,
@@ -5869,12 +5740,10 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
         }
         }
 
-        debugTextStageNanoseconds += SDL_GetTicksNS() - stageStartTickCount;
     }
 
     if (!captureSavePreviewThisFrame)
     {
-        const uint64_t stageStartTickCount = SDL_GetTicksNS();
         const bool deferDialogueInventoryServiceOverlay =
             m_inventoryNestedOverlay.active
             && (m_inventoryNestedOverlay.mode == InventoryNestedOverlayMode::ShopSell
@@ -5919,7 +5788,6 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
             renderPendingSpellTargetingOverlay(width, height);
         }
 
-        hudStageNanoseconds += SDL_GetTicksNS() - stageStartTickCount;
     }
 
     updateFootstepAudio(deltaSeconds);
@@ -5927,23 +5795,6 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
     consumePendingEventRuntimeAudioRequests();
     consumePendingWorldAudioEvents();
 
-    const uint64_t renderElapsedNanoseconds = SDL_GetTicksNS() - renderStartTickCount;
-
-    if (DebugRenderHitchLogging && renderElapsedNanoseconds > RenderHitchLogThresholdNanoseconds)
-    {
-        std::cout << "Render hitch: total_ms=" << (static_cast<float>(renderElapsedNanoseconds) / 1000000.0f)
-                  << " camera_ms=" << (static_cast<float>(cameraStageNanoseconds) / 1000000.0f)
-                  << " inspect_ms=" << (static_cast<float>(inspectStageNanoseconds) / 1000000.0f)
-                  << " terrain_ms=" << (static_cast<float>(terrainStageNanoseconds) / 1000000.0f)
-                  << " bmodels_ms=" << (static_cast<float>(bmodelStageNanoseconds) / 1000000.0f)
-                  << " decorations_ms=" << (static_cast<float>(decorationStageNanoseconds) / 1000000.0f)
-                  << " actors_ms=" << (static_cast<float>(actorStageNanoseconds) / 1000000.0f)
-                  << " sprites_ms=" << (static_cast<float>(spriteStageNanoseconds) / 1000000.0f)
-                  << " spawns_ms=" << (static_cast<float>(spawnStageNanoseconds) / 1000000.0f)
-                  << " dbgtext_ms=" << (static_cast<float>(debugTextStageNanoseconds) / 1000000.0f)
-                  << " hud_ms=" << (static_cast<float>(hudStageNanoseconds) / 1000000.0f)
-                  << '\n';
-    }
 }
 
 void OutdoorGameView::renderGameplayHudArt(int width, int height)
@@ -6279,13 +6130,9 @@ void OutdoorGameView::shutdown()
         m_spawnMarkerVertexBufferHandle = BGFX_INVALID_HANDLE;
         m_vertexBufferHandle = BGFX_INVALID_HANDLE;
 
-        for (TexturedBModelBatch &batch : m_texturedBModelBatches)
-        {
-            batch.vertexBufferHandle = BGFX_INVALID_HANDLE;
-            batch.frameTextureHandles.clear();
-            batch.frameLengthTicks.clear();
-            batch.animationLengthTicks = 0;
-        }
+        m_bmodelTextureAnimations.clear();
+        m_resolvedBModelDrawGroups.clear();
+        m_resolvedBModelDrawGroupRevision = std::numeric_limits<uint64_t>::max();
 
         for (HudTextureHandle &textureHandle : m_hudTextureHandles)
         {
@@ -6393,15 +6240,9 @@ void OutdoorGameView::shutdown()
         m_filledTerrainVertexBufferHandle = BGFX_INVALID_HANDLE;
     }
 
-    for (TexturedBModelBatch &batch : m_texturedBModelBatches)
+    for (BModelTextureAnimationHandle &animation : m_bmodelTextureAnimations)
     {
-        if (bgfx::isValid(batch.vertexBufferHandle))
-        {
-            bgfx::destroy(batch.vertexBufferHandle);
-            batch.vertexBufferHandle = BGFX_INVALID_HANDLE;
-        }
-
-        for (bgfx::TextureHandle textureHandle : batch.frameTextureHandles)
+        for (bgfx::TextureHandle textureHandle : animation.frameTextureHandles)
         {
             if (bgfx::isValid(textureHandle))
             {
@@ -6409,12 +6250,26 @@ void OutdoorGameView::shutdown()
             }
         }
 
-        batch.frameTextureHandles.clear();
-        batch.frameLengthTicks.clear();
-        batch.animationLengthTicks = 0;
+        animation.frameTextureHandles.clear();
+        animation.frameLengthTicks.clear();
+        animation.animationLengthTicks = 0;
     }
 
     m_texturedBModelBatches.clear();
+    m_bmodelTextureAnimations.clear();
+    for (ResolvedBModelDrawGroup &group : m_resolvedBModelDrawGroups)
+    {
+        if (bgfx::isValid(group.vertexBufferHandle))
+        {
+            bgfx::destroy(group.vertexBufferHandle);
+            group.vertexBufferHandle = BGFX_INVALID_HANDLE;
+        }
+
+        group.vertexCount = 0;
+        group.animationIndex = static_cast<size_t>(-1);
+    }
+    m_resolvedBModelDrawGroups.clear();
+    m_resolvedBModelDrawGroupRevision = std::numeric_limits<uint64_t>::max();
     OutdoorBillboardRenderer::destroyRenderAssets(*this);
     OutdoorRenderer::destroySkyResources(*this);
 

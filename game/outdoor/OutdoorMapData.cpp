@@ -99,6 +99,68 @@ std::string readFixedString(const ByteReader &reader, size_t offset, size_t maxL
 {
     return readCString(reader, offset, maxLength);
 }
+
+template <typename TValue>
+bool writeValue(std::vector<uint8_t> &bytes, size_t offset, const TValue &value)
+{
+    if (offset > bytes.size() || sizeof(TValue) > (bytes.size() - offset))
+    {
+        return false;
+    }
+
+    std::memcpy(bytes.data() + offset, &value, sizeof(TValue));
+    return true;
+}
+
+bool writeBytes(std::vector<uint8_t> &bytes, size_t offset, const std::vector<uint8_t> &source)
+{
+    if (offset > bytes.size() || source.size() > (bytes.size() - offset))
+    {
+        return false;
+    }
+
+    std::memcpy(bytes.data() + offset, source.data(), source.size());
+    return true;
+}
+
+bool writeFixedString(std::vector<uint8_t> &bytes, size_t offset, size_t maxLength, const std::string &value)
+{
+    if (offset > bytes.size() || maxLength > (bytes.size() - offset))
+    {
+        return false;
+    }
+
+    std::fill(bytes.begin() + static_cast<ptrdiff_t>(offset), bytes.begin() + static_cast<ptrdiff_t>(offset + maxLength), 0);
+    const size_t copyLength = std::min(maxLength, value.size());
+    std::memcpy(bytes.data() + offset, value.data(), copyLength);
+    return true;
+}
+
+template <typename TValue>
+void appendValue(std::vector<uint8_t> &bytes, const TValue &value)
+{
+    const size_t offset = bytes.size();
+    bytes.resize(offset + sizeof(TValue));
+    std::memcpy(bytes.data() + offset, &value, sizeof(TValue));
+}
+
+void appendBytes(std::vector<uint8_t> &bytes, const std::vector<uint8_t> &source)
+{
+    bytes.insert(bytes.end(), source.begin(), source.end());
+}
+
+void appendZeroBytes(std::vector<uint8_t> &bytes, size_t byteCount)
+{
+    bytes.insert(bytes.end(), byteCount, 0);
+}
+
+void appendFixedString(std::vector<uint8_t> &bytes, size_t maxLength, const std::string &value)
+{
+    const size_t offset = bytes.size();
+    bytes.resize(offset + maxLength, 0);
+    const size_t copyLength = std::min(maxLength, value.size());
+    std::memcpy(bytes.data() + offset, value.data(), copyLength);
+}
 }
 
 std::optional<OutdoorMapData> OutdoorMapDataLoader::loadFromBytes(const std::vector<uint8_t> &bytes) const
@@ -677,5 +739,347 @@ std::optional<OutdoorMapData> OutdoorMapDataLoader::loadFromBytes(const std::vec
     }
 
     return outdoorMapData;
+}
+
+std::optional<std::vector<uint8_t>> OutdoorMapDataWriter::patchBytes(
+    const OutdoorMapData &outdoorMapData,
+    const std::vector<uint8_t> &baseBytes) const
+{
+    if (!isOutdoorMapData(baseBytes))
+    {
+        return std::nullopt;
+    }
+
+    const ByteReader reader(baseBytes);
+    const std::optional<int> version = detectVersion(reader);
+
+    if (!version)
+    {
+        return std::nullopt;
+    }
+
+    size_t offset = (*version == 8) ? TerrainSectionOffsetV8 : TerrainSectionOffset;
+
+    if (outdoorMapData.heightMap.size() != TerrainMapSize
+        || outdoorMapData.tileMap.size() != TerrainMapSize
+        || outdoorMapData.attributeMap.size() != TerrainMapSize)
+    {
+        return std::nullopt;
+    }
+
+    if (!advanceOffset(offset, TerrainMapSize, reader.size()))
+    {
+        return std::nullopt;
+    }
+
+    if (!advanceOffset(offset, TerrainMapSize, reader.size()))
+    {
+        return std::nullopt;
+    }
+
+    if (!advanceOffset(offset, TerrainMapSize, reader.size()))
+    {
+        return std::nullopt;
+    }
+
+    if (*version > 6)
+    {
+        int terrainNormalCount = 0;
+
+        if (!reader.readInt32(offset, terrainNormalCount) || terrainNormalCount < 0)
+        {
+            return std::nullopt;
+        }
+
+        if (!advanceOffset(offset, sizeof(int32_t), reader.size())
+            || !advanceOffset(offset, CMap1Size, reader.size())
+            || !advanceOffset(offset, CMap2Size, reader.size())
+            || !advanceOffset(offset, static_cast<size_t>(terrainNormalCount) * 12, reader.size()))
+        {
+            return std::nullopt;
+        }
+    }
+
+    int originalBModelCount = 0;
+
+    if (!reader.readInt32(offset, originalBModelCount) || originalBModelCount < 0)
+    {
+        return std::nullopt;
+    }
+
+    if (!advanceOffset(offset, sizeof(int32_t), reader.size()))
+    {
+        return std::nullopt;
+    }
+
+    const size_t originalBmodelHeadersOffset = offset;
+
+    if (!advanceOffset(offset, static_cast<size_t>(originalBModelCount) * BModelHeaderSize, reader.size()))
+    {
+        return std::nullopt;
+    }
+
+    for (int index = 0; index < originalBModelCount; ++index)
+    {
+        int vertexCount = 0;
+        int faceCount = 0;
+        int bspNodeCount = 0;
+        const size_t headerOffset = originalBmodelHeadersOffset + static_cast<size_t>(index) * BModelHeaderSize;
+
+        if (!reader.readInt32(headerOffset + 0x44, vertexCount) || vertexCount < 0)
+        {
+            return std::nullopt;
+        }
+
+        if (!reader.readInt32(headerOffset + 0x4c, faceCount) || faceCount < 0)
+        {
+            return std::nullopt;
+        }
+
+        if (!reader.readInt32(headerOffset + 0x5c, bspNodeCount) || bspNodeCount < 0)
+        {
+            return std::nullopt;
+        }
+
+        if (!advanceOffset(offset, static_cast<size_t>(vertexCount) * BModelVertexSize, reader.size())
+            || !advanceOffset(offset, static_cast<size_t>(faceCount) * BModelFaceSize, reader.size())
+            || !advanceOffset(offset, static_cast<size_t>(faceCount) * BModelFaceFlagsSize, reader.size())
+            || !advanceOffset(offset, static_cast<size_t>(faceCount) * BModelTextureNameSize, reader.size())
+            || !advanceOffset(offset, static_cast<size_t>(bspNodeCount) * BModelBspNodeSize, reader.size()))
+        {
+            return std::nullopt;
+        }
+    }
+
+    int originalEntityCount = 0;
+
+    if (!reader.readInt32(offset, originalEntityCount) || originalEntityCount < 0)
+    {
+        return std::nullopt;
+    }
+
+    if (!advanceOffset(offset, sizeof(int32_t), reader.size()))
+    {
+        return std::nullopt;
+    }
+
+    const size_t entitySize = (*version == 6) ? Version6EntitySize : Version7EntitySize;
+
+    if (!advanceOffset(offset, static_cast<size_t>(originalEntityCount) * entitySize, reader.size())
+        || !advanceOffset(offset, static_cast<size_t>(originalEntityCount) * EntityNameSize, reader.size()))
+    {
+        return std::nullopt;
+    }
+
+    int originalIdListCount = 0;
+
+    if (!reader.readInt32(offset, originalIdListCount) || originalIdListCount < 0)
+    {
+        return std::nullopt;
+    }
+
+    if (!advanceOffset(offset, sizeof(int32_t), reader.size())
+        || !advanceOffset(offset, static_cast<size_t>(originalIdListCount) * sizeof(uint16_t), reader.size())
+        || !advanceOffset(offset, TerrainMapSize * sizeof(uint32_t), reader.size()))
+    {
+        return std::nullopt;
+    }
+
+    int originalSpawnCount = 0;
+
+    if (!reader.readInt32(offset, originalSpawnCount) || originalSpawnCount < 0)
+    {
+        return std::nullopt;
+    }
+
+    if (!advanceOffset(offset, sizeof(int32_t), reader.size()))
+    {
+        return std::nullopt;
+    }
+
+    const size_t spawnSize = (*version == 6) ? Version6SpawnSize : Version7SpawnSize;
+
+    if (!advanceOffset(offset, static_cast<size_t>(originalSpawnCount) * spawnSize, reader.size()))
+    {
+        return std::nullopt;
+    }
+
+    std::vector<uint8_t> bytes(baseBytes.begin(), baseBytes.begin() + static_cast<ptrdiff_t>(((*version == 8) ? TerrainSectionOffsetV8 : TerrainSectionOffset)));
+
+    appendBytes(bytes, outdoorMapData.heightMap);
+    appendBytes(bytes, outdoorMapData.tileMap);
+    appendBytes(bytes, outdoorMapData.attributeMap);
+
+    size_t prefixOffset = ((*version == 8) ? TerrainSectionOffsetV8 : TerrainSectionOffset) + TerrainMapSize * 3;
+
+    if (*version > 6)
+    {
+        const size_t terrainSectionBytes = sizeof(int32_t) + CMap1Size + CMap2Size + outdoorMapData.terrainNormalCount * 12;
+
+        if (prefixOffset + terrainSectionBytes > baseBytes.size())
+        {
+            return std::nullopt;
+        }
+
+        bytes.insert(
+            bytes.end(),
+            baseBytes.begin() + static_cast<ptrdiff_t>(prefixOffset),
+            baseBytes.begin() + static_cast<ptrdiff_t>(prefixOffset + terrainSectionBytes));
+    }
+
+    appendValue<int32_t>(bytes, static_cast<int32_t>(outdoorMapData.bmodels.size()));
+
+    for (const OutdoorBModel &bmodel : outdoorMapData.bmodels)
+    {
+        std::vector<uint8_t> header(BModelHeaderSize, 0);
+        writeFixedString(header, 0x00, 0x20, bmodel.name);
+        writeFixedString(header, 0x20, 0x20, bmodel.secondaryName);
+        writeValue<int32_t>(header, 0x44, static_cast<int32_t>(bmodel.vertices.size()));
+        writeValue<int32_t>(header, 0x4c, static_cast<int32_t>(bmodel.faces.size()));
+        writeValue<int32_t>(header, 0x5c, static_cast<int32_t>(bmodel.bspNodes.size()));
+        writeValue<int32_t>(header, 0x68, bmodel.positionX);
+        writeValue<int32_t>(header, 0x6c, bmodel.positionY);
+        writeValue<int32_t>(header, 0x70, bmodel.positionZ);
+        writeValue<int32_t>(header, 0x74, bmodel.minX);
+        writeValue<int32_t>(header, 0x78, bmodel.minY);
+        writeValue<int32_t>(header, 0x7c, bmodel.minZ);
+        writeValue<int32_t>(header, 0x80, bmodel.maxX);
+        writeValue<int32_t>(header, 0x84, bmodel.maxY);
+        writeValue<int32_t>(header, 0x88, bmodel.maxZ);
+        writeValue<int32_t>(header, 0xa8, bmodel.boundingCenterX);
+        writeValue<int32_t>(header, 0xac, bmodel.boundingCenterY);
+        writeValue<int32_t>(header, 0xb0, bmodel.boundingCenterZ);
+        writeValue<int32_t>(header, 0xb4, bmodel.boundingRadius);
+        appendBytes(bytes, header);
+    }
+
+    for (const OutdoorBModel &bmodel : outdoorMapData.bmodels)
+    {
+        for (const OutdoorBModelVertex &vertex : bmodel.vertices)
+        {
+            appendValue<int32_t>(bytes, vertex.x);
+            appendValue<int32_t>(bytes, vertex.y);
+            appendValue<int32_t>(bytes, vertex.z);
+        }
+
+        for (const OutdoorBModelFace &face : bmodel.faces)
+        {
+            std::vector<uint8_t> faceBytes(BModelFaceSize, 0);
+            writeValue<uint32_t>(faceBytes, BModelFaceAttributesOffset, face.attributes);
+            writeValue<int16_t>(faceBytes, BModelFaceBitmapIndexOffset, face.bitmapIndex);
+            writeValue<int16_t>(faceBytes, BModelFaceTextureDeltaUOffset, face.textureDeltaU);
+            writeValue<int16_t>(faceBytes, BModelFaceTextureDeltaVOffset, face.textureDeltaV);
+            writeValue<uint16_t>(faceBytes, BModelFaceCogNumberOffset, face.cogNumber);
+            writeValue<uint16_t>(faceBytes, BModelFaceCogTriggeredNumberOffset, face.cogTriggeredNumber);
+            writeValue<uint16_t>(faceBytes, BModelFaceCogTriggerOffset, face.cogTrigger);
+            writeValue<uint16_t>(faceBytes, BModelFaceReservedOffset, face.reserved);
+            writeValue<uint8_t>(faceBytes, BModelFaceNumVerticesOffset, static_cast<uint8_t>(face.vertexIndices.size()));
+            writeValue<uint8_t>(faceBytes, BModelFacePolygonTypeOffset, face.polygonType);
+            writeValue<uint8_t>(faceBytes, BModelFaceShadeOffset, face.shade);
+            writeValue<uint8_t>(faceBytes, BModelFaceVisibilityOffset, face.visibility);
+
+            for (size_t vertexIndex = 0; vertexIndex < face.vertexIndices.size() && vertexIndex < 20; ++vertexIndex)
+            {
+                writeValue<uint16_t>(
+                    faceBytes,
+                    BModelFaceVertexIndicesOffset + vertexIndex * sizeof(uint16_t),
+                    face.vertexIndices[vertexIndex]);
+                writeValue<int16_t>(
+                    faceBytes,
+                    BModelFaceTextureUOffset + vertexIndex * sizeof(int16_t),
+                    vertexIndex < face.textureUs.size() ? face.textureUs[vertexIndex] : 0);
+                writeValue<int16_t>(
+                    faceBytes,
+                    BModelFaceTextureVOffset + vertexIndex * sizeof(int16_t),
+                    vertexIndex < face.textureVs.size() ? face.textureVs[vertexIndex] : 0);
+            }
+
+            appendBytes(bytes, faceBytes);
+        }
+
+        appendZeroBytes(bytes, bmodel.faces.size() * BModelFaceFlagsSize);
+
+        for (const OutdoorBModelFace &face : bmodel.faces)
+        {
+            appendFixedString(bytes, BModelTextureNameSize, face.textureName);
+        }
+
+        for (const OutdoorBspNode &node : bmodel.bspNodes)
+        {
+            appendValue<int16_t>(bytes, node.front);
+            appendValue<int16_t>(bytes, node.back);
+            appendValue<int16_t>(bytes, node.faceIdOffset);
+            appendValue<int16_t>(bytes, node.faceCount);
+        }
+    }
+
+    appendValue<int32_t>(bytes, static_cast<int32_t>(outdoorMapData.entities.size()));
+
+    for (const OutdoorEntity &entity : outdoorMapData.entities)
+    {
+        appendValue<uint16_t>(bytes, entity.decorationListId);
+        appendValue<uint16_t>(bytes, entity.aiAttributes);
+        appendValue<int32_t>(bytes, entity.x);
+        appendValue<int32_t>(bytes, entity.y);
+        appendValue<int32_t>(bytes, entity.z);
+        appendValue<int32_t>(bytes, entity.facing);
+        appendValue<uint16_t>(bytes, entity.eventIdPrimary);
+        appendValue<uint16_t>(bytes, entity.eventIdSecondary);
+        appendValue<uint16_t>(bytes, entity.variablePrimary);
+        appendValue<uint16_t>(bytes, entity.variableSecondary);
+
+        if (*version > 6)
+        {
+            appendValue<uint16_t>(bytes, entity.specialTrigger);
+            appendZeroBytes(bytes, 2);
+        }
+    }
+
+    for (const OutdoorEntity &entity : outdoorMapData.entities)
+    {
+        appendFixedString(bytes, EntityNameSize, entity.name);
+    }
+
+    appendValue<int32_t>(bytes, static_cast<int32_t>(outdoorMapData.decorationPidList.size()));
+
+    for (uint16_t value : outdoorMapData.decorationPidList)
+    {
+        appendValue<uint16_t>(bytes, value);
+    }
+
+    if (outdoorMapData.decorationMap.size() != TerrainMapSize)
+    {
+        return std::nullopt;
+    }
+
+    for (uint32_t value : outdoorMapData.decorationMap)
+    {
+        appendValue<uint32_t>(bytes, value);
+    }
+
+    appendValue<int32_t>(bytes, static_cast<int32_t>(outdoorMapData.spawns.size()));
+
+    for (const OutdoorSpawn &spawn : outdoorMapData.spawns)
+    {
+        appendValue<int32_t>(bytes, spawn.x);
+        appendValue<int32_t>(bytes, spawn.y);
+        appendValue<int32_t>(bytes, spawn.z);
+        appendValue<uint16_t>(bytes, spawn.radius);
+        appendValue<uint16_t>(bytes, spawn.typeId);
+        appendValue<uint16_t>(bytes, spawn.index);
+        appendValue<uint16_t>(bytes, spawn.attributes);
+
+        if (*version > 6)
+        {
+            appendValue<uint32_t>(bytes, spawn.group);
+        }
+    }
+
+    if (offset < baseBytes.size())
+    {
+        bytes.insert(bytes.end(), baseBytes.begin() + static_cast<ptrdiff_t>(offset), baseBytes.end());
+    }
+
+    return bytes;
 }
 }

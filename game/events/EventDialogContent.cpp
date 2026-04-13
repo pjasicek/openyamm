@@ -234,7 +234,7 @@ EventDialogContent buildEventDialogContent(
     EventRuntimeState &eventRuntimeState,
     size_t previousMessageCount,
     bool allowNpcFallbackContent,
-    const std::optional<EventIrProgram> *pGlobalEventIrProgram,
+    const std::optional<ScriptedEventProgram> *pGlobalEventProgram,
     const HouseTable *pHouseTable,
     const ClassSkillTable *pClassSkillTable,
     const NpcDialogTable *pNpcDialogTable,
@@ -512,9 +512,9 @@ EventDialogContent buildEventDialogContent(
             && allowNpcFallbackContent
             && pNpcDialogTable != nullptr)
         {
-            const std::optional<EventIrProgram> emptyGlobalProgram = std::nullopt;
-            const std::optional<EventIrProgram> &globalProgram =
-                pGlobalEventIrProgram != nullptr ? *pGlobalEventIrProgram : emptyGlobalProgram;
+            const std::optional<ScriptedEventProgram> emptyGlobalProgram = std::nullopt;
+            const std::optional<ScriptedEventProgram> &globalProgram =
+                pGlobalEventProgram != nullptr ? *pGlobalEventProgram : emptyGlobalProgram;
             const std::unordered_map<uint32_t, std::unordered_map<uint32_t, uint32_t>>::const_iterator overrideIt =
                 eventRuntimeState.npcTopicOverrides.find(dialog.sourceId);
             const std::unordered_map<uint32_t, uint32_t> *pTopicOverrides =

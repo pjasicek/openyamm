@@ -217,6 +217,7 @@ uint32_t totalOutdoorFaceCount(const OutdoorMapData &outdoorMapData)
 
     return faceCount;
 }
+
 }
 
 std::optional<OutdoorSceneData> OutdoorSceneYmlLoader::loadFromText(

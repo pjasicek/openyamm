@@ -2,7 +2,7 @@
 
 #include "game/events/ISceneEventContext.h"
 #include "game/events/EventRuntime.h"
-#include "game/events/EventIr.h"
+#include "game/events/ScriptedEventProgram.h"
 #include "game/maps/MapAssetLoader.h"
 #include "game/maps/MapDeltaData.h"
 #include "game/tables/MapStats.h"
@@ -255,6 +255,7 @@ public:
         uint16_t objectSpriteId = 0;
         uint16_t objectSpriteFrameIndex = 0;
         uint16_t impactObjectDescriptionId = 0;
+        uint16_t objectFlags = 0;
         uint16_t radius = 0;
         uint16_t height = 0;
         int spellId = 0;
@@ -468,8 +469,8 @@ public:
     bool updateTimers(
         float deltaSeconds,
         const EventRuntime &eventRuntime,
-        const std::optional<EventIrProgram> &localEventIrProgram,
-        const std::optional<EventIrProgram> &globalEventIrProgram
+        const std::optional<ScriptedEventProgram> &localEventProgram,
+        const std::optional<ScriptedEventProgram> &globalEventProgram
     );
     bool isChestOpened(uint32_t chestId) const;
     size_t mapActorCount() const;
@@ -583,7 +584,7 @@ public:
         uint32_t uniqueNameId
     ) override;
     bool summonEventItem(
-        uint32_t objectId,
+        uint32_t itemId,
         int32_t x,
         int32_t y,
         int32_t z,
@@ -608,6 +609,7 @@ public:
         uint16_t objectSpriteId = 0;
         uint16_t impactObjectDescriptionId = 0;
         uint16_t impactObjectSpriteId = 0;
+        uint16_t objectFlags = 0;
         uint16_t radius = 0;
         uint16_t height = 0;
         uint32_t lifetimeTicks = 0;

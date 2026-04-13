@@ -1,15 +1,20 @@
 #include "engine/ApplicationConfig.h"
+#include "engine/AssetFileSystem.h"
 #include "engine/AssetScaleTier.h"
-#include "game/outdoor/HeadlessOutdoorDiagnostics.h"
 #include "game/app/GameApplication.h"
+#include "game/outdoor/HeadlessOutdoorDiagnostics.h"
 
 #include <SDL3/SDL.h>
 
+#include <cctype>
 #include <cstdlib>
 #include <cstdint>
 #include <exception>
+#include <filesystem>
+#include <fstream>
 #include <iostream>
 #include <string>
+#include <string_view>
 #include <vector>
 
 namespace

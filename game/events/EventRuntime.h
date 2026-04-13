@@ -1,13 +1,15 @@
 #pragma once
 
 #include "game/events/EvtEnums.h"
-#include "game/events/EventIr.h"
+#include "game/events/ScriptedEventProgram.h"
 #include "game/maps/MapDeltaData.h"
+#include "game/party/Party.h"
 #include "game/tables/PortraitFxEventTable.h"
 
 #include <array>
 #include <cstdint>
 #include <optional>
+#include <memory>
 #include <string>
 #include <unordered_map>
 #include <unordered_set>
@@ -17,6 +19,7 @@ namespace OpenYAMM::Game
 {
 class Party;
 class ISceneEventContext;
+struct LuaSessionCache;
 
 enum class DialogueContextKind
 {
@@ -162,6 +165,7 @@ struct EventRuntimeState
     std::array<uint8_t, 75> mapVars = {};
     std::unordered_map<uint32_t, uint32_t> facetSetMasks;
     std::unordered_map<uint32_t, uint32_t> facetClearMasks;
+    uint64_t outdoorSurfaceRevision = 0;
     std::unordered_map<uint32_t, RuntimeMechanismState> mechanisms;
     std::unordered_map<uint32_t, std::string> textureOverrides;
     std::unordered_map<uint32_t, SpriteOverride> spriteOverrides;
@@ -190,6 +194,7 @@ struct EventRuntimeState
     std::vector<std::string> messages;
     std::vector<std::string> statusMessages;
     std::vector<uint32_t> openedChestIds;
+    std::vector<InventoryItem> grantedItems;
     std::vector<uint32_t> grantedItemIds;
     std::vector<uint32_t> removedItemIds;
     std::vector<uint32_t> grantedAwardIds;
@@ -208,27 +213,54 @@ struct EventRuntimeState
     size_t globalOnLoadEventsExecuted = 0;
 };
 
+struct EventRuntimeBindingReport
+{
+    size_t localEventCount = 0;
+    size_t localHandlerCount = 0;
+    size_t globalEventCount = 0;
+    size_t globalHandlerCount = 0;
+    size_t canShowTopicEventCount = 0;
+    size_t canShowTopicHandlerCount = 0;
+    std::vector<uint16_t> missingLocalHandlerEventIds;
+    std::vector<uint16_t> missingGlobalHandlerEventIds;
+    std::vector<uint16_t> missingCanShowTopicEventIds;
+    std::optional<std::string> errorMessage;
+};
+
 class EventRuntime
 {
 public:
-    static float calculateMechanismDistance(const MapDeltaDoor &door, const RuntimeMechanismState &runtimeMechanism);
+    EventRuntime();
+    ~EventRuntime();
 
+    EventRuntime(const EventRuntime &) = delete;
+    EventRuntime &operator=(const EventRuntime &) = delete;
+
+    EventRuntime(EventRuntime &&other) noexcept;
+    EventRuntime &operator=(EventRuntime &&other) noexcept;
+
+    static float calculateMechanismDistance(const MapDeltaDoor &door, const RuntimeMechanismState &runtimeMechanism);
     bool buildOnLoadState(
-        const std::optional<EventIrProgram> &localProgram,
-        const std::optional<EventIrProgram> &globalProgram,
+        const std::optional<ScriptedEventProgram> &localProgram,
+        const std::optional<ScriptedEventProgram> &globalProgram,
         const std::optional<MapDeltaData> &mapDeltaData,
         EventRuntimeState &runtimeState
     ) const;
+    bool validateProgramBindings(
+        const std::optional<ScriptedEventProgram> &localProgram,
+        const std::optional<ScriptedEventProgram> &globalProgram,
+        EventRuntimeBindingReport &report
+    ) const;
     bool executeEventById(
-        const std::optional<EventIrProgram> &localProgram,
-        const std::optional<EventIrProgram> &globalProgram,
+        const std::optional<ScriptedEventProgram> &localProgram,
+        const std::optional<ScriptedEventProgram> &globalProgram,
         uint16_t eventId,
         EventRuntimeState &runtimeState,
         Party *pParty = nullptr,
         ISceneEventContext *pSceneEventContext = nullptr
     ) const;
     bool canShowTopic(
-        const std::optional<EventIrProgram> &globalProgram,
+        const std::optional<ScriptedEventProgram> &globalProgram,
         uint16_t topicId,
         const EventRuntimeState &runtimeState,
         const Party *pParty,
@@ -240,7 +272,6 @@ public:
         EventRuntimeState &runtimeState
     ) const;
 
-private:
     enum class VariableKind
     {
         Generic,
@@ -321,9 +352,6 @@ private:
         Party *pParty,
         const std::vector<size_t> &targetMemberIndices
     );
-    static void executeProgramOnLoad(const EventIrProgram &program, EventRuntimeState &runtimeState, size_t &executedCount);
-    static const EventIrEvent *findEventById(const EventIrProgram &program, uint16_t eventId);
-    static void executeTimerEvents(const EventIrProgram &program, EventRuntimeState &runtimeState);
     static void applyMechanismAction(RuntimeMechanismState &runtimeMechanism, MechanismAction action);
     static int32_t getInventoryItemCount(
         const EventRuntimeState &runtimeState,
@@ -331,22 +359,8 @@ private:
         uint32_t objectDescriptionId,
         const std::optional<size_t> &memberIndex = std::nullopt
     );
-    static bool evaluateCompare(
-        const EventRuntimeState &runtimeState,
-        const EventIrInstruction &instruction,
-        const Party *pParty,
-        const std::vector<size_t> &targetMemberIndices
-    );
-    static bool evaluateCanShowTopic(
-        const EventIrEvent &event,
-        const EventRuntimeState &runtimeState,
-        const Party *pParty,
-        const ISceneEventContext *pSceneEventContext);
-    static bool executeEvent(
-        const EventIrEvent &event,
-        EventRuntimeState &runtimeState,
-        Party *pParty,
-        ISceneEventContext *pSceneEventContext
-    );
+    mutable std::unique_ptr<LuaSessionCache> m_luaSessionCache;
+    mutable const ScriptedEventProgram *m_pCachedLocalProgram = nullptr;
+    mutable const ScriptedEventProgram *m_pCachedGlobalProgram = nullptr;
 };
 }

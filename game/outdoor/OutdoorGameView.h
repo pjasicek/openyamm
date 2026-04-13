@@ -13,8 +13,6 @@
 #include "game/tables/ClassSkillTable.h"
 #include "game/tables/CharacterInspectTable.h"
 #include "game/events/EventDialogContent.h"
-#include "game/events/EvtProgram.h"
-#include "game/events/EventIr.h"
 #include "game/events/EventRuntime.h"
 #include "game/tables/FaceAnimationTable.h"
 #include "game/audio/HouseVideoPlayer.h"
@@ -35,7 +33,6 @@
 #include "game/tables/RosterTable.h"
 #include "game/tables/SpellTable.h"
 #include "game/tables/SpellFxTable.h"
-#include "game/tables/StrTable.h"
 #include "game/gameplay/GameplayDialogController.h"
 #include "game/ui/GameplayUiController.h"
 #include "game/ui/GameplayOverlayContext.h"
@@ -49,6 +46,7 @@
 #include <cstdint>
 #include <filesystem>
 #include <functional>
+#include <limits>
 #include <memory>
 #include <optional>
 #include <string>
@@ -122,9 +120,6 @@ public:
         const StandardItemEnchantTable &standardItemEnchantTable,
         const SpecialItemEnchantTable &specialItemEnchantTable,
         const ItemEquipPosTable &itemEquipPosTable,
-        const std::optional<StrTable> &localStrTable,
-        const std::optional<EvtProgram> &localEvtProgram,
-        const std::optional<EvtProgram> &globalEvtProgram,
         GameAudioSystem *pGameAudioSystem,
         OutdoorSceneRuntime &sceneRuntime,
         const GameSettings &settings,
@@ -206,11 +201,26 @@ private:
 
     struct TexturedBModelBatch
     {
-        bgfx::VertexBufferHandle vertexBufferHandle = BGFX_INVALID_HANDLE;
+        std::vector<TexturedTerrainVertex> vertices;
+        uint32_t faceId = 0;
+        uint32_t cogNumber = 0;
+        std::string textureName;
+        size_t defaultAnimationIndex = static_cast<size_t>(-1);
+    };
+
+    struct BModelTextureAnimationHandle
+    {
+        std::string textureName;
         std::vector<bgfx::TextureHandle> frameTextureHandles;
         std::vector<uint32_t> frameLengthTicks;
         uint32_t animationLengthTicks = 0;
+    };
+
+    struct ResolvedBModelDrawGroup
+    {
+        bgfx::VertexBufferHandle vertexBufferHandle = BGFX_INVALID_HANDLE;
         uint32_t vertexCount = 0;
+        size_t animationIndex = static_cast<size_t>(-1);
     };
 
     struct BillboardTextureHandle
@@ -878,9 +888,6 @@ private:
     const StandardItemEnchantTable *m_pStandardItemEnchantTable;
     const SpecialItemEnchantTable *m_pSpecialItemEnchantTable;
     const ItemEquipPosTable *m_pItemEquipPosTable;
-    std::optional<StrTable> m_localStrTable;
-    std::optional<EvtProgram> m_localEvtProgram;
-    std::optional<EvtProgram> m_globalEvtProgram;
     const ObjectTable *m_pObjectTable;
     const SpellTable *m_pSpellTable;
     const JournalQuestTable *m_pJournalQuestTable;
@@ -916,6 +923,9 @@ private:
     uint32_t m_entityMarkerVertexCount;
     uint32_t m_spawnMarkerVertexCount;
     std::vector<TexturedBModelBatch> m_texturedBModelBatches;
+    std::vector<BModelTextureAnimationHandle> m_bmodelTextureAnimations;
+    std::vector<ResolvedBModelDrawGroup> m_resolvedBModelDrawGroups;
+    uint64_t m_resolvedBModelDrawGroupRevision = std::numeric_limits<uint64_t>::max();
     std::vector<BillboardTextureHandle> m_billboardTextureHandles;
     std::unordered_map<int16_t, std::unordered_map<std::string, size_t>> m_billboardTextureIndexByPalette;
     std::unordered_map<std::string, size_t> m_decorationBitmapTextureIndexByName;

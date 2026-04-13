@@ -2,6 +2,7 @@
 
 #include "game/tables/ClassSkillTable.h"
 #include "game/events/EventRuntime.h"
+#include "game/events/ScriptedEventProgram.h"
 #include "game/tables/HouseTable.h"
 #include "game/tables/MapStats.h"
 #include "game/tables/NpcDialogTable.h"
@@ -79,7 +80,7 @@ EventDialogContent buildEventDialogContent(
     EventRuntimeState &eventRuntimeState,
     size_t previousMessageCount,
     bool allowNpcFallbackContent,
-    const std::optional<EventIrProgram> *pGlobalEventIrProgram,
+    const std::optional<ScriptedEventProgram> *pGlobalEventProgram,
     const HouseTable *pHouseTable,
     const ClassSkillTable *pClassSkillTable,
     const NpcDialogTable *pNpcDialogTable,

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "game/events/ScriptedEventProgram.h"
 #include "game/events/EventRuntime.h"
 #include "game/maps/MapDeltaData.h"
 #include "game/scene/IMapSceneRuntime.h"
@@ -25,8 +26,8 @@ public:
         Party &party,
         const std::optional<MapDeltaData> &indoorMapDeltaData,
         const std::optional<EventRuntimeState> &eventRuntimeState,
-        const std::optional<EventIrProgram> &localEventIrProgram,
-        const std::optional<EventIrProgram> &globalEventIrProgram
+        const std::optional<ScriptedEventProgram> &localEventProgram,
+        const std::optional<ScriptedEventProgram> &globalEventProgram
     );
 
     SceneKind kind() const override;
@@ -40,8 +41,8 @@ public:
 
     const std::optional<MapDeltaData> &mapDeltaData() const;
     const std::optional<EventRuntimeState> &eventRuntimeStateStorage() const;
-    const std::optional<EventIrProgram> &localEventIrProgram() const;
-    const std::optional<EventIrProgram> &globalEventIrProgram() const;
+    const std::optional<ScriptedEventProgram> &localEventProgram() const;
+    const std::optional<ScriptedEventProgram> &globalEventProgram() const;
     Snapshot snapshot() const;
     void restoreSnapshot(const Snapshot &snapshot);
     bool advanceSimulation(float deltaMilliseconds);
@@ -52,8 +53,8 @@ private:
     Party *m_pParty = nullptr;
     std::optional<MapDeltaData> m_mapDeltaData;
     std::optional<EventRuntimeState> m_eventRuntimeState;
-    std::optional<EventIrProgram> m_localEventIrProgram;
-    std::optional<EventIrProgram> m_globalEventIrProgram;
+    std::optional<ScriptedEventProgram> m_localEventProgram;
+    std::optional<ScriptedEventProgram> m_globalEventProgram;
     EventRuntime m_eventRuntime;
     float m_mechanismAccumulatorMilliseconds = 0.0f;
 };

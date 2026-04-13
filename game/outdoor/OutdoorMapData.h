@@ -134,4 +134,12 @@ class OutdoorMapDataLoader
 public:
     std::optional<OutdoorMapData> loadFromBytes(const std::vector<uint8_t> &bytes) const;
 };
+
+class OutdoorMapDataWriter
+{
+public:
+    std::optional<std::vector<uint8_t>> patchBytes(
+        const OutdoorMapData &outdoorMapData,
+        const std::vector<uint8_t> &baseBytes) const;
+};
 }

@@ -21,7 +21,6 @@ constexpr float HudReferenceHeight = 480.0f;
 constexpr float HudFontIntegerSnapThreshold = 0.1f;
 constexpr float MaxUiViewportAspect = 4.0f / 3.0f;
 constexpr uint16_t HudViewId = 2;
-
 struct UiViewportRect
 {
     float x = 0.0f;

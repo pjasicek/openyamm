@@ -2,6 +2,7 @@
 
 #include "game/events/EventDialogContent.h"
 #include "game/events/EventRuntime.h"
+#include "game/events/ScriptedEventProgram.h"
 #include "game/arcomage/ArcomageTypes.h"
 #include "game/audio/SoundIds.h"
 #include "game/gameplay/HouseInteraction.h"
@@ -47,7 +48,7 @@ public:
         size_t &selectionIndex;
         Party *pParty = nullptr;
         OutdoorWorldRuntime *pOutdoorWorldRuntime = nullptr;
-        const std::optional<EventIrProgram> *pGlobalEventIrProgram = nullptr;
+        const std::optional<ScriptedEventProgram> *pGlobalEventProgram = nullptr;
         const HouseTable *pHouseTable = nullptr;
         const ClassSkillTable *pClassSkillTable = nullptr;
         const NpcDialogTable *pNpcDialogTable = nullptr;

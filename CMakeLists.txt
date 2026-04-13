@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 3.24)
 project(OpenYAMM VERSION 0.1.0 LANGUAGES C CXX)
 
 include(FetchContent)
+include(FindPkgConfig)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -35,6 +36,15 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 
 include(Dependencies)
 include(BgfxRuntime)
+
+pkg_check_modules(OPENYAMM_LUA54 QUIET IMPORTED_TARGET lua5.4)
+
+if (OPENYAMM_LUA54_FOUND)
+    set(OPENYAMM_LUA_TARGET PkgConfig::OPENYAMM_LUA54)
+else()
+    pkg_check_modules(OPENYAMM_LUA53 REQUIRED IMPORTED_TARGET lua5.3)
+    set(OPENYAMM_LUA_TARGET PkgConfig::OPENYAMM_LUA53)
+endif()
 
 set(OPENYAMM_RUNTIME_SHADER_DIR "${CMAKE_BINARY_DIR}/runtime/shaders")
 set(OPENYAMM_BGFX_SOURCE_DIR "${CMAKE_BINARY_DIR}/_deps/bgfx-src")

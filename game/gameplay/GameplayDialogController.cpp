@@ -956,7 +956,7 @@ GameplayDialogController::PresentPendingDialogResult GameplayDialogController::p
         context.eventRuntimeState,
         previousMessageCount,
         allowNpcFallbackContent,
-        context.pGlobalEventIrProgram,
+        context.pGlobalEventProgram,
         context.pHouseTable,
         context.pClassSkillTable,
         context.pNpcDialogTable,

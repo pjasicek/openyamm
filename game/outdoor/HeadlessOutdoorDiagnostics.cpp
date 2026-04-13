@@ -317,9 +317,9 @@ struct GameApplicationTestAccess
         }
 
         const std::optional<MapAssetInfo> &selectedMap = application.m_gameDataLoader.getSelectedMap();
-        const std::optional<EventIrProgram> *pGlobalEventIrProgram =
-            selectedMap && selectedMap->globalEventIrProgram
-            ? &selectedMap->globalEventIrProgram
+        const std::optional<ScriptedEventProgram> *pGlobalEventProgram =
+            selectedMap && selectedMap->globalEventProgram
+            ? &selectedMap->globalEventProgram
             : nullptr;
         GameplayDialogController::Context context = {
             application.m_outdoorGameView.m_gameplayUiController,
@@ -328,7 +328,7 @@ struct GameApplicationTestAccess
             application.m_outdoorGameView.m_eventDialogSelectionIndex,
             application.m_pOutdoorPartyRuntime != nullptr ? &application.m_pOutdoorPartyRuntime->party() : nullptr,
             application.m_pOutdoorWorldRuntime.get(),
-            pGlobalEventIrProgram,
+            pGlobalEventProgram,
             &application.m_gameDataLoader.getHouseTable(),
             &application.m_gameDataLoader.getClassSkillTable(),
             &application.m_gameDataLoader.getNpcDialogTable(),
@@ -370,6 +370,48 @@ constexpr float HostilityCloseRange = 1024.0f;
 constexpr float HostilityShortRange = 2560.0f;
 constexpr float HostilityMediumRange = 5120.0f;
 constexpr float HostilityLongRange = 10240.0f;
+
+std::optional<ScriptedEventProgram> loadSyntheticScriptedProgram(
+    const std::string &body,
+    const std::string &chunkName,
+    ScriptedEventScope scope,
+    std::string &error)
+{
+    std::string luaSourceText = body;
+    luaSourceText += "\n";
+    luaSourceText += "evt.meta = evt.meta or {}\n";
+    luaSourceText += "evt.meta.map = evt.meta.map or {}\n";
+    luaSourceText += "evt.meta.global = evt.meta.global or {}\n";
+    luaSourceText += "evt.meta.CanShowTopic = evt.meta.CanShowTopic or {}\n";
+
+    const char *pScopeName = scope == ScriptedEventScope::Global ? "global" : "map";
+    luaSourceText += "evt.meta.";
+    luaSourceText += pScopeName;
+    luaSourceText += ".onLoad = {}\n";
+    luaSourceText += "evt.meta.";
+    luaSourceText += pScopeName;
+    luaSourceText += ".hint = {}\n";
+    luaSourceText += "evt.meta.";
+    luaSourceText += pScopeName;
+    luaSourceText += ".summary = {}\n";
+    luaSourceText += "evt.meta.";
+    luaSourceText += pScopeName;
+    luaSourceText += ".openedChestIds = {}\n";
+    luaSourceText += "evt.meta.";
+    luaSourceText += pScopeName;
+    luaSourceText += ".textureNames = {}\n";
+    luaSourceText += "evt.meta.";
+    luaSourceText += pScopeName;
+    luaSourceText += ".spriteNames = {}\n";
+    luaSourceText += "evt.meta.";
+    luaSourceText += pScopeName;
+    luaSourceText += ".castSpellIds = {}\n";
+    luaSourceText += "evt.meta.";
+    luaSourceText += pScopeName;
+    luaSourceText += ".timers = {}\n";
+
+    return ScriptedEventProgram::loadFromLuaText(luaSourceText, chunkName, scope, error);
+}
 
 struct SyntheticOutdoorWaterBoundaryScenario
 {
@@ -1263,7 +1305,7 @@ EventDialogContent buildHeadlessDialog(
     EventRuntimeState &eventRuntimeState,
     size_t previousMessageCount,
     bool allowNpcFallbackContent,
-    const std::optional<EventIrProgram> &globalEventIrProgram,
+    const std::optional<ScriptedEventProgram> &globalEventProgram,
     const GameDataLoader &gameDataLoader,
     Party *pParty,
     float currentGameMinutes
@@ -1280,7 +1322,7 @@ EventDialogContent buildHeadlessDialog(
         eventRuntimeState,
         previousMessageCount,
         allowNpcFallbackContent,
-        &globalEventIrProgram,
+        &globalEventProgram,
         &gameDataLoader.getHouseTable(),
         &gameDataLoader.getClassSkillTable(),
         &gameDataLoader.getNpcDialogTable(),
@@ -2168,8 +2210,8 @@ bool executeLocalEventInScenario(
     }
 
     const bool executed = scenario.eventRuntime.executeEventById(
-        selectedMap.localEventIrProgram,
-        selectedMap.globalEventIrProgram,
+        selectedMap.localEventProgram,
+        selectedMap.globalEventProgram,
         eventId,
         *scenario.pEventRuntimeState,
         &scenario.party,
@@ -2200,7 +2242,7 @@ bool executeGlobalEventInScenario(
 
     const bool executed = scenario.eventRuntime.executeEventById(
         std::nullopt,
-        selectedMap.globalEventIrProgram,
+        selectedMap.globalEventProgram,
         eventId,
         *scenario.pEventRuntimeState,
         &scenario.party,
@@ -2312,7 +2354,7 @@ EventDialogContent buildScenarioDialog(
         *scenario.pEventRuntimeState,
         previousMessageCount,
         allowNpcFallbackContent,
-        &selectedMap.globalEventIrProgram,
+        &selectedMap.globalEventProgram,
         &gameDataLoader.getHouseTable(),
         &gameDataLoader.getClassSkillTable(),
         &gameDataLoader.getNpcDialogTable(),
@@ -2585,7 +2627,7 @@ bool executeDialogActionInScenario(
         {
             executed = scenario.eventRuntime.executeEventById(
                 std::nullopt,
-                selectedMap.globalEventIrProgram,
+                selectedMap.globalEventProgram,
                 static_cast<uint16_t>(action.id),
                 *scenario.pEventRuntimeState,
                 &scenario.party,
@@ -3366,8 +3408,8 @@ int HeadlessOutdoorDiagnostics::runOpenEvent(
               << '\n';
 
     const bool executed = eventRuntime.executeEventById(
-        selectedMap->localEventIrProgram,
-        selectedMap->globalEventIrProgram,
+        selectedMap->localEventProgram,
+        selectedMap->globalEventProgram,
         eventId,
         *pEventRuntimeState,
         &party,
@@ -3427,7 +3469,7 @@ int HeadlessOutdoorDiagnostics::runOpenEvent(
         *pEventRuntimeState,
         0,
         true,
-        selectedMap->globalEventIrProgram,
+        selectedMap->globalEventProgram,
         gameDataLoader,
         &party,
         outdoorWorldRuntime.currentHour()
@@ -3648,7 +3690,7 @@ int HeadlessOutdoorDiagnostics::runOpenActor(
         *pEventRuntimeState,
         0,
         true,
-        selectedMap->globalEventIrProgram,
+        selectedMap->globalEventProgram,
         gameDataLoader,
         &party,
         outdoorWorldRuntime.currentHour()
@@ -3742,8 +3784,8 @@ int HeadlessOutdoorDiagnostics::runDialogSequence(
     }
 
     const bool executed = eventRuntime.executeEventById(
-        selectedMap->localEventIrProgram,
-        selectedMap->globalEventIrProgram,
+        selectedMap->localEventProgram,
+        selectedMap->globalEventProgram,
         eventId,
         *pEventRuntimeState,
         &party,
@@ -3763,7 +3805,7 @@ int HeadlessOutdoorDiagnostics::runDialogSequence(
         *pEventRuntimeState,
         0,
         true,
-        selectedMap->globalEventIrProgram,
+        selectedMap->globalEventProgram,
         gameDataLoader,
         &party,
         outdoorWorldRuntime.currentHour()
@@ -3988,7 +4030,7 @@ int HeadlessOutdoorDiagnostics::runDialogSequence(
             {
                 topicExecuted = eventRuntime.executeEventById(
                     std::nullopt,
-                    selectedMap->globalEventIrProgram,
+                    selectedMap->globalEventProgram,
                     static_cast<uint16_t>(action.id),
                     *pEventRuntimeState,
                     &party,
@@ -4024,7 +4066,7 @@ int HeadlessOutdoorDiagnostics::runDialogSequence(
             previousMessageCount,
             action.kind != EventDialogActionKind::RosterJoinAccept
                 && action.kind != EventDialogActionKind::MasteryTeacherLearn,
-            selectedMap->globalEventIrProgram,
+            selectedMap->globalEventProgram,
             gameDataLoader,
             &party,
             outdoorWorldRuntime.currentHour()
@@ -5354,6 +5396,106 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
     );
 
     runCase(
+        "local_event_457_cannonball_uses_gravity_but_fireball_does_not",
+        [&](std::string &failure)
+        {
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            if (!executeLocalEventInScenario(gameDataLoader, *selectedMap, scenario, 457))
+            {
+                failure = "event 457 did not execute";
+                return false;
+            }
+
+            const OutdoorWorldRuntime::ProjectileState *pFireball = nullptr;
+            const OutdoorWorldRuntime::ProjectileState *pCannonball = nullptr;
+
+            for (size_t projectileIndex = 0; projectileIndex < scenario.world.projectileCount(); ++projectileIndex)
+            {
+                const OutdoorWorldRuntime::ProjectileState *pProjectile = scenario.world.projectileState(projectileIndex);
+
+                if (pProjectile == nullptr)
+                {
+                    failure = "projectile state missing";
+                    return false;
+                }
+
+                if (isSpellId(pProjectile->spellId, SpellId::Fireball) || pProjectile->objectName == "Fireball")
+                {
+                    pFireball = pProjectile;
+                }
+                else if (pProjectile->spellId == 136 || pProjectile->objectName == "Cannonball")
+                {
+                    pCannonball = pProjectile;
+                }
+            }
+
+            if (pFireball == nullptr || pCannonball == nullptr)
+            {
+                failure = pFireball == nullptr ? "fireball projectile missing" : "cannonball projectile missing";
+                return false;
+            }
+
+            const float initialFireballZ = pFireball->z;
+            const float initialCannonballZ = pCannonball->z;
+
+            scenario.world.updateMapActors(1.0f / 128.0f, 0.0f, 0.0f, 0.0f);
+
+            const OutdoorWorldRuntime::ProjectileState *pUpdatedFireball = nullptr;
+            const OutdoorWorldRuntime::ProjectileState *pUpdatedCannonball = nullptr;
+
+            for (size_t projectileIndex = 0; projectileIndex < scenario.world.projectileCount(); ++projectileIndex)
+            {
+                const OutdoorWorldRuntime::ProjectileState *pProjectile = scenario.world.projectileState(projectileIndex);
+
+                if (pProjectile == nullptr)
+                {
+                    failure = "updated projectile state missing";
+                    return false;
+                }
+
+                if (isSpellId(pProjectile->spellId, SpellId::Fireball) || pProjectile->objectName == "Fireball")
+                {
+                    pUpdatedFireball = pProjectile;
+                }
+                else if (pProjectile->spellId == 136 || pProjectile->objectName == "Cannonball")
+                {
+                    pUpdatedCannonball = pProjectile;
+                }
+            }
+
+            if (pUpdatedFireball == nullptr || pUpdatedCannonball == nullptr)
+            {
+                failure =
+                    pUpdatedFireball == nullptr
+                        ? "updated fireball projectile missing"
+                        : "updated cannonball projectile missing";
+                return false;
+            }
+
+            if (!(pUpdatedCannonball->z < initialCannonballZ))
+            {
+                failure = "cannonball projectile did not drop under gravity";
+                return false;
+            }
+
+            if (std::abs(pUpdatedFireball->z - initialFireballZ) > 0.5f)
+            {
+                failure = "fireball projectile unexpectedly changed height";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
         "map_delta_pickable_sprite_objects_materialize_runtime_world_items",
         [&](std::string &failure)
         {
@@ -5499,6 +5641,65 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
     );
 
     runCase(
+        "event_summon_item_supports_item_and_object_payloads",
+        [&](std::string &failure)
+        {
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            const size_t initialCount = scenario.world.worldItemCount();
+
+            if (!scenario.world.summonEventItem(200, 100, 200, 300, 1000, 1, true))
+            {
+                failure = "direct item payload 200 did not spawn";
+                return false;
+            }
+
+            const OutdoorWorldRuntime::WorldItemState *pDirectItem = scenario.world.worldItemState(initialCount);
+
+            if (pDirectItem == nullptr || pDirectItem->item.objectDescriptionId != 200)
+            {
+                failure = "direct item payload did not preserve item id 200";
+                return false;
+            }
+
+            if (!scenario.world.summonEventItem(35, 100, 200, 300, 1000, 1, true))
+            {
+                failure = "object payload 35 did not spawn";
+                return false;
+            }
+
+            const OutdoorWorldRuntime::WorldItemState *pObjectBackedItem =
+                scenario.world.worldItemState(initialCount + 1);
+
+            if (pObjectBackedItem == nullptr || pObjectBackedItem->item.objectDescriptionId != 205)
+            {
+                failure = "object payload 35 did not resolve to item id 205";
+                return false;
+            }
+
+            if (scenario.world.summonEventItem(2138, 100, 200, 300, 1000, 1, true))
+            {
+                failure = "unresolved payload 2138 unexpectedly spawned";
+                return false;
+            }
+
+            if (scenario.world.worldItemCount() != initialCount + 2)
+            {
+                failure = "world item count changed unexpectedly after unresolved payload";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
         "campfire_global_event_adds_food_and_hides_on_clear",
         [&](std::string &failure)
         {
@@ -5527,7 +5728,7 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
             const int initialFood = scenario.party.food();
             const bool executed = scenario.eventRuntime.executeEventById(
                 std::nullopt,
-                selectedMap->globalEventIrProgram,
+                selectedMap->globalEventProgram,
                 285,
                 *scenario.pEventRuntimeState,
                 &scenario.party,
@@ -5599,7 +5800,7 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
 
             const bool executed = scenario.eventRuntime.executeEventById(
                 std::nullopt,
-                selectedMap->globalEventIrProgram,
+                selectedMap->globalEventProgram,
                 272,
                 *scenario.pEventRuntimeState,
                 &scenario.party,
@@ -5651,7 +5852,7 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
                 return false;
             }
 
-            const float partyX = -9216.0f;
+            const float partyX = 9216.0f;
             const float partyY = -12848.0f;
             const float partyZ = 110.0f;
             const int initialHealth = scenario.party.totalHealth();
@@ -5663,7 +5864,7 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
                     19872,
                     -19824,
                     5084,
-                    static_cast<int32_t>(-partyX),
+                    static_cast<int32_t>(partyX),
                     static_cast<int32_t>(partyY),
                     static_cast<int32_t>(partyZ)))
             {
@@ -10554,43 +10755,32 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
                 return false;
             }
 
-            EventIrInstruction canShowKilled = {};
-            canShowKilled.eventId = 1;
-            canShowKilled.step = 0;
-            canShowKilled.operation = EventIrOperation::IsActorKilledCanShowTopic;
-            canShowKilled.arguments = {
-                static_cast<uint32_t>(EvtActorKillCheck::ActorIdMm8),
-                8u,
-                1u,
-                1u
-            };
-            canShowKilled.jumpTargetStep = 2;
-
-            EventIrInstruction hideTopic = {};
-            hideTopic.eventId = 1;
-            hideTopic.step = 1;
-            hideTopic.operation = EventIrOperation::SetCanShowTopic;
-            hideTopic.arguments = {0u};
-
-            EventIrInstruction endCanShow = {};
-            endCanShow.eventId = 1;
-            endCanShow.step = 2;
-            endCanShow.operation = EventIrOperation::EndCanShowTopic;
-
-            EventIrInstruction showTopic = {};
-            showTopic.eventId = 1;
-            showTopic.step = 3;
-            showTopic.operation = EventIrOperation::SetCanShowTopic;
-            showTopic.arguments = {1u};
-
-            EventIrEvent event = {};
-            event.eventId = 1;
-            event.instructions = {canShowKilled, hideTopic, endCanShow, showTopic};
-
-            EventIrProgram program = EventIrProgram::fromEvents({event});
+            std::string error;
+            std::optional<ScriptedEventProgram> scriptedProgram = loadSyntheticScriptedProgram(
+                "evt.CanShowTopic[1] = function()\n"
+                "    evt._BeginCanShowTopic(1)\n"
+                "    if evt.CheckMonstersKilled(2, 8, 1, true) then\n"
+                "        return true\n"
+                "    end\n"
+                "    return false\n"
+                "end\n",
+                "@SyntheticCanShowTopic.lua",
+                ScriptedEventScope::Global,
+                error);
             EventRuntime eventRuntime = {};
 
-            if (eventRuntime.canShowTopic(program, 1, *scenario.pEventRuntimeState, &scenario.party, &scenario.world))
+            if (!scriptedProgram)
+            {
+                failure = "could not build synthetic CanShowTopic script: " + error;
+                return false;
+            }
+
+            if (eventRuntime.canShowTopic(
+                    scriptedProgram,
+                    1,
+                    *scenario.pEventRuntimeState,
+                    &scenario.party,
+                    &scenario.world))
             {
                 failure = "topic should start hidden while actor 8 is alive";
                 return false;
@@ -10602,7 +10792,12 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
                 return false;
             }
 
-            if (!eventRuntime.canShowTopic(program, 1, *scenario.pEventRuntimeState, &scenario.party, &scenario.world))
+            if (!eventRuntime.canShowTopic(
+                    scriptedProgram,
+                    1,
+                    *scenario.pEventRuntimeState,
+                    &scenario.party,
+                    &scenario.world))
             {
                 failure = "topic should become visible once actor 8 is dead";
                 return false;
@@ -14565,32 +14760,27 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
             pFirst->skills["Learning"] = {"Learning", 10, SkillMastery::Grandmaster};
             pSecond->conditions.set(static_cast<size_t>(CharacterCondition::Dead));
 
-            EventIrInstruction selectAllMembers = {};
-            selectAllMembers.eventId = 1;
-            selectAllMembers.step = 0;
-            selectAllMembers.operation = EventIrOperation::ForPartyMember;
-            selectAllMembers.arguments = {5};
-
-            EventIrInstruction addExperience = {};
-            addExperience.eventId = 1;
-            addExperience.step = 1;
-            addExperience.operation = EventIrOperation::Add;
-            addExperience.arguments = {0x000du, 50u};
-
-            EventIrInstruction exitInstruction = {};
-            exitInstruction.eventId = 1;
-            exitInstruction.step = 2;
-            exitInstruction.operation = EventIrOperation::Exit;
-
-            EventIrEvent event = {};
-            event.eventId = 1;
-            event.instructions = {selectAllMembers, addExperience, exitInstruction};
-
-            EventIrProgram program = EventIrProgram::fromEvents({event});
+            std::string error;
+            std::optional<ScriptedEventProgram> scriptedProgram = loadSyntheticScriptedProgram(
+                "evt.map[1] = function()\n"
+                "    evt._BeginEvent(1)\n"
+                "    evt.ForPlayer(5)\n"
+                "    evt.Add(13, 50)\n"
+                "    return\n"
+                "end\n",
+                "@SyntheticExperience.lua",
+                ScriptedEventScope::Map,
+                error);
             EventRuntime eventRuntime = {};
             EventRuntimeState runtimeState = {};
 
-            if (!eventRuntime.executeEventById(program, std::nullopt, 1, runtimeState, &party, nullptr))
+            if (!scriptedProgram)
+            {
+                failure = "could not build synthetic experience script: " + error;
+                return false;
+            }
+
+            if (!eventRuntime.executeEventById(scriptedProgram, std::nullopt, 1, runtimeState, &party, nullptr))
             {
                 failure = "event runtime did not execute synthetic experience event";
                 return false;
@@ -16431,6 +16621,452 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
                 || scenario.world.atmosphereState().skyTextureName != "sky05")
             {
                 failure = "environment fallback did not resolve the expected sky";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "generated_lua_event_scripts_are_loaded_from_files",
+        [&](std::string &failure)
+        {
+            if (!selectedMap)
+            {
+                failure = "selected map missing";
+                return false;
+            }
+
+            if (!selectedMap->globalEventProgram
+                || !selectedMap->globalEventProgram->luaSourceText().has_value()
+                || !selectedMap->globalEventProgram->luaSourceName().has_value()
+                || selectedMap->globalEventProgram->luaSourceName() != "@Data/scripts/Global.lua")
+            {
+                failure = "global Lua event script was not loaded from file";
+                return false;
+            }
+
+            if (!selectedMap->localEventProgram
+                || !selectedMap->localEventProgram->luaSourceText().has_value()
+                || !selectedMap->localEventProgram->luaSourceName().has_value())
+            {
+                failure = "local Lua event script was not loaded from file";
+                return false;
+            }
+
+            const std::string expectedLocalSourceName =
+                "@Data/scripts/maps/" + toLowerCopy(std::filesystem::path(selectedMap->map.fileName).stem().string()) + ".lua";
+
+            if (*selectedMap->localEventProgram->luaSourceName() != expectedLocalSourceName)
+            {
+                failure = "local Lua source name did not match generated map script path";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    const auto collectScriptedMapFileNames = [&]() -> std::vector<std::string>
+    {
+        std::vector<std::string> scriptedMapFileNames;
+
+        for (const MapStatsEntry &entry : gameDataLoader.getMapStats().getEntries())
+        {
+            if (entry.fileName.empty())
+            {
+                continue;
+            }
+
+            const std::string extension = toLowerCopy(std::filesystem::path(entry.fileName).extension().string());
+
+            if (extension != ".odm" && extension != ".blv")
+            {
+                continue;
+            }
+
+            const std::filesystem::path scriptPath =
+                std::filesystem::path("assets_dev/Data/scripts/maps")
+                / (toLowerCopy(std::filesystem::path(entry.fileName).stem().string()) + ".lua");
+
+            if (std::filesystem::exists(scriptPath))
+            {
+                scriptedMapFileNames.push_back(entry.fileName);
+            }
+        }
+
+        return scriptedMapFileNames;
+    };
+
+    runCase(
+        "generated_lua_event_scripts_load_for_every_scripted_map",
+        [&](std::string &failure)
+        {
+            const std::vector<std::string> scriptedMapFileNames = collectScriptedMapFileNames();
+
+            if (scriptedMapFileNames.empty())
+            {
+                failure = "did not find any generated map Lua scripts to validate";
+                return false;
+            }
+
+            GameDataLoader loader = gameDataLoader;
+            EventRuntime eventRuntime = {};
+
+            for (const std::string &mapFileName : scriptedMapFileNames)
+            {
+                if (!loader.loadMapByFileNameForHeadlessGameplay(assetFileSystem, mapFileName))
+                {
+                    failure = "could not headless-load scripted map " + mapFileName;
+                    return false;
+                }
+
+                const std::optional<MapAssetInfo> &loadedMap = loader.getSelectedMap();
+
+                if (!loadedMap
+                    || !loadedMap->globalEventProgram
+                    || !loadedMap->globalEventProgram->luaSourceText().has_value()
+                    || !loadedMap->localEventProgram
+                    || !loadedMap->localEventProgram->luaSourceText().has_value())
+                {
+                    failure = "scripted map " + mapFileName + " did not load Lua-backed event sources";
+                    return false;
+                }
+
+                EventRuntimeState runtimeState = {};
+                const std::optional<MapDeltaData> mapDeltaData =
+                    loadedMap->outdoorMapDeltaData ? loadedMap->outdoorMapDeltaData : loadedMap->indoorMapDeltaData;
+
+                if (!eventRuntime.buildOnLoadState(
+                        loadedMap->localEventProgram,
+                        loadedMap->globalEventProgram,
+                        mapDeltaData,
+                        runtimeState))
+                {
+                    failure = "scripted map " + mapFileName + " Lua chunk did not compile in EventRuntime";
+                    return false;
+                }
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "lua_event_runtime_has_complete_handler_inventory_for_every_scripted_map",
+        [&](std::string &failure)
+        {
+            const std::vector<std::string> scriptedMapFileNames = collectScriptedMapFileNames();
+
+            if (scriptedMapFileNames.empty())
+            {
+                failure = "did not find any generated map Lua scripts to validate";
+                return false;
+            }
+
+            GameDataLoader loader = gameDataLoader;
+
+            for (const std::string &mapFileName : scriptedMapFileNames)
+            {
+                if (!loader.loadMapByFileNameForHeadlessGameplay(assetFileSystem, mapFileName))
+                {
+                    failure = "could not headless-load scripted map " + mapFileName;
+                    return false;
+                }
+
+                const std::optional<MapAssetInfo> &loadedMap = loader.getSelectedMap();
+
+                if (!loadedMap)
+                {
+                    failure = "selected map missing after loading " + mapFileName;
+                    return false;
+                }
+
+                EventRuntime eventRuntime = {};
+                EventRuntimeBindingReport report = {};
+
+                if (!eventRuntime.validateProgramBindings(
+                        loadedMap->localEventProgram,
+                        loadedMap->globalEventProgram,
+                        report))
+                {
+                    if (report.errorMessage.has_value())
+                    {
+                        failure = "binding validation failed for " + mapFileName + ": " + *report.errorMessage;
+                    }
+                    else if (!report.missingLocalHandlerEventIds.empty())
+                    {
+                        failure =
+                            "missing local handler for " + mapFileName + " event "
+                            + std::to_string(report.missingLocalHandlerEventIds.front());
+                    }
+                    else if (!report.missingGlobalHandlerEventIds.empty())
+                    {
+                        failure =
+                            "missing global handler while validating " + mapFileName + " event "
+                            + std::to_string(report.missingGlobalHandlerEventIds.front());
+                    }
+                    else if (!report.missingCanShowTopicEventIds.empty())
+                    {
+                        failure =
+                            "missing CanShowTopic handler while validating " + mapFileName + " event "
+                            + std::to_string(report.missingCanShowTopicEventIds.front());
+                    }
+                    else
+                    {
+                        failure = "binding validation failed for " + mapFileName;
+                    }
+
+                    return false;
+                }
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "lua_event_runtime_executes_scripted_map_handlers_without_errors",
+        [&](std::string &failure)
+        {
+            const std::vector<std::string> scriptedMapFileNames = collectScriptedMapFileNames();
+
+            if (scriptedMapFileNames.empty())
+            {
+                failure = "did not find any generated map Lua scripts to validate";
+                return false;
+            }
+
+            GameDataLoader loader = gameDataLoader;
+            bool executedGlobalHandlers = false;
+
+            for (const std::string &mapFileName : scriptedMapFileNames)
+            {
+                if (!loader.loadMapByFileNameForHeadlessGameplay(assetFileSystem, mapFileName))
+                {
+                    failure = "could not headless-load scripted map " + mapFileName;
+                    return false;
+                }
+
+                const std::optional<MapAssetInfo> &loadedMap = loader.getSelectedMap();
+
+                if (!loadedMap)
+                {
+                    failure = "selected map missing after loading " + mapFileName;
+                    return false;
+                }
+
+                EventRuntime eventRuntime = {};
+                const std::optional<MapDeltaData> mapDeltaData =
+                    loadedMap->outdoorMapDeltaData ? loadedMap->outdoorMapDeltaData : loadedMap->indoorMapDeltaData;
+                EventRuntimeState baseState = {};
+
+                if (!eventRuntime.buildOnLoadState(
+                        loadedMap->localEventProgram,
+                        loadedMap->globalEventProgram,
+                        mapDeltaData,
+                        baseState))
+                {
+                    failure = "could not build base Lua runtime state for " + mapFileName;
+                    return false;
+                }
+
+                if (!executedGlobalHandlers && loadedMap->globalEventProgram)
+                {
+                    for (uint16_t eventId : loadedMap->globalEventProgram->eventIds())
+                    {
+                        EventRuntimeState eventState = baseState;
+
+                        if (!eventRuntime.executeEventById(
+                                std::nullopt,
+                                loadedMap->globalEventProgram,
+                                eventId,
+                                eventState,
+                                nullptr,
+                                nullptr))
+                        {
+                            failure =
+                                "global handler execution failed for event " + std::to_string(eventId)
+                                + " while validating " + mapFileName;
+                            return false;
+                        }
+                    }
+
+                    executedGlobalHandlers = true;
+                }
+
+                if (loadedMap->localEventProgram)
+                {
+                    for (uint16_t eventId : loadedMap->localEventProgram->eventIds())
+                    {
+                        EventRuntimeState eventState = baseState;
+
+                        if (!eventRuntime.executeEventById(
+                                loadedMap->localEventProgram,
+                                loadedMap->globalEventProgram,
+                                eventId,
+                                eventState,
+                                nullptr,
+                                nullptr))
+                        {
+                            failure =
+                                "local handler execution failed for " + mapFileName + " event "
+                                + std::to_string(eventId);
+                            return false;
+                        }
+                    }
+                }
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "out01_true_mettle_house_event_171_enters_house_1",
+        [&](std::string &failure)
+        {
+            GameDataLoader loader = gameDataLoader;
+
+            if (!loader.loadMapByFileNameForHeadlessGameplay(assetFileSystem, "out01.odm"))
+            {
+                failure = "could not load out01.odm";
+                return false;
+            }
+
+            const std::optional<MapAssetInfo> &selectedMap = loader.getSelectedMap();
+
+            if (!selectedMap)
+            {
+                failure = "selected map missing";
+                return false;
+            }
+
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(loader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            if (!executeLocalEventInScenario(loader, *selectedMap, scenario, 171))
+            {
+                failure = "event 171 was unresolved";
+                return false;
+            }
+
+            if (!scenario.pEventRuntimeState->pendingDialogueContext)
+            {
+                failure = "event 171 did not queue a house dialogue";
+                return false;
+            }
+
+            const EventRuntimeState::PendingDialogueContext &context = *scenario.pEventRuntimeState->pendingDialogueContext;
+
+            if (context.kind != DialogueContextKind::HouseService || context.sourceId != 1 || context.hostHouseId != 1)
+            {
+                failure = "event 171 did not enter house 1";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "lua_event_runtime_supports_evt_jump_alias",
+        [&](std::string &failure)
+        {
+            EventRuntime eventRuntime = {};
+            EventRuntimeState runtimeState = {};
+            std::string error;
+            std::optional<ScriptedEventProgram> scriptedProgram = ScriptedEventProgram::loadFromLuaText(
+                "evt.map[1] = function()\n"
+                "    evt._BeginEvent(1)\n"
+                "    evt.Jump(90, 0, 10)\n"
+                "    evt.StatusText(\"jump ok\")\n"
+                "    return\n"
+                "end\n"
+                "evt.meta = evt.meta or {}\n"
+                "evt.meta.map = evt.meta.map or {}\n"
+                "evt.meta.map.onLoad = {}\n"
+                "evt.meta.map.hint = {}\n"
+                "evt.meta.map.summary = {}\n"
+                "evt.meta.map.openedChestIds = {}\n"
+                "evt.meta.map.textureNames = {}\n"
+                "evt.meta.map.spriteNames = {}\n"
+                "evt.meta.map.castSpellIds = {}\n"
+                "evt.meta.map.timers = {}\n",
+                "@SyntheticJump.lua",
+                ScriptedEventScope::Map,
+                error);
+
+            if (!scriptedProgram)
+            {
+                failure = "could not build synthetic jump script: " + error;
+                return false;
+            }
+
+            if (!eventRuntime.executeEventById(scriptedProgram, std::nullopt, 1, runtimeState, nullptr, nullptr))
+            {
+                failure = "Lua runtime did not execute the synthetic evt.Jump script";
+                return false;
+            }
+
+            if (runtimeState.statusMessages.empty() || runtimeState.statusMessages.back() != "jump ok")
+            {
+                failure = "evt.Jump alias script did not continue after the jump call";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "outdoor_event_runtime_snow_override_reaches_atmosphere_state",
+        [&](std::string &failure)
+        {
+            if (!selectedMap || !selectedMap->outdoorMapData)
+            {
+                failure = "selected map missing outdoor data";
+                return false;
+            }
+
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            OutdoorWorldRuntime::Snapshot snapshot = scenario.world.snapshot();
+
+            if (!snapshot.eventRuntimeState.has_value())
+            {
+                failure = "scenario snapshot missing event runtime state";
+                return false;
+            }
+
+            snapshot.eventRuntimeState->snowEnabled = true;
+            scenario.world.restoreSnapshot(snapshot);
+
+            if ((scenario.world.atmosphereState().weatherFlags & 0x2) == 0)
+            {
+                failure = "snow override did not set the outdoor snow weather bit";
+                return false;
+            }
+
+            snapshot = scenario.world.snapshot();
+            snapshot.eventRuntimeState->snowEnabled = false;
+            scenario.world.restoreSnapshot(snapshot);
+
+            if ((scenario.world.atmosphereState().weatherFlags & 0x2) != 0)
+            {
+                failure = "snow override did not clear the outdoor snow weather bit";
                 return false;
             }
 
@@ -18945,7 +19581,7 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
 
             const bool barrelExecuted = eventRuntime.executeEventById(
                 std::nullopt,
-                appSelectedMap->globalEventIrProgram,
+                appSelectedMap->globalEventProgram,
                 272,
                 *pEventRuntimeState,
                 &party,
@@ -20684,7 +21320,7 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
                 return false;
             }
 
-            constexpr uint32_t FountainHealAutoNoteRawId = (248u << 16) | 0x00e1u;
+            constexpr uint32_t FountainHealAutoNoteRawId = (248u << 16) | 0x00dfu;
 
             if (!scenario.pEventRuntimeState->variables.contains(FountainHealAutoNoteRawId))
             {
@@ -20795,6 +21431,94 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
     );
 
     runCase(
+        "event_hidden_well_uses_bank_gold_gate_and_mapvar_progress",
+        [&](std::string &failure)
+        {
+            RegressionScenario blockedScenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, blockedScenario))
+            {
+                failure = "blocked scenario init failed";
+                return false;
+            }
+
+            Character *pBlockedMember = blockedScenario.party.activeMember();
+
+            if (pBlockedMember == nullptr)
+            {
+                failure = "missing blocked scenario active member";
+                return false;
+            }
+
+            pBlockedMember->luck = 14;
+            blockedScenario.party.addGold(150);
+            blockedScenario.party.depositGoldToBank(100);
+            blockedScenario.party.addGold(-blockedScenario.party.gold());
+
+            if (!executeLocalEventInScenario(gameDataLoader, *selectedMap, blockedScenario, 103))
+            {
+                failure = "event 103 blocked branch failed";
+                return false;
+            }
+
+            if (blockedScenario.pEventRuntimeState->statusMessages.empty()
+                || blockedScenario.pEventRuntimeState->statusMessages.back() != "Refreshing")
+            {
+                failure = "event 103 did not report refresh when bank gold was already high";
+                return false;
+            }
+
+            RegressionScenario rewardScenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, rewardScenario))
+            {
+                failure = "reward scenario init failed";
+                return false;
+            }
+
+            Character *pRewardMember = rewardScenario.party.activeMember();
+
+            if (pRewardMember == nullptr)
+            {
+                failure = "missing reward scenario active member";
+                return false;
+            }
+
+            pRewardMember->luck = 14;
+            rewardScenario.party.addGold(-rewardScenario.party.gold());
+
+            if (!executeLocalEventInScenario(gameDataLoader, *selectedMap, rewardScenario, 103))
+            {
+                failure = "event 103 reward branch failed";
+                return false;
+            }
+
+            if (rewardScenario.party.gold() != 1000)
+            {
+                failure = "event 103 granted " + std::to_string(rewardScenario.party.gold())
+                    + " gold instead of 1000";
+                return false;
+            }
+
+            if (rewardScenario.pEventRuntimeState->mapVars.size() <= 29 || rewardScenario.pEventRuntimeState->mapVars[29] != 1)
+            {
+                failure = "event 103 did not advance MapVar29";
+                return false;
+            }
+
+            constexpr uint32_t HiddenWellAutoNoteRawId = (247u << 16) | 0x00dfu;
+
+            if (!rewardScenario.pEventRuntimeState->variables.contains(HiddenWellAutoNoteRawId))
+            {
+                failure = "event 103 did not set the hidden well autonote";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
         "event_beacon_actual_stat_checks_include_temporary_bonuses",
         [&](std::string &failure)
         {
@@ -20870,6 +21594,155 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
                 || scenario.pEventRuntimeState->statusMessages.back() != "You win!  +3 Skill Points")
             {
                 failure = "event 544 did not pass with equipped Endurance bonus included";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "event_buoys_grant_skill_points",
+        [&](std::string &failure)
+        {
+            RegressionScenario northScenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, northScenario))
+            {
+                failure = "north buoy scenario init failed";
+                return false;
+            }
+
+            Character *pNorthMember = northScenario.party.activeMember();
+
+            if (pNorthMember == nullptr)
+            {
+                failure = "missing north buoy active member";
+                return false;
+            }
+
+            pNorthMember->luck = 13;
+            pNorthMember->skillPoints = 0;
+
+            if (!executeLocalEventInScenario(gameDataLoader, *selectedMap, northScenario, 497))
+            {
+                failure = "event 497 failed";
+                return false;
+            }
+
+            if (pNorthMember->skillPoints != 2)
+            {
+                failure = "event 497 granted " + std::to_string(pNorthMember->skillPoints)
+                    + " skill points instead of 2";
+                return false;
+            }
+
+            RegressionScenario southScenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, southScenario))
+            {
+                failure = "south buoy scenario init failed";
+                return false;
+            }
+
+            Character *pSouthMember = southScenario.party.activeMember();
+
+            if (pSouthMember == nullptr)
+            {
+                failure = "missing south buoy active member";
+                return false;
+            }
+
+            pSouthMember->luck = 20;
+            pSouthMember->skillPoints = 0;
+
+            if (!executeLocalEventInScenario(gameDataLoader, *selectedMap, southScenario, 498))
+            {
+                failure = "event 498 failed";
+                return false;
+            }
+
+            if (pSouthMember->skillPoints != 5)
+            {
+                failure = "event 498 granted " + std::to_string(pSouthMember->skillPoints)
+                    + " skill points instead of 5";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "event_palm_tree_requires_perception_skill",
+        [&](std::string &failure)
+        {
+            RegressionScenario blockedScenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, blockedScenario))
+            {
+                failure = "blocked palm tree scenario init failed";
+                return false;
+            }
+
+            Character *pBlockedMember = blockedScenario.party.activeMember();
+
+            if (pBlockedMember == nullptr)
+            {
+                failure = "missing blocked palm tree active member";
+                return false;
+            }
+
+            if (ensureCharacterSkill(*pBlockedMember, "Perception", 5, SkillMastery::Normal) == nullptr)
+            {
+                failure = "could not seed blocked palm tree perception skill";
+                return false;
+            }
+
+            if (!executeLocalEventInScenario(gameDataLoader, *selectedMap, blockedScenario, 494))
+            {
+                failure = "event 494 blocked branch failed";
+                return false;
+            }
+
+            if (blockedScenario.pEventRuntimeState->variables.contains(270))
+            {
+                failure = "event 494 incorrectly accepted low Perception";
+                return false;
+            }
+
+            RegressionScenario rewardScenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, rewardScenario))
+            {
+                failure = "reward palm tree scenario init failed";
+                return false;
+            }
+
+            Character *pRewardMember = rewardScenario.party.activeMember();
+
+            if (pRewardMember == nullptr)
+            {
+                failure = "missing reward palm tree active member";
+                return false;
+            }
+
+            if (ensureCharacterSkill(*pRewardMember, "Perception", 3, SkillMastery::Normal) == nullptr)
+            {
+                failure = "could not seed reward palm tree perception skill";
+                return false;
+            }
+
+            if (!executeLocalEventInScenario(gameDataLoader, *selectedMap, rewardScenario, 494))
+            {
+                failure = "event 494 reward branch failed";
+                return false;
+            }
+
+            if (!rewardScenario.pEventRuntimeState->variables.contains(270)
+                || rewardScenario.pEventRuntimeState->variables.at(270) == 0)
+            {
+                failure = "event 494 did not mark the palm tree as harvested";
                 return false;
             }
 

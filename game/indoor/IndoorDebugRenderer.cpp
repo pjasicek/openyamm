@@ -167,24 +167,20 @@ bx::Vec3 vecNormalize(const bx::Vec3 &vector)
 std::string summarizeLinkedEvent(
     uint16_t eventId,
     const std::optional<HouseTable> &houseTable,
-    const std::optional<StrTable> &localStrTable,
-    const std::optional<EvtProgram> &localEvtProgram,
-    const std::optional<EvtProgram> &globalEvtProgram
+    const std::optional<ScriptedEventProgram> &localEventProgram,
+    const std::optional<ScriptedEventProgram> &globalEventProgram
 )
 {
+    static_cast<void>(houseTable);
+
     if (eventId == 0)
     {
         return "-";
     }
 
-    const HouseTable emptyHouseTable = {};
-    const HouseTable &resolvedHouseTable = houseTable ? *houseTable : emptyHouseTable;
-    const StrTable emptyStrTable = {};
-    const StrTable &strTable = localStrTable ? *localStrTable : emptyStrTable;
-
-    if (localEvtProgram)
+    if (localEventProgram)
     {
-        const std::optional<std::string> summary = localEvtProgram->summarizeEvent(eventId, strTable, resolvedHouseTable);
+        const std::optional<std::string> summary = localEventProgram->summarizeEvent(eventId);
 
         if (summary)
         {
@@ -192,9 +188,9 @@ std::string summarizeLinkedEvent(
         }
     }
 
-    if (globalEvtProgram)
+    if (globalEventProgram)
     {
-        const std::optional<std::string> summary = globalEvtProgram->summarizeEvent(eventId, emptyStrTable, resolvedHouseTable);
+        const std::optional<std::string> summary = globalEventProgram->summarizeEvent(eventId);
 
         if (summary)
         {
@@ -224,8 +220,8 @@ std::string summarizeLinkedChests(
     uint16_t eventId,
     const std::optional<MapDeltaData> &mapDeltaData,
     const std::optional<ChestTable> &chestTable,
-    const std::optional<EvtProgram> &localEvtProgram,
-    const std::optional<EvtProgram> &globalEvtProgram
+    const std::optional<ScriptedEventProgram> &localEventProgram,
+    const std::optional<ScriptedEventProgram> &globalEventProgram
 )
 {
     if (eventId == 0 || !mapDeltaData || !chestTable)
@@ -235,13 +231,13 @@ std::string summarizeLinkedChests(
 
     std::vector<uint32_t> chestIds;
 
-    if (localEvtProgram && localEvtProgram->hasEvent(eventId))
+    if (localEventProgram && localEventProgram->hasEvent(eventId))
     {
-        chestIds = localEvtProgram->getOpenedChestIds(eventId);
+        chestIds = localEventProgram->getOpenedChestIds(eventId);
     }
-    else if (globalEvtProgram && globalEvtProgram->hasEvent(eventId))
+    else if (globalEventProgram && globalEventProgram->hasEvent(eventId))
     {
-        chestIds = globalEvtProgram->getOpenedChestIds(eventId);
+        chestIds = globalEventProgram->getOpenedChestIds(eventId);
     }
 
     if (chestIds.empty())
@@ -658,10 +654,7 @@ bool IndoorDebugRenderer::initialize(
     const std::optional<SpriteObjectBillboardSet> &indoorSpriteObjectBillboardSet,
     IndoorSceneRuntime &sceneRuntime,
     const ChestTable &chestTable,
-    const HouseTable &houseTable,
-    const std::optional<StrTable> &localStrTable,
-    const std::optional<EvtProgram> &localEvtProgram,
-    const std::optional<EvtProgram> &globalEvtProgram
+    const HouseTable &houseTable
 )
 {
     shutdown();
@@ -681,9 +674,6 @@ bool IndoorDebugRenderer::initialize(
     m_indoorSpriteObjectBillboardSet = indoorSpriteObjectBillboardSet;
     m_chestTable = chestTable;
     m_houseTable = houseTable;
-    m_localStrTable = localStrTable;
-    m_localEvtProgram = localEvtProgram;
-    m_globalEvtProgram = globalEvtProgram;
     rebuildMechanismBindings();
 
     if (bgfx::getRendererType() == bgfx::RendererType::Noop)
@@ -1144,6 +1134,11 @@ void IndoorDebugRenderer::render(int width, int height, float mouseWheelDelta, f
 
         if (inspectHit.hasHit)
         {
+            const std::optional<ScriptedEventProgram> &localEventProgram =
+                m_pSceneRuntime != nullptr ? m_pSceneRuntime->localEventProgram() : std::optional<ScriptedEventProgram>{};
+            const std::optional<ScriptedEventProgram> &globalEventProgram =
+                m_pSceneRuntime != nullptr ? m_pSceneRuntime->globalEventProgram() : std::optional<ScriptedEventProgram>{};
+
             bgfx::dbgTextPrintf(
                 0,
                 7,
@@ -1161,30 +1156,28 @@ void IndoorDebugRenderer::render(int width, int height, float mouseWheelDelta, f
                 const std::string primaryEventSummary = summarizeLinkedEvent(
                     inspectHit.eventIdPrimary,
                     m_houseTable,
-                    m_localStrTable,
-                    m_localEvtProgram,
-                    m_globalEvtProgram
+                    localEventProgram,
+                    globalEventProgram
                 );
                 const std::string secondaryEventSummary = summarizeLinkedEvent(
                     inspectHit.eventIdSecondary,
                     m_houseTable,
-                    m_localStrTable,
-                    m_localEvtProgram,
-                    m_globalEvtProgram
+                    localEventProgram,
+                    globalEventProgram
                 );
                 const std::string primaryChestSummary = summarizeLinkedChests(
                     inspectHit.eventIdPrimary,
                     runtimeMapDeltaData(),
                     m_chestTable,
-                    m_localEvtProgram,
-                    m_globalEvtProgram
+                    localEventProgram,
+                    globalEventProgram
                 );
                 const std::string secondaryChestSummary = summarizeLinkedChests(
                     inspectHit.eventIdSecondary,
                     runtimeMapDeltaData(),
                     m_chestTable,
-                    m_localEvtProgram,
-                    m_globalEvtProgram
+                    localEventProgram,
+                    globalEventProgram
                 );
                 bgfx::dbgTextPrintf(
                     0,
@@ -1216,16 +1209,15 @@ void IndoorDebugRenderer::render(int width, int height, float mouseWheelDelta, f
                 const std::string faceEventSummary = summarizeLinkedEvent(
                     inspectHit.cogTriggered,
                     m_houseTable,
-                    m_localStrTable,
-                    m_localEvtProgram,
-                    m_globalEvtProgram
+                    localEventProgram,
+                    globalEventProgram
                 );
                 const std::string faceChestSummary = summarizeLinkedChests(
                     inspectHit.cogTriggered,
                     runtimeMapDeltaData(),
                     m_chestTable,
-                    m_localEvtProgram,
-                    m_globalEvtProgram
+                    localEventProgram,
+                    globalEventProgram
                 );
                 bgfx::dbgTextPrintf(
                     0,
@@ -1286,8 +1278,8 @@ void IndoorDebugRenderer::render(int width, int height, float mouseWheelDelta, f
                     inspectHit.mechanismLinkedEventId,
                     runtimeMapDeltaData(),
                     m_chestTable,
-                    m_localEvtProgram,
-                    m_globalEvtProgram
+                    localEventProgram,
+                    globalEventProgram
                 );
                 bgfx::dbgTextPrintf(
                     0,
@@ -1393,9 +1385,6 @@ void IndoorDebugRenderer::shutdown()
     m_indoorActorPreviewBillboardSet.reset();
     m_indoorSpriteObjectBillboardSet.reset();
     m_houseTable.reset();
-    m_localStrTable.reset();
-    m_localEvtProgram.reset();
-    m_globalEvtProgram.reset();
     m_mechanismBindings.clear();
 
     if (bgfx::isValid(m_programHandle))
@@ -1602,10 +1591,54 @@ void IndoorDebugRenderer::renderDecorationBillboards(
 
     std::vector<BillboardDrawItem> drawItems;
     drawItems.reserve(m_indoorDecorationBillboardSet->billboards.size());
+    const auto resolveBillboardSpriteId = [this](const DecorationBillboard &billboard, bool &hidden)
+    {
+        hidden = false;
+
+        const std::optional<EventRuntimeState> &eventRuntimeState = runtimeEventRuntimeStateStorage();
+
+        if (!m_indoorDecorationBillboardSet || !eventRuntimeState.has_value())
+        {
+            return billboard.spriteId;
+        }
+
+        const auto overrideIterator =
+            eventRuntimeState->spriteOverrides.find(static_cast<uint32_t>(billboard.entityIndex));
+
+        if (overrideIterator == eventRuntimeState->spriteOverrides.end())
+        {
+            return billboard.spriteId;
+        }
+
+        hidden = overrideIterator->second.hidden;
+
+        if (!overrideIterator->second.textureName.has_value() || overrideIterator->second.textureName->empty())
+        {
+            return billboard.spriteId;
+        }
+
+        if (const DecorationEntry *pDecoration =
+                m_indoorDecorationBillboardSet->decorationTable.findByInternalName(*overrideIterator->second.textureName))
+        {
+            return pDecoration->spriteId;
+        }
+
+        if (const std::optional<uint16_t> spriteId =
+                m_indoorDecorationBillboardSet->spriteFrameTable.findFrameIndexBySpriteName(
+                    *overrideIterator->second.textureName))
+        {
+            return *spriteId;
+        }
+
+        return billboard.spriteId;
+    };
 
     for (const DecorationBillboard &billboard : m_indoorDecorationBillboardSet->billboards)
     {
-        if (billboard.spriteId == 0)
+        bool hidden = false;
+        const uint16_t spriteId = resolveBillboardSpriteId(billboard, hidden);
+
+        if (hidden || spriteId == 0)
         {
             continue;
         }
@@ -1613,7 +1646,7 @@ void IndoorDebugRenderer::renderDecorationBillboards(
         const uint32_t animationOffsetTicks =
             animationTimeTicks + static_cast<uint32_t>(std::abs(billboard.x + billboard.y));
         const SpriteFrameEntry *pFrame =
-            m_indoorDecorationBillboardSet->spriteFrameTable.getFrame(billboard.spriteId, animationOffsetTicks);
+            m_indoorDecorationBillboardSet->spriteFrameTable.getFrame(spriteId, animationOffsetTicks);
 
         if (pFrame == nullptr)
         {
@@ -2027,6 +2060,10 @@ void IndoorDebugRenderer::rebuildMechanismBindings()
 {
     m_mechanismBindings.clear();
     const std::optional<MapDeltaData> &mapDeltaData = runtimeMapDeltaData();
+    const std::optional<ScriptedEventProgram> &localEventProgram =
+        m_pSceneRuntime != nullptr ? m_pSceneRuntime->localEventProgram() : std::optional<ScriptedEventProgram>{};
+    const std::optional<ScriptedEventProgram> &globalEventProgram =
+        m_pSceneRuntime != nullptr ? m_pSceneRuntime->globalEventProgram() : std::optional<ScriptedEventProgram>{};
 
     if (!mapDeltaData || !m_indoorMapData)
     {
@@ -2067,11 +2104,11 @@ void IndoorDebugRenderer::rebuildMechanismBindings()
 
             bool hasLinkedEvent = false;
 
-            if (m_localEvtProgram && m_localEvtProgram->hasEvent(linkedFace.cogTriggered))
+            if (localEventProgram && localEventProgram->hasEvent(linkedFace.cogTriggered))
             {
                 hasLinkedEvent = true;
             }
-            else if (m_globalEvtProgram && m_globalEvtProgram->hasEvent(linkedFace.cogTriggered))
+            else if (globalEventProgram && globalEventProgram->hasEvent(linkedFace.cogTriggered))
             {
                 hasLinkedEvent = true;
             }

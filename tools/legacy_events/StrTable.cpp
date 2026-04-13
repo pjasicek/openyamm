@@ -1,4 +1,4 @@
-#include "game/tables/StrTable.h"
+#include "tools/legacy_events/StrTable.h"
 
 #include <string>
 #include <vector>
