@@ -20,6 +20,7 @@ enum class FxParticleAlignment
 enum class FxParticleMaterial
 {
     SoftBlob,
+    HardBlob,
     Smoke,
     Mist,
     Ember,
@@ -61,6 +62,7 @@ struct FxParticleState
     float stretch = 1.0f;
     float ageSeconds = 0.0f;
     float fadeInSeconds = 0.0f;
+    float fadeOutStartSeconds = 0.0f;
     float lifetimeSeconds = 0.0f;
     uint32_t startColorAbgr = 0xffffffffu;
     uint32_t endColorAbgr = 0x00ffffffu;

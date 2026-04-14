@@ -142,14 +142,16 @@ size_t ParticleSystem::materialIndex(FxParticleMaterial material)
     {
     case FxParticleMaterial::SoftBlob:
         return 0;
-    case FxParticleMaterial::Smoke:
+    case FxParticleMaterial::HardBlob:
         return 1;
-    case FxParticleMaterial::Mist:
+    case FxParticleMaterial::Smoke:
         return 2;
-    case FxParticleMaterial::Ember:
+    case FxParticleMaterial::Mist:
         return 3;
-    case FxParticleMaterial::Spark:
+    case FxParticleMaterial::Ember:
         return 4;
+    case FxParticleMaterial::Spark:
+        return 5;
     }
 
     return 0;

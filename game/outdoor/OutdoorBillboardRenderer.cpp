@@ -2311,7 +2311,7 @@ void OutdoorBillboardRenderer::renderRuntimeProjectiles(
             pEffect->objectSpriteFrameIndex,
             pEffect->objectSpriteId,
             pEffect->objectSpriteName,
-            pEffect->timeSinceCreatedTicks);
+            pEffect->freezeAnimation ? 0u : pEffect->timeSinceCreatedTicks);
     }
 
     std::sort(

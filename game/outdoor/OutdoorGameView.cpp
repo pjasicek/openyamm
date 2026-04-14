@@ -3590,6 +3590,7 @@ OutdoorGameView::OutdoorGameView()
     , m_terrainTextureAtlasHandle(BGFX_INVALID_HANDLE)
     , m_forcePerspectiveSolidTextureHandle(BGFX_INVALID_HANDLE)
     , m_terrainTextureSamplerHandle(BGFX_INVALID_HANDLE)
+    , m_particleParamsUniformHandle(BGFX_INVALID_HANDLE)
     , m_outdoorBillboardAmbientUniformHandle(BGFX_INVALID_HANDLE)
     , m_outdoorFxLightPositionsUniformHandle(BGFX_INVALID_HANDLE)
     , m_outdoorFxLightColorsUniformHandle(BGFX_INVALID_HANDLE)
@@ -3878,6 +3879,7 @@ bool OutdoorGameView::initialize(
     m_pOutdoorSceneRuntime = &sceneRuntime;
     m_pOutdoorPartyRuntime = &sceneRuntime.partyRuntime();
     m_pOutdoorWorldRuntime = &sceneRuntime.worldRuntime();
+    m_pOutdoorWorldRuntime->setParticleSystem(&m_particleSystem);
     m_gameSettings = settings;
     m_saveGameToPathCallback = std::move(saveGameToPathCallback);
     m_loadGameFromPathCallback = std::move(loadGameFromPathCallback);
@@ -3991,6 +3993,7 @@ bool OutdoorGameView::initialize(
     }
 
     m_terrainTextureSamplerHandle = bgfx::createUniform("s_texColor", bgfx::UniformType::Sampler);
+    m_particleParamsUniformHandle = bgfx::createUniform("u_particleParams", bgfx::UniformType::Vec4);
     m_outdoorBillboardAmbientUniformHandle = bgfx::createUniform("u_billboardAmbient", bgfx::UniformType::Vec4);
     m_outdoorFxLightPositionsUniformHandle = bgfx::createUniform("u_fxLightPositions", bgfx::UniformType::Vec4, 8);
     m_outdoorFxLightColorsUniformHandle = bgfx::createUniform("u_fxLightColors", bgfx::UniformType::Vec4, 8);
@@ -4006,6 +4009,7 @@ bool OutdoorGameView::initialize(
         || !bgfx::isValid(m_particleProgramHandle)
         || !bgfx::isValid(m_outdoorTexturedFogProgramHandle)
         || !bgfx::isValid(m_outdoorForcePerspectiveProgramHandle)
+        || !bgfx::isValid(m_particleParamsUniformHandle)
         || !bgfx::isValid(m_outdoorBillboardAmbientUniformHandle)
         || !bgfx::isValid(m_outdoorFxLightPositionsUniformHandle)
         || !bgfx::isValid(m_outdoorFxLightColorsUniformHandle)
@@ -6132,6 +6136,10 @@ void OutdoorGameView::shutdown()
         m_pOutdoorPartyRuntime = nullptr;
         m_pAssetFileSystem = nullptr;
         m_pOutdoorSceneRuntime = nullptr;
+        if (m_pOutdoorWorldRuntime != nullptr)
+        {
+            m_pOutdoorWorldRuntime->setParticleSystem(nullptr);
+        }
         m_pOutdoorWorldRuntime = nullptr;
         m_settingsChangedCallback = {};
         m_pItemTable = nullptr;
@@ -6266,6 +6274,12 @@ void OutdoorGameView::shutdown()
     {
         bgfx::destroy(m_terrainTextureSamplerHandle);
         m_terrainTextureSamplerHandle = BGFX_INVALID_HANDLE;
+    }
+
+    if (bgfx::isValid(m_particleParamsUniformHandle))
+    {
+        bgfx::destroy(m_particleParamsUniformHandle);
+        m_particleParamsUniformHandle = BGFX_INVALID_HANDLE;
     }
 
     if (bgfx::isValid(m_outdoorBillboardAmbientUniformHandle))

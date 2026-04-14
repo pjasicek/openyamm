@@ -18,6 +18,7 @@ namespace OpenYAMM::Game
 namespace
 {
 constexpr const char *ParticleSoftBlobTextureName = "__particle_soft_blob__";
+constexpr const char *ParticleHardBlobTextureName = "__particle_hard_blob__";
 constexpr const char *ParticleSmokeTextureName = "__particle_smoke__";
 constexpr const char *ParticleMistTextureName = "__particle_mist__";
 constexpr const char *ParticleEmberTextureName = "__particle_ember__";
@@ -35,7 +36,7 @@ constexpr uint64_t ParticleAdditiveRenderState =
     | BGFX_STATE_DEPTH_TEST_LEQUAL
     | BGFX_STATE_BLEND_ADD;
 
-constexpr size_t ParticleMaterialCount = 5;
+constexpr size_t ParticleMaterialCount = 6;
 constexpr size_t ParticleBlendModeCount = 2;
 constexpr float Pi = 3.14159265358979323846f;
 constexpr float ParticleVerticalFovRadians = 60.0f * (Pi / 180.0f);
@@ -83,14 +84,16 @@ size_t materialIndex(FxParticleMaterial material)
     {
     case FxParticleMaterial::SoftBlob:
         return 0;
-    case FxParticleMaterial::Smoke:
+    case FxParticleMaterial::HardBlob:
         return 1;
-    case FxParticleMaterial::Mist:
+    case FxParticleMaterial::Smoke:
         return 2;
-    case FxParticleMaterial::Ember:
+    case FxParticleMaterial::Mist:
         return 3;
-    case FxParticleMaterial::Spark:
+    case FxParticleMaterial::Ember:
         return 4;
+    case FxParticleMaterial::Spark:
+        return 5;
     }
 
     return 0;
@@ -139,6 +142,8 @@ const char *textureNameForMaterial(FxParticleMaterial material)
     {
     case FxParticleMaterial::SoftBlob:
         return ParticleSoftBlobTextureName;
+    case FxParticleMaterial::HardBlob:
+        return ParticleHardBlobTextureName;
     case FxParticleMaterial::Smoke:
         return ParticleSmokeTextureName;
     case FxParticleMaterial::Mist:
@@ -331,6 +336,7 @@ void ParticleRenderer::initializeResources(OutdoorGameView &view)
         };
 
     ensureParticleTexture(ParticleSoftBlobTextureName, 64, 64, buildRadialPixels(64, 64, 2.6f, 0.0f, 1.0f));
+    ensureParticleTexture(ParticleHardBlobTextureName, 64, 64, buildRadialPixels(64, 64, 6.5f, 0.08f, 1.10f));
     ensureParticleTexture(ParticleSmokeTextureName, 64, 64, buildSmokePixels(64, 64));
     ensureParticleTexture(ParticleMistTextureName, 64, 64, buildRadialPixels(64, 64, 1.6f, 0.15f, 0.9f));
     ensureParticleTexture(ParticleEmberTextureName, 32, 32, buildRadialPixels(32, 32, 3.0f, -0.1f, 1.3f));
@@ -456,7 +462,21 @@ void ParticleRenderer::renderParticles(
 
         const float lifetimeSeconds = std::max(0.001f, particle.lifetimeSeconds);
         const float normalizedAge = std::clamp(particle.ageSeconds / lifetimeSeconds, 0.0f, 1.0f);
-        const float fadeOutAlpha = (1.0f - normalizedAge) * (1.0f - normalizedAge);
+        float fadeOutAlpha = 1.0f;
+
+        if (particle.fadeOutStartSeconds > 0.0001f && particle.fadeOutStartSeconds < lifetimeSeconds)
+        {
+            const float fadeWindowSeconds = std::max(0.001f, lifetimeSeconds - particle.fadeOutStartSeconds);
+            const float fadeProgress =
+                std::clamp((particle.ageSeconds - particle.fadeOutStartSeconds) / fadeWindowSeconds, 0.0f, 1.0f);
+            const float fadeTail = 1.0f - fadeProgress;
+            fadeOutAlpha = fadeTail * fadeTail;
+        }
+        else
+        {
+            fadeOutAlpha = (1.0f - normalizedAge) * (1.0f - normalizedAge);
+        }
+
         const float fadeInAlpha =
             particle.fadeInSeconds > 0.0001f
                 ? std::clamp(particle.ageSeconds / particle.fadeInSeconds, 0.0f, 1.0f)
@@ -473,7 +493,18 @@ void ParticleRenderer::renderParticles(
             continue;
         }
 
-        const float currentSize = particle.size + (particle.endSize - particle.size) * normalizedAge;
+        float currentSize = particle.size + (particle.endSize - particle.size) * normalizedAge;
+
+        const bool isRoundAdditiveTrailOrImpact =
+            particle.blendMode == FxParticleBlendMode::Additive
+            && (particle.tag == FxParticleTag::Trail || particle.tag == FxParticleTag::Impact)
+            && (particle.material == FxParticleMaterial::SoftBlob || particle.material == FxParticleMaterial::HardBlob);
+
+        if (isRoundAdditiveTrailOrImpact)
+        {
+            currentSize *= 5.04f;
+        }
+
         const float halfWidth = currentSize * 0.5f;
         const bx::Vec3 center = {particle.x, particle.y, particle.z};
 
@@ -531,7 +562,10 @@ void ParticleRenderer::renderParticles(
     }
 
     auto submitParticleBatch =
-        [&](const std::vector<OutdoorGameView::LitBillboardVertex> &vertices, uint64_t renderState, size_t material)
+        [&](const std::vector<OutdoorGameView::LitBillboardVertex> &vertices,
+            uint64_t renderState,
+            size_t material,
+            bool additiveBlend)
         {
             bgfx::TextureHandle textureHandle = {view.m_particleTextureHandleIndices[material]};
 
@@ -559,9 +593,11 @@ void ParticleRenderer::renderParticles(
 
             float modelMatrix[16] = {};
             bx::mtxIdentity(modelMatrix);
+            const float particleParams[4] = {additiveBlend ? 1.0f : 0.0f, 0.0f, 0.0f, 0.0f};
             bgfx::setTransform(modelMatrix);
             bgfx::setVertexBuffer(0, &transientVertexBuffer, 0, static_cast<uint32_t>(vertices.size()));
             bgfx::setTexture(0, view.m_terrainTextureSamplerHandle, textureHandle);
+            bgfx::setUniform(view.m_particleParamsUniformHandle, particleParams);
             bgfx::setState(renderState);
             bgfx::submit(viewId, view.m_particleProgramHandle);
         };
@@ -571,11 +607,13 @@ void ParticleRenderer::renderParticles(
         submitParticleBatch(
             batches[batchIndex(static_cast<FxParticleMaterial>(material), FxParticleBlendMode::Alpha)],
             ParticleAlphaRenderState,
-            material);
+            material,
+            false);
         submitParticleBatch(
             batches[batchIndex(static_cast<FxParticleMaterial>(material), FxParticleBlendMode::Additive)],
             ParticleAdditiveRenderState,
-            material);
+            material,
+            true);
     }
 }
 }

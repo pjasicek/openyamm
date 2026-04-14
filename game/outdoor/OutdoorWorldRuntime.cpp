@@ -2592,6 +2592,34 @@ bool monsterIdsAreHostile(const MonsterTable &monsterTable, int16_t leftMonsterI
     return monsterTable.getRelationBetweenMonsters(leftMonsterId, rightMonsterId) > 0;
 }
 
+void applyImmediateSpellVisualFallback(
+    SpellId spellId,
+    uint16_t &spriteId,
+    std::string &spriteName)
+{
+    switch (spellId)
+    {
+        case SpellId::Slow:
+            spriteId = 714;
+            spriteName = "spell41";
+            break;
+
+        case SpellId::Paralyze:
+            spriteId = 786;
+            spriteName = "spell84";
+            break;
+
+        case SpellId::MassFear:
+        case SpellId::Fear:
+            spriteId = 722;
+            spriteName = "spell57";
+            break;
+
+        default:
+            break;
+    }
+}
+
 bool isPartyControlledActor(const OutdoorWorldRuntime::MapActorState &actor)
 {
     switch (actor.controlMode)
@@ -4185,6 +4213,7 @@ void OutdoorWorldRuntime::initialize(
     m_pProjectileSpriteFrameTable = outdoorSpriteObjectBillboardSet
         ? &outdoorSpriteObjectBillboardSet->spriteFrameTable
         : m_pActorSpriteFrameTable;
+    m_pParticleSystem = nullptr;
     m_monsterVisualsById.clear();
     m_outdoorFaces.clear();
     m_outdoorFaceGridCells.clear();
@@ -4408,6 +4437,11 @@ void OutdoorWorldRuntime::initialize(
     }
 
     applyEventRuntimeState();
+}
+
+void OutdoorWorldRuntime::setParticleSystem(ParticleSystem *pParticleSystem)
+{
+    m_pParticleSystem = pParticleSystem;
 }
 
 bool OutdoorWorldRuntime::resolveWorldItemVisual(
@@ -8060,6 +8094,30 @@ bool OutdoorWorldRuntime::applyPartySpellToMapActor(
         m_pMonsterTable != nullptr ? m_pMonsterTable->findStatsById(actor.monsterId) : nullptr;
     const std::string &spellName = pSpellEntry->normalizedName;
     const SpellId spellIdValue = spellIdFromValue(spellId);
+    const auto spawnTargetDebuffParticles = [this, spellId, &actor, partyX, partyY]()
+    {
+        if (m_pParticleSystem == nullptr)
+        {
+            return;
+        }
+
+        const float frontDirectionX = actor.preciseX - partyX;
+        const float frontDirectionY = actor.preciseY - partyY;
+        const uint32_t seed =
+            actor.actorId * 2246822519u
+            ^ spellId * 3266489917u
+            ^ m_nextProjectileImpactId++;
+        FxRecipes::spawnActorDebuffParticles(
+            *m_pParticleSystem,
+            spellId,
+            seed,
+            actor.preciseX,
+            actor.preciseY,
+            actor.preciseZ,
+            static_cast<float>(actor.height),
+            frontDirectionX,
+            frontDirectionY);
+    };
 
     if (spellIdValue == SpellId::Incinerate
         || spellIdValue == SpellId::Implosion
@@ -8186,6 +8244,7 @@ bool OutdoorWorldRuntime::applyPartySpellToMapActor(
         actor.animation = ActorAnimation::GotHit;
         actor.actionSeconds = std::max(actor.actionSeconds, actor.stunRemainingSeconds);
         faceDirection(actor, partyX - actor.preciseX, partyY - actor.preciseY);
+        spawnTargetDebuffParticles();
         return true;
     }
 
@@ -8212,6 +8271,7 @@ bool OutdoorWorldRuntime::applyPartySpellToMapActor(
                 : skillMastery == SkillMastery::Master
                 ? 4.0f
                 : 2.0f;
+        spawnTargetDebuffParticles();
         return true;
     }
 
@@ -8229,6 +8289,7 @@ bool OutdoorWorldRuntime::applyPartySpellToMapActor(
         actor.velocityY = 0.0f;
         actor.velocityZ = 0.0f;
         actor.attackImpactTriggered = false;
+        spawnTargetDebuffParticles();
         return true;
     }
 
@@ -8262,6 +8323,7 @@ bool OutdoorWorldRuntime::applyPartySpellToMapActor(
         actor.velocityY = 0.0f;
         actor.velocityZ = 0.0f;
         actor.attackImpactTriggered = false;
+        spawnTargetDebuffParticles();
         return true;
     }
 
@@ -8283,6 +8345,7 @@ bool OutdoorWorldRuntime::applyPartySpellToMapActor(
         actor.velocityY = 0.0f;
         actor.velocityZ = 0.0f;
         actor.attackImpactTriggered = false;
+        spawnTargetDebuffParticles();
         return true;
     }
 
@@ -8301,6 +8364,7 @@ bool OutdoorWorldRuntime::applyPartySpellToMapActor(
         actor.hostileToParty = false;
         actor.hasDetectedParty = false;
         actor.animation = ActorAnimation::GotHit;
+        spawnTargetDebuffParticles();
         return true;
     }
 
@@ -8361,6 +8425,7 @@ bool OutdoorWorldRuntime::applyPartySpellToMapActor(
         actor.velocityY = 0.0f;
         actor.velocityZ = 0.0f;
         actor.attackImpactTriggered = false;
+        spawnTargetDebuffParticles();
         return true;
     }
 
@@ -8376,6 +8441,7 @@ bool OutdoorWorldRuntime::applyPartySpellToMapActor(
                 ? (1.0f / 3.0f)
                 : 0.5f;
         actor.shrinkArmorClassMultiplier = actor.shrinkDamageMultiplier;
+        spawnTargetDebuffParticles();
         return true;
     }
 
@@ -8389,6 +8455,7 @@ bool OutdoorWorldRuntime::applyPartySpellToMapActor(
         actor.slowRemainingSeconds = std::max(actor.slowRemainingSeconds, actor.darkGraspRemainingSeconds);
         actor.slowMoveMultiplier = std::min(actor.slowMoveMultiplier, 0.5f);
         actor.slowRecoveryMultiplier = std::max(actor.slowRecoveryMultiplier, 2.0f);
+        spawnTargetDebuffParticles();
         return true;
     }
 
@@ -8402,6 +8469,7 @@ bool OutdoorWorldRuntime::applyPartySpellToMapActor(
                     ? minutesToSeconds(5.0f + static_cast<float>(skillLevel))
                     : minutesToSeconds(3.0f + static_cast<float>(skillLevel)));
             actor.hasDetectedParty = false;
+            spawnTargetDebuffParticles();
         }
 
         const float deltaX = actor.preciseX - partyX;
@@ -8454,7 +8522,8 @@ bool OutdoorWorldRuntime::spawnImmediateSpellVisual(
     float x,
     float y,
     float z,
-    bool centerVertically)
+    bool centerVertically,
+    bool preferImpactObject)
 {
     if (m_pSpellTable == nullptr || m_pObjectTable == nullptr)
     {
@@ -8475,22 +8544,39 @@ bool OutdoorWorldRuntime::spawnImmediateSpellVisual(
         return false;
     }
 
-    uint16_t effectDescriptionId = definition.impactObjectDescriptionId;
-    uint16_t effectSpriteId = definition.impactObjectSpriteId;
-    std::string effectObjectName = definition.impactObjectName;
-    std::string effectSpriteName = definition.impactObjectSpriteName;
+    uint16_t effectDescriptionId = preferImpactObject ? definition.impactObjectDescriptionId : definition.objectDescriptionId;
+    uint16_t effectSpriteId = preferImpactObject ? definition.impactObjectSpriteId : definition.objectSpriteId;
+    std::string effectObjectName = preferImpactObject ? definition.impactObjectName : definition.objectName;
+    std::string effectSpriteName = preferImpactObject ? definition.impactObjectSpriteName : definition.objectSpriteName;
 
     if (effectDescriptionId == 0)
     {
-        effectDescriptionId = definition.objectDescriptionId;
-        effectSpriteId = definition.objectSpriteId;
-        effectObjectName = definition.objectName;
-        effectSpriteName = definition.objectSpriteName;
+        effectDescriptionId = preferImpactObject ? definition.objectDescriptionId : definition.impactObjectDescriptionId;
+        effectSpriteId = preferImpactObject ? definition.objectSpriteId : definition.impactObjectSpriteId;
+        effectObjectName = preferImpactObject ? definition.objectName : definition.impactObjectName;
+        effectSpriteName = preferImpactObject ? definition.objectSpriteName : definition.impactObjectSpriteName;
     }
 
     if (effectDescriptionId == 0)
     {
         return false;
+    }
+
+    const SpellId resolvedSpellId = spellIdFromValue(spellId);
+    uint16_t resolvedFrameIndex = resolveRuntimeSpriteFrameIndex(
+        m_pProjectileSpriteFrameTable,
+        effectSpriteId,
+        effectSpriteName);
+
+    if ((m_pProjectileSpriteFrameTable == nullptr
+            || m_pProjectileSpriteFrameTable->getFrame(resolvedFrameIndex, 0) == nullptr)
+        && !preferImpactObject)
+    {
+        applyImmediateSpellVisualFallback(resolvedSpellId, effectSpriteId, effectSpriteName);
+        resolvedFrameIndex = resolveRuntimeSpriteFrameIndex(
+            m_pProjectileSpriteFrameTable,
+            effectSpriteId,
+            effectSpriteName);
     }
 
     const ObjectEntry *pEffectEntry = m_pObjectTable->get(effectDescriptionId);
@@ -8504,10 +8590,7 @@ bool OutdoorWorldRuntime::spawnImmediateSpellVisual(
     effect.effectId = m_nextProjectileImpactId++;
     effect.objectDescriptionId = effectDescriptionId;
     effect.objectSpriteId = effectSpriteId;
-    effect.objectSpriteFrameIndex = resolveRuntimeSpriteFrameIndex(
-        m_pProjectileSpriteFrameTable,
-        effectSpriteId,
-        effectSpriteName);
+    effect.objectSpriteFrameIndex = resolvedFrameIndex;
     effect.sourceSpellId = static_cast<int>(spellId);
     effect.objectName = effectObjectName;
     effect.objectSpriteName = effectSpriteName;
@@ -8517,6 +8600,7 @@ bool OutdoorWorldRuntime::spawnImmediateSpellVisual(
     effect.y = y;
     effect.z = centerVertically ? z - static_cast<float>(std::max<int16_t>(pEffectEntry->height, 0)) * 0.5f : z;
     effect.lifetimeTicks = static_cast<uint32_t>(std::max<int>(pEffectEntry->lifetimeTicks, 32));
+    effect.freezeAnimation = !preferImpactObject;
 
     m_projectileImpacts.push_back(std::move(effect));
     return true;

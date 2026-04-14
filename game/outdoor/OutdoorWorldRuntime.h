@@ -27,6 +27,7 @@ class ItemTable;
 class ChestTable;
 class StandardItemEnchantTable;
 class SpecialItemEnchantTable;
+class ParticleSystem;
 
 class OutdoorWorldRuntime : public ISceneEventContext
 {
@@ -298,6 +299,7 @@ public:
         float z = 0.0f;
         uint32_t timeSinceCreatedTicks = 0;
         uint32_t lifetimeTicks = 0;
+        bool freezeAnimation = false;
         bool isExpired = false;
     };
 
@@ -606,6 +608,7 @@ public:
         float y,
         float z
     );
+    void setParticleSystem(ParticleSystem *pParticleSystem);
     bool checkMonstersKilled(uint32_t checkType, uint32_t id, uint32_t count, bool invisibleAsDead) const override;
 
 public:
@@ -791,7 +794,8 @@ private:
         float x,
         float y,
         float z,
-        bool centerVertically = false);
+        bool centerVertically = false,
+        bool preferImpactObject = true);
     bool spawnWaterSplashImpact(float x, float y, float z);
 
     int m_mapId = 0;
@@ -821,6 +825,7 @@ private:
     const SpellTable *m_pSpellTable = nullptr;
     const SpriteFrameTable *m_pActorSpriteFrameTable = nullptr;
     const SpriteFrameTable *m_pProjectileSpriteFrameTable = nullptr;
+    ParticleSystem *m_pParticleSystem = nullptr;
     std::optional<std::vector<uint8_t>> m_outdoorLandMask;
     std::vector<OutdoorFaceGeometryData> m_outdoorFaces;
     std::vector<std::vector<size_t>> m_outdoorFaceGridCells;

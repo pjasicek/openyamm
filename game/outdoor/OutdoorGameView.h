@@ -946,6 +946,7 @@ private:
     bgfx::TextureHandle m_terrainTextureAtlasHandle;
     bgfx::TextureHandle m_forcePerspectiveSolidTextureHandle;
     bgfx::UniformHandle m_terrainTextureSamplerHandle;
+    bgfx::UniformHandle m_particleParamsUniformHandle;
     bgfx::UniformHandle m_outdoorBillboardAmbientUniformHandle;
     bgfx::UniformHandle m_outdoorFxLightPositionsUniformHandle;
     bgfx::UniformHandle m_outdoorFxLightColorsUniformHandle;
@@ -970,14 +971,15 @@ private:
     std::array<float, OutdoorFxUniformLightCount * 4> m_cachedOutdoorFxLightColors = {};
     std::array<float, 4> m_cachedOutdoorFxLightParams = {};
     std::unordered_map<int16_t, std::unordered_map<std::string, size_t>> m_billboardTextureIndexByPalette;
-    std::array<uint16_t, 5> m_particleTextureHandleIndices = {{
+    std::array<uint16_t, 6> m_particleTextureHandleIndices = {{
+        bgfx::kInvalidHandle,
         bgfx::kInvalidHandle,
         bgfx::kInvalidHandle,
         bgfx::kInvalidHandle,
         bgfx::kInvalidHandle,
         bgfx::kInvalidHandle
     }};
-    std::array<std::vector<LitBillboardVertex>, 10> m_particleVertexBatches;
+    std::array<std::vector<LitBillboardVertex>, 12> m_particleVertexBatches;
     std::unordered_map<std::string, size_t> m_decorationBitmapTextureIndexByName;
     std::vector<SkyTextureHandle> m_skyTextureHandles;
     std::unordered_map<std::string, size_t> m_skyTextureIndexByName;

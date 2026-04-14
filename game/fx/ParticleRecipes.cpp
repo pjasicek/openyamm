@@ -1,5 +1,6 @@
 #include "game/fx/ParticleRecipes.h"
 
+#include "game/party/SpellIds.h"
 #include "game/StringUtils.h"
 #include "game/SpriteObjectDefs.h"
 #include "game/fx/FxSharedTypes.h"
@@ -143,9 +144,11 @@ void emitBurstParticle(
     particle.x = x;
     particle.y = y;
     particle.z = z;
-    particle.velocityX = std::cos(angle) * velocityScale * radial;
-    particle.velocityY = std::sin(angle) * velocityScale * radial;
-    particle.velocityZ = velocityScale * (0.2f + static_cast<float>((seed >> 18) & 0xffu) / 255.0f * 0.8f);
+    const float spreadVelocityScale = velocityScale * 1.5f;
+    particle.velocityX = std::cos(angle) * spreadVelocityScale * radial;
+    particle.velocityY = std::sin(angle) * spreadVelocityScale * radial;
+    particle.velocityZ =
+        spreadVelocityScale * (0.2f + static_cast<float>((seed >> 18) & 0xffu) / 255.0f * 0.8f);
     particle.size = size;
     particle.endSize = size * 0.4f;
     particle.drag = 2.2f;
@@ -162,6 +165,80 @@ void emitBurstParticle(
     particle.material = material;
     particle.tag = FxParticleTag::Impact;
     particleSystem.addParticle(particle);
+}
+
+void emitDebuffAuraLayer(
+    ParticleSystem &particleSystem,
+    uint32_t baseSeed,
+    float x,
+    float y,
+    float z,
+    float actorHeight,
+    float frontDirectionX,
+    float frontDirectionY,
+    uint32_t count,
+    float lateralRadius,
+    float minHeightFraction,
+    float maxHeightFraction,
+    float upwardVelocity,
+    float startSize,
+    float endSize,
+    float lifetimeSeconds,
+    float drag,
+    uint32_t startColorAbgr,
+    uint32_t endColorAbgr,
+    FxParticleMaterial material,
+    FxParticleBlendMode blendMode)
+{
+    const float clampedHeight = std::max(72.0f, actorHeight);
+    const float frontLength = std::sqrt(frontDirectionX * frontDirectionX + frontDirectionY * frontDirectionY);
+    const float normalizedFrontX = frontLength > 0.001f ? frontDirectionX / frontLength : 1.0f;
+    const float normalizedFrontY = frontLength > 0.001f ? frontDirectionY / frontLength : 0.0f;
+    const float sideX = -normalizedFrontY;
+    const float sideY = normalizedFrontX;
+    const float forwardExtent = lateralRadius * 0.96f;
+    const float sideExtent = lateralRadius * 0.72f;
+
+    for (uint32_t particleIndex = 0; particleIndex < count; ++particleIndex)
+    {
+        const uint32_t seed = baseSeed ^ (particleIndex * 2654435761u);
+        const float forwardDistance = forwardExtent * (0.08f + hashToUnit(seed) * 0.92f);
+        const float sideDistance = sideExtent * (hashToUnit(seed >> 7) * 2.0f - 1.0f);
+        const float heightFraction = minHeightFraction + (maxHeightFraction - minHeightFraction) * hashToUnit(seed >> 13);
+        const float tangent = hashToUnit(seed >> 19) * 2.0f - 1.0f;
+        const float sizeJitter = 0.72f + hashToUnit(seed >> 23) * 0.56f;
+        const float offsetX = normalizedFrontX * forwardDistance + sideX * sideDistance;
+        const float offsetY = normalizedFrontY * forwardDistance + sideY * sideDistance;
+
+        FxParticleState particle = {};
+        particle.x = x + offsetX;
+        particle.y = y + offsetY;
+        particle.z = z + clampedHeight * heightFraction;
+        particle.velocityX = normalizedFrontX * 3.0f + sideX * tangent * 6.0f;
+        particle.velocityY = normalizedFrontY * 3.0f + sideY * tangent * 6.0f;
+        particle.velocityZ = upwardVelocity * (0.82f + hashToUnit(seed >> 4) * 0.36f);
+        particle.size = startSize * sizeJitter;
+        particle.endSize = endSize * (0.9f + hashToUnit(seed >> 11) * 0.2f);
+        particle.drag = drag;
+        particle.rotationRadians = tangent * 0.9f;
+        particle.angularVelocityRadians = tangent * 1.6f;
+        particle.stretch = 1.0f;
+        particle.ageSeconds = 0.0f;
+        particle.fadeInSeconds = 0.10f;
+        particle.lifetimeSeconds = lifetimeSeconds * (0.94f + hashToUnit(seed >> 17) * 0.12f);
+        particle.fadeOutStartSeconds = particle.lifetimeSeconds * 0.78f;
+        particle.startColorAbgr = varyAlpha(startColorAbgr, 0.9f + hashToUnit(seed >> 21) * 0.2f);
+        particle.endColorAbgr = endColorAbgr;
+        particle.motion = FxParticleMotion::Drift;
+        particle.blendMode = blendMode;
+        particle.alignment = FxParticleAlignment::CameraFacing;
+        particle.material = material;
+        particle.tag = FxParticleTag::Buff;
+        if (!particleSystem.addParticle(particle))
+        {
+            return;
+        }
+    }
 }
 
 uint32_t deriveImpactColorAbgr(const std::string &objectName, const std::string &spriteName)
@@ -601,11 +678,11 @@ void spawnProjectileTrailParticles(
         emberLayer.drag = 4.5f;
         emberLayer.rotationJitterRadians = 0.5f;
         emberLayer.angularVelocityRadians = 4.0f;
-        emberLayer.stretch = 1.35f;
+        emberLayer.stretch = 1.0f;
         emberLayer.motion = FxParticleMotion::VelocityTrail;
         emberLayer.blendMode = FxParticleBlendMode::Additive;
-        emberLayer.alignment = FxParticleAlignment::VelocityStretched;
-        emberLayer.material = FxParticleMaterial::Ember;
+        emberLayer.alignment = FxParticleAlignment::CameraFacing;
+        emberLayer.material = FxParticleMaterial::HardBlob;
         emberLayer.tag = FxParticleTag::Trail;
         applyGravityTrailTuning(emberLayer);
         emitLayerParticles(
@@ -690,11 +767,11 @@ void spawnProjectileTrailParticles(
         sparkLayer.endSize = 2.0f;
         sparkLayer.lifetimeSeconds = 0.22f;
         sparkLayer.drag = 5.0f;
-        sparkLayer.stretch = 1.6f;
+        sparkLayer.stretch = 1.0f;
         sparkLayer.motion = FxParticleMotion::VelocityTrail;
         sparkLayer.blendMode = FxParticleBlendMode::Additive;
-        sparkLayer.alignment = FxParticleAlignment::VelocityStretched;
-        sparkLayer.material = FxParticleMaterial::Spark;
+        sparkLayer.alignment = FxParticleAlignment::CameraFacing;
+        sparkLayer.material = FxParticleMaterial::SoftBlob;
         sparkLayer.tag = FxParticleTag::Trail;
         emitLayerParticles(
             particleSystem,
@@ -806,8 +883,8 @@ void spawnProjectileTrailParticles(
         moteLayer.motion = FxParticleMotion::VelocityTrail;
         moteLayer.blendMode = FxParticleBlendMode::Additive;
         moteLayer.alignment = FxParticleAlignment::CameraFacing;
-        moteLayer.material =
-            recipe == ProjectileRecipe::LightBolt ? FxParticleMaterial::SoftBlob : FxParticleMaterial::Spark;
+        moteLayer.material = recipe == ProjectileRecipe::LightBolt ? FxParticleMaterial::SoftBlob
+            : FxParticleMaterial::HardBlob;
         moteLayer.tag = FxParticleTag::Trail;
         applyGravityTrailTuning(moteLayer);
         emitLayerParticles(
@@ -1045,6 +1122,27 @@ void spawnImpactParticles(ParticleSystem &particleSystem, const ImpactSpawnConte
             }
         };
 
+    const auto emitRoundSplash =
+        [&](uint32_t count, float startSize, float velocityScale, uint32_t startSeed)
+        {
+            for (uint32_t particleIndex = 0; particleIndex < count; ++particleIndex)
+            {
+                emitBurstParticle(
+                    particleSystem,
+                    context.x,
+                    context.y,
+                    context.z + 12.0f,
+                    startSize + static_cast<float>(particleIndex % 2u) * 1.5f,
+                    colorAbgr,
+                    varyAlpha(colorAbgr, 0.0f),
+                    velocityScale + static_cast<float>(particleIndex % 4u) * 12.0f,
+                    startSeed ^ (particleIndex * 2246822519u),
+                    FxParticleMaterial::HardBlob,
+                    FxParticleAlignment::CameraFacing,
+                    1.0f);
+            }
+        };
+
     const auto emitSoftCloud =
         [&](uint32_t startColor,
             uint32_t endColor,
@@ -1106,9 +1204,9 @@ void spawnImpactParticles(ParticleSystem &particleSystem, const ImpactSpawnConte
                     varyAlpha(colorAbgr, 0.0f),
                     velocityScale + static_cast<float>(particleIndex % 4u) * 14.0f,
                     baseSeed ^ 0x7f4a7c15u ^ (particleIndex * 3266489917u),
-                    FxParticleMaterial::Ember,
+                    FxParticleMaterial::HardBlob,
                     FxParticleAlignment::CameraFacing,
-                    1.35f);
+                    1.0f);
             }
         };
 
@@ -1127,7 +1225,7 @@ void spawnImpactParticles(ParticleSystem &particleSystem, const ImpactSpawnConte
             isStarburst ? 11.0f : 9.0f,
             isStarburst ? 96.0f : 78.0f,
             1.0f);
-        emitSparkSplash(
+        emitRoundSplash(
             isStarburst ? 16u : 10u,
             isStarburst ? 6.5f : 5.0f,
             isStarburst ? 116.0f : 92.0f,
@@ -1205,7 +1303,7 @@ void spawnImpactParticles(ParticleSystem &particleSystem, const ImpactSpawnConte
 
         emitCoreFlash(coreCount, coreSize, coreVelocity, 1.0f);
         emitEmberSplash(emberCount, emberSize, emberVelocity);
-        emitSparkSplash(sparkCount, isFireBolt ? 4.0f : 4.5f, sparkVelocity, baseSeed ^ 0x3c6ef372u);
+        emitRoundSplash(sparkCount, isFireBolt ? 4.0f : 4.5f, sparkVelocity, baseSeed ^ 0x3c6ef372u);
         emitSoftCloud(
             isCannonball ? makeAbgr(96, 88, 72, 96) : makeAbgr(96, 84, 84, 92),
             makeAbgr(255, 255, 255, 0),
@@ -1232,7 +1330,11 @@ void spawnImpactParticles(ParticleSystem &particleSystem, const ImpactSpawnConte
     if (isIce)
     {
         emitCoreFlash(isIceBolt ? 18u : 13u, isIceBolt ? 9.5f : 8.5f, isIceBolt ? 82.0f : 66.0f, 1.0f);
-        emitSparkSplash(isIceBolt ? 12u : 8u, isIceBolt ? 5.8f : 5.0f, isIceBolt ? 90.0f : 78.0f, baseSeed ^ 0xbb67ae85u);
+        emitRoundSplash(
+            isIceBolt ? 12u : 8u,
+            isIceBolt ? 5.8f : 5.0f,
+            isIceBolt ? 90.0f : 78.0f,
+            baseSeed ^ 0xbb67ae85u);
         emitSoftCloud(
             makeAbgr(200, 228, 255, isIceBolt ? 96 : 88),
             makeAbgr(255, 255, 255, 0),
@@ -1296,7 +1398,7 @@ void spawnImpactParticles(ParticleSystem &particleSystem, const ImpactSpawnConte
     }
 
     emitCoreFlash(12u, 8.0f, 68.0f, 1.0f);
-    emitSparkSplash(6u, 4.5f, 72.0f, baseSeed ^ 0x243f6a88u);
+    emitRoundSplash(6u, 4.5f, 72.0f, baseSeed ^ 0x243f6a88u);
 }
 
 void spawnDecorationFireParticles(
@@ -1521,6 +1623,128 @@ void spawnBuffSparkles(
         0.0f,
         0.0f,
         sparkleLayer);
+}
+
+void spawnActorDebuffParticles(
+    ParticleSystem &particleSystem,
+    uint32_t spellId,
+    uint32_t seed,
+    float x,
+    float y,
+    float z,
+    float actorHeight,
+    float frontDirectionX,
+    float frontDirectionY)
+{
+    const SpellId resolvedSpellId = spellIdFromValue(spellId);
+
+    uint32_t primaryStart = makeAbgr(182, 126, 228, 208);
+    uint32_t primaryEnd = makeAbgr(216, 172, 244, 0);
+    uint32_t secondaryStart = makeAbgr(150, 132, 240, 196);
+    uint32_t secondaryEnd = makeAbgr(190, 174, 248, 0);
+    float lateralRadius = std::max(58.0f, actorHeight * 0.38f);
+    float upwardVelocity = 24.0f;
+    float primaryStartSize = 56.0f;
+    float primaryEndSize = 28.0f;
+    float secondaryStartSize = 40.0f;
+    float secondaryEndSize = 17.0f;
+    float primaryLifetime = 2.5f;
+    float secondaryLifetime = 2.5f;
+    uint32_t primaryCount = 40u;
+    uint32_t secondaryCount = 28u;
+
+    switch (resolvedSpellId)
+    {
+        case SpellId::Slow:
+        case SpellId::Stun:
+            primaryStart = makeAbgr(176, 128, 220, 204);
+            primaryEnd = makeAbgr(210, 172, 236, 0);
+            secondaryStart = makeAbgr(146, 132, 236, 188);
+            secondaryEnd = makeAbgr(186, 174, 242, 0);
+            upwardVelocity = 20.0f;
+            lateralRadius = std::max(54.0f, actorHeight * 0.36f);
+            primaryLifetime = 2.5f;
+            secondaryLifetime = 2.5f;
+            break;
+
+        case SpellId::Paralyze:
+        case SpellId::TurnUndead:
+            primaryStart = makeAbgr(190, 172, 238, 208);
+            primaryEnd = makeAbgr(222, 204, 248, 0);
+            secondaryStart = makeAbgr(160, 154, 242, 192);
+            secondaryEnd = makeAbgr(198, 190, 248, 0);
+            upwardVelocity = 22.0f;
+            lateralRadius = std::max(52.0f, actorHeight * 0.35f);
+            primaryStartSize = 54.0f;
+            primaryEndSize = 27.0f;
+            secondaryStartSize = 38.0f;
+            secondaryEndSize = 16.0f;
+            primaryLifetime = 2.5f;
+            secondaryLifetime = 2.5f;
+            break;
+
+        case SpellId::Blind:
+        case SpellId::DarkGrasp:
+        case SpellId::ShrinkingRay:
+            primaryStart = makeAbgr(176, 110, 230, 210);
+            primaryEnd = makeAbgr(216, 156, 244, 0);
+            secondaryStart = makeAbgr(144, 122, 238, 194);
+            secondaryEnd = makeAbgr(184, 164, 246, 0);
+            upwardVelocity = 26.0f;
+            lateralRadius = std::max(56.0f, actorHeight * 0.37f);
+            primaryLifetime = 2.5f;
+            secondaryLifetime = 2.5f;
+            break;
+
+        default:
+            break;
+    }
+
+    emitDebuffAuraLayer(
+        particleSystem,
+        seed,
+        x,
+        y,
+        z,
+        actorHeight,
+        frontDirectionX,
+        frontDirectionY,
+        primaryCount,
+        lateralRadius,
+        0.10f,
+        0.90f,
+        upwardVelocity,
+        primaryStartSize,
+        primaryEndSize,
+        primaryLifetime,
+        0.55f,
+        primaryStart,
+        primaryEnd,
+        FxParticleMaterial::HardBlob,
+        FxParticleBlendMode::Alpha);
+
+    emitDebuffAuraLayer(
+        particleSystem,
+        seed ^ 0x9e3779b9u,
+        x,
+        y,
+        z,
+        actorHeight,
+        frontDirectionX,
+        frontDirectionY,
+        secondaryCount,
+        lateralRadius * 0.88f,
+        0.18f,
+        0.94f,
+        upwardVelocity + 4.0f,
+        secondaryStartSize,
+        secondaryEndSize,
+        secondaryLifetime,
+        0.42f,
+        varyAlpha(secondaryStart, 1.2f),
+        secondaryEnd,
+        FxParticleMaterial::HardBlob,
+        FxParticleBlendMode::Alpha);
 }
 }
 }
