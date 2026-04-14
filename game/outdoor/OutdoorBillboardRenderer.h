@@ -93,6 +93,15 @@ private:
         float x,
         float y,
         float z);
+    static std::optional<OutdoorGameView::InspectHit> resolveHoveredOutlineInspectHit(
+        OutdoorGameView &view,
+        const float *pViewMatrix);
     static void applyBillboardAmbientUniform(OutdoorGameView &view);
+    static void applyBillboardOverrideColorUniform(OutdoorGameView &view, uint32_t colorAbgr, float alpha);
+    static void applyBillboardOutlineParamsUniform(
+        OutdoorGameView &view,
+        float texelWidth,
+        float texelHeight,
+        float thicknessPixels);
 };
 } // namespace OpenYAMM::Game

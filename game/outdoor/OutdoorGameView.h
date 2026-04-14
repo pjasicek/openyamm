@@ -963,6 +963,8 @@ private:
     bgfx::UniformHandle m_terrainTextureSamplerHandle;
     bgfx::UniformHandle m_particleParamsUniformHandle;
     bgfx::UniformHandle m_outdoorBillboardAmbientUniformHandle;
+    bgfx::UniformHandle m_outdoorBillboardOverrideColorUniformHandle;
+    bgfx::UniformHandle m_outdoorBillboardOutlineParamsUniformHandle;
     bgfx::UniformHandle m_outdoorFxLightPositionsUniformHandle;
     bgfx::UniformHandle m_outdoorFxLightColorsUniformHandle;
     bgfx::UniformHandle m_outdoorFxLightParamsUniformHandle;

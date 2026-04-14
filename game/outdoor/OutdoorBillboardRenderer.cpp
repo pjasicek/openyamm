@@ -61,6 +61,16 @@ constexpr uint64_t ColoredAdditiveRenderState =
 constexpr float BillboardAmbientLight = 0.85f;
 constexpr float BillboardLightContributionScale = 0.7f;
 constexpr const char *ContactShadowTextureName = "__contact_shadow_blob__";
+constexpr float HoveredActorOutlineThicknessPixels = 2.0f;
+constexpr float BillboardInspectVerticalFovDegrees = 60.0f;
+
+uint32_t makeAbgr(uint8_t red, uint8_t green, uint8_t blue)
+{
+    return 0xff000000u
+        | (static_cast<uint32_t>(blue) << 16)
+        | (static_cast<uint32_t>(green) << 8)
+        | static_cast<uint32_t>(red);
+}
 
 struct SpriteTexturePreloadRequest
 {
@@ -78,6 +88,27 @@ struct DecodedSpriteTexture
     int height = 0;
     std::vector<uint8_t> pixels;
 };
+
+uint32_t resolveHoveredActorOutlineColor(const OutdoorWorldRuntime::MapActorState &actor)
+{
+    if (actor.isDead)
+    {
+        return makeAbgr(255, 224, 64);
+    }
+
+    if (actor.hostileToParty)
+    {
+        return makeAbgr(255, 64, 64);
+    }
+
+    return makeAbgr(64, 255, 64);
+}
+
+uint32_t hoveredWorldItemOutlineColor()
+{
+    return makeAbgr(64, 128, 255);
+}
+
 
 uint32_t currentAnimationTicks()
 {
@@ -395,10 +426,137 @@ uint32_t OutdoorBillboardRenderer::computeBillboardLightContributionAbgr(
     return 0xff000000u;
 }
 
+std::optional<OutdoorGameView::InspectHit> OutdoorBillboardRenderer::resolveHoveredOutlineInspectHit(
+    OutdoorGameView &view,
+    const float *pViewMatrix)
+{
+    if (!view.m_pendingSpellCast.active)
+    {
+        if (view.m_cachedHoverInspectHitValid)
+        {
+            return view.m_cachedHoverInspectHit;
+        }
+
+        return std::nullopt;
+    }
+
+    if (!view.m_outdoorMapData.has_value() || view.m_lastRenderWidth <= 0 || view.m_lastRenderHeight <= 0)
+    {
+        return std::nullopt;
+    }
+
+    const int viewWidth = std::max(view.m_lastRenderWidth, 1);
+    const int viewHeight = std::max(view.m_lastRenderHeight, 1);
+    const float aspectRatio = static_cast<float>(viewWidth) / static_cast<float>(viewHeight);
+    float projectionMatrix[16] = {};
+    bx::mtxProj(
+        projectionMatrix,
+        BillboardInspectVerticalFovDegrees,
+        aspectRatio,
+        0.1f,
+        200000.0f,
+        bgfx::getCaps()->homogeneousDepth,
+        bx::Handedness::Right);
+
+    const auto inspectAtPoint =
+        [&](float screenX, float screenY) -> std::optional<OutdoorGameView::InspectHit>
+        {
+            bx::Vec3 rayOrigin = {0.0f, 0.0f, 0.0f};
+            bx::Vec3 rayDirection = {0.0f, 0.0f, 0.0f};
+
+            if (!view.buildQuickCastInspectRayForScreenPoint(screenX, screenY, rayOrigin, rayDirection))
+            {
+                return std::nullopt;
+            }
+
+            OutdoorGameView::InspectHit inspectHit = OutdoorInteractionController::inspectBModelFace(
+                view,
+                *view.m_outdoorMapData,
+                rayOrigin,
+                rayDirection,
+                screenX,
+                screenY,
+                viewWidth,
+                viewHeight,
+                pViewMatrix,
+                projectionMatrix,
+                OutdoorGameView::DecorationPickMode::HoverInfo);
+
+            if (!inspectHit.hasHit)
+            {
+                return std::nullopt;
+            }
+
+            return inspectHit;
+        };
+    const auto prefersOutlinedTarget =
+        [](const OutdoorGameView::InspectHit &inspectHit)
+        {
+            return inspectHit.kind == "actor" || inspectHit.kind == "world_item";
+        };
+
+    float mouseX = 0.0f;
+    float mouseY = 0.0f;
+    SDL_GetMouseState(&mouseX, &mouseY);
+    const std::optional<OutdoorGameView::InspectHit> mouseInspectHit = inspectAtPoint(mouseX, mouseY);
+    const std::optional<OutdoorGameView::InspectHit> centerInspectHit =
+        inspectAtPoint(static_cast<float>(viewWidth) * 0.5f, static_cast<float>(viewHeight) * 0.5f);
+
+    if (centerInspectHit
+        && prefersOutlinedTarget(*centerInspectHit)
+        && (!mouseInspectHit
+            || !prefersOutlinedTarget(*mouseInspectHit)
+            || centerInspectHit->distance <= mouseInspectHit->distance))
+    {
+        return centerInspectHit;
+    }
+
+    if (mouseInspectHit)
+    {
+        return mouseInspectHit;
+    }
+
+    return centerInspectHit;
+}
+
 void OutdoorBillboardRenderer::applyBillboardAmbientUniform(OutdoorGameView &view)
 {
     const float ambient[4] = {BillboardAmbientLight, BillboardAmbientLight, BillboardAmbientLight, 0.0f};
     bgfx::setUniform(view.m_outdoorBillboardAmbientUniformHandle, ambient);
+}
+
+void OutdoorBillboardRenderer::applyBillboardOverrideColorUniform(
+    OutdoorGameView &view,
+    uint32_t colorAbgr,
+    float alpha)
+{
+    if (!bgfx::isValid(view.m_outdoorBillboardOverrideColorUniformHandle))
+    {
+        return;
+    }
+
+    const float overrideColor[4] = {
+        redChannel(colorAbgr),
+        greenChannel(colorAbgr),
+        blueChannel(colorAbgr),
+        alpha
+    };
+    bgfx::setUniform(view.m_outdoorBillboardOverrideColorUniformHandle, overrideColor);
+}
+
+void OutdoorBillboardRenderer::applyBillboardOutlineParamsUniform(
+    OutdoorGameView &view,
+    float texelWidth,
+    float texelHeight,
+    float thicknessPixels)
+{
+    if (!bgfx::isValid(view.m_outdoorBillboardOutlineParamsUniformHandle))
+    {
+        return;
+    }
+
+    const float outlineParams[4] = {texelWidth, texelHeight, thicknessPixels, 0.0f};
+    bgfx::setUniform(view.m_outdoorBillboardOutlineParamsUniformHandle, outlineParams);
 }
 
 void OutdoorBillboardRenderer::initializeBillboardResources(OutdoorGameView &view)
@@ -1095,7 +1253,9 @@ void OutdoorBillboardRenderer::renderDecorationBillboards(
 
     if (!view.m_outdoorDecorationBillboardSet
         || !bgfx::isValid(view.m_outdoorLitBillboardProgramHandle)
-        || !bgfx::isValid(view.m_terrainTextureSamplerHandle))
+        || !bgfx::isValid(view.m_terrainTextureSamplerHandle)
+        || !bgfx::isValid(view.m_outdoorBillboardOverrideColorUniformHandle)
+        || !bgfx::isValid(view.m_outdoorBillboardOutlineParamsUniformHandle))
     {
         return;
     }
@@ -1349,6 +1509,8 @@ void OutdoorBillboardRenderer::renderDecorationBillboards(
         bgfx::setVertexBuffer(0, &transientVertexBuffer, 0, vertexCount);
         bgfx::setTexture(0, view.m_terrainTextureSamplerHandle, pTexture->textureHandle);
         applyBillboardAmbientUniform(view);
+        applyBillboardOverrideColorUniform(view, 0, 0.0f);
+        applyBillboardOutlineParamsUniform(view, 0.0f, 0.0f, 0.0f);
         bgfx::setState(BillboardAlphaRenderState);
         bgfx::submit(viewId, view.m_outdoorLitBillboardProgramHandle);
 
@@ -1389,6 +1551,8 @@ void OutdoorBillboardRenderer::renderActorPreviewBillboards(
         const SpriteFrameEntry *pFrame = nullptr;
         const OutdoorGameView::BillboardTextureHandle *pTexture = nullptr;
         bool mirrored = false;
+        bool hovered = false;
+        uint32_t hoveredOutlineColorAbgr = 0;
         float x = 0.0f;
         float y = 0.0f;
         float z = 0.0f;
@@ -1464,6 +1628,15 @@ void OutdoorBillboardRenderer::renderActorPreviewBillboards(
         placeholderVertices.reserve(view.m_outdoorActorPreviewBillboardSet->billboards.size() * 6);
     }
 
+    const std::optional<OutdoorGameView::InspectHit> hoveredInspectHit =
+        resolveHoveredOutlineInspectHit(view, pViewMatrix);
+    std::optional<size_t> hoveredRuntimeActorIndex;
+
+    if (hoveredInspectHit && hoveredInspectHit->kind == "actor")
+    {
+        hoveredRuntimeActorIndex = view.resolveRuntimeActorIndexForInspectHit(*hoveredInspectHit);
+    }
+
     std::vector<bool> coveredRuntimeActors;
 
     if (view.m_pOutdoorWorldRuntime != nullptr)
@@ -1473,6 +1646,7 @@ void OutdoorBillboardRenderer::renderActorPreviewBillboards(
 
     auto appendActorDrawItem =
         [&](const OutdoorWorldRuntime::MapActorState *pRuntimeActor,
+            std::optional<size_t> runtimeActorIndex,
             int actorX,
             int actorY,
             int actorZ,
@@ -1579,6 +1753,14 @@ void OutdoorBillboardRenderer::renderActorPreviewBillboards(
             drawItem.pFrame = pFrame;
             drawItem.pTexture = pTexture;
             drawItem.mirrored = resolvedTexture.mirrored;
+            drawItem.hovered =
+                runtimeActorIndex.has_value()
+                && hoveredRuntimeActorIndex.has_value()
+                && *runtimeActorIndex == *hoveredRuntimeActorIndex;
+            drawItem.hoveredOutlineColorAbgr =
+                drawItem.hovered && pRuntimeActor != nullptr
+                    ? resolveHoveredActorOutlineColor(*pRuntimeActor)
+                    : 0;
             drawItem.x = static_cast<float>(actorX);
             drawItem.y = static_cast<float>(actorY);
             drawItem.z = static_cast<float>(actorZ);
@@ -1695,6 +1877,7 @@ void OutdoorBillboardRenderer::renderActorPreviewBillboards(
 
             appendActorDrawItem(
                 pRuntimeActor,
+                pRuntimeActor != nullptr ? std::optional<size_t>(billboard.runtimeActorIndex) : std::nullopt,
                 actorX,
                 actorY,
                 actorZ,
@@ -1725,6 +1908,7 @@ void OutdoorBillboardRenderer::renderActorPreviewBillboards(
 
             appendActorDrawItem(
                 pRuntimeActor,
+                actorIndex,
                 pRuntimeActor->x,
                 pRuntimeActor->y,
                 pRuntimeActor->z,
@@ -1775,6 +1959,8 @@ void OutdoorBillboardRenderer::renderActorPreviewBillboards(
 
     if (!bgfx::isValid(view.m_outdoorLitBillboardProgramHandle)
         || !bgfx::isValid(view.m_terrainTextureSamplerHandle)
+        || !bgfx::isValid(view.m_outdoorBillboardOverrideColorUniformHandle)
+        || !bgfx::isValid(view.m_outdoorBillboardOutlineParamsUniformHandle)
         || !bgfx::isValid(view.m_outdoorBillboardAmbientUniformHandle))
     {
         const uint64_t totalActorRenderNanoseconds = SDL_GetTicksNS() - actorRenderStartTickCount;
@@ -1846,6 +2032,92 @@ void OutdoorBillboardRenderer::renderActorPreviewBillboards(
         const float u0 = drawItem.mirrored ? 1.0f : 0.0f;
         const float u1 = drawItem.mirrored ? 0.0f : 1.0f;
 
+        if (drawItem.hovered)
+        {
+            const float paddingU = HoveredActorOutlineThicknessPixels / static_cast<float>(pTexture->width);
+            const float paddingV = HoveredActorOutlineThicknessPixels / static_cast<float>(pTexture->height);
+            const float outlinedHalfWidth =
+                (static_cast<float>(pTexture->width) * spriteScale + HoveredActorOutlineThicknessPixels * 2.0f * spriteScale)
+                * 0.5f;
+            const float outlinedHalfHeight =
+                (static_cast<float>(pTexture->height) * spriteScale + HoveredActorOutlineThicknessPixels * 2.0f * spriteScale)
+                * 0.5f;
+            const bx::Vec3 outlineRight = {
+                cameraRight.x * outlinedHalfWidth,
+                cameraRight.y * outlinedHalfWidth,
+                cameraRight.z * outlinedHalfWidth
+            };
+            const bx::Vec3 outlineUp = {
+                cameraUp.x * outlinedHalfHeight,
+                cameraUp.y * outlinedHalfHeight,
+                cameraUp.z * outlinedHalfHeight
+            };
+            const float outlineU0 = drawItem.mirrored ? 1.0f + paddingU : -paddingU;
+            const float outlineU1 = drawItem.mirrored ? -paddingU : 1.0f + paddingU;
+            const float outlineVTop = -paddingV;
+            const float outlineVBottom = 1.0f + paddingV;
+            std::array<OutdoorGameView::LitBillboardVertex, 6> outlineVertices = {};
+            outlineVertices[0] = {
+                center.x - outlineRight.x - outlineUp.x,
+                center.y - outlineRight.y - outlineUp.y,
+                center.z - outlineRight.z - outlineUp.z,
+                outlineU0,
+                outlineVBottom,
+                drawItem.lightContributionAbgr};
+            outlineVertices[1] = {
+                center.x - outlineRight.x + outlineUp.x,
+                center.y - outlineRight.y + outlineUp.y,
+                center.z - outlineRight.z + outlineUp.z,
+                outlineU0,
+                outlineVTop,
+                drawItem.lightContributionAbgr};
+            outlineVertices[2] = {
+                center.x + outlineRight.x + outlineUp.x,
+                center.y + outlineRight.y + outlineUp.y,
+                center.z + outlineRight.z + outlineUp.z,
+                outlineU1,
+                outlineVTop,
+                drawItem.lightContributionAbgr};
+            outlineVertices[3] = outlineVertices[0];
+            outlineVertices[4] = outlineVertices[2];
+            outlineVertices[5] = {
+                center.x + outlineRight.x - outlineUp.x,
+                center.y + outlineRight.y - outlineUp.y,
+                center.z + outlineRight.z - outlineUp.z,
+                outlineU1,
+                outlineVBottom,
+                drawItem.lightContributionAbgr};
+
+            if (bgfx::getAvailTransientVertexBuffer(vertexCount, OutdoorGameView::LitBillboardVertex::ms_layout)
+                >= vertexCount)
+            {
+                bgfx::TransientVertexBuffer outlineTransientVertexBuffer = {};
+                bgfx::allocTransientVertexBuffer(
+                    &outlineTransientVertexBuffer,
+                    vertexCount,
+                    OutdoorGameView::LitBillboardVertex::ms_layout);
+                std::memcpy(
+                    outlineTransientVertexBuffer.data,
+                    outlineVertices.data(),
+                    static_cast<size_t>(outlineVertices.size() * sizeof(OutdoorGameView::LitBillboardVertex)));
+
+                float outlineModelMatrix[16] = {};
+                bx::mtxIdentity(outlineModelMatrix);
+                bgfx::setTransform(outlineModelMatrix);
+                bgfx::setVertexBuffer(0, &outlineTransientVertexBuffer, 0, vertexCount);
+                bgfx::setTexture(0, view.m_terrainTextureSamplerHandle, pTexture->textureHandle);
+                applyBillboardAmbientUniform(view);
+                applyBillboardOverrideColorUniform(view, drawItem.hoveredOutlineColorAbgr, 1.0f);
+                applyBillboardOutlineParamsUniform(
+                    view,
+                    1.0f / static_cast<float>(pTexture->width),
+                    1.0f / static_cast<float>(pTexture->height),
+                    HoveredActorOutlineThicknessPixels);
+                bgfx::setState(BillboardAlphaRenderState);
+                bgfx::submit(viewId, view.m_outdoorLitBillboardProgramHandle);
+            }
+        }
+
         std::array<OutdoorGameView::LitBillboardVertex, 6> vertices = {};
         writeLitBillboardVertices(
             vertices.data(),
@@ -1872,6 +2144,8 @@ void OutdoorBillboardRenderer::renderActorPreviewBillboards(
         bgfx::setVertexBuffer(0, &transientVertexBuffer, 0, vertexCount);
         bgfx::setTexture(0, view.m_terrainTextureSamplerHandle, pTexture->textureHandle);
         applyBillboardAmbientUniform(view);
+        applyBillboardOverrideColorUniform(view, 0, 0.0f);
+        applyBillboardOutlineParamsUniform(view, 0.0f, 0.0f, 0.0f);
         bgfx::setState(BillboardAlphaRenderState);
         bgfx::submit(viewId, view.m_outdoorLitBillboardProgramHandle);
         submitStageNanoseconds += SDL_GetTicksNS() - submitStageStartTickCount;
@@ -1908,6 +2182,8 @@ void OutdoorBillboardRenderer::renderRuntimeWorldItems(
 
     if (!bgfx::isValid(view.m_outdoorLitBillboardProgramHandle)
         || !bgfx::isValid(view.m_terrainTextureSamplerHandle)
+        || !bgfx::isValid(view.m_outdoorBillboardOverrideColorUniformHandle)
+        || !bgfx::isValid(view.m_outdoorBillboardOutlineParamsUniformHandle)
         || !bgfx::isValid(view.m_outdoorBillboardAmbientUniformHandle))
     {
         return;
@@ -1938,12 +2214,22 @@ void OutdoorBillboardRenderer::renderRuntimeWorldItems(
         const SpriteFrameEntry *pFrame = nullptr;
         const OutdoorGameView::BillboardTextureHandle *pTexture = nullptr;
         bool mirrored = false;
+        bool hovered = false;
+        uint32_t hoveredOutlineColorAbgr = 0;
         float distanceSquared = 0.0f;
         uint32_t lightContributionAbgr = 0xff000000u;
     };
 
     std::vector<BillboardDrawItem> drawItems;
     drawItems.reserve(view.m_pOutdoorWorldRuntime->worldItemCount());
+    const std::optional<OutdoorGameView::InspectHit> hoveredInspectHit =
+        resolveHoveredOutlineInspectHit(view, pViewMatrix);
+    std::optional<size_t> hoveredWorldItemIndex;
+
+    if (hoveredInspectHit && hoveredInspectHit->kind == "world_item")
+    {
+        hoveredWorldItemIndex = hoveredInspectHit->bModelIndex;
+    }
 
     for (size_t worldItemIndex = 0; worldItemIndex < view.m_pOutdoorWorldRuntime->worldItemCount(); ++worldItemIndex)
     {
@@ -2002,6 +2288,8 @@ void OutdoorBillboardRenderer::renderRuntimeWorldItems(
         drawItem.pFrame = pFrame;
         drawItem.pTexture = pTexture;
         drawItem.mirrored = resolvedTexture.mirrored;
+        drawItem.hovered = hoveredWorldItemIndex.has_value() && *hoveredWorldItemIndex == worldItemIndex;
+        drawItem.hoveredOutlineColorAbgr = drawItem.hovered ? hoveredWorldItemOutlineColor() : 0;
         drawItem.distanceSquared = deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ;
         drawItem.lightContributionAbgr = computeBillboardLightContributionAbgr(
             view,
@@ -2038,6 +2326,97 @@ void OutdoorBillboardRenderer::renderRuntimeWorldItems(
         const float u0 = drawItem.mirrored ? 1.0f : 0.0f;
         const float u1 = drawItem.mirrored ? 0.0f : 1.0f;
 
+        if (drawItem.hovered)
+        {
+            const float paddingU = HoveredActorOutlineThicknessPixels / static_cast<float>(texture.width);
+            const float paddingV = HoveredActorOutlineThicknessPixels / static_cast<float>(texture.height);
+            const float outlinedHalfWidth =
+                (static_cast<float>(texture.width) * spriteScale + HoveredActorOutlineThicknessPixels * 2.0f * spriteScale)
+                * 0.5f;
+            const float outlinedHalfHeight =
+                (static_cast<float>(texture.height) * spriteScale + HoveredActorOutlineThicknessPixels * 2.0f * spriteScale)
+                * 0.5f;
+            const bx::Vec3 outlineRight = {
+                cameraRight.x * outlinedHalfWidth,
+                cameraRight.y * outlinedHalfWidth,
+                cameraRight.z * outlinedHalfWidth
+            };
+            const bx::Vec3 outlineUp = {
+                cameraUp.x * outlinedHalfHeight,
+                cameraUp.y * outlinedHalfHeight,
+                cameraUp.z * outlinedHalfHeight
+            };
+            const float outlineU0 = drawItem.mirrored ? 1.0f + paddingU : -paddingU;
+            const float outlineU1 = drawItem.mirrored ? -paddingU : 1.0f + paddingU;
+            const float outlineVTop = -paddingV;
+            const float outlineVBottom = 1.0f + paddingV;
+            std::array<OutdoorGameView::LitBillboardVertex, 6> outlineVertices = {};
+            outlineVertices[0] = {
+                center.x - outlineRight.x - outlineUp.x,
+                center.y - outlineRight.y - outlineUp.y,
+                center.z - outlineRight.z - outlineUp.z,
+                outlineU0,
+                outlineVBottom,
+                drawItem.lightContributionAbgr};
+            outlineVertices[1] = {
+                center.x - outlineRight.x + outlineUp.x,
+                center.y - outlineRight.y + outlineUp.y,
+                center.z - outlineRight.z + outlineUp.z,
+                outlineU0,
+                outlineVTop,
+                drawItem.lightContributionAbgr};
+            outlineVertices[2] = {
+                center.x + outlineRight.x + outlineUp.x,
+                center.y + outlineRight.y + outlineUp.y,
+                center.z + outlineRight.z + outlineUp.z,
+                outlineU1,
+                outlineVTop,
+                drawItem.lightContributionAbgr};
+            outlineVertices[3] = outlineVertices[0];
+            outlineVertices[4] = outlineVertices[2];
+            outlineVertices[5] = {
+                center.x + outlineRight.x - outlineUp.x,
+                center.y + outlineRight.y - outlineUp.y,
+                center.z + outlineRight.z - outlineUp.z,
+                outlineU1,
+                outlineVBottom,
+                drawItem.lightContributionAbgr};
+
+            if (bgfx::getAvailTransientVertexBuffer(
+                    static_cast<uint32_t>(outlineVertices.size()),
+                    OutdoorGameView::LitBillboardVertex::ms_layout) >= outlineVertices.size())
+            {
+                bgfx::TransientVertexBuffer outlineTransientVertexBuffer = {};
+                bgfx::allocTransientVertexBuffer(
+                    &outlineTransientVertexBuffer,
+                    static_cast<uint32_t>(outlineVertices.size()),
+                    OutdoorGameView::LitBillboardVertex::ms_layout);
+                std::memcpy(
+                    outlineTransientVertexBuffer.data,
+                    outlineVertices.data(),
+                    static_cast<size_t>(outlineVertices.size() * sizeof(OutdoorGameView::LitBillboardVertex)));
+
+                float outlineModelMatrix[16] = {};
+                bx::mtxIdentity(outlineModelMatrix);
+                bgfx::setTransform(outlineModelMatrix);
+                bgfx::setVertexBuffer(
+                    0,
+                    &outlineTransientVertexBuffer,
+                    0,
+                    static_cast<uint32_t>(outlineVertices.size()));
+                bgfx::setTexture(0, view.m_terrainTextureSamplerHandle, texture.textureHandle);
+                applyBillboardAmbientUniform(view);
+                applyBillboardOverrideColorUniform(view, drawItem.hoveredOutlineColorAbgr, 1.0f);
+                applyBillboardOutlineParamsUniform(
+                    view,
+                    1.0f / static_cast<float>(texture.width),
+                    1.0f / static_cast<float>(texture.height),
+                    HoveredActorOutlineThicknessPixels);
+                bgfx::setState(BillboardAlphaRenderState);
+                bgfx::submit(viewId, view.m_outdoorLitBillboardProgramHandle);
+            }
+        }
+
         std::array<OutdoorGameView::LitBillboardVertex, 6> vertices = {};
         writeLitBillboardVertices(
             vertices.data(),
@@ -2071,6 +2450,8 @@ void OutdoorBillboardRenderer::renderRuntimeWorldItems(
         bgfx::setVertexBuffer(0, &transientVertexBuffer, 0, static_cast<uint32_t>(vertices.size()));
         bgfx::setTexture(0, view.m_terrainTextureSamplerHandle, texture.textureHandle);
         applyBillboardAmbientUniform(view);
+        applyBillboardOverrideColorUniform(view, 0, 0.0f);
+        applyBillboardOutlineParamsUniform(view, 0.0f, 0.0f, 0.0f);
         bgfx::setState(BillboardAlphaRenderState);
         bgfx::submit(viewId, view.m_outdoorLitBillboardProgramHandle);
     }
@@ -2089,6 +2470,8 @@ void OutdoorBillboardRenderer::renderRuntimeProjectiles(
 
     if (!bgfx::isValid(view.m_outdoorLitBillboardProgramHandle)
         || !bgfx::isValid(view.m_terrainTextureSamplerHandle)
+        || !bgfx::isValid(view.m_outdoorBillboardOverrideColorUniformHandle)
+        || !bgfx::isValid(view.m_outdoorBillboardOutlineParamsUniformHandle)
         || !bgfx::isValid(view.m_outdoorBillboardAmbientUniformHandle))
     {
         return;
@@ -2432,6 +2815,7 @@ void OutdoorBillboardRenderer::renderRuntimeProjectiles(
         bgfx::setVertexBuffer(0, &transientVertexBuffer, 0, static_cast<uint32_t>(vertices.size()));
         bgfx::setTexture(0, view.m_terrainTextureSamplerHandle, pTexture->textureHandle);
         applyBillboardAmbientUniform(view);
+        applyBillboardOverrideColorUniform(view, 0, 0.0f);
         bgfx::setState(BillboardAlphaRenderState);
         bgfx::submit(viewId, view.m_outdoorLitBillboardProgramHandle);
 
@@ -2445,6 +2829,8 @@ void OutdoorBillboardRenderer::renderFxContactShadows(
 {
     if (!bgfx::isValid(view.m_outdoorLitBillboardProgramHandle)
         || !bgfx::isValid(view.m_terrainTextureSamplerHandle)
+        || !bgfx::isValid(view.m_outdoorBillboardOverrideColorUniformHandle)
+        || !bgfx::isValid(view.m_outdoorBillboardOutlineParamsUniformHandle)
         || !bgfx::isValid(view.m_outdoorBillboardAmbientUniformHandle))
     {
         return;
@@ -2504,6 +2890,8 @@ void OutdoorBillboardRenderer::renderFxContactShadows(
     bgfx::setVertexBuffer(0, &transientVertexBuffer, 0, static_cast<uint32_t>(vertices.size()));
     bgfx::setTexture(0, view.m_terrainTextureSamplerHandle, pShadowTexture->textureHandle);
     applyBillboardAmbientUniform(view);
+    applyBillboardOverrideColorUniform(view, 0, 0.0f);
+    applyBillboardOutlineParamsUniform(view, 0.0f, 0.0f, 0.0f);
     bgfx::setState(BillboardAlphaRenderState);
     bgfx::submit(viewId, view.m_outdoorLitBillboardProgramHandle);
 }
@@ -2563,6 +2951,8 @@ void OutdoorBillboardRenderer::renderSpriteObjectBillboards(
 
     if (!bgfx::isValid(view.m_outdoorLitBillboardProgramHandle)
         || !bgfx::isValid(view.m_terrainTextureSamplerHandle)
+        || !bgfx::isValid(view.m_outdoorBillboardOverrideColorUniformHandle)
+        || !bgfx::isValid(view.m_outdoorBillboardOutlineParamsUniformHandle)
         || !bgfx::isValid(view.m_outdoorBillboardAmbientUniformHandle))
     {
         return;
@@ -2682,6 +3072,8 @@ void OutdoorBillboardRenderer::renderSpriteObjectBillboards(
         bgfx::setVertexBuffer(0, &transientVertexBuffer, 0, static_cast<uint32_t>(vertices.size()));
         bgfx::setTexture(0, view.m_terrainTextureSamplerHandle, texture.textureHandle);
         applyBillboardAmbientUniform(view);
+        applyBillboardOverrideColorUniform(view, 0, 0.0f);
+        applyBillboardOutlineParamsUniform(view, 0.0f, 0.0f, 0.0f);
         bgfx::setState(BillboardAlphaRenderState);
         bgfx::submit(viewId, view.m_outdoorLitBillboardProgramHandle);
     }

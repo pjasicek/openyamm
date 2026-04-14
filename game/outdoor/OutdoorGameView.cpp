@@ -3593,6 +3593,8 @@ OutdoorGameView::OutdoorGameView()
     , m_terrainTextureSamplerHandle(BGFX_INVALID_HANDLE)
     , m_particleParamsUniformHandle(BGFX_INVALID_HANDLE)
     , m_outdoorBillboardAmbientUniformHandle(BGFX_INVALID_HANDLE)
+    , m_outdoorBillboardOverrideColorUniformHandle(BGFX_INVALID_HANDLE)
+    , m_outdoorBillboardOutlineParamsUniformHandle(BGFX_INVALID_HANDLE)
     , m_outdoorFxLightPositionsUniformHandle(BGFX_INVALID_HANDLE)
     , m_outdoorFxLightColorsUniformHandle(BGFX_INVALID_HANDLE)
     , m_outdoorFxLightParamsUniformHandle(BGFX_INVALID_HANDLE)
@@ -4001,6 +4003,10 @@ bool OutdoorGameView::initialize(
     m_terrainTextureSamplerHandle = bgfx::createUniform("s_texColor", bgfx::UniformType::Sampler);
     m_particleParamsUniformHandle = bgfx::createUniform("u_particleParams", bgfx::UniformType::Vec4);
     m_outdoorBillboardAmbientUniformHandle = bgfx::createUniform("u_billboardAmbient", bgfx::UniformType::Vec4);
+    m_outdoorBillboardOverrideColorUniformHandle =
+        bgfx::createUniform("u_billboardOverrideColor", bgfx::UniformType::Vec4);
+    m_outdoorBillboardOutlineParamsUniformHandle =
+        bgfx::createUniform("u_billboardOutlineParams", bgfx::UniformType::Vec4);
     m_outdoorFxLightPositionsUniformHandle = bgfx::createUniform("u_fxLightPositions", bgfx::UniformType::Vec4, 8);
     m_outdoorFxLightColorsUniformHandle = bgfx::createUniform("u_fxLightColors", bgfx::UniformType::Vec4, 8);
     m_outdoorFxLightParamsUniformHandle = bgfx::createUniform("u_fxLightParams", bgfx::UniformType::Vec4);
@@ -4021,6 +4027,8 @@ bool OutdoorGameView::initialize(
         || !bgfx::isValid(m_outdoorForcePerspectiveProgramHandle)
         || !bgfx::isValid(m_particleParamsUniformHandle)
         || !bgfx::isValid(m_outdoorBillboardAmbientUniformHandle)
+        || !bgfx::isValid(m_outdoorBillboardOverrideColorUniformHandle)
+        || !bgfx::isValid(m_outdoorBillboardOutlineParamsUniformHandle)
         || !bgfx::isValid(m_outdoorFxLightPositionsUniformHandle)
         || !bgfx::isValid(m_outdoorFxLightColorsUniformHandle)
         || !bgfx::isValid(m_outdoorFxLightParamsUniformHandle)
@@ -4348,14 +4356,97 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
                 SDL_GetMouseState(&mouseX, &mouseY);
                 const SDL_MouseButtonFlags mouseButtons = SDL_GetMouseState(nullptr, nullptr);
                 const bool isLeftMousePressed = (mouseButtons & SDL_BUTTON_LMASK) != 0;
+                const std::optional<size_t> hoveredPortraitMemberIndex =
+                    resolvePartyPortraitIndexAtPoint(width, height, mouseX, mouseY);
+
+                if (!hoveredPortraitMemberIndex && m_outdoorMapData.has_value())
+                {
+                    const auto inspectHoverPoint =
+                        [&](float screenX, float screenY, InspectHit &inspectHit) -> bool
+                        {
+                            bx::Vec3 rayOrigin = {0.0f, 0.0f, 0.0f};
+                            bx::Vec3 rayDirection = {0.0f, 0.0f, 0.0f};
+
+                            if (!buildInspectRayForScreenPoint(screenX, screenY, rayOrigin, rayDirection))
+                            {
+                                return false;
+                            }
+
+                            inspectHit = OutdoorInteractionController::inspectBModelFace(
+                                *this,
+                                *m_outdoorMapData,
+                                rayOrigin,
+                                rayDirection,
+                                screenX,
+                                screenY,
+                                width,
+                                height,
+                                wireframeViewMatrix,
+                                wireframeProjectionMatrix,
+                                OutdoorGameView::DecorationPickMode::HoverInfo);
+                            return true;
+                        };
+                    const auto prefersTargetOutline =
+                        [](const InspectHit &inspectHit)
+                        {
+                            return inspectHit.hasHit
+                                && (inspectHit.kind == "actor" || inspectHit.kind == "world_item");
+                        };
+                    const auto refreshHoverInspectHit =
+                        [&]()
+                        {
+                            InspectHit mouseInspectHit = {};
+                            InspectHit centerInspectHit = {};
+                            const bool hasMouseInspectHit = inspectHoverPoint(mouseX, mouseY, mouseInspectHit);
+                            const bool hasCenterInspectHit = inspectHoverPoint(
+                                static_cast<float>(width) * 0.5f,
+                                static_cast<float>(height) * 0.5f,
+                                centerInspectHit);
+
+                            if (prefersTargetOutline(centerInspectHit)
+                                && (!prefersTargetOutline(mouseInspectHit)
+                                    || centerInspectHit.distance <= mouseInspectHit.distance))
+                            {
+                                m_cachedHoverInspectHit = centerInspectHit;
+                                m_cachedHoverInspectHitValid = hasCenterInspectHit;
+                            }
+                            else
+                            {
+                                m_cachedHoverInspectHit = mouseInspectHit;
+                                m_cachedHoverInspectHitValid = hasMouseInspectHit;
+                            }
+
+                            if (!hasMouseInspectHit && !hasCenterInspectHit)
+                            {
+                                m_cachedHoverInspectHitValid = false;
+                                m_cachedHoverInspectHit = {};
+                            }
+
+                            m_lastHoverInspectUpdateNanoseconds = renderStartTickCount;
+                        };
+                        const bool shouldRefreshHoverInspect =
+                            !m_cachedHoverInspectHitValid
+                            || renderStartTickCount < m_lastHoverInspectUpdateNanoseconds
+                            || renderStartTickCount - m_lastHoverInspectUpdateNanoseconds
+                                >= HoverInspectRefreshNanoseconds;
+
+                        if (shouldRefreshHoverInspect)
+                        {
+                            refreshHoverInspectHit();
+                        }
+                }
+                else
+                {
+                    m_cachedHoverInspectHitValid = false;
+                    m_cachedHoverInspectHit = {};
+                }
 
                 if (isLeftMousePressed)
                 {
                     if (!m_pendingSpellTargetClickLatch)
                     {
                         m_pendingSpellTargetClickLatch = true;
-                        const std::optional<size_t> portraitMemberIndex =
-                            resolvePartyPortraitIndexAtPoint(width, height, mouseX, mouseY);
+                        const std::optional<size_t> portraitMemberIndex = hoveredPortraitMemberIndex;
                         InspectHit pendingInspectHit = {};
                         std::optional<bx::Vec3> pendingGroundTargetPoint;
 
@@ -6183,6 +6274,8 @@ void OutdoorGameView::shutdown()
         m_forcePerspectiveSolidTextureHandle = BGFX_INVALID_HANDLE;
         m_terrainTextureSamplerHandle = BGFX_INVALID_HANDLE;
         m_outdoorBillboardAmbientUniformHandle = BGFX_INVALID_HANDLE;
+        m_outdoorBillboardOverrideColorUniformHandle = BGFX_INVALID_HANDLE;
+        m_outdoorBillboardOutlineParamsUniformHandle = BGFX_INVALID_HANDLE;
         m_outdoorFxLightPositionsUniformHandle = BGFX_INVALID_HANDLE;
         m_outdoorFxLightColorsUniformHandle = BGFX_INVALID_HANDLE;
         m_outdoorFxLightParamsUniformHandle = BGFX_INVALID_HANDLE;
@@ -6311,6 +6404,18 @@ void OutdoorGameView::shutdown()
     {
         bgfx::destroy(m_outdoorBillboardAmbientUniformHandle);
         m_outdoorBillboardAmbientUniformHandle = BGFX_INVALID_HANDLE;
+    }
+
+    if (bgfx::isValid(m_outdoorBillboardOverrideColorUniformHandle))
+    {
+        bgfx::destroy(m_outdoorBillboardOverrideColorUniformHandle);
+        m_outdoorBillboardOverrideColorUniformHandle = BGFX_INVALID_HANDLE;
+    }
+
+    if (bgfx::isValid(m_outdoorBillboardOutlineParamsUniformHandle))
+    {
+        bgfx::destroy(m_outdoorBillboardOutlineParamsUniformHandle);
+        m_outdoorBillboardOutlineParamsUniformHandle = BGFX_INVALID_HANDLE;
     }
 
     if (bgfx::isValid(m_outdoorFxLightPositionsUniformHandle))
