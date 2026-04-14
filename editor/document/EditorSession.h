@@ -227,6 +227,12 @@ public:
     const std::vector<std::string> &bitmapTextureNames() const;
     uint16_t pendingEntityDecorationListId() const;
     void setPendingEntityDecorationListId(uint16_t decorationListId);
+    const Game::OutdoorSpawn &pendingSpawn() const;
+    Game::OutdoorSpawn &mutablePendingSpawn();
+    void setPendingSpawn(const Game::OutdoorSpawn &spawn);
+    const Game::MapDeltaActor &pendingActor() const;
+    Game::MapDeltaActor &mutablePendingActor();
+    void setPendingActor(const Game::MapDeltaActor &actor);
     uint16_t pendingSpriteObjectDescriptionId() const;
     void setPendingSpriteObjectDescriptionId(uint16_t objectDescriptionId);
     std::optional<EditorBModelImportSource> bmodelImportSource(size_t bmodelIndex) const;
@@ -238,6 +244,9 @@ public:
     const std::vector<EditorEntityBillboardPreview> &entityBillboardPreviews() const;
     const Game::SpriteFrameTable *actorBillboardSpriteFrameTable() const;
     const std::vector<EditorActorBillboardPreview> &actorBillboardPreviews() const;
+    std::optional<std::pair<std::string, int16_t>> previewDecorationTexture(uint16_t decorationListId) const;
+    std::optional<std::pair<std::string, int16_t>> previewObjectTexture(uint16_t objectDescriptionId) const;
+    std::optional<std::pair<std::string, int16_t>> previewMonsterTexture(int16_t monsterInfoId, int16_t monsterId) const;
     const std::vector<EditorIdLabelOption> &mapEventOptions() const;
     std::optional<std::string> describeMapEvent(uint16_t eventId) const;
     std::optional<std::string> localScriptModulePath() const;
@@ -339,6 +348,8 @@ private:
     int m_terrainFlattenTargetHeight = 0;
     bool m_hasTerrainFlattenSampledTarget = false;
     uint16_t m_pendingEntityDecorationListId = 0;
+    Game::OutdoorSpawn m_pendingSpawn = {};
+    Game::MapDeltaActor m_pendingActor = {};
     uint16_t m_pendingSpriteObjectDescriptionId = 0;
     bool m_hasEntityBillboardSpriteFrameTable = false;
     bool m_hasDecorationTable = false;

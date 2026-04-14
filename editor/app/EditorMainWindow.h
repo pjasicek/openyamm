@@ -5,11 +5,12 @@
 #include <bgfx/bgfx.h>
 #include <cstdint>
 #include <filesystem>
+#include <functional>
 #include <limits>
 #include <optional>
 #include <string>
-#include <vector>
 #include <unordered_map>
+#include <vector>
 
 namespace OpenYAMM::Editor
 {
@@ -135,8 +136,43 @@ private:
         std::optional<size_t> bmodelIndex = std::nullopt) const;
     std::optional<bgfx::TextureHandle> ensureBitmapPreviewTexture(
         const EditorSession &session,
-        const std::string &textureName) const;
-    std::optional<std::pair<int, int>> bitmapPreviewTextureSize(const std::string &textureName) const;
+        const std::string &textureName,
+        int16_t paletteId = 0,
+        bool spriteTexture = false) const;
+    std::optional<std::pair<int, int>> bitmapPreviewTextureSize(
+        const std::string &textureName,
+        int16_t paletteId = 0,
+        bool spriteTexture = false) const;
+    void renderBitmapPreviewTooltip(
+        const EditorSession &session,
+        const std::string &label,
+        const std::string &textureName,
+        int16_t paletteId = 0,
+        bool spriteTexture = false) const;
+    bool renderIdOptionSelectorWithBitmapPreview(
+        EditorSession &session,
+        const char *pLabel,
+        uint32_t &value,
+        const std::vector<EditorIdLabelOption> &options,
+        const char *pZeroLabel,
+        const char *pFallbackPrefix,
+        bool transient,
+        const std::function<std::optional<std::pair<std::string, int16_t>>(uint32_t)> &resolveTexture) const;
+    bool renderDecorationSelector(
+        EditorSession &session,
+        const char *pLabel,
+        uint16_t &decorationListId,
+        bool transient) const;
+    bool renderObjectSelector(
+        EditorSession &session,
+        const char *pLabel,
+        uint16_t &objectDescriptionId,
+        bool transient) const;
+    bool renderMonsterTemplateSelector(
+        EditorSession &session,
+        const char *pLabel,
+        Game::MapDeltaActor &actor,
+        bool transient) const;
     void destroyBitmapPreviewTextures();
     void duplicateSelected(EditorSession &session);
     void deleteSelected(EditorSession &session);
@@ -147,7 +183,9 @@ private:
     void renderInteractiveFaceInspector(EditorSession &session) const;
     void renderEntityPlacementInspector(EditorSession &session) const;
     void renderEntityInspector(EditorSession &session, size_t entityIndex) const;
+    void renderSpawnPlacementInspector(EditorSession &session) const;
     void renderSpawnInspector(EditorSession &session, size_t spawnIndex) const;
+    void renderActorPlacementInspector(EditorSession &session) const;
     void renderActorInspector(EditorSession &session, size_t actorIndex) const;
     void renderSpriteObjectPlacementInspector(EditorSession &session) const;
     void renderSpriteObjectInspector(EditorSession &session, size_t spriteObjectIndex) const;

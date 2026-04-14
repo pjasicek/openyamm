@@ -1846,6 +1846,175 @@ std::optional<std::vector<uint8_t>> loadBitmapPreviewPixels(
     return pixels;
 }
 
+std::optional<std::string> findDirectoryEntryPath(
+    const Engine::AssetFileSystem &assetFileSystem,
+    const std::string &directoryPath,
+    const std::string &fileName)
+{
+    const std::vector<std::string> entries = assetFileSystem.enumerate(directoryPath);
+    const std::string normalizedFileName = toLowerCopy(fileName);
+
+    for (const std::string &entry : entries)
+    {
+        if (toLowerCopy(entry) == normalizedFileName)
+        {
+            return directoryPath + "/" + entry;
+        }
+    }
+
+    return std::nullopt;
+}
+
+std::optional<std::array<uint8_t, 256 * 3>> loadActPalettePreview(
+    const Engine::AssetFileSystem &assetFileSystem,
+    int16_t paletteId)
+{
+    if (paletteId <= 0)
+    {
+        return std::nullopt;
+    }
+
+    char paletteFileName[32] = {};
+    std::snprintf(paletteFileName, sizeof(paletteFileName), "pal%03d.act", static_cast<int>(paletteId));
+    const std::optional<std::string> palettePath =
+        findDirectoryEntryPath(assetFileSystem, "Data/bitmaps", paletteFileName);
+
+    if (!palettePath)
+    {
+        return std::nullopt;
+    }
+
+    const std::optional<std::vector<uint8_t>> paletteBytes = assetFileSystem.readBinaryFile(*palettePath);
+
+    if (!paletteBytes || paletteBytes->size() < 256 * 3)
+    {
+        return std::nullopt;
+    }
+
+    std::array<uint8_t, 256 * 3> palette = {};
+    std::memcpy(palette.data(), paletteBytes->data(), palette.size());
+    return palette;
+}
+
+std::optional<std::vector<uint8_t>> loadSpritePreviewPixels(
+    const Engine::AssetFileSystem &assetFileSystem,
+    const std::string &textureName,
+    int16_t paletteId,
+    int &width,
+    int &height)
+{
+    const std::optional<std::string> bitmapPath =
+        findDirectoryEntryPath(assetFileSystem, "Data/sprites", textureName + ".bmp");
+
+    if (!bitmapPath)
+    {
+        return std::nullopt;
+    }
+
+    const std::optional<std::vector<uint8_t>> bitmapBytes = assetFileSystem.readBinaryFile(*bitmapPath);
+
+    if (!bitmapBytes || bitmapBytes->empty())
+    {
+        return std::nullopt;
+    }
+
+    SDL_IOStream *pIoStream = SDL_IOFromConstMem(bitmapBytes->data(), bitmapBytes->size());
+
+    if (pIoStream == nullptr)
+    {
+        return std::nullopt;
+    }
+
+    SDL_Surface *pLoadedSurface = SDL_LoadBMP_IO(pIoStream, true);
+
+    if (pLoadedSurface == nullptr)
+    {
+        return std::nullopt;
+    }
+
+    SDL_Palette *pBasePalette = SDL_GetSurfacePalette(pLoadedSurface);
+    const std::optional<std::array<uint8_t, 256 * 3>> overridePalette =
+        loadActPalettePreview(assetFileSystem, paletteId);
+    const bool canApplyPalette =
+        overridePalette.has_value()
+        && pLoadedSurface->format == SDL_PIXELFORMAT_INDEX8
+        && pBasePalette != nullptr;
+
+    if (canApplyPalette)
+    {
+        width = pLoadedSurface->w;
+        height = pLoadedSurface->h;
+        std::vector<uint8_t> pixels(static_cast<size_t>(width) * static_cast<size_t>(height) * 4);
+
+        for (int row = 0; row < height; ++row)
+        {
+            const uint8_t *pSourceRow = static_cast<const uint8_t *>(pLoadedSurface->pixels)
+                + static_cast<ptrdiff_t>(row * pLoadedSurface->pitch);
+
+            for (int column = 0; column < width; ++column)
+            {
+                const uint8_t paletteIndex = pSourceRow[column];
+                const SDL_Color sourceColor =
+                    paletteIndex < pBasePalette->ncolors
+                        ? pBasePalette->colors[paletteIndex]
+                        : SDL_Color{0, 0, 0, 255};
+                const bool isMagentaKey =
+                    sourceColor.r >= 248 && sourceColor.g <= 8 && sourceColor.b >= 248;
+                const bool isTealKey =
+                    sourceColor.r <= 8 && sourceColor.g >= 248 && sourceColor.b >= 248;
+                const size_t paletteOffset = static_cast<size_t>(paletteIndex) * 3;
+                const size_t pixelOffset =
+                    (static_cast<size_t>(row) * static_cast<size_t>(width) + static_cast<size_t>(column)) * 4;
+
+                pixels[pixelOffset + 0] = (*overridePalette)[paletteOffset + 2];
+                pixels[pixelOffset + 1] = (*overridePalette)[paletteOffset + 1];
+                pixels[pixelOffset + 2] = (*overridePalette)[paletteOffset + 0];
+                pixels[pixelOffset + 3] = (isMagentaKey || isTealKey) ? 0 : 255;
+            }
+        }
+
+        SDL_DestroySurface(pLoadedSurface);
+        return pixels;
+    }
+
+    SDL_Surface *pConvertedSurface = SDL_ConvertSurface(pLoadedSurface, SDL_PIXELFORMAT_BGRA32);
+    SDL_DestroySurface(pLoadedSurface);
+
+    if (pConvertedSurface == nullptr)
+    {
+        return std::nullopt;
+    }
+
+    width = pConvertedSurface->w;
+    height = pConvertedSurface->h;
+    std::vector<uint8_t> pixels(static_cast<size_t>(width) * static_cast<size_t>(height) * 4);
+
+    for (int row = 0; row < height; ++row)
+    {
+        const uint8_t *pSourceRow = static_cast<const uint8_t *>(pConvertedSurface->pixels)
+            + static_cast<ptrdiff_t>(row * pConvertedSurface->pitch);
+        uint8_t *pTargetRow = pixels.data() + static_cast<size_t>(row) * static_cast<size_t>(width) * 4;
+        std::memcpy(pTargetRow, pSourceRow, static_cast<size_t>(width) * 4);
+    }
+
+    for (size_t pixelOffset = 0; pixelOffset < pixels.size(); pixelOffset += 4)
+    {
+        const uint8_t blue = pixels[pixelOffset + 0];
+        const uint8_t green = pixels[pixelOffset + 1];
+        const uint8_t red = pixels[pixelOffset + 2];
+        const bool isMagentaKey = red >= 248 && green <= 8 && blue >= 248;
+        const bool isTealKey = red <= 8 && green >= 248 && blue >= 248;
+
+        if (isMagentaKey || isTealKey)
+        {
+            pixels[pixelOffset + 3] = 0;
+        }
+    }
+
+    SDL_DestroySurface(pConvertedSurface);
+    return pixels;
+}
+
 int16_t clampToInt16(int value)
 {
     return static_cast<int16_t>(std::clamp(value, -32768, 32767));
@@ -2180,6 +2349,23 @@ bool editStringField(EditorSession &session, const char *pLabel, std::string &va
     return true;
 }
 
+bool editTransientStringField(const char *pLabel, std::string &value, size_t capacity)
+{
+    const size_t bufferSize = std::max(capacity, value.size() + 1);
+    std::vector<char> buffer(bufferSize, '\0');
+    std::copy(value.begin(), value.end(), buffer.begin());
+
+    beginInspectorFieldRow(pLabel);
+
+    if (!ImGui::InputText(inspectorFieldId(pLabel).c_str(), buffer.data(), buffer.size()))
+    {
+        return false;
+    }
+
+    value = buffer.data();
+    return true;
+}
+
 bool editIntField(EditorSession &session, const char *pLabel, int &value, int minimum, int maximum)
 {
     int editedValue = value;
@@ -2199,6 +2385,28 @@ bool editIntField(EditorSession &session, const char *pLabel, int &value, int mi
     }
 
     session.captureUndoSnapshot();
+    value = editedValue;
+    return true;
+}
+
+bool editTransientIntField(const char *pLabel, int &value, int minimum, int maximum)
+{
+    int editedValue = value;
+
+    beginInspectorFieldRow(pLabel);
+
+    if (!ImGui::InputInt(inspectorFieldId(pLabel).c_str(), &editedValue))
+    {
+        return false;
+    }
+
+    editedValue = std::clamp(editedValue, minimum, maximum);
+
+    if (editedValue == value)
+    {
+        return false;
+    }
+
     value = editedValue;
     return true;
 }
@@ -2245,6 +2453,28 @@ bool editUInt16Field(EditorSession &session, const char *pLabel, uint16_t &value
     }
 
     session.captureUndoSnapshot();
+    value = static_cast<uint16_t>(editedValue);
+    return true;
+}
+
+bool editTransientUInt16Field(const char *pLabel, uint16_t &value)
+{
+    int editedValue = value;
+
+    beginInspectorFieldRow(pLabel);
+
+    if (!ImGui::InputInt(inspectorFieldId(pLabel).c_str(), &editedValue))
+    {
+        return false;
+    }
+
+    editedValue = std::clamp(editedValue, 0, 65535);
+
+    if (editedValue == value)
+    {
+        return false;
+    }
+
     value = static_cast<uint16_t>(editedValue);
     return true;
 }
@@ -2382,6 +2612,28 @@ bool editInt16Field(EditorSession &session, const char *pLabel, int16_t &value)
     return true;
 }
 
+bool editTransientInt16Field(const char *pLabel, int16_t &value)
+{
+    int editedValue = value;
+
+    beginInspectorFieldRow(pLabel);
+
+    if (!ImGui::InputInt(inspectorFieldId(pLabel).c_str(), &editedValue))
+    {
+        return false;
+    }
+
+    editedValue = std::clamp(editedValue, -32768, 32767);
+
+    if (editedValue == value)
+    {
+        return false;
+    }
+
+    value = static_cast<int16_t>(editedValue);
+    return true;
+}
+
 bool editUInt32Field(EditorSession &session, const char *pLabel, uint32_t &value)
 {
     uint32_t editedValue = value;
@@ -2399,6 +2651,26 @@ bool editUInt32Field(EditorSession &session, const char *pLabel, uint32_t &value
     }
 
     session.captureUndoSnapshot();
+    value = editedValue;
+    return true;
+}
+
+bool editTransientUInt32Field(const char *pLabel, uint32_t &value)
+{
+    uint32_t editedValue = value;
+
+    beginInspectorFieldRow(pLabel);
+
+    if (!ImGui::InputScalar(inspectorFieldId(pLabel).c_str(), ImGuiDataType_U32, &editedValue))
+    {
+        return false;
+    }
+
+    if (editedValue == value)
+    {
+        return false;
+    }
+
     value = editedValue;
     return true;
 }
@@ -2858,6 +3130,8 @@ bool editActorHostilityTypeField(EditorSession &session, uint8_t &hostilityType)
     return true;
 }
 
+void applyMonsterTemplateSelection(EditorSession &session, Game::MapDeltaActor &actor, int16_t previousMonsterInfoId);
+
 bool editMonsterTemplateField(EditorSession &session, Game::MapDeltaActor &actor)
 {
     const int16_t previousMonsterInfoId = actor.monsterInfoId;
@@ -2875,13 +3149,19 @@ bool editMonsterTemplateField(EditorSession &session, Game::MapDeltaActor &actor
     }
 
     actor.monsterInfoId = static_cast<int16_t>(std::min<uint32_t>(selectedId, 32767));
+    applyMonsterTemplateSelection(session, actor, previousMonsterInfoId);
+    return true;
+}
+
+void applyMonsterTemplateSelection(EditorSession &session, Game::MapDeltaActor &actor, int16_t previousMonsterInfoId)
+{
+    const Game::MonsterTable &monsterTable = session.monsterTable();
 
     if (actor.monsterId <= 0 || actor.monsterId == previousMonsterInfoId)
     {
         actor.monsterId = actor.monsterInfoId;
     }
 
-    const Game::MonsterTable &monsterTable = session.monsterTable();
     const Game::MonsterTable::MonsterStatsEntry *pStats = monsterTable.findStatsById(actor.monsterInfoId);
     const Game::MonsterEntry *pMonsterEntry = monsterTable.findById(actor.monsterId);
 
@@ -2910,7 +3190,25 @@ bool editMonsterTemplateField(EditorSession &session, Game::MapDeltaActor &actor
     }
 
     actor.spriteIds = {};
+}
 
+bool editTransientMonsterTemplateField(EditorSession &session, Game::MapDeltaActor &actor)
+{
+    const int16_t previousMonsterInfoId = actor.monsterInfoId;
+    uint32_t selectedId = actor.monsterInfoId > 0 ? static_cast<uint32_t>(actor.monsterInfoId) : 0;
+
+    if (!editTransientOptionField(
+            "Monster Template",
+            selectedId,
+            session.monsterOptions(),
+            "<none>",
+            "Monster Template"))
+    {
+        return false;
+    }
+
+    actor.monsterInfoId = static_cast<int16_t>(std::min<uint32_t>(selectedId, 32767));
+    applyMonsterTemplateSelection(session, actor, previousMonsterInfoId);
     return true;
 }
 
@@ -3107,6 +3405,45 @@ bool editSpawnTypeField(EditorSession &session, Game::OutdoorSpawn &spawn)
     return true;
 }
 
+bool editTransientSpawnTypeField(Game::OutdoorSpawn &spawn)
+{
+    beginInspectorFieldRow("Spawn Type");
+
+    int selectedKind = 2;
+
+    if (spawn.typeId == 3)
+    {
+        selectedKind = 0;
+    }
+    else if (spawn.typeId == 2)
+    {
+        selectedKind = 1;
+    }
+
+    static const char *Kinds[] = {"Actor Encounter", "Sprite / Item", "Legacy Raw"};
+
+    if (!ImGui::Combo("##SpawnType", &selectedKind, Kinds, IM_ARRAYSIZE(Kinds)))
+    {
+        return false;
+    }
+
+    if (selectedKind == 0)
+    {
+        spawn.typeId = 3;
+
+        if (spawn.index == 0)
+        {
+            spawn.index = 1;
+        }
+    }
+    else if (selectedKind == 1)
+    {
+        spawn.typeId = 2;
+    }
+
+    return true;
+}
+
 bool editActorSpawnEncounterField(
     EditorSession &session,
     const Game::MapStatsEntry &mapEntry,
@@ -3117,6 +3454,28 @@ bool editActorSpawnEncounterField(
 
     if (!editOptionField(
             session,
+            "Encounter",
+            selectedId,
+            options,
+            nullptr,
+            "Encounter"))
+    {
+        return false;
+    }
+
+    spawn.typeId = 3;
+    spawn.index = static_cast<uint16_t>(std::min<uint32_t>(selectedId, 65535));
+    return true;
+}
+
+bool editTransientActorSpawnEncounterField(
+    const Game::MapStatsEntry &mapEntry,
+    Game::OutdoorSpawn &spawn)
+{
+    std::vector<EditorIdLabelOption> options = buildActorSpawnIndexOptions(mapEntry);
+    uint32_t selectedId = spawn.index;
+
+    if (!editTransientOptionField(
             "Encounter",
             selectedId,
             options,
@@ -4638,7 +4997,9 @@ void EditorMainWindow::setStatusMessage(StatusMessageKind kind, const std::strin
 
 std::optional<bgfx::TextureHandle> EditorMainWindow::ensureBitmapPreviewTexture(
     const EditorSession &session,
-    const std::string &textureName) const
+    const std::string &textureName,
+    int16_t paletteId,
+    bool spriteTexture) const
 {
     const Engine::AssetFileSystem *pAssetFileSystem = session.assetFileSystem();
 
@@ -4647,7 +5008,8 @@ std::optional<bgfx::TextureHandle> EditorMainWindow::ensureBitmapPreviewTexture(
         return std::nullopt;
     }
 
-    const std::string normalizedName = toLowerCopy(textureName);
+    const std::string normalizedName =
+        (spriteTexture ? "sprite|" : "bitmap|") + toLowerCopy(textureName) + "|" + std::to_string(static_cast<int>(paletteId));
     const auto existingIt = m_bitmapPreviewTextures.find(normalizedName);
 
     if (existingIt != m_bitmapPreviewTextures.end())
@@ -4662,8 +5024,9 @@ std::optional<bgfx::TextureHandle> EditorMainWindow::ensureBitmapPreviewTexture(
 
     int width = 0;
     int height = 0;
-    const std::optional<std::vector<uint8_t>> pixels =
-        loadBitmapPreviewPixels(*pAssetFileSystem, session.bitmapTextureNames(), textureName, width, height);
+    const std::optional<std::vector<uint8_t>> pixels = spriteTexture
+        ? loadSpritePreviewPixels(*pAssetFileSystem, textureName, paletteId, width, height)
+        : loadBitmapPreviewPixels(*pAssetFileSystem, session.bitmapTextureNames(), textureName, width, height);
 
     if (!pixels || width <= 0 || height <= 0)
     {
@@ -4693,9 +5056,13 @@ std::optional<bgfx::TextureHandle> EditorMainWindow::ensureBitmapPreviewTexture(
     return textureHandle;
 }
 
-std::optional<std::pair<int, int>> EditorMainWindow::bitmapPreviewTextureSize(const std::string &textureName) const
+std::optional<std::pair<int, int>> EditorMainWindow::bitmapPreviewTextureSize(
+    const std::string &textureName,
+    int16_t paletteId,
+    bool spriteTexture) const
 {
-    const std::string normalizedName = toLowerCopy(textureName);
+    const std::string normalizedName =
+        (spriteTexture ? "sprite|" : "bitmap|") + toLowerCopy(textureName) + "|" + std::to_string(static_cast<int>(paletteId));
     const auto existingIt = m_bitmapPreviewTextureSizes.find(normalizedName);
 
     if (existingIt == m_bitmapPreviewTextureSizes.end())
@@ -4709,6 +5076,233 @@ std::optional<std::pair<int, int>> EditorMainWindow::bitmapPreviewTextureSize(co
     }
 
     return existingIt->second;
+}
+
+void EditorMainWindow::renderBitmapPreviewTooltip(
+    const EditorSession &session,
+    const std::string &label,
+    const std::string &textureName,
+    int16_t paletteId,
+    bool spriteTexture) const
+{
+    const std::optional<bgfx::TextureHandle> textureHandle =
+        ensureBitmapPreviewTexture(session, textureName, paletteId, spriteTexture);
+
+    if (!textureHandle || !bgfx::isValid(*textureHandle))
+    {
+        return;
+    }
+
+    const std::optional<std::pair<int, int>> textureSize =
+        bitmapPreviewTextureSize(textureName, paletteId, spriteTexture);
+    const ImVec2 imageSize = textureSize
+        ? ImVec2(static_cast<float>(textureSize->first), static_cast<float>(textureSize->second))
+        : ImVec2(96.0f, 96.0f);
+
+    const ImVec2 mousePosition = ImGui::GetMousePos();
+    ImGui::SetNextWindowPos(
+        ImVec2(mousePosition.x - 200.0f, mousePosition.y),
+        ImGuiCond_Always,
+        ImVec2(1.0f, 0.0f));
+    ImGui::BeginTooltip();
+    ImGui::TextUnformatted(label.c_str());
+    ImGui::TextUnformatted(textureName.c_str());
+    ImGui::Image(
+        static_cast<ImTextureID>(static_cast<uintptr_t>(textureHandle->idx + 1)),
+        imageSize,
+        ImVec2(0.0f, 0.0f),
+        ImVec2(1.0f, 1.0f));
+    ImGui::EndTooltip();
+}
+
+bool EditorMainWindow::renderIdOptionSelectorWithBitmapPreview(
+    EditorSession &session,
+    const char *pLabel,
+    uint32_t &value,
+    const std::vector<EditorIdLabelOption> &options,
+    const char *pZeroLabel,
+    const char *pFallbackPrefix,
+    bool transient,
+    const std::function<std::optional<std::pair<std::string, int16_t>>(uint32_t)> &resolveTexture) const
+{
+    beginInspectorFieldRow(pLabel);
+
+    const std::string comboId = inspectorFieldId(pLabel);
+    const std::string preview = selectorPreviewLabel(value, options, pZeroLabel, pFallbackPrefix);
+
+    if (!ImGui::BeginCombo(comboId.c_str(), preview.c_str()))
+    {
+        return false;
+    }
+
+    const ImGuiID filterStorageId = ImGui::GetID((comboId + "/filter").c_str());
+    static std::unordered_map<ImGuiID, std::string> filters;
+    std::string &filter = filters[filterStorageId];
+    char filterBuffer[128] = {};
+    std::snprintf(filterBuffer, sizeof(filterBuffer), "%s", filter.c_str());
+    ImGui::SetNextItemWidth(-FLT_MIN);
+
+    if (ImGui::InputText("##Filter", filterBuffer, sizeof(filterBuffer)))
+    {
+        filter = filterBuffer;
+    }
+
+    const std::string normalizedFilter = toLowerCopy(filter);
+    bool changed = false;
+
+    if (pZeroLabel != nullptr)
+    {
+        const bool selected = value == 0;
+
+        if ((normalizedFilter.empty() || toLowerCopy(pZeroLabel).find(normalizedFilter) != std::string::npos)
+            && ImGui::Selectable(pZeroLabel, selected))
+        {
+            if (value != 0)
+            {
+                if (!transient)
+                {
+                    session.captureUndoSnapshot();
+                }
+
+                value = 0;
+                changed = true;
+            }
+        }
+
+        if (selected)
+        {
+            ImGui::SetItemDefaultFocus();
+        }
+    }
+
+    for (const EditorIdLabelOption &option : options)
+    {
+        if (!optionMatchesFilter(option, normalizedFilter))
+        {
+            continue;
+        }
+
+        const bool selected = option.id == value;
+
+        if (ImGui::Selectable(option.label.c_str(), selected))
+        {
+            if (option.id != value)
+            {
+                if (!transient)
+                {
+                    session.captureUndoSnapshot();
+                }
+
+                value = option.id;
+                changed = true;
+            }
+        }
+
+        if (ImGui::IsItemHovered())
+        {
+            const std::optional<std::pair<std::string, int16_t>> preview = resolveTexture(option.id);
+
+            if (preview)
+            {
+                renderBitmapPreviewTooltip(session, option.label, preview->first, preview->second, true);
+            }
+        }
+
+        if (selected)
+        {
+            ImGui::SetItemDefaultFocus();
+        }
+    }
+
+    ImGui::EndCombo();
+    return changed;
+}
+
+bool EditorMainWindow::renderDecorationSelector(
+    EditorSession &session,
+    const char *pLabel,
+    uint16_t &decorationListId,
+    bool transient) const
+{
+    uint32_t selectedId = decorationListId;
+
+    if (!renderIdOptionSelectorWithBitmapPreview(
+            session,
+            pLabel,
+            selectedId,
+            session.decorationOptions(),
+            nullptr,
+            "Decoration",
+            transient,
+            [&session](uint32_t optionId)
+            {
+                return session.previewDecorationTexture(static_cast<uint16_t>(std::min<uint32_t>(optionId, 65535)));
+            }))
+    {
+        return false;
+    }
+
+    decorationListId = static_cast<uint16_t>(std::min<uint32_t>(selectedId, 65535));
+    return true;
+}
+
+bool EditorMainWindow::renderObjectSelector(
+    EditorSession &session,
+    const char *pLabel,
+    uint16_t &objectDescriptionId,
+    bool transient) const
+{
+    uint32_t selectedId = objectDescriptionId;
+
+    if (!renderIdOptionSelectorWithBitmapPreview(
+            session,
+            pLabel,
+            selectedId,
+            session.objectOptions(),
+            nullptr,
+            "Object",
+            transient,
+            [&session](uint32_t optionId)
+            {
+                return session.previewObjectTexture(static_cast<uint16_t>(std::min<uint32_t>(optionId, 65535)));
+            }))
+    {
+        return false;
+    }
+
+    objectDescriptionId = static_cast<uint16_t>(std::min<uint32_t>(selectedId, 65535));
+    return true;
+}
+
+bool EditorMainWindow::renderMonsterTemplateSelector(
+    EditorSession &session,
+    const char *pLabel,
+    Game::MapDeltaActor &actor,
+    bool transient) const
+{
+    const int16_t previousMonsterInfoId = actor.monsterInfoId;
+    uint32_t selectedId = actor.monsterInfoId > 0 ? static_cast<uint32_t>(actor.monsterInfoId) : 0;
+
+    if (!renderIdOptionSelectorWithBitmapPreview(
+            session,
+            pLabel,
+            selectedId,
+            session.monsterOptions(),
+            "<none>",
+            "Monster Template",
+            transient,
+            [&session, &actor](uint32_t optionId)
+            {
+                const int16_t resolvedId = static_cast<int16_t>(std::min<uint32_t>(optionId, 32767));
+                return session.previewMonsterTexture(resolvedId, actor.monsterId);
+            }))
+    {
+        return false;
+    }
+
+    actor.monsterInfoId = static_cast<int16_t>(std::min<uint32_t>(selectedId, 32767));
+    applyMonsterTemplateSelection(session, actor, previousMonsterInfoId);
+    return true;
 }
 
 void EditorMainWindow::destroyBitmapPreviewTextures()
@@ -5052,14 +5646,50 @@ void EditorMainWindow::renderPlacementButtons(EditorSession &session)
     if (renderPlacementButton("PlaceSpawn", "Spawn", EditorSelectionKind::Spawn))
     {
         const bool selected = m_viewport.placementKind() == EditorSelectionKind::Spawn;
-        m_viewport.setPlacementKind(selected ? EditorSelectionKind::None : EditorSelectionKind::Spawn);
+
+        if (selected)
+        {
+            m_viewport.setPlacementKind(EditorSelectionKind::None);
+        }
+        else
+        {
+            if (session.selection().kind == EditorSelectionKind::Spawn)
+            {
+                const Game::OutdoorSceneData &sceneData = session.document().outdoorSceneData();
+
+                if (session.selection().index < sceneData.spawns.size())
+                {
+                    session.setPendingSpawn(sceneData.spawns[session.selection().index].spawn);
+                }
+            }
+
+            m_viewport.setPlacementKind(EditorSelectionKind::Spawn);
+        }
     }
 
     ImGui::SameLine();
     if (renderPlacementButton("PlaceActor", "Actor", EditorSelectionKind::Actor))
     {
         const bool selected = m_viewport.placementKind() == EditorSelectionKind::Actor;
-        m_viewport.setPlacementKind(selected ? EditorSelectionKind::None : EditorSelectionKind::Actor);
+
+        if (selected)
+        {
+            m_viewport.setPlacementKind(EditorSelectionKind::None);
+        }
+        else
+        {
+            if (session.selection().kind == EditorSelectionKind::Actor)
+            {
+                const Game::OutdoorSceneData &sceneData = session.document().outdoorSceneData();
+
+                if (session.selection().index < sceneData.initialState.actors.size())
+                {
+                    session.setPendingActor(sceneData.initialState.actors[session.selection().index]);
+                }
+            }
+
+            m_viewport.setPlacementKind(EditorSelectionKind::Actor);
+        }
     }
 
     ImGui::SameLine();
@@ -6645,7 +7275,36 @@ void EditorMainWindow::renderInspector(EditorSession &session)
         return;
     }
 
-    const auto [selectionTitle, selectionSubtitle] = inspectorSelectionSummary(session);
+    std::pair<std::string, std::string> selectionSummary = inspectorSelectionSummary(session);
+
+    switch (m_viewport.placementKind())
+    {
+    case EditorSelectionKind::Entity:
+        selectionSummary = {"Entity Placement", "Click in the viewport to place a decoration"};
+        break;
+    case EditorSelectionKind::Spawn:
+        selectionSummary = {"Spawn Placement", "Click in the viewport to place a spawn marker"};
+        break;
+    case EditorSelectionKind::Actor:
+        selectionSummary = {"Actor Placement", "Click in the viewport to place an actor"};
+        break;
+    case EditorSelectionKind::SpriteObject:
+        selectionSummary = {"Object Placement", "Click in the viewport to place a sprite object"};
+        break;
+    case EditorSelectionKind::Terrain:
+        selectionSummary = {"Terrain", "Terrain editing tools"};
+        break;
+    case EditorSelectionKind::None:
+    case EditorSelectionKind::Summary:
+    case EditorSelectionKind::Environment:
+    case EditorSelectionKind::BModel:
+    case EditorSelectionKind::InteractiveFace:
+    case EditorSelectionKind::Chest:
+        break;
+    }
+
+    const std::string &selectionTitle = selectionSummary.first;
+    const std::string &selectionSubtitle = selectionSummary.second;
     ImGui::PushStyleColor(ImGuiCol_ChildBg, colorFromRgb(0x171B1F));
     ImGui::PushStyleColor(ImGuiCol_Border, colorFromRgb(0x313944));
     if (ImGui::BeginChild("InspectorSelectionHeader", ImVec2(0.0f, 56.0f), ImGuiChildFlags_Borders))
@@ -6668,6 +7327,20 @@ void EditorMainWindow::renderInspector(EditorSession &session)
     if (m_viewport.placementKind() == EditorSelectionKind::Entity)
     {
         renderEntityPlacementInspector(session);
+        ImGui::End();
+        return;
+    }
+
+    if (m_viewport.placementKind() == EditorSelectionKind::Spawn)
+    {
+        renderSpawnPlacementInspector(session);
+        ImGui::End();
+        return;
+    }
+
+    if (m_viewport.placementKind() == EditorSelectionKind::Actor)
+    {
+        renderActorPlacementInspector(session);
         ImGui::End();
         return;
     }
@@ -9168,7 +9841,11 @@ void EditorMainWindow::renderEntityInspector(EditorSession &session, size_t enti
         if (beginInspectorPropertyTable("EntityFields"))
         {
             const uint16_t originalDecorationListId = entity.entity.decorationListId;
-            const bool decorationChanged = editDecorationField(session, entity.entity.decorationListId);
+            const bool decorationChanged = renderDecorationSelector(
+                session,
+                "Decoration",
+                entity.entity.decorationListId,
+                false);
             changed = decorationChanged || changed;
 
             if (decorationChanged)
@@ -9261,14 +9938,12 @@ void EditorMainWindow::renderEntityPlacementInspector(EditorSession &session) co
 
     if (beginInspectorPropertyTable("EntityPlacementSelection"))
     {
-        if (editTransientOptionField(
-                "Decoration",
-                selectedId,
-                session.decorationOptions(),
-                nullptr,
-                "Decoration"))
+        uint16_t pendingDecorationId = static_cast<uint16_t>(std::min<uint32_t>(selectedId, 65535));
+
+        if (renderDecorationSelector(session, "Decoration", pendingDecorationId, true))
         {
-            session.setPendingEntityDecorationListId(static_cast<uint16_t>(std::min<uint32_t>(selectedId, 65535)));
+            selectedId = pendingDecorationId;
+            session.setPendingEntityDecorationListId(pendingDecorationId);
         }
 
         renderInspectorReadOnlyField("Pending Decoration Id", std::to_string(selectedId));
@@ -9283,6 +9958,77 @@ void EditorMainWindow::renderEntityPlacementInspector(EditorSession &session) co
             "Hint",
             pDecoration != nullptr && !pDecoration->hint.empty() ? pDecoration->hint : "(none)");
         ImGui::EndTable();
+    }
+}
+
+void EditorMainWindow::renderSpawnPlacementInspector(EditorSession &session) const
+{
+    Game::OutdoorSpawn &spawn = session.mutablePendingSpawn();
+    const Game::MapStatsEntry *pMapEntry = session.currentMapStatsEntry();
+    const Game::SpawnPreview preview = pMapEntry != nullptr
+        ? Game::SpawnPreviewResolver::describe(
+            *pMapEntry,
+            &session.monsterTable(),
+            spawn.typeId,
+            spawn.index,
+            spawn.attributes,
+            spawn.group)
+        : Game::SpawnPreview {};
+
+    ImGui::TextUnformatted("Spawn Placement");
+    ImGui::Separator();
+    ImGui::TextWrapped("Configure the spawn defaults, then click in the viewport to place it. The full placed spawn "
+                       "can still be edited afterward.");
+
+    if (pMapEntry == nullptr)
+    {
+        ImGui::Spacing();
+        ImGui::PushStyleColor(ImGuiCol_Text, colorFromRgb(0xD8B277));
+        ImGui::TextUnformatted("Map stats entry is unavailable. Encounter labels may be incomplete.");
+        ImGui::PopStyleColor();
+    }
+
+    if (beginInspectorSectionBlock("Overview"))
+    {
+        if (beginInspectorPropertyTable("SpawnPlacementOverview"))
+        {
+            editTransientSpawnTypeField(spawn);
+
+            if (spawn.typeId == 3 && pMapEntry != nullptr)
+            {
+                editTransientActorSpawnEncounterField(*pMapEntry, spawn);
+            }
+            else if (spawn.typeId == 2)
+            {
+                renderObjectSelector(session, "Object Description", spawn.index, true);
+            }
+            else
+            {
+                editTransientUInt16Field("Index", spawn.index);
+            }
+
+            renderInspectorReadOnlyField("Type Label", preview.typeName.empty() ? "<unknown>" : preview.typeName);
+            renderInspectorReadOnlyField("Summary", preview.summary.empty() ? "<unresolved>" : preview.summary);
+            renderInspectorReadOnlyField("Detail", preview.detail.empty() ? "<none>" : preview.detail);
+            const Game::ObjectEntry *pObjectEntry = spawn.typeId == 2 ? session.objectTable().get(spawn.index) : nullptr;
+            renderInspectorReadOnlyField(
+                "Object Label",
+                pObjectEntry != nullptr && !pObjectEntry->internalName.empty() ? pObjectEntry->internalName : "<none>");
+            ImGui::EndTable();
+        }
+        endInspectorSectionBlock();
+    }
+
+    if (beginInspectorSectionBlock("Defaults"))
+    {
+        if (beginInspectorPropertyTable("SpawnPlacementDefaults"))
+        {
+            editTransientUInt16Field("Radius", spawn.radius);
+            editTransientUInt32Field("Group", spawn.group);
+            editTransientUInt16Field("Attributes", spawn.attributes);
+            ImGui::EndTable();
+        }
+        endInspectorSectionBlock();
     }
 }
 
@@ -9325,6 +10071,10 @@ void EditorMainWindow::renderSpawnInspector(EditorSession &session, size_t spawn
             {
                 changed = editActorSpawnEncounterField(session, *pMapEntry, spawn.spawn) || changed;
             }
+            else if (spawn.spawn.typeId == 2)
+            {
+                changed = renderObjectSelector(session, "Object Description", spawn.spawn.index, false) || changed;
+            }
             else
             {
                 changed = editUInt16Field(session, "Index", spawn.spawn.index) || changed;
@@ -9333,6 +10083,11 @@ void EditorMainWindow::renderSpawnInspector(EditorSession &session, size_t spawn
             renderInspectorReadOnlyField("Type Label", preview.typeName.empty() ? "<unknown>" : preview.typeName);
             renderInspectorReadOnlyField("Summary", preview.summary.empty() ? "<unresolved>" : preview.summary);
             renderInspectorReadOnlyField("Detail", preview.detail.empty() ? "<none>" : preview.detail);
+            const Game::ObjectEntry *pObjectEntry =
+                spawn.spawn.typeId == 2 ? session.objectTable().get(spawn.spawn.index) : nullptr;
+            renderInspectorReadOnlyField(
+                "Object Label",
+                pObjectEntry != nullptr && !pObjectEntry->internalName.empty() ? pObjectEntry->internalName : "<none>");
             ImGui::EndTable();
         }
         endInspectorSectionBlock();
@@ -9379,6 +10134,64 @@ void EditorMainWindow::renderSpawnInspector(EditorSession &session, size_t spawn
     }
 }
 
+void EditorMainWindow::renderActorPlacementInspector(EditorSession &session) const
+{
+    Game::MapDeltaActor &actor = session.mutablePendingActor();
+    const Game::MonsterTable &monsterTable = session.monsterTable();
+    const std::string displayLabel = actorDisplayLabel(&monsterTable, actor, 0);
+    const std::string templateLabel = actorMonsterTemplateLabel(&monsterTable, actor);
+    const std::string npcIdLabel = actor.npcId == 0 ? "<none>" : std::to_string(actor.npcId);
+
+    ImGui::TextUnformatted("Actor Placement");
+    ImGui::Separator();
+    ImGui::TextWrapped("Configure the actor defaults, then click in the viewport to place it. The full placed actor "
+                       "can still be edited afterward.");
+
+    if (beginInspectorSectionBlock("Overview"))
+    {
+        if (beginInspectorPropertyTable("ActorPlacementOverview"))
+        {
+            renderMonsterTemplateSelector(session, "Monster Template", actor, true);
+            editTransientInt16Field("NPC Id", actor.npcId);
+            editTransientIntField(
+                "Unique Name Index",
+                actor.uniqueNameIndex,
+                std::numeric_limits<int32_t>::min(),
+                std::numeric_limits<int32_t>::max());
+            editTransientStringField("Raw Name Override", actor.name, 128);
+            renderInspectorReadOnlyField("Resolved Name", displayLabel);
+            renderInspectorReadOnlyField("Template", templateLabel.empty() ? "<unresolved>" : templateLabel);
+            renderInspectorReadOnlyField("Monster Info Id", std::to_string(actor.monsterInfoId));
+            renderInspectorReadOnlyField("Monster Id", std::to_string(actor.monsterId));
+            renderInspectorReadOnlyField("NPC Link", npcIdLabel);
+            ImGui::EndTable();
+        }
+        endInspectorSectionBlock();
+    }
+
+    if (beginInspectorSectionBlock("Defaults"))
+    {
+        if (beginInspectorPropertyTable("ActorPlacementDefaults"))
+        {
+            int hostilityType = actor.hostilityType;
+
+            if (editTransientIntField("Hostility Type", hostilityType, 0, 255))
+            {
+                actor.hostilityType = static_cast<uint8_t>(hostilityType);
+            }
+
+            editTransientUInt16Field("Radius", actor.radius);
+            editTransientUInt16Field("Height", actor.height);
+            editTransientUInt16Field("Move Speed", actor.moveSpeed);
+            editTransientUInt32Field("Group", actor.group);
+            editTransientUInt32Field("Ally", actor.ally);
+            renderInspectorReadOnlyField("Hostility Label", hostilityTypeLabel(actor.hostilityType));
+            ImGui::EndTable();
+        }
+        endInspectorSectionBlock();
+    }
+}
+
 void EditorMainWindow::renderActorInspector(EditorSession &session, size_t actorIndex) const
 {
     std::vector<Game::MapDeltaActor> &actors = session.document().mutableOutdoorSceneData().initialState.actors;
@@ -9400,7 +10213,7 @@ void EditorMainWindow::renderActorInspector(EditorSession &session, size_t actor
     {
         if (beginInspectorPropertyTable("ActorIdentityFields"))
         {
-            changed = editMonsterTemplateField(session, actor) || changed;
+            changed = renderMonsterTemplateSelector(session, "Monster Template", actor, false) || changed;
             changed = editInt16Field(session, "NPC Id", actor.npcId) || changed;
             changed = editIntField(
                 session,
@@ -9501,14 +10314,12 @@ void EditorMainWindow::renderSpriteObjectPlacementInspector(EditorSession &sessi
 
     if (beginInspectorPropertyTable("SpriteObjectPlacementSelection"))
     {
-        if (editTransientOptionField(
-                "Object Description",
-                selectedId,
-                session.objectOptions(),
-                nullptr,
-                "Object"))
+        uint16_t pendingObjectDescriptionId = static_cast<uint16_t>(std::min<uint32_t>(selectedId, 65535));
+
+        if (renderObjectSelector(session, "Object Description", pendingObjectDescriptionId, true))
         {
-            session.setPendingSpriteObjectDescriptionId(static_cast<uint16_t>(std::min<uint32_t>(selectedId, 65535)));
+            selectedId = pendingObjectDescriptionId;
+            session.setPendingSpriteObjectDescriptionId(pendingObjectDescriptionId);
         }
 
         renderInspectorReadOnlyField("Pending Object Description Id", std::to_string(selectedId));
@@ -9545,7 +10356,11 @@ void EditorMainWindow::renderSpriteObjectInspector(EditorSession &session, size_
         if (beginInspectorPropertyTable("SpriteObjectIdentityFields"))
         {
             const uint16_t originalObjectDescriptionId = spriteObject.objectDescriptionId;
-            const bool objectDescriptionChanged = editObjectDescriptionField(session, spriteObject.objectDescriptionId);
+            const bool objectDescriptionChanged = renderObjectSelector(
+                session,
+                "Object Description",
+                spriteObject.objectDescriptionId,
+                false);
             changed = objectDescriptionChanged || changed;
 
             if (objectDescriptionChanged)

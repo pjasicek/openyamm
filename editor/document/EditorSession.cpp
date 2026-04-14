@@ -2114,6 +2114,13 @@ void copyBModelSceneReferences(
 void EditorSession::initialize(const Engine::AssetFileSystem &assetFileSystem)
 {
     m_pAssetFileSystem = &assetFileSystem;
+    m_pendingSpawn = {};
+    m_pendingSpawn.radius = 512;
+    m_pendingActor = {};
+    m_pendingActor.hp = 1;
+    m_pendingActor.radius = 64;
+    m_pendingActor.height = 128;
+    m_pendingActor.moveSpeed = 256;
 
     std::vector<std::vector<std::string>> monsterDataRows;
     std::vector<std::vector<std::string>> monsterDescriptorRows;
@@ -2598,10 +2605,10 @@ bool EditorSession::createOutdoorObject(EditorSelectionKind kind, int x, int y, 
     {
         Game::OutdoorSceneSpawn spawn = {};
         spawn.spawnIndex = sceneData.spawns.size();
+        spawn.spawn = m_pendingSpawn;
         spawn.spawn.x = x;
         spawn.spawn.y = y;
         spawn.spawn.z = z;
-        spawn.spawn.radius = 512;
         sceneData.spawns.push_back(std::move(spawn));
         newSelection = {EditorSelectionKind::Spawn, sceneData.spawns.size() - 1};
         createdLabel = "spawn";
@@ -2610,14 +2617,10 @@ bool EditorSession::createOutdoorObject(EditorSelectionKind kind, int x, int y, 
 
     case EditorSelectionKind::Actor:
     {
-        Game::MapDeltaActor actor = {};
+        Game::MapDeltaActor actor = m_pendingActor;
         actor.x = x;
         actor.y = y;
         actor.z = z;
-        actor.hp = 1;
-        actor.radius = 64;
-        actor.height = 128;
-        actor.moveSpeed = 256;
         sceneData.initialState.actors.push_back(std::move(actor));
         newSelection = {EditorSelectionKind::Actor, sceneData.initialState.actors.size() - 1};
         createdLabel = "actor";
@@ -3481,6 +3484,36 @@ void EditorSession::setPendingEntityDecorationListId(uint16_t decorationListId)
     m_pendingEntityDecorationListId = decorationListId;
 }
 
+const Game::OutdoorSpawn &EditorSession::pendingSpawn() const
+{
+    return m_pendingSpawn;
+}
+
+Game::OutdoorSpawn &EditorSession::mutablePendingSpawn()
+{
+    return m_pendingSpawn;
+}
+
+void EditorSession::setPendingSpawn(const Game::OutdoorSpawn &spawn)
+{
+    m_pendingSpawn = spawn;
+}
+
+const Game::MapDeltaActor &EditorSession::pendingActor() const
+{
+    return m_pendingActor;
+}
+
+Game::MapDeltaActor &EditorSession::mutablePendingActor()
+{
+    return m_pendingActor;
+}
+
+void EditorSession::setPendingActor(const Game::MapDeltaActor &actor)
+{
+    m_pendingActor = actor;
+}
+
 uint16_t EditorSession::pendingSpriteObjectDescriptionId() const
 {
     return m_pendingSpriteObjectDescriptionId;
@@ -3689,6 +3722,167 @@ const std::vector<EditorActorBillboardPreview> &EditorSession::actorBillboardPre
 {
     ensureOutdoorDerivedCaches();
     return m_cachedActorBillboardPreviews;
+}
+
+std::optional<std::pair<std::string, int16_t>> EditorSession::previewDecorationTexture(uint16_t decorationListId) const
+{
+    const Game::DecorationEntry *pDecoration = m_decorationTable.get(decorationListId);
+    const Game::SpriteFrameTable *pSpriteFrameTable = entityBillboardSpriteFrameTable();
+
+    if (pDecoration == nullptr || pSpriteFrameTable == nullptr || pDecoration->spriteId == 0)
+    {
+        return std::nullopt;
+    }
+
+    const Game::SpriteFrameEntry *pFrame = pSpriteFrameTable->getFrame(pDecoration->spriteId, 0);
+
+    if (pFrame == nullptr)
+    {
+        return std::nullopt;
+    }
+
+    const Game::ResolvedSpriteTexture resolvedTexture = Game::SpriteFrameTable::resolveTexture(*pFrame, 0);
+    return std::pair<std::string, int16_t>{resolvedTexture.textureName, pFrame->paletteId};
+}
+
+std::optional<std::pair<std::string, int16_t>> EditorSession::previewObjectTexture(uint16_t objectDescriptionId) const
+{
+    const Game::ObjectEntry *pObjectEntry = m_objectTable.get(objectDescriptionId);
+    const Game::SpriteFrameTable *pSpriteFrameTable = entityBillboardSpriteFrameTable();
+
+    if (pObjectEntry == nullptr || pSpriteFrameTable == nullptr)
+    {
+        return std::nullopt;
+    }
+
+    uint16_t spriteFrameIndex = pObjectEntry->spriteId;
+
+    if (!pObjectEntry->spriteName.empty())
+    {
+        const std::optional<uint16_t> frameIndex =
+            pSpriteFrameTable->findFrameIndexBySpriteName(pObjectEntry->spriteName);
+
+        if (frameIndex)
+        {
+            spriteFrameIndex = *frameIndex;
+        }
+    }
+
+    if (spriteFrameIndex == 0)
+    {
+        return std::nullopt;
+    }
+
+    const Game::SpriteFrameEntry *pFrame = pSpriteFrameTable->getFrame(spriteFrameIndex, 0);
+
+    if (pFrame == nullptr)
+    {
+        return std::nullopt;
+    }
+
+    const Game::ResolvedSpriteTexture resolvedTexture = Game::SpriteFrameTable::resolveTexture(*pFrame, 0);
+    return std::pair<std::string, int16_t>{resolvedTexture.textureName, pFrame->paletteId};
+}
+
+std::optional<std::pair<std::string, int16_t>> EditorSession::previewMonsterTexture(
+    int16_t monsterInfoId,
+    int16_t monsterId) const
+{
+    const Game::MonsterTable::MonsterDisplayNameEntry *pDisplayEntry = m_monsterTable.findDisplayEntryById(monsterInfoId);
+    const Game::MonsterEntry *pMonsterEntry = nullptr;
+
+    if (pDisplayEntry != nullptr)
+    {
+        pMonsterEntry = m_monsterTable.findByInternalName(pDisplayEntry->pictureName);
+    }
+
+    if (pMonsterEntry == nullptr && monsterId > 0)
+    {
+        pMonsterEntry = m_monsterTable.findById(monsterId);
+    }
+
+    if (pMonsterEntry == nullptr && monsterInfoId > 0)
+    {
+        pMonsterEntry = m_monsterTable.findById(monsterInfoId);
+    }
+
+    if (pMonsterEntry == nullptr)
+    {
+        return std::nullopt;
+    }
+
+    const Game::SpriteFrameTable *pCachedTable = actorBillboardSpriteFrameTable();
+
+    if (pCachedTable != nullptr)
+    {
+        for (const std::string &spriteName : pMonsterEntry->spriteNames)
+        {
+            if (spriteName.empty())
+            {
+                continue;
+            }
+
+            const std::optional<uint16_t> frameIndex = pCachedTable->findFrameIndexBySpriteName(spriteName);
+
+            if (!frameIndex)
+            {
+                continue;
+            }
+
+            const Game::SpriteFrameEntry *pFrame = pCachedTable->getFrame(*frameIndex, 0);
+
+            if (pFrame != nullptr)
+            {
+                const Game::ResolvedSpriteTexture resolvedTexture = Game::SpriteFrameTable::resolveTexture(*pFrame, 0);
+                return std::pair<std::string, int16_t>{resolvedTexture.textureName, pFrame->paletteId};
+            }
+        }
+    }
+
+    if (m_pAssetFileSystem == nullptr)
+    {
+        return std::nullopt;
+    }
+
+    std::unordered_set<std::string> families;
+    appendMonsterSpriteFamilies(families, pMonsterEntry);
+
+    if (families.empty())
+    {
+        return std::nullopt;
+    }
+
+    Game::SpriteFrameTable spriteFrameTable = {};
+
+    if (!loadMonsterSpriteFrameTable(*m_pAssetFileSystem, families, spriteFrameTable))
+    {
+        return std::nullopt;
+    }
+
+    for (const std::string &spriteName : pMonsterEntry->spriteNames)
+    {
+        if (spriteName.empty())
+        {
+            continue;
+        }
+
+        const std::optional<uint16_t> frameIndex = spriteFrameTable.findFrameIndexBySpriteName(spriteName);
+
+        if (!frameIndex)
+        {
+            continue;
+        }
+
+        const Game::SpriteFrameEntry *pFrame = spriteFrameTable.getFrame(*frameIndex, 0);
+
+        if (pFrame != nullptr)
+        {
+            const Game::ResolvedSpriteTexture resolvedTexture = Game::SpriteFrameTable::resolveTexture(*pFrame, 0);
+            return std::pair<std::string, int16_t>{resolvedTexture.textureName, pFrame->paletteId};
+        }
+    }
+
+    return std::nullopt;
 }
 
 const std::vector<EditorIdLabelOption> &EditorSession::mapEventOptions() const
