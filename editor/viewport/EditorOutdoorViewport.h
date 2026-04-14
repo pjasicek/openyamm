@@ -156,6 +156,9 @@ private:
         size_t selectionIndex = 0;
         bx::Vec3 worldPosition = {0.0f, 0.0f, 0.0f};
         float pickRadiusPixels = 18.0f;
+        bool hasBillboardBounds = false;
+        float billboardWorldWidth = 0.0f;
+        float billboardWorldHeight = 0.0f;
     };
 
     enum class GizmoDragMode

@@ -260,6 +260,690 @@ bool parseBoolValue(const std::string &value)
     return normalized == "1" || normalized == "true" || normalized == "yes" || normalized == "on";
 }
 
+ImVec4 colorFromRgb(uint32_t rgb)
+{
+    const float red = static_cast<float>((rgb >> 16) & 0xff) / 255.0f;
+    const float green = static_cast<float>((rgb >> 8) & 0xff) / 255.0f;
+    const float blue = static_cast<float>(rgb & 0xff) / 255.0f;
+    return ImVec4(red, green, blue, 1.0f);
+}
+
+enum class UiIcon
+{
+    None,
+    Select,
+    Face,
+    Terrain,
+    Entity,
+    Spawn,
+    Actor,
+    Object,
+    Move,
+    Rotate,
+    World,
+    Local,
+    Snap,
+    Paint,
+    Rectangle,
+    Fill,
+    Raise,
+    Lower,
+    Flatten,
+    Smooth,
+    Noise,
+    Ramp,
+    Clay,
+    Grid,
+    Wireframe,
+    Textured
+};
+
+void drawArrowHead(ImDrawList *pDrawList, const ImVec2 &tip, const ImVec2 &direction, float size, ImU32 color)
+{
+    const float length = std::sqrt(direction.x * direction.x + direction.y * direction.y);
+
+    if (length <= 0.0001f)
+    {
+        return;
+    }
+
+    const ImVec2 normal = {direction.x / length, direction.y / length};
+    const ImVec2 perpendicular = {-normal.y, normal.x};
+    const ImVec2 base = {tip.x - normal.x * size, tip.y - normal.y * size};
+    const ImVec2 left = {base.x + perpendicular.x * size * 0.55f, base.y + perpendicular.y * size * 0.55f};
+    const ImVec2 right = {base.x - perpendicular.x * size * 0.55f, base.y - perpendicular.y * size * 0.55f};
+    pDrawList->AddTriangleFilled(tip, left, right, color);
+}
+
+void drawUiIcon(ImDrawList *pDrawList, UiIcon icon, const ImVec2 &origin, float size, ImU32 color)
+{
+    const float stroke = std::max(1.4f, size * 0.11f);
+    const float x = origin.x;
+    const float y = origin.y;
+    const float s = size;
+    const float cX = x + s * 0.5f;
+    const float cY = y + s * 0.5f;
+
+    switch (icon)
+    {
+    case UiIcon::Select:
+        pDrawList->AddTriangle(ImVec2(x + s * 0.18f, y + s * 0.12f), ImVec2(x + s * 0.76f, y + s * 0.52f),
+            ImVec2(x + s * 0.44f, y + s * 0.60f), color, stroke);
+        pDrawList->AddLine(ImVec2(x + s * 0.44f, y + s * 0.60f), ImVec2(x + s * 0.63f, y + s * 0.90f), color, stroke);
+        break;
+
+    case UiIcon::Face:
+        pDrawList->AddQuad(
+            ImVec2(x + s * 0.22f, y + s * 0.28f),
+            ImVec2(x + s * 0.78f, y + s * 0.20f),
+            ImVec2(x + s * 0.72f, y + s * 0.78f),
+            ImVec2(x + s * 0.16f, y + s * 0.72f),
+            color,
+            stroke);
+        pDrawList->AddLine(ImVec2(x + s * 0.22f, y + s * 0.28f), ImVec2(x + s * 0.72f, y + s * 0.78f), color, stroke);
+        break;
+
+    case UiIcon::Terrain:
+        pDrawList->AddBezierCubic(
+            ImVec2(x + s * 0.08f, y + s * 0.70f),
+            ImVec2(x + s * 0.30f, y + s * 0.56f),
+            ImVec2(x + s * 0.48f, y + s * 0.30f),
+            ImVec2(x + s * 0.64f, y + s * 0.40f),
+            color,
+            stroke);
+        pDrawList->AddBezierCubic(
+            ImVec2(x + s * 0.64f, y + s * 0.40f),
+            ImVec2(x + s * 0.76f, y + s * 0.46f),
+            ImVec2(x + s * 0.84f, y + s * 0.62f),
+            ImVec2(x + s * 0.92f, y + s * 0.58f),
+            color,
+            stroke);
+        pDrawList->AddLine(ImVec2(x + s * 0.08f, y + s * 0.70f), ImVec2(x + s * 0.92f, y + s * 0.70f), color, stroke);
+        break;
+
+    case UiIcon::Entity:
+        pDrawList->AddCircle(ImVec2(cX, y + s * 0.28f), s * 0.14f, color, 0, stroke);
+        pDrawList->AddBezierCubic(
+            ImVec2(x + s * 0.20f, y + s * 0.86f),
+            ImVec2(x + s * 0.28f, y + s * 0.62f),
+            ImVec2(x + s * 0.40f, y + s * 0.56f),
+            ImVec2(cX, y + s * 0.56f),
+            color,
+            stroke);
+        pDrawList->AddBezierCubic(
+            ImVec2(cX, y + s * 0.56f),
+            ImVec2(x + s * 0.60f, y + s * 0.56f),
+            ImVec2(x + s * 0.72f, y + s * 0.62f),
+            ImVec2(x + s * 0.80f, y + s * 0.86f),
+            color,
+            stroke);
+        break;
+
+    case UiIcon::Spawn:
+        pDrawList->AddCircle(ImVec2(cX, y + s * 0.40f), s * 0.20f, color, 0, stroke);
+        pDrawList->AddLine(ImVec2(cX, y + s * 0.60f), ImVec2(cX, y + s * 0.90f), color, stroke);
+        pDrawList->AddLine(ImVec2(cX, y + s * 0.90f), ImVec2(x + s * 0.38f, y + s * 0.72f), color, stroke);
+        pDrawList->AddLine(ImVec2(cX, y + s * 0.90f), ImVec2(x + s * 0.62f, y + s * 0.72f), color, stroke);
+        break;
+
+    case UiIcon::Actor:
+        pDrawList->AddCircle(ImVec2(cX, y + s * 0.26f), s * 0.14f, color, 0, stroke);
+        pDrawList->AddLine(ImVec2(cX, y + s * 0.40f), ImVec2(cX, y + s * 0.66f), color, stroke);
+        pDrawList->AddLine(ImVec2(x + s * 0.30f, y + s * 0.52f), ImVec2(cX, y + s * 0.62f), color, stroke);
+        pDrawList->AddLine(ImVec2(cX, y + s * 0.62f), ImVec2(x + s * 0.70f, y + s * 0.52f), color, stroke);
+        pDrawList->AddLine(ImVec2(cX, y + s * 0.66f), ImVec2(x + s * 0.36f, y + s * 0.90f), color, stroke);
+        pDrawList->AddLine(ImVec2(cX, y + s * 0.66f), ImVec2(x + s * 0.64f, y + s * 0.90f), color, stroke);
+        break;
+
+    case UiIcon::Object:
+        pDrawList->AddRect(
+            ImVec2(x + s * 0.20f, y + s * 0.28f),
+            ImVec2(x + s * 0.80f, y + s * 0.80f),
+            color,
+            0.0f,
+            0,
+            stroke);
+        pDrawList->AddLine(ImVec2(x + s * 0.20f, y + s * 0.44f), ImVec2(x + s * 0.80f, y + s * 0.44f), color, stroke);
+        pDrawList->AddLine(ImVec2(x + s * 0.40f, y + s * 0.28f), ImVec2(x + s * 0.40f, y + s * 0.80f), color, stroke);
+        break;
+
+    case UiIcon::Move:
+        pDrawList->AddLine(ImVec2(cX, y + s * 0.14f), ImVec2(cX, y + s * 0.86f), color, stroke);
+        pDrawList->AddLine(ImVec2(x + s * 0.14f, cY), ImVec2(x + s * 0.86f, cY), color, stroke);
+        drawArrowHead(pDrawList, ImVec2(cX, y + s * 0.10f), ImVec2(0.0f, -1.0f), s * 0.10f, color);
+        drawArrowHead(pDrawList, ImVec2(cX, y + s * 0.90f), ImVec2(0.0f, 1.0f), s * 0.10f, color);
+        drawArrowHead(pDrawList, ImVec2(x + s * 0.10f, cY), ImVec2(-1.0f, 0.0f), s * 0.10f, color);
+        drawArrowHead(pDrawList, ImVec2(x + s * 0.90f, cY), ImVec2(1.0f, 0.0f), s * 0.10f, color);
+        break;
+
+    case UiIcon::Rotate:
+        pDrawList->PathArcTo(ImVec2(cX, cY), s * 0.30f, 3.3f, 7.3f, 24);
+        pDrawList->PathStroke(color, 0, stroke);
+        drawArrowHead(pDrawList, ImVec2(x + s * 0.24f, y + s * 0.30f), ImVec2(-0.8f, -0.6f), s * 0.10f, color);
+        break;
+
+    case UiIcon::World:
+        pDrawList->AddCircle(ImVec2(cX, cY), s * 0.34f, color, 0, stroke);
+        pDrawList->AddLine(ImVec2(x + s * 0.16f, cY), ImVec2(x + s * 0.84f, cY), color, stroke);
+        pDrawList->AddBezierCubic(
+            ImVec2(cX, y + s * 0.16f),
+            ImVec2(x + s * 0.74f, y + s * 0.30f),
+            ImVec2(x + s * 0.74f, y + s * 0.70f),
+            ImVec2(cX, y + s * 0.84f),
+            color,
+            stroke);
+        pDrawList->AddBezierCubic(
+            ImVec2(cX, y + s * 0.16f),
+            ImVec2(x + s * 0.26f, y + s * 0.30f),
+            ImVec2(x + s * 0.26f, y + s * 0.70f),
+            ImVec2(cX, y + s * 0.84f),
+            color,
+            stroke);
+        break;
+
+    case UiIcon::Local:
+        pDrawList->AddTriangle(ImVec2(cX, y + s * 0.16f), ImVec2(x + s * 0.18f, y + s * 0.84f),
+            ImVec2(x + s * 0.82f, y + s * 0.84f), color, stroke);
+        pDrawList->AddLine(ImVec2(cX, y + s * 0.16f), ImVec2(cX, y + s * 0.84f), color, stroke);
+        pDrawList->AddLine(ImVec2(x + s * 0.34f, y + s * 0.60f), ImVec2(x + s * 0.66f, y + s * 0.60f), color, stroke);
+        break;
+
+    case UiIcon::Snap:
+        pDrawList->AddRect(ImVec2(x + s * 0.28f, y + s * 0.28f), ImVec2(x + s * 0.72f, y + s * 0.72f), color, 0.0f,
+            0, stroke);
+        pDrawList->AddLine(ImVec2(cX, y + s * 0.10f), ImVec2(cX, y + s * 0.28f), color, stroke);
+        pDrawList->AddLine(ImVec2(cX, y + s * 0.72f), ImVec2(cX, y + s * 0.90f), color, stroke);
+        pDrawList->AddLine(ImVec2(x + s * 0.10f, cY), ImVec2(x + s * 0.28f, cY), color, stroke);
+        pDrawList->AddLine(ImVec2(x + s * 0.72f, cY), ImVec2(x + s * 0.90f, cY), color, stroke);
+        break;
+
+    case UiIcon::Paint:
+        pDrawList->AddLine(ImVec2(x + s * 0.65f, y + s * 0.18f), ImVec2(x + s * 0.86f, y + s * 0.39f), color, stroke);
+        pDrawList->AddRect(ImVec2(x + s * 0.44f, y + s * 0.30f), ImVec2(x + s * 0.67f, y + s * 0.62f), color, 0.0f,
+            0, stroke);
+        pDrawList->AddTriangle(ImVec2(x + s * 0.22f, y + s * 0.82f), ImVec2(x + s * 0.44f, y + s * 0.30f),
+            ImVec2(x + s * 0.56f, y + s * 0.42f), color, stroke);
+        break;
+
+    case UiIcon::Rectangle:
+        pDrawList->AddRect(
+            ImVec2(x + s * 0.18f, y + s * 0.24f),
+            ImVec2(x + s * 0.82f, y + s * 0.76f),
+            color,
+            0.0f,
+            0,
+            stroke);
+        break;
+
+    case UiIcon::Fill:
+        pDrawList->AddRectFilled(ImVec2(x + s * 0.20f, y + s * 0.24f), ImVec2(x + s * 0.80f, y + s * 0.78f), color);
+        break;
+
+    case UiIcon::Raise:
+        pDrawList->AddLine(ImVec2(cX, y + s * 0.18f), ImVec2(cX, y + s * 0.82f), color, stroke);
+        drawArrowHead(pDrawList, ImVec2(cX, y + s * 0.14f), ImVec2(0.0f, -1.0f), s * 0.12f, color);
+        break;
+
+    case UiIcon::Lower:
+        pDrawList->AddLine(ImVec2(cX, y + s * 0.18f), ImVec2(cX, y + s * 0.82f), color, stroke);
+        drawArrowHead(pDrawList, ImVec2(cX, y + s * 0.86f), ImVec2(0.0f, 1.0f), s * 0.12f, color);
+        break;
+
+    case UiIcon::Flatten:
+        pDrawList->AddLine(ImVec2(x + s * 0.16f, y + s * 0.72f), ImVec2(x + s * 0.84f, y + s * 0.72f), color, stroke);
+        pDrawList->AddLine(ImVec2(cX, y + s * 0.20f), ImVec2(cX, y + s * 0.54f), color, stroke);
+        drawArrowHead(pDrawList, ImVec2(cX, y + s * 0.18f), ImVec2(0.0f, -1.0f), s * 0.10f, color);
+        break;
+
+    case UiIcon::Smooth:
+        pDrawList->AddBezierCubic(
+            ImVec2(x + s * 0.12f, y + s * 0.62f),
+            ImVec2(x + s * 0.28f, y + s * 0.32f),
+            ImVec2(x + s * 0.46f, y + s * 0.32f),
+            ImVec2(cX, y + s * 0.62f),
+            color,
+            stroke);
+        pDrawList->AddBezierCubic(
+            ImVec2(cX, y + s * 0.62f),
+            ImVec2(x + s * 0.62f, y + s * 0.92f),
+            ImVec2(x + s * 0.76f, y + s * 0.92f),
+            ImVec2(x + s * 0.88f, y + s * 0.62f),
+            color,
+            stroke);
+        break;
+
+    case UiIcon::Noise:
+        pDrawList->AddPolyline(
+            std::array<ImVec2, 8> {{
+                ImVec2(x + s * 0.10f, y + s * 0.70f),
+                ImVec2(x + s * 0.22f, y + s * 0.46f),
+                ImVec2(x + s * 0.34f, y + s * 0.76f),
+                ImVec2(x + s * 0.46f, y + s * 0.34f),
+                ImVec2(x + s * 0.58f, y + s * 0.80f),
+                ImVec2(x + s * 0.70f, y + s * 0.50f),
+                ImVec2(x + s * 0.82f, y + s * 0.68f),
+                ImVec2(x + s * 0.90f, y + s * 0.40f)
+            }}.data(),
+            8,
+            color,
+            0,
+            stroke);
+        break;
+
+    case UiIcon::Ramp:
+        pDrawList->AddLine(ImVec2(x + s * 0.14f, y + s * 0.78f), ImVec2(x + s * 0.88f, y + s * 0.78f), color, stroke);
+        pDrawList->AddLine(ImVec2(x + s * 0.22f, y + s * 0.78f), ImVec2(x + s * 0.76f, y + s * 0.30f), color, stroke);
+        pDrawList->AddLine(ImVec2(x + s * 0.76f, y + s * 0.30f), ImVec2(x + s * 0.76f, y + s * 0.78f), color, stroke);
+        break;
+
+    case UiIcon::Clay:
+        pDrawList->AddBezierCubic(
+            ImVec2(x + s * 0.12f, y + s * 0.70f),
+            ImVec2(x + s * 0.26f, y + s * 0.40f),
+            ImVec2(x + s * 0.44f, y + s * 0.34f),
+            ImVec2(x + s * 0.56f, y + s * 0.58f),
+            color,
+            stroke);
+        pDrawList->AddBezierCubic(
+            ImVec2(x + s * 0.56f, y + s * 0.58f),
+            ImVec2(x + s * 0.66f, y + s * 0.40f),
+            ImVec2(x + s * 0.78f, y + s * 0.36f),
+            ImVec2(x + s * 0.88f, y + s * 0.58f),
+            color,
+            stroke);
+        pDrawList->AddLine(ImVec2(x + s * 0.12f, y + s * 0.70f), ImVec2(x + s * 0.88f, y + s * 0.70f), color, stroke);
+        break;
+
+    case UiIcon::Grid:
+        for (int index = 0; index < 4; ++index)
+        {
+            const float offset = x + s * (0.18f + 0.18f * static_cast<float>(index));
+            pDrawList->AddLine(ImVec2(offset, y + s * 0.12f), ImVec2(offset, y + s * 0.88f), color, stroke);
+            pDrawList->AddLine(
+                ImVec2(x + s * 0.12f, offset - x + y), ImVec2(x + s * 0.88f, offset - x + y), color, stroke);
+        }
+        break;
+
+    case UiIcon::Wireframe:
+        pDrawList->AddLine(ImVec2(cX, y + s * 0.14f), ImVec2(x + s * 0.82f, y + s * 0.32f), color, stroke);
+        pDrawList->AddLine(ImVec2(x + s * 0.82f, y + s * 0.32f), ImVec2(x + s * 0.82f, y + s * 0.72f), color, stroke);
+        pDrawList->AddLine(ImVec2(x + s * 0.82f, y + s * 0.72f), ImVec2(cX, y + s * 0.90f), color, stroke);
+        pDrawList->AddLine(ImVec2(cX, y + s * 0.90f), ImVec2(x + s * 0.18f, y + s * 0.72f), color, stroke);
+        pDrawList->AddLine(ImVec2(x + s * 0.18f, y + s * 0.72f), ImVec2(x + s * 0.18f, y + s * 0.32f), color, stroke);
+        pDrawList->AddLine(ImVec2(x + s * 0.18f, y + s * 0.32f), ImVec2(cX, y + s * 0.14f), color, stroke);
+        pDrawList->AddLine(ImVec2(cX, y + s * 0.14f), ImVec2(cX, y + s * 0.90f), color, stroke);
+        pDrawList->AddLine(ImVec2(x + s * 0.18f, y + s * 0.32f), ImVec2(x + s * 0.82f, y + s * 0.72f), color, stroke);
+        pDrawList->AddLine(ImVec2(x + s * 0.82f, y + s * 0.32f), ImVec2(x + s * 0.18f, y + s * 0.72f), color, stroke);
+        break;
+
+    case UiIcon::Textured:
+        pDrawList->AddRect(ImVec2(x + s * 0.14f, y + s * 0.18f), ImVec2(x + s * 0.86f, y + s * 0.82f), color, 0.0f,
+            0, stroke);
+        pDrawList->AddBezierCubic(
+            ImVec2(x + s * 0.18f, y + s * 0.44f),
+            ImVec2(x + s * 0.30f, y + s * 0.34f),
+            ImVec2(x + s * 0.42f, y + s * 0.34f),
+            ImVec2(x + s * 0.54f, y + s * 0.44f),
+            color,
+            stroke);
+        pDrawList->AddBezierCubic(
+            ImVec2(x + s * 0.54f, y + s * 0.44f),
+            ImVec2(x + s * 0.66f, y + s * 0.54f),
+            ImVec2(x + s * 0.74f, y + s * 0.54f),
+            ImVec2(x + s * 0.86f, y + s * 0.44f),
+            color,
+            stroke);
+        pDrawList->AddBezierCubic(
+            ImVec2(x + s * 0.18f, y + s * 0.66f),
+            ImVec2(x + s * 0.30f, y + s * 0.56f),
+            ImVec2(x + s * 0.42f, y + s * 0.56f),
+            ImVec2(x + s * 0.54f, y + s * 0.66f),
+            color,
+            stroke);
+        pDrawList->AddBezierCubic(
+            ImVec2(x + s * 0.54f, y + s * 0.66f),
+            ImVec2(x + s * 0.66f, y + s * 0.76f),
+            ImVec2(x + s * 0.74f, y + s * 0.76f),
+            ImVec2(x + s * 0.86f, y + s * 0.66f),
+            color,
+            stroke);
+        break;
+
+    case UiIcon::None:
+    default:
+        break;
+    }
+}
+
+bool renderTogglePill(const char *pLabel, bool active, const ImVec2 &size = ImVec2(0.0f, 0.0f))
+{
+    const ImVec4 buttonColor = active ? colorFromRgb(0x3A2B18) : colorFromRgb(0x222730);
+    const ImVec4 buttonHovered = active ? colorFromRgb(0x6C4D20) : colorFromRgb(0x262D37);
+    const ImVec4 buttonActive = active ? colorFromRgb(0x8D652B) : colorFromRgb(0x181B20);
+    const ImVec4 borderColor = active ? colorFromRgb(0xB9873D) : colorFromRgb(0x3A4350);
+    const ImVec4 textColor = active ? colorFromRgb(0xF2DEC2) : colorFromRgb(0xB5BDC8);
+
+    ImGui::PushStyleColor(ImGuiCol_Button, buttonColor);
+    ImGui::PushStyleColor(ImGuiCol_ButtonHovered, buttonHovered);
+    ImGui::PushStyleColor(ImGuiCol_ButtonActive, buttonActive);
+    ImGui::PushStyleColor(ImGuiCol_Border, borderColor);
+    ImGui::PushStyleColor(ImGuiCol_Text, textColor);
+    ImGui::PushStyleVar(ImGuiStyleVar_FrameBorderSize, 1.0f);
+    const bool clicked = ImGui::Button(pLabel, size);
+    ImGui::PopStyleVar();
+    ImGui::PopStyleColor(5);
+    return clicked;
+}
+
+bool renderIconTogglePill(
+    const char *pId,
+    const char *pLabel,
+    UiIcon icon,
+    bool active,
+    const ImVec2 &size = ImVec2(0.0f, 0.0f))
+{
+    ImDrawList *pDrawList = ImGui::GetWindowDrawList();
+    const ImGuiStyle &style = ImGui::GetStyle();
+    const ImVec2 textSize = ImGui::CalcTextSize(pLabel);
+    const float iconSize = 14.0f;
+    const float horizontalPadding = style.FramePadding.x + 2.0f;
+    const float verticalPadding = style.FramePadding.y;
+    const float spacing = 6.0f;
+    const ImVec2 buttonSize = size.x > 0.0f || size.y > 0.0f
+        ? ImVec2(
+            size.x > 0.0f ? size.x : horizontalPadding * 2.0f + iconSize + spacing + textSize.x,
+            size.y > 0.0f ? size.y : std::max(iconSize, textSize.y) + verticalPadding * 2.0f)
+        : ImVec2(horizontalPadding * 2.0f + iconSize + spacing + textSize.x,
+            std::max(iconSize, textSize.y) + verticalPadding * 2.0f);
+
+    ImGui::PushID(pId);
+    const bool clicked = ImGui::InvisibleButton("##IconPill", buttonSize);
+    const bool hovered = ImGui::IsItemHovered();
+    const bool held = ImGui::IsItemActive();
+    ImGui::PopID();
+
+    const uint32_t bg = active ? 0x3A2B18 : 0x222730;
+    const uint32_t bgHover = active ? 0x6C4D20 : 0x262D37;
+    const uint32_t bgPressed = active ? 0x8D652B : 0x181B20;
+    const uint32_t border = active ? 0xB9873D : 0x3A4350;
+    const uint32_t text = active ? 0xF2DEC2 : 0xB5BDC8;
+    const ImU32 bgColor = ImGui::ColorConvertFloat4ToU32(colorFromRgb(held ? bgPressed : hovered ? bgHover : bg));
+    const ImU32 borderColor = ImGui::ColorConvertFloat4ToU32(colorFromRgb(border));
+    const ImU32 textColor = ImGui::ColorConvertFloat4ToU32(colorFromRgb(text));
+    const ImRect rect(ImGui::GetItemRectMin(), ImGui::GetItemRectMax());
+    pDrawList->AddRectFilled(rect.Min, rect.Max, bgColor, 4.0f);
+    pDrawList->AddRect(rect.Min, rect.Max, borderColor, 4.0f, 0, 1.0f);
+
+    const ImVec2 iconOrigin = {
+        rect.Min.x + horizontalPadding,
+        rect.Min.y + (buttonSize.y - iconSize) * 0.5f
+    };
+    drawUiIcon(pDrawList, icon, iconOrigin, iconSize, textColor);
+    pDrawList->AddText(
+        ImVec2(iconOrigin.x + iconSize + spacing, rect.Min.y + (buttonSize.y - textSize.y) * 0.5f),
+        textColor,
+        pLabel);
+    return clicked;
+}
+
+bool renderSecondaryTogglePill(const char *pLabel, bool active, const ImVec2 &size = ImVec2(0.0f, 0.0f))
+{
+    const ImVec4 buttonColor = active ? colorFromRgb(0x29313B) : colorFromRgb(0x171B20);
+    const ImVec4 buttonHovered = active ? colorFromRgb(0x303A46) : colorFromRgb(0x1D2228);
+    const ImVec4 buttonActive = active ? colorFromRgb(0x384554) : colorFromRgb(0x12161A);
+    const ImVec4 borderColor = active ? colorFromRgb(0x5D6B7C) : colorFromRgb(0x2C3440);
+    const ImVec4 textColor = active ? colorFromRgb(0xD7DEE7) : colorFromRgb(0x8E98A6);
+
+    ImGui::PushStyleColor(ImGuiCol_Button, buttonColor);
+    ImGui::PushStyleColor(ImGuiCol_ButtonHovered, buttonHovered);
+    ImGui::PushStyleColor(ImGuiCol_ButtonActive, buttonActive);
+    ImGui::PushStyleColor(ImGuiCol_Border, borderColor);
+    ImGui::PushStyleColor(ImGuiCol_Text, textColor);
+    ImGui::PushStyleVar(ImGuiStyleVar_FrameBorderSize, 1.0f);
+    const bool clicked = ImGui::Button(pLabel, size);
+    ImGui::PopStyleVar();
+    ImGui::PopStyleColor(5);
+    return clicked;
+}
+
+bool renderSecondaryIconTogglePill(
+    const char *pId,
+    const char *pLabel,
+    UiIcon icon,
+    bool active,
+    const ImVec2 &size = ImVec2(0.0f, 0.0f))
+{
+    ImDrawList *pDrawList = ImGui::GetWindowDrawList();
+    const ImGuiStyle &style = ImGui::GetStyle();
+    const ImVec2 textSize = ImGui::CalcTextSize(pLabel);
+    const float iconSize = 14.0f;
+    const float horizontalPadding = style.FramePadding.x + 2.0f;
+    const float verticalPadding = style.FramePadding.y;
+    const float spacing = 6.0f;
+    const ImVec2 buttonSize = size.x > 0.0f || size.y > 0.0f
+        ? ImVec2(
+            size.x > 0.0f ? size.x : horizontalPadding * 2.0f + iconSize + spacing + textSize.x,
+            size.y > 0.0f ? size.y : std::max(iconSize, textSize.y) + verticalPadding * 2.0f)
+        : ImVec2(horizontalPadding * 2.0f + iconSize + spacing + textSize.x,
+            std::max(iconSize, textSize.y) + verticalPadding * 2.0f);
+
+    ImGui::PushID(pId);
+    const bool clicked = ImGui::InvisibleButton("##SecondaryIconPill", buttonSize);
+    const bool hovered = ImGui::IsItemHovered();
+    const bool held = ImGui::IsItemActive();
+    ImGui::PopID();
+
+    const uint32_t bg = active ? 0x29313B : 0x171B20;
+    const uint32_t bgHover = active ? 0x303A46 : 0x1D2228;
+    const uint32_t bgPressed = active ? 0x384554 : 0x12161A;
+    const uint32_t border = active ? 0x5D6B7C : 0x2C3440;
+    const uint32_t text = active ? 0xD7DEE7 : 0x8E98A6;
+    const ImU32 bgColor = ImGui::ColorConvertFloat4ToU32(colorFromRgb(held ? bgPressed : hovered ? bgHover : bg));
+    const ImU32 borderColor = ImGui::ColorConvertFloat4ToU32(colorFromRgb(border));
+    const ImU32 textColor = ImGui::ColorConvertFloat4ToU32(colorFromRgb(text));
+    const ImRect rect(ImGui::GetItemRectMin(), ImGui::GetItemRectMax());
+    pDrawList->AddRectFilled(rect.Min, rect.Max, bgColor, 4.0f);
+    pDrawList->AddRect(rect.Min, rect.Max, borderColor, 4.0f, 0, 1.0f);
+
+    const ImVec2 iconOrigin = {
+        rect.Min.x + horizontalPadding,
+        rect.Min.y + (buttonSize.y - iconSize) * 0.5f
+    };
+    drawUiIcon(pDrawList, icon, iconOrigin, iconSize, textColor);
+    pDrawList->AddText(
+        ImVec2(iconOrigin.x + iconSize + spacing, rect.Min.y + (buttonSize.y - textSize.y) * 0.5f),
+        textColor,
+        pLabel);
+    return clicked;
+}
+
+UiIcon selectionKindIcon(EditorSelectionKind kind)
+{
+    switch (kind)
+    {
+    case EditorSelectionKind::Terrain:
+        return UiIcon::Terrain;
+
+    case EditorSelectionKind::InteractiveFace:
+        return UiIcon::Face;
+
+    case EditorSelectionKind::Entity:
+        return UiIcon::Entity;
+
+    case EditorSelectionKind::Spawn:
+        return UiIcon::Spawn;
+
+    case EditorSelectionKind::Actor:
+        return UiIcon::Actor;
+
+    case EditorSelectionKind::SpriteObject:
+        return UiIcon::Object;
+
+    case EditorSelectionKind::None:
+    default:
+        return UiIcon::Select;
+    }
+}
+
+UiIcon terrainPaintModeIcon(EditorTerrainPaintMode mode)
+{
+    switch (mode)
+    {
+    case EditorTerrainPaintMode::Brush:
+        return UiIcon::Paint;
+
+    case EditorTerrainPaintMode::Rectangle:
+        return UiIcon::Rectangle;
+
+    case EditorTerrainPaintMode::Fill:
+    default:
+        return UiIcon::Fill;
+    }
+}
+
+UiIcon terrainSculptModeIcon(EditorTerrainSculptMode mode)
+{
+    switch (mode)
+    {
+    case EditorTerrainSculptMode::Raise:
+        return UiIcon::Raise;
+
+    case EditorTerrainSculptMode::Lower:
+        return UiIcon::Lower;
+
+    case EditorTerrainSculptMode::Flatten:
+        return UiIcon::Flatten;
+
+    case EditorTerrainSculptMode::Smooth:
+        return UiIcon::Smooth;
+
+    case EditorTerrainSculptMode::Noise:
+        return UiIcon::Noise;
+
+    case EditorTerrainSculptMode::Ramp:
+    default:
+        return UiIcon::Ramp;
+    }
+}
+
+bool matchesSceneFilter(const char *pFilterText, const std::string &label)
+{
+    const std::string filter = toLowerCopy(trimCopy(pFilterText != nullptr ? pFilterText : ""));
+
+    if (filter.empty())
+    {
+        return true;
+    }
+
+    return toLowerCopy(label).find(filter) != std::string::npos;
+}
+
+void beginToolbarCard(const char *pTitle, float width = 0.0f)
+{
+    ImGui::BeginChild(pTitle, ImVec2(width, 0.0f), ImGuiChildFlags_Borders, ImGuiWindowFlags_NoScrollbar);
+    ImGui::PushStyleColor(ImGuiCol_Text, colorFromRgb(0x8D96A3));
+    ImGui::TextUnformatted(pTitle);
+    ImGui::PopStyleColor();
+    ImGui::Dummy(ImVec2(0.0f, 2.0f));
+}
+
+void endToolbarCard()
+{
+    ImGui::EndChild();
+}
+
+void renderStatusPill(const char *pLabel, uint32_t textColorRgb, uint32_t borderColorRgb, uint32_t fillColorRgb)
+{
+    ImGui::PushStyleColor(ImGuiCol_Button, colorFromRgb(fillColorRgb));
+    ImGui::PushStyleColor(ImGuiCol_ButtonHovered, colorFromRgb(fillColorRgb));
+    ImGui::PushStyleColor(ImGuiCol_ButtonActive, colorFromRgb(fillColorRgb));
+    ImGui::PushStyleColor(ImGuiCol_Border, colorFromRgb(borderColorRgb));
+    ImGui::PushStyleColor(ImGuiCol_Text, colorFromRgb(textColorRgb));
+    ImGui::PushStyleVar(ImGuiStyleVar_FrameBorderSize, 1.0f);
+    ImGui::Button(pLabel);
+    ImGui::PopStyleVar();
+    ImGui::PopStyleColor(5);
+}
+
+void renderToolbarSubLabel(const char *pLabel)
+{
+    ImGui::PushStyleColor(ImGuiCol_Text, colorFromRgb(0x8D96A3));
+    ImGui::TextUnformatted(pLabel);
+    ImGui::PopStyleColor();
+}
+
+std::string activeEditorContextSummary(const EditorSession &session, const EditorOutdoorViewport &viewport)
+{
+    if (viewport.placementKind() == EditorSelectionKind::Terrain)
+    {
+        if (session.terrainSculptEnabled())
+        {
+            const char *pTool = "Raise";
+
+            switch (session.terrainSculptMode())
+            {
+            case EditorTerrainSculptMode::Lower:
+                pTool = "Lower";
+                break;
+            case EditorTerrainSculptMode::Flatten:
+                pTool = "Flatten";
+                break;
+            case EditorTerrainSculptMode::Smooth:
+                pTool = "Smooth";
+                break;
+            case EditorTerrainSculptMode::Noise:
+                pTool = "Noise";
+                break;
+            case EditorTerrainSculptMode::Ramp:
+                pTool = "Ramp";
+                break;
+            case EditorTerrainSculptMode::Raise:
+            default:
+                break;
+            }
+
+            return std::string("Terrain  ·  Sculpt  ·  ") + pTool;
+        }
+
+        return "Terrain  ·  Paint";
+    }
+
+    const char *pMode = "Select";
+
+    switch (viewport.placementKind())
+    {
+    case EditorSelectionKind::InteractiveFace:
+        pMode = "Face";
+        break;
+    case EditorSelectionKind::BModel:
+        pMode = "BModel Place";
+        break;
+    case EditorSelectionKind::Entity:
+        pMode = "Entity Place";
+        break;
+    case EditorSelectionKind::Spawn:
+        pMode = "Spawn Place";
+        break;
+    case EditorSelectionKind::Actor:
+        pMode = "Actor Place";
+        break;
+    case EditorSelectionKind::SpriteObject:
+        pMode = "Object Place";
+        break;
+    case EditorSelectionKind::None:
+    default:
+        break;
+    }
+
+    const char *pTransform = viewport.transformGizmoMode() == EditorOutdoorViewport::TransformGizmoMode::Rotate
+        ? "Rotate"
+        : "Move";
+    const char *pSpace = viewport.transformSpaceMode() == EditorOutdoorViewport::TransformSpaceMode::Local
+        ? "Local"
+        : "World";
+    return std::string(pMode) + "  ·  " + pTransform + "  ·  " + pSpace;
+}
+
 std::string inspectorFieldId(const char *pLabel);
 void beginInspectorFieldRow(const char *pLabel);
 
@@ -404,6 +1088,99 @@ std::string spriteObjectDisplayLabel(const Game::MapDeltaSpriteObject &spriteObj
     }
 
     return "Sprite Object " + std::to_string(objectIndex);
+}
+
+std::pair<std::string, std::string> inspectorSelectionSummary(const EditorSession &session)
+{
+    if (!session.hasDocument())
+    {
+        return {"No document", {}};
+    }
+
+    const EditorDocument &document = session.document();
+    const EditorSelection &selection = session.selection();
+
+    switch (selection.kind)
+    {
+    case EditorSelectionKind::None:
+    case EditorSelectionKind::Summary:
+        return {"Level Summary", document.displayName()};
+
+    case EditorSelectionKind::Environment:
+        return {"Environment", document.displayName()};
+
+    case EditorSelectionKind::Terrain:
+    {
+        if (selection.index == std::numeric_limits<size_t>::max())
+        {
+            return {"Terrain", "Map-wide terrain settings"};
+        }
+
+        const int cellX = static_cast<int>(selection.index % Game::OutdoorMapData::TerrainWidth);
+        const int cellY = static_cast<int>(selection.index / Game::OutdoorMapData::TerrainWidth);
+        return {"Terrain Cell", std::to_string(cellX) + ", " + std::to_string(cellY)};
+    }
+
+    case EditorSelectionKind::BModel:
+        return {"BModel", "Index " + std::to_string(selection.index)};
+
+    case EditorSelectionKind::InteractiveFace:
+        return {"Face Selection", std::to_string(session.selectedInteractiveFaceIndices().size()) + " selected"};
+
+    case EditorSelectionKind::Entity:
+    {
+        const Game::OutdoorSceneData &sceneData = document.outdoorSceneData();
+
+        if (selection.index < sceneData.entities.size())
+        {
+            const Game::OutdoorSceneEntity &entity = sceneData.entities[selection.index];
+            const std::string name = entity.entity.name.empty()
+                ? "Entity " + std::to_string(entity.entityIndex)
+                : entity.entity.name;
+            return {"Entity", name};
+        }
+
+        break;
+    }
+
+    case EditorSelectionKind::Spawn:
+        return {"Spawn", "Index " + std::to_string(selection.index)};
+
+    case EditorSelectionKind::Actor:
+    {
+        const Game::OutdoorSceneData &sceneData = document.outdoorSceneData();
+
+        if (selection.index < sceneData.initialState.actors.size())
+        {
+            return {
+                "Actor",
+                actorDisplayLabel(&session.monsterTable(), sceneData.initialState.actors[selection.index], selection.index)
+            };
+        }
+
+        break;
+    }
+
+    case EditorSelectionKind::SpriteObject:
+    {
+        const Game::OutdoorSceneData &sceneData = document.outdoorSceneData();
+
+        if (selection.index < sceneData.initialState.spriteObjects.size())
+        {
+            return {
+                "Sprite Object",
+                spriteObjectDisplayLabel(sceneData.initialState.spriteObjects[selection.index], selection.index)
+            };
+        }
+
+        break;
+    }
+
+    case EditorSelectionKind::Chest:
+        return {"Chest", "Index " + std::to_string(selection.index)};
+    }
+
+    return {"Selection", {}};
 }
 
 const EditorIdLabelOption *findOptionById(
@@ -684,7 +1461,11 @@ bool beginInspectorPropertyTable(const char *pId)
     if (!ImGui::BeginTable(
             pId,
             2,
-            ImGuiTableFlags_SizingStretchProp | ImGuiTableFlags_NoSavedSettings | ImGuiTableFlags_BordersInnerV))
+            ImGuiTableFlags_SizingStretchProp
+                | ImGuiTableFlags_NoSavedSettings
+                | ImGuiTableFlags_BordersInnerV
+                | ImGuiTableFlags_BordersInnerH
+                | ImGuiTableFlags_RowBg))
     {
         return false;
     }
@@ -704,7 +1485,9 @@ void beginInspectorFieldRow(const char *pLabel)
     ImGui::TableNextRow();
     ImGui::TableSetColumnIndex(0);
     ImGui::AlignTextToFramePadding();
+    ImGui::PushStyleColor(ImGuiCol_Text, colorFromRgb(0x9CA6B3));
     ImGui::TextUnformatted(pLabel);
+    ImGui::PopStyleColor();
     ImGui::TableSetColumnIndex(1);
     ImGui::SetNextItemWidth(std::min(ImGui::GetContentRegionAvail().x, InspectorFieldMaxWidth));
 }
@@ -1205,7 +1988,36 @@ void orientFaceWindingOutward(
 void renderInspectorSectionHeader(const char *pLabel)
 {
     ImGui::Spacing();
+    ImGui::PushStyleColor(ImGuiCol_Separator, colorFromRgb(0x2B313B));
+    ImGui::PushStyleColor(ImGuiCol_Text, colorFromRgb(0xE6E8EB));
     ImGui::SeparatorText(pLabel);
+    ImGui::PopStyleColor(2);
+}
+
+bool beginInspectorSectionBlock(const char *pLabel, bool defaultOpen = true)
+{
+    ImGui::PushStyleColor(ImGuiCol_Header, colorFromRgb(0x222730));
+    ImGui::PushStyleColor(ImGuiCol_HeaderHovered, colorFromRgb(0x262D37));
+    ImGui::PushStyleColor(ImGuiCol_HeaderActive, colorFromRgb(0x3A2B18));
+    ImGui::PushStyleColor(ImGuiCol_Text, colorFromRgb(0xE6E8EB));
+    const bool open = ImGui::CollapsingHeader(
+        pLabel,
+        defaultOpen ? ImGuiTreeNodeFlags_DefaultOpen : ImGuiTreeNodeFlags_None);
+    ImGui::PopStyleColor(4);
+
+    if (open)
+    {
+        ImGui::Indent(8.0f);
+        ImGui::Spacing();
+    }
+
+    return open;
+}
+
+void endInspectorSectionBlock()
+{
+    ImGui::Unindent(8.0f);
+    ImGui::Spacing();
 }
 
 bool editStringField(EditorSession &session, const char *pLabel, std::string &value, size_t capacity)
@@ -2941,40 +3753,103 @@ void EditorMainWindow::renderToolbar(EditorSession &session)
         return;
     }
 
-    const auto renderToolbarSection =
-        [](const char *pId, bool placeOnSameLine, auto &&callback)
+    ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(6.0f, 1.0f));
+    ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(4.0f, 2.0f));
+    const ImGuiStyle &style = ImGui::GetStyle();
+    const float iconSize = 14.0f;
+    const float iconTextSpacing = 6.0f;
+    const float iconPillPadding = style.FramePadding.x + 2.0f;
+    const float cardInnerPadding = 12.0f;
+    const float columnSpacing = 10.0f;
+    const auto iconPillWidth = [&](const char *pLabel)
     {
-        if (placeOnSameLine)
+        return iconPillPadding * 2.0f + iconSize + iconTextSpacing + ImGui::CalcTextSize(pLabel).x;
+    };
+    const auto textPillWidth = [&](const char *pLabel)
+    {
+        return style.FramePadding.x * 2.0f + ImGui::CalcTextSize(pLabel).x;
+    };
+    const auto rowWidth = [&](std::initializer_list<float> widths)
+    {
+        float width = 0.0f;
+        bool first = true;
+
+        for (float value : widths)
         {
-            ImGui::SameLine(0.0f, 14.0f);
+            if (!first)
+            {
+                width += style.ItemSpacing.x;
+            }
+
+            width += value;
+            first = false;
         }
 
-        ImGui::BeginGroup();
-        ImGui::PushID(pId);
-        callback();
-        ImGui::PopID();
-        ImGui::EndGroup();
+        return width;
     };
+    const float modeCreateWidth = std::max(
+        rowWidth({iconPillWidth("Select"), iconPillWidth("Terrain"), iconPillWidth("Face")}),
+        std::max(
+            rowWidth({iconPillWidth("Entity"), iconPillWidth("Spawn"), iconPillWidth("Actor")}),
+            rowWidth({
+                iconPillWidth("Object"),
+                iconPillWidth("Import BModel"),
+                textPillWidth("Duplicate"),
+                textPillWidth("Delete")
+            }))) + cardInnerPadding;
+    const float transformWidth = std::max(
+        rowWidth({iconPillWidth("Move"), iconPillWidth("Rotate")}),
+        std::max(
+            rowWidth({iconPillWidth("World"), iconPillWidth("Local"), iconPillWidth("Snap")}),
+            ImGui::CalcTextSize("Snap Step").x + style.ItemSpacing.x + 64.0f)) + cardInnerPadding;
+    const float viewWidth = std::max(
+        rowWidth({
+            iconPillWidth("Terrain"),
+            iconPillWidth("Grid"),
+            iconPillWidth("Textured"),
+            iconPillWidth("Clay"),
+            iconPillWidth("Entities"),
+            iconPillWidth("Actors"),
+            iconPillWidth("Events")
+        }),
+        rowWidth({
+            iconPillWidth("BModels"),
+            iconPillWidth("Wire"),
+            iconPillWidth("Grid Preview"),
+            iconPillWidth("Selected"),
+            iconPillWidth("Spawns"),
+            iconPillWidth("Objects")
+        })) + cardInnerPadding;
 
     renderToolbarStatus(session);
     ImGui::Separator();
+    ImGui::BeginTable("ToolbarContextBands", 4, ImGuiTableFlags_SizingFixedFit);
+    ImGui::TableSetupColumn("ModeCreate", ImGuiTableColumnFlags_WidthFixed, modeCreateWidth);
+    ImGui::TableSetupColumn("Transform", ImGuiTableColumnFlags_WidthFixed, transformWidth);
+    ImGui::TableSetupColumn("View", ImGuiTableColumnFlags_WidthFixed, viewWidth);
+    ImGui::TableSetupColumn("Spacer", ImGuiTableColumnFlags_WidthStretch);
+    ImGui::TableNextRow();
 
-    renderToolbarSection("ToolsSection", false, [this, &session]()
-    {
-        renderToolModeButtons(session);
-    });
-    renderToolbarSection("TransformSection", true, [this]()
-    {
-        renderTransformToolbar();
-    });
-    renderToolbarSection("TerrainSection", true, [this, &session]()
-    {
-        renderTerrainToolbar(session);
-    });
-    renderToolbarSection("ViewSection", true, [this]()
-    {
-        renderViewToolbar();
-    });
+    ImGui::TableNextColumn();
+    beginToolbarCard("Mode / Create", modeCreateWidth);
+    renderToolModeButtons(session);
+    ImGui::Dummy(ImVec2(0.0f, 1.0f));
+    renderToolbarSubLabel("Create");
+    renderCreateButtons(session);
+    endToolbarCard();
+
+    ImGui::TableNextColumn();
+    beginToolbarCard("Transform", transformWidth);
+    renderTransformToolbar();
+    endToolbarCard();
+
+    ImGui::TableNextColumn();
+    beginToolbarCard("View", viewWidth);
+    renderViewToolbar();
+    endToolbarCard();
+    ImGui::TableNextColumn();
+    ImGui::EndTable();
+    ImGui::PopStyleVar(2);
 
     ImGuiWindow *pWindow = ImGui::GetCurrentWindowRead();
 
@@ -2982,8 +3857,8 @@ void EditorMainWindow::renderToolbar(EditorSession &session)
     {
         const float desiredHeight = std::clamp(
             ImGui::GetCursorPosY() + ImGui::GetStyle().WindowPadding.y,
-            64.0f,
-            240.0f);
+            32.0f,
+            180.0f);
 
         if (std::fabs(m_toolsDockTargetHeight - desiredHeight) > 1.0f)
         {
@@ -2997,110 +3872,74 @@ void EditorMainWindow::renderToolbar(EditorSession &session)
 
 void EditorMainWindow::renderToolModeButtons(EditorSession &session)
 {
-    const auto renderModeButton = [this](const char *pLabel, const char *pIdSuffix, EditorSelectionKind kind)
+    const auto renderModeButton = [this](const char *pLabel, EditorSelectionKind kind)
     {
         const bool selected = m_viewport.placementKind() == kind;
-        const std::string buttonId = std::string(pLabel) + "##" + pIdSuffix;
 
-        if (selected)
-        {
-            ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.63f, 0.42f, 0.13f, 1.0f));
-            ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.69f, 0.47f, 0.15f, 1.0f));
-            ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.74f, 0.50f, 0.16f, 1.0f));
-        }
-
-        if (ImGui::Button(buttonId.c_str()))
+        if (renderIconTogglePill(pLabel, pLabel, selectionKindIcon(kind), selected))
         {
             m_viewport.setPlacementKind(selected ? EditorSelectionKind::None : kind);
         }
-
-        if (selected)
-        {
-            ImGui::PopStyleColor(3);
-        }
     };
 
-    ImGui::TextUnformatted("Tools");
-
-    if (ImGui::Button("Select"))
+    if (renderIconTogglePill("Select", "Select", UiIcon::Select, m_viewport.placementKind() == EditorSelectionKind::None))
     {
         m_viewport.setPlacementKind(EditorSelectionKind::None);
     }
 
     ImGui::SameLine();
-    renderModeButton("Terrain", "ToolModeTerrain", EditorSelectionKind::Terrain);
+    renderModeButton("Terrain", EditorSelectionKind::Terrain);
     ImGui::SameLine();
-    renderModeButton("Face", "ToolModeFace", EditorSelectionKind::InteractiveFace);
+    renderModeButton("Face", EditorSelectionKind::InteractiveFace);
 }
 
 void EditorMainWindow::renderTransformToolbar()
 {
-    ImGui::TextUnformatted("Transform");
-
     const auto renderTransformModeButton =
-        [this](const char *pLabel, const char *pIdSuffix, EditorOutdoorViewport::TransformGizmoMode mode)
+        [this](const char *pLabel, EditorOutdoorViewport::TransformGizmoMode mode)
     {
         const bool isSelected = m_viewport.transformGizmoMode() == mode;
+        const UiIcon icon = mode == EditorOutdoorViewport::TransformGizmoMode::Translate ? UiIcon::Move : UiIcon::Rotate;
 
-        if (isSelected)
-        {
-            ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.28f, 0.41f, 0.62f, 1.0f));
-            ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.34f, 0.49f, 0.74f, 1.0f));
-            ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.24f, 0.36f, 0.56f, 1.0f));
-        }
-
-        if (ImGui::Button((std::string(pLabel) + "##" + pIdSuffix).c_str()))
+        if (renderIconTogglePill(pLabel, pLabel, icon, isSelected))
         {
             m_viewport.setTransformGizmoMode(mode);
         }
-
-        if (isSelected)
-        {
-            ImGui::PopStyleColor(3);
-        }
     };
 
-    renderTransformModeButton("Move", "TransformMove", EditorOutdoorViewport::TransformGizmoMode::Translate);
+    renderTransformModeButton("Move", EditorOutdoorViewport::TransformGizmoMode::Translate);
     ImGui::SameLine();
-    renderTransformModeButton("Rotate", "TransformRotate", EditorOutdoorViewport::TransformGizmoMode::Rotate);
-    ImGui::SameLine();
+    renderTransformModeButton("Rotate", EditorOutdoorViewport::TransformGizmoMode::Rotate);
+    ImGui::NewLine();
 
     const auto renderTransformSpaceButton =
-        [this](const char *pLabel, const char *pIdSuffix, EditorOutdoorViewport::TransformSpaceMode mode)
+        [this](const char *pLabel, EditorOutdoorViewport::TransformSpaceMode mode)
     {
         const bool isSelected = m_viewport.transformSpaceMode() == mode;
+        const UiIcon icon = mode == EditorOutdoorViewport::TransformSpaceMode::World ? UiIcon::World : UiIcon::Local;
 
-        if (isSelected)
-        {
-            ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.23f, 0.42f, 0.30f, 1.0f));
-            ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.28f, 0.50f, 0.36f, 1.0f));
-            ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.19f, 0.36f, 0.26f, 1.0f));
-        }
-
-        if (ImGui::Button((std::string(pLabel) + "##" + pIdSuffix).c_str()))
+        if (renderIconTogglePill(pLabel, pLabel, icon, isSelected))
         {
             m_viewport.setTransformSpaceMode(mode);
         }
-
-        if (isSelected)
-        {
-            ImGui::PopStyleColor(3);
-        }
     };
 
-    renderTransformSpaceButton("World", "TransformWorld", EditorOutdoorViewport::TransformSpaceMode::World);
+    renderTransformSpaceButton("World", EditorOutdoorViewport::TransformSpaceMode::World);
     ImGui::SameLine();
-    renderTransformSpaceButton("Local", "TransformLocal", EditorOutdoorViewport::TransformSpaceMode::Local);
+    renderTransformSpaceButton("Local", EditorOutdoorViewport::TransformSpaceMode::Local);
     ImGui::SameLine();
 
     bool snapEnabled = m_viewport.snapEnabled();
 
-    if (ImGui::Checkbox("Snap", &snapEnabled))
+    if (renderIconTogglePill("Snap", "Snap", UiIcon::Snap, snapEnabled))
     {
-        m_viewport.setSnapEnabled(snapEnabled);
+        m_viewport.setSnapEnabled(!snapEnabled);
     }
 
+    ImGui::NewLine();
     int snapStep = m_viewport.snapStep();
+    renderToolbarSubLabel("Snap Step");
+    ImGui::SameLine();
     ImGui::SetNextItemWidth(64.0f);
 
     if (ImGui::InputInt("Step", &snapStep))
@@ -3112,116 +3951,145 @@ void EditorMainWindow::renderTransformToolbar()
 void EditorMainWindow::renderTerrainToolbar(EditorSession &session)
 {
     ImGui::BeginDisabled(m_viewport.placementKind() != EditorSelectionKind::Terrain);
-    ImGui::TextUnformatted("Terrain");
-    static constexpr const char *PaintModeLabels[] = {"Brush", "Rect", "Fill"};
     static constexpr const char *FalloffModeLabels[] = {"Flat", "Linear", "Smooth"};
-    static constexpr const char *SculptModeLabels[] = {"Raise", "Lower", "Flatten", "Smooth", "Noise", "Ramp"};
     static constexpr const char *FlattenTargetModeLabels[] = {"Sampled", "Numeric"};
+    const bool paintEnabled = session.terrainPaintEnabled();
+    const bool sculptEnabled = session.terrainSculptEnabled();
 
     ImGui::BeginGroup();
 
-    bool paintEnabled = session.terrainPaintEnabled();
-
-    if (ImGui::Checkbox("Paint", &paintEnabled))
+    if (renderIconTogglePill("PaintModeEnabled", "Paint", UiIcon::Paint, paintEnabled))
     {
-        session.setTerrainPaintEnabled(paintEnabled);
+        session.setTerrainPaintEnabled(!paintEnabled);
 
-        if (paintEnabled)
+        if (!paintEnabled)
         {
             session.setTerrainSculptEnabled(false);
         }
     }
 
-    bool sculptEnabled = session.terrainSculptEnabled();
-
-    if (ImGui::Checkbox("Sculpt", &sculptEnabled))
+    if (ImGui::SameLine(), renderIconTogglePill("SculptModeEnabled", "Sculpt", UiIcon::Flatten, sculptEnabled))
     {
-        session.setTerrainSculptEnabled(sculptEnabled);
+        session.setTerrainSculptEnabled(!sculptEnabled);
 
-        if (sculptEnabled)
+        if (!sculptEnabled)
         {
             session.setTerrainPaintEnabled(false);
         }
     }
 
-    if (session.terrainSculptEnabled())
+    if (sculptEnabled)
     {
-        int sculptMode = static_cast<int>(session.terrainSculptMode());
-        ImGui::SetNextItemWidth(100.0f);
+        ImGui::NewLine();
+        renderToolbarSubLabel("Tool");
+        ImGui::SameLine();
+        const std::array<std::pair<const char *, EditorTerrainSculptMode>, 6> sculptModes = {{
+            {"Raise", EditorTerrainSculptMode::Raise},
+            {"Lower", EditorTerrainSculptMode::Lower},
+            {"Flatten", EditorTerrainSculptMode::Flatten},
+            {"Smooth", EditorTerrainSculptMode::Smooth},
+            {"Noise", EditorTerrainSculptMode::Noise},
+            {"Ramp", EditorTerrainSculptMode::Ramp}
+        }};
 
-        if (ImGui::Combo("##TerrainSculptMode", &sculptMode, SculptModeLabels, IM_ARRAYSIZE(SculptModeLabels)))
+        for (size_t index = 0; index < sculptModes.size(); ++index)
         {
-            session.setTerrainSculptMode(static_cast<EditorTerrainSculptMode>(sculptMode));
+            const auto &[pLabel, mode] = sculptModes[index];
+            const bool selected = session.terrainSculptMode() == mode;
+
+            if (renderIconTogglePill(pLabel, pLabel, terrainSculptModeIcon(mode), selected))
+            {
+                session.setTerrainSculptMode(mode);
+            }
+
+            if ((index % 3) != 2 && index + 1 < sculptModes.size())
+            {
+                ImGui::SameLine();
+            }
         }
     }
 
     ImGui::EndGroup();
-    ImGui::SameLine(0.0f, 12.0f);
+    ImGui::SameLine(0.0f, 10.0f);
     ImGui::BeginGroup();
 
-    int tileId = static_cast<int>(session.terrainPaintTileId());
-    ImGui::AlignTextToFramePadding();
-    ImGui::TextUnformatted("Tile");
-    ImGui::SameLine();
-    ImGui::SetNextItemWidth(58.0f);
-
-    if (ImGui::InputInt("##TerrainTile", &tileId))
+    if (paintEnabled)
     {
-        tileId = std::clamp(tileId, 0, 255);
-        session.setTerrainPaintTileId(static_cast<uint8_t>(tileId));
-    }
-
-    ImGui::SameLine();
-    renderTerrainTilePreviewButton(
-        m_viewport,
-        session.terrainPaintTileId(),
-        true,
-        ImVec2(32.0f, 32.0f));
-
-    ImGui::AlignTextToFramePadding();
-    ImGui::TextUnformatted("Mode");
-    ImGui::SameLine();
-    ImGui::SetNextItemWidth(84.0f);
-    int paintMode = static_cast<int>(session.terrainPaintMode());
-
-    if (ImGui::Combo("##TerrainPaintMode", &paintMode, PaintModeLabels, IM_ARRAYSIZE(PaintModeLabels)))
-    {
-        session.setTerrainPaintMode(static_cast<EditorTerrainPaintMode>(paintMode));
-    }
-
-    if (session.terrainPaintEnabled() && session.terrainPaintMode() == EditorTerrainPaintMode::Brush)
-    {
-        int radius = session.terrainPaintRadius();
-        ImGui::AlignTextToFramePadding();
-        ImGui::TextUnformatted("Brush");
+        int tileId = static_cast<int>(session.terrainPaintTileId());
+        renderToolbarSubLabel("Tile");
         ImGui::SameLine();
-        ImGui::SetNextItemWidth(64.0f);
+        ImGui::SetNextItemWidth(54.0f);
 
-        if (ImGui::InputInt("##TerrainPaintRadius", &radius))
+        if (ImGui::InputInt("##TerrainTile", &tileId))
         {
-            session.setTerrainPaintRadius(radius);
+            tileId = std::clamp(tileId, 0, 255);
+            session.setTerrainPaintTileId(static_cast<uint8_t>(tileId));
         }
 
         ImGui::SameLine();
-        int edgeNoise = session.terrainPaintEdgeNoise();
-        ImGui::AlignTextToFramePadding();
-        ImGui::TextUnformatted("Edge");
-        ImGui::SameLine();
-        ImGui::SetNextItemWidth(56.0f);
+        renderTerrainTilePreviewButton(
+            m_viewport,
+            session.terrainPaintTileId(),
+            true,
+            ImVec2(28.0f, 28.0f));
 
-        if (ImGui::InputInt("##TerrainPaintEdgeNoise", &edgeNoise))
+        ImGui::NewLine();
+        renderToolbarSubLabel("Brush");
+        ImGui::SameLine();
+
+        const std::array<std::pair<const char *, EditorTerrainPaintMode>, 3> paintModes = {{
+            {"Brush", EditorTerrainPaintMode::Brush},
+            {"Rect", EditorTerrainPaintMode::Rectangle},
+            {"Fill", EditorTerrainPaintMode::Fill}
+        }};
+
+        for (size_t index = 0; index < paintModes.size(); ++index)
         {
-            session.setTerrainPaintEdgeNoise(edgeNoise);
+            const auto &[pLabel, mode] = paintModes[index];
+            const bool selected = session.terrainPaintMode() == mode;
+
+            if (renderIconTogglePill(pLabel, pLabel, terrainPaintModeIcon(mode), selected))
+            {
+                session.setTerrainPaintMode(mode);
+            }
+
+            if (index + 1 < paintModes.size())
+            {
+                ImGui::SameLine();
+            }
+        }
+
+        if (session.terrainPaintMode() == EditorTerrainPaintMode::Brush)
+        {
+            ImGui::NewLine();
+            int radius = session.terrainPaintRadius();
+            renderToolbarSubLabel("Radius");
+            ImGui::SameLine();
+            ImGui::SetNextItemWidth(56.0f);
+
+            if (ImGui::InputInt("##TerrainPaintRadius", &radius))
+            {
+                session.setTerrainPaintRadius(radius);
+            }
+
+            ImGui::SameLine();
+            int edgeNoise = session.terrainPaintEdgeNoise();
+            renderToolbarSubLabel("Edge");
+            ImGui::SameLine();
+            ImGui::SetNextItemWidth(52.0f);
+
+            if (ImGui::InputInt("##TerrainPaintEdgeNoise", &edgeNoise))
+            {
+                session.setTerrainPaintEdgeNoise(edgeNoise);
+            }
         }
     }
-
-    if (session.terrainSculptEnabled())
+    else if (sculptEnabled)
     {
+        renderToolbarSubLabel("Brush");
+        ImGui::SameLine();
         int radius = session.terrainSculptRadius();
-        ImGui::AlignTextToFramePadding();
-        ImGui::TextUnformatted("Radius");
-        ImGui::SameLine();
-        ImGui::SetNextItemWidth(64.0f);
+        ImGui::SetNextItemWidth(56.0f);
 
         if (ImGui::InputInt("##TerrainRadius", &radius))
         {
@@ -3230,20 +4098,20 @@ void EditorMainWindow::renderTerrainToolbar(EditorSession &session)
 
         ImGui::SameLine();
         int strength = session.terrainSculptStrength();
-        ImGui::AlignTextToFramePadding();
-        ImGui::TextUnformatted("Strength");
+        renderToolbarSubLabel("Strength");
         ImGui::SameLine();
-        ImGui::SetNextItemWidth(64.0f);
+        ImGui::SetNextItemWidth(56.0f);
 
         if (ImGui::InputInt("##TerrainStrength", &strength))
         {
             session.setTerrainSculptStrength(strength);
         }
 
-        ImGui::AlignTextToFramePadding();
-        ImGui::TextUnformatted("Falloff");
+        ImGui::NewLine();
+        renderToolbarSubLabel("Falloff");
         ImGui::SameLine();
-        ImGui::SetNextItemWidth(84.0f);
+        ImGui::AlignTextToFramePadding();
+        ImGui::SetNextItemWidth(80.0f);
         int falloffMode = static_cast<int>(session.terrainSculptFalloffMode());
 
         if (ImGui::Combo("##TerrainFalloffMode", &falloffMode, FalloffModeLabels, IM_ARRAYSIZE(FalloffModeLabels)))
@@ -3253,11 +4121,11 @@ void EditorMainWindow::renderTerrainToolbar(EditorSession &session)
 
         if (session.terrainSculptMode() == EditorTerrainSculptMode::Flatten)
         {
-            int targetMode = static_cast<int>(session.terrainFlattenTargetMode());
-            ImGui::AlignTextToFramePadding();
-            ImGui::TextUnformatted("Target");
             ImGui::SameLine();
-            ImGui::SetNextItemWidth(84.0f);
+            int targetMode = static_cast<int>(session.terrainFlattenTargetMode());
+            renderToolbarSubLabel("Target");
+            ImGui::SameLine();
+            ImGui::SetNextItemWidth(80.0f);
 
             if (ImGui::Combo(
                     "##TerrainFlattenTargetMode",
@@ -3270,11 +4138,11 @@ void EditorMainWindow::renderTerrainToolbar(EditorSession &session)
 
             if (session.terrainFlattenTargetMode() == EditorTerrainFlattenTargetMode::Numeric)
             {
+                ImGui::NewLine();
                 int targetHeight = session.terrainFlattenTargetHeight();
-                ImGui::AlignTextToFramePadding();
-                ImGui::TextUnformatted("Height");
+                renderToolbarSubLabel("Height");
                 ImGui::SameLine();
-                ImGui::SetNextItemWidth(64.0f);
+                ImGui::SetNextItemWidth(56.0f);
 
                 if (ImGui::InputInt("##TerrainFlattenTargetHeight", &targetHeight))
                 {
@@ -3283,11 +4151,8 @@ void EditorMainWindow::renderTerrainToolbar(EditorSession &session)
             }
             else
             {
-                ImGui::AlignTextToFramePadding();
-                ImGui::Text(
-                    "Height %d (%d wu)",
-                    session.terrainFlattenTargetHeight(),
-                    session.terrainFlattenTargetHeight() * Game::OutdoorMapData::TerrainHeightScale);
+                ImGui::NewLine();
+                ImGui::TextDisabled("H %d", session.terrainFlattenTargetHeight());
 
                 const bool canPickSelected =
                     session.selection().kind == EditorSelectionKind::Terrain
@@ -3314,108 +4179,133 @@ void EditorMainWindow::renderTerrainToolbar(EditorSession &session)
 
 void EditorMainWindow::renderViewToolbar()
 {
-    ImGui::TextUnformatted("View");
-
+    renderToolbarSubLabel("Primary");
     bool showTerrain = m_viewport.showTerrainFill();
-    if (ImGui::Checkbox("Terrain##ViewTerrain", &showTerrain))
+    if (renderIconTogglePill("ViewTerrain", "Terrain", UiIcon::Terrain, showTerrain))
     {
-        m_viewport.setShowTerrainFill(showTerrain);
+        m_viewport.setShowTerrainFill(!showTerrain);
     }
 
     ImGui::SameLine();
     bool showTerrainGrid = m_viewport.showTerrainGrid();
-    if (ImGui::Checkbox("Terrain Grid##ViewTerrainGrid", &showTerrainGrid))
+    if (renderIconTogglePill("ViewGrid", "Grid", UiIcon::Grid, showTerrainGrid))
     {
-        m_viewport.setShowTerrainGrid(showTerrainGrid);
+        m_viewport.setShowTerrainGrid(!showTerrainGrid);
     }
 
     ImGui::SameLine();
-    int previewMaterialMode = static_cast<int>(m_viewport.previewMaterialMode());
-    ImGui::SetNextItemWidth(112.0f);
-    if (ImGui::Combo("Preview##ViewPreviewMaterialMode", &previewMaterialMode, "Textured\0Clay\0Grid\0"))
+    if (renderIconTogglePill(
+            "PreviewTextured",
+            "Textured",
+            UiIcon::Textured,
+            m_viewport.previewMaterialMode() == EditorOutdoorViewport::PreviewMaterialMode::Textured))
     {
-        m_viewport.setPreviewMaterialMode(static_cast<EditorOutdoorViewport::PreviewMaterialMode>(previewMaterialMode));
+        m_viewport.setPreviewMaterialMode(EditorOutdoorViewport::PreviewMaterialMode::Textured);
     }
 
     ImGui::SameLine();
-    bool previewSelectedOnly = m_viewport.forcePreviewOnSelectedOnly();
-    if (ImGui::Checkbox("Selected Only##ViewPreviewSelectedOnly", &previewSelectedOnly))
+    if (renderIconTogglePill(
+            "PreviewClay",
+            "Clay",
+            UiIcon::Clay,
+            m_viewport.previewMaterialMode() == EditorOutdoorViewport::PreviewMaterialMode::Clay))
     {
-        m_viewport.setForcePreviewOnSelectedOnly(previewSelectedOnly);
-    }
-
-    ImGui::SameLine();
-    bool showBModels = m_viewport.showBModels();
-    if (ImGui::Checkbox("BModels##ViewBModels", &showBModels))
-    {
-        m_viewport.setShowBModels(showBModels);
-    }
-
-    bool showBModelWire = m_viewport.showBModelWireframe();
-    if (ImGui::Checkbox("BModel Wire##ViewBModelWire", &showBModelWire))
-    {
-        m_viewport.setShowBModelWireframe(showBModelWire);
+        m_viewport.setPreviewMaterialMode(EditorOutdoorViewport::PreviewMaterialMode::Clay);
     }
 
     ImGui::SameLine();
     bool showEntities = m_viewport.showEntities();
-    if (ImGui::Checkbox("Entities##ViewEntities", &showEntities))
+    if (renderIconTogglePill("ViewEntities", "Entities", UiIcon::Entity, showEntities))
     {
-        m_viewport.setShowEntities(showEntities);
-    }
-
-    ImGui::SameLine();
-    bool showEntityBillboards = m_viewport.showEntityBillboards();
-    if (ImGui::Checkbox("Entity Preview##ViewEntityPreview", &showEntityBillboards))
-    {
-        m_viewport.setShowEntityBillboards(showEntityBillboards);
+        m_viewport.setShowEntities(!showEntities);
     }
 
     ImGui::SameLine();
     bool showSpawns = m_viewport.showSpawns();
-    if (ImGui::Checkbox("Spawns##ViewSpawns", &showSpawns))
-    {
-        m_viewport.setShowSpawns(showSpawns);
-    }
-
-    ImGui::SameLine();
     bool showActors = m_viewport.showActors();
-    if (ImGui::Checkbox("Actors##ViewActors", &showActors))
+    if (renderIconTogglePill("ViewActors", "Actors", UiIcon::Actor, showActors))
     {
-        m_viewport.setShowActors(showActors);
-    }
-
-    ImGui::SameLine();
-    bool showActorBillboards = m_viewport.showActorBillboards();
-    if (ImGui::Checkbox("Actor Preview##ViewActorPreview", &showActorBillboards))
-    {
-        m_viewport.setShowActorBillboards(showActorBillboards);
-    }
-
-    bool showObjects = m_viewport.showSpriteObjects();
-    if (ImGui::Checkbox("Objects##ViewObjects", &showObjects))
-    {
-        m_viewport.setShowSpriteObjects(showObjects);
-    }
-
-    ImGui::SameLine();
-    bool showSpawnActorBillboards = m_viewport.showSpawnActorBillboards();
-    if (ImGui::Checkbox("Spawn Preview##ViewSpawnPreview", &showSpawnActorBillboards))
-    {
-        m_viewport.setShowSpawnActorBillboards(showSpawnActorBillboards);
+        m_viewport.setShowActors(!showActors);
     }
 
     ImGui::SameLine();
     bool showEvents = m_viewport.showEventMarkers();
-    if (ImGui::Checkbox("Events##ViewEvents", &showEvents))
+    if (renderIconTogglePill("ViewEvents", "Events", UiIcon::Select, showEvents))
     {
-        m_viewport.setShowEventMarkers(showEvents);
+        m_viewport.setShowEventMarkers(!showEvents);
     }
 
-    bool showChestLinks = m_viewport.showChestLinks();
-    if (ImGui::Checkbox("Chest Links##ViewChestLinks", &showChestLinks))
+    ImGui::NewLine();
+    renderToolbarSubLabel("Secondary");
+    bool showBModels = m_viewport.showBModels();
+    if (renderSecondaryIconTogglePill("ViewBModels", "BModels", UiIcon::Face, showBModels))
     {
-        m_viewport.setShowChestLinks(showChestLinks);
+        m_viewport.setShowBModels(!showBModels);
+    }
+
+    ImGui::SameLine();
+    bool showBModelWire = m_viewport.showBModelWireframe();
+    if (renderSecondaryIconTogglePill("ViewWire", "Wire", UiIcon::Wireframe, showBModelWire))
+    {
+        m_viewport.setShowBModelWireframe(!showBModelWire);
+    }
+
+    ImGui::SameLine();
+    if (renderSecondaryIconTogglePill(
+            "PreviewGrid",
+            "Grid",
+            UiIcon::Grid,
+            m_viewport.previewMaterialMode() == EditorOutdoorViewport::PreviewMaterialMode::Grid))
+    {
+        m_viewport.setPreviewMaterialMode(EditorOutdoorViewport::PreviewMaterialMode::Grid);
+    }
+
+    ImGui::SameLine();
+    bool previewSelectedOnly = m_viewport.forcePreviewOnSelectedOnly();
+    if (renderSecondaryIconTogglePill("PreviewSelected", "Selected", UiIcon::Select, previewSelectedOnly))
+    {
+        m_viewport.setForcePreviewOnSelectedOnly(!previewSelectedOnly);
+    }
+
+    ImGui::SameLine();
+    if (renderSecondaryIconTogglePill("ViewSpawns", "Spawns", UiIcon::Spawn, showSpawns))
+    {
+        m_viewport.setShowSpawns(!showSpawns);
+    }
+
+    ImGui::SameLine();
+    bool showObjects = m_viewport.showSpriteObjects();
+    if (renderSecondaryIconTogglePill("ViewObjects", "Objects", UiIcon::Object, showObjects))
+    {
+        m_viewport.setShowSpriteObjects(!showObjects);
+    }
+
+    ImGui::NewLine();
+    bool showEntityBillboards = m_viewport.showEntityBillboards();
+    if (renderSecondaryTogglePill("Entity Preview", showEntityBillboards))
+    {
+        m_viewport.setShowEntityBillboards(!showEntityBillboards);
+    }
+
+    ImGui::SameLine();
+    bool showActorBillboards = m_viewport.showActorBillboards();
+    if (renderSecondaryTogglePill("Actor Preview", showActorBillboards))
+    {
+        m_viewport.setShowActorBillboards(!showActorBillboards);
+    }
+
+    ImGui::SameLine();
+    bool showSpawnActorBillboards = m_viewport.showSpawnActorBillboards();
+    if (renderSecondaryTogglePill("Spawn Preview", showSpawnActorBillboards))
+    {
+        m_viewport.setShowSpawnActorBillboards(!showSpawnActorBillboards);
+    }
+
+    ImGui::SameLine();
+    bool showChestLinks = m_viewport.showChestLinks();
+    if (renderSecondaryTogglePill("Chest Links", showChestLinks))
+    {
+        m_viewport.setShowChestLinks(!showChestLinks);
     }
 }
 
@@ -3471,16 +4361,16 @@ void EditorMainWindow::renderToolbarStatus(const EditorSession &session)
         const EditorDocument &document = session.document();
         const bool sourceDirty = document.isDirty();
         const bool buildDirty = document.isRuntimeBuildDirty();
-        const ImVec4 sourceColor = sourceDirty ? ImVec4(0.88f, 0.56f, 0.18f, 1.0f) : ImVec4(0.32f, 0.77f, 0.38f, 1.0f);
-        const ImVec4 buildColor = buildDirty ? ImVec4(0.88f, 0.56f, 0.18f, 1.0f) : ImVec4(0.32f, 0.77f, 0.38f, 1.0f);
         const EditorOutdoorMapPackageMetadata &packageMetadata = document.outdoorMapPackageMetadata();
 
+        ImGui::PushStyleColor(ImGuiCol_Text, colorFromRgb(0xE6E8EB));
         ImGui::Text(
-            "Document: %s  |  Package: %s v%u  |  Scene: %s",
+            "%s  ·  %s v%u  ·  %s",
             document.displayName().c_str(),
             document.hasMapPackageRoot() ? packageMetadata.packageId.c_str() : "legacy",
             packageMetadata.version,
             document.sceneVirtualPath().c_str());
+        ImGui::PopStyleColor();
 
         if (ImGui::IsItemHovered())
         {
@@ -3493,39 +4383,46 @@ void EditorMainWindow::renderToolbarStatus(const EditorSession &session)
         }
 
         ImGui::SameLine();
-        ImGui::TextUnformatted(" | ");
+        renderStatusPill(
+            sourceDirty ? "Source · Dirty" : "Source · Saved",
+            sourceDirty ? 0xF2DEC2 : 0xD7F0DB,
+            sourceDirty ? 0xB9873D : 0x5FA36A,
+            sourceDirty ? 0x3A2B18 : 0x1A2B1D);
         ImGui::SameLine();
-        ImGui::TextColored(sourceColor, "Source: %s", sourceDirty ? "dirty" : "saved");
+        renderStatusPill(
+            buildDirty ? "Build · Stale" : "Build · Ready",
+            buildDirty ? 0xF2DEC2 : 0xD7F0DB,
+            buildDirty ? 0xB9873D : 0x5FA36A,
+            buildDirty ? 0x3A2B18 : 0x1A2B1D);
         ImGui::SameLine();
-        ImGui::TextUnformatted(" | ");
-        ImGui::SameLine();
-        ImGui::TextColored(buildColor, "Build: %s", buildDirty ? "stale" : "ready");
-        ImGui::SameLine();
-        ImGui::Text(" |  Validation: %zu", session.validationMessages().size());
+        renderStatusPill(
+            ("Validation · " + std::to_string(session.validationMessages().size())).c_str(),
+            session.validationMessages().empty() ? 0xD7F0DB : 0xF2DEC2,
+            session.validationMessages().empty() ? 0x5FA36A : 0xD0A44C,
+            session.validationMessages().empty() ? 0x1A2B1D : 0x332814);
 
         if (!m_statusMessage.empty())
         {
-            ImVec4 statusColor = ImVec4(0.72f, 0.72f, 0.72f, 1.0f);
+            ImGui::SameLine();
 
             if (m_statusMessageKind == StatusMessageKind::Success)
             {
-                statusColor = ImVec4(0.32f, 0.77f, 0.38f, 1.0f);
+                renderStatusPill(m_statusMessage.c_str(), 0xD7F0DB, 0x5FA36A, 0x1A2B1D);
             }
             else if (m_statusMessageKind == StatusMessageKind::Error)
             {
-                statusColor = ImVec4(0.88f, 0.33f, 0.28f, 1.0f);
+                renderStatusPill(m_statusMessage.c_str(), 0xF5D3D3, 0xCC6666, 0x301A1A);
             }
-
-            ImGui::SameLine();
-            ImGui::TextUnformatted(" | ");
-            ImGui::SameLine();
-            ImGui::TextColored(statusColor, "Status: %s", m_statusMessage.c_str());
+            else
+            {
+                renderStatusPill(m_statusMessage.c_str(), 0xE7D8B8, 0xD0A44C, 0x332814);
+            }
         }
 
         if (!session.validationMessages().empty())
         {
             ImGui::SameLine();
-            ImGui::TextDisabled("(hover validation)");
+            ImGui::TextDisabled("hover validation");
 
             if (ImGui::IsItemHovered())
             {
@@ -3820,38 +4717,15 @@ bool EditorMainWindow::renderBitmapTextureSelector(
 
 void EditorMainWindow::renderPlacementButtons(EditorSession &session)
 {
-    const auto renderPlacementButton = [this](const char *pLabel, EditorSelectionKind kind)
+    const auto renderPlacementButton =
+        [this](const char *pId, const char *pLabel, EditorSelectionKind kind)
     {
         const bool selected = m_viewport.placementKind() == kind;
-
-        if (selected)
-        {
-            ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.63f, 0.42f, 0.13f, 1.0f));
-            ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.69f, 0.47f, 0.15f, 1.0f));
-            ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.74f, 0.50f, 0.16f, 1.0f));
-        }
-
-        if (ImGui::Button(pLabel))
-        {
-            m_viewport.setPlacementKind(selected ? EditorSelectionKind::None : kind);
-        }
-
-        if (selected)
-        {
-            ImGui::PopStyleColor(3);
-        }
+        return renderIconTogglePill(pId, pLabel, selectionKindIcon(kind), selected);
     };
 
     const bool entityPlacementSelected = m_viewport.placementKind() == EditorSelectionKind::Entity;
-
-    if (entityPlacementSelected)
-    {
-        ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.36f, 0.24f, 0.08f, 1.0f));
-        ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.56f, 0.38f, 0.14f, 1.0f));
-        ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.74f, 0.50f, 0.16f, 1.0f));
-    }
-
-    if (ImGui::Button("Place Entity"))
+    if (renderIconTogglePill("PlaceEntity", "Entity", UiIcon::Entity, entityPlacementSelected))
     {
         if (entityPlacementSelected)
         {
@@ -3874,26 +4748,23 @@ void EditorMainWindow::renderPlacementButtons(EditorSession &session)
         }
     }
 
-    if (entityPlacementSelected)
+    ImGui::SameLine();
+    if (renderPlacementButton("PlaceSpawn", "Spawn", EditorSelectionKind::Spawn))
     {
-        ImGui::PopStyleColor(3);
+        const bool selected = m_viewport.placementKind() == EditorSelectionKind::Spawn;
+        m_viewport.setPlacementKind(selected ? EditorSelectionKind::None : EditorSelectionKind::Spawn);
     }
 
     ImGui::SameLine();
-    renderPlacementButton("Place Spawn", EditorSelectionKind::Spawn);
-    ImGui::SameLine();
-    renderPlacementButton("Place Actor", EditorSelectionKind::Actor);
+    if (renderPlacementButton("PlaceActor", "Actor", EditorSelectionKind::Actor))
+    {
+        const bool selected = m_viewport.placementKind() == EditorSelectionKind::Actor;
+        m_viewport.setPlacementKind(selected ? EditorSelectionKind::None : EditorSelectionKind::Actor);
+    }
+
     ImGui::SameLine();
     const bool selected = m_viewport.placementKind() == EditorSelectionKind::SpriteObject;
-
-    if (selected)
-    {
-        ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.36f, 0.24f, 0.08f, 1.0f));
-        ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.56f, 0.38f, 0.14f, 1.0f));
-        ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.74f, 0.50f, 0.16f, 1.0f));
-    }
-
-    if (ImGui::Button("Place Object"))
+    if (renderIconTogglePill("PlaceObject", "Object", UiIcon::Object, selected))
     {
         if (selected)
         {
@@ -3915,19 +4786,91 @@ void EditorMainWindow::renderPlacementButtons(EditorSession &session)
             m_viewport.setPlacementKind(EditorSelectionKind::SpriteObject);
         }
     }
-
-    if (selected)
-    {
-        ImGui::PopStyleColor(3);
-    }
 }
 
 void EditorMainWindow::renderCreateButtons(EditorSession &session)
 {
-    ImGui::TextUnformatted("Create");
-    renderPlacementButtons(session);
+    const auto renderPlacementButton =
+        [this](EditorSession &session, const char *pId, const char *pLabel, EditorSelectionKind kind)
+    {
+        if (kind == EditorSelectionKind::Entity)
+        {
+            const bool selected = m_viewport.placementKind() == EditorSelectionKind::Entity;
 
-    if (ImGui::Button("Import BModel..."))
+            if (renderIconTogglePill(pId, pLabel, UiIcon::Entity, selected))
+            {
+                if (selected)
+                {
+                    m_viewport.setPlacementKind(EditorSelectionKind::None);
+                }
+                else
+                {
+                    if (session.selection().kind == EditorSelectionKind::Entity)
+                    {
+                        const Game::OutdoorSceneData &sceneData = session.document().outdoorSceneData();
+
+                        if (session.selection().index < sceneData.entities.size())
+                        {
+                            session.setPendingEntityDecorationListId(
+                                sceneData.entities[session.selection().index].entity.decorationListId);
+                        }
+                    }
+
+                    m_viewport.setPlacementKind(EditorSelectionKind::Entity);
+                }
+            }
+
+            return;
+        }
+
+        if (kind == EditorSelectionKind::SpriteObject)
+        {
+            const bool selected = m_viewport.placementKind() == EditorSelectionKind::SpriteObject;
+
+            if (renderIconTogglePill(pId, pLabel, UiIcon::Object, selected))
+            {
+                if (selected)
+                {
+                    m_viewport.setPlacementKind(EditorSelectionKind::None);
+                }
+                else
+                {
+                    if (session.selection().kind == EditorSelectionKind::SpriteObject)
+                    {
+                        const Game::OutdoorSceneData &sceneData = session.document().outdoorSceneData();
+
+                        if (session.selection().index < sceneData.initialState.spriteObjects.size())
+                        {
+                            session.setPendingSpriteObjectDescriptionId(
+                                sceneData.initialState.spriteObjects[session.selection().index].objectDescriptionId);
+                        }
+                    }
+
+                    m_viewport.setPlacementKind(EditorSelectionKind::SpriteObject);
+                }
+            }
+
+            return;
+        }
+
+        const bool selected = m_viewport.placementKind() == kind;
+
+        if (renderIconTogglePill(pId, pLabel, selectionKindIcon(kind), selected))
+        {
+            m_viewport.setPlacementKind(selected ? EditorSelectionKind::None : kind);
+        }
+    };
+
+    renderPlacementButton(session, "CreateEntity", "Entity", EditorSelectionKind::Entity);
+    ImGui::SameLine();
+    renderPlacementButton(session, "CreateSpawn", "Spawn", EditorSelectionKind::Spawn);
+    ImGui::SameLine();
+    renderPlacementButton(session, "CreateActor", "Actor", EditorSelectionKind::Actor);
+    ImGui::NewLine();
+    renderPlacementButton(session, "CreateObject", "Object", EditorSelectionKind::SpriteObject);
+    ImGui::SameLine();
+
+    if (renderIconTogglePill("ImportBModel", "Import BModel", UiIcon::Face, false))
     {
         std::vector<std::string> mapTextureNames = session.usedBitmapTextureNamesInMap();
 
@@ -3947,14 +4890,15 @@ void EditorMainWindow::renderCreateButtons(EditorSession &session)
     const bool canMutateSelection = isObjectLifecycleKind(session.selection().kind);
 
     ImGui::BeginDisabled(!canMutateSelection);
-    if (ImGui::Button("Duplicate Selected"))
+    ImGui::SameLine();
+    if (renderTogglePill("Duplicate", false))
     {
         duplicateSelected(session);
     }
 
     ImGui::SameLine();
 
-    if (ImGui::Button("Delete Selected"))
+    if (renderTogglePill("Delete", false))
     {
         deleteSelected(session);
     }
@@ -4698,27 +5642,39 @@ void EditorMainWindow::renderSceneOutliner(EditorSession &session)
         }
     };
 
-    renderCreateButtons(session);
-    ImGui::Separator();
+    ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.12f, 0.15f, 0.19f, 1.0f));
+    if (ImGui::BeginChild("SceneHeaderCard", ImVec2(0.0f, 42.0f), ImGuiChildFlags_Borders))
+    {
+        ImGui::SetNextItemWidth(-1.0f);
+        ImGui::InputTextWithHint("##SceneFilter", "Search scene...", m_sceneFilter, sizeof(m_sceneFilter));
+    }
+    ImGui::EndChild();
+    ImGui::PopStyleColor();
+    ImGui::Spacing();
 
     const bool summarySelected = session.selection().kind == EditorSelectionKind::Summary;
 
-    if (ImGui::Selectable("Level Summary", summarySelected))
+    if (matchesSceneFilter(m_sceneFilter, "Level Summary") && ImGui::Selectable("Level Summary", summarySelected))
     {
         session.select(EditorSelectionKind::Summary);
     }
 
-    if (ImGui::Selectable("Environment", session.selection().kind == EditorSelectionKind::Environment))
+    if (matchesSceneFilter(m_sceneFilter, "Environment")
+        && ImGui::Selectable("Environment", session.selection().kind == EditorSelectionKind::Environment))
     {
         session.select(EditorSelectionKind::Environment);
     }
 
-    if (ImGui::Selectable("Terrain Overrides", session.selection().kind == EditorSelectionKind::Terrain))
+    if (matchesSceneFilter(m_sceneFilter, "Terrain Overrides")
+        && ImGui::Selectable("Terrain Overrides", session.selection().kind == EditorSelectionKind::Terrain))
     {
         session.select(EditorSelectionKind::Terrain, std::numeric_limits<size_t>::max());
     }
 
-    if (ImGui::TreeNodeEx("Terrain Override Cells", ImGuiTreeNodeFlags_DefaultOpen))
+    const std::string terrainOverrideLabel =
+        "Terrain Override Cells (" + std::to_string(sceneData.terrainAttributeOverrides.size()) + ")";
+
+    if (ImGui::TreeNodeEx(terrainOverrideLabel.c_str(), ImGuiTreeNodeFlags_DefaultOpen))
     {
         ImGuiListClipper clipper;
         clipper.Begin(static_cast<int>(sceneData.terrainAttributeOverrides.size()));
@@ -4736,6 +5692,11 @@ void EditorMainWindow::renderSceneOutliner(EditorSession &session)
                 const std::string label =
                     "(" + std::to_string(overrideEntry.x) + ", " + std::to_string(overrideEntry.y) + ")";
 
+                if (!matchesSceneFilter(m_sceneFilter, label))
+                {
+                    continue;
+                }
+
                 if (ImGui::Selectable(label.c_str(), isSelected))
                 {
                     session.select(EditorSelectionKind::Terrain, flatIndex);
@@ -4748,9 +5709,11 @@ void EditorMainWindow::renderSceneOutliner(EditorSession &session)
         ImGui::TreePop();
     }
 
-    if (ImGui::TreeNodeEx("BModels", ImGuiTreeNodeFlags_DefaultOpen))
+    const Game::OutdoorMapData &outdoorGeometry = session.document().outdoorGeometry();
+    const std::string bmodelsLabel = "BModels (" + std::to_string(outdoorGeometry.bmodels.size()) + ")";
+
+    if (ImGui::TreeNodeEx(bmodelsLabel.c_str(), ImGuiTreeNodeFlags_DefaultOpen))
     {
-        const Game::OutdoorMapData &outdoorGeometry = session.document().outdoorGeometry();
         ImGuiListClipper clipper;
         clipper.Begin(static_cast<int>(outdoorGeometry.bmodels.size()));
 
@@ -4763,6 +5726,11 @@ void EditorMainWindow::renderSceneOutliner(EditorSession &session)
                 const std::string label =
                     "BModel " + std::to_string(bmodelIndex)
                     + " (" + std::to_string(bmodel.faces.size()) + " faces)";
+
+                if (!matchesSceneFilter(m_sceneFilter, label))
+                {
+                    continue;
+                }
 
                 const bool isSelected =
                     session.selection().kind == EditorSelectionKind::BModel && session.selection().index == bmodelIndex;
@@ -4791,9 +5759,9 @@ void EditorMainWindow::renderSceneOutliner(EditorSession &session)
         ImGui::TreePop();
     }
 
-    ImGui::Separator();
+    const std::string entitiesLabel = "Entities (" + std::to_string(sceneData.entities.size()) + ")";
 
-    if (ImGui::TreeNodeEx("Entities", ImGuiTreeNodeFlags_DefaultOpen))
+    if (ImGui::TreeNodeEx(entitiesLabel.c_str(), ImGuiTreeNodeFlags_DefaultOpen))
     {
         ImGuiListClipper clipper;
         clipper.Begin(static_cast<int>(sceneData.entities.size()));
@@ -4816,6 +5784,11 @@ void EditorMainWindow::renderSceneOutliner(EditorSession &session)
                     label += " [evt]";
                 }
 
+                if (!matchesSceneFilter(m_sceneFilter, label))
+                {
+                    continue;
+                }
+
                 if (ImGui::Selectable(label.c_str(), isSelected))
                 {
                     session.select(EditorSelectionKind::Entity, entityIndex);
@@ -4836,7 +5809,9 @@ void EditorMainWindow::renderSceneOutliner(EditorSession &session)
         ImGui::TreePop();
     }
 
-    if (ImGui::TreeNodeEx("Spawns", ImGuiTreeNodeFlags_DefaultOpen))
+    const std::string spawnsLabel = "Spawns (" + std::to_string(sceneData.spawns.size()) + ")";
+
+    if (ImGui::TreeNodeEx(spawnsLabel.c_str(), ImGuiTreeNodeFlags_DefaultOpen))
     {
         ImGuiListClipper clipper;
         clipper.Begin(static_cast<int>(sceneData.spawns.size()));
@@ -4867,6 +5842,11 @@ void EditorMainWindow::renderSceneOutliner(EditorSession &session)
                     label += " - " + preview.summary;
                 }
 
+                if (!matchesSceneFilter(m_sceneFilter, label))
+                {
+                    continue;
+                }
+
                 if (ImGui::Selectable(label.c_str(), isSelected))
                 {
                     session.select(EditorSelectionKind::Spawn, spawnIndex);
@@ -4887,7 +5867,9 @@ void EditorMainWindow::renderSceneOutliner(EditorSession &session)
         ImGui::TreePop();
     }
 
-    if (ImGui::TreeNodeEx("Actors", ImGuiTreeNodeFlags_DefaultOpen))
+    const std::string actorsLabel = "Actors (" + std::to_string(sceneData.initialState.actors.size()) + ")";
+
+    if (ImGui::TreeNodeEx(actorsLabel.c_str(), ImGuiTreeNodeFlags_DefaultOpen))
     {
         ImGuiListClipper clipper;
         clipper.Begin(static_cast<int>(sceneData.initialState.actors.size()));
@@ -4906,6 +5888,11 @@ void EditorMainWindow::renderSceneOutliner(EditorSession &session)
                     actor,
                     actorIndex)
                     + "##actor" + std::to_string(actorIndex);
+
+                if (!matchesSceneFilter(m_sceneFilter, label))
+                {
+                    continue;
+                }
 
                 if (ImGui::Selectable(label.c_str(), isSelected))
                 {
@@ -4927,7 +5914,10 @@ void EditorMainWindow::renderSceneOutliner(EditorSession &session)
         ImGui::TreePop();
     }
 
-    if (ImGui::TreeNodeEx("Sprite Objects", ImGuiTreeNodeFlags_DefaultOpen))
+    const std::string objectsLabel =
+        "Sprite Objects (" + std::to_string(sceneData.initialState.spriteObjects.size()) + ")";
+
+    if (ImGui::TreeNodeEx(objectsLabel.c_str(), ImGuiTreeNodeFlags_DefaultOpen))
     {
         ImGuiListClipper clipper;
         clipper.Begin(static_cast<int>(sceneData.initialState.spriteObjects.size()));
@@ -4945,6 +5935,11 @@ void EditorMainWindow::renderSceneOutliner(EditorSession &session)
                     spriteObjectDisplayLabel(spriteObject, spriteObjectIndex)
                     + "##object"
                     + std::to_string(spriteObjectIndex);
+
+                if (!matchesSceneFilter(m_sceneFilter, label))
+                {
+                    continue;
+                }
 
                 if (ImGui::Selectable(label.c_str(), isSelected))
                 {
@@ -4966,7 +5961,9 @@ void EditorMainWindow::renderSceneOutliner(EditorSession &session)
         ImGui::TreePop();
     }
 
-    if (ImGui::TreeNodeEx("Chests", ImGuiTreeNodeFlags_DefaultOpen))
+    const std::string chestsLabel = "Chests (" + std::to_string(sceneData.initialState.chests.size()) + ")";
+
+    if (ImGui::TreeNodeEx(chestsLabel.c_str(), ImGuiTreeNodeFlags_DefaultOpen))
     {
         ImGuiListClipper clipper;
         clipper.Begin(static_cast<int>(sceneData.initialState.chests.size()));
@@ -5000,6 +5997,11 @@ void EditorMainWindow::renderSceneOutliner(EditorSession &session)
                         label += "s";
                     }
                     label += "]";
+                }
+
+                if (!matchesSceneFilter(m_sceneFilter, label))
+                {
+                    continue;
                 }
 
                 if (ImGui::Selectable(label.c_str(), isSelected))
@@ -5044,8 +6046,24 @@ void EditorMainWindow::renderInspector(EditorSession &session)
         return;
     }
 
-    ImGui::TextUnformatted("Selection");
-    ImGui::Separator();
+    const auto [selectionTitle, selectionSubtitle] = inspectorSelectionSummary(session);
+    ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.12f, 0.15f, 0.19f, 1.0f));
+    if (ImGui::BeginChild("InspectorSelectionHeader", ImVec2(0.0f, 58.0f), ImGuiChildFlags_Borders))
+    {
+        ImGui::PushStyleColor(ImGuiCol_Text, colorFromRgb(0xF2DEC2));
+        ImGui::TextUnformatted(selectionTitle.c_str());
+        ImGui::PopStyleColor();
+
+        if (!selectionSubtitle.empty())
+        {
+            ImGui::PushStyleColor(ImGuiCol_Text, colorFromRgb(0xB5BDC8));
+            ImGui::TextUnformatted(selectionSubtitle.c_str());
+            ImGui::PopStyleColor();
+        }
+    }
+    ImGui::EndChild();
+    ImGui::PopStyleColor();
+    ImGui::Spacing();
 
     if (m_viewport.placementKind() == EditorSelectionKind::Entity)
     {
@@ -5057,6 +6075,13 @@ void EditorMainWindow::renderInspector(EditorSession &session)
     if (m_viewport.placementKind() == EditorSelectionKind::SpriteObject)
     {
         renderSpriteObjectPlacementInspector(session);
+        ImGui::End();
+        return;
+    }
+
+    if (m_viewport.placementKind() == EditorSelectionKind::Terrain)
+    {
+        renderTerrainInspector(session);
         ImGui::End();
         return;
     }
@@ -5196,15 +6221,18 @@ void EditorMainWindow::renderViewportPanel(EditorSession &session, float deltaSe
     }
 
     ImGui::SetCursorScreenPos(ImVec2(viewportOrigin.x + 12.0f, viewportOrigin.y + 12.0f));
+    ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.07f, 0.08f, 0.10f, 0.84f));
+    ImGui::PushStyleColor(ImGuiCol_Border, colorFromRgb(0x2B313B));
     if (ImGui::BeginChild(
             "ViewportOverlay",
-            ImVec2(420.0f, 132.0f),
+            ImVec2(360.0f, 88.0f),
             ImGuiChildFlags_Borders,
             ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse))
     {
         m_viewport.renderOverlayUi(session);
     }
     ImGui::EndChild();
+    ImGui::PopStyleColor(2);
     ImGui::End();
 }
 
@@ -5601,275 +6629,329 @@ void EditorMainWindow::renderTerrainInspector(EditorSession &session) const
     Game::OutdoorMapData &outdoorGeometry = document.mutableOutdoorGeometry();
     int cellX = 0;
     int cellY = 0;
-
-    ImGui::Text("Terrain Attribute Overrides: %zu", sceneData.terrainAttributeOverrides.size());
-
-    if (!decodeTerrainCellFlatIndex(session.selection().index, cellX, cellY))
-    {
-        ImGui::Spacing();
-        ImGui::TextUnformatted("Select a terrain cell from the viewport in Terrain mode.");
-        return;
-    }
-
-    const size_t cellIndex = terrainCellFlatIndex(cellX, cellY);
-    const uint8_t currentTileId = cellIndex < outdoorGeometry.tileMap.size() ? outdoorGeometry.tileMap[cellIndex] : 0;
+    const bool hasSelectedCell = decodeTerrainCellFlatIndex(session.selection().index, cellX, cellY);
+    const size_t cellIndex = hasSelectedCell ? terrainCellFlatIndex(cellX, cellY) : 0;
+    const uint8_t currentTileId =
+        hasSelectedCell && cellIndex < outdoorGeometry.tileMap.size() ? outdoorGeometry.tileMap[cellIndex] : 0;
     const uint8_t baseAttributes =
-        cellIndex < outdoorGeometry.attributeMap.size() ? outdoorGeometry.attributeMap[cellIndex] : 0;
-    const uint8_t sampleHeight = cellIndex < outdoorGeometry.heightMap.size() ? outdoorGeometry.heightMap[cellIndex] : 0;
-    Game::OutdoorSceneTerrainAttributeOverride *pOverride = findTerrainOverride(sceneData, cellX, cellY);
-    const uint8_t effectiveAttributes = pOverride ? pOverride->legacyAttributes : baseAttributes;
+        hasSelectedCell && cellIndex < outdoorGeometry.attributeMap.size() ? outdoorGeometry.attributeMap[cellIndex] : 0;
+    const uint8_t sampleHeight =
+        hasSelectedCell && cellIndex < outdoorGeometry.heightMap.size() ? outdoorGeometry.heightMap[cellIndex] : 0;
+    Game::OutdoorSceneTerrainAttributeOverride *pOverride =
+        hasSelectedCell ? findTerrainOverride(sceneData, cellX, cellY) : nullptr;
+    const uint8_t effectiveAttributes = pOverride != nullptr ? pOverride->legacyAttributes : baseAttributes;
     bool changed = false;
 
-    ImGui::Text("Cell: (%d, %d)", cellX, cellY);
-    ImGui::Text(
-        "Current Tile: %u (0x%02X)",
-        static_cast<unsigned>(currentTileId),
-        static_cast<unsigned>(currentTileId));
-    ImGui::Text(
-        "Sample Height: %u (%d world units)",
-        static_cast<unsigned>(sampleHeight),
-        static_cast<int>(sampleHeight) * Game::OutdoorMapData::TerrainHeightScale);
-    ImGui::Text("Base Attributes: %u", baseAttributes);
-    ImGui::Text("Has Override: %s", pOverride != nullptr ? "yes" : "no");
-
-    ImGui::Separator();
-    ImGui::TextUnformatted("Tile Paint");
-    static constexpr const char *PaintModeLabels[] = {"Brush", "Rectangle", "Fill"};
     static constexpr const char *FalloffModeLabels[] = {"Flat", "Linear", "Smooth"};
+    static constexpr const char *FlattenTargetModeLabels[] = {"Sampled", "Numeric"};
 
-    bool terrainPaintEnabled = session.terrainPaintEnabled();
-
-    if (ImGui::Checkbox("Paint In Viewport", &terrainPaintEnabled))
+    if (beginInspectorSectionBlock("Height Sculpt"))
     {
-        session.setTerrainPaintEnabled(terrainPaintEnabled);
+        bool terrainSculptEnabled = session.terrainSculptEnabled();
 
-        if (terrainPaintEnabled)
+        if (ImGui::Checkbox("Sculpt In Viewport", &terrainSculptEnabled))
         {
-            session.setTerrainSculptEnabled(false);
-        }
-    }
+            session.setTerrainSculptEnabled(terrainSculptEnabled);
 
-    ImGui::SameLine();
-
-    if (ImGui::Button("Use Cell Tile"))
-    {
-        session.setTerrainPaintTileId(currentTileId);
-    }
-
-    int terrainPaintMode = static_cast<int>(session.terrainPaintMode());
-    ImGui::SetNextItemWidth(180.0f);
-
-    if (ImGui::Combo("Paint Mode", &terrainPaintMode, PaintModeLabels, IM_ARRAYSIZE(PaintModeLabels)))
-    {
-        session.setTerrainPaintMode(static_cast<EditorTerrainPaintMode>(terrainPaintMode));
-    }
-
-    int terrainPaintTileId = static_cast<int>(session.terrainPaintTileId());
-    ImGui::SetNextItemWidth(120.0f);
-
-    if (ImGui::InputInt("Paint Tile Id", &terrainPaintTileId, 1, 16))
-    {
-        terrainPaintTileId = std::clamp(terrainPaintTileId, 0, 255);
-        session.setTerrainPaintTileId(static_cast<uint8_t>(terrainPaintTileId));
-    }
-
-    ImGui::SameLine();
-    renderTerrainTilePreviewButton(
-        m_viewport,
-        session.terrainPaintTileId(),
-        true,
-        ImVec2(36.0f, 36.0f));
-
-    if (session.terrainPaintMode() == EditorTerrainPaintMode::Brush)
-    {
-        int terrainPaintRadius = session.terrainPaintRadius();
-        ImGui::SetNextItemWidth(120.0f);
-
-        if (ImGui::InputInt("Paint Brush Radius", &terrainPaintRadius, 1, 4))
-        {
-            session.setTerrainPaintRadius(terrainPaintRadius);
-        }
-
-        int terrainPaintEdgeNoise = session.terrainPaintEdgeNoise();
-        ImGui::SetNextItemWidth(120.0f);
-
-        if (ImGui::SliderInt("Paint Edge Noise", &terrainPaintEdgeNoise, 0, 100))
-        {
-            session.setTerrainPaintEdgeNoise(terrainPaintEdgeNoise);
-        }
-    }
-
-    if (ImGui::BeginChild("TerrainTilePalette", ImVec2(0.0f, 220.0f), ImGuiChildFlags_Borders))
-    {
-        for (int tileId = 0; tileId < 256; ++tileId)
-        {
-            const bool isSelected = session.terrainPaintTileId() == static_cast<uint8_t>(tileId);
-
-            if (renderTerrainTilePreviewButton(
-                    m_viewport,
-                    static_cast<uint8_t>(tileId),
-                    isSelected,
-                    ImVec2(34.0f, 34.0f)))
+            if (terrainSculptEnabled)
             {
-                session.setTerrainPaintTileId(static_cast<uint8_t>(tileId));
+                session.setTerrainPaintEnabled(false);
+            }
+        }
+
+        const std::array<std::pair<const char *, EditorTerrainSculptMode>, 6> sculptModes = {{
+            {"Raise", EditorTerrainSculptMode::Raise},
+            {"Lower", EditorTerrainSculptMode::Lower},
+            {"Flatten", EditorTerrainSculptMode::Flatten},
+            {"Smooth", EditorTerrainSculptMode::Smooth},
+            {"Noise", EditorTerrainSculptMode::Noise},
+            {"Ramp", EditorTerrainSculptMode::Ramp}
+        }};
+
+        for (size_t index = 0; index < sculptModes.size(); ++index)
+        {
+            const auto &[pLabel, mode] = sculptModes[index];
+            const bool selected = session.terrainSculptMode() == mode;
+
+            if (renderIconTogglePill(
+                    std::string("TerrainInspectorSculptMode" + std::to_string(index)).c_str(),
+                    pLabel,
+                    terrainSculptModeIcon(mode),
+                    selected))
+            {
+                session.setTerrainSculptMode(mode);
             }
 
-            if ((tileId % 8) != 7)
+            if ((index % 3) != 2 && index + 1 < sculptModes.size())
             {
                 ImGui::SameLine();
             }
         }
-    }
-    ImGui::EndChild();
 
-    ImGui::Separator();
-    ImGui::TextUnformatted("Height Sculpt");
-    static constexpr const char *SculptModeLabels[] = {"Raise", "Lower", "Flatten", "Smooth", "Noise", "Ramp"};
-    static constexpr const char *FlattenTargetModeLabels[] = {"Sampled", "Numeric"};
-
-    bool terrainSculptEnabled = session.terrainSculptEnabled();
-
-    if (ImGui::Checkbox("Sculpt In Viewport", &terrainSculptEnabled))
-    {
-        session.setTerrainSculptEnabled(terrainSculptEnabled);
-
-        if (terrainSculptEnabled)
+        if (session.terrainSculptMode() == EditorTerrainSculptMode::Flatten)
         {
-            session.setTerrainPaintEnabled(false);
+            int flattenTargetMode = static_cast<int>(session.terrainFlattenTargetMode());
+            ImGui::SetNextItemWidth(160.0f);
+
+            if (ImGui::Combo(
+                    "Flatten Target",
+                    &flattenTargetMode,
+                    FlattenTargetModeLabels,
+                    IM_ARRAYSIZE(FlattenTargetModeLabels)))
+            {
+                session.setTerrainFlattenTargetMode(static_cast<EditorTerrainFlattenTargetMode>(flattenTargetMode));
+            }
+
+            if (session.terrainFlattenTargetMode() == EditorTerrainFlattenTargetMode::Numeric)
+            {
+                int targetHeight = session.terrainFlattenTargetHeight();
+                ImGui::SetNextItemWidth(120.0f);
+
+                if (ImGui::InputInt("Target Height", &targetHeight, 1, 8))
+                {
+                    session.setTerrainFlattenTargetHeight(targetHeight);
+                }
+            }
+            else
+            {
+                ImGui::Text(
+                    "Sampled Target: %d (%d world units)",
+                    session.terrainFlattenTargetHeight(),
+                    session.terrainFlattenTargetHeight() * Game::OutdoorMapData::TerrainHeightScale);
+
+                const bool canPickSelected =
+                    session.selection().kind == EditorSelectionKind::Terrain
+                    && session.selection().index
+                        < static_cast<size_t>(Game::OutdoorMapData::TerrainWidth * Game::OutdoorMapData::TerrainHeight);
+                ImGui::BeginDisabled(!canPickSelected);
+
+                if (ImGui::Button("Pick Height From Selected"))
+                {
+                    tryPickFlattenTargetFromSelectedTerrainCell(session);
+                }
+
+                ImGui::EndDisabled();
+                ImGui::SameLine();
+                ImGui::TextDisabled("Alt+LMB in viewport");
+            }
         }
-    }
 
-    int terrainSculptMode = static_cast<int>(session.terrainSculptMode());
-    ImGui::SetNextItemWidth(160.0f);
+        int terrainSculptRadius = session.terrainSculptRadius();
+        ImGui::SetNextItemWidth(120.0f);
 
-    if (ImGui::Combo("Sculpt Mode", &terrainSculptMode, SculptModeLabels, IM_ARRAYSIZE(SculptModeLabels)))
-    {
-        session.setTerrainSculptMode(static_cast<EditorTerrainSculptMode>(terrainSculptMode));
-    }
+        if (ImGui::InputInt("Sculpt Radius", &terrainSculptRadius, 1, 4))
+        {
+            session.setTerrainSculptRadius(terrainSculptRadius);
+        }
 
-    if (session.terrainSculptMode() == EditorTerrainSculptMode::Flatten)
-    {
-        int flattenTargetMode = static_cast<int>(session.terrainFlattenTargetMode());
+        int terrainSculptStrength = session.terrainSculptStrength();
+        ImGui::SetNextItemWidth(120.0f);
+
+        if (ImGui::InputInt("Sculpt Strength", &terrainSculptStrength, 1, 4))
+        {
+            session.setTerrainSculptStrength(terrainSculptStrength);
+        }
+
+        int terrainSculptFalloffMode = static_cast<int>(session.terrainSculptFalloffMode());
         ImGui::SetNextItemWidth(160.0f);
 
         if (ImGui::Combo(
-                "Flatten Target",
-                &flattenTargetMode,
-                FlattenTargetModeLabels,
-                IM_ARRAYSIZE(FlattenTargetModeLabels)))
+                "Sculpt Falloff",
+                &terrainSculptFalloffMode,
+                FalloffModeLabels,
+                IM_ARRAYSIZE(FalloffModeLabels)))
         {
-            session.setTerrainFlattenTargetMode(static_cast<EditorTerrainFlattenTargetMode>(flattenTargetMode));
+            session.setTerrainSculptFalloffMode(static_cast<EditorTerrainFalloffMode>(terrainSculptFalloffMode));
+        }
+        endInspectorSectionBlock();
+    }
+
+    if (beginInspectorSectionBlock("Tile Paint"))
+    {
+        bool terrainPaintEnabled = session.terrainPaintEnabled();
+
+        if (ImGui::Checkbox("Paint In Viewport", &terrainPaintEnabled))
+        {
+            session.setTerrainPaintEnabled(terrainPaintEnabled);
+
+            if (terrainPaintEnabled)
+            {
+                session.setTerrainSculptEnabled(false);
+            }
         }
 
-        if (session.terrainFlattenTargetMode() == EditorTerrainFlattenTargetMode::Numeric)
+        ImGui::SameLine();
+
+        ImGui::BeginDisabled(!hasSelectedCell);
+        if (ImGui::Button("Use Cell Tile"))
         {
-            int targetHeight = session.terrainFlattenTargetHeight();
+            session.setTerrainPaintTileId(currentTileId);
+        }
+        ImGui::EndDisabled();
+
+        const std::array<std::pair<const char *, EditorTerrainPaintMode>, 3> paintModes = {{
+            {"Brush", EditorTerrainPaintMode::Brush},
+            {"Rect", EditorTerrainPaintMode::Rectangle},
+            {"Fill", EditorTerrainPaintMode::Fill}
+        }};
+
+        for (size_t index = 0; index < paintModes.size(); ++index)
+        {
+            const auto &[pLabel, mode] = paintModes[index];
+            const bool selected = session.terrainPaintMode() == mode;
+
+            if (renderIconTogglePill(
+                    std::string("TerrainInspectorPaintMode" + std::to_string(index)).c_str(),
+                    pLabel,
+                    terrainPaintModeIcon(mode),
+                    selected))
+            {
+                session.setTerrainPaintMode(mode);
+            }
+
+            if (index + 1 < paintModes.size())
+            {
+                ImGui::SameLine();
+            }
+        }
+
+        int terrainPaintTileId = static_cast<int>(session.terrainPaintTileId());
+        ImGui::SetNextItemWidth(120.0f);
+
+        if (ImGui::InputInt("Paint Tile Id", &terrainPaintTileId, 1, 16))
+        {
+            terrainPaintTileId = std::clamp(terrainPaintTileId, 0, 255);
+            session.setTerrainPaintTileId(static_cast<uint8_t>(terrainPaintTileId));
+        }
+
+        ImGui::SameLine();
+        renderTerrainTilePreviewButton(
+            m_viewport,
+            session.terrainPaintTileId(),
+            true,
+            ImVec2(36.0f, 36.0f));
+
+        if (session.terrainPaintMode() == EditorTerrainPaintMode::Brush)
+        {
+            int terrainPaintRadius = session.terrainPaintRadius();
             ImGui::SetNextItemWidth(120.0f);
 
-            if (ImGui::InputInt("Target Height", &targetHeight, 1, 8))
+            if (ImGui::InputInt("Paint Brush Radius", &terrainPaintRadius, 1, 4))
             {
-                session.setTerrainFlattenTargetHeight(targetHeight);
+                session.setTerrainPaintRadius(terrainPaintRadius);
+            }
+
+            int terrainPaintEdgeNoise = session.terrainPaintEdgeNoise();
+            ImGui::SetNextItemWidth(120.0f);
+
+            if (ImGui::SliderInt("Paint Edge Noise", &terrainPaintEdgeNoise, 0, 100))
+            {
+                session.setTerrainPaintEdgeNoise(terrainPaintEdgeNoise);
+            }
+        }
+
+        if (ImGui::BeginChild("TerrainTilePalette", ImVec2(0.0f, 220.0f), ImGuiChildFlags_Borders))
+        {
+            for (int tileId = 0; tileId < 256; ++tileId)
+            {
+                const bool isSelected = session.terrainPaintTileId() == static_cast<uint8_t>(tileId);
+
+                if (renderTerrainTilePreviewButton(
+                        m_viewport,
+                        static_cast<uint8_t>(tileId),
+                        isSelected,
+                        ImVec2(34.0f, 34.0f)))
+                {
+                    session.setTerrainPaintTileId(static_cast<uint8_t>(tileId));
+                }
+
+                if ((tileId % 8) != 7)
+                {
+                    ImGui::SameLine();
+                }
+            }
+        }
+        ImGui::EndChild();
+        endInspectorSectionBlock();
+    }
+
+    if (beginInspectorSectionBlock("Cell Summary"))
+    {
+        ImGui::Text("Terrain Attribute Overrides: %zu", sceneData.terrainAttributeOverrides.size());
+
+        if (hasSelectedCell)
+        {
+            ImGui::Text("Cell: (%d, %d)", cellX, cellY);
+            ImGui::Text(
+                "Current Tile: %u (0x%02X)",
+                static_cast<unsigned>(currentTileId),
+                static_cast<unsigned>(currentTileId));
+            ImGui::Text(
+                "Sample Height: %u (%d world units)",
+                static_cast<unsigned>(sampleHeight),
+                static_cast<int>(sampleHeight) * Game::OutdoorMapData::TerrainHeightScale);
+            ImGui::Text("Base Attributes: %u", baseAttributes);
+            ImGui::Text("Has Override: %s", pOverride != nullptr ? "yes" : "no");
+        }
+        else
+        {
+            ImGui::TextUnformatted("Terrain mode active.");
+            ImGui::TextDisabled("Click a terrain cell to inspect its tile, height, and override data.");
+        }
+
+        endInspectorSectionBlock();
+    }
+
+    if (hasSelectedCell && beginInspectorSectionBlock("Cell Override", false))
+    {
+        if (pOverride == nullptr)
+        {
+            if (ImGui::Button("Add Override"))
+            {
+                session.captureUndoSnapshot();
+                sceneData.terrainAttributeOverrides.push_back({cellX, cellY, baseAttributes});
+                pOverride = &sceneData.terrainAttributeOverrides.back();
+                changed = true;
+            }
+
+            ImGui::SameLine();
+            ImGui::TextUnformatted("Edits create a scene override for this cell.");
+        }
+        else if (ImGui::Button("Remove Override"))
+        {
+            session.captureUndoSnapshot();
+            sceneData.terrainAttributeOverrides.erase(
+                std::remove_if(
+                    sceneData.terrainAttributeOverrides.begin(),
+                    sceneData.terrainAttributeOverrides.end(),
+                    [cellX, cellY](const Game::OutdoorSceneTerrainAttributeOverride &overrideEntry)
+                    {
+                        return overrideEntry.x == cellX && overrideEntry.y == cellY;
+                    }),
+                sceneData.terrainAttributeOverrides.end());
+            changed = true;
+            pOverride = nullptr;
+        }
+
+        if (pOverride != nullptr)
+        {
+            if (beginInspectorPropertyTable("TerrainOverrideFields"))
+            {
+                changed = editUInt8Field(session, "Legacy Attributes", pOverride->legacyAttributes) || changed;
+                changed = editBitCheckbox(session, "Burn", pOverride->legacyAttributes, static_cast<uint8_t>(0x01))
+                    || changed;
+                changed = editBitCheckbox(session, "Water", pOverride->legacyAttributes, static_cast<uint8_t>(0x02))
+                    || changed;
+                ImGui::EndTable();
             }
         }
         else
         {
-            ImGui::Text(
-                "Sampled Target: %d (%d world units)",
-                session.terrainFlattenTargetHeight(),
-                session.terrainFlattenTargetHeight() * Game::OutdoorMapData::TerrainHeightScale);
-
-            const bool canPickSelected =
-                session.selection().kind == EditorSelectionKind::Terrain
-                && session.selection().index
-                    < static_cast<size_t>(Game::OutdoorMapData::TerrainWidth * Game::OutdoorMapData::TerrainHeight);
-            ImGui::BeginDisabled(!canPickSelected);
-
-            if (ImGui::Button("Pick Height From Selected"))
-            {
-                tryPickFlattenTargetFromSelectedTerrainCell(session);
-            }
-
-            ImGui::EndDisabled();
-            ImGui::SameLine();
-            ImGui::TextDisabled("Alt+LMB in viewport");
+            ImGui::Text("Effective Attributes: %u", effectiveAttributes);
+            ImGui::Text("Burn: %s", ((effectiveAttributes & 0x01) != 0) ? "true" : "false");
+            ImGui::Text("Water: %s", ((effectiveAttributes & 0x02) != 0) ? "true" : "false");
         }
-    }
-
-    int terrainSculptRadius = session.terrainSculptRadius();
-    ImGui::SetNextItemWidth(120.0f);
-
-    if (ImGui::InputInt("Sculpt Radius", &terrainSculptRadius, 1, 4))
-    {
-        session.setTerrainSculptRadius(terrainSculptRadius);
-    }
-
-    int terrainSculptStrength = session.terrainSculptStrength();
-    ImGui::SetNextItemWidth(120.0f);
-
-    if (ImGui::InputInt("Sculpt Strength", &terrainSculptStrength, 1, 4))
-    {
-        session.setTerrainSculptStrength(terrainSculptStrength);
-    }
-
-    int terrainSculptFalloffMode = static_cast<int>(session.terrainSculptFalloffMode());
-    ImGui::SetNextItemWidth(160.0f);
-
-    if (ImGui::Combo(
-            "Sculpt Falloff",
-            &terrainSculptFalloffMode,
-            FalloffModeLabels,
-            IM_ARRAYSIZE(FalloffModeLabels)))
-    {
-        session.setTerrainSculptFalloffMode(static_cast<EditorTerrainFalloffMode>(terrainSculptFalloffMode));
-    }
-
-    if (pOverride == nullptr)
-    {
-        if (ImGui::Button("Add Override"))
-        {
-            session.captureUndoSnapshot();
-            sceneData.terrainAttributeOverrides.push_back({cellX, cellY, baseAttributes});
-            pOverride = &sceneData.terrainAttributeOverrides.back();
-            changed = true;
-        }
-
-        ImGui::SameLine();
-        ImGui::TextUnformatted("Edits create a scene override for this cell.");
-    }
-    else if (ImGui::Button("Remove Override"))
-    {
-        session.captureUndoSnapshot();
-        sceneData.terrainAttributeOverrides.erase(
-            std::remove_if(
-                sceneData.terrainAttributeOverrides.begin(),
-                sceneData.terrainAttributeOverrides.end(),
-                [cellX, cellY](const Game::OutdoorSceneTerrainAttributeOverride &overrideEntry)
-                {
-                    return overrideEntry.x == cellX && overrideEntry.y == cellY;
-                }),
-            sceneData.terrainAttributeOverrides.end());
-        changed = true;
-        pOverride = nullptr;
-    }
-
-    if (pOverride != nullptr)
-    {
-        if (beginInspectorPropertyTable("TerrainOverrideFields"))
-        {
-            changed = editUInt8Field(session, "Legacy Attributes", pOverride->legacyAttributes) || changed;
-            changed = editBitCheckbox(session, "Burn", pOverride->legacyAttributes, static_cast<uint8_t>(0x01))
-                || changed;
-            changed = editBitCheckbox(session, "Water", pOverride->legacyAttributes, static_cast<uint8_t>(0x02))
-                || changed;
-            ImGui::EndTable();
-        }
-    }
-    else
-    {
-        ImGui::Spacing();
-        ImGui::Text("Effective Attributes: %u", effectiveAttributes);
-        ImGui::Text("Burn: %s", ((effectiveAttributes & 0x01) != 0) ? "true" : "false");
-        ImGui::Text("Water: %s", ((effectiveAttributes & 0x02) != 0) ? "true" : "false");
+        endInspectorSectionBlock();
     }
 
     if (changed)
@@ -5958,30 +7040,27 @@ void EditorMainWindow::renderBModelInspector(EditorSession &session, size_t bmod
         std::snprintf(m_bmodelImportDefaultTexture, sizeof(m_bmodelImportDefaultTexture), "%s", importDefaultTexture.c_str());
     }
 
-    ImGui::Text("BModel %zu", bmodelIndex);
-    ImGui::Text("Name: %s", bmodel.name.empty() ? "<unnamed>" : bmodel.name.c_str());
-    ImGui::Text("Faces: %zu", bmodel.faces.size());
-    ImGui::Text("Vertices: %zu", bmodel.vertices.size());
-
-    if (beginInspectorPropertyTable("BModelInspector"))
+    if (beginInspectorSectionBlock("Overview"))
     {
-        renderInspectorReadOnlyField("Position", std::to_string(bmodel.positionX) + ", "
-            + std::to_string(bmodel.positionY) + ", "
-            + std::to_string(bmodel.positionZ));
-        renderInspectorReadOnlyField("Bounds Min", std::to_string(bmodel.minX) + ", "
-            + std::to_string(bmodel.minY) + ", "
-            + std::to_string(bmodel.minZ));
-        renderInspectorReadOnlyField("Bounds Max", std::to_string(bmodel.maxX) + ", "
-            + std::to_string(bmodel.maxY) + ", "
-            + std::to_string(bmodel.maxZ));
+        ImGui::Text("BModel %zu", bmodelIndex);
+        ImGui::Text("Name: %s", bmodel.name.empty() ? "<unnamed>" : bmodel.name.c_str());
+        ImGui::Text("Faces: %zu", bmodel.faces.size());
+        ImGui::Text("Vertices: %zu", bmodel.vertices.size());
 
-        beginInspectorFieldRow("Move By");
-        ImGui::InputInt3("##Move By", m_bmodelMoveBy);
-
-        beginInspectorFieldRow("Rotate By XYZ");
-        ImGui::InputFloat3("##Rotate By XYZ", m_bmodelRotateByDegrees, "%.2f");
-
-        ImGui::EndTable();
+        if (beginInspectorPropertyTable("BModelInspector"))
+        {
+            renderInspectorReadOnlyField("Position", std::to_string(bmodel.positionX) + ", "
+                + std::to_string(bmodel.positionY) + ", "
+                + std::to_string(bmodel.positionZ));
+            renderInspectorReadOnlyField("Bounds Min", std::to_string(bmodel.minX) + ", "
+                + std::to_string(bmodel.minY) + ", "
+                + std::to_string(bmodel.minZ));
+            renderInspectorReadOnlyField("Bounds Max", std::to_string(bmodel.maxX) + ", "
+                + std::to_string(bmodel.maxY) + ", "
+                + std::to_string(bmodel.maxZ));
+            ImGui::EndTable();
+        }
+        endInspectorSectionBlock();
     }
 
     const bool hasMove = m_bmodelMoveBy[0] != 0 || m_bmodelMoveBy[1] != 0 || m_bmodelMoveBy[2] != 0;
@@ -6022,415 +7101,435 @@ void EditorMainWindow::renderBModelInspector(EditorSession &session, size_t bmod
     const int snapBaseZ = static_cast<int>(std::lround(actualMinZ));
     const int snapToGroundDeltaZ = static_cast<int>(std::lround(terrainHeightAtCenter)) - snapBaseZ;
 
-    if (ImGui::Button("Apply Transform", ImVec2(160.0f, 0.0f)))
+    if (beginInspectorSectionBlock("Transform"))
     {
-        if (hasMove || hasRotation)
+        if (beginInspectorPropertyTable("BModelTransformFields"))
         {
-            session.captureUndoSnapshot();
-            const bool trackSourceTransform =
-                session.bmodelImportSource(bmodelIndex).has_value()
-                || session.document().outdoorBModelSourceTransform(bmodelIndex).has_value();
-            EditorBModelSourceTransform sourceTransform =
-                session.document().outdoorBModelSourceTransform(bmodelIndex).value_or(sourceTransformFromBModel(bmodel));
+            beginInspectorFieldRow("Move By");
+            ImGui::InputInt3("##Move By", m_bmodelMoveBy);
 
-            float minX = std::numeric_limits<float>::max();
-            float minY = std::numeric_limits<float>::max();
-            float minZ = std::numeric_limits<float>::max();
-            float maxX = std::numeric_limits<float>::lowest();
-            float maxY = std::numeric_limits<float>::lowest();
-            float maxZ = std::numeric_limits<float>::lowest();
+            beginInspectorFieldRow("Rotate By XYZ");
+            ImGui::InputFloat3("##Rotate By XYZ", m_bmodelRotateByDegrees, "%.2f");
+            ImGui::EndTable();
+        }
 
-            for (const Game::OutdoorBModelVertex &vertex : bmodel.vertices)
+        if (ImGui::Button("Apply Transform", ImVec2(160.0f, 0.0f)))
+        {
+            if (hasMove || hasRotation)
             {
-                minX = std::min(minX, static_cast<float>(vertex.x));
-                minY = std::min(minY, static_cast<float>(vertex.y));
-                minZ = std::min(minZ, static_cast<float>(vertex.z));
-                maxX = std::max(maxX, static_cast<float>(vertex.x));
-                maxY = std::max(maxY, static_cast<float>(vertex.y));
-                maxZ = std::max(maxZ, static_cast<float>(vertex.z));
+                session.captureUndoSnapshot();
+                const bool trackSourceTransform =
+                    session.bmodelImportSource(bmodelIndex).has_value()
+                    || session.document().outdoorBModelSourceTransform(bmodelIndex).has_value();
+                EditorBModelSourceTransform sourceTransform =
+                    session.document().outdoorBModelSourceTransform(bmodelIndex).value_or(sourceTransformFromBModel(bmodel));
+
+                float minX = std::numeric_limits<float>::max();
+                float minY = std::numeric_limits<float>::max();
+                float minZ = std::numeric_limits<float>::max();
+                float maxX = std::numeric_limits<float>::lowest();
+                float maxY = std::numeric_limits<float>::lowest();
+                float maxZ = std::numeric_limits<float>::lowest();
+
+                for (const Game::OutdoorBModelVertex &vertex : bmodel.vertices)
+                {
+                    minX = std::min(minX, static_cast<float>(vertex.x));
+                    minY = std::min(minY, static_cast<float>(vertex.y));
+                    minZ = std::min(minZ, static_cast<float>(vertex.z));
+                    maxX = std::max(maxX, static_cast<float>(vertex.x));
+                    maxY = std::max(maxY, static_cast<float>(vertex.y));
+                    maxZ = std::max(maxZ, static_cast<float>(vertex.z));
+                }
+
+                const float pivotX = (minX + maxX) * 0.5f;
+                const float pivotY = (minY + maxY) * 0.5f;
+                const float pivotZ = (minZ + maxZ) * 0.5f;
+                const float rotationXRadians = m_bmodelRotateByDegrees[0] * 3.14159265358979323846f / 180.0f;
+                const float rotationYRadians = m_bmodelRotateByDegrees[1] * 3.14159265358979323846f / 180.0f;
+                const float rotationZRadians = m_bmodelRotateByDegrees[2] * 3.14159265358979323846f / 180.0f;
+                const float cosX = std::cos(rotationXRadians);
+                const float sinX = std::sin(rotationXRadians);
+                const float cosY = std::cos(rotationYRadians);
+                const float sinY = std::sin(rotationYRadians);
+                const float cosZ = std::cos(rotationZRadians);
+                const float sinZ = std::sin(rotationZRadians);
+
+                for (Game::OutdoorBModelVertex &vertex : bmodel.vertices)
+                {
+                    const float localX = static_cast<float>(vertex.x) - pivotX;
+                    const float localY = static_cast<float>(vertex.y) - pivotY;
+                    const float localZ = static_cast<float>(vertex.z) - pivotZ;
+
+                    const float rotatedXY = localY * cosX - localZ * sinX;
+                    const float rotatedXZ = localY * sinX + localZ * cosX;
+                    const float rotatedYX = localX * cosY + rotatedXZ * sinY;
+                    const float rotatedYZ = -localX * sinY + rotatedXZ * cosY;
+                    const float rotatedZX = rotatedYX * cosZ - rotatedXY * sinZ;
+                    const float rotatedZY = rotatedYX * sinZ + rotatedXY * cosZ;
+
+                    const float worldX = pivotX + rotatedZX + static_cast<float>(m_bmodelMoveBy[0]);
+                    const float worldY = pivotY + rotatedZY + static_cast<float>(m_bmodelMoveBy[1]);
+                    const float worldZ = pivotZ + rotatedYZ + static_cast<float>(m_bmodelMoveBy[2]);
+                    vertex.x = static_cast<int>(std::lround(worldX));
+                    vertex.y = static_cast<int>(std::lround(worldY));
+                    vertex.z = static_cast<int>(std::lround(worldZ));
+                }
+
+                recomputeBModelMetadata(bmodel);
+
+                if (trackSourceTransform)
+                {
+                    sourceTransform.basisX = rotateVectorByEulerDegrees(
+                        sourceTransform.basisX,
+                        m_bmodelRotateByDegrees[0],
+                        m_bmodelRotateByDegrees[1],
+                        m_bmodelRotateByDegrees[2]);
+                    sourceTransform.basisY = rotateVectorByEulerDegrees(
+                        sourceTransform.basisY,
+                        m_bmodelRotateByDegrees[0],
+                        m_bmodelRotateByDegrees[1],
+                        m_bmodelRotateByDegrees[2]);
+                    sourceTransform.basisZ = rotateVectorByEulerDegrees(
+                        sourceTransform.basisZ,
+                        m_bmodelRotateByDegrees[0],
+                        m_bmodelRotateByDegrees[1],
+                        m_bmodelRotateByDegrees[2]);
+                    sourceTransform.originX += static_cast<float>(m_bmodelMoveBy[0]);
+                    sourceTransform.originY += static_cast<float>(m_bmodelMoveBy[1]);
+                    sourceTransform.originZ += static_cast<float>(m_bmodelMoveBy[2]);
+                    session.document().setOutdoorBModelSourceTransform(bmodelIndex, sourceTransform);
+                }
+
+                m_bmodelMoveBy[0] = 0;
+                m_bmodelMoveBy[1] = 0;
+                m_bmodelMoveBy[2] = 0;
+                m_bmodelRotateByDegrees[0] = 0.0f;
+                m_bmodelRotateByDegrees[1] = 0.0f;
+                m_bmodelRotateByDegrees[2] = 0.0f;
+                session.noteDocumentMutated({});
             }
+        }
 
-            const float pivotX = (minX + maxX) * 0.5f;
-            const float pivotY = (minY + maxY) * 0.5f;
-            const float pivotZ = (minZ + maxZ) * 0.5f;
-            const float rotationXRadians = m_bmodelRotateByDegrees[0] * 3.14159265358979323846f / 180.0f;
-            const float rotationYRadians = m_bmodelRotateByDegrees[1] * 3.14159265358979323846f / 180.0f;
-            const float rotationZRadians = m_bmodelRotateByDegrees[2] * 3.14159265358979323846f / 180.0f;
-            const float cosX = std::cos(rotationXRadians);
-            const float sinX = std::sin(rotationXRadians);
-            const float cosY = std::cos(rotationYRadians);
-            const float sinY = std::sin(rotationYRadians);
-            const float cosZ = std::cos(rotationZRadians);
-            const float sinZ = std::sin(rotationZRadians);
+        ImGui::SameLine();
 
-            for (Game::OutdoorBModelVertex &vertex : bmodel.vertices)
+        if (ImGui::Button("Snap To Ground", ImVec2(150.0f, 0.0f)))
+        {
+            if (snapToGroundDeltaZ != 0)
             {
-                const float localX = static_cast<float>(vertex.x) - pivotX;
-                const float localY = static_cast<float>(vertex.y) - pivotY;
-                const float localZ = static_cast<float>(vertex.z) - pivotZ;
+                session.captureUndoSnapshot();
+                const bool trackSourceTransform =
+                    session.bmodelImportSource(bmodelIndex).has_value()
+                    || session.document().outdoorBModelSourceTransform(bmodelIndex).has_value();
+                EditorBModelSourceTransform sourceTransform =
+                    session.document().outdoorBModelSourceTransform(bmodelIndex).value_or(sourceTransformFromBModel(bmodel));
 
-                const float rotatedXY = localY * cosX - localZ * sinX;
-                const float rotatedXZ = localY * sinX + localZ * cosX;
-                const float rotatedYX = localX * cosY + rotatedXZ * sinY;
-                const float rotatedYZ = -localX * sinY + rotatedXZ * cosY;
-                const float rotatedZX = rotatedYX * cosZ - rotatedXY * sinZ;
-                const float rotatedZY = rotatedYX * sinZ + rotatedXY * cosZ;
+                for (Game::OutdoorBModelVertex &vertex : bmodel.vertices)
+                {
+                    vertex.z += snapToGroundDeltaZ;
+                }
 
-                const float worldX = pivotX + rotatedZX + static_cast<float>(m_bmodelMoveBy[0]);
-                const float worldY = pivotY + rotatedZY + static_cast<float>(m_bmodelMoveBy[1]);
-                const float worldZ = pivotZ + rotatedYZ + static_cast<float>(m_bmodelMoveBy[2]);
-                vertex.x = static_cast<int>(std::lround(worldX));
-                vertex.y = static_cast<int>(std::lround(worldY));
-                vertex.z = static_cast<int>(std::lround(worldZ));
+                bmodel.positionZ += snapToGroundDeltaZ;
+                bmodel.minZ += snapToGroundDeltaZ;
+                bmodel.maxZ += snapToGroundDeltaZ;
+                bmodel.boundingCenterZ += snapToGroundDeltaZ;
+
+                if (trackSourceTransform)
+                {
+                    sourceTransform.originZ += static_cast<float>(snapToGroundDeltaZ);
+                    session.document().setOutdoorBModelSourceTransform(bmodelIndex, sourceTransform);
+                }
+
+                session.noteDocumentMutated({});
             }
+        }
 
-            recomputeBModelMetadata(bmodel);
+        ImGui::SameLine();
 
-            if (trackSourceTransform)
-            {
-                sourceTransform.basisX = rotateVectorByEulerDegrees(
-                    sourceTransform.basisX,
-                    m_bmodelRotateByDegrees[0],
-                    m_bmodelRotateByDegrees[1],
-                    m_bmodelRotateByDegrees[2]);
-                sourceTransform.basisY = rotateVectorByEulerDegrees(
-                    sourceTransform.basisY,
-                    m_bmodelRotateByDegrees[0],
-                    m_bmodelRotateByDegrees[1],
-                    m_bmodelRotateByDegrees[2]);
-                sourceTransform.basisZ = rotateVectorByEulerDegrees(
-                    sourceTransform.basisZ,
-                    m_bmodelRotateByDegrees[0],
-                    m_bmodelRotateByDegrees[1],
-                    m_bmodelRotateByDegrees[2]);
-                sourceTransform.originX += static_cast<float>(m_bmodelMoveBy[0]);
-                sourceTransform.originY += static_cast<float>(m_bmodelMoveBy[1]);
-                sourceTransform.originZ += static_cast<float>(m_bmodelMoveBy[2]);
-                session.document().setOutdoorBModelSourceTransform(bmodelIndex, sourceTransform);
-            }
-
+        if (ImGui::Button("Reset Fields", ImVec2(120.0f, 0.0f)))
+        {
             m_bmodelMoveBy[0] = 0;
             m_bmodelMoveBy[1] = 0;
             m_bmodelMoveBy[2] = 0;
             m_bmodelRotateByDegrees[0] = 0.0f;
             m_bmodelRotateByDegrees[1] = 0.0f;
             m_bmodelRotateByDegrees[2] = 0.0f;
-            session.noteDocumentMutated({});
         }
-    }
 
-    ImGui::SameLine();
+        ImGui::Text(
+            "Terrain Center: %.0f  |  Base Z: %d  |  Snap Delta Z: %d",
+            terrainHeightAtCenter,
+            snapBaseZ,
+            snapToGroundDeltaZ);
 
-    if (ImGui::Button("Snap To Ground", ImVec2(150.0f, 0.0f)))
-    {
-        if (snapToGroundDeltaZ != 0)
+        if (!hasMove && !hasRotation)
         {
-            session.captureUndoSnapshot();
-            const bool trackSourceTransform =
-                session.bmodelImportSource(bmodelIndex).has_value()
-                || session.document().outdoorBModelSourceTransform(bmodelIndex).has_value();
-            EditorBModelSourceTransform sourceTransform =
-                session.document().outdoorBModelSourceTransform(bmodelIndex).value_or(sourceTransformFromBModel(bmodel));
-
-            for (Game::OutdoorBModelVertex &vertex : bmodel.vertices)
-            {
-                vertex.z += snapToGroundDeltaZ;
-            }
-
-            bmodel.positionZ += snapToGroundDeltaZ;
-            bmodel.minZ += snapToGroundDeltaZ;
-            bmodel.maxZ += snapToGroundDeltaZ;
-            bmodel.boundingCenterZ += snapToGroundDeltaZ;
-
-            if (trackSourceTransform)
-            {
-                sourceTransform.originZ += static_cast<float>(snapToGroundDeltaZ);
-                session.document().setOutdoorBModelSourceTransform(bmodelIndex, sourceTransform);
-            }
-
-            session.noteDocumentMutated({});
+            ImGui::TextDisabled("Enter a move delta and/or XYZ rotation delta, then click Apply Transform.");
         }
+
+        endInspectorSectionBlock();
     }
 
-    ImGui::SameLine();
-
-    if (ImGui::Button("Reset Fields", ImVec2(120.0f, 0.0f)))
+    if (beginInspectorSectionBlock("Face Defaults"))
     {
-        m_bmodelMoveBy[0] = 0;
-        m_bmodelMoveBy[1] = 0;
-        m_bmodelMoveBy[2] = 0;
-        m_bmodelRotateByDegrees[0] = 0.0f;
-        m_bmodelRotateByDegrees[1] = 0.0f;
-        m_bmodelRotateByDegrees[2] = 0.0f;
-    }
-
-    ImGui::Text(
-        "Terrain Center: %.0f  |  Base Z: %d  |  Snap Delta Z: %d",
-        terrainHeightAtCenter,
-        snapBaseZ,
-        snapToGroundDeltaZ);
-
-    if (!hasMove && !hasRotation)
-    {
-        ImGui::TextDisabled("Enter a move delta and/or XYZ rotation delta, then click Apply Transform.");
-    }
-
-    renderInspectorSectionHeader("Face Defaults");
-    if (beginInspectorPropertyTable("BModelFaceDefaults"))
-    {
-        beginInspectorFieldRow("Scope");
-        const char *scopePreview =
-            bmodelBulkFaceScopeLabel(static_cast<BModelBulkFaceScope>(m_bmodelBulkFaceScope));
-
-        if (ImGui::BeginCombo("##BModelFaceScope", scopePreview))
+        if (beginInspectorPropertyTable("BModelFaceDefaults"))
         {
-            for (int scopeIndex = 0; scopeIndex < 3; ++scopeIndex)
-            {
-                const BModelBulkFaceScope scope = static_cast<BModelBulkFaceScope>(scopeIndex);
-                const bool selected = scopeIndex == m_bmodelBulkFaceScope;
+            beginInspectorFieldRow("Scope");
+            const char *scopePreview =
+                bmodelBulkFaceScopeLabel(static_cast<BModelBulkFaceScope>(m_bmodelBulkFaceScope));
 
-                if (ImGui::Selectable(bmodelBulkFaceScopeLabel(scope), selected))
+            if (ImGui::BeginCombo("##BModelFaceScope", scopePreview))
+            {
+                for (int scopeIndex = 0; scopeIndex < 3; ++scopeIndex)
                 {
-                    m_bmodelBulkFaceScope = scopeIndex;
-                }
+                    const BModelBulkFaceScope scope = static_cast<BModelBulkFaceScope>(scopeIndex);
+                    const bool selected = scopeIndex == m_bmodelBulkFaceScope;
 
-                if (selected)
-                {
-                    ImGui::SetItemDefaultFocus();
-                }
-            }
-
-            ImGui::EndCombo();
-        }
-
-        beginInspectorFieldRow("COG Number");
-        int bulkCogNumber = m_bmodelBulkCogNumber;
-        if (ImGui::InputInt("##BModelBulkCogNumber", &bulkCogNumber))
-        {
-            m_bmodelBulkCogNumber = static_cast<uint16_t>(std::clamp(bulkCogNumber, 0, 65535));
-        }
-
-        uint16_t bulkCogTriggeredNumber = m_bmodelBulkCogTriggeredNumber;
-        if (editMapEventField(session, "COG Triggered Number", bulkCogTriggeredNumber))
-        {
-            m_bmodelBulkCogTriggeredNumber = bulkCogTriggeredNumber;
-        }
-
-        renderResolvedMapEventField(session, "Resolved Event", m_bmodelBulkCogTriggeredNumber);
-
-        beginInspectorFieldRow("COG Trigger");
-        int bulkCogTrigger = m_bmodelBulkCogTrigger;
-        if (ImGui::InputInt("##BModelBulkCogTrigger", &bulkCogTrigger))
-        {
-            m_bmodelBulkCogTrigger = static_cast<uint16_t>(std::clamp(bulkCogTrigger, 0, 65535));
-        }
-
-        const auto editBulkAttributeCheckbox = [this](const char *pLabel, uint32_t mask)
-        {
-            bool enabled = (m_bmodelBulkFaceAttributes & mask) != 0;
-            beginInspectorFieldRow(pLabel);
-
-            if (!ImGui::Checkbox(inspectorFieldId(pLabel).c_str(), &enabled))
-            {
-                return;
-            }
-
-            if (enabled)
-            {
-                m_bmodelBulkFaceAttributes |= mask;
-            }
-            else
-            {
-                m_bmodelBulkFaceAttributes &= ~mask;
-            }
-        };
-
-        editBulkAttributeCheckbox("Fluid", FaceAttributeFluid);
-        editBulkAttributeCheckbox("Invisible", FaceAttributeInvisible);
-        editBulkAttributeCheckbox("Has Hint", FaceAttributeHasHint);
-        editBulkAttributeCheckbox("Clickable", FaceAttributeClickable);
-        editBulkAttributeCheckbox("Pressure Plate", FaceAttributePressurePlate);
-        editBulkAttributeCheckbox("Untouchable", FaceAttributeUntouchable);
-        ImGui::EndTable();
-    }
-
-    const auto bulkFaceScope = static_cast<BModelBulkFaceScope>(m_bmodelBulkFaceScope);
-    size_t scopedFaceCount = 0;
-
-    for (const Game::OutdoorBModelFace &face : bmodel.faces)
-    {
-        if (bmodelFaceMatchesScope(face, bulkFaceScope))
-        {
-            ++scopedFaceCount;
-        }
-    }
-
-    if (ImGui::Button("Apply To Faces", ImVec2(140.0f, 0.0f)))
-    {
-        if (scopedFaceCount > 0)
-        {
-            session.captureUndoSnapshot();
-
-            for (size_t currentFaceIndex = 0; currentFaceIndex < bmodel.faces.size(); ++currentFaceIndex)
-            {
-                Game::OutdoorBModelFace &face = bmodel.faces[currentFaceIndex];
-
-                if (!bmodelFaceMatchesScope(face, bulkFaceScope))
-                {
-                    continue;
-                }
-
-                Game::OutdoorSceneInteractiveFace *pInteractiveFace =
-                    findInteractiveFace(sceneData, bmodelIndex, currentFaceIndex);
-
-                if (pInteractiveFace == nullptr)
-                {
-                    sceneData.interactiveFaces.push_back({
-                        bmodelIndex,
-                        currentFaceIndex,
-                        face.attributes,
-                        face.cogNumber,
-                        face.cogTriggeredNumber,
-                        face.cogTrigger});
-                    pInteractiveFace = &sceneData.interactiveFaces.back();
-                }
-
-                pInteractiveFace->legacyAttributes = (pInteractiveFace->legacyAttributes & ~EditableFaceAttributeMask)
-                    | (m_bmodelBulkFaceAttributes & EditableFaceAttributeMask);
-                pInteractiveFace->cogNumber = m_bmodelBulkCogNumber;
-                pInteractiveFace->cogTriggeredNumber = m_bmodelBulkCogTriggeredNumber;
-                pInteractiveFace->cogTrigger = m_bmodelBulkCogTrigger;
-            }
-
-            session.noteDocumentMutated({});
-        }
-    }
-
-    ImGui::SameLine();
-
-    if (ImGui::Button("Reset Faces", ImVec2(140.0f, 0.0f)))
-    {
-        if (scopedFaceCount > 0)
-        {
-            session.captureUndoSnapshot();
-            sceneData.interactiveFaces.erase(
-                std::remove_if(
-                    sceneData.interactiveFaces.begin(),
-                    sceneData.interactiveFaces.end(),
-                    [&bmodel, bmodelIndex, bulkFaceScope](const Game::OutdoorSceneInteractiveFace &interactiveFace)
+                    if (ImGui::Selectable(bmodelBulkFaceScopeLabel(scope), selected))
                     {
-                        return interactiveFace.bmodelIndex == bmodelIndex
-                            && interactiveFace.faceIndex < bmodel.faces.size()
-                            && bmodelFaceMatchesScope(bmodel.faces[interactiveFace.faceIndex], bulkFaceScope);
-                    }),
-                sceneData.interactiveFaces.end());
+                        m_bmodelBulkFaceScope = scopeIndex;
+                    }
 
-            session.noteDocumentMutated({});
+                    if (selected)
+                    {
+                        ImGui::SetItemDefaultFocus();
+                    }
+                }
+
+                ImGui::EndCombo();
+            }
+
+            beginInspectorFieldRow("COG Number");
+            int bulkCogNumber = m_bmodelBulkCogNumber;
+            if (ImGui::InputInt("##BModelBulkCogNumber", &bulkCogNumber))
+            {
+                m_bmodelBulkCogNumber = static_cast<uint16_t>(std::clamp(bulkCogNumber, 0, 65535));
+            }
+
+            uint16_t bulkCogTriggeredNumber = m_bmodelBulkCogTriggeredNumber;
+            if (editMapEventField(session, "COG Triggered Number", bulkCogTriggeredNumber))
+            {
+                m_bmodelBulkCogTriggeredNumber = bulkCogTriggeredNumber;
+            }
+
+            renderResolvedMapEventField(session, "Resolved Event", m_bmodelBulkCogTriggeredNumber);
+
+            beginInspectorFieldRow("COG Trigger");
+            int bulkCogTrigger = m_bmodelBulkCogTrigger;
+            if (ImGui::InputInt("##BModelBulkCogTrigger", &bulkCogTrigger))
+            {
+                m_bmodelBulkCogTrigger = static_cast<uint16_t>(std::clamp(bulkCogTrigger, 0, 65535));
+            }
+
+            const auto editBulkAttributeCheckbox = [this](const char *pLabel, uint32_t mask)
+            {
+                bool enabled = (m_bmodelBulkFaceAttributes & mask) != 0;
+                beginInspectorFieldRow(pLabel);
+
+                if (!ImGui::Checkbox(inspectorFieldId(pLabel).c_str(), &enabled))
+                {
+                    return;
+                }
+
+                if (enabled)
+                {
+                    m_bmodelBulkFaceAttributes |= mask;
+                }
+                else
+                {
+                    m_bmodelBulkFaceAttributes &= ~mask;
+                }
+            };
+
+            editBulkAttributeCheckbox("Fluid", FaceAttributeFluid);
+            editBulkAttributeCheckbox("Invisible", FaceAttributeInvisible);
+            editBulkAttributeCheckbox("Has Hint", FaceAttributeHasHint);
+            editBulkAttributeCheckbox("Clickable", FaceAttributeClickable);
+            editBulkAttributeCheckbox("Pressure Plate", FaceAttributePressurePlate);
+            editBulkAttributeCheckbox("Untouchable", FaceAttributeUntouchable);
+            ImGui::EndTable();
         }
-    }
 
-    ImGui::TextDisabled("%zu faces in current scope.", scopedFaceCount);
+        const auto bulkFaceScope = static_cast<BModelBulkFaceScope>(m_bmodelBulkFaceScope);
+        size_t scopedFaceCount = 0;
 
-    renderInspectorSectionHeader("OBJ Import");
-    if (beginInspectorPropertyTable("BModelObjImport"))
-    {
-        beginInspectorFieldRow("OBJ Path");
-        ImGui::InputText("##BModelImportPath", m_bmodelImportPath, sizeof(m_bmodelImportPath));
-
-        beginInspectorFieldRow("Import Scale");
-        ImGui::InputFloat("##BModelImportScale", &m_bmodelImportScale, 0.1f, 1.0f, "%.3f");
-
-        std::string defaultTextureName = m_bmodelImportDefaultTexture;
-        const bool texturePickerChanged = renderBitmapTextureSelector(session, "Default Texture", defaultTextureName);
-
-        beginInspectorFieldRow("Default Texture Raw");
-        char defaultTextureBuffer[64] = {};
-        std::snprintf(defaultTextureBuffer, sizeof(defaultTextureBuffer), "%s", defaultTextureName.c_str());
-        const bool rawTextureChanged =
-            ImGui::InputText("##BModelImportDefaultTextureRaw", defaultTextureBuffer, sizeof(defaultTextureBuffer));
-
-        if (rawTextureChanged)
+        for (const Game::OutdoorBModelFace &face : bmodel.faces)
         {
-            defaultTextureName = defaultTextureBuffer;
+            if (bmodelFaceMatchesScope(face, bulkFaceScope))
+            {
+                ++scopedFaceCount;
+            }
         }
 
-        if (texturePickerChanged || rawTextureChanged)
+        if (ImGui::Button("Apply To Faces", ImVec2(140.0f, 0.0f)))
         {
-            std::snprintf(
-                m_bmodelImportDefaultTexture,
-                sizeof(m_bmodelImportDefaultTexture),
-                "%s",
-                defaultTextureName.c_str());
-        }
+            if (scopedFaceCount > 0)
+            {
+                session.captureUndoSnapshot();
 
-        ImGui::EndTable();
+                for (size_t currentFaceIndex = 0; currentFaceIndex < bmodel.faces.size(); ++currentFaceIndex)
+                {
+                    Game::OutdoorBModelFace &face = bmodel.faces[currentFaceIndex];
+
+                    if (!bmodelFaceMatchesScope(face, bulkFaceScope))
+                    {
+                        continue;
+                    }
+
+                    Game::OutdoorSceneInteractiveFace *pInteractiveFace =
+                        findInteractiveFace(sceneData, bmodelIndex, currentFaceIndex);
+
+                    if (pInteractiveFace == nullptr)
+                    {
+                        sceneData.interactiveFaces.push_back({
+                            bmodelIndex,
+                            currentFaceIndex,
+                            face.attributes,
+                            face.cogNumber,
+                            face.cogTriggeredNumber,
+                            face.cogTrigger});
+                        pInteractiveFace = &sceneData.interactiveFaces.back();
+                    }
+
+                    pInteractiveFace->legacyAttributes = (pInteractiveFace->legacyAttributes & ~EditableFaceAttributeMask)
+                        | (m_bmodelBulkFaceAttributes & EditableFaceAttributeMask);
+                    pInteractiveFace->cogNumber = m_bmodelBulkCogNumber;
+                    pInteractiveFace->cogTriggeredNumber = m_bmodelBulkCogTriggeredNumber;
+                    pInteractiveFace->cogTrigger = m_bmodelBulkCogTrigger;
+                }
+
+                session.noteDocumentMutated({});
+            }
+        }
+    
+        ImGui::SameLine();
+
+        if (ImGui::Button("Reset Faces", ImVec2(140.0f, 0.0f)))
+        {
+            if (scopedFaceCount > 0)
+            {
+                session.captureUndoSnapshot();
+                sceneData.interactiveFaces.erase(
+                    std::remove_if(
+                        sceneData.interactiveFaces.begin(),
+                        sceneData.interactiveFaces.end(),
+                        [&bmodel, bmodelIndex, bulkFaceScope](const Game::OutdoorSceneInteractiveFace &interactiveFace)
+                        {
+                            return interactiveFace.bmodelIndex == bmodelIndex
+                                && interactiveFace.faceIndex < bmodel.faces.size()
+                                && bmodelFaceMatchesScope(bmodel.faces[interactiveFace.faceIndex], bulkFaceScope);
+                        }),
+                    sceneData.interactiveFaces.end());
+
+                session.noteDocumentMutated({});
+            }
+        }
+        ImGui::TextDisabled("%zu faces in current scope.", scopedFaceCount);
+        endInspectorSectionBlock();
     }
 
     const bool hasRememberedImportSource = session.bmodelImportSource(bmodelIndex).has_value();
     const bool hasObjImportPath = m_bmodelImportPath[0] != '\0';
 
-    if (ImGui::Button("Browse...", ImVec2(120.0f, 0.0f)))
+    if (beginInspectorSectionBlock("OBJ Import", false))
     {
-        openObjFileBrowser(ObjImportTarget::ReplaceSelectedBModel, m_bmodelImportPath);
-    }
-
-    ImGui::SameLine();
-
-    if (ImGui::Button("Replace From OBJ", ImVec2(150.0f, 0.0f)))
-    {
-        std::string errorMessage;
-
-        if (!session.replaceSelectedBModelFromObj(
-                m_bmodelImportPath,
-                m_bmodelImportScale,
-                m_bmodelImportDefaultTexture,
-                errorMessage))
+        if (beginInspectorPropertyTable("BModelObjImport"))
         {
-            session.logError(errorMessage);
+            beginInspectorFieldRow("OBJ Path");
+            ImGui::InputText("##BModelImportPath", m_bmodelImportPath, sizeof(m_bmodelImportPath));
+
+            beginInspectorFieldRow("Import Scale");
+            ImGui::InputFloat("##BModelImportScale", &m_bmodelImportScale, 0.1f, 1.0f, "%.3f");
+
+            std::string defaultTextureName = m_bmodelImportDefaultTexture;
+            const bool texturePickerChanged = renderBitmapTextureSelector(session, "Default Texture", defaultTextureName);
+
+            beginInspectorFieldRow("Default Texture Raw");
+            char defaultTextureBuffer[64] = {};
+            std::snprintf(defaultTextureBuffer, sizeof(defaultTextureBuffer), "%s", defaultTextureName.c_str());
+            const bool rawTextureChanged =
+                ImGui::InputText("##BModelImportDefaultTextureRaw", defaultTextureBuffer, sizeof(defaultTextureBuffer));
+
+            if (rawTextureChanged)
+            {
+                defaultTextureName = defaultTextureBuffer;
+            }
+
+            if (texturePickerChanged || rawTextureChanged)
+            {
+                std::snprintf(
+                    m_bmodelImportDefaultTexture,
+                    sizeof(m_bmodelImportDefaultTexture),
+                    "%s",
+                    defaultTextureName.c_str());
+            }
+
+            ImGui::EndTable();
         }
-        else
+
+        if (ImGui::Button("Browse...", ImVec2(120.0f, 0.0f)))
         {
-            rememberObjImportDirectory(m_bmodelImportPath);
+            openObjFileBrowser(ObjImportTarget::ReplaceSelectedBModel, m_bmodelImportPath);
         }
-    }
 
-    ImGui::SameLine();
+        ImGui::SameLine();
 
-    if (!hasRememberedImportSource)
-    {
-        ImGui::BeginDisabled();
-    }
-
-    if (ImGui::Button("Reimport", ImVec2(110.0f, 0.0f)))
-    {
-        std::string errorMessage;
-        const std::optional<EditorBModelImportSource> importSource = session.bmodelImportSource(bmodelIndex);
-
-        if (!session.reimportSelectedBModel(errorMessage))
+        if (ImGui::Button("Replace From OBJ", ImVec2(150.0f, 0.0f)))
         {
-            session.logError(errorMessage);
+            std::string errorMessage;
+
+            if (!session.replaceSelectedBModelFromObj(
+                    m_bmodelImportPath,
+                    m_bmodelImportScale,
+                    m_bmodelImportDefaultTexture,
+                    errorMessage))
+            {
+                session.logError(errorMessage);
+            }
+            else
+            {
+                rememberObjImportDirectory(m_bmodelImportPath);
+            }
         }
-        else if (importSource)
+
+        ImGui::SameLine();
+
+        if (!hasRememberedImportSource)
         {
-            rememberObjImportDirectory(importSource->sourcePath.c_str());
+            ImGui::BeginDisabled();
         }
-    }
 
-    if (!hasRememberedImportSource)
-    {
-        ImGui::EndDisabled();
-    }
+        if (ImGui::Button("Reimport", ImVec2(110.0f, 0.0f)))
+        {
+            std::string errorMessage;
+            const std::optional<EditorBModelImportSource> importSource = session.bmodelImportSource(bmodelIndex);
 
-    if (const std::optional<EditorBModelImportSource> importSource = session.bmodelImportSource(bmodelIndex))
-    {
-        ImGui::TextWrapped("Remembered Source: %s", importSource->sourcePath.c_str());
-    }
-    else if (!hasObjImportPath)
-    {
-        ImGui::TextDisabled("Enter an OBJ path or use Browse... .");
-    }
+            if (!session.reimportSelectedBModel(errorMessage))
+            {
+                session.logError(errorMessage);
+            }
+            else if (importSource)
+            {
+                rememberObjImportDirectory(importSource->sourcePath.c_str());
+            }
+        }
 
-    ImGui::TextDisabled("Use Create -> Import BModel... to append a new bmodel.");
+        if (!hasRememberedImportSource)
+        {
+            ImGui::EndDisabled();
+        }
+
+        if (const std::optional<EditorBModelImportSource> importSource = session.bmodelImportSource(bmodelIndex))
+        {
+            ImGui::TextWrapped("Remembered Source: %s", importSource->sourcePath.c_str());
+        }
+        else if (!hasObjImportPath)
+        {
+            ImGui::TextDisabled("Enter an OBJ path or use Browse... .");
+        }
+
+        ImGui::TextDisabled("Use Create -> Import BModel... to append a new bmodel.");
+        endInspectorSectionBlock();
+    }
 }
 
 void EditorMainWindow::renderInteractiveFaceInspector(EditorSession &session) const
@@ -7068,52 +8167,82 @@ void EditorMainWindow::renderEntityInspector(EditorSession &session, size_t enti
     Game::OutdoorSceneEntity &entity = entities[entityIndex];
     bool changed = false;
 
-    ImGui::Text("Entity Index: %zu", entity.entityIndex);
-
-    if (beginInspectorPropertyTable("EntityFields"))
+    if (beginInspectorSectionBlock("Overview"))
     {
-        const uint16_t originalDecorationListId = entity.entity.decorationListId;
-        const bool decorationChanged = editDecorationField(session, entity.entity.decorationListId);
-        changed = decorationChanged || changed;
-
-        if (decorationChanged)
+        if (beginInspectorPropertyTable("EntityFields"))
         {
-            if (const Game::DecorationEntry *pDecoration = session.decorationTable().get(entity.entity.decorationListId))
-            {
-                entity.entity.name = pDecoration->internalName;
-            }
-            else if (entity.entity.decorationListId != originalDecorationListId)
-            {
-                entity.entity.name.clear();
-            }
-        }
+            const uint16_t originalDecorationListId = entity.entity.decorationListId;
+            const bool decorationChanged = editDecorationField(session, entity.entity.decorationListId);
+            changed = decorationChanged || changed;
 
-        changed = editStringField(session, "Name", entity.entity.name, 128) || changed;
-        changed = editUInt16Field(session, "AI Attributes", entity.entity.aiAttributes) || changed;
-        changed = editPositionField(session, "Position", entity.entity.x, entity.entity.y, entity.entity.z) || changed;
-        changed = editIntField(
-            session,
-            "Facing",
-            entity.entity.facing,
-            std::numeric_limits<int>::min(),
-            std::numeric_limits<int>::max()) || changed;
-        changed = editMapEventField(session, "Event Primary", entity.entity.eventIdPrimary) || changed;
-        renderResolvedMapEventField(session, "Primary Event Label", entity.entity.eventIdPrimary);
-        changed = editMapEventField(session, "Event Secondary", entity.entity.eventIdSecondary) || changed;
-        renderResolvedMapEventField(session, "Secondary Event Label", entity.entity.eventIdSecondary);
-        changed = editUInt16Field(session, "Variable Primary", entity.entity.variablePrimary) || changed;
-        changed = editUInt16Field(session, "Variable Secondary", entity.entity.variableSecondary) || changed;
-        changed = editUInt16Field(session, "Special Trigger", entity.entity.specialTrigger) || changed;
-        changed = editUInt16Field(session, "Initial Decoration Flag", entity.initialDecorationFlag) || changed;
-        renderInspectorReadOnlyField("Decoration List Id", std::to_string(entity.entity.decorationListId));
-        renderInspectorReadOnlyField(
-            "Resolved Hint",
-            [&session, &entity]()
+            if (decorationChanged)
             {
-                const Game::DecorationEntry *pDecoration = session.decorationTable().get(entity.entity.decorationListId);
-                return pDecoration != nullptr && !pDecoration->hint.empty() ? pDecoration->hint : std::string("<none>");
-            }());
-        ImGui::EndTable();
+                if (const Game::DecorationEntry *pDecoration = session.decorationTable().get(entity.entity.decorationListId))
+                {
+                    entity.entity.name = pDecoration->internalName;
+                }
+                else if (entity.entity.decorationListId != originalDecorationListId)
+                {
+                    entity.entity.name.clear();
+                }
+            }
+
+            renderInspectorReadOnlyField("Entity Index", std::to_string(entity.entityIndex));
+            changed = editStringField(session, "Name", entity.entity.name, 128) || changed;
+            renderInspectorReadOnlyField("Decoration List Id", std::to_string(entity.entity.decorationListId));
+            renderInspectorReadOnlyField(
+                "Resolved Hint",
+                [&session, &entity]()
+                {
+                    const Game::DecorationEntry *pDecoration = session.decorationTable().get(entity.entity.decorationListId);
+                    return pDecoration != nullptr && !pDecoration->hint.empty() ? pDecoration->hint : std::string("<none>");
+                }());
+            ImGui::EndTable();
+        }
+        endInspectorSectionBlock();
+    }
+
+    if (beginInspectorSectionBlock("Placement"))
+    {
+        if (beginInspectorPropertyTable("EntityPlacementFields"))
+        {
+            changed = editPositionField(session, "Position", entity.entity.x, entity.entity.y, entity.entity.z) || changed;
+            changed = editIntField(
+                session,
+                "Facing",
+                entity.entity.facing,
+                std::numeric_limits<int>::min(),
+                std::numeric_limits<int>::max()) || changed;
+            ImGui::EndTable();
+        }
+        endInspectorSectionBlock();
+    }
+
+    if (beginInspectorSectionBlock("Behavior"))
+    {
+        if (beginInspectorPropertyTable("EntityBehaviorFields"))
+        {
+            changed = editUInt16Field(session, "AI Attributes", entity.entity.aiAttributes) || changed;
+            changed = editUInt16Field(session, "Variable Primary", entity.entity.variablePrimary) || changed;
+            changed = editUInt16Field(session, "Variable Secondary", entity.entity.variableSecondary) || changed;
+            changed = editUInt16Field(session, "Special Trigger", entity.entity.specialTrigger) || changed;
+            changed = editUInt16Field(session, "Initial Decoration Flag", entity.initialDecorationFlag) || changed;
+            ImGui::EndTable();
+        }
+        endInspectorSectionBlock();
+    }
+
+    if (beginInspectorSectionBlock("Events"))
+    {
+        if (beginInspectorPropertyTable("EntityEventFields"))
+        {
+            changed = editMapEventField(session, "Event Primary", entity.entity.eventIdPrimary) || changed;
+            renderResolvedMapEventField(session, "Primary Event Label", entity.entity.eventIdPrimary);
+            changed = editMapEventField(session, "Event Secondary", entity.entity.eventIdSecondary) || changed;
+            renderResolvedMapEventField(session, "Secondary Event Label", entity.entity.eventIdSecondary);
+            ImGui::EndTable();
+        }
+        endInspectorSectionBlock();
     }
 
     if (changed)
@@ -7184,53 +8313,58 @@ void EditorMainWindow::renderSpawnInspector(EditorSession &session, size_t spawn
         : Game::SpawnPreview {};
     bool changed = false;
 
-    ImGui::Text("Spawn Index: %zu", spawn.spawnIndex);
-
     if (pMapEntry == nullptr)
     {
         ImGui::TextUnformatted("Map stats entry is unavailable. Spawn semantics may be incomplete.");
     }
 
-    renderInspectorSectionHeader("Identity");
-
-    if (beginInspectorPropertyTable("SpawnIdentityFields"))
+    if (beginInspectorSectionBlock("Overview"))
     {
-        changed = editSpawnTypeField(session, spawn.spawn) || changed;
-
-        if (spawn.spawn.typeId == 3 && pMapEntry != nullptr)
+        if (beginInspectorPropertyTable("SpawnIdentityFields"))
         {
-            changed = editActorSpawnEncounterField(session, *pMapEntry, spawn.spawn) || changed;
+            renderInspectorReadOnlyField("Spawn Index", std::to_string(spawn.spawnIndex));
+            changed = editSpawnTypeField(session, spawn.spawn) || changed;
+
+            if (spawn.spawn.typeId == 3 && pMapEntry != nullptr)
+            {
+                changed = editActorSpawnEncounterField(session, *pMapEntry, spawn.spawn) || changed;
+            }
+            else
+            {
+                changed = editUInt16Field(session, "Index", spawn.spawn.index) || changed;
+            }
+
+            renderInspectorReadOnlyField("Type Label", preview.typeName.empty() ? "<unknown>" : preview.typeName);
+            renderInspectorReadOnlyField("Summary", preview.summary.empty() ? "<unresolved>" : preview.summary);
+            renderInspectorReadOnlyField("Detail", preview.detail.empty() ? "<none>" : preview.detail);
+            ImGui::EndTable();
         }
-        else
+        endInspectorSectionBlock();
+    }
+
+    if (beginInspectorSectionBlock("Placement"))
+    {
+        if (beginInspectorPropertyTable("SpawnPlacementFields"))
         {
-            changed = editUInt16Field(session, "Index", spawn.spawn.index) || changed;
+            changed = editPositionField(session, "Position", spawn.spawn.x, spawn.spawn.y, spawn.spawn.z) || changed;
+            changed = editUInt16Field(session, "Radius", spawn.spawn.radius) || changed;
+            changed = editUInt32Field(session, "Group", spawn.spawn.group) || changed;
+            ImGui::EndTable();
         }
-
-        renderInspectorReadOnlyField("Type Label", preview.typeName.empty() ? "<unknown>" : preview.typeName);
-        renderInspectorReadOnlyField("Summary", preview.summary.empty() ? "<unresolved>" : preview.summary);
-        renderInspectorReadOnlyField("Detail", preview.detail.empty() ? "<none>" : preview.detail);
-        ImGui::EndTable();
+        endInspectorSectionBlock();
     }
 
-    renderInspectorSectionHeader("Placement");
-
-    if (beginInspectorPropertyTable("SpawnPlacementFields"))
+    if (beginInspectorSectionBlock("Behavior"))
     {
-        changed = editPositionField(session, "Position", spawn.spawn.x, spawn.spawn.y, spawn.spawn.z) || changed;
-        changed = editUInt16Field(session, "Radius", spawn.spawn.radius) || changed;
-        changed = editUInt32Field(session, "Group", spawn.spawn.group) || changed;
-        ImGui::EndTable();
+        if (beginInspectorPropertyTable("SpawnBehaviorFields"))
+        {
+            changed = editUInt16Field(session, "Attributes", spawn.spawn.attributes) || changed;
+            ImGui::EndTable();
+        }
+        endInspectorSectionBlock();
     }
 
-    renderInspectorSectionHeader("Behavior");
-
-    if (beginInspectorPropertyTable("SpawnBehaviorFields"))
-    {
-        changed = editUInt16Field(session, "Attributes", spawn.spawn.attributes) || changed;
-        ImGui::EndTable();
-    }
-
-    if (ImGui::CollapsingHeader("Overrides And Legacy"))
+    if (beginInspectorSectionBlock("Overrides And Legacy", false))
     {
         if (beginInspectorPropertyTable("SpawnLegacyFields"))
         {
@@ -7240,6 +8374,7 @@ void EditorMainWindow::renderSpawnInspector(EditorSession &session, size_t spawn
             renderInspectorReadOnlyField("Resolved Summary", preview.summary.empty() ? "<unresolved>" : preview.summary);
             ImGui::EndTable();
         }
+        endInspectorSectionBlock();
     }
 
     if (changed)
@@ -7265,67 +8400,73 @@ void EditorMainWindow::renderActorInspector(EditorSession &session, size_t actor
     const std::string npcIdLabel = actor.npcId == 0 ? "<none>" : std::to_string(actor.npcId);
     bool changed = false;
 
-    ImGui::Text("Display Name: %s", displayLabel.c_str());
-    ImGui::Text("Template: %s", templateLabel.empty() ? "<unresolved>" : templateLabel.c_str());
-
-    renderInspectorSectionHeader("Identity");
-
-    if (beginInspectorPropertyTable("ActorIdentityFields"))
+    if (beginInspectorSectionBlock("Overview"))
     {
-        changed = editMonsterTemplateField(session, actor) || changed;
-        changed = editInt16Field(session, "NPC Id", actor.npcId) || changed;
-        changed = editIntField(
-            session,
-            "Unique Name Index",
-            actor.uniqueNameIndex,
-            std::numeric_limits<int32_t>::min(),
-            std::numeric_limits<int32_t>::max()) || changed;
-        changed = editStringField(session, "Raw Name Override", actor.name, 128) || changed;
-        renderInspectorReadOnlyField("Resolved Name", displayLabel);
-        renderInspectorReadOnlyField("Template", templateLabel.empty() ? "<unresolved>" : templateLabel.c_str());
-        renderInspectorReadOnlyField("Monster Info Id", std::to_string(actor.monsterInfoId));
-        renderInspectorReadOnlyField("Monster Id", std::to_string(actor.monsterId));
-        renderInspectorReadOnlyField("NPC Link", npcIdLabel);
-        ImGui::EndTable();
+        if (beginInspectorPropertyTable("ActorIdentityFields"))
+        {
+            changed = editMonsterTemplateField(session, actor) || changed;
+            changed = editInt16Field(session, "NPC Id", actor.npcId) || changed;
+            changed = editIntField(
+                session,
+                "Unique Name Index",
+                actor.uniqueNameIndex,
+                std::numeric_limits<int32_t>::min(),
+                std::numeric_limits<int32_t>::max()) || changed;
+            changed = editStringField(session, "Raw Name Override", actor.name, 128) || changed;
+            renderInspectorReadOnlyField("Resolved Name", displayLabel);
+            renderInspectorReadOnlyField("Template", templateLabel.empty() ? "<unresolved>" : templateLabel.c_str());
+            renderInspectorReadOnlyField("Monster Info Id", std::to_string(actor.monsterInfoId));
+            renderInspectorReadOnlyField("Monster Id", std::to_string(actor.monsterId));
+            renderInspectorReadOnlyField("NPC Link", npcIdLabel);
+            ImGui::EndTable();
+        }
+        endInspectorSectionBlock();
     }
 
-    renderInspectorSectionHeader("Placement");
-
-    if (beginInspectorPropertyTable("ActorPlacementFields"))
+    if (beginInspectorSectionBlock("Placement"))
     {
-        changed = editPositionField(session, "Position", actor.x, actor.y, actor.z) || changed;
-        changed = editUInt16Field(session, "Radius", actor.radius) || changed;
-        changed = editUInt16Field(session, "Height", actor.height) || changed;
-        ImGui::EndTable();
+        if (beginInspectorPropertyTable("ActorPlacementFields"))
+        {
+            changed = editPositionField(session, "Position", actor.x, actor.y, actor.z) || changed;
+            changed = editUInt16Field(session, "Radius", actor.radius) || changed;
+            changed = editUInt16Field(session, "Height", actor.height) || changed;
+            ImGui::EndTable();
+        }
+        endInspectorSectionBlock();
     }
 
-    renderInspectorSectionHeader("Behavior");
-
-    if (beginInspectorPropertyTable("ActorBehaviorFields"))
+    if (beginInspectorSectionBlock("Behavior"))
     {
-        changed = editActorHostilityTypeField(session, actor.hostilityType) || changed;
-        changed = editUInt32Field(session, "Group", actor.group) || changed;
-        changed = editUInt32Field(session, "Ally", actor.ally) || changed;
-        renderInspectorReadOnlyField("Hostility Label", hostilityTypeLabel(actor.hostilityType));
-        ImGui::EndTable();
+        if (beginInspectorPropertyTable("ActorBehaviorFields"))
+        {
+            changed = editActorHostilityTypeField(session, actor.hostilityType) || changed;
+            changed = editUInt32Field(session, "Group", actor.group) || changed;
+            changed = editUInt32Field(session, "Ally", actor.ally) || changed;
+            renderInspectorReadOnlyField("Hostility Label", hostilityTypeLabel(actor.hostilityType));
+            ImGui::EndTable();
+        }
+        endInspectorSectionBlock();
     }
 
-    renderInspectorSectionHeader("Visibility And Faction");
-
-    if (beginInspectorPropertyTable("ActorFlags"))
+    if (beginInspectorSectionBlock("Visibility And Faction"))
     {
-        changed = editBitCheckbox(session, "Show On Map", actor.attributes, MonsterBitShowOnMap) || changed;
-        changed = editBitCheckbox(session, "Invisible", actor.attributes, MonsterBitInvisible) || changed;
-        changed = editBitCheckbox(session, "No Flee", actor.attributes, MonsterBitNoFlee) || changed;
-        changed = editBitCheckbox(session, "Hostile", actor.attributes, MonsterBitHostile) || changed;
-        changed = editBitCheckbox(session, "On Alert Map", actor.attributes, MonsterBitOnAlertMap) || changed;
-        changed = editBitCheckbox(session, "Treasure Generated", actor.attributes, MonsterBitTreasureGenerated)
-            || changed;
-        changed = editBitCheckbox(session, "Show As Hostile", actor.attributes, MonsterBitShowAsHostile) || changed;
-        ImGui::EndTable();
+        if (beginInspectorPropertyTable("ActorFlags"))
+        {
+            changed = editBitCheckbox(session, "Show On Map", actor.attributes, MonsterBitShowOnMap) || changed;
+            changed = editBitCheckbox(session, "Invisible", actor.attributes, MonsterBitInvisible) || changed;
+            changed = editBitCheckbox(session, "No Flee", actor.attributes, MonsterBitNoFlee) || changed;
+            changed = editBitCheckbox(session, "Hostile", actor.attributes, MonsterBitHostile) || changed;
+            changed = editBitCheckbox(session, "On Alert Map", actor.attributes, MonsterBitOnAlertMap) || changed;
+            changed = editBitCheckbox(session, "Treasure Generated", actor.attributes, MonsterBitTreasureGenerated)
+                || changed;
+            changed = editBitCheckbox(session, "Show As Hostile", actor.attributes, MonsterBitShowAsHostile)
+                || changed;
+            ImGui::EndTable();
+        }
+        endInspectorSectionBlock();
     }
 
-    if (ImGui::CollapsingHeader("Overrides And Legacy"))
+    if (beginInspectorSectionBlock("Overrides And Legacy", false))
     {
         if (beginInspectorPropertyTable("ActorLegacyFields"))
         {
@@ -7342,6 +8483,7 @@ void EditorMainWindow::renderActorInspector(EditorSession &session, size_t actor
             renderInspectorReadOnlyField("Hostility Label", hostilityTypeLabel(actor.hostilityType));
             ImGui::EndTable();
         }
+        endInspectorSectionBlock();
     }
 
     if (changed)
@@ -7402,138 +8544,152 @@ void EditorMainWindow::renderSpriteObjectInspector(EditorSession &session, size_
     Game::MapDeltaSpriteObject &spriteObject = spriteObjects[spriteObjectIndex];
     bool changed = false;
 
-    ImGui::Text("Display Name: %s", spriteObjectDisplayLabel(spriteObject, spriteObjectIndex).c_str());
-
-    renderInspectorSectionHeader("Identity");
-
-    if (beginInspectorPropertyTable("SpriteObjectIdentityFields"))
+    if (beginInspectorSectionBlock("Overview"))
     {
-        const uint16_t originalObjectDescriptionId = spriteObject.objectDescriptionId;
-        const bool objectDescriptionChanged = editObjectDescriptionField(session, spriteObject.objectDescriptionId);
-        changed = objectDescriptionChanged || changed;
-
-        if (objectDescriptionChanged)
+        if (beginInspectorPropertyTable("SpriteObjectIdentityFields"))
         {
-            if (const Game::ObjectEntry *pObjectEntry = session.objectTable().get(spriteObject.objectDescriptionId))
-            {
-                spriteObject.spriteId = pObjectEntry->spriteId;
+            const uint16_t originalObjectDescriptionId = spriteObject.objectDescriptionId;
+            const bool objectDescriptionChanged = editObjectDescriptionField(session, spriteObject.objectDescriptionId);
+            changed = objectDescriptionChanged || changed;
 
-                if (spriteObject.temporaryLifetime == 0 && pObjectEntry->lifetimeTicks > 0)
+            if (objectDescriptionChanged)
+            {
+                if (const Game::ObjectEntry *pObjectEntry = session.objectTable().get(spriteObject.objectDescriptionId))
                 {
-                    spriteObject.temporaryLifetime = pObjectEntry->lifetimeTicks;
+                    spriteObject.spriteId = pObjectEntry->spriteId;
+
+                    if (spriteObject.temporaryLifetime == 0 && pObjectEntry->lifetimeTicks > 0)
+                    {
+                        spriteObject.temporaryLifetime = pObjectEntry->lifetimeTicks;
+                    }
+                }
+                else if (spriteObject.objectDescriptionId != originalObjectDescriptionId)
+                {
+                    spriteObject.spriteId = 0;
                 }
             }
-            else if (spriteObject.objectDescriptionId != originalObjectDescriptionId)
-            {
-                spriteObject.spriteId = 0;
-            }
+
+            renderInspectorReadOnlyField(
+                "Display Name",
+                spriteObjectDisplayLabel(spriteObject, spriteObjectIndex));
+            changed = editUInt16Field(session, "Yaw Angle", spriteObject.yawAngle) || changed;
+            changed = editUInt16Field(session, "Sound Id", spriteObject.soundId) || changed;
+            renderInspectorReadOnlyField("Object Description Id", std::to_string(spriteObject.objectDescriptionId));
+            renderInspectorReadOnlyField("Sprite Id", std::to_string(spriteObject.spriteId));
+            ImGui::EndTable();
         }
-
-        changed = editUInt16Field(session, "Yaw Angle", spriteObject.yawAngle) || changed;
-        changed = editUInt16Field(session, "Sound Id", spriteObject.soundId) || changed;
-        renderInspectorReadOnlyField("Object Description Id", std::to_string(spriteObject.objectDescriptionId));
-        renderInspectorReadOnlyField("Sprite Id", std::to_string(spriteObject.spriteId));
-        ImGui::EndTable();
+        endInspectorSectionBlock();
     }
 
-    renderInspectorSectionHeader("Placement");
-
-    if (beginInspectorPropertyTable("SpriteObjectPlacementFields"))
+    if (beginInspectorSectionBlock("Placement"))
     {
-        changed = editPositionField(session, "Position", spriteObject.x, spriteObject.y, spriteObject.z) || changed;
-        changed = editPositionField(
-            session,
-            "Initial Position",
-            spriteObject.initialX,
-            spriteObject.initialY,
-            spriteObject.initialZ) || changed;
-        ImGui::EndTable();
+        if (beginInspectorPropertyTable("SpriteObjectPlacementFields"))
+        {
+            changed = editPositionField(session, "Position", spriteObject.x, spriteObject.y, spriteObject.z) || changed;
+            changed = editPositionField(
+                session,
+                "Initial Position",
+                spriteObject.initialX,
+                spriteObject.initialY,
+                spriteObject.initialZ) || changed;
+            ImGui::EndTable();
+        }
+        endInspectorSectionBlock();
     }
 
-    renderInspectorSectionHeader("Motion And Lifetime");
-
-    if (beginInspectorPropertyTable("SpriteObjectMotionFields"))
+    if (beginInspectorSectionBlock("Motion And Lifetime"))
     {
-        changed = editInt16PositionField(
-            session,
-            "Velocity",
-            spriteObject.velocityX,
-            spriteObject.velocityY,
-            spriteObject.velocityZ) || changed;
-        changed = editUInt16Field(session, "Time Since Created", spriteObject.timeSinceCreated) || changed;
-        changed = editInt16Field(session, "Temporary Lifetime", spriteObject.temporaryLifetime) || changed;
-        changed = editInt16Field(session, "Glow Radius Multiplier", spriteObject.glowRadiusMultiplier) || changed;
-        ImGui::EndTable();
+        if (beginInspectorPropertyTable("SpriteObjectMotionFields"))
+        {
+            changed = editInt16PositionField(
+                session,
+                "Velocity",
+                spriteObject.velocityX,
+                spriteObject.velocityY,
+                spriteObject.velocityZ) || changed;
+            changed = editUInt16Field(session, "Time Since Created", spriteObject.timeSinceCreated) || changed;
+            changed = editInt16Field(session, "Temporary Lifetime", spriteObject.temporaryLifetime) || changed;
+            changed = editInt16Field(session, "Glow Radius Multiplier", spriteObject.glowRadiusMultiplier) || changed;
+            ImGui::EndTable();
+        }
+        endInspectorSectionBlock();
     }
 
-    renderInspectorSectionHeader("Visibility And Object Flags");
-
-    if (beginInspectorPropertyTable("SpriteObjectFlags"))
+    if (beginInspectorSectionBlock("Visibility And Object Flags"))
     {
-        changed = editBitCheckbox(session, "Visible", spriteObject.attributes, ObjectBitVisible) || changed;
-        changed = editBitCheckbox(session, "Temporary", spriteObject.attributes, ObjectBitTemporary) || changed;
-        changed = editBitCheckbox(session, "Halt Turn-Based", spriteObject.attributes, ObjectBitHaltTurnBased)
-            || changed;
-        changed = editBitCheckbox(session, "Dropped By Player", spriteObject.attributes, ObjectBitDroppedByPlayer)
-            || changed;
-        changed = editBitCheckbox(session, "Ignore Range", spriteObject.attributes, ObjectBitIgnoreRange) || changed;
-        changed = editBitCheckbox(session, "No Z-Buffer", spriteObject.attributes, ObjectBitNoZBuffer) || changed;
-        changed = editBitCheckbox(session, "Skip A Frame", spriteObject.attributes, ObjectBitSkipAFrame) || changed;
-        changed = editBitCheckbox(session, "Attach To Head", spriteObject.attributes, ObjectBitAttachToHead)
-            || changed;
-        changed = editBitCheckbox(session, "Missile", spriteObject.attributes, ObjectBitMissile) || changed;
-        changed = editBitCheckbox(session, "Removed", spriteObject.attributes, ObjectBitRemoved) || changed;
-        ImGui::EndTable();
+        if (beginInspectorPropertyTable("SpriteObjectFlags"))
+        {
+            changed = editBitCheckbox(session, "Visible", spriteObject.attributes, ObjectBitVisible) || changed;
+            changed = editBitCheckbox(session, "Temporary", spriteObject.attributes, ObjectBitTemporary) || changed;
+            changed = editBitCheckbox(session, "Halt Turn-Based", spriteObject.attributes, ObjectBitHaltTurnBased)
+                || changed;
+            changed = editBitCheckbox(session, "Dropped By Player", spriteObject.attributes, ObjectBitDroppedByPlayer)
+                || changed;
+            changed = editBitCheckbox(session, "Ignore Range", spriteObject.attributes, ObjectBitIgnoreRange)
+                || changed;
+            changed = editBitCheckbox(session, "No Z-Buffer", spriteObject.attributes, ObjectBitNoZBuffer)
+                || changed;
+            changed = editBitCheckbox(session, "Skip A Frame", spriteObject.attributes, ObjectBitSkipAFrame)
+                || changed;
+            changed = editBitCheckbox(session, "Attach To Head", spriteObject.attributes, ObjectBitAttachToHead)
+                || changed;
+            changed = editBitCheckbox(session, "Missile", spriteObject.attributes, ObjectBitMissile) || changed;
+            changed = editBitCheckbox(session, "Removed", spriteObject.attributes, ObjectBitRemoved) || changed;
+            ImGui::EndTable();
+        }
+        endInspectorSectionBlock();
     }
 
-    renderInspectorSectionHeader("Spell And Ownership");
-
-    if (beginInspectorPropertyTable("SpriteObjectPayloadFields"))
+    if (beginInspectorSectionBlock("Spell And Ownership"))
     {
-        changed = editIntField(
-            session,
-            "Spell Id",
-            spriteObject.spellId,
-            std::numeric_limits<int32_t>::min(),
-            std::numeric_limits<int32_t>::max()) || changed;
-        changed = editIntField(
-            session,
-            "Spell Level",
-            spriteObject.spellLevel,
-            std::numeric_limits<int32_t>::min(),
-            std::numeric_limits<int32_t>::max()) || changed;
-        changed = editIntField(
-            session,
-            "Spell Skill",
-            spriteObject.spellSkill,
-            std::numeric_limits<int32_t>::min(),
-            std::numeric_limits<int32_t>::max()) || changed;
-        changed = editIntField(
-            session,
-            "Field54",
-            spriteObject.field54,
-            std::numeric_limits<int32_t>::min(),
-            std::numeric_limits<int32_t>::max()) || changed;
-        changed = editIntField(
-            session,
-            "Spell Caster PID",
-            spriteObject.spellCasterPid,
-            std::numeric_limits<int32_t>::min(),
-            std::numeric_limits<int32_t>::max()) || changed;
-        changed = editIntField(
-            session,
-            "Spell Target PID",
-            spriteObject.spellTargetPid,
-            std::numeric_limits<int32_t>::min(),
-            std::numeric_limits<int32_t>::max()) || changed;
-        renderInspectorReadOnlyField("Lod Distance", std::to_string(static_cast<int>(spriteObject.lodDistance)));
-        renderInspectorReadOnlyField(
-            "Spell Caster Ability",
-            std::to_string(static_cast<int>(spriteObject.spellCasterAbility)));
-        ImGui::EndTable();
+        if (beginInspectorPropertyTable("SpriteObjectPayloadFields"))
+        {
+            changed = editIntField(
+                session,
+                "Spell Id",
+                spriteObject.spellId,
+                std::numeric_limits<int32_t>::min(),
+                std::numeric_limits<int32_t>::max()) || changed;
+            changed = editIntField(
+                session,
+                "Spell Level",
+                spriteObject.spellLevel,
+                std::numeric_limits<int32_t>::min(),
+                std::numeric_limits<int32_t>::max()) || changed;
+            changed = editIntField(
+                session,
+                "Spell Skill",
+                spriteObject.spellSkill,
+                std::numeric_limits<int32_t>::min(),
+                std::numeric_limits<int32_t>::max()) || changed;
+            changed = editIntField(
+                session,
+                "Field54",
+                spriteObject.field54,
+                std::numeric_limits<int32_t>::min(),
+                std::numeric_limits<int32_t>::max()) || changed;
+            changed = editIntField(
+                session,
+                "Spell Caster PID",
+                spriteObject.spellCasterPid,
+                std::numeric_limits<int32_t>::min(),
+                std::numeric_limits<int32_t>::max()) || changed;
+            changed = editIntField(
+                session,
+                "Spell Target PID",
+                spriteObject.spellTargetPid,
+                std::numeric_limits<int32_t>::min(),
+                std::numeric_limits<int32_t>::max()) || changed;
+            renderInspectorReadOnlyField("Lod Distance", std::to_string(static_cast<int>(spriteObject.lodDistance)));
+            renderInspectorReadOnlyField(
+                "Spell Caster Ability",
+                std::to_string(static_cast<int>(spriteObject.spellCasterAbility)));
+            ImGui::EndTable();
+        }
+        endInspectorSectionBlock();
     }
 
-    if (ImGui::CollapsingHeader("Overrides And Legacy"))
+    if (beginInspectorSectionBlock("Overrides And Legacy", false))
     {
         if (beginInspectorPropertyTable("SpriteObjectLegacyPayload"))
         {
@@ -7544,6 +8700,7 @@ void EditorMainWindow::renderSpriteObjectInspector(EditorSession &session, size_
             renderInspectorReadOnlyField("Containing Item Bytes", std::to_string(spriteObject.rawContainingItem.size()));
             ImGui::EndTable();
         }
+        endInspectorSectionBlock();
     }
 
     if (changed)
@@ -7577,31 +8734,35 @@ void EditorMainWindow::renderChestInspector(EditorSession &session, size_t chest
         }
     }
 
-    renderInspectorSectionHeader("Identity");
-
-    if (beginInspectorPropertyTable("ChestIdentity"))
+    if (beginInspectorSectionBlock("Overview"))
     {
-        changed = editChestPictureField(session, chest.chestTypeId) || changed;
-        renderInspectorReadOnlyField(
-            "Chest Type Name",
-            pChestEntry != nullptr && !pChestEntry->name.empty() ? pChestEntry->name : "<unknown>");
-        renderInspectorReadOnlyField("Chest Type Id", std::to_string(chest.chestTypeId));
-        renderInspectorReadOnlyField("Occupied Inventory Slots", std::to_string(occupiedSlots));
-        renderInspectorReadOnlyField("Inventory Cells", std::to_string(chest.inventoryMatrix.size()));
-        ImGui::EndTable();
+        if (beginInspectorPropertyTable("ChestIdentity"))
+        {
+            changed = editChestPictureField(session, chest.chestTypeId) || changed;
+            renderInspectorReadOnlyField(
+                "Chest Type Name",
+                pChestEntry != nullptr && !pChestEntry->name.empty() ? pChestEntry->name : "<unknown>");
+            renderInspectorReadOnlyField("Chest Type Id", std::to_string(chest.chestTypeId));
+            renderInspectorReadOnlyField("Occupied Inventory Slots", std::to_string(occupiedSlots));
+            renderInspectorReadOnlyField("Inventory Cells", std::to_string(chest.inventoryMatrix.size()));
+            ImGui::EndTable();
+        }
+        endInspectorSectionBlock();
     }
 
-    renderInspectorSectionHeader("Flags");
-
-    if (beginInspectorPropertyTable("ChestFlags"))
+    if (beginInspectorSectionBlock("Flags"))
     {
-        changed = editBitCheckbox(session, "Trapped", chest.flags, ChestBitTrapped) || changed;
-        changed = editBitCheckbox(session, "Items Placed", chest.flags, ChestBitItemsPlaced) || changed;
-        changed = editBitCheckbox(session, "Identified", chest.flags, ChestBitIdentified) || changed;
-        ImGui::EndTable();
+        if (beginInspectorPropertyTable("ChestFlags"))
+        {
+            changed = editBitCheckbox(session, "Trapped", chest.flags, ChestBitTrapped) || changed;
+            changed = editBitCheckbox(session, "Items Placed", chest.flags, ChestBitItemsPlaced) || changed;
+            changed = editBitCheckbox(session, "Identified", chest.flags, ChestBitIdentified) || changed;
+            ImGui::EndTable();
+        }
+        endInspectorSectionBlock();
     }
 
-    if (ImGui::CollapsingHeader("Contents"))
+    if (beginInspectorSectionBlock("Contents", false))
     {
         const std::vector<EditorChestContentRecord> contentRecords = session.decodeChestContents(chestIndex);
         size_t fixedRecordCount = 0;
@@ -7775,9 +8936,10 @@ void EditorMainWindow::renderChestInspector(EditorSession &session, size_t chest
                 ImGui::PopID();
             }
         }
+        endInspectorSectionBlock();
     }
 
-    if (ImGui::CollapsingHeader("Linked Openers"))
+    if (beginInspectorSectionBlock("Linked Openers", false))
     {
         const std::vector<EditorChestLink> chestLinks = session.findChestLinks(chestIndex);
 
@@ -7829,9 +8991,10 @@ void EditorMainWindow::renderChestInspector(EditorSession &session, size_t chest
                 }
             }
         }
+        endInspectorSectionBlock();
     }
 
-    if (ImGui::CollapsingHeader("Layout And Matrix"))
+    if (beginInspectorSectionBlock("Layout And Matrix", false))
     {
         if (ImGui::BeginTable("ChestInventoryMatrix", 14, ImGuiTableFlags_Borders | ImGuiTableFlags_SizingFixedFit))
         {
@@ -7848,9 +9011,10 @@ void EditorMainWindow::renderChestInspector(EditorSession &session, size_t chest
 
             ImGui::EndTable();
         }
+        endInspectorSectionBlock();
     }
 
-    if (ImGui::CollapsingHeader("Overrides And Legacy"))
+    if (beginInspectorSectionBlock("Overrides And Legacy", false))
     {
         if (beginInspectorPropertyTable("ChestLegacyFields"))
         {
@@ -7860,6 +9024,7 @@ void EditorMainWindow::renderChestInspector(EditorSession &session, size_t chest
             renderInspectorReadOnlyField("Raw Record Count", std::to_string(chest.rawItems.size() / 36));
             ImGui::EndTable();
         }
+        endInspectorSectionBlock();
     }
 
     if (changed)

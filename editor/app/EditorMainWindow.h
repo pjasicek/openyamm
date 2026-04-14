@@ -154,6 +154,7 @@ private:
     mutable int m_newOutdoorTilesetPreset = 0;
     mutable bool m_openOpenOutdoorMapModal = false;
     mutable char m_openOutdoorMapFilter[128] = {};
+    mutable char m_sceneFilter[128] = {};
     mutable bool m_openMapPackageActionModal = false;
     mutable MapPackageAction m_mapPackageAction = MapPackageAction::None;
     mutable char m_mapPackageActionMapId[64] = {};
