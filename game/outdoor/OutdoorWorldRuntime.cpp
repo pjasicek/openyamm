@@ -92,6 +92,13 @@ constexpr int32_t MapWeatherFoggy = 1;
 constexpr int32_t MapWeatherSnowing = 2;
 constexpr float DefaultOutdoorVisibilityDistance = 200000.0f;
 
+float actorDecisionRange(
+    uint32_t actorId,
+    uint32_t counter,
+    uint32_t salt,
+    float minimumValue,
+    float maximumValue);
+
 uint32_t makeAbgr(uint8_t red, uint8_t green, uint8_t blue)
 {
     return 0xff000000u
@@ -2338,8 +2345,9 @@ OutdoorWorldRuntime::MapActorState buildMapActorState(
     state.aiState = actor.hp <= 0 ? OutdoorWorldRuntime::ActorAiState::Dead : OutdoorWorldRuntime::ActorAiState::Standing;
     state.recoverySeconds = monsterRecoverySeconds(pStats != nullptr ? pStats->recovery : 100);
     state.attackAnimationSeconds = std::max(0.1f, attackAnimationSeconds);
-    state.attackCooldownSeconds = state.recoverySeconds;
-    state.idleDecisionSeconds = 0.5f + static_cast<float>(actorId % 5) * 0.2f;
+    state.attackCooldownSeconds =
+        state.recoverySeconds * actorDecisionRange(actorId, 0, 0x4d595df4u, 0.25f, 1.0f);
+    state.idleDecisionSeconds = actorDecisionRange(actorId, 0, 0x1f123bb5u, 0.2f, 1.35f);
 
     state.preciseZ = resolveInitialActorGroundZ(
         pOutdoorMapData,
@@ -2805,8 +2813,9 @@ OutdoorWorldRuntime::MapActorState buildSpawnedMapActorState(
     state.aiState = OutdoorWorldRuntime::ActorAiState::Standing;
     state.recoverySeconds = monsterRecoverySeconds(stats.recovery);
     state.attackAnimationSeconds = 0.3f;
-    state.attackCooldownSeconds = state.recoverySeconds;
-    state.idleDecisionSeconds = 0.5f + static_cast<float>(actorId % 5) * 0.2f;
+    state.attackCooldownSeconds =
+        state.recoverySeconds * actorDecisionRange(actorId, 0, 0x4d595df4u, 0.25f, 1.0f);
+    state.idleDecisionSeconds = actorDecisionRange(actorId, 0, 0x1f123bb5u, 0.2f, 1.35f);
 
     state.preciseZ = resolveInitialActorGroundZ(
         pOutdoorMapData,
@@ -3372,6 +3381,29 @@ float attackActionDurationSeconds(float attackAnimationSeconds)
     return std::max(0.1f, attackAnimationSeconds);
 }
 
+uint32_t mixActorDecisionSeed(uint32_t actorId, uint32_t counter, uint32_t salt)
+{
+    return static_cast<uint32_t>(actorId + 1) * 1103515245u
+        + counter * 2654435761u
+        + salt;
+}
+
+float actorDecisionUnitFloat(uint32_t actorId, uint32_t counter, uint32_t salt)
+{
+    const uint32_t seed = mixActorDecisionSeed(actorId, counter, salt);
+    return static_cast<float>(seed & 0xffffu) / 65535.0f;
+}
+
+float actorDecisionRange(
+    uint32_t actorId,
+    uint32_t counter,
+    uint32_t salt,
+    float minimumValue,
+    float maximumValue)
+{
+    return minimumValue + (maximumValue - minimumValue) * actorDecisionUnitFloat(actorId, counter, salt);
+}
+
 float attackCooldownDurationSeconds(
     const MonsterTable::MonsterStatsEntry &stats,
     OutdoorWorldRuntime::MonsterAttackAbility ability,
@@ -3386,6 +3418,100 @@ float attackCooldownDurationSeconds(
     return recoverySeconds;
 }
 
+OutdoorWorldRuntime::MonsterAttackAbility fallbackMeleeAbility(
+    const MonsterTable::MonsterStatsEntry &stats,
+    OutdoorWorldRuntime::MonsterAttackAbility chosenAbility)
+{
+    if (chosenAbility == OutdoorWorldRuntime::MonsterAttackAbility::Attack1 && !stats.attack1HasMissile)
+    {
+        return chosenAbility;
+    }
+
+    if (!stats.attack1HasMissile)
+    {
+        return OutdoorWorldRuntime::MonsterAttackAbility::Attack1;
+    }
+
+    if (!stats.attack2HasMissile)
+    {
+        return OutdoorWorldRuntime::MonsterAttackAbility::Attack2;
+    }
+
+    return chosenAbility;
+}
+
+bool shouldCommitToRangedAbility(
+    const OutdoorWorldRuntime::MapActorState &actor,
+    const MonsterTable::MonsterStatsEntry &stats,
+    OutdoorWorldRuntime::MonsterAttackAbility ability,
+    const CombatTargetInfo &combatTarget,
+    bool movementAllowed)
+{
+    if (!isRangedAttackAbility(stats, ability))
+    {
+        return false;
+    }
+
+    if (combatTarget.edgeDistance >= 5120.0f)
+    {
+        return false;
+    }
+
+    if (!movementAllowed)
+    {
+        return true;
+    }
+
+    const float meleeRange = meleeRangeForCombatTarget(combatTarget.kind == CombatTargetKind::Actor);
+
+    if (combatTarget.edgeDistance <= meleeRange * 1.15f)
+    {
+        return false;
+    }
+
+    const float gapBeyondMelee = std::max(0.0f, combatTarget.edgeDistance - meleeRange);
+    float chancePercent = 0.0f;
+
+    if (gapBeyondMelee < 256.0f)
+    {
+        chancePercent = 15.0f;
+    }
+    else if (gapBeyondMelee < 640.0f)
+    {
+        chancePercent = 30.0f;
+    }
+    else if (gapBeyondMelee < 1280.0f)
+    {
+        chancePercent = 50.0f;
+    }
+    else if (gapBeyondMelee < 2560.0f)
+    {
+        chancePercent = 72.0f;
+    }
+    else if (gapBeyondMelee < 4096.0f)
+    {
+        chancePercent = 84.0f;
+    }
+    else
+    {
+        chancePercent = 68.0f;
+    }
+
+    if (ability == OutdoorWorldRuntime::MonsterAttackAbility::Spell1
+        || ability == OutdoorWorldRuntime::MonsterAttackAbility::Spell2)
+    {
+        chancePercent = std::min(95.0f, chancePercent + 10.0f);
+    }
+
+    const uint32_t salt =
+        ability == OutdoorWorldRuntime::MonsterAttackAbility::Attack2 ? 0x55aa55aau
+        : ability == OutdoorWorldRuntime::MonsterAttackAbility::Spell1 ? 0x13579bdfu
+        : ability == OutdoorWorldRuntime::MonsterAttackAbility::Spell2 ? 0x2468ace0u
+        : 0x7f4a7c15u;
+    const float rollPercent = actorDecisionUnitFloat(actor.actorId, actor.attackDecisionCount, salt ^ 0x31415926u) * 100.0f;
+    return rollPercent < chancePercent;
+}
+
 enum class PursueActionMode
 {
     OffsetShort,
@@ -3397,10 +3523,7 @@ OutdoorWorldRuntime::MonsterAttackAbility chooseAttackAbility(
     OutdoorWorldRuntime::MapActorState &actor,
     const MonsterTable::MonsterStatsEntry &stats)
 {
-    const uint32_t baseSeed =
-        static_cast<uint32_t>(actor.actorId + 1) * 1103515245u
-        + actor.attackDecisionCount * 2654435761u
-        + 0x7f4a7c15u;
+    const uint32_t baseSeed = mixActorDecisionSeed(actor.actorId, actor.attackDecisionCount, 0x7f4a7c15u);
     ++actor.attackDecisionCount;
 
     auto passesChance =
@@ -5281,6 +5404,17 @@ void OutdoorWorldRuntime::updateMapActors(float deltaSeconds, float partyX, floa
                     }
                 }
 
+                if (isRangedAttackAbility(*pStats, chosenAbility)
+                    && !shouldCommitToRangedAbility(
+                        actor,
+                        *pStats,
+                        chosenAbility,
+                        combatTarget,
+                        movementAllowed))
+                {
+                    chosenAbility = fallbackMeleeAbility(*pStats, chosenAbility);
+                }
+
                 const bool chosenAbilityIsRanged =
                     actor.darkGraspRemainingSeconds <= 0.0f
                     && actor.blindRemainingSeconds <= 0.0f
@@ -5306,6 +5440,12 @@ void OutdoorWorldRuntime::updateMapActors(float deltaSeconds, float partyX, floa
                         chosenAbility,
                         attackAnimationSeconds,
                         actor.recoverySeconds);
+                    actor.attackCooldownSeconds *= actorDecisionRange(
+                        actor.actorId,
+                        actor.attackDecisionCount,
+                        0x0b91f2a3u,
+                        0.9f,
+                        1.2f);
                     actor.actionSeconds = attackActionDurationSeconds(attackAnimationSeconds);
                     actor.attackImpactTriggered = false;
                     actor.animationTimeTicks = 0.0f;
@@ -5389,6 +5529,12 @@ void OutdoorWorldRuntime::updateMapActors(float deltaSeconds, float partyX, floa
                             chosenAbility,
                             attackAnimationSeconds,
                             actor.recoverySeconds);
+                        actor.attackCooldownSeconds *= actorDecisionRange(
+                            actor.actorId,
+                            actor.attackDecisionCount,
+                            0x0b91f2a3u,
+                            0.9f,
+                            1.2f);
                         actor.actionSeconds = attackActionDurationSeconds(attackAnimationSeconds);
                         actor.attackImpactTriggered = false;
                         actor.animationTimeTicks = 0.0f;
