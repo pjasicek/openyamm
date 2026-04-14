@@ -7172,6 +7172,16 @@ void OutdoorWorldRuntime::collectOutdoorFaceCandidates(
 
 }
 
+const OutdoorFaceGeometryData *OutdoorWorldRuntime::outdoorFace(size_t faceIndex) const
+{
+    if (faceIndex >= m_outdoorFaces.size())
+    {
+        return nullptr;
+    }
+
+    return &m_outdoorFaces[faceIndex];
+}
+
 bool OutdoorWorldRuntime::hasClearOutdoorLineOfSight(const bx::Vec3 &start, const bx::Vec3 &end) const
 {
     if (m_pOutdoorMapData != nullptr)

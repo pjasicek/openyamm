@@ -757,6 +757,9 @@ public:
         bool useStaticFrame = false;
     };
 
+    void collectOutdoorFaceCandidates(float minX, float minY, float maxX, float maxY, std::vector<size_t> &indices) const;
+    const OutdoorFaceGeometryData *outdoorFace(size_t faceIndex) const;
+
 private:
     static uint32_t makeChestSeed(uint32_t sessionSeed, int mapId, uint32_t chestId, uint32_t salt);
     static void appendChestItem(std::vector<ChestItemState> &items, const ChestItemState &item);
@@ -848,7 +851,6 @@ private:
         const MapActorState &actor,
         const MonsterTable::MonsterStatsEntry *pStats) const;
     void buildOutdoorFaceSpatialIndex();
-    void collectOutdoorFaceCandidates(float minX, float minY, float maxX, float maxY, std::vector<size_t> &indices) const;
     bool resolveWorldItemVisual(
         uint32_t itemId,
         uint16_t &objectDescriptionId,

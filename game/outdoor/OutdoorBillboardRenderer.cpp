@@ -62,7 +62,6 @@ constexpr float BillboardAmbientLight = 0.85f;
 constexpr float BillboardLightContributionScale = 0.7f;
 constexpr const char *ContactShadowTextureName = "__contact_shadow_blob__";
 constexpr float HoveredActorOutlineThicknessPixels = 2.0f;
-constexpr float BillboardInspectVerticalFovDegrees = 60.0f;
 
 uint32_t makeAbgr(uint8_t red, uint8_t green, uint8_t blue)
 {
@@ -430,93 +429,19 @@ std::optional<OutdoorGameView::InspectHit> OutdoorBillboardRenderer::resolveHove
     OutdoorGameView &view,
     const float *pViewMatrix)
 {
+    (void)pViewMatrix;
+
+    if (view.m_cachedHoverInspectHitValid)
+    {
+        return view.m_cachedHoverInspectHit;
+    }
+
     if (!view.m_pendingSpellCast.active)
     {
-        if (view.m_cachedHoverInspectHitValid)
-        {
-            return view.m_cachedHoverInspectHit;
-        }
-
         return std::nullopt;
     }
 
-    if (!view.m_outdoorMapData.has_value() || view.m_lastRenderWidth <= 0 || view.m_lastRenderHeight <= 0)
-    {
-        return std::nullopt;
-    }
-
-    const int viewWidth = std::max(view.m_lastRenderWidth, 1);
-    const int viewHeight = std::max(view.m_lastRenderHeight, 1);
-    const float aspectRatio = static_cast<float>(viewWidth) / static_cast<float>(viewHeight);
-    float projectionMatrix[16] = {};
-    bx::mtxProj(
-        projectionMatrix,
-        BillboardInspectVerticalFovDegrees,
-        aspectRatio,
-        0.1f,
-        200000.0f,
-        bgfx::getCaps()->homogeneousDepth,
-        bx::Handedness::Right);
-
-    const auto inspectAtPoint =
-        [&](float screenX, float screenY) -> std::optional<OutdoorGameView::InspectHit>
-        {
-            bx::Vec3 rayOrigin = {0.0f, 0.0f, 0.0f};
-            bx::Vec3 rayDirection = {0.0f, 0.0f, 0.0f};
-
-            if (!view.buildQuickCastInspectRayForScreenPoint(screenX, screenY, rayOrigin, rayDirection))
-            {
-                return std::nullopt;
-            }
-
-            OutdoorGameView::InspectHit inspectHit = OutdoorInteractionController::inspectBModelFace(
-                view,
-                *view.m_outdoorMapData,
-                rayOrigin,
-                rayDirection,
-                screenX,
-                screenY,
-                viewWidth,
-                viewHeight,
-                pViewMatrix,
-                projectionMatrix,
-                OutdoorGameView::DecorationPickMode::HoverInfo);
-
-            if (!inspectHit.hasHit)
-            {
-                return std::nullopt;
-            }
-
-            return inspectHit;
-        };
-    const auto prefersOutlinedTarget =
-        [](const OutdoorGameView::InspectHit &inspectHit)
-        {
-            return inspectHit.kind == "actor" || inspectHit.kind == "world_item";
-        };
-
-    float mouseX = 0.0f;
-    float mouseY = 0.0f;
-    SDL_GetMouseState(&mouseX, &mouseY);
-    const std::optional<OutdoorGameView::InspectHit> mouseInspectHit = inspectAtPoint(mouseX, mouseY);
-    const std::optional<OutdoorGameView::InspectHit> centerInspectHit =
-        inspectAtPoint(static_cast<float>(viewWidth) * 0.5f, static_cast<float>(viewHeight) * 0.5f);
-
-    if (centerInspectHit
-        && prefersOutlinedTarget(*centerInspectHit)
-        && (!mouseInspectHit
-            || !prefersOutlinedTarget(*mouseInspectHit)
-            || centerInspectHit->distance <= mouseInspectHit->distance))
-    {
-        return centerInspectHit;
-    }
-
-    if (mouseInspectHit)
-    {
-        return mouseInspectHit;
-    }
-
-    return centerInspectHit;
+    return std::nullopt;
 }
 
 void OutdoorBillboardRenderer::applyBillboardAmbientUniform(OutdoorGameView &view)
@@ -1562,16 +1487,26 @@ void OutdoorBillboardRenderer::renderActorPreviewBillboards(
         uint32_t lightContributionAbgr = 0xff000000u;
     };
 
-    std::vector<BillboardDrawItem> drawItems;
+    thread_local std::vector<BillboardDrawItem> drawItems;
+    drawItems.clear();
+    size_t drawItemReserveCount = 0;
+
+    if (view.m_outdoorDecorationBillboardSet)
+    {
+        drawItemReserveCount += view.m_outdoorDecorationBillboardSet->billboards.size();
+    }
 
     if (view.m_outdoorActorPreviewBillboardSet)
     {
-        drawItems.reserve(view.m_outdoorActorPreviewBillboardSet->billboards.size());
+        drawItemReserveCount += view.m_outdoorActorPreviewBillboardSet->billboards.size();
     }
-    else if (view.m_outdoorDecorationBillboardSet)
+
+    if (view.m_pOutdoorWorldRuntime != nullptr)
     {
-        drawItems.reserve(view.m_outdoorDecorationBillboardSet->billboards.size());
+        drawItemReserveCount += view.m_pOutdoorWorldRuntime->mapActorCount();
     }
+
+    drawItems.reserve(drawItemReserveCount);
     const auto resolveDecorationBillboardSpriteId = [&view](const DecorationBillboard &billboard, bool &hidden)
     {
         hidden = false;
@@ -1621,7 +1556,8 @@ void OutdoorBillboardRenderer::renderActorPreviewBillboards(
         return spriteId;
     };
 
-    std::vector<OutdoorGameView::TerrainVertex> placeholderVertices;
+    thread_local std::vector<OutdoorGameView::TerrainVertex> placeholderVertices;
+    placeholderVertices.clear();
 
     if (view.m_outdoorActorPreviewBillboardSet)
     {
@@ -1637,7 +1573,8 @@ void OutdoorBillboardRenderer::renderActorPreviewBillboards(
         hoveredRuntimeActorIndex = view.resolveRuntimeActorIndexForInspectHit(*hoveredInspectHit);
     }
 
-    std::vector<bool> coveredRuntimeActors;
+    thread_local std::vector<bool> coveredRuntimeActors;
+    coveredRuntimeActors.clear();
 
     if (view.m_pOutdoorWorldRuntime != nullptr)
     {

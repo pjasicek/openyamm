@@ -326,31 +326,56 @@ bool isPointInsideOutdoorPolygonProjected(
         projectionAxis = ProjectionAxis::Y;
     }
 
-    auto projectVertex = [projectionAxis](const bx::Vec3 &vertex) -> bx::Vec3
+    auto projectedX = [projectionAxis](const bx::Vec3 &vertex) -> float
     {
         if (projectionAxis == ProjectionAxis::X)
         {
-            return {vertex.y, vertex.z, 0.0f};
+            return vertex.y;
         }
 
         if (projectionAxis == ProjectionAxis::Y)
         {
-            return {vertex.x, vertex.z, 0.0f};
+            return vertex.x;
         }
 
-        return {vertex.x, vertex.y, 0.0f};
+        return vertex.x;
+    };
+    auto projectedY = [projectionAxis](const bx::Vec3 &vertex) -> float
+    {
+        if (projectionAxis == ProjectionAxis::X || projectionAxis == ProjectionAxis::Y)
+        {
+            return vertex.z;
+        }
+
+        return vertex.y;
     };
 
-    std::vector<bx::Vec3> projectedVertices;
-    projectedVertices.reserve(vertices.size());
+    const float x = projectedX(point);
+    const float y = projectedY(point);
+    bool isInside = false;
+    size_t previousIndex = vertices.size() - 1;
 
-    for (const bx::Vec3 &vertex : vertices)
+    for (size_t currentIndex = 0; currentIndex < vertices.size(); ++currentIndex)
     {
-        projectedVertices.push_back(projectVertex(vertex));
+        const float currentX = projectedX(vertices[currentIndex]);
+        const float currentY = projectedY(vertices[currentIndex]);
+        const float previousX = projectedX(vertices[previousIndex]);
+        const float previousY = projectedY(vertices[previousIndex]);
+        const bool intersects =
+            ((currentY > y) != (previousY > y))
+            && (x < (previousX - currentX) * (y - currentY)
+                    / ((previousY - currentY) + GeometryEpsilon)
+                + currentX);
+
+        if (intersects)
+        {
+            isInside = !isInside;
+        }
+
+        previousIndex = currentIndex;
     }
 
-    const bx::Vec3 projectedPoint = projectVertex(point);
-    return isPointInsideOutdoorPolygon(projectedPoint.x, projectedPoint.y, projectedVertices);
+    return isInside;
 }
 
 bool intersectOutdoorSegmentWithFace(

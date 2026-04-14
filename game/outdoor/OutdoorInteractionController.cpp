@@ -2127,81 +2127,157 @@ OutdoorGameView::InspectHit OutdoorInteractionController::inspectBModelFace(
             return inspectHit.kind == "object";
         };
 
-    for (size_t bModelIndex = 0; bModelIndex < outdoorMapData.bmodels.size(); ++bModelIndex)
+    const OutdoorWorldRuntime *pOutdoorWorldRuntime = view.m_pOutdoorWorldRuntime;
+
+    if (pOutdoorWorldRuntime != nullptr)
     {
-        const OutdoorBModel &bModel = outdoorMapData.bmodels[bModelIndex];
+        constexpr float FaceCandidatePadding = 16.0f;
+        const float maxFaceInspectDistance = std::isfinite(terrainBlockDistance)
+            ? terrainBlockDistance + terrainDistanceEpsilon
+            : 200000.0f;
+        const bx::Vec3 inspectEnd = {
+            rayOrigin.x + rayDirection.x * maxFaceInspectDistance,
+            rayOrigin.y + rayDirection.y * maxFaceInspectDistance,
+            rayOrigin.z + rayDirection.z * maxFaceInspectDistance
+        };
+        std::vector<size_t> candidateFaceIndices;
+        pOutdoorWorldRuntime->collectOutdoorFaceCandidates(
+            std::min(rayOrigin.x, inspectEnd.x) - FaceCandidatePadding,
+            std::min(rayOrigin.y, inspectEnd.y) - FaceCandidatePadding,
+            std::max(rayOrigin.x, inspectEnd.x) + FaceCandidatePadding,
+            std::max(rayOrigin.y, inspectEnd.y) + FaceCandidatePadding,
+            candidateFaceIndices);
 
-        for (size_t faceIndex = 0; faceIndex < bModel.faces.size(); ++faceIndex)
+        for (size_t faceCandidateIndex : candidateFaceIndices)
         {
-            const OutdoorBModelFace &face = bModel.faces[faceIndex];
+            const OutdoorFaceGeometryData *pGeometry = pOutdoorWorldRuntime->outdoorFace(faceCandidateIndex);
 
-            if (face.vertexIndices.size() < 3)
+            if (pGeometry == nullptr
+                || pGeometry->bModelIndex >= outdoorMapData.bmodels.size())
             {
                 continue;
             }
 
-            for (size_t triangleIndex = 1; triangleIndex + 1 < face.vertexIndices.size(); ++triangleIndex)
+            const OutdoorBModel &bModel = outdoorMapData.bmodels[pGeometry->bModelIndex];
+
+            if (pGeometry->faceIndex >= bModel.faces.size())
             {
-                const size_t triangleVertexIndices[3] = {0, triangleIndex, triangleIndex + 1};
-                bx::Vec3 triangleVertices[3] = {
-                    bx::Vec3 {0.0f, 0.0f, 0.0f},
-                    bx::Vec3 {0.0f, 0.0f, 0.0f},
-                    bx::Vec3 {0.0f, 0.0f, 0.0f}
-                };
-                bool isTriangleValid = true;
+                continue;
+            }
 
-                for (size_t triangleVertexSlot = 0; triangleVertexSlot < 3; ++triangleVertexSlot)
+            const OutdoorBModelFace &face = bModel.faces[pGeometry->faceIndex];
+            float intersectionFactor = 0.0f;
+            bx::Vec3 intersectionPoint = {0.0f, 0.0f, 0.0f};
+
+            if (!intersectOutdoorSegmentWithFace(*pGeometry, rayOrigin, inspectEnd, intersectionFactor, intersectionPoint))
+            {
+                continue;
+            }
+
+            const float distance = intersectionFactor * maxFaceInspectDistance;
+
+            if (!isVisibleInspectDistance(distance))
+            {
+                continue;
+            }
+
+            if (!bestHit.hasHit || distance < bestHit.distance)
+            {
+                bestHit.hasHit = true;
+                bestHit.kind = "face";
+                bestHit.bModelIndex = pGeometry->bModelIndex;
+                bestHit.faceIndex = pGeometry->faceIndex;
+                bestHit.textureName = face.textureName;
+                bestHit.distance = distance;
+                bestHit.attributes = face.attributes;
+                bestHit.bitmapIndex = face.bitmapIndex;
+                bestHit.cogNumber = face.cogNumber;
+                bestHit.cogTriggeredNumber = face.cogTriggeredNumber;
+                bestHit.cogTrigger = face.cogTrigger;
+                bestHit.polygonType = face.polygonType;
+                bestHit.shade = face.shade;
+                bestHit.visibility = face.visibility;
+            }
+        }
+    }
+    else
+    {
+        for (size_t bModelIndex = 0; bModelIndex < outdoorMapData.bmodels.size(); ++bModelIndex)
+        {
+            const OutdoorBModel &bModel = outdoorMapData.bmodels[bModelIndex];
+
+            for (size_t faceIndex = 0; faceIndex < bModel.faces.size(); ++faceIndex)
+            {
+                const OutdoorBModelFace &face = bModel.faces[faceIndex];
+
+                if (face.vertexIndices.size() < 3)
                 {
-                    const uint16_t vertexIndex = face.vertexIndices[triangleVertexIndices[triangleVertexSlot]];
+                    continue;
+                }
 
-                    if (vertexIndex >= bModel.vertices.size())
+                for (size_t triangleIndex = 1; triangleIndex + 1 < face.vertexIndices.size(); ++triangleIndex)
+                {
+                    const size_t triangleVertexIndices[3] = {0, triangleIndex, triangleIndex + 1};
+                    bx::Vec3 triangleVertices[3] = {
+                        bx::Vec3 {0.0f, 0.0f, 0.0f},
+                        bx::Vec3 {0.0f, 0.0f, 0.0f},
+                        bx::Vec3 {0.0f, 0.0f, 0.0f}
+                    };
+                    bool isTriangleValid = true;
+
+                    for (size_t triangleVertexSlot = 0; triangleVertexSlot < 3; ++triangleVertexSlot)
                     {
-                        isTriangleValid = false;
-                        break;
+                        const uint16_t vertexIndex = face.vertexIndices[triangleVertexIndices[triangleVertexSlot]];
+
+                        if (vertexIndex >= bModel.vertices.size())
+                        {
+                            isTriangleValid = false;
+                            break;
+                        }
+
+                        triangleVertices[triangleVertexSlot] = outdoorBModelVertexToWorld(bModel.vertices[vertexIndex]);
                     }
 
-                    triangleVertices[triangleVertexSlot] = outdoorBModelVertexToWorld(bModel.vertices[vertexIndex]);
-                }
+                    if (!isTriangleValid)
+                    {
+                        continue;
+                    }
 
-                if (!isTriangleValid)
-                {
-                    continue;
-                }
+                    float distance = 0.0f;
 
-                float distance = 0.0f;
+                    if (!intersectRayTriangle(
+                            rayOrigin,
+                            rayDirection,
+                            triangleVertices[0],
+                            triangleVertices[1],
+                            triangleVertices[2],
+                            distance))
+                    {
+                        continue;
+                    }
 
-                if (!intersectRayTriangle(
-                        rayOrigin,
-                        rayDirection,
-                        triangleVertices[0],
-                        triangleVertices[1],
-                        triangleVertices[2],
-                        distance))
-                {
-                    continue;
-                }
+                    if (!isVisibleInspectDistance(distance))
+                    {
+                        continue;
+                    }
 
-                if (!isVisibleInspectDistance(distance))
-                {
-                    continue;
-                }
-
-                if (!bestHit.hasHit || distance < bestHit.distance)
-                {
-                    bestHit.hasHit = true;
-                    bestHit.kind = "face";
-                    bestHit.bModelIndex = bModelIndex;
-                    bestHit.faceIndex = faceIndex;
-                    bestHit.textureName = face.textureName;
-                    bestHit.distance = distance;
-                    bestHit.attributes = face.attributes;
-                    bestHit.bitmapIndex = face.bitmapIndex;
-                    bestHit.cogNumber = face.cogNumber;
-                    bestHit.cogTriggeredNumber = face.cogTriggeredNumber;
-                    bestHit.cogTrigger = face.cogTrigger;
-                    bestHit.polygonType = face.polygonType;
-                    bestHit.shade = face.shade;
-                    bestHit.visibility = face.visibility;
+                    if (!bestHit.hasHit || distance < bestHit.distance)
+                    {
+                        bestHit.hasHit = true;
+                        bestHit.kind = "face";
+                        bestHit.bModelIndex = bModelIndex;
+                        bestHit.faceIndex = faceIndex;
+                        bestHit.textureName = face.textureName;
+                        bestHit.distance = distance;
+                        bestHit.attributes = face.attributes;
+                        bestHit.bitmapIndex = face.bitmapIndex;
+                        bestHit.cogNumber = face.cogNumber;
+                        bestHit.cogTriggeredNumber = face.cogTriggeredNumber;
+                        bestHit.cogTrigger = face.cogTrigger;
+                        bestHit.polygonType = face.polygonType;
+                        bestHit.shade = face.shade;
+                        bestHit.visibility = face.visibility;
+                    }
                 }
             }
         }
