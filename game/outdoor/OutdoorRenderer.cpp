@@ -2026,6 +2026,20 @@ void OutdoorRenderer::renderWorldPasses(
             pAtmosphereState->darknessOverlayAlpha,
             pAtmosphereState->darknessOverlayColorAbgr);
     }
+
+    if (pAtmosphereState != nullptr && pAtmosphereState->gameplayOverlayAlpha > 0.001f)
+    {
+        renderOutdoorDarknessOverlay(
+            view,
+            MainViewId,
+            cameraPosition,
+            cameraForward,
+            cameraRight,
+            cameraUp,
+            aspectRatio,
+            pAtmosphereState->gameplayOverlayAlpha,
+            pAtmosphereState->gameplayOverlayColorAbgr);
+    }
 }
 
 void OutdoorRenderer::renderPendingSpellAreaPreview(OutdoorGameView &view, uint16_t viewId)

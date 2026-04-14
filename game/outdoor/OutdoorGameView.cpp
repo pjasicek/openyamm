@@ -10135,8 +10135,18 @@ bool OutdoorGameView::tryCastSpellRequest(const PartySpellCastRequest &request, 
         return false;
     }
 
+    PartySpellCastRequest resolvedRequest = request;
+    resolvedRequest.hasViewTransform = true;
+    resolvedRequest.viewX = m_cameraTargetX;
+    resolvedRequest.viewY = m_cameraTargetY;
+    resolvedRequest.viewZ = m_cameraTargetZ;
+    resolvedRequest.viewYawRadians = m_cameraYawRadians;
+    resolvedRequest.viewPitchRadians = m_cameraPitchRadians;
+    resolvedRequest.viewAspectRatio =
+        static_cast<float>(std::max(m_lastRenderWidth, 1)) / static_cast<float>(std::max(m_lastRenderHeight, 1));
+
     Party &party = m_pOutdoorPartyRuntime->party();
-    Character *pCaster = party.member(request.casterMemberIndex);
+    Character *pCaster = party.member(resolvedRequest.casterMemberIndex);
 
     if (pCaster == nullptr || !GameMechanics::canSelectInGameplay(*pCaster))
     {
@@ -10145,12 +10155,17 @@ bool OutdoorGameView::tryCastSpellRequest(const PartySpellCastRequest &request, 
     }
 
     const PartySpellCastResult result =
-        PartySpellSystem::castSpell(party, *m_pOutdoorPartyRuntime, *m_pOutdoorWorldRuntime, *m_pSpellTable, request);
+        PartySpellSystem::castSpell(
+            party,
+            *m_pOutdoorPartyRuntime,
+            *m_pOutdoorWorldRuntime,
+            *m_pSpellTable,
+            resolvedRequest);
 
     if (result.succeeded())
     {
-        triggerPortraitFaceAnimation(request.casterMemberIndex, FaceAnimationId::CastSpell);
-        playSpeechReaction(request.casterMemberIndex, SpeechId::CastSpell, false);
+        triggerPortraitFaceAnimation(resolvedRequest.casterMemberIndex, FaceAnimationId::CastSpell);
+        playSpeechReaction(resolvedRequest.casterMemberIndex, SpeechId::CastSpell, false);
         triggerPortraitSpellFx(result);
         m_outdoorFxRuntime.triggerPartySpellFx(*this, result);
 

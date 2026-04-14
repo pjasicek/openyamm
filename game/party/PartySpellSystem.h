@@ -73,6 +73,13 @@ struct PartySpellCastRequest
     SkillMastery skillMasteryOverride = SkillMastery::None;
     bool spendMana = true;
     bool applyRecovery = true;
+    bool hasViewTransform = false;
+    float viewX = 0.0f;
+    float viewY = 0.0f;
+    float viewZ = 0.0f;
+    float viewYawRadians = 0.0f;
+    float viewPitchRadians = 0.0f;
+    float viewAspectRatio = 1.0f;
 };
 
 struct PartySpellCastResult

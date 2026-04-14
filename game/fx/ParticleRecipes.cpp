@@ -365,16 +365,32 @@ ProjectileRecipe classifyProjectileRecipe(
         return ProjectileRecipe::PoisonSpray;
     }
 
+    if (spellId == 11 || containsToken(objectName, "incinerate"))
+    {
+        return ProjectileRecipe::FireBolt;
+    }
+
     if (spellId == 29
+        || spellId == 37
         || containsToken(objectName, "acid burst"))
     {
         return ProjectileRecipe::AcidBurst;
     }
 
+    if (spellId == 59
+        || spellId == 65
+        || containsToken(objectName, "mind blast")
+        || containsToken(objectName, "psychic shock"))
+    {
+        return ProjectileRecipe::DarkFireBolt;
+    }
+
     if (spellId == 78
         || spellId == 84
         || spellId == 87
+        || spellId == 70
         || containsToken(objectName, "light bolt")
+        || containsToken(objectName, "harm")
         || containsToken(objectName, "prismatic")
         || containsToken(objectName, "sunray")
         || containsToken(spriteName, "sp78b")
@@ -572,6 +588,17 @@ void spawnProjectileTrailParticles(
     const ProjectileSpawnContext &context,
     ProjectileRecipe recipe)
 {
+    const SpellId spellId = spellIdFromValue(static_cast<uint32_t>(context.spellId));
+
+    if (spellId == SpellId::MindBlast
+        || spellId == SpellId::PsychicShock
+        || spellId == SpellId::Harm
+        || spellId == SpellId::ToxicCloud
+        || spellId == SpellId::Incinerate)
+    {
+        return;
+    }
+
     const float velocityLength = std::sqrt(
         context.velocityX * context.velocityX
         + context.velocityY * context.velocityY

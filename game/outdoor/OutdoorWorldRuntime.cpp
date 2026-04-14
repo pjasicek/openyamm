@@ -126,6 +126,55 @@ bx::Vec3 approximateOutdoorTerrainNormal(const OutdoorMapData &outdoorMapData, f
     return {normal.x * inverseLength, normal.y * inverseLength, normal.z * inverseLength};
 }
 
+uint32_t fireSpikeLimitForMastery(uint32_t skillMastery)
+{
+    switch (static_cast<SkillMastery>(skillMastery))
+    {
+        case SkillMastery::Grandmaster:
+            return 9;
+        case SkillMastery::Master:
+            return 7;
+        case SkillMastery::Expert:
+            return 5;
+        case SkillMastery::Normal:
+        case SkillMastery::None:
+        default:
+            return 3;
+    }
+}
+
+int fireSpikeDamageDiceSidesForMastery(uint32_t skillMastery)
+{
+    switch (static_cast<SkillMastery>(skillMastery))
+    {
+        case SkillMastery::Grandmaster:
+            return 10;
+        case SkillMastery::Master:
+            return 8;
+        case SkillMastery::Expert:
+        case SkillMastery::Normal:
+        case SkillMastery::None:
+        default:
+            return 6;
+    }
+}
+
+int rollFireSpikeDamage(uint32_t skillLevel, uint32_t skillMastery, uint32_t seed)
+{
+    const int diceSides = fireSpikeDamageDiceSidesForMastery(skillMastery);
+    const uint32_t diceCount = std::max<uint32_t>(1, skillLevel);
+    std::mt19937 rng(seed);
+    std::uniform_int_distribution<int> distribution(1, diceSides);
+    int damage = 0;
+
+    for (uint32_t dieIndex = 0; dieIndex < diceCount; ++dieIndex)
+    {
+        damage += distribution(rng);
+    }
+
+    return damage;
+}
+
 uint32_t makeAbgr(uint8_t red, uint8_t green, uint8_t blue)
 {
     return 0xff000000u
@@ -1363,6 +1412,7 @@ bool isProjectileSpellName(const std::string &spellName)
         "lightning bolt",
         "ice bolt",
         "acid burst",
+        "deadly swarm",
         "blades",
         "rock blast",
         "mind blast",
@@ -1537,6 +1587,11 @@ bool resolveSpellDefinition(
     {
         definition.objectFlags |= ObjectDescBounce;
     }
+    else if (spell.id == static_cast<int>(spellIdValue(SpellId::RockBlast)))
+    {
+        definition.objectFlags |= ObjectDescBounce;
+        definition.objectFlags &= ~ObjectDescNoGravity;
+    }
 
     if (spell.impactDisplayObjectId > 0)
     {
@@ -1626,6 +1681,7 @@ uint32_t meteorShowerCountForMastery(uint32_t skillMastery)
             return 8;
     }
 }
+
 
 int resolveMonsterAbilityDamage(
     const MonsterTable::MonsterStatsEntry &stats,
@@ -1866,6 +1922,7 @@ float spellImpactDamageRadius(uint32_t spellId)
         case SpellId::Fireball:
         case SpellId::MeteorShower:
         case SpellId::Starburst:
+        case SpellId::RockBlast:
         case SpellId::DeathBlossom:
         case SpellId::DragonBreath:
         case SpellId::FlameBlast:
@@ -4690,6 +4747,95 @@ bool OutdoorWorldRuntime::spawnWorldItem(
     return true;
 }
 
+bool OutdoorWorldRuntime::spawnPartyFireSpikeTrap(
+    uint32_t casterMemberIndex,
+    uint32_t spellId,
+    uint32_t skillLevel,
+    uint32_t skillMastery,
+    float x,
+    float y,
+    float z)
+{
+    if (m_pSpellTable == nullptr || m_pObjectTable == nullptr || m_pParty == nullptr)
+    {
+        return false;
+    }
+
+    const SpellEntry *pSpellEntry = m_pSpellTable->findById(static_cast<int>(spellId));
+
+    if (pSpellEntry == nullptr || spellIdFromValue(spellId) != SpellId::FireSpike)
+    {
+        return false;
+    }
+
+    ResolvedProjectileDefinition definition = {};
+
+    if (!resolveSpellDefinition(*pSpellEntry, *m_pObjectTable, definition))
+    {
+        return false;
+    }
+
+    const uint32_t activeLimit = fireSpikeLimitForMastery(skillMastery);
+    uint32_t activeCount = 0;
+
+    for (const FireSpikeTrapState &trap : m_fireSpikeTraps)
+    {
+        if (trap.isExpired
+            || trap.sourceKind != ProjectileState::SourceKind::Party
+            || trap.sourcePartyMemberIndex != casterMemberIndex)
+        {
+            continue;
+        }
+
+        ++activeCount;
+    }
+
+    if (activeCount >= activeLimit)
+    {
+        return false;
+    }
+
+    const float supportZ = sampleSupportFloorHeight(x, y, z + 256.0f, 512.0f, 32.0f);
+    FireSpikeTrapState trap = {};
+    trap.trapId = m_nextFireSpikeTrapId++;
+    trap.sourceKind = ProjectileState::SourceKind::Party;
+    trap.sourceId = casterMemberIndex + 1;
+    trap.sourcePartyMemberIndex = casterMemberIndex;
+    trap.objectDescriptionId = definition.objectDescriptionId;
+    trap.objectSpriteId = definition.objectSpriteId;
+    trap.objectSpriteFrameIndex = resolveRuntimeSpriteFrameIndex(
+        m_pProjectileSpriteFrameTable,
+        definition.objectSpriteId,
+        definition.objectSpriteName);
+    trap.impactObjectDescriptionId = definition.impactObjectDescriptionId;
+    trap.objectFlags = definition.objectFlags | ObjectDescBounce;
+    trap.radius = definition.radius;
+    trap.height = definition.height;
+    trap.spellId = definition.spellId;
+    trap.effectSoundId = definition.effectSoundId;
+    trap.skillLevel = skillLevel;
+    trap.skillMastery = skillMastery;
+    trap.objectName = definition.objectName;
+    trap.objectSpriteName = definition.objectSpriteName;
+    trap.x = x;
+    trap.y = y;
+    trap.z = supportZ + 1.0f;
+    m_fireSpikeTraps.push_back(std::move(trap));
+
+    if (definition.effectSoundId > 0)
+    {
+        pushAudioEvent(
+            static_cast<uint32_t>(definition.effectSoundId),
+            casterMemberIndex + 1,
+            "party_spell_release",
+            x,
+            y,
+            supportZ);
+    }
+
+    return true;
+}
+
 void OutdoorWorldRuntime::updateWorldItems(float deltaSeconds)
 {
     if (deltaSeconds <= 0.0f || m_pOutdoorMapData == nullptr)
@@ -4768,6 +4914,167 @@ void OutdoorWorldRuntime::updateWorldItems(float deltaSeconds)
         m_worldItems.end());
 }
 
+void OutdoorWorldRuntime::updateFireSpikeTraps(float deltaSeconds, float partyX, float partyY, float partyZ)
+{
+    if (deltaSeconds <= 0.0f)
+    {
+        return;
+    }
+
+    const uint32_t deltaTicks =
+        std::max<uint32_t>(1, static_cast<uint32_t>(std::lround(deltaSeconds * TicksPerSecond)));
+
+    for (FireSpikeTrapState &trap : m_fireSpikeTraps)
+    {
+        if (trap.isExpired)
+        {
+            continue;
+        }
+
+        trap.timeSinceCreatedTicks += deltaTicks;
+
+        if (m_pOutdoorMapData != nullptr)
+        {
+            trap.z = sampleSupportFloorHeight(trap.x, trap.y, trap.z + 64.0f, 128.0f, 24.0f) + 1.0f;
+        }
+
+        size_t triggeredActorIndex = static_cast<size_t>(-1);
+        float bestDistanceSquared = std::numeric_limits<float>::max();
+
+        for (size_t actorIndex = 0; actorIndex < m_mapActors.size(); ++actorIndex)
+        {
+            const MapActorState &actor = m_mapActors[actorIndex];
+
+            if (actor.isDead || isActorUnavailableForCombat(actor))
+            {
+                continue;
+            }
+
+            if (trap.sourceKind == ProjectileState::SourceKind::Party)
+            {
+                if (!actor.hostileToParty)
+                {
+                    continue;
+                }
+            }
+            else if (projectileSourceIsFriendlyToActor(
+                         ProjectileState{
+                             .sourceKind = trap.sourceKind,
+                             .sourceId = trap.sourceId,
+                             .sourcePartyMemberIndex = trap.sourcePartyMemberIndex,
+                             .sourceMonsterId = trap.sourceMonsterId,
+                             .fromSummonedMonster = trap.fromSummonedMonster,
+                             .ability = trap.ability},
+                         actor))
+            {
+                continue;
+            }
+
+            const float deltaX = actor.preciseX - trap.x;
+            const float deltaY = actor.preciseY - trap.y;
+            const float horizontalDistanceSquared = deltaX * deltaX + deltaY * deltaY;
+            const float triggerRadius =
+                static_cast<float>(std::max<uint16_t>(actor.radius, 24))
+                + static_cast<float>(std::max<uint16_t>(trap.radius, 24))
+                + 48.0f;
+
+            if (horizontalDistanceSquared > triggerRadius * triggerRadius)
+            {
+                continue;
+            }
+
+            const float actorCenterZ = actor.preciseZ + static_cast<float>(actor.height) * 0.5f;
+
+            if (std::abs(actorCenterZ - trap.z) > static_cast<float>(std::max<uint16_t>(actor.height, 128)))
+            {
+                continue;
+            }
+
+            if (horizontalDistanceSquared < bestDistanceSquared)
+            {
+                bestDistanceSquared = horizontalDistanceSquared;
+                triggeredActorIndex = actorIndex;
+            }
+        }
+
+        if (triggeredActorIndex == static_cast<size_t>(-1))
+        {
+            continue;
+        }
+
+        const MapActorState &targetActor = m_mapActors[triggeredActorIndex];
+        const int damage = rollFireSpikeDamage(
+            trap.skillLevel,
+            trap.skillMastery,
+            trap.trapId ^ static_cast<uint32_t>(targetActor.actorId * 2654435761u));
+        const int beforeHp = targetActor.currentHp;
+
+        if (trap.sourceKind == ProjectileState::SourceKind::Party)
+        {
+            applyPartyAttackToMapActor(
+                triggeredActorIndex,
+                damage,
+                trap.x,
+                trap.y,
+                trap.z);
+
+            CombatEvent event = {};
+            event.type = CombatEvent::Type::PartyProjectileActorImpact;
+            event.sourceId = trap.sourceId;
+            event.sourcePartyMemberIndex = trap.sourcePartyMemberIndex;
+            event.targetActorId = m_mapActors[triggeredActorIndex].actorId;
+            event.damage = damage;
+            event.spellId = trap.spellId;
+            event.hit = true;
+            event.killed = beforeHp > 0 && m_mapActors[triggeredActorIndex].currentHp <= 0;
+            m_pendingCombatEvents.push_back(std::move(event));
+        }
+        else
+        {
+            applyMonsterAttackToMapActor(triggeredActorIndex, damage, trap.sourceId);
+        }
+
+        ProjectileState impactSource = {};
+        impactSource.projectileId = m_nextProjectileId++;
+        impactSource.sourceKind = trap.sourceKind;
+        impactSource.sourceId = trap.sourceId;
+        impactSource.sourcePartyMemberIndex = trap.sourcePartyMemberIndex;
+        impactSource.sourceMonsterId = trap.sourceMonsterId;
+        impactSource.fromSummonedMonster = trap.fromSummonedMonster;
+        impactSource.ability = trap.ability;
+        impactSource.objectDescriptionId = trap.objectDescriptionId;
+        impactSource.objectSpriteId = trap.objectSpriteId;
+        impactSource.objectSpriteFrameIndex = trap.objectSpriteFrameIndex;
+        impactSource.impactObjectDescriptionId = trap.impactObjectDescriptionId;
+        impactSource.objectFlags = trap.objectFlags;
+        impactSource.radius = trap.radius;
+        impactSource.height = trap.height;
+        impactSource.spellId = trap.spellId;
+        impactSource.effectSoundId = trap.effectSoundId;
+        impactSource.skillLevel = trap.skillLevel;
+        impactSource.skillMastery = trap.skillMastery;
+        impactSource.objectName = trap.objectName;
+        impactSource.objectSpriteName = trap.objectSpriteName;
+        impactSource.sourceX = trap.x;
+        impactSource.sourceY = trap.y;
+        impactSource.sourceZ = trap.z;
+        impactSource.x = trap.x;
+        impactSource.y = trap.y;
+        impactSource.z = trap.z;
+        impactSource.damage = damage;
+        spawnProjectileImpact(impactSource, trap.x, trap.y, trap.z);
+
+        trap.isExpired = true;
+    }
+
+    std::erase_if(
+        m_fireSpikeTraps,
+        [](const FireSpikeTrapState &trap)
+        {
+            return trap.isExpired;
+        });
+}
+
 bool OutdoorWorldRuntime::isInitialized() const
 {
     return m_mapId != 0 || !m_mapName.empty() || m_eventRuntimeState.has_value();
@@ -4803,8 +5110,14 @@ OutdoorWorldRuntime::Snapshot OutdoorWorldRuntime::snapshot() const
     snapshot.nextWorldItemId = m_nextWorldItemId;
     snapshot.nextProjectileId = m_nextProjectileId;
     snapshot.nextProjectileImpactId = m_nextProjectileImpactId;
+    snapshot.nextFireSpikeTrapId = m_nextFireSpikeTrapId;
+    snapshot.gameplayOverlayRemainingSeconds = m_gameplayOverlayRemainingSeconds;
+    snapshot.gameplayOverlayDurationSeconds = m_gameplayOverlayDurationSeconds;
+    snapshot.gameplayOverlayPeakAlpha = m_gameplayOverlayPeakAlpha;
+    snapshot.gameplayOverlayColorAbgr = m_gameplayOverlayColorAbgr;
     snapshot.projectiles = m_projectiles;
     snapshot.projectileImpacts = m_projectileImpacts;
+    snapshot.fireSpikeTraps = m_fireSpikeTraps;
     snapshot.openedChestFlags.reserve(m_openedChests.size());
 
     for (bool opened : m_openedChests)
@@ -4834,8 +5147,14 @@ void OutdoorWorldRuntime::restoreSnapshot(const Snapshot &snapshot)
     m_nextWorldItemId = snapshot.nextWorldItemId;
     m_nextProjectileId = snapshot.nextProjectileId;
     m_nextProjectileImpactId = snapshot.nextProjectileImpactId;
+    m_nextFireSpikeTrapId = snapshot.nextFireSpikeTrapId;
+    m_gameplayOverlayRemainingSeconds = snapshot.gameplayOverlayRemainingSeconds;
+    m_gameplayOverlayDurationSeconds = snapshot.gameplayOverlayDurationSeconds;
+    m_gameplayOverlayPeakAlpha = snapshot.gameplayOverlayPeakAlpha;
+    m_gameplayOverlayColorAbgr = snapshot.gameplayOverlayColorAbgr;
     m_projectiles = snapshot.projectiles;
     m_projectileImpacts = snapshot.projectileImpacts;
+    m_fireSpikeTraps = snapshot.fireSpikeTraps;
     m_openedChests.clear();
     m_openedChests.reserve(snapshot.openedChestFlags.size());
 
@@ -4984,6 +5303,9 @@ void OutdoorWorldRuntime::refreshAtmosphereState()
         m_atmosphereState.darknessOverlayColorAbgr = makeAbgr(red, green, blue);
     }
 
+    m_atmosphereState.gameplayOverlayAlpha = 0.0f;
+    m_atmosphereState.gameplayOverlayColorAbgr = m_gameplayOverlayColorAbgr;
+
     if (minutesOfDay >= 300.0f && minutesOfDay < 1260.0f)
     {
         const float daylightMinutes = minutesOfDay - 300.0f;
@@ -5059,6 +5381,24 @@ void OutdoorWorldRuntime::refreshAtmosphereState()
     }
 }
 
+void OutdoorWorldRuntime::updateGameplayScreenOverlay(float deltaSeconds)
+{
+    if (m_gameplayOverlayRemainingSeconds <= 0.0f || m_gameplayOverlayDurationSeconds <= 0.0f)
+    {
+        m_gameplayOverlayRemainingSeconds = 0.0f;
+        m_atmosphereState.gameplayOverlayAlpha = 0.0f;
+        m_atmosphereState.gameplayOverlayColorAbgr = m_gameplayOverlayColorAbgr;
+        return;
+    }
+
+    m_gameplayOverlayRemainingSeconds = std::max(0.0f, m_gameplayOverlayRemainingSeconds - deltaSeconds);
+    const float elapsedSeconds = m_gameplayOverlayDurationSeconds - m_gameplayOverlayRemainingSeconds;
+    const float normalizedTime =
+        std::clamp(elapsedSeconds / m_gameplayOverlayDurationSeconds, 0.0f, 1.0f);
+    m_atmosphereState.gameplayOverlayAlpha = std::sin(normalizedTime * Pi) * m_gameplayOverlayPeakAlpha;
+    m_atmosphereState.gameplayOverlayColorAbgr = m_gameplayOverlayColorAbgr;
+}
+
 void OutdoorWorldRuntime::updateMapActors(float deltaSeconds, float partyX, float partyY, float partyZ)
 {
     if (deltaSeconds <= 0.0f || m_pMonsterTable == nullptr)
@@ -5066,6 +5406,7 @@ void OutdoorWorldRuntime::updateMapActors(float deltaSeconds, float partyX, floa
         return;
     }
 
+    updateGameplayScreenOverlay(deltaSeconds);
     m_actorUpdateAccumulatorSeconds =
         std::min(m_actorUpdateAccumulatorSeconds + deltaSeconds, MaxAccumulatedActorUpdateSeconds);
 
@@ -5180,7 +5521,14 @@ void OutdoorWorldRuntime::updateMapActors(float deltaSeconds, float partyX, floa
                 syncActorFromMovementState(actor);
             }
 
-            actor.animationTimeTicks += ActorUpdateStepSeconds * TicksPerSecond;
+            float animationTickScale = 1.0f;
+
+            if (actor.animation == ActorAnimation::Walking && actor.slowRemainingSeconds > 0.0f)
+            {
+                animationTickScale = std::clamp(actor.slowMoveMultiplier, 0.125f, 1.0f);
+            }
+
+            actor.animationTimeTicks += ActorUpdateStepSeconds * TicksPerSecond * animationTickScale;
 
             if (actor.aiState == ActorAiState::Dying)
             {
@@ -5252,7 +5600,10 @@ void OutdoorWorldRuntime::updateMapActors(float deltaSeconds, float partyX, floa
             const float recoveryStepSeconds =
                 ActorUpdateStepSeconds / std::max(1.0f, actor.slowRecoveryMultiplier);
             actor.attackCooldownSeconds = std::max(0.0f, actor.attackCooldownSeconds - recoveryStepSeconds);
-            actor.actionSeconds = std::max(0.0f, actor.actionSeconds - recoveryStepSeconds);
+            actor.actionSeconds = std::max(
+                0.0f,
+                actor.actionSeconds
+                    - (actor.aiState == ActorAiState::Attacking ? recoveryStepSeconds : ActorUpdateStepSeconds));
 
             const int relationToParty = m_pMonsterTable->getRelationToParty(actor.monsterId);
             const float partySenseRange = actor.hostileToParty
@@ -5895,6 +6246,7 @@ void OutdoorWorldRuntime::updateMapActors(float deltaSeconds, float partyX, floa
 
         updateWorldItems(ActorUpdateStepSeconds);
         updateProjectiles(ActorUpdateStepSeconds, partyX, partyY, partyZ);
+        updateFireSpikeTraps(ActorUpdateStepSeconds, partyX, partyY, partyZ);
         m_actorUpdateAccumulatorSeconds -= ActorUpdateStepSeconds;
     }
 }
@@ -6165,6 +6517,75 @@ bool OutdoorWorldRuntime::castDirectSpellProjectile(
         request.targetY,
         request.targetZ,
         0.0f);
+}
+
+bool OutdoorWorldRuntime::spawnDeathBlossomFalloutProjectiles(
+    const ProjectileState &projectile,
+    float x,
+    float y,
+    float z)
+{
+    ResolvedProjectileDefinition definition = {};
+
+    if (!resolveObjectProjectileDefinition(4092, 4091, definition))
+    {
+        return false;
+    }
+
+    definition.spellId = spellIdValue(SpellId::DeathBlossom);
+    definition.effectSoundId = 0;
+
+    std::mt19937 rng(
+        projectile.projectileId
+        ^ static_cast<uint32_t>(std::lround(std::abs(x)))
+        ^ (static_cast<uint32_t>(std::lround(std::abs(y))) << 1));
+    std::uniform_real_distribution<float> yawJitter(-0.22f, 0.22f);
+    std::uniform_real_distribution<float> distanceScale(220.0f, 620.0f);
+    bool spawnedAny = false;
+    const float angleStep = (2.0f * Pi) / 8.0f;
+
+    for (uint32_t shardIndex = 0; shardIndex < 8; ++shardIndex)
+    {
+        const float yaw = angleStep * static_cast<float>(shardIndex) + yawJitter(rng);
+        const float distance = distanceScale(rng);
+        SpellCastRequest request = {};
+        request.sourceKind =
+            projectile.sourceKind == ProjectileState::SourceKind::Party
+                ? RuntimeSpellSourceKind::Party
+                : projectile.sourceKind == ProjectileState::SourceKind::Event
+                ? RuntimeSpellSourceKind::Event
+                : RuntimeSpellSourceKind::Actor;
+        request.sourceId = projectile.sourceId;
+        request.sourcePartyMemberIndex = projectile.sourcePartyMemberIndex;
+        request.sourceMonsterId = projectile.sourceMonsterId;
+        request.fromSummonedMonster = projectile.fromSummonedMonster;
+        request.ability = projectile.ability;
+        request.spellId = spellIdValue(SpellId::DeathBlossom);
+        request.skillLevel = projectile.skillLevel;
+        request.skillMastery = projectile.skillMastery;
+        request.damage = projectile.damage;
+        request.attackBonus = projectile.attackBonus;
+        request.useActorHitChance = false;
+        request.sourceX = x;
+        request.sourceY = y;
+        request.sourceZ = z + 16.0f;
+        request.targetX = x + std::cos(yaw) * distance;
+        request.targetY = y + std::sin(yaw) * distance;
+        request.targetZ = z;
+        spawnedAny = spawnSpellProjectile(
+            request,
+            definition,
+            request.sourceX,
+            request.sourceY,
+            request.sourceZ,
+            request.targetX,
+            request.targetY,
+            request.targetZ,
+            0.0f)
+            || spawnedAny;
+    }
+
+    return spawnedAny;
 }
 
 bool OutdoorWorldRuntime::castMeteorShower(
@@ -6695,6 +7116,35 @@ void OutdoorWorldRuntime::collectOutdoorFaceCandidates(
 
 bool OutdoorWorldRuntime::hasClearOutdoorLineOfSight(const bx::Vec3 &start, const bx::Vec3 &end) const
 {
+    if (m_pOutdoorMapData != nullptr)
+    {
+        constexpr float TerrainLosSampleSpacing = static_cast<float>(OutdoorMapData::TerrainTileSize) * 0.5f;
+        constexpr float TerrainLosHeightSlack = 12.0f;
+        const float deltaX = end.x - start.x;
+        const float deltaY = end.y - start.y;
+        const float deltaZ = end.z - start.z;
+        const float horizontalDistance = std::sqrt(deltaX * deltaX + deltaY * deltaY);
+
+        if (horizontalDistance > TerrainLosSampleSpacing)
+        {
+            const int sampleCount = std::max(2, static_cast<int>(std::ceil(horizontalDistance / TerrainLosSampleSpacing)));
+
+            for (int sampleIndex = 1; sampleIndex < sampleCount; ++sampleIndex)
+            {
+                const float factor = static_cast<float>(sampleIndex) / static_cast<float>(sampleCount);
+                const float sampleX = start.x + deltaX * factor;
+                const float sampleY = start.y + deltaY * factor;
+                const float sampleZ = start.z + deltaZ * factor;
+                const float terrainHeight = sampleOutdoorTerrainHeight(*m_pOutdoorMapData, sampleX, sampleY);
+
+                if (terrainHeight >= sampleZ - TerrainLosHeightSlack)
+                {
+                    return false;
+                }
+            }
+        }
+    }
+
     if (m_outdoorFaces.empty())
     {
         return true;
@@ -6823,6 +7273,87 @@ void OutdoorWorldRuntime::updateProjectiles(float deltaSeconds, float partyX, fl
 
         if (projectile.timeSinceCreatedTicks >= projectile.lifetimeTicks)
         {
+            if (spellIdFromValue(static_cast<uint32_t>(projectile.spellId)) == SpellId::DeathBlossom
+                && toLowerCopy(projectile.objectName) != "shard")
+            {
+                spawnDeathBlossomFalloutProjectiles(projectile, projectile.x, projectile.y, projectile.z);
+            }
+
+            if (spellIdFromValue(static_cast<uint32_t>(projectile.spellId)) == SpellId::RockBlast)
+            {
+                const bx::Vec3 impactPoint = {projectile.x, projectile.y, projectile.z};
+                const float impactRadius = spellImpactDamageRadius(static_cast<uint32_t>(projectile.spellId));
+
+                if (isPartyWithinImpactRadius(impactPoint, impactRadius, partyX, partyY, partyZ))
+                {
+                    CombatEvent event = {};
+                    event.type = CombatEvent::Type::PartyProjectileImpact;
+                    event.sourceId = projectile.sourceId;
+                    event.fromSummonedMonster = projectile.fromSummonedMonster;
+                    event.ability = projectile.ability;
+                    event.damage = resolveProjectilePartyImpactDamage(projectile, m_pMonsterTable, m_mapActors);
+                    event.spellId = projectile.spellId;
+                    event.affectsAllParty = impactRadius > 0.0f;
+                    m_pendingCombatEvents.push_back(std::move(event));
+                }
+
+                if (impactRadius > 0.0f)
+                {
+                    const int splashDamage = projectile.sourceKind == ProjectileState::SourceKind::Party
+                        ? std::max(1, projectile.damage)
+                        : resolveProjectilePartyImpactDamage(projectile, m_pMonsterTable, m_mapActors);
+
+                    for (size_t actorIndex = 0; actorIndex < m_mapActors.size(); ++actorIndex)
+                    {
+                        const MapActorState &actor = m_mapActors[actorIndex];
+
+                        if (isActorUnavailableForCombat(actor) || actor.actorId == projectile.sourceId)
+                        {
+                            continue;
+                        }
+
+                        if (projectile.sourceKind != ProjectileState::SourceKind::Party
+                            && projectileSourceIsFriendlyToActor(projectile, actor))
+                        {
+                            continue;
+                        }
+
+                        if (!isActorWithinImpactRadius(actor, impactPoint, impactRadius))
+                        {
+                            continue;
+                        }
+
+                        if (projectile.sourceKind == ProjectileState::SourceKind::Party)
+                        {
+                            const int beforeHp = m_mapActors[actorIndex].currentHp;
+                            applyPartyAttackToMapActor(
+                                actorIndex,
+                                splashDamage,
+                                projectile.sourceX,
+                                projectile.sourceY,
+                                projectile.sourceZ);
+
+                            CombatEvent event = {};
+                            event.type = CombatEvent::Type::PartyProjectileActorImpact;
+                            event.sourceId = projectile.sourceId;
+                            event.sourcePartyMemberIndex = projectile.sourcePartyMemberIndex;
+                            event.targetActorId = m_mapActors[actorIndex].actorId;
+                            event.damage = splashDamage;
+                            event.spellId = projectile.spellId;
+                            event.hit = true;
+                            event.killed = beforeHp > 0 && m_mapActors[actorIndex].currentHp <= 0;
+                            m_pendingCombatEvents.push_back(std::move(event));
+                        }
+                        else
+                        {
+                            applyMonsterAttackToMapActor(actorIndex, splashDamage, projectile.sourceId);
+                        }
+                    }
+                }
+
+                spawnProjectileImpact(projectile, projectile.x, projectile.y, projectile.z, false);
+            }
+
             logProjectileLifetimeExpiry(projectile);
             projectile.isExpired = true;
             continue;
@@ -7035,6 +7566,9 @@ void OutdoorWorldRuntime::updateProjectiles(float deltaSeconds, float partyX, fl
                 && m_pOutdoorMapData != nullptr
                 && (isOutdoorTerrainWater(*m_pOutdoorMapData, bestPoint.x, bestPoint.y)
                     || isOutdoorLandMaskWater(m_outdoorLandMask, bestPoint.x, bestPoint.y));
+            const bool isDeathBlossomPrimary =
+                spellIdFromValue(static_cast<uint32_t>(projectile.spellId)) == SpellId::DeathBlossom
+                && toLowerCopy(projectile.objectName) != "shard";
             const bool bounceTerrainImpact =
                 pBestColliderKind != nullptr
                 && std::strcmp(pBestColliderKind, "terrain") == 0
@@ -7086,6 +7620,18 @@ void OutdoorWorldRuntime::updateProjectiles(float deltaSeconds, float partyX, fl
 
                 projectile.velocityX *= WorldItemGroundDamping;
                 projectile.velocityY *= WorldItemGroundDamping;
+                continue;
+            }
+
+            if (isDeathBlossomPrimary)
+            {
+                spawnDeathBlossomFalloutProjectiles(projectile, bestPoint.x, bestPoint.y, bestPoint.z);
+                logProjectileCollision(
+                    projectile,
+                    pBestColliderKind != nullptr ? pBestColliderKind : "unknown",
+                    bestColliderName,
+                    bestPoint);
+                projectile.isExpired = true;
                 continue;
             }
 
@@ -8209,14 +8755,7 @@ bool OutdoorWorldRuntime::applyPartySpellToMapActor(
             frontDirectionY);
     };
 
-    if (spellIdValue == SpellId::Incinerate
-        || spellIdValue == SpellId::Implosion
-        || spellIdValue == SpellId::AcidBurst
-        || spellIdValue == SpellId::DeadlySwarm
-        || spellIdValue == SpellId::Blades
-        || spellIdValue == SpellId::MindBlast
-        || spellIdValue == SpellId::PsychicShock
-        || spellIdValue == SpellId::Harm)
+    if (spellIdValue == SpellId::Implosion || spellIdValue == SpellId::Blades)
     {
         if (spellIdValue == SpellId::Implosion)
         {
@@ -8227,6 +8766,38 @@ bool OutdoorWorldRuntime::applyPartySpellToMapActor(
                 actor.preciseZ + static_cast<float>(actor.height) * 0.5f,
                 true);
         }
+
+        const int spellDamage = std::max(1, damage);
+        const int beforeHp = actor.currentHp;
+        const bool applied = applyPartyAttackToMapActor(actorIndex, spellDamage, partyX, partyY, partyZ);
+
+        if (applied)
+        {
+            CombatEvent event = {};
+            event.type = CombatEvent::Type::PartyProjectileActorImpact;
+            event.sourcePartyMemberIndex = sourcePartyMemberIndex;
+            event.targetActorId = actor.actorId;
+            event.damage = spellDamage;
+            event.spellId = static_cast<int>(spellId);
+            event.hit = true;
+            event.killed = beforeHp > 0 && actor.currentHp <= 0;
+            m_pendingCombatEvents.push_back(std::move(event));
+        }
+
+        return applied;
+    }
+
+    if (spellIdValue == SpellId::SpiritLash || spellIdValue == SpellId::SoulDrinker)
+    {
+        const float actorCenterZ = actor.preciseZ + static_cast<float>(actor.height) * 0.8f;
+
+        spawnImmediateSpellVisual(
+            spellId,
+            actor.preciseX,
+            actor.preciseY,
+            actorCenterZ,
+            false,
+            true);
 
         const int spellDamage = std::max(1, damage);
         const int beforeHp = actor.currentHp;
@@ -8345,10 +8916,10 @@ bool OutdoorWorldRuntime::applyPartySpellToMapActor(
             skillMastery == SkillMastery::Grandmaster
                 ? minutesToSeconds(5.0f * skillLevel)
                 : skillMastery == SkillMastery::Master
-                ? minutesToSeconds(3.0f * skillLevel)
+                ? minutesToSeconds(5.0f * skillLevel)
                 : skillMastery == SkillMastery::Expert
                 ? minutesToSeconds(5.0f * skillLevel)
-                : minutesToSeconds(1.0f * skillLevel));
+                : minutesToSeconds(3.0f * skillLevel));
         actor.slowMoveMultiplier =
             skillMastery == SkillMastery::Grandmaster
                 ? 0.125f
@@ -8528,6 +9099,8 @@ bool OutdoorWorldRuntime::applyPartySpellToMapActor(
             skillMastery == SkillMastery::Grandmaster
                 ? 0.25f
                 : skillMastery == SkillMastery::Master
+                ? 0.25f
+                : skillMastery == SkillMastery::Expert
                 ? (1.0f / 3.0f)
                 : 0.5f;
         actor.shrinkArmorClassMultiplier = actor.shrinkDamageMultiplier;
@@ -9641,6 +10214,21 @@ const OutdoorWorldRuntime::ProjectileImpactState *OutdoorWorldRuntime::projectil
     return &m_projectileImpacts[effectIndex];
 }
 
+size_t OutdoorWorldRuntime::fireSpikeTrapCount() const
+{
+    return m_fireSpikeTraps.size();
+}
+
+const OutdoorWorldRuntime::FireSpikeTrapState *OutdoorWorldRuntime::fireSpikeTrapState(size_t trapIndex) const
+{
+    if (trapIndex >= m_fireSpikeTraps.size())
+    {
+        return nullptr;
+    }
+
+    return &m_fireSpikeTraps[trapIndex];
+}
+
 bool OutdoorWorldRuntime::summonMonsters(
     uint32_t typeIndexInMapStats,
     uint32_t level,
@@ -10108,6 +10696,16 @@ bool OutdoorWorldRuntime::spawnPartyProjectile(const PartyProjectileRequest &req
     m_projectiles.push_back(std::move(projectile));
     logProjectileSpawn("party", m_projectiles.back(), directionX, directionY, directionZ, definition.speed);
     return true;
+}
+
+void OutdoorWorldRuntime::triggerGameplayScreenOverlay(uint32_t colorAbgr, float durationSeconds, float peakAlpha)
+{
+    m_gameplayOverlayColorAbgr = colorAbgr;
+    m_gameplayOverlayDurationSeconds = std::max(durationSeconds, 0.0f);
+    m_gameplayOverlayRemainingSeconds = m_gameplayOverlayDurationSeconds;
+    m_gameplayOverlayPeakAlpha = std::clamp(peakAlpha, 0.0f, 1.0f);
+    m_atmosphereState.gameplayOverlayColorAbgr = m_gameplayOverlayColorAbgr;
+    m_atmosphereState.gameplayOverlayAlpha = 0.0f;
 }
 
 const EventRuntimeState *OutdoorWorldRuntime::eventRuntimeState() const

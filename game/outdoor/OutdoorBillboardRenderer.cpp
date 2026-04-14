@@ -1586,6 +1586,10 @@ void OutdoorBillboardRenderer::renderActorPreviewBillboards(
                 pRuntimeActor != nullptr && sourceBillboardHeight > 0
                     ? static_cast<float>(actorHeight) / static_cast<float>(sourceBillboardHeight)
                     : 1.0f;
+            if (pRuntimeActor != nullptr && pRuntimeActor->shrinkRemainingSeconds > 0.0f)
+            {
+                drawItem.heightScale *= std::clamp(pRuntimeActor->shrinkDamageMultiplier, 0.25f, 1.0f);
+            }
             drawItem.distanceSquared = distanceSquared;
             drawItem.cameraDepth = deltaX * cameraForward.x + deltaY * cameraForward.y + deltaZ * cameraForward.z;
             const float previewScale = std::max(pFrame->scale * drawItem.heightScale, 0.01f);
@@ -2122,7 +2126,10 @@ void OutdoorBillboardRenderer::renderRuntimeProjectiles(
     };
 
     std::vector<BillboardDrawItem> drawItems;
-    drawItems.reserve(view.m_pOutdoorWorldRuntime->projectileCount() + view.m_pOutdoorWorldRuntime->projectileImpactCount());
+    drawItems.reserve(
+        view.m_pOutdoorWorldRuntime->projectileCount()
+        + view.m_pOutdoorWorldRuntime->projectileImpactCount()
+        + view.m_pOutdoorWorldRuntime->fireSpikeTrapCount());
 
     auto appendRuntimeDrawItem =
         [&](uint32_t runtimeId,
@@ -2312,6 +2319,27 @@ void OutdoorBillboardRenderer::renderRuntimeProjectiles(
             pEffect->objectSpriteId,
             pEffect->objectSpriteName,
             pEffect->freezeAnimation ? 0u : pEffect->timeSinceCreatedTicks);
+    }
+
+    for (size_t trapIndex = 0; trapIndex < view.m_pOutdoorWorldRuntime->fireSpikeTrapCount(); ++trapIndex)
+    {
+        const OutdoorWorldRuntime::FireSpikeTrapState *pTrap = view.m_pOutdoorWorldRuntime->fireSpikeTrapState(trapIndex);
+
+        if (pTrap == nullptr)
+        {
+            continue;
+        }
+
+        appendRuntimeDrawItem(
+            pTrap->trapId,
+            "fire_spike",
+            pTrap->x,
+            pTrap->y,
+            pTrap->z,
+            pTrap->objectSpriteFrameIndex,
+            pTrap->objectSpriteId,
+            pTrap->objectSpriteName,
+            pTrap->timeSinceCreatedTicks);
     }
 
     std::sort(

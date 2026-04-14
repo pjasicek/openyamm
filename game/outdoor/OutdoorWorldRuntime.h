@@ -45,6 +45,8 @@ public:
         float visibilityDistance = 200000.0f;
         float darknessOverlayAlpha = 0.0f;
         uint32_t darknessOverlayColorAbgr = 0x00000000u;
+        float gameplayOverlayAlpha = 0.0f;
+        uint32_t gameplayOverlayColorAbgr = 0x00000000u;
         float sunDirectionX = 0.0f;
         float sunDirectionY = 0.0f;
         float sunDirectionZ = 1.0f;
@@ -303,6 +305,35 @@ public:
         bool isExpired = false;
     };
 
+    struct FireSpikeTrapState
+    {
+        uint32_t trapId = 0;
+        ProjectileState::SourceKind sourceKind = ProjectileState::SourceKind::Party;
+        uint32_t sourceId = 0;
+        uint32_t sourcePartyMemberIndex = 0;
+        int16_t sourceMonsterId = 0;
+        bool fromSummonedMonster = false;
+        MonsterAttackAbility ability = MonsterAttackAbility::Attack1;
+        uint16_t objectDescriptionId = 0;
+        uint16_t objectSpriteId = 0;
+        uint16_t objectSpriteFrameIndex = 0;
+        uint16_t impactObjectDescriptionId = 0;
+        uint16_t objectFlags = 0;
+        uint16_t radius = 0;
+        uint16_t height = 0;
+        int spellId = 0;
+        int effectSoundId = 0;
+        uint32_t skillLevel = 0;
+        uint32_t skillMastery = 0;
+        std::string objectName;
+        std::string objectSpriteName;
+        float x = 0.0f;
+        float y = 0.0f;
+        float z = 0.0f;
+        uint32_t timeSinceCreatedTicks = 0;
+        bool isExpired = false;
+    };
+
     struct WorldItemState
     {
         uint32_t worldItemId = 0;
@@ -430,8 +461,14 @@ public:
         uint32_t nextWorldItemId = 1;
         uint32_t nextProjectileId = 1;
         uint32_t nextProjectileImpactId = 1;
+        uint32_t nextFireSpikeTrapId = 1;
+        float gameplayOverlayRemainingSeconds = 0.0f;
+        float gameplayOverlayDurationSeconds = 0.0f;
+        float gameplayOverlayPeakAlpha = 0.0f;
+        uint32_t gameplayOverlayColorAbgr = 0x00000000u;
         std::vector<ProjectileState> projectiles;
         std::vector<ProjectileImpactState> projectileImpacts;
+        std::vector<FireSpikeTrapState> fireSpikeTraps;
     };
 
     void initialize(
@@ -558,10 +595,21 @@ public:
         float sourceZ,
         float yawRadians
     );
+    bool spawnPartyFireSpikeTrap(
+        uint32_t casterMemberIndex,
+        uint32_t spellId,
+        uint32_t skillLevel,
+        uint32_t skillMastery,
+        float x,
+        float y,
+        float z);
     size_t projectileCount() const;
     const ProjectileState *projectileState(size_t projectileIndex) const;
     size_t projectileImpactCount() const;
     const ProjectileImpactState *projectileImpactState(size_t effectIndex) const;
+    size_t fireSpikeTrapCount() const;
+    const FireSpikeTrapState *fireSpikeTrapState(size_t trapIndex) const;
+    void triggerGameplayScreenOverlay(uint32_t colorAbgr, float durationSeconds, float peakAlpha);
 
     const EventRuntimeState::PendingMapMove *pendingMapMove() const;
     std::optional<EventRuntimeState::PendingMapMove> consumePendingMapMove();
@@ -742,6 +790,11 @@ private:
         const SpellCastRequest &request,
         const ResolvedProjectileDefinition &definition
     );
+    bool spawnDeathBlossomFalloutProjectiles(
+        const ProjectileState &projectile,
+        float x,
+        float y,
+        float z);
     bool castMeteorShower(
         const SpellCastRequest &request,
         const ResolvedProjectileDefinition &definition
@@ -782,6 +835,7 @@ private:
         std::string &objectSpriteName) const;
     void materializeMapDeltaWorldItems();
     void updateWorldItems(float deltaSeconds);
+    void updateFireSpikeTraps(float deltaSeconds, float partyX, float partyY, float partyZ);
     void updateProjectiles(float deltaSeconds, float partyX, float partyY, float partyZ);
     void spawnProjectileImpact(
         const ProjectileState &projectile,
@@ -848,9 +902,16 @@ private:
     uint32_t m_nextWorldItemId = 1;
     uint32_t m_nextProjectileId = 1;
     uint32_t m_nextProjectileImpactId = 1;
+    uint32_t m_nextFireSpikeTrapId = 1;
+    float m_gameplayOverlayRemainingSeconds = 0.0f;
+    float m_gameplayOverlayDurationSeconds = 0.0f;
+    float m_gameplayOverlayPeakAlpha = 0.0f;
+    uint32_t m_gameplayOverlayColorAbgr = 0x00000000u;
     std::vector<ProjectileState> m_projectiles;
     std::vector<ProjectileImpactState> m_projectileImpacts;
+    std::vector<FireSpikeTrapState> m_fireSpikeTraps;
 
+    void updateGameplayScreenOverlay(float deltaSeconds);
     void refreshAtmosphereState();
 };
 }
