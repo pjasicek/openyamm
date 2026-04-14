@@ -820,9 +820,19 @@ private:
     void updateFootstepAudio(float deltaSeconds);
     void renderPortraitFx(size_t memberIndex, float portraitX, float portraitY, float portraitWidth, float portraitHeight) const;
     bool tryBeginQuickSpellCast();
-    bool tryCastSpellFromMember(size_t casterMemberIndex, uint32_t spellId, const std::string &spellName);
+    bool tryCastSpellFromMember(
+        size_t casterMemberIndex,
+        uint32_t spellId,
+        const std::string &spellName,
+        bool quickCast = false);
     bool activeMemberKnowsSpell(uint32_t spellId) const;
     bool activeMemberHasSpellbookSchool(SpellbookSchool school) const;
+    bool tryResolveQuickCastRequest(PartySpellCastRequest &request, const PartySpellDescriptor &descriptor) const;
+    bool isSpellQuickCastable(const PartySpellDescriptor &descriptor) const;
+    std::optional<size_t> resolveQuickCastHoveredActorIndex() const;
+    std::optional<size_t> resolveClosestQuickCastVisibleActorIndex(float sourceX, float sourceY, float sourceZ) const;
+    bool buildQuickCastInspectRayForScreenPoint(float screenX, float screenY, bx::Vec3 &rayOrigin, bx::Vec3 &rayDirection) const;
+    std::optional<bx::Vec3> resolveQuickCastCursorTargetPoint(float cursorX, float cursorY) const;
     void updateReadableScrollOverlayForHeldItem(size_t memberIndex, const CharacterPointerTarget &pointerTarget, bool isLeftMousePressed);
     void triggerPortraitEventFxWithoutSpeech(size_t memberIndex, PortraitFxEventKind kind);
     bool tryCastSpellRequest(const PartySpellCastRequest &request, const std::string &spellName);
@@ -1199,5 +1209,7 @@ private:
     std::function<void(const GameSettings &)> m_settingsChangedCallback;
     PendingSavePreviewCaptureState m_pendingSavePreviewCapture;
     InspectHit m_pressedInspectHit;
+    int m_lastRenderWidth = 0;
+    int m_lastRenderHeight = 0;
 };
 }

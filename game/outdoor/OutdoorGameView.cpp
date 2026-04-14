@@ -3518,7 +3518,7 @@ bool projectWorldPointToScreen(
         x * pViewProjectionMatrix[3] + y * pViewProjectionMatrix[7] + z * pViewProjectionMatrix[11]
         + pViewProjectionMatrix[15];
 
-    if (std::fabs(clipW) <= InspectRayEpsilon)
+    if (clipW <= InspectRayEpsilon)
     {
         return false;
     }
@@ -4099,6 +4099,8 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
     const uint64_t renderStartTickCount = SDL_GetTicksNS();
     const uint16_t viewWidth = static_cast<uint16_t>(std::max(width, 1));
     const uint16_t viewHeight = static_cast<uint16_t>(std::max(height, 1));
+    m_lastRenderWidth = width;
+    m_lastRenderHeight = height;
     const OutdoorWorldRuntime::AtmosphereState *pAtmosphereState =
         m_pOutdoorWorldRuntime != nullptr ? &m_pOutdoorWorldRuntime->atmosphereState() : nullptr;
     const uint32_t clearColorAbgr = pAtmosphereState != nullptr ? pAtmosphereState->clearColorAbgr : 0x000000ffu;
@@ -9213,7 +9215,8 @@ bool OutdoorGameView::tryBeginQuickSpellCast()
     return tryCastSpellFromMember(
         party.activeMemberIndex(),
         static_cast<uint32_t>(pSpellEntry->id),
-        pSpellEntry->name);
+        pSpellEntry->name,
+        true);
 }
 
 bool OutdoorGameView::activeMemberKnowsSpell(uint32_t spellId) const
@@ -9340,7 +9343,11 @@ void OutdoorGameView::triggerPortraitEventFxWithoutSpeech(size_t memberIndex, Po
     }
 }
 
-bool OutdoorGameView::tryCastSpellFromMember(size_t casterMemberIndex, uint32_t spellId, const std::string &spellName)
+bool OutdoorGameView::tryCastSpellFromMember(
+    size_t casterMemberIndex,
+    uint32_t spellId,
+    const std::string &spellName,
+    bool quickCast)
 {
     if (m_pOutdoorPartyRuntime != nullptr)
     {
@@ -9356,7 +9363,409 @@ bool OutdoorGameView::tryCastSpellFromMember(size_t casterMemberIndex, uint32_t 
     PartySpellCastRequest request = {};
     request.casterMemberIndex = casterMemberIndex;
     request.spellId = spellId;
+
+    if (quickCast)
+    {
+        const std::optional<PartySpellDescriptor> descriptor = PartySpellSystem::describeSpell(spellId);
+
+        if (descriptor && isSpellQuickCastable(*descriptor))
+        {
+            request.quickCast = true;
+            if (!tryResolveQuickCastRequest(request, *descriptor))
+            {
+                setStatusBarEvent("No target for " + spellName, 3.0f);
+                return false;
+            }
+        }
+    }
+
     return tryCastSpellRequest(request, spellName);
+}
+
+bool OutdoorGameView::isSpellQuickCastable(const PartySpellDescriptor &descriptor) const
+{
+    if (descriptor.targetKind == PartySpellCastTargetKind::None)
+    {
+        return true;
+    }
+
+    if (descriptor.targetKind == PartySpellCastTargetKind::Actor)
+    {
+        return descriptor.effectKind == PartySpellCastEffectKind::Projectile
+            || descriptor.effectKind == PartySpellCastEffectKind::ActorEffect;
+    }
+
+    if (descriptor.targetKind == PartySpellCastTargetKind::GroundPoint)
+    {
+        return descriptor.effectKind == PartySpellCastEffectKind::Projectile
+            || descriptor.effectKind == PartySpellCastEffectKind::MultiProjectile
+            || descriptor.effectKind == PartySpellCastEffectKind::AreaEffect;
+    }
+
+    return false;
+}
+
+bool OutdoorGameView::tryResolveQuickCastRequest(
+    PartySpellCastRequest &request,
+    const PartySpellDescriptor &descriptor) const
+{
+    if (m_pOutdoorPartyRuntime == nullptr || m_pOutdoorWorldRuntime == nullptr)
+    {
+        return false;
+    }
+
+    const OutdoorMoveState &moveState = m_pOutdoorPartyRuntime->movementState();
+    const float sourceX = moveState.x;
+    const float sourceY = moveState.y;
+    float cursorX = 0.0f;
+    float cursorY = 0.0f;
+    SDL_GetMouseState(&cursorX, &cursorY);
+
+    if (descriptor.targetKind == PartySpellCastTargetKind::None)
+    {
+        return true;
+    }
+
+    if (descriptor.targetKind == PartySpellCastTargetKind::Actor)
+    {
+        request.targetActorIndex = resolveQuickCastHoveredActorIndex();
+
+        if (!request.targetActorIndex)
+        {
+            request.targetActorIndex = resolveClosestQuickCastVisibleActorIndex(
+                sourceX,
+                sourceY,
+                moveState.footZ + 96.0f);
+        }
+
+        if (request.targetActorIndex)
+        {
+            return true;
+        }
+
+        if (descriptor.effectKind == PartySpellCastEffectKind::Projectile)
+        {
+            const std::optional<bx::Vec3> groundTargetPoint = resolveQuickCastCursorTargetPoint(cursorX, cursorY);
+
+            if (!groundTargetPoint)
+            {
+                return false;
+            }
+
+            request.hasTargetPoint = true;
+            request.targetX = groundTargetPoint->x;
+            request.targetY = groundTargetPoint->y;
+            request.targetZ = groundTargetPoint->z;
+            return true;
+        }
+
+        return false;
+    }
+
+    if (descriptor.targetKind == PartySpellCastTargetKind::GroundPoint)
+    {
+        std::optional<bx::Vec3> targetPoint;
+        const std::optional<size_t> hoveredActorIndex = resolveQuickCastHoveredActorIndex();
+
+        if (hoveredActorIndex)
+        {
+            const OutdoorWorldRuntime::MapActorState *pActor = m_pOutdoorWorldRuntime->mapActorState(*hoveredActorIndex);
+
+            if (pActor != nullptr && !pActor->isDead && !pActor->isInvisible)
+            {
+                targetPoint = bx::Vec3 {
+                    pActor->preciseX,
+                    pActor->preciseY,
+                    pActor->preciseZ + std::max(48.0f, static_cast<float>(pActor->height) * 0.6f)
+                };
+            }
+        }
+
+        if (!targetPoint)
+        {
+            targetPoint = resolveQuickCastCursorTargetPoint(cursorX, cursorY);
+        }
+
+        if (!targetPoint)
+        {
+            return false;
+        }
+
+        request.hasTargetPoint = true;
+        request.targetX = targetPoint->x;
+        request.targetY = targetPoint->y;
+        request.targetZ = targetPoint->z;
+        return true;
+    }
+
+    return false;
+}
+
+std::optional<size_t> OutdoorGameView::resolveQuickCastHoveredActorIndex() const
+{
+    if (!m_cachedHoverInspectHitValid || m_cachedHoverInspectHit.kind != "actor")
+    {
+        return std::nullopt;
+    }
+
+    const std::optional<size_t> actorIndex = resolveRuntimeActorIndexForInspectHit(m_cachedHoverInspectHit);
+
+    if (!actorIndex || m_pOutdoorWorldRuntime == nullptr)
+    {
+        return std::nullopt;
+    }
+
+    const OutdoorWorldRuntime::MapActorState *pActor = m_pOutdoorWorldRuntime->mapActorState(*actorIndex);
+
+    if (pActor == nullptr
+        || pActor->isDead
+        || pActor->isInvisible
+        || !pActor->hostileToParty
+        || !pActor->hasDetectedParty)
+    {
+        return std::nullopt;
+    }
+
+    return actorIndex;
+}
+
+std::optional<size_t> OutdoorGameView::resolveClosestQuickCastVisibleActorIndex(
+    float sourceX,
+    float sourceY,
+    float sourceZ) const
+{
+    if (m_pOutdoorWorldRuntime == nullptr || m_lastRenderWidth <= 0 || m_lastRenderHeight <= 0)
+    {
+        return std::nullopt;
+    }
+
+    const uint16_t viewWidth = static_cast<uint16_t>(std::max(m_lastRenderWidth, 1));
+    const uint16_t viewHeight = static_cast<uint16_t>(std::max(m_lastRenderHeight, 1));
+    const float aspectRatio = static_cast<float>(viewWidth) / static_cast<float>(viewHeight);
+    const float cosPitch = std::cos(m_cameraPitchRadians);
+    const float sinPitch = std::sin(m_cameraPitchRadians);
+    const float cosYaw = std::cos(m_cameraYawRadians);
+    const float sinYaw = std::sin(m_cameraYawRadians);
+    const bx::Vec3 eye = {
+        m_cameraTargetX,
+        m_cameraTargetY,
+        m_cameraTargetZ
+    };
+    const bx::Vec3 at = {
+        m_cameraTargetX + cosYaw * cosPitch,
+        m_cameraTargetY + sinYaw * cosPitch,
+        m_cameraTargetZ + sinPitch
+    };
+    const bx::Vec3 up = {0.0f, 0.0f, 1.0f};
+    float viewMatrix[16] = {};
+    float projectionMatrix[16] = {};
+    float viewProjectionMatrix[16] = {};
+    bx::mtxLookAt(viewMatrix, eye, at, up, bx::Handedness::Right);
+    bx::mtxProj(
+        projectionMatrix,
+        CameraVerticalFovDegrees,
+        aspectRatio,
+        0.1f,
+        200000.0f,
+        bgfx::getCaps()->homogeneousDepth,
+        bx::Handedness::Right
+    );
+    bx::mtxMul(viewProjectionMatrix, viewMatrix, projectionMatrix);
+
+    std::optional<size_t> nearestActorIndex;
+    float nearestDistanceSquared = std::numeric_limits<float>::max();
+
+    for (size_t actorIndex = 0; actorIndex < m_pOutdoorWorldRuntime->mapActorCount(); ++actorIndex)
+    {
+        const OutdoorWorldRuntime::MapActorState *pActor = m_pOutdoorWorldRuntime->mapActorState(actorIndex);
+
+        if (pActor == nullptr
+            || pActor->isDead
+            || pActor->isInvisible
+            || !pActor->hostileToParty
+            || !pActor->hasDetectedParty)
+        {
+            continue;
+        }
+
+        ProjectedPoint projected = {};
+        const bx::Vec3 actorPoint = {
+            pActor->preciseX,
+            pActor->preciseY,
+            pActor->preciseZ + std::max(48.0f, static_cast<float>(pActor->height) * 0.6f)
+        };
+
+        if (!projectWorldPointToScreen(actorPoint, m_lastRenderWidth, m_lastRenderHeight, viewProjectionMatrix, projected))
+        {
+            continue;
+        }
+
+        if (projected.x < 0.0f
+            || projected.x > static_cast<float>(m_lastRenderWidth)
+            || projected.y < 0.0f
+            || projected.y > static_cast<float>(m_lastRenderHeight))
+        {
+            continue;
+        }
+
+        const float dx = pActor->preciseX - sourceX;
+        const float dy = pActor->preciseY - sourceY;
+        const float dz = pActor->preciseZ - sourceZ;
+        const float distanceSquared = dx * dx + dy * dy + dz * dz;
+
+        if (distanceSquared < nearestDistanceSquared)
+        {
+            nearestDistanceSquared = distanceSquared;
+            nearestActorIndex = actorIndex;
+        }
+    }
+
+    return nearestActorIndex;
+}
+
+bool OutdoorGameView::buildQuickCastInspectRayForScreenPoint(
+    float screenX,
+    float screenY,
+    bx::Vec3 &rayOrigin,
+    bx::Vec3 &rayDirection) const
+{
+    const uint16_t viewWidth = static_cast<uint16_t>(std::max(m_lastRenderWidth, 1));
+    const uint16_t viewHeight = static_cast<uint16_t>(std::max(m_lastRenderHeight, 1));
+
+    if (viewWidth == 0 || viewHeight == 0)
+    {
+        return false;
+    }
+
+    const float aspectRatio = static_cast<float>(viewWidth) / static_cast<float>(viewHeight);
+    const float cosPitch = std::cos(m_cameraPitchRadians);
+    const float sinPitch = std::sin(m_cameraPitchRadians);
+    const float cosYaw = std::cos(m_cameraYawRadians);
+    const float sinYaw = std::sin(m_cameraYawRadians);
+    const bx::Vec3 eye = {
+        m_cameraTargetX,
+        m_cameraTargetY,
+        m_cameraTargetZ
+    };
+    const bx::Vec3 at = {
+        m_cameraTargetX + cosYaw * cosPitch,
+        m_cameraTargetY + sinYaw * cosPitch,
+        m_cameraTargetZ + sinPitch
+    };
+    const bx::Vec3 up = {0.0f, 0.0f, 1.0f};
+    float viewMatrix[16] = {};
+    float projectionMatrix[16] = {};
+    float viewProjectionMatrix[16] = {};
+    float inverseViewProjectionMatrix[16] = {};
+    bx::mtxLookAt(viewMatrix, eye, at, up, bx::Handedness::Right);
+    bx::mtxProj(
+        projectionMatrix,
+        CameraVerticalFovDegrees,
+        aspectRatio,
+        0.1f,
+        200000.0f,
+        bgfx::getCaps()->homogeneousDepth,
+        bx::Handedness::Right
+    );
+    const float normalizedX = ((screenX / static_cast<float>(viewWidth)) * 2.0f) - 1.0f;
+    const float normalizedY = 1.0f - ((screenY / static_cast<float>(viewHeight)) * 2.0f);
+    bx::mtxMul(viewProjectionMatrix, viewMatrix, projectionMatrix);
+    bx::mtxInverse(inverseViewProjectionMatrix, viewProjectionMatrix);
+    rayOrigin = bx::mulH({normalizedX, normalizedY, 0.0f}, inverseViewProjectionMatrix);
+    const bx::Vec3 rayTarget = bx::mulH({normalizedX, normalizedY, 1.0f}, inverseViewProjectionMatrix);
+    rayDirection = vecNormalize(vecSubtract(rayTarget, rayOrigin));
+    return vecLength(rayDirection) > InspectRayEpsilon;
+}
+
+std::optional<bx::Vec3> OutdoorGameView::resolveQuickCastCursorTargetPoint(float cursorX, float cursorY) const
+{
+    if (!m_outdoorMapData.has_value() || m_lastRenderWidth <= 0 || m_lastRenderHeight <= 0)
+    {
+        return std::nullopt;
+    }
+
+    bx::Vec3 rayOrigin = {0.0f, 0.0f, 0.0f};
+    bx::Vec3 rayDirection = {0.0f, 0.0f, 0.0f};
+
+    if (!buildQuickCastInspectRayForScreenPoint(cursorX, cursorY, rayOrigin, rayDirection))
+    {
+        return std::nullopt;
+    }
+
+    const uint16_t viewWidth = static_cast<uint16_t>(std::max(m_lastRenderWidth, 1));
+    const uint16_t viewHeight = static_cast<uint16_t>(std::max(m_lastRenderHeight, 1));
+    const float aspectRatio = static_cast<float>(viewWidth) / static_cast<float>(viewHeight);
+    const float cosPitch = std::cos(m_cameraPitchRadians);
+    const float sinPitch = std::sin(m_cameraPitchRadians);
+    const float cosYaw = std::cos(m_cameraYawRadians);
+    const float sinYaw = std::sin(m_cameraYawRadians);
+    const bx::Vec3 eye = {
+        m_cameraTargetX,
+        m_cameraTargetY,
+        m_cameraTargetZ
+    };
+    const bx::Vec3 at = {
+        m_cameraTargetX + cosYaw * cosPitch,
+        m_cameraTargetY + sinYaw * cosPitch,
+        m_cameraTargetZ + sinPitch
+    };
+    const bx::Vec3 up = {0.0f, 0.0f, 1.0f};
+    float viewMatrix[16] = {};
+    float projectionMatrix[16] = {};
+    bx::mtxLookAt(viewMatrix, eye, at, up, bx::Handedness::Right);
+    bx::mtxProj(
+        projectionMatrix,
+        CameraVerticalFovDegrees,
+        aspectRatio,
+        0.1f,
+        200000.0f,
+        bgfx::getCaps()->homogeneousDepth,
+        bx::Handedness::Right
+    );
+
+    const InspectHit inspectHit = OutdoorInteractionController::inspectBModelFace(
+        const_cast<OutdoorGameView &>(*this),
+        *m_outdoorMapData,
+        rayOrigin,
+        rayDirection,
+        cursorX,
+        cursorY,
+        m_lastRenderWidth,
+        m_lastRenderHeight,
+        viewMatrix,
+        projectionMatrix,
+        OutdoorGameView::DecorationPickMode::Interaction);
+    const std::optional<float> terrainDistance = intersectOutdoorTerrainRay(*m_outdoorMapData, rayOrigin, rayDirection);
+    const std::optional<bx::Vec3> fallbackGroundTargetPoint =
+        terrainDistance
+            ? std::optional<bx::Vec3>(bx::Vec3 {
+                rayOrigin.x + rayDirection.x * *terrainDistance,
+                rayOrigin.y + rayDirection.y * *terrainDistance,
+                rayOrigin.z + rayDirection.z * *terrainDistance
+            })
+            : std::nullopt;
+
+    if (inspectHit.hasHit)
+    {
+        const std::optional<bx::Vec3> inspectTargetPoint = resolvePendingSpellGroundTargetPoint(inspectHit);
+
+        if (inspectTargetPoint)
+        {
+            return inspectTargetPoint;
+        }
+    }
+
+    if (fallbackGroundTargetPoint)
+    {
+        return fallbackGroundTargetPoint;
+    }
+
+    constexpr float QuickCastForwardFallbackDistance = 8192.0f;
+    return bx::Vec3 {
+        rayOrigin.x + rayDirection.x * QuickCastForwardFallbackDistance,
+        rayOrigin.y + rayDirection.y * QuickCastForwardFallbackDistance,
+        rayOrigin.z + rayDirection.z * QuickCastForwardFallbackDistance
+    };
 }
 
 bool OutdoorGameView::loadPortraitAnimationData(const Engine::AssetFileSystem &assetFileSystem)

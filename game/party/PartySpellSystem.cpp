@@ -16,6 +16,7 @@ namespace OpenYAMM::Game
 namespace
 {
 constexpr float OeRealtimeRecoveryScale = 2.133333333333333f;
+constexpr float Pi = 3.14159265358979323846f;
 
 struct BackendSpellRule
 {
@@ -256,6 +257,13 @@ std::optional<BackendSpellRule> resolveBackendSpellRule(uint32_t spellId, SkillM
         : mastery == SkillMastery::Expert
         ? 5
         : 3;
+    const uint32_t poisonSprayCount = mastery == SkillMastery::Grandmaster
+        ? 7
+        : mastery == SkillMastery::Master
+        ? 5
+        : mastery == SkillMastery::Expert
+        ? 3
+        : 1;
 
     switch (spellIdFromValue(spellId))
     {
@@ -306,7 +314,18 @@ std::optional<BackendSpellRule> resolveBackendSpellRule(uint32_t spellId, SkillM
         case SpellId::Awaken:
             return BackendSpellRule{23, PartySpellCastTargetKind::None, PartySpellCastEffectKind::PartyRestore, SkillMastery::Normal, {}, {}, PartyBuffId::TorchLight};
         case SpellId::PoisonSpray:
-            return BackendSpellRule{24, PartySpellCastTargetKind::GroundPoint, PartySpellCastEffectKind::MultiProjectile, SkillMastery::Normal, {}, {}, PartyBuffId::TorchLight, 2, 2, true, 3};
+            return BackendSpellRule{
+                24,
+                PartySpellCastTargetKind::GroundPoint,
+                PartySpellCastEffectKind::MultiProjectile,
+                SkillMastery::Normal,
+                {},
+                {},
+                PartyBuffId::TorchLight,
+                2,
+                2,
+                true,
+                poisonSprayCount};
         case SpellId::WaterResistance:
             return BackendSpellRule{25, PartySpellCastTargetKind::None, PartySpellCastEffectKind::PartyBuff, SkillMastery::Normal, {3, 3, 3, 3}, {120, 120, 120, 120}, PartyBuffId::WaterResistance};
         case SpellId::IceBolt:
@@ -1033,27 +1052,38 @@ PartySpellCastResult PartySpellSystem::castSpell(
     {
         if (!request.targetActorIndex)
         {
-            return makeFailure(
-                request.spellId,
-                PartySpellCastStatus::NeedActorTarget,
-                rule->targetKind,
-                rule->effectKind,
-                "Need actor target");
+            if (request.quickCast
+                && rule->effectKind == PartySpellCastEffectKind::Projectile
+                && request.hasTargetPoint)
+            {
+                targetPoint = {request.targetX, request.targetY, request.targetZ};
+            }
+            else
+            {
+                return makeFailure(
+                    request.spellId,
+                    PartySpellCastStatus::NeedActorTarget,
+                    rule->targetKind,
+                    rule->effectKind,
+                    "Need actor target");
+            }
         }
-
-        const OutdoorWorldRuntime::MapActorState *pActor = worldRuntime.mapActorState(*request.targetActorIndex);
-
-        if (pActor == nullptr || pActor->isDead || pActor->isInvisible)
+        else
         {
-            return makeFailure(
-                request.spellId,
-                PartySpellCastStatus::Failed,
-                rule->targetKind,
-                rule->effectKind,
-                "Spell failed");
-        }
+            const OutdoorWorldRuntime::MapActorState *pActor = worldRuntime.mapActorState(*request.targetActorIndex);
 
-        targetPoint = resolveActorTargetPoint(*pActor);
+            if (pActor == nullptr || pActor->isDead || pActor->isInvisible)
+            {
+                return makeFailure(
+                    request.spellId,
+                    PartySpellCastStatus::Failed,
+                    rule->targetKind,
+                    rule->effectKind,
+                    "Spell failed");
+            }
+
+            targetPoint = resolveActorTargetPoint(*pActor);
+        }
     }
     else if (rule->targetKind == PartySpellCastTargetKind::Character)
     {
@@ -1423,14 +1453,17 @@ PartySpellCastResult PartySpellSystem::castSpell(
     }
     else if (rule->effectKind == PartySpellCastEffectKind::MultiProjectile)
     {
-        const float targetAngleRadians = std::atan2(sourceY - targetPoint.y, targetPoint.x - sourceX);
+        const float targetAngleRadians = std::atan2(targetPoint.y - sourceY, targetPoint.x - sourceX);
         const float distance = std::sqrt(
             (targetPoint.x - sourceX) * (targetPoint.x - sourceX)
             + (targetPoint.y - sourceY) * (targetPoint.y - sourceY));
         const float baseTargetZ = targetPoint.z;
-        const float spreadStartRadians = -0.45f;
+        const float spreadArcRadians = Pi / 3.0f;
+        const float spreadStartRadians = rule->multiProjectileCount > 1 ? -spreadArcRadians * 0.5f : 0.0f;
         const float spreadStepRadians =
-            rule->multiProjectileCount > 1 ? 0.9f / static_cast<float>(rule->multiProjectileCount - 1) : 0.0f;
+            rule->multiProjectileCount > 1
+                ? spreadArcRadians / static_cast<float>(rule->multiProjectileCount - 1)
+                : 0.0f;
 
         for (uint32_t projectileIndex = 0; projectileIndex < rule->multiProjectileCount; ++projectileIndex)
         {
@@ -1741,5 +1774,20 @@ PartySpellCastResult PartySpellSystem::castSpell(
 
     result.status = PartySpellCastStatus::Succeeded;
     return result;
+}
+
+std::optional<PartySpellDescriptor> PartySpellSystem::describeSpell(uint32_t spellId)
+{
+    const std::optional<BackendSpellRule> rule = resolveBackendSpellRule(spellId, SkillMastery::Grandmaster);
+
+    if (!rule)
+    {
+        return std::nullopt;
+    }
+
+    PartySpellDescriptor descriptor = {};
+    descriptor.targetKind = rule->targetKind;
+    descriptor.effectKind = rule->effectKind;
+    return descriptor;
 }
 }

@@ -62,6 +62,7 @@ struct PartySpellCastRequest
 {
     size_t casterMemberIndex = 0;
     uint32_t spellId = 0;
+    bool quickCast = false;
     std::optional<size_t> targetActorIndex;
     std::optional<size_t> targetCharacterIndex;
     bool hasTargetPoint = false;
@@ -97,9 +98,17 @@ struct PartySpellCastResult
     }
 };
 
+struct PartySpellDescriptor
+{
+    PartySpellCastTargetKind targetKind = PartySpellCastTargetKind::None;
+    PartySpellCastEffectKind effectKind = PartySpellCastEffectKind::Unsupported;
+};
+
 class PartySpellSystem
 {
 public:
+    static std::optional<PartySpellDescriptor> describeSpell(uint32_t spellId);
+
     static PartySpellCastResult castSpell(
         Party &party,
         OutdoorPartyRuntime &partyRuntime,
