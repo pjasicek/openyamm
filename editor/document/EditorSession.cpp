@@ -6,6 +6,10 @@
 #include "game/outdoor/OutdoorGeometryUtils.h"
 
 #include <SDL3/SDL.h>
+#include <bimg/bimg.h>
+#include <bimg/decode.h>
+#include <bx/allocator.h>
+#include <bx/error.h>
 #include <algorithm>
 #include <array>
 #include <cctype>
@@ -21,6 +25,8 @@ namespace OpenYAMM::Editor
 {
 namespace
 {
+bool isKnownBitmapTextureName(const std::vector<std::string> &bitmapTextureNames, const std::string &textureName);
+
 constexpr size_t SpriteObjectContainingItemSize = 0x24;
 constexpr size_t ChestItemRecordSize = 36;
 constexpr int ChestMatrixColumns = 14;
@@ -91,6 +97,191 @@ void sortTextureNames(std::vector<std::string> &names)
     {
         return toLowerCopy(left) < toLowerCopy(right);
     });
+}
+
+uint64_t fnv1a64(std::string_view text)
+{
+    uint64_t hash = 14695981039346656037ull;
+
+    for (unsigned char character : text)
+    {
+        hash ^= static_cast<uint64_t>(character);
+        hash *= 1099511628211ull;
+    }
+
+    return hash;
+}
+
+std::string generatedImportedTextureName(
+    const std::filesystem::path &sourcePath,
+    const std::string &sourceMaterialName)
+{
+    const uint64_t hash = fnv1a64(sourcePath.generic_string() + "|" + sourceMaterialName);
+    char buffer[11] = {};
+    std::snprintf(buffer, sizeof(buffer), "g%08x", static_cast<uint32_t>(hash & 0xffffffffu));
+    return buffer;
+}
+
+EditorMaterialTextureRemap *findImportedMaterialRemap(
+    std::vector<EditorMaterialTextureRemap> &remaps,
+    const std::string &sourceMaterialName)
+{
+    const std::string normalizedSourceMaterialName = toLowerCopy(trimCopy(sourceMaterialName));
+
+    for (EditorMaterialTextureRemap &remap : remaps)
+    {
+        if (toLowerCopy(trimCopy(remap.sourceMaterialName)) == normalizedSourceMaterialName)
+        {
+            return &remap;
+        }
+    }
+
+    return nullptr;
+}
+
+bool decodeImportedTextureBytesBgra(
+    const std::vector<uint8_t> &textureBytes,
+    std::vector<uint8_t> &pixels,
+    int &width,
+    int &height)
+{
+    pixels.clear();
+    width = 0;
+    height = 0;
+
+    if (textureBytes.empty())
+    {
+        return false;
+    }
+
+    bx::DefaultAllocator allocator;
+    bx::Error error;
+    bimg::ImageContainer *pImage = bimg::imageParse(
+        &allocator,
+        textureBytes.data(),
+        static_cast<uint32_t>(textureBytes.size()),
+        bimg::TextureFormat::BGRA8,
+        &error);
+
+    if (pImage == nullptr)
+    {
+        return false;
+    }
+
+    bimg::ImageMip mip = {};
+    const bool gotRawData =
+        bimg::imageGetRawData(*pImage, 0, 0, pImage->m_data, pImage->m_size, mip)
+        && mip.m_data != nullptr
+        && mip.m_width > 0
+        && mip.m_height > 0
+        && mip.m_bpp == 32;
+
+    if (gotRawData)
+    {
+        width = static_cast<int>(mip.m_width);
+        height = static_cast<int>(mip.m_height);
+        pixels.assign(mip.m_data, mip.m_data + mip.m_size);
+    }
+
+    bimg::imageFree(pImage);
+    return gotRawData;
+}
+
+bool saveImportedTextureBitmap(
+    const std::filesystem::path &outputPath,
+    const std::vector<uint8_t> &pixels,
+    int width,
+    int height)
+{
+    if (width <= 0 || height <= 0 || pixels.size() < static_cast<size_t>(width * height * 4))
+    {
+        return false;
+    }
+
+    SDL_Surface *pSurface = SDL_CreateSurfaceFrom(
+        width,
+        height,
+        SDL_PIXELFORMAT_BGRA32,
+        const_cast<uint8_t *>(pixels.data()),
+        width * 4);
+
+    if (pSurface == nullptr)
+    {
+        return false;
+    }
+
+    const bool saved = SDL_SaveBMP(pSurface, outputPath.string().c_str());
+    SDL_DestroySurface(pSurface);
+    return saved;
+}
+
+bool materializeImportedModelTextures(
+    const Engine::AssetFileSystem &assetFileSystem,
+    const ImportedModel &importedModel,
+    const std::filesystem::path &sourcePath,
+    const std::vector<std::string> &bitmapTextureNames,
+    EditorBModelImportSource &importSource,
+    bool &createdTextures,
+    std::string &errorMessage)
+{
+    createdTextures = false;
+    const std::filesystem::path bitmapDirectory = assetFileSystem.getDevelopmentRoot() / "Data" / "bitmaps";
+    std::error_code directoryError;
+    std::filesystem::create_directories(bitmapDirectory, directoryError);
+
+    if (directoryError)
+    {
+        errorMessage = "could not create bitmap import directory: " + bitmapDirectory.string();
+        return false;
+    }
+
+    for (const ImportedModelMaterial &material : importedModel.materials)
+    {
+        const std::string sourceMaterialName = trimCopy(material.name);
+
+        if (sourceMaterialName.empty() || material.textureBytes.empty())
+        {
+            continue;
+        }
+
+        EditorMaterialTextureRemap *pRemap = findImportedMaterialRemap(importSource.materialRemaps, sourceMaterialName);
+
+        if (pRemap != nullptr && isKnownBitmapTextureName(bitmapTextureNames, pRemap->textureName))
+        {
+            continue;
+        }
+
+        std::vector<uint8_t> pixels;
+        int width = 0;
+        int height = 0;
+
+        if (!decodeImportedTextureBytesBgra(material.textureBytes, pixels, width, height))
+        {
+            continue;
+        }
+
+        const std::string textureName = generatedImportedTextureName(sourcePath, sourceMaterialName);
+        const std::filesystem::path bitmapPath = bitmapDirectory / (textureName + ".bmp");
+
+        if (!saveImportedTextureBitmap(bitmapPath, pixels, width, height))
+        {
+            errorMessage = "could not save imported bitmap texture: " + bitmapPath.string();
+            return false;
+        }
+
+        if (pRemap == nullptr)
+        {
+            importSource.materialRemaps.push_back({sourceMaterialName, textureName});
+        }
+        else
+        {
+            pRemap->textureName = textureName;
+        }
+
+        createdTextures = true;
+    }
+
+    return true;
 }
 
 bool loadTextTableRows(
@@ -1054,6 +1245,184 @@ std::string canonicalBitmapTextureName(
     return normalizedName.substr(0, std::min<size_t>(normalizedName.size(), 10));
 }
 
+std::string resolveImportedMaterialTextureName(
+    const std::vector<std::string> &bitmapTextureNames,
+    const EditorBModelImportSource *pImportSource,
+    const std::string &materialName)
+{
+    const std::string resolvedDefaultTexture =
+        pImportSource != nullptr
+        ? canonicalBitmapTextureName(bitmapTextureNames, pImportSource->defaultTextureName)
+        : std::string();
+
+    if (materialName.empty())
+    {
+        return resolvedDefaultTexture;
+    }
+
+    if (pImportSource != nullptr)
+    {
+        const std::string normalizedMaterialName = toLowerCopy(trimCopy(materialName));
+
+        for (const EditorMaterialTextureRemap &remap : pImportSource->materialRemaps)
+        {
+            if (toLowerCopy(trimCopy(remap.sourceMaterialName)) == normalizedMaterialName)
+            {
+                const std::string remappedTextureName =
+                    canonicalBitmapTextureName(bitmapTextureNames, remap.textureName);
+
+                if (!remappedTextureName.empty())
+                {
+                    return remappedTextureName;
+                }
+            }
+        }
+    }
+
+    const std::string canonicalMaterialTextureName = canonicalBitmapTextureName(bitmapTextureNames, materialName);
+
+    if (!canonicalMaterialTextureName.empty())
+    {
+        return canonicalMaterialTextureName;
+    }
+
+    return resolvedDefaultTexture;
+}
+
+bool isKnownBitmapTextureName(const std::vector<std::string> &bitmapTextureNames, const std::string &textureName)
+{
+    const std::string normalizedName = fileStemLowerCopy(trimCopy(textureName));
+
+    if (normalizedName.empty())
+    {
+        return false;
+    }
+
+    for (const std::string &candidate : bitmapTextureNames)
+    {
+        if (toLowerCopy(candidate) == normalizedName)
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+std::vector<EditorMaterialTextureRemap> collectImportedMaterialRemaps(
+    const std::vector<std::string> &bitmapTextureNames,
+    const ImportedModel &importedModel,
+    const Game::OutdoorBModel &bmodel,
+    const std::vector<EditorMaterialTextureRemap> &existingRemaps)
+{
+    std::vector<EditorMaterialTextureRemap> remaps = existingRemaps;
+    std::unordered_set<std::string> seenRemapKeys;
+
+    for (const EditorMaterialTextureRemap &remap : remaps)
+    {
+        seenRemapKeys.insert(toLowerCopy(trimCopy(remap.sourceMaterialName)));
+    }
+
+    const size_t faceCount = std::min(importedModel.faces.size(), bmodel.faces.size());
+
+    for (size_t faceIndex = 0; faceIndex < faceCount; ++faceIndex)
+    {
+        const ImportedModelFace &importedFace = importedModel.faces[faceIndex];
+
+        if (importedFace.materialName.empty())
+        {
+            continue;
+        }
+
+        const std::string normalizedMaterialName = toLowerCopy(trimCopy(importedFace.materialName));
+
+        if (normalizedMaterialName.empty() || seenRemapKeys.contains(normalizedMaterialName))
+        {
+            continue;
+        }
+
+        const std::string textureName = canonicalBitmapTextureName(bitmapTextureNames, bmodel.faces[faceIndex].textureName);
+
+        if (textureName.empty())
+        {
+            continue;
+        }
+
+        remaps.push_back({importedFace.materialName, textureName});
+        seenRemapKeys.insert(normalizedMaterialName);
+    }
+
+    std::sort(
+        remaps.begin(),
+        remaps.end(),
+        [](const EditorMaterialTextureRemap &left, const EditorMaterialTextureRemap &right)
+        {
+            return toLowerCopy(left.sourceMaterialName) < toLowerCopy(right.sourceMaterialName);
+        });
+    return remaps;
+}
+
+std::vector<EditorImportedMaterialDiagnostic> buildImportedMaterialDiagnostics(
+    const std::vector<std::string> &bitmapTextureNames,
+    const ImportedModel &importedModel,
+    const EditorBModelImportSource &importSource)
+{
+    std::vector<EditorImportedMaterialDiagnostic> diagnostics;
+    std::unordered_set<std::string> seenMaterialNames;
+
+    for (const ImportedModelFace &face : importedModel.faces)
+    {
+        if (trimCopy(face.materialName).empty())
+        {
+            continue;
+        }
+
+        const std::string normalizedMaterialName = toLowerCopy(trimCopy(face.materialName));
+
+        if (normalizedMaterialName.empty() || seenMaterialNames.contains(normalizedMaterialName))
+        {
+            continue;
+        }
+
+        seenMaterialNames.insert(normalizedMaterialName);
+
+        EditorImportedMaterialDiagnostic diagnostic = {};
+        diagnostic.sourceMaterialName = face.materialName;
+        diagnostic.resolvedTextureName = resolveImportedMaterialTextureName(bitmapTextureNames, &importSource, face.materialName);
+        diagnostic.usesDefaultFallback = true;
+
+        for (const EditorMaterialTextureRemap &remap : importSource.materialRemaps)
+        {
+            if (toLowerCopy(trimCopy(remap.sourceMaterialName)) == normalizedMaterialName)
+            {
+                diagnostic.hasExplicitRemap = true;
+                diagnostic.usesDefaultFallback = false;
+                break;
+            }
+        }
+
+        if (!diagnostic.hasExplicitRemap)
+        {
+            const std::string canonicalMaterialTextureName =
+                canonicalBitmapTextureName(bitmapTextureNames, face.materialName);
+            diagnostic.usesDefaultFallback = !isKnownBitmapTextureName(bitmapTextureNames, canonicalMaterialTextureName);
+        }
+
+        diagnostic.resolvesToKnownBitmap =
+            isKnownBitmapTextureName(bitmapTextureNames, diagnostic.resolvedTextureName);
+        diagnostics.push_back(std::move(diagnostic));
+    }
+
+    std::sort(
+        diagnostics.begin(),
+        diagnostics.end(),
+        [](const EditorImportedMaterialDiagnostic &left, const EditorImportedMaterialDiagnostic &right)
+        {
+            return toLowerCopy(left.sourceMaterialName) < toLowerCopy(right.sourceMaterialName);
+        });
+    return diagnostics;
+}
+
 bool loadBitmapTextureSize(
     const Engine::AssetFileSystem &assetFileSystem,
     const std::vector<std::string> &bitmapTextureNames,
@@ -1097,17 +1466,17 @@ bool loadBitmapTextureSize(
 }
 
 uint8_t classifyImportedPolygonType(
-    const ImportedObjModel &importedModel,
-    const ImportedObjFace &face)
+    const ImportedModel &importedModel,
+    const ImportedModelFace &face)
 {
     if (face.vertices.size() < 3)
     {
         return 0;
     }
 
-    const ImportedObjPosition &a = importedModel.positions[face.vertices[0].positionIndex];
-    const ImportedObjPosition &b = importedModel.positions[face.vertices[1].positionIndex];
-    const ImportedObjPosition &c = importedModel.positions[face.vertices[2].positionIndex];
+    const ImportedModelPosition &a = importedModel.positions[face.vertices[0].positionIndex];
+    const ImportedModelPosition &b = importedModel.positions[face.vertices[1].positionIndex];
+    const ImportedModelPosition &c = importedModel.positions[face.vertices[2].positionIndex];
     const float abX = b.x - a.x;
     const float abY = b.y - a.y;
     const float abZ = b.z - a.z;
@@ -1457,10 +1826,10 @@ Game::OutdoorBModelVertex transformImportedVertex(
 Game::OutdoorBModel buildImportedBModel(
     const Engine::AssetFileSystem &assetFileSystem,
     const std::vector<std::string> &bitmapTextureNames,
-    const ImportedObjModel &importedModel,
+    const ImportedModel &importedModel,
     const std::filesystem::path &sourcePath,
     float importScale,
-    const std::string &defaultTextureName,
+    const EditorBModelImportSource &importSource,
     const Game::OutdoorBModel *pPlacementTemplate,
     const EditorBModelSourceTransform *pSourceTransform,
     std::string &errorMessage)
@@ -1484,7 +1853,7 @@ Game::OutdoorBModel buildImportedBModel(
     float importedMaxY = std::numeric_limits<float>::lowest();
     float importedMaxZ = std::numeric_limits<float>::lowest();
 
-    for (const ImportedObjPosition &position : importedModel.positions)
+    for (const ImportedModelPosition &position : importedModel.positions)
     {
         const float scaledX = position.x * importScale;
         const float scaledY = position.y * importScale;
@@ -1548,10 +1917,7 @@ Game::OutdoorBModel buildImportedBModel(
 
     bmodel.vertices = std::move(importedVertices);
 
-    const std::string resolvedDefaultTexture =
-        canonicalBitmapTextureName(bitmapTextureNames, defaultTextureName.empty() ? "grastyl" : defaultTextureName);
-
-    for (const ImportedObjFace &importedFace : importedModel.faces)
+    for (const ImportedModelFace &importedFace : importedModel.faces)
     {
         Game::OutdoorBModelFace face = {};
         face.attributes = 0;
@@ -1565,14 +1931,10 @@ Game::OutdoorBModel buildImportedBModel(
         face.polygonType = classifyImportedPolygonType(importedModel, importedFace);
         face.shade = 0;
         face.visibility = 31;
-        face.textureName = canonicalBitmapTextureName(
+        face.textureName = resolveImportedMaterialTextureName(
             bitmapTextureNames,
-            importedFace.materialName.empty() ? resolvedDefaultTexture : importedFace.materialName);
-
-        if (face.textureName.empty())
-        {
-            face.textureName = resolvedDefaultTexture;
-        }
+            &importSource,
+            importedFace.materialName);
 
         int textureWidth = 256;
         int textureHeight = 256;
@@ -1583,7 +1945,7 @@ Game::OutdoorBModel buildImportedBModel(
         float firstV = 0.0f;
         bool firstUvAssigned = false;
 
-        for (const ImportedObjFaceVertex &importedVertex : importedFace.vertices)
+        for (const ImportedModelFaceVertex &importedVertex : importedFace.vertices)
         {
             face.vertexIndices.push_back(static_cast<uint16_t>(importedVertex.positionIndex));
 
@@ -2544,10 +2906,12 @@ bool EditorSession::deleteSelectedObject(std::string &errorMessage)
     return true;
 }
 
-bool EditorSession::replaceSelectedBModelFromObj(
+bool EditorSession::replaceSelectedBModelFromModel(
     const std::string &sourcePath,
     float importScale,
     const std::string &defaultTextureName,
+    const std::string &sourceMeshName,
+    bool mergeCoplanarFaces,
     std::string &errorMessage)
 {
     if (m_pAssetFileSystem == nullptr)
@@ -2572,7 +2936,7 @@ bool EditorSession::replaceSelectedBModelFromObj(
 
     if (trimmedSourcePath.empty())
     {
-        errorMessage = "OBJ path is empty";
+        errorMessage = "model path is empty";
         return false;
     }
 
@@ -2585,14 +2949,53 @@ bool EditorSession::replaceSelectedBModelFromObj(
     }
 
     const std::filesystem::path absoluteSourcePath = std::filesystem::absolute(std::filesystem::path(trimmedSourcePath));
-    ImportedObjModel importedModel = {};
+    ImportedModel importedModel = {};
     const std::optional<EditorBModelSourceTransform> existingSourceTransform =
         m_document.outdoorBModelSourceTransform(m_selection.index);
+    EditorBModelImportSource importSource = {};
+    importSource.sourcePath = absoluteSourcePath.string();
+    importSource.importScale = importScale;
+    importSource.mergeCoplanarFaces = mergeCoplanarFaces;
+    importSource.defaultTextureName = canonicalBitmapTextureName(m_bitmapTextureNames, defaultTextureName);
+    const std::optional<EditorBModelImportSource> existingImportSource =
+        m_document.outdoorBModelImportSource(m_selection.index);
+    const std::string resolvedSourceMeshName = trimCopy(sourceMeshName);
 
-    if (!loadObjModelFromFile(absoluteSourcePath, importedModel, errorMessage))
+    if (existingImportSource)
+    {
+        importSource.materialRemaps = existingImportSource->materialRemaps;
+    }
+
+    if (!loadImportedModelFromFile(
+            absoluteSourcePath,
+            importedModel,
+            errorMessage,
+            resolvedSourceMeshName,
+            mergeCoplanarFaces))
     {
         return false;
     }
+
+    bool createdImportedTextures = false;
+
+    if (!materializeImportedModelTextures(
+            *m_pAssetFileSystem,
+            importedModel,
+            absoluteSourcePath,
+            m_bitmapTextureNames,
+            importSource,
+            createdImportedTextures,
+            errorMessage))
+    {
+        return false;
+    }
+
+    if (createdImportedTextures)
+    {
+        buildBitmapTextureNames(*m_pAssetFileSystem, m_bitmapTextureNames);
+    }
+
+    importSource.sourceMeshName = resolvedSourceMeshName;
 
     Game::OutdoorBModel importedBModel = buildImportedBModel(
         *m_pAssetFileSystem,
@@ -2600,7 +3003,7 @@ bool EditorSession::replaceSelectedBModelFromObj(
         importedModel,
         absoluteSourcePath,
         importScale,
-        defaultTextureName,
+        importSource,
         &outdoorGeometry.bmodels[m_selection.index],
         existingSourceTransform ? &*existingSourceTransform : nullptr,
         errorMessage);
@@ -2616,25 +3019,23 @@ bool EditorSession::replaceSelectedBModelFromObj(
         m_document.mutableOutdoorSceneData(),
         m_selection.index,
         outdoorGeometry.bmodels[m_selection.index].faces.size());
-    m_document.setOutdoorBModelImportSource(
-        m_selection.index,
-        {
-            absoluteSourcePath.string(),
-            importedModel.name,
-            importScale,
-            canonicalBitmapTextureName(m_bitmapTextureNames, defaultTextureName)
-        });
+    importSource.materialRemaps =
+        collectImportedMaterialRemaps(m_bitmapTextureNames, importedModel, outdoorGeometry.bmodels[m_selection.index], importSource.materialRemaps);
+    m_document.setOutdoorBModelImportSource(m_selection.index, importSource);
     m_document.setOutdoorBModelSourceTransform(
         m_selection.index,
         existingSourceTransform.value_or(sourceTransformFromBModel(outdoorGeometry.bmodels[m_selection.index])));
-    noteDocumentMutated("Replaced bmodel " + std::to_string(m_selection.index) + " from OBJ");
+    noteDocumentMutated("Replaced bmodel " + std::to_string(m_selection.index) + " from model");
     return true;
 }
 
-bool EditorSession::importNewBModelFromObj(
+bool EditorSession::importNewBModelFromModel(
     const std::string &sourcePath,
     float importScale,
     const std::string &defaultTextureName,
+    const std::string &sourceMeshName,
+    bool splitByMesh,
+    bool mergeCoplanarFaces,
     std::string &errorMessage)
 {
     if (m_pAssetFileSystem == nullptr)
@@ -2653,49 +3054,165 @@ bool EditorSession::importNewBModelFromObj(
 
     if (trimmedSourcePath.empty())
     {
-        errorMessage = "OBJ path is empty";
+        errorMessage = "model path is empty";
         return false;
     }
 
     const std::filesystem::path absoluteSourcePath = std::filesystem::absolute(std::filesystem::path(trimmedSourcePath));
-    ImportedObjModel importedModel = {};
+    const std::string canonicalDefaultTextureName =
+        canonicalBitmapTextureName(m_bitmapTextureNames, defaultTextureName);
+    const std::string trimmedSourceMeshName = trimCopy(sourceMeshName);
 
-    if (!loadObjModelFromFile(absoluteSourcePath, importedModel, errorMessage))
+    if (!splitByMesh)
+    {
+        ImportedModel importedModel = {};
+        EditorBModelImportSource importSource = {};
+        importSource.sourcePath = absoluteSourcePath.string();
+        importSource.sourceMeshName = trimmedSourceMeshName;
+        importSource.importScale = importScale;
+        importSource.mergeCoplanarFaces = mergeCoplanarFaces;
+        importSource.defaultTextureName = canonicalDefaultTextureName;
+
+        if (!loadImportedModelFromFile(
+                absoluteSourcePath,
+                importedModel,
+                errorMessage,
+                trimmedSourceMeshName,
+                mergeCoplanarFaces))
+        {
+            return false;
+        }
+
+        bool createdImportedTextures = false;
+
+        if (!materializeImportedModelTextures(
+                *m_pAssetFileSystem,
+                importedModel,
+                absoluteSourcePath,
+                m_bitmapTextureNames,
+                importSource,
+                createdImportedTextures,
+                errorMessage))
+        {
+            return false;
+        }
+
+        if (createdImportedTextures)
+        {
+            buildBitmapTextureNames(*m_pAssetFileSystem, m_bitmapTextureNames);
+        }
+
+        Game::OutdoorBModel importedBModel = buildImportedBModel(
+            *m_pAssetFileSystem,
+            m_bitmapTextureNames,
+            importedModel,
+            absoluteSourcePath,
+            importScale,
+            importSource,
+            nullptr,
+            nullptr,
+            errorMessage);
+
+        if (!errorMessage.empty() && importedBModel.vertices.empty())
+        {
+            return false;
+        }
+
+        captureUndoSnapshot();
+        Game::OutdoorMapData &outdoorGeometry = m_document.mutableOutdoorGeometry();
+        outdoorGeometry.bmodels.push_back(std::move(importedBModel));
+        const size_t newIndex = outdoorGeometry.bmodels.size() - 1;
+        m_selection = {EditorSelectionKind::BModel, newIndex};
+        importSource.materialRemaps =
+            collectImportedMaterialRemaps(m_bitmapTextureNames, importedModel, outdoorGeometry.bmodels[newIndex], {});
+        m_document.setOutdoorBModelImportSource(newIndex, importSource);
+        m_document.setOutdoorBModelSourceTransform(newIndex, sourceTransformFromBModel(outdoorGeometry.bmodels[newIndex]));
+        noteDocumentMutated("Imported new bmodel from model");
+        return true;
+    }
+
+    std::vector<ImportedModel> importedModels;
+
+    if (!loadImportedModelsFromFile(absoluteSourcePath, importedModels, errorMessage, mergeCoplanarFaces))
     {
         return false;
     }
 
-    Game::OutdoorBModel importedBModel = buildImportedBModel(
-        *m_pAssetFileSystem,
-        m_bitmapTextureNames,
-        importedModel,
-        absoluteSourcePath,
-        importScale,
-        defaultTextureName,
-        nullptr,
-        nullptr,
-        errorMessage);
+    std::vector<Game::OutdoorBModel> builtBModels;
+    std::vector<EditorBModelImportSource> importSources;
+    std::vector<EditorBModelSourceTransform> sourceTransforms;
+    builtBModels.reserve(importedModels.size());
+    importSources.reserve(importedModels.size());
+    sourceTransforms.reserve(importedModels.size());
 
-    if (!errorMessage.empty() && importedBModel.vertices.empty())
+    bool refreshedImportedTextureNames = false;
+
+    for (const ImportedModel &importedModel : importedModels)
     {
-        return false;
+        EditorBModelImportSource importSource = {};
+        importSource.sourcePath = absoluteSourcePath.string();
+        importSource.sourceMeshName = importedModel.name;
+        importSource.importScale = importScale;
+        importSource.mergeCoplanarFaces = mergeCoplanarFaces;
+        importSource.defaultTextureName = canonicalDefaultTextureName;
+        bool createdImportedTextures = false;
+
+        if (!materializeImportedModelTextures(
+                *m_pAssetFileSystem,
+                importedModel,
+                absoluteSourcePath,
+                m_bitmapTextureNames,
+                importSource,
+                createdImportedTextures,
+                errorMessage))
+        {
+            return false;
+        }
+
+        refreshedImportedTextureNames = refreshedImportedTextureNames || createdImportedTextures;
+
+        Game::OutdoorBModel importedBModel = buildImportedBModel(
+            *m_pAssetFileSystem,
+            m_bitmapTextureNames,
+            importedModel,
+            absoluteSourcePath,
+            importScale,
+            importSource,
+            nullptr,
+            nullptr,
+            errorMessage);
+
+        if (!errorMessage.empty() && importedBModel.vertices.empty())
+        {
+            return false;
+        }
+
+        importSource.materialRemaps =
+            collectImportedMaterialRemaps(m_bitmapTextureNames, importedModel, importedBModel, {});
+        sourceTransforms.push_back(sourceTransformFromBModel(importedBModel));
+        builtBModels.push_back(std::move(importedBModel));
+        importSources.push_back(std::move(importSource));
+    }
+
+    if (refreshedImportedTextureNames)
+    {
+        buildBitmapTextureNames(*m_pAssetFileSystem, m_bitmapTextureNames);
     }
 
     captureUndoSnapshot();
     Game::OutdoorMapData &outdoorGeometry = m_document.mutableOutdoorGeometry();
-    outdoorGeometry.bmodels.push_back(std::move(importedBModel));
-    const size_t newIndex = outdoorGeometry.bmodels.size() - 1;
-    m_selection = {EditorSelectionKind::BModel, newIndex};
-    m_document.setOutdoorBModelImportSource(
-        newIndex,
-        {
-            absoluteSourcePath.string(),
-            importedModel.name,
-            importScale,
-            canonicalBitmapTextureName(m_bitmapTextureNames, defaultTextureName)
-        });
-    m_document.setOutdoorBModelSourceTransform(newIndex, sourceTransformFromBModel(outdoorGeometry.bmodels[newIndex]));
-    noteDocumentMutated("Imported new bmodel from OBJ");
+    const size_t firstNewIndex = outdoorGeometry.bmodels.size();
+
+    for (size_t modelIndex = 0; modelIndex < builtBModels.size(); ++modelIndex)
+    {
+        outdoorGeometry.bmodels.push_back(std::move(builtBModels[modelIndex]));
+        const size_t newIndex = firstNewIndex + modelIndex;
+        m_document.setOutdoorBModelImportSource(newIndex, importSources[modelIndex]);
+        m_document.setOutdoorBModelSourceTransform(newIndex, sourceTransforms[modelIndex]);
+    }
+
+    m_selection = {EditorSelectionKind::BModel, firstNewIndex};
+    noteDocumentMutated("Imported " + std::to_string(importedModels.size()) + " bmodels from model");
     return true;
 }
 
@@ -2716,11 +3233,74 @@ bool EditorSession::reimportSelectedBModel(std::string &errorMessage)
         return false;
     }
 
-    return replaceSelectedBModelFromObj(
+    return replaceSelectedBModelFromModel(
         importSource->sourcePath,
         importSource->importScale,
         importSource->defaultTextureName,
+        importSource->sourceMeshName,
+        importSource->mergeCoplanarFaces,
         errorMessage);
+}
+
+bool EditorSession::captureSelectedBModelMaterialRemaps(std::string &errorMessage)
+{
+    if (m_pAssetFileSystem == nullptr)
+    {
+        errorMessage = "editor session is not initialized";
+        return false;
+    }
+
+    if (!hasDocument() || m_document.kind() != EditorDocument::Kind::Outdoor)
+    {
+        errorMessage = "no outdoor document is loaded";
+        return false;
+    }
+
+    if (m_selection.kind != EditorSelectionKind::BModel)
+    {
+        errorMessage = "no bmodel is selected";
+        return false;
+    }
+
+    if (m_selection.index >= m_document.outdoorGeometry().bmodels.size())
+    {
+        errorMessage = "selected bmodel is out of range";
+        return false;
+    }
+
+    const std::optional<EditorBModelImportSource> existingImportSource =
+        m_document.outdoorBModelImportSource(m_selection.index);
+
+    if (!existingImportSource || trimCopy(existingImportSource->sourcePath).empty())
+    {
+        errorMessage = "selected bmodel has no remembered import source";
+        return false;
+    }
+
+    ImportedModel importedModel = {};
+    const std::filesystem::path sourcePath = std::filesystem::absolute(existingImportSource->sourcePath);
+
+    if (!loadImportedModelFromFile(
+            sourcePath,
+            importedModel,
+            errorMessage,
+            existingImportSource->sourceMeshName,
+            existingImportSource->mergeCoplanarFaces))
+    {
+        return false;
+    }
+
+    EditorBModelImportSource updatedImportSource = *existingImportSource;
+    updatedImportSource.materialRemaps = collectImportedMaterialRemaps(
+        m_bitmapTextureNames,
+        importedModel,
+        m_document.outdoorGeometry().bmodels[m_selection.index],
+        {});
+
+    captureUndoSnapshot();
+    m_document.setOutdoorBModelImportSource(m_selection.index, updatedImportSource);
+    noteDocumentMutated("Captured bmodel material remaps");
+    return true;
 }
 
 void EditorSession::select(EditorSelectionKind kind, size_t index)
@@ -3141,6 +3721,8 @@ void EditorSession::ensureOutdoorDerivedCaches() const
         m_cachedEffectiveFaceEvents.clear();
         m_cachedDefaultBModelEvents.clear();
         m_cachedChestLinks.clear();
+        m_cachedImportedMaterialDiagnostics.clear();
+        m_cachedImportedMaterialDiagnosticsValid.clear();
         m_cachedActorBillboardSpriteFrameTable = {};
         m_hasCachedActorBillboardSpriteFrameTable = false;
         return;
@@ -3164,6 +3746,9 @@ void EditorSession::ensureOutdoorDerivedCaches() const
     m_cachedDefaultBModelEvents.resize(outdoorGeometry.bmodels.size());
     m_cachedChestLinks.clear();
     m_cachedChestLinks.resize(sceneData.initialState.chests.size());
+    m_cachedImportedMaterialDiagnostics.clear();
+    m_cachedImportedMaterialDiagnostics.resize(outdoorGeometry.bmodels.size());
+    m_cachedImportedMaterialDiagnosticsValid.assign(outdoorGeometry.bmodels.size(), false);
     m_cachedActorBillboardSpriteFrameTable = {};
     m_hasCachedActorBillboardSpriteFrameTable = false;
 
@@ -3536,6 +4121,52 @@ std::vector<EditorChestLink> EditorSession::findChestLinks(size_t chestIndex) co
     return m_cachedChestLinks[chestIndex];
 }
 
+const std::vector<EditorImportedMaterialDiagnostic> &EditorSession::importedMaterialDiagnostics(size_t bmodelIndex) const
+{
+    ensureOutdoorDerivedCaches();
+
+    static const std::vector<EditorImportedMaterialDiagnostic> EmptyDiagnostics;
+
+    if (m_pAssetFileSystem == nullptr
+        || bmodelIndex >= m_cachedImportedMaterialDiagnostics.size()
+        || bmodelIndex >= m_cachedImportedMaterialDiagnosticsValid.size())
+    {
+        return EmptyDiagnostics;
+    }
+
+    if (m_cachedImportedMaterialDiagnosticsValid[bmodelIndex])
+    {
+        return m_cachedImportedMaterialDiagnostics[bmodelIndex];
+    }
+
+    const std::optional<EditorBModelImportSource> importSource = m_document.outdoorBModelImportSource(bmodelIndex);
+
+    if (!importSource || trimCopy(importSource->sourcePath).empty())
+    {
+        m_cachedImportedMaterialDiagnosticsValid[bmodelIndex] = true;
+        return m_cachedImportedMaterialDiagnostics[bmodelIndex];
+    }
+
+    ImportedModel importedModel = {};
+    std::string errorMessage;
+
+    if (!loadImportedModelFromFile(
+            std::filesystem::absolute(importSource->sourcePath),
+            importedModel,
+            errorMessage,
+            importSource->sourceMeshName,
+            importSource->mergeCoplanarFaces))
+    {
+        m_cachedImportedMaterialDiagnosticsValid[bmodelIndex] = true;
+        return m_cachedImportedMaterialDiagnostics[bmodelIndex];
+    }
+
+    m_cachedImportedMaterialDiagnostics[bmodelIndex] =
+        buildImportedMaterialDiagnostics(m_bitmapTextureNames, importedModel, *importSource);
+    m_cachedImportedMaterialDiagnosticsValid[bmodelIndex] = true;
+    return m_cachedImportedMaterialDiagnostics[bmodelIndex];
+}
+
 uint8_t EditorSession::terrainPaintTileId() const
 {
     return m_terrainPaintTileId;
@@ -3726,6 +4357,10 @@ void EditorSession::refreshValidation()
     std::string emptyTextureFaceExample;
     size_t missingTextureFaceCount = 0;
     std::string missingTextureFaceExample;
+    size_t invalidImportedSourceCount = 0;
+    std::string invalidImportedSourceExample;
+    size_t unresolvedImportedMaterialBindingCount = 0;
+    std::string unresolvedImportedMaterialBindingExample;
     size_t missingEntityEventCount = 0;
     std::string missingEntityEventExample;
     size_t missingFaceEventCount = 0;
@@ -3841,6 +4476,53 @@ void EditorSession::refreshValidation()
                         + " uses missing texture '" + face.textureName + "'.");
             }
         }
+
+        const std::optional<EditorBModelImportSource> importSource = m_document.outdoorBModelImportSource(bmodelIndex);
+
+        if (!importSource || trimCopy(importSource->sourcePath).empty())
+        {
+            continue;
+        }
+
+        ImportedModel importedModel = {};
+        std::string importErrorMessage;
+
+        if (!loadImportedModelFromFile(
+                std::filesystem::absolute(importSource->sourcePath),
+                importedModel,
+                importErrorMessage,
+                importSource->sourceMeshName,
+                importSource->mergeCoplanarFaces))
+        {
+            recordSummarizedIssue(
+                invalidImportedSourceCount,
+                invalidImportedSourceExample,
+                "BModel " + std::to_string(bmodelIndex) + " import source cannot be reloaded: "
+                    + importErrorMessage);
+            continue;
+        }
+
+        const std::vector<EditorImportedMaterialDiagnostic> diagnostics =
+            buildImportedMaterialDiagnostics(m_bitmapTextureNames, importedModel, *importSource);
+
+        for (const EditorImportedMaterialDiagnostic &diagnostic : diagnostics)
+        {
+            if (diagnostic.resolvesToKnownBitmap)
+            {
+                continue;
+            }
+
+            const std::string resolvedTextureName =
+                trimCopy(diagnostic.resolvedTextureName).empty()
+                ? "<empty>"
+                : diagnostic.resolvedTextureName;
+            recordSummarizedIssue(
+                unresolvedImportedMaterialBindingCount,
+                unresolvedImportedMaterialBindingExample,
+                "BModel " + std::to_string(bmodelIndex) + " imported material '"
+                    + diagnostic.sourceMaterialName + "' resolves to missing texture '"
+                    + resolvedTextureName + "'.");
+        }
     }
 
     for (size_t entityIndex = 0; entityIndex < sceneData.entities.size(); ++entityIndex)
@@ -3923,6 +4605,16 @@ void EditorSession::refreshValidation()
         missingTextureFaceCount,
         "faces use missing textures.",
         missingTextureFaceExample);
+    appendSummarizedIssue(
+        m_validationMessages,
+        invalidImportedSourceCount,
+        "source-backed bmodels cannot reload their imported source.",
+        invalidImportedSourceExample);
+    appendSummarizedIssue(
+        m_validationMessages,
+        unresolvedImportedMaterialBindingCount,
+        "imported material bindings resolve to missing textures.",
+        unresolvedImportedMaterialBindingExample);
     appendSummarizedIssue(
         m_validationMessages,
         missingEntityEventCount,

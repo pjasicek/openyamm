@@ -39,6 +39,7 @@ target_include_directories(openyamm-editor
     PRIVATE
         ${CMAKE_SOURCE_DIR}
         ${OPENYAMM_IMGUI_SOURCE_DIR}
+        ${OPENYAMM_BGFX_FETCH_SOURCE_DIR}/3rdparty
 )
 
 set_property(

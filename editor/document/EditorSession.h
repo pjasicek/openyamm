@@ -103,6 +103,15 @@ struct EditorIdLabelOption
     std::string label;
 };
 
+struct EditorImportedMaterialDiagnostic
+{
+    std::string sourceMaterialName;
+    std::string resolvedTextureName;
+    bool hasExplicitRemap = false;
+    bool resolvesToKnownBitmap = false;
+    bool usesDefaultFallback = false;
+};
+
 enum class EditorTerrainPaintMode
 {
     Brush,
@@ -173,17 +182,23 @@ public:
     bool createOutdoorObject(EditorSelectionKind kind, int x, int y, int z, std::string &errorMessage);
     bool duplicateSelectedObject(std::string &errorMessage);
     bool deleteSelectedObject(std::string &errorMessage);
-    bool replaceSelectedBModelFromObj(
+    bool replaceSelectedBModelFromModel(
         const std::string &sourcePath,
         float importScale,
         const std::string &defaultTextureName,
+        const std::string &sourceMeshName,
+        bool mergeCoplanarFaces,
         std::string &errorMessage);
-    bool importNewBModelFromObj(
+    bool importNewBModelFromModel(
         const std::string &sourcePath,
         float importScale,
         const std::string &defaultTextureName,
+        const std::string &sourceMeshName,
+        bool splitByMesh,
+        bool mergeCoplanarFaces,
         std::string &errorMessage);
     bool reimportSelectedBModel(std::string &errorMessage);
+    bool captureSelectedBModelMaterialRemaps(std::string &errorMessage);
 
     void select(EditorSelectionKind kind, size_t index = 0);
     void replaceInteractiveFaceSelection(size_t flatIndex);
@@ -229,6 +244,7 @@ public:
     uint16_t effectiveOutdoorFaceEventId(size_t bmodelIndex, size_t faceIndex) const;
     std::optional<uint16_t> derivedBModelDefaultEventId(size_t bmodelIndex) const;
     std::vector<EditorChestLink> findChestLinks(size_t chestIndex) const;
+    const std::vector<EditorImportedMaterialDiagnostic> &importedMaterialDiagnostics(size_t bmodelIndex) const;
     uint8_t terrainPaintTileId() const;
     void setTerrainPaintTileId(uint8_t tileId);
     EditorTerrainPaintMode terrainPaintMode() const;
@@ -305,6 +321,8 @@ private:
     mutable std::vector<std::vector<uint16_t>> m_cachedEffectiveFaceEvents;
     mutable std::vector<std::optional<uint16_t>> m_cachedDefaultBModelEvents;
     mutable std::vector<std::vector<EditorChestLink>> m_cachedChestLinks;
+    mutable std::vector<std::vector<EditorImportedMaterialDiagnostic>> m_cachedImportedMaterialDiagnostics;
+    mutable std::vector<bool> m_cachedImportedMaterialDiagnosticsValid;
     std::string m_savedSnapshot;
     bool m_frameMutationCaptured = false;
     uint8_t m_terrainPaintTileId = 0;

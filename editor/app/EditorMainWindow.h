@@ -8,10 +8,13 @@
 #include <limits>
 #include <optional>
 #include <string>
+#include <vector>
 #include <unordered_map>
 
 namespace OpenYAMM::Editor
 {
+struct ImportedModel;
+
 class EditorMainWindow
 {
 public:
@@ -27,6 +30,27 @@ public:
     uint16_t viewportWidth() const;
     uint16_t viewportHeight() const;
 
+    struct ModelImportInspectionState
+    {
+        struct Entry
+        {
+            std::string name;
+            size_t vertexCount = 0;
+            size_t faceCount = 0;
+            size_t materialCount = 0;
+            float minX = 0.0f;
+            float minY = 0.0f;
+            float minZ = 0.0f;
+            float maxX = 0.0f;
+            float maxY = 0.0f;
+            float maxZ = 0.0f;
+        };
+
+        std::string cachedPath;
+        std::vector<Entry> entries;
+        std::string errorMessage;
+    };
+
 private:
     enum class StatusMessageKind
     {
@@ -35,7 +59,7 @@ private:
         Error
     };
 
-    enum class ObjImportTarget
+    enum class ModelImportTarget
     {
         None,
         ReplaceSelectedBModel,
@@ -75,6 +99,7 @@ private:
         uint32_t frameNumber,
         float deltaSeconds,
         const std::string &rendererName);
+    void syncImportedModelPreview(EditorSession &session);
     void renderViewportPanel(EditorSession &session, float deltaSeconds);
     void renderCreateButtons(EditorSession &session);
     void renderPlacementButtons(EditorSession &session);
@@ -83,9 +108,29 @@ private:
     void renderTerrainToolbar(EditorSession &session);
     void renderViewToolbar();
     void renderToolbarStatus(const EditorSession &session);
+    const ModelImportInspectionState &ensureModelImportInspection(
+        const char *pPath,
+        ModelImportInspectionState &state) const;
+    bool renderImportedModelSelector(
+        const char *pId,
+        const ModelImportInspectionState &state,
+        std::string &selectedModelName) const;
+    void renderImportedModelInspectionTable(
+        const char *pId,
+        const ModelImportInspectionState &state,
+        std::string &selectedModelName,
+        float height) const;
+    void renderImportedModelInspectionSummary(
+        const ModelImportInspectionState &state,
+        const std::string &selectedModelName) const;
     bool renderBitmapTextureSelector(
         EditorSession &session,
         const char *pLabel,
+        std::string &value,
+        std::optional<size_t> bmodelIndex = std::nullopt) const;
+    bool renderInlineBitmapTextureSelector(
+        EditorSession &session,
+        const char *pId,
         std::string &value,
         std::optional<size_t> bmodelIndex = std::nullopt) const;
     std::optional<bgfx::TextureHandle> ensureBitmapPreviewTexture(
@@ -107,8 +152,8 @@ private:
     void renderSpriteObjectPlacementInspector(EditorSession &session) const;
     void renderSpriteObjectInspector(EditorSession &session, size_t spriteObjectIndex) const;
     void renderChestInspector(EditorSession &session, size_t chestIndex) const;
-    void renderObjImportModal(EditorSession &session);
-    void renderObjFileBrowserPopup(EditorSession &session);
+    void renderModelImportModal(EditorSession &session);
+    void renderModelFileBrowserPopup(EditorSession &session);
     void renderNewOutdoorMapModal(EditorSession &session);
     void renderOpenOutdoorMapModal(EditorSession &session);
     void renderMapPackageActionModal(EditorSession &session);
@@ -117,9 +162,9 @@ private:
     void persistEditorStateIfNeeded(const EditorSession &session);
     bool playtestCurrentMap(EditorSession &session, std::string &errorMessage) const;
     void setStatusMessage(StatusMessageKind kind, const std::string &message);
-    void openObjFileBrowser(ObjImportTarget target, const char *pCurrentPath) const;
-    void assignObjBrowserSelectionPath(const std::filesystem::path &path) const;
-    void rememberObjImportDirectory(const char *pPath) const;
+    void openModelFileBrowser(ModelImportTarget target, const char *pCurrentPath) const;
+    void assignModelBrowserSelectionPath(const std::filesystem::path &path) const;
+    void rememberModelImportDirectory(const char *pPath) const;
     void openNewOutdoorMapModal(EditorSession &session);
     void openOpenOutdoorMapModal() const;
     void openMapPackageActionModal(EditorSession &session, MapPackageAction action) const;
@@ -142,10 +187,17 @@ private:
     mutable size_t m_bmodelImportEditorIndex = std::numeric_limits<size_t>::max();
     mutable char m_bmodelImportPath[512] = {};
     mutable float m_bmodelImportScale = 1.0f;
-    mutable char m_bmodelImportDefaultTexture[64] = "grastyl";
+    mutable char m_bmodelImportDefaultTexture[64] = {};
+    mutable bool m_bmodelImportMergeCoplanarFaces = false;
+    mutable std::string m_bmodelImportSelectedMeshName;
+    mutable ModelImportInspectionState m_bmodelImportInspection;
     mutable char m_globalBModelImportPath[512] = {};
     mutable float m_globalBModelImportScale = 1.0f;
-    mutable char m_globalBModelImportDefaultTexture[64] = "grastyl";
+    mutable char m_globalBModelImportDefaultTexture[64] = {};
+    mutable bool m_globalBModelImportMergeCoplanarFaces = false;
+    mutable std::string m_globalBModelImportSelectedMeshName;
+    mutable ModelImportInspectionState m_globalBModelImportInspection;
+    mutable bool m_globalBModelImportSplitByMesh = false;
     mutable bool m_openNewOutdoorMapModal = false;
     mutable bool m_closeNewOutdoorMapModal = false;
     mutable char m_newOutdoorMapId[64] = {};
@@ -162,10 +214,12 @@ private:
     mutable bool m_openDeleteCurrentMapModal = false;
     mutable bool m_openImportNewBModelModal = false;
     mutable bool m_closeImportNewBModelModal = false;
-    mutable bool m_openObjBrowserPopup = false;
-    mutable ObjImportTarget m_objBrowserTarget = ObjImportTarget::None;
-    mutable std::filesystem::path m_objBrowserDirectory;
-    mutable char m_objBrowserFilter[128] = {};
+    mutable bool m_showImportNewBModelWindow = false;
+    mutable bool m_openModelBrowserPopup = false;
+    mutable bool m_showModelBrowserWindow = false;
+    mutable ModelImportTarget m_modelBrowserTarget = ModelImportTarget::None;
+    mutable std::filesystem::path m_modelBrowserDirectory;
+    mutable char m_modelBrowserFilter[128] = {};
     mutable std::unordered_map<std::string, bgfx::TextureHandle> m_bitmapPreviewTextures;
     mutable std::unordered_map<std::string, std::pair<int, int>> m_bitmapPreviewTextureSizes;
     mutable FaceClipboard m_faceClipboard;

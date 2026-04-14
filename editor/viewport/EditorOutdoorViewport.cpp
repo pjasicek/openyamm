@@ -973,6 +973,271 @@ bool applyBModelYawRotation(
     return changed;
 }
 
+Game::OutdoorBModelVertex transformImportedPreviewVertex(
+    const EditorBModelSourceTransform &transform,
+    float localX,
+    float localY,
+    float localZ)
+{
+    Game::OutdoorBModelVertex vertex = {};
+    const float worldX =
+        transform.originX
+        + localX * transform.basisX[0]
+        + localY * transform.basisY[0]
+        + localZ * transform.basisZ[0];
+    const float worldY =
+        transform.originY
+        + localX * transform.basisX[1]
+        + localY * transform.basisY[1]
+        + localZ * transform.basisZ[1];
+    const float worldZ =
+        transform.originZ
+        + localX * transform.basisX[2]
+        + localY * transform.basisY[2]
+        + localZ * transform.basisZ[2];
+    vertex.x = static_cast<int>(std::lround(worldX));
+    vertex.y = static_cast<int>(std::lround(worldY));
+    vertex.z = static_cast<int>(std::lround(worldZ));
+    return vertex;
+}
+
+uint8_t classifyImportedPreviewPolygonType(const ImportedModel &importedModel, const ImportedModelFace &face)
+{
+    if (face.vertices.size() < 3)
+    {
+        return 0;
+    }
+
+    const ImportedModelPosition &a = importedModel.positions[face.vertices[0].positionIndex];
+    const ImportedModelPosition &b = importedModel.positions[face.vertices[1].positionIndex];
+    const ImportedModelPosition &c = importedModel.positions[face.vertices[2].positionIndex];
+    const float abX = b.x - a.x;
+    const float abY = b.y - a.y;
+    const float abZ = b.z - a.z;
+    const float acX = c.x - a.x;
+    const float acY = c.y - a.y;
+    const float acZ = c.z - a.z;
+    const float normalX = abY * acZ - abZ * acY;
+    const float normalY = abZ * acX - abX * acZ;
+    const float normalZ = abX * acY - abY * acX;
+    const float normalLength = std::sqrt(normalX * normalX + normalY * normalY + normalZ * normalZ);
+
+    if (normalLength <= 0.0001f)
+    {
+        return 0;
+    }
+
+    const float normalZNormalized = std::fabs(normalZ / normalLength);
+
+    if (normalZNormalized >= 0.85f)
+    {
+        return 0x3;
+    }
+
+    if (normalZNormalized >= 0.45f)
+    {
+        return 0x4;
+    }
+
+    return 0;
+}
+
+float previewFaceNormalZ(
+    const std::vector<Game::OutdoorBModelVertex> &vertices,
+    const Game::OutdoorBModelFace &face)
+{
+    if (face.vertexIndices.size() < 3)
+    {
+        return 0.0f;
+    }
+
+    const Game::OutdoorBModelVertex &a = vertices[face.vertexIndices[0]];
+    const Game::OutdoorBModelVertex &b = vertices[face.vertexIndices[1]];
+    const Game::OutdoorBModelVertex &c = vertices[face.vertexIndices[2]];
+    const float abX = static_cast<float>(b.x - a.x);
+    const float abY = static_cast<float>(b.y - a.y);
+    const float acX = static_cast<float>(c.x - a.x);
+    const float acY = static_cast<float>(c.y - a.y);
+    return abX * acY - abY * acX;
+}
+
+float previewFaceOutwardDot(
+    const std::vector<Game::OutdoorBModelVertex> &vertices,
+    const Game::OutdoorBModelFace &face,
+    float modelCenterX,
+    float modelCenterY,
+    float modelCenterZ)
+{
+    if (face.vertexIndices.size() < 3)
+    {
+        return 0.0f;
+    }
+
+    const Game::OutdoorBModelVertex &a = vertices[face.vertexIndices[0]];
+    const Game::OutdoorBModelVertex &b = vertices[face.vertexIndices[1]];
+    const Game::OutdoorBModelVertex &c = vertices[face.vertexIndices[2]];
+    const float abX = static_cast<float>(b.x - a.x);
+    const float abY = static_cast<float>(b.y - a.y);
+    const float abZ = static_cast<float>(b.z - a.z);
+    const float acX = static_cast<float>(c.x - a.x);
+    const float acY = static_cast<float>(c.y - a.y);
+    const float acZ = static_cast<float>(c.z - a.z);
+    const float normalX = abY * acZ - abZ * acY;
+    const float normalY = abZ * acX - abX * acZ;
+    const float normalZ = abX * acY - abY * acX;
+    float faceCenterX = 0.0f;
+    float faceCenterY = 0.0f;
+    float faceCenterZ = 0.0f;
+
+    for (uint16_t vertexIndex : face.vertexIndices)
+    {
+        faceCenterX += static_cast<float>(vertices[vertexIndex].x);
+        faceCenterY += static_cast<float>(vertices[vertexIndex].y);
+        faceCenterZ += static_cast<float>(vertices[vertexIndex].z);
+    }
+
+    const float invVertexCount = 1.0f / static_cast<float>(face.vertexIndices.size());
+    faceCenterX *= invVertexCount;
+    faceCenterY *= invVertexCount;
+    faceCenterZ *= invVertexCount;
+    return normalX * (faceCenterX - modelCenterX)
+        + normalY * (faceCenterY - modelCenterY)
+        + normalZ * (faceCenterZ - modelCenterZ);
+}
+
+void reversePreviewFaceWinding(Game::OutdoorBModelFace &face)
+{
+    std::reverse(face.vertexIndices.begin(), face.vertexIndices.end());
+}
+
+void orientImportedPreviewFaceWinding(
+    const std::vector<Game::OutdoorBModelVertex> &vertices,
+    Game::OutdoorBModelFace &face,
+    float modelCenterX,
+    float modelCenterY,
+    float modelCenterZ)
+{
+    if (face.vertexIndices.size() < 3)
+    {
+        return;
+    }
+
+    const bool shouldReverse =
+        (face.polygonType == 0x3 || face.polygonType == 0x4)
+        ? (previewFaceNormalZ(vertices, face) < 0.0f)
+        : (previewFaceOutwardDot(vertices, face, modelCenterX, modelCenterY, modelCenterZ) < 0.0f);
+
+    if (shouldReverse)
+    {
+        reversePreviewFaceWinding(face);
+    }
+}
+
+std::optional<Game::OutdoorBModel> buildImportedPreviewBModel(
+    const ImportedModel &importedModel,
+    float importScale,
+    const Game::OutdoorBModel *pPlacementTemplate,
+    const EditorBModelSourceTransform *pSourceTransform,
+    const bx::Vec3 *pFloorPoint)
+{
+    if (importScale <= 0.0f || importedModel.positions.empty() || importedModel.faces.empty())
+    {
+        return std::nullopt;
+    }
+
+    Game::OutdoorBModel bmodel = {};
+    std::vector<Game::OutdoorBModelVertex> importedVertices;
+    importedVertices.reserve(importedModel.positions.size());
+    float importedMinX = std::numeric_limits<float>::max();
+    float importedMinY = std::numeric_limits<float>::max();
+    float importedMinZ = std::numeric_limits<float>::max();
+    float importedMaxX = std::numeric_limits<float>::lowest();
+    float importedMaxY = std::numeric_limits<float>::lowest();
+    float importedMaxZ = std::numeric_limits<float>::lowest();
+
+    for (const ImportedModelPosition &position : importedModel.positions)
+    {
+        Game::OutdoorBModelVertex vertex = {};
+        vertex.x = static_cast<int>(std::lround(position.x * importScale));
+        vertex.y = static_cast<int>(std::lround(position.y * importScale));
+        vertex.z = static_cast<int>(std::lround(position.z * importScale));
+        importedVertices.push_back(vertex);
+        importedMinX = std::min(importedMinX, static_cast<float>(vertex.x));
+        importedMinY = std::min(importedMinY, static_cast<float>(vertex.y));
+        importedMinZ = std::min(importedMinZ, static_cast<float>(vertex.z));
+        importedMaxX = std::max(importedMaxX, static_cast<float>(vertex.x));
+        importedMaxY = std::max(importedMaxY, static_cast<float>(vertex.y));
+        importedMaxZ = std::max(importedMaxZ, static_cast<float>(vertex.z));
+    }
+
+    const float importedCenterX = (importedMinX + importedMaxX) * 0.5f;
+    const float importedCenterY = (importedMinY + importedMaxY) * 0.5f;
+    const float importedCenterZ = (importedMinZ + importedMaxZ) * 0.5f;
+    EditorBModelSourceTransform sourceTransform = {};
+    sourceTransform.originX = importedCenterX;
+    sourceTransform.originY = importedCenterY;
+    sourceTransform.originZ = importedCenterZ;
+
+    if (pSourceTransform != nullptr)
+    {
+        sourceTransform = *pSourceTransform;
+    }
+    else if (pPlacementTemplate != nullptr)
+    {
+        sourceTransform = sourceTransformFromBModel(*pPlacementTemplate);
+
+        if (!pPlacementTemplate->vertices.empty())
+        {
+            float templateMinZ = std::numeric_limits<float>::max();
+
+            for (const Game::OutdoorBModelVertex &vertex : pPlacementTemplate->vertices)
+            {
+                templateMinZ = std::min(templateMinZ, static_cast<float>(vertex.z));
+            }
+
+            sourceTransform.originZ = templateMinZ + (importedCenterZ - importedMinZ);
+        }
+    }
+    else if (pFloorPoint != nullptr)
+    {
+        sourceTransform.originX = pFloorPoint->x;
+        sourceTransform.originY = pFloorPoint->y;
+        sourceTransform.originZ = pFloorPoint->z + (importedCenterZ - importedMinZ);
+    }
+
+    for (Game::OutdoorBModelVertex &vertex : importedVertices)
+    {
+        const float localX = static_cast<float>(vertex.x) - importedCenterX;
+        const float localY = static_cast<float>(vertex.y) - importedCenterY;
+        const float localZ = static_cast<float>(vertex.z) - importedCenterZ;
+        vertex = transformImportedPreviewVertex(sourceTransform, localX, localY, localZ);
+    }
+
+    bmodel.vertices = std::move(importedVertices);
+
+    for (const ImportedModelFace &importedFace : importedModel.faces)
+    {
+        Game::OutdoorBModelFace face = {};
+        face.polygonType = classifyImportedPreviewPolygonType(importedModel, importedFace);
+
+        for (const ImportedModelFaceVertex &importedVertex : importedFace.vertices)
+        {
+            face.vertexIndices.push_back(static_cast<uint16_t>(importedVertex.positionIndex));
+        }
+
+        orientImportedPreviewFaceWinding(
+            bmodel.vertices,
+            face,
+            sourceTransform.originX,
+            sourceTransform.originY,
+            sourceTransform.originZ);
+        bmodel.faces.push_back(std::move(face));
+    }
+
+    recomputeBModelBounds(bmodel);
+    return bmodel;
+}
+
 bool applyBModelAxisRotation(
     Game::OutdoorBModel &bmodel,
     const std::vector<Game::OutdoorBModelVertex> &sourceVertices,
@@ -2360,19 +2625,17 @@ std::vector<EditorOutdoorViewport::TexturedPreviewVertex> buildTexturedBModelFac
 }
 
 std::vector<EditorOutdoorViewport::ProceduralPreviewVertex> buildProceduralBModelFaceVertices(
-    const Game::OutdoorMapData &outdoorMapData,
-    size_t bmodelIndex,
+    const Game::OutdoorBModel &bmodel,
     size_t faceIndex,
     const bx::Vec3 &origin)
 {
     std::vector<EditorOutdoorViewport::ProceduralPreviewVertex> vertices;
 
-    if (bmodelIndex >= outdoorMapData.bmodels.size() || faceIndex >= outdoorMapData.bmodels[bmodelIndex].faces.size())
+    if (faceIndex >= bmodel.faces.size())
     {
         return vertices;
     }
 
-    const Game::OutdoorBModel &bmodel = outdoorMapData.bmodels[bmodelIndex];
     const Game::OutdoorBModelFace &face = bmodel.faces[faceIndex];
 
     if (face.vertexIndices.size() < 3)
@@ -2420,6 +2683,22 @@ std::vector<EditorOutdoorViewport::ProceduralPreviewVertex> buildProceduralBMode
     }
 
     return vertices;
+}
+
+std::vector<EditorOutdoorViewport::ProceduralPreviewVertex> buildProceduralBModelFaceVertices(
+    const Game::OutdoorMapData &outdoorMapData,
+    size_t bmodelIndex,
+    size_t faceIndex,
+    const bx::Vec3 &origin)
+{
+    std::vector<EditorOutdoorViewport::ProceduralPreviewVertex> vertices;
+
+    if (bmodelIndex >= outdoorMapData.bmodels.size() || faceIndex >= outdoorMapData.bmodels[bmodelIndex].faces.size())
+    {
+        return vertices;
+    }
+
+    return buildProceduralBModelFaceVertices(outdoorMapData.bmodels[bmodelIndex], faceIndex, origin);
 }
 
 void appendCrossMarker(
@@ -2484,6 +2763,7 @@ void EditorOutdoorViewport::shutdown()
     }
 
     m_shutdownComplete = true;
+    destroyImportedModelPreview();
     destroyGeometryBuffers();
     destroyRenderTarget();
 
@@ -2569,6 +2849,20 @@ void EditorOutdoorViewport::shutdown()
     m_cameraInitializedForDocument = false;
 }
 
+void EditorOutdoorViewport::destroyImportedModelPreview()
+{
+    if (bgfx::isValid(m_importedModelPreviewBatch.vertexBufferHandle))
+    {
+        bgfx::destroy(m_importedModelPreviewBatch.vertexBufferHandle);
+        m_importedModelPreviewBatch.vertexBufferHandle = BGFX_INVALID_HANDLE;
+    }
+
+    m_importedModelPreviewBatch.vertexCount = 0;
+    m_importedModelPreviewBatch.bmodelIndex = std::numeric_limits<size_t>::max();
+    m_importedModelPreviewBatch.objectOrigin = {0.0f, 0.0f, 0.0f};
+    m_importedModelPreviewKey.clear();
+}
+
 void EditorOutdoorViewport::updateAndRender(
     EditorSession &session,
     int viewportX,
@@ -2641,6 +2935,7 @@ void EditorOutdoorViewport::updateAndRender(
         bx::Handedness::Right);
     bx::mtxMul(m_viewProjectionMatrix, m_viewMatrix, m_projectionMatrix);
     bgfx::setViewTransform(EditorSceneViewId, m_viewMatrix, m_projectionMatrix);
+    ensureImportedModelPreview(session);
 
     if (ImGui::IsKeyPressed(ImGuiKey_Escape))
     {
@@ -2716,37 +3011,28 @@ void EditorOutdoorViewport::renderOverlayUi(const EditorSession &session)
     }
 
     ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.95f, 0.87f, 0.76f, 1.0f));
-    ImGui::TextUnformatted(modeLabel.c_str());
-    ImGui::PopStyleColor();
-    ImGui::SameLine();
-    ImGui::TextDisabled(
-        "%s  ·  %s",
+    ImGui::Text(
+        "%s  ·  %s  ·  %s",
+        modeLabel.c_str(),
         m_transformGizmoMode == TransformGizmoMode::Rotate ? "Rotate" : "Move",
         m_transformSpaceMode == TransformSpaceMode::Local ? "Local" : "World");
-
-    ImGui::TextDisabled(
-        "Preview %s%s",
-        m_previewMaterialMode == PreviewMaterialMode::Clay
-            ? "Clay"
-            : m_previewMaterialMode == PreviewMaterialMode::Grid ? "Grid" : "Textured",
-        m_forcePreviewOnSelectedOnly ? "  ·  Selected" : "");
+    ImGui::PopStyleColor();
 
     if (m_placementKind == EditorSelectionKind::Terrain)
     {
-        ImGui::TextUnformatted(session.terrainSculptEnabled()
+        ImGui::TextDisabled(
+            "%s",
+            session.terrainSculptEnabled()
                 ? "LMB sculpt  ·  drag  ·  Alt+LMB sample"
                 : (session.terrainPaintEnabled() ? "LMB paint  ·  drag" : "LMB select cell  ·  Esc select"));
     }
     else
     {
-        if (m_placementKind == EditorSelectionKind::BModel)
-        {
-            ImGui::TextUnformatted("Move cursor  ·  LMB place  ·  Esc cancel");
-        }
-        else
-        {
-            ImGui::TextUnformatted("RMB look  ·  WASD move  ·  F frame");
-        }
+        ImGui::TextDisabled(
+            "%s",
+            m_placementKind == EditorSelectionKind::BModel
+                ? "Move cursor  ·  LMB place  ·  Esc cancel"
+                : "RMB look  ·  WASD move  ·  F frame");
     }
 
     if (m_placementKind == EditorSelectionKind::Terrain)
@@ -2771,7 +3057,7 @@ void EditorOutdoorViewport::renderOverlayUi(const EditorSession &session)
             }
 
             ImGui::Text(
-                "Sculpt · %s  ·  Radius %d  ·  Strength %d  ·  Falloff %s",
+                "%s  ·  R %d  ·  S %d  ·  %s",
                 session.terrainSculptMode() == EditorTerrainSculptMode::Lower
                     ? "lower"
                     : session.terrainSculptMode() == EditorTerrainSculptMode::Flatten
@@ -2807,7 +3093,7 @@ void EditorOutdoorViewport::renderOverlayUi(const EditorSession &session)
             if (session.terrainPaintMode() == EditorTerrainPaintMode::Brush)
             {
                 ImGui::Text(
-                    "Paint · %s  ·  Tile %u  ·  Radius %d  ·  Edge %d",
+                    "%s  ·  Tile %u  ·  R %d  ·  Edge %d",
                     pPaintModeLabel,
                     static_cast<unsigned>(session.terrainPaintTileId()),
                     session.terrainPaintRadius(),
@@ -2816,30 +3102,32 @@ void EditorOutdoorViewport::renderOverlayUi(const EditorSession &session)
             else
             {
                 ImGui::Text(
-                    "Paint · %s  ·  Tile %u  ·  Radius %d",
+                    "%s  ·  Tile %u  ·  R %d",
                     pPaintModeLabel,
                     static_cast<unsigned>(session.terrainPaintTileId()),
                     session.terrainPaintRadius());
             }
         }
     }
-
-    if (session.selection().kind == EditorSelectionKind::InteractiveFace)
+    else if (session.selection().kind == EditorSelectionKind::InteractiveFace)
     {
         const size_t selectedFaceCount =
             session.selectedInteractiveFaceIndices().empty() ? 1 : session.selectedInteractiveFaceIndices().size();
-        ImGui::TextDisabled(
-            "Selected %zu faces",
-            selectedFaceCount);
+        ImGui::Text("Face selection  ·  %zu selected", selectedFaceCount);
     }
     else if (session.selection().kind == EditorSelectionKind::BModel)
     {
         ImGui::TextDisabled("Selected BModel %zu", session.selection().index);
     }
-
-    ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.55f, 0.59f, 0.64f, 1.0f));
-    ImGui::Text("Cam %.0f %.0f %.0f", m_cameraPosition.x, m_cameraPosition.y, m_cameraPosition.z);
-    ImGui::PopStyleColor();
+    else
+    {
+        ImGui::TextDisabled(
+            "Preview %s%s",
+            m_previewMaterialMode == PreviewMaterialMode::Clay
+                ? "Clay"
+                : m_previewMaterialMode == PreviewMaterialMode::Grid ? "Grid" : "Textured",
+            m_forcePreviewOnSelectedOnly ? "  ·  Selected" : "");
+    }
 }
 
 void EditorOutdoorViewport::setPlacementKind(EditorSelectionKind kind)
@@ -3030,6 +3318,17 @@ bool EditorOutdoorViewport::showChestLinks() const
 void EditorOutdoorViewport::setShowChestLinks(bool enabled)
 {
     m_showChestLinks = enabled;
+}
+
+void EditorOutdoorViewport::setImportedModelPreviewRequest(
+    const std::optional<ImportedModelPreviewRequest> &request)
+{
+    m_importedModelPreviewRequest = request;
+
+    if (!m_importedModelPreviewRequest)
+    {
+        destroyImportedModelPreview();
+    }
 }
 
 EditorOutdoorViewport::TransformGizmoMode EditorOutdoorViewport::transformGizmoMode() const
@@ -3828,6 +4127,157 @@ void EditorOutdoorViewport::updateCamera(
         m_activeCameraFocus.active = false;
         m_cameraPosition.z += moveSpeed;
     }
+}
+
+void EditorOutdoorViewport::ensureImportedModelPreview(const EditorSession &session)
+{
+    if (!m_importedModelPreviewRequest || !session.hasDocument() || session.document().kind() != EditorDocument::Kind::Outdoor)
+    {
+        destroyImportedModelPreview();
+        return;
+    }
+
+    const ImportedModelPreviewRequest &request = *m_importedModelPreviewRequest;
+    const EditorDocument &document = session.document();
+    const std::string trimmedPath = request.sourcePath;
+
+    if (trimmedPath.empty() || request.importScale <= 0.0f)
+    {
+        destroyImportedModelPreview();
+        return;
+    }
+
+    std::string placementKey = request.sourcePath
+        + "|mesh=" + request.sourceMeshName
+        + "|scale=" + std::to_string(request.importScale)
+        + "|merge=" + std::to_string(request.mergeCoplanarFaces ? 1 : 0)
+        + "|target=" + std::to_string(static_cast<int>(request.targetMode))
+        + "|doc=" + documentGeometryKey(document);
+    std::optional<Game::OutdoorBModel> previewBModel;
+
+    if (request.targetMode == ImportedModelPreviewRequest::TargetMode::ReplaceSelectedBModel)
+    {
+        const Game::OutdoorMapData &outdoorGeometry = document.outdoorGeometry();
+
+        if (request.bmodelIndex >= outdoorGeometry.bmodels.size())
+        {
+            destroyImportedModelPreview();
+            return;
+        }
+
+        ImportedModel importedModel = {};
+        std::string errorMessage;
+
+        if (!loadImportedModelFromFile(
+                std::filesystem::absolute(trimmedPath),
+                importedModel,
+                errorMessage,
+                request.sourceMeshName,
+                request.mergeCoplanarFaces))
+        {
+            destroyImportedModelPreview();
+            return;
+        }
+
+        const Game::OutdoorBModel &placementTemplate = outdoorGeometry.bmodels[request.bmodelIndex];
+        const std::optional<EditorBModelSourceTransform> sourceTransform =
+            document.outdoorBModelSourceTransform(request.bmodelIndex);
+        previewBModel = buildImportedPreviewBModel(
+            importedModel,
+            request.importScale,
+            &placementTemplate,
+            sourceTransform ? &*sourceTransform : nullptr,
+            nullptr);
+        placementKey += "|bmodel=" + std::to_string(request.bmodelIndex);
+    }
+    else
+    {
+        ImportedModel importedModel = {};
+        std::string errorMessage;
+
+        if (!loadImportedModelFromFile(
+                std::filesystem::absolute(trimmedPath),
+                importedModel,
+                errorMessage,
+                request.sourceMeshName,
+                request.mergeCoplanarFaces))
+        {
+            destroyImportedModelPreview();
+            return;
+        }
+
+        bx::Vec3 floorPoint = {0.0f, 0.0f, 0.0f};
+        const float sampleMouseX =
+            m_isHovered
+            ? m_lastMouseX
+            : static_cast<float>(m_viewportX) + static_cast<float>(m_viewportWidth) * 0.5f;
+        const float sampleMouseY =
+            m_isHovered
+            ? m_lastMouseY
+            : static_cast<float>(m_viewportY) + static_cast<float>(m_viewportHeight) * 0.5f;
+
+        if (!sampleTerrainWorldPosition(document, sampleMouseX, sampleMouseY, floorPoint))
+        {
+            destroyImportedModelPreview();
+            return;
+        }
+
+        if (m_snapEnabled)
+        {
+            const int snapStep = std::max(m_snapStep, 1);
+            floorPoint.x =
+                static_cast<float>(static_cast<int>(std::lround(floorPoint.x / static_cast<float>(snapStep))) * snapStep);
+            floorPoint.y =
+                static_cast<float>(static_cast<int>(std::lround(floorPoint.y / static_cast<float>(snapStep))) * snapStep);
+            floorPoint.z =
+                static_cast<float>(static_cast<int>(std::lround(floorPoint.z / static_cast<float>(snapStep))) * snapStep);
+        }
+
+        previewBModel = buildImportedPreviewBModel(importedModel, request.importScale, nullptr, nullptr, &floorPoint);
+        placementKey += "|floor=" + std::to_string(static_cast<int>(std::lround(floorPoint.x)))
+            + "," + std::to_string(static_cast<int>(std::lround(floorPoint.y)))
+            + "," + std::to_string(static_cast<int>(std::lround(floorPoint.z)));
+    }
+
+    if (!previewBModel)
+    {
+        destroyImportedModelPreview();
+        return;
+    }
+
+    if (placementKey == m_importedModelPreviewKey && bgfx::isValid(m_importedModelPreviewBatch.vertexBufferHandle))
+    {
+        return;
+    }
+
+    destroyImportedModelPreview();
+    const bx::Vec3 previewOrigin = {
+        static_cast<float>(previewBModel->boundingCenterX),
+        static_cast<float>(previewBModel->boundingCenterY),
+        static_cast<float>(previewBModel->boundingCenterZ)
+    };
+    std::vector<ProceduralPreviewVertex> previewVertices;
+
+    for (size_t faceIndex = 0; faceIndex < previewBModel->faces.size(); ++faceIndex)
+    {
+        std::vector<ProceduralPreviewVertex> faceVertices =
+            buildProceduralBModelFaceVertices(*previewBModel, faceIndex, previewOrigin);
+        previewVertices.insert(previewVertices.end(), faceVertices.begin(), faceVertices.end());
+    }
+
+    if (previewVertices.empty())
+    {
+        return;
+    }
+
+    m_importedModelPreviewBatch.vertexBufferHandle = bgfx::createVertexBuffer(
+        bgfx::copy(
+            previewVertices.data(),
+            static_cast<uint32_t>(previewVertices.size() * sizeof(ProceduralPreviewVertex))),
+        ProceduralPreviewVertex::ms_layout);
+    m_importedModelPreviewBatch.vertexCount = static_cast<uint32_t>(previewVertices.size());
+    m_importedModelPreviewBatch.objectOrigin = previewOrigin;
+    m_importedModelPreviewKey = placementKey;
 }
 
 void EditorOutdoorViewport::resetCameraToDocument(const EditorDocument &document)
@@ -6118,6 +6568,29 @@ void EditorOutdoorViewport::submitStaticGeometry(const EditorSession &session) c
                     | BGFX_STATE_DEPTH_TEST_LESS
                     | BGFX_STATE_MSAA);
             bgfx::submit(EditorSceneViewId, m_texturedProgramHandle);
+        }
+    }
+
+    if (bgfx::isValid(m_importedModelPreviewBatch.vertexBufferHandle) && m_importedModelPreviewBatch.vertexCount > 0)
+    {
+        if (m_previewMaterialMode == PreviewMaterialMode::Grid)
+        {
+            submitGridBatch(
+                m_importedModelPreviewBatch.vertexBufferHandle,
+                m_importedModelPreviewBatch.vertexCount,
+                m_importedModelPreviewBatch.objectOrigin,
+                m_gridPreviewSettings,
+                1.0f,
+                false);
+        }
+        else
+        {
+            submitProceduralBatch(
+                m_importedModelPreviewBatch.vertexBufferHandle,
+                m_importedModelPreviewBatch.vertexCount,
+                m_importedModelPreviewBatch.objectOrigin,
+                m_clayPreviewSettings,
+                false);
         }
     }
 

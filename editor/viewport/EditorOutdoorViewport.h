@@ -1,6 +1,7 @@
 #pragma once
 
 #include "editor/document/EditorSession.h"
+#include "editor/import/ObjModelImport.h"
 #include <bgfx/bgfx.h>
 #include <bx/math.h>
 
@@ -101,6 +102,21 @@ public:
     void renderOverlayUi(const EditorSession &session);
     void setPlacementKind(EditorSelectionKind kind);
     EditorSelectionKind placementKind() const;
+    struct ImportedModelPreviewRequest
+    {
+        enum class TargetMode
+        {
+            ReplaceSelectedBModel,
+            NewImportPlacement
+        };
+
+        std::string sourcePath;
+        std::string sourceMeshName;
+        float importScale = 1.0f;
+        bool mergeCoplanarFaces = false;
+        TargetMode targetMode = TargetMode::NewImportPlacement;
+        size_t bmodelIndex = std::numeric_limits<size_t>::max();
+    };
     bool snapEnabled() const;
     void setSnapEnabled(bool enabled);
     int snapStep() const;
@@ -135,6 +151,7 @@ public:
     void setShowEventMarkers(bool enabled);
     bool showChestLinks() const;
     void setShowChestLinks(bool enabled);
+    void setImportedModelPreviewRequest(const std::optional<ImportedModelPreviewRequest> &request);
     TransformGizmoMode transformGizmoMode() const;
     void setTransformGizmoMode(TransformGizmoMode mode);
     TransformSpaceMode transformSpaceMode() const;
@@ -253,10 +270,12 @@ private:
     };
 
     bool ensureRenderResources();
+    void destroyImportedModelPreview();
     void destroyGeometryBuffers();
     void ensureRenderTarget(uint16_t viewportWidth, uint16_t viewportHeight);
     void destroyRenderTarget();
     void ensureGeometryBuffers(const EditorSession &session);
+    void ensureImportedModelPreview(const EditorSession &session);
     void updateCamera(
         const EditorDocument &document,
         bool isHovered,
@@ -400,6 +419,9 @@ private:
     std::vector<ProceduralBatch> m_bmodelAllFaceBatches;
     std::vector<ProceduralBatch> m_bmodelUnassignedBatches;
     std::vector<ProceduralBatch> m_bmodelMissingAssetBatches;
+    std::optional<ImportedModelPreviewRequest> m_importedModelPreviewRequest;
+    std::string m_importedModelPreviewKey;
+    ProceduralBatch m_importedModelPreviewBatch = {};
     mutable std::unordered_map<std::string, SpriteBillboardTexture> m_entityBillboardTextures;
     bx::Vec3 m_cameraPosition = {0.0f, -24000.0f, 9000.0f};
     float m_cameraYawRadians = 0.0f;

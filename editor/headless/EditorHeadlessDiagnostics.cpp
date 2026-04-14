@@ -7,6 +7,8 @@
 #include "game/outdoor/OutdoorGeometryUtils.h"
 #include "game/outdoor/OutdoorMapData.h"
 
+#include <SDL3/SDL.h>
+
 #include <algorithm>
 #include <cmath>
 #include <cstring>
@@ -45,6 +47,88 @@ std::string bytesToUpperHex(const std::vector<uint8_t> &bytes)
     }
 
     return text;
+}
+
+void appendBytes(std::vector<uint8_t> &bytes, const void *pData, size_t size)
+{
+    const uint8_t *pByteData = static_cast<const uint8_t *>(pData);
+    bytes.insert(bytes.end(), pByteData, pByteData + size);
+}
+
+void appendPaddingBytes(std::vector<uint8_t> &bytes, size_t alignment, uint8_t value)
+{
+    const size_t remainder = bytes.size() % alignment;
+
+    if (remainder == 0)
+    {
+        return;
+    }
+
+    bytes.insert(bytes.end(), alignment - remainder, value);
+}
+
+bool readBinaryFileBytes(const std::filesystem::path &path, std::vector<uint8_t> &bytes)
+{
+    bytes.clear();
+    std::ifstream input(path, std::ios::binary);
+
+    if (!input)
+    {
+        return false;
+    }
+
+    input.seekg(0, std::ios::end);
+    const std::streamsize size = input.tellg();
+
+    if (size < 0)
+    {
+        return false;
+    }
+
+    input.seekg(0, std::ios::beg);
+    bytes.resize(static_cast<size_t>(size));
+    return input.read(reinterpret_cast<char *>(bytes.data()), size).good();
+}
+
+bool writeGlbFile(
+    const std::filesystem::path &path,
+    const std::string &json,
+    const std::vector<uint8_t> &binaryChunk)
+{
+    std::vector<uint8_t> jsonBytes(json.begin(), json.end());
+    appendPaddingBytes(jsonBytes, 4, ' ');
+
+    std::vector<uint8_t> binBytes = binaryChunk;
+    appendPaddingBytes(binBytes, 4, 0);
+
+    const uint32_t magic = 0x46546c67;
+    const uint32_t version = 2;
+    const uint32_t jsonChunkType = 0x4e4f534a;
+    const uint32_t binChunkType = 0x004e4942;
+    const uint32_t totalLength =
+        12u
+        + 8u + static_cast<uint32_t>(jsonBytes.size())
+        + 8u + static_cast<uint32_t>(binBytes.size());
+    const uint32_t jsonLength = static_cast<uint32_t>(jsonBytes.size());
+    const uint32_t binLength = static_cast<uint32_t>(binBytes.size());
+
+    std::ofstream output(path, std::ios::binary | std::ios::trunc);
+
+    if (!output)
+    {
+        return false;
+    }
+
+    output.write(reinterpret_cast<const char *>(&magic), sizeof(magic));
+    output.write(reinterpret_cast<const char *>(&version), sizeof(version));
+    output.write(reinterpret_cast<const char *>(&totalLength), sizeof(totalLength));
+    output.write(reinterpret_cast<const char *>(&jsonLength), sizeof(jsonLength));
+    output.write(reinterpret_cast<const char *>(&jsonChunkType), sizeof(jsonChunkType));
+    output.write(reinterpret_cast<const char *>(jsonBytes.data()), static_cast<std::streamsize>(jsonBytes.size()));
+    output.write(reinterpret_cast<const char *>(&binLength), sizeof(binLength));
+    output.write(reinterpret_cast<const char *>(&binChunkType), sizeof(binChunkType));
+    output.write(reinterpret_cast<const char *>(binBytes.data()), static_cast<std::streamsize>(binBytes.size()));
+    return output.good();
 }
 
 void appendNormalizedPosition(std::ostringstream &stream, int x, int y, int z)
@@ -646,6 +730,13 @@ bool verifyOutdoorSceneRoundTrip(
     const std::filesystem::path tempDirectory =
         assetFileSystem.getDevelopmentRoot() / "Data" / "games";
     const std::filesystem::path tempImportPath = tempDirectory / "__editor_headless_import.obj";
+    const std::filesystem::path tempGltfPath = tempDirectory / "__editor_headless_import.gltf";
+    const std::filesystem::path tempGltfBinPath = tempDirectory / "__editor_headless_import.bin";
+    const std::filesystem::path tempGlbPath = tempDirectory / "__editor_headless_import.glb";
+    const std::filesystem::path tempSplitGltfPath = tempDirectory / "__editor_headless_split_import.gltf";
+    const std::filesystem::path tempTexturePngPath = tempDirectory / "__editor_headless_import_texture.png";
+    const std::filesystem::path tempTexturedGltfPath = tempDirectory / "__editor_headless_textured_import.gltf";
+    const std::filesystem::path tempTexturedGlbPath = tempDirectory / "__editor_headless_textured_import.glb";
 
     {
         std::ofstream output(tempImportPath, std::ios::binary | std::ios::trunc);
@@ -663,11 +754,261 @@ bool verifyOutdoorSceneRoundTrip(
             << "f 1/1 2/2 3/3 4/4\n";
     }
 
+    {
+        std::ofstream binaryOutput(tempGltfBinPath, std::ios::binary | std::ios::trunc);
+        const float positions[] = {
+            -128.0f, -128.0f, 0.0f,
+             128.0f, -128.0f, 0.0f,
+             128.0f,  128.0f, 0.0f,
+            -128.0f,  128.0f, 0.0f
+        };
+        const float texCoords[] = {
+            0.0f, 0.0f,
+            1.0f, 0.0f,
+            1.0f, 1.0f,
+            0.0f, 1.0f
+        };
+        const uint16_t indices[] = {0, 1, 2, 0, 2, 3};
+        binaryOutput.write(reinterpret_cast<const char *>(positions), sizeof(positions));
+        binaryOutput.write(reinterpret_cast<const char *>(texCoords), sizeof(texCoords));
+        binaryOutput.write(reinterpret_cast<const char *>(indices), sizeof(indices));
+    }
+
+    {
+        const uint32_t texturePixels[] = {
+            0xff0000ffu,
+            0xff00ff00u,
+            0xffff0000u,
+            0xffffffffu,
+        };
+        SDL_Surface *pSurface = SDL_CreateSurfaceFrom(
+            2,
+            2,
+            SDL_PIXELFORMAT_BGRA32,
+            const_cast<uint32_t *>(texturePixels),
+            2 * static_cast<int>(sizeof(uint32_t)));
+
+        if (pSurface == nullptr || !SDL_SavePNG(pSurface, tempTexturePngPath.string().c_str()))
+        {
+            if (pSurface != nullptr)
+            {
+                SDL_DestroySurface(pSurface);
+            }
+
+            failure = "could not create temporary PNG import texture for " + mapFileName;
+            return false;
+        }
+
+        SDL_DestroySurface(pSurface);
+    }
+
+    {
+        std::ofstream output(tempGltfPath, std::ios::binary | std::ios::trunc);
+        output
+            << "{\n"
+            << "  \"asset\": {\"version\": \"2.0\"},\n"
+            << "  \"buffers\": [{\"uri\": \"" << tempGltfBinPath.filename().string() << "\", \"byteLength\": 92}],\n"
+            << "  \"bufferViews\": [\n"
+            << "    {\"buffer\": 0, \"byteOffset\": 0, \"byteLength\": 48, \"target\": 34962},\n"
+            << "    {\"buffer\": 0, \"byteOffset\": 48, \"byteLength\": 32, \"target\": 34962},\n"
+            << "    {\"buffer\": 0, \"byteOffset\": 80, \"byteLength\": 12, \"target\": 34963}\n"
+            << "  ],\n"
+            << "  \"accessors\": [\n"
+            << "    {\"bufferView\": 0, \"componentType\": 5126, \"count\": 4, \"type\": \"VEC3\"},\n"
+            << "    {\"bufferView\": 1, \"componentType\": 5126, \"count\": 4, \"type\": \"VEC2\"},\n"
+            << "    {\"bufferView\": 2, \"componentType\": 5123, \"count\": 6, \"type\": \"SCALAR\"}\n"
+            << "  ],\n"
+            << "  \"materials\": [{\"name\": \"dirttyl\"}],\n"
+            << "  \"meshes\": [{\"name\": \"headless_import_gltf\", \"primitives\": ["
+            << "{\"attributes\": {\"POSITION\": 0, \"TEXCOORD_0\": 1}, \"indices\": 2, \"material\": 0, \"mode\": 4}"
+            << "]}],\n"
+            << "  \"nodes\": [{\"mesh\": 0}],\n"
+            << "  \"scenes\": [{\"nodes\": [0]}],\n"
+            << "  \"scene\": 0\n"
+            << "}\n";
+    }
+
+    {
+        std::ofstream output(tempSplitGltfPath, std::ios::binary | std::ios::trunc);
+        output
+            << "{\n"
+            << "  \"asset\": {\"version\": \"2.0\"},\n"
+            << "  \"buffers\": [{\"uri\": \"" << tempGltfBinPath.filename().string() << "\", \"byteLength\": 92}],\n"
+            << "  \"bufferViews\": [\n"
+            << "    {\"buffer\": 0, \"byteOffset\": 0, \"byteLength\": 48, \"target\": 34962},\n"
+            << "    {\"buffer\": 0, \"byteOffset\": 48, \"byteLength\": 32, \"target\": 34962},\n"
+            << "    {\"buffer\": 0, \"byteOffset\": 80, \"byteLength\": 12, \"target\": 34963}\n"
+            << "  ],\n"
+            << "  \"accessors\": [\n"
+            << "    {\"bufferView\": 0, \"componentType\": 5126, \"count\": 4, \"type\": \"VEC3\"},\n"
+            << "    {\"bufferView\": 1, \"componentType\": 5126, \"count\": 4, \"type\": \"VEC2\"},\n"
+            << "    {\"bufferView\": 2, \"componentType\": 5123, \"count\": 6, \"type\": \"SCALAR\"}\n"
+            << "  ],\n"
+            << "  \"materials\": [{\"name\": \"dirttyl\"}],\n"
+            << "  \"meshes\": [{\"name\": \"shared_quad\", \"primitives\": ["
+            << "{\"attributes\": {\"POSITION\": 0, \"TEXCOORD_0\": 1}, \"indices\": 2, \"material\": 0, \"mode\": 4}"
+            << "]}],\n"
+            << "  \"nodes\": [\n"
+            << "    {\"name\": \"left_quad\", \"mesh\": 0, \"translation\": [-256.0, 0.0, 0.0]},\n"
+            << "    {\"name\": \"right_quad\", \"mesh\": 0, \"translation\": [256.0, 0.0, 0.0]}\n"
+            << "  ],\n"
+            << "  \"scenes\": [{\"nodes\": [0, 1]}],\n"
+            << "  \"scene\": 0\n"
+            << "}\n";
+    }
+
+    {
+        std::ofstream output(tempTexturedGltfPath, std::ios::binary | std::ios::trunc);
+        output
+            << "{\n"
+            << "  \"asset\": {\"version\": \"2.0\"},\n"
+            << "  \"buffers\": [{\"uri\": \"" << tempGltfBinPath.filename().string() << "\", \"byteLength\": 92}],\n"
+            << "  \"bufferViews\": [\n"
+            << "    {\"buffer\": 0, \"byteOffset\": 0, \"byteLength\": 48, \"target\": 34962},\n"
+            << "    {\"buffer\": 0, \"byteOffset\": 48, \"byteLength\": 32, \"target\": 34962},\n"
+            << "    {\"buffer\": 0, \"byteOffset\": 80, \"byteLength\": 12, \"target\": 34963}\n"
+            << "  ],\n"
+            << "  \"accessors\": [\n"
+            << "    {\"bufferView\": 0, \"componentType\": 5126, \"count\": 4, \"type\": \"VEC3\"},\n"
+            << "    {\"bufferView\": 1, \"componentType\": 5126, \"count\": 4, \"type\": \"VEC2\"},\n"
+            << "    {\"bufferView\": 2, \"componentType\": 5123, \"count\": 6, \"type\": \"SCALAR\"}\n"
+            << "  ],\n"
+            << "  \"images\": [{\"uri\": \"" << tempTexturePngPath.filename().string() << "\"}],\n"
+            << "  \"textures\": [{\"source\": 0}],\n"
+            << "  \"materials\": [{\"pbrMetallicRoughness\": {\"baseColorTexture\": {\"index\": 0}}}],\n"
+            << "  \"meshes\": [{\"name\": \"headless_import_textured_gltf\", \"primitives\": ["
+            << "{\"attributes\": {\"POSITION\": 0, \"TEXCOORD_0\": 1}, \"indices\": 2, \"material\": 0, \"mode\": 4}"
+            << "]}],\n"
+            << "  \"nodes\": [{\"mesh\": 0}],\n"
+            << "  \"scenes\": [{\"nodes\": [0]}],\n"
+            << "  \"scene\": 0\n"
+            << "}\n";
+    }
+
+    {
+        const std::string glbJson =
+            "{\n"
+            "  \"asset\": {\"version\": \"2.0\"},\n"
+            "  \"buffers\": [{\"byteLength\": 92}],\n"
+            "  \"bufferViews\": [\n"
+            "    {\"buffer\": 0, \"byteOffset\": 0, \"byteLength\": 48, \"target\": 34962},\n"
+            "    {\"buffer\": 0, \"byteOffset\": 48, \"byteLength\": 32, \"target\": 34962},\n"
+            "    {\"buffer\": 0, \"byteOffset\": 80, \"byteLength\": 12, \"target\": 34963}\n"
+            "  ],\n"
+            "  \"accessors\": [\n"
+            "    {\"bufferView\": 0, \"componentType\": 5126, \"count\": 4, \"type\": \"VEC3\"},\n"
+            "    {\"bufferView\": 1, \"componentType\": 5126, \"count\": 4, \"type\": \"VEC2\"},\n"
+            "    {\"bufferView\": 2, \"componentType\": 5123, \"count\": 6, \"type\": \"SCALAR\"}\n"
+            "  ],\n"
+            "  \"materials\": [{\"name\": \"dirttyl\"}],\n"
+            "  \"meshes\": [{\"name\": \"headless_import_glb\", \"primitives\": ["
+            "{\"attributes\": {\"POSITION\": 0, \"TEXCOORD_0\": 1}, \"indices\": 2, \"material\": 0, \"mode\": 4}"
+            "]}],\n"
+            "  \"nodes\": [{\"mesh\": 0}],\n"
+            "  \"scenes\": [{\"nodes\": [0]}],\n"
+            "  \"scene\": 0\n"
+            "}\n";
+        std::vector<uint8_t> glbBinary;
+        const float positions[] = {
+            -128.0f, -128.0f, 0.0f,
+             128.0f, -128.0f, 0.0f,
+             128.0f,  128.0f, 0.0f,
+            -128.0f,  128.0f, 0.0f
+        };
+        const float texCoords[] = {
+            0.0f, 0.0f,
+            1.0f, 0.0f,
+            1.0f, 1.0f,
+            0.0f, 1.0f
+        };
+        const uint16_t indices[] = {0, 1, 2, 0, 2, 3};
+        appendBytes(glbBinary, positions, sizeof(positions));
+        appendBytes(glbBinary, texCoords, sizeof(texCoords));
+        appendBytes(glbBinary, indices, sizeof(indices));
+
+        if (!writeGlbFile(tempGlbPath, glbJson, glbBinary))
+        {
+            failure = "could not create temporary GLB import fixture for " + mapFileName;
+            return false;
+        }
+    }
+
+    {
+        std::vector<uint8_t> textureBytes;
+
+        if (!readBinaryFileBytes(tempTexturePngPath, textureBytes))
+        {
+            failure = "could not read temporary PNG import texture for " + mapFileName;
+            return false;
+        }
+
+        std::vector<uint8_t> glbBinary;
+        const size_t positionsOffset = glbBinary.size();
+        const float positions[] = {
+            -128.0f, -128.0f, 0.0f,
+             128.0f, -128.0f, 0.0f,
+             128.0f,  128.0f, 0.0f,
+            -128.0f,  128.0f, 0.0f
+        };
+        appendBytes(glbBinary, positions, sizeof(positions));
+
+        const size_t texCoordsOffset = glbBinary.size();
+        const float texCoords[] = {
+            0.0f, 0.0f,
+            1.0f, 0.0f,
+            1.0f, 1.0f,
+            0.0f, 1.0f
+        };
+        appendBytes(glbBinary, texCoords, sizeof(texCoords));
+
+        const size_t indicesOffset = glbBinary.size();
+        const uint16_t indices[] = {0, 1, 2, 0, 2, 3};
+        appendBytes(glbBinary, indices, sizeof(indices));
+        appendPaddingBytes(glbBinary, 4, 0);
+        const size_t imageOffset = glbBinary.size();
+        appendBytes(glbBinary, textureBytes.data(), textureBytes.size());
+
+        const std::string texturedGlbJson =
+            "{\n"
+            "  \"asset\": {\"version\": \"2.0\"},\n"
+            "  \"buffers\": [{\"byteLength\": " + std::to_string(glbBinary.size()) + "}],\n"
+            "  \"bufferViews\": [\n"
+            "    {\"buffer\": 0, \"byteOffset\": " + std::to_string(positionsOffset)
+                + ", \"byteLength\": 48, \"target\": 34962},\n"
+            "    {\"buffer\": 0, \"byteOffset\": " + std::to_string(texCoordsOffset)
+                + ", \"byteLength\": 32, \"target\": 34962},\n"
+            "    {\"buffer\": 0, \"byteOffset\": " + std::to_string(indicesOffset)
+                + ", \"byteLength\": 12, \"target\": 34963},\n"
+            "    {\"buffer\": 0, \"byteOffset\": " + std::to_string(imageOffset)
+                + ", \"byteLength\": " + std::to_string(textureBytes.size()) + "}\n"
+            "  ],\n"
+            "  \"accessors\": [\n"
+            "    {\"bufferView\": 0, \"componentType\": 5126, \"count\": 4, \"type\": \"VEC3\"},\n"
+            "    {\"bufferView\": 1, \"componentType\": 5126, \"count\": 4, \"type\": \"VEC2\"},\n"
+            "    {\"bufferView\": 2, \"componentType\": 5123, \"count\": 6, \"type\": \"SCALAR\"}\n"
+            "  ],\n"
+            "  \"images\": [{\"bufferView\": 3, \"mimeType\": \"image/png\"}],\n"
+            "  \"textures\": [{\"source\": 0}],\n"
+            "  \"materials\": [{\"pbrMetallicRoughness\": {\"baseColorTexture\": {\"index\": 0}}}],\n"
+            "  \"meshes\": [{\"name\": \"headless_import_textured_glb\", \"primitives\": ["
+            "{\"attributes\": {\"POSITION\": 0, \"TEXCOORD_0\": 1}, \"indices\": 2, \"material\": 0, \"mode\": 4}"
+            "]}],\n"
+            "  \"nodes\": [{\"mesh\": 0}],\n"
+            "  \"scenes\": [{\"nodes\": [0]}],\n"
+            "  \"scene\": 0\n"
+            "}\n";
+
+        if (!writeGlbFile(tempTexturedGlbPath, texturedGlbJson, glbBinary))
+        {
+            failure = "could not create temporary textured GLB import fixture for " + mapFileName;
+            return false;
+        }
+    }
     if (!document.mutableOutdoorGeometry().bmodels.empty())
     {
         session.select(OpenYAMM::Editor::EditorSelectionKind::BModel, 0);
 
-        if (!session.replaceSelectedBModelFromObj(tempImportPath.string(), 1.0f, "grastyl", errorMessage))
+        if (!session.replaceSelectedBModelFromModel(tempImportPath.string(), 1.0f, "grastyl", {}, false, errorMessage))
         {
             failure = "could not replace bmodel from OBJ during round-trip test for "
                 + mapFileName + ": " + errorMessage;
@@ -689,18 +1030,214 @@ bool verifyOutdoorSceneRoundTrip(
         }
     }
 
-    if (!session.importNewBModelFromObj(tempImportPath.string(), 1.0f, "dirttyl", errorMessage))
+    if (!session.importNewBModelFromModel(tempGltfPath.string(), 1.0f, "dirttyl", {}, false, false, errorMessage))
     {
-        failure = "could not import new bmodel from OBJ during round-trip test for "
+        failure = "could not import new bmodel from glTF during round-trip test for "
             + mapFileName + ": " + errorMessage;
+        return false;
+    }
+
+    if (document.mutableOutdoorGeometry().bmodels.back().faces.size() != 2
+        || document.mutableOutdoorGeometry().bmodels.back().vertices.size() != 4)
+    {
+        failure = "glTF import produced unexpected bmodel geometry for " + mapFileName;
         return false;
     }
 
     const size_t importedBModelIndex = document.mutableOutdoorGeometry().bmodels.empty()
         ? 0
         : (document.mutableOutdoorGeometry().bmodels.size() - 1);
-    const std::optional<OpenYAMM::Editor::EditorBModelSourceTransform> savedSourceTransform =
-        document.outdoorBModelSourceTransform(importedBModelIndex);
+
+    if (!session.importNewBModelFromModel(tempGlbPath.string(), 1.0f, "dirttyl", {}, false, false, errorMessage))
+    {
+        failure = "could not import new GLB bmodel during round-trip test for "
+            + mapFileName + ": " + errorMessage;
+        return false;
+    }
+
+    if (document.mutableOutdoorGeometry().bmodels.back().faces.size() != 2
+        || document.mutableOutdoorGeometry().bmodels.back().vertices.size() != 4)
+    {
+        failure = "GLB import produced unexpected bmodel geometry for " + mapFileName;
+        return false;
+    }
+
+    const size_t mergedImportStartIndex = document.mutableOutdoorGeometry().bmodels.size();
+
+    if (!session.importNewBModelFromModel(tempGltfPath.string(), 1.0f, "dirttyl", {}, false, true, errorMessage))
+    {
+        failure = "could not import merged glTF bmodel during round-trip test for "
+            + mapFileName + ": " + errorMessage;
+        return false;
+    }
+
+    if (document.mutableOutdoorGeometry().bmodels.size() != mergedImportStartIndex + 1)
+    {
+        failure = "merged glTF import did not append exactly one bmodel for " + mapFileName;
+        return false;
+    }
+
+    if (document.mutableOutdoorGeometry().bmodels.back().faces.size() != 1
+        || document.mutableOutdoorGeometry().bmodels.back().vertices.size() != 4)
+    {
+        failure = "merged glTF import did not collapse the coplanar quad for " + mapFileName;
+        return false;
+    }
+
+    const std::optional<OpenYAMM::Editor::EditorBModelImportSource> mergedImportSource =
+        document.outdoorBModelImportSource(document.mutableOutdoorGeometry().bmodels.size() - 1);
+
+    if (!mergedImportSource || !mergedImportSource->mergeCoplanarFaces)
+    {
+        failure = "merged glTF import did not persist merge_coplanar_faces metadata for " + mapFileName;
+        return false;
+    }
+
+    const std::optional<OpenYAMM::Editor::EditorBModelImportSource> savedImportSource =
+        document.outdoorBModelImportSource(importedBModelIndex);
+
+    if (!savedImportSource || savedImportSource->materialRemaps.empty())
+    {
+        failure = "imported bmodel did not persist material remaps for " + mapFileName;
+        return false;
+    }
+
+    const size_t texturedImportStartIndex = document.mutableOutdoorGeometry().bmodels.size();
+
+    if (!session.importNewBModelFromModel(tempTexturedGltfPath.string(), 1.0f, "", {}, false, false, errorMessage))
+    {
+        failure = "could not import textured glTF bmodel during round-trip test for "
+            + mapFileName + ": " + errorMessage;
+        return false;
+    }
+
+    if (document.mutableOutdoorGeometry().bmodels.size() != texturedImportStartIndex + 1)
+    {
+        failure = "textured glTF import did not append exactly one bmodel for " + mapFileName;
+        return false;
+    }
+
+    const OpenYAMM::Game::OutdoorBModel &texturedBModel = document.mutableOutdoorGeometry().bmodels.back();
+
+    if (texturedBModel.faces.empty() || texturedBModel.faces.front().textureName.empty())
+    {
+        failure = "textured glTF import did not assign an imported bitmap texture for " + mapFileName;
+        return false;
+    }
+
+    const std::filesystem::path importedBitmapPath =
+        assetFileSystem.getDevelopmentRoot() / "Data" / "bitmaps" / (texturedBModel.faces.front().textureName + ".bmp");
+
+    if (!std::filesystem::exists(importedBitmapPath))
+    {
+        failure = "textured glTF import did not materialize bitmap asset for " + mapFileName;
+        return false;
+    }
+
+    const std::optional<OpenYAMM::Editor::EditorBModelImportSource> texturedImportSource =
+        document.outdoorBModelImportSource(document.mutableOutdoorGeometry().bmodels.size() - 1);
+
+    if (!texturedImportSource || texturedImportSource->materialRemaps.empty())
+    {
+        failure = "textured glTF import did not persist generated material remap for " + mapFileName;
+        return false;
+    }
+
+    const size_t texturedGlbImportStartIndex = document.mutableOutdoorGeometry().bmodels.size();
+
+    if (!session.importNewBModelFromModel(tempTexturedGlbPath.string(), 1.0f, "", {}, false, false, errorMessage))
+    {
+        failure = "could not import textured GLB bmodel during round-trip test for "
+            + mapFileName + ": " + errorMessage;
+        return false;
+    }
+
+    if (document.mutableOutdoorGeometry().bmodels.size() != texturedGlbImportStartIndex + 1)
+    {
+        failure = "textured GLB import did not append exactly one bmodel for " + mapFileName;
+        return false;
+    }
+
+    const OpenYAMM::Game::OutdoorBModel &texturedGlbBModel = document.mutableOutdoorGeometry().bmodels.back();
+
+    if (texturedGlbBModel.faces.empty() || texturedGlbBModel.faces.front().textureName.empty())
+    {
+        failure = "textured GLB import did not assign an imported bitmap texture for " + mapFileName;
+        return false;
+    }
+
+    const std::filesystem::path importedGlbBitmapPath =
+        assetFileSystem.getDevelopmentRoot()
+        / "Data"
+        / "bitmaps"
+        / (texturedGlbBModel.faces.front().textureName + ".bmp");
+
+    if (!std::filesystem::exists(importedGlbBitmapPath))
+    {
+        failure = "textured GLB import did not materialize bitmap asset for " + mapFileName;
+        return false;
+    }
+
+    const std::optional<OpenYAMM::Editor::EditorBModelImportSource> texturedGlbImportSource =
+        document.outdoorBModelImportSource(document.mutableOutdoorGeometry().bmodels.size() - 1);
+
+    if (!texturedGlbImportSource || texturedGlbImportSource->materialRemaps.empty())
+    {
+        failure = "textured GLB import did not persist generated material remap for " + mapFileName;
+        return false;
+    }
+
+    std::vector<size_t> rememberedImportSourceIndices = {
+        importedBModelIndex,
+        mergedImportStartIndex,
+        texturedImportStartIndex,
+        texturedGlbImportStartIndex,
+    };
+
+    const size_t splitImportStartIndex = document.mutableOutdoorGeometry().bmodels.size();
+
+    if (!session.importNewBModelFromModel(tempSplitGltfPath.string(), 1.0f, "dirttyl", {}, true, false, errorMessage))
+    {
+        failure = "could not import split glTF bmodels during round-trip test for "
+            + mapFileName + ": " + errorMessage;
+        return false;
+    }
+
+    if (document.mutableOutdoorGeometry().bmodels.size() != splitImportStartIndex + 2)
+    {
+        failure = "split glTF import did not create the expected number of bmodels for " + mapFileName;
+        return false;
+    }
+
+    const std::optional<OpenYAMM::Editor::EditorBModelImportSource> splitImportSourceA =
+        document.outdoorBModelImportSource(splitImportStartIndex);
+    const std::optional<OpenYAMM::Editor::EditorBModelImportSource> splitImportSourceB =
+        document.outdoorBModelImportSource(splitImportStartIndex + 1);
+
+    if (!splitImportSourceA || !splitImportSourceB)
+    {
+        failure = "split glTF import did not remember import sources for " + mapFileName;
+        return false;
+    }
+
+    if (splitImportSourceA->sourceMeshName.empty()
+        || splitImportSourceB->sourceMeshName.empty()
+        || splitImportSourceA->sourceMeshName == splitImportSourceB->sourceMeshName)
+    {
+        failure = "split glTF import did not preserve distinct mesh/node names for " + mapFileName;
+        return false;
+    }
+
+    rememberedImportSourceIndices.push_back(splitImportStartIndex);
+    rememberedImportSourceIndices.push_back(splitImportStartIndex + 1);
+    session.select(OpenYAMM::Editor::EditorSelectionKind::BModel, splitImportStartIndex);
+
+    if (!session.reimportSelectedBModel(errorMessage))
+    {
+        failure = "could not reimport split glTF bmodel from remembered source during round-trip test for "
+            + mapFileName + ": " + errorMessage;
+        return false;
+    }
 
     const std::vector<std::string> validationIssues = document.validate();
 
@@ -882,43 +1419,65 @@ bool verifyOutdoorSceneRoundTrip(
         return false;
     }
 
-    if (!document.mutableOutdoorGeometry().bmodels.empty())
+    for (size_t rememberedIndex : rememberedImportSourceIndices)
     {
         const std::optional<OpenYAMM::Editor::EditorBModelImportSource> reloadedImportSource =
-            reloadedDocument.outdoorBModelImportSource(importedBModelIndex);
+            reloadedDocument.outdoorBModelImportSource(rememberedIndex);
+        const std::optional<OpenYAMM::Editor::EditorBModelImportSource> originalImportSource =
+            document.outdoorBModelImportSource(rememberedIndex);
 
-        if (!reloadedImportSource)
+        if (!reloadedImportSource || !originalImportSource)
         {
             failure = "reloaded geometry metadata lost remembered bmodel import source for " + mapFileName;
             return false;
         }
 
-        const std::optional<OpenYAMM::Editor::EditorBModelSourceTransform> reloadedSourceTransform =
-            reloadedDocument.outdoorBModelSourceTransform(importedBModelIndex);
+        if (reloadedImportSource->materialRemaps.empty())
+        {
+            failure = "reloaded geometry metadata lost bmodel material remaps for " + mapFileName;
+            return false;
+        }
 
-        if (!savedSourceTransform || !reloadedSourceTransform)
+        const std::optional<OpenYAMM::Editor::EditorBModelSourceTransform> reloadedSourceTransform =
+            reloadedDocument.outdoorBModelSourceTransform(rememberedIndex);
+        const std::optional<OpenYAMM::Editor::EditorBModelSourceTransform> originalSourceTransform =
+            document.outdoorBModelSourceTransform(rememberedIndex);
+
+        if (!originalSourceTransform || !reloadedSourceTransform)
         {
             failure = "reloaded geometry metadata lost remembered bmodel source transform for " + mapFileName;
             return false;
         }
 
-        if (!nearlyEqualFloat(savedSourceTransform->originX, reloadedSourceTransform->originX)
-            || !nearlyEqualFloat(savedSourceTransform->originY, reloadedSourceTransform->originY)
-            || !nearlyEqualFloat(savedSourceTransform->originZ, reloadedSourceTransform->originZ))
+        if (reloadedImportSource->sourceMeshName != originalImportSource->sourceMeshName)
+        {
+            failure = "reloaded geometry metadata changed remembered source mesh name for " + mapFileName;
+            return false;
+        }
+
+        if (reloadedImportSource->mergeCoplanarFaces != originalImportSource->mergeCoplanarFaces)
+        {
+            failure = "reloaded geometry metadata changed remembered merge_coplanar_faces for " + mapFileName;
+            return false;
+        }
+
+        if (!nearlyEqualFloat(originalSourceTransform->originX, reloadedSourceTransform->originX)
+            || !nearlyEqualFloat(originalSourceTransform->originY, reloadedSourceTransform->originY)
+            || !nearlyEqualFloat(originalSourceTransform->originZ, reloadedSourceTransform->originZ))
         {
             failure = "reloaded geometry metadata changed bmodel source transform origin for " + mapFileName;
             return false;
         }
 
-        if (!nearlyEqualFloat(savedSourceTransform->basisX[0], reloadedSourceTransform->basisX[0])
-            || !nearlyEqualFloat(savedSourceTransform->basisX[1], reloadedSourceTransform->basisX[1])
-            || !nearlyEqualFloat(savedSourceTransform->basisX[2], reloadedSourceTransform->basisX[2])
-            || !nearlyEqualFloat(savedSourceTransform->basisY[0], reloadedSourceTransform->basisY[0])
-            || !nearlyEqualFloat(savedSourceTransform->basisY[1], reloadedSourceTransform->basisY[1])
-            || !nearlyEqualFloat(savedSourceTransform->basisY[2], reloadedSourceTransform->basisY[2])
-            || !nearlyEqualFloat(savedSourceTransform->basisZ[0], reloadedSourceTransform->basisZ[0])
-            || !nearlyEqualFloat(savedSourceTransform->basisZ[1], reloadedSourceTransform->basisZ[1])
-            || !nearlyEqualFloat(savedSourceTransform->basisZ[2], reloadedSourceTransform->basisZ[2]))
+        if (!nearlyEqualFloat(originalSourceTransform->basisX[0], reloadedSourceTransform->basisX[0])
+            || !nearlyEqualFloat(originalSourceTransform->basisX[1], reloadedSourceTransform->basisX[1])
+            || !nearlyEqualFloat(originalSourceTransform->basisX[2], reloadedSourceTransform->basisX[2])
+            || !nearlyEqualFloat(originalSourceTransform->basisY[0], reloadedSourceTransform->basisY[0])
+            || !nearlyEqualFloat(originalSourceTransform->basisY[1], reloadedSourceTransform->basisY[1])
+            || !nearlyEqualFloat(originalSourceTransform->basisY[2], reloadedSourceTransform->basisY[2])
+            || !nearlyEqualFloat(originalSourceTransform->basisZ[0], reloadedSourceTransform->basisZ[0])
+            || !nearlyEqualFloat(originalSourceTransform->basisZ[1], reloadedSourceTransform->basisZ[1])
+            || !nearlyEqualFloat(originalSourceTransform->basisZ[2], reloadedSourceTransform->basisZ[2]))
         {
             failure = "reloaded geometry metadata changed bmodel source transform basis for " + mapFileName;
             return false;
@@ -1450,7 +2009,11 @@ void removeTemporaryRoundTripScenes(const std::filesystem::path &gamesPath)
                 || fileName.ends_with(".geometry.yml")
                 || fileName.ends_with(".map.yml")
                 || fileName.ends_with(".terrain.yml")
-                || fileName.ends_with(".odm"))
+                || fileName.ends_with(".odm")
+                || fileName.ends_with(".obj")
+                || fileName.ends_with(".gltf")
+                || fileName.ends_with(".glb")
+                || fileName.ends_with(".bin"))
             {
                 std::filesystem::remove(entry.path());
             }

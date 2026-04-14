@@ -196,7 +196,9 @@ std::string serializeOutdoorGeometryMetadata(const EditorOutdoorGeometryMetadata
 
         if (!entry.importSource.sourcePath.empty()
             || !entry.importSource.sourceMeshName.empty()
-            || !entry.importSource.defaultTextureName.empty())
+            || entry.importSource.mergeCoplanarFaces
+            || !entry.importSource.defaultTextureName.empty()
+            || !entry.importSource.materialRemaps.empty())
         {
             emitter << YAML::Key << "source" << YAML::Value << YAML::BeginMap;
             emitter << YAML::Key << "asset_path" << YAML::Value << entry.importSource.sourcePath;
@@ -207,10 +209,29 @@ std::string serializeOutdoorGeometryMetadata(const EditorOutdoorGeometryMetadata
             }
 
             emitter << YAML::Key << "scale" << YAML::Value << entry.importSource.importScale;
+            emitter << YAML::Key << "merge_coplanar_faces" << YAML::Value << entry.importSource.mergeCoplanarFaces;
             emitter << YAML::EndMap;
 
             emitter << YAML::Key << "materials" << YAML::Value << YAML::BeginMap;
             emitter << YAML::Key << "default_texture" << YAML::Value << entry.importSource.defaultTextureName;
+
+            if (!entry.importSource.materialRemaps.empty())
+            {
+                emitter << YAML::Key << "remaps" << YAML::Value << YAML::BeginMap;
+
+                for (const EditorMaterialTextureRemap &remap : entry.importSource.materialRemaps)
+                {
+                    if (remap.sourceMaterialName.empty() || remap.textureName.empty())
+                    {
+                        continue;
+                    }
+
+                    emitter << YAML::Key << remap.sourceMaterialName << YAML::Value << remap.textureName;
+                }
+
+                emitter << YAML::EndMap;
+            }
+
             emitter << YAML::EndMap;
         }
 
@@ -313,7 +334,12 @@ std::optional<EditorOutdoorGeometryMetadata> loadOutdoorGeometryMetadataFromText
 
                 if (!readScalarNode(sourceNode, "asset_path", entry.importSource.sourcePath, errorMessage)
                     || !readScalarNode(sourceNode, "mesh_name", entry.importSource.sourceMeshName, errorMessage)
-                    || !readScalarNode(sourceNode, "scale", entry.importSource.importScale, errorMessage))
+                    || !readScalarNode(sourceNode, "scale", entry.importSource.importScale, errorMessage)
+                    || !readScalarNode(
+                        sourceNode,
+                        "merge_coplanar_faces",
+                        entry.importSource.mergeCoplanarFaces,
+                        errorMessage))
                 {
                     return std::nullopt;
                 }
@@ -336,6 +362,36 @@ std::optional<EditorOutdoorGeometryMetadata> loadOutdoorGeometryMetadataFromText
                         errorMessage))
                 {
                     return std::nullopt;
+                }
+
+                const YAML::Node remapsNode = materialsNode["remaps"];
+
+                if (remapsNode)
+                {
+                    if (!remapsNode.IsMap())
+                    {
+                        errorMessage = "geometry metadata remaps must be a map";
+                        return std::nullopt;
+                    }
+
+                    for (const auto &remapNode : remapsNode)
+                    {
+                        EditorMaterialTextureRemap remap = {};
+
+                        try
+                        {
+                            remap.sourceMaterialName = remapNode.first.as<std::string>();
+                            remap.textureName = remapNode.second.as<std::string>();
+                        }
+                        catch (const std::exception &exception)
+                        {
+                            errorMessage = std::string("invalid geometry metadata material remap: ")
+                                + exception.what();
+                            return std::nullopt;
+                        }
+
+                        entry.importSource.materialRemaps.push_back(std::move(remap));
+                    }
                 }
             }
 
@@ -405,6 +461,39 @@ void normalizeOutdoorGeometryMetadata(
             trimCopy(normalizedEntries[index].importSource.sourceMeshName);
         normalizedEntries[index].importSource.defaultTextureName =
             trimCopy(normalizedEntries[index].importSource.defaultTextureName);
+        std::vector<EditorMaterialTextureRemap> normalizedRemaps;
+        std::unordered_set<std::string> seenRemaps;
+
+        for (const EditorMaterialTextureRemap &remap : normalizedEntries[index].importSource.materialRemaps)
+        {
+            EditorMaterialTextureRemap normalizedRemap = remap;
+            normalizedRemap.sourceMaterialName = trimCopy(normalizedRemap.sourceMaterialName);
+            normalizedRemap.textureName = trimCopy(normalizedRemap.textureName);
+
+            if (normalizedRemap.sourceMaterialName.empty() || normalizedRemap.textureName.empty())
+            {
+                continue;
+            }
+
+            const std::string remapKey = toLowerCopy(normalizedRemap.sourceMaterialName);
+
+            if (seenRemaps.contains(remapKey))
+            {
+                continue;
+            }
+
+            seenRemaps.insert(remapKey);
+            normalizedRemaps.push_back(std::move(normalizedRemap));
+        }
+
+        std::sort(
+            normalizedRemaps.begin(),
+            normalizedRemaps.end(),
+            [](const EditorMaterialTextureRemap &left, const EditorMaterialTextureRemap &right)
+            {
+                return toLowerCopy(left.sourceMaterialName) < toLowerCopy(right.sourceMaterialName);
+            });
+        normalizedEntries[index].importSource.materialRemaps = std::move(normalizedRemaps);
 
         if (normalizedEntries[index].importSource.importScale <= 0.0f)
         {

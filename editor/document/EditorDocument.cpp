@@ -214,6 +214,50 @@ std::string canonicalBitmapTextureName(
     return normalizedName.substr(0, std::min<size_t>(normalizedName.size(), 10));
 }
 
+std::string resolveImportedMaterialTextureName(
+    const std::vector<std::string> &bitmapTextureNames,
+    const EditorBModelImportSource *pImportSource,
+    const std::string &materialName)
+{
+    const std::string resolvedDefaultTexture =
+        pImportSource != nullptr
+        ? canonicalBitmapTextureName(bitmapTextureNames, pImportSource->defaultTextureName)
+        : std::string();
+
+    if (materialName.empty())
+    {
+        return resolvedDefaultTexture;
+    }
+
+    if (pImportSource != nullptr)
+    {
+        const std::string normalizedMaterialName = toLowerCopy(trimCopy(materialName));
+
+        for (const EditorMaterialTextureRemap &remap : pImportSource->materialRemaps)
+        {
+            if (toLowerCopy(trimCopy(remap.sourceMaterialName)) == normalizedMaterialName)
+            {
+                const std::string remappedTextureName =
+                    canonicalBitmapTextureName(bitmapTextureNames, remap.textureName);
+
+                if (!remappedTextureName.empty())
+                {
+                    return remappedTextureName;
+                }
+            }
+        }
+    }
+
+    const std::string canonicalMaterialTextureName = canonicalBitmapTextureName(bitmapTextureNames, materialName);
+
+    if (!canonicalMaterialTextureName.empty())
+    {
+        return canonicalMaterialTextureName;
+    }
+
+    return resolvedDefaultTexture;
+}
+
 bool loadBitmapTextureSize(
     const Engine::AssetFileSystem &assetFileSystem,
     const std::vector<std::string> &bitmapTextureNames,
@@ -256,16 +300,16 @@ bool loadBitmapTextureSize(
     return width > 0 && height > 0;
 }
 
-uint8_t classifyImportedPolygonType(const ImportedObjModel &importedModel, const ImportedObjFace &face)
+uint8_t classifyImportedPolygonType(const ImportedModel &importedModel, const ImportedModelFace &face)
 {
     if (face.vertices.size() < 3)
     {
         return 0;
     }
 
-    const ImportedObjPosition &a = importedModel.positions[face.vertices[0].positionIndex];
-    const ImportedObjPosition &b = importedModel.positions[face.vertices[1].positionIndex];
-    const ImportedObjPosition &c = importedModel.positions[face.vertices[2].positionIndex];
+    const ImportedModelPosition &a = importedModel.positions[face.vertices[0].positionIndex];
+    const ImportedModelPosition &b = importedModel.positions[face.vertices[1].positionIndex];
+    const ImportedModelPosition &c = importedModel.positions[face.vertices[2].positionIndex];
     const float abX = b.x - a.x;
     const float abY = b.y - a.y;
     const float abZ = b.z - a.z;
@@ -553,10 +597,10 @@ Game::OutdoorBModelVertex transformImportedVertex(
 Game::OutdoorBModel buildImportedBModel(
     const Engine::AssetFileSystem &assetFileSystem,
     const std::vector<std::string> &bitmapTextureNames,
-    const ImportedObjModel &importedModel,
+    const ImportedModel &importedModel,
     const std::filesystem::path &sourcePath,
     float importScale,
-    const std::string &defaultTextureName,
+    const EditorBModelImportSource &importSource,
     const std::optional<EditorBModelSourceTransform> &sourceTransform,
     std::string &errorMessage)
 {
@@ -579,7 +623,7 @@ Game::OutdoorBModel buildImportedBModel(
     float importedMaxY = std::numeric_limits<float>::lowest();
     float importedMaxZ = std::numeric_limits<float>::lowest();
 
-    for (const ImportedObjPosition &position : importedModel.positions)
+    for (const ImportedModelPosition &position : importedModel.positions)
     {
         const float scaledX = position.x * importScale;
         const float scaledY = position.y * importScale;
@@ -619,10 +663,7 @@ Game::OutdoorBModel buildImportedBModel(
     }
 
     bmodel.vertices = std::move(importedVertices);
-    const std::string resolvedDefaultTexture =
-        canonicalBitmapTextureName(bitmapTextureNames, defaultTextureName.empty() ? "grastyl" : defaultTextureName);
-
-    for (const ImportedObjFace &importedFace : importedModel.faces)
+    for (const ImportedModelFace &importedFace : importedModel.faces)
     {
         Game::OutdoorBModelFace face = {};
         face.attributes = 0;
@@ -636,14 +677,10 @@ Game::OutdoorBModel buildImportedBModel(
         face.polygonType = classifyImportedPolygonType(importedModel, importedFace);
         face.shade = 0;
         face.visibility = 31;
-        face.textureName = canonicalBitmapTextureName(
+        face.textureName = resolveImportedMaterialTextureName(
             bitmapTextureNames,
-            importedFace.materialName.empty() ? resolvedDefaultTexture : importedFace.materialName);
-
-        if (face.textureName.empty())
-        {
-            face.textureName = resolvedDefaultTexture;
-        }
+            &importSource,
+            importedFace.materialName);
 
         int textureWidth = 256;
         int textureHeight = 256;
@@ -654,7 +691,7 @@ Game::OutdoorBModel buildImportedBModel(
         float firstV = 0.0f;
         bool firstUvAssigned = false;
 
-        for (const ImportedObjFaceVertex &importedVertex : importedFace.vertices)
+        for (const ImportedModelFaceVertex &importedVertex : importedFace.vertices)
         {
             face.vertexIndices.push_back(static_cast<uint16_t>(importedVertex.positionIndex));
 
@@ -776,10 +813,15 @@ std::optional<Game::OutdoorMapData> buildOutdoorGeometryFromSourcePackage(
                 return std::nullopt;
             }
 
-            ImportedObjModel importedModel = {};
+            ImportedModel importedModel = {};
             const std::filesystem::path sourcePath = std::filesystem::absolute(entry.importSource.sourcePath);
 
-            if (!loadObjModelFromFile(sourcePath, importedModel, errorMessage))
+            if (!loadImportedModelFromFile(
+                    sourcePath,
+                    importedModel,
+                    errorMessage,
+                    entry.importSource.sourceMeshName,
+                    entry.importSource.mergeCoplanarFaces))
             {
                 errorMessage = "could not rebuild bmodel " + std::to_string(expectedIndex) + ": " + errorMessage;
                 return std::nullopt;
@@ -791,7 +833,7 @@ std::optional<Game::OutdoorMapData> buildOutdoorGeometryFromSourcePackage(
                 importedModel,
                 sourcePath,
                 entry.importSource.importScale,
-                entry.importSource.defaultTextureName,
+                entry.importSource,
                 entry.sourceTransform,
                 errorMessage);
 

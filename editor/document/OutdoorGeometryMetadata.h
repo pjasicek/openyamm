@@ -9,12 +9,20 @@
 
 namespace OpenYAMM::Editor
 {
+struct EditorMaterialTextureRemap
+{
+    std::string sourceMaterialName;
+    std::string textureName;
+};
+
 struct EditorBModelImportSource
 {
     std::string sourcePath;
     std::string sourceMeshName;
     float importScale = 1.0f;
+    bool mergeCoplanarFaces = false;
     std::string defaultTextureName;
+    std::vector<EditorMaterialTextureRemap> materialRemaps;
 };
 
 struct EditorBModelSourceTransform
