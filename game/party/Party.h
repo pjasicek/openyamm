@@ -304,6 +304,8 @@ public:
     void seed(const PartySeed &seed);
     void applyMovementEffects(const OutdoorMovementEffects &effects);
     void applyEventRuntimeState(const EventRuntimeState &runtimeState, bool grantItemsToInventory = true);
+    void setDebugDamageImmune(bool enabled);
+    void setDebugUnlimitedMana(bool enabled);
     bool applyDamageToMember(size_t memberIndex, int damage, const std::string &status);
     bool applyDamageToActiveMember(int damage, const std::string &status);
     bool applyDamageToAllLivingMembers(int damage, const std::string &status);
@@ -533,6 +535,8 @@ private:
     std::unordered_set<uint32_t> m_arcomageWonHouseIds;
     uint32_t m_arcomageWinCount = 0;
     uint32_t m_arcomageLossCount = 0;
+    bool m_debugDamageImmune = false;
+    bool m_debugUnlimitedMana = false;
     std::unordered_map<uint32_t, HouseStockState> m_houseStockStates;
     std::unordered_map<uint16_t, int32_t> m_eventVariables;
     std::vector<PendingAudioRequest> m_pendingAudioRequests;

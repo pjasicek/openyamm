@@ -2488,6 +2488,11 @@ OutdoorGameView::InspectHit OutdoorInteractionController::inspectBModelFace(
                 coveredRuntimeActors[actor.runtimeActorIndex] = true;
             }
 
+            if (view.m_pendingSpellCast.active && pActorState != nullptr && pActorState->isDead)
+            {
+                continue;
+            }
+
             if (pActorState != nullptr && pActorState->isInvisible)
             {
                 continue;
@@ -2605,6 +2610,11 @@ OutdoorGameView::InspectHit OutdoorInteractionController::inspectBModelFace(
             const OutdoorWorldRuntime::MapActorState *pActorState = view.m_pOutdoorWorldRuntime->mapActorState(actorIndex);
 
             if (pActorState == nullptr || pActorState->isInvisible)
+            {
+                continue;
+            }
+
+            if (view.m_pendingSpellCast.active && pActorState->isDead)
             {
                 continue;
             }
@@ -3519,15 +3529,31 @@ void OutdoorInteractionController::applyPendingCombatEvents(OutdoorGameView &vie
                 }
 
                 view.playSpeechReaction(event.sourcePartyMemberIndex, speechId, false);
-                view.showCombatStatusBarEvent(
-                    sourceName + " inflicts " + std::to_string(event.damage) + " points killing " + targetName);
+                if (event.spellId > 0)
+                {
+                    view.showCombatStatusBarEvent(
+                        sourceName + " deals " + std::to_string(event.damage) + " damage killing " + targetName);
+                }
+                else
+                {
+                    view.showCombatStatusBarEvent(
+                        sourceName + " inflicts " + std::to_string(event.damage) + " points killing " + targetName);
+                }
             }
             else
             {
                 view.triggerPortraitFaceAnimation(event.sourcePartyMemberIndex, FaceAnimationId::AttackHit);
                 view.playSpeechReaction(event.sourcePartyMemberIndex, SpeechId::AttackHit, false);
-                view.showCombatStatusBarEvent(
-                    sourceName + " shoots " + targetName + " for " + std::to_string(event.damage) + " points");
+                if (event.spellId > 0)
+                {
+                    view.showCombatStatusBarEvent(
+                        sourceName + " deals " + std::to_string(event.damage) + " damage to " + targetName);
+                }
+                else
+                {
+                    view.showCombatStatusBarEvent(
+                        sourceName + " shoots " + targetName + " for " + std::to_string(event.damage) + " points");
+                }
             }
 
             if (event.hit

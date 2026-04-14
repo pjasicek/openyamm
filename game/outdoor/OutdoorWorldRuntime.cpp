@@ -78,6 +78,10 @@ constexpr uint32_t EventSpellSourceId = std::numeric_limits<uint32_t>::max();
 constexpr float MeteorShowerSpawnBaseHeight = 2500.0f;
 constexpr float MeteorShowerSpawnHeightVariance = 1000.0f;
 constexpr float MeteorShowerTargetSpread = 512.0f;
+constexpr uint32_t StarburstProjectileCount = 20;
+constexpr float StarburstSpawnBaseHeight = 2500.0f;
+constexpr float StarburstSpawnHeightVariance = 1000.0f;
+constexpr float StarburstTargetSpread = 512.0f;
 constexpr float SpellImpactAoeRadius = 512.0f;
 constexpr uint32_t GoldHeapSmallItemId = 187;
 constexpr uint32_t GoldHeapLargeItemId = 189;
@@ -5991,7 +5995,7 @@ bool OutdoorWorldRuntime::castSpellFromMapActor(
         return false;
     }
 
-    if (!isProjectileSpellName(spellName) && spellName != "meteor shower")
+    if (!isProjectileSpellName(spellName) && spellName != "meteor shower" && spellName != "starburst")
     {
         std::cout
             << "Spell cast skipped actor=" << actor.actorId
@@ -6025,6 +6029,8 @@ bool OutdoorWorldRuntime::castSpellFromMapActor(
     request.skillLevel = static_cast<uint32_t>(std::max(stats.level, 1));
     request.skillMastery = pSpellEntry->id == static_cast<int>(spellIdValue(SpellId::MeteorShower))
         ? static_cast<uint32_t>(SkillMastery::Master)
+        : pSpellEntry->id == static_cast<int>(spellIdValue(SpellId::Starburst))
+        ? static_cast<uint32_t>(SkillMastery::Grandmaster)
         : static_cast<uint32_t>(SkillMastery::None);
     request.sourceX = actor.preciseX;
     request.sourceY = actor.preciseY;
@@ -6059,6 +6065,11 @@ bool OutdoorWorldRuntime::castSpell(const SpellCastRequest &request)
     if (isSpellId(request.spellId, SpellId::MeteorShower))
     {
         return castMeteorShower(request, definition);
+    }
+
+    if (isSpellId(request.spellId, SpellId::Starburst))
+    {
+        return castStarburst(request, definition);
     }
 
     return castDirectSpellProjectile(request, definition);
@@ -6141,6 +6152,62 @@ bool OutdoorWorldRuntime::castMeteorShower(
             meteorTargetX,
             meteorTargetY,
             meteorTargetZ,
+            0.0f)
+            || spawnedAny;
+    }
+
+    return spawnedAny;
+}
+
+bool OutdoorWorldRuntime::castStarburst(
+    const SpellCastRequest &request,
+    const ResolvedProjectileDefinition &definition
+)
+{
+    uint32_t seed = request.spellId * 1315423911u;
+    seed ^= static_cast<uint32_t>(std::lround(std::abs(request.targetX)));
+    seed ^= static_cast<uint32_t>(std::lround(std::abs(request.targetY))) << 1;
+    seed ^= static_cast<uint32_t>(std::lround(std::abs(request.targetZ))) << 2;
+    seed ^= m_nextProjectileId;
+    std::mt19937 rng(seed);
+    std::uniform_real_distribution<float> targetOffsetDistribution(-StarburstTargetSpread, StarburstTargetSpread);
+    std::uniform_real_distribution<float> spawnHeightDistribution(
+        StarburstSpawnBaseHeight,
+        StarburstSpawnBaseHeight + StarburstSpawnHeightVariance);
+    float sourceBaseZ = request.targetZ;
+
+    if (m_pOutdoorMapData != nullptr)
+    {
+        sourceBaseZ = std::max(
+            sourceBaseZ,
+            sampleOutdoorTerrainHeight(*m_pOutdoorMapData, request.targetX, request.targetY));
+    }
+
+    bool spawnedAny = false;
+
+    for (uint32_t starIndex = 0; starIndex < StarburstProjectileCount; ++starIndex)
+    {
+        const float starTargetX = request.targetX + targetOffsetDistribution(rng);
+        const float starTargetY = request.targetY + targetOffsetDistribution(rng);
+        float starTargetZ = request.targetZ;
+
+        if (m_pOutdoorMapData != nullptr)
+        {
+            starTargetZ = std::max(
+                starTargetZ,
+                sampleOutdoorTerrainHeight(*m_pOutdoorMapData, starTargetX, starTargetY));
+        }
+
+        const float starSourceZ = sourceBaseZ + spawnHeightDistribution(rng);
+        spawnedAny = spawnSpellProjectile(
+            request,
+            definition,
+            request.targetX,
+            request.targetY,
+            starSourceZ,
+            starTargetX,
+            starTargetY,
+            starTargetZ,
             0.0f)
             || spawnedAny;
     }
@@ -6287,6 +6354,12 @@ void OutdoorWorldRuntime::spawnProjectileImpact(
     float z,
     bool centerVertically)
 {
+    const FxRecipes::ProjectileRecipe impactRecipe = FxRecipes::classifyProjectileRecipe(
+        projectile.spellId,
+        projectile.objectName,
+        projectile.objectSpriteName,
+        projectile.objectFlags);
+
     if (const std::optional<uint32_t> impactSoundId = resolveSpellImpactSoundId(projectile))
     {
         std::string reason = "monster_spell_impact";
@@ -6300,14 +6373,17 @@ void OutdoorWorldRuntime::spawnProjectileImpact(
             reason = "party_spell_impact";
         }
 
+        if (impactRecipe == FxRecipes::ProjectileRecipe::MeteorShower)
+        {
+            reason = "meteor_shower_impact";
+        }
+        else if (impactRecipe == FxRecipes::ProjectileRecipe::Starburst)
+        {
+            reason = "starburst_impact";
+        }
+
         pushAudioEvent(*impactSoundId, projectile.sourceId, reason, x, y, z);
     }
-
-    const FxRecipes::ProjectileRecipe impactRecipe = FxRecipes::classifyProjectileRecipe(
-        projectile.spellId,
-        projectile.objectName,
-        projectile.objectSpriteName,
-        projectile.objectFlags);
     const bool usesDedicatedImpactFx = FxRecipes::projectileRecipeUsesDedicatedImpactFx(impactRecipe);
 
     if (projectile.impactObjectDescriptionId == 0 || m_pObjectTable == nullptr)
@@ -6350,6 +6426,48 @@ void OutdoorWorldRuntime::spawnProjectileImpact(
 
     m_projectileImpacts.push_back(std::move(effect));
     logProjectileImpactEffect(projectile, m_projectileImpacts.back());
+}
+
+bool OutdoorWorldRuntime::spawnWaterSplashImpact(float x, float y, float z)
+{
+    if (m_pObjectTable == nullptr || m_pProjectileSpriteFrameTable == nullptr)
+    {
+        return false;
+    }
+
+    constexpr int16_t WaterSplashObjectId = 800;
+    const std::optional<uint16_t> splashDescriptionId = m_pObjectTable->findDescriptionIdByObjectId(WaterSplashObjectId);
+
+    if (!splashDescriptionId)
+    {
+        return false;
+    }
+
+    const ObjectEntry *pSplashEntry = m_pObjectTable->get(*splashDescriptionId);
+
+    if (pSplashEntry == nullptr)
+    {
+        return false;
+    }
+
+    ProjectileImpactState effect = {};
+    effect.effectId = m_nextProjectileImpactId++;
+    effect.objectDescriptionId = *splashDescriptionId;
+    effect.objectSpriteId = pSplashEntry->spriteId;
+    effect.objectSpriteFrameIndex = resolveRuntimeSpriteFrameIndex(
+        m_pProjectileSpriteFrameTable,
+        pSplashEntry->spriteId,
+        pSplashEntry->spriteName);
+    effect.objectName = pSplashEntry->internalName;
+    effect.objectSpriteName = pSplashEntry->spriteName;
+    effect.x = x;
+    effect.y = y;
+    effect.z = z;
+    effect.lifetimeTicks = static_cast<uint32_t>(std::max<int>(pSplashEntry->lifetimeTicks, 32));
+
+    m_projectileImpacts.push_back(std::move(effect));
+    pushAudioEvent(static_cast<uint32_t>(SoundId::Splash), 0, "water_splash", x, y, z);
+    return true;
 }
 
 bool OutdoorWorldRuntime::projectileSourceIsFriendlyToActor(
@@ -6721,7 +6839,9 @@ void OutdoorWorldRuntime::updateProjectiles(float deltaSeconds, float partyX, fl
         {
             const MapActorState &actor = m_mapActors[actorIndex];
 
-            if (isActorUnavailableForCombat(actor) || actor.actorId == projectile.sourceId)
+            if (actor.isDead
+                || isActorUnavailableForCombat(actor)
+                || actor.actorId == projectile.sourceId)
             {
                 continue;
             }
@@ -6838,6 +6958,12 @@ void OutdoorWorldRuntime::updateProjectiles(float deltaSeconds, float partyX, fl
         {
             const bool directPartyImpact =
                 pBestColliderKind != nullptr && std::strcmp(pBestColliderKind, "party") == 0;
+            const bool waterTerrainImpact =
+                pBestColliderKind != nullptr
+                && std::strcmp(pBestColliderKind, "terrain") == 0
+                && m_pOutdoorMapData != nullptr
+                && (isOutdoorTerrainWater(*m_pOutdoorMapData, bestPoint.x, bestPoint.y)
+                    || isOutdoorLandMaskWater(m_outdoorLandMask, bestPoint.x, bestPoint.y));
 
             if (directPartyImpact)
             {
@@ -6990,12 +7116,24 @@ void OutdoorWorldRuntime::updateProjectiles(float deltaSeconds, float partyX, fl
 
                     if (projectile.sourceKind == ProjectileState::SourceKind::Party)
                     {
+                        const int beforeHp = m_mapActors[actorIndex].currentHp;
                         applyPartyAttackToMapActor(
                             actorIndex,
                             splashDamage,
                             projectile.sourceX,
                             projectile.sourceY,
                             projectile.sourceZ);
+
+                        CombatEvent event = {};
+                        event.type = CombatEvent::Type::PartyProjectileActorImpact;
+                        event.sourceId = projectile.sourceId;
+                        event.sourcePartyMemberIndex = projectile.sourcePartyMemberIndex;
+                        event.targetActorId = m_mapActors[actorIndex].actorId;
+                        event.damage = splashDamage;
+                        event.spellId = projectile.spellId;
+                        event.hit = true;
+                        event.killed = beforeHp > 0 && m_mapActors[actorIndex].currentHp <= 0;
+                        m_pendingCombatEvents.push_back(std::move(event));
                     }
                     else
                     {
@@ -7011,12 +7149,19 @@ void OutdoorWorldRuntime::updateProjectiles(float deltaSeconds, float partyX, fl
                 pBestColliderKind != nullptr ? pBestColliderKind : "unknown",
                 bestColliderName,
                 bestPoint);
-            spawnProjectileImpact(
-                projectile,
-                bestPoint.x,
-                bestPoint.y,
-                bestPoint.z,
-                pBestColliderKind != nullptr && std::strcmp(pBestColliderKind, "actor") == 0);
+            if (waterTerrainImpact)
+            {
+                spawnWaterSplashImpact(projectile.x, projectile.y, bestPoint.z + 60.0f);
+            }
+            else
+            {
+                spawnProjectileImpact(
+                    projectile,
+                    bestPoint.x,
+                    bestPoint.y,
+                    bestPoint.z,
+                    pBestColliderKind != nullptr && std::strcmp(pBestColliderKind, "actor") == 0);
+            }
             projectile.isExpired = true;
             continue;
         }
@@ -7889,7 +8034,8 @@ bool OutdoorWorldRuntime::applyPartySpellToMapActor(
     int damage,
     float partyX,
     float partyY,
-    float partyZ)
+    float partyZ,
+    uint32_t sourcePartyMemberIndex)
 {
     if (actorIndex >= m_mapActors.size() || m_pSpellTable == nullptr)
     {
@@ -7924,7 +8070,34 @@ bool OutdoorWorldRuntime::applyPartySpellToMapActor(
         || spellIdValue == SpellId::PsychicShock
         || spellIdValue == SpellId::Harm)
     {
-        return applyPartyAttackToMapActor(actorIndex, std::max(1, damage), partyX, partyY, partyZ);
+        if (spellIdValue == SpellId::Implosion)
+        {
+            spawnImmediateSpellVisual(
+                spellId,
+                actor.preciseX,
+                actor.preciseY,
+                actor.preciseZ + static_cast<float>(actor.height) * 0.5f,
+                true);
+        }
+
+        const int spellDamage = std::max(1, damage);
+        const int beforeHp = actor.currentHp;
+        const bool applied = applyPartyAttackToMapActor(actorIndex, spellDamage, partyX, partyY, partyZ);
+
+        if (applied)
+        {
+            CombatEvent event = {};
+            event.type = CombatEvent::Type::PartyProjectileActorImpact;
+            event.sourcePartyMemberIndex = sourcePartyMemberIndex;
+            event.targetActorId = actor.actorId;
+            event.damage = spellDamage;
+            event.spellId = static_cast<int>(spellId);
+            event.hit = true;
+            event.killed = beforeHp > 0 && actor.currentHp <= 0;
+            m_pendingCombatEvents.push_back(std::move(event));
+        }
+
+        return applied;
     }
 
     if (spellName == "mass distortion")
@@ -7932,7 +8105,23 @@ bool OutdoorWorldRuntime::applyPartySpellToMapActor(
         const int spellDamage = std::max(
             1,
             static_cast<int>(std::round(static_cast<float>(actor.currentHp) * (0.25f + 0.02f * skillLevel))));
-        return applyPartyAttackToMapActor(actorIndex, spellDamage, partyX, partyY, partyZ);
+        const int beforeHp = actor.currentHp;
+        const bool applied = applyPartyAttackToMapActor(actorIndex, spellDamage, partyX, partyY, partyZ);
+
+        if (applied)
+        {
+            CombatEvent event = {};
+            event.type = CombatEvent::Type::PartyProjectileActorImpact;
+            event.sourcePartyMemberIndex = sourcePartyMemberIndex;
+            event.targetActorId = actor.actorId;
+            event.damage = spellDamage;
+            event.spellId = static_cast<int>(spellId);
+            event.hit = true;
+            event.killed = beforeHp > 0 && actor.currentHp <= 0;
+            m_pendingCombatEvents.push_back(std::move(event));
+        }
+
+        return applied;
     }
 
     if (spellName == "destroy undead")
@@ -7942,7 +8131,24 @@ bool OutdoorWorldRuntime::applyPartySpellToMapActor(
             return false;
         }
 
-        return applyPartyAttackToMapActor(actorIndex, std::max(1, damage), partyX, partyY, partyZ);
+        const int spellDamage = std::max(1, damage);
+        const int beforeHp = actor.currentHp;
+        const bool applied = applyPartyAttackToMapActor(actorIndex, spellDamage, partyX, partyY, partyZ);
+
+        if (applied)
+        {
+            CombatEvent event = {};
+            event.type = CombatEvent::Type::PartyProjectileActorImpact;
+            event.sourcePartyMemberIndex = sourcePartyMemberIndex;
+            event.targetActorId = actor.actorId;
+            event.damage = spellDamage;
+            event.spellId = static_cast<int>(spellId);
+            event.hit = true;
+            event.killed = beforeHp > 0 && actor.currentHp <= 0;
+            m_pendingCombatEvents.push_back(std::move(event));
+        }
+
+        return applied;
     }
 
     if (spellName == "light bolt")
@@ -7954,7 +8160,23 @@ bool OutdoorWorldRuntime::applyPartySpellToMapActor(
             spellDamage *= 2;
         }
 
-        return applyPartyAttackToMapActor(actorIndex, spellDamage, partyX, partyY, partyZ);
+        const int beforeHp = actor.currentHp;
+        const bool applied = applyPartyAttackToMapActor(actorIndex, spellDamage, partyX, partyY, partyZ);
+
+        if (applied)
+        {
+            CombatEvent event = {};
+            event.type = CombatEvent::Type::PartyProjectileActorImpact;
+            event.sourcePartyMemberIndex = sourcePartyMemberIndex;
+            event.targetActorId = actor.actorId;
+            event.damage = spellDamage;
+            event.spellId = static_cast<int>(spellId);
+            event.hit = true;
+            event.killed = beforeHp > 0 && actor.currentHp <= 0;
+            m_pendingCombatEvents.push_back(std::move(event));
+        }
+
+        return applied;
     }
 
     if (spellName == "stun")
@@ -8225,6 +8447,79 @@ bool OutdoorWorldRuntime::applyPartySpellToMapActor(
     }
 
     return false;
+}
+
+bool OutdoorWorldRuntime::spawnImmediateSpellVisual(
+    uint32_t spellId,
+    float x,
+    float y,
+    float z,
+    bool centerVertically)
+{
+    if (m_pSpellTable == nullptr || m_pObjectTable == nullptr)
+    {
+        return false;
+    }
+
+    const SpellEntry *pSpellEntry = m_pSpellTable->findById(static_cast<int>(spellId));
+
+    if (pSpellEntry == nullptr)
+    {
+        return false;
+    }
+
+    ResolvedProjectileDefinition definition = {};
+
+    if (!resolveSpellDefinition(*pSpellEntry, *m_pObjectTable, definition))
+    {
+        return false;
+    }
+
+    uint16_t effectDescriptionId = definition.impactObjectDescriptionId;
+    uint16_t effectSpriteId = definition.impactObjectSpriteId;
+    std::string effectObjectName = definition.impactObjectName;
+    std::string effectSpriteName = definition.impactObjectSpriteName;
+
+    if (effectDescriptionId == 0)
+    {
+        effectDescriptionId = definition.objectDescriptionId;
+        effectSpriteId = definition.objectSpriteId;
+        effectObjectName = definition.objectName;
+        effectSpriteName = definition.objectSpriteName;
+    }
+
+    if (effectDescriptionId == 0)
+    {
+        return false;
+    }
+
+    const ObjectEntry *pEffectEntry = m_pObjectTable->get(effectDescriptionId);
+
+    if (pEffectEntry == nullptr)
+    {
+        return false;
+    }
+
+    ProjectileImpactState effect = {};
+    effect.effectId = m_nextProjectileImpactId++;
+    effect.objectDescriptionId = effectDescriptionId;
+    effect.objectSpriteId = effectSpriteId;
+    effect.objectSpriteFrameIndex = resolveRuntimeSpriteFrameIndex(
+        m_pProjectileSpriteFrameTable,
+        effectSpriteId,
+        effectSpriteName);
+    effect.sourceSpellId = static_cast<int>(spellId);
+    effect.objectName = effectObjectName;
+    effect.objectSpriteName = effectSpriteName;
+    effect.sourceObjectName = definition.objectName;
+    effect.sourceObjectSpriteName = definition.objectSpriteName;
+    effect.x = x;
+    effect.y = y;
+    effect.z = centerVertically ? z - static_cast<float>(std::max<int16_t>(pEffectEntry->height, 0)) * 0.5f : z;
+    effect.lifetimeTicks = static_cast<uint32_t>(std::max<int>(pEffectEntry->lifetimeTicks, 32));
+
+    m_projectileImpacts.push_back(std::move(effect));
+    return true;
 }
 
 bool OutdoorWorldRuntime::healMapActor(size_t actorIndex, int amount)

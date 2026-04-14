@@ -38,6 +38,8 @@ struct GameSettings
     float startZ = 0.0f;
     bool startFlying = false;
     float movementSpeedMultiplier = 1.0f;
+    bool immortal = true;
+    bool unlimitedMana = true;
 
     static GameSettings createDefault();
 };

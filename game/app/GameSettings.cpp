@@ -456,6 +456,26 @@ std::optional<GameSettings> loadGameSettings(const std::filesystem::path &path, 
         }
     }
 
+    if (const std::optional<std::string> value = getIniValue(document, "debug", "immortal"))
+    {
+        bool parsed = settings.immortal;
+
+        if (parseBoolValue(*value, parsed))
+        {
+            settings.immortal = parsed;
+        }
+    }
+
+    if (const std::optional<std::string> value = getIniValue(document, "debug", "unlimited_mana"))
+    {
+        bool parsed = settings.unlimitedMana;
+
+        if (parseBoolValue(*value, parsed))
+        {
+            settings.unlimitedMana = parsed;
+        }
+    }
+
     error.clear();
     return settings;
 }
@@ -500,7 +520,9 @@ bool saveGameSettings(const std::filesystem::path &path, const GameSettings &set
         << "start_y=" << settings.startY << '\n'
         << "start_z=" << settings.startZ << '\n'
         << "start_flying=" << (settings.startFlying ? "true" : "false") << '\n'
-        << "movement_speed_multiplier=" << settings.movementSpeedMultiplier << '\n';
+        << "movement_speed_multiplier=" << settings.movementSpeedMultiplier << '\n'
+        << "immortal=" << (settings.immortal ? "true" : "false") << '\n'
+        << "unlimited_mana=" << (settings.unlimitedMana ? "true" : "false") << '\n';
 
     if (!output.good())
     {

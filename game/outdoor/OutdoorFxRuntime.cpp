@@ -401,11 +401,19 @@ void OutdoorFxRuntime::syncRuntimeProjectiles(OutdoorGameView &view, bool refres
                 impactContext.z = pEffect->z;
                 FxRecipes::spawnImpactParticles(view.m_particleSystem, impactContext);
 
+                const float impactLightRadius =
+                    recipe == FxRecipes::ProjectileRecipe::MeteorShower ? 128.0f
+                        : recipe == FxRecipes::ProjectileRecipe::Starburst
+                        ? 136.0f
+                        : recipe == FxRecipes::ProjectileRecipe::Implosion
+                        ? 152.0f
+                        : 96.0f;
+
                 addLightEmitter(
                     pEffect->x,
                     pEffect->y,
                     pEffect->z + 16.0f,
-                    96.0f,
+                    impactLightRadius,
                     FxRecipes::projectileRecipeColorAbgr(recipe));
             }
         }

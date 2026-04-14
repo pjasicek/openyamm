@@ -228,9 +228,17 @@ function(openyamm_configure_runtime_shaders)
         "vertex"
         "vs_outdoor_textured_fog.bin")
     openyamm_compile_bgfx_shader(
+        "${CMAKE_SOURCE_DIR}/game/shaders/vs_outdoor_billboard_lit.sc"
+        "vertex"
+        "vs_outdoor_billboard_lit.bin")
+    openyamm_compile_bgfx_shader(
         "${CMAKE_SOURCE_DIR}/game/shaders/fs_outdoor_textured_fog.sc"
         "fragment"
         "fs_outdoor_textured_fog.bin")
+    openyamm_compile_bgfx_shader(
+        "${CMAKE_SOURCE_DIR}/game/shaders/fs_outdoor_billboard_lit.sc"
+        "fragment"
+        "fs_outdoor_billboard_lit.bin")
     openyamm_compile_bgfx_shader(
         "${CMAKE_SOURCE_DIR}/game/shaders/vs_outdoor_force_perspective.sc"
         "vertex"
@@ -239,6 +247,22 @@ function(openyamm_configure_runtime_shaders)
         "${CMAKE_SOURCE_DIR}/game/shaders/fs_outdoor_force_perspective.sc"
         "fragment"
         "fs_outdoor_force_perspective.bin")
+    openyamm_compile_bgfx_shader(
+        "${CMAKE_SOURCE_DIR}/game/shaders/vs_particle.sc"
+        "vertex"
+        "vs_particle.bin")
+    openyamm_compile_bgfx_shader(
+        "${CMAKE_SOURCE_DIR}/game/shaders/fs_particle.sc"
+        "fragment"
+        "fs_particle.bin")
+    openyamm_compile_bgfx_shader(
+        "${CMAKE_SOURCE_DIR}/game/shaders/vs_editor_preview_material.sc"
+        "vertex"
+        "vs_editor_preview_material.bin")
+    openyamm_compile_bgfx_shader(
+        "${CMAKE_SOURCE_DIR}/game/shaders/fs_editor_preview_material.sc"
+        "fragment"
+        "fs_editor_preview_material.bin")
 
     add_custom_target(openyamm_runtime_shaders ALL
         DEPENDS
@@ -247,8 +271,14 @@ function(openyamm_configure_runtime_shaders)
             "${OPENYAMM_RUNTIME_SHADER_DIR}/glsl/vs_shadowmaps_texture.bin"
             "${OPENYAMM_RUNTIME_SHADER_DIR}/glsl/fs_shadowmaps_texture.bin"
             "${OPENYAMM_RUNTIME_SHADER_DIR}/glsl/vs_outdoor_textured_fog.bin"
+            "${OPENYAMM_RUNTIME_SHADER_DIR}/glsl/vs_outdoor_billboard_lit.bin"
             "${OPENYAMM_RUNTIME_SHADER_DIR}/glsl/fs_outdoor_textured_fog.bin"
+            "${OPENYAMM_RUNTIME_SHADER_DIR}/glsl/fs_outdoor_billboard_lit.bin"
             "${OPENYAMM_RUNTIME_SHADER_DIR}/glsl/vs_outdoor_force_perspective.bin"
             "${OPENYAMM_RUNTIME_SHADER_DIR}/glsl/fs_outdoor_force_perspective.bin"
+            "${OPENYAMM_RUNTIME_SHADER_DIR}/glsl/vs_particle.bin"
+            "${OPENYAMM_RUNTIME_SHADER_DIR}/glsl/fs_particle.bin"
+            "${OPENYAMM_RUNTIME_SHADER_DIR}/glsl/vs_editor_preview_material.bin"
+            "${OPENYAMM_RUNTIME_SHADER_DIR}/glsl/fs_editor_preview_material.bin"
     )
 endfunction()

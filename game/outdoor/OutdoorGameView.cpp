@@ -9384,6 +9384,12 @@ bool OutdoorGameView::tryCastSpellFromMember(
 
 bool OutdoorGameView::isSpellQuickCastable(const PartySpellDescriptor &descriptor) const
 {
+    if (spellIdFromValue(descriptor.spellId) == SpellId::MeteorShower
+        || spellIdFromValue(descriptor.spellId) == SpellId::Starburst)
+    {
+        return false;
+    }
+
     if (descriptor.targetKind == PartySpellCastTargetKind::None)
     {
         return true;
@@ -10345,7 +10351,12 @@ bool OutdoorGameView::tryResolvePendingSpellCast(
 
     if (runtimeActorIndex)
     {
-        request.targetActorIndex = runtimeActorIndex;
+        const OutdoorWorldRuntime::MapActorState *pActor = m_pOutdoorWorldRuntime->mapActorState(*runtimeActorIndex);
+
+        if (pActor != nullptr && !pActor->isDead && !pActor->isInvisible)
+        {
+            request.targetActorIndex = runtimeActorIndex;
+        }
     }
 
     if (characterTargetAllowed && portraitMemberIndex)
@@ -10695,6 +10706,13 @@ void OutdoorGameView::showStatusBarEvent(const std::string &text, float duration
 void OutdoorGameView::setSettingsSnapshot(const GameSettings &settings)
 {
     m_gameSettings = settings;
+
+    if (m_pOutdoorPartyRuntime != nullptr)
+    {
+        Party &party = m_pOutdoorPartyRuntime->party();
+        party.setDebugDamageImmune(settings.immortal);
+        party.setDebugUnlimitedMana(settings.unlimitedMana);
+    }
 }
 
 void OutdoorGameView::showCombatStatusBarEvent(const std::string &text, float durationSeconds)

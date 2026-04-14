@@ -1158,6 +1158,8 @@ private:
     uint64_t m_lastSpellbookSpellClickTicks;
     uint32_t m_lastSpellbookClickedSpellId;
     uint64_t m_lastSpellFailSoundTicks;
+    uint64_t m_lastMeteorShowerImpactSoundTicks = 0;
+    uint64_t m_lastStarburstImpactSoundTicks = 0;
     bool m_pendingOpenNewGameScreen = false;
     bool m_pendingOpenLoadGameScreen = false;
     PendingSpellCastState m_pendingSpellCast;

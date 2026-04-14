@@ -21,6 +21,8 @@ namespace
 {
 constexpr uint32_t SpeechReactionCooldownMs = 900;
 constexpr uint32_t CombatSpeechReactionCooldownMs = 2500;
+constexpr uint64_t MeteorShowerImpactSoundCooldownMs = 120;
+constexpr uint64_t StarburstImpactSoundCooldownMs = 120;
 constexpr float WalkingSoundMovementSpeedThreshold = 20.0f;
 constexpr float WalkingMotionHoldSeconds = 0.125f;
 constexpr uint8_t FirstRoadTileId = 198;
@@ -752,6 +754,27 @@ void OutdoorPresentationController::consumePendingWorldAudioEvents(OutdoorGameVi
 
     for (const OutdoorWorldRuntime::AudioEvent &event : events)
     {
+        const uint64_t currentTicks = SDL_GetTicks();
+
+        if (event.reason == "meteor_shower_impact")
+        {
+            if (currentTicks < view.m_lastMeteorShowerImpactSoundTicks + MeteorShowerImpactSoundCooldownMs)
+            {
+                continue;
+            }
+
+            view.m_lastMeteorShowerImpactSoundTicks = currentTicks;
+        }
+        else if (event.reason == "starburst_impact")
+        {
+            if (currentTicks < view.m_lastStarburstImpactSoundTicks + StarburstImpactSoundCooldownMs)
+            {
+                continue;
+            }
+
+            view.m_lastStarburstImpactSoundTicks = currentTicks;
+        }
+
         std::optional<GameAudioSystem::WorldPosition> position = std::nullopt;
 
         if (event.positional)

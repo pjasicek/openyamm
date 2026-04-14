@@ -502,7 +502,8 @@ public:
         int damage,
         float partyX,
         float partyY,
-        float partyZ);
+        float partyZ,
+        uint32_t sourcePartyMemberIndex = 0);
     bool healMapActor(size_t actorIndex, int amount);
     bool resurrectMapActor(size_t actorIndex, int health, bool friendlyToParty);
     bool clearMapActorSpellEffects(size_t actorIndex);
@@ -742,6 +743,10 @@ private:
         const SpellCastRequest &request,
         const ResolvedProjectileDefinition &definition
     );
+    bool castStarburst(
+        const SpellCastRequest &request,
+        const ResolvedProjectileDefinition &definition
+    );
     bool projectileSourceIsFriendlyToActor(const ProjectileState &projectile, const MapActorState &actor) const;
     bool spawnSpellProjectile(
         const SpellCastRequest &request,
@@ -781,6 +786,13 @@ private:
         float y,
         float z,
         bool centerVertically = false);
+    bool spawnImmediateSpellVisual(
+        uint32_t spellId,
+        float x,
+        float y,
+        float z,
+        bool centerVertically = false);
+    bool spawnWaterSplashImpact(float x, float y, float z);
 
     int m_mapId = 0;
     int m_mapTreasureLevel = 0;

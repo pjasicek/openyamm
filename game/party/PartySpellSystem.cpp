@@ -1243,7 +1243,8 @@ PartySpellCastResult PartySpellSystem::castSpell(
                     power,
                     sourceX,
                     sourceY,
-                    moveState.footZ);
+                    moveState.footZ,
+                    static_cast<uint32_t>(request.casterMemberIndex));
             }
         }
         else if (spellId == SpellId::Preservation)
@@ -1506,7 +1507,8 @@ PartySpellCastResult PartySpellSystem::castSpell(
                 rollSpellDamage(*rule, *pSpellEntry, skillLevel),
                 sourceX,
                 sourceY,
-                moveState.footZ);
+                moveState.footZ,
+                static_cast<uint32_t>(request.casterMemberIndex));
 
             if (castSucceeded && spellId == SpellId::Lifedrain)
             {
@@ -1547,7 +1549,8 @@ PartySpellCastResult PartySpellSystem::castSpell(
                         0,
                         sourceX,
                         sourceY,
-                        moveState.footZ);
+                        moveState.footZ,
+                        static_cast<uint32_t>(request.casterMemberIndex));
                 }
             }
         }
@@ -1678,7 +1681,8 @@ PartySpellCastResult PartySpellSystem::castSpell(
                 rollSpellDamage(*rule, *pSpellEntry, skillLevel),
                 sourceX,
                 sourceY,
-                moveState.footZ)
+                moveState.footZ,
+                static_cast<uint32_t>(request.casterMemberIndex))
                 || castSucceeded;
         }
 
@@ -1786,6 +1790,7 @@ std::optional<PartySpellDescriptor> PartySpellSystem::describeSpell(uint32_t spe
     }
 
     PartySpellDescriptor descriptor = {};
+    descriptor.spellId = spellId;
     descriptor.targetKind = rule->targetKind;
     descriptor.effectKind = rule->effectKind;
     return descriptor;

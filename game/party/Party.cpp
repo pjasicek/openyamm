@@ -119,6 +119,26 @@ void grantAllSpellsForMagicSkill(Character &character, const std::string &skillN
     }
 }
 
+void grantAllSpells(Character &character)
+{
+    static const std::array<const char *, 9> skillNames = {
+        "FireMagic",
+        "AirMagic",
+        "WaterMagic",
+        "EarthMagic",
+        "SpiritMagic",
+        "MindMagic",
+        "BodyMagic",
+        "LightMagic",
+        "DarkMagic"
+    };
+
+    for (const char *pSkillName : skillNames)
+    {
+        grantAllSpellsForMagicSkill(character, pSkillName);
+    }
+}
+
 void forgetAllSpellsForMagicSkill(Character &character, const std::string &skillName)
 {
     const std::optional<std::pair<uint32_t, uint32_t>> spellRange = spellIdRangeForMagicSkill(skillName);
@@ -1415,20 +1435,7 @@ PartySeed Party::createDefaultSeed()
     cleric.spellPoints = 120;
     grantDefaultEquipmentSkills(cleric);
     grantAllMagicSchools(cleric, 10, SkillMastery::Grandmaster);
-    grantAllSpellsForMagicSkill(cleric, "FireMagic");
-    grantAllSpellsForMagicSkill(cleric, "AirMagic");
-    grantAllSpellsForMagicSkill(cleric, "WaterMagic");
-    grantAllSpellsForMagicSkill(cleric, "EarthMagic");
-    grantAllSpellsForMagicSkill(cleric, "SpiritMagic");
-    grantAllSpellsForMagicSkill(cleric, "MindMagic");
-    grantAllSpellsForMagicSkill(cleric, "BodyMagic");
-    grantAllSpellsForMagicSkill(cleric, "LightMagic");
-    grantAllSpellsForMagicSkill(cleric, "DarkMagic");
-    cleric.skills.erase("AirMagic");
-    forgetAllSpellsForMagicSkill(cleric, "AirMagic");
-    grantSeedSkill(cleric, "FireMagic", 10, SkillMastery::Master);
-    cleric.forgetSpell(spellIdValue(SpellId::FireBolt));
-    cleric.forgetSpell(spellIdValue(SpellId::Incinerate));
+    grantAllSpells(cleric);
     grantSeedSkill(cleric, "IdentifyItem", 10, SkillMastery::Grandmaster);
     grantSeedSkill(cleric, "RepairItem", 10, SkillMastery::Grandmaster);
     grantSeedEquippedItem(cleric, EquipmentSlot::MainHand, 79, 0, 0, 16);
@@ -2005,10 +2012,30 @@ bool Party::applyDamageToActiveMember(int damage, const std::string &status)
     return applyDamageToMember(targetIndex, damage, status);
 }
 
+void Party::setDebugDamageImmune(bool enabled)
+{
+    m_debugDamageImmune = enabled;
+}
+
+void Party::setDebugUnlimitedMana(bool enabled)
+{
+    m_debugUnlimitedMana = enabled;
+}
+
 bool Party::applyDamageToMember(size_t memberIndex, int damage, const std::string &status)
 {
     if (damage <= 0 || memberIndex >= m_members.size())
     {
+        return false;
+    }
+
+    if (m_debugDamageImmune)
+    {
+        if (!status.empty())
+        {
+            m_lastStatus = status;
+        }
+
         return false;
     }
 
@@ -4024,6 +4051,11 @@ bool Party::setActiveMemberIndex(size_t memberIndex)
 
 bool Party::canSpendSpellPoints(size_t memberIndex, int amount) const
 {
+    if (m_debugUnlimitedMana)
+    {
+        return true;
+    }
+
     const Character *pMember = member(memberIndex);
 
     if (pMember == nullptr)
@@ -4036,6 +4068,11 @@ bool Party::canSpendSpellPoints(size_t memberIndex, int amount) const
 
 bool Party::spendSpellPoints(size_t memberIndex, int amount)
 {
+    if (m_debugUnlimitedMana)
+    {
+        return true;
+    }
+
     Character *pMember = member(memberIndex);
 
     if (pMember == nullptr)

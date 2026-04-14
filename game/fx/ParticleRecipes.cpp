@@ -243,6 +243,27 @@ ProjectileRecipe classifyProjectileRecipe(
         return ProjectileRecipe::Fireball;
     }
 
+    if (spellId == 9
+        || containsToken(objectName, "meteor shower")
+        || containsToken(spriteName, "spell09"))
+    {
+        return ProjectileRecipe::MeteorShower;
+    }
+
+    if (spellId == 22
+        || containsToken(objectName, "starburst")
+        || containsToken(spriteName, "spell22"))
+    {
+        return ProjectileRecipe::Starburst;
+    }
+
+    if (spellId == 20
+        || containsToken(objectName, "implosion")
+        || containsToken(spriteName, "spell57c"))
+    {
+        return ProjectileRecipe::Implosion;
+    }
+
     if (spellId == 18
         || containsToken(objectName, "lightning bolt")
         || containsToken(objectName, "laser")
@@ -330,10 +351,15 @@ uint32_t projectileRecipeColorAbgr(ProjectileRecipe recipe)
     {
     case ProjectileRecipe::FireBolt:
     case ProjectileRecipe::Fireball:
+    case ProjectileRecipe::MeteorShower:
     case ProjectileRecipe::Cannonball:
     case ProjectileRecipe::DragonBreath:
     case ProjectileRecipe::GenericFireTrail:
         return makeAbgr(255, 120, 32, 220);
+    case ProjectileRecipe::Starburst:
+        return makeAbgr(255, 244, 180, 220);
+    case ProjectileRecipe::Implosion:
+        return makeAbgr(176, 216, 255, 208);
     case ProjectileRecipe::LightningBolt:
         return makeAbgr(255, 220, 90, 220);
     case ProjectileRecipe::IceBolt:
@@ -362,8 +388,14 @@ float projectileRecipeGlowRadius(ProjectileRecipe recipe)
     case ProjectileRecipe::Fireball:
     case ProjectileRecipe::DragonBreath:
         return 224.0f;
+    case ProjectileRecipe::MeteorShower:
+        return 176.0f;
     case ProjectileRecipe::Cannonball:
         return 192.0f;
+    case ProjectileRecipe::Starburst:
+        return 192.0f;
+    case ProjectileRecipe::Implosion:
+        return 168.0f;
     case ProjectileRecipe::LightBolt:
     case ProjectileRecipe::LightningBolt:
         return 176.0f;
@@ -400,6 +432,9 @@ float projectileRecipeAnchorOffset(ProjectileRecipe recipe, uint16_t radius, uin
         return std::max(baselineOffset, 20.0f);
     case ProjectileRecipe::DragonBreath:
         return std::max(baselineOffset, 18.0f);
+    case ProjectileRecipe::MeteorShower:
+    case ProjectileRecipe::Starburst:
+        return std::max(baselineOffset, 16.0f);
     case ProjectileRecipe::Fireball:
         return std::max(baselineOffset, 14.0f);
     case ProjectileRecipe::IceBolt:
@@ -430,6 +465,10 @@ float projectileRecipeBackOffset(ProjectileRecipe recipe, uint16_t radius)
         return 0.0f;
     case ProjectileRecipe::DragonBreath:
         return 8.0f;
+    case ProjectileRecipe::MeteorShower:
+    case ProjectileRecipe::Starburst:
+    case ProjectileRecipe::Implosion:
+        return 3.0f;
     case ProjectileRecipe::Fireball:
         return 6.0f;
     case ProjectileRecipe::FireBolt:
@@ -535,6 +574,7 @@ void spawnProjectileTrailParticles(
 
     if (recipe == ProjectileRecipe::FireBolt
         || recipe == ProjectileRecipe::Fireball
+        || recipe == ProjectileRecipe::MeteorShower
         || recipe == ProjectileRecipe::DragonBreath
         || recipe == ProjectileRecipe::DarkFireBolt
         || (context.objectFlags & ObjectDescTrailFire) != 0)
@@ -543,7 +583,8 @@ void spawnProjectileTrailParticles(
         emberLayer.startColorAbgr = colorAbgr;
         emberLayer.endColorAbgr = makeAbgr(255, 180, 64, 0);
         emberLayer.count =
-            recipe == ProjectileRecipe::Fireball || recipe == ProjectileRecipe::DragonBreath ? 10u : 7u;
+            recipe == ProjectileRecipe::Fireball || recipe == ProjectileRecipe::DragonBreath ? 10u
+                : (recipe == ProjectileRecipe::MeteorShower ? 5u : 7u);
         emberLayer.startOffset = 7.0f;
         emberLayer.offsetStep = 5.8f;
         emberLayer.lateralSpread = 2.6f;
@@ -551,10 +592,12 @@ void spawnProjectileTrailParticles(
         emberLayer.inheritedVelocity = 0.18f;
         emberLayer.upwardVelocity = 10.0f;
         emberLayer.startSize =
-            recipe == ProjectileRecipe::Fireball || recipe == ProjectileRecipe::DragonBreath ? 9.0f : 7.0f;
+            recipe == ProjectileRecipe::Fireball || recipe == ProjectileRecipe::DragonBreath ? 9.0f
+                : (recipe == ProjectileRecipe::MeteorShower ? 7.5f : 7.0f);
         emberLayer.endSize = emberLayer.startSize * 0.38f;
         emberLayer.lifetimeSeconds =
-            recipe == ProjectileRecipe::Fireball || recipe == ProjectileRecipe::DragonBreath ? 0.36f : 0.30f;
+            recipe == ProjectileRecipe::Fireball || recipe == ProjectileRecipe::DragonBreath ? 0.36f
+                : (recipe == ProjectileRecipe::MeteorShower ? 0.26f : 0.30f);
         emberLayer.drag = 4.5f;
         emberLayer.rotationJitterRadians = 0.5f;
         emberLayer.angularVelocityRadians = 4.0f;
@@ -590,17 +633,22 @@ void spawnProjectileTrailParticles(
         smokeLayer.endColorAbgr = makeAbgr(84, 84, 84, 0);
         smokeLayer.count =
             recipe == ProjectileRecipe::Fireball || recipe == ProjectileRecipe::DragonBreath ? 5u
-                : (recipe == ProjectileRecipe::Cannonball ? 4u : 3u);
-        smokeLayer.startOffset = recipe == ProjectileRecipe::Cannonball ? 6.0f : 10.0f;
-        smokeLayer.offsetStep = recipe == ProjectileRecipe::Cannonball ? 5.5f : 8.0f;
+                : (recipe == ProjectileRecipe::MeteorShower ? 2u : (recipe == ProjectileRecipe::Cannonball ? 4u : 3u));
+        smokeLayer.startOffset =
+            recipe == ProjectileRecipe::MeteorShower ? 5.0f : (recipe == ProjectileRecipe::Cannonball ? 6.0f : 10.0f);
+        smokeLayer.offsetStep =
+            recipe == ProjectileRecipe::MeteorShower ? 4.5f : (recipe == ProjectileRecipe::Cannonball ? 5.5f : 8.0f);
         smokeLayer.lateralSpread = 3.4f;
         smokeLayer.verticalSpread = 2.2f;
         smokeLayer.inheritedVelocity = recipe == ProjectileRecipe::Cannonball ? 0.03f : 0.06f;
         smokeLayer.upwardVelocity = recipe == ProjectileRecipe::Cannonball ? 6.0f : 14.0f;
         smokeLayer.startSize =
-            recipe == ProjectileRecipe::DragonBreath ? 16.0f : (recipe == ProjectileRecipe::Cannonball ? 13.0f : 12.0f);
+            recipe == ProjectileRecipe::DragonBreath ? 16.0f
+                : (recipe == ProjectileRecipe::MeteorShower ? 10.0f
+                    : (recipe == ProjectileRecipe::Cannonball ? 13.0f : 12.0f));
         smokeLayer.endSize = smokeLayer.startSize * 1.9f;
-        smokeLayer.lifetimeSeconds = recipe == ProjectileRecipe::Cannonball ? 0.42f : 0.48f;
+        smokeLayer.lifetimeSeconds =
+            recipe == ProjectileRecipe::MeteorShower ? 0.30f : (recipe == ProjectileRecipe::Cannonball ? 0.42f : 0.48f);
         smokeLayer.drag = recipe == ProjectileRecipe::Cannonball ? 3.0f : 2.2f;
         smokeLayer.rotationJitterRadians = 0.9f;
         smokeLayer.angularVelocityRadians = 1.2f;
@@ -623,6 +671,77 @@ void spawnProjectileTrailParticles(
             context.velocityY,
             context.velocityZ,
             smokeLayer);
+        return;
+    }
+
+    if (recipe == ProjectileRecipe::Starburst)
+    {
+        LayerRecipe sparkLayer = {};
+        sparkLayer.startColorAbgr = colorAbgr;
+        sparkLayer.endColorAbgr = makeAbgr(255, 255, 255, 0);
+        sparkLayer.count = 6u;
+        sparkLayer.startOffset = 3.5f;
+        sparkLayer.offsetStep = 3.2f;
+        sparkLayer.lateralSpread = 1.2f;
+        sparkLayer.verticalSpread = 1.0f;
+        sparkLayer.inheritedVelocity = 0.14f;
+        sparkLayer.upwardVelocity = 0.0f;
+        sparkLayer.startSize = 5.5f;
+        sparkLayer.endSize = 2.0f;
+        sparkLayer.lifetimeSeconds = 0.22f;
+        sparkLayer.drag = 5.0f;
+        sparkLayer.stretch = 1.6f;
+        sparkLayer.motion = FxParticleMotion::VelocityTrail;
+        sparkLayer.blendMode = FxParticleBlendMode::Additive;
+        sparkLayer.alignment = FxParticleAlignment::VelocityStretched;
+        sparkLayer.material = FxParticleMaterial::Spark;
+        sparkLayer.tag = FxParticleTag::Trail;
+        emitLayerParticles(
+            particleSystem,
+            baseSeed,
+            context.x,
+            context.y,
+            context.z,
+            directionX,
+            directionY,
+            directionZ,
+            context.velocityX,
+            context.velocityY,
+            context.velocityZ,
+            sparkLayer);
+
+        LayerRecipe moteLayer = {};
+        moteLayer.startColorAbgr = varyAlpha(colorAbgr, 0.75f);
+        moteLayer.endColorAbgr = makeAbgr(255, 255, 255, 0);
+        moteLayer.count = 3u;
+        moteLayer.startOffset = 4.0f;
+        moteLayer.offsetStep = 3.8f;
+        moteLayer.lateralSpread = 1.6f;
+        moteLayer.verticalSpread = 1.2f;
+        moteLayer.inheritedVelocity = 0.10f;
+        moteLayer.upwardVelocity = 1.0f;
+        moteLayer.startSize = 6.0f;
+        moteLayer.endSize = 2.8f;
+        moteLayer.lifetimeSeconds = 0.24f;
+        moteLayer.drag = 4.4f;
+        moteLayer.motion = FxParticleMotion::VelocityTrail;
+        moteLayer.blendMode = FxParticleBlendMode::Additive;
+        moteLayer.alignment = FxParticleAlignment::CameraFacing;
+        moteLayer.material = FxParticleMaterial::SoftBlob;
+        moteLayer.tag = FxParticleTag::Trail;
+        emitLayerParticles(
+            particleSystem,
+            baseSeed ^ 0x3c6ef372u,
+            context.x,
+            context.y,
+            context.z,
+            directionX,
+            directionY,
+            directionZ,
+            context.velocityX,
+            context.velocityY,
+            context.velocityZ,
+            moteLayer);
         return;
     }
 
@@ -835,6 +954,7 @@ void spawnImpactParticles(ParticleSystem &particleSystem, const ImpactSpawnConte
     const bool isFire =
         recipe == ProjectileRecipe::FireBolt
         || recipe == ProjectileRecipe::Fireball
+        || recipe == ProjectileRecipe::MeteorShower
         || recipe == ProjectileRecipe::Cannonball
         || recipe == ProjectileRecipe::DragonBreath
         || recipe == ProjectileRecipe::DarkFireBolt
@@ -846,6 +966,7 @@ void spawnImpactParticles(ParticleSystem &particleSystem, const ImpactSpawnConte
     const bool isFireBolt = recipe == ProjectileRecipe::FireBolt;
     const bool isFireballFamily =
         recipe == ProjectileRecipe::Fireball
+        || recipe == ProjectileRecipe::MeteorShower
         || recipe == ProjectileRecipe::DragonBreath
         || recipe == ProjectileRecipe::DarkFireBolt;
     const bool isLightning =
@@ -866,10 +987,12 @@ void spawnImpactParticles(ParticleSystem &particleSystem, const ImpactSpawnConte
                 || containsToken(context.objectName, "toxic")));
     const bool isLight =
         recipe == ProjectileRecipe::LightBolt
+        || recipe == ProjectileRecipe::Starburst
         || (recipe == ProjectileRecipe::None
             && (containsToken(context.objectName, "light bolt")
                 || containsToken(context.objectName, "sunray")
                 || containsToken(context.objectName, "prismatic")));
+    const bool isImplosion = recipe == ProjectileRecipe::Implosion;
     const bool isIce =
         recipe == ProjectileRecipe::IceBolt
         || (recipe == ProjectileRecipe::None
@@ -998,21 +1121,87 @@ void spawnImpactParticles(ParticleSystem &particleSystem, const ImpactSpawnConte
 
     if (isLight)
     {
-        emitCoreFlash(16u, 9.0f, 78.0f, 1.0f);
-        emitSparkSplash(10u, 5.0f, 92.0f, baseSeed ^ 0xa24baed4u);
+        const bool isStarburst = recipe == ProjectileRecipe::Starburst;
+        emitCoreFlash(
+            isStarburst ? 22u : 16u,
+            isStarburst ? 11.0f : 9.0f,
+            isStarburst ? 96.0f : 78.0f,
+            1.0f);
+        emitSparkSplash(
+            isStarburst ? 16u : 10u,
+            isStarburst ? 6.5f : 5.0f,
+            isStarburst ? 116.0f : 92.0f,
+            baseSeed ^ 0xa24baed4u);
+        if (isStarburst)
+        {
+            emitCoreFlash(8u, 7.5f, 74.0f, 1.0f);
+        }
+        return;
+    }
+
+    if (isImplosion)
+    {
+        emitCoreFlash(18u, 14.0f, 42.0f, 1.0f);
+        emitCoreFlash(10u, 10.0f, 26.0f, 1.0f);
+
+        emitSoftCloud(
+            makeAbgr(176, 216, 255, 104),
+            makeAbgr(216, 236, 255, 0),
+            10u,
+            18.0f,
+            46.0f,
+            0.52f,
+            12.0f,
+            FxParticleMaterial::Mist);
+
+        LayerRecipe moteLayer = {};
+        moteLayer.startColorAbgr = makeAbgr(192, 224, 255, 132);
+        moteLayer.endColorAbgr = makeAbgr(224, 240, 255, 0);
+        moteLayer.count = 8u;
+        moteLayer.startOffset = 0.0f;
+        moteLayer.offsetStep = 1.4f;
+        moteLayer.lateralSpread = 10.0f;
+        moteLayer.verticalSpread = 10.0f;
+        moteLayer.inheritedVelocity = 0.0f;
+        moteLayer.upwardVelocity = 4.0f;
+        moteLayer.startSize = 9.0f;
+        moteLayer.endSize = 3.0f;
+        moteLayer.lifetimeSeconds = 0.36f;
+        moteLayer.drag = 4.2f;
+        moteLayer.rotationJitterRadians = 0.8f;
+        moteLayer.angularVelocityRadians = 1.2f;
+        moteLayer.motion = FxParticleMotion::Burst;
+        moteLayer.blendMode = FxParticleBlendMode::Additive;
+        moteLayer.alignment = FxParticleAlignment::CameraFacing;
+        moteLayer.material = FxParticleMaterial::SoftBlob;
+        moteLayer.tag = FxParticleTag::Impact;
+        emitLayerParticles(
+            particleSystem,
+            baseSeed ^ 0x1f83d9abu,
+            context.x,
+            context.y,
+            context.z + 12.0f,
+            0.0f,
+            0.0f,
+            1.0f,
+            0.0f,
+            0.0f,
+            0.0f,
+            moteLayer);
         return;
     }
 
     if (isFire || isCannonball)
     {
-        const uint32_t coreCount = isCannonball ? 16u : (isFireBolt ? 20u : 18u);
-        const float coreSize = isCannonball ? 10.0f : (isFireBolt ? 10.5f : 11.0f);
-        const float coreVelocity = isCannonball ? 68.0f : (isFireBolt ? 92.0f : 84.0f);
-        const uint32_t emberCount = isCannonball ? 16u : (isFireBolt ? 24u : 22u);
-        const float emberSize = isCannonball ? 9.0f : (isFireBolt ? 7.2f : 8.0f);
-        const float emberVelocity = isCannonball ? 92.0f : (isFireBolt ? 120.0f : 104.0f);
-        const uint32_t sparkCount = isCannonball ? 6u : (isFireBolt ? 12u : 8u);
-        const float sparkVelocity = isCannonball ? 74.0f : (isFireBolt ? 98.0f : 86.0f);
+        const bool isMeteorShower = recipe == ProjectileRecipe::MeteorShower;
+        const uint32_t coreCount = isCannonball ? 16u : (isFireBolt ? 20u : (isMeteorShower ? 18u : 18u));
+        const float coreSize = isCannonball ? 10.0f : (isFireBolt ? 10.5f : (isMeteorShower ? 10.5f : 11.0f));
+        const float coreVelocity = isCannonball ? 68.0f : (isFireBolt ? 92.0f : (isMeteorShower ? 94.0f : 84.0f));
+        const uint32_t emberCount = isCannonball ? 16u : (isFireBolt ? 24u : (isMeteorShower ? 22u : 22u));
+        const float emberSize = isCannonball ? 9.0f : (isFireBolt ? 7.2f : (isMeteorShower ? 7.4f : 8.0f));
+        const float emberVelocity = isCannonball ? 92.0f : (isFireBolt ? 120.0f : (isMeteorShower ? 106.0f : 104.0f));
+        const uint32_t sparkCount = isCannonball ? 6u : (isFireBolt ? 12u : (isMeteorShower ? 10u : 8u));
+        const float sparkVelocity = isCannonball ? 74.0f : (isFireBolt ? 98.0f : (isMeteorShower ? 90.0f : 86.0f));
 
         emitCoreFlash(coreCount, coreSize, coreVelocity, 1.0f);
         emitEmberSplash(emberCount, emberSize, emberVelocity);
@@ -1020,16 +1209,21 @@ void spawnImpactParticles(ParticleSystem &particleSystem, const ImpactSpawnConte
         emitSoftCloud(
             isCannonball ? makeAbgr(96, 88, 72, 96) : makeAbgr(96, 84, 84, 92),
             makeAbgr(255, 255, 255, 0),
-            isCannonball ? 7u : (isFireBolt ? 5u : 6u),
-            isCannonball ? 17.0f : (isFireBolt ? 13.0f : 15.0f),
-            isCannonball ? 34.0f : (isFireBolt ? 24.0f : 28.0f),
-            isCannonball ? 0.48f : (isFireBolt ? 0.28f : 0.38f),
-            isCannonball ? 12.0f : (isFireBolt ? 12.0f : 16.0f),
+            isCannonball ? 7u : (isFireBolt ? 5u : (isMeteorShower ? 7u : 6u)),
+            isCannonball ? 17.0f : (isFireBolt ? 13.0f : (isMeteorShower ? 14.0f : 15.0f)),
+            isCannonball ? 34.0f : (isFireBolt ? 24.0f : (isMeteorShower ? 28.0f : 28.0f)),
+            isCannonball ? 0.48f : (isFireBolt ? 0.28f : (isMeteorShower ? 0.34f : 0.38f)),
+            isCannonball ? 12.0f : (isFireBolt ? 12.0f : (isMeteorShower ? 14.0f : 16.0f)),
             FxParticleMaterial::Smoke);
 
         if (isFireBolt)
         {
             emitCoreFlash(10u, 6.0f, 74.0f, 1.0f);
+        }
+
+        if (isMeteorShower)
+        {
+            emitCoreFlash(8u, 7.0f, 70.0f, 1.0f);
         }
 
         return;

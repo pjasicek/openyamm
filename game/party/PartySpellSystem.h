@@ -100,6 +100,7 @@ struct PartySpellCastResult
 
 struct PartySpellDescriptor
 {
+    uint32_t spellId = 0;
     PartySpellCastTargetKind targetKind = PartySpellCastTargetKind::None;
     PartySpellCastEffectKind effectKind = PartySpellCastEffectKind::Unsupported;
 };

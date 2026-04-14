@@ -103,5 +103,6 @@ private:
     static void applyOutdoorFxLightUniforms(OutdoorGameView &view, const bx::Vec3 &cameraPosition);
     static void destroyResolvedBModelDrawGroups(OutdoorGameView &view);
     static void rebuildResolvedBModelDrawGroups(OutdoorGameView &view);
+    static void renderPendingSpellAreaPreview(OutdoorGameView &view, uint16_t viewId);
 };
 } // namespace OpenYAMM::Game

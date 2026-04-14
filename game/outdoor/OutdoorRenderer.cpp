@@ -5,6 +5,7 @@
 #include "game/outdoor/OutdoorGameView.h"
 #include "game/outdoor/OutdoorInteractionController.h"
 #include "game/outdoor/OutdoorGeometryUtils.h"
+#include "game/party/SpellIds.h"
 #include "game/StringUtils.h"
 
 #include <SDL3/SDL.h>
@@ -43,6 +44,8 @@ constexpr float OutdoorFxLightRefreshIntervalSeconds = 1.0f / 60.0f;
 constexpr float OutdoorFxLightingAmbient = 1.0f;
 // OpenYAMM tuning: keep outdoor FX lights visibly readable against the current ambient baseline.
 constexpr float OutdoorFxLightingScale = 1.6f;
+constexpr float SpellImpactAoePreviewRadius = 448.0f;
+constexpr float MeteorShowerPreviewRadius = 896.0f;
 
 uint32_t makeAbgr(uint8_t red, uint8_t green, uint8_t blue)
 {
@@ -1985,6 +1988,8 @@ void OutdoorRenderer::renderWorldPasses(
         OutdoorBillboardRenderer::renderFxGlowBillboards(view, MainViewId, pViewMatrix);
     }
 
+    renderPendingSpellAreaPreview(view, MainViewId);
+
     {
         if (view.m_showSpawns
             && bgfx::isValid(view.m_spawnMarkerVertexBufferHandle)
@@ -2021,6 +2026,235 @@ void OutdoorRenderer::renderWorldPasses(
             pAtmosphereState->darknessOverlayAlpha,
             pAtmosphereState->darknessOverlayColorAbgr);
     }
+}
+
+void OutdoorRenderer::renderPendingSpellAreaPreview(OutdoorGameView &view, uint16_t viewId)
+{
+    if (view.m_pOutdoorWorldRuntime == nullptr
+        || !view.m_pendingSpellCast.active
+        || view.m_pendingSpellCast.targetKind != PartySpellCastTargetKind::GroundPoint)
+    {
+        return;
+    }
+
+    const SpellId spellId = spellIdFromValue(view.m_pendingSpellCast.spellId);
+    float previewRadius = 0.0f;
+    uint32_t previewColor = 0;
+
+    if (spellId == SpellId::MeteorShower)
+    {
+        previewRadius = MeteorShowerPreviewRadius;
+        previewColor = withAlpha(makeAbgr(255, 176, 96), 220);
+    }
+    else if (spellId == SpellId::Starburst)
+    {
+        previewRadius = SpellImpactAoePreviewRadius;
+        previewColor = withAlpha(makeAbgr(192, 224, 255), 220);
+    }
+    else
+    {
+        return;
+    }
+
+    float mouseX = 0.0f;
+    float mouseY = 0.0f;
+    SDL_GetMouseState(&mouseX, &mouseY);
+    const std::optional<bx::Vec3> targetPoint = view.resolveQuickCastCursorTargetPoint(mouseX, mouseY);
+
+    if (!targetPoint)
+    {
+        return;
+    }
+
+    constexpr size_t RingSegments = 64;
+    constexpr float PreviewHeightOffset = 6.0f;
+    const float pulse = 0.5f + 0.5f * std::sin(view.m_elapsedTime * 5.0f);
+    const float slowPulse = 0.5f + 0.5f * std::sin(view.m_elapsedTime * 2.4f);
+    const float innerRingRadius = previewRadius * (0.70f + pulse * 0.05f);
+    const float tickLength = std::max(18.0f, previewRadius * 0.08f);
+    const float glowBandHalfWidth = std::max(18.0f, previewRadius * 0.03f);
+    const float mainBandHalfWidth = std::max(6.0f, previewRadius * 0.010f);
+    const float innerBandHalfWidth = std::max(8.0f, previewRadius * 0.015f);
+    const float animatedArcHalfWidth = std::max(8.0f, previewRadius * 0.012f);
+    const uint32_t glowInnerColor = withAlpha(previewColor, static_cast<uint8_t>(86 + std::lround(24.0f * slowPulse)));
+    const uint32_t glowOuterColor = withAlpha(previewColor, 0);
+    const uint32_t mainInnerColor = withAlpha(previewColor, static_cast<uint8_t>(230 + std::lround(20.0f * pulse)));
+    const uint32_t mainOuterColor = withAlpha(previewColor, static_cast<uint8_t>(92 + std::lround(24.0f * pulse)));
+    const uint32_t innerColor = withAlpha(previewColor, static_cast<uint8_t>(168 + std::lround(52.0f * pulse)));
+    const uint32_t innerFadeColor = withAlpha(previewColor, static_cast<uint8_t>(18 + std::lround(10.0f * pulse)));
+    const uint32_t tickColor = withAlpha(previewColor, 240);
+    const uint32_t arcColor = withAlpha(previewColor, static_cast<uint8_t>(176 + std::lround(48.0f * slowPulse)));
+    std::vector<OutdoorGameView::TerrainVertex> vertices;
+    vertices.reserve(RingSegments * 36);
+
+    const auto samplePreviewPoint =
+        [&](float angleRadians, float radius) -> bx::Vec3
+        {
+            const float x = targetPoint->x + std::cos(angleRadians) * radius;
+            const float y = targetPoint->y + std::sin(angleRadians) * radius;
+            const float z = view.m_pOutdoorWorldRuntime->sampleSupportFloorHeight(
+                x,
+                y,
+                targetPoint->z + 1024.0f,
+                2048.0f,
+                24.0f);
+            return {x, y, z + PreviewHeightOffset};
+        };
+
+    const auto appendBandSegment =
+        [&vertices](
+            const bx::Vec3 &inner0,
+            const bx::Vec3 &outer0,
+            const bx::Vec3 &inner1,
+            const bx::Vec3 &outer1,
+            uint32_t innerColor0,
+            uint32_t outerColor0,
+            uint32_t innerColor1,
+            uint32_t outerColor1)
+        {
+            vertices.push_back({inner0.x, inner0.y, inner0.z, innerColor0});
+            vertices.push_back({outer0.x, outer0.y, outer0.z, outerColor0});
+            vertices.push_back({inner1.x, inner1.y, inner1.z, innerColor1});
+
+            vertices.push_back({inner1.x, inner1.y, inner1.z, innerColor1});
+            vertices.push_back({outer0.x, outer0.y, outer0.z, outerColor0});
+            vertices.push_back({outer1.x, outer1.y, outer1.z, outerColor1});
+        };
+
+    const auto appendRingBand =
+        [&](float radiusInner, float radiusOuter, uint32_t innerColorBand, uint32_t outerColorBand, size_t step)
+        {
+            for (size_t segmentIndex = 0; segmentIndex < RingSegments; segmentIndex += step)
+            {
+                const float angle0 = 2.0f * Pi * static_cast<float>(segmentIndex) / static_cast<float>(RingSegments);
+                const float angle1 = 2.0f * Pi * static_cast<float>(segmentIndex + step) / static_cast<float>(RingSegments);
+                appendBandSegment(
+                    samplePreviewPoint(angle0, radiusInner),
+                    samplePreviewPoint(angle0, radiusOuter),
+                    samplePreviewPoint(angle1, radiusInner),
+                    samplePreviewPoint(angle1, radiusOuter),
+                    innerColorBand,
+                    outerColorBand,
+                    innerColorBand,
+                    outerColorBand);
+            }
+        };
+
+    appendRingBand(
+        previewRadius - glowBandHalfWidth,
+        previewRadius + glowBandHalfWidth * 1.35f,
+        glowInnerColor,
+        glowOuterColor,
+        1);
+
+    appendRingBand(
+        previewRadius - mainBandHalfWidth,
+        previewRadius + mainBandHalfWidth,
+        mainInnerColor,
+        mainOuterColor,
+        1);
+
+    for (size_t segmentIndex = 0; segmentIndex < RingSegments; segmentIndex += 2)
+    {
+        const float angle0 = 2.0f * Pi * static_cast<float>(segmentIndex) / static_cast<float>(RingSegments);
+        const float angle1 = 2.0f * Pi * static_cast<float>(segmentIndex + 1) / static_cast<float>(RingSegments);
+        appendBandSegment(
+            samplePreviewPoint(angle0, innerRingRadius - innerBandHalfWidth),
+            samplePreviewPoint(angle0, innerRingRadius + innerBandHalfWidth),
+            samplePreviewPoint(angle1, innerRingRadius - innerBandHalfWidth),
+            samplePreviewPoint(angle1, innerRingRadius + innerBandHalfWidth),
+            innerColor,
+            innerFadeColor,
+            innerColor,
+            innerFadeColor);
+    }
+
+    constexpr size_t TickCount = 8;
+
+    for (size_t tickIndex = 0; tickIndex < TickCount; ++tickIndex)
+    {
+        const float angle = 2.0f * Pi * static_cast<float>(tickIndex) / static_cast<float>(TickCount);
+        const float angleWidth = Pi / 192.0f;
+        appendBandSegment(
+            samplePreviewPoint(angle - angleWidth, previewRadius - tickLength),
+            samplePreviewPoint(angle + angleWidth, previewRadius),
+            samplePreviewPoint(angle + angleWidth, previewRadius - tickLength),
+            samplePreviewPoint(angle + angleWidth * 2.0f, previewRadius),
+            tickColor,
+            withAlpha(tickColor, 0),
+            tickColor,
+            withAlpha(tickColor, 0));
+    }
+
+    constexpr size_t AnimatedArcCount = 3;
+    constexpr size_t AnimatedArcSpanSegments = 7;
+    const float animatedPhase = view.m_elapsedTime * 0.65f;
+
+    for (size_t arcIndex = 0; arcIndex < AnimatedArcCount; ++arcIndex)
+    {
+        const float arcCenterAngle = animatedPhase + 2.0f * Pi * static_cast<float>(arcIndex) / static_cast<float>(AnimatedArcCount);
+        const int centerSegment = static_cast<int>(std::floor(
+            arcCenterAngle / (2.0f * Pi) * static_cast<float>(RingSegments)));
+
+        for (size_t localSegment = 0; localSegment < AnimatedArcSpanSegments; ++localSegment)
+        {
+            const int segmentIndex = (centerSegment + static_cast<int>(localSegment)) % static_cast<int>(RingSegments);
+            const int nextSegmentIndex = (segmentIndex + 1) % static_cast<int>(RingSegments);
+            const float age = static_cast<float>(localSegment) / static_cast<float>(AnimatedArcSpanSegments);
+            const float fade = 1.0f - smoothstep(0.0f, 1.0f, age);
+            const uint8_t alpha = static_cast<uint8_t>(std::lround(220.0f * fade));
+            const uint32_t arcInnerColor = withAlpha(arcColor, alpha);
+            const uint32_t arcOuterColor = withAlpha(arcColor, static_cast<uint8_t>(std::lround(64.0f * fade)));
+            const float angle0 = 2.0f * Pi * static_cast<float>(segmentIndex) / static_cast<float>(RingSegments);
+            const float angle1 = 2.0f * Pi * static_cast<float>(nextSegmentIndex) / static_cast<float>(RingSegments);
+
+            appendBandSegment(
+                samplePreviewPoint(angle0, previewRadius - animatedArcHalfWidth),
+                samplePreviewPoint(angle0, previewRadius + animatedArcHalfWidth),
+                samplePreviewPoint(angle1, previewRadius - animatedArcHalfWidth),
+                samplePreviewPoint(angle1, previewRadius + animatedArcHalfWidth),
+                arcInnerColor,
+                arcOuterColor,
+                arcInnerColor,
+                arcOuterColor);
+        }
+    }
+
+    if (vertices.empty())
+    {
+        return;
+    }
+
+    if (bgfx::getAvailTransientVertexBuffer(
+            static_cast<uint32_t>(vertices.size()),
+            OutdoorGameView::TerrainVertex::ms_layout) < vertices.size())
+    {
+        return;
+    }
+
+    bgfx::TransientVertexBuffer transientVertexBuffer = {};
+    bgfx::allocTransientVertexBuffer(
+        &transientVertexBuffer,
+        static_cast<uint32_t>(vertices.size()),
+        OutdoorGameView::TerrainVertex::ms_layout
+    );
+    std::memcpy(
+        transientVertexBuffer.data,
+        vertices.data(),
+        static_cast<size_t>(vertices.size() * sizeof(OutdoorGameView::TerrainVertex))
+    );
+
+    float modelMatrix[16] = {};
+    bx::mtxIdentity(modelMatrix);
+    bgfx::setTransform(modelMatrix);
+    bgfx::setVertexBuffer(0, &transientVertexBuffer, 0, static_cast<uint32_t>(vertices.size()));
+    bgfx::setState(
+        BGFX_STATE_WRITE_RGB
+        | BGFX_STATE_WRITE_A
+        | BGFX_STATE_DEPTH_TEST_LEQUAL
+        | BGFX_STATE_BLEND_ALPHA
+    );
+    bgfx::submit(viewId, view.m_programHandle);
 }
 
 void OutdoorRenderer::renderOutdoorSky(
