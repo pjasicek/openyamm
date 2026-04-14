@@ -103,6 +103,29 @@ float actorDecisionRange(
     float minimumValue,
     float maximumValue);
 
+bx::Vec3 approximateOutdoorTerrainNormal(const OutdoorMapData &outdoorMapData, float x, float y)
+{
+    constexpr float SampleOffset = 32.0f;
+    const float heightLeft = sampleOutdoorTerrainHeight(outdoorMapData, x - SampleOffset, y);
+    const float heightRight = sampleOutdoorTerrainHeight(outdoorMapData, x + SampleOffset, y);
+    const float heightDown = sampleOutdoorTerrainHeight(outdoorMapData, x, y - SampleOffset);
+    const float heightUp = sampleOutdoorTerrainHeight(outdoorMapData, x, y + SampleOffset);
+    const bx::Vec3 normal = {
+        heightLeft - heightRight,
+        heightDown - heightUp,
+        SampleOffset * 2.0f
+    };
+    const float lengthSquared = normal.x * normal.x + normal.y * normal.y + normal.z * normal.z;
+
+    if (lengthSquared <= 0.0001f)
+    {
+        return {0.0f, 0.0f, 1.0f};
+    }
+
+    const float inverseLength = 1.0f / std::sqrt(lengthSquared);
+    return {normal.x * inverseLength, normal.y * inverseLength, normal.z * inverseLength};
+}
+
 uint32_t makeAbgr(uint8_t red, uint8_t green, uint8_t blue)
 {
     return 0xff000000u
@@ -1509,6 +1532,11 @@ bool resolveSpellDefinition(
     definition.effectSoundId = spell.effectSoundId;
     definition.objectName = pObjectEntry->internalName;
     definition.objectSpriteName = pObjectEntry->spriteName;
+
+    if (spell.id == static_cast<int>(spellIdValue(SpellId::Sparks)))
+    {
+        definition.objectFlags |= ObjectDescBounce;
+    }
 
     if (spell.impactDisplayObjectId > 0)
     {
@@ -6816,6 +6844,7 @@ void OutdoorWorldRuntime::updateProjectiles(float deltaSeconds, float partyX, fl
         const char *pBestColliderKind = nullptr;
         std::string bestColliderName;
         size_t bestActorIndex = static_cast<size_t>(-1);
+        size_t bestFaceIndex = static_cast<size_t>(-1);
 
         auto considerImpact = [&](float factor, const bx::Vec3 &point, const char *pColliderKind, std::string colliderName)
         {
@@ -6915,6 +6944,7 @@ void OutdoorWorldRuntime::updateProjectiles(float deltaSeconds, float partyX, fl
                 if (projectionFactor < bestFactor)
                 {
                     bestActorIndex = actorIndex;
+                    bestFaceIndex = static_cast<size_t>(-1);
                 }
 
                 considerImpact(
@@ -6958,6 +6988,13 @@ void OutdoorWorldRuntime::updateProjectiles(float deltaSeconds, float partyX, fl
             {
                 std::ostringstream colliderNameStream;
                 colliderNameStream << face.modelName << " face=" << face.faceIndex;
+
+                if (factor < bestFactor)
+                {
+                    bestFaceIndex = faceIndex;
+                    bestActorIndex = static_cast<size_t>(-1);
+                }
+
                 considerImpact(factor, point, "bmodel", colliderNameStream.str());
             }
         }
@@ -6998,6 +7035,59 @@ void OutdoorWorldRuntime::updateProjectiles(float deltaSeconds, float partyX, fl
                 && m_pOutdoorMapData != nullptr
                 && (isOutdoorTerrainWater(*m_pOutdoorMapData, bestPoint.x, bestPoint.y)
                     || isOutdoorLandMaskWater(m_outdoorLandMask, bestPoint.x, bestPoint.y));
+            const bool bounceTerrainImpact =
+                pBestColliderKind != nullptr
+                && std::strcmp(pBestColliderKind, "terrain") == 0
+                && !waterTerrainImpact
+                && (projectile.objectFlags & ObjectDescBounce) != 0
+                && projectile.velocityZ < 0.0f
+                && std::abs(projectile.velocityZ) >= WorldItemBounceStopVelocity;
+            const bool bounceBModelImpact =
+                pBestColliderKind != nullptr
+                && std::strcmp(pBestColliderKind, "bmodel") == 0
+                && bestFaceIndex < m_outdoorFaces.size()
+                && (projectile.objectFlags & ObjectDescBounce) != 0
+                && m_outdoorFaces[bestFaceIndex].hasPlane
+                && m_outdoorFaces[bestFaceIndex].normal.z > 0.35f
+                && (m_outdoorFaces[bestFaceIndex].isWalkable || m_outdoorFaces[bestFaceIndex].normal.z > 0.6f);
+
+            if (bounceTerrainImpact || bounceBModelImpact)
+            {
+                bx::Vec3 surfaceNormal = {0.0f, 0.0f, 1.0f};
+
+                if (bounceBModelImpact)
+                {
+                    surfaceNormal = m_outdoorFaces[bestFaceIndex].normal;
+                }
+                else if (m_pOutdoorMapData != nullptr)
+                {
+                    surfaceNormal = approximateOutdoorTerrainNormal(*m_pOutdoorMapData, bestPoint.x, bestPoint.y);
+                }
+
+                const float velocityDotNormal =
+                    projectile.velocityX * surfaceNormal.x
+                    + projectile.velocityY * surfaceNormal.y
+                    + projectile.velocityZ * surfaceNormal.z;
+
+                projectile.x = bestPoint.x + surfaceNormal.x * 2.0f;
+                projectile.y = bestPoint.y + surfaceNormal.y * 2.0f;
+                projectile.z = bestPoint.z + surfaceNormal.z * 2.0f;
+                projectile.velocityX =
+                    (projectile.velocityX - 2.0f * velocityDotNormal * surfaceNormal.x) * WorldItemBounceFactor;
+                projectile.velocityY =
+                    (projectile.velocityY - 2.0f * velocityDotNormal * surfaceNormal.y) * WorldItemBounceFactor;
+                projectile.velocityZ =
+                    (projectile.velocityZ - 2.0f * velocityDotNormal * surfaceNormal.z) * WorldItemBounceFactor;
+
+                if (std::abs(projectile.velocityZ) < WorldItemBounceStopVelocity)
+                {
+                    projectile.velocityZ = 0.0f;
+                }
+
+                projectile.velocityX *= WorldItemGroundDamping;
+                projectile.velocityY *= WorldItemGroundDamping;
+                continue;
+            }
 
             if (directPartyImpact)
             {
