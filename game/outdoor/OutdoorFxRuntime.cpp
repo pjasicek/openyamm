@@ -1,6 +1,7 @@
 #include "game/outdoor/OutdoorFxRuntime.h"
 
 #include "game/fx/ParticleRecipes.h"
+#include "game/party/SpellIds.h"
 #include "game/StringUtils.h"
 #include "game/fx/ParticleSystem.h"
 #include "game/outdoor/OutdoorGameView.h"
@@ -22,6 +23,7 @@ constexpr float DecorationSmokeEmitterCooldownSeconds = 0.14f;
 constexpr float SpatialFxRefreshIntervalSeconds = 1.0f / 60.0f;
 constexpr float ShadowHeightFadeDistance = 512.0f;
 constexpr float PartySpellFxRingRadius = 28.0f;
+constexpr uint32_t CannonballPseudoSpellId = 136;
 
 uint32_t makeAbgr(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha)
 {
@@ -58,7 +60,7 @@ uint64_t makeDecorationEmitterKey(const DecorationBillboard &billboard)
 
 bool isCannonballProjectile(const OutdoorWorldRuntime::ProjectileState &projectile)
 {
-    if (projectile.spellId == 136)
+    if (projectile.spellId == CannonballPseudoSpellId)
     {
         return true;
     }
@@ -76,47 +78,47 @@ uint32_t partySpellFxColorAbgr(const PartySpellCastResult &result)
         return makeAbgr(192, 255, 192, 224);
     }
 
-    if (result.spellId >= 78 && result.spellId <= 88)
+    if (spellIdInRange(result.spellId, SpellId::LightBolt, SpellId::DivineIntervention))
     {
         return makeAbgr(255, 240, 180, 224);
     }
 
-    if (result.spellId >= 89 && result.spellId <= 99)
+    if (spellIdInRange(result.spellId, SpellId::Reanimate, SpellId::SoulDrinker))
     {
         return makeAbgr(180, 112, 255, 224);
     }
 
-    if (result.spellId >= 67 && result.spellId <= 77)
+    if (spellIdInRange(result.spellId, SpellId::CureWeakness, SpellId::PowerCure))
     {
         return makeAbgr(132, 224, 120, 220);
     }
 
-    if (result.spellId >= 56 && result.spellId <= 66)
+    if (spellIdInRange(result.spellId, SpellId::Telepathy, SpellId::Enslave))
     {
         return makeAbgr(224, 132, 255, 220);
     }
 
-    if (result.spellId >= 45 && result.spellId <= 55)
+    if (spellIdInRange(result.spellId, SpellId::DetectLife, SpellId::Resurrection))
     {
         return makeAbgr(208, 192, 255, 220);
     }
 
-    if (result.spellId >= 34 && result.spellId <= 44)
+    if (spellIdInRange(result.spellId, SpellId::Stun, SpellId::MassDistortion))
     {
         return makeAbgr(180, 220, 132, 220);
     }
 
-    if (result.spellId >= 23 && result.spellId <= 33)
+    if (spellIdInRange(result.spellId, SpellId::Awaken, SpellId::LloydsBeacon))
     {
         return makeAbgr(160, 224, 255, 220);
     }
 
-    if (result.spellId >= 12 && result.spellId <= 22)
+    if (spellIdInRange(result.spellId, SpellId::WizardEye, SpellId::Starburst))
     {
         return makeAbgr(255, 228, 132, 220);
     }
 
-    if (result.spellId >= 1 && result.spellId <= 11)
+    if (spellIdInRange(result.spellId, SpellId::TorchLight, SpellId::Incinerate))
     {
         return makeAbgr(255, 144, 72, 224);
     }

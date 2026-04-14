@@ -1582,12 +1582,13 @@ bool resolveSpellDefinition(
     definition.effectSoundId = spell.effectSoundId;
     definition.objectName = pObjectEntry->internalName;
     definition.objectSpriteName = pObjectEntry->spriteName;
+    const SpellId resolvedSpellId = spellIdFromValue(std::max(spell.id, 0));
 
-    if (spell.id == static_cast<int>(spellIdValue(SpellId::Sparks)))
+    if (resolvedSpellId == SpellId::Sparks)
     {
         definition.objectFlags |= ObjectDescBounce;
     }
-    else if (spell.id == static_cast<int>(spellIdValue(SpellId::RockBlast)))
+    else if (resolvedSpellId == SpellId::RockBlast)
     {
         definition.objectFlags |= ObjectDescBounce;
         definition.objectFlags &= ~ObjectDescNoGravity;
@@ -6441,9 +6442,10 @@ bool OutdoorWorldRuntime::castSpellFromMapActor(
     request.ability = ability;
     request.spellId = static_cast<uint32_t>(pSpellEntry->id);
     request.skillLevel = static_cast<uint32_t>(std::max(stats.level, 1));
-    request.skillMastery = pSpellEntry->id == static_cast<int>(spellIdValue(SpellId::MeteorShower))
+    const SpellId resolvedSpellId = spellIdFromValue(std::max(pSpellEntry->id, 0));
+    request.skillMastery = resolvedSpellId == SpellId::MeteorShower
         ? static_cast<uint32_t>(SkillMastery::Master)
-        : pSpellEntry->id == static_cast<int>(spellIdValue(SpellId::Starburst))
+        : resolvedSpellId == SpellId::Starburst
         ? static_cast<uint32_t>(SkillMastery::Grandmaster)
         : static_cast<uint32_t>(SkillMastery::None);
     request.sourceX = actor.preciseX;

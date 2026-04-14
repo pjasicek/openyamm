@@ -138,12 +138,14 @@ std::optional<uint32_t> spellbookItemIdForSpell(
     const ItemTable &itemTable,
     uint32_t spellId)
 {
+    constexpr uint32_t FirstSpellbookItemId = 400;
+
     if (spellId == 0 || spellId > spellIdValue(SpellId::SoulDrinker))
     {
         return std::nullopt;
     }
 
-    const uint32_t itemId = 399 + spellId;
+    const uint32_t itemId = FirstSpellbookItemId + (spellId - spellIdValue(SpellId::TorchLight));
     const ItemDefinition *pDefinition = itemTable.get(itemId);
 
     if (pDefinition == nullptr || pDefinition->equipStat != "Book")

@@ -20,6 +20,8 @@ constexpr float OeRealtimeRecoveryScale = 2.133333333333333f;
 constexpr float Pi = 3.14159265358979323846f;
 constexpr float SoulDrinkerOutdoorRange = 10240.0f;
 constexpr float CameraVerticalFovRadians = Pi / 3.0f;
+constexpr uint32_t FirstBaseSpellId = spellIdValue(SpellId::TorchLight);
+constexpr uint32_t LastBaseSpellId = spellIdValue(SpellId::SoulDrinker);
 
 uint32_t makeAbgr(uint8_t red, uint8_t green, uint8_t blue)
 {
@@ -93,7 +95,7 @@ float ticksToRecoverySeconds(int ticks)
 
 uint32_t spellSlotLevel(uint32_t spellId)
 {
-    if (spellId < 1 || spellId > 99)
+    if (spellId < FirstBaseSpellId || spellId > LastBaseSpellId)
     {
         return 1;
     }
@@ -117,6 +119,34 @@ int masteryIndex(SkillMastery mastery)
         default:
             return -1;
     }
+}
+
+BackendSpellRule makeBackendSpellRule(
+    uint32_t spellId,
+    PartySpellCastTargetKind targetKind,
+    PartySpellCastEffectKind effectKind,
+    SkillMastery requiredMastery,
+    std::array<int, 4> manaByMastery = {},
+    std::array<int, 4> recoveryTicksByMastery = {},
+    PartyBuffId partyBuffId = PartyBuffId::TorchLight,
+    int baseDamage = 0,
+    int bonusSkillDamage = 0,
+    bool damageScalesLinearly = false,
+    uint32_t multiProjectileCount = 1)
+{
+    BackendSpellRule rule = {};
+    rule.spellId = spellId;
+    rule.targetKind = targetKind;
+    rule.effectKind = effectKind;
+    rule.requiredMastery = requiredMastery;
+    rule.manaByMastery = manaByMastery;
+    rule.recoveryTicksByMastery = recoveryTicksByMastery;
+    rule.partyBuffId = partyBuffId;
+    rule.baseDamage = baseDamage;
+    rule.bonusSkillDamage = bonusSkillDamage;
+    rule.damageScalesLinearly = damageScalesLinearly;
+    rule.multiProjectileCount = multiProjectileCount;
+    return rule;
 }
 
 bool ruleHasExplicitManaCost(const BackendSpellRule &rule)
@@ -321,54 +351,53 @@ std::optional<BackendSpellRule> resolveBackendSpellRule(uint32_t spellId, SkillM
     switch (spellIdFromValue(spellId))
     {
         case SpellId::TorchLight:
-            return BackendSpellRule{1, PartySpellCastTargetKind::None, PartySpellCastEffectKind::PartyBuff, SkillMastery::Normal, {1, 1, 1, 1}, {60, 60, 60, 40}, PartyBuffId::TorchLight};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::None, PartySpellCastEffectKind::PartyBuff, SkillMastery::Normal, {1, 1, 1, 1}, {60, 60, 60, 40}, PartyBuffId::TorchLight);
         case SpellId::FireBolt:
-            return BackendSpellRule{2, PartySpellCastTargetKind::Actor, PartySpellCastEffectKind::Projectile, SkillMastery::Normal, {2, 2, 2, 2}, {110, 110, 100, 90}, PartyBuffId::TorchLight, 0, 3, false};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::Actor, PartySpellCastEffectKind::Projectile, SkillMastery::Normal, {2, 2, 2, 2}, {110, 110, 100, 90}, PartyBuffId::TorchLight, 0, 3, false);
         case SpellId::FireResistance:
-            return BackendSpellRule{3, PartySpellCastTargetKind::None, PartySpellCastEffectKind::PartyBuff, SkillMastery::Normal, {3, 3, 3, 3}, {120, 120, 120, 120}, PartyBuffId::FireResistance};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::None, PartySpellCastEffectKind::PartyBuff, SkillMastery::Normal, {3, 3, 3, 3}, {120, 120, 120, 120}, PartyBuffId::FireResistance);
         case SpellId::FireAura:
-            return BackendSpellRule{4, PartySpellCastTargetKind::Character, PartySpellCastEffectKind::CharacterBuff, SkillMastery::Normal, {4, 4, 4, 4}, {120, 120, 120, 120}, PartyBuffId::TorchLight};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::Character, PartySpellCastEffectKind::CharacterBuff, SkillMastery::Normal, {4, 4, 4, 4}, {120, 120, 120, 120}, PartyBuffId::TorchLight);
         case SpellId::Haste:
-            return BackendSpellRule{5, PartySpellCastTargetKind::None, PartySpellCastEffectKind::PartyBuff, SkillMastery::Expert, {5, 5, 5, 5}, {120, 120, 120, 120}, PartyBuffId::Haste};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::None, PartySpellCastEffectKind::PartyBuff, SkillMastery::Expert, {5, 5, 5, 5}, {120, 120, 120, 120}, PartyBuffId::Haste);
         case SpellId::Fireball:
-            return BackendSpellRule{6, PartySpellCastTargetKind::Actor, PartySpellCastEffectKind::Projectile, SkillMastery::Expert, {8, 8, 8, 8}, {100, 100, 90, 80}, PartyBuffId::TorchLight, 0, 6, false};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::Actor, PartySpellCastEffectKind::Projectile, SkillMastery::Expert, {8, 8, 8, 8}, {100, 100, 90, 80}, PartyBuffId::TorchLight, 0, 6, false);
         case SpellId::FireSpike:
-            return BackendSpellRule{7, PartySpellCastTargetKind::GroundPoint, PartySpellCastEffectKind::AreaEffect, SkillMastery::Expert, {10, 10, 10, 10}, {150, 150, 150, 150}, PartyBuffId::TorchLight, 1, 6, false};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::GroundPoint, PartySpellCastEffectKind::AreaEffect, SkillMastery::Expert, {10, 10, 10, 10}, {150, 150, 150, 150}, PartyBuffId::TorchLight, 1, 6, false);
         case SpellId::Immolation:
-            return BackendSpellRule{8, PartySpellCastTargetKind::None, PartySpellCastEffectKind::PartyBuff, SkillMastery::Master, {15, 15, 15, 15}, {120, 120, 120, 120}, PartyBuffId::Immolation};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::None, PartySpellCastEffectKind::PartyBuff, SkillMastery::Master, {15, 15, 15, 15}, {120, 120, 120, 120}, PartyBuffId::Immolation);
         case SpellId::MeteorShower:
-            return BackendSpellRule{9, PartySpellCastTargetKind::GroundPoint, PartySpellCastEffectKind::Projectile, SkillMastery::Master, {20, 20, 20, 20}, {100, 100, 100, 90}, PartyBuffId::TorchLight, 8, 1, true};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::GroundPoint, PartySpellCastEffectKind::Projectile, SkillMastery::Master, {20, 20, 20, 20}, {100, 100, 100, 90}, PartyBuffId::TorchLight, 8, 1, true);
         case SpellId::Inferno:
-            return BackendSpellRule{10, PartySpellCastTargetKind::None, PartySpellCastEffectKind::AreaEffect, SkillMastery::Master, {}, {}, PartyBuffId::TorchLight, 12, 2, true};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::None, PartySpellCastEffectKind::AreaEffect, SkillMastery::Master, {}, {}, PartyBuffId::TorchLight, 12, 2, true);
         case SpellId::Incinerate:
-            return BackendSpellRule{11, PartySpellCastTargetKind::Actor, PartySpellCastEffectKind::Projectile, SkillMastery::Grandmaster, {30, 30, 30, 30}, {90, 90, 90, 90}, PartyBuffId::TorchLight, 15, 15, false};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::Actor, PartySpellCastEffectKind::Projectile, SkillMastery::Grandmaster, {30, 30, 30, 30}, {90, 90, 90, 90}, PartyBuffId::TorchLight, 15, 15, false);
         case SpellId::WizardEye:
-            return BackendSpellRule{12, PartySpellCastTargetKind::None, PartySpellCastEffectKind::PartyBuff, SkillMastery::Normal, {1, 1, 1, 0}, {60, 60, 60, 60}, PartyBuffId::WizardEye};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::None, PartySpellCastEffectKind::PartyBuff, SkillMastery::Normal, {1, 1, 1, 0}, {60, 60, 60, 60}, PartyBuffId::WizardEye);
         case SpellId::FeatherFall:
-            return BackendSpellRule{13, PartySpellCastTargetKind::None, PartySpellCastEffectKind::PartyBuff, SkillMastery::Normal, {2, 2, 2, 2}, {120, 120, 120, 100}, PartyBuffId::FeatherFall};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::None, PartySpellCastEffectKind::PartyBuff, SkillMastery::Normal, {2, 2, 2, 2}, {120, 120, 120, 100}, PartyBuffId::FeatherFall);
         case SpellId::AirResistance:
-            return BackendSpellRule{14, PartySpellCastTargetKind::None, PartySpellCastEffectKind::PartyBuff, SkillMastery::Normal, {3, 3, 3, 3}, {120, 120, 120, 120}, PartyBuffId::AirResistance};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::None, PartySpellCastEffectKind::PartyBuff, SkillMastery::Normal, {3, 3, 3, 3}, {120, 120, 120, 120}, PartyBuffId::AirResistance);
         case SpellId::Sparks:
-            return BackendSpellRule{15, PartySpellCastTargetKind::GroundPoint, PartySpellCastEffectKind::MultiProjectile, SkillMastery::Normal, {4, 4, 4, 4}, {110, 100, 90, 80}, PartyBuffId::TorchLight, 2, 1, true, sparksCount};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::GroundPoint, PartySpellCastEffectKind::MultiProjectile, SkillMastery::Normal, {4, 4, 4, 4}, {110, 100, 90, 80}, PartyBuffId::TorchLight, 2, 1, true, sparksCount);
         case SpellId::Jump:
-            return BackendSpellRule{16, PartySpellCastTargetKind::None, PartySpellCastEffectKind::Jump, SkillMastery::Expert, {5, 5, 5, 5}, {90, 90, 70, 50}, PartyBuffId::TorchLight};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::None, PartySpellCastEffectKind::Jump, SkillMastery::Expert, {5, 5, 5, 5}, {90, 90, 70, 50}, PartyBuffId::TorchLight);
         case SpellId::Shield:
-            return BackendSpellRule{17, PartySpellCastTargetKind::None, PartySpellCastEffectKind::PartyBuff, SkillMastery::Expert, {8, 8, 8, 8}, {120, 120, 120, 120}, PartyBuffId::Shield};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::None, PartySpellCastEffectKind::PartyBuff, SkillMastery::Expert, {8, 8, 8, 8}, {120, 120, 120, 120}, PartyBuffId::Shield);
         case SpellId::LightningBolt:
-            return BackendSpellRule{18, PartySpellCastTargetKind::Actor, PartySpellCastEffectKind::Projectile, SkillMastery::Expert, {10, 10, 10, 10}, {100, 100, 90, 70}, PartyBuffId::TorchLight, 0, 8, false};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::Actor, PartySpellCastEffectKind::Projectile, SkillMastery::Expert, {10, 10, 10, 10}, {100, 100, 90, 70}, PartyBuffId::TorchLight, 0, 8, false);
         case SpellId::Invisibility:
-            return BackendSpellRule{19, PartySpellCastTargetKind::None, PartySpellCastEffectKind::PartyBuff, SkillMastery::Master, {}, {}, PartyBuffId::Invisibility};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::None, PartySpellCastEffectKind::PartyBuff, SkillMastery::Master, {}, {}, PartyBuffId::Invisibility);
         case SpellId::Implosion:
-            return BackendSpellRule{20, PartySpellCastTargetKind::Actor, PartySpellCastEffectKind::ActorEffect, SkillMastery::Master, {}, {}, PartyBuffId::TorchLight, 10, 10, false};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::Actor, PartySpellCastEffectKind::ActorEffect, SkillMastery::Master, {}, {}, PartyBuffId::TorchLight, 10, 10, false);
         case SpellId::Fly:
-            return BackendSpellRule{21, PartySpellCastTargetKind::None, PartySpellCastEffectKind::PartyBuff, SkillMastery::Master, {}, {}, PartyBuffId::Fly};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::None, PartySpellCastEffectKind::PartyBuff, SkillMastery::Master, {}, {}, PartyBuffId::Fly);
         case SpellId::Starburst:
-            return BackendSpellRule{22, PartySpellCastTargetKind::GroundPoint, PartySpellCastEffectKind::Projectile, SkillMastery::Grandmaster, {}, {}, PartyBuffId::TorchLight, 20, 1, true};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::GroundPoint, PartySpellCastEffectKind::Projectile, SkillMastery::Grandmaster, {}, {}, PartyBuffId::TorchLight, 20, 1, true);
         case SpellId::Awaken:
-            return BackendSpellRule{23, PartySpellCastTargetKind::None, PartySpellCastEffectKind::PartyRestore, SkillMastery::Normal, {}, {}, PartyBuffId::TorchLight};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::None, PartySpellCastEffectKind::PartyRestore, SkillMastery::Normal, {}, {}, PartyBuffId::TorchLight);
         case SpellId::PoisonSpray:
-            return BackendSpellRule{
-                24,
+            return makeBackendSpellRule(spellId,
                 PartySpellCastTargetKind::GroundPoint,
                 PartySpellCastEffectKind::MultiProjectile,
                 SkillMastery::Normal,
@@ -378,181 +407,181 @@ std::optional<BackendSpellRule> resolveBackendSpellRule(uint32_t spellId, SkillM
                 2,
                 2,
                 true,
-                poisonSprayCount};
+                poisonSprayCount);
         case SpellId::WaterResistance:
-            return BackendSpellRule{25, PartySpellCastTargetKind::None, PartySpellCastEffectKind::PartyBuff, SkillMastery::Normal, {3, 3, 3, 3}, {120, 120, 120, 120}, PartyBuffId::WaterResistance};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::None, PartySpellCastEffectKind::PartyBuff, SkillMastery::Normal, {3, 3, 3, 3}, {120, 120, 120, 120}, PartyBuffId::WaterResistance);
         case SpellId::IceBolt:
-            return BackendSpellRule{26, PartySpellCastTargetKind::Actor, PartySpellCastEffectKind::Projectile, SkillMastery::Normal, {}, {}, PartyBuffId::TorchLight, 1, 4, false};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::Actor, PartySpellCastEffectKind::Projectile, SkillMastery::Normal, {}, {}, PartyBuffId::TorchLight, 1, 4, false);
         case SpellId::WaterWalk:
-            return BackendSpellRule{27, PartySpellCastTargetKind::None, PartySpellCastEffectKind::PartyBuff, SkillMastery::Expert, {}, {}, PartyBuffId::WaterWalk};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::None, PartySpellCastEffectKind::PartyBuff, SkillMastery::Expert, {}, {}, PartyBuffId::WaterWalk);
         case SpellId::RechargeItem:
-            return BackendSpellRule{28, PartySpellCastTargetKind::UtilityUi, PartySpellCastEffectKind::UtilityUi, SkillMastery::Expert, {8, 8, 8, 8}, {200, 200, 200, 200}, PartyBuffId::TorchLight};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::UtilityUi, PartySpellCastEffectKind::UtilityUi, SkillMastery::Expert, {8, 8, 8, 8}, {200, 200, 200, 200}, PartyBuffId::TorchLight);
         case SpellId::AcidBurst:
-            return BackendSpellRule{29, PartySpellCastTargetKind::Actor, PartySpellCastEffectKind::Projectile, SkillMastery::Expert, {}, {}, PartyBuffId::TorchLight, 9, 9, false};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::Actor, PartySpellCastEffectKind::Projectile, SkillMastery::Expert, {}, {}, PartyBuffId::TorchLight, 9, 9, false);
         case SpellId::EnchantItem:
-            return BackendSpellRule{spellId, PartySpellCastTargetKind::UtilityUi, PartySpellCastEffectKind::UtilityUi, SkillMastery::Master, {15, 15, 15, 15}, {140, 140, 140, 140}, PartyBuffId::TorchLight};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::UtilityUi, PartySpellCastEffectKind::UtilityUi, SkillMastery::Master, {15, 15, 15, 15}, {140, 140, 140, 140}, PartyBuffId::TorchLight);
         case SpellId::TownPortal:
-            return BackendSpellRule{spellId, PartySpellCastTargetKind::UtilityUi, PartySpellCastEffectKind::UtilityUi, SkillMastery::Master, {20, 20, 20, 20}, {200, 200, 200, 200}, PartyBuffId::TorchLight};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::UtilityUi, PartySpellCastEffectKind::UtilityUi, SkillMastery::Master, {20, 20, 20, 20}, {200, 200, 200, 200}, PartyBuffId::TorchLight);
         case SpellId::LloydsBeacon:
-            return BackendSpellRule{spellId, PartySpellCastTargetKind::UtilityUi, PartySpellCastEffectKind::UtilityUi, SkillMastery::Grandmaster, {30, 30, 30, 30}, {250, 250, 250, 250}, PartyBuffId::TorchLight};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::UtilityUi, PartySpellCastEffectKind::UtilityUi, SkillMastery::Grandmaster, {30, 30, 30, 30}, {250, 250, 250, 250}, PartyBuffId::TorchLight);
         case SpellId::IceBlast:
-            return BackendSpellRule{32, PartySpellCastTargetKind::GroundPoint, PartySpellCastEffectKind::MultiProjectile, SkillMastery::Master, {}, {}, PartyBuffId::TorchLight, 12, 6, true, 7};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::GroundPoint, PartySpellCastEffectKind::MultiProjectile, SkillMastery::Master, {}, {}, PartyBuffId::TorchLight, 12, 6, true, 7);
         case SpellId::Stun:
-            return BackendSpellRule{34, PartySpellCastTargetKind::Actor, PartySpellCastEffectKind::ActorEffect, SkillMastery::Normal, {}, {}, PartyBuffId::TorchLight};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::Actor, PartySpellCastEffectKind::ActorEffect, SkillMastery::Normal, {}, {}, PartyBuffId::TorchLight);
         case SpellId::Slow:
-            return BackendSpellRule{35, PartySpellCastTargetKind::Actor, PartySpellCastEffectKind::ActorEffect, SkillMastery::Normal, {}, {}, PartyBuffId::TorchLight};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::Actor, PartySpellCastEffectKind::ActorEffect, SkillMastery::Normal, {}, {}, PartyBuffId::TorchLight);
         case SpellId::EarthResistance:
-            return BackendSpellRule{36, PartySpellCastTargetKind::None, PartySpellCastEffectKind::PartyBuff, SkillMastery::Normal, {3, 3, 3, 3}, {120, 120, 120, 120}, PartyBuffId::EarthResistance};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::None, PartySpellCastEffectKind::PartyBuff, SkillMastery::Normal, {3, 3, 3, 3}, {120, 120, 120, 120}, PartyBuffId::EarthResistance);
         case SpellId::DeadlySwarm:
-            return BackendSpellRule{37, PartySpellCastTargetKind::Actor, PartySpellCastEffectKind::Projectile, SkillMastery::Normal, {}, {}, PartyBuffId::TorchLight, 5, 3, false};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::Actor, PartySpellCastEffectKind::Projectile, SkillMastery::Normal, {}, {}, PartyBuffId::TorchLight, 5, 3, false);
         case SpellId::StoneSkin:
-            return BackendSpellRule{38, PartySpellCastTargetKind::None, PartySpellCastEffectKind::PartyBuff, SkillMastery::Expert, {5, 5, 5, 5}, {120, 120, 120, 120}, PartyBuffId::Stoneskin};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::None, PartySpellCastEffectKind::PartyBuff, SkillMastery::Expert, {5, 5, 5, 5}, {120, 120, 120, 120}, PartyBuffId::Stoneskin);
         case SpellId::Blades:
-            return BackendSpellRule{39, PartySpellCastTargetKind::Actor, PartySpellCastEffectKind::ActorEffect, SkillMastery::Expert, {}, {}, PartyBuffId::TorchLight, 1, 9, false};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::Actor, PartySpellCastEffectKind::ActorEffect, SkillMastery::Expert, {}, {}, PartyBuffId::TorchLight, 1, 9, false);
         case SpellId::StoneToFlesh:
-            return BackendSpellRule{40, PartySpellCastTargetKind::Character, PartySpellCastEffectKind::CharacterRestore, SkillMastery::Expert, {}, {}, PartyBuffId::TorchLight};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::Character, PartySpellCastEffectKind::CharacterRestore, SkillMastery::Expert, {}, {}, PartyBuffId::TorchLight);
         case SpellId::RockBlast:
-            return BackendSpellRule{41, PartySpellCastTargetKind::GroundPoint, PartySpellCastEffectKind::Projectile, SkillMastery::Master, {}, {}, PartyBuffId::TorchLight, 10, 10, false};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::GroundPoint, PartySpellCastEffectKind::Projectile, SkillMastery::Master, {}, {}, PartyBuffId::TorchLight, 10, 10, false);
         case SpellId::Telekinesis:
-            return BackendSpellRule{42, PartySpellCastTargetKind::UtilityUi, PartySpellCastEffectKind::UtilityUi, SkillMastery::Master, {20, 20, 20, 20}, {150, 150, 150, 150}, PartyBuffId::TorchLight};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::UtilityUi, PartySpellCastEffectKind::UtilityUi, SkillMastery::Master, {20, 20, 20, 20}, {150, 150, 150, 150}, PartyBuffId::TorchLight);
         case SpellId::DeathBlossom:
-            return BackendSpellRule{43, PartySpellCastTargetKind::GroundPoint, PartySpellCastEffectKind::Projectile, SkillMastery::Master, {}, {}, PartyBuffId::TorchLight, 20, 2, true};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::GroundPoint, PartySpellCastEffectKind::Projectile, SkillMastery::Master, {}, {}, PartyBuffId::TorchLight, 20, 2, true);
         case SpellId::MassDistortion:
-            return BackendSpellRule{44, PartySpellCastTargetKind::Actor, PartySpellCastEffectKind::ActorEffect, SkillMastery::Grandmaster, {}, {}, PartyBuffId::TorchLight};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::Actor, PartySpellCastEffectKind::ActorEffect, SkillMastery::Grandmaster, {}, {}, PartyBuffId::TorchLight);
         case SpellId::DetectLife:
-            return BackendSpellRule{45, PartySpellCastTargetKind::None, PartySpellCastEffectKind::PartyBuff, SkillMastery::Normal, {}, {}, PartyBuffId::DetectLife};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::None, PartySpellCastEffectKind::PartyBuff, SkillMastery::Normal, {}, {}, PartyBuffId::DetectLife);
         case SpellId::Bless:
-            return BackendSpellRule{46, PartySpellCastTargetKind::Character, PartySpellCastEffectKind::CharacterBuff, SkillMastery::Normal, {}, {}, PartyBuffId::TorchLight};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::Character, PartySpellCastEffectKind::CharacterBuff, SkillMastery::Normal, {}, {}, PartyBuffId::TorchLight);
         case SpellId::Fate:
-            return BackendSpellRule{47, PartySpellCastTargetKind::ActorOrCharacter, PartySpellCastEffectKind::ActorEffect, SkillMastery::Normal, {}, {}, PartyBuffId::TorchLight};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::ActorOrCharacter, PartySpellCastEffectKind::ActorEffect, SkillMastery::Normal, {}, {}, PartyBuffId::TorchLight);
         case SpellId::TurnUndead:
-            return BackendSpellRule{48, PartySpellCastTargetKind::None, PartySpellCastEffectKind::AreaEffect, SkillMastery::Normal, {}, {}, PartyBuffId::TorchLight};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::None, PartySpellCastEffectKind::AreaEffect, SkillMastery::Normal, {}, {}, PartyBuffId::TorchLight);
         case SpellId::RemoveCurse:
-            return BackendSpellRule{49, PartySpellCastTargetKind::Character, PartySpellCastEffectKind::CharacterRestore, SkillMastery::Expert, {}, {}, PartyBuffId::TorchLight};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::Character, PartySpellCastEffectKind::CharacterRestore, SkillMastery::Expert, {}, {}, PartyBuffId::TorchLight);
         case SpellId::Preservation:
-            return BackendSpellRule{50, PartySpellCastTargetKind::Character, PartySpellCastEffectKind::CharacterBuff, SkillMastery::Normal, {}, {}, PartyBuffId::TorchLight};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::Character, PartySpellCastEffectKind::CharacterBuff, SkillMastery::Normal, {}, {}, PartyBuffId::TorchLight);
         case SpellId::Heroism:
-            return BackendSpellRule{51, PartySpellCastTargetKind::None, PartySpellCastEffectKind::PartyBuff, SkillMastery::Expert, {10, 10, 10, 10}, {120, 120, 120, 120}, PartyBuffId::Heroism};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::None, PartySpellCastEffectKind::PartyBuff, SkillMastery::Expert, {10, 10, 10, 10}, {120, 120, 120, 120}, PartyBuffId::Heroism);
         case SpellId::SpiritLash:
-            return BackendSpellRule{52, PartySpellCastTargetKind::None, PartySpellCastEffectKind::AreaEffect, SkillMastery::Master, {}, {}, PartyBuffId::TorchLight, 10, 8, false};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::None, PartySpellCastEffectKind::AreaEffect, SkillMastery::Master, {}, {}, PartyBuffId::TorchLight, 10, 8, false);
         case SpellId::RaiseDead:
-            return BackendSpellRule{53, PartySpellCastTargetKind::Character, PartySpellCastEffectKind::CharacterRestore, SkillMastery::Master, {}, {}, PartyBuffId::TorchLight};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::Character, PartySpellCastEffectKind::CharacterRestore, SkillMastery::Master, {}, {}, PartyBuffId::TorchLight);
         case SpellId::SharedLife:
-            return BackendSpellRule{54, PartySpellCastTargetKind::None, PartySpellCastEffectKind::PartyRestore, SkillMastery::Master, {}, {}, PartyBuffId::TorchLight};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::None, PartySpellCastEffectKind::PartyRestore, SkillMastery::Master, {}, {}, PartyBuffId::TorchLight);
         case SpellId::Resurrection:
-            return BackendSpellRule{55, PartySpellCastTargetKind::Character, PartySpellCastEffectKind::CharacterRestore, SkillMastery::Grandmaster, {}, {}, PartyBuffId::TorchLight};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::Character, PartySpellCastEffectKind::CharacterRestore, SkillMastery::Grandmaster, {}, {}, PartyBuffId::TorchLight);
         case SpellId::Telepathy:
-            return BackendSpellRule{56, PartySpellCastTargetKind::UtilityUi, PartySpellCastEffectKind::UtilityUi, SkillMastery::Normal, {1, 1, 1, 1}, {90, 90, 90, 90}, PartyBuffId::TorchLight};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::UtilityUi, PartySpellCastEffectKind::UtilityUi, SkillMastery::Normal, {1, 1, 1, 1}, {90, 90, 90, 90}, PartyBuffId::TorchLight);
         case SpellId::RemoveFear:
-            return BackendSpellRule{57, PartySpellCastTargetKind::Character, PartySpellCastEffectKind::CharacterRestore, SkillMastery::Normal, {}, {}, PartyBuffId::TorchLight};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::Character, PartySpellCastEffectKind::CharacterRestore, SkillMastery::Normal, {}, {}, PartyBuffId::TorchLight);
         case SpellId::MindResistance:
-            return BackendSpellRule{58, PartySpellCastTargetKind::None, PartySpellCastEffectKind::PartyBuff, SkillMastery::Normal, {}, {}, PartyBuffId::MindResistance};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::None, PartySpellCastEffectKind::PartyBuff, SkillMastery::Normal, {}, {}, PartyBuffId::MindResistance);
         case SpellId::MindBlast:
-            return BackendSpellRule{59, PartySpellCastTargetKind::Actor, PartySpellCastEffectKind::Projectile, SkillMastery::Normal, {}, {}, PartyBuffId::TorchLight, 3, 3, false};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::Actor, PartySpellCastEffectKind::Projectile, SkillMastery::Normal, {}, {}, PartyBuffId::TorchLight, 3, 3, false);
         case SpellId::Charm:
-            return BackendSpellRule{60, PartySpellCastTargetKind::Actor, PartySpellCastEffectKind::ActorEffect, SkillMastery::Expert, {}, {}, PartyBuffId::TorchLight};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::Actor, PartySpellCastEffectKind::ActorEffect, SkillMastery::Expert, {}, {}, PartyBuffId::TorchLight);
         case SpellId::CureParalysis:
-            return BackendSpellRule{61, PartySpellCastTargetKind::Character, PartySpellCastEffectKind::CharacterRestore, SkillMastery::Expert, {}, {}, PartyBuffId::TorchLight};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::Character, PartySpellCastEffectKind::CharacterRestore, SkillMastery::Expert, {}, {}, PartyBuffId::TorchLight);
         case SpellId::Berserk:
-            return BackendSpellRule{62, PartySpellCastTargetKind::Actor, PartySpellCastEffectKind::ActorEffect, SkillMastery::Expert, {}, {}, PartyBuffId::TorchLight};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::Actor, PartySpellCastEffectKind::ActorEffect, SkillMastery::Expert, {}, {}, PartyBuffId::TorchLight);
         case SpellId::MassFear:
-            return BackendSpellRule{63, PartySpellCastTargetKind::None, PartySpellCastEffectKind::AreaEffect, SkillMastery::Master, {}, {}, PartyBuffId::TorchLight};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::None, PartySpellCastEffectKind::AreaEffect, SkillMastery::Master, {}, {}, PartyBuffId::TorchLight);
         case SpellId::CureInsanity:
-            return BackendSpellRule{64, PartySpellCastTargetKind::Character, PartySpellCastEffectKind::CharacterRestore, SkillMastery::Master, {}, {}, PartyBuffId::TorchLight};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::Character, PartySpellCastEffectKind::CharacterRestore, SkillMastery::Master, {}, {}, PartyBuffId::TorchLight);
         case SpellId::PsychicShock:
-            return BackendSpellRule{65, PartySpellCastTargetKind::Actor, PartySpellCastEffectKind::Projectile, SkillMastery::Master, {}, {}, PartyBuffId::TorchLight, 12, 12, false};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::Actor, PartySpellCastEffectKind::Projectile, SkillMastery::Master, {}, {}, PartyBuffId::TorchLight, 12, 12, false);
         case SpellId::Enslave:
-            return BackendSpellRule{66, PartySpellCastTargetKind::Actor, PartySpellCastEffectKind::ActorEffect, SkillMastery::Grandmaster, {}, {}, PartyBuffId::TorchLight};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::Actor, PartySpellCastEffectKind::ActorEffect, SkillMastery::Grandmaster, {}, {}, PartyBuffId::TorchLight);
         case SpellId::CureWeakness:
-            return BackendSpellRule{67, PartySpellCastTargetKind::Character, PartySpellCastEffectKind::CharacterRestore, SkillMastery::Normal, {}, {}, PartyBuffId::TorchLight};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::Character, PartySpellCastEffectKind::CharacterRestore, SkillMastery::Normal, {}, {}, PartyBuffId::TorchLight);
         case SpellId::Heal:
-            return BackendSpellRule{68, PartySpellCastTargetKind::Character, PartySpellCastEffectKind::CharacterRestore, SkillMastery::Normal, {}, {}, PartyBuffId::TorchLight};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::Character, PartySpellCastEffectKind::CharacterRestore, SkillMastery::Normal, {}, {}, PartyBuffId::TorchLight);
         case SpellId::BodyResistance:
-            return BackendSpellRule{69, PartySpellCastTargetKind::None, PartySpellCastEffectKind::PartyBuff, SkillMastery::Normal, {3, 3, 3, 3}, {120, 120, 120, 120}, PartyBuffId::BodyResistance};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::None, PartySpellCastEffectKind::PartyBuff, SkillMastery::Normal, {3, 3, 3, 3}, {120, 120, 120, 120}, PartyBuffId::BodyResistance);
         case SpellId::Harm:
-            return BackendSpellRule{70, PartySpellCastTargetKind::Actor, PartySpellCastEffectKind::Projectile, SkillMastery::Normal, {}, {}, PartyBuffId::TorchLight, 8, 2, false};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::Actor, PartySpellCastEffectKind::Projectile, SkillMastery::Normal, {}, {}, PartyBuffId::TorchLight, 8, 2, false);
         case SpellId::Regeneration:
-            return BackendSpellRule{71, PartySpellCastTargetKind::Character, PartySpellCastEffectKind::CharacterBuff, SkillMastery::Expert, {}, {}, PartyBuffId::TorchLight};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::Character, PartySpellCastEffectKind::CharacterBuff, SkillMastery::Expert, {}, {}, PartyBuffId::TorchLight);
         case SpellId::CurePoison:
-            return BackendSpellRule{72, PartySpellCastTargetKind::Character, PartySpellCastEffectKind::CharacterRestore, SkillMastery::Expert, {}, {}, PartyBuffId::TorchLight};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::Character, PartySpellCastEffectKind::CharacterRestore, SkillMastery::Expert, {}, {}, PartyBuffId::TorchLight);
         case SpellId::Hammerhands:
-            return BackendSpellRule{73, PartySpellCastTargetKind::Character, PartySpellCastEffectKind::CharacterBuff, SkillMastery::Expert, {}, {}, PartyBuffId::TorchLight};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::Character, PartySpellCastEffectKind::CharacterBuff, SkillMastery::Expert, {}, {}, PartyBuffId::TorchLight);
         case SpellId::CureDisease:
-            return BackendSpellRule{74, PartySpellCastTargetKind::Character, PartySpellCastEffectKind::CharacterRestore, SkillMastery::Master, {}, {}, PartyBuffId::TorchLight};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::Character, PartySpellCastEffectKind::CharacterRestore, SkillMastery::Master, {}, {}, PartyBuffId::TorchLight);
         case SpellId::ProtectionFromMagic:
-            return BackendSpellRule{75, PartySpellCastTargetKind::None, PartySpellCastEffectKind::PartyBuff, SkillMastery::Master, {20, 20, 20, 20}, {120, 120, 120, 120}, PartyBuffId::ProtectionFromMagic};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::None, PartySpellCastEffectKind::PartyBuff, SkillMastery::Master, {20, 20, 20, 20}, {120, 120, 120, 120}, PartyBuffId::ProtectionFromMagic);
         case SpellId::FlyingFist:
-            return BackendSpellRule{76, PartySpellCastTargetKind::Actor, PartySpellCastEffectKind::Projectile, SkillMastery::Master, {25, 25, 25, 25}, {110, 110, 110, 100}, PartyBuffId::TorchLight, 30, 5, false};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::Actor, PartySpellCastEffectKind::Projectile, SkillMastery::Master, {25, 25, 25, 25}, {110, 110, 110, 100}, PartyBuffId::TorchLight, 30, 5, false);
         case SpellId::PowerCure:
-            return BackendSpellRule{77, PartySpellCastTargetKind::None, PartySpellCastEffectKind::PartyRestore, SkillMastery::Grandmaster, {}, {}, PartyBuffId::TorchLight};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::None, PartySpellCastEffectKind::PartyRestore, SkillMastery::Grandmaster, {}, {}, PartyBuffId::TorchLight);
         case SpellId::LightBolt:
-            return BackendSpellRule{78, PartySpellCastTargetKind::Actor, PartySpellCastEffectKind::Projectile, SkillMastery::Normal, {5, 5, 5, 5}, {110, 100, 90, 80}, PartyBuffId::TorchLight, 0, 4, false};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::Actor, PartySpellCastEffectKind::Projectile, SkillMastery::Normal, {5, 5, 5, 5}, {110, 100, 90, 80}, PartyBuffId::TorchLight, 0, 4, false);
         case SpellId::DestroyUndead:
-            return BackendSpellRule{79, PartySpellCastTargetKind::Actor, PartySpellCastEffectKind::ActorEffect, SkillMastery::Normal, {}, {}, PartyBuffId::TorchLight, 16, 16, false};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::Actor, PartySpellCastEffectKind::ActorEffect, SkillMastery::Normal, {}, {}, PartyBuffId::TorchLight, 16, 16, false);
         case SpellId::DispelMagic:
-            return BackendSpellRule{80, PartySpellCastTargetKind::None, PartySpellCastEffectKind::AreaEffect, SkillMastery::Normal, {}, {}, PartyBuffId::TorchLight};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::None, PartySpellCastEffectKind::AreaEffect, SkillMastery::Normal, {}, {}, PartyBuffId::TorchLight);
         case SpellId::Paralyze:
-            return BackendSpellRule{81, PartySpellCastTargetKind::Actor, PartySpellCastEffectKind::ActorEffect, SkillMastery::Normal, {}, {}, PartyBuffId::TorchLight};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::Actor, PartySpellCastEffectKind::ActorEffect, SkillMastery::Normal, {}, {}, PartyBuffId::TorchLight);
         case SpellId::SummonWisp:
-            return BackendSpellRule{82, PartySpellCastTargetKind::None, PartySpellCastEffectKind::AreaEffect, SkillMastery::Normal, {25, 25, 25, 25}, {140, 140, 140, 140}, PartyBuffId::TorchLight};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::None, PartySpellCastEffectKind::AreaEffect, SkillMastery::Normal, {25, 25, 25, 25}, {140, 140, 140, 140}, PartyBuffId::TorchLight);
         case SpellId::DayOfGods:
-            return BackendSpellRule{83, PartySpellCastTargetKind::None, PartySpellCastEffectKind::PartyBuff, SkillMastery::Expert, {30, 30, 30, 30}, {500, 500, 500, 500}, PartyBuffId::DayOfGods};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::None, PartySpellCastEffectKind::PartyBuff, SkillMastery::Expert, {30, 30, 30, 30}, {500, 500, 500, 500}, PartyBuffId::DayOfGods);
         case SpellId::PrismaticLight:
-            return BackendSpellRule{84, PartySpellCastTargetKind::None, PartySpellCastEffectKind::AreaEffect, SkillMastery::Master, {}, {}, PartyBuffId::TorchLight, 25, 1, true};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::None, PartySpellCastEffectKind::AreaEffect, SkillMastery::Master, {}, {}, PartyBuffId::TorchLight, 25, 1, true);
         case SpellId::DayOfProtection:
-            return BackendSpellRule{85, PartySpellCastTargetKind::None, PartySpellCastEffectKind::PartyBuff, SkillMastery::Master, {40, 40, 40, 40}, {500, 500, 500, 500}, PartyBuffId::BodyResistance};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::None, PartySpellCastEffectKind::PartyBuff, SkillMastery::Master, {40, 40, 40, 40}, {500, 500, 500, 500}, PartyBuffId::BodyResistance);
         case SpellId::HourOfPower:
-            return BackendSpellRule{86, PartySpellCastTargetKind::None, PartySpellCastEffectKind::PartyBuff, SkillMastery::Master, {45, 45, 45, 45}, {250, 250, 250, 250}, PartyBuffId::Heroism};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::None, PartySpellCastEffectKind::PartyBuff, SkillMastery::Master, {45, 45, 45, 45}, {250, 250, 250, 250}, PartyBuffId::Heroism);
         case SpellId::Sunray:
-            return BackendSpellRule{87, PartySpellCastTargetKind::Actor, PartySpellCastEffectKind::ActorEffect, SkillMastery::Master, {}, {}, PartyBuffId::TorchLight, 20, 20, false};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::Actor, PartySpellCastEffectKind::ActorEffect, SkillMastery::Master, {}, {}, PartyBuffId::TorchLight, 20, 20, false);
         case SpellId::DivineIntervention:
-            return BackendSpellRule{88, PartySpellCastTargetKind::None, PartySpellCastEffectKind::PartyRestore, SkillMastery::Grandmaster, {}, {}, PartyBuffId::TorchLight};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::None, PartySpellCastEffectKind::PartyRestore, SkillMastery::Grandmaster, {}, {}, PartyBuffId::TorchLight);
         case SpellId::Reanimate:
-            return BackendSpellRule{89, PartySpellCastTargetKind::ActorOrCharacter, PartySpellCastEffectKind::ActorEffect, SkillMastery::Normal, {}, {}, PartyBuffId::TorchLight};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::ActorOrCharacter, PartySpellCastEffectKind::ActorEffect, SkillMastery::Normal, {}, {}, PartyBuffId::TorchLight);
         case SpellId::ToxicCloud:
-            return BackendSpellRule{90, PartySpellCastTargetKind::Actor, PartySpellCastEffectKind::Projectile, SkillMastery::Normal, {}, {}, PartyBuffId::TorchLight, 25, 10, false};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::Actor, PartySpellCastEffectKind::Projectile, SkillMastery::Normal, {}, {}, PartyBuffId::TorchLight, 25, 10, false);
         case SpellId::VampiricWeapon:
-            return BackendSpellRule{91, PartySpellCastTargetKind::Character, PartySpellCastEffectKind::CharacterBuff, SkillMastery::Normal, {20, 20, 20, 20}, {120, 100, 90, 120}, PartyBuffId::TorchLight};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::Character, PartySpellCastEffectKind::CharacterBuff, SkillMastery::Normal, {20, 20, 20, 20}, {120, 100, 90, 120}, PartyBuffId::TorchLight);
         case SpellId::ShrinkingRay:
-            return BackendSpellRule{92, PartySpellCastTargetKind::Actor, PartySpellCastEffectKind::ActorEffect, SkillMastery::Normal, {}, {}, PartyBuffId::TorchLight};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::Actor, PartySpellCastEffectKind::ActorEffect, SkillMastery::Normal, {}, {}, PartyBuffId::TorchLight);
         case SpellId::Shrapmetal:
-            return BackendSpellRule{93, PartySpellCastTargetKind::GroundPoint, PartySpellCastEffectKind::MultiProjectile, SkillMastery::Expert, {}, {}, PartyBuffId::TorchLight, 1, 6, true, 5};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::GroundPoint, PartySpellCastEffectKind::MultiProjectile, SkillMastery::Expert, {}, {}, PartyBuffId::TorchLight, 1, 6, true, 5);
         case SpellId::ControlUndead:
-            return BackendSpellRule{94, PartySpellCastTargetKind::Actor, PartySpellCastEffectKind::ActorEffect, SkillMastery::Expert, {}, {}, PartyBuffId::TorchLight};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::Actor, PartySpellCastEffectKind::ActorEffect, SkillMastery::Expert, {}, {}, PartyBuffId::TorchLight);
         case SpellId::PainReflection:
-            return BackendSpellRule{95, PartySpellCastTargetKind::Character, PartySpellCastEffectKind::CharacterBuff, SkillMastery::Expert, {}, {}, PartyBuffId::TorchLight};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::Character, PartySpellCastEffectKind::CharacterBuff, SkillMastery::Expert, {}, {}, PartyBuffId::TorchLight);
         case SpellId::DarkGrasp:
-            return BackendSpellRule{96, PartySpellCastTargetKind::Actor, PartySpellCastEffectKind::ActorEffect, SkillMastery::Master, {}, {}, PartyBuffId::TorchLight};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::Actor, PartySpellCastEffectKind::ActorEffect, SkillMastery::Master, {}, {}, PartyBuffId::TorchLight);
         case SpellId::DragonBreath:
-            return BackendSpellRule{97, PartySpellCastTargetKind::Actor, PartySpellCastEffectKind::Projectile, SkillMastery::Master, {}, {}, PartyBuffId::TorchLight, 1, 25, false};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::Actor, PartySpellCastEffectKind::Projectile, SkillMastery::Master, {}, {}, PartyBuffId::TorchLight, 1, 25, false);
         case SpellId::Armageddon:
-            return BackendSpellRule{98, PartySpellCastTargetKind::None, PartySpellCastEffectKind::AreaEffect, SkillMastery::Master, {}, {}, PartyBuffId::TorchLight, 50, 1, false};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::None, PartySpellCastEffectKind::AreaEffect, SkillMastery::Master, {}, {}, PartyBuffId::TorchLight, 50, 1, false);
         case SpellId::SoulDrinker:
-            return BackendSpellRule{99, PartySpellCastTargetKind::None, PartySpellCastEffectKind::AreaEffect, SkillMastery::Grandmaster, {}, {}, PartyBuffId::TorchLight, 25, 8, false};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::None, PartySpellCastEffectKind::AreaEffect, SkillMastery::Grandmaster, {}, {}, PartyBuffId::TorchLight, 25, 8, false);
         case SpellId::Glamour:
-            return BackendSpellRule{100, PartySpellCastTargetKind::Character, PartySpellCastEffectKind::CharacterBuff, SkillMastery::Normal, {5, 5, 5, 5}, {100, 100, 100, 100}, PartyBuffId::TorchLight};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::Character, PartySpellCastEffectKind::CharacterBuff, SkillMastery::Normal, {5, 5, 5, 5}, {100, 100, 100, 100}, PartyBuffId::TorchLight);
         case SpellId::TravelersBoon:
-            return BackendSpellRule{101, PartySpellCastTargetKind::None, PartySpellCastEffectKind::PartyBuff, SkillMastery::Expert, {10, 10, 10, 10}, {100, 100, 100, 100}, PartyBuffId::TorchLight};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::None, PartySpellCastEffectKind::PartyBuff, SkillMastery::Expert, {10, 10, 10, 10}, {100, 100, 100, 100}, PartyBuffId::TorchLight);
         case SpellId::Blind:
-            return BackendSpellRule{102, PartySpellCastTargetKind::Actor, PartySpellCastEffectKind::ActorEffect, SkillMastery::Master, {15, 15, 15, 15}, {120, 120, 120, 120}, PartyBuffId::TorchLight};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::Actor, PartySpellCastEffectKind::ActorEffect, SkillMastery::Master, {15, 15, 15, 15}, {120, 120, 120, 120}, PartyBuffId::TorchLight);
         case SpellId::DarkfireBolt:
-            return BackendSpellRule{103, PartySpellCastTargetKind::Actor, PartySpellCastEffectKind::Projectile, SkillMastery::Grandmaster, {30, 30, 30, 30}, {90, 90, 90, 90}, PartyBuffId::TorchLight, 0, 17, false};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::Actor, PartySpellCastEffectKind::Projectile, SkillMastery::Grandmaster, {30, 30, 30, 30}, {90, 90, 90, 90}, PartyBuffId::TorchLight, 0, 17, false);
         case SpellId::Lifedrain:
-            return BackendSpellRule{111, PartySpellCastTargetKind::Actor, PartySpellCastEffectKind::ActorEffect, SkillMastery::Normal, {5, 5, 5, 5}, {100, 80, 80, 80}, PartyBuffId::TorchLight, 3, 3, false};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::Actor, PartySpellCastEffectKind::ActorEffect, SkillMastery::Normal, {5, 5, 5, 5}, {100, 80, 80, 80}, PartyBuffId::TorchLight, 3, 3, false);
         case SpellId::Levitate:
-            return BackendSpellRule{112, PartySpellCastTargetKind::None, PartySpellCastEffectKind::PartyBuff, SkillMastery::Expert, {10, 10, 10, 10}, {110, 110, 110, 110}, PartyBuffId::Levitate};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::None, PartySpellCastEffectKind::PartyBuff, SkillMastery::Expert, {10, 10, 10, 10}, {110, 110, 110, 110}, PartyBuffId::Levitate);
         case SpellId::VampireCharm:
-            return BackendSpellRule{113, PartySpellCastTargetKind::Actor, PartySpellCastEffectKind::ActorEffect, SkillMastery::Master, {20, 20, 20, 20}, {110, 110, 110, 110}, PartyBuffId::TorchLight};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::Actor, PartySpellCastEffectKind::ActorEffect, SkillMastery::Master, {20, 20, 20, 20}, {110, 110, 110, 110}, PartyBuffId::TorchLight);
         case SpellId::Mistform:
-            return BackendSpellRule{114, PartySpellCastTargetKind::Character, PartySpellCastEffectKind::CharacterBuff, SkillMastery::Grandmaster, {30, 30, 30, 30}, {110, 110, 110, 110}, PartyBuffId::TorchLight};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::Character, PartySpellCastEffectKind::CharacterBuff, SkillMastery::Grandmaster, {30, 30, 30, 30}, {110, 110, 110, 110}, PartyBuffId::TorchLight);
         case SpellId::Fear:
-            return BackendSpellRule{122, PartySpellCastTargetKind::Actor, PartySpellCastEffectKind::ActorEffect, SkillMastery::Normal, {5, 5, 5, 5}, {100, 100, 100, 100}, PartyBuffId::TorchLight};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::Actor, PartySpellCastEffectKind::ActorEffect, SkillMastery::Normal, {5, 5, 5, 5}, {100, 100, 100, 100}, PartyBuffId::TorchLight);
         case SpellId::FlameBlast:
-            return BackendSpellRule{123, PartySpellCastTargetKind::Actor, PartySpellCastEffectKind::Projectile, SkillMastery::Expert, {10, 10, 10, 10}, {100, 100, 100, 100}, PartyBuffId::TorchLight, 10, 10, false};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::Actor, PartySpellCastEffectKind::Projectile, SkillMastery::Expert, {10, 10, 10, 10}, {100, 100, 100, 100}, PartyBuffId::TorchLight, 10, 10, false);
         case SpellId::Flight:
-            return BackendSpellRule{124, PartySpellCastTargetKind::None, PartySpellCastEffectKind::PartyBuff, SkillMastery::Master, {15, 15, 15, 15}, {120, 120, 120, 120}, PartyBuffId::Fly};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::None, PartySpellCastEffectKind::PartyBuff, SkillMastery::Master, {15, 15, 15, 15}, {120, 120, 120, 120}, PartyBuffId::Fly);
         case SpellId::WingBuffet:
-            return BackendSpellRule{125, PartySpellCastTargetKind::None, PartySpellCastEffectKind::AreaEffect, SkillMastery::Grandmaster, {30, 30, 30, 30}, {110, 110, 110, 110}, PartyBuffId::TorchLight};
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::None, PartySpellCastEffectKind::AreaEffect, SkillMastery::Grandmaster, {30, 30, 30, 30}, {110, 110, 110, 110}, PartyBuffId::TorchLight);
         default:
             return std::nullopt;
     }

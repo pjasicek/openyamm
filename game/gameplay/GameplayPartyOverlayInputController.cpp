@@ -1104,7 +1104,7 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                         if (view.m_pGameAudioSystem != nullptr && view.m_pSpellTable != nullptr)
                         {
                             const SpellEntry *pSpellEntry =
-                                view.m_pSpellTable->findById(static_cast<int>(spellIdValue(SpellId::Heroism)));
+                                view.m_pSpellTable->findById(spellIdValue(SpellId::Heroism));
 
                             if (pSpellEntry != nullptr && pSpellEntry->effectSoundId > 0)
                             {
