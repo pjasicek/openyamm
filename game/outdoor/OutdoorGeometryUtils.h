@@ -75,11 +75,13 @@ bool buildOutdoorFaceGeometry(
     OutdoorFaceGeometryData &geometry
 );
 bool isPointInsideOutdoorPolygon(float x, float y, const std::vector<bx::Vec3> &vertices);
+bool isPointInsideOrNearOutdoorPolygon(float x, float y, const std::vector<bx::Vec3> &vertices, float slack);
 bool isPointInsideOutdoorPolygonProjected(
     const bx::Vec3 &point,
     const std::vector<bx::Vec3> &vertices,
     const bx::Vec3 &normal
 );
+float calculateOutdoorFaceHeight(const OutdoorFaceGeometryData &geometry, float x, float y);
 bool intersectOutdoorSegmentWithFace(
     const OutdoorFaceGeometryData &geometry,
     const bx::Vec3 &segmentStart,

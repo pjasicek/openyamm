@@ -21,7 +21,9 @@ def decode_flags(flags: int) -> str:
 
 def main() -> None:
     repo_root = Path(__file__).resolve().parents[1]
-    source_path = repo_root / "assets_dev" / "Data" / "EnglishT" / "dtft.bin"
+    legacy_source_path = repo_root / "assets_dev" / "_legacy" / "bin_tables" / "dtft.bin"
+    fallback_source_path = repo_root / "assets_dev" / "Data" / "EnglishT" / "dtft.bin"
+    source_path = legacy_source_path if legacy_source_path.exists() else fallback_source_path
     target_path = repo_root / "assets_dev" / "Data" / "data_tables" / "texture_frame_data.txt"
     source_bytes = source_path.read_bytes()
     count = struct.unpack_from("<i", source_bytes, 0)[0]

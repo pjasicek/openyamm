@@ -15,11 +15,11 @@ Decoration Data			Descriptor							Comments
 12	null	null	0	16	8	0	0	0	0	0	0	0	
 13	null	null	0	16	8	0	0	0	0	0	0	0	
 14	pending	pending	0	16	16	0	0	0	0	0	0	1	
-15	Party Start	null	0	16	16	0	0	0	0	0	invisible	0	
-16	north start	null	0	16	16	0	0	0	0	0	Invisible	0	
-17	south start	null	0	16	16	0	0	0	0	0	Invisible	0	
-18	east start	null	0	16	16	0	0	0	0	0	Invisible	0	
-19	west start	null	0	16	16	0	0	0	0	0	Invisible	0	
+15	Party Start	null	0	16	16	0	0	0	0	0	DontDraw	0	
+16	north start	null	0	16	16	0	0	0	0	0	DontDraw	0	
+17	south start	null	0	16	16	0	0	0	0	0	DontDraw	0	
+18	east start	null	0	16	16	0	0	0	0	0	DontDraw	0	
+19	west start	null	0	16	16	0	0	0	0	0	DontDraw	0	
 20	null	null	0	16	8	0	0	0	0	0	0	0	
 21	null	null	0	16	8	0	0	0	0	0	0	0	
 22	null	null	0	16	8	0	0	0	0	0	0	0	
@@ -194,30 +194,30 @@ Decoration Data			Descriptor							Comments
 191	tree30	pine tree	0	16	256	0	0	0	0	0	0	581	
 192	tree31	tree	0	16	256	0	0	0	0	0	0	582	
 193	dec23	trash heap	0	52	52	0	0	0	0	0	0	215	
-194	dec24	campfire	0	52	56	128	200	30	30	0	1	216	
-195	dec26	cauldron	0	52	52	128	255	255	255	0	1	233	
+194	dec24	campfire	0	52	56	128	200	30	30	0	0	216	
+195	dec26	cauldron	0	52	52	128	255	255	255	0	0	233	
 196	dec28	fruit bowl	0	52	52	0	0	0	0	0	0	246	
 197	null	trash heap	0	52	52	0	0	0	0	0	0	0	
 198	null	dirt	0	52	52	0	0	0	0	0	0	0	
 199	null	cask	0	29	40	0	0	0	0	0	0	0	
 200	null	barrel	0	52	52	0	0	0	0	0	0	0	
-201	dec25	campfire	0	32	56	128	255	255	255	0	1	225	
-202	dec40	beacon fire	0	64	160	256	63	164	255	0	1	265	
-203	dec41	beacon fire	0	64	160	256	255	207	119	0	1	273	
-204	dec42	beacon fire	0	64	160	256	255	165	65	0	1	281	
-205	dec43	beacon fire	0	64	160	256	255	255	255	0	1	289	
-206	dec44	magic pedastal	0	64	190	256	247	229	203	0	1	297	
-207	dec45	magic pedastal	0	64	190	256	248	205	163	0	1	305	
-208	dec46	magic pedastal	0	64	190	256	255	255	255	0	1	313	
-209	dec47	magic pedastal	0	64	190	256	158	255	178	0	1	321	
-210	dec48	magic pedastal	0	64	190	256	166	214	255	0	1	329	
-211	dec49	magic pedastal	0	64	190	256	255	45	45	0	1	337	
-212	dec50	magic pedastal	0	64	190	256	255	225	209	0	1	345	
-213	dec51	magic pedastal	0	64	190	256	222	183	200	0	1	353	
-214	dec52	magic pedastal	0	64	190	256	202	151	255	0	1	361	
-215	dec53	magic pedastal	0	64	190	256	255	146	146	0	1	369	
-216	dec54	magic pedastal	0	64	190	256	255	255	255	0	1	377	
-217	dec55	magic pedastal	0	64	190	256	243	255	155	0	1	385	
+201	dec25	campfire	0	32	56	128	255	255	255	0	0	225	
+202	dec40	beacon fire	0	64	160	256	63	164	255	0	0	265	
+203	dec41	beacon fire	0	64	160	256	255	207	119	0	0	273	
+204	dec42	beacon fire	0	64	160	256	255	165	65	0	0	281	
+205	dec43	beacon fire	0	64	160	256	255	255	255	0	0	289	
+206	dec44	magic pedastal	0	64	190	256	247	229	203	0	0	297	
+207	dec45	magic pedastal	0	64	190	256	248	205	163	0	0	305	
+208	dec46	magic pedastal	0	64	190	256	255	255	255	0	0	313	
+209	dec47	magic pedastal	0	64	190	256	158	255	178	0	0	321	
+210	dec48	magic pedastal	0	64	190	256	166	214	255	0	0	329	
+211	dec49	magic pedastal	0	64	190	256	255	45	45	0	0	337	
+212	dec50	magic pedastal	0	64	190	256	255	225	209	0	0	345	
+213	dec51	magic pedastal	0	64	190	256	222	183	200	0	0	353	
+214	dec52	magic pedastal	0	64	190	256	202	151	255	0	0	361	
+215	dec53	magic pedastal	0	64	190	256	255	146	146	0	0	369	
+216	dec54	magic pedastal	0	64	190	256	255	255	255	0	0	377	
+217	dec55	magic pedastal	0	64	190	256	243	255	155	0	0	385	
 218	dec86	mushroom	0	0	0	0	0	0	0	0	0	0	
 219	dec88	mushroom	0	0	0	0	0	0	0	0	0	0	
 220	plant55	lily pads	0	16	8	0	0	0	0	0	0	476	
@@ -227,13 +227,13 @@ Decoration Data			Descriptor							Comments
 224	plant59	grass	0	16	8	0	0	0	0	0	0	480	
 225	plant60	dead tree	0	16	64	0	0	0	0	0	0	481	
 226	dec01	Elf Statue	0	16	256	0	0	0	0	0	0	165	
-227	dec02	candle stick	0	16	160	86	255	255	255	0	1	166	
+227	dec02	candle stick	0	16	160	86	255	255	255	0	0	166	
 228	dec03	dec03	0	16	64	0	0	0	0	0	0	172	
-229	dec04	campfire	0	16	0	128	255	255	255	0	1	173	
+229	dec04	campfire	0	16	0	128	255	255	255	0	0	173	
 230	dec05	skeleton	0	16	8	0	0	0	0	0	0	181	
-231	dec06	torch	0	16	180	128	255	30	30	0	1	182	
-232	dec07	lantern	0	16	180	96	255	255	255	0	1	190	
-233	dec08	chandelier	0	16	180	96	255	255	255	0	1	196	
+231	dec06	torch	0	16	180	128	255	30	30	0	0	182	
+232	dec07	lantern	0	16	180	96	255	255	255	0	0	190	
+233	dec08	chandelier	0	16	180	96	255	255	255	0	0	196	
 234	dec09	crystal	0	16	8	0	0	0	0	0	0	202	
 235	dec10	crystal	0	16	8	0	0	0	0	0	0	203	
 236	dec11	crystal	0	16	8	0	0	0	0	0	0	204	
@@ -262,7 +262,7 @@ Decoration Data			Descriptor							Comments
 259	tree63d	tree	0	16	256	0	0	0	0	0	0	595	
 260	tree64	tree	0	16	256	0	0	0	0	0	0	0	
 261	tree64d	tree	0	16	256	0	0	0	0	0	0	597	
-262	dec27	chandelier	0	16	180	96	255	255	255	0	1	240	
+262	dec27	chandelier	0	16	180	96	255	255	255	0	0	240	
 263	dec29	bones	0	16	8	0	0	0	0	0	0	247	
 264	dec30	buoy	0	16	8	0	0	0	0	0	0	248	
 265	dec31	metal bowl	0	16	8	0	0	0	0	0	0	256	
@@ -274,14 +274,14 @@ Decoration Data			Descriptor							Comments
 271	dec37	wood plates	0	16	8	0	0	0	0	0	0	262	
 272	dec38	metal plate	0	16	8	0	0	0	0	0	0	263	
 273	dec39	metal plates	0	16	8	0	0	0	0	0	0	264	
-274	dec56	torch	0	32	182	96	255	255	255	0	1	393	
-275	dec57	path marker	0	16	16	96	255	255	255	0	1	401	
+274	dec56	torch	0	32	182	96	255	255	255	0	0	393	
+275	dec57	path marker	0	16	16	96	255	255	255	0	0	401	
 276	dec58	Seaweed	0	16	64	0	0	0	0	0	0	402	
 277	dec59	Coral	0	16	64	0	0	0	0	0	0	412	
-278	Boat loop	null	0	16	64	0	0	0	0	308	Invisible	0	
-279	lava loop	null	0	16	64	0	0	0	0	310	Invisible	0	
-280	wind loop	null	0	16	64	0	0	0	0	300	Invisible	0	
-281	water loop	null	0	16	64	0	0	0	0	465	Invisible	0	
+278	Boat loop	null	0	16	64	0	0	0	0	308	DontDraw	0	
+279	lava loop	null	0	16	64	0	0	0	0	310	DontDraw	0	
+280	wind loop	null	0	16	64	0	0	0	0	300	DontDraw	0	
+281	water loop	null	0	16	64	0	0	0	0	465	DontDraw	0	
 282			0	0	0	0	0	0	0	0	0	3823	
 283			0	0	0	0	0	0	0	0	0	3823	
 284			0	0	0	0	0	0	0	0	0	3823	

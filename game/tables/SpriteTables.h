@@ -30,6 +30,26 @@ enum class SpriteFrameFlag : uint32_t
     Transparent = 0x40000
 };
 
+enum class DecorationDescFlag : uint16_t
+{
+    MoveThrough = 0x0001,
+    DontDraw = 0x0002,
+    FlickerSlow = 0x0004,
+    FlickerAverage = 0x0008,
+    FlickerFast = 0x0010,
+    Marker = 0x0020,
+    SlowLoop = 0x0040,
+    EmitFire = 0x0080,
+    SoundOnDawn = 0x0100,
+    SoundOnDusk = 0x0200,
+    EmitSmoke = 0x0400,
+};
+
+inline bool hasDecorationFlag(uint16_t flags, DecorationDescFlag flag)
+{
+    return (flags & static_cast<uint16_t>(flag)) != 0;
+}
+
 struct DecorationEntry
 {
     std::string internalName;

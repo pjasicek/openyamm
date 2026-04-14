@@ -56,7 +56,9 @@ def read_binary_rows(binary_path: Path) -> dict[int, list[str]]:
 
 def main() -> int:
     repo_root = Path(__file__).resolve().parents[1]
-    binary_path = repo_root / "assets_dev" / "Data" / "EnglishT" / "dmonlist.bin"
+    legacy_binary_path = repo_root / "assets_dev" / "_legacy" / "bin_tables" / "dmonlist.bin"
+    fallback_binary_path = repo_root / "assets_dev" / "Data" / "EnglishT" / "dmonlist.bin"
+    binary_path = legacy_binary_path if legacy_binary_path.exists() else fallback_binary_path
     monster_data_path = repo_root / "assets_dev" / "Data" / "data_tables" / "monster_data.txt"
     table_path = repo_root / "assets_dev" / "Data" / "data_tables" / "monster_descriptors.txt"
     binary_rows = read_binary_rows(binary_path)

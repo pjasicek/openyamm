@@ -451,7 +451,8 @@ Character buildFreshCreatedCharacter(
 }
 
 GameApplication::GameApplication(const Engine::ApplicationConfig &config)
-    : m_engineApplication(
+    : m_config(config)
+    , m_engineApplication(
         config,
         std::bind(&GameApplication::loadGameData, this, std::placeholders::_1),
         std::bind(&GameApplication::initializeRenderer, this),
@@ -1422,8 +1423,11 @@ bool GameApplication::startNewSession(std::optional<uint32_t> rosterId, bool ini
     m_gameSession.clear();
     m_gameSession.clearCurrentSavePath();
     m_gameSession.setCurrentSceneKind(SceneKind::Outdoor);
-    m_gameSession.setCurrentMapFileName(
-        m_settings.startMapFile.empty() ? std::string(DefaultStartupMapFile) : m_settings.startMapFile);
+    const std::string startupMapFile =
+        !m_config.startupMapFileOverride.empty()
+            ? m_config.startupMapFileOverride
+            : (m_settings.startMapFile.empty() ? std::string(DefaultStartupMapFile) : m_settings.startMapFile);
+    m_gameSession.setCurrentMapFileName(startupMapFile);
 
     if (!loadCurrentSessionMap(initializeView))
     {

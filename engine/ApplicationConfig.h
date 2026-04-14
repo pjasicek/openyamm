@@ -10,6 +10,7 @@ struct ApplicationConfig
 {
     std::string appName;
     std::string assetRoot;
+    std::string startupMapFileOverride;
     AssetScaleTier assetScaleTier;
     int windowWidth;
     int windowHeight;

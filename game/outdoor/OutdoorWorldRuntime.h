@@ -287,8 +287,12 @@ public:
         uint16_t objectDescriptionId = 0;
         uint16_t objectSpriteId = 0;
         uint16_t objectSpriteFrameIndex = 0;
+        uint16_t sourceObjectFlags = 0;
+        int sourceSpellId = 0;
         std::string objectName;
         std::string objectSpriteName;
+        std::string sourceObjectName;
+        std::string sourceObjectSpriteName;
         float x = 0.0f;
         float y = 0.0f;
         float z = 0.0f;
@@ -513,6 +517,7 @@ public:
         float sourceY,
         float sourceZ) const;
     bool notifyPartyContactWithMapActor(size_t actorIndex, float partyX, float partyY, float partyZ);
+    float sampleSupportFloorHeight(float x, float y, float z, float maxRise, float xySlack) const;
     size_t spawnPointCount() const;
     const SpawnPointState *spawnPointState(size_t spawnIndex) const;
     size_t chestCount() const;
@@ -807,6 +812,8 @@ private:
     std::optional<std::vector<uint8_t>> m_outdoorLandMask;
     std::vector<OutdoorFaceGeometryData> m_outdoorFaces;
     std::vector<std::vector<size_t>> m_outdoorFaceGridCells;
+    mutable std::vector<uint32_t> m_outdoorFaceVisitGenerations;
+    mutable uint32_t m_outdoorFaceVisitGenerationCounter = 1;
     float m_outdoorFaceGridMinX = 0.0f;
     float m_outdoorFaceGridMinY = 0.0f;
     size_t m_outdoorFaceGridWidth = 0;

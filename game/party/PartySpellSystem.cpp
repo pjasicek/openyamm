@@ -1123,6 +1123,10 @@ PartySpellCastResult PartySpellSystem::castSpell(
     const float sourceX = moveState.x;
     const float sourceY = moveState.y;
     const float sourceZ = moveState.footZ + 96.0f;
+    result.hasSourcePoint = true;
+    result.sourceX = sourceX;
+    result.sourceY = sourceY;
+    result.sourceZ = sourceZ;
     const std::string &spellName = pSpellEntry->normalizedName;
     const SpellId spellId = spellIdFromValue(request.spellId);
 

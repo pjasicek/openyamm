@@ -20,6 +20,9 @@ add_executable(openyamm
     events/EventRuntime.cpp
     events/ScriptedEventProgram.cpp
     tables/FaceAnimationTable.cpp
+    fx/ParticleRecipes.cpp
+    fx/ParticleRenderer.cpp
+    fx/ParticleSystem.cpp
     gameplay/GameMechanics.cpp
     gameplay/GameplayController.cpp
     gameplay/GameplayDialogController.cpp
@@ -55,6 +58,7 @@ add_executable(openyamm
     tables/NpcDialogTable.cpp
     tables/ObjectTable.cpp
     outdoor/OutdoorBillboardRenderer.cpp
+    outdoor/OutdoorFxRuntime.cpp
     outdoor/OutdoorGameplayInputController.cpp
     outdoor/OutdoorInteractionController.cpp
     outdoor/OutdoorMapData.cpp

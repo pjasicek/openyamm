@@ -1,6 +1,7 @@
 #include "game/outdoor/OutdoorRenderer.h"
 
 #include "game/outdoor/OutdoorBillboardRenderer.h"
+#include "game/fx/ParticleRenderer.h"
 #include "game/outdoor/OutdoorGameView.h"
 #include "game/outdoor/OutdoorInteractionController.h"
 #include "game/outdoor/OutdoorGeometryUtils.h"
@@ -37,6 +38,12 @@ constexpr float ActorBillboardRenderDistanceSquared =
 constexpr float SkyProjectionPitchOffsetRadians = Pi / 64.0f;
 constexpr float SkyFogHorizonPixels = 39.0f;
 constexpr int32_t MapWeatherFoggy = 1;
+constexpr size_t MaxOutdoorFxLights = 8;
+constexpr float OutdoorFxLightRefreshIntervalSeconds = 1.0f / 60.0f;
+constexpr float OutdoorFxLightingAmbient = 1.0f;
+// OpenYAMM tuning: keep outdoor FX lights visibly readable against the current ambient baseline.
+constexpr float OutdoorFxLightingScale = 1.6f;
+
 uint32_t makeAbgr(uint8_t red, uint8_t green, uint8_t blue)
 {
     return 0xff000000u
@@ -59,6 +66,26 @@ float smoothstep(float edge0, float edge1, float value)
 
     const float t = std::clamp((value - edge0) / (edge1 - edge0), 0.0f, 1.0f);
     return t * t * (3.0f - 2.0f * t);
+}
+
+float redChannel(uint32_t colorAbgr)
+{
+    return static_cast<float>(colorAbgr & 0xffu) / 255.0f;
+}
+
+float greenChannel(uint32_t colorAbgr)
+{
+    return static_cast<float>((colorAbgr >> 8) & 0xffu) / 255.0f;
+}
+
+float blueChannel(uint32_t colorAbgr)
+{
+    return static_cast<float>((colorAbgr >> 16) & 0xffu) / 255.0f;
+}
+
+float alphaChannel(uint32_t colorAbgr)
+{
+    return static_cast<float>((colorAbgr >> 24) & 0xffu) / 255.0f;
 }
 
 uint32_t computeOutdoorSkyTintAbgr(const OutdoorWorldRuntime &worldRuntime)
@@ -537,6 +564,103 @@ void applyOutdoorFogUniforms(
 }
 
 } // namespace
+
+void OutdoorRenderer::applyOutdoorFxLightUniforms(OutdoorGameView &view, const bx::Vec3 &cameraPosition)
+{
+    if (!bgfx::isValid(view.m_outdoorFxLightPositionsUniformHandle)
+        || !bgfx::isValid(view.m_outdoorFxLightColorsUniformHandle)
+        || !bgfx::isValid(view.m_outdoorFxLightParamsUniformHandle))
+    {
+        return;
+    }
+
+    const bool refreshUniforms =
+        view.m_lastOutdoorFxLightUniformUpdateElapsedTime < 0.0f
+        || (view.m_elapsedTime - view.m_lastOutdoorFxLightUniformUpdateElapsedTime) >= OutdoorFxLightRefreshIntervalSeconds;
+
+    if (refreshUniforms)
+    {
+        struct RankedLight
+        {
+            const OutdoorFxRuntime::LightEmitterState *pLight = nullptr;
+            float score = 0.0f;
+        };
+
+        std::vector<RankedLight> rankedLights;
+        rankedLights.reserve(view.m_outdoorFxRuntime.lightEmitters().size());
+
+        for (const OutdoorFxRuntime::LightEmitterState &light : view.m_outdoorFxRuntime.lightEmitters())
+        {
+            if (light.radius <= 1.0f)
+            {
+                continue;
+            }
+
+            const float intensity = alphaChannel(light.colorAbgr);
+
+            if (intensity <= 0.01f)
+            {
+                continue;
+            }
+
+            const bx::Vec3 toLight = {
+                light.x - cameraPosition.x,
+                light.y - cameraPosition.y,
+                light.z - cameraPosition.z
+            };
+            const float distance = std::sqrt(bx::dot(toLight, toLight));
+            const float score = (light.radius * intensity) / std::max(distance, 64.0f);
+            rankedLights.push_back({&light, score});
+        }
+
+        std::sort(
+            rankedLights.begin(),
+            rankedLights.end(),
+            [](const RankedLight &left, const RankedLight &right)
+            {
+                return left.score > right.score;
+            });
+
+        view.m_cachedOutdoorFxLightPositions.fill(0.0f);
+        view.m_cachedOutdoorFxLightColors.fill(0.0f);
+        uint32_t lightCount = 0;
+
+        for (size_t index = 0; index < rankedLights.size() && lightCount < MaxOutdoorFxLights; ++index)
+        {
+            const OutdoorFxRuntime::LightEmitterState &light = *rankedLights[index].pLight;
+            const size_t baseIndex = static_cast<size_t>(lightCount) * 4;
+
+            view.m_cachedOutdoorFxLightPositions[baseIndex + 0] = light.x;
+            view.m_cachedOutdoorFxLightPositions[baseIndex + 1] = light.y;
+            view.m_cachedOutdoorFxLightPositions[baseIndex + 2] = light.z;
+            view.m_cachedOutdoorFxLightPositions[baseIndex + 3] = light.radius;
+
+            view.m_cachedOutdoorFxLightColors[baseIndex + 0] = redChannel(light.colorAbgr);
+            view.m_cachedOutdoorFxLightColors[baseIndex + 1] = greenChannel(light.colorAbgr);
+            view.m_cachedOutdoorFxLightColors[baseIndex + 2] = blueChannel(light.colorAbgr);
+            view.m_cachedOutdoorFxLightColors[baseIndex + 3] = alphaChannel(light.colorAbgr);
+            ++lightCount;
+        }
+
+        view.m_cachedOutdoorFxLightParams = {{
+            static_cast<float>(lightCount),
+            OutdoorFxLightingAmbient,
+            OutdoorFxLightingScale,
+            0.0f
+        }};
+        view.m_lastOutdoorFxLightUniformUpdateElapsedTime = view.m_elapsedTime;
+    }
+
+    bgfx::setUniform(
+        view.m_outdoorFxLightPositionsUniformHandle,
+        view.m_cachedOutdoorFxLightPositions.data(),
+        MaxOutdoorFxLights);
+    bgfx::setUniform(
+        view.m_outdoorFxLightColorsUniformHandle,
+        view.m_cachedOutdoorFxLightColors.data(),
+        MaxOutdoorFxLights);
+    bgfx::setUniform(view.m_outdoorFxLightParamsUniformHandle, view.m_cachedOutdoorFxLightParams.data());
+}
 
 void OutdoorRenderer::destroyResolvedBModelDrawGroups(OutdoorGameView &view)
 {
@@ -1328,6 +1452,7 @@ bool OutdoorRenderer::initializeWorldRenderResources(
 {
     OutdoorGameView::TerrainVertex::init();
     OutdoorGameView::TexturedTerrainVertex::init();
+    OutdoorGameView::LitBillboardVertex::init();
     OutdoorGameView::ForcePerspectiveVertex::init();
     const std::vector<OutdoorGameView::TerrainVertex> vertices = buildTerrainVertices(outdoorMapData);
     const std::vector<uint16_t> indices = buildTerrainIndices();
@@ -1436,6 +1561,9 @@ bool OutdoorRenderer::initializeWorldRenderResources(
 
     view.m_programHandle = loadProgramHandle("vs_cubes", "fs_cubes");
     view.m_texturedTerrainProgramHandle = loadProgramHandle("vs_shadowmaps_texture", "fs_shadowmaps_texture");
+    view.m_outdoorLitBillboardProgramHandle =
+        loadProgramHandle("vs_outdoor_billboard_lit", "fs_outdoor_billboard_lit");
+    view.m_particleProgramHandle = loadProgramHandle("vs_particle", "fs_particle");
     view.m_outdoorTexturedFogProgramHandle =
         loadProgramHandle("vs_outdoor_textured_fog", "fs_outdoor_textured_fog");
     view.m_outdoorForcePerspectiveProgramHandle =
@@ -1671,12 +1799,16 @@ void OutdoorRenderer::renderWorldPasses(
             && bgfx::isValid(view.m_texturedTerrainVertexBufferHandle)
             && bgfx::isValid(view.m_outdoorTexturedFogProgramHandle)
             && bgfx::isValid(view.m_terrainTextureAtlasHandle)
-            && bgfx::isValid(view.m_terrainTextureSamplerHandle))
+            && bgfx::isValid(view.m_terrainTextureSamplerHandle)
+            && bgfx::isValid(view.m_outdoorFxLightPositionsUniformHandle)
+            && bgfx::isValid(view.m_outdoorFxLightColorsUniformHandle)
+            && bgfx::isValid(view.m_outdoorFxLightParamsUniformHandle))
         {
             updateAnimatedWaterTileTexture(view);
 
             bgfx::setVertexBuffer(0, view.m_texturedTerrainVertexBufferHandle);
             bgfx::setTexture(0, view.m_terrainTextureSamplerHandle, view.m_terrainTextureAtlasHandle);
+            applyOutdoorFxLightUniforms(view, cameraPosition);
             applyOutdoorFogUniforms(
                 view.m_outdoorFogColorUniformHandle,
                 view.m_outdoorFogDensitiesUniformHandle,
@@ -1717,7 +1849,10 @@ void OutdoorRenderer::renderWorldPasses(
             const uint64_t targetRevision = pEventRuntimeState != nullptr ? pEventRuntimeState->outdoorSurfaceRevision : 0;
 
             if (bgfx::isValid(view.m_outdoorTexturedFogProgramHandle)
-                && bgfx::isValid(view.m_terrainTextureSamplerHandle))
+                && bgfx::isValid(view.m_terrainTextureSamplerHandle)
+                && bgfx::isValid(view.m_outdoorFxLightPositionsUniformHandle)
+                && bgfx::isValid(view.m_outdoorFxLightColorsUniformHandle)
+                && bgfx::isValid(view.m_outdoorFxLightParamsUniformHandle))
             {
                 if (view.m_resolvedBModelDrawGroupRevision != targetRevision)
                 {
@@ -1755,6 +1890,7 @@ void OutdoorRenderer::renderWorldPasses(
                     bgfx::setTransform(modelMatrix);
                     bgfx::setVertexBuffer(0, group.vertexBufferHandle, 0, group.vertexCount);
                     bgfx::setTexture(0, view.m_terrainTextureSamplerHandle, animation.frameTextureHandles[frameIndex]);
+                    applyOutdoorFxLightUniforms(view, cameraPosition);
                     applyOutdoorFogUniforms(
                         view.m_outdoorFogColorUniformHandle,
                         view.m_outdoorFogDensitiesUniformHandle,
@@ -1822,6 +1958,11 @@ void OutdoorRenderer::renderWorldPasses(
         bgfx::submit(MainViewId, view.m_programHandle);
     }
 
+    if (view.m_showSpriteObjects || view.m_showActors)
+    {
+        OutdoorBillboardRenderer::renderFxContactShadows(view, MainViewId);
+    }
+
     if (view.m_showActors || view.m_showDecorationBillboards)
     {
         OutdoorBillboardRenderer::renderActorPreviewBillboards(view, MainViewId, pViewMatrix, cameraPosition);
@@ -1837,6 +1978,11 @@ void OutdoorRenderer::renderWorldPasses(
         OutdoorBillboardRenderer::renderRuntimeWorldItems(view, MainViewId, pViewMatrix, cameraPosition);
         OutdoorBillboardRenderer::renderRuntimeProjectiles(view, MainViewId, pViewMatrix, cameraPosition);
         OutdoorBillboardRenderer::renderSpriteObjectBillboards(view, MainViewId, pViewMatrix, cameraPosition);
+    }
+
+    if (view.m_showSpriteObjects || view.m_showActors || view.m_showDecorationBillboards)
+    {
+        OutdoorBillboardRenderer::renderFxGlowBillboards(view, MainViewId, pViewMatrix);
     }
 
     {
@@ -1855,6 +2001,11 @@ void OutdoorRenderer::renderWorldPasses(
             );
             bgfx::submit(MainViewId, view.m_programHandle);
         }
+    }
+
+    if (view.m_showSpriteObjects || view.m_showActors || view.m_showDecorationBillboards)
+    {
+        ParticleRenderer::renderParticles(view, MainViewId, pViewMatrix, cameraPosition, aspectRatio);
     }
 
     if (pAtmosphereState != nullptr && pAtmosphereState->darknessOverlayAlpha > 0.001f)

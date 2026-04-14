@@ -98,6 +98,7 @@ private:
     void handleSdlEvent(const SDL_Event &event);
     void renderFrame(int width, int height, float mouseWheelDelta, float deltaSeconds);
 
+    Engine::ApplicationConfig m_config;
     Engine::EngineApplication m_engineApplication;
     GameDataLoader m_gameDataLoader;
     GameAudioSystem m_gameAudioSystem;

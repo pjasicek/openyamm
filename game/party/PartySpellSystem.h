@@ -84,6 +84,10 @@ struct PartySpellCastResult
     uint32_t skillLevel = 0;
     SkillMastery skillMastery = SkillMastery::None;
     float recoverySeconds = 0.0f;
+    bool hasSourcePoint = false;
+    float sourceX = 0.0f;
+    float sourceY = 0.0f;
+    float sourceZ = 0.0f;
     std::string statusText;
     std::vector<size_t> affectedCharacterIndices;
 

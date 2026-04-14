@@ -97,7 +97,9 @@ def build_group_lines(group: dict[str, object]) -> list[str]:
 
 def main() -> int:
     repo_root = Path(__file__).resolve().parents[1]
-    binary_path = repo_root / "assets_dev" / "Data" / "EnglishT" / "dsft.bin"
+    legacy_binary_path = repo_root / "assets_dev" / "_legacy" / "bin_tables" / "dsft.bin"
+    fallback_binary_path = repo_root / "assets_dev" / "Data" / "EnglishT" / "dsft.bin"
+    binary_path = legacy_binary_path if legacy_binary_path.exists() else fallback_binary_path
     rendering_path = repo_root / "assets_dev" / "Data" / "rendering"
     common_output_path = rendering_path / "sprite_frame_data_common.yml"
     family_output_dir = rendering_path / "sprite_frames" / "monsters"

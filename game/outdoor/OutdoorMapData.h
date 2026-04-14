@@ -138,6 +138,7 @@ public:
 class OutdoorMapDataWriter
 {
 public:
+    std::optional<std::vector<uint8_t>> buildBytes(const OutdoorMapData &outdoorMapData) const;
     std::optional<std::vector<uint8_t>> patchBytes(
         const OutdoorMapData &outdoorMapData,
         const std::vector<uint8_t> &baseBytes) const;

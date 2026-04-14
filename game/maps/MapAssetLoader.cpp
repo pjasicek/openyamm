@@ -46,8 +46,6 @@ std::string monsterSpriteFrameFamilyPath(std::string_view familyRoot)
 constexpr uint8_t WaterTileName[] = {'w', 't', 'r', 't', 'y', 'l', 0};
 constexpr int TerrainTextureTileSize = 128;
 constexpr int TerrainTextureAtlasColumns = 16;
-constexpr uint16_t DecorationDescMoveThrough = 0x0001;
-constexpr uint16_t DecorationDescDontDraw = 0x0002;
 constexpr uint16_t LevelDecorationInvisible = 0x0020;
 
 std::optional<std::string> resolveMonsterNameForSpawn(const MapStatsEntry &map, uint16_t typeId, uint16_t index);
@@ -99,7 +97,8 @@ bool shouldSkipDecorationCollision(const EntityType &entity, const DecorationEnt
         return true;
     }
 
-    if ((decoration.flags & (DecorationDescMoveThrough | DecorationDescDontDraw)) != 0)
+    if (hasDecorationFlag(decoration.flags, DecorationDescFlag::MoveThrough)
+        || hasDecorationFlag(decoration.flags, DecorationDescFlag::DontDraw))
     {
         return true;
     }
@@ -341,6 +340,18 @@ void appendMonsterSpriteFamilies(
         {
             families.insert(*familyRoot);
         }
+    }
+}
+
+void collectSummonMonsterSpriteFamilies(
+    std::unordered_set<std::string> &neededMonsterFamilies,
+    const MonsterTable &monsterTable)
+{
+    static constexpr std::array<int16_t, 3> SummonWispMonsterIds = {97, 98, 99};
+
+    for (int16_t monsterId : SummonWispMonsterIds)
+    {
+        appendMonsterSpriteFamilies(neededMonsterFamilies, monsterTable.findById(monsterId));
     }
 }
 
@@ -983,6 +994,7 @@ std::optional<std::vector<uint8_t>> loadIndexedBitmapPixelsBgra(
                 paletteIndex < indexedBitmap->paletteColorCount
                     ? indexedBitmap->palette[paletteIndex]
                     : SDL_Color{0, 0, 0, 255};
+            const bool isZeroIndexKey = applyTransparencyKey && paletteIndex == 0;
             const bool isMagentaKey = sourceColor.r >= 248 && sourceColor.g <= 8 && sourceColor.b >= 248;
             const bool isTealKey = applyTransparencyKey && sourceColor.r <= 8 && sourceColor.g >= 248 && sourceColor.b >= 248;
             const size_t paletteOffset = static_cast<size_t>(paletteIndex) * 3;
@@ -990,7 +1002,7 @@ std::optional<std::vector<uint8_t>> loadIndexedBitmapPixelsBgra(
             pixels[pixelOffset + 0] = (*overridePalette)[paletteOffset + 2];
             pixels[pixelOffset + 1] = (*overridePalette)[paletteOffset + 1];
             pixels[pixelOffset + 2] = (*overridePalette)[paletteOffset + 0];
-            pixels[pixelOffset + 3] = (isMagentaKey || isTealKey) ? 0 : 255;
+            pixels[pixelOffset + 3] = (isZeroIndexKey || isMagentaKey || isTealKey) ? 0 : 255;
         }
     }
 
@@ -1184,7 +1196,17 @@ std::optional<DecorationBillboardSet> buildDecorationBillboardSet(
         const EntityType &entity = entities[entityIndex];
         const DecorationEntry *pDecoration = resolveDecorationEntry(billboardSet.decorationTable, entity);
 
-        if (pDecoration == nullptr || pDecoration->spriteId == 0)
+        if (pDecoration == nullptr)
+        {
+            continue;
+        }
+
+        const bool isEmitterOnlyDecoration =
+            pDecoration->spriteId == 0
+            && (hasDecorationFlag(pDecoration->flags, DecorationDescFlag::EmitFire)
+                || hasDecorationFlag(pDecoration->flags, DecorationDescFlag::EmitSmoke));
+
+        if (pDecoration->spriteId == 0 && !isEmitterOnlyDecoration)
         {
             continue;
         }
@@ -1203,14 +1225,17 @@ std::optional<DecorationBillboardSet> buildDecorationBillboardSet(
         billboard.name = entity.name;
         billboardSet.billboards.push_back(std::move(billboard));
 
-        const std::vector<std::string> billboardTextureNames =
-            billboardSet.spriteFrameTable.collectTextureNames(pDecoration->spriteId);
-
-        for (const std::string &textureName : billboardTextureNames)
+        if (pDecoration->spriteId != 0)
         {
-            if (std::find(textureNames.begin(), textureNames.end(), textureName) == textureNames.end())
+            const std::vector<std::string> billboardTextureNames =
+                billboardSet.spriteFrameTable.collectTextureNames(pDecoration->spriteId);
+
+            for (const std::string &textureName : billboardTextureNames)
             {
-                textureNames.push_back(textureName);
+                if (std::find(textureNames.begin(), textureNames.end(), textureName) == textureNames.end())
+                {
+                    textureNames.push_back(textureName);
+                }
             }
         }
     }
@@ -1434,7 +1459,31 @@ std::optional<DecorationBillboardSet> buildOutdoorDecorationBillboardSet(
     BitmapLoadCache &bitmapLoadCache
 )
 {
-    return buildDecorationBillboardSet(assetFileSystem, outdoorMapData.entities, bitmapLoadCache);
+    std::optional<DecorationBillboardSet> billboardSet =
+        buildDecorationBillboardSet(assetFileSystem, outdoorMapData.entities, bitmapLoadCache);
+
+    if (!billboardSet)
+    {
+        return std::nullopt;
+    }
+
+    for (DecorationBillboard &billboard : billboardSet->billboards)
+    {
+        if (!hasDecorationFlag(billboard.flags, DecorationDescFlag::EmitFire)
+            && !hasDecorationFlag(billboard.flags, DecorationDescFlag::EmitSmoke))
+        {
+            continue;
+        }
+
+        const float supportHeight = sampleOutdoorPlacementFloorHeight(
+            outdoorMapData,
+            static_cast<float>(billboard.x),
+            static_cast<float>(billboard.y),
+            static_cast<float>(billboard.z));
+        billboard.z = static_cast<int>(std::lround(supportHeight));
+    }
+
+    return billboardSet;
 }
 
 std::optional<DecorationBillboardSet> buildIndoorDecorationBillboardSet(
@@ -2021,6 +2070,7 @@ std::optional<ActorPreviewBillboardSet> buildActorPreviewBillboardSet(
     collectMapDeltaMonsterSpriteFamilies(neededMonsterFamilies, monsterTable, mapDeltaData);
     collectSpawnMonsterSpriteFamilies(neededMonsterFamilies, map, monsterTable, spawns);
     collectEncounterMonsterSpriteFamilies(neededMonsterFamilies, monsterTable, map);
+    collectSummonMonsterSpriteFamilies(neededMonsterFamilies, monsterTable);
 
     const std::optional<SpriteFrameTable> spriteFrameTable =
         loadSpriteFrameTable(assetFileSystem, neededMonsterFamilies);

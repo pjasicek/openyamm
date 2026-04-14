@@ -129,7 +129,9 @@ def format_row(entry: dict[str, object], sprite_name: str | None) -> str:
 
 def main() -> int:
     repo_root = Path(__file__).resolve().parents[1]
-    binary_path = repo_root / "assets_dev" / "Data" / "EnglishT" / "dobjlist.bin"
+    legacy_binary_path = repo_root / "assets_dev" / "_legacy" / "bin_tables" / "dobjlist.bin"
+    fallback_binary_path = repo_root / "assets_dev" / "Data" / "EnglishT" / "dobjlist.bin"
+    binary_path = legacy_binary_path if legacy_binary_path.exists() else fallback_binary_path
     table_path = repo_root / "assets_dev" / "Data" / "data_tables" / "object_list.txt"
 
     binary_rows = read_binary_rows(binary_path)

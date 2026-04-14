@@ -1168,30 +1168,58 @@ def render_scene_yaml(scene_model: dict[str, object]) -> str:
     return "\n".join(lines) + "\n"
 
 
+def resolve_ddm_path(
+    odm_path: Path,
+    repo_root: Path,
+    explicit_ddm_path: Path | None,
+    explicit_ddm_dir: Path | None,
+) -> Path:
+    if explicit_ddm_path is not None:
+        return explicit_ddm_path
+
+    if explicit_ddm_dir is not None:
+        return explicit_ddm_dir / f"{odm_path.stem}.ddm"
+
+    sibling_ddm_path = odm_path.with_suffix(".ddm")
+    if sibling_ddm_path.is_file():
+        return sibling_ddm_path
+
+    legacy_ddm_path = repo_root / "assets_dev" / "_legacy" / "map_delta" / f"{odm_path.stem.lower()}.ddm"
+    return legacy_ddm_path
+
+
 def derive_paths(args: argparse.Namespace, repo_root: Path) -> tuple[Path, Path, Path]:
+    explicit_ddm_path = Path(args.ddm) if args.ddm else None
+    explicit_ddm_dir = Path(args.ddm_dir) if args.ddm_dir else None
+
     if args.odm:
         odm_path = Path(args.odm)
-        ddm_path = Path(args.ddm) if args.ddm else odm_path.with_suffix(".ddm")
+        ddm_path = resolve_ddm_path(odm_path, repo_root, explicit_ddm_path, explicit_ddm_dir)
         output_path = Path(args.output) if args.output else odm_path.with_suffix(".scene.yml")
         return odm_path, ddm_path, output_path
 
     if args.map_base:
         map_base = Path(args.map_base)
         output_path = Path(args.output) if args.output else map_base.with_suffix(".scene.yml")
-        return map_base.with_suffix(".odm"), map_base.with_suffix(".ddm"), output_path
+        odm_path = map_base.with_suffix(".odm")
+        ddm_path = resolve_ddm_path(odm_path, repo_root, explicit_ddm_path, explicit_ddm_dir)
+        return odm_path, ddm_path, output_path
 
     input_dir = Path(args.input_dir) if args.input_dir else repo_root / "assets_dev" / "Data" / "games"
     map_name = args.map
     if map_name is None:
         raise ParseError("either --odm, --map-base, or --map must be provided")
     output_path = Path(args.output) if args.output else input_dir / f"{map_name}.scene.yml"
-    return input_dir / f"{map_name}.odm", input_dir / f"{map_name}.ddm", output_path
+    odm_path = input_dir / f"{map_name}.odm"
+    ddm_path = resolve_ddm_path(odm_path, repo_root, explicit_ddm_path, explicit_ddm_dir)
+    return odm_path, ddm_path, output_path
 
 
 def build_argument_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Export outdoor ODM + DDM into .scene.yml")
     parser.add_argument("--odm", help="path to XX.odm")
-    parser.add_argument("--ddm", help="path to XX.ddm; defaults next to --odm")
+    parser.add_argument("--ddm", help="path to XX.ddm; overrides automatic companion lookup")
+    parser.add_argument("--ddm-dir", help="directory containing XX.ddm companions keyed by map stem")
     parser.add_argument("--output", help="path to XX.scene.yml; defaults next to --odm")
     parser.add_argument("--map-base", help="path without extension, e.g. assets_dev/Data/games/out01")
     parser.add_argument("--input-dir", help="directory containing map files for --map mode")

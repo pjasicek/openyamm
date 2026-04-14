@@ -1,7 +1,9 @@
 #pragma once
 
 #include "game/app/GameSettings.h"
+#include "game/fx/ParticleSystem.h"
 #include "game/outdoor/OutdoorCollisionData.h"
+#include "game/outdoor/OutdoorFxRuntime.h"
 #include "game/maps/MapAssetLoader.h"
 #include "game/tables/MapStats.h"
 #include "game/tables/MonsterTable.h"
@@ -64,6 +66,7 @@ class OutdoorGameplayInputController;
 class OutdoorInteractionController;
 class OutdoorRenderer;
 class OutdoorPresentationController;
+class ParticleRenderer;
 class GameplayDialogueRenderer;
 class GameplayHudRenderer;
 class GameplayPartyOverlayRenderer;
@@ -152,10 +155,12 @@ private:
     friend class GameplayPartyOverlayInputController;
     friend class HudUiService;
     friend class OutdoorBillboardRenderer;
+    friend class OutdoorFxRuntime;
     friend class OutdoorGameplayInputController;
     friend class OutdoorInteractionController;
     friend class OutdoorRenderer;
     friend class OutdoorPresentationController;
+    friend class ParticleRenderer;
 
     struct TerrainVertex
     {
@@ -176,6 +181,20 @@ private:
         float z;
         float u;
         float v;
+
+        static void init();
+
+        static bgfx::VertexLayout ms_layout;
+    };
+
+    struct LitBillboardVertex
+    {
+        float x;
+        float y;
+        float z;
+        float u;
+        float v;
+        uint32_t abgr;
 
         static void init();
 
@@ -222,6 +241,8 @@ private:
         uint32_t vertexCount = 0;
         size_t animationIndex = static_cast<size_t>(-1);
     };
+
+    static constexpr size_t OutdoorFxUniformLightCount = 8;
 
     struct BillboardTextureHandle
     {
@@ -896,6 +917,7 @@ private:
     GameAudioSystem *m_pGameAudioSystem;
     OutdoorSceneRuntime *m_pOutdoorSceneRuntime;
     OutdoorWorldRuntime *m_pOutdoorWorldRuntime;
+    OutdoorFxRuntime m_outdoorFxRuntime;
     bgfx::VertexBufferHandle m_vertexBufferHandle;
     bgfx::IndexBufferHandle m_indexBufferHandle;
     bgfx::DynamicVertexBufferHandle m_skyVertexBufferHandle;
@@ -907,16 +929,23 @@ private:
     bgfx::VertexBufferHandle m_spawnMarkerVertexBufferHandle;
     bgfx::ProgramHandle m_programHandle;
     bgfx::ProgramHandle m_texturedTerrainProgramHandle;
+    bgfx::ProgramHandle m_outdoorLitBillboardProgramHandle;
+    bgfx::ProgramHandle m_particleProgramHandle;
     bgfx::ProgramHandle m_outdoorTexturedFogProgramHandle;
     bgfx::ProgramHandle m_outdoorForcePerspectiveProgramHandle;
     bgfx::TextureHandle m_terrainTextureAtlasHandle;
     bgfx::TextureHandle m_forcePerspectiveSolidTextureHandle;
     bgfx::UniformHandle m_terrainTextureSamplerHandle;
+    bgfx::UniformHandle m_outdoorBillboardAmbientUniformHandle;
+    bgfx::UniformHandle m_outdoorFxLightPositionsUniformHandle;
+    bgfx::UniformHandle m_outdoorFxLightColorsUniformHandle;
+    bgfx::UniformHandle m_outdoorFxLightParamsUniformHandle;
     bgfx::UniformHandle m_outdoorFogColorUniformHandle;
     bgfx::UniformHandle m_outdoorFogDensitiesUniformHandle;
     bgfx::UniformHandle m_outdoorFogDistancesUniformHandle;
     float m_elapsedTime;
     float m_framesPerSecond;
+    float m_lastOutdoorFxLightUniformUpdateElapsedTime = -1.0f;
     uint32_t m_bmodelLineVertexCount;
     uint32_t m_bmodelCollisionVertexCount;
     uint32_t m_bmodelFaceCount;
@@ -927,7 +956,18 @@ private:
     std::vector<ResolvedBModelDrawGroup> m_resolvedBModelDrawGroups;
     uint64_t m_resolvedBModelDrawGroupRevision = std::numeric_limits<uint64_t>::max();
     std::vector<BillboardTextureHandle> m_billboardTextureHandles;
+    std::array<float, OutdoorFxUniformLightCount * 4> m_cachedOutdoorFxLightPositions = {};
+    std::array<float, OutdoorFxUniformLightCount * 4> m_cachedOutdoorFxLightColors = {};
+    std::array<float, 4> m_cachedOutdoorFxLightParams = {};
     std::unordered_map<int16_t, std::unordered_map<std::string, size_t>> m_billboardTextureIndexByPalette;
+    std::array<uint16_t, 5> m_particleTextureHandleIndices = {{
+        bgfx::kInvalidHandle,
+        bgfx::kInvalidHandle,
+        bgfx::kInvalidHandle,
+        bgfx::kInvalidHandle,
+        bgfx::kInvalidHandle
+    }};
+    std::array<std::vector<LitBillboardVertex>, 10> m_particleVertexBatches;
     std::unordered_map<std::string, size_t> m_decorationBitmapTextureIndexByName;
     std::vector<SkyTextureHandle> m_skyTextureHandles;
     std::unordered_map<std::string, size_t> m_skyTextureIndexByName;
@@ -941,6 +981,8 @@ private:
     std::vector<bool> m_queuedSpriteFrameWarmups;
     size_t m_nextPendingSpriteFrameWarmupIndex;
     size_t m_runtimeActorBillboardTexturesQueuedCount;
+    float m_particleUpdateAccumulatorSeconds = 0.0f;
+    ParticleSystem m_particleSystem;
     std::vector<std::vector<size_t>> m_decorationBillboardGridCells;
     std::vector<InteractiveDecorationBinding> m_interactiveDecorationBindings;
     float m_decorationBillboardGridMinX = 0.0f;

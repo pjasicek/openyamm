@@ -12,7 +12,9 @@ HEADER_COLUMNS = "#\tTextureIndex\tFrameLengthRaw\tAnimationLengthRaw\tFlags"
 
 def main() -> int:
     repo_root = Path(__file__).resolve().parents[1]
-    binary_path = repo_root / "assets_dev" / "Data" / "EnglishT" / "dpft.bin"
+    legacy_binary_path = repo_root / "assets_dev" / "_legacy" / "bin_tables" / "dpft.bin"
+    fallback_binary_path = repo_root / "assets_dev" / "Data" / "EnglishT" / "dpft.bin"
+    binary_path = legacy_binary_path if legacy_binary_path.exists() else fallback_binary_path
     output_path = repo_root / "assets_dev" / "Data" / "data_tables" / "portrait_frame_data.txt"
 
     data = binary_path.read_bytes()

@@ -39,7 +39,8 @@ bool parseArguments(
     char **argv,
     ApplicationConfig &config,
     std::optional<std::string> &mapFilter,
-    std::optional<std::filesystem::path> &luaExportConfigPath)
+    std::optional<std::filesystem::path> &luaExportConfigPath,
+    std::optional<std::string> &legacyEventsDir)
 {
     bool hasAssetScaleArgument = false;
 
@@ -92,6 +93,19 @@ bool parseArguments(
             }
 
             luaExportConfigPath = std::filesystem::path(argv[argumentIndex + 1]);
+            ++argumentIndex;
+            continue;
+        }
+
+        if (argument == "--legacy-events-dir")
+        {
+            if (legacyEventsDir.has_value() || argumentIndex + 1 >= argc)
+            {
+                std::cerr << "Usage: --legacy-events-dir <virtual_path>\n";
+                return false;
+            }
+
+            legacyEventsDir = argv[argumentIndex + 1];
             ++argumentIndex;
             continue;
         }
@@ -158,6 +172,7 @@ struct LuaExportTablePaths
     std::string npc = "Data/data_tables/npc.txt";
     std::string npcGroup = "Data/data_tables/english/npc_group.txt";
     std::string npcNews = "Data/data_tables/npc_news.txt";
+    std::string legacyEventsDir = "_legacy/events";
     std::string decompiledScriptsDir;
 };
 
@@ -243,6 +258,10 @@ bool loadLuaExportConfig(const std::filesystem::path &path, LuaExportTablePaths 
         {
             tablePaths.npcNews = value;
         }
+        else if (key == "legacy_events_dir")
+        {
+            tablePaths.legacyEventsDir = value;
+        }
         else if (key == "decompiled_scripts_dir")
         {
             tablePaths.decompiledScriptsDir = value;
@@ -266,14 +285,28 @@ bool writeTextFile(const std::filesystem::path &path, const std::string &text)
     return outputStream.good();
 }
 
-std::vector<std::string> buildLegacyScriptPathCandidates(const std::string &baseName, const std::string &extension)
+std::vector<std::string> buildLegacyScriptPathCandidates(
+    const std::string &legacyEventsDir,
+    const std::string &baseName,
+    const std::string &extension)
 {
-    return {
-        "Data/EnglishT/" + baseName + extension,
-        "Data/EnglishT/" + toUpperCopy(baseName) + extension,
-        "Data/EnglishT/" + baseName + toUpperCopy(extension),
-        "Data/EnglishT/" + toUpperCopy(baseName) + toUpperCopy(extension),
+    const std::string normalizedLegacyEventsDir = trimCopy(legacyEventsDir);
+    std::vector<std::string> candidates = {
+        normalizedLegacyEventsDir + "/" + baseName + extension,
+        normalizedLegacyEventsDir + "/" + toUpperCopy(baseName) + extension,
+        normalizedLegacyEventsDir + "/" + baseName + toUpperCopy(extension),
+        normalizedLegacyEventsDir + "/" + toUpperCopy(baseName) + toUpperCopy(extension),
     };
+
+    if (toLowerCopy(normalizedLegacyEventsDir) != "data/englisht")
+    {
+        candidates.push_back("Data/EnglishT/" + baseName + extension);
+        candidates.push_back("Data/EnglishT/" + toUpperCopy(baseName) + extension);
+        candidates.push_back("Data/EnglishT/" + baseName + toUpperCopy(extension));
+        candidates.push_back("Data/EnglishT/" + toUpperCopy(baseName) + toUpperCopy(extension));
+    }
+
+    return candidates;
 }
 
 std::optional<std::vector<uint8_t>> readFirstExistingBinary(
@@ -769,6 +802,7 @@ bool exportLegacyProgram(
     const AssetFileSystem &assetFileSystem,
     const std::filesystem::path &scriptsRoot,
     const std::filesystem::path &dumpsRoot,
+    const std::string &legacyEventsDir,
     const std::string &legacyBaseName,
     const std::string &outputStem,
     const LegacyLuaExportLookups &baseLookups,
@@ -778,7 +812,7 @@ bool exportLegacyProgram(
     std::string resolvedEvtPath;
     const std::optional<std::vector<uint8_t>> evtBytes = readFirstExistingBinary(
         assetFileSystem,
-        buildLegacyScriptPathCandidates(legacyBaseName, ".evt"),
+        buildLegacyScriptPathCandidates(legacyEventsDir, legacyBaseName, ".evt"),
         resolvedEvtPath
     );
 
@@ -798,7 +832,7 @@ bool exportLegacyProgram(
     std::string resolvedStrPath;
     const std::optional<std::vector<uint8_t>> strBytes = readFirstExistingBinary(
         assetFileSystem,
-        buildLegacyScriptPathCandidates(legacyBaseName, ".str"),
+        buildLegacyScriptPathCandidates(legacyEventsDir, legacyBaseName, ".str"),
         resolvedStrPath
     );
     StrTable strTable = {};
@@ -874,8 +908,9 @@ int main(int argc, char **argv)
     ApplicationConfig config = ApplicationConfig::createDefault();
     std::optional<std::string> mapFilter;
     std::optional<std::filesystem::path> luaExportConfigPath;
+    std::optional<std::string> legacyEventsDirOverride;
 
-    if (!parseArguments(argc, argv, config, mapFilter, luaExportConfigPath))
+    if (!parseArguments(argc, argv, config, mapFilter, luaExportConfigPath, legacyEventsDirOverride))
     {
         return 2;
     }
@@ -886,6 +921,11 @@ int main(int argc, char **argv)
     {
         std::cerr << "Failed to load Lua export config: " << luaExportConfigPath->string() << '\n';
         return 1;
+    }
+
+    if (legacyEventsDirOverride)
+    {
+        tablePaths.legacyEventsDir = *legacyEventsDirOverride;
     }
 
     if (tablePaths.decompiledScriptsDir.empty())
@@ -934,6 +974,7 @@ int main(int argc, char **argv)
             assetFileSystem,
             scriptsRoot,
             dumpsRoot,
+            tablePaths.legacyEventsDir,
             "Global",
             "Global",
             lookups,
@@ -964,6 +1005,7 @@ int main(int argc, char **argv)
                 assetFileSystem,
                 scriptsRoot,
                 dumpsRoot,
+                tablePaths.legacyEventsDir,
                 mapStem,
                 lowerMapStem,
                 lookups,
@@ -980,7 +1022,7 @@ int main(int argc, char **argv)
             std::string resolvedEvtPath;
             if (readFirstExistingBinary(
                     assetFileSystem,
-                    buildLegacyScriptPathCandidates(mapStem, ".evt"),
+                    buildLegacyScriptPathCandidates(tablePaths.legacyEventsDir, mapStem, ".evt"),
                     resolvedEvtPath))
             {
                 ++exportedMapCount;

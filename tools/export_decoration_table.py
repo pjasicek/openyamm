@@ -42,7 +42,7 @@ def parse_bin_rows(binary_path: Path) -> dict[int, dict[str, int | str]]:
     return rows
 
 
-def parse_text_overrides(text_path: Path) -> dict[int, dict[str, str]]:
+def parse_text_overrides(text_path: Path, preserve_flags: bool) -> dict[int, dict[str, str]]:
     overrides: dict[int, dict[str, str]] = {}
 
     for line in text_path.read_text(encoding="utf-8", errors="ignore").splitlines():
@@ -56,14 +56,14 @@ def parse_text_overrides(text_path: Path) -> dict[int, dict[str, str]]:
             overrides[number] = {
                 "label": parts[1].strip(),
                 "hint": parts[2].strip(),
-                "flags": parts[11].strip(),
+                "flags": parts[11].strip() if preserve_flags else "",
                 "comments": parts[13].strip(),
             }
         else:
             overrides[number] = {
                 "label": parts[1].strip() if len(parts) > 1 else "",
                 "hint": parts[2].strip() if len(parts) > 2 else "",
-                "flags": parts[10].strip() if len(parts) > 10 else "",
+                "flags": parts[10].strip() if preserve_flags else "",
                 "comments": parts[11].strip() if len(parts) > 11 else "",
             }
 
@@ -113,15 +113,17 @@ def format_flags(flag_text: str, flag_value: int) -> str:
 
 def main() -> int:
     repo_root = Path(__file__).resolve().parents[1]
-    binary_path = repo_root / "assets_dev" / "Data" / "EnglishT" / "ddeclist.bin"
+    legacy_binary_path = repo_root / "assets_dev" / "_legacy" / "bin_tables" / "ddeclist.bin"
+    fallback_binary_path = repo_root / "assets_dev" / "Data" / "EnglishT" / "ddeclist.bin"
+    binary_path = legacy_binary_path if legacy_binary_path.exists() else fallback_binary_path
     output_path = repo_root / "assets_dev" / "Data" / "data_tables" / "decoration_data.txt"
     legacy_text_path = repo_root / "assets_dev" / "Data" / "data_tables" / "dec_list.txt"
 
     bin_rows = parse_bin_rows(binary_path)
     if output_path.exists():
-        text_overrides = parse_text_overrides(output_path)
+        text_overrides = parse_text_overrides(output_path, preserve_flags=False)
     else:
-        text_overrides = parse_text_overrides(legacy_text_path)
+        text_overrides = parse_text_overrides(legacy_text_path, preserve_flags=True)
 
     lines = [HEADER_GROUP, HEADER_COLUMNS, ""]
 

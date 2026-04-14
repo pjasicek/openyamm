@@ -26,10 +26,25 @@ bool parseCommonArguments(
     std::vector<std::string> &arguments)
 {
     bool hasAssetScaleArgument = false;
+    bool hasMapOverrideArgument = false;
 
     for (int argumentIndex = 1; argumentIndex < argc; ++argumentIndex)
     {
         const std::string argument = argv[argumentIndex];
+
+        if (argument == "--map")
+        {
+            if (hasMapOverrideArgument || argumentIndex + 1 >= argc)
+            {
+                std::cerr << "Usage: --map <map-file>\n";
+                return false;
+            }
+
+            config.startupMapFileOverride = argv[argumentIndex + 1];
+            hasMapOverrideArgument = true;
+            ++argumentIndex;
+            continue;
+        }
 
         if (argument != "--asset-scale")
         {

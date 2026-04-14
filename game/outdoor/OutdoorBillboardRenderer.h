@@ -47,10 +47,52 @@ public:
         uint16_t viewId,
         const float *pViewMatrix,
         const bx::Vec3 &cameraPosition);
+    static void renderFxContactShadows(
+        OutdoorGameView &view,
+        uint16_t viewId);
+    static void renderFxGlowBillboards(
+        OutdoorGameView &view,
+        uint16_t viewId,
+        const float *pViewMatrix);
     static void renderSpriteObjectBillboards(
         OutdoorGameView &view,
         uint16_t viewId,
         const float *pViewMatrix,
         const bx::Vec3 &cameraPosition);
+
+private:
+    static void appendWorldQuadVertices(
+        std::vector<OutdoorGameView::TerrainVertex> &vertices,
+        const bx::Vec3 &center,
+        const bx::Vec3 &right,
+        const bx::Vec3 &up,
+        uint32_t colorAbgr);
+    static void submitColoredVertices(
+        OutdoorGameView &view,
+        uint16_t viewId,
+        const std::vector<OutdoorGameView::TerrainVertex> &vertices,
+        uint64_t renderState);
+    static void appendLitBillboardVertices(
+        std::vector<OutdoorGameView::LitBillboardVertex> &vertices,
+        const bx::Vec3 &center,
+        const bx::Vec3 &right,
+        const bx::Vec3 &up,
+        float u0,
+        float u1,
+        uint32_t lightContributionAbgr);
+    static void writeLitBillboardVertices(
+        OutdoorGameView::LitBillboardVertex *pVertices,
+        const bx::Vec3 &center,
+        const bx::Vec3 &right,
+        const bx::Vec3 &up,
+        float u0,
+        float u1,
+        uint32_t lightContributionAbgr);
+    static uint32_t computeBillboardLightContributionAbgr(
+        const OutdoorGameView &view,
+        float x,
+        float y,
+        float z);
+    static void applyBillboardAmbientUniform(OutdoorGameView &view);
 };
 } // namespace OpenYAMM::Game
