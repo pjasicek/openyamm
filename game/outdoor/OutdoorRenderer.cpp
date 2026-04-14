@@ -45,7 +45,10 @@ constexpr float OutdoorFxLightingAmbient = 1.0f;
 // OpenYAMM tuning: keep outdoor FX lights visibly readable against the current ambient baseline.
 constexpr float OutdoorFxLightingScale = 1.6f;
 constexpr float SpellImpactAoePreviewRadius = 448.0f;
-constexpr float MeteorShowerPreviewRadius = 896.0f;
+constexpr float MeteorShowerPreviewRadius = 768.0f;
+constexpr size_t SpellAreaPreviewGridResolution = 24;
+constexpr float SpellAreaPreviewRefreshIntervalSeconds = 1.0f / 30.0f;
+constexpr float SpellAreaPreviewRetargetDistance = 72.0f;
 
 uint32_t makeAbgr(uint8_t red, uint8_t green, uint8_t blue)
 {
@@ -1564,6 +1567,7 @@ bool OutdoorRenderer::initializeWorldRenderResources(
 
     view.m_programHandle = loadProgramHandle("vs_cubes", "fs_cubes");
     view.m_texturedTerrainProgramHandle = loadProgramHandle("vs_shadowmaps_texture", "fs_shadowmaps_texture");
+    view.m_spellAreaPreviewProgramHandle = loadProgramHandle("vs_spell_area_preview", "fs_spell_area_preview");
     view.m_outdoorLitBillboardProgramHandle =
         loadProgramHandle("vs_outdoor_billboard_lit", "fs_outdoor_billboard_lit");
     view.m_particleProgramHandle = loadProgramHandle("vs_particle", "fs_particle");
@@ -2098,6 +2102,210 @@ void OutdoorRenderer::renderPendingSpellAreaPreview(OutdoorGameView &view, uint1
     const uint32_t innerFadeColor = withAlpha(previewColor, static_cast<uint8_t>(18 + std::lround(10.0f * pulse)));
     const uint32_t tickColor = withAlpha(previewColor, 240);
     const uint32_t arcColor = withAlpha(previewColor, static_cast<uint8_t>(176 + std::lround(48.0f * slowPulse)));
+
+    if (bgfx::isValid(view.m_spellAreaPreviewProgramHandle)
+        && bgfx::isValid(view.m_spellAreaPreviewParams0UniformHandle)
+        && bgfx::isValid(view.m_spellAreaPreviewParams1UniformHandle)
+        && bgfx::isValid(view.m_spellAreaPreviewColorAUniformHandle)
+        && bgfx::isValid(view.m_spellAreaPreviewColorBUniformHandle))
+    {
+        const auto buildSpellAreaPreviewVertices =
+            [&view, &targetPoint, previewRadius, PreviewHeightOffset]() -> std::vector<OutdoorGameView::TexturedTerrainVertex>
+            {
+                std::vector<OutdoorGameView::TexturedTerrainVertex> texturedVertices;
+                texturedVertices.reserve(SpellAreaPreviewGridResolution * SpellAreaPreviewGridResolution * 12);
+                const float fullDiameter = previewRadius * 2.0f;
+                const float cellSize = fullDiameter / static_cast<float>(SpellAreaPreviewGridResolution);
+                const float cellHalfSize = cellSize * 0.5f;
+
+                const auto samplePreviewWorldPoint =
+                    [&view, &targetPoint, PreviewHeightOffset](float x, float y) -> bx::Vec3
+                    {
+                        const float terrainZ =
+                            view.m_outdoorMapData.has_value()
+                                ? sampleOutdoorRenderedTerrainHeight(*view.m_outdoorMapData, x, y)
+                                : targetPoint->z;
+                        const float supportZ = view.m_pOutdoorWorldRuntime->sampleSupportFloorHeight(
+                            x,
+                            y,
+                            targetPoint->z + 1024.0f,
+                            2048.0f,
+                            24.0f);
+                        const float z = std::max(terrainZ, supportZ);
+                        return {x, y, z + PreviewHeightOffset + 1.0f};
+                    };
+
+                const auto appendVertex =
+                    [&texturedVertices](const bx::Vec3 &position, float u, float v)
+                    {
+                        OutdoorGameView::TexturedTerrainVertex vertex = {};
+                        vertex.x = position.x;
+                        vertex.y = position.y;
+                        vertex.z = position.z;
+                        vertex.u = u;
+                        vertex.v = v;
+                        texturedVertices.push_back(vertex);
+                    };
+
+                for (size_t yIndex = 0; yIndex < SpellAreaPreviewGridResolution; ++yIndex)
+                {
+                    const float v0 = static_cast<float>(yIndex) / static_cast<float>(SpellAreaPreviewGridResolution);
+                    const float v1 = static_cast<float>(yIndex + 1) / static_cast<float>(SpellAreaPreviewGridResolution);
+                    const float localY0 = (v0 - 0.5f) * previewRadius * 2.0f;
+                    const float localY1 = (v1 - 0.5f) * previewRadius * 2.0f;
+
+                    for (size_t xIndex = 0; xIndex < SpellAreaPreviewGridResolution; ++xIndex)
+                    {
+                        const float u0 = static_cast<float>(xIndex) / static_cast<float>(SpellAreaPreviewGridResolution);
+                        const float u1 = static_cast<float>(xIndex + 1) / static_cast<float>(SpellAreaPreviewGridResolution);
+                        const float localX0 = (u0 - 0.5f) * previewRadius * 2.0f;
+                        const float localX1 = (u1 - 0.5f) * previewRadius * 2.0f;
+                        const float localCenterX = (localX0 + localX1) * 0.5f;
+                        const float localCenterY = (localY0 + localY1) * 0.5f;
+                        const float nearestX = std::max(std::abs(localCenterX) - cellHalfSize, 0.0f);
+                        const float nearestY = std::max(std::abs(localCenterY) - cellHalfSize, 0.0f);
+
+                        if (nearestX * nearestX + nearestY * nearestY > previewRadius * previewRadius)
+                        {
+                            continue;
+                        }
+
+                        const bx::Vec3 topLeft =
+                            samplePreviewWorldPoint(targetPoint->x + localX0, targetPoint->y + localY0);
+                        const bx::Vec3 topRight =
+                            samplePreviewWorldPoint(targetPoint->x + localX1, targetPoint->y + localY0);
+                        const bx::Vec3 bottomLeft =
+                            samplePreviewWorldPoint(targetPoint->x + localX0, targetPoint->y + localY1);
+                        const bx::Vec3 bottomRight =
+                            samplePreviewWorldPoint(targetPoint->x + localX1, targetPoint->y + localY1);
+                        const float centerU = (u0 + u1) * 0.5f;
+                        const float centerV = (v0 + v1) * 0.5f;
+                        const bx::Vec3 center =
+                            samplePreviewWorldPoint(targetPoint->x + localCenterX, targetPoint->y + localCenterY);
+
+                        appendVertex(topLeft, u0, v0);
+                        appendVertex(topRight, u1, v0);
+                        appendVertex(center, centerU, centerV);
+
+                        appendVertex(topRight, u1, v0);
+                        appendVertex(bottomRight, u1, v1);
+                        appendVertex(center, centerU, centerV);
+
+                        appendVertex(bottomRight, u1, v1);
+                        appendVertex(bottomLeft, u0, v1);
+                        appendVertex(center, centerU, centerV);
+
+                        appendVertex(bottomLeft, u0, v1);
+                        appendVertex(topLeft, u0, v0);
+                        appendVertex(center, centerU, centerV);
+                    }
+                }
+
+                return texturedVertices;
+            };
+        const float deltaX = targetPoint->x - view.m_spellAreaPreviewCache.targetX;
+        const float deltaY = targetPoint->y - view.m_spellAreaPreviewCache.targetY;
+        const float deltaZ = targetPoint->z - view.m_spellAreaPreviewCache.targetZ;
+        const float retargetDistanceSquared = deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ;
+        const bool needsRefresh =
+            !view.m_spellAreaPreviewCache.valid
+            || view.m_spellAreaPreviewCache.spellId != view.m_pendingSpellCast.spellId
+            || std::abs(view.m_spellAreaPreviewCache.radius - previewRadius) > 0.01f
+            || retargetDistanceSquared >= SpellAreaPreviewRetargetDistance * SpellAreaPreviewRetargetDistance;
+        const bool refreshAllowed =
+            !view.m_spellAreaPreviewCache.valid
+            || view.m_elapsedTime - view.m_spellAreaPreviewCache.lastRefreshElapsedTime
+                >= SpellAreaPreviewRefreshIntervalSeconds;
+
+        if (needsRefresh && refreshAllowed)
+        {
+            view.m_spellAreaPreviewCache.vertices = buildSpellAreaPreviewVertices();
+            view.m_spellAreaPreviewCache.valid = !view.m_spellAreaPreviewCache.vertices.empty();
+            view.m_spellAreaPreviewCache.spellId = view.m_pendingSpellCast.spellId;
+            view.m_spellAreaPreviewCache.targetX = targetPoint->x;
+            view.m_spellAreaPreviewCache.targetY = targetPoint->y;
+            view.m_spellAreaPreviewCache.targetZ = targetPoint->z;
+            view.m_spellAreaPreviewCache.radius = previewRadius;
+            view.m_spellAreaPreviewCache.lastRefreshElapsedTime = view.m_elapsedTime;
+        }
+
+        const std::vector<OutdoorGameView::TexturedTerrainVertex> &texturedVertices =
+            view.m_spellAreaPreviewCache.vertices;
+
+        if (!texturedVertices.empty()
+            && bgfx::getAvailTransientVertexBuffer(
+                static_cast<uint32_t>(texturedVertices.size()),
+                OutdoorGameView::TexturedTerrainVertex::ms_layout) >= texturedVertices.size())
+        {
+            bgfx::TransientVertexBuffer transientVertexBuffer = {};
+            bgfx::allocTransientVertexBuffer(
+                &transientVertexBuffer,
+                static_cast<uint32_t>(texturedVertices.size()),
+                OutdoorGameView::TexturedTerrainVertex::ms_layout);
+            std::memcpy(
+                transientVertexBuffer.data,
+                texturedVertices.data(),
+                static_cast<size_t>(
+                    texturedVertices.size() * sizeof(OutdoorGameView::TexturedTerrainVertex)));
+
+            const uint32_t baseColorAbgr =
+                spellId == SpellId::MeteorShower ? makeAbgr(255, 132, 44) : makeAbgr(126, 186, 255);
+            const uint32_t accentColorAbgr =
+                spellId == SpellId::MeteorShower ? makeAbgr(255, 222, 148) : makeAbgr(232, 246, 255);
+            const std::array<float, 4> params0 = {
+                view.m_elapsedTime,
+                spellId == SpellId::MeteorShower ? 5.2f : 4.3f,
+                0.86f,
+                0.0f
+            };
+            const std::array<float, 4> params1 = {
+                spellId == SpellId::MeteorShower ? 2.6f : 2.2f,
+                spellId == SpellId::MeteorShower ? 0.11f : 0.09f,
+                spellId == SpellId::MeteorShower ? 0.07f : 0.055f,
+                0.0f
+            };
+            const std::array<float, 4> colorA = {
+                redChannel(baseColorAbgr),
+                greenChannel(baseColorAbgr),
+                blueChannel(baseColorAbgr),
+                1.0f
+            };
+            const std::array<float, 4> colorB = {
+                redChannel(accentColorAbgr),
+                greenChannel(accentColorAbgr),
+                blueChannel(accentColorAbgr),
+                1.0f
+            };
+
+            float modelMatrix[16] = {};
+            bx::mtxIdentity(modelMatrix);
+            bgfx::setTransform(modelMatrix);
+            bgfx::setVertexBuffer(0, &transientVertexBuffer, 0, static_cast<uint32_t>(texturedVertices.size()));
+            const OutdoorWorldRuntime::AtmosphereState *pAtmosphereState =
+                view.m_pOutdoorWorldRuntime != nullptr ? &view.m_pOutdoorWorldRuntime->atmosphereState() : nullptr;
+            const float fogDistance =
+                pAtmosphereState != nullptr ? pAtmosphereState->visibilityDistance : 200000.0f;
+            const OutdoorFogParameters fogParameters =
+                buildOutdoorWorldFogParameters(view.m_pOutdoorWorldRuntime, pAtmosphereState, fogDistance);
+            applyOutdoorFogUniforms(
+                view.m_outdoorFogColorUniformHandle,
+                view.m_outdoorFogDensitiesUniformHandle,
+                view.m_outdoorFogDistancesUniformHandle,
+                fogParameters);
+            bgfx::setUniform(view.m_spellAreaPreviewParams0UniformHandle, params0.data());
+            bgfx::setUniform(view.m_spellAreaPreviewParams1UniformHandle, params1.data());
+            bgfx::setUniform(view.m_spellAreaPreviewColorAUniformHandle, colorA.data());
+            bgfx::setUniform(view.m_spellAreaPreviewColorBUniformHandle, colorB.data());
+            bgfx::setState(
+                BGFX_STATE_WRITE_RGB
+                | BGFX_STATE_WRITE_A
+                | BGFX_STATE_DEPTH_TEST_LEQUAL
+                | BGFX_STATE_BLEND_ALPHA);
+            bgfx::submit(viewId, view.m_spellAreaPreviewProgramHandle);
+            return;
+        }
+    }
+
     std::vector<OutdoorGameView::TerrainVertex> vertices;
     vertices.reserve(RingSegments * 36);
 

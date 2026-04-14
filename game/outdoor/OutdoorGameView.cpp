@@ -3583,6 +3583,7 @@ OutdoorGameView::OutdoorGameView()
     , m_spawnMarkerVertexBufferHandle(BGFX_INVALID_HANDLE)
     , m_programHandle(BGFX_INVALID_HANDLE)
     , m_texturedTerrainProgramHandle(BGFX_INVALID_HANDLE)
+    , m_spellAreaPreviewProgramHandle(BGFX_INVALID_HANDLE)
     , m_outdoorLitBillboardProgramHandle(BGFX_INVALID_HANDLE)
     , m_particleProgramHandle(BGFX_INVALID_HANDLE)
     , m_outdoorTexturedFogProgramHandle(BGFX_INVALID_HANDLE)
@@ -3598,6 +3599,10 @@ OutdoorGameView::OutdoorGameView()
     , m_outdoorFogColorUniformHandle(BGFX_INVALID_HANDLE)
     , m_outdoorFogDensitiesUniformHandle(BGFX_INVALID_HANDLE)
     , m_outdoorFogDistancesUniformHandle(BGFX_INVALID_HANDLE)
+    , m_spellAreaPreviewParams0UniformHandle(BGFX_INVALID_HANDLE)
+    , m_spellAreaPreviewParams1UniformHandle(BGFX_INVALID_HANDLE)
+    , m_spellAreaPreviewColorAUniformHandle(BGFX_INVALID_HANDLE)
+    , m_spellAreaPreviewColorBUniformHandle(BGFX_INVALID_HANDLE)
     , m_elapsedTime(0.0f)
     , m_framesPerSecond(0.0f)
     , m_bmodelLineVertexCount(0)
@@ -3730,6 +3735,7 @@ OutdoorGameView::OutdoorGameView()
     , m_lastSpellbookClickedSpellId(0)
     , m_lastSpellFailSoundTicks(0)
     , m_pendingSpellCast({})
+    , m_spellAreaPreviewCache({})
     , m_heldInventoryDropLatch(false)
     , m_closeOverlayLatch(false)
     , m_dialogueClickLatch(false)
@@ -4001,6 +4007,10 @@ bool OutdoorGameView::initialize(
     m_outdoorFogColorUniformHandle = bgfx::createUniform("u_fogColor", bgfx::UniformType::Vec4);
     m_outdoorFogDensitiesUniformHandle = bgfx::createUniform("u_fogDensities", bgfx::UniformType::Vec4);
     m_outdoorFogDistancesUniformHandle = bgfx::createUniform("u_fogDistances", bgfx::UniformType::Vec4);
+    m_spellAreaPreviewParams0UniformHandle = bgfx::createUniform("u_spellAreaParams0", bgfx::UniformType::Vec4);
+    m_spellAreaPreviewParams1UniformHandle = bgfx::createUniform("u_spellAreaParams1", bgfx::UniformType::Vec4);
+    m_spellAreaPreviewColorAUniformHandle = bgfx::createUniform("u_spellAreaColorA", bgfx::UniformType::Vec4);
+    m_spellAreaPreviewColorBUniformHandle = bgfx::createUniform("u_spellAreaColorB", bgfx::UniformType::Vec4);
 
     if (!bgfx::isValid(m_vertexBufferHandle)
         || !bgfx::isValid(m_indexBufferHandle)
@@ -6164,6 +6174,7 @@ void OutdoorGameView::shutdown()
     {
         m_programHandle = BGFX_INVALID_HANDLE;
         m_texturedTerrainProgramHandle = BGFX_INVALID_HANDLE;
+        m_spellAreaPreviewProgramHandle = BGFX_INVALID_HANDLE;
         m_outdoorLitBillboardProgramHandle = BGFX_INVALID_HANDLE;
         m_particleProgramHandle = BGFX_INVALID_HANDLE;
         m_outdoorTexturedFogProgramHandle = BGFX_INVALID_HANDLE;
@@ -6178,6 +6189,10 @@ void OutdoorGameView::shutdown()
         m_outdoorFogColorUniformHandle = BGFX_INVALID_HANDLE;
         m_outdoorFogDensitiesUniformHandle = BGFX_INVALID_HANDLE;
         m_outdoorFogDistancesUniformHandle = BGFX_INVALID_HANDLE;
+        m_spellAreaPreviewParams0UniformHandle = BGFX_INVALID_HANDLE;
+        m_spellAreaPreviewParams1UniformHandle = BGFX_INVALID_HANDLE;
+        m_spellAreaPreviewColorAUniformHandle = BGFX_INVALID_HANDLE;
+        m_spellAreaPreviewColorBUniformHandle = BGFX_INVALID_HANDLE;
         m_indexBufferHandle = BGFX_INVALID_HANDLE;
         m_filledTerrainVertexBufferHandle = BGFX_INVALID_HANDLE;
         m_skyVertexBufferHandle = BGFX_INVALID_HANDLE;
@@ -6236,6 +6251,12 @@ void OutdoorGameView::shutdown()
     {
         bgfx::destroy(m_texturedTerrainProgramHandle);
         m_texturedTerrainProgramHandle = BGFX_INVALID_HANDLE;
+    }
+
+    if (bgfx::isValid(m_spellAreaPreviewProgramHandle))
+    {
+        bgfx::destroy(m_spellAreaPreviewProgramHandle);
+        m_spellAreaPreviewProgramHandle = BGFX_INVALID_HANDLE;
     }
 
     if (bgfx::isValid(m_outdoorLitBillboardProgramHandle))
@@ -6326,6 +6347,30 @@ void OutdoorGameView::shutdown()
     {
         bgfx::destroy(m_outdoorFogDistancesUniformHandle);
         m_outdoorFogDistancesUniformHandle = BGFX_INVALID_HANDLE;
+    }
+
+    if (bgfx::isValid(m_spellAreaPreviewParams0UniformHandle))
+    {
+        bgfx::destroy(m_spellAreaPreviewParams0UniformHandle);
+        m_spellAreaPreviewParams0UniformHandle = BGFX_INVALID_HANDLE;
+    }
+
+    if (bgfx::isValid(m_spellAreaPreviewParams1UniformHandle))
+    {
+        bgfx::destroy(m_spellAreaPreviewParams1UniformHandle);
+        m_spellAreaPreviewParams1UniformHandle = BGFX_INVALID_HANDLE;
+    }
+
+    if (bgfx::isValid(m_spellAreaPreviewColorAUniformHandle))
+    {
+        bgfx::destroy(m_spellAreaPreviewColorAUniformHandle);
+        m_spellAreaPreviewColorAUniformHandle = BGFX_INVALID_HANDLE;
+    }
+
+    if (bgfx::isValid(m_spellAreaPreviewColorBUniformHandle))
+    {
+        bgfx::destroy(m_spellAreaPreviewColorBUniformHandle);
+        m_spellAreaPreviewColorBUniformHandle = BGFX_INVALID_HANDLE;
     }
 
     if (bgfx::isValid(m_indexBufferHandle))
@@ -6546,6 +6591,7 @@ void OutdoorGameView::shutdown()
     m_lastSpellbookSpellClickTicks = 0;
     m_lastSpellbookClickedSpellId = 0;
     m_pendingSpellCast = {};
+    m_spellAreaPreviewCache = {};
     m_heldInventoryDropLatch = false;
     m_cachedHoverInspectHitValid = false;
     m_lastHoverInspectUpdateNanoseconds = 0;

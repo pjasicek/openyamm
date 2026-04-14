@@ -573,6 +573,18 @@ private:
         std::string spellName;
     };
 
+    struct SpellAreaPreviewCacheState
+    {
+        bool valid = false;
+        uint32_t spellId = 0;
+        float targetX = 0.0f;
+        float targetY = 0.0f;
+        float targetZ = 0.0f;
+        float radius = 0.0f;
+        float lastRefreshElapsedTime = -1000.0f;
+        std::vector<TexturedTerrainVertex> vertices;
+    };
+
     struct SpellbookPointerTarget
     {
         SpellbookPointerTargetType type = SpellbookPointerTargetType::None;
@@ -941,6 +953,7 @@ private:
     bgfx::VertexBufferHandle m_spawnMarkerVertexBufferHandle;
     bgfx::ProgramHandle m_programHandle;
     bgfx::ProgramHandle m_texturedTerrainProgramHandle;
+    bgfx::ProgramHandle m_spellAreaPreviewProgramHandle;
     bgfx::ProgramHandle m_outdoorLitBillboardProgramHandle;
     bgfx::ProgramHandle m_particleProgramHandle;
     bgfx::ProgramHandle m_outdoorTexturedFogProgramHandle;
@@ -956,6 +969,10 @@ private:
     bgfx::UniformHandle m_outdoorFogColorUniformHandle;
     bgfx::UniformHandle m_outdoorFogDensitiesUniformHandle;
     bgfx::UniformHandle m_outdoorFogDistancesUniformHandle;
+    bgfx::UniformHandle m_spellAreaPreviewParams0UniformHandle;
+    bgfx::UniformHandle m_spellAreaPreviewParams1UniformHandle;
+    bgfx::UniformHandle m_spellAreaPreviewColorAUniformHandle;
+    bgfx::UniformHandle m_spellAreaPreviewColorBUniformHandle;
     float m_elapsedTime;
     float m_framesPerSecond;
     float m_lastOutdoorFxLightUniformUpdateElapsedTime = -1.0f;
@@ -1167,6 +1184,7 @@ private:
     bool m_pendingOpenNewGameScreen = false;
     bool m_pendingOpenLoadGameScreen = false;
     PendingSpellCastState m_pendingSpellCast;
+    SpellAreaPreviewCacheState m_spellAreaPreviewCache;
     mutable std::vector<GameplayRenderedInspectableHudItem> m_renderedInspectableHudItems;
     mutable HudScreenState m_renderedInspectableHudState = HudScreenState::Gameplay;
     bool m_heldInventoryDropLatch;

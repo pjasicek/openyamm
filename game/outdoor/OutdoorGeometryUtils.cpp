@@ -101,6 +101,47 @@ float sampleOutdoorTerrainHeight(const OutdoorMapData &outdoorMapData, float x, 
     return heightSample * static_cast<float>(OutdoorMapData::TerrainHeightScale);
 }
 
+float sampleOutdoorRenderedTerrainHeight(const OutdoorMapData &outdoorMapData, float x, float y)
+{
+    const float gridX = outdoorWorldToGridXFloat(x);
+    const float gridY = outdoorWorldToGridYFloat(y);
+    const int sampleX0 = std::clamp(static_cast<int>(std::floor(gridX)), 0, OutdoorMapData::TerrainWidth - 2);
+    const int sampleY0 = std::clamp(static_cast<int>(std::floor(gridY)), 0, OutdoorMapData::TerrainHeight - 2);
+    const int sampleX1 = sampleX0 + 1;
+    const int sampleY1 = sampleY0 + 1;
+    const float fractionX = std::clamp(gridX - static_cast<float>(sampleX0), 0.0f, 1.0f);
+    const float fractionY = std::clamp(gridY - static_cast<float>(sampleY0), 0.0f, 1.0f);
+
+    const size_t index00 = static_cast<size_t>(sampleY0 * OutdoorMapData::TerrainWidth + sampleX0);
+    const size_t index10 = static_cast<size_t>(sampleY0 * OutdoorMapData::TerrainWidth + sampleX1);
+    const size_t index01 = static_cast<size_t>(sampleY1 * OutdoorMapData::TerrainWidth + sampleX0);
+    const size_t index11 = static_cast<size_t>(sampleY1 * OutdoorMapData::TerrainWidth + sampleX1);
+
+    const float height00 = static_cast<float>(outdoorMapData.heightMap[index00]);
+    const float height10 = static_cast<float>(outdoorMapData.heightMap[index10]);
+    const float height01 = static_cast<float>(outdoorMapData.heightMap[index01]);
+    const float height11 = static_cast<float>(outdoorMapData.heightMap[index11]);
+
+    float heightSample = 0.0f;
+
+    if (fractionX + fractionY <= 1.0f)
+    {
+        heightSample =
+            height00
+            + (height10 - height00) * fractionX
+            + (height01 - height00) * fractionY;
+    }
+    else
+    {
+        heightSample =
+            height11
+            + (height10 - height11) * (1.0f - fractionY)
+            + (height01 - height11) * (1.0f - fractionX);
+    }
+
+    return heightSample * static_cast<float>(OutdoorMapData::TerrainHeightScale);
+}
+
 float sampleOutdoorTerrainNormalZ(const OutdoorMapData &outdoorMapData, float x, float y)
 {
     const float sampleOffset = static_cast<float>(OutdoorMapData::TerrainTileSize);
