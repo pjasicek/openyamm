@@ -441,6 +441,23 @@ public:
         bool positional = true;
     };
 
+    struct ArmageddonState
+    {
+        float remainingSeconds = 0.0f;
+        uint32_t skillLevel = 0;
+        SkillMastery skillMastery = SkillMastery::None;
+        uint32_t casterMemberIndex = 0;
+        uint32_t shakeStepsRemaining = 0;
+        uint32_t shakeSequence = 0;
+        float cameraShakeYawRadians = 0.0f;
+        float cameraShakePitchRadians = 0.0f;
+
+        bool active() const
+        {
+            return remainingSeconds > 0.0f;
+        }
+    };
+
     struct Snapshot
     {
         float gameMinutes = 0.0f;
@@ -469,6 +486,7 @@ public:
         std::vector<ProjectileState> projectiles;
         std::vector<ProjectileImpactState> projectileImpacts;
         std::vector<FireSpikeTrapState> fireSpikeTraps;
+        ArmageddonState armageddon = {};
     };
 
     void initialize(
@@ -610,6 +628,14 @@ public:
     size_t fireSpikeTrapCount() const;
     const FireSpikeTrapState *fireSpikeTrapState(size_t trapIndex) const;
     void triggerGameplayScreenOverlay(uint32_t colorAbgr, float durationSeconds, float peakAlpha);
+    bool tryStartArmageddon(
+        size_t casterMemberIndex,
+        uint32_t skillLevel,
+        SkillMastery skillMastery,
+        std::string &failureText);
+    bool isArmageddonActive() const;
+    float armageddonCameraShakeYawRadians() const;
+    float armageddonCameraShakePitchRadians() const;
 
     const EventRuntimeState::PendingMapMove *pendingMapMove() const;
     std::optional<EventRuntimeState::PendingMapMove> consumePendingMapMove();
@@ -910,8 +936,13 @@ private:
     std::vector<ProjectileState> m_projectiles;
     std::vector<ProjectileImpactState> m_projectileImpacts;
     std::vector<FireSpikeTrapState> m_fireSpikeTraps;
+    ArmageddonState m_armageddonState = {};
 
     void updateGameplayScreenOverlay(float deltaSeconds);
+    void advanceGameMinutesInternal(float minutes);
+    void resetDailySpellCounters();
+    void updateArmageddon(float deltaSeconds, float partyX, float partyY, float partyZ);
+    void resolveArmageddonDetonation(float partyX, float partyY, float partyZ);
     void refreshAtmosphereState();
 };
 }

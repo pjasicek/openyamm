@@ -727,6 +727,8 @@ private:
         float gapY,
         float scale);
     void updateCameraFromInput(float deltaSeconds);
+    float effectiveCameraYawRadians() const;
+    float effectiveCameraPitchRadians() const;
     void renderGameplayHudArt(int width, int height);
     void renderGameplayHud(int width, int height) const;
     void renderChestPanel(int width, int height, bool renderAboveHud) const;

@@ -78,6 +78,7 @@ struct Character
     int health = 100;
     int maxSpellPoints = 0;
     int spellPoints = 0;
+    uint8_t armageddonCastsToday = 0;
     std::string quickSpellName;
     std::unordered_set<uint32_t> knownSpellIds;
     CharacterResistanceSet baseResistances = {};

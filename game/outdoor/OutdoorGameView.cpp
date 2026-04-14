@@ -4235,10 +4235,12 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
     float wireframeViewMatrix[16] = {};
     float wireframeProjectionMatrix[16] = {};
 
-    const float cosPitch = std::cos(m_cameraPitchRadians);
-    const float sinPitch = std::sin(m_cameraPitchRadians);
-    const float cosYaw = std::cos(m_cameraYawRadians);
-    const float sinYaw = std::sin(m_cameraYawRadians);
+    const float cameraYawRadians = effectiveCameraYawRadians();
+    const float cameraPitchRadians = effectiveCameraPitchRadians();
+    const float cosPitch = std::cos(cameraPitchRadians);
+    const float sinPitch = std::sin(cameraPitchRadians);
+    const float cosYaw = std::cos(cameraYawRadians);
+    const float sinYaw = std::sin(cameraYawRadians);
     const bx::Vec3 wireframeEye = {
         m_cameraTargetX,
         m_cameraTargetY,
@@ -4979,10 +4981,12 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
                             const float sourceX = moveState.x;
                             const float sourceY = moveState.y;
                             const float sourceZ = moveState.footZ + 96.0f;
+                            const float cameraYawRadians = effectiveCameraYawRadians();
+                            const float cameraPitchRadians = effectiveCameraPitchRadians();
                             bx::Vec3 rangedTarget = {
-                                sourceX + std::cos(m_cameraYawRadians) * 5120.0f,
-                                sourceY + std::sin(m_cameraYawRadians) * 5120.0f,
-                                sourceZ + std::sin(m_cameraPitchRadians) * 5120.0f
+                                sourceX + std::cos(cameraYawRadians) * 5120.0f,
+                                sourceY + std::sin(cameraYawRadians) * 5120.0f,
+                                sourceZ + std::sin(cameraPitchRadians) * 5120.0f
                             };
 
                             if (pTargetActor != nullptr)
@@ -6584,6 +6588,26 @@ float OutdoorGameView::cameraPitchRadians() const
     return m_cameraPitchRadians;
 }
 
+float OutdoorGameView::effectiveCameraYawRadians() const
+{
+    if (m_pOutdoorWorldRuntime == nullptr)
+    {
+        return m_cameraYawRadians;
+    }
+
+    return m_cameraYawRadians + m_pOutdoorWorldRuntime->armageddonCameraShakeYawRadians();
+}
+
+float OutdoorGameView::effectiveCameraPitchRadians() const
+{
+    if (m_pOutdoorWorldRuntime == nullptr)
+    {
+        return m_cameraPitchRadians;
+    }
+
+    return m_cameraPitchRadians + m_pOutdoorWorldRuntime->armageddonCameraShakePitchRadians();
+}
+
 void OutdoorGameView::setCameraAngles(float yawRadians, float pitchRadians)
 {
     m_cameraYawRadians = yawRadians;
@@ -6931,10 +6955,12 @@ void OutdoorGameView::updateItemInspectOverlayState(int width, int height)
                 const float aspectRatio = static_cast<float>(viewWidth) / static_cast<float>(viewHeight);
                 float viewMatrix[16] = {};
                 float projectionMatrix[16] = {};
-                const float cosPitch = std::cos(m_cameraPitchRadians);
-                const float sinPitch = std::sin(m_cameraPitchRadians);
-                const float cosYaw = std::cos(m_cameraYawRadians);
-                const float sinYaw = std::sin(m_cameraYawRadians);
+                const float cameraYawRadians = effectiveCameraYawRadians();
+                const float cameraPitchRadians = effectiveCameraPitchRadians();
+                const float cosPitch = std::cos(cameraPitchRadians);
+                const float sinPitch = std::sin(cameraPitchRadians);
+                const float cosYaw = std::cos(cameraYawRadians);
+                const float sinYaw = std::sin(cameraYawRadians);
                 const bx::Vec3 eye = {
                     m_cameraTargetX,
                     m_cameraTargetY,
@@ -9562,10 +9588,12 @@ std::optional<size_t> OutdoorGameView::resolveClosestQuickCastVisibleActorIndex(
     const uint16_t viewWidth = static_cast<uint16_t>(std::max(m_lastRenderWidth, 1));
     const uint16_t viewHeight = static_cast<uint16_t>(std::max(m_lastRenderHeight, 1));
     const float aspectRatio = static_cast<float>(viewWidth) / static_cast<float>(viewHeight);
-    const float cosPitch = std::cos(m_cameraPitchRadians);
-    const float sinPitch = std::sin(m_cameraPitchRadians);
-    const float cosYaw = std::cos(m_cameraYawRadians);
-    const float sinYaw = std::sin(m_cameraYawRadians);
+    const float cameraYawRadians = effectiveCameraYawRadians();
+    const float cameraPitchRadians = effectiveCameraPitchRadians();
+    const float cosPitch = std::cos(cameraPitchRadians);
+    const float sinPitch = std::sin(cameraPitchRadians);
+    const float cosYaw = std::cos(cameraYawRadians);
+    const float sinYaw = std::sin(cameraYawRadians);
     const bx::Vec3 eye = {
         m_cameraTargetX,
         m_cameraTargetY,
@@ -9658,10 +9686,12 @@ bool OutdoorGameView::buildQuickCastInspectRayForScreenPoint(
     }
 
     const float aspectRatio = static_cast<float>(viewWidth) / static_cast<float>(viewHeight);
-    const float cosPitch = std::cos(m_cameraPitchRadians);
-    const float sinPitch = std::sin(m_cameraPitchRadians);
-    const float cosYaw = std::cos(m_cameraYawRadians);
-    const float sinYaw = std::sin(m_cameraYawRadians);
+    const float cameraYawRadians = effectiveCameraYawRadians();
+    const float cameraPitchRadians = effectiveCameraPitchRadians();
+    const float cosPitch = std::cos(cameraPitchRadians);
+    const float sinPitch = std::sin(cameraPitchRadians);
+    const float cosYaw = std::cos(cameraYawRadians);
+    const float sinYaw = std::sin(cameraYawRadians);
     const bx::Vec3 eye = {
         m_cameraTargetX,
         m_cameraTargetY,
@@ -9715,10 +9745,12 @@ std::optional<bx::Vec3> OutdoorGameView::resolveQuickCastCursorTargetPoint(float
     const uint16_t viewWidth = static_cast<uint16_t>(std::max(m_lastRenderWidth, 1));
     const uint16_t viewHeight = static_cast<uint16_t>(std::max(m_lastRenderHeight, 1));
     const float aspectRatio = static_cast<float>(viewWidth) / static_cast<float>(viewHeight);
-    const float cosPitch = std::cos(m_cameraPitchRadians);
-    const float sinPitch = std::sin(m_cameraPitchRadians);
-    const float cosYaw = std::cos(m_cameraYawRadians);
-    const float sinYaw = std::sin(m_cameraYawRadians);
+    const float cameraYawRadians = effectiveCameraYawRadians();
+    const float cameraPitchRadians = effectiveCameraPitchRadians();
+    const float cosPitch = std::cos(cameraPitchRadians);
+    const float sinPitch = std::sin(cameraPitchRadians);
+    const float cosYaw = std::cos(cameraYawRadians);
+    const float sinYaw = std::sin(cameraYawRadians);
     const bx::Vec3 eye = {
         m_cameraTargetX,
         m_cameraTargetY,
@@ -10140,8 +10172,8 @@ bool OutdoorGameView::tryCastSpellRequest(const PartySpellCastRequest &request, 
     resolvedRequest.viewX = m_cameraTargetX;
     resolvedRequest.viewY = m_cameraTargetY;
     resolvedRequest.viewZ = m_cameraTargetZ;
-    resolvedRequest.viewYawRadians = m_cameraYawRadians;
-    resolvedRequest.viewPitchRadians = m_cameraPitchRadians;
+    resolvedRequest.viewYawRadians = effectiveCameraYawRadians();
+    resolvedRequest.viewPitchRadians = effectiveCameraPitchRadians();
     resolvedRequest.viewAspectRatio =
         static_cast<float>(std::max(m_lastRenderWidth, 1)) / static_cast<float>(std::max(m_lastRenderHeight, 1));
 
@@ -10548,11 +10580,13 @@ std::optional<bx::Vec3> OutdoorGameView::resolvePendingSpellGroundTargetPoint(co
             m_cameraTargetY,
             m_cameraTargetZ
         };
-        const float cosPitch = std::cos(m_cameraPitchRadians);
+        const float cameraYawRadians = effectiveCameraYawRadians();
+        const float cameraPitchRadians = effectiveCameraPitchRadians();
+        const float cosPitch = std::cos(cameraPitchRadians);
         const bx::Vec3 rayDirection = {
-            std::cos(m_cameraYawRadians) * cosPitch,
-            std::sin(m_cameraYawRadians) * cosPitch,
-            std::sin(m_cameraPitchRadians)
+            std::cos(cameraYawRadians) * cosPitch,
+            std::sin(cameraYawRadians) * cosPitch,
+            std::sin(cameraPitchRadians)
         };
         const std::optional<float> terrainDistance =
             intersectOutdoorTerrainRay(*m_outdoorMapData, rayOrigin, rayDirection);
@@ -10874,10 +10908,12 @@ void OutdoorGameView::updateActorInspectOverlayState(int width, int height)
         const float aspectRatio = static_cast<float>(viewWidth) / static_cast<float>(viewHeight);
         float viewMatrix[16] = {};
         float projectionMatrix[16] = {};
-        const float cosPitch = std::cos(m_cameraPitchRadians);
-        const float sinPitch = std::sin(m_cameraPitchRadians);
-        const float cosYaw = std::cos(m_cameraYawRadians);
-        const float sinYaw = std::sin(m_cameraYawRadians);
+        const float cameraYawRadians = effectiveCameraYawRadians();
+        const float cameraPitchRadians = effectiveCameraPitchRadians();
+        const float cosPitch = std::cos(cameraPitchRadians);
+        const float sinPitch = std::sin(cameraPitchRadians);
+        const float cosYaw = std::cos(cameraYawRadians);
+        const float sinYaw = std::sin(cameraYawRadians);
         const bx::Vec3 eye = {
             m_cameraTargetX,
             m_cameraTargetY,
@@ -10947,10 +10983,12 @@ void OutdoorGameView::updateActorInspectOverlayState(int width, int height)
     const float aspectRatio = static_cast<float>(viewWidth) / static_cast<float>(viewHeight);
     float viewMatrix[16] = {};
     float projectionMatrix[16] = {};
-    const float cosPitch = std::cos(m_cameraPitchRadians);
-    const float sinPitch = std::sin(m_cameraPitchRadians);
-    const float cosYaw = std::cos(m_cameraYawRadians);
-    const float sinYaw = std::sin(m_cameraYawRadians);
+    const float cameraYawRadians = effectiveCameraYawRadians();
+    const float cameraPitchRadians = effectiveCameraPitchRadians();
+    const float cosPitch = std::cos(cameraPitchRadians);
+    const float sinPitch = std::sin(cameraPitchRadians);
+    const float cosYaw = std::cos(cameraYawRadians);
+    const float sinYaw = std::sin(cameraYawRadians);
     const bx::Vec3 eye = {
         m_cameraTargetX,
         m_cameraTargetY,

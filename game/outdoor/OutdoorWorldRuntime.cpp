@@ -95,6 +95,10 @@ constexpr float WorldItemBounceStopVelocity = 10.0f;
 constexpr int32_t MapWeatherFoggy = 1;
 constexpr int32_t MapWeatherSnowing = 2;
 constexpr float DefaultOutdoorVisibilityDistance = 200000.0f;
+constexpr float ArmageddonDurationSeconds = 256.0f / TicksPerSecond;
+constexpr uint32_t ArmageddonShakeStepCount = 60;
+constexpr float ArmageddonShakeYawRadians = 0.035f;
+constexpr float ArmageddonShakePitchRadians = 0.024f;
 
 float actorDecisionRange(
     uint32_t actorId,
@@ -4312,6 +4316,8 @@ void OutdoorWorldRuntime::initialize(
     m_nextWorldItemId = 1;
     m_nextProjectileId = 1;
     m_nextProjectileImpactId = 1;
+    m_nextFireSpikeTrapId = 1;
+    m_armageddonState = {};
 
     materializeMapDeltaWorldItems();
     refreshAtmosphereState();
@@ -5119,6 +5125,7 @@ OutdoorWorldRuntime::Snapshot OutdoorWorldRuntime::snapshot() const
     snapshot.projectiles = m_projectiles;
     snapshot.projectileImpacts = m_projectileImpacts;
     snapshot.fireSpikeTraps = m_fireSpikeTraps;
+    snapshot.armageddon = m_armageddonState;
     snapshot.openedChestFlags.reserve(m_openedChests.size());
 
     for (bool opened : m_openedChests)
@@ -5156,6 +5163,7 @@ void OutdoorWorldRuntime::restoreSnapshot(const Snapshot &snapshot)
     m_projectiles = snapshot.projectiles;
     m_projectileImpacts = snapshot.projectileImpacts;
     m_fireSpikeTraps = snapshot.fireSpikeTraps;
+    m_armageddonState = snapshot.armageddon;
     m_openedChests.clear();
     m_openedChests.reserve(snapshot.openedChestFlags.size());
 
@@ -5230,8 +5238,43 @@ void OutdoorWorldRuntime::advanceGameMinutes(float minutes)
         return;
     }
 
-    m_gameMinutes += minutes;
+    advanceGameMinutesInternal(minutes);
     refreshAtmosphereState();
+}
+
+void OutdoorWorldRuntime::advanceGameMinutesInternal(float minutes)
+{
+    if (minutes <= 0.0f)
+    {
+        return;
+    }
+
+    const int previousDay = static_cast<int>(std::floor(std::max(m_gameMinutes, 0.0f) / 1440.0f));
+    m_gameMinutes += minutes;
+    const int currentDay = static_cast<int>(std::floor(std::max(m_gameMinutes, 0.0f) / 1440.0f));
+
+    if (currentDay > previousDay)
+    {
+        resetDailySpellCounters();
+    }
+}
+
+void OutdoorWorldRuntime::resetDailySpellCounters()
+{
+    if (m_pParty == nullptr)
+    {
+        return;
+    }
+
+    for (size_t memberIndex = 0; memberIndex < m_pParty->members().size(); ++memberIndex)
+    {
+        Character *pMember = m_pParty->member(memberIndex);
+
+        if (pMember != nullptr)
+        {
+            pMember->armageddonCastsToday = 0;
+        }
+    }
 }
 
 void OutdoorWorldRuntime::refreshAtmosphereState()
@@ -5384,20 +5427,32 @@ void OutdoorWorldRuntime::refreshAtmosphereState()
 
 void OutdoorWorldRuntime::updateGameplayScreenOverlay(float deltaSeconds)
 {
-    if (m_gameplayOverlayRemainingSeconds <= 0.0f || m_gameplayOverlayDurationSeconds <= 0.0f)
+    float overlayAlpha = 0.0f;
+    uint32_t overlayColor = m_gameplayOverlayColorAbgr;
+
+    if (m_gameplayOverlayRemainingSeconds > 0.0f && m_gameplayOverlayDurationSeconds > 0.0f)
     {
-        m_gameplayOverlayRemainingSeconds = 0.0f;
-        m_atmosphereState.gameplayOverlayAlpha = 0.0f;
-        m_atmosphereState.gameplayOverlayColorAbgr = m_gameplayOverlayColorAbgr;
-        return;
+        m_gameplayOverlayRemainingSeconds = std::max(0.0f, m_gameplayOverlayRemainingSeconds - deltaSeconds);
+        const float elapsedSeconds = m_gameplayOverlayDurationSeconds - m_gameplayOverlayRemainingSeconds;
+        const float normalizedTime =
+            std::clamp(elapsedSeconds / m_gameplayOverlayDurationSeconds, 0.0f, 1.0f);
+        overlayAlpha = std::sin(normalizedTime * Pi) * m_gameplayOverlayPeakAlpha;
     }
 
-    m_gameplayOverlayRemainingSeconds = std::max(0.0f, m_gameplayOverlayRemainingSeconds - deltaSeconds);
-    const float elapsedSeconds = m_gameplayOverlayDurationSeconds - m_gameplayOverlayRemainingSeconds;
-    const float normalizedTime =
-        std::clamp(elapsedSeconds / m_gameplayOverlayDurationSeconds, 0.0f, 1.0f);
-    m_atmosphereState.gameplayOverlayAlpha = std::sin(normalizedTime * Pi) * m_gameplayOverlayPeakAlpha;
-    m_atmosphereState.gameplayOverlayColorAbgr = m_gameplayOverlayColorAbgr;
+    if (m_armageddonState.active())
+    {
+        const float armageddonPulse = 0.55f + 0.45f * std::sin(m_armageddonState.remainingSeconds * 12.0f);
+        const float armageddonAlpha = 0.24f + 0.14f * armageddonPulse;
+
+        if (armageddonAlpha >= overlayAlpha)
+        {
+            overlayAlpha = armageddonAlpha;
+            overlayColor = makeAbgr(196, 18, 12);
+        }
+    }
+
+    m_atmosphereState.gameplayOverlayAlpha = overlayAlpha;
+    m_atmosphereState.gameplayOverlayColorAbgr = overlayColor;
 }
 
 void OutdoorWorldRuntime::updateMapActors(float deltaSeconds, float partyX, float partyY, float partyZ)
@@ -5408,6 +5463,7 @@ void OutdoorWorldRuntime::updateMapActors(float deltaSeconds, float partyX, floa
     }
 
     updateGameplayScreenOverlay(deltaSeconds);
+    updateArmageddon(deltaSeconds, partyX, partyY, partyZ);
     m_actorUpdateAccumulatorSeconds =
         std::min(m_actorUpdateAccumulatorSeconds + deltaSeconds, MaxAccumulatedActorUpdateSeconds);
 
@@ -8022,7 +8078,7 @@ bool OutdoorWorldRuntime::updateTimers(
     }
 
     const float deltaGameMinutes = deltaSeconds * GameMinutesPerRealSecond;
-    m_gameMinutes += deltaGameMinutes;
+    advanceGameMinutesInternal(deltaGameMinutes);
     refreshAtmosphereState();
 
     if (m_timers.empty())
@@ -10708,6 +10764,171 @@ void OutdoorWorldRuntime::triggerGameplayScreenOverlay(uint32_t colorAbgr, float
     m_gameplayOverlayPeakAlpha = std::clamp(peakAlpha, 0.0f, 1.0f);
     m_atmosphereState.gameplayOverlayColorAbgr = m_gameplayOverlayColorAbgr;
     m_atmosphereState.gameplayOverlayAlpha = 0.0f;
+}
+
+bool OutdoorWorldRuntime::tryStartArmageddon(
+    size_t casterMemberIndex,
+    uint32_t skillLevel,
+    SkillMastery skillMastery,
+    std::string &failureText)
+{
+    failureText.clear();
+
+    if (m_pParty == nullptr)
+    {
+        failureText = "Spell failed";
+        return false;
+    }
+
+    if (isArmageddonActive())
+    {
+        failureText = "Armageddon already active";
+        return false;
+    }
+
+    Character *pCaster = m_pParty->member(casterMemberIndex);
+
+    if (pCaster == nullptr)
+    {
+        failureText = "Spell failed";
+        return false;
+    }
+
+    const uint8_t castLimit = skillMastery == SkillMastery::Grandmaster ? 4 : 3;
+
+    if (pCaster->armageddonCastsToday >= castLimit)
+    {
+        failureText = "No Armageddon casts left today";
+        return false;
+    }
+
+    m_armageddonState.remainingSeconds = ArmageddonDurationSeconds;
+    m_armageddonState.skillLevel = skillLevel;
+    m_armageddonState.skillMastery = skillMastery;
+    m_armageddonState.casterMemberIndex = static_cast<uint32_t>(casterMemberIndex);
+    m_armageddonState.shakeStepsRemaining = ArmageddonShakeStepCount;
+    ++m_armageddonState.shakeSequence;
+    m_armageddonState.cameraShakeYawRadians = 0.0f;
+    m_armageddonState.cameraShakePitchRadians = 0.0f;
+    ++pCaster->armageddonCastsToday;
+    return true;
+}
+
+bool OutdoorWorldRuntime::isArmageddonActive() const
+{
+    return m_armageddonState.active();
+}
+
+float OutdoorWorldRuntime::armageddonCameraShakeYawRadians() const
+{
+    return m_armageddonState.cameraShakeYawRadians;
+}
+
+float OutdoorWorldRuntime::armageddonCameraShakePitchRadians() const
+{
+    return m_armageddonState.cameraShakePitchRadians;
+}
+
+void OutdoorWorldRuntime::updateArmageddon(float deltaSeconds, float partyX, float partyY, float partyZ)
+{
+    if (!m_armageddonState.active())
+    {
+        m_armageddonState.cameraShakeYawRadians = 0.0f;
+        m_armageddonState.cameraShakePitchRadians = 0.0f;
+        return;
+    }
+
+    m_armageddonState.remainingSeconds = std::max(0.0f, m_armageddonState.remainingSeconds - deltaSeconds);
+
+    if (m_armageddonState.shakeStepsRemaining > 0)
+    {
+        std::mt19937 rng(
+            static_cast<uint32_t>(m_mapId) * 2654435761u
+            ^ (m_armageddonState.shakeSequence + 1u) * 2246822519u
+            ^ m_armageddonState.shakeStepsRemaining * 3266489917u);
+        std::uniform_real_distribution<float> yawDistribution(-ArmageddonShakeYawRadians, ArmageddonShakeYawRadians);
+        std::uniform_real_distribution<float> pitchDistribution(-ArmageddonShakePitchRadians, ArmageddonShakePitchRadians);
+        m_armageddonState.cameraShakeYawRadians = yawDistribution(rng);
+        m_armageddonState.cameraShakePitchRadians = pitchDistribution(rng);
+        --m_armageddonState.shakeStepsRemaining;
+    }
+    else
+    {
+        m_armageddonState.cameraShakeYawRadians = 0.0f;
+        m_armageddonState.cameraShakePitchRadians = 0.0f;
+    }
+
+    if (m_armageddonState.remainingSeconds > 0.0f)
+    {
+        return;
+    }
+
+    resolveArmageddonDetonation(partyX, partyY, partyZ);
+    m_armageddonState = {};
+}
+
+void OutdoorWorldRuntime::resolveArmageddonDetonation(float partyX, float partyY, float partyZ)
+{
+    if (m_pParty == nullptr)
+    {
+        return;
+    }
+
+    const int armageddonDamage = 50 + m_armageddonState.skillLevel;
+    const uint32_t sourceMemberIndex = m_armageddonState.casterMemberIndex;
+
+    for (size_t actorIndex = 0; actorIndex < m_mapActors.size(); ++actorIndex)
+    {
+        MapActorState &actor = m_mapActors[actorIndex];
+
+        if (isActorUnavailableForCombat(actor))
+        {
+            continue;
+        }
+
+        const int beforeHp = actor.currentHp;
+        const bool applied = applyPartyAttackToMapActor(actorIndex, armageddonDamage, partyX, partyY, partyZ);
+
+        if (!applied)
+        {
+            continue;
+        }
+
+        CombatEvent event = {};
+        event.type = CombatEvent::Type::PartyProjectileActorImpact;
+        event.sourcePartyMemberIndex = sourceMemberIndex;
+        event.targetActorId = actor.actorId;
+        event.damage = armageddonDamage;
+        event.spellId = spellIdValue(SpellId::Armageddon);
+        event.hit = true;
+        event.killed = beforeHp > 0 && actor.currentHp <= 0;
+        m_pendingCombatEvents.push_back(std::move(event));
+
+        if (actor.currentHp > 0)
+        {
+            actor.stunRemainingSeconds = std::max(actor.stunRemainingSeconds, 1.0f);
+            actor.aiState = ActorAiState::Stunned;
+            actor.animation = ActorAnimation::GotHit;
+            actor.actionSeconds = std::max(actor.actionSeconds, actor.stunRemainingSeconds);
+        }
+    }
+
+    for (size_t memberIndex = 0; memberIndex < m_pParty->members().size(); ++memberIndex)
+    {
+        Character *pMember = m_pParty->member(memberIndex);
+
+        if (pMember == nullptr
+            || pMember->conditions.test(static_cast<size_t>(CharacterCondition::Dead))
+            || pMember->conditions.test(static_cast<size_t>(CharacterCondition::Petrified))
+            || pMember->conditions.test(static_cast<size_t>(CharacterCondition::Eradicated)))
+        {
+            continue;
+        }
+
+        m_pParty->applyDamageToMember(memberIndex, armageddonDamage, "");
+    }
+
+    triggerGameplayScreenOverlay(makeAbgr(255, 56, 24), 0.6f, 0.72f);
 }
 
 const EventRuntimeState *OutdoorWorldRuntime::eventRuntimeState() const

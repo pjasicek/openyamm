@@ -1745,6 +1745,27 @@ PartySpellCastResult PartySpellSystem::castSpell(
                 return makeFailure(request.spellId, PartySpellCastStatus::Failed, rule->targetKind, rule->effectKind, "Spell failed");
             }
 
+            if (spellId == SpellId::Armageddon)
+            {
+                std::string failureText;
+
+                if (!worldRuntime.tryStartArmageddon(
+                        request.casterMemberIndex,
+                        skillLevel,
+                        skillMastery,
+                        failureText))
+                {
+                    return makeFailure(
+                        request.spellId,
+                        PartySpellCastStatus::Failed,
+                        rule->targetKind,
+                        rule->effectKind,
+                        failureText.empty() ? "Spell failed" : failureText);
+                }
+
+                castSucceeded = true;
+            }
+
             const float effectRadius =
                 spellId == SpellId::WingBuffet
                     ? 768.0f
@@ -1758,7 +1779,7 @@ PartySpellCastResult PartySpellSystem::castSpell(
                     ? 8192.0f
                     : 4096.0f;
             const std::vector<size_t> actorIndices =
-                effectRadius > 0.0f
+                effectRadius > 0.0f && spellId != SpellId::Armageddon
                     ? worldRuntime.collectMapActorIndicesWithinRadius(
                         effectCenterX,
                         effectCenterY,
@@ -1860,16 +1881,6 @@ PartySpellCastResult PartySpellSystem::castSpell(
             }
             else if (spellId == SpellId::Armageddon)
             {
-                for (size_t memberIndex = 0; memberIndex < party.members().size(); ++memberIndex)
-                {
-                    Character *pMember = party.member(memberIndex);
-
-                    if (pMember != nullptr)
-                    {
-                        pMember->health = std::max(0, pMember->health - (50 + static_cast<int>(skillLevel)));
-                    }
-                }
-
                 castSucceeded = true;
             }
             else if (spellId == SpellId::DispelMagic)
