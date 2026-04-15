@@ -256,6 +256,14 @@ function(openyamm_configure_runtime_shaders)
         "fragment"
         "fs_particle.bin")
     openyamm_compile_bgfx_shader(
+        "${CMAKE_SOURCE_DIR}/game/shaders/vs_spell_area_preview.sc"
+        "vertex"
+        "vs_spell_area_preview.bin")
+    openyamm_compile_bgfx_shader(
+        "${CMAKE_SOURCE_DIR}/game/shaders/fs_spell_area_preview.sc"
+        "fragment"
+        "fs_spell_area_preview.bin")
+    openyamm_compile_bgfx_shader(
         "${CMAKE_SOURCE_DIR}/game/shaders/vs_editor_preview_material.sc"
         "vertex"
         "vs_editor_preview_material.bin")
@@ -278,6 +286,8 @@ function(openyamm_configure_runtime_shaders)
             "${OPENYAMM_RUNTIME_SHADER_DIR}/glsl/fs_outdoor_force_perspective.bin"
             "${OPENYAMM_RUNTIME_SHADER_DIR}/glsl/vs_particle.bin"
             "${OPENYAMM_RUNTIME_SHADER_DIR}/glsl/fs_particle.bin"
+            "${OPENYAMM_RUNTIME_SHADER_DIR}/glsl/vs_spell_area_preview.bin"
+            "${OPENYAMM_RUNTIME_SHADER_DIR}/glsl/fs_spell_area_preview.bin"
             "${OPENYAMM_RUNTIME_SHADER_DIR}/glsl/vs_editor_preview_material.bin"
             "${OPENYAMM_RUNTIME_SHADER_DIR}/glsl/fs_editor_preview_material.bin"
     )
