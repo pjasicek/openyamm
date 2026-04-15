@@ -75,6 +75,10 @@ public:
     static const OutdoorWorldRuntime::MapActorState *runtimeActorStateForBillboard(
         const OutdoorGameView &view,
         const ActorPreviewBillboard &billboard);
+    static const ActorPreviewBillboard *findActorPreviewBillboardForRuntimeActorIndex(
+        const OutdoorGameView &view,
+        size_t runtimeActorIndex,
+        size_t *pBillboardIndex = nullptr);
     static const OutdoorGameView::InteractiveDecorationBinding *findInteractiveDecorationBindingForEntity(
         const OutdoorGameView &view,
         size_t entityIndex);

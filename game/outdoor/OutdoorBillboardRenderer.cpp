@@ -1005,20 +1005,24 @@ void OutdoorBillboardRenderer::prepareKeyboardInteractionBillboardCache(
             OutdoorGameView::KeyboardInteractionBillboardCandidate candidate = {};
             candidate.inspectHit.hasHit = true;
             candidate.inspectHit.kind = "actor";
-            candidate.inspectHit.name = pActorState->displayName;
             candidate.inspectHit.isFriendly = !pActorState->hostileToParty;
-            candidate.inspectHit.actorGroup = pActorState->group;
             candidate.inspectHit.runtimeActorIndex = actorIndex;
             const auto previewIterator = previewByRuntimeActorIndex.find(actorIndex);
             if (previewIterator != previewByRuntimeActorIndex.end())
             {
                 candidate.inspectHit.bModelIndex = previewIterator->second.billboardIndex;
+                candidate.inspectHit.name = !previewIterator->second.pBillboard->actorName.empty()
+                    ? previewIterator->second.pBillboard->actorName
+                    : pActorState->displayName;
                 candidate.inspectHit.npcId = previewIterator->second.pBillboard->npcId;
+                candidate.inspectHit.actorGroup = previewIterator->second.pBillboard->group;
             }
             else
             {
                 candidate.inspectHit.bModelIndex = actorIndex;
+                candidate.inspectHit.name = pActorState->displayName;
                 candidate.inspectHit.npcId = 0;
+                candidate.inspectHit.actorGroup = pActorState->group;
             }
             candidate.inspectHit.distance = cameraDepth;
             candidate.cameraDepth = cameraDepth;

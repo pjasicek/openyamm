@@ -2160,6 +2160,37 @@ const OutdoorWorldRuntime::MapActorState *OutdoorInteractionController::runtimeA
     return view.m_pOutdoorWorldRuntime->mapActorState(billboard.runtimeActorIndex);
 }
 
+const ActorPreviewBillboard *OutdoorInteractionController::findActorPreviewBillboardForRuntimeActorIndex(
+    const OutdoorGameView &view,
+    size_t runtimeActorIndex,
+    size_t *pBillboardIndex)
+{
+    if (!view.m_outdoorActorPreviewBillboardSet)
+    {
+        return nullptr;
+    }
+
+    for (size_t billboardIndex = 0; billboardIndex < view.m_outdoorActorPreviewBillboardSet->billboards.size();
+         ++billboardIndex)
+    {
+        const ActorPreviewBillboard &billboard = view.m_outdoorActorPreviewBillboardSet->billboards[billboardIndex];
+
+        if (billboard.runtimeActorIndex != runtimeActorIndex)
+        {
+            continue;
+        }
+
+        if (pBillboardIndex != nullptr)
+        {
+            *pBillboardIndex = billboardIndex;
+        }
+
+        return &billboard;
+    }
+
+    return nullptr;
+}
+
 
 
 void OutdoorInteractionController::buildDecorationBillboardSpatialIndex(OutdoorGameView &view)
@@ -2768,15 +2799,22 @@ OutdoorGameView::InspectHit OutdoorInteractionController::inspectBModelFace(
 
             if (hasActorHit && (!bestHit.hasHit || distance < bestHit.distance))
             {
+                size_t previewBillboardIndex = actorIndex;
+                const ActorPreviewBillboard *pPreviewBillboard =
+                    actor.runtimeActorIndex != static_cast<size_t>(-1)
+                        ? findActorPreviewBillboardForRuntimeActorIndex(view, actor.runtimeActorIndex, &previewBillboardIndex)
+                        : nullptr;
                 bestHit.hasHit = true;
                 bestHit.kind = "actor";
-                bestHit.bModelIndex = actorIndex;
+                bestHit.bModelIndex = pPreviewBillboard != nullptr ? previewBillboardIndex : actorIndex;
                 bestHit.faceIndex = 0;
-                bestHit.name = actor.actorName;
+                bestHit.name = pPreviewBillboard != nullptr && !pPreviewBillboard->actorName.empty()
+                    ? pPreviewBillboard->actorName
+                    : actor.actorName;
                 bestHit.distance = distance;
                 bestHit.isFriendly = actor.isFriendly;
-                bestHit.npcId = actor.npcId;
-                bestHit.actorGroup = actor.group;
+                bestHit.npcId = pPreviewBillboard != nullptr ? pPreviewBillboard->npcId : actor.npcId;
+                bestHit.actorGroup = pPreviewBillboard != nullptr ? pPreviewBillboard->group : actor.group;
                 bestHit.runtimeActorIndex = actor.runtimeActorIndex != static_cast<size_t>(-1)
                     ? actor.runtimeActorIndex
                     : actorIndex;
@@ -2887,15 +2925,20 @@ OutdoorGameView::InspectHit OutdoorInteractionController::inspectBModelFace(
 
             if (hasActorHit && (!bestHit.hasHit || distance < bestHit.distance))
             {
+                size_t previewBillboardIndex = actorIndex;
+                const ActorPreviewBillboard *pPreviewBillboard =
+                    findActorPreviewBillboardForRuntimeActorIndex(view, actorIndex, &previewBillboardIndex);
                 bestHit.hasHit = true;
                 bestHit.kind = "actor";
-                bestHit.bModelIndex = actorIndex;
+                bestHit.bModelIndex = pPreviewBillboard != nullptr ? previewBillboardIndex : actorIndex;
                 bestHit.faceIndex = 0;
-                bestHit.name = pActorState->displayName;
+                bestHit.name = pPreviewBillboard != nullptr && !pPreviewBillboard->actorName.empty()
+                    ? pPreviewBillboard->actorName
+                    : pActorState->displayName;
                 bestHit.distance = distance;
                 bestHit.isFriendly = !pActorState->hostileToParty;
-                bestHit.npcId = 0;
-                bestHit.actorGroup = pActorState->group;
+                bestHit.npcId = pPreviewBillboard != nullptr ? pPreviewBillboard->npcId : 0;
+                bestHit.actorGroup = pPreviewBillboard != nullptr ? pPreviewBillboard->group : pActorState->group;
                 bestHit.runtimeActorIndex = actorIndex;
                 bestHit.spawnSummary.clear();
                 bestHit.spawnDetail.clear();

@@ -4289,14 +4289,6 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
     const bx::Vec3 cameraRight = vecNormalize(bx::cross(cameraForward, wireframeUp));
     const bx::Vec3 cameraUp = vecNormalize(bx::cross(cameraRight, cameraForward));
 
-    OutdoorBillboardRenderer::prepareKeyboardInteractionBillboardCache(
-        *this,
-        width,
-        height,
-        wireframeViewMatrix,
-        wireframeProjectionMatrix,
-        wireframeEye);
-
     bgfx::setViewTransform(SkyViewId, wireframeViewMatrix, wireframeProjectionMatrix);
     bgfx::touch(SkyViewId);
     bgfx::setViewTransform(MainViewId, wireframeViewMatrix, wireframeProjectionMatrix);
@@ -4513,6 +4505,14 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
                 {
                     if (!m_keyboardUseLatch && m_outdoorMapData.has_value())
                     {
+                        OutdoorBillboardRenderer::prepareKeyboardInteractionBillboardCache(
+                            *this,
+                            width,
+                            height,
+                            wireframeViewMatrix,
+                            wireframeProjectionMatrix,
+                            wireframeEye);
+
                         const InspectHit keyboardUseInspectHit =
                             OutdoorInteractionController::pickKeyboardInteractionInspectHit(
                                 *this,
