@@ -20,7 +20,7 @@ constexpr float TerrainSteepTileHeight = static_cast<float>(OutdoorMapData::Terr
 
 bool outdoorFaceHasInvisibleAttribute(uint32_t attributes)
 {
-    return (attributes & static_cast<uint32_t>(EvtFaceAttribute::Invisible)) != 0;
+    return hasFaceAttribute(attributes, FaceAttribute::Invisible);
 }
 
 bx::Vec3 vecSubtract(const bx::Vec3 &left, const bx::Vec3 &right)

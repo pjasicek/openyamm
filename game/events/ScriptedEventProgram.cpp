@@ -450,6 +450,11 @@ bool ScriptedEventProgram::hasEvent(uint16_t eventId) const
     return std::find(m_eventIds.begin(), m_eventIds.end(), eventId) != m_eventIds.end();
 }
 
+bool ScriptedEventProgram::isHintOnlyEvent(uint16_t eventId) const
+{
+    return !hasEvent(eventId) && getHint(eventId).has_value();
+}
+
 std::optional<std::string> ScriptedEventProgram::getHint(uint16_t eventId) const
 {
     const auto iterator = m_hints.find(eventId);

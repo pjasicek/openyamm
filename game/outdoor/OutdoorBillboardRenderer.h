@@ -19,6 +19,13 @@ public:
     static void queueRuntimeActorBillboardTextureWarmup(OutdoorGameView &view);
     static void preloadPendingSpriteFrameWarmupsParallel(OutdoorGameView &view);
     static void processPendingSpriteFrameWarmups(OutdoorGameView &view, size_t maxSpriteFrames);
+    static void prepareKeyboardInteractionBillboardCache(
+        OutdoorGameView &view,
+        int viewWidth,
+        int viewHeight,
+        const float *pViewMatrix,
+        const float *pProjectionMatrix,
+        const bx::Vec3 &cameraPosition);
     static const OutdoorGameView::BillboardTextureHandle *ensureSpriteBillboardTexture(
         OutdoorGameView &view,
         const std::string &textureName,

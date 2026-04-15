@@ -45,6 +45,7 @@ public:
     const std::vector<uint32_t> &castSpellIds() const;
     const std::vector<TimerTrigger> &timerTriggers() const;
     bool hasEvent(uint16_t eventId) const;
+    bool isHintOnlyEvent(uint16_t eventId) const;
     std::optional<std::string> getHint(uint16_t eventId) const;
     std::optional<std::string> summarizeEvent(uint16_t eventId) const;
     std::vector<uint32_t> getOpenedChestIds(uint16_t eventId) const;

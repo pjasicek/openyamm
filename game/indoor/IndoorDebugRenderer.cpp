@@ -1,5 +1,6 @@
 #include "game/indoor/IndoorDebugRenderer.h"
 
+#include "game/FaceEnums.h"
 #include "game/scene/IndoorSceneRuntime.h"
 #include "game/SpawnPreview.h"
 #include "game/StringUtils.h"
@@ -577,7 +578,7 @@ bool faceHasInvisibleOverride(
         invisibleMask &= ~clearIterator->second;
     }
 
-    return (invisibleMask & 0x00002000u) != 0;
+    return hasFaceAttribute(invisibleMask, FaceAttribute::Invisible);
 }
 }
 
@@ -856,7 +857,7 @@ bool IndoorDebugRenderer::isFaceVisible(
     const std::optional<EventRuntimeState> &eventRuntimeState
 )
 {
-    if ((face.attributes & 0x00002000u) != 0)
+    if (hasFaceAttribute(face.attributes, FaceAttribute::Invisible))
     {
         return false;
     }

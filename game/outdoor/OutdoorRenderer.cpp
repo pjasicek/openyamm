@@ -61,7 +61,7 @@ uint32_t makeAbgr(uint8_t red, uint8_t green, uint8_t blue)
 
 bool outdoorFaceHasInvisibleAttribute(uint32_t attributes)
 {
-    return (attributes & static_cast<uint32_t>(EvtFaceAttribute::Invisible)) != 0;
+    return hasFaceAttribute(attributes, FaceAttribute::Invisible);
 }
 
 uint32_t withAlpha(uint32_t abgr, uint8_t alpha)
@@ -438,7 +438,7 @@ bool outdoorFaceHiddenByEventRuntime(
         mask &= ~clearIterator->second;
     }
 
-    return (mask & static_cast<uint32_t>(EvtFaceAttribute::Invisible)) != 0;
+    return hasFaceAttribute(mask, FaceAttribute::Invisible);
 }
 
 OutdoorFogParameters buildOutdoorWorldFogParameters(

@@ -808,7 +808,6 @@ constexpr float BillboardNearDepth = 0.1f;
 constexpr bool DebugProjectileDrawLogging = false;
 constexpr float DebugProjectileTrailSeconds = 0.05f;
 constexpr float InspectRayEpsilon = 0.0001f;
-constexpr float OeMouseInteractionDistance = 512.0f;
 constexpr float OeCharacterMeleeAttackDistance = 407.2f;
 constexpr float OeMeleeAlertDistance = 307.2f;
 constexpr float OeYellowAlertDistance = 5120.0f;
@@ -4290,6 +4289,14 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
     const bx::Vec3 cameraRight = vecNormalize(bx::cross(cameraForward, wireframeUp));
     const bx::Vec3 cameraUp = vecNormalize(bx::cross(cameraRight, cameraForward));
 
+    OutdoorBillboardRenderer::prepareKeyboardInteractionBillboardCache(
+        *this,
+        width,
+        height,
+        wireframeViewMatrix,
+        wireframeProjectionMatrix,
+        wireframeEye);
+
     bgfx::setViewTransform(SkyViewId, wireframeViewMatrix, wireframeProjectionMatrix);
     bgfx::touch(SkyViewId);
     bgfx::setViewTransform(MainViewId, wireframeViewMatrix, wireframeProjectionMatrix);
@@ -4304,23 +4311,15 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
         const auto buildInspectRayForScreenPoint =
             [&](float screenX, float screenY, bx::Vec3 &rayOrigin, bx::Vec3 &rayDirection) -> bool
             {
-                if (viewWidth <= 0 || viewHeight <= 0)
-                {
-                    return false;
-                }
-
-                const float normalizedX =
-                    ((screenX / static_cast<float>(viewWidth)) * 2.0f) - 1.0f;
-                const float normalizedY =
-                    1.0f - ((screenY / static_cast<float>(viewHeight)) * 2.0f);
-                float viewProjectionMatrix[16] = {};
-                float inverseViewProjectionMatrix[16] = {};
-                bx::mtxMul(viewProjectionMatrix, wireframeViewMatrix, wireframeProjectionMatrix);
-                bx::mtxInverse(inverseViewProjectionMatrix, viewProjectionMatrix);
-                rayOrigin = bx::mulH({normalizedX, normalizedY, 0.0f}, inverseViewProjectionMatrix);
-                const bx::Vec3 rayTarget = bx::mulH({normalizedX, normalizedY, 1.0f}, inverseViewProjectionMatrix);
-                rayDirection = vecNormalize(vecSubtract(rayTarget, rayOrigin));
-                return vecLength(rayDirection) > InspectRayEpsilon;
+                return OutdoorInteractionController::buildInspectRayForScreenPoint(
+                    screenX,
+                    screenY,
+                    viewWidth,
+                    viewHeight,
+                    wireframeViewMatrix,
+                    wireframeProjectionMatrix,
+                    rayOrigin,
+                    rayDirection);
             };
 
         if (!hasActiveLootView
@@ -4514,47 +4513,23 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
                 {
                     if (!m_keyboardUseLatch && m_outdoorMapData.has_value())
                     {
-                        const float centerX = static_cast<float>(width) * 0.5f;
-                        const float centerY = static_cast<float>(height) * 0.5f;
-                        bx::Vec3 rayOrigin = {0.0f, 0.0f, 0.0f};
-                        bx::Vec3 rayDirection = {0.0f, 0.0f, 0.0f};
-
-                        if (buildInspectRayForScreenPoint(centerX, centerY, rayOrigin, rayDirection))
-                        {
-                            const InspectHit keyboardUseInspectHit = OutdoorInteractionController::inspectBModelFace(*this, 
+                        const InspectHit keyboardUseInspectHit =
+                            OutdoorInteractionController::pickKeyboardInteractionInspectHit(
+                                *this,
                                 *m_outdoorMapData,
-                                rayOrigin,
-                                rayDirection,
-                                centerX,
-                                centerY,
                                 width,
                                 height,
                                 wireframeViewMatrix,
-                                wireframeProjectionMatrix,
-                                OutdoorGameView::DecorationPickMode::Interaction);
+                                wireframeProjectionMatrix);
 
-                            const bool canActivate = OutdoorInteractionController::canActivateInspectEvent(*this, keyboardUseInspectHit);
-                            std::cout << "Keyboard use target: hit="
-                                      << (keyboardUseInspectHit.hasHit ? "yes" : "no")
-                                      << " kind=" << (keyboardUseInspectHit.hasHit ? keyboardUseInspectHit.kind : "-")
-                                      << " name=" << (keyboardUseInspectHit.hasHit ? keyboardUseInspectHit.name : "-")
-                                      << " dist=" << (keyboardUseInspectHit.hasHit ? keyboardUseInspectHit.distance : -1.0f)
-                                      << " activatable=" << (canActivate ? "yes" : "no") << '\n';
-
-                            bool activated = false;
-
-                            if (canActivate)
-                            {
-                                activated = OutdoorInteractionController::tryActivateInspectEvent(*this, keyboardUseInspectHit);
-                            }
-
-                            std::cout << "Keyboard use result: activated=" << (activated ? "yes" : "no") << '\n';
-
-                            if (activated)
-                            {
-                                m_cachedHoverInspectHitValid = false;
-                                m_cachedHoverInspectHit = {};
-                            }
+                        if (OutdoorInteractionController::canActivateInteractionInspectEvent(
+                                *this,
+                                keyboardUseInspectHit,
+                                OutdoorInteractionController::InteractionInputMethod::Keyboard)
+                            && OutdoorInteractionController::tryActivateInspectEvent(*this, keyboardUseInspectHit))
+                        {
+                            m_cachedHoverInspectHitValid = false;
+                            m_cachedHoverInspectHit = {};
                         }
 
                         m_keyboardUseLatch = true;
@@ -4609,7 +4584,8 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
 
                     if (buildInspectRayForScreenPoint(mouseX, mouseY, rayOrigin, rayDirection))
                     {
-                        const InspectHit heldItemInspectHit = OutdoorInteractionController::inspectBModelFace(*this, 
+                        const InspectHit heldItemInspectHit = OutdoorInteractionController::inspectBModelFace(
+                            *this,
                             *m_outdoorMapData,
                             rayOrigin,
                             rayDirection,
@@ -4619,10 +4595,13 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
                             height,
                             wireframeViewMatrix,
                             wireframeProjectionMatrix,
-                            OutdoorGameView::DecorationPickMode::Interaction);
+                            OutdoorGameView::DecorationPickMode::Interaction,
+                            OutdoorInteractionController::FacePickMode::InteractionActivatable);
 
-                        if (OutdoorInteractionController::canActivateInspectEvent(*this, heldItemInspectHit)
-                            && OutdoorInteractionController::isMouseInteractionInspectHitInRange(*this, heldItemInspectHit))
+                        if (OutdoorInteractionController::canActivateInteractionInspectEvent(
+                                *this,
+                                heldItemInspectHit,
+                                OutdoorInteractionController::InteractionInputMethod::Mouse))
                         {
                             OutdoorInteractionController::tryActivateInspectEvent(*this, heldItemInspectHit);
                             handledInteraction = true;
@@ -4694,7 +4673,8 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
             const auto refreshHoverInspectHit =
                 [&]()
                 {
-                    inspectHit = OutdoorInteractionController::inspectBModelFace(*this, 
+                    inspectHit = OutdoorInteractionController::inspectBModelFace(
+                        *this,
                         *m_outdoorMapData,
                         rayOrigin,
                         rayDirection,
@@ -4745,7 +4725,8 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
             const auto refreshInteractionInspectHit =
                 [&]()
                 {
-                    interactionInspectHit = OutdoorInteractionController::inspectBModelFace(*this, 
+                    interactionInspectHit = OutdoorInteractionController::inspectBModelFace(
+                        *this,
                         *m_outdoorMapData,
                         rayOrigin,
                         rayDirection,
@@ -4755,7 +4736,8 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
                         height,
                         wireframeViewMatrix,
                         wireframeProjectionMatrix,
-                        OutdoorGameView::DecorationPickMode::Interaction);
+                        OutdoorGameView::DecorationPickMode::Interaction,
+                        OutdoorInteractionController::FacePickMode::InteractionActivatable);
                     hasInteractionInspectHit = true;
                 };
             const auto isSameInspectActivationTarget =
@@ -4779,7 +4761,11 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
 
             if (isActivationPressed && !m_activateInspectLatch)
             {
-                if (OutdoorInteractionController::tryActivateInspectEvent(*this, interactionInspectHit))
+                if (OutdoorInteractionController::canActivateInteractionInspectEvent(
+                        *this,
+                        interactionInspectHit,
+                        OutdoorInteractionController::InteractionInputMethod::Keyboard)
+                    && OutdoorInteractionController::tryActivateInspectEvent(*this, interactionInspectHit))
                 {
                     refreshInteractionInspectHit();
                     refreshHoverInspectHit();
@@ -4815,7 +4801,10 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
                 if (!isPointerOverPartyPortrait
                     && isSameInspectActivationTarget(m_pressedInspectHit, interactionInspectHit))
                 {
-                    if (OutdoorInteractionController::isMouseInteractionInspectHitInRange(*this, interactionInspectHit)
+                    if (OutdoorInteractionController::canActivateInteractionInspectEvent(
+                            *this,
+                            interactionInspectHit,
+                            OutdoorInteractionController::InteractionInputMethod::Mouse)
                         && OutdoorInteractionController::tryActivateInspectEvent(*this, interactionInspectHit))
                     {
                         refreshInteractionInspectHit();
@@ -10929,6 +10918,11 @@ void OutdoorGameView::setSettingsSnapshot(const GameSettings &settings)
     }
 }
 
+const GameSettings &OutdoorGameView::settingsSnapshot() const
+{
+    return m_gameSettings;
+}
+
 void OutdoorGameView::showCombatStatusBarEvent(const std::string &text, float durationSeconds)
 {
     if (!m_showHitStatusMessages)
@@ -10987,6 +10981,12 @@ std::optional<size_t> OutdoorGameView::resolveRuntimeActorIndexForInspectHit(con
     if (inspectHit.kind != "actor" || m_pOutdoorWorldRuntime == nullptr)
     {
         return std::nullopt;
+    }
+
+    if (inspectHit.runtimeActorIndex != static_cast<size_t>(-1)
+        && inspectHit.runtimeActorIndex < m_pOutdoorWorldRuntime->mapActorCount())
+    {
+        return inspectHit.runtimeActorIndex;
     }
 
     if (m_outdoorActorPreviewBillboardSet

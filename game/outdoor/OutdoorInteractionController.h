@@ -17,6 +17,18 @@ class OutdoorMapData;
 class OutdoorInteractionController
 {
 public:
+    enum class InteractionInputMethod
+    {
+        Keyboard,
+        Mouse,
+    };
+
+    enum class FacePickMode
+    {
+        AnyVisible,
+        InteractionActivatable,
+    };
+
     static void rebuildInteractiveDecorationBindings(OutdoorGameView &view);
     static void seedInteractiveDecorationRuntimeStateIfNeeded(OutdoorGameView &view);
     static OutdoorGameView::InspectHit inspectBModelFace(
@@ -30,7 +42,28 @@ public:
         int viewHeight,
         const float *pViewMatrix,
         const float *pProjectionMatrix,
-        OutdoorGameView::DecorationPickMode decorationPickMode);
+        OutdoorGameView::DecorationPickMode decorationPickMode,
+        FacePickMode facePickMode = FacePickMode::AnyVisible);
+    static OutdoorGameView::InspectHit pickKeyboardInteractionInspectHit(
+        OutdoorGameView &view,
+        const OutdoorMapData &outdoorMapData,
+        int viewWidth,
+        int viewHeight,
+        const float *pViewMatrix,
+        const float *pProjectionMatrix);
+    static bool buildInspectRayForScreenPoint(
+        float screenX,
+        float screenY,
+        int viewWidth,
+        int viewHeight,
+        const float *pViewMatrix,
+        const float *pProjectionMatrix,
+        bx::Vec3 &rayOrigin,
+        bx::Vec3 &rayDirection);
+    static uint16_t resolveDecorationBillboardSpriteId(
+        const OutdoorGameView &view,
+        const DecorationBillboard &billboard,
+        bool &hidden);
     static void buildDecorationBillboardSpatialIndex(OutdoorGameView &view);
     static void collectDecorationBillboardCandidates(
         const OutdoorGameView &view,
@@ -56,9 +89,14 @@ public:
         const OutdoorGameView &view,
         const OutdoorGameView::InspectHit &inspectHit);
     static bool canActivateInspectEvent(const OutdoorGameView &view, const OutdoorGameView::InspectHit &inspectHit);
-    static bool isMouseInteractionInspectHitInRange(
+    static bool isInteractionInspectHitInRange(
         const OutdoorGameView &view,
-        const OutdoorGameView::InspectHit &inspectHit);
+        const OutdoorGameView::InspectHit &inspectHit,
+        InteractionInputMethod inputMethod);
+    static bool canActivateInteractionInspectEvent(
+        const OutdoorGameView &view,
+        const OutdoorGameView::InspectHit &inspectHit,
+        InteractionInputMethod inputMethod);
     static bool tryActivateInspectEvent(OutdoorGameView &view, const OutdoorGameView::InspectHit &inspectHit);
 
     static void presentPendingEventDialog(

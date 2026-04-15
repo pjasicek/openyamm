@@ -146,6 +146,7 @@ public:
     bool consumePendingOpenLoadGameScreenRequest();
     bool requestQuickSave();
     void setSettingsSnapshot(const GameSettings &settings);
+    const GameSettings &settingsSnapshot() const;
 
 private:
     friend struct GameApplicationTestAccess;
@@ -410,9 +411,24 @@ public:
         uint16_t objectDescriptionId = 0;
         uint16_t objectSpriteId = 0;
         int32_t spellId = 0;
+        size_t runtimeActorIndex = static_cast<size_t>(-1);
         float hitX = 0.0f;
         float hitY = 0.0f;
         float hitZ = 0.0f;
+    };
+
+    struct KeyboardInteractionSamplePoint
+    {
+        float x = 0.0f;
+        float y = 0.0f;
+    };
+
+    struct KeyboardInteractionBillboardCandidate
+    {
+        InspectHit inspectHit;
+        float cameraDepth = 0.0f;
+        std::array<KeyboardInteractionSamplePoint, 6> samplePoints = {{}};
+        size_t samplePointCount = 0;
     };
 
     enum class DecorationPickMode
@@ -1018,6 +1034,7 @@ private:
     ParticleSystem m_particleSystem;
     std::vector<std::vector<size_t>> m_decorationBillboardGridCells;
     std::vector<InteractiveDecorationBinding> m_interactiveDecorationBindings;
+    std::vector<KeyboardInteractionBillboardCandidate> m_keyboardInteractionBillboardCandidates;
     float m_decorationBillboardGridMinX = 0.0f;
     float m_decorationBillboardGridMinY = 0.0f;
     size_t m_decorationBillboardGridWidth = 0;

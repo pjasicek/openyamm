@@ -1,5 +1,6 @@
 #include "game/outdoor/OutdoorInteractionController.h"
 #include "game/outdoor/OutdoorGameView.h"
+#include "game/outdoor/OutdoorBillboardRenderer.h"
 #include "game/events/EvtEnums.h"
 #include "game/gameplay/GenericActorDialog.h"
 #include "game/gameplay/GameMechanics.h"
@@ -28,14 +29,41 @@ namespace
 constexpr float InspectRayEpsilon = 0.0001f;
 constexpr float Pi = 3.14159265358979323846f;
 constexpr float BillboardSpatialCellSize = 2048.0f;
-constexpr float OeMouseInteractionDistance = 512.0f;
 constexpr float OeNearHoverDistance = 512.0f;
 constexpr float OeActorHoverDistance = 8192.0f;
+constexpr float InteractionEntityHalfExtent = 96.0f;
+constexpr float InteractionEntityHeight = 192.0f;
+constexpr float InteractionDecorationMinHalfExtent = 24.0f;
+constexpr float InteractionDecorationMinHeight = 48.0f;
+constexpr float InteractionActorMinHalfExtent = 32.0f;
+constexpr float InteractionActorMinHeight = 96.0f;
+constexpr float InteractionWorldItemMinHalfExtent = 20.0f;
+constexpr float InteractionWorldItemMinHeight = 40.0f;
+constexpr float InteractionSpriteObjectMinHalfExtent = 24.0f;
+constexpr float InteractionSpriteObjectMinHeight = 48.0f;
 constexpr uint32_t KillSpeechChancePercent = 20;
 
 bool outdoorFaceHasInvisibleAttribute(uint32_t attributes)
 {
-    return (attributes & static_cast<uint32_t>(EvtFaceAttribute::Invisible)) != 0;
+    return hasFaceAttribute(attributes, FaceAttribute::Invisible);
+}
+
+bool outdoorFaceHasHintAttribute(uint32_t attributes)
+{
+    return hasFaceAttribute(attributes, FaceAttribute::HasHint);
+}
+
+bool outdoorFaceHasClickableAttribute(uint32_t attributes)
+{
+    return hasFaceAttribute(attributes, FaceAttribute::Clickable);
+}
+
+bool outdoorFaceIsInteractionActivatable(uint32_t attributes, uint16_t eventId)
+{
+    return eventId != 0
+        && outdoorFaceHasClickableAttribute(attributes)
+        && !outdoorFaceHasHintAttribute(attributes)
+        && !outdoorFaceHasInvisibleAttribute(attributes);
 }
 
 bool interactiveDecorationHidesWhenCleared(OutdoorGameView::InteractiveDecorationFamily family)
@@ -434,7 +462,7 @@ bool projectWorldPointToScreen(
         x * pViewProjectionMatrix[3] + y * pViewProjectionMatrix[7] + z * pViewProjectionMatrix[11]
         + pViewProjectionMatrix[15];
 
-    if (std::fabs(clipW) <= InspectRayEpsilon)
+    if (clipW <= InspectRayEpsilon)
     {
         return false;
     }
@@ -446,6 +474,88 @@ bool projectWorldPointToScreen(
     projectedPoint.x = ((ndcX + 1.0f) * 0.5f) * static_cast<float>(viewWidth);
     projectedPoint.y = ((1.0f - ndcY) * 0.5f) * static_cast<float>(viewHeight);
     return true;
+}
+
+bool intersectRayTriangle(
+    const bx::Vec3 &rayOrigin,
+    const bx::Vec3 &rayDirection,
+    const bx::Vec3 &vertex0,
+    const bx::Vec3 &vertex1,
+    const bx::Vec3 &vertex2,
+    float &distance);
+
+std::optional<float> intersectOutdoorFaceRay(
+    const OutdoorBModel &bModel,
+    const OutdoorBModelFace &face,
+    const bx::Vec3 &rayOrigin,
+    const bx::Vec3 &rayDirection)
+{
+    std::optional<float> bestDistance;
+
+    for (size_t triangleIndex = 1; triangleIndex + 1 < face.vertexIndices.size(); ++triangleIndex)
+    {
+        const size_t triangleVertexIndices[3] = {0, triangleIndex, triangleIndex + 1};
+        bx::Vec3 triangleVertices[3] = {
+            bx::Vec3 {0.0f, 0.0f, 0.0f},
+            bx::Vec3 {0.0f, 0.0f, 0.0f},
+            bx::Vec3 {0.0f, 0.0f, 0.0f}
+        };
+        bool validTriangle = true;
+
+        for (size_t triangleVertexSlot = 0; triangleVertexSlot < 3; ++triangleVertexSlot)
+        {
+            const uint16_t vertexIndex = face.vertexIndices[triangleVertexIndices[triangleVertexSlot]];
+
+            if (vertexIndex >= bModel.vertices.size())
+            {
+                validTriangle = false;
+                break;
+            }
+
+            triangleVertices[triangleVertexSlot] = outdoorBModelVertexToWorld(bModel.vertices[vertexIndex]);
+        }
+
+        if (!validTriangle)
+        {
+            continue;
+        }
+
+        float distance = 0.0f;
+
+        if (!intersectRayTriangle(
+                rayOrigin,
+                rayDirection,
+                triangleVertices[0],
+                triangleVertices[1],
+                triangleVertices[2],
+                distance))
+        {
+            continue;
+        }
+
+        if (distance <= InspectRayEpsilon)
+        {
+            continue;
+        }
+
+        if (!bestDistance.has_value() || distance < *bestDistance)
+        {
+            bestDistance = distance;
+        }
+    }
+
+    return bestDistance;
+}
+
+float interactionDepthForInputMethod(
+    const OutdoorGameView &view,
+    OutdoorInteractionController::InteractionInputMethod inputMethod)
+{
+    const GameSettings &settings = view.settingsSnapshot();
+    const int configuredDepth = inputMethod == OutdoorInteractionController::InteractionInputMethod::Keyboard
+        ? settings.keyboardInteractionDepth
+        : settings.mouseInteractionDepth;
+    return static_cast<float>(std::clamp(configuredDepth, 32, 4096));
 }
 
 bool shouldSkipSpriteObjectInspectTarget(const SpriteObjectBillboard &object, const ObjectEntry *pObjectEntry)
@@ -663,6 +773,85 @@ std::optional<float> intersectOutdoorTerrainRay(
     return closestDistance;
 }
 } // namespace
+
+bool OutdoorInteractionController::buildInspectRayForScreenPoint(
+    float screenX,
+    float screenY,
+    int viewWidth,
+    int viewHeight,
+    const float *pViewMatrix,
+    const float *pProjectionMatrix,
+    bx::Vec3 &rayOrigin,
+    bx::Vec3 &rayDirection)
+{
+    if (viewWidth <= 0 || viewHeight <= 0 || pViewMatrix == nullptr || pProjectionMatrix == nullptr)
+    {
+        return false;
+    }
+
+    const float normalizedX = ((screenX / static_cast<float>(viewWidth)) * 2.0f) - 1.0f;
+    const float normalizedY = 1.0f - ((screenY / static_cast<float>(viewHeight)) * 2.0f);
+    float viewProjectionMatrix[16] = {};
+    float inverseViewProjectionMatrix[16] = {};
+    bx::mtxMul(viewProjectionMatrix, pViewMatrix, pProjectionMatrix);
+    bx::mtxInverse(inverseViewProjectionMatrix, viewProjectionMatrix);
+    rayOrigin = bx::mulH({normalizedX, normalizedY, 0.0f}, inverseViewProjectionMatrix);
+    const bx::Vec3 rayTarget = bx::mulH({normalizedX, normalizedY, 1.0f}, inverseViewProjectionMatrix);
+    rayDirection = vecNormalize(vecSubtract(rayTarget, rayOrigin));
+    return vecLength(rayDirection) > InspectRayEpsilon;
+}
+
+uint16_t OutdoorInteractionController::resolveDecorationBillboardSpriteId(
+    const OutdoorGameView &view,
+    const DecorationBillboard &billboard,
+    bool &hidden)
+{
+    hidden = false;
+    uint16_t spriteId = billboard.spriteId;
+
+    if (!view.m_outdoorDecorationBillboardSet || view.m_pOutdoorWorldRuntime == nullptr)
+    {
+        return spriteId;
+    }
+
+    const EventRuntimeState *pEventRuntimeState = view.m_pOutdoorWorldRuntime->eventRuntimeState();
+
+    if (pEventRuntimeState == nullptr)
+    {
+        return spriteId;
+    }
+
+    const auto overrideIterator =
+        pEventRuntimeState->spriteOverrides.find(static_cast<uint32_t>(billboard.entityIndex));
+
+    if (overrideIterator == pEventRuntimeState->spriteOverrides.end())
+    {
+        return spriteId;
+    }
+
+    hidden = overrideIterator->second.hidden;
+
+    if (!overrideIterator->second.textureName.has_value() || overrideIterator->second.textureName->empty())
+    {
+        return spriteId;
+    }
+
+    if (const DecorationEntry *pDecoration =
+            view.m_outdoorDecorationBillboardSet->decorationTable.findByInternalName(
+                *overrideIterator->second.textureName))
+    {
+        return pDecoration->spriteId;
+    }
+
+    if (const std::optional<uint16_t> overrideSpriteId =
+            view.m_outdoorDecorationBillboardSet->spriteFrameTable.findFrameIndexBySpriteName(
+                *overrideIterator->second.textureName))
+    {
+        return *overrideSpriteId;
+    }
+
+    return spriteId;
+}
 
 void OutdoorInteractionController::rebuildInteractiveDecorationBindings(OutdoorGameView &view)
 {
@@ -2083,7 +2272,8 @@ OutdoorGameView::InspectHit OutdoorInteractionController::inspectBModelFace(
     int viewHeight,
     const float *pViewMatrix,
     const float *pProjectionMatrix,
-    OutdoorGameView::DecorationPickMode decorationPickMode)
+    OutdoorGameView::DecorationPickMode decorationPickMode,
+    FacePickMode facePickMode)
 {
     OutdoorGameView::InspectHit bestHit = {};
     bestHit.distance = std::numeric_limits<float>::max();
@@ -2134,157 +2324,87 @@ OutdoorGameView::InspectHit OutdoorInteractionController::inspectBModelFace(
             return inspectHit.kind == "object";
         };
 
-    const OutdoorWorldRuntime *pOutdoorWorldRuntime = view.m_pOutdoorWorldRuntime;
-
-    if (pOutdoorWorldRuntime != nullptr)
+    for (size_t bModelIndex = 0; bModelIndex < outdoorMapData.bmodels.size(); ++bModelIndex)
     {
-        constexpr float FaceCandidatePadding = 16.0f;
-        const float maxFaceInspectDistance = std::isfinite(terrainBlockDistance)
-            ? terrainBlockDistance + terrainDistanceEpsilon
-            : 200000.0f;
-        const bx::Vec3 inspectEnd = {
-            rayOrigin.x + rayDirection.x * maxFaceInspectDistance,
-            rayOrigin.y + rayDirection.y * maxFaceInspectDistance,
-            rayOrigin.z + rayDirection.z * maxFaceInspectDistance
-        };
-        std::vector<size_t> candidateFaceIndices;
-        pOutdoorWorldRuntime->collectOutdoorFaceCandidates(
-            std::min(rayOrigin.x, inspectEnd.x) - FaceCandidatePadding,
-            std::min(rayOrigin.y, inspectEnd.y) - FaceCandidatePadding,
-            std::max(rayOrigin.x, inspectEnd.x) + FaceCandidatePadding,
-            std::max(rayOrigin.y, inspectEnd.y) + FaceCandidatePadding,
-            candidateFaceIndices);
+        const OutdoorBModel &bModel = outdoorMapData.bmodels[bModelIndex];
 
-        for (size_t faceCandidateIndex : candidateFaceIndices)
+        for (size_t faceIndex = 0; faceIndex < bModel.faces.size(); ++faceIndex)
         {
-            const OutdoorFaceGeometryData *pGeometry = pOutdoorWorldRuntime->outdoorFace(faceCandidateIndex);
+            const OutdoorBModelFace &face = bModel.faces[faceIndex];
 
-            if (pGeometry == nullptr
-                || pGeometry->bModelIndex >= outdoorMapData.bmodels.size())
+            if (outdoorFaceHasInvisibleAttribute(face.attributes) || face.vertexIndices.size() < 3)
             {
                 continue;
             }
 
-            const OutdoorBModel &bModel = outdoorMapData.bmodels[pGeometry->bModelIndex];
-
-            if (pGeometry->faceIndex >= bModel.faces.size())
+            if (facePickMode == FacePickMode::InteractionActivatable
+                && !outdoorFaceIsInteractionActivatable(face.attributes, face.cogTriggeredNumber))
             {
                 continue;
             }
 
-            const OutdoorBModelFace &face = bModel.faces[pGeometry->faceIndex];
-            float intersectionFactor = 0.0f;
-            bx::Vec3 intersectionPoint = {0.0f, 0.0f, 0.0f};
-
-            if (!intersectOutdoorSegmentWithFace(*pGeometry, rayOrigin, inspectEnd, intersectionFactor, intersectionPoint))
+            for (size_t triangleIndex = 1; triangleIndex + 1 < face.vertexIndices.size(); ++triangleIndex)
             {
-                continue;
-            }
+                const size_t triangleVertexIndices[3] = {0, triangleIndex, triangleIndex + 1};
+                bx::Vec3 triangleVertices[3] = {
+                    bx::Vec3 {0.0f, 0.0f, 0.0f},
+                    bx::Vec3 {0.0f, 0.0f, 0.0f},
+                    bx::Vec3 {0.0f, 0.0f, 0.0f}
+                };
+                bool isTriangleValid = true;
 
-            const float distance = intersectionFactor * maxFaceInspectDistance;
+                for (size_t triangleVertexSlot = 0; triangleVertexSlot < 3; ++triangleVertexSlot)
+                {
+                    const uint16_t vertexIndex = face.vertexIndices[triangleVertexIndices[triangleVertexSlot]];
 
-            if (!isVisibleInspectDistance(distance))
-            {
-                continue;
-            }
+                    if (vertexIndex >= bModel.vertices.size())
+                    {
+                        isTriangleValid = false;
+                        break;
+                    }
 
-            if (!bestHit.hasHit || distance < bestHit.distance)
-            {
-                bestHit.hasHit = true;
-                bestHit.kind = "face";
-                bestHit.bModelIndex = pGeometry->bModelIndex;
-                bestHit.faceIndex = pGeometry->faceIndex;
-                bestHit.textureName = face.textureName;
-                bestHit.distance = distance;
-                bestHit.attributes = face.attributes;
-                bestHit.bitmapIndex = face.bitmapIndex;
-                bestHit.cogNumber = face.cogNumber;
-                bestHit.cogTriggeredNumber = face.cogTriggeredNumber;
-                bestHit.cogTrigger = face.cogTrigger;
-                bestHit.polygonType = face.polygonType;
-                bestHit.shade = face.shade;
-                bestHit.visibility = face.visibility;
-            }
-        }
-    }
-    else
-    {
-        for (size_t bModelIndex = 0; bModelIndex < outdoorMapData.bmodels.size(); ++bModelIndex)
-        {
-            const OutdoorBModel &bModel = outdoorMapData.bmodels[bModelIndex];
+                    triangleVertices[triangleVertexSlot] = outdoorBModelVertexToWorld(bModel.vertices[vertexIndex]);
+                }
 
-            for (size_t faceIndex = 0; faceIndex < bModel.faces.size(); ++faceIndex)
-            {
-                const OutdoorBModelFace &face = bModel.faces[faceIndex];
-
-                if (outdoorFaceHasInvisibleAttribute(face.attributes) || face.vertexIndices.size() < 3)
+                if (!isTriangleValid)
                 {
                     continue;
                 }
 
-                for (size_t triangleIndex = 1; triangleIndex + 1 < face.vertexIndices.size(); ++triangleIndex)
+                float distance = 0.0f;
+
+                if (!intersectRayTriangle(
+                        rayOrigin,
+                        rayDirection,
+                        triangleVertices[0],
+                        triangleVertices[1],
+                        triangleVertices[2],
+                        distance))
                 {
-                    const size_t triangleVertexIndices[3] = {0, triangleIndex, triangleIndex + 1};
-                    bx::Vec3 triangleVertices[3] = {
-                        bx::Vec3 {0.0f, 0.0f, 0.0f},
-                        bx::Vec3 {0.0f, 0.0f, 0.0f},
-                        bx::Vec3 {0.0f, 0.0f, 0.0f}
-                    };
-                    bool isTriangleValid = true;
+                    continue;
+                }
 
-                    for (size_t triangleVertexSlot = 0; triangleVertexSlot < 3; ++triangleVertexSlot)
-                    {
-                        const uint16_t vertexIndex = face.vertexIndices[triangleVertexIndices[triangleVertexSlot]];
+                if (!isVisibleInspectDistance(distance))
+                {
+                    continue;
+                }
 
-                        if (vertexIndex >= bModel.vertices.size())
-                        {
-                            isTriangleValid = false;
-                            break;
-                        }
-
-                        triangleVertices[triangleVertexSlot] = outdoorBModelVertexToWorld(bModel.vertices[vertexIndex]);
-                    }
-
-                    if (!isTriangleValid)
-                    {
-                        continue;
-                    }
-
-                    float distance = 0.0f;
-
-                    if (!intersectRayTriangle(
-                            rayOrigin,
-                            rayDirection,
-                            triangleVertices[0],
-                            triangleVertices[1],
-                            triangleVertices[2],
-                            distance))
-                    {
-                        continue;
-                    }
-
-                    if (!isVisibleInspectDistance(distance))
-                    {
-                        continue;
-                    }
-
-                    if (!bestHit.hasHit || distance < bestHit.distance)
-                    {
-                        bestHit.hasHit = true;
-                        bestHit.kind = "face";
-                        bestHit.bModelIndex = bModelIndex;
-                        bestHit.faceIndex = faceIndex;
-                        bestHit.textureName = face.textureName;
-                        bestHit.distance = distance;
-                        bestHit.attributes = face.attributes;
-                        bestHit.bitmapIndex = face.bitmapIndex;
-                        bestHit.cogNumber = face.cogNumber;
-                        bestHit.cogTriggeredNumber = face.cogTriggeredNumber;
-                        bestHit.cogTrigger = face.cogTrigger;
-                        bestHit.polygonType = face.polygonType;
-                        bestHit.shade = face.shade;
-                        bestHit.visibility = face.visibility;
-                    }
+                if (!bestHit.hasHit || distance < bestHit.distance)
+                {
+                    bestHit.hasHit = true;
+                    bestHit.kind = "face";
+                    bestHit.bModelIndex = bModelIndex;
+                    bestHit.faceIndex = faceIndex;
+                    bestHit.textureName = face.textureName;
+                    bestHit.distance = distance;
+                    bestHit.attributes = face.attributes;
+                    bestHit.bitmapIndex = face.bitmapIndex;
+                    bestHit.cogNumber = face.cogNumber;
+                    bestHit.cogTriggeredNumber = face.cogTriggeredNumber;
+                    bestHit.cogTrigger = face.cogTrigger;
+                    bestHit.polygonType = face.polygonType;
+                    bestHit.shade = face.shade;
+                    bestHit.visibility = face.visibility;
                 }
             }
         }
@@ -2304,7 +2424,7 @@ OutdoorGameView::InspectHit OutdoorInteractionController::inspectBModelFace(
             continue;
         }
 
-        const float halfExtent = 96.0f;
+        const float halfExtent = InteractionEntityHalfExtent;
         float distance = 0.0f;
 
         const bx::Vec3 minBounds = {
@@ -2315,7 +2435,7 @@ OutdoorGameView::InspectHit OutdoorInteractionController::inspectBModelFace(
         const bx::Vec3 maxBounds = {
             static_cast<float>(entity.x) + halfExtent,
             static_cast<float>(entity.y) + halfExtent,
-            static_cast<float>(entity.z) + 192.0f
+            static_cast<float>(entity.z) + InteractionEntityHeight
         };
 
         if (intersectRayAabb(rayOrigin, rayDirection, minBounds, maxBounds, distance)
@@ -2447,9 +2567,9 @@ OutdoorGameView::InspectHit OutdoorInteractionController::inspectBModelFace(
             }
 
             const float broadPhaseHalfExtent =
-                std::max(32.0f, static_cast<float>(std::max(decoration.radius, int16_t(32))));
+                std::max(InteractionDecorationMinHalfExtent, static_cast<float>(std::max(decoration.radius, int16_t(0))));
             const float broadPhaseHeight =
-                std::max(64.0f, static_cast<float>(std::max(decoration.height, uint16_t(64))));
+                std::max(InteractionDecorationMinHeight, static_cast<float>(std::max(decoration.height, uint16_t(0))));
             float distance = 0.0f;
             bool hasBillboardHit = false;
 
@@ -2593,8 +2713,8 @@ OutdoorGameView::InspectHit OutdoorInteractionController::inspectBModelFace(
                 actorY,
                 actorZ,
                 pActorState != nullptr && pActorState->isDead);
-            const float halfExtent = static_cast<float>(std::max<uint16_t>(actorRadius, 64));
-            const float height = static_cast<float>(std::max<uint16_t>(actorHeight, 128));
+            const float halfExtent = std::max(InteractionActorMinHalfExtent, static_cast<float>(actorRadius));
+            const float height = std::max(InteractionActorMinHeight, static_cast<float>(actorHeight));
             float distance = 0.0f;
             const bx::Vec3 minBounds = {
                 static_cast<float>(actorX) - halfExtent,
@@ -2657,6 +2777,9 @@ OutdoorGameView::InspectHit OutdoorInteractionController::inspectBModelFace(
                 bestHit.isFriendly = actor.isFriendly;
                 bestHit.npcId = actor.npcId;
                 bestHit.actorGroup = actor.group;
+                bestHit.runtimeActorIndex = actor.runtimeActorIndex != static_cast<size_t>(-1)
+                    ? actor.runtimeActorIndex
+                    : actorIndex;
 
                 if (view.m_map)
                 {
@@ -2702,8 +2825,8 @@ OutdoorGameView::InspectHit OutdoorInteractionController::inspectBModelFace(
                 continue;
             }
 
-            const float halfExtent = static_cast<float>(std::max<uint16_t>(pActorState->radius, 64));
-            const float height = static_cast<float>(std::max<uint16_t>(pActorState->height, 128));
+            const float halfExtent = std::max(InteractionActorMinHalfExtent, static_cast<float>(pActorState->radius));
+            const float height = std::max(InteractionActorMinHeight, static_cast<float>(pActorState->height));
             const float actorBaseZ = resolveActorAabbBaseZ(
                 outdoorMapData,
                 pActorState,
@@ -2773,6 +2896,7 @@ OutdoorGameView::InspectHit OutdoorInteractionController::inspectBModelFace(
                 bestHit.isFriendly = !pActorState->hostileToParty;
                 bestHit.npcId = 0;
                 bestHit.actorGroup = pActorState->group;
+                bestHit.runtimeActorIndex = actorIndex;
                 bestHit.spawnSummary.clear();
                 bestHit.spawnDetail.clear();
             }
@@ -2791,8 +2915,10 @@ OutdoorGameView::InspectHit OutdoorInteractionController::inspectBModelFace(
                 continue;
             }
 
-            const float halfExtent = std::max(32.0f, float(std::max(pWorldItem->radius, uint16_t(32))));
-            const float height = std::max(64.0f, float(std::max(pWorldItem->height, uint16_t(64))));
+            const float halfExtent =
+                std::max(InteractionWorldItemMinHalfExtent, static_cast<float>(pWorldItem->radius));
+            const float height =
+                std::max(InteractionWorldItemMinHeight, static_cast<float>(pWorldItem->height));
             float distance = 0.0f;
             const bx::Vec3 minBounds = {
                 pWorldItem->x - halfExtent,
@@ -2839,8 +2965,8 @@ OutdoorGameView::InspectHit OutdoorInteractionController::inspectBModelFace(
                 continue;
             }
 
-            const float halfExtent = std::max(32.0f, float(std::max(object.radius, int16_t(32))));
-            const float height = std::max(64.0f, float(std::max(object.height, int16_t(64))));
+            const float halfExtent = std::max(InteractionSpriteObjectMinHalfExtent, static_cast<float>(object.radius));
+            const float height = std::max(InteractionSpriteObjectMinHeight, static_cast<float>(object.height));
             float distance = 0.0f;
             const bx::Vec3 minBounds = {
                 float(object.x) - halfExtent,
@@ -2888,7 +3014,373 @@ OutdoorGameView::InspectHit OutdoorInteractionController::inspectBModelFace(
     return bestHit;
 }
 
+OutdoorGameView::InspectHit OutdoorInteractionController::pickKeyboardInteractionInspectHit(
+    OutdoorGameView &view,
+    const OutdoorMapData &outdoorMapData,
+    int viewWidth,
+    int viewHeight,
+    const float *pViewMatrix,
+    const float *pProjectionMatrix)
+{
+    OutdoorGameView::InspectHit bestHit = {};
+    bestHit.distance = std::numeric_limits<float>::max();
 
+    if (viewWidth <= 0 || viewHeight <= 0 || pViewMatrix == nullptr || pProjectionMatrix == nullptr)
+    {
+        return {};
+    }
+
+    const auto nearestLevelGeometryDistance =
+        [&](const bx::Vec3 &rayOrigin, const bx::Vec3 &rayDirection, float maxDistance) -> float
+        {
+            float bestDistance = maxDistance;
+
+            if (const std::optional<float> terrainDistance =
+                    intersectOutdoorTerrainRay(outdoorMapData, rayOrigin, rayDirection))
+            {
+                bestDistance = std::min(bestDistance, *terrainDistance);
+            }
+
+            const bx::Vec3 inspectEnd = {
+                rayOrigin.x + rayDirection.x * maxDistance,
+                rayOrigin.y + rayDirection.y * maxDistance,
+                rayOrigin.z + rayDirection.z * maxDistance
+            };
+            std::vector<size_t> candidateFaceIndices;
+
+            if (view.m_pOutdoorWorldRuntime != nullptr)
+            {
+                constexpr float FaceCandidatePadding = 16.0f;
+                view.m_pOutdoorWorldRuntime->collectOutdoorFaceCandidates(
+                    std::min(rayOrigin.x, inspectEnd.x) - FaceCandidatePadding,
+                    std::min(rayOrigin.y, inspectEnd.y) - FaceCandidatePadding,
+                    std::max(rayOrigin.x, inspectEnd.x) + FaceCandidatePadding,
+                    std::max(rayOrigin.y, inspectEnd.y) + FaceCandidatePadding,
+                    candidateFaceIndices);
+            }
+            if (view.m_pOutdoorWorldRuntime != nullptr)
+            {
+                for (size_t candidateFaceIndex : candidateFaceIndices)
+                {
+                    const OutdoorFaceGeometryData *pFaceGeometry =
+                        view.m_pOutdoorWorldRuntime->outdoorFace(candidateFaceIndex);
+
+                    if (pFaceGeometry == nullptr
+                        || !pFaceGeometry->hasPlane
+                        || pFaceGeometry->isWalkable
+                        || outdoorFaceHasInvisibleAttribute(pFaceGeometry->attributes))
+                    {
+                        continue;
+                    }
+
+                    if (inspectEnd.x < pFaceGeometry->minX - 16.0f && rayOrigin.x < pFaceGeometry->minX - 16.0f)
+                    {
+                        continue;
+                    }
+
+                    if (inspectEnd.x > pFaceGeometry->maxX + 16.0f && rayOrigin.x > pFaceGeometry->maxX + 16.0f)
+                    {
+                        continue;
+                    }
+
+                    if (inspectEnd.y < pFaceGeometry->minY - 16.0f && rayOrigin.y < pFaceGeometry->minY - 16.0f)
+                    {
+                        continue;
+                    }
+
+                    if (inspectEnd.y > pFaceGeometry->maxY + 16.0f && rayOrigin.y > pFaceGeometry->maxY + 16.0f)
+                    {
+                        continue;
+                    }
+
+                    float factor = 0.0f;
+                    bx::Vec3 point = {0.0f, 0.0f, 0.0f};
+
+                    if (!intersectOutdoorSegmentWithFace(*pFaceGeometry, rayOrigin, inspectEnd, factor, point))
+                    {
+                        continue;
+                    }
+
+                    const float distance = maxDistance * factor;
+                    bestDistance = std::min(bestDistance, distance);
+                }
+            }
+            else
+            {
+                for (size_t bModelIndex = 0; bModelIndex < outdoorMapData.bmodels.size(); ++bModelIndex)
+                {
+                    const OutdoorBModel &bModel = outdoorMapData.bmodels[bModelIndex];
+
+                    for (size_t faceIndex = 0; faceIndex < bModel.faces.size(); ++faceIndex)
+                    {
+                        const OutdoorBModelFace &face = bModel.faces[faceIndex];
+
+                        if (outdoorFaceHasInvisibleAttribute(face.attributes) || face.vertexIndices.size() < 3)
+                        {
+                            continue;
+                        }
+
+                        const std::optional<float> faceDistance =
+                            intersectOutdoorFaceRay(bModel, face, rayOrigin, rayDirection);
+
+                        if (faceDistance)
+                        {
+                            bestDistance = std::min(bestDistance, *faceDistance);
+                        }
+                    }
+                }
+            }
+
+            return bestDistance;
+        };
+    const auto tryUpdateBestHit =
+        [&bestHit](const OutdoorGameView::InspectHit &hit)
+        {
+            if (!hit.hasHit)
+            {
+                return;
+            }
+
+            if (!bestHit.hasHit || hit.distance < bestHit.distance)
+            {
+                bestHit = hit;
+            }
+        };
+    const auto tryResolveVisibleKeyboardBillboardHit =
+        [&](const OutdoorGameView::KeyboardInteractionBillboardCandidate &candidate) -> std::optional<OutdoorGameView::InspectHit>
+        {
+            constexpr float GeometryDistanceEpsilon = 1.0f;
+
+            if (!candidate.inspectHit.hasHit
+                || !canActivateInteractionInspectEvent(view, candidate.inspectHit, InteractionInputMethod::Keyboard))
+            {
+                return std::nullopt;
+            }
+
+            for (size_t sampleIndex = 0; sampleIndex < candidate.samplePointCount; ++sampleIndex)
+            {
+                const OutdoorGameView::KeyboardInteractionSamplePoint &samplePoint =
+                    candidate.samplePoints[sampleIndex];
+                bx::Vec3 rayOrigin = {0.0f, 0.0f, 0.0f};
+                bx::Vec3 rayDirection = {0.0f, 0.0f, 0.0f};
+
+                if (!OutdoorInteractionController::buildInspectRayForScreenPoint(
+                        samplePoint.x,
+                        samplePoint.y,
+                        viewWidth,
+                        viewHeight,
+                        pViewMatrix,
+                        pProjectionMatrix,
+                        rayOrigin,
+                        rayDirection))
+                {
+                    continue;
+                }
+
+                if (candidate.inspectHit.kind == "actor" && view.m_pOutdoorWorldRuntime != nullptr)
+                {
+                    const size_t runtimeActorIndex = candidate.inspectHit.runtimeActorIndex;
+                    const OutdoorWorldRuntime::MapActorState *pActorState =
+                        runtimeActorIndex != static_cast<size_t>(-1)
+                            ? view.m_pOutdoorWorldRuntime->mapActorState(runtimeActorIndex)
+                            : nullptr;
+
+                    if (pActorState == nullptr || pActorState->isInvisible)
+                    {
+                        continue;
+                    }
+                }
+
+                if (candidate.inspectHit.kind == "decoration")
+                {
+                    if (!view.m_outdoorDecorationBillboardSet
+                        || candidate.inspectHit.bModelIndex >= view.m_outdoorDecorationBillboardSet->billboards.size())
+                    {
+                        continue;
+                    }
+
+                    const DecorationBillboard &decoration =
+                        view.m_outdoorDecorationBillboardSet->billboards[candidate.inspectHit.bModelIndex];
+                    bool hidden = false;
+
+                    if (OutdoorInteractionController::resolveDecorationBillboardSpriteId(view, decoration, hidden) == 0
+                        || hidden)
+                    {
+                        continue;
+                    }
+                }
+
+                const float candidateDistance = candidate.cameraDepth;
+
+                if (candidateDistance <= InspectRayEpsilon)
+                {
+                    continue;
+                }
+
+                const float blockingDistance = nearestLevelGeometryDistance(rayOrigin, rayDirection, candidateDistance);
+
+                if (blockingDistance + GeometryDistanceEpsilon < candidateDistance)
+                {
+                    continue;
+                }
+
+                OutdoorGameView::InspectHit resolvedHit = candidate.inspectHit;
+                resolvedHit.distance = candidateDistance;
+                resolvedHit.hitX = rayOrigin.x + rayDirection.x * candidateDistance;
+                resolvedHit.hitY = rayOrigin.y + rayDirection.y * candidateDistance;
+                resolvedHit.hitZ = rayOrigin.z + rayDirection.z * candidateDistance;
+                return resolvedHit;
+            }
+
+            return std::nullopt;
+        };
+
+    for (const OutdoorGameView::KeyboardInteractionBillboardCandidate &candidate :
+         view.m_keyboardInteractionBillboardCandidates)
+    {
+        if (bestHit.hasHit && candidate.cameraDepth > bestHit.distance + 1.0f)
+        {
+            break;
+        }
+
+        const std::optional<OutdoorGameView::InspectHit> resolvedHit =
+            tryResolveVisibleKeyboardBillboardHit(candidate);
+
+        if (resolvedHit)
+        {
+            tryUpdateBestHit(*resolvedHit);
+        }
+    }
+
+    float viewProjectionMatrix[16] = {};
+    bx::mtxMul(viewProjectionMatrix, pViewMatrix, pProjectionMatrix);
+
+    for (size_t bModelIndex = 0; bModelIndex < outdoorMapData.bmodels.size(); ++bModelIndex)
+    {
+        const OutdoorBModel &bModel = outdoorMapData.bmodels[bModelIndex];
+
+        for (size_t faceIndex = 0; faceIndex < bModel.faces.size(); ++faceIndex)
+        {
+            const OutdoorBModelFace &face = bModel.faces[faceIndex];
+
+            if (!outdoorFaceIsInteractionActivatable(face.attributes, face.cogTriggeredNumber)
+                || face.vertexIndices.size() < 3)
+            {
+                continue;
+            }
+
+            float minX = 0.0f;
+            float minY = 0.0f;
+            float maxX = 0.0f;
+            float maxY = 0.0f;
+            bool hasProjectedVertex = false;
+
+            for (uint16_t vertexIndex : face.vertexIndices)
+            {
+                if (vertexIndex >= bModel.vertices.size())
+                {
+                    continue;
+                }
+
+                ProjectedPoint projected = {};
+
+                if (!projectWorldPointToScreen(
+                        outdoorBModelVertexToWorld(bModel.vertices[vertexIndex]),
+                        viewWidth,
+                        viewHeight,
+                        viewProjectionMatrix,
+                        projected))
+                {
+                    continue;
+                }
+
+                if (!hasProjectedVertex)
+                {
+                    minX = projected.x;
+                    maxX = projected.x;
+                    minY = projected.y;
+                    maxY = projected.y;
+                    hasProjectedVertex = true;
+                    continue;
+                }
+
+                minX = std::min(minX, projected.x);
+                maxX = std::max(maxX, projected.x);
+                minY = std::min(minY, projected.y);
+                maxY = std::max(maxY, projected.y);
+            }
+
+            if (!hasProjectedVertex
+                || maxX < 0.0f
+                || maxY < 0.0f
+                || minX > static_cast<float>(viewWidth)
+                || minY > static_cast<float>(viewHeight))
+            {
+                continue;
+            }
+
+            const float screenX = std::clamp((minX + maxX) * 0.5f, 0.0f, static_cast<float>(viewWidth));
+            const float screenY = std::clamp((minY + maxY) * 0.5f, 0.0f, static_cast<float>(viewHeight));
+            bx::Vec3 rayOrigin = {0.0f, 0.0f, 0.0f};
+            bx::Vec3 rayDirection = {0.0f, 0.0f, 0.0f};
+
+            if (!OutdoorInteractionController::buildInspectRayForScreenPoint(
+                    screenX,
+                    screenY,
+                    viewWidth,
+                    viewHeight,
+                    pViewMatrix,
+                    pProjectionMatrix,
+                    rayOrigin,
+                    rayDirection))
+            {
+                continue;
+            }
+
+            const std::optional<float> faceDistance = intersectOutdoorFaceRay(bModel, face, rayOrigin, rayDirection);
+
+            if (!faceDistance.has_value())
+            {
+                continue;
+            }
+
+            const float blockingDistance = nearestLevelGeometryDistance(rayOrigin, rayDirection, *faceDistance);
+
+            if (blockingDistance + 1.0f < *faceDistance)
+            {
+                continue;
+            }
+
+            OutdoorGameView::InspectHit hit = {};
+            hit.hasHit = true;
+            hit.kind = "face";
+            hit.bModelIndex = bModelIndex;
+            hit.faceIndex = faceIndex;
+            hit.textureName = face.textureName;
+            hit.distance = *faceDistance;
+            hit.attributes = face.attributes;
+            hit.bitmapIndex = face.bitmapIndex;
+            hit.cogNumber = face.cogNumber;
+            hit.cogTriggeredNumber = face.cogTriggeredNumber;
+            hit.cogTrigger = face.cogTrigger;
+            hit.polygonType = face.polygonType;
+            hit.shade = face.shade;
+            hit.visibility = face.visibility;
+            hit.hitX = rayOrigin.x + rayDirection.x * *faceDistance;
+            hit.hitY = rayOrigin.y + rayDirection.y * *faceDistance;
+            hit.hitZ = rayOrigin.z + rayDirection.z * *faceDistance;
+
+            if (!canActivateInteractionInspectEvent(view, hit, InteractionInputMethod::Keyboard))
+            {
+                continue;
+            }
+
+            tryUpdateBestHit(hit);
+        }
+    }
+
+    return bestHit;
+}
 
 bool OutdoorInteractionController::tryActivateInspectEvent(OutdoorGameView &view, const OutdoorGameView::InspectHit &inspectHit)
 {
@@ -3345,6 +3837,13 @@ bool OutdoorInteractionController::tryActivateInspectEvent(OutdoorGameView &view
     }
     else if (inspectHit.kind == "face")
     {
+        if (!outdoorFaceIsInteractionActivatable(inspectHit.attributes, inspectHit.cogTriggeredNumber))
+        {
+            pEventRuntimeState->lastActivationResult = "face target is hover-only or non-clickable";
+            std::cout << "Outdoor inspect activation ignored: face is not interaction-activatable\n";
+            return false;
+        }
+
         eventId = inspectHit.cogTriggeredNumber;
     }
     else
@@ -3487,7 +3986,7 @@ bool OutdoorInteractionController::canActivateInspectEvent(const OutdoorGameView
 
     if (inspectHit.kind == "face")
     {
-        return inspectHit.cogTriggeredNumber != 0;
+        return outdoorFaceIsInteractionActivatable(inspectHit.attributes, inspectHit.cogTriggeredNumber);
     }
 
     return false;
@@ -3495,27 +3994,26 @@ bool OutdoorInteractionController::canActivateInspectEvent(const OutdoorGameView
 
 
 
-bool OutdoorInteractionController::isMouseInteractionInspectHitInRange(const OutdoorGameView &view, const OutdoorGameView::InspectHit &inspectHit)
+bool OutdoorInteractionController::isInteractionInspectHitInRange(
+    const OutdoorGameView &view,
+    const OutdoorGameView::InspectHit &inspectHit,
+    InteractionInputMethod inputMethod)
 {
     if (!inspectHit.hasHit)
     {
         return false;
     }
 
-    if (inspectHit.kind == "decoration")
-    {
-        if (!view.m_outdoorDecorationBillboardSet
-            || inspectHit.bModelIndex >= view.m_outdoorDecorationBillboardSet->billboards.size())
-        {
-            return false;
-        }
+    return inspectHit.distance < interactionDepthForInputMethod(view, inputMethod);
+}
 
-        const DecorationBillboard &decoration = view.m_outdoorDecorationBillboardSet->billboards[inspectHit.bModelIndex];
-        return inspectHit.distance - static_cast<float>(std::max<int16_t>(0, decoration.radius))
-            < OeMouseInteractionDistance;
-    }
-
-    return inspectHit.distance < OeMouseInteractionDistance;
+bool OutdoorInteractionController::canActivateInteractionInspectEvent(
+    const OutdoorGameView &view,
+    const OutdoorGameView::InspectHit &inspectHit,
+    InteractionInputMethod inputMethod)
+{
+    return canActivateInspectEvent(view, inspectHit)
+        && isInteractionInspectHitInRange(view, inspectHit, inputMethod);
 }
 
 

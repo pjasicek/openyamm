@@ -51,7 +51,7 @@ constexpr uint16_t LevelDecorationInvisible = 0x0020;
 
 bool faceHasInvisibleAttribute(uint32_t attributes)
 {
-    return (attributes & static_cast<uint32_t>(EvtFaceAttribute::Invisible)) != 0;
+    return hasFaceAttribute(attributes, FaceAttribute::Invisible);
 }
 
 std::optional<std::string> resolveMonsterNameForSpawn(const MapStatsEntry &map, uint16_t typeId, uint16_t index);

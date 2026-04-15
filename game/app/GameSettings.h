@@ -40,6 +40,8 @@ struct GameSettings
     float movementSpeedMultiplier = 1.0f;
     bool immortal = true;
     bool unlimitedMana = true;
+    int keyboardInteractionDepth = 512;
+    int mouseInteractionDepth = 512;
 
     static GameSettings createDefault();
 };

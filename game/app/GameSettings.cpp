@@ -326,6 +326,26 @@ std::optional<GameSettings> loadGameSettings(const std::filesystem::path &path, 
         }
     }
 
+    if (const std::optional<std::string> value = getIniValue(document, "gameplay", "keyboard_interaction_depth"))
+    {
+        int parsed = settings.keyboardInteractionDepth;
+
+        if (parseIntValue(*value, parsed))
+        {
+            settings.keyboardInteractionDepth = std::clamp(parsed, 32, 4096);
+        }
+    }
+
+    if (const std::optional<std::string> value = getIniValue(document, "gameplay", "mouse_interaction_depth"))
+    {
+        int parsed = settings.mouseInteractionDepth;
+
+        if (parseIntValue(*value, parsed))
+        {
+            settings.mouseInteractionDepth = std::clamp(parsed, 32, 4096);
+        }
+    }
+
     if (const std::optional<std::string> value = getIniValue(document, "video", "blood_splats"))
     {
         bool parsed = settings.bloodSplats;
@@ -503,6 +523,9 @@ bool saveGameSettings(const std::filesystem::path &path, const GameSettings &set
         << "show_hits=" << (settings.showHits ? "true" : "false") << '\n'
         << "always_run=" << (settings.alwaysRun ? "true" : "false") << '\n'
         << "flip_on_exit=" << (settings.flipOnExit ? "true" : "false") << "\n\n"
+        << "[gameplay]\n"
+        << "keyboard_interaction_depth=" << std::clamp(settings.keyboardInteractionDepth, 32, 4096) << '\n'
+        << "mouse_interaction_depth=" << std::clamp(settings.mouseInteractionDepth, 32, 4096) << "\n\n"
         << "[startup]\n"
         << "start_in_main_menu=" << (settings.startInMainMenu ? "true" : "false") << "\n\n"
         << "[keyboard]\n"

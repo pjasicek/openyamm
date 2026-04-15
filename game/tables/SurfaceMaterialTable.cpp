@@ -1,5 +1,6 @@
 #include "game/tables/SurfaceMaterialTable.h"
 
+#include "game/FaceEnums.h"
 #include "game/StringUtils.h"
 
 #include <yaml-cpp/yaml.h>
@@ -12,13 +13,6 @@ namespace OpenYAMM::Game
 {
 namespace
 {
-constexpr uint32_t FaceAttributeFlowDown = 0x00000004u;
-constexpr uint32_t FaceAttributeFluid = 0x00000010u;
-constexpr uint32_t FaceAttributeFlowUp = 0x00000020u;
-constexpr uint32_t FaceAttributeFlowLeft = 0x00000040u;
-constexpr uint32_t FaceAttributeFlowRight = 0x00000800u;
-constexpr uint32_t FaceAttributeLava = 0x40000000u;
-
 std::optional<SurfaceMaterialSemantic> parseSemantic(const std::string &value)
 {
     const std::string normalizedValue = toLowerCopy(value);
@@ -47,32 +41,32 @@ std::optional<uint32_t> parseFaceAttributeName(const std::string &value)
 
     if (normalizedValue == "fluid")
     {
-        return FaceAttributeFluid;
+        return faceAttributeBit(FaceAttribute::Fluid);
     }
 
     if (normalizedValue == "lava")
     {
-        return FaceAttributeLava;
+        return faceAttributeBit(FaceAttribute::Lava);
     }
 
     if (normalizedValue == "flow_down")
     {
-        return FaceAttributeFlowDown;
+        return faceAttributeBit(FaceAttribute::FlowDown);
     }
 
     if (normalizedValue == "flow_up")
     {
-        return FaceAttributeFlowUp;
+        return faceAttributeBit(FaceAttribute::FlowUp);
     }
 
     if (normalizedValue == "flow_left")
     {
-        return FaceAttributeFlowLeft;
+        return faceAttributeBit(FaceAttribute::FlowLeft);
     }
 
     if (normalizedValue == "flow_right")
     {
-        return FaceAttributeFlowRight;
+        return faceAttributeBit(FaceAttribute::FlowRight);
     }
 
     return std::nullopt;

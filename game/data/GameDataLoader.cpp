@@ -2,6 +2,7 @@
 
 #include "game/arcomage/ArcomageLoader.h"
 #include "engine/TextTable.h"
+#include "game/FaceEnums.h"
 #include "game/events/EventRuntime.h"
 #include "game/StringUtils.h"
 
@@ -136,6 +137,117 @@ std::vector<uint32_t> getOpenedChestIds(
     }
 
     return {};
+}
+
+const ScriptedEventProgram *findOwningEventProgram(
+    uint16_t eventId,
+    const std::optional<ScriptedEventProgram> &localEventProgram,
+    const std::optional<ScriptedEventProgram> &globalEventProgram)
+{
+    if (eventId == 0)
+    {
+        return nullptr;
+    }
+
+    if (localEventProgram && localEventProgram->hasEvent(eventId))
+    {
+        return &*localEventProgram;
+    }
+
+    if (localEventProgram && localEventProgram->isHintOnlyEvent(eventId))
+    {
+        return &*localEventProgram;
+    }
+
+    if (globalEventProgram && globalEventProgram->hasEvent(eventId))
+    {
+        return &*globalEventProgram;
+    }
+
+    if (globalEventProgram && globalEventProgram->isHintOnlyEvent(eventId))
+    {
+        return &*globalEventProgram;
+    }
+
+    return nullptr;
+}
+
+uint32_t normalizedHintOnlyAttributes(uint32_t attributes, bool hintOnly)
+{
+    if (hintOnly)
+    {
+        return attributes | faceAttributeBit(FaceAttribute::HasHint);
+    }
+
+    return attributes & ~faceAttributeBit(FaceAttribute::HasHint);
+}
+
+void normalizeOutdoorFaceHintOnlyAttributes(
+    OutdoorMapData &outdoorMapData,
+    const std::optional<ScriptedEventProgram> &localEventProgram,
+    const std::optional<ScriptedEventProgram> &globalEventProgram)
+{
+    for (OutdoorBModel &bmodel : outdoorMapData.bmodels)
+    {
+        for (OutdoorBModelFace &face : bmodel.faces)
+        {
+            if (face.cogTriggeredNumber == 0)
+            {
+                continue;
+            }
+
+            const ScriptedEventProgram *pProgram =
+                findOwningEventProgram(face.cogTriggeredNumber, localEventProgram, globalEventProgram);
+
+            if (pProgram == nullptr)
+            {
+                continue;
+            }
+
+            face.attributes =
+                normalizedHintOnlyAttributes(face.attributes, pProgram->isHintOnlyEvent(face.cogTriggeredNumber));
+        }
+    }
+}
+
+void normalizeIndoorFaceHintOnlyAttributes(
+    IndoorMapData &indoorMapData,
+    const std::optional<ScriptedEventProgram> &localEventProgram,
+    const std::optional<ScriptedEventProgram> &globalEventProgram)
+{
+    for (IndoorFace &face : indoorMapData.faces)
+    {
+        if (face.cogTriggered == 0)
+        {
+            continue;
+        }
+
+        const ScriptedEventProgram *pProgram =
+            findOwningEventProgram(face.cogTriggered, localEventProgram, globalEventProgram);
+
+        if (pProgram == nullptr)
+        {
+            continue;
+        }
+
+        face.attributes = normalizedHintOnlyAttributes(face.attributes, pProgram->isHintOnlyEvent(face.cogTriggered));
+    }
+}
+
+void normalizeMapFaceHintOnlyAttributes(
+    MapAssetInfo &mapAssetInfo,
+    const std::optional<ScriptedEventProgram> &localEventProgram,
+    const std::optional<ScriptedEventProgram> &globalEventProgram)
+{
+    if (mapAssetInfo.outdoorMapData)
+    {
+        normalizeOutdoorFaceHintOnlyAttributes(*mapAssetInfo.outdoorMapData, localEventProgram, globalEventProgram);
+    }
+
+    if (mapAssetInfo.indoorMapData)
+    {
+        normalizeIndoorFaceHintOnlyAttributes(*mapAssetInfo.indoorMapData, localEventProgram, globalEventProgram);
+    }
 }
 
 std::string summarizeChestTargets(
@@ -1979,6 +2091,11 @@ bool GameDataLoader::loadSelectedMap(
             m_selectedMap->globalEventProgram = std::move(program);
         }
     }
+
+    normalizeMapFaceHintOnlyAttributes(
+        *m_selectedMap,
+        m_selectedMap->localEventProgram,
+        m_selectedMap->globalEventProgram);
 
     appendIndoorScriptTextures(
         assetFileSystem,

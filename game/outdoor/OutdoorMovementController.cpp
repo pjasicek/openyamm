@@ -1,4 +1,5 @@
 #include "game/outdoor/OutdoorMovementController.h"
+#include "game/FaceEnums.h"
 
 #include <algorithm>
 #include <cmath>
@@ -26,8 +27,6 @@ constexpr float CloseToGroundHeight = 32.0f;
 constexpr float GravityPerSecond = 1280.0f;
 constexpr uint8_t PolygonFloor = 0x3;
 constexpr uint8_t PolygonInBetweenFloorAndWall = 0x4;
-constexpr uint32_t FaceAttributeFluid = 0x00000010u;
-
 struct FloorSample
 {
     bool hasFloor = false;
@@ -1277,7 +1276,7 @@ std::optional<FloorSample> queryPreferredSupportFloor(
         height,
         std::fabs(pGeometry->normal.z),
         true,
-        (pGeometry->attributes & FaceAttributeFluid) != 0,
+        hasFaceAttribute(pGeometry->attributes, FaceAttribute::Fluid),
         false,
         pGeometry->bModelIndex,
         pGeometry->faceIndex
@@ -1333,7 +1332,7 @@ FloorSample queryFloorLevel(
             height,
             std::fabs(geometry.normal.z),
             true,
-            (geometry.attributes & FaceAttributeFluid) != 0,
+            hasFaceAttribute(geometry.attributes, FaceAttribute::Fluid),
             false,
             geometry.bModelIndex,
             geometry.faceIndex

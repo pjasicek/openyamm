@@ -1,5 +1,7 @@
 #pragma once
 
+#include "game/FaceEnums.h"
+
 #include <cstdint>
 
 namespace OpenYAMM::Game
@@ -175,14 +177,7 @@ enum class EvtVariable : uint16_t
     Players = 0x013E,
 };
 
-enum class EvtFaceAttribute : uint32_t
-{
-    Invisible = 0x00002000,
-    HasHint = 0x00100000,
-    Clickable = 0x02000000,
-    PressurePlate = 0x04000000,
-    Untouchable = 0x20000000,
-};
+using EvtFaceAttribute = FaceAttribute;
 
 enum class EvtActorAttribute : uint32_t
 {

@@ -1,11 +1,10 @@
 #include "game/scene/OutdoorSceneRuntime.h"
+#include "game/FaceEnums.h"
 
 namespace OpenYAMM::Game
 {
 namespace
 {
-constexpr uint32_t FaceAttributePressurePlate = 0x04000000u;
-
 std::vector<OutdoorActorCollision> buildRuntimeActorColliders(const OutdoorWorldRuntime &worldRuntime)
 {
     std::vector<OutdoorActorCollision> colliders;
@@ -209,7 +208,7 @@ OutdoorSceneRuntime::AdvanceFrameResult OutdoorSceneRuntime::advanceFrame(
             const OutdoorBModelFace &face =
                 pMapData->bmodels[moveState.supportBModelIndex].faces[moveState.supportFaceIndex];
 
-            if ((face.attributes & FaceAttributePressurePlate) != 0 && face.cogTriggeredNumber != 0)
+            if (hasFaceAttribute(face.attributes, FaceAttribute::PressurePlate) && face.cogTriggeredNumber != 0)
             {
                 const bool executed = m_eventRuntime.executeEventById(
                     m_localEventProgram,
