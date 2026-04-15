@@ -325,6 +325,35 @@ std::optional<std::vector<uint8_t>> readFirstExistingBinary(
         }
     }
 
+    for (const std::string &candidate : candidates)
+    {
+        const std::filesystem::path candidatePath(candidate);
+        const std::string parentPath = candidatePath.parent_path().generic_string();
+        const std::string fileName = toLowerCopy(candidatePath.filename().string());
+
+        if (parentPath.empty() || fileName.empty())
+        {
+            continue;
+        }
+
+        for (const std::string &entryName : assetFileSystem.enumerate(parentPath))
+        {
+            if (toLowerCopy(entryName) != fileName)
+            {
+                continue;
+            }
+
+            const std::string matchedPath = parentPath + "/" + entryName;
+            const std::optional<std::vector<uint8_t>> bytes = assetFileSystem.readBinaryFile(matchedPath);
+
+            if (bytes)
+            {
+                resolvedPath = matchedPath;
+                return bytes;
+            }
+        }
+    }
+
     return std::nullopt;
 }
 

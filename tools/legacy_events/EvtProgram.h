@@ -109,6 +109,7 @@ public:
     const std::vector<EvtEvent> &getEvents() const;
     size_t getInstructionCount() const;
     bool hasEvent(uint16_t eventId) const;
+    bool isHintOnlyEvent(uint16_t eventId) const;
     std::optional<std::string> getHint(uint16_t eventId, const StrTable &strTable, const HouseTable &houseTable) const;
     std::optional<std::string> summarizeEvent(uint16_t eventId, const StrTable &strTable, const HouseTable &houseTable) const;
     std::vector<uint32_t> getOpenedChestIds(uint16_t eventId) const;

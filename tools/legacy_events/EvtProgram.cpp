@@ -188,6 +188,19 @@ bool EvtProgram::hasEvent(uint16_t eventId) const
     return findEvent(eventId) != nullptr;
 }
 
+bool EvtProgram::isHintOnlyEvent(uint16_t eventId) const
+{
+    const EvtEvent *pEvent = findEvent(eventId);
+
+    if (pEvent == nullptr || pEvent->instructions.size() < 2)
+    {
+        return false;
+    }
+
+    return pEvent->instructions[0].opcode == EvtOpcode::MouseOver
+        && pEvent->instructions[1].opcode == EvtOpcode::Exit;
+}
+
 std::optional<std::string> EvtProgram::getHint(uint16_t eventId, const StrTable &strTable, const HouseTable &houseTable) const
 {
     const EvtEvent *pEvent = findEvent(eventId);

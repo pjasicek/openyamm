@@ -6916,6 +6916,30 @@ void emitEventRegistrationHeader(
     stream << ", function()\n";
 }
 
+bool isHintOnlyLegacyEvent(const EvtEvent &event)
+{
+    return event.instructions.size() >= 2
+        && event.instructions[0].opcode == EvtOpcode::MouseOver
+        && event.instructions[1].opcode == EvtOpcode::Exit;
+}
+
+void emitHintOnlyEventRegistration(
+    std::ostringstream &stream,
+    std::string_view registerFunction,
+    uint16_t eventId,
+    const std::string &title,
+    const std::optional<std::string> &hint)
+{
+    stream << registerFunction << "(" << eventId << ", " << luaQuoted(title) << ", nil";
+
+    if (hint && !hint->empty())
+    {
+        stream << ", " << luaQuoted(*hint);
+    }
+
+    stream << ")\n";
+}
+
 void emitNormalEventFunction(
     std::ostringstream &stream,
     std::string_view tableName,
@@ -6928,6 +6952,12 @@ void emitNormalEventFunction(
     const std::string title = buildGeneratedEventTitle(sourceEvent, strTable, lookups);
     const std::string_view registerFunction = tableName == LuaScopeGlobal ? "RegisterGlobalEvent" : "RegisterEvent";
     const std::string_view noOpFunction = tableName == LuaScopeGlobal ? "RegisterGlobalNoOpEvent" : "RegisterNoOpEvent";
+
+    if (isHintOnlyLegacyEvent(sourceEvent))
+    {
+        emitHintOnlyEventRegistration(stream, registerFunction, event.eventId, title, hint);
+        return;
+    }
 
     if (isNoOpEvent(event))
     {
