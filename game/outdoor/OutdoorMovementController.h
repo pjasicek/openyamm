@@ -113,6 +113,7 @@ public:
         float verticalVelocity,
         bool flyingActive,
         float deltaSeconds,
+        std::vector<size_t> *pContactedActorIndices = nullptr,
         const std::optional<OutdoorIgnoredActorCollider> &ignoredActorCollider = std::nullopt
     ) const;
     std::optional<MapBoundaryEdge> detectBoundaryBlock(

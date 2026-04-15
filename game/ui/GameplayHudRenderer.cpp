@@ -26,6 +26,7 @@ constexpr float MaxUiViewportAspect = 4.0f / 3.0f;
 constexpr float OutdoorMinimapZoom = 512.0f;
 constexpr float OeMeleeAlertDistance = 307.2f;
 constexpr float OeYellowAlertDistance = 5120.0f;
+constexpr uint16_t LevelDecorationVisibleOnMap = 0x0008;
 struct UiViewportRect
 {
     float x = 0.0f;
@@ -797,7 +798,12 @@ void GameplayHudRenderer::renderGameplayHudArt(OutdoorGameView &view, int width,
 
     if (hudScreenState == OutdoorGameView::HudScreenState::Gameplay && minimapOverlay.valid && view.m_pOutdoorPartyRuntime != nullptr)
     {
-        const bool wizardEyeActive = party.hasPartyBuff(PartyBuffId::WizardEye);
+        const PartyBuffState *pWizardEyeBuff = party.partyBuff(PartyBuffId::WizardEye);
+        const bool wizardEyeActive = pWizardEyeBuff != nullptr;
+        const SkillMastery wizardEyeMastery =
+            pWizardEyeBuff != nullptr ? pWizardEyeBuff->skillMastery : SkillMastery::None;
+        const bool wizardEyeShowsExpertObjects = wizardEyeMastery >= SkillMastery::Expert;
+        const bool wizardEyeShowsMasterDecorations = wizardEyeMastery >= SkillMastery::Master;
         const OutdoorMoveState &moveState = view.m_pOutdoorPartyRuntime->movementState();
         const float partyU = std::clamp((moveState.x + 32768.0f) / 65536.0f, 0.0f, 1.0f);
         const float partyV = std::clamp((32768.0f - moveState.y) / 65536.0f, 0.0f, 1.0f);
@@ -806,9 +812,11 @@ void GameplayHudRenderer::renderGameplayHudArt(OutdoorGameView &view, int width,
         const float markerSize = std::max(1.5f, 2.0f * minimapOverlay.scale);
         const float worldItemMarkerSize = std::max(1.5f, 2.0f * minimapOverlay.scale);
         const float projectileMarkerSize = std::max(1.0f, 1.0f * minimapOverlay.scale);
+        const float decorationMarkerSize = std::max(1.5f, 2.0f * minimapOverlay.scale);
         const float markerHalfSize = markerSize * 0.5f;
         const float worldItemMarkerHalfSize = worldItemMarkerSize * 0.5f;
         const float projectileMarkerHalfSize = projectileMarkerSize * 0.5f;
+        const float decorationMarkerHalfSize = decorationMarkerSize * 0.5f;
         const float markerMargin = std::max(2.0f, 2.0f * minimapOverlay.scale);
         const float markerMinX = minimapOverlay.x + markerMargin + markerHalfSize;
         const float markerMaxX = minimapOverlay.x + minimapOverlay.width - markerMargin - markerHalfSize;
@@ -821,15 +829,23 @@ void GameplayHudRenderer::renderGameplayHudArt(OutdoorGameView &view, int width,
         const uint16_t minimapScissorHeight =
             static_cast<uint16_t>(std::max(1.0f, std::ceil(minimapOverlay.height - markerMargin * 2.0f)));
         const OutdoorGameView::HudTextureHandle *pFriendlyMarkerTexture =
-            HudUiService::ensureSolidHudTextureLoaded(view, "__minimap_marker_friendly__", 0xff00ff00u);
+            wizardEyeActive ? HudUiService::ensureSolidHudTextureLoaded(view, "__minimap_marker_friendly__", 0xff00ff00u) : nullptr;
         const OutdoorGameView::HudTextureHandle *pHostileMarkerTexture =
-            HudUiService::ensureSolidHudTextureLoaded(view, "__minimap_marker_hostile__", 0xff0000ffu);
+            wizardEyeActive ? HudUiService::ensureSolidHudTextureLoaded(view, "__minimap_marker_hostile__", 0xff0000ffu) : nullptr;
         const OutdoorGameView::HudTextureHandle *pCorpseMarkerTexture =
-            HudUiService::ensureSolidHudTextureLoaded(view, "__minimap_marker_corpse__", 0xff00ffffu);
+            wizardEyeActive ? HudUiService::ensureSolidHudTextureLoaded(view, "__minimap_marker_corpse__", 0xff00ffffu) : nullptr;
         const OutdoorGameView::HudTextureHandle *pWorldItemMarkerTexture =
-            wizardEyeActive ? HudUiService::ensureSolidHudTextureLoaded(view, "__minimap_marker_world_item__", 0xffff0000u) : nullptr;
+            wizardEyeShowsExpertObjects
+                ? HudUiService::ensureSolidHudTextureLoaded(view, "__minimap_marker_world_item__", 0xffff0000u)
+                : nullptr;
         const OutdoorGameView::HudTextureHandle *pProjectileMarkerTexture =
-            wizardEyeActive ? HudUiService::ensureSolidHudTextureLoaded(view, "__minimap_marker_projectile__", 0xff0000ffu) : nullptr;
+            wizardEyeShowsExpertObjects
+                ? HudUiService::ensureSolidHudTextureLoaded(view, "__minimap_marker_projectile__", 0xff0000ffu)
+                : nullptr;
+        const OutdoorGameView::HudTextureHandle *pDecorationMarkerTexture =
+            wizardEyeShowsMasterDecorations
+                ? HudUiService::ensureSolidHudTextureLoaded(view, "__minimap_marker_decoration__", 0xffffffffu)
+                : nullptr;
 
         const auto submitMinimapMarker =
             [&](float markerU,
@@ -868,7 +884,7 @@ void GameplayHudRenderer::renderGameplayHudArt(OutdoorGameView &view, int width,
                     minimapScissorHeight);
             };
 
-        if (view.m_pOutdoorWorldRuntime != nullptr)
+        if (view.m_pOutdoorWorldRuntime != nullptr && wizardEyeActive)
         {
             for (size_t actorIndex = 0; actorIndex < view.m_pOutdoorWorldRuntime->mapActorCount(); ++actorIndex)
             {
@@ -904,7 +920,7 @@ void GameplayHudRenderer::renderGameplayHudArt(OutdoorGameView &view, int width,
                 submitMinimapMarker(actorU, actorV, markerHalfSize, markerSize, pMarkerTexture);
             }
 
-            if (wizardEyeActive)
+            if (wizardEyeShowsExpertObjects)
             {
                 for (size_t worldItemIndex = 0; worldItemIndex < view.m_pOutdoorWorldRuntime->worldItemCount(); ++worldItemIndex)
                 {
@@ -944,6 +960,46 @@ void GameplayHudRenderer::renderGameplayHudArt(OutdoorGameView &view, int width,
                         projectileMarkerHalfSize,
                         projectileMarkerSize,
                         pProjectileMarkerTexture);
+                }
+            }
+
+            if (wizardEyeShowsMasterDecorations
+                && view.m_outdoorMapDeltaData.has_value()
+                && view.m_outdoorDecorationBillboardSet.has_value())
+            {
+                const EventRuntimeState *pEventRuntimeState = view.m_pOutdoorWorldRuntime->eventRuntimeState();
+
+                for (const DecorationBillboard &billboard : view.m_outdoorDecorationBillboardSet->billboards)
+                {
+                    if (billboard.entityIndex >= view.m_outdoorMapDeltaData->decorationFlags.size())
+                    {
+                        continue;
+                    }
+
+                    if ((view.m_outdoorMapDeltaData->decorationFlags[billboard.entityIndex] & LevelDecorationVisibleOnMap) == 0)
+                    {
+                        continue;
+                    }
+
+                    if (pEventRuntimeState != nullptr)
+                    {
+                        const auto overrideIterator =
+                            pEventRuntimeState->spriteOverrides.find(static_cast<uint32_t>(billboard.entityIndex));
+
+                        if (overrideIterator != pEventRuntimeState->spriteOverrides.end() && overrideIterator->second.hidden)
+                        {
+                            continue;
+                        }
+                    }
+
+                    const float decorationU = std::clamp((static_cast<float>(billboard.x) + 32768.0f) / 65536.0f, 0.0f, 1.0f);
+                    const float decorationV = std::clamp((32768.0f - static_cast<float>(billboard.y)) / 65536.0f, 0.0f, 1.0f);
+                    submitMinimapMarker(
+                        decorationU,
+                        decorationV,
+                        decorationMarkerHalfSize,
+                        decorationMarkerSize,
+                        pDecorationMarkerTexture);
                 }
             }
         }

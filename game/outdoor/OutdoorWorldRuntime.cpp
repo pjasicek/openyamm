@@ -69,6 +69,13 @@ constexpr float MaxAccumulatedActorUpdateSeconds = 0.1f;
 constexpr float Pi = 3.14159265358979323846f;
 constexpr float PartyTargetHeightOffset = 96.0f;
 constexpr float OeTurnAwayFromWaterAngleRadians = Pi / 32.0f;
+constexpr float ActorCrowdReangleEngageRange = 1024.0f;
+constexpr float ActorCrowdSideLockSeconds = 0.22f;
+constexpr float ActorCrowdRetreatAngleRadians = Pi * 0.53f;
+constexpr float ActorCrowdNoProgressThreshold = 8.0f;
+constexpr float ActorCrowdNoProgressStandSeconds = 1.2f;
+constexpr float ActorCrowdProbeWindowSeconds = 0.35f;
+constexpr float ActorCrowdProbeEdgeDistanceThreshold = 12.0f;
 constexpr int DwiMapId = 1;
 constexpr uint32_t DwiTestActor61 = 61;
 constexpr float DwiTestActor61X = -7665.0f;
@@ -92,6 +99,8 @@ constexpr float WorldItemBounceFactor = 0.5f;
 constexpr float WorldItemGroundDamping = 0.89263916f;
 constexpr float WorldItemRestingHorizontalSpeedSquared = 400.0f;
 constexpr float WorldItemBounceStopVelocity = 10.0f;
+constexpr float WorldItemGroundClearance = 1.0f;
+constexpr float WorldItemSupportFloorProbeHeight = 96.0f;
 constexpr int32_t MapWeatherFoggy = 1;
 constexpr int32_t MapWeatherSnowing = 2;
 constexpr float DefaultOutdoorVisibilityDistance = 200000.0f;
@@ -128,6 +137,13 @@ bx::Vec3 approximateOutdoorTerrainNormal(const OutdoorMapData &outdoorMapData, f
 
     const float inverseLength = 1.0f / std::sqrt(lengthSquared);
     return {normal.x * inverseLength, normal.y * inverseLength, normal.z * inverseLength};
+}
+
+float worldItemFloorHeight(const OutdoorMapData &outdoorMapData, float x, float y, float z)
+{
+    const float supportHeight = sampleOutdoorPlacementFloorHeight(outdoorMapData, x, y, z);
+    const float renderedTerrainHeight = sampleOutdoorRenderedTerrainHeight(outdoorMapData, x, y);
+    return std::max(supportHeight, renderedTerrainHeight) + WorldItemGroundClearance;
 }
 
 uint32_t fireSpikeLimitForMastery(uint32_t skillMastery)
@@ -889,6 +905,7 @@ const char *monsterAttackAbilityName(OutdoorWorldRuntime::MonsterAttackAbility a
             return "spell1";
         case OutdoorWorldRuntime::MonsterAttackAbility::Spell2:
             return "spell2";
+
         default:
             return "unknown";
     }
@@ -2029,13 +2046,15 @@ float resolveActorGroundZ(
         return currentZ;
     }
 
-    const float floorZ = sampleOutdoorSupportFloor(
+    const float supportFloorZ = sampleOutdoorSupportFloor(
         *pOutdoorMapData,
         x,
         y,
         currentZ,
         5.0f,
         std::max(5.0f, static_cast<float>(radius))).height;
+    const float terrainFloorZ = sampleOutdoorRenderedTerrainHeight(*pOutdoorMapData, x, y);
+    const float floorZ = std::max(supportFloorZ, terrainFloorZ);
 
     if (pStats != nullptr && pStats->canFly)
     {
@@ -2090,13 +2109,15 @@ float resolveInitialActorGroundZ(
         return currentZ;
     }
 
-    const float floorZ = sampleOutdoorSupportFloor(
+    const float supportFloorZ = sampleOutdoorSupportFloor(
         *pOutdoorMapData,
         x,
         y,
         currentZ,
         std::numeric_limits<float>::max(),
         std::max(5.0f, static_cast<float>(radius))).height;
+    const float terrainFloorZ = sampleOutdoorRenderedTerrainHeight(*pOutdoorMapData, x, y);
+    const float floorZ = std::max(supportFloorZ, terrainFloorZ);
 
     if (pStats != nullptr && pStats->canFly)
     {
@@ -2215,7 +2236,7 @@ bool tryMoveActorInWorld(
 
     if (!canFly && outdoorTerrainSlopeTooHigh(outdoorMapData, candidateX, candidateY))
     {
-        const float terrainHeight = sampleOutdoorTerrainHeight(outdoorMapData, candidateX, candidateY);
+        const float terrainHeight = sampleOutdoorRenderedTerrainHeight(outdoorMapData, candidateX, candidateY);
 
         if (terrainHeight > actor.preciseZ + 8.0f)
         {
@@ -2250,6 +2271,48 @@ bool tryMoveActorInWorld(
     actor.preciseY = candidateY;
     actor.preciseZ = candidateZ;
     return true;
+}
+
+void applyOeOutdoorSteepSlopeResponse(
+    OutdoorWorldRuntime::MapActorState &actor,
+    const OutdoorMapData &outdoorMapData,
+    const MonsterTable::MonsterStatsEntry *pStats)
+{
+    if (pStats == nullptr || pStats->canFly)
+    {
+        return;
+    }
+
+    const float terrainFloorZ = sampleOutdoorRenderedTerrainHeight(
+        outdoorMapData,
+        actor.preciseX,
+        actor.preciseY);
+
+    if (actor.preciseZ > terrainFloorZ + GroundSnapHeight + 2.0f)
+    {
+        return;
+    }
+
+    if (!outdoorTerrainSlopeTooHigh(outdoorMapData, actor.preciseX, actor.preciseY))
+    {
+        return;
+    }
+
+    actor.preciseZ = terrainFloorZ;
+
+    const bx::Vec3 terrainNormal = approximateOutdoorTerrainNormal(
+        outdoorMapData,
+        actor.preciseX,
+        actor.preciseY);
+    const bx::Vec3 actorVelocity = {actor.velocityX, actor.velocityY, actor.velocityZ};
+    const float slopeResponse = std::abs(
+        actorVelocity.x * terrainNormal.x
+        + actorVelocity.y * terrainNormal.y
+        + actorVelocity.z * terrainNormal.z) * 2.0f;
+
+    actor.velocityX += slopeResponse * terrainNormal.x;
+    actor.velocityY += slopeResponse * terrainNormal.y;
+    actor.yawRadians -= OeTurnAwayFromWaterAngleRadians;
 }
 
 bool segmentMayTouchFaceBounds(
@@ -3194,6 +3257,93 @@ void beginStandAwhile(OutdoorWorldRuntime::MapActorState &actor, bool bored)
         ? OutdoorWorldRuntime::ActorAnimation::Bored
         : OutdoorWorldRuntime::ActorAnimation::Standing;
     actor.animationTimeTicks = 0.0f;
+}
+
+void resetCrowdSteeringState(OutdoorWorldRuntime::MapActorState &actor)
+{
+    actor.crowdSideLockRemainingSeconds = 0.0f;
+    actor.crowdNoProgressSeconds = 0.0f;
+    actor.crowdLastEdgeDistance = 0.0f;
+    actor.crowdRetreatRemainingSeconds = 0.0f;
+    actor.crowdStandRemainingSeconds = 0.0f;
+    actor.crowdProbeX = actor.preciseX;
+    actor.crowdProbeY = actor.preciseY;
+    actor.crowdProbeEdgeDistance = 0.0f;
+    actor.crowdProbeElapsedSeconds = 0.0f;
+    actor.crowdEscapeAttempts = 0;
+    actor.crowdSideSign = 0;
+}
+
+void beginCrowdSideStep(
+    OutdoorWorldRuntime::MapActorState &actor,
+    float deltaTargetX,
+    float deltaTargetY,
+    int sideSign)
+{
+    if (sideSign == 0)
+    {
+        sideSign = 1;
+    }
+
+    const float yaw = normalizeAngleRadians(
+        std::atan2(deltaTargetY, deltaTargetX) + (sideSign > 0 ? (Pi / 4.0f) : (-Pi / 4.0f)));
+    actor.crowdSideSign = sideSign > 0 ? 1 : -1;
+    actor.crowdSideLockRemainingSeconds = ActorCrowdSideLockSeconds;
+    actor.yawRadians = yaw;
+    actor.moveDirectionX = std::cos(yaw);
+    actor.moveDirectionY = std::sin(yaw);
+    actor.attackImpactTriggered = false;
+    actor.actionSeconds = std::max(actor.actionSeconds, ActorCrowdSideLockSeconds);
+}
+
+void beginCrowdRetreatStep(
+    OutdoorWorldRuntime::MapActorState &actor,
+    float deltaTargetX,
+    float deltaTargetY,
+    int sideSign,
+    float retreatSeconds)
+{
+    if (sideSign == 0)
+    {
+        sideSign = 1;
+    }
+
+    const float yaw = normalizeAngleRadians(
+        std::atan2(deltaTargetY, deltaTargetX)
+        + (sideSign > 0 ? ActorCrowdRetreatAngleRadians : (-ActorCrowdRetreatAngleRadians)));
+    actor.crowdSideSign = sideSign > 0 ? 1 : -1;
+    actor.crowdRetreatRemainingSeconds = retreatSeconds;
+    actor.crowdSideLockRemainingSeconds = retreatSeconds;
+    actor.yawRadians = yaw;
+    actor.moveDirectionX = std::cos(yaw);
+    actor.moveDirectionY = std::sin(yaw);
+    actor.attackImpactTriggered = false;
+    actor.actionSeconds = std::max(actor.actionSeconds, retreatSeconds);
+}
+
+void beginCrowdStandOrBored(
+    OutdoorWorldRuntime::MapActorState &actor,
+    uint32_t decisionSeed,
+    float durationSeconds)
+{
+    const bool bored = (decisionSeed % 100u) < 35u;
+    beginStandAwhile(actor, bored);
+    actor.aiState = OutdoorWorldRuntime::ActorAiState::Standing;
+    actor.crowdStandRemainingSeconds = durationSeconds;
+    actor.actionSeconds = std::max(actor.actionSeconds, durationSeconds);
+    actor.idleDecisionSeconds = std::max(actor.idleDecisionSeconds, durationSeconds);
+    actor.crowdSideLockRemainingSeconds = 0.0f;
+    actor.crowdNoProgressSeconds = 0.0f;
+    actor.crowdRetreatRemainingSeconds = 0.0f;
+    actor.crowdProbeX = actor.preciseX;
+    actor.crowdProbeY = actor.preciseY;
+    actor.crowdProbeEdgeDistance = 0.0f;
+    actor.crowdProbeElapsedSeconds = 0.0f;
+    actor.crowdLastEdgeDistance = 0.0f;
+    actor.crowdEscapeAttempts = 0;
+    actor.crowdSideSign = 0;
+    actor.moveDirectionX = 0.0f;
+    actor.moveDirectionY = 0.0f;
 }
 
 void updateInactiveActorPresentation(
@@ -4731,7 +4881,7 @@ bool OutdoorWorldRuntime::materializeTreasureSpawnFromSpawnPoint(size_t spawnPoi
 
     if (m_pOutdoorMapData != nullptr)
     {
-        worldZ = sampleOutdoorPlacementFloorHeight(
+        worldZ = worldItemFloorHeight(
             *m_pOutdoorMapData,
             static_cast<float>(spawn.x),
             static_cast<float>(spawn.y),
@@ -5039,6 +5189,11 @@ void OutdoorWorldRuntime::updateWorldItems(float deltaSeconds)
             continue;
         }
 
+        if (worldItem.velocityX == 0.0f && worldItem.velocityY == 0.0f && worldItem.velocityZ == 0.0f)
+        {
+            continue;
+        }
+
         if ((worldItem.objectFlags & ObjectDescNoGravity) == 0)
         {
             worldItem.velocityZ -= WorldItemGravity * deltaSeconds;
@@ -5054,11 +5209,21 @@ void OutdoorWorldRuntime::updateWorldItems(float deltaSeconds)
             continue;
         }
 
-        const float terrainZ = sampleOutdoorTerrainHeight(*m_pOutdoorMapData, worldItem.x, worldItem.y);
+        const float terrainFloorZ =
+            sampleOutdoorRenderedTerrainHeight(*m_pOutdoorMapData, worldItem.x, worldItem.y) + WorldItemGroundClearance;
+        float floorZ = terrainFloorZ;
 
-        if (worldItem.z <= terrainZ)
+        if (worldItem.z <= terrainFloorZ + WorldItemSupportFloorProbeHeight)
         {
-            worldItem.z = terrainZ;
+            const float supportFloorZ =
+                sampleOutdoorSupportFloorHeight(*m_pOutdoorMapData, worldItem.x, worldItem.y, worldItem.z)
+                + WorldItemGroundClearance;
+            floorZ = std::max(floorZ, supportFloorZ);
+        }
+
+        if (worldItem.z <= floorZ)
+        {
+            worldItem.z = floorZ;
 
             if ((worldItem.objectFlags & ObjectDescBounce) != 0
                 && std::abs(worldItem.velocityZ) >= WorldItemBounceStopVelocity)
@@ -5690,9 +5855,9 @@ void OutdoorWorldRuntime::updateMapActors(float deltaSeconds, float partyX, floa
         for (size_t actorIndex = 0; actorIndex < m_mapActors.size(); ++actorIndex)
         {
             MapActorState &actor = m_mapActors[actorIndex];
-
             if (actor.isDead)
             {
+                resetCrowdSteeringState(actor);
                 actor.aiState = ActorAiState::Dead;
                 actor.animation = ActorAnimation::Dead;
                 continue;
@@ -5700,6 +5865,7 @@ void OutdoorWorldRuntime::updateMapActors(float deltaSeconds, float partyX, floa
 
             if (actor.currentHp <= 0)
             {
+                resetCrowdSteeringState(actor);
                 actor.moveDirectionX = 0.0f;
                 actor.moveDirectionY = 0.0f;
                 actor.velocityX = 0.0f;
@@ -5730,12 +5896,14 @@ void OutdoorWorldRuntime::updateMapActors(float deltaSeconds, float partyX, floa
 
             if (pStats == nullptr)
             {
+                resetCrowdSteeringState(actor);
                 actor.animation = ActorAnimation::Standing;
                 continue;
             }
 
             if (!activeActorMask[actorIndex])
             {
+                resetCrowdSteeringState(actor);
                 updateInactiveActorPresentation(actor, partyX, partyY);
                 continue;
             }
@@ -5835,6 +6003,15 @@ void OutdoorWorldRuntime::updateMapActors(float deltaSeconds, float partyX, floa
                 0.0f,
                 actor.actionSeconds
                     - (actor.aiState == ActorAiState::Attacking ? recoveryStepSeconds : ActorUpdateStepSeconds));
+            actor.crowdSideLockRemainingSeconds = std::max(
+                0.0f,
+                actor.crowdSideLockRemainingSeconds - ActorUpdateStepSeconds);
+            actor.crowdRetreatRemainingSeconds = std::max(
+                0.0f,
+                actor.crowdRetreatRemainingSeconds - ActorUpdateStepSeconds);
+            actor.crowdStandRemainingSeconds = std::max(
+                0.0f,
+                actor.crowdStandRemainingSeconds - ActorUpdateStepSeconds);
 
             const int relationToParty = m_pMonsterTable->getRelationToParty(actor.monsterId);
             const float partySenseRange = actor.hostileToParty
@@ -5945,6 +6122,8 @@ void OutdoorWorldRuntime::updateMapActors(float deltaSeconds, float partyX, floa
             float desiredMoveY = 0.0f;
             ActorAiState nextAiState = ActorAiState::Standing;
             ActorAnimation nextAnimation = ActorAnimation::Standing;
+            bool meleePursuitActive = false;
+            bool preserveCrowdSteering = false;
 
             if (attackJustCompleted)
             {
@@ -6069,6 +6248,19 @@ void OutdoorWorldRuntime::updateMapActors(float deltaSeconds, float partyX, floa
                     && isRangedAttackAbility(*pStats, chosenAbility);
                 const bool chosenAbilityIsMelee = isMeleeAttackAbility(*pStats, chosenAbility);
                 const bool stationaryOrTooCloseForRangedPursuit = !movementAllowed || inMeleeRange;
+
+                if (chosenAbilityIsMelee && actor.crowdStandRemainingSeconds > 0.0f)
+                {
+                    nextAiState = ActorAiState::Standing;
+                    nextAnimation = actor.animation == ActorAnimation::Bored
+                        ? ActorAnimation::Bored
+                        : ActorAnimation::Standing;
+                    actor.moveDirectionX = 0.0f;
+                    actor.moveDirectionY = 0.0f;
+                    preserveCrowdSteering = true;
+                }
+                else
+                {
 
                 if (chosenAbilityIsRanged && actor.attackCooldownSeconds <= 0.0f)
                 {
@@ -6204,6 +6396,8 @@ void OutdoorWorldRuntime::updateMapActors(float deltaSeconds, float partyX, floa
                 {
                     nextAiState = ActorAiState::Pursuing;
                     nextAnimation = movementAllowed ? ActorAnimation::Walking : ActorAnimation::Standing;
+                    meleePursuitActive = chosenAbilityIsMelee;
+                    preserveCrowdSteering = chosenAbilityIsMelee;
 
                     if (!movementAllowed)
                     {
@@ -6250,6 +6444,7 @@ void OutdoorWorldRuntime::updateMapActors(float deltaSeconds, float partyX, floa
                             nextAnimation = ActorAnimation::Standing;
                         }
                     }
+                }
                 }
             }
             else if (friendlyNearParty)
@@ -6381,6 +6576,11 @@ void OutdoorWorldRuntime::updateMapActors(float deltaSeconds, float partyX, floa
             actor.aiState = nextAiState;
             actor.animation = nextAnimation;
 
+            if (!preserveCrowdSteering)
+            {
+                resetCrowdSteeringState(actor);
+            }
+
             actor.velocityX = 0.0f;
             actor.velocityY = 0.0f;
             actor.velocityZ = 0.0f;
@@ -6405,6 +6605,13 @@ void OutdoorWorldRuntime::updateMapActors(float deltaSeconds, float partyX, floa
 
                 actor.velocityX = desiredMoveX * moveSpeed;
                 actor.velocityY = desiredMoveY * moveSpeed;
+                actor.velocityZ = 0.0f;
+
+                if (m_pOutdoorMapData != nullptr)
+                {
+                    applyOeOutdoorSteepSlopeResponse(actor, *m_pOutdoorMapData, pStats);
+                }
+
                 const float moveDeltaX = actor.velocityX * ActorUpdateStepSeconds;
                 const float moveDeltaY = actor.velocityY * ActorUpdateStepSeconds;
                 bool moved = false;
@@ -6415,6 +6622,7 @@ void OutdoorWorldRuntime::updateMapActors(float deltaSeconds, float partyX, floa
                         buildNearbyActorMovementColliders(m_mapActors, activeActorMask, *m_pMonsterTable));
                     const float collisionRadius = actorCollisionRadius(actor, pStats);
                     const float collisionHeight = actorCollisionHeight(actor, collisionRadius);
+                    std::vector<size_t> contactedActorIndices;
                     actor.movementState = m_outdoorMovementController->resolveOutdoorActorMove(
                         actor.movementState,
                         OutdoorBodyDimensions{collisionRadius, collisionHeight},
@@ -6423,36 +6631,208 @@ void OutdoorWorldRuntime::updateMapActors(float deltaSeconds, float partyX, floa
                         actor.velocityZ,
                         pStats->canFly,
                         ActorUpdateStepSeconds,
+                        &contactedActorIndices,
                         OutdoorIgnoredActorCollider{OutdoorActorCollisionSource::MapDelta, actorIndex});
                     syncActorFromMovementState(actor);
                     actor.velocityZ = actor.movementState.verticalVelocity;
                     moved = true;
-                }
-                else if (m_pOutdoorMapData != nullptr)
-                {
-                    moved = tryMoveActorInWorld(
-                        actor,
-                        *m_pOutdoorMapData,
-                        m_outdoorFaces,
-                        pStats,
-                        moveDeltaX,
-                        moveDeltaY);
 
-                    if (!moved && std::abs(moveDeltaX) > 0.001f)
-                    {
-                        moved = tryMoveActorInWorld(actor, *m_pOutdoorMapData, m_outdoorFaces, pStats, moveDeltaX, 0.0f);
-                    }
+                    std::sort(contactedActorIndices.begin(), contactedActorIndices.end());
+                    const size_t uniqueContactCount = static_cast<size_t>(
+                        std::distance(
+                            contactedActorIndices.begin(),
+                            std::unique(contactedActorIndices.begin(), contactedActorIndices.end())));
+                    const bool shouldApplyCrowdSteering =
+                        uniqueContactCount > 0
+                        && meleePursuitActive
+                        && actor.aiState == ActorAiState::Pursuing
+                        && !pStats->canFly
+                        && !inMeleeRange
+                        && combatTarget.edgeDistance <= ActorCrowdReangleEngageRange;
 
-                    if (!moved && std::abs(moveDeltaY) > 0.001f)
+                    if (shouldApplyCrowdSteering)
                     {
-                        moved = tryMoveActorInWorld(actor, *m_pOutdoorMapData, m_outdoorFaces, pStats, 0.0f, moveDeltaY);
+                        const float progressTowardTarget = actor.crowdLastEdgeDistance > 0.0f
+                            ? (actor.crowdLastEdgeDistance - combatTarget.edgeDistance)
+                            : 0.0f;
+                        actor.crowdProbeElapsedSeconds += ActorUpdateStepSeconds;
+
+                        const float crowdProbeEdgeProgress =
+                            actor.crowdProbeEdgeDistance > 0.0f
+                            ? (actor.crowdProbeEdgeDistance - combatTarget.edgeDistance)
+                            : 0.0f;
+
+                        if (actor.crowdSideSign == 0)
+                        {
+                            const uint32_t decisionSeed =
+                                mixActorDecisionSeed(actor.actorId, actor.pursueDecisionCount, 0x4f1bbcd3u);
+                            ++actor.pursueDecisionCount;
+                            const int sideSign = (decisionSeed & 1u) == 0u ? 1 : -1;
+
+                            beginCrowdSideStep(actor, combatTarget.deltaX, combatTarget.deltaY, sideSign);
+                            desiredMoveX = actor.moveDirectionX;
+                            desiredMoveY = actor.moveDirectionY;
+
+                            if (actor.crowdLastEdgeDistance <= 0.0f)
+                            {
+                                actor.crowdLastEdgeDistance = combatTarget.edgeDistance;
+                            }
+
+                            if (actor.crowdProbeElapsedSeconds <= 0.0f)
+                            {
+                                actor.crowdProbeX = actor.preciseX;
+                                actor.crowdProbeY = actor.preciseY;
+                                actor.crowdProbeEdgeDistance = combatTarget.edgeDistance;
+                                actor.crowdProbeElapsedSeconds = 0.0f;
+                            }
+
+                            actor.aiState = ActorAiState::Pursuing;
+                            actor.animation = ActorAnimation::Walking;
+                        }
+                        else
+                        {
+                            if (progressTowardTarget > ActorCrowdNoProgressThreshold)
+                            {
+                                actor.crowdNoProgressSeconds = 0.0f;
+                                actor.crowdLastEdgeDistance = combatTarget.edgeDistance;
+                                actor.crowdEscapeAttempts = 0;
+                            }
+                            else
+                            {
+                                actor.crowdNoProgressSeconds += ActorUpdateStepSeconds;
+                            }
+
+                            const bool crowdProbeStalled =
+                                actor.crowdProbeElapsedSeconds >= ActorCrowdProbeWindowSeconds
+                                && crowdProbeEdgeProgress <= ActorCrowdProbeEdgeDistanceThreshold;
+
+                            if (crowdProbeStalled && actor.crowdRetreatRemainingSeconds <= 0.0f)
+                            {
+                                ++actor.crowdEscapeAttempts;
+
+                                const uint32_t decisionSeed =
+                                    mixActorDecisionSeed(actor.actorId, actor.pursueDecisionCount, 0x7a5f18c3u);
+                                ++actor.pursueDecisionCount;
+                                const bool shouldStandAfterRetries =
+                                    actor.crowdEscapeAttempts >= 3
+                                    && ((decisionSeed % 100u) < 45u
+                                        || actor.crowdNoProgressSeconds >= ActorCrowdNoProgressStandSeconds);
+
+                                if (shouldStandAfterRetries)
+                                {
+                                    const float standSeconds = actorDecisionRange(
+                                        actor.actorId,
+                                        actor.pursueDecisionCount,
+                                        0x5b1d8e73u,
+                                        0.9f,
+                                        1.4f);
+                                    beginCrowdStandOrBored(actor, decisionSeed, standSeconds);
+                                    desiredMoveX = 0.0f;
+                                    desiredMoveY = 0.0f;
+                                }
+                                else
+                                {
+                                    const float retreatSeconds = actorDecisionRange(
+                                        actor.actorId,
+                                        actor.pursueDecisionCount,
+                                        0x6d2c4a91u,
+                                        0.18f,
+                                        0.32f);
+                                    beginCrowdRetreatStep(
+                                        actor,
+                                        combatTarget.deltaX,
+                                        combatTarget.deltaY,
+                                        actor.crowdSideSign,
+                                        retreatSeconds);
+                                    desiredMoveX = actor.moveDirectionX;
+                                    desiredMoveY = actor.moveDirectionY;
+                                    actor.crowdNoProgressSeconds = 0.0f;
+                                    actor.crowdProbeX = actor.preciseX;
+                                    actor.crowdProbeY = actor.preciseY;
+                                    actor.crowdProbeEdgeDistance = combatTarget.edgeDistance;
+                                    actor.crowdProbeElapsedSeconds = 0.0f;
+                                }
+                            }
+                            else if (actor.crowdRetreatRemainingSeconds > 0.0f)
+                            {
+                                beginCrowdRetreatStep(
+                                    actor,
+                                    combatTarget.deltaX,
+                                    combatTarget.deltaY,
+                                    actor.crowdSideSign,
+                                    actor.crowdRetreatRemainingSeconds);
+                                desiredMoveX = actor.moveDirectionX;
+                                desiredMoveY = actor.moveDirectionY;
+                                actor.crowdNoProgressSeconds = 0.0f;
+                            }
+                            else
+                            {
+                                beginCrowdSideStep(
+                                    actor,
+                                    combatTarget.deltaX,
+                                    combatTarget.deltaY,
+                                    actor.crowdSideSign);
+                                desiredMoveX = actor.moveDirectionX;
+                                desiredMoveY = actor.moveDirectionY;
+                            }
+
+                            if (actor.crowdStandRemainingSeconds <= 0.0f)
+                            {
+                                actor.aiState = ActorAiState::Pursuing;
+                                actor.animation = ActorAnimation::Walking;
+                            }
+
+                            if (actor.crowdProbeElapsedSeconds >= ActorCrowdProbeWindowSeconds
+                                && crowdProbeEdgeProgress > ActorCrowdProbeEdgeDistanceThreshold)
+                            {
+                                actor.crowdProbeX = actor.preciseX;
+                                actor.crowdProbeY = actor.preciseY;
+                                actor.crowdProbeEdgeDistance = combatTarget.edgeDistance;
+                                actor.crowdProbeElapsedSeconds = 0.0f;
+                            }
+                        }
                     }
                 }
                 else
                 {
-                    actor.preciseX += moveDeltaX;
-                    actor.preciseY += moveDeltaY;
-                    moved = true;
+                    if (m_pOutdoorMapData != nullptr)
+                    {
+                        moved = tryMoveActorInWorld(
+                            actor,
+                            *m_pOutdoorMapData,
+                            m_outdoorFaces,
+                            pStats,
+                            moveDeltaX,
+                            moveDeltaY);
+
+                        if (!moved && std::abs(moveDeltaX) > 0.001f)
+                        {
+                            moved = tryMoveActorInWorld(
+                                actor,
+                                *m_pOutdoorMapData,
+                                m_outdoorFaces,
+                                pStats,
+                                moveDeltaX,
+                                0.0f);
+                        }
+
+                        if (!moved && std::abs(moveDeltaY) > 0.001f)
+                        {
+                            moved = tryMoveActorInWorld(
+                                actor,
+                                *m_pOutdoorMapData,
+                                m_outdoorFaces,
+                                pStats,
+                                0.0f,
+                                moveDeltaY);
+                        }
+                    }
+                    else
+                    {
+                        actor.preciseX += moveDeltaX;
+                        actor.preciseY += moveDeltaY;
+                        moved = true;
+                    }
                 }
 
                 if (!moved)

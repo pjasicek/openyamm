@@ -575,7 +575,8 @@ void resolveActorCylinderOverlaps(
     float bodyRadius,
     float bodyHeight,
     const std::vector<OutdoorActorCollision> &actorColliders,
-    const std::optional<OutdoorIgnoredActorCollider> &ignoredActorCollider)
+    const std::optional<OutdoorIgnoredActorCollider> &ignoredActorCollider,
+    std::vector<size_t> *pContactedActorIndices = nullptr)
 {
     for (int iteration = 0; iteration < 4; ++iteration)
     {
@@ -609,6 +610,11 @@ void resolveActorCylinderOverlaps(
             if (!rangesOverlap(partyMinZ, partyMaxZ, actorMinZ, actorMaxZ))
             {
                 continue;
+            }
+
+            if (pContactedActorIndices != nullptr)
+            {
+                pContactedActorIndices->push_back(collider.sourceIndex);
             }
 
             float distance = std::sqrt(distanceSquared);
@@ -1292,7 +1298,7 @@ FloorSample queryFloorLevel(
     const uint8_t terrainFlags = sampleOutdoorTerrainTileAttributes(outdoorMapData, x, y);
     const FloorSample terrainSample = {
         true,
-        sampleOutdoorTerrainHeight(outdoorMapData, x, y),
+        sampleOutdoorRenderedTerrainHeight(outdoorMapData, x, y),
         sampleOutdoorTerrainNormalZ(outdoorMapData, x, y),
         false,
         (terrainFlags & 0x02) != 0,
@@ -1617,7 +1623,8 @@ OutdoorMoveState OutdoorMovementController::resolveMoveForBody(
                 bodyRadius,
                 bodyHeight,
                 m_actorColliders,
-                ignoredActorCollider);
+                ignoredActorCollider,
+                pContactedActorIndices);
             collisionState.positionHi =
                 vecAdd(passPosition, bx::Vec3{0.0f, 0.0f, bodyHeight - collisionState.radiusLo});
             collisionState.positionLo = vecAdd(passPosition, bx::Vec3{0.0f, 0.0f, collisionState.radiusLo});
@@ -2092,6 +2099,7 @@ OutdoorMoveState OutdoorMovementController::resolveOutdoorActorMove(
     float verticalVelocity,
     bool flyingActive,
     float deltaSeconds,
+    std::vector<size_t> *pContactedActorIndices,
     const std::optional<OutdoorIgnoredActorCollider> &ignoredActorCollider
 ) const
 {
@@ -2172,7 +2180,8 @@ OutdoorMoveState OutdoorMovementController::resolveOutdoorActorMove(
             bodyRadius,
             bodyHeight,
             m_actorColliders,
-            ignoredActorCollider);
+            ignoredActorCollider,
+            pContactedActorIndices);
         collisionState.positionLo = vecAdd(actorPosition, bx::Vec3{0.0f, 0.0f, bodyRadius + 1.0f});
         collisionState.positionHi = vecAdd(actorPosition, bx::Vec3{0.0f, 0.0f, bodyHeight - bodyRadius - 1.0f});
         collisionState.positionHi.z = std::max(collisionState.positionHi.z, collisionState.positionLo.z);
@@ -2270,6 +2279,11 @@ OutdoorMoveState OutdoorMovementController::resolveOutdoorActorMove(
                     static_cast<float>(m_actorColliders[hit.colliderIndex].worldY),
                     static_cast<float>(m_actorColliders[hit.colliderIndex].worldZ)
                 };
+
+                if (pContactedActorIndices != nullptr)
+                {
+                    pContactedActorIndices->push_back(m_actorColliders[hit.colliderIndex].sourceIndex);
+                }
             }
             else
             {

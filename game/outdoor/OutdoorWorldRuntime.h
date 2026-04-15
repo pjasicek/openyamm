@@ -176,6 +176,17 @@ public:
         MonsterAttackAbility queuedAttackAbility = MonsterAttackAbility::Attack1;
         OutdoorMoveState movementState = {};
         bool movementStateInitialized = false;
+        float crowdSideLockRemainingSeconds = 0.0f;
+        float crowdNoProgressSeconds = 0.0f;
+        float crowdLastEdgeDistance = 0.0f;
+        float crowdRetreatRemainingSeconds = 0.0f;
+        float crowdStandRemainingSeconds = 0.0f;
+        float crowdProbeX = 0.0f;
+        float crowdProbeY = 0.0f;
+        float crowdProbeEdgeDistance = 0.0f;
+        float crowdProbeElapsedSeconds = 0.0f;
+        uint8_t crowdEscapeAttempts = 0;
+        int8_t crowdSideSign = 0;
     };
 
     struct CombatEvent
