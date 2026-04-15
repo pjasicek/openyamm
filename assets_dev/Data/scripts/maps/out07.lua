@@ -86,90 +86,70 @@ RegisterEvent(11, "Ravensight Residence", function()
     return
 end, "Ravensight Residence")
 
-RegisterEvent(12, "Ravensight Residence", function()
-    return
-end, "Ravensight Residence")
+RegisterEvent(12, "Ravensight Residence", nil, "Ravensight Residence")
 
 RegisterEvent(13, "Dreamwright Residence", function()
     evt.EnterHouse(389) -- Dreamwright Residence
     return
 end, "Dreamwright Residence")
 
-RegisterEvent(14, "Dreamwright Residence", function()
-    return
-end, "Dreamwright Residence")
+RegisterEvent(14, "Dreamwright Residence", nil, "Dreamwright Residence")
 
 RegisterEvent(15, "Snowtree Residence", function()
     evt.EnterHouse(390) -- Snowtree Residence
     return
 end, "Snowtree Residence")
 
-RegisterEvent(16, "Snowtree Residence", function()
-    return
-end, "Snowtree Residence")
+RegisterEvent(16, "Snowtree Residence", nil, "Snowtree Residence")
 
 RegisterEvent(17, "Dantillion's Residence", function()
     evt.EnterHouse(391) -- Dantillion's Residence
     return
 end, "Dantillion's Residence")
 
-RegisterEvent(18, "Dantillion's Residence", function()
-    return
-end, "Dantillion's Residence")
+RegisterEvent(18, "Dantillion's Residence", nil, "Dantillion's Residence")
 
 RegisterEvent(19, "Mithrit Residence", function()
     evt.EnterHouse(392) -- Mithrit Residence
     return
 end, "Mithrit Residence")
 
-RegisterEvent(20, "Mithrit Residence", function()
-    return
-end, "Mithrit Residence")
+RegisterEvent(20, "Mithrit Residence", nil, "Mithrit Residence")
 
 RegisterEvent(21, "Tonk Residence", function()
     evt.EnterHouse(393) -- Tonk Residence
     return
 end, "Tonk Residence")
 
-RegisterEvent(22, "Tonk Residence", function()
-    return
-end, "Tonk Residence")
+RegisterEvent(22, "Tonk Residence", nil, "Tonk Residence")
 
 RegisterEvent(23, "Keenedge Residence", function()
     evt.EnterHouse(394) -- Keenedge Residence
     return
 end, "Keenedge Residence")
 
-RegisterEvent(24, "Keenedge Residence", function()
-    return
-end, "Keenedge Residence")
+RegisterEvent(24, "Keenedge Residence", nil, "Keenedge Residence")
 
 RegisterEvent(25, "Treasurestone Residence", function()
     evt.EnterHouse(395) -- Treasurestone Residence
     return
 end, "Treasurestone Residence")
 
-RegisterEvent(26, "Treasurestone Residence", function()
-    return
-end, "Treasurestone Residence")
+RegisterEvent(26, "Treasurestone Residence", nil, "Treasurestone Residence")
 
 RegisterEvent(27, "Sampson Residence", function()
     evt.EnterHouse(396) -- Sampson Residence
     return
 end, "Sampson Residence")
 
-RegisterEvent(28, "Sampson Residence", function()
-    return
-end, "Sampson Residence")
+RegisterEvent(28, "Sampson Residence", nil, "Sampson Residence")
 
 RegisterEvent(29, "Verish's House", function()
     evt.EnterHouse(482) -- Verish's House
     return
 end, "Verish's House")
 
-RegisterEvent(30, "Verish's House", function()
-    return
-end, "Verish's House")
+RegisterEvent(30, "Verish's House", nil, "Verish's House")
 
 RegisterEvent(81, "Chest", function()
     evt.OpenChest(0)
@@ -365,28 +345,24 @@ RegisterEvent(191, "Traveler's Rest", function()
     return
 end, "Traveler's Rest")
 
-RegisterEvent(192, "Traveler's Rest", function()
-    return
-end, "Traveler's Rest")
+RegisterEvent(192, "Traveler's Rest", nil, "Traveler's Rest")
 
 RegisterEvent(201, "Guild of Light", function()
     evt.EnterHouse(142) -- Guild of Light
     return
 end, "Guild of Light")
 
-RegisterEvent(202, "Guild of Light", function()
-    return
-end, "Guild of Light")
+RegisterEvent(202, "Guild of Light", nil, "Guild of Light")
 
-RegisterNoOpEvent(401, "The Temple of the Sun", "The Temple of the Sun")
+RegisterEvent(401, "The Temple of the Sun", nil, "The Temple of the Sun")
 
-RegisterNoOpEvent(402, "A Druid Circle", "A Druid Circle")
+RegisterEvent(402, "A Druid Circle", nil, "A Druid Circle")
 
-RegisterNoOpEvent(403, "Ancient Troll Home", "Ancient Troll Home")
+RegisterEvent(403, "Ancient Troll Home", nil, "Ancient Troll Home")
 
-RegisterNoOpEvent(404, "Gate to the Plane of Air", "Gate to the Plane of Air")
+RegisterEvent(404, "Gate to the Plane of Air", nil, "Gate to the Plane of Air")
 
-RegisterNoOpEvent(450, "Well", "Well")
+RegisterEvent(450, "Well", nil, "Well")
 
 RegisterEvent(451, "Legacy event 451", function()
     local randomStep = PickRandomOption(451, 2, {2, 4, 6, 8, 10, 12})

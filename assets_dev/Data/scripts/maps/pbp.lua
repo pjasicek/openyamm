@@ -1,4 +1,4 @@
--- Plane of Water
+-- Plane Between Planes
 -- generated from legacy EVT/STR
 
 SetMapMetadata({
@@ -42,15 +42,7 @@ RegisterNoOpEvent(4, "Legacy event 4")
 
 RegisterNoOpEvent(5, "Legacy event 5")
 
-RegisterEvent(6, "Legacy event 6", function()
-    if IsQBitSet(QBit(241)) then return end
-    evt.ForPlayer(Players.All)
-    if not HasItem(607) then return end -- Heart of Water
-    SetQBit(QBit(241))
-    AddValue(Experience, 100000)
-    SetQBit(QBit(206))
-    return
-end)
+RegisterNoOpEvent(6, "Legacy event 6")
 
 RegisterNoOpEvent(7, "Legacy event 7")
 
@@ -59,48 +51,6 @@ RegisterNoOpEvent(8, "Legacy event 8")
 RegisterNoOpEvent(9, "Legacy event 9")
 
 RegisterNoOpEvent(10, "Legacy event 10")
-
-RegisterEvent(11, "Riverglass' House", function()
-    evt.EnterHouse(472) -- Riverglass' House
-    return
-end, "Riverglass' House")
-
-RegisterEvent(12, "Riverglass' House", nil, "Riverglass' House")
-
-RegisterEvent(13, "Clearcreek's House", function()
-    evt.EnterHouse(473) -- Clearcreek's House
-    return
-end, "Clearcreek's House")
-
-RegisterEvent(14, "Clearcreek's House", nil, "Clearcreek's House")
-
-RegisterEvent(15, "Empty House", function()
-    evt.EnterHouse(474) -- Empty House
-    return
-end, "Empty House")
-
-RegisterEvent(16, "Empty House", nil, "Empty House")
-
-RegisterEvent(17, "Empty House", function()
-    evt.EnterHouse(475) -- Empty House
-    return
-end, "Empty House")
-
-RegisterEvent(18, "Empty House", nil, "Empty House")
-
-RegisterEvent(19, "Empty House", function()
-    evt.EnterHouse(476) -- Empty House
-    return
-end, "Empty House")
-
-RegisterEvent(20, "Empty House", nil, "Empty House")
-
-RegisterEvent(21, "Black Current's House", function()
-    evt.EnterHouse(323) -- Black Current's House
-    return
-end, "Black Current's House")
-
-RegisterEvent(22, "Black Current's House", nil, "Black Current's House")
 
 RegisterEvent(81, "Legacy event 81", function()
     evt.OpenChest(0)
@@ -202,21 +152,71 @@ RegisterEvent(100, "Legacy event 100", function()
     return
 end)
 
-RegisterEvent(401, "Gate out of the Plane of Water", nil, "Gate out of the Plane of Water")
+RegisterEvent(401, "Escaton's Palace", nil, "Escaton's Palace")
 
-RegisterEvent(451, "Take a Drink", function()
-    if not IsAtLeast(WaterResistance, 10) then
-        AddValue(WaterResistance, 2)
-        evt.StatusText("Water Resistance +10 (Permanent)")
-        AddValue(IsIntellectMoreThanBase, 269)
+RegisterEvent(402, "Prison of the Air Lord", nil, "Prison of the Air Lord")
+
+RegisterEvent(403, "Prison of the Earth Lord", nil, "Prison of the Earth Lord")
+
+RegisterEvent(404, "Prison of the Fire Lord", nil, "Prison of the Fire Lord")
+
+RegisterEvent(405, "Prison of the Water Lord", nil, "Prison of the Water Lord")
+
+RegisterEvent(406, "Escaton's Crystal", nil, "Escaton's Crystal")
+
+RegisterEvent(501, "Enter Escaton's Palace", function()
+    evt.MoveToMap(-704, -5312, 1, 512, 0, 0, 218, 0, "d35.blv")
+    return
+end, "Enter Escaton's Palace")
+
+RegisterEvent(502, "Enter the Prison of the Air Lord", function()
+    evt.ForPlayer(Players.All)
+    if not HasItem(629) then -- Ring of Keys
+        evt.FaceAnimation(FaceAnimation.DoorLocked)
         return
     end
-    evt.StatusText("Refreshing")
+    evt.MoveToMap(-733, -2563, -1051, 960, 0, 0, 219, 0, "d36.blv")
     return
-end, "Take a Drink")
+end, "Enter the Prison of the Air Lord")
 
-RegisterEvent(505, "Leave the Plane of Water", function()
-    evt.MoveToMap(-22162, 2886, 689, 0, 0, 0, 0, 0, "Out08.odm")
+RegisterEvent(503, "Enter the Prison of the Fire Lord", function()
+    evt.ForPlayer(Players.All)
+    if not HasItem(629) then -- Ring of Keys
+        evt.FaceAnimation(FaceAnimation.DoorLocked)
+        return
+    end
+    evt.MoveToMap(-128, 896, 1, 1536, 0, 0, 199, 1, "d37.blv")
     return
-end, "Leave the Plane of Water")
+end, "Enter the Prison of the Fire Lord")
+
+RegisterEvent(504, "Enter the Prison of the Water Lord", function()
+    evt.ForPlayer(Players.All)
+    if not HasItem(629) then -- Ring of Keys
+        evt.FaceAnimation(FaceAnimation.DoorLocked)
+        return
+    end
+    evt.MoveToMap(2393, -10664, 1, 520, 0, 0, 200, 1, "d38.blv")
+    return
+end, "Enter the Prison of the Water Lord")
+
+RegisterEvent(505, "Enter the Prison of the Earth Lord", function()
+    evt.ForPlayer(Players.All)
+    if not HasItem(629) then -- Ring of Keys
+        evt.FaceAnimation(FaceAnimation.DoorLocked)
+        return
+    end
+    evt.MoveToMap(-2, 118, 1, 2047, 0, 0, 198, 1, "d39.blv")
+    return
+end, "Enter the Prison of the Earth Lord")
+
+RegisterEvent(506, "Enter Escaton's Crystal", function()
+    evt.MoveToMap(-14232, -2956, 800, 432, 0, 0, 0, 0, "D10.blv")
+    return
+end, "Enter Escaton's Crystal")
+
+RegisterEvent(507, "A giant's sword", function()
+    if not HasItem(634) then return end -- Flute
+    evt.MoveToMap(19, -601, 1, 1552, 0, 0, 0, 0, "d50.blv")
+    return
+end, "A giant's sword")
 

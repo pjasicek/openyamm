@@ -71,153 +71,119 @@ RegisterEvent(11, "Stormlance Residence", function()
     return
 end, "Stormlance Residence")
 
-RegisterEvent(12, "Stormlance Residence", function()
-    return
-end, "Stormlance Residence")
+RegisterEvent(12, "Stormlance Residence", nil, "Stormlance Residence")
 
 RegisterEvent(13, "Morningstar Residence", function()
     evt.EnterHouse(317) -- Morningstar Residence
     return
 end, "Morningstar Residence")
 
-RegisterEvent(14, "Morningstar Residence", function()
-    return
-end, "Morningstar Residence")
+RegisterEvent(14, "Morningstar Residence", nil, "Morningstar Residence")
 
 RegisterEvent(15, "Foestryke Residence", function()
     evt.EnterHouse(318) -- Foestryke Residence
     return
 end, "Foestryke Residence")
 
-RegisterEvent(16, "Foestryke Residence", function()
-    return
-end, "Foestryke Residence")
+RegisterEvent(16, "Foestryke Residence", nil, "Foestryke Residence")
 
 RegisterEvent(17, "Ironfist Residence", function()
     evt.EnterHouse(319) -- Ironfist Residence
     return
 end, "Ironfist Residence")
 
-RegisterEvent(18, "Ironfist Residence", function()
-    return
-end, "Ironfist Residence")
+RegisterEvent(18, "Ironfist Residence", nil, "Ironfist Residence")
 
 RegisterEvent(19, "Avalon's Residence", function()
     evt.EnterHouse(340) -- Avalon's Residence
     return
 end, "Avalon's Residence")
 
-RegisterEvent(20, "Avalon's Residence", function()
-    return
-end, "Avalon's Residence")
+RegisterEvent(20, "Avalon's Residence", nil, "Avalon's Residence")
 
 RegisterEvent(21, "Arin Residence", function()
     evt.EnterHouse(341) -- Arin Residence
     return
 end, "Arin Residence")
 
-RegisterEvent(22, "Arin Residence", function()
-    return
-end, "Arin Residence")
+RegisterEvent(22, "Arin Residence", nil, "Arin Residence")
 
 RegisterEvent(23, "Lightsworn Residence", function()
     evt.EnterHouse(342) -- Lightsworn Residence
     return
 end, "Lightsworn Residence")
 
-RegisterEvent(24, "Lightsworn Residence", function()
-    return
-end, "Lightsworn Residence")
+RegisterEvent(24, "Lightsworn Residence", nil, "Lightsworn Residence")
 
 RegisterEvent(25, "Otterton Residence", function()
     evt.EnterHouse(343) -- Otterton Residence
     return
 end, "Otterton Residence")
 
-RegisterEvent(26, "Otterton Residence", function()
-    return
-end, "Otterton Residence")
+RegisterEvent(26, "Otterton Residence", nil, "Otterton Residence")
 
 RegisterEvent(27, "Calandril's Residence", function()
     evt.EnterHouse(344) -- Calandril's Residence
     return
 end, "Calandril's Residence")
 
-RegisterEvent(28, "Calandril's Residence", function()
-    return
-end, "Calandril's Residence")
+RegisterEvent(28, "Calandril's Residence", nil, "Calandril's Residence")
 
 RegisterEvent(29, "Maker Residence", function()
     evt.EnterHouse(345) -- Maker Residence
     return
 end, "Maker Residence")
 
-RegisterEvent(30, "Maker Residence", function()
-    return
-end, "Maker Residence")
+RegisterEvent(30, "Maker Residence", nil, "Maker Residence")
 
 RegisterEvent(31, "Slayer Residence", function()
     evt.EnterHouse(346) -- Slayer Residence
     return
 end, "Slayer Residence")
 
-RegisterEvent(32, "Slayer Residence", function()
-    return
-end, "Slayer Residence")
+RegisterEvent(32, "Slayer Residence", nil, "Slayer Residence")
 
 RegisterEvent(33, "Kern Residence", function()
     evt.EnterHouse(347) -- Kern Residence
     return
 end, "Kern Residence")
 
-RegisterEvent(34, "Kern Residence", function()
-    return
-end, "Kern Residence")
+RegisterEvent(34, "Kern Residence", nil, "Kern Residence")
 
 RegisterEvent(35, "Jeni Residence", function()
     evt.EnterHouse(348) -- Jeni Residence
     return
 end, "Jeni Residence")
 
-RegisterEvent(36, "Jeni Residence", function()
-    return
-end, "Jeni Residence")
+RegisterEvent(36, "Jeni Residence", nil, "Jeni Residence")
 
 RegisterEvent(37, "Weldrick's Home", function()
     evt.EnterHouse(349) -- Weldrick's Home
     return
 end, "Weldrick's Home")
 
-RegisterEvent(38, "Weldrick's Home", function()
-    return
-end, "Weldrick's Home")
+RegisterEvent(38, "Weldrick's Home", nil, "Weldrick's Home")
 
 RegisterEvent(39, "Nelix's House", function()
     evt.EnterHouse(480) -- Nelix's House
     return
 end, "Nelix's House")
 
-RegisterEvent(40, "Nelix's House", function()
-    return
-end, "Nelix's House")
+RegisterEvent(40, "Nelix's House", nil, "Nelix's House")
 
 RegisterEvent(41, "Tempus' House", function()
     evt.EnterHouse(481) -- Tempus' House
     return
 end, "Tempus' House")
 
-RegisterEvent(42, "Tempus' House", function()
-    return
-end, "Tempus' House")
+RegisterEvent(42, "Tempus' House", nil, "Tempus' House")
 
 RegisterEvent(43, "Reaverston Residence", function()
     evt.EnterHouse(320) -- Reaverston Residence
     return
 end, "Reaverston Residence")
 
-RegisterEvent(44, "Reaverston Residence", function()
-    return
-end, "Reaverston Residence")
+RegisterEvent(44, "Reaverston Residence", nil, "Reaverston Residence")
 
 RegisterEvent(81, "Chest", function()
     evt.OpenChest(0)
@@ -618,9 +584,7 @@ RegisterEvent(171, "Lance's Spears", function()
     return
 end, "Lance's Spears")
 
-RegisterEvent(172, "Lance's Spears", function()
-    return
-end, "Lance's Spears")
+RegisterEvent(172, "Lance's Spears", nil, "Lance's Spears")
 
 RegisterEvent(173, "Plated Protection", function()
     if IsQBitSet(QBit(22)) then
@@ -631,9 +595,7 @@ RegisterEvent(173, "Plated Protection", function()
     return
 end, "Plated Protection")
 
-RegisterEvent(174, "Plated Protection", function()
-    return
-end, "Plated Protection")
+RegisterEvent(174, "Plated Protection", nil, "Plated Protection")
 
 RegisterEvent(175, "Wards and Pendants", function()
     if IsQBitSet(QBit(22)) then
@@ -644,9 +606,7 @@ RegisterEvent(175, "Wards and Pendants", function()
     return
 end, "Wards and Pendants")
 
-RegisterEvent(176, "Wards and Pendants", function()
-    return
-end, "Wards and Pendants")
+RegisterEvent(176, "Wards and Pendants", nil, "Wards and Pendants")
 
 RegisterEvent(181, "Guild Caravans", function()
     if IsQBitSet(QBit(22)) then
@@ -657,9 +617,7 @@ RegisterEvent(181, "Guild Caravans", function()
     return
 end, "Guild Caravans")
 
-RegisterEvent(182, "Guild Caravans", function()
-    return
-end, "Guild Caravans")
+RegisterEvent(182, "Guild Caravans", nil, "Guild Caravans")
 
 RegisterEvent(185, "Sacred Steel", function()
     if IsQBitSet(QBit(22)) then
@@ -670,9 +628,7 @@ RegisterEvent(185, "Sacred Steel", function()
     return
 end, "Sacred Steel")
 
-RegisterEvent(186, "Sacred Steel", function()
-    return
-end, "Sacred Steel")
+RegisterEvent(186, "Sacred Steel", nil, "Sacred Steel")
 
 RegisterEvent(187, "Godric's Gauntlet", function()
     if IsQBitSet(QBit(22)) then
@@ -683,30 +639,26 @@ RegisterEvent(187, "Godric's Gauntlet", function()
     return
 end, "Godric's Gauntlet")
 
-RegisterEvent(188, "Godric's Gauntlet", function()
-    return
-end, "Godric's Gauntlet")
+RegisterEvent(188, "Godric's Gauntlet", nil, "Godric's Gauntlet")
 
 RegisterEvent(191, "Dragon's Blood Inn", function()
     evt.EnterHouse(111) -- Dragon's Blood Inn
     return
 end, "Dragon's Blood Inn")
 
-RegisterEvent(192, "Dragon's Blood Inn", function()
-    return
-end, "Dragon's Blood Inn")
+RegisterEvent(192, "Dragon's Blood Inn", nil, "Dragon's Blood Inn")
 
-RegisterNoOpEvent(401, "Dragon Hunter Camp", "Dragon Hunter Camp")
+RegisterEvent(401, "Dragon Hunter Camp", nil, "Dragon Hunter Camp")
 
-RegisterNoOpEvent(402, "Dragon Cave", "Dragon Cave")
+RegisterEvent(402, "Dragon Cave", nil, "Dragon Cave")
 
-RegisterNoOpEvent(403, "Naga Vault", "Naga Vault")
+RegisterEvent(403, "Naga Vault", nil, "Naga Vault")
 
-RegisterNoOpEvent(404, "Grand Temple of Eep", "Grand Temple of Eep")
+RegisterEvent(404, "Grand Temple of Eep", nil, "Grand Temple of Eep")
 
-RegisterNoOpEvent(405, "Tent", "Tent")
+RegisterEvent(405, "Tent", nil, "Tent")
 
-RegisterNoOpEvent(450, "Well", "Well")
+RegisterEvent(450, "Well", nil, "Well")
 
 RegisterEvent(479, "Legacy event 479", function()
     PickRandomOption(479, 2, {2, 4, 6, 8, 10, 12})

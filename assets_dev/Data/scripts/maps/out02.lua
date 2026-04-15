@@ -184,9 +184,7 @@ local function registerConditionallySiegeLockedHousePairs(housePairs)
             return
         end, hint)
 
-        RegisterEvent(hoverEventId, hint, function()
-            return
-        end, hint)
+        RegisterEvent(hoverEventId, hint, nil, hint)
     end
 end
 
@@ -202,9 +200,7 @@ local function registerOpenHousePairs(housePairs)
             return
         end, hint)
 
-        RegisterEvent(hoverEventId, hint, function()
-            return
-        end, hint)
+        RegisterEvent(hoverEventId, hint, nil, hint)
     end
 end
 
@@ -224,7 +220,7 @@ end
 
 local function registerHoverOnlyEvents(events)
     for _, eventData in ipairs(events) do
-        RegisterNoOpEvent(eventData.eventId, eventData.hint, eventData.hint)
+        RegisterEvent(eventData.eventId, eventData.hint, nil, eventData.hint)
     end
 end
 

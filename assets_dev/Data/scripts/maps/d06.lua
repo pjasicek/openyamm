@@ -432,7 +432,7 @@ RegisterEvent(100, "Chest", function()
     return
 end, "Chest")
 
-RegisterNoOpEvent(401, "Submarine", "Submarine")
+RegisterEvent(401, "Submarine", nil, "Submarine")
 
 RegisterEvent(451, "Enter the Submarine", function()
     evt.ForPlayer(Players.All)

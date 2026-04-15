@@ -214,8 +214,7 @@ for _, house in ipairs(villageHouses) do
         evt.EnterHouse(house.houseId)
     end, house.hint)
 
-    RegisterEvent(house.secondaryEventId, house.hint .. " secondary trigger", function()
-    end, house.hint)
+    RegisterEvent(house.secondaryEventId, house.hint .. " secondary trigger", nil, house.hint)
 end
 
 -- Chests and crates.
@@ -301,15 +300,13 @@ for _, house in ipairs(serviceHouses) do
         evt.EnterHouse(house.houseId)
     end, house.hint)
 
-    RegisterEvent(house.secondaryEventId, house.hint .. " secondary trigger", function()
-    end, house.hint)
+    RegisterEvent(house.secondaryEventId, house.hint .. " secondary trigger", nil, house.hint)
 end
 
 -- Hover-only world points.
 
 for _, marker in ipairs(hoverOnlyMarkers) do
-    RegisterEvent(marker.eventId, marker.title, function()
-    end, marker.hint)
+    RegisterEvent(marker.eventId, marker.title, nil, marker.hint)
 end
 
 -- Local teleports and map transitions.

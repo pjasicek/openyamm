@@ -536,9 +536,11 @@ function support.registerScopeEvent(scopeName, tableName, eventId, title, handle
         meta.hint[eventId] = hint
     end
 
-    evt[tableName][eventId] = function()
-        evt._BeginEvent(eventId)
-        handler()
+    if handler ~= nil then
+        evt[tableName][eventId] = function()
+            evt._BeginEvent(eventId)
+            handler()
+        end
     end
 end
 

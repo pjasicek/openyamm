@@ -652,31 +652,31 @@ RegisterEvent(458, "Bookshelf", function()
     return
 end, "Bookshelf")
 
-RegisterNoOpEvent(459, "Bookshelf", "Bookshelf")
+RegisterEvent(459, "Bookshelf", nil, "Bookshelf")
 
-RegisterNoOpEvent(460, "Bookshelf", "Bookshelf")
+RegisterEvent(460, "Bookshelf", nil, "Bookshelf")
 
-RegisterNoOpEvent(461, "Bookshelf", "Bookshelf")
+RegisterEvent(461, "Bookshelf", nil, "Bookshelf")
 
-RegisterNoOpEvent(462, "Bookshelf", "Bookshelf")
+RegisterEvent(462, "Bookshelf", nil, "Bookshelf")
 
-RegisterNoOpEvent(463, "Bookshelf", "Bookshelf")
+RegisterEvent(463, "Bookshelf", nil, "Bookshelf")
 
-RegisterNoOpEvent(464, "Bookshelf", "Bookshelf")
+RegisterEvent(464, "Bookshelf", nil, "Bookshelf")
 
-RegisterNoOpEvent(465, "Bookshelf", "Bookshelf")
+RegisterEvent(465, "Bookshelf", nil, "Bookshelf")
 
-RegisterNoOpEvent(466, "Bookshelf", "Bookshelf")
+RegisterEvent(466, "Bookshelf", nil, "Bookshelf")
 
-RegisterNoOpEvent(467, "Bookshelf", "Bookshelf")
+RegisterEvent(467, "Bookshelf", nil, "Bookshelf")
 
-RegisterNoOpEvent(468, "Bookshelf", "Bookshelf")
+RegisterEvent(468, "Bookshelf", nil, "Bookshelf")
 
-RegisterNoOpEvent(469, "Bookshelf", "Bookshelf")
+RegisterEvent(469, "Bookshelf", nil, "Bookshelf")
 
-RegisterNoOpEvent(470, "Bookshelf", "Bookshelf")
+RegisterEvent(470, "Bookshelf", nil, "Bookshelf")
 
-RegisterNoOpEvent(471, "Bookshelf", "Bookshelf")
+RegisterEvent(471, "Bookshelf", nil, "Bookshelf")
 
 RegisterEvent(501, "Leave Merchant House of Alvar", function()
     evt.MoveToMap(12894, -12153, 257, 1536, 0, 0, 0, 0, "Out02.odm")

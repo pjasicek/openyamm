@@ -57,144 +57,112 @@ RegisterEvent(11, "Dragontracker Hall", function()
     return
 end, "Dragontracker Hall")
 
-RegisterEvent(12, "Dragontracker Hall", function()
-    return
-end, "Dragontracker Hall")
+RegisterEvent(12, "Dragontracker Hall", nil, "Dragontracker Hall")
 
 RegisterEvent(13, "Nirses Loot", function()
     evt.EnterHouse(424) -- Nirses Loot
     return
 end, "Nirses Loot")
 
-RegisterEvent(14, "Nirses Loot", function()
-    return
-end, "Nirses Loot")
+RegisterEvent(14, "Nirses Loot", nil, "Nirses Loot")
 
 RegisterEvent(15, "Burnkindle's Spoils", function()
     evt.EnterHouse(425) -- Burnkindle's Spoils
     return
 end, "Burnkindle's Spoils")
 
-RegisterEvent(16, "Burnkindle's Spoils", function()
-    return
-end, "Burnkindle's Spoils")
+RegisterEvent(16, "Burnkindle's Spoils", nil, "Burnkindle's Spoils")
 
 RegisterEvent(17, "Cleareye Hall", function()
     evt.EnterHouse(426) -- Cleareye Hall
     return
 end, "Cleareye Hall")
 
-RegisterEvent(18, "Cleareye Hall", function()
-    return
-end, "Cleareye Hall")
+RegisterEvent(18, "Cleareye Hall", nil, "Cleareye Hall")
 
 RegisterEvent(19, "Shadowrunner's Vault", function()
     evt.EnterHouse(427) -- Shadowrunner's Vault
     return
 end, "Shadowrunner's Vault")
 
-RegisterEvent(20, "Shadowrunner's Vault", function()
-    return
-end, "Shadowrunner's Vault")
+RegisterEvent(20, "Shadowrunner's Vault", nil, "Shadowrunner's Vault")
 
 RegisterEvent(21, "Lifter's Lockup", function()
     evt.EnterHouse(428) -- Lifter's Lockup
     return
 end, "Lifter's Lockup")
 
-RegisterEvent(22, "Lifter's Lockup", function()
-    return
-end, "Lifter's Lockup")
+RegisterEvent(22, "Lifter's Lockup", nil, "Lifter's Lockup")
 
 RegisterEvent(23, "Steelcoif Hall", function()
     evt.EnterHouse(429) -- Steelcoif Hall
     return
 end, "Steelcoif Hall")
 
-RegisterEvent(24, "Steelcoif Hall", function()
-    return
-end, "Steelcoif Hall")
+RegisterEvent(24, "Steelcoif Hall", nil, "Steelcoif Hall")
 
 RegisterEvent(25, "Jawblower Manor", function()
     evt.EnterHouse(430) -- Jawblower Manor
     return
 end, "Jawblower Manor")
 
-RegisterEvent(26, "Jawblower Manor", function()
-    return
-end, "Jawblower Manor")
+RegisterEvent(26, "Jawblower Manor", nil, "Jawblower Manor")
 
 RegisterEvent(27, "Marmon Domicile", function()
     evt.EnterHouse(431) -- Marmon Domicile
     return
 end, "Marmon Domicile")
 
-RegisterEvent(28, "Marmon Domicile", function()
-    return
-end, "Marmon Domicile")
+RegisterEvent(28, "Marmon Domicile", nil, "Marmon Domicile")
 
 RegisterEvent(29, "One-eye's Lair", function()
     evt.EnterHouse(432) -- One-eye's Lair
     return
 end, "One-eye's Lair")
 
-RegisterEvent(30, "One-eye's Lair", function()
-    return
-end, "One-eye's Lair")
+RegisterEvent(30, "One-eye's Lair", nil, "One-eye's Lair")
 
 RegisterEvent(31, "Paul's Estate", function()
     evt.EnterHouse(433) -- Paul's Estate
     return
 end, "Paul's Estate")
 
-RegisterEvent(32, "Paul's Estate", function()
-    return
-end, "Paul's Estate")
+RegisterEvent(32, "Paul's Estate", nil, "Paul's Estate")
 
 RegisterEvent(33, "Terrence's Home", function()
     evt.EnterHouse(434) -- Terrence's Home
     return
 end, "Terrence's Home")
 
-RegisterEvent(34, "Terrence's Home", function()
-    return
-end, "Terrence's Home")
+RegisterEvent(34, "Terrence's Home", nil, "Terrence's Home")
 
 RegisterEvent(35, "Ferne Lair", function()
     evt.EnterHouse(435) -- Ferne Lair
     return
 end, "Ferne Lair")
 
-RegisterEvent(36, "Ferne Lair", function()
-    return
-end, "Ferne Lair")
+RegisterEvent(36, "Ferne Lair", nil, "Ferne Lair")
 
 RegisterEvent(37, "Pavel's Place", function()
     evt.EnterHouse(436) -- Pavel's Place
     return
 end, "Pavel's Place")
 
-RegisterEvent(38, "Pavel's Place", function()
-    return
-end, "Pavel's Place")
+RegisterEvent(38, "Pavel's Place", nil, "Pavel's Place")
 
 RegisterEvent(39, "Nalani's Hall", function()
     evt.EnterHouse(437) -- Nalani's Hall
     return
 end, "Nalani's Hall")
 
-RegisterEvent(40, "Nalani's Hall", function()
-    return
-end, "Nalani's Hall")
+RegisterEvent(40, "Nalani's Hall", nil, "Nalani's Hall")
 
 RegisterEvent(41, "Mercer Domicile", function()
     evt.EnterHouse(438) -- Mercer Domicile
     return
 end, "Mercer Domicile")
 
-RegisterEvent(42, "Mercer Domicile", function()
-    return
-end, "Mercer Domicile")
+RegisterEvent(42, "Mercer Domicile", nil, "Mercer Domicile")
 
 RegisterEvent(81, "Chest", function()
     evt.OpenChest(0)
@@ -337,90 +305,74 @@ RegisterEvent(171, "Custom Cutlass", function()
     return
 end, "Custom Cutlass")
 
-RegisterEvent(172, "Custom Cutlass", function()
-    return
-end, "Custom Cutlass")
+RegisterEvent(172, "Custom Cutlass", nil, "Custom Cutlass")
 
 RegisterEvent(173, "Karr Battlegear", function()
     evt.EnterHouse(21) -- Karr Battlegear
     return
 end, "Karr Battlegear")
 
-RegisterEvent(174, "Karr Battlegear", function()
-    return
-end, "Karr Battlegear")
+RegisterEvent(174, "Karr Battlegear", nil, "Karr Battlegear")
 
 RegisterEvent(175, "Gifts of Regna", function()
     evt.EnterHouse(35) -- Gifts of Regna
     return
 end, "Gifts of Regna")
 
-RegisterEvent(176, "Gifts of Regna", function()
-    return
-end, "Gifts of Regna")
+RegisterEvent(176, "Gifts of Regna", nil, "Gifts of Regna")
 
 RegisterEvent(177, "Poultices and Cures", function()
     evt.EnterHouse(46) -- Poultices and Cures
     return
 end, "Poultices and Cures")
 
-RegisterEvent(178, "Poultices and Cures", function()
-    return
-end, "Poultices and Cures")
+RegisterEvent(178, "Poultices and Cures", nil, "Poultices and Cures")
 
 RegisterEvent(179, "Protective Magic", function()
     evt.EnterHouse(146) -- Protective Magic
     return
 end, "Protective Magic")
 
-RegisterEvent(180, "Protective Magic", function()
-    return
-end, "Protective Magic")
+RegisterEvent(180, "Protective Magic", nil, "Protective Magic")
 
 RegisterEvent(183, "Spindrift", function()
     evt.EnterHouse(68) -- Spindrift
     return
 end, "Spindrift")
 
-RegisterEvent(184, "Spindrift", function()
-    return
-end, "Spindrift")
+RegisterEvent(184, "Spindrift", nil, "Spindrift")
 
 RegisterEvent(185, "The Blessed Sea", function()
     evt.EnterHouse(80) -- The Blessed Sea
     return
 end, "The Blessed Sea")
 
-RegisterEvent(186, "The Blessed Sea", function()
-    return
-end, "The Blessed Sea")
+RegisterEvent(186, "The Blessed Sea", nil, "The Blessed Sea")
 
 RegisterEvent(191, "Pirate's Rest", function()
     evt.EnterHouse(115) -- Pirate's Rest
     return
 end, "Pirate's Rest")
 
-RegisterEvent(192, "Pirate's Rest", function()
-    return
-end, "Pirate's Rest")
+RegisterEvent(192, "Pirate's Rest", nil, "Pirate's Rest")
 
-RegisterNoOpEvent(401, "Pirate Stronghold", "Pirate Stronghold")
+RegisterEvent(401, "Pirate Stronghold", nil, "Pirate Stronghold")
 
-RegisterNoOpEvent(402, "Abandoned Pirate Keep", "Abandoned Pirate Keep")
+RegisterEvent(402, "Abandoned Pirate Keep", nil, "Abandoned Pirate Keep")
 
-RegisterNoOpEvent(403, "Tower", "Tower")
+RegisterEvent(403, "Tower", nil, "Tower")
 
-RegisterNoOpEvent(404, "Small Sub Pen", "Small Sub Pen")
+RegisterEvent(404, "Small Sub Pen", nil, "Small Sub Pen")
 
-RegisterNoOpEvent(405, "A Cave", "A Cave")
+RegisterEvent(405, "A Cave", nil, "A Cave")
 
-RegisterNoOpEvent(406, "Regnan Ship", "Regnan Ship")
+RegisterEvent(406, "Regnan Ship", nil, "Regnan Ship")
 
-RegisterNoOpEvent(407, "Sunk Regnan Ship", "Sunk Regnan Ship")
+RegisterEvent(407, "Sunk Regnan Ship", nil, "Sunk Regnan Ship")
 
-RegisterNoOpEvent(449, "Fountain", "Fountain")
+RegisterEvent(449, "Fountain", nil, "Fountain")
 
-RegisterNoOpEvent(450, "Well", "Well")
+RegisterEvent(450, "Well", nil, "Well")
 
 RegisterEvent(451, "Fire the cannon !", function()
     if not IsQBitSet(QBit(37)) then

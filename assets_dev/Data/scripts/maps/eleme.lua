@@ -432,101 +432,79 @@ RegisterEvent(201, "Loamwalker's House", function()
     return
 end, "Loamwalker's House")
 
-RegisterEvent(202, "Loamwalker's House", function()
-    return
-end, "Loamwalker's House")
+RegisterEvent(202, "Loamwalker's House", nil, "Loamwalker's House")
 
 RegisterEvent(203, "Soil's House", function()
     evt.EnterHouse(458) -- Soil's House
     return
 end, "Soil's House")
 
-RegisterEvent(204, "Soil's House", function()
-    return
-end, "Soil's House")
+RegisterEvent(204, "Soil's House", nil, "Soil's House")
 
 RegisterEvent(205, "Empty House", function()
     evt.EnterHouse(459) -- Empty House
     return
 end, "Empty House")
 
-RegisterEvent(206, "Empty House", function()
-    return
-end, "Empty House")
+RegisterEvent(206, "Empty House", nil, "Empty House")
 
 RegisterEvent(207, "Empty House", function()
     evt.EnterHouse(460) -- Empty House
     return
 end, "Empty House")
 
-RegisterEvent(208, "Empty House", function()
-    return
-end, "Empty House")
+RegisterEvent(208, "Empty House", nil, "Empty House")
 
 RegisterEvent(209, "Empty House", function()
     evt.EnterHouse(461) -- Empty House
     return
 end, "Empty House")
 
-RegisterEvent(210, "Empty House", function()
-    return
-end, "Empty House")
+RegisterEvent(210, "Empty House", nil, "Empty House")
 
 RegisterEvent(211, "Empty House", function()
     evt.EnterHouse(462) -- Empty House
     return
 end, "Empty House")
 
-RegisterEvent(212, "Empty House", function()
-    return
-end, "Empty House")
+RegisterEvent(212, "Empty House", nil, "Empty House")
 
 RegisterEvent(213, "Empty House", function()
     evt.EnterHouse(463) -- Empty House
     return
 end, "Empty House")
 
-RegisterEvent(214, "Empty House", function()
-    return
-end, "Empty House")
+RegisterEvent(214, "Empty House", nil, "Empty House")
 
 RegisterEvent(215, "Empty House", function()
     evt.EnterHouse(464) -- Empty House
     return
 end, "Empty House")
 
-RegisterEvent(216, "Empty House", function()
-    return
-end, "Empty House")
+RegisterEvent(216, "Empty House", nil, "Empty House")
 
 RegisterEvent(217, "Empty House", function()
     evt.EnterHouse(465) -- Empty House
     return
 end, "Empty House")
 
-RegisterEvent(218, "Empty House", function()
-    return
-end, "Empty House")
+RegisterEvent(218, "Empty House", nil, "Empty House")
 
 RegisterEvent(219, "Empty House", function()
     evt.EnterHouse(466) -- Empty House
     return
 end, "Empty House")
 
-RegisterEvent(220, "Empty House", function()
-    return
-end, "Empty House")
+RegisterEvent(220, "Empty House", nil, "Empty House")
 
 RegisterEvent(223, "Griven's House", function()
     evt.EnterHouse(477) -- Griven's House
     return
 end, "Griven's House")
 
-RegisterEvent(224, "Griven's House", function()
-    return
-end, "Griven's House")
+RegisterEvent(224, "Griven's House", nil, "Griven's House")
 
-RegisterNoOpEvent(401, "Gate out of the Plane of Earth", "Gate out of the Plane of Earth")
+RegisterEvent(401, "Gate out of the Plane of Earth", nil, "Gate out of the Plane of Earth")
 
 RegisterEvent(451, "Take a Drink", function()
     if not IsAtLeast(EarthResistance, 10) then

@@ -452,7 +452,7 @@ RegisterEvent(100, "Chest", function()
     return
 end, "Chest")
 
-RegisterNoOpEvent(101, "Legacy event 101")
+RegisterEvent(101, "Legacy event 101", nil)
 
 RegisterEvent(102, "Legacy event 102", function()
     evt.CastSpell(39, 20, 4, -1018, 3344, -862, 890, 3344, -862) -- Blades
@@ -466,11 +466,11 @@ RegisterEvent(103, "Legacy event 103", function()
     return
 end)
 
-RegisterNoOpEvent(104, "Legacy event 104")
+RegisterEvent(104, "Legacy event 104", nil)
 
-RegisterNoOpEvent(105, "Legacy event 105")
+RegisterEvent(105, "Legacy event 105", nil)
 
-RegisterNoOpEvent(106, "Legacy event 106")
+RegisterEvent(106, "Legacy event 106", nil)
 
 RegisterEvent(131, "Legacy event 131", function()
     if not IsQBitSet(QBit(435)) then

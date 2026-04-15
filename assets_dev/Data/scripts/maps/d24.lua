@@ -627,9 +627,7 @@ RegisterEvent(203, "Thanys' House", function()
     return
 end, "Thanys' House")
 
-RegisterEvent(204, "Thanys' House", function()
-    return
-end, "Thanys' House")
+RegisterEvent(204, "Thanys' House", nil, "Thanys' House")
 
 RegisterEvent(205, "Ferris' House", function()
     if IsQBitSet(QBit(23)) then
@@ -640,27 +638,21 @@ RegisterEvent(205, "Ferris' House", function()
     return
 end, "Ferris' House")
 
-RegisterEvent(206, "Ferris' House", function()
-    return
-end, "Ferris' House")
+RegisterEvent(206, "Ferris' House", nil, "Ferris' House")
 
 RegisterEvent(207, "Flooded House", function()
     evt.EnterHouse(404) -- Flooded House
     return
 end, "Flooded House")
 
-RegisterEvent(208, "Flooded House", function()
-    return
-end, "Flooded House")
+RegisterEvent(208, "Flooded House", nil, "Flooded House")
 
 RegisterEvent(209, "Flooded House", function()
     evt.EnterHouse(404) -- Flooded House
     return
 end, "Flooded House")
 
-RegisterEvent(210, "Flooded House", function()
-    return
-end, "Flooded House")
+RegisterEvent(210, "Flooded House", nil, "Flooded House")
 
 RegisterEvent(211, "Weapon shop placeholder", function()
     if IsQBitSet(QBit(23)) then
@@ -671,9 +663,7 @@ RegisterEvent(211, "Weapon shop placeholder", function()
     return
 end, "Weapon shop placeholder")
 
-RegisterEvent(212, "Weapon shop placeholder", function()
-    return
-end, "Weapon shop placeholder")
+RegisterEvent(212, "Weapon shop placeholder", nil, "Weapon shop placeholder")
 
 RegisterEvent(213, "Suretail House", function()
     if IsQBitSet(QBit(23)) then
@@ -684,9 +674,7 @@ RegisterEvent(213, "Suretail House", function()
     return
 end, "Suretail House")
 
-RegisterEvent(214, "Suretail House", function()
-    return
-end, "Suretail House")
+RegisterEvent(214, "Suretail House", nil, "Suretail House")
 
 RegisterEvent(215, "Rionel's House", function()
     if IsQBitSet(QBit(23)) then
@@ -697,9 +685,7 @@ RegisterEvent(215, "Rionel's House", function()
     return
 end, "Rionel's House")
 
-RegisterEvent(216, "Rionel's House", function()
-    return
-end, "Rionel's House")
+RegisterEvent(216, "Rionel's House", nil, "Rionel's House")
 
 RegisterEvent(217, "Armor shop placeholder", function()
     if IsQBitSet(QBit(23)) then
@@ -710,9 +696,7 @@ RegisterEvent(217, "Armor shop placeholder", function()
     return
 end, "Armor shop placeholder")
 
-RegisterEvent(218, "Armor shop placeholder", function()
-    return
-end, "Armor shop placeholder")
+RegisterEvent(218, "Armor shop placeholder", nil, "Armor shop placeholder")
 
 RegisterEvent(219, "Magic shop placeholder", function()
     if IsQBitSet(QBit(23)) then
@@ -723,9 +707,7 @@ RegisterEvent(219, "Magic shop placeholder", function()
     return
 end, "Magic shop placeholder")
 
-RegisterEvent(220, "Magic shop placeholder", function()
-    return
-end, "Magic shop placeholder")
+RegisterEvent(220, "Magic shop placeholder", nil, "Magic shop placeholder")
 
 RegisterEvent(221, "Spell shop placeholder", function()
     if IsQBitSet(QBit(23)) then
@@ -736,9 +718,7 @@ RegisterEvent(221, "Spell shop placeholder", function()
     return
 end, "Spell shop placeholder")
 
-RegisterEvent(222, "Spell shop placeholder", function()
-    return
-end, "Spell shop placeholder")
+RegisterEvent(222, "Spell shop placeholder", nil, "Spell shop placeholder")
 
 RegisterEvent(223, "Ulbrecht's House", function()
     if IsQBitSet(QBit(23)) then
@@ -749,9 +729,7 @@ RegisterEvent(223, "Ulbrecht's House", function()
     return
 end, "Ulbrecht's House")
 
-RegisterEvent(224, "Ulbrecht's House", function()
-    return
-end, "Ulbrecht's House")
+RegisterEvent(224, "Ulbrecht's House", nil, "Ulbrecht's House")
 
 RegisterEvent(225, "Senjac's House", function()
     if IsQBitSet(QBit(23)) then
@@ -762,9 +740,7 @@ RegisterEvent(225, "Senjac's House", function()
     return
 end, "Senjac's House")
 
-RegisterEvent(226, "Senjac's House", function()
-    return
-end, "Senjac's House")
+RegisterEvent(226, "Senjac's House", nil, "Senjac's House")
 
 RegisterEvent(227, "Alchemist placeholder", function()
     if IsQBitSet(QBit(23)) then
@@ -775,9 +751,7 @@ RegisterEvent(227, "Alchemist placeholder", function()
     return
 end, "Alchemist placeholder")
 
-RegisterEvent(228, "Alchemist placeholder", function()
-    return
-end, "Alchemist placeholder")
+RegisterEvent(228, "Alchemist placeholder", nil, "Alchemist placeholder")
 
 RegisterEvent(229, "Temple placeholder", function()
     if IsQBitSet(QBit(23)) then
@@ -788,11 +762,9 @@ RegisterEvent(229, "Temple placeholder", function()
     return
 end, "Temple placeholder")
 
-RegisterEvent(230, "Temple placeholder", function()
-    return
-end, "Temple placeholder")
+RegisterEvent(230, "Temple placeholder", nil, "Temple placeholder")
 
-RegisterNoOpEvent(401, "Fountain", "Fountain")
+RegisterEvent(401, "Fountain", nil, "Fountain")
 
 RegisterEvent(451, "Drink from the Fountain", function()
     if not IsQBitSet(QBit(184)) then
@@ -814,9 +786,7 @@ RegisterEvent(452, "Lotts' House", function()
     return
 end, "Lotts' House")
 
-RegisterEvent(453, "Lotts' House", function()
-    return
-end, "Lotts' House")
+RegisterEvent(453, "Lotts' House", nil, "Lotts' House")
 
 RegisterEvent(454, "Hollyfield House", function()
     if IsQBitSet(QBit(23)) then
@@ -827,9 +797,7 @@ RegisterEvent(454, "Hollyfield House", function()
     return
 end, "Hollyfield House")
 
-RegisterEvent(455, "Hollyfield House", function()
-    return
-end, "Hollyfield House")
+RegisterEvent(455, "Hollyfield House", nil, "Hollyfield House")
 
 RegisterEvent(456, "Tessalar's House", function()
     if IsQBitSet(QBit(23)) then
@@ -840,9 +808,7 @@ RegisterEvent(456, "Tessalar's House", function()
     return
 end, "Tessalar's House")
 
-RegisterEvent(457, "Tessalar's House", function()
-    return
-end, "Tessalar's House")
+RegisterEvent(457, "Tessalar's House", nil, "Tessalar's House")
 
 RegisterEvent(458, "Stormeye's House", function()
     if IsQBitSet(QBit(23)) then
@@ -853,9 +819,7 @@ RegisterEvent(458, "Stormeye's House", function()
     return
 end, "Stormeye's House")
 
-RegisterEvent(459, "Stormeye's House", function()
-    return
-end, "Stormeye's House")
+RegisterEvent(459, "Stormeye's House", nil, "Stormeye's House")
 
 RegisterEvent(460, "Bank placeholder", function()
     if IsQBitSet(QBit(23)) then
@@ -866,9 +830,7 @@ RegisterEvent(460, "Bank placeholder", function()
     return
 end, "Bank placeholder")
 
-RegisterEvent(461, "Bank placeholder", function()
-    return
-end, "Bank placeholder")
+RegisterEvent(461, "Bank placeholder", nil, "Bank placeholder")
 
 RegisterEvent(462, "Training hall placeholder", function()
     if IsQBitSet(QBit(23)) then
@@ -879,9 +841,7 @@ RegisterEvent(462, "Training hall placeholder", function()
     return
 end, "Training hall placeholder")
 
-RegisterEvent(463, "Training hall placeholder", function()
-    return
-end, "Training hall placeholder")
+RegisterEvent(463, "Training hall placeholder", nil, "Training hall placeholder")
 
 RegisterEvent(464, "Ayzar's Axes", function()
     if IsQBitSet(QBit(23)) then
@@ -892,9 +852,7 @@ RegisterEvent(464, "Ayzar's Axes", function()
     return
 end, "Ayzar's Axes")
 
-RegisterEvent(465, "Ayzar's Axes", function()
-    return
-end, "Ayzar's Axes")
+RegisterEvent(465, "Ayzar's Axes", nil, "Ayzar's Axes")
 
 RegisterEvent(466, "Linked Mail", function()
     if IsQBitSet(QBit(23)) then
@@ -905,9 +863,7 @@ RegisterEvent(466, "Linked Mail", function()
     return
 end, "Linked Mail")
 
-RegisterEvent(467, "Linked Mail", function()
-    return
-end, "Linked Mail")
+RegisterEvent(467, "Linked Mail", nil, "Linked Mail")
 
 RegisterEvent(468, "Amulets of Power", function()
     if IsQBitSet(QBit(23)) then
@@ -918,9 +874,7 @@ RegisterEvent(468, "Amulets of Power", function()
     return
 end, "Amulets of Power")
 
-RegisterEvent(469, "Amulets of Power", function()
-    return
-end, "Amulets of Power")
+RegisterEvent(469, "Amulets of Power", nil, "Amulets of Power")
 
 RegisterEvent(470, "Perius' Powders", function()
     if IsQBitSet(QBit(23)) then
@@ -931,9 +885,7 @@ RegisterEvent(470, "Perius' Powders", function()
     return
 end, "Perius' Powders")
 
-RegisterEvent(471, "Perius' Powders", function()
-    return
-end, "Perius' Powders")
+RegisterEvent(471, "Perius' Powders", nil, "Perius' Powders")
 
 RegisterEvent(472, "The Shaman", function()
     if IsQBitSet(QBit(23)) then
@@ -944,9 +896,7 @@ RegisterEvent(472, "The Shaman", function()
     return
 end, "The Shaman")
 
-RegisterEvent(473, "The Shaman", function()
-    return
-end, "The Shaman")
+RegisterEvent(473, "The Shaman", nil, "The Shaman")
 
 RegisterEvent(474, "Balthazar Academy", function()
     if IsQBitSet(QBit(23)) then
@@ -957,9 +907,7 @@ RegisterEvent(474, "Balthazar Academy", function()
     return
 end, "Balthazar Academy")
 
-RegisterEvent(475, "Balthazar Academy", function()
-    return
-end, "Balthazar Academy")
+RegisterEvent(475, "Balthazar Academy", nil, "Balthazar Academy")
 
 RegisterEvent(476, "Bank of Balthazar", function()
     if IsQBitSet(QBit(23)) then
@@ -970,9 +918,7 @@ RegisterEvent(476, "Bank of Balthazar", function()
     return
 end, "Bank of Balthazar")
 
-RegisterEvent(477, "Bank of Balthazar", function()
-    return
-end, "Bank of Balthazar")
+RegisterEvent(477, "Bank of Balthazar", nil, "Bank of Balthazar")
 
 RegisterEvent(478, "Guild of Mind", function()
     if IsQBitSet(QBit(23)) then
@@ -983,9 +929,7 @@ RegisterEvent(478, "Guild of Mind", function()
     return
 end, "Guild of Mind")
 
-RegisterEvent(479, "Guild of Mind", function()
-    return
-end, "Guild of Mind")
+RegisterEvent(479, "Guild of Mind", nil, "Guild of Mind")
 
 RegisterEvent(501, "Leave Balthazar Lair", function()
     evt.MoveToMap(-10869, -8850, 1985, 1024, 0, 0, 0, 0, "Out08.odm")

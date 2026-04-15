@@ -66,99 +66,77 @@ RegisterEvent(11, "Overdune's House", function()
     return
 end, "Overdune's House")
 
-RegisterEvent(12, "Overdune's House", function()
-    return
-end, "Overdune's House")
+RegisterEvent(12, "Overdune's House", nil, "Overdune's House")
 
 RegisterEvent(13, "Pole's Hovel", function()
     evt.EnterHouse(337) -- Pole's Hovel
     return
 end, "Pole's Hovel")
 
-RegisterEvent(14, "Pole's Hovel", function()
-    return
-end, "Pole's Hovel")
+RegisterEvent(14, "Pole's Hovel", nil, "Pole's Hovel")
 
 RegisterEvent(15, "Hovel of Greenstorm", function()
     evt.EnterHouse(336) -- Hovel of Greenstorm
     return
 end, "Hovel of Greenstorm")
 
-RegisterEvent(16, "Hovel of Greenstorm", function()
-    return
-end, "Hovel of Greenstorm")
+RegisterEvent(16, "Hovel of Greenstorm", nil, "Hovel of Greenstorm")
 
 RegisterEvent(17, "Hobert's Hovel", function()
     evt.EnterHouse(335) -- Hobert's Hovel
     return
 end, "Hobert's Hovel")
 
-RegisterEvent(18, "Hobert's Hovel", function()
-    return
-end, "Hobert's Hovel")
+RegisterEvent(18, "Hobert's Hovel", nil, "Hobert's Hovel")
 
 RegisterEvent(19, "Hovel of Mist", function()
     evt.EnterHouse(334) -- Hovel of Mist
     return
 end, "Hovel of Mist")
 
-RegisterEvent(20, "Hovel of Mist", function()
-    return
-end, "Hovel of Mist")
+RegisterEvent(20, "Hovel of Mist", nil, "Hovel of Mist")
 
 RegisterEvent(21, "Talion's Hovel", function()
     evt.EnterHouse(333) -- Talion's Hovel
     return
 end, "Talion's Hovel")
 
-RegisterEvent(22, "Talion's Hovel", function()
-    return
-end, "Talion's Hovel")
+RegisterEvent(22, "Talion's Hovel", nil, "Talion's Hovel")
 
 RegisterEvent(23, "Stone's Hovel", function()
     evt.EnterHouse(331) -- Stone's Hovel
     return
 end, "Stone's Hovel")
 
-RegisterEvent(24, "Stone's Hovel", function()
-    return
-end, "Stone's Hovel")
+RegisterEvent(24, "Stone's Hovel", nil, "Stone's Hovel")
 
 RegisterEvent(25, "Hearthsworn Hovel", function()
     evt.EnterHouse(332) -- Hearthsworn Hovel
     return
 end, "Hearthsworn Hovel")
 
-RegisterEvent(26, "Hearthsworn Hovel", function()
-    return
-end, "Hearthsworn Hovel")
+RegisterEvent(26, "Hearthsworn Hovel", nil, "Hearthsworn Hovel")
 
 RegisterEvent(27, "Schmecker's Hovel", function()
     evt.EnterHouse(339) -- Schmecker's Hovel
     return
 end, "Schmecker's Hovel")
 
-RegisterEvent(28, "Schmecker's Hovel", function()
-    return
-end, "Schmecker's Hovel")
+RegisterEvent(28, "Schmecker's Hovel", nil, "Schmecker's Hovel")
 
 RegisterEvent(29, "Tarent Hovel", function()
     evt.EnterHouse(338) -- Tarent Hovel
     return
 end, "Tarent Hovel")
 
-RegisterEvent(30, "Tarent Hovel", function()
-    return
-end, "Tarent Hovel")
+RegisterEvent(30, "Tarent Hovel", nil, "Tarent Hovel")
 
 RegisterEvent(31, "Thistlebone Residence", function()
     evt.EnterHouse(479) -- Thistlebone Residence
     return
 end, "Thistlebone Residence")
 
-RegisterEvent(32, "Thistlebone Residence", function()
-    return
-end, "Thistlebone Residence")
+RegisterEvent(32, "Thistlebone Residence", nil, "Thistlebone Residence")
 
 RegisterEvent(81, "Chest", function()
     evt.OpenChest(0)
@@ -307,48 +285,40 @@ RegisterEvent(179, "Self Study", function()
     return
 end, "Self Study")
 
-RegisterEvent(180, "Self Study", function()
-    return
-end, "Self Study")
+RegisterEvent(180, "Self Study", nil, "Self Study")
 
 RegisterEvent(181, "Guild Caravans", function()
     evt.EnterHouse(56) -- Guild Caravans
     return
 end, "Guild Caravans")
 
-RegisterEvent(182, "Guild Caravans", function()
-    return
-end, "Guild Caravans")
+RegisterEvent(182, "Guild Caravans", nil, "Guild Caravans")
 
 RegisterEvent(189, "Placeholder", function()
     evt.EnterHouse(104) -- Placeholder
     return
 end, "Placeholder")
 
-RegisterEvent(190, "Placeholder", function()
-    return
-end, "Placeholder")
+RegisterEvent(190, "Placeholder", nil, "Placeholder")
 
 RegisterEvent(191, "Parched Throat", function()
     evt.EnterHouse(110) -- Parched Throat
     return
 end, "Parched Throat")
 
-RegisterEvent(192, "Parched Throat", function()
-    return
-end, "Parched Throat")
+RegisterEvent(192, "Parched Throat", nil, "Parched Throat")
 
-RegisterNoOpEvent(401, "Troll Tomb", "Troll Tomb")
+RegisterEvent(401, "Troll Tomb", nil, "Troll Tomb")
 
-RegisterNoOpEvent(402, "Cyclops Larder", "Cyclops Larder")
+RegisterEvent(402, "Cyclops Larder", nil, "Cyclops Larder")
 
-RegisterNoOpEvent(403, "Chain of Fire", "Chain of Fire")
+RegisterEvent(403, "Chain of Fire", nil, "Chain of Fire")
 
-RegisterNoOpEvent(404, "A Cave", "A Cave")
+RegisterEvent(404, "A Cave", nil, "A Cave")
 
-RegisterNoOpEvent(405, "Gate to the Plane of Fire", "Gate to the Plane of Fire")
+RegisterEvent(405, "Gate to the Plane of Fire", nil, "Gate to the Plane of Fire")
 
-RegisterNoOpEvent(406, "Destroyed Building", "Destroyed Building")
+RegisterEvent(406, "Destroyed Building", nil, "Destroyed Building")
 
 RegisterEvent(479, "Legacy event 479", function()
     local randomStep = PickRandomOption(479, 2, {2, 4, 6, 8, 10, 12})

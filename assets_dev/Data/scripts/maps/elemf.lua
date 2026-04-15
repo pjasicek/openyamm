@@ -65,54 +65,42 @@ RegisterEvent(11, "Ember's House", function()
     return
 end, "Ember's House")
 
-RegisterEvent(12, "Ember's House", function()
-    return
-end, "Ember's House")
+RegisterEvent(12, "Ember's House", nil, "Ember's House")
 
 RegisterEvent(13, "Evenblaze's House", function()
     evt.EnterHouse(468) -- Evenblaze's House
     return
 end, "Evenblaze's House")
 
-RegisterEvent(14, "Evenblaze's House", function()
-    return
-end, "Evenblaze's House")
+RegisterEvent(14, "Evenblaze's House", nil, "Evenblaze's House")
 
 RegisterEvent(15, "Empty House", function()
     evt.EnterHouse(469) -- Empty House
     return
 end, "Empty House")
 
-RegisterEvent(16, "Empty House", function()
-    return
-end, "Empty House")
+RegisterEvent(16, "Empty House", nil, "Empty House")
 
 RegisterEvent(17, "Empty House", function()
     evt.EnterHouse(470) -- Empty House
     return
 end, "Empty House")
 
-RegisterEvent(18, "Empty House", function()
-    return
-end, "Empty House")
+RegisterEvent(18, "Empty House", nil, "Empty House")
 
 RegisterEvent(19, "Empty House", function()
     evt.EnterHouse(471) -- Empty House
     return
 end, "Empty House")
 
-RegisterEvent(20, "Empty House", function()
-    return
-end, "Empty House")
+RegisterEvent(20, "Empty House", nil, "Empty House")
 
 RegisterEvent(21, "Burn's House", function()
     evt.EnterHouse(321) -- Burn's House
     return
 end, "Burn's House")
 
-RegisterEvent(22, "Burn's House", function()
-    return
-end, "Burn's House")
+RegisterEvent(22, "Burn's House", nil, "Burn's House")
 
 RegisterEvent(81, "Legacy event 81", function()
     evt.OpenChest(0)
@@ -214,11 +202,11 @@ RegisterEvent(100, "Legacy event 100", function()
     return
 end)
 
-RegisterNoOpEvent(401, "Castle of Fire", "Castle of Fire")
+RegisterEvent(401, "Castle of Fire", nil, "Castle of Fire")
 
-RegisterNoOpEvent(402, "War Camp", "War Camp")
+RegisterEvent(402, "War Camp", nil, "War Camp")
 
-RegisterNoOpEvent(403, "Gate out of the Plane of Fire", "Gate out of the Plane of Fire")
+RegisterEvent(403, "Gate out of the Plane of Fire", nil, "Gate out of the Plane of Fire")
 
 RegisterEvent(451, "Take a Drink", function()
     if not IsAtLeast(FireResistanceBonus, 25) then

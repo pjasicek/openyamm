@@ -11,101 +11,6 @@ SetGlobalMetadata({
     },
 })
 
-local QBIT_TAKE_DADEROSS_LETTER_TO_FELLMOON = QBit(3)
-local QBIT_DADEROSS_LETTER_DELIVERED_TO_FELLMOON = QBit(4)
-local QBIT_TAKE_POWER_STONE_TO_TALIMERE = QBit(7)
-local QBIT_POWER_STONE_PORTAL_REPAIRED = QBit(8)
-local QBIT_REPORT_TO_BASTIAN_LOUDRIN = QBit(11)
-local QBIT_REPORTED_TO_BASTIAN_LOUDRIN = QBit(12)
-local QBIT_FELLMOON_SMUGGLER_BOATS_SECURED = QBit(24)
-local QBIT_FIND_LAKE_OF_FIRE_WITNESS = QBit(25)
-local QBIT_FIND_CAURI_BLACKTHORNE = QBit(39)
-local QBIT_CAURI_BLACKTHORNE_RETURNED = QBit(40)
-local QBIT_PROPHECIES_OF_THE_SNAKE_QUEST_ACTIVE = QBit(135)
-local QBIT_FIND_ISTHRIC_THE_TONGUE = QBit(137)
-local QBIT_ISTHRIC_THE_TONGUE_FOUND = QBit(138)
-local QBIT_FIND_ANCIENT_TROLL_HOME = QBit(68)
-local QBIT_ANCIENT_TROLL_HOME_FOUND = QBit(69)
-local QBIT_CARRYING_DADEROSS_LETTER_TO_FELLMOON = QBit(221)
-local QBIT_CAN_ASK_NECROMANCERS_GUILD_FOR_ALLIANCE = QBit(14)
-local QBIT_CAN_ASK_TEMPLE_OF_THE_SUN_FOR_ALLIANCE = QBit(15)
-local QBIT_CAN_ASK_CHARLES_QUIXOTE_FOR_ALLIANCE = QBit(16)
-local QBIT_CAN_ASK_DRAGONS_FOR_ALLIANCE = QBit(17)
-local QBIT_CAN_ASK_MINOTAURS_FOR_ALLIANCE = QBit(18)
-local QBIT_NECROMANCERS_GUILD_ALLIED = QBit(19)
-local QBIT_TEMPLE_OF_THE_SUN_ALLIED = QBit(20)
-local QBIT_CHARLES_QUIXOTE_ALLIED = QBit(21)
-local QBIT_DRAGONS_ALLIED = QBit(22)
-local QBIT_MINOTAURS_ALLIED = QBit(23)
-local QBIT_HELP_DYSON_DESTROY_SKELETON_TRANSFORMER = QBit(26)
-local QBIT_SKELETON_TRANSFORMER_DESTROYED = QBit(27)
-local QBIT_RECOVER_NIGHTSHADE_BRAZIER = QBit(28)
-local QBIT_RECOVER_DRAGON_LEADERS_EGG_FOR_QUIXOTE = QBit(31)
-local QBIT_RECOVER_DRAGON_LEADERS_EGG_FOR_DRAGONS = QBit(33)
-local QBIT_SINK_REGNAN_FLEET_FOR_IRONFISTS = QBit(36)
-local QBIT_REGNAN_FLEET_SUNK = QBit(37)
-local QBIT_IRONFISTS_ARRIVED_IN_RAVENSHORE = QBit(38)
-local QBIT_BURY_VILEBITE_ASHES = QBit(61)
-local QBIT_VILEBITE_ASHES_LAID_TO_REST = QBit(62)
-local QBIT_FIND_EBONEST_AND_BLAZEN_STORMLANCE = QBit(70)
-local QBIT_FIND_GEM_OF_RESTORATION_FOR_BLAZEN = QBit(72)
-local QBIT_BLAZEN_STORMLANCE_RESTORED = QBit(73)
-local QBIT_RECOVER_WHISTLEBONES_SWORD = QBit(74)
-local QBIT_HEARD_DYSON_ON_NECROMANCERS = QBit(89)
-local QBIT_HEARD_DYSON_ON_SUN_TEMPLE = QBit(90)
-local QBIT_CONSULT_XANTHOR_ABOUT_THE_CRYSTAL = QBit(91)
-local QBIT_XANTHOR_EXPLAINED_THE_CRYSTAL = QBit(92)
-local QBIT_RAVENSHORE_UNDER_ATTACK = QBit(57)
-local QBIT_CLERIC_OF_THE_SUN_PROMOTION_QUEST_ACTIVE = QBit(78)
-local QBIT_RETURN_KORBU_REMAINS_AND_SARCOPHAGUS = QBit(80)
-local QBIT_LICH_PROMOTION_QUEST_ACTIVE = QBit(82)
-local QBIT_RECEIVED_IRON_RATIONS = QBit(99)
-local QBIT_RUST_YELLOW_FEVER_SCROLL_DELIVERY_ACTIVE = QBit(101)
-local QBIT_RUST_YELLOW_FEVER_HUT_1_CURED = QBit(102)
-local QBIT_RUST_YELLOW_FEVER_HUT_2_CURED = QBit(103)
-local QBIT_RUST_YELLOW_FEVER_HUT_3_CURED = QBit(104)
-local QBIT_RUST_YELLOW_FEVER_HUT_4_CURED = QBit(105)
-local QBIT_RUST_YELLOW_FEVER_HUT_5_CURED = QBit(106)
-local QBIT_RUST_YELLOW_FEVER_HUT_6_CURED = QBit(107)
-local QBIT_RUST_YELLOW_FEVER_EPIDEMIC_STOPPED = QBit(108)
-local QBIT_RUST_ANOINTED_HERB_POTION_QUEST_ACTIVE = QBit(109)
-local QBIT_RUST_WATER_SUPPLY_PURIFIED = QBit(110)
-local QBIT_IDOL_OF_THE_SNAKE_QUEST_ACTIVE = QBit(111)
-local QBIT_IDOL_OF_THE_SNAKE_RETURNED = QBit(112)
-local QBIT_PURE_SPEED_INGREDIENTS_QUEST_ACTIVE = QBit(113)
-local QBIT_PURE_SPEED_REWARD_CLAIMED = QBit(114)
-local QBIT_FALSE_REPORT_FOR_STANLEY_ACTIVE = QBit(117)
-local QBIT_FALSE_REPORT_DELIVERED_TO_STANLEY = QBit(118)
-local QBIT_RESCUE_ARION_HUNTERS_FAMILY_ACTIVE = QBit(119)
-local QBIT_ARION_HUNTERS_FAMILY_RESCUED = QBit(120)
-local QBIT_DIRE_WOLF_HUNT_ACTIVE = QBit(139)
-local QBIT_DIRE_WOLF_HUNT_COMPLETE = QBit(140)
-local QBIT_RUST_FIRE_RESISTANCE_POTION_DELIVERY_ACTIVE = QBit(142)
-local QBIT_RUST_FIRE_RESISTANCE_HOUSE_1_PROTECTED = QBit(143)
-local QBIT_RUST_FIRE_RESISTANCE_HOUSE_2_PROTECTED = QBit(144)
-local QBIT_RUST_FIRE_RESISTANCE_HOUSE_3_PROTECTED = QBit(145)
-local QBIT_RUST_FIRE_RESISTANCE_HOUSE_4_PROTECTED = QBit(146)
-local QBIT_RUST_FIRE_RESISTANCE_HOUSE_5_PROTECTED = QBit(147)
-local QBIT_RUST_FIRE_RESISTANCE_HOUSE_6_PROTECTED = QBit(148)
-local QBIT_RUST_FIRE_RESISTANCE_VILLAGE_PROTECTED = QBit(149)
-local QBIT_DRAGON_HUNTERS_DRAGONBANE_FLOWER_QUEST_ACTIVE = QBit(150)
-local QBIT_DRAGON_HUNTERS_DRAGONBANE_FLOWER_DELIVERED = QBit(151)
-local QBIT_DRAGONS_DRAGONBANE_FLOWER_QUEST_ACTIVE = QBit(152)
-local QBIT_DRAGONS_DRAGONBANE_FLOWER_DELIVERED = QBit(153)
-local QBIT_CHARLES_QUIXOTE_DRAGON_CULL_QUEST_ACTIVE = QBit(154)
-local QBIT_GARROTE_GORGE_DRAGONS_SLAIN = QBit(155)
-local QBIT_DEFTCLAW_REDREAVER_DRAGON_HUNTER_CULL_QUEST_ACTIVE = QBit(157)
-local QBIT_GARROTE_GORGE_DRAGON_HUNTERS_SLAIN = QBit(158)
-local QBIT_RECOVER_DRUM_OF_VICTORY = QBit(160)
-local QBIT_PURE_ENDURANCE_INGREDIENTS_QUEST_ACTIVE = QBit(121)
-local QBIT_PURE_ENDURANCE_REWARD_CLAIMED = QBit(122)
-local QBIT_NOVICE_BOUNTY_HUNTER_RANK = QBit(169)
-local QBIT_JOURNEYMAN_BOUNTY_HUNTER_RANK = QBit(170)
-local QBIT_MASTER_BOUNTY_HUNTER_RANK = QBit(171)
-local QBIT_ARCOMAGE_TOURNAMENT_ACTIVE = QBit(173)
-local QBIT_ARCOMAGE_TOURNAMENT_COMPLETE = QBit(174)
-local QBIT_ARCOMAGE_CHAMPION_REWARD_CLAIMED = QBit(175)
-
 RegisterGlobalEvent(1, "Cataclysm", function()
     evt.SimpleMessage("My fellow Journeyman, we face grave times.  Hopefully our Master will find a way for us to leave this troubled region and return safely to Alvar.  I would not wish to end my life here, even though it is the place of my birth.")
     SetQBit(QBit(232))
@@ -126,7 +31,7 @@ end)
 
 RegisterGlobalEvent(4, "Cataclysm", function()
     evt.SimpleMessage("It is as I have read in the prophecy of the Unmaking! \"...and a Mountain of Fire shall rise from the sea, like a wound drawn by the quick stroke of a dagger…\".\n\nYou must find a way off of these islands, if not for the caravan, at least for yourself!  Someone must take news of what has happened here to the Merchant Council in Alvar!  They must know of the cataclysm and of the Regnan raid!")
-    evt.SetNPCTopic(2, 0, 20) -- Dadeross, topic "Quest"
+    evt.SetNPCTopic(2, 0, 20)
     return
 end)
 
@@ -159,7 +64,7 @@ end)
 
 RegisterGlobalEvent(8, "Portals of Stone", function()
     evt.SimpleMessage("In time long past, my people used the Portals of Stone to travel quickly from island to island, but we have lost the knowledge of their operation. Only the pair connecting the village to the southwestern fields still functions. Now that the bridges are gone, we're trapped on the island!")
-    evt.SetNPCTopic(1, 1, 21) -- Brekish Onefang, topic "Quest"
+    evt.SetNPCTopic(1, 1, 21)
     return
 end)
 
@@ -178,16 +83,24 @@ end)
 RegisterGlobalEvent(12, "Power Stone", function()
     evt.SimpleMessage("So Clanleader Onefang gave you that power stone he was holding onto! It will power the portal on the southwestern tip of the island. To use it, hold an image of the stone in your mind as you step onto the portal.")
     evt.ForPlayer(Players.All)
-    SetAward(Award(2)) -- Brought Power Stone to Fredrick Talimere.
+    SetAward(Award(2))
     AddValue(Experience, 1500)
-    ClearQBit(QBIT_TAKE_POWER_STONE_TO_TALIMERE)
-    SetQBit(QBIT_POWER_STONE_PORTAL_REPAIRED)
-    evt.SetNPCTopic(32, 2, 602) -- Fredrick Talimere, topic "Roster Join Event"
-    evt.SetNPCTopic(1, 2, 0) -- Brekish Onefang, clear topic slot C
+    ClearQBit(QBit(7))
+    SetQBit(QBit(8))
+    evt.SetNPCTopic(32, 2, 602)
+    evt.SetNPCTopic(1, 2, 0)
     return
 end)
 RegisterCanShowTopic(12, function()
-    return HasItem(617) -- Power Stone
+    evt._BeginCanShowTopic(12)
+    local visible = true
+    if HasItem(617) then -- Power Stone
+        visible = true
+        return visible
+    else
+        visible = false
+        return visible
+    end
 end)
 
 RegisterGlobalEvent(13, "Abandoned Temple", function()
@@ -196,9 +109,9 @@ RegisterGlobalEvent(13, "Abandoned Temple", function()
 end)
 
 RegisterGlobalEvent(14, "Quest", function()
-    if not IsQBitSet(QBIT_ISTHRIC_THE_TONGUE_FOUND) then
+    if not IsQBitSet(QBit(138)) then
         evt.SimpleMessage("My brother, Isthric the Tongue, went to check on the tobersk plants on one of the lesser islands.  He has not returned!  I am afraid that he is one of those stranded by the cataclysm. He may even be hurt!  If you were to fix the Portals of Stone, he would surely be able to return, and we could get help to those who need it!  Find him for me!")
-        SetQBit(QBIT_FIND_ISTHRIC_THE_TONGUE)
+        SetQBit(QBit(137))
         return
     end
     evt.SimpleMessage("You found Isthric and told him how to return home?  We are indeed in debt to you, Merchant of Alvar!  I will speak well of you to Clan Leader Brekish Onefang.  Please take these potions of Cure Wounds as a reward.")
@@ -207,10 +120,10 @@ RegisterGlobalEvent(14, "Quest", function()
     evt.ForPlayer(Players.Member0)
     AddValue(InventoryItem(222), 222) -- Cure Wounds
     AddValue(InventoryItem(222), 222) -- Cure Wounds
-    ClearQBit(QBIT_FIND_ISTHRIC_THE_TONGUE)
+    ClearQBit(QBit(137))
     evt.ForPlayer(Players.All)
-    SetAward(Award(54)) -- Rescued Isthric the Tongue, brother of Rohtnax, on the Dagger Wound Islands.
-    evt.SetNPCTopic(33, 0, 0) -- Rohtnax, clear topic slot A
+    SetAward(Award(54))
+    evt.SetNPCTopic(33, 0, 0)
     return
 end)
 
@@ -242,27 +155,27 @@ RegisterGlobalEvent(19, "Quest", function()
     evt.ForPlayer(Players.All)
     if not HasItem(652) then -- Prophecies of the Snake
         evt.SimpleMessage("There is one Prophecy, the Prophecy of the Snake, that I have been unable to find a copy of.  I think it may be most revealing about the future of Jadame.\n\nFredrick Talimere, the Cleric, has told me of the snake ruins, and of the Abandoned Temple.  He is in agreement with me, that there may be a copy of this prophecy, somewhere in the temple.  Could you find it for me?")
-        SetQBit(QBIT_PROPHECIES_OF_THE_SNAKE_QUEST_ACTIVE)
+        SetQBit(QBit(135))
         return
     end
     evt.SimpleMessage("You have found the Prophecies of the Snake!  Perhaps the details of our future can be found in its writings!  Please take this reward for your assistance!")
     RemoveItem(652) -- Prophecies of the Snake
-    ClearQBit(QBIT_PROPHECIES_OF_THE_SNAKE_QUEST_ACTIVE)
+    ClearQBit(QBit(135))
     evt.ForPlayer(Players.Member0)
     AddValue(Gold, 500)
     evt.ForPlayer(Players.All)
     AddValue(Experience, 750)
-    evt.SetNPCTopic(34, 1, 0) -- Pascella Tisk, clear topic slot B
+    evt.SetNPCTopic(34, 1, 0)
     return
 end)
 
 RegisterGlobalEvent(20, "Quest", function()
-    if not IsQBitSet(QBIT_TAKE_DADEROSS_LETTER_TO_FELLMOON) then
+    if not IsQBitSet(QBit(3)) then
         evt.SimpleMessage("You must find a way off of these islands. Someone must take news of what has happened here to our masters, the Merchants of Alvar!  They must know of the cataclysm and of the Regnan raid! \n\nI've written a letter to the Merchants of Alvar representative in Ravenshore, Elgar Fellmoon. In it I explain our situation here. If anyone can advise us on what to do here, it is Fellmoon. Take this to him now.")
-        evt.SetNPCGreeting(2, 8) -- Dadeross, "What are you doing here? Get my letter to Fellmoon!"
+        evt.SetNPCGreeting(2, 8)
         AddValue(InventoryItem(741), 741) -- Dadeross' Letter to Fellmoon
-        SetQBit(QBIT_CARRYING_DADEROSS_LETTER_TO_FELLMOON)
-        SetQBit(QBIT_TAKE_DADEROSS_LETTER_TO_FELLMOON)
+        SetQBit(QBit(221))
+        SetQBit(QBit(3))
         ClearQBit(QBit(85))
         return
     end
@@ -270,30 +183,46 @@ RegisterGlobalEvent(20, "Quest", function()
     return
 end)
 RegisterCanShowTopic(20, function()
-    return not (IsQBitSet(QBIT_DADEROSS_LETTER_DELIVERED_TO_FELLMOON))
+    evt._BeginCanShowTopic(20)
+    local visible = true
+    if IsQBitSet(QBit(4)) then
+        visible = false
+        return visible
+    else
+        visible = true
+        return visible
+    end
 end)
 
 RegisterGlobalEvent(21, "Quest", function()
-    if not IsQBitSet(QBIT_TAKE_POWER_STONE_TO_TALIMERE) then
+    if not IsQBitSet(QBit(7)) then
         evt.SimpleMessage("Take this crystal to Fredrick Talimere. I know that it has something to do with the portals of stone. Perhaps he can tell you how it functions.")
         AddValue(InventoryItem(617), 617) -- Power Stone
         SetQBit(QBit(212))
-        SetQBit(QBIT_TAKE_POWER_STONE_TO_TALIMERE)
-        evt.SetNPCTopic(32, 2, 12) -- Fredrick Talimere, topic "Power Stone"
-        evt.SetNPCTopic(32, 3, 13) -- Fredrick Talimere, topic "Abandoned Temple"
+        SetQBit(QBit(7))
+        evt.SetNPCTopic(32, 2, 12)
+        evt.SetNPCTopic(32, 3, 13)
         return
     end
     evt.SimpleMessage("Bring the portal crystal to Fredrick Talimere. He will know what it does.")
     return
 end)
 RegisterCanShowTopic(21, function()
-    return not (IsQBitSet(QBIT_POWER_STONE_PORTAL_REPAIRED))
+    evt._BeginCanShowTopic(21)
+    local visible = true
+    if IsQBitSet(QBit(8)) then
+        visible = false
+        return visible
+    else
+        visible = true
+        return visible
+    end
 end)
 
 RegisterGlobalEvent(22, "Promotion to Dark Elf Patriarch", function()
     evt.SimpleMessage("The Merchant Council had sent our greatest warrior, Cauri Blackthorne, to consult with the Sun Temple priests about the disasters that have struck all of Jadame.\n\nCauri left for the Temple of the Sun in Murmurwoods shortly after rumors of the cataclysms were heard here in Alvar.  She was to return after consulting the priests.  We are very concerned that she has not returned.\n\nAs for your promotion, only Cauri can accurately test your skills and assess your worthiness for promotion.  If you find her, provide her with any assistance she may need and return here with news of her status and location.")
-    SetQBit(QBIT_FIND_CAURI_BLACKTHORNE)
-    evt.SetNPCTopic(52, 0, 31) -- Relburn Jeebes, topic "Where is Cauri?"
+    SetQBit(QBit(39))
+    evt.SetNPCTopic(52, 0, 31)
     return
 end)
 
@@ -302,13 +231,13 @@ RegisterGlobalEvent(23, "Cauri Blackthorne", function()
         evt.SimpleMessage("Cauri returned and informed us of this assistance you provided her.  She also notified us of your promotion.  Congratulations, may your profits bring you much joy!")
         evt.ForPlayer(Players.Member0)
         AddValue(Gold, 15000)
-        evt.SetNPCTopic(52, 1, 0) -- Relburn Jeebes, clear topic slot B
+        evt.SetNPCTopic(52, 1, 0)
         return
     elseif HasAward(Award(20)) then
         evt.SimpleMessage("Cauri returned and informed us of this assistance you provided her.  She also notified us of your promotion.  Congratulations, may your profits bring you much joy!")
         evt.ForPlayer(Players.Member0)
         AddValue(Gold, 15000)
-        evt.SetNPCTopic(52, 1, 0) -- Relburn Jeebes, clear topic slot B
+        evt.SetNPCTopic(52, 1, 0)
     else
         evt.SimpleMessage("This is the home of Cauri Blackthorne, greatest Dark Elf warrior.  She is currently out, working for the Merchant Council of Alvar.  Perhaps you should consult them as to her whereabouts.")
     end
@@ -327,16 +256,16 @@ RegisterGlobalEvent(25, "Patriarch", function()
         if IsAtLeast(ClassId, 10) then
             SetValue(ClassId, 11)
             AddValue(Experience, 35000)
-            SetAward(Award(19)) -- Promoted to Elf Patriarch.
+            SetAward(Award(19))
         else
             AddValue(Experience, 25000)
-            SetAward(Award(20)) -- Rescued Cauri Blackthorne.
+            SetAward(Award(20))
         end
     end
-    ClearQBit(QBIT_FIND_CAURI_BLACKTHORNE)
-    SetQBit(QBIT_CAURI_BLACKTHORNE_RETURNED)
+    ClearQBit(QBit(39))
+    SetQBit(QBit(40))
     SetQBit(QBit(430))
-    evt.SetNPCTopic(55, 1, 38) -- Cauri Blackthorne, topic "Thanks for your help!"
+    evt.SetNPCTopic(55, 1, 38)
     return
 end)
 
@@ -346,7 +275,7 @@ RegisterGlobalEvent(26, "Circle of Stone", function()
 end)
 
 RegisterGlobalEvent(27, "Cauri Blackthorne", function()
-    if IsQBitSet(QBIT_FIND_CAURI_BLACKTHORNE) then
+    if IsQBitSet(QBit(39)) then
         evt.SimpleMessage("Cauri Blackthorne was here well over a week ago, maybe longer.  She had asked us many questions about the elemental incursions.  We provided her with what information we had here.  She said she would return to Alvar with the information.  Before she left, we asked her if she could do a favor for us.  We asked her if she could check on a group of pilgrims that were traveling to the old Druid Circle of Stone to the northeast of here.  She assured us that she would check in on them on her way back to Alvar.")
         evt.ForPlayer(Players.Member0)
         AddValue(InventoryItem(339), 339) -- Stone to Flesh
@@ -358,10 +287,10 @@ RegisterGlobalEvent(27, "Cauri Blackthorne", function()
         AddValue(InventoryItem(339), 339) -- Stone to Flesh
         evt.ForPlayer(Players.Member4)
         AddValue(InventoryItem(339), 339) -- Stone to Flesh
-        evt.SetNPCTopic(54, 0, 26) -- Dantillion, topic "Circle of Stone"
+        evt.SetNPCTopic(54, 0, 26)
         return
-    elseif IsQBitSet(QBIT_CAURI_BLACKTHORNE_RETURNED) then
-        ClearQBit(QBIT_FIND_CAURI_BLACKTHORNE)
+    elseif IsQBitSet(QBit(40)) then
+        ClearQBit(QBit(39))
     else
         evt.SimpleMessage("Cauri Blackthorne was here well over a week ago, maybe longer.  She had asked us many questions about the elemental incursions.  We provided her with what information we had here.  She said she would return to Alvar with the information.  Before she left, we asked her if she could do a favor for us.  We asked her if she could check on a group of pilgrims that were traveling to the old Druid Circle of Stone to the northeast of here.  She assured us that she would check in on them on her way back to Alvar.")
         evt.ForPlayer(Players.Member0)
@@ -375,7 +304,7 @@ RegisterGlobalEvent(27, "Cauri Blackthorne", function()
         evt.ForPlayer(Players.Member4)
         AddValue(InventoryItem(339), 339) -- Stone to Flesh
     end
-evt.SetNPCTopic(54, 0, 26) -- Dantillion, topic "Circle of Stone"
+evt.SetNPCTopic(54, 0, 26)
 return
 end)
 
@@ -386,35 +315,35 @@ RegisterGlobalEvent(28, "Letter", function()
         return
     end
     evt.SimpleMessage("What is this? A letter from caravan master, Dadeross? Let's see…hmmm…\n\nWell, it seems that serious events are afoot. It is a pity--what has happened on Dagger Wound. Serious action may need to be taken, but I require more information…\n\n…and I think I know how to get it! Perhaps you would be interested in helping me? I will compensate you, of course. And, here. Take this as payment for delivering Dadeross' letter.")
-    evt.SetNPCTopic(3, 0, 29) -- Elgar Fellmoon, topic "Quest"
-    evt.SetNPCGreeting(2, 58) -- Dadeross, "Hail, adventurer!"
+    evt.SetNPCTopic(3, 0, 29)
+    evt.SetNPCGreeting(2, 58)
     evt.ForPlayer(Players.All)
-    ClearQBit(QBIT_TAKE_DADEROSS_LETTER_TO_FELLMOON)
-    SetQBit(QBIT_DADEROSS_LETTER_DELIVERED_TO_FELLMOON)
+    ClearQBit(QBit(3))
+    SetQBit(QBit(4))
     RemoveItem(741) -- Dadeross' Letter to Fellmoon
-    ClearQBit(QBIT_CARRYING_DADEROSS_LETTER_TO_FELLMOON)
+    ClearQBit(QBit(221))
     evt.ForPlayer(Players.Member0)
     AddValue(Gold, 2500)
     evt.ForPlayer(Players.All)
     AddValue(Experience, 7500)
-    SetAward(Award(4)) -- Delivered Dadeross' Letter to Elgar Fellmoon.
+    SetAward(Award(4))
     return
 end)
 
 RegisterGlobalEvent(29, "Quest", function()
-    if IsQBitSet(QBIT_REPORTED_TO_BASTIAN_LOUDRIN) then
+    if IsQBitSet(QBit(12)) then
         evt.SimpleMessage("You must reach Bastian Loudrin in Alvar. Go! He must be informed of recent events!")
         return
-    elseif IsQBitSet(QBIT_FELLMOON_SMUGGLER_BOATS_SECURED) then
+    elseif IsQBitSet(QBit(24)) then
         evt.SimpleMessage("As you may be aware, our guild headquarters is located in the city of Alvar. If you've never been there, the easiest way to reach it is to follow the river up through the canyon to the north.\n\nGo to the guild house and find Bastian Loudrin. Tell him about the crystal, and the rumors. Lourdrin will know what to do.")
-        SetQBit(QBIT_REPORT_TO_BASTIAN_LOUDRIN)
+        SetQBit(QBit(11))
         return
     elseif IsQBitSet(QBit(10)) then
         evt.SimpleMessage("Very good, and here is the payment we agreed upon. Hunter's boats will be useful to us through the crisis.\n\nYes, \"crisis,\" I say! Since your initial visit, several other caravans have missed their scheduled stops. There are also the rumors. Twice I've heard of the appearance of a burning lake of fire rising out of the desert.\n\nVolcanoes! Lakes of fire! I fear the mysterious crystal has something to do with it. In any event, the guildmasters in Alvar must be informed!")
         evt.ForPlayer(Players.All)
-        SetAward(Award(3)) -- Blackmailed the Wererat Smugglers.
+        SetAward(Award(3))
         AddValue(Experience, 12000)
-        SetQBit(QBIT_FELLMOON_SMUGGLER_BOATS_SECURED)
+        SetQBit(QBit(24))
         ClearQBit(QBit(284))
         return
     elseif IsQBitSet(QBit(9)) then
@@ -424,13 +353,13 @@ RegisterGlobalEvent(29, "Quest", function()
         SetQBit(QBit(9))
         AddValue(InventoryItem(742), 742) -- Blackmail Letter
         SetQBit(QBit(222))
-        evt.SetNPCGreeting(3, 11) -- Elgar Fellmoon, "Have you done as I've asked of you?"
+        evt.SetNPCGreeting(3, 11)
     end
 return
 end)
 
 RegisterGlobalEvent(30, "Blackthorne Residence", function()
-    if not IsQBitSet(QBIT_CAURI_BLACKTHORNE_RETURNED) then
+    if not IsQBitSet(QBit(40)) then
         evt.SimpleMessage("This is the home of Cauri Blackthorne, greatest Dark Elf warrior.  She is currently out, working for the Merchant Council of Alvar.  Perhaps you should consult them as to her whereabouts.")
         return
     end
@@ -443,7 +372,15 @@ RegisterGlobalEvent(31, "Where is Cauri?", function()
     return
 end)
 RegisterCanShowTopic(31, function()
-    return not (IsQBitSet(QBIT_CAURI_BLACKTHORNE_RETURNED))
+    evt._BeginCanShowTopic(31)
+    local visible = true
+    if IsQBitSet(QBit(40)) then
+        visible = false
+        return visible
+    else
+        visible = true
+        return visible
+    end
 end)
 
 RegisterGlobalEvent(32, "Blackmail", function()
@@ -454,12 +391,20 @@ RegisterGlobalEvent(32, "Blackmail", function()
     SetQBit(QBit(284))
     RemoveItem(742) -- Blackmail Letter
     ClearQBit(QBit(222))
-    evt.SetNPCTopic(4, 0, 33) -- Arion Hunter, topic "Smuggler Boats"
+    evt.SetNPCTopic(4, 0, 33)
     AddValue(History(5), 0)
     return
 end)
 RegisterCanShowTopic(32, function()
-    return HasItem(742) -- Blackmail Letter
+    evt._BeginCanShowTopic(32)
+    local visible = true
+    if HasItem(742) then -- Blackmail Letter
+        visible = true
+        return visible
+    else
+        visible = false
+        return visible
+    end
 end)
 
 RegisterGlobalEvent(33, "Smuggler Boats", function()
@@ -474,8 +419,8 @@ end)
 
 RegisterGlobalEvent(35, "Quest", function()
     evt.SimpleMessage("Perhaps if you could locate our previous homeland, and check to see if the Curse of the Stone still exists.  If it does perhaps there is a way to remove it.  Any Troll in your party who completes this task would be promoted to War Troll of our Clan. Many honors are bestowed with this title, and you would be forever known to us as a legendary hero.\n\nOne of our warriors, Dartin Dunewalker, set out to find this place.  He left thinking he would find clues among the stone fields of Ravage Roaming.  Perhaps you can find him there and work together--or at the least, find clues that will lead you to our goal.")
-    SetQBit(QBIT_FIND_ANCIENT_TROLL_HOME)
-    evt.SetNPCTopic(56, 0, 40) -- Volog Sandwind, topic "Ancient Home"
+    SetQBit(QBit(68))
+    evt.SetNPCTopic(56, 0, 40)
     return
 end)
 
@@ -486,18 +431,26 @@ RegisterGlobalEvent(36, "Ancient Home Found!", function()
         if IsAtLeast(ClassId, 6) then
             SetValue(ClassId, 7)
             AddValue(Experience, 35000)
-            SetAward(Award(21)) -- Promoted to War Troll.
+            SetAward(Award(21))
         else
             AddValue(Experience, 25000)
-            SetAward(Award(22)) -- Found Troll Homeland.
+            SetAward(Award(22))
         end
     end
-    ClearQBit(QBIT_FIND_ANCIENT_TROLL_HOME)
-    evt.SetNPCTopic(56, 1, 612) -- Volog Sandwind, topic "Roster Join Event"
+    ClearQBit(QBit(68))
+    evt.SetNPCTopic(56, 1, 612)
     return
 end)
 RegisterCanShowTopic(36, function()
-    return IsQBitSet(QBIT_ANCIENT_TROLL_HOME_FOUND)
+    evt._BeginCanShowTopic(36)
+    local visible = true
+    if IsQBitSet(QBit(69)) then
+        visible = true
+        return visible
+    else
+        visible = false
+        return visible
+    end
 end)
 
 RegisterGlobalEvent(37, "Curse of Stone", function()
@@ -520,14 +473,22 @@ RegisterGlobalEvent(40, "Ancient Home", function()
     return
 end)
 RegisterCanShowTopic(40, function()
-    return IsQBitSet(QBIT_FIND_ANCIENT_TROLL_HOME)
+    evt._BeginCanShowTopic(40)
+    local visible = true
+    if IsQBitSet(QBit(68)) then
+        visible = true
+        return visible
+    else
+        visible = false
+        return visible
+    end
 end)
 
 RegisterGlobalEvent(41, "Deliver Report", function()
     evt.SimpleMessage("Disaster in Dagger Wound, too? This is indeed disturbing. If one were to believe all the rumors, one would think that all of Jadame is in upheaval and chaos.\n\nI wish I knew more. I rely on our caravan masters for news, but all who were supposed to arrive here this month have not. What I do hear, troubles me. Hurricanes, floods, and now a volcano! The worst I've heard is that a sea of fire has appeared in the Ironsand Desert--and this from many sources.\n\nI wonder if this crystal in Ravenshore has something to do with it. Its appearance at the onset of the calamity seems to be more than a coincidence.")
-    ClearQBit(QBIT_REPORT_TO_BASTIAN_LOUDRIN)
-    SetQBit(QBIT_REPORTED_TO_BASTIAN_LOUDRIN)
-    evt.SetNPCTopic(5, 0, 42) -- Bastian Loudrin, topic "Quest"
+    ClearQBit(QBit(11))
+    SetQBit(QBit(12))
+    evt.SetNPCTopic(5, 0, 42)
     evt.ForPlayer(Players.All)
     AddValue(Experience, 15000)
     evt.ForPlayer(Players.Member0)
@@ -535,13 +496,21 @@ RegisterGlobalEvent(41, "Deliver Report", function()
     return
 end)
 RegisterCanShowTopic(41, function()
-    return IsQBitSet(QBIT_REPORT_TO_BASTIAN_LOUDRIN)
+    evt._BeginCanShowTopic(41)
+    local visible = true
+    if IsQBitSet(QBit(11)) then
+        visible = true
+        return visible
+    else
+        visible = false
+        return visible
+    end
 end)
 
 RegisterGlobalEvent(42, "Quest", function()
-    if not IsQBitSet(QBIT_FIND_LAKE_OF_FIRE_WITNESS) then
+    if not IsQBitSet(QBit(25)) then
         evt.SimpleMessage("All of this upheaval is seriously impacting our guild's business. I need more information, but I'm being buried in gossip and rumor.\n\nMany tell me of this sea of fire in the Ironsand Desert. I've heard the tale enough that I almost believe it. Confirmation or denial of the lake's existence would be of great help to me.\n\nIf you would serve me, go to the Ironsand Desert and seek this lake. If it is indeed there, find me someone who saw it appear. Bring him back here so I can hear his story myself.")
-        SetQBit(QBIT_FIND_LAKE_OF_FIRE_WITNESS)
+        SetQBit(QBit(25))
         AddValue(History(6), 0)
         evt.MoveNPC(7, 177)
         evt.MoveNPC(60, 177)
@@ -559,16 +528,16 @@ RegisterGlobalEvent(42, "Quest", function()
 end)
 
 RegisterGlobalEvent(43, "Quest", function()
-    if IsQBitSet(QBIT_NECROMANCERS_GUILD_ALLIED) then
-        if IsQBitSet(QBIT_CHARLES_QUIXOTE_ALLIED) then
-            if IsQBitSet(QBIT_MINOTAURS_ALLIED) then
+    if IsQBitSet(QBit(19)) then
+        if IsQBitSet(QBit(21)) then
+            if IsQBitSet(QBit(23)) then
                 evt.SimpleMessage("Very good…or at least, as good as can be expected. You managed to bring three partners into the alliance--the minimum number my advisors told me would be sufficient to fulfill the \"…Jadame, must stand together…\" part of the prophecy. A pity it could not be more, but events of the cataclysm are clearly coming to a head. It is time to move onward.\n\nYou must travel to Ravenshore and meet with the alliance council gathered there. With them, decide what must be the next step we take in meeting the elemental crisis.")
                 return
             end
             evt.SimpleMessage("You must form an alliance to stand against our threatened oblivion! Seek support from the Necromancers' Guild, Temple of the Sun, Minotaurs of Ravage Roaming, Dragons of Garrote Gorge, and the Dragon hunting party of Charles Quixote in Garrote Gorge. I'm sure that you will find it impossible to get all of them to agree to work together, but still, you must make your best effort.\n\nIf we are to survive in this time of prophecy, my sages tell me that at least three of the groups I mentioned must agree to work together. Go and do this thing. If you value this world and your lives, go!")
             return
-        elseif IsQBitSet(QBIT_DRAGONS_ALLIED) then
-            if IsQBitSet(QBIT_MINOTAURS_ALLIED) then
+        elseif IsQBitSet(QBit(22)) then
+            if IsQBitSet(QBit(23)) then
                 evt.SimpleMessage("Very good…or at least, as good as can be expected. You managed to bring three partners into the alliance--the minimum number my advisors told me would be sufficient to fulfill the \"…Jadame, must stand together…\" part of the prophecy. A pity it could not be more, but events of the cataclysm are clearly coming to a head. It is time to move onward.\n\nYou must travel to Ravenshore and meet with the alliance council gathered there. With them, decide what must be the next step we take in meeting the elemental crisis.")
                 return
             end
@@ -578,16 +547,16 @@ RegisterGlobalEvent(43, "Quest", function()
             evt.SimpleMessage("You must form an alliance to stand against our threatened oblivion! Seek support from the Necromancers' Guild, Temple of the Sun, Minotaurs of Ravage Roaming, Dragons of Garrote Gorge, and the Dragon hunting party of Charles Quixote in Garrote Gorge. I'm sure that you will find it impossible to get all of them to agree to work together, but still, you must make your best effort.\n\nIf we are to survive in this time of prophecy, my sages tell me that at least three of the groups I mentioned must agree to work together. Go and do this thing. If you value this world and your lives, go!")
             return
         end
-    elseif IsQBitSet(QBIT_TEMPLE_OF_THE_SUN_ALLIED) then
-        if IsQBitSet(QBIT_CHARLES_QUIXOTE_ALLIED) then
-            if IsQBitSet(QBIT_MINOTAURS_ALLIED) then
+    elseif IsQBitSet(QBit(20)) then
+        if IsQBitSet(QBit(21)) then
+            if IsQBitSet(QBit(23)) then
                 evt.SimpleMessage("Very good…or at least, as good as can be expected. You managed to bring three partners into the alliance--the minimum number my advisors told me would be sufficient to fulfill the \"…Jadame, must stand together…\" part of the prophecy. A pity it could not be more, but events of the cataclysm are clearly coming to a head. It is time to move onward.\n\nYou must travel to Ravenshore and meet with the alliance council gathered there. With them, decide what must be the next step we take in meeting the elemental crisis.")
                 return
             end
             evt.SimpleMessage("You must form an alliance to stand against our threatened oblivion! Seek support from the Necromancers' Guild, Temple of the Sun, Minotaurs of Ravage Roaming, Dragons of Garrote Gorge, and the Dragon hunting party of Charles Quixote in Garrote Gorge. I'm sure that you will find it impossible to get all of them to agree to work together, but still, you must make your best effort.\n\nIf we are to survive in this time of prophecy, my sages tell me that at least three of the groups I mentioned must agree to work together. Go and do this thing. If you value this world and your lives, go!")
             return
-        elseif IsQBitSet(QBIT_DRAGONS_ALLIED) then
-            if IsQBitSet(QBIT_MINOTAURS_ALLIED) then
+        elseif IsQBitSet(QBit(22)) then
+            if IsQBitSet(QBit(23)) then
                 evt.SimpleMessage("Very good…or at least, as good as can be expected. You managed to bring three partners into the alliance--the minimum number my advisors told me would be sufficient to fulfill the \"…Jadame, must stand together…\" part of the prophecy. A pity it could not be more, but events of the cataclysm are clearly coming to a head. It is time to move onward.\n\nYou must travel to Ravenshore and meet with the alliance council gathered there. With them, decide what must be the next step we take in meeting the elemental crisis.")
                 return
             end
@@ -610,30 +579,30 @@ end)
 
 RegisterGlobalEvent(45, "Lake of Fire", function()
     evt.SimpleMessage("Yes, I was here when the lake of fire first appeared. A strange gateway appeared on the desert plain outside the village. The fire you see spilled forth from it. The fire spread like water poured on the ground.\n\nA wave of flames rushed over the edge of the village. Most of my people were lost instantly. What remains of this village is as you see it.\n\nI was in the hills overlooking the village when this all happened. I saw it all, but I can hardly believe it.")
-    evt.SetNPCTopic(7, 0, 46) -- Overdune Snapfinger, topic "Come to Alvar"
+    evt.SetNPCTopic(7, 0, 46)
     return
 end)
 
 RegisterGlobalEvent(46, "Come to Alvar", function()
-    if IsQBitSet(QBIT_VILEBITE_ASHES_LAID_TO_REST) then
+    if IsQBitSet(QBit(62)) then
         evt.SimpleMessage("You have done my family a great service. With his ashes safe in the holy sanctuary of the village tomb, Vilebite can lie in peace. My father, too is greatly improved. We have talked and I believe that he can now take care of himself while I accompany you to Alvar.")
         SetQBit(QBit(63))
-        ClearQBit(QBIT_BURY_VILEBITE_ASHES)
+        ClearQBit(QBit(61))
         evt.ForPlayer(Players.All)
-        SetAward(Award(6)) -- Placed Vilebite's ashes in the Troll Tomb.
+        SetAward(Award(6))
         evt.ForPlayer(Players.Member0)
         AddValue(Gold, 7500)
         evt.ForPlayer(Players.All)
         AddValue(Experience, 20000)
-        evt.SetNPCTopic(7, 0, 604) -- Overdune Snapfinger, topic "Roster Join Event"
-        evt.SetNPCGreeting(60, 18) -- Farhill Snapfinger, "Th-thank you for giving my son Vilebite his rest."
-        evt.SetNPCTopic(60, 0, 47) -- Farhill Snapfinger, topic "Vilebite"
+        evt.SetNPCTopic(7, 0, 604)
+        evt.SetNPCGreeting(60, 18)
+        evt.SetNPCTopic(60, 0, 47)
         return
-    elseif IsQBitSet(QBIT_BURY_VILEBITE_ASHES) then
+    elseif IsQBitSet(QBit(61)) then
         evt.SimpleMessage("I will go with you only after my brother's ashes are safely in the village tomb.")
     else
         evt.SimpleMessage("I would come with you, If it were not for my father. So deep is his mourning for my brother, Vilebite, that he cannot care for himself.\n\nMy father believes that Vilebite's soul cannot rest until his remains are at rest in the village tomb. Unfortunately, Gogs infested the tomb when the lake of fire appeared.\n\nHere! Take my brother's ashes. I'm sure my father's grief will lessen if they are placed in the tomb. Do this for me and I will travel with you to Alvar.")
-        SetQBit(QBIT_BURY_VILEBITE_ASHES)
+        SetQBit(QBit(61))
         AddValue(InventoryItem(603), 603) -- Urn of Ashes
         SetQBit(QBit(202))
     end
@@ -647,17 +616,25 @@ end)
 
 RegisterGlobalEvent(48, "Alliance", function()
     evt.SimpleMessage("\"An alliance to unite Jadame,\" you say. If it wasn't Lordrin who was proposing it, I would normally have slain you for my supper.\n\nWhile intriguing, I cannot consider the idea now. We are under daily attack by the accursed knights of Charles Quixote. If he were not a problem, I could do as Lordrin asks.\n\nPerhaps you could help me with Quixote?")
-    evt.SetNPCTopic(21, 0, 49) -- Deftclaw Redreaver, topic "Quest"
+    evt.SetNPCTopic(21, 0, 49)
     return
 end)
 RegisterCanShowTopic(48, function()
-    return IsQBitSet(QBIT_CAN_ASK_DRAGONS_FOR_ALLIANCE)
+    evt._BeginCanShowTopic(48)
+    local visible = true
+    if IsQBitSet(QBit(17)) then
+        visible = true
+        return visible
+    else
+        visible = false
+        return visible
+    end
 end)
 
 RegisterGlobalEvent(49, "Quest", function()
-    if IsQBitSet(QBIT_CHARLES_QUIXOTE_ALLIED) then
+    if IsQBitSet(QBit(21)) then
         return
-    elseif IsQBitSet(QBIT_RECOVER_DRAGON_LEADERS_EGG_FOR_DRAGONS) then
+    elseif IsQBitSet(QBit(33)) then
         evt.ForPlayer(Players.All)
         if not HasItem(605) then -- Dragon Leader's Egg
             evt.SimpleMessage("If you want me to join your alliance, you will have to help me against Charles Quixote. Bring me the Dragon egg he stole from me!")
@@ -665,15 +642,15 @@ RegisterGlobalEvent(49, "Quest", function()
         end
         evt.ShowMovie("\"dragonsrevenge\" ", false)
         evt.SimpleMessage("Now that I need not fear my heir's destruction. I will visit my revenge on Quixote. His camp will face the assault of fire and claw. Those who have hunted us are now our prey animals.\n\nAs for your alliance…you have done me a great service. I will honor my debt. As soon as I've set my enemies to flight or the beyond, I will join the alliance council in Ravenshore.")
-        SetQBit(QBIT_DRAGONS_ALLIED)
+        SetQBit(QBit(22))
         SetQBit(QBit(35))
-        ClearQBit(QBIT_CAN_ASK_CHARLES_QUIXOTE_FOR_ALLIANCE)
-        ClearQBit(QBIT_CAN_ASK_DRAGONS_FOR_ALLIANCE)
-        ClearQBit(QBIT_RECOVER_DRAGON_LEADERS_EGG_FOR_QUIXOTE)
-        ClearQBit(QBIT_RECOVER_DRAGON_LEADERS_EGG_FOR_DRAGONS)
-        evt.SetNPCTopic(19, 0, 0) -- Sir Charles Quixote, clear topic slot A
-        evt.SetNPCGreeting(21, 20) -- Deftclaw Redreaver, "What do you want?"
-        evt.SetNPCTopic(21, 0, 0) -- Deftclaw Redreaver, clear topic slot A
+        ClearQBit(QBit(16))
+        ClearQBit(QBit(17))
+        ClearQBit(QBit(31))
+        ClearQBit(QBit(33))
+        evt.SetNPCTopic(19, 0, 0)
+        evt.SetNPCGreeting(21, 20)
+        evt.SetNPCTopic(21, 0, 0)
         evt.ForPlayer(Players.All)
         AddValue(Experience, 20000)
         evt.ForPlayer(Players.All)
@@ -682,26 +659,34 @@ RegisterGlobalEvent(49, "Quest", function()
         evt.ForPlayer(Players.Member0)
         AddValue(Gold, 10000)
         evt.ForPlayer(Players.All)
-        SetAward(Award(7)) -- Formed an alliance with the Garrote Gorge Dragons.
+        SetAward(Award(7))
         AddValue(History(9), 0)
     else
         evt.SimpleMessage("Last month one of Quixote's raiding parties invaded our caves. They slew many and took with them the egg containing my unborn heir. While those foul slayers hold the egg, we cannot attack their encampment.\n\nIf you were to return the egg to me, I could destroy Quixote. Do this for me and I will join your alliance.")
-        SetQBit(QBIT_RECOVER_DRAGON_LEADERS_EGG_FOR_DRAGONS)
+        SetQBit(QBit(33))
     end
     return
 end)
 
 RegisterGlobalEvent(50, "Cure for Blazen Stormlance", function()
     evt.SimpleMessage("The Gem of Restoration may cure the knight, Blazen Stormlance, of what you say has befallen him.  There is no love lost between the Temple of the Sun and the Guild of Necromancers; any opponent of theirs is definitely a friend of ours.  Restore Stormlance to life so that he may rejoin Charles Quixote.\n")
-    evt.SetNPCTopic(63, 0, 743) -- Dervish Chevron, topic "Travel with you!"
+    evt.SetNPCTopic(63, 0, 743)
     AddValue(InventoryItem(623), 623) -- Gem of Restoration
-    SetQBit(QBIT_BLAZEN_STORMLANCE_RESTORED)
+    SetQBit(QBit(73))
     SetQBit(QBit(217))
-    ClearQBit(QBIT_FIND_GEM_OF_RESTORATION_FOR_BLAZEN)
+    ClearQBit(QBit(72))
     return
 end)
 RegisterCanShowTopic(50, function()
-    return IsQBitSet(QBIT_FIND_GEM_OF_RESTORATION_FOR_BLAZEN)
+    evt._BeginCanShowTopic(50)
+    local visible = true
+    if IsQBitSet(QBit(72)) then
+        visible = true
+        return visible
+    else
+        visible = false
+        return visible
+    end
 end)
 
 RegisterGlobalEvent(51, "Skeletal Dragons", function()
@@ -711,8 +696,8 @@ end)
 
 RegisterGlobalEvent(52, "Promotion to Champion", function()
     evt.SimpleMessage("My father Blazen, left here years ago to slay the Skeletal Dragons in the Shadowspire Region. Unfortunately, he has never returned.  He took with him, Ebonest, the greatest Dragon slaying spear ever forged. Charles Quixote has never forgiven my father for taking Ebonest with him.  Unfortunately we have no idea what befell my father.  Because my father was Charles’ second in command and responsible for the loss of Ebonest, Charles is unwilling to promote me to Champion, regardless of the merit of my skills. Perhaps if you find Ebonest, Charles with promote your knights and myself to Champions!")
-    SetQBit(QBIT_FIND_EBONEST_AND_BLAZEN_STORMLANCE)
-    evt.SetNPCTopic(62, 0, 59) -- Leane Stormlance, topic "My Father"
+    SetQBit(QBit(70))
+    evt.SetNPCTopic(62, 0, 59)
     return
 end)
 
@@ -725,7 +710,7 @@ RegisterGlobalEvent(54, "Cure", function()
     evt.ForPlayer(Players.All)
     if not HasItem(623) then -- Gem of Restoration
         evt.SimpleMessage("Perhaps the Clerics of the Sun have a way to cure me, for they would be the only ones who would know how to counter the dark magics that afflict me. There is a friend of mine in Ravenshore named Dervish Chevron. He left the Temple of the Sun years ago to pursue his own research into the mysteries of Jadame.  Perhaps he would know of a cure, or even have it in his possession.  If he cannot help, promise you will return here and kill me so I may at last be at rest!")
-        SetQBit(QBIT_FIND_GEM_OF_RESTORATION_FOR_BLAZEN)
+        SetQBit(QBit(72))
         return
     end
     evt.ForPlayer(Players.All)
@@ -736,8 +721,8 @@ RegisterGlobalEvent(54, "Cure", function()
     SetQBit(QBit(134))
     SetQBit(QBit(435))
     evt.ForPlayer(Players.All)
-    SetAward(Award(25)) -- Rescued Blazen Stormlance.
-    evt.SetNPCTopic(295, 1, 0) -- Blazen Stormlance, clear topic slot B
+    SetAward(Award(25))
+    evt.SetNPCTopic(295, 1, 0)
     return
 end)
 
@@ -762,23 +747,23 @@ RegisterGlobalEvent(58, "Promotion to Champion", function()
         evt.SimpleMessage("You have found Blazen Stormlance? But where is Ebonest?  Return to me when you have the spear and you will be promoted!")
         return
     end
-    if not IsQBitSet(QBIT_DRAGONS_ALLIED) then
+    if not IsQBitSet(QBit(22)) then
         evt.SimpleMessage("You found Blazen Stormlance?  What about MY spear Ebonest?  You have that as well?\n\nFANTASTIC!\n\nI thank you for this and find myself in your debt!  I will promote all knights in your party to Champion and teach what skills I can to the rest of your party. ")
         for _, player in ipairs({Players.Member0, Players.Member1, Players.Member2, Players.Member3, Players.Member4}) do
             evt.ForPlayer(player)
             if IsAtLeast(ClassId, 4) then
                 SetValue(ClassId, 5)
                 AddValue(Experience, 50000)
-                SetAward(Award(23)) -- Promoted to Champion.
+                SetAward(Award(23))
                 RemoveItem(539) -- Ebonest
             else
                 AddValue(Experience, 35000)
-                SetAward(Award(24)) -- Returned Ebonest to Charles Quixote.
+                SetAward(Award(24))
             end
         end
-        ClearQBit(QBIT_FIND_EBONEST_AND_BLAZEN_STORMLANCE)
-        evt.SetNPCTopic(19, 2, 735) -- Sir Charles Quixote, topic "Promote Knights"
-        evt.SetNPCTopic(65, 2, 735) -- Sir Charles Quixote, topic "Promote Knights"
+        ClearQBit(QBit(70))
+        evt.SetNPCTopic(19, 2, 735)
+        evt.SetNPCTopic(65, 2, 735)
         return
     end
     evt.SimpleMessage("What is this?  You ally with my mortal enemies and then seek to do me a favor?\n\nI wonder what the Dragons think of this. But so be it.  I am in your debt for returning Ebonest to me.  I will promote any Knights in your party to Champion, however they will never be accepted in my service.  The rest I will teach what I can. \n\nI do not wish to see you again!")
@@ -787,20 +772,28 @@ RegisterGlobalEvent(58, "Promotion to Champion", function()
         if IsAtLeast(ClassId, 4) then
             SetValue(ClassId, 5)
             AddValue(Experience, 50000)
-            SetAward(Award(23)) -- Promoted to Champion.
+            SetAward(Award(23))
             RemoveItem(539) -- Ebonest
         else
             AddValue(Experience, 35000)
-            SetAward(Award(24)) -- Returned Ebonest to Charles Quixote.
+            SetAward(Award(24))
         end
     end
-        ClearQBit(QBIT_FIND_EBONEST_AND_BLAZEN_STORMLANCE)
-    evt.SetNPCTopic(19, 2, 735) -- Sir Charles Quixote, topic "Promote Knights"
-    evt.SetNPCTopic(65, 2, 735) -- Sir Charles Quixote, topic "Promote Knights"
+    ClearQBit(QBit(70))
+    evt.SetNPCTopic(19, 2, 735)
+    evt.SetNPCTopic(65, 2, 735)
     return
 end)
 RegisterCanShowTopic(58, function()
-    return IsQBitSet(QBIT_BLAZEN_STORMLANCE_RESTORED)
+    evt._BeginCanShowTopic(58)
+    local visible = true
+    if IsQBitSet(QBit(73)) then
+        visible = true
+        return visible
+    else
+        visible = false
+        return visible
+    end
 end)
 
 RegisterGlobalEvent(59, "My Father", function()
@@ -809,13 +802,13 @@ RegisterGlobalEvent(59, "My Father", function()
             evt.SimpleMessage("You found my father and Ebonest?  I will be forever in your debt!  We should take the spear to Charles Quixote, and if he is agreeable, he will promote me and any knights in your party!")
             evt.ForPlayer(Players.All)
             AddValue(Experience, 5000)
-            evt.SetNPCTopic(62, 0, 611) -- Leane Stormlance, topic "Roster Join Event"
+            evt.SetNPCTopic(62, 0, 611)
             return
         elseif HasAward(Award(24)) then
             evt.SimpleMessage("You found my father and Ebonest?  I will be forever in your debt!  We should take the spear to Charles Quixote, and if he is agreeable, he will promote me and any knights in your party!")
             evt.ForPlayer(Players.All)
             AddValue(Experience, 5000)
-            evt.SetNPCTopic(62, 0, 611) -- Leane Stormlance, topic "Roster Join Event"
+            evt.SetNPCTopic(62, 0, 611)
         else
             evt.SimpleMessage("You found Ebonest?  What of my father?  Where is he?  I thought you were going to return when you had found both my father and the spear.")
         end
@@ -829,31 +822,31 @@ RegisterGlobalEvent(59, "My Father", function()
 end)
 
 RegisterGlobalEvent(60, "Promotion to Great Wyrm", function()
-    if IsQBitSet(QBIT_CHARLES_QUIXOTE_ALLIED) then
+    if IsQBitSet(QBit(21)) then
         evt.SimpleMessage("You think I would promote a Dragon that serves those who have allied themselves with our Mortal enemy, Charles Quixote.  What arrogance!  What outrageousness!  You will have to prove yourselves to me! And in the proving you will deal a serious blow to your allies!  To the southwest of here, Quixote has established an encampment of his puny “Dragon Slayers.”  This camp is lead by Jeric Whistlebone, the second in command of Quixote’s army.  Destroy this camp!  Kill all of those who serve Quixote in that region and return to me.  Return to me with the sword of  Whistlebone the Slayer.")
-        SetQBit(QBIT_RECOVER_WHISTLEBONES_SWORD)
-        evt.SetNPCTopic(21, 1, 61) -- Deftclaw Redreaver, topic "Dragon Slayers"
-        evt.SetNPCTopic(21, 1, 61) -- Deftclaw Redreaver, topic "Dragon Slayers"
+        SetQBit(QBit(74))
+        evt.SetNPCTopic(21, 1, 61)
+        evt.SetNPCTopic(21, 1, 61)
         return
-    elseif IsQBitSet(QBIT_DRAGONS_ALLIED) then
+    elseif IsQBitSet(QBit(22)) then
         evt.SimpleMessage("To attain the status of Great Wyrm, a Dragon must prove that he can handle himself against a great number of foes.  He must face down the vermin that Charles Quixote would send against us.  To the southwest of here, Quixote has established an encampment of his puny “Dragon Slayers.”  This camp is lead by Jeric Whistlebone, the second in command of Quixote’s army.  Destroy this camp!  Kill all of those who serve Quixote in that region and return to me.  Return to me with the sword of  Whistlebone the Slayer.  In doing this, you will prove to me your worthiness.  ")
-        SetQBit(QBIT_RECOVER_WHISTLEBONES_SWORD)
-        evt.SetNPCTopic(21, 1, 61) -- Deftclaw Redreaver, topic "Dragon Slayers"
-        evt.SetNPCTopic(66, 1, 61) -- Deftclaw Redreaver, topic "Dragon Slayers"
+        SetQBit(QBit(74))
+        evt.SetNPCTopic(21, 1, 61)
+        evt.SetNPCTopic(66, 1, 61)
         return
     else
         evt.SimpleMessage("To attain the status of Great Wyrm, a Dragon must prove that he can handle himself against a great number of foes.  He must face down the vermin that Charles Quixote would send against us.  To the southwest of here, Quixote has established an encampment of his puny “Dragon Slayers.”  This camp is lead by Jeric Whistlebone, the second in command of Quixote’s army.  Destroy this camp!  Kill all of those who serve Quixote in that region and return to me.  Return to me with the sword of  Whistlebone the Slayer.  In doing this, you will prove to me your worthiness.  ")
-        SetQBit(QBIT_RECOVER_WHISTLEBONES_SWORD)
-        evt.SetNPCTopic(21, 1, 61) -- Deftclaw Redreaver, topic "Dragon Slayers"
-        evt.SetNPCTopic(66, 1, 61) -- Deftclaw Redreaver, topic "Dragon Slayers"
+        SetQBit(QBit(74))
+        evt.SetNPCTopic(21, 1, 61)
+        evt.SetNPCTopic(66, 1, 61)
         return
     end
 end)
 
 RegisterGlobalEvent(61, "Dragon Slayers", function()
-    if IsQBitSet(QBIT_CHARLES_QUIXOTE_ALLIED) then
+    if IsQBitSet(QBit(21)) then
         return
-    elseif IsQBitSet(QBIT_DRAGONS_ALLIED) then
+    elseif IsQBitSet(QBit(22)) then
         evt.SimpleMessage("Have you slain the “Dragon Slayers?\"  Where is the sword of Whistlebone the Slayer?!?")
     else
         evt.SimpleMessage("That cursed knight, Charles Quixote is assembling his best Dragon Slayers at an encampment to the southwest of here.  He must be planning another assault upon the Dragon Caves!")
@@ -861,7 +854,15 @@ RegisterGlobalEvent(61, "Dragon Slayers", function()
     return
 end)
 RegisterCanShowTopic(61, function()
-    return not (IsQBitSet(QBit(75)))
+    evt._BeginCanShowTopic(61)
+    local visible = true
+    if IsQBitSet(QBit(75)) then
+        visible = false
+        return visible
+    else
+        visible = true
+        return visible
+    end
 end)
 
 RegisterGlobalEvent(62, "Sword of the Slayer", function()
@@ -870,26 +871,26 @@ RegisterGlobalEvent(62, "Sword of the Slayer", function()
         evt.SimpleMessage("You have killed the Dragon Slayers, but where is the Sword of Whistlebone?  Return to me when you have it!")
         return
     end
-    if IsQBitSet(QBIT_DRAGONS_ALLIED) then
+    if IsQBitSet(QBit(22)) then
         evt.SimpleMessage("You return to me with the sword of the Slayer, Whistlebone!  You are indeed worthy of my notice!  The Dragons in your group are promoted to Great Wyrm!  I will teach the others of your group what skills I can as a reward for their assistance!")
         for _, player in ipairs({Players.Member0, Players.Member1, Players.Member2, Players.Member3, Players.Member4}) do
             evt.ForPlayer(player)
             if IsAtLeast(ClassId, 14) then
                 SetValue(ClassId, 15)
                 AddValue(Experience, 35000)
-                SetAward(Award(26)) -- Promoted to Great Wyrm.
+                SetAward(Award(26))
                 RemoveItem(540) -- Sword of Whistlebone
             else
                 AddValue(Experience, 25000)
-                SetAward(Award(27)) -- Gave the Sword of Whistlebone the Slayer to the Deftclaw Redreaver.
+                SetAward(Award(27))
             end
         end
         evt.ForPlayer(Players.All)
-        ClearQBit(QBIT_RECOVER_WHISTLEBONES_SWORD)
-        evt.SetNPCTopic(21, 2, 736) -- Deftclaw Redreaver, topic "Promote Dragons"
-        evt.SetNPCTopic(66, 2, 736) -- Deftclaw Redreaver, topic "Promote Dragons"
+        ClearQBit(QBit(74))
+        evt.SetNPCTopic(21, 2, 736)
+        evt.SetNPCTopic(66, 2, 736)
         return
-    elseif IsQBitSet(QBIT_CHARLES_QUIXOTE_ALLIED) then
+    elseif IsQBitSet(QBit(21)) then
         evt.SimpleMessage("You return to me with the sword of the Slayer, Whistlebone!  Is there no end to the treachery that you will commit? Is there no one that you owe allegiance to?  I will promote those Dragons who travel with you to Great Wyrm, however they will never fly underneath me!  There rest of your traitorous group will be instructed in those skills which can be taught to them!  Go now!  Never show your face here again, unless you want it eaten!")
     else
         evt.SimpleMessage("You return to me with the sword of the Slayer, Whistlebone!  You are indeed worthy of my notice!  The Dragons in your group are promoted to Great Wyrm!  I will teach the others of your group what skills I can as a reward for their assistance!")
@@ -899,36 +900,52 @@ for _, player in ipairs({Players.Member0, Players.Member1, Players.Member2, Play
     if IsAtLeast(ClassId, 14) then
         SetValue(ClassId, 15)
         AddValue(Experience, 35000)
-        SetAward(Award(26)) -- Promoted to Great Wyrm.
+        SetAward(Award(26))
         RemoveItem(540) -- Sword of Whistlebone
     else
         AddValue(Experience, 25000)
-        SetAward(Award(27)) -- Gave the Sword of Whistlebone the Slayer to the Deftclaw Redreaver.
+        SetAward(Award(27))
     end
 end
 evt.ForPlayer(Players.All)
-ClearQBit(QBIT_RECOVER_WHISTLEBONES_SWORD)
-evt.SetNPCTopic(21, 2, 736) -- Deftclaw Redreaver, topic "Promote Dragons"
-evt.SetNPCTopic(66, 2, 736) -- Deftclaw Redreaver, topic "Promote Dragons"
+ClearQBit(QBit(74))
+evt.SetNPCTopic(21, 2, 736)
+evt.SetNPCTopic(66, 2, 736)
 return
 end)
 RegisterCanShowTopic(62, function()
-    return IsQBitSet(QBit(75))
+    evt._BeginCanShowTopic(62)
+    local visible = true
+    if IsQBitSet(QBit(75)) then
+        visible = true
+        return visible
+    else
+        visible = false
+        return visible
+    end
 end)
 
 RegisterGlobalEvent(63, "Alliance", function()
     evt.SimpleMessage("Hmmm…things must be serious if trader Loudrin is involving himself in matters other than his own fortunes...and I must say that there is a taint of doom in the air.\n\nIf only for continued good business between my operation and his, I would normally entertain this notion of Loudrin's. Unfortunately, matters here are tying up all of my resources. I have none to spare for support of this alliance you speak of.\n\nSay, perhaps we can help each other? If you were to take care of a little matter for me, I could consider honoring your request.")
-    evt.SetNPCTopic(19, 0, 64) -- Sir Charles Quixote, topic "Quest"
+    evt.SetNPCTopic(19, 0, 64)
     return
 end)
 RegisterCanShowTopic(63, function()
-    return IsQBitSet(QBIT_CAN_ASK_CHARLES_QUIXOTE_FOR_ALLIANCE)
+    evt._BeginCanShowTopic(63)
+    local visible = true
+    if IsQBitSet(QBit(16)) then
+        visible = true
+        return visible
+    else
+        visible = false
+        return visible
+    end
 end)
 
 RegisterGlobalEvent(64, "Quest", function()
-    if IsQBitSet(QBIT_DRAGONS_ALLIED) then
+    if IsQBitSet(QBit(22)) then
         return
-    elseif IsQBitSet(QBIT_RECOVER_DRAGON_LEADERS_EGG_FOR_QUIXOTE) then
+    elseif IsQBitSet(QBit(31)) then
         evt.ForPlayer(Players.All)
         if not HasItem(605) then -- Dragon Leader's Egg
             evt.SimpleMessage("Have you recovered the Dragon egg from Zog's Ravage Roaming fortress? Oh, never mind. I can see from your abashed expression that you have not.\n\nI stand firm on our deal. Bring me that egg, or I'll have nothing to do with your alliance!")
@@ -936,15 +953,15 @@ RegisterGlobalEvent(64, "Quest", function()
         end
         evt.ShowMovie("\"dragonhunters\" ", false)
         evt.SimpleMessage("Well, that matter's done. I will make arrangements to travel to Ravenshore so I myself may sit on your council. Frankly, I could use a bit of change. I will leave my second in command, Reginald Dorray, in charge.\n\nAgain, good job.")
-        SetQBit(QBIT_CHARLES_QUIXOTE_ALLIED)
+        SetQBit(QBit(21))
         SetQBit(QBit(35))
-        ClearQBit(QBIT_CAN_ASK_CHARLES_QUIXOTE_FOR_ALLIANCE)
-        ClearQBit(QBIT_CAN_ASK_DRAGONS_FOR_ALLIANCE)
-        ClearQBit(QBIT_RECOVER_DRAGON_LEADERS_EGG_FOR_QUIXOTE)
-        ClearQBit(QBIT_RECOVER_DRAGON_LEADERS_EGG_FOR_DRAGONS)
-        evt.SetNPCTopic(19, 0, 0) -- Sir Charles Quixote, clear topic slot A
-        evt.SetNPCGreeting(19, 22) -- Sir Charles Quixote, "You just caught me. I'm almost ready to leave for Ravenshore, but how may I help you?"
-        evt.SetNPCTopic(21, 0, 0) -- Deftclaw Redreaver, clear topic slot A
+        ClearQBit(QBit(16))
+        ClearQBit(QBit(17))
+        ClearQBit(QBit(31))
+        ClearQBit(QBit(33))
+        evt.SetNPCTopic(19, 0, 0)
+        evt.SetNPCGreeting(19, 22)
+        evt.SetNPCTopic(21, 0, 0)
         evt.MoveNPC(443, 0)
         evt.ForPlayer(Players.All)
         AddValue(Experience, 20000)
@@ -954,11 +971,11 @@ RegisterGlobalEvent(64, "Quest", function()
         evt.ForPlayer(Players.Member0)
         AddValue(Gold, 10000)
         evt.ForPlayer(Players.All)
-        SetAward(Award(8)) -- Formed an alliance with Charles Quixote and his Dragon Hunters.
+        SetAward(Award(8))
         AddValue(History(10), 0)
     else
         evt.SimpleMessage("One of my customers, an Ogre that goes by the charming moniker of \"Zog the Jackal,\" has seriously betrayed my trust. I gave him an item of great value on promise of future payment. This rather large payment never arrived. I sent a messenger to demand return of the item--a Dragon's egg of great potential. This messenger was slain!\n\nNeedless to say, this matter concerns me greatly. I have allotted both money and men for the purpose of revenge. If, however, you were to recover the egg for me from Zog's fortress in Ravage Roaming, I would be glad to pledge service to your alliance.")
-        SetQBit(QBIT_RECOVER_DRAGON_LEADERS_EGG_FOR_QUIXOTE)
+        SetQBit(QBit(31))
     end
     return
 end)
@@ -966,22 +983,22 @@ end)
 RegisterGlobalEvent(65, "Alliance", function()
     evt.SimpleMessage("You would like my herd to join into an alliance? How could I refuse you? Not only have you saved us from certain death, we have suffered directly from the cataclysm the alliance is being created to fight!\n\nYou have my pledge. With the greatest haste I myself will travel to Ravenshore to take a seat on the alliance council.")
     evt.ForPlayer(Players.All)
-    SetAward(Award(9)) -- Formed an alliance with the Minotaurs of Ravage Roaming.
+    SetAward(Award(9))
     AddValue(Experience, 20000)
-    SetQBit(QBIT_MINOTAURS_ALLIED)
-    ClearQBit(QBIT_CAN_ASK_MINOTAURS_FOR_ALLIANCE)
+    SetQBit(QBit(23))
+    ClearQBit(QBit(18))
     ClearQBit(QBit(30))
     AddValue(History(13), 0)
-    evt.SetNPCTopic(13, 0, 0) -- Masul, clear topic slot A
-    evt.SetNPCTopic(70, 0, 613) -- Thanys, topic "Roster Join Event"
-    evt.SetNPCTopic(70, 1, 0) -- Thanys, clear topic slot B
-    evt.SetNPCTopic(70, 2, 0) -- Thanys, clear topic slot C
+    evt.SetNPCTopic(13, 0, 0)
+    evt.SetNPCTopic(70, 0, 613)
+    evt.SetNPCTopic(70, 1, 0)
+    evt.SetNPCTopic(70, 2, 0)
     return
 end)
 
 RegisterGlobalEvent(66, "Flood", function()
     evt.SimpleMessage("It was the worst of horrors! I was on guard in the main labyrinth just north of here when the waters came. A great wave as high as my head flooded through the passages. I managed to reach this high chamber. I waited for others, but there were none. I fear that many of the herd are dead or trapped inside the lair.")
-    evt.SetNPCTopic(70, 0, 67) -- Thanys, topic "Quest"
+    evt.SetNPCTopic(70, 0, 67)
     return
 end)
 
@@ -1003,7 +1020,7 @@ end)
 RegisterGlobalEvent(69, "Promotion to Minotaur Lord", function()
     evt.SimpleMessage("Only Masul, our herd leader, can deem an individual worthy of the title of Minotaur Lord.  One way to prove your worth, would be to recover his father’s axe, the Axe of Balthazar from the bowels of the Mines of the Dark Dwarfs.  Set your feet upon the path of this quest, and great is you future!  But we must be sure that the axe you find is indeed the Axe of Balthazar.  Take the Axe to Dadeross, a Minotaur in the service of the Merchants of Alvar, on the island of Dagger Wound.  He will be able to verify the truth of what you find.")
     SetQBit(QBit(76))
-    evt.SetNPCTopic(71, 0, 71) -- Tessalar, topic "Quest"
+    evt.SetNPCTopic(71, 0, 71)
 end)
 
 RegisterGlobalEvent(70, "Dark Dwarves", function()
@@ -1026,67 +1043,75 @@ RegisterGlobalEvent(71, "Quest", function()
         if IsAtLeast(ClassId, 8) then
             SetValue(ClassId, 9)
             AddValue(Experience, 35000)
-            SetAward(Award(28)) -- Promoted to Minotaur Lord.
+            SetAward(Award(28))
             RemoveItem(541) -- Axe of Balthazar
             RemoveItem(732) -- Certificate of Authentication
         else
             AddValue(Experience, 25000)
-            SetAward(Award(29)) -- Recovered Axe of Balthazar.
+            SetAward(Award(29))
         end
         evt.ForPlayer(player)
         if IsAtLeast(ClassId, 8) then
             SetValue(ClassId, 9)
             AddValue(Experience, 35000)
-            SetAward(Award(28)) -- Promoted to Minotaur Lord.
+            SetAward(Award(28))
             RemoveItem(541) -- Axe of Balthazar
             RemoveItem(732) -- Certificate of Authentication
         else
             AddValue(Experience, 25000)
-            SetAward(Award(29)) -- Recovered Axe of Balthazar.
+            SetAward(Award(29))
         end
         evt.ForPlayer(player)
         if IsAtLeast(ClassId, 8) then
             SetValue(ClassId, 9)
             AddValue(Experience, 35000)
-            SetAward(Award(28)) -- Promoted to Minotaur Lord.
+            SetAward(Award(28))
             RemoveItem(541) -- Axe of Balthazar
             RemoveItem(732) -- Certificate of Authentication
         else
             AddValue(Experience, 25000)
-            SetAward(Award(29)) -- Recovered Axe of Balthazar.
+            SetAward(Award(29))
         end
         evt.ForPlayer(player)
         if IsAtLeast(ClassId, 8) then
             SetValue(ClassId, 9)
             AddValue(Experience, 35000)
-            SetAward(Award(28)) -- Promoted to Minotaur Lord.
+            SetAward(Award(28))
             RemoveItem(541) -- Axe of Balthazar
             RemoveItem(732) -- Certificate of Authentication
         else
             AddValue(Experience, 25000)
-            SetAward(Award(29)) -- Recovered Axe of Balthazar.
+            SetAward(Award(29))
         end
         evt.ForPlayer(player)
         if IsAtLeast(ClassId, 8) then
             SetValue(ClassId, 9)
             AddValue(Experience, 35000)
-            SetAward(Award(28)) -- Promoted to Minotaur Lord.
+            SetAward(Award(28))
             RemoveItem(541) -- Axe of Balthazar
             RemoveItem(732) -- Certificate of Authentication
             evt.ForPlayer(Players.All)
         else
             AddValue(Experience, 25000)
-            SetAward(Award(29)) -- Recovered Axe of Balthazar.
+            SetAward(Award(29))
         end
     ClearQBit(QBit(76))
     SetQBit(QBit(87))
     RemoveItem(541) -- Axe of Balthazar
     RemoveItem(732) -- Certificate of Authentication
-    evt.SetNPCTopic(71, 0, 740) -- Tessalar, topic "Promote Minotuars"
+    evt.SetNPCTopic(71, 0, 740)
     return
 end)
 RegisterCanShowTopic(71, function()
-    return HasItem(732) -- Certificate of Authentication
+    evt._BeginCanShowTopic(71)
+    local visible = true
+    if HasItem(732) then -- Certificate of Authentication
+        visible = true
+        return visible
+    else
+        visible = false
+        return visible
+    end
 end)
 
 RegisterGlobalEvent(72, "Balthazar of Ravage Roaming", function()
@@ -1094,7 +1119,7 @@ RegisterGlobalEvent(72, "Balthazar of Ravage Roaming", function()
         evt.SimpleMessage("It was my pleasure to serve under Lord Balthazar, he was the finest herd leader in my tribe’s history.  Unfortunately, my services were pledged to the Merchants of Alvar, or I may have been in the battle where Balthazar fell.  Perhaps my ability and my axe could have saved my lord.  We’ll never know now.")
         return
     end
-    evt.SetNPCTopic(2, 3, 73) -- Dadeross, topic "The Axe of Balthazar"
+    evt.SetNPCTopic(2, 3, 73)
     return
 end)
 
@@ -1107,10 +1132,18 @@ RegisterGlobalEvent(73, "The Axe of Balthazar", function()
     evt.SimpleMessage("Of course I would know Balthazar's Axe if I saw it!  Do you have it with you? This IS the axe!  You must take this back to Tessalar, so the Rite’s of Purity may be performed upon the axe, so it be made ready for the son of Balthazar, Masul.  Take this letter with you, it carries my personal seal, and statement that this is indeed the Axe of Balthazar!")
     evt.ForPlayer(Players.Member0)
     AddValue(InventoryItem(732), 732) -- Certificate of Authentication
-    evt.SetNPCTopic(2, 3, 75) -- Dadeross, topic "Hurry!"
+    evt.SetNPCTopic(2, 3, 75)
 end)
 RegisterCanShowTopic(73, function()
-    return HasItem(541) -- Axe of Balthazar
+    evt._BeginCanShowTopic(73)
+    local visible = true
+    if HasItem(541) then -- Axe of Balthazar
+        visible = true
+        return visible
+    else
+        visible = false
+        return visible
+    end
 end)
 
 RegisterGlobalEvent(74, "Thanks for your help!", function()
@@ -1133,8 +1166,21 @@ RegisterGlobalEvent(76, "Prophecies of the Sun", function()
     return
 end)
 RegisterCanShowTopic(76, function()
+    evt._BeginCanShowTopic(76)
+    local visible = true
     evt.ForPlayer(Players.All)
-    return HasAward(Award(30)) or HasAward(Award(31))
+    if HasAward(Award(30)) then
+        visible = true
+        return visible
+    else
+        if HasAward(Award(31)) then
+            visible = true
+            return visible
+        else
+            visible = false
+            return visible
+        end
+    end
 end)
 
 RegisterGlobalEvent(77, "Clues", function()
@@ -1143,14 +1189,27 @@ RegisterGlobalEvent(77, "Clues", function()
     return
 end)
 RegisterCanShowTopic(77, function()
+    evt._BeginCanShowTopic(77)
+    local visible = true
     evt.ForPlayer(Players.All)
-    return not (HasAward(Award(30)) or HasAward(Award(31)))
+    if HasAward(Award(30)) then
+        visible = false
+        return visible
+    else
+        if HasAward(Award(31)) then
+            visible = false
+            return visible
+        else
+            visible = true
+            return visible
+        end
+    end
 end)
 
 RegisterGlobalEvent(78, "Promtion to Cleric of the Sun", function()
     evt.SimpleMessage("You seek promotion for the clerics of our faith who travel with you.?  I can promote you, but I do not place much trust or faith in strangers these days.  If you were to do something for me, such as finding the lost Prophecies of the Sun, and returning them to me, then I would be agreeable to promoting you.")
-    SetQBit(QBIT_CLERIC_OF_THE_SUN_PROMOTION_QUEST_ACTIVE)
-    evt.SetNPCTopic(72, 2, 81) -- Stephen, topic "Quest"
+    SetQBit(QBit(78))
+    evt.SetNPCTopic(72, 2, 81)
 end)
 
 RegisterGlobalEvent(79, "Lair of the Feathered Serpent", function()
@@ -1164,8 +1223,21 @@ RegisterGlobalEvent(80, "Prophecies of the Sun", function()
     return
 end)
 RegisterCanShowTopic(80, function()
+    evt._BeginCanShowTopic(80)
+    local visible = true
     evt.ForPlayer(Players.All)
-    return not (HasAward(Award(30)) or HasAward(Award(31)))
+    if HasAward(Award(30)) then
+        visible = false
+        return visible
+    else
+        if HasAward(Award(31)) then
+            visible = false
+            return visible
+        else
+            visible = true
+            return visible
+        end
+    end
 end)
 
 RegisterGlobalEvent(81, "Quest", function()
@@ -1180,24 +1252,28 @@ RegisterGlobalEvent(81, "Quest", function()
         if IsAtLeast(ClassId, 2) then
             SetValue(ClassId, 3)
             AddValue(Experience, 35000)
-            SetAward(Award(30)) -- Promoted to Cleric of the Sun.
+            SetAward(Award(30))
             RemoveItem(626) -- Prophecies of the Sun
         else
             AddValue(Experience, 25000)
-            SetAward(Award(31)) -- Found the lost Prophecies of the Sun and returned them to the Temple of the Sun.
+            SetAward(Award(31))
         end
     end
-    ClearQBit(QBIT_CLERIC_OF_THE_SUN_PROMOTION_QUEST_ACTIVE)
-    evt.SetNPCTopic(72, 2, 737) -- Stephen, topic "Promote Clerics"
+    ClearQBit(QBit(78))
+    evt.SetNPCTopic(72, 2, 737)
     return
 end)
 RegisterCanShowTopic(81, function()
+    evt._BeginCanShowTopic(81)
+    local visible = true
     if HasItem(626) then -- Prophecies of the Sun
+        visible = true
         evt.ForPlayer(Players.All)
-        return true
+        return visible
+    else
+        visible = false
+        return visible
     end
-
-    return false
 end)
 
 RegisterGlobalEvent(82, "Korbu", function()
@@ -1207,8 +1283,8 @@ end)
 
 RegisterGlobalEvent(83, "Quest", function()
     evt.SimpleMessage("In this time of chaos, we need the minds of all our elders.  Return to us with Korbu, or his remains, if he has perished.  If he has indeed perished, you must return his Sarcophagus with him.  We will attempt to reanimate him so that we may consult his wisdom.")
-    SetQBit(QBIT_RETURN_KORBU_REMAINS_AND_SARCOPHAGUS)
-    evt.SetNPCTopic(75, 1, 90) -- Lathean, topic "Return of Korbu"
+    SetQBit(QBit(80))
+    evt.SetNPCTopic(75, 1, 90)
     return
 end)
 
@@ -1224,8 +1300,8 @@ end)
 
 RegisterGlobalEvent(86, "Lich", function()
     evt.SimpleMessage("Ah, you seek to achieve the ultimate in the darker arts.  The necromancer’s among you seek to turn themselves into Liches, the most potent of necromancers.  Very well, I can perform this transformation for you, but you must do something for me...and get something for yourselves.  I require the Lost Book of Khel.  It contains secrets of necromancy that had been hidden since Khel’s tower sank beneath the waves.  The Lizardmen of Dagger Wound celebrated when the sea took Khel and his knowledge from us.  With the volcanic upheaval in that region, I believe the Tower of Khel can be found.  Retrieve the book from the library and bring it to me!  Now, for yourselves, you will need a Lich Jar for every necromancer that wishes to become a Lich.  Zanthora, the Mad Necromancer keeps a large supply of these jars, perhaps she will sell you one!  If not you must take them from her!")
-    SetQBit(QBIT_LICH_PROMOTION_QUEST_ACTIVE)
-    evt.SetNPCTopic(74, 0, 89) -- Vetrinus Taleshire, topic "Promotion to Lich"
+    SetQBit(QBit(82))
+    evt.SetNPCTopic(74, 0, 89)
     return
 end)
 
@@ -1235,8 +1311,21 @@ RegisterGlobalEvent(87, "Lich Jars", function()
     return
 end)
 RegisterCanShowTopic(87, function()
+    evt._BeginCanShowTopic(87)
+    local visible = true
     evt.ForPlayer(Players.All)
-    return HasAward(Award(34)) or HasAward(Award(35))
+    if HasAward(Award(34)) then
+        visible = true
+        return visible
+    else
+        if HasAward(Award(35)) then
+            visible = true
+            return visible
+        else
+            visible = false
+            return visible
+        end
+    end
 end)
 
 RegisterGlobalEvent(88, "The Lost Book of Khel", function()
@@ -1245,8 +1334,21 @@ RegisterGlobalEvent(88, "The Lost Book of Khel", function()
     return
 end)
 RegisterCanShowTopic(88, function()
+    evt._BeginCanShowTopic(88)
+    local visible = true
     evt.ForPlayer(Players.All)
-    return HasAward(Award(34)) or HasAward(Award(35))
+    if HasAward(Award(34)) then
+        visible = true
+        return visible
+    else
+        if HasAward(Award(35)) then
+            visible = true
+            return visible
+        else
+            visible = false
+            return visible
+        end
+    end
 end)
 
 RegisterGlobalEvent(89, "Promotion to Lich", function()
@@ -1270,17 +1372,17 @@ RegisterGlobalEvent(89, "Promotion to Lich", function()
         if IsAtLeast(ClassId, 0) then
             SetValue(ClassId, 1)
             AddValue(Experience, 35000)
-            SetAward(Award(34)) -- Promoted to Lich.
+            SetAward(Award(34))
             RemoveItem(628) -- Lich Jar
         else
             AddValue(Experience, 25000)
-            SetAward(Award(35)) -- Found the Lost Book of Khel.
+            SetAward(Award(35))
         end
     end
     evt.ForPlayer(Players.All)
     RemoveItem(611) -- Lost Book of Kehl
-    ClearQBit(QBIT_LICH_PROMOTION_QUEST_ACTIVE)
-    evt.SetNPCTopic(74, 0, 742) -- Vetrinus Taleshire, topic "Travel with you!"
+    ClearQBit(QBit(82))
+    evt.SetNPCTopic(74, 0, 742)
     return
 end)
 
@@ -1297,19 +1399,19 @@ RegisterGlobalEvent(90, "Return of Korbu", function()
             if IsAtLeast(ClassId, 12) then
                 SetValue(ClassId, 13)
                 AddValue(Experience, 35000)
-                SetAward(Award(32)) -- Promoted to Nosferatu.
+                SetAward(Award(32))
                 RemoveItem(627) -- Remains of Korbu
                 RemoveItem(612) -- Sarcophagus of Korbu
             else
                 AddValue(Experience, 25000)
-                SetAward(Award(33)) -- Found the Sarcophagus and Remains of Korbu.
+                SetAward(Award(33))
             end
         end
-        ClearQBit(QBIT_RETURN_KORBU_REMAINS_AND_SARCOPHAGUS)
+        ClearQBit(QBit(80))
         evt.ForPlayer(Players.All)
         RemoveItem(627) -- Remains of Korbu
         RemoveItem(612) -- Sarcophagus of Korbu
-        evt.SetNPCTopic(75, 1, 739) -- Lathean, topic "Promote Vampires"
+        evt.SetNPCTopic(75, 1, 739)
         return
     elseif HasItem(612) then -- Sarcophagus of Korbu
         evt.SimpleMessage("You return to us with the Sarcophagus of Korbu, but where are his remains? We cannot complete the act of reanimation without them!  Return to us when you have both the Sarcophagus and his remains!")
@@ -1319,7 +1421,15 @@ RegisterGlobalEvent(90, "Return of Korbu", function()
     return
 end)
 RegisterCanShowTopic(90, function()
-    return IsQBitSet(QBIT_RETURN_KORBU_REMAINS_AND_SARCOPHAGUS)
+    evt._BeginCanShowTopic(90)
+    local visible = true
+    if IsQBitSet(QBit(80)) then
+        visible = true
+        return visible
+    else
+        visible = false
+        return visible
+    end
 end)
 
 RegisterGlobalEvent(91, "Thanks for your help!", function()
@@ -1339,22 +1449,30 @@ end)
 
 RegisterGlobalEvent(94, "Alliance", function()
     evt.SimpleMessage("Bastian Loudrin has been a great friend to the guild. Sadly, I must refuse his request at this time. Even as we speak, my guild is embroiled in a battle for its very survival. For you see, the Temple of the Sun has declared a holy war on us. Most of our members are away in the fields either leading armies or raising zombies to serve in them.\n\nI wish I could say otherwise, but the accursed temple holds the upper hand. If only the balance would tilt in our favor.")
-    evt.SetNPCTopic(9, 0, 95) -- Sandro, topic "Quest"
+    evt.SetNPCTopic(9, 0, 95)
     return
 end)
 RegisterCanShowTopic(94, function()
-    return IsQBitSet(QBIT_CAN_ASK_NECROMANCERS_GUILD_FOR_ALLIANCE)
+    evt._BeginCanShowTopic(94)
+    local visible = true
+    if IsQBitSet(QBit(14)) then
+        visible = true
+        return visible
+    else
+        visible = false
+        return visible
+    end
 end)
 
 RegisterGlobalEvent(95, "Quest", function()
-    if not IsQBitSet(QBIT_RECOVER_NIGHTSHADE_BRAZIER) then
+    if not IsQBitSet(QBit(28)) then
         evt.SimpleMessage("If we had the Nightshade Brazier back in our possession, Shadowspire's defense would not be an issue. We could bring this war to the doors of the Sun Temple. We would annihilate them!\n\nKnowing its importance, the clerics keep the brazier in a secure chamber deep within their temple. Dyson Leland believes he can gain access to that chamber. Bring him to the temple, recover the brazier and return it to me. You want me in your alliance? Well, do this for me, and I will be in your debt.\n\nIf you have any questions about the Nightshade Brazier ask Thant. It was he who created the thing.")
-        SetQBit(QBIT_RECOVER_NIGHTSHADE_BRAZIER)
-        if IsQBitSet(QBIT_HEARD_DYSON_ON_NECROMANCERS) then
-            evt.SetNPCTopic(11, 3, 634) -- Dyson Leland, topic "Roster Join Event"
+        SetQBit(QBit(28))
+        if IsQBitSet(QBit(89)) then
+            evt.SetNPCTopic(11, 3, 634)
             return
-        elseif IsQBitSet(QBIT_HEARD_DYSON_ON_SUN_TEMPLE) then
-            evt.SetNPCTopic(11, 3, 634) -- Dyson Leland, topic "Roster Join Event"
+        elseif IsQBitSet(QBit(90)) then
+            evt.SetNPCTopic(11, 3, 634)
             return
         else
             return
@@ -1369,35 +1487,43 @@ RegisterGlobalEvent(96, "Dyson Leland", function()
     return
 end)
 RegisterCanShowTopic(96, function()
-    return not (IsAtLeast(Player(34), 34))
+    evt._BeginCanShowTopic(96)
+    local visible = true
+    if IsAtLeast(Player(34), 34) then
+        visible = false
+        return visible
+    else
+        visible = true
+        return visible
+    end
 end)
 
 RegisterGlobalEvent(97, "Necromancers", function()
     evt.SimpleMessage("How can anyone's quest for power bring him to participate in the horrors of the Dark Path? And yet, here is a whole house of them! Oh, they will call themselves \"seekers of knowledge,\" but these magicians of death are abomination! Loathsome corruption incarnate!\n\nOnly through my own fear can the foul Necromancers' Guild call itself \"my master.\"")
-    SetQBit(QBIT_HEARD_DYSON_ON_NECROMANCERS)
-    if not IsQBitSet(QBIT_HEARD_DYSON_ON_SUN_TEMPLE) then return end
-    if IsQBitSet(QBIT_RECOVER_NIGHTSHADE_BRAZIER) then
-        evt.SetNPCTopic(11, 3, 634) -- Dyson Leland, topic "Roster Join Event"
+    SetQBit(QBit(89))
+    if not IsQBitSet(QBit(90)) then return end
+    if IsQBitSet(QBit(28)) then
+        evt.SetNPCTopic(11, 3, 634)
         return
-    elseif IsQBitSet(QBIT_HELP_DYSON_DESTROY_SKELETON_TRANSFORMER) then
-        evt.SetNPCTopic(11, 3, 634) -- Dyson Leland, topic "Roster Join Event"
+    elseif IsQBitSet(QBit(26)) then
+        evt.SetNPCTopic(11, 3, 634)
     else
-        evt.SetNPCTopic(11, 3, 100) -- Dyson Leland, topic "Join"
+        evt.SetNPCTopic(11, 3, 100)
     end
     return
 end)
 
 RegisterGlobalEvent(98, "Sun Temple", function()
     evt.SimpleMessage("When I was young, all I wanted to do was to join the Order of Light--to be a selfless servant of the good. As soon as I was of age, I entered the Temple of the Sun with a heart filled with the fire of purity.\n\nWhat a fool I was. If there is goodness in the world, I have not seen it. There is certainly none in the halls of the Sun Temple! Hiding behind the righteousness of sanctity, Order members perform the worst crimes of greed and self-indulgence. If it were not so horrid, it would pass for something like irony.")
-    SetQBit(QBIT_HEARD_DYSON_ON_SUN_TEMPLE)
-    if not IsQBitSet(QBIT_HEARD_DYSON_ON_NECROMANCERS) then return end
-    if IsQBitSet(QBIT_RECOVER_NIGHTSHADE_BRAZIER) then
-        evt.SetNPCTopic(11, 3, 634) -- Dyson Leland, topic "Roster Join Event"
+    SetQBit(QBit(90))
+    if not IsQBitSet(QBit(89)) then return end
+    if IsQBitSet(QBit(28)) then
+        evt.SetNPCTopic(11, 3, 634)
         return
-    elseif IsQBitSet(QBIT_HELP_DYSON_DESTROY_SKELETON_TRANSFORMER) then
-        evt.SetNPCTopic(11, 3, 634) -- Dyson Leland, topic "Roster Join Event"
+    elseif IsQBitSet(QBit(26)) then
+        evt.SetNPCTopic(11, 3, 634)
     else
-        evt.SetNPCTopic(11, 3, 100) -- Dyson Leland, topic "Join"
+        evt.SetNPCTopic(11, 3, 100)
     end
     return
 end)
@@ -1419,35 +1545,43 @@ end)
 
 RegisterGlobalEvent(102, "Alliance", function()
     evt.SimpleMessage("Certainly the elemental unrest concerns us greatly. Why one need travel only a short distance north from our temple to see a great maelstrom of unnatural duration and fury. But sadly we have other matters pressing.\n\nThe sick horror that is the Necromancers' Guild must be blighted from this land! We wage holy war on the evil in Shadowspire. Our entire spirit and power goes into the campaign we wage against Sandro and his minions. Until that is done we cannot entertain participation in your alliance.")
-    evt.SetNPCTopic(37, 0, 103) -- Oskar Tyre, topic "Quest"
+    evt.SetNPCTopic(37, 0, 103)
     return
 end)
 RegisterCanShowTopic(102, function()
-    return IsQBitSet(QBIT_CAN_ASK_TEMPLE_OF_THE_SUN_FOR_ALLIANCE)
+    evt._BeginCanShowTopic(102)
+    local visible = true
+    if IsQBitSet(QBit(15)) then
+        visible = true
+        return visible
+    else
+        visible = false
+        return visible
+    end
 end)
 
 RegisterGlobalEvent(103, "Quest", function()
-    if IsQBitSet(QBIT_SKELETON_TRANSFORMER_DESTROYED) then
+    if IsQBitSet(QBit(27)) then
         evt.SimpleMessage("Excellent work! With the Skeleton Transformer destroyed, I am more than confident that the light of righteousness will cleanse Shadowspire of evil. The Necromancers' Guild is as good as no more.\n\nAs I agreed, you may now consider the Temple of the Sun an ally against the elemental cataclysm. I myself will sit on your alliance council in Ravenshore. I will make my departure arrangements with all due haste.")
-        ClearQBit(QBIT_HELP_DYSON_DESTROY_SKELETON_TRANSFORMER)
-        ClearQBit(QBIT_CAN_ASK_NECROMANCERS_GUILD_FOR_ALLIANCE)
-        ClearQBit(QBIT_CAN_ASK_TEMPLE_OF_THE_SUN_FOR_ALLIANCE)
-        ClearQBit(QBIT_RECOVER_NIGHTSHADE_BRAZIER)
-        SetQBit(QBIT_TEMPLE_OF_THE_SUN_ALLIED)
-        evt.SetNPCTopic(37, 0, 0) -- Oskar Tyre, clear topic slot A
+        ClearQBit(QBit(26))
+        ClearQBit(QBit(14))
+        ClearQBit(QBit(15))
+        ClearQBit(QBit(28))
+        SetQBit(QBit(20))
+        evt.SetNPCTopic(37, 0, 0)
         AddValue(History(11), 0)
         evt.ForPlayer(Players.All)
         AddValue(Experience, 50000)
         evt.ForPlayer(Players.Member0)
         AddValue(Gold, 10000)
         evt.ForPlayer(Players.All)
-        SetAward(Award(11)) -- Formed and alliance with the Temple of the Sun.
+        SetAward(Award(11))
         return
-    elseif IsQBitSet(QBIT_HELP_DYSON_DESTROY_SKELETON_TRANSFORMER) then
+    elseif IsQBitSet(QBit(26)) then
         evt.SimpleMessage("You come here again with talk of alliance? I have told you what you must do. Go to the Necromancers' Guild in Shadowspire, find Dyson Leland and help him to destroy their Skeleton Transformer!")
     else
         evt.SimpleMessage("Then again, we could spare some resources for your alliance if the war would turn in our favor. Perhaps you could be our agent of fortune?\n\nInside the Necromancers' Guild is a device known as the \"Skeleton Transformer.\" It converts living creatures into the skeletons which the dark mages use for the bulk of their reinforcements. If it were destroyed, we would quickly have the upper hand.\n\nWe have an agent, Dyson Leland, placed in their guild. Find him and help him to wreck their skeleton making device. Do this and I will consider your request more favorably.")
-        SetQBit(QBIT_HELP_DYSON_DESTROY_SKELETON_TRANSFORMER)
+        SetQBit(QBit(26))
     end
     return
 end)
@@ -1464,28 +1598,28 @@ end)
 
 RegisterGlobalEvent(106, "Ironfists", function()
     evt.SimpleMessage("Within hours of our first meeting, a most fortuitous development occurred. We were contacted by a great sage, Xanthor, of the Ironfist courts of Enroth!\n\nUsing his great magic, he projected his image into this very chamber. He and Roland and Catherine Ironfist were at sea off our shores when the cataclysm occurred. They survived the resulting storms and now would like to land in Ravenshore to aid the alliance. Unfortunately, they are blocked by the Regnan pirate fleet. We must help them to land. Xanthor claims much knowledge of what has happened here. We need his council!")
-    evt.SetNPCTopic(53, 0, 107) -- Elgar Fellmoon, topic "Quest"
+    evt.SetNPCTopic(53, 0, 107)
     return
 end)
 
 RegisterGlobalEvent(107, "Quest", function()
-    if IsQBitSet(QBIT_REGNAN_FLEET_SUNK) then
+    if IsQBitSet(QBit(37)) then
         evt.SimpleMessage("Your good work sinking the Regnan fleet has already had the desired results. Just yesterday morning, Catherine and Roland Ironfist arrived along with their sage, Xanthor. With them in the alliance, we are made stronger--immeasurably so.\n\nI will admit that the time of this crisis has contained some of my darkest moments. Thanks to your efforts I believe that the worst of this is over. I have hopes that we will indeed survive this.")
-        ClearQBit(QBIT_SINK_REGNAN_FLEET_FOR_IRONFISTS)
-        SetQBit(QBIT_IRONFISTS_ARRIVED_IN_RAVENSHORE)
-        evt.SetNPCTopic(53, 0, 109) -- Elgar Fellmoon, topic "Xanthor"
+        ClearQBit(QBit(36))
+        SetQBit(QBit(38))
+        evt.SetNPCTopic(53, 0, 109)
         evt.ForPlayer(Players.All)
         AddValue(Experience, 100000)
         evt.ForPlayer(Players.Member0)
         AddValue(Gold, 10000)
         evt.ForPlayer(Players.All)
-        SetAward(Award(12)) -- Sunk the Regnan fleet allowing Roland and Catherine Ironfist to join the alliance.
+        SetAward(Award(12))
         return
-    elseif IsQBitSet(QBIT_SINK_REGNAN_FLEET_FOR_IRONFISTS) then
+    elseif IsQBitSet(QBit(36)) then
         evt.SimpleMessage("You must sink that Regnan fleet! It is imperative that the Ironfists be allowed to land safely. Their sage Xanthor has knowledge of the crisis that we cannot do without.")
     else
         evt.SimpleMessage("Our sources believe the main Regnan fleet is in a hidden port somewhere on Regna Island. If you could sink the fleet in dock you could greatly cripple their ability to patrol the seas off our shore. Unfortunately, we don't have a fleet of our own strong enough to make a landing on Regna.\n\nBrekish Onefang has gotten message to us that the Regnans have built an outpost on an atoll off the main Dagger Wound Island. He believes this outpost is resupplied by mysterious means. His scouts never see ships land there, but they are always well stocked. Perhaps you should go there and solve the mystery. Perhaps the answer will convey you to Regna?\n\nRegardless of the means, the Regnan fleet must be sunk if the Ironfists are to land in Ravenshore.")
-        SetQBit(QBIT_SINK_REGNAN_FLEET_FOR_IRONFISTS)
+        SetQBit(QBit(36))
         AddValue(History(14), 0)
     end
     return
@@ -1498,14 +1632,14 @@ end)
 
 RegisterGlobalEvent(109, "Xanthor", function()
     evt.SimpleMessage("I have only met with him briefly, but I am convinced that Xanthor is remarkably knowledgeable about the workings of the elemental planes. Apparently he learned much from the Ironfists' elemental allies during their recent campaigns against the devils of Erathia.\n\nEven now he studies the strange crystal in the town square. You may find him there, or perhaps in the nearby residence we have provided him.")
-    evt.SetNPCTopic(53, 0, 110) -- Elgar Fellmoon, topic "Quest"
+    evt.SetNPCTopic(53, 0, 110)
     return
 end)
 
 RegisterGlobalEvent(110, "Quest", function()
-    if not IsQBitSet(QBIT_CONSULT_XANTHOR_ABOUT_THE_CRYSTAL) then
+    if not IsQBitSet(QBit(91)) then
         evt.SimpleMessage("We of the council have great faith in this Xanthor. He has told me that he is formulating a plan for dealing with the elemental crisis. If anyone can find a solution to our problems, it is he.\n\nIf you would help us further, be of service to this great sage. Consult with him about the crystal and see what you might do for him.")
-        SetQBit(QBIT_CONSULT_XANTHOR_ABOUT_THE_CRYSTAL)
+        SetQBit(QBit(91))
         evt.MoveNPC(23, 276)
         evt.MoveNPC(77, 0)
         return
@@ -1654,7 +1788,15 @@ RegisterGlobalEvent(138, "Pirate Raid", function()
     return
 end)
 RegisterCanShowTopic(138, function()
-    return not (IsQBitSet(QBIT_RAVENSHORE_UNDER_ATTACK))
+    evt._BeginCanShowTopic(138)
+    local visible = true
+    if IsQBitSet(QBit(57)) then
+        visible = false
+        return visible
+    else
+        visible = true
+        return visible
+    end
 end)
 
 RegisterGlobalEvent(139, "Catherine Ironfist", function()
@@ -1668,10 +1810,10 @@ RegisterGlobalEvent(140, "Plane of Water", function()
 end)
 
 RegisterGlobalEvent(141, "Iron Rations", function()
-    if not IsQBitSet(QBIT_RECEIVED_IRON_RATIONS) then
+    if not IsQBitSet(QBit(99)) then
         evt.SimpleMessage("You may have difficulty finding supplies in the lands beyond the crystal. When I left Balthazar Lair, I brought with me a quantity of the iron rations carried by my armies on campaign. Here, take what I have. They are light and nourishing. I hope you find them useful.")
         AddValue(Food, 20)
-        SetQBit(QBIT_RECEIVED_IRON_RATIONS)
+        SetQBit(QBit(99))
         return
     end
     evt.SimpleMessage("I have no more rations to give. If you need more, you'll have to find food elsewhere.")
@@ -1708,7 +1850,15 @@ RegisterGlobalEvent(147, "Ring of Planes", function()
     return
 end)
 RegisterCanShowTopic(147, function()
-    return not HasItem(519) -- Ring of Planes
+    evt._BeginCanShowTopic(147)
+    local visible = true
+    if HasItem(519) then -- Ring of Planes
+        visible = false
+        return visible
+    else
+        visible = true
+        return visible
+    end
 end)
 
 RegisterGlobalEvent(148, "Nightmares", function()
@@ -1733,10 +1883,10 @@ end)
 
 RegisterGlobalEvent(152, "The Crystal", function()
     evt.SimpleMessage("The crystal placed by the Destroyer in the town square serves two functions. One, if we do nothing, it will destroy the world. Two, it acts as a gateway to another realm of existence--the Plane Between Planes--where the Destroyer most certainly has his base.\n\nThe crystal calls forth the elemental forces into our world and draws them to it. When these forces meet here at the crystal, the world will be destroyed in cataclysm. If we are to prevent this someone will have to use the crystal as a gateway to reach the Destroyer and either convince him to end his assault, or eliminate him.")
-    ClearQBit(QBIT_CONSULT_XANTHOR_ABOUT_THE_CRYSTAL)
-    SetQBit(QBIT_XANTHOR_EXPLAINED_THE_CRYSTAL)
-    evt.SetNPCTopic(23, 0, 153) -- Xanthor, topic "Quest"
-    evt.SetNPCTopic(23, 1, 154) -- Xanthor, topic "Gateway"
+    ClearQBit(QBit(91))
+    SetQBit(QBit(92))
+    evt.SetNPCTopic(23, 0, 153)
+    evt.SetNPCTopic(23, 1, 154)
     return
 end)
 
@@ -1748,13 +1898,13 @@ RegisterGlobalEvent(153, "Quest", function()
         SetQBit(QBit(43))
         SetQBit(QBit(44))
         AddValue(History(16), 0)
-        evt.SetNPCTopic(53, 0, 0) -- Elgar Fellmoon, clear topic slot A
-        evt.SetNPCTopic(53, 1, 112) -- Elgar Fellmoon, topic "Plane of Fire"
-        evt.SetNPCTopic(65, 0, 119) -- Sir Charles Quixote, topic "Raising an Army"
-        evt.SetNPCTopic(66, 0, 126) -- Deftclaw Redreaver, topic "Gateways"
-        evt.SetNPCTopic(67, 0, 133) -- Oskar Tyre, topic "Plane of Air"
-        evt.SetNPCTopic(68, 0, 140) -- Masul, topic "Plane of Water"
-        evt.SetNPCTopic(69, 0, 147) -- Sandro, topic "Ring of Planes"
+        evt.SetNPCTopic(53, 0, 0)
+        evt.SetNPCTopic(53, 1, 112)
+        evt.SetNPCTopic(65, 0, 119)
+        evt.SetNPCTopic(66, 0, 126)
+        evt.SetNPCTopic(67, 0, 133)
+        evt.SetNPCTopic(68, 0, 140)
+        evt.SetNPCTopic(69, 0, 147)
         return
     end
     evt.ForPlayer(Players.All)
@@ -1802,13 +1952,13 @@ end)
 
 RegisterGlobalEvent(159, "Who Are You?", function()
     evt.SimpleMessage("I am Escaton the Destroyer also called \"Devil's Doom,\" \"The Spider in the Web Gate\" and \"Ruin.\" There are places where I am worshiped as a god. But to myself I think of myself only as a servant to my greater masters.\n\nKnow too that I have brought the cataclysm to your world, which must be destroyed. It is a doom you have brought on yourselves by failing to eliminate the devil Kreegans from your realms. ")
-    evt.SetNPCTopic(26, 0, 160) -- Escaton, topic "Masters"
-    evt.SetNPCTopic(26, 1, 161) -- Escaton, topic "Cataclysm"
-    evt.SetNPCTopic(26, 2, 162) -- Escaton, topic "Kreegans"
-    evt.SetNPCTopic(26, 3, 163) -- Escaton, topic "Save the World"
-    evt.SetNPCTopic(23, 0, 155) -- Xanthor, topic "Elemental Lords"
-    evt.SetNPCTopic(23, 1, 156) -- Xanthor, topic "The Destroyer"
-    evt.SetNPCGreeting(23, 112) -- Xanthor, "You are back? Have you need of advice? Or are you finding the task at hand too difficult?"
+    evt.SetNPCTopic(26, 0, 160)
+    evt.SetNPCTopic(26, 1, 161)
+    evt.SetNPCTopic(26, 2, 162)
+    evt.SetNPCTopic(26, 3, 163)
+    evt.SetNPCTopic(23, 0, 155)
+    evt.SetNPCTopic(23, 1, 156)
+    evt.SetNPCGreeting(23, 112)
     SetQBit(QBit(235))
     SetValue(MapVar(31), 4)
     SetValue(MapVar(32), 4)
@@ -1888,20 +2038,20 @@ end)
 RegisterGlobalEvent(163, "Save the World", function()
     evt.SimpleMessage("Yes, your world does need saving! The cataclysm, if not stopped, will destroy it utterly.\n\nA quandary for you: I, as bringer of the cataclysm know how it can be ended. Further, I acknowledge that since there are no longer Kreegans on your world it need not be destroyed. But, as servant to my masters, I am compelled to let the cataclysm continue by not divulging my knowledge to you.\n\nStill I will ask you some questions. Perhaps there is something for you in the answers?")
     SetQBit(QBit(98))
-    evt.SetNPCTopic(26, 0, 164) -- Escaton, topic "Riddle One"
-    evt.SetNPCTopic(26, 1, 165) -- Escaton, topic "Riddle Two"
-    evt.SetNPCTopic(26, 2, 166) -- Escaton, topic "Riddle Three"
-    evt.SetNPCTopic(26, 3, 0) -- Escaton, clear topic slot D
+    evt.SetNPCTopic(26, 0, 164)
+    evt.SetNPCTopic(26, 1, 165)
+    evt.SetNPCTopic(26, 2, 166)
+    evt.SetNPCTopic(26, 3, 0)
     return
 end)
 
 RegisterGlobalEvent(164, "Riddle One", function(continueStep)
     if continueStep == 2 then
         evt.SimpleMessage("That doesn't seem right at all.")
-        evt.SetNPCTopic(26, 0, 160) -- Escaton, topic "Masters"
-        evt.SetNPCTopic(26, 1, 161) -- Escaton, topic "Cataclysm"
-        evt.SetNPCTopic(26, 2, 162) -- Escaton, topic "Kreegans"
-        evt.SetNPCTopic(26, 3, 171) -- Escaton, topic "Riddles"
+        evt.SetNPCTopic(26, 0, 160)
+        evt.SetNPCTopic(26, 1, 161)
+        evt.SetNPCTopic(26, 2, 162)
+        evt.SetNPCTopic(26, 3, 171)
         return
     end
     if continueStep ~= nil then return end
@@ -1909,20 +2059,20 @@ RegisterGlobalEvent(164, "Riddle One", function(continueStep)
         evt._InputString(164, 2, 595)
     end
     evt.SimpleMessage("Jails, prisons and cells come in many forms. We hear of so called \"prisons of the mind.\" But I wonder. The riddle seems to speak of a physical prison. What think you?")
-    evt.SetNPCTopic(26, 0, 160) -- Escaton, topic "Masters"
-    evt.SetNPCTopic(26, 1, 161) -- Escaton, topic "Cataclysm"
-    evt.SetNPCTopic(26, 2, 162) -- Escaton, topic "Kreegans"
-    evt.SetNPCTopic(26, 3, 171) -- Escaton, topic "Riddles"
+    evt.SetNPCTopic(26, 0, 160)
+    evt.SetNPCTopic(26, 1, 161)
+    evt.SetNPCTopic(26, 2, 162)
+    evt.SetNPCTopic(26, 3, 171)
     return
 end)
 
 RegisterGlobalEvent(165, "Riddle Two", function(continueStep)
     if continueStep == 2 then
         evt.SimpleMessage("I suppose that could work…no, on second thought, it seems entirely wrong.")
-        evt.SetNPCTopic(26, 0, 160) -- Escaton, topic "Masters"
-        evt.SetNPCTopic(26, 1, 161) -- Escaton, topic "Cataclysm"
-        evt.SetNPCTopic(26, 2, 162) -- Escaton, topic "Kreegans"
-        evt.SetNPCTopic(26, 3, 171) -- Escaton, topic "Riddles"
+        evt.SetNPCTopic(26, 0, 160)
+        evt.SetNPCTopic(26, 1, 161)
+        evt.SetNPCTopic(26, 2, 162)
+        evt.SetNPCTopic(26, 3, 171)
         return
     end
     if continueStep ~= nil then return end
@@ -1930,20 +2080,20 @@ RegisterGlobalEvent(165, "Riddle Two", function(continueStep)
         evt._InputString(165, 2, 599)
     end
     evt.SimpleMessage("Inside. Inside what? And what is inside? And while we're asking...why?")
-    evt.SetNPCTopic(26, 0, 160) -- Escaton, topic "Masters"
-    evt.SetNPCTopic(26, 1, 161) -- Escaton, topic "Cataclysm"
-    evt.SetNPCTopic(26, 2, 162) -- Escaton, topic "Kreegans"
-    evt.SetNPCTopic(26, 3, 171) -- Escaton, topic "Riddles"
+    evt.SetNPCTopic(26, 0, 160)
+    evt.SetNPCTopic(26, 1, 161)
+    evt.SetNPCTopic(26, 2, 162)
+    evt.SetNPCTopic(26, 3, 171)
     return
 end)
 
 RegisterGlobalEvent(166, "Riddle Three", function(continueStep)
     if continueStep == 2 then
         evt.SimpleMessage("I don't see how that could be the answer. Really I can't.")
-        evt.SetNPCTopic(26, 0, 160) -- Escaton, topic "Masters"
-        evt.SetNPCTopic(26, 1, 161) -- Escaton, topic "Cataclysm"
-        evt.SetNPCTopic(26, 2, 162) -- Escaton, topic "Kreegans"
-        evt.SetNPCTopic(26, 3, 171) -- Escaton, topic "Riddles"
+        evt.SetNPCTopic(26, 0, 160)
+        evt.SetNPCTopic(26, 1, 161)
+        evt.SetNPCTopic(26, 2, 162)
+        evt.SetNPCTopic(26, 3, 171)
         return
     end
     if continueStep ~= nil then return end
@@ -1951,10 +2101,10 @@ RegisterGlobalEvent(166, "Riddle Three", function(continueStep)
         evt._InputString(166, 2, 603)
     end
     evt.SimpleMessage("\"Egg,\" yes. or perhaps, \"eggs.\" Eggs are a source of life, a seed of sorts. They are also of an unusual shape not found in many places elsewhere. Perhaps placing the answer in context will give a clue or some direction.")
-    evt.SetNPCTopic(26, 0, 160) -- Escaton, topic "Masters"
-    evt.SetNPCTopic(26, 1, 161) -- Escaton, topic "Cataclysm"
-    evt.SetNPCTopic(26, 2, 162) -- Escaton, topic "Kreegans"
-    evt.SetNPCTopic(26, 3, 171) -- Escaton, topic "Riddles"
+    evt.SetNPCTopic(26, 0, 160)
+    evt.SetNPCTopic(26, 1, 161)
+    evt.SetNPCTopic(26, 2, 162)
+    evt.SetNPCTopic(26, 3, 171)
     return
 end)
 
@@ -1966,7 +2116,7 @@ RegisterGlobalEvent(167, "Release Shalwend", function()
     else
         evt.SimpleMessage("Thank you for releasing me. I go now to restore order to my realm and to do what I can for yours. Know that Shalwend, Lord of Air, holds you in his favor. Farewell.")
     end
-    evt.SetNPCTopic(30, 0, 0) -- Shalwend, clear topic slot A
+    evt.SetNPCTopic(30, 0, 0)
     evt.MoveNPC(30, 0)
     evt.ForPlayer(Players.All)
     AddValue(Experience, 100000)
@@ -1975,7 +2125,7 @@ RegisterGlobalEvent(167, "Release Shalwend", function()
     evt.ForPlayer(Players.All)
     ClearQBit(QBit(54))
     SetQBit(QBit(55))
-    SetAward(Award(14)) -- Rescued Shalwend, Lord of Air.
+    SetAward(Award(14))
     return
 end)
 
@@ -1987,7 +2137,7 @@ RegisterGlobalEvent(168, "Release Acwalander", function()
     else
         evt.SimpleMessage("\"The Destroyer\" is a fitting moniker for one who would imprison me in such a fashion. If it were not for you, I, Acwalander, Lord of Water, would have soon perished. My passing would have had an unbalancing effect across all the planes. Thank you. I go now to set things right.")
     end
-    evt.SetNPCTopic(28, 0, 0) -- Acwalander, clear topic slot A
+    evt.SetNPCTopic(28, 0, 0)
     evt.MoveNPC(28, 0)
     evt.ForPlayer(Players.All)
     AddValue(Experience, 100000)
@@ -1996,7 +2146,7 @@ RegisterGlobalEvent(168, "Release Acwalander", function()
     evt.ForPlayer(Players.All)
     ClearQBit(QBit(52))
     SetQBit(QBit(53))
-    SetAward(Award(15)) -- Rescued Acwalander, Lord of Water.
+    SetAward(Award(15))
     return
 end)
 
@@ -2008,7 +2158,7 @@ RegisterGlobalEvent(169, "Release Gralkor", function()
     else
         evt.SimpleMessage("I am free! Now will he who was fool enough to jail me--this Destroyer--feel my wrath. That I, the Lord of Earth, am called \"Gralkor the Cruel\" is no mistake. The suffering I have felt will be his returned in multitudes!")
     end
-    evt.SetNPCTopic(29, 0, 0) -- Gralkor the Cruel, clear topic slot A
+    evt.SetNPCTopic(29, 0, 0)
     evt.MoveNPC(29, 0)
     evt.ForPlayer(Players.All)
     AddValue(Experience, 100000)
@@ -2017,7 +2167,7 @@ RegisterGlobalEvent(169, "Release Gralkor", function()
     evt.ForPlayer(Players.All)
     ClearQBit(QBit(50))
     SetQBit(QBit(51))
-    SetAward(Award(16)) -- Rescued Gralkor the Cruel, Lord of Earth.
+    SetAward(Award(16))
     return
 end)
 
@@ -2029,7 +2179,7 @@ RegisterGlobalEvent(170, "Release Pyrannaste", function()
     else
         evt.SimpleMessage("Free at last. My torment is over, but what of my subjects? I know the Destroyer has them compelled to a terrible task. My presence will sooth them. I must go. I must…farewell…")
     end
-    evt.SetNPCTopic(27, 0, 0) -- Pyrannaste, clear topic slot A
+    evt.SetNPCTopic(27, 0, 0)
     evt.MoveNPC(27, 0)
     evt.ForPlayer(Players.All)
     AddValue(Experience, 100000)
@@ -2038,17 +2188,17 @@ RegisterGlobalEvent(170, "Release Pyrannaste", function()
     evt.ForPlayer(Players.All)
     ClearQBit(QBit(48))
     SetQBit(QBit(49))
-    SetAward(Award(17)) -- Rescued Pyrannaste, Lord of Fire.
+    SetAward(Award(17))
     return
 end)
 
 RegisterGlobalEvent(171, "Riddles", function()
     if not IsQBitSet(QBit(97)) then
         evt.SimpleMessage("Though I must destroy your world, what I need do I have already done. Until the cataclysm has culminated, there is nothing to stop me from indulging you with my conversation. This cannot continue forever. Nothing does.\n\nSometimes questions create more questions. Sometimes they provide answers. I wonder what my questions will provide you?")
-        evt.SetNPCTopic(26, 0, 164) -- Escaton, topic "Riddle One"
-        evt.SetNPCTopic(26, 1, 165) -- Escaton, topic "Riddle Two"
-        evt.SetNPCTopic(26, 2, 166) -- Escaton, topic "Riddle Three"
-        evt.SetNPCTopic(26, 3, 0) -- Escaton, clear topic slot D
+        evt.SetNPCTopic(26, 0, 164)
+        evt.SetNPCTopic(26, 1, 165)
+        evt.SetNPCTopic(26, 2, 166)
+        evt.SetNPCTopic(26, 3, 0)
         return
     end
     evt.SimpleMessage("My masters have made me a holder, and not a giver, of knowledge. Still perhaps you have given yourself knowledge through my questions? I have given you all the questions I will, so you must look at what you have. Perhaps you should question the answers.\n\nA \"prison\" implies a prisoner. Who? \"Inside?\" Inside of what? And \"egg.\" What kind of egg? A bird's egg? Perhaps something like an egg?")
@@ -2057,7 +2207,7 @@ end)
 
 RegisterGlobalEvent(172, "Raiders", function()
     evt.SimpleMessage("There are many predators who would take advantage of the lair in this vulnerable time. I've already driven off looters…and worse. One of Zog's patrols stopped by soon after the flood. I fought them off, but some escaped. I am sure they will be back in greater numbers.")
-    evt.SetNPCTopic(70, 2, 173) -- Thanys, topic "Join"
+    evt.SetNPCTopic(70, 2, 173)
     return
 end)
 
@@ -2068,44 +2218,68 @@ end)
 
 RegisterGlobalEvent(174, "Quest", function()
     evt.SimpleMessage("Yellow Fever is a very crippling disease that pops up every few years.  Usually we arrange for medicine from the mainland, but now that the bridges are destroyed, no one can make it to the docks!")
-    evt.SetNPCTopic(78, 0, 175) -- Aislen, topic "Quest"
+    evt.SetNPCTopic(78, 0, 175)
     return
 end)
 
 RegisterGlobalEvent(175, "Quest", function()
     evt.SimpleMessage("Here, take these scrolls of Cure Disease.  Maybe we can at least prevent an epidemic!  The six huts on the outer islands are infected.  If the teleporters between the islands are repaired, you can take these scrolls to the huts.  Unfortunately you will have to find three more scrolls in your travels.")
-    SetQBit(QBIT_RUST_YELLOW_FEVER_SCROLL_DELIVERY_ACTIVE)
-    evt.SetNPCTopic(78, 0, 176) -- Aislen, topic "Have you stopped the epidemic?"
+    SetQBit(QBit(101))
+    evt.SetNPCTopic(78, 0, 176)
     AddValue(InventoryItem(373), 373) -- Cure Disease
     AddValue(InventoryItem(373), 373) -- Cure Disease
     AddValue(InventoryItem(373), 373) -- Cure Disease
     return
 end)
 RegisterCanShowTopic(175, function()
-    return not (IsQBitSet(QBIT_RUST_YELLOW_FEVER_EPIDEMIC_STOPPED))
+    evt._BeginCanShowTopic(175)
+    local visible = true
+    if IsQBitSet(QBit(108)) then
+        visible = false
+        return visible
+    else
+        visible = true
+        return visible
+    end
 end)
 
 RegisterGlobalEvent(176, "Have you stopped the epidemic?", function()
     evt.SimpleMessage("The Yellow Fever epidemic is over!  Thank you for your help!")
-    ClearQBit(QBIT_RUST_YELLOW_FEVER_SCROLL_DELIVERY_ACTIVE)
+    ClearQBit(QBit(101))
     AddValue(Gold, 1500)
     evt.ForPlayer(Players.All)
-    SetAward(Award(18)) -- Stopped the Yellow Fever Epidemic on Dagger Wound Island
-    evt.SetNPCTopic(78, 0, 661) -- Aislen, topic "Pirate Raids"
+    SetAward(Award(18))
+    evt.SetNPCTopic(78, 0, 661)
     return
 end)
 RegisterCanShowTopic(176, function()
-    return IsQBitSet(QBIT_RUST_YELLOW_FEVER_EPIDEMIC_STOPPED)
+    evt._BeginCanShowTopic(176)
+    local visible = true
+    if IsQBitSet(QBit(108)) then
+        visible = true
+        return visible
+    else
+        visible = false
+        return visible
+    end
 end)
 
 RegisterGlobalEvent(177, "Quest", function()
     evt.SimpleMessage("I hear that Yellow Fever is once again spreading through the people.  Usually the water supply here on the main island is the primary source of the disease.  We used to get an Anointed Herb Potion from the mainland when the disease popped up.  Without access to the dock however, we cannot get this needed cure.  If you find a way to the mainland, perhaps the smugglers of Ravenshore have the cure.  If you can procure the Anointed Potion, return to me with it!")
-    SetQBit(QBIT_RUST_ANOINTED_HERB_POTION_QUEST_ACTIVE)
-    evt.SetNPCTopic(79, 0, 178) -- Languid, topic "Do you have the antidote?"
+    SetQBit(QBit(109))
+    evt.SetNPCTopic(79, 0, 178)
     return
 end)
 RegisterCanShowTopic(177, function()
-    return not (IsQBitSet(QBIT_RUST_WATER_SUPPLY_PURIFIED))
+    evt._BeginCanShowTopic(177)
+    local visible = true
+    if IsQBitSet(QBit(110)) then
+        visible = false
+        return visible
+    else
+        visible = true
+        return visible
+    end
 end)
 
 RegisterGlobalEvent(178, "Do you have the antidote?", function()
@@ -2121,22 +2295,30 @@ RegisterGlobalEvent(178, "Do you have the antidote?", function()
     evt.ForPlayer(Players.Member0)
     AddValue(Gold, 2000)
     evt.ForPlayer(Players.All)
-    ClearQBit(QBIT_RUST_ANOINTED_HERB_POTION_QUEST_ACTIVE)
+    ClearQBit(QBit(109))
     ClearQBit(QBit(245))
-    SetQBit(QBIT_RUST_WATER_SUPPLY_PURIFIED)
-    SetAward(Award(59)) -- Brought the Annointed Herb Potion to Languid on the Dagger Wound Islands.
-    evt.SetNPCTopic(79, 0, 0) -- Languid, clear topic slot A
+    SetQBit(QBit(110))
+    SetAward(Award(59))
+    evt.SetNPCTopic(79, 0, 0)
     return
 end)
 
 RegisterGlobalEvent(179, "Potion of Pure Speed", function()
     evt.SimpleMessage("Perhaps you can bring me the basic ingredients for a Potion of Pure speed?  With them I can make this incredible potion and finish my studies in alchemy!  I will reward you well for your assistance!")
-    SetQBit(QBIT_PURE_SPEED_INGREDIENTS_QUEST_ACTIVE)
-    evt.SetNPCTopic(88, 0, 0) -- Thistle, clear topic slot A
+    SetQBit(QBit(113))
+    evt.SetNPCTopic(88, 0, 0)
     return
 end)
 RegisterCanShowTopic(179, function()
-    return not (IsQBitSet(QBIT_PURE_SPEED_INGREDIENTS_QUEST_ACTIVE))
+    evt._BeginCanShowTopic(179)
+    local visible = true
+    if IsQBitSet(QBit(113)) then
+        visible = false
+        return visible
+    else
+        visible = true
+        return visible
+    end
 end)
 
 RegisterGlobalEvent(180, "Ingredients", function()
@@ -2161,26 +2343,42 @@ RegisterGlobalEvent(181, "Do you have the Ingredients?", function()
     evt.RemoveItems(DecorVar(2))
     evt.RemoveItems(DecorVar(7))
     evt.RemoveItems(DecorVar(12))
-    ClearQBit(QBIT_PURE_SPEED_INGREDIENTS_QUEST_ACTIVE)
-    SetQBit(QBIT_PURE_SPEED_REWARD_CLAIMED)
+    ClearQBit(QBit(113))
+    SetQBit(QBit(114))
     AddValue(InventoryItem(265), 265) -- Pure Speed
     evt.ForPlayer(Players.All)
     AddValue(Experience, 1000)
-    evt.SetNPCTopic(88, 2, 0) -- Thistle, clear topic slot C
+    evt.SetNPCTopic(88, 2, 0)
     return
 end)
 RegisterCanShowTopic(181, function()
-    return IsQBitSet(QBIT_PURE_SPEED_INGREDIENTS_QUEST_ACTIVE)
+    evt._BeginCanShowTopic(181)
+    local visible = true
+    if IsQBitSet(QBit(113)) then
+        visible = true
+        return visible
+    else
+        visible = false
+        return visible
+    end
 end)
 
 RegisterGlobalEvent(182, "Quest", function()
     evt.SimpleMessage("I believe I may know how to stop the destructive force of the mountain of fire!  I have found an ancient spell that should give me the power to send the mountain of fire back into the sea! To complete the spell I need an ancient relic called the Idol of the Snake.  With this item of power I should be able to complete the spell.")
-    SetQBit(QBIT_IDOL_OF_THE_SNAKE_QUEST_ACTIVE)
-    evt.SetNPCTopic(89, 0, 183) -- Hiss, topic "Do you have the Idol?"
+    SetQBit(QBit(111))
+    evt.SetNPCTopic(89, 0, 183)
     return
 end)
 RegisterCanShowTopic(182, function()
-    return not (IsQBitSet(QBIT_IDOL_OF_THE_SNAKE_RETURNED))
+    evt._BeginCanShowTopic(182)
+    local visible = true
+    if IsQBitSet(QBit(112)) then
+        visible = false
+        return visible
+    else
+        visible = true
+        return visible
+    end
 end)
 
 RegisterGlobalEvent(183, "Do you have the Idol?", function()
@@ -2196,17 +2394,17 @@ RegisterGlobalEvent(183, "Do you have the Idol?", function()
     evt.ForPlayer(Players.Member0)
     AddValue(Gold, 2000)
     evt.ForPlayer(Players.All)
-    ClearQBit(QBIT_IDOL_OF_THE_SNAKE_QUEST_ACTIVE)
-    SetQBit(QBIT_IDOL_OF_THE_SNAKE_RETURNED)
-    SetAward(Award(51)) -- Recovered Idol of the Snake for Hiss of Blood Drop village.
-    evt.SetNPCTopic(89, 0, 0) -- Hiss, clear topic slot A
+    ClearQBit(QBit(111))
+    SetQBit(QBit(112))
+    SetAward(Award(51))
+    evt.SetNPCTopic(89, 0, 0)
     return
 end)
 
 RegisterGlobalEvent(184, "Quest", function()
     evt.SimpleMessage("The packs of Dire Wolves that roam this region are a threat to travelers and commerce.  The Merchants of Alvar have instructed me to hire competent people to hunt down these wolves and to \"thin the pack\" in their words.  You look like skilled adventurers!  I will reward you well if you can eliminate the entire pack and those in their lair.")
-    SetQBit(QBIT_DIRE_WOLF_HUNT_ACTIVE)
-    evt.SetNPCTopic(91, 0, 186) -- Maddigan the Tracker, topic "Finally!"
+    SetQBit(QBit(139))
+    evt.SetNPCTopic(91, 0, 186)
     return
 end)
 
@@ -2229,53 +2427,77 @@ RegisterGlobalEvent(186, "Finally!", function()
     AddValue(Gold, 2500)
     evt.ForPlayer(Players.All)
     AddValue(Experience, 7500)
-    ClearQBit(QBIT_DIRE_WOLF_HUNT_ACTIVE)
-    SetAward(Award(60)) -- Killed all of the Dire Wolves in the Ravenshore area.
-    evt.SetNPCTopic(91, 0, 0) -- Maddigan the Tracker, clear topic slot A
+    ClearQBit(QBit(139))
+    SetAward(Award(60))
+    evt.SetNPCTopic(91, 0, 0)
     return
 end)
 RegisterCanShowTopic(186, function()
-    return IsQBitSet(QBIT_DIRE_WOLF_HUNT_COMPLETE)
+    evt._BeginCanShowTopic(186)
+    local visible = true
+    if IsQBitSet(QBit(140)) then
+        visible = true
+        return visible
+    else
+        visible = false
+        return visible
+    end
 end)
 
 RegisterGlobalEvent(187, "Quest", function()
-    if not IsQBitSet(QBIT_ARION_HUNTERS_FAMILY_RESCUED) then
+    if not IsQBitSet(QBit(120)) then
         evt.SimpleMessage("The Merchants of Alvar took my family into what they termed \"protective custody\" and use this as the means to secure my services. However as the caravan with my family was returning to Alvar, they were attacked by Ogres and bandits.  The Ogre Zog, took my family from them!  He took them to his fortress in the Alvar region.  Now, I am to spy on the Merchants of Alvar for him.  As long as I do so, my family lives.  If I stop, they die.  Can you rescue them for me?")
-        SetQBit(QBIT_RESCUE_ARION_HUNTERS_FAMILY_ACTIVE)
+        SetQBit(QBit(119))
         return
     end
     evt.SimpleMessage("My family returned and told me of how you rescued them.  Tell the Merchants of Alvar, that they no longer need rely upon our \"bargain.\"  I will keep my word to them and to you, my boats will always be at your service!")
-    ClearQBit(QBIT_ARION_HUNTERS_FAMILY_RESCUED)
+    ClearQBit(QBit(120))
     evt.ForPlayer(Players.All)
     AddValue(Experience, 15000)
-    SetAward(Award(56)) -- Rescued Irabelle Hunter from the Ogre Fortress in Alvar.
+    SetAward(Award(56))
     evt.ForPlayer(Players.Member0)
     AddValue(Gold, 10000)
-    evt.SetNPCTopic(4, 2, 0) -- Arion Hunter, clear topic slot C
+    evt.SetNPCTopic(4, 2, 0)
     return
 end)
 
 RegisterGlobalEvent(188, "Quest", function()
     evt.SimpleMessage("I send periodic reports of the activities of the Merchants of Alvar to the Dread Pirate Stanley in the tavern, The Pirate's Rest on the Island of Regna. Now that the Merchants have \"bargained\" for my assistance, we must deliver a false set of reports to keep Stanley from being suspicious.  Take this report to him in Harecksburg on the island of Regna!")
-    SetQBit(QBIT_FALSE_REPORT_FOR_STANLEY_ACTIVE)
+    SetQBit(QBit(117))
     SetQBit(QBit(282))
     AddValue(InventoryItem(602), 602) -- False Report
-    evt.SetNPCTopic(4, 1, 189) -- Arion Hunter, topic "Report has been delivered?"
+    evt.SetNPCTopic(4, 1, 189)
     return
 end)
 RegisterCanShowTopic(188, function()
-    return not (IsQBitSet(QBIT_FALSE_REPORT_DELIVERED_TO_STANLEY))
+    evt._BeginCanShowTopic(188)
+    local visible = true
+    if IsQBitSet(QBit(118)) then
+        visible = false
+        return visible
+    else
+        visible = true
+        return visible
+    end
 end)
 
 RegisterGlobalEvent(189, "Report has been delivered?", function()
     evt.SimpleMessage("You delivered the report to Stanley?  This is will at least buy us sometime before he becomes suspicious of the activities here in Ravenshore and those of the Merchants in Alvar.")
     evt.ForPlayer(Players.All)
     AddValue(Experience, 10000)
-    evt.SetNPCTopic(4, 1, 299) -- Arion Hunter, topic "Fate of Jadame"
+    evt.SetNPCTopic(4, 1, 299)
     return
 end)
 RegisterCanShowTopic(189, function()
-    return IsQBitSet(QBIT_FALSE_REPORT_DELIVERED_TO_STANLEY)
+    evt._BeginCanShowTopic(189)
+    local visible = true
+    if IsQBitSet(QBit(118)) then
+        visible = true
+        return visible
+    else
+        visible = false
+        return visible
+    end
 end)
 
 RegisterGlobalEvent(190, "Anointed Herb Potion", function()
@@ -2283,7 +2505,15 @@ RegisterGlobalEvent(190, "Anointed Herb Potion", function()
     return
 end)
 RegisterCanShowTopic(190, function()
-    return IsQBitSet(QBIT_RUST_ANOINTED_HERB_POTION_QUEST_ACTIVE)
+    evt._BeginCanShowTopic(190)
+    local visible = true
+    if IsQBitSet(QBit(109)) then
+        visible = true
+        return visible
+    else
+        visible = false
+        return visible
+    end
 end)
 
 RegisterGlobalEvent(191, "Naga Hides", function()
@@ -2307,11 +2537,19 @@ end)
 RegisterGlobalEvent(193, "Quest", function()
     evt.SimpleMessage("Many decades ago, the legendary Priest of the Sun, Camien Thryce, led a crusade against the Necromancers' Guild in Shadowspire.  The Guild was able to defeat Thryce's forces with the aid of the Vampires that also dwell in the Shadowspire region.  Camien Thryce carried with him the clerical artifact called Eclipse with him into battle.  The shield was lost when Thryce was struck down by a Nosferatu in the final battle.")
     SetQBit(QBit(127))
-    evt.SetNPCTopic(98, 0, 194) -- Lathius, topic "Eclipse"
+    evt.SetNPCTopic(98, 0, 194)
     return
 end)
 RegisterCanShowTopic(193, function()
-    return not (IsQBitSet(QBit(128)))
+    evt._BeginCanShowTopic(193)
+    local visible = true
+    if IsQBitSet(QBit(128)) then
+        visible = false
+        return visible
+    else
+        visible = true
+        return visible
+    end
 end)
 
 RegisterGlobalEvent(194, "Eclipse", function()
@@ -2329,8 +2567,8 @@ RegisterGlobalEvent(194, "Eclipse", function()
     ClearQBit(QBit(127))
     ClearQBit(QBit(283))
     SetQBit(QBit(128))
-    SetAward(Award(55)) -- Found the shield Eclipse.
-    evt.SetNPCTopic(98, 0, 703) -- Lathius, topic "Use Eclipse well!"
+    SetAward(Award(55))
+    evt.SetNPCTopic(98, 0, 703)
     return
 end)
 
@@ -2365,9 +2603,9 @@ RegisterGlobalEvent(198, "Quest", function()
         AddValue(Gold, 5000)
         evt.ForPlayer(Players.All)
         AddValue(Experience, 10000)
-        SetAward(Award(53)) -- Killed all of the Ogres in the Alvar region.
+        SetAward(Award(53))
         ClearQBit(QBit(129))
-        evt.SetNPCTopic(123, 0, 200) -- Keldon, topic "It's safe to travel again!"
+        evt.SetNPCTopic(123, 0, 200)
         return
     elseif IsQBitSet(QBit(129)) then
         evt.SimpleMessage("You have not defeated all of the Ogres!  The roads will not be safe until they are destroyed!")
@@ -2400,11 +2638,19 @@ end)
 RegisterGlobalEvent(201, "Potion of Pure Luck", function()
     evt.SimpleMessage("A Potion of Pure Luck would be of great assistance to any merchant.  One could stumble upon any number of great deals if his Luck was at its highest!  Bring me the basic ingredients for a Potion of Pure Luck and I will reward you well!")
     SetQBit(QBit(115))
-    evt.SetNPCTopic(99, 0, 0) -- Rihansi, clear topic slot A
+    evt.SetNPCTopic(99, 0, 0)
     return
 end)
 RegisterCanShowTopic(201, function()
-    return not (IsQBitSet(QBit(115)))
+    evt._BeginCanShowTopic(201)
+    local visible = true
+    if IsQBitSet(QBit(115)) then
+        visible = false
+        return visible
+    else
+        visible = true
+        return visible
+    end
 end)
 
 RegisterGlobalEvent(202, "Ingredients", function()
@@ -2434,11 +2680,19 @@ RegisterGlobalEvent(203, "Do you have the Ingredients?", function()
     AddValue(InventoryItem(264), 264) -- Pure Luck
     evt.ForPlayer(Players.All)
     AddValue(Experience, 5000)
-    evt.SetNPCTopic(99, 2, 0) -- Rihansi, clear topic slot C
+    evt.SetNPCTopic(99, 2, 0)
     return
 end)
 RegisterCanShowTopic(203, function()
-    return IsQBitSet(QBit(115))
+    evt._BeginCanShowTopic(203)
+    local visible = true
+    if IsQBitSet(QBit(115)) then
+        visible = true
+        return visible
+    else
+        visible = false
+        return visible
+    end
 end)
 
 RegisterGlobalEvent(204, "Wasp Stingers", function()
@@ -2467,19 +2721,27 @@ end)
 
 RegisterGlobalEvent(207, "Quest", function()
     evt.SimpleMessage("The survivors in this region need Potions of Fire Resistance!  With them we can survive until a place is found for us to move to!  Take these potions!  Unfortunately they are all I have!  Deliver them to the six southernmost houses that remain standing in the village of Rust!")
-    SetQBit(QBIT_RUST_FIRE_RESISTANCE_POTION_DELIVERY_ACTIVE)
+    SetQBit(QBit(142))
     AddValue(InventoryItem(256), 256) -- Fire Resistance
     AddValue(InventoryItem(256), 256) -- Fire Resistance
     AddValue(InventoryItem(256), 256) -- Fire Resistance
-    evt.SetNPCTopic(186, 1, 208) -- Pole, topic "Not enough potions?"
+    evt.SetNPCTopic(186, 1, 208)
     return
 end)
 RegisterCanShowTopic(207, function()
-    return not (IsQBitSet(QBIT_RUST_FIRE_RESISTANCE_VILLAGE_PROTECTED))
+    evt._BeginCanShowTopic(207)
+    local visible = true
+    if IsQBitSet(QBit(149)) then
+        visible = false
+        return visible
+    else
+        visible = true
+        return visible
+    end
 end)
 
 RegisterGlobalEvent(208, "Not enough potions?", function()
-    if not IsQBitSet(QBIT_RUST_FIRE_RESISTANCE_VILLAGE_PROTECTED) then
+    if not IsQBitSet(QBit(149)) then
         evt.SimpleMessage("You have not delivered Potions of Fire Resistance to all of the houses!  If the lake of fire grows in size everyone will perish!")
         return
     end
@@ -2487,9 +2749,9 @@ RegisterGlobalEvent(208, "Not enough potions?", function()
     evt.ForPlayer(Players.Member0)
     AddValue(Gold, 1500)
     evt.ForPlayer(Players.All)
-    SetAward(Award(52)) -- Brought Potions of Fire Resistance to the southern houses of Rust.
-    ClearQBit(QBIT_RUST_FIRE_RESISTANCE_POTION_DELIVERY_ACTIVE)
-    evt.SetNPCTopic(186, 1, 209) -- Pole, topic "The village can hold its own."
+    SetAward(Award(52))
+    ClearQBit(QBit(142))
+    evt.SetNPCTopic(186, 1, 209)
     return
 end)
 
@@ -2500,12 +2762,20 @@ end)
 
 RegisterGlobalEvent(210, "Potion of Pure Endurance", function()
     evt.SimpleMessage("Endurance.  That ability which keeps a warrior on his feet, or lets him down gently as he slides into unconsciousness.  A Potion of Pure Endurance can boost a person's ability to take damage to a legendary strength!  Bring me the basic ingredients of a Potion of Pure Endurance and I will reward you well.")
-    SetQBit(QBIT_PURE_ENDURANCE_INGREDIENTS_QUEST_ACTIVE)
-    evt.SetNPCTopic(160, 0, 212) -- Talion, topic "Do you have the Ingredients?"
+    SetQBit(QBit(121))
+    evt.SetNPCTopic(160, 0, 212)
     return
 end)
 RegisterCanShowTopic(210, function()
-    return not (IsQBitSet(QBIT_PURE_ENDURANCE_INGREDIENTS_QUEST_ACTIVE))
+    evt._BeginCanShowTopic(210)
+    local visible = true
+    if IsQBitSet(QBit(121)) then
+        visible = false
+        return visible
+    else
+        visible = true
+        return visible
+    end
 end)
 
 RegisterGlobalEvent(211, "Ingredients", function()
@@ -2530,26 +2800,42 @@ RegisterGlobalEvent(212, "Do you have the Ingredients?", function()
     evt.RemoveItems(DecorVar(2))
     evt.RemoveItems(DecorVar(7))
     evt.RemoveItems(DecorVar(12))
-    ClearQBit(QBIT_PURE_ENDURANCE_INGREDIENTS_QUEST_ACTIVE)
-    SetQBit(QBIT_PURE_ENDURANCE_REWARD_CLAIMED)
+    ClearQBit(QBit(121))
+    SetQBit(QBit(122))
     AddValue(InventoryItem(267), 267) -- Pure Endurance
     evt.ForPlayer(Players.All)
     AddValue(Experience, 5000)
-    evt.SetNPCTopic(160, 2, 0) -- Talion, clear topic slot C
+    evt.SetNPCTopic(160, 2, 0)
     return
 end)
 RegisterCanShowTopic(212, function()
-    return IsQBitSet(QBIT_PURE_ENDURANCE_INGREDIENTS_QUEST_ACTIVE)
+    evt._BeginCanShowTopic(212)
+    local visible = true
+    if IsQBitSet(QBit(121)) then
+        visible = true
+        return visible
+    else
+        visible = false
+        return visible
+    end
 end)
 
 RegisterGlobalEvent(213, "Quest", function()
     evt.SimpleMessage("The Dragonbane Flower has many medicinal uses.  It also has some uses that are less than medicinal.  From this flower we can distill a poison that is deadly to Dragons.  With it we should be able to make quick work of the Dragon vermin that infest this region.  Find this flower and return to me with it.  You will not be disappointed by my reward.")
-    SetQBit(QBIT_DRAGON_HUNTERS_DRAGONBANE_FLOWER_QUEST_ACTIVE)
-    evt.SetNPCTopic(231, 0, 214) -- Calindril, topic "Poison!"
+    SetQBit(QBit(150))
+    evt.SetNPCTopic(231, 0, 214)
     return
 end)
 RegisterCanShowTopic(213, function()
-    return not (IsQBitSet(QBIT_DRAGONS_ALLIED))
+    evt._BeginCanShowTopic(213)
+    local visible = true
+    if IsQBitSet(QBit(22)) then
+        visible = false
+        return visible
+    else
+        visible = true
+        return visible
+    end
 end)
 
 RegisterGlobalEvent(214, "Poison!", function()
@@ -2558,16 +2844,16 @@ RegisterGlobalEvent(214, "Poison!", function()
         evt.SimpleMessage("I asked for the Dragonbane Flower and you return empty handed.  Why waste my time?")
         return
     end
-    SetQBit(QBIT_DRAGON_HUNTERS_DRAGONBANE_FLOWER_DELIVERED)
-    ClearQBit(QBIT_DRAGON_HUNTERS_DRAGONBANE_FLOWER_QUEST_ACTIVE)
+    SetQBit(QBit(151))
+    ClearQBit(QBit(150))
     RemoveItem(636) -- Dragonbane Flower
     evt.ForPlayer(Players.Member0)
     AddValue(Gold, 1500)
     evt.ForPlayer(Players.All)
     AddValue(Experience, 10000)
-    SetAward(Award(57)) -- Found the Dragonbane flower for Calindril in the Garrote Gorge Dragon Hunter's Fort.
+    SetAward(Award(57))
     evt.SimpleMessage("The Dragons of Garrote Gorge are susceptible to a poison that can be distilled from the rare dragonbane flower.  The flower also is the only means of an antidote for the Dragons.")
-    evt.SetNPCTopic(231, 0, 215) -- Calindril, topic "Thanks for your help!"
+    evt.SetNPCTopic(231, 0, 215)
     return
 end)
 
@@ -2578,12 +2864,20 @@ end)
 
 RegisterGlobalEvent(216, "Quest", function()
     evt.SimpleMessage("The Dragonbane Flower has many medicinal uses.  It also has some uses that are less than medicinal.  From this flower a poison is made that is deadly to dragons, but the poison's antidote is also found in its petals. Find this flower and return to me with it.  You will not be disappointed by my reward.")
-    SetQBit(QBIT_DRAGONS_DRAGONBANE_FLOWER_QUEST_ACTIVE)
-    evt.SetNPCTopic(239, 0, 217) -- Balion Tearwing, topic "Poison!"
+    SetQBit(QBit(152))
+    evt.SetNPCTopic(239, 0, 217)
     return
 end)
 RegisterCanShowTopic(216, function()
-    return not (IsQBitSet(QBIT_CHARLES_QUIXOTE_ALLIED))
+    evt._BeginCanShowTopic(216)
+    local visible = true
+    if IsQBitSet(QBit(21)) then
+        visible = false
+        return visible
+    else
+        visible = true
+        return visible
+    end
 end)
 
 RegisterGlobalEvent(217, "Poison!", function()
@@ -2592,16 +2886,16 @@ RegisterGlobalEvent(217, "Poison!", function()
         evt.SimpleMessage("I asked for the Dragonbane Flower and you return empty handed.  Why waste my time?")
         return
     end
-    SetQBit(QBIT_DRAGONS_DRAGONBANE_FLOWER_DELIVERED)
-    ClearQBit(QBIT_DRAGONS_DRAGONBANE_FLOWER_QUEST_ACTIVE)
+    SetQBit(QBit(153))
+    ClearQBit(QBit(152))
     RemoveItem(636) -- Dragonbane Flower
     evt.ForPlayer(Players.Member0)
     AddValue(Gold, 1500)
     evt.ForPlayer(Players.All)
     AddValue(Experience, 10000)
-    SetAward(Award(58)) -- Found the Dragonbane flower for Balion Tearwing in Garrote Gorge.
+    SetAward(Award(58))
     evt.SimpleMessage("The Dragons of Garrote Gorge are susceptible to a poison that can be distilled from the rare dragonbane flower.  The flower also is the only means of an antidote for the Dragons.")
-    evt.SetNPCTopic(239, 0, 218) -- Balion Tearwing, topic "Thanks for your help!"
+    evt.SetNPCTopic(239, 0, 218)
     return
 end)
 
@@ -2611,25 +2905,33 @@ RegisterGlobalEvent(218, "Thanks for your help!", function()
 end)
 
 RegisterGlobalEvent(219, "Quest", function()
-    if IsQBitSet(QBIT_GARROTE_GORGE_DRAGONS_SLAIN) then
-        ClearQBit(QBIT_CHARLES_QUIXOTE_DRAGON_CULL_QUEST_ACTIVE)
+    if IsQBitSet(QBit(155)) then
+        ClearQBit(QBit(154))
         evt.SimpleMessage("With all of the Dragons in the wilderness defeated, we can move on the Dragon Cave and eliminate the Dragons once and for all!  Thanks again for your help in defeating them.")
         AddValue(Gold, 2500)
         evt.ForPlayer(Players.All)
         AddValue(Experience, 20000)
-        SetAward(Award(62)) -- Killed all of the Dragons in the Garrote Gorge area for Avalon in the Garrote Gorge Dragon Hunter's Fort.
-        evt.SetNPCTopic(240, 0, 220) -- Avalon, topic "At last!"
+        SetAward(Award(62))
+        evt.SetNPCTopic(240, 0, 220)
         return
-    elseif IsQBitSet(QBIT_CHARLES_QUIXOTE_DRAGON_CULL_QUEST_ACTIVE) then
+    elseif IsQBitSet(QBit(154)) then
         evt.SimpleMessage("You have not slain all of the vermin.  I have reports here that tell of Dragons still in the region.  Return when you have slain them all!")
     else
         evt.SimpleMessage("You seek to gain the favor of Charles Quixote?  Help us in his crusade against the Dragons of Garrote Gorge. If all of the Dragons in the region and in the Dragon Cave are slain, Charles Quixote will be sure to hear of your name! Return to me when they are all dead!  I will reward you well.")
-        SetQBit(QBIT_CHARLES_QUIXOTE_DRAGON_CULL_QUEST_ACTIVE)
+        SetQBit(QBit(154))
     end
     return
 end)
 RegisterCanShowTopic(219, function()
-    return not (IsQBitSet(QBIT_DRAGONS_ALLIED))
+    evt._BeginCanShowTopic(219)
+    local visible = true
+    if IsQBitSet(QBit(22)) then
+        visible = false
+        return visible
+    else
+        visible = true
+        return visible
+    end
 end)
 
 RegisterGlobalEvent(220, "At last!", function()
@@ -2638,25 +2940,33 @@ RegisterGlobalEvent(220, "At last!", function()
 end)
 
 RegisterGlobalEvent(221, "Quest", function()
-    if IsQBitSet(QBIT_GARROTE_GORGE_DRAGON_HUNTERS_SLAIN) then
+    if IsQBitSet(QBit(158)) then
         evt.SimpleMessage("With all of the Dragon hunters in the wilderness defeated, we can move on their camp and eliminate them once and for all!  Thanks again for your help in defeating them.")
         AddValue(Gold, 2500)
         evt.ForPlayer(Players.All)
         AddValue(Experience, 20000)
-        SetAward(Award(63)) -- Killed all of the Dragon Hunters in the Garrote Gorge are for Jerin Flame-eye in the Dragon Cave of Garrote Gorge.
-        ClearQBit(QBIT_DEFTCLAW_REDREAVER_DRAGON_HUNTER_CULL_QUEST_ACTIVE)
-        evt.SetNPCTopic(273, 0, 222) -- Jerin Flame-eye, topic "Land is ours yet again!"
+        SetAward(Award(63))
+        ClearQBit(QBit(157))
+        evt.SetNPCTopic(273, 0, 222)
         return
-    elseif IsQBitSet(QBIT_DEFTCLAW_REDREAVER_DRAGON_HUNTER_CULL_QUEST_ACTIVE) then
+    elseif IsQBitSet(QBit(157)) then
         evt.SimpleMessage("You have not slain all of the Dragon hunters.  A Flight returned just moments ago and reported seeing them out on the plains.  Return when you have slain them all!")
     else
         evt.SimpleMessage("You seek the favor of Deftclaw Redreaver?  Don't we all?  If you were to kill all of the Dragon hunters in the Garrote Gorge wilderness, I would be certain to mention you to him.  I would also be in the position to offer you a generous reward!")
-        SetQBit(QBIT_DEFTCLAW_REDREAVER_DRAGON_HUNTER_CULL_QUEST_ACTIVE)
+        SetQBit(QBit(157))
     end
     return
 end)
 RegisterCanShowTopic(221, function()
-    return not (IsQBitSet(QBIT_CHARLES_QUIXOTE_ALLIED))
+    evt._BeginCanShowTopic(221)
+    local visible = true
+    if IsQBitSet(QBit(21)) then
+        visible = false
+        return visible
+    else
+        visible = true
+        return visible
+    end
 end)
 
 RegisterGlobalEvent(222, "Land is ours yet again!", function()
@@ -2666,8 +2976,8 @@ end)
 
 RegisterGlobalEvent(223, "Quest", function()
     evt.SimpleMessage("The Drum of Victory needs to be recovered if we are to ever defeat the Dragons in this region.  If you were to recover the Drum I would reward you well!")
-    SetQBit(QBIT_RECOVER_DRUM_OF_VICTORY)
-    evt.SetNPCTopic(274, 0, 225) -- Zelim, topic "Where is the drum?"
+    SetQBit(QBit(160))
+    evt.SetNPCTopic(274, 0, 225)
     return
 end)
 
@@ -2686,17 +2996,17 @@ RegisterGlobalEvent(225, "Where is the drum?", function()
     evt.ForPlayer(Players.Member0)
     AddValue(Gold, 1500)
     evt.ForPlayer(Players.All)
-    ClearQBit(QBIT_RECOVER_DRUM_OF_VICTORY)
+    ClearQBit(QBit(160))
     ClearQBit(QBit(246))
     RemoveItem(615) -- Drum of Victory
     AddValue(Experience, 20000)
-    evt.SetNPCTopic(274, 0, 0) -- Zelim, clear topic slot A
+    evt.SetNPCTopic(274, 0, 0)
 end)
 
 RegisterGlobalEvent(226, "Quest", function()
     evt.SimpleMessage("For years the Guild of Necromancers has searched for the Bone of Doom.  The powerful artifact would be of great use to them if recovered.  If you were to find this item and bring it to me, you will be rewarded beyond your wildest dreams.")
     SetQBit(QBit(166))
-    evt.SetNPCTopic(275, 0, 228) -- Tantilion, topic "Great!"
+    evt.SetNPCTopic(275, 0, 228)
     return
 end)
 
@@ -2720,13 +3030,13 @@ RegisterGlobalEvent(228, "Great!", function()
     AddValue(Experience, 7500)
     evt.ForPlayer(Players.Member0)
     AddValue(Gold, 7500)
-    evt.SetNPCTopic(275, 0, 0) -- Tantilion, clear topic slot A
+    evt.SetNPCTopic(275, 0, 0)
 end)
 
 RegisterGlobalEvent(229, "Quest", function()
     evt.SimpleMessage("Some say that Iseldir's Puzzle Box is cursed and that use of it will make the owner go slowly mad.  This can't be true!  All of my studies have provided me with enough proof to determine that the box is the ultimate game in Jadame--not that ridiculous card game, Arcomage.  The last reported owner of Iseldir's Puzzle Box was Zanthora, who is also known as the Mad Necromancer of Shadowspire.")
     SetQBit(QBit(162))
-    evt.SetNPCTopic(276, 0, 231) -- Benefice, topic "Hours of Enjoyment!"
+    evt.SetNPCTopic(276, 0, 231)
     return
 end)
 
@@ -2748,17 +3058,25 @@ RegisterGlobalEvent(231, "Hours of Enjoyment!", function()
     evt.ForPlayer(Players.All)
     RemoveItem(613) -- Puzzle Box
     AddValue(Experience, 15000)
-    evt.SetNPCTopic(276, 0, 0) -- Benefice, clear topic slot A
+    evt.SetNPCTopic(276, 0, 0)
 end)
 
 RegisterGlobalEvent(232, "Potion of Pure Intellect", function()
     evt.SimpleMessage("A Necromancer's greatest ability is his Intellect!  Without sufficient Intellect, a Necromancer can find himself without spell points when he needs them most! If you bring me the basic ingredients of a Potion of Pure Intellect, I will reward you with the potion that I create!")
     SetQBit(QBit(123))
-    evt.SetNPCTopic(185, 0, 0) -- Kelvin, clear topic slot A
+    evt.SetNPCTopic(185, 0, 0)
     return
 end)
 RegisterCanShowTopic(232, function()
-    return not (IsQBitSet(QBit(123)))
+    evt._BeginCanShowTopic(232)
+    local visible = true
+    if IsQBitSet(QBit(123)) then
+        visible = false
+        return visible
+    else
+        visible = true
+        return visible
+    end
 end)
 
 RegisterGlobalEvent(233, "War between the Guild and Temple", function()
@@ -2788,17 +3106,25 @@ RegisterGlobalEvent(234, "Do you have the Ingredients?", function()
     AddValue(InventoryItem(266), 266) -- Pure Intellect
     evt.ForPlayer(Players.All)
     AddValue(Experience, 5000)
-    evt.SetNPCTopic(185, 2, 0) -- Kelvin, clear topic slot C
+    evt.SetNPCTopic(185, 2, 0)
     return
 end)
 RegisterCanShowTopic(234, function()
-    return IsQBitSet(QBit(123))
+    evt._BeginCanShowTopic(234)
+    local visible = true
+    if IsQBitSet(QBit(123)) then
+        visible = true
+        return visible
+    else
+        visible = false
+        return visible
+    end
 end)
 
 RegisterGlobalEvent(235, "Quest", function()
     evt.SimpleMessage("We seek to put to rest the soul of the Nosferatu called Korbu.  We have heard rumors that the vampires of Shadowspire seek to resurrect this ancient evil.  There is a Vial of Grave Dirt kept hidden in the Vampire Crypt in the region of Shadowspire that is instrumental in bringing Korbu back to life.  Find us this vial and return it to us.  We will always be in your debt and we will reward you well.")
     SetQBit(QBit(164))
-    evt.SetNPCTopic(277, 0, 237) -- Hallien, topic "Do you have the vial?"
+    evt.SetNPCTopic(277, 0, 237)
     return
 end)
 
@@ -2821,18 +3147,26 @@ RegisterGlobalEvent(237, "Do you have the vial?", function()
     ClearQBit(QBit(164))
     ClearQBit(QBit(248))
     AddValue(Experience, 22000)
-    evt.SetNPCTopic(277, 0, 0) -- Hallien, clear topic slot A
+    evt.SetNPCTopic(277, 0, 0)
     return
 end)
 
 RegisterGlobalEvent(238, "Potion of Pure Personality", function()
     evt.SimpleMessage("Personality--the cleric's truest strength.  If you were to provide me with the basic ingredients of a Potion of Pure Personality, I would be more than happy to brew one for you!  Bring me the ingredients!")
     SetQBit(QBit(125))
-    evt.SetNPCTopic(232, 0, 0) -- Castigeir, clear topic slot A
+    evt.SetNPCTopic(232, 0, 0)
     return
 end)
 RegisterCanShowTopic(238, function()
-    return not (IsQBitSet(QBit(125)))
+    evt._BeginCanShowTopic(238)
+    local visible = true
+    if IsQBitSet(QBit(125)) then
+        visible = false
+        return visible
+    else
+        visible = true
+        return visible
+    end
 end)
 
 RegisterGlobalEvent(239, "Ingredients", function()
@@ -2862,11 +3196,19 @@ RegisterGlobalEvent(240, "Thanks for the Ingredients", function()
     AddValue(InventoryItem(268), 268) -- Pure Personality
     evt.ForPlayer(Players.All)
     AddValue(Experience, 5000)
-    evt.SetNPCTopic(232, 2, 0) -- Castigeir, clear topic slot C
+    evt.SetNPCTopic(232, 2, 0)
     return
 end)
 RegisterCanShowTopic(240, function()
-    return IsQBitSet(QBit(125))
+    evt._BeginCanShowTopic(240)
+    local visible = true
+    if IsQBitSet(QBit(125)) then
+        visible = true
+        return visible
+    else
+        visible = false
+        return visible
+    end
 end)
 
 RegisterGlobalEvent(241, "Ancient Wyverns", function()
@@ -2876,7 +3218,7 @@ end)
 
 RegisterGlobalEvent(242, "Bounty for Horn of the Wyvern", function()
     evt.SimpleMessage("I will buy Wyvern horns from you for 1500 gold!  I grind these horns up and sell them throughout Jadame.  Someday I hope to be able to ship them over sea to Enroth and Erathia.  That of course depends on whether the Pirates of Regna are still a problem to shipping or not!")
-    evt.SetNPCTopic(187, 1, 243) -- Xevius, topic "1500 gold!"
+    evt.SetNPCTopic(187, 1, 243)
     return
 end)
 
@@ -2897,11 +3239,19 @@ end)
 RegisterGlobalEvent(244, "Potion of Pure Accuracy", function()
     evt.SimpleMessage("Accuracy can determine who lives and who dies in battle.  If you cannot hit your opponent you will surely perish!  If you bring me the ingredients of a Potion of Pure Accuracy, I will brew that potion for you.")
     SetQBit(QBit(133))
-    evt.SetNPCTopic(124, 0, 0) -- Galvinus, clear topic slot A
+    evt.SetNPCTopic(124, 0, 0)
     return
 end)
 RegisterCanShowTopic(244, function()
-    return not (IsQBitSet(QBit(133)))
+    evt._BeginCanShowTopic(244)
+    local visible = true
+    if IsQBitSet(QBit(133)) then
+        visible = false
+        return visible
+    else
+        visible = true
+        return visible
+    end
 end)
 
 RegisterGlobalEvent(245, "Ingredients", function()
@@ -2931,11 +3281,19 @@ RegisterGlobalEvent(246, "Do you have the Ingredients?", function()
     AddValue(InventoryItem(269), 269) -- Pure Accuracy
     evt.ForPlayer(Players.All)
     AddValue(Experience, 5000)
-    evt.SetNPCTopic(124, 2, 0) -- Galvinus, clear topic slot C
+    evt.SetNPCTopic(124, 2, 0)
     return
 end)
 RegisterCanShowTopic(246, function()
-    return IsQBitSet(QBit(133))
+    evt._BeginCanShowTopic(246)
+    local visible = true
+    if IsQBitSet(QBit(133)) then
+        visible = true
+        return visible
+    else
+        visible = false
+        return visible
+    end
 end)
 
 RegisterGlobalEvent(247, "Dread Pirate Stanley's Treasure", function()
@@ -2957,7 +3315,7 @@ RegisterGlobalEvent(249, "Quest", function()
     AddValue(Experience, 15500)
     evt.SimpleMessage("He who finds the treasure of the Dread Pirate Stanley will be a rich person!  Will that person be you?")
     ClearQBit(QBit(236))
-    evt.SetNPCTopic(278, 0, 0) -- One-Eye, clear topic slot A
+    evt.SetNPCTopic(278, 0, 0)
     return
 end)
 
@@ -2975,7 +3333,20 @@ RegisterGlobalEvent(250, "Buy Tobersk Fruit for 200 gold", function()
     return
 end)
 RegisterCanShowTopic(250, function()
-    return IsQBitSet(QBit(252)) or not (IsQBitSet(QBit(259)))
+    evt._BeginCanShowTopic(250)
+    local visible = true
+    if IsQBitSet(QBit(252)) then
+        visible = true
+        return visible
+    else
+        if IsQBitSet(QBit(259)) then
+            visible = false
+            return visible
+        else
+            visible = true
+            return visible
+        end
+    end
 end)
 
 RegisterGlobalEvent(251, "Sell Tobersk Brandy", function()
@@ -3025,7 +3396,20 @@ RegisterGlobalEvent(252, "Buy Tobersk Pulp for 300 gold", function()
     return
 end)
 RegisterCanShowTopic(252, function()
-    return IsQBitSet(QBit(250)) or not (IsQBitSet(QBit(260)))
+    evt._BeginCanShowTopic(252)
+    local visible = true
+    if IsQBitSet(QBit(250)) then
+        visible = true
+        return visible
+    else
+        if IsQBitSet(QBit(260)) then
+            visible = false
+            return visible
+        else
+            visible = true
+            return visible
+        end
+    end
 end)
 
 RegisterGlobalEvent(253, "Sell Tobersk Fruit", function()
@@ -3075,7 +3459,20 @@ RegisterGlobalEvent(254, "Buy Tobersk Brandy 500 gold", function()
     return
 end)
 RegisterCanShowTopic(254, function()
-    return IsQBitSet(QBit(251)) or not (IsQBitSet(QBit(261)))
+    evt._BeginCanShowTopic(254)
+    local visible = true
+    if IsQBitSet(QBit(251)) then
+        visible = true
+        return visible
+    else
+        if IsQBitSet(QBit(261)) then
+            visible = false
+            return visible
+        else
+            visible = true
+            return visible
+        end
+    end
 end)
 
 RegisterGlobalEvent(255, "Sell Tobersk Pulp", function()
@@ -3125,7 +3522,20 @@ RegisterGlobalEvent(256, "Buy Heartwood of Jadame for 1000 gold", function()
     return
 end)
 RegisterCanShowTopic(256, function()
-    return IsQBitSet(QBit(255)) or not (IsQBitSet(QBit(262)))
+    evt._BeginCanShowTopic(256)
+    local visible = true
+    if IsQBitSet(QBit(255)) then
+        visible = true
+        return visible
+    else
+        if IsQBitSet(QBit(262)) then
+            visible = false
+            return visible
+        else
+            visible = true
+            return visible
+        end
+    end
 end)
 
 RegisterGlobalEvent(257, "Sell Dried Sunfish", function()
@@ -3175,7 +3585,20 @@ RegisterGlobalEvent(258, "Buy Pirate Amulets for 1500 gold", function()
     return
 end)
 RegisterCanShowTopic(258, function()
-    return IsQBitSet(QBit(253)) or not (IsQBitSet(QBit(263)))
+    evt._BeginCanShowTopic(258)
+    local visible = true
+    if IsQBitSet(QBit(253)) then
+        visible = true
+        return visible
+    else
+        if IsQBitSet(QBit(263)) then
+            visible = false
+            return visible
+        else
+            visible = true
+            return visible
+        end
+    end
 end)
 
 RegisterGlobalEvent(259, "Sell Heartwood of Jadame", function()
@@ -3225,7 +3648,20 @@ RegisterGlobalEvent(260, "Buy Dried Sunfish for 2000 gold", function()
     return
 end)
 RegisterCanShowTopic(260, function()
-    return IsQBitSet(QBit(254)) or not (IsQBitSet(QBit(264)))
+    evt._BeginCanShowTopic(260)
+    local visible = true
+    if IsQBitSet(QBit(254)) then
+        visible = true
+        return visible
+    else
+        if IsQBitSet(QBit(264)) then
+            visible = false
+            return visible
+        else
+            visible = true
+            return visible
+        end
+    end
 end)
 
 RegisterGlobalEvent(261, "Sell Pirate Amulets", function()
@@ -3275,7 +3711,20 @@ RegisterGlobalEvent(262, "Buy Silver Dust of the Sea for 5000 gold", function()
     return
 end)
 RegisterCanShowTopic(262, function()
-    return IsQBitSet(QBit(258)) or not (IsQBitSet(QBit(265)))
+    evt._BeginCanShowTopic(262)
+    local visible = true
+    if IsQBitSet(QBit(258)) then
+        visible = true
+        return visible
+    else
+        if IsQBitSet(QBit(265)) then
+            visible = false
+            return visible
+        else
+            visible = true
+            return visible
+        end
+    end
 end)
 
 RegisterGlobalEvent(263, "Sell Ground Wyvern Horn", function()
@@ -3325,7 +3774,20 @@ RegisterGlobalEvent(264, "Buy Forged Credit Vouchers for 6500 gold", function()
     return
 end)
 RegisterCanShowTopic(264, function()
-    return IsQBitSet(QBit(256)) or not (IsQBitSet(QBit(266)))
+    evt._BeginCanShowTopic(264)
+    local visible = true
+    if IsQBitSet(QBit(256)) then
+        visible = true
+        return visible
+    else
+        if IsQBitSet(QBit(266)) then
+            visible = false
+            return visible
+        else
+            visible = true
+            return visible
+        end
+    end
 end)
 
 RegisterGlobalEvent(265, "Sell Silver Dust of the Sea", function()
@@ -3375,7 +3837,20 @@ RegisterGlobalEvent(266, "Buy Ground Wyvern Horn for 7500 gold", function()
     return
 end)
 RegisterCanShowTopic(266, function()
-    return IsQBitSet(QBit(257)) or not (IsQBitSet(QBit(267)))
+    evt._BeginCanShowTopic(266)
+    local visible = true
+    if IsQBitSet(QBit(257)) then
+        visible = true
+        return visible
+    else
+        if IsQBitSet(QBit(267)) then
+            visible = false
+            return visible
+        else
+            visible = true
+            return visible
+        end
+    end
 end)
 
 RegisterGlobalEvent(267, "Sell Forged Credit Vouchers", function()
@@ -3652,10 +4127,10 @@ RegisterGlobalEvent(289, "Cask", function()
 end)
 
 RegisterGlobalEvent(290, "Yellow Fever", function()
-    if IsQBitSet(QBIT_RUST_YELLOW_FEVER_EPIDEMIC_STOPPED) then
+    if IsQBitSet(QBit(108)) then
         evt.SimpleMessage("The Yellow Fever epidemic is over!  Thank you for your help!")
         return
-    elseif IsQBitSet(QBIT_RUST_YELLOW_FEVER_HUT_1_CURED) then
+    elseif IsQBitSet(QBit(102)) then
         evt.SimpleMessage("Thanks for the cure! Be sure to deliver scrolls to those who still suffer from the Yellow Fever.")
     else
         evt.ForPlayer(Players.All)
@@ -3664,19 +4139,19 @@ RegisterGlobalEvent(290, "Yellow Fever", function()
             return
         end
         RemoveItem(373) -- Cure Disease
-        SetQBit(QBIT_RUST_YELLOW_FEVER_HUT_1_CURED)
+        SetQBit(QBit(102))
         evt.ForPlayer(Players.All)
         AddValue(Experience, 250)
-        if IsQBitSet(QBIT_RUST_YELLOW_FEVER_HUT_1_CURED) then
-            if IsQBitSet(QBIT_RUST_YELLOW_FEVER_HUT_2_CURED) then
-                if IsQBitSet(QBIT_RUST_YELLOW_FEVER_HUT_3_CURED) then
-                    if IsQBitSet(QBIT_RUST_YELLOW_FEVER_HUT_4_CURED) then
-                        if IsQBitSet(QBIT_RUST_YELLOW_FEVER_HUT_5_CURED) then
-                            if IsQBitSet(QBIT_RUST_YELLOW_FEVER_HUT_6_CURED) then
+        if IsQBitSet(QBit(102)) then
+            if IsQBitSet(QBit(103)) then
+                if IsQBitSet(QBit(104)) then
+                    if IsQBitSet(QBit(105)) then
+                        if IsQBitSet(QBit(106)) then
+                            if IsQBitSet(QBit(107)) then
                                 evt.ForPlayer(Players.All)
                                 AddValue(Experience, 1500)
                                 evt.SimpleMessage("The Yellow Fever epidemic is over!  Thank you for your help!")
-                                SetQBit(QBIT_RUST_YELLOW_FEVER_EPIDEMIC_STOPPED)
+                                SetQBit(QBit(108))
                                 return
                             end
                         end
@@ -3689,14 +4164,22 @@ RegisterGlobalEvent(290, "Yellow Fever", function()
     return
 end)
 RegisterCanShowTopic(290, function()
-    return IsQBitSet(QBIT_RUST_YELLOW_FEVER_SCROLL_DELIVERY_ACTIVE)
+    evt._BeginCanShowTopic(290)
+    local visible = true
+    if IsQBitSet(QBit(101)) then
+        visible = true
+        return visible
+    else
+        visible = false
+        return visible
+    end
 end)
 
 RegisterGlobalEvent(291, "Yellow Fever", function()
-    if IsQBitSet(QBIT_RUST_YELLOW_FEVER_EPIDEMIC_STOPPED) then
+    if IsQBitSet(QBit(108)) then
         evt.SimpleMessage("The Yellow Fever epidemic is over!  Thank you for your help!")
         return
-    elseif IsQBitSet(QBIT_RUST_YELLOW_FEVER_HUT_2_CURED) then
+    elseif IsQBitSet(QBit(103)) then
         evt.SimpleMessage("Thanks for the cure! Be sure to deliver scrolls to those who still suffer from the Yellow Fever.")
     else
         evt.ForPlayer(Players.All)
@@ -3705,19 +4188,19 @@ RegisterGlobalEvent(291, "Yellow Fever", function()
             return
         end
         RemoveItem(373) -- Cure Disease
-        SetQBit(QBIT_RUST_YELLOW_FEVER_HUT_2_CURED)
+        SetQBit(QBit(103))
         evt.ForPlayer(Players.All)
         AddValue(Experience, 250)
-        if IsQBitSet(QBIT_RUST_YELLOW_FEVER_HUT_2_CURED) then
-            if IsQBitSet(QBIT_RUST_YELLOW_FEVER_HUT_1_CURED) then
-                if IsQBitSet(QBIT_RUST_YELLOW_FEVER_HUT_3_CURED) then
-                    if IsQBitSet(QBIT_RUST_YELLOW_FEVER_HUT_4_CURED) then
-                        if IsQBitSet(QBIT_RUST_YELLOW_FEVER_HUT_5_CURED) then
-                            if IsQBitSet(QBIT_RUST_YELLOW_FEVER_HUT_6_CURED) then
+        if IsQBitSet(QBit(103)) then
+            if IsQBitSet(QBit(102)) then
+                if IsQBitSet(QBit(104)) then
+                    if IsQBitSet(QBit(105)) then
+                        if IsQBitSet(QBit(106)) then
+                            if IsQBitSet(QBit(107)) then
                                 evt.ForPlayer(Players.All)
                                 AddValue(Experience, 1500)
                                 evt.SimpleMessage("The Yellow Fever epidemic is over!  Thank you for your help!")
-                                SetQBit(QBIT_RUST_YELLOW_FEVER_EPIDEMIC_STOPPED)
+                                SetQBit(QBit(108))
                                 return
                             end
                         end
@@ -3730,14 +4213,22 @@ RegisterGlobalEvent(291, "Yellow Fever", function()
     return
 end)
 RegisterCanShowTopic(291, function()
-    return IsQBitSet(QBIT_RUST_YELLOW_FEVER_SCROLL_DELIVERY_ACTIVE)
+    evt._BeginCanShowTopic(291)
+    local visible = true
+    if IsQBitSet(QBit(101)) then
+        visible = true
+        return visible
+    else
+        visible = false
+        return visible
+    end
 end)
 
 RegisterGlobalEvent(292, "Yellow Fever", function()
-    if IsQBitSet(QBIT_RUST_YELLOW_FEVER_EPIDEMIC_STOPPED) then
+    if IsQBitSet(QBit(108)) then
         evt.SimpleMessage("The Yellow Fever epidemic is over!  Thank you for your help!")
         return
-    elseif IsQBitSet(QBIT_RUST_YELLOW_FEVER_HUT_3_CURED) then
+    elseif IsQBitSet(QBit(104)) then
         evt.SimpleMessage("Thanks for the cure! Be sure to deliver scrolls to those who still suffer from the Yellow Fever.")
     else
         evt.ForPlayer(Players.All)
@@ -3746,19 +4237,19 @@ RegisterGlobalEvent(292, "Yellow Fever", function()
             return
         end
         RemoveItem(373) -- Cure Disease
-        SetQBit(QBIT_RUST_YELLOW_FEVER_HUT_3_CURED)
+        SetQBit(QBit(104))
         evt.ForPlayer(Players.All)
         AddValue(Experience, 250)
-        if IsQBitSet(QBIT_RUST_YELLOW_FEVER_HUT_3_CURED) then
-            if IsQBitSet(QBIT_RUST_YELLOW_FEVER_HUT_1_CURED) then
-                if IsQBitSet(QBIT_RUST_YELLOW_FEVER_HUT_2_CURED) then
-                    if IsQBitSet(QBIT_RUST_YELLOW_FEVER_HUT_4_CURED) then
-                        if IsQBitSet(QBIT_RUST_YELLOW_FEVER_HUT_5_CURED) then
-                            if IsQBitSet(QBIT_RUST_YELLOW_FEVER_HUT_6_CURED) then
+        if IsQBitSet(QBit(104)) then
+            if IsQBitSet(QBit(102)) then
+                if IsQBitSet(QBit(103)) then
+                    if IsQBitSet(QBit(105)) then
+                        if IsQBitSet(QBit(106)) then
+                            if IsQBitSet(QBit(107)) then
                                 evt.ForPlayer(Players.All)
                                 AddValue(Experience, 1500)
                                 evt.SimpleMessage("The Yellow Fever epidemic is over!  Thank you for your help!")
-                                SetQBit(QBIT_RUST_YELLOW_FEVER_EPIDEMIC_STOPPED)
+                                SetQBit(QBit(108))
                                 return
                             end
                         end
@@ -3771,14 +4262,22 @@ RegisterGlobalEvent(292, "Yellow Fever", function()
     return
 end)
 RegisterCanShowTopic(292, function()
-    return IsQBitSet(QBIT_RUST_YELLOW_FEVER_SCROLL_DELIVERY_ACTIVE)
+    evt._BeginCanShowTopic(292)
+    local visible = true
+    if IsQBitSet(QBit(101)) then
+        visible = true
+        return visible
+    else
+        visible = false
+        return visible
+    end
 end)
 
 RegisterGlobalEvent(293, "Yellow Fever", function()
-    if IsQBitSet(QBIT_RUST_YELLOW_FEVER_EPIDEMIC_STOPPED) then
+    if IsQBitSet(QBit(108)) then
         evt.SimpleMessage("The Yellow Fever epidemic is over!  Thank you for your help!")
         return
-    elseif IsQBitSet(QBIT_RUST_YELLOW_FEVER_HUT_4_CURED) then
+    elseif IsQBitSet(QBit(105)) then
         evt.SimpleMessage("Thanks for the cure! Be sure to deliver scrolls to those who still suffer from the Yellow Fever.")
     else
         evt.ForPlayer(Players.All)
@@ -3787,19 +4286,19 @@ RegisterGlobalEvent(293, "Yellow Fever", function()
             return
         end
         RemoveItem(373) -- Cure Disease
-        SetQBit(QBIT_RUST_YELLOW_FEVER_HUT_4_CURED)
+        SetQBit(QBit(105))
         evt.ForPlayer(Players.All)
         AddValue(Experience, 250)
-        if IsQBitSet(QBIT_RUST_YELLOW_FEVER_HUT_4_CURED) then
-            if IsQBitSet(QBIT_RUST_YELLOW_FEVER_HUT_1_CURED) then
-                if IsQBitSet(QBIT_RUST_YELLOW_FEVER_HUT_2_CURED) then
-                    if IsQBitSet(QBIT_RUST_YELLOW_FEVER_HUT_3_CURED) then
-                        if IsQBitSet(QBIT_RUST_YELLOW_FEVER_HUT_5_CURED) then
-                            if IsQBitSet(QBIT_RUST_YELLOW_FEVER_HUT_6_CURED) then
+        if IsQBitSet(QBit(105)) then
+            if IsQBitSet(QBit(102)) then
+                if IsQBitSet(QBit(103)) then
+                    if IsQBitSet(QBit(104)) then
+                        if IsQBitSet(QBit(106)) then
+                            if IsQBitSet(QBit(107)) then
                                 evt.ForPlayer(Players.All)
                                 AddValue(Experience, 1500)
                                 evt.SimpleMessage("The Yellow Fever epidemic is over!  Thank you for your help!")
-                                SetQBit(QBIT_RUST_YELLOW_FEVER_EPIDEMIC_STOPPED)
+                                SetQBit(QBit(108))
                                 return
                             end
                         end
@@ -3812,14 +4311,22 @@ RegisterGlobalEvent(293, "Yellow Fever", function()
     return
 end)
 RegisterCanShowTopic(293, function()
-    return IsQBitSet(QBIT_RUST_YELLOW_FEVER_SCROLL_DELIVERY_ACTIVE)
+    evt._BeginCanShowTopic(293)
+    local visible = true
+    if IsQBitSet(QBit(101)) then
+        visible = true
+        return visible
+    else
+        visible = false
+        return visible
+    end
 end)
 
 RegisterGlobalEvent(294, "Yellow Fever", function()
-    if IsQBitSet(QBIT_RUST_YELLOW_FEVER_EPIDEMIC_STOPPED) then
+    if IsQBitSet(QBit(108)) then
         evt.SimpleMessage("The Yellow Fever epidemic is over!  Thank you for your help!")
         return
-    elseif IsQBitSet(QBIT_RUST_YELLOW_FEVER_HUT_5_CURED) then
+    elseif IsQBitSet(QBit(106)) then
         evt.SimpleMessage("Thanks for the cure! Be sure to deliver scrolls to those who still suffer from the Yellow Fever.")
     else
         evt.ForPlayer(Players.All)
@@ -3828,19 +4335,19 @@ RegisterGlobalEvent(294, "Yellow Fever", function()
             return
         end
         RemoveItem(373) -- Cure Disease
-        SetQBit(QBIT_RUST_YELLOW_FEVER_HUT_5_CURED)
+        SetQBit(QBit(106))
         evt.ForPlayer(Players.All)
         AddValue(Experience, 250)
-        if IsQBitSet(QBIT_RUST_YELLOW_FEVER_HUT_5_CURED) then
-            if IsQBitSet(QBIT_RUST_YELLOW_FEVER_HUT_1_CURED) then
-                if IsQBitSet(QBIT_RUST_YELLOW_FEVER_HUT_2_CURED) then
-                    if IsQBitSet(QBIT_RUST_YELLOW_FEVER_HUT_3_CURED) then
-                        if IsQBitSet(QBIT_RUST_YELLOW_FEVER_HUT_4_CURED) then
-                            if IsQBitSet(QBIT_RUST_YELLOW_FEVER_HUT_6_CURED) then
+        if IsQBitSet(QBit(106)) then
+            if IsQBitSet(QBit(102)) then
+                if IsQBitSet(QBit(103)) then
+                    if IsQBitSet(QBit(104)) then
+                        if IsQBitSet(QBit(105)) then
+                            if IsQBitSet(QBit(107)) then
                                 evt.ForPlayer(Players.All)
                                 AddValue(Experience, 1500)
                                 evt.SimpleMessage("The Yellow Fever epidemic is over!  Thank you for your help!")
-                                SetQBit(QBIT_RUST_YELLOW_FEVER_EPIDEMIC_STOPPED)
+                                SetQBit(QBit(108))
                                 return
                             end
                         end
@@ -3853,14 +4360,22 @@ RegisterGlobalEvent(294, "Yellow Fever", function()
     return
 end)
 RegisterCanShowTopic(294, function()
-    return IsQBitSet(QBIT_RUST_YELLOW_FEVER_SCROLL_DELIVERY_ACTIVE)
+    evt._BeginCanShowTopic(294)
+    local visible = true
+    if IsQBitSet(QBit(101)) then
+        visible = true
+        return visible
+    else
+        visible = false
+        return visible
+    end
 end)
 
 RegisterGlobalEvent(295, "Yellow Fever", function()
-    if IsQBitSet(QBIT_RUST_YELLOW_FEVER_EPIDEMIC_STOPPED) then
+    if IsQBitSet(QBit(108)) then
         evt.SimpleMessage("The Yellow Fever epidemic is over!  Thank you for your help!")
         return
-    elseif IsQBitSet(QBIT_RUST_YELLOW_FEVER_HUT_6_CURED) then
+    elseif IsQBitSet(QBit(107)) then
         evt.SimpleMessage("Thanks for the cure! Be sure to deliver scrolls to those who still suffer from the Yellow Fever.")
     else
         evt.ForPlayer(Players.All)
@@ -3869,19 +4384,19 @@ RegisterGlobalEvent(295, "Yellow Fever", function()
             return
         end
         RemoveItem(373) -- Cure Disease
-        SetQBit(QBIT_RUST_YELLOW_FEVER_HUT_6_CURED)
+        SetQBit(QBit(107))
         evt.ForPlayer(Players.All)
         AddValue(Experience, 250)
-        if IsQBitSet(QBIT_RUST_YELLOW_FEVER_HUT_6_CURED) then
-            if IsQBitSet(QBIT_RUST_YELLOW_FEVER_HUT_1_CURED) then
-                if IsQBitSet(QBIT_RUST_YELLOW_FEVER_HUT_2_CURED) then
-                    if IsQBitSet(QBIT_RUST_YELLOW_FEVER_HUT_3_CURED) then
-                        if IsQBitSet(QBIT_RUST_YELLOW_FEVER_HUT_4_CURED) then
-                            if IsQBitSet(QBIT_RUST_YELLOW_FEVER_HUT_5_CURED) then
+        if IsQBitSet(QBit(107)) then
+            if IsQBitSet(QBit(102)) then
+                if IsQBitSet(QBit(103)) then
+                    if IsQBitSet(QBit(104)) then
+                        if IsQBitSet(QBit(105)) then
+                            if IsQBitSet(QBit(106)) then
                                 evt.ForPlayer(Players.All)
                                 AddValue(Experience, 1500)
                                 evt.SimpleMessage("The Yellow Fever epidemic is over!  Thank you for your help!")
-                                SetQBit(QBIT_RUST_YELLOW_FEVER_EPIDEMIC_STOPPED)
+                                SetQBit(QBit(108))
                                 return
                             end
                         end
@@ -3894,14 +4409,22 @@ RegisterGlobalEvent(295, "Yellow Fever", function()
     return
 end)
 RegisterCanShowTopic(295, function()
-    return IsQBitSet(QBIT_RUST_YELLOW_FEVER_SCROLL_DELIVERY_ACTIVE)
+    evt._BeginCanShowTopic(295)
+    local visible = true
+    if IsQBitSet(QBit(101)) then
+        visible = true
+        return visible
+    else
+        visible = false
+        return visible
+    end
 end)
 
 RegisterGlobalEvent(296, "Rothnax", function()
     evt.SimpleMessage("My brother Rohtnax lives!  And you have repaired the Portals of Stone?  I must return home to him, so that we can plan our family's survival!")
-    SetQBit(QBIT_ISTHRIC_THE_TONGUE_FOUND)
+    SetQBit(QBit(138))
     evt.MoveNPC(90, 225)
-    evt.SetNPCTopic(90, 0, 297) -- Isthric the Tongue, topic "Thank you again!"
+    evt.SetNPCTopic(90, 0, 297)
     return
 end)
 
@@ -3909,29 +4432,45 @@ RegisterGlobalEvent(297, "Thank you again!", function()
     return
 end)
 RegisterCanShowTopic(297, function()
-    return IsQBitSet(QBit(134))
+    evt._BeginCanShowTopic(297)
+    local visible = true
+    if IsQBitSet(QBit(134)) then
+        visible = true
+        return visible
+    else
+        visible = false
+        return visible
+    end
 end)
 
 RegisterGlobalEvent(298, "Report!", function()
     evt.SimpleMessage("You're new aren't you?  Tell Arion Hunter that I expect more of his rabble than the likes of you!  Give me the reports and leave my sight!  You make me sick!")
-    ClearQBit(QBIT_FALSE_REPORT_FOR_STANLEY_ACTIVE)
+    ClearQBit(QBit(117))
     evt.ForPlayer(Players.All)
     RemoveItem(602) -- False Report
-    SetAward(Award(61)) -- Delivered False Report to the Dread Pirate Stanley for Arion Hunter.
+    SetAward(Award(61))
     ClearQBit(QBit(282))
     AddValue(Experience, 20000)
     evt.ForPlayer(Players.Member0)
     AddValue(Gold, 15000)
-    evt.SetNPCTopic(296, 0, 0) -- Dread Pirate Stanley, clear topic slot A
+    evt.SetNPCTopic(296, 0, 0)
     evt.MoveNPC(296, 0)
     return
 end)
 RegisterCanShowTopic(298, function()
-    return IsQBitSet(QBIT_FALSE_REPORT_FOR_STANLEY_ACTIVE)
+    evt._BeginCanShowTopic(298)
+    local visible = true
+    if IsQBitSet(QBit(117)) then
+        visible = true
+        return visible
+    else
+        visible = false
+        return visible
+    end
 end)
 
 RegisterGlobalEvent(299, "Fate of Jadame", function()
-    if not IsQBitSet(QBIT_RAVENSHORE_UNDER_ATTACK) then
+    if not IsQBitSet(QBit(57)) then
         evt.SimpleMessage("Who knows the fate of Jadame now.  Perhaps you will find a way to save us from destruction?")
         return
     end
@@ -5010,10 +5549,10 @@ RegisterGlobalEvent(570, "Challenge of Luck", function()
 end)
 
 RegisterGlobalEvent(571, "Fire Resistance Potion", function()
-    if IsQBitSet(QBIT_RUST_FIRE_RESISTANCE_VILLAGE_PROTECTED) then
+    if IsQBitSet(QBit(149)) then
         evt.SimpleMessage("You have at least pushed our demise away for a time, but a new home needs to be found for us!  Thank you for delivering the Potions of Fire Resistance!")
         return
-    elseif IsQBitSet(QBIT_RUST_FIRE_RESISTANCE_HOUSE_1_PROTECTED) then
+    elseif IsQBitSet(QBit(143)) then
         evt.SimpleMessage("Thanks for the potion!")
     else
         evt.ForPlayer(Players.All)
@@ -5022,19 +5561,19 @@ RegisterGlobalEvent(571, "Fire Resistance Potion", function()
             return
         end
         RemoveItem(256) -- Fire Resistance
-        SetQBit(QBIT_RUST_FIRE_RESISTANCE_HOUSE_1_PROTECTED)
+        SetQBit(QBit(143))
         evt.ForPlayer(Players.All)
         AddValue(Experience, 1000)
     end
-    if IsQBitSet(QBIT_RUST_FIRE_RESISTANCE_HOUSE_2_PROTECTED) then
-        if IsQBitSet(QBIT_RUST_FIRE_RESISTANCE_HOUSE_3_PROTECTED) then
-            if IsQBitSet(QBIT_RUST_FIRE_RESISTANCE_HOUSE_4_PROTECTED) then
-                if IsQBitSet(QBIT_RUST_FIRE_RESISTANCE_HOUSE_5_PROTECTED) then
-                    if IsQBitSet(QBIT_RUST_FIRE_RESISTANCE_HOUSE_6_PROTECTED) then
+    if IsQBitSet(QBit(144)) then
+        if IsQBitSet(QBit(145)) then
+            if IsQBitSet(QBit(146)) then
+                if IsQBitSet(QBit(147)) then
+                    if IsQBitSet(QBit(148)) then
                         evt.ForPlayer(Players.All)
                         AddValue(Experience, 7500)
                         evt.SimpleMessage("Thanks for providing Potions of Fire Resistance to the southernmost houses here in Rust.  Perhaps we can survive until a new home can be found for us!")
-                        SetQBit(QBIT_RUST_FIRE_RESISTANCE_VILLAGE_PROTECTED)
+                        SetQBit(QBit(149))
                         return
                     end
                 end
@@ -5045,14 +5584,22 @@ RegisterGlobalEvent(571, "Fire Resistance Potion", function()
     return
 end)
 RegisterCanShowTopic(571, function()
-    return IsQBitSet(QBIT_RUST_FIRE_RESISTANCE_POTION_DELIVERY_ACTIVE)
+    evt._BeginCanShowTopic(571)
+    local visible = true
+    if IsQBitSet(QBit(142)) then
+        visible = true
+        return visible
+    else
+        visible = false
+        return visible
+    end
 end)
 
 RegisterGlobalEvent(572, "Fire Resistance Potion", function()
-    if IsQBitSet(QBIT_RUST_FIRE_RESISTANCE_VILLAGE_PROTECTED) then
+    if IsQBitSet(QBit(149)) then
         evt.SimpleMessage("You have at least pushed our demise away for a time, but a new home needs to be found for us!  Thank you for delivering the Potions of Fire Resistance!")
         return
-    elseif IsQBitSet(QBIT_RUST_FIRE_RESISTANCE_HOUSE_2_PROTECTED) then
+    elseif IsQBitSet(QBit(144)) then
         evt.SimpleMessage("Thanks for the potion!")
     else
         evt.ForPlayer(Players.All)
@@ -5061,19 +5608,19 @@ RegisterGlobalEvent(572, "Fire Resistance Potion", function()
             return
         end
         RemoveItem(256) -- Fire Resistance
-        SetQBit(QBIT_RUST_FIRE_RESISTANCE_HOUSE_2_PROTECTED)
+        SetQBit(QBit(144))
         evt.ForPlayer(Players.All)
         AddValue(Experience, 1000)
     end
-    if IsQBitSet(QBIT_RUST_FIRE_RESISTANCE_HOUSE_1_PROTECTED) then
-        if IsQBitSet(QBIT_RUST_FIRE_RESISTANCE_HOUSE_3_PROTECTED) then
-            if IsQBitSet(QBIT_RUST_FIRE_RESISTANCE_HOUSE_4_PROTECTED) then
-                if IsQBitSet(QBIT_RUST_FIRE_RESISTANCE_HOUSE_5_PROTECTED) then
-                    if IsQBitSet(QBIT_RUST_FIRE_RESISTANCE_HOUSE_6_PROTECTED) then
+    if IsQBitSet(QBit(143)) then
+        if IsQBitSet(QBit(145)) then
+            if IsQBitSet(QBit(146)) then
+                if IsQBitSet(QBit(147)) then
+                    if IsQBitSet(QBit(148)) then
                         evt.ForPlayer(Players.All)
                         AddValue(Experience, 1500)
                         evt.SimpleMessage("Thanks for providing Potions of Fire Resistance to the southernmost houses here in Rust.  Perhaps we can survive until a new home can be found for us!")
-                        SetQBit(QBIT_RUST_FIRE_RESISTANCE_VILLAGE_PROTECTED)
+                        SetQBit(QBit(149))
                         return
                     end
                 end
@@ -5084,14 +5631,22 @@ RegisterGlobalEvent(572, "Fire Resistance Potion", function()
     return
 end)
 RegisterCanShowTopic(572, function()
-    return IsQBitSet(QBIT_RUST_FIRE_RESISTANCE_POTION_DELIVERY_ACTIVE)
+    evt._BeginCanShowTopic(572)
+    local visible = true
+    if IsQBitSet(QBit(142)) then
+        visible = true
+        return visible
+    else
+        visible = false
+        return visible
+    end
 end)
 
 RegisterGlobalEvent(573, "Fire Resistance Potion", function()
-    if IsQBitSet(QBIT_RUST_FIRE_RESISTANCE_VILLAGE_PROTECTED) then
+    if IsQBitSet(QBit(149)) then
         evt.SimpleMessage("You have at least pushed our demise away for a time, but a new home needs to be found for us!  Thank you for delivering the Potions of Fire Resistance!")
         return
-    elseif IsQBitSet(QBIT_RUST_FIRE_RESISTANCE_HOUSE_3_PROTECTED) then
+    elseif IsQBitSet(QBit(145)) then
         evt.SimpleMessage("Thanks for the potion!")
     else
         evt.ForPlayer(Players.All)
@@ -5100,19 +5655,19 @@ RegisterGlobalEvent(573, "Fire Resistance Potion", function()
             return
         end
         RemoveItem(256) -- Fire Resistance
-        SetQBit(QBIT_RUST_FIRE_RESISTANCE_HOUSE_3_PROTECTED)
+        SetQBit(QBit(145))
         evt.ForPlayer(Players.All)
         AddValue(Experience, 1000)
     end
-    if IsQBitSet(QBIT_RUST_FIRE_RESISTANCE_HOUSE_1_PROTECTED) then
-        if IsQBitSet(QBIT_RUST_FIRE_RESISTANCE_HOUSE_2_PROTECTED) then
-            if IsQBitSet(QBIT_RUST_FIRE_RESISTANCE_HOUSE_4_PROTECTED) then
-                if IsQBitSet(QBIT_RUST_FIRE_RESISTANCE_HOUSE_5_PROTECTED) then
-                    if IsQBitSet(QBIT_RUST_FIRE_RESISTANCE_HOUSE_6_PROTECTED) then
+    if IsQBitSet(QBit(143)) then
+        if IsQBitSet(QBit(144)) then
+            if IsQBitSet(QBit(146)) then
+                if IsQBitSet(QBit(147)) then
+                    if IsQBitSet(QBit(148)) then
                         evt.ForPlayer(Players.All)
                         AddValue(Experience, 1500)
                         evt.SimpleMessage("Thanks for providing Potions of Fire Resistance to the southernmost houses here in Rust.  Perhaps we can survive until a new home can be found for us!")
-                        SetQBit(QBIT_RUST_FIRE_RESISTANCE_VILLAGE_PROTECTED)
+                        SetQBit(QBit(149))
                         return
                     end
                 end
@@ -5123,14 +5678,22 @@ RegisterGlobalEvent(573, "Fire Resistance Potion", function()
     return
 end)
 RegisterCanShowTopic(573, function()
-    return IsQBitSet(QBIT_RUST_FIRE_RESISTANCE_POTION_DELIVERY_ACTIVE)
+    evt._BeginCanShowTopic(573)
+    local visible = true
+    if IsQBitSet(QBit(142)) then
+        visible = true
+        return visible
+    else
+        visible = false
+        return visible
+    end
 end)
 
 RegisterGlobalEvent(574, "Fire Resistance Potion", function()
-    if IsQBitSet(QBIT_RUST_FIRE_RESISTANCE_VILLAGE_PROTECTED) then
+    if IsQBitSet(QBit(149)) then
         evt.SimpleMessage("You have at least pushed our demise away for a time, but a new home needs to be found for us!  Thank you for delivering the Potions of Fire Resistance!")
         return
-    elseif IsQBitSet(QBIT_RUST_FIRE_RESISTANCE_HOUSE_4_PROTECTED) then
+    elseif IsQBitSet(QBit(146)) then
         evt.SimpleMessage("Thanks for the potion!")
     else
         evt.ForPlayer(Players.All)
@@ -5139,19 +5702,19 @@ RegisterGlobalEvent(574, "Fire Resistance Potion", function()
             return
         end
         RemoveItem(256) -- Fire Resistance
-        SetQBit(QBIT_RUST_FIRE_RESISTANCE_HOUSE_4_PROTECTED)
+        SetQBit(QBit(146))
         evt.ForPlayer(Players.All)
         AddValue(Experience, 1000)
     end
-    if IsQBitSet(QBIT_RUST_FIRE_RESISTANCE_HOUSE_1_PROTECTED) then
-        if IsQBitSet(QBIT_RUST_FIRE_RESISTANCE_HOUSE_2_PROTECTED) then
-            if IsQBitSet(QBIT_RUST_FIRE_RESISTANCE_HOUSE_3_PROTECTED) then
-                if IsQBitSet(QBIT_RUST_FIRE_RESISTANCE_HOUSE_5_PROTECTED) then
-                    if IsQBitSet(QBIT_RUST_FIRE_RESISTANCE_HOUSE_6_PROTECTED) then
+    if IsQBitSet(QBit(143)) then
+        if IsQBitSet(QBit(144)) then
+            if IsQBitSet(QBit(145)) then
+                if IsQBitSet(QBit(147)) then
+                    if IsQBitSet(QBit(148)) then
                         evt.ForPlayer(Players.All)
                         AddValue(Experience, 1500)
                         evt.SimpleMessage("Thanks for providing Potions of Fire Resistance to the southernmost houses here in Rust.  Perhaps we can survive until a new home can be found for us!")
-                        SetQBit(QBIT_RUST_FIRE_RESISTANCE_VILLAGE_PROTECTED)
+                        SetQBit(QBit(149))
                         return
                     end
                 end
@@ -5162,14 +5725,22 @@ RegisterGlobalEvent(574, "Fire Resistance Potion", function()
     return
 end)
 RegisterCanShowTopic(574, function()
-    return IsQBitSet(QBIT_RUST_FIRE_RESISTANCE_POTION_DELIVERY_ACTIVE)
+    evt._BeginCanShowTopic(574)
+    local visible = true
+    if IsQBitSet(QBit(142)) then
+        visible = true
+        return visible
+    else
+        visible = false
+        return visible
+    end
 end)
 
 RegisterGlobalEvent(575, "Fire Resistance Potion", function()
-    if IsQBitSet(QBIT_RUST_FIRE_RESISTANCE_VILLAGE_PROTECTED) then
+    if IsQBitSet(QBit(149)) then
         evt.SimpleMessage("You have at least pushed our demise away for a time, but a new home needs to be found for us!  Thank you for delivering the Potions of Fire Resistance!")
         return
-    elseif IsQBitSet(QBIT_RUST_FIRE_RESISTANCE_HOUSE_5_PROTECTED) then
+    elseif IsQBitSet(QBit(147)) then
         evt.SimpleMessage("Thanks for the potion!")
     else
         evt.ForPlayer(Players.All)
@@ -5178,19 +5749,19 @@ RegisterGlobalEvent(575, "Fire Resistance Potion", function()
             return
         end
         RemoveItem(256) -- Fire Resistance
-        SetQBit(QBIT_RUST_FIRE_RESISTANCE_HOUSE_5_PROTECTED)
+        SetQBit(QBit(147))
         evt.ForPlayer(Players.All)
         AddValue(Experience, 1000)
     end
-    if IsQBitSet(QBIT_RUST_FIRE_RESISTANCE_HOUSE_1_PROTECTED) then
-        if IsQBitSet(QBIT_RUST_FIRE_RESISTANCE_HOUSE_2_PROTECTED) then
-            if IsQBitSet(QBIT_RUST_FIRE_RESISTANCE_HOUSE_3_PROTECTED) then
-                if IsQBitSet(QBIT_RUST_FIRE_RESISTANCE_HOUSE_4_PROTECTED) then
-                    if IsQBitSet(QBIT_RUST_FIRE_RESISTANCE_HOUSE_6_PROTECTED) then
+    if IsQBitSet(QBit(143)) then
+        if IsQBitSet(QBit(144)) then
+            if IsQBitSet(QBit(145)) then
+                if IsQBitSet(QBit(146)) then
+                    if IsQBitSet(QBit(148)) then
                         evt.ForPlayer(Players.All)
                         AddValue(Experience, 1500)
                         evt.SimpleMessage("Thanks for providing Potions of Fire Resistance to the southernmost houses here in Rust.  Perhaps we can survive until a new home can be found for us!")
-                        SetQBit(QBIT_RUST_FIRE_RESISTANCE_VILLAGE_PROTECTED)
+                        SetQBit(QBit(149))
                         return
                     end
                 end
@@ -5201,14 +5772,22 @@ RegisterGlobalEvent(575, "Fire Resistance Potion", function()
     return
 end)
 RegisterCanShowTopic(575, function()
-    return IsQBitSet(QBIT_RUST_FIRE_RESISTANCE_POTION_DELIVERY_ACTIVE)
+    evt._BeginCanShowTopic(575)
+    local visible = true
+    if IsQBitSet(QBit(142)) then
+        visible = true
+        return visible
+    else
+        visible = false
+        return visible
+    end
 end)
 
 RegisterGlobalEvent(576, "Fire Resistance Potion", function()
-    if IsQBitSet(QBIT_RUST_FIRE_RESISTANCE_VILLAGE_PROTECTED) then
+    if IsQBitSet(QBit(149)) then
         evt.SimpleMessage("You have at least pushed our demise away for a time, but a new home needs to be found for us!  Thank you for delivering the Potions of Fire Resistance!")
         return
-    elseif IsQBitSet(QBIT_RUST_FIRE_RESISTANCE_HOUSE_6_PROTECTED) then
+    elseif IsQBitSet(QBit(148)) then
         evt.SimpleMessage("Thanks for the potion!")
     else
         evt.ForPlayer(Players.All)
@@ -5217,19 +5796,19 @@ RegisterGlobalEvent(576, "Fire Resistance Potion", function()
             return
         end
         RemoveItem(256) -- Fire Resistance
-        SetQBit(QBIT_RUST_FIRE_RESISTANCE_HOUSE_6_PROTECTED)
+        SetQBit(QBit(148))
         evt.ForPlayer(Players.All)
         AddValue(Experience, 1000)
     end
-    if IsQBitSet(QBIT_RUST_FIRE_RESISTANCE_HOUSE_1_PROTECTED) then
-        if IsQBitSet(QBIT_RUST_FIRE_RESISTANCE_HOUSE_2_PROTECTED) then
-            if IsQBitSet(QBIT_RUST_FIRE_RESISTANCE_HOUSE_3_PROTECTED) then
-                if IsQBitSet(QBIT_RUST_FIRE_RESISTANCE_HOUSE_4_PROTECTED) then
-                    if IsQBitSet(QBIT_RUST_FIRE_RESISTANCE_HOUSE_5_PROTECTED) then
+    if IsQBitSet(QBit(143)) then
+        if IsQBitSet(QBit(144)) then
+            if IsQBitSet(QBit(145)) then
+                if IsQBitSet(QBit(146)) then
+                    if IsQBitSet(QBit(147)) then
                         evt.ForPlayer(Players.All)
                         AddValue(Experience, 1500)
                         evt.SimpleMessage("Thanks for providing Potions of Fire Resistance to the southernmost houses here in Rust.  Perhaps we can survive until a new home can be found for us!")
-                        SetQBit(QBIT_RUST_FIRE_RESISTANCE_VILLAGE_PROTECTED)
+                        SetQBit(QBit(149))
                         return
                     end
                 end
@@ -5240,17 +5819,25 @@ RegisterGlobalEvent(576, "Fire Resistance Potion", function()
     return
 end)
 RegisterCanShowTopic(576, function()
-    return IsQBitSet(QBIT_RUST_FIRE_RESISTANCE_POTION_DELIVERY_ACTIVE)
+    evt._BeginCanShowTopic(576)
+    local visible = true
+    if IsQBitSet(QBit(142)) then
+        visible = true
+        return visible
+    else
+        visible = false
+        return visible
+    end
 end)
 
 RegisterGlobalEvent(577, "Guild of Bounty Hunters", function()
-    if IsQBitSet(QBIT_NOVICE_BOUNTY_HUNTER_RANK) then
+    if IsQBitSet(QBit(169)) then
         evt.SimpleMessage("Greetings Novice Bounty Hunter! The Guild of Bounty Hunters serves the public by paying qualified individuals a fee for eliminating the threat of certain creatures or bandits in the realm of Jadame.  To achieve the rank of Journeyman Bounty Hunter you will have to earn a total bounty of 30,000 gold.")
         return
-    elseif IsQBitSet(QBIT_JOURNEYMAN_BOUNTY_HUNTER_RANK) then
+    elseif IsQBitSet(QBit(170)) then
         evt.SimpleMessage("Greetings Journeyman Bounty Hunter! The Guild of Bounty Hunters serves the public by paying qualified individuals a fee for eliminating the threat of certain creatures or bandits in the realm of Jadame.  To achieve the rank of Master Bounty Hunter you will have to earn a total bounty of 70,000 gold.")
         return
-    elseif IsQBitSet(QBIT_MASTER_BOUNTY_HUNTER_RANK) then
+    elseif IsQBitSet(QBit(171)) then
         evt.SimpleMessage("Greetings Master Bounty Hunter! The Guild of Bounty Hunters thanks you for your services to all of Jadame. We are at your disposal!")
     else
         evt.SimpleMessage("The Guild of Bounty Hunters serves the public by paying qualified individuals a fee for eliminating the threat of certain creatures or bandits in the realm of Jadame.  To achieve the rank of Novice Bounty Hunter you will have to earn 10,000 gold worth of bounties.")
@@ -5270,16 +5857,16 @@ RegisterGlobalEvent(578, "Bounty!", function()
                 evt.ForPlayer(player)
                 if not HasAward(Award(40)) then
                     ClearAward(Award(39))
-                    SetAward(Award(40)) -- Have earned status of Master Bounty Hunter.
+                    SetAward(Award(40))
                     evt.ForPlayer(player)
                     AddValue(Experience, 1200000)
                 end
             end
             evt.ForPlayer(Players.All)
-            ClearQBit(QBIT_JOURNEYMAN_BOUNTY_HUNTER_RANK)
-            SetQBit(QBIT_MASTER_BOUNTY_HUNTER_RANK)
-            evt.SetNPCTopic(297, 2, 0) -- Bryant Conlan, clear topic slot C
-            evt.SetNPCTopic(298, 2, 0) -- Cahalli Evenall, clear topic slot C
+            ClearQBit(QBit(170))
+            SetQBit(QBit(171))
+            evt.SetNPCTopic(297, 2, 0)
+            evt.SetNPCTopic(298, 2, 0)
             return
         end
         evt.SimpleMessage("You currently hold the rank of Journeyman Bounty Hunter, but lack sufficient bounty to be promoted to Master.")
@@ -5287,67 +5874,67 @@ RegisterGlobalEvent(578, "Bounty!", function()
             if not HasAward(Award(39)) then
                 ClearAward(Award(38))
                 evt.ForPlayer(Players.Member0)
-                SetAward(Award(39)) -- Have earned status of Journeyman Bounty Hunter.
+                SetAward(Award(39))
                 AddValue(Experience, 80000)
             end
             evt.ForPlayer(player)
             if not HasAward(Award(39)) then
                 ClearAward(Award(38))
-                SetAward(Award(39)) -- Have earned status of Journeyman Bounty Hunter.
+                SetAward(Award(39))
                 evt.ForPlayer(Players.Member1)
                 AddValue(Experience, 80000)
             end
             evt.ForPlayer(player)
             if not HasAward(Award(39)) then
                 ClearAward(Award(38))
-                SetAward(Award(39)) -- Have earned status of Journeyman Bounty Hunter.
+                SetAward(Award(39))
                 evt.ForPlayer(Players.Member2)
                 AddValue(Experience, 80000)
             end
             evt.ForPlayer(player)
             if not HasAward(Award(39)) then
                 ClearAward(Award(38))
-                SetAward(Award(39)) -- Have earned status of Journeyman Bounty Hunter.
+                SetAward(Award(39))
                 evt.ForPlayer(Players.Member3)
                 AddValue(Experience, 80000)
             end
             evt.ForPlayer(player)
             if not HasAward(Award(39)) then
                 ClearAward(Award(38))
-                SetAward(Award(39)) -- Have earned status of Journeyman Bounty Hunter.
+                SetAward(Award(39))
                 evt.ForPlayer(Players.Member4)
                 AddValue(Experience, 80000)
             end
         evt.ForPlayer(Players.All)
-        ClearQBit(QBIT_NOVICE_BOUNTY_HUNTER_RANK)
-        SetQBit(QBIT_JOURNEYMAN_BOUNTY_HUNTER_RANK)
+        ClearQBit(QBit(169))
+        SetQBit(QBit(170))
         return
     end
     evt.SimpleMessage("You currently hold the rank of Novice Bounty Hunter, but lack sufficient bounty to be promoted to Journeyman.")
     for _, player in ipairs({Players.Member0, Players.Member1, Players.Member2, Players.Member3, Players.Member4}) do
         evt.ForPlayer(player)
         if not HasAward(Award(38)) then
-            SetAward(Award(38)) -- Have earned status of Novice Bounty Hunter.
+            SetAward(Award(38))
             evt.ForPlayer(player)
             AddValue(Experience, 40000)
         end
     end
     evt.ForPlayer(Players.All)
-    SetQBit(QBIT_NOVICE_BOUNTY_HUNTER_RANK)
+    SetQBit(QBit(169))
     return
 end)
 
 RegisterGlobalEvent(580, "Arcomage Tournament", function()
     evt.SimpleMessage("To be declared Arcomage Champion, you must win a game of Arcomage in every tavern on, in, and under the continent of Jadame.  There are 11 such taverns sponsoring Arcomage events.  When you have accomplished this, return to me to claim the prize.")
-    SetQBit(QBIT_ARCOMAGE_TOURNAMENT_ACTIVE)
-    evt.SetNPCTopic(410, 0, 0) -- Tonk Blueswan, clear topic slot A
+    SetQBit(QBit(173))
+    evt.SetNPCTopic(410, 0, 0)
 end)
 
 RegisterGlobalEvent(581, "Cleric Necromancer War", function()
-    if IsQBitSet(QBIT_NECROMANCERS_GUILD_ALLIED) then
+    if IsQBitSet(QBit(19)) then
         evt.SimpleMessage("Through your delivery of the Nightshade Brazier into their hands, the Necromancers' Guild has come out on top in their war with the Temple of the Sun. The artifact's magic creates a permanent shadow of darkness which surrounds the Shadowspire region. Under this cover, vampires defend the land both day and night. This has allowed the guild to field larger forces of skeletons, zombies and other undead against the temple's armies. Each report I receive puts the heart of the battle closer and closer to the Sun Temple's doorstep.")
         return
-    elseif IsQBitSet(QBIT_TEMPLE_OF_THE_SUN_ALLIED) then
+    elseif IsQBitSet(QBit(20)) then
         evt.SimpleMessage("Because you have destroyed the Necromancers' Guild Skeleton Transformer, the Temple of the Sun has come out on top in their war with the guild. The skeletons created by the device made up the bulk of the guild's reinforcements. Without these, the necromancers' forces crumble before the temple's advance. Each report I receive puts the heart of the battle closer to the Necromancers' Guild doorstep.")
     else
         evt.SimpleMessage("Lying as they do on opposite ends of the Light to Dark spectrum, relationships between the Necromancers' Guild and the Temple of the Sun have never been the best, but now they battle openly. Oskar Tyre, head priest of the Temple says a holy vision drove him to declare war on the guild so as to rid Jadame of the taint of darkness.\n\nBoth groups are relative newcomers to our continent. The guild has set up its foothold in Shadowspire, and the First (and only) Sun Temple of Jadame is in Murmurwoods.")
@@ -5356,10 +5943,10 @@ RegisterGlobalEvent(581, "Cleric Necromancer War", function()
 end)
 
 RegisterGlobalEvent(582, "Dragon Hunters", function()
-    if IsQBitSet(QBIT_CHARLES_QUIXOTE_ALLIED) then
+    if IsQBitSet(QBit(21)) then
         evt.SimpleMessage("It seems Charles Quixote's Dragon hunting operation in Garrote Gorge has almost completely wiped out Garrote Gorge's Dragon population. I'm sure once their done, those mountains will be safer to travel. Still, I wonder what Jadame will be like without Dragons.")
         return
-    elseif IsQBitSet(QBIT_DRAGONS_ALLIED) then
+    elseif IsQBitSet(QBit(22)) then
         evt.SimpleMessage("By recovering Deftclaw Redreaver's heir for him, you've allowed him to safely attack Charles Quixote's camp. Dragon hunters operate by isolating members of their prey. They just aren't prepared to face Dragons in number! Needless to say, the camp's production of Dragon goods has dwindled to a trickle. A pity. The guild used to turned a good profit off them.")
     else
         evt.SimpleMessage("The renown Dragon slayer, Charles Quixote of Erathia, has set up a hunting expedition in Garrote Gorge. This is no \"safari,\" in fact, it's the largest operation of this type I've heard of. The hunters have a permanent base from which they sell hides, eggs, baby dragons, and other items. Garrote Gorge has always had a large Dragon population, but I imagine they must be facing extinction--so efficient are Quixote's hunters.")
@@ -5368,7 +5955,7 @@ RegisterGlobalEvent(582, "Dragon Hunters", function()
 end)
 
 RegisterGlobalEvent(583, "Minotaurs", function()
-    if not IsQBitSet(QBIT_MINOTAURS_ALLIED) then
+    if not IsQBitSet(QBit(23)) then
         evt.SimpleMessage("The Minotaurs of Balthazar Lair in Ravage Roaming are a proud culture. Their recent defeat of the Vori Frost Giants has, if anything, made them even more fiercely independent--more sure of their ability to face any task alone. Still, I have told the guild that they would make great allies, both to face the current crisis and later as trade partners.")
         return
     end
@@ -5542,21 +6129,21 @@ RegisterGlobalEvent(596, "Make Item", function()
 end)
 
 RegisterGlobalEvent(597, "Arcomage Tournament", function()
-    if IsQBitSet(QBIT_ARCOMAGE_TOURNAMENT_COMPLETE) then
+    if IsQBitSet(QBit(174)) then
         evt.SimpleMessage("Congratulations!  You have become the Arcomage Champion!  The prize is waiting in the chest right outside my house.")
-        ClearQBit(QBIT_ARCOMAGE_TOURNAMENT_ACTIVE)
-        ClearQBit(QBIT_ARCOMAGE_TOURNAMENT_COMPLETE)
+        ClearQBit(QBit(173))
+        ClearQBit(QBit(174))
         evt.ForPlayer(Players.All)
         AddValue(Experience, 50000)
-        SetQBit(QBIT_ARCOMAGE_CHAMPION_REWARD_CLAIMED)
-        SetAward(Award(41)) -- Arcomage Champion.
-        evt.SetNPCGreeting(410, 0) -- Tonk Blueswan, clear greeting
-        evt.SetNPCTopic(410, 1, 0) -- Tonk Blueswan, clear topic slot B
-    elseif IsQBitSet(QBIT_ARCOMAGE_TOURNAMENT_ACTIVE) then
+        SetQBit(QBit(175))
+        SetAward(Award(41))
+        evt.SetNPCGreeting(410, 0)
+        evt.SetNPCTopic(410, 1, 0)
+    elseif IsQBitSet(QBit(173)) then
         evt.SimpleMessage("You must claim a victory at ALL 11 taverns.  Until you do, you cannot be declared Arcomage Champion.")
     else
         evt.SimpleMessage("To be declared Arcomage Champion, you must win a game of Arcomage in every tavern on, in, and under the continent of Jadame.  There are 11 such taverns sponsoring Arcomage events.  When you have accomplished this, return to me to claim the prize.")
-        SetQBit(QBIT_ARCOMAGE_TOURNAMENT_ACTIVE)
+        SetQBit(QBit(173))
     end
     return
 end)
@@ -5610,12 +6197,12 @@ RegisterGlobalEvent(656, "Quest", function()
                 RemoveItem(658) -- Wheel of Frelandeau
                 RemoveItem(659) -- Log of Eldenbrie
                 RemoveItem(660) -- Ball of Dunduck
-                SetAward(Award(42)) -- Retrieved three cheeses for Asael Fromago, the Cheese Connoisseur of Alvar.
+                SetAward(Award(42))
                 ClearQBit(QBit(176))
                 ClearQBit(QBit(177))
                 ClearQBit(QBit(178))
                 SetQBit(QBit(179))
-                evt.SetNPCTopic(442, 2, 0) -- Asael Fromago, clear topic slot C
+                evt.SetNPCTopic(442, 2, 0)
                 return
             elseif HasItem(658) then -- Wheel of Frelandeau
                 evt.SimpleMessage("Very good, you have found me some of the cheese I seek. But now I have my heart set on a full cheese tasting with all three cheeses eaten at once so I can savor them in comparison. Come back when you have then all. I will not take what you have now. I don't think I could resist sampling what you leave--and then the cheese tasting would be ruined!")
@@ -5811,32 +6398,32 @@ RegisterGlobalEvent(687, "Plane of Fire", function()
 end)
 
 RegisterGlobalEvent(688, "Adventure", function()
-    if not IsQBitSet(QBIT_NECROMANCERS_GUILD_ALLIED) then
+    if not IsQBitSet(QBit(19)) then
         evt.SimpleMessage("I wish I could join with you. Sadly, our war with the Temple of the Sun takes up all of our time. The guild cannot spare me now.")
         return
     end
     evt.SimpleMessage("Well, now that things seem to be settled with our little war with the Temple of the Sun. Sandro has said that guild members may turn their attention to other matters. Since arriving in Jadame, I have seen little of it save for the lands of Shadowspire. Say...perhaps you could use my services!")
-    evt.SetNPCTopic(466, 0, 617) -- Hevatia Deverbero, topic "Roster Join Event"
+    evt.SetNPCTopic(466, 0, 617)
     return
 end)
 
 RegisterGlobalEvent(689, "Join with Us", function()
-    if not IsQBitSet(QBIT_TEMPLE_OF_THE_SUN_ALLIED) then
+    if not IsQBitSet(QBit(20)) then
         evt.SimpleMessage("I wish I could. Unfortunately, we make holy war with the foul Necromancers' Guild. All of the Sun Temple's resources, including myself, are dedicated to that cause.")
         return
     end
     evt.SimpleMessage("Yes! I would love to join with you. Now that our holy war against the foul Necromancers' Guild seems to be going well, I find I have little to do around here. I will go with you if you will take me.")
-    evt.SetNPCTopic(467, 0, 618) -- Verish, topic "Roster Join Event"
+    evt.SetNPCTopic(467, 0, 618)
     return
 end)
 
 RegisterGlobalEvent(690, "Adventure", function()
-    if not IsQBitSet(QBIT_CHARLES_QUIXOTE_ALLIED) then
+    if not IsQBitSet(QBit(21)) then
         evt.SimpleMessage("Go with you? I think not. Why would I want to join up with a bunch of amateurs when I have all the action I can handle here? Don't make me laugh. What can you offer me that a life of Dragon hunting does not?")
         return
     end
     evt.SimpleMessage("Adventure with you? Yes I will. In fact, before he left, Charles Quixote suggested just that. \"Nelix,\" he said, \"if those alliance heroes come by, you ought to consider going with them.\" Apparently, he thinks highly of you. Well, his recommendation is enough for me. Shall we go?")
-    evt.SetNPCTopic(468, 0, 619) -- Nelix Uriel, topic "Roster Join Event"
+    evt.SetNPCTopic(468, 0, 619)
     return
 end)
 
@@ -5846,7 +6433,7 @@ RegisterGlobalEvent(691, "Come with Us", function()
         return
     end
     evt.SimpleMessage("Yes, that sounds good. Though the village could use me to protect it, I think the best I could do for it would be to go with you. My people will be destroyed if the cataclysm is not ended. If I can do something to stop it, I should.")
-    evt.SetNPCTopic(469, 0, 620) -- Sethrc Thistlebone, topic "Roster Join Event"
+    evt.SetNPCTopic(469, 0, 620)
     return
 end)
 
@@ -5856,7 +6443,7 @@ RegisterGlobalEvent(692, "Adventure", function()
         return
     end
     evt.SimpleMessage("Join your group? I would be glad to. Not only have you done a great service for my herd, it has become clear to me that your actions will decide our very survival.")
-    evt.SetNPCTopic(470, 0, 621) -- Rionel, topic "Roster Join Event"
+    evt.SetNPCTopic(470, 0, 621)
     return
 end)
 
@@ -5866,7 +6453,7 @@ RegisterGlobalEvent(693, "Adventure", function()
         return
     end
     evt.SimpleMessage("Don't think your exploits have gone unnoticed! Clearly you are adventurers of the highest caliber. I would consider joining your team…that is, if you will have me.")
-    evt.SetNPCTopic(471, 0, 622) -- Adric Stellare, topic "Roster Join Event"
+    evt.SetNPCTopic(471, 0, 622)
     return
 end)
 
@@ -5876,7 +6463,7 @@ RegisterGlobalEvent(694, "Go with Us", function()
         return
     end
     evt.SimpleMessage("Yes! Yes! An excellent idea. You are just the kind of companions I am seeking. I have heard of you and your adventures.")
-    evt.SetNPCTopic(472, 0, 623) -- Infaustus, topic "Roster Join Event"
+    evt.SetNPCTopic(472, 0, 623)
     return
 end)
 
@@ -5886,57 +6473,57 @@ RegisterGlobalEvent(695, "Come with Us", function()
         return
     end
     evt.SimpleMessage("Yes, you seem worthy of my company. Very well, I will go if you will have me.")
-    evt.SetNPCTopic(473, 0, 624) -- Brimstone, topic "Join"
+    evt.SetNPCTopic(473, 0, 624)
     return
 end)
 
 RegisterGlobalEvent(696, "Join Us", function()
-    if not IsQBitSet(QBIT_IRONFISTS_ARRIVED_IN_RAVENSHORE) then
+    if not IsQBitSet(QBit(38)) then
         evt.SimpleMessage("You must be joking! I am a rightly famous knight. Why would I want to travel with such riff-raff as yourselves? Oh, it might be fun after a fashion, but I do have my reputation to think of.")
         return
     end
     evt.SimpleMessage("I must say I find the idea appealing. Hmmm, yes! The taste of the open road is just what I need. I have been long at this business of dragon slaying, and I must say it grows stale. A man must keep himself interested. I will go with you if you like.")
-    evt.SetNPCTopic(476, 0, 627) -- Tempus, topic "Roster Join Event"
+    evt.SetNPCTopic(476, 0, 627)
     return
 end)
 
 RegisterGlobalEvent(697, "Join Us", function()
-    if not IsQBitSet(QBIT_IRONFISTS_ARRIVED_IN_RAVENSHORE) then
+    if not IsQBitSet(QBit(38)) then
         evt.SimpleMessage("Join you? Ho-ho. What an amusing idea. Why would the great Thorne Understone travel with the likes of you?")
         return
     end
     evt.SimpleMessage("Yes! That sounds great. From what I hear of your adventures you have a chance to know greatness. With my help, we could make that chance a certainty. Well, shall we? I'm always looking for a chance to add to my legend!")
-    evt.SetNPCTopic(477, 0, 628) -- Thorne Understone, topic "Roster Join Event"
+    evt.SetNPCTopic(477, 0, 628)
     return
 end)
 
 RegisterGlobalEvent(698, "Adventure", function()
-    if not IsQBitSet(QBIT_IRONFISTS_ARRIVED_IN_RAVENSHORE) then
+    if not IsQBitSet(QBit(38)) then
         evt.SimpleMessage("Yes, adventure is a fine thing. Why I have had several. In fact, let me tell you about the time I….Say, it just occurred to me you are suggesting I adventure with you! A nice offer, but well…how can I say this politely? You're just not seasoned enough. I'm afraid I would grow bored with the kinds of challenges you are ready to face.")
         return
     end
     evt.SimpleMessage("Ah, \"adventure.\" Surely I have not had enough of it recently. Since our war with the Frost Giants, I have done little but train young warriors. Say, you wouldn't happen to want a traveling companion? Perhaps I could come with you. I have many skills you might find useful, and I swing a deadly axe!")
-    evt.SetNPCTopic(478, 0, 629) -- Ulbrecht, topic "Roster Join Event"
+    evt.SetNPCTopic(478, 0, 629)
     return
 end)
 
 RegisterGlobalEvent(699, "Come with Us", function()
-    if not IsQBitSet(QBIT_IRONFISTS_ARRIVED_IN_RAVENSHORE) then
+    if not IsQBitSet(QBit(38)) then
         evt.SimpleMessage("Though I may not look it after my long sleep, know that you speak with one of the greatest vampires alive today. Go with you? I think not. Your inexperience would make you more of a hindrance to me than anything. I would do better on my own.")
         return
     end
     evt.SimpleMessage("Ah, you suggest I come along with you to see the land for myself. An excellent suggestion. I am certainly well rested enough! Very well, I am ready to travel if you will take me.")
-    evt.SetNPCTopic(480, 0, 631) -- Artorius Veritas, topic "Roster Join Event"
+    evt.SetNPCTopic(480, 0, 631)
     return
 end)
 
 RegisterGlobalEvent(700, "Join Us", function()
-    if not IsQBitSet(QBIT_IRONFISTS_ARRIVED_IN_RAVENSHORE) then
+    if not IsQBitSet(QBit(38)) then
         evt.SimpleMessage("Join you? What a fool's notion. I already travel with a certain number of fleas. I don't need any more parasites. Be gone!")
         return
     end
     evt.SimpleMessage("Join you! Ha! I admire your audacity. Yes…admire it a great deal. Very well. You have my respect. I will go with you.")
-    evt.SetNPCTopic(481, 0, 632) -- Duroth the Eternal, topic "Join"
+    evt.SetNPCTopic(481, 0, 632)
     return
 end)
 
@@ -5950,7 +6537,15 @@ RegisterGlobalEvent(702, "Have you found the shield?", function()
     return
 end)
 RegisterCanShowTopic(702, function()
-    return not (IsQBitSet(QBit(128)))
+    evt._BeginCanShowTopic(702)
+    local visible = true
+    if IsQBitSet(QBit(128)) then
+        visible = false
+        return visible
+    else
+        visible = true
+        return visible
+    end
 end)
 
 RegisterGlobalEvent(703, "Use Eclipse well!", function()
@@ -5964,7 +6559,7 @@ RegisterGlobalEvent(706, "Come with Us", function()
         return
     end
     evt.SimpleMessage("Sure, why not? I'm ready to go--just have to grab my gear! I'll show the guild who is worthy and who isn't!")
-    evt.SetNPCTopic(458, 0, 609) -- Karanya Memoria, topic "Roster Join Event"
+    evt.SetNPCTopic(458, 0, 609)
     return
 end)
 
@@ -5974,7 +6569,7 @@ RegisterGlobalEvent(707, "Come with Us", function()
         return
     end
     evt.SimpleMessage("Say, that sounds grand! Yes, I will go with you, if you will have me.")
-    evt.SetNPCTopic(459, 0, 610) -- Maylander, topic "Roster Join Event"
+    evt.SetNPCTopic(459, 0, 610)
     return
 end)
 
@@ -5984,7 +6579,7 @@ RegisterGlobalEvent(708, "Join Us", function()
         return
     end
     evt.SimpleMessage("Yes, we'd make quite a team! We have all done such great deeds, how could not further greatness follow from our joining together? I'll go with you if you want.")
-    evt.SetNPCTopic(463, 0, 614) -- Jasp Thelbourne, topic "Roster Join Event"
+    evt.SetNPCTopic(463, 0, 614)
     return
 end)
 
@@ -6087,7 +6682,7 @@ RegisterGlobalEvent(727, "Regnan Culture", function()
 end)
 
 RegisterGlobalEvent(728, "Nightshade Amulets", function()
-    if not IsQBitSet(QBIT_NECROMANCERS_GUILD_ALLIED) then
+    if not IsQBitSet(QBit(19)) then
         evt.SimpleMessage("We vampires cannot normally walk about in the daylight, but Thant the Necromancers' Guildmaster has created an artifact to deal with this. A vampire wearing one of his Nightshade Amulets can move about freely day or night. Sadly, there are few available. I myself do not have one so must stay indoors during the day.")
         return
     end
@@ -6112,35 +6707,35 @@ end)
 
 RegisterGlobalEvent(732, "Hint", function()
     evt.ForPlayer(Players.All)
-    if IsQBitSet(QBIT_DADEROSS_LETTER_DELIVERED_TO_FELLMOON) then
-        if not IsQBitSet(QBIT_FELLMOON_SMUGGLER_BOATS_SECURED) then
+    if IsQBitSet(QBit(4)) then
+        if not IsQBitSet(QBit(24)) then
             evt.SimpleMessage("I see a vision of you in which you take a letter from Elgar Fellmoon in Ravenshore to Arion Hunter, the leader of the Ravenshore smugglers. After this, you return to Fellmoon. The end of the vision is a blur, so you must not have lived entirely through it. Still, it is your fate to do these things.")
             AddValue(IsIntellectMoreThanBase, 274)
             return
         end
-        if not IsQBitSet(QBIT_REPORTED_TO_BASTIAN_LOUDRIN) then
+        if not IsQBitSet(QBit(12)) then
             evt.SimpleMessage("I don't need my vision to tell me what you must do next. Do as Fellmoon asked of you. Go seek Bastian Loudrin, the guildmaster of the Alvarian Merchant Guild. He is in the city of Alvar.")
             AddValue(IsIntellectMoreThanBase, 275)
             return
         end
-        if IsQBitSet(QBIT_VILEBITE_ASHES_LAID_TO_REST) then
+        if IsQBitSet(QBit(62)) then
             if not IsQBitSet(QBit(59)) then
                 evt.SimpleMessage("It is clear to me that you must bring the Troll, Overdune, to the merchant guild in Alvar.")
                 AddValue(IsIntellectMoreThanBase, 278)
                 return
             end
             if IsQBitSet(QBit(34)) then
-                if IsQBitSet(QBIT_RAVENSHORE_UNDER_ATTACK) then
+                if IsQBitSet(QBit(57)) then
                     evt.SimpleMessage("In case you haven't heard, Ravenshore is under attack by the Regnan pirates. The town has been evacuated. You must eliminate the pirate threat before the alliance council will return to guide you.")
                     AddValue(IsIntellectMoreThanBase, 285)
                     return
-                elseif IsQBitSet(QBIT_REGNAN_FLEET_SUNK) then
-                    if not IsQBitSet(QBIT_IRONFISTS_ARRIVED_IN_RAVENSHORE) then
+                elseif IsQBitSet(QBit(37)) then
+                    if not IsQBitSet(QBit(38)) then
                         evt.SimpleMessage("Now that you've sunk the Regnan fleet. Go and seek the wisdom of your alliance council. They will give you the next task that will make your destiny.")
                         AddValue(IsIntellectMoreThanBase, 286)
                         return
                     end
-                    if IsQBitSet(QBIT_XANTHOR_EXPLAINED_THE_CRYSTAL) then
+                    if IsQBitSet(QBit(92)) then
                         if IsQBitSet(QBit(45)) then
                             if IsQBitSet(QBit(47)) then
                                 if IsQBitSet(QBit(228)) then
@@ -6184,7 +6779,7 @@ RegisterGlobalEvent(732, "Hint", function()
                             AddValue(IsIntellectMoreThanBase, 289)
                             return
                         end
-                    elseif IsQBitSet(QBIT_CONSULT_XANTHOR_ABOUT_THE_CRYSTAL) then
+                    elseif IsQBitSet(QBit(91)) then
                         evt.SimpleMessage("I see an important link between the present and your future has not been forged. Seek out the sage, Xanthor who resides in Ravenshore. He will send you on your destiny's next task.")
                         AddValue(IsIntellectMoreThanBase, 288)
                     else
@@ -6192,7 +6787,7 @@ RegisterGlobalEvent(732, "Hint", function()
                         AddValue(IsIntellectMoreThanBase, 287)
                     end
                     return
-                elseif IsQBitSet(QBIT_SINK_REGNAN_FLEET_FOR_IRONFISTS) then
+                elseif IsQBitSet(QBit(36)) then
                     evt.SimpleMessage("You must do as the alliance council has asked of you. Find a way to Regna Island and sink the Regnan port fleet.")
                     AddValue(IsIntellectMoreThanBase, 284)
                 else
@@ -6200,13 +6795,13 @@ RegisterGlobalEvent(732, "Hint", function()
                     AddValue(IsIntellectMoreThanBase, 283)
                 end
                 return
-            elseif IsQBitSet(QBIT_MINOTAURS_ALLIED) then
-                if IsQBitSet(QBIT_NECROMANCERS_GUILD_ALLIED) then
-                    if IsQBitSet(QBIT_CHARLES_QUIXOTE_ALLIED) then
+            elseif IsQBitSet(QBit(23)) then
+                if IsQBitSet(QBit(19)) then
+                    if IsQBitSet(QBit(21)) then
                         evt.SimpleMessage("You have done good work in forging the alliances you have. It is now time for you to seek the council of those allies you have brought together. Seek them out in their council chamber within the merchant guild in Ravenshore.")
                         AddValue(IsIntellectMoreThanBase, 282)
                         return
-                    elseif IsQBitSet(QBIT_DRAGONS_ALLIED) then
+                    elseif IsQBitSet(QBit(22)) then
                         evt.SimpleMessage("You have done good work in forging the alliances you have. It is now time for you to seek the council of those allies you have brought together. Seek them out in their council chamber within the merchant guild in Ravenshore.")
                         AddValue(IsIntellectMoreThanBase, 282)
                     else
@@ -6214,12 +6809,12 @@ RegisterGlobalEvent(732, "Hint", function()
                         AddValue(IsIntellectMoreThanBase, 281)
                     end
                     return
-                elseif IsQBitSet(QBIT_TEMPLE_OF_THE_SUN_ALLIED) then
-                    if IsQBitSet(QBIT_CHARLES_QUIXOTE_ALLIED) then
+                elseif IsQBitSet(QBit(20)) then
+                    if IsQBitSet(QBit(21)) then
                         evt.SimpleMessage("You have done good work in forging the alliances you have. It is now time for you to seek the council of those allies you have brought together. Seek them out in their council chamber within the merchant guild in Ravenshore.")
                         AddValue(IsIntellectMoreThanBase, 282)
                         return
-                    elseif IsQBitSet(QBIT_DRAGONS_ALLIED) then
+                    elseif IsQBitSet(QBit(22)) then
                         evt.SimpleMessage("You have done good work in forging the alliances you have. It is now time for you to seek the council of those allies you have brought together. Seek them out in their council chamber within the merchant guild in Ravenshore.")
                         AddValue(IsIntellectMoreThanBase, 282)
                     else
@@ -6235,7 +6830,7 @@ RegisterGlobalEvent(732, "Hint", function()
                 AddValue(IsIntellectMoreThanBase, 279)
             end
             return
-        elseif IsQBitSet(QBIT_FIND_LAKE_OF_FIRE_WITNESS) then
+        elseif IsQBitSet(QBit(25)) then
             evt.SimpleMessage("In my dreams last night, I saw you traveling to the Ironsand Desert to find a witness to the formation of a great lake of fire which formed there during the cataclysm.")
             AddValue(IsIntellectMoreThanBase, 277)
         else
@@ -6243,7 +6838,7 @@ RegisterGlobalEvent(732, "Hint", function()
             AddValue(IsIntellectMoreThanBase, 276)
         end
         return
-    elseif IsQBitSet(QBIT_TAKE_DADEROSS_LETTER_TO_FELLMOON) then
+    elseif IsQBitSet(QBit(3)) then
         evt.SimpleMessage("Hmmm…I cannot look too far ahead--for the ether is thick today. All I see is that you must deliver the letter Dadeross gave you to the merchant, Elgar Fellmoon. Fellmoon lives in the city of Ravenshore.")
         AddValue(IsIntellectMoreThanBase, 273)
     else
@@ -6257,27 +6852,27 @@ RegisterGlobalEvent(733, "Promote Dark Elves", function()
     evt.ForPlayer(Players.Member0)
     if HasAward(Award(19)) then
         evt.SimpleMessage("Cauri told me of how you helped her with the curse of the Basilisk.  She has instructed me to promote any Dark Elves that travel with you to Patriarch.")
-        ClearQBit(QBIT_FIND_CAURI_BLACKTHORNE)
+        ClearQBit(QBit(39))
         for _, player in ipairs({Players.Member1, Players.Member2, Players.Member3, Players.Member4}) do
             evt.ForPlayer(player)
             if IsAtLeast(ClassId, 10) then
                 SetValue(ClassId, 11)
-                SetAward(Award(19)) -- Promoted to Elf Patriarch.
+                SetAward(Award(19))
             else
-                SetAward(Award(20)) -- Rescued Cauri Blackthorne.
+                SetAward(Award(20))
             end
         end
         return
     elseif HasAward(Award(20)) then
         evt.SimpleMessage("Cauri told me of how you helped her with the curse of the Basilisk.  She has instructed me to promote any Dark Elves that travel with you to Patriarch.")
-        ClearQBit(QBIT_FIND_CAURI_BLACKTHORNE)
+        ClearQBit(QBit(39))
         for _, player in ipairs({Players.Member1, Players.Member2, Players.Member3, Players.Member4}) do
             evt.ForPlayer(player)
             if IsAtLeast(ClassId, 10) then
                 SetValue(ClassId, 11)
-                SetAward(Award(19)) -- Promoted to Elf Patriarch.
+                SetAward(Award(19))
             else
-                SetAward(Award(20)) -- Rescued Cauri Blackthorne.
+                SetAward(Award(20))
             end
         end
     else
@@ -6294,9 +6889,9 @@ RegisterGlobalEvent(734, "Promote Trolls", function()
             evt.ForPlayer(player)
             if IsAtLeast(ClassId, 6) then
                 SetValue(ClassId, 7)
-                SetAward(Award(21)) -- Promoted to War Troll.
+                SetAward(Award(21))
             else
-                SetAward(Award(22)) -- Found Troll Homeland.
+                SetAward(Award(22))
             end
         end
         return
@@ -6306,9 +6901,9 @@ RegisterGlobalEvent(734, "Promote Trolls", function()
             evt.ForPlayer(player)
             if IsAtLeast(ClassId, 6) then
                 SetValue(ClassId, 7)
-                SetAward(Award(21)) -- Promoted to War Troll.
+                SetAward(Award(21))
             else
-                SetAward(Award(22)) -- Found Troll Homeland.
+                SetAward(Award(22))
             end
         end
     else
@@ -6325,9 +6920,9 @@ RegisterGlobalEvent(735, "Promote Knights", function()
             evt.ForPlayer(player)
             if IsAtLeast(ClassId, 4) then
                 SetValue(ClassId, 5)
-                SetAward(Award(23)) -- Promoted to Champion.
+                SetAward(Award(23))
             else
-                SetAward(Award(24)) -- Returned Ebonest to Charles Quixote.
+                SetAward(Award(24))
             end
         end
         return
@@ -6337,9 +6932,9 @@ RegisterGlobalEvent(735, "Promote Knights", function()
             evt.ForPlayer(player)
             if IsAtLeast(ClassId, 4) then
                 SetValue(ClassId, 5)
-                SetAward(Award(23)) -- Promoted to Champion.
+                SetAward(Award(23))
             else
-                SetAward(Award(24)) -- Returned Ebonest to Charles Quixote.
+                SetAward(Award(24))
             end
         end
     else
@@ -6356,9 +6951,9 @@ RegisterGlobalEvent(736, "Promote Dragons", function()
             evt.ForPlayer(player)
             if IsAtLeast(ClassId, 14) then
                 SetValue(ClassId, 15)
-                SetAward(Award(26)) -- Promoted to Great Wyrm.
+                SetAward(Award(26))
             else
-                SetAward(Award(27)) -- Gave the Sword of Whistlebone the Slayer to the Deftclaw Redreaver.
+                SetAward(Award(27))
             end
         end
         return
@@ -6368,9 +6963,9 @@ RegisterGlobalEvent(736, "Promote Dragons", function()
             evt.ForPlayer(player)
             if IsAtLeast(ClassId, 14) then
                 SetValue(ClassId, 15)
-                SetAward(Award(26)) -- Promoted to Great Wyrm.
+                SetAward(Award(26))
             else
-                SetAward(Award(27)) -- Gave the Sword of Whistlebone the Slayer to the Deftclaw Redreaver.
+                SetAward(Award(27))
             end
         end
     else
@@ -6387,9 +6982,9 @@ RegisterGlobalEvent(737, "Promote Clerics", function()
             evt.ForPlayer(player)
             if IsAtLeast(ClassId, 2) then
                 SetValue(ClassId, 3)
-                SetAward(Award(30)) -- Promoted to Cleric of the Sun.
+                SetAward(Award(30))
             else
-                SetAward(Award(31)) -- Found the lost Prophecies of the Sun and returned them to the Temple of the Sun.
+                SetAward(Award(31))
             end
         end
         return
@@ -6399,9 +6994,9 @@ RegisterGlobalEvent(737, "Promote Clerics", function()
             evt.ForPlayer(player)
             if IsAtLeast(ClassId, 2) then
                 SetValue(ClassId, 3)
-                SetAward(Award(30)) -- Promoted to Cleric of the Sun.
+                SetAward(Award(30))
             else
-                SetAward(Award(31)) -- Found the lost Prophecies of the Sun and returned them to the Temple of the Sun.
+                SetAward(Award(31))
             end
         end
     else
@@ -6427,10 +7022,10 @@ RegisterGlobalEvent(738, "Promote Necromancers", function()
             evt.ForPlayer(player)
             if IsAtLeast(ClassId, 0) then
                 SetValue(ClassId, 1)
-                SetAward(Award(34)) -- Promoted to Lich.
+                SetAward(Award(34))
                 RemoveItem(628) -- Lich Jar
             else
-                SetAward(Award(35)) -- Found the Lost Book of Khel.
+                SetAward(Award(35))
             end
         end
         return
@@ -6449,10 +7044,10 @@ RegisterGlobalEvent(738, "Promote Necromancers", function()
             evt.ForPlayer(player)
             if IsAtLeast(ClassId, 0) then
                 SetValue(ClassId, 1)
-                SetAward(Award(34)) -- Promoted to Lich.
+                SetAward(Award(34))
                 RemoveItem(628) -- Lich Jar
             else
-                SetAward(Award(35)) -- Found the Lost Book of Khel.
+                SetAward(Award(35))
             end
         end
     else
@@ -6469,9 +7064,9 @@ RegisterGlobalEvent(739, "Promote Vampires", function()
             evt.ForPlayer(player)
             if IsAtLeast(ClassId, 12) then
                 SetValue(ClassId, 13)
-                SetAward(Award(32)) -- Promoted to Nosferatu.
+                SetAward(Award(32))
             else
-                SetAward(Award(33)) -- Found the Sarcophagus and Remains of Korbu.
+                SetAward(Award(33))
             end
         end
         return
@@ -6481,9 +7076,9 @@ RegisterGlobalEvent(739, "Promote Vampires", function()
             evt.ForPlayer(player)
             if IsAtLeast(ClassId, 12) then
                 SetValue(ClassId, 13)
-                SetAward(Award(32)) -- Promoted to Nosferatu.
+                SetAward(Award(32))
             else
-                SetAward(Award(33)) -- Found the Sarcophagus and Remains of Korbu.
+                SetAward(Award(33))
             end
         end
     else
@@ -6500,9 +7095,9 @@ RegisterGlobalEvent(740, "Promote Minotuars", function()
             evt.ForPlayer(player)
             if IsAtLeast(ClassId, 8) then
                 SetValue(ClassId, 9)
-                SetAward(Award(28)) -- Promoted to Minotaur Lord.
+                SetAward(Award(28))
             else
-                SetAward(Award(29)) -- Recovered Axe of Balthazar.
+                SetAward(Award(29))
             end
         end
         return
@@ -6512,9 +7107,9 @@ RegisterGlobalEvent(740, "Promote Minotuars", function()
             evt.ForPlayer(player)
             if IsAtLeast(ClassId, 8) then
                 SetValue(ClassId, 9)
-                SetAward(Award(28)) -- Promoted to Minotaur Lord.
+                SetAward(Award(28))
             else
-                SetAward(Award(29)) -- Recovered Axe of Balthazar.
+                SetAward(Award(29))
             end
         end
     else
@@ -6527,39 +7122,48 @@ RegisterGlobalEvent(741, "Thank you!", function()
     evt.SimpleMessage("My father sent you to rescue me?  I am grateful.  I will return to my father and let him know of your assistance!")
     evt.ForPlayer(Players.All)
     AddValue(Experience, 5000)
-    evt.SetNPCTopic(285, 0, 0) -- Irabelle Hunter, clear topic slot A
-    ClearQBit(QBIT_RESCUE_ARION_HUNTERS_FAMILY_ACTIVE)
-    SetQBit(QBIT_ARION_HUNTERS_FAMILY_RESCUED)
+    evt.SetNPCTopic(285, 0, 0)
+    ClearQBit(QBit(119))
+    SetQBit(QBit(120))
     return
 end)
 RegisterCanShowTopic(741, function()
-    return IsQBitSet(QBIT_RESCUE_ARION_HUNTERS_FAMILY_ACTIVE)
+    evt._BeginCanShowTopic(741)
+    local visible = true
+    if IsQBitSet(QBit(119)) then
+        visible = true
+        return visible
+    else
+        visible = false
+        return visible
+    end
 end)
 
 RegisterGlobalEvent(742, "Travel with you!", function()
-    if not IsQBitSet(QBIT_REGNAN_FLEET_SUNK) then
+    if not IsQBitSet(QBit(37)) then
         evt.SimpleMessage("I cannot yet travel with you!  I would sooner sign on with a merchant caravan, than travel with you.  Return to me when you have discovered more of the world, and your place in it.")
         return
     end
     evt.SimpleMessage("I remember you!  The Book of Kehl has proven invaluable, and it would be a privilege to travel with you.")
-    evt.SetNPCTopic(74, 0, 625) -- Vetrinus Taleshire, topic "Roster Join Event"
+    evt.SetNPCTopic(74, 0, 625)
     return
 end)
 
 RegisterGlobalEvent(743, "Travel with you!", function()
-    if not IsQBitSet(QBIT_REGNAN_FLEET_SUNK) then
+    if not IsQBitSet(QBit(37)) then
         evt.SimpleMessage("When you have grown and learned more of the ways of the world, then it would be my pleasure to travel with you.  Until then I have studies to complete here.")
         return
     end
     evt.SimpleMessage("Certainly!  Traveling with you would be an honor!")
-    evt.SetNPCTopic(63, 0, 626) -- Dervish Chevron, topic "Roster Join Event"
+    evt.SetNPCTopic(63, 0, 626)
     return
 end)
 
 RegisterGlobalEvent(744, "Rescue", function()
     evt.SimpleMessage("You have done us a great service, adventurers. On behalf of my herd, I give you our humblest thanks. Know that the Minotaurs of Balthazar Lair hold you in the highest regard. You will always be welcome among us.")
-    evt.SetNPCTopic(70, 0, 613) -- Thanys, topic "Roster Join Event"
-    evt.SetNPCTopic(70, 1, 0) -- Thanys, clear topic slot B
-    evt.SetNPCTopic(70, 2, 0) -- Thanys, clear topic slot C
+    evt.SetNPCTopic(70, 0, 613)
+    evt.SetNPCTopic(70, 1, 0)
+    evt.SetNPCTopic(70, 2, 0)
     return
 end)
+

@@ -975,7 +975,7 @@ RegisterEvent(115, "Legacy event 115", function()
     return
 end)
 
-RegisterNoOpEvent(402, "Legacy event 402")
+RegisterEvent(402, "Legacy event 402", nil)
 
 RegisterEvent(451, "Legacy event 451", function()
     if IsAtLeast(MapVar(14), 1) then return end

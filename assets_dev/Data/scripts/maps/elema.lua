@@ -63,72 +63,56 @@ RegisterEvent(11, "Wingsail's House", function()
     return
 end, "Wingsail's House")
 
-RegisterEvent(12, "Wingsail's House", function()
-    return
-end, "Wingsail's House")
+RegisterEvent(12, "Wingsail's House", nil, "Wingsail's House")
 
 RegisterEvent(13, "Vapor's House", function()
     evt.EnterHouse(444) -- Vapor's House
     return
 end, "Vapor's House")
 
-RegisterEvent(14, "Vapor's House", function()
-    return
-end, "Vapor's House")
+RegisterEvent(14, "Vapor's House", nil, "Vapor's House")
 
 RegisterEvent(15, "Zephyr's House", function()
     evt.EnterHouse(445) -- Zephyr's House
     return
 end, "Zephyr's House")
 
-RegisterEvent(16, "Zephyr's House", function()
-    return
-end, "Zephyr's House")
+RegisterEvent(16, "Zephyr's House", nil, "Zephyr's House")
 
 RegisterEvent(17, "Empty House", function()
     evt.EnterHouse(446) -- Empty House
     return
 end, "Empty House")
 
-RegisterEvent(18, "Empty House", function()
-    return
-end, "Empty House")
+RegisterEvent(18, "Empty House", nil, "Empty House")
 
 RegisterEvent(19, "Empty House", function()
     evt.EnterHouse(447) -- Empty House
     return
 end, "Empty House")
 
-RegisterEvent(20, "Empty House", function()
-    return
-end, "Empty House")
+RegisterEvent(20, "Empty House", nil, "Empty House")
 
 RegisterEvent(21, "Empty House", function()
     evt.EnterHouse(448) -- Empty House
     return
 end, "Empty House")
 
-RegisterEvent(22, "Empty House", function()
-    return
-end, "Empty House")
+RegisterEvent(22, "Empty House", nil, "Empty House")
 
 RegisterEvent(23, "Empty House", function()
     evt.EnterHouse(449) -- Empty House
     return
 end, "Empty House")
 
-RegisterEvent(24, "Empty House", function()
-    return
-end, "Empty House")
+RegisterEvent(24, "Empty House", nil, "Empty House")
 
 RegisterEvent(25, "Nedlon's House", function()
     evt.EnterHouse(450) -- Nedlon's House
     return
 end, "Nedlon's House")
 
-RegisterEvent(26, "Nedlon's House", function()
-    return
-end, "Nedlon's House")
+RegisterEvent(26, "Nedlon's House", nil, "Nedlon's House")
 
 RegisterEvent(81, "Chest", function()
     evt.OpenChest(0)
@@ -230,11 +214,11 @@ RegisterEvent(100, "Chest", function()
     return
 end, "Chest")
 
-RegisterNoOpEvent(401, "Castle of Air", "Castle of Air")
+RegisterEvent(401, "Castle of Air", nil, "Castle of Air")
 
-RegisterNoOpEvent(402, "Raven Man Nest", "Raven Man Nest")
+RegisterEvent(402, "Raven Man Nest", nil, "Raven Man Nest")
 
-RegisterNoOpEvent(403, "Gate out of the Plane of Air", "Gate out of the Plane of Air")
+RegisterEvent(403, "Gate out of the Plane of Air", nil, "Gate out of the Plane of Air")
 
 RegisterEvent(451, "Take a Drink", function()
     if not IsAtLeast(AirResistance, 10) then

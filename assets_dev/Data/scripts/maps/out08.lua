@@ -63,54 +63,42 @@ RegisterEvent(11, "Xevius's Residence", function()
     return
 end, "Xevius's Residence")
 
-RegisterEvent(12, "Xevius's Residence", function()
-    return
-end, "Xevius's Residence")
+RegisterEvent(12, "Xevius's Residence", nil, "Xevius's Residence")
 
 RegisterEvent(13, "Vish's House", function()
     evt.EnterHouse(398) -- Vish's House
     return
 end, "Vish's House")
 
-RegisterEvent(14, "Vish's House", function()
-    return
-end, "Vish's House")
+RegisterEvent(14, "Vish's House", nil, "Vish's House")
 
 RegisterEvent(15, "Sail's Shack", function()
     evt.EnterHouse(399) -- Sail's Shack
     return
 end, "Sail's Shack")
 
-RegisterEvent(16, "Sail's Shack", function()
-    return
-end, "Sail's Shack")
+RegisterEvent(16, "Sail's Shack", nil, "Sail's Shack")
 
 RegisterEvent(17, "Pordo's Hovel", function()
     evt.EnterHouse(400) -- Pordo's Hovel
     return
 end, "Pordo's Hovel")
 
-RegisterEvent(18, "Pordo's Hovel", function()
-    return
-end, "Pordo's Hovel")
+RegisterEvent(18, "Pordo's Hovel", nil, "Pordo's Hovel")
 
 RegisterEvent(19, "Galvinus's Home", function()
     evt.EnterHouse(401) -- Galvinus's Home
     return
 end, "Galvinus's Home")
 
-RegisterEvent(20, "Galvinus's Home", function()
-    return
-end, "Galvinus's Home")
+RegisterEvent(20, "Galvinus's Home", nil, "Galvinus's Home")
 
 RegisterEvent(23, "Cagnor's Shop", function()
     evt.EnterHouse(452) -- Cagnor's Shop
     return
 end, "Cagnor's Shop")
 
-RegisterEvent(24, "Cagnor's Shop", function()
-    return
-end, "Cagnor's Shop")
+RegisterEvent(24, "Cagnor's Shop", nil, "Cagnor's Shop")
 
 RegisterEvent(81, "Chest", function()
     evt.OpenChest(0)
@@ -263,32 +251,28 @@ RegisterEvent(183, "Mist", function()
     return
 end, "Mist")
 
-RegisterEvent(184, "Mist", function()
-    return
-end, "Mist")
+RegisterEvent(184, "Mist", nil, "Mist")
 
 RegisterEvent(191, "Bull's Eye Inn", function()
     evt.EnterHouse(114) -- Bull's Eye Inn
     return
 end, "Bull's Eye Inn")
 
-RegisterEvent(192, "Bull's Eye Inn", function()
-    return
-end, "Bull's Eye Inn")
+RegisterEvent(192, "Bull's Eye Inn", nil, "Bull's Eye Inn")
 
-RegisterNoOpEvent(401, "Balthazar Lair", "Balthazar Lair")
+RegisterEvent(401, "Balthazar Lair", nil, "Balthazar Lair")
 
-RegisterNoOpEvent(402, "Barbarian Fortress", "Barbarian Fortress")
+RegisterEvent(402, "Barbarian Fortress", nil, "Barbarian Fortress")
 
-RegisterNoOpEvent(403, "The Crypt of Korbu", "The Crypt of Korbu")
+RegisterEvent(403, "The Crypt of Korbu", nil, "The Crypt of Korbu")
 
-RegisterNoOpEvent(404, "Church of Eep", "Church of Eep")
+RegisterEvent(404, "Church of Eep", nil, "Church of Eep")
 
-RegisterNoOpEvent(405, "Gate to the Plane of Water", "Gate to the Plane of Water")
+RegisterEvent(405, "Gate to the Plane of Water", nil, "Gate to the Plane of Water")
 
-RegisterNoOpEvent(406, "Sealed Crate", "Sealed Crate")
+RegisterEvent(406, "Sealed Crate", nil, "Sealed Crate")
 
-RegisterNoOpEvent(450, "Legacy event 450")
+RegisterEvent(450, "Legacy event 450", nil)
 
 RegisterEvent(479, "Legacy event 479", function()
     local randomStep = PickRandomOption(479, 2, {2, 4, 6, 8, 10, 12})
