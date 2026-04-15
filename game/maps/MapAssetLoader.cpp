@@ -1,4 +1,5 @@
 #include "game/data/ActorNameResolver.h"
+#include "game/events/EvtEnums.h"
 #include "game/maps/MapAssetLoader.h"
 #include "game/maps/OutdoorSceneYml.h"
 #include "game/maps/TerrainTileData.h"
@@ -47,6 +48,11 @@ constexpr uint8_t WaterTileName[] = {'w', 't', 'r', 't', 'y', 'l', 0};
 constexpr int TerrainTextureTileSize = 128;
 constexpr int TerrainTextureAtlasColumns = 16;
 constexpr uint16_t LevelDecorationInvisible = 0x0020;
+
+bool faceHasInvisibleAttribute(uint32_t attributes)
+{
+    return (attributes & static_cast<uint32_t>(EvtFaceAttribute::Invisible)) != 0;
+}
 
 std::optional<std::string> resolveMonsterNameForSpawn(const MapStatsEntry &map, uint16_t typeId, uint16_t index);
 
@@ -2445,7 +2451,7 @@ std::optional<OutdoorBModelTextureSet> buildOutdoorBModelTextureSet(
     {
         for (const OutdoorBModelFace &face : bmodel.faces)
         {
-            if (face.textureName.empty())
+            if (faceHasInvisibleAttribute(face.attributes) || face.textureName.empty())
             {
                 continue;
             }
@@ -2525,7 +2531,7 @@ std::optional<IndoorTextureSet> buildIndoorTextureSet(
 
     for (const IndoorFace &face : indoorMapData.faces)
     {
-        if (face.isPortal || face.textureName.empty())
+        if (faceHasInvisibleAttribute(face.attributes) || face.isPortal || face.textureName.empty())
         {
             continue;
         }

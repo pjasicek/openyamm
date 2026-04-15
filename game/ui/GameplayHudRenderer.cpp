@@ -797,13 +797,18 @@ void GameplayHudRenderer::renderGameplayHudArt(OutdoorGameView &view, int width,
 
     if (hudScreenState == OutdoorGameView::HudScreenState::Gameplay && minimapOverlay.valid && view.m_pOutdoorPartyRuntime != nullptr)
     {
+        const bool wizardEyeActive = party.hasPartyBuff(PartyBuffId::WizardEye);
         const OutdoorMoveState &moveState = view.m_pOutdoorPartyRuntime->movementState();
         const float partyU = std::clamp((moveState.x + 32768.0f) / 65536.0f, 0.0f, 1.0f);
         const float partyV = std::clamp((32768.0f - moveState.y) / 65536.0f, 0.0f, 1.0f);
         const float minimapCenterX = minimapOverlay.x + ((partyU - minimapOverlay.u0) / minimapOverlay.uSpan) * minimapOverlay.width;
         const float minimapCenterY = minimapOverlay.y + ((partyV - minimapOverlay.v0) / minimapOverlay.vSpan) * minimapOverlay.height;
         const float markerSize = std::max(1.5f, 2.0f * minimapOverlay.scale);
+        const float worldItemMarkerSize = std::max(1.5f, 2.0f * minimapOverlay.scale);
+        const float projectileMarkerSize = std::max(1.0f, 1.0f * minimapOverlay.scale);
         const float markerHalfSize = markerSize * 0.5f;
+        const float worldItemMarkerHalfSize = worldItemMarkerSize * 0.5f;
+        const float projectileMarkerHalfSize = projectileMarkerSize * 0.5f;
         const float markerMargin = std::max(2.0f, 2.0f * minimapOverlay.scale);
         const float markerMinX = minimapOverlay.x + markerMargin + markerHalfSize;
         const float markerMaxX = minimapOverlay.x + minimapOverlay.width - markerMargin - markerHalfSize;
@@ -821,6 +826,47 @@ void GameplayHudRenderer::renderGameplayHudArt(OutdoorGameView &view, int width,
             HudUiService::ensureSolidHudTextureLoaded(view, "__minimap_marker_hostile__", 0xff0000ffu);
         const OutdoorGameView::HudTextureHandle *pCorpseMarkerTexture =
             HudUiService::ensureSolidHudTextureLoaded(view, "__minimap_marker_corpse__", 0xff00ffffu);
+        const OutdoorGameView::HudTextureHandle *pWorldItemMarkerTexture =
+            wizardEyeActive ? HudUiService::ensureSolidHudTextureLoaded(view, "__minimap_marker_world_item__", 0xffff0000u) : nullptr;
+        const OutdoorGameView::HudTextureHandle *pProjectileMarkerTexture =
+            wizardEyeActive ? HudUiService::ensureSolidHudTextureLoaded(view, "__minimap_marker_projectile__", 0xff0000ffu) : nullptr;
+
+        const auto submitMinimapMarker =
+            [&](float markerU,
+                float markerV,
+                float markerHalfExtent,
+                float markerDrawSize,
+                const OutdoorGameView::HudTextureHandle *pMarkerTexture)
+            {
+                if (pMarkerTexture == nullptr)
+                {
+                    return;
+                }
+
+                const float markerCenterX =
+                    minimapOverlay.x + ((markerU - minimapOverlay.u0) / minimapOverlay.uSpan) * minimapOverlay.width;
+                const float markerCenterY =
+                    minimapOverlay.y + ((markerV - minimapOverlay.v0) / minimapOverlay.vSpan) * minimapOverlay.height;
+
+                if (markerCenterX < minimapOverlay.x + markerMargin + markerHalfExtent
+                    || markerCenterX > minimapOverlay.x + minimapOverlay.width - markerMargin - markerHalfExtent
+                    || markerCenterY < minimapOverlay.y + markerMargin + markerHalfExtent
+                    || markerCenterY > minimapOverlay.y + minimapOverlay.height - markerMargin - markerHalfExtent)
+                {
+                    return;
+                }
+
+                submitTexturedQuadClipped(
+                    *pMarkerTexture,
+                    markerCenterX - markerHalfExtent,
+                    markerCenterY - markerHalfExtent,
+                    markerDrawSize,
+                    markerDrawSize,
+                    minimapScissorX,
+                    minimapScissorY,
+                    minimapScissorWidth,
+                    minimapScissorHeight);
+            };
 
         if (view.m_pOutdoorWorldRuntime != nullptr)
         {
@@ -855,16 +901,50 @@ void GameplayHudRenderer::renderGameplayHudArt(OutdoorGameView &view, int width,
                     continue;
                 }
 
-                submitTexturedQuadClipped(
-                    *pMarkerTexture,
-                    markerCenterX - markerHalfSize,
-                    markerCenterY - markerHalfSize,
-                    markerSize,
-                    markerSize,
-                    minimapScissorX,
-                    minimapScissorY,
-                    minimapScissorWidth,
-                    minimapScissorHeight);
+                submitMinimapMarker(actorU, actorV, markerHalfSize, markerSize, pMarkerTexture);
+            }
+
+            if (wizardEyeActive)
+            {
+                for (size_t worldItemIndex = 0; worldItemIndex < view.m_pOutdoorWorldRuntime->worldItemCount(); ++worldItemIndex)
+                {
+                    const OutdoorWorldRuntime::WorldItemState *pWorldItem =
+                        view.m_pOutdoorWorldRuntime->worldItemState(worldItemIndex);
+
+                    if (pWorldItem == nullptr)
+                    {
+                        continue;
+                    }
+
+                    const float itemU = std::clamp((pWorldItem->x + 32768.0f) / 65536.0f, 0.0f, 1.0f);
+                    const float itemV = std::clamp((32768.0f - pWorldItem->y) / 65536.0f, 0.0f, 1.0f);
+                    submitMinimapMarker(
+                        itemU,
+                        itemV,
+                        worldItemMarkerHalfSize,
+                        worldItemMarkerSize,
+                        pWorldItemMarkerTexture);
+                }
+
+                for (size_t projectileIndex = 0; projectileIndex < view.m_pOutdoorWorldRuntime->projectileCount(); ++projectileIndex)
+                {
+                    const OutdoorWorldRuntime::ProjectileState *pProjectile =
+                        view.m_pOutdoorWorldRuntime->projectileState(projectileIndex);
+
+                    if (pProjectile == nullptr)
+                    {
+                        continue;
+                    }
+
+                    const float projectileU = std::clamp((pProjectile->x + 32768.0f) / 65536.0f, 0.0f, 1.0f);
+                    const float projectileV = std::clamp((32768.0f - pProjectile->y) / 65536.0f, 0.0f, 1.0f);
+                    submitMinimapMarker(
+                        projectileU,
+                        projectileV,
+                        projectileMarkerHalfSize,
+                        projectileMarkerSize,
+                        pProjectileMarkerTexture);
+                }
             }
         }
 

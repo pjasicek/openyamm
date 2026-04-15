@@ -851,6 +851,7 @@ private:
         const MapActorState &actor,
         const MonsterTable::MonsterStatsEntry *pStats) const;
     void buildOutdoorFaceSpatialIndex();
+    bool materializeTreasureSpawnFromSpawnPoint(size_t spawnPointIndex);
     bool resolveWorldItemVisual(
         uint32_t itemId,
         uint16_t &objectDescriptionId,

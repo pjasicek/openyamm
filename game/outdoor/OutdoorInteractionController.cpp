@@ -1,5 +1,6 @@
 #include "game/outdoor/OutdoorInteractionController.h"
 #include "game/outdoor/OutdoorGameView.h"
+#include "game/events/EvtEnums.h"
 #include "game/gameplay/GenericActorDialog.h"
 #include "game/gameplay/GameMechanics.h"
 #include "game/outdoor/OutdoorGeometryUtils.h"
@@ -31,6 +32,12 @@ constexpr float OeMouseInteractionDistance = 512.0f;
 constexpr float OeNearHoverDistance = 512.0f;
 constexpr float OeActorHoverDistance = 8192.0f;
 constexpr uint32_t KillSpeechChancePercent = 20;
+
+bool outdoorFaceHasInvisibleAttribute(uint32_t attributes)
+{
+    return (attributes & static_cast<uint32_t>(EvtFaceAttribute::Invisible)) != 0;
+}
+
 bool interactiveDecorationHidesWhenCleared(OutdoorGameView::InteractiveDecorationFamily family)
 {
     return family == OutdoorGameView::InteractiveDecorationFamily::CampFire;
@@ -2210,7 +2217,7 @@ OutdoorGameView::InspectHit OutdoorInteractionController::inspectBModelFace(
             {
                 const OutdoorBModelFace &face = bModel.faces[faceIndex];
 
-                if (face.vertexIndices.size() < 3)
+                if (outdoorFaceHasInvisibleAttribute(face.attributes) || face.vertexIndices.size() < 3)
                 {
                     continue;
                 }

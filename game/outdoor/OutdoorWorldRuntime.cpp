@@ -4498,6 +4498,12 @@ void OutdoorWorldRuntime::initialize(
             {
                 const SpawnPointState &spawn = m_spawnPoints[spawnIndex];
 
+                if (spawn.typeId == 2)
+                {
+                    materializeTreasureSpawnFromSpawnPoint(spawnIndex);
+                    continue;
+                }
+
                 if (spawn.typeId != 3 || spawn.encounterSlot <= 0)
                 {
                     continue;
@@ -4585,6 +4591,174 @@ bool OutdoorWorldRuntime::resolveWorldItemVisual(
     height = static_cast<uint16_t>(std::max<int16_t>(0, pObjectEntry->height));
     objectName = pObjectEntry->internalName;
     objectSpriteName = pObjectEntry->spriteName;
+    return true;
+}
+
+bool OutdoorWorldRuntime::materializeTreasureSpawnFromSpawnPoint(size_t spawnPointIndex)
+{
+    if (spawnPointIndex >= m_spawnPoints.size()
+        || m_pItemTable == nullptr
+        || m_pObjectTable == nullptr
+        || m_pStandardItemEnchantTable == nullptr
+        || m_pSpecialItemEnchantTable == nullptr)
+    {
+        return false;
+    }
+
+    const SpawnPointState &spawn = m_spawnPoints[spawnPointIndex];
+
+    if (spawn.typeId != 2)
+    {
+        return false;
+    }
+
+    const int treasureLevel = std::clamp(static_cast<int>(spawn.index), RandomChestItemMinLevel, RandomChestItemMaxLevel);
+    const int mapTreasureLevel = std::clamp(m_mapTreasureLevel + 1, RandomChestItemMinLevel, RandomChestItemMaxLevel);
+    const int resolvedTreasureLevel = remapTreasureLevel(treasureLevel, mapTreasureLevel);
+    const uint32_t seed = makeChestSeed(m_sessionChestSeed, m_mapId, static_cast<uint32_t>(spawnPointIndex), 0x54524541u);
+    std::mt19937 rng(seed);
+    InventoryItem item = {};
+    uint32_t goldAmount = 0;
+    const auto canMaterializeAsWorldItem =
+        [this](const ItemDefinition &entry)
+        {
+            uint16_t objectDescriptionId = 0;
+            uint16_t objectSpriteId = 0;
+            uint16_t objectSpriteFrameIndex = 0;
+            uint16_t objectFlags = 0;
+            uint16_t radius = 0;
+            uint16_t height = 0;
+            std::string objectName;
+            std::string objectSpriteName;
+            return resolveWorldItemVisual(
+                entry.itemId,
+                objectDescriptionId,
+                objectSpriteId,
+                objectSpriteFrameIndex,
+                objectFlags,
+                radius,
+                height,
+                objectName,
+                objectSpriteName);
+        };
+
+    if (resolvedTreasureLevel != RandomChestItemMaxLevel)
+    {
+        const int roll = std::uniform_int_distribution<int>(0, 99)(rng);
+
+        if (roll < 60)
+        {
+            goldAmount = static_cast<uint32_t>(std::max(0, generateGoldAmount(resolvedTreasureLevel, rng)));
+            const uint32_t goldHeapItemId = goldAmount <= 200 ? GoldHeapSmallItemId : GoldHeapLargeItemId;
+            item = ItemGenerator::makeInventoryItem(goldHeapItemId, *m_pItemTable, ItemGenerationMode::ChestLoot);
+        }
+        else
+        {
+            ItemGenerationRequest request = {};
+            request.treasureLevel = std::min(resolvedTreasureLevel, SpawnableItemTreasureLevels);
+            request.mode = ItemGenerationMode::ChestLoot;
+            const std::optional<InventoryItem> generatedItem =
+                ItemGenerator::generateRandomInventoryItem(
+                    *m_pItemTable,
+                    *m_pStandardItemEnchantTable,
+                    *m_pSpecialItemEnchantTable,
+                    request,
+                    m_pParty,
+                    rng,
+                    canMaterializeAsWorldItem);
+
+            if (!generatedItem)
+            {
+                return false;
+            }
+
+            item = *generatedItem;
+        }
+    }
+    else
+    {
+        ItemGenerationRequest request = {};
+        request.treasureLevel = SpawnableItemTreasureLevels;
+        request.mode = ItemGenerationMode::ChestLoot;
+        request.allowRareItems = true;
+        const std::optional<InventoryItem> generatedItem =
+            ItemGenerator::generateRandomInventoryItem(
+                *m_pItemTable,
+                *m_pStandardItemEnchantTable,
+                *m_pSpecialItemEnchantTable,
+                request,
+                m_pParty,
+                rng,
+                canMaterializeAsWorldItem);
+
+        if (!generatedItem)
+        {
+            return false;
+        }
+
+        item = *generatedItem;
+    }
+
+    if (item.objectDescriptionId == 0)
+    {
+        return false;
+    }
+
+    uint16_t objectDescriptionId = 0;
+    uint16_t objectSpriteId = 0;
+    uint16_t objectSpriteFrameIndex = 0;
+    uint16_t objectFlags = 0;
+    uint16_t radius = 0;
+    uint16_t height = 0;
+    std::string objectName;
+    std::string objectSpriteName;
+
+    if (!resolveWorldItemVisual(
+            item.objectDescriptionId,
+            objectDescriptionId,
+            objectSpriteId,
+            objectSpriteFrameIndex,
+            objectFlags,
+            radius,
+            height,
+            objectName,
+            objectSpriteName))
+    {
+        return false;
+    }
+
+    float worldZ = static_cast<float>(spawn.z);
+
+    if (m_pOutdoorMapData != nullptr)
+    {
+        worldZ = sampleOutdoorPlacementFloorHeight(
+            *m_pOutdoorMapData,
+            static_cast<float>(spawn.x),
+            static_cast<float>(spawn.y),
+            worldZ);
+    }
+
+    WorldItemState worldItem = {};
+    worldItem.worldItemId = m_nextWorldItemId++;
+    worldItem.item = item;
+    worldItem.goldAmount = goldAmount;
+    worldItem.isGold = goldAmount > 0 && isGoldHeapItemId(item.objectDescriptionId);
+    worldItem.objectDescriptionId = objectDescriptionId;
+    worldItem.objectSpriteId = objectSpriteId;
+    worldItem.objectSpriteFrameIndex = objectSpriteFrameIndex;
+    worldItem.objectFlags = objectFlags;
+    worldItem.radius = radius;
+    worldItem.height = height;
+    worldItem.attributes = spawn.attributes;
+    worldItem.objectName = objectName;
+    worldItem.objectSpriteName = objectSpriteName;
+    worldItem.x = static_cast<float>(spawn.x);
+    worldItem.y = static_cast<float>(spawn.y);
+    worldItem.z = worldZ;
+    worldItem.initialX = worldItem.x;
+    worldItem.initialY = worldItem.y;
+    worldItem.initialZ = worldItem.z;
+    m_worldItems.push_back(std::move(worldItem));
     return true;
 }
 

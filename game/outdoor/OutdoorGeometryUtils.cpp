@@ -1,4 +1,5 @@
 #include "game/outdoor/OutdoorGeometryUtils.h"
+#include "game/events/EvtEnums.h"
 
 #include <algorithm>
 #include <cmath>
@@ -16,6 +17,11 @@ constexpr uint8_t TerrainTileWater = 0x02;
 constexpr float FloorCheckSlack = 5.0f;
 constexpr float FloorSelectionHeightTolerance = 5.0f;
 constexpr float TerrainSteepTileHeight = static_cast<float>(OutdoorMapData::TerrainTileSize);
+
+bool outdoorFaceHasInvisibleAttribute(uint32_t attributes)
+{
+    return (attributes & static_cast<uint32_t>(EvtFaceAttribute::Invisible)) != 0;
+}
 
 bx::Vec3 vecSubtract(const bx::Vec3 &left, const bx::Vec3 &right)
 {
@@ -212,6 +218,11 @@ bool buildOutdoorFaceGeometry(
     OutdoorFaceGeometryData &geometry
 )
 {
+    if (outdoorFaceHasInvisibleAttribute(face.attributes))
+    {
+        return false;
+    }
+
     if (face.vertexIndices.size() < 3)
     {
         return false;

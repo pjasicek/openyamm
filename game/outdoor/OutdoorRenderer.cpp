@@ -1,5 +1,6 @@
 #include "game/outdoor/OutdoorRenderer.h"
 
+#include "game/events/EvtEnums.h"
 #include "game/outdoor/OutdoorBillboardRenderer.h"
 #include "game/fx/ParticleRenderer.h"
 #include "game/outdoor/OutdoorGameView.h"
@@ -56,6 +57,11 @@ uint32_t makeAbgr(uint8_t red, uint8_t green, uint8_t blue)
         | (static_cast<uint32_t>(blue) << 16)
         | (static_cast<uint32_t>(green) << 8)
         | static_cast<uint32_t>(red);
+}
+
+bool outdoorFaceHasInvisibleAttribute(uint32_t attributes)
+{
+    return (attributes & static_cast<uint32_t>(EvtFaceAttribute::Invisible)) != 0;
 }
 
 uint32_t withAlpha(uint32_t abgr, uint8_t alpha)
@@ -1025,7 +1031,9 @@ std::vector<OutdoorGameView::TexturedTerrainVertex> OutdoorRenderer::buildTextur
     const OutdoorBModel &bmodel = mapData.bmodels[bModelIndex];
     const OutdoorBModelFace &face = bmodel.faces[faceIndex];
 
-    if (face.vertexIndices.size() < 3 || face.textureName.empty())
+    if (outdoorFaceHasInvisibleAttribute(face.attributes)
+        || face.vertexIndices.size() < 3
+        || face.textureName.empty())
     {
         return vertices;
     }
@@ -1151,7 +1159,7 @@ std::vector<OutdoorGameView::TerrainVertex> OutdoorRenderer::buildBModelWirefram
     {
         for (const OutdoorBModelFace &face : bmodel.faces)
         {
-            if (face.vertexIndices.size() < 2)
+            if (outdoorFaceHasInvisibleAttribute(face.attributes) || face.vertexIndices.size() < 2)
             {
                 continue;
             }
@@ -1200,7 +1208,7 @@ std::vector<OutdoorGameView::TerrainVertex> OutdoorRenderer::buildBModelCollisio
     {
         for (const OutdoorBModelFace &face : bModel.faces)
         {
-            if (face.vertexIndices.size() < 3)
+            if (outdoorFaceHasInvisibleAttribute(face.attributes) || face.vertexIndices.size() < 3)
             {
                 continue;
             }
@@ -1406,7 +1414,7 @@ void OutdoorRenderer::createBModelTextureBatches(
         {
             const OutdoorBModelFace &face = bmodel.faces[localFaceIndex];
 
-            if (face.textureName.empty())
+            if (outdoorFaceHasInvisibleAttribute(face.attributes) || face.textureName.empty())
             {
                 continue;
             }
@@ -1562,7 +1570,13 @@ bool OutdoorRenderer::initializeWorldRenderResources(
 
     for (const OutdoorBModel &bmodel : outdoorMapData.bmodels)
     {
-        view.m_bmodelFaceCount += static_cast<uint32_t>(bmodel.faces.size());
+        for (const OutdoorBModelFace &face : bmodel.faces)
+        {
+            if (!outdoorFaceHasInvisibleAttribute(face.attributes))
+            {
+                ++view.m_bmodelFaceCount;
+            }
+        }
     }
 
     view.m_programHandle = loadProgramHandle("vs_cubes", "fs_cubes");

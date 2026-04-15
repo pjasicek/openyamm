@@ -6195,6 +6195,61 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
     );
 
     runCase(
+        "treasure_spawn_points_materialize_world_items_on_first_outdoor_load",
+        [&](std::string &failure)
+        {
+            if (!selectedMap->outdoorMapData || !selectedMap->outdoorMapDeltaData)
+            {
+                failure = "selected map missing outdoor spawn data";
+                return false;
+            }
+
+            RegressionScenario baseScenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, baseScenario))
+            {
+                failure = "base scenario init failed";
+                return false;
+            }
+
+            MapAssetInfo modifiedMap = *selectedMap;
+            modifiedMap.outdoorMapData = *selectedMap->outdoorMapData;
+            modifiedMap.outdoorMapDeltaData = *selectedMap->outdoorMapDeltaData;
+            modifiedMap.outdoorMapDeltaData->locationInfo.lastRespawnDay = 0;
+
+            OutdoorSpawn spawn = {};
+
+            if (!modifiedMap.outdoorMapData->spawns.empty())
+            {
+                spawn = modifiedMap.outdoorMapData->spawns.front();
+            }
+
+            spawn.radius = 32;
+            spawn.typeId = 2;
+            spawn.index = 7;
+            spawn.attributes = 0;
+            spawn.group = 0;
+            modifiedMap.outdoorMapData->spawns.push_back(spawn);
+
+            RegressionScenario modifiedScenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, modifiedMap, modifiedScenario))
+            {
+                failure = "modified scenario init failed";
+                return false;
+            }
+
+            if (modifiedScenario.world.worldItemCount() <= baseScenario.world.worldItemCount())
+            {
+                failure = "treasure spawn point did not materialize a runtime world item";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
         "spawn_points_remain_metadata_after_first_visit",
         [&](std::string &failure)
         {
