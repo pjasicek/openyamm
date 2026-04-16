@@ -431,6 +431,23 @@ std::optional<GameSettings> loadGameSettings(const std::filesystem::path &path, 
         }
     }
 
+    for (const KeyboardBindingDefinition &definition : keyboardBindingDefinitions())
+    {
+        const std::optional<std::string> value = getIniValue(document, "keyboard", std::string(definition.iniKey));
+
+        if (!value.has_value())
+        {
+            continue;
+        }
+
+        const SDL_Scancode scancode = parseKeyboardBindingName(trimCopy(*value));
+
+        if (scancode != SDL_SCANCODE_UNKNOWN)
+        {
+            settings.keyboard.setBinding(definition.action, scancode);
+        }
+    }
+
     if (const std::optional<std::string> value = getIniValue(document, "debug", "preseed_party"))
     {
         bool parsed = settings.preseedParty;
@@ -573,8 +590,15 @@ bool saveGameSettings(const std::filesystem::path &path, const GameSettings &set
         << "mouse_interaction_depth=" << std::clamp(settings.mouseInteractionDepth, 32, 4096) << "\n\n"
         << "[startup]\n"
         << "start_in_main_menu=" << (settings.startInMainMenu ? "true" : "false") << "\n\n"
-        << "[keyboard]\n"
-        << "; reserved for the future keyboard configuration page\n\n"
+        << "[keyboard]\n";
+
+    for (const KeyboardBindingDefinition &definition : keyboardBindingDefinitions())
+    {
+        output << definition.iniKey << '=' << keyboardBindingName(settings.keyboard.binding(definition.action)) << '\n';
+    }
+
+    output
+        << '\n'
         << "[video]\n"
         << "blood_splats=" << (settings.bloodSplats ? "true" : "false") << '\n'
         << "colored_lights=" << (settings.coloredLights ? "true" : "false") << '\n'

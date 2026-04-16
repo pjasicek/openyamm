@@ -14,6 +14,7 @@
 #include "game/ui/SpellbookUiLayout.h"
 #include "game/StringUtils.h"
 #include "game/ui/HudUiService.h"
+#include "game/ui/KeyboardScreenLayout.h"
 
 #include <SDL3/SDL.h>
 #include <bx/math.h>
@@ -2137,6 +2138,201 @@ void GameplayPartyOverlayRenderer::renderControlsOverlay(const OutdoorGameView &
     drawVolumeMarker("ControlsSoundKnobLane", view.m_gameSettings.soundVolume);
     drawVolumeMarker("ControlsMusicKnobLane", view.m_gameSettings.musicVolume);
     drawVolumeMarker("ControlsVoiceKnobLane", view.m_gameSettings.voiceVolume);
+}
+
+void GameplayPartyOverlayRenderer::renderKeyboardOverlay(const OutdoorGameView &view, int width, int height)
+{
+    if (!view.m_keyboardScreen.active
+        || !bgfx::isValid(view.m_texturedTerrainProgramHandle)
+        || !bgfx::isValid(view.m_terrainTextureSamplerHandle)
+        || width <= 0
+        || height <= 0)
+    {
+        return;
+    }
+
+    const OutdoorGameView::HudLayoutElement *pRootLayout = HudUiService::findHudLayoutElement(view, "KeyboardRoot");
+
+    if (pRootLayout == nullptr)
+    {
+        return;
+    }
+
+    setupHudProjection(width, height);
+
+    float mouseX = 0.0f;
+    float mouseY = 0.0f;
+    const SDL_MouseButtonFlags mouseButtons = SDL_GetMouseState(&mouseX, &mouseY);
+    const bool isLeftMousePressed = (mouseButtons & SDL_BUTTON_LMASK) != 0;
+    const std::vector<std::string> orderedLayoutIds = HudUiService::sortedHudLayoutIdsForScreen(view, "Keyboard");
+
+    const auto resolveLayout =
+        [&view, width, height](const std::string &layoutId) -> std::optional<OutdoorGameView::ResolvedHudLayoutElement>
+        {
+            const OutdoorGameView::HudLayoutElement *pLayout = HudUiService::findHudLayoutElement(view, layoutId);
+
+            if (pLayout == nullptr)
+            {
+                return std::nullopt;
+            }
+
+            return HudUiService::resolveHudLayoutElement(
+                view,
+                layoutId,
+                width,
+                height,
+                pLayout->width,
+                pLayout->height);
+        };
+
+    for (const std::string &layoutId : orderedLayoutIds)
+    {
+        const OutdoorGameView::HudLayoutElement *pLayout = HudUiService::findHudLayoutElement(view, layoutId);
+
+        if (pLayout == nullptr
+            || !pLayout->visible
+            || toLowerCopy(pLayout->id) == "keyboardroot"
+            || pLayout->primaryAsset.empty())
+        {
+            continue;
+        }
+
+        std::string textureName = pLayout->primaryAsset;
+
+        if (pLayout->interactive)
+        {
+            const std::optional<OutdoorGameView::ResolvedHudLayoutElement> interactiveResolved =
+                HudUiService::resolveHudLayoutElement(
+                    view,
+                    layoutId,
+                    width,
+                    height,
+                    pLayout->width,
+                    pLayout->height);
+            const std::string *pAssetName = interactiveResolved
+                ? HudUiService::resolveInteractiveAssetName(
+                    *pLayout,
+                    *interactiveResolved,
+                    mouseX,
+                    mouseY,
+                    isLeftMousePressed)
+                : nullptr;
+
+            if (pAssetName != nullptr)
+            {
+                textureName = *pAssetName;
+            }
+        }
+
+        const OutdoorGameView::HudTextureHandle *pTexture =
+            HudUiService::ensureHudTextureLoaded(const_cast<OutdoorGameView &>(view), textureName);
+
+        if (pTexture == nullptr)
+        {
+            continue;
+        }
+
+        const std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolved =
+            HudUiService::resolveHudLayoutElement(
+                view,
+                layoutId,
+                width,
+                height,
+                static_cast<float>(pTexture->width),
+                static_cast<float>(pTexture->height));
+
+        if (resolved)
+        {
+            view.submitHudTexturedQuad(*pTexture, resolved->x, resolved->y, resolved->width, resolved->height);
+        }
+    }
+
+    const std::optional<KeyboardScreenLayout> keyboardLayout = resolveKeyboardScreenLayout(view, width, height);
+
+    if (!keyboardLayout)
+    {
+        return;
+    }
+
+    const OutdoorGameView::HudFontHandle *pFont = HudUiService::findHudFont(view, "Create");
+
+    if (pFont == nullptr)
+    {
+        return;
+    }
+
+    const OutdoorGameView::HudTextureHandle *pHighlightTexture =
+        HudUiService::ensureSolidHudTextureLoaded(
+            const_cast<OutdoorGameView &>(view),
+            "__keyboard_binding_highlight__",
+            0x40885622u);
+    const float rootScale = keyboardLayout->rootScale;
+    const float fontScale = 1.0f * rootScale;
+    const float lineHeight = static_cast<float>(pFont->fontHeight) * fontScale;
+
+    for (const KeyboardBindingDefinition &definition : keyboardBindingDefinitions())
+    {
+        if (definition.page != view.m_keyboardScreen.page)
+        {
+            continue;
+        }
+
+        const float labelX = keyboardLayout->labelColumnX(definition.column);
+        const float valueX = keyboardLayout->valueColumnX(definition.column);
+        const float rowY = keyboardLayout->rowY(definition.row);
+        const bool highlighted =
+            view.m_keyboardScreen.waitingForBinding
+            && view.m_keyboardScreen.pendingAction == definition.action;
+
+        if (highlighted && pHighlightTexture != nullptr)
+        {
+            view.submitHudTexturedQuad(
+                *pHighlightTexture,
+                labelX,
+                rowY,
+                keyboardLayout->rowWidth(definition.column),
+                std::max(1.0f, keyboardLayout->rowHeight - rootScale));
+        }
+
+        const uint32_t labelColor = definition.implemented ? 0xffffffffu : 0xffc8c8c8u;
+        const uint32_t valueColor = highlighted ? 0xff9bffffu : 0xffffffffu;
+        const float textY = rowY
+            + keyboardLayout->textPaddingY
+            + std::max(0.0f, (keyboardLayout->rowHeight - lineHeight) * 0.15f);
+
+        renderHudLines(
+            view,
+            *pFont,
+            labelColor,
+            std::vector<std::string>{std::string(definition.label)},
+            labelX + keyboardLayout->textPaddingX,
+            textY,
+            fontScale);
+        renderHudLines(
+            view,
+            *pFont,
+            valueColor,
+            std::vector<std::string>{
+                highlighted
+                    ? std::string("Press Key")
+                    : keyboardBindingDisplayName(view.m_gameSettings.keyboard.binding(definition.action))
+            },
+            valueX + keyboardLayout->textPaddingX,
+            textY,
+            fontScale);
+    }
+
+    const std::string footerText = view.m_keyboardScreen.waitingForBinding
+        ? "Press a key for " + std::string(keyboardBindingDefinition(view.m_keyboardScreen.pendingAction).label)
+        : "Click a setting to change its key.";
+    renderHudLines(
+        view,
+        *pFont,
+        0xffffe4a0u,
+        std::vector<std::string>{footerText},
+        keyboardLayout->footerX,
+        keyboardLayout->footerY,
+        1.0f * rootScale);
 }
 
 void GameplayPartyOverlayRenderer::renderVideoOptionsOverlay(const OutdoorGameView &view, int width, int height)

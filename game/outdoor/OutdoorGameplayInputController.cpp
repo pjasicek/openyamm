@@ -7,6 +7,7 @@
 #include "game/render/TextureFiltering.h"
 #include "game/scene/OutdoorSceneRuntime.h"
 #include "game/ui/HudUiService.h"
+#include "game/ui/KeyboardScreenLayout.h"
 
 #include <SDL3/SDL.h>
 
@@ -19,6 +20,14 @@ namespace OpenYAMM::Game
 {
 namespace
 {
+enum class JournalShortcutView : uint8_t
+{
+    None = 0,
+    Map,
+    Story,
+    Notes
+};
+
 constexpr float Pi = 3.14159265358979323846f;
 constexpr uint64_t PartyPortraitDoubleClickWindowMs = 500;
 constexpr uint64_t SaveGameDoubleClickWindowMs = 500;
@@ -114,6 +123,26 @@ void handlePointerClickRelease(
         pressedTarget = noneTarget;
     }
 }
+
+std::optional<SDL_Scancode> firstNewlyPressedScancode(
+    const bool *pKeyboardState,
+    const std::array<uint8_t, SDL_SCANCODE_COUNT> &previousState)
+{
+    if (pKeyboardState == nullptr)
+    {
+        return std::nullopt;
+    }
+
+    for (int scancode = SDL_SCANCODE_UNKNOWN + 1; scancode < SDL_SCANCODE_COUNT; ++scancode)
+    {
+        if (pKeyboardState[scancode] && previousState[scancode] == 0)
+        {
+            return static_cast<SDL_Scancode>(scancode);
+        }
+    }
+
+    return std::nullopt;
+}
 } // namespace
 
 void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view, float deltaSeconds)
@@ -132,6 +161,32 @@ void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view
         return;
     }
 
+    const auto updatePreviousKeyboardState =
+        [&view, pKeyboardState]()
+        {
+            for (int scancode = 0; scancode < SDL_SCANCODE_COUNT; ++scancode)
+            {
+                view.m_previousKeyboardState[scancode] = pKeyboardState[scancode] ? 1 : 0;
+            }
+        };
+
+    struct PreviousKeyboardStateUpdater
+    {
+        const std::function<void()> &updater;
+
+        ~PreviousKeyboardStateUpdater()
+        {
+            updater();
+        }
+    };
+
+    const PreviousKeyboardStateUpdater previousKeyboardStateUpdater = {updatePreviousKeyboardState};
+    const auto isActionPressed =
+        [&view, pKeyboardState](KeyboardAction action) -> bool
+        {
+            return view.m_gameSettings.keyboard.isPressed(action, pKeyboardState);
+        };
+
     const bool hasActiveLootView =
         view.m_pOutdoorWorldRuntime != nullptr
         && (view.m_pOutdoorWorldRuntime->activeChestView() != nullptr
@@ -142,6 +197,7 @@ void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view
     const bool isRestScreenActive = view.m_restScreen.active;
     const bool isMenuActive = view.m_menuScreen.active;
     const bool isControlsActive = view.m_controlsScreen.active;
+    const bool isKeyboardActive = view.m_keyboardScreen.active;
     const bool isSaveGameActive = view.m_saveGameScreen.active;
     const bool isLoadGameActive = view.m_loadGameScreen.active;
     const bool isJournalActive = view.m_journalScreen.active;
@@ -166,13 +222,28 @@ void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view
         SDL_GetWindowSizeInPixels(pWindow, &screenWidth, &screenHeight);
     }
 
+    float gameplayMouseX = 0.0f;
+    float gameplayMouseY = 0.0f;
+    const SDL_MouseButtonFlags gameplayMouseButtons = SDL_GetMouseState(&gameplayMouseX, &gameplayMouseY);
+    const bool isRightMousePressed = (gameplayMouseButtons & SDL_BUTTON_RMASK) != 0;
+    const bool gameplayMouseLookAllowed = view.shouldEnableGameplayMouseLook();
+    const bool gameplayCursorModeActive = gameplayMouseLookAllowed && isRightMousePressed;
+    const bool gameplayMouseLookActive = gameplayMouseLookAllowed && !gameplayCursorModeActive;
+    const bool allowGameplayPointerInput = !gameplayMouseLookAllowed || gameplayCursorModeActive;
+
+    view.m_gameplayCursorModeActive = gameplayCursorModeActive;
+    view.m_gameplayMouseLookActive = gameplayMouseLookActive;
+    view.syncGameplayMouseLookMode(pWindow, gameplayMouseLookActive);
+
     if (view.m_pOutdoorPartyRuntime != nullptr
         && screenWidth > 0
         && screenHeight > 0
+        && allowGameplayPointerInput
         && !isSpellbookActive
         && !isRestScreenActive
         && !isMenuActive
         && !isControlsActive
+        && !isKeyboardActive
         && !isSaveGameActive
         && !isLoadGameActive
         && !isJournalActive
@@ -278,7 +349,7 @@ void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view
         view.m_partyPortraitPressedIndex = std::nullopt;
     }
 
-    if (pKeyboardState[SDL_SCANCODE_C])
+    if (isActionPressed(KeyboardAction::Cast))
     {
         if (!view.m_spellbookToggleLatch)
         {
@@ -313,12 +384,14 @@ void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view
         && !view.m_spellbook.active
         && !view.m_restScreen.active
         && !view.m_controlsScreen.active
+        && !view.m_keyboardScreen.active
         && !view.m_saveGameScreen.active
         && !view.m_loadGameScreen.active
         && !view.m_journalScreen.active
         && !view.m_heldInventoryItem.active;
 
-    if (!isMenuActive && !isControlsActive && !isSaveGameActive && !isLoadGameActive && pKeyboardState[SDL_SCANCODE_ESCAPE])
+    if (!isMenuActive && !isControlsActive && !isKeyboardActive && !isSaveGameActive && !isLoadGameActive
+        && pKeyboardState[SDL_SCANCODE_ESCAPE])
     {
         if (!view.m_menuToggleLatch)
         {
@@ -330,12 +403,12 @@ void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view
             view.m_menuToggleLatch = true;
         }
     }
-    else if (!isMenuActive && !isControlsActive && !isSaveGameActive && !isLoadGameActive)
+    else if (!isMenuActive && !isControlsActive && !isKeyboardActive && !isSaveGameActive && !isLoadGameActive)
     {
         view.m_menuToggleLatch = false;
     }
 
-    if (canToggleMenu && !blocksUnderlyingMouseInput && screenWidth > 0 && screenHeight > 0)
+    if (canToggleMenu && allowGameplayPointerInput && !blocksUnderlyingMouseInput && screenWidth > 0 && screenHeight > 0)
     {
         float optionsButtonMouseX = 0.0f;
         float optionsButtonMouseY = 0.0f;
@@ -382,7 +455,7 @@ void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view
                 }
             });
     }
-    else if (!view.m_menuScreen.active && !view.m_controlsScreen.active)
+    else if (!view.m_menuScreen.active && !view.m_controlsScreen.active && !view.m_keyboardScreen.active)
     {
         view.m_optionsButtonClickLatch = false;
         view.m_optionsButtonPressed = false;
@@ -396,13 +469,14 @@ void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view
         && !view.m_spellbook.active
         && !view.m_menuScreen.active
         && !view.m_controlsScreen.active
+        && !view.m_keyboardScreen.active
         && !view.m_saveGameScreen.active
         && !view.m_loadGameScreen.active
         && !view.m_restScreen.active
         && !view.m_journalScreen.active
         && !view.m_heldInventoryItem.active;
 
-    if (canOpenRestScreen && pKeyboardState[SDL_SCANCODE_R])
+    if (canOpenRestScreen && isActionPressed(KeyboardAction::Rest))
     {
         if (!view.m_restToggleLatch)
         {
@@ -415,7 +489,7 @@ void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view
         view.m_restToggleLatch = false;
     }
 
-    if (canOpenRestScreen && !blocksUnderlyingMouseInput && screenWidth > 0 && screenHeight > 0)
+    if (canOpenRestScreen && allowGameplayPointerInput && !blocksUnderlyingMouseInput && screenWidth > 0 && screenHeight > 0)
     {
         float restButtonMouseX = 0.0f;
         float restButtonMouseY = 0.0f;
@@ -480,6 +554,7 @@ void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view
         && !view.m_spellbook.active
         && !view.m_menuScreen.active
         && !view.m_controlsScreen.active
+        && !view.m_keyboardScreen.active
         && !view.m_saveGameScreen.active
         && !view.m_loadGameScreen.active
         && !view.m_restScreen.active
@@ -494,12 +569,13 @@ void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view
         && !view.m_spellbook.active
         && !view.m_menuScreen.active
         && !view.m_controlsScreen.active
+        && !view.m_keyboardScreen.active
         && !view.m_saveGameScreen.active
         && !view.m_loadGameScreen.active
         && !view.m_restScreen.active
         && !view.m_heldInventoryItem.active;
 
-    if (canToggleJournal && !blocksUnderlyingMouseInput && screenWidth > 0 && screenHeight > 0)
+    if (canToggleJournal && allowGameplayPointerInput && !blocksUnderlyingMouseInput && screenWidth > 0 && screenHeight > 0)
     {
         float booksButtonMouseX = 0.0f;
         float booksButtonMouseY = 0.0f;
@@ -552,17 +628,94 @@ void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view
         view.m_booksButtonPressed = false;
     }
 
-    if (pKeyboardState[SDL_SCANCODE_M])
+    JournalShortcutView requestedJournalView = JournalShortcutView::None;
+
+    if (pKeyboardState[SDL_SCANCODE_M] || isActionPressed(KeyboardAction::MapBook))
+    {
+        requestedJournalView = JournalShortcutView::Map;
+    }
+    else if (isActionPressed(KeyboardAction::History))
+    {
+        requestedJournalView = JournalShortcutView::Story;
+    }
+    else if (isActionPressed(KeyboardAction::AutoNotes))
+    {
+        requestedJournalView = JournalShortcutView::Notes;
+    }
+
+    if (requestedJournalView != JournalShortcutView::None)
     {
         if (!view.m_journalToggleLatch)
         {
-            if (view.m_journalScreen.active)
+            const auto activateJournalView =
+                [&view](JournalShortcutView targetView)
+                {
+                    if (!view.m_journalScreen.active)
+                    {
+                        view.openJournal();
+                    }
+
+                    switch (targetView)
+                    {
+                    case JournalShortcutView::Map:
+                        view.m_journalScreen.view = OutdoorGameView::JournalView::Map;
+                        break;
+
+                    case JournalShortcutView::Story:
+                        view.m_journalScreen.view = OutdoorGameView::JournalView::Story;
+                        view.m_journalScreen.mapDragActive = false;
+                        break;
+
+                    case JournalShortcutView::Notes:
+                        view.m_journalScreen.view = OutdoorGameView::JournalView::Notes;
+                        view.m_journalScreen.mapDragActive = false;
+                        break;
+
+                    case JournalShortcutView::None:
+                        break;
+                    }
+                };
+
+            const auto currentJournalView =
+                [&view]() -> JournalShortcutView
+                {
+                    if (!view.m_journalScreen.active)
+                    {
+                        return JournalShortcutView::None;
+                    }
+
+                    switch (view.m_journalScreen.view)
+                    {
+                    case OutdoorGameView::JournalView::Map:
+                        return JournalShortcutView::Map;
+
+                    case OutdoorGameView::JournalView::Story:
+                        return JournalShortcutView::Story;
+
+                    case OutdoorGameView::JournalView::Notes:
+                        return JournalShortcutView::Notes;
+
+                    case OutdoorGameView::JournalView::Quests:
+                        return JournalShortcutView::None;
+                    }
+
+                    return JournalShortcutView::None;
+                };
+
+            if (view.m_journalScreen.active
+                && requestedJournalView == JournalShortcutView::Map)
             {
                 view.closeJournal();
             }
-            else if (canToggleJournal)
+            else if (view.m_journalScreen.active
+                && currentJournalView() == requestedJournalView
+                && requestedJournalView != JournalShortcutView::Map)
             {
-                view.openJournal();
+                view.closeJournal();
+            }
+            else if (canToggleJournal || view.m_journalScreen.active)
+            {
+                activateJournalView(requestedJournalView);
             }
 
             view.m_journalToggleLatch = true;
@@ -611,6 +764,7 @@ void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view
         && !view.m_restScreen.active
         && !view.m_menuScreen.active
         && !view.m_controlsScreen.active
+        && !view.m_keyboardScreen.active
         && !view.m_saveGameScreen.active
         && !view.m_loadGameScreen.active
         && !view.m_journalScreen.active)
@@ -670,12 +824,73 @@ void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view
         && !view.m_spellbook.active
         && !view.m_menuScreen.active
         && !view.m_controlsScreen.active
+        && !view.m_keyboardScreen.active
         && !view.m_saveGameScreen.active
         && !view.m_loadGameScreen.active
         && !view.m_restScreen.active
         && !view.m_journalScreen.active)
     {
-        if (pKeyboardState[SDL_SCANCODE_Q])
+        if (isActionPressed(KeyboardAction::CharCycle))
+        {
+            if (!view.m_characterMemberCycleLatch && view.m_pOutdoorPartyRuntime != nullptr)
+            {
+                Party &party = view.m_pOutdoorPartyRuntime->party();
+
+                if (!party.members().empty())
+                {
+                    const size_t nextMemberIndex =
+                        (party.activeMemberIndex() + 1) % party.members().size();
+                    (void)view.trySelectPartyMember(nextMemberIndex, true);
+                }
+
+                view.m_characterMemberCycleLatch = true;
+            }
+        }
+        else
+        {
+            view.m_characterMemberCycleLatch = false;
+        }
+
+        if (isActionPressed(KeyboardAction::AlwaysRun))
+        {
+            if (!view.m_toggleRunningLatch)
+            {
+                view.m_gameSettings.alwaysRun = !view.m_gameSettings.alwaysRun;
+
+                if (view.m_pOutdoorPartyRuntime != nullptr)
+                {
+                    view.m_pOutdoorPartyRuntime->setRunning(view.m_gameSettings.alwaysRun);
+                }
+
+                view.commitSettingsChange();
+                view.m_toggleRunningLatch = true;
+            }
+        }
+        else
+        {
+            view.m_toggleRunningLatch = false;
+        }
+    }
+    else
+    {
+        view.m_characterMemberCycleLatch = false;
+        view.m_toggleRunningLatch = false;
+    }
+
+    if (!isEventDialogActive
+        && !view.m_characterScreenOpen
+        && !hasActiveLootView
+        && !hasPendingSpellCast
+        && !view.m_spellbook.active
+        && !view.m_menuScreen.active
+        && !view.m_controlsScreen.active
+        && !view.m_keyboardScreen.active
+        && !view.m_saveGameScreen.active
+        && !view.m_loadGameScreen.active
+        && !view.m_restScreen.active
+        && !view.m_journalScreen.active)
+    {
+        if (isActionPressed(KeyboardAction::CastReady))
         {
             if (!view.m_quickSpellCastLatch)
             {
@@ -766,7 +981,7 @@ void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view
                 return targetMinuteOfDay - minutesOfDay;
             };
 
-        if (pKeyboardState[SDL_SCANCODE_ESCAPE] || pKeyboardState[SDL_SCANCODE_E])
+        if (pKeyboardState[SDL_SCANCODE_ESCAPE])
         {
             if (!view.m_closeOverlayLatch)
             {
@@ -965,7 +1180,7 @@ void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view
                 }
             };
 
-        if (pKeyboardState[SDL_SCANCODE_ESCAPE] || pKeyboardState[SDL_SCANCODE_E])
+        if (pKeyboardState[SDL_SCANCODE_ESCAPE])
         {
             if (!view.m_closeOverlayLatch)
             {
@@ -2067,6 +2282,7 @@ void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view
                 switch (target.type)
                 {
                 case OutdoorGameView::ControlsPointerTargetType::ConfigureKeyboardButton:
+                    view.openKeyboardScreen();
                     break;
 
                 case OutdoorGameView::ControlsPointerTargetType::VideoOptionsButton:
@@ -2100,6 +2316,12 @@ void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view
 
                 case OutdoorGameView::ControlsPointerTargetType::AlwaysRunButton:
                     view.m_gameSettings.alwaysRun = !view.m_gameSettings.alwaysRun;
+
+                    if (view.m_pOutdoorPartyRuntime != nullptr)
+                    {
+                        view.m_pOutdoorPartyRuntime->setRunning(view.m_gameSettings.alwaysRun);
+                    }
+
                     view.commitSettingsChange();
                     break;
 
@@ -2152,6 +2374,201 @@ void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view
                 case OutdoorGameView::ControlsPointerTargetType::MusicTrack:
                 case OutdoorGameView::ControlsPointerTargetType::VoiceTrack:
                 case OutdoorGameView::ControlsPointerTargetType::None:
+                    break;
+                }
+            });
+        return;
+    }
+
+    if (view.m_keyboardScreen.active)
+    {
+        const bool closePressed = pKeyboardState[SDL_SCANCODE_ESCAPE];
+
+        if (closePressed)
+        {
+            if (!view.m_keyboardToggleLatch)
+            {
+                view.closeKeyboardScreenToControls();
+                view.m_keyboardToggleLatch = true;
+            }
+        }
+        else
+        {
+            view.m_keyboardToggleLatch = false;
+        }
+
+        if (!view.m_keyboardScreen.active)
+        {
+            return;
+        }
+
+        if (view.m_keyboardScreen.waitingForBinding)
+        {
+            const std::optional<SDL_Scancode> reboundScancode =
+                firstNewlyPressedScancode(pKeyboardState, view.m_previousKeyboardState);
+
+            if (reboundScancode.has_value())
+            {
+                view.m_gameSettings.keyboard.setBinding(view.m_keyboardScreen.pendingAction, *reboundScancode);
+                view.m_keyboardScreen.waitingForBinding = false;
+                view.commitSettingsChange();
+            }
+        }
+
+        float mouseX = 0.0f;
+        float mouseY = 0.0f;
+        const SDL_MouseButtonFlags mouseButtons = SDL_GetMouseState(&mouseX, &mouseY);
+        const HudPointerState pointerState = {
+            mouseX,
+            mouseY,
+            (mouseButtons & SDL_BUTTON_LMASK) != 0
+        };
+        const OutdoorGameView::KeyboardPointerTarget noneTarget = {};
+
+        const auto resolveLayoutTarget =
+            [&view, screenWidth, screenHeight](
+                const char *pLayoutId,
+                OutdoorGameView::KeyboardPointerTargetType type,
+                float pointerX,
+                float pointerY) -> OutdoorGameView::KeyboardPointerTarget
+            {
+                const OutdoorGameView::HudLayoutElement *pLayout = HudUiService::findHudLayoutElement(view, pLayoutId);
+
+                if (pLayout == nullptr)
+                {
+                    return {};
+                }
+
+                const std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolved =
+                    HudUiService::resolveHudLayoutElement(
+                        view,
+                        pLayoutId,
+                        screenWidth,
+                        screenHeight,
+                        pLayout->width,
+                        pLayout->height);
+
+                if (!resolved || !HudUiService::isPointerInsideResolvedElement(*resolved, pointerX, pointerY))
+                {
+                    return {};
+                }
+
+                OutdoorGameView::KeyboardPointerTarget target = {};
+                target.type = type;
+                return target;
+            };
+
+        const auto resolveBindingRowTarget =
+            [&view, screenWidth, screenHeight](float pointerX, float pointerY)
+            -> OutdoorGameView::KeyboardPointerTarget
+            {
+                const std::optional<KeyboardScreenLayout> keyboardLayout =
+                    resolveKeyboardScreenLayout(view, screenWidth, screenHeight);
+
+                if (!keyboardLayout)
+                {
+                    return {};
+                }
+
+                for (const KeyboardBindingDefinition &definition : keyboardBindingDefinitions())
+                {
+                    if (definition.page != view.m_keyboardScreen.page)
+                    {
+                        continue;
+                    }
+
+                    const float rowX = keyboardLayout->labelColumnX(definition.column);
+                    const float rowY = keyboardLayout->rowY(definition.row);
+
+                    if (pointerX < rowX
+                        || pointerX >= rowX + keyboardLayout->rowWidth(definition.column)
+                        || pointerY < rowY
+                        || pointerY >= rowY + keyboardLayout->rowHeight)
+                    {
+                        continue;
+                    }
+
+                    OutdoorGameView::KeyboardPointerTarget target = {};
+                    target.type = OutdoorGameView::KeyboardPointerTargetType::BindingRow;
+                    target.action = definition.action;
+                    return target;
+                }
+
+                return {};
+            };
+
+        const auto findKeyboardPointerTarget =
+            [&resolveLayoutTarget, &resolveBindingRowTarget](float pointerX, float pointerY)
+            -> OutdoorGameView::KeyboardPointerTarget
+            {
+                if (const OutdoorGameView::KeyboardPointerTarget bindingTarget =
+                        resolveBindingRowTarget(pointerX, pointerY);
+                    bindingTarget.type != OutdoorGameView::KeyboardPointerTargetType::None)
+                {
+                    return bindingTarget;
+                }
+
+                for (const auto &[pLayoutId, type] :
+                     std::array<std::pair<const char *, OutdoorGameView::KeyboardPointerTargetType>, 5>{{
+                         {"KeyboardPage1Button", OutdoorGameView::KeyboardPointerTargetType::Page1Button},
+                         {"KeyboardPage2Button", OutdoorGameView::KeyboardPointerTargetType::Page2Button},
+                         {"KeyboardDefaultButton", OutdoorGameView::KeyboardPointerTargetType::DefaultButton},
+                         {"KeyboardBackButton", OutdoorGameView::KeyboardPointerTargetType::BackButton},
+                         {"KeyboardReturnButton", OutdoorGameView::KeyboardPointerTargetType::ReturnButton},
+                     }})
+                {
+                    const OutdoorGameView::KeyboardPointerTarget target =
+                        resolveLayoutTarget(pLayoutId, type, pointerX, pointerY);
+
+                    if (target.type != OutdoorGameView::KeyboardPointerTargetType::None)
+                    {
+                        return target;
+                    }
+                }
+
+                return {};
+            };
+
+        handlePointerClickRelease(
+            pointerState,
+            view.m_keyboardClickLatch,
+            view.m_keyboardPressedTarget,
+            noneTarget,
+            findKeyboardPointerTarget,
+            [&view](const OutdoorGameView::KeyboardPointerTarget &target)
+            {
+                switch (target.type)
+                {
+                case OutdoorGameView::KeyboardPointerTargetType::BindingRow:
+                    view.m_keyboardScreen.waitingForBinding = true;
+                    view.m_keyboardScreen.pendingAction = target.action;
+                    break;
+
+                case OutdoorGameView::KeyboardPointerTargetType::Page1Button:
+                    view.m_keyboardScreen.page = KeyboardBindingPage::Page1;
+                    view.m_keyboardScreen.waitingForBinding = false;
+                    break;
+
+                case OutdoorGameView::KeyboardPointerTargetType::Page2Button:
+                    view.m_keyboardScreen.page = KeyboardBindingPage::Page2;
+                    view.m_keyboardScreen.waitingForBinding = false;
+                    break;
+
+                case OutdoorGameView::KeyboardPointerTargetType::DefaultButton:
+                    view.m_gameSettings.keyboard.restoreDefaults();
+                    view.m_keyboardScreen.waitingForBinding = false;
+                    view.commitSettingsChange();
+                    break;
+
+                case OutdoorGameView::KeyboardPointerTargetType::BackButton:
+                    view.closeKeyboardScreenToControls();
+                    break;
+
+                case OutdoorGameView::KeyboardPointerTargetType::ReturnButton:
+                    view.closeKeyboardScreenToMenu();
+                    break;
+
+                case OutdoorGameView::KeyboardPointerTargetType::None:
                     break;
                 }
             });
@@ -2560,28 +2977,29 @@ void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view
     float mouseX = 0.0f;
     float mouseY = 0.0f;
     const SDL_MouseButtonFlags mouseButtons = SDL_GetMouseState(&mouseX, &mouseY);
-    const bool isRightMousePressed = (mouseButtons & SDL_BUTTON_RMASK) != 0;
     const bool blockCameraRotation =
         view.m_buffInspectOverlay.active
         || view.m_characterDetailOverlay.active;
 
-    if (isRightMousePressed && !hasPendingSpellCast && !blockCameraRotation)
+    if (view.m_gameplayMouseLookActive && !hasPendingSpellCast && !blockCameraRotation)
     {
-        if (view.m_isRotatingCamera)
+        float deltaMouseX = 0.0f;
+        float deltaMouseY = 0.0f;
+        SDL_GetRelativeMouseState(&deltaMouseX, &deltaMouseY);
+
+        if (deltaMouseX != 0.0f || deltaMouseY != 0.0f)
         {
-            const float deltaMouseX = mouseX - view.m_lastMouseX;
-            const float deltaMouseY = mouseY - view.m_lastMouseY;
             view.m_cameraYawRadians -= deltaMouseX * view.m_mouseRotateSpeed;
             view.m_cameraPitchRadians -= deltaMouseY * view.m_mouseRotateSpeed;
         }
 
         view.m_isRotatingCamera = true;
-        view.m_lastMouseX = mouseX;
-        view.m_lastMouseY = mouseY;
     }
     else
     {
         view.m_isRotatingCamera = false;
+        view.m_lastMouseX = mouseX;
+        view.m_lastMouseY = mouseY;
     }
 
     const float cosYaw = std::cos(view.m_cameraYawRadians);
@@ -2597,19 +3015,31 @@ void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view
         0.0f
     };
 
+    const bool moveForwardPressed = isActionPressed(KeyboardAction::Forward);
+    const bool moveBackwardPressed = isActionPressed(KeyboardAction::Backward);
+    const bool strafeLeftPressed = isActionPressed(KeyboardAction::Left);
+    const bool strafeRightPressed = isActionPressed(KeyboardAction::Right);
+    const bool jumpPressed = isActionPressed(KeyboardAction::Jump);
+    const bool flyUpPressed = isActionPressed(KeyboardAction::FlyUp);
+    const bool flyDownPressed = isActionPressed(KeyboardAction::FlyDown);
+    const bool lookUpPressed = isActionPressed(KeyboardAction::LookUp);
+    const bool lookDownPressed = isActionPressed(KeyboardAction::LookDown);
+    const bool centerViewPressed = isActionPressed(KeyboardAction::CenterView);
+    const bool landPressed = isActionPressed(KeyboardAction::Land);
+
     if (view.m_outdoorMapData)
     {
         if (view.m_pOutdoorPartyRuntime)
         {
-            if (!hasActiveLootView && !hasPendingSpellCast)
+            if (!hasActiveLootView && !hasPendingSpellCast && !view.m_gameplayCursorModeActive)
             {
                 const OutdoorMovementInput movementInput = {
-                    pKeyboardState[SDL_SCANCODE_W],
-                    pKeyboardState[SDL_SCANCODE_S],
-                    pKeyboardState[SDL_SCANCODE_A],
-                    pKeyboardState[SDL_SCANCODE_D],
-                    pKeyboardState[SDL_SCANCODE_X],
-                    pKeyboardState[SDL_SCANCODE_LCTRL] || pKeyboardState[SDL_SCANCODE_RCTRL],
+                    moveForwardPressed,
+                    moveBackwardPressed,
+                    strafeLeftPressed,
+                    strafeRightPressed,
+                    jumpPressed || flyUpPressed,
+                    (pKeyboardState[SDL_SCANCODE_LCTRL] || pKeyboardState[SDL_SCANCODE_RCTRL]) || flyDownPressed,
                     turboSpeed,
                     view.m_cameraYawRadians
                 };
@@ -2653,25 +3083,25 @@ void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view
         float moveVelocityY = 0.0f;
         const float freeMoveSpeed = turboSpeed ? 4000.0f : 576.0f;
 
-        if (pKeyboardState[SDL_SCANCODE_A])
+        if (!view.m_gameplayCursorModeActive && strafeLeftPressed)
         {
             moveVelocityX -= right.x * freeMoveSpeed;
             moveVelocityY -= right.y * freeMoveSpeed;
         }
 
-        if (pKeyboardState[SDL_SCANCODE_D])
+        if (!view.m_gameplayCursorModeActive && strafeRightPressed)
         {
             moveVelocityX += right.x * freeMoveSpeed;
             moveVelocityY += right.y * freeMoveSpeed;
         }
 
-        if (pKeyboardState[SDL_SCANCODE_W])
+        if (!view.m_gameplayCursorModeActive && moveForwardPressed)
         {
             moveVelocityX += forward.x * freeMoveSpeed;
             moveVelocityY += forward.y * freeMoveSpeed;
         }
 
-        if (pKeyboardState[SDL_SCANCODE_S])
+        if (!view.m_gameplayCursorModeActive && moveBackwardPressed)
         {
             moveVelocityX -= forward.x * freeMoveSpeed;
             moveVelocityY -= forward.y * freeMoveSpeed;
@@ -2679,6 +3109,23 @@ void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view
 
         view.m_cameraTargetX += moveVelocityX * deltaSeconds;
         view.m_cameraTargetY += moveVelocityY * deltaSeconds;
+    }
+
+    const float keyboardPitchSpeed = 1.25f;
+
+    if (!view.m_gameplayCursorModeActive && lookUpPressed)
+    {
+        view.m_cameraPitchRadians -= keyboardPitchSpeed * deltaSeconds;
+    }
+
+    if (!view.m_gameplayCursorModeActive && lookDownPressed)
+    {
+        view.m_cameraPitchRadians += keyboardPitchSpeed * deltaSeconds;
+    }
+
+    if (!view.m_gameplayCursorModeActive && centerViewPressed)
+    {
+        view.m_cameraPitchRadians *= std::max(0.0f, 1.0f - deltaSeconds * 8.0f);
     }
 
     if (pKeyboardState[SDL_SCANCODE_1])
@@ -2915,8 +3362,6 @@ void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view
 
     if (view.m_pOutdoorPartyRuntime)
     {
-        view.m_toggleRunningLatch = false;
-
         if (pKeyboardState[SDL_SCANCODE_F])
         {
             if (!view.m_toggleFlyingLatch)
@@ -2954,6 +3399,17 @@ void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view
         else
         {
             view.m_toggleFeatherFallLatch = false;
+        }
+
+        const SDL_Scancode landScancode = view.m_gameSettings.keyboard.binding(KeyboardAction::Land);
+
+        if (landPressed
+            && landScancode > SDL_SCANCODE_UNKNOWN
+            && landScancode < SDL_SCANCODE_COUNT
+            && view.m_previousKeyboardState[landScancode] == 0
+            && view.m_pOutdoorPartyRuntime->partyMovementState().flying)
+        {
+            view.m_pOutdoorPartyRuntime->toggleFlying();
         }
     }
 

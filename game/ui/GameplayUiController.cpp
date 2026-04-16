@@ -8,7 +8,7 @@ namespace OpenYAMM::Game
 {
 namespace
 {
-const std::array<std::string, 20> GameplayLayoutFiles = {
+const std::array<std::string, 21> GameplayLayoutFiles = {
     "Data/ui/gameplay/gameplay.yml",
     "Data/ui/gameplay/chest.yml",
     "Data/ui/gameplay/dialogue.yml",
@@ -18,6 +18,7 @@ const std::array<std::string, 20> GameplayLayoutFiles = {
     "Data/ui/gameplay/rest.yml",
     "Data/ui/gameplay/menu.yml",
     "Data/ui/gameplay/controls.yml",
+    "Data/ui/gameplay/keyboard.yml",
     "Data/ui/gameplay/video_options.yml",
     "Data/ui/gameplay/save_game.yml",
     "Data/ui/gameplay/load_game.yml",
@@ -206,6 +207,16 @@ GameplayUiController::ControlsScreenState &GameplayUiController::controlsScreen(
 const GameplayUiController::ControlsScreenState &GameplayUiController::controlsScreen() const
 {
     return m_state.controlsScreen;
+}
+
+GameplayUiController::KeyboardScreenState &GameplayUiController::keyboardScreen()
+{
+    return m_state.keyboardScreen;
+}
+
+const GameplayUiController::KeyboardScreenState &GameplayUiController::keyboardScreen() const
+{
+    return m_state.keyboardScreen;
 }
 
 GameplayUiController::VideoOptionsScreenState &GameplayUiController::videoOptionsScreen()

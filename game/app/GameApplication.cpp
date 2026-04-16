@@ -389,16 +389,16 @@ float mouseRotateSpeedForTurnRate(TurnRateMode turnRate)
     switch (turnRate)
     {
     case TurnRateMode::X16:
-        return 0.0030f;
+        return 0.0024f;
 
     case TurnRateMode::X32:
-        return 0.0045f;
+        return 0.0034f;
 
     case TurnRateMode::Smooth:
-        return 0.0060f;
+        return 0.0045f;
     }
 
-    return 0.0045f;
+    return 0.0034f;
 }
 
 Character buildFreshCreatedCharacter(

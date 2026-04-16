@@ -1,5 +1,10 @@
 #pragma once
 
+#include "game/app/KeyboardBindings.h"
+
+#include <SDL3/SDL.h>
+
+#include <array>
 #include <filesystem>
 #include <optional>
 #include <string>
@@ -15,6 +20,36 @@ enum class TurnRateMode
 
 struct GameSettings
 {
+    struct KeyboardSettings
+    {
+        std::array<SDL_Scancode, KeyboardActionCount> bindings = createDefaultKeyboardBindings();
+
+        SDL_Scancode binding(KeyboardAction action) const
+        {
+            return bindings[keyboardActionIndex(action)];
+        }
+
+        bool isPressed(KeyboardAction action, const bool *pKeyboardState) const
+        {
+            const SDL_Scancode scancode = binding(action);
+
+            return pKeyboardState != nullptr
+                && scancode > SDL_SCANCODE_UNKNOWN
+                && scancode < SDL_SCANCODE_COUNT
+                && pKeyboardState[scancode];
+        }
+
+        void setBinding(KeyboardAction action, SDL_Scancode scancode)
+        {
+            bindings[keyboardActionIndex(action)] = scancode;
+        }
+
+        void restoreDefaults()
+        {
+            bindings = createDefaultKeyboardBindings();
+        }
+    };
+
     int soundVolume = 9;
     int musicVolume = 9;
     int voiceVolume = 9;
@@ -37,6 +72,7 @@ struct GameSettings
     std::string minimapFiltering = "linear";
 
     bool startInMainMenu = false;
+    KeyboardSettings keyboard = {};
     bool preseedParty = true;
     uint32_t partySeedRosterId = 0;
     std::string startMapFile = "out01.odm";

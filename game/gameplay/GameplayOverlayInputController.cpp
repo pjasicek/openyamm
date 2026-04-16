@@ -585,7 +585,7 @@ void GameplayOverlayInputController::handleDialogueOverlayInput(
                 }
             });
 
-        const bool closePressed = pKeyboardState[SDL_SCANCODE_ESCAPE] || pKeyboardState[SDL_SCANCODE_E];
+        const bool closePressed = pKeyboardState[SDL_SCANCODE_ESCAPE];
 
         if (closePressed)
         {
@@ -1255,7 +1255,7 @@ void GameplayOverlayInputController::handleDialogueOverlayInput(
             }
         });
 
-    const bool closePressed = pKeyboardState[SDL_SCANCODE_ESCAPE] || pKeyboardState[SDL_SCANCODE_E];
+    const bool closePressed = pKeyboardState[SDL_SCANCODE_ESCAPE];
 
     if (closePressed)
     {
@@ -1782,7 +1782,7 @@ void GameplayOverlayInputController::handleLootOverlayInput(
         view.lootChestItemLatch() = false;
     }
 
-    const bool closePressed = pKeyboardState[SDL_SCANCODE_ESCAPE] || pKeyboardState[SDL_SCANCODE_E];
+    const bool closePressed = pKeyboardState[SDL_SCANCODE_ESCAPE];
 
     if (closePressed)
     {

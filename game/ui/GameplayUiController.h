@@ -1,6 +1,7 @@
 #pragma once
 
 #include "engine/AssetFileSystem.h"
+#include "game/app/KeyboardBindings.h"
 #include "game/party/CharacterState.h"
 #include "game/events/EventDialogContent.h"
 #include "game/party/Party.h"
@@ -265,6 +266,14 @@ public:
         bool active = false;
     };
 
+    struct KeyboardScreenState
+    {
+        bool active = false;
+        KeyboardBindingPage page = KeyboardBindingPage::Page1;
+        bool waitingForBinding = false;
+        KeyboardAction pendingAction = KeyboardAction::Forward;
+    };
+
     struct VideoOptionsScreenState
     {
         bool active = false;
@@ -396,6 +405,7 @@ public:
         RestScreenState restScreen = {};
         MenuScreenState menuScreen = {};
         ControlsScreenState controlsScreen = {};
+        KeyboardScreenState keyboardScreen = {};
         VideoOptionsScreenState videoOptionsScreen = {};
         SaveGameScreenState saveGameScreen = {};
         LoadGameScreenState loadGameScreen = {};
@@ -454,6 +464,8 @@ public:
 
     ControlsScreenState &controlsScreen();
     const ControlsScreenState &controlsScreen() const;
+    KeyboardScreenState &keyboardScreen();
+    const KeyboardScreenState &keyboardScreen() const;
     VideoOptionsScreenState &videoOptionsScreen();
     const VideoOptionsScreenState &videoOptionsScreen() const;
 

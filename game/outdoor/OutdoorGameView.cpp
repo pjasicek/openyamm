@@ -3673,6 +3673,8 @@ OutdoorGameView::OutdoorGameView()
     , m_menuClickLatch(false)
     , m_controlsToggleLatch(false)
     , m_controlsClickLatch(false)
+    , m_keyboardToggleLatch(false)
+    , m_keyboardClickLatch(false)
     , m_videoOptionsToggleLatch(false)
     , m_videoOptionsClickLatch(false)
     , m_saveGameToggleLatch(false)
@@ -3717,6 +3719,7 @@ OutdoorGameView::OutdoorGameView()
     , m_restScreen(m_gameplayUiController.restScreen())
     , m_menuScreen(m_gameplayUiController.menuScreen())
     , m_controlsScreen(m_gameplayUiController.controlsScreen())
+    , m_keyboardScreen(m_gameplayUiController.keyboardScreen())
     , m_videoOptionsScreen(m_gameplayUiController.videoOptionsScreen())
     , m_saveGameScreen(m_gameplayUiController.saveGameScreen())
     , m_loadGameScreen(m_gameplayUiController.loadGameScreen())
@@ -3730,6 +3733,7 @@ OutdoorGameView::OutdoorGameView()
     , m_booksButtonPressed(false)
     , m_menuPressedTarget({})
     , m_controlsPressedTarget({})
+    , m_keyboardPressedTarget({})
     , m_videoOptionsPressedTarget({})
     , m_saveGamePressedTarget({})
     , m_loadGamePressedTarget({})
@@ -4177,6 +4181,7 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
     const bool wasRestScreenActiveBeforeInput = m_restScreen.active;
     const bool wasMenuActiveBeforeInput = m_menuScreen.active;
     const bool wasControlsScreenActiveBeforeInput = m_controlsScreen.active;
+    const bool wasKeyboardScreenActiveBeforeInput = m_keyboardScreen.active;
     const bool wasVideoOptionsScreenActiveBeforeInput = m_videoOptionsScreen.active;
     const bool wasSaveGameScreenActiveBeforeInput = m_saveGameScreen.active;
     const bool wasLoadGameScreenActiveBeforeInput = m_loadGameScreen.active;
@@ -4187,12 +4192,10 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
         const bool *pKeyboardState = SDL_GetKeyboardState(nullptr);
         const bool journalZoomInPressed =
             pKeyboardState != nullptr
-            && (pKeyboardState[SDL_SCANCODE_EQUALS]
-                || pKeyboardState[SDL_SCANCODE_KP_PLUS]);
+            && m_gameSettings.keyboard.isPressed(KeyboardAction::ZoomIn, pKeyboardState);
         const bool journalZoomOutPressed =
             pKeyboardState != nullptr
-            && (pKeyboardState[SDL_SCANCODE_MINUS]
-                || pKeyboardState[SDL_SCANCODE_KP_MINUS]);
+            && m_gameSettings.keyboard.isPressed(KeyboardAction::ZoomOut, pKeyboardState);
 
         if (journalZoomInPressed && !m_journalMapKeyZoomLatch)
         {
@@ -4243,6 +4246,7 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
     const bool isRestScreenInteractionFrame = wasRestScreenActiveBeforeInput || m_restScreen.active;
     const bool isMenuInteractionFrame = wasMenuActiveBeforeInput || m_menuScreen.active;
     const bool isControlsInteractionFrame = wasControlsScreenActiveBeforeInput || m_controlsScreen.active;
+    const bool isKeyboardInteractionFrame = wasKeyboardScreenActiveBeforeInput || m_keyboardScreen.active;
     const bool isVideoOptionsInteractionFrame =
         wasVideoOptionsScreenActiveBeforeInput || m_videoOptionsScreen.active;
     const bool isSaveGameInteractionFrame = wasSaveGameScreenActiveBeforeInput || m_saveGameScreen.active;
@@ -4323,6 +4327,7 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
             && !isRestScreenInteractionFrame
             && !isMenuInteractionFrame
             && !isControlsInteractionFrame
+            && !isKeyboardInteractionFrame
             && !isVideoOptionsInteractionFrame
             && !isSaveGameInteractionFrame
             && !isLoadGameInteractionFrame
@@ -4501,7 +4506,8 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
             else
             {
                 const bool isKeyboardUsePressed =
-                    pKeyboardState != nullptr && pKeyboardState[SDL_SCANCODE_SPACE];
+                    pKeyboardState != nullptr
+                    && m_gameSettings.keyboard.isPressed(KeyboardAction::Trigger, pKeyboardState);
 
                 if (isKeyboardUsePressed)
                 {
@@ -4558,6 +4564,7 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
             && !isRestScreenInteractionFrame
             && !isMenuInteractionFrame
             && !isControlsInteractionFrame
+            && !isKeyboardInteractionFrame
             && !isVideoOptionsInteractionFrame
             && !isSaveGameInteractionFrame
             && !isLoadGameInteractionFrame
@@ -4658,16 +4665,20 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
                  && !isRestScreenInteractionFrame
                  && !isMenuInteractionFrame
                  && !isControlsInteractionFrame
+                 && !isKeyboardInteractionFrame
                  && !isVideoOptionsInteractionFrame
                  && !isSaveGameInteractionFrame
                  && !isLoadGameInteractionFrame
                  && !isJournalInteractionFrame)
         {
             SDL_GetMouseState(&mouseX, &mouseY);
+            const bool useCenterGameplayInspectPoint = m_gameplayMouseLookActive && !m_gameplayCursorModeActive;
+            const float inspectScreenX = useCenterGameplayInspectPoint ? static_cast<float>(width) * 0.5f : mouseX;
+            const float inspectScreenY = useCenterGameplayInspectPoint ? static_cast<float>(height) * 0.5f : mouseY;
             bx::Vec3 rayOrigin = {0.0f, 0.0f, 0.0f};
             bx::Vec3 rayDirection = {0.0f, 0.0f, 0.0f};
 
-            if (!buildInspectRayForScreenPoint(mouseX, mouseY, rayOrigin, rayDirection))
+            if (!buildInspectRayForScreenPoint(inspectScreenX, inspectScreenY, rayOrigin, rayDirection))
             {
                 rayOrigin = {0.0f, 0.0f, 0.0f};
                 rayDirection = {0.0f, 0.0f, 0.0f};
@@ -4680,8 +4691,8 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
                         *m_outdoorMapData,
                         rayOrigin,
                         rayDirection,
-                        mouseX,
-                        mouseY,
+                        inspectScreenX,
+                        inspectScreenY,
                         width,
                         height,
                         wireframeViewMatrix,
@@ -4710,13 +4721,20 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
                 pKeyboardState != nullptr
                 && pKeyboardState[SDL_SCANCODE_E]
                 && (mouseButtons & SDL_BUTTON_RMASK) == 0;
-            const bool isAttackPressed =
-                pKeyboardState != nullptr
-                && pKeyboardState[SDL_SCANCODE_H]
+            const bool isCrosshairAttackPressed =
+                useCenterGameplayInspectPoint
+                && (mouseButtons & SDL_BUTTON_LMASK) != 0
                 && (mouseButtons & SDL_BUTTON_RMASK) == 0;
-            const bool isLeftMousePressed = (mouseButtons & SDL_BUTTON_LMASK) != 0;
+            const bool isAttackPressed =
+                ((pKeyboardState != nullptr
+                    && m_gameSettings.keyboard.isPressed(KeyboardAction::Attack, pKeyboardState)
+                    && (mouseButtons & SDL_BUTTON_RMASK) == 0)
+                    || isCrosshairAttackPressed);
+            const bool isLeftMousePressed =
+                !useCenterGameplayInspectPoint && (mouseButtons & SDL_BUTTON_LMASK) != 0;
             const bool isPointerOverPartyPortrait =
-                resolvePartyPortraitIndexAtPoint(width, height, mouseX, mouseY).has_value();
+                !useCenterGameplayInspectPoint
+                && resolvePartyPortraitIndexAtPoint(width, height, mouseX, mouseY).has_value();
             const bool needsInteractionInspectHit =
                 isActivationPressed
                 || isAttackPressed
@@ -4732,8 +4750,8 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
                         *m_outdoorMapData,
                         rayOrigin,
                         rayDirection,
-                        mouseX,
-                        mouseY,
+                        inspectScreenX,
+                        inspectScreenY,
                         width,
                         height,
                         wireframeViewMatrix,
@@ -5274,16 +5292,22 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
     constexpr float MaxParticleUpdateAccumulationSeconds = 0.25f;
 
     m_particleSystem.beginFrame();
-    m_particleUpdateAccumulatorSeconds =
-        std::min(MaxParticleUpdateAccumulationSeconds, m_particleUpdateAccumulatorSeconds + deltaSeconds);
-
-    while (m_particleUpdateAccumulatorSeconds >= ParticleUpdateStepSeconds)
+    if (!m_gameplayCursorModeActive)
     {
-        m_particleSystem.update(ParticleUpdateStepSeconds);
-        m_particleUpdateAccumulatorSeconds -= ParticleUpdateStepSeconds;
+        m_particleUpdateAccumulatorSeconds =
+            std::min(MaxParticleUpdateAccumulationSeconds, m_particleUpdateAccumulatorSeconds + deltaSeconds);
+
+        while (m_particleUpdateAccumulatorSeconds >= ParticleUpdateStepSeconds)
+        {
+            m_particleSystem.update(ParticleUpdateStepSeconds);
+            m_particleUpdateAccumulatorSeconds -= ParticleUpdateStepSeconds;
+        }
     }
 
-    m_outdoorFxRuntime.update(*this, deltaSeconds);
+    if (!m_gameplayCursorModeActive)
+    {
+        m_outdoorFxRuntime.update(*this, deltaSeconds);
+    }
 
     OutdoorRenderer::renderWorldPasses(
         *this,
@@ -5913,6 +5937,7 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
             renderRestOverlay(width, height);
             renderMenuOverlay(width, height);
             renderControlsOverlay(width, height);
+            renderKeyboardOverlay(width, height);
             renderVideoOptionsOverlay(width, height);
             renderSaveGameOverlay(width, height);
             renderLoadGameOverlay(width, height);
@@ -5925,6 +5950,7 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
             renderActorInspectOverlay(width, height);
             renderSpellInspectOverlay(width, height);
             renderReadableScrollOverlay(width, height);
+            renderGameplayMouseLookOverlay(width, height);
             renderPendingSpellTargetingOverlay(width, height);
         }
 
@@ -6219,6 +6245,7 @@ void OutdoorGameView::renderEventDialogPanel(int width, int height, bool renderA
 
 void OutdoorGameView::shutdown()
 {
+    syncGameplayMouseLookMode(SDL_GetMouseFocus(), false);
     if (!m_isInitialized)
     {
         return;
@@ -6711,6 +6738,8 @@ void OutdoorGameView::shutdown()
     m_chestSelectionIndex = 0;
     m_eventDialogSelectionIndex = 0;
     m_activeEventDialog = {};
+    m_gameplayMouseLookActive = false;
+    m_gameplayCursorModeActive = false;
     m_isRotatingCamera = false;
     m_lastMouseX = 0.0f;
     m_lastMouseY = 0.0f;
@@ -6734,6 +6763,57 @@ float OutdoorGameView::cameraYawRadians() const
 float OutdoorGameView::cameraPitchRadians() const
 {
     return m_cameraPitchRadians;
+}
+
+bool OutdoorGameView::shouldEnableGameplayMouseLook() const
+{
+    if (currentHudScreenState() != HudScreenState::Gameplay)
+    {
+        return false;
+    }
+
+    if (m_pendingSpellCast.active
+        || m_readableScrollOverlay.active
+        || (m_utilitySpellOverlay.active
+            && m_utilitySpellOverlay.mode != UtilitySpellOverlayMode::InventoryTarget))
+    {
+        return false;
+    }
+
+    return true;
+}
+
+void OutdoorGameView::syncGameplayMouseLookMode(SDL_Window *pWindow, bool enabled)
+{
+    if (pWindow != nullptr && SDL_GetWindowRelativeMouseMode(pWindow) != enabled)
+    {
+        if (!enabled)
+        {
+            int windowWidth = 0;
+            int windowHeight = 0;
+            SDL_GetWindowSizeInPixels(pWindow, &windowWidth, &windowHeight);
+
+            if (windowWidth > 0 && windowHeight > 0)
+            {
+                SDL_WarpMouseInWindow(
+                    pWindow,
+                    static_cast<float>(windowWidth) * 0.5f,
+                    static_cast<float>(windowHeight) * 0.5f);
+            }
+        }
+
+        SDL_SetWindowRelativeMouseMode(pWindow, enabled);
+        SDL_GetRelativeMouseState(nullptr, nullptr);
+    }
+
+    if (enabled)
+    {
+        SDL_HideCursor();
+    }
+    else
+    {
+        SDL_ShowCursor();
+    }
 }
 
 float OutdoorGameView::effectiveCameraYawRadians() const
@@ -7021,6 +7101,7 @@ void OutdoorGameView::updateItemInspectOverlayState(int width, int height)
         || m_pendingSpellCast.active
         || m_spellbook.active
         || m_controlsScreen.active
+        || m_keyboardScreen.active
         || m_menuScreen.active
         || m_saveGameScreen.active
         || m_loadGameScreen.active)
@@ -7848,6 +7929,7 @@ void OutdoorGameView::updateBuffInspectOverlayState(int width, int height)
         || hasActiveEventDialog()
         || m_spellbook.active
         || m_controlsScreen.active
+        || m_keyboardScreen.active
         || m_menuScreen.active
         || m_saveGameScreen.active
         || m_loadGameScreen.active)
@@ -8022,6 +8104,7 @@ void OutdoorGameView::updateCharacterDetailOverlayState(int width, int height)
         || hasActiveEventDialog()
         || m_spellbook.active
         || m_controlsScreen.active
+        || m_keyboardScreen.active
         || m_menuScreen.active
         || m_saveGameScreen.active
         || m_loadGameScreen.active)
@@ -8448,6 +8531,11 @@ OutdoorGameView::HudScreenState OutdoorGameView::currentHudScreenState() const
         return HudScreenState::VideoOptions;
     }
 
+    if (m_keyboardScreen.active)
+    {
+        return HudScreenState::Keyboard;
+    }
+
     if (m_controlsScreen.active)
     {
         return HudScreenState::Controls;
@@ -8776,6 +8864,10 @@ void OutdoorGameView::openControlsScreen()
     m_controlsToggleLatch = false;
     m_controlsClickLatch = false;
     m_controlsPressedTarget = {};
+    m_keyboardScreen = {};
+    m_keyboardToggleLatch = false;
+    m_keyboardClickLatch = false;
+    m_keyboardPressedTarget = {};
     m_controlsSliderDragActive = false;
     m_controlsDraggedSlider = ControlsPointerTargetType::None;
     m_videoOptionsScreen = {};
@@ -8791,6 +8883,10 @@ void OutdoorGameView::closeControlsScreen()
     m_controlsToggleLatch = false;
     m_controlsClickLatch = false;
     m_controlsPressedTarget = {};
+    m_keyboardScreen = {};
+    m_keyboardToggleLatch = false;
+    m_keyboardClickLatch = false;
+    m_keyboardPressedTarget = {};
     m_controlsSliderDragActive = false;
     m_controlsDraggedSlider = ControlsPointerTargetType::None;
     m_videoOptionsScreen = {};
@@ -8802,12 +8898,72 @@ void OutdoorGameView::closeControlsScreen()
     clearWorldInteractionInputLatches();
 }
 
+void OutdoorGameView::openKeyboardScreen()
+{
+    m_controlsScreen = {};
+    m_controlsToggleLatch = false;
+    m_controlsClickLatch = false;
+    m_controlsPressedTarget = {};
+    m_controlsSliderDragActive = false;
+    m_controlsDraggedSlider = ControlsPointerTargetType::None;
+    m_keyboardScreen = {};
+    m_keyboardScreen.active = true;
+    m_keyboardToggleLatch = false;
+    m_keyboardClickLatch = false;
+    m_keyboardPressedTarget = {};
+    m_videoOptionsScreen = {};
+    m_videoOptionsToggleLatch = false;
+    m_videoOptionsClickLatch = false;
+    m_videoOptionsPressedTarget = {};
+    clearWorldInteractionInputLatches();
+}
+
+void OutdoorGameView::closeKeyboardScreenToControls()
+{
+    m_keyboardScreen = {};
+    m_keyboardToggleLatch = false;
+    m_keyboardClickLatch = false;
+    m_keyboardPressedTarget = {};
+    m_controlsScreen = {};
+    m_controlsScreen.active = true;
+    m_controlsToggleLatch = false;
+    m_controlsClickLatch = false;
+    m_controlsPressedTarget = {};
+    m_controlsSliderDragActive = false;
+    m_controlsDraggedSlider = ControlsPointerTargetType::None;
+    clearWorldInteractionInputLatches();
+}
+
+void OutdoorGameView::closeKeyboardScreenToMenu()
+{
+    m_keyboardScreen = {};
+    m_keyboardToggleLatch = false;
+    m_keyboardClickLatch = false;
+    m_keyboardPressedTarget = {};
+    m_controlsScreen = {};
+    m_controlsToggleLatch = false;
+    m_controlsClickLatch = false;
+    m_controlsPressedTarget = {};
+    m_controlsSliderDragActive = false;
+    m_controlsDraggedSlider = ControlsPointerTargetType::None;
+    m_menuScreen = {};
+    m_menuScreen.active = true;
+    m_menuToggleLatch = false;
+    m_menuClickLatch = false;
+    m_menuPressedTarget = {};
+    clearWorldInteractionInputLatches();
+}
+
 void OutdoorGameView::openVideoOptionsScreen()
 {
     m_controlsScreen.active = false;
     m_controlsToggleLatch = false;
     m_controlsClickLatch = false;
     m_controlsPressedTarget = {};
+    m_keyboardScreen = {};
+    m_keyboardToggleLatch = false;
+    m_keyboardClickLatch = false;
+    m_keyboardPressedTarget = {};
     m_controlsSliderDragActive = false;
     m_controlsDraggedSlider = ControlsPointerTargetType::None;
     m_videoOptionsScreen = {};
@@ -8824,6 +8980,10 @@ void OutdoorGameView::closeVideoOptionsScreen()
     m_videoOptionsToggleLatch = false;
     m_videoOptionsClickLatch = false;
     m_videoOptionsPressedTarget = {};
+    m_keyboardScreen = {};
+    m_keyboardToggleLatch = false;
+    m_keyboardClickLatch = false;
+    m_keyboardPressedTarget = {};
     m_controlsScreen = {};
     m_controlsScreen.active = true;
     m_controlsToggleLatch = false;
@@ -9484,6 +9644,7 @@ bool OutdoorGameView::tryBeginQuickSpellCast()
         || m_characterScreenOpen
         || m_spellbook.active
         || m_controlsScreen.active
+        || m_keyboardScreen.active
         || m_menuScreen.active
         || m_saveGameScreen.active
         || m_loadGameScreen.active
@@ -10964,6 +11125,102 @@ std::optional<bx::Vec3> OutdoorGameView::resolvePendingSpellGroundTargetPoint(co
     return std::nullopt;
 }
 
+void OutdoorGameView::renderGameplayMouseLookOverlay(int width, int height) const
+{
+    if (!m_gameplayMouseLookActive
+        || m_gameplayCursorModeActive
+        || m_pendingSpellCast.active
+        || width <= 0
+        || height <= 0)
+    {
+        return;
+    }
+
+    float projectionMatrix[16] = {};
+    bx::mtxOrtho(
+        projectionMatrix,
+        0.0f,
+        static_cast<float>(width),
+        static_cast<float>(height),
+        0.0f,
+        0.0f,
+        1000.0f,
+        0.0f,
+        bgfx::getCaps()->homogeneousDepth
+    );
+    bgfx::setViewRect(HudViewId, 0, 0, static_cast<uint16_t>(width), static_cast<uint16_t>(height));
+    bgfx::setViewTransform(HudViewId, nullptr, projectionMatrix);
+    bgfx::touch(HudViewId);
+
+    const UiViewportRect uiViewport = computeUiViewportRect(width, height);
+    const float baseScale = std::min(uiViewport.width / HudReferenceWidth, uiViewport.height / HudReferenceHeight);
+    const float overlayScale = std::clamp(baseScale, 0.75f, 2.0f);
+    const float centerX = std::round(static_cast<float>(width) * 0.5f);
+    const float centerY = std::round(static_cast<float>(height) * 0.5f);
+    const float armLength = std::round(3.0f * overlayScale);
+    const float armGap = std::round(1.0f * overlayScale);
+    const float stroke = std::max(1.0f, std::round(1.0f * overlayScale));
+    const uint32_t dotColor = packHudColorAbgr(255, 255, 180);
+    const uint32_t shadowColor = 0xc0000000u;
+
+    const HudTextureHandle *pDotTexture = HudUiService::ensureSolidHudTextureLoaded(
+        const_cast<OutdoorGameView &>(*this),
+        "__gameplay_mouse_look_marker__",
+        dotColor);
+    const HudTextureHandle *pShadowTexture = HudUiService::ensureSolidHudTextureLoaded(
+        const_cast<OutdoorGameView &>(*this),
+        "__gameplay_mouse_look_marker_shadow__",
+        shadowColor);
+
+    if (pDotTexture == nullptr || pShadowTexture == nullptr)
+    {
+        return;
+    }
+
+    const auto submitQuad =
+        [this](const HudTextureHandle &texture, float x, float y, float quadWidth, float quadHeight)
+        {
+            submitHudTexturedQuad(texture, x, y, quadWidth, quadHeight);
+        };
+    const auto submitMarkerLayer =
+        [&](const HudTextureHandle &texture, float offsetX, float offsetY)
+        {
+            submitQuad(
+                texture,
+                centerX - stroke * 0.5f + offsetX,
+                centerY - stroke * 0.5f - armLength - armGap + offsetY,
+                stroke,
+                armLength);
+            submitQuad(
+                texture,
+                centerX - stroke * 0.5f + offsetX,
+                centerY + armGap + offsetY,
+                stroke,
+                armLength);
+            submitQuad(
+                texture,
+                centerX - stroke * 0.5f - armLength - armGap + offsetX,
+                centerY - stroke * 0.5f + offsetY,
+                armLength,
+                stroke);
+            submitQuad(
+                texture,
+                centerX + armGap + offsetX,
+                centerY - stroke * 0.5f + offsetY,
+                armLength,
+                stroke);
+            submitQuad(
+                texture,
+                centerX - stroke * 0.5f + offsetX,
+                centerY - stroke * 0.5f + offsetY,
+                stroke,
+                stroke);
+        };
+
+    submitMarkerLayer(*pShadowTexture, 1.0f, 1.0f);
+    submitMarkerLayer(*pDotTexture, 0.0f, 0.0f);
+}
+
 void OutdoorGameView::renderPendingSpellTargetingOverlay(int width, int height) const
 {
     if (!m_pendingSpellCast.active
@@ -11111,6 +11368,11 @@ void OutdoorGameView::renderControlsOverlay(int width, int height) const
     GameplayPartyOverlayRenderer::renderControlsOverlay(*this, width, height);
 }
 
+void OutdoorGameView::renderKeyboardOverlay(int width, int height) const
+{
+    GameplayPartyOverlayRenderer::renderKeyboardOverlay(*this, width, height);
+}
+
 void OutdoorGameView::renderVideoOptionsOverlay(int width, int height) const
 {
     GameplayPartyOverlayRenderer::renderVideoOptionsOverlay(*this, width, height);
@@ -11248,6 +11510,7 @@ void OutdoorGameView::updateActorInspectOverlayState(int width, int height)
         || m_pendingSpellCast.active
         || m_spellbook.active
         || m_controlsScreen.active
+        || m_keyboardScreen.active
         || m_menuScreen.active
         || m_saveGameScreen.active
         || m_loadGameScreen.active

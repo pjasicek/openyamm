@@ -56,6 +56,8 @@
 #include <unordered_set>
 #include <vector>
 
+struct SDL_Window;
+
 namespace OpenYAMM::Game
 {
 class OutdoorPartyRuntime;
@@ -342,6 +344,7 @@ private:
         Rest,
         Menu,
         Controls,
+        Keyboard,
         VideoOptions,
         SaveGame,
         LoadGame,
@@ -520,6 +523,17 @@ public:
         ReturnButton
     };
 
+    enum class KeyboardPointerTargetType
+    {
+        None,
+        BindingRow,
+        Page1Button,
+        Page2Button,
+        DefaultButton,
+        BackButton,
+        ReturnButton
+    };
+
     enum class VideoOptionsPointerTargetType
     {
         None,
@@ -655,6 +669,7 @@ private:
     using RestMode = GameplayUiController::RestMode;
     using MenuScreenState = GameplayUiController::MenuScreenState;
     using ControlsScreenState = GameplayUiController::ControlsScreenState;
+    using KeyboardScreenState = GameplayUiController::KeyboardScreenState;
     using VideoOptionsScreenState = GameplayUiController::VideoOptionsScreenState;
     using SaveSlotSummary = GameplayUiController::SaveSlotSummary;
     using SaveGameScreenState = GameplayUiController::SaveGameScreenState;
@@ -705,6 +720,14 @@ private:
         int sliderValue = 0;
 
         bool operator==(const ControlsPointerTarget &other) const = default;
+    };
+
+    struct KeyboardPointerTarget
+    {
+        KeyboardPointerTargetType type = KeyboardPointerTargetType::None;
+        KeyboardAction action = KeyboardAction::Forward;
+
+        bool operator==(const KeyboardPointerTarget &other) const = default;
     };
 
     struct VideoOptionsPointerTarget
@@ -827,6 +850,7 @@ private:
     void renderRestOverlay(int width, int height) const;
     void renderMenuOverlay(int width, int height) const;
     void renderControlsOverlay(int width, int height) const;
+    void renderKeyboardOverlay(int width, int height) const;
     void renderVideoOptionsOverlay(int width, int height) const;
     void renderSaveGameOverlay(int width, int height) const;
     void renderLoadGameOverlay(int width, int height) const;
@@ -916,6 +940,9 @@ private:
     void closeMenu();
     void openControlsScreen();
     void closeControlsScreen();
+    void openKeyboardScreen();
+    void closeKeyboardScreenToControls();
+    void closeKeyboardScreenToMenu();
     void openVideoOptionsScreen();
     void closeVideoOptionsScreen();
     void openSaveGameScreen();
@@ -946,6 +973,9 @@ private:
         const std::optional<bx::Vec3> &fallbackGroundTargetPoint = std::nullopt);
     std::optional<bx::Vec3> resolvePendingSpellGroundTargetPoint(const InspectHit &inspectHit) const;
     std::optional<size_t> resolveRuntimeActorIndexForInspectHit(const InspectHit &inspectHit) const;
+    bool shouldEnableGameplayMouseLook() const;
+    void syncGameplayMouseLookMode(SDL_Window *pWindow, bool enabled);
+    void renderGameplayMouseLookOverlay(int width, int height) const;
     bool isOpaqueHudPixelAtPoint(const GameplayRenderedInspectableHudItem &item, float x, float y) const;
     std::string resolveEquippedItemHudTextureName(
         const ItemDefinition &itemDefinition,
@@ -1122,6 +1152,8 @@ private:
     bool m_walkSoundEnabled = true;
     bool m_showHitStatusMessages = true;
     bool m_flipOnExitEnabled = false;
+    bool m_gameplayMouseLookActive = false;
+    bool m_gameplayCursorModeActive = false;
     bool m_isRotatingCamera;
     float m_lastMouseX;
     float m_lastMouseY;
@@ -1162,6 +1194,8 @@ private:
     bool m_menuClickLatch;
     bool m_controlsToggleLatch;
     bool m_controlsClickLatch;
+    bool m_keyboardToggleLatch;
+    bool m_keyboardClickLatch;
     bool m_videoOptionsToggleLatch;
     bool m_videoOptionsClickLatch;
     bool m_saveGameToggleLatch;
@@ -1172,6 +1206,7 @@ private:
     bool m_journalClickLatch;
     bool m_inventoryScreenToggleLatch;
     bool m_adventurersInnToggleLatch;
+    std::array<uint8_t, SDL_SCANCODE_COUNT> m_previousKeyboardState = {};
     GameplayUiController m_gameplayUiController;
     GameplayDialogController m_gameplayDialogController;
     bool &m_characterScreenOpen;
@@ -1207,6 +1242,7 @@ private:
     RestScreenState &m_restScreen;
     MenuScreenState &m_menuScreen;
     ControlsScreenState &m_controlsScreen;
+    KeyboardScreenState &m_keyboardScreen;
     VideoOptionsScreenState &m_videoOptionsScreen;
     SaveGameScreenState &m_saveGameScreen;
     LoadGameScreenState &m_loadGameScreen;
@@ -1230,6 +1266,7 @@ private:
     bool m_booksButtonPressed = false;
     MenuPointerTarget m_menuPressedTarget;
     ControlsPointerTarget m_controlsPressedTarget;
+    KeyboardPointerTarget m_keyboardPressedTarget;
     VideoOptionsPointerTarget m_videoOptionsPressedTarget;
     bool m_controlsSliderDragActive = false;
     ControlsPointerTargetType m_controlsDraggedSlider = ControlsPointerTargetType::None;

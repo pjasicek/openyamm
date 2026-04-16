@@ -98,6 +98,7 @@ add_executable(openyamm
     ui/GameplayOverlayContext.cpp
     ui/GameplayPartyOverlayRenderer.cpp
     ui/HudUiService.cpp
+    ui/KeyboardScreenLayout.cpp
     ui/MenuScreenBase.cpp
     ui/GameplayUiController.cpp
     ui/UiLayoutManager.cpp
@@ -111,6 +112,7 @@ add_executable(openyamm
     scene/OutdoorSceneRuntime.cpp
     app/main.cpp
     app/GameApplication.cpp
+    app/KeyboardBindings.cpp
     app/GameSettings.cpp
 )
 

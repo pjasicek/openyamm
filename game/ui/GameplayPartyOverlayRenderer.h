@@ -23,6 +23,7 @@ public:
     static void renderRestOverlay(const OutdoorGameView &view, int width, int height);
     static void renderMenuOverlay(const OutdoorGameView &view, int width, int height);
     static void renderControlsOverlay(const OutdoorGameView &view, int width, int height);
+    static void renderKeyboardOverlay(const OutdoorGameView &view, int width, int height);
     static void renderVideoOptionsOverlay(const OutdoorGameView &view, int width, int height);
     static void renderSaveGameOverlay(const OutdoorGameView &view, int width, int height);
     static void renderLoadGameOverlay(const OutdoorGameView &view, int width, int height);
