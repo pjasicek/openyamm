@@ -79,6 +79,7 @@ function(openyamm_configure_bgfx_runtime)
             ${OPENYAMM_BGFX_SOURCE_DIR}/src/vertexlayout.cpp
             ${OPENYAMM_BX_SOURCE_DIR}/src/amalgamated.cpp
             ${OPENYAMM_BIMG_SOURCE_DIR}/src/image.cpp
+            ${OPENYAMM_BIMG_SOURCE_DIR}/src/image_cubemap_filter.cpp
             ${OPENYAMM_BIMG_SOURCE_DIR}/src/image_decode.cpp
             ${OPENYAMM_BIMG_SOURCE_DIR}/src/image_encode.cpp
             ${OPENYAMM_BIMG_SOURCE_DIR}/src/image_gnf.cpp

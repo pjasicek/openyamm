@@ -47,6 +47,7 @@ std::string monsterSpriteFrameFamilyPath(std::string_view familyRoot)
 constexpr uint8_t WaterTileName[] = {'w', 't', 'r', 't', 'y', 'l', 0};
 constexpr int TerrainTextureTileSize = 128;
 constexpr int TerrainTextureAtlasColumns = 16;
+constexpr int TerrainTextureAtlasTilePadding = 2;
 constexpr uint16_t LevelDecorationInvisible = 0x0020;
 
 bool faceHasInvisibleAttribute(uint32_t attributes)
@@ -2245,6 +2246,58 @@ std::optional<std::vector<uint32_t>> buildOutdoorTileColors(
     return tileColors;
 }
 
+void copyTerrainTileIntoAtlasPixels(
+    std::vector<uint8_t> &atlasPixels,
+    int atlasWidth,
+    int atlasHeight,
+    int innerAtlasX,
+    int innerAtlasY,
+    int tileSize,
+    int tilePadding,
+    const std::vector<uint8_t> &tilePixels)
+{
+    if (atlasWidth <= 0
+        || atlasHeight <= 0
+        || tileSize <= 0
+        || tilePixels.size() < static_cast<size_t>(tileSize * tileSize * 4))
+    {
+        return;
+    }
+
+    const int cellStartX = innerAtlasX - tilePadding;
+    const int cellStartY = innerAtlasY - tilePadding;
+    const int paddedTileSize = tileSize + tilePadding * 2;
+
+    for (int paddedY = 0; paddedY < paddedTileSize; ++paddedY)
+    {
+        const int sourceY = std::clamp(paddedY - tilePadding, 0, tileSize - 1);
+        const int targetY = cellStartY + paddedY;
+
+        if (targetY < 0 || targetY >= atlasHeight)
+        {
+            continue;
+        }
+
+        for (int paddedX = 0; paddedX < paddedTileSize; ++paddedX)
+        {
+            const int sourceX = std::clamp(paddedX - tilePadding, 0, tileSize - 1);
+            const int targetX = cellStartX + paddedX;
+
+            if (targetX < 0 || targetX >= atlasWidth)
+            {
+                continue;
+            }
+
+            const size_t sourceOffset = static_cast<size_t>((sourceY * tileSize + sourceX) * 4);
+            const size_t targetOffset = static_cast<size_t>((targetY * atlasWidth + targetX) * 4);
+            std::memcpy(
+                atlasPixels.data() + static_cast<ptrdiff_t>(targetOffset),
+                tilePixels.data() + static_cast<ptrdiff_t>(sourceOffset),
+                4);
+        }
+    }
+}
+
 std::optional<OutdoorTerrainTextureAtlas> buildOutdoorTerrainTextureAtlas(
     const Engine::AssetFileSystem &assetFileSystem,
     const OutdoorMapData &outdoorMapData,
@@ -2261,10 +2314,13 @@ std::optional<OutdoorTerrainTextureAtlas> buildOutdoorTerrainTextureAtlas(
     }
 
     const int terrainTileSize = terrainTexturePhysicalTileSize(assetFileSystem.getAssetScaleTier());
+    const int atlasTilePadding = TerrainTextureAtlasTilePadding;
+    const int atlasCellSize = terrainTileSize + atlasTilePadding * 2;
     OutdoorTerrainTextureAtlas textureAtlas = {};
     textureAtlas.tileSize = terrainTileSize;
-    textureAtlas.width = TerrainTextureAtlasColumns * terrainTileSize;
-    textureAtlas.height = TerrainTextureAtlasColumns * terrainTileSize;
+    textureAtlas.tilePadding = atlasTilePadding;
+    textureAtlas.width = TerrainTextureAtlasColumns * atlasCellSize;
+    textureAtlas.height = TerrainTextureAtlasColumns * atlasCellSize;
     textureAtlas.pixels.resize(static_cast<size_t>(textureAtlas.width * textureAtlas.height * 4), 0);
 
     std::unordered_map<std::string, std::vector<std::vector<uint8_t>>> animatedTerrainFramesByKey;
@@ -2375,21 +2431,18 @@ std::optional<OutdoorTerrainTextureAtlas> buildOutdoorTerrainTextureAtlas(
 
         const int atlasColumn = tileIndex % TerrainTextureAtlasColumns;
         const int atlasRow = tileIndex / TerrainTextureAtlasColumns;
-        const int atlasX = atlasColumn * terrainTileSize;
-        const int atlasY = atlasRow * terrainTileSize;
+        const int atlasX = atlasColumn * atlasCellSize + atlasTilePadding;
+        const int atlasY = atlasRow * atlasCellSize + atlasTilePadding;
 
-        for (int row = 0; row < terrainTileSize; ++row)
-        {
-            const size_t sourceOffset = static_cast<size_t>(row * terrainTileSize * 4);
-            const size_t targetOffset = static_cast<size_t>(
-                ((atlasY + row) * textureAtlas.width + atlasX) * 4
-            );
-            std::memcpy(
-                textureAtlas.pixels.data() + static_cast<ptrdiff_t>(targetOffset),
-                resolvedTilePixels.data() + static_cast<ptrdiff_t>(sourceOffset),
-                static_cast<size_t>(terrainTileSize * 4)
-            );
-        }
+        copyTerrainTileIntoAtlasPixels(
+            textureAtlas.pixels,
+            textureAtlas.width,
+            textureAtlas.height,
+            atlasX,
+            atlasY,
+            terrainTileSize,
+            atlasTilePadding,
+            resolvedTilePixels);
 
         OutdoorTerrainAtlasRegion region = {};
         region.u0 = static_cast<float>(atlasX) / static_cast<float>(textureAtlas.width);

@@ -1,4 +1,5 @@
 #include "game/audio/HouseVideoPlayer.h"
+#include "game/render/TextureFiltering.h"
 
 #include <bgfx/bgfx.h>
 #include <bx/math.h>
@@ -698,12 +699,10 @@ void HouseVideoPlayer::ensureVideoTexture(int width, int height)
         m_videoTextureHandle = BGFX_INVALID_HANDLE;
     }
 
-    m_videoTextureHandle = bgfx::createTexture2D(
+    m_videoTextureHandle = createEmptyBgraTexture2D(
         static_cast<uint16_t>(width),
         static_cast<uint16_t>(height),
-        false,
-        1,
-        bgfx::TextureFormat::BGRA8,
+        TextureFilterProfile::Ui,
         BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP | BGFX_TEXTURE_BLIT_DST);
     m_videoTextureWidth = width;
     m_videoTextureHeight = height;

@@ -4,6 +4,7 @@
 #include "game/outdoor/OutdoorInteractionController.h"
 #include "game/gameplay/GameplayOverlayInputController.h"
 #include "game/gameplay/GameplayPartyOverlayInputController.h"
+#include "game/render/TextureFiltering.h"
 #include "game/scene/OutdoorSceneRuntime.h"
 #include "game/ui/HudUiService.h"
 
@@ -2847,6 +2848,19 @@ void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view
     else
     {
         view.m_toggleGameplayHudLatch = false;
+    }
+
+    if (pKeyboardState[SDL_SCANCODE_F7])
+    {
+        if (!view.m_toggleTextureFilteringLatch)
+        {
+            toggleTextureFilteringEnabled();
+            view.m_toggleTextureFilteringLatch = true;
+        }
+    }
+    else
+    {
+        view.m_toggleTextureFilteringLatch = false;
     }
 
     if (pKeyboardState[SDL_SCANCODE_F5])

@@ -1,6 +1,7 @@
 #include "game/indoor/IndoorDebugRenderer.h"
 
 #include "game/FaceEnums.h"
+#include "game/render/TextureFiltering.h"
 #include "game/scene/IndoorSceneRuntime.h"
 #include "game/SpawnPreview.h"
 #include "game/StringUtils.h"
@@ -634,6 +635,7 @@ IndoorDebugRenderer::IndoorDebugRenderer()
     , m_toggleEntitiesLatch(false)
     , m_toggleSpawnsLatch(false)
     , m_toggleDoorsLatch(false)
+    , m_toggleTextureFilteringLatch(false)
     , m_toggleInspectLatch(false)
     , m_activateInspectLatch(false)
 {
@@ -723,14 +725,13 @@ bool IndoorDebugRenderer::initialize(
             billboardTexture.height = texture.height;
             billboardTexture.physicalWidth = texture.physicalWidth;
             billboardTexture.physicalHeight = texture.physicalHeight;
-            billboardTexture.textureHandle = bgfx::createTexture2D(
-                static_cast<uint16_t>(texture.physicalWidth),
-                static_cast<uint16_t>(texture.physicalHeight),
-                false,
-                1,
-                bgfx::TextureFormat::BGRA8,
-                BGFX_SAMPLER_MIN_POINT | BGFX_SAMPLER_MAG_POINT,
-                bgfx::copy(texture.pixels.data(), static_cast<uint32_t>(texture.pixels.size()))
+            billboardTexture.textureHandle = createBgraTexture2D(
+                uint16_t(texture.physicalWidth),
+                uint16_t(texture.physicalHeight),
+                texture.pixels.data(),
+                uint32_t(texture.pixels.size()),
+                TextureFilterProfile::Billboard,
+                BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP
             );
 
             if (bgfx::isValid(billboardTexture.textureHandle))
@@ -756,14 +757,13 @@ bool IndoorDebugRenderer::initialize(
             billboardTexture.height = texture.height;
             billboardTexture.physicalWidth = texture.physicalWidth;
             billboardTexture.physicalHeight = texture.physicalHeight;
-            billboardTexture.textureHandle = bgfx::createTexture2D(
-                static_cast<uint16_t>(texture.physicalWidth),
-                static_cast<uint16_t>(texture.physicalHeight),
-                false,
-                1,
-                bgfx::TextureFormat::BGRA8,
-                BGFX_SAMPLER_MIN_POINT | BGFX_SAMPLER_MAG_POINT,
-                bgfx::copy(texture.pixels.data(), static_cast<uint32_t>(texture.pixels.size()))
+            billboardTexture.textureHandle = createBgraTexture2D(
+                uint16_t(texture.physicalWidth),
+                uint16_t(texture.physicalHeight),
+                texture.pixels.data(),
+                uint32_t(texture.pixels.size()),
+                TextureFilterProfile::Billboard,
+                BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP
             );
 
             if (bgfx::isValid(billboardTexture.textureHandle))
@@ -789,14 +789,13 @@ bool IndoorDebugRenderer::initialize(
             billboardTexture.height = texture.height;
             billboardTexture.physicalWidth = texture.physicalWidth;
             billboardTexture.physicalHeight = texture.physicalHeight;
-            billboardTexture.textureHandle = bgfx::createTexture2D(
-                static_cast<uint16_t>(texture.physicalWidth),
-                static_cast<uint16_t>(texture.physicalHeight),
-                false,
-                1,
-                bgfx::TextureFormat::BGRA8,
-                BGFX_SAMPLER_MIN_POINT | BGFX_SAMPLER_MAG_POINT,
-                bgfx::copy(texture.pixels.data(), static_cast<uint32_t>(texture.pixels.size()))
+            billboardTexture.textureHandle = createBgraTexture2D(
+                uint16_t(texture.physicalWidth),
+                uint16_t(texture.physicalHeight),
+                texture.pixels.data(),
+                uint32_t(texture.pixels.size()),
+                TextureFilterProfile::Billboard,
+                BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP
             );
 
             if (bgfx::isValid(billboardTexture.textureHandle))
@@ -997,7 +996,11 @@ void IndoorDebugRenderer::render(int width, int height, float mouseWheelDelta, f
 
             bgfx::setTransform(modelMatrix);
             bgfx::setVertexBuffer(0, batch.vertexBufferHandle, 0, batch.vertexCount);
-            bgfx::setTexture(0, m_textureSamplerHandle, batch.frameTextureHandles[frameIndex]);
+            bindTexture(
+                0,
+                m_textureSamplerHandle,
+                batch.frameTextureHandles[frameIndex],
+                TextureFilterProfile::BModel);
             bgfx::setState(
                 BGFX_STATE_WRITE_RGB
                 | BGFX_STATE_WRITE_A
@@ -1102,7 +1105,7 @@ void IndoorDebugRenderer::render(int width, int height, float mouseWheelDelta, f
         0,
         4,
         0x0f,
-        "Modes: 1 filled=%s  2 wire=%s  3 portals=%s  4 sprites=%s  5 actors=%s  6 objs=%s  7 ents=%s  8 spawns=%s  9 mechs=%s  0 inspect=%s textured=%s",
+        "Modes: 1 filled=%s  2 wire=%s  3 portals=%s  4 sprites=%s  5 actors=%s  6 objs=%s  7 ents=%s  8 spawns=%s  9 mechs=%s  0 inspect=%s  F7 filter=%s  textured=%s",
         m_showFilled ? "on" : "off",
         m_showWireframe ? "on" : "off",
         m_showPortals ? "on" : "off",
@@ -1113,6 +1116,7 @@ void IndoorDebugRenderer::render(int width, int height, float mouseWheelDelta, f
         m_showSpawns ? "on" : "off",
         m_showDoors ? "on" : "off",
         m_inspectMode ? "on" : "off",
+        textureFilteringEnabled() ? "on" : "off",
         m_texturedBatches.empty() ? "no" : "yes"
     );
     bgfx::dbgTextPrintf(0, 5, 0x0f, "Move: WASD  Rotate: RMB drag");
@@ -1471,6 +1475,7 @@ void IndoorDebugRenderer::shutdown()
     m_toggleEntitiesLatch = false;
     m_toggleSpawnsLatch = false;
     m_toggleDoorsLatch = false;
+    m_toggleTextureFilteringLatch = false;
     m_toggleInspectLatch = false;
     m_isRenderable = false;
     m_isInitialized = false;
@@ -1748,7 +1753,12 @@ void IndoorDebugRenderer::renderDecorationBillboards(
         bx::mtxIdentity(modelMatrix);
         bgfx::setTransform(modelMatrix);
         bgfx::setVertexBuffer(0, &transientVertexBuffer, 0, static_cast<uint32_t>(vertices.size()));
-        bgfx::setTexture(0, m_textureSamplerHandle, texture.textureHandle);
+        bindTexture(
+            0,
+            m_textureSamplerHandle,
+            texture.textureHandle,
+            TextureFilterProfile::Billboard,
+            BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP);
         bgfx::setState(
             BGFX_STATE_WRITE_RGB
             | BGFX_STATE_WRITE_A
@@ -1885,7 +1895,12 @@ void IndoorDebugRenderer::renderActorPreviewBillboards(
         bx::mtxIdentity(modelMatrix);
         bgfx::setTransform(modelMatrix);
         bgfx::setVertexBuffer(0, &transientVertexBuffer, 0, static_cast<uint32_t>(vertices.size()));
-        bgfx::setTexture(0, m_textureSamplerHandle, texture.textureHandle);
+        bindTexture(
+            0,
+            m_textureSamplerHandle,
+            texture.textureHandle,
+            TextureFilterProfile::Billboard,
+            BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP);
         bgfx::setState(
             BGFX_STATE_WRITE_RGB
             | BGFX_STATE_WRITE_A
@@ -2017,7 +2032,12 @@ void IndoorDebugRenderer::renderSpriteObjectBillboards(
         bx::mtxIdentity(modelMatrix);
         bgfx::setTransform(modelMatrix);
         bgfx::setVertexBuffer(0, &transientVertexBuffer, 0, static_cast<uint32_t>(vertices.size()));
-        bgfx::setTexture(0, m_textureSamplerHandle, texture.textureHandle);
+        bindTexture(
+            0,
+            m_textureSamplerHandle,
+            texture.textureHandle,
+            TextureFilterProfile::Billboard,
+            BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP);
         bgfx::setState(
             BGFX_STATE_WRITE_RGB
             | BGFX_STATE_WRITE_A
@@ -2294,14 +2314,12 @@ bool IndoorDebugRenderer::rebuildAllTexturedBatches(uint64_t &texturedBuildNanos
                     continue;
                 }
 
-                const bgfx::TextureHandle textureHandle = bgfx::createTexture2D(
-                    static_cast<uint16_t>(pFrameTexture->physicalWidth),
-                    static_cast<uint16_t>(pFrameTexture->physicalHeight),
-                    false,
-                    1,
-                    bgfx::TextureFormat::BGRA8,
-                    BGFX_SAMPLER_MIN_POINT | BGFX_SAMPLER_MAG_POINT,
-                    bgfx::copy(pFrameTexture->pixels.data(), static_cast<uint32_t>(pFrameTexture->pixels.size()))
+                const bgfx::TextureHandle textureHandle = createBgraTexture2D(
+                    uint16_t(pFrameTexture->physicalWidth),
+                    uint16_t(pFrameTexture->physicalHeight),
+                    pFrameTexture->pixels.data(),
+                    uint32_t(pFrameTexture->pixels.size()),
+                    TextureFilterProfile::BModel
                 );
 
                 if (!bgfx::isValid(textureHandle))
@@ -3622,6 +3640,19 @@ void IndoorDebugRenderer::updateCameraFromInput(float deltaSeconds)
     else
     {
         m_toggleInspectLatch = false;
+    }
+
+    if (pKeyboardState[SDL_SCANCODE_F7])
+    {
+        if (!m_toggleTextureFilteringLatch)
+        {
+            toggleTextureFilteringEnabled();
+            m_toggleTextureFilteringLatch = true;
+        }
+    }
+    else
+    {
+        m_toggleTextureFilteringLatch = false;
     }
 
     if (m_cameraYawRadians > Pi)

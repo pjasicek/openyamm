@@ -4,6 +4,7 @@
 #include "game/fx/ParticleSystem.h"
 #include "game/outdoor/OutdoorGameView.h"
 #include "game/outdoor/OutdoorInteractionController.h"
+#include "game/render/TextureFiltering.h"
 #include "game/StringUtils.h"
 #include "game/scene/OutdoorSceneRuntime.h"
 
@@ -617,14 +618,13 @@ void OutdoorBillboardRenderer::initializeBillboardResources(OutdoorGameView &vie
         shadowTexture.physicalWidth = 64;
         shadowTexture.physicalHeight = 64;
         const std::vector<uint8_t> pixels = buildContactShadowBlobPixels(64, 64);
-        shadowTexture.textureHandle = bgfx::createTexture2D(
+        shadowTexture.textureHandle = createBgraTexture2D(
             64,
             64,
-            false,
-            1,
-            bgfx::TextureFormat::BGRA8,
-            BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP,
-            bgfx::copy(pixels.data(), static_cast<uint32_t>(pixels.size())));
+            pixels.data(),
+            uint32_t(pixels.size()),
+            TextureFilterProfile::Billboard,
+            BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP);
 
         if (bgfx::isValid(shadowTexture.textureHandle))
         {
@@ -647,14 +647,13 @@ void OutdoorBillboardRenderer::initializeBillboardResources(OutdoorGameView &vie
             billboardTexture.height = texture.height;
             billboardTexture.physicalWidth = texture.physicalWidth;
             billboardTexture.physicalHeight = texture.physicalHeight;
-            billboardTexture.textureHandle = bgfx::createTexture2D(
-                static_cast<uint16_t>(texture.physicalWidth),
-                static_cast<uint16_t>(texture.physicalHeight),
-                false,
-                1,
-                bgfx::TextureFormat::BGRA8,
-                BGFX_SAMPLER_MIN_POINT | BGFX_SAMPLER_MAG_POINT,
-                bgfx::copy(texture.pixels.data(), static_cast<uint32_t>(texture.pixels.size())));
+            billboardTexture.textureHandle = createBgraTexture2D(
+                uint16_t(texture.physicalWidth),
+                uint16_t(texture.physicalHeight),
+                texture.pixels.data(),
+                uint32_t(texture.pixels.size()),
+                TextureFilterProfile::Billboard,
+                BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP);
 
             if (bgfx::isValid(billboardTexture.textureHandle))
             {
@@ -699,14 +698,13 @@ void OutdoorBillboardRenderer::initializeBillboardResources(OutdoorGameView &vie
         billboardTexture.height = texture.height;
         billboardTexture.physicalWidth = texture.physicalWidth;
         billboardTexture.physicalHeight = texture.physicalHeight;
-        billboardTexture.textureHandle = bgfx::createTexture2D(
-            static_cast<uint16_t>(texture.physicalWidth),
-            static_cast<uint16_t>(texture.physicalHeight),
-            false,
-            1,
-            bgfx::TextureFormat::BGRA8,
-            BGFX_SAMPLER_MIN_POINT | BGFX_SAMPLER_MAG_POINT,
-            bgfx::copy(texture.pixels.data(), static_cast<uint32_t>(texture.pixels.size())));
+        billboardTexture.textureHandle = createBgraTexture2D(
+            uint16_t(texture.physicalWidth),
+            uint16_t(texture.physicalHeight),
+            texture.pixels.data(),
+            uint32_t(texture.pixels.size()),
+            TextureFilterProfile::Billboard,
+            BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP);
 
         if (bgfx::isValid(billboardTexture.textureHandle))
         {
@@ -1532,14 +1530,13 @@ void OutdoorBillboardRenderer::preloadPendingSpriteFrameWarmupsParallel(OutdoorG
         billboardTexture.height = Engine::scalePhysicalPixelsToLogical(decodedTexture.height, assetScaleTier);
         billboardTexture.physicalWidth = decodedTexture.width;
         billboardTexture.physicalHeight = decodedTexture.height;
-        billboardTexture.textureHandle = bgfx::createTexture2D(
-            static_cast<uint16_t>(decodedTexture.width),
-            static_cast<uint16_t>(decodedTexture.height),
-            false,
-            1,
-            bgfx::TextureFormat::BGRA8,
-            BGFX_SAMPLER_MIN_POINT | BGFX_SAMPLER_MAG_POINT,
-            bgfx::copy(decodedTexture.pixels.data(), static_cast<uint32_t>(decodedTexture.pixels.size())));
+        billboardTexture.textureHandle = createBgraTexture2D(
+            uint16_t(decodedTexture.width),
+            uint16_t(decodedTexture.height),
+            decodedTexture.pixels.data(),
+            uint32_t(decodedTexture.pixels.size()),
+            TextureFilterProfile::Billboard,
+            BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP);
 
         if (!bgfx::isValid(billboardTexture.textureHandle))
         {
@@ -1681,14 +1678,13 @@ const OutdoorGameView::BillboardTextureHandle *OutdoorBillboardRenderer::ensureS
         Engine::scalePhysicalPixelsToLogical(textureHeight, view.m_pAssetFileSystem->getAssetScaleTier());
     billboardTexture.physicalWidth = textureWidth;
     billboardTexture.physicalHeight = textureHeight;
-    billboardTexture.textureHandle = bgfx::createTexture2D(
-        static_cast<uint16_t>(textureWidth),
-        static_cast<uint16_t>(textureHeight),
-        false,
-        1,
-        bgfx::TextureFormat::BGRA8,
-        BGFX_SAMPLER_MIN_POINT | BGFX_SAMPLER_MAG_POINT,
-        bgfx::copy(pixels->data(), static_cast<uint32_t>(pixels->size())));
+    billboardTexture.textureHandle = createBgraTexture2D(
+        uint16_t(textureWidth),
+        uint16_t(textureHeight),
+        pixels->data(),
+        uint32_t(pixels->size()),
+        TextureFilterProfile::Billboard,
+        BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP);
 
     if (!bgfx::isValid(billboardTexture.textureHandle))
     {
@@ -2001,7 +1997,12 @@ void OutdoorBillboardRenderer::renderDecorationBillboards(
         bx::mtxIdentity(modelMatrix);
         bgfx::setTransform(modelMatrix);
         bgfx::setVertexBuffer(0, &transientVertexBuffer, 0, vertexCount);
-        bgfx::setTexture(0, view.m_terrainTextureSamplerHandle, pTexture->textureHandle);
+        bindTexture(
+            0,
+            view.m_terrainTextureSamplerHandle,
+            pTexture->textureHandle,
+            TextureFilterProfile::Billboard,
+            BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP);
         applyBillboardAmbientUniform(view);
         applyBillboardOverrideColorUniform(view, 0, 0.0f);
         applyBillboardOutlineParamsUniform(view, 0.0f, 0.0f, 0.0f);
@@ -2612,7 +2613,12 @@ void OutdoorBillboardRenderer::renderActorPreviewBillboards(
                 bx::mtxIdentity(outlineModelMatrix);
                 bgfx::setTransform(outlineModelMatrix);
                 bgfx::setVertexBuffer(0, &outlineTransientVertexBuffer, 0, vertexCount);
-                bgfx::setTexture(0, view.m_terrainTextureSamplerHandle, pTexture->textureHandle);
+                bindTexture(
+                    0,
+                    view.m_terrainTextureSamplerHandle,
+                    pTexture->textureHandle,
+                    TextureFilterProfile::Billboard,
+                    BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP);
                 applyBillboardAmbientUniform(view);
                 applyBillboardOverrideColorUniform(view, drawItem.hoveredOutlineColorAbgr, 1.0f);
                 applyBillboardOutlineParamsUniform(
@@ -2649,7 +2655,12 @@ void OutdoorBillboardRenderer::renderActorPreviewBillboards(
         bx::mtxIdentity(modelMatrix);
         bgfx::setTransform(modelMatrix);
         bgfx::setVertexBuffer(0, &transientVertexBuffer, 0, vertexCount);
-        bgfx::setTexture(0, view.m_terrainTextureSamplerHandle, pTexture->textureHandle);
+        bindTexture(
+            0,
+            view.m_terrainTextureSamplerHandle,
+            pTexture->textureHandle,
+            TextureFilterProfile::Billboard,
+            BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP);
         applyBillboardAmbientUniform(view);
         applyBillboardOverrideColorUniform(view, 0, 0.0f);
         applyBillboardOutlineParamsUniform(view, 0.0f, 0.0f, 0.0f);
@@ -2911,7 +2922,12 @@ void OutdoorBillboardRenderer::renderRuntimeWorldItems(
                     &outlineTransientVertexBuffer,
                     0,
                     static_cast<uint32_t>(outlineVertices.size()));
-                bgfx::setTexture(0, view.m_terrainTextureSamplerHandle, texture.textureHandle);
+                bindTexture(
+                    0,
+                    view.m_terrainTextureSamplerHandle,
+                    texture.textureHandle,
+                    TextureFilterProfile::Billboard,
+                    BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP);
                 applyBillboardAmbientUniform(view);
                 applyBillboardOverrideColorUniform(view, drawItem.hoveredOutlineColorAbgr, 1.0f);
                 applyBillboardOutlineParamsUniform(
@@ -2955,7 +2971,12 @@ void OutdoorBillboardRenderer::renderRuntimeWorldItems(
         bx::mtxIdentity(modelMatrix);
         bgfx::setTransform(modelMatrix);
         bgfx::setVertexBuffer(0, &transientVertexBuffer, 0, static_cast<uint32_t>(vertices.size()));
-        bgfx::setTexture(0, view.m_terrainTextureSamplerHandle, texture.textureHandle);
+        bindTexture(
+            0,
+            view.m_terrainTextureSamplerHandle,
+            texture.textureHandle,
+            TextureFilterProfile::Billboard,
+            BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP);
         applyBillboardAmbientUniform(view);
         applyBillboardOverrideColorUniform(view, 0, 0.0f);
         applyBillboardOutlineParamsUniform(view, 0.0f, 0.0f, 0.0f);
@@ -3320,7 +3341,12 @@ void OutdoorBillboardRenderer::renderRuntimeProjectiles(
         bx::mtxIdentity(modelMatrix);
         bgfx::setTransform(modelMatrix);
         bgfx::setVertexBuffer(0, &transientVertexBuffer, 0, static_cast<uint32_t>(vertices.size()));
-        bgfx::setTexture(0, view.m_terrainTextureSamplerHandle, pTexture->textureHandle);
+        bindTexture(
+            0,
+            view.m_terrainTextureSamplerHandle,
+            pTexture->textureHandle,
+            TextureFilterProfile::Billboard,
+            BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP);
         applyBillboardAmbientUniform(view);
         applyBillboardOverrideColorUniform(view, 0, 0.0f);
         bgfx::setState(BillboardAlphaRenderState);
@@ -3395,7 +3421,12 @@ void OutdoorBillboardRenderer::renderFxContactShadows(
     bx::mtxIdentity(modelMatrix);
     bgfx::setTransform(modelMatrix);
     bgfx::setVertexBuffer(0, &transientVertexBuffer, 0, static_cast<uint32_t>(vertices.size()));
-    bgfx::setTexture(0, view.m_terrainTextureSamplerHandle, pShadowTexture->textureHandle);
+    bindTexture(
+        0,
+        view.m_terrainTextureSamplerHandle,
+        pShadowTexture->textureHandle,
+        TextureFilterProfile::Billboard,
+        BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP);
     applyBillboardAmbientUniform(view);
     applyBillboardOverrideColorUniform(view, 0, 0.0f);
     applyBillboardOutlineParamsUniform(view, 0.0f, 0.0f, 0.0f);
@@ -3577,7 +3608,12 @@ void OutdoorBillboardRenderer::renderSpriteObjectBillboards(
         bx::mtxIdentity(modelMatrix);
         bgfx::setTransform(modelMatrix);
         bgfx::setVertexBuffer(0, &transientVertexBuffer, 0, static_cast<uint32_t>(vertices.size()));
-        bgfx::setTexture(0, view.m_terrainTextureSamplerHandle, texture.textureHandle);
+        bindTexture(
+            0,
+            view.m_terrainTextureSamplerHandle,
+            texture.textureHandle,
+            TextureFilterProfile::Billboard,
+            BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP);
         applyBillboardAmbientUniform(view);
         applyBillboardOverrideColorUniform(view, 0, 0.0f);
         applyBillboardOutlineParamsUniform(view, 0.0f, 0.0f, 0.0f);

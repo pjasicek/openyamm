@@ -27,6 +27,14 @@ struct GameSettings
     bool bloodSplats = true;
     bool coloredLights = true;
     bool tinting = true;
+    bool textureFiltering = true;
+    std::string terrainFiltering = "anisotropic";
+    std::string terrainAnisotropy = "8x";
+    std::string bmodelFiltering = "linear";
+    std::string billboardFiltering = "linear";
+    std::string uiFiltering = "linear";
+    std::string textFiltering = "nearest";
+    std::string minimapFiltering = "linear";
 
     bool startInMainMenu = false;
     bool preseedParty = true;

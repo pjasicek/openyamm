@@ -27,6 +27,7 @@
 #include "game/ui/SpellbookUiLayout.h"
 #include "game/party/SpellSchool.h"
 #include "game/party/SpellIds.h"
+#include "game/render/TextureFiltering.h"
 #include "game/SpriteObjectDefs.h"
 #include "game/tables/SpriteTables.h"
 #include "game/StringUtils.h"
@@ -3648,6 +3649,7 @@ OutdoorGameView::OutdoorGameView()
     , m_toggleSpawnsLatch(false)
     , m_toggleGameplayHudLatch(false)
     , m_toggleDebugHudLatch(false)
+    , m_toggleTextureFilteringLatch(false)
     , m_toggleInspectLatch(false)
     , m_triggerMeteorLatch(false)
     , m_debugDialogueLatch(false)
@@ -5324,7 +5326,7 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
             0,
             5,
             0x0f,
-            "Modes: 1 filled=%s  2 wire=%s  3 bmodels=%s  4 bmwire=%s  5 coll=%s  6 actorcoll=%s  7 actors=%s  8 objs=%s  9 ents=%s  0 spawns=%s  -=inspect=%s  F2 debug=%s  F3 decor=%s  F4 hud=%s  F5 ston  textured=%s/%s",
+            "Modes: 1 filled=%s  2 wire=%s  3 bmodels=%s  4 bmwire=%s  5 coll=%s  6 actorcoll=%s  7 actors=%s  8 objs=%s  9 ents=%s  0 spawns=%s  -=inspect=%s  F2 debug=%s  F3 decor=%s  F4 hud=%s  F5 ston  F7 filter=%s  textured=%s/%s",
             m_showFilledTerrain ? "on" : "off",
             m_showTerrainWireframe ? "on" : "off",
             m_showBModels ? "on" : "off",
@@ -5339,6 +5341,7 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
             m_showDebugHud ? "on" : "off",
             m_showDecorationBillboards ? "on" : "off",
             m_showGameplayHud ? "on" : "off",
+            textureFilteringEnabled() ? "on" : "off",
             bgfx::isValid(m_terrainTextureAtlasHandle) ? "yes" : "no",
             m_texturedBModelBatches.empty() ? "no" : "yes"
         );
@@ -6646,6 +6649,7 @@ void OutdoorGameView::shutdown()
     m_toggleSpriteObjectsLatch = false;
     m_toggleEntitiesLatch = false;
     m_toggleSpawnsLatch = false;
+    m_toggleTextureFilteringLatch = false;
     m_inspectMode = true;
     m_toggleInspectLatch = false;
     m_triggerMeteorLatch = false;
@@ -10417,7 +10421,12 @@ void OutdoorGameView::submitHudTexturedQuad(
     bx::mtxIdentity(modelMatrix);
     bgfx::setTransform(modelMatrix);
     bgfx::setVertexBuffer(0, &transientVertexBuffer);
-    bgfx::setTexture(0, m_terrainTextureSamplerHandle, texture.textureHandle);
+    bindTexture(
+        0,
+        m_terrainTextureSamplerHandle,
+        texture.textureHandle,
+        TextureFilterProfile::Ui,
+        BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP);
     bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_BLEND_ALPHA);
     bgfx::submit(HudViewId, m_texturedTerrainProgramHandle);
 }
@@ -11033,7 +11042,12 @@ void OutdoorGameView::renderPendingSpellTargetingOverlay(int width, int height) 
             bx::mtxIdentity(modelMatrix);
             bgfx::setTransform(modelMatrix);
             bgfx::setVertexBuffer(0, &transientVertexBuffer);
-            bgfx::setTexture(0, m_terrainTextureSamplerHandle, texture.textureHandle);
+            bindTexture(
+                0,
+                m_terrainTextureSamplerHandle,
+                texture.textureHandle,
+                TextureFilterProfile::Ui,
+                BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP);
             bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_BLEND_ALPHA);
             bgfx::submit(HudViewId, m_texturedTerrainProgramHandle);
         };
@@ -12150,23 +12164,19 @@ bool OutdoorGameView::loadHudFont(const Engine::AssetFileSystem &assetFileSystem
         fontHandle.glyphMetrics[glyphIndex].rightSpacing = parsedFont->glyphMetrics[glyphIndex].rightSpacing;
     }
 
-    fontHandle.mainTextureHandle = bgfx::createTexture2D(
-        static_cast<uint16_t>(atlasWidth),
-        static_cast<uint16_t>(atlasHeight),
-        false,
-        1,
-        bgfx::TextureFormat::BGRA8,
-        BGFX_SAMPLER_MIN_POINT | BGFX_SAMPLER_MAG_POINT,
-        bgfx::copy(mainPixels.data(), static_cast<uint32_t>(mainPixels.size()))
+    fontHandle.mainTextureHandle = createBgraTexture2D(
+        uint16_t(atlasWidth),
+        uint16_t(atlasHeight),
+        mainPixels.data(),
+        uint32_t(mainPixels.size()),
+        TextureFilterProfile::Text
     );
-    fontHandle.shadowTextureHandle = bgfx::createTexture2D(
-        static_cast<uint16_t>(atlasWidth),
-        static_cast<uint16_t>(atlasHeight),
-        false,
-        1,
-        bgfx::TextureFormat::BGRA8,
-        BGFX_SAMPLER_MIN_POINT | BGFX_SAMPLER_MAG_POINT,
-        bgfx::copy(shadowPixels.data(), static_cast<uint32_t>(shadowPixels.size()))
+    fontHandle.shadowTextureHandle = createBgraTexture2D(
+        uint16_t(atlasWidth),
+        uint16_t(atlasHeight),
+        shadowPixels.data(),
+        uint32_t(shadowPixels.size()),
+        TextureFilterProfile::Text
     );
 
     if (!bgfx::isValid(fontHandle.mainTextureHandle) || !bgfx::isValid(fontHandle.shadowTextureHandle))
@@ -12260,14 +12270,13 @@ bool OutdoorGameView::loadHudTexture(const Engine::AssetFileSystem &assetFileSys
     textureHandle.physicalWidth = width;
     textureHandle.physicalHeight = height;
     textureHandle.bgraPixels = *pixels;
-    textureHandle.textureHandle = bgfx::createTexture2D(
-        static_cast<uint16_t>(width),
-        static_cast<uint16_t>(height),
-        false,
-        1,
-        bgfx::TextureFormat::BGRA8,
-        BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP | BGFX_SAMPLER_MIN_POINT | BGFX_SAMPLER_MAG_POINT,
-        bgfx::copy(pixels->data(), static_cast<uint32_t>(pixels->size()))
+    textureHandle.textureHandle = createBgraTexture2D(
+        uint16_t(width),
+        uint16_t(height),
+        pixels->data(),
+        uint32_t(pixels->size()),
+        TextureFilterProfile::Ui,
+        BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP
     );
 
     if (!bgfx::isValid(textureHandle.textureHandle))

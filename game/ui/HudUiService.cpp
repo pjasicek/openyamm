@@ -1,6 +1,7 @@
 #include "game/ui/HudUiService.h"
 
 #include "game/outdoor/OutdoorGameView.h"
+#include "game/render/TextureFiltering.h"
 #include "game/StringUtils.h"
 
 #include <SDL3/SDL.h>
@@ -355,7 +356,7 @@ void HudUiService::renderHudFontLayer(
     bx::mtxIdentity(modelMatrix);
     bgfx::setTransform(modelMatrix);
     bgfx::setVertexBuffer(0, &transientVertexBuffer);
-    bgfx::setTexture(0, view.m_terrainTextureSamplerHandle, textureHandle);
+    bindTexture(0, view.m_terrainTextureSamplerHandle, textureHandle, TextureFilterProfile::Text);
     bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_BLEND_ALPHA);
     bgfx::submit(HudViewId, view.m_texturedTerrainProgramHandle);
 }
@@ -400,14 +401,12 @@ bgfx::TextureHandle HudUiService::ensureHudFontMainTextureColor(
         tintedPixels[pixelIndex + 2] = red;
     }
 
-    const bgfx::TextureHandle textureHandle = bgfx::createTexture2D(
-        static_cast<uint16_t>(font.atlasWidth),
-        static_cast<uint16_t>(font.atlasHeight),
-        false,
-        1,
-        bgfx::TextureFormat::BGRA8,
-        BGFX_SAMPLER_MIN_POINT | BGFX_SAMPLER_MAG_POINT,
-        bgfx::copy(tintedPixels.data(), static_cast<uint32_t>(tintedPixels.size()))
+    const bgfx::TextureHandle textureHandle = createBgraTexture2D(
+        uint16_t(font.atlasWidth),
+        uint16_t(font.atlasHeight),
+        tintedPixels.data(),
+        uint32_t(tintedPixels.size()),
+        TextureFilterProfile::Text
     );
 
     if (!bgfx::isValid(textureHandle))
@@ -467,14 +466,13 @@ bgfx::TextureHandle HudUiService::ensureHudTextureColor(
         tintedPixels[pixelIndex + 3] = static_cast<uint8_t>((static_cast<uint32_t>(sourceAlpha) * alpha) / 255u);
     }
 
-    const bgfx::TextureHandle textureHandle = bgfx::createTexture2D(
-        static_cast<uint16_t>(texture.physicalWidth),
-        static_cast<uint16_t>(texture.physicalHeight),
-        false,
-        1,
-        bgfx::TextureFormat::BGRA8,
-        BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP | BGFX_SAMPLER_MIN_POINT | BGFX_SAMPLER_MAG_POINT,
-        bgfx::copy(tintedPixels.data(), static_cast<uint32_t>(tintedPixels.size()))
+    const bgfx::TextureHandle textureHandle = createBgraTexture2D(
+        uint16_t(texture.physicalWidth),
+        uint16_t(texture.physicalHeight),
+        tintedPixels.data(),
+        uint32_t(tintedPixels.size()),
+        TextureFilterProfile::Ui,
+        BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP
     );
 
     if (!bgfx::isValid(textureHandle))
@@ -698,14 +696,13 @@ const OutdoorGameView::HudTextureHandle *HudUiService::ensureSolidHudTextureLoad
     textureHandle.physicalWidth = 1;
     textureHandle.physicalHeight = 1;
     textureHandle.bgraPixels.assign(pixel.begin(), pixel.end());
-    textureHandle.textureHandle = bgfx::createTexture2D(
+    textureHandle.textureHandle = createBgraTexture2D(
         1,
         1,
-        false,
-        1,
-        bgfx::TextureFormat::BGRA8,
-        BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP | BGFX_SAMPLER_MIN_POINT | BGFX_SAMPLER_MAG_POINT,
-        bgfx::copy(pixel.data(), static_cast<uint32_t>(pixel.size()))
+        pixel.data(),
+        uint32_t(pixel.size()),
+        TextureFilterProfile::Ui,
+        BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP
     );
 
     if (!bgfx::isValid(textureHandle.textureHandle))

@@ -8,6 +8,7 @@
 #include "game/party/SkillData.h"
 #include "game/party/SpellIds.h"
 #include "game/party/SpellSchool.h"
+#include "game/render/TextureFiltering.h"
 #include "game/events/EvtEnums.h"
 #include "game/tables/ItemTable.h"
 #include "game/ui/screens/ArcomageScreen.h"
@@ -535,6 +536,7 @@ void GameApplication::loadOrCreateSettings()
 
 void GameApplication::applyCurrentSettingsToActiveRuntime()
 {
+    setTextureFilteringEnabled(m_settings.textureFiltering);
     m_gameAudioSystem.setSoundVolume(normalizedVolumeLevel(m_settings.soundVolume));
     m_gameAudioSystem.setMusicVolume(normalizedVolumeLevel(m_settings.musicVolume));
     m_gameAudioSystem.setVoiceVolume(normalizedVolumeLevel(m_settings.voiceVolume));

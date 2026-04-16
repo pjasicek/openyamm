@@ -1,5 +1,7 @@
 #include "game/ui/GameplayOverlayContext.h"
 
+#include "game/render/TextureFiltering.h"
+
 #include "game/tables/ChestTable.h"
 #include "game/audio/GameAudioSystem.h"
 #include "game/tables/HouseTable.h"
@@ -717,7 +719,12 @@ void GameplayOverlayContext::submitWorldTextureQuad(
 
     bgfx::setVertexBuffer(0, &vertexBuffer);
     bgfx::setIndexBuffer(&indexBuffer);
-    bgfx::setTexture(0, m_view.m_terrainTextureSamplerHandle, textureHandle);
+    bindTexture(
+        0,
+        m_view.m_terrainTextureSamplerHandle,
+        textureHandle,
+        TextureFilterProfile::Ui,
+        BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP);
     bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_BLEND_ALPHA);
     bgfx::submit(HudViewId, m_view.m_texturedTerrainProgramHandle);
 }

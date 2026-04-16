@@ -1,5 +1,7 @@
 #include "game/ui/GameplayHudRenderer.h"
 
+#include "game/render/TextureFiltering.h"
+
 #include "game/gameplay/GameMechanics.h"
 #include "game/outdoor/OutdoorGameView.h"
 #include "game/outdoor/OutdoorPartyRuntime.h"
@@ -278,7 +280,12 @@ void GameplayHudRenderer::renderGameplayHudArt(OutdoorGameView &view, int width,
             bx::mtxIdentity(modelMatrix);
             bgfx::setTransform(modelMatrix);
             bgfx::setVertexBuffer(0, &transientVertexBuffer);
-            bgfx::setTexture(0, view.m_terrainTextureSamplerHandle, texture.textureHandle);
+            bindTexture(
+                0,
+                view.m_terrainTextureSamplerHandle,
+                texture.textureHandle,
+                TextureFilterProfile::Ui,
+                BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP);
             bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_BLEND_ALPHA);
             bgfx::submit(HudViewId, view.m_texturedTerrainProgramHandle);
         };
@@ -315,7 +322,12 @@ void GameplayHudRenderer::renderGameplayHudArt(OutdoorGameView &view, int width,
             bx::mtxIdentity(modelMatrix);
             bgfx::setTransform(modelMatrix);
             bgfx::setVertexBuffer(0, &transientVertexBuffer);
-            bgfx::setTexture(0, view.m_terrainTextureSamplerHandle, texture.textureHandle);
+            bindTexture(
+                0,
+                view.m_terrainTextureSamplerHandle,
+                texture.textureHandle,
+                TextureFilterProfile::Ui,
+                BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP);
             bgfx::setScissor(scissorX, scissorY, scissorWidth, scissorHeight);
             bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_BLEND_ALPHA);
             bgfx::submit(HudViewId, view.m_texturedTerrainProgramHandle);

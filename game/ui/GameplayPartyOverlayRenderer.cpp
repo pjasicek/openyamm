@@ -10,6 +10,7 @@
 #include "game/outdoor/OutdoorPartyRuntime.h"
 #include "game/items/PriceCalculator.h"
 #include "game/party/SkillData.h"
+#include "game/render/TextureFiltering.h"
 #include "game/ui/SpellbookUiLayout.h"
 #include "game/StringUtils.h"
 #include "game/ui/HudUiService.h"
@@ -2492,15 +2493,11 @@ void GameplayPartyOverlayRenderer::renderSaveLoadOverlay(
                     textureHandle.physicalWidth = selectedSlot.previewWidth;
                     textureHandle.physicalHeight = selectedSlot.previewHeight;
                     textureHandle.bgraPixels = selectedSlot.previewPixelsBgra;
-                    textureHandle.textureHandle = bgfx::createTexture2D(
-                        static_cast<uint16_t>(selectedSlot.previewWidth),
-                        static_cast<uint16_t>(selectedSlot.previewHeight),
-                        false,
-                        1,
-                        bgfx::TextureFormat::BGRA8,
-                        BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP
-                            | BGFX_SAMPLER_MIN_POINT | BGFX_SAMPLER_MAG_POINT
-                            | BGFX_TEXTURE_BLIT_DST);
+                    textureHandle.textureHandle = createEmptyBgraTexture2D(
+                        uint16_t(selectedSlot.previewWidth),
+                        uint16_t(selectedSlot.previewHeight),
+                        TextureFilterProfile::Ui,
+                        BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP | BGFX_TEXTURE_BLIT_DST);
 
                     if (bgfx::isValid(textureHandle.textureHandle))
                     {
@@ -2521,15 +2518,11 @@ void GameplayPartyOverlayRenderer::renderSaveLoadOverlay(
                     pTexture->physicalWidth = selectedSlot.previewWidth;
                     pTexture->physicalHeight = selectedSlot.previewHeight;
                     pTexture->bgraPixels = selectedSlot.previewPixelsBgra;
-                    pTexture->textureHandle = bgfx::createTexture2D(
-                        static_cast<uint16_t>(selectedSlot.previewWidth),
-                        static_cast<uint16_t>(selectedSlot.previewHeight),
-                        false,
-                        1,
-                        bgfx::TextureFormat::BGRA8,
-                        BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP
-                            | BGFX_SAMPLER_MIN_POINT | BGFX_SAMPLER_MAG_POINT
-                            | BGFX_TEXTURE_BLIT_DST);
+                    pTexture->textureHandle = createEmptyBgraTexture2D(
+                        uint16_t(selectedSlot.previewWidth),
+                        uint16_t(selectedSlot.previewHeight),
+                        TextureFilterProfile::Ui,
+                        BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP | BGFX_TEXTURE_BLIT_DST);
                 }
                 else
                 {
@@ -2850,7 +2843,12 @@ void GameplayPartyOverlayRenderer::renderJournalOverlay(const OutdoorGameView &v
             bx::mtxIdentity(modelMatrix);
             bgfx::setTransform(modelMatrix);
             bgfx::setVertexBuffer(0, &transientVertexBuffer);
-            bgfx::setTexture(0, view.m_terrainTextureSamplerHandle, texture.textureHandle);
+            bindTexture(
+                0,
+                view.m_terrainTextureSamplerHandle,
+                texture.textureHandle,
+                TextureFilterProfile::Ui,
+                BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP);
             bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_BLEND_ALPHA);
             bgfx::submit(HudViewId, view.m_texturedTerrainProgramHandle);
         };
@@ -2887,7 +2885,12 @@ void GameplayPartyOverlayRenderer::renderJournalOverlay(const OutdoorGameView &v
             bx::mtxIdentity(modelMatrix);
             bgfx::setTransform(modelMatrix);
             bgfx::setVertexBuffer(0, &transientVertexBuffer);
-            bgfx::setTexture(0, view.m_terrainTextureSamplerHandle, texture.textureHandle);
+            bindTexture(
+                0,
+                view.m_terrainTextureSamplerHandle,
+                texture.textureHandle,
+                TextureFilterProfile::Ui,
+                BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP);
             bgfx::setScissor(scissorX, scissorY, scissorWidth, scissorHeight);
             bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_BLEND_ALPHA);
             bgfx::submit(HudViewId, view.m_texturedTerrainProgramHandle);
@@ -2999,15 +3002,11 @@ void GameplayPartyOverlayRenderer::renderJournalOverlay(const OutdoorGameView &v
                             textureHandle.physicalWidth = width;
                             textureHandle.physicalHeight = height;
                             textureHandle.bgraPixels = pixels;
-                            textureHandle.textureHandle = bgfx::createTexture2D(
-                                static_cast<uint16_t>(width),
-                                static_cast<uint16_t>(height),
-                                false,
-                                1,
-                                bgfx::TextureFormat::BGRA8,
-                                BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP
-                                    | BGFX_SAMPLER_MIN_POINT | BGFX_SAMPLER_MAG_POINT
-                                    | BGFX_TEXTURE_BLIT_DST);
+                            textureHandle.textureHandle = createEmptyBgraTexture2D(
+                                uint16_t(width),
+                                uint16_t(height),
+                                TextureFilterProfile::Ui,
+                                BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP | BGFX_TEXTURE_BLIT_DST);
 
                             if (!bgfx::isValid(textureHandle.textureHandle))
                             {
@@ -3031,15 +3030,11 @@ void GameplayPartyOverlayRenderer::renderJournalOverlay(const OutdoorGameView &v
                             pTexture->physicalWidth = width;
                             pTexture->physicalHeight = height;
                             pTexture->bgraPixels = pixels;
-                            pTexture->textureHandle = bgfx::createTexture2D(
-                                static_cast<uint16_t>(width),
-                                static_cast<uint16_t>(height),
-                                false,
-                                1,
-                                bgfx::TextureFormat::BGRA8,
-                                BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP
-                                    | BGFX_SAMPLER_MIN_POINT | BGFX_SAMPLER_MAG_POINT
-                                    | BGFX_TEXTURE_BLIT_DST);
+                            pTexture->textureHandle = createEmptyBgraTexture2D(
+                                uint16_t(width),
+                                uint16_t(height),
+                                TextureFilterProfile::Ui,
+                                BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP | BGFX_TEXTURE_BLIT_DST);
 
                             if (!bgfx::isValid(pTexture->textureHandle))
                             {
@@ -8030,7 +8025,12 @@ void GameplayPartyOverlayRenderer::renderActorInspectOverlay(OutdoorGameView &vi
                     bx::mtxIdentity(modelMatrix);
                     bgfx::setTransform(modelMatrix);
                     bgfx::setVertexBuffer(0, &transientVertexBuffer);
-                    bgfx::setTexture(0, view.m_terrainTextureSamplerHandle, pTexture->textureHandle);
+                    bindTexture(
+                        0,
+                        view.m_terrainTextureSamplerHandle,
+                        pTexture->textureHandle,
+                        TextureFilterProfile::Billboard,
+                        BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP);
                     bgfx::setScissor(scissorX, scissorY, scissorWidth, scissorHeight);
                     bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_BLEND_ALPHA);
                     bgfx::submit(HudViewId, view.m_texturedTerrainProgramHandle);

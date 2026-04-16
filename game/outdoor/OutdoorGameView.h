@@ -282,6 +282,7 @@ private:
     struct AnimatedWaterTerrainTileState
     {
         OutdoorTerrainAtlasRegion region;
+        int tilePadding = 0;
         std::vector<std::vector<uint8_t>> framePixels;
         std::vector<uint32_t> frameLengthTicks;
         uint32_t animationLengthTicks = 0;
@@ -1137,6 +1138,7 @@ private:
     bool m_toggleSpawnsLatch;
     bool m_toggleGameplayHudLatch;
     bool m_toggleDebugHudLatch;
+    bool m_toggleTextureFilteringLatch;
     bool m_toggleInspectLatch;
     bool m_triggerMeteorLatch;
     bool m_debugDialogueLatch;

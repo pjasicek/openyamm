@@ -166,7 +166,7 @@ bool BgfxContext::initialize(SDL_Window *pWindow, int windowWidth, int windowHei
     init.platformData = resolvePlatformData(pWindow);
     init.resolution.width = static_cast<uint32_t>(windowWidth);
     init.resolution.height = static_cast<uint32_t>(windowHeight);
-    init.resolution.reset = BGFX_RESET_NONE;
+    init.resolution.reset = BGFX_RESET_MAXANISOTROPY;
     init.callback = m_pCallback.get();
 
     if (!bgfx::init(init))
@@ -191,7 +191,10 @@ void BgfxContext::resize(int windowWidth, int windowHeight) const
         return;
     }
 
-    bgfx::reset(static_cast<uint32_t>(windowWidth), static_cast<uint32_t>(windowHeight), BGFX_RESET_NONE);
+    bgfx::reset(
+        static_cast<uint32_t>(windowWidth),
+        static_cast<uint32_t>(windowHeight),
+        BGFX_RESET_MAXANISOTROPY);
 }
 
 void BgfxContext::shutdown()

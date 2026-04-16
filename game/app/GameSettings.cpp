@@ -376,6 +376,51 @@ std::optional<GameSettings> loadGameSettings(const std::filesystem::path &path, 
         }
     }
 
+    if (const std::optional<std::string> value = getIniValue(document, "video", "texture_filtering"))
+    {
+        bool parsed = settings.textureFiltering;
+
+        if (parseBoolValue(*value, parsed))
+        {
+            settings.textureFiltering = parsed;
+        }
+    }
+
+    if (const std::optional<std::string> value = getIniValue(document, "video", "terrain_filtering"))
+    {
+        settings.terrainFiltering = trimCopy(*value);
+    }
+
+    if (const std::optional<std::string> value = getIniValue(document, "video", "terrain_anisotropy"))
+    {
+        settings.terrainAnisotropy = trimCopy(*value);
+    }
+
+    if (const std::optional<std::string> value = getIniValue(document, "video", "bmodel_filtering"))
+    {
+        settings.bmodelFiltering = trimCopy(*value);
+    }
+
+    if (const std::optional<std::string> value = getIniValue(document, "video", "billboard_filtering"))
+    {
+        settings.billboardFiltering = trimCopy(*value);
+    }
+
+    if (const std::optional<std::string> value = getIniValue(document, "video", "ui_filtering"))
+    {
+        settings.uiFiltering = trimCopy(*value);
+    }
+
+    if (const std::optional<std::string> value = getIniValue(document, "video", "text_filtering"))
+    {
+        settings.textFiltering = trimCopy(*value);
+    }
+
+    if (const std::optional<std::string> value = getIniValue(document, "video", "minimap_filtering"))
+    {
+        settings.minimapFiltering = trimCopy(*value);
+    }
+
     if (const std::optional<std::string> value = getIniValue(document, "startup", "start_in_main_menu"))
     {
         bool parsed = settings.startInMainMenu;
@@ -533,7 +578,15 @@ bool saveGameSettings(const std::filesystem::path &path, const GameSettings &set
         << "[video]\n"
         << "blood_splats=" << (settings.bloodSplats ? "true" : "false") << '\n'
         << "colored_lights=" << (settings.coloredLights ? "true" : "false") << '\n'
-        << "tinting=" << (settings.tinting ? "true" : "false") << "\n\n"
+        << "tinting=" << (settings.tinting ? "true" : "false") << '\n'
+        << "texture_filtering=" << (settings.textureFiltering ? "true" : "false") << '\n'
+        << "terrain_filtering=" << settings.terrainFiltering << '\n'
+        << "terrain_anisotropy=" << settings.terrainAnisotropy << '\n'
+        << "bmodel_filtering=" << settings.bmodelFiltering << '\n'
+        << "billboard_filtering=" << settings.billboardFiltering << '\n'
+        << "ui_filtering=" << settings.uiFiltering << '\n'
+        << "text_filtering=" << settings.textFiltering << '\n'
+        << "minimap_filtering=" << settings.minimapFiltering << "\n\n"
         << "[debug]\n"
         << "preseed_party=" << (settings.preseedParty ? "true" : "false") << '\n'
         << "party_seed_roster_id=" << settings.partySeedRosterId << '\n'

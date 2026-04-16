@@ -277,6 +277,7 @@ private:
     bool m_toggleEntitiesLatch;
     bool m_toggleSpawnsLatch;
     bool m_toggleDoorsLatch;
+    bool m_toggleTextureFilteringLatch;
     bool m_toggleInspectLatch;
     bool m_activateInspectLatch;
 };

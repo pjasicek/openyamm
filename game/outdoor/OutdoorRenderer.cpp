@@ -7,6 +7,7 @@
 #include "game/outdoor/OutdoorInteractionController.h"
 #include "game/outdoor/OutdoorGeometryUtils.h"
 #include "game/party/SpellIds.h"
+#include "game/render/TextureFiltering.h"
 #include "game/StringUtils.h"
 
 #include <SDL3/SDL.h>
@@ -270,6 +271,52 @@ float resolveActorAabbBaseZ(
         static_cast<float>(actorX),
         static_cast<float>(actorY),
         static_cast<float>(actorZ));
+}
+
+void updateTerrainAtlasTileTexture(
+    bgfx::TextureHandle textureHandle,
+    uint16_t innerAtlasX,
+    uint16_t innerAtlasY,
+    int tileSize,
+    int tilePadding,
+    const std::vector<uint8_t> &tilePixels)
+{
+    if (!bgfx::isValid(textureHandle)
+        || tileSize <= 0
+        || tilePadding < 0
+        || tilePixels.size() < static_cast<size_t>(tileSize * tileSize * 4))
+    {
+        return;
+    }
+
+    const int paddedTileSize = tileSize + tilePadding * 2;
+    std::vector<uint8_t> paddedPixels(static_cast<size_t>(paddedTileSize * paddedTileSize * 4), 0);
+
+    for (int paddedY = 0; paddedY < paddedTileSize; ++paddedY)
+    {
+        const int sourceY = std::clamp(paddedY - tilePadding, 0, tileSize - 1);
+
+        for (int paddedX = 0; paddedX < paddedTileSize; ++paddedX)
+        {
+            const int sourceX = std::clamp(paddedX - tilePadding, 0, tileSize - 1);
+            const size_t sourceOffset = static_cast<size_t>((sourceY * tileSize + sourceX) * 4);
+            const size_t targetOffset = static_cast<size_t>((paddedY * paddedTileSize + paddedX) * 4);
+            std::memcpy(
+                paddedPixels.data() + static_cast<ptrdiff_t>(targetOffset),
+                tilePixels.data() + static_cast<ptrdiff_t>(sourceOffset),
+                4);
+        }
+    }
+
+    bgfx::updateTexture2D(
+        textureHandle,
+        0,
+        0,
+        static_cast<uint16_t>(innerAtlasX - tilePadding),
+        static_cast<uint16_t>(innerAtlasY - tilePadding),
+        static_cast<uint16_t>(paddedTileSize),
+        static_cast<uint16_t>(paddedTileSize),
+        bgfx::copy(paddedPixels.data(), static_cast<uint32_t>(paddedPixels.size())));
 }
 
 std::vector<uint8_t> extractAtlasRegionPixels(
@@ -807,6 +854,7 @@ void OutdoorRenderer::initializeAnimatedWaterTileState(
     {
         OutdoorGameView::AnimatedWaterTerrainTileState tileState = {};
         tileState.region = source.region;
+        tileState.tilePadding = outdoorTerrainTextureAtlas->tilePadding;
         tileState.framePixels = source.framePixels;
         tileState.animationLengthTicks = source.animation.animationLengthTicks;
         tileState.currentFrameIndex = source.currentFrameIndex;
@@ -868,17 +916,13 @@ void OutdoorRenderer::updateAnimatedWaterTileTexture(OutdoorGameView &view)
         const uint16_t atlasX = static_cast<uint16_t>(std::lround(tileState.region.u0 * static_cast<float>(atlasWidth)));
         const uint16_t atlasY = static_cast<uint16_t>(std::lround(tileState.region.v0 * static_cast<float>(atlasHeight)));
 
-        bgfx::updateTexture2D(
+        updateTerrainAtlasTileTexture(
             view.m_terrainTextureAtlasHandle,
-            0,
-            0,
             atlasX,
             atlasY,
-            static_cast<uint16_t>(tileSize),
-            static_cast<uint16_t>(tileSize),
-            bgfx::copy(
-                framePixels.data(),
-                static_cast<uint32_t>(framePixels.size())));
+            tileSize,
+            tileState.tilePadding,
+            framePixels);
 
         tileState.currentFrameIndex = frameIndex;
     }
@@ -1372,14 +1416,12 @@ void OutdoorRenderer::createBModelTextureBatches(
                 continue;
             }
 
-            const bgfx::TextureHandle textureHandle = bgfx::createTexture2D(
-                static_cast<uint16_t>(pFrameTexture->physicalWidth),
-                static_cast<uint16_t>(pFrameTexture->physicalHeight),
-                false,
-                1,
-                bgfx::TextureFormat::BGRA8,
-                BGFX_SAMPLER_MIN_POINT | BGFX_SAMPLER_MAG_POINT,
-                bgfx::copy(pFrameTexture->pixels.data(), static_cast<uint32_t>(pFrameTexture->pixels.size())));
+            const bgfx::TextureHandle textureHandle = createBgraTexture2D(
+                uint16_t(pFrameTexture->physicalWidth),
+                uint16_t(pFrameTexture->physicalHeight),
+                pFrameTexture->pixels.data(),
+                uint32_t(pFrameTexture->pixels.size()),
+                TextureFilterProfile::BModel);
 
             if (!bgfx::isValid(textureHandle))
             {
@@ -1592,32 +1634,13 @@ bool OutdoorRenderer::initializeWorldRenderResources(
 
     if (outdoorTerrainTextureAtlas && !outdoorTerrainTextureAtlas->pixels.empty())
     {
-        view.m_terrainTextureAtlasHandle = bgfx::createTexture2D(
-            static_cast<uint16_t>(outdoorTerrainTextureAtlas->width),
-            static_cast<uint16_t>(outdoorTerrainTextureAtlas->height),
-            false,
-            1,
-            bgfx::TextureFormat::BGRA8,
-            BGFX_SAMPLER_U_CLAMP
-                | BGFX_SAMPLER_V_CLAMP
-                | BGFX_SAMPLER_MIN_POINT
-                | BGFX_SAMPLER_MAG_POINT
-                | BGFX_TEXTURE_BLIT_DST);
-
-        if (bgfx::isValid(view.m_terrainTextureAtlasHandle))
-        {
-            bgfx::updateTexture2D(
-                view.m_terrainTextureAtlasHandle,
-                0,
-                0,
-                0,
-                0,
-                static_cast<uint16_t>(outdoorTerrainTextureAtlas->width),
-                static_cast<uint16_t>(outdoorTerrainTextureAtlas->height),
-                bgfx::copy(
-                    outdoorTerrainTextureAtlas->pixels.data(),
-                    static_cast<uint32_t>(outdoorTerrainTextureAtlas->pixels.size())));
-        }
+        view.m_terrainTextureAtlasHandle = createBgraTexture2D(
+            uint16_t(outdoorTerrainTextureAtlas->width),
+            uint16_t(outdoorTerrainTextureAtlas->height),
+            outdoorTerrainTextureAtlas->pixels.data(),
+            uint32_t(outdoorTerrainTextureAtlas->pixels.size()),
+            TextureFilterProfile::Terrain,
+            BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP);
     }
 
     createBModelTextureBatches(view, outdoorMapData, outdoorBModelTextureSet);
@@ -1723,14 +1746,12 @@ const OutdoorGameView::SkyTextureHandle *OutdoorRenderer::ensureSkyTexture(
             textureHandle.horizonColorAbgr = makeAbgr(red, green, blue);
         }
     }
-    textureHandle.textureHandle = bgfx::createTexture2D(
-        static_cast<uint16_t>(textureHandle.physicalWidth),
-        static_cast<uint16_t>(textureHandle.physicalHeight),
-        false,
-        1,
-        bgfx::TextureFormat::BGRA8,
-        BGFX_SAMPLER_MIN_POINT | BGFX_SAMPLER_MAG_POINT,
-        bgfx::copy(pixels.data(), static_cast<uint32_t>(pixels.size())));
+    textureHandle.textureHandle = createBgraTexture2D(
+        uint16_t(textureHandle.physicalWidth),
+        uint16_t(textureHandle.physicalHeight),
+        pixels.data(),
+        uint32_t(pixels.size()),
+        TextureFilterProfile::Ui);
 
     if (!bgfx::isValid(textureHandle.textureHandle))
     {
@@ -1828,7 +1849,12 @@ void OutdoorRenderer::renderWorldPasses(
             updateAnimatedWaterTileTexture(view);
 
             bgfx::setVertexBuffer(0, view.m_texturedTerrainVertexBufferHandle);
-            bgfx::setTexture(0, view.m_terrainTextureSamplerHandle, view.m_terrainTextureAtlasHandle);
+            bindTexture(
+                0,
+                view.m_terrainTextureSamplerHandle,
+                view.m_terrainTextureAtlasHandle,
+                TextureFilterProfile::Terrain,
+                BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP);
             applyOutdoorFxLightUniforms(view, cameraPosition);
             applyOutdoorFogUniforms(
                 view.m_outdoorFogColorUniformHandle,
@@ -1910,7 +1936,11 @@ void OutdoorRenderer::renderWorldPasses(
 
                     bgfx::setTransform(modelMatrix);
                     bgfx::setVertexBuffer(0, group.vertexBufferHandle, 0, group.vertexCount);
-                    bgfx::setTexture(0, view.m_terrainTextureSamplerHandle, animation.frameTextureHandles[frameIndex]);
+                    bindTexture(
+                        0,
+                        view.m_terrainTextureSamplerHandle,
+                        animation.frameTextureHandles[frameIndex],
+                        TextureFilterProfile::BModel);
                     applyOutdoorFxLightUniforms(view, cameraPosition);
                     applyOutdoorFogUniforms(
                         view.m_outdoorFogColorUniformHandle,
@@ -2708,7 +2738,11 @@ void OutdoorRenderer::renderOutdoorSky(
     bx::mtxIdentity(modelMatrix);
     bgfx::setTransform(modelMatrix);
     bgfx::setVertexBuffer(0, view.m_skyVertexBufferHandle, 0, vertexCount);
-    bgfx::setTexture(0, view.m_terrainTextureSamplerHandle, pTexture->textureHandle);
+    bindTexture(
+        0,
+        view.m_terrainTextureSamplerHandle,
+        pTexture->textureHandle,
+        TextureFilterProfile::Ui);
     applyOutdoorFogUniforms(
         view.m_outdoorFogColorUniformHandle,
         view.m_outdoorFogDensitiesUniformHandle,
@@ -2860,7 +2894,11 @@ void OutdoorRenderer::renderOutdoorSky(
 
             bgfx::setTransform(modelMatrix);
             bgfx::setVertexBuffer(0, &transientVertexBuffer, 0, lowerSkyVertexCount);
-            bgfx::setTexture(0, view.m_terrainTextureSamplerHandle, view.m_forcePerspectiveSolidTextureHandle);
+            bindTexture(
+                0,
+                view.m_terrainTextureSamplerHandle,
+                view.m_forcePerspectiveSolidTextureHandle,
+                TextureFilterProfile::Ui);
             applyOutdoorFogUniforms(
                 view.m_outdoorFogColorUniformHandle,
                 view.m_outdoorFogDensitiesUniformHandle,

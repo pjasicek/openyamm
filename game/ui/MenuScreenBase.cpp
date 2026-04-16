@@ -1,4 +1,5 @@
 #include "game/ui/MenuScreenBase.h"
+#include "game/render/TextureFiltering.h"
 
 #include <SDL3/SDL.h>
 #include <bx/math.h>
@@ -662,7 +663,12 @@ void MenuScreenBase::drawPixelsBgra(
 
     bgfx::setVertexBuffer(0, &vertexBuffer);
     bgfx::setIndexBuffer(&indexBuffer);
-    bgfx::setTexture(0, m_textureUniformHandle, textureHandle);
+    bindTexture(
+        0,
+        m_textureUniformHandle,
+        textureHandle,
+        TextureFilterProfile::Ui,
+        BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP);
     bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_BLEND_ALPHA | BGFX_STATE_MSAA);
     bgfx::submit(MenuViewId, m_texturedProgramHandle);
 }
@@ -706,7 +712,12 @@ void MenuScreenBase::drawTextureHandle(bgfx::TextureHandle textureHandle, const 
 
     bgfx::setVertexBuffer(0, &vertexBuffer);
     bgfx::setIndexBuffer(&indexBuffer);
-    bgfx::setTexture(0, m_textureUniformHandle, textureHandle);
+    bindTexture(
+        0,
+        m_textureUniformHandle,
+        textureHandle,
+        TextureFilterProfile::Ui,
+        BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP);
     bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_BLEND_ALPHA | BGFX_STATE_MSAA);
     bgfx::submit(MenuViewId, m_texturedProgramHandle);
 }
@@ -768,7 +779,12 @@ void MenuScreenBase::drawTextureRegionColor(
 
     bgfx::setVertexBuffer(0, &vertexBuffer);
     bgfx::setIndexBuffer(&indexBuffer);
-    bgfx::setTexture(0, m_textureUniformHandle, textureHandle);
+    bindTexture(
+        0,
+        m_textureUniformHandle,
+        textureHandle,
+        TextureFilterProfile::Ui,
+        BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP);
     bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_BLEND_ALPHA | BGFX_STATE_MSAA);
     bgfx::submit(MenuViewId, m_texturedProgramHandle);
 }
@@ -894,7 +910,7 @@ bool MenuScreenBase::drawText(
         }
 
         bgfx::setVertexBuffer(0, &shadowBuffer);
-        bgfx::setTexture(0, m_textureUniformHandle, pFont->shadowTextureHandle);
+        bindTexture(0, m_textureUniformHandle, pFont->shadowTextureHandle, TextureFilterProfile::Text);
         bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_BLEND_ALPHA | BGFX_STATE_MSAA);
         bgfx::submit(MenuViewId, m_texturedProgramHandle);
     }
@@ -946,7 +962,7 @@ bool MenuScreenBase::drawText(
     }
 
     bgfx::setVertexBuffer(0, &vertexBuffer);
-    bgfx::setTexture(0, m_textureUniformHandle, mainTextureHandle);
+    bindTexture(0, m_textureUniformHandle, mainTextureHandle, TextureFilterProfile::Text);
     bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_BLEND_ALPHA | BGFX_STATE_MSAA);
     bgfx::submit(MenuViewId, m_texturedProgramHandle);
     return true;
@@ -1181,14 +1197,13 @@ const MenuScreenBase::TextureHandle *MenuScreenBase::ensureTexture(const std::st
     textureHandle.physicalWidth = width;
     textureHandle.physicalHeight = height;
     textureHandle.bgraPixels = *pixels;
-    textureHandle.handle = bgfx::createTexture2D(
-        static_cast<uint16_t>(width),
-        static_cast<uint16_t>(height),
-        false,
-        1,
-        bgfx::TextureFormat::BGRA8,
-        BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP | BGFX_SAMPLER_MIN_POINT | BGFX_SAMPLER_MAG_POINT,
-        bgfx::copy(textureHandle.bgraPixels.data(), static_cast<uint32_t>(textureHandle.bgraPixels.size()))
+    textureHandle.handle = createBgraTexture2D(
+        uint16_t(width),
+        uint16_t(height),
+        textureHandle.bgraPixels.data(),
+        uint32_t(textureHandle.bgraPixels.size()),
+        TextureFilterProfile::Ui,
+        BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP
     );
 
     if (!bgfx::isValid(textureHandle.handle))
@@ -1315,23 +1330,21 @@ const MenuScreenBase::FontHandle *MenuScreenBase::ensureFont(const std::string &
         fontHandle.glyphMetrics[glyphIndex].rightSpacing = parsedFont->glyphMetrics[glyphIndex].rightSpacing;
     }
 
-    fontHandle.mainTextureHandle = bgfx::createTexture2D(
-        static_cast<uint16_t>(atlasWidth),
-        static_cast<uint16_t>(atlasHeight),
-        false,
-        1,
-        bgfx::TextureFormat::BGRA8,
-        BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP | BGFX_SAMPLER_MIN_POINT | BGFX_SAMPLER_MAG_POINT,
-        bgfx::copy(mainPixels.data(), static_cast<uint32_t>(mainPixels.size()))
+    fontHandle.mainTextureHandle = createBgraTexture2D(
+        uint16_t(atlasWidth),
+        uint16_t(atlasHeight),
+        mainPixels.data(),
+        uint32_t(mainPixels.size()),
+        TextureFilterProfile::Text,
+        BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP
     );
-    fontHandle.shadowTextureHandle = bgfx::createTexture2D(
-        static_cast<uint16_t>(atlasWidth),
-        static_cast<uint16_t>(atlasHeight),
-        false,
-        1,
-        bgfx::TextureFormat::BGRA8,
-        BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP | BGFX_SAMPLER_MIN_POINT | BGFX_SAMPLER_MAG_POINT,
-        bgfx::copy(shadowPixels.data(), static_cast<uint32_t>(shadowPixels.size()))
+    fontHandle.shadowTextureHandle = createBgraTexture2D(
+        uint16_t(atlasWidth),
+        uint16_t(atlasHeight),
+        shadowPixels.data(),
+        uint32_t(shadowPixels.size()),
+        TextureFilterProfile::Text,
+        BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP
     );
 
     if (!bgfx::isValid(fontHandle.mainTextureHandle) || !bgfx::isValid(fontHandle.shadowTextureHandle))
@@ -1383,14 +1396,11 @@ bgfx::TextureHandle MenuScreenBase::ensureDynamicTexture(
 
             textureHandle.width = width;
             textureHandle.height = height;
-            textureHandle.handle = bgfx::createTexture2D(
-                static_cast<uint16_t>(width),
-                static_cast<uint16_t>(height),
-                false,
-                1,
-                bgfx::TextureFormat::BGRA8,
-                BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP | BGFX_SAMPLER_MIN_POINT | BGFX_SAMPLER_MAG_POINT
-                    | BGFX_TEXTURE_BLIT_DST);
+            textureHandle.handle = createEmptyBgraTexture2D(
+                uint16_t(width),
+                uint16_t(height),
+                TextureFilterProfile::Ui,
+                BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP | BGFX_TEXTURE_BLIT_DST);
         }
 
         if (!bgfx::isValid(textureHandle.handle))
@@ -1414,14 +1424,11 @@ bgfx::TextureHandle MenuScreenBase::ensureDynamicTexture(
     textureHandle.cacheKey = cacheKey;
     textureHandle.width = width;
     textureHandle.height = height;
-    textureHandle.handle = bgfx::createTexture2D(
-        static_cast<uint16_t>(width),
-        static_cast<uint16_t>(height),
-        false,
-        1,
-        bgfx::TextureFormat::BGRA8,
-        BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP | BGFX_SAMPLER_MIN_POINT | BGFX_SAMPLER_MAG_POINT
-            | BGFX_TEXTURE_BLIT_DST);
+    textureHandle.handle = createEmptyBgraTexture2D(
+        uint16_t(width),
+        uint16_t(height),
+        TextureFilterProfile::Ui,
+        BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP | BGFX_TEXTURE_BLIT_DST);
 
     if (!bgfx::isValid(textureHandle.handle))
     {
@@ -1486,14 +1493,13 @@ bgfx::TextureHandle MenuScreenBase::ensureTextureColor(const TextureHandle &text
         tintedPixels[pixelIndex + 3] = static_cast<uint8_t>((static_cast<uint32_t>(sourceAlpha) * alpha) / 255u);
     }
 
-    const bgfx::TextureHandle textureHandle = bgfx::createTexture2D(
-        static_cast<uint16_t>(texture.physicalWidth),
-        static_cast<uint16_t>(texture.physicalHeight),
-        false,
-        1,
-        bgfx::TextureFormat::BGRA8,
-        BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP | BGFX_SAMPLER_MIN_POINT | BGFX_SAMPLER_MAG_POINT,
-        bgfx::copy(tintedPixels.data(), static_cast<uint32_t>(tintedPixels.size()))
+    const bgfx::TextureHandle textureHandle = createBgraTexture2D(
+        uint16_t(texture.physicalWidth),
+        uint16_t(texture.physicalHeight),
+        tintedPixels.data(),
+        uint32_t(tintedPixels.size()),
+        TextureFilterProfile::Ui,
+        BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP
     );
 
     if (!bgfx::isValid(textureHandle))
@@ -1554,14 +1560,13 @@ bgfx::TextureHandle MenuScreenBase::ensureFontColor(const FontHandle &font, uint
         tintedPixels[pixelIndex + 3] = static_cast<uint8_t>((static_cast<uint32_t>(sourceAlpha) * alpha) / 255u);
     }
 
-    const bgfx::TextureHandle textureHandle = bgfx::createTexture2D(
-        static_cast<uint16_t>(font.atlasWidth),
-        static_cast<uint16_t>(font.atlasHeight),
-        false,
-        1,
-        bgfx::TextureFormat::BGRA8,
-        BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP | BGFX_SAMPLER_MIN_POINT | BGFX_SAMPLER_MAG_POINT,
-        bgfx::copy(tintedPixels.data(), static_cast<uint32_t>(tintedPixels.size()))
+    const bgfx::TextureHandle textureHandle = createBgraTexture2D(
+        uint16_t(font.atlasWidth),
+        uint16_t(font.atlasHeight),
+        tintedPixels.data(),
+        uint32_t(tintedPixels.size()),
+        TextureFilterProfile::Text,
+        BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP
     );
 
     if (!bgfx::isValid(textureHandle))

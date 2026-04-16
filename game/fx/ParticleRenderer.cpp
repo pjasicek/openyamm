@@ -3,6 +3,7 @@
 #include "game/fx/FxSharedTypes.h"
 #include "game/fx/ParticleSystem.h"
 #include "game/outdoor/OutdoorGameView.h"
+#include "game/render/TextureFiltering.h"
 
 #include <bgfx/bgfx.h>
 #include <bx/math.h>
@@ -318,14 +319,13 @@ void ParticleRenderer::initializeResources(OutdoorGameView &view)
             particleTexture.height = height;
             particleTexture.physicalWidth = width;
             particleTexture.physicalHeight = height;
-            particleTexture.textureHandle = bgfx::createTexture2D(
+            particleTexture.textureHandle = createBgraTexture2D(
                 static_cast<uint16_t>(width),
                 static_cast<uint16_t>(height),
-                false,
-                1,
-                bgfx::TextureFormat::BGRA8,
-                BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP,
-                bgfx::copy(pixels.data(), static_cast<uint32_t>(pixels.size())));
+                pixels.data(),
+                static_cast<uint32_t>(pixels.size()),
+                TextureFilterProfile::Billboard,
+                BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP);
 
             if (bgfx::isValid(particleTexture.textureHandle))
             {
@@ -596,7 +596,12 @@ void ParticleRenderer::renderParticles(
             const float particleParams[4] = {additiveBlend ? 1.0f : 0.0f, 0.0f, 0.0f, 0.0f};
             bgfx::setTransform(modelMatrix);
             bgfx::setVertexBuffer(0, &transientVertexBuffer, 0, static_cast<uint32_t>(vertices.size()));
-            bgfx::setTexture(0, view.m_terrainTextureSamplerHandle, textureHandle);
+            bindTexture(
+                0,
+                view.m_terrainTextureSamplerHandle,
+                textureHandle,
+                TextureFilterProfile::Billboard,
+                BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP);
             bgfx::setUniform(view.m_particleParamsUniformHandle, particleParams);
             bgfx::setState(renderState);
             bgfx::submit(viewId, view.m_particleProgramHandle);

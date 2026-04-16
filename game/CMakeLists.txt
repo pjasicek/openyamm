@@ -73,6 +73,7 @@ add_executable(openyamm
     party/PartySpellSystem.cpp
     items/PriceCalculator.cpp
     tables/ReadableScrollTable.cpp
+    render/TextureFiltering.cpp
     tables/PortraitFxEventTable.cpp
     tables/PortraitEnums.cpp
     tables/PortraitFrameTable.cpp

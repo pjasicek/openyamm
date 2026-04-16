@@ -13,11 +13,23 @@ namespace OpenYAMM::Engine
 {
 namespace
 {
+constexpr const char *EditorDevelopmentRootName = "assets_editor_dev";
+
 constexpr std::array<const char *, 3> TieredAssetDirectories = {
     "Data/bitmaps",
     "Data/sprites",
     "Data/icons"
 };
+
+std::filesystem::path deriveEditorDevelopmentRoot(const std::filesystem::path &assetRoot)
+{
+    if (assetRoot.filename() == EditorDevelopmentRootName)
+    {
+        return assetRoot;
+    }
+
+    return assetRoot.parent_path() / EditorDevelopmentRootName;
+}
 
 struct PhysicsFsListDeleter
 {
@@ -70,10 +82,42 @@ bool AssetFileSystem::initialize(
         return false;
     }
 
+    const std::filesystem::path editorDevelopmentRoot = deriveEditorDevelopmentRoot(assetRoot);
+    std::error_code createDirectoriesError;
+    std::filesystem::create_directories(editorDevelopmentRoot, createDirectoriesError);
+
+    if (createDirectoriesError)
+    {
+        std::cerr << "Could not create editor development root " << editorDevelopmentRoot << ": "
+                  << createDirectoriesError.message() << '\n';
+        shutdown();
+        return false;
+    }
+
+    if (editorDevelopmentRoot != assetRoot && !mountSearchRoot(editorDevelopmentRoot, false))
+    {
+        shutdown();
+        return false;
+    }
+
+    m_editorDevelopmentRoot = editorDevelopmentRoot;
+
     return true;
 }
 
 bool AssetFileSystem::mountDevelopmentRoot(const std::filesystem::path &assetRoot)
+{
+    if (!mountSearchRoot(assetRoot, true))
+    {
+        return false;
+    }
+
+    m_developmentRoot = assetRoot;
+    m_editorDevelopmentRoot = deriveEditorDevelopmentRoot(assetRoot);
+    return true;
+}
+
+bool AssetFileSystem::mountSearchRoot(const std::filesystem::path &assetRoot, bool appendToPath)
 {
     if (!isInitialized())
     {
@@ -86,14 +130,13 @@ bool AssetFileSystem::mountDevelopmentRoot(const std::filesystem::path &assetRoo
         return false;
     }
 
-    if (!PHYSFS_mount(assetRoot.string().c_str(), "/", 1))
+    if (!PHYSFS_mount(assetRoot.string().c_str(), "/", appendToPath ? 1 : 0))
     {
         std::cerr << "PHYSFS_mount failed for " << assetRoot << ": "
                   << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()) << '\n';
         return false;
     }
 
-    m_developmentRoot = assetRoot;
     return true;
 }
 
@@ -207,9 +250,38 @@ std::vector<std::string> AssetFileSystem::getSearchPaths() const
     return searchPaths;
 }
 
+std::optional<std::filesystem::path> AssetFileSystem::resolvePhysicalPath(const std::string &virtualPath) const
+{
+    if (!isInitialized())
+    {
+        return std::nullopt;
+    }
+
+    const std::string resolvedPath = resolveVirtualPath(virtualPath);
+
+    for (const std::string &searchPath : getSearchPaths())
+    {
+        const std::filesystem::path candidate = std::filesystem::path(searchPath) / std::filesystem::path(resolvedPath);
+
+        if (std::filesystem::exists(candidate))
+        {
+            std::error_code canonicalError;
+            const std::filesystem::path canonicalPath = std::filesystem::weakly_canonical(candidate, canonicalError);
+            return canonicalError ? candidate.lexically_normal() : canonicalPath;
+        }
+    }
+
+    return std::nullopt;
+}
+
 const std::filesystem::path &AssetFileSystem::getDevelopmentRoot() const
 {
     return m_developmentRoot;
+}
+
+const std::filesystem::path &AssetFileSystem::getEditorDevelopmentRoot() const
+{
+    return m_editorDevelopmentRoot;
 }
 
 AssetScaleTier AssetFileSystem::getAssetScaleTier() const
@@ -227,6 +299,7 @@ void AssetFileSystem::shutdown()
     PHYSFS_deinit();
     m_isInitialized = false;
     m_developmentRoot.clear();
+    m_editorDevelopmentRoot.clear();
     m_assetScaleTier = AssetScaleTier::X1;
 }
 
