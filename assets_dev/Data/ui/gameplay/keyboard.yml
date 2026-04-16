@@ -1,0 +1,89 @@
+screen: Keyboard
+
+elements:
+  - id: KeyboardRoot
+    anchor: center
+    offset_x: 0
+    offset_y: 0
+    width: 640
+    height: 480
+    z_index: 440
+    visible: true
+    scale:
+      min: 1.0
+      max: 3.0
+    children:
+      - id: KeyboardBackground
+        anchor: top_left
+        offset_x: 0
+        offset_y: 0
+        width: 640
+        height: 480
+        z_index: 0
+        asset:
+          default: optkb
+
+      - id: KeyboardPage1Button
+        anchor: top_left
+        offset_x: 111
+        offset_y: 337
+        width: 91
+        height: 27
+        z_index: 20
+        interactive: true
+        asset:
+          default: bt_P1U
+          highlighted: bt_P1H
+          pressed: bt_P1D
+
+      - id: KeyboardPage2Button
+        anchor: top_left
+        offset_x: 208
+        offset_y: 337
+        width: 91
+        height: 27
+        z_index: 20
+        interactive: true
+        asset:
+          default: bt_P2U
+          highlighted: bt_P2H
+          pressed: bt_P2D
+
+      - id: KeyboardBackButton
+        anchor: top_left
+        offset_x: 97
+        offset_y: 380
+        width: 105
+        height: 37
+        z_index: 20
+        interactive: true
+        asset:
+          default: bt_backU
+          highlighted: bt_backH
+          pressed: bt_backD
+
+      - id: KeyboardDefaultButton
+        anchor: top_left
+        offset_x: 209
+        offset_y: 380
+        width: 105
+        height: 37
+        z_index: 20
+        interactive: true
+        asset:
+          default: bt_DfltU
+          highlighted: bt_DfltH
+          pressed: bt_DfltD
+
+      - id: KeyboardReturnButton
+        anchor: top_left
+        offset_x: 336
+        offset_y: 362
+        width: 227
+        height: 50
+        z_index: 20
+        interactive: true
+        asset:
+          default: bv_rtrnU
+          highlighted: bv_rtrnH
+          pressed: bv_rtrnD
