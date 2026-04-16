@@ -41,6 +41,14 @@ enum class PartySpellCastEffectKind : uint8_t
     UtilityUi,
 };
 
+enum class PartySpellUtilityActionKind : uint8_t
+{
+    None = 0,
+    TownPortalDestination,
+    LloydsBeaconSet,
+    LloydsBeaconRecall,
+};
+
 enum class PartySpellCastStatus : uint8_t
 {
     Succeeded = 0,
@@ -65,6 +73,10 @@ struct PartySpellCastRequest
     bool quickCast = false;
     std::optional<size_t> targetActorIndex;
     std::optional<size_t> targetCharacterIndex;
+    std::optional<size_t> targetItemMemberIndex;
+    std::optional<uint8_t> targetInventoryGridX;
+    std::optional<uint8_t> targetInventoryGridY;
+    std::optional<EquipmentSlot> targetEquipmentSlot;
     bool hasTargetPoint = false;
     float targetX = 0.0f;
     float targetY = 0.0f;
@@ -80,6 +92,17 @@ struct PartySpellCastRequest
     float viewYawRadians = 0.0f;
     float viewPitchRadians = 0.0f;
     float viewAspectRatio = 1.0f;
+    PartySpellUtilityActionKind utilityAction = PartySpellUtilityActionKind::None;
+    std::string utilityActionId;
+    uint8_t utilitySlotIndex = 0;
+    bool hasUtilityMapMove = false;
+    int32_t utilityMapMoveX = 0;
+    int32_t utilityMapMoveY = 0;
+    int32_t utilityMapMoveZ = 0;
+    std::string utilityMapMoveMapName;
+    std::optional<int32_t> utilityMapMoveDirectionDegrees;
+    bool utilityMapMoveUseMapStartPosition = false;
+    std::string utilityStatusText;
 };
 
 struct PartySpellCastResult

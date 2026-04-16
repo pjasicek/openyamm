@@ -144,6 +144,12 @@ void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view
     const bool isSaveGameActive = view.m_saveGameScreen.active;
     const bool isLoadGameActive = view.m_loadGameScreen.active;
     const bool isJournalActive = view.m_journalScreen.active;
+    const bool isUtilitySpellModalActive =
+        view.m_utilitySpellOverlay.active
+        && view.m_utilitySpellOverlay.mode != OutdoorGameView::UtilitySpellOverlayMode::InventoryTarget;
+    const bool blocksUnderlyingMouseInput =
+        view.currentHudScreenState() != OutdoorGameView::HudScreenState::Gameplay
+        || view.m_readableScrollOverlay.active;
     SDL_Window *pWindow = SDL_GetMouseFocus();
 
     if (pWindow == nullptr)
@@ -168,7 +174,9 @@ void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view
         && !isControlsActive
         && !isSaveGameActive
         && !isLoadGameActive
-        && !isJournalActive)
+        && !isJournalActive
+        && !isUtilitySpellModalActive
+        && !view.m_readableScrollOverlay.active)
     {
         float portraitMouseX = 0.0f;
         float portraitMouseY = 0.0f;
@@ -326,7 +334,7 @@ void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view
         view.m_menuToggleLatch = false;
     }
 
-    if (canToggleMenu && screenWidth > 0 && screenHeight > 0)
+    if (canToggleMenu && !blocksUnderlyingMouseInput && screenWidth > 0 && screenHeight > 0)
     {
         float optionsButtonMouseX = 0.0f;
         float optionsButtonMouseY = 0.0f;
@@ -406,7 +414,7 @@ void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view
         view.m_restToggleLatch = false;
     }
 
-    if (canOpenRestScreen && screenWidth > 0 && screenHeight > 0)
+    if (canOpenRestScreen && !blocksUnderlyingMouseInput && screenWidth > 0 && screenHeight > 0)
     {
         float restButtonMouseX = 0.0f;
         float restButtonMouseY = 0.0f;
@@ -490,7 +498,7 @@ void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view
         && !view.m_restScreen.active
         && !view.m_heldInventoryItem.active;
 
-    if (canToggleJournal && screenWidth > 0 && screenHeight > 0)
+    if (canToggleJournal && !blocksUnderlyingMouseInput && screenWidth > 0 && screenHeight > 0)
     {
         float booksButtonMouseX = 0.0f;
         float booksButtonMouseY = 0.0f;
@@ -1360,6 +1368,17 @@ void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view
     if (view.m_spellbook.active)
     {
         GameplayPartyOverlayInputController::handleSpellbookOverlayInput(view, pKeyboardState, screenWidth, screenHeight);
+        return;
+    }
+
+    if (view.m_utilitySpellOverlay.active
+        && view.m_utilitySpellOverlay.mode != OutdoorGameView::UtilitySpellOverlayMode::InventoryTarget)
+    {
+        GameplayPartyOverlayInputController::handleUtilitySpellOverlayInput(
+            view,
+            pKeyboardState,
+            screenWidth,
+            screenHeight);
         return;
     }
 

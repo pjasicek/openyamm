@@ -334,6 +334,8 @@ private:
         Gameplay,
         Dialogue,
         Character,
+        TownPortal,
+        LloydsBeacon,
         Chest,
         Spellbook,
         Rest,
@@ -372,6 +374,7 @@ public:
     using HouseShopMode = GameplayUiController::HouseShopMode;
     using InventoryNestedOverlayMode = GameplayUiController::InventoryNestedOverlayMode;
     using HouseBankInputMode = GameplayUiController::HouseBankInputMode;
+    using UtilitySpellOverlayMode = GameplayUiController::UtilitySpellOverlayMode;
     using DialoguePointerTargetType = GameplayDialoguePointerTargetType;
     using DialoguePointerTarget = GameplayDialoguePointerTarget;
     using ChestPointerTargetType = GameplayChestPointerTargetType;
@@ -421,6 +424,41 @@ public:
     {
         float x = 0.0f;
         float y = 0.0f;
+    };
+
+    struct TownPortalDestination
+    {
+        std::string id;
+        std::string label;
+        std::string buttonLayoutId;
+        std::string mapName;
+        int32_t x = 0;
+        int32_t y = 0;
+        int32_t z = 0;
+        std::optional<int32_t> directionDegrees;
+        bool useMapStartPosition = false;
+        uint32_t unlockQBitId = 0;
+    };
+
+    enum class UtilitySpellPointerTargetType
+    {
+        None = 0,
+        Close,
+        TownPortalDestination,
+        LloydSetTab,
+        LloydRecallTab,
+        LloydSlot,
+    };
+
+    struct UtilitySpellPointerTarget
+    {
+        UtilitySpellPointerTargetType type = UtilitySpellPointerTargetType::None;
+        size_t index = 0;
+
+        bool operator==(const UtilitySpellPointerTarget &other) const
+        {
+            return type == other.type && index == other.index;
+        }
     };
 
     struct KeyboardInteractionBillboardCandidate
@@ -611,6 +649,7 @@ private:
     };
 
     using SpellbookState = GameplayUiController::SpellbookState;
+    using UtilitySpellOverlayState = GameplayUiController::UtilitySpellOverlayState;
     using RestScreenState = GameplayUiController::RestScreenState;
     using RestMode = GameplayUiController::RestMode;
     using MenuScreenState = GameplayUiController::MenuScreenState;
@@ -783,6 +822,7 @@ private:
     void renderReadableScrollOverlay(int width, int height) const;
     void renderPendingSpellTargetingOverlay(int width, int height) const;
     void renderSpellbookOverlay(int width, int height) const;
+    void renderUtilitySpellOverlay(int width, int height) const;
     void renderRestOverlay(int width, int height) const;
     void renderMenuOverlay(int width, int height) const;
     void renderControlsOverlay(int width, int height) const;
@@ -866,6 +906,7 @@ private:
     void updateReadableScrollOverlayForHeldItem(size_t memberIndex, const CharacterPointerTarget &pointerTarget, bool isLeftMousePressed);
     void triggerPortraitEventFxWithoutSpeech(size_t memberIndex, PortraitFxEventKind kind);
     bool tryCastSpellRequest(const PartySpellCastRequest &request, const std::string &spellName);
+    bool loadTownPortalDestinations(const Engine::AssetFileSystem &assetFileSystem);
     void openSpellbook();
     void closeSpellbook(const std::string &statusText = "");
     void openRestScreen();
@@ -1160,6 +1201,7 @@ private:
     SpellInspectOverlayState &m_spellInspectOverlay;
     ReadableScrollOverlayState &m_readableScrollOverlay;
     SpellbookState &m_spellbook;
+    UtilitySpellOverlayState &m_utilitySpellOverlay;
     RestScreenState &m_restScreen;
     MenuScreenState &m_menuScreen;
     ControlsScreenState &m_controlsScreen;
@@ -1176,6 +1218,10 @@ private:
     InventoryNestedOverlayState &m_inventoryNestedOverlay;
     HouseShopOverlayState &m_houseShopOverlay;
     HouseBankState &m_houseBankState;
+    bool m_utilitySpellClickLatch = false;
+    UtilitySpellPointerTarget m_utilitySpellPressedTarget = {};
+    std::vector<TownPortalDestination> m_townPortalDestinations;
+    bool m_townPortalDestinationsLoaded = false;
     SpellbookPointerTarget m_spellbookPressedTarget;
     RestPointerTarget m_restPressedTarget;
     bool m_optionsButtonPressed = false;

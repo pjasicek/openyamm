@@ -8,7 +8,7 @@ namespace OpenYAMM::Game
 {
 namespace
 {
-const std::array<std::string, 19> GameplayLayoutFiles = {
+const std::array<std::string, 20> GameplayLayoutFiles = {
     "Data/ui/gameplay/gameplay.yml",
     "Data/ui/gameplay/chest.yml",
     "Data/ui/gameplay/dialogue.yml",
@@ -22,6 +22,7 @@ const std::array<std::string, 19> GameplayLayoutFiles = {
     "Data/ui/gameplay/save_game.yml",
     "Data/ui/gameplay/load_game.yml",
     "Data/ui/gameplay/journal.yml",
+    "Data/ui/gameplay/town_portal.yml",
     "Data/ui/gameplay/item_inspect.yml",
     "Data/ui/gameplay/character_inspect.yml",
     "Data/ui/gameplay/buff_inspect.yml",
@@ -277,6 +278,16 @@ const GameplayUiController::HouseBankState &GameplayUiController::houseBankState
     return m_state.houseBankState;
 }
 
+GameplayUiController::UtilitySpellOverlayState &GameplayUiController::utilitySpellOverlay()
+{
+    return m_state.utilitySpellOverlay;
+}
+
+const GameplayUiController::UtilitySpellOverlayState &GameplayUiController::utilitySpellOverlay() const
+{
+    return m_state.utilitySpellOverlay;
+}
+
 GameplayUiController::StatusBarState &GameplayUiController::statusBar()
 {
     return m_state.statusBar;
@@ -352,6 +363,24 @@ void GameplayUiController::openHouseShopOverlay(uint32_t houseId, HouseShopMode 
 void GameplayUiController::closeHouseShopOverlay()
 {
     m_state.houseShopOverlay = {};
+}
+
+void GameplayUiController::openUtilitySpellOverlay(
+    UtilitySpellOverlayMode mode,
+    uint32_t spellId,
+    size_t casterMemberIndex,
+    bool lloydRecallMode)
+{
+    m_state.utilitySpellOverlay.active = true;
+    m_state.utilitySpellOverlay.mode = mode;
+    m_state.utilitySpellOverlay.spellId = spellId;
+    m_state.utilitySpellOverlay.casterMemberIndex = casterMemberIndex;
+    m_state.utilitySpellOverlay.lloydRecallMode = lloydRecallMode;
+}
+
+void GameplayUiController::closeUtilitySpellOverlay()
+{
+    m_state.utilitySpellOverlay = {};
 }
 
 void GameplayUiController::beginHouseBankInput(uint32_t houseId, HouseBankInputMode mode)

@@ -1,0 +1,113 @@
+screen: TownPortal
+
+elements:
+  - id: TownPortalRoot
+    anchor: center
+    width: 640
+    height: 480
+    z_index: 440
+    visible: true
+    scale:
+      min: 1.0
+      max: 3.0
+    children:
+      - id: TownPortalBackground
+        anchor: top_left
+        offset_x: 0
+        offset_y: 0
+        width: 640
+        height: 480
+        z_index: 0
+        asset:
+          default: townport
+
+      - id: TownPortalRavenshoreButton
+        anchor: top_left
+        offset_x: 274
+        offset_y: 174
+        width: 62
+        height: 43
+        z_index: 100
+        interactive: true
+        asset:
+          default: ""
+          highlighted: TP_Ravenshore
+          pressed: TP_Ravenshore
+
+      - id: TownPortalAlvarButton
+        anchor: top_left
+        offset_x: 269
+        offset_y: 36
+        width: 55
+        height: 50
+        z_index: 100
+        interactive: true
+        asset:
+          default: ""
+          highlighted: TP_Alvar
+          pressed: TP_Alvar
+
+      - id: TownPortalShadowspireButton
+        anchor: top_left
+        offset_x: 444
+        offset_y: 127
+        width: 76
+        height: 53
+        z_index: 100
+        interactive: true
+        asset:
+          default: ""
+          highlighted: TP_Shadowspire
+          pressed: TP_Shadowspire
+
+      - id: TownPortalDaggerWoundIslandsButton
+        anchor: top_left
+        offset_x: 460
+        offset_y: 303
+        width: 61
+        height: 49
+        z_index: 100
+        interactive: true
+        asset:
+          default: ""
+          highlighted: TP_DaggerWoundIslands
+          pressed: TP_DaggerWoundIslands
+
+      - id: TownPortalRegnaButton
+        anchor: top_left
+        offset_x: 204
+        offset_y: 348
+        width: 73
+        height: 46
+        z_index: 100
+        interactive: true
+        asset:
+          default: ""
+          highlighted: TP_Regna
+          pressed: TP_Regna
+
+      - id: TownPortalBalthazarLairButton
+        anchor: top_left
+        offset_x: 14
+        offset_y: 298
+        width: 63
+        height: 64
+        z_index: 100
+        interactive: true
+        asset:
+          default: ""
+          highlighted: TP_BalthazarLair
+          pressed: TP_BalthazarLair
+
+      - id: TownPortalCloseButton
+        anchor: bottom_right
+        offset_x: -3
+        offset_y: -3
+        width: 83
+        height: 30
+        z_index: 300
+        interactive: true
+        asset:
+          default: c_close_up
+          pressed: c_close_DN
+          highlighted: c_close_ht

@@ -17703,12 +17703,12 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
 
             const std::array<ExpectedMapTransitions, 9> expectedMaps = {{
                 {"Out01.odm", nullptr, nullptr, nullptr, nullptr},
-                {"Out02.odm", "Out03.odm", nullptr, "Out05.odm", "Out06.odm"},
-                {"Out03.odm", nullptr, "Out02.odm", "Out04.odm", "Out07.odm"},
-                {"Out04.odm", nullptr, "Out05.odm", nullptr, "Out03.odm"},
-                {"Out05.odm", "Out04.odm", "Out08.odm", nullptr, "Out02.odm"},
-                {"Out06.odm", "Out07.odm", nullptr, "Out02.odm", nullptr},
-                {"Out07.odm", nullptr, "Out06.odm", "Out03.odm", nullptr},
+                {"Out02.odm", "Out03.odm", nullptr, "Out06.odm", "Out05.odm"},
+                {"Out03.odm", nullptr, "Out02.odm", "Out07.odm", "Out04.odm"},
+                {"Out04.odm", nullptr, "Out05.odm", "Out03.odm", nullptr},
+                {"Out05.odm", "Out04.odm", "Out08.odm", "Out02.odm", nullptr},
+                {"Out06.odm", "Out07.odm", nullptr, nullptr, "Out02.odm"},
+                {"Out07.odm", nullptr, "Out06.odm", nullptr, "Out03.odm"},
                 {"Out08.odm", "Out05.odm", nullptr, nullptr, nullptr},
                 {"Out13.odm", nullptr, nullptr, nullptr, nullptr}
             }};
@@ -17818,28 +17818,28 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
             }
 
             if (!pRavenshore->eastTransition.has_value()
-                || pRavenshore->eastTransition->destinationMapFileName != "Out05.odm"
+                || pRavenshore->eastTransition->destinationMapFileName != "Out06.odm"
                 || pRavenshore->eastTransition->useMapStartPosition
                 || !pRavenshore->eastTransition->arrivalX.has_value()
                 || !pRavenshore->eastTransition->arrivalY.has_value()
                 || !pRavenshore->eastTransition->arrivalZ.has_value()
-                || *pRavenshore->eastTransition->arrivalX != 22096
-                || *pRavenshore->eastTransition->arrivalY != 296
-                || *pRavenshore->eastTransition->arrivalZ != 360)
+                || *pRavenshore->eastTransition->arrivalX != -22080
+                || *pRavenshore->eastTransition->arrivalY != -5776
+                || *pRavenshore->eastTransition->arrivalZ != 480)
             {
                 failure = "Ravenshore east transition did not load the expected explicit arrival position";
                 return false;
             }
 
             if (!pRavenshore->westTransition.has_value()
-                || pRavenshore->westTransition->destinationMapFileName != "Out06.odm"
+                || pRavenshore->westTransition->destinationMapFileName != "Out05.odm"
                 || pRavenshore->westTransition->useMapStartPosition
                 || !pRavenshore->westTransition->arrivalX.has_value()
                 || !pRavenshore->westTransition->arrivalY.has_value()
                 || !pRavenshore->westTransition->arrivalZ.has_value()
-                || *pRavenshore->westTransition->arrivalX != -22080
-                || *pRavenshore->westTransition->arrivalY != -5776
-                || *pRavenshore->westTransition->arrivalZ != 480)
+                || *pRavenshore->westTransition->arrivalX != 22096
+                || *pRavenshore->westTransition->arrivalY != 296
+                || *pRavenshore->westTransition->arrivalZ != 360)
             {
                 failure = "Ravenshore west transition did not load the expected explicit arrival position";
                 return false;
@@ -17947,7 +17947,7 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
                     static_cast<float>(pRavenshore->outdoorBounds.minX) + bodyRadius + 1.0f,
                     initialMoveState.y,
                     3.14159265358979323846f,
-                    "Shadowspire"))
+                    "Garrote Gorge"))
             {
                 return false;
             }
@@ -17957,7 +17957,7 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
                     static_cast<float>(pRavenshore->outdoorBounds.maxX) - bodyRadius - 1.0f,
                     initialMoveState.y,
                     0.0f,
-                    "Garrote Gorge"))
+                    "Shadowspire"))
             {
                 return false;
             }
@@ -17992,7 +17992,7 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
             OutdoorWorldRuntime *pWorld = GameApplicationTestAccess::outdoorWorldRuntime(application);
             EventRuntimeState *pEventRuntimeState = pWorld != nullptr ? pWorld->eventRuntimeState() : nullptr;
             const MapStatsEntry *pOriginMap = gameDataLoader.getMapStats().findByFileName("Out02.odm");
-            const MapStatsEntry *pDestinationMap = gameDataLoader.getMapStats().findByFileName("Out05.odm");
+            const MapStatsEntry *pDestinationMap = gameDataLoader.getMapStats().findByFileName("Out06.odm");
 
             if (pWorld == nullptr || pEventRuntimeState == nullptr || pOriginMap == nullptr || pDestinationMap == nullptr)
             {
@@ -19222,8 +19222,8 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
             const std::array<DirectionCase, 4> cases = {{
                 {"Out02.odm", MapBoundaryEdge::North, "Out03.odm", 90, 1.57079632679489661923f},
                 {"Out03.odm", MapBoundaryEdge::South, "Out02.odm", 270, -1.57079632679489661923f},
-                {"Out02.odm", MapBoundaryEdge::East, "Out05.odm", 0, 0.0f},
-                {"Out02.odm", MapBoundaryEdge::West, "Out06.odm", 180, 3.14159265358979323846f}
+                {"Out02.odm", MapBoundaryEdge::East, "Out06.odm", 0, 0.0f},
+                {"Out02.odm", MapBoundaryEdge::West, "Out05.odm", 180, 3.14159265358979323846f}
             }};
 
             for (const DirectionCase &directionCase : cases)
@@ -19467,7 +19467,7 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
 
             if (pPendingMapMove == nullptr
                 || !pPendingMapMove->mapName.has_value()
-                || *pPendingMapMove->mapName != "Out05.odm")
+                || *pPendingMapMove->mapName != "Out06.odm")
             {
                 failure = "map transition confirm did not queue the destination map move";
                 return false;
@@ -19487,7 +19487,7 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
 
             const std::optional<MapAssetInfo> &loadedMap = GameApplicationTestAccess::gameDataLoader(application).getSelectedMap();
 
-            if (!loadedMap || toLowerCopy(loadedMap->map.fileName) != "out05.odm")
+            if (!loadedMap || toLowerCopy(loadedMap->map.fileName) != "out06.odm")
             {
                 failure = "map transition confirm did not load the destination outdoor map";
                 return false;
@@ -20352,6 +20352,140 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
             if (!dialogHasActionLabel(dialog, "Portals of Stone") || !dialogHasActionLabel(dialog, "Cataclysm"))
             {
                 failure = "regular house resident dialog is missing expected topics";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "app_single_teacher_house_entry_unlocks_teacher_autonote",
+        [&](std::string &failure)
+        {
+            GameApplication application(m_config);
+
+            if (!initializeHeadlessGameApplication(
+                    "out01.odm",
+                    assetFileSystem,
+                    application,
+                    failure))
+            {
+                return false;
+            }
+
+            GameApplicationTestAccess::shutdownRenderer(application);
+
+            if (!GameApplicationTestAccess::initializeSelectedMapRuntime(application, true))
+            {
+                failure = "could not initialize gameplay view";
+                return false;
+            }
+
+            OutdoorWorldRuntime *pWorld = GameApplicationTestAccess::outdoorWorldRuntime(application);
+            EventRuntimeState *pEventRuntimeState = pWorld != nullptr ? pWorld->eventRuntimeState() : nullptr;
+            const GameDataLoader &gameDataLoader = GameApplicationTestAccess::gameDataLoader(application);
+            const HouseTable &houseTable = gameDataLoader.getHouseTable();
+            const NpcDialogTable &npcDialogTable = gameDataLoader.getNpcDialogTable();
+
+            if (pWorld == nullptr || pEventRuntimeState == nullptr)
+            {
+                failure = "application state is incomplete";
+                return false;
+            }
+
+            constexpr uint32_t TeacherHouseId = 371;
+            constexpr uint32_t TeacherNpcId = 373;
+            constexpr uint32_t TeacherTopicId = 388;
+            constexpr uint32_t AutoNoteRawId = ((128u + (TeacherTopicId - 300u)) << 16) | 0x00E1u;
+            const HouseEntry *pTeacherHouse = houseTable.get(TeacherHouseId);
+
+            if (pTeacherHouse == nullptr)
+            {
+                failure = "missing Helga Steeleye house entry";
+                return false;
+            }
+
+            const std::vector<HouseActionOption> houseActions = buildHouseActionOptions(
+                *pTeacherHouse,
+                nullptr,
+                nullptr,
+                nullptr,
+                pWorld->gameMinutes(),
+                DialogueMenuId::None);
+            const std::vector<uint32_t> residentNpcIds =
+                collectSelectableResidentNpcIds(*pTeacherHouse, npcDialogTable, *pEventRuntimeState);
+
+            if (!houseActions.empty() || residentNpcIds.size() != 1 || residentNpcIds.front() != TeacherNpcId)
+            {
+                failure = "Helga Steeleye house is no longer a single-resident auto-open teacher house";
+                return false;
+            }
+
+            if (pEventRuntimeState->variables.contains(AutoNoteRawId))
+            {
+                failure = "teacher autonote was already unlocked before house entry";
+                return false;
+            }
+
+            const float openMinuteOfDay = static_cast<float>((pTeacherHouse->openHour % 24) * 60);
+            const float openGameMinutes = nextGameMinuteAtOrAfter(pWorld->gameMinutes(), openMinuteOfDay);
+            pWorld->advanceGameMinutes(openGameMinutes - pWorld->gameMinutes());
+
+            EventRuntimeState::PendingDialogueContext context = {};
+            context.kind = DialogueContextKind::HouseService;
+            context.sourceId = pTeacherHouse->id;
+            context.hostHouseId = pTeacherHouse->id;
+            pEventRuntimeState->dialogueState.hostHouseId = pTeacherHouse->id;
+            pEventRuntimeState->pendingDialogueContext = std::move(context);
+
+            GameApplicationTestAccess::openPendingEventDialog(application, pEventRuntimeState->messages.size(), true);
+
+            if (!GameApplicationTestAccess::hasActiveEventDialog(application))
+            {
+                failure = "teacher house did not open an active dialog";
+                return false;
+            }
+
+            const EventDialogContent &dialog = GameApplicationTestAccess::activeEventDialog(application);
+
+            if (dialog.sourceId != TeacherNpcId)
+            {
+                failure = "teacher house did not auto-open the teacher resident dialog";
+                return false;
+            }
+
+            const auto noteIt = pEventRuntimeState->variables.find(AutoNoteRawId);
+
+            if (noteIt == pEventRuntimeState->variables.end() || noteIt->second == 0)
+            {
+                failure = "teacher autonote was not unlocked on house entry";
+                return false;
+            }
+
+            bool sawAutoNoteFx = false;
+
+            for (const EventRuntimeState::PortraitFxRequest &request : pEventRuntimeState->portraitFxRequests)
+            {
+                if (request.kind != PortraitFxEventKind::AutoNote)
+                {
+                    continue;
+                }
+
+                if (std::find(
+                        request.memberIndices.begin(),
+                        request.memberIndices.end(),
+                        GameApplicationTestAccess::outdoorPartyRuntime(application)->party().activeMemberIndex())
+                    != request.memberIndices.end())
+                {
+                    sawAutoNoteFx = true;
+                    break;
+                }
+            }
+
+            if (!sawAutoNoteFx)
+            {
+                failure = "teacher house entry did not queue the autonote portrait fx";
                 return false;
             }
 

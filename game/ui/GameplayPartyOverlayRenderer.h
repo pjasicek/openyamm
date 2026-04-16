@@ -9,6 +9,7 @@ class OutdoorGameView;
 class GameplayPartyOverlayRenderer
 {
 public:
+    static void renderUtilitySpellOverlay(const OutdoorGameView &view, int width, int height);
     static void renderCharacterOverlay(const OutdoorGameView &view, int width, int height, bool renderAboveHud);
     static void renderHeldInventoryItem(const OutdoorGameView &view, int width, int height);
     static void renderItemInspectOverlay(const OutdoorGameView &view, int width, int height);

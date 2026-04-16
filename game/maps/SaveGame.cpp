@@ -13,7 +13,7 @@ namespace OpenYAMM::Game
 {
 namespace
 {
-constexpr uint32_t SaveVersion = 17;
+constexpr uint32_t SaveVersion = 18;
 constexpr char SaveMagic[8] = {'O', 'Y', 'S', 'A', 'V', 'E', '1', '\0'};
 
 class BinaryWriter
@@ -372,6 +372,7 @@ void writeValue(BinaryWriter &writer, const InventoryItem &value)
     writeValue(writer, value.specialEnchantId);
     writeValue(writer, value.artifactId);
     writeValue(writer, value.rarity);
+    writeValue(writer, value.temporaryBonusRemainingSeconds);
 }
 
 bool readValue(BinaryReader &reader, InventoryItem &value)
@@ -389,7 +390,30 @@ bool readValue(BinaryReader &reader, InventoryItem &value)
         && readValue(reader, value.standardEnchantPower)
         && readValue(reader, value.specialEnchantId)
         && readValue(reader, value.artifactId)
-        && readValue(reader, value.rarity);
+        && readValue(reader, value.rarity)
+        && readValue(reader, value.temporaryBonusRemainingSeconds);
+}
+
+void writeValue(BinaryWriter &writer, const LloydBeacon &value)
+{
+    writeValue(writer, value.mapName);
+    writeValue(writer, value.locationName);
+    writeValue(writer, value.x);
+    writeValue(writer, value.y);
+    writeValue(writer, value.z);
+    writeValue(writer, value.directionDegrees);
+    writeValue(writer, value.remainingSeconds);
+}
+
+bool readValue(BinaryReader &reader, LloydBeacon &value)
+{
+    return readValue(reader, value.mapName)
+        && readValue(reader, value.locationName)
+        && readValue(reader, value.x)
+        && readValue(reader, value.y)
+        && readValue(reader, value.z)
+        && readValue(reader, value.directionDegrees)
+        && readValue(reader, value.remainingSeconds);
 }
 
 void writeValue(BinaryWriter &writer, const CharacterResistanceSet &value)
@@ -524,6 +548,7 @@ void writeValue(BinaryWriter &writer, const EquippedItemRuntimeState &value)
     writeValue(writer, value.specialEnchantId);
     writeValue(writer, value.artifactId);
     writeValue(writer, value.rarity);
+    writeValue(writer, value.temporaryBonusRemainingSeconds);
 }
 
 bool readValue(BinaryReader &reader, EquippedItemRuntimeState &value)
@@ -535,7 +560,8 @@ bool readValue(BinaryReader &reader, EquippedItemRuntimeState &value)
         && readValue(reader, value.standardEnchantPower)
         && readValue(reader, value.specialEnchantId)
         && readValue(reader, value.artifactId)
-        && readValue(reader, value.rarity);
+        && readValue(reader, value.rarity)
+        && readValue(reader, value.temporaryBonusRemainingSeconds);
 }
 
 void writeValue(BinaryWriter &writer, const CharacterEquipmentRuntimeState &value)
@@ -633,6 +659,7 @@ void writeValue(BinaryWriter &writer, const Character &value)
     writeValue(writer, value.npcs2);
     writeValue(writer, value.healthRegenAccumulator);
     writeValue(writer, value.spellRegenAccumulator);
+    writeValue(writer, value.lloydsBeacons);
     writeValue(writer, value.inventory);
 }
 
@@ -691,6 +718,7 @@ bool readValue(BinaryReader &reader, Character &value)
         && readValue(reader, value.npcs2)
         && readValue(reader, value.healthRegenAccumulator)
         && readValue(reader, value.spellRegenAccumulator)
+        && readValue(reader, value.lloydsBeacons)
         && readValue(reader, value.inventory);
 }
 

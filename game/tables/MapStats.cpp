@@ -200,10 +200,10 @@ std::optional<MapBoundaryEdge> parseNavigationEdgeByColumn(size_t mapColumn)
             return MapBoundaryEdge::South;
 
         case NavigationEastMapColumn:
-            return MapBoundaryEdge::West;
+            return MapBoundaryEdge::East;
 
         case NavigationWestMapColumn:
-            return MapBoundaryEdge::East;
+            return MapBoundaryEdge::West;
 
         default:
             return std::nullopt;
@@ -221,10 +221,10 @@ size_t navigationTravelDaysColumn(MapBoundaryEdge edge)
             return NavigationSouthTravelDaysColumn;
 
         case MapBoundaryEdge::East:
-            return NavigationWestTravelDaysColumn;
+            return NavigationEastTravelDaysColumn;
 
         case MapBoundaryEdge::West:
-            return NavigationEastTravelDaysColumn;
+            return NavigationWestTravelDaysColumn;
     }
 
     return NavigationNorthTravelDaysColumn;
@@ -241,10 +241,10 @@ size_t navigationHeadingColumn(MapBoundaryEdge edge)
             return NavigationSouthHeadingColumn;
 
         case MapBoundaryEdge::East:
-            return NavigationWestHeadingColumn;
+            return NavigationEastHeadingColumn;
 
         case MapBoundaryEdge::West:
-            return NavigationEastHeadingColumn;
+            return NavigationWestHeadingColumn;
     }
 
     return NavigationNorthHeadingColumn;
@@ -261,10 +261,10 @@ size_t navigationArrivalXColumn(MapBoundaryEdge edge)
             return NavigationSouthArrivalXColumn;
 
         case MapBoundaryEdge::East:
-            return NavigationWestArrivalXColumn;
+            return NavigationEastArrivalXColumn;
 
         case MapBoundaryEdge::West:
-            return NavigationEastArrivalXColumn;
+            return NavigationWestArrivalXColumn;
     }
 
     return NavigationNorthArrivalXColumn;
@@ -281,10 +281,10 @@ size_t navigationArrivalYColumn(MapBoundaryEdge edge)
             return NavigationSouthArrivalYColumn;
 
         case MapBoundaryEdge::East:
-            return NavigationWestArrivalYColumn;
+            return NavigationEastArrivalYColumn;
 
         case MapBoundaryEdge::West:
-            return NavigationEastArrivalYColumn;
+            return NavigationWestArrivalYColumn;
     }
 
     return NavigationNorthArrivalYColumn;
@@ -301,10 +301,10 @@ size_t navigationArrivalZColumn(MapBoundaryEdge edge)
             return NavigationSouthArrivalZColumn;
 
         case MapBoundaryEdge::East:
-            return NavigationWestArrivalZColumn;
+            return NavigationEastArrivalZColumn;
 
         case MapBoundaryEdge::West:
-            return NavigationEastArrivalZColumn;
+            return NavigationWestArrivalZColumn;
     }
 
     return NavigationNorthArrivalZColumn;

@@ -976,6 +976,7 @@ InventoryItem makeInventoryItem(
     item.specialEnchantId = runtimeState.specialEnchantId;
     item.artifactId = runtimeState.artifactId;
     item.rarity = runtimeState.rarity;
+    item.temporaryBonusRemainingSeconds = runtimeState.temporaryBonusRemainingSeconds;
 
     if (pItemTable != nullptr)
     {
@@ -1402,7 +1403,7 @@ PartySeed Party::createDefaultSeed()
         uint16_t standardEnchantPower = 0,
         uint16_t specialEnchantId = 0)
     {
-        equippedItemId(character.equipment, slot) = itemId;
+        ::OpenYAMM::Game::equippedItemId(character.equipment, slot) = itemId;
         EquippedItemRuntimeState &runtimeState = equippedItemRuntimeState(character.equipmentRuntime, slot);
         runtimeState = {};
         runtimeState.identified = true;
@@ -1816,7 +1817,7 @@ void Party::seed(const PartySeed &seed)
                  EquipmentSlot::Ring5,
                  EquipmentSlot::Ring6})
         {
-            const uint32_t itemId = equippedItemId(member.equipment, slot);
+            const uint32_t itemId = ::OpenYAMM::Game::equippedItemId(member.equipment, slot);
 
             if (itemId == 0)
             {
@@ -3120,7 +3121,7 @@ bool Party::takeEquippedItemFromMember(size_t memberIndex, EquipmentSlot slot, I
         return false;
     }
 
-    const uint32_t itemId = equippedItemId(pMember->equipment, slot);
+    const uint32_t itemId = ::OpenYAMM::Game::equippedItemId(pMember->equipment, slot);
 
     if (itemId == 0)
     {
@@ -3129,7 +3130,7 @@ bool Party::takeEquippedItemFromMember(size_t memberIndex, EquipmentSlot slot, I
 
     item = {};
     item = makeInventoryItem(m_pItemTable, itemId, equippedItemRuntimeState(pMember->equipmentRuntime, slot));
-    equippedItemId(pMember->equipment, slot) = 0;
+    ::OpenYAMM::Game::equippedItemId(pMember->equipment, slot) = 0;
     equippedItemRuntimeState(pMember->equipmentRuntime, slot) = {};
     rebuildMagicalBonusesFromBuffs();
     m_lastStatus = "item unequipped";
@@ -3163,18 +3164,20 @@ bool Party::tryEquipItemOnMember(
         return false;
     }
 
-    if (displacedSlot && *displacedSlot != targetSlot && equippedItemId(pMember->equipment, targetSlot) != 0)
+    if (displacedSlot
+        && *displacedSlot != targetSlot
+        && ::OpenYAMM::Game::equippedItemId(pMember->equipment, targetSlot) != 0)
     {
         return false;
     }
 
-    if (!displacedSlot && equippedItemId(pMember->equipment, targetSlot) != 0)
+    if (!displacedSlot && ::OpenYAMM::Game::equippedItemId(pMember->equipment, targetSlot) != 0)
     {
         displacedSlot = targetSlot;
     }
 
     const uint32_t displacedItemId =
-        displacedSlot ? equippedItemId(pMember->equipment, *displacedSlot) : 0;
+        displacedSlot ? ::OpenYAMM::Game::equippedItemId(pMember->equipment, *displacedSlot) : 0;
     const EquippedItemRuntimeState displacedRuntimeState =
         displacedSlot ? equippedItemRuntimeState(pMember->equipmentRuntime, *displacedSlot) : EquippedItemRuntimeState {};
 
@@ -3194,11 +3197,11 @@ bool Party::tryEquipItemOnMember(
 
     if (displacedSlot)
     {
-        equippedItemId(pMember->equipment, *displacedSlot) = 0;
+        ::OpenYAMM::Game::equippedItemId(pMember->equipment, *displacedSlot) = 0;
         equippedItemRuntimeState(pMember->equipmentRuntime, *displacedSlot) = {};
     }
 
-    equippedItemId(pMember->equipment, targetSlot) = item.objectDescriptionId;
+    ::OpenYAMM::Game::equippedItemId(pMember->equipment, targetSlot) = item.objectDescriptionId;
     EquippedItemRuntimeState &targetRuntimeState = equippedItemRuntimeState(pMember->equipmentRuntime, targetSlot);
     targetRuntimeState.identified = item.identified;
     targetRuntimeState.broken = item.broken;
@@ -3208,6 +3211,7 @@ bool Party::tryEquipItemOnMember(
     targetRuntimeState.specialEnchantId = item.specialEnchantId;
     targetRuntimeState.artifactId = item.artifactId;
     targetRuntimeState.rarity = item.rarity;
+    targetRuntimeState.temporaryBonusRemainingSeconds = item.temporaryBonusRemainingSeconds;
 
     if (targetRuntimeState.rarity == ItemRarity::Common && ItemRuntime::isRareItem(*pItemDefinition))
     {
@@ -3244,7 +3248,7 @@ std::optional<InventoryItem> Party::equippedItem(size_t memberIndex, EquipmentSl
         return std::nullopt;
     }
 
-    const uint32_t itemId = equippedItemId(pMember->equipment, slot);
+    const uint32_t itemId = ::OpenYAMM::Game::equippedItemId(pMember->equipment, slot);
 
     if (itemId == 0)
     {
@@ -3252,6 +3256,41 @@ std::optional<InventoryItem> Party::equippedItem(size_t memberIndex, EquipmentSl
     }
 
     return makeInventoryItem(m_pItemTable, itemId, equippedItemRuntimeState(pMember->equipmentRuntime, slot));
+}
+
+const InventoryItem *Party::memberInventoryItem(size_t memberIndex, uint8_t gridX, uint8_t gridY) const
+{
+    const Character *pMember = member(memberIndex);
+    return pMember != nullptr ? pMember->inventoryItemAt(gridX, gridY) : nullptr;
+}
+
+InventoryItem *Party::memberInventoryItemMutable(size_t memberIndex, uint8_t gridX, uint8_t gridY)
+{
+    Character *pMember = member(memberIndex);
+    return pMember != nullptr ? inventoryItemAtMutable(*pMember, gridX, gridY) : nullptr;
+}
+
+uint32_t Party::equippedItemId(size_t memberIndex, EquipmentSlot slot) const
+{
+    const Character *pMember = member(memberIndex);
+    return pMember != nullptr ? ::OpenYAMM::Game::equippedItemId(pMember->equipment, slot) : 0;
+}
+
+const EquippedItemRuntimeState *Party::equippedItemRuntime(size_t memberIndex, EquipmentSlot slot) const
+{
+    const Character *pMember = member(memberIndex);
+    return pMember != nullptr ? &equippedItemRuntimeState(pMember->equipmentRuntime, slot) : nullptr;
+}
+
+EquippedItemRuntimeState *Party::equippedItemRuntimeMutable(size_t memberIndex, EquipmentSlot slot)
+{
+    Character *pMember = member(memberIndex);
+    return pMember != nullptr ? &equippedItemRuntimeState(pMember->equipmentRuntime, slot) : nullptr;
+}
+
+void Party::refreshDerivedState()
+{
+    rebuildMagicalBonusesFromBuffs();
 }
 
 bool Party::tryIdentifyMemberInventoryItem(
@@ -3591,7 +3630,7 @@ bool Party::tryIdentifyEquippedItem(
         return false;
     }
 
-    const uint32_t itemId = equippedItemId(pMember->equipment, slot);
+    const uint32_t itemId = ::OpenYAMM::Game::equippedItemId(pMember->equipment, slot);
 
     if (itemId == 0)
     {
@@ -3686,7 +3725,7 @@ bool Party::tryRepairEquippedItem(
         return false;
     }
 
-    const uint32_t itemId = equippedItemId(pMember->equipment, slot);
+    const uint32_t itemId = ::OpenYAMM::Game::equippedItemId(pMember->equipment, slot);
 
     if (itemId == 0)
     {
@@ -3776,7 +3815,7 @@ bool Party::identifyEquippedItem(size_t memberIndex, EquipmentSlot slot, std::st
         return false;
     }
 
-    const uint32_t itemId = equippedItemId(pMember->equipment, slot);
+    const uint32_t itemId = ::OpenYAMM::Game::equippedItemId(pMember->equipment, slot);
 
     if (itemId == 0)
     {
@@ -3838,7 +3877,7 @@ bool Party::repairEquippedItem(size_t memberIndex, EquipmentSlot slot, std::stri
         return false;
     }
 
-    const uint32_t itemId = equippedItemId(pMember->equipment, slot);
+    const uint32_t itemId = ::OpenYAMM::Game::equippedItemId(pMember->equipment, slot);
 
     if (itemId == 0)
     {
@@ -4107,6 +4146,7 @@ void Party::advanceTimedStates(float deltaSeconds)
     }
 
     bool buffsChanged = false;
+    bool itemsChanged = false;
 
     for (PartyBuffState &buff : m_partyBuffs)
     {
@@ -4170,7 +4210,88 @@ void Party::advanceTimedStates(float deltaSeconds)
         }
     }
 
-    if (buffsChanged)
+    const auto updateTimedInventoryItem =
+        [&itemsChanged, deltaSeconds](InventoryItem &item)
+        {
+            if (item.temporaryBonusRemainingSeconds <= 0.0f)
+            {
+                return;
+            }
+
+            item.temporaryBonusRemainingSeconds = std::max(0.0f, item.temporaryBonusRemainingSeconds - deltaSeconds);
+
+            if (item.temporaryBonusRemainingSeconds > 0.0f)
+            {
+                return;
+            }
+
+            item.standardEnchantId = 0;
+            item.standardEnchantPower = 0;
+            item.specialEnchantId = 0;
+            itemsChanged = true;
+        };
+    const auto updateTimedEquippedItem =
+        [&itemsChanged, deltaSeconds](EquippedItemRuntimeState &item)
+        {
+            if (item.temporaryBonusRemainingSeconds <= 0.0f)
+            {
+                return;
+            }
+
+            item.temporaryBonusRemainingSeconds = std::max(0.0f, item.temporaryBonusRemainingSeconds - deltaSeconds);
+
+            if (item.temporaryBonusRemainingSeconds > 0.0f)
+            {
+                return;
+            }
+
+            item.standardEnchantId = 0;
+            item.standardEnchantPower = 0;
+            item.specialEnchantId = 0;
+            itemsChanged = true;
+        };
+
+    for (Character &member : m_members)
+    {
+        for (InventoryItem &item : member.inventory)
+        {
+            updateTimedInventoryItem(item);
+        }
+
+        updateTimedEquippedItem(member.equipmentRuntime.offHand);
+        updateTimedEquippedItem(member.equipmentRuntime.mainHand);
+        updateTimedEquippedItem(member.equipmentRuntime.bow);
+        updateTimedEquippedItem(member.equipmentRuntime.armor);
+        updateTimedEquippedItem(member.equipmentRuntime.helm);
+        updateTimedEquippedItem(member.equipmentRuntime.belt);
+        updateTimedEquippedItem(member.equipmentRuntime.cloak);
+        updateTimedEquippedItem(member.equipmentRuntime.gauntlets);
+        updateTimedEquippedItem(member.equipmentRuntime.boots);
+        updateTimedEquippedItem(member.equipmentRuntime.amulet);
+        updateTimedEquippedItem(member.equipmentRuntime.ring1);
+        updateTimedEquippedItem(member.equipmentRuntime.ring2);
+        updateTimedEquippedItem(member.equipmentRuntime.ring3);
+        updateTimedEquippedItem(member.equipmentRuntime.ring4);
+        updateTimedEquippedItem(member.equipmentRuntime.ring5);
+        updateTimedEquippedItem(member.equipmentRuntime.ring6);
+
+        for (std::optional<LloydBeacon> &beacon : member.lloydsBeacons)
+        {
+            if (!beacon.has_value())
+            {
+                continue;
+            }
+
+            beacon->remainingSeconds = std::max(0.0f, beacon->remainingSeconds - deltaSeconds);
+
+            if (beacon->remainingSeconds <= 0.0f)
+            {
+                beacon.reset();
+            }
+        }
+    }
+
+    if (buffsChanged || itemsChanged)
     {
         rebuildMagicalBonusesFromBuffs();
     }
@@ -4858,18 +4979,6 @@ void Party::rebuildMagicalBonusesFromBuffs()
         if (const CharacterBuffState *pBuff = characterBuff(memberIndex, CharacterBuffId::Hammerhands))
         {
             member.magicalBonuses.meleeDamage += pBuff->power;
-        }
-
-        if (const CharacterBuffState *pBuff = characterBuff(memberIndex, CharacterBuffId::FireAura))
-        {
-            member.weaponEnchantmentDamageBonus += pBuff->power;
-            member.magicalBonuses.meleeDamage += pBuff->power;
-            member.magicalBonuses.rangedDamage += pBuff->power;
-        }
-
-        if (const CharacterBuffState *pBuff = characterBuff(memberIndex, CharacterBuffId::VampiricWeapon))
-        {
-            member.vampiricHealFraction = std::max(member.vampiricHealFraction, static_cast<float>(pBuff->power) / 100.0f);
         }
 
         if (const CharacterBuffState *pBuff = characterBuff(memberIndex, CharacterBuffId::Mistform))

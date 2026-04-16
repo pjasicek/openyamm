@@ -2,6 +2,7 @@
 
 #include "game/gameplay/GameMechanics.h"
 #include "game/gameplay/StoryTextFormatter.h"
+#include "game/events/EvtEnums.h"
 #include "game/items/ItemEnchantRuntime.h"
 #include "game/items/ItemRuntime.h"
 #include "game/outdoor/OutdoorGameView.h"
@@ -116,6 +117,7 @@ UiViewportRect computeUiViewportRect(int screenWidth, int screenHeight)
 
     return viewport;
 }
+
 
 float snappedHudFontScale(float scale)
 {
@@ -435,6 +437,134 @@ std::vector<JournalStoryPage> buildJournalStoryPages(
     }
 
     return pages;
+}
+
+struct UtilityOverlayRenderLayout
+{
+    float panelX = 0.0f;
+    float panelY = 0.0f;
+    float panelWidth = 0.0f;
+    float panelHeight = 0.0f;
+    float closeX = 0.0f;
+    float closeY = 0.0f;
+    float closeSize = 0.0f;
+    float titleX = 0.0f;
+    float titleY = 0.0f;
+    float contentX = 0.0f;
+    float contentY = 0.0f;
+    float contentWidth = 0.0f;
+    float rowHeight = 0.0f;
+    float rowGap = 0.0f;
+    float tabWidth = 0.0f;
+    float tabHeight = 0.0f;
+    float tabGap = 0.0f;
+    float scale = 1.0f;
+};
+
+UtilityOverlayRenderLayout computeUtilityOverlayRenderLayout(int screenWidth, int screenHeight)
+{
+    const float width = static_cast<float>(std::max(screenWidth, 1));
+    const float height = static_cast<float>(std::max(screenHeight, 1));
+    const float scale = std::clamp(std::min(width / 640.0f, height / 480.0f), 0.8f, 2.0f);
+
+    UtilityOverlayRenderLayout layout = {};
+    layout.scale = scale;
+    layout.panelWidth = std::round(380.0f * scale);
+    layout.panelHeight = std::round(320.0f * scale);
+    layout.panelX = std::round((width - layout.panelWidth) * 0.5f);
+    layout.panelY = std::round((height - layout.panelHeight) * 0.5f);
+    layout.closeSize = std::round(24.0f * scale);
+    layout.closeX = std::round(layout.panelX + layout.panelWidth - layout.closeSize - 12.0f * scale);
+    layout.closeY = std::round(layout.panelY + 12.0f * scale);
+    layout.titleX = std::round(layout.panelX + 24.0f * scale);
+    layout.titleY = std::round(layout.panelY + 20.0f * scale);
+    layout.contentX = std::round(layout.panelX + 24.0f * scale);
+    layout.contentY = std::round(layout.panelY + 82.0f * scale);
+    layout.contentWidth = std::round(layout.panelWidth - 48.0f * scale);
+    layout.rowHeight = std::round(42.0f * scale);
+    layout.rowGap = std::round(6.0f * scale);
+    layout.tabWidth = std::round(120.0f * scale);
+    layout.tabHeight = std::round(28.0f * scale);
+    layout.tabGap = std::round(10.0f * scale);
+    return layout;
+}
+
+bool utilityOverlayPointInsideRect(float x, float y, float rectX, float rectY, float rectWidth, float rectHeight)
+{
+    return x >= rectX && x < rectX + rectWidth && y >= rectY && y < rectY + rectHeight;
+}
+
+uint32_t utilityOverlayQBitVariableId(uint32_t qbitId)
+{
+    return (qbitId << 16) | static_cast<uint32_t>(EvtVariable::QBits);
+}
+
+bool isUtilityTownPortalDestinationUnlocked(
+    const EventRuntimeState *pEventRuntimeState,
+    const OutdoorGameView::TownPortalDestination &destination)
+{
+    if (destination.unlockQBitId == 0)
+    {
+        return true;
+    }
+
+    if (pEventRuntimeState == nullptr)
+    {
+        return false;
+    }
+
+    const auto it = pEventRuntimeState->variables.find(utilityOverlayQBitVariableId(destination.unlockQBitId));
+    return it != pEventRuntimeState->variables.end() && it->second != 0;
+}
+
+size_t utilityOverlayMaxLloydBeaconSlots(const Character *pCharacter)
+{
+    if (pCharacter == nullptr)
+    {
+        return 1;
+    }
+
+    const CharacterSkill *pWaterSkill = pCharacter->findSkill("WaterMagic");
+
+    if (pWaterSkill == nullptr)
+    {
+        return 1;
+    }
+
+    switch (pWaterSkill->mastery)
+    {
+        case SkillMastery::Master:
+        case SkillMastery::Grandmaster:
+            return 5;
+
+        case SkillMastery::Expert:
+            return 3;
+
+        case SkillMastery::Normal:
+        case SkillMastery::None:
+        default:
+            return 1;
+    }
+}
+
+std::string formatUtilityDurationText(float remainingSeconds)
+{
+    const int totalSeconds = std::max(0, static_cast<int>(std::ceil(remainingSeconds)));
+    const int totalHours = (totalSeconds + 3599) / 3600;
+    const int days = totalHours / 24;
+    const int hours = totalHours % 24;
+
+    if (days > 0 && hours > 0)
+    {
+        return std::to_string(days) + "d " + std::to_string(hours) + "h";
+    }
+
+    if (days > 0)
+    {
+        return std::to_string(days) + "d";
+    }
+
+    return std::to_string(std::max(1, totalHours)) + "h";
 }
 
 void renderHudLines(
@@ -3343,6 +3473,334 @@ void GameplayPartyOverlayRenderer::renderJournalOverlay(const OutdoorGameView &v
     renderInteractiveTextureLayout("JournalCloseButton");
 }
 
+void GameplayPartyOverlayRenderer::renderUtilitySpellOverlay(const OutdoorGameView &view, int width, int height)
+{
+    if (!view.m_utilitySpellOverlay.active
+        || view.m_utilitySpellOverlay.mode == OutdoorGameView::UtilitySpellOverlayMode::InventoryTarget
+        || !bgfx::isValid(view.m_texturedTerrainProgramHandle)
+        || !bgfx::isValid(view.m_terrainTextureSamplerHandle)
+        || width <= 0
+        || height <= 0)
+    {
+        return;
+    }
+
+    setupHudProjection(width, height);
+
+    float mouseX = 0.0f;
+    float mouseY = 0.0f;
+    const SDL_MouseButtonFlags mouseButtons = SDL_GetMouseState(&mouseX, &mouseY);
+    const bool isLeftMousePressed = (mouseButtons & SDL_BUTTON_LMASK) != 0;
+    const EventRuntimeState *pEventRuntimeState =
+        view.m_pOutdoorWorldRuntime != nullptr ? view.m_pOutdoorWorldRuntime->eventRuntimeState() : nullptr;
+
+    if (view.m_utilitySpellOverlay.mode == OutdoorGameView::UtilitySpellOverlayMode::TownPortal)
+    {
+        const std::vector<std::string> orderedLayoutIds = HudUiService::sortedHudLayoutIdsForScreen(view, "TownPortal");
+        const auto findDestinationByLayoutId =
+            [&view](const std::string &layoutId) -> const OutdoorGameView::TownPortalDestination *
+            {
+                const std::string normalizedLayoutId = toLowerCopy(layoutId);
+
+                for (const OutdoorGameView::TownPortalDestination &destination : view.m_townPortalDestinations)
+                {
+                    if (toLowerCopy(destination.buttonLayoutId) == normalizedLayoutId)
+                    {
+                        return &destination;
+                    }
+                }
+
+                return nullptr;
+            };
+        const auto resolveLayout =
+            [&view, width, height](const std::string &layoutId) -> std::optional<OutdoorGameView::ResolvedHudLayoutElement>
+            {
+                const OutdoorGameView::HudLayoutElement *pLayout = HudUiService::findHudLayoutElement(view, layoutId);
+
+                if (pLayout == nullptr)
+                {
+                    return std::nullopt;
+                }
+
+                return HudUiService::resolveHudLayoutElement(view, layoutId, width, height, pLayout->width, pLayout->height);
+            };
+
+        for (const std::string &layoutId : orderedLayoutIds)
+        {
+            const OutdoorGameView::HudLayoutElement *pLayout = HudUiService::findHudLayoutElement(view, layoutId);
+
+            if (pLayout == nullptr || !pLayout->visible)
+            {
+                continue;
+            }
+
+            const OutdoorGameView::TownPortalDestination *pDestination = findDestinationByLayoutId(layoutId);
+
+            if (pDestination != nullptr && !isUtilityTownPortalDestinationUnlocked(pEventRuntimeState, *pDestination))
+            {
+                continue;
+            }
+
+            const std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolved = resolveLayout(layoutId);
+
+            if (!resolved.has_value())
+            {
+                continue;
+            }
+
+            const std::string *pAssetName =
+                pLayout->interactive
+                    ? HudUiService::resolveInteractiveAssetName(*pLayout, *resolved, mouseX, mouseY, isLeftMousePressed)
+                    : &pLayout->primaryAsset;
+
+            if (pAssetName == nullptr || pAssetName->empty())
+            {
+                continue;
+            }
+
+            const OutdoorGameView::HudTextureHandle *pTexture =
+                HudUiService::ensureHudTextureLoaded(const_cast<OutdoorGameView &>(view), *pAssetName);
+
+            if (pTexture == nullptr)
+            {
+                continue;
+            }
+
+            view.submitHudTexturedQuad(*pTexture, resolved->x, resolved->y, resolved->width, resolved->height);
+        }
+
+        return;
+    }
+
+    const UtilityOverlayRenderLayout layout = computeUtilityOverlayRenderLayout(width, height);
+    const uint32_t screenShadeColor = makeAbgrColor(0, 0, 0, 144);
+    const uint32_t panelColor = makeAbgrColor(18, 24, 32, 235);
+    const uint32_t borderColor = makeAbgrColor(100, 134, 170, 255);
+    const uint32_t titleColor = makeAbgrColor(255, 228, 176);
+    const uint32_t textColor = makeAbgrColor(232, 236, 242);
+    const uint32_t mutedColor = makeAbgrColor(150, 160, 174);
+    const uint32_t rowColor = makeAbgrColor(34, 43, 57, 220);
+    const uint32_t hoverRowColor = makeAbgrColor(52, 69, 92, 235);
+    const uint32_t activeTabColor = makeAbgrColor(80, 112, 148, 255);
+    const uint32_t inactiveTabColor = makeAbgrColor(42, 54, 70, 230);
+    const uint32_t closeHoverColor = makeAbgrColor(128, 52, 52, 255);
+    const float borderThickness = std::max(1.0f, std::round(2.0f * layout.scale));
+
+    const auto submitSolidQuad =
+        [&view](float x, float y, float quadWidth, float quadHeight, uint32_t abgr)
+        {
+            if (quadWidth <= 0.0f || quadHeight <= 0.0f)
+            {
+                return;
+            }
+
+            const std::string textureName = "__utility_overlay_solid_" + std::to_string(abgr);
+            const OutdoorGameView::HudTextureHandle *pTexture =
+                HudUiService::ensureSolidHudTextureLoaded(
+                    const_cast<OutdoorGameView &>(view),
+                    textureName,
+                    abgr);
+
+            if (pTexture != nullptr)
+            {
+                view.submitHudTexturedQuad(*pTexture, x, y, quadWidth, quadHeight);
+            }
+        };
+    const auto renderLabel =
+        [&view](const std::string &text,
+            float x,
+            float y,
+            float rectWidth,
+            float rectHeight,
+            float scale,
+            const char *pFontName,
+            uint32_t colorAbgr,
+            OutdoorGameView::HudTextAlignX alignX,
+            OutdoorGameView::HudTextAlignY alignY)
+        {
+            OutdoorGameView::HudLayoutElement labelLayout = {};
+            labelLayout.fontName = pFontName;
+            labelLayout.textColorAbgr = colorAbgr;
+            labelLayout.textAlignX = alignX;
+            labelLayout.textAlignY = alignY;
+
+            OutdoorGameView::ResolvedHudLayoutElement labelRect = {};
+            labelRect.x = x;
+            labelRect.y = y;
+            labelRect.width = rectWidth;
+            labelRect.height = rectHeight;
+            labelRect.scale = scale;
+            HudUiService::renderLayoutLabel(view, labelLayout, labelRect, text);
+        };
+
+    submitSolidQuad(0.0f, 0.0f, static_cast<float>(width), static_cast<float>(height), screenShadeColor);
+    submitSolidQuad(layout.panelX, layout.panelY, layout.panelWidth, layout.panelHeight, panelColor);
+    submitSolidQuad(layout.panelX, layout.panelY, layout.panelWidth, borderThickness, borderColor);
+    submitSolidQuad(layout.panelX, layout.panelY + layout.panelHeight - borderThickness, layout.panelWidth, borderThickness, borderColor);
+    submitSolidQuad(layout.panelX, layout.panelY, borderThickness, layout.panelHeight, borderColor);
+    submitSolidQuad(
+        layout.panelX + layout.panelWidth - borderThickness,
+        layout.panelY,
+        borderThickness,
+        layout.panelHeight,
+        borderColor);
+
+    const bool closeHovered =
+        utilityOverlayPointInsideRect(mouseX, mouseY, layout.closeX, layout.closeY, layout.closeSize, layout.closeSize);
+    submitSolidQuad(
+        layout.closeX,
+        layout.closeY,
+        layout.closeSize,
+        layout.closeSize,
+        closeHovered ? closeHoverColor : inactiveTabColor);
+    renderLabel(
+        "X",
+        layout.closeX,
+        layout.closeY,
+        layout.closeSize,
+        layout.closeSize,
+        layout.scale,
+        "arrus",
+        makeAbgrColor(255, 255, 255),
+        OutdoorGameView::HudTextAlignX::Center,
+        OutdoorGameView::HudTextAlignY::Middle);
+
+    if (view.m_utilitySpellOverlay.mode != OutdoorGameView::UtilitySpellOverlayMode::LloydsBeacon)
+    {
+        return;
+    }
+
+    renderLabel(
+        "Lloyd's Beacon",
+        layout.titleX,
+        layout.titleY,
+        layout.contentWidth,
+        24.0f * layout.scale,
+        layout.scale,
+        "arrus",
+        titleColor,
+        OutdoorGameView::HudTextAlignX::Left,
+        OutdoorGameView::HudTextAlignY::Top);
+
+    const float tabY = layout.panelY + 48.0f * layout.scale;
+    const float setTabX = layout.contentX;
+    const float recallTabX = setTabX + layout.tabWidth + layout.tabGap;
+    const bool setHovered =
+        utilityOverlayPointInsideRect(mouseX, mouseY, setTabX, tabY, layout.tabWidth, layout.tabHeight);
+    const bool recallHovered =
+        utilityOverlayPointInsideRect(mouseX, mouseY, recallTabX, tabY, layout.tabWidth, layout.tabHeight);
+    const bool recallMode = view.m_utilitySpellOverlay.lloydRecallMode;
+
+    submitSolidQuad(
+        setTabX,
+        tabY,
+        layout.tabWidth,
+        layout.tabHeight,
+        !recallMode ? activeTabColor : (setHovered ? hoverRowColor : inactiveTabColor));
+    submitSolidQuad(
+        recallTabX,
+        tabY,
+        layout.tabWidth,
+        layout.tabHeight,
+        recallMode ? activeTabColor : (recallHovered ? hoverRowColor : inactiveTabColor));
+    renderLabel(
+        "Set",
+        setTabX,
+        tabY,
+        layout.tabWidth,
+        layout.tabHeight,
+        layout.scale,
+        "Lucida",
+        textColor,
+        OutdoorGameView::HudTextAlignX::Center,
+        OutdoorGameView::HudTextAlignY::Middle);
+    renderLabel(
+        "Recall",
+        recallTabX,
+        tabY,
+        layout.tabWidth,
+        layout.tabHeight,
+        layout.scale,
+        "Lucida",
+        textColor,
+        OutdoorGameView::HudTextAlignX::Center,
+        OutdoorGameView::HudTextAlignY::Middle);
+
+    const Character *pCaster =
+        view.m_pOutdoorPartyRuntime != nullptr
+            ? view.m_pOutdoorPartyRuntime->party().member(view.m_utilitySpellOverlay.casterMemberIndex)
+            : nullptr;
+    const size_t slotCount = utilityOverlayMaxLloydBeaconSlots(pCaster);
+
+    for (size_t index = 0; index < slotCount; ++index)
+    {
+        const float rowY = layout.contentY + static_cast<float>(index) * (layout.rowHeight + layout.rowGap);
+        const bool hovered =
+            utilityOverlayPointInsideRect(mouseX, mouseY, layout.contentX, rowY, layout.contentWidth, layout.rowHeight);
+        submitSolidQuad(
+            layout.contentX,
+            rowY,
+            layout.contentWidth,
+            layout.rowHeight,
+            hovered ? hoverRowColor : rowColor);
+
+        const float leftPadding = 12.0f * layout.scale;
+        renderLabel(
+            "Beacon " + std::to_string(index + 1),
+            layout.contentX + leftPadding,
+            rowY + 2.0f * layout.scale,
+            90.0f * layout.scale,
+            layout.rowHeight - 4.0f * layout.scale,
+            layout.scale,
+            "Lucida",
+            mutedColor,
+            OutdoorGameView::HudTextAlignX::Left,
+            OutdoorGameView::HudTextAlignY::Middle);
+
+        std::string primaryText = "Available";
+        std::string secondaryText = recallMode ? "Empty" : "Set beacon here";
+        uint32_t primaryColor = textColor;
+        uint32_t secondaryColor = mutedColor;
+
+        if (pCaster != nullptr && pCaster->lloydsBeacons[index].has_value())
+        {
+            const LloydBeacon &beacon = *pCaster->lloydsBeacons[index];
+            primaryText = beacon.locationName.empty() ? beacon.mapName : beacon.locationName;
+            secondaryText = formatUtilityDurationText(beacon.remainingSeconds) + " remaining";
+            primaryColor = textColor;
+            secondaryColor = makeAbgrColor(122, 204, 136);
+        }
+        else if (recallMode)
+        {
+            primaryColor = mutedColor;
+            secondaryColor = mutedColor;
+        }
+
+        renderLabel(
+            primaryText,
+            layout.contentX + 104.0f * layout.scale,
+            rowY + 2.0f * layout.scale,
+            layout.contentWidth - 116.0f * layout.scale,
+            layout.rowHeight * 0.55f,
+            layout.scale,
+            "Lucida",
+            primaryColor,
+            OutdoorGameView::HudTextAlignX::Left,
+            OutdoorGameView::HudTextAlignY::Middle);
+        renderLabel(
+            secondaryText,
+            layout.contentX + 104.0f * layout.scale,
+            rowY + layout.rowHeight * 0.45f,
+            layout.contentWidth - 116.0f * layout.scale,
+            layout.rowHeight * 0.45f,
+            layout.scale,
+            "Lucida",
+            secondaryColor,
+            OutdoorGameView::HudTextAlignX::Left,
+            OutdoorGameView::HudTextAlignY::Middle);
+    }
+}
+
 void GameplayPartyOverlayRenderer::renderSpellbookOverlay(const OutdoorGameView &view, int width, int height)
 {
     if (!view.m_spellbook.active
@@ -5729,6 +6187,89 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
 
         return text;
     };
+    const auto submitSolidHudQuad =
+        [&view](const std::string &textureName, float x, float y, float quadWidth, float quadHeight, uint32_t abgr)
+        {
+            if (quadWidth <= 0.0f || quadHeight <= 0.0f)
+            {
+                return;
+            }
+
+            const OutdoorGameView::HudTextureHandle *pSolidTexture =
+                HudUiService::ensureSolidHudTextureLoaded(
+                    const_cast<OutdoorGameView &>(view),
+                    textureName,
+                    abgr);
+
+            if (pSolidTexture == nullptr)
+            {
+                return;
+            }
+
+            view.submitHudTexturedQuad(*pSolidTexture, x, y, quadWidth, quadHeight);
+        };
+    const auto renderInventoryTargetCrosshair =
+        [&submitSolidHudQuad](float centerX, float centerY, float overlayScale, uint32_t crosshairColor, uint32_t shadowColor)
+        {
+            const float armLength = std::round(10.0f * overlayScale);
+            const float armGap = std::round(4.0f * overlayScale);
+            const float stroke = std::max(1.0f, std::round(2.0f * overlayScale));
+            const auto submitCrosshairLine =
+                [&submitSolidHudQuad, crosshairColor, shadowColor](float x, float y, float quadWidth, float quadHeight)
+                {
+                    submitSolidHudQuad(
+                        "__inventory_target_crosshair_shadow__",
+                        x + 1.0f,
+                        y + 1.0f,
+                        quadWidth,
+                        quadHeight,
+                        shadowColor);
+                    submitSolidHudQuad(
+                        "__inventory_target_crosshair__",
+                        x,
+                        y,
+                        quadWidth,
+                        quadHeight,
+                        crosshairColor);
+                };
+
+            submitCrosshairLine(centerX - armGap - armLength, centerY - stroke * 0.5f, armLength, stroke);
+            submitCrosshairLine(centerX + armGap, centerY - stroke * 0.5f, armLength, stroke);
+            submitCrosshairLine(centerX - stroke * 0.5f, centerY - armGap - armLength, stroke, armLength);
+            submitCrosshairLine(centerX - stroke * 0.5f, centerY + armGap, stroke, armLength);
+        };
+    const auto renderInventoryTargetFrame =
+        [&submitSolidHudQuad](float x, float y, float rectWidth, float rectHeight, float overlayScale, uint32_t frameColor, uint32_t shadowColor)
+        {
+            const float thickness = std::max(1.0f, std::round(2.0f * overlayScale));
+            const auto submitFrameQuad =
+                [&submitSolidHudQuad, frameColor, shadowColor](
+                    float quadX,
+                    float quadY,
+                    float quadWidth,
+                    float quadHeight)
+                {
+                    submitSolidHudQuad(
+                        "__inventory_target_frame_shadow__",
+                        quadX + 1.0f,
+                        quadY + 1.0f,
+                        quadWidth,
+                        quadHeight,
+                        shadowColor);
+                    submitSolidHudQuad(
+                        "__inventory_target_frame__",
+                        quadX,
+                        quadY,
+                        quadWidth,
+                        quadHeight,
+                        frameColor);
+                };
+
+            submitFrameQuad(x - thickness, y - thickness, rectWidth + thickness * 2.0f, thickness);
+            submitFrameQuad(x - thickness, y + rectHeight, rectWidth + thickness * 2.0f, thickness);
+            submitFrameQuad(x - thickness, y, thickness, rectHeight);
+            submitFrameQuad(x + rectWidth, y, thickness, rectHeight);
+        };
 
     const auto hasVisibleCharacterAncestors =
         [&view](const OutdoorGameView::HudLayoutElement &layout) -> bool
@@ -6642,6 +7183,88 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
                 }
             }
         }
+    }
+
+    const bool isInventorySpellTargetMode =
+        view.m_utilitySpellOverlay.active
+        && view.m_utilitySpellOverlay.mode == OutdoorGameView::UtilitySpellOverlayMode::InventoryTarget
+        && view.m_characterPage == OutdoorGameView::CharacterPage::Inventory
+        && pCharacter != nullptr;
+
+    if (renderAboveHud && isInventorySpellTargetMode)
+    {
+        const uint32_t pickerColor = makeAbgrColor(255, 255, 155);
+        const uint32_t shadowColor = 0xc0000000u;
+        const float overlayScale = std::clamp(baseScale, 0.75f, 2.0f);
+        float pickerCenterX = characterMouseX;
+        float pickerCenterY = characterMouseY;
+        const OutdoorGameView::RenderedInspectableHudItem *pHoveredItem = nullptr;
+
+        for (auto it = view.m_renderedInspectableHudItems.rbegin(); it != view.m_renderedInspectableHudItems.rend(); ++it)
+        {
+            if (it->sourceMemberIndex != characterSourceIndex)
+            {
+                continue;
+            }
+
+            if (it->sourceType != OutdoorGameView::ItemInspectSourceType::Inventory
+                && it->sourceType != OutdoorGameView::ItemInspectSourceType::Equipment)
+            {
+                continue;
+            }
+
+            const bool isHovered =
+                it->sourceType == OutdoorGameView::ItemInspectSourceType::Equipment
+                    ? view.isOpaqueHudPixelAtPoint(*it, characterMouseX, characterMouseY)
+                    : characterMouseX >= it->x
+                        && characterMouseX < it->x + it->width
+                        && characterMouseY >= it->y
+                        && characterMouseY < it->y + it->height;
+
+            if (!isHovered)
+            {
+                continue;
+            }
+
+            pHoveredItem = &*it;
+            break;
+        }
+
+        if (pHoveredItem != nullptr)
+        {
+            renderInventoryTargetFrame(
+                pHoveredItem->x,
+                pHoveredItem->y,
+                pHoveredItem->width,
+                pHoveredItem->height,
+                overlayScale,
+                pickerColor,
+                shadowColor);
+        }
+
+        renderInventoryTargetCrosshair(
+            pickerCenterX,
+            pickerCenterY,
+            overlayScale,
+            pickerColor,
+            shadowColor);
+
+        OutdoorGameView::HudLayoutElement promptLayout = {};
+        promptLayout.fontName = "arrus";
+        promptLayout.textColorAbgr = pickerColor;
+        promptLayout.textAlignX = OutdoorGameView::HudTextAlignX::Center;
+        promptLayout.textAlignY = OutdoorGameView::HudTextAlignY::Top;
+        OutdoorGameView::ResolvedHudLayoutElement promptRect = {};
+        promptRect.x = uiViewport.x;
+        promptRect.y = uiViewport.y + std::round(18.0f * overlayScale);
+        promptRect.width = uiViewport.width;
+        promptRect.height = std::round(24.0f * overlayScale);
+        promptRect.scale = overlayScale;
+        HudUiService::renderLayoutLabel(
+            view,
+            promptLayout,
+            promptRect,
+            "Select item target  LMB cast  Esc cancel");
     }
 
     for (const std::string &layoutId : orderedCharacterLayoutIds)

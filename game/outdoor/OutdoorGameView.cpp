@@ -43,7 +43,6 @@
 
 #include <bgfx/bgfx.h>
 #include <SDL3/SDL.h>
-
 #include <algorithm>
 #include <array>
 #include <cctype>
@@ -3712,6 +3711,7 @@ OutdoorGameView::OutdoorGameView()
     , m_spellInspectOverlay(m_gameplayUiController.spellInspectOverlay())
     , m_readableScrollOverlay(m_gameplayUiController.readableScrollOverlay())
     , m_spellbook(m_gameplayUiController.spellbook())
+    , m_utilitySpellOverlay(m_gameplayUiController.utilitySpellOverlay())
     , m_restScreen(m_gameplayUiController.restScreen())
     , m_menuScreen(m_gameplayUiController.menuScreen())
     , m_controlsScreen(m_gameplayUiController.controlsScreen())
@@ -5905,6 +5905,7 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
             {
                 renderInventoryNestedOverlay(width, height, false);
             }
+            renderUtilitySpellOverlay(width, height);
             renderSpellbookOverlay(width, height);
             renderRestOverlay(width, height);
             renderMenuOverlay(width, height);
@@ -6681,7 +6682,10 @@ void OutdoorGameView::shutdown()
     m_spellInspectOverlay = {};
     m_readableScrollOverlay = {};
     m_spellbook = {};
+    m_utilitySpellOverlay = {};
     m_spellbookPressedTarget = {};
+    m_utilitySpellClickLatch = false;
+    m_utilitySpellPressedTarget = {};
     m_lastSpellbookSpellClickTicks = 0;
     m_lastSpellbookClickedSpellId = 0;
     m_pendingSpellCast = {};
@@ -8460,6 +8464,16 @@ OutdoorGameView::HudScreenState OutdoorGameView::currentHudScreenState() const
         return HudScreenState::LoadGame;
     }
 
+    if (m_utilitySpellOverlay.active && m_utilitySpellOverlay.mode == UtilitySpellOverlayMode::TownPortal)
+    {
+        return HudScreenState::TownPortal;
+    }
+
+    if (m_utilitySpellOverlay.active && m_utilitySpellOverlay.mode == UtilitySpellOverlayMode::LloydsBeacon)
+    {
+        return HudScreenState::LloydsBeacon;
+    }
+
     if (m_characterScreenOpen)
     {
         return HudScreenState::Character;
@@ -8477,6 +8491,114 @@ OutdoorGameView::HudScreenState OutdoorGameView::currentHudScreenState() const
     }
 
     return HudScreenState::Gameplay;
+}
+
+bool OutdoorGameView::loadTownPortalDestinations(const Engine::AssetFileSystem &assetFileSystem)
+{
+    if (m_townPortalDestinationsLoaded)
+    {
+        return true;
+    }
+
+    const std::optional<std::string> fileContents = assetFileSystem.readTextFile(dataTablePath("town_portal.txt"));
+
+    if (!fileContents)
+    {
+        return false;
+    }
+
+    const std::optional<Engine::TextTable> table = Engine::TextTable::parseTabSeparated(*fileContents);
+
+    if (!table || table->getRowCount() < 2)
+    {
+        return false;
+    }
+
+    const std::vector<std::string> &headerRow = table->getRow(0);
+    const auto findColumnIndex =
+        [&headerRow](std::string_view columnName) -> std::optional<size_t>
+        {
+            const std::string normalizedName = toLowerCopy(std::string(columnName));
+
+            for (size_t index = 0; index < headerRow.size(); ++index)
+            {
+                if (toLowerCopy(headerRow[index]) == normalizedName)
+                {
+                    return index;
+                }
+            }
+
+            return std::nullopt;
+        };
+    const auto readColumn =
+        [&findColumnIndex, &headerRow](const std::vector<std::string> &row, std::string_view columnName) -> std::string
+        {
+            const std::optional<size_t> columnIndex = findColumnIndex(columnName);
+
+            if (!columnIndex.has_value() || *columnIndex >= row.size())
+            {
+                return {};
+            }
+
+            return row[*columnIndex];
+        };
+    const auto parseInt32Column =
+        [&readColumn](const std::vector<std::string> &row, std::string_view columnName, int32_t defaultValue) -> int32_t
+        {
+            int parsedValue = 0;
+            return tryParseInteger(readColumn(row, columnName), parsedValue) ? parsedValue : defaultValue;
+        };
+
+    std::vector<TownPortalDestination> destinations;
+
+    for (size_t rowIndex = 1; rowIndex < table->getRowCount(); ++rowIndex)
+    {
+        const std::vector<std::string> &row = table->getRow(rowIndex);
+
+        if (row.empty())
+        {
+            continue;
+        }
+
+        TownPortalDestination destination = {};
+        destination.id = readColumn(row, "Id");
+        destination.label = readColumn(row, "Label");
+        destination.buttonLayoutId = readColumn(row, "ButtonLayoutId");
+        destination.mapName = readColumn(row, "MapName");
+        destination.x = parseInt32Column(row, "X", 0);
+        destination.y = parseInt32Column(row, "Y", 0);
+        destination.z = parseInt32Column(row, "Z", 0);
+        destination.unlockQBitId = static_cast<uint32_t>(parseInt32Column(row, "UnlockQBit", 0));
+
+        const std::string directionDegrees = readColumn(row, "DirectionDegrees");
+        const std::string useMapStartPosition = readColumn(row, "UseMapStartPosition");
+
+        if (!directionDegrees.empty())
+        {
+            int parsedDirection = 0;
+
+            if (tryParseInteger(directionDegrees, parsedDirection))
+            {
+                destination.directionDegrees = parsedDirection;
+            }
+        }
+
+        if (const std::optional<bool> parsedUseMapStartPosition = parseHudLayoutBool(useMapStartPosition))
+        {
+            destination.useMapStartPosition = *parsedUseMapStartPosition;
+        }
+
+        if (destination.label.empty() || destination.mapName.empty() || destination.buttonLayoutId.empty())
+        {
+            continue;
+        }
+
+        destinations.push_back(std::move(destination));
+    }
+
+    m_townPortalDestinations = std::move(destinations);
+    m_townPortalDestinationsLoaded = true;
+    return !m_townPortalDestinations.empty();
 }
 
 void OutdoorGameView::openSpellbook()
@@ -10319,6 +10441,35 @@ bool OutdoorGameView::tryCastSpellRequest(const PartySpellCastRequest &request, 
 
     Party &party = m_pOutdoorPartyRuntime->party();
     Character *pCaster = party.member(resolvedRequest.casterMemberIndex);
+    const bool isUtilitySelectionRequest =
+        resolvedRequest.utilityAction != PartySpellUtilityActionKind::None
+        || resolvedRequest.targetInventoryGridX.has_value()
+        || resolvedRequest.targetEquipmentSlot.has_value();
+    const auto closeUtilitySpellUi =
+        [this, &resolvedRequest]()
+        {
+            if (!m_utilitySpellOverlay.active)
+            {
+                return;
+            }
+
+            const UtilitySpellOverlayMode mode = m_utilitySpellOverlay.mode;
+            m_gameplayUiController.closeUtilitySpellOverlay();
+
+            if (mode == UtilitySpellOverlayMode::InventoryTarget)
+            {
+                m_characterScreenOpen = false;
+                m_characterDollJewelryOverlayOpen = false;
+                m_adventurersInnRosterOverlayOpen = false;
+            }
+
+            if (resolvedRequest.spellId == spellIdValue(SpellId::LloydsBeacon)
+                || resolvedRequest.spellId == spellIdValue(SpellId::TownPortal))
+            {
+                m_utilitySpellClickLatch = false;
+                m_utilitySpellPressedTarget = {};
+            }
+        };
 
     if (pCaster == nullptr || !GameMechanics::canSelectInGameplay(*pCaster))
     {
@@ -10336,6 +10487,11 @@ bool OutdoorGameView::tryCastSpellRequest(const PartySpellCastRequest &request, 
 
     if (result.succeeded())
     {
+        if (isUtilitySelectionRequest)
+        {
+            closeUtilitySpellUi();
+        }
+
         triggerPortraitFaceAnimation(resolvedRequest.casterMemberIndex, FaceAnimationId::CastSpell);
         playSpeechReaction(resolvedRequest.casterMemberIndex, SpeechId::CastSpell, false);
         triggerPortraitSpellFx(result);
@@ -10383,6 +10539,61 @@ bool OutdoorGameView::tryCastSpellRequest(const PartySpellCastRequest &request, 
         m_cachedHoverInspectHitValid = false;
         setStatusBarEvent("Select target for " + spellName, 4.0f);
         return true;
+    }
+
+    if (result.status == PartySpellCastStatus::NeedInventoryItemTarget)
+    {
+        closeSpellbook();
+        party.setActiveMemberIndex(request.casterMemberIndex);
+        m_characterScreenOpen = true;
+        m_characterDollJewelryOverlayOpen = false;
+        m_adventurersInnRosterOverlayOpen = false;
+        m_characterScreenSource = CharacterScreenSource::Party;
+        m_characterScreenSourceIndex = request.casterMemberIndex;
+        m_characterPage = CharacterPage::Inventory;
+        m_gameplayUiController.openUtilitySpellOverlay(
+            UtilitySpellOverlayMode::InventoryTarget,
+            request.spellId,
+            request.casterMemberIndex);
+        setStatusBarEvent("Select item for " + spellName, 4.0f);
+        return true;
+    }
+
+    if (result.status == PartySpellCastStatus::NeedUtilityUi)
+    {
+        closeSpellbook();
+
+        if (spellIdFromValue(request.spellId) == SpellId::TownPortal)
+        {
+            if (m_pAssetFileSystem == nullptr || !loadTownPortalDestinations(*m_pAssetFileSystem))
+            {
+                setStatusBarEvent("Town Portal data missing");
+                return false;
+            }
+
+            m_gameplayUiController.openUtilitySpellOverlay(
+                UtilitySpellOverlayMode::TownPortal,
+                request.spellId,
+                request.casterMemberIndex);
+            setStatusBarEvent("Choose Town Portal destination", 4.0f);
+            return true;
+        }
+
+        if (spellIdFromValue(request.spellId) == SpellId::LloydsBeacon)
+        {
+            m_gameplayUiController.openUtilitySpellOverlay(
+                UtilitySpellOverlayMode::LloydsBeacon,
+                request.spellId,
+                request.casterMemberIndex,
+                false);
+            setStatusBarEvent("Set or recall beacon", 4.0f);
+            return true;
+        }
+    }
+
+    if (isUtilitySelectionRequest)
+    {
+        closeUtilitySpellUi();
     }
 
     triggerPortraitFaceAnimation(request.casterMemberIndex, FaceAnimationId::SpellFailed);
@@ -10864,6 +11075,11 @@ void OutdoorGameView::renderPendingSpellTargetingOverlay(int width, int height) 
 void OutdoorGameView::renderSpellbookOverlay(int width, int height) const
 {
     GameplayPartyOverlayRenderer::renderSpellbookOverlay(*this, width, height);
+}
+
+void OutdoorGameView::renderUtilitySpellOverlay(int width, int height) const
+{
+    GameplayPartyOverlayRenderer::renderUtilitySpellOverlay(*this, width, height);
 }
 
 void OutdoorGameView::renderRestOverlay(int width, int height) const

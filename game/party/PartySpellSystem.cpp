@@ -1,6 +1,9 @@
 #include "game/party/PartySpellSystem.h"
 
 #include "game/gameplay/GameMechanics.h"
+#include "game/events/EvtEnums.h"
+#include "game/items/ItemEnchantRuntime.h"
+#include "game/items/ItemEnchantTables.h"
 #include "game/outdoor/OutdoorPartyRuntime.h"
 #include "game/outdoor/OutdoorWorldRuntime.h"
 #include "game/party/SpellSchool.h"
@@ -29,6 +32,137 @@ uint32_t makeAbgr(uint8_t red, uint8_t green, uint8_t blue)
         | (static_cast<uint32_t>(blue) << 16)
         | (static_cast<uint32_t>(green) << 8)
         | static_cast<uint32_t>(red);
+}
+
+uint32_t qBitVariableId(uint32_t qbitId)
+{
+    return (qbitId << 16) | static_cast<uint32_t>(EvtVariable::QBits);
+}
+
+bool isQuestBitSet(const EventRuntimeState *pEventRuntimeState, uint32_t qbitId)
+{
+    if (pEventRuntimeState == nullptr || qbitId == 0)
+    {
+        return false;
+    }
+
+    const auto it = pEventRuntimeState->variables.find(qBitVariableId(qbitId));
+    return it != pEventRuntimeState->variables.end() && it->second != 0;
+}
+
+const ItemDefinition *resolveTargetItemDefinition(
+    Party &party,
+    const PartySpellCastRequest &request,
+    size_t &memberIndex,
+    const InventoryItem *&pInventoryItem,
+    EquippedItemRuntimeState *&pEquippedItemRuntime)
+{
+    memberIndex = request.targetItemMemberIndex.value_or(request.casterMemberIndex);
+    pInventoryItem = nullptr;
+    pEquippedItemRuntime = nullptr;
+
+    if (request.targetInventoryGridX.has_value() && request.targetInventoryGridY.has_value())
+    {
+        pInventoryItem = party.memberInventoryItem(memberIndex, *request.targetInventoryGridX, *request.targetInventoryGridY);
+        return pInventoryItem != nullptr && party.itemTable() != nullptr
+            ? party.itemTable()->get(pInventoryItem->objectDescriptionId)
+            : nullptr;
+    }
+
+    if (request.targetEquipmentSlot.has_value())
+    {
+        const uint32_t itemId = party.equippedItemId(memberIndex, *request.targetEquipmentSlot);
+        pEquippedItemRuntime = party.equippedItemRuntimeMutable(memberIndex, *request.targetEquipmentSlot);
+        return itemId != 0 && party.itemTable() != nullptr ? party.itemTable()->get(itemId) : nullptr;
+    }
+
+    return nullptr;
+}
+
+uint16_t findSpecialEnchantId(const SpecialItemEnchantTable *pTable, SpecialItemEnchantKind kind)
+{
+    if (pTable == nullptr)
+    {
+        return 0;
+    }
+
+    const std::vector<SpecialItemEnchantEntry> &entries = pTable->entries();
+
+    for (size_t index = 0; index < entries.size(); ++index)
+    {
+        if (entries[index].kind == kind)
+        {
+            return static_cast<uint16_t>(index + 1);
+        }
+    }
+
+    return 0;
+}
+
+bool canApplySpellWeaponEnchant(
+    const ItemDefinition &itemDefinition,
+    const InventoryItem *pInventoryItem,
+    const EquippedItemRuntimeState *pEquippedItemRuntime)
+{
+    const bool isEnchantableWeapon =
+        ItemEnchantRuntime::categoryForItem(itemDefinition) == ItemEnchantCategory::OneHandedWeapon
+        || ItemEnchantRuntime::categoryForItem(itemDefinition) == ItemEnchantCategory::TwoHandedWeapon
+        || ItemEnchantRuntime::categoryForItem(itemDefinition) == ItemEnchantCategory::Missile;
+
+    if (!isEnchantableWeapon)
+    {
+        return false;
+    }
+
+    if (pInventoryItem != nullptr)
+    {
+        return !pInventoryItem->broken
+            && pInventoryItem->rarity == ItemRarity::Common
+            && pInventoryItem->specialEnchantId == 0
+            && pInventoryItem->standardEnchantId == 0
+            && pInventoryItem->artifactId == 0;
+    }
+
+    if (pEquippedItemRuntime != nullptr)
+    {
+        return !pEquippedItemRuntime->broken
+            && pEquippedItemRuntime->rarity == ItemRarity::Common
+            && pEquippedItemRuntime->specialEnchantId == 0
+            && pEquippedItemRuntime->standardEnchantId == 0
+            && pEquippedItemRuntime->artifactId == 0;
+    }
+
+    return false;
+}
+
+bool canApplyEnchantItemSpell(const ItemDefinition &itemDefinition, const InventoryItem &item)
+{
+    return ItemEnchantRuntime::isEnchantable(itemDefinition)
+        && !item.broken
+        && item.rarity == ItemRarity::Common
+        && item.specialEnchantId == 0
+        && item.standardEnchantId == 0
+        && item.standardEnchantPower == 0
+        && item.artifactId == 0;
+}
+
+bool hasNearbyHostileActor(const OutdoorWorldRuntime &worldRuntime)
+{
+    for (size_t actorIndex = 0; actorIndex < worldRuntime.mapActorCount(); ++actorIndex)
+    {
+        const OutdoorWorldRuntime::MapActorState *pActor = worldRuntime.mapActorState(actorIndex);
+
+        if (pActor != nullptr
+            && !pActor->isDead
+            && !pActor->isInvisible
+            && pActor->hostileToParty
+            && pActor->hasDetectedParty)
+        {
+            return true;
+        }
+    }
+
+    return false;
 }
 
 bool isActorPointInsideSpellView(
@@ -357,7 +491,7 @@ std::optional<BackendSpellRule> resolveBackendSpellRule(uint32_t spellId, SkillM
         case SpellId::FireResistance:
             return makeBackendSpellRule(spellId, PartySpellCastTargetKind::None, PartySpellCastEffectKind::PartyBuff, SkillMastery::Normal, {3, 3, 3, 3}, {120, 120, 120, 120}, PartyBuffId::FireResistance);
         case SpellId::FireAura:
-            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::Character, PartySpellCastEffectKind::CharacterBuff, SkillMastery::Normal, {4, 4, 4, 4}, {120, 120, 120, 120}, PartyBuffId::TorchLight);
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::InventoryItem, PartySpellCastEffectKind::UtilityUi, SkillMastery::Normal, {4, 4, 4, 4}, {120, 120, 120, 120}, PartyBuffId::TorchLight);
         case SpellId::Haste:
             return makeBackendSpellRule(spellId, PartySpellCastTargetKind::None, PartySpellCastEffectKind::PartyBuff, SkillMastery::Expert, {5, 5, 5, 5}, {120, 120, 120, 120}, PartyBuffId::Haste);
         case SpellId::Fireball:
@@ -419,7 +553,7 @@ std::optional<BackendSpellRule> resolveBackendSpellRule(uint32_t spellId, SkillM
         case SpellId::AcidBurst:
             return makeBackendSpellRule(spellId, PartySpellCastTargetKind::Actor, PartySpellCastEffectKind::Projectile, SkillMastery::Expert, {}, {}, PartyBuffId::TorchLight, 9, 9, false);
         case SpellId::EnchantItem:
-            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::UtilityUi, PartySpellCastEffectKind::UtilityUi, SkillMastery::Master, {15, 15, 15, 15}, {140, 140, 140, 140}, PartyBuffId::TorchLight);
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::InventoryItem, PartySpellCastEffectKind::UtilityUi, SkillMastery::Master, {15, 15, 15, 15}, {140, 140, 140, 140}, PartyBuffId::TorchLight);
         case SpellId::TownPortal:
             return makeBackendSpellRule(spellId, PartySpellCastTargetKind::UtilityUi, PartySpellCastEffectKind::UtilityUi, SkillMastery::Master, {20, 20, 20, 20}, {200, 200, 200, 200}, PartyBuffId::TorchLight);
         case SpellId::LloydsBeacon:
@@ -541,7 +675,7 @@ std::optional<BackendSpellRule> resolveBackendSpellRule(uint32_t spellId, SkillM
         case SpellId::ToxicCloud:
             return makeBackendSpellRule(spellId, PartySpellCastTargetKind::Actor, PartySpellCastEffectKind::Projectile, SkillMastery::Normal, {}, {}, PartyBuffId::TorchLight, 25, 10, false);
         case SpellId::VampiricWeapon:
-            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::Character, PartySpellCastEffectKind::CharacterBuff, SkillMastery::Normal, {20, 20, 20, 20}, {120, 100, 90, 120}, PartyBuffId::TorchLight);
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::InventoryItem, PartySpellCastEffectKind::UtilityUi, SkillMastery::Normal, {20, 20, 20, 20}, {120, 100, 90, 120}, PartyBuffId::TorchLight);
         case SpellId::ShrinkingRay:
             return makeBackendSpellRule(spellId, PartySpellCastTargetKind::Actor, PartySpellCastEffectKind::ActorEffect, SkillMastery::Normal, {}, {}, PartyBuffId::TorchLight);
         case SpellId::Shrapmetal:
@@ -1139,6 +1273,7 @@ PartySpellCastResult PartySpellSystem::castSpell(
     }
 
     bx::Vec3 targetPoint = {0.0f, 0.0f, 0.0f};
+    const SpellId spellId = spellIdFromValue(request.spellId);
 
     if (rule->targetKind == PartySpellCastTargetKind::Actor)
     {
@@ -1230,14 +1365,69 @@ PartySpellCastResult PartySpellSystem::castSpell(
 
         targetPoint = {request.targetX, request.targetY, request.targetZ};
     }
+    else if (rule->targetKind == PartySpellCastTargetKind::InventoryItem)
+    {
+        if ((!request.targetInventoryGridX.has_value() || !request.targetInventoryGridY.has_value())
+            && !request.targetEquipmentSlot.has_value())
+        {
+            return makeFailure(
+                request.spellId,
+                PartySpellCastStatus::NeedInventoryItemTarget,
+                rule->targetKind,
+                rule->effectKind,
+                "Select item target");
+        }
+    }
     else if (rule->targetKind == PartySpellCastTargetKind::UtilityUi)
     {
-        return makeFailure(
-            request.spellId,
-            PartySpellCastStatus::NeedUtilityUi,
-            rule->targetKind,
-            rule->effectKind,
-            "Need spell UI");
+        if (spellId == SpellId::TownPortal)
+        {
+            if (skillMastery < SkillMastery::Grandmaster && hasNearbyHostileActor(worldRuntime))
+            {
+                return makeFailure(
+                    request.spellId,
+                    PartySpellCastStatus::Failed,
+                    rule->targetKind,
+                    rule->effectKind,
+                    "Hostile monsters are nearby");
+            }
+
+            if (request.utilityAction == PartySpellUtilityActionKind::None)
+            {
+                if (skillMastery < SkillMastery::Grandmaster)
+                {
+                    static thread_local std::mt19937 rng(std::random_device{}());
+                    const int successChancePercent = std::clamp(static_cast<int>(skillLevel) * 10, 0, 100);
+                    std::uniform_int_distribution<int> distribution(1, 100);
+
+                    if (distribution(rng) > successChancePercent)
+                    {
+                        return makeFailure(
+                            request.spellId,
+                            PartySpellCastStatus::Failed,
+                            rule->targetKind,
+                            rule->effectKind,
+                            "Town Portal failed");
+                    }
+                }
+
+                return makeFailure(
+                    request.spellId,
+                    PartySpellCastStatus::NeedUtilityUi,
+                    rule->targetKind,
+                    rule->effectKind,
+                    "Need spell UI");
+            }
+        }
+        else if (spellId == SpellId::LloydsBeacon && request.utilityAction == PartySpellUtilityActionKind::None)
+        {
+            return makeFailure(
+                request.spellId,
+                PartySpellCastStatus::NeedUtilityUi,
+                rule->targetKind,
+                rule->effectKind,
+                "Need spell UI");
+        }
     }
 
     bool castSucceeded = false;
@@ -1250,7 +1440,6 @@ PartySpellCastResult PartySpellSystem::castSpell(
     result.sourceY = sourceY;
     result.sourceZ = sourceZ;
     const std::string &spellName = pSpellEntry->normalizedName;
-    const SpellId spellId = spellIdFromValue(request.spellId);
 
     if (rule->effectKind == PartySpellCastEffectKind::PartyBuff)
     {
@@ -1522,6 +1711,305 @@ PartySpellCastResult PartySpellSystem::castSpell(
     {
         partyRuntime.requestJump();
         castSucceeded = true;
+    }
+    else if (rule->effectKind == PartySpellCastEffectKind::UtilityUi)
+    {
+        if (rule->targetKind == PartySpellCastTargetKind::InventoryItem)
+        {
+            size_t targetMemberIndex = request.casterMemberIndex;
+            const InventoryItem *pTargetInventoryItem = nullptr;
+            EquippedItemRuntimeState *pTargetEquippedRuntime = nullptr;
+            const ItemDefinition *pTargetItemDefinition = resolveTargetItemDefinition(
+                party,
+                request,
+                targetMemberIndex,
+                pTargetInventoryItem,
+                pTargetEquippedRuntime);
+
+            if (pTargetItemDefinition == nullptr)
+            {
+                return makeFailure(
+                    request.spellId,
+                    PartySpellCastStatus::Failed,
+                    rule->targetKind,
+                    rule->effectKind,
+                    "Spell failed");
+            }
+
+            InventoryItem *pMutableInventoryItem =
+                request.targetInventoryGridX.has_value() && request.targetInventoryGridY.has_value()
+                    ? party.memberInventoryItemMutable(
+                        targetMemberIndex,
+                        *request.targetInventoryGridX,
+                        *request.targetInventoryGridY)
+                    : nullptr;
+
+            if (spellId == SpellId::FireAura || spellId == SpellId::VampiricWeapon)
+            {
+                if (!canApplySpellWeaponEnchant(*pTargetItemDefinition, pTargetInventoryItem, pTargetEquippedRuntime))
+                {
+                    return makeFailure(
+                        request.spellId,
+                        PartySpellCastStatus::Failed,
+                        rule->targetKind,
+                        rule->effectKind,
+                        "Spell failed");
+                }
+
+                const SpecialItemEnchantKind enchantKind =
+                    spellId == SpellId::FireAura
+                        ? skillMastery == SkillMastery::Normal
+                            ? SpecialItemEnchantKind::Fire
+                            : skillMastery == SkillMastery::Expert
+                            ? SpecialItemEnchantKind::Flame
+                            : SpecialItemEnchantKind::Infernos
+                        : SpecialItemEnchantKind::Vampiric;
+                const uint16_t enchantId = findSpecialEnchantId(party.specialItemEnchantTable(), enchantKind);
+
+                if (enchantId == 0)
+                {
+                    return makeFailure(
+                        request.spellId,
+                        PartySpellCastStatus::Failed,
+                        rule->targetKind,
+                        rule->effectKind,
+                        "Spell failed");
+                }
+
+                const float durationSeconds =
+                    skillMastery == SkillMastery::Grandmaster
+                        ? 0.0f
+                        : secondsFromHours(static_cast<float>(std::max<uint32_t>(1, skillLevel)));
+
+                if (pMutableInventoryItem != nullptr)
+                {
+                    pMutableInventoryItem->specialEnchantId = enchantId;
+                    pMutableInventoryItem->temporaryBonusRemainingSeconds = durationSeconds;
+                }
+                else if (pTargetEquippedRuntime != nullptr)
+                {
+                    pTargetEquippedRuntime->specialEnchantId = enchantId;
+                    pTargetEquippedRuntime->temporaryBonusRemainingSeconds = durationSeconds;
+                }
+
+                party.refreshDerivedState();
+                appendAffectedCharacterIndex(result.affectedCharacterIndices, targetMemberIndex);
+                castSucceeded = true;
+            }
+            else if (spellId == SpellId::EnchantItem)
+            {
+                if (pMutableInventoryItem == nullptr || !canApplyEnchantItemSpell(*pTargetItemDefinition, *pMutableInventoryItem))
+                {
+                    return makeFailure(
+                        request.spellId,
+                        PartySpellCastStatus::Failed,
+                        rule->targetKind,
+                        rule->effectKind,
+                        "Spell failed");
+                }
+
+                static thread_local std::mt19937 rng(std::random_device{}());
+                const int successChancePercent = std::clamp(static_cast<int>(skillLevel) * 10, 0, 100);
+                const int itemValue = ItemEnchantRuntime::itemValue(
+                    *pMutableInventoryItem,
+                    *pTargetItemDefinition,
+                    party.standardItemEnchantTable(),
+                    party.specialItemEnchantTable());
+                const ItemEnchantCategory enchantCategory = ItemEnchantRuntime::categoryForItem(*pTargetItemDefinition);
+                const bool isWeapon =
+                    enchantCategory == ItemEnchantCategory::OneHandedWeapon
+                    || enchantCategory == ItemEnchantCategory::TwoHandedWeapon
+                    || enchantCategory == ItemEnchantCategory::Missile;
+                const int qualityThreshold = isWeapon ? 250 : 450;
+
+                if (itemValue < qualityThreshold)
+                {
+                    pMutableInventoryItem->broken = true;
+                    return makeFailure(
+                        request.spellId,
+                        PartySpellCastStatus::Failed,
+                        rule->targetKind,
+                        rule->effectKind,
+                        "Item is not of high enough quality");
+                }
+
+                std::uniform_int_distribution<int> distribution(1, 100);
+                const int roll = distribution(rng);
+
+                if (roll > successChancePercent)
+                {
+                    pMutableInventoryItem->broken = true;
+                    return makeFailure(
+                        request.spellId,
+                        PartySpellCastStatus::Failed,
+                        rule->targetKind,
+                        rule->effectKind,
+                        "Spell failed");
+                }
+
+                const bool preferStandardEnchant =
+                    !isWeapon && distribution(rng) <= 80 && party.standardItemEnchantTable() != nullptr;
+
+                if (preferStandardEnchant)
+                {
+                    const std::optional<uint16_t> standardEnchantId =
+                        ItemEnchantRuntime::chooseStandardEnchantId(
+                            *pTargetItemDefinition,
+                            *party.standardItemEnchantTable(),
+                            rng);
+
+                    if (!standardEnchantId.has_value())
+                    {
+                        return makeFailure(
+                            request.spellId,
+                            PartySpellCastStatus::Failed,
+                            rule->targetKind,
+                            rule->effectKind,
+                            "Spell failed");
+                    }
+
+                    pMutableInventoryItem->standardEnchantId = *standardEnchantId;
+                    std::uniform_int_distribution<int> powerDistribution(
+                        skillMastery == SkillMastery::Grandmaster ? 6 : 3,
+                        skillMastery == SkillMastery::Grandmaster ? 12 : 8);
+                    pMutableInventoryItem->standardEnchantPower = static_cast<uint16_t>(powerDistribution(rng));
+                }
+                else
+                {
+                    const int enchantTreasureLevel = skillMastery == SkillMastery::Grandmaster ? 5 : 3;
+                    const std::optional<uint16_t> specialEnchantId =
+                        party.specialItemEnchantTable() != nullptr
+                            ? ItemEnchantRuntime::chooseSpecialEnchantId(
+                                *pTargetItemDefinition,
+                                *party.specialItemEnchantTable(),
+                                enchantTreasureLevel,
+                                rng)
+                            : std::nullopt;
+
+                    if (!specialEnchantId.has_value())
+                    {
+                        return makeFailure(
+                            request.spellId,
+                            PartySpellCastStatus::Failed,
+                            rule->targetKind,
+                            rule->effectKind,
+                            "Spell failed");
+                    }
+
+                    pMutableInventoryItem->specialEnchantId = *specialEnchantId;
+                }
+
+                party.refreshDerivedState();
+                appendAffectedCharacterIndex(result.affectedCharacterIndices, targetMemberIndex);
+                castSucceeded = true;
+            }
+        }
+        else if (rule->targetKind == PartySpellCastTargetKind::UtilityUi)
+        {
+            if (spellId == SpellId::TownPortal)
+            {
+                if (request.utilityAction != PartySpellUtilityActionKind::TownPortalDestination
+                    || !request.hasUtilityMapMove)
+                {
+                    return makeFailure(
+                        request.spellId,
+                        PartySpellCastStatus::NeedUtilityUi,
+                        rule->targetKind,
+                        rule->effectKind,
+                        "Need spell UI");
+                }
+
+                EventRuntimeState *pEventRuntimeState = worldRuntime.eventRuntimeState();
+
+                if (pEventRuntimeState == nullptr)
+                {
+                    return makeFailure(
+                        request.spellId,
+                        PartySpellCastStatus::Failed,
+                        rule->targetKind,
+                        rule->effectKind,
+                        "Spell failed");
+                }
+
+                EventRuntimeState::PendingMapMove move = {};
+                move.x = request.utilityMapMoveX;
+                move.y = request.utilityMapMoveY;
+                move.z = request.utilityMapMoveZ;
+                move.mapName =
+                    request.utilityMapMoveMapName.empty()
+                        ? std::nullopt
+                        : std::optional<std::string>(request.utilityMapMoveMapName);
+                move.directionDegrees = request.utilityMapMoveDirectionDegrees;
+                move.useMapStartPosition = request.utilityMapMoveUseMapStartPosition;
+                pEventRuntimeState->pendingMapMove = move;
+                castSucceeded = true;
+            }
+            else if (spellId == SpellId::LloydsBeacon)
+            {
+                Character *pTargetMember = party.member(request.casterMemberIndex);
+
+                if (pTargetMember == nullptr || request.utilitySlotIndex >= pTargetMember->lloydsBeacons.size())
+                {
+                    return makeFailure(
+                        request.spellId,
+                        PartySpellCastStatus::Failed,
+                        rule->targetKind,
+                        rule->effectKind,
+                        "Spell failed");
+                }
+
+                if (request.utilityAction == PartySpellUtilityActionKind::LloydsBeaconSet)
+                {
+                    LloydBeacon beacon = {};
+                    beacon.mapName = worldRuntime.mapName();
+                    beacon.locationName = request.utilityStatusText.empty() ? worldRuntime.mapName() : request.utilityStatusText;
+                    beacon.x = moveState.x;
+                    beacon.y = moveState.y;
+                    beacon.z = moveState.footZ;
+                    beacon.directionDegrees = request.utilityMapMoveDirectionDegrees.value_or(
+                        static_cast<int32_t>(std::round(request.viewYawRadians * 180.0f / Pi)));
+                    beacon.remainingSeconds = secondsFromHours(static_cast<float>(24 * 7 * std::max<uint32_t>(1, skillLevel)));
+                    pTargetMember->lloydsBeacons[request.utilitySlotIndex] = std::move(beacon);
+                    castSucceeded = true;
+                }
+                else if (request.utilityAction == PartySpellUtilityActionKind::LloydsBeaconRecall)
+                {
+                    const std::optional<LloydBeacon> &beacon = pTargetMember->lloydsBeacons[request.utilitySlotIndex];
+
+                    if (!beacon.has_value())
+                    {
+                        return makeFailure(
+                            request.spellId,
+                            PartySpellCastStatus::Failed,
+                            rule->targetKind,
+                            rule->effectKind,
+                            "Spell failed");
+                    }
+
+                    EventRuntimeState *pEventRuntimeState = worldRuntime.eventRuntimeState();
+
+                    if (pEventRuntimeState == nullptr)
+                    {
+                        return makeFailure(
+                            request.spellId,
+                            PartySpellCastStatus::Failed,
+                            rule->targetKind,
+                            rule->effectKind,
+                            "Spell failed");
+                    }
+
+                    EventRuntimeState::PendingMapMove move = {};
+                    move.x = static_cast<int32_t>(std::lround(beacon->x));
+                    move.y = static_cast<int32_t>(std::lround(beacon->y));
+                    move.z = static_cast<int32_t>(std::lround(beacon->z));
+                    move.mapName = beacon->mapName;
+                    move.directionDegrees = static_cast<int32_t>(std::lround(beacon->directionDegrees));
+                    move.useMapStartPosition = false;
+                    pEventRuntimeState->pendingMapMove = move;
+                    castSucceeded = true;
+                }
+            }
+        }
     }
     else if (rule->effectKind == PartySpellCastEffectKind::Projectile)
     {

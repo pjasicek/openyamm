@@ -41,6 +41,18 @@ struct InventoryItem
     uint16_t specialEnchantId = 0;
     uint16_t artifactId = 0;
     ItemRarity rarity = ItemRarity::Common;
+    float temporaryBonusRemainingSeconds = 0.0f;
+};
+
+struct LloydBeacon
+{
+    std::string mapName;
+    std::string locationName;
+    float x = 0.0f;
+    float y = 0.0f;
+    float z = 0.0f;
+    float directionDegrees = 0.0f;
+    float remainingSeconds = 0.0f;
 };
 
 struct Character
@@ -115,6 +127,7 @@ struct Character
     int attackRecoveryReductionTicks = 0;
     float recoveryProgressMultiplier = 1.0f;
     std::unordered_map<std::string, int> itemSkillBonuses;
+    std::array<std::optional<LloydBeacon>, 5> lloydsBeacons = {};
 
     bool addInventoryItem(const InventoryItem &item);
     bool addInventoryItemAt(const InventoryItem &item, uint8_t gridX, uint8_t gridY);
@@ -373,6 +386,12 @@ public:
         bool autoStoreDisplacedItem,
         std::optional<InventoryItem> &heldReplacement);
     std::optional<InventoryItem> equippedItem(size_t memberIndex, EquipmentSlot slot) const;
+    const InventoryItem *memberInventoryItem(size_t memberIndex, uint8_t gridX, uint8_t gridY) const;
+    InventoryItem *memberInventoryItemMutable(size_t memberIndex, uint8_t gridX, uint8_t gridY);
+    uint32_t equippedItemId(size_t memberIndex, EquipmentSlot slot) const;
+    const EquippedItemRuntimeState *equippedItemRuntime(size_t memberIndex, EquipmentSlot slot) const;
+    EquippedItemRuntimeState *equippedItemRuntimeMutable(size_t memberIndex, EquipmentSlot slot);
+    void refreshDerivedState();
     bool tryIdentifyMemberInventoryItem(
         size_t memberIndex,
         uint8_t gridX,

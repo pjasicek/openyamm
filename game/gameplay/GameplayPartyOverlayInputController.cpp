@@ -55,6 +55,24 @@ struct InventoryItemScreenRect
     float height = 0.0f;
 };
 
+struct UtilityOverlayLayout
+{
+    float panelX = 0.0f;
+    float panelY = 0.0f;
+    float panelWidth = 0.0f;
+    float panelHeight = 0.0f;
+    float closeX = 0.0f;
+    float closeY = 0.0f;
+    float closeSize = 0.0f;
+    float contentX = 0.0f;
+    float contentY = 0.0f;
+    float contentWidth = 0.0f;
+    float rowHeight = 0.0f;
+    float tabWidth = 0.0f;
+    float tabHeight = 0.0f;
+    float tabGap = 0.0f;
+};
+
 struct CharacterSkillUiRow
 {
     std::string canonicalName;
@@ -151,6 +169,88 @@ InventoryItemScreenRect computeInventoryItemScreenRect(
     rect.width = textureWidth;
     rect.height = textureHeight;
     return rect;
+}
+
+UtilityOverlayLayout computeUtilityOverlayLayout(int screenWidth, int screenHeight)
+{
+    const float width = static_cast<float>(std::max(screenWidth, 1));
+    const float height = static_cast<float>(std::max(screenHeight, 1));
+    const float scale = std::clamp(std::min(width / 640.0f, height / 480.0f), 0.8f, 2.0f);
+
+    UtilityOverlayLayout layout = {};
+    layout.panelWidth = std::round(360.0f * scale);
+    layout.panelHeight = std::round(300.0f * scale);
+    layout.panelX = std::round((width - layout.panelWidth) * 0.5f);
+    layout.panelY = std::round((height - layout.panelHeight) * 0.5f);
+    layout.closeSize = std::round(24.0f * scale);
+    layout.closeX = std::round(layout.panelX + layout.panelWidth - layout.closeSize - 12.0f * scale);
+    layout.closeY = std::round(layout.panelY + 12.0f * scale);
+    layout.contentX = std::round(layout.panelX + 24.0f * scale);
+    layout.contentY = std::round(layout.panelY + 68.0f * scale);
+    layout.contentWidth = std::round(layout.panelWidth - 48.0f * scale);
+    layout.rowHeight = std::round(36.0f * scale);
+    layout.tabWidth = std::round(120.0f * scale);
+    layout.tabHeight = std::round(28.0f * scale);
+    layout.tabGap = std::round(10.0f * scale);
+    return layout;
+}
+
+bool pointInsideRect(float x, float y, float rectX, float rectY, float rectWidth, float rectHeight)
+{
+    return x >= rectX && x < rectX + rectWidth && y >= rectY && y < rectY + rectHeight;
+}
+
+size_t maxLloydBeaconSlots(const Character *pCharacter)
+{
+    if (pCharacter == nullptr)
+    {
+        return 1;
+    }
+
+    const CharacterSkill *pWaterSkill = pCharacter->findSkill("WaterMagic");
+
+    if (pWaterSkill == nullptr)
+    {
+        return 1;
+    }
+
+    switch (pWaterSkill->mastery)
+    {
+        case SkillMastery::Grandmaster:
+        case SkillMastery::Master:
+            return 5;
+
+        case SkillMastery::Expert:
+            return 3;
+
+        case SkillMastery::Normal:
+        case SkillMastery::None:
+        default:
+            return 1;
+    }
+}
+
+uint32_t utilityQBitVariableId(uint32_t qbitId)
+{
+    return (qbitId << 16) | static_cast<uint32_t>(EvtVariable::QBits);
+}
+
+bool isTownPortalDestinationUnlocked(
+    const EventRuntimeState *pEventRuntimeState,
+    const OutdoorGameView::TownPortalDestination &destination)
+{
+    if (destination.unlockQBitId == 0)
+    {
+        return true;
+    }
+
+    if (pEventRuntimeState == nullptr)
+    {
+        return false;
+    }
+
+    const auto it = pEventRuntimeState->variables.find(utilityQBitVariableId(destination.unlockQBitId));
+    return it != pEventRuntimeState->variables.end() && it->second != 0;
 }
 
 std::optional<std::pair<int, int>> computeHeldInventoryPlacement(
@@ -504,6 +604,341 @@ void handlePointerClickRelease(
 
 } // namespace
 
+void GameplayPartyOverlayInputController::handleUtilitySpellOverlayInput(
+    OutdoorGameView &view,
+    const bool *pKeyboardState,
+    int screenWidth,
+    int screenHeight)
+{
+    if (!view.m_utilitySpellOverlay.active)
+    {
+        return;
+    }
+
+    const bool closePressed = pKeyboardState[SDL_SCANCODE_ESCAPE];
+
+    if (closePressed)
+    {
+        if (!view.m_closeOverlayLatch)
+        {
+            view.m_gameplayUiController.closeUtilitySpellOverlay();
+            view.setStatusBarEvent("Spell cancelled", 2.0f);
+            view.m_closeOverlayLatch = true;
+        }
+
+        return;
+    }
+
+    view.m_closeOverlayLatch = false;
+
+    float mouseX = 0.0f;
+    float mouseY = 0.0f;
+    const SDL_MouseButtonFlags mouseButtons = SDL_GetMouseState(&mouseX, &mouseY);
+    const HudPointerState pointerState = {
+        mouseX,
+        mouseY,
+        (mouseButtons & SDL_BUTTON_LMASK) != 0
+    };
+    const OutdoorGameView::UtilitySpellPointerTarget noneTarget = {};
+    const auto resolveSpellName =
+        [&view]() -> std::string
+        {
+            if (view.m_pSpellTable == nullptr)
+            {
+                return "Spell";
+            }
+
+            const SpellEntry *pEntry =
+                view.m_pSpellTable->findById(static_cast<int>(view.m_utilitySpellOverlay.spellId));
+            return pEntry != nullptr && !pEntry->name.empty() ? pEntry->name : "Spell";
+        };
+
+    if (view.m_utilitySpellOverlay.mode == OutdoorGameView::UtilitySpellOverlayMode::TownPortal)
+    {
+        const EventRuntimeState *pEventRuntimeState =
+            view.m_pOutdoorWorldRuntime != nullptr ? view.m_pOutdoorWorldRuntime->eventRuntimeState() : nullptr;
+        const auto findDestinationIndexByLayoutId =
+            [&view](const std::string &layoutId) -> std::optional<size_t>
+            {
+                const std::string normalizedLayoutId = toLowerCopy(layoutId);
+
+                for (size_t index = 0; index < view.m_townPortalDestinations.size(); ++index)
+                {
+                    if (toLowerCopy(view.m_townPortalDestinations[index].buttonLayoutId) == normalizedLayoutId)
+                    {
+                        return index;
+                    }
+                }
+
+                return std::nullopt;
+            };
+        const auto findTownPortalTarget =
+            [&view, screenWidth, screenHeight, pEventRuntimeState, &findDestinationIndexByLayoutId](
+                float pointerX,
+                float pointerY) -> OutdoorGameView::UtilitySpellPointerTarget
+            {
+                const OutdoorGameView::HudLayoutElement *pCloseLayout =
+                    HudUiService::findHudLayoutElement(view, "TownPortalCloseButton");
+
+                if (pCloseLayout != nullptr && pCloseLayout->visible)
+                {
+                    const std::optional<OutdoorGameView::ResolvedHudLayoutElement> closeResolved =
+                        HudUiService::resolveHudLayoutElement(
+                            view,
+                            "TownPortalCloseButton",
+                            screenWidth,
+                            screenHeight,
+                            pCloseLayout->width,
+                            pCloseLayout->height);
+
+                    if (closeResolved.has_value()
+                        && HudUiService::isPointerInsideResolvedElement(*closeResolved, pointerX, pointerY))
+                    {
+                        return {OutdoorGameView::UtilitySpellPointerTargetType::Close, 0};
+                    }
+                }
+
+                for (const std::string &layoutId : HudUiService::sortedHudLayoutIdsForScreen(view, "TownPortal"))
+                {
+                    const std::optional<size_t> destinationIndex = findDestinationIndexByLayoutId(layoutId);
+
+                    if (!destinationIndex.has_value())
+                    {
+                        continue;
+                    }
+
+                    if (*destinationIndex >= view.m_townPortalDestinations.size())
+                    {
+                        continue;
+                    }
+
+                    const OutdoorGameView::TownPortalDestination &destination = view.m_townPortalDestinations[*destinationIndex];
+
+                    if (!isTownPortalDestinationUnlocked(pEventRuntimeState, destination))
+                    {
+                        continue;
+                    }
+
+                    const OutdoorGameView::HudLayoutElement *pLayout = HudUiService::findHudLayoutElement(view, layoutId);
+
+                    if (pLayout == nullptr || !pLayout->visible)
+                    {
+                        continue;
+                    }
+
+                    const std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolved = HudUiService::resolveHudLayoutElement(
+                        view,
+                        layoutId,
+                        screenWidth,
+                        screenHeight,
+                        pLayout->width,
+                        pLayout->height);
+
+                    if (!resolved.has_value() || !HudUiService::isPointerInsideResolvedElement(*resolved, pointerX, pointerY))
+                    {
+                        continue;
+                    }
+
+                    return {OutdoorGameView::UtilitySpellPointerTargetType::TownPortalDestination, *destinationIndex};
+                }
+
+                return {};
+            };
+
+        const OutdoorGameView::UtilitySpellPointerTarget hoveredTarget = findTownPortalTarget(mouseX, mouseY);
+
+        if (hoveredTarget.type == OutdoorGameView::UtilitySpellPointerTargetType::TownPortalDestination
+            && hoveredTarget.index < view.m_townPortalDestinations.size())
+        {
+            view.m_statusBarHoverText = "Town Portal to " + view.m_townPortalDestinations[hoveredTarget.index].label;
+        }
+        else
+        {
+            view.m_statusBarHoverText.clear();
+        }
+
+        handlePointerClickRelease(
+            pointerState,
+            view.m_utilitySpellClickLatch,
+            view.m_utilitySpellPressedTarget,
+            noneTarget,
+            findTownPortalTarget,
+            [&view, &resolveSpellName](const OutdoorGameView::UtilitySpellPointerTarget &target)
+            {
+                if (target.type == OutdoorGameView::UtilitySpellPointerTargetType::Close)
+                {
+                    view.m_gameplayUiController.closeUtilitySpellOverlay();
+                    view.setStatusBarEvent("Spell cancelled", 2.0f);
+                    return;
+                }
+
+                if (target.type != OutdoorGameView::UtilitySpellPointerTargetType::TownPortalDestination
+                    || target.index >= view.m_townPortalDestinations.size())
+                {
+                    return;
+                }
+
+                const OutdoorGameView::TownPortalDestination &destination = view.m_townPortalDestinations[target.index];
+                PartySpellCastRequest request = {};
+                request.casterMemberIndex = view.m_utilitySpellOverlay.casterMemberIndex;
+                request.spellId = view.m_utilitySpellOverlay.spellId;
+                request.utilityAction = PartySpellUtilityActionKind::TownPortalDestination;
+                request.hasUtilityMapMove = true;
+                request.utilityActionId = destination.id;
+                request.utilityMapMoveMapName = destination.mapName;
+                request.utilityMapMoveX = destination.x;
+                request.utilityMapMoveY = destination.y;
+                request.utilityMapMoveZ = destination.z;
+                request.utilityMapMoveDirectionDegrees = destination.directionDegrees;
+                request.utilityMapMoveUseMapStartPosition = destination.useMapStartPosition;
+                request.utilityStatusText = destination.label;
+                view.tryCastSpellRequest(request, resolveSpellName());
+            });
+        return;
+    }
+
+    view.m_statusBarHoverText.clear();
+
+    const UtilityOverlayLayout layout = computeUtilityOverlayLayout(screenWidth, screenHeight);
+    const auto findPointerTarget =
+        [&view, &layout](float pointerX, float pointerY) -> OutdoorGameView::UtilitySpellPointerTarget
+        {
+            if (pointInsideRect(pointerX, pointerY, layout.closeX, layout.closeY, layout.closeSize, layout.closeSize))
+            {
+                return {OutdoorGameView::UtilitySpellPointerTargetType::Close, 0};
+            }
+
+            if (view.m_utilitySpellOverlay.mode == OutdoorGameView::UtilitySpellOverlayMode::LloydsBeacon)
+            {
+                const float tabY = layout.panelY + 24.0f;
+                const float setTabX = layout.contentX;
+                const float recallTabX = setTabX + layout.tabWidth + layout.tabGap;
+
+                if (pointInsideRect(pointerX, pointerY, setTabX, tabY, layout.tabWidth, layout.tabHeight))
+                {
+                    return {OutdoorGameView::UtilitySpellPointerTargetType::LloydSetTab, 0};
+                }
+
+                if (pointInsideRect(pointerX, pointerY, recallTabX, tabY, layout.tabWidth, layout.tabHeight))
+                {
+                    return {OutdoorGameView::UtilitySpellPointerTargetType::LloydRecallTab, 0};
+                }
+
+                const Character *pCaster =
+                    view.m_pOutdoorPartyRuntime != nullptr
+                        ? view.m_pOutdoorPartyRuntime->party().member(view.m_utilitySpellOverlay.casterMemberIndex)
+                        : nullptr;
+                const size_t slotCount = maxLloydBeaconSlots(pCaster);
+
+                for (size_t index = 0; index < slotCount; ++index)
+                {
+                    const float rowY = layout.contentY + static_cast<float>(index) * (layout.rowHeight + 6.0f);
+
+                    if (!pointInsideRect(pointerX, pointerY, layout.contentX, rowY, layout.contentWidth, layout.rowHeight))
+                    {
+                        continue;
+                    }
+
+                    return {OutdoorGameView::UtilitySpellPointerTargetType::LloydSlot, index};
+                }
+            }
+
+            return {};
+        };
+
+    handlePointerClickRelease(
+        pointerState,
+        view.m_utilitySpellClickLatch,
+        view.m_utilitySpellPressedTarget,
+        noneTarget,
+        findPointerTarget,
+        [&view, &resolveSpellName](const OutdoorGameView::UtilitySpellPointerTarget &target)
+        {
+            if (target.type == OutdoorGameView::UtilitySpellPointerTargetType::Close)
+            {
+                view.m_gameplayUiController.closeUtilitySpellOverlay();
+                view.setStatusBarEvent("Spell cancelled", 2.0f);
+                return;
+            }
+
+            if (target.type == OutdoorGameView::UtilitySpellPointerTargetType::LloydSetTab)
+            {
+                view.m_utilitySpellOverlay.lloydRecallMode = false;
+                return;
+            }
+
+            if (target.type == OutdoorGameView::UtilitySpellPointerTargetType::LloydRecallTab)
+            {
+                view.m_utilitySpellOverlay.lloydRecallMode = true;
+                return;
+            }
+
+            PartySpellCastRequest request = {};
+            request.casterMemberIndex = view.m_utilitySpellOverlay.casterMemberIndex;
+            request.spellId = view.m_utilitySpellOverlay.spellId;
+
+            if (target.type == OutdoorGameView::UtilitySpellPointerTargetType::TownPortalDestination)
+            {
+                if (target.index >= view.m_townPortalDestinations.size())
+                {
+                    return;
+                }
+
+                const OutdoorGameView::TownPortalDestination &destination = view.m_townPortalDestinations[target.index];
+                request.utilityAction = PartySpellUtilityActionKind::TownPortalDestination;
+                request.hasUtilityMapMove = true;
+                request.utilityActionId = destination.id;
+                request.utilityMapMoveMapName = destination.mapName;
+                request.utilityMapMoveX = destination.x;
+                request.utilityMapMoveY = destination.y;
+                request.utilityMapMoveZ = destination.z;
+                request.utilityMapMoveDirectionDegrees = destination.directionDegrees;
+                request.utilityMapMoveUseMapStartPosition = destination.useMapStartPosition;
+                request.utilityStatusText = destination.label;
+                view.tryCastSpellRequest(request, resolveSpellName());
+                return;
+            }
+
+            if (target.type == OutdoorGameView::UtilitySpellPointerTargetType::LloydSlot)
+            {
+                if (view.m_pOutdoorPartyRuntime == nullptr || view.m_pOutdoorWorldRuntime == nullptr)
+                {
+                    return;
+                }
+
+                const Character *pCaster =
+                    view.m_pOutdoorPartyRuntime->party().member(view.m_utilitySpellOverlay.casterMemberIndex);
+
+                if (pCaster == nullptr || target.index >= pCaster->lloydsBeacons.size())
+                {
+                    return;
+                }
+
+                request.utilitySlotIndex = static_cast<uint8_t>(target.index);
+
+                if (view.m_utilitySpellOverlay.lloydRecallMode)
+                {
+                    if (!pCaster->lloydsBeacons[target.index].has_value())
+                    {
+                        return;
+                    }
+
+                    request.utilityAction = PartySpellUtilityActionKind::LloydsBeaconRecall;
+                }
+                else
+                {
+                    request.utilityAction = PartySpellUtilityActionKind::LloydsBeaconSet;
+                    request.utilityStatusText =
+                        view.resolveSaveLocationName(view.m_pOutdoorWorldRuntime->mapName());
+                    request.utilityMapMoveDirectionDegrees =
+                        static_cast<int32_t>(std::lround(view.cameraYawRadians() * 180.0f / 3.14159265358979323846f));
+                }
+
+                view.tryCastSpellRequest(request, resolveSpellName());
+            }
+        });
+}
+
 void GameplayPartyOverlayInputController::handleSpellbookOverlayInput(
     OutdoorGameView &view,
     const bool *pKeyboardState,
@@ -833,11 +1268,19 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
         skillUiData.miscRows.size());
 
     const bool closePressed = pKeyboardState[SDL_SCANCODE_ESCAPE] || pKeyboardState[SDL_SCANCODE_E];
+    const bool isInventorySpellTargetMode =
+        view.m_utilitySpellOverlay.active
+        && view.m_utilitySpellOverlay.mode == OutdoorGameView::UtilitySpellOverlayMode::InventoryTarget;
 
     if (closePressed)
     {
         if (!view.m_closeOverlayLatch)
         {
+            if (isInventorySpellTargetMode)
+            {
+                view.m_gameplayUiController.closeUtilitySpellOverlay();
+            }
+
             view.m_characterScreenOpen = false;
             view.m_characterDollJewelryOverlayOpen = false;
             view.m_adventurersInnRosterOverlayOpen = false;
@@ -1685,6 +2128,9 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
          isReadOnlyAdventurersInnView](
             const OutdoorGameView::CharacterPointerTarget &target)
         {
+            const bool isInventorySpellTargetMode =
+                view.m_utilitySpellOverlay.active
+                && view.m_utilitySpellOverlay.mode == OutdoorGameView::UtilitySpellOverlayMode::InventoryTarget;
             const auto resolveItemLogName =
                 [&view](uint32_t objectDescriptionId) -> std::string
                 {
@@ -1732,8 +2178,64 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                 clearPendingCharacterDismiss();
             }
 
+            if (isInventorySpellTargetMode)
+            {
+                if (target.type == OutdoorGameView::CharacterPointerTargetType::InventoryItem)
+                {
+                    PartySpellCastRequest request = {};
+                    request.casterMemberIndex = view.m_utilitySpellOverlay.casterMemberIndex;
+                    request.spellId = view.m_utilitySpellOverlay.spellId;
+                    request.targetItemMemberIndex =
+                        view.m_pOutdoorPartyRuntime != nullptr
+                            ? std::optional<size_t>(view.m_pOutdoorPartyRuntime->party().activeMemberIndex())
+                            : std::nullopt;
+                    request.targetInventoryGridX = target.gridX;
+                    request.targetInventoryGridY = target.gridY;
+
+                    const SpellEntry *pSpellEntry =
+                        view.m_pSpellTable != nullptr
+                            ? view.m_pSpellTable->findById(static_cast<int>(request.spellId))
+                            : nullptr;
+                    const std::string spellName =
+                        pSpellEntry != nullptr && !pSpellEntry->name.empty()
+                            ? pSpellEntry->name
+                            : "Spell";
+                    view.tryCastSpellRequest(request, spellName);
+                    return;
+                }
+
+                if (target.type == OutdoorGameView::CharacterPointerTargetType::EquipmentSlot)
+                {
+                    PartySpellCastRequest request = {};
+                    request.casterMemberIndex = view.m_utilitySpellOverlay.casterMemberIndex;
+                    request.spellId = view.m_utilitySpellOverlay.spellId;
+                    request.targetItemMemberIndex =
+                        view.m_pOutdoorPartyRuntime != nullptr
+                            ? std::optional<size_t>(view.m_pOutdoorPartyRuntime->party().activeMemberIndex())
+                            : std::nullopt;
+                    request.targetEquipmentSlot = target.equipmentSlot;
+
+                    const SpellEntry *pSpellEntry =
+                        view.m_pSpellTable != nullptr
+                            ? view.m_pSpellTable->findById(static_cast<int>(request.spellId))
+                            : nullptr;
+                    const std::string spellName =
+                        pSpellEntry != nullptr && !pSpellEntry->name.empty()
+                            ? pSpellEntry->name
+                            : "Spell";
+                    view.tryCastSpellRequest(request, spellName);
+                    return;
+                }
+            }
+
             if (target.type == OutdoorGameView::CharacterPointerTargetType::PageButton)
             {
+                if (isInventorySpellTargetMode && target.page != OutdoorGameView::CharacterPage::Inventory)
+                {
+                    view.setStatusBarEvent("Select an item");
+                    return;
+                }
+
                 if (view.m_characterPage != target.page)
                 {
                     view.m_characterPage = target.page;
@@ -1746,6 +2248,11 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
             }
             else if (target.type == OutdoorGameView::CharacterPointerTargetType::ExitButton)
             {
+                if (isInventorySpellTargetMode)
+                {
+                    view.m_gameplayUiController.closeUtilitySpellOverlay();
+                }
+
                 if (isReadOnlyAdventurersInnView)
                 {
                     view.m_characterDollJewelryOverlayOpen = false;

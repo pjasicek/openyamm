@@ -45,6 +45,12 @@ constexpr const char *RavenshoreRespawnMapFile = "out02.odm";
 constexpr const char *PartyDefeatCutsceneDirectory = "Videos/Cutscenes";
 constexpr const char *PartyDefeatCutsceneStem = "LoseGame";
 constexpr std::array<uint32_t, 3> Level1ReagentItemIds = {{200, 205, 210}};
+constexpr uint32_t MaxQuestBitId = 512;
+
+uint32_t qBitVariableId(uint32_t qbitId)
+{
+    return (qbitId << 16) | static_cast<uint32_t>(EvtVariable::QBits);
+}
 
 int remapLoadingProgress(int localProgress, int startProgress, int endProgress)
 {
@@ -558,6 +564,14 @@ void GameApplication::applyStartupDebugSettingsToActiveRuntime()
     if (m_settings.overrideStartPosition)
     {
         m_pOutdoorPartyRuntime->teleportTo(m_settings.startX, m_settings.startY, m_settings.startZ);
+    }
+
+    if (EventRuntimeState *pEventRuntimeState = m_gameplayController.eventRuntimeState())
+    {
+        for (uint32_t qbitId = 1; qbitId <= MaxQuestBitId; ++qbitId)
+        {
+            pEventRuntimeState->variables[qBitVariableId(qbitId)] = 1;
+        }
     }
 }
 

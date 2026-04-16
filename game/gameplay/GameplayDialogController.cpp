@@ -918,19 +918,6 @@ GameplayDialogController::PresentPendingDialogResult GameplayDialogController::p
 
     const EventRuntimeState::PendingDialogueContext originalContext = *context.eventRuntimeState.pendingDialogueContext;
 
-    if (originalContext.kind == DialogueContextKind::NpcTalk
-        && context.pNpcDialogTable != nullptr
-        && context.pParty != nullptr)
-    {
-        const std::optional<uint32_t> masteryTopicId =
-            masteryTeacherTopicIdForNpc(*context.pNpcDialogTable, context.eventRuntimeState, originalContext.sourceId);
-
-        if (masteryTopicId.has_value())
-        {
-            tryUnlockTrainerAutoNote(context.eventRuntimeState, *masteryTopicId, context.pParty);
-        }
-    }
-
     if (originalContext.kind == DialogueContextKind::HouseService
         && context.pHouseTable != nullptr
         && context.pOutdoorWorldRuntime != nullptr
@@ -966,6 +953,22 @@ GameplayDialogController::PresentPendingDialogResult GameplayDialogController::p
         context.pOutdoorWorldRuntime,
         context.pOutdoorWorldRuntime != nullptr ? context.pOutdoorWorldRuntime->gameMinutes() : -1.0f
     ));
+
+    if (context.eventRuntimeState.pendingDialogueContext.has_value()
+        && context.eventRuntimeState.pendingDialogueContext->kind == DialogueContextKind::NpcTalk
+        && context.pNpcDialogTable != nullptr
+        && context.pParty != nullptr)
+    {
+        const std::optional<uint32_t> masteryTopicId = masteryTeacherTopicIdForNpc(
+            *context.pNpcDialogTable,
+            context.eventRuntimeState,
+            context.eventRuntimeState.pendingDialogueContext->sourceId);
+
+        if (masteryTopicId.has_value())
+        {
+            tryUnlockTrainerAutoNote(context.eventRuntimeState, *masteryTopicId, context.pParty);
+        }
+    }
 
     if (!context.activeEventDialog.isActive)
     {

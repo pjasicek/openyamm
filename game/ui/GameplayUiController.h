@@ -108,6 +108,14 @@ public:
         Withdraw,
     };
 
+    enum class UtilitySpellOverlayMode : uint8_t
+    {
+        None = 0,
+        InventoryTarget,
+        TownPortal,
+        LloydsBeacon,
+    };
+
     struct HeldInventoryItemState
     {
         bool active = false;
@@ -351,6 +359,15 @@ public:
         }
     };
 
+    struct UtilitySpellOverlayState
+    {
+        bool active = false;
+        UtilitySpellOverlayMode mode = UtilitySpellOverlayMode::None;
+        uint32_t spellId = 0;
+        size_t casterMemberIndex = 0;
+        bool lloydRecallMode = false;
+    };
+
     struct StatusBarState
     {
         std::string hoverText;
@@ -386,6 +403,7 @@ public:
         InventoryNestedOverlayState inventoryNestedOverlay = {};
         HouseShopOverlayState houseShopOverlay = {};
         HouseBankState houseBankState = {};
+        UtilitySpellOverlayState utilitySpellOverlay = {};
         StatusBarState statusBar = {};
         EventDialogState eventDialog = {};
     };
@@ -457,6 +475,9 @@ public:
     HouseBankState &houseBankState();
     const HouseBankState &houseBankState() const;
 
+    UtilitySpellOverlayState &utilitySpellOverlay();
+    const UtilitySpellOverlayState &utilitySpellOverlay() const;
+
     StatusBarState &statusBar();
     const StatusBarState &statusBar() const;
 
@@ -470,6 +491,12 @@ public:
     void closeInventoryNestedOverlay();
     void openHouseShopOverlay(uint32_t houseId, HouseShopMode mode);
     void closeHouseShopOverlay();
+    void openUtilitySpellOverlay(
+        UtilitySpellOverlayMode mode,
+        uint32_t spellId,
+        size_t casterMemberIndex,
+        bool lloydRecallMode = false);
+    void closeUtilitySpellOverlay();
     void beginHouseBankInput(uint32_t houseId, HouseBankInputMode mode);
     void clearHouseBankState();
     void setStatusBarEvent(const std::string &text, float durationSeconds = 2.0f);
