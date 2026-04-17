@@ -114,6 +114,42 @@ constexpr size_t BloodSplatGridResolution = 10;
 constexpr float BloodSplatHeightOffset = 2.0f;
 constexpr float BloodSplatMinSurfaceHeightTolerance = 32.0f;
 
+float rainIntensityValue(OutdoorWorldRuntime::RainIntensityPreset preset)
+{
+    switch (preset)
+    {
+        case OutdoorWorldRuntime::RainIntensityPreset::Light:
+            return 0.85f;
+        case OutdoorWorldRuntime::RainIntensityPreset::Medium:
+            return 1.65f;
+        case OutdoorWorldRuntime::RainIntensityPreset::Heavy:
+            return 3.65f;
+        case OutdoorWorldRuntime::RainIntensityPreset::VeryHeavy:
+            return 5.35f;
+        case OutdoorWorldRuntime::RainIntensityPreset::Off:
+        default:
+            return 0.0f;
+    }
+}
+
+const char *rainIntensityPresetName(OutdoorWorldRuntime::RainIntensityPreset preset)
+{
+    switch (preset)
+    {
+        case OutdoorWorldRuntime::RainIntensityPreset::Light:
+            return "Light";
+        case OutdoorWorldRuntime::RainIntensityPreset::Medium:
+            return "Medium";
+        case OutdoorWorldRuntime::RainIntensityPreset::Heavy:
+            return "Heavy";
+        case OutdoorWorldRuntime::RainIntensityPreset::VeryHeavy:
+            return "Very Heavy";
+        case OutdoorWorldRuntime::RainIntensityPreset::Off:
+        default:
+            return "Off";
+    }
+}
+
 float actorDecisionRange(
     uint32_t actorId,
     uint32_t counter,
@@ -5500,6 +5536,8 @@ OutdoorWorldRuntime::Snapshot OutdoorWorldRuntime::snapshot() const
     snapshot.projectileImpacts = m_projectileImpacts;
     snapshot.fireSpikeTraps = m_fireSpikeTraps;
     snapshot.armageddon = m_armageddonState;
+    snapshot.hasRainIntensityOverride = m_hasRainIntensityOverride;
+    snapshot.rainIntensityPreset = m_rainIntensityPreset;
     snapshot.openedChestFlags.reserve(m_openedChests.size());
 
     for (bool opened : m_openedChests)
@@ -5538,6 +5576,8 @@ void OutdoorWorldRuntime::restoreSnapshot(const Snapshot &snapshot)
     m_projectileImpacts = snapshot.projectileImpacts;
     m_fireSpikeTraps = snapshot.fireSpikeTraps;
     m_armageddonState = snapshot.armageddon;
+    m_hasRainIntensityOverride = snapshot.hasRainIntensityOverride;
+    m_rainIntensityPreset = snapshot.rainIntensityPreset;
     m_openedChests.clear();
     m_openedChests.reserve(snapshot.openedChestFlags.size());
 
@@ -5603,6 +5643,44 @@ void OutdoorWorldRuntime::setCurrentLocationReputation(int reputation)
 const OutdoorWorldRuntime::AtmosphereState &OutdoorWorldRuntime::atmosphereState() const
 {
     return m_atmosphereState;
+}
+
+OutdoorWorldRuntime::RainIntensityPreset OutdoorWorldRuntime::cycleRainIntensityPreset()
+{
+    m_hasRainIntensityOverride = true;
+
+    switch (m_rainIntensityPreset)
+    {
+        case RainIntensityPreset::Off:
+            m_rainIntensityPreset = RainIntensityPreset::Light;
+            break;
+        case RainIntensityPreset::Light:
+            m_rainIntensityPreset = RainIntensityPreset::Medium;
+            break;
+        case RainIntensityPreset::Medium:
+            m_rainIntensityPreset = RainIntensityPreset::Heavy;
+            break;
+        case RainIntensityPreset::Heavy:
+            m_rainIntensityPreset = RainIntensityPreset::VeryHeavy;
+            break;
+        case RainIntensityPreset::VeryHeavy:
+        default:
+            m_rainIntensityPreset = RainIntensityPreset::Off;
+            break;
+    }
+
+    refreshAtmosphereState();
+    return m_rainIntensityPreset;
+}
+
+OutdoorWorldRuntime::RainIntensityPreset OutdoorWorldRuntime::rainIntensityPreset() const
+{
+    return m_rainIntensityPreset;
+}
+
+const char *OutdoorWorldRuntime::rainIntensityPresetName() const
+{
+    return ::OpenYAMM::Game::rainIntensityPresetName(m_rainIntensityPreset);
 }
 
 void OutdoorWorldRuntime::advanceGameMinutes(float minutes)
@@ -5810,6 +5888,23 @@ void OutdoorWorldRuntime::refreshAtmosphereState()
         else
         {
             m_atmosphereState.weatherFlags &= ~MapWeatherRaining;
+        }
+    }
+
+    m_atmosphereState.rainIntensity = (m_atmosphereState.weatherFlags & MapWeatherRaining) != 0 ? 1.0f : 0.0f;
+
+    if (m_hasRainIntensityOverride)
+    {
+        if (m_rainIntensityPreset != RainIntensityPreset::Off)
+        {
+            m_atmosphereState.weatherFlags &= ~MapWeatherSnowing;
+            m_atmosphereState.weatherFlags |= MapWeatherRaining;
+            m_atmosphereState.rainIntensity = rainIntensityValue(m_rainIntensityPreset);
+        }
+        else
+        {
+            m_atmosphereState.weatherFlags &= ~MapWeatherRaining;
+            m_atmosphereState.rainIntensity = 0.0f;
         }
     }
 

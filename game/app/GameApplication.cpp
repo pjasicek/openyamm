@@ -1180,18 +1180,6 @@ void GameApplication::updateQuickSaveInput()
         m_quickLoadLatch = false;
     }
 
-    if (pKeyboardState[SDL_SCANCODE_F5])
-    {
-        if (!m_advanceTimeLatch)
-        {
-            m_pendingAdvanceTime = true;
-            m_advanceTimeLatch = true;
-        }
-    }
-    else
-    {
-        m_advanceTimeLatch = false;
-    }
 }
 
 bool GameApplication::processPendingQuickSaveInput()

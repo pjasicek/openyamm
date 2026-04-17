@@ -1186,7 +1186,7 @@ private:
     bool m_toggleTextureFilteringLatch;
     bool m_toggleInspectLatch;
     bool m_triggerMeteorLatch;
-    bool m_debugDialogueLatch;
+    bool m_toggleRainLatch;
     bool m_keyboardUseLatch;
     bool m_activateInspectLatch;
     bool m_inspectMouseActivateLatch;

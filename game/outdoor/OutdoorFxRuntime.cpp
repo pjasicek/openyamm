@@ -27,11 +27,13 @@ constexpr uint32_t CannonballPseudoSpellId = 136;
 constexpr int32_t MapWeatherSnowing = 2;
 constexpr int32_t MapWeatherRaining = 4;
 constexpr float WeatherSnowParticlesPerSecond = 52.0f;
-constexpr float WeatherRainParticlesPerSecond = 120.0f;
-constexpr float WeatherSpawnForwardDistance = 640.0f;
-constexpr float WeatherSpawnHalfWidth = 900.0f;
-constexpr float WeatherSpawnDepth = 1200.0f;
-constexpr float WeatherSpawnHeight = 720.0f;
+constexpr float WeatherRainParticlesPerSecond = 110.0f;
+constexpr float WeatherSpawnForwardDistance = 900.0f;
+constexpr float WeatherRainNearForwardDistance = 320.0f;
+constexpr float WeatherSpawnHalfWidth = 1250.0f;
+constexpr float WeatherSpawnDepth = 1850.0f;
+constexpr float WeatherSpawnHeight = 900.0f;
+constexpr float WeatherSpawnVolumeExpansionPerIntensity = 0.18f;
 
 uint32_t makeAbgr(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha)
 {
@@ -627,8 +629,9 @@ void OutdoorFxRuntime::syncWeatherParticles(OutdoorGameView &view, float deltaSe
     }
 
     const int32_t weatherFlags = view.m_pOutdoorWorldRuntime->atmosphereState().weatherFlags;
+    const float rainIntensity = std::clamp(view.m_pOutdoorWorldRuntime->atmosphereState().rainIntensity, 0.0f, 3.0f);
     const bool snowing = (weatherFlags & MapWeatherSnowing) != 0;
-    const bool raining = (weatherFlags & MapWeatherRaining) != 0;
+    const bool raining = (weatherFlags & MapWeatherRaining) != 0 && rainIntensity > 0.001f;
 
     if (!snowing)
     {
@@ -653,20 +656,26 @@ void OutdoorFxRuntime::syncWeatherParticles(OutdoorGameView &view, float deltaSe
     const float cameraX = view.m_cameraTargetX;
     const float cameraY = view.m_cameraTargetY;
     const float cameraZ = view.m_cameraTargetZ;
+    const float spawnVolumeScale = 1.0f + std::max(0.0f, rainIntensity - 1.0f) * WeatherSpawnVolumeExpansionPerIntensity;
+    const float spawnForwardDistance = WeatherSpawnForwardDistance * spawnVolumeScale;
+    const float rainNearForwardDistance = WeatherRainNearForwardDistance * spawnVolumeScale;
+    const float spawnHalfWidth = WeatherSpawnHalfWidth * spawnVolumeScale;
+    const float spawnDepth = WeatherSpawnDepth * spawnVolumeScale;
+    const float spawnHeight = WeatherSpawnHeight * spawnVolumeScale;
 
     auto emitSnowParticle =
         [&](uint32_t seed)
         {
-            const float forwardOffset = 64.0f + hash01(seed) * WeatherSpawnDepth;
+            const float forwardOffset = 64.0f + hash01(seed) * spawnDepth;
             const float lateralOffset =
-                (hash01(seed * 2246822519u) * 2.0f - 1.0f) * WeatherSpawnHalfWidth;
-            const float verticalOffset = 180.0f + hash01(seed * 3266489917u) * WeatherSpawnHeight;
+                (hash01(seed * 2246822519u) * 2.0f - 1.0f) * spawnHalfWidth;
+            const float verticalOffset = 180.0f + hash01(seed * 3266489917u) * spawnHeight;
             const float driftSide = (hash01(seed * 668265263u) * 2.0f - 1.0f) * 26.0f;
             const float driftForward = (hash01(seed * 374761393u) * 2.0f - 1.0f) * 14.0f;
 
             FxParticleState particle = {};
-            particle.x = cameraX + forwardX * (WeatherSpawnForwardDistance + forwardOffset) + rightX * lateralOffset;
-            particle.y = cameraY + forwardY * (WeatherSpawnForwardDistance + forwardOffset) + rightY * lateralOffset;
+            particle.x = cameraX + forwardX * (spawnForwardDistance + forwardOffset) + rightX * lateralOffset;
+            particle.y = cameraY + forwardY * (spawnForwardDistance + forwardOffset) + rightY * lateralOffset;
             particle.z = cameraZ + verticalOffset;
             particle.velocityX = rightX * driftSide + forwardX * driftForward;
             particle.velocityY = rightY * driftSide + forwardY * driftForward;
@@ -694,30 +703,35 @@ void OutdoorFxRuntime::syncWeatherParticles(OutdoorGameView &view, float deltaSe
     auto emitRainParticle =
         [&](uint32_t seed)
         {
-            const float forwardOffset = hash01(seed) * WeatherSpawnDepth;
+            const float forwardOffset = hash01(seed) * spawnDepth;
             const float lateralOffset =
-                (hash01(seed * 2246822519u) * 2.0f - 1.0f) * WeatherSpawnHalfWidth;
-            const float verticalOffset = 120.0f + hash01(seed * 3266489917u) * 420.0f;
+                (hash01(seed * 2246822519u) * 2.0f - 1.0f) * spawnHalfWidth;
+            const float verticalOffset = 120.0f + hash01(seed * 3266489917u) * (420.0f * spawnVolumeScale);
             const float slant = 24.0f + hash01(seed * 668265263u) * 34.0f;
+            const float intensityScale = std::max(rainIntensity, 0.1f);
 
             FxParticleState particle = {};
-            particle.x = cameraX + forwardX * (WeatherSpawnForwardDistance + forwardOffset) + rightX * lateralOffset;
-            particle.y = cameraY + forwardY * (WeatherSpawnForwardDistance + forwardOffset) + rightY * lateralOffset;
+            particle.x = cameraX + forwardX * (rainNearForwardDistance + forwardOffset) + rightX * lateralOffset;
+            particle.y = cameraY + forwardY * (rainNearForwardDistance + forwardOffset) + rightY * lateralOffset;
             particle.z = cameraZ + verticalOffset;
             particle.velocityX = forwardX * slant;
             particle.velocityY = forwardY * slant;
             particle.velocityZ = -(2200.0f + hash01(seed * 1274126177u) * 700.0f);
-            particle.size = 10.0f + hash01(seed * 197830471u) * 5.0f;
+            particle.size = (9.5f + hash01(seed * 197830471u) * 6.5f) * (0.9f + intensityScale * 0.24f);
             particle.endSize = particle.size * 0.6f;
             particle.drag = 0.0f;
             particle.rotationRadians = 0.0f;
             particle.angularVelocityRadians = 0.0f;
-            particle.stretch = 9.0f + hash01(seed * 1597334677u) * 2.0f;
+            particle.stretch = (8.5f + hash01(seed * 1597334677u) * 4.0f) * (0.95f + intensityScale * 0.18f);
             particle.ageSeconds = 0.0f;
             particle.fadeInSeconds = 0.0f;
             particle.fadeOutStartSeconds = 0.30f + hash01(seed * 3812015801u) * 0.08f;
             particle.lifetimeSeconds = particle.fadeOutStartSeconds + 0.12f;
-            particle.startColorAbgr = makeAbgr(170, 190, 220, 150);
+            particle.startColorAbgr = makeAbgr(
+                170,
+                190,
+                220,
+                static_cast<uint8_t>(std::clamp(std::lround(120.0f + intensityScale * 44.0f), 0l, 255l)));
             particle.endColorAbgr = makeAbgr(170, 190, 220, 0);
             particle.motion = FxParticleMotion::VelocityTrail;
             particle.blendMode = FxParticleBlendMode::Alpha;
@@ -741,7 +755,7 @@ void OutdoorFxRuntime::syncWeatherParticles(OutdoorGameView &view, float deltaSe
 
     if (raining)
     {
-        m_rainEmissionAccumulator += deltaSeconds * WeatherRainParticlesPerSecond;
+        m_rainEmissionAccumulator += deltaSeconds * WeatherRainParticlesPerSecond * rainIntensity;
 
         while (m_rainEmissionAccumulator >= 1.0f)
         {

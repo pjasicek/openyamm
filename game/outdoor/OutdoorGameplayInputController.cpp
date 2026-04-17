@@ -3347,15 +3347,22 @@ void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view
 
     if (pKeyboardState[SDL_SCANCODE_F5])
     {
-        if (!view.m_debugDialogueLatch)
+        if (!view.m_toggleRainLatch)
         {
-            OutdoorInteractionController::openDebugNpcDialogue(view, 31);
-            view.m_debugDialogueLatch = true;
+            if (view.m_pOutdoorWorldRuntime != nullptr)
+            {
+                view.m_pOutdoorWorldRuntime->cycleRainIntensityPreset();
+                view.showStatusBarEvent(
+                    std::string("Rain: ") + view.m_pOutdoorWorldRuntime->rainIntensityPresetName(),
+                    2.0f);
+            }
+
+            view.m_toggleRainLatch = true;
         }
     }
     else
     {
-        view.m_debugDialogueLatch = false;
+        view.m_toggleRainLatch = false;
     }
 
     if (pKeyboardState[SDL_SCANCODE_MINUS])

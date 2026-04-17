@@ -3654,7 +3654,7 @@ OutdoorGameView::OutdoorGameView()
     , m_toggleTextureFilteringLatch(false)
     , m_toggleInspectLatch(false)
     , m_triggerMeteorLatch(false)
-    , m_debugDialogueLatch(false)
+    , m_toggleRainLatch(false)
     , m_keyboardUseLatch(false)
     , m_activateInspectLatch(false)
     , m_inspectMouseActivateLatch(false)
@@ -5399,7 +5399,7 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
             0,
             5,
             0x0f,
-            "Modes: 1 filled=%s  2 wire=%s  3 bmodels=%s  4 bmwire=%s  5 coll=%s  6 actorcoll=%s  7 actors=%s  8 objs=%s  9 ents=%s  0 spawns=%s  -=inspect=%s  F2 debug=%s  F3 decor=%s  F4 hud=%s  F5 ston  F7 filter=%s  textured=%s/%s",
+            "Modes: 1 filled=%s  2 wire=%s  3 bmodels=%s  4 bmwire=%s  5 coll=%s  6 actorcoll=%s  7 actors=%s  8 objs=%s  9 ents=%s  0 spawns=%s  -=inspect=%s  F2 debug=%s  F3 decor=%s  F4 hud=%s  F5 rain  F7 filter=%s  textured=%s/%s",
             m_showFilledTerrain ? "on" : "off",
             m_showTerrainWireframe ? "on" : "off",
             m_showBModels ? "on" : "off",

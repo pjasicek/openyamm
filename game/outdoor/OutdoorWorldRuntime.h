@@ -43,6 +43,7 @@ public:
         bool redFog = false;
         bool isNight = false;
         float fogDensity = 0.0f;
+        float rainIntensity = 0.0f;
         float ambientBrightness = 0.69f;
         float visibilityDistance = 200000.0f;
         float darknessOverlayAlpha = 0.0f;
@@ -102,6 +103,15 @@ public:
         Enslaved,
         ControlUndead,
         Reanimated,
+    };
+
+    enum class RainIntensityPreset : uint8_t
+    {
+        Off = 0,
+        Light = 1,
+        Medium = 2,
+        Heavy = 3,
+        VeryHeavy = 4,
     };
 
     struct SpellCastRequest;
@@ -501,6 +511,8 @@ public:
         std::vector<ProjectileImpactState> projectileImpacts;
         std::vector<FireSpikeTrapState> fireSpikeTraps;
         ArmageddonState armageddon = {};
+        bool hasRainIntensityOverride = false;
+        RainIntensityPreset rainIntensityPreset = RainIntensityPreset::Off;
     };
 
     void initialize(
@@ -538,6 +550,9 @@ public:
     void setCurrentLocationReputation(int reputation);
     const OutdoorMapData *mapData() const;
     const AtmosphereState &atmosphereState() const;
+    RainIntensityPreset cycleRainIntensityPreset();
+    RainIntensityPreset rainIntensityPreset() const;
+    const char *rainIntensityPresetName() const;
     void advanceGameMinutes(float minutes);
     void updateMapActors(float deltaSeconds, float partyX, float partyY, float partyZ);
 
@@ -979,6 +994,8 @@ private:
     float m_gameplayOverlayDurationSeconds = 0.0f;
     float m_gameplayOverlayPeakAlpha = 0.0f;
     uint32_t m_gameplayOverlayColorAbgr = 0x00000000u;
+    bool m_hasRainIntensityOverride = false;
+    RainIntensityPreset m_rainIntensityPreset = RainIntensityPreset::Off;
     std::vector<ProjectileState> m_projectiles;
     std::vector<ProjectileImpactState> m_projectileImpacts;
     std::vector<FireSpikeTrapState> m_fireSpikeTraps;
