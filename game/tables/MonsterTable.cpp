@@ -376,7 +376,7 @@ bool MonsterTable::loadFromBytes(const std::vector<uint8_t> &bytes)
     }
 
     m_entries.clear();
-    m_entries.reserve(entryCount);
+    m_entries.resize(static_cast<size_t>(entryCount) + 1);
 
     for (uint32_t index = 0; index < entryCount; ++index)
     {
@@ -403,7 +403,8 @@ bool MonsterTable::loadFromBytes(const std::vector<uint8_t> &bytes)
             entry.spriteNames[spriteIndex] = reader.readFixedString(offset + 0x54 + spriteIndex * 10, 10);
         }
 
-        m_entries.push_back(std::move(entry));
+        const size_t monsterId = static_cast<size_t>(index) + 1;
+        m_entries[monsterId] = std::move(entry);
     }
 
     return !m_entries.empty();
@@ -424,7 +425,7 @@ bool MonsterTable::loadEntriesFromRows(const std::vector<std::vector<std::string
     static constexpr size_t ColumnAwareSoundId = 10;
     static constexpr size_t ColumnSpriteStanding = 11;
 
-    m_entries.clear();
+    size_t maxId = 0;
 
     for (const std::vector<std::string> &row : rows)
     {
@@ -433,6 +434,20 @@ bool MonsterTable::loadEntriesFromRows(const std::vector<std::vector<std::string
             continue;
         }
 
+        maxId = std::max(maxId, static_cast<size_t>(std::stoul(trimCopy(row[ColumnId]))));
+    }
+
+    m_entries.clear();
+    m_entries.resize(maxId + 1);
+
+    for (const std::vector<std::string> &row : rows)
+    {
+        if (row.size() <= ColumnInternalName || !isNumericString(trimCopy(row[ColumnId])))
+        {
+            continue;
+        }
+
+        const size_t id = static_cast<size_t>(std::stoul(trimCopy(row[ColumnId])));
         MonsterEntry entry = {};
         entry.internalName = trimCopy(row[ColumnInternalName]);
 
@@ -477,7 +492,10 @@ bool MonsterTable::loadEntriesFromRows(const std::vector<std::vector<std::string
             }
         }
 
-        m_entries.push_back(std::move(entry));
+        if (id < m_entries.size())
+        {
+            m_entries[id] = std::move(entry);
+        }
     }
 
     return !m_entries.empty();
