@@ -60,7 +60,9 @@ void OutdoorMovementDriver::initialize(float x, float y, float footZHint)
     m_lastConsequences = {};
     m_pendingEffects = {};
     m_jumpHeld = false;
+    m_flyUpHeld = false;
     m_pendingJumpPress = false;
+    m_flyingAvailable = false;
     m_movementAccumulatorSeconds = 0.0f;
     m_startedFallingEventSeconds = 0.0f;
     m_landedEventSeconds = 0.0f;
@@ -90,6 +92,7 @@ void OutdoorMovementDriver::restoreState(
     m_lastConsequences = {};
     m_pendingEffects = {};
     m_jumpHeld = false;
+    m_flyUpHeld = false;
     m_pendingJumpPress = false;
     m_movementAccumulatorSeconds = 0.0f;
     m_startedFallingEventSeconds = 0.0f;
@@ -114,26 +117,49 @@ void OutdoorMovementDriver::update(const OutdoorMovementInput &input, float delt
     const bool jumpPressed = input.jump && !m_jumpHeld;
     m_jumpHeld = input.jump;
     m_pendingJumpPress = m_pendingJumpPress || jumpPressed;
+    const bool flyUpPressed = input.flyUp && !m_flyUpHeld;
+    m_flyUpHeld = input.flyUp;
+
+    if (!m_flyingAvailable)
+    {
+        m_partyMovementState.flying = false;
+    }
+    else if (!m_partyMovementState.flying && flyUpPressed)
+    {
+        m_partyMovementState.flying = true;
+        m_state.verticalVelocity = 0.0f;
+        m_state.fallStartZ = m_state.footZ;
+        m_state.fallDistance = 0.0f;
+    }
+
     const float cosYaw = std::cos(input.yawRadians);
     const float sinYaw = std::sin(input.yawRadians);
+    const float cosPitch = std::cos(input.pitchRadians);
+    const float sinPitch = std::sin(input.pitchRadians);
     const float speedMultiplier = std::max(m_speedMultiplier, 0.0f);
     const bx::Vec3 forward = {cosYaw, sinYaw, 0.0f};
+    const bx::Vec3 forwardFlying = {cosYaw * cosPitch, sinYaw * cosPitch, sinPitch};
     const bx::Vec3 right = {sinYaw, -cosYaw, 0.0f};
     float moveVelocityX = 0.0f;
     float moveVelocityY = 0.0f;
+    float moveVelocityZ = 0.0f;
 
     if (input.turbo)
     {
         if (input.forward)
         {
-            moveVelocityX += forward.x * m_tuning.turboMoveSpeed * speedMultiplier;
-            moveVelocityY += forward.y * m_tuning.turboMoveSpeed * speedMultiplier;
+            const bx::Vec3 &forwardVector = m_partyMovementState.flying ? forwardFlying : forward;
+            moveVelocityX += forwardVector.x * m_tuning.turboMoveSpeed * speedMultiplier;
+            moveVelocityY += forwardVector.y * m_tuning.turboMoveSpeed * speedMultiplier;
+            moveVelocityZ += forwardVector.z * m_tuning.turboMoveSpeed * speedMultiplier;
         }
 
         if (input.backward)
         {
-            moveVelocityX -= forward.x * m_tuning.turboMoveSpeed * speedMultiplier;
-            moveVelocityY -= forward.y * m_tuning.turboMoveSpeed * speedMultiplier;
+            const bx::Vec3 &forwardVector = m_partyMovementState.flying ? forwardFlying : forward;
+            moveVelocityX -= forwardVector.x * m_tuning.turboMoveSpeed * speedMultiplier;
+            moveVelocityY -= forwardVector.y * m_tuning.turboMoveSpeed * speedMultiplier;
+            moveVelocityZ -= forwardVector.z * m_tuning.turboMoveSpeed * speedMultiplier;
         }
 
         if (input.left)
@@ -166,14 +192,18 @@ void OutdoorMovementDriver::update(const OutdoorMovementInput &input, float delt
 
         if (input.forward)
         {
-            moveVelocityX += forward.x * m_tuning.walkSpeed * forwardSpeedMultiplier * speedMultiplier;
-            moveVelocityY += forward.y * m_tuning.walkSpeed * forwardSpeedMultiplier * speedMultiplier;
+            const bx::Vec3 &forwardVector = m_partyMovementState.flying ? forwardFlying : forward;
+            moveVelocityX += forwardVector.x * m_tuning.walkSpeed * forwardSpeedMultiplier * speedMultiplier;
+            moveVelocityY += forwardVector.y * m_tuning.walkSpeed * forwardSpeedMultiplier * speedMultiplier;
+            moveVelocityZ += forwardVector.z * m_tuning.walkSpeed * forwardSpeedMultiplier * speedMultiplier;
         }
 
         if (input.backward)
         {
-            moveVelocityX -= forward.x * m_tuning.walkSpeed * m_tuning.backwardWalkMultiplier * speedMultiplier;
-            moveVelocityY -= forward.y * m_tuning.walkSpeed * m_tuning.backwardWalkMultiplier * speedMultiplier;
+            const bx::Vec3 &forwardVector = m_partyMovementState.flying ? forwardFlying : forward;
+            moveVelocityX -= forwardVector.x * m_tuning.walkSpeed * m_tuning.backwardWalkMultiplier * speedMultiplier;
+            moveVelocityY -= forwardVector.y * m_tuning.walkSpeed * m_tuning.backwardWalkMultiplier * speedMultiplier;
+            moveVelocityZ -= forwardVector.z * m_tuning.walkSpeed * m_tuning.backwardWalkMultiplier * speedMultiplier;
         }
     }
 
@@ -203,12 +233,15 @@ void OutdoorMovementDriver::update(const OutdoorMovementInput &input, float delt
             m_state,
             moveVelocityX,
             moveVelocityY,
+            moveVelocityZ,
             jumpRequestedThisStep,
+            input.flyUp,
             input.flyDown,
             m_partyMovementState.flying,
             m_partyMovementState.waterWalk,
             m_tuning.jumpVelocity * speedMultiplier,
             m_tuning.flyVerticalSpeed * speedMultiplier,
+            m_tuning.maxFlightHeight,
             OutdoorMovementStepSeconds,
             &contactedActorIndices
         );
@@ -354,6 +387,11 @@ void OutdoorMovementDriver::update(const OutdoorMovementInput &input, float delt
     m_lastConsequences.playSplashSound = m_splashSoundConsequenceSeconds > 0.0f;
     m_lastConsequences.playLandingSound = m_landingSoundConsequenceSeconds > 0.0f;
     m_lastConsequences.playHardLandingSound = m_hardLandingSoundConsequenceSeconds > 0.0f;
+
+    if (m_lastEvents.landed)
+    {
+        m_partyMovementState.flying = false;
+    }
 }
 
 const OutdoorMoveState &OutdoorMovementDriver::state() const
@@ -400,6 +438,11 @@ void OutdoorMovementDriver::toggleRunning()
 
 void OutdoorMovementDriver::toggleFlying()
 {
+    if (!m_flyingAvailable)
+    {
+        return;
+    }
+
     m_partyMovementState.flying = !m_partyMovementState.flying;
 
     if (m_partyMovementState.flying)
@@ -435,6 +478,16 @@ void OutdoorMovementDriver::setFlying(bool active)
         m_state.verticalVelocity = 0.0f;
         m_state.fallStartZ = m_state.footZ;
         m_state.fallDistance = 0.0f;
+    }
+}
+
+void OutdoorMovementDriver::setFlyingAvailable(bool active)
+{
+    m_flyingAvailable = active;
+
+    if (!m_flyingAvailable)
+    {
+        m_partyMovementState.flying = false;
     }
 }
 

@@ -2,6 +2,7 @@
 
 #include "game/tables/CharacterDollTable.h"
 #include "game/gameplay/GameMechanics.h"
+#include "game/app/KeyboardBindings.h"
 #include "game/items/InventoryItemUseRuntime.h"
 #include "game/outdoor/OutdoorGameView.h"
 #include "game/outdoor/OutdoorPartyRuntime.h"
@@ -230,13 +231,8 @@ size_t maxLloydBeaconSlots(const Character *pCharacter)
     }
 }
 
-uint32_t utilityQBitVariableId(uint32_t qbitId)
-{
-    return (qbitId << 16) | static_cast<uint32_t>(EvtVariable::QBits);
-}
-
 bool isTownPortalDestinationUnlocked(
-    const EventRuntimeState *pEventRuntimeState,
+    const Party *pParty,
     const OutdoorGameView::TownPortalDestination &destination)
 {
     if (destination.unlockQBitId == 0)
@@ -244,13 +240,12 @@ bool isTownPortalDestinationUnlocked(
         return true;
     }
 
-    if (pEventRuntimeState == nullptr)
+    if (pParty == nullptr)
     {
         return false;
     }
 
-    const auto it = pEventRuntimeState->variables.find(utilityQBitVariableId(destination.unlockQBitId));
-    return it != pEventRuntimeState->variables.end() && it->second != 0;
+    return pParty->hasQuestBit(destination.unlockQBitId);
 }
 
 std::optional<std::pair<int, int>> computeHeldInventoryPlacement(
@@ -655,8 +650,7 @@ void GameplayPartyOverlayInputController::handleUtilitySpellOverlayInput(
 
     if (view.m_utilitySpellOverlay.mode == OutdoorGameView::UtilitySpellOverlayMode::TownPortal)
     {
-        const EventRuntimeState *pEventRuntimeState =
-            view.m_pOutdoorWorldRuntime != nullptr ? view.m_pOutdoorWorldRuntime->eventRuntimeState() : nullptr;
+        const Party *pParty = view.m_pOutdoorPartyRuntime != nullptr ? &view.m_pOutdoorPartyRuntime->party() : nullptr;
         const auto findDestinationIndexByLayoutId =
             [&view](const std::string &layoutId) -> std::optional<size_t>
             {
@@ -673,7 +667,7 @@ void GameplayPartyOverlayInputController::handleUtilitySpellOverlayInput(
                 return std::nullopt;
             };
         const auto findTownPortalTarget =
-            [&view, screenWidth, screenHeight, pEventRuntimeState, &findDestinationIndexByLayoutId](
+            [&view, screenWidth, screenHeight, pParty, &findDestinationIndexByLayoutId](
                 float pointerX,
                 float pointerY) -> OutdoorGameView::UtilitySpellPointerTarget
             {
@@ -714,7 +708,7 @@ void GameplayPartyOverlayInputController::handleUtilitySpellOverlayInput(
 
                     const OutdoorGameView::TownPortalDestination &destination = view.m_townPortalDestinations[*destinationIndex];
 
-                    if (!isTownPortalDestinationUnlocked(pEventRuntimeState, destination))
+                    if (!isTownPortalDestinationUnlocked(pParty, destination))
                     {
                         continue;
                     }
@@ -1567,9 +1561,18 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
         return;
     }
 
-    if (pKeyboardState[SDL_SCANCODE_TAB])
+    const SDL_Scancode charCycleScancode = view.m_gameSettings.keyboard.binding(KeyboardAction::CharCycle);
+    const bool charCyclePressed =
+        pKeyboardState != nullptr
+        && charCycleScancode > SDL_SCANCODE_UNKNOWN
+        && charCycleScancode < SDL_SCANCODE_COUNT
+        && pKeyboardState[charCycleScancode];
+    const bool charCycleNewlyPressed =
+        charCyclePressed && view.m_previousKeyboardState[charCycleScancode] == 0;
+
+    if (charCycleNewlyPressed)
     {
-        if (!view.m_characterMemberCycleLatch && view.m_pOutdoorPartyRuntime != nullptr)
+        if (view.m_pOutdoorPartyRuntime != nullptr)
         {
             const std::vector<Character> &members = view.m_pOutdoorPartyRuntime->party().members();
 

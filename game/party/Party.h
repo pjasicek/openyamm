@@ -280,6 +280,7 @@ public:
         uint32_t arcomageWinCount = 0;
         uint32_t arcomageLossCount = 0;
         std::vector<HouseStockState> houseStockStates;
+        std::unordered_set<uint32_t> questBits;
         std::unordered_map<uint16_t, int32_t> eventVariables;
     };
 
@@ -332,6 +333,8 @@ public:
     void requestSound(SoundId soundId);
     void requestDamageImpactSoundForMember(size_t memberIndex);
     void requestSpeech(size_t memberIndex, SpeechId speechId);
+    bool hasQuestBit(uint32_t questBitId) const;
+    void setQuestBit(uint32_t questBitId, bool value);
     bool tryGrantItem(uint32_t objectDescriptionId, uint32_t quantity = 1);
     bool tryGrantInventoryItem(const InventoryItem &item, size_t *pRecipientMemberIndex = nullptr);
     void grantItem(uint32_t objectDescriptionId, uint32_t quantity = 1);
@@ -553,6 +556,7 @@ private:
     std::string m_lastStatus;
     std::unordered_set<uint32_t> m_foundArtifactItems;
     std::unordered_set<uint32_t> m_arcomageWonHouseIds;
+    std::unordered_set<uint32_t> m_questBits;
     uint32_t m_arcomageWinCount = 0;
     uint32_t m_arcomageLossCount = 0;
     bool m_debugDamageImmune = false;

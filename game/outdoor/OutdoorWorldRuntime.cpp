@@ -11196,6 +11196,11 @@ std::optional<EventRuntimeState::PendingMapMove> OutdoorWorldRuntime::consumePen
     return result;
 }
 
+const Party *OutdoorWorldRuntime::party() const
+{
+    return m_pParty;
+}
+
 EventRuntimeState *OutdoorWorldRuntime::eventRuntimeState()
 {
     if (!m_eventRuntimeState)

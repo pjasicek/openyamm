@@ -1678,6 +1678,7 @@ Party::Snapshot Party::snapshot() const
     snapshot.arcomageWonHouseIds = m_arcomageWonHouseIds;
     snapshot.arcomageWinCount = m_arcomageWinCount;
     snapshot.arcomageLossCount = m_arcomageLossCount;
+    snapshot.questBits = m_questBits;
     snapshot.eventVariables = m_eventVariables;
 
     for (const auto &[houseId, state] : m_houseStockStates)
@@ -1711,6 +1712,7 @@ void Party::restoreSnapshot(const Snapshot &snapshot)
     m_arcomageWonHouseIds = snapshot.arcomageWonHouseIds;
     m_arcomageWinCount = snapshot.arcomageWinCount;
     m_arcomageLossCount = snapshot.arcomageLossCount;
+    m_questBits = snapshot.questBits;
     m_eventVariables = snapshot.eventVariables;
     m_houseStockStates.clear();
 
@@ -1759,6 +1761,7 @@ void Party::seed(const PartySeed &seed)
     m_monsterTargetSelectionCounter = 0;
     m_houseStockSeed = generateHouseStockSeed();
     m_foundArtifactItems.clear();
+    m_questBits.clear();
     m_eventVariables.clear();
     m_houseStockStates.clear();
 
@@ -2889,6 +2892,28 @@ bool Party::hasRosterMember(uint32_t rosterId) const
     }
 
     return false;
+}
+
+bool Party::hasQuestBit(uint32_t questBitId) const
+{
+    return questBitId != 0 && m_questBits.contains(questBitId);
+}
+
+void Party::setQuestBit(uint32_t questBitId, bool value)
+{
+    if (questBitId == 0)
+    {
+        return;
+    }
+
+    if (value)
+    {
+        m_questBits.insert(questBitId);
+    }
+    else
+    {
+        m_questBits.erase(questBitId);
+    }
 }
 
 bool Party::hasAward(uint32_t awardId) const

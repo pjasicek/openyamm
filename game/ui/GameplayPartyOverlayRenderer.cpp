@@ -496,13 +496,8 @@ bool utilityOverlayPointInsideRect(float x, float y, float rectX, float rectY, f
     return x >= rectX && x < rectX + rectWidth && y >= rectY && y < rectY + rectHeight;
 }
 
-uint32_t utilityOverlayQBitVariableId(uint32_t qbitId)
-{
-    return (qbitId << 16) | static_cast<uint32_t>(EvtVariable::QBits);
-}
-
 bool isUtilityTownPortalDestinationUnlocked(
-    const EventRuntimeState *pEventRuntimeState,
+    const Party *pParty,
     const OutdoorGameView::TownPortalDestination &destination)
 {
     if (destination.unlockQBitId == 0)
@@ -510,13 +505,12 @@ bool isUtilityTownPortalDestinationUnlocked(
         return true;
     }
 
-    if (pEventRuntimeState == nullptr)
+    if (pParty == nullptr)
     {
         return false;
     }
 
-    const auto it = pEventRuntimeState->variables.find(utilityOverlayQBitVariableId(destination.unlockQBitId));
-    return it != pEventRuntimeState->variables.end() && it->second != 0;
+    return pParty->hasQuestBit(destination.unlockQBitId);
 }
 
 size_t utilityOverlayMaxLloydBeaconSlots(const Character *pCharacter)
@@ -2261,11 +2255,6 @@ void GameplayPartyOverlayRenderer::renderKeyboardOverlay(const OutdoorGameView &
         return;
     }
 
-    const OutdoorGameView::HudTextureHandle *pHighlightTexture =
-        HudUiService::ensureSolidHudTextureLoaded(
-            const_cast<OutdoorGameView &>(view),
-            "__keyboard_binding_highlight__",
-            0x40885622u);
     const float rootScale = keyboardLayout->rootScale;
     const float fontScale = 1.0f * rootScale;
     const float lineHeight = static_cast<float>(pFont->fontHeight) * fontScale;
@@ -2283,16 +2272,6 @@ void GameplayPartyOverlayRenderer::renderKeyboardOverlay(const OutdoorGameView &
         const bool highlighted =
             view.m_keyboardScreen.waitingForBinding
             && view.m_keyboardScreen.pendingAction == definition.action;
-
-        if (highlighted && pHighlightTexture != nullptr)
-        {
-            view.submitHudTexturedQuad(
-                *pHighlightTexture,
-                labelX,
-                rowY,
-                keyboardLayout->rowWidth(definition.column),
-                std::max(1.0f, keyboardLayout->rowHeight - rootScale));
-        }
 
         const uint32_t labelColor = definition.implemented ? 0xffffffffu : 0xffc8c8c8u;
         const uint32_t valueColor = highlighted ? 0xff9bffffu : 0xffffffffu;
@@ -2322,17 +2301,6 @@ void GameplayPartyOverlayRenderer::renderKeyboardOverlay(const OutdoorGameView &
             fontScale);
     }
 
-    const std::string footerText = view.m_keyboardScreen.waitingForBinding
-        ? "Press a key for " + std::string(keyboardBindingDefinition(view.m_keyboardScreen.pendingAction).label)
-        : "Click a setting to change its key.";
-    renderHudLines(
-        view,
-        *pFont,
-        0xffffe4a0u,
-        std::vector<std::string>{footerText},
-        keyboardLayout->footerX,
-        keyboardLayout->footerY,
-        1.0f * rootScale);
 }
 
 void GameplayPartyOverlayRenderer::renderVideoOptionsOverlay(const OutdoorGameView &view, int width, int height)
@@ -3687,6 +3655,7 @@ void GameplayPartyOverlayRenderer::renderUtilitySpellOverlay(const OutdoorGameVi
 
     if (view.m_utilitySpellOverlay.mode == OutdoorGameView::UtilitySpellOverlayMode::TownPortal)
     {
+        const Party *pParty = view.m_pOutdoorPartyRuntime != nullptr ? &view.m_pOutdoorPartyRuntime->party() : nullptr;
         const std::vector<std::string> orderedLayoutIds = HudUiService::sortedHudLayoutIdsForScreen(view, "TownPortal");
         const auto findDestinationByLayoutId =
             [&view](const std::string &layoutId) -> const OutdoorGameView::TownPortalDestination *
@@ -3727,7 +3696,7 @@ void GameplayPartyOverlayRenderer::renderUtilitySpellOverlay(const OutdoorGameVi
 
             const OutdoorGameView::TownPortalDestination *pDestination = findDestinationByLayoutId(layoutId);
 
-            if (pDestination != nullptr && !isUtilityTownPortalDestinationUnlocked(pEventRuntimeState, *pDestination))
+            if (pDestination != nullptr && !isUtilityTownPortalDestinationUnlocked(pParty, *pDestination))
             {
                 continue;
             }

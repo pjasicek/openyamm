@@ -48,11 +48,6 @@ constexpr const char *PartyDefeatCutsceneStem = "LoseGame";
 constexpr std::array<uint32_t, 3> Level1ReagentItemIds = {{200, 205, 210}};
 constexpr uint32_t MaxQuestBitId = 512;
 
-uint32_t qBitVariableId(uint32_t qbitId)
-{
-    return (qbitId << 16) | static_cast<uint32_t>(EvtVariable::QBits);
-}
-
 int remapLoadingProgress(int localProgress, int startProgress, int endProgress)
 {
     const int clampedLocal = std::clamp(localProgress, 0, 100);
@@ -568,11 +563,13 @@ void GameApplication::applyStartupDebugSettingsToActiveRuntime()
         m_pOutdoorPartyRuntime->teleportTo(m_settings.startX, m_settings.startY, m_settings.startZ);
     }
 
-    if (EventRuntimeState *pEventRuntimeState = m_gameplayController.eventRuntimeState())
+    if (m_pOutdoorPartyRuntime != nullptr)
     {
+        Party &party = m_pOutdoorPartyRuntime->party();
+
         for (uint32_t qbitId = 1; qbitId <= MaxQuestBitId; ++qbitId)
         {
-            pEventRuntimeState->variables[qBitVariableId(qbitId)] = 1;
+            party.setQuestBit(qbitId, true);
         }
     }
 }

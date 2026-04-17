@@ -1483,12 +1483,15 @@ OutdoorMoveState OutdoorMovementController::resolveMove(
     const OutdoorMoveState &state,
     float desiredVelocityX,
     float desiredVelocityY,
+    float desiredVelocityZ,
     bool jumpRequested,
+    bool flyUpRequested,
     bool flyDownRequested,
     bool flyingActive,
     bool waterWalkActive,
     float jumpVelocity,
     float flyVerticalSpeed,
+    float maxFlightHeight,
     float deltaSeconds,
     std::vector<size_t> *pContactedActorIndices
 ) const
@@ -1498,12 +1501,15 @@ OutdoorMoveState OutdoorMovementController::resolveMove(
         OutdoorBodyDimensions{DefaultBodyRadius, DefaultBodyHeight},
         desiredVelocityX,
         desiredVelocityY,
+        desiredVelocityZ,
         jumpRequested,
+        flyUpRequested,
         flyDownRequested,
         flyingActive,
         waterWalkActive,
         jumpVelocity,
         flyVerticalSpeed,
+        maxFlightHeight,
         deltaSeconds,
         pContactedActorIndices);
 }
@@ -1513,12 +1519,15 @@ OutdoorMoveState OutdoorMovementController::resolveMoveForBody(
     const OutdoorBodyDimensions &body,
     float desiredVelocityX,
     float desiredVelocityY,
+    float desiredVelocityZ,
     bool jumpRequested,
+    bool flyUpRequested,
     bool flyDownRequested,
     bool flyingActive,
     bool waterWalkActive,
     float jumpVelocity,
     float flyVerticalSpeed,
+    float maxFlightHeight,
     float deltaSeconds,
     std::vector<size_t> *pContactedActorIndices,
     const std::optional<OutdoorIgnoredActorCollider> &ignoredActorCollider
@@ -1571,17 +1580,15 @@ OutdoorMoveState OutdoorMovementController::resolveMoveForBody(
 
     if (flyingActive)
     {
-        if (jumpRequested)
+        partyInputSpeed.z = desiredVelocityZ;
+
+        if (flyUpRequested && !flyDownRequested)
         {
-            partyInputSpeed.z = flyVerticalSpeed;
+            partyInputSpeed.z += flyVerticalSpeed;
         }
-        else if (flyDownRequested)
+        else if (flyDownRequested && !flyUpRequested)
         {
-            partyInputSpeed.z = -flyVerticalSpeed;
-        }
-        else
-        {
-            partyInputSpeed.z = 0.0f;
+            partyInputSpeed.z -= flyVerticalSpeed;
         }
     }
     else if ((!partyAtHighSlope || currentFloor.fromBModel) &&
@@ -2007,6 +2014,16 @@ OutdoorMoveState OutdoorMovementController::resolveMoveForBody(
         fallDistance = std::max(0.0f, fallStartZ - finalGroundLevel);
         partyNewPosition.z = finalGroundLevel;
         partyInputSpeed.z = 0.0f;
+    }
+
+    if (flyingActive && partyNewPosition.z > maxFlightHeight)
+    {
+        partyNewPosition.z = maxFlightHeight;
+
+        if (partyInputSpeed.z > 0.0f)
+        {
+            partyInputSpeed.z = 0.0f;
+        }
     }
 
     OutdoorMoveState result = {};

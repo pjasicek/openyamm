@@ -186,6 +186,17 @@ void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view
         {
             return view.m_gameSettings.keyboard.isPressed(action, pKeyboardState);
         };
+    const auto isActionNewlyPressed =
+        [&view, pKeyboardState](KeyboardAction action) -> bool
+        {
+            const SDL_Scancode scancode = view.m_gameSettings.keyboard.binding(action);
+
+            return pKeyboardState != nullptr
+                && scancode > SDL_SCANCODE_UNKNOWN
+                && scancode < SDL_SCANCODE_COUNT
+                && pKeyboardState[scancode]
+                && view.m_previousKeyboardState[scancode] == 0;
+        };
 
     const bool hasActiveLootView =
         view.m_pOutdoorWorldRuntime != nullptr
@@ -830,9 +841,9 @@ void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view
         && !view.m_restScreen.active
         && !view.m_journalScreen.active)
     {
-        if (isActionPressed(KeyboardAction::CharCycle))
+        if (isActionNewlyPressed(KeyboardAction::CharCycle))
         {
-            if (!view.m_characterMemberCycleLatch && view.m_pOutdoorPartyRuntime != nullptr)
+            if (view.m_pOutdoorPartyRuntime != nullptr)
             {
                 Party &party = view.m_pOutdoorPartyRuntime->party();
 
@@ -3038,10 +3049,12 @@ void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view
                     moveBackwardPressed,
                     strafeLeftPressed,
                     strafeRightPressed,
-                    jumpPressed || flyUpPressed,
+                    jumpPressed,
+                    flyUpPressed,
                     (pKeyboardState[SDL_SCANCODE_LCTRL] || pKeyboardState[SDL_SCANCODE_RCTRL]) || flyDownPressed,
                     turboSpeed,
-                    view.m_cameraYawRadians
+                    view.m_cameraYawRadians,
+                    view.m_cameraPitchRadians
                 };
                 if (view.m_pOutdoorSceneRuntime != nullptr)
                 {

@@ -14,9 +14,11 @@ struct OutdoorMovementInput
     bool left = false;
     bool right = false;
     bool jump = false;
+    bool flyUp = false;
     bool flyDown = false;
     bool turbo = false;
     float yawRadians = 0.0f;
+    float pitchRadians = 0.0f;
 };
 
 struct OutdoorPartyMovementState
@@ -57,6 +59,7 @@ struct OutdoorMovementTuning
     float turboMoveSpeed = 4000.0f;
     float jumpVelocity = 480.0f;
     float flyVerticalSpeed = 900.0f;
+    float maxFlightHeight = 4000.0f;
 };
 
 struct OutdoorMovementEvents
@@ -108,6 +111,7 @@ public:
     void toggleWaterWalk();
     void toggleFeatherFall();
     void setFlying(bool active);
+    void setFlyingAvailable(bool active);
     void setRunning(bool active);
     void setWaterWalkActive(bool active);
     void setFeatherFallActive(bool active);
@@ -123,7 +127,9 @@ private:
     OutdoorMovementConsequences m_lastConsequences;
     OutdoorMovementEffects m_pendingEffects;
     bool m_jumpHeld = false;
+    bool m_flyUpHeld = false;
     bool m_pendingJumpPress = false;
+    bool m_flyingAvailable = false;
     float m_movementAccumulatorSeconds = 0.0f;
     float m_startedFallingEventSeconds = 0.0f;
     float m_landedEventSeconds = 0.0f;

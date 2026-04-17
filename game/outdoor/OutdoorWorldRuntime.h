@@ -651,6 +651,7 @@ public:
     const EventRuntimeState::PendingMapMove *pendingMapMove() const;
     std::optional<EventRuntimeState::PendingMapMove> consumePendingMapMove();
 
+    const Party *party() const;
     EventRuntimeState *eventRuntimeState();
     const EventRuntimeState *eventRuntimeState() const;
     bool castEventSpell(

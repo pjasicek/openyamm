@@ -1,7 +1,6 @@
 #include "game/party/PartySpellSystem.h"
 
 #include "game/gameplay/GameMechanics.h"
-#include "game/events/EvtEnums.h"
 #include "game/items/ItemEnchantRuntime.h"
 #include "game/items/ItemEnchantTables.h"
 #include "game/outdoor/OutdoorPartyRuntime.h"
@@ -32,22 +31,6 @@ uint32_t makeAbgr(uint8_t red, uint8_t green, uint8_t blue)
         | (static_cast<uint32_t>(blue) << 16)
         | (static_cast<uint32_t>(green) << 8)
         | static_cast<uint32_t>(red);
-}
-
-uint32_t qBitVariableId(uint32_t qbitId)
-{
-    return (qbitId << 16) | static_cast<uint32_t>(EvtVariable::QBits);
-}
-
-bool isQuestBitSet(const EventRuntimeState *pEventRuntimeState, uint32_t qbitId)
-{
-    if (pEventRuntimeState == nullptr || qbitId == 0)
-    {
-        return false;
-    }
-
-    const auto it = pEventRuntimeState->variables.find(qBitVariableId(qbitId));
-    return it != pEventRuntimeState->variables.end() && it->second != 0;
 }
 
 const ItemDefinition *resolveTargetItemDefinition(

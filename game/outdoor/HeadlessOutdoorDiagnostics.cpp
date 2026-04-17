@@ -7688,12 +7688,15 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
                 state,
                 768.0f,
                 0.0f,
+                0.0f,
+                false,
                 false,
                 false,
                 false,
                 false,
                 0.0f,
                 0.0f,
+                4000.0f,
                 0.5f,
                 &contactedActorIndices);
 
@@ -7773,12 +7776,15 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
                 state,
                 768.0f,
                 0.0f,
+                0.0f,
+                false,
                 false,
                 false,
                 false,
                 false,
                 0.0f,
                 0.0f,
+                4000.0f,
                 0.5f,
                 &contactedActorIndices);
 
@@ -7829,12 +7835,15 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
                 state,
                 0.0f,
                 0.0f,
+                0.0f,
+                false,
                 false,
                 false,
                 false,
                 false,
                 0.0f,
                 0.0f,
+                4000.0f,
                 1.0f / 60.0f);
 
             const float deltaX = resolved.x - static_cast<float>(blocker.worldX);
@@ -7884,12 +7893,15 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
                 state,
                 384.0f,
                 0.0f,
+                0.0f,
+                false,
                 false,
                 false,
                 false,
                 false,
                 0.0f,
                 0.0f,
+                4000.0f,
                 1.0f / 60.0f,
                 &contactedActorIndices);
 
@@ -7929,12 +7941,15 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
                 state,
                 moveVelocityX,
                 moveVelocityY,
+                0.0f,
+                false,
                 false,
                 false,
                 false,
                 false,
                 512.0f,
                 0.0f,
+                4000.0f,
                 0.5f);
 
             if (resolved.supportOnWater)
@@ -7988,12 +8003,15 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
                 state,
                 moveVelocityX,
                 moveVelocityY,
+                0.0f,
+                false,
                 false,
                 false,
                 false,
                 false,
                 512.0f,
                 0.0f,
+                4000.0f,
                 0.5f);
 
             if (!isOutdoorPositionWaterForDiagnostics(
@@ -17908,7 +17926,9 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
                     false,
                     false,
                     false,
-                    yawRadians
+                    false,
+                    yawRadians,
+                    0.0f
                 };
 
                 const OutdoorSceneRuntime::AdvanceFrameResult frameAdvanceResult =
@@ -19094,6 +19114,8 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
                 false,
                 false,
                 false,
+                false,
+                0.0f,
                 0.0f
             };
 

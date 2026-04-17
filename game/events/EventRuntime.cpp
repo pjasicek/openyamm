@@ -1770,6 +1770,11 @@ int32_t EventRuntime::getVariableValue(
             return pParty->hasRosterMember(rosterId) ? 1 : 0;
         }
 
+        if (variable.kind == VariableKind::QBits && pParty != nullptr)
+        {
+            return pParty->hasQuestBit(variable.rawId) ? 1 : 0;
+        }
+
         const std::unordered_map<uint32_t, int32_t>::const_iterator iterator = runtimeState.variables.find(variable.rawId);
         return iterator != runtimeState.variables.end() ? iterator->second : 0;
     }
@@ -2426,7 +2431,16 @@ void EventRuntime::setVariableValue(
 
     if (variable.kind == VariableKind::QBits || variable.kind == VariableKind::BoolFlag)
     {
-        runtimeState.variables[variable.rawId] = value != 0 ? 1 : 0;
+        const int32_t normalizedValue = value != 0 ? 1 : 0;
+
+        if (variable.kind == VariableKind::QBits && pParty != nullptr)
+        {
+            pParty->setQuestBit(variable.rawId, normalizedValue != 0);
+        }
+        else
+        {
+            runtimeState.variables[variable.rawId] = normalizedValue;
+        }
 
         if (variable.kind == VariableKind::QBits && value != 0 && previousValue == 0)
         {
@@ -2844,7 +2858,16 @@ void EventRuntime::addVariableValue(
 
     if (variable.kind == VariableKind::QBits || variable.kind == VariableKind::BoolFlag)
     {
-        runtimeState.variables[variable.rawId] = value != 0 ? 1 : 0;
+        const int32_t normalizedValue = value != 0 ? 1 : 0;
+
+        if (variable.kind == VariableKind::QBits && pParty != nullptr)
+        {
+            pParty->setQuestBit(variable.rawId, normalizedValue != 0);
+        }
+        else
+        {
+            runtimeState.variables[variable.rawId] = normalizedValue;
+        }
 
         if (variable.kind == VariableKind::QBits && value != 0 && previousValue == 0)
         {
@@ -3202,7 +3225,15 @@ void EventRuntime::subtractVariableValue(
 
     if (variable.kind == VariableKind::QBits || variable.kind == VariableKind::BoolFlag)
     {
-        runtimeState.variables[variable.rawId] = 0;
+        if (variable.kind == VariableKind::QBits && pParty != nullptr)
+        {
+            pParty->setQuestBit(variable.rawId, false);
+        }
+        else
+        {
+            runtimeState.variables[variable.rawId] = 0;
+        }
+
         return;
     }
 

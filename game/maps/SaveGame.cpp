@@ -819,6 +819,7 @@ void writeValue(BinaryWriter &writer, const Party::Snapshot &value)
     writeValue(writer, value.arcomageWinCount);
     writeValue(writer, value.arcomageLossCount);
     writeValue(writer, value.houseStockStates);
+    writeValue(writer, value.questBits);
     writeValue(writer, value.eventVariables);
 }
 
@@ -845,6 +846,7 @@ bool readValue(BinaryReader &reader, Party::Snapshot &value)
         && readValue(reader, value.arcomageWinCount)
         && readValue(reader, value.arcomageLossCount)
         && readValue(reader, value.houseStockStates)
+        && readValue(reader, value.questBits)
         && readValue(reader, value.eventVariables);
 }
 

@@ -169,15 +169,8 @@ bool routeQBitSatisfied(
         return false;
     }
 
-    const EventRuntimeState *pEventRuntimeState = pOutdoorWorldRuntime->eventRuntimeState();
-
-    if (pEventRuntimeState == nullptr)
-    {
-        return false;
-    }
-
-    const auto it = pEventRuntimeState->variables.find(route.requiredQBit);
-    return it != pEventRuntimeState->variables.end() && it->second != 0;
+    const Party *pParty = pOutdoorWorldRuntime->party();
+    return pParty != nullptr && pParty->hasQuestBit(route.requiredQBit);
 }
 
 bool routeAvailableToday(const HouseEntry::TransportRoute &route, float currentGameMinutes)
