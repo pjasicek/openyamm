@@ -12,6 +12,7 @@
 #include "game/outdoor/OutdoorGeometryUtils.h"
 #include "game/outdoor/OutdoorMapData.h"
 #include "game/outdoor/OutdoorMovementController.h"
+#include "game/outdoor/OutdoorWeatherProfile.h"
 #include "game/party/Party.h"
 #include "game/tables/SpellTable.h"
 
@@ -39,6 +40,7 @@ public:
         int32_t weatherFlags = 0;
         int32_t fogWeakDistance = 0;
         int32_t fogStrongDistance = 0;
+        bool redFog = false;
         bool isNight = false;
         float fogDensity = 0.0f;
         float ambientBrightness = 0.69f;
@@ -514,6 +516,7 @@ public:
         const ChestTable *pChestTable,
         const std::optional<OutdoorMapData> &outdoorMapData,
         const std::optional<MapDeltaData> &outdoorMapDeltaData,
+        const std::optional<OutdoorWeatherProfile> &outdoorWeatherProfile,
         const std::optional<EventRuntimeState> &eventRuntimeState,
         const std::optional<ActorPreviewBillboardSet> &outdoorActorPreviewBillboardSet = std::nullopt,
         const std::optional<std::vector<uint8_t>> &outdoorLandMask = std::nullopt,
@@ -926,6 +929,7 @@ private:
     std::string m_mapName;
     float m_gameMinutes = 9.0f * 60.0f;
     AtmosphereState m_atmosphereState = {};
+    std::optional<OutdoorWeatherProfile> m_outdoorWeatherProfile;
     std::vector<TimerState> m_timers;
     std::vector<MapActorState> m_mapActors;
     std::vector<SpawnPointState> m_spawnPoints;
@@ -984,6 +988,11 @@ private:
 
     void updateGameplayScreenOverlay(float deltaSeconds);
     void advanceGameMinutesInternal(float minutes);
+    void applyInitialWeatherProfile();
+    void applyDailyWeatherRollover(int weatherDayIndex);
+    void applyFogDistances(const OutdoorFogDistances &distances, bool foggy);
+    void syncAtmosphereStateToMapDelta();
+    int weatherDayIndexForMinutes(float gameMinutes) const;
     void resetDailySpellCounters();
     void updateArmageddon(float deltaSeconds, float partyX, float partyY, float partyZ);
     void resolveArmageddonDetonation(float partyX, float partyY, float partyZ);

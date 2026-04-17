@@ -23,6 +23,22 @@ environment:
   fog:
     weak_distance: 0
     strong_distance: 0
+  weather:
+    fog_mode: "daily_random"
+    precipitation: "none"
+    daily_fog:
+      small_chance: 20
+      average_chance: 10
+      dense_chance: 5
+      small:
+        weak_distance: 4096
+        strong_distance: 8192
+      average:
+        weak_distance: 0
+        strong_distance: 4096
+      dense:
+        weak_distance: 0
+        strong_distance: 2048
   ceiling: 0
 terrain:
   attribute_overrides: []

@@ -1124,6 +1124,7 @@ void writeValue(BinaryWriter &writer, const EventRuntimeState &value)
     writeValue(writer, value.spriteOverrides);
     writeValue(writer, value.indoorLightsEnabled);
     writeValue(writer, value.snowEnabled);
+    writeValue(writer, value.rainEnabled);
     writeValue(writer, value.actorSetMasks);
     writeValue(writer, value.actorClearMasks);
     writeValue(writer, value.actorGroupSetMasks);
@@ -1178,6 +1179,7 @@ bool readValue(BinaryReader &reader, EventRuntimeState &value)
         && readValue(reader, value.spriteOverrides)
         && readValue(reader, value.indoorLightsEnabled)
         && readValue(reader, value.snowEnabled)
+        && readValue(reader, value.rainEnabled)
         && readValue(reader, value.actorSetMasks)
         && readValue(reader, value.actorClearMasks)
         && readValue(reader, value.actorGroupSetMasks)
@@ -1899,6 +1901,7 @@ void writeValue(BinaryWriter &writer, const OutdoorWorldRuntime::AtmosphereState
     writeValue(writer, value.weatherFlags);
     writeValue(writer, value.fogWeakDistance);
     writeValue(writer, value.fogStrongDistance);
+    writeValue(writer, value.redFog);
     writeValue(writer, value.isNight);
     writeValue(writer, value.fogDensity);
     writeValue(writer, value.ambientBrightness);
@@ -1918,6 +1921,7 @@ bool readValue(BinaryReader &reader, OutdoorWorldRuntime::AtmosphereState &value
         && readValue(reader, value.weatherFlags)
         && readValue(reader, value.fogWeakDistance)
         && readValue(reader, value.fogStrongDistance)
+        && readValue(reader, value.redFog)
         && readValue(reader, value.isNight)
         && readValue(reader, value.fogDensity)
         && readValue(reader, value.ambientBrightness)

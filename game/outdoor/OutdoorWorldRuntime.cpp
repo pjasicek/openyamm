@@ -103,6 +103,7 @@ constexpr float WorldItemGroundClearance = 1.0f;
 constexpr float WorldItemSupportFloorProbeHeight = 96.0f;
 constexpr int32_t MapWeatherFoggy = 1;
 constexpr int32_t MapWeatherSnowing = 2;
+constexpr int32_t MapWeatherRaining = 4;
 constexpr float DefaultOutdoorVisibilityDistance = 200000.0f;
 constexpr float ArmageddonDurationSeconds = 256.0f / TicksPerSecond;
 constexpr uint32_t ArmageddonShakeStepCount = 60;
@@ -852,6 +853,33 @@ OutdoorWorldRuntime::AtmosphereState buildAtmosphereSourceState(
     result.skyTextureName = result.sourceSkyTextureName;
 
     return result;
+}
+
+bool hasConfiguredFogState(const OutdoorWorldRuntime::AtmosphereState &atmosphereState)
+{
+    return (atmosphereState.weatherFlags & MapWeatherFoggy) != 0
+        || atmosphereState.fogWeakDistance != 0
+        || atmosphereState.fogStrongDistance != 0;
+}
+
+OutdoorFogDistances fallbackFogDistancesForProfile(const OutdoorWeatherProfile &profile)
+{
+    if (profile.defaultFog.strongDistance > 0)
+    {
+        return profile.defaultFog;
+    }
+
+    if (profile.redFog)
+    {
+        return profile.denseFog.strongDistance > 0 ? profile.denseFog : OutdoorFogDistances{0, 2048};
+    }
+
+    if (profile.underwater)
+    {
+        return profile.averageFog.strongDistance > 0 ? profile.averageFog : OutdoorFogDistances{0, 4096};
+    }
+
+    return profile.averageFog.strongDistance > 0 ? profile.averageFog : OutdoorFogDistances{0, 4096};
 }
 
 float normalizedAmbientBrightness(float minutesOfDay)
@@ -4411,6 +4439,7 @@ void OutdoorWorldRuntime::initialize(
     const ChestTable *pChestTable,
     const std::optional<OutdoorMapData> &outdoorMapData,
     const std::optional<MapDeltaData> &outdoorMapDeltaData,
+    const std::optional<OutdoorWeatherProfile> &outdoorWeatherProfile,
     const std::optional<EventRuntimeState> &eventRuntimeState,
     const std::optional<ActorPreviewBillboardSet> &outdoorActorPreviewBillboardSet,
     const std::optional<std::vector<uint8_t>> &outdoorLandMask,
@@ -4426,6 +4455,7 @@ void OutdoorWorldRuntime::initialize(
     m_mapTreasureLevel = map.treasureLevel;
     m_gameMinutes = 9.0f * 60.0f;
     m_atmosphereState = buildAtmosphereSourceState(map, outdoorMapData, outdoorMapDeltaData);
+    m_outdoorWeatherProfile = outdoorWeatherProfile;
     m_timers.clear();
     m_mapActors.clear();
     m_spawnPoints.clear();
@@ -4474,6 +4504,7 @@ void OutdoorWorldRuntime::initialize(
     m_armageddonState = {};
 
     materializeMapDeltaWorldItems();
+    applyInitialWeatherProfile();
     refreshAtmosphereState();
 
     if (outdoorActorPreviewBillboardSet)
@@ -5592,14 +5623,148 @@ void OutdoorWorldRuntime::advanceGameMinutesInternal(float minutes)
         return;
     }
 
-    const int previousDay = static_cast<int>(std::floor(std::max(m_gameMinutes, 0.0f) / 1440.0f));
+    const int previousWeatherDay = weatherDayIndexForMinutes(m_gameMinutes);
     m_gameMinutes += minutes;
-    const int currentDay = static_cast<int>(std::floor(std::max(m_gameMinutes, 0.0f) / 1440.0f));
+    const int currentWeatherDay = weatherDayIndexForMinutes(m_gameMinutes);
 
-    if (currentDay > previousDay)
+    if (currentWeatherDay > previousWeatherDay)
     {
         resetDailySpellCounters();
+        applyDailyWeatherRollover(currentWeatherDay);
     }
+}
+
+void OutdoorWorldRuntime::applyInitialWeatherProfile()
+{
+    if (!m_outdoorWeatherProfile.has_value())
+    {
+        return;
+    }
+
+    const OutdoorWeatherProfile &profile = *m_outdoorWeatherProfile;
+
+    if (profile.defaultPrecipitation == OutdoorPrecipitationKind::Snow)
+    {
+        m_atmosphereState.weatherFlags &= ~MapWeatherRaining;
+        m_atmosphereState.weatherFlags |= MapWeatherSnowing;
+    }
+    else if (profile.defaultPrecipitation == OutdoorPrecipitationKind::Rain)
+    {
+        m_atmosphereState.weatherFlags &= ~MapWeatherSnowing;
+        m_atmosphereState.weatherFlags |= MapWeatherRaining;
+    }
+    else
+    {
+        m_atmosphereState.weatherFlags &= ~(MapWeatherSnowing | MapWeatherRaining);
+    }
+
+    m_atmosphereState.redFog = profile.redFog;
+
+    if (profile.fogMode == OutdoorFogMode::DailyRandom)
+    {
+        if (!hasConfiguredFogState(m_atmosphereState))
+        {
+            applyDailyWeatherRollover(weatherDayIndexForMinutes(m_gameMinutes));
+            return;
+        }
+    }
+    else if (profile.alwaysFoggy)
+    {
+        const OutdoorFogDistances distances = fallbackFogDistancesForProfile(profile);
+        applyFogDistances(distances, true);
+        return;
+    }
+
+    syncAtmosphereStateToMapDelta();
+}
+
+void OutdoorWorldRuntime::applyDailyWeatherRollover(int weatherDayIndex)
+{
+    if (!m_outdoorWeatherProfile.has_value())
+    {
+        return;
+    }
+
+    const OutdoorWeatherProfile &profile = *m_outdoorWeatherProfile;
+
+    if (profile.fogMode != OutdoorFogMode::DailyRandom)
+    {
+        return;
+    }
+
+    const int clampedWeatherDayIndex = std::max(weatherDayIndex, 0);
+    uint32_t seed = 0x9e3779b9u;
+    seed ^= static_cast<uint32_t>(m_mapId) * 2246822519u;
+    seed ^= static_cast<uint32_t>(clampedWeatherDayIndex) * 3266489917u;
+    std::mt19937 rng(seed);
+    const int roll = std::uniform_int_distribution<int>(0, 99)(rng);
+    const int smallThreshold = std::max(profile.smallFogChance, 0);
+    const int averageThreshold = smallThreshold + std::max(profile.averageFogChance, 0);
+    const int denseThreshold = averageThreshold + std::max(profile.denseFogChance, 0);
+
+    if (roll < smallThreshold)
+    {
+        applyFogDistances(profile.smallFog, true);
+        return;
+    }
+
+    if (roll < averageThreshold)
+    {
+        applyFogDistances(profile.averageFog, true);
+        return;
+    }
+
+    if (roll < denseThreshold)
+    {
+        applyFogDistances(profile.denseFog, true);
+        return;
+    }
+
+    if (profile.alwaysFoggy)
+    {
+        applyFogDistances(fallbackFogDistancesForProfile(profile), true);
+        return;
+    }
+
+    applyFogDistances({}, false);
+}
+
+void OutdoorWorldRuntime::applyFogDistances(const OutdoorFogDistances &distances, bool foggy)
+{
+    if (foggy)
+    {
+        m_atmosphereState.weatherFlags |= MapWeatherFoggy;
+        m_atmosphereState.fogWeakDistance = std::max(distances.weakDistance, 0);
+        m_atmosphereState.fogStrongDistance = std::max(distances.strongDistance, 0);
+    }
+    else
+    {
+        m_atmosphereState.weatherFlags &= ~MapWeatherFoggy;
+        m_atmosphereState.fogWeakDistance = 0;
+        m_atmosphereState.fogStrongDistance = 0;
+    }
+
+    syncAtmosphereStateToMapDelta();
+}
+
+void OutdoorWorldRuntime::syncAtmosphereStateToMapDelta()
+{
+    if (m_pOutdoorMapDeltaData == nullptr)
+    {
+        return;
+    }
+
+    MapDeltaData *pMutableMapDeltaData = const_cast<MapDeltaData *>(m_pOutdoorMapDeltaData);
+    pMutableMapDeltaData->locationTime.weatherFlags = m_atmosphereState.weatherFlags;
+    pMutableMapDeltaData->locationTime.fogWeakDistance = m_atmosphereState.fogWeakDistance;
+    pMutableMapDeltaData->locationTime.fogStrongDistance = m_atmosphereState.fogStrongDistance;
+}
+
+int OutdoorWorldRuntime::weatherDayIndexForMinutes(float gameMinutes) const
+{
+    const float safeGameMinutes = std::max(gameMinutes, 0.0f);
+    const float shiftedMinutes = safeGameMinutes - 180.0f;
+    return static_cast<int>(std::floor(shiftedMinutes / 1440.0f));
 }
 
 void OutdoorWorldRuntime::resetDailySpellCounters()
@@ -5626,11 +5791,25 @@ void OutdoorWorldRuntime::refreshAtmosphereState()
     {
         if (*m_eventRuntimeState->snowEnabled)
         {
+            m_atmosphereState.weatherFlags &= ~MapWeatherRaining;
             m_atmosphereState.weatherFlags |= MapWeatherSnowing;
         }
         else
         {
             m_atmosphereState.weatherFlags &= ~MapWeatherSnowing;
+        }
+    }
+
+    if (m_eventRuntimeState && m_eventRuntimeState->rainEnabled.has_value())
+    {
+        if (*m_eventRuntimeState->rainEnabled)
+        {
+            m_atmosphereState.weatherFlags &= ~MapWeatherSnowing;
+            m_atmosphereState.weatherFlags |= MapWeatherRaining;
+        }
+        else
+        {
+            m_atmosphereState.weatherFlags &= ~MapWeatherRaining;
         }
     }
 
@@ -5730,7 +5909,14 @@ void OutdoorWorldRuntime::refreshAtmosphereState()
     {
         if (m_atmosphereState.isNight)
         {
-            m_atmosphereState.clearColorAbgr = makeAbgr(48, 48, 56);
+            if (m_atmosphereState.redFog)
+            {
+                m_atmosphereState.clearColorAbgr = makeAbgr(64, 24, 24);
+            }
+            else
+            {
+                m_atmosphereState.clearColorAbgr = makeAbgr(48, 48, 56);
+            }
         }
         else
         {
@@ -5738,7 +5924,17 @@ void OutdoorWorldRuntime::refreshAtmosphereState()
                 std::lround((1.0f - m_atmosphereState.fogDensity) * 200.0f + m_atmosphereState.fogDensity * 31.0f),
                 0l,
                 255l));
-            m_atmosphereState.clearColorAbgr = makeAbgr(fogLevel, fogLevel, fogLevel);
+
+            if (m_atmosphereState.redFog)
+            {
+                const uint8_t green = static_cast<uint8_t>(std::lround(static_cast<float>(fogLevel) * 0.35f));
+                const uint8_t blue = static_cast<uint8_t>(std::lround(static_cast<float>(fogLevel) * 0.35f));
+                m_atmosphereState.clearColorAbgr = makeAbgr(fogLevel, green, blue);
+            }
+            else
+            {
+                m_atmosphereState.clearColorAbgr = makeAbgr(fogLevel, fogLevel, fogLevel);
+            }
         }
     }
     else if (m_atmosphereState.isNight)

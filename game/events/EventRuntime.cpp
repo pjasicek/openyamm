@@ -3552,6 +3552,18 @@ int luaSetSnow(lua_State *pLuaState)
     return 0;
 }
 
+int luaSetRain(lua_State *pLuaState)
+{
+    EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState);
+
+    if (static_cast<uint32_t>(luaL_checkinteger(pLuaState, 1)) == 0)
+    {
+        pRuntimeState->rainEnabled = lua_toboolean(pLuaState, 2) != 0;
+    }
+
+    return 0;
+}
+
 int luaShowMovie(lua_State *pLuaState)
 {
     EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState);
@@ -4346,6 +4358,7 @@ void registerEventBindings(LuaSessionCache &session)
     registerLuaFunction(pLuaState, "FaceExpression", luaFaceExpression);
     registerLuaFunction(pLuaState, "DamagePlayer", luaDamagePlayer);
     registerLuaFunction(pLuaState, "SetSnow", luaSetSnow);
+    registerLuaFunction(pLuaState, "SetRain", luaSetRain);
     registerLuaFunction(pLuaState, "SetTexture", luaSetTexture);
     registerLuaFunction(pLuaState, "SetTextureOutdoors", luaSetTexture);
     registerLuaFunction(pLuaState, "ShowMovie", luaShowMovie);

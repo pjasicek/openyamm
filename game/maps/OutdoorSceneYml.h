@@ -2,6 +2,7 @@
 
 #include "game/maps/MapDeltaData.h"
 #include "game/outdoor/OutdoorMapData.h"
+#include "game/outdoor/OutdoorWeatherProfile.h"
 
 #include <array>
 #include <cstddef>
@@ -14,6 +15,18 @@ namespace OpenYAMM::Game
 {
 struct OutdoorSceneEnvironment
 {
+    struct WeatherConfig
+    {
+        OutdoorFogMode fogMode = OutdoorFogMode::Static;
+        OutdoorPrecipitationKind precipitation = OutdoorPrecipitationKind::None;
+        int smallFogChance = 0;
+        int averageFogChance = 0;
+        int denseFogChance = 0;
+        OutdoorFogDistances smallFog = {4096, 8192};
+        OutdoorFogDistances averageFog = {0, 4096};
+        OutdoorFogDistances denseFog = {0, 2048};
+    };
+
     std::string skyTexture;
     std::string groundTilesetName;
     uint8_t masterTile = 0;
@@ -23,6 +36,7 @@ struct OutdoorSceneEnvironment
     int32_t fogWeakDistance = 0;
     int32_t fogStrongDistance = 0;
     int32_t ceiling = 0;
+    WeatherConfig weather = {};
 };
 
 struct OutdoorSceneTerrainAttributeOverride

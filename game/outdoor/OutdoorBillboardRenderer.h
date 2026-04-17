@@ -110,5 +110,6 @@ private:
         float texelWidth,
         float texelHeight,
         float thicknessPixels);
+    static void applyBillboardFogUniforms(OutdoorGameView &view, float renderDistance);
 };
 } // namespace OpenYAMM::Game

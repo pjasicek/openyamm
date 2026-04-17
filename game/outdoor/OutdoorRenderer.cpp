@@ -2,6 +2,7 @@
 
 #include "game/events/EvtEnums.h"
 #include "game/outdoor/OutdoorBillboardRenderer.h"
+#include "game/outdoor/OutdoorFogProfile.h"
 #include "game/fx/ParticleRenderer.h"
 #include "game/outdoor/OutdoorGameView.h"
 #include "game/outdoor/OutdoorInteractionController.h"
@@ -51,6 +52,10 @@ constexpr float MeteorShowerPreviewRadius = 768.0f;
 constexpr size_t SpellAreaPreviewGridResolution = 24;
 constexpr float SpellAreaPreviewRefreshIntervalSeconds = 1.0f / 30.0f;
 constexpr float SpellAreaPreviewRetargetDistance = 72.0f;
+constexpr float OutdoorWorldFogNearOpacity = 0.04f;
+constexpr float OutdoorWorldFogStrongOpacity = 176.0f / 255.0f;
+constexpr float OutdoorSkyFogNearOpacity = 0.02f;
+constexpr float OutdoorSkyFogStrongOpacity = 208.0f / 255.0f;
 
 uint32_t makeAbgr(uint8_t red, uint8_t green, uint8_t blue)
 {
@@ -129,17 +134,23 @@ uint32_t computeOutdoorSkyFogColorAbgr(const OutdoorWorldRuntime::AtmosphereStat
 
     if (atmosphereState.isNight)
     {
-        return makeAbgr(31, 31, 31);
+        return atmosphereState.redFog ? makeAbgr(48, 18, 18) : makeAbgr(31, 31, 31);
     }
 
     const int fogLevel = std::clamp(
         static_cast<int>(std::lround((1.0f - atmosphereState.fogDensity) * 200.0f + atmosphereState.fogDensity * 31.0f)),
         0,
         255);
-    return makeAbgr(
-        static_cast<uint8_t>(fogLevel),
-        static_cast<uint8_t>(fogLevel),
-        static_cast<uint8_t>(fogLevel));
+    const uint8_t red = static_cast<uint8_t>(fogLevel);
+
+    if (atmosphereState.redFog)
+    {
+        const uint8_t green = static_cast<uint8_t>(std::lround(static_cast<float>(fogLevel) * 0.35f));
+        const uint8_t blue = static_cast<uint8_t>(std::lround(static_cast<float>(fogLevel) * 0.35f));
+        return makeAbgr(red, green, blue);
+    }
+
+    return makeAbgr(red, red, red);
 }
 
 struct OutdoorSkyVertex
@@ -516,9 +527,15 @@ OutdoorFogParameters buildOutdoorWorldFogParameters(
 
     if (pAtmosphereState != nullptr
         && (pAtmosphereState->weatherFlags & MapWeatherFoggy) != 0
-        && pAtmosphereState->fogWeakDistance > 0
-        && pAtmosphereState->fogStrongDistance > 0)
+        && pAtmosphereState->fogWeakDistance >= 0
+        && pAtmosphereState->fogStrongDistance > pAtmosphereState->fogWeakDistance)
     {
+        const OutdoorFogProfile fogProfile = buildOutdoorFogProfile(
+            pAtmosphereState->fogWeakDistance,
+            pAtmosphereState->fogStrongDistance,
+            clampedFarClipDistance,
+            OutdoorWorldFogNearOpacity,
+            OutdoorWorldFogStrongOpacity);
         const uint32_t fogColorAbgr = computeOutdoorSkyFogColorAbgr(*pAtmosphereState);
         parameters.color = {
             static_cast<float>(fogColorAbgr & 0xffu) / 255.0f,
@@ -526,11 +543,11 @@ OutdoorFogParameters buildOutdoorWorldFogParameters(
             static_cast<float>((fogColorAbgr >> 16) & 0xffu) / 255.0f,
             1.0f
         };
-        parameters.densities = {0.25f, 0.85f, 0.0f, 0.0f};
+        parameters.densities = {fogProfile.nearOpacity, fogProfile.strongOpacity, 0.0f, 0.0f};
         parameters.distances = {
-            static_cast<float>(pAtmosphereState->fogWeakDistance),
-            static_cast<float>(pAtmosphereState->fogStrongDistance),
-            clampedFarClipDistance,
+            fogProfile.weakDistance,
+            fogProfile.strongDistance,
+            fogProfile.farDistance,
             0.0f
         };
         return parameters;
@@ -574,9 +591,15 @@ OutdoorFogParameters buildOutdoorSkyFogParameters(
 
     if (pAtmosphereState != nullptr
         && (pAtmosphereState->weatherFlags & MapWeatherFoggy) != 0
-        && pAtmosphereState->fogWeakDistance > 0
-        && pAtmosphereState->fogStrongDistance > 0)
+        && pAtmosphereState->fogWeakDistance >= 0
+        && pAtmosphereState->fogStrongDistance > pAtmosphereState->fogWeakDistance)
     {
+        const OutdoorFogProfile fogProfile = buildOutdoorFogProfile(
+            pAtmosphereState->fogWeakDistance,
+            pAtmosphereState->fogStrongDistance,
+            clampedRenderDistance,
+            OutdoorSkyFogNearOpacity,
+            OutdoorSkyFogStrongOpacity);
         const uint32_t fogColorAbgr = computeOutdoorSkyFogColorAbgr(*pAtmosphereState);
         parameters.color = {
             static_cast<float>(fogColorAbgr & 0xffu) / 255.0f,
@@ -584,11 +607,11 @@ OutdoorFogParameters buildOutdoorSkyFogParameters(
             static_cast<float>((fogColorAbgr >> 16) & 0xffu) / 255.0f,
             1.0f
         };
-        parameters.densities = {0.25f, 0.85f, 0.0f, 0.0f};
+        parameters.densities = {fogProfile.nearOpacity, fogProfile.strongOpacity, 0.0f, 0.0f};
         parameters.distances = {
-            static_cast<float>(pAtmosphereState->fogWeakDistance),
-            static_cast<float>(pAtmosphereState->fogStrongDistance),
-            clampedRenderDistance,
+            fogProfile.weakDistance,
+            fogProfile.strongDistance,
+            fogProfile.farDistance,
             0.0f
         };
         return parameters;
@@ -2777,8 +2800,8 @@ void OutdoorRenderer::renderOutdoorSky(
     const bool hasAtmosphericFog =
         pAtmosphereState != nullptr
         && (pAtmosphereState->weatherFlags & MapWeatherFoggy) != 0
-        && pAtmosphereState->fogWeakDistance > 0
-        && pAtmosphereState->fogStrongDistance > 0;
+        && pAtmosphereState->fogWeakDistance >= 0
+        && pAtmosphereState->fogStrongDistance > pAtmosphereState->fogWeakDistance;
 
     if (pAtmosphereState == nullptr)
     {

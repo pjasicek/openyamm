@@ -24,6 +24,14 @@ constexpr float SpatialFxRefreshIntervalSeconds = 1.0f / 60.0f;
 constexpr float ShadowHeightFadeDistance = 512.0f;
 constexpr float PartySpellFxRingRadius = 28.0f;
 constexpr uint32_t CannonballPseudoSpellId = 136;
+constexpr int32_t MapWeatherSnowing = 2;
+constexpr int32_t MapWeatherRaining = 4;
+constexpr float WeatherSnowParticlesPerSecond = 52.0f;
+constexpr float WeatherRainParticlesPerSecond = 120.0f;
+constexpr float WeatherSpawnForwardDistance = 640.0f;
+constexpr float WeatherSpawnHalfWidth = 900.0f;
+constexpr float WeatherSpawnDepth = 1200.0f;
+constexpr float WeatherSpawnHeight = 720.0f;
 
 uint32_t makeAbgr(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha)
 {
@@ -36,6 +44,11 @@ uint32_t makeAbgr(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha)
 float clamp01(float value)
 {
     return std::clamp(value, 0.0f, 1.0f);
+}
+
+float hash01(uint32_t value)
+{
+    return static_cast<float>(value & 0x00ffffffu) / static_cast<float>(0x01000000u);
 }
 
 float decorationEmitterSpawnZ(const DecorationBillboard &billboard)
@@ -145,6 +158,9 @@ void OutdoorFxRuntime::reset()
     m_trailCooldownByProjectileId.clear();
     m_seenImpactIds.clear();
     m_spatialRefreshAccumulatorSeconds = 0.0f;
+    m_snowEmissionAccumulator = 0.0f;
+    m_rainEmissionAccumulator = 0.0f;
+    m_weatherEmissionSequence = 0;
     m_hasSpatialSnapshot = false;
 }
 
@@ -177,6 +193,8 @@ void OutdoorFxRuntime::update(OutdoorGameView &view, float deltaSeconds)
             ++it;
         }
     }
+
+    syncWeatherParticles(view, deltaSeconds);
 
     m_spatialRefreshAccumulatorSeconds += deltaSeconds;
     const bool refreshSpatialFx =
@@ -596,6 +614,141 @@ void OutdoorFxRuntime::syncRuntimeSpriteObjects(OutdoorGameView &view)
             static_cast<float>(billboard.z) + static_cast<float>(billboard.height) * 0.5f,
             static_cast<float>(pFrame->glowRadius * billboard.glowRadiusMultiplier),
             makeAbgr(255, 255, 255, 120));
+    }
+}
+
+void OutdoorFxRuntime::syncWeatherParticles(OutdoorGameView &view, float deltaSeconds)
+{
+    if (view.m_pOutdoorWorldRuntime == nullptr)
+    {
+        m_snowEmissionAccumulator = 0.0f;
+        m_rainEmissionAccumulator = 0.0f;
+        return;
+    }
+
+    const int32_t weatherFlags = view.m_pOutdoorWorldRuntime->atmosphereState().weatherFlags;
+    const bool snowing = (weatherFlags & MapWeatherSnowing) != 0;
+    const bool raining = (weatherFlags & MapWeatherRaining) != 0;
+
+    if (!snowing)
+    {
+        m_snowEmissionAccumulator = 0.0f;
+    }
+
+    if (!raining)
+    {
+        m_rainEmissionAccumulator = 0.0f;
+    }
+
+    if (!snowing && !raining)
+    {
+        return;
+    }
+
+    const float yawRadians = view.effectiveCameraYawRadians();
+    const float forwardX = std::cos(yawRadians);
+    const float forwardY = std::sin(yawRadians);
+    const float rightX = -forwardY;
+    const float rightY = forwardX;
+    const float cameraX = view.m_cameraTargetX;
+    const float cameraY = view.m_cameraTargetY;
+    const float cameraZ = view.m_cameraTargetZ;
+
+    auto emitSnowParticle =
+        [&](uint32_t seed)
+        {
+            const float forwardOffset = 64.0f + hash01(seed) * WeatherSpawnDepth;
+            const float lateralOffset =
+                (hash01(seed * 2246822519u) * 2.0f - 1.0f) * WeatherSpawnHalfWidth;
+            const float verticalOffset = 180.0f + hash01(seed * 3266489917u) * WeatherSpawnHeight;
+            const float driftSide = (hash01(seed * 668265263u) * 2.0f - 1.0f) * 26.0f;
+            const float driftForward = (hash01(seed * 374761393u) * 2.0f - 1.0f) * 14.0f;
+
+            FxParticleState particle = {};
+            particle.x = cameraX + forwardX * (WeatherSpawnForwardDistance + forwardOffset) + rightX * lateralOffset;
+            particle.y = cameraY + forwardY * (WeatherSpawnForwardDistance + forwardOffset) + rightY * lateralOffset;
+            particle.z = cameraZ + verticalOffset;
+            particle.velocityX = rightX * driftSide + forwardX * driftForward;
+            particle.velocityY = rightY * driftSide + forwardY * driftForward;
+            particle.velocityZ = -(90.0f + hash01(seed * 1274126177u) * 40.0f);
+            particle.size = 22.0f + hash01(seed * 197830471u) * 10.0f;
+            particle.endSize = particle.size * 0.9f;
+            particle.drag = 0.08f;
+            particle.rotationRadians = (hash01(seed * 2654435761u) * 2.0f - 1.0f) * 0.8f;
+            particle.angularVelocityRadians = (hash01(seed * 1597334677u) * 2.0f - 1.0f) * 0.7f;
+            particle.stretch = 1.0f;
+            particle.ageSeconds = 0.0f;
+            particle.fadeInSeconds = 0.08f;
+            particle.fadeOutStartSeconds = 3.0f + hash01(seed * 3812015801u) * 0.6f;
+            particle.lifetimeSeconds = particle.fadeOutStartSeconds + 0.7f;
+            particle.startColorAbgr = makeAbgr(236, 240, 248, 208);
+            particle.endColorAbgr = makeAbgr(236, 240, 248, 0);
+            particle.motion = FxParticleMotion::VelocityTrail;
+            particle.blendMode = FxParticleBlendMode::Alpha;
+            particle.alignment = FxParticleAlignment::CameraFacing;
+            particle.material = FxParticleMaterial::SoftBlob;
+            particle.tag = FxParticleTag::Misc;
+            view.m_particleSystem.addParticle(particle);
+        };
+
+    auto emitRainParticle =
+        [&](uint32_t seed)
+        {
+            const float forwardOffset = hash01(seed) * WeatherSpawnDepth;
+            const float lateralOffset =
+                (hash01(seed * 2246822519u) * 2.0f - 1.0f) * WeatherSpawnHalfWidth;
+            const float verticalOffset = 120.0f + hash01(seed * 3266489917u) * 420.0f;
+            const float slant = 24.0f + hash01(seed * 668265263u) * 34.0f;
+
+            FxParticleState particle = {};
+            particle.x = cameraX + forwardX * (WeatherSpawnForwardDistance + forwardOffset) + rightX * lateralOffset;
+            particle.y = cameraY + forwardY * (WeatherSpawnForwardDistance + forwardOffset) + rightY * lateralOffset;
+            particle.z = cameraZ + verticalOffset;
+            particle.velocityX = forwardX * slant;
+            particle.velocityY = forwardY * slant;
+            particle.velocityZ = -(2200.0f + hash01(seed * 1274126177u) * 700.0f);
+            particle.size = 10.0f + hash01(seed * 197830471u) * 5.0f;
+            particle.endSize = particle.size * 0.6f;
+            particle.drag = 0.0f;
+            particle.rotationRadians = 0.0f;
+            particle.angularVelocityRadians = 0.0f;
+            particle.stretch = 9.0f + hash01(seed * 1597334677u) * 2.0f;
+            particle.ageSeconds = 0.0f;
+            particle.fadeInSeconds = 0.0f;
+            particle.fadeOutStartSeconds = 0.30f + hash01(seed * 3812015801u) * 0.08f;
+            particle.lifetimeSeconds = particle.fadeOutStartSeconds + 0.12f;
+            particle.startColorAbgr = makeAbgr(170, 190, 220, 150);
+            particle.endColorAbgr = makeAbgr(170, 190, 220, 0);
+            particle.motion = FxParticleMotion::VelocityTrail;
+            particle.blendMode = FxParticleBlendMode::Alpha;
+            particle.alignment = FxParticleAlignment::VelocityStretched;
+            particle.material = FxParticleMaterial::HardBlob;
+            particle.tag = FxParticleTag::Misc;
+            view.m_particleSystem.addParticle(particle);
+        };
+
+    if (snowing)
+    {
+        m_snowEmissionAccumulator += deltaSeconds * WeatherSnowParticlesPerSecond;
+
+        while (m_snowEmissionAccumulator >= 1.0f)
+        {
+            --m_snowEmissionAccumulator;
+            const uint32_t seed = ++m_weatherEmissionSequence * 2654435761u;
+            emitSnowParticle(seed);
+        }
+    }
+
+    if (raining)
+    {
+        m_rainEmissionAccumulator += deltaSeconds * WeatherRainParticlesPerSecond;
+
+        while (m_rainEmissionAccumulator >= 1.0f)
+        {
+            --m_rainEmissionAccumulator;
+            const uint32_t seed = (++m_weatherEmissionSequence * 2246822519u) ^ 0x5f356495u;
+            emitRainParticle(seed);
+        }
     }
 }
 

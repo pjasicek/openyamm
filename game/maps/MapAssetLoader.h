@@ -10,6 +10,7 @@
 #include "game/tables/ObjectTable.h"
 #include "game/outdoor/OutdoorCollisionData.h"
 #include "game/outdoor/OutdoorMapData.h"
+#include "game/outdoor/OutdoorWeatherProfile.h"
 #include "game/tables/SurfaceAnimation.h"
 #include "game/tables/SpriteTables.h"
 
@@ -201,6 +202,7 @@ struct MapAssetInfo
     std::optional<IndoorMapData> indoorMapData;
     std::optional<MapDeltaData> outdoorMapDeltaData;
     std::optional<MapDeltaData> indoorMapDeltaData;
+    std::optional<OutdoorWeatherProfile> outdoorWeatherProfile;
     std::optional<ScriptedEventProgram> localEventProgram;
     std::optional<ScriptedEventProgram> globalEventProgram;
     std::optional<EventRuntimeState> eventRuntimeState;

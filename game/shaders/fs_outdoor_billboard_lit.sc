@@ -1,4 +1,4 @@
-$input v_texcoord0, v_color0
+$input v_texcoord0, v_color0, v_depth
 
 #include "common.sh"
 
@@ -7,6 +7,28 @@ SAMPLER2D(s_texColor, 0);
 uniform vec4 u_billboardAmbient;
 uniform vec4 u_billboardOverrideColor;
 uniform vec4 u_billboardOutlineParams;
+uniform vec4 u_fogColor;
+uniform vec4 u_fogDensities;
+uniform vec4 u_fogDistances;
+
+float safeSmoothstep(float edge0, float edge1, float value)
+{
+    if (edge0 == edge1)
+    {
+        return 0.0;
+    }
+
+    float t = clamp((value - edge0) / (edge1 - edge0), 0.0, 1.0);
+    return t * t * (3.0 - 2.0 * t);
+}
+
+float getFogRatio(float dist)
+{
+    return
+        u_fogDensities.x
+        + (u_fogDensities.y - u_fogDensities.x) * safeSmoothstep(u_fogDistances.x, u_fogDistances.y, dist)
+        + (1.0 - u_fogDensities.y) * safeSmoothstep(u_fogDistances.y, u_fogDistances.z, dist);
+}
 
 float sampleBillboardAlpha(vec2 uv)
 {
@@ -27,6 +49,7 @@ void main()
     vec3 litColor = textureColor.rgb * (u_billboardAmbient.rgb + v_color0.rgb);
     vec4 shadedColor = vec4(litColor, textureColor.a * v_color0.a);
     float baseAlpha = shadedColor.a;
+    vec4 fragmentColor = shadedColor;
 
     if (u_billboardOverrideColor.a > 0.001 && u_billboardOutlineParams.z > 0.001)
     {
@@ -75,10 +98,16 @@ void main()
 
         if (baseAlpha <= 0.001 && outlineAlpha > 0.001)
         {
-            gl_FragColor = vec4(u_billboardOverrideColor.rgb, outlineAlpha * u_billboardOverrideColor.a);
-            return;
+            fragmentColor = vec4(u_billboardOverrideColor.rgb, outlineAlpha * u_billboardOverrideColor.a);
         }
     }
 
-    gl_FragColor = shadedColor;
+    if (fragmentColor.a <= 0.001)
+    {
+        discard;
+    }
+
+    float fogRatio = getFogRatio(v_depth);
+    vec3 foggedColor = mix(fragmentColor.rgb, u_fogColor.rgb, fogRatio);
+    gl_FragColor = vec4(foggedColor, fragmentColor.a);
 }

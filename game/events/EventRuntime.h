@@ -171,6 +171,7 @@ struct EventRuntimeState
     std::unordered_map<uint32_t, SpriteOverride> spriteOverrides;
     std::unordered_map<uint32_t, bool> indoorLightsEnabled;
     std::optional<bool> snowEnabled;
+    std::optional<bool> rainEnabled;
     std::unordered_map<uint32_t, uint32_t> actorSetMasks;
     std::unordered_map<uint32_t, uint32_t> actorClearMasks;
     std::unordered_map<uint32_t, uint32_t> actorGroupSetMasks;

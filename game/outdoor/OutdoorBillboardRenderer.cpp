@@ -3,6 +3,7 @@
 #include "game/fx/ParticleRecipes.h"
 #include "game/fx/ParticleSystem.h"
 #include "game/outdoor/OutdoorGameView.h"
+#include "game/outdoor/OutdoorFogProfile.h"
 #include "game/outdoor/OutdoorInteractionController.h"
 #include "game/render/TextureFiltering.h"
 #include "game/StringUtils.h"
@@ -63,6 +64,8 @@ constexpr float BillboardAmbientLight = 0.85f;
 constexpr float BillboardLightContributionScale = 0.7f;
 constexpr const char *ContactShadowTextureName = "__contact_shadow_blob__";
 constexpr float HoveredActorOutlineThicknessPixels = 2.0f;
+constexpr float OutdoorFogNearOpacity = 0.04f;
+constexpr float OutdoorFogStrongOpacity = 176.0f / 255.0f;
 
 uint32_t makeAbgr(uint8_t red, uint8_t green, uint8_t blue)
 {
@@ -109,6 +112,31 @@ uint32_t hoveredWorldItemOutlineColor()
     return makeAbgr(64, 128, 255);
 }
 
+uint32_t computeBillboardFogColorAbgr(const OutdoorWorldRuntime::AtmosphereState &atmosphereState)
+{
+    if (atmosphereState.isNight)
+    {
+        return atmosphereState.redFog ? makeAbgr(48, 18, 18) : makeAbgr(31, 31, 31);
+    }
+
+    const int fogLevel = std::clamp(
+        static_cast<int>(std::lround(
+            (1.0f - atmosphereState.fogDensity) * 200.0f + atmosphereState.fogDensity * 31.0f)),
+        0,
+        255);
+    const uint8_t red = static_cast<uint8_t>(fogLevel);
+
+    if (atmosphereState.redFog)
+    {
+        const uint8_t green =
+            static_cast<uint8_t>(std::lround(static_cast<float>(fogLevel) * 0.35f));
+        const uint8_t blue =
+            static_cast<uint8_t>(std::lround(static_cast<float>(fogLevel) * 0.35f));
+        return makeAbgr(red, green, blue);
+    }
+
+    return makeAbgr(red, red, red);
+}
 
 uint32_t currentAnimationTicks()
 {
@@ -397,6 +425,57 @@ std::vector<uint8_t> buildContactShadowBlobPixels(int width, int height)
 
 
 } // namespace
+
+void OutdoorBillboardRenderer::applyBillboardFogUniforms(OutdoorGameView &view, float renderDistance)
+{
+    if (!bgfx::isValid(view.m_outdoorFogColorUniformHandle)
+        || !bgfx::isValid(view.m_outdoorFogDensitiesUniformHandle)
+        || !bgfx::isValid(view.m_outdoorFogDistancesUniformHandle))
+    {
+        return;
+    }
+
+    const float clampedRenderDistance = std::max(renderDistance, 1.0f);
+    float fogColor[4] = {0.0f, 0.0f, 0.0f, 1.0f};
+    float fogDensities[4] = {0.0f, 0.0f, 0.0f, 0.0f};
+    float fogDistances[4] = {
+        clampedRenderDistance,
+        clampedRenderDistance,
+        clampedRenderDistance,
+        0.0f
+    };
+
+    if (view.m_pOutdoorWorldRuntime != nullptr)
+    {
+        const OutdoorWorldRuntime::AtmosphereState &atmosphereState =
+            view.m_pOutdoorWorldRuntime->atmosphereState();
+
+        if ((atmosphereState.weatherFlags & 1) != 0
+            && atmosphereState.fogWeakDistance >= 0
+            && atmosphereState.fogStrongDistance > atmosphereState.fogWeakDistance)
+        {
+            const OutdoorFogProfile fogProfile = buildOutdoorFogProfile(
+                atmosphereState.fogWeakDistance,
+                atmosphereState.fogStrongDistance,
+                clampedRenderDistance,
+                OutdoorFogNearOpacity,
+                OutdoorFogStrongOpacity);
+            const uint32_t fogColorAbgr = computeBillboardFogColorAbgr(atmosphereState);
+            fogColor[0] = static_cast<float>(fogColorAbgr & 0xffu) / 255.0f;
+            fogColor[1] = static_cast<float>((fogColorAbgr >> 8) & 0xffu) / 255.0f;
+            fogColor[2] = static_cast<float>((fogColorAbgr >> 16) & 0xffu) / 255.0f;
+            fogDensities[0] = fogProfile.nearOpacity;
+            fogDensities[1] = fogProfile.strongOpacity;
+            fogDistances[0] = fogProfile.weakDistance;
+            fogDistances[1] = fogProfile.strongDistance;
+            fogDistances[2] = fogProfile.farDistance;
+        }
+    }
+
+    bgfx::setUniform(view.m_outdoorFogColorUniformHandle, fogColor);
+    bgfx::setUniform(view.m_outdoorFogDensitiesUniformHandle, fogDensities);
+    bgfx::setUniform(view.m_outdoorFogDistancesUniformHandle, fogDistances);
+}
 
 void OutdoorBillboardRenderer::appendWorldQuadVertices(
     std::vector<OutdoorGameView::TerrainVertex> &vertices,
@@ -1758,6 +1837,7 @@ void OutdoorBillboardRenderer::renderDecorationBillboards(
         std::sin(view.m_cameraYawRadians) * cosPitch,
         std::sin(view.m_cameraPitchRadians)
     };
+    applyBillboardFogUniforms(view, DecorationBillboardRenderDistance);
     const uint32_t animationTimeTicks = currentAnimationTicks();
 
     struct BillboardDrawItem
@@ -2507,6 +2587,7 @@ void OutdoorBillboardRenderer::renderActorPreviewBillboards(
     sortStageNanoseconds += SDL_GetTicksNS() - sortStageStartTickCount;
 
     const uint32_t vertexCount = 6;
+    applyBillboardFogUniforms(view, ActorBillboardRenderDistance);
 
     for (const BillboardDrawItem &drawItem : drawItems)
     {
@@ -2725,6 +2806,7 @@ void OutdoorBillboardRenderer::renderRuntimeWorldItems(
 
     const bx::Vec3 cameraRight = {pViewMatrix[0], pViewMatrix[4], pViewMatrix[8]};
     const bx::Vec3 cameraUp = {pViewMatrix[1], pViewMatrix[5], pViewMatrix[9]};
+    applyBillboardFogUniforms(view, ActorBillboardRenderDistance);
 
     struct BillboardDrawItem
     {
@@ -3023,6 +3105,7 @@ void OutdoorBillboardRenderer::renderRuntimeProjectiles(
 
     const bx::Vec3 cameraRight = {pViewMatrix[0], pViewMatrix[4], pViewMatrix[8]};
     const bx::Vec3 cameraUp = {pViewMatrix[1], pViewMatrix[5], pViewMatrix[9]};
+    applyBillboardFogUniforms(view, RuntimeProjectileRenderDistance);
 
     struct BillboardDrawItem
     {
@@ -3384,6 +3467,8 @@ void OutdoorBillboardRenderer::renderFxContactShadows(
         return;
     }
 
+    applyBillboardFogUniforms(view, ActorBillboardRenderDistance);
+
     std::vector<OutdoorGameView::LitBillboardVertex> vertices;
     vertices.reserve(shadows.size() * 6);
 
@@ -3498,6 +3583,7 @@ void OutdoorBillboardRenderer::renderSpriteObjectBillboards(
 
     const bx::Vec3 cameraRight = {pViewMatrix[0], pViewMatrix[4], pViewMatrix[8]};
     const bx::Vec3 cameraUp = {pViewMatrix[1], pViewMatrix[5], pViewMatrix[9]};
+    applyBillboardFogUniforms(view, ActorBillboardRenderDistance);
 
     struct BillboardDrawItem
     {

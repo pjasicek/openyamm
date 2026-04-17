@@ -100,6 +100,143 @@ bool parseBoolFlagConsistency(
     return true;
 }
 
+bool parseFogMode(
+    const YAML::Node &weatherNode,
+    OutdoorFogMode &fogMode,
+    std::string &errorMessage)
+{
+    std::string fogModeText = "static";
+
+    if (!readScalarNode(weatherNode, "fog_mode", fogModeText, errorMessage, false))
+    {
+        return false;
+    }
+
+    fogModeText = toLowerCopy(fogModeText);
+
+    if (fogModeText == "static")
+    {
+        fogMode = OutdoorFogMode::Static;
+        return true;
+    }
+
+    if (fogModeText == "daily_random")
+    {
+        fogMode = OutdoorFogMode::DailyRandom;
+        return true;
+    }
+
+    errorMessage = "environment.weather.fog_mode must be one of: static, daily_random";
+    return false;
+}
+
+bool parsePrecipitationKind(
+    const YAML::Node &weatherNode,
+    OutdoorPrecipitationKind &precipitation,
+    std::string &errorMessage)
+{
+    std::string precipitationText = "none";
+
+    if (!readScalarNode(weatherNode, "precipitation", precipitationText, errorMessage, false))
+    {
+        return false;
+    }
+
+    precipitationText = toLowerCopy(precipitationText);
+
+    if (precipitationText == "none")
+    {
+        precipitation = OutdoorPrecipitationKind::None;
+        return true;
+    }
+
+    if (precipitationText == "snow")
+    {
+        precipitation = OutdoorPrecipitationKind::Snow;
+        return true;
+    }
+
+    if (precipitationText == "rain")
+    {
+        precipitation = OutdoorPrecipitationKind::Rain;
+        return true;
+    }
+
+    errorMessage = "environment.weather.precipitation must be one of: none, snow, rain";
+    return false;
+}
+
+bool parseFogDistancesNode(
+    const YAML::Node &parentNode,
+    const char *key,
+    OutdoorFogDistances &distances,
+    std::string &errorMessage)
+{
+    const YAML::Node distancesNode = parentNode[key];
+
+    if (!distancesNode)
+    {
+        return true;
+    }
+
+    if (!distancesNode.IsMap())
+    {
+        errorMessage = std::string("field must be a map: ") + key;
+        return false;
+    }
+
+    return readScalarNode(distancesNode, "weak_distance", distances.weakDistance, errorMessage)
+        && readScalarNode(distancesNode, "strong_distance", distances.strongDistance, errorMessage);
+}
+
+bool parseWeatherConfig(
+    const YAML::Node &environmentNode,
+    OutdoorSceneEnvironment::WeatherConfig &weatherConfig,
+    std::string &errorMessage)
+{
+    const YAML::Node weatherNode = environmentNode["weather"];
+
+    if (!weatherNode)
+    {
+        return true;
+    }
+
+    if (!weatherNode.IsMap())
+    {
+        errorMessage = "environment.weather must be a map";
+        return false;
+    }
+
+    const YAML::Node dailyFogNode = weatherNode["daily_fog"];
+
+    if (!parseFogMode(weatherNode, weatherConfig.fogMode, errorMessage)
+        || !parsePrecipitationKind(weatherNode, weatherConfig.precipitation, errorMessage))
+    {
+        return false;
+    }
+
+    if (dailyFogNode)
+    {
+        if (!dailyFogNode.IsMap())
+        {
+            errorMessage = "environment.weather.daily_fog must be a map";
+            return false;
+        }
+
+        if (!readScalarNode(dailyFogNode, "small_chance", weatherConfig.smallFogChance, errorMessage, false)
+            || !readScalarNode(dailyFogNode, "average_chance", weatherConfig.averageFogChance, errorMessage, false)
+            || !readScalarNode(dailyFogNode, "dense_chance", weatherConfig.denseFogChance, errorMessage, false)
+            || !parseFogDistancesNode(dailyFogNode, "small", weatherConfig.smallFog, errorMessage)
+            || !parseFogDistancesNode(dailyFogNode, "average", weatherConfig.averageFog, errorMessage)
+            || !parseFogDistancesNode(dailyFogNode, "dense", weatherConfig.denseFog, errorMessage))
+        {
+            return false;
+        }
+    }
+
+    return true;
+}
+
 bool parseHexBytes(
     const std::string &text,
     size_t expectedSize,
@@ -398,6 +535,11 @@ std::optional<OutdoorSceneData> OutdoorSceneYmlLoader::loadFromText(
             "red_fog",
             (sceneData.environment.mapExtraBitsRaw & 0x80) != 0,
             errorMessage))
+    {
+        return std::nullopt;
+    }
+
+    if (!parseWeatherConfig(environmentNode, sceneData.environment.weather, errorMessage))
     {
         return std::nullopt;
     }

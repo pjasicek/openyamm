@@ -713,6 +713,7 @@ bool GameApplication::initializeSelectedMapRuntime(bool initializeView)
             &m_gameDataLoader.getChestTable(),
             selectedMap->outdoorMapData,
             selectedMap->outdoorMapDeltaData,
+            selectedMap->outdoorWeatherProfile,
             selectedMap->eventRuntimeState,
             selectedMap->outdoorActorPreviewBillboardSet,
             selectedMap->outdoorLandMask,

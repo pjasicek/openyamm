@@ -60,6 +60,7 @@ private:
     void syncRuntimeActors(OutdoorGameView &view);
     void syncRuntimeDecorations(OutdoorGameView &view);
     void syncRuntimeSpriteObjects(OutdoorGameView &view);
+    void syncWeatherParticles(OutdoorGameView &view, float deltaSeconds);
     void cleanupSeenIds(const OutdoorGameView &view);
     void addContactShadow(OutdoorGameView &view, float x, float y, float z, float radius, float heightScale);
     void addGlowBillboard(
@@ -84,6 +85,9 @@ private:
     std::unordered_map<uint32_t, float> m_trailCooldownByProjectileId;
     std::unordered_set<uint32_t> m_seenImpactIds;
     float m_spatialRefreshAccumulatorSeconds = 0.0f;
+    float m_snowEmissionAccumulator = 0.0f;
+    float m_rainEmissionAccumulator = 0.0f;
+    uint32_t m_weatherEmissionSequence = 0;
     bool m_hasSpatialSnapshot = false;
 };
 }

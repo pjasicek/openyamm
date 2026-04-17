@@ -49,10 +49,117 @@ constexpr int TerrainTextureTileSize = 128;
 constexpr int TerrainTextureAtlasColumns = 16;
 constexpr int TerrainTextureAtlasTilePadding = 2;
 constexpr uint16_t LevelDecorationInvisible = 0x0020;
+constexpr uint32_t EnvironmentFlagRain = 0x01;
+constexpr uint32_t EnvironmentFlagSnow = 0x02;
+constexpr uint32_t EnvironmentFlagUnderwater = 0x04;
+constexpr uint32_t EnvironmentFlagAlwaysFoggy = 0x40;
+constexpr uint32_t EnvironmentFlagRedFog = 0x80;
+constexpr uint32_t MapWeatherFoggy = 0x01;
 
 bool faceHasInvisibleAttribute(uint32_t attributes)
 {
     return hasFaceAttribute(attributes, FaceAttribute::Invisible);
+}
+
+bool decodeOutdoorMapExtra(
+    const MapDeltaLocationTime &locationTime,
+    uint32_t &mapExtraBitsRaw,
+    int32_t &ceiling)
+{
+    if (locationTime.reserved.size() < sizeof(mapExtraBitsRaw) + sizeof(ceiling))
+    {
+        mapExtraBitsRaw = 0;
+        ceiling = 0;
+        return false;
+    }
+
+    std::memcpy(&mapExtraBitsRaw, locationTime.reserved.data(), sizeof(mapExtraBitsRaw));
+    std::memcpy(&ceiling, locationTime.reserved.data() + sizeof(mapExtraBitsRaw), sizeof(ceiling));
+    return true;
+}
+
+OutdoorFogDistances fallbackAlwaysFogDistances(bool redFog, bool underwater)
+{
+    if (redFog)
+    {
+        return {0, 2048};
+    }
+
+    if (underwater)
+    {
+        return {0, 4096};
+    }
+
+    return {0, 4096};
+}
+
+OutdoorPrecipitationKind precipitationKindFromFlags(uint32_t mapExtraBitsRaw)
+{
+    if ((mapExtraBitsRaw & EnvironmentFlagSnow) != 0)
+    {
+        return OutdoorPrecipitationKind::Snow;
+    }
+
+    if ((mapExtraBitsRaw & EnvironmentFlagRain) != 0)
+    {
+        return OutdoorPrecipitationKind::Rain;
+    }
+
+    return OutdoorPrecipitationKind::None;
+}
+
+OutdoorWeatherProfile buildOutdoorWeatherProfile(
+    const OutdoorSceneEnvironment &environment,
+    const MapDeltaLocationTime &locationTime)
+{
+    OutdoorWeatherProfile profile = {};
+    profile.fogMode = environment.weather.fogMode;
+    profile.defaultPrecipitation = environment.weather.precipitation != OutdoorPrecipitationKind::None
+        ? environment.weather.precipitation
+        : precipitationKindFromFlags(environment.mapExtraBitsRaw);
+    profile.alwaysFoggy = (environment.mapExtraBitsRaw & EnvironmentFlagAlwaysFoggy) != 0;
+    profile.redFog = (environment.mapExtraBitsRaw & EnvironmentFlagRedFog) != 0;
+    profile.underwater = (environment.mapExtraBitsRaw & EnvironmentFlagUnderwater) != 0;
+    profile.defaultFog = {environment.fogWeakDistance, environment.fogStrongDistance};
+    profile.smallFogChance = environment.weather.smallFogChance;
+    profile.averageFogChance = environment.weather.averageFogChance;
+    profile.denseFogChance = environment.weather.denseFogChance;
+    profile.smallFog = environment.weather.smallFog;
+    profile.averageFog = environment.weather.averageFog;
+    profile.denseFog = environment.weather.denseFog;
+
+    if (profile.alwaysFoggy && profile.defaultFog.strongDistance <= 0)
+    {
+        profile.defaultFog = fallbackAlwaysFogDistances(profile.redFog, profile.underwater);
+    }
+
+    if ((locationTime.weatherFlags & MapWeatherFoggy) != 0 && locationTime.fogStrongDistance > 0)
+    {
+        profile.defaultFog = {locationTime.fogWeakDistance, locationTime.fogStrongDistance};
+    }
+
+    return profile;
+}
+
+OutdoorWeatherProfile buildOutdoorWeatherProfile(const MapDeltaLocationTime &locationTime)
+{
+    uint32_t mapExtraBitsRaw = 0;
+    int32_t ceiling = 0;
+    decodeOutdoorMapExtra(locationTime, mapExtraBitsRaw, ceiling);
+
+    OutdoorWeatherProfile profile = {};
+    profile.defaultPrecipitation = precipitationKindFromFlags(mapExtraBitsRaw);
+    profile.alwaysFoggy = (mapExtraBitsRaw & EnvironmentFlagAlwaysFoggy) != 0;
+    profile.redFog = (mapExtraBitsRaw & EnvironmentFlagRedFog) != 0;
+    profile.underwater = (mapExtraBitsRaw & EnvironmentFlagUnderwater) != 0;
+    profile.defaultFog = {locationTime.fogWeakDistance, locationTime.fogStrongDistance};
+
+    if (profile.alwaysFoggy && profile.defaultFog.strongDistance <= 0)
+    {
+        profile.defaultFog = fallbackAlwaysFogDistances(profile.redFog, profile.underwater);
+    }
+
+    return profile;
 }
 
 std::optional<std::string> resolveMonsterNameForSpawn(const MapStatsEntry &map, uint16_t typeId, uint16_t index);
@@ -2797,6 +2904,8 @@ std::optional<MapAssetInfo> MapAssetLoader::load(
                 }
 
                 assetInfo.outdoorMapDeltaData = std::move(sceneMapDeltaData);
+                assetInfo.outdoorWeatherProfile =
+                    buildOutdoorWeatherProfile(sceneData->environment, assetInfo.outdoorMapDeltaData->locationTime);
                 assetInfo.authoredCompanionSource = AuthoredCompanionSource::SceneYml;
                 logStageComplete("outdoor scene yml applied");
             }
@@ -2808,6 +2917,8 @@ std::optional<MapAssetInfo> MapAssetLoader::load(
 
                 if (assetInfo.outdoorMapDeltaData)
                 {
+                    assetInfo.outdoorWeatherProfile =
+                        buildOutdoorWeatherProfile(assetInfo.outdoorMapDeltaData->locationTime);
                     assetInfo.authoredCompanionSource = AuthoredCompanionSource::LegacyCompanion;
                     logStageComplete("outdoor map delta parsed");
                 }

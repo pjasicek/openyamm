@@ -1989,6 +1989,7 @@ bool initializeRegressionScenario(
         &gameDataLoader.getChestTable(),
         selectedMap.outdoorMapData,
         selectedMap.outdoorMapDeltaData,
+        selectedMap.outdoorWeatherProfile,
         selectedMap.eventRuntimeState,
         selectedMap.outdoorActorPreviewBillboardSet,
         selectedMap.outdoorLandMask,
@@ -2120,6 +2121,7 @@ bool initializeRegressionScenarioFromApplication(
         &GameApplicationTestAccess::gameDataLoader(application).getChestTable(),
         selectedMap->outdoorMapData,
         selectedMap->outdoorMapDeltaData,
+        selectedMap->outdoorWeatherProfile,
         selectedMap->eventRuntimeState,
         selectedMap->outdoorActorPreviewBillboardSet,
         selectedMap->outdoorLandMask,
@@ -2767,6 +2769,7 @@ int HeadlessOutdoorDiagnostics::runSimulateActor(
         &gameDataLoader.getChestTable(),
         selectedMap->outdoorMapData,
         selectedMap->outdoorMapDeltaData,
+        selectedMap->outdoorWeatherProfile,
         selectedMap->eventRuntimeState,
         selectedMap->outdoorActorPreviewBillboardSet,
         selectedMap->outdoorLandMask,
@@ -2883,6 +2886,7 @@ int HeadlessOutdoorDiagnostics::runTraceActorAi(
         &gameDataLoader.getChestTable(),
         selectedMap->outdoorMapData,
         selectedMap->outdoorMapDeltaData,
+        selectedMap->outdoorWeatherProfile,
         selectedMap->eventRuntimeState,
         selectedMap->outdoorActorPreviewBillboardSet,
         selectedMap->outdoorLandMask,
@@ -3377,6 +3381,7 @@ int HeadlessOutdoorDiagnostics::runOpenEvent(
         &gameDataLoader.getChestTable(),
         selectedMap->outdoorMapData,
         selectedMap->outdoorMapDeltaData,
+        selectedMap->outdoorWeatherProfile,
         selectedMap->eventRuntimeState,
         selectedMap->outdoorActorPreviewBillboardSet,
         selectedMap->outdoorLandMask,
@@ -3601,6 +3606,7 @@ int HeadlessOutdoorDiagnostics::runOpenActor(
         &gameDataLoader.getChestTable(),
         selectedMap->outdoorMapData,
         selectedMap->outdoorMapDeltaData,
+        selectedMap->outdoorWeatherProfile,
         selectedMap->eventRuntimeState,
         selectedMap->outdoorActorPreviewBillboardSet,
         selectedMap->outdoorLandMask,
@@ -3758,6 +3764,7 @@ int HeadlessOutdoorDiagnostics::runDialogSequence(
         &gameDataLoader.getChestTable(),
         selectedMap->outdoorMapData,
         selectedMap->outdoorMapDeltaData,
+        selectedMap->outdoorWeatherProfile,
         selectedMap->eventRuntimeState,
         selectedMap->outdoorActorPreviewBillboardSet,
         selectedMap->outdoorLandMask,
@@ -16552,6 +16559,7 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
                 &gameDataLoader.getChestTable(),
                 selectedMap->outdoorMapData,
                 selectedMap->outdoorMapDeltaData,
+                selectedMap->outdoorWeatherProfile,
                 selectedMap->eventRuntimeState,
                 selectedMap->outdoorActorPreviewBillboardSet,
                 selectedMap->outdoorLandMask,
@@ -17246,6 +17254,173 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
             if ((scenario.world.atmosphereState().weatherFlags & 0x2) != 0)
             {
                 failure = "snow override did not clear the outdoor snow weather bit";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "outdoor_event_runtime_rain_override_reaches_atmosphere_state",
+        [&](std::string &failure)
+        {
+            if (!selectedMap || !selectedMap->outdoorMapData)
+            {
+                failure = "selected map missing outdoor data";
+                return false;
+            }
+
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            OutdoorWorldRuntime::Snapshot snapshot = scenario.world.snapshot();
+
+            if (!snapshot.eventRuntimeState.has_value())
+            {
+                failure = "scenario snapshot missing event runtime state";
+                return false;
+            }
+
+            snapshot.eventRuntimeState->rainEnabled = true;
+            scenario.world.restoreSnapshot(snapshot);
+
+            if ((scenario.world.atmosphereState().weatherFlags & 0x4) == 0)
+            {
+                failure = "rain override did not set the outdoor rain weather bit";
+                return false;
+            }
+
+            snapshot = scenario.world.snapshot();
+            snapshot.eventRuntimeState->rainEnabled = false;
+            scenario.world.restoreSnapshot(snapshot);
+
+            if ((scenario.world.atmosphereState().weatherFlags & 0x4) != 0)
+            {
+                failure = "rain override did not clear the outdoor rain weather bit";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "outdoor_daily_fog_rollover_happens_at_3am_not_midnight",
+        [&](std::string &failure)
+        {
+            if (!selectedMap || !selectedMap->outdoorMapData)
+            {
+                failure = "selected map missing outdoor data";
+                return false;
+            }
+
+            MapAssetInfo modifiedMap = *selectedMap;
+            modifiedMap.outdoorMapDeltaData = selectedMap->outdoorMapDeltaData
+                ? *selectedMap->outdoorMapDeltaData
+                : MapDeltaData{};
+            modifiedMap.outdoorMapDeltaData->locationTime.weatherFlags = 1;
+            modifiedMap.outdoorMapDeltaData->locationTime.fogWeakDistance = 4096;
+            modifiedMap.outdoorMapDeltaData->locationTime.fogStrongDistance = 8192;
+
+            OutdoorWeatherProfile profile = {};
+            profile.fogMode = OutdoorFogMode::DailyRandom;
+            profile.smallFogChance = 0;
+            profile.averageFogChance = 100;
+            profile.denseFogChance = 0;
+            profile.averageFog = {0, 4096};
+            modifiedMap.outdoorWeatherProfile = profile;
+
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, modifiedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            OutdoorWorldRuntime::Snapshot snapshot = scenario.world.snapshot();
+            snapshot.gameMinutes = 23.0f * 60.0f + 59.0f;
+            scenario.world.restoreSnapshot(snapshot);
+            scenario.world.advanceGameMinutes(2.0f);
+
+            if (scenario.world.atmosphereState().fogWeakDistance != 4096
+                || scenario.world.atmosphereState().fogStrongDistance != 8192)
+            {
+                failure = "daily fog changed at midnight instead of 3AM";
+                return false;
+            }
+
+            snapshot = scenario.world.snapshot();
+            snapshot.gameMinutes = 2.0f * 60.0f + 59.0f;
+            snapshot.atmosphere.fogWeakDistance = 4096;
+            snapshot.atmosphere.fogStrongDistance = 8192;
+            snapshot.atmosphere.weatherFlags |= 1;
+            scenario.world.restoreSnapshot(snapshot);
+            scenario.world.advanceGameMinutes(2.0f);
+
+            if ((scenario.world.atmosphereState().weatherFlags & 0x1) == 0
+                || scenario.world.atmosphereState().fogWeakDistance != 0
+                || scenario.world.atmosphereState().fogStrongDistance != 4096)
+            {
+                failure = "daily fog did not roll over to the authored 3AM state";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "outdoor_red_fog_profile_tints_atmosphere_state",
+        [&](std::string &failure)
+        {
+            if (!selectedMap || !selectedMap->outdoorMapData)
+            {
+                failure = "selected map missing outdoor data";
+                return false;
+            }
+
+            MapAssetInfo modifiedMap = *selectedMap;
+            modifiedMap.outdoorMapDeltaData = selectedMap->outdoorMapDeltaData
+                ? *selectedMap->outdoorMapDeltaData
+                : MapDeltaData{};
+            modifiedMap.outdoorMapDeltaData->locationTime.weatherFlags = 1;
+            modifiedMap.outdoorMapDeltaData->locationTime.fogWeakDistance = 0;
+            modifiedMap.outdoorMapDeltaData->locationTime.fogStrongDistance = 2048;
+
+            OutdoorWeatherProfile profile = {};
+            profile.alwaysFoggy = true;
+            profile.redFog = true;
+            profile.defaultFog = {0, 2048};
+            modifiedMap.outdoorWeatherProfile = profile;
+
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, modifiedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            const OutdoorWorldRuntime::AtmosphereState &atmosphere = scenario.world.atmosphereState();
+            const uint32_t clearColorAbgr = atmosphere.clearColorAbgr;
+            const uint32_t red = clearColorAbgr & 0xffu;
+            const uint32_t green = (clearColorAbgr >> 8) & 0xffu;
+            const uint32_t blue = (clearColorAbgr >> 16) & 0xffu;
+
+            if (!atmosphere.redFog
+                || (atmosphere.weatherFlags & 0x1) == 0
+                || atmosphere.fogStrongDistance != 2048
+                || red <= green
+                || red <= blue)
+            {
+                failure = "red fog profile did not reach the outdoor atmosphere state";
                 return false;
             }
 
