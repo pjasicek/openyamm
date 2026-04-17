@@ -103,6 +103,13 @@ private:
     static void applyOutdoorFxLightUniforms(OutdoorGameView &view, const bx::Vec3 &cameraPosition);
     static void destroyResolvedBModelDrawGroups(OutdoorGameView &view);
     static void rebuildResolvedBModelDrawGroups(OutdoorGameView &view);
+    static bgfx::TextureHandle ensureBloodSplatTexture(OutdoorGameView &view);
+    static void ensureBloodSplatVertexBuffer(OutdoorGameView &view);
+    static void renderBloodSplats(
+        OutdoorGameView &view,
+        uint16_t viewId,
+        const bx::Vec3 &cameraPosition,
+        float farClipDistance);
     static void renderPendingSpellAreaPreview(OutdoorGameView &view, uint16_t viewId);
 };
 } // namespace OpenYAMM::Game

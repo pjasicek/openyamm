@@ -5642,6 +5642,41 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
     );
 
     runCase(
+        "monster_data_parses_blood_splat_on_death_flag",
+        [&](std::string &failure)
+        {
+            const MonsterTable::MonsterStatsEntry *pLizardman = gameDataLoader.getMonsterTable().findStatsById(1);
+            const MonsterTable::MonsterStatsEntry *pWisp = gameDataLoader.getMonsterTable().findStatsById(98);
+
+            if (pLizardman == nullptr)
+            {
+                failure = "missing lizardman stats";
+                return false;
+            }
+
+            if (!pLizardman->bloodSplatOnDeath)
+            {
+                failure = "lizardman should leave a blood splat on death";
+                return false;
+            }
+
+            if (pWisp == nullptr)
+            {
+                failure = "missing wisp stats";
+                return false;
+            }
+
+            if (pWisp->bloodSplatOnDeath)
+            {
+                failure = "wisp should not leave a blood splat on death";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
         "event_summon_item_supports_item_and_object_payloads",
         [&](std::string &failure)
         {
@@ -5669,6 +5704,12 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
                 return false;
             }
 
+            if (pDirectItem->x != 100.0f || pDirectItem->y != 200.0f || pDirectItem->z != 300.0f)
+            {
+                failure = "direct item payload did not preserve summon position";
+                return false;
+            }
+
             if (!scenario.world.summonEventItem(35, 100, 200, 300, 1000, 1, true))
             {
                 failure = "object payload 35 did not spawn";
@@ -5681,6 +5722,12 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
             if (pObjectBackedItem == nullptr || pObjectBackedItem->item.objectDescriptionId != 205)
             {
                 failure = "object payload 35 did not resolve to item id 205";
+                return false;
+            }
+
+            if (pObjectBackedItem->x != 100.0f || pObjectBackedItem->y != 200.0f || pObjectBackedItem->z != 300.0f)
+            {
+                failure = "object payload 35 did not preserve summon position";
                 return false;
             }
 
@@ -8790,7 +8837,7 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
                     1,
                     2,
                     1,
-                    -static_cast<int32_t>(std::lround(leftActorX)),
+                    static_cast<int32_t>(std::lround(leftActorX)),
                     static_cast<int32_t>(std::lround(leftActorY)),
                     static_cast<int32_t>(std::lround(leftActorZ)),
                     12,
@@ -8804,7 +8851,7 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
                     2,
                     2,
                     1,
-                    -static_cast<int32_t>(std::lround(rightActorX)),
+                    static_cast<int32_t>(std::lround(rightActorX)),
                     static_cast<int32_t>(std::lround(rightActorY)),
                     static_cast<int32_t>(std::lround(rightActorZ)),
                     10,
@@ -9710,13 +9757,13 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
             constexpr float FightCenterY = -12848.0f;
             constexpr float FightCenterZ = 110.0f;
 
-            if (!scenario.world.summonMonsters(1, 2, 1, 9280, -12848, static_cast<int32_t>(FightCenterZ), 12, 0))
+            if (!scenario.world.summonMonsters(1, 2, 1, -9280, -12848, static_cast<int32_t>(FightCenterZ), 12, 0))
             {
                 failure = "could not spawn lizardman encounter actor";
                 return false;
             }
 
-            if (!scenario.world.summonMonsters(2, 2, 1, 9152, -12848, static_cast<int32_t>(FightCenterZ), 10, 0))
+            if (!scenario.world.summonMonsters(2, 2, 1, -9152, -12848, static_cast<int32_t>(FightCenterZ), 10, 0))
             {
                 failure = "could not spawn pirate encounter actor";
                 return false;

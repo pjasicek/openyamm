@@ -530,6 +530,7 @@ bool MonsterTable::loadStatsFromRows(const std::vector<std::vector<std::string>>
         entry.armorClass = row[5].empty() ? 0 : std::stoi(row[5]);
         entry.experience = row.size() > 6 && !row[6].empty() ? std::stoi(row[6]) : 0;
         entry.attack1Type = row.size() > 17 ? row[17] : std::string();
+        entry.bloodSplatOnDeath = row.size() > 8 && !row[8].empty() && row[8] != "0";
         entry.canFly = row.size() > 9 && !row[9].empty() && toLowerCopy(row[9]) == "y";
         entry.movementType = row.size() > 10 ? parseMovementType(row[10]) : MonsterMovementType::Short;
         entry.aiType = row.size() > 11 ? parseAiType(row[11]) : MonsterAiType::Suicide;

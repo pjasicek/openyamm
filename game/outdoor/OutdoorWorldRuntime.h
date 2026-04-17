@@ -141,6 +141,7 @@ public:
         bool hostileToParty = false;
         bool isDead = false;
         bool isInvisible = false;
+        bool bloodSplatSpawned = false;
         bool hasDetectedParty = false;
         ActorAiState aiState = ActorAiState::Standing;
         ActorAnimation animation = ActorAnimation::Standing;
@@ -769,8 +770,30 @@ public:
         bool useStaticFrame = false;
     };
 
+    struct BloodSplatState
+    {
+        struct Vertex
+        {
+            float x = 0.0f;
+            float y = 0.0f;
+            float z = 0.0f;
+            float u = 0.0f;
+            float v = 0.0f;
+        };
+
+        uint32_t sourceActorId = 0;
+        float x = 0.0f;
+        float y = 0.0f;
+        float z = 0.0f;
+        float radius = 0.0f;
+        std::vector<Vertex> vertices;
+    };
+
     void collectOutdoorFaceCandidates(float minX, float minY, float maxX, float maxY, std::vector<size_t> &indices) const;
     const OutdoorFaceGeometryData *outdoorFace(size_t faceIndex) const;
+    size_t bloodSplatCount() const;
+    const BloodSplatState *bloodSplatState(size_t splatIndex) const;
+    uint64_t bloodSplatRevision() const;
 
 private:
     static uint32_t makeChestSeed(uint32_t sessionSeed, int mapId, uint32_t chestId, uint32_t salt);
@@ -892,6 +915,10 @@ private:
         bool centerVertically = false,
         bool preferImpactObject = true);
     bool spawnWaterSplashImpact(float x, float y, float z);
+    void addBloodSplat(uint32_t sourceActorId, float x, float y, float z, float radius);
+    void bakeBloodSplatGeometry(BloodSplatState &splat) const;
+    void spawnBloodSplatForActorIfNeeded(size_t actorIndex);
+    void removeBloodSplat(uint32_t sourceActorId);
 
     int m_mapId = 0;
     int m_mapTreasureLevel = 0;
@@ -951,6 +978,8 @@ private:
     std::vector<ProjectileState> m_projectiles;
     std::vector<ProjectileImpactState> m_projectileImpacts;
     std::vector<FireSpikeTrapState> m_fireSpikeTraps;
+    std::vector<BloodSplatState> m_bloodSplats;
+    uint64_t m_bloodSplatRevision = 0;
     ArmageddonState m_armageddonState = {};
 
     void updateGameplayScreenOverlay(float deltaSeconds);

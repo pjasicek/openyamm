@@ -1763,6 +1763,233 @@ const OutdoorGameView::SkyTextureHandle *OutdoorRenderer::ensureSkyTexture(
     return &view.m_skyTextureHandles.back();
 }
 
+bgfx::TextureHandle OutdoorRenderer::ensureBloodSplatTexture(OutdoorGameView &view)
+{
+    if (bgfx::isValid(view.m_bloodSplatTextureHandle))
+    {
+        return view.m_bloodSplatTextureHandle;
+    }
+
+    const std::optional<std::string> bitmapPath = view.findCachedAssetPath("Data/bitmaps", "hwsplat04.bmp");
+
+    if (!bitmapPath)
+    {
+        return BGFX_INVALID_HANDLE;
+    }
+
+    const std::optional<std::vector<uint8_t>> bitmapBytes = view.readCachedBinaryFile(*bitmapPath);
+
+    if (!bitmapBytes || bitmapBytes->empty())
+    {
+        return BGFX_INVALID_HANDLE;
+    }
+
+    SDL_IOStream *pIoStream = SDL_IOFromConstMem(bitmapBytes->data(), bitmapBytes->size());
+
+    if (pIoStream == nullptr)
+    {
+        return BGFX_INVALID_HANDLE;
+    }
+
+    SDL_Surface *pLoadedSurface = SDL_LoadBMP_IO(pIoStream, true);
+
+    if (pLoadedSurface == nullptr)
+    {
+        return BGFX_INVALID_HANDLE;
+    }
+
+    SDL_Surface *pConvertedSurface = SDL_ConvertSurface(pLoadedSurface, SDL_PIXELFORMAT_BGRA32);
+    SDL_DestroySurface(pLoadedSurface);
+
+    if (pConvertedSurface == nullptr)
+    {
+        return BGFX_INVALID_HANDLE;
+    }
+
+    const int textureWidth = pConvertedSurface->w;
+    const int textureHeight = pConvertedSurface->h;
+    const size_t pixelCount = static_cast<size_t>(textureWidth) * static_cast<size_t>(textureHeight) * 4;
+    std::vector<uint8_t> pixels(pixelCount);
+    std::memcpy(pixels.data(), pConvertedSurface->pixels, pixelCount);
+    SDL_DestroySurface(pConvertedSurface);
+
+    for (size_t offset = 0; offset + 3 < pixels.size(); offset += 4)
+    {
+        const uint8_t intensity = std::max({pixels[offset + 0], pixels[offset + 1], pixels[offset + 2]});
+
+        if (intensity == 0)
+        {
+            pixels[offset + 0] = 0;
+            pixels[offset + 1] = 0;
+            pixels[offset + 2] = 0;
+            pixels[offset + 3] = 0;
+            continue;
+        }
+
+        const float factor = static_cast<float>(intensity) / 255.0f;
+        pixels[offset + 0] = static_cast<uint8_t>(std::lround(4.0f + 14.0f * factor));
+        pixels[offset + 1] = static_cast<uint8_t>(std::lround(8.0f + 20.0f * factor));
+        pixels[offset + 2] = static_cast<uint8_t>(std::lround(72.0f + 120.0f * factor));
+        pixels[offset + 3] = intensity;
+    }
+
+    view.m_bloodSplatTextureHandle = createBgraTexture2D(
+        uint16_t(textureWidth),
+        uint16_t(textureHeight),
+        pixels.data(),
+        uint32_t(pixels.size()),
+        TextureFilterProfile::BModel,
+        BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP);
+
+    return view.m_bloodSplatTextureHandle;
+}
+
+void OutdoorRenderer::ensureBloodSplatVertexBuffer(OutdoorGameView &view)
+{
+    if (view.m_pOutdoorWorldRuntime == nullptr)
+    {
+        if (bgfx::isValid(view.m_bloodSplatVertexBufferHandle))
+        {
+            bgfx::destroy(view.m_bloodSplatVertexBufferHandle);
+            view.m_bloodSplatVertexBufferHandle = BGFX_INVALID_HANDLE;
+        }
+
+        view.m_bloodSplatVertexCount = 0;
+        view.m_bloodSplatVertexBufferRevision = std::numeric_limits<uint64_t>::max();
+        return;
+    }
+
+    const uint64_t revision = view.m_pOutdoorWorldRuntime->bloodSplatRevision();
+
+    if (view.m_bloodSplatVertexBufferRevision == revision)
+    {
+        return;
+    }
+
+    view.m_bloodSplatVertexBufferRevision = revision;
+
+    if (bgfx::isValid(view.m_bloodSplatVertexBufferHandle))
+    {
+        bgfx::destroy(view.m_bloodSplatVertexBufferHandle);
+        view.m_bloodSplatVertexBufferHandle = BGFX_INVALID_HANDLE;
+    }
+
+    view.m_bloodSplatVertexCount = 0;
+
+    std::vector<OutdoorGameView::TexturedTerrainVertex> vertices;
+    size_t totalVertexCount = 0;
+
+    for (size_t splatIndex = 0; splatIndex < view.m_pOutdoorWorldRuntime->bloodSplatCount(); ++splatIndex)
+    {
+        const OutdoorWorldRuntime::BloodSplatState *pSplat = view.m_pOutdoorWorldRuntime->bloodSplatState(splatIndex);
+
+        if (pSplat == nullptr || pSplat->vertices.empty())
+        {
+            continue;
+        }
+
+        totalVertexCount += pSplat->vertices.size();
+    }
+
+    if (totalVertexCount == 0)
+    {
+        return;
+    }
+
+    vertices.reserve(totalVertexCount);
+
+    for (size_t splatIndex = 0; splatIndex < view.m_pOutdoorWorldRuntime->bloodSplatCount(); ++splatIndex)
+    {
+        const OutdoorWorldRuntime::BloodSplatState *pSplat = view.m_pOutdoorWorldRuntime->bloodSplatState(splatIndex);
+
+        if (pSplat == nullptr || pSplat->vertices.empty())
+        {
+            continue;
+        }
+
+        for (const OutdoorWorldRuntime::BloodSplatState::Vertex &sourceVertex : pSplat->vertices)
+        {
+            OutdoorGameView::TexturedTerrainVertex vertex = {};
+            vertex.x = sourceVertex.x;
+            vertex.y = sourceVertex.y;
+            vertex.z = sourceVertex.z;
+            vertex.u = sourceVertex.u;
+            vertex.v = sourceVertex.v;
+            vertices.push_back(vertex);
+        }
+    }
+
+    const bgfx::Memory *pVertexMemory = bgfx::copy(
+        vertices.data(),
+        static_cast<uint32_t>(vertices.size() * sizeof(OutdoorGameView::TexturedTerrainVertex)));
+    view.m_bloodSplatVertexBufferHandle = bgfx::createVertexBuffer(
+        pVertexMemory,
+        OutdoorGameView::TexturedTerrainVertex::ms_layout);
+    view.m_bloodSplatVertexCount = static_cast<uint32_t>(vertices.size());
+}
+
+void OutdoorRenderer::renderBloodSplats(
+    OutdoorGameView &view,
+    uint16_t viewId,
+    const bx::Vec3 &cameraPosition,
+    float farClipDistance)
+{
+    if (view.m_pOutdoorWorldRuntime == nullptr
+        || !view.m_gameSettings.bloodSplats
+        || !bgfx::isValid(view.m_outdoorTexturedFogProgramHandle)
+        || !bgfx::isValid(view.m_terrainTextureSamplerHandle)
+        || !bgfx::isValid(view.m_outdoorFogColorUniformHandle)
+        || !bgfx::isValid(view.m_outdoorFogDensitiesUniformHandle)
+        || !bgfx::isValid(view.m_outdoorFogDistancesUniformHandle)
+        || !bgfx::isValid(view.m_outdoorFxLightPositionsUniformHandle)
+        || !bgfx::isValid(view.m_outdoorFxLightColorsUniformHandle)
+        || !bgfx::isValid(view.m_outdoorFxLightParamsUniformHandle))
+    {
+        return;
+    }
+
+    const bgfx::TextureHandle bloodSplatTextureHandle = ensureBloodSplatTexture(view);
+
+    if (!bgfx::isValid(bloodSplatTextureHandle))
+    {
+        return;
+    }
+
+    ensureBloodSplatVertexBuffer(view);
+
+    if (!bgfx::isValid(view.m_bloodSplatVertexBufferHandle) || view.m_bloodSplatVertexCount == 0)
+    {
+        return;
+    }
+
+    float modelMatrix[16] = {};
+    bx::mtxIdentity(modelMatrix);
+    bgfx::setTransform(modelMatrix);
+    bgfx::setVertexBuffer(0, view.m_bloodSplatVertexBufferHandle, 0, view.m_bloodSplatVertexCount);
+    bindTexture(
+        0,
+        view.m_terrainTextureSamplerHandle,
+        bloodSplatTextureHandle,
+        TextureFilterProfile::BModel,
+        BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP);
+    applyOutdoorFxLightUniforms(view, cameraPosition);
+    const OutdoorWorldRuntime::AtmosphereState *pAtmosphereState =
+        view.m_pOutdoorWorldRuntime != nullptr ? &view.m_pOutdoorWorldRuntime->atmosphereState() : nullptr;
+    const OutdoorFogParameters fogParameters =
+        buildOutdoorWorldFogParameters(view.m_pOutdoorWorldRuntime, pAtmosphereState, farClipDistance);
+    applyOutdoorFogUniforms(
+        view.m_outdoorFogColorUniformHandle,
+        view.m_outdoorFogDensitiesUniformHandle,
+        view.m_outdoorFogDistancesUniformHandle,
+        fogParameters);
+    bgfx::setState(
+        BGFX_STATE_WRITE_RGB
+        | BGFX_STATE_WRITE_A
+        | BGFX_STATE_DEPTH_TEST_LEQUAL
+        | BGFX_STATE_BLEND_ALPHA);
+    bgfx::submit(viewId, view.m_outdoorTexturedFogProgramHandle);
+}
+
 void OutdoorRenderer::invalidateSkyResources(OutdoorGameView &view)
 {
     for (OutdoorGameView::SkyTextureHandle &textureHandle : view.m_skyTextureHandles)
@@ -2008,6 +2235,8 @@ void OutdoorRenderer::renderWorldPasses(
         );
         bgfx::submit(MainViewId, view.m_programHandle);
     }
+
+    renderBloodSplats(view, MainViewId, cameraPosition, farClipDistance);
 
     if (view.m_showSpriteObjects || view.m_showActors)
     {

@@ -108,6 +108,10 @@ constexpr float ArmageddonDurationSeconds = 256.0f / TicksPerSecond;
 constexpr uint32_t ArmageddonShakeStepCount = 60;
 constexpr float ArmageddonShakeYawRadians = 0.035f;
 constexpr float ArmageddonShakePitchRadians = 0.024f;
+constexpr size_t MaxOutdoorBloodSplats = 64;
+constexpr size_t BloodSplatGridResolution = 10;
+constexpr float BloodSplatHeightOffset = 2.0f;
+constexpr float BloodSplatMinSurfaceHeightTolerance = 32.0f;
 
 float actorDecisionRange(
     uint32_t actorId,
@@ -5865,6 +5869,7 @@ void OutdoorWorldRuntime::updateMapActors(float deltaSeconds, float partyX, floa
 
             if (actor.currentHp <= 0)
             {
+                spawnBloodSplatForActorIfNeeded(actorIndex);
                 resetCrowdSteeringState(actor);
                 actor.moveDirectionX = 0.0f;
                 actor.moveDirectionY = 0.0f;
@@ -8965,6 +8970,12 @@ bool OutdoorWorldRuntime::setMapActorDead(size_t actorIndex, bool isDead, bool e
         m_mapActorCorpseViews[actorIndex].reset();
     }
 
+    if (wasDead && !isDead)
+    {
+        actor.bloodSplatSpawned = false;
+        removeBloodSplat(actor.actorId);
+    }
+
     return true;
 }
 
@@ -10851,6 +10862,225 @@ const OutdoorWorldRuntime::FireSpikeTrapState *OutdoorWorldRuntime::fireSpikeTra
     return &m_fireSpikeTraps[trapIndex];
 }
 
+size_t OutdoorWorldRuntime::bloodSplatCount() const
+{
+    return m_bloodSplats.size();
+}
+
+const OutdoorWorldRuntime::BloodSplatState *OutdoorWorldRuntime::bloodSplatState(size_t splatIndex) const
+{
+    if (splatIndex >= m_bloodSplats.size())
+    {
+        return nullptr;
+    }
+
+    return &m_bloodSplats[splatIndex];
+}
+
+uint64_t OutdoorWorldRuntime::bloodSplatRevision() const
+{
+    return m_bloodSplatRevision;
+}
+
+void OutdoorWorldRuntime::addBloodSplat(uint32_t sourceActorId, float x, float y, float z, float radius)
+{
+    if (radius <= 0.0f)
+    {
+        return;
+    }
+
+    removeBloodSplat(sourceActorId);
+
+    BloodSplatState splat = {};
+    splat.sourceActorId = sourceActorId;
+    splat.x = x;
+    splat.y = y;
+    splat.z = z;
+    splat.radius = radius;
+    bakeBloodSplatGeometry(splat);
+
+    if (splat.vertices.empty())
+    {
+        return;
+    }
+
+    if (m_bloodSplats.size() >= MaxOutdoorBloodSplats)
+    {
+        m_bloodSplats.erase(m_bloodSplats.begin());
+    }
+
+    m_bloodSplats.push_back(splat);
+    ++m_bloodSplatRevision;
+}
+
+void OutdoorWorldRuntime::spawnBloodSplatForActorIfNeeded(size_t actorIndex)
+{
+    if (actorIndex >= m_mapActors.size() || m_pMonsterTable == nullptr)
+    {
+        return;
+    }
+
+    MapActorState &actor = m_mapActors[actorIndex];
+
+    if (actor.bloodSplatSpawned)
+    {
+        return;
+    }
+
+    const MonsterTable::MonsterStatsEntry *pStats = m_pMonsterTable->findStatsById(actor.monsterId);
+
+    if (pStats == nullptr || !pStats->bloodSplatOnDeath)
+    {
+        return;
+    }
+
+    const float terrainZ =
+        m_pOutdoorMapData != nullptr
+            ? sampleOutdoorRenderedTerrainHeight(*m_pOutdoorMapData, actor.preciseX, actor.preciseY)
+            : actor.preciseZ;
+    const float supportZ = sampleSupportFloorHeight(
+        actor.preciseX,
+        actor.preciseY,
+        actor.preciseZ + 256.0f,
+        512.0f,
+        24.0f);
+    const float splatZ = std::max(terrainZ, supportZ);
+    const float splatRadius = std::max(32.0f, static_cast<float>(actor.radius) * 1.5f);
+    addBloodSplat(actor.actorId, actor.preciseX, actor.preciseY, splatZ, splatRadius);
+    actor.bloodSplatSpawned = true;
+}
+
+void OutdoorWorldRuntime::bakeBloodSplatGeometry(BloodSplatState &splat) const
+{
+    splat.vertices.clear();
+
+    if (splat.radius <= 0.0f)
+    {
+        return;
+    }
+
+    const float diameter = splat.radius * 2.0f;
+    const float cellSize = diameter / static_cast<float>(BloodSplatGridResolution);
+    const float cellHalfSize = cellSize * 0.5f;
+    const float surfaceHeightTolerance =
+        std::max(BloodSplatMinSurfaceHeightTolerance, splat.radius * 0.5f);
+
+    splat.vertices.reserve(BloodSplatGridResolution * BloodSplatGridResolution * 12);
+
+    const auto appendVertex =
+        [&splat](const bx::Vec3 &position, float u, float v)
+        {
+            BloodSplatState::Vertex vertex = {};
+            vertex.x = position.x;
+            vertex.y = position.y;
+            vertex.z = position.z;
+            vertex.u = u;
+            vertex.v = v;
+            splat.vertices.push_back(vertex);
+        };
+
+    const auto sampleWorldPoint =
+        [this, &splat, surfaceHeightTolerance](float x, float y, bx::Vec3 &point) -> bool
+        {
+            const float terrainZ =
+                m_pOutdoorMapData != nullptr
+                    ? sampleOutdoorRenderedTerrainHeight(*m_pOutdoorMapData, x, y)
+                    : splat.z;
+            const float supportZ = sampleSupportFloorHeight(
+                x,
+                y,
+                splat.z + 256.0f,
+                512.0f,
+                24.0f);
+            const float z = std::max(terrainZ, supportZ);
+
+            if (std::abs(z - splat.z) > surfaceHeightTolerance)
+            {
+                return false;
+            }
+
+            point = {x, y, z + BloodSplatHeightOffset + 1.0f};
+            return true;
+        };
+
+    for (size_t yIndex = 0; yIndex < BloodSplatGridResolution; ++yIndex)
+    {
+        const float v0 = static_cast<float>(yIndex) / static_cast<float>(BloodSplatGridResolution);
+        const float v1 = static_cast<float>(yIndex + 1) / static_cast<float>(BloodSplatGridResolution);
+        const float localY0 = (v0 - 0.5f) * diameter;
+        const float localY1 = (v1 - 0.5f) * diameter;
+
+        for (size_t xIndex = 0; xIndex < BloodSplatGridResolution; ++xIndex)
+        {
+            const float u0 = static_cast<float>(xIndex) / static_cast<float>(BloodSplatGridResolution);
+            const float u1 = static_cast<float>(xIndex + 1) / static_cast<float>(BloodSplatGridResolution);
+            const float localX0 = (u0 - 0.5f) * diameter;
+            const float localX1 = (u1 - 0.5f) * diameter;
+            const float localCenterX = (localX0 + localX1) * 0.5f;
+            const float localCenterY = (localY0 + localY1) * 0.5f;
+            const float nearestX = std::max(std::abs(localCenterX) - cellHalfSize, 0.0f);
+            const float nearestY = std::max(std::abs(localCenterY) - cellHalfSize, 0.0f);
+
+            if (nearestX * nearestX + nearestY * nearestY > splat.radius * splat.radius)
+            {
+                continue;
+            }
+
+            bx::Vec3 topLeft = {0.0f, 0.0f, 0.0f};
+            bx::Vec3 topRight = {0.0f, 0.0f, 0.0f};
+            bx::Vec3 bottomLeft = {0.0f, 0.0f, 0.0f};
+            bx::Vec3 bottomRight = {0.0f, 0.0f, 0.0f};
+            const float centerU = (u0 + u1) * 0.5f;
+            const float centerV = (v0 + v1) * 0.5f;
+            bx::Vec3 center = {0.0f, 0.0f, 0.0f};
+
+            if (!sampleWorldPoint(splat.x + localX0, splat.y + localY0, topLeft)
+                || !sampleWorldPoint(splat.x + localX1, splat.y + localY0, topRight)
+                || !sampleWorldPoint(splat.x + localX0, splat.y + localY1, bottomLeft)
+                || !sampleWorldPoint(splat.x + localX1, splat.y + localY1, bottomRight)
+                || !sampleWorldPoint(splat.x + localCenterX, splat.y + localCenterY, center))
+            {
+                continue;
+            }
+
+            appendVertex(topLeft, u0, v0);
+            appendVertex(topRight, u1, v0);
+            appendVertex(center, centerU, centerV);
+
+            appendVertex(topRight, u1, v0);
+            appendVertex(bottomRight, u1, v1);
+            appendVertex(center, centerU, centerV);
+
+            appendVertex(bottomRight, u1, v1);
+            appendVertex(bottomLeft, u0, v1);
+            appendVertex(center, centerU, centerV);
+
+            appendVertex(bottomLeft, u0, v1);
+            appendVertex(topLeft, u0, v0);
+            appendVertex(center, centerU, centerV);
+        }
+    }
+}
+
+void OutdoorWorldRuntime::removeBloodSplat(uint32_t sourceActorId)
+{
+    const size_t previousCount = m_bloodSplats.size();
+    m_bloodSplats.erase(
+        std::remove_if(
+            m_bloodSplats.begin(),
+            m_bloodSplats.end(),
+            [sourceActorId](const BloodSplatState &splat)
+            {
+                return splat.sourceActorId == sourceActorId;
+            }),
+        m_bloodSplats.end());
+
+    if (m_bloodSplats.size() != previousCount)
+    {
+        ++m_bloodSplatRevision;
+    }
+}
+
 bool OutdoorWorldRuntime::summonMonsters(
     uint32_t typeIndexInMapStats,
     uint32_t level,
@@ -10871,7 +11101,7 @@ bool OutdoorWorldRuntime::summonMonsters(
         static_cast<int>(typeIndexInMapStats),
         tierLetterForSummonLevel(level),
         count,
-        static_cast<float>(-x),
+        static_cast<float>(x),
         static_cast<float>(y),
         static_cast<float>(z),
         128,
@@ -10983,7 +11213,7 @@ bool OutdoorWorldRuntime::summonEventItem(
     }
 
     bool spawnedAny = false;
-    const float baseX = static_cast<float>(-x);
+    const float baseX = static_cast<float>(x);
     const float baseY = static_cast<float>(y);
     const float baseZ = static_cast<float>(z);
 

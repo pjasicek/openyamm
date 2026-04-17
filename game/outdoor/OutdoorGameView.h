@@ -1034,6 +1034,7 @@ private:
     bgfx::IndexBufferHandle m_indexBufferHandle;
     bgfx::DynamicVertexBufferHandle m_skyVertexBufferHandle;
     bgfx::DynamicVertexBufferHandle m_texturedTerrainVertexBufferHandle;
+    bgfx::VertexBufferHandle m_bloodSplatVertexBufferHandle;
     bgfx::VertexBufferHandle m_filledTerrainVertexBufferHandle;
     bgfx::VertexBufferHandle m_bmodelVertexBufferHandle;
     bgfx::VertexBufferHandle m_bmodelCollisionVertexBufferHandle;
@@ -1047,6 +1048,7 @@ private:
     bgfx::ProgramHandle m_outdoorTexturedFogProgramHandle;
     bgfx::ProgramHandle m_outdoorForcePerspectiveProgramHandle;
     bgfx::TextureHandle m_terrainTextureAtlasHandle;
+    bgfx::TextureHandle m_bloodSplatTextureHandle;
     bgfx::TextureHandle m_forcePerspectiveSolidTextureHandle;
     bgfx::UniformHandle m_terrainTextureSamplerHandle;
     bgfx::UniformHandle m_particleParamsUniformHandle;
@@ -1067,6 +1069,7 @@ private:
     float m_framesPerSecond;
     float m_lastOutdoorFxLightUniformUpdateElapsedTime = -1.0f;
     uint32_t m_bmodelLineVertexCount;
+    uint32_t m_bloodSplatVertexCount;
     uint32_t m_bmodelCollisionVertexCount;
     uint32_t m_bmodelFaceCount;
     uint32_t m_entityMarkerVertexCount;
@@ -1075,6 +1078,7 @@ private:
     std::vector<BModelTextureAnimationHandle> m_bmodelTextureAnimations;
     std::vector<ResolvedBModelDrawGroup> m_resolvedBModelDrawGroups;
     uint64_t m_resolvedBModelDrawGroupRevision = std::numeric_limits<uint64_t>::max();
+    uint64_t m_bloodSplatVertexBufferRevision = std::numeric_limits<uint64_t>::max();
     std::vector<BillboardTextureHandle> m_billboardTextureHandles;
     std::array<float, OutdoorFxUniformLightCount * 4> m_cachedOutdoorFxLightPositions = {};
     std::array<float, OutdoorFxUniformLightCount * 4> m_cachedOutdoorFxLightColors = {};

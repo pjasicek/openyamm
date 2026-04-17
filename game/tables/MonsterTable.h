@@ -98,6 +98,7 @@ public:
         int armorClass = 0;
         int experience = 0;
         std::string attack1Type;
+        bool bloodSplatOnDeath = false;
         int hostility = 0;
         int speed = 0;
         int recovery = 0;

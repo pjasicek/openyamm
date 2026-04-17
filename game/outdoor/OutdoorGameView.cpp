@@ -3576,6 +3576,7 @@ OutdoorGameView::OutdoorGameView()
     , m_indexBufferHandle(BGFX_INVALID_HANDLE)
     , m_skyVertexBufferHandle(BGFX_INVALID_HANDLE)
     , m_texturedTerrainVertexBufferHandle(BGFX_INVALID_HANDLE)
+    , m_bloodSplatVertexBufferHandle(BGFX_INVALID_HANDLE)
     , m_filledTerrainVertexBufferHandle(BGFX_INVALID_HANDLE)
     , m_bmodelVertexBufferHandle(BGFX_INVALID_HANDLE)
     , m_bmodelCollisionVertexBufferHandle(BGFX_INVALID_HANDLE)
@@ -3589,6 +3590,7 @@ OutdoorGameView::OutdoorGameView()
     , m_outdoorTexturedFogProgramHandle(BGFX_INVALID_HANDLE)
     , m_outdoorForcePerspectiveProgramHandle(BGFX_INVALID_HANDLE)
     , m_terrainTextureAtlasHandle(BGFX_INVALID_HANDLE)
+    , m_bloodSplatTextureHandle(BGFX_INVALID_HANDLE)
     , m_forcePerspectiveSolidTextureHandle(BGFX_INVALID_HANDLE)
     , m_terrainTextureSamplerHandle(BGFX_INVALID_HANDLE)
     , m_particleParamsUniformHandle(BGFX_INVALID_HANDLE)
@@ -3608,6 +3610,7 @@ OutdoorGameView::OutdoorGameView()
     , m_elapsedTime(0.0f)
     , m_framesPerSecond(0.0f)
     , m_bmodelLineVertexCount(0)
+    , m_bloodSplatVertexCount(0)
     , m_bmodelCollisionVertexCount(0)
     , m_bmodelFaceCount(0)
     , m_entityMarkerVertexCount(0)
@@ -4143,6 +4146,7 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
     bgfx::setViewClear(SkyViewId, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, clearColorAbgr, 1.0f, 0);
     bgfx::setViewRect(MainViewId, 0, 0, viewWidth, viewHeight);
     bgfx::setViewClear(MainViewId, BGFX_CLEAR_DEPTH, 0, 1.0f, 0);
+    bgfx::setViewMode(MainViewId, bgfx::ViewMode::Sequential);
 
     if (!m_isRenderable)
     {
@@ -6310,7 +6314,9 @@ void OutdoorGameView::shutdown()
         m_particleProgramHandle = BGFX_INVALID_HANDLE;
         m_outdoorTexturedFogProgramHandle = BGFX_INVALID_HANDLE;
         m_outdoorForcePerspectiveProgramHandle = BGFX_INVALID_HANDLE;
+        m_bloodSplatVertexBufferHandle = BGFX_INVALID_HANDLE;
         m_terrainTextureAtlasHandle = BGFX_INVALID_HANDLE;
+        m_bloodSplatTextureHandle = BGFX_INVALID_HANDLE;
         m_forcePerspectiveSolidTextureHandle = BGFX_INVALID_HANDLE;
         m_terrainTextureSamplerHandle = BGFX_INVALID_HANDLE;
         m_outdoorBillboardAmbientUniformHandle = BGFX_INVALID_HANDLE;
@@ -6319,6 +6325,8 @@ void OutdoorGameView::shutdown()
         m_outdoorFxLightPositionsUniformHandle = BGFX_INVALID_HANDLE;
         m_outdoorFxLightColorsUniformHandle = BGFX_INVALID_HANDLE;
         m_outdoorFxLightParamsUniformHandle = BGFX_INVALID_HANDLE;
+        m_bloodSplatVertexCount = 0;
+        m_bloodSplatVertexBufferRevision = std::numeric_limits<uint64_t>::max();
         m_outdoorFogColorUniformHandle = BGFX_INVALID_HANDLE;
         m_outdoorFogDensitiesUniformHandle = BGFX_INVALID_HANDLE;
         m_outdoorFogDistancesUniformHandle = BGFX_INVALID_HANDLE;
@@ -6420,6 +6428,12 @@ void OutdoorGameView::shutdown()
     {
         bgfx::destroy(m_terrainTextureAtlasHandle);
         m_terrainTextureAtlasHandle = BGFX_INVALID_HANDLE;
+    }
+
+    if (bgfx::isValid(m_bloodSplatTextureHandle))
+    {
+        bgfx::destroy(m_bloodSplatTextureHandle);
+        m_bloodSplatTextureHandle = BGFX_INVALID_HANDLE;
     }
 
     if (bgfx::isValid(m_forcePerspectiveSolidTextureHandle))
@@ -6623,6 +6637,12 @@ void OutdoorGameView::shutdown()
     {
         bgfx::destroy(m_texturedTerrainVertexBufferHandle);
         m_texturedTerrainVertexBufferHandle = BGFX_INVALID_HANDLE;
+    }
+
+    if (bgfx::isValid(m_bloodSplatVertexBufferHandle))
+    {
+        bgfx::destroy(m_bloodSplatVertexBufferHandle);
+        m_bloodSplatVertexBufferHandle = BGFX_INVALID_HANDLE;
     }
 
     if (bgfx::isValid(m_bmodelVertexBufferHandle))
