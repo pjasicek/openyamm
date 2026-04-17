@@ -1,5 +1,6 @@
 #pragma once
 
+#include <array>
 #include <cstdint>
 
 namespace OpenYAMM::Game
@@ -29,6 +30,8 @@ struct OutdoorWeatherProfile
     OutdoorPrecipitationKind defaultPrecipitation = OutdoorPrecipitationKind::None;
     bool alwaysFoggy = false;
     bool redFog = false;
+    bool hasFogTint = false;
+    std::array<uint8_t, 3> fogTintRgb = {255, 255, 255};
     bool underwater = false;
     OutdoorFogDistances defaultFog = {};
     int smallFogChance = 0;

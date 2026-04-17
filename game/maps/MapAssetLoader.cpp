@@ -119,6 +119,8 @@ OutdoorWeatherProfile buildOutdoorWeatherProfile(
         : precipitationKindFromFlags(environment.mapExtraBitsRaw);
     profile.alwaysFoggy = (environment.mapExtraBitsRaw & EnvironmentFlagAlwaysFoggy) != 0;
     profile.redFog = (environment.mapExtraBitsRaw & EnvironmentFlagRedFog) != 0;
+    profile.hasFogTint = environment.weather.hasFogTint;
+    profile.fogTintRgb = environment.weather.fogTintRgb;
     profile.underwater = (environment.mapExtraBitsRaw & EnvironmentFlagUnderwater) != 0;
     profile.defaultFog = {environment.fogWeakDistance, environment.fogStrongDistance};
     profile.smallFogChance = environment.weather.smallFogChance;

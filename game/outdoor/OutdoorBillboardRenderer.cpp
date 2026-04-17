@@ -75,6 +75,27 @@ uint32_t makeAbgr(uint8_t red, uint8_t green, uint8_t blue)
         | static_cast<uint32_t>(red);
 }
 
+uint32_t makeTintedFogColor(
+    uint8_t brightness,
+    bool hasFogTint,
+    uint8_t tintRed,
+    uint8_t tintGreen,
+    uint8_t tintBlue)
+{
+    if (!hasFogTint)
+    {
+        return makeAbgr(brightness, brightness, brightness);
+    }
+
+    const uint8_t red =
+        static_cast<uint8_t>(std::clamp(std::lround(static_cast<float>(brightness) * tintRed / 255.0f), 0l, 255l));
+    const uint8_t green =
+        static_cast<uint8_t>(std::clamp(std::lround(static_cast<float>(brightness) * tintGreen / 255.0f), 0l, 255l));
+    const uint8_t blue =
+        static_cast<uint8_t>(std::clamp(std::lround(static_cast<float>(brightness) * tintBlue / 255.0f), 0l, 255l));
+    return makeAbgr(red, green, blue);
+}
+
 struct SpriteTexturePreloadRequest
 {
     std::string textureName;
@@ -116,6 +137,16 @@ uint32_t computeBillboardFogColorAbgr(const OutdoorWorldRuntime::AtmosphereState
 {
     if (atmosphereState.isNight)
     {
+        if (atmosphereState.hasFogTint)
+        {
+            return makeTintedFogColor(
+                48,
+                true,
+                atmosphereState.fogTintRed,
+                atmosphereState.fogTintGreen,
+                atmosphereState.fogTintBlue);
+        }
+
         return atmosphereState.redFog ? makeAbgr(48, 18, 18) : makeAbgr(31, 31, 31);
     }
 
@@ -125,6 +156,16 @@ uint32_t computeBillboardFogColorAbgr(const OutdoorWorldRuntime::AtmosphereState
         0,
         255);
     const uint8_t red = static_cast<uint8_t>(fogLevel);
+
+    if (atmosphereState.hasFogTint)
+    {
+        return makeTintedFogColor(
+            red,
+            true,
+            atmosphereState.fogTintRed,
+            atmosphereState.fogTintGreen,
+            atmosphereState.fogTintBlue);
+    }
 
     if (atmosphereState.redFog)
     {

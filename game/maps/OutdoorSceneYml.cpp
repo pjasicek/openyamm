@@ -189,6 +189,59 @@ bool parseFogDistancesNode(
         && readScalarNode(distancesNode, "strong_distance", distances.strongDistance, errorMessage);
 }
 
+bool parseRgbTripletNode(
+    const YAML::Node &parentNode,
+    const char *key,
+    bool &hasValue,
+    std::array<uint8_t, 3> &rgb,
+    std::string &errorMessage)
+{
+    const YAML::Node rgbNode = parentNode[key];
+
+    if (!rgbNode)
+    {
+        return true;
+    }
+
+    if (!rgbNode.IsSequence() || rgbNode.size() != 3)
+    {
+        errorMessage = std::string("field must be an RGB sequence with exactly 3 values: ") + key;
+        return false;
+    }
+
+    for (size_t componentIndex = 0; componentIndex < 3; ++componentIndex)
+    {
+        int componentValue = 0;
+
+        if (!rgbNode[componentIndex].IsScalar())
+        {
+            errorMessage = std::string("RGB component must be scalar: ") + key;
+            return false;
+        }
+
+        try
+        {
+            componentValue = rgbNode[componentIndex].as<int>();
+        }
+        catch (const YAML::Exception &)
+        {
+            errorMessage = std::string("RGB component must be an integer: ") + key;
+            return false;
+        }
+
+        if (componentValue < 0 || componentValue > 255)
+        {
+            errorMessage = std::string("RGB component out of range 0..255: ") + key;
+            return false;
+        }
+
+        rgb[componentIndex] = static_cast<uint8_t>(componentValue);
+    }
+
+    hasValue = true;
+    return true;
+}
+
 bool parseWeatherConfig(
     const YAML::Node &environmentNode,
     OutdoorSceneEnvironment::WeatherConfig &weatherConfig,
@@ -210,7 +263,13 @@ bool parseWeatherConfig(
     const YAML::Node dailyFogNode = weatherNode["daily_fog"];
 
     if (!parseFogMode(weatherNode, weatherConfig.fogMode, errorMessage)
-        || !parsePrecipitationKind(weatherNode, weatherConfig.precipitation, errorMessage))
+        || !parsePrecipitationKind(weatherNode, weatherConfig.precipitation, errorMessage)
+        || !parseRgbTripletNode(
+            weatherNode,
+            "fog_tint_rgb",
+            weatherConfig.hasFogTint,
+            weatherConfig.fogTintRgb,
+            errorMessage))
     {
         return false;
     }

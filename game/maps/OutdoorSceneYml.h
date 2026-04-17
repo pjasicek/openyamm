@@ -19,6 +19,8 @@ struct OutdoorSceneEnvironment
     {
         OutdoorFogMode fogMode = OutdoorFogMode::Static;
         OutdoorPrecipitationKind precipitation = OutdoorPrecipitationKind::None;
+        bool hasFogTint = false;
+        std::array<uint8_t, 3> fogTintRgb = {255, 255, 255};
         int smallFogChance = 0;
         int averageFogChance = 0;
         int denseFogChance = 0;

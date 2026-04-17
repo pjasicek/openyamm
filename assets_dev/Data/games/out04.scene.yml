@@ -26,6 +26,7 @@ environment:
   weather:
     fog_mode: "daily_random"
     precipitation: "none"
+    fog_tint_rgb: [230, 184, 136]
     daily_fog:
       small_chance: 20
       average_chance: 10

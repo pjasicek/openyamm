@@ -150,6 +150,33 @@ const char *rainIntensityPresetName(OutdoorWorldRuntime::RainIntensityPreset pre
     }
 }
 
+uint32_t makeTintedFogColor(
+    uint8_t brightness,
+    bool hasFogTint,
+    uint8_t tintRed,
+    uint8_t tintGreen,
+    uint8_t tintBlue)
+{
+    if (!hasFogTint)
+    {
+        return 0xff000000u
+            | (static_cast<uint32_t>(brightness) << 16)
+            | (static_cast<uint32_t>(brightness) << 8)
+            | static_cast<uint32_t>(brightness);
+    }
+
+    const uint8_t red =
+        static_cast<uint8_t>(std::clamp(std::lround(static_cast<float>(brightness) * tintRed / 255.0f), 0l, 255l));
+    const uint8_t green =
+        static_cast<uint8_t>(std::clamp(std::lround(static_cast<float>(brightness) * tintGreen / 255.0f), 0l, 255l));
+    const uint8_t blue =
+        static_cast<uint8_t>(std::clamp(std::lround(static_cast<float>(brightness) * tintBlue / 255.0f), 0l, 255l));
+    return 0xff000000u
+        | (static_cast<uint32_t>(blue) << 16)
+        | (static_cast<uint32_t>(green) << 8)
+        | static_cast<uint32_t>(red);
+}
+
 float actorDecisionRange(
     uint32_t actorId,
     uint32_t counter,
@@ -5737,6 +5764,10 @@ void OutdoorWorldRuntime::applyInitialWeatherProfile()
     }
 
     m_atmosphereState.redFog = profile.redFog;
+    m_atmosphereState.hasFogTint = profile.hasFogTint;
+    m_atmosphereState.fogTintRed = profile.fogTintRgb[0];
+    m_atmosphereState.fogTintGreen = profile.fogTintRgb[1];
+    m_atmosphereState.fogTintBlue = profile.fogTintRgb[2];
 
     if (profile.fogMode == OutdoorFogMode::DailyRandom)
     {
@@ -5865,6 +5896,15 @@ void OutdoorWorldRuntime::resetDailySpellCounters()
 
 void OutdoorWorldRuntime::refreshAtmosphereState()
 {
+    if (m_outdoorWeatherProfile.has_value())
+    {
+        m_atmosphereState.redFog = m_outdoorWeatherProfile->redFog;
+        m_atmosphereState.hasFogTint = m_outdoorWeatherProfile->hasFogTint;
+        m_atmosphereState.fogTintRed = m_outdoorWeatherProfile->fogTintRgb[0];
+        m_atmosphereState.fogTintGreen = m_outdoorWeatherProfile->fogTintRgb[1];
+        m_atmosphereState.fogTintBlue = m_outdoorWeatherProfile->fogTintRgb[2];
+    }
+
     if (m_eventRuntimeState && m_eventRuntimeState->snowEnabled.has_value())
     {
         if (*m_eventRuntimeState->snowEnabled)
@@ -6004,7 +6044,16 @@ void OutdoorWorldRuntime::refreshAtmosphereState()
     {
         if (m_atmosphereState.isNight)
         {
-            if (m_atmosphereState.redFog)
+            if (m_atmosphereState.hasFogTint)
+            {
+                m_atmosphereState.clearColorAbgr = makeTintedFogColor(
+                    48,
+                    true,
+                    m_atmosphereState.fogTintRed,
+                    m_atmosphereState.fogTintGreen,
+                    m_atmosphereState.fogTintBlue);
+            }
+            else if (m_atmosphereState.redFog)
             {
                 m_atmosphereState.clearColorAbgr = makeAbgr(64, 24, 24);
             }
@@ -6020,7 +6069,16 @@ void OutdoorWorldRuntime::refreshAtmosphereState()
                 0l,
                 255l));
 
-            if (m_atmosphereState.redFog)
+            if (m_atmosphereState.hasFogTint)
+            {
+                m_atmosphereState.clearColorAbgr = makeTintedFogColor(
+                    fogLevel,
+                    true,
+                    m_atmosphereState.fogTintRed,
+                    m_atmosphereState.fogTintGreen,
+                    m_atmosphereState.fogTintBlue);
+            }
+            else if (m_atmosphereState.redFog)
             {
                 const uint8_t green = static_cast<uint8_t>(std::lround(static_cast<float>(fogLevel) * 0.35f));
                 const uint8_t blue = static_cast<uint8_t>(std::lround(static_cast<float>(fogLevel) * 0.35f));

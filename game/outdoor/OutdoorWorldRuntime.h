@@ -41,6 +41,10 @@ public:
         int32_t fogWeakDistance = 0;
         int32_t fogStrongDistance = 0;
         bool redFog = false;
+        bool hasFogTint = false;
+        uint8_t fogTintRed = 255;
+        uint8_t fogTintGreen = 255;
+        uint8_t fogTintBlue = 255;
         bool isNight = false;
         float fogDensity = 0.0f;
         float rainIntensity = 0.0f;
