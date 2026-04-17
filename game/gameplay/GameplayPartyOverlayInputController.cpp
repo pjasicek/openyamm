@@ -371,8 +371,8 @@ void appendCharacterSkillUiRows(
 {
     for (size_t skillIndex = 0; skillIndex < skillCount; ++skillIndex)
     {
-        const std::string canonicalName = canonicalSkillName(pSkillNames[skillIndex]);
-        const CharacterSkill *pSkill = character.findSkill(canonicalName);
+        const std::string canonicalName = pSkillNames[skillIndex];
+        const CharacterSkill *pSkill = character.findSkillByCanonicalName(canonicalName);
 
         if (pSkill == nullptr)
         {
@@ -439,8 +439,7 @@ CharacterSkillUiData buildCharacterSkillUiData(const Character *pCharacter, bool
 
     for (const auto &[ignoredSkillName, skill] : pCharacter->skills)
     {
-        static_cast<void>(ignoredSkillName);
-        const std::string canonicalName = canonicalSkillName(skill.name);
+        const std::string &canonicalName = ignoredSkillName;
 
         if (shownSkillNames.contains(canonicalName))
         {

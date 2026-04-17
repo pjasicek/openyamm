@@ -116,11 +116,44 @@ const OutdoorGameView::HudFontHandle *HudUiService::findHudFont(
 {
     const std::string normalizedFontName = toLowerCopy(fontName);
 
-    for (const OutdoorGameView::HudFontHandle &fontHandle : view.m_hudFontHandles)
-    {
-        if (fontHandle.fontName == normalizedFontName)
+    const auto findLoadedFont =
+        [&view, &normalizedFontName]() -> const OutdoorGameView::HudFontHandle *
         {
-            return &fontHandle;
+            for (const OutdoorGameView::HudFontHandle &fontHandle : view.m_hudFontHandles)
+            {
+                if (fontHandle.fontName == normalizedFontName)
+                {
+                    return &fontHandle;
+                }
+            }
+
+            return nullptr;
+        };
+
+    if (const OutdoorGameView::HudFontHandle *pLoadedFont = findLoadedFont())
+    {
+        return pLoadedFont;
+    }
+
+    if (!fontName.empty() && view.m_pAssetFileSystem != nullptr)
+    {
+        OutdoorGameView &mutableView = const_cast<OutdoorGameView &>(view);
+
+        if (mutableView.loadHudFont(*view.m_pAssetFileSystem, fontName))
+        {
+            if (const OutdoorGameView::HudFontHandle *pReloadedFont = findLoadedFont())
+            {
+                static std::unordered_set<std::string> lazyReloadLogs;
+                const std::string logKey = "lazy-font:" + normalizedFontName;
+
+                if (!lazyReloadLogs.contains(logKey))
+                {
+                    std::cout << "HUD font lazy-reloaded: font=\"" << fontName << "\"\n";
+                    lazyReloadLogs.insert(logKey);
+                }
+
+                return pReloadedFont;
+            }
         }
     }
 

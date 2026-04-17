@@ -228,18 +228,13 @@ std::string formatRestSkyTextureName(float gameMinutes)
 
 std::string formatRestHourglassTextureName(const GameplayUiController::RestScreenState &restScreen)
 {
-    int frameIndex = RestHourglassFirstFrame;
-
-    if (restScreen.mode != GameplayUiController::RestMode::None)
-    {
-        const float loopSeconds = std::fmod(
-            std::max(0.0f, restScreen.hourglassElapsedSeconds),
-            RestHourglassLoopSeconds);
-        const int frameCount = RestHourglassLastFrame - RestHourglassFirstFrame + 1;
-        frameIndex = RestHourglassFirstFrame
-            + static_cast<int>(std::floor((loopSeconds / RestHourglassLoopSeconds) * static_cast<float>(frameCount)));
-        frameIndex = std::clamp(frameIndex, RestHourglassFirstFrame, RestHourglassLastFrame);
-    }
+    const float loopSeconds = std::fmod(
+        std::max(0.0f, restScreen.hourglassElapsedSeconds),
+        RestHourglassLoopSeconds);
+    const int frameCount = RestHourglassLastFrame - RestHourglassFirstFrame + 1;
+    int frameIndex = RestHourglassFirstFrame
+        + static_cast<int>(std::floor((loopSeconds / RestHourglassLoopSeconds) * static_cast<float>(frameCount)));
+    frameIndex = std::clamp(frameIndex, RestHourglassFirstFrame, RestHourglassLastFrame);
 
     char textureName[16] = {};
     std::snprintf(textureName, sizeof(textureName), "HGLAS%03d", frameIndex);
@@ -1261,8 +1256,8 @@ void appendCharacterSkillUiRows(
 {
     for (size_t skillIndex = 0; skillIndex < skillCount; ++skillIndex)
     {
-        const std::string canonicalName = canonicalSkillName(pSkillNames[skillIndex]);
-        const CharacterSkill *pSkill = character.findSkill(canonicalName);
+        const std::string canonicalName = pSkillNames[skillIndex];
+        const CharacterSkill *pSkill = character.findSkillByCanonicalName(canonicalName);
 
         if (pSkill == nullptr)
         {
@@ -1324,8 +1319,7 @@ CharacterSkillUiData buildCharacterSkillUiData(const Character *pCharacter)
 
     for (const auto &[ignoredSkillName, skill] : pCharacter->skills)
     {
-        static_cast<void>(ignoredSkillName);
-        const std::string canonicalName = canonicalSkillName(skill.name);
+        const std::string &canonicalName = ignoredSkillName;
 
         if (shownSkillNames.contains(canonicalName))
         {
@@ -6431,46 +6425,47 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
             submitFrameQuad(x + rectWidth, y, thickness, rectHeight);
         };
 
-    const auto hasVisibleCharacterAncestors =
-        [&view](const OutdoorGameView::HudLayoutElement &layout) -> bool
+    const std::string activePageRootId =
+        view.m_characterPage == OutdoorGameView::CharacterPage::Stats
+            ? "characterstatspage"
+            : (view.m_characterPage == OutdoorGameView::CharacterPage::Skills
+                ? "characterskillspage"
+                : (view.m_characterPage == OutdoorGameView::CharacterPage::Inventory
+                    ? "characterinventorypage"
+                    : "characterawardspage"));
+    std::unordered_map<std::string, bool> visibleCharacterAncestorCache;
+    std::function<bool(const OutdoorGameView::HudLayoutElement &)> hasVisibleCharacterAncestors;
+    hasVisibleCharacterAncestors =
+        [&view, &activePageRootId, &visibleCharacterAncestorCache, &hasVisibleCharacterAncestors](
+            const OutdoorGameView::HudLayoutElement &layout) -> bool
         {
-            const std::string activePageRootId =
-                view.m_characterPage == OutdoorGameView::CharacterPage::Stats
-                    ? "characterstatspage"
-                    : (view.m_characterPage == OutdoorGameView::CharacterPage::Skills
-                        ? "characterskillspage"
-                        : (view.m_characterPage == OutdoorGameView::CharacterPage::Inventory
-                            ? "characterinventorypage"
-                            : "characterawardspage"));
-            const OutdoorGameView::HudLayoutElement *pCurrent = &layout;
+            const std::string normalizedId = toLowerCopy(layout.id);
+            const auto cachedIterator = visibleCharacterAncestorCache.find(normalizedId);
 
-            while (pCurrent != nullptr)
+            if (cachedIterator != visibleCharacterAncestorCache.end())
             {
-                const std::string normalizedId = toLowerCopy(pCurrent->id);
-
-                if (!pCurrent->visible || toLowerCopy(pCurrent->screen) != "character")
-                {
-                    return false;
-                }
-
-                if ((normalizedId == "characterstatspage"
-                        || normalizedId == "characterskillspage"
-                        || normalizedId == "characterinventorypage"
-                        || normalizedId == "characterawardspage")
-                    && normalizedId != activePageRootId)
-                {
-                    return false;
-                }
-
-                if (pCurrent->parentId.empty())
-                {
-                    break;
-                }
-
-                pCurrent = HudUiService::findHudLayoutElement(view, pCurrent->parentId);
+                return cachedIterator->second;
             }
 
-            return true;
+            bool result = layout.visible && toLowerCopy(layout.screen) == "character";
+
+            if (result
+                && (normalizedId == "characterstatspage"
+                    || normalizedId == "characterskillspage"
+                    || normalizedId == "characterinventorypage"
+                    || normalizedId == "characterawardspage"))
+            {
+                result = normalizedId == activePageRootId;
+            }
+
+            if (result && !layout.parentId.empty())
+            {
+                const OutdoorGameView::HudLayoutElement *pParent = HudUiService::findHudLayoutElement(view, layout.parentId);
+                result = pParent != nullptr && hasVisibleCharacterAncestors(*pParent);
+            }
+
+            visibleCharacterAncestorCache[normalizedId] = result;
+            return result;
         };
 
     const Party &party = view.m_pOutdoorPartyRuntime->party();
@@ -6988,6 +6983,16 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
         && (pMainHandItem->equipStat == "Weapon2"
             || (canonicalSkillName(pMainHandItem->skillGroup) == "Spear" && spearMastery < SkillMastery::Master));
 
+    struct CharacterLayoutPassEntry
+    {
+        const OutdoorGameView::HudLayoutElement *pLayout = nullptr;
+        std::string normalizedId;
+        OutdoorGameView::ResolvedHudLayoutElement resolved;
+    };
+
+    std::vector<CharacterLayoutPassEntry> characterLayoutPassEntries;
+    characterLayoutPassEntries.reserve(orderedCharacterLayoutIds.size());
+
     for (const std::string &layoutId : orderedCharacterLayoutIds)
     {
         const OutdoorGameView::HudLayoutElement *pLayout = HudUiService::findHudLayoutElement(view, layoutId);
@@ -6997,19 +7002,21 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
             continue;
         }
 
-        const std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolved = HudUiService::resolveHudLayoutElement(view, 
-            layoutId,
-            width,
-            height,
-            pLayout->width,
-            pLayout->height);
+        const std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolved =
+            HudUiService::resolveHudLayoutElement(
+                view,
+                pLayout->id,
+                width,
+                height,
+                pLayout->width,
+                pLayout->height);
 
         if (!resolved)
         {
             continue;
         }
 
-        const std::string normalizedLayoutId = toLowerCopy(layoutId);
+        const std::string normalizedLayoutId = toLowerCopy(pLayout->id);
 
         if (isAdventurersInnActive && !shouldRenderCharacterLayoutInAdventurersInn(normalizedLayoutId))
         {
@@ -7045,6 +7052,19 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
             continue;
         }
 
+        CharacterLayoutPassEntry entry = {};
+        entry.pLayout = pLayout;
+        entry.normalizedId = normalizedLayoutId;
+        entry.resolved = *resolved;
+        characterLayoutPassEntries.push_back(std::move(entry));
+    }
+
+    for (const CharacterLayoutPassEntry &entry : characterLayoutPassEntries)
+    {
+        const OutdoorGameView::HudLayoutElement *pLayout = entry.pLayout;
+        const OutdoorGameView::ResolvedHudLayoutElement &resolved = entry.resolved;
+        const std::string &normalizedLayoutId = entry.normalizedId;
+
         if (normalizedLayoutId == "characterdollbackground")
         {
             std::string assetName = pLayout->primaryAsset;
@@ -7068,7 +7088,7 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
 
                 if (pTexture != nullptr)
                 {
-                    view.submitHudTexturedQuad(*pTexture, resolved->x, resolved->y, resolved->width, resolved->height);
+                    view.submitHudTexturedQuad(*pTexture, resolved.x, resolved.y, resolved.width, resolved.height);
                 }
             }
 
@@ -7079,7 +7099,7 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
         {
             submitCharacterDollLayer(
                 *pLayout,
-                *resolved,
+                resolved,
                 pCharacterDollEntry->bodyAsset,
                 pCharacterDollEntry->bodyOffsetX,
                 pCharacterDollEntry->bodyOffsetY);
@@ -7092,7 +7112,7 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
         {
             submitCharacterDollLayer(
                 *pLayout,
-                *resolved,
+                resolved,
                 pMainHandItem != nullptr ? pCharacterDollEntry->rightHandHoldAsset : pCharacterDollEntry->rightHandOpenAsset,
                 pMainHandItem != nullptr ? pCharacterDollType->rightHandClosedX : pCharacterDollType->rightHandOpenX,
                 pMainHandItem != nullptr ? pCharacterDollType->rightHandClosedY : pCharacterDollType->rightHandOpenY);
@@ -7107,7 +7127,7 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
             {
                 submitCharacterDollLayer(
                     *pLayout,
-                    *resolved,
+                    resolved,
                     pCharacterDollEntry->leftHandHoldAsset,
                     pCharacterDollType->leftHandOpenX,
                     pCharacterDollType->leftHandOpenY);
@@ -7116,7 +7136,7 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
             {
                 submitCharacterDollLayer(
                     *pLayout,
-                    *resolved,
+                    resolved,
                     pCharacterDollEntry->leftHandClosedAsset,
                     pCharacterDollType->leftHandClosedX,
                     pCharacterDollType->leftHandClosedY);
@@ -7125,7 +7145,7 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
             {
                 submitCharacterDollLayer(
                     *pLayout,
-                    *resolved,
+                    resolved,
                     pCharacterDollEntry->leftHandOpenAsset,
                     pCharacterDollType->leftHandFingersX,
                     pCharacterDollType->leftHandFingersY);
@@ -7140,7 +7160,7 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
         {
             submitCharacterDollLayer(
                 *pLayout,
-                *resolved,
+                resolved,
                 pCharacterDollEntry->rightHandFingersAsset,
                 pCharacterDollType->rightHandFingersX,
                 pCharacterDollType->rightHandFingersY);
@@ -7157,18 +7177,18 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
             if (pPortraitTexture != nullptr && pPortraitTexture->width > 0 && pPortraitTexture->height > 0)
             {
                 const float scale = std::min(
-                    resolved->width / static_cast<float>(pPortraitTexture->width),
-                    resolved->height / static_cast<float>(pPortraitTexture->height));
+                    resolved.width / static_cast<float>(pPortraitTexture->width),
+                    resolved.height / static_cast<float>(pPortraitTexture->height));
                 const float portraitWidth = static_cast<float>(pPortraitTexture->width) * scale;
                 const float portraitHeight = static_cast<float>(pPortraitTexture->height) * scale;
-                const float portraitX = resolved->x + (resolved->width - portraitWidth) * 0.5f;
-                const float portraitY = resolved->y + (resolved->height - portraitHeight) * 0.5f;
+                const float portraitX = resolved.x + (resolved.width - portraitWidth) * 0.5f;
+                const float portraitY = resolved.y + (resolved.height - portraitHeight) * 0.5f;
                 view.submitHudTexturedQuad(*pPortraitTexture, portraitX, portraitY, portraitWidth, portraitHeight);
             }
         }
 
         const std::string *pAssetName =
-            HudUiService::resolveInteractiveAssetName(*pLayout, *resolved, characterMouseX, characterMouseY, isLeftMousePressed);
+            HudUiService::resolveInteractiveAssetName(*pLayout, resolved, characterMouseX, characterMouseY, isLeftMousePressed);
 
         if (!pAssetName->empty())
         {
@@ -7176,11 +7196,11 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
 
             if (pTexture != nullptr)
             {
-                view.submitHudTexturedQuad(*pTexture, resolved->x, resolved->y, resolved->width, resolved->height);
+                view.submitHudTexturedQuad(*pTexture, resolved.x, resolved.y, resolved.width, resolved.height);
             }
         }
 
-        const std::optional<EquipmentSlot> slot = characterEquipmentSlotForLayoutId(layoutId);
+        const std::optional<EquipmentSlot> slot = characterEquipmentSlotForLayoutId(pLayout->id);
 
         if (slot && isVisibleInCharacterDollOverlay(*slot, view.m_characterDollJewelryOverlayOpen))
         {
@@ -7427,50 +7447,18 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
             "Select item target  LMB cast  Esc cancel");
     }
 
-    for (const std::string &layoutId : orderedCharacterLayoutIds)
+    for (const CharacterLayoutPassEntry &entry : characterLayoutPassEntries)
     {
-        const OutdoorGameView::HudLayoutElement *pLayout = HudUiService::findHudLayoutElement(view, layoutId);
+        const OutdoorGameView::HudLayoutElement *pLayout = entry.pLayout;
 
-        if (pLayout == nullptr
-            || !hasVisibleCharacterAncestors(*pLayout)
-            || !shouldRenderInCurrentPass(pLayout->zIndex)
-            || pLayout->labelText.empty())
-        {
-            continue;
-        }
-
-        const std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolved = HudUiService::resolveHudLayoutElement(view, 
-            layoutId,
-            width,
-            height,
-            pLayout->width,
-            pLayout->height);
-
-        if (!resolved)
+        if (pLayout == nullptr || pLayout->labelText.empty())
         {
             continue;
         }
 
         OutdoorGameView::HudLayoutElement layoutForRender = *pLayout;
-        const std::string normalizedLayoutId = toLowerCopy(layoutId);
-
-        if (isAdventurersInnActive && !shouldRenderCharacterLayoutInAdventurersInn(normalizedLayoutId))
-        {
-            continue;
-        }
-
-        if (normalizedLayoutId.starts_with("adventurersinn"))
-        {
-            if (!isAdventurersInnActive)
-            {
-                continue;
-            }
-
-            if (normalizedLayoutId == "adventurersinnhirebutton" && party.isFull())
-            {
-                continue;
-            }
-        }
+        const std::string &normalizedLayoutId = entry.normalizedId;
+        const OutdoorGameView::ResolvedHudLayoutElement &resolved = entry.resolved;
 
         if (normalizedLayoutId == "characterstatsskillpointsvalue"
             || normalizedLayoutId == "characterskillsskillpointsvalue")
@@ -7543,11 +7531,11 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
 
         if (tryGetSplitCharacterStatValue(normalizedLayoutId, summary, splitValue))
         {
-            renderSplitCharacterStatLabel(layoutForRender, *resolved, splitValue);
+            renderSplitCharacterStatLabel(layoutForRender, resolved, splitValue);
             continue;
         }
 
-        HudUiService::renderLayoutLabel(view, layoutForRender, *resolved, label);
+        HudUiService::renderLayoutLabel(view, layoutForRender, resolved, label);
     }
 
     if (isAdventurersInnActive)

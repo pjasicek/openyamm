@@ -112,5 +112,6 @@ public:
 private:
     std::vector<std::string> m_layoutOrder;
     std::unordered_map<std::string, LayoutElement> m_layoutElements;
+    mutable std::unordered_map<std::string, std::vector<std::string>> m_sortedLayoutIdsByScreen;
 };
 }

@@ -221,6 +221,33 @@ const std::unordered_map<std::string, std::string> DisplaySkillNames = {
     {"IdentifyMonster", "Identify Monster"},
     {"DisarmTraps", "Disarm Traps"},
 };
+
+std::unordered_map<std::string, std::string> buildCanonicalClassLookup()
+{
+    std::unordered_map<std::string, std::string> lookup = ClassAliases;
+
+    for (const std::string &candidate : CanonicalClassNames)
+    {
+        lookup.try_emplace(canonicalLookupKey(candidate), candidate);
+    }
+
+    return lookup;
+}
+
+std::unordered_map<std::string, std::string> buildCanonicalSkillLookup()
+{
+    std::unordered_map<std::string, std::string> lookup = SkillAliases;
+
+    for (const std::string &candidate : CanonicalSkillNames)
+    {
+        lookup.try_emplace(canonicalLookupKey(candidate), candidate);
+    }
+
+    return lookup;
+}
+
+const std::unordered_map<std::string, std::string> CanonicalClassLookup = buildCanonicalClassLookup();
+const std::unordered_map<std::string, std::string> CanonicalSkillLookup = buildCanonicalSkillLookup();
 }
 
 std::string canonicalClassName(const std::string &name)
@@ -232,19 +259,11 @@ std::string canonicalClassName(const std::string &name)
         return {};
     }
 
-    const std::unordered_map<std::string, std::string>::const_iterator aliasIt = ClassAliases.find(lookupKey);
+    const std::unordered_map<std::string, std::string>::const_iterator lookupIt = CanonicalClassLookup.find(lookupKey);
 
-    if (aliasIt != ClassAliases.end())
+    if (lookupIt != CanonicalClassLookup.end())
     {
-        return aliasIt->second;
-    }
-
-    for (const std::string &candidate : CanonicalClassNames)
-    {
-        if (canonicalLookupKey(candidate) == lookupKey)
-        {
-            return candidate;
-        }
+        return lookupIt->second;
     }
 
     return trimCopy(name);
@@ -259,19 +278,11 @@ std::string canonicalSkillName(const std::string &name)
         return {};
     }
 
-    const std::unordered_map<std::string, std::string>::const_iterator aliasIt = SkillAliases.find(lookupKey);
+    const std::unordered_map<std::string, std::string>::const_iterator lookupIt = CanonicalSkillLookup.find(lookupKey);
 
-    if (aliasIt != SkillAliases.end())
+    if (lookupIt != CanonicalSkillLookup.end())
     {
-        return aliasIt->second;
-    }
-
-    for (const std::string &candidate : CanonicalSkillNames)
-    {
-        if (canonicalLookupKey(candidate) == lookupKey)
-        {
-            return candidate;
-        }
+        return lookupIt->second;
     }
 
     return trimCopy(name);

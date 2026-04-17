@@ -1300,7 +1300,12 @@ bool Character::tryPlaceInventoryItemAt(
 bool Character::hasSkill(const std::string &skillName) const
 {
     const std::string canonicalName = canonicalSkillName(skillName);
-    return !canonicalName.empty() && skills.contains(canonicalName);
+    return hasCanonicalSkill(canonicalName);
+}
+
+bool Character::hasCanonicalSkill(const std::string &canonicalSkillName) const
+{
+    return !canonicalSkillName.empty() && skills.contains(canonicalSkillName);
 }
 
 const CharacterSkill *Character::findSkill(const std::string &skillName) const
@@ -1312,7 +1317,17 @@ const CharacterSkill *Character::findSkill(const std::string &skillName) const
         return nullptr;
     }
 
-    const std::unordered_map<std::string, CharacterSkill>::const_iterator it = skills.find(canonicalName);
+    return findSkillByCanonicalName(canonicalName);
+}
+
+const CharacterSkill *Character::findSkillByCanonicalName(const std::string &canonicalSkillName) const
+{
+    if (canonicalSkillName.empty())
+    {
+        return nullptr;
+    }
+
+    const std::unordered_map<std::string, CharacterSkill>::const_iterator it = skills.find(canonicalSkillName);
     return it != skills.end() ? &it->second : nullptr;
 }
 
@@ -1325,7 +1340,17 @@ CharacterSkill *Character::findSkill(const std::string &skillName)
         return nullptr;
     }
 
-    const std::unordered_map<std::string, CharacterSkill>::iterator it = skills.find(canonicalName);
+    return findSkillByCanonicalName(canonicalName);
+}
+
+CharacterSkill *Character::findSkillByCanonicalName(const std::string &canonicalSkillName)
+{
+    if (canonicalSkillName.empty())
+    {
+        return nullptr;
+    }
+
+    const std::unordered_map<std::string, CharacterSkill>::iterator it = skills.find(canonicalSkillName);
     return it != skills.end() ? &it->second : nullptr;
 }
 

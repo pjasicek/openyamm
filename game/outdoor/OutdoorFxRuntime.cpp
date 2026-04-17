@@ -35,6 +35,13 @@ constexpr float WeatherSpawnDepth = 1850.0f;
 constexpr float WeatherSpawnHeight = 900.0f;
 constexpr float WeatherSpawnVolumeExpansionPerIntensity = 0.18f;
 
+enum class DecorationLightPulseStyle
+{
+    None,
+    FireFlicker,
+    MagicPulse,
+};
+
 uint32_t makeAbgr(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha)
 {
     return (static_cast<uint32_t>(alpha) << 24)
@@ -71,6 +78,108 @@ uint64_t makeDecorationEmitterKey(const DecorationBillboard &billboard)
         ^ (static_cast<uint64_t>(static_cast<uint32_t>(billboard.x)) << 20)
         ^ (static_cast<uint64_t>(static_cast<uint32_t>(billboard.y)) << 8)
         ^ static_cast<uint64_t>(billboard.decorationId);
+}
+
+bool containsDecorationLightToken(const std::string &text, const char *token)
+{
+    return !text.empty() && text.find(token) != std::string::npos;
+}
+
+DecorationLightPulseStyle decorationLightPulseStyle(const DecorationEntry &decoration)
+{
+    if (hasDecorationFlag(decoration.flags, DecorationDescFlag::EmitFire))
+    {
+        return DecorationLightPulseStyle::FireFlicker;
+    }
+
+    const std::string searchableName = toLowerCopy(decoration.internalName + " " + decoration.hint);
+
+    if (hasDecorationFlag(decoration.flags, DecorationDescFlag::FlickerFast)
+        || hasDecorationFlag(decoration.flags, DecorationDescFlag::FlickerAverage)
+        || containsDecorationLightToken(searchableName, "campfire")
+        || containsDecorationLightToken(searchableName, "torch")
+        || containsDecorationLightToken(searchableName, "beacon")
+        || containsDecorationLightToken(searchableName, "brazier")
+        || containsDecorationLightToken(searchableName, "fire")
+        || containsDecorationLightToken(searchableName, "flame"))
+    {
+        return DecorationLightPulseStyle::FireFlicker;
+    }
+
+    if (hasDecorationFlag(decoration.flags, DecorationDescFlag::FlickerSlow)
+        || containsDecorationLightToken(searchableName, "magic")
+        || containsDecorationLightToken(searchableName, "pedestal")
+        || containsDecorationLightToken(searchableName, "pedastal")
+        || containsDecorationLightToken(searchableName, "altar"))
+    {
+        return DecorationLightPulseStyle::MagicPulse;
+    }
+
+    return DecorationLightPulseStyle::None;
+}
+
+float decorationPulseFrequencyScale(const DecorationEntry &decoration)
+{
+    if (hasDecorationFlag(decoration.flags, DecorationDescFlag::FlickerFast))
+    {
+        return 1.2f;
+    }
+
+    if (hasDecorationFlag(decoration.flags, DecorationDescFlag::FlickerSlow))
+    {
+        return 0.72f;
+    }
+
+    return 1.0f;
+}
+
+void applyDecorationLightPulse(
+    const DecorationEntry &decoration,
+    uint64_t emitterKey,
+    float elapsedTime,
+    float &radius,
+    uint8_t &alpha)
+{
+    const DecorationLightPulseStyle style = decorationLightPulseStyle(decoration);
+
+    if (style == DecorationLightPulseStyle::None)
+    {
+        return;
+    }
+
+    const float phase = hash01(
+        static_cast<uint32_t>(emitterKey)
+        ^ static_cast<uint32_t>(emitterKey >> 32)
+        ^ 0x9e3779b9u) * 6.28318530718f;
+    const float speedScale = decorationPulseFrequencyScale(decoration);
+    const float pulseTime = elapsedTime * speedScale;
+
+    float radiusScale = 1.0f;
+    float alphaScale = 1.0f;
+
+    if (style == DecorationLightPulseStyle::FireFlicker)
+    {
+        const float flickerA = std::sin(pulseTime * 4.6f + phase);
+        const float flickerB = std::sin(pulseTime * 7.4f + phase * 1.37f);
+        const float flickerC = std::sin(pulseTime * 2.2f + phase * 0.71f);
+        const float combined = 0.5f + 0.5f * (0.62f * flickerA + 0.16f * flickerB + 0.22f * flickerC);
+        radiusScale = 0.96f + 0.08f * combined;
+        alphaScale = 0.84f + 0.16f * combined;
+    }
+    else if (style == DecorationLightPulseStyle::MagicPulse)
+    {
+        const float baseWave = 0.5f + 0.5f * std::sin(pulseTime * 2.0f + phase);
+        const float accentWave = 0.5f + 0.5f * std::sin(pulseTime * 4.1f + phase * 1.31f);
+        const float combined = 0.72f * baseWave + 0.28f * accentWave;
+        radiusScale = 0.94f + 0.18f * combined;
+        alphaScale = 0.84f + 0.22f * combined;
+    }
+
+    radius *= radiusScale;
+    alpha = static_cast<uint8_t>(std::clamp(
+        static_cast<int>(std::lround(static_cast<float>(alpha) * alphaScale)),
+        0,
+        255));
 }
 
 bool isCannonballProjectile(const OutdoorWorldRuntime::ProjectileState &projectile)
@@ -521,17 +630,26 @@ void OutdoorFxRuntime::syncRuntimeDecorations(OutdoorGameView &view)
         const float lightZ = decorationEmitterSpawnZ(billboard);
         if (lightEmitterRadius > 0.0f)
         {
-            uint32_t lightEmitterColorAbgr = makeAbgr(255, 255, 255, 208);
+            uint8_t lightRed = 255;
+            uint8_t lightGreen = 255;
+            uint8_t lightBlue = 255;
 
             if (pDecoration->lightRed != 0 || pDecoration->lightGreen != 0 || pDecoration->lightBlue != 0)
             {
-                lightEmitterColorAbgr = makeAbgr(
-                    static_cast<uint8_t>(pDecoration->lightRed),
-                    static_cast<uint8_t>(pDecoration->lightGreen),
-                    static_cast<uint8_t>(pDecoration->lightBlue),
-                    208);
+                lightRed = static_cast<uint8_t>(pDecoration->lightRed);
+                lightGreen = static_cast<uint8_t>(pDecoration->lightGreen);
+                lightBlue = static_cast<uint8_t>(pDecoration->lightBlue);
             }
 
+            uint8_t lightAlpha = 208;
+            const uint64_t emitterKey = makeDecorationEmitterKey(billboard);
+            applyDecorationLightPulse(
+                *pDecoration,
+                emitterKey,
+                view.m_elapsedTime,
+                lightEmitterRadius,
+                lightAlpha);
+            const uint32_t lightEmitterColorAbgr = makeAbgr(lightRed, lightGreen, lightBlue, lightAlpha);
             addLightEmitter(lightX, lightY, lightZ, lightEmitterRadius, lightEmitterColorAbgr);
         }
 

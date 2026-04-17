@@ -2196,8 +2196,8 @@ void appendCharacterSkillUiRows(
 {
     for (size_t skillIndex = 0; skillIndex < skillCount; ++skillIndex)
     {
-        const std::string canonicalName = canonicalSkillName(pSkillNames[skillIndex]);
-        const CharacterSkill *pSkill = character.findSkill(canonicalName);
+        const std::string canonicalName = pSkillNames[skillIndex];
+        const CharacterSkill *pSkill = character.findSkillByCanonicalName(canonicalName);
 
         if (pSkill == nullptr)
         {
@@ -2239,8 +2239,7 @@ CharacterSkillUiData buildCharacterSkillUiData(const Character *pCharacter)
 
     for (const auto &[ignoredSkillName, skill] : pCharacter->skills)
     {
-        static_cast<void>(ignoredSkillName);
-        const std::string canonicalName = canonicalSkillName(skill.name);
+        const std::string &canonicalName = ignoredSkillName;
 
         if (shownSkillNames.contains(canonicalName))
         {
@@ -9543,7 +9542,8 @@ void OutdoorGameView::beginRestAction(RestMode mode, float minutes, bool consume
         return;
     }
 
-    if (m_restScreen.mode != RestMode::None)
+    if ((mode == RestMode::Heal && m_restScreen.mode != RestMode::None)
+        || (mode == RestMode::Wait && m_restScreen.mode == RestMode::Heal))
     {
         setStatusBarEvent("You are already resting.");
         return;
@@ -9566,7 +9566,6 @@ void OutdoorGameView::beginRestAction(RestMode mode, float minutes, bool consume
     m_restScreen.mode = mode;
     m_restScreen.totalMinutes = std::max(0.0f, minutes);
     m_restScreen.remainingMinutes = m_restScreen.totalMinutes;
-    m_restScreen.hourglassElapsedSeconds = 0.0f;
 
     if (m_restScreen.remainingMinutes <= 0.0f)
     {
@@ -9579,17 +9578,54 @@ void OutdoorGameView::startRestAction(RestMode mode, float minutes)
     beginRestAction(mode, minutes, true);
 }
 
-void OutdoorGameView::updateRestScreen(float deltaSeconds)
+void OutdoorGameView::completeRestAction(bool closeRestScreenAfterCompletion)
 {
-    if (!m_restScreen.active || m_restScreen.mode == RestMode::None || m_pOutdoorWorldRuntime == nullptr)
+    if (!m_restScreen.active)
     {
         return;
     }
 
-    constexpr float ShortestRestAnimationSeconds = 0.75f;
-    constexpr float LongestRestAnimationSeconds = 4.0f;
-    constexpr float RestMinutesPerAnimationSecond = 120.0f;
+    const RestMode completedMode = m_restScreen.mode;
+    const float remainingMinutes = std::max(0.0f, m_restScreen.remainingMinutes);
+
+    if (remainingMinutes > 0.0f && m_pOutdoorWorldRuntime != nullptr)
+    {
+        m_pOutdoorWorldRuntime->advanceGameMinutes(remainingMinutes);
+    }
+
+    m_restScreen.mode = RestMode::None;
+    m_restScreen.totalMinutes = 0.0f;
+    m_restScreen.remainingMinutes = 0.0f;
+
+    if (completedMode == RestMode::Heal && m_pOutdoorPartyRuntime != nullptr)
+    {
+        m_pOutdoorPartyRuntime->party().restAndHealAll();
+    }
+
+    if (closeRestScreenAfterCompletion || completedMode == RestMode::Heal)
+    {
+        closeRestScreen();
+    }
+}
+
+void OutdoorGameView::updateRestScreen(float deltaSeconds)
+{
+    if (!m_restScreen.active)
+    {
+        return;
+    }
+
     const float safeDeltaSeconds = std::max(0.0f, deltaSeconds);
+    m_restScreen.hourglassElapsedSeconds += safeDeltaSeconds;
+
+    if (m_restScreen.mode == RestMode::None || m_pOutdoorWorldRuntime == nullptr)
+    {
+        return;
+    }
+
+    constexpr float ShortestRestAnimationSeconds = 0.25f;
+    constexpr float LongestRestAnimationSeconds = 2.0f;
+    constexpr float RestMinutesPerAnimationSecond = 360.0f;
     const float animationDurationSeconds = std::clamp(
         m_restScreen.totalMinutes / RestMinutesPerAnimationSecond,
         ShortestRestAnimationSeconds,
@@ -9605,7 +9641,6 @@ void OutdoorGameView::updateRestScreen(float deltaSeconds)
     {
         m_pOutdoorWorldRuntime->advanceGameMinutes(advancedMinutes);
         m_restScreen.remainingMinutes = std::max(0.0f, m_restScreen.remainingMinutes - advancedMinutes);
-        m_restScreen.hourglassElapsedSeconds += safeDeltaSeconds;
     }
 
     if (m_restScreen.remainingMinutes > 0.0f)
@@ -9613,15 +9648,7 @@ void OutdoorGameView::updateRestScreen(float deltaSeconds)
         return;
     }
 
-    const RestMode completedMode = m_restScreen.mode;
-    m_restScreen.mode = RestMode::None;
-    m_restScreen.remainingMinutes = 0.0f;
-
-    if (completedMode == RestMode::Heal && m_pOutdoorPartyRuntime != nullptr)
-    {
-        m_pOutdoorPartyRuntime->party().restAndHealAll();
-        closeRestScreen();
-    }
+    completeRestAction(false);
 }
 
 void OutdoorGameView::closeReadableScrollOverlay()
@@ -12403,9 +12430,19 @@ OutdoorGameView::ResolvedHudLayoutElement OutdoorGameView::resolveAttachedHudLay
 
 bool OutdoorGameView::loadHudFont(const Engine::AssetFileSystem &assetFileSystem, const std::string &fontName)
 {
-    if (fontName.empty() || HudUiService::findHudFont(*this, fontName) != nullptr)
+    if (fontName.empty())
     {
         return true;
+    }
+
+    const std::string normalizedFontName = toLowerCopy(fontName);
+
+    for (const HudFontHandle &fontHandle : m_hudFontHandles)
+    {
+        if (fontHandle.fontName == normalizedFontName)
+        {
+            return true;
+        }
     }
 
     std::optional<std::string> fontPath = findCachedAssetPath("Data/icons", fontName + ".fnt");

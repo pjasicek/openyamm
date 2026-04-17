@@ -973,6 +973,7 @@ private:
     void startInnRest(uint32_t houseId);
     void beginRestAction(RestMode mode, float minutes, bool consumeFood);
     void startRestAction(RestMode mode, float minutes);
+    void completeRestAction(bool closeRestScreenAfterCompletion);
     void updateRestScreen(float deltaSeconds);
     void closeReadableScrollOverlay();
     void clearPendingSpellCast(const std::string &statusText = "");

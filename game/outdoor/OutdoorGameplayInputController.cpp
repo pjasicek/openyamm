@@ -976,21 +976,14 @@ void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view
         const auto finishOrCloseRestScreen =
             [&view]()
             {
-                const OutdoorGameView::RestMode mode = view.m_restScreen.mode;
-
-                if (mode != OutdoorGameView::RestMode::None
-                    && view.m_restScreen.remainingMinutes > 0.0f
-                    && view.m_pOutdoorWorldRuntime != nullptr)
+                if (view.m_restScreen.mode != OutdoorGameView::RestMode::None)
                 {
-                    view.m_pOutdoorWorldRuntime->advanceGameMinutes(view.m_restScreen.remainingMinutes);
-
-                    if (mode == OutdoorGameView::RestMode::Heal && view.m_pOutdoorPartyRuntime != nullptr)
-                    {
-                        view.m_pOutdoorPartyRuntime->party().restAndHealAll();
-                    }
+                    view.completeRestAction(true);
                 }
-
-                view.closeRestScreen();
+                else
+                {
+                    view.closeRestScreen();
+                }
             };
         const auto waitUntilDawnMinutes =
             [&view]() -> float

@@ -143,8 +143,11 @@ struct Character
     size_t usedInventoryCells() const;
     size_t inventoryCapacity() const;
     bool hasSkill(const std::string &skillName) const;
+    bool hasCanonicalSkill(const std::string &canonicalSkillName) const;
     const CharacterSkill *findSkill(const std::string &skillName) const;
+    const CharacterSkill *findSkillByCanonicalName(const std::string &canonicalSkillName) const;
     CharacterSkill *findSkill(const std::string &skillName);
+    CharacterSkill *findSkillByCanonicalName(const std::string &canonicalSkillName);
     bool setSkillMastery(const std::string &skillName, SkillMastery mastery);
     bool knowsSpell(uint32_t spellId) const;
     bool learnSpell(uint32_t spellId);

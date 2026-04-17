@@ -245,6 +245,7 @@ void UiLayoutManager::clear()
 {
     m_layoutOrder.clear();
     m_layoutElements.clear();
+    m_sortedLayoutIdsByScreen.clear();
 }
 
 bool UiLayoutManager::loadLayoutFile(const Engine::AssetFileSystem &assetFileSystem, const std::string &path)
@@ -258,6 +259,7 @@ bool UiLayoutManager::loadLayoutFile(const Engine::AssetFileSystem &assetFileSys
 
     try
     {
+        m_sortedLayoutIdsByScreen.clear();
         const YAML::Node root = YAML::Load(*fileContents);
 
         if (!root.IsMap())
@@ -511,8 +513,15 @@ const UiLayoutManager::LayoutElement *UiLayoutManager::findElement(const std::st
 
 std::vector<std::string> UiLayoutManager::sortedLayoutIdsForScreen(const std::string &screen) const
 {
-    std::vector<std::string> result;
     const std::string normalizedScreen = toLowerCopy(screen);
+    const auto cachedIterator = m_sortedLayoutIdsByScreen.find(normalizedScreen);
+
+    if (cachedIterator != m_sortedLayoutIdsByScreen.end())
+    {
+        return cachedIterator->second;
+    }
+
+    std::vector<std::string> result;
 
     for (const std::string &layoutId : m_layoutOrder)
     {
@@ -542,6 +551,7 @@ std::vector<std::string> UiLayoutManager::sortedLayoutIdsForScreen(const std::st
             return pLeft->zIndex < pRight->zIndex;
         });
 
+    m_sortedLayoutIdsByScreen[normalizedScreen] = result;
     return result;
 }
 
