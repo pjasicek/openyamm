@@ -93,8 +93,6 @@ constexpr int JournalRevealBytesPerRow = 11;
 constexpr float JournalMapWorldHalfExtent = 32768.0f;
 constexpr uint64_t SpellFailSoundCooldownMs = 250;
 constexpr size_t SaveLoadVisibleSlotCount = 10;
-constexpr float HeldAttackRepeatDebounceSeconds = 0.08f;
-
 enum class HouseShopVerticalAlign
 {
     Center,
@@ -3661,12 +3659,16 @@ OutdoorGameView::OutdoorGameView()
     , m_activateInspectLatch(false)
     , m_inspectMouseActivateLatch(false)
     , m_attackInspectLatch(false)
+    , m_attackReadyMemberAvailableWhileHeld(false)
     , m_attackInspectRepeatCooldownSeconds(0.0f)
+    , m_quickSpellCastRepeatCooldownSeconds(0.0f)
     , m_toggleRunningLatch(false)
     , m_toggleFlyingLatch(false)
     , m_toggleWaterWalkLatch(false)
     , m_toggleFeatherFallLatch(false)
     , m_quickSpellCastLatch(false)
+    , m_quickSpellReadyMemberAvailableWhileHeld(false)
+    , m_quickSpellAttackFallbackRequested(false)
     , m_spellbookToggleLatch(false)
     , m_spellbookClickLatch(false)
     , m_pendingSpellTargetClickLatch(false)
@@ -4085,6 +4087,8 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
         m_elapsedTime += deltaSeconds;
         m_attackInspectRepeatCooldownSeconds =
             std::max(0.0f, m_attackInspectRepeatCooldownSeconds - deltaSeconds);
+        m_quickSpellCastRepeatCooldownSeconds =
+            std::max(0.0f, m_quickSpellCastRepeatCooldownSeconds - deltaSeconds);
     }
 
     if (m_pendingSavePreviewCapture.active
@@ -4845,9 +4849,29 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
                 m_pressedInspectHit = {};
             }
 
-            const bool attackPressedThisFrame = isAttackPressed && !m_attackInspectLatch;
+            const bool attackTriggeredByQuickCastFallback = m_quickSpellAttackFallbackRequested;
+            const bool isHeldAttackPressed = isAttackPressed;
+            bool attackReadyMemberTransitionWhileHeld = false;
+
+            if (isHeldAttackPressed && m_pOutdoorPartyRuntime != nullptr)
+            {
+                const bool hasReadyMember = m_pOutdoorPartyRuntime->party().hasSelectableMemberInGameplay();
+                attackReadyMemberTransitionWhileHeld = !m_attackReadyMemberAvailableWhileHeld && hasReadyMember;
+                m_attackReadyMemberAvailableWhileHeld = hasReadyMember;
+            }
+            else if (!isHeldAttackPressed)
+            {
+                m_attackReadyMemberAvailableWhileHeld = false;
+            }
+
+            const bool attackPressedThisFrame =
+                (isHeldAttackPressed || attackTriggeredByQuickCastFallback) && !m_attackInspectLatch;
             const bool attackRepeatReady =
-                isAttackPressed && m_attackInspectLatch && m_attackInspectRepeatCooldownSeconds <= 0.0f;
+                (isHeldAttackPressed || attackTriggeredByQuickCastFallback)
+                && m_attackInspectLatch
+                && (m_attackInspectRepeatCooldownSeconds <= 0.0f || attackReadyMemberTransitionWhileHeld);
+
+            m_quickSpellAttackFallbackRequested = false;
 
             if (attackPressedThisFrame || attackRepeatReady)
             {
@@ -5296,11 +5320,12 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
                 }
 
                 m_attackInspectLatch = true;
-                m_attackInspectRepeatCooldownSeconds = HeldAttackRepeatDebounceSeconds;
+                m_attackInspectRepeatCooldownSeconds = HeldGameplayActionRepeatDebounceSeconds;
             }
             else if (!isAttackPressed)
             {
                 m_attackInspectLatch = false;
+                m_attackReadyMemberAvailableWhileHeld = false;
                 m_attackInspectRepeatCooldownSeconds = 0.0f;
             }
 
@@ -9399,7 +9424,11 @@ void OutdoorGameView::clearWorldInteractionInputLatches()
     m_inspectMouseActivateLatch = false;
     m_pressedInspectHit = {};
     m_attackInspectLatch = false;
+    m_attackReadyMemberAvailableWhileHeld = false;
     m_attackInspectRepeatCooldownSeconds = 0.0f;
+    m_quickSpellCastRepeatCooldownSeconds = 0.0f;
+    m_quickSpellReadyMemberAvailableWhileHeld = false;
+    m_quickSpellAttackFallbackRequested = false;
     m_cachedHoverInspectHitValid = false;
     m_lastHoverInspectUpdateNanoseconds = 0;
     m_cachedHoverInspectHit = {};
@@ -9669,17 +9698,17 @@ void OutdoorGameView::closeInventoryNestedOverlay()
     m_inventoryNestedOverlayPressedTarget = {};
 }
 
-bool OutdoorGameView::tryBeginQuickSpellCast()
+OutdoorGameView::QuickSpellCastResult OutdoorGameView::tryBeginQuickSpellCast()
 {
     if (m_pOutdoorPartyRuntime == nullptr || m_pOutdoorWorldRuntime == nullptr || m_pSpellTable == nullptr)
     {
-        return false;
+        return QuickSpellCastResult::Failed;
     }
 
     if (m_pendingSpellCast.active)
     {
         setStatusBarEvent("Select target for " + m_pendingSpellCast.spellName, 4.0f);
-        return false;
+        return QuickSpellCastResult::Failed;
     }
 
     if (m_heldInventoryItem.active
@@ -9695,7 +9724,7 @@ bool OutdoorGameView::tryBeginQuickSpellCast()
         || m_pOutdoorWorldRuntime->activeCorpseView() != nullptr)
     {
         setStatusBarEvent("Finish current action");
-        return false;
+        return QuickSpellCastResult::Failed;
     }
 
     Party &party = m_pOutdoorPartyRuntime->party();
@@ -9704,13 +9733,13 @@ bool OutdoorGameView::tryBeginQuickSpellCast()
     if (pCaster == nullptr || !GameMechanics::canSelectInGameplay(*pCaster))
     {
         setStatusBarEvent("Nobody is in condition");
-        return false;
+        return QuickSpellCastResult::Failed;
     }
 
     if (pCaster->quickSpellName.empty())
     {
-        setStatusBarEvent("No quick spell");
-        return false;
+        m_quickSpellAttackFallbackRequested = true;
+        return QuickSpellCastResult::AttackFallback;
     }
 
     const SpellEntry *pSpellEntry = m_pSpellTable->findByName(pCaster->quickSpellName);
@@ -9718,14 +9747,19 @@ bool OutdoorGameView::tryBeginQuickSpellCast()
     if (pSpellEntry == nullptr)
     {
         setStatusBarEvent("Unknown quick spell");
-        return false;
+        return QuickSpellCastResult::Failed;
     }
 
-    return tryCastSpellFromMember(
-        party.activeMemberIndex(),
-        static_cast<uint32_t>(pSpellEntry->id),
-        pSpellEntry->name,
-        true);
+    if (tryCastSpellFromMember(
+            party.activeMemberIndex(),
+            static_cast<uint32_t>(pSpellEntry->id),
+            pSpellEntry->name,
+            true))
+    {
+        return QuickSpellCastResult::CastStarted;
+    }
+
+    return QuickSpellCastResult::Failed;
 }
 
 bool OutdoorGameView::activeMemberKnowsSpell(uint32_t spellId) const
@@ -9934,7 +9968,16 @@ bool OutdoorGameView::tryResolveQuickCastRequest(
     const float sourceY = moveState.y;
     float cursorX = 0.0f;
     float cursorY = 0.0f;
-    SDL_GetMouseState(&cursorX, &cursorY);
+
+    if (m_gameplayMouseLookActive && !m_gameplayCursorModeActive && m_lastRenderWidth > 0 && m_lastRenderHeight > 0)
+    {
+        cursorX = static_cast<float>(m_lastRenderWidth) * 0.5f;
+        cursorY = static_cast<float>(m_lastRenderHeight) * 0.5f;
+    }
+    else
+    {
+        SDL_GetMouseState(&cursorX, &cursorY);
+    }
 
     if (descriptor.targetKind == PartySpellCastTargetKind::None)
     {

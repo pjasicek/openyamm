@@ -901,22 +901,44 @@ void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view
         && !view.m_restScreen.active
         && !view.m_journalScreen.active)
     {
-        if (isActionPressed(KeyboardAction::CastReady))
+        const bool isQuickCastPressed = isActionPressed(KeyboardAction::CastReady);
+        bool quickCastReadyMemberTransitionWhileHeld = false;
+
+        if (isQuickCastPressed && view.m_pOutdoorPartyRuntime != nullptr)
         {
-            if (!view.m_quickSpellCastLatch)
-            {
-                view.tryBeginQuickSpellCast();
-                view.m_quickSpellCastLatch = true;
-            }
+            const bool hasReadyMember = view.m_pOutdoorPartyRuntime->party().hasSelectableMemberInGameplay();
+            quickCastReadyMemberTransitionWhileHeld = !view.m_quickSpellReadyMemberAvailableWhileHeld && hasReadyMember;
+            view.m_quickSpellReadyMemberAvailableWhileHeld = hasReadyMember;
         }
-        else
+        else if (!isQuickCastPressed)
+        {
+            view.m_quickSpellReadyMemberAvailableWhileHeld = false;
+        }
+
+        const bool quickCastPressedThisFrame = isQuickCastPressed && !view.m_quickSpellCastLatch;
+        const bool quickCastRepeatReady =
+            isQuickCastPressed
+            && view.m_quickSpellCastLatch
+            && (view.m_quickSpellCastRepeatCooldownSeconds <= 0.0f || quickCastReadyMemberTransitionWhileHeld);
+
+        if (quickCastPressedThisFrame || quickCastRepeatReady)
+        {
+            view.tryBeginQuickSpellCast();
+            view.m_quickSpellCastLatch = true;
+            view.m_quickSpellCastRepeatCooldownSeconds = OutdoorGameView::HeldGameplayActionRepeatDebounceSeconds;
+        }
+        else if (!isQuickCastPressed)
         {
             view.m_quickSpellCastLatch = false;
+            view.m_quickSpellReadyMemberAvailableWhileHeld = false;
+            view.m_quickSpellCastRepeatCooldownSeconds = 0.0f;
         }
     }
     else
     {
         view.m_quickSpellCastLatch = false;
+        view.m_quickSpellReadyMemberAvailableWhileHeld = false;
+        view.m_quickSpellCastRepeatCooldownSeconds = 0.0f;
     }
 
     const bool isResidentSelectionMode =

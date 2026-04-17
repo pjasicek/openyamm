@@ -374,6 +374,15 @@ private:
     };
 
 public:
+    static constexpr float HeldGameplayActionRepeatDebounceSeconds = 0.14f;
+
+    enum class QuickSpellCastResult
+    {
+        CastStarted,
+        AttackFallback,
+        Failed
+    };
+
     using SpellbookSchool = GameplayUiController::SpellbookSchool;
     using HouseShopMode = GameplayUiController::HouseShopMode;
     using InventoryNestedOverlayMode = GameplayUiController::InventoryNestedOverlayMode;
@@ -914,7 +923,7 @@ private:
     void consumePendingWorldAudioEvents();
     void updateFootstepAudio(float deltaSeconds);
     void renderPortraitFx(size_t memberIndex, float portraitX, float portraitY, float portraitWidth, float portraitHeight) const;
-    bool tryBeginQuickSpellCast();
+    QuickSpellCastResult tryBeginQuickSpellCast();
     bool tryCastSpellFromMember(
         size_t casterMemberIndex,
         uint32_t spellId,
@@ -1182,12 +1191,16 @@ private:
     bool m_activateInspectLatch;
     bool m_inspectMouseActivateLatch;
     bool m_attackInspectLatch;
+    bool m_attackReadyMemberAvailableWhileHeld;
     float m_attackInspectRepeatCooldownSeconds;
+    float m_quickSpellCastRepeatCooldownSeconds;
     bool m_toggleRunningLatch;
     bool m_toggleFlyingLatch;
     bool m_toggleWaterWalkLatch;
     bool m_toggleFeatherFallLatch;
     bool m_quickSpellCastLatch;
+    bool m_quickSpellReadyMemberAvailableWhileHeld;
+    bool m_quickSpellAttackFallbackRequested;
     bool m_spellbookToggleLatch;
     bool m_spellbookClickLatch;
     bool m_pendingSpellTargetClickLatch;
