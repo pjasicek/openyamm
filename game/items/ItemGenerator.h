@@ -26,6 +26,7 @@ struct ItemGenerationRequest
     int treasureLevel = 1;
     ItemGenerationMode mode = ItemGenerationMode::Generic;
     bool allowRareItems = true;
+    bool rareItemsOnly = false;
 };
 
 class ItemGenerator

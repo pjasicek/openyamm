@@ -109,6 +109,30 @@ std::optional<InventoryItem> ItemGenerator::generateRandomInventoryItem(
     std::mt19937 &rng,
     const std::function<bool(const ItemDefinition &)> &filter)
 {
+    if (request.rareItemsOnly)
+    {
+        if (!shouldTryGenerateRareItem(request))
+        {
+            return std::nullopt;
+        }
+
+        const std::optional<uint32_t> rareItemId = chooseRandomRareItem(itemTable, pParty, rng, filter);
+
+        if (!rareItemId)
+        {
+            return std::nullopt;
+        }
+
+        InventoryItem item = makeInventoryItem(*rareItemId, itemTable, request.mode);
+
+        if (pParty != nullptr)
+        {
+            pParty->markArtifactItemFound(*rareItemId);
+        }
+
+        return item;
+    }
+
     if (shouldTryGenerateRareItem(request) && std::uniform_int_distribution<int>(0, 99)(rng) < 5)
     {
         const std::optional<uint32_t> rareItemId = chooseRandomRareItem(itemTable, pParty, rng, filter);

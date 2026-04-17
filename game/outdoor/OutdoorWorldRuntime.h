@@ -16,9 +16,10 @@
 #include "game/party/Party.h"
 #include "game/tables/SpellTable.h"
 
-#include <random>
 #include <optional>
+#include <random>
 #include <string>
+#include <utility>
 #include <unordered_map>
 #include <vector>
 
@@ -821,7 +822,8 @@ private:
     static uint32_t makeChestSeed(uint32_t sessionSeed, int mapId, uint32_t chestId, uint32_t salt);
     static void appendChestItem(std::vector<ChestItemState> &items, const ChestItemState &item);
     static int generateGoldAmount(int treasureLevel, std::mt19937 &rng);
-    static int remapTreasureLevel(int itemTreasureLevel, int mapTreasureLevel);
+    static std::pair<int, int> remapTreasureLevelRange(int itemTreasureLevel, int mapTreasureLevel);
+    static int sampleRemappedTreasureLevel(int itemTreasureLevel, int mapTreasureLevel, std::mt19937 &rng);
 
     bool applyMonsterAttackToMapActor(size_t actorIndex, int damage, uint32_t sourceActorId);
     bool spawnEncounterFromResolvedData(
@@ -842,7 +844,8 @@ private:
     void aggroNearbyMapActorFaction(size_t actorIndex, float partyX, float partyY, float partyZ);
     ChestViewState buildChestView(uint32_t chestId) const;
     void activateChestView(uint32_t chestId);
-    CorpseViewState buildCorpseView(const std::string &title, const MonsterTable::LootPrototype &loot, uint32_t seed) const;
+    int normalizedMapTreasureLevel() const;
+    CorpseViewState buildCorpseView(const std::string &title, const MonsterTable::LootPrototype &loot) const;
     void pushAudioEvent(
         uint32_t soundId,
         uint32_t sourceId,

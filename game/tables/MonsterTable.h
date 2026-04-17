@@ -53,6 +53,9 @@ public:
     {
         None,
         Any,
+        Weapon,
+        Armor,
+        Misc,
         Gem,
         Ring,
         Amulet,
@@ -64,12 +67,18 @@ public:
         Scroll,
         Sword,
         Dagger,
+        Axe,
         Spear,
         Chain,
+        Leather,
         Plate,
+        Mace,
         Club,
         Staff,
         Bow,
+        Shield,
+        Helm,
+        Belt,
     };
 
     struct LootPrototype

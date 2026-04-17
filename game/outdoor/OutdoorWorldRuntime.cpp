@@ -3544,6 +3544,24 @@ std::string encounterPictureBase(const MapEncounterInfo &encounter)
     return encounter.pictureName.empty() ? encounter.monsterName : encounter.pictureName;
 }
 
+bool isWeaponLootItem(const ItemDefinition &item)
+{
+    return item.equipStat == "Weapon"
+        || item.equipStat == "Weapon1or2"
+        || item.equipStat == "Weapon2"
+        || item.equipStat == "Missile";
+}
+
+bool isArmorLootItem(const ItemDefinition &item)
+{
+    return item.equipStat == "Armor";
+}
+
+bool isMiscLootItem(const ItemDefinition &item)
+{
+    return item.skillGroup == "Misc";
+}
+
 bool itemMatchesLootKind(const ItemDefinition &item, MonsterTable::LootItemKind kind)
 {
     switch (kind)
@@ -3553,6 +3571,15 @@ bool itemMatchesLootKind(const ItemDefinition &item, MonsterTable::LootItemKind 
 
         case MonsterTable::LootItemKind::Any:
             return true;
+
+        case MonsterTable::LootItemKind::Weapon:
+            return isWeaponLootItem(item);
+
+        case MonsterTable::LootItemKind::Armor:
+            return isArmorLootItem(item);
+
+        case MonsterTable::LootItemKind::Misc:
+            return isMiscLootItem(item);
 
         case MonsterTable::LootItemKind::Gem:
             return item.equipStat == "Gem";
@@ -3573,7 +3600,7 @@ bool itemMatchesLootKind(const ItemDefinition &item, MonsterTable::LootItemKind 
             return item.equipStat == "Cloak";
 
         case MonsterTable::LootItemKind::Wand:
-            return item.name.find("Wand") != std::string::npos;
+            return item.equipStat == "WeaponW";
 
         case MonsterTable::LootItemKind::Ore:
             return item.equipStat == "Ore";
@@ -3587,14 +3614,23 @@ bool itemMatchesLootKind(const ItemDefinition &item, MonsterTable::LootItemKind 
         case MonsterTable::LootItemKind::Dagger:
             return item.skillGroup == "Dagger";
 
+        case MonsterTable::LootItemKind::Axe:
+            return item.skillGroup == "Axe";
+
         case MonsterTable::LootItemKind::Spear:
             return item.skillGroup == "Spear";
 
         case MonsterTable::LootItemKind::Chain:
             return item.skillGroup == "Chain";
 
+        case MonsterTable::LootItemKind::Leather:
+            return item.skillGroup == "Leather";
+
         case MonsterTable::LootItemKind::Plate:
             return item.skillGroup == "Plate";
+
+        case MonsterTable::LootItemKind::Mace:
+            return item.skillGroup == "Mace";
 
         case MonsterTable::LootItemKind::Club:
             return item.skillGroup == "Club";
@@ -3604,6 +3640,15 @@ bool itemMatchesLootKind(const ItemDefinition &item, MonsterTable::LootItemKind 
 
         case MonsterTable::LootItemKind::Bow:
             return item.skillGroup == "Bow";
+
+        case MonsterTable::LootItemKind::Shield:
+            return item.equipStat == "Shield";
+
+        case MonsterTable::LootItemKind::Helm:
+            return item.equipStat == "Helm";
+
+        case MonsterTable::LootItemKind::Belt:
+            return item.equipStat == "Belt";
     }
 
     return false;
@@ -4041,7 +4086,7 @@ int OutdoorWorldRuntime::generateGoldAmount(int treasureLevel, std::mt19937 &rng
     }
 }
 
-int OutdoorWorldRuntime::remapTreasureLevel(int itemTreasureLevel, int mapTreasureLevel)
+std::pair<int, int> OutdoorWorldRuntime::remapTreasureLevelRange(int itemTreasureLevel, int mapTreasureLevel)
 {
     static constexpr int mapping[7][7][2] = {
         {{1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}},
@@ -4057,20 +4102,29 @@ int OutdoorWorldRuntime::remapTreasureLevel(int itemTreasureLevel, int mapTreasu
     const int clampedMapLevel = std::clamp(mapTreasureLevel, RandomChestItemMinLevel, RandomChestItemMaxLevel);
     const int minLevel = mapping[clampedItemLevel - 1][clampedMapLevel - 1][0];
     const int maxLevel = mapping[clampedItemLevel - 1][clampedMapLevel - 1][1];
+    return {minLevel, maxLevel};
+}
 
-    return (minLevel + maxLevel) / 2;
+int OutdoorWorldRuntime::sampleRemappedTreasureLevel(int itemTreasureLevel, int mapTreasureLevel, std::mt19937 &rng)
+{
+    const auto [minimumLevel, maximumLevel] = remapTreasureLevelRange(itemTreasureLevel, mapTreasureLevel);
+    return std::uniform_int_distribution<int>(minimumLevel, maximumLevel)(rng);
+}
+
+int OutdoorWorldRuntime::normalizedMapTreasureLevel() const
+{
+    return std::clamp(m_mapTreasureLevel + 1, RandomChestItemMinLevel, RandomChestItemMaxLevel);
 }
 
 OutdoorWorldRuntime::CorpseViewState OutdoorWorldRuntime::buildCorpseView(
     const std::string &title,
-    const MonsterTable::LootPrototype &loot,
-    uint32_t seed
+    const MonsterTable::LootPrototype &loot
 ) const
 {
     CorpseViewState view = {};
     view.title = title;
 
-    std::mt19937 rng(seed);
+    static thread_local std::mt19937 rng(std::random_device{}());
 
     if (loot.goldDiceRolls > 0 && loot.goldDiceSides > 0)
     {
@@ -4096,14 +4150,13 @@ OutdoorWorldRuntime::CorpseViewState OutdoorWorldRuntime::buildCorpseView(
         && loot.itemLevel > 0
         && std::uniform_int_distribution<int>(0, 99)(rng) < loot.itemChance)
     {
-        const int remappedTreasureLevel = remapTreasureLevel(loot.itemLevel, m_mapTreasureLevel);
         const std::optional<InventoryItem> generatedItem =
             m_pItemTable != nullptr && m_pStandardItemEnchantTable != nullptr && m_pSpecialItemEnchantTable != nullptr
             ? ItemGenerator::generateRandomInventoryItem(
                 *m_pItemTable,
                 *m_pStandardItemEnchantTable,
                 *m_pSpecialItemEnchantTable,
-                ItemGenerationRequest{remappedTreasureLevel, ItemGenerationMode::MonsterLoot},
+                ItemGenerationRequest{loot.itemLevel, ItemGenerationMode::MonsterLoot},
                 m_pParty,
                 rng,
                 [kind = loot.itemKind](const ItemDefinition &entry)
@@ -4228,7 +4281,7 @@ OutdoorWorldRuntime::ChestViewState OutdoorWorldRuntime::buildChestView(uint32_t
                   << '\n';
     }
 
-    const int mapTreasureLevel = std::clamp(m_mapTreasureLevel + 1, 1, 7);
+    const int mapTreasureLevel = normalizedMapTreasureLevel();
     size_t materializedRecords = 0;
 
     const auto resolveChestItemSize =
@@ -4278,7 +4331,7 @@ OutdoorWorldRuntime::ChestViewState OutdoorWorldRuntime::buildChestView(uint32_t
             }
 
             std::mt19937 rng(makeChestSeed(m_sessionChestSeed, m_mapId, chestId, static_cast<uint32_t>(recordIndex)));
-            const int resolvedTreasureLevel = remapTreasureLevel(-rawItemId, mapTreasureLevel);
+            const int resolvedTreasureLevel = sampleRemappedTreasureLevel(-rawItemId, mapTreasureLevel, rng);
             const int generatedCount = std::uniform_int_distribution<int>(1, 5)(rng);
 
             for (int generatedIndex = 0; generatedIndex < generatedCount; ++generatedIndex)
@@ -4861,10 +4914,10 @@ bool OutdoorWorldRuntime::materializeTreasureSpawnFromSpawnPoint(size_t spawnPoi
     }
 
     const int treasureLevel = std::clamp(static_cast<int>(spawn.index), RandomChestItemMinLevel, RandomChestItemMaxLevel);
-    const int mapTreasureLevel = std::clamp(m_mapTreasureLevel + 1, RandomChestItemMinLevel, RandomChestItemMaxLevel);
-    const int resolvedTreasureLevel = remapTreasureLevel(treasureLevel, mapTreasureLevel);
+    const int mapTreasureLevel = normalizedMapTreasureLevel();
     const uint32_t seed = makeChestSeed(m_sessionChestSeed, m_mapId, static_cast<uint32_t>(spawnPointIndex), 0x54524541u);
     std::mt19937 rng(seed);
+    const int resolvedTreasureLevel = sampleRemappedTreasureLevel(treasureLevel, mapTreasureLevel, rng);
     InventoryItem item = {};
     uint32_t goldAmount = 0;
     const auto canMaterializeAsWorldItem =
@@ -4894,9 +4947,14 @@ bool OutdoorWorldRuntime::materializeTreasureSpawnFromSpawnPoint(size_t spawnPoi
     {
         const int roll = std::uniform_int_distribution<int>(0, 99)(rng);
 
+        if (roll < 20)
+        {
+            return false;
+        }
+
         if (roll < 60)
         {
-            goldAmount = static_cast<uint32_t>(std::max(0, generateGoldAmount(resolvedTreasureLevel, rng)));
+            goldAmount = static_cast<uint32_t>(std::max(0, generateGoldAmount(treasureLevel, rng)));
             const uint32_t goldHeapItemId = goldAmount <= 200 ? GoldHeapSmallItemId : GoldHeapLargeItemId;
             item = ItemGenerator::makeInventoryItem(goldHeapItemId, *m_pItemTable, ItemGenerationMode::ChestLoot);
         }
@@ -4929,6 +4987,7 @@ bool OutdoorWorldRuntime::materializeTreasureSpawnFromSpawnPoint(size_t spawnPoi
         request.treasureLevel = SpawnableItemTreasureLevels;
         request.mode = ItemGenerationMode::ChestLoot;
         request.allowRareItems = true;
+        request.rareItemsOnly = true;
         const std::optional<InventoryItem> generatedItem =
             ItemGenerator::generateRandomInventoryItem(
                 *m_pItemTable,
@@ -9289,18 +9348,6 @@ bool OutdoorWorldRuntime::setMapActorDead(size_t actorIndex, bool isDead, bool e
                 m_mapActorCorpseViews.resize(actorIndex + 1);
             }
 
-            if (!m_mapActorCorpseViews[actorIndex].has_value())
-            {
-                CorpseViewState corpse = buildCorpseView(actor.displayName, pStats->loot, makeChestSeed(
-                    m_sessionChestSeed,
-                    m_mapId,
-                    static_cast<uint32_t>(actorIndex),
-                    0x434f5250u));
-                corpse.fromSummonedMonster = false;
-                corpse.sourceIndex = static_cast<uint32_t>(actorIndex);
-                m_mapActorCorpseViews[actorIndex] = std::move(corpse);
-            }
-
             if (emitAudio)
             {
                 pushAudioEvent(
@@ -10803,9 +10850,47 @@ const OutdoorWorldRuntime::CorpseViewState *OutdoorWorldRuntime::activeCorpseVie
 
 bool OutdoorWorldRuntime::openMapActorCorpseView(size_t actorIndex)
 {
-    if (actorIndex >= m_mapActorCorpseViews.size() || !m_mapActorCorpseViews[actorIndex].has_value())
+    if (actorIndex >= m_mapActors.size())
     {
         return false;
+    }
+
+    const MapActorState &actor = m_mapActors[actorIndex];
+
+    if (!actor.isDead)
+    {
+        return false;
+    }
+
+    if (actorIndex >= m_mapActorCorpseViews.size())
+    {
+        m_mapActorCorpseViews.resize(actorIndex + 1);
+    }
+
+    if (!m_mapActorCorpseViews[actorIndex].has_value())
+    {
+        if (m_pMonsterTable == nullptr)
+        {
+            return false;
+        }
+
+        const MonsterTable::MonsterStatsEntry *pStats = m_pMonsterTable->findStatsById(actor.monsterId);
+
+        if (pStats == nullptr)
+        {
+            return false;
+        }
+
+        CorpseViewState corpse = buildCorpseView(actor.displayName, pStats->loot);
+
+        if (corpse.items.empty())
+        {
+            return false;
+        }
+
+        corpse.fromSummonedMonster = false;
+        corpse.sourceIndex = static_cast<uint32_t>(actorIndex);
+        m_mapActorCorpseViews[actorIndex] = std::move(corpse);
     }
 
     m_activeCorpseView = *m_mapActorCorpseViews[actorIndex];

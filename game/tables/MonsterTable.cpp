@@ -288,6 +288,18 @@ MonsterTable::LootPrototype parseLootPrototype(const std::string &value)
         {
             loot.itemKind = MonsterTable::LootItemKind::Gem;
         }
+        else if (itemToken.find("weapon") != std::string::npos)
+        {
+            loot.itemKind = MonsterTable::LootItemKind::Weapon;
+        }
+        else if (itemToken.find("armor") != std::string::npos)
+        {
+            loot.itemKind = MonsterTable::LootItemKind::Armor;
+        }
+        else if (itemToken.find("misc") != std::string::npos)
+        {
+            loot.itemKind = MonsterTable::LootItemKind::Misc;
+        }
         else if (itemToken.find("ring") != std::string::npos)
         {
             loot.itemKind = MonsterTable::LootItemKind::Ring;
@@ -300,11 +312,11 @@ MonsterTable::LootPrototype parseLootPrototype(const std::string &value)
         {
             loot.itemKind = MonsterTable::LootItemKind::Boots;
         }
-        else if (itemToken.find("gloves") != std::string::npos)
+        else if (itemToken.find("gloves") != std::string::npos || itemToken.find("gauntlets") != std::string::npos)
         {
             loot.itemKind = MonsterTable::LootItemKind::Gauntlets;
         }
-        else if (itemToken.find("cloak") != std::string::npos)
+        else if (itemToken.find("cloak") != std::string::npos || itemToken.find("cape") != std::string::npos)
         {
             loot.itemKind = MonsterTable::LootItemKind::Cloak;
         }
@@ -328,6 +340,10 @@ MonsterTable::LootPrototype parseLootPrototype(const std::string &value)
         {
             loot.itemKind = MonsterTable::LootItemKind::Dagger;
         }
+        else if (itemToken.find("axe") != std::string::npos)
+        {
+            loot.itemKind = MonsterTable::LootItemKind::Axe;
+        }
         else if (itemToken.find("spear") != std::string::npos)
         {
             loot.itemKind = MonsterTable::LootItemKind::Spear;
@@ -336,9 +352,17 @@ MonsterTable::LootPrototype parseLootPrototype(const std::string &value)
         {
             loot.itemKind = MonsterTable::LootItemKind::Chain;
         }
+        else if (itemToken.find("leather") != std::string::npos)
+        {
+            loot.itemKind = MonsterTable::LootItemKind::Leather;
+        }
         else if (itemToken.find("plate") != std::string::npos)
         {
             loot.itemKind = MonsterTable::LootItemKind::Plate;
+        }
+        else if (itemToken.find("mace") != std::string::npos)
+        {
+            loot.itemKind = MonsterTable::LootItemKind::Mace;
         }
         else if (itemToken.find("club") != std::string::npos)
         {
@@ -351,6 +375,18 @@ MonsterTable::LootPrototype parseLootPrototype(const std::string &value)
         else if (itemToken.find("bow") != std::string::npos)
         {
             loot.itemKind = MonsterTable::LootItemKind::Bow;
+        }
+        else if (itemToken.find("shield") != std::string::npos)
+        {
+            loot.itemKind = MonsterTable::LootItemKind::Shield;
+        }
+        else if (itemToken.find("helm") != std::string::npos || itemToken.find("helmet") != std::string::npos)
+        {
+            loot.itemKind = MonsterTable::LootItemKind::Helm;
+        }
+        else if (itemToken.find("belt") != std::string::npos)
+        {
+            loot.itemKind = MonsterTable::LootItemKind::Belt;
         }
     }
 
