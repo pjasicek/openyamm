@@ -178,6 +178,23 @@ std::optional<UiLayoutManager::LayoutAttachMode> parseChildAnchor(const std::str
     return std::nullopt;
 }
 
+std::optional<UiLayoutManager::LayoutAnchorSpace> parseAnchorSpace(const std::string &value)
+{
+    const std::string normalizedValue = normalizeLayoutToken(value);
+
+    if (normalizedValue.empty() || normalizedValue == "viewport" || normalizedValue == "ui")
+    {
+        return UiLayoutManager::LayoutAnchorSpace::Viewport;
+    }
+
+    if (normalizedValue == "screen")
+    {
+        return UiLayoutManager::LayoutAnchorSpace::Screen;
+    }
+
+    return std::nullopt;
+}
+
 std::optional<UiLayoutManager::TextAlignX> parseTextAlignX(const std::string &value)
 {
     const std::string normalizedValue = normalizeLayoutToken(value);
@@ -299,6 +316,14 @@ bool UiLayoutManager::loadLayoutFile(const Engine::AssetFileSystem &assetFileSys
                 element.screen = screen;
                 element.parentId = parentId;
                 element.zIndex = defaultZIndexForScreen(screen);
+                const std::optional<LayoutAnchorSpace> anchorSpace = parseAnchorSpace(yamlStringOrEmpty(node, "anchor_space"));
+
+                if (!anchorSpace)
+                {
+                    return false;
+                }
+
+                element.anchorSpace = *anchorSpace;
 
                 if (parentId.empty())
                 {
@@ -320,6 +345,7 @@ bool UiLayoutManager::loadLayoutFile(const Engine::AssetFileSystem &assetFileSys
                     if (pParent != nullptr)
                     {
                         element.zIndex = pParent->zIndex;
+                        element.anchorSpace = pParent->anchorSpace;
                     }
 
                     const std::optional<LayoutAttachMode> attachTo = parseChildAnchor(anchorNode.as<std::string>());

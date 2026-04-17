@@ -151,9 +151,24 @@ void GameplayHudRenderer::renderGameplayHudArt(OutdoorGameView &view, int width,
         return;
     }
 
-    const OutdoorGameView::HudLayoutElement *pBasebarLayout = HudUiService::findHudLayoutElement(view, "OutdoorBasebar");
+    const OutdoorGameView::HudScreenState hudScreenState = view.currentHudScreenState();
+    const bool isLimitedOverlayHud =
+        hudScreenState == OutdoorGameView::HudScreenState::Dialogue
+        || hudScreenState == OutdoorGameView::HudScreenState::Character
+        || hudScreenState == OutdoorGameView::HudScreenState::Chest
+        || hudScreenState == OutdoorGameView::HudScreenState::Spellbook
+        || hudScreenState == OutdoorGameView::HudScreenState::Rest
+        || hudScreenState == OutdoorGameView::HudScreenState::Menu
+        || hudScreenState == OutdoorGameView::HudScreenState::SaveGame
+        || hudScreenState == OutdoorGameView::HudScreenState::LoadGame
+        || hudScreenState == OutdoorGameView::HudScreenState::Journal;
+    const bool useGameplayWideHud = !isLimitedOverlayHud;
+    const std::string basebarLayoutId = useGameplayWideHud ? "OutdoorGameplayBasebar" : "OutdoorBasebar";
+    const std::string partyStripLayoutId = useGameplayWideHud ? "OutdoorGameplayPartyStrip" : "OutdoorPartyStrip";
+    const OutdoorGameView::HudLayoutElement *pBasebarLayout =
+        HudUiService::findHudLayoutElement(view, basebarLayoutId);
     const OutdoorGameView::HudLayoutElement *pPartyStripLayout =
-        HudUiService::findHudLayoutElement(view, "OutdoorPartyStrip");
+        HudUiService::findHudLayoutElement(view, partyStripLayoutId);
 
     if (pBasebarLayout == nullptr || pPartyStripLayout == nullptr)
     {
@@ -161,6 +176,8 @@ void GameplayHudRenderer::renderGameplayHudArt(OutdoorGameView &view, int width,
     }
 
     const OutdoorGameView::HudTextureHandle *pBasebar = HudUiService::ensureHudTextureLoaded(view, pBasebarLayout->primaryAsset);
+    const OutdoorGameView::HudTextureHandle *pGameplayBasebarEnder =
+        useGameplayWideHud ? HudUiService::ensureHudTextureLoaded(view, "Basebar_ender") : nullptr;
     const OutdoorGameView::HudTextureHandle *pFaceMask =
         HudUiService::ensureHudTextureLoaded(view, pPartyStripLayout->primaryAsset);
     const OutdoorGameView::HudTextureHandle *pSelectionRing =
@@ -190,14 +207,14 @@ void GameplayHudRenderer::renderGameplayHudArt(OutdoorGameView &view, int width,
 
     const std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolvedBasebar = HudUiService::resolveHudLayoutElement(
         view,
-        "OutdoorBasebar",
+        basebarLayoutId,
         width,
         height,
         static_cast<float>(pBasebar->width),
         static_cast<float>(pBasebar->height));
     const std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolvedPartyStrip = HudUiService::resolveHudLayoutElement(
         view,
-        "OutdoorPartyStrip",
+        partyStripLayoutId,
         width,
         height,
         static_cast<float>(pBasebar->width),
@@ -213,15 +230,32 @@ void GameplayHudRenderer::renderGameplayHudArt(OutdoorGameView &view, int width,
     const float basebarHeight = resolvedBasebar->height;
     const float basebarX = resolvedBasebar->x;
     const float basebarY = resolvedBasebar->y;
-    const float partyStripX = resolvedPartyStrip->x;
+    float partyStripX = resolvedPartyStrip->x;
     const float partyStripY = resolvedPartyStrip->y;
     const float partyStripWidth = resolvedPartyStrip->width;
     const float partyStripHeight = resolvedPartyStrip->height;
     const float portraitWidth = pFaceMask->width * uiScale;
     const float portraitHeight = pFaceMask->height * uiScale;
-    const float portraitStartX = partyStripX + partyStripWidth * (20.0f / 471.0f);
-    const float portraitY = partyStripY + partyStripHeight * (23.0f / 92.0f);
+    const size_t displayedMemberCount = members.size();
+    float renderedBasebarX = basebarX;
+    float renderedBasebarWidth = basebarWidth;
+    float portraitStartX = partyStripX + partyStripWidth * (20.0f / 471.0f);
+    float portraitY = partyStripY + partyStripHeight * (23.0f / 92.0f);
     const float portraitDeltaX = partyStripWidth * (94.0f / 471.0f);
+
+    if (useGameplayWideHud)
+    {
+        const float partyFraction = std::clamp(static_cast<float>(displayedMemberCount) / 5.0f, 0.2f, 1.0f);
+        const float basebarCenterX = basebarX + basebarWidth * 0.5f;
+        renderedBasebarWidth = basebarWidth * partyFraction;
+        renderedBasebarX = basebarCenterX - renderedBasebarWidth * 0.5f;
+        partyStripX = renderedBasebarX;
+        const float portraitGroupWidth =
+            portraitWidth + static_cast<float>(displayedMemberCount - 1) * portraitDeltaX;
+        portraitStartX = basebarCenterX - portraitGroupWidth * 0.5f;
+        portraitY -= 15.0f * uiScale;
+    }
+
     float projectionMatrix[16] = {};
     bx::mtxOrtho(
         projectionMatrix,
@@ -333,6 +367,71 @@ void GameplayHudRenderer::renderGameplayHudArt(OutdoorGameView &view, int width,
             bgfx::submit(HudViewId, view.m_texturedTerrainProgramHandle);
         };
 
+    const auto renderGameplayBasebarLeftAttachment =
+        [&](const std::string &layoutId)
+        {
+            if (!useGameplayWideHud)
+            {
+                return;
+            }
+
+            const OutdoorGameView::HudLayoutElement *pLayout = HudUiService::findHudLayoutElement(view, layoutId);
+
+            if (pLayout == nullptr || pLayout->primaryAsset.empty() || !pLayout->visible)
+            {
+                return;
+            }
+
+            const OutdoorGameView::HudTextureHandle *pTexture =
+                HudUiService::ensureHudTextureLoaded(view, pLayout->primaryAsset);
+
+            if (pTexture == nullptr)
+            {
+                return;
+            }
+
+            const float ornamentWidth =
+                (pLayout->width > 0.0f ? pLayout->width : static_cast<float>(pTexture->width)) * uiScale;
+            const float ornamentHeight =
+                (pLayout->height > 0.0f ? pLayout->height : static_cast<float>(pTexture->height)) * uiScale;
+            const float ornamentX = renderedBasebarX - pLayout->gapX * uiScale;
+            const float ornamentY = basebarY + basebarHeight + pLayout->gapY * uiScale;
+            submitTexturedQuad(*pTexture, ornamentX, ornamentY, ornamentWidth, ornamentHeight);
+        };
+
+    const auto renderGameplayBasebarRightAttachment =
+        [&](const std::string &layoutId)
+        {
+            if (!useGameplayWideHud)
+            {
+                return;
+            }
+
+            const OutdoorGameView::HudLayoutElement *pLayout = HudUiService::findHudLayoutElement(view, layoutId);
+
+            if (pLayout == nullptr || pLayout->primaryAsset.empty() || !pLayout->visible)
+            {
+                return;
+            }
+
+            const OutdoorGameView::HudTextureHandle *pTexture =
+                HudUiService::ensureHudTextureLoaded(view, pLayout->primaryAsset);
+
+            if (pTexture == nullptr)
+            {
+                return;
+            }
+
+            const float ornamentWidth =
+                (pLayout->width > 0.0f ? pLayout->width : static_cast<float>(pTexture->width)) * uiScale;
+            const float ornamentHeight =
+                (pLayout->height > 0.0f ? pLayout->height : static_cast<float>(pTexture->height)) * uiScale;
+            const float ornamentX =
+                renderedBasebarX + renderedBasebarWidth - ornamentWidth + pLayout->gapX * uiScale;
+            const float ornamentY = basebarY + basebarHeight + pLayout->gapY * uiScale;
+            submitTexturedQuad(*pTexture, ornamentX, ornamentY, ornamentWidth, ornamentHeight);
+        };
+
     struct MinimapOverlayState
     {
         bool valid = false;
@@ -440,54 +539,22 @@ void GameplayHudRenderer::renderGameplayHudArt(OutdoorGameView &view, int width,
 
             return true;
         };
-    const OutdoorGameView::HudScreenState hudScreenState = view.currentHudScreenState();
-    const bool isLimitedOverlayHud =
-        hudScreenState == OutdoorGameView::HudScreenState::Dialogue
-        || hudScreenState == OutdoorGameView::HudScreenState::Character
-        || hudScreenState == OutdoorGameView::HudScreenState::Chest
-        || hudScreenState == OutdoorGameView::HudScreenState::Spellbook
-        || hudScreenState == OutdoorGameView::HudScreenState::Rest
-        || hudScreenState == OutdoorGameView::HudScreenState::Menu
-        || hudScreenState == OutdoorGameView::HudScreenState::SaveGame
-        || hudScreenState == OutdoorGameView::HudScreenState::LoadGame
-        || hudScreenState == OutdoorGameView::HudScreenState::Journal;
-
-    const auto isGameplayElementVisibleInHudState =
-        [&view, hudScreenState, isLimitedOverlayHud](const OutdoorGameView::HudLayoutElement &layout) -> bool
+    const auto isDescendantOf =
+        [&view](const OutdoorGameView::HudLayoutElement &layout, const std::string &ancestorId) -> bool
         {
-            (void)hudScreenState;
-
-            if (toLowerCopy(layout.screen) != "outdoorhud")
-            {
-                return false;
-            }
-
-            if (!isLimitedOverlayHud)
-            {
-                return true;
-            }
-
-            const std::string normalizedId = toLowerCopy(layout.id);
-
-            if (normalizedId == "outdoorbasebar"
-                || normalizedId == "outdoorpartystrip"
-                || normalizedId.rfind("charshield_", 0) == 0)
-            {
-                return true;
-            }
-
-            if (normalizedId.rfind("outdoorminimap", 0) == 0)
-            {
-                return false;
-            }
-
+            const std::string normalizedAncestorId = toLowerCopy(ancestorId);
             const OutdoorGameView::HudLayoutElement *pCurrent = &layout;
 
-            while (pCurrent != nullptr && !pCurrent->parentId.empty())
+            while (pCurrent != nullptr)
             {
-                if (toLowerCopy(pCurrent->parentId) == "outdoorbasebar")
+                if (toLowerCopy(pCurrent->id) == normalizedAncestorId)
                 {
                     return true;
+                }
+
+                if (pCurrent->parentId.empty())
+                {
+                    break;
                 }
 
                 pCurrent = HudUiService::findHudLayoutElement(view, pCurrent->parentId);
@@ -496,9 +563,55 @@ void GameplayHudRenderer::renderGameplayHudArt(OutdoorGameView &view, int width,
             return false;
         };
 
-    submitTexturedQuad(*pBasebar, basebarX, basebarY, basebarWidth, basebarHeight);
+    const auto isGameplayElementVisibleInHudState =
+        [&isDescendantOf, isLimitedOverlayHud](const OutdoorGameView::HudLayoutElement &layout) -> bool
+        {
+            if (toLowerCopy(layout.screen) != "outdoorhud")
+            {
+                return false;
+            }
 
-    const size_t displayedMemberCount = members.size();
+            if (isLimitedOverlayHud)
+            {
+                return isDescendantOf(layout, "OutdoorBasebar");
+            }
+
+            return !isDescendantOf(layout, "OutdoorBasebar");
+        };
+
+    renderGameplayBasebarLeftAttachment("OutdoorGameplayBasebar_OrnLeft1");
+    renderGameplayBasebarLeftAttachment("OutdoorGameplayBasebar_OrnLeft2");
+    renderGameplayBasebarRightAttachment("OutdoorGameplayBasebar_OrnRight1");
+    renderGameplayBasebarRightAttachment("OutdoorGameplayBasebar_OrnRight2");
+
+    if (useGameplayWideHud)
+    {
+        const float uSpan = std::clamp(renderedBasebarWidth / basebarWidth, 0.0f, 1.0f);
+        submitTexturedQuadUv(
+            *pBasebar,
+            renderedBasebarX,
+            basebarY,
+            renderedBasebarWidth,
+            basebarHeight,
+            0.0f,
+            0.0f,
+            uSpan,
+            1.0f);
+
+        if (pGameplayBasebarEnder != nullptr)
+        {
+            const float enderWidth = static_cast<float>(pGameplayBasebarEnder->width) * uiScale;
+            const float enderHeight = static_cast<float>(pGameplayBasebarEnder->height) * uiScale;
+            const float enderX =
+                basebarX + basebarWidth * 0.5f + renderedBasebarWidth * 0.5f - 20.0f * uiScale;
+            submitTexturedQuad(*pGameplayBasebarEnder, enderX, basebarY, enderWidth, enderHeight);
+        }
+    }
+    else
+    {
+        submitTexturedQuad(*pBasebar, basebarX, basebarY, basebarWidth, basebarHeight);
+    }
+
     const size_t activeMemberIndex = view.m_pOutdoorPartyRuntime->party().activeMemberIndex();
     const bool activeMemberReadyForSelection =
         view.m_pOutdoorPartyRuntime->party().canSelectMemberInGameplay(activeMemberIndex);
@@ -642,38 +755,47 @@ void GameplayHudRenderer::renderGameplayHudArt(OutdoorGameView &view, int width,
         }
     }
 
-    for (size_t memberIndex = displayedMemberCount; memberIndex < 5; ++memberIndex)
+    if (isLimitedOverlayHud)
     {
-        const std::string slotShieldId = "CharShield_" + std::to_string(memberIndex + 1);
-        const OutdoorGameView::HudLayoutElement *pShieldLayout = HudUiService::findHudLayoutElement(view, slotShieldId);
-
-        if (pShieldLayout == nullptr || pShieldLayout->primaryAsset.empty())
+        for (size_t memberIndex = displayedMemberCount; memberIndex < 5; ++memberIndex)
         {
-            continue;
+            const std::string slotShieldId = "CharShield_" + std::to_string(memberIndex + 1);
+            const OutdoorGameView::HudLayoutElement *pShieldLayout = HudUiService::findHudLayoutElement(view, slotShieldId);
+
+            if (pShieldLayout == nullptr || pShieldLayout->primaryAsset.empty())
+            {
+                continue;
+            }
+
+            const OutdoorGameView::HudTextureHandle *pShieldTexture =
+                HudUiService::ensureHudTextureLoaded(view, pShieldLayout->primaryAsset);
+
+            if (pShieldTexture == nullptr)
+            {
+                continue;
+            }
+
+            const std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolvedShield =
+                HudUiService::resolveHudLayoutElement(
+                    view,
+                    slotShieldId,
+                    width,
+                    height,
+                    pShieldLayout->width > 0.0f ? pShieldLayout->width : static_cast<float>(pShieldTexture->width),
+                    pShieldLayout->height > 0.0f ? pShieldLayout->height : static_cast<float>(pShieldTexture->height));
+
+            if (!resolvedShield)
+            {
+                continue;
+            }
+
+            submitTexturedQuad(
+                *pShieldTexture,
+                resolvedShield->x,
+                resolvedShield->y,
+                resolvedShield->width,
+                resolvedShield->height);
         }
-
-        const OutdoorGameView::HudTextureHandle *pShieldTexture =
-            HudUiService::ensureHudTextureLoaded(view, pShieldLayout->primaryAsset);
-
-        if (pShieldTexture == nullptr)
-        {
-            continue;
-        }
-
-        const std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolvedShield = HudUiService::resolveHudLayoutElement(
-            view,
-            slotShieldId,
-            width,
-            height,
-            pShieldLayout->width > 0.0f ? pShieldLayout->width : static_cast<float>(pShieldTexture->width),
-            pShieldLayout->height > 0.0f ? pShieldLayout->height : static_cast<float>(pShieldTexture->height));
-
-        if (!resolvedShield)
-        {
-            continue;
-        }
-
-        submitTexturedQuad(*pShieldTexture, resolvedShield->x, resolvedShield->y, resolvedShield->width, resolvedShield->height);
     }
 
     const auto renderOrderedSimpleHudElement =
@@ -683,6 +805,13 @@ void GameplayHudRenderer::renderGameplayHudArt(OutdoorGameView &view, int width,
 
             if (normalizedLayoutId == "outdoorbasebar"
                 || normalizedLayoutId == "outdoorpartystrip"
+                || normalizedLayoutId == "outdoorgameplaybasebar"
+                || normalizedLayoutId == "outdoorgameplaypartystrip"
+                || normalizedLayoutId == "outdoorgameplaystatusbar"
+                || normalizedLayoutId == "outdoorgameplaybasebar_ornleft1"
+                || normalizedLayoutId == "outdoorgameplaybasebar_ornleft2"
+                || normalizedLayoutId == "outdoorgameplaybasebar_ornright1"
+                || normalizedLayoutId == "outdoorgameplaybasebar_ornright2"
                 || normalizedLayoutId.rfind("charshield_", 0) == 0)
             {
                 return;
@@ -1077,6 +1206,7 @@ void GameplayHudRenderer::renderGameplayHud(const OutdoorGameView &view, int wid
         || hudScreenState == OutdoorGameView::HudScreenState::SaveGame
         || hudScreenState == OutdoorGameView::HudScreenState::LoadGame
         || hudScreenState == OutdoorGameView::HudScreenState::Journal;
+    const bool useGameplayWideHud = !isLimitedOverlayHud;
     const bool shouldRenderStatusBar =
         hudScreenState != OutdoorGameView::HudScreenState::Spellbook
         && hudScreenState != OutdoorGameView::HudScreenState::Rest
@@ -1110,37 +1240,69 @@ void GameplayHudRenderer::renderGameplayHud(const OutdoorGameView &view, int wid
             const std::string replacedFood = replaceAll(replacedGold, "{food}", value);
             return replacedFood == labelText ? value : replacedFood;
         };
+    std::string statusBarLabel;
+
+    if (view.m_statusBarEventRemainingSeconds > 0.0f && !view.m_statusBarEventText.empty())
+    {
+        statusBarLabel = view.m_statusBarEventText;
+    }
+    else if (!view.m_statusBarHoverText.empty())
+    {
+        statusBarLabel = view.m_statusBarHoverText;
+    }
 
     if (shouldRenderStatusBar)
     {
-        const std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolvedStatusBar = HudUiService::resolveHudLayoutElement(
-            view,
-            "OutdoorStatusBar",
-            width,
-            height,
-            360.0f,
-            18.0f);
-
-        if (!resolvedStatusBar)
-        {
-            return;
-        }
-
-        std::string statusBarLabel;
-
-        if (view.m_statusBarEventRemainingSeconds > 0.0f && !view.m_statusBarEventText.empty())
-        {
-            statusBarLabel = view.m_statusBarEventText;
-        }
-        else if (!view.m_statusBarHoverText.empty())
-        {
-            statusBarLabel = view.m_statusBarHoverText;
-        }
-
+        const std::string statusBarLayoutId = useGameplayWideHud ? "OutdoorGameplayStatusBar" : "OutdoorStatusBar";
         if (const OutdoorGameView::HudLayoutElement *pStatusBarLayout =
-                HudUiService::findHudLayoutElement(view, "OutdoorStatusBar"))
+                HudUiService::findHudLayoutElement(view, statusBarLayoutId))
         {
-            HudUiService::renderLayoutLabel(view, *pStatusBarLayout, *resolvedStatusBar, statusBarLabel);
+            float logicalStatusBarWidth = pStatusBarLayout->width > 0.0f ? pStatusBarLayout->width : 360.0f;
+
+            if (useGameplayWideHud && !statusBarLabel.empty())
+            {
+                if (const OutdoorGameView::HudFontHandle *pStatusFont =
+                        HudUiService::findHudFont(view, pStatusBarLayout->fontName))
+                {
+                    logicalStatusBarWidth = std::clamp(
+                        HudUiService::measureHudTextWidth(view, *pStatusFont, statusBarLabel)
+                            * std::max(0.1f, pStatusBarLayout->textScale)
+                            + 6.0f,
+                        24.0f,
+                        483.0f);
+                }
+            }
+
+            const std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolvedStatusBar =
+                HudUiService::resolveHudLayoutElement(
+                    view,
+                    statusBarLayoutId,
+                    width,
+                    height,
+                    logicalStatusBarWidth,
+                    pStatusBarLayout->height > 0.0f ? pStatusBarLayout->height : 18.0f);
+
+            if (resolvedStatusBar)
+            {
+                if (useGameplayWideHud && !statusBarLabel.empty() && !pStatusBarLayout->primaryAsset.empty())
+                {
+                    OutdoorGameView &mutableView = const_cast<OutdoorGameView &>(view);
+                    const OutdoorGameView::HudTextureHandle *pStatusBarTexture =
+                        HudUiService::ensureHudTextureLoaded(mutableView, pStatusBarLayout->primaryAsset);
+
+                    if (pStatusBarTexture != nullptr)
+                    {
+                        view.submitHudTexturedQuad(
+                            *pStatusBarTexture,
+                            resolvedStatusBar->x,
+                            resolvedStatusBar->y,
+                            resolvedStatusBar->width,
+                            resolvedStatusBar->height);
+                    }
+                }
+
+                HudUiService::renderLayoutLabel(view, *pStatusBarLayout, *resolvedStatusBar, statusBarLabel);
+            }
         }
     }
 

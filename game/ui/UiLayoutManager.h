@@ -46,6 +46,12 @@ public:
         CenterIn
     };
 
+    enum class LayoutAnchorSpace
+    {
+        Viewport,
+        Screen
+    };
+
     enum class TextAlignX
     {
         Left,
@@ -65,6 +71,7 @@ public:
         std::string id;
         std::string screen;
         LayoutAnchor anchor = LayoutAnchor::TopLeft;
+        LayoutAnchorSpace anchorSpace = LayoutAnchorSpace::Viewport;
         std::string parentId;
         LayoutAttachMode attachTo = LayoutAttachMode::None;
         float gapX = 0.0f;

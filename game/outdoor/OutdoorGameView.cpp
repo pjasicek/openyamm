@@ -7011,8 +7011,21 @@ std::optional<OutdoorGameView::ResolvedHudLayoutElement> OutdoorGameView::resolv
         return std::nullopt;
     }
 
-    const HudLayoutElement *pBasebarLayout = HudUiService::findHudLayoutElement(*this, "OutdoorBasebar");
-    const HudLayoutElement *pPartyStripLayout = HudUiService::findHudLayoutElement(*this, "OutdoorPartyStrip");
+    const HudScreenState hudScreenState = currentHudScreenState();
+    const bool isLimitedOverlayHud =
+        hudScreenState == HudScreenState::Dialogue
+        || hudScreenState == HudScreenState::Character
+        || hudScreenState == HudScreenState::Chest
+        || hudScreenState == HudScreenState::Spellbook
+        || hudScreenState == HudScreenState::Rest
+        || hudScreenState == HudScreenState::Menu
+        || hudScreenState == HudScreenState::SaveGame
+        || hudScreenState == HudScreenState::LoadGame
+        || hudScreenState == HudScreenState::Journal;
+    const std::string basebarLayoutId = isLimitedOverlayHud ? "OutdoorBasebar" : "OutdoorGameplayBasebar";
+    const std::string partyStripLayoutId = isLimitedOverlayHud ? "OutdoorPartyStrip" : "OutdoorGameplayPartyStrip";
+    const HudLayoutElement *pBasebarLayout = HudUiService::findHudLayoutElement(*this, basebarLayoutId);
+    const HudLayoutElement *pPartyStripLayout = HudUiService::findHudLayoutElement(*this, partyStripLayoutId);
 
     if (pBasebarLayout == nullptr || pPartyStripLayout == nullptr)
     {
@@ -7028,13 +7041,13 @@ std::optional<OutdoorGameView::ResolvedHudLayoutElement> OutdoorGameView::resolv
     }
 
     const std::optional<ResolvedHudLayoutElement> resolvedBasebar = HudUiService::resolveHudLayoutElement(*this, 
-        "OutdoorBasebar",
+        basebarLayoutId,
         width,
         height,
         static_cast<float>(pBasebar->width),
         static_cast<float>(pBasebar->height));
     const std::optional<ResolvedHudLayoutElement> resolvedPartyStrip = HudUiService::resolveHudLayoutElement(*this, 
-        "OutdoorPartyStrip",
+        partyStripLayoutId,
         width,
         height,
         static_cast<float>(pBasebar->width),
@@ -7054,9 +7067,18 @@ std::optional<OutdoorGameView::ResolvedHudLayoutElement> OutdoorGameView::resolv
 
     const float portraitWidth = static_cast<float>(pFaceMask->width) * resolvedBasebar->scale;
     const float portraitHeight = static_cast<float>(pFaceMask->height) * resolvedBasebar->scale;
-    const float portraitStartX = resolvedPartyStrip->x + resolvedPartyStrip->width * (20.0f / 471.0f);
-    const float portraitY = resolvedPartyStrip->y + resolvedPartyStrip->height * (23.0f / 92.0f);
+    float portraitStartX = resolvedPartyStrip->x + resolvedPartyStrip->width * (20.0f / 471.0f);
+    float portraitY = resolvedPartyStrip->y + resolvedPartyStrip->height * (23.0f / 92.0f);
     const float portraitDeltaX = resolvedPartyStrip->width * (94.0f / 471.0f);
+
+    if (!isLimitedOverlayHud)
+    {
+        const float basebarCenterX = resolvedBasebar->x + resolvedBasebar->width * 0.5f;
+        const float portraitGroupWidth =
+            portraitWidth + static_cast<float>(members.size() - 1) * portraitDeltaX;
+        portraitStartX = basebarCenterX - portraitGroupWidth * 0.5f;
+        portraitY -= 15.0f * resolvedBasebar->scale;
+    }
 
     return ResolvedHudLayoutElement{
         portraitStartX + static_cast<float>(memberIndex) * portraitDeltaX,

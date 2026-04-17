@@ -11,7 +11,7 @@ elements:
       max: 3.0
     asset:
       default: Basebar
-    notes: Bottom party HUD base bar.
+    notes: Legacy centered base bar kept for stacked overlays above gameplay.
     children:
       - id: OutdoorPartyStrip
         anchor: top_left
@@ -23,7 +23,7 @@ elements:
           frame: manaFRM
           health_bar: ManaG
           mana_bar: manaB
-        notes: Dynamic party strip supporting one to five members.
+        notes: Legacy party strip used by overlay screens.
 
       - id: OutdoorStatusBar
         anchor: center_in
@@ -35,48 +35,7 @@ elements:
           font: Lucida
           align_x: center
           align_y: middle
-        notes: Centered one-line status text region above party strip.
-
-      - id: OutdoorMinimap
-        anchor: right
-        offset_x: -19
-        width: 122
-        height: 83
-        asset:
-          default: MINIMAP
-        notes: Moving minimap texture crop.
-
-      - id: OutdoorMinimapFrame
-        anchor: right
-        width: 159
-        height: 113
-        asset:
-          default: mapframe
-        notes: Minimap frame and lower-left corner treatment.
-        children:
-          - id: OutdoorMinimapZoomIn
-            anchor: top_right
-            offset_x: -4
-            offset_y: 6
-            width: 13
-            height: 15
-            interactive: true
-            asset:
-              default: map+up
-              pressed: map+dn
-            notes: Minimap zoom in button.
-
-          - id: OutdoorMinimapZoomOut
-            anchor: bottom_right
-            offset_x: -4
-            offset_y: -5
-            width: 13
-            height: 15
-            interactive: true
-            asset:
-              default: map-up
-              pressed: map-dn
-            notes: Minimap zoom out button.
+        notes: Legacy one-line status region used by overlay screens.
 
       - id: CharShield_1
         anchor: top_left
@@ -86,7 +45,7 @@ elements:
         height: 92
         asset:
           default: IBshield01
-        notes: Empty party slot shield 1.
+        notes: Empty overlay slot shield 1.
 
       - id: CharShield_2
         anchor: top_left
@@ -96,7 +55,7 @@ elements:
         height: 92
         asset:
           default: IBshield01
-        notes: Empty party slot shield 2.
+        notes: Empty overlay slot shield 2.
 
       - id: CharShield_3
         anchor: top_left
@@ -106,7 +65,7 @@ elements:
         height: 92
         asset:
           default: IBshield02
-        notes: Empty party slot shield 3.
+        notes: Empty overlay slot shield 3.
 
       - id: CharShield_4
         anchor: top_left
@@ -116,7 +75,7 @@ elements:
         height: 92
         asset:
           default: IBshield03
-        notes: Empty party slot shield 4.
+        notes: Empty overlay slot shield 4.
 
       - id: CharShield_5
         anchor: top_left
@@ -126,23 +85,137 @@ elements:
         height: 92
         asset:
           default: IBshield04
-        notes: Empty party slot shield 5.
+        notes: Empty overlay slot shield 5.
 
-  - id: OutdoorTopBar
-    anchor: top_center
-    width: 640
-    height: 29
-    z_index: 50
+  - id: OutdoorGameplayBasebar
+    anchor_space: screen
+    anchor: bottom_center
+    offset_y: 1
+    width: 485
+    height: 94
+    z_index: 200
+    scale:
+      min: 1.0
+      max: 3.0
+    asset:
+      default: Basebar_cut
+    notes: Gameplay-only centered base bar cropped to current party size.
+    children:
+      - id: OutdoorGameplayPartyStrip
+        anchor: top_left
+        width: 471
+        height: 92
+        asset:
+          default: FACEMASK
+          selected: selring
+          frame: manaFRM
+          health_bar: ManaG
+          mana_bar: manaB
+        notes: Gameplay-only party strip assets.
+
+      - id: OutdoorGameplayStatusBar
+        anchor: center_above
+        offset_y: -3
+        height: 18
+        asset:
+          default: status_bar
+        text:
+          font: Lucida
+          align_x: center
+          align_y: middle
+        notes: Gameplay-only centered status banner above the party strip.
+
+      - id: OutdoorGameplayBasebar_OrnLeft1
+        anchor: bottom_left
+        offset_x: 15
+        offset_y: -32
+        width: 33
+        height: 32
+        z_index: 10
+        asset:
+          default: UI-OrL
+
+      - id: OutdoorGameplayBasebar_OrnLeft2
+        anchor: bottom_left
+        offset_x: 8
+        offset_y: -64
+        width: 33
+        height: 32
+        z_index: 10
+        asset:
+          default: UI-OrL
+
+      - id: OutdoorGameplayBasebar_OrnRight1
+        anchor: bottom_right
+        offset_x: 22
+        offset_y: -32
+        width: 39
+        height: 32
+        z_index: 10
+        asset:
+          default: UI-OrR
+
+      - id: OutdoorGameplayBasebar_OrnRight2
+        anchor: bottom_right
+        offset_x: 15
+        offset_y: -64
+        width: 39
+        height: 32
+        z_index: 10
+        asset:
+          default: UI-OrR
+
+  - id: OutdoorOptionsBar
+    anchor_space: screen
+    anchor: bottom_left
+    width: 147
+    height: 34
+    z_index: 60
     scale:
       min: 1.0
       max: 3.0
     asset:
       default: topbar
-    notes: Top gameplay bar.
+    notes: Gameplay command strip at the lower-left screen corner.
     children:
+      - id: OutdoorOptionsBarFrame
+        anchor: center
+        width: 147
+        height: 34
+        z_index: 70
+        asset:
+          default: UI-FrMnu
+
+      - id: OutdoorButtonBooks
+        anchor: top_left
+        offset_x: 5
+        offset_y: 7
+        width: 33
+        height: 24
+        interactive: true
+        asset:
+          default: butn1u
+          highlighted: butn1d
+          pressed: butn1d
+        notes: Books button.
+
+      - id: OutdoorButtonQuickRef
+        anchor: top_left
+        offset_x: 38
+        offset_y: 5
+        width: 55
+        height: 24
+        interactive: true
+        asset:
+          default: butn3u
+          highlighted: butn3d
+          pressed: butn3d
+        notes: Quick reference button.
+
       - id: OutdoorButtonOptions
-        anchor: center_in
-        offset_x: 220
+        anchor: top_left
+        offset_x: 93
+        offset_y: 6
         width: 50
         height: 22
         interactive: true
@@ -152,21 +225,90 @@ elements:
           pressed: butn4d
         notes: Options button.
 
-      - id: OutdoorButtonQuickRef
+  - id: OutdoorGoldBar
+    anchor_space: screen
+    anchor: top_left
+    width: 125
+    height: 25
+    z_index: 60
+    scale:
+      min: 1.0
+      max: 3.0
+    asset:
+      default: topbar
+    children:
+      - id: OutdoorGoldBar_Frame
         anchor: center_in
-        offset_x: 165
-        width: 60
-        height: 24
-        interactive: true
+        width: 125
+        height: 25
         asset:
-          default: butn3u
-          highlighted: butn3d
-          pressed: butn3d
-        notes: Quick reference button.
+          default: Ui-FrGol
+
+      - id: OutdoorGoldIcon
+        anchor: top_left
+        offset_x: 8
+        offset_y: 2
+        width: 45
+        height: 23
+        asset:
+          default: scoreBG_gold
+
+      - id: OutdoorGoldLabel
+        anchor: top_left
+        offset_x: 60
+        offset_y: 5
+        width: 34
+        height: 14
+        text:
+          value: "{gold}"
+          font: SMALLNUM
+          align_x: center
+          align_y: middle
+
+  - id: OutdoorFoodRestBar
+    anchor_space: screen
+    anchor: top_right
+    width: 125
+    height: 25
+    z_index: 60
+    scale:
+      min: 1.0
+      max: 3.0
+    asset:
+      default: topbar
+    children:
+      - id: OutdoorFoodRestBar_Frame
+        anchor: center_in
+        width: 125
+        height: 25
+        asset:
+          default: Ui-FrGol
+
+      - id: OutdoorFoodIcon
+        anchor: top_left
+        offset_x: 5
+        offset_y: 2
+        width: 45
+        height: 23
+        asset:
+          default: scoreBG_food
+
+      - id: OutdoorFoodLabel
+        anchor: top_left
+        offset_x: 40
+        offset_y: 5
+        width: 34
+        height: 14
+        text:
+          value: "{food}"
+          font: SMALLNUM
+          align_x: center
+          align_y: middle
 
       - id: OutdoorButtonRest
-        anchor: center_in
-        offset_x: 115
+        anchor: top_left
+        offset_x: 83
+        offset_y: 2
         width: 40
         height: 24
         interactive: true
@@ -176,199 +318,215 @@ elements:
           pressed: butn2d
         notes: Rest button.
 
-      - id: OutdoorButtonBooks
+  - id: OutdoorBuffBodyPanel
+    anchor_space: screen
+    anchor: bottom_left
+    offset_x: 6
+    offset_y: -39
+    width: 64
+    height: 64
+    z_index: 58
+    asset:
+      default: asiL00
+    notes: Body buff panel.
+    children:
+      - id: OutdoorBuffBody_Frame
         anchor: center_in
-        offset_x: 72.5
-        width: 40
-        height: 24
+        width: 67
+        height: 67
+        asset:
+          default: Ui-FrSp
+
+      - id: OutdoorBuffBody_FireResistance
+        anchor: center_in
+        width: 64
+        height: 64
+        asset:
+          default: asiL01
+        notes: Fire Resistance buff icon.
+
+      - id: OutdoorBuffBody_WaterResistance
+        anchor: center_in
+        width: 64
+        height: 64
+        asset:
+          default: asiL02
+        notes: Water Resistance buff icon.
+
+      - id: OutdoorBuffBody_AirResistance
+        anchor: center_in
+        width: 64
+        height: 64
+        asset:
+          default: asiL03
+        notes: Air Resistance buff icon.
+
+      - id: OutdoorBuffBody_EarthResistance
+        anchor: center_in
+        width: 64
+        height: 64
+        asset:
+          default: asiL04
+        notes: Earth Resistance buff icon.
+
+      - id: OutdoorBuffBody_MindResistance
+        anchor: center_in
+        width: 64
+        height: 64
+        asset:
+          default: asiL05
+        notes: Mind Resistance buff icon.
+
+      - id: OutdoorBuffBody_BodyResistance
+        anchor: center_in
+        width: 64
+        height: 64
+        asset:
+          default: asiL06
+        notes: Body Resistance buff icon.
+
+      - id: OutdoorBuffBody_Shield
+        anchor: center_in
+        width: 64
+        height: 64
+        asset:
+          default: asiL07
+        notes: Shield buff icon.
+
+      - id: OutdoorBuffBody_Heroism
+        anchor: center_in
+        width: 64
+        height: 64
+        asset:
+          default: asiL08
+        notes: Heroism buff icon.
+
+      - id: OutdoorBuffBody_Haste
+        anchor: center_in
+        width: 64
+        height: 64
+        asset:
+          default: asiL09
+        notes: Haste buff icon.
+
+      - id: OutdoorBuffBody_Immolation
+        anchor: center_in
+        width: 64
+        height: 64
+        asset:
+          default: asiL10
+        notes: Immolation buff icon.
+
+  - id: OutdoorBuffSkullPanel
+    anchor_space: screen
+    anchor: bottom_left
+    offset_x: 77
+    offset_y: -39
+    width: 64
+    height: 64
+    z_index: 58
+    asset:
+      default: asiR00
+    notes: Skull buff panel.
+    children:
+      - id: OutdoorBuffSkull_Frame
+        anchor: center_in
+        width: 67
+        height: 67
+        asset:
+          default: Ui-FrSp
+
+      - id: OutdoorBuffSkull_FeatherFall
+        anchor: center_in
+        width: 64
+        height: 64
+        asset:
+          default: asiR07
+        notes: Feather Fall buff icon.
+
+      - id: OutdoorBuffSkull_Stoneskin
+        anchor: center_in
+        width: 64
+        height: 64
+        asset:
+          default: asiR01
+        notes: Stoneskin buff icon.
+
+      - id: OutdoorBuffSkull_DayOfGods
+        anchor: center_in
+        width: 64
+        height: 64
+        asset:
+          default: asiR05
+        notes: Day of the Gods buff icon.
+
+      - id: OutdoorBuffSkull_Torchlight
+        anchor: center_in
+        width: 64
+        height: 64
+        asset:
+          default: asiR06
+        notes: Torchlight buff icon.
+
+      - id: OutdoorBuffSkull_WizardEye
+        anchor: center_in
+        width: 64
+        height: 64
+        asset:
+          default: asiR02
+        notes: Wizard Eye buff icon.
+
+      - id: OutdoorBuffSkull_ProtectionFromGods
+        anchor: center_in
+        width: 64
+        height: 64
+        asset:
+          default: asiR04
+        notes: Protection from Magic buff icon.
+
+  - id: OutdoorMinimapFrame
+    anchor_space: screen
+    anchor: bottom_right
+    offset_x: 1
+    width: 159
+    height: 113
+    z_index: 70
+    scale:
+      min: 1.0
+      max: 3.0
+    asset:
+      default: mapframe
+    notes: Gameplay minimap frame in the lower-right corner.
+    children:
+      - id: OutdoorMinimap
+        anchor: center_in
+        offset_x: -1
+        width: 122
+        height: 83
+        asset:
+          default: MINIMAP
+        notes: Moving minimap texture crop.
+
+      - id: OutdoorMinimapZoomIn
+        anchor: top_right
+        offset_x: -4
+        offset_y: 6
+        width: 13
+        height: 15
         interactive: true
         asset:
-          default: butn1u
-          highlighted: butn1d
-          pressed: butn1d
-        notes: Books button.
+          default: map+up
+          pressed: map+dn
+        notes: Minimap zoom in button.
 
-      - id: OutdoorGoldFoodIcon
-        anchor: center_in
-        offset_x: -165
-        width: 134
-        height: 21
+      - id: OutdoorMinimapZoomOut
+        anchor: bottom_right
+        offset_x: -4
+        offset_y: -5
+        width: 13
+        height: 15
+        interactive: true
         asset:
-          default: scoreBG
-        notes: Gold and food bar background.
-
-      - id: OutdoorFoodLabel
-        anchor: center_in
-        offset_x: -180
-        width: 28
-        height: 14
-        text:
-          value: "{food}"
-          font: SMALLNUM
-          align_x: center
-          align_y: middle
-        notes: Food counter text region.
-
-      - id: OutdoorGoldLabel
-        anchor: center_in
-        offset_x: -85
-        width: 28
-        height: 14
-        text:
-          value: "{gold}"
-          font: SMALLNUM
-          align_x: center
-          align_y: middle
-        notes: Gold counter text region.
-
-      - id: OutdoorCompassFront
-        anchor: center_in
-        width: 49
-        height: 19
-        asset:
-          default: compcovr
-        notes: Compass overlay art.
-
-      - id: OutdoorBuffSkullPanel
-        anchor: top_right
-        width: 64
-        height: 64
-        asset:
-          default: asiR00
-        notes: Skull buff panel.
-        children:
-          - id: OutdoorBuffSkull_FeatherFall
-            anchor: center_in
-            width: 64
-            height: 64
-            asset:
-              default: asiR07
-            notes: Feather Fall buff icon.
-
-          - id: OutdoorBuffSkull_Stoneskin
-            anchor: center_in
-            width: 64
-            height: 64
-            asset:
-              default: asiR01
-            notes: Stoneskin buff icon.
-
-          - id: OutdoorBuffSkull_DayOfGods
-            anchor: center_in
-            width: 64
-            height: 64
-            asset:
-              default: asiR05
-            notes: Day of the Gods buff icon.
-
-          - id: OutdoorBuffSkull_Torchlight
-            anchor: center_in
-            width: 64
-            height: 64
-            asset:
-              default: asiR06
-            notes: Torchlight buff icon.
-
-          - id: OutdoorBuffSkull_WizardEye
-            anchor: center_in
-            width: 64
-            height: 64
-            asset:
-              default: asiR02
-            notes: Wizard Eye buff icon.
-
-          - id: OutdoorBuffSkull_ProtectionFromGods
-            anchor: center_in
-            width: 64
-            height: 64
-            asset:
-              default: asiR04
-            notes: Protection from Magic buff icon.
-
-      - id: OutdoorBuffBodyPanel
-        anchor: top_left
-        width: 64
-        height: 64
-        asset:
-          default: asiL00
-        notes: Body buff panel.
-        children:
-          - id: OutdoorBuffBody_FireResistance
-            anchor: center_in
-            width: 64
-            height: 64
-            asset:
-              default: asiL01
-            notes: Fire Resistance buff icon.
-
-          - id: OutdoorBuffBody_WaterResistance
-            anchor: center_in
-            width: 64
-            height: 64
-            asset:
-              default: asiL02
-            notes: Water Resistance buff icon.
-
-          - id: OutdoorBuffBody_AirResistance
-            anchor: center_in
-            width: 64
-            height: 64
-            asset:
-              default: asiL03
-            notes: Air Resistance buff icon.
-
-          - id: OutdoorBuffBody_EarthResistance
-            anchor: center_in
-            width: 64
-            height: 64
-            asset:
-              default: asiL04
-            notes: Earth Resistance buff icon.
-
-          - id: OutdoorBuffBody_MindResistance
-            anchor: center_in
-            width: 64
-            height: 64
-            asset:
-              default: asiL05
-            notes: Mind Resistance buff icon.
-
-          - id: OutdoorBuffBody_BodyResistance
-            anchor: center_in
-            width: 64
-            height: 64
-            asset:
-              default: asiL06
-            notes: Body Resistance buff icon.
-
-          - id: OutdoorBuffBody_Shield
-            anchor: center_in
-            width: 64
-            height: 64
-            asset:
-              default: asiL07
-            notes: Shield buff icon.
-
-          - id: OutdoorBuffBody_Heroism
-            anchor: center_in
-            width: 64
-            height: 64
-            asset:
-              default: asiL08
-            notes: Heroism buff icon.
-
-          - id: OutdoorBuffBody_Haste
-            anchor: center_in
-            width: 64
-            height: 64
-            asset:
-              default: asiL09
-            notes: Haste buff icon.
-
-          - id: OutdoorBuffBody_Immolation
-            anchor: center_in
-            width: 64
-            height: 64
-            asset:
-              default: asiL10
-            notes: Immolation buff icon.
+          default: map-up
+          pressed: map-dn
+        notes: Minimap zoom out button.

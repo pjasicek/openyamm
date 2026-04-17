@@ -72,6 +72,22 @@ UiViewportRect computeUiViewportRect(int screenWidth, int screenHeight)
     return viewport;
 }
 
+UiViewportRect computeAnchorRect(
+    UiLayoutManager::LayoutAnchorSpace anchorSpace,
+    int screenWidth,
+    int screenHeight)
+{
+    if (anchorSpace == UiLayoutManager::LayoutAnchorSpace::Screen)
+    {
+        UiViewportRect rect = {};
+        rect.width = static_cast<float>(screenWidth);
+        rect.height = static_cast<float>(screenHeight);
+        return rect;
+    }
+
+    return computeUiViewportRect(screenWidth, screenHeight);
+}
+
 } // namespace
 
 bool HudUiService::loadHudLayout(OutdoorGameView &view, const Engine::AssetFileSystem &assetFileSystem)
@@ -786,6 +802,7 @@ std::optional<OutdoorGameView::ResolvedHudLayoutElement> HudUiService::resolveHu
 
     const OutdoorGameView::HudLayoutElement &element = *pElement;
     const UiViewportRect uiViewport = computeUiViewportRect(screenWidth, screenHeight);
+    const UiViewportRect anchorRect = computeAnchorRect(element.anchorSpace, screenWidth, screenHeight);
     const float baseScale = std::min(
         uiViewport.width / HudReferenceWidth,
         uiViewport.height / HudReferenceHeight);
@@ -867,48 +884,48 @@ std::optional<OutdoorGameView::ResolvedHudLayoutElement> HudUiService::resolveHu
     switch (element.anchor)
     {
     case OutdoorGameView::HudLayoutAnchor::TopLeft:
-        resolved.x = uiViewport.x + element.offsetX * resolved.scale;
-        resolved.y = uiViewport.y + element.offsetY * resolved.scale;
+        resolved.x = anchorRect.x + element.offsetX * resolved.scale;
+        resolved.y = anchorRect.y + element.offsetY * resolved.scale;
         break;
 
     case OutdoorGameView::HudLayoutAnchor::TopCenter:
-        resolved.x = uiViewport.x + uiViewport.width * 0.5f - resolved.width * 0.5f + element.offsetX * resolved.scale;
-        resolved.y = uiViewport.y + element.offsetY * resolved.scale;
+        resolved.x = anchorRect.x + anchorRect.width * 0.5f - resolved.width * 0.5f + element.offsetX * resolved.scale;
+        resolved.y = anchorRect.y + element.offsetY * resolved.scale;
         break;
 
     case OutdoorGameView::HudLayoutAnchor::TopRight:
-        resolved.x = uiViewport.x + uiViewport.width - resolved.width + element.offsetX * resolved.scale;
-        resolved.y = uiViewport.y + element.offsetY * resolved.scale;
+        resolved.x = anchorRect.x + anchorRect.width - resolved.width + element.offsetX * resolved.scale;
+        resolved.y = anchorRect.y + element.offsetY * resolved.scale;
         break;
 
     case OutdoorGameView::HudLayoutAnchor::Left:
-        resolved.x = uiViewport.x + element.offsetX * resolved.scale;
-        resolved.y = uiViewport.y + uiViewport.height * 0.5f - resolved.height * 0.5f + element.offsetY * resolved.scale;
+        resolved.x = anchorRect.x + element.offsetX * resolved.scale;
+        resolved.y = anchorRect.y + anchorRect.height * 0.5f - resolved.height * 0.5f + element.offsetY * resolved.scale;
         break;
 
     case OutdoorGameView::HudLayoutAnchor::Center:
-        resolved.x = uiViewport.x + uiViewport.width * 0.5f - resolved.width * 0.5f + element.offsetX * resolved.scale;
-        resolved.y = uiViewport.y + uiViewport.height * 0.5f - resolved.height * 0.5f + element.offsetY * resolved.scale;
+        resolved.x = anchorRect.x + anchorRect.width * 0.5f - resolved.width * 0.5f + element.offsetX * resolved.scale;
+        resolved.y = anchorRect.y + anchorRect.height * 0.5f - resolved.height * 0.5f + element.offsetY * resolved.scale;
         break;
 
     case OutdoorGameView::HudLayoutAnchor::Right:
-        resolved.x = uiViewport.x + uiViewport.width - resolved.width + element.offsetX * resolved.scale;
-        resolved.y = uiViewport.y + uiViewport.height * 0.5f - resolved.height * 0.5f + element.offsetY * resolved.scale;
+        resolved.x = anchorRect.x + anchorRect.width - resolved.width + element.offsetX * resolved.scale;
+        resolved.y = anchorRect.y + anchorRect.height * 0.5f - resolved.height * 0.5f + element.offsetY * resolved.scale;
         break;
 
     case OutdoorGameView::HudLayoutAnchor::BottomLeft:
-        resolved.x = uiViewport.x + element.offsetX * resolved.scale;
-        resolved.y = uiViewport.y + uiViewport.height - resolved.height + element.offsetY * resolved.scale;
+        resolved.x = anchorRect.x + element.offsetX * resolved.scale;
+        resolved.y = anchorRect.y + anchorRect.height - resolved.height + element.offsetY * resolved.scale;
         break;
 
     case OutdoorGameView::HudLayoutAnchor::BottomCenter:
-        resolved.x = uiViewport.x + uiViewport.width * 0.5f - resolved.width * 0.5f + element.offsetX * resolved.scale;
-        resolved.y = uiViewport.y + uiViewport.height - resolved.height + element.offsetY * resolved.scale;
+        resolved.x = anchorRect.x + anchorRect.width * 0.5f - resolved.width * 0.5f + element.offsetX * resolved.scale;
+        resolved.y = anchorRect.y + anchorRect.height - resolved.height + element.offsetY * resolved.scale;
         break;
 
     case OutdoorGameView::HudLayoutAnchor::BottomRight:
-        resolved.x = uiViewport.x + uiViewport.width - resolved.width + element.offsetX * resolved.scale;
-        resolved.y = uiViewport.y + uiViewport.height - resolved.height + element.offsetY * resolved.scale;
+        resolved.x = anchorRect.x + anchorRect.width - resolved.width + element.offsetX * resolved.scale;
+        resolved.y = anchorRect.y + anchorRect.height - resolved.height + element.offsetY * resolved.scale;
         break;
     }
 
