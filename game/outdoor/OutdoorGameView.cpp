@@ -93,6 +93,7 @@ constexpr int JournalRevealBytesPerRow = 11;
 constexpr float JournalMapWorldHalfExtent = 32768.0f;
 constexpr uint64_t SpellFailSoundCooldownMs = 250;
 constexpr size_t SaveLoadVisibleSlotCount = 10;
+constexpr float HeldAttackRepeatDebounceSeconds = 0.08f;
 
 enum class HouseShopVerticalAlign
 {
@@ -3657,6 +3658,7 @@ OutdoorGameView::OutdoorGameView()
     , m_activateInspectLatch(false)
     , m_inspectMouseActivateLatch(false)
     , m_attackInspectLatch(false)
+    , m_attackInspectRepeatCooldownSeconds(0.0f)
     , m_toggleRunningLatch(false)
     , m_toggleFlyingLatch(false)
     , m_toggleWaterWalkLatch(false)
@@ -4078,6 +4080,8 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
     if (deltaSeconds > 0.0f)
     {
         m_elapsedTime += deltaSeconds;
+        m_attackInspectRepeatCooldownSeconds =
+            std::max(0.0f, m_attackInspectRepeatCooldownSeconds - deltaSeconds);
     }
 
     if (m_pendingSavePreviewCapture.active
@@ -4501,6 +4505,7 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
                 m_activateInspectLatch = false;
                 m_inspectMouseActivateLatch = false;
                 m_attackInspectLatch = false;
+                m_attackInspectRepeatCooldownSeconds = 0.0f;
                 m_pressedInspectHit = {};
             }
             else
@@ -4836,7 +4841,11 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
                 m_pressedInspectHit = {};
             }
 
-            if (isAttackPressed && !m_attackInspectLatch)
+            const bool attackPressedThisFrame = isAttackPressed && !m_attackInspectLatch;
+            const bool attackRepeatReady =
+                isAttackPressed && m_attackInspectLatch && m_attackInspectRepeatCooldownSeconds <= 0.0f;
+
+            if (attackPressedThisFrame || attackRepeatReady)
             {
                 if (!hasInteractionInspectHit)
                 {
@@ -4848,9 +4857,18 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
                     Party &party = m_pOutdoorPartyRuntime->party();
                     Character *pAttacker = party.activeMember();
 
+                    if ((pAttacker == nullptr || !GameMechanics::canSelectInGameplay(*pAttacker))
+                        && party.switchToNextReadyMember())
+                    {
+                        pAttacker = party.activeMember();
+                    }
+
                     if (pAttacker == nullptr || !GameMechanics::canSelectInGameplay(*pAttacker))
                     {
-                        setStatusBarEvent("Nobody is in condition");
+                        if (attackPressedThisFrame)
+                        {
+                            setStatusBarEvent("Nobody is in condition");
+                        }
                     }
                     else
                     {
@@ -5274,10 +5292,12 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
                 }
 
                 m_attackInspectLatch = true;
+                m_attackInspectRepeatCooldownSeconds = HeldAttackRepeatDebounceSeconds;
             }
             else if (!isAttackPressed)
             {
                 m_attackInspectLatch = false;
+                m_attackInspectRepeatCooldownSeconds = 0.0f;
             }
 
             m_statusBarHoverText = OutdoorInteractionController::resolveHoverStatusBarText(*this, inspectHit).value_or("");
@@ -6684,6 +6704,7 @@ void OutdoorGameView::shutdown()
     m_activateInspectLatch = false;
     m_inspectMouseActivateLatch = false;
     m_attackInspectLatch = false;
+    m_attackInspectRepeatCooldownSeconds = 0.0f;
     m_quickSpellCastLatch = false;
     m_spellbookToggleLatch = false;
     m_spellbookClickLatch = false;
@@ -9358,6 +9379,7 @@ void OutdoorGameView::clearWorldInteractionInputLatches()
     m_inspectMouseActivateLatch = false;
     m_pressedInspectHit = {};
     m_attackInspectLatch = false;
+    m_attackInspectRepeatCooldownSeconds = 0.0f;
     m_cachedHoverInspectHitValid = false;
     m_lastHoverInspectUpdateNanoseconds = 0;
     m_cachedHoverInspectHit = {};

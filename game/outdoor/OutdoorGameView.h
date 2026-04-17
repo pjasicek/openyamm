@@ -1178,6 +1178,7 @@ private:
     bool m_activateInspectLatch;
     bool m_inspectMouseActivateLatch;
     bool m_attackInspectLatch;
+    float m_attackInspectRepeatCooldownSeconds;
     bool m_toggleRunningLatch;
     bool m_toggleFlyingLatch;
     bool m_toggleWaterWalkLatch;
