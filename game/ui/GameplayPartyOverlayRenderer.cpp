@@ -4168,6 +4168,7 @@ void GameplayPartyOverlayRenderer::renderSpellbookOverlay(const OutdoorGameView 
 
     renderInteractiveButton("SpellbookCloseButton");
     renderInteractiveButton("SpellbookQuickCastButton");
+    renderInteractiveButton("SpellbookAttackCastButton");
 
     for (uint32_t spellOffset = 0; spellOffset < pSchoolDefinition->spellCount; ++spellOffset)
     {

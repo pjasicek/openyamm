@@ -1041,6 +1041,16 @@ void GameplayPartyOverlayInputController::handleSpellbookOverlayInput(
                 return quickCastTarget;
             }
 
+            const OutdoorGameView::SpellbookPointerTarget attackCastTarget =
+                resolveSimpleButtonTarget(
+                    "SpellbookAttackCastButton",
+                    OutdoorGameView::SpellbookPointerTargetType::AttackCastButton);
+
+            if (attackCastTarget.type != OutdoorGameView::SpellbookPointerTargetType::None)
+            {
+                return attackCastTarget;
+            }
+
             const SpellbookSchoolUiDefinition *pDefinition = findSpellbookSchoolUiDefinition(view.m_spellbook.school);
 
             if (pDefinition == nullptr)
@@ -1160,19 +1170,38 @@ void GameplayPartyOverlayInputController::handleSpellbookOverlayInput(
 
             if (target.type == OutdoorGameView::SpellbookPointerTargetType::QuickCastButton)
             {
-                if (view.m_spellbook.selectedSpellId == 0
-                    || view.m_pOutdoorPartyRuntime == nullptr
-                    || view.m_pSpellTable == nullptr)
+                if (view.m_pOutdoorPartyRuntime == nullptr || view.m_pSpellTable == nullptr)
                 {
-                    view.setStatusBarEvent("Select spell");
+                    view.setStatusBarEvent("Can't set quick spell");
                     return;
                 }
 
                 Character *pActiveMember = view.m_pOutdoorPartyRuntime->party().activeMember();
+
+                if (pActiveMember == nullptr)
+                {
+                    view.setStatusBarEvent("Can't set quick spell");
+                    return;
+                }
+
+                if (view.m_spellbook.selectedSpellId == 0)
+                {
+                    pActiveMember->quickSpellName.clear();
+                    view.m_spellbook.selectedSpellId = 0;
+
+                    if (view.m_pGameAudioSystem != nullptr)
+                    {
+                        view.m_pGameAudioSystem->playCommonSound(SoundId::Fizzle, GameAudioSystem::PlaybackGroup::Ui);
+                    }
+
+                    view.setStatusBarEvent("Quick spell cleared");
+                    return;
+                }
+
                 const SpellEntry *pSpellEntry =
                     view.m_pSpellTable->findById(static_cast<int>(view.m_spellbook.selectedSpellId));
 
-                if (pActiveMember == nullptr || pSpellEntry == nullptr)
+                if (pSpellEntry == nullptr)
                 {
                     view.setStatusBarEvent("Can't set quick spell");
                     return;
@@ -1181,6 +1210,20 @@ void GameplayPartyOverlayInputController::handleSpellbookOverlayInput(
                 if (!pActiveMember->knowsSpell(view.m_spellbook.selectedSpellId))
                 {
                     view.setStatusBarEvent("Spell not learned");
+                    return;
+                }
+
+                if (pActiveMember->quickSpellName == pSpellEntry->name)
+                {
+                    pActiveMember->quickSpellName.clear();
+                    view.m_spellbook.selectedSpellId = 0;
+
+                    if (view.m_pGameAudioSystem != nullptr)
+                    {
+                        view.m_pGameAudioSystem->playCommonSound(SoundId::Fizzle, GameAudioSystem::PlaybackGroup::Ui);
+                    }
+
+                    view.setStatusBarEvent("Quick spell cleared");
                     return;
                 }
 
@@ -1196,6 +1239,80 @@ void GameplayPartyOverlayInputController::handleSpellbookOverlayInput(
                     SpeechId::SetQuickSpell,
                     true);
                 view.setStatusBarEvent("Quick spell set to " + pSpellEntry->name);
+                return;
+            }
+
+            if (target.type == OutdoorGameView::SpellbookPointerTargetType::AttackCastButton)
+            {
+                if (view.m_pOutdoorPartyRuntime == nullptr || view.m_pSpellTable == nullptr)
+                {
+                    view.setStatusBarEvent("Can't set attack spell");
+                    return;
+                }
+
+                Character *pActiveMember = view.m_pOutdoorPartyRuntime->party().activeMember();
+
+                if (pActiveMember == nullptr)
+                {
+                    view.setStatusBarEvent("Can't set attack spell");
+                    return;
+                }
+
+                if (view.m_spellbook.selectedSpellId == 0)
+                {
+                    pActiveMember->attackSpellName.clear();
+                    view.m_spellbook.selectedSpellId = 0;
+
+                    if (view.m_pGameAudioSystem != nullptr)
+                    {
+                        view.m_pGameAudioSystem->playCommonSound(SoundId::Fizzle, GameAudioSystem::PlaybackGroup::Ui);
+                    }
+
+                    view.setStatusBarEvent("Attack spell cleared");
+                    return;
+                }
+
+                const SpellEntry *pSpellEntry =
+                    view.m_pSpellTable->findById(static_cast<int>(view.m_spellbook.selectedSpellId));
+
+                if (pSpellEntry == nullptr)
+                {
+                    view.setStatusBarEvent("Can't set attack spell");
+                    return;
+                }
+
+                if (!pActiveMember->knowsSpell(view.m_spellbook.selectedSpellId))
+                {
+                    view.setStatusBarEvent("Spell not learned");
+                    return;
+                }
+
+                if (pActiveMember->attackSpellName == pSpellEntry->name)
+                {
+                    pActiveMember->attackSpellName.clear();
+                    view.m_spellbook.selectedSpellId = 0;
+
+                    if (view.m_pGameAudioSystem != nullptr)
+                    {
+                        view.m_pGameAudioSystem->playCommonSound(SoundId::Fizzle, GameAudioSystem::PlaybackGroup::Ui);
+                    }
+
+                    view.setStatusBarEvent("Attack spell cleared");
+                    return;
+                }
+
+                pActiveMember->attackSpellName = pSpellEntry->name;
+
+                if (view.m_pGameAudioSystem != nullptr)
+                {
+                    view.m_pGameAudioSystem->playCommonSound(SoundId::ClickSkill, GameAudioSystem::PlaybackGroup::Ui);
+                }
+
+                view.playSpeechReaction(
+                    view.m_pOutdoorPartyRuntime->party().activeMemberIndex(),
+                    SpeechId::SetQuickSpell,
+                    true);
+                view.setStatusBarEvent("Attack spell set to " + pSpellEntry->name);
             }
         });
 }

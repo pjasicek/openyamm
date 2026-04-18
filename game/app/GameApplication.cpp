@@ -426,6 +426,7 @@ Character buildFreshCreatedCharacter(
     character.level = 1;
     character.skillPoints = 0;
     character.quickSpellName.clear();
+    character.attackSpellName.clear();
     character.knownSpellIds.clear();
     character.baseResistances = {};
     character.permanentBonuses = {};

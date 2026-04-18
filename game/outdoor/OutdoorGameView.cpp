@@ -4904,422 +4904,448 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
                     }
                     else
                     {
-                        const OutdoorMoveState &moveState = m_pOutdoorPartyRuntime->movementState();
-                        auto resolveFallbackRangedActorTarget =
-                            [&]() -> std::optional<size_t>
+                        if (!pAttacker->attackSpellName.empty())
+                        {
+                            const SpellEntry *pAttackSpellEntry = m_pSpellTable->findByName(pAttacker->attackSpellName);
+
+                            if (pAttackSpellEntry == nullptr)
                             {
-                                if (m_pOutdoorWorldRuntime == nullptr)
+                                setStatusBarEvent("Unknown attack spell");
+                            }
+                            else
+                            {
+                                const bool castStarted = tryCastSpellFromMember(
+                                    party.activeMemberIndex(),
+                                    static_cast<uint32_t>(pAttackSpellEntry->id),
+                                    pAttackSpellEntry->name,
+                                    true);
+                                const bool openedSpellTargetingUi = m_pendingSpellCast.active || m_utilitySpellOverlay.active;
+
+                                if (castStarted && !openedSpellTargetingUi)
                                 {
-                                    return std::nullopt;
+                                    party.switchToNextReadyMember();
                                 }
-
-                                float viewProjectionMatrix[16] = {};
-                                bx::mtxMul(viewProjectionMatrix, wireframeViewMatrix, wireframeProjectionMatrix);
-                                float bestDistance = std::numeric_limits<float>::max();
-                                std::optional<size_t> bestActorIndex;
-
-                                for (size_t actorIndex = 0; actorIndex < m_pOutdoorWorldRuntime->mapActorCount(); ++actorIndex)
+                            }
+                        }
+                        else
+                        {
+                            const OutdoorMoveState &moveState = m_pOutdoorPartyRuntime->movementState();
+                            auto resolveFallbackRangedActorTarget =
+                                [&]() -> std::optional<size_t>
                                 {
-                                    const OutdoorWorldRuntime::MapActorState *pActor =
-                                        m_pOutdoorWorldRuntime->mapActorState(actorIndex);
-
-                                    if (pActor == nullptr || pActor->isDead || pActor->isInvisible || !pActor->hostileToParty)
+                                    if (m_pOutdoorWorldRuntime == nullptr)
                                     {
-                                        continue;
+                                        return std::nullopt;
                                     }
 
-                                    const float deltaX = pActor->preciseX - moveState.x;
-                                    const float deltaY = pActor->preciseY - moveState.y;
-                                    const float deltaZ = pActor->preciseZ - moveState.footZ;
-                                    const float distance = std::max(
-                                        0.0f,
-                                        std::sqrt(deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ)
-                                            - static_cast<float>(pActor->radius));
+                                    float viewProjectionMatrix[16] = {};
+                                    bx::mtxMul(viewProjectionMatrix, wireframeViewMatrix, wireframeProjectionMatrix);
+                                    float bestDistance = std::numeric_limits<float>::max();
+                                    std::optional<size_t> bestActorIndex;
 
-                                    if (distance > 5120.0f)
+                                    for (size_t actorIndex = 0; actorIndex < m_pOutdoorWorldRuntime->mapActorCount(); ++actorIndex)
                                     {
-                                        continue;
-                                    }
+                                        const OutdoorWorldRuntime::MapActorState *pActor =
+                                            m_pOutdoorWorldRuntime->mapActorState(actorIndex);
 
-                                    const bx::Vec3 projected = bx::mulH(
+                                        if (pActor == nullptr || pActor->isDead || pActor->isInvisible || !pActor->hostileToParty)
                                         {
-                                            pActor->preciseX,
-                                            pActor->preciseY,
-                                            pActor->preciseZ + std::max(48.0f, static_cast<float>(pActor->height) * 0.6f)
-                                        },
-                                        viewProjectionMatrix);
+                                            continue;
+                                        }
 
-                                    if (projected.z < 0.0f || projected.z > 1.0f
-                                        || projected.x < -1.0f || projected.x > 1.0f
-                                        || projected.y < -1.0f || projected.y > 1.0f)
-                                    {
-                                        continue;
+                                        const float deltaX = pActor->preciseX - moveState.x;
+                                        const float deltaY = pActor->preciseY - moveState.y;
+                                        const float deltaZ = pActor->preciseZ - moveState.footZ;
+                                        const float distance = std::max(
+                                            0.0f,
+                                            std::sqrt(deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ)
+                                                - static_cast<float>(pActor->radius));
+
+                                        if (distance > 5120.0f)
+                                        {
+                                            continue;
+                                        }
+
+                                        const bx::Vec3 projected = bx::mulH(
+                                            {
+                                                pActor->preciseX,
+                                                pActor->preciseY,
+                                                pActor->preciseZ + std::max(48.0f, static_cast<float>(pActor->height) * 0.6f)
+                                            },
+                                            viewProjectionMatrix);
+
+                                        if (projected.z < 0.0f || projected.z > 1.0f
+                                            || projected.x < -1.0f || projected.x > 1.0f
+                                            || projected.y < -1.0f || projected.y > 1.0f)
+                                        {
+                                            continue;
+                                        }
+
+                                        if (distance < bestDistance)
+                                        {
+                                            bestDistance = distance;
+                                            bestActorIndex = actorIndex;
+                                        }
                                     }
 
-                                    if (distance < bestDistance)
-                                    {
-                                        bestDistance = distance;
-                                        bestActorIndex = actorIndex;
-                                    }
-                                }
-
-                                return bestActorIndex;
-                            };
-                        const bool hasDirectActorHoverTarget = interactionInspectHit.kind == "actor";
-                        std::optional<size_t> runtimeActorIndex =
-                            hasDirectActorHoverTarget
-                                ? resolveRuntimeActorIndexForInspectHit(interactionInspectHit)
-                                : std::nullopt;
-                        const OutdoorWorldRuntime::MapActorState *pTargetActor =
-                            runtimeActorIndex ? m_pOutdoorWorldRuntime->mapActorState(*runtimeActorIndex) : nullptr;
-
-                        if (pTargetActor != nullptr && (pTargetActor->isDead || pTargetActor->isInvisible))
-                        {
-                            runtimeActorIndex.reset();
-                            pTargetActor = nullptr;
-                        }
-
-                        if (!runtimeActorIndex)
-                        {
-                            runtimeActorIndex = resolveFallbackRangedActorTarget();
-                            pTargetActor =
+                                    return bestActorIndex;
+                                };
+                            const bool hasDirectActorHoverTarget = interactionInspectHit.kind == "actor";
+                            std::optional<size_t> runtimeActorIndex =
+                                hasDirectActorHoverTarget
+                                    ? resolveRuntimeActorIndexForInspectHit(interactionInspectHit)
+                                    : std::nullopt;
+                            const OutdoorWorldRuntime::MapActorState *pTargetActor =
                                 runtimeActorIndex ? m_pOutdoorWorldRuntime->mapActorState(*runtimeActorIndex) : nullptr;
-                        }
-                        float targetDistance = 0.0f;
-                        int targetArmorClass = 0;
-                        bool targetInMeleeRange = false;
 
-                        if (pTargetActor != nullptr)
-                        {
-                            const float deltaX = pTargetActor->preciseX - moveState.x;
-                            const float deltaY = pTargetActor->preciseY - moveState.y;
-                            const float deltaZ = pTargetActor->preciseZ - moveState.footZ;
-                            targetDistance = std::max(
-                                0.0f,
-                                std::sqrt(deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ)
-                                    - static_cast<float>(pTargetActor->radius));
-                            targetInMeleeRange = targetDistance <= OeCharacterMeleeAttackDistance;
-                            targetArmorClass = m_pOutdoorWorldRuntime->effectiveMapActorArmorClass(*runtimeActorIndex);
-                        }
-
-                        std::mt19937 rng(
-                            static_cast<uint32_t>(SDL_GetTicks())
-                            ^ static_cast<uint32_t>((runtimeActorIndex.value_or(0) + 1) * 2654435761u)
-                            ^ static_cast<uint32_t>(party.activeMemberIndex() * 40503u));
-                        const CharacterAttackProfile attackProfile =
-                            GameMechanics::buildCharacterAttackProfile(*pAttacker, m_pItemTable, m_pSpellTable);
-                        CharacterAttackResult attack = {};
-
-                        if (attackProfile.hasBlaster && attackProfile.rangedAttackBonus.has_value())
-                        {
-                            attack.mode = CharacterAttackMode::Blaster;
-                        }
-                        else if (attackProfile.hasWand && attackProfile.rangedAttackBonus.has_value())
-                        {
-                            attack.mode = CharacterAttackMode::Wand;
-                        }
-                        else if (targetInMeleeRange)
-                        {
-                            attack.mode = CharacterAttackMode::Melee;
-                        }
-                        else if (attackProfile.hasBow && attackProfile.rangedAttackBonus.has_value())
-                        {
-                            attack.mode = CharacterAttackMode::Bow;
-                        }
-                        else
-                        {
-                            attack.mode = CharacterAttackMode::Melee;
-                        }
-
-                        if (attack.mode == CharacterAttackMode::Melee && pTargetActor != nullptr && targetInMeleeRange)
-                        {
-                            attack = GameMechanics::resolveCharacterAttackAgainstArmorClass(
-                                *pAttacker,
-                                m_pItemTable,
-                                m_pSpellTable,
-                                targetArmorClass,
-                                targetDistance,
-                                rng);
-                        }
-                        else if (attack.mode == CharacterAttackMode::Melee)
-                        {
-                            attack.canAttack = true;
-                            attack.hit = false;
-                            attack.attackBonus = attackProfile.meleeAttackBonus;
-                            attack.recoverySeconds = attackProfile.meleeRecoverySeconds;
-                            attack.attackSoundHook = "melee_swing";
-                            attack.voiceHook = "attack";
-                        }
-                        else
-                        {
-                            attack.canAttack = attackProfile.rangedAttackBonus.has_value();
-                            attack.hit = false;
-                            attack.resolvesOnImpact = true;
-                            attack.attackBonus = attackProfile.rangedAttackBonus.value_or(attackProfile.meleeAttackBonus);
-                            attack.recoverySeconds = attackProfile.rangedRecoverySeconds;
-                            attack.skillLevel = attackProfile.rangedSkillLevel;
-                            attack.skillMastery = attackProfile.rangedSkillMastery;
-                            attack.spellId = attackProfile.wandSpellId;
-                            attack.attackSoundHook =
-                                attack.mode == CharacterAttackMode::Bow
-                                    ? "bow_shot"
-                                    : (attack.mode == CharacterAttackMode::Blaster ? "blaster_shot" : "wand_cast");
-                            attack.voiceHook = "attack";
-
-                            if (attack.canAttack)
+                            if (pTargetActor != nullptr && (pTargetActor->isDead || pTargetActor->isInvisible))
                             {
-                                const int minimumDamage = attackProfile.rangedMinDamage;
-                                const int maximumDamage = std::max(attackProfile.rangedMinDamage, attackProfile.rangedMaxDamage);
-                                attack.damage =
-                                    std::uniform_int_distribution<int>(minimumDamage, maximumDamage)(rng);
+                                runtimeActorIndex.reset();
+                                pTargetActor = nullptr;
                             }
-                        }
 
-                        bool actionPerformed = false;
-                        bool attacked = false;
-                        bool killed = false;
-                        const bool hadMeleeTarget =
-                            runtimeActorIndex.has_value() && pTargetActor != nullptr && targetInMeleeRange;
-
-                        if (attack.mode == CharacterAttackMode::Melee)
-                        {
-                            actionPerformed = attack.canAttack;
-
-                            if (runtimeActorIndex && pTargetActor != nullptr && targetInMeleeRange
-                                && attack.hit && attack.damage > 0)
+                            if (!runtimeActorIndex)
                             {
-                                int appliedDamage = attack.damage;
-
-                                if (m_monsterTable.has_value() && m_pItemTable != nullptr)
-                                {
-                                    const MonsterTable::MonsterStatsEntry *pStats =
-                                        m_monsterTable->findStatsById(pTargetActor->monsterId);
-
-                                    if (pStats != nullptr)
-                                    {
-                                        const int multiplier =
-                                            ItemEnchantRuntime::characterAttackDamageMultiplierAgainstMonster(
-                                                *pAttacker,
-                                                CharacterAttackMode::Melee,
-                                                m_pItemTable,
-                                                m_pSpecialItemEnchantTable,
-                                                pStats->name,
-                                                pStats->pictureName);
-                                        appliedDamage *= multiplier;
-                                    }
-                                }
-
-                                const int beforeHp = pTargetActor->currentHp;
-                                attacked = m_pOutdoorWorldRuntime->applyPartyAttackToMapActor(
-                                    *runtimeActorIndex,
-                                    appliedDamage,
-                                    moveState.x,
-                                    moveState.y,
-                                    moveState.footZ);
-
-                                if (attacked)
-                                {
-                                    const OutdoorWorldRuntime::MapActorState *pAfterActor =
-                                        m_pOutdoorWorldRuntime->mapActorState(*runtimeActorIndex);
-                                    killed = pAfterActor != nullptr && beforeHp > 0 && pAfterActor->currentHp <= 0;
-
-                                    if (pAttacker->vampiricHealFraction > 0.0f && appliedDamage > 0)
-                                    {
-                                        party.healMember(
-                                            party.activeMemberIndex(),
-                                            std::max(1, static_cast<int>(std::round(
-                                                static_cast<float>(appliedDamage) * pAttacker->vampiricHealFraction))));
-                                    }
-
-                                    refreshInteractionInspectHit();
-                                    refreshHoverInspectHit();
-                                }
+                                runtimeActorIndex = resolveFallbackRangedActorTarget();
+                                pTargetActor =
+                                    runtimeActorIndex ? m_pOutdoorWorldRuntime->mapActorState(*runtimeActorIndex) : nullptr;
                             }
-                        }
-                        else if (attack.canAttack)
-                        {
-                            const float sourceX = moveState.x;
-                            const float sourceY = moveState.y;
-                            const float sourceZ = moveState.footZ + 96.0f;
-                            const float cameraYawRadians = effectiveCameraYawRadians();
-                            const float cameraPitchRadians = effectiveCameraPitchRadians();
-                            bx::Vec3 rangedTarget = {
-                                sourceX + std::cos(cameraYawRadians) * 5120.0f,
-                                sourceY + std::sin(cameraYawRadians) * 5120.0f,
-                                sourceZ + std::sin(cameraPitchRadians) * 5120.0f
-                            };
+                            float targetDistance = 0.0f;
+                            int targetArmorClass = 0;
+                            bool targetInMeleeRange = false;
 
                             if (pTargetActor != nullptr)
                             {
-                                rangedTarget = {
-                                    pTargetActor->preciseX,
-                                    pTargetActor->preciseY,
-                                    pTargetActor->preciseZ + std::max(48.0f, static_cast<float>(pTargetActor->height) * 0.6f)
-                                };
-                            }
-                            else if (vecLength(rayDirection) > InspectRayEpsilon)
-                            {
-                                rangedTarget = {
-                                    rayOrigin.x + rayDirection.x * 5120.0f,
-                                    rayOrigin.y + rayDirection.y * 5120.0f,
-                                    rayOrigin.z + rayDirection.z * 5120.0f
-                                };
+                                const float deltaX = pTargetActor->preciseX - moveState.x;
+                                const float deltaY = pTargetActor->preciseY - moveState.y;
+                                const float deltaZ = pTargetActor->preciseZ - moveState.footZ;
+                                targetDistance = std::max(
+                                    0.0f,
+                                    std::sqrt(deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ)
+                                        - static_cast<float>(pTargetActor->radius));
+                                targetInMeleeRange = targetDistance <= OeCharacterMeleeAttackDistance;
+                                targetArmorClass = m_pOutdoorWorldRuntime->effectiveMapActorArmorClass(*runtimeActorIndex);
                             }
 
-                            if (attack.mode == CharacterAttackMode::Wand && attack.spellId > 0)
+                            std::mt19937 rng(
+                                static_cast<uint32_t>(SDL_GetTicks())
+                                ^ static_cast<uint32_t>((runtimeActorIndex.value_or(0) + 1) * 2654435761u)
+                                ^ static_cast<uint32_t>(party.activeMemberIndex() * 40503u));
+                            const CharacterAttackProfile attackProfile =
+                                GameMechanics::buildCharacterAttackProfile(*pAttacker, m_pItemTable, m_pSpellTable);
+                            CharacterAttackResult attack = {};
+
+                            if (attackProfile.hasBlaster && attackProfile.rangedAttackBonus.has_value())
                             {
-                                OutdoorWorldRuntime::SpellCastRequest request = {};
-                                request.sourceKind = OutdoorWorldRuntime::RuntimeSpellSourceKind::Party;
-                                request.sourceId = static_cast<uint32_t>(party.activeMemberIndex() + 1);
-                                request.sourcePartyMemberIndex = static_cast<uint32_t>(party.activeMemberIndex());
-                                request.ability = OutdoorWorldRuntime::MonsterAttackAbility::Spell1;
-                                request.spellId = static_cast<uint32_t>(attack.spellId);
-                                request.skillLevel = attack.skillLevel;
-                                request.skillMastery = attack.skillMastery;
-                                request.damage = attack.damage;
-                                request.attackBonus = attack.attackBonus;
-                                request.useActorHitChance = true;
-                                request.sourceX = sourceX;
-                                request.sourceY = sourceY;
-                                request.sourceZ = sourceZ;
-                                request.targetX = rangedTarget.x;
-                                request.targetY = rangedTarget.y;
-                                request.targetZ = rangedTarget.z;
-                                attacked = m_pOutdoorWorldRuntime->castPartySpell(request);
+                                attack.mode = CharacterAttackMode::Blaster;
+                            }
+                            else if (attackProfile.hasWand && attackProfile.rangedAttackBonus.has_value())
+                            {
+                                attack.mode = CharacterAttackMode::Wand;
+                            }
+                            else if (targetInMeleeRange)
+                            {
+                                attack.mode = CharacterAttackMode::Melee;
+                            }
+                            else if (attackProfile.hasBow && attackProfile.rangedAttackBonus.has_value())
+                            {
+                                attack.mode = CharacterAttackMode::Bow;
                             }
                             else
                             {
-                                OutdoorWorldRuntime::PartyProjectileRequest request = {};
-                                request.sourcePartyMemberIndex = static_cast<uint32_t>(party.activeMemberIndex());
-                                request.objectId =
-                                    attack.mode == CharacterAttackMode::Blaster
-                                        ? OeBlasterProjectileObjectId
-                                        : OeArrowProjectileObjectId;
-                                request.damage = attack.damage;
-                                request.attackBonus = attack.attackBonus;
-                                request.useActorHitChance = true;
-                                request.sourceX = sourceX;
-                                request.sourceY = sourceY;
-                                request.sourceZ = sourceZ;
-                                request.targetX = rangedTarget.x;
-                                request.targetY = rangedTarget.y;
-                                request.targetZ = rangedTarget.z;
-                                attacked = m_pOutdoorWorldRuntime->spawnPartyProjectile(request);
+                                attack.mode = CharacterAttackMode::Melee;
                             }
 
-                            actionPerformed = attacked;
-                        }
-
-                        if (actionPerformed)
-                        {
-                            if (m_pGameAudioSystem != nullptr)
+                            if (attack.mode == CharacterAttackMode::Melee && pTargetActor != nullptr && targetInMeleeRange)
                             {
-                                if (attack.attackSoundHook == "bow_shot")
+                                attack = GameMechanics::resolveCharacterAttackAgainstArmorClass(
+                                    *pAttacker,
+                                    m_pItemTable,
+                                    m_pSpellTable,
+                                    targetArmorClass,
+                                    targetDistance,
+                                    rng);
+                            }
+                            else if (attack.mode == CharacterAttackMode::Melee)
+                            {
+                                attack.canAttack = true;
+                                attack.hit = false;
+                                attack.attackBonus = attackProfile.meleeAttackBonus;
+                                attack.recoverySeconds = attackProfile.meleeRecoverySeconds;
+                                attack.attackSoundHook = "melee_swing";
+                                attack.voiceHook = "attack";
+                            }
+                            else
+                            {
+                                attack.canAttack = attackProfile.rangedAttackBonus.has_value();
+                                attack.hit = false;
+                                attack.resolvesOnImpact = true;
+                                attack.attackBonus = attackProfile.rangedAttackBonus.value_or(attackProfile.meleeAttackBonus);
+                                attack.recoverySeconds = attackProfile.rangedRecoverySeconds;
+                                attack.skillLevel = attackProfile.rangedSkillLevel;
+                                attack.skillMastery = attackProfile.rangedSkillMastery;
+                                attack.spellId = attackProfile.wandSpellId;
+                                attack.attackSoundHook =
+                                    attack.mode == CharacterAttackMode::Bow
+                                        ? "bow_shot"
+                                        : (attack.mode == CharacterAttackMode::Blaster ? "blaster_shot" : "wand_cast");
+                                attack.voiceHook = "attack";
+
+                                if (attack.canAttack)
                                 {
-                                    m_pGameAudioSystem->playCommonSound(
-                                        SoundId::ShootBow,
-                                        GameAudioSystem::PlaybackGroup::World,
-                                        GameAudioSystem::WorldPosition{moveState.x, moveState.y, moveState.footZ + 96.0f});
-                                }
-                                else if (attack.attackSoundHook == "blaster_shot")
-                                {
-                                    m_pGameAudioSystem->playCommonSound(
-                                        SoundId::ShootBlaster,
-                                        GameAudioSystem::PlaybackGroup::World,
-                                        GameAudioSystem::WorldPosition{moveState.x, moveState.y, moveState.footZ + 96.0f});
-                                }
-                                else if (attack.attackSoundHook == "wand_cast" && attack.spellId > 0)
-                                {
-                                    // Spell casts route their own release/impact audio through the spell runtime.
-                                }
-                                else
-                                {
-                                    const Character *pActiveMember = party.activeMember();
-                                    const SoundId attackSoundId =
-                                        pActiveMember != nullptr
-                                        ? GameMechanics::resolveCharacterAttackSoundId(
-                                            *pActiveMember,
-                                            m_pItemTable,
-                                            attack.mode)
-                                        : SoundId::SwingBlunt01;
-                                    m_pGameAudioSystem->playCommonSound(
-                                        attackSoundId,
-                                        GameAudioSystem::PlaybackGroup::World,
-                                        GameAudioSystem::WorldPosition{moveState.x, moveState.y, moveState.footZ + 96.0f});
+                                    const int minimumDamage = attackProfile.rangedMinDamage;
+                                    const int maximumDamage = std::max(attackProfile.rangedMinDamage, attackProfile.rangedMaxDamage);
+                                    attack.damage =
+                                        std::uniform_int_distribution<int>(minimumDamage, maximumDamage)(rng);
                                 }
                             }
 
-                            party.applyRecoveryToActiveMember(attack.recoverySeconds);
+                            bool actionPerformed = false;
+                            bool attacked = false;
+                            bool killed = false;
+                            const bool hadMeleeTarget =
+                                runtimeActorIndex.has_value() && pTargetActor != nullptr && targetInMeleeRange;
 
                             if (attack.mode == CharacterAttackMode::Melee)
                             {
-                                if (hadMeleeTarget)
-                                {
-                                    SpeechId speechId = attacked && attack.hit ? SpeechId::AttackHit : SpeechId::AttackMiss;
+                                actionPerformed = attack.canAttack;
 
-                                    if (killed)
+                                if (runtimeActorIndex && pTargetActor != nullptr && targetInMeleeRange
+                                    && attack.hit && attack.damage > 0)
+                                {
+                                    int appliedDamage = attack.damage;
+
+                                    if (m_monsterTable.has_value() && m_pItemTable != nullptr)
                                     {
-                                        speechId = pTargetActor != nullptr && pTargetActor->maxHp >= 100
-                                            ? SpeechId::KillStrongEnemy
-                                            : SpeechId::KillWeakEnemy;
+                                        const MonsterTable::MonsterStatsEntry *pStats =
+                                            m_monsterTable->findStatsById(pTargetActor->monsterId);
+
+                                        if (pStats != nullptr)
+                                        {
+                                            const int multiplier =
+                                                ItemEnchantRuntime::characterAttackDamageMultiplierAgainstMonster(
+                                                    *pAttacker,
+                                                    CharacterAttackMode::Melee,
+                                                    m_pItemTable,
+                                                    m_pSpecialItemEnchantTable,
+                                                    pStats->name,
+                                                    pStats->pictureName);
+                                            appliedDamage *= multiplier;
+                                        }
                                     }
 
-                                    triggerPortraitFaceAnimation(
-                                        party.activeMemberIndex(),
-                                        attacked && attack.hit ? FaceAnimationId::AttackHit : FaceAnimationId::AttackMiss);
-                                    playSpeechReaction(
-                                        party.activeMemberIndex(),
-                                        speechId,
-                                        false);
+                                    const int beforeHp = pTargetActor->currentHp;
+                                    attacked = m_pOutdoorWorldRuntime->applyPartyAttackToMapActor(
+                                        *runtimeActorIndex,
+                                        appliedDamage,
+                                        moveState.x,
+                                        moveState.y,
+                                        moveState.footZ);
+
+                                    if (attacked)
+                                    {
+                                        const OutdoorWorldRuntime::MapActorState *pAfterActor =
+                                            m_pOutdoorWorldRuntime->mapActorState(*runtimeActorIndex);
+                                        killed = pAfterActor != nullptr && beforeHp > 0 && pAfterActor->currentHp <= 0;
+
+                                        if (pAttacker->vampiricHealFraction > 0.0f && appliedDamage > 0)
+                                        {
+                                            party.healMember(
+                                                party.activeMemberIndex(),
+                                                std::max(1, static_cast<int>(std::round(
+                                                    static_cast<float>(appliedDamage) * pAttacker->vampiricHealFraction))));
+                                        }
+
+                                        refreshInteractionInspectHit();
+                                        refreshHoverInspectHit();
+                                    }
                                 }
                             }
-                            else
+                            else if (attack.canAttack)
                             {
-                                triggerPortraitFaceAnimation(party.activeMemberIndex(), FaceAnimationId::Shoot);
-                                playSpeechReaction(party.activeMemberIndex(), SpeechId::Shoot, false);
+                                const float sourceX = moveState.x;
+                                const float sourceY = moveState.y;
+                                const float sourceZ = moveState.footZ + 96.0f;
+                                const float cameraYawRadians = effectiveCameraYawRadians();
+                                const float cameraPitchRadians = effectiveCameraPitchRadians();
+                                bx::Vec3 rangedTarget = {
+                                    sourceX + std::cos(cameraYawRadians) * 5120.0f,
+                                    sourceY + std::sin(cameraYawRadians) * 5120.0f,
+                                    sourceZ + std::sin(cameraPitchRadians) * 5120.0f
+                                };
+
+                                if (pTargetActor != nullptr)
+                                {
+                                    rangedTarget = {
+                                        pTargetActor->preciseX,
+                                        pTargetActor->preciseY,
+                                        pTargetActor->preciseZ + std::max(48.0f, static_cast<float>(pTargetActor->height) * 0.6f)
+                                    };
+                                }
+                                else if (vecLength(rayDirection) > InspectRayEpsilon)
+                                {
+                                    rangedTarget = {
+                                        rayOrigin.x + rayDirection.x * 5120.0f,
+                                        rayOrigin.y + rayDirection.y * 5120.0f,
+                                        rayOrigin.z + rayDirection.z * 5120.0f
+                                    };
+                                }
+
+                                if (attack.mode == CharacterAttackMode::Wand && attack.spellId > 0)
+                                {
+                                    OutdoorWorldRuntime::SpellCastRequest request = {};
+                                    request.sourceKind = OutdoorWorldRuntime::RuntimeSpellSourceKind::Party;
+                                    request.sourceId = static_cast<uint32_t>(party.activeMemberIndex() + 1);
+                                    request.sourcePartyMemberIndex = static_cast<uint32_t>(party.activeMemberIndex());
+                                    request.ability = OutdoorWorldRuntime::MonsterAttackAbility::Spell1;
+                                    request.spellId = static_cast<uint32_t>(attack.spellId);
+                                    request.skillLevel = attack.skillLevel;
+                                    request.skillMastery = attack.skillMastery;
+                                    request.damage = attack.damage;
+                                    request.attackBonus = attack.attackBonus;
+                                    request.useActorHitChance = true;
+                                    request.sourceX = sourceX;
+                                    request.sourceY = sourceY;
+                                    request.sourceZ = sourceZ;
+                                    request.targetX = rangedTarget.x;
+                                    request.targetY = rangedTarget.y;
+                                    request.targetZ = rangedTarget.z;
+                                    attacked = m_pOutdoorWorldRuntime->castPartySpell(request);
+                                }
+                                else
+                                {
+                                    OutdoorWorldRuntime::PartyProjectileRequest request = {};
+                                    request.sourcePartyMemberIndex = static_cast<uint32_t>(party.activeMemberIndex());
+                                    request.objectId =
+                                        attack.mode == CharacterAttackMode::Blaster
+                                            ? OeBlasterProjectileObjectId
+                                            : OeArrowProjectileObjectId;
+                                    request.damage = attack.damage;
+                                    request.attackBonus = attack.attackBonus;
+                                    request.useActorHitChance = true;
+                                    request.sourceX = sourceX;
+                                    request.sourceY = sourceY;
+                                    request.sourceZ = sourceZ;
+                                    request.targetX = rangedTarget.x;
+                                    request.targetY = rangedTarget.y;
+                                    request.targetZ = rangedTarget.z;
+                                    attacked = m_pOutdoorWorldRuntime->spawnPartyProjectile(request);
+                                }
+
+                                actionPerformed = attacked;
                             }
 
-                            party.switchToNextReadyMember();
+                            if (actionPerformed)
+                            {
+                                if (m_pGameAudioSystem != nullptr)
+                                {
+                                    if (attack.attackSoundHook == "bow_shot")
+                                    {
+                                        m_pGameAudioSystem->playCommonSound(
+                                            SoundId::ShootBow,
+                                            GameAudioSystem::PlaybackGroup::World,
+                                            GameAudioSystem::WorldPosition{moveState.x, moveState.y, moveState.footZ + 96.0f});
+                                    }
+                                    else if (attack.attackSoundHook == "blaster_shot")
+                                    {
+                                        m_pGameAudioSystem->playCommonSound(
+                                            SoundId::ShootBlaster,
+                                            GameAudioSystem::PlaybackGroup::World,
+                                            GameAudioSystem::WorldPosition{moveState.x, moveState.y, moveState.footZ + 96.0f});
+                                    }
+                                    else if (attack.attackSoundHook == "wand_cast" && attack.spellId > 0)
+                                    {
+                                        // Spell casts route their own release/impact audio through the spell runtime.
+                                    }
+                                    else
+                                    {
+                                        const Character *pActiveMember = party.activeMember();
+                                        const SoundId attackSoundId =
+                                            pActiveMember != nullptr
+                                            ? GameMechanics::resolveCharacterAttackSoundId(
+                                                *pActiveMember,
+                                                m_pItemTable,
+                                                attack.mode)
+                                            : SoundId::SwingBlunt01;
+                                        m_pGameAudioSystem->playCommonSound(
+                                            attackSoundId,
+                                            GameAudioSystem::PlaybackGroup::World,
+                                            GameAudioSystem::WorldPosition{moveState.x, moveState.y, moveState.footZ + 96.0f});
+                                    }
+                                }
+
+                                party.applyRecoveryToActiveMember(attack.recoverySeconds);
+
+                                if (attack.mode == CharacterAttackMode::Melee)
+                                {
+                                    if (hadMeleeTarget)
+                                    {
+                                        SpeechId speechId = attacked && attack.hit ? SpeechId::AttackHit : SpeechId::AttackMiss;
+
+                                        if (killed)
+                                        {
+                                            speechId = pTargetActor != nullptr && pTargetActor->maxHp >= 100
+                                                ? SpeechId::KillStrongEnemy
+                                                : SpeechId::KillWeakEnemy;
+                                        }
+
+                                        triggerPortraitFaceAnimation(
+                                            party.activeMemberIndex(),
+                                            attacked && attack.hit ? FaceAnimationId::AttackHit : FaceAnimationId::AttackMiss);
+                                        playSpeechReaction(
+                                            party.activeMemberIndex(),
+                                            speechId,
+                                            false);
+                                    }
+                                }
+                                else
+                                {
+                                    triggerPortraitFaceAnimation(party.activeMemberIndex(), FaceAnimationId::Shoot);
+                                    playSpeechReaction(party.activeMemberIndex(), SpeechId::Shoot, false);
+                                }
+
+                                party.switchToNextReadyMember();
+                            }
+
+                            const std::string attackTargetName =
+                                attack.mode == CharacterAttackMode::Melee && !targetInMeleeRange
+                                    ? std::string()
+                                    : (pTargetActor != nullptr ? interactionInspectHit.name : std::string());
+                            showCombatStatusBarEvent(
+                                formatPartyAttackStatusText(
+                                    pAttacker->name,
+                                    attackTargetName,
+                                    attack,
+                                    killed));
+
+                            if (EventRuntimeState *pEventRuntimeState = m_pOutdoorWorldRuntime->eventRuntimeState())
+                            {
+                                if (runtimeActorIndex)
+                                {
+                                    pEventRuntimeState->lastActivationResult =
+                                        attacked
+                                            ? "actor " + std::to_string(*runtimeActorIndex) + " hit by party"
+                                            : "actor " + std::to_string(*runtimeActorIndex) + " attacked by party";
+                                }
+                                else
+                                {
+                                    pEventRuntimeState->lastActivationResult =
+                                        actionPerformed ? "party attack released" : "party attack failed";
+                                }
+                            }
+
+                            std::cout << "Party attack actor="
+                                      << (runtimeActorIndex ? std::to_string(*runtimeActorIndex) : std::string("-"))
+                                      << " attacker=" << pAttacker->name
+                                      << " mode=" << static_cast<int>(attack.mode)
+                                      << " can_attack=" << (attack.canAttack ? "yes" : "no")
+                                      << " hit=" << (attack.hit ? "yes" : "no")
+                                      << " projectile=" << (attack.resolvesOnImpact ? "yes" : "no")
+                                      << " damage=" << attack.damage
+                                      << " recovery=" << attack.recoverySeconds
+                                      << " released=" << (actionPerformed ? "yes" : "no")
+                                      << '\n';
                         }
-
-                        const std::string attackTargetName =
-                            attack.mode == CharacterAttackMode::Melee && !targetInMeleeRange
-                                ? std::string()
-                                : (pTargetActor != nullptr ? interactionInspectHit.name : std::string());
-                        showCombatStatusBarEvent(
-                            formatPartyAttackStatusText(
-                                pAttacker->name,
-                                attackTargetName,
-                                attack,
-                                killed));
-
-                        if (EventRuntimeState *pEventRuntimeState = m_pOutdoorWorldRuntime->eventRuntimeState())
-                        {
-                            if (runtimeActorIndex)
-                            {
-                                pEventRuntimeState->lastActivationResult =
-                                    attacked
-                                        ? "actor " + std::to_string(*runtimeActorIndex) + " hit by party"
-                                        : "actor " + std::to_string(*runtimeActorIndex) + " attacked by party";
-                            }
-                            else
-                            {
-                                pEventRuntimeState->lastActivationResult =
-                                    actionPerformed ? "party attack released" : "party attack failed";
-                            }
-                        }
-
-                        std::cout << "Party attack actor="
-                                  << (runtimeActorIndex ? std::to_string(*runtimeActorIndex) : std::string("-"))
-                                  << " attacker=" << pAttacker->name
-                                  << " mode=" << static_cast<int>(attack.mode)
-                                  << " can_attack=" << (attack.canAttack ? "yes" : "no")
-                                  << " hit=" << (attack.hit ? "yes" : "no")
-                                  << " projectile=" << (attack.resolvesOnImpact ? "yes" : "no")
-                                  << " damage=" << attack.damage
-                                  << " recovery=" << attack.recoverySeconds
-                                  << " released=" << (actionPerformed ? "yes" : "no")
-                                  << '\n';
                     }
                 }
 

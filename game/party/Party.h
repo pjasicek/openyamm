@@ -92,6 +92,7 @@ struct Character
     int spellPoints = 0;
     uint8_t armageddonCastsToday = 0;
     std::string quickSpellName;
+    std::string attackSpellName;
     std::unordered_set<uint32_t> knownSpellIds;
     CharacterResistanceSet baseResistances = {};
     CharacterStatBonuses permanentBonuses = {};

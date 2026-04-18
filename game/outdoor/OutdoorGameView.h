@@ -494,7 +494,8 @@ public:
         SchoolButton,
         SpellButton,
         CloseButton,
-        QuickCastButton
+        QuickCastButton,
+        AttackCastButton
     };
 
     enum class MenuPointerTargetType

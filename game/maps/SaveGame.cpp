@@ -14,7 +14,8 @@ namespace OpenYAMM::Game
 {
 namespace
 {
-constexpr uint32_t SaveVersion = 18;
+constexpr uint32_t SaveVersion = 19;
+constexpr uint32_t SaveVersionAttackSpell = 19;
 constexpr char SaveMagic[8] = {'O', 'Y', 'S', 'A', 'V', 'E', '1', '\0'};
 
 std::string toLowerCopy(const std::string &value)
@@ -102,10 +103,21 @@ public:
         return m_failed;
     }
 
+    void setVersion(uint32_t version)
+    {
+        m_version = version;
+    }
+
+    uint32_t version() const
+    {
+        return m_version;
+    }
+
 private:
     const std::vector<uint8_t> &m_bytes;
     size_t m_offset = 0;
     bool m_failed = false;
+    uint32_t m_version = SaveVersion;
 };
 
 template <typename T>
@@ -667,6 +679,7 @@ void writeValue(BinaryWriter &writer, const Character &value)
     writeValue(writer, value.maxSpellPoints);
     writeValue(writer, value.spellPoints);
     writeValue(writer, value.quickSpellName);
+    writeValue(writer, value.attackSpellName);
     writeValue(writer, value.knownSpellIds);
     writeValue(writer, value.baseResistances);
     writeValue(writer, value.permanentBonuses);
@@ -726,6 +739,7 @@ bool readValue(BinaryReader &reader, Character &value)
         && readValue(reader, value.maxSpellPoints)
         && readValue(reader, value.spellPoints)
         && readValue(reader, value.quickSpellName)
+        && (reader.version() < SaveVersionAttackSpell || readValue(reader, value.attackSpellName))
         && readValue(reader, value.knownSpellIds)
         && readValue(reader, value.baseResistances)
         && readValue(reader, value.permanentBonuses)
@@ -2134,11 +2148,13 @@ std::optional<GameSaveData> loadGameDataFromPath(const std::filesystem::path &pa
         return std::nullopt;
     }
 
-    if (version != SaveVersion)
+    if (version != 18 && version != SaveVersion)
     {
         error = "unsupported save version";
         return std::nullopt;
     }
+
+    reader.setVersion(version);
 
     GameSaveData data = {};
     const bool decoded = reader.read(data);
