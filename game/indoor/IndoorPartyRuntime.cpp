@@ -4,6 +4,12 @@
 
 namespace OpenYAMM::Game
 {
+namespace
+{
+constexpr float IndoorMovementStepSeconds = 1.0f / 128.0f;
+constexpr float MaxAccumulatedMovementSeconds = 0.1f;
+}
+
 IndoorPartyRuntime::IndoorPartyRuntime(IndoorMovementController movementController, const ItemTable &itemTable)
     : m_movementController(std::move(movementController))
 {
@@ -19,6 +25,8 @@ void IndoorPartyRuntime::initializeEyePosition(float x, float y, float z, bool r
 
     const IndoorBodyDimensions body = {};
     m_movementState = m_movementController.initializeStateFromEyePosition(x, y, z, body);
+    m_movementAccumulatorSeconds = 0.0f;
+    m_pendingJumpRequested = false;
 }
 
 void IndoorPartyRuntime::initializePartyPosition(float x, float y, float z, bool resetParty)
@@ -31,24 +39,42 @@ void IndoorPartyRuntime::teleportEyePosition(float x, float y, float z)
 {
     const IndoorBodyDimensions body = {};
     m_movementState = m_movementController.initializeStateFromEyePosition(x, y, z, body);
+    m_movementAccumulatorSeconds = 0.0f;
+    m_pendingJumpRequested = false;
 }
 
 void IndoorPartyRuntime::teleportPartyPosition(float x, float y, float z)
 {
     const IndoorBodyDimensions body = {};
     m_movementState = m_movementController.initializeStateFromEyePosition(x, y, z + body.height, body);
+    m_movementAccumulatorSeconds = 0.0f;
+    m_pendingJumpRequested = false;
 }
 
 void IndoorPartyRuntime::update(float desiredVelocityX, float desiredVelocityY, bool jumpRequested, float deltaSeconds)
 {
+    if (deltaSeconds <= 0.0f)
+    {
+        return;
+    }
+
     const IndoorBodyDimensions body = {};
-    m_movementState = m_movementController.resolveMove(
-        m_movementState,
-        body,
-        desiredVelocityX * m_movementSpeedMultiplier,
-        desiredVelocityY * m_movementSpeedMultiplier,
-        jumpRequested,
-        deltaSeconds);
+    m_pendingJumpRequested = m_pendingJumpRequested || jumpRequested;
+    m_movementAccumulatorSeconds =
+        std::min(m_movementAccumulatorSeconds + deltaSeconds, MaxAccumulatedMovementSeconds);
+
+    while (m_movementAccumulatorSeconds >= IndoorMovementStepSeconds)
+    {
+        m_movementState = m_movementController.resolveMove(
+            m_movementState,
+            body,
+            desiredVelocityX * m_movementSpeedMultiplier,
+            desiredVelocityY * m_movementSpeedMultiplier,
+            m_pendingJumpRequested,
+            IndoorMovementStepSeconds);
+        m_pendingJumpRequested = false;
+        m_movementAccumulatorSeconds -= IndoorMovementStepSeconds;
+    }
 }
 
 const IndoorMoveState &IndoorPartyRuntime::movementState() const
@@ -75,12 +101,16 @@ IndoorPartyRuntime::Snapshot IndoorPartyRuntime::snapshot() const
 {
     Snapshot snapshot = {};
     snapshot.movementState = m_movementState;
+    snapshot.movementAccumulatorSeconds = m_movementAccumulatorSeconds;
+    snapshot.pendingJumpRequested = m_pendingJumpRequested;
     return snapshot;
 }
 
 void IndoorPartyRuntime::restoreSnapshot(const Snapshot &snapshot)
 {
     m_movementState = snapshot.movementState;
+    m_movementAccumulatorSeconds = snapshot.movementAccumulatorSeconds;
+    m_pendingJumpRequested = snapshot.pendingJumpRequested;
 }
 
 void IndoorPartyRuntime::setMovementSpeedMultiplier(float multiplier)

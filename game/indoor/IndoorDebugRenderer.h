@@ -78,6 +78,8 @@ private:
     {
         bgfx::DynamicVertexBufferHandle vertexBufferHandle = BGFX_INVALID_HANDLE;
         std::string textureName;
+        int16_t sectorId = -1;
+        int16_t backSectorId = -1;
         std::vector<bgfx::TextureHandle> frameTextureHandles;
         std::vector<uint32_t> frameLengthTicks;
         uint32_t animationLengthTicks = 0;
@@ -197,13 +199,29 @@ private:
     InspectHit inspectAtCursor(
         const IndoorMapData &indoorMapData,
         const std::vector<IndoorVertex> &vertices,
+        const std::vector<uint8_t> &visibleSectorMask,
         const bx::Vec3 &rayOrigin,
         const bx::Vec3 &rayDirection
     );
     void updateCameraFromInput(float deltaSeconds);
-    void renderDecorationBillboards(uint16_t viewId, const float *pViewMatrix, const bx::Vec3 &cameraPosition);
-    void renderActorPreviewBillboards(uint16_t viewId, const float *pViewMatrix, const bx::Vec3 &cameraPosition);
-    void renderSpriteObjectBillboards(uint16_t viewId, const float *pViewMatrix, const bx::Vec3 &cameraPosition);
+    void renderDecorationBillboards(
+        uint16_t viewId,
+        const float *pViewMatrix,
+        const bx::Vec3 &cameraPosition,
+        const std::vector<uint8_t> &visibleSectorMask
+    );
+    void renderActorPreviewBillboards(
+        uint16_t viewId,
+        const float *pViewMatrix,
+        const bx::Vec3 &cameraPosition,
+        const std::vector<uint8_t> &visibleSectorMask
+    );
+    void renderSpriteObjectBillboards(
+        uint16_t viewId,
+        const float *pViewMatrix,
+        const bx::Vec3 &cameraPosition,
+        const std::vector<uint8_t> &visibleSectorMask
+    );
     const bgfx::TextureHandle *findIndoorTextureHandle(const std::string &textureName) const;
     const BillboardTextureHandle *findBillboardTexture(const std::string &textureName, int16_t paletteId = 0) const;
     const std::optional<MapDeltaData> &runtimeMapDeltaData() const;
@@ -215,6 +233,9 @@ private:
     bool rebuildAllTexturedBatches(uint64_t &texturedBuildNanoseconds);
     bool updateMovingMechanismFaceVertices(uint64_t &texturedBuildNanoseconds, uint64_t &uploadNanoseconds);
     std::vector<size_t> collectMovingMechanismFaceIndices() const;
+    std::vector<uint8_t> buildVisibleSectorMask(const bx::Vec3 &cameraPosition) const;
+    bool isSectorVisible(int16_t sectorId, const std::vector<uint8_t> &visibleSectorMask) const;
+    bool isBatchVisible(const TexturedBatch &batch, const std::vector<uint8_t> &visibleSectorMask) const;
 
     bool m_isInitialized;
     bool m_isRenderable;
@@ -287,5 +308,20 @@ private:
     bool m_toggleInspectLatch;
     bool m_activateInspectLatch;
     bool m_jumpHeld;
+    InspectHit m_cachedInspectHit = {};
+    bool m_cachedInspectHitValid = false;
+    float m_cachedInspectMouseX = 0.0f;
+    float m_cachedInspectMouseY = 0.0f;
+    float m_cachedInspectCameraX = 0.0f;
+    float m_cachedInspectCameraY = 0.0f;
+    float m_cachedInspectCameraZ = 0.0f;
+    float m_cachedInspectYawRadians = 0.0f;
+    float m_cachedInspectPitchRadians = 0.0f;
+    uint64_t m_inspectGeometryRevision = 0;
+    uint64_t m_cachedInspectGeometryRevision = 0;
+    uint64_t m_lastInspectUpdateTick = 0;
+    mutable int16_t m_cachedVisibleSectorId = -1;
+    mutable std::vector<uint32_t> m_cachedVisibleDoorStateSignature;
+    mutable std::vector<uint8_t> m_cachedVisibleSectorMask;
 };
 }

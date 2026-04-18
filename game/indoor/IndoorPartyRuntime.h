@@ -13,6 +13,8 @@ public:
     struct Snapshot
     {
         IndoorMoveState movementState = {};
+        float movementAccumulatorSeconds = 0.0f;
+        bool pendingJumpRequested = false;
     };
 
     IndoorPartyRuntime(IndoorMovementController movementController, const ItemTable &itemTable);
@@ -36,5 +38,7 @@ private:
     Party m_party;
     IndoorMoveState m_movementState = {};
     float m_movementSpeedMultiplier = 1.0f;
+    float m_movementAccumulatorSeconds = 0.0f;
+    bool m_pendingJumpRequested = false;
 };
 }

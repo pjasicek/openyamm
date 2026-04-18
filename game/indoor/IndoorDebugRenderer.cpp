@@ -15,6 +15,7 @@
 
 #include <algorithm>
 #include <array>
+#include <bit>
 #include <cmath>
 #include <cstring>
 #include <cstdint>
@@ -90,6 +91,7 @@ struct RuntimeActorBillboard
     int x = 0;
     int y = 0;
     int z = 0;
+    int16_t sectorId = -1;
     uint16_t radius = 0;
     uint16_t height = 0;
     uint16_t spriteFrameIndex = 0;
@@ -104,6 +106,7 @@ struct RuntimeSpriteObjectBillboard
     int x = 0;
     int y = 0;
     int z = 0;
+    int16_t sectorId = -1;
     int16_t radius = 0;
     int16_t height = 0;
     uint16_t objectDescriptionId = 0;
@@ -117,6 +120,34 @@ struct RuntimeSpriteObjectBillboard
 uint32_t currentAnimationTicks()
 {
     return static_cast<uint32_t>((static_cast<uint64_t>(SDL_GetTicks()) * 128ULL) / 1000ULL);
+}
+
+float resolveMechanismDistance(
+    const MapDeltaDoor &baseDoor,
+    const std::optional<EventRuntimeState> &eventRuntimeState
+);
+
+std::vector<uint32_t> buildDoorStateSignature(
+    const std::optional<MapDeltaData> &mapDeltaData,
+    const std::optional<EventRuntimeState> &eventRuntimeState
+)
+{
+    std::vector<uint32_t> signature;
+
+    if (!mapDeltaData)
+    {
+        return signature;
+    }
+
+    signature.reserve(mapDeltaData->doors.size() * 2);
+
+    for (const MapDeltaDoor &door : mapDeltaData->doors)
+    {
+        signature.push_back(door.doorId);
+        signature.push_back(std::bit_cast<uint32_t>(resolveMechanismDistance(door, eventRuntimeState)));
+    }
+
+    return signature;
 }
 
 const MonsterEntry *resolveRuntimeMonsterEntry(const MonsterTable &monsterTable, const MapDeltaActor &actor)
@@ -198,6 +229,7 @@ std::vector<RuntimeActorBillboard> buildRuntimeActorBillboards(
         billboard.x = actor.x;
         billboard.y = actor.y;
         billboard.z = actor.z;
+        billboard.sectorId = actor.sectorId;
         billboard.radius = actor.radius;
         billboard.height = actor.height;
         billboard.spriteFrameIndex = spriteFrameIndex;
@@ -239,6 +271,7 @@ std::vector<RuntimeSpriteObjectBillboard> buildRuntimeSpriteObjectBillboards(
         billboard.x = spriteObject.x;
         billboard.y = spriteObject.y;
         billboard.z = spriteObject.z;
+        billboard.sectorId = spriteObject.sectorId;
         billboard.radius = pObjectEntry->radius;
         billboard.height = pObjectEntry->height;
         billboard.objectDescriptionId = spriteObject.objectDescriptionId;
@@ -1318,6 +1351,154 @@ bool IndoorDebugRenderer::isFaceVisible(
     return !faceHasInvisibleOverride(faceIndex, eventRuntimeState);
 }
 
+std::vector<uint8_t> IndoorDebugRenderer::buildVisibleSectorMask(const bx::Vec3 &cameraPosition) const
+{
+    (void)cameraPosition;
+
+    if (!m_indoorMapData || m_indoorMapData->sectors.empty())
+    {
+        return {};
+    }
+
+    std::vector<uint8_t> visibleSectorMask(m_indoorMapData->sectors.size(), 0);
+    int16_t startSectorId = -1;
+
+    if (m_pSceneRuntime != nullptr)
+    {
+        const IndoorMoveState &moveState = m_pSceneRuntime->partyRuntime().movementState();
+
+        if (moveState.eyeSectorId >= 0 && static_cast<size_t>(moveState.eyeSectorId) < visibleSectorMask.size())
+        {
+            startSectorId = moveState.eyeSectorId;
+        }
+        else if (moveState.sectorId >= 0 && static_cast<size_t>(moveState.sectorId) < visibleSectorMask.size())
+        {
+            startSectorId = moveState.sectorId;
+        }
+    }
+
+    if (startSectorId < 0)
+    {
+        m_cachedVisibleSectorId = -1;
+        m_cachedVisibleDoorStateSignature.clear();
+        m_cachedVisibleSectorMask.clear();
+        return {};
+    }
+
+    const std::optional<EventRuntimeState> &eventRuntimeState = runtimeEventRuntimeStateStorage();
+    const std::vector<uint32_t> doorStateSignature =
+        buildDoorStateSignature(runtimeMapDeltaData(), eventRuntimeState);
+
+    if (m_cachedVisibleSectorId == startSectorId && m_cachedVisibleDoorStateSignature == doorStateSignature)
+    {
+        return m_cachedVisibleSectorMask;
+    }
+
+    std::vector<int16_t> pendingSectorIds;
+    pendingSectorIds.push_back(startSectorId);
+
+    while (!pendingSectorIds.empty())
+    {
+        const int16_t sectorId = pendingSectorIds.back();
+        pendingSectorIds.pop_back();
+
+        if (sectorId < 0 || static_cast<size_t>(sectorId) >= visibleSectorMask.size())
+        {
+            continue;
+        }
+
+        if (visibleSectorMask[sectorId] != 0)
+        {
+            continue;
+        }
+
+        visibleSectorMask[sectorId] = 1;
+        const IndoorSector &sector = m_indoorMapData->sectors[sectorId];
+
+        auto appendPortalConnectedSectors = [&](const std::vector<uint16_t> &faceIds)
+        {
+            for (uint16_t faceId : faceIds)
+            {
+                if (faceId >= m_indoorMapData->faces.size())
+                {
+                    continue;
+                }
+
+                const IndoorFace &face = m_indoorMapData->faces[faceId];
+
+                if (!face.isPortal && !hasFaceAttribute(face.attributes, FaceAttribute::IsPortal))
+                {
+                    continue;
+                }
+
+                if (!isFaceVisible(faceId, face, eventRuntimeState))
+                {
+                    continue;
+                }
+
+                int16_t connectedSectorId = -1;
+
+                if (face.roomNumber == sectorId)
+                {
+                    connectedSectorId = static_cast<int16_t>(face.roomBehindNumber);
+                }
+                else if (face.roomBehindNumber == sectorId)
+                {
+                    connectedSectorId = static_cast<int16_t>(face.roomNumber);
+                }
+
+                if (connectedSectorId < 0 || static_cast<size_t>(connectedSectorId) >= visibleSectorMask.size())
+                {
+                    continue;
+                }
+
+                if (visibleSectorMask[connectedSectorId] == 0)
+                {
+                    pendingSectorIds.push_back(connectedSectorId);
+                }
+            }
+        };
+
+        appendPortalConnectedSectors(sector.portalFaceIds);
+        appendPortalConnectedSectors(sector.faceIds);
+    }
+
+    m_cachedVisibleSectorId = startSectorId;
+    m_cachedVisibleDoorStateSignature = doorStateSignature;
+    m_cachedVisibleSectorMask = visibleSectorMask;
+    return visibleSectorMask;
+}
+
+bool IndoorDebugRenderer::isSectorVisible(int16_t sectorId, const std::vector<uint8_t> &visibleSectorMask) const
+{
+    if (visibleSectorMask.empty())
+    {
+        return true;
+    }
+
+    return sectorId >= 0
+        && static_cast<size_t>(sectorId) < visibleSectorMask.size()
+        && visibleSectorMask[sectorId] != 0;
+}
+
+bool IndoorDebugRenderer::isBatchVisible(
+    const TexturedBatch &batch,
+    const std::vector<uint8_t> &visibleSectorMask
+) const
+{
+    if (visibleSectorMask.empty())
+    {
+        return true;
+    }
+
+    if (isSectorVisible(batch.sectorId, visibleSectorMask) || isSectorVisible(batch.backSectorId, visibleSectorMask))
+    {
+        return true;
+    }
+
+    return batch.sectorId < 0 && batch.backSectorId < 0;
+}
+
 void IndoorDebugRenderer::render(int width, int height, float mouseWheelDelta, float deltaSeconds)
 {
     if (!m_isInitialized)
@@ -1379,6 +1560,7 @@ void IndoorDebugRenderer::render(int width, int height, float mouseWheelDelta, f
 
     bgfx::setViewTransform(MainViewId, viewMatrix, projectionMatrix);
     bgfx::touch(MainViewId);
+    const std::vector<uint8_t> visibleSectorMask = buildVisibleSectorMask(eye);
 
     InspectHit inspectHit = {};
     float mouseX = 0.0f;
@@ -1396,7 +1578,41 @@ void IndoorDebugRenderer::render(int width, int height, float mouseWheelDelta, f
         const bx::Vec3 rayOrigin = bx::mulH({normalizedMouseX, normalizedMouseY, 0.0f}, inverseViewProjectionMatrix);
         const bx::Vec3 rayTarget = bx::mulH({normalizedMouseX, normalizedMouseY, 1.0f}, inverseViewProjectionMatrix);
         const bx::Vec3 rayDirection = vecNormalize(vecSubtract(rayTarget, rayOrigin));
-        inspectHit = inspectAtCursor(*m_indoorMapData, m_renderVertices, rayOrigin, rayDirection);
+        const uint64_t inspectTick = SDL_GetTicks();
+        constexpr uint64_t InspectRefreshIntervalMs = 16;
+        const bool inspectViewChanged =
+            !m_cachedInspectHitValid
+            || m_cachedInspectGeometryRevision != m_inspectGeometryRevision
+            || std::fabs(m_cachedInspectMouseX - mouseX) > 0.5f
+            || std::fabs(m_cachedInspectMouseY - mouseY) > 0.5f
+            || std::fabs(m_cachedInspectCameraX - eye.x) > 0.25f
+            || std::fabs(m_cachedInspectCameraY - eye.y) > 0.25f
+            || std::fabs(m_cachedInspectCameraZ - eye.z) > 0.25f
+            || std::fabs(m_cachedInspectYawRadians - m_cameraYawRadians) > 0.0005f
+            || std::fabs(m_cachedInspectPitchRadians - m_cameraPitchRadians) > 0.0005f;
+
+        if (inspectViewChanged
+            && (inspectTick - m_lastInspectUpdateTick >= InspectRefreshIntervalMs || !m_cachedInspectHitValid))
+        {
+            m_cachedInspectHit = inspectAtCursor(
+                *m_indoorMapData,
+                m_renderVertices,
+                visibleSectorMask,
+                rayOrigin,
+                rayDirection);
+            m_cachedInspectHitValid = true;
+            m_cachedInspectMouseX = mouseX;
+            m_cachedInspectMouseY = mouseY;
+            m_cachedInspectCameraX = eye.x;
+            m_cachedInspectCameraY = eye.y;
+            m_cachedInspectCameraZ = eye.z;
+            m_cachedInspectYawRadians = m_cameraYawRadians;
+            m_cachedInspectPitchRadians = m_cameraPitchRadians;
+            m_cachedInspectGeometryRevision = m_inspectGeometryRevision;
+            m_lastInspectUpdateTick = inspectTick;
+        }
+
+        inspectHit = m_cachedInspectHit;
 
         const bool *pKeyboardState = SDL_GetKeyboardState(nullptr);
         const SDL_MouseButtonFlags mouseButtons = SDL_GetMouseState(nullptr, nullptr);
@@ -1410,7 +1626,23 @@ void IndoorDebugRenderer::render(int width, int height, float mouseWheelDelta, f
         {
             if (tryActivateInspectEvent(inspectHit))
             {
-                inspectHit = inspectAtCursor(*m_indoorMapData, m_renderVertices, rayOrigin, rayDirection);
+                m_cachedInspectHit = inspectAtCursor(
+                    *m_indoorMapData,
+                    m_renderVertices,
+                    visibleSectorMask,
+                    rayOrigin,
+                    rayDirection);
+                m_cachedInspectHitValid = true;
+                m_cachedInspectMouseX = mouseX;
+                m_cachedInspectMouseY = mouseY;
+                m_cachedInspectCameraX = eye.x;
+                m_cachedInspectCameraY = eye.y;
+                m_cachedInspectCameraZ = eye.z;
+                m_cachedInspectYawRadians = m_cameraYawRadians;
+                m_cachedInspectPitchRadians = m_cameraPitchRadians;
+                m_cachedInspectGeometryRevision = m_inspectGeometryRevision;
+                m_lastInspectUpdateTick = inspectTick;
+                inspectHit = m_cachedInspectHit;
             }
 
             m_activateInspectLatch = true;
@@ -1433,6 +1665,11 @@ void IndoorDebugRenderer::render(int width, int height, float mouseWheelDelta, f
         for (const TexturedBatch &batch : m_texturedBatches)
         {
             if (!bgfx::isValid(batch.vertexBufferHandle) || batch.frameTextureHandles.empty() || batch.vertexCount == 0)
+            {
+                continue;
+            }
+
+            if (!isBatchVisible(batch, visibleSectorMask))
             {
                 continue;
             }
@@ -1468,7 +1705,7 @@ void IndoorDebugRenderer::render(int width, int height, float mouseWheelDelta, f
 
     if (m_showDecorationBillboards)
     {
-        renderDecorationBillboards(MainViewId, viewMatrix, eye);
+        renderDecorationBillboards(MainViewId, viewMatrix, eye, visibleSectorMask);
     }
 
     if (m_showWireframe && bgfx::isValid(m_wireframeVertexBufferHandle) && m_wireframeVertexCount > 0)
@@ -1515,12 +1752,12 @@ void IndoorDebugRenderer::render(int width, int height, float mouseWheelDelta, f
 
     if (m_showActors)
     {
-        renderActorPreviewBillboards(MainViewId, viewMatrix, eye);
+        renderActorPreviewBillboards(MainViewId, viewMatrix, eye, visibleSectorMask);
     }
 
     if (m_showSpriteObjects)
     {
-        renderSpriteObjectBillboards(MainViewId, viewMatrix, eye);
+        renderSpriteObjectBillboards(MainViewId, viewMatrix, eye, visibleSectorMask);
     }
 
     if (m_showSpawns && bgfx::isValid(m_spawnMarkerVertexBufferHandle) && m_spawnMarkerVertexCount > 0)
@@ -2051,7 +2288,8 @@ const IndoorDebugRenderer::BillboardTextureHandle *IndoorDebugRenderer::findBill
 void IndoorDebugRenderer::renderDecorationBillboards(
     uint16_t viewId,
     const float *pViewMatrix,
-    const bx::Vec3 &cameraPosition
+    const bx::Vec3 &cameraPosition,
+    const std::vector<uint8_t> &visibleSectorMask
 )
 {
     if (!m_indoorDecorationBillboardSet
@@ -2251,7 +2489,8 @@ void IndoorDebugRenderer::renderDecorationBillboards(
 void IndoorDebugRenderer::renderActorPreviewBillboards(
     uint16_t viewId,
     const float *pViewMatrix,
-    const bx::Vec3 &cameraPosition
+    const bx::Vec3 &cameraPosition,
+    const std::vector<uint8_t> &visibleSectorMask
 )
 {
     if (!m_indoorActorPreviewBillboardSet
@@ -2293,6 +2532,11 @@ void IndoorDebugRenderer::renderActorPreviewBillboards(
     {
         for (const RuntimeActorBillboard &billboard : runtimeBillboards)
         {
+            if (!isSectorVisible(billboard.sectorId, visibleSectorMask))
+            {
+                continue;
+            }
+
             const uint32_t frameTimeTicks = billboard.useStaticFrame ? 0U : animationTimeTicks;
             const SpriteFrameEntry *pFrame =
                 m_indoorActorPreviewBillboardSet->spriteFrameTable.getFrame(billboard.spriteFrameIndex, frameTimeTicks);
@@ -2454,7 +2698,8 @@ void IndoorDebugRenderer::renderActorPreviewBillboards(
 void IndoorDebugRenderer::renderSpriteObjectBillboards(
     uint16_t viewId,
     const float *pViewMatrix,
-    const bx::Vec3 &cameraPosition
+    const bx::Vec3 &cameraPosition,
+    const std::vector<uint8_t> &visibleSectorMask
 )
 {
     if (!m_indoorSpriteObjectBillboardSet
@@ -2494,6 +2739,11 @@ void IndoorDebugRenderer::renderSpriteObjectBillboards(
     {
         for (const RuntimeSpriteObjectBillboard &billboard : runtimeBillboards)
         {
+            if (!isSectorVisible(billboard.sectorId, visibleSectorMask))
+            {
+                continue;
+            }
+
             const SpriteFrameEntry *pFrame =
                 m_indoorSpriteObjectBillboardSet->spriteFrameTable.getFrame(
                     billboard.objectSpriteId,
@@ -2532,6 +2782,11 @@ void IndoorDebugRenderer::renderSpriteObjectBillboards(
     {
         for (const SpriteObjectBillboard &billboard : m_indoorSpriteObjectBillboardSet->billboards)
         {
+            if (!isSectorVisible(billboard.sectorId, visibleSectorMask))
+            {
+                continue;
+            }
+
             const SpriteFrameEntry *pFrame =
                 m_indoorSpriteObjectBillboardSet->spriteFrameTable.getFrame(
                     billboard.objectSpriteId,
@@ -2843,18 +3098,31 @@ bool IndoorDebugRenderer::rebuildAllTexturedBatches(uint64_t &texturedBuildNanos
         }
 
         const std::string normalizedTextureName = toLowerCopy(textureName);
+        const int16_t sectorId =
+            face.roomNumber < m_indoorMapData->sectors.size() ? static_cast<int16_t>(face.roomNumber) : int16_t(-1);
+        const int16_t backSectorId =
+            face.roomBehindNumber < m_indoorMapData->sectors.size()
+                ? static_cast<int16_t>(face.roomBehindNumber)
+                : int16_t(-1);
+        const std::string batchKey = normalizedTextureName
+            + "#" + std::to_string(sectorId)
+            + "#" + std::to_string(backSectorId);
         size_t batchIndex = 0;
         const std::unordered_map<std::string, size_t>::const_iterator batchIterator =
-            batchIndicesByTexture.find(normalizedTextureName);
+            batchIndicesByTexture.find(batchKey);
 
         if (batchIterator == batchIndicesByTexture.end())
         {
             TexturedBatch batch = {};
             batch.textureName = normalizedTextureName;
+            batch.sectorId = sectorId;
+            batch.backSectorId = backSectorId;
 
             for (TexturedBatch &previousBatch : previousBatches)
             {
-                if (previousBatch.textureName == normalizedTextureName)
+                if (previousBatch.textureName == normalizedTextureName
+                    && previousBatch.sectorId == sectorId
+                    && previousBatch.backSectorId == backSectorId)
                 {
                     batch.vertexBufferHandle = previousBatch.vertexBufferHandle;
                     batch.vertexCapacity = previousBatch.vertexCapacity;
@@ -2929,7 +3197,7 @@ bool IndoorDebugRenderer::rebuildAllTexturedBatches(uint64_t &texturedBuildNanos
             }
 
             batchIndex = m_texturedBatches.size();
-            batchIndicesByTexture[normalizedTextureName] = batchIndex;
+            batchIndicesByTexture[batchKey] = batchIndex;
             m_texturedBatches.push_back(std::move(batch));
         }
         else
@@ -3251,6 +3519,8 @@ bool IndoorDebugRenderer::rebuildDerivedGeometryResources()
         }
     }
 
+    ++m_inspectGeometryRevision;
+    m_cachedInspectHitValid = false;
     return true;
 }
 
@@ -3689,6 +3959,7 @@ std::vector<IndoorDebugRenderer::TerrainVertex> IndoorDebugRenderer::buildDoorMa
 IndoorDebugRenderer::InspectHit IndoorDebugRenderer::inspectAtCursor(
     const IndoorMapData &indoorMapData,
     const std::vector<IndoorVertex> &vertices,
+    const std::vector<uint8_t> &visibleSectorMask,
     const bx::Vec3 &rayOrigin,
     const bx::Vec3 &rayDirection
 )
@@ -3707,6 +3978,13 @@ IndoorDebugRenderer::InspectHit IndoorDebugRenderer::inspectAtCursor(
         }
 
         if (!isFaceVisible(faceIndex, face, eventRuntimeState))
+        {
+            continue;
+        }
+
+        if (!visibleSectorMask.empty()
+            && !isSectorVisible(static_cast<int16_t>(face.roomNumber), visibleSectorMask)
+            && !isSectorVisible(static_cast<int16_t>(face.roomBehindNumber), visibleSectorMask))
         {
             continue;
         }
@@ -3859,6 +4137,11 @@ IndoorDebugRenderer::InspectHit IndoorDebugRenderer::inspectAtCursor(
 
         for (const RuntimeActorBillboard &actor : runtimeActors)
         {
+            if (!isSectorVisible(actor.sectorId, visibleSectorMask))
+            {
+                continue;
+            }
+
             const float halfExtent = static_cast<float>(std::max<uint16_t>(actor.radius, 32));
             const float height = static_cast<float>(std::max<uint16_t>(actor.height, 96));
             const bx::Vec3 minBounds = {
@@ -3896,6 +4179,11 @@ IndoorDebugRenderer::InspectHit IndoorDebugRenderer::inspectAtCursor(
 
         for (const RuntimeSpriteObjectBillboard &object : runtimeObjects)
         {
+            if (!isSectorVisible(object.sectorId, visibleSectorMask))
+            {
+                continue;
+            }
+
             const float halfExtent = std::max(32.0f, float(std::max(object.radius, int16_t(32))));
             const float height = std::max(64.0f, float(std::max(object.height, int16_t(64))));
             const bx::Vec3 minBounds = {
@@ -3931,6 +4219,25 @@ IndoorDebugRenderer::InspectHit IndoorDebugRenderer::inspectAtCursor(
         for (size_t doorIndex = 0; doorIndex < mapDeltaData->doors.size(); ++doorIndex)
         {
             const MapDeltaDoor &door = mapDeltaData->doors[doorIndex];
+
+            if (!visibleSectorMask.empty())
+            {
+                bool sectorVisible = door.sectorIds.empty();
+
+                for (uint16_t sectorId : door.sectorIds)
+                {
+                    if (isSectorVisible(static_cast<int16_t>(sectorId), visibleSectorMask))
+                    {
+                        sectorVisible = true;
+                        break;
+                    }
+                }
+
+                if (!sectorVisible)
+                {
+                    continue;
+                }
+            }
 
             if (door.vertexIds.empty())
             {
