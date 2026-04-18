@@ -2057,6 +2057,51 @@ bool initializeIndoorRegressionScenario(
     return scenario.world.eventRuntimeState() != nullptr;
 }
 
+std::string describeIndoorFaceMembership(const IndoorMapData &indoorMapData, size_t faceIndex)
+{
+    std::ostringstream stream;
+    stream << "face=" << faceIndex;
+
+    if (faceIndex >= indoorMapData.faces.size())
+    {
+        stream << " invalid";
+        return stream.str();
+    }
+
+    const IndoorFace &face = indoorMapData.faces[faceIndex];
+    stream << " room=" << face.roomNumber << " back=" << face.roomBehindNumber;
+
+    for (size_t sectorIndex = 0; sectorIndex < indoorMapData.sectors.size(); ++sectorIndex)
+    {
+        const IndoorSector &sector = indoorMapData.sectors[sectorIndex];
+        const bool inFloors =
+            std::find(sector.floorFaceIds.begin(), sector.floorFaceIds.end(), faceIndex) != sector.floorFaceIds.end();
+        const bool inWalls =
+            std::find(sector.wallFaceIds.begin(), sector.wallFaceIds.end(), faceIndex) != sector.wallFaceIds.end();
+        const bool inCeilings =
+            std::find(sector.ceilingFaceIds.begin(), sector.ceilingFaceIds.end(), faceIndex) != sector.ceilingFaceIds.end();
+        const bool inPortals =
+            std::find(sector.portalFaceIds.begin(), sector.portalFaceIds.end(), faceIndex) != sector.portalFaceIds.end();
+        const bool inFaces =
+            std::find(sector.faceIds.begin(), sector.faceIds.end(), faceIndex) != sector.faceIds.end();
+
+        if (!inFloors && !inWalls && !inCeilings && !inPortals && !inFaces)
+        {
+            continue;
+        }
+
+        stream << " [sector=" << sectorIndex
+               << " floors=" << (inFloors ? 1 : 0)
+               << " walls=" << (inWalls ? 1 : 0)
+               << " ceilings=" << (inCeilings ? 1 : 0)
+               << " portals=" << (inPortals ? 1 : 0)
+               << " faces=" << (inFaces ? 1 : 0)
+               << "]";
+    }
+
+    return stream.str();
+}
+
 bool initializeHeadlessGameApplication(
     const std::string &mapFileName,
     const Engine::AssetFileSystem &assetFileSystem,
@@ -4384,6 +4429,12 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                 sector.ceilingCount = 1;
                 sector.faceCount = 6;
                 sector.nonBspFaceCount = 6;
+                sector.minX = 0;
+                sector.maxX = 1024;
+                sector.minY = 0;
+                sector.maxY = 1024;
+                sector.minZ = 0;
+                sector.maxZ = 256;
                 sector.floorFaceIds = {0};
                 sector.wallFaceIds = {2, 3, 4, 5};
                 sector.ceilingFaceIds = {1};
@@ -4494,6 +4545,12 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                 sector.ceilingCount = 1;
                 sector.faceCount = 7;
                 sector.nonBspFaceCount = 7;
+                sector.minX = 0;
+                sector.maxX = 1024;
+                sector.minY = 0;
+                sector.maxY = 1024;
+                sector.minZ = 0;
+                sector.maxZ = 256;
                 sector.floorFaceIds = {0};
                 sector.wallFaceIds = {2, 3, 4, 5, 6};
                 sector.ceilingFaceIds = {1};
@@ -4643,6 +4700,24 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                     *loadedMap->indoorMapData,
                     &loadedMap->indoorMapDeltaData,
                     &runtimeState);
+
+                for (size_t sectorIndex : {size_t(1), size_t(3), size_t(8)})
+                {
+                    if (sectorIndex >= loadedMap->indoorMapData->sectors.size())
+                    {
+                        failure = "expected d18 sector is missing from parsed indoor data";
+                        return false;
+                    }
+
+                    const IndoorSector &sector = loadedMap->indoorMapData->sectors[sectorIndex];
+
+                    if (sector.floorFaceIds.empty() || sector.faceIds.empty())
+                    {
+                        failure = "parsed d18 sector lists are incomplete for sector " + std::to_string(sectorIndex);
+                        return false;
+                    }
+                }
+
                 const IndoorBodyDimensions body = {};
                 IndoorMoveState current =
                     controller.initializeStateFromEyePosition(480.0f, 930.0f, 16.0f, body);
@@ -4664,7 +4739,8 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
 
                 if (current.y < 980.0f)
                 {
-                    failure = "movement failed to continue through the open doorway";
+                    failure = "movement failed to continue through the open doorway "
+                        + describeIndoorFaceMembership(*loadedMap->indoorMapData, 383);
                     return false;
                 }
 
@@ -4724,7 +4800,8 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
 
                 if (!reachedRaisedSupport)
                 {
-                    failure = "movement did not step onto the raised doorway support at the seam";
+                    failure = "movement did not step onto the raised doorway support at the seam "
+                        + describeIndoorFaceMembership(*loadedMap->indoorMapData, 13);
                     return false;
                 }
 
@@ -4775,7 +4852,8 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                 {
                     failure = "open door 6 still contributes support floor at the doorway: footZ="
                         + std::to_string(initialized.footZ)
-                        + " supportFace=" + std::to_string(initialized.supportFaceIndex);
+                        + " supportFace=" + std::to_string(initialized.supportFaceIndex)
+                        + " " + describeIndoorFaceMembership(*loadedMap->indoorMapData, 389);
                     return false;
                 }
 
@@ -4844,7 +4922,7 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                         + "," + std::to_string(authoredEntranceInitial.grounded ? 1.0f : 0.0f)
                         + ") authored_settled=(" + std::to_string(authoredEntranceSettled.footZ)
                         + "," + std::to_string(authoredEntranceSettled.grounded ? 1.0f : 0.0f)
-                        + ")";
+                        + ") " + describeIndoorFaceMembership(*loadedMap->indoorMapData, 1363);
                     return false;
                 }
 

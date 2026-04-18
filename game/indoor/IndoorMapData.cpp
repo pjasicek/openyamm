@@ -120,6 +120,30 @@ struct VersionLayout
     size_t spawnRecordSize = 0;
 };
 
+struct SectorLayout
+{
+    size_t unknown0Offset = 0;
+    size_t floorCountOffset = 0;
+    size_t wallCountOffset = 0;
+    size_t ceilingCountOffset = 0;
+    size_t fluidCountOffset = 0;
+    size_t portalCountOffset = 0;
+    size_t faceCountOffset = 0;
+    size_t nonBspFaceCountOffset = 0;
+    size_t cylinderFaceCountOffset = 0;
+    size_t cogCountOffset = 0;
+    size_t decorationCountOffset = 0;
+    size_t markerCountOffset = 0;
+    size_t lightCountOffset = 0;
+    size_t waterLevelOffset = 0;
+    size_t mistLevelOffset = 0;
+    size_t lightDistanceMultiplierOffset = 0;
+    size_t minAmbientLightLevelOffset = 0;
+    size_t firstBspNodeOffset = 0;
+    size_t exitTagOffset = 0;
+    size_t boundingBoxOffset = 0;
+};
+
 std::string readTextureName(const ByteReader &reader, size_t offset)
 {
     return reader.readFixedString(offset, TextureNameSize);
@@ -279,6 +303,58 @@ std::optional<VersionLayout> detectLayout(const ByteReader &reader)
     }
 
     return std::nullopt;
+}
+
+SectorLayout sectorLayoutForVersion(int version)
+{
+    if (version >= 8)
+    {
+        return {
+            .unknown0Offset = 0x04,
+            .floorCountOffset = 0x08,
+            .wallCountOffset = 0x10,
+            .ceilingCountOffset = 0x18,
+            .fluidCountOffset = 0x20,
+            .portalCountOffset = 0x28,
+            .faceCountOffset = 0x30,
+            .nonBspFaceCountOffset = 0x32,
+            .cylinderFaceCountOffset = 0x38,
+            .cogCountOffset = 0x40,
+            .decorationCountOffset = 0x48,
+            .markerCountOffset = 0x50,
+            .lightCountOffset = 0x58,
+            .waterLevelOffset = 0x60,
+            .mistLevelOffset = 0x62,
+            .lightDistanceMultiplierOffset = 0x64,
+            .minAmbientLightLevelOffset = 0x66,
+            .firstBspNodeOffset = 0x68,
+            .exitTagOffset = 0x6a,
+            .boundingBoxOffset = 0x6c,
+        };
+    }
+
+    return {
+        .unknown0Offset = 0x00,
+        .floorCountOffset = 0x04,
+        .wallCountOffset = 0x0c,
+        .ceilingCountOffset = 0x14,
+        .fluidCountOffset = 0x1c,
+        .portalCountOffset = 0x24,
+        .faceCountOffset = 0x2c,
+        .nonBspFaceCountOffset = 0x2e,
+        .cylinderFaceCountOffset = 0x34,
+        .cogCountOffset = 0x3c,
+        .decorationCountOffset = 0x44,
+        .markerCountOffset = 0x4c,
+        .lightCountOffset = 0x54,
+        .waterLevelOffset = 0x5c,
+        .mistLevelOffset = 0x5e,
+        .lightDistanceMultiplierOffset = 0x60,
+        .minAmbientLightLevelOffset = 0x62,
+        .firstBspNodeOffset = 0x64,
+        .exitTagOffset = 0x66,
+        .boundingBoxOffset = 0x68,
+    };
 }
 }
 
@@ -441,29 +517,44 @@ std::optional<IndoorMapData> IndoorMapDataLoader::loadFromBytes(const std::vecto
     offset += sizeof(int32_t);
 
     indoorMapData.sectors.reserve(indoorMapData.sectorCount);
+    const SectorLayout sectorLayout = sectorLayoutForVersion(layout->version);
 
     for (size_t sectorIndex = 0; sectorIndex < indoorMapData.sectorCount; ++sectorIndex)
     {
         const size_t sectorOffset = offset + sectorIndex * layout->sectorRecordSize;
         IndoorSector sector = {};
         reader.readInt32(sectorOffset + 0x00, sector.flags);
-        reader.readUInt16(sectorOffset + 0x04, sector.floorCount);
-        reader.readUInt16(sectorOffset + 0x0c, sector.wallCount);
-        reader.readUInt16(sectorOffset + 0x14, sector.ceilingCount);
-        reader.readUInt16(sectorOffset + 0x1c, sector.fluidCount);
-        reader.readInt16(sectorOffset + 0x24, sector.portalCount);
-        reader.readUInt16(sectorOffset + 0x2c, sector.faceCount);
-        reader.readUInt16(sectorOffset + 0x2e, sector.nonBspFaceCount);
-        reader.readUInt16(sectorOffset + 0x34, sector.cylinderFaceCount);
-        reader.readUInt16(sectorOffset + 0x3c, sector.cogCount);
-        reader.readUInt16(sectorOffset + 0x44, sector.decorationCount);
-        reader.readUInt16(sectorOffset + 0x4c, sector.markerCount);
-        reader.readUInt16(sectorOffset + 0x54, sector.lightCount);
-        reader.readInt16(sectorOffset + 0x5c, sector.waterLevel);
-        reader.readInt16(sectorOffset + 0x5e, sector.mistLevel);
-        reader.readInt16(sectorOffset + 0x60, sector.lightDistanceMultiplier);
-        reader.readInt16(sectorOffset + 0x62, sector.minAmbientLightLevel);
-        reader.readInt16(sectorOffset + 0x64, sector.firstBspNode);
+        reader.readInt32(sectorOffset + sectorLayout.unknown0Offset, sector.unknown0);
+        reader.readUInt16(sectorOffset + sectorLayout.floorCountOffset, sector.floorCount);
+        reader.readUInt16(sectorOffset + sectorLayout.wallCountOffset, sector.wallCount);
+        reader.readUInt16(sectorOffset + sectorLayout.ceilingCountOffset, sector.ceilingCount);
+        reader.readUInt16(sectorOffset + sectorLayout.fluidCountOffset, sector.fluidCount);
+        reader.readInt16(sectorOffset + sectorLayout.portalCountOffset, sector.portalCount);
+        reader.readUInt16(sectorOffset + sectorLayout.faceCountOffset, sector.faceCount);
+        reader.readUInt16(sectorOffset + sectorLayout.nonBspFaceCountOffset, sector.nonBspFaceCount);
+        reader.readUInt16(sectorOffset + sectorLayout.cylinderFaceCountOffset, sector.cylinderFaceCount);
+        reader.readUInt16(sectorOffset + sectorLayout.cogCountOffset, sector.cogCount);
+        reader.readUInt16(sectorOffset + sectorLayout.decorationCountOffset, sector.decorationCount);
+        reader.readUInt16(sectorOffset + sectorLayout.markerCountOffset, sector.markerCount);
+        reader.readUInt16(sectorOffset + sectorLayout.lightCountOffset, sector.lightCount);
+        reader.readInt16(sectorOffset + sectorLayout.waterLevelOffset, sector.waterLevel);
+        reader.readInt16(sectorOffset + sectorLayout.mistLevelOffset, sector.mistLevel);
+        reader.readInt16(
+            sectorOffset + sectorLayout.lightDistanceMultiplierOffset,
+            sector.lightDistanceMultiplier
+        );
+        reader.readInt16(
+            sectorOffset + sectorLayout.minAmbientLightLevelOffset,
+            sector.minAmbientLightLevel
+        );
+        reader.readInt16(sectorOffset + sectorLayout.firstBspNodeOffset, sector.firstBspNode);
+        reader.readInt16(sectorOffset + sectorLayout.exitTagOffset, sector.exitTag);
+        reader.readInt16(sectorOffset + sectorLayout.boundingBoxOffset + 0x00, sector.minX);
+        reader.readInt16(sectorOffset + sectorLayout.boundingBoxOffset + 0x02, sector.maxX);
+        reader.readInt16(sectorOffset + sectorLayout.boundingBoxOffset + 0x04, sector.minY);
+        reader.readInt16(sectorOffset + sectorLayout.boundingBoxOffset + 0x06, sector.maxY);
+        reader.readInt16(sectorOffset + sectorLayout.boundingBoxOffset + 0x08, sector.minZ);
+        reader.readInt16(sectorOffset + sectorLayout.boundingBoxOffset + 0x0a, sector.maxZ);
         indoorMapData.sectors.push_back(sector);
     }
 

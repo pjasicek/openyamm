@@ -2,9 +2,9 @@
 
 #include "game/FaceEnums.h"
 
+#include <bit>
 #include <array>
 #include <cmath>
-#include <iostream>
 #include <utility>
 
 namespace OpenYAMM::Game
@@ -103,58 +103,30 @@ std::vector<std::pair<float, float>> buildSupportProbeOffsets(float radius)
     return result;
 }
 
-std::vector<std::pair<float, float>> buildInitializationSearchOffsets()
+std::vector<uint32_t> buildDoorStateSignature(
+    const std::optional<MapDeltaData> *pMapDeltaData,
+    const std::optional<EventRuntimeState> *pEventRuntimeState)
 {
-    std::vector<std::pair<float, float>> offsets;
-    offsets.emplace_back(0.0f, 0.0f);
+    std::vector<uint32_t> signature;
 
-    constexpr std::array<float, 16> directionsX = {
-        1.0f,
-        0.92387953f,
-        0.70710678f,
-        0.38268343f,
-        0.0f,
-        -0.38268343f,
-        -0.70710678f,
-        -0.92387953f,
-        -1.0f,
-        -0.92387953f,
-        -0.70710678f,
-        -0.38268343f,
-        0.0f,
-        0.38268343f,
-        0.70710678f,
-        0.92387953f
-    };
-    constexpr std::array<float, 16> directionsY = {
-        0.0f,
-        0.38268343f,
-        0.70710678f,
-        0.92387953f,
-        1.0f,
-        0.92387953f,
-        0.70710678f,
-        0.38268343f,
-        0.0f,
-        -0.38268343f,
-        -0.70710678f,
-        -0.92387953f,
-        -1.0f,
-        -0.92387953f,
-        -0.70710678f,
-        -0.38268343f
-    };
-
-    for (float radius = 32.0f; radius <= 1024.0f; radius += 32.0f)
+    if (pMapDeltaData == nullptr || !pMapDeltaData->has_value())
     {
-        for (size_t directionIndex = 0; directionIndex < directionsX.size(); ++directionIndex)
-        {
-            offsets.emplace_back(directionsX[directionIndex] * radius, directionsY[directionIndex] * radius);
-        }
+        return signature;
     }
 
-    return offsets;
+    const std::vector<MapDeltaDoor> &doors = (*pMapDeltaData)->doors;
+    signature.reserve(doors.size() * 2);
+
+    for (const MapDeltaDoor &door : doors)
+    {
+        const float distance = resolveDoorDistance(door, pEventRuntimeState);
+        signature.push_back(door.doorId);
+        signature.push_back(std::bit_cast<uint32_t>(distance));
+    }
+
+    return signature;
 }
+
 }
 
 IndoorMovementController::IndoorMovementController(
@@ -166,6 +138,54 @@ IndoorMovementController::IndoorMovementController(
     , m_pMapDeltaData(pMapDeltaData)
     , m_pEventRuntimeState(pEventRuntimeState)
 {
+}
+
+void IndoorMovementController::refreshRuntimeGeometryCache() const
+{
+    if (m_pIndoorMapData == nullptr)
+    {
+        return;
+    }
+
+    const std::vector<uint32_t> doorStateSignature = buildDoorStateSignature(m_pMapDeltaData, m_pEventRuntimeState);
+
+    if (m_runtimeGeometryCache.valid && m_runtimeGeometryCache.doorStateSignature == doorStateSignature)
+    {
+        return;
+    }
+
+    const MapDeltaData *pMapDeltaData =
+        m_pMapDeltaData != nullptr && m_pMapDeltaData->has_value() ? &m_pMapDeltaData->value() : nullptr;
+    const EventRuntimeState *pEventRuntimeState =
+        m_pEventRuntimeState != nullptr && m_pEventRuntimeState->has_value() ? &m_pEventRuntimeState->value() : nullptr;
+
+    m_runtimeGeometryCache.vertices = buildIndoorMechanismAdjustedVertices(
+        *m_pIndoorMapData,
+        pMapDeltaData,
+        pEventRuntimeState);
+    m_runtimeGeometryCache.nonBlockingMechanismFaceMask = buildNonBlockingMechanismFaceMask();
+    m_runtimeGeometryCache.mechanismBlockingFaceMask = buildMechanismBlockingFaceMask();
+    m_runtimeGeometryCache.collisionFaceMask = buildCollisionFaceMask();
+    m_runtimeGeometryCache.geometryCache.reset(m_pIndoorMapData->faces.size());
+    m_runtimeGeometryCache.doorStateSignature = doorStateSignature;
+    m_runtimeGeometryCache.valid = true;
+}
+
+const IndoorMovementController::RuntimeGeometryCache &IndoorMovementController::runtimeGeometryCache() const
+{
+    refreshRuntimeGeometryCache();
+    return m_runtimeGeometryCache;
+}
+
+const std::vector<std::pair<float, float>> &IndoorMovementController::supportProbeOffsets(float radius) const
+{
+    if (m_cachedSupportProbeRadius < 0.0f || std::fabs(m_cachedSupportProbeRadius - radius) > 0.001f)
+    {
+        m_cachedSupportProbeRadius = radius;
+        m_cachedSupportProbeOffsets = buildSupportProbeOffsets(radius);
+    }
+
+    return m_cachedSupportProbeOffsets;
 }
 
 IndoorFloorSample IndoorMovementController::sampleSupportedFloor(
@@ -198,7 +218,7 @@ IndoorFloorSample IndoorMovementController::sampleSupportedFloor(
         pFaceExclusionMask,
         &geometryCache);
 
-    for (const std::pair<float, float> &offset : buildSupportProbeOffsets(body.radius))
+    for (const std::pair<float, float> &offset : supportProbeOffsets(body.radius))
     {
         IndoorFloorSample candidate = sampleIndoorFloor(
             *m_pIndoorMapData,
@@ -256,7 +276,7 @@ IndoorFloorSample IndoorMovementController::sampleSupportedFloorOnFace(
         pFaceExclusionMask,
         &geometryCache);
 
-    for (const std::pair<float, float> &offset : buildSupportProbeOffsets(body.radius))
+    for (const std::pair<float, float> &offset : supportProbeOffsets(body.radius))
     {
         IndoorFloorSample candidate = sampleIndoorFloorOnFace(
             *m_pIndoorMapData,
@@ -378,18 +398,12 @@ IndoorMoveState IndoorMovementController::initializeStateFromEyePosition(
         return state;
     }
 
-    const MapDeltaData *pMapDeltaData =
-        m_pMapDeltaData != nullptr && m_pMapDeltaData->has_value() ? &m_pMapDeltaData->value() : nullptr;
-    const EventRuntimeState *pEventRuntimeState =
-        m_pEventRuntimeState != nullptr && m_pEventRuntimeState->has_value() ? &m_pEventRuntimeState->value() : nullptr;
-    const std::vector<IndoorVertex> vertices = buildIndoorMechanismAdjustedVertices(
-        *m_pIndoorMapData,
-        pMapDeltaData,
-        pEventRuntimeState);
-    const std::vector<uint8_t> nonBlockingMechanismFaceMask = buildNonBlockingMechanismFaceMask();
-    const std::vector<uint8_t> mechanismBlockingFaceMask = buildMechanismBlockingFaceMask();
-    const std::vector<uint8_t> collisionFaceMask = buildCollisionFaceMask();
-    IndoorFaceGeometryCache geometryCache(m_pIndoorMapData->faces.size());
+    const RuntimeGeometryCache &runtimeCache = runtimeGeometryCache();
+    IndoorFaceGeometryCache &geometryCache = m_runtimeGeometryCache.geometryCache;
+    const std::vector<IndoorVertex> &vertices = runtimeCache.vertices;
+    const std::vector<uint8_t> &nonBlockingMechanismFaceMask = runtimeCache.nonBlockingMechanismFaceMask;
+    const std::vector<uint8_t> &mechanismBlockingFaceMask = runtimeCache.mechanismBlockingFaceMask;
+    const std::vector<uint8_t> &collisionFaceMask = runtimeCache.collisionFaceMask;
 
     auto buildGroundedState = [&](float candidateX, float candidateY, float candidateEyeZ) -> std::optional<IndoorMoveState>
     {
@@ -437,6 +451,22 @@ IndoorMoveState IndoorMovementController::initializeStateFromEyePosition(
 
         if (!floor.hasFloor)
         {
+            floor = sampleApproximateSupportedFloor(
+                vertices,
+                geometryCache,
+                candidateX,
+                candidateY,
+                candidateEyeZ - body.height,
+                MaximumRise,
+                body.height + 1024.0f,
+                body,
+                std::nullopt,
+                static_cast<size_t>(-1),
+                &nonBlockingMechanismFaceMask);
+        }
+
+        if (!floor.hasFloor)
+        {
             return std::nullopt;
         }
 
@@ -474,31 +504,17 @@ IndoorMoveState IndoorMovementController::initializeStateFromEyePosition(
 
         if (!floor.hasFloor)
         {
-            floor = sampleSupportedFloor(
+            floor = sampleApproximateSupportedFloor(
                 vertices,
                 geometryCache,
                 candidateX,
                 candidateY,
-                candidateEyeZ,
-                body.height + MaximumRise,
-                body.height + 1024.0f,
+                candidateEyeZ - body.height,
+                MaximumRise,
+                MaximumDrop,
                 body,
                 std::nullopt,
-                &nonBlockingMechanismFaceMask);
-        }
-
-        if (!floor.hasFloor)
-        {
-            floor = sampleSupportedFloor(
-                vertices,
-                geometryCache,
-                candidateX,
-                candidateY,
-                candidateEyeZ - body.height * 0.5f,
-                body.height,
-                body.height + 1024.0f,
-                body,
-                std::nullopt,
+                static_cast<size_t>(-1),
                 &nonBlockingMechanismFaceMask);
         }
 
@@ -536,38 +552,14 @@ IndoorMoveState IndoorMovementController::initializeStateFromEyePosition(
         return candidateState;
     };
 
-    const std::array<float, 6> candidateEyeZs = {
-        eyeZ,
-        eyeZ + body.height,
-        eyeZ - body.height,
-        eyeZ + body.height * 0.5f,
-        eyeZ - body.height * 0.5f,
-        0.0f
-    };
-    const std::vector<std::pair<float, float>> searchOffsets = buildInitializationSearchOffsets();
-
-    for (const std::pair<float, float> &offset : searchOffsets)
+    if (const std::optional<IndoorMoveState> exactState = tryInitializeState(x, y, eyeZ))
     {
-        for (float candidateEyeZ : candidateEyeZs)
-        {
-            if (const std::optional<IndoorMoveState> nearbyState =
-                    tryInitializeState(x + offset.first, y + offset.second, candidateEyeZ))
-            {
-                return *nearbyState;
-            }
-        }
+        return *exactState;
     }
 
-    for (const std::pair<float, float> &offset : searchOffsets)
+    if (const std::optional<IndoorMoveState> groundedState = buildGroundedState(x, y, eyeZ))
     {
-        for (float candidateEyeZ : candidateEyeZs)
-        {
-            if (const std::optional<IndoorMoveState> groundedFallback =
-                    buildGroundedState(x + offset.first, y + offset.second, candidateEyeZ))
-            {
-                return *groundedFallback;
-            }
-        }
+        return *groundedState;
     }
 
     return state;
@@ -587,18 +579,12 @@ IndoorMoveState IndoorMovementController::resolveMove(
         return state;
     }
 
-    const MapDeltaData *pMapDeltaData =
-        m_pMapDeltaData != nullptr && m_pMapDeltaData->has_value() ? &m_pMapDeltaData->value() : nullptr;
-    const EventRuntimeState *pEventRuntimeState =
-        m_pEventRuntimeState != nullptr && m_pEventRuntimeState->has_value() ? &m_pEventRuntimeState->value() : nullptr;
-    const std::vector<IndoorVertex> vertices = buildIndoorMechanismAdjustedVertices(
-        *m_pIndoorMapData,
-        pMapDeltaData,
-        pEventRuntimeState);
-    const std::vector<uint8_t> nonBlockingMechanismFaceMask = buildNonBlockingMechanismFaceMask();
-    const std::vector<uint8_t> mechanismBlockingFaceMask = buildMechanismBlockingFaceMask();
-    const std::vector<uint8_t> collisionFaceMask = buildCollisionFaceMask();
-    IndoorFaceGeometryCache geometryCache(m_pIndoorMapData->faces.size());
+    const RuntimeGeometryCache &runtimeCache = runtimeGeometryCache();
+    IndoorFaceGeometryCache &geometryCache = m_runtimeGeometryCache.geometryCache;
+    const std::vector<IndoorVertex> &vertices = runtimeCache.vertices;
+    const std::vector<uint8_t> &nonBlockingMechanismFaceMask = runtimeCache.nonBlockingMechanismFaceMask;
+    const std::vector<uint8_t> &mechanismBlockingFaceMask = runtimeCache.mechanismBlockingFaceMask;
+    const std::vector<uint8_t> &collisionFaceMask = runtimeCache.collisionFaceMask;
 
     IndoorMoveState resolved = state;
     const float stepX = desiredVelocityX * deltaSeconds;

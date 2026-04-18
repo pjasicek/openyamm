@@ -143,6 +143,19 @@ bool faceIsWalkable(const IndoorFace &face, const bx::Vec3 &normal)
     return normal.z > 0.70767211914f;
 }
 
+bool sectorBoundingBoxIntersectsProbe(const IndoorSector &sector, const bx::Vec3 &point)
+{
+    constexpr float ProbeHalfWidth = 5.0f;
+    constexpr float ProbeHalfHeight = 64.0f;
+
+    return point.x + ProbeHalfWidth >= sector.minX
+        && point.x - ProbeHalfWidth <= sector.maxX
+        && point.y + ProbeHalfWidth >= sector.minY
+        && point.y - ProbeHalfWidth <= sector.maxY
+        && point.z + ProbeHalfHeight >= sector.minZ
+        && point.z - ProbeHalfHeight <= sector.maxZ;
+}
+
 IndoorFaceKind classifyFaceKind(const IndoorFace &face, const bx::Vec3 &normal)
 {
     if (face.facetType == 1)
@@ -860,20 +873,6 @@ IndoorFloorSample sampleIndoorFloor(
         evaluateSectorFloorFaces(static_cast<int16_t>(sectorIndex));
     }
 
-    if (bestSample.hasFloor)
-    {
-        return bestSample;
-    }
-
-    std::vector<uint16_t> allFaceIds;
-    allFaceIds.reserve(indoorMapData.faces.size());
-
-    for (size_t faceIndex = 0; faceIndex < indoorMapData.faces.size(); ++faceIndex)
-    {
-        allFaceIds.push_back(faceIndex);
-    }
-
-    evaluateFloorFaces(allFaceIds);
     return bestSample;
 }
 
@@ -1014,20 +1013,6 @@ IndoorCeilingSample sampleIndoorCeiling(
         evaluateSectorCeilingFaces(static_cast<int16_t>(sectorIndex));
     }
 
-    if (bestSample.hasCeiling)
-    {
-        return bestSample;
-    }
-
-    std::vector<uint16_t> allFaceIds;
-    allFaceIds.reserve(indoorMapData.faces.size());
-
-    for (size_t faceIndex = 0; faceIndex < indoorMapData.faces.size(); ++faceIndex)
-    {
-        allFaceIds.push_back(faceIndex);
-    }
-
-    evaluateCeilingFaces(allFaceIds);
     return bestSample;
 }
 
@@ -1038,102 +1023,160 @@ std::optional<int16_t> findIndoorSectorForPoint(
     IndoorFaceGeometryCache *pGeometryCache
 )
 {
-    for (size_t sectorIndex = 0; sectorIndex < indoorMapData.sectors.size(); ++sectorIndex)
+    if (indoorMapData.sectors.empty())
+    {
+        return std::nullopt;
+    }
+
+    struct SectorFaceCandidate
+    {
+        int16_t sectorId = -1;
+        float height = 0.0f;
+    };
+
+    std::vector<SectorFaceCandidate> candidates;
+    candidates.reserve(5);
+    std::optional<int16_t> backupBoundingSectorId;
+    std::optional<int16_t> singleSectorId;
+    bool singleSector = true;
+    const size_t startingSectorIndex = indoorMapData.sectors.size() > 1 ? 1 : 0;
+
+    auto appendSectorCandidate = [&](int16_t sectorId, float height)
+    {
+        if (candidates.size() >= 5)
+        {
+            return;
+        }
+
+        candidates.push_back({sectorId, height});
+    };
+
+    for (size_t sectorIndex = startingSectorIndex; sectorIndex < indoorMapData.sectors.size(); ++sectorIndex)
     {
         const IndoorSector &sector = indoorMapData.sectors[sectorIndex];
-        IndoorFloorSample floor = {};
-        IndoorCeilingSample ceiling = {};
 
-        for (uint16_t faceId : sector.floorFaceIds)
+        if (!sectorBoundingBoxIntersectsProbe(sector, point))
         {
-            IndoorFaceGeometryData geometryStorage = {};
-            const IndoorFaceGeometryData *pGeometry = getIndoorFaceGeometry(
-                indoorMapData,
-                vertices,
-                faceId,
-                pGeometryCache,
-                geometryStorage);
-
-            if (pGeometry == nullptr
-                || !pGeometry->isWalkable
-                || point.x < pGeometry->minX - FloorSlack
-                || point.x > pGeometry->maxX + FloorSlack
-                || point.y < pGeometry->minY - FloorSlack
-                || point.y > pGeometry->maxY + FloorSlack)
-            {
-                continue;
-            }
-
-            if (!isPointInsideFaceXYPolygon(point, pGeometry->vertices))
-            {
-                continue;
-            }
-
-            const float height = calculateIndoorFaceHeight(*pGeometry, point.x, point.y);
-
-            if (!floor.hasFloor || height > floor.height)
-            {
-                floor.hasFloor = true;
-                floor.height = height;
-                floor.faceIndex = faceId;
-                floor.sectorId = static_cast<int16_t>(sectorIndex);
-            }
+            continue;
         }
 
-        for (uint16_t faceId : sector.ceilingFaceIds)
+        if (!backupBoundingSectorId)
         {
-            IndoorFaceGeometryData geometryStorage = {};
-            const IndoorFaceGeometryData *pGeometry = getIndoorFaceGeometry(
-                indoorMapData,
-                vertices,
-                faceId,
-                pGeometryCache,
-                geometryStorage);
-
-            if (pGeometry == nullptr
-                || point.x < pGeometry->minX - FloorSlack
-                || point.x > pGeometry->maxX + FloorSlack
-                || point.y < pGeometry->minY - FloorSlack
-                || point.y > pGeometry->maxY + FloorSlack)
-            {
-                continue;
-            }
-
-            if (!isPointInsideFaceXYPolygon(point, pGeometry->vertices))
-            {
-                continue;
-            }
-
-            const float height = calculateIndoorFaceHeight(*pGeometry, point.x, point.y);
-
-            if (!ceiling.hasCeiling || height < ceiling.height)
-            {
-                ceiling.hasCeiling = true;
-                ceiling.height = height;
-                ceiling.faceIndex = faceId;
-                ceiling.sectorId = static_cast<int16_t>(sectorIndex);
-            }
+            backupBoundingSectorId = static_cast<int16_t>(sectorIndex);
         }
 
-        if (floor.hasFloor
-            && point.z + FloorSlack >= floor.height
-            && (!ceiling.hasCeiling || point.z <= ceiling.height + FloorSlack))
+        if (sector.floorFaceIds.empty() && sector.portalFaceIds.empty())
         {
-            return static_cast<int16_t>(sectorIndex);
+            continue;
+        }
+
+        if (!singleSectorId)
+        {
+            singleSectorId = static_cast<int16_t>(sectorIndex);
+        }
+        else if (*singleSectorId != static_cast<int16_t>(sectorIndex))
+        {
+            singleSector = false;
+        }
+
+        const auto evaluateSectorFaces = [&](const std::vector<uint16_t> &faceIds)
+        {
+            for (uint16_t faceId : faceIds)
+            {
+                IndoorFaceGeometryData geometryStorage = {};
+                const IndoorFaceGeometryData *pGeometry = getIndoorFaceGeometry(
+                    indoorMapData,
+                    vertices,
+                    faceId,
+                    pGeometryCache,
+                    geometryStorage);
+
+                if (pGeometry == nullptr
+                    || pGeometry->kind != IndoorFaceKind::Floor
+                    || point.x < pGeometry->minX - FloorSlack
+                    || point.x > pGeometry->maxX + FloorSlack
+                    || point.y < pGeometry->minY - FloorSlack
+                    || point.y > pGeometry->maxY + FloorSlack)
+                {
+                    continue;
+                }
+
+                if (!isPointInsideFaceXYPolygon(point, pGeometry->vertices))
+                {
+                    continue;
+                }
+
+                appendSectorCandidate(static_cast<int16_t>(sectorIndex), calculateIndoorFaceHeight(*pGeometry, point.x, point.y));
+
+                if (candidates.size() >= 5)
+                {
+                    return;
+                }
+            }
+        };
+
+        evaluateSectorFaces(sector.floorFaceIds);
+
+        if ((sector.flags & 0x8) != 0 && candidates.size() < 5)
+        {
+            evaluateSectorFaces(sector.portalFaceIds);
+        }
+
+        if (candidates.size() >= 5)
+        {
+            break;
         }
     }
 
-    IndoorFloorSample fallbackFloor = sampleIndoorFloor(
-        indoorMapData,
-        vertices,
-        point.x,
-        point.y,
-        point.z,
-        128.0f,
-        512.0f,
-        std::nullopt,
-        nullptr,
-        pGeometryCache);
-    return fallbackFloor.hasFloor ? std::optional<int16_t>(fallbackFloor.sectorId) : std::nullopt;
+    if (candidates.size() == 1)
+    {
+        return candidates.front().sectorId;
+    }
+
+    if (singleSectorId && singleSector)
+    {
+        return *singleSectorId;
+    }
+
+    if (candidates.empty())
+    {
+        return backupBoundingSectorId;
+    }
+
+    std::optional<int16_t> bestBelowSectorId;
+    std::optional<int16_t> bestAboveSectorId;
+    float bestBelowDistance = std::numeric_limits<float>::max();
+    float bestAboveDistance = std::numeric_limits<float>::max();
+
+    for (const SectorFaceCandidate &candidate : candidates)
+    {
+        const float zDistance = point.z - candidate.height;
+
+        if (zDistance >= 0.0f)
+        {
+            if (zDistance < bestBelowDistance)
+            {
+                bestBelowDistance = zDistance;
+                bestBelowSectorId = candidate.sectorId;
+            }
+        }
+        else
+        {
+            const float aboveDistance = std::fabs(zDistance);
+
+            if (aboveDistance < bestAboveDistance)
+            {
+                bestAboveDistance = aboveDistance;
+                bestAboveSectorId = candidate.sectorId;
+            }
+        }
+    }
+
+    if (bestBelowSectorId)
+    {
+        return bestBelowSectorId;
+    }
+
+    return bestAboveSectorId;
 }
 }

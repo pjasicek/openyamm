@@ -90,9 +90,26 @@ private:
         size_t preferredFaceIndex,
         const std::vector<uint8_t> *pFaceExclusionMask
     ) const;
+    struct RuntimeGeometryCache
+    {
+        bool valid = false;
+        std::vector<uint32_t> doorStateSignature;
+        std::vector<IndoorVertex> vertices;
+        std::vector<uint8_t> nonBlockingMechanismFaceMask;
+        std::vector<uint8_t> mechanismBlockingFaceMask;
+        std::vector<uint8_t> collisionFaceMask;
+        IndoorFaceGeometryCache geometryCache;
+    };
+
+    void refreshRuntimeGeometryCache() const;
+    const RuntimeGeometryCache &runtimeGeometryCache() const;
+    const std::vector<std::pair<float, float>> &supportProbeOffsets(float radius) const;
     const IndoorMapData *m_pIndoorMapData = nullptr;
     const std::optional<MapDeltaData> *m_pMapDeltaData = nullptr;
     const std::optional<EventRuntimeState> *m_pEventRuntimeState = nullptr;
+    mutable RuntimeGeometryCache m_runtimeGeometryCache;
+    mutable float m_cachedSupportProbeRadius = -1.0f;
+    mutable std::vector<std::pair<float, float>> m_cachedSupportProbeOffsets;
 
     std::vector<uint8_t> buildNonBlockingMechanismFaceMask() const;
     std::vector<uint8_t> buildMechanismBlockingFaceMask() const;

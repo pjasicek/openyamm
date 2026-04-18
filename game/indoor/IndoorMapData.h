@@ -39,6 +39,7 @@ struct IndoorFace
 struct IndoorSector
 {
     int32_t flags = 0;
+    int32_t unknown0 = 0;
     uint16_t floorCount = 0;
     uint16_t wallCount = 0;
     uint16_t ceilingCount = 0;
@@ -56,6 +57,13 @@ struct IndoorSector
     int16_t lightDistanceMultiplier = 0;
     int16_t minAmbientLightLevel = 0;
     int16_t firstBspNode = 0;
+    int16_t exitTag = 0;
+    int16_t minX = 0;
+    int16_t maxX = 0;
+    int16_t minY = 0;
+    int16_t maxY = 0;
+    int16_t minZ = 0;
+    int16_t maxZ = 0;
     std::vector<uint16_t> floorFaceIds;
     std::vector<uint16_t> wallFaceIds;
     std::vector<uint16_t> ceilingFaceIds;
