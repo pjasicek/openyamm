@@ -287,6 +287,18 @@ elements:
           default: STSSu
           pressed: STSSd
           highlighted: STSSu
+      - id: SpellbookAttackCastButton
+        anchor: bottom_left
+        offset_x: 0
+        offset_y: -94
+        width: 36
+        height: 46
+        z_index: 60
+        interactive: true
+        asset:
+          default: GF-ASpell
+          pressed: GF-ASpellD
+          highlighted: GF-ASpell
       - id: SpellbookPageFireSpellTorchlight
         anchor: center
         offset_x: 74
