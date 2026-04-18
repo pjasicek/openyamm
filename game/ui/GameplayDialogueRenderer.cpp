@@ -1,5 +1,6 @@
 #include "game/ui/GameplayDialogueRenderer.h"
 #include "game/ui/GameplayOverlayContext.h"
+#include "game/ui/HudUiService.h"
 
 #include "game/gameplay/HouseServiceRuntime.h"
 #include "game/tables/ItemTable.h"
@@ -320,33 +321,9 @@ void GameplayDialogueRenderer::renderBlackoutBackdrop(
     float viewportX,
     float viewportWidth)
 {
-    if (viewportX <= 0.5f)
-    {
-        return;
-    }
-
-    const std::optional<GameplayOverlayContext::HudTextureHandle> blackTexture =
-        view.ensureSolidHudTextureLoaded("__dialogue_blackout__", 0xff000000u);
-
-    if (!blackTexture)
-    {
-        return;
-    }
-
-    submitTextureHandleQuad(
-        view,
-        blackTexture->textureHandle,
-        0.0f,
-        0.0f,
-        viewportX,
-        static_cast<float>(screenHeight));
-    submitTextureHandleQuad(
-        view,
-        blackTexture->textureHandle,
-        viewportX + viewportWidth,
-        0.0f,
-        static_cast<float>(screenWidth) - (viewportX + viewportWidth),
-        static_cast<float>(screenHeight));
+    (void)viewportX;
+    (void)viewportWidth;
+    HudUiService::renderViewportSidePanels(view, screenWidth, screenHeight, "UI-Parch");
 }
 
 void GameplayDialogueRenderer::updateHouseShopHoverTopicText(

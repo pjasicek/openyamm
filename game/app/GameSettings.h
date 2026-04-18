@@ -24,6 +24,13 @@ enum class GameplayUiLayout
     Widescreen
 };
 
+enum class WindowMode
+{
+    Windowed,
+    WindowedFullscreen,
+    Fullscreen
+};
+
 struct GameSettings
 {
     struct KeyboardSettings
@@ -77,6 +84,9 @@ struct GameSettings
     std::string textFiltering = "nearest";
     std::string minimapFiltering = "linear";
     GameplayUiLayout gameplayUiLayout = GameplayUiLayout::Widescreen;
+    WindowMode windowMode = WindowMode::Windowed;
+    int resolutionWidth = 1600;
+    int resolutionHeight = 900;
 
     bool startInMainMenu = false;
     KeyboardSettings keyboard = {};

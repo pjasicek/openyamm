@@ -101,6 +101,7 @@ protected:
     ButtonState drawButton(const ButtonVisualSet &visuals, const Rect &rect);
     void drawDebugText(int pixelX, int pixelY, uint8_t color, const std::string &text) const;
     bool hitTest(const Rect &rect) const;
+    void drawViewportSidePanels(const std::string &textureName, float logicalWidth, float logicalHeight);
 
 private:
     struct MenuVertex

@@ -537,7 +537,7 @@ const UiLayoutManager::LayoutElement *UiLayoutManager::findElement(const std::st
     return &iterator->second;
 }
 
-std::vector<std::string> UiLayoutManager::sortedLayoutIdsForScreen(const std::string &screen) const
+const std::vector<std::string> &UiLayoutManager::sortedLayoutIdsForScreenCached(const std::string &screen) const
 {
     const std::string normalizedScreen = toLowerCopy(screen);
     const auto cachedIterator = m_sortedLayoutIdsByScreen.find(normalizedScreen);
@@ -577,8 +577,13 @@ std::vector<std::string> UiLayoutManager::sortedLayoutIdsForScreen(const std::st
             return pLeft->zIndex < pRight->zIndex;
         });
 
-    m_sortedLayoutIdsByScreen[normalizedScreen] = result;
-    return result;
+    auto inserted = m_sortedLayoutIdsByScreen.emplace(normalizedScreen, std::move(result));
+    return inserted.first->second;
+}
+
+std::vector<std::string> UiLayoutManager::sortedLayoutIdsForScreen(const std::string &screen) const
+{
+    return sortedLayoutIdsForScreenCached(screen);
 }
 
 int UiLayoutManager::maxZIndexForScreen(const std::string &screen) const

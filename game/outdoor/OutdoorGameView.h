@@ -1126,6 +1126,7 @@ private:
     size_t m_decorationBillboardGridWidth = 0;
     size_t m_decorationBillboardGridHeight = 0;
     std::vector<HudTextureHandle> m_hudTextureHandles;
+    std::unordered_map<std::string, size_t> m_hudTextureIndexByName;
     std::vector<HudFontHandle> m_hudFontHandles;
     mutable std::vector<HudFontColorTextureHandle> m_hudFontColorTextureHandles;
     mutable std::vector<HudTextureColorTextureHandle> m_hudTextureColorTextureHandles;

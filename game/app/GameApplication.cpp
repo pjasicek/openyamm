@@ -46,7 +46,7 @@ constexpr const char *RavenshoreRespawnMapFile = "out02.odm";
 constexpr const char *PartyDefeatCutsceneDirectory = "Videos/Cutscenes";
 constexpr const char *PartyDefeatCutsceneStem = "LoseGame";
 constexpr std::array<uint32_t, 3> Level1ReagentItemIds = {{200, 205, 210}};
-constexpr uint32_t MaxQuestBitId = 512;
+constexpr std::array<uint32_t, 6> DebugUnlockedTownPortalQBits = {{180, 181, 182, 183, 184, 185}};
 
 int remapLoadingProgress(int localProgress, int startProgress, int endProgress)
 {
@@ -379,6 +379,23 @@ float normalizedVolumeLevel(int level)
     return std::clamp(static_cast<float>(level) / 9.0f, 0.0f, 1.0f);
 }
 
+Engine::WindowMode engineWindowModeForSettings(WindowMode mode)
+{
+    switch (mode)
+    {
+    case WindowMode::Windowed:
+        return Engine::WindowMode::Windowed;
+
+    case WindowMode::WindowedFullscreen:
+        return Engine::WindowMode::WindowedFullscreen;
+
+    case WindowMode::Fullscreen:
+        return Engine::WindowMode::Fullscreen;
+    }
+
+    return Engine::WindowMode::Windowed;
+}
+
 float mouseRotateSpeedForTurnRate(TurnRateMode turnRate)
 {
     switch (turnRate)
@@ -527,6 +544,11 @@ void GameApplication::loadOrCreateSettings()
     {
         std::cerr << "GameApplication: failed to write " << path.string() << ": " << error << '\n';
     }
+
+    m_config.windowWidth = m_settings.resolutionWidth;
+    m_config.windowHeight = m_settings.resolutionHeight;
+    m_config.windowMode = engineWindowModeForSettings(m_settings.windowMode);
+    m_engineApplication.setConfiguration(m_config);
 }
 
 void GameApplication::applyCurrentSettingsToActiveRuntime()
@@ -567,7 +589,7 @@ void GameApplication::applyStartupDebugSettingsToActiveRuntime()
     {
         Party &party = m_pOutdoorPartyRuntime->party();
 
-        for (uint32_t qbitId = 1; qbitId <= MaxQuestBitId; ++qbitId)
+        for (uint32_t qbitId : DebugUnlockedTownPortalQBits)
         {
             party.setQuestBit(qbitId, true);
         }

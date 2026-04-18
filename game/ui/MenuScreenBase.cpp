@@ -1050,6 +1050,49 @@ bool MenuScreenBase::hitTest(const Rect &rect) const
         && m_mouseY >= rect.y && m_mouseY < rect.y + rect.height;
 }
 
+void MenuScreenBase::drawViewportSidePanels(const std::string &textureName, float logicalWidth, float logicalHeight)
+{
+    if (m_frameWidth <= 0 || m_frameHeight <= 0 || logicalWidth <= 0.0f || logicalHeight <= 0.0f)
+    {
+        return;
+    }
+
+    const float baseScale = std::min(
+        static_cast<float>(m_frameWidth) / logicalWidth,
+        static_cast<float>(m_frameHeight) / logicalHeight);
+    const float viewportWidth = logicalWidth * baseScale;
+    const float viewportX = (static_cast<float>(m_frameWidth) - viewportWidth) * 0.5f;
+
+    if (viewportX <= 0.5f)
+    {
+        return;
+    }
+
+    drawTexture(
+        textureName,
+        Rect{
+            0.0f,
+            0.0f,
+            viewportX,
+            static_cast<float>(m_frameHeight)
+        });
+
+    const float rightX = viewportX + viewportWidth;
+    const float rightWidth = static_cast<float>(m_frameWidth) - rightX;
+
+    if (rightWidth > 0.5f)
+    {
+        drawTexture(
+            textureName,
+            Rect{
+                rightX,
+                0.0f,
+                rightWidth,
+                static_cast<float>(m_frameHeight)
+            });
+    }
+}
+
 void MenuScreenBase::ensureRendererInitialized()
 {
     if (m_rendererInitialized)

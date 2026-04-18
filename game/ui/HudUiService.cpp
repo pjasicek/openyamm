@@ -1,5 +1,6 @@
 #include "game/ui/HudUiService.h"
 
+#include "game/ui/GameplayOverlayContext.h"
 #include "game/outdoor/OutdoorGameView.h"
 #include "game/render/TextureFiltering.h"
 #include "game/StringUtils.h"
@@ -114,6 +115,13 @@ std::vector<std::string> HudUiService::sortedHudLayoutIdsForScreen(
     const std::string &screen)
 {
     return view.m_uiLayoutManager.sortedLayoutIdsForScreen(screen);
+}
+
+const std::vector<std::string> &HudUiService::sortedHudLayoutIdsForScreenCached(
+    const OutdoorGameView &view,
+    const std::string &screen)
+{
+    return view.m_uiLayoutManager.sortedLayoutIdsForScreenCached(screen);
 }
 
 int HudUiService::maxHudLayoutZIndexForScreen(const OutdoorGameView &view, const std::string &screen)
@@ -663,16 +671,14 @@ const OutdoorGameView::HudTextureHandle *HudUiService::findHudTexture(
     const std::string &textureName)
 {
     const std::string normalizedTextureName = toLowerCopy(textureName);
+    const auto iterator = view.m_hudTextureIndexByName.find(normalizedTextureName);
 
-    for (const OutdoorGameView::HudTextureHandle &textureHandle : view.m_hudTextureHandles)
+    if (iterator == view.m_hudTextureIndexByName.end() || iterator->second >= view.m_hudTextureHandles.size())
     {
-        if (textureHandle.textureName == normalizedTextureName)
-        {
-            return &textureHandle;
-        }
+        return nullptr;
     }
 
-    return nullptr;
+    return &view.m_hudTextureHandles[iterator->second];
 }
 
 const OutdoorGameView::HudTextureHandle *HudUiService::ensureHudTextureLoaded(
@@ -759,8 +765,84 @@ const OutdoorGameView::HudTextureHandle *HudUiService::ensureSolidHudTextureLoad
         return nullptr;
     }
 
+    const size_t index = view.m_hudTextureHandles.size();
     view.m_hudTextureHandles.push_back(std::move(textureHandle));
+    view.m_hudTextureIndexByName[view.m_hudTextureHandles.back().textureName] = index;
     return &view.m_hudTextureHandles.back();
+}
+
+void HudUiService::renderViewportSidePanels(
+    const OutdoorGameView &view,
+    int screenWidth,
+    int screenHeight,
+    const std::string &textureName)
+{
+    if (screenWidth <= 0 || screenHeight <= 0)
+    {
+        return;
+    }
+
+    const UiViewportRect viewport = computeUiViewportRect(screenWidth, screenHeight);
+
+    if (viewport.x <= 0.5f)
+    {
+        return;
+    }
+
+    const OutdoorGameView::HudTextureHandle *pTexture =
+        ensureHudTextureLoaded(const_cast<OutdoorGameView &>(view), textureName);
+
+    if (pTexture == nullptr)
+    {
+        return;
+    }
+
+    view.submitHudTexturedQuad(*pTexture, 0.0f, 0.0f, viewport.x, static_cast<float>(screenHeight));
+
+    const float rightX = viewport.x + viewport.width;
+    const float rightWidth = static_cast<float>(screenWidth) - rightX;
+
+    if (rightWidth > 0.5f)
+    {
+        view.submitHudTexturedQuad(*pTexture, rightX, 0.0f, rightWidth, static_cast<float>(screenHeight));
+    }
+}
+
+void HudUiService::renderViewportSidePanels(
+    GameplayOverlayContext &view,
+    int screenWidth,
+    int screenHeight,
+    const std::string &textureName)
+{
+    if (screenWidth <= 0 || screenHeight <= 0)
+    {
+        return;
+    }
+
+    const UiViewportRect viewport = computeUiViewportRect(screenWidth, screenHeight);
+
+    if (viewport.x <= 0.5f)
+    {
+        return;
+    }
+
+    const std::optional<GameplayOverlayContext::HudTextureHandle> texture =
+        view.ensureHudTextureLoaded(textureName);
+
+    if (!texture)
+    {
+        return;
+    }
+
+    view.submitHudTexturedQuad(*texture, 0.0f, 0.0f, viewport.x, static_cast<float>(screenHeight));
+
+    const float rightX = viewport.x + viewport.width;
+    const float rightWidth = static_cast<float>(screenWidth) - rightX;
+
+    if (rightWidth > 0.5f)
+    {
+        view.submitHudTexturedQuad(*texture, rightX, 0.0f, rightWidth, static_cast<float>(screenHeight));
+    }
 }
 
 std::optional<OutdoorGameView::ResolvedHudLayoutElement> HudUiService::resolveHudLayoutElement(

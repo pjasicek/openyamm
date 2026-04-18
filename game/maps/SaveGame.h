@@ -35,4 +35,5 @@ struct GameSaveData
 
 bool saveGameDataToPath(const std::filesystem::path &path, const GameSaveData &data, std::string &error);
 std::optional<GameSaveData> loadGameDataFromPath(const std::filesystem::path &path, std::string &error);
+bool compareSavePathsForDisplay(const std::filesystem::path &left, const std::filesystem::path &right);
 }

@@ -120,6 +120,11 @@ UiViewportRect computeUiViewportRect(int screenWidth, int screenHeight)
     return viewport;
 }
 
+void renderViewportParchmentSidePanels(const OutdoorGameView &view, int width, int height)
+{
+    HudUiService::renderViewportSidePanels(view, width, height, "UI-Parch");
+}
+
 
 float snappedHudFontScale(float scale)
 {
@@ -1631,6 +1636,7 @@ void GameplayPartyOverlayRenderer::renderRestOverlay(const OutdoorGameView &view
     }
 
     setupHudProjection(width, height);
+    renderViewportParchmentSidePanels(view, width, height);
 
     float mouseX = 0.0f;
     float mouseY = 0.0f;
@@ -1767,6 +1773,7 @@ void GameplayPartyOverlayRenderer::renderMenuOverlay(const OutdoorGameView &view
     }
 
     setupHudProjection(width, height);
+    renderViewportParchmentSidePanels(view, width, height);
 
     float mouseX = 0.0f;
     float mouseY = 0.0f;
@@ -1902,6 +1909,7 @@ void GameplayPartyOverlayRenderer::renderControlsOverlay(const OutdoorGameView &
     }
 
     setupHudProjection(width, height);
+    renderViewportParchmentSidePanels(view, width, height);
 
     float mouseX = 0.0f;
     float mouseY = 0.0f;
@@ -2147,6 +2155,7 @@ void GameplayPartyOverlayRenderer::renderKeyboardOverlay(const OutdoorGameView &
     }
 
     setupHudProjection(width, height);
+    renderViewportParchmentSidePanels(view, width, height);
 
     float mouseX = 0.0f;
     float mouseY = 0.0f;
@@ -2316,6 +2325,7 @@ void GameplayPartyOverlayRenderer::renderVideoOptionsOverlay(const OutdoorGameVi
     }
 
     setupHudProjection(width, height);
+    renderViewportParchmentSidePanels(view, width, height);
 
     float mouseX = 0.0f;
     float mouseY = 0.0f;
@@ -2510,6 +2520,7 @@ void GameplayPartyOverlayRenderer::renderSaveLoadOverlay(
     }
 
     setupHudProjection(width, height);
+    renderViewportParchmentSidePanels(view, width, height);
 
     float mouseX = 0.0f;
     float mouseY = 0.0f;
@@ -2659,7 +2670,9 @@ void GameplayPartyOverlayRenderer::renderSaveLoadOverlay(
 
                     if (bgfx::isValid(textureHandle.textureHandle))
                     {
+                        const size_t textureIndex = mutableView.m_hudTextureHandles.size();
                         mutableView.m_hudTextureHandles.push_back(std::move(textureHandle));
+                        mutableView.m_hudTextureIndexByName[mutableView.m_hudTextureHandles.back().textureName] = textureIndex;
                         pTexture = &mutableView.m_hudTextureHandles.back();
                     }
                 }
@@ -2894,6 +2907,7 @@ void GameplayPartyOverlayRenderer::renderJournalOverlay(const OutdoorGameView &v
     }
 
     setupHudProjection(width, height);
+    renderViewportParchmentSidePanels(view, width, height);
 
     float mouseX = 0.0f;
     float mouseY = 0.0f;
@@ -3171,7 +3185,9 @@ void GameplayPartyOverlayRenderer::renderJournalOverlay(const OutdoorGameView &v
                                 return nullptr;
                             }
 
+                            const size_t textureIndex = mutableView.m_hudTextureHandles.size();
                             mutableView.m_hudTextureHandles.push_back(std::move(textureHandle));
+                            mutableView.m_hudTextureIndexByName[mutableView.m_hudTextureHandles.back().textureName] = textureIndex;
                             pTexture = &mutableView.m_hudTextureHandles.back();
                         }
                         else if (!bgfx::isValid(pTexture->textureHandle)
@@ -3639,6 +3655,7 @@ void GameplayPartyOverlayRenderer::renderUtilitySpellOverlay(const OutdoorGameVi
     }
 
     setupHudProjection(width, height);
+    renderViewportParchmentSidePanels(view, width, height);
 
     float mouseX = 0.0f;
     float mouseY = 0.0f;
@@ -3992,6 +4009,7 @@ void GameplayPartyOverlayRenderer::renderSpellbookOverlay(const OutdoorGameView 
         };
 
     setupHudProjection(width, height);
+    renderViewportParchmentSidePanels(view, width, height);
 
     float mouseX = 0.0f;
     float mouseY = 0.0f;
@@ -6321,6 +6339,7 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
 
     OutdoorGameView &mutableView = const_cast<OutdoorGameView &>(view);
     setupHudProjection(width, height);
+    renderViewportParchmentSidePanels(view, width, height);
 
     const UiViewportRect uiViewport = computeUiViewportRect(width, height);
     const float baseScale = std::min(uiViewport.width / HudReferenceWidth, uiViewport.height / HudReferenceHeight);

@@ -6402,6 +6402,7 @@ void OutdoorGameView::shutdown()
         OutdoorBillboardRenderer::invalidateRenderAssets(*this);
         OutdoorRenderer::invalidateSkyResources(*this);
         m_hudTextureHandles.clear();
+        m_hudTextureIndexByName.clear();
         m_hudFontHandles.clear();
         m_hudFontColorTextureHandles.clear();
         m_hudTextureColorTextureHandles.clear();
@@ -6616,6 +6617,7 @@ void OutdoorGameView::shutdown()
     }
 
     m_hudTextureHandles.clear();
+    m_hudTextureIndexByName.clear();
     for (HudFontHandle &fontHandle : m_hudFontHandles)
     {
         if (bgfx::isValid(fontHandle.mainTextureHandle))
@@ -6926,7 +6928,6 @@ void OutdoorGameView::setCameraAngles(float yawRadians, float pitchRadians)
 void OutdoorGameView::requestOpenNewGameScreen()
 {
     m_pendingOpenNewGameScreen = true;
-    closeMenu();
 }
 
 void OutdoorGameView::reopenMenuScreen()
@@ -9176,7 +9177,6 @@ void OutdoorGameView::closeSaveGameScreen()
 void OutdoorGameView::openLoadGameScreen()
 {
     m_pendingOpenLoadGameScreen = true;
-    closeMenu();
 }
 
 void OutdoorGameView::closeLoadGameScreen()
@@ -9293,35 +9293,7 @@ void OutdoorGameView::refreshLoadGameSlots()
         m_loadGameScreen.slots.end(),
         [](const SaveSlotSummary &left, const SaveSlotSummary &right)
         {
-            const std::string leftLabel = toLowerCopy(left.fileLabel);
-            const std::string rightLabel = toLowerCopy(right.fileLabel);
-
-            if (leftLabel == rightLabel)
-            {
-                return left.path.filename().string() < right.path.filename().string();
-            }
-
-            if (leftLabel == "autosave")
-            {
-                return true;
-            }
-
-            if (rightLabel == "autosave")
-            {
-                return false;
-            }
-
-            if (leftLabel == "quicksave")
-            {
-                return true;
-            }
-
-            if (rightLabel == "quicksave")
-            {
-                return false;
-            }
-
-            return left.path.filename().string() < right.path.filename().string();
+            return compareSavePathsForDisplay(left.path, right.path);
         });
 
     if (m_loadGameScreen.selectedIndex >= m_loadGameScreen.slots.size())
@@ -12746,7 +12718,9 @@ bool OutdoorGameView::loadHudTexture(const Engine::AssetFileSystem &assetFileSys
         return false;
     }
 
+    const size_t index = m_hudTextureHandles.size();
     m_hudTextureHandles.push_back(std::move(textureHandle));
+    m_hudTextureIndexByName[m_hudTextureHandles.back().textureName] = index;
     return true;
 }
 

@@ -217,6 +217,23 @@ std::string gameplayUiLayoutString(GameplayUiLayout layout)
     return "widescreen";
 }
 
+std::string windowModeString(WindowMode mode)
+{
+    switch (mode)
+    {
+    case WindowMode::Windowed:
+        return "windowed";
+
+    case WindowMode::WindowedFullscreen:
+        return "windowed_fullscreen";
+
+    case WindowMode::Fullscreen:
+        return "fullscreen";
+    }
+
+    return "windowed";
+}
+
 TurnRateMode parseTurnRateMode(const std::string &value)
 {
     const std::string normalized = toLowerCopy(trimCopy(value));
@@ -244,6 +261,54 @@ GameplayUiLayout parseGameplayUiLayout(const std::string &value)
     }
 
     return GameplayUiLayout::Widescreen;
+}
+
+WindowMode parseWindowMode(const std::string &value)
+{
+    const std::string normalized = toLowerCopy(trimCopy(value));
+
+    if (normalized == "fullscreen")
+    {
+        return WindowMode::Fullscreen;
+    }
+
+    if (normalized == "windowed_fullscreen"
+        || normalized == "windowed-fullscreen"
+        || normalized == "borderless")
+    {
+        return WindowMode::WindowedFullscreen;
+    }
+
+    return WindowMode::Windowed;
+}
+
+bool parseResolutionValue(const std::string &value, int &width, int &height)
+{
+    const std::string normalized = toLowerCopy(trimCopy(value));
+    const size_t separatorPos = normalized.find('x');
+
+    if (separatorPos == std::string::npos)
+    {
+        return false;
+    }
+
+    int parsedWidth = 0;
+    int parsedHeight = 0;
+
+    if (!parseIntValue(normalized.substr(0, separatorPos), parsedWidth)
+        || !parseIntValue(normalized.substr(separatorPos + 1), parsedHeight))
+    {
+        return false;
+    }
+
+    if (parsedWidth <= 0 || parsedHeight <= 0)
+    {
+        return false;
+    }
+
+    width = parsedWidth;
+    height = parsedHeight;
+    return true;
 }
 }
 
@@ -452,6 +517,23 @@ std::optional<GameSettings> loadGameSettings(const std::filesystem::path &path, 
         settings.gameplayUiLayout = parseGameplayUiLayout(*value);
     }
 
+    if (const std::optional<std::string> value = getIniValue(document, "video", "window_mode"))
+    {
+        settings.windowMode = parseWindowMode(*value);
+    }
+
+    if (const std::optional<std::string> value = getIniValue(document, "video", "resolution"))
+    {
+        int parsedWidth = settings.resolutionWidth;
+        int parsedHeight = settings.resolutionHeight;
+
+        if (parseResolutionValue(*value, parsedWidth, parsedHeight))
+        {
+            settings.resolutionWidth = std::clamp(parsedWidth, 320, 16384);
+            settings.resolutionHeight = std::clamp(parsedHeight, 200, 16384);
+        }
+    }
+
     if (const std::optional<std::string> value = getIniValue(document, "startup", "start_in_main_menu"))
     {
         bool parsed = settings.startInMainMenu;
@@ -642,6 +724,9 @@ bool saveGameSettings(const std::filesystem::path &path, const GameSettings &set
         << "ui_filtering=" << settings.uiFiltering << '\n'
         << "text_filtering=" << settings.textFiltering << '\n'
         << "minimap_filtering=" << settings.minimapFiltering << '\n'
+        << "window_mode=" << windowModeString(settings.windowMode) << '\n'
+        << "resolution=" << std::clamp(settings.resolutionWidth, 320, 16384)
+        << 'x' << std::clamp(settings.resolutionHeight, 200, 16384) << '\n'
         << "gameplay_ui_layout=" << gameplayUiLayoutString(settings.gameplayUiLayout) << "\n\n"
         << "[debug]\n"
         << "preseed_party=" << (settings.preseedParty ? "true" : "false") << '\n'

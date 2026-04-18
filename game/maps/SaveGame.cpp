@@ -1,6 +1,7 @@
 #include "game/maps/SaveGame.h"
 
 #include <bitset>
+#include <cctype>
 #include <cstdint>
 #include <cstring>
 #include <fstream>
@@ -15,6 +16,35 @@ namespace
 {
 constexpr uint32_t SaveVersion = 18;
 constexpr char SaveMagic[8] = {'O', 'Y', 'S', 'A', 'V', 'E', '1', '\0'};
+
+std::string toLowerCopy(const std::string &value)
+{
+    std::string normalized = value;
+
+    for (char &character : normalized)
+    {
+        character = static_cast<char>(std::tolower(static_cast<unsigned char>(character)));
+    }
+
+    return normalized;
+}
+
+int savePathDisplayPriority(const std::filesystem::path &path)
+{
+    const std::string stem = toLowerCopy(path.stem().string());
+
+    if (stem == "autosave")
+    {
+        return 0;
+    }
+
+    if (stem == "quicksave")
+    {
+        return 1;
+    }
+
+    return 2;
+}
 
 class BinaryWriter
 {
@@ -2120,5 +2150,18 @@ std::optional<GameSaveData> loadGameDataFromPath(const std::filesystem::path &pa
     }
 
     return data;
+}
+
+bool compareSavePathsForDisplay(const std::filesystem::path &left, const std::filesystem::path &right)
+{
+    const int leftPriority = savePathDisplayPriority(left);
+    const int rightPriority = savePathDisplayPriority(right);
+
+    if (leftPriority != rightPriority)
+    {
+        return leftPriority < rightPriority;
+    }
+
+    return toLowerCopy(left.filename().string()) < toLowerCopy(right.filename().string());
 }
 }

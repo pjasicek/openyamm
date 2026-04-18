@@ -110,6 +110,7 @@ public:
     bool loadLayoutFile(const Engine::AssetFileSystem &assetFileSystem, const std::string &path);
 
     const LayoutElement *findElement(const std::string &layoutId) const;
+    const std::vector<std::string> &sortedLayoutIdsForScreenCached(const std::string &screen) const;
     std::vector<std::string> sortedLayoutIdsForScreen(const std::string &screen) const;
     int maxZIndexForScreen(const std::string &screen) const;
     static int defaultZIndexForScreen(const std::string &screen);

@@ -510,6 +510,8 @@ void LoadGameScreen::drawScreen(float deltaSeconds)
 
     const Rect rootRect = resolveLayoutRect("LoadGameRoot", ReferenceWidth, ReferenceHeight).value_or(
         Rect{0.0f, 0.0f, ReferenceWidth, ReferenceHeight});
+
+    drawViewportSidePanels("UI-Parch", ReferenceWidth, ReferenceHeight);
     drawTexture(resolveAssetName("LoadGameBackground", "Lsave640"), rootRect);
 
     if (const std::optional<Rect> titleRect = resolveLayoutRect("LoadGameTitle"))
@@ -716,35 +718,7 @@ void LoadGameScreen::refreshSaveSlots()
         m_slots.end(),
         [](const SaveSlotSummary &left, const SaveSlotSummary &right)
         {
-            const std::string leftLabel = toLowerCopy(left.fileLabel);
-            const std::string rightLabel = toLowerCopy(right.fileLabel);
-
-            if (leftLabel == rightLabel)
-            {
-                return left.path.filename().string() < right.path.filename().string();
-            }
-
-            if (leftLabel == "autosave")
-            {
-                return true;
-            }
-
-            if (rightLabel == "autosave")
-            {
-                return false;
-            }
-
-            if (leftLabel == "quicksave")
-            {
-                return true;
-            }
-
-            if (rightLabel == "quicksave")
-            {
-                return false;
-            }
-
-            return left.path.filename().string() < right.path.filename().string();
+            return compareSavePathsForDisplay(left.path, right.path);
         });
 
     if (m_selectedIndex >= m_slots.size())

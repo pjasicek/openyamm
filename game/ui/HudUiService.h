@@ -12,6 +12,8 @@
 
 namespace OpenYAMM::Game
 {
+class GameplayOverlayContext;
+
 class HudUiService
 {
 public:
@@ -20,6 +22,9 @@ public:
     static const OutdoorGameView::HudLayoutElement *findHudLayoutElement(
         const OutdoorGameView &view,
         const std::string &layoutId);
+    static const std::vector<std::string> &sortedHudLayoutIdsForScreenCached(
+        const OutdoorGameView &view,
+        const std::string &screen);
     static std::vector<std::string> sortedHudLayoutIdsForScreen(const OutdoorGameView &view, const std::string &screen);
     static int maxHudLayoutZIndexForScreen(const OutdoorGameView &view, const std::string &screen);
     static int defaultHudLayoutZIndexForScreen(const std::string &screen);
@@ -73,6 +78,16 @@ public:
         OutdoorGameView &view,
         const std::string &textureName,
         uint32_t abgrColor);
+    static void renderViewportSidePanels(
+        const OutdoorGameView &view,
+        int screenWidth,
+        int screenHeight,
+        const std::string &textureName);
+    static void renderViewportSidePanels(
+        GameplayOverlayContext &view,
+        int screenWidth,
+        int screenHeight,
+        const std::string &textureName);
     static std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolveHudLayoutElement(
         const OutdoorGameView &view,
         const std::string &layoutId,

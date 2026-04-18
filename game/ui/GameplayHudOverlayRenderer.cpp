@@ -1,5 +1,6 @@
 #include "game/ui/GameplayHudOverlayRenderer.h"
 #include "game/ui/GameplayOverlayContext.h"
+#include "game/ui/HudUiService.h"
 
 #include "game/items/ItemRuntime.h"
 #include "game/tables/ItemTable.h"
@@ -175,6 +176,11 @@ std::string replaceAll(std::string text, const std::string &from, const std::str
 
     return text;
 }
+
+void renderViewportParchmentSidePanels(GameplayOverlayContext &view, int width, int height)
+{
+    HudUiService::renderViewportSidePanels(view, width, height, "UI-Parch");
+}
 } // namespace
 
 void GameplayHudOverlayRenderer::renderChestPanel(GameplayOverlayContext &view, int width, int height, bool renderAboveHud)
@@ -199,6 +205,11 @@ void GameplayHudOverlayRenderer::renderChestPanel(GameplayOverlayContext &view, 
     const std::vector<std::string> orderedChestLayoutIds = view.sortedHudLayoutIdsForScreen("Chest");
     const Party *pParty = view.partyRuntime() != nullptr ? &view.partyRuntime()->party() : nullptr;
     const int hudZThreshold = view.defaultHudLayoutZIndexForScreen("OutdoorHud");
+
+    if (!renderAboveHud)
+    {
+        renderViewportParchmentSidePanels(view, width, height);
+    }
 
     for (const std::string &layoutId : orderedChestLayoutIds)
     {
@@ -453,6 +464,8 @@ void GameplayHudOverlayRenderer::renderInventoryNestedOverlay(
     {
         return;
     }
+
+    renderViewportParchmentSidePanels(view, width, height);
 
     if (!pPageLayout->primaryAsset.empty())
     {

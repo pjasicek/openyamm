@@ -12,10 +12,13 @@
 #include <SDL3/SDL.h>
 
 #include <algorithm>
+#include <bit>
 #include <cmath>
 #include <filesystem>
 #include <limits>
 #include <string_view>
+#include <unordered_map>
+#include <vector>
 
 namespace OpenYAMM::Game
 {
@@ -37,6 +40,62 @@ struct UiViewportRect
     float width = 0.0f;
     float height = 0.0f;
 };
+
+struct HudLayoutResolveKey
+{
+    std::string layoutId;
+    uint32_t fallbackWidthBits = 0;
+    uint32_t fallbackHeightBits = 0;
+
+    bool operator==(const HudLayoutResolveKey &other) const = default;
+};
+
+struct HudLayoutResolveKeyHash
+{
+    size_t operator()(const HudLayoutResolveKey &key) const
+    {
+        const size_t layoutHash = std::hash<std::string>{}(key.layoutId);
+        const size_t widthHash = std::hash<uint32_t>{}(key.fallbackWidthBits);
+        const size_t heightHash = std::hash<uint32_t>{}(key.fallbackHeightBits);
+        return layoutHash ^ (widthHash << 1) ^ (heightHash << 2);
+    }
+};
+
+struct HudQuadBatchItem
+{
+    bgfx::TextureHandle textureHandle = BGFX_INVALID_HANDLE;
+    float x = 0.0f;
+    float y = 0.0f;
+    float width = 0.0f;
+    float height = 0.0f;
+    float u0 = 0.0f;
+    float v0 = 0.0f;
+    float u1 = 1.0f;
+    float v1 = 1.0f;
+    bool clipped = false;
+    uint16_t scissorX = 0;
+    uint16_t scissorY = 0;
+    uint16_t scissorWidth = 0;
+    uint16_t scissorHeight = 0;
+};
+
+bool canBatchHudQuadRun(const HudQuadBatchItem &left, const HudQuadBatchItem &right)
+{
+    if (left.textureHandle.idx != right.textureHandle.idx || left.clipped != right.clipped)
+    {
+        return false;
+    }
+
+    if (!left.clipped)
+    {
+        return true;
+    }
+
+    return left.scissorX == right.scissorX
+        && left.scissorY == right.scissorY
+        && left.scissorWidth == right.scissorWidth
+        && left.scissorHeight == right.scissorHeight;
+}
 
 enum class PortraitAggroIndicator
 {
@@ -241,38 +300,224 @@ void GameplayHudRenderer::renderGameplayHudArt(OutdoorGameView &view, int width,
             : ActiveGameplayHudLayout::Widescreen);
     const bool isLimitedOverlayHud = gameplayHudLayout == ActiveGameplayHudLayout::Overlay;
     const bool useGameplayWideHud = gameplayHudLayout == ActiveGameplayHudLayout::Widescreen;
+    constexpr size_t MissingHudTextureIndex = static_cast<size_t>(-1);
+    std::unordered_map<std::string, size_t> hudTextureIndexCache;
+    hudTextureIndexCache.reserve(64);
+    std::unordered_map<std::string, const OutdoorGameView::HudLayoutElement *> hudLayoutElementCache;
+    hudLayoutElementCache.reserve(128);
+    std::unordered_map<HudLayoutResolveKey, std::optional<OutdoorGameView::ResolvedHudLayoutElement>, HudLayoutResolveKeyHash>
+        resolvedLayoutCache;
+    resolvedLayoutCache.reserve(128);
+    std::vector<HudQuadBatchItem> queuedHudQuads;
+    queuedHudQuads.reserve(256);
+
+    const auto findHudLayoutElementCached =
+        [&view, &hudLayoutElementCache](const std::string &layoutId) -> const OutdoorGameView::HudLayoutElement *
+        {
+            const std::string normalizedLayoutId = toLowerCopy(layoutId);
+            const auto cachedIterator = hudLayoutElementCache.find(normalizedLayoutId);
+
+            if (cachedIterator != hudLayoutElementCache.end())
+            {
+                return cachedIterator->second;
+            }
+
+            const OutdoorGameView::HudLayoutElement *pLayout = HudUiService::findHudLayoutElement(view, layoutId);
+            hudLayoutElementCache.emplace(normalizedLayoutId, pLayout);
+            return pLayout;
+        };
+
+    const auto loadHudTextureCached =
+        [&view, &hudTextureIndexCache](const std::string &textureName) -> const OutdoorGameView::HudTextureHandle *
+        {
+            if (textureName.empty())
+            {
+                return nullptr;
+            }
+
+            const std::string normalizedTextureName = toLowerCopy(textureName);
+            const auto cachedIterator = hudTextureIndexCache.find(normalizedTextureName);
+
+            if (cachedIterator != hudTextureIndexCache.end())
+            {
+                if (cachedIterator->second == MissingHudTextureIndex || cachedIterator->second >= view.m_hudTextureHandles.size())
+                {
+                    return nullptr;
+                }
+
+                return &view.m_hudTextureHandles[cachedIterator->second];
+            }
+
+            const OutdoorGameView::HudTextureHandle *pTexture = HudUiService::ensureHudTextureLoaded(view, textureName);
+            size_t textureIndex = MissingHudTextureIndex;
+
+            if (pTexture != nullptr)
+            {
+                const auto textureIterator = view.m_hudTextureIndexByName.find(normalizedTextureName);
+
+                if (textureIterator != view.m_hudTextureIndexByName.end())
+                {
+                    textureIndex = textureIterator->second;
+                }
+            }
+
+            hudTextureIndexCache.emplace(normalizedTextureName, textureIndex);
+
+            if (textureIndex == MissingHudTextureIndex || textureIndex >= view.m_hudTextureHandles.size())
+            {
+                return nullptr;
+            }
+
+            return &view.m_hudTextureHandles[textureIndex];
+        };
+
+    const auto resolveLayoutCached =
+        [&view, width, height, &resolvedLayoutCache](
+            const std::string &layoutId,
+            float fallbackWidth,
+            float fallbackHeight) -> std::optional<OutdoorGameView::ResolvedHudLayoutElement>
+        {
+            HudLayoutResolveKey key = {};
+            key.layoutId = toLowerCopy(layoutId);
+            key.fallbackWidthBits = std::bit_cast<uint32_t>(fallbackWidth);
+            key.fallbackHeightBits = std::bit_cast<uint32_t>(fallbackHeight);
+            const auto cachedIterator = resolvedLayoutCache.find(key);
+
+            if (cachedIterator != resolvedLayoutCache.end())
+            {
+                return cachedIterator->second;
+            }
+
+            std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolved =
+                HudUiService::resolveHudLayoutElement(
+                    view,
+                    layoutId,
+                    width,
+                    height,
+                    fallbackWidth,
+                    fallbackHeight);
+            resolvedLayoutCache.emplace(std::move(key), resolved);
+            return resolved;
+        };
+
+    const auto flushQueuedHudQuads =
+        [&view, &queuedHudQuads, width, height]()
+        {
+            if (queuedHudQuads.empty())
+            {
+                return;
+            }
+
+            float modelMatrix[16] = {};
+            bx::mtxIdentity(modelMatrix);
+            size_t quadIndex = 0;
+
+            while (quadIndex < queuedHudQuads.size())
+            {
+                size_t runEnd = quadIndex + 1;
+
+                while (runEnd < queuedHudQuads.size() && canBatchHudQuadRun(queuedHudQuads[runEnd - 1], queuedHudQuads[runEnd]))
+                {
+                    ++runEnd;
+                }
+
+                while (quadIndex < runEnd)
+                {
+                    const uint32_t availableVertexCount =
+                        bgfx::getAvailTransientVertexBuffer(
+                            static_cast<uint32_t>((runEnd - quadIndex) * 6),
+                            OutdoorGameView::TexturedTerrainVertex::ms_layout);
+
+                    if (availableVertexCount < 6)
+                    {
+                        return;
+                    }
+
+                    const size_t quadCount = std::min<size_t>(runEnd - quadIndex, availableVertexCount / 6);
+                    bgfx::TransientVertexBuffer transientVertexBuffer = {};
+                    bgfx::allocTransientVertexBuffer(
+                        &transientVertexBuffer,
+                        static_cast<uint32_t>(quadCount * 6),
+                        OutdoorGameView::TexturedTerrainVertex::ms_layout);
+                    auto *pVertices =
+                        reinterpret_cast<OutdoorGameView::TexturedTerrainVertex *>(transientVertexBuffer.data);
+
+                    for (size_t localIndex = 0; localIndex < quadCount; ++localIndex)
+                    {
+                        const HudQuadBatchItem &quad = queuedHudQuads[quadIndex + localIndex];
+                        OutdoorGameView::TexturedTerrainVertex *pQuadVertices = pVertices + localIndex * 6;
+                        pQuadVertices[0] = {quad.x, quad.y, 0.0f, quad.u0, quad.v0};
+                        pQuadVertices[1] = {quad.x + quad.width, quad.y, 0.0f, quad.u1, quad.v0};
+                        pQuadVertices[2] = {quad.x + quad.width, quad.y + quad.height, 0.0f, quad.u1, quad.v1};
+                        pQuadVertices[3] = {quad.x, quad.y, 0.0f, quad.u0, quad.v0};
+                        pQuadVertices[4] = {quad.x + quad.width, quad.y + quad.height, 0.0f, quad.u1, quad.v1};
+                        pQuadVertices[5] = {quad.x, quad.y + quad.height, 0.0f, quad.u0, quad.v1};
+                    }
+
+                    const HudQuadBatchItem &firstQuad = queuedHudQuads[quadIndex];
+                    bgfx::setTransform(modelMatrix);
+                    bgfx::setVertexBuffer(0, &transientVertexBuffer);
+                    bindTexture(
+                        0,
+                        view.m_terrainTextureSamplerHandle,
+                        firstQuad.textureHandle,
+                        TextureFilterProfile::Ui,
+                        BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP);
+
+                    if (firstQuad.clipped)
+                    {
+                        bgfx::setScissor(
+                            firstQuad.scissorX,
+                            firstQuad.scissorY,
+                            firstQuad.scissorWidth,
+                            firstQuad.scissorHeight);
+                    }
+
+                    bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_BLEND_ALPHA);
+                    bgfx::submit(HudViewId, view.m_texturedTerrainProgramHandle);
+
+                    if (firstQuad.clipped)
+                    {
+                        bgfx::setScissor(0, 0, static_cast<uint16_t>(width), static_cast<uint16_t>(height));
+                    }
+
+                    quadIndex += quadCount;
+                }
+            }
+        };
+
     const std::string basebarLayoutId = basebarLayoutIdForHudLayout(gameplayHudLayout);
     const std::string partyStripLayoutId = partyStripLayoutIdForHudLayout(gameplayHudLayout);
     const OutdoorGameView::HudLayoutElement *pBasebarLayout =
-        HudUiService::findHudLayoutElement(view, basebarLayoutId);
+        findHudLayoutElementCached(basebarLayoutId);
     const OutdoorGameView::HudLayoutElement *pPartyStripLayout =
-        HudUiService::findHudLayoutElement(view, partyStripLayoutId);
+        findHudLayoutElementCached(partyStripLayoutId);
 
     if (pBasebarLayout == nullptr || pPartyStripLayout == nullptr)
     {
         return;
     }
 
-    const OutdoorGameView::HudTextureHandle *pBasebar = HudUiService::ensureHudTextureLoaded(view, pBasebarLayout->primaryAsset);
+    const OutdoorGameView::HudTextureHandle *pBasebar = loadHudTextureCached(pBasebarLayout->primaryAsset);
     const OutdoorGameView::HudTextureHandle *pGameplayBasebarEnder =
-        useGameplayWideHud ? HudUiService::ensureHudTextureLoaded(view, "Basebar_ender") : nullptr;
+        useGameplayWideHud ? loadHudTextureCached("Basebar_ender") : nullptr;
     const OutdoorGameView::HudTextureHandle *pFaceMask =
-        HudUiService::ensureHudTextureLoaded(view, pPartyStripLayout->primaryAsset);
+        loadHudTextureCached(pPartyStripLayout->primaryAsset);
     const OutdoorGameView::HudTextureHandle *pSelectionRing =
-        HudUiService::ensureHudTextureLoaded(view, pPartyStripLayout->secondaryAsset);
+        loadHudTextureCached(pPartyStripLayout->secondaryAsset);
     const OutdoorGameView::HudTextureHandle *pManaFrame =
-        HudUiService::ensureHudTextureLoaded(view, pPartyStripLayout->tertiaryAsset);
+        loadHudTextureCached(pPartyStripLayout->tertiaryAsset);
     const OutdoorGameView::HudTextureHandle *pHealthBar =
-        HudUiService::ensureHudTextureLoaded(view, pPartyStripLayout->quaternaryAsset);
-    const OutdoorGameView::HudTextureHandle *pHealthBarYellow = HudUiService::ensureHudTextureLoaded(view, "manaY");
-    const OutdoorGameView::HudTextureHandle *pHealthBarRed = HudUiService::ensureHudTextureLoaded(view, "manar");
+        loadHudTextureCached(pPartyStripLayout->quaternaryAsset);
+    const OutdoorGameView::HudTextureHandle *pHealthBarYellow = loadHudTextureCached("manaY");
+    const OutdoorGameView::HudTextureHandle *pHealthBarRed = loadHudTextureCached("manar");
     const OutdoorGameView::HudTextureHandle *pManaBar =
-        HudUiService::ensureHudTextureLoaded(view, pPartyStripLayout->quinaryAsset);
-    const OutdoorGameView::HudTextureHandle *pAggroBlack = HudUiService::ensureHudTextureLoaded(view, "statBL");
-    const OutdoorGameView::HudTextureHandle *pAggroRed = HudUiService::ensureHudTextureLoaded(view, "statR");
-    const OutdoorGameView::HudTextureHandle *pAggroYellow = HudUiService::ensureHudTextureLoaded(view, "statY");
-    const OutdoorGameView::HudTextureHandle *pAggroGreen = HudUiService::ensureHudTextureLoaded(view, "statG");
-    const OutdoorGameView::HudTextureHandle *pBlessIcon = HudUiService::ensureHudTextureLoaded(view, "IB_spelico");
+        loadHudTextureCached(pPartyStripLayout->quinaryAsset);
+    const OutdoorGameView::HudTextureHandle *pAggroBlack = loadHudTextureCached("statBL");
+    const OutdoorGameView::HudTextureHandle *pAggroRed = loadHudTextureCached("statR");
+    const OutdoorGameView::HudTextureHandle *pAggroYellow = loadHudTextureCached("statY");
+    const OutdoorGameView::HudTextureHandle *pAggroGreen = loadHudTextureCached("statG");
+    const OutdoorGameView::HudTextureHandle *pBlessIcon = loadHudTextureCached("IB_spelico");
     const Party &party = view.m_pOutdoorPartyRuntime->party();
     const std::vector<Character> &members = party.members();
 
@@ -283,20 +528,10 @@ void GameplayHudRenderer::renderGameplayHudArt(OutdoorGameView &view, int width,
 
     view.consumePendingPortraitEventFxRequests();
 
-    const std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolvedBasebar = HudUiService::resolveHudLayoutElement(
-        view,
-        basebarLayoutId,
-        width,
-        height,
-        static_cast<float>(pBasebar->width),
-        static_cast<float>(pBasebar->height));
-    const std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolvedPartyStrip = HudUiService::resolveHudLayoutElement(
-        view,
-        partyStripLayoutId,
-        width,
-        height,
-        static_cast<float>(pBasebar->width),
-        static_cast<float>(pBasebar->height));
+    const std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolvedBasebar =
+        resolveLayoutCached(basebarLayoutId, static_cast<float>(pBasebar->width), static_cast<float>(pBasebar->height));
+    const std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolvedPartyStrip =
+        resolveLayoutCached(partyStripLayoutId, static_cast<float>(pBasebar->width), static_cast<float>(pBasebar->height));
 
     if (!resolvedBasebar || !resolvedPartyStrip)
     {
@@ -355,94 +590,84 @@ void GameplayHudRenderer::renderGameplayHudArt(OutdoorGameView &view, int width,
     const bool isLeftMousePressed = (characterMouseButtons & SDL_BUTTON_LMASK) != 0;
 
     const auto submitTexturedQuad =
-        [&view](const OutdoorGameView::HudTextureHandle &texture, float x, float y, float quadWidth, float quadHeight)
+        [&queuedHudQuads](
+            const OutdoorGameView::HudTextureHandle &texture,
+            float x,
+            float y,
+            float quadWidth,
+            float quadHeight)
         {
-            view.submitHudTexturedQuad(texture, x, y, quadWidth, quadHeight);
+            if (!bgfx::isValid(texture.textureHandle) || quadWidth <= 0.0f || quadHeight <= 0.0f)
+            {
+                return;
+            }
+
+            HudQuadBatchItem quad = {};
+            quad.textureHandle = texture.textureHandle;
+            quad.x = x;
+            quad.y = y;
+            quad.width = quadWidth;
+            quad.height = quadHeight;
+            queuedHudQuads.push_back(quad);
         };
 
     const auto submitTexturedQuadUv =
-        [&view](const OutdoorGameView::HudTextureHandle &texture,
-                float x,
-                float y,
-                float quadWidth,
-                float quadHeight,
-                float u0,
-                float v0,
-                float u1,
-                float v1)
+        [&queuedHudQuads](const OutdoorGameView::HudTextureHandle &texture,
+                          float x,
+                          float y,
+                          float quadWidth,
+                          float quadHeight,
+                          float u0,
+                          float v0,
+                          float u1,
+                          float v1)
         {
-            if (!bgfx::isValid(texture.textureHandle)
-                || bgfx::getAvailTransientVertexBuffer(6, OutdoorGameView::TexturedTerrainVertex::ms_layout) < 6)
+            if (!bgfx::isValid(texture.textureHandle) || quadWidth <= 0.0f || quadHeight <= 0.0f)
             {
                 return;
             }
 
-            bgfx::TransientVertexBuffer transientVertexBuffer;
-            bgfx::allocTransientVertexBuffer(&transientVertexBuffer, 6, OutdoorGameView::TexturedTerrainVertex::ms_layout);
-            auto *pVertices = reinterpret_cast<OutdoorGameView::TexturedTerrainVertex *>(transientVertexBuffer.data);
-
-            pVertices[0] = {x, y, 0.0f, u0, v0};
-            pVertices[1] = {x + quadWidth, y, 0.0f, u1, v0};
-            pVertices[2] = {x + quadWidth, y + quadHeight, 0.0f, u1, v1};
-            pVertices[3] = {x, y, 0.0f, u0, v0};
-            pVertices[4] = {x + quadWidth, y + quadHeight, 0.0f, u1, v1};
-            pVertices[5] = {x, y + quadHeight, 0.0f, u0, v1};
-
-            float modelMatrix[16] = {};
-            bx::mtxIdentity(modelMatrix);
-            bgfx::setTransform(modelMatrix);
-            bgfx::setVertexBuffer(0, &transientVertexBuffer);
-            bindTexture(
-                0,
-                view.m_terrainTextureSamplerHandle,
-                texture.textureHandle,
-                TextureFilterProfile::Ui,
-                BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP);
-            bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_BLEND_ALPHA);
-            bgfx::submit(HudViewId, view.m_texturedTerrainProgramHandle);
+            HudQuadBatchItem quad = {};
+            quad.textureHandle = texture.textureHandle;
+            quad.x = x;
+            quad.y = y;
+            quad.width = quadWidth;
+            quad.height = quadHeight;
+            quad.u0 = u0;
+            quad.v0 = v0;
+            quad.u1 = u1;
+            quad.v1 = v1;
+            queuedHudQuads.push_back(quad);
         };
 
     const auto submitTexturedQuadClipped =
-        [&view](const OutdoorGameView::HudTextureHandle &texture,
-                float x,
-                float y,
-                float quadWidth,
-                float quadHeight,
-                uint16_t scissorX,
-                uint16_t scissorY,
-                uint16_t scissorWidth,
-                uint16_t scissorHeight)
+        [&queuedHudQuads](const OutdoorGameView::HudTextureHandle &texture,
+                          float x,
+                          float y,
+                          float quadWidth,
+                          float quadHeight,
+                          uint16_t scissorX,
+                          uint16_t scissorY,
+                          uint16_t scissorWidth,
+                          uint16_t scissorHeight)
         {
-            if (!bgfx::isValid(texture.textureHandle)
-                || bgfx::getAvailTransientVertexBuffer(6, OutdoorGameView::TexturedTerrainVertex::ms_layout) < 6)
+            if (!bgfx::isValid(texture.textureHandle) || quadWidth <= 0.0f || quadHeight <= 0.0f)
             {
                 return;
             }
 
-            bgfx::TransientVertexBuffer transientVertexBuffer;
-            bgfx::allocTransientVertexBuffer(&transientVertexBuffer, 6, OutdoorGameView::TexturedTerrainVertex::ms_layout);
-            auto *pVertices = reinterpret_cast<OutdoorGameView::TexturedTerrainVertex *>(transientVertexBuffer.data);
-
-            pVertices[0] = {x, y, 0.0f, 0.0f, 0.0f};
-            pVertices[1] = {x + quadWidth, y, 0.0f, 1.0f, 0.0f};
-            pVertices[2] = {x + quadWidth, y + quadHeight, 0.0f, 1.0f, 1.0f};
-            pVertices[3] = {x, y, 0.0f, 0.0f, 0.0f};
-            pVertices[4] = {x + quadWidth, y + quadHeight, 0.0f, 1.0f, 1.0f};
-            pVertices[5] = {x, y + quadHeight, 0.0f, 0.0f, 1.0f};
-
-            float modelMatrix[16] = {};
-            bx::mtxIdentity(modelMatrix);
-            bgfx::setTransform(modelMatrix);
-            bgfx::setVertexBuffer(0, &transientVertexBuffer);
-            bindTexture(
-                0,
-                view.m_terrainTextureSamplerHandle,
-                texture.textureHandle,
-                TextureFilterProfile::Ui,
-                BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP);
-            bgfx::setScissor(scissorX, scissorY, scissorWidth, scissorHeight);
-            bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_BLEND_ALPHA);
-            bgfx::submit(HudViewId, view.m_texturedTerrainProgramHandle);
+            HudQuadBatchItem quad = {};
+            quad.textureHandle = texture.textureHandle;
+            quad.x = x;
+            quad.y = y;
+            quad.width = quadWidth;
+            quad.height = quadHeight;
+            quad.clipped = true;
+            quad.scissorX = scissorX;
+            quad.scissorY = scissorY;
+            quad.scissorWidth = scissorWidth;
+            quad.scissorHeight = scissorHeight;
+            queuedHudQuads.push_back(quad);
         };
 
     const auto renderGameplayBasebarLeftAttachment =
@@ -453,15 +678,14 @@ void GameplayHudRenderer::renderGameplayHudArt(OutdoorGameView &view, int width,
                 return;
             }
 
-            const OutdoorGameView::HudLayoutElement *pLayout = HudUiService::findHudLayoutElement(view, layoutId);
+            const OutdoorGameView::HudLayoutElement *pLayout = findHudLayoutElementCached(layoutId);
 
             if (pLayout == nullptr || pLayout->primaryAsset.empty() || !pLayout->visible)
             {
                 return;
             }
 
-            const OutdoorGameView::HudTextureHandle *pTexture =
-                HudUiService::ensureHudTextureLoaded(view, pLayout->primaryAsset);
+            const OutdoorGameView::HudTextureHandle *pTexture = loadHudTextureCached(pLayout->primaryAsset);
 
             if (pTexture == nullptr)
             {
@@ -485,15 +709,14 @@ void GameplayHudRenderer::renderGameplayHudArt(OutdoorGameView &view, int width,
                 return;
             }
 
-            const OutdoorGameView::HudLayoutElement *pLayout = HudUiService::findHudLayoutElement(view, layoutId);
+            const OutdoorGameView::HudLayoutElement *pLayout = findHudLayoutElementCached(layoutId);
 
             if (pLayout == nullptr || pLayout->primaryAsset.empty() || !pLayout->visible)
             {
                 return;
             }
 
-            const OutdoorGameView::HudTextureHandle *pTexture =
-                HudUiService::ensureHudTextureLoaded(view, pLayout->primaryAsset);
+            const OutdoorGameView::HudTextureHandle *pTexture = loadHudTextureCached(pLayout->primaryAsset);
 
             if (pTexture == nullptr)
             {
@@ -618,7 +841,7 @@ void GameplayHudRenderer::renderGameplayHudArt(OutdoorGameView &view, int width,
             return true;
         };
     const auto isDescendantOf =
-        [&view](const OutdoorGameView::HudLayoutElement &layout, const std::string &ancestorId) -> bool
+        [&findHudLayoutElementCached](const OutdoorGameView::HudLayoutElement &layout, const std::string &ancestorId) -> bool
         {
             const std::string normalizedAncestorId = toLowerCopy(ancestorId);
             const OutdoorGameView::HudLayoutElement *pCurrent = &layout;
@@ -635,7 +858,7 @@ void GameplayHudRenderer::renderGameplayHudArt(OutdoorGameView &view, int width,
                     break;
                 }
 
-                pCurrent = HudUiService::findHudLayoutElement(view, pCurrent->parentId);
+                pCurrent = findHudLayoutElementCached(pCurrent->parentId);
             }
 
             return false;
@@ -712,7 +935,7 @@ void GameplayHudRenderer::renderGameplayHudArt(OutdoorGameView &view, int width,
         const float portraitX = portraitStartX + static_cast<float>(memberIndex) * portraitDeltaX;
         const float portraitInset = 2.0f * uiScale;
         const std::string portraitTextureName = view.resolvePortraitTextureName(member);
-        const OutdoorGameView::HudTextureHandle *pPortrait = HudUiService::ensureHudTextureLoaded(view, portraitTextureName);
+        const OutdoorGameView::HudTextureHandle *pPortrait = loadHudTextureCached(portraitTextureName);
 
         if (pPortrait != nullptr)
         {
@@ -853,15 +1076,14 @@ void GameplayHudRenderer::renderGameplayHudArt(OutdoorGameView &view, int width,
         for (size_t memberIndex = displayedMemberCount; memberIndex < 5; ++memberIndex)
         {
             const std::string slotShieldId = shieldPrefix + std::to_string(memberIndex + 1);
-            const OutdoorGameView::HudLayoutElement *pShieldLayout = HudUiService::findHudLayoutElement(view, slotShieldId);
+            const OutdoorGameView::HudLayoutElement *pShieldLayout = findHudLayoutElementCached(slotShieldId);
 
             if (pShieldLayout == nullptr || pShieldLayout->primaryAsset.empty())
             {
                 continue;
             }
 
-            const OutdoorGameView::HudTextureHandle *pShieldTexture =
-                HudUiService::ensureHudTextureLoaded(view, pShieldLayout->primaryAsset);
+            const OutdoorGameView::HudTextureHandle *pShieldTexture = loadHudTextureCached(pShieldLayout->primaryAsset);
 
             if (pShieldTexture == nullptr)
             {
@@ -869,11 +1091,8 @@ void GameplayHudRenderer::renderGameplayHudArt(OutdoorGameView &view, int width,
             }
 
             const std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolvedShield =
-                HudUiService::resolveHudLayoutElement(
-                    view,
+                resolveLayoutCached(
                     slotShieldId,
-                    width,
-                    height,
                     pShieldLayout->width > 0.0f ? pShieldLayout->width : static_cast<float>(pShieldTexture->width),
                     pShieldLayout->height > 0.0f ? pShieldLayout->height : static_cast<float>(pShieldTexture->height));
 
@@ -915,7 +1134,7 @@ void GameplayHudRenderer::renderGameplayHudArt(OutdoorGameView &view, int width,
                 return;
             }
 
-            const OutdoorGameView::HudLayoutElement *pLayout = HudUiService::findHudLayoutElement(view, layoutId);
+            const OutdoorGameView::HudLayoutElement *pLayout = findHudLayoutElementCached(layoutId);
 
             if (pLayout == nullptr || !pLayout->visible)
             {
@@ -935,20 +1154,15 @@ void GameplayHudRenderer::renderGameplayHudArt(OutdoorGameView &view, int width,
                 }
 
                 const std::string mapTextureName = toLowerCopy(std::filesystem::path(view.m_map->fileName).stem().string());
-                const OutdoorGameView::HudTextureHandle *pTexture = HudUiService::ensureHudTextureLoaded(view, mapTextureName);
+                const OutdoorGameView::HudTextureHandle *pTexture = loadHudTextureCached(mapTextureName);
 
                 if (pTexture == nullptr)
                 {
                     return;
                 }
 
-                const std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolved = HudUiService::resolveHudLayoutElement(
-                    view,
-                    layoutId,
-                    width,
-                    height,
-                    pLayout->width,
-                    pLayout->height);
+                const std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolved =
+                    resolveLayoutCached(layoutId, pLayout->width, pLayout->height);
 
                 if (!resolved)
                 {
@@ -983,13 +1197,7 @@ void GameplayHudRenderer::renderGameplayHudArt(OutdoorGameView &view, int width,
             }
 
             const std::optional<OutdoorGameView::ResolvedHudLayoutElement> interactiveResolved =
-                HudUiService::resolveHudLayoutElement(
-                    view,
-                    layoutId,
-                    width,
-                    height,
-                    pLayout->width,
-                    pLayout->height);
+                resolveLayoutCached(layoutId, pLayout->width, pLayout->height);
             const std::string *pAssetName = interactiveResolved
                 ? HudUiService::resolveInteractiveAssetName(
                     *pLayout,
@@ -1000,11 +1208,11 @@ void GameplayHudRenderer::renderGameplayHudArt(OutdoorGameView &view, int width,
                 : nullptr;
 
             const OutdoorGameView::HudTextureHandle *pTexture =
-                pAssetName != nullptr ? HudUiService::ensureHudTextureLoaded(view, *pAssetName) : nullptr;
+                pAssetName != nullptr ? loadHudTextureCached(*pAssetName) : nullptr;
 
             if (pTexture == nullptr)
             {
-                pTexture = HudUiService::ensureHudTextureLoaded(view, pLayout->primaryAsset);
+                pTexture = loadHudTextureCached(pLayout->primaryAsset);
             }
 
             if (pTexture == nullptr)
@@ -1012,13 +1220,11 @@ void GameplayHudRenderer::renderGameplayHudArt(OutdoorGameView &view, int width,
                 return;
             }
 
-            const std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolved = HudUiService::resolveHudLayoutElement(
-                view,
-                layoutId,
-                width,
-                height,
-                pLayout->width > 0.0f ? pLayout->width : static_cast<float>(pTexture->width),
-                pLayout->height > 0.0f ? pLayout->height : static_cast<float>(pTexture->height));
+            const std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolved =
+                resolveLayoutCached(
+                    layoutId,
+                    pLayout->width > 0.0f ? pLayout->width : static_cast<float>(pTexture->width),
+                    pLayout->height > 0.0f ? pLayout->height : static_cast<float>(pTexture->height));
 
             if (!resolved)
             {
@@ -1028,7 +1234,8 @@ void GameplayHudRenderer::renderGameplayHudArt(OutdoorGameView &view, int width,
             submitTexturedQuad(*pTexture, resolved->x, resolved->y, resolved->width, resolved->height);
         };
 
-    const std::vector<std::string> orderedGameplayLayoutIds = HudUiService::sortedHudLayoutIdsForScreen(view, "OutdoorHud");
+    const std::vector<std::string> &orderedGameplayLayoutIds =
+        HudUiService::sortedHudLayoutIdsForScreenCached(view, "OutdoorHud");
 
     for (const std::string &layoutId : orderedGameplayLayoutIds)
     {
@@ -1245,8 +1452,7 @@ void GameplayHudRenderer::renderGameplayHudArt(OutdoorGameView &view, int width,
 
         const int arrowIndex = outdoorMinimapArrowIndex(view.m_cameraYawRadians);
         const std::string arrowTextureName = "MAPDIR" + std::to_string(arrowIndex + 1);
-        const OutdoorGameView::HudTextureHandle *pArrowTexture =
-            HudUiService::ensureHudTextureLoaded(view, arrowTextureName);
+        const OutdoorGameView::HudTextureHandle *pArrowTexture = loadHudTextureCached(arrowTextureName);
 
         if (pArrowTexture != nullptr)
         {
@@ -1264,6 +1470,8 @@ void GameplayHudRenderer::renderGameplayHudArt(OutdoorGameView &view, int width,
                 minimapScissorHeight);
         }
     }
+
+    flushQueuedHudQuads();
 }
 
 void GameplayHudRenderer::renderGameplayHud(const OutdoorGameView &view, int width, int height)
