@@ -219,10 +219,10 @@ enum class EvtPartySelector : uint8_t
 
 enum class EvtMechanismState : uint16_t
 {
-    Closed = 0,
-    Opening = 1,
-    Open = 2,
-    Closing = 3,
+    Open = 0,
+    Closing = 1,
+    Closed = 2,
+    Opening = 3,
 };
 
 enum class EvtMechanismAction : uint32_t

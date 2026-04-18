@@ -22,6 +22,11 @@ bool hasMovingMechanism(const EventRuntimeState &eventRuntimeState)
 
 IndoorSceneRuntime::IndoorSceneRuntime(
     const std::string &mapFileName,
+    const MapStatsEntry &map,
+    const IndoorMapData &indoorMapData,
+    const MonsterTable &monsterTable,
+    const ObjectTable &objectTable,
+    const ItemTable &itemTable,
     Party &party,
     const std::optional<MapDeltaData> &indoorMapDeltaData,
     const std::optional<EventRuntimeState> &eventRuntimeState,
@@ -33,7 +38,46 @@ IndoorSceneRuntime::IndoorSceneRuntime(
     , m_eventRuntimeState(eventRuntimeState)
     , m_localEventProgram(localEventProgram)
     , m_globalEventProgram(globalEventProgram)
+    , m_partyRuntime(
+        IndoorMovementController(indoorMapData, &m_mapDeltaData, &m_eventRuntimeState),
+        itemTable)
 {
+    m_worldRuntime.initialize(
+        map,
+        monsterTable,
+        objectTable,
+        itemTable,
+        m_pParty,
+        &m_mapDeltaData,
+        &m_eventRuntimeState
+    );
+    m_partyRuntime.setParty(*m_pParty);
+
+    if (!indoorMapData.vertices.empty())
+    {
+        int minX = indoorMapData.vertices.front().x;
+        int maxX = indoorMapData.vertices.front().x;
+        int minY = indoorMapData.vertices.front().y;
+        int maxY = indoorMapData.vertices.front().y;
+        int minZ = indoorMapData.vertices.front().z;
+        int maxZ = indoorMapData.vertices.front().z;
+
+        for (const IndoorVertex &vertex : indoorMapData.vertices)
+        {
+            minX = std::min(minX, vertex.x);
+            maxX = std::max(maxX, vertex.x);
+            minY = std::min(minY, vertex.y);
+            maxY = std::max(maxY, vertex.y);
+            minZ = std::min(minZ, vertex.z);
+            maxZ = std::max(maxZ, vertex.z);
+        }
+
+        m_partyRuntime.initializeEyePosition(
+            static_cast<float>((minX + maxX) / 2),
+            static_cast<float>(minY - 256),
+            static_cast<float>((minZ + maxZ) / 2),
+            false);
+    }
 }
 
 SceneKind IndoorSceneRuntime::kind() const
@@ -80,7 +124,7 @@ std::optional<EventRuntimeState::PendingMapMove> IndoorSceneRuntime::consumePend
 
 void IndoorSceneRuntime::advanceGameMinutes(float minutes)
 {
-    (void)minutes;
+    m_worldRuntime.advanceGameMinutes(minutes);
 }
 
 const std::optional<MapDeltaData> &IndoorSceneRuntime::mapDeltaData() const
@@ -103,11 +147,32 @@ const std::optional<ScriptedEventProgram> &IndoorSceneRuntime::globalEventProgra
     return m_globalEventProgram;
 }
 
+IndoorWorldRuntime &IndoorSceneRuntime::worldRuntime()
+{
+    return m_worldRuntime;
+}
+
+IndoorPartyRuntime &IndoorSceneRuntime::partyRuntime()
+{
+    return m_partyRuntime;
+}
+
+const IndoorPartyRuntime &IndoorSceneRuntime::partyRuntime() const
+{
+    return m_partyRuntime;
+}
+
+const IndoorWorldRuntime &IndoorSceneRuntime::worldRuntime() const
+{
+    return m_worldRuntime;
+}
+
 IndoorSceneRuntime::Snapshot IndoorSceneRuntime::snapshot() const
 {
     Snapshot snapshot = {};
     snapshot.mapDeltaData = m_mapDeltaData;
     snapshot.eventRuntimeState = m_eventRuntimeState;
+    snapshot.partyRuntime = m_partyRuntime.snapshot();
     snapshot.mechanismAccumulatorMilliseconds = m_mechanismAccumulatorMilliseconds;
     return snapshot;
 }
@@ -116,6 +181,8 @@ void IndoorSceneRuntime::restoreSnapshot(const Snapshot &snapshot)
 {
     m_mapDeltaData = snapshot.mapDeltaData;
     m_eventRuntimeState = snapshot.eventRuntimeState;
+    m_partyRuntime.restoreSnapshot(snapshot.partyRuntime);
+    m_partyRuntime.setParty(*m_pParty);
     m_mechanismAccumulatorMilliseconds = snapshot.mechanismAccumulatorMilliseconds;
 }
 
@@ -181,7 +248,7 @@ bool IndoorSceneRuntime::activateEvent(uint16_t eventId, const std::string &sour
         eventId,
         *m_eventRuntimeState,
         m_pParty,
-        nullptr
+        &m_worldRuntime
     );
 
     if (!executed)
@@ -190,6 +257,8 @@ bool IndoorSceneRuntime::activateEvent(uint16_t eventId, const std::string &sour
         return false;
     }
 
+    m_worldRuntime.applyEventRuntimeState();
+    m_pParty->applyEventRuntimeState(*m_eventRuntimeState);
     m_eventRuntimeState->lastActivationResult = "event " + std::to_string(eventId) + " executed";
     return true;
 }

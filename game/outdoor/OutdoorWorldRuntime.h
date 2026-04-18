@@ -676,6 +676,7 @@ public:
     std::optional<EventRuntimeState::PendingMapMove> consumePendingMapMove();
 
     const Party *party() const;
+    const MapDeltaData *mapDeltaData() const override;
     EventRuntimeState *eventRuntimeState();
     const EventRuntimeState *eventRuntimeState() const;
     bool castEventSpell(

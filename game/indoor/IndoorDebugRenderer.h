@@ -3,6 +3,7 @@
 #include "engine/AssetScaleTier.h"
 #include "game/indoor/IndoorMapData.h"
 #include "game/tables/ChestTable.h"
+#include "game/tables/ObjectTable.h"
 #include "game/maps/MapDeltaData.h"
 #include "game/maps/MapAssetLoader.h"
 #include "game/tables/MapStats.h"
@@ -41,10 +42,12 @@ public:
         const std::optional<ActorPreviewBillboardSet> &indoorActorPreviewBillboardSet,
         const std::optional<SpriteObjectBillboardSet> &indoorSpriteObjectBillboardSet,
         IndoorSceneRuntime &sceneRuntime,
+        const ObjectTable &objectTable,
         const ChestTable &chestTable,
         const HouseTable &houseTable
     );
     void render(int width, int height, float mouseWheelDelta, float deltaSeconds);
+    void setCameraPosition(float x, float y, float z);
     void shutdown();
 
 private:
@@ -160,6 +163,7 @@ private:
         const std::vector<IndoorVertex> &vertices,
         const OutdoorBitmapTexture &texture,
         const std::vector<size_t> *pFaceIndices,
+        const std::optional<MapDeltaData> &indoorMapDeltaData,
         const std::optional<EventRuntimeState> &eventRuntimeState
     );
     static std::vector<TexturedVertex> buildFaceTexturedVertices(
@@ -167,6 +171,7 @@ private:
         const std::vector<IndoorVertex> &vertices,
         const OutdoorBitmapTexture &texture,
         size_t faceIndex,
+        const std::optional<MapDeltaData> &indoorMapDeltaData,
         const std::optional<EventRuntimeState> &eventRuntimeState
     );
     static std::vector<TerrainVertex> buildWireframeVertices(
@@ -215,6 +220,7 @@ private:
     bool m_isRenderable;
     std::optional<MapStatsEntry> m_map;
     std::optional<MonsterTable> m_monsterTable;
+    std::optional<ObjectTable> m_objectTable;
     std::optional<IndoorMapData> m_indoorMapData;
     std::vector<IndoorVertex> m_renderVertices;
     IndoorSceneRuntime *m_pSceneRuntime = nullptr;
@@ -280,5 +286,6 @@ private:
     bool m_toggleTextureFilteringLatch;
     bool m_toggleInspectLatch;
     bool m_activateInspectLatch;
+    bool m_jumpHeld;
 };
 }

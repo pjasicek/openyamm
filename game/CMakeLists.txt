@@ -48,7 +48,11 @@ add_executable(openyamm
     items/ItemRuntime.cpp
     tables/ItemTable.cpp
     indoor/IndoorDebugRenderer.cpp
+    indoor/IndoorGeometryUtils.cpp
     indoor/IndoorMapData.cpp
+    indoor/IndoorMovementController.cpp
+    indoor/IndoorPartyRuntime.cpp
+    indoor/IndoorWorldRuntime.cpp
     maps/MapAssetLoader.cpp
     maps/MapRegistry.cpp
     tables/MapStats.cpp

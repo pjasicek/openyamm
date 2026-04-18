@@ -40,6 +40,10 @@ bool evaluateCompareValue(
     int32_t compareValue,
     const Party *pParty,
     const std::vector<size_t> &targetMemberIndices);
+const MapDeltaDoor *findMechanismDoorById(const MapDeltaData *pMapDeltaData, uint32_t mechanismId);
+void initializeRuntimeMechanismStateFromDoor(
+    const MapDeltaDoor &door,
+    RuntimeMechanismState &runtimeMechanism);
 
 int32_t moveToMapYawUnitsToDegrees(int32_t yawUnits)
 {
@@ -168,12 +172,12 @@ std::optional<InventoryItem> createGrantedEventItem(
 
 float mechanismDistanceForState(const MapDeltaDoor &door, uint16_t state, float timeSinceTriggeredMs)
 {
-    if (state == static_cast<uint16_t>(EvtMechanismState::Closed))
+    if (state == static_cast<uint16_t>(EvtMechanismState::Open))
     {
         return 0.0f;
     }
 
-    if (state == static_cast<uint16_t>(EvtMechanismState::Open) || (door.attributes & 0x2) != 0)
+    if (state == static_cast<uint16_t>(EvtMechanismState::Closed) || (door.attributes & 0x2) != 0)
     {
         return static_cast<float>(door.moveLength);
     }
@@ -182,17 +186,49 @@ float mechanismDistanceForState(const MapDeltaDoor &door, uint16_t state, float 
 
     if (state == static_cast<uint16_t>(EvtMechanismState::Closing))
     {
-        const float openDistance = elapsedMilliseconds * static_cast<float>(door.openSpeed) / 1000.0f;
-        return std::max(0.0f, static_cast<float>(door.moveLength) - openDistance);
+        const float closingDistance = elapsedMilliseconds * static_cast<float>(door.closeSpeed) / 1000.0f;
+        return std::min(closingDistance, static_cast<float>(door.moveLength));
     }
 
     if (state == static_cast<uint16_t>(EvtMechanismState::Opening))
     {
-        const float closeDistance = elapsedMilliseconds * static_cast<float>(door.closeSpeed) / 1000.0f;
-        return std::min(closeDistance, static_cast<float>(door.moveLength));
+        const float openingDistance = elapsedMilliseconds * static_cast<float>(door.openSpeed) / 1000.0f;
+        return std::max(0.0f, static_cast<float>(door.moveLength) - openingDistance);
     }
 
     return 0.0f;
+}
+
+const MapDeltaDoor *findMechanismDoorById(const MapDeltaData *pMapDeltaData, uint32_t mechanismId)
+{
+    if (pMapDeltaData == nullptr)
+    {
+        return nullptr;
+    }
+
+    for (const MapDeltaDoor &door : pMapDeltaData->doors)
+    {
+        if (door.doorId == mechanismId)
+        {
+            return &door;
+        }
+    }
+
+    return nullptr;
+}
+
+void initializeRuntimeMechanismStateFromDoor(
+    const MapDeltaDoor &door,
+    RuntimeMechanismState &runtimeMechanism)
+{
+    runtimeMechanism = {};
+    runtimeMechanism.state = door.state;
+    runtimeMechanism.timeSinceTriggeredMs = float(door.timeSinceTriggered);
+    runtimeMechanism.currentDistance =
+        mechanismDistanceForState(door, runtimeMechanism.state, runtimeMechanism.timeSinceTriggeredMs);
+    runtimeMechanism.isMoving =
+        door.state == static_cast<uint16_t>(EvtMechanismState::Opening)
+        || door.state == static_cast<uint16_t>(EvtMechanismState::Closing);
 }
 
 enum class PartySelectorKind
@@ -3619,18 +3655,30 @@ int luaMoveToMap(lua_State *pLuaState)
 {
     EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState);
     EventRuntimeState::PendingMapMove move = {};
+    const int argumentCount = lua_gettop(pLuaState);
     move.x = static_cast<int32_t>(luaL_checkinteger(pLuaState, 1));
     move.y = static_cast<int32_t>(luaL_checkinteger(pLuaState, 2));
     move.z = static_cast<int32_t>(luaL_checkinteger(pLuaState, 3));
 
-    if (lua_gettop(pLuaState) >= 4 && lua_type(pLuaState, 4) != LUA_TNIL)
+    if (argumentCount >= 4 && lua_type(pLuaState, 4) != LUA_TNIL)
     {
         move.directionDegrees = moveToMapYawUnitsToDegrees(static_cast<int32_t>(luaL_checkinteger(pLuaState, 4)));
     }
 
-    if (lua_gettop(pLuaState) >= 5 && lua_type(pLuaState, 5) == LUA_TSTRING)
+    int mapNameArgumentIndex = 0;
+
+    if (argumentCount >= 9 && lua_type(pLuaState, 9) == LUA_TSTRING)
     {
-        const std::string mapName = sanitizeEventString(lua_tostring(pLuaState, 5));
+        mapNameArgumentIndex = 9;
+    }
+    else if (argumentCount >= 5 && lua_type(pLuaState, 5) == LUA_TSTRING)
+    {
+        mapNameArgumentIndex = 5;
+    }
+
+    if (mapNameArgumentIndex != 0)
+    {
+        const std::string mapName = sanitizeEventString(lua_tostring(pLuaState, mapNameArgumentIndex));
 
         if (!mapName.empty())
         {
@@ -4117,10 +4165,30 @@ int luaRemoveItems(lua_State *pLuaState)
 
 int luaSetDoorState(lua_State *pLuaState)
 {
+    LuaExecutionContext *pExecutionContext = executionContextFromLua(pLuaState);
     EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState);
+
+    if (pRuntimeState == nullptr)
+    {
+        return 0;
+    }
+
     const uint32_t mechanismId = static_cast<uint32_t>(luaL_checkinteger(pLuaState, 1));
     const uint32_t actionValue = static_cast<uint32_t>(luaL_checkinteger(pLuaState, 2));
-    RuntimeMechanismState &runtimeMechanism = pRuntimeState->mechanisms[mechanismId];
+    const MapDeltaData *pMapDeltaData =
+        pExecutionContext != nullptr && pExecutionContext->pSceneEventContext != nullptr
+            ? pExecutionContext->pSceneEventContext->mapDeltaData()
+            : nullptr;
+    const MapDeltaDoor *pDoor = findMechanismDoorById(pMapDeltaData, mechanismId);
+
+    auto [iterator, inserted] = pRuntimeState->mechanisms.try_emplace(mechanismId);
+    RuntimeMechanismState &runtimeMechanism = iterator->second;
+
+    if (inserted && pDoor != nullptr)
+    {
+        initializeRuntimeMechanismStateFromDoor(*pDoor, runtimeMechanism);
+    }
+
     MechanismAction action = MechanismAction::Open;
 
     if (actionValue == static_cast<uint32_t>(EvtMechanismAction::Close))
@@ -4132,7 +4200,7 @@ int luaSetDoorState(lua_State *pLuaState)
         action = MechanismAction::Trigger;
     }
 
-    EventRuntime::applyMechanismAction(runtimeMechanism, action);
+    EventRuntime::applyMechanismAction(runtimeMechanism, pDoor, action);
     pRuntimeState->lastAffectedMechanismIds.push_back(mechanismId);
     return 0;
 }
@@ -4644,13 +4712,7 @@ bool EventRuntime::buildOnLoadState(
         for (const MapDeltaDoor &door : mapDeltaData->doors)
         {
             RuntimeMechanismState runtimeMechanism = {};
-            runtimeMechanism.state = door.state;
-            runtimeMechanism.timeSinceTriggeredMs = float(door.timeSinceTriggered);
-            runtimeMechanism.currentDistance =
-                mechanismDistanceForState(door, runtimeMechanism.state, runtimeMechanism.timeSinceTriggeredMs);
-            runtimeMechanism.isMoving =
-                door.state == static_cast<uint16_t>(EvtMechanismState::Opening)
-                || door.state == static_cast<uint16_t>(EvtMechanismState::Closing);
+            initializeRuntimeMechanismStateFromDoor(door, runtimeMechanism);
             runtimeState.mechanisms[door.doorId] = runtimeMechanism;
         }
 
@@ -4887,25 +4949,25 @@ void EventRuntime::advanceMechanisms(
 
         if (runtimeMechanism.state == static_cast<uint16_t>(EvtMechanismState::Closing))
         {
-            const float openedDistance = runtimeMechanism.timeSinceTriggeredMs * float(door.openSpeed) / 1000.0f;
+            const float closedDistance = runtimeMechanism.timeSinceTriggeredMs * float(door.closeSpeed) / 1000.0f;
 
-            if (openedDistance >= float(door.moveLength))
+            if (closedDistance >= float(door.moveLength))
             {
                 runtimeMechanism.state = static_cast<uint16_t>(EvtMechanismState::Closed);
                 runtimeMechanism.timeSinceTriggeredMs = 0.0f;
-                runtimeMechanism.currentDistance = 0.0f;
+                runtimeMechanism.currentDistance = static_cast<float>(door.moveLength);
                 runtimeMechanism.isMoving = false;
             }
         }
         else if (runtimeMechanism.state == static_cast<uint16_t>(EvtMechanismState::Opening))
         {
-            const float closedDistance = runtimeMechanism.timeSinceTriggeredMs * float(door.closeSpeed) / 1000.0f;
+            const float openedDistance = runtimeMechanism.timeSinceTriggeredMs * float(door.openSpeed) / 1000.0f;
 
-            if (closedDistance >= float(door.moveLength))
+            if (openedDistance >= float(door.moveLength))
             {
                 runtimeMechanism.state = static_cast<uint16_t>(EvtMechanismState::Open);
                 runtimeMechanism.timeSinceTriggeredMs = 0.0f;
-                runtimeMechanism.currentDistance = static_cast<float>(door.moveLength);
+                runtimeMechanism.currentDistance = 0.0f;
                 runtimeMechanism.isMoving = false;
             }
         }
@@ -4966,6 +5028,7 @@ float EventRuntime::calculateMechanismDistance(
 
 void EventRuntime::applyMechanismAction(
     RuntimeMechanismState &runtimeMechanism,
+    const MapDeltaDoor *pDoor,
     MechanismAction action
 )
 {
@@ -4978,28 +5041,21 @@ void EventRuntime::applyMechanismAction(
         }
 
         runtimeMechanism.timeSinceTriggeredMs = 0.0f;
-        runtimeMechanism.state = runtimeMechanism.state == static_cast<uint16_t>(EvtMechanismState::Open)
-            ? static_cast<uint16_t>(EvtMechanismState::Closing)
-            : static_cast<uint16_t>(EvtMechanismState::Opening);
+
+        if (runtimeMechanism.state == static_cast<uint16_t>(EvtMechanismState::Closed))
+        {
+            runtimeMechanism.state = static_cast<uint16_t>(EvtMechanismState::Opening);
+        }
+        else
+        {
+            runtimeMechanism.state = static_cast<uint16_t>(EvtMechanismState::Closing);
+        }
+
         runtimeMechanism.isMoving = true;
         return;
     }
 
     if (action == MechanismAction::Open)
-    {
-        if (runtimeMechanism.state == static_cast<uint16_t>(EvtMechanismState::Closed)
-            || runtimeMechanism.state == static_cast<uint16_t>(EvtMechanismState::Closing))
-        {
-            return;
-        }
-
-        runtimeMechanism.timeSinceTriggeredMs = 0.0f;
-        runtimeMechanism.state = static_cast<uint16_t>(EvtMechanismState::Closing);
-        runtimeMechanism.isMoving = true;
-        return;
-    }
-
-    if (action == MechanismAction::Close)
     {
         if (runtimeMechanism.state == static_cast<uint16_t>(EvtMechanismState::Open)
             || runtimeMechanism.state == static_cast<uint16_t>(EvtMechanismState::Opening))
@@ -5007,8 +5063,42 @@ void EventRuntime::applyMechanismAction(
             return;
         }
 
-        runtimeMechanism.timeSinceTriggeredMs = 0.0f;
+        if (pDoor != nullptr && runtimeMechanism.state == static_cast<uint16_t>(EvtMechanismState::Closing))
+        {
+            const float openDistance =
+                std::max(0.0f, static_cast<float>(pDoor->moveLength) - runtimeMechanism.currentDistance);
+            runtimeMechanism.timeSinceTriggeredMs =
+                openDistance * 1000.0f / std::max(1.0f, static_cast<float>(pDoor->openSpeed));
+        }
+        else
+        {
+            runtimeMechanism.timeSinceTriggeredMs = 0.0f;
+        }
+
         runtimeMechanism.state = static_cast<uint16_t>(EvtMechanismState::Opening);
+        runtimeMechanism.isMoving = true;
+        return;
+    }
+
+    if (action == MechanismAction::Close)
+    {
+        if (runtimeMechanism.state == static_cast<uint16_t>(EvtMechanismState::Closed)
+            || runtimeMechanism.state == static_cast<uint16_t>(EvtMechanismState::Closing))
+        {
+            return;
+        }
+
+        if (pDoor != nullptr && runtimeMechanism.state == static_cast<uint16_t>(EvtMechanismState::Opening))
+        {
+            runtimeMechanism.timeSinceTriggeredMs =
+                runtimeMechanism.currentDistance * 1000.0f / std::max(1.0f, static_cast<float>(pDoor->closeSpeed));
+        }
+        else
+        {
+            runtimeMechanism.timeSinceTriggeredMs = 0.0f;
+        }
+
+        runtimeMechanism.state = static_cast<uint16_t>(EvtMechanismState::Closing);
         runtimeMechanism.isMoving = true;
     }
 }

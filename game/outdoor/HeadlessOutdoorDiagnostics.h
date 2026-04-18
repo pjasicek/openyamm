@@ -9,10 +9,10 @@
 
 namespace OpenYAMM::Game
 {
-class HeadlessOutdoorDiagnostics
+class HeadlessGameplayDiagnostics
 {
 public:
-    explicit HeadlessOutdoorDiagnostics(const Engine::ApplicationConfig &config);
+    explicit HeadlessGameplayDiagnostics(const Engine::ApplicationConfig &config);
 
     int runOpenEvent(
         const std::filesystem::path &basePath,

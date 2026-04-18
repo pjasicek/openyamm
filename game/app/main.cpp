@@ -100,7 +100,7 @@ int runApplication(int argc, char **argv)
             return 2;
         }
 
-        OpenYAMM::Game::HeadlessOutdoorDiagnostics diagnostics(config);
+        OpenYAMM::Game::HeadlessGameplayDiagnostics diagnostics(config);
         return diagnostics.runOpenEvent(argv[0], mapFileName, static_cast<uint16_t>(parsedEventId));
     }
 
@@ -114,7 +114,7 @@ int runApplication(int argc, char **argv)
             return 2;
         }
 
-        OpenYAMM::Game::HeadlessOutdoorDiagnostics diagnostics(config);
+        OpenYAMM::Game::HeadlessGameplayDiagnostics diagnostics(config);
         return diagnostics.runOpenActor(argv[0], mapFileName, static_cast<size_t>(parsedActorIndex));
     }
 
@@ -142,19 +142,19 @@ int runApplication(int argc, char **argv)
             actionIndices.push_back(static_cast<size_t>(parsedActionIndex));
         }
 
-        OpenYAMM::Game::HeadlessOutdoorDiagnostics diagnostics(config);
+        OpenYAMM::Game::HeadlessGameplayDiagnostics diagnostics(config);
         return diagnostics.runDialogSequence(argv[0], mapFileName, static_cast<uint16_t>(parsedEventId), actionIndices);
     }
 
     if (arguments.size() == 2 && arguments[0] == "--headless-run-regression-suite")
     {
-        OpenYAMM::Game::HeadlessOutdoorDiagnostics diagnostics(config);
+        OpenYAMM::Game::HeadlessGameplayDiagnostics diagnostics(config);
         return diagnostics.runRegressionSuite(argv[0], arguments[1]);
     }
 
     if (arguments.size() == 2 && arguments[0] == "--headless-profile-map-load-full")
     {
-        OpenYAMM::Game::HeadlessOutdoorDiagnostics diagnostics(config);
+        OpenYAMM::Game::HeadlessGameplayDiagnostics diagnostics(config);
         return diagnostics.runProfileFullMapLoad(argv[0], arguments[1]);
     }
 
@@ -170,7 +170,7 @@ int runApplication(int argc, char **argv)
             return 2;
         }
 
-        OpenYAMM::Game::HeadlessOutdoorDiagnostics diagnostics(config);
+        OpenYAMM::Game::HeadlessGameplayDiagnostics diagnostics(config);
         return diagnostics.runSimulateActor(
             argv[0],
             mapFileName,
@@ -191,7 +191,7 @@ int runApplication(int argc, char **argv)
             return 2;
         }
 
-        OpenYAMM::Game::HeadlessOutdoorDiagnostics diagnostics(config);
+        OpenYAMM::Game::HeadlessGameplayDiagnostics diagnostics(config);
         return diagnostics.runTraceActorAi(
             argv[0],
             mapFileName,
@@ -210,7 +210,7 @@ int runApplication(int argc, char **argv)
             return 2;
         }
 
-        OpenYAMM::Game::HeadlessOutdoorDiagnostics diagnostics(config);
+        OpenYAMM::Game::HeadlessGameplayDiagnostics diagnostics(config);
         return diagnostics.runInspectActorPreview(argv[0], mapFileName, static_cast<size_t>(parsedActorIndex));
     }
 
@@ -224,7 +224,7 @@ int runApplication(int argc, char **argv)
             return 2;
         }
 
-        OpenYAMM::Game::HeadlessOutdoorDiagnostics diagnostics(config);
+        OpenYAMM::Game::HeadlessGameplayDiagnostics diagnostics(config);
         return diagnostics.runDumpActorSupport(argv[0], mapFileName, static_cast<size_t>(parsedActorIndex));
     }
 
@@ -238,7 +238,7 @@ int runApplication(int argc, char **argv)
             return 2;
         }
 
-        OpenYAMM::Game::HeadlessOutdoorDiagnostics diagnostics(config);
+        OpenYAMM::Game::HeadlessGameplayDiagnostics diagnostics(config);
         return diagnostics.runDumpActorPreviewTexture(
             argv[0],
             mapFileName,

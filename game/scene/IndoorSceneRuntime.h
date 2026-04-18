@@ -1,5 +1,7 @@
 #pragma once
 
+#include "game/indoor/IndoorPartyRuntime.h"
+#include "game/indoor/IndoorWorldRuntime.h"
 #include "game/events/ScriptedEventProgram.h"
 #include "game/events/EventRuntime.h"
 #include "game/maps/MapDeltaData.h"
@@ -18,11 +20,17 @@ public:
     {
         std::optional<MapDeltaData> mapDeltaData;
         std::optional<EventRuntimeState> eventRuntimeState;
+        IndoorPartyRuntime::Snapshot partyRuntime;
         float mechanismAccumulatorMilliseconds = 0.0f;
     };
 
     IndoorSceneRuntime(
         const std::string &mapFileName,
+        const MapStatsEntry &map,
+        const IndoorMapData &indoorMapData,
+        const MonsterTable &monsterTable,
+        const ObjectTable &objectTable,
+        const ItemTable &itemTable,
         Party &party,
         const std::optional<MapDeltaData> &indoorMapDeltaData,
         const std::optional<EventRuntimeState> &eventRuntimeState,
@@ -43,6 +51,10 @@ public:
     const std::optional<EventRuntimeState> &eventRuntimeStateStorage() const;
     const std::optional<ScriptedEventProgram> &localEventProgram() const;
     const std::optional<ScriptedEventProgram> &globalEventProgram() const;
+    IndoorPartyRuntime &partyRuntime();
+    const IndoorPartyRuntime &partyRuntime() const;
+    IndoorWorldRuntime &worldRuntime();
+    const IndoorWorldRuntime &worldRuntime() const;
     Snapshot snapshot() const;
     void restoreSnapshot(const Snapshot &snapshot);
     bool advanceSimulation(float deltaMilliseconds);
@@ -56,6 +68,8 @@ private:
     std::optional<ScriptedEventProgram> m_localEventProgram;
     std::optional<ScriptedEventProgram> m_globalEventProgram;
     EventRuntime m_eventRuntime;
+    IndoorPartyRuntime m_partyRuntime;
+    IndoorWorldRuntime m_worldRuntime;
     float m_mechanismAccumulatorMilliseconds = 0.0f;
 };
 }

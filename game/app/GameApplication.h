@@ -28,7 +28,7 @@
 
 namespace OpenYAMM::Game
 {
-class HeadlessOutdoorDiagnostics;
+class HeadlessGameplayDiagnostics;
 struct GameApplicationTestAccess;
 
 class GameApplication
@@ -39,7 +39,7 @@ public:
     int run();
 
 private:
-    friend class HeadlessOutdoorDiagnostics;
+    friend class HeadlessGameplayDiagnostics;
     friend struct GameApplicationTestAccess;
 
     bool loadGameData(const Engine::AssetFileSystem &assetFileSystem);

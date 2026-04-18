@@ -4,12 +4,15 @@
 
 namespace OpenYAMM::Game
 {
+struct MapDeltaData;
+
 class ISceneEventContext
 {
 public:
     virtual ~ISceneEventContext() = default;
 
     virtual float currentGameMinutes() const = 0;
+    virtual const MapDeltaData *mapDeltaData() const = 0;
 
     virtual bool castEventSpell(
         uint32_t spellId,

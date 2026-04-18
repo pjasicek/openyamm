@@ -1,8 +1,11 @@
 #include "game/indoor/IndoorDebugRenderer.h"
 
+#include "game/data/ActorNameResolver.h"
 #include "game/FaceEnums.h"
+#include "game/indoor/IndoorGeometryUtils.h"
 #include "game/render/TextureFiltering.h"
 #include "game/scene/IndoorSceneRuntime.h"
+#include "game/SpriteObjectDefs.h"
 #include "game/SpawnPreview.h"
 #include "game/StringUtils.h"
 
@@ -81,9 +84,173 @@ constexpr uint16_t MainViewId = 0;
 constexpr float Pi = 3.14159265358979323846f;
 constexpr float InspectRayEpsilon = 0.0001f;
 
+struct RuntimeActorBillboard
+{
+    size_t actorIndex = static_cast<size_t>(-1);
+    int x = 0;
+    int y = 0;
+    int z = 0;
+    uint16_t radius = 0;
+    uint16_t height = 0;
+    uint16_t spriteFrameIndex = 0;
+    bool useStaticFrame = false;
+    bool isFriendly = false;
+    std::string actorName;
+};
+
+struct RuntimeSpriteObjectBillboard
+{
+    size_t objectIndex = static_cast<size_t>(-1);
+    int x = 0;
+    int y = 0;
+    int z = 0;
+    int16_t radius = 0;
+    int16_t height = 0;
+    uint16_t objectDescriptionId = 0;
+    uint16_t objectSpriteId = 0;
+    uint16_t attributes = 0;
+    int32_t spellId = 0;
+    uint32_t timeSinceCreatedTicks = 0;
+    std::string objectName;
+};
+
 uint32_t currentAnimationTicks()
 {
     return static_cast<uint32_t>((static_cast<uint64_t>(SDL_GetTicks()) * 128ULL) / 1000ULL);
+}
+
+const MonsterEntry *resolveRuntimeMonsterEntry(const MonsterTable &monsterTable, const MapDeltaActor &actor)
+{
+    const MonsterTable::MonsterDisplayNameEntry *pDisplayEntry =
+        monsterTable.findDisplayEntryById(actor.monsterInfoId);
+
+    if (pDisplayEntry != nullptr)
+    {
+        const MonsterEntry *pMonsterEntry = monsterTable.findByInternalName(pDisplayEntry->pictureName);
+
+        if (pMonsterEntry != nullptr)
+        {
+            return pMonsterEntry;
+        }
+    }
+
+    return monsterTable.findById(actor.monsterId);
+}
+
+uint16_t resolveRuntimeActorSpriteFrameIndex(
+    const SpriteFrameTable &spriteFrameTable,
+    const MapDeltaActor &actor,
+    const MonsterEntry *pMonsterEntry
+)
+{
+    if (pMonsterEntry != nullptr)
+    {
+        for (const std::string &spriteName : pMonsterEntry->spriteNames)
+        {
+            if (spriteName.empty())
+            {
+                continue;
+            }
+
+            const std::optional<uint16_t> frameIndex = spriteFrameTable.findFrameIndexBySpriteName(spriteName);
+
+            if (frameIndex)
+            {
+                return *frameIndex;
+            }
+        }
+    }
+
+    for (uint16_t spriteId : actor.spriteIds)
+    {
+        if (spriteId != 0)
+        {
+            return spriteId;
+        }
+    }
+
+    return 0;
+}
+
+std::vector<RuntimeActorBillboard> buildRuntimeActorBillboards(
+    const MonsterTable &monsterTable,
+    const SpriteFrameTable &spriteFrameTable,
+    const MapDeltaData &mapDeltaData
+)
+{
+    std::vector<RuntimeActorBillboard> billboards;
+    billboards.reserve(mapDeltaData.actors.size());
+
+    for (size_t actorIndex = 0; actorIndex < mapDeltaData.actors.size(); ++actorIndex)
+    {
+        const MapDeltaActor &actor = mapDeltaData.actors[actorIndex];
+        const MonsterEntry *pMonsterEntry = resolveRuntimeMonsterEntry(monsterTable, actor);
+        const uint16_t spriteFrameIndex =
+            resolveRuntimeActorSpriteFrameIndex(spriteFrameTable, actor, pMonsterEntry);
+
+        if (spriteFrameIndex == 0)
+        {
+            continue;
+        }
+
+        RuntimeActorBillboard billboard = {};
+        billboard.actorIndex = actorIndex;
+        billboard.x = actor.x;
+        billboard.y = actor.y;
+        billboard.z = actor.z;
+        billboard.radius = actor.radius;
+        billboard.height = actor.height;
+        billboard.spriteFrameIndex = spriteFrameIndex;
+        billboard.useStaticFrame = false;
+        billboard.isFriendly = (actor.attributes & static_cast<uint32_t>(EvtActorAttribute::Hostile)) == 0;
+        billboard.actorName = resolveMapDeltaActorName(monsterTable, actor);
+        billboards.push_back(std::move(billboard));
+    }
+
+    return billboards;
+}
+
+std::vector<RuntimeSpriteObjectBillboard> buildRuntimeSpriteObjectBillboards(
+    const ObjectTable &objectTable,
+    const MapDeltaData &mapDeltaData
+)
+{
+    std::vector<RuntimeSpriteObjectBillboard> billboards;
+    billboards.reserve(mapDeltaData.spriteObjects.size());
+
+    for (size_t objectIndex = 0; objectIndex < mapDeltaData.spriteObjects.size(); ++objectIndex)
+    {
+        const MapDeltaSpriteObject &spriteObject = mapDeltaData.spriteObjects[objectIndex];
+        const ObjectEntry *pObjectEntry = objectTable.get(spriteObject.objectDescriptionId);
+
+        if (pObjectEntry == nullptr || (pObjectEntry->flags & ObjectDescNoSprite) != 0 || pObjectEntry->spriteId == 0)
+        {
+            continue;
+        }
+
+        if (hasContainingItemPayload(spriteObject.rawContainingItem)
+            && (pObjectEntry->flags & ObjectDescUnpickable) == 0)
+        {
+            continue;
+        }
+
+        RuntimeSpriteObjectBillboard billboard = {};
+        billboard.objectIndex = objectIndex;
+        billboard.x = spriteObject.x;
+        billboard.y = spriteObject.y;
+        billboard.z = spriteObject.z;
+        billboard.radius = pObjectEntry->radius;
+        billboard.height = pObjectEntry->height;
+        billboard.objectDescriptionId = spriteObject.objectDescriptionId;
+        billboard.objectSpriteId = pObjectEntry->spriteId;
+        billboard.attributes = spriteObject.attributes;
+        billboard.spellId = spriteObject.spellId;
+        billboard.timeSinceCreatedTicks = uint32_t(spriteObject.timeSinceCreated) * 8;
+        billboard.objectName = pObjectEntry->internalName;
+        billboards.push_back(std::move(billboard));
+    }
+
+    return billboards;
 }
 
 const SurfaceAnimationSequence *findTextureAnimationBinding(
@@ -164,6 +331,359 @@ bx::Vec3 vecNormalize(const bx::Vec3 &vector)
     }
 
     return {vector.x / vectorLength, vector.y / vectorLength, vector.z / vectorLength};
+}
+
+struct ProjectedFacePoint
+{
+    float x = 0.0f;
+    float y = 0.0f;
+};
+
+struct MechanismFaceTextureState
+{
+    const MapDeltaDoor *pDoor = nullptr;
+    size_t faceOffset = 0;
+    float distance = 0.0f;
+    bx::Vec3 direction = {0.0f, 0.0f, 0.0f};
+};
+
+bx::Vec3 computeFaceNormal(
+    const std::vector<IndoorVertex> &transformedVertices,
+    const IndoorFace &face
+)
+{
+    bx::Vec3 normal = {0.0f, 0.0f, 0.0f};
+
+    if (face.vertexIndices.size() < 3)
+    {
+        return normal;
+    }
+
+    for (size_t index = 0; index < face.vertexIndices.size(); ++index)
+    {
+        const uint16_t currentVertexIndex = face.vertexIndices[index];
+        const uint16_t nextVertexIndex = face.vertexIndices[(index + 1) % face.vertexIndices.size()];
+
+        if (currentVertexIndex >= transformedVertices.size() || nextVertexIndex >= transformedVertices.size())
+        {
+            return {0.0f, 0.0f, 0.0f};
+        }
+
+        const IndoorVertex &currentVertex = transformedVertices[currentVertexIndex];
+        const IndoorVertex &nextVertex = transformedVertices[nextVertexIndex];
+
+        normal.x += (static_cast<float>(currentVertex.y) - static_cast<float>(nextVertex.y))
+            * (static_cast<float>(currentVertex.z) + static_cast<float>(nextVertex.z));
+        normal.y += (static_cast<float>(currentVertex.z) - static_cast<float>(nextVertex.z))
+            * (static_cast<float>(currentVertex.x) + static_cast<float>(nextVertex.x));
+        normal.z += (static_cast<float>(currentVertex.x) - static_cast<float>(nextVertex.x))
+            * (static_cast<float>(currentVertex.y) + static_cast<float>(nextVertex.y));
+    }
+
+    return normal;
+}
+
+ProjectedFacePoint projectFacePoint(const bx::Vec3 &normal, const IndoorVertex &vertex)
+{
+    const float absoluteX = std::fabs(normal.x);
+    const float absoluteY = std::fabs(normal.y);
+    const float absoluteZ = std::fabs(normal.z);
+
+    if (absoluteX >= absoluteY && absoluteX >= absoluteZ)
+    {
+        return {static_cast<float>(vertex.y), static_cast<float>(vertex.z)};
+    }
+
+    if (absoluteY >= absoluteX && absoluteY >= absoluteZ)
+    {
+        return {static_cast<float>(vertex.x), static_cast<float>(vertex.z)};
+    }
+
+    return {static_cast<float>(vertex.x), static_cast<float>(vertex.y)};
+}
+
+float resolveMechanismDistance(
+    const MapDeltaDoor &baseDoor,
+    const std::optional<EventRuntimeState> &eventRuntimeState
+)
+{
+    MapDeltaDoor door = baseDoor;
+    RuntimeMechanismState runtimeMechanism = {};
+    runtimeMechanism.state = door.state;
+    runtimeMechanism.timeSinceTriggeredMs = float(door.timeSinceTriggered);
+    runtimeMechanism.currentDistance = EventRuntime::calculateMechanismDistance(door, runtimeMechanism);
+    runtimeMechanism.isMoving =
+        door.state == static_cast<uint16_t>(EvtMechanismState::Opening)
+        || door.state == static_cast<uint16_t>(EvtMechanismState::Closing);
+
+    if (!eventRuntimeState)
+    {
+        return runtimeMechanism.currentDistance;
+    }
+
+    const std::unordered_map<uint32_t, RuntimeMechanismState>::const_iterator mechanismIterator =
+        eventRuntimeState->mechanisms.find(door.doorId);
+
+    if (mechanismIterator == eventRuntimeState->mechanisms.end())
+    {
+        return runtimeMechanism.currentDistance;
+    }
+
+    door.state = mechanismIterator->second.state;
+    return mechanismIterator->second.isMoving
+        ? EventRuntime::calculateMechanismDistance(door, mechanismIterator->second)
+        : mechanismIterator->second.currentDistance;
+}
+
+std::optional<MechanismFaceTextureState> findMechanismFaceTextureState(
+    size_t faceIndex,
+    const std::optional<MapDeltaData> &indoorMapDeltaData,
+    const std::optional<EventRuntimeState> &eventRuntimeState
+)
+{
+    if (!indoorMapDeltaData)
+    {
+        return std::nullopt;
+    }
+
+    for (const MapDeltaDoor &door : indoorMapDeltaData->doors)
+    {
+        for (size_t doorFaceIndex = 0; doorFaceIndex < door.faceIds.size(); ++doorFaceIndex)
+        {
+            if (door.faceIds[doorFaceIndex] != faceIndex)
+            {
+                continue;
+            }
+
+            MechanismFaceTextureState state = {};
+            state.pDoor = &door;
+            state.faceOffset = doorFaceIndex;
+            state.distance = resolveMechanismDistance(door, eventRuntimeState);
+            state.direction = {
+                static_cast<float>(door.directionX) / 65536.0f,
+                static_cast<float>(door.directionY) / 65536.0f,
+                static_cast<float>(door.directionZ) / 65536.0f
+            };
+            return state;
+        }
+    }
+
+    return std::nullopt;
+}
+
+bool calculateFaceTextureAxes(const IndoorFace &face, const bx::Vec3 &normal, bx::Vec3 &axisU, bx::Vec3 &axisV)
+{
+    if (face.facetType == 1)
+    {
+        axisU = {-normal.y, normal.x, 0.0f};
+        axisV = {0.0f, 0.0f, -1.0f};
+    }
+    else if (face.facetType == 3 || face.facetType == 5)
+    {
+        axisU = {1.0f, 0.0f, 0.0f};
+        axisV = {0.0f, -1.0f, 0.0f};
+    }
+    else if (face.facetType == 4 || face.facetType == 6)
+    {
+        if (std::abs(normal.z) < 0.70863342285f)
+        {
+            axisU = vecNormalize({-normal.y, normal.x, 0.0f});
+            axisV = {0.0f, 0.0f, -1.0f};
+        }
+        else
+        {
+            axisU = {1.0f, 0.0f, 0.0f};
+            axisV = {0.0f, -1.0f, 0.0f};
+        }
+    }
+    else
+    {
+        return false;
+    }
+
+    if (hasFaceAttribute(face.attributes, FaceAttribute::FlipNormalU))
+    {
+        axisU = {-axisU.x, -axisU.y, -axisU.z};
+    }
+
+    if (hasFaceAttribute(face.attributes, FaceAttribute::FlipNormalV))
+    {
+        axisV = {-axisV.x, -axisV.y, -axisV.z};
+    }
+
+    return true;
+}
+
+float orient2d(
+    const ProjectedFacePoint &a,
+    const ProjectedFacePoint &b,
+    const ProjectedFacePoint &c
+)
+{
+    return (b.x - a.x) * (c.y - a.y) - (b.y - a.y) * (c.x - a.x);
+}
+
+float signedPolygonArea2d(
+    const std::vector<ProjectedFacePoint> &points,
+    const std::vector<size_t> &indices
+)
+{
+    float area = 0.0f;
+
+    if (indices.size() < 3)
+    {
+        return area;
+    }
+
+    for (size_t index = 0; index < indices.size(); ++index)
+    {
+        const ProjectedFacePoint &current = points[indices[index]];
+        const ProjectedFacePoint &next = points[indices[(index + 1) % indices.size()]];
+        area += current.x * next.y - next.x * current.y;
+    }
+
+    return area * 0.5f;
+}
+
+bool pointInTriangle2d(
+    const ProjectedFacePoint &point,
+    const ProjectedFacePoint &a,
+    const ProjectedFacePoint &b,
+    const ProjectedFacePoint &c,
+    bool isCounterClockwise
+)
+{
+    constexpr float TriangleEpsilon = 0.0001f;
+    const float ab = orient2d(a, b, point);
+    const float bc = orient2d(b, c, point);
+    const float ca = orient2d(c, a, point);
+
+    if (isCounterClockwise)
+    {
+        return ab >= -TriangleEpsilon && bc >= -TriangleEpsilon && ca >= -TriangleEpsilon;
+    }
+
+    return ab <= TriangleEpsilon && bc <= TriangleEpsilon && ca <= TriangleEpsilon;
+}
+
+bool triangulateFaceProjected(
+    const std::vector<IndoorVertex> &transformedVertices,
+    const IndoorFace &face,
+    std::vector<std::array<size_t, 3>> &triangleVertexOrders
+)
+{
+    triangleVertexOrders.clear();
+
+    if (face.vertexIndices.size() < 3)
+    {
+        return false;
+    }
+
+    const bx::Vec3 normal = computeFaceNormal(transformedVertices, face);
+
+    if (vecDot(normal, normal) <= 0.0001f)
+    {
+        return false;
+    }
+
+    std::vector<ProjectedFacePoint> projectedPoints;
+    projectedPoints.reserve(face.vertexIndices.size());
+
+    for (uint16_t vertexIndex : face.vertexIndices)
+    {
+        if (vertexIndex >= transformedVertices.size())
+        {
+            triangleVertexOrders.clear();
+            return false;
+        }
+
+        projectedPoints.push_back(projectFacePoint(normal, transformedVertices[vertexIndex]));
+    }
+
+    std::vector<size_t> polygonIndices(face.vertexIndices.size());
+
+    for (size_t index = 0; index < polygonIndices.size(); ++index)
+    {
+        polygonIndices[index] = index;
+    }
+
+    const float signedArea = signedPolygonArea2d(projectedPoints, polygonIndices);
+
+    if (std::fabs(signedArea) <= 0.0001f)
+    {
+        return false;
+    }
+
+    const bool isCounterClockwise = signedArea > 0.0f;
+    size_t safetyCounter = 0;
+    const size_t safetyLimit = polygonIndices.size() * polygonIndices.size();
+
+    while (polygonIndices.size() > 3 && safetyCounter < safetyLimit)
+    {
+        bool clippedEar = false;
+
+        for (size_t polygonIndex = 0; polygonIndex < polygonIndices.size(); ++polygonIndex)
+        {
+            const size_t previous =
+                polygonIndices[(polygonIndex + polygonIndices.size() - 1) % polygonIndices.size()];
+            const size_t current = polygonIndices[polygonIndex];
+            const size_t next = polygonIndices[(polygonIndex + 1) % polygonIndices.size()];
+            const float cornerOrientation =
+                orient2d(projectedPoints[previous], projectedPoints[current], projectedPoints[next]);
+
+            if ((isCounterClockwise && cornerOrientation <= 0.0001f)
+                || (!isCounterClockwise && cornerOrientation >= -0.0001f))
+            {
+                continue;
+            }
+
+            bool containsInteriorPoint = false;
+
+            for (size_t candidate : polygonIndices)
+            {
+                if (candidate == previous || candidate == current || candidate == next)
+                {
+                    continue;
+                }
+
+                if (pointInTriangle2d(
+                        projectedPoints[candidate],
+                        projectedPoints[previous],
+                        projectedPoints[current],
+                        projectedPoints[next],
+                        isCounterClockwise))
+                {
+                    containsInteriorPoint = true;
+                    break;
+                }
+            }
+
+            if (containsInteriorPoint)
+            {
+                continue;
+            }
+
+            triangleVertexOrders.push_back({previous, current, next});
+            polygonIndices.erase(polygonIndices.begin() + static_cast<std::ptrdiff_t>(polygonIndex));
+            clippedEar = true;
+            break;
+        }
+
+        if (!clippedEar)
+        {
+            triangleVertexOrders.clear();
+            return false;
+        }
+
+        ++safetyCounter;
+    }
+
+    if (polygonIndices.size() == 3)
+    {
+        triangleVertexOrders.push_back({polygonIndices[0], polygonIndices[1], polygonIndices[2]});
+    }
+
+    return !triangleVertexOrders.empty();
 }
 
 std::string summarizeLinkedEvent(
@@ -444,113 +964,6 @@ float fixedDoorDirectionComponentToFloat(int value)
     return static_cast<float>(value) / 65536.0f;
 }
 
-bool solve2x2(
-    float a00,
-    float a01,
-    float a10,
-    float a11,
-    float b0,
-    float b1,
-    float &x0,
-    float &x1
-)
-{
-    const float determinant = a00 * a11 - a01 * a10;
-
-    if (std::fabs(determinant) <= InspectRayEpsilon)
-    {
-        return false;
-    }
-
-    const float inverseDeterminant = 1.0f / determinant;
-    x0 = (b0 * a11 - b1 * a01) * inverseDeterminant;
-    x1 = (a00 * b1 - a10 * b0) * inverseDeterminant;
-    return true;
-}
-
-bool computeFaceTextureBasis(
-    const IndoorMapData &indoorMapData,
-    const IndoorFace &face,
-    bx::Vec3 &uAxis,
-    bx::Vec3 &vAxis,
-    float &uBase,
-    float &vBase
-)
-{
-    uAxis = {0.0f, 0.0f, 0.0f};
-    vAxis = {0.0f, 0.0f, 0.0f};
-    uBase = 0.0f;
-    vBase = 0.0f;
-
-    if (face.vertexIndices.size() < 3
-        || face.textureUs.size() < 3
-        || face.textureVs.size() < 3)
-    {
-        return false;
-    }
-
-    const uint16_t vertexId0 = face.vertexIndices[0];
-    const uint16_t vertexId1 = face.vertexIndices[1];
-    const uint16_t vertexId2 = face.vertexIndices[2];
-
-    if (vertexId0 >= indoorMapData.vertices.size()
-        || vertexId1 >= indoorMapData.vertices.size()
-        || vertexId2 >= indoorMapData.vertices.size()
-        || vertexId2 >= indoorMapData.vertices.size())
-    {
-        return false;
-    }
-
-    const IndoorVertex &original0 = indoorMapData.vertices[vertexId0];
-    const IndoorVertex &original1 = indoorMapData.vertices[vertexId1];
-    const IndoorVertex &original2 = indoorMapData.vertices[vertexId2];
-
-    const bx::Vec3 p0 = {float(original0.x), float(original0.y), float(original0.z)};
-    const bx::Vec3 p1 = {float(original1.x), float(original1.y), float(original1.z)};
-    const bx::Vec3 p2 = {float(original2.x), float(original2.y), float(original2.z)};
-    const bx::Vec3 e1 = vecSubtract(p1, p0);
-    const bx::Vec3 e2 = vecSubtract(p2, p0);
-
-    const float g00 = vecDot(e1, e1);
-    const float g01 = vecDot(e1, e2);
-    const float g10 = g01;
-    const float g11 = vecDot(e2, e2);
-
-    float c0 = 0.0f;
-    float c1 = 0.0f;
-    const float du1 = static_cast<float>(face.textureUs[1] - face.textureUs[0]);
-    const float du2 = static_cast<float>(face.textureUs[2] - face.textureUs[0]);
-
-    if (!solve2x2(g00, g01, g10, g11, du1, du2, c0, c1))
-    {
-        return false;
-    }
-
-    uAxis = {
-        c0 * e1.x + c1 * e2.x,
-        c0 * e1.y + c1 * e2.y,
-        c0 * e1.z + c1 * e2.z
-    };
-
-    const float dv1 = static_cast<float>(face.textureVs[1] - face.textureVs[0]);
-    const float dv2 = static_cast<float>(face.textureVs[2] - face.textureVs[0]);
-
-    if (!solve2x2(g00, g01, g10, g11, dv1, dv2, c0, c1))
-    {
-        return false;
-    }
-
-    vAxis = {
-        c0 * e1.x + c1 * e2.x,
-        c0 * e1.y + c1 * e2.y,
-        c0 * e1.z + c1 * e2.z
-    };
-
-    uBase = static_cast<float>(face.textureUs[0]) - vecDot(p0, uAxis);
-    vBase = static_cast<float>(face.textureVs[0]) - vecDot(p0, vAxis);
-    return true;
-}
-
 bool faceHasInvisibleOverride(
     size_t faceIndex,
     const std::optional<EventRuntimeState> &eventRuntimeState
@@ -638,6 +1051,7 @@ IndoorDebugRenderer::IndoorDebugRenderer()
     , m_toggleTextureFilteringLatch(false)
     , m_toggleInspectLatch(false)
     , m_activateInspectLatch(false)
+    , m_jumpHeld(false)
 {
 }
 
@@ -656,6 +1070,7 @@ bool IndoorDebugRenderer::initialize(
     const std::optional<ActorPreviewBillboardSet> &indoorActorPreviewBillboardSet,
     const std::optional<SpriteObjectBillboardSet> &indoorSpriteObjectBillboardSet,
     IndoorSceneRuntime &sceneRuntime,
+    const ObjectTable &objectTable,
     const ChestTable &chestTable,
     const HouseTable &houseTable
 )
@@ -665,6 +1080,7 @@ bool IndoorDebugRenderer::initialize(
     m_map = map;
     m_assetScaleTier = assetScaleTier;
     m_monsterTable = monsterTable;
+    m_objectTable = objectTable;
     m_indoorMapData = indoorMapData;
     m_pSceneRuntime = &sceneRuntime;
     m_renderVertices = buildMechanismAdjustedVertices(
@@ -700,6 +1116,13 @@ bool IndoorDebugRenderer::initialize(
             TerrainVertex::ms_layout
         );
         m_entityMarkerVertexCount = static_cast<uint32_t>(entityMarkerVertices.size());
+
+        if (!bgfx::isValid(m_entityMarkerVertexBufferHandle))
+        {
+            std::cerr << "IndoorDebugRenderer: failed to create entity marker vertex buffer\n";
+            shutdown();
+            return false;
+        }
     }
 
     if (!spawnMarkerVertices.empty())
@@ -712,6 +1135,13 @@ bool IndoorDebugRenderer::initialize(
             TerrainVertex::ms_layout
         );
         m_spawnMarkerVertexCount = static_cast<uint32_t>(spawnMarkerVertices.size());
+
+        if (!bgfx::isValid(m_spawnMarkerVertexBufferHandle))
+        {
+            std::cerr << "IndoorDebugRenderer: failed to create spawn marker vertex buffer\n";
+            shutdown();
+            return false;
+        }
     }
 
     if (indoorDecorationBillboardSet)
@@ -812,12 +1242,28 @@ bool IndoorDebugRenderer::initialize(
 
     if (!bgfx::isValid(m_programHandle))
     {
+        std::cerr << "IndoorDebugRenderer: failed to create debug program handle\n";
+        shutdown();
+        return false;
+    }
+
+    if (!bgfx::isValid(m_texturedProgramHandle))
+    {
+        std::cerr << "IndoorDebugRenderer: failed to create textured program handle\n";
+        shutdown();
+        return false;
+    }
+
+    if (!bgfx::isValid(m_textureSamplerHandle))
+    {
+        std::cerr << "IndoorDebugRenderer: failed to create texture sampler uniform\n";
         shutdown();
         return false;
     }
 
     if (!rebuildDerivedGeometryResources())
     {
+        std::cerr << "IndoorDebugRenderer: failed to rebuild derived geometry resources during initialize\n";
         shutdown();
         return false;
     }
@@ -844,6 +1290,14 @@ bool IndoorDebugRenderer::initialize(
         m_cameraPositionX = static_cast<float>((minX + maxX) / 2);
         m_cameraPositionY = static_cast<float>(minY - 256);
         m_cameraPositionZ = static_cast<float>((minZ + maxZ) / 2);
+    }
+
+    if (m_pSceneRuntime != nullptr)
+    {
+        const IndoorMoveState &moveState = m_pSceneRuntime->partyRuntime().movementState();
+        m_cameraPositionX = moveState.x;
+        m_cameraPositionY = moveState.y;
+        m_cameraPositionZ = moveState.eyeZ();
     }
 
     m_isRenderable = true;
@@ -1526,6 +1980,11 @@ bgfx::ProgramHandle IndoorDebugRenderer::loadProgram(const char *pVertexShaderNa
 
     if (!bgfx::isValid(vertexShaderHandle) || !bgfx::isValid(fragmentShaderHandle))
     {
+        std::cerr
+            << "IndoorDebugRenderer: loadProgram failed"
+            << " vs=" << (pVertexShaderName != nullptr ? pVertexShaderName : "<null>")
+            << " fs=" << (pFragmentShaderName != nullptr ? pFragmentShaderName : "<null>")
+            << '\n';
         return BGFX_INVALID_HANDLE;
     }
 
@@ -1538,6 +1997,10 @@ bgfx::ShaderHandle IndoorDebugRenderer::loadShader(const char *pShaderName)
 
     if (shaderPath.empty())
     {
+        std::cerr
+            << "IndoorDebugRenderer: loadShader could not resolve shader path for "
+            << (pShaderName != nullptr ? pShaderName : "<null>")
+            << '\n';
         return BGFX_INVALID_HANDLE;
     }
 
@@ -1545,10 +2008,26 @@ bgfx::ShaderHandle IndoorDebugRenderer::loadShader(const char *pShaderName)
 
     if (shaderBytes.empty())
     {
+        std::cerr
+            << "IndoorDebugRenderer: loadShader read empty shader file "
+            << shaderPath.string()
+            << '\n';
         return BGFX_INVALID_HANDLE;
     }
 
     return bgfx::createShader(bgfx::copy(shaderBytes.data(), static_cast<uint32_t>(shaderBytes.size())));
+}
+
+void IndoorDebugRenderer::setCameraPosition(float x, float y, float z)
+{
+    m_cameraPositionX = x;
+    m_cameraPositionY = y;
+    m_cameraPositionZ = z;
+
+    if (m_pSceneRuntime != nullptr)
+    {
+        m_pSceneRuntime->partyRuntime().teleportEyePosition(x, y, z);
+    }
 }
 
 const IndoorDebugRenderer::BillboardTextureHandle *IndoorDebugRenderer::findBillboardTexture(
@@ -1788,52 +2267,114 @@ void IndoorDebugRenderer::renderActorPreviewBillboards(
 
     struct BillboardDrawItem
     {
-        const ActorPreviewBillboard *pBillboard = nullptr;
+        size_t actorIndex = static_cast<size_t>(-1);
+        int x = 0;
+        int y = 0;
+        int z = 0;
         const SpriteFrameEntry *pFrame = nullptr;
         const BillboardTextureHandle *pTexture = nullptr;
         bool mirrored = false;
         float distanceSquared = 0.0f;
     };
 
+    const std::optional<MapDeltaData> &mapDeltaData = runtimeMapDeltaData();
+    const std::vector<RuntimeActorBillboard> runtimeBillboards =
+        mapDeltaData && m_monsterTable
+        ? buildRuntimeActorBillboards(*m_monsterTable, m_indoorActorPreviewBillboardSet->spriteFrameTable, *mapDeltaData)
+        : std::vector<RuntimeActorBillboard>{};
     std::vector<BillboardDrawItem> drawItems;
-    drawItems.reserve(m_indoorActorPreviewBillboardSet->billboards.size());
+    const bool useRuntimeBillboards = !runtimeBillboards.empty();
+    drawItems.reserve(
+        useRuntimeBillboards
+        ? runtimeBillboards.size()
+        : m_indoorActorPreviewBillboardSet->billboards.size());
 
-    for (const ActorPreviewBillboard &billboard : m_indoorActorPreviewBillboardSet->billboards)
+    if (useRuntimeBillboards)
     {
-        const uint32_t frameTimeTicks = billboard.useStaticFrame ? 0U : animationTimeTicks;
-        const SpriteFrameEntry *pFrame =
-            m_indoorActorPreviewBillboardSet->spriteFrameTable.getFrame(billboard.spriteFrameIndex, frameTimeTicks);
-
-        if (pFrame == nullptr)
+        for (const RuntimeActorBillboard &billboard : runtimeBillboards)
         {
-            continue;
+            const uint32_t frameTimeTicks = billboard.useStaticFrame ? 0U : animationTimeTicks;
+            const SpriteFrameEntry *pFrame =
+                m_indoorActorPreviewBillboardSet->spriteFrameTable.getFrame(billboard.spriteFrameIndex, frameTimeTicks);
+
+            if (pFrame == nullptr)
+            {
+                continue;
+            }
+
+            const float angleToCamera = std::atan2(
+                static_cast<float>(billboard.y) - cameraPosition.y,
+                static_cast<float>(billboard.x) - cameraPosition.x
+            );
+            const float octantAngle = -angleToCamera + Pi + (Pi / 8.0f);
+            const int octant = static_cast<int>(std::floor(octantAngle / (Pi / 4.0f))) & 7;
+            const ResolvedSpriteTexture resolvedTexture = SpriteFrameTable::resolveTexture(*pFrame, octant);
+            const BillboardTextureHandle *pTexture =
+                findBillboardTexture(resolvedTexture.textureName, pFrame->paletteId);
+
+            if (pTexture == nullptr || !bgfx::isValid(pTexture->textureHandle))
+            {
+                continue;
+            }
+
+            const float deltaX = static_cast<float>(billboard.x) - cameraPosition.x;
+            const float deltaY = static_cast<float>(billboard.y) - cameraPosition.y;
+            const float deltaZ = static_cast<float>(billboard.z) - cameraPosition.z;
+
+            BillboardDrawItem drawItem = {};
+            drawItem.actorIndex = billboard.actorIndex;
+            drawItem.x = billboard.x;
+            drawItem.y = billboard.y;
+            drawItem.z = billboard.z;
+            drawItem.pFrame = pFrame;
+            drawItem.pTexture = pTexture;
+            drawItem.mirrored = resolvedTexture.mirrored;
+            drawItem.distanceSquared = deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ;
+            drawItems.push_back(drawItem);
         }
-
-        const float angleToCamera = std::atan2(
-            static_cast<float>(billboard.y) - cameraPosition.y,
-            static_cast<float>(billboard.x) - cameraPosition.x
-        );
-        const float octantAngle = -angleToCamera + Pi + (Pi / 8.0f);
-        const int octant = static_cast<int>(std::floor(octantAngle / (Pi / 4.0f))) & 7;
-        const ResolvedSpriteTexture resolvedTexture = SpriteFrameTable::resolveTexture(*pFrame, octant);
-        const BillboardTextureHandle *pTexture = findBillboardTexture(resolvedTexture.textureName, pFrame->paletteId);
-
-        if (pTexture == nullptr || !bgfx::isValid(pTexture->textureHandle))
+    }
+    else
+    {
+        for (const ActorPreviewBillboard &billboard : m_indoorActorPreviewBillboardSet->billboards)
         {
-            continue;
+            const uint32_t frameTimeTicks = billboard.useStaticFrame ? 0U : animationTimeTicks;
+            const SpriteFrameEntry *pFrame =
+                m_indoorActorPreviewBillboardSet->spriteFrameTable.getFrame(billboard.spriteFrameIndex, frameTimeTicks);
+
+            if (pFrame == nullptr)
+            {
+                continue;
+            }
+
+            const float angleToCamera = std::atan2(
+                static_cast<float>(billboard.y) - cameraPosition.y,
+                static_cast<float>(billboard.x) - cameraPosition.x
+            );
+            const float octantAngle = -angleToCamera + Pi + (Pi / 8.0f);
+            const int octant = static_cast<int>(std::floor(octantAngle / (Pi / 4.0f))) & 7;
+            const ResolvedSpriteTexture resolvedTexture = SpriteFrameTable::resolveTexture(*pFrame, octant);
+            const BillboardTextureHandle *pTexture =
+                findBillboardTexture(resolvedTexture.textureName, pFrame->paletteId);
+
+            if (pTexture == nullptr || !bgfx::isValid(pTexture->textureHandle))
+            {
+                continue;
+            }
+
+            const float deltaX = static_cast<float>(billboard.x) - cameraPosition.x;
+            const float deltaY = static_cast<float>(billboard.y) - cameraPosition.y;
+            const float deltaZ = static_cast<float>(billboard.z) - cameraPosition.z;
+
+            BillboardDrawItem drawItem = {};
+            drawItem.x = billboard.x;
+            drawItem.y = billboard.y;
+            drawItem.z = billboard.z;
+            drawItem.pFrame = pFrame;
+            drawItem.pTexture = pTexture;
+            drawItem.mirrored = resolvedTexture.mirrored;
+            drawItem.distanceSquared = deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ;
+            drawItems.push_back(drawItem);
         }
-
-        const float deltaX = static_cast<float>(billboard.x) - cameraPosition.x;
-        const float deltaY = static_cast<float>(billboard.y) - cameraPosition.y;
-        const float deltaZ = static_cast<float>(billboard.z) - cameraPosition.z;
-
-        BillboardDrawItem drawItem = {};
-        drawItem.pBillboard = &billboard;
-        drawItem.pFrame = pFrame;
-        drawItem.pTexture = pTexture;
-        drawItem.mirrored = resolvedTexture.mirrored;
-        drawItem.distanceSquared = deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ;
-        drawItems.push_back(drawItem);
     }
 
     std::sort(
@@ -1847,7 +2388,6 @@ void IndoorDebugRenderer::renderActorPreviewBillboards(
 
     for (const BillboardDrawItem &drawItem : drawItems)
     {
-        const ActorPreviewBillboard &billboard = *drawItem.pBillboard;
         const SpriteFrameEntry &frame = *drawItem.pFrame;
         const BillboardTextureHandle &texture = *drawItem.pTexture;
         const float spriteScale = std::max(frame.scale, 0.01f);
@@ -1855,9 +2395,9 @@ void IndoorDebugRenderer::renderActorPreviewBillboards(
         const float worldHeight = static_cast<float>(texture.height) * spriteScale;
         const float halfWidth = worldWidth * 0.5f;
         const bx::Vec3 center = {
-            static_cast<float>(billboard.x),
-            static_cast<float>(billboard.y),
-            static_cast<float>(billboard.z) + worldHeight * 0.5f
+            static_cast<float>(drawItem.x),
+            static_cast<float>(drawItem.y),
+            static_cast<float>(drawItem.z) + worldHeight * 0.5f
         };
         const bx::Vec3 right = {cameraRight.x * halfWidth, cameraRight.y * halfWidth, cameraRight.z * halfWidth};
         const bx::Vec3 up = {cameraUp.x * worldHeight * 0.5f, cameraUp.y * worldHeight * 0.5f, cameraUp.z * worldHeight * 0.5f};
@@ -1929,48 +2469,102 @@ void IndoorDebugRenderer::renderSpriteObjectBillboards(
 
     struct BillboardDrawItem
     {
-        const SpriteObjectBillboard *pBillboard = nullptr;
+        int x = 0;
+        int y = 0;
+        int z = 0;
         const SpriteFrameEntry *pFrame = nullptr;
         const BillboardTextureHandle *pTexture = nullptr;
         bool mirrored = false;
         float distanceSquared = 0.0f;
     };
 
+    const std::optional<MapDeltaData> &mapDeltaData = runtimeMapDeltaData();
+    const std::vector<RuntimeSpriteObjectBillboard> runtimeBillboards =
+        mapDeltaData && m_objectTable
+        ? buildRuntimeSpriteObjectBillboards(*m_objectTable, *mapDeltaData)
+        : std::vector<RuntimeSpriteObjectBillboard>{};
     std::vector<BillboardDrawItem> drawItems;
-    drawItems.reserve(m_indoorSpriteObjectBillboardSet->billboards.size());
+    const bool useRuntimeBillboards = !runtimeBillboards.empty();
+    drawItems.reserve(
+        useRuntimeBillboards
+        ? runtimeBillboards.size()
+        : m_indoorSpriteObjectBillboardSet->billboards.size());
 
-    for (const SpriteObjectBillboard &billboard : m_indoorSpriteObjectBillboardSet->billboards)
+    if (useRuntimeBillboards)
     {
-        const SpriteFrameEntry *pFrame =
-            m_indoorSpriteObjectBillboardSet->spriteFrameTable.getFrame(
-                billboard.objectSpriteId,
-                billboard.timeSinceCreatedTicks
-            );
-
-        if (pFrame == nullptr)
+        for (const RuntimeSpriteObjectBillboard &billboard : runtimeBillboards)
         {
-            continue;
+            const SpriteFrameEntry *pFrame =
+                m_indoorSpriteObjectBillboardSet->spriteFrameTable.getFrame(
+                    billboard.objectSpriteId,
+                    billboard.timeSinceCreatedTicks
+                );
+
+            if (pFrame == nullptr)
+            {
+                continue;
+            }
+
+            const ResolvedSpriteTexture resolvedTexture = SpriteFrameTable::resolveTexture(*pFrame, 0);
+            const BillboardTextureHandle *pTexture = findBillboardTexture(resolvedTexture.textureName);
+
+            if (pTexture == nullptr || !bgfx::isValid(pTexture->textureHandle))
+            {
+                continue;
+            }
+
+            const float deltaX = float(billboard.x) - cameraPosition.x;
+            const float deltaY = float(billboard.y) - cameraPosition.y;
+            const float deltaZ = float(billboard.z) - cameraPosition.z;
+
+            BillboardDrawItem drawItem = {};
+            drawItem.x = billboard.x;
+            drawItem.y = billboard.y;
+            drawItem.z = billboard.z;
+            drawItem.pFrame = pFrame;
+            drawItem.pTexture = pTexture;
+            drawItem.mirrored = resolvedTexture.mirrored;
+            drawItem.distanceSquared = deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ;
+            drawItems.push_back(drawItem);
         }
-
-        const ResolvedSpriteTexture resolvedTexture = SpriteFrameTable::resolveTexture(*pFrame, 0);
-        const BillboardTextureHandle *pTexture = findBillboardTexture(resolvedTexture.textureName);
-
-        if (pTexture == nullptr || !bgfx::isValid(pTexture->textureHandle))
+    }
+    else
+    {
+        for (const SpriteObjectBillboard &billboard : m_indoorSpriteObjectBillboardSet->billboards)
         {
-            continue;
+            const SpriteFrameEntry *pFrame =
+                m_indoorSpriteObjectBillboardSet->spriteFrameTable.getFrame(
+                    billboard.objectSpriteId,
+                    billboard.timeSinceCreatedTicks
+                );
+
+            if (pFrame == nullptr)
+            {
+                continue;
+            }
+
+            const ResolvedSpriteTexture resolvedTexture = SpriteFrameTable::resolveTexture(*pFrame, 0);
+            const BillboardTextureHandle *pTexture = findBillboardTexture(resolvedTexture.textureName);
+
+            if (pTexture == nullptr || !bgfx::isValid(pTexture->textureHandle))
+            {
+                continue;
+            }
+
+            const float deltaX = float(billboard.x) - cameraPosition.x;
+            const float deltaY = float(billboard.y) - cameraPosition.y;
+            const float deltaZ = float(billboard.z) - cameraPosition.z;
+
+            BillboardDrawItem drawItem = {};
+            drawItem.x = billboard.x;
+            drawItem.y = billboard.y;
+            drawItem.z = billboard.z;
+            drawItem.pFrame = pFrame;
+            drawItem.pTexture = pTexture;
+            drawItem.mirrored = resolvedTexture.mirrored;
+            drawItem.distanceSquared = deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ;
+            drawItems.push_back(drawItem);
         }
-
-        const float deltaX = float(billboard.x) - cameraPosition.x;
-        const float deltaY = float(billboard.y) - cameraPosition.y;
-        const float deltaZ = float(billboard.z) - cameraPosition.z;
-
-        BillboardDrawItem drawItem = {};
-        drawItem.pBillboard = &billboard;
-        drawItem.pFrame = pFrame;
-        drawItem.pTexture = pTexture;
-        drawItem.mirrored = resolvedTexture.mirrored;
-        drawItem.distanceSquared = deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ;
-        drawItems.push_back(drawItem);
     }
 
     std::sort(
@@ -1984,7 +2578,6 @@ void IndoorDebugRenderer::renderSpriteObjectBillboards(
 
     for (const BillboardDrawItem &drawItem : drawItems)
     {
-        const SpriteObjectBillboard &billboard = *drawItem.pBillboard;
         const SpriteFrameEntry &frame = *drawItem.pFrame;
         const BillboardTextureHandle &texture = *drawItem.pTexture;
         const float spriteScale = std::max(frame.scale, 0.01f);
@@ -1992,9 +2585,9 @@ void IndoorDebugRenderer::renderSpriteObjectBillboards(
         const float worldHeight = float(texture.height) * spriteScale;
         const float halfWidth = worldWidth * 0.5f;
         const bx::Vec3 center = {
-            float(billboard.x),
-            float(billboard.y),
-            float(billboard.z) + worldHeight * 0.5f
+            float(drawItem.x),
+            float(drawItem.y),
+            float(drawItem.z) + worldHeight * 0.5f
         };
         const bx::Vec3 right = {cameraRight.x * halfWidth, cameraRight.y * halfWidth, cameraRight.z * halfWidth};
         const bx::Vec3 up = {cameraUp.x * worldHeight * 0.5f, cameraUp.y * worldHeight * 0.5f, cameraUp.z * worldHeight * 0.5f};
@@ -2366,6 +2959,7 @@ bool IndoorDebugRenderer::rebuildAllTexturedBatches(uint64_t &texturedBuildNanos
             m_renderVertices,
             *pTexture,
             faceIndex,
+            runtimeMapDeltaData(),
             eventRuntimeState
         );
         texturedBuildNanoseconds += SDL_GetTicksNS() - faceBuildBeginTickCount;
@@ -2465,12 +3059,20 @@ bool IndoorDebugRenderer::updateMovingMechanismFaceVertices(
             m_renderVertices,
             *pTexture,
             faceIndex,
+            runtimeMapDeltaData(),
             eventRuntimeState
         );
         texturedBuildNanoseconds += SDL_GetTicksNS() - faceBuildBeginTickCount;
 
         if (faceVertices.size() != vertexCount)
         {
+            std::cerr
+                << "IndoorDebugRenderer: moving mechanism face rebuild changed vertex count"
+                << " face=" << faceIndex
+                << " batch=" << batchIndex
+                << " old=" << vertexCount
+                << " new=" << faceVertices.size()
+                << '\n';
             return false;
         }
 
@@ -2494,75 +3096,10 @@ std::vector<IndoorVertex> IndoorDebugRenderer::buildMechanismAdjustedVertices(
     const std::optional<EventRuntimeState> &eventRuntimeState
 )
 {
-    std::vector<IndoorVertex> vertices = indoorMapData.vertices;
-
-    if (!indoorMapDeltaData)
-    {
-        return vertices;
-    }
-
-    for (const MapDeltaDoor &baseDoor : indoorMapDeltaData->doors)
-    {
-        MapDeltaDoor door = baseDoor;
-        RuntimeMechanismState runtimeMechanism = {};
-        runtimeMechanism.state = door.state;
-        runtimeMechanism.timeSinceTriggeredMs = float(door.timeSinceTriggered);
-        runtimeMechanism.currentDistance = EventRuntime::calculateMechanismDistance(door, runtimeMechanism);
-        runtimeMechanism.isMoving = door.state == 1 || door.state == 3;
-        float distance = runtimeMechanism.currentDistance;
-
-        if (eventRuntimeState)
-        {
-            const std::unordered_map<uint32_t, RuntimeMechanismState>::const_iterator mechanismIterator =
-                eventRuntimeState->mechanisms.find(door.doorId);
-
-            if (mechanismIterator != eventRuntimeState->mechanisms.end())
-            {
-                door.state = mechanismIterator->second.state;
-                if (!mechanismIterator->second.isMoving && mechanismIterator->second.currentDistance > 0.0f)
-                {
-                    door.attributes &= ~0x2u;
-                }
-                distance = mechanismIterator->second.isMoving
-                    ? EventRuntime::calculateMechanismDistance(door, mechanismIterator->second)
-                    : mechanismIterator->second.currentDistance;
-            }
-        }
-
-        if (door.vertexIds.empty() || door.xOffsets.empty() || door.yOffsets.empty() || door.zOffsets.empty())
-        {
-            continue;
-        }
-
-        const size_t movableVertexCount = std::min(
-            door.vertexIds.size(),
-            std::min(door.xOffsets.size(), std::min(door.yOffsets.size(), door.zOffsets.size()))
-        );
-
-        const float directionX = fixedDoorDirectionComponentToFloat(door.directionX);
-        const float directionY = fixedDoorDirectionComponentToFloat(door.directionY);
-        const float directionZ = fixedDoorDirectionComponentToFloat(door.directionZ);
-
-        for (size_t vertexOffsetIndex = 0; vertexOffsetIndex < movableVertexCount; ++vertexOffsetIndex)
-        {
-            const uint16_t vertexId = door.vertexIds[vertexOffsetIndex];
-
-            if (vertexId >= vertices.size())
-            {
-                continue;
-            }
-
-            IndoorVertex &vertex = vertices[vertexId];
-            vertex.x = static_cast<int>(std::lround(
-                static_cast<float>(door.xOffsets[vertexOffsetIndex]) + directionX * distance));
-            vertex.y = static_cast<int>(std::lround(
-                static_cast<float>(door.yOffsets[vertexOffsetIndex]) + directionY * distance));
-            vertex.z = static_cast<int>(std::lround(
-                static_cast<float>(door.zOffsets[vertexOffsetIndex]) + directionZ * distance));
-        }
-    }
-
-    return vertices;
+    return buildIndoorMechanismAdjustedVertices(
+        indoorMapData,
+        indoorMapDeltaData ? &indoorMapDeltaData.value() : nullptr,
+        eventRuntimeState ? &eventRuntimeState.value() : nullptr);
 }
 
 void IndoorDebugRenderer::destroyDerivedGeometryResources()
@@ -2623,6 +3160,7 @@ bool IndoorDebugRenderer::rebuildDerivedGeometryResources()
 {
     if (!m_indoorMapData)
     {
+        std::cerr << "IndoorDebugRenderer: rebuildDerivedGeometryResources has no indoor map data\n";
         return false;
     }
 
@@ -2650,6 +3188,7 @@ bool IndoorDebugRenderer::rebuildDerivedGeometryResources()
             wireframeVertices,
             TerrainVertex::ms_layout))
     {
+        std::cerr << "IndoorDebugRenderer: failed to update wireframe vertex buffer\n";
         return false;
     }
     m_wireframeVertexCount = static_cast<uint32_t>(wireframeVertices.size());
@@ -2660,6 +3199,7 @@ bool IndoorDebugRenderer::rebuildDerivedGeometryResources()
             portalVertices,
             TerrainVertex::ms_layout))
     {
+        std::cerr << "IndoorDebugRenderer: failed to update portal vertex buffer\n";
         return false;
     }
     m_portalVertexCount = static_cast<uint32_t>(portalVertices.size());
@@ -2670,6 +3210,7 @@ bool IndoorDebugRenderer::rebuildDerivedGeometryResources()
             doorMarkerVertices,
             TerrainVertex::ms_layout))
     {
+        std::cerr << "IndoorDebugRenderer: failed to update door marker vertex buffer\n";
         return false;
     }
     m_doorMarkerVertexCount = static_cast<uint32_t>(doorMarkerVertices.size());
@@ -2685,6 +3226,7 @@ bool IndoorDebugRenderer::rebuildDerivedGeometryResources()
             uint64_t texturedBuildNanoseconds = 0;
             if (!rebuildAllTexturedBatches(texturedBuildNanoseconds))
             {
+                std::cerr << "IndoorDebugRenderer: rebuildAllTexturedBatches failed\n";
                 return false;
             }
         }
@@ -2695,7 +3237,16 @@ bool IndoorDebugRenderer::rebuildDerivedGeometryResources()
 
             if (!updateMovingMechanismFaceVertices(texturedBuildNanoseconds, uploadNanoseconds))
             {
-                return false;
+                std::cerr
+                    << "IndoorDebugRenderer: updateMovingMechanismFaceVertices failed, rebuilding textured batches\n";
+
+                texturedBuildNanoseconds = 0;
+
+                if (!rebuildAllTexturedBatches(texturedBuildNanoseconds))
+                {
+                    std::cerr << "IndoorDebugRenderer: rebuildAllTexturedBatches failed after moving update failure\n";
+                    return false;
+                }
             }
         }
     }
@@ -2756,6 +3307,7 @@ std::vector<IndoorDebugRenderer::TexturedVertex> IndoorDebugRenderer::buildTextu
     const std::vector<IndoorVertex> &transformedVertices,
     const OutdoorBitmapTexture &texture,
     const std::vector<size_t> *pFaceIndices,
+    const std::optional<MapDeltaData> &indoorMapDeltaData,
     const std::optional<EventRuntimeState> &eventRuntimeState
 )
 {
@@ -2783,7 +3335,14 @@ std::vector<IndoorDebugRenderer::TexturedVertex> IndoorDebugRenderer::buildTextu
         }
 
         const std::vector<TexturedVertex> faceVertices =
-            buildFaceTexturedVertices(indoorMapData, transformedVertices, texture, faceIndex, eventRuntimeState);
+            buildFaceTexturedVertices(
+                indoorMapData,
+                transformedVertices,
+                texture,
+                faceIndex,
+                indoorMapDeltaData,
+                eventRuntimeState
+            );
 
         if (!faceVertices.empty())
         {
@@ -2799,6 +3358,7 @@ std::vector<IndoorDebugRenderer::TexturedVertex> IndoorDebugRenderer::buildFaceT
     const std::vector<IndoorVertex> &transformedVertices,
     const OutdoorBitmapTexture &texture,
     size_t faceIndex,
+    const std::optional<MapDeltaData> &indoorMapDeltaData,
     const std::optional<EventRuntimeState> &eventRuntimeState
 )
 {
@@ -2827,15 +3387,110 @@ std::vector<IndoorDebugRenderer::TexturedVertex> IndoorDebugRenderer::buildFaceT
         return vertices;
     }
 
-    bx::Vec3 uAxis = {0.0f, 0.0f, 0.0f};
-    bx::Vec3 vAxis = {0.0f, 0.0f, 0.0f};
-    float uBase = 0.0f;
-    float vBase = 0.0f;
-    const bool hasTextureBasis = computeFaceTextureBasis(indoorMapData, face, uAxis, vAxis, uBase, vBase);
+    const std::optional<MechanismFaceTextureState> mechanismFaceTextureState =
+        findMechanismFaceTextureState(faceIndex, indoorMapDeltaData, eventRuntimeState);
+    std::vector<float> projectedUs;
+    std::vector<float> projectedVs;
+    float projectedDeltaU = 0.0f;
+    float projectedDeltaV = 0.0f;
 
-    for (size_t triangleIndex = 1; triangleIndex + 1 < face.vertexIndices.size(); ++triangleIndex)
+    if (mechanismFaceTextureState)
     {
-        const size_t triangleVertexIndices[3] = {0, triangleIndex, triangleIndex + 1};
+        const bx::Vec3 faceNormal = computeFaceNormal(transformedVertices, face);
+        bx::Vec3 axisU = {0.0f, 0.0f, 0.0f};
+        bx::Vec3 axisV = {0.0f, 0.0f, 0.0f};
+
+        if (vecDot(faceNormal, faceNormal) <= 0.0001f || !calculateFaceTextureAxes(face, vecNormalize(faceNormal), axisU, axisV))
+        {
+            return vertices;
+        }
+
+        projectedUs.reserve(face.vertexIndices.size());
+        projectedVs.reserve(face.vertexIndices.size());
+        float minU = std::numeric_limits<float>::infinity();
+        float minV = std::numeric_limits<float>::infinity();
+        float maxU = -std::numeric_limits<float>::infinity();
+        float maxV = -std::numeric_limits<float>::infinity();
+
+        for (uint16_t vertexIndex : face.vertexIndices)
+        {
+            if (vertexIndex >= transformedVertices.size())
+            {
+                return vertices;
+            }
+
+            const IndoorVertex &vertex = transformedVertices[vertexIndex];
+            const bx::Vec3 point = {
+                static_cast<float>(vertex.x),
+                static_cast<float>(vertex.y),
+                static_cast<float>(vertex.z)
+            };
+            const float pointU = vecDot(point, axisU);
+            const float pointV = vecDot(point, axisV);
+            projectedUs.push_back(pointU);
+            projectedVs.push_back(pointV);
+            minU = std::min(minU, pointU);
+            minV = std::min(minV, pointV);
+            maxU = std::max(maxU, pointU);
+            maxV = std::max(maxV, pointV);
+        }
+
+        if (hasFaceAttribute(face.attributes, FaceAttribute::TextureAlignLeft))
+        {
+            projectedDeltaU -= minU;
+        }
+        else if (hasFaceAttribute(face.attributes, FaceAttribute::TextureAlignRight))
+        {
+            projectedDeltaU -= maxU + static_cast<float>(texture.width);
+        }
+
+        if (hasFaceAttribute(face.attributes, FaceAttribute::TextureAlignDown))
+        {
+            projectedDeltaV -= minV;
+        }
+        else if (hasFaceAttribute(face.attributes, FaceAttribute::TextureAlignBottom))
+        {
+            projectedDeltaV -= maxV + static_cast<float>(texture.height);
+        }
+
+        if (hasFaceAttribute(face.attributes, FaceAttribute::TextureMoveByDoor))
+        {
+            projectedDeltaU =
+                -vecDot(mechanismFaceTextureState->direction, axisU) * mechanismFaceTextureState->distance;
+            projectedDeltaV =
+                -vecDot(mechanismFaceTextureState->direction, axisV) * mechanismFaceTextureState->distance;
+
+            if (mechanismFaceTextureState->pDoor != nullptr)
+            {
+                if (mechanismFaceTextureState->faceOffset < mechanismFaceTextureState->pDoor->deltaUs.size())
+                {
+                    projectedDeltaU += static_cast<float>(
+                        mechanismFaceTextureState->pDoor->deltaUs[mechanismFaceTextureState->faceOffset]
+                    );
+                }
+
+                if (mechanismFaceTextureState->faceOffset < mechanismFaceTextureState->pDoor->deltaVs.size())
+                {
+                    projectedDeltaV += static_cast<float>(
+                        mechanismFaceTextureState->pDoor->deltaVs[mechanismFaceTextureState->faceOffset]
+                    );
+                }
+            }
+        }
+    }
+
+    std::vector<std::array<size_t, 3>> triangleVertexOrders;
+
+    if (!triangulateFaceProjected(transformedVertices, face, triangleVertexOrders))
+    {
+        for (size_t triangleIndex = 1; triangleIndex + 1 < face.vertexIndices.size(); ++triangleIndex)
+        {
+            triangleVertexOrders.push_back({0, triangleIndex, triangleIndex + 1});
+        }
+    }
+
+    for (const std::array<size_t, 3> &triangleVertexIndices : triangleVertexOrders)
+    {
         TexturedVertex triangleVertices[3] = {};
         bool isTriangleValid = true;
 
@@ -2858,15 +3513,12 @@ std::vector<IndoorDebugRenderer::TexturedVertex> IndoorDebugRenderer::buildFaceT
             texturedVertex.y = static_cast<float>(vertex.y);
             texturedVertex.z = static_cast<float>(vertex.z);
 
-            if (hasTextureBasis)
+            if (mechanismFaceTextureState
+                && faceVertexIndex < projectedUs.size()
+                && faceVertexIndex < projectedVs.size())
             {
-                const bx::Vec3 point = {texturedVertex.x, texturedVertex.y, texturedVertex.z};
-                texturedVertex.u =
-                    (static_cast<float>(face.textureDeltaU) + vecDot(point, uAxis) + uBase)
-                    / static_cast<float>(texture.width);
-                texturedVertex.v =
-                    (static_cast<float>(face.textureDeltaV) + vecDot(point, vAxis) + vBase)
-                    / static_cast<float>(texture.height);
+                texturedVertex.u = (projectedUs[faceVertexIndex] + projectedDeltaU) / static_cast<float>(texture.width);
+                texturedVertex.v = (projectedVs[faceVertexIndex] + projectedDeltaV) / static_cast<float>(texture.height);
             }
             else
             {
@@ -2882,6 +3534,23 @@ std::vector<IndoorDebugRenderer::TexturedVertex> IndoorDebugRenderer::buildFaceT
         }
 
         if (!isTriangleValid)
+        {
+            continue;
+        }
+
+        const bx::Vec3 triangleEdge1 = {
+            triangleVertices[1].x - triangleVertices[0].x,
+            triangleVertices[1].y - triangleVertices[0].y,
+            triangleVertices[1].z - triangleVertices[0].z
+        };
+        const bx::Vec3 triangleEdge2 = {
+            triangleVertices[2].x - triangleVertices[0].x,
+            triangleVertices[2].y - triangleVertices[0].y,
+            triangleVertices[2].z - triangleVertices[0].z
+        };
+        const bx::Vec3 triangleNormal = vecCross(triangleEdge1, triangleEdge2);
+
+        if (vecDot(triangleNormal, triangleNormal) <= 0.0001f)
         {
             continue;
         }
@@ -3181,11 +3850,15 @@ IndoorDebugRenderer::InspectHit IndoorDebugRenderer::inspectAtCursor(
         }
     }
 
-    if (m_indoorActorPreviewBillboardSet)
+    const std::optional<MapDeltaData> &mapDeltaData = runtimeMapDeltaData();
+
+    if (mapDeltaData && m_monsterTable && m_indoorActorPreviewBillboardSet)
     {
-        for (size_t actorIndex = 0; actorIndex < m_indoorActorPreviewBillboardSet->billboards.size(); ++actorIndex)
+        const std::vector<RuntimeActorBillboard> runtimeActors =
+            buildRuntimeActorBillboards(*m_monsterTable, m_indoorActorPreviewBillboardSet->spriteFrameTable, *mapDeltaData);
+
+        for (const RuntimeActorBillboard &actor : runtimeActors)
         {
-            const ActorPreviewBillboard &actor = m_indoorActorPreviewBillboardSet->billboards[actorIndex];
             const float halfExtent = static_cast<float>(std::max<uint16_t>(actor.radius, 32));
             const float height = static_cast<float>(std::max<uint16_t>(actor.height, 96));
             const bx::Vec3 minBounds = {
@@ -3205,35 +3878,24 @@ IndoorDebugRenderer::InspectHit IndoorDebugRenderer::inspectAtCursor(
                 bestDistance = distance;
                 bestHit.hasHit = true;
                 bestHit.kind = "actor";
-                bestHit.index = actorIndex;
+                bestHit.index = actor.actorIndex;
                 bestHit.name = actor.actorName;
                 bestHit.textureName.clear();
                 bestHit.distance = distance;
                 bestHit.isFriendly = actor.isFriendly;
-
-                if (m_map)
-                {
-                    const SpawnPreview preview =
-                        SpawnPreviewResolver::describe(
-                            *m_map,
-                            m_monsterTable ? &*m_monsterTable : nullptr,
-                            actor.typeId,
-                            actor.index,
-                            actor.attributes,
-                            actor.group
-                        );
-                    bestHit.spawnSummary = preview.summary;
-                    bestHit.spawnDetail = preview.detail;
-                }
+                bestHit.spawnSummary.clear();
+                bestHit.spawnDetail.clear();
             }
         }
     }
 
-    if (m_indoorSpriteObjectBillboardSet)
+    if (mapDeltaData && m_objectTable)
     {
-        for (size_t objectIndex = 0; objectIndex < m_indoorSpriteObjectBillboardSet->billboards.size(); ++objectIndex)
+        const std::vector<RuntimeSpriteObjectBillboard> runtimeObjects =
+            buildRuntimeSpriteObjectBillboards(*m_objectTable, *mapDeltaData);
+
+        for (const RuntimeSpriteObjectBillboard &object : runtimeObjects)
         {
-            const SpriteObjectBillboard &object = m_indoorSpriteObjectBillboardSet->billboards[objectIndex];
             const float halfExtent = std::max(32.0f, float(std::max(object.radius, int16_t(32))));
             const float height = std::max(64.0f, float(std::max(object.height, int16_t(64))));
             const bx::Vec3 minBounds = {
@@ -3253,7 +3915,7 @@ IndoorDebugRenderer::InspectHit IndoorDebugRenderer::inspectAtCursor(
                 bestDistance = distance;
                 bestHit.hasHit = true;
                 bestHit.kind = "object";
-                bestHit.index = objectIndex;
+                bestHit.index = object.objectIndex;
                 bestHit.name = object.objectName;
                 bestHit.distance = distance;
                 bestHit.objectDescriptionId = object.objectDescriptionId;
@@ -3263,8 +3925,6 @@ IndoorDebugRenderer::InspectHit IndoorDebugRenderer::inspectAtCursor(
             }
         }
     }
-
-    const std::optional<MapDeltaData> &mapDeltaData = runtimeMapDeltaData();
 
     if (mapDeltaData)
     {
@@ -3484,32 +4144,72 @@ void IndoorDebugRenderer::updateCameraFromInput(float deltaSeconds)
     const bx::Vec3 right = {sinYaw, cosYaw, 0.0f};
     const bool isFastMovePressed =
         pKeyboardState[SDL_SCANCODE_LSHIFT] || pKeyboardState[SDL_SCANCODE_RSHIFT];
+    const bool jumpPressed = pKeyboardState[SDL_SCANCODE_X];
+    const bool jumpRequested = jumpPressed && !m_jumpHeld;
+    m_jumpHeld = jumpPressed;
     const float currentMoveSpeed = isFastMovePressed ? moveSpeed * fastMoveMultiplier : moveSpeed;
+    float desiredVelocityX = 0.0f;
+    float desiredVelocityY = 0.0f;
 
     if (pKeyboardState[SDL_SCANCODE_W])
     {
-        m_cameraPositionX += forward.x * currentMoveSpeed * deltaSeconds;
-        m_cameraPositionY += forward.y * currentMoveSpeed * deltaSeconds;
-        m_cameraPositionZ += forward.z * currentMoveSpeed * deltaSeconds;
+        desiredVelocityX += cosYaw * currentMoveSpeed;
+        desiredVelocityY += -sinYaw * currentMoveSpeed;
     }
 
     if (pKeyboardState[SDL_SCANCODE_S])
     {
-        m_cameraPositionX -= forward.x * currentMoveSpeed * deltaSeconds;
-        m_cameraPositionY -= forward.y * currentMoveSpeed * deltaSeconds;
-        m_cameraPositionZ -= forward.z * currentMoveSpeed * deltaSeconds;
+        desiredVelocityX -= cosYaw * currentMoveSpeed;
+        desiredVelocityY -= -sinYaw * currentMoveSpeed;
     }
 
     if (pKeyboardState[SDL_SCANCODE_A])
     {
-        m_cameraPositionX -= right.x * currentMoveSpeed * deltaSeconds;
-        m_cameraPositionY -= right.y * currentMoveSpeed * deltaSeconds;
+        desiredVelocityX -= right.x * currentMoveSpeed;
+        desiredVelocityY -= right.y * currentMoveSpeed;
     }
 
     if (pKeyboardState[SDL_SCANCODE_D])
     {
-        m_cameraPositionX += right.x * currentMoveSpeed * deltaSeconds;
-        m_cameraPositionY += right.y * currentMoveSpeed * deltaSeconds;
+        desiredVelocityX += right.x * currentMoveSpeed;
+        desiredVelocityY += right.y * currentMoveSpeed;
+    }
+
+    if (m_pSceneRuntime != nullptr)
+    {
+        m_pSceneRuntime->partyRuntime().update(desiredVelocityX, desiredVelocityY, jumpRequested, deltaSeconds);
+        const IndoorMoveState &moveState = m_pSceneRuntime->partyRuntime().movementState();
+        m_cameraPositionX = moveState.x;
+        m_cameraPositionY = moveState.y;
+        m_cameraPositionZ = moveState.eyeZ();
+    }
+    else
+    {
+        if (pKeyboardState[SDL_SCANCODE_W])
+        {
+            m_cameraPositionX += forward.x * currentMoveSpeed * deltaSeconds;
+            m_cameraPositionY += forward.y * currentMoveSpeed * deltaSeconds;
+            m_cameraPositionZ += forward.z * currentMoveSpeed * deltaSeconds;
+        }
+
+        if (pKeyboardState[SDL_SCANCODE_S])
+        {
+            m_cameraPositionX -= forward.x * currentMoveSpeed * deltaSeconds;
+            m_cameraPositionY -= forward.y * currentMoveSpeed * deltaSeconds;
+            m_cameraPositionZ -= forward.z * currentMoveSpeed * deltaSeconds;
+        }
+
+        if (pKeyboardState[SDL_SCANCODE_A])
+        {
+            m_cameraPositionX -= right.x * currentMoveSpeed * deltaSeconds;
+            m_cameraPositionY -= right.y * currentMoveSpeed * deltaSeconds;
+        }
+
+        if (pKeyboardState[SDL_SCANCODE_D])
+        {
+            m_cameraPositionX += right.x * currentMoveSpeed * deltaSeconds;
+            m_cameraPositionY += right.y * currentMoveSpeed * deltaSeconds;
+        }
     }
 
     if (pKeyboardState[SDL_SCANCODE_1])

@@ -353,7 +353,10 @@ public:
         Party *pParty,
         const std::vector<size_t> &targetMemberIndices
     );
-    static void applyMechanismAction(RuntimeMechanismState &runtimeMechanism, MechanismAction action);
+    static void applyMechanismAction(
+        RuntimeMechanismState &runtimeMechanism,
+        const MapDeltaDoor *pDoor,
+        MechanismAction action);
     static int32_t getInventoryItemCount(
         const EventRuntimeState &runtimeState,
         const Party *pParty,

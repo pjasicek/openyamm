@@ -16,6 +16,9 @@
 #include "game/outdoor/OutdoorInteractionController.h"
 #include "game/gameplay/HouseInteraction.h"
 #include "game/gameplay/HouseServiceRuntime.h"
+#include "game/indoor/IndoorGeometryUtils.h"
+#include "game/indoor/IndoorMovementController.h"
+#include "game/indoor/IndoorWorldRuntime.h"
 #include "game/items/InventoryItemUseRuntime.h"
 #include "game/items/ItemEnchantRuntime.h"
 #include "game/items/ItemGenerator.h"
@@ -31,6 +34,7 @@
 #include "game/items/PriceCalculator.h"
 #include "game/maps/MapAssetLoader.h"
 #include "game/maps/SaveGame.h"
+#include "game/scene/IndoorSceneRuntime.h"
 #include "game/scene/OutdoorSceneRuntime.h"
 #include "game/ui/SpellbookUiLayout.h"
 #include "game/party/SpellIds.h"
@@ -1427,6 +1431,15 @@ struct RegressionScenario
     EventRuntimeState *pEventRuntimeState = nullptr;
 };
 
+struct IndoorRegressionScenario
+{
+    IndoorWorldRuntime world;
+    Party party;
+    EventRuntime eventRuntime;
+    std::optional<MapDeltaData> mapDeltaData;
+    std::optional<EventRuntimeState> eventRuntimeState;
+};
+
 int arcomageShownCardCount(const ArcomageState &state)
 {
     return static_cast<int>(std::count_if(
@@ -2011,6 +2024,39 @@ bool initializeRegressionScenario(
     return scenario.pEventRuntimeState != nullptr;
 }
 
+bool initializeIndoorRegressionScenario(
+    const GameDataLoader &gameDataLoader,
+    const MapAssetInfo &selectedMap,
+    IndoorRegressionScenario &scenario
+)
+{
+    if (!selectedMap.indoorMapData || !selectedMap.indoorMapDeltaData || !selectedMap.eventRuntimeState)
+    {
+        return false;
+    }
+
+    scenario.party = {};
+    scenario.party.setItemTable(&gameDataLoader.getItemTable());
+    scenario.party.setCharacterDollTable(&gameDataLoader.getCharacterDollTable());
+    scenario.party.setItemEnchantTables(
+        &gameDataLoader.getStandardItemEnchantTable(),
+        &gameDataLoader.getSpecialItemEnchantTable());
+    scenario.party.setClassSkillTable(&gameDataLoader.getClassSkillTable());
+    scenario.party.seed(createRegressionPartySeed());
+    scenario.mapDeltaData = *selectedMap.indoorMapDeltaData;
+    scenario.eventRuntimeState = *selectedMap.eventRuntimeState;
+    scenario.world.initialize(
+        selectedMap.map,
+        gameDataLoader.getMonsterTable(),
+        gameDataLoader.getObjectTable(),
+        gameDataLoader.getItemTable(),
+        &scenario.party,
+        &scenario.mapDeltaData,
+        &scenario.eventRuntimeState
+    );
+    return scenario.world.eventRuntimeState() != nullptr;
+}
+
 bool initializeHeadlessGameApplication(
     const std::string &mapFileName,
     const Engine::AssetFileSystem &assetFileSystem,
@@ -2259,6 +2305,38 @@ bool executeGlobalEventInScenario(
 
     scenario.world.applyEventRuntimeState();
     scenario.party.applyEventRuntimeState(*scenario.pEventRuntimeState);
+    return true;
+}
+
+bool executeLocalEventInIndoorScenario(
+    const MapAssetInfo &selectedMap,
+    IndoorRegressionScenario &scenario,
+    uint16_t eventId
+)
+{
+    EventRuntimeState *pEventRuntimeState = scenario.world.eventRuntimeState();
+
+    if (pEventRuntimeState == nullptr)
+    {
+        return false;
+    }
+
+    const bool executed = scenario.eventRuntime.executeEventById(
+        selectedMap.localEventProgram,
+        selectedMap.globalEventProgram,
+        eventId,
+        *pEventRuntimeState,
+        &scenario.party,
+        &scenario.world
+    );
+
+    if (!executed)
+    {
+        return false;
+    }
+
+    scenario.world.applyEventRuntimeState();
+    scenario.party.applyEventRuntimeState(*pEventRuntimeState);
     return true;
 }
 
@@ -2671,12 +2749,12 @@ bool executeDialogActionInScenario(
 }
 }
 
-HeadlessOutdoorDiagnostics::HeadlessOutdoorDiagnostics(const Engine::ApplicationConfig &config)
+HeadlessGameplayDiagnostics::HeadlessGameplayDiagnostics(const Engine::ApplicationConfig &config)
     : m_config(config)
 {
 }
 
-int HeadlessOutdoorDiagnostics::runProfileFullMapLoad(
+int HeadlessGameplayDiagnostics::runProfileFullMapLoad(
     const std::filesystem::path &basePath,
     const std::string &mapFileName
 ) const
@@ -2717,7 +2795,7 @@ int HeadlessOutdoorDiagnostics::runProfileFullMapLoad(
     return 0;
 }
 
-int HeadlessOutdoorDiagnostics::runSimulateActor(
+int HeadlessGameplayDiagnostics::runSimulateActor(
     const std::filesystem::path &basePath,
     const std::string &mapFileName,
     size_t actorIndex,
@@ -2834,7 +2912,7 @@ int HeadlessOutdoorDiagnostics::runSimulateActor(
     return 0;
 }
 
-int HeadlessOutdoorDiagnostics::runTraceActorAi(
+int HeadlessGameplayDiagnostics::runTraceActorAi(
     const std::filesystem::path &basePath,
     const std::string &mapFileName,
     size_t actorIndex,
@@ -2991,7 +3069,7 @@ int HeadlessOutdoorDiagnostics::runTraceActorAi(
     return 0;
 }
 
-int HeadlessOutdoorDiagnostics::runInspectActorPreview(
+int HeadlessGameplayDiagnostics::runInspectActorPreview(
     const std::filesystem::path &basePath,
     const std::string &mapFileName,
     size_t actorIndex
@@ -3105,7 +3183,7 @@ int HeadlessOutdoorDiagnostics::runInspectActorPreview(
     return 0;
 }
 
-int HeadlessOutdoorDiagnostics::runDumpActorSupport(
+int HeadlessGameplayDiagnostics::runDumpActorSupport(
     const std::filesystem::path &basePath,
     const std::string &mapFileName,
     size_t actorIndex
@@ -3242,7 +3320,7 @@ int HeadlessOutdoorDiagnostics::runDumpActorSupport(
     return 0;
 }
 
-int HeadlessOutdoorDiagnostics::runDumpActorPreviewTexture(
+int HeadlessGameplayDiagnostics::runDumpActorPreviewTexture(
     const std::filesystem::path &basePath,
     const std::string &mapFileName,
     size_t actorIndex,
@@ -3331,7 +3409,7 @@ int HeadlessOutdoorDiagnostics::runDumpActorPreviewTexture(
     return 0;
 }
 
-int HeadlessOutdoorDiagnostics::runOpenEvent(
+int HeadlessGameplayDiagnostics::runOpenEvent(
     const std::filesystem::path &basePath,
     const std::string &mapFileName,
     uint16_t eventId
@@ -3550,7 +3628,7 @@ int HeadlessOutdoorDiagnostics::runOpenEvent(
     return 0;
 }
 
-int HeadlessOutdoorDiagnostics::runOpenActor(
+int HeadlessGameplayDiagnostics::runOpenActor(
     const std::filesystem::path &basePath,
     const std::string &mapFileName,
     size_t actorIndex
@@ -3713,7 +3791,7 @@ int HeadlessOutdoorDiagnostics::runOpenActor(
     return 0;
 }
 
-int HeadlessOutdoorDiagnostics::runDialogSequence(
+int HeadlessGameplayDiagnostics::runDialogSequence(
     const std::filesystem::path &basePath,
     const std::string &mapFileName,
     uint16_t eventId,
@@ -4093,12 +4171,12 @@ int HeadlessOutdoorDiagnostics::runDialogSequence(
     return 0;
 }
 
-int HeadlessOutdoorDiagnostics::runRegressionSuite(
+int HeadlessGameplayDiagnostics::runRegressionSuite(
     const std::filesystem::path &basePath,
     const std::string &suiteName
 ) const
 {
-    if (suiteName != "dialogue" && suiteName != "chest" && suiteName != "arcomage")
+    if (suiteName != "dialogue" && suiteName != "chest" && suiteName != "arcomage" && suiteName != "indoor")
     {
         std::cerr << "Unknown regression suite: " << suiteName << '\n';
         return 2;
@@ -4121,23 +4199,27 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
     }
 
     const std::string mapFileName = "out01.odm";
-    const std::optional<MapAssetInfo> &initialSelectedMap = gameDataLoader.getSelectedMap();
-    const bool alreadyLoadedTargetMap =
-        initialSelectedMap
-        && toLowerCopy(std::filesystem::path(initialSelectedMap->map.fileName).filename().string()) == mapFileName;
-
-    if (!alreadyLoadedTargetMap && !gameDataLoader.loadMapByFileNameForHeadlessGameplay(assetFileSystem, mapFileName))
-    {
-        std::cerr << "Regression suite failed: could not load map \"" << mapFileName << "\"\n";
-        return 1;
-    }
-
     const std::optional<MapAssetInfo> &selectedMap = gameDataLoader.getSelectedMap();
 
-    if (!selectedMap || !selectedMap->outdoorMapData || !selectedMap->outdoorMapDeltaData)
+    if (suiteName != "indoor")
     {
-        std::cerr << "Regression suite failed: selected map is not an outdoor map\n";
-        return 1;
+        const std::optional<MapAssetInfo> &initialSelectedMap = gameDataLoader.getSelectedMap();
+        const bool alreadyLoadedTargetMap =
+            initialSelectedMap
+            && toLowerCopy(std::filesystem::path(initialSelectedMap->map.fileName).filename().string()) == mapFileName;
+
+        if (!alreadyLoadedTargetMap
+            && !gameDataLoader.loadMapByFileNameForHeadlessGameplay(assetFileSystem, mapFileName))
+        {
+            std::cerr << "Regression suite failed: could not load map \"" << mapFileName << "\"\n";
+            return 1;
+        }
+
+        if (!selectedMap || !selectedMap->outdoorMapData || !selectedMap->outdoorMapDeltaData)
+        {
+            std::cerr << "Regression suite failed: selected map is not an outdoor map\n";
+            return 1;
+        }
     }
 
     int passedCount = 0;
@@ -4176,6 +4258,855 @@ int HeadlessOutdoorDiagnostics::runRegressionSuite(
                 ++failedCount;
             }
         };
+
+    if (suiteName == "indoor")
+    {
+        runCase(
+            "indoor_scene_runtime_activate_event_uses_scene_context_for_summons",
+            [&](std::string &failure)
+            {
+                if (!gameDataLoader.loadMapByFileNameForHeadlessGameplay(assetFileSystem, "d18.blv"))
+                {
+                    failure = "could not load d18.blv";
+                    return false;
+                }
+
+                const std::optional<MapAssetInfo> &loadedMap = gameDataLoader.getSelectedMap();
+
+                if (!loadedMap || !loadedMap->indoorMapData || !loadedMap->indoorMapDeltaData || !loadedMap->eventRuntimeState)
+                {
+                    failure = "d18.blv missing indoor authored/runtime state";
+                    return false;
+                }
+
+                Party party = {};
+                party.setItemTable(&gameDataLoader.getItemTable());
+                party.setCharacterDollTable(&gameDataLoader.getCharacterDollTable());
+                party.setItemEnchantTables(
+                    &gameDataLoader.getStandardItemEnchantTable(),
+                    &gameDataLoader.getSpecialItemEnchantTable());
+                party.setClassSkillTable(&gameDataLoader.getClassSkillTable());
+                party.seed(createRegressionPartySeed());
+
+                IndoorSceneRuntime runtime(
+                    loadedMap->map.fileName,
+                    loadedMap->map,
+                    *loadedMap->indoorMapData,
+                    gameDataLoader.getMonsterTable(),
+                    gameDataLoader.getObjectTable(),
+                    gameDataLoader.getItemTable(),
+                    party,
+                    loadedMap->indoorMapDeltaData,
+                    loadedMap->eventRuntimeState,
+                    loadedMap->localEventProgram,
+                    loadedMap->globalEventProgram
+                );
+
+                const size_t initialActorCount =
+                    runtime.mapDeltaData() ? runtime.mapDeltaData()->actors.size() : 0;
+
+                if (!runtime.activateEvent(11, "regression", 0))
+                {
+                    failure = "event 11 did not execute";
+                    return false;
+                }
+
+                const std::optional<MapDeltaData> &runtimeMapDelta = runtime.mapDeltaData();
+
+                if (!runtimeMapDelta || runtimeMapDelta->actors.size() != initialActorCount + 1)
+                {
+                    failure = "event 11 did not summon one indoor actor";
+                    return false;
+                }
+
+                return true;
+            }
+        );
+
+        runCase(
+            "indoor_movement_controller_snaps_to_floor_and_blocks_walls",
+            [&](std::string &failure)
+            {
+                IndoorMapData indoorMapData = {};
+                indoorMapData.vertices = {
+                    {0, 0, 0},
+                    {1024, 0, 0},
+                    {1024, 1024, 0},
+                    {0, 1024, 0},
+                    {0, 0, 256},
+                    {1024, 0, 256},
+                    {1024, 1024, 256},
+                    {0, 1024, 256},
+                };
+
+                IndoorFace floor = {};
+                floor.vertexIndices = {0, 1, 2, 3};
+                floor.facetType = 3;
+                floor.roomNumber = 0;
+
+                IndoorFace ceiling = {};
+                ceiling.vertexIndices = {7, 6, 5, 4};
+                ceiling.facetType = 5;
+                ceiling.roomNumber = 0;
+
+                IndoorFace westWall = {};
+                westWall.vertexIndices = {0, 3, 7, 4};
+                westWall.facetType = 1;
+                westWall.roomNumber = 0;
+
+                IndoorFace eastWall = {};
+                eastWall.vertexIndices = {1, 5, 6, 2};
+                eastWall.facetType = 1;
+                eastWall.roomNumber = 0;
+
+                IndoorFace southWall = {};
+                southWall.vertexIndices = {0, 4, 5, 1};
+                southWall.facetType = 1;
+                southWall.roomNumber = 0;
+
+                IndoorFace northWall = {};
+                northWall.vertexIndices = {3, 2, 6, 7};
+                northWall.facetType = 1;
+                northWall.roomNumber = 0;
+
+                indoorMapData.faces = {
+                    floor,
+                    ceiling,
+                    westWall,
+                    eastWall,
+                    southWall,
+                    northWall,
+                };
+
+                IndoorSector sector = {};
+                sector.floorCount = 1;
+                sector.wallCount = 4;
+                sector.ceilingCount = 1;
+                sector.faceCount = 6;
+                sector.nonBspFaceCount = 6;
+                sector.floorFaceIds = {0};
+                sector.wallFaceIds = {2, 3, 4, 5};
+                sector.ceilingFaceIds = {1};
+                sector.faceIds = {0, 1, 2, 3, 4, 5};
+                sector.nonBspFaceIds = sector.faceIds;
+                indoorMapData.sectors = {sector};
+
+                std::optional<MapDeltaData> mapDeltaData = MapDeltaData {};
+                std::optional<EventRuntimeState> eventRuntimeState = EventRuntimeState {};
+                IndoorMovementController controller(indoorMapData, &mapDeltaData, &eventRuntimeState);
+                const IndoorBodyDimensions body = {};
+                const IndoorMoveState initialized =
+                    controller.initializeStateFromEyePosition(512.0f, 512.0f, 160.0f, body);
+
+                if (!initialized.grounded || std::fabs(initialized.footZ) > 0.1f)
+                {
+                    failure = "indoor movement did not snap the eye position to the floor";
+                    return false;
+                }
+
+                const std::optional<int16_t> sectorId = findIndoorSectorForPoint(
+                    indoorMapData,
+                    buildIndoorMechanismAdjustedVertices(
+                        indoorMapData,
+                        mapDeltaData ? &mapDeltaData.value() : nullptr,
+                        eventRuntimeState ? &eventRuntimeState.value() : nullptr),
+                    {initialized.x, initialized.y, initialized.eyeZ()});
+
+                if (!sectorId || *sectorId != 0)
+                {
+                    failure = "indoor sector query did not resolve the synthetic room sector";
+                    return false;
+                }
+
+                const IndoorMoveState moved = controller.resolveMove(initialized, body, 1200.0f, 0.0f, false, 1.0f);
+
+                if (moved.x > 1024.0f - body.radius)
+                {
+                    failure = "indoor wall collision allowed the body through the room wall";
+                    return false;
+                }
+
+                return true;
+            }
+        );
+
+        runCase(
+            "indoor_movement_controller_steps_over_low_wall_segments",
+            [&](std::string &failure)
+            {
+                IndoorMapData indoorMapData = {};
+                indoorMapData.vertices = {
+                    {0, 0, 0},
+                    {1024, 0, 0},
+                    {1024, 1024, 0},
+                    {0, 1024, 0},
+                    {0, 0, 256},
+                    {1024, 0, 256},
+                    {1024, 1024, 256},
+                    {0, 1024, 256},
+                    {640, 256, 0},
+                    {640, 768, 0},
+                    {640, 768, 24},
+                    {640, 256, 24},
+                };
+
+                IndoorFace floor = {};
+                floor.vertexIndices = {0, 1, 2, 3};
+                floor.facetType = 3;
+
+                IndoorFace ceiling = {};
+                ceiling.vertexIndices = {4, 7, 6, 5};
+                ceiling.facetType = 4;
+
+                IndoorFace wallNorth = {};
+                wallNorth.vertexIndices = {0, 4, 5, 1};
+                wallNorth.facetType = 1;
+
+                IndoorFace wallEast = {};
+                wallEast.vertexIndices = {1, 5, 6, 2};
+                wallEast.facetType = 1;
+
+                IndoorFace wallSouth = {};
+                wallSouth.vertexIndices = {2, 6, 7, 3};
+                wallSouth.facetType = 1;
+
+                IndoorFace wallWest = {};
+                wallWest.vertexIndices = {3, 7, 4, 0};
+                wallWest.facetType = 1;
+
+                IndoorFace lowWall = {};
+                lowWall.vertexIndices = {8, 11, 10, 9};
+                lowWall.facetType = 1;
+
+                indoorMapData.faces = {
+                    floor,
+                    ceiling,
+                    wallNorth,
+                    wallEast,
+                    wallSouth,
+                    wallWest,
+                    lowWall,
+                };
+
+                IndoorSector sector = {};
+                sector.floorCount = 1;
+                sector.wallCount = 5;
+                sector.ceilingCount = 1;
+                sector.faceCount = 7;
+                sector.nonBspFaceCount = 7;
+                sector.floorFaceIds = {0};
+                sector.wallFaceIds = {2, 3, 4, 5, 6};
+                sector.ceilingFaceIds = {1};
+                sector.faceIds = {0, 1, 2, 3, 4, 5, 6};
+                sector.nonBspFaceIds = sector.faceIds;
+                indoorMapData.sectors = {sector};
+
+                std::optional<MapDeltaData> mapDeltaData = MapDeltaData {};
+                std::optional<EventRuntimeState> eventRuntimeState = EventRuntimeState {};
+                IndoorMovementController controller(indoorMapData, &mapDeltaData, &eventRuntimeState);
+                const IndoorBodyDimensions body = {};
+                const IndoorMoveState initialized =
+                    controller.initializeStateFromEyePosition(512.0f, 512.0f, 160.0f, body);
+                const IndoorMoveState moved = controller.resolveMove(initialized, body, 180.0f, 0.0f, false, 1.0f);
+
+                if (moved.x <= 640.0f)
+                {
+                    failure = "indoor movement remained blocked by a low wall segment";
+                    return false;
+                }
+
+                return true;
+            }
+        );
+
+        runCase(
+            "indoor_event_runtime_trigger_mechanism_uses_authored_state_semantics",
+            [&](std::string &failure)
+            {
+                if (!gameDataLoader.loadMapByFileNameForHeadlessGameplay(assetFileSystem, "d18.blv"))
+                {
+                    failure = "could not load d18.blv";
+                    return false;
+                }
+
+                const std::optional<MapAssetInfo> &loadedMap = gameDataLoader.getSelectedMap();
+
+                if (!loadedMap || !loadedMap->indoorMapDeltaData || !loadedMap->eventRuntimeState)
+                {
+                    failure = "d18.blv missing indoor authored/runtime state";
+                    return false;
+                }
+
+                const MapDeltaDoor *pDoor72 = nullptr;
+
+                for (const MapDeltaDoor &door : loadedMap->indoorMapDeltaData->doors)
+                {
+                    if (door.doorId == 72)
+                    {
+                        pDoor72 = &door;
+                        break;
+                    }
+                }
+
+                if (pDoor72 == nullptr)
+                {
+                    failure = "mechanism 72 missing from d18.blv";
+                    return false;
+                }
+
+                Party party = {};
+                party.setItemTable(&gameDataLoader.getItemTable());
+                party.setCharacterDollTable(&gameDataLoader.getCharacterDollTable());
+                party.setItemEnchantTables(
+                    &gameDataLoader.getStandardItemEnchantTable(),
+                    &gameDataLoader.getSpecialItemEnchantTable());
+                party.setClassSkillTable(&gameDataLoader.getClassSkillTable());
+                party.seed(createRegressionPartySeed());
+
+                IndoorSceneRuntime runtime(
+                    loadedMap->map.fileName,
+                    loadedMap->map,
+                    *loadedMap->indoorMapData,
+                    gameDataLoader.getMonsterTable(),
+                    gameDataLoader.getObjectTable(),
+                    gameDataLoader.getItemTable(),
+                    party,
+                    loadedMap->indoorMapDeltaData,
+                    loadedMap->eventRuntimeState,
+                    loadedMap->localEventProgram,
+                    loadedMap->globalEventProgram
+                );
+
+                if (!runtime.activateEvent(12, "regression", 0))
+                {
+                    failure = "event 12 did not execute";
+                    return false;
+                }
+
+                EventRuntimeState *pEventRuntimeState = runtime.eventRuntimeState();
+
+                if (pEventRuntimeState == nullptr)
+                {
+                    failure = "event runtime state missing";
+                    return false;
+                }
+
+                const std::unordered_map<uint32_t, RuntimeMechanismState>::const_iterator iterator =
+                    pEventRuntimeState->mechanisms.find(72);
+
+                if (iterator == pEventRuntimeState->mechanisms.end())
+                {
+                    failure = "event 12 did not create mechanism state for 72";
+                    return false;
+                }
+
+                const uint16_t expectedState = pDoor72->state == static_cast<uint16_t>(EvtMechanismState::Closed)
+                    ? static_cast<uint16_t>(EvtMechanismState::Opening)
+                    : static_cast<uint16_t>(EvtMechanismState::Closing);
+
+                if (iterator->second.state != expectedState || !iterator->second.isMoving)
+                {
+                    failure = "event 12 trigger semantics do not match authored mechanism state";
+                    return false;
+                }
+
+                return true;
+            }
+        );
+
+        runCase(
+            "indoor_support_sampling_prefers_highest_floor_under_body_footprint",
+            [&](std::string &failure)
+            {
+                if (!gameDataLoader.loadMapByFileNameForHeadlessGameplay(assetFileSystem, "d18.blv"))
+                {
+                    failure = "could not load d18.blv";
+                    return false;
+                }
+
+                const std::optional<MapAssetInfo> &loadedMap = gameDataLoader.getSelectedMap();
+
+                if (!loadedMap || !loadedMap->indoorMapData || !loadedMap->indoorMapDeltaData || !loadedMap->eventRuntimeState)
+                {
+                    failure = "d18.blv missing indoor state";
+                    return false;
+                }
+
+                std::optional<EventRuntimeState> runtimeState = *loadedMap->eventRuntimeState;
+                RuntimeMechanismState mechanism = {};
+                mechanism.state = static_cast<uint16_t>(EvtMechanismState::Open);
+                mechanism.currentDistance = 0.0f;
+                mechanism.isMoving = false;
+                runtimeState->mechanisms[1] = mechanism;
+
+                IndoorMovementController controller(
+                    *loadedMap->indoorMapData,
+                    &loadedMap->indoorMapDeltaData,
+                    &runtimeState);
+                const IndoorBodyDimensions body = {};
+                IndoorMoveState current =
+                    controller.initializeStateFromEyePosition(480.0f, 930.0f, 16.0f, body);
+                float minimumFootZ = current.footZ;
+                float maximumFootZ = current.footZ;
+
+                for (int step = 0; step < 24; ++step)
+                {
+                    current = controller.resolveMove(current, body, 0.0f, 40.0f, false, 0.1f);
+                    minimumFootZ = std::min(minimumFootZ, current.footZ);
+                    maximumFootZ = std::max(maximumFootZ, current.footZ);
+
+                    if (current.footZ < -200.0f)
+                    {
+                        failure = "movement snapped into the retracted door pocket while approaching the doorway";
+                        return false;
+                    }
+                }
+
+                if (current.y < 980.0f)
+                {
+                    failure = "movement failed to continue through the open doorway";
+                    return false;
+                }
+
+                if (maximumFootZ - minimumFootZ > 24.0f)
+                {
+                    failure = "movement oscillated vertically while crossing the open doorway pocket";
+                    return false;
+                }
+
+                return true;
+            }
+        );
+
+        runCase(
+            "indoor_support_sampling_prefers_raised_open_door_surface_at_d18_seam",
+            [&](std::string &failure)
+            {
+                if (!gameDataLoader.loadMapByFileNameForHeadlessGameplay(assetFileSystem, "d18.blv"))
+                {
+                    failure = "could not load d18.blv";
+                    return false;
+                }
+
+                const std::optional<MapAssetInfo> &loadedMap = gameDataLoader.getSelectedMap();
+
+                if (!loadedMap || !loadedMap->indoorMapData || !loadedMap->indoorMapDeltaData || !loadedMap->eventRuntimeState)
+                {
+                    failure = "d18.blv missing indoor state";
+                    return false;
+                }
+
+                std::optional<EventRuntimeState> runtimeState = *loadedMap->eventRuntimeState;
+                RuntimeMechanismState mechanism = {};
+                mechanism.state = static_cast<uint16_t>(EvtMechanismState::Open);
+                mechanism.currentDistance = 0.0f;
+                mechanism.isMoving = false;
+                runtimeState->mechanisms[1] = mechanism;
+
+                IndoorMovementController controller(
+                    *loadedMap->indoorMapData,
+                    &loadedMap->indoorMapDeltaData,
+                    &runtimeState);
+                const IndoorBodyDimensions body = {};
+                IndoorMoveState current =
+                    controller.initializeStateFromEyePosition(-592.862f, -541.367f, 16.0f, body);
+                bool reachedRaisedSupport = false;
+
+                for (int step = 0; step < 8; ++step)
+                {
+                    current = controller.resolveMove(current, body, -37.2438f, 1279.46f, false, 0.00158256f);
+
+                    if (current.footZ >= -128.5f)
+                    {
+                        reachedRaisedSupport = true;
+                    }
+                }
+
+                if (!reachedRaisedSupport)
+                {
+                    failure = "movement did not step onto the raised doorway support at the seam";
+                    return false;
+                }
+
+                if (current.footZ < -128.5f || current.footZ > -127.5f)
+                {
+                    failure = "movement did not remain on the raised doorway support after crossing the seam";
+                    return false;
+                }
+
+                return true;
+            }
+        );
+
+        runCase(
+            "indoor_open_mechanism_faces_are_not_used_as_support_floor",
+            [&](std::string &failure)
+            {
+                if (!gameDataLoader.loadMapByFileNameForHeadlessGameplay(assetFileSystem, "d18.blv"))
+                {
+                    failure = "could not load d18.blv";
+                    return false;
+                }
+
+                const std::optional<MapAssetInfo> &loadedMap = gameDataLoader.getSelectedMap();
+
+                if (!loadedMap || !loadedMap->indoorMapData || !loadedMap->indoorMapDeltaData || !loadedMap->eventRuntimeState)
+                {
+                    failure = "d18.blv missing indoor state";
+                    return false;
+                }
+
+                std::optional<EventRuntimeState> runtimeState = *loadedMap->eventRuntimeState;
+                RuntimeMechanismState mechanism = {};
+                mechanism.state = static_cast<uint16_t>(EvtMechanismState::Open);
+                mechanism.currentDistance = 0.0f;
+                mechanism.isMoving = false;
+                runtimeState->mechanisms[6] = mechanism;
+
+                IndoorMovementController controller(
+                    *loadedMap->indoorMapData,
+                    &loadedMap->indoorMapDeltaData,
+                    &runtimeState);
+                const IndoorBodyDimensions body = {};
+                const IndoorMoveState initialized =
+                    controller.initializeStateFromEyePosition(1904.0f, 368.0f, 160.0f, body);
+
+                if (std::fabs(initialized.footZ - (-128.0f)) > 0.1f)
+                {
+                    failure = "open door 6 still contributes support floor at the doorway: footZ="
+                        + std::to_string(initialized.footZ)
+                        + " supportFace=" + std::to_string(initialized.supportFaceIndex);
+                    return false;
+                }
+
+                return true;
+            }
+        );
+
+        runCase(
+            "indoor_d18_local_startup_override_position_allows_movement",
+            [&](std::string &failure)
+            {
+                if (!gameDataLoader.loadMapByFileNameForHeadlessGameplay(assetFileSystem, "d18.blv"))
+                {
+                    failure = "could not load d18.blv";
+                    return false;
+                }
+
+                const std::optional<MapAssetInfo> &loadedMap = gameDataLoader.getSelectedMap();
+
+                if (!loadedMap || !loadedMap->indoorMapData || !loadedMap->indoorMapDeltaData || !loadedMap->eventRuntimeState)
+                {
+                    failure = "d18.blv missing indoor state";
+                    return false;
+                }
+
+                IndoorMovementController controller(
+                    *loadedMap->indoorMapData,
+                    &loadedMap->indoorMapDeltaData,
+                    &loadedMap->eventRuntimeState);
+                const IndoorBodyDimensions body = {};
+                const IndoorMoveState initial =
+                    controller.initializeStateFromEyePosition(-661.0f, -1059.0f, -39.0f, body);
+                const IndoorMoveState settled =
+                    controller.resolveMove(initial, body, 0.0f, 0.0f, false, 0.1f);
+                const IndoorMoveState jumped = controller.resolveMove(initial, body, 0.0f, 0.0f, true, 0.1f);
+                const IndoorMoveState moved = controller.resolveMove(initial, body, 0.0f, 160.0f, false, 0.1f);
+                const IndoorMoveState footSemanticInitial =
+                    controller.initializeStateFromEyePosition(-661.0f, -1059.0f, -39.0f + body.height, body);
+                const IndoorMoveState footSemanticJumped =
+                    controller.resolveMove(footSemanticInitial, body, 0.0f, 0.0f, true, 0.1f);
+                const IndoorMoveState footSemanticMoved =
+                    controller.resolveMove(footSemanticInitial, body, 0.0f, 160.0f, false, 0.1f);
+                const IndoorMoveState authoredEntranceInitial =
+                    controller.initializeStateFromEyePosition(-500.0f, -1567.0f, -63.0f + body.height, body);
+                const IndoorMoveState authoredEntranceSettled =
+                    controller.resolveMove(authoredEntranceInitial, body, 0.0f, 0.0f, false, 0.1f);
+                const IndoorMoveState authoredEntranceJumped =
+                    controller.resolveMove(authoredEntranceInitial, body, 0.0f, 0.0f, true, 0.1f);
+                const IndoorMoveState authoredEntranceMoved =
+                    controller.resolveMove(authoredEntranceInitial, body, 0.0f, 160.0f, false, 0.1f);
+
+                if ((!initial.grounded && settled.footZ < initial.footZ - 0.1f)
+                    || (!authoredEntranceInitial.grounded && authoredEntranceSettled.footZ < authoredEntranceInitial.footZ - 0.1f))
+                {
+                    failure =
+                        "startup position is unsupported and falls immediately"
+                        " eye_init=(" + std::to_string(initial.x)
+                        + "," + std::to_string(initial.y)
+                        + "," + std::to_string(initial.footZ)
+                        + "," + std::to_string(initial.grounded ? 1.0f : 0.0f)
+                        + ") eye_settled=(" + std::to_string(settled.footZ)
+                        + "," + std::to_string(settled.grounded ? 1.0f : 0.0f)
+                        + ") authored_init=(" + std::to_string(authoredEntranceInitial.x)
+                        + "," + std::to_string(authoredEntranceInitial.y)
+                        + "," + std::to_string(authoredEntranceInitial.footZ)
+                        + "," + std::to_string(authoredEntranceInitial.grounded ? 1.0f : 0.0f)
+                        + ") authored_settled=(" + std::to_string(authoredEntranceSettled.footZ)
+                        + "," + std::to_string(authoredEntranceSettled.grounded ? 1.0f : 0.0f)
+                        + ")";
+                    return false;
+                }
+
+                if (jumped.footZ == initial.footZ && jumped.verticalVelocity == initial.verticalVelocity)
+                {
+                    failure =
+                        "startup position rejected jump resolution"
+                        " eye_init=(" + std::to_string(initial.x)
+                        + "," + std::to_string(initial.y)
+                        + "," + std::to_string(initial.footZ)
+                        + ") eye_jump=(" + std::to_string(jumped.footZ)
+                        + "," + std::to_string(jumped.verticalVelocity)
+                        + ") foot_jump=(" + std::to_string(footSemanticJumped.footZ)
+                        + "," + std::to_string(footSemanticJumped.verticalVelocity)
+                        + ") authored_jump=(" + std::to_string(authoredEntranceJumped.footZ)
+                        + "," + std::to_string(authoredEntranceJumped.verticalVelocity)
+                        + ")";
+                    return false;
+                }
+
+                if (std::abs(moved.x - initial.x) <= 0.01f && std::abs(moved.y - initial.y) <= 0.01f)
+                {
+                    failure =
+                        "startup position rejected planar movement"
+                        " eye_move=(" + std::to_string(moved.x)
+                        + "," + std::to_string(moved.y)
+                        + ") foot_move=(" + std::to_string(footSemanticMoved.x)
+                        + "," + std::to_string(footSemanticMoved.y)
+                        + ") authored_move=(" + std::to_string(authoredEntranceMoved.x)
+                        + "," + std::to_string(authoredEntranceMoved.y)
+                        + ")";
+                    return false;
+                }
+
+                return true;
+            }
+        );
+
+        runCase(
+            "indoor_event_runtime_summon_item_materializes_sprite_object",
+            [&](std::string &failure)
+            {
+                if (!gameDataLoader.loadMapByFileNameForHeadlessGameplay(assetFileSystem, "d18.blv"))
+                {
+                    failure = "could not load d18.blv";
+                    return false;
+                }
+
+                const std::optional<MapAssetInfo> &loadedMap = gameDataLoader.getSelectedMap();
+
+                if (!loadedMap)
+                {
+                    failure = "selected map missing";
+                    return false;
+                }
+
+                IndoorRegressionScenario scenario = {};
+
+                if (!initializeIndoorRegressionScenario(gameDataLoader, *loadedMap, scenario))
+                {
+                    failure = "could not initialize indoor scenario";
+                    return false;
+                }
+
+                std::string error;
+                const std::optional<ScriptedEventProgram> scriptedProgram = loadSyntheticScriptedProgram(
+                    "evt.map[1] = function()\n"
+                    "    evt.SummonItem(200, 128, 256, 384, 0, 1, false)\n"
+                    "end\n",
+                    "indoor_summon_item.lua",
+                    ScriptedEventScope::Map,
+                    error
+                );
+
+                if (!scriptedProgram)
+                {
+                    failure = "could not build synthetic summon-item script: " + error;
+                    return false;
+                }
+
+                const size_t initialObjectCount = scenario.mapDeltaData ? scenario.mapDeltaData->spriteObjects.size() : 0;
+                EventRuntimeState *pEventRuntimeState = scenario.world.eventRuntimeState();
+
+                if (pEventRuntimeState == nullptr)
+                {
+                    failure = "event runtime state missing";
+                    return false;
+                }
+
+                if (!scenario.eventRuntime.executeEventById(
+                        scriptedProgram,
+                        loadedMap->globalEventProgram,
+                        1,
+                        *pEventRuntimeState,
+                        &scenario.party,
+                        &scenario.world))
+                {
+                    failure = "synthetic summon-item event did not execute";
+                    return false;
+                }
+
+                scenario.world.applyEventRuntimeState();
+
+                if (!scenario.mapDeltaData || scenario.mapDeltaData->spriteObjects.size() != initialObjectCount + 1)
+                {
+                    failure = "synthetic summon-item event did not add one sprite object";
+                    return false;
+                }
+
+                const MapDeltaSpriteObject &object = scenario.mapDeltaData->spriteObjects.back();
+
+                if (object.objectDescriptionId == 0 || object.rawContainingItem.size() < sizeof(int32_t))
+                {
+                    failure = "spawned indoor sprite object payload is incomplete";
+                    return false;
+                }
+
+                int32_t rawItemId = 0;
+                std::memcpy(&rawItemId, object.rawContainingItem.data(), sizeof(rawItemId));
+
+                if (rawItemId != 200)
+                {
+                    failure = "spawned indoor sprite object carried wrong item payload";
+                    return false;
+                }
+
+                return true;
+            }
+        );
+
+        runCase(
+            "indoor_check_monsters_killed_respects_invisible_as_dead",
+            [&](std::string &failure)
+            {
+                if (!gameDataLoader.loadMapByFileNameForHeadlessGameplay(assetFileSystem, "d18.blv"))
+                {
+                    failure = "could not load d18.blv";
+                    return false;
+                }
+
+                const std::optional<MapAssetInfo> &loadedMap = gameDataLoader.getSelectedMap();
+
+                if (!loadedMap)
+                {
+                    failure = "selected map missing";
+                    return false;
+                }
+
+                IndoorRegressionScenario scenario = {};
+
+                if (!initializeIndoorRegressionScenario(gameDataLoader, *loadedMap, scenario))
+                {
+                    failure = "could not initialize indoor scenario";
+                    return false;
+                }
+
+                MapDeltaActor actor = {};
+                actor.hp = 100;
+                actor.group = 77;
+                scenario.mapDeltaData->actors.push_back(actor);
+
+                if (scenario.world.checkMonstersKilled(
+                        static_cast<uint32_t>(EvtActorKillCheck::Group),
+                        77,
+                        0,
+                        false))
+                {
+                    failure = "visible living actor was treated as killed";
+                    return false;
+                }
+
+                scenario.mapDeltaData->actors.back().attributes |= static_cast<uint32_t>(EvtActorAttribute::Invisible);
+
+                if (!scenario.world.checkMonstersKilled(
+                        static_cast<uint32_t>(EvtActorKillCheck::Group),
+                        77,
+                        0,
+                        true))
+                {
+                    failure = "invisible indoor actor was not treated as defeated";
+                    return false;
+                }
+
+                return true;
+            }
+        );
+
+        runCase(
+            "indoor_event_runtime_cast_spell_queues_fx_request",
+            [&](std::string &failure)
+            {
+                if (!gameDataLoader.loadMapByFileNameForHeadlessGameplay(assetFileSystem, "d18.blv"))
+                {
+                    failure = "could not load d18.blv";
+                    return false;
+                }
+
+                const std::optional<MapAssetInfo> &loadedMap = gameDataLoader.getSelectedMap();
+
+                if (!loadedMap)
+                {
+                    failure = "selected map missing";
+                    return false;
+                }
+
+                IndoorRegressionScenario scenario = {};
+
+                if (!initializeIndoorRegressionScenario(gameDataLoader, *loadedMap, scenario))
+                {
+                    failure = "could not initialize indoor scenario";
+                    return false;
+                }
+
+                std::string error;
+                const std::optional<ScriptedEventProgram> scriptedProgram = loadSyntheticScriptedProgram(
+                    "evt.map[1] = function()\n"
+                    "    evt.CastSpell(6, 10, 3, 100, 200, 300, 400, 500, 600)\n"
+                    "end\n",
+                    "indoor_cast_spell.lua",
+                    ScriptedEventScope::Map,
+                    error
+                );
+
+                if (!scriptedProgram)
+                {
+                    failure = "could not build synthetic cast-spell script: " + error;
+                    return false;
+                }
+
+                EventRuntimeState *pEventRuntimeState = scenario.world.eventRuntimeState();
+
+                if (pEventRuntimeState == nullptr)
+                {
+                    failure = "event runtime state missing";
+                    return false;
+                }
+
+                if (!scenario.eventRuntime.executeEventById(
+                        scriptedProgram,
+                        loadedMap->globalEventProgram,
+                        1,
+                        *pEventRuntimeState,
+                        &scenario.party,
+                        &scenario.world))
+                {
+                    failure = "synthetic cast-spell event did not execute";
+                    return false;
+                }
+
+                if (pEventRuntimeState->spellFxRequests.empty() || pEventRuntimeState->spellFxRequests.back().spellId != 6)
+                {
+                    failure = "indoor cast-spell path did not queue spell fx";
+                    return false;
+                }
+
+                return true;
+            }
+        );
+
+        std::cout << "Regression suite summary: passed=" << passedCount << " failed=" << failedCount << '\n';
+        return failedCount == 0 ? 0 : 1;
+    }
 
     if (suiteName == "chest")
     {

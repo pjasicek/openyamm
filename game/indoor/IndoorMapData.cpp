@@ -12,6 +12,92 @@ namespace OpenYAMM::Game
 {
 namespace
 {
+void copyFaceVertex(IndoorFace &face, size_t sourceIndex, size_t destinationIndex)
+{
+    face.vertexIndices[destinationIndex] = face.vertexIndices[sourceIndex];
+    face.textureUs[destinationIndex] = face.textureUs[sourceIndex];
+    face.textureVs[destinationIndex] = face.textureVs[sourceIndex];
+}
+
+void dropDuplicateFaceVertices(IndoorFace &face)
+{
+    if (face.vertexIndices.size() != face.textureUs.size()
+        || face.vertexIndices.size() != face.textureVs.size())
+    {
+        face.vertexIndices.clear();
+        face.textureUs.clear();
+        face.textureVs.clear();
+        return;
+    }
+
+    size_t writeIndex = 0;
+
+    for (size_t readIndex = 0; readIndex < face.vertexIndices.size(); ++readIndex)
+    {
+        if (writeIndex > 0 && face.vertexIndices[readIndex] == face.vertexIndices[writeIndex - 1])
+        {
+            continue;
+        }
+
+        if (writeIndex > 1 && face.vertexIndices[readIndex] == face.vertexIndices[writeIndex - 2])
+        {
+            --writeIndex;
+            continue;
+        }
+
+        if (readIndex != writeIndex)
+        {
+            copyFaceVertex(face, readIndex, writeIndex);
+        }
+
+        ++writeIndex;
+    }
+
+    if (writeIndex == 0)
+    {
+        face.vertexIndices.clear();
+        face.textureUs.clear();
+        face.textureVs.clear();
+        return;
+    }
+
+    size_t left = 0;
+    size_t right = writeIndex - 1;
+
+    while (left < right)
+    {
+        if (face.vertexIndices[left] == face.vertexIndices[right])
+        {
+            --right;
+        }
+        else if (right > left + 1 && face.vertexIndices[left] == face.vertexIndices[right - 1])
+        {
+            right -= 2;
+        }
+        else if (right > left + 1 && face.vertexIndices[left + 1] == face.vertexIndices[right])
+        {
+            left += 2;
+        }
+        else
+        {
+            break;
+        }
+    }
+
+    if (left != 0)
+    {
+        for (size_t index = left; index <= right; ++index)
+        {
+            copyFaceVertex(face, index, index - left);
+        }
+    }
+
+    const size_t finalCount = right >= left ? (right - left + 1) : 0;
+    face.vertexIndices.resize(finalCount);
+    face.textureUs.resize(finalCount);
+    face.textureVs.resize(finalCount);
+}
+
 constexpr size_t SectionOffset = 0x88;
 constexpr size_t FaceDataSizeOffset = 0x68;
 constexpr size_t SectorRDataSizeOffset = 0x6c;
@@ -262,12 +348,13 @@ std::optional<IndoorMapData> IndoorMapDataLoader::loadFromBytes(const std::vecto
     offset += static_cast<size_t>(faceParamCount) * FaceParamRecordSize;
     offset += static_cast<size_t>(faceParamCount) * FaceParamNameSize;
 
-    indoorMapData.faces.reserve(static_cast<size_t>(faceCount));
+    indoorMapData.faces.resize(static_cast<size_t>(std::max(faceCount, 0)));
 
     size_t faceDataCursor = faceDataOffset;
 
     for (int faceIndex = 0; faceIndex < faceCount; ++faceIndex)
     {
+        IndoorFace &face = indoorMapData.faces[static_cast<size_t>(faceIndex)];
         const size_t headerOffset = faceHeadersOffset + static_cast<size_t>(faceIndex) * layout->faceRecordSize;
         const size_t faceStructOffset = (layout->version > 6) ? headerOffset + 0x10 : headerOffset;
 
@@ -284,12 +371,7 @@ std::optional<IndoorMapData> IndoorMapDataLoader::loadFromBytes(const std::vecto
         reader.readUInt8(faceStructOffset + 0x4c, facetType);
         reader.readUInt8(faceStructOffset + 0x4d, vertexPerFaceCount);
 
-        if (vertexPerFaceCount < 3)
-        {
-            continue;
-        }
-
-        IndoorFace face = {};
+        face = {};
         face.attributes = attributes;
         face.isPortal = (attributes & 0x1u) != 0;
         face.roomNumber = roomNumber;
@@ -300,39 +382,38 @@ std::optional<IndoorMapData> IndoorMapDataLoader::loadFromBytes(const std::vecto
             faceTextureNamesOffset + static_cast<size_t>(faceIndex) * TextureNameSize
         );
 
+        const size_t streamStride = static_cast<size_t>(vertexPerFaceCount + 1) * sizeof(int16_t);
+
         face.vertexIndices.reserve(vertexPerFaceCount);
         face.textureUs.reserve(vertexPerFaceCount);
         face.textureVs.reserve(vertexPerFaceCount);
-
-        const size_t streamStride = static_cast<size_t>(vertexPerFaceCount + 1) * sizeof(int16_t);
-
-        for (size_t vertexIndex = 0; vertexIndex < vertexPerFaceCount; ++vertexIndex)
+        if (vertexPerFaceCount >= 3)
         {
-            uint16_t vertexId = 0;
-            int16_t textureU = 0;
-            int16_t textureV = 0;
-
-            reader.readUInt16(faceDataCursor + vertexIndex * sizeof(uint16_t), vertexId);
-            reader.readInt16(faceDataCursor + streamStride * 4 + vertexIndex * sizeof(int16_t), textureU);
-            reader.readInt16(faceDataCursor + streamStride * 5 + vertexIndex * sizeof(int16_t), textureV);
-
-            if (vertexId >= indoorMapData.vertices.size())
+            for (size_t vertexIndex = 0; vertexIndex < vertexPerFaceCount; ++vertexIndex)
             {
-                face.vertexIndices.clear();
-                break;
-            }
+                uint16_t vertexId = 0;
+                int16_t textureU = 0;
+                int16_t textureV = 0;
 
-            face.vertexIndices.push_back(vertexId);
-            face.textureUs.push_back(textureU);
-            face.textureVs.push_back(textureV);
+                reader.readUInt16(faceDataCursor + vertexIndex * sizeof(uint16_t), vertexId);
+                reader.readInt16(faceDataCursor + streamStride * 4 + vertexIndex * sizeof(int16_t), textureU);
+                reader.readInt16(faceDataCursor + streamStride * 5 + vertexIndex * sizeof(int16_t), textureV);
+
+                if (vertexId >= indoorMapData.vertices.size())
+                {
+                    face.vertexIndices.clear();
+                    face.textureUs.clear();
+                    face.textureVs.clear();
+                    break;
+                }
+
+                face.vertexIndices.push_back(vertexId);
+                face.textureUs.push_back(textureU);
+                face.textureVs.push_back(textureV);
+            }
         }
 
         faceDataCursor += streamStride * 6;
-
-        if (face.vertexIndices.size() < 3)
-        {
-            continue;
-        }
 
         if (faceParamIndex < static_cast<uint16_t>(faceParamCount))
         {
@@ -348,7 +429,10 @@ std::optional<IndoorMapData> IndoorMapDataLoader::loadFromBytes(const std::vecto
             reader.readUInt16(faceParamOffset + 0x22, face.lightLevel);
         }
 
-        indoorMapData.faces.push_back(face);
+        if (face.vertexIndices.size() >= 3)
+        {
+            dropDuplicateFaceVertices(face);
+        }
     }
 
     int sectorCount = 0;
@@ -366,10 +450,14 @@ std::optional<IndoorMapData> IndoorMapDataLoader::loadFromBytes(const std::vecto
         reader.readUInt16(sectorOffset + 0x04, sector.floorCount);
         reader.readUInt16(sectorOffset + 0x0c, sector.wallCount);
         reader.readUInt16(sectorOffset + 0x14, sector.ceilingCount);
+        reader.readUInt16(sectorOffset + 0x1c, sector.fluidCount);
         reader.readInt16(sectorOffset + 0x24, sector.portalCount);
         reader.readUInt16(sectorOffset + 0x2c, sector.faceCount);
         reader.readUInt16(sectorOffset + 0x2e, sector.nonBspFaceCount);
+        reader.readUInt16(sectorOffset + 0x34, sector.cylinderFaceCount);
+        reader.readUInt16(sectorOffset + 0x3c, sector.cogCount);
         reader.readUInt16(sectorOffset + 0x44, sector.decorationCount);
+        reader.readUInt16(sectorOffset + 0x4c, sector.markerCount);
         reader.readUInt16(sectorOffset + 0x54, sector.lightCount);
         reader.readInt16(sectorOffset + 0x5c, sector.waterLevel);
         reader.readInt16(sectorOffset + 0x5e, sector.mistLevel);
@@ -405,6 +493,58 @@ std::optional<IndoorMapData> IndoorMapDataLoader::loadFromBytes(const std::vecto
     }
 
     offset += static_cast<size_t>(sectorRLDataSize);
+
+    size_t sectorDataIndex = 0;
+
+    for (IndoorSector &sector : indoorMapData.sectors)
+    {
+        const auto consumeSectorData = [&indoorMapData, &sectorDataIndex](size_t count, std::vector<uint16_t> &output)
+        {
+            output.clear();
+            output.reserve(count);
+
+            for (size_t index = 0; index < count && sectorDataIndex < indoorMapData.sectorData.size(); ++index)
+            {
+                output.push_back(indoorMapData.sectorData[sectorDataIndex++]);
+            }
+        };
+
+        consumeSectorData(sector.floorCount, sector.floorFaceIds);
+        consumeSectorData(sector.wallCount, sector.wallFaceIds);
+        consumeSectorData(sector.ceilingCount, sector.ceilingFaceIds);
+        sectorDataIndex += sector.fluidCount;
+        consumeSectorData(static_cast<size_t>(std::max<int16_t>(sector.portalCount, 0)), sector.portalFaceIds);
+        consumeSectorData(sector.faceCount, sector.faceIds);
+
+        if (sector.nonBspFaceCount < sector.faceIds.size())
+        {
+            sector.nonBspFaceIds.assign(sector.faceIds.begin(), sector.faceIds.begin() + sector.nonBspFaceCount);
+        }
+        else
+        {
+            sector.nonBspFaceIds = sector.faceIds;
+        }
+
+        consumeSectorData(sector.cylinderFaceCount, sector.cylinderFaceIds);
+        sectorDataIndex += sector.cogCount;
+        consumeSectorData(sector.decorationCount, sector.decorationIds);
+        sectorDataIndex += sector.markerCount;
+    }
+
+    size_t sectorLightDataIndex = 0;
+
+    for (IndoorSector &sector : indoorMapData.sectors)
+    {
+        sector.lightIds.clear();
+        sector.lightIds.reserve(sector.lightCount);
+
+        for (size_t lightIndex = 0;
+             lightIndex < sector.lightCount && sectorLightDataIndex < indoorMapData.sectorLightData.size();
+             ++lightIndex)
+        {
+            sector.lightIds.push_back(indoorMapData.sectorLightData[sectorLightDataIndex++]);
+        }
+    }
 
     int spriteHeaderCount = 0;
     int spriteCount = 0;

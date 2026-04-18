@@ -11865,6 +11865,11 @@ const Party *OutdoorWorldRuntime::party() const
     return m_pParty;
 }
 
+const MapDeltaData *OutdoorWorldRuntime::mapDeltaData() const
+{
+    return m_pOutdoorMapDeltaData;
+}
+
 EventRuntimeState *OutdoorWorldRuntime::eventRuntimeState()
 {
     if (!m_eventRuntimeState)
