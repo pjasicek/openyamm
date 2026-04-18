@@ -143,6 +143,11 @@ std::optional<SDL_Scancode> firstNewlyPressedScancode(
 
     return std::nullopt;
 }
+
+const char *activeGameplayButtonLayoutId(const OutdoorGameView &view, const char *pWideId, const char *pStandardId)
+{
+    return view.settingsSnapshot().gameplayUiLayout == GameplayUiLayout::Standard ? pStandardId : pWideId;
+}
 } // namespace
 
 void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view, float deltaSeconds)
@@ -421,6 +426,8 @@ void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view
 
     if (canToggleMenu && allowGameplayPointerInput && !blocksUnderlyingMouseInput && screenWidth > 0 && screenHeight > 0)
     {
+        const char *pOptionsButtonLayoutId =
+            activeGameplayButtonLayoutId(view, "OutdoorButtonOptions", "OutdoorStandardButtonOptions");
         float optionsButtonMouseX = 0.0f;
         float optionsButtonMouseY = 0.0f;
         const SDL_MouseButtonFlags optionsButtonMouseButtons =
@@ -436,10 +443,10 @@ void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view
             view.m_optionsButtonClickLatch,
             view.m_optionsButtonPressed,
             false,
-            [&view, screenWidth, screenHeight](float pointerX, float pointerY) -> bool
+            [&view, pOptionsButtonLayoutId, screenWidth, screenHeight](float pointerX, float pointerY) -> bool
             {
                 const OutdoorGameView::HudLayoutElement *pLayout =
-                    HudUiService::findHudLayoutElement(view, "OutdoorButtonOptions");
+                    HudUiService::findHudLayoutElement(view, pOptionsButtonLayoutId);
 
                 if (pLayout == nullptr)
                 {
@@ -449,7 +456,7 @@ void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view
                 const std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolved =
                     HudUiService::resolveHudLayoutElement(
                         view,
-                        "OutdoorButtonOptions",
+                        pOptionsButtonLayoutId,
                         screenWidth,
                         screenHeight,
                         pLayout->width,
@@ -502,6 +509,8 @@ void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view
 
     if (canOpenRestScreen && allowGameplayPointerInput && !blocksUnderlyingMouseInput && screenWidth > 0 && screenHeight > 0)
     {
+        const char *pRestButtonLayoutId =
+            activeGameplayButtonLayoutId(view, "OutdoorButtonRest", "OutdoorStandardButtonRest");
         float restButtonMouseX = 0.0f;
         float restButtonMouseY = 0.0f;
         const SDL_MouseButtonFlags restButtonMouseButtons =
@@ -518,10 +527,11 @@ void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view
             view.m_restClickLatch,
             view.m_restPressedTarget,
             noneRestTarget,
-            [&view, screenWidth, screenHeight](float pointerX, float pointerY) -> OutdoorGameView::RestPointerTarget
+            [&view, pRestButtonLayoutId, screenWidth, screenHeight](float pointerX, float pointerY)
+                -> OutdoorGameView::RestPointerTarget
             {
                 const OutdoorGameView::HudLayoutElement *pLayout =
-                    HudUiService::findHudLayoutElement(view, "OutdoorButtonRest");
+                    HudUiService::findHudLayoutElement(view, pRestButtonLayoutId);
 
                 if (pLayout == nullptr)
                 {
@@ -531,7 +541,7 @@ void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view
                 const std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolved =
                     HudUiService::resolveHudLayoutElement(
                         view,
-                        "OutdoorButtonRest",
+                        pRestButtonLayoutId,
                         screenWidth,
                         screenHeight,
                         pLayout->width,
@@ -588,6 +598,8 @@ void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view
 
     if (canToggleJournal && allowGameplayPointerInput && !blocksUnderlyingMouseInput && screenWidth > 0 && screenHeight > 0)
     {
+        const char *pBooksButtonLayoutId =
+            activeGameplayButtonLayoutId(view, "OutdoorButtonBooks", "OutdoorStandardButtonBooks");
         float booksButtonMouseX = 0.0f;
         float booksButtonMouseY = 0.0f;
         const SDL_MouseButtonFlags booksButtonMouseButtons =
@@ -603,10 +615,10 @@ void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view
             view.m_booksButtonClickLatch,
             view.m_booksButtonPressed,
             false,
-            [&view, screenWidth, screenHeight](float pointerX, float pointerY) -> bool
+            [&view, pBooksButtonLayoutId, screenWidth, screenHeight](float pointerX, float pointerY) -> bool
             {
                 const OutdoorGameView::HudLayoutElement *pLayout =
-                    HudUiService::findHudLayoutElement(view, "OutdoorButtonBooks");
+                    HudUiService::findHudLayoutElement(view, pBooksButtonLayoutId);
 
                 if (pLayout == nullptr)
                 {
@@ -616,7 +628,7 @@ void OutdoorGameplayInputController::updateCameraFromInput(OutdoorGameView &view
                 const std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolved =
                     HudUiService::resolveHudLayoutElement(
                         view,
-                        "OutdoorButtonBooks",
+                        pBooksButtonLayoutId,
                         screenWidth,
                         screenHeight,
                         pLayout->width,

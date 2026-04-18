@@ -79,6 +79,11 @@ bool usesBlackTransparencyKey(std::string_view textureName)
     return normalizedName.rfind("mapdir", 0) == 0 || normalizedName.rfind("micon", 0) == 0;
 }
 
+const char *activeBuffLayoutId(const OutdoorGameView &view, const char *pWideId, const char *pStandardId)
+{
+    return view.settingsSnapshot().gameplayUiLayout == GameplayUiLayout::Standard ? pStandardId : pWideId;
+}
+
 using SpellbookSchool = OutdoorGameView::SpellbookSchool;
 using SpellbookPointerTargetType = OutdoorGameView::SpellbookPointerTargetType;
 constexpr int MinutesPerDay = 24 * 60;
@@ -7022,8 +7027,18 @@ std::optional<OutdoorGameView::ResolvedHudLayoutElement> OutdoorGameView::resolv
         || hudScreenState == HudScreenState::SaveGame
         || hudScreenState == HudScreenState::LoadGame
         || hudScreenState == HudScreenState::Journal;
-    const std::string basebarLayoutId = isLimitedOverlayHud ? "OutdoorBasebar" : "OutdoorGameplayBasebar";
-    const std::string partyStripLayoutId = isLimitedOverlayHud ? "OutdoorPartyStrip" : "OutdoorGameplayPartyStrip";
+    const bool useGameplayWideHud =
+        !isLimitedOverlayHud && m_gameSettings.gameplayUiLayout == GameplayUiLayout::Widescreen;
+    const std::string basebarLayoutId = isLimitedOverlayHud
+        ? "OutdoorBasebar"
+        : (m_gameSettings.gameplayUiLayout == GameplayUiLayout::Standard
+            ? "OutdoorStandardBasebar"
+            : "OutdoorGameplayBasebar");
+    const std::string partyStripLayoutId = isLimitedOverlayHud
+        ? "OutdoorPartyStrip"
+        : (m_gameSettings.gameplayUiLayout == GameplayUiLayout::Standard
+            ? "OutdoorStandardPartyStrip"
+            : "OutdoorGameplayPartyStrip");
     const HudLayoutElement *pBasebarLayout = HudUiService::findHudLayoutElement(*this, basebarLayoutId);
     const HudLayoutElement *pPartyStripLayout = HudUiService::findHudLayoutElement(*this, partyStripLayoutId);
 
@@ -7071,7 +7086,7 @@ std::optional<OutdoorGameView::ResolvedHudLayoutElement> OutdoorGameView::resolv
     float portraitY = resolvedPartyStrip->y + resolvedPartyStrip->height * (23.0f / 92.0f);
     const float portraitDeltaX = resolvedPartyStrip->width * (94.0f / 471.0f);
 
-    if (!isLimitedOverlayHud)
+    if (useGameplayWideHud)
     {
         const float basebarCenterX = resolvedBasebar->x + resolvedBasebar->width * 0.5f;
         const float portraitGroupWidth =
@@ -8037,29 +8052,66 @@ void OutdoorGameView::updateBuffInspectOverlayState(int width, int height)
 
     struct PartyBuffInspectTarget
     {
-        const char *pLayoutId;
+        const char *pWideLayoutId;
+        const char *pStandardLayoutId;
         const char *pLabel;
         PartyBuffId buffId;
         bool skullPanel;
     };
 
     static constexpr PartyBuffInspectTarget BuffTargets[] = {
-        {"OutdoorBuffSkull_Torchlight", "Torch Light", PartyBuffId::TorchLight, true},
-        {"OutdoorBuffSkull_WizardEye", "Wizard Eye", PartyBuffId::WizardEye, true},
-        {"OutdoorBuffSkull_Featherfall", "Feather Fall", PartyBuffId::FeatherFall, true},
-        {"OutdoorBuffSkull_Stoneskin", "Stoneskin", PartyBuffId::Stoneskin, true},
-        {"OutdoorBuffSkull_DayOfGods", "Day of the Gods", PartyBuffId::DayOfGods, true},
-        {"OutdoorBuffSkull_ProtectionFromGods", "Protection from Magic", PartyBuffId::ProtectionFromMagic, true},
-        {"OutdoorBuffBody_FireResistance", "Fire Resistance", PartyBuffId::FireResistance, false},
-        {"OutdoorBuffBody_WaterResistance", "Water Resistance", PartyBuffId::WaterResistance, false},
-        {"OutdoorBuffBody_AirResistance", "Air Resistance", PartyBuffId::AirResistance, false},
-        {"OutdoorBuffBody_EarthResistance", "Earth Resistance", PartyBuffId::EarthResistance, false},
-        {"OutdoorBuffBody_MindResistance", "Mind Resistance", PartyBuffId::MindResistance, false},
-        {"OutdoorBuffBody_BodyResistance", "Body Resistance", PartyBuffId::BodyResistance, false},
-        {"OutdoorBuffBody_Shield", "Shield", PartyBuffId::Shield, false},
-        {"OutdoorBuffBody_Heroism", "Heroism", PartyBuffId::Heroism, false},
-        {"OutdoorBuffBody_Haste", "Haste", PartyBuffId::Haste, false},
-        {"OutdoorBuffBody_Immolation", "Immolation", PartyBuffId::Immolation, false},
+        {"OutdoorBuffSkull_Torchlight", "OutdoorStandardBuffSkull_Torchlight", "Torch Light", PartyBuffId::TorchLight, true},
+        {"OutdoorBuffSkull_WizardEye", "OutdoorStandardBuffSkull_WizardEye", "Wizard Eye", PartyBuffId::WizardEye, true},
+        {"OutdoorBuffSkull_Featherfall", "OutdoorStandardBuffSkull_FeatherFall", "Feather Fall", PartyBuffId::FeatherFall, true},
+        {"OutdoorBuffSkull_Stoneskin", "OutdoorStandardBuffSkull_Stoneskin", "Stoneskin", PartyBuffId::Stoneskin, true},
+        {"OutdoorBuffSkull_DayOfGods", "OutdoorStandardBuffSkull_DayOfGods", "Day of the Gods", PartyBuffId::DayOfGods, true},
+        {
+            "OutdoorBuffSkull_ProtectionFromGods",
+            "OutdoorStandardBuffSkull_ProtectionFromGods",
+            "Protection from Magic",
+            PartyBuffId::ProtectionFromMagic,
+            true
+        },
+        {
+            "OutdoorBuffBody_FireResistance",
+            "OutdoorStandardBuffBody_FireResistance",
+            "Fire Resistance",
+            PartyBuffId::FireResistance,
+            false
+        },
+        {
+            "OutdoorBuffBody_WaterResistance",
+            "OutdoorStandardBuffBody_WaterResistance",
+            "Water Resistance",
+            PartyBuffId::WaterResistance,
+            false
+        },
+        {"OutdoorBuffBody_AirResistance", "OutdoorStandardBuffBody_AirResistance", "Air Resistance", PartyBuffId::AirResistance, false},
+        {
+            "OutdoorBuffBody_EarthResistance",
+            "OutdoorStandardBuffBody_EarthResistance",
+            "Earth Resistance",
+            PartyBuffId::EarthResistance,
+            false
+        },
+        {
+            "OutdoorBuffBody_MindResistance",
+            "OutdoorStandardBuffBody_MindResistance",
+            "Mind Resistance",
+            PartyBuffId::MindResistance,
+            false
+        },
+        {
+            "OutdoorBuffBody_BodyResistance",
+            "OutdoorStandardBuffBody_BodyResistance",
+            "Body Resistance",
+            PartyBuffId::BodyResistance,
+            false
+        },
+        {"OutdoorBuffBody_Shield", "OutdoorStandardBuffBody_Shield", "Shield", PartyBuffId::Shield, false},
+        {"OutdoorBuffBody_Heroism", "OutdoorStandardBuffBody_Heroism", "Heroism", PartyBuffId::Heroism, false},
+        {"OutdoorBuffBody_Haste", "OutdoorStandardBuffBody_Haste", "Haste", PartyBuffId::Haste, false},
+        {"OutdoorBuffBody_Immolation", "OutdoorStandardBuffBody_Immolation", "Immolation", PartyBuffId::Immolation, false},
     };
 
     const auto populateBuffPanelOverlay =
@@ -8109,7 +8161,8 @@ void OutdoorGameView::updateBuffInspectOverlayState(int width, int height)
             continue;
         }
 
-        const HudLayoutElement *pLayout = HudUiService::findHudLayoutElement(*this, target.pLayoutId);
+        const char *pLayoutId = activeBuffLayoutId(*this, target.pWideLayoutId, target.pStandardLayoutId);
+        const HudLayoutElement *pLayout = HudUiService::findHudLayoutElement(*this, pLayoutId);
 
         if (pLayout == nullptr)
         {
@@ -8117,7 +8170,7 @@ void OutdoorGameView::updateBuffInspectOverlayState(int width, int height)
         }
 
         const std::optional<ResolvedHudLayoutElement> resolved = HudUiService::resolveHudLayoutElement(*this, 
-            target.pLayoutId,
+            pLayoutId,
             width,
             height,
             pLayout->width,
@@ -8134,19 +8187,21 @@ void OutdoorGameView::updateBuffInspectOverlayState(int width, int height)
 
     struct BuffPanelTarget
     {
-        const char *pLayoutId;
+        const char *pWideLayoutId;
+        const char *pStandardLayoutId;
         const char *pTitle;
         bool skullPanel;
     };
 
     static constexpr BuffPanelTarget PanelTargets[] = {
-        {"OutdoorBuffSkullPanel", "Skull Buffs", true},
-        {"OutdoorBuffBodyPanel", "Body Buffs", false},
+        {"OutdoorBuffSkullPanel", "OutdoorStandardBuffSkullPanel", "Skull Buffs", true},
+        {"OutdoorBuffBodyPanel", "OutdoorStandardBuffBodyPanel", "Body Buffs", false},
     };
 
     for (const BuffPanelTarget &panelTarget : PanelTargets)
     {
-        const HudLayoutElement *pPanelLayout = HudUiService::findHudLayoutElement(*this, panelTarget.pLayoutId);
+        const char *pLayoutId = activeBuffLayoutId(*this, panelTarget.pWideLayoutId, panelTarget.pStandardLayoutId);
+        const HudLayoutElement *pPanelLayout = HudUiService::findHudLayoutElement(*this, pLayoutId);
 
         if (pPanelLayout == nullptr)
         {
@@ -8154,7 +8209,7 @@ void OutdoorGameView::updateBuffInspectOverlayState(int width, int height)
         }
 
         const std::optional<ResolvedHudLayoutElement> resolvedPanel = HudUiService::resolveHudLayoutElement(*this, 
-            panelTarget.pLayoutId,
+            pLayoutId,
             width,
             height,
             pPanelLayout->width,

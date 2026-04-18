@@ -203,6 +203,20 @@ std::string turnRateModeString(TurnRateMode mode)
     return "32x";
 }
 
+std::string gameplayUiLayoutString(GameplayUiLayout layout)
+{
+    switch (layout)
+    {
+    case GameplayUiLayout::Standard:
+        return "standard";
+
+    case GameplayUiLayout::Widescreen:
+        return "widescreen";
+    }
+
+    return "widescreen";
+}
+
 TurnRateMode parseTurnRateMode(const std::string &value)
 {
     const std::string normalized = toLowerCopy(trimCopy(value));
@@ -218,6 +232,18 @@ TurnRateMode parseTurnRateMode(const std::string &value)
     }
 
     return TurnRateMode::X32;
+}
+
+GameplayUiLayout parseGameplayUiLayout(const std::string &value)
+{
+    const std::string normalized = toLowerCopy(trimCopy(value));
+
+    if (normalized == "standard")
+    {
+        return GameplayUiLayout::Standard;
+    }
+
+    return GameplayUiLayout::Widescreen;
 }
 }
 
@@ -421,6 +447,11 @@ std::optional<GameSettings> loadGameSettings(const std::filesystem::path &path, 
         settings.minimapFiltering = trimCopy(*value);
     }
 
+    if (const std::optional<std::string> value = getIniValue(document, "video", "gameplay_ui_layout"))
+    {
+        settings.gameplayUiLayout = parseGameplayUiLayout(*value);
+    }
+
     if (const std::optional<std::string> value = getIniValue(document, "startup", "start_in_main_menu"))
     {
         bool parsed = settings.startInMainMenu;
@@ -610,7 +641,8 @@ bool saveGameSettings(const std::filesystem::path &path, const GameSettings &set
         << "billboard_filtering=" << settings.billboardFiltering << '\n'
         << "ui_filtering=" << settings.uiFiltering << '\n'
         << "text_filtering=" << settings.textFiltering << '\n'
-        << "minimap_filtering=" << settings.minimapFiltering << "\n\n"
+        << "minimap_filtering=" << settings.minimapFiltering << '\n'
+        << "gameplay_ui_layout=" << gameplayUiLayoutString(settings.gameplayUiLayout) << "\n\n"
         << "[debug]\n"
         << "preseed_party=" << (settings.preseedParty ? "true" : "false") << '\n'
         << "party_seed_roster_id=" << settings.partySeedRosterId << '\n'

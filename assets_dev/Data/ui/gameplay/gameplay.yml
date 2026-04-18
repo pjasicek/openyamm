@@ -87,6 +87,378 @@ elements:
           default: IBshield04
         notes: Empty overlay slot shield 5.
 
+  - id: OutdoorStandardBasebar
+    anchor: bottom_center
+    width: 640
+    height: 114
+    z_index: 200
+    scale:
+      min: 1.0
+      max: 3.0
+    asset:
+      default: Basebar
+    notes: Standard gameplay base bar matching the original centered layout.
+    children:
+      - id: OutdoorStandardPartyStrip
+        anchor: top_left
+        width: 483
+        height: 114
+        asset:
+          default: FACEMASK
+          selected: selring
+          frame: manaFRM
+          health_bar: ManaG
+          mana_bar: manaB
+        notes: Standard gameplay party strip.
+
+      - id: OutdoorStandardStatusBar
+        anchor: center_in
+        offset_x: -78.5
+        offset_y: -47
+        width: 483
+        height: 15
+        text:
+          font: Lucida
+          align_x: center
+          align_y: middle
+        notes: Standard gameplay status text region.
+
+      - id: OutdoorStandardMinimap
+        anchor: right
+        offset_x: -19
+        width: 122
+        height: 83
+        asset:
+          default: MINIMAP
+        notes: Standard gameplay minimap.
+
+      - id: OutdoorStandardMinimapFrame
+        anchor: right
+        width: 159
+        height: 113
+        asset:
+          default: mapframe
+        notes: Standard gameplay minimap frame.
+        children:
+          - id: OutdoorStandardMinimapZoomIn
+            anchor: top_right
+            offset_x: -4
+            offset_y: 6
+            width: 13
+            height: 15
+            interactive: true
+            asset:
+              default: map+up
+              pressed: map+dn
+            notes: Standard gameplay minimap zoom in button.
+
+          - id: OutdoorStandardMinimapZoomOut
+            anchor: bottom_right
+            offset_x: -4
+            offset_y: -5
+            width: 13
+            height: 15
+            interactive: true
+            asset:
+              default: map-up
+              pressed: map-dn
+            notes: Standard gameplay minimap zoom out button.
+
+      - id: OutdoorStandardCharShield_1
+        anchor: top_left
+        offset_x: 15
+        offset_y: 22
+        width: 67
+        height: 92
+        asset:
+          default: IBshield01
+        notes: Empty standard gameplay slot shield 1.
+
+      - id: OutdoorStandardCharShield_2
+        anchor: top_left
+        offset_x: 113
+        offset_y: 22
+        width: 67
+        height: 92
+        asset:
+          default: IBshield01
+        notes: Empty standard gameplay slot shield 2.
+
+      - id: OutdoorStandardCharShield_3
+        anchor: top_left
+        offset_x: 211
+        offset_y: 22
+        width: 67
+        height: 92
+        asset:
+          default: IBshield02
+        notes: Empty standard gameplay slot shield 3.
+
+      - id: OutdoorStandardCharShield_4
+        anchor: top_left
+        offset_x: 308
+        offset_y: 22
+        width: 67
+        height: 92
+        asset:
+          default: IBshield03
+        notes: Empty standard gameplay slot shield 4.
+
+      - id: OutdoorStandardCharShield_5
+        anchor: top_left
+        offset_x: 405
+        offset_y: 22
+        width: 67
+        height: 92
+        asset:
+          default: IBshield04
+        notes: Empty standard gameplay slot shield 5.
+
+  - id: OutdoorStandardTopBar
+    anchor: top_center
+    width: 640
+    height: 29
+    z_index: 50
+    scale:
+      min: 1.0
+      max: 3.0
+    asset:
+      default: topbar
+    notes: Standard gameplay top bar.
+    children:
+      - id: OutdoorStandardButtonOptions
+        anchor: center_in
+        offset_x: 220
+        width: 50
+        height: 22
+        interactive: true
+        asset:
+          default: butn4u
+          highlighted: butn4d
+          pressed: butn4d
+        notes: Standard options button.
+
+      - id: OutdoorStandardButtonQuickRef
+        anchor: center_in
+        offset_x: 165
+        width: 60
+        height: 24
+        interactive: true
+        asset:
+          default: butn3u
+          highlighted: butn3d
+          pressed: butn3d
+        notes: Standard quick reference button.
+
+      - id: OutdoorStandardButtonRest
+        anchor: center_in
+        offset_x: 115
+        width: 40
+        height: 24
+        interactive: true
+        asset:
+          default: butn2u
+          highlighted: butn2d
+          pressed: butn2d
+        notes: Standard rest button.
+
+      - id: OutdoorStandardButtonBooks
+        anchor: center_in
+        offset_x: 72.5
+        width: 40
+        height: 24
+        interactive: true
+        asset:
+          default: butn1u
+          highlighted: butn1d
+          pressed: butn1d
+        notes: Standard books button.
+
+      - id: OutdoorStandardGoldFoodIcon
+        anchor: center_in
+        offset_x: -165
+        width: 134
+        height: 21
+        asset:
+          default: scoreBG
+        notes: Standard gold and food background.
+
+      - id: OutdoorStandardFoodLabel
+        anchor: center_in
+        offset_x: -180
+        width: 28
+        height: 14
+        text:
+          value: "{food}"
+          font: SMALLNUM
+          align_x: center
+          align_y: middle
+        notes: Standard food counter text.
+
+      - id: OutdoorStandardGoldLabel
+        anchor: center_in
+        offset_x: -85
+        width: 28
+        height: 14
+        text:
+          value: "{gold}"
+          font: SMALLNUM
+          align_x: center
+          align_y: middle
+        notes: Standard gold counter text.
+
+      - id: OutdoorStandardCompassFront
+        anchor: center_in
+        width: 49
+        height: 19
+        asset:
+          default: compcovr
+        notes: Standard compass overlay art.
+
+      - id: OutdoorStandardBuffSkullPanel
+        anchor: top_right
+        width: 64
+        height: 64
+        asset:
+          default: asiR00
+        notes: Standard skull buff panel.
+        children:
+          - id: OutdoorStandardBuffSkull_FeatherFall
+            anchor: center_in
+            width: 64
+            height: 64
+            asset:
+              default: asiR07
+            notes: Standard Feather Fall buff icon.
+
+          - id: OutdoorStandardBuffSkull_Stoneskin
+            anchor: center_in
+            width: 64
+            height: 64
+            asset:
+              default: asiR01
+            notes: Standard Stoneskin buff icon.
+
+          - id: OutdoorStandardBuffSkull_DayOfGods
+            anchor: center_in
+            width: 64
+            height: 64
+            asset:
+              default: asiR05
+            notes: Standard Day of the Gods buff icon.
+
+          - id: OutdoorStandardBuffSkull_Torchlight
+            anchor: center_in
+            width: 64
+            height: 64
+            asset:
+              default: asiR06
+            notes: Standard Torchlight buff icon.
+
+          - id: OutdoorStandardBuffSkull_WizardEye
+            anchor: center_in
+            width: 64
+            height: 64
+            asset:
+              default: asiR02
+            notes: Standard Wizard Eye buff icon.
+
+          - id: OutdoorStandardBuffSkull_ProtectionFromGods
+            anchor: center_in
+            width: 64
+            height: 64
+            asset:
+              default: asiR04
+            notes: Standard Protection from Magic buff icon.
+
+      - id: OutdoorStandardBuffBodyPanel
+        anchor: top_left
+        width: 64
+        height: 64
+        asset:
+          default: asiL00
+        notes: Standard body buff panel.
+        children:
+          - id: OutdoorStandardBuffBody_FireResistance
+            anchor: center_in
+            width: 64
+            height: 64
+            asset:
+              default: asiL01
+            notes: Standard Fire Resistance buff icon.
+
+          - id: OutdoorStandardBuffBody_WaterResistance
+            anchor: center_in
+            width: 64
+            height: 64
+            asset:
+              default: asiL02
+            notes: Standard Water Resistance buff icon.
+
+          - id: OutdoorStandardBuffBody_AirResistance
+            anchor: center_in
+            width: 64
+            height: 64
+            asset:
+              default: asiL03
+            notes: Standard Air Resistance buff icon.
+
+          - id: OutdoorStandardBuffBody_EarthResistance
+            anchor: center_in
+            width: 64
+            height: 64
+            asset:
+              default: asiL04
+            notes: Standard Earth Resistance buff icon.
+
+          - id: OutdoorStandardBuffBody_MindResistance
+            anchor: center_in
+            width: 64
+            height: 64
+            asset:
+              default: asiL05
+            notes: Standard Mind Resistance buff icon.
+
+          - id: OutdoorStandardBuffBody_BodyResistance
+            anchor: center_in
+            width: 64
+            height: 64
+            asset:
+              default: asiL06
+            notes: Standard Body Resistance buff icon.
+
+          - id: OutdoorStandardBuffBody_Shield
+            anchor: center_in
+            width: 64
+            height: 64
+            asset:
+              default: asiL07
+            notes: Standard Shield buff icon.
+
+          - id: OutdoorStandardBuffBody_Heroism
+            anchor: center_in
+            width: 64
+            height: 64
+            asset:
+              default: asiL08
+            notes: Standard Heroism buff icon.
+
+          - id: OutdoorStandardBuffBody_Haste
+            anchor: center_in
+            width: 64
+            height: 64
+            asset:
+              default: asiL09
+            notes: Standard Haste buff icon.
+
+          - id: OutdoorStandardBuffBody_Immolation
+            anchor: center_in
+            width: 64
+            height: 64
+            asset:
+              default: asiL10
+            notes: Standard Immolation buff icon.
+
   - id: OutdoorGameplayBasebar
     anchor_space: screen
     anchor: bottom_center

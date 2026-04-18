@@ -18,6 +18,12 @@ enum class TurnRateMode
     Smooth
 };
 
+enum class GameplayUiLayout
+{
+    Standard,
+    Widescreen
+};
+
 struct GameSettings
 {
     struct KeyboardSettings
@@ -70,6 +76,7 @@ struct GameSettings
     std::string uiFiltering = "linear";
     std::string textFiltering = "nearest";
     std::string minimapFiltering = "linear";
+    GameplayUiLayout gameplayUiLayout = GameplayUiLayout::Widescreen;
 
     bool startInMainMenu = false;
     KeyboardSettings keyboard = {};
