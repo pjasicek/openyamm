@@ -16,10 +16,10 @@ public:
     static void renderHeldInventoryItem(GameplayOverlayContext &context, int width, int height);
     static void renderItemInspectOverlay(GameplayOverlayContext &context, int width, int height);
     static void renderCharacterInspectOverlay(const OutdoorGameView &view, int width, int height);
-    static void renderBuffInspectOverlay(const OutdoorGameView &view, int width, int height);
-    static void renderCharacterDetailOverlay(const OutdoorGameView &view, int width, int height);
+    static void renderBuffInspectOverlay(GameplayOverlayContext &context, int width, int height);
+    static void renderCharacterDetailOverlay(GameplayOverlayContext &context, int width, int height);
     static void renderSpellInspectOverlay(const OutdoorGameView &view, int width, int height);
-    static void renderReadableScrollOverlay(const OutdoorGameView &view, int width, int height);
+    static void renderReadableScrollOverlay(GameplayOverlayContext &context, int width, int height);
     static void renderActorInspectOverlay(OutdoorGameView &view, int width, int height);
     static void renderSpellbookOverlay(GameplayOverlayContext &context, int width, int height);
     static void renderRestOverlay(GameplayOverlayContext &context, int width, int height);

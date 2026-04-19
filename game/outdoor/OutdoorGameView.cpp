@@ -12788,17 +12788,20 @@ void OutdoorGameView::renderSpellInspectOverlay(int width, int height) const
 
 void OutdoorGameView::renderReadableScrollOverlay(int width, int height) const
 {
-    GameplayPartyOverlayRenderer::renderReadableScrollOverlay(*this, width, height);
+    GameplayOverlayContext overlayContext = createGameplayOverlayContext();
+    GameplayPartyOverlayRenderer::renderReadableScrollOverlay(overlayContext, width, height);
 }
 
 void OutdoorGameView::renderBuffInspectOverlay(int width, int height) const
 {
-    GameplayPartyOverlayRenderer::renderBuffInspectOverlay(*this, width, height);
+    GameplayOverlayContext overlayContext = createGameplayOverlayContext();
+    GameplayPartyOverlayRenderer::renderBuffInspectOverlay(overlayContext, width, height);
 }
 
 void OutdoorGameView::renderCharacterDetailOverlay(int width, int height) const
 {
-    GameplayPartyOverlayRenderer::renderCharacterDetailOverlay(*this, width, height);
+    GameplayOverlayContext overlayContext = createGameplayOverlayContext();
+    GameplayPartyOverlayRenderer::renderCharacterDetailOverlay(overlayContext, width, height);
 }
 
 void OutdoorGameView::renderActorInspectOverlay(int width, int height)
