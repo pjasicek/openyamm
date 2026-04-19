@@ -49,8 +49,7 @@ using IndoorCharacterPointerTargetType = GameplayCharacterPointerTargetType;
 using IndoorCharacterPointerTarget = GameplayCharacterPointerTarget;
 
 class IndoorGameView
-    : public GameplayOverlayStateAccess
-    , public IGameplayOverlaySceneAdapter
+    : public IGameplayOverlaySceneAdapter
     , public IGameplayOverlayHudAdapter
 {
 public:
@@ -109,10 +108,6 @@ public:
     const std::optional<HouseTable> &houseTable() const;
     const std::optional<ChestTable> &chestTable() const;
     const std::optional<NpcDialogTable> &npcDialogTable() const;
-    GameplayUiController &uiController() override;
-    const GameplayUiController &uiController() const override;
-    GameplayOverlayInteractionState &overlayInteractionState() override;
-    const GameplayOverlayInteractionState &overlayInteractionState() const override;
     const JournalQuestTable *journalQuestTable() const;
     const JournalHistoryTable *journalHistoryTable() const;
     const JournalAutonoteTable *journalAutonoteTable() const;
@@ -295,6 +290,56 @@ private:
     const GameplayOverlayInteractionState &interactionState() const
     {
         return m_overlayInteractionState;
+    }
+
+    EventDialogContent &activeEventDialog()
+    {
+        return m_gameplayUiController.eventDialog().content;
+    }
+
+    const EventDialogContent &activeEventDialog() const
+    {
+        return m_gameplayUiController.eventDialog().content;
+    }
+
+    size_t &eventDialogSelectionIndex()
+    {
+        return m_gameplayUiController.eventDialog().selectionIndex;
+    }
+
+    const size_t &eventDialogSelectionIndex() const
+    {
+        return m_gameplayUiController.eventDialog().selectionIndex;
+    }
+
+    std::string &statusBarEventText()
+    {
+        return m_gameplayUiController.statusBar().eventText;
+    }
+
+    const std::string &statusBarEventText() const
+    {
+        return m_gameplayUiController.statusBar().eventText;
+    }
+
+    float &statusBarEventRemainingSeconds()
+    {
+        return m_gameplayUiController.statusBar().eventRemainingSeconds;
+    }
+
+    const float &statusBarEventRemainingSeconds() const
+    {
+        return m_gameplayUiController.statusBar().eventRemainingSeconds;
+    }
+
+    GameplayUiController::HouseShopOverlayState &houseShopOverlay()
+    {
+        return m_gameplayUiController.houseShopOverlay();
+    }
+
+    const GameplayUiController::HouseShopOverlayState &houseShopOverlay() const
+    {
+        return m_gameplayUiController.houseShopOverlay();
     }
 
     using HudTextureHandleInternal = GameplayHudTextureData;

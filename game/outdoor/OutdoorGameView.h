@@ -86,8 +86,7 @@ struct GameApplicationTestAccess;
 struct ItemDefinition;
 
 class OutdoorGameView
-    : public GameplayOverlayStateAccess
-    , public IGameplayOverlaySceneAdapter
+    : public IGameplayOverlaySceneAdapter
     , public IGameplayOverlayHudAdapter
 {
 public:
@@ -602,10 +601,6 @@ public:
     const std::optional<HouseTable> &houseTable() const;
     const std::optional<ChestTable> &chestTable() const;
     const std::optional<NpcDialogTable> &npcDialogTable() const;
-    GameplayUiController &uiController() override;
-    const GameplayUiController &uiController() const override;
-    GameplayOverlayInteractionState &overlayInteractionState() override;
-    const GameplayOverlayInteractionState &overlayInteractionState() const override;
     const JournalQuestTable *journalQuestTable() const;
     const JournalHistoryTable *journalHistoryTable() const;
     const JournalAutonoteTable *journalAutonoteTable() const;

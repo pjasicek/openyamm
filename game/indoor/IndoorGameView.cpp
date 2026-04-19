@@ -2073,26 +2073,6 @@ const std::optional<NpcDialogTable> &IndoorGameView::npcDialogTable() const
     return m_npcDialogTable;
 }
 
-GameplayUiController &IndoorGameView::uiController()
-{
-    return m_gameplayUiController;
-}
-
-const GameplayUiController &IndoorGameView::uiController() const
-{
-    return m_gameplayUiController;
-}
-
-GameplayOverlayInteractionState &IndoorGameView::overlayInteractionState()
-{
-    return m_overlayInteractionState;
-}
-
-const GameplayOverlayInteractionState &IndoorGameView::overlayInteractionState() const
-{
-    return m_overlayInteractionState;
-}
-
 const JournalQuestTable *IndoorGameView::journalQuestTable() const
 {
     return m_pJournalQuestTable;

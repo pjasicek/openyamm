@@ -11518,26 +11518,6 @@ const std::optional<NpcDialogTable> &OutdoorGameView::npcDialogTable() const
     return m_npcDialogTable;
 }
 
-GameplayUiController &OutdoorGameView::uiController()
-{
-    return m_gameplayUiController;
-}
-
-const GameplayUiController &OutdoorGameView::uiController() const
-{
-    return m_gameplayUiController;
-}
-
-GameplayOverlayInteractionState &OutdoorGameView::overlayInteractionState()
-{
-    return m_overlayInteractionState;
-}
-
-const GameplayOverlayInteractionState &OutdoorGameView::overlayInteractionState() const
-{
-    return m_overlayInteractionState;
-}
-
 const JournalQuestTable *OutdoorGameView::journalQuestTable() const
 {
     return m_pJournalQuestTable;
