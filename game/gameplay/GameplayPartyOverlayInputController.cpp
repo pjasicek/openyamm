@@ -2,6 +2,7 @@
 
 #include "game/tables/CharacterDollTable.h"
 #include "game/gameplay/GameMechanics.h"
+#include "game/ui/GameplayOverlayContext.h"
 #include "game/app/KeyboardBindings.h"
 #include "game/items/InventoryItemUseRuntime.h"
 #include "game/outdoor/OutdoorGameView.h"
@@ -933,7 +934,7 @@ void GameplayPartyOverlayInputController::handleUtilitySpellOverlayInput(
 }
 
 void GameplayPartyOverlayInputController::handleSpellbookOverlayInput(
-    OutdoorGameView &view,
+    GameplayOverlayContext &context,
     const bool *pKeyboardState,
     int screenWidth,
     int screenHeight)
@@ -942,15 +943,15 @@ void GameplayPartyOverlayInputController::handleSpellbookOverlayInput(
 
     if (closePressed)
     {
-        if (!view.m_closeOverlayLatch)
+        if (!context.closeOverlayLatch())
         {
-            view.closeSpellbook();
-            view.m_closeOverlayLatch = true;
+            context.closeSpellbookOverlay();
+            context.closeOverlayLatch() = true;
         }
     }
     else
     {
-        view.m_closeOverlayLatch = false;
+        context.closeOverlayLatch() = false;
     }
 
     float mouseX = 0.0f;
@@ -962,96 +963,100 @@ void GameplayPartyOverlayInputController::handleSpellbookOverlayInput(
         mouseY,
         isLeftMousePressed
     };
-    const OutdoorGameView::SpellbookPointerTarget noneSpellbookTarget = {};
+    const GameplaySpellbookPointerTarget noneSpellbookTarget = {};
     const auto findSpellbookPointerTarget =
-        [&view, screenWidth, screenHeight](float pointerX, float pointerY) -> OutdoorGameView::SpellbookPointerTarget
+        [&context, screenWidth, screenHeight](float pointerX, float pointerY) -> GameplaySpellbookPointerTarget
         {
             for (const SpellbookSchoolUiDefinition &definition : spellbookSchoolUiDefinitions())
             {
-                if (!view.activeMemberHasSpellbookSchool(definition.school))
+                if (!context.activeMemberHasSpellbookSchool(definition.school))
                 {
                     continue;
                 }
 
-                const OutdoorGameView::HudLayoutElement *pLayout = HudUiService::findHudLayoutElement(view, definition.pButtonLayoutId);
+                const GameplayOverlayContext::HudLayoutElement *pLayout =
+                    context.findHudLayoutElement(definition.pButtonLayoutId);
 
                 if (pLayout == nullptr)
                 {
                     continue;
                 }
 
-                const std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolved = HudUiService::resolveHudLayoutElement(view, 
-                    definition.pButtonLayoutId,
-                    screenWidth,
-                    screenHeight,
-                    pLayout->width,
-                    pLayout->height);
+                const std::optional<GameplayOverlayContext::ResolvedHudLayoutElement> resolved =
+                    context.resolveHudLayoutElement(
+                        definition.pButtonLayoutId,
+                        screenWidth,
+                        screenHeight,
+                        pLayout->width,
+                        pLayout->height);
 
-                if (resolved && HudUiService::isPointerInsideResolvedElement(*resolved, pointerX, pointerY))
+                if (resolved && context.isPointerInsideResolvedElement(*resolved, pointerX, pointerY))
                 {
-                    OutdoorGameView::SpellbookPointerTarget target = {};
-                    target.type = OutdoorGameView::SpellbookPointerTargetType::SchoolButton;
+                    GameplaySpellbookPointerTarget target = {};
+                    target.type = GameplaySpellbookPointerTargetType::SchoolButton;
                     target.school = definition.school;
                     return target;
                 }
             }
 
             const auto resolveSimpleButtonTarget =
-                [&view, screenWidth, screenHeight, pointerX, pointerY](
+                [&context, screenWidth, screenHeight, pointerX, pointerY](
                     const char *pLayoutId,
-                    OutdoorGameView::SpellbookPointerTargetType type) -> OutdoorGameView::SpellbookPointerTarget
+                    GameplaySpellbookPointerTargetType type) -> GameplaySpellbookPointerTarget
                 {
-                    const OutdoorGameView::HudLayoutElement *pLayout = HudUiService::findHudLayoutElement(view, pLayoutId);
+                    const GameplayOverlayContext::HudLayoutElement *pLayout = context.findHudLayoutElement(pLayoutId);
 
                     if (pLayout == nullptr)
                     {
                         return {};
                     }
 
-                    const std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolved = HudUiService::resolveHudLayoutElement(view, 
-                        pLayoutId,
-                        screenWidth,
-                        screenHeight,
-                        pLayout->width,
-                        pLayout->height);
+                    const std::optional<GameplayOverlayContext::ResolvedHudLayoutElement> resolved =
+                        context.resolveHudLayoutElement(
+                            pLayoutId,
+                            screenWidth,
+                            screenHeight,
+                            pLayout->width,
+                            pLayout->height);
 
-                    if (!resolved || !HudUiService::isPointerInsideResolvedElement(*resolved, pointerX, pointerY))
+                    if (!resolved || !context.isPointerInsideResolvedElement(*resolved, pointerX, pointerY))
                     {
                         return {};
                     }
 
-                    OutdoorGameView::SpellbookPointerTarget target = {};
+                    GameplaySpellbookPointerTarget target = {};
                     target.type = type;
                     return target;
                 };
 
-            const OutdoorGameView::SpellbookPointerTarget closeTarget =
-                resolveSimpleButtonTarget("SpellbookCloseButton", OutdoorGameView::SpellbookPointerTargetType::CloseButton);
+            const GameplaySpellbookPointerTarget closeTarget =
+                resolveSimpleButtonTarget("SpellbookCloseButton", GameplaySpellbookPointerTargetType::CloseButton);
 
-            if (closeTarget.type != OutdoorGameView::SpellbookPointerTargetType::None)
+            if (closeTarget.type != GameplaySpellbookPointerTargetType::None)
             {
                 return closeTarget;
             }
 
-            const OutdoorGameView::SpellbookPointerTarget quickCastTarget =
-                resolveSimpleButtonTarget("SpellbookQuickCastButton", OutdoorGameView::SpellbookPointerTargetType::QuickCastButton);
+            const GameplaySpellbookPointerTarget quickCastTarget =
+                resolveSimpleButtonTarget("SpellbookQuickCastButton", GameplaySpellbookPointerTargetType::QuickCastButton);
 
-            if (quickCastTarget.type != OutdoorGameView::SpellbookPointerTargetType::None)
+            if (quickCastTarget.type != GameplaySpellbookPointerTargetType::None)
             {
                 return quickCastTarget;
             }
 
-            const OutdoorGameView::SpellbookPointerTarget attackCastTarget =
+            const GameplaySpellbookPointerTarget attackCastTarget =
                 resolveSimpleButtonTarget(
                     "SpellbookAttackCastButton",
-                    OutdoorGameView::SpellbookPointerTargetType::AttackCastButton);
+                    GameplaySpellbookPointerTargetType::AttackCastButton);
 
-            if (attackCastTarget.type != OutdoorGameView::SpellbookPointerTargetType::None)
+            if (attackCastTarget.type != GameplaySpellbookPointerTargetType::None)
             {
                 return attackCastTarget;
             }
 
-            const SpellbookSchoolUiDefinition *pDefinition = findSpellbookSchoolUiDefinition(view.m_spellbook.school);
+            const SpellbookSchoolUiDefinition *pDefinition =
+                findSpellbookSchoolUiDefinition(context.spellbook().school);
 
             if (pDefinition == nullptr)
             {
@@ -1062,32 +1067,33 @@ void GameplayPartyOverlayInputController::handleSpellbookOverlayInput(
             {
                 const uint32_t spellId = pDefinition->firstSpellId + spellOffset;
 
-                if (!view.activeMemberKnowsSpell(spellId))
+                if (!context.activeMemberKnowsSpell(spellId))
                 {
                     continue;
                 }
 
                 const uint32_t spellOrdinal = spellOffset + 1;
-                const std::string layoutId = spellbookSpellLayoutId(view.m_spellbook.school, spellOrdinal);
-                const OutdoorGameView::HudLayoutElement *pLayout = HudUiService::findHudLayoutElement(view, layoutId);
+                const std::string layoutId = spellbookSpellLayoutId(context.spellbook().school, spellOrdinal);
+                const GameplayOverlayContext::HudLayoutElement *pLayout = context.findHudLayoutElement(layoutId);
 
                 if (pLayout == nullptr)
                 {
                     continue;
                 }
 
-                const std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolved = HudUiService::resolveHudLayoutElement(view, 
-                    layoutId,
-                    screenWidth,
-                    screenHeight,
-                    pLayout->width,
-                    pLayout->height);
+                const std::optional<GameplayOverlayContext::ResolvedHudLayoutElement> resolved =
+                    context.resolveHudLayoutElement(
+                        layoutId,
+                        screenWidth,
+                        screenHeight,
+                        pLayout->width,
+                        pLayout->height);
 
-                if (resolved && HudUiService::isPointerInsideResolvedElement(*resolved, pointerX, pointerY))
+                if (resolved && context.isPointerInsideResolvedElement(*resolved, pointerX, pointerY))
                 {
-                    OutdoorGameView::SpellbookPointerTarget target = {};
-                    target.type = OutdoorGameView::SpellbookPointerTargetType::SpellButton;
-                    target.school = view.m_spellbook.school;
+                    GameplaySpellbookPointerTarget target = {};
+                    target.type = GameplaySpellbookPointerTargetType::SpellButton;
+                    target.school = context.spellbook().school;
                     target.spellId = spellId;
                     return target;
                 }
@@ -1098,222 +1104,1309 @@ void GameplayPartyOverlayInputController::handleSpellbookOverlayInput(
 
     handlePointerClickRelease(
         pointerState,
-        view.m_spellbookClickLatch,
-        view.m_spellbookPressedTarget,
+        context.spellbookClickLatch(),
+        context.spellbookPressedTarget(),
         noneSpellbookTarget,
         findSpellbookPointerTarget,
-        [&view](const OutdoorGameView::SpellbookPointerTarget &target)
+        [&context](const GameplaySpellbookPointerTarget &target)
         {
-            if (target.type == OutdoorGameView::SpellbookPointerTargetType::SchoolButton)
+            if (target.type == GameplaySpellbookPointerTargetType::SchoolButton)
             {
                 const SpellbookSchoolUiDefinition *pDefinition = findSpellbookSchoolUiDefinition(target.school);
 
                 if (pDefinition != nullptr)
                 {
-                    if (view.m_pGameAudioSystem != nullptr && view.m_spellbook.school != target.school)
+                    if (context.audioSystem() != nullptr && context.spellbook().school != target.school)
                     {
-                        view.m_pGameAudioSystem->playCommonSound(
+                        context.audioSystem()->playCommonSound(
                             SoundId::TurnPageDown,
                             GameAudioSystem::PlaybackGroup::Ui);
                     }
 
-                    view.m_spellbook.school = target.school;
-                    view.m_spellbook.selectedSpellId = 0;
+                    context.spellbook().school = target.school;
+                    context.spellbook().selectedSpellId = 0;
                 }
 
                 return;
             }
 
-            if (target.type == OutdoorGameView::SpellbookPointerTargetType::SpellButton)
+            if (target.type == GameplaySpellbookPointerTargetType::SpellButton)
             {
                 const uint64_t nowTicks = SDL_GetTicks();
                 const bool isDoubleClick =
                     target.spellId != 0
-                    && target.spellId == view.m_lastSpellbookClickedSpellId
-                    && nowTicks >= view.m_lastSpellbookSpellClickTicks
-                    && nowTicks - view.m_lastSpellbookSpellClickTicks <= PartyPortraitDoubleClickWindowMs;
-                view.m_spellbook.selectedSpellId = target.spellId;
-                view.m_lastSpellbookSpellClickTicks = nowTicks;
-                view.m_lastSpellbookClickedSpellId = target.spellId;
+                    && target.spellId == context.lastSpellbookClickedSpellId()
+                    && nowTicks >= context.lastSpellbookSpellClickTicks()
+                    && nowTicks - context.lastSpellbookSpellClickTicks() <= PartyPortraitDoubleClickWindowMs;
+                context.spellbook().selectedSpellId = target.spellId;
+                context.lastSpellbookSpellClickTicks() = nowTicks;
+                context.lastSpellbookClickedSpellId() = target.spellId;
 
                 if (isDoubleClick)
                 {
-                    if (!view.activeMemberKnowsSpell(target.spellId))
+                    if (!context.activeMemberKnowsSpell(target.spellId))
                     {
-                        view.setStatusBarEvent("Spell not learned");
+                        context.setStatusBarEvent("Spell not learned");
                         return;
                     }
 
                     const SpellEntry *pSpellEntry =
-                        view.m_pSpellTable != nullptr ? view.m_pSpellTable->findById(static_cast<int>(target.spellId)) : nullptr;
+                        context.spellTable() != nullptr
+                            ? context.spellTable()->findById(static_cast<int>(target.spellId))
+                            : nullptr;
                     const std::string spellName =
                         pSpellEntry != nullptr && !pSpellEntry->name.empty()
                             ? pSpellEntry->name
                             : ("Spell " + std::to_string(target.spellId));
                     const size_t casterMemberIndex =
-                        view.m_pOutdoorPartyRuntime != nullptr ? view.m_pOutdoorPartyRuntime->party().activeMemberIndex() : 0;
+                        context.partyReadOnly() != nullptr ? context.partyReadOnly()->activeMemberIndex() : 0;
 
-                    if (view.tryCastSpellFromMember(casterMemberIndex, target.spellId, spellName))
+                    if (context.tryCastSpellFromMember(casterMemberIndex, target.spellId, spellName))
                     {
-                        view.closeSpellbook();
+                        context.closeSpellbookOverlay();
                     }
                 }
 
                 return;
             }
 
-            if (target.type == OutdoorGameView::SpellbookPointerTargetType::CloseButton)
+            if (target.type == GameplaySpellbookPointerTargetType::CloseButton)
             {
-                view.closeSpellbook();
+                context.closeSpellbookOverlay();
                 return;
             }
 
-            if (target.type == OutdoorGameView::SpellbookPointerTargetType::QuickCastButton)
+            if (target.type == GameplaySpellbookPointerTargetType::QuickCastButton)
             {
-                if (view.m_pOutdoorPartyRuntime == nullptr || view.m_pSpellTable == nullptr)
+                if (context.party() == nullptr || context.spellTable() == nullptr)
                 {
-                    view.setStatusBarEvent("Can't set quick spell");
+                    context.setStatusBarEvent("Can't set quick spell");
                     return;
                 }
 
-                Character *pActiveMember = view.m_pOutdoorPartyRuntime->party().activeMember();
+                Character *pActiveMember = context.party()->activeMember();
 
                 if (pActiveMember == nullptr)
                 {
-                    view.setStatusBarEvent("Can't set quick spell");
+                    context.setStatusBarEvent("Can't set quick spell");
                     return;
                 }
 
-                if (view.m_spellbook.selectedSpellId == 0)
+                if (context.spellbook().selectedSpellId == 0)
                 {
                     pActiveMember->quickSpellName.clear();
-                    view.m_spellbook.selectedSpellId = 0;
+                    context.spellbook().selectedSpellId = 0;
 
-                    if (view.m_pGameAudioSystem != nullptr)
+                    if (context.audioSystem() != nullptr)
                     {
-                        view.m_pGameAudioSystem->playCommonSound(SoundId::Fizzle, GameAudioSystem::PlaybackGroup::Ui);
+                        context.audioSystem()->playCommonSound(SoundId::Fizzle, GameAudioSystem::PlaybackGroup::Ui);
                     }
 
-                    view.setStatusBarEvent("Quick spell cleared");
+                    context.setStatusBarEvent("Quick spell cleared");
                     return;
                 }
 
                 const SpellEntry *pSpellEntry =
-                    view.m_pSpellTable->findById(static_cast<int>(view.m_spellbook.selectedSpellId));
+                    context.spellTable()->findById(static_cast<int>(context.spellbook().selectedSpellId));
 
                 if (pSpellEntry == nullptr)
                 {
-                    view.setStatusBarEvent("Can't set quick spell");
+                    context.setStatusBarEvent("Can't set quick spell");
                     return;
                 }
 
-                if (!pActiveMember->knowsSpell(view.m_spellbook.selectedSpellId))
+                if (!pActiveMember->knowsSpell(context.spellbook().selectedSpellId))
                 {
-                    view.setStatusBarEvent("Spell not learned");
+                    context.setStatusBarEvent("Spell not learned");
                     return;
                 }
 
                 if (pActiveMember->quickSpellName == pSpellEntry->name)
                 {
                     pActiveMember->quickSpellName.clear();
-                    view.m_spellbook.selectedSpellId = 0;
+                    context.spellbook().selectedSpellId = 0;
 
-                    if (view.m_pGameAudioSystem != nullptr)
+                    if (context.audioSystem() != nullptr)
                     {
-                        view.m_pGameAudioSystem->playCommonSound(SoundId::Fizzle, GameAudioSystem::PlaybackGroup::Ui);
+                        context.audioSystem()->playCommonSound(SoundId::Fizzle, GameAudioSystem::PlaybackGroup::Ui);
                     }
 
-                    view.setStatusBarEvent("Quick spell cleared");
+                    context.setStatusBarEvent("Quick spell cleared");
                     return;
                 }
 
                 pActiveMember->quickSpellName = pSpellEntry->name;
 
-                if (view.m_pGameAudioSystem != nullptr)
+                if (context.audioSystem() != nullptr)
                 {
-                    view.m_pGameAudioSystem->playCommonSound(SoundId::ClickSkill, GameAudioSystem::PlaybackGroup::Ui);
+                    context.audioSystem()->playCommonSound(SoundId::ClickSkill, GameAudioSystem::PlaybackGroup::Ui);
                 }
 
-                view.playSpeechReaction(
-                    view.m_pOutdoorPartyRuntime->party().activeMemberIndex(),
+                context.playSpeechReaction(
+                    context.partyReadOnly()->activeMemberIndex(),
                     SpeechId::SetQuickSpell,
                     true);
-                view.setStatusBarEvent("Quick spell set to " + pSpellEntry->name);
+                context.setStatusBarEvent("Quick spell set to " + pSpellEntry->name);
                 return;
             }
 
-            if (target.type == OutdoorGameView::SpellbookPointerTargetType::AttackCastButton)
+            if (target.type == GameplaySpellbookPointerTargetType::AttackCastButton)
             {
-                if (view.m_pOutdoorPartyRuntime == nullptr || view.m_pSpellTable == nullptr)
+                if (context.party() == nullptr || context.spellTable() == nullptr)
                 {
-                    view.setStatusBarEvent("Can't set attack spell");
+                    context.setStatusBarEvent("Can't set attack spell");
                     return;
                 }
 
-                Character *pActiveMember = view.m_pOutdoorPartyRuntime->party().activeMember();
+                Character *pActiveMember = context.party()->activeMember();
 
                 if (pActiveMember == nullptr)
                 {
-                    view.setStatusBarEvent("Can't set attack spell");
+                    context.setStatusBarEvent("Can't set attack spell");
                     return;
                 }
 
-                if (view.m_spellbook.selectedSpellId == 0)
+                if (context.spellbook().selectedSpellId == 0)
                 {
                     pActiveMember->attackSpellName.clear();
-                    view.m_spellbook.selectedSpellId = 0;
+                    context.spellbook().selectedSpellId = 0;
 
-                    if (view.m_pGameAudioSystem != nullptr)
+                    if (context.audioSystem() != nullptr)
                     {
-                        view.m_pGameAudioSystem->playCommonSound(SoundId::Fizzle, GameAudioSystem::PlaybackGroup::Ui);
+                        context.audioSystem()->playCommonSound(SoundId::Fizzle, GameAudioSystem::PlaybackGroup::Ui);
                     }
 
-                    view.setStatusBarEvent("Attack spell cleared");
+                    context.setStatusBarEvent("Attack spell cleared");
                     return;
                 }
 
                 const SpellEntry *pSpellEntry =
-                    view.m_pSpellTable->findById(static_cast<int>(view.m_spellbook.selectedSpellId));
+                    context.spellTable()->findById(static_cast<int>(context.spellbook().selectedSpellId));
 
                 if (pSpellEntry == nullptr)
                 {
-                    view.setStatusBarEvent("Can't set attack spell");
+                    context.setStatusBarEvent("Can't set attack spell");
                     return;
                 }
 
-                if (!pActiveMember->knowsSpell(view.m_spellbook.selectedSpellId))
+                if (!pActiveMember->knowsSpell(context.spellbook().selectedSpellId))
                 {
-                    view.setStatusBarEvent("Spell not learned");
+                    context.setStatusBarEvent("Spell not learned");
                     return;
                 }
 
                 if (pActiveMember->attackSpellName == pSpellEntry->name)
                 {
                     pActiveMember->attackSpellName.clear();
-                    view.m_spellbook.selectedSpellId = 0;
+                    context.spellbook().selectedSpellId = 0;
 
-                    if (view.m_pGameAudioSystem != nullptr)
+                    if (context.audioSystem() != nullptr)
                     {
-                        view.m_pGameAudioSystem->playCommonSound(SoundId::Fizzle, GameAudioSystem::PlaybackGroup::Ui);
+                        context.audioSystem()->playCommonSound(SoundId::Fizzle, GameAudioSystem::PlaybackGroup::Ui);
                     }
 
-                    view.setStatusBarEvent("Attack spell cleared");
+                    context.setStatusBarEvent("Attack spell cleared");
                     return;
                 }
 
                 pActiveMember->attackSpellName = pSpellEntry->name;
 
-                if (view.m_pGameAudioSystem != nullptr)
+                if (context.audioSystem() != nullptr)
                 {
-                    view.m_pGameAudioSystem->playCommonSound(SoundId::ClickSkill, GameAudioSystem::PlaybackGroup::Ui);
+                    context.audioSystem()->playCommonSound(SoundId::ClickSkill, GameAudioSystem::PlaybackGroup::Ui);
                 }
 
-                view.playSpeechReaction(
-                    view.m_pOutdoorPartyRuntime->party().activeMemberIndex(),
+                context.playSpeechReaction(
+                    context.partyReadOnly()->activeMemberIndex(),
                     SpeechId::SetQuickSpell,
                     true);
-                view.setStatusBarEvent("Attack spell set to " + pSpellEntry->name);
+                context.setStatusBarEvent("Attack spell set to " + pSpellEntry->name);
             }
+        });
+}
+
+void GameplayPartyOverlayInputController::handleSpellbookOverlayInput(
+    OutdoorGameView &view,
+    const bool *pKeyboardState,
+    int screenWidth,
+    int screenHeight)
+{
+    GameplayOverlayContext context(view);
+    handleSpellbookOverlayInput(context, pKeyboardState, screenWidth, screenHeight);
+}
+
+void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
+    GameplayOverlayContext &context,
+    const bool *pKeyboardState,
+    int screenWidth,
+    int screenHeight)
+{
+    Character *pActiveCharacter = const_cast<Character *>(context.selectedCharacterScreenCharacter());
+    Party *pParty = context.party();
+    const bool isReadOnlyAdventurersInnView = context.isReadOnlyAdventurersInnCharacterViewActive();
+    const auto clearPendingCharacterDismiss =
+        [&context]()
+        {
+            context.pendingCharacterDismissMemberIndex() = std::nullopt;
+            context.pendingCharacterDismissExpiresTicks() = 0;
+        };
+    const uint64_t nowTicks = SDL_GetTicks();
+
+    if (pParty == nullptr
+        || context.isAdventurersInnCharacterSourceActive()
+        || (context.pendingCharacterDismissMemberIndex().has_value()
+            && (nowTicks > context.pendingCharacterDismissExpiresTicks()
+                || *context.pendingCharacterDismissMemberIndex() >= pParty->members().size()
+                || *context.pendingCharacterDismissMemberIndex() != pParty->activeMemberIndex())))
+    {
+        clearPendingCharacterDismiss();
+    }
+
+    const CharacterDollTable *pCharacterDollTable = context.characterDollTable();
+    const CharacterDollEntry *pActiveCharacterDollEntry =
+        resolveCharacterDollEntry(pCharacterDollTable, pActiveCharacter);
+    const CharacterDollTypeEntry *pActiveCharacterDollType =
+        pActiveCharacterDollEntry != nullptr && pCharacterDollTable != nullptr
+            ? pCharacterDollTable->getDollType(pActiveCharacterDollEntry->dollTypeId)
+            : nullptr;
+    const CharacterSkillUiData skillUiData = buildCharacterSkillUiData(pActiveCharacter, !isReadOnlyAdventurersInnView);
+    const std::optional<GameplayHudFontHandle> skillRowFont = context.findHudFont("Lucida");
+    const float skillRowHeight =
+        skillRowFont.has_value() ? static_cast<float>(std::max(1, skillRowFont->fontHeight - 3)) : 11.0f;
+    context.clearHudLayoutRuntimeHeightOverrides();
+    context.setHudLayoutRuntimeHeightOverride(
+        "CharacterSkillsWeaponsListRegion",
+        skillRowHeight * static_cast<float>(std::max<size_t>(1, skillUiData.weaponRows.size())));
+    context.setHudLayoutRuntimeHeightOverride(
+        "CharacterSkillsMagicListRegion",
+        skillRowHeight * static_cast<float>(std::max<size_t>(1, skillUiData.magicRows.size())));
+    context.setHudLayoutRuntimeHeightOverride(
+        "CharacterSkillsArmorListRegion",
+        skillRowHeight * static_cast<float>(std::max<size_t>(1, skillUiData.armorRows.size())));
+    context.setHudLayoutRuntimeHeightOverride(
+        "CharacterSkillsMiscListRegion",
+        skillRowHeight * static_cast<float>(std::max<size_t>(1, skillUiData.miscRows.size())));
+
+    const bool closePressed =
+        pKeyboardState != nullptr && (pKeyboardState[SDL_SCANCODE_ESCAPE] || pKeyboardState[SDL_SCANCODE_E]);
+    const bool isInventorySpellTargetMode =
+        context.utilitySpellOverlayReadOnly().active
+        && context.utilitySpellOverlayReadOnly().mode == GameplayUiController::UtilitySpellOverlayMode::InventoryTarget;
+
+    if (closePressed)
+    {
+        if (!context.closeOverlayLatch())
+        {
+            if (isInventorySpellTargetMode)
+            {
+                context.utilitySpellOverlay() = {};
+            }
+
+            context.characterScreen().open = false;
+            context.characterScreen().dollJewelryOverlayOpen = false;
+            context.characterScreen().adventurersInnRosterOverlayOpen = false;
+            clearPendingCharacterDismiss();
+            context.closeOverlayLatch() = true;
+        }
+    }
+    else
+    {
+        context.closeOverlayLatch() = false;
+    }
+
+    const SDL_Scancode charCycleScancode = context.mutableSettings().keyboard.binding(KeyboardAction::CharCycle);
+    const bool charCyclePressed =
+        pKeyboardState != nullptr
+        && charCycleScancode > SDL_SCANCODE_UNKNOWN
+        && charCycleScancode < SDL_SCANCODE_COUNT
+        && pKeyboardState[charCycleScancode];
+    const bool charCycleNewlyPressed =
+        charCyclePressed && context.previousKeyboardState()[charCycleScancode] == 0;
+
+    if (charCycleNewlyPressed)
+    {
+        if (pParty != nullptr && !pParty->members().empty())
+        {
+            const size_t nextMemberIndex = (pParty->activeMemberIndex() + 1) % pParty->members().size();
+            context.trySelectPartyMember(nextMemberIndex, false);
+        }
+
+        context.characterMemberCycleLatch() = true;
+    }
+    else
+    {
+        context.characterMemberCycleLatch() = false;
+    }
+
+    float mouseX = 0.0f;
+    float mouseY = 0.0f;
+    const SDL_MouseButtonFlags mouseButtons = SDL_GetMouseState(&mouseX, &mouseY);
+    const bool isLeftMousePressed = (mouseButtons & SDL_BUTTON_LMASK) != 0;
+
+    const auto resolveCharacterInventoryGrid =
+        [&context, screenWidth, screenHeight]() -> std::optional<GameplayResolvedHudLayoutElement>
+        {
+            const UiLayoutManager::LayoutElement *pInventoryGridLayout =
+                context.findHudLayoutElement("CharacterInventoryGrid");
+
+            if (pInventoryGridLayout == nullptr)
+            {
+                return std::nullopt;
+            }
+
+            return context.resolveHudLayoutElement(
+                "CharacterInventoryGrid",
+                screenWidth,
+                screenHeight,
+                pInventoryGridLayout->width,
+                pInventoryGridLayout->height);
+        };
+
+    const auto findCharacterPointerTarget =
+        [&context,
+         screenWidth,
+         screenHeight,
+         skillRowHeight,
+         &skillUiData,
+         pParty,
+         isReadOnlyAdventurersInnView,
+         pActiveCharacter,
+         pActiveCharacterDollType,
+         &resolveCharacterInventoryGrid](float pointerX, float pointerY) -> GameplayCharacterPointerTarget
+        {
+            if (screenWidth <= 0 || screenHeight <= 0)
+            {
+                return {};
+            }
+
+            struct CharacterTabTarget
+            {
+                const char *pLayoutId;
+                GameplayUiController::CharacterPage page;
+            };
+
+            static constexpr CharacterTabTarget TabTargets[] = {
+                {"CharacterStatsButton", GameplayUiController::CharacterPage::Stats},
+                {"CharacterSkillsButton", GameplayUiController::CharacterPage::Skills},
+                {"CharacterInventoryButton", GameplayUiController::CharacterPage::Inventory},
+                {"CharacterAwardsButton", GameplayUiController::CharacterPage::Awards},
+            };
+
+            for (const CharacterTabTarget &target : TabTargets)
+            {
+                const UiLayoutManager::LayoutElement *pLayout = context.findHudLayoutElement(target.pLayoutId);
+
+                if (pLayout == nullptr)
+                {
+                    continue;
+                }
+
+                const std::optional<GameplayResolvedHudLayoutElement> resolved =
+                    context.resolveHudLayoutElement(
+                        target.pLayoutId,
+                        screenWidth,
+                        screenHeight,
+                        pLayout->width,
+                        pLayout->height);
+
+                if (resolved.has_value() && context.isPointerInsideResolvedElement(*resolved, pointerX, pointerY))
+                {
+                    GameplayCharacterPointerTarget pointerTarget = {};
+                    pointerTarget.type = GameplayCharacterPointerTargetType::PageButton;
+                    pointerTarget.page = target.page;
+                    return pointerTarget;
+                }
+            }
+
+            if (!context.isAdventurersInnCharacterSourceActive() && pParty != nullptr && pParty->activeMemberIndex() > 0)
+            {
+                const UiLayoutManager::LayoutElement *pDismissLayout =
+                    context.findHudLayoutElement("CharacterDismissButton");
+
+                if (pDismissLayout != nullptr)
+                {
+                    const std::optional<GameplayResolvedHudLayoutElement> resolved =
+                        context.resolveHudLayoutElement(
+                            "CharacterDismissButton",
+                            screenWidth,
+                            screenHeight,
+                            pDismissLayout->width,
+                            pDismissLayout->height);
+
+                    if (resolved.has_value() && context.isPointerInsideResolvedElement(*resolved, pointerX, pointerY))
+                    {
+                        return {GameplayCharacterPointerTargetType::DismissButton};
+                    }
+                }
+            }
+
+            const UiLayoutManager::LayoutElement *pExitLayout = context.findHudLayoutElement("CharacterExitButton");
+
+            if (pExitLayout != nullptr)
+            {
+                const std::optional<GameplayResolvedHudLayoutElement> resolved =
+                    context.resolveHudLayoutElement(
+                        "CharacterExitButton",
+                        screenWidth,
+                        screenHeight,
+                        pExitLayout->width,
+                        pExitLayout->height);
+
+                if (resolved.has_value() && context.isPointerInsideResolvedElement(*resolved, pointerX, pointerY))
+                {
+                    return {GameplayCharacterPointerTargetType::ExitButton};
+                }
+            }
+
+            const UiLayoutManager::LayoutElement *pMagnifyLayout = context.findHudLayoutElement("CharacterMagnifyButton");
+
+            if (pMagnifyLayout != nullptr)
+            {
+                const std::optional<GameplayResolvedHudLayoutElement> resolved =
+                    context.resolveHudLayoutElement(
+                        "CharacterMagnifyButton",
+                        screenWidth,
+                        screenHeight,
+                        pMagnifyLayout->width,
+                        pMagnifyLayout->height);
+
+                if (resolved.has_value() && context.isPointerInsideResolvedElement(*resolved, pointerX, pointerY))
+                {
+                    return {GameplayCharacterPointerTargetType::MagnifyButton};
+                }
+            }
+
+            if (!context.heldInventoryItem().active)
+            {
+                for (auto it = context.renderedInspectableHudItems().rbegin();
+                     it != context.renderedInspectableHudItems().rend();
+                     ++it)
+                {
+                    if (it->sourceType != GameplayUiController::ItemInspectSourceType::Equipment
+                        || !isVisibleInCharacterDollOverlay(
+                            it->equipmentSlot,
+                            context.characterScreenReadOnly().dollJewelryOverlayOpen))
+                    {
+                        continue;
+                    }
+
+                    if (!context.isOpaqueHudPixelAtPoint(*it, pointerX, pointerY))
+                    {
+                        continue;
+                    }
+
+                    GameplayCharacterPointerTarget pointerTarget = {};
+                    pointerTarget.type = GameplayCharacterPointerTargetType::EquipmentSlot;
+                    pointerTarget.page = context.characterScreenReadOnly().page;
+                    pointerTarget.equipmentSlot = it->equipmentSlot;
+                    return pointerTarget;
+                }
+            }
+
+            struct CharacterEquipmentSlotTarget
+            {
+                const char *pLayoutId;
+                EquipmentSlot slot;
+                bool jewelryOverlayOnly;
+            };
+
+            static constexpr CharacterEquipmentSlotTarget EquipmentSlotTargets[] = {
+                {"CharacterDollBowSlot", EquipmentSlot::Bow, false},
+                {"CharacterDollRightHandSlot", EquipmentSlot::MainHand, false},
+                {"CharacterDollLeftHandSlot", EquipmentSlot::OffHand, false},
+                {"CharacterDollArmorSlot", EquipmentSlot::Armor, false},
+                {"CharacterDollHelmetSlot", EquipmentSlot::Helm, false},
+                {"CharacterDollBeltSlot", EquipmentSlot::Belt, false},
+                {"CharacterDollCloakSlot", EquipmentSlot::Cloak, false},
+                {"CharacterDollBootsSlot", EquipmentSlot::Boots, false},
+                {"CharacterDollAmuletSlot", EquipmentSlot::Amulet, true},
+                {"CharacterDollGauntletsSlot", EquipmentSlot::Gauntlets, true},
+                {"CharacterDollRing1Slot", EquipmentSlot::Ring1, true},
+                {"CharacterDollRing2Slot", EquipmentSlot::Ring2, true},
+                {"CharacterDollRing3Slot", EquipmentSlot::Ring3, true},
+                {"CharacterDollRing4Slot", EquipmentSlot::Ring4, true},
+                {"CharacterDollRing5Slot", EquipmentSlot::Ring5, true},
+                {"CharacterDollRing6Slot", EquipmentSlot::Ring6, true},
+            };
+
+            for (const CharacterEquipmentSlotTarget &target : EquipmentSlotTargets)
+            {
+                if (!isVisibleInCharacterDollOverlay(target.slot, context.characterScreenReadOnly().dollJewelryOverlayOpen))
+                {
+                    continue;
+                }
+
+                if (context.heldInventoryItem().active && !target.jewelryOverlayOnly)
+                {
+                    continue;
+                }
+
+                const UiLayoutManager::LayoutElement *pLayout = context.findHudLayoutElement(target.pLayoutId);
+
+                if (pLayout == nullptr)
+                {
+                    continue;
+                }
+
+                const uint32_t equippedId =
+                    pActiveCharacter != nullptr ? equippedItemId(pActiveCharacter->equipment, target.slot) : 0;
+                const ItemDefinition *pItemDefinition =
+                    equippedId != 0 && context.itemTable() != nullptr ? context.itemTable()->get(equippedId) : nullptr;
+                std::optional<GameplayResolvedHudLayoutElement> dynamicRect;
+                std::string dynamicTextureName;
+
+                if (pItemDefinition != nullptr && !pItemDefinition->iconName.empty())
+                {
+                    const bool hasRightHandWeapon =
+                        pActiveCharacter != nullptr && pActiveCharacter->equipment.mainHand != 0;
+                    const uint32_t dollTypeId =
+                        pActiveCharacterDollType != nullptr ? pActiveCharacterDollType->id : 0;
+                    dynamicTextureName = context.resolveEquippedItemHudTextureName(
+                        *pItemDefinition,
+                        dollTypeId,
+                        hasRightHandWeapon,
+                        target.slot);
+                    const std::optional<GameplayHudTextureHandle> texture =
+                        context.ensureHudTextureLoaded(dynamicTextureName);
+
+                    if (texture.has_value())
+                    {
+                        dynamicRect = context.resolveCharacterEquipmentRenderRect(
+                            *pLayout,
+                            *pItemDefinition,
+                            *texture,
+                            pActiveCharacterDollType,
+                            target.slot,
+                            screenWidth,
+                            screenHeight);
+                    }
+                }
+
+                bool pointerInsideDynamicRect = false;
+
+                if (dynamicRect.has_value())
+                {
+                    if (context.heldInventoryItem().active)
+                    {
+                        pointerInsideDynamicRect = context.isPointerInsideResolvedElement(*dynamicRect, pointerX, pointerY);
+                    }
+                    else if (!dynamicTextureName.empty() && pItemDefinition != nullptr)
+                    {
+                        GameplayRenderedInspectableHudItem renderedItem = {};
+                        renderedItem.objectDescriptionId = pItemDefinition->itemId;
+                        renderedItem.textureName = dynamicTextureName;
+                        renderedItem.x = dynamicRect->x;
+                        renderedItem.y = dynamicRect->y;
+                        renderedItem.width = dynamicRect->width;
+                        renderedItem.height = dynamicRect->height;
+                        pointerInsideDynamicRect = context.isOpaqueHudPixelAtPoint(renderedItem, pointerX, pointerY);
+                    }
+                }
+
+                const std::optional<GameplayResolvedHudLayoutElement> resolved =
+                    context.heldInventoryItem().active && !dynamicRect.has_value()
+                        ? context.resolveHudLayoutElement(
+                            target.pLayoutId,
+                            screenWidth,
+                            screenHeight,
+                            pLayout->width,
+                            pLayout->height)
+                        : std::nullopt;
+                const bool pointerInsideLayoutRect =
+                    resolved.has_value() && context.isPointerInsideResolvedElement(*resolved, pointerX, pointerY);
+
+                if (!pointerInsideDynamicRect && !pointerInsideLayoutRect)
+                {
+                    continue;
+                }
+
+                if ((!isReadOnlyAdventurersInnView && context.heldInventoryItem().active)
+                    || (pActiveCharacter != nullptr && equippedId != 0))
+                {
+                    if (isReadOnlyAdventurersInnView)
+                    {
+                        continue;
+                    }
+
+                    GameplayCharacterPointerTarget pointerTarget = {};
+                    pointerTarget.type = GameplayCharacterPointerTargetType::EquipmentSlot;
+                    pointerTarget.page = context.characterScreenReadOnly().page;
+                    pointerTarget.equipmentSlot = target.slot;
+                    return pointerTarget;
+                }
+            }
+
+            if (!isReadOnlyAdventurersInnView && context.heldInventoryItem().active)
+            {
+                const UiLayoutManager::LayoutElement *pDollLayout = context.findHudLayoutElement("CharacterDollPanel");
+
+                if (pDollLayout != nullptr)
+                {
+                    const std::optional<GameplayResolvedHudLayoutElement> resolvedDoll =
+                        context.resolveHudLayoutElement(
+                            "CharacterDollPanel",
+                            screenWidth,
+                            screenHeight,
+                            pDollLayout->width,
+                            pDollLayout->height);
+
+                    if (resolvedDoll.has_value() && context.isPointerInsideResolvedElement(*resolvedDoll, pointerX, pointerY))
+                    {
+                        GameplayCharacterPointerTarget pointerTarget = {};
+                        pointerTarget.type = GameplayCharacterPointerTargetType::DollPanel;
+                        pointerTarget.page = context.characterScreenReadOnly().page;
+                        return pointerTarget;
+                    }
+                }
+            }
+
+            if (context.characterScreenReadOnly().page == GameplayUiController::CharacterPage::Inventory)
+            {
+                const std::optional<GameplayResolvedHudLayoutElement> resolvedInventoryGrid =
+                    resolveCharacterInventoryGrid();
+
+                if (resolvedInventoryGrid.has_value()
+                    && context.isPointerInsideResolvedElement(*resolvedInventoryGrid, pointerX, pointerY))
+                {
+                    const float cellWidth =
+                        resolvedInventoryGrid->width / static_cast<float>(Character::InventoryWidth);
+                    const float cellHeight =
+                        resolvedInventoryGrid->height / static_cast<float>(Character::InventoryHeight);
+                    const uint8_t gridX = static_cast<uint8_t>(std::clamp(
+                        static_cast<int>((pointerX - resolvedInventoryGrid->x) / cellWidth),
+                        0,
+                        Character::InventoryWidth - 1));
+                    const uint8_t gridY = static_cast<uint8_t>(std::clamp(
+                        static_cast<int>((pointerY - resolvedInventoryGrid->y) / cellHeight),
+                        0,
+                        Character::InventoryHeight - 1));
+
+                    if (!isReadOnlyAdventurersInnView && context.heldInventoryItem().active)
+                    {
+                        GameplayCharacterPointerTarget target = {};
+                        target.type = GameplayCharacterPointerTargetType::InventoryCell;
+                        target.page = GameplayUiController::CharacterPage::Inventory;
+                        target.gridX = gridX;
+                        target.gridY = gridY;
+                        return target;
+                    }
+
+                    if (pActiveCharacter != nullptr)
+                    {
+                        const InventoryItem *pItem = pActiveCharacter->inventoryItemAt(gridX, gridY);
+
+                        if (pItem != nullptr && !isReadOnlyAdventurersInnView)
+                        {
+                            GameplayCharacterPointerTarget target = {};
+                            target.type = GameplayCharacterPointerTargetType::InventoryItem;
+                            target.page = GameplayUiController::CharacterPage::Inventory;
+                            target.gridX = pItem->gridX;
+                            target.gridY = pItem->gridY;
+                            return target;
+                        }
+                    }
+                }
+            }
+
+            if (context.characterScreenReadOnly().page == GameplayUiController::CharacterPage::Skills)
+            {
+                const auto findSkillRowTarget =
+                    [&context, screenWidth, screenHeight, pointerX, pointerY, skillRowHeight](
+                        const char *pRegionId,
+                        const char *pLevelHeaderId,
+                        const std::vector<CharacterSkillUiRow> &rows) -> GameplayCharacterPointerTarget
+                    {
+                        if (rows.empty())
+                        {
+                            return {};
+                        }
+
+                        const UiLayoutManager::LayoutElement *pRegionLayout = context.findHudLayoutElement(pRegionId);
+                        const UiLayoutManager::LayoutElement *pLevelLayout = context.findHudLayoutElement(pLevelHeaderId);
+
+                        if (pRegionLayout == nullptr || pLevelLayout == nullptr)
+                        {
+                            return {};
+                        }
+
+                        const std::optional<GameplayResolvedHudLayoutElement> resolvedRegion =
+                            context.resolveHudLayoutElement(
+                                pRegionId,
+                                screenWidth,
+                                screenHeight,
+                                pRegionLayout->width,
+                                pRegionLayout->height);
+                        const std::optional<GameplayResolvedHudLayoutElement> resolvedLevelHeader =
+                            context.resolveHudLayoutElement(
+                                pLevelHeaderId,
+                                screenWidth,
+                                screenHeight,
+                                pLevelLayout->width,
+                                pLevelLayout->height);
+
+                        if (!resolvedRegion.has_value() || !resolvedLevelHeader.has_value())
+                        {
+                            return {};
+                        }
+
+                        const float rowHeightPixels = skillRowHeight * resolvedRegion->scale;
+                        const float rowWidth = resolvedLevelHeader->x + resolvedLevelHeader->width - resolvedRegion->x;
+
+                        for (size_t rowIndex = 0; rowIndex < rows.size(); ++rowIndex)
+                        {
+                            const CharacterSkillUiRow &row = rows[rowIndex];
+
+                            if (!row.interactive)
+                            {
+                                continue;
+                            }
+
+                            const float rowY = resolvedRegion->y + static_cast<float>(rowIndex) * rowHeightPixels;
+
+                            if (pointerX >= resolvedRegion->x
+                                && pointerX < resolvedRegion->x + rowWidth
+                                && pointerY >= rowY
+                                && pointerY < rowY + rowHeightPixels)
+                            {
+                                GameplayCharacterPointerTarget target = {};
+                                target.type = GameplayCharacterPointerTargetType::SkillRow;
+                                target.page = GameplayUiController::CharacterPage::Skills;
+                                target.skillName = row.canonicalName;
+                                return target;
+                            }
+                        }
+
+                        return {};
+                    };
+
+                const GameplayCharacterPointerTarget weaponTarget = findSkillRowTarget(
+                    "CharacterSkillsWeaponsListRegion",
+                    "CharacterSkillsWeaponsLevelHeader",
+                    skillUiData.weaponRows);
+
+                if (weaponTarget.type == GameplayCharacterPointerTargetType::SkillRow)
+                {
+                    return weaponTarget;
+                }
+
+                const GameplayCharacterPointerTarget magicTarget = findSkillRowTarget(
+                    "CharacterSkillsMagicListRegion",
+                    "CharacterSkillsMagicLevelHeader",
+                    skillUiData.magicRows);
+
+                if (magicTarget.type == GameplayCharacterPointerTargetType::SkillRow)
+                {
+                    return magicTarget;
+                }
+
+                const GameplayCharacterPointerTarget armorTarget = findSkillRowTarget(
+                    "CharacterSkillsArmorListRegion",
+                    "CharacterSkillsArmorLevelHeader",
+                    skillUiData.armorRows);
+
+                if (armorTarget.type == GameplayCharacterPointerTargetType::SkillRow)
+                {
+                    return armorTarget;
+                }
+
+                const GameplayCharacterPointerTarget miscTarget = findSkillRowTarget(
+                    "CharacterSkillsMiscListRegion",
+                    "CharacterSkillsMiscLevelHeader",
+                    skillUiData.miscRows);
+
+                if (miscTarget.type == GameplayCharacterPointerTargetType::SkillRow)
+                {
+                    return miscTarget;
+                }
+            }
+
+            return {};
+        };
+
+    const HudPointerState pointerState = {mouseX, mouseY, isLeftMousePressed};
+    const GameplayCharacterPointerTarget noneCharacterTarget = {};
+    const GameplayCharacterPointerTarget hoveredCharacterTarget = findCharacterPointerTarget(mouseX, mouseY);
+
+    if (pParty != nullptr)
+    {
+        context.updateReadableScrollOverlayForHeldItem(pParty->activeMemberIndex(), hoveredCharacterTarget, isLeftMousePressed);
+    }
+    else
+    {
+        context.closeReadableScrollOverlay();
+    }
+
+    handlePointerClickRelease(
+        pointerState,
+        context.characterClickLatch(),
+        context.characterPressedTarget(),
+        noneCharacterTarget,
+        findCharacterPointerTarget,
+        [&context,
+         pActiveCharacterDollType,
+         pActiveCharacter,
+         pParty,
+         screenWidth,
+         screenHeight,
+         mouseX,
+         mouseY,
+         &clearPendingCharacterDismiss,
+         &resolveCharacterInventoryGrid,
+         isReadOnlyAdventurersInnView](const GameplayCharacterPointerTarget &target)
+        {
+            const bool isInventorySpellTargetMode =
+                context.utilitySpellOverlayReadOnly().active
+                && context.utilitySpellOverlayReadOnly().mode == GameplayUiController::UtilitySpellOverlayMode::InventoryTarget;
+            const auto setHeldItem =
+                [&context](const InventoryItem &item)
+                {
+                    context.heldInventoryItem() = {};
+                    context.heldInventoryItem().active = true;
+                    context.heldInventoryItem().item = item;
+                    context.heldInventoryItem().grabCellOffsetX = 0;
+                    context.heldInventoryItem().grabCellOffsetY = 0;
+                    context.heldInventoryItem().grabOffsetX = 0.0f;
+                    context.heldInventoryItem().grabOffsetY = 0.0f;
+                };
+            const auto resolveSpellName =
+                [&context](uint32_t spellId) -> std::string
+                {
+                    const SpellEntry *pSpellEntry =
+                        context.spellTable() != nullptr ? context.spellTable()->findById(static_cast<int>(spellId)) : nullptr;
+                    return pSpellEntry != nullptr && !pSpellEntry->name.empty() ? pSpellEntry->name : "Spell";
+                };
+
+            if (target.type != GameplayCharacterPointerTargetType::DismissButton)
+            {
+                clearPendingCharacterDismiss();
+            }
+
+            if (isInventorySpellTargetMode)
+            {
+                if (target.type == GameplayCharacterPointerTargetType::InventoryItem)
+                {
+                    PartySpellCastRequest request = {};
+                    request.casterMemberIndex = context.utilitySpellOverlayReadOnly().casterMemberIndex;
+                    request.spellId = context.utilitySpellOverlayReadOnly().spellId;
+                    request.targetItemMemberIndex =
+                        pParty != nullptr ? std::optional<size_t>(pParty->activeMemberIndex()) : std::nullopt;
+                    request.targetInventoryGridX = target.gridX;
+                    request.targetInventoryGridY = target.gridY;
+                    context.tryCastSpellRequest(request, resolveSpellName(request.spellId));
+                    return;
+                }
+
+                if (target.type == GameplayCharacterPointerTargetType::EquipmentSlot)
+                {
+                    PartySpellCastRequest request = {};
+                    request.casterMemberIndex = context.utilitySpellOverlayReadOnly().casterMemberIndex;
+                    request.spellId = context.utilitySpellOverlayReadOnly().spellId;
+                    request.targetItemMemberIndex =
+                        pParty != nullptr ? std::optional<size_t>(pParty->activeMemberIndex()) : std::nullopt;
+                    request.targetEquipmentSlot = target.equipmentSlot;
+                    context.tryCastSpellRequest(request, resolveSpellName(request.spellId));
+                    return;
+                }
+            }
+
+            if (target.type == GameplayCharacterPointerTargetType::PageButton)
+            {
+                if (isInventorySpellTargetMode && target.page != GameplayUiController::CharacterPage::Inventory)
+                {
+                    context.setStatusBarEvent("Select an item");
+                    return;
+                }
+
+                context.characterScreen().page = target.page;
+                return;
+            }
+
+            if (target.type == GameplayCharacterPointerTargetType::ExitButton)
+            {
+                if (isInventorySpellTargetMode)
+                {
+                    context.utilitySpellOverlay() = {};
+                }
+
+                if (isReadOnlyAdventurersInnView)
+                {
+                    context.characterScreen().dollJewelryOverlayOpen = false;
+                    context.characterScreen().adventurersInnRosterOverlayOpen = true;
+                }
+                else
+                {
+                    context.characterScreen().open = false;
+                    context.characterScreen().dollJewelryOverlayOpen = false;
+                    context.characterScreen().adventurersInnRosterOverlayOpen = false;
+                }
+
+                return;
+            }
+
+            if (target.type == GameplayCharacterPointerTargetType::DismissButton && pParty != nullptr)
+            {
+                const size_t memberIndex = pParty->activeMemberIndex();
+                const Character *pMember = pParty->member(memberIndex);
+
+                if (pMember == nullptr || memberIndex == 0)
+                {
+                    clearPendingCharacterDismiss();
+                    return;
+                }
+
+                const bool confirmed =
+                    context.pendingCharacterDismissMemberIndex().has_value()
+                    && *context.pendingCharacterDismissMemberIndex() == memberIndex
+                    && SDL_GetTicks() <= context.pendingCharacterDismissExpiresTicks();
+
+                if (!confirmed)
+                {
+                    const uint64_t dismissClickTicks = SDL_GetTicks();
+                    context.pendingCharacterDismissMemberIndex() = memberIndex;
+                    context.pendingCharacterDismissExpiresTicks() = dismissClickTicks + CharacterDismissConfirmWindowMs;
+                    context.setStatusBarEvent(
+                        "To confirm " + pMember->name + " dismissal press the button again...",
+                        2.0f);
+                }
+                else
+                {
+                    const std::string dismissedName = pMember->name;
+                    clearPendingCharacterDismiss();
+
+                    if (pParty->dismissMemberToAdventurersInn(memberIndex))
+                    {
+                        context.characterScreen().dollJewelryOverlayOpen = false;
+                        context.setStatusBarEvent(dismissedName + " dismissed.");
+                    }
+                    else
+                    {
+                        context.setStatusBarEvent("Dismissal failed.");
+                    }
+                }
+
+                return;
+            }
+
+            if (target.type == GameplayCharacterPointerTargetType::MagnifyButton)
+            {
+                context.characterScreen().dollJewelryOverlayOpen = !context.characterScreenReadOnly().dollJewelryOverlayOpen;
+                return;
+            }
+
+            if (target.type == GameplayCharacterPointerTargetType::SkillRow && pParty != nullptr)
+            {
+                if (pParty->increaseActiveMemberSkillLevel(target.skillName))
+                {
+                    if (context.audioSystem() != nullptr)
+                    {
+                        context.audioSystem()->playCommonSound(SoundId::Quest, GameAudioSystem::PlaybackGroup::Ui);
+                    }
+
+                    context.playSpeechReaction(pParty->activeMemberIndex(), SpeechId::SkillIncreased, true);
+                }
+
+                return;
+            }
+
+            if (pParty == nullptr || context.itemTable() == nullptr)
+            {
+                return;
+            }
+
+            Character *pCharacter = pParty->activeMember();
+
+            if (pCharacter == nullptr)
+            {
+                return;
+            }
+
+            const size_t memberIndex = pParty->activeMemberIndex();
+
+            if (target.type == GameplayCharacterPointerTargetType::EquipmentSlot)
+            {
+                if (!context.heldInventoryItem().active)
+                {
+                    InventoryItem unequippedItem = {};
+
+                    if (pParty->takeEquippedItemFromMember(memberIndex, target.equipmentSlot, unequippedItem))
+                    {
+                        setHeldItem(unequippedItem);
+                    }
+
+                    return;
+                }
+
+                const InventoryItemUseAction useAction =
+                    InventoryItemUseRuntime::classifyItemUse(context.heldInventoryItem().item, *context.itemTable());
+
+                if (useAction != InventoryItemUseAction::None
+                    && useAction != InventoryItemUseAction::Equip
+                    && useAction != InventoryItemUseAction::ReadMessageScroll)
+                {
+                    context.tryUseHeldItemOnPartyMember(memberIndex, true);
+                    return;
+                }
+
+                const ItemDefinition *pItemDefinition =
+                    context.itemTable()->get(context.heldInventoryItem().item.objectDescriptionId);
+
+                if (pItemDefinition == nullptr)
+                {
+                    return;
+                }
+
+                const std::optional<CharacterEquipPlan> plan =
+                    GameMechanics::resolveCharacterEquipPlan(
+                        *pCharacter,
+                        *pItemDefinition,
+                        context.itemTable(),
+                        pActiveCharacterDollType,
+                        target.equipmentSlot,
+                        false);
+
+                if (!plan.has_value())
+                {
+                    context.setStatusBarEvent("Can't equip that item there");
+                    return;
+                }
+
+                std::optional<InventoryItem> heldReplacement;
+
+                if (!pParty->tryEquipItemOnMember(
+                        memberIndex,
+                        plan->targetSlot,
+                        context.heldInventoryItem().item,
+                        plan->displacedSlot,
+                        plan->autoStoreDisplacedItem,
+                        heldReplacement))
+                {
+                    context.setStatusBarEvent(
+                        pParty->lastStatus().empty() ? "Can't equip that item" : pParty->lastStatus());
+                    return;
+                }
+
+                if (heldReplacement.has_value())
+                {
+                    setHeldItem(*heldReplacement);
+                }
+                else
+                {
+                    context.heldInventoryItem() = {};
+                }
+
+                return;
+            }
+
+            if (target.type == GameplayCharacterPointerTargetType::DollPanel && context.heldInventoryItem().active)
+            {
+                const InventoryItemUseAction useAction =
+                    InventoryItemUseRuntime::classifyItemUse(context.heldInventoryItem().item, *context.itemTable());
+
+                if (useAction != InventoryItemUseAction::None
+                    && useAction != InventoryItemUseAction::Equip
+                    && useAction != InventoryItemUseAction::ReadMessageScroll)
+                {
+                    context.tryUseHeldItemOnPartyMember(memberIndex, true);
+                    return;
+                }
+
+                const ItemDefinition *pItemDefinition =
+                    context.itemTable()->get(context.heldInventoryItem().item.objectDescriptionId);
+
+                if (pItemDefinition == nullptr)
+                {
+                    return;
+                }
+
+                const UiLayoutManager::LayoutElement *pDollLayout = context.findHudLayoutElement("CharacterDollPanel");
+                const std::optional<GameplayResolvedHudLayoutElement> resolvedDoll =
+                    pDollLayout != nullptr
+                        ? context.resolveHudLayoutElement(
+                            "CharacterDollPanel",
+                            screenWidth,
+                            screenHeight,
+                            pDollLayout->width,
+                            pDollLayout->height)
+                        : std::nullopt;
+                const bool preferOffHand =
+                    resolvedDoll.has_value() && mouseX >= resolvedDoll->x + resolvedDoll->width * 0.5f;
+                const std::optional<CharacterEquipPlan> plan =
+                    GameMechanics::resolveCharacterEquipPlan(
+                        *pCharacter,
+                        *pItemDefinition,
+                        context.itemTable(),
+                        pActiveCharacterDollType,
+                        std::nullopt,
+                        preferOffHand);
+
+                if (!plan.has_value())
+                {
+                    context.setStatusBarEvent("Can't equip that item");
+                    return;
+                }
+
+                std::optional<InventoryItem> heldReplacement;
+
+                if (!pParty->tryEquipItemOnMember(
+                        memberIndex,
+                        plan->targetSlot,
+                        context.heldInventoryItem().item,
+                        plan->displacedSlot,
+                        plan->autoStoreDisplacedItem,
+                        heldReplacement))
+                {
+                    context.setStatusBarEvent(
+                        pParty->lastStatus().empty() ? "Can't equip that item" : pParty->lastStatus());
+                    return;
+                }
+
+                if (heldReplacement.has_value())
+                {
+                    setHeldItem(*heldReplacement);
+                }
+                else
+                {
+                    context.heldInventoryItem() = {};
+                }
+
+                return;
+            }
+
+            if (target.type == GameplayCharacterPointerTargetType::InventoryCell && context.heldInventoryItem().active)
+            {
+                const std::optional<GameplayResolvedHudLayoutElement> resolvedInventoryGrid =
+                    resolveCharacterInventoryGrid();
+                const ItemDefinition *pItemDefinition =
+                    context.itemTable()->get(context.heldInventoryItem().item.objectDescriptionId);
+
+                if (!resolvedInventoryGrid.has_value() || pItemDefinition == nullptr || pItemDefinition->iconName.empty())
+                {
+                    return;
+                }
+
+                const std::optional<GameplayHudTextureHandle> itemTexture =
+                    context.ensureHudTextureLoaded(pItemDefinition->iconName);
+
+                if (!itemTexture.has_value())
+                {
+                    return;
+                }
+
+                const InventoryGridMetrics gridMetrics = computeInventoryGridMetrics(
+                    resolvedInventoryGrid->x,
+                    resolvedInventoryGrid->y,
+                    resolvedInventoryGrid->width,
+                    resolvedInventoryGrid->height,
+                    resolvedInventoryGrid->scale);
+                const float itemWidth = static_cast<float>(itemTexture->width) * gridMetrics.scale;
+                const float itemHeight = static_cast<float>(itemTexture->height) * gridMetrics.scale;
+                const float drawX = mouseX - context.heldInventoryItem().grabOffsetX;
+                const float drawY = mouseY - context.heldInventoryItem().grabOffsetY;
+                const std::optional<std::pair<int, int>> placement =
+                    computeHeldInventoryPlacement(
+                        gridMetrics,
+                        context.heldInventoryItem().item.width,
+                        context.heldInventoryItem().item.height,
+                        itemWidth,
+                        itemHeight,
+                        drawX,
+                        drawY);
+
+                if (!placement.has_value())
+                {
+                    return;
+                }
+
+                std::optional<InventoryItem> replacedItem;
+
+                if (!pParty->tryPlaceItemInMemberInventoryCell(
+                        memberIndex,
+                        context.heldInventoryItem().item,
+                        static_cast<uint8_t>(placement->first),
+                        static_cast<uint8_t>(placement->second),
+                        replacedItem))
+                {
+                    context.setStatusBarEvent(
+                        pParty->lastStatus().empty() ? "Can't place item" : pParty->lastStatus());
+                    return;
+                }
+
+                if (replacedItem.has_value())
+                {
+                    context.heldInventoryItem().item = *replacedItem;
+                    context.heldInventoryItem().grabCellOffsetX = 0;
+                    context.heldInventoryItem().grabCellOffsetY = 0;
+                    context.heldInventoryItem().grabOffsetX = 0.0f;
+                    context.heldInventoryItem().grabOffsetY = 0.0f;
+                }
+                else
+                {
+                    context.heldInventoryItem() = {};
+                }
+
+                return;
+            }
+
+            if (target.type != GameplayCharacterPointerTargetType::InventoryItem)
+            {
+                return;
+            }
+
+            const InventoryItem *pItem = pCharacter->inventoryItemAt(target.gridX, target.gridY);
+
+            if (pItem == nullptr)
+            {
+                return;
+            }
+
+            InventoryItem heldItem = {};
+
+            if (!pParty->takeItemFromMemberInventoryCell(memberIndex, pItem->gridX, pItem->gridY, heldItem))
+            {
+                return;
+            }
+
+            setHeldItem(heldItem);
+
+            const ItemDefinition *pItemDefinition = context.itemTable()->get(heldItem.objectDescriptionId);
+            const std::optional<GameplayResolvedHudLayoutElement> resolvedInventoryGrid =
+                resolveCharacterInventoryGrid();
+
+            if (pItemDefinition == nullptr || pItemDefinition->iconName.empty() || !resolvedInventoryGrid.has_value())
+            {
+                return;
+            }
+
+            const std::optional<GameplayHudTextureHandle> itemTexture =
+                context.ensureHudTextureLoaded(pItemDefinition->iconName);
+
+            if (!itemTexture.has_value())
+            {
+                return;
+            }
+
+            const InventoryGridMetrics gridMetrics = computeInventoryGridMetrics(
+                resolvedInventoryGrid->x,
+                resolvedInventoryGrid->y,
+                resolvedInventoryGrid->width,
+                resolvedInventoryGrid->height,
+                resolvedInventoryGrid->scale);
+            const uint8_t hoveredGridX = static_cast<uint8_t>(std::clamp(
+                static_cast<int>((mouseX - resolvedInventoryGrid->x) / gridMetrics.cellWidth),
+                0,
+                Character::InventoryWidth - 1));
+            const uint8_t hoveredGridY = static_cast<uint8_t>(std::clamp(
+                static_cast<int>((mouseY - resolvedInventoryGrid->y) / gridMetrics.cellHeight),
+                0,
+                Character::InventoryHeight - 1));
+            context.heldInventoryItem().grabCellOffsetX = hoveredGridX - heldItem.gridX;
+            context.heldInventoryItem().grabCellOffsetY = hoveredGridY - heldItem.gridY;
+            const float itemWidth = static_cast<float>(itemTexture->width) * gridMetrics.scale;
+            const float itemHeight = static_cast<float>(itemTexture->height) * gridMetrics.scale;
+            const InventoryItemScreenRect itemRect =
+                computeInventoryItemScreenRect(gridMetrics, heldItem, itemWidth, itemHeight);
+            context.heldInventoryItem().grabOffsetX = mouseX - itemRect.x;
+            context.heldInventoryItem().grabOffsetY = mouseY - itemRect.y;
         });
 }
 
@@ -1323,10 +2416,11 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
     int screenWidth,
     int screenHeight)
 {
-    Character *pActiveCharacter = view.selectedCharacterScreenCharacter();
+    GameplayOverlayContext overlayContext(view);
+    Character *pActiveCharacter = const_cast<Character *>(overlayContext.selectedCharacterScreenCharacter());
     Party *pParty = view.m_pOutdoorPartyRuntime != nullptr ? &view.m_pOutdoorPartyRuntime->party() : nullptr;
-    const bool isAdventurersInnMode = view.isAdventurersInnScreenActive();
-    const bool isReadOnlyAdventurersInnView = view.isReadOnlyAdventurersInnCharacterViewActive();
+    const bool isAdventurersInnMode = overlayContext.isAdventurersInnScreenActive();
+    const bool isReadOnlyAdventurersInnView = overlayContext.isReadOnlyAdventurersInnCharacterViewActive();
     const auto clearPendingCharacterDismiss =
         [&view]()
         {
@@ -1336,7 +2430,7 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
     const uint64_t nowTicks = SDL_GetTicks();
 
     if (pParty == nullptr
-        || view.isAdventurersInnCharacterSourceActive()
+        || overlayContext.isAdventurersInnCharacterSourceActive()
         || (view.m_pendingCharacterDismissMemberIndex.has_value()
             && (nowTicks > view.m_pendingCharacterDismissExpiresTicks
                 || *view.m_pendingCharacterDismissMemberIndex >= pParty->members().size()
@@ -1732,6 +2826,7 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
 
     const auto findCharacterPointerTarget =
         [&view,
+         &overlayContext,
          screenWidth,
          screenHeight,
          skillRowHeight,
@@ -1787,7 +2882,7 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                 }
             }
 
-            if (!view.isAdventurersInnCharacterSourceActive() && view.m_pOutdoorPartyRuntime != nullptr)
+            if (!overlayContext.isAdventurersInnCharacterSourceActive() && view.m_pOutdoorPartyRuntime != nullptr)
             {
                 const size_t activeMemberIndex = view.m_pOutdoorPartyRuntime->party().activeMemberIndex();
 
@@ -1945,7 +3040,7 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                         pActiveCharacter != nullptr && pActiveCharacter->equipment.mainHand != 0;
                     const uint32_t dollTypeId =
                         pActiveCharacterDollType != nullptr ? pActiveCharacterDollType->id : 0;
-                    dynamicTextureName = view.resolveEquippedItemHudTextureName(
+                    dynamicTextureName = overlayContext.resolveEquippedItemHudTextureName(
                         *pItemDefinition,
                         dollTypeId,
                         hasRightHandWeapon,
@@ -1954,10 +3049,15 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
 
                     if (pTexture != nullptr)
                     {
-                        dynamicRect = view.resolveCharacterEquipmentRenderRect(
+                        dynamicRect = overlayContext.resolveCharacterEquipmentRenderRect(
                             *pLayout,
                             *pItemDefinition,
-                            *pTexture,
+                            GameplayHudTextureHandle{
+                                .textureName = pTexture->textureName,
+                                .width = pTexture->width,
+                                .height = pTexture->height,
+                                .textureHandle = pTexture->textureHandle
+                            },
                             pActiveCharacterDollType,
                             target.slot,
                             screenWidth,

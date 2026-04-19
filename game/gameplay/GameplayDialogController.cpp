@@ -4,7 +4,6 @@
 #include "game/gameplay/MasteryTeacherDialog.h"
 #include "game/tables/MapStats.h"
 #include "game/tables/NpcDialogTable.h"
-#include "game/outdoor/OutdoorWorldRuntime.h"
 #include "game/party/Party.h"
 #include "game/tables/RosterTable.h"
 
@@ -308,9 +307,9 @@ void applyMapTransitionTravelSideEffects(
         context.callbacks.requestTravelAutosave();
     }
 
-    if (context.pOutdoorWorldRuntime != nullptr && transition.travelDays > 0)
+    if (context.pWorldRuntime != nullptr && transition.travelDays > 0)
     {
-        context.pOutdoorWorldRuntime->advanceGameMinutes(static_cast<float>(transition.travelDays) * MinutesPerDay);
+        context.pWorldRuntime->advanceGameMinutes(static_cast<float>(transition.travelDays) * MinutesPerDay);
     }
 
     if (context.pParty != nullptr)
@@ -552,7 +551,7 @@ GameplayDialogController::Result GameplayDialogController::executeActiveDialogAc
                 *pHouseEntry,
                 *context.pParty,
                 context.pClassSkillTable,
-                context.pOutdoorWorldRuntime
+                context.pWorldRuntime
             );
 
             if (houseResult.soundType.has_value() && context.callbacks.playHouseSound)
@@ -920,7 +919,7 @@ GameplayDialogController::PresentPendingDialogResult GameplayDialogController::p
 
     if (originalContext.kind == DialogueContextKind::HouseService
         && context.pHouseTable != nullptr
-        && context.pOutdoorWorldRuntime != nullptr
+        && context.pWorldRuntime != nullptr
         && context.pParty != nullptr)
     {
         if (tryOpenAdventurersInnOverlay(context, originalContext.sourceId))
@@ -950,8 +949,8 @@ GameplayDialogController::PresentPendingDialogResult GameplayDialogController::p
         context.pCurrentMap,
         context.pMapEntries,
         context.pParty,
-        context.pOutdoorWorldRuntime,
-        context.pOutdoorWorldRuntime != nullptr ? context.pOutdoorWorldRuntime->gameMinutes() : -1.0f
+        context.pWorldRuntime,
+        context.pWorldRuntime != nullptr ? context.pWorldRuntime->gameMinutes() : -1.0f
     ));
 
     if (context.eventRuntimeState.pendingDialogueContext.has_value()
@@ -1315,8 +1314,8 @@ bool GameplayDialogController::rejectClosedHouseInteraction(
     Context &context,
     const HouseEntry &houseEntry) const
 {
-    if (context.pOutdoorWorldRuntime == nullptr
-        || isHouseOpenAtGameMinute(houseEntry, context.pOutdoorWorldRuntime->gameMinutes()))
+    if (context.pWorldRuntime == nullptr
+        || isHouseOpenAtGameMinute(houseEntry, context.pWorldRuntime->gameMinutes()))
     {
         return false;
     }

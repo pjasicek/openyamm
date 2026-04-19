@@ -66,17 +66,37 @@ bool GameplayUiController::loadGameplayLayouts(
 
 void GameplayUiController::clearRuntimeState()
 {
-    m_state = {};
+    resolvedState() = {};
 }
 
 GameplayUiController::State &GameplayUiController::state()
 {
-    return m_state;
+    return resolvedState();
 }
 
 const GameplayUiController::State &GameplayUiController::state() const
 {
-    return m_state;
+    return resolvedState();
+}
+
+void GameplayUiController::bindExternalState(State *pState)
+{
+    m_pExternalState = pState;
+}
+
+void GameplayUiController::clearExternalStateBinding()
+{
+    m_pExternalState = nullptr;
+}
+
+GameplayUiController::State &GameplayUiController::resolvedState()
+{
+    return m_pExternalState != nullptr ? *m_pExternalState : m_state;
+}
+
+const GameplayUiController::State &GameplayUiController::resolvedState() const
+{
+    return m_pExternalState != nullptr ? *m_pExternalState : m_state;
 }
 
 GameplayUiController::CharacterScreenState &GameplayUiController::characterScreen()

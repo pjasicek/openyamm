@@ -2,12 +2,17 @@
 
 #include "game/SpriteObjectDefs.h"
 #include "game/events/EvtEnums.h"
+#include "game/gameplay/ChestRuntime.h"
+#include "game/gameplay/CorpseLootRuntime.h"
+#include "game/indoor/IndoorPartyRuntime.h"
 
 #include <algorithm>
 #include <array>
+#include <chrono>
 #include <cmath>
 #include <cstring>
 #include <iostream>
+#include <limits>
 #include <random>
 
 namespace OpenYAMM::Game
@@ -47,23 +52,110 @@ void IndoorWorldRuntime::initialize(
     const MonsterTable &monsterTable,
     const ObjectTable &objectTable,
     const ItemTable &itemTable,
+    const ChestTable &chestTable,
     Party *pParty,
+    IndoorPartyRuntime *pPartyRuntime,
     std::optional<MapDeltaData> *pMapDeltaData,
     std::optional<EventRuntimeState> *pEventRuntimeState
 )
 {
     m_map = map;
+    m_mapName = map.name;
     m_pMonsterTable = &monsterTable;
     m_pObjectTable = &objectTable;
     m_pItemTable = &itemTable;
+    m_pChestTable = &chestTable;
     m_pParty = pParty;
+    m_pPartyRuntime = pPartyRuntime;
     m_pMapDeltaData = pMapDeltaData;
     m_pEventRuntimeState = pEventRuntimeState;
+    std::random_device randomDevice;
+    const uint64_t timeSeed = uint64_t(std::chrono::steady_clock::now().time_since_epoch().count());
+    m_sessionChestSeed = randomDevice() ^ uint32_t(timeSeed) ^ uint32_t(timeSeed >> 32);
+    m_materializedChestViews.clear();
+    m_activeChestView.reset();
+    m_mapActorCorpseViews.clear();
+    m_activeCorpseView.reset();
+}
+
+const std::string &IndoorWorldRuntime::mapName() const
+{
+    return m_mapName;
 }
 
 float IndoorWorldRuntime::currentGameMinutes() const
 {
     return m_gameMinutes;
+}
+
+float IndoorWorldRuntime::gameMinutes() const
+{
+    return m_gameMinutes;
+}
+
+int IndoorWorldRuntime::currentHour() const
+{
+    const int totalMinutes = std::max(0, static_cast<int>(std::floor(m_gameMinutes)));
+    return (totalMinutes / 60) % 24;
+}
+
+void IndoorWorldRuntime::advanceGameMinutes(float minutes)
+{
+    if (minutes > 0.0f)
+    {
+        m_gameMinutes += minutes;
+    }
+}
+
+int IndoorWorldRuntime::currentLocationReputation() const
+{
+    return m_currentLocationReputation;
+}
+
+void IndoorWorldRuntime::setCurrentLocationReputation(int reputation)
+{
+    m_currentLocationReputation = reputation;
+}
+
+Party *IndoorWorldRuntime::party()
+{
+    return m_pParty;
+}
+
+const Party *IndoorWorldRuntime::party() const
+{
+    return m_pParty;
+}
+
+float IndoorWorldRuntime::partyX() const
+{
+    return m_pPartyRuntime != nullptr ? m_pPartyRuntime->partyX() : 0.0f;
+}
+
+float IndoorWorldRuntime::partyY() const
+{
+    return m_pPartyRuntime != nullptr ? m_pPartyRuntime->partyY() : 0.0f;
+}
+
+float IndoorWorldRuntime::partyFootZ() const
+{
+    return m_pPartyRuntime != nullptr ? m_pPartyRuntime->partyFootZ() : 0.0f;
+}
+
+void IndoorWorldRuntime::syncSpellMovementStatesFromPartyBuffs()
+{
+    if (m_pPartyRuntime != nullptr)
+    {
+        m_pPartyRuntime->syncSpellMovementStatesFromPartyBuffs();
+    }
+}
+
+void IndoorWorldRuntime::requestPartyJump()
+{
+    if (m_pPartyRuntime != nullptr)
+    {
+        m_pPartyRuntime->requestJump();
+    }
 }
 
 bool IndoorWorldRuntime::castEventSpell(
@@ -106,6 +198,417 @@ bool IndoorWorldRuntime::castEventSpell(
     std::cout << "IndoorWorldRuntime: event spell " << spellId
               << " queued as FX only; projectile runtime support is pending\n";
     return true;
+}
+
+size_t IndoorWorldRuntime::mapActorCount() const
+{
+    const MapDeltaData *pMapDeltaData = mapDeltaData();
+    return pMapDeltaData != nullptr ? pMapDeltaData->actors.size() : 0;
+}
+
+bool IndoorWorldRuntime::actorRuntimeState(size_t actorIndex, GameplayRuntimeActorState &state) const
+{
+    const MapDeltaData *pMapDeltaData = mapDeltaData();
+
+    if (pMapDeltaData == nullptr || actorIndex >= pMapDeltaData->actors.size())
+    {
+        return false;
+    }
+
+    const MapDeltaActor &actor = pMapDeltaData->actors[actorIndex];
+    const bool isInvisible =
+        (actor.attributes & static_cast<uint32_t>(EvtActorAttribute::Invisible)) != 0;
+    const bool isAggressive =
+        (actor.attributes & (static_cast<uint32_t>(EvtActorAttribute::Nearby)
+            | static_cast<uint32_t>(EvtActorAttribute::Aggressor))) != 0;
+    const int16_t resolvedMonsterId = actor.monsterInfoId > 0 ? actor.monsterInfoId : actor.monsterId;
+    const bool hostileToParty =
+        (actor.attributes & static_cast<uint32_t>(EvtActorAttribute::Hostile)) != 0
+        || (m_pMonsterTable != nullptr && resolvedMonsterId > 0 && m_pMonsterTable->isHostileToParty(resolvedMonsterId));
+
+    state.preciseX = static_cast<float>(actor.x);
+    state.preciseY = static_cast<float>(actor.y);
+    state.preciseZ = static_cast<float>(actor.z);
+    state.radius = actor.radius;
+    state.height = actor.height;
+    state.isDead = actor.hp <= 0;
+    state.isInvisible = isInvisible;
+    state.hostileToParty = hostileToParty;
+    state.hasDetectedParty = hostileToParty && isAggressive;
+    return true;
+}
+
+bool IndoorWorldRuntime::castPartySpellProjectile(const GameplayPartySpellProjectileRequest &request)
+{
+    (void)request;
+    return false;
+}
+
+bool IndoorWorldRuntime::applyPartySpellToActor(
+    size_t actorIndex,
+    uint32_t spellId,
+    uint32_t skillLevel,
+    SkillMastery skillMastery,
+    int damage,
+    float partyX,
+    float partyY,
+    float partyZ,
+    uint32_t sourcePartyMemberIndex)
+{
+    (void)spellId;
+    (void)skillLevel;
+    (void)skillMastery;
+    (void)partyX;
+    (void)partyY;
+    (void)partyZ;
+    (void)sourcePartyMemberIndex;
+
+    if (damage <= 0)
+    {
+        return false;
+    }
+
+    MapDeltaData *pMapDeltaData = mapDeltaData();
+
+    if (pMapDeltaData == nullptr || actorIndex >= pMapDeltaData->actors.size())
+    {
+        return false;
+    }
+
+    MapDeltaActor &actor = pMapDeltaData->actors[actorIndex];
+
+    if (actor.hp <= 0
+        || (actor.attributes & static_cast<uint32_t>(EvtActorAttribute::Invisible)) != 0)
+    {
+        return false;
+    }
+
+    const int previousHp = actor.hp;
+    const int nextHp = std::clamp(
+        previousHp - damage,
+        static_cast<int>(std::numeric_limits<int16_t>::min()),
+        previousHp);
+    actor.hp = static_cast<int16_t>(nextHp);
+    return actor.hp != previousHp;
+}
+
+std::vector<size_t> IndoorWorldRuntime::collectMapActorIndicesWithinRadius(
+    float centerX,
+    float centerY,
+    float centerZ,
+    float radius,
+    bool requireLineOfSight,
+    float sourceX,
+    float sourceY,
+    float sourceZ) const
+{
+    (void)sourceX;
+    (void)sourceY;
+    (void)sourceZ;
+
+    std::vector<size_t> result;
+
+    if (radius <= 0.0f)
+    {
+        return result;
+    }
+
+    const MapDeltaData *pMapDeltaData = mapDeltaData();
+
+    if (pMapDeltaData == nullptr)
+    {
+        return result;
+    }
+
+    for (size_t actorIndex = 0; actorIndex < pMapDeltaData->actors.size(); ++actorIndex)
+    {
+        GameplayRuntimeActorState actorState = {};
+
+        if (!actorRuntimeState(actorIndex, actorState)
+            || actorState.isDead
+            || actorState.isInvisible)
+        {
+            continue;
+        }
+
+        const MapDeltaActor &actor = pMapDeltaData->actors[actorIndex];
+        const float targetZ =
+            actorState.preciseZ + std::max(24.0f, static_cast<float>(actorState.height) * 0.7f);
+        const float deltaX = actorState.preciseX - centerX;
+        const float deltaY = actorState.preciseY - centerY;
+        const float deltaZ = targetZ - centerZ;
+        const float distance = std::sqrt(deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ);
+        const float edgeDistance = std::max(0.0f, distance - static_cast<float>(actor.radius));
+
+        if (edgeDistance > radius || requireLineOfSight)
+        {
+            continue;
+        }
+
+        result.push_back(actorIndex);
+    }
+
+    return result;
+}
+
+bool IndoorWorldRuntime::spawnPartyFireSpikeTrap(
+    uint32_t casterMemberIndex,
+    uint32_t spellId,
+    uint32_t skillLevel,
+    uint32_t skillMastery,
+    float x,
+    float y,
+    float z)
+{
+    (void)casterMemberIndex;
+    (void)spellId;
+    (void)skillLevel;
+    (void)skillMastery;
+    (void)x;
+    (void)y;
+    (void)z;
+    return false;
+}
+
+bool IndoorWorldRuntime::summonFriendlyMonsterById(
+    int16_t monsterId,
+    uint32_t count,
+    float durationSeconds,
+    float x,
+    float y,
+    float z)
+{
+    (void)durationSeconds;
+    if (m_pMonsterTable == nullptr || count == 0)
+    {
+        return false;
+    }
+
+    MapDeltaData *pMapDeltaData = mapDeltaData();
+
+    if (pMapDeltaData == nullptr)
+    {
+        return false;
+    }
+
+    const MonsterTable::MonsterStatsEntry *pStats = m_pMonsterTable->findStatsById(monsterId);
+
+    if (pStats == nullptr)
+    {
+        return false;
+    }
+
+    const MonsterEntry *pMonsterEntry = m_pMonsterTable->findById(monsterId);
+
+    if (pMonsterEntry == nullptr)
+    {
+        return false;
+    }
+
+    bool spawnedAny = false;
+
+    for (uint32_t summonIndex = 0; summonIndex < count; ++summonIndex)
+    {
+        const float angleRadians = (Pi * 2.0f * summonIndex) / count;
+        const float radius = 96.0f + 24.0f * float(summonIndex % 3u);
+        MapDeltaActor actor = {};
+        actor.name = pStats->name;
+        actor.attributes = defaultActorAttributes(false);
+        actor.hp = int16_t(std::clamp(pStats->hitPoints, 0, 32767));
+        actor.hostilityType = 0;
+        actor.monsterInfoId = int16_t(pStats->id);
+        actor.monsterId = int16_t(pStats->id);
+        actor.radius = pMonsterEntry->radius;
+        actor.height = pMonsterEntry->height;
+        actor.moveSpeed = pMonsterEntry->movementSpeed;
+        actor.x = int(std::lround(x + std::cos(angleRadians) * radius));
+        actor.y = int(std::lround(y + std::sin(angleRadians) * radius));
+        actor.z = int(std::lround(z));
+        actor.group = 999u;
+        actor.ally = 999u;
+        pMapDeltaData->actors.push_back(std::move(actor));
+        spawnedAny = true;
+    }
+
+    return spawnedAny;
+}
+
+void IndoorWorldRuntime::triggerGameplayScreenOverlay(
+    uint32_t colorAbgr,
+    float durationSeconds,
+    float peakAlpha)
+{
+    (void)colorAbgr;
+    (void)durationSeconds;
+    (void)peakAlpha;
+}
+
+bool IndoorWorldRuntime::tryStartArmageddon(
+    size_t casterMemberIndex,
+    uint32_t skillLevel,
+    SkillMastery skillMastery,
+    std::string &failureText)
+{
+    (void)casterMemberIndex;
+    (void)skillLevel;
+    (void)skillMastery;
+    failureText = "Spell failed";
+    return false;
+}
+
+const IndoorWorldRuntime::ChestViewState *IndoorWorldRuntime::activeChestView() const
+{
+    return m_activeChestView ? &*m_activeChestView : nullptr;
+}
+
+bool IndoorWorldRuntime::takeActiveChestItem(size_t itemIndex, ChestItemState &item)
+{
+    if (!m_activeChestView || !takeChestItem(*m_activeChestView, itemIndex, item))
+    {
+        return false;
+    }
+
+    const uint32_t chestId = m_activeChestView->chestId;
+
+    if (chestId < m_materializedChestViews.size() && m_materializedChestViews[chestId].has_value())
+    {
+        m_materializedChestViews[chestId] = *m_activeChestView;
+    }
+
+    return true;
+}
+
+bool IndoorWorldRuntime::takeActiveChestItemAt(uint8_t gridX, uint8_t gridY, ChestItemState &item)
+{
+    if (!m_activeChestView || !takeChestItemAt(*m_activeChestView, gridX, gridY, item))
+    {
+        return false;
+    }
+
+    const uint32_t chestId = m_activeChestView->chestId;
+
+    if (chestId < m_materializedChestViews.size() && m_materializedChestViews[chestId].has_value())
+    {
+        m_materializedChestViews[chestId] = *m_activeChestView;
+    }
+
+    return true;
+}
+
+bool IndoorWorldRuntime::tryPlaceActiveChestItemAt(const ChestItemState &item, uint8_t gridX, uint8_t gridY)
+{
+    if (!m_activeChestView || !tryPlaceChestItemAt(*m_activeChestView, item, gridX, gridY))
+    {
+        return false;
+    }
+
+    const uint32_t chestId = m_activeChestView->chestId;
+
+    if (chestId < m_materializedChestViews.size() && m_materializedChestViews[chestId].has_value())
+    {
+        m_materializedChestViews[chestId] = *m_activeChestView;
+    }
+
+    return true;
+}
+
+void IndoorWorldRuntime::closeActiveChestView()
+{
+    m_activeChestView.reset();
+}
+
+const IndoorWorldRuntime::CorpseViewState *IndoorWorldRuntime::activeCorpseView() const
+{
+    return m_activeCorpseView ? &*m_activeCorpseView : nullptr;
+}
+
+bool IndoorWorldRuntime::openMapActorCorpseView(size_t actorIndex)
+{
+    MapDeltaData *pMapDeltaData = mapDeltaData();
+
+    if (pMapDeltaData == nullptr || actorIndex >= pMapDeltaData->actors.size() || m_pMonsterTable == nullptr)
+    {
+        return false;
+    }
+
+    const MapDeltaActor &actor = pMapDeltaData->actors[actorIndex];
+
+    if (actor.hp > 0 || (actor.attributes & static_cast<uint32_t>(EvtActorAttribute::Invisible)) != 0)
+    {
+        return false;
+    }
+
+    if (actorIndex >= m_mapActorCorpseViews.size())
+    {
+        m_mapActorCorpseViews.resize(actorIndex + 1);
+    }
+
+    if (!m_mapActorCorpseViews[actorIndex].has_value())
+    {
+        const MonsterTable::MonsterStatsEntry *pStats = m_pMonsterTable->findStatsById(actor.monsterId);
+
+        if (pStats == nullptr)
+        {
+            return false;
+        }
+
+        const std::string &title = actor.name.empty() ? pStats->name : actor.name;
+        CorpseViewState corpse = buildMonsterCorpseView(title, pStats->loot, m_pItemTable, m_pParty);
+
+        if (corpse.items.empty())
+        {
+            return false;
+        }
+
+        corpse.fromSummonedMonster = false;
+        corpse.sourceIndex = uint32_t(actorIndex);
+        m_mapActorCorpseViews[actorIndex] = std::move(corpse);
+    }
+
+    m_activeCorpseView = *m_mapActorCorpseViews[actorIndex];
+    return true;
+}
+
+bool IndoorWorldRuntime::takeActiveCorpseItem(size_t itemIndex, ChestItemState &item)
+{
+    MapDeltaData *pMapDeltaData = mapDeltaData();
+
+    if (!m_activeCorpseView || pMapDeltaData == nullptr || itemIndex >= m_activeCorpseView->items.size())
+    {
+        return false;
+    }
+
+    item = m_activeCorpseView->items[itemIndex];
+    m_activeCorpseView->items.erase(m_activeCorpseView->items.begin() + itemIndex);
+
+    if (m_activeCorpseView->items.empty())
+    {
+        if (m_activeCorpseView->sourceIndex < m_mapActorCorpseViews.size())
+        {
+            m_mapActorCorpseViews[m_activeCorpseView->sourceIndex].reset();
+        }
+
+        if (m_activeCorpseView->sourceIndex < pMapDeltaData->actors.size())
+        {
+            pMapDeltaData->actors[m_activeCorpseView->sourceIndex].attributes
+                |= static_cast<uint32_t>(EvtActorAttribute::Invisible);
+        }
+
+        m_activeCorpseView.reset();
+        return true;
+    }
+
+    if (m_activeCorpseView->sourceIndex < m_mapActorCorpseViews.size())
+    {
+        m_mapActorCorpseViews[m_activeCorpseView->sourceIndex] = *m_activeCorpseView;
+    }
+
+    return true;
+}
+
+void IndoorWorldRuntime::closeActiveCorpseView()
+{
+    m_activeCorpseView.reset();
 }
 
 bool IndoorWorldRuntime::summonMonsters(
@@ -324,14 +827,6 @@ bool IndoorWorldRuntime::checkMonstersKilled(
     return totalActors == defeatedActors;
 }
 
-void IndoorWorldRuntime::advanceGameMinutes(float minutes)
-{
-    if (minutes > 0.0f)
-    {
-        m_gameMinutes += minutes;
-    }
-}
-
 void IndoorWorldRuntime::applyEventRuntimeState()
 {
     MapDeltaData *pMapDeltaData = mapDeltaData();
@@ -417,6 +912,16 @@ void IndoorWorldRuntime::applyEventRuntimeState()
         if (chestId < pMapDeltaData->chests.size())
         {
             pMapDeltaData->chests[chestId].flags |= static_cast<uint16_t>(setMask);
+
+            if (chestId < m_materializedChestViews.size() && m_materializedChestViews[chestId].has_value())
+            {
+                m_materializedChestViews[chestId]->flags = pMapDeltaData->chests[chestId].flags;
+            }
+
+            if (m_activeChestView && m_activeChestView->chestId == chestId)
+            {
+                m_activeChestView->flags = pMapDeltaData->chests[chestId].flags;
+            }
         }
     }
 
@@ -425,6 +930,16 @@ void IndoorWorldRuntime::applyEventRuntimeState()
         if (chestId < pMapDeltaData->chests.size())
         {
             pMapDeltaData->chests[chestId].flags &= ~static_cast<uint16_t>(clearMask);
+
+            if (chestId < m_materializedChestViews.size() && m_materializedChestViews[chestId].has_value())
+            {
+                m_materializedChestViews[chestId]->flags = pMapDeltaData->chests[chestId].flags;
+            }
+
+            if (m_activeChestView && m_activeChestView->chestId == chestId)
+            {
+                m_activeChestView->flags = pMapDeltaData->chests[chestId].flags;
+            }
         }
     }
 
@@ -433,13 +948,9 @@ void IndoorWorldRuntime::applyEventRuntimeState()
         if (openedChestId < pMapDeltaData->chests.size())
         {
             pMapDeltaData->chests[openedChestId].flags |= static_cast<uint16_t>(EvtChestFlag::Opened);
+            activateChestView(openedChestId);
         }
     }
-}
-
-float IndoorWorldRuntime::gameMinutes() const
-{
-    return m_gameMinutes;
 }
 
 const MapDeltaData *IndoorWorldRuntime::mapDeltaData() const
@@ -480,6 +991,72 @@ const EventRuntimeState *IndoorWorldRuntime::eventRuntimeState() const
     }
 
     return &**m_pEventRuntimeState;
+}
+
+IndoorWorldRuntime::Snapshot IndoorWorldRuntime::snapshot() const
+{
+    Snapshot snapshot = {};
+    snapshot.gameMinutes = m_gameMinutes;
+    snapshot.currentLocationReputation = m_currentLocationReputation;
+    snapshot.sessionChestSeed = m_sessionChestSeed;
+    snapshot.materializedChestViews = m_materializedChestViews;
+    snapshot.activeChestView = m_activeChestView;
+    snapshot.mapActorCorpseViews = m_mapActorCorpseViews;
+    snapshot.activeCorpseView = m_activeCorpseView;
+    return snapshot;
+}
+
+void IndoorWorldRuntime::restoreSnapshot(const Snapshot &snapshot)
+{
+    m_gameMinutes = snapshot.gameMinutes;
+    m_currentLocationReputation = snapshot.currentLocationReputation;
+    m_sessionChestSeed = snapshot.sessionChestSeed;
+    m_materializedChestViews = snapshot.materializedChestViews;
+    m_activeChestView = snapshot.activeChestView;
+    m_mapActorCorpseViews = snapshot.mapActorCorpseViews;
+    m_activeCorpseView = snapshot.activeCorpseView;
+}
+
+IndoorWorldRuntime::ChestViewState IndoorWorldRuntime::buildChestView(uint32_t chestId) const
+{
+    const MapDeltaData *pMapDeltaData = mapDeltaData();
+
+    if (pMapDeltaData == nullptr || chestId >= pMapDeltaData->chests.size())
+    {
+        return {};
+    }
+
+    return buildMaterializedChestView(
+        chestId,
+        pMapDeltaData->chests[chestId],
+        m_map ? m_map->treasureLevel : 0,
+        m_map ? m_map->id : 0,
+        m_sessionChestSeed,
+        m_pChestTable,
+        m_pItemTable,
+        m_pParty);
+}
+
+void IndoorWorldRuntime::activateChestView(uint32_t chestId)
+{
+    const MapDeltaData *pMapDeltaData = mapDeltaData();
+
+    if (pMapDeltaData == nullptr || chestId >= pMapDeltaData->chests.size())
+    {
+        return;
+    }
+
+    if (chestId >= m_materializedChestViews.size())
+    {
+        m_materializedChestViews.resize(chestId + 1);
+    }
+
+    if (!m_materializedChestViews[chestId].has_value())
+    {
+        m_materializedChestViews[chestId] = buildChestView(chestId);
+    }
+
+    m_activeChestView = *m_materializedChestViews[chestId];
 }
 
 const MapEncounterInfo *IndoorWorldRuntime::encounterInfo(uint32_t typeIndexInMapStats) const

@@ -82,6 +82,7 @@ bool updateDynamicVertexBuffer(
 }
 
 constexpr uint16_t MainViewId = 0;
+constexpr uint16_t HudViewId = 2;
 constexpr float Pi = 3.14159265358979323846f;
 constexpr float InspectRayEpsilon = 0.0001f;
 
@@ -1569,6 +1570,13 @@ void IndoorDebugRenderer::render(int width, int height, float mouseWheelDelta, f
     if (m_inspectMode && m_indoorMapData)
     {
         SDL_GetMouseState(&mouseX, &mouseY);
+
+        if (m_gameplayMouseLookEnabled && !m_gameplayCursorMode)
+        {
+            mouseX = static_cast<float>(viewWidth) * 0.5f;
+            mouseY = static_cast<float>(viewHeight) * 0.5f;
+        }
+
         const float normalizedMouseX = ((mouseX / static_cast<float>(viewWidth)) * 2.0f) - 1.0f;
         const float normalizedMouseY = 1.0f - ((mouseY / static_cast<float>(viewHeight)) * 2.0f);
         float viewProjectionMatrix[16] = {};
@@ -2067,6 +2075,98 @@ void IndoorDebugRenderer::render(int width, int height, float mouseWheelDelta, f
             }
         }
     }
+}
+
+bool IndoorDebugRenderer::hasHudRenderResources() const
+{
+    return bgfx::isValid(m_texturedProgramHandle) && bgfx::isValid(m_textureSamplerHandle);
+}
+
+void IndoorDebugRenderer::prepareHudView(int width, int height) const
+{
+    if (!hasHudRenderResources() || width <= 0 || height <= 0)
+    {
+        return;
+    }
+
+    float projectionMatrix[16] = {};
+    bx::mtxOrtho(
+        projectionMatrix,
+        0.0f,
+        static_cast<float>(width),
+        static_cast<float>(height),
+        0.0f,
+        0.0f,
+        1000.0f,
+        0.0f,
+        bgfx::getCaps()->homogeneousDepth
+    );
+    bgfx::setViewRect(HudViewId, 0, 0, static_cast<uint16_t>(width), static_cast<uint16_t>(height));
+    bgfx::setViewTransform(HudViewId, nullptr, projectionMatrix);
+    bgfx::touch(HudViewId);
+}
+
+void IndoorDebugRenderer::submitHudTextureQuad(
+    bgfx::TextureHandle textureHandle,
+    float x,
+    float y,
+    float quadWidth,
+    float quadHeight,
+    float u0,
+    float v0,
+    float u1,
+    float v1,
+    TextureFilterProfile filterProfile) const
+{
+    if (!hasHudRenderResources()
+        || !bgfx::isValid(textureHandle)
+        || quadWidth <= 0.0f
+        || quadHeight <= 0.0f)
+    {
+        return;
+    }
+
+    bgfx::TransientVertexBuffer vertexBuffer = {};
+    bgfx::TransientIndexBuffer indexBuffer = {};
+
+    if (!bgfx::allocTransientBuffers(&vertexBuffer, TexturedVertex::ms_layout, 4, &indexBuffer, 6))
+    {
+        return;
+    }
+
+    TexturedVertex *pVertices = reinterpret_cast<TexturedVertex *>(vertexBuffer.data);
+    pVertices[0] = {x, y, 0.0f, u0, v0};
+    pVertices[1] = {x + quadWidth, y, 0.0f, u1, v0};
+    pVertices[2] = {x + quadWidth, y + quadHeight, 0.0f, u1, v1};
+    pVertices[3] = {x, y + quadHeight, 0.0f, u0, v1};
+
+    uint16_t *pIndices = reinterpret_cast<uint16_t *>(indexBuffer.data);
+    pIndices[0] = 0;
+    pIndices[1] = 1;
+    pIndices[2] = 2;
+    pIndices[3] = 0;
+    pIndices[4] = 2;
+    pIndices[5] = 3;
+
+    float modelMatrix[16] = {};
+    bx::mtxIdentity(modelMatrix);
+    bgfx::setTransform(modelMatrix);
+    bgfx::setVertexBuffer(0, &vertexBuffer);
+    bgfx::setIndexBuffer(&indexBuffer);
+    bindTexture(
+        0,
+        m_textureSamplerHandle,
+        textureHandle,
+        filterProfile,
+        BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP);
+    bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_BLEND_ALPHA);
+    bgfx::submit(HudViewId, m_texturedProgramHandle);
+}
+
+void IndoorDebugRenderer::setGameplayMouseLookMode(bool enabled, bool cursorMode)
+{
+    m_gameplayMouseLookEnabled = enabled;
+    m_gameplayCursorMode = cursorMode;
 }
 
 void IndoorDebugRenderer::shutdown()
@@ -4424,11 +4524,23 @@ void IndoorDebugRenderer::updateCameraFromInput(float deltaSeconds)
     float mouseX = 0.0f;
     float mouseY = 0.0f;
     const SDL_MouseButtonFlags mouseButtons = SDL_GetMouseState(&mouseX, &mouseY);
-    const bool isRightMousePressed = (mouseButtons & SDL_BUTTON_RMASK) != 0;
+    const bool shouldRotateCamera = m_gameplayMouseLookEnabled && !m_gameplayCursorMode;
 
-    if (isRightMousePressed)
+    if (shouldRotateCamera)
     {
-        if (m_isRotatingCamera)
+        if (m_gameplayMouseLookEnabled)
+        {
+            float relativeMouseX = 0.0f;
+            float relativeMouseY = 0.0f;
+            SDL_GetRelativeMouseState(&relativeMouseX, &relativeMouseY);
+
+            if (relativeMouseX != 0.0f || relativeMouseY != 0.0f)
+            {
+                m_cameraYawRadians -= relativeMouseX * mouseRotateSpeed;
+                m_cameraPitchRadians -= relativeMouseY * mouseRotateSpeed;
+            }
+        }
+        else if (m_isRotatingCamera)
         {
             m_cameraYawRadians -= (mouseX - m_lastMouseX) * mouseRotateSpeed;
             m_cameraPitchRadians -= (mouseY - m_lastMouseY) * mouseRotateSpeed;

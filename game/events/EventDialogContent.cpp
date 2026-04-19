@@ -1,8 +1,8 @@
 #include "game/events/EventDialogContent.h"
 
+#include "game/events/ISceneEventContext.h"
 #include "game/gameplay/HouseInteraction.h"
 #include "game/gameplay/MasteryTeacherDialog.h"
-#include "game/outdoor/OutdoorWorldRuntime.h"
 #include "game/StringUtils.h"
 
 #include <algorithm>
@@ -241,7 +241,7 @@ EventDialogContent buildEventDialogContent(
     const MapStatsEntry *pCurrentMap,
     const std::vector<MapStatsEntry> *pMapEntries,
     const Party *pParty,
-    const OutdoorWorldRuntime *pOutdoorWorldRuntime,
+    const IGameplayWorldRuntime *pWorldRuntime,
     float currentGameMinutes
 )
 {
@@ -265,7 +265,7 @@ EventDialogContent buildEventDialogContent(
                 *pHouseEntry,
                 pParty,
                 pClassSkillTable,
-                pOutdoorWorldRuntime,
+                pWorldRuntime,
                 currentGameMinutes,
                 currentDialogueMenuId(eventRuntimeState)
             );
@@ -374,7 +374,7 @@ EventDialogContent buildEventDialogContent(
                 *pHouseEntry,
                 pParty,
                 pClassSkillTable,
-                pOutdoorWorldRuntime,
+                pWorldRuntime,
                 currentGameMinutes,
                 currentDialogueMenuId(eventRuntimeState)
             );
@@ -562,12 +562,15 @@ EventDialogContent buildEventDialogContent(
                         continue;
                     }
 
+                    const ISceneEventContext *pSceneEventContext =
+                        dynamic_cast<const ISceneEventContext *>(pWorldRuntime);
+
                     if (!eventRuntime.canShowTopic(
                             globalProgram,
                             static_cast<uint16_t>(topic.id),
                             eventRuntimeState,
                             pParty,
-                            pOutdoorWorldRuntime))
+                            pSceneEventContext))
                     {
                         continue;
                     }

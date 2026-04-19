@@ -2,7 +2,6 @@
 
 #include "game/tables/ClassSkillTable.h"
 #include "game/gameplay/HouseServiceRuntime.h"
-#include "game/outdoor/OutdoorWorldRuntime.h"
 #include "game/party/SpellIds.h"
 #include "game/party/Party.h"
 #include "game/items/PriceCalculator.h"
@@ -62,9 +61,9 @@ int templeDonationTriggerIndexFromGameMinutes(float currentGameMinutes)
     return dayOfMonthFromGameMinutes(currentGameMinutes) % 7;
 }
 
-void castTempleDonationSpell(OutdoorWorldRuntime &outdoorWorldRuntime, uint32_t spellId, uint32_t spellLevel)
+void castTempleDonationSpell(IGameplayWorldRuntime &worldRuntime, uint32_t spellId, uint32_t spellLevel)
 {
-    outdoorWorldRuntime.castEventSpell(
+    worldRuntime.castEventSpell(
         spellId,
         spellLevel,
         static_cast<uint32_t>(SkillMastery::Master),
@@ -77,7 +76,7 @@ void castTempleDonationSpell(OutdoorWorldRuntime &outdoorWorldRuntime, uint32_t 
 }
 
 void tryApplyTempleDonationBuffs(
-    OutdoorWorldRuntime &outdoorWorldRuntime,
+    IGameplayWorldRuntime &worldRuntime,
     EventRuntimeState::DialogueRuntimeState &dialogueState,
     size_t activeMemberIndex)
 {
@@ -88,37 +87,37 @@ void tryApplyTempleDonationBuffs(
 
     const uint8_t counter = dialogueState.templeDonationCounters[activeMemberIndex] % 7;
 
-    if (counter != templeDonationTriggerIndexFromGameMinutes(outdoorWorldRuntime.gameMinutes()))
+    if (counter != templeDonationTriggerIndexFromGameMinutes(worldRuntime.gameMinutes()))
     {
         return;
     }
 
-    const uint32_t spellLevel = templeSpellLevelFromGameMinutes(outdoorWorldRuntime.gameMinutes());
-    const int reputation = outdoorWorldRuntime.currentLocationReputation();
+    const uint32_t spellLevel = templeSpellLevelFromGameMinutes(worldRuntime.gameMinutes());
+    const int reputation = worldRuntime.currentLocationReputation();
 
     if (reputation <= -5)
     {
-        castTempleDonationSpell(outdoorWorldRuntime, spellIdValue(SpellId::Bless), spellLevel);
+        castTempleDonationSpell(worldRuntime, spellIdValue(SpellId::Bless), spellLevel);
     }
 
     if (reputation <= -10)
     {
-        castTempleDonationSpell(outdoorWorldRuntime, spellIdValue(SpellId::Preservation), spellLevel);
+        castTempleDonationSpell(worldRuntime, spellIdValue(SpellId::Preservation), spellLevel);
     }
 
     if (reputation <= -15)
     {
-        castTempleDonationSpell(outdoorWorldRuntime, spellIdValue(SpellId::ProtectionFromMagic), spellLevel);
+        castTempleDonationSpell(worldRuntime, spellIdValue(SpellId::ProtectionFromMagic), spellLevel);
     }
 
     if (reputation <= -20)
     {
-        castTempleDonationSpell(outdoorWorldRuntime, spellIdValue(SpellId::HourOfPower), spellLevel);
+        castTempleDonationSpell(worldRuntime, spellIdValue(SpellId::HourOfPower), spellLevel);
     }
 
     if (reputation <= -25)
     {
-        castTempleDonationSpell(outdoorWorldRuntime, spellIdValue(SpellId::DayOfProtection), spellLevel);
+        castTempleDonationSpell(worldRuntime, spellIdValue(SpellId::DayOfProtection), spellLevel);
     }
 }
 
@@ -157,19 +156,19 @@ bool isBoatHouse(const HouseEntry &houseEntry)
 
 bool routeQBitSatisfied(
     const HouseEntry::TransportRoute &route,
-    const OutdoorWorldRuntime *pOutdoorWorldRuntime)
+    const IGameplayWorldRuntime *pWorldRuntime)
 {
     if (route.requiredQBit == 0)
     {
         return true;
     }
 
-    if (pOutdoorWorldRuntime == nullptr)
+    if (pWorldRuntime == nullptr)
     {
         return false;
     }
 
-    const Party *pParty = pOutdoorWorldRuntime->party();
+    const Party *pParty = pWorldRuntime->party();
     return pParty != nullptr && pParty->hasQuestBit(route.requiredQBit);
 }
 
@@ -457,7 +456,7 @@ std::vector<HouseActionOption> buildHouseActionOptions(
     const HouseEntry &houseEntry,
     const Party *pParty,
     const ClassSkillTable *pClassSkillTable,
-    const OutdoorWorldRuntime *pOutdoorWorldRuntime,
+    const IGameplayWorldRuntime *pWorldRuntime,
     float currentGameMinutes,
     DialogueMenuId menuId
 )
@@ -724,7 +723,7 @@ std::vector<HouseActionOption> buildHouseActionOptions(
 
         for (const HouseEntry::TransportRoute &route : houseEntry.transportRoutes)
         {
-            if (!routeQBitSatisfied(route, pOutdoorWorldRuntime))
+            if (!routeQBitSatisfied(route, pWorldRuntime))
             {
                 continue;
             }
@@ -766,7 +765,7 @@ HouseActionResult performHouseAction(
     const HouseEntry &houseEntry,
     Party &party,
     const ClassSkillTable *pClassSkillTable,
-    OutdoorWorldRuntime *pOutdoorWorldRuntime
+    IGameplayWorldRuntime *pWorldRuntime
 )
 {
     HouseActionResult result = {};
@@ -824,19 +823,19 @@ HouseActionResult performHouseAction(
 
             party.addGold(-price);
 
-            if (pOutdoorWorldRuntime != nullptr)
+            if (pWorldRuntime != nullptr)
             {
-                if (pOutdoorWorldRuntime->currentLocationReputation() > -5)
+                if (pWorldRuntime->currentLocationReputation() > -5)
                 {
-                    pOutdoorWorldRuntime->setCurrentLocationReputation(
-                        pOutdoorWorldRuntime->currentLocationReputation() - 1);
+                    pWorldRuntime->setCurrentLocationReputation(
+                        pWorldRuntime->currentLocationReputation() - 1);
                 }
 
-                if (EventRuntimeState *pEventRuntimeState = pOutdoorWorldRuntime->eventRuntimeState())
+                if (EventRuntimeState *pEventRuntimeState = pWorldRuntime->eventRuntimeState())
                 {
                     const size_t activeMemberIndex = party.activeMemberIndex();
                     tryApplyTempleDonationBuffs(
-                        *pOutdoorWorldRuntime,
+                        *pWorldRuntime,
                         pEventRuntimeState->dialogueState,
                         activeMemberIndex);
 
@@ -1039,19 +1038,19 @@ HouseActionResult performHouseAction(
                 return result;
             }
 
-            if (pOutdoorWorldRuntime == nullptr)
+            if (pWorldRuntime == nullptr)
             {
                 result.messages.push_back("Travel is unavailable right now.");
                 return result;
             }
 
-            if (!routeQBitSatisfied(*pRoute, pOutdoorWorldRuntime))
+            if (!routeQBitSatisfied(*pRoute, pWorldRuntime))
             {
                 result.messages.push_back("That route is not available.");
                 return result;
             }
 
-            if (!routeAvailableToday(*pRoute, pOutdoorWorldRuntime->gameMinutes()))
+            if (!routeAvailableToday(*pRoute, pWorldRuntime->gameMinutes()))
             {
                 result.messages.push_back("Sorry, come back another day");
                 return result;
@@ -1067,7 +1066,7 @@ HouseActionResult performHouseAction(
                 return result;
             }
 
-            EventRuntimeState *pEventRuntimeState = pOutdoorWorldRuntime->eventRuntimeState();
+            EventRuntimeState *pEventRuntimeState = pWorldRuntime->eventRuntimeState();
 
             if (pEventRuntimeState == nullptr)
             {
@@ -1077,7 +1076,7 @@ HouseActionResult performHouseAction(
 
             party.addGold(-price);
             party.restAndHealAll();
-            pOutdoorWorldRuntime->advanceGameMinutes(static_cast<float>(pRoute->travelDays * MinutesPerDay));
+            pWorldRuntime->advanceGameMinutes(static_cast<float>(pRoute->travelDays * MinutesPerDay));
 
             EventRuntimeState::PendingMapMove pendingMapMove = {};
             pendingMapMove.mapName = pRoute->mapFileName;

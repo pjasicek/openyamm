@@ -1,6 +1,6 @@
 #include "game/ui/KeyboardScreenLayout.h"
 
-#include "game/ui/HudUiService.h"
+#include "game/ui/GameplayOverlayContext.h"
 
 namespace OpenYAMM::Game
 {
@@ -13,25 +13,23 @@ constexpr float KeyboardRightValueOffsetX = -95.0f;
 }
 
 std::optional<KeyboardScreenLayout> resolveKeyboardScreenLayout(
-    const OutdoorGameView &view,
+    const GameplayOverlayContext &context,
     int width,
     int height)
 {
-    const auto *pRootLayout = HudUiService::findHudLayoutElement(view, "KeyboardRoot");
+    const auto *pRootLayout = context.findHudLayoutElement("KeyboardRoot");
 
     if (pRootLayout == nullptr)
     {
         return std::nullopt;
     }
 
-    const auto resolvedRoot =
-        HudUiService::resolveHudLayoutElement(
-            view,
-            "KeyboardRoot",
-            width,
-            height,
-            pRootLayout->width,
-            pRootLayout->height);
+    const auto resolvedRoot = context.resolveHudLayoutElement(
+        "KeyboardRoot",
+        width,
+        height,
+        pRootLayout->width,
+        pRootLayout->height);
 
     if (!resolvedRoot)
     {

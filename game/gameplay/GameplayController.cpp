@@ -1,5 +1,8 @@
 #include "game/gameplay/GameplayController.h"
 
+#include "game/scene/IndoorSceneRuntime.h"
+#include "game/scene/OutdoorSceneRuntime.h"
+
 namespace OpenYAMM::Game
 {
 void GameplayController::bindSession(GameSession &session)
@@ -10,11 +13,39 @@ void GameplayController::bindSession(GameSession &session)
 void GameplayController::bindRuntime(IMapSceneRuntime *pRuntime)
 {
     m_pRuntime = pRuntime;
+
+    if (m_pSession == nullptr)
+    {
+        return;
+    }
+
+    IGameplayWorldRuntime *pWorldRuntime = nullptr;
+
+    if (pRuntime != nullptr)
+    {
+        if (pRuntime->kind() == SceneKind::Outdoor)
+        {
+            OutdoorSceneRuntime *pOutdoorRuntime = static_cast<OutdoorSceneRuntime *>(pRuntime);
+            pWorldRuntime = &pOutdoorRuntime->worldRuntime();
+        }
+        else if (pRuntime->kind() == SceneKind::Indoor)
+        {
+            IndoorSceneRuntime *pIndoorRuntime = static_cast<IndoorSceneRuntime *>(pRuntime);
+            pWorldRuntime = &pIndoorRuntime->worldRuntime();
+        }
+    }
+
+    m_pSession->bindActiveWorldRuntime(pWorldRuntime);
 }
 
 void GameplayController::clearRuntime()
 {
     m_pRuntime = nullptr;
+
+    if (m_pSession != nullptr)
+    {
+        m_pSession->bindActiveWorldRuntime(nullptr);
+    }
 }
 
 bool GameplayController::hasRuntime() const

@@ -2,12 +2,15 @@
 
 #include "game/tables/ChestTable.h"
 #include "game/fx/ParticleRecipes.h"
+#include "game/gameplay/ChestRuntime.h"
+#include "game/gameplay/CorpseLootRuntime.h"
 #include "game/gameplay/GameMechanics.h"
 #include "game/items/ItemEnchantRuntime.h"
 #include "game/items/ItemGenerator.h"
 #include "game/items/ItemRuntime.h"
 #include "game/tables/ItemTable.h"
 #include "game/outdoor/OutdoorGeometryUtils.h"
+#include "game/outdoor/OutdoorPartyRuntime.h"
 #include "game/party/SpellIds.h"
 #include "game/audio/SoundIds.h"
 #include "game/SpriteObjectDefs.h"
@@ -27,7 +30,6 @@ namespace OpenYAMM::Game
 {
 namespace
 {
-constexpr size_t ChestItemRecordSize = 36;
 constexpr int RandomChestItemMinLevel = 1;
 constexpr int RandomChestItemMaxLevel = 7;
 constexpr int SpawnableItemTreasureLevels = 6;
@@ -1874,154 +1876,6 @@ float hoursToSeconds(float hours)
     return hours * 3600.0f;
 }
 
-bool chestItemContainsCell(const OutdoorWorldRuntime::ChestItemState &item, uint8_t gridX, uint8_t gridY)
-{
-    return gridX >= item.gridX
-        && gridX < item.gridX + item.width
-        && gridY >= item.gridY
-        && gridY < item.gridY + item.height;
-}
-
-bool chestItemFitsAt(
-    const OutdoorWorldRuntime::ChestItemState &item,
-    uint8_t gridX,
-    uint8_t gridY,
-    uint8_t gridWidth,
-    uint8_t gridHeight)
-{
-    return item.width > 0
-        && item.height > 0
-        && gridX + item.width <= gridWidth
-        && gridY + item.height <= gridHeight;
-}
-
-bool chestItemsOverlap(
-    const OutdoorWorldRuntime::ChestItemState &left,
-    const OutdoorWorldRuntime::ChestItemState &right)
-{
-    return left.gridX < right.gridX + right.width
-        && left.gridX + left.width > right.gridX
-        && left.gridY < right.gridY + right.height
-        && left.gridY + left.height > right.gridY;
-}
-
-struct GoldHeapVisual
-{
-    uint8_t width = 1;
-    uint8_t height = 1;
-};
-
-GoldHeapVisual classifyGoldHeapVisual(uint32_t goldAmount)
-{
-    // OE stores the heap tier when gold is generated. OpenYAMM only keeps the amount,
-    // so we infer the heap tier from the same treasure-level gold ranges.
-    if (goldAmount <= 200)
-    {
-        return {1, 1};
-    }
-
-    if (goldAmount <= 1000)
-    {
-        return {2, 1};
-    }
-
-    return {2, 1};
-}
-
-bool canPlaceChestItem(
-    const OutdoorWorldRuntime::ChestItemState &item,
-    const std::vector<OutdoorWorldRuntime::ChestItemState> &placedItems,
-    uint8_t gridWidth,
-    uint8_t gridHeight)
-{
-    if (!chestItemFitsAt(item, item.gridX, item.gridY, gridWidth, gridHeight))
-    {
-        return false;
-    }
-
-    for (const OutdoorWorldRuntime::ChestItemState &placedItem : placedItems)
-    {
-        if (chestItemsOverlap(placedItem, item))
-        {
-            return false;
-        }
-    }
-
-    return true;
-}
-
-std::vector<uint8_t> buildRandomChestCellOrder(uint8_t gridWidth, uint8_t gridHeight, std::mt19937 &rng)
-{
-    const size_t chestArea = static_cast<size_t>(gridWidth) * gridHeight;
-    std::vector<uint8_t> cellOrder(chestArea, 0);
-    std::iota(cellOrder.begin(), cellOrder.end(), 0);
-    std::shuffle(cellOrder.begin(), cellOrder.end(), rng);
-    return cellOrder;
-}
-
-std::optional<std::pair<uint8_t, uint8_t>> findFirstFreeChestSlot(
-    const std::vector<OutdoorWorldRuntime::ChestItemState> &items,
-    uint8_t itemWidth,
-    uint8_t itemHeight,
-    uint8_t gridWidth,
-    uint8_t gridHeight)
-{
-    if (itemWidth == 0 || itemHeight == 0 || itemWidth > gridWidth || itemHeight > gridHeight)
-    {
-        return std::nullopt;
-    }
-
-    std::vector<bool> occupied(static_cast<size_t>(gridWidth) * gridHeight, false);
-
-    for (const OutdoorWorldRuntime::ChestItemState &item : items)
-    {
-        for (uint8_t offsetY = 0; offsetY < item.height; ++offsetY)
-        {
-            for (uint8_t offsetX = 0; offsetX < item.width; ++offsetX)
-            {
-                const uint8_t cellX = item.gridX + offsetX;
-                const uint8_t cellY = item.gridY + offsetY;
-
-                if (cellX >= gridWidth || cellY >= gridHeight)
-                {
-                    continue;
-                }
-
-                occupied[static_cast<size_t>(cellY) * gridWidth + cellX] = true;
-            }
-        }
-    }
-
-    for (int y = 0; y <= gridHeight - itemHeight; ++y)
-    {
-        for (int x = 0; x <= gridWidth - itemWidth; ++x)
-        {
-            bool canPlace = true;
-
-            for (uint8_t offsetY = 0; offsetY < itemHeight && canPlace; ++offsetY)
-            {
-                for (uint8_t offsetX = 0; offsetX < itemWidth; ++offsetX)
-                {
-                    const size_t index =
-                        static_cast<size_t>(y + offsetY) * gridWidth + static_cast<size_t>(x + offsetX);
-
-                    if (occupied[index])
-                    {
-                        canPlace = false;
-                        break;
-                    }
-                }
-            }
-
-            if (canPlace)
-            {
-                return std::pair<uint8_t, uint8_t>(static_cast<uint8_t>(x), static_cast<uint8_t>(y));
-            }
-        }
-    }
-
-    return std::nullopt;
-}
 int resolveEventSpellDamage(uint32_t spellId, uint32_t skillLevel)
 {
     if (isSpellId(spellId, SpellId::MeteorShower))
@@ -3544,116 +3398,6 @@ std::string encounterPictureBase(const MapEncounterInfo &encounter)
     return encounter.pictureName.empty() ? encounter.monsterName : encounter.pictureName;
 }
 
-bool isWeaponLootItem(const ItemDefinition &item)
-{
-    return item.equipStat == "Weapon"
-        || item.equipStat == "Weapon1or2"
-        || item.equipStat == "Weapon2"
-        || item.equipStat == "Missile";
-}
-
-bool isArmorLootItem(const ItemDefinition &item)
-{
-    return item.equipStat == "Armor";
-}
-
-bool isMiscLootItem(const ItemDefinition &item)
-{
-    return item.skillGroup == "Misc";
-}
-
-bool itemMatchesLootKind(const ItemDefinition &item, MonsterTable::LootItemKind kind)
-{
-    switch (kind)
-    {
-        case MonsterTable::LootItemKind::None:
-            return false;
-
-        case MonsterTable::LootItemKind::Any:
-            return true;
-
-        case MonsterTable::LootItemKind::Weapon:
-            return isWeaponLootItem(item);
-
-        case MonsterTable::LootItemKind::Armor:
-            return isArmorLootItem(item);
-
-        case MonsterTable::LootItemKind::Misc:
-            return isMiscLootItem(item);
-
-        case MonsterTable::LootItemKind::Gem:
-            return item.equipStat == "Gem";
-
-        case MonsterTable::LootItemKind::Ring:
-            return item.equipStat == "Ring";
-
-        case MonsterTable::LootItemKind::Amulet:
-            return item.equipStat == "Amulet";
-
-        case MonsterTable::LootItemKind::Boots:
-            return item.equipStat == "Boots";
-
-        case MonsterTable::LootItemKind::Gauntlets:
-            return item.equipStat == "Gauntlets";
-
-        case MonsterTable::LootItemKind::Cloak:
-            return item.equipStat == "Cloak";
-
-        case MonsterTable::LootItemKind::Wand:
-            return item.equipStat == "WeaponW";
-
-        case MonsterTable::LootItemKind::Ore:
-            return item.equipStat == "Ore";
-
-        case MonsterTable::LootItemKind::Scroll:
-            return item.equipStat == "Sscroll";
-
-        case MonsterTable::LootItemKind::Sword:
-            return item.skillGroup == "Sword";
-
-        case MonsterTable::LootItemKind::Dagger:
-            return item.skillGroup == "Dagger";
-
-        case MonsterTable::LootItemKind::Axe:
-            return item.skillGroup == "Axe";
-
-        case MonsterTable::LootItemKind::Spear:
-            return item.skillGroup == "Spear";
-
-        case MonsterTable::LootItemKind::Chain:
-            return item.skillGroup == "Chain";
-
-        case MonsterTable::LootItemKind::Leather:
-            return item.skillGroup == "Leather";
-
-        case MonsterTable::LootItemKind::Plate:
-            return item.skillGroup == "Plate";
-
-        case MonsterTable::LootItemKind::Mace:
-            return item.skillGroup == "Mace";
-
-        case MonsterTable::LootItemKind::Club:
-            return item.skillGroup == "Club";
-
-        case MonsterTable::LootItemKind::Staff:
-            return item.skillGroup == "Staff";
-
-        case MonsterTable::LootItemKind::Bow:
-            return item.skillGroup == "Bow";
-
-        case MonsterTable::LootItemKind::Shield:
-            return item.equipStat == "Shield";
-
-        case MonsterTable::LootItemKind::Helm:
-            return item.equipStat == "Helm";
-
-        case MonsterTable::LootItemKind::Belt:
-            return item.equipStat == "Belt";
-    }
-
-    return false;
-}
-
 OutdoorWorldRuntime::SpawnPointState buildSpawnPointState(
     const MapStatsEntry &map,
     const MonsterTable &monsterTable,
@@ -4034,44 +3778,6 @@ uint32_t OutdoorWorldRuntime::makeChestSeed(uint32_t sessionSeed, int mapId, uin
         ^ (salt + 1u) * 2246822519u;
 }
 
-void OutdoorWorldRuntime::appendChestItem(std::vector<ChestItemState> &items, const ChestItemState &item)
-{
-    if (item.isGold)
-    {
-        for (ChestItemState &existing : items)
-        {
-            if (existing.isGold)
-            {
-                existing.goldAmount += item.goldAmount;
-                existing.goldRollCount += item.goldRollCount;
-                return;
-            }
-        }
-
-        items.push_back(item);
-        return;
-    }
-
-    for (ChestItemState &existing : items)
-    {
-        if (!existing.isGold
-            && existing.itemId == item.itemId
-            && existing.item.standardEnchantId == item.item.standardEnchantId
-            && existing.item.standardEnchantPower == item.item.standardEnchantPower
-            && existing.item.specialEnchantId == item.item.specialEnchantId
-            && existing.item.artifactId == item.item.artifactId
-            && existing.item.identified == item.item.identified
-            && existing.item.broken == item.item.broken)
-        {
-            existing.quantity += item.quantity;
-            existing.item.quantity += item.item.quantity;
-            return;
-        }
-    }
-
-    items.push_back(item);
-}
-
 int OutdoorWorldRuntime::generateGoldAmount(int treasureLevel, std::mt19937 &rng)
 {
     switch (treasureLevel)
@@ -4116,68 +3822,6 @@ int OutdoorWorldRuntime::normalizedMapTreasureLevel() const
     return std::clamp(m_mapTreasureLevel + 1, RandomChestItemMinLevel, RandomChestItemMaxLevel);
 }
 
-OutdoorWorldRuntime::CorpseViewState OutdoorWorldRuntime::buildCorpseView(
-    const std::string &title,
-    const MonsterTable::LootPrototype &loot
-) const
-{
-    CorpseViewState view = {};
-    view.title = title;
-
-    static thread_local std::mt19937 rng(std::random_device{}());
-
-    if (loot.goldDiceRolls > 0 && loot.goldDiceSides > 0)
-    {
-        ChestItemState goldItem = {};
-        goldItem.isGold = true;
-        goldItem.goldRollCount = static_cast<uint32_t>(loot.goldDiceRolls);
-
-        for (int roll = 0; roll < loot.goldDiceRolls; ++roll)
-        {
-            goldItem.goldAmount += static_cast<uint32_t>(std::uniform_int_distribution<int>(1, loot.goldDiceSides)(rng));
-        }
-
-        if (goldItem.goldAmount > 0)
-        {
-            const GoldHeapVisual goldVisual = classifyGoldHeapVisual(goldItem.goldAmount);
-            goldItem.width = goldVisual.width;
-            goldItem.height = goldVisual.height;
-            view.items.push_back(goldItem);
-        }
-    }
-
-    if (loot.itemChance > 0
-        && loot.itemLevel > 0
-        && std::uniform_int_distribution<int>(0, 99)(rng) < loot.itemChance)
-    {
-        const std::optional<InventoryItem> generatedItem =
-            m_pItemTable != nullptr && m_pStandardItemEnchantTable != nullptr && m_pSpecialItemEnchantTable != nullptr
-            ? ItemGenerator::generateRandomInventoryItem(
-                *m_pItemTable,
-                *m_pStandardItemEnchantTable,
-                *m_pSpecialItemEnchantTable,
-                ItemGenerationRequest{loot.itemLevel, ItemGenerationMode::MonsterLoot},
-                m_pParty,
-                rng,
-                [kind = loot.itemKind](const ItemDefinition &entry)
-                {
-                    return itemMatchesLootKind(entry, kind);
-                })
-            : std::nullopt;
-
-        if (generatedItem && generatedItem->objectDescriptionId != 0)
-        {
-            ChestItemState item = {};
-            item.item = *generatedItem;
-            item.itemId = item.item.objectDescriptionId;
-            item.quantity = item.item.quantity;
-            view.items.push_back(item);
-        }
-    }
-
-    return view;
-}
-
 void OutdoorWorldRuntime::pushAudioEvent(
     uint32_t soundId,
     uint32_t sourceId,
@@ -4205,313 +3849,20 @@ void OutdoorWorldRuntime::pushAudioEvent(
 
 OutdoorWorldRuntime::ChestViewState OutdoorWorldRuntime::buildChestView(uint32_t chestId) const
 {
-    ChestViewState view = {};
-    view.chestId = chestId;
-
     if (chestId >= m_chests.size())
     {
-        return view;
+        return {};
     }
 
-    const MapDeltaChest &chest = m_chests[chestId];
-    view.chestTypeId = chest.chestTypeId;
-    view.flags = chest.flags;
-    const ChestEntry *pChestEntry = m_pChestTable != nullptr ? m_pChestTable->get(chest.chestTypeId) : nullptr;
-    view.gridWidth = pChestEntry != nullptr && pChestEntry->gridWidth > 0 ? pChestEntry->gridWidth : 9;
-    view.gridHeight = pChestEntry != nullptr && pChestEntry->gridHeight > 0 ? pChestEntry->gridHeight : 9;
-
-    if (DebugChestPopulateLogging)
-    {
-        std::cout << "Chest populate: chest=" << chestId
-                  << " type=" << chest.chestTypeId
-                  << " flags=0x" << std::hex << chest.flags << std::dec
-                  << " raw_records=" << (chest.rawItems.size() / ChestItemRecordSize)
-                  << '\n';
-    }
-
-    if (chest.rawItems.empty() || chest.inventoryMatrix.empty() || view.gridWidth == 0 || view.gridHeight == 0)
-    {
-        if (DebugChestPopulateLogging)
-        {
-            std::cout << "  empty source buffers\n";
-        }
-        return view;
-    }
-
-    std::vector<int32_t> rawItemIds(chest.rawItems.size() / ChestItemRecordSize, 0);
-
-    for (size_t itemIndex = 0; itemIndex < rawItemIds.size(); ++itemIndex)
-    {
-        std::memcpy(
-            &rawItemIds[itemIndex],
-            chest.rawItems.data() + itemIndex * ChestItemRecordSize,
-            sizeof(int32_t)
-        );
-    }
-
-    if (DebugChestPopulateLogging)
-    {
-        std::ostringstream rawItemSample;
-        size_t nonZeroRawItems = 0;
-        size_t sampledRawItems = 0;
-
-        for (size_t itemIndex = 0; itemIndex < rawItemIds.size(); ++itemIndex)
-        {
-            if (rawItemIds[itemIndex] == 0)
-            {
-                continue;
-            }
-
-            ++nonZeroRawItems;
-
-            if (sampledRawItems < 12)
-            {
-                if (sampledRawItems > 0)
-                {
-                    rawItemSample << ' ';
-                }
-
-                rawItemSample << itemIndex << ':' << rawItemIds[itemIndex];
-                ++sampledRawItems;
-            }
-        }
-
-        std::cout << "  raw nonzero=" << nonZeroRawItems
-                  << " sample=[" << rawItemSample.str() << "]"
-                  << '\n';
-    }
-
-    const int mapTreasureLevel = normalizedMapTreasureLevel();
-    size_t materializedRecords = 0;
-
-    const auto resolveChestItemSize =
-        [this](ChestItemState &item)
-        {
-            if (item.isGold)
-            {
-                const GoldHeapVisual goldVisual = classifyGoldHeapVisual(item.goldAmount);
-                item.width = goldVisual.width;
-                item.height = goldVisual.height;
-                return;
-            }
-
-            item.itemId = item.item.objectDescriptionId != 0 ? item.item.objectDescriptionId : item.itemId;
-            const ItemDefinition *pItemDefinition = m_pItemTable != nullptr ? m_pItemTable->get(item.itemId) : nullptr;
-            item.width = pItemDefinition != nullptr ? std::max<uint8_t>(1, pItemDefinition->inventoryWidth) : 1;
-            item.height = pItemDefinition != nullptr ? std::max<uint8_t>(1, pItemDefinition->inventoryHeight) : 1;
-        };
-
-    const auto materializeChestRecord =
-        [this, chestId, mapTreasureLevel, &resolveChestItemSize](int32_t rawItemId, size_t recordIndex)
-        {
-            std::vector<ChestItemState> generatedItems;
-
-            if (rawItemId == 0)
-            {
-                return generatedItems;
-            }
-
-            if (rawItemId > 0)
-            {
-                ChestItemState item = {};
-                item.item = ItemGenerator::makeInventoryItem(
-                    static_cast<uint32_t>(rawItemId),
-                    *m_pItemTable,
-                    ItemGenerationMode::ChestLoot);
-                item.itemId = item.item.objectDescriptionId;
-                item.quantity = item.item.quantity;
-                resolveChestItemSize(item);
-                generatedItems.push_back(item);
-                return generatedItems;
-            }
-
-            if (rawItemId <= -8)
-            {
-                return generatedItems;
-            }
-
-            std::mt19937 rng(makeChestSeed(m_sessionChestSeed, m_mapId, chestId, static_cast<uint32_t>(recordIndex)));
-            const int resolvedTreasureLevel = sampleRemappedTreasureLevel(-rawItemId, mapTreasureLevel, rng);
-            const int generatedCount = std::uniform_int_distribution<int>(1, 5)(rng);
-
-            for (int generatedIndex = 0; generatedIndex < generatedCount; ++generatedIndex)
-            {
-                const int roll = std::uniform_int_distribution<int>(0, 99)(rng);
-
-                if (roll < 20)
-                {
-                    continue;
-                }
-
-                ChestItemState item = {};
-
-                if (roll < 60)
-                {
-                    item.goldAmount = static_cast<uint32_t>(generateGoldAmount(
-                        std::min(resolvedTreasureLevel, SpawnableItemTreasureLevels),
-                        rng
-                    ));
-                    item.goldRollCount = item.goldAmount > 0 ? 1u : 0u;
-                    item.isGold = item.goldAmount > 0;
-
-                    if (!item.isGold)
-                    {
-                        continue;
-                    }
-                }
-                else
-                {
-                    const std::optional<InventoryItem> generatedItem =
-                        ItemGenerator::generateRandomInventoryItem(
-                            *m_pItemTable,
-                            *m_pStandardItemEnchantTable,
-                            *m_pSpecialItemEnchantTable,
-                            ItemGenerationRequest{std::min(resolvedTreasureLevel, SpawnableItemTreasureLevels), ItemGenerationMode::ChestLoot},
-                            m_pParty,
-                            rng);
-
-                    if (!generatedItem)
-                    {
-                        continue;
-                    }
-
-                    item.item = *generatedItem;
-                    item.itemId = item.item.objectDescriptionId;
-                    item.quantity = item.item.quantity;
-                }
-
-                resolveChestItemSize(item);
-                generatedItems.push_back(item);
-            }
-
-            return generatedItems;
-        };
-
-    std::vector<std::vector<ChestItemState>> materializedRecordItems(rawItemIds.size());
-    std::vector<bool> placedRecords(rawItemIds.size(), false);
-    std::vector<ChestItemState> deferredItems;
-
-    for (size_t recordIndex = 0; recordIndex < rawItemIds.size(); ++recordIndex)
-    {
-        materializedRecordItems[recordIndex] = materializeChestRecord(rawItemIds[recordIndex], recordIndex);
-
-        if (!materializedRecordItems[recordIndex].empty())
-        {
-            ++materializedRecords;
-            deferredItems.reserve(deferredItems.size() + materializedRecordItems[recordIndex].size());
-        }
-    }
-
-    for (uint8_t gridY = 0; gridY < view.gridHeight; ++gridY)
-    {
-        for (uint8_t gridX = 0; gridX < view.gridWidth; ++gridX)
-        {
-            const size_t cellIndex = static_cast<size_t>(gridY) * view.gridWidth + gridX;
-
-            if (cellIndex >= chest.inventoryMatrix.size())
-            {
-                continue;
-            }
-
-            const int16_t cellValue = chest.inventoryMatrix[cellIndex];
-
-            if (cellValue <= 0)
-            {
-                continue;
-            }
-
-            const size_t recordIndex = static_cast<size_t>(cellValue - 1);
-
-            if (recordIndex >= rawItemIds.size() || placedRecords[recordIndex])
-            {
-                continue;
-            }
-
-            placedRecords[recordIndex] = true;
-            const std::vector<ChestItemState> &recordItems = materializedRecordItems[recordIndex];
-
-            if (recordItems.empty())
-            {
-                continue;
-            }
-
-            ChestItemState anchoredItem = recordItems.front();
-            anchoredItem.gridX = gridX;
-            anchoredItem.gridY = gridY;
-
-            if (canPlaceChestItem(anchoredItem, view.items, view.gridWidth, view.gridHeight))
-            {
-                view.items.push_back(anchoredItem);
-            }
-            else
-            {
-                deferredItems.push_back(anchoredItem);
-            }
-
-            for (size_t itemIndex = 1; itemIndex < recordItems.size(); ++itemIndex)
-            {
-                deferredItems.push_back(recordItems[itemIndex]);
-            }
-        }
-    }
-
-    for (size_t recordIndex = 0; recordIndex < materializedRecordItems.size(); ++recordIndex)
-    {
-        if (placedRecords[recordIndex])
-        {
-            continue;
-        }
-
-        for (const ChestItemState &item : materializedRecordItems[recordIndex])
-        {
-            deferredItems.push_back(item);
-        }
-    }
-
-    std::mt19937 placementRng(makeChestSeed(m_sessionChestSeed, m_mapId, chestId, 0xfaceu));
-    const std::vector<uint8_t> placementCellOrder = buildRandomChestCellOrder(
-        view.gridWidth,
-        view.gridHeight,
-        placementRng
-    );
-    size_t hiddenItemCount = 0;
-
-    for (const ChestItemState &deferredItem : deferredItems)
-    {
-        bool placed = false;
-
-        for (uint8_t cellIndex : placementCellOrder)
-        {
-            ChestItemState candidate = deferredItem;
-            candidate.gridX = static_cast<uint8_t>(cellIndex % view.gridWidth);
-            candidate.gridY = static_cast<uint8_t>(cellIndex / view.gridWidth);
-
-            if (!canPlaceChestItem(candidate, view.items, view.gridWidth, view.gridHeight))
-            {
-                continue;
-            }
-
-            view.items.push_back(candidate);
-            placed = true;
-            break;
-        }
-
-        if (!placed)
-        {
-            ++hiddenItemCount;
-        }
-    }
-
-    if (DebugChestPopulateLogging)
-    {
-        std::cout << "  materialized_records=" << materializedRecords
-                  << " deferred_items=" << deferredItems.size()
-                  << " hidden_items=" << hiddenItemCount
-                  << " final_entries=" << view.items.size()
-                  << '\n';
-    }
-
-    return view;
+    return buildMaterializedChestView(
+        chestId,
+        m_chests[chestId],
+        m_mapTreasureLevel,
+        m_mapId,
+        m_sessionChestSeed,
+        m_pChestTable,
+        m_pItemTable,
+        m_pParty);
 }
 
 void OutdoorWorldRuntime::activateChestView(uint32_t chestId)
@@ -4550,6 +3901,7 @@ void OutdoorWorldRuntime::initialize(
     const SpellTable &spellTable,
     const ItemTable &itemTable,
     Party *pParty,
+    OutdoorPartyRuntime *pPartyRuntime,
     const StandardItemEnchantTable &standardItemEnchantTable,
     const SpecialItemEnchantTable &specialItemEnchantTable,
     const ChestTable *pChestTable,
@@ -4589,6 +3941,7 @@ void OutdoorWorldRuntime::initialize(
     m_eventRuntimeState = eventRuntimeState;
     m_pItemTable = &itemTable;
     m_pParty = pParty;
+    m_pPartyRuntime = pPartyRuntime;
     m_pStandardItemEnchantTable = &standardItemEnchantTable;
     m_pSpecialItemEnchantTable = &specialItemEnchantTable;
     m_pChestTable = pChestTable;
@@ -9120,6 +8473,27 @@ size_t OutdoorWorldRuntime::mapActorCount() const
     return m_mapActors.size();
 }
 
+bool OutdoorWorldRuntime::actorRuntimeState(size_t actorIndex, GameplayRuntimeActorState &state) const
+{
+    const MapActorState *pActor = mapActorState(actorIndex);
+
+    if (pActor == nullptr)
+    {
+        return false;
+    }
+
+    state.preciseX = pActor->preciseX;
+    state.preciseY = pActor->preciseY;
+    state.preciseZ = pActor->preciseZ;
+    state.radius = pActor->radius;
+    state.height = pActor->height;
+    state.isDead = pActor->isDead;
+    state.isInvisible = pActor->isInvisible;
+    state.hostileToParty = pActor->hostileToParty;
+    state.hasDetectedParty = pActor->hasDetectedParty;
+    return true;
+}
+
 const OutdoorWorldRuntime::MapActorState *OutdoorWorldRuntime::mapActorState(size_t actorIndex) const
 {
     if (actorIndex >= m_mapActors.size())
@@ -10298,6 +9672,29 @@ bool OutdoorWorldRuntime::spawnImmediateSpellVisual(
     return true;
 }
 
+bool OutdoorWorldRuntime::applyPartySpellToActor(
+    size_t actorIndex,
+    uint32_t spellId,
+    uint32_t skillLevel,
+    SkillMastery skillMastery,
+    int damage,
+    float partyX,
+    float partyY,
+    float partyZ,
+    uint32_t sourcePartyMemberIndex)
+{
+    return applyPartySpellToMapActor(
+        actorIndex,
+        spellId,
+        skillLevel,
+        skillMastery,
+        damage,
+        partyX,
+        partyY,
+        partyZ,
+        sourcePartyMemberIndex);
+}
+
 bool OutdoorWorldRuntime::healMapActor(size_t actorIndex, int amount)
 {
     if (actorIndex >= m_mapActors.size() || amount <= 0)
@@ -10582,13 +9979,10 @@ const OutdoorWorldRuntime::ChestViewState *OutdoorWorldRuntime::activeChestView(
 
 bool OutdoorWorldRuntime::takeActiveChestItem(size_t itemIndex, ChestItemState &item)
 {
-    if (!m_activeChestView || itemIndex >= m_activeChestView->items.size())
+    if (!m_activeChestView || !takeChestItem(*m_activeChestView, itemIndex, item))
     {
         return false;
     }
-
-    item = m_activeChestView->items[itemIndex];
-    m_activeChestView->items.erase(m_activeChestView->items.begin() + static_cast<ptrdiff_t>(itemIndex));
 
     const uint32_t chestId = m_activeChestView->chestId;
 
@@ -10744,90 +10138,26 @@ bool OutdoorWorldRuntime::tryRepairActiveChestItem(size_t itemIndex, const Chara
 
 bool OutdoorWorldRuntime::takeActiveChestItemAt(uint8_t gridX, uint8_t gridY, ChestItemState &item)
 {
-    if (!m_activeChestView)
+    if (!m_activeChestView || !takeChestItemAt(*m_activeChestView, gridX, gridY, item))
     {
         return false;
     }
+    const uint32_t chestId = m_activeChestView->chestId;
 
-    for (size_t itemIndex = 0; itemIndex < m_activeChestView->items.size(); ++itemIndex)
+    if (chestId < m_materializedChestViews.size() && m_materializedChestViews[chestId].has_value())
     {
-        if (!chestItemContainsCell(m_activeChestView->items[itemIndex], gridX, gridY))
-        {
-            continue;
-        }
-
-        item = m_activeChestView->items[itemIndex];
-        m_activeChestView->items.erase(m_activeChestView->items.begin() + static_cast<ptrdiff_t>(itemIndex));
-        const uint32_t chestId = m_activeChestView->chestId;
-
-        if (chestId < m_materializedChestViews.size() && m_materializedChestViews[chestId].has_value())
-        {
-            m_materializedChestViews[chestId] = *m_activeChestView;
-        }
-
-        return true;
+        m_materializedChestViews[chestId] = *m_activeChestView;
     }
 
-    return false;
+    return true;
 }
 
 bool OutdoorWorldRuntime::tryPlaceActiveChestItemAt(const ChestItemState &item, uint8_t gridX, uint8_t gridY)
 {
-    if (!m_activeChestView)
+    if (!m_activeChestView || !tryPlaceChestItemAt(*m_activeChestView, item, gridX, gridY))
     {
         return false;
     }
-
-    ChestItemState placedItem = item;
-    placedItem.width = std::max<uint8_t>(1, item.width);
-    placedItem.height = std::max<uint8_t>(1, item.height);
-    placedItem.gridX = gridX;
-    placedItem.gridY = gridY;
-
-    const auto canPlace =
-        [this](const ChestItemState &candidate) -> bool
-        {
-            if (!chestItemFitsAt(
-                    candidate,
-                    candidate.gridX,
-                    candidate.gridY,
-                    m_activeChestView->gridWidth,
-                    m_activeChestView->gridHeight))
-            {
-                return false;
-            }
-
-            for (const ChestItemState &existingItem : m_activeChestView->items)
-            {
-                if (chestItemsOverlap(existingItem, candidate))
-                {
-                    return false;
-                }
-            }
-
-            return true;
-        };
-
-    if (!canPlace(placedItem))
-    {
-        const std::optional<std::pair<uint8_t, uint8_t>> fallbackPlacement =
-            findFirstFreeChestSlot(
-                m_activeChestView->items,
-                placedItem.width,
-                placedItem.height,
-                m_activeChestView->gridWidth,
-                m_activeChestView->gridHeight);
-
-        if (!fallbackPlacement)
-        {
-            return false;
-        }
-
-        placedItem.gridX = fallbackPlacement->first;
-        placedItem.gridY = fallbackPlacement->second;
-    }
-
-    m_activeChestView->items.push_back(placedItem);
     const uint32_t chestId = m_activeChestView->chestId;
 
     if (chestId < m_materializedChestViews.size() && m_materializedChestViews[chestId].has_value())
@@ -10881,7 +10211,7 @@ bool OutdoorWorldRuntime::openMapActorCorpseView(size_t actorIndex)
             return false;
         }
 
-        CorpseViewState corpse = buildCorpseView(actor.displayName, pStats->loot);
+        CorpseViewState corpse = buildMonsterCorpseView(actor.displayName, pStats->loot, m_pItemTable, m_pParty);
 
         if (corpse.items.empty())
         {
@@ -11860,9 +11190,45 @@ std::optional<EventRuntimeState::PendingMapMove> OutdoorWorldRuntime::consumePen
     return result;
 }
 
+Party *OutdoorWorldRuntime::party()
+{
+    return m_pParty;
+}
+
 const Party *OutdoorWorldRuntime::party() const
 {
     return m_pParty;
+}
+
+float OutdoorWorldRuntime::partyX() const
+{
+    return m_pPartyRuntime != nullptr ? m_pPartyRuntime->partyX() : 0.0f;
+}
+
+float OutdoorWorldRuntime::partyY() const
+{
+    return m_pPartyRuntime != nullptr ? m_pPartyRuntime->partyY() : 0.0f;
+}
+
+float OutdoorWorldRuntime::partyFootZ() const
+{
+    return m_pPartyRuntime != nullptr ? m_pPartyRuntime->partyFootZ() : 0.0f;
+}
+
+void OutdoorWorldRuntime::syncSpellMovementStatesFromPartyBuffs()
+{
+    if (m_pPartyRuntime != nullptr)
+    {
+        m_pPartyRuntime->syncSpellMovementStatesFromPartyBuffs();
+    }
+}
+
+void OutdoorWorldRuntime::requestPartyJump()
+{
+    if (m_pPartyRuntime != nullptr)
+    {
+        m_pPartyRuntime->requestJump();
+    }
 }
 
 const MapDeltaData *OutdoorWorldRuntime::mapDeltaData() const
@@ -11931,6 +11297,28 @@ bool OutdoorWorldRuntime::castPartySpell(const SpellCastRequest &request)
     }
 
     return castSpell(request);
+}
+
+bool OutdoorWorldRuntime::castPartySpellProjectile(const GameplayPartySpellProjectileRequest &request)
+{
+    SpellCastRequest worldRequest = {};
+    worldRequest.sourceKind = RuntimeSpellSourceKind::Party;
+    worldRequest.sourceId = request.casterMemberIndex + 1;
+    worldRequest.sourcePartyMemberIndex = request.casterMemberIndex;
+    worldRequest.ability = MonsterAttackAbility::Spell1;
+    worldRequest.spellId = request.spellId;
+    worldRequest.skillLevel = request.skillLevel;
+    worldRequest.skillMastery = static_cast<uint32_t>(request.skillMastery);
+    worldRequest.damage = request.damage;
+    worldRequest.attackBonus = 0;
+    worldRequest.useActorHitChance = false;
+    worldRequest.sourceX = request.sourceX;
+    worldRequest.sourceY = request.sourceY;
+    worldRequest.sourceZ = request.sourceZ;
+    worldRequest.targetX = request.targetX;
+    worldRequest.targetY = request.targetY;
+    worldRequest.targetZ = request.targetZ;
+    return castPartySpell(worldRequest);
 }
 
 bool OutdoorWorldRuntime::spawnPartyProjectile(const PartyProjectileRequest &request)

@@ -3,6 +3,7 @@
 #include "game/events/ISceneEventContext.h"
 #include "game/events/EventRuntime.h"
 #include "game/events/ScriptedEventProgram.h"
+#include "game/gameplay/GameplayRuntimeInterfaces.h"
 #include "game/maps/MapAssetLoader.h"
 #include "game/maps/MapDeltaData.h"
 #include "game/tables/MapStats.h"
@@ -30,10 +31,15 @@ class ChestTable;
 class StandardItemEnchantTable;
 class SpecialItemEnchantTable;
 class ParticleSystem;
+class OutdoorPartyRuntime;
 
-class OutdoorWorldRuntime : public ISceneEventContext
+class OutdoorWorldRuntime : public ISceneEventContext, public IGameplayWorldRuntime
 {
 public:
+    using ChestItemState = GameplayChestItemState;
+    using ChestViewState = GameplayChestViewState;
+    using CorpseViewState = GameplayCorpseViewState;
+
     struct AtmosphereState
     {
         std::string sourceSkyTextureName;
@@ -417,30 +423,6 @@ public:
         std::string representativePictureName;
     };
 
-    struct ChestItemState
-    {
-        InventoryItem item = {};
-        uint32_t itemId = 0;
-        uint32_t quantity = 0;
-        uint32_t goldAmount = 0;
-        uint32_t goldRollCount = 0;
-        bool isGold = false;
-        uint8_t width = 1;
-        uint8_t height = 1;
-        uint8_t gridX = 0;
-        uint8_t gridY = 0;
-    };
-
-    struct ChestViewState
-    {
-        uint32_t chestId = 0;
-        uint16_t chestTypeId = 0;
-        uint16_t flags = 0;
-        uint8_t gridWidth = 0;
-        uint8_t gridHeight = 0;
-        std::vector<ChestItemState> items;
-    };
-
     struct TimerState
     {
         uint16_t eventId = 0;
@@ -449,14 +431,6 @@ public:
         float remainingGameMinutes = 0.0f;
         std::optional<int> targetHour;
         bool hasFired = false;
-    };
-
-    struct CorpseViewState
-    {
-        bool fromSummonedMonster = false;
-        uint32_t sourceIndex = 0;
-        std::string title;
-        std::vector<ChestItemState> items;
     };
 
     struct AudioEvent
@@ -528,6 +502,7 @@ public:
         const SpellTable &spellTable,
         const ItemTable &itemTable,
         Party *pParty,
+        OutdoorPartyRuntime *pPartyRuntime,
         const StandardItemEnchantTable &standardItemEnchantTable,
         const SpecialItemEnchantTable &specialItemEnchantTable,
         const ChestTable *pChestTable,
@@ -545,20 +520,20 @@ public:
 
     bool isInitialized() const;
     int mapId() const;
-    const std::string &mapName() const;
+    const std::string &mapName() const override;
     Snapshot snapshot() const;
     void restoreSnapshot(const Snapshot &snapshot);
     float currentGameMinutes() const override;
-    float gameMinutes() const;
-    int currentHour() const;
-    int currentLocationReputation() const;
-    void setCurrentLocationReputation(int reputation);
+    float gameMinutes() const override;
+    int currentHour() const override;
+    int currentLocationReputation() const override;
+    void setCurrentLocationReputation(int reputation) override;
     const OutdoorMapData *mapData() const;
     const AtmosphereState &atmosphereState() const;
     RainIntensityPreset cycleRainIntensityPreset();
     RainIntensityPreset rainIntensityPreset() const;
     const char *rainIntensityPresetName() const;
-    void advanceGameMinutes(float minutes);
+    void advanceGameMinutes(float minutes) override;
     void updateMapActors(float deltaSeconds, float partyX, float partyY, float partyZ);
 
     void applyEventRuntimeState();
@@ -569,7 +544,8 @@ public:
         const std::optional<ScriptedEventProgram> &globalEventProgram
     );
     bool isChestOpened(uint32_t chestId) const;
-    size_t mapActorCount() const;
+    size_t mapActorCount() const override;
+    bool actorRuntimeState(size_t actorIndex, GameplayRuntimeActorState &state) const override;
     const MapActorState *mapActorState(size_t actorIndex) const;
     std::optional<ActorDecisionDebugInfo> debugActorDecisionInfo(
         size_t actorIndex,
@@ -586,6 +562,16 @@ public:
     bool debugSpawnEncounterFromSpawnPoint(size_t spawnIndex, uint32_t countOverride = 0);
     bool setMapActorDead(size_t actorIndex, bool isDead, bool emitAudio = true);
     bool applyPartyAttackToMapActor(size_t actorIndex, int damage, float partyX, float partyY, float partyZ);
+    bool applyPartySpellToActor(
+        size_t actorIndex,
+        uint32_t spellId,
+        uint32_t skillLevel,
+        SkillMastery skillMastery,
+        int damage,
+        float partyX,
+        float partyY,
+        float partyZ,
+        uint32_t sourcePartyMemberIndex = 0) override;
     bool applyPartySpellToMapActor(
         size_t actorIndex,
         uint32_t spellId,
@@ -608,28 +594,28 @@ public:
         bool requireLineOfSight,
         float sourceX,
         float sourceY,
-        float sourceZ) const;
+        float sourceZ) const override;
     bool notifyPartyContactWithMapActor(size_t actorIndex, float partyX, float partyY, float partyZ);
     float sampleSupportFloorHeight(float x, float y, float z, float maxRise, float xySlack) const;
     size_t spawnPointCount() const;
     const SpawnPointState *spawnPointState(size_t spawnIndex) const;
     size_t chestCount() const;
     size_t openedChestCount() const;
-    const ChestViewState *activeChestView() const;
-    bool takeActiveChestItem(size_t itemIndex, ChestItemState &item);
-    bool takeActiveChestItemAt(uint8_t gridX, uint8_t gridY, ChestItemState &item);
-    bool tryPlaceActiveChestItemAt(const ChestItemState &item, uint8_t gridX, uint8_t gridY);
+    const ChestViewState *activeChestView() const override;
+    bool takeActiveChestItem(size_t itemIndex, ChestItemState &item) override;
+    bool takeActiveChestItemAt(uint8_t gridX, uint8_t gridY, ChestItemState &item) override;
+    bool tryPlaceActiveChestItemAt(const ChestItemState &item, uint8_t gridX, uint8_t gridY) override;
     bool identifyActiveChestItem(size_t itemIndex, std::string &statusText);
     bool tryIdentifyActiveChestItem(size_t itemIndex, const Character &inspector, std::string &statusText);
     bool tryRepairActiveChestItem(size_t itemIndex, const Character &inspector, std::string &statusText);
-    void closeActiveChestView();
-    const CorpseViewState *activeCorpseView() const;
+    void closeActiveChestView() override;
+    const CorpseViewState *activeCorpseView() const override;
     bool openMapActorCorpseView(size_t actorIndex);
-    bool takeActiveCorpseItem(size_t itemIndex, ChestItemState &item);
+    bool takeActiveCorpseItem(size_t itemIndex, ChestItemState &item) override;
     bool identifyActiveCorpseItem(size_t itemIndex, std::string &statusText);
     bool tryIdentifyActiveCorpseItem(size_t itemIndex, const Character &inspector, std::string &statusText);
     bool tryRepairActiveCorpseItem(size_t itemIndex, const Character &inspector, std::string &statusText);
-    void closeActiveCorpseView();
+    void closeActiveCorpseView() override;
     const std::vector<AudioEvent> &pendingAudioEvents() const;
     void clearPendingAudioEvents();
     const std::vector<CombatEvent> &pendingCombatEvents() const;
@@ -655,19 +641,19 @@ public:
         uint32_t skillMastery,
         float x,
         float y,
-        float z);
+        float z) override;
     size_t projectileCount() const;
     const ProjectileState *projectileState(size_t projectileIndex) const;
     size_t projectileImpactCount() const;
     const ProjectileImpactState *projectileImpactState(size_t effectIndex) const;
     size_t fireSpikeTrapCount() const;
     const FireSpikeTrapState *fireSpikeTrapState(size_t trapIndex) const;
-    void triggerGameplayScreenOverlay(uint32_t colorAbgr, float durationSeconds, float peakAlpha);
+    void triggerGameplayScreenOverlay(uint32_t colorAbgr, float durationSeconds, float peakAlpha) override;
     bool tryStartArmageddon(
         size_t casterMemberIndex,
         uint32_t skillLevel,
         SkillMastery skillMastery,
-        std::string &failureText);
+        std::string &failureText) override;
     bool isArmageddonActive() const;
     float armageddonCameraShakeYawRadians() const;
     float armageddonCameraShakePitchRadians() const;
@@ -675,10 +661,16 @@ public:
     const EventRuntimeState::PendingMapMove *pendingMapMove() const;
     std::optional<EventRuntimeState::PendingMapMove> consumePendingMapMove();
 
-    const Party *party() const;
+    Party *party() override;
+    const Party *party() const override;
+    float partyX() const override;
+    float partyY() const override;
+    float partyFootZ() const override;
+    void syncSpellMovementStatesFromPartyBuffs() override;
+    void requestPartyJump() override;
     const MapDeltaData *mapDeltaData() const override;
-    EventRuntimeState *eventRuntimeState();
-    const EventRuntimeState *eventRuntimeState() const;
+    EventRuntimeState *eventRuntimeState() override;
+    const EventRuntimeState *eventRuntimeState() const override;
     bool castEventSpell(
         uint32_t spellId,
         uint32_t skillLevel,
@@ -691,6 +683,7 @@ public:
         int32_t toZ
     ) override;
     bool castPartySpell(const SpellCastRequest &request);
+    bool castPartySpellProjectile(const GameplayPartySpellProjectileRequest &request) override;
     bool spawnPartyProjectile(const PartyProjectileRequest &request);
     bool summonMonsters(
         uint32_t typeIndexInMapStats,
@@ -718,7 +711,7 @@ public:
         float x,
         float y,
         float z
-    );
+    ) override;
     void setParticleSystem(ParticleSystem *pParticleSystem);
     bool checkMonstersKilled(uint32_t checkType, uint32_t id, uint32_t count, bool invisibleAsDead) const override;
 
@@ -821,7 +814,6 @@ public:
 
 private:
     static uint32_t makeChestSeed(uint32_t sessionSeed, int mapId, uint32_t chestId, uint32_t salt);
-    static void appendChestItem(std::vector<ChestItemState> &items, const ChestItemState &item);
     static int generateGoldAmount(int treasureLevel, std::mt19937 &rng);
     static std::pair<int, int> remapTreasureLevelRange(int itemTreasureLevel, int mapTreasureLevel);
     static int sampleRemappedTreasureLevel(int itemTreasureLevel, int mapTreasureLevel, std::mt19937 &rng);
@@ -846,7 +838,6 @@ private:
     ChestViewState buildChestView(uint32_t chestId) const;
     void activateChestView(uint32_t chestId);
     int normalizedMapTreasureLevel() const;
-    CorpseViewState buildCorpseView(const std::string &title, const MonsterTable::LootPrototype &loot) const;
     void pushAudioEvent(
         uint32_t soundId,
         uint32_t sourceId,
@@ -963,6 +954,7 @@ private:
     std::optional<EventRuntimeState> m_eventRuntimeState;
     const ItemTable *m_pItemTable = nullptr;
     Party *m_pParty = nullptr;
+    OutdoorPartyRuntime *m_pPartyRuntime = nullptr;
     const StandardItemEnchantTable *m_pStandardItemEnchantTable = nullptr;
     const SpecialItemEnchantTable *m_pSpecialItemEnchantTable = nullptr;
     const ChestTable *m_pChestTable = nullptr;

@@ -92,6 +92,21 @@ Party &IndoorPartyRuntime::party()
     return m_party;
 }
 
+float IndoorPartyRuntime::partyX() const
+{
+    return m_movementState.x;
+}
+
+float IndoorPartyRuntime::partyY() const
+{
+    return m_movementState.y;
+}
+
+float IndoorPartyRuntime::partyFootZ() const
+{
+    return m_movementState.footZ;
+}
+
 void IndoorPartyRuntime::setParty(const Party &party)
 {
     m_party = party;
@@ -116,5 +131,14 @@ void IndoorPartyRuntime::restoreSnapshot(const Snapshot &snapshot)
 void IndoorPartyRuntime::setMovementSpeedMultiplier(float multiplier)
 {
     m_movementSpeedMultiplier = multiplier;
+}
+
+void IndoorPartyRuntime::syncSpellMovementStatesFromPartyBuffs()
+{
+}
+
+void IndoorPartyRuntime::requestJump()
+{
+    m_pendingJumpRequested = true;
 }
 }

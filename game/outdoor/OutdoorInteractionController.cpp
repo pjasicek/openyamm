@@ -2,6 +2,7 @@
 #include "game/outdoor/OutdoorGameView.h"
 #include "game/outdoor/OutdoorBillboardRenderer.h"
 #include "game/events/EvtEnums.h"
+#include "game/gameplay/GameplayDialogContextBuilder.h"
 #include "game/gameplay/GenericActorDialog.h"
 #include "game/gameplay/GameMechanics.h"
 #include "game/outdoor/OutdoorGeometryUtils.h"
@@ -1078,6 +1079,7 @@ GameplayDialogController::Context OutdoorInteractionController::createGameplayDi
     EventRuntimeState &eventRuntimeState,
     const char *reason)
 {
+    (void)reason;
     GameplayDialogController::Callbacks callbacks = {};
     callbacks.playSpeechReaction =
         [&view](size_t memberIndex, SpeechId speechId, bool triggerFaceAnimation)
@@ -1171,7 +1173,7 @@ GameplayDialogController::Context OutdoorInteractionController::createGameplayDi
                 );
         };
 
-    GameplayDialogController::Context context = {
+    return buildGameplayDialogContext(
         view.m_gameplayUiController,
         eventRuntimeState,
         view.m_activeEventDialog,
@@ -1187,9 +1189,7 @@ GameplayDialogController::Context OutdoorInteractionController::createGameplayDi
         view.m_pRosterTable,
         view.m_pArcomageLibrary,
         view.currentHudScreenState() == OutdoorGameView::OverlayHudScreenState::Dialogue,
-        std::move(callbacks)
-    };
-    return context;
+        std::move(callbacks));
 }
 
 void OutdoorInteractionController::setHeldInventoryItem(

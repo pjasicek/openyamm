@@ -1,7 +1,11 @@
 #pragma once
 
 #include "game/app/KeyboardBindings.h"
-#include "game/outdoor/OutdoorGameView.h"
+
+namespace OpenYAMM::Game
+{
+class GameplayOverlayContext;
+}
 
 #include <optional>
 
@@ -60,7 +64,7 @@ struct KeyboardScreenLayout
 };
 
 std::optional<KeyboardScreenLayout> resolveKeyboardScreenLayout(
-    const OutdoorGameView &view,
+    const GameplayOverlayContext &context,
     int width,
     int height);
 }

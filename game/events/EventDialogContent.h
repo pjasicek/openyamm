@@ -3,6 +3,7 @@
 #include "game/tables/ClassSkillTable.h"
 #include "game/events/EventRuntime.h"
 #include "game/events/ScriptedEventProgram.h"
+#include "game/gameplay/GameplayRuntimeInterfaces.h"
 #include "game/tables/HouseTable.h"
 #include "game/tables/MapStats.h"
 #include "game/tables/NpcDialogTable.h"
@@ -15,7 +16,6 @@
 namespace OpenYAMM::Game
 {
 class Party;
-class OutdoorWorldRuntime;
 
 enum class EventDialogActionKind
 {
@@ -87,7 +87,7 @@ EventDialogContent buildEventDialogContent(
     const MapStatsEntry *pCurrentMap,
     const std::vector<MapStatsEntry> *pMapEntries,
     const Party *pParty,
-    const OutdoorWorldRuntime *pOutdoorWorldRuntime,
+    const IGameplayWorldRuntime *pWorldRuntime,
     float currentGameMinutes
 );
 }

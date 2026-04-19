@@ -14,8 +14,10 @@ namespace OpenYAMM::Game
 {
 namespace
 {
-constexpr uint32_t SaveVersion = 19;
+constexpr uint32_t SaveVersion = 22;
 constexpr uint32_t SaveVersionAttackSpell = 19;
+constexpr uint32_t SaveVersionIndoorCorpseViews = 21;
+constexpr uint32_t SaveVersionIndoorChestViews = 22;
 constexpr char SaveMagic[8] = {'O', 'Y', 'S', 'A', 'V', 'E', '1', '\0'};
 
 std::string toLowerCopy(const std::string &value)
@@ -930,6 +932,32 @@ bool readValue(BinaryReader &reader, OutdoorMoveState &value)
         && readValue(reader, value.fallDistance);
 }
 
+void writeValue(BinaryWriter &writer, const IndoorMoveState &value)
+{
+    writeValue(writer, value.x);
+    writeValue(writer, value.y);
+    writeValue(writer, value.footZ);
+    writeValue(writer, value.eyeHeight);
+    writeValue(writer, value.verticalVelocity);
+    writeValue(writer, value.sectorId);
+    writeValue(writer, value.eyeSectorId);
+    writeValue(writer, value.supportFaceIndex);
+    writeValue(writer, value.grounded);
+}
+
+bool readValue(BinaryReader &reader, IndoorMoveState &value)
+{
+    return readValue(reader, value.x)
+        && readValue(reader, value.y)
+        && readValue(reader, value.footZ)
+        && readValue(reader, value.eyeHeight)
+        && readValue(reader, value.verticalVelocity)
+        && readValue(reader, value.sectorId)
+        && readValue(reader, value.eyeSectorId)
+        && readValue(reader, value.supportFaceIndex)
+        && readValue(reader, value.grounded);
+}
+
 void writeValue(BinaryWriter &writer, const OutdoorPartyMovementState &value)
 {
     writeValue(writer, value.running);
@@ -944,6 +972,42 @@ bool readValue(BinaryReader &reader, OutdoorPartyMovementState &value)
         && readValue(reader, value.flying)
         && readValue(reader, value.featherFall)
         && readValue(reader, value.waterWalk);
+}
+
+void writeValue(BinaryWriter &writer, const IndoorPartyRuntime::Snapshot &value)
+{
+    writeValue(writer, value.movementState);
+    writeValue(writer, value.movementAccumulatorSeconds);
+    writeValue(writer, value.pendingJumpRequested);
+}
+
+bool readValue(BinaryReader &reader, IndoorPartyRuntime::Snapshot &value)
+{
+    return readValue(reader, value.movementState)
+        && readValue(reader, value.movementAccumulatorSeconds)
+        && readValue(reader, value.pendingJumpRequested);
+}
+
+void writeValue(BinaryWriter &writer, const IndoorWorldRuntime::Snapshot &value)
+{
+    writeValue(writer, value.gameMinutes);
+    writeValue(writer, value.currentLocationReputation);
+    writeValue(writer, value.sessionChestSeed);
+    writeValue(writer, value.materializedChestViews);
+    writeValue(writer, value.activeChestView);
+    writeValue(writer, value.mapActorCorpseViews);
+    writeValue(writer, value.activeCorpseView);
+}
+
+bool readValue(BinaryReader &reader, IndoorWorldRuntime::Snapshot &value)
+{
+    return readValue(reader, value.gameMinutes)
+        && readValue(reader, value.currentLocationReputation)
+        && (reader.version() < SaveVersionIndoorChestViews || readValue(reader, value.sessionChestSeed))
+        && (reader.version() < SaveVersionIndoorChestViews || readValue(reader, value.materializedChestViews))
+        && (reader.version() < SaveVersionIndoorChestViews || readValue(reader, value.activeChestView))
+        && (reader.version() < SaveVersionIndoorCorpseViews || readValue(reader, value.mapActorCorpseViews))
+        && (reader.version() < SaveVersionIndoorCorpseViews || readValue(reader, value.activeCorpseView));
 }
 
 void writeValue(BinaryWriter &writer, const OutdoorPartyRuntime::Snapshot &value)
@@ -2030,6 +2094,8 @@ void writeValue(BinaryWriter &writer, const IndoorSceneRuntime::Snapshot &value)
 {
     writeValue(writer, value.mapDeltaData);
     writeValue(writer, value.eventRuntimeState);
+    writeValue(writer, value.worldRuntime);
+    writeValue(writer, value.partyRuntime);
     writeValue(writer, value.mechanismAccumulatorMilliseconds);
 }
 
@@ -2037,6 +2103,8 @@ bool readValue(BinaryReader &reader, IndoorSceneRuntime::Snapshot &value)
 {
     return readValue(reader, value.mapDeltaData)
         && readValue(reader, value.eventRuntimeState)
+        && (reader.version() < 20 || readValue(reader, value.worldRuntime))
+        && (reader.version() < 20 || readValue(reader, value.partyRuntime))
         && readValue(reader, value.mechanismAccumulatorMilliseconds);
 }
 
@@ -2148,7 +2216,7 @@ std::optional<GameSaveData> loadGameDataFromPath(const std::filesystem::path &pa
         return std::nullopt;
     }
 
-    if (version != 18 && version != SaveVersion)
+    if (version != 18 && version != 19 && version != 20 && version != 21 && version != SaveVersion)
     {
         error = "unsupported save version";
         return std::nullopt;

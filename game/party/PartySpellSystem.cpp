@@ -3,8 +3,6 @@
 #include "game/gameplay/GameMechanics.h"
 #include "game/items/ItemEnchantRuntime.h"
 #include "game/items/ItemEnchantTables.h"
-#include "game/outdoor/OutdoorPartyRuntime.h"
-#include "game/outdoor/OutdoorWorldRuntime.h"
 #include "game/party/SpellSchool.h"
 #include "game/party/SpellIds.h"
 #include "game/tables/SpellTable.h"
@@ -129,17 +127,17 @@ bool canApplyEnchantItemSpell(const ItemDefinition &itemDefinition, const Invent
         && item.artifactId == 0;
 }
 
-bool hasNearbyHostileActor(const OutdoorWorldRuntime &worldRuntime)
+bool hasNearbyHostileActor(const IGameplayWorldRuntime &worldRuntime)
 {
     for (size_t actorIndex = 0; actorIndex < worldRuntime.mapActorCount(); ++actorIndex)
     {
-        const OutdoorWorldRuntime::MapActorState *pActor = worldRuntime.mapActorState(actorIndex);
+        GameplayRuntimeActorState actor = {};
 
-        if (pActor != nullptr
-            && !pActor->isDead
-            && !pActor->isInvisible
-            && pActor->hostileToParty
-            && pActor->hasDetectedParty)
+        if (worldRuntime.actorRuntimeState(actorIndex, actor)
+            && !actor.isDead
+            && !actor.isInvisible
+            && actor.hostileToParty
+            && actor.hasDetectedParty)
         {
             return true;
         }
@@ -739,7 +737,7 @@ bool resolveSpellSkill(
     return skillLevel > 0;
 }
 
-bx::Vec3 resolveActorTargetPoint(const OutdoorWorldRuntime::MapActorState &actor)
+bx::Vec3 resolveActorTargetPoint(const GameplayRuntimeActorState &actor)
 {
     return {
         actor.preciseX,
@@ -1158,8 +1156,7 @@ PartySpellCastResult makeFailure(
 
 PartySpellCastResult PartySpellSystem::castSpell(
     Party &party,
-    OutdoorPartyRuntime &partyRuntime,
-    OutdoorWorldRuntime &worldRuntime,
+    IGameplayWorldRuntime &worldRuntime,
     const SpellTable &spellTable,
     const PartySpellCastRequest &request)
 {
@@ -1280,9 +1277,11 @@ PartySpellCastResult PartySpellSystem::castSpell(
         }
         else
         {
-            const OutdoorWorldRuntime::MapActorState *pActor = worldRuntime.mapActorState(*request.targetActorIndex);
+            GameplayRuntimeActorState actor = {};
 
-            if (pActor == nullptr || pActor->isDead || pActor->isInvisible)
+            if (!worldRuntime.actorRuntimeState(*request.targetActorIndex, actor)
+                || actor.isDead
+                || actor.isInvisible)
             {
                 return makeFailure(
                     request.spellId,
@@ -1292,7 +1291,7 @@ PartySpellCastResult PartySpellSystem::castSpell(
                     "Spell failed");
             }
 
-            targetPoint = resolveActorTargetPoint(*pActor);
+            targetPoint = resolveActorTargetPoint(actor);
         }
     }
     else if (rule->targetKind == PartySpellCastTargetKind::Character)
@@ -1309,8 +1308,9 @@ PartySpellCastResult PartySpellSystem::castSpell(
     }
     else if (rule->targetKind == PartySpellCastTargetKind::ActorOrCharacter)
     {
+        GameplayRuntimeActorState actor = {};
         const bool hasActorTarget =
-            request.targetActorIndex && worldRuntime.mapActorState(*request.targetActorIndex) != nullptr;
+            request.targetActorIndex && worldRuntime.actorRuntimeState(*request.targetActorIndex, actor);
         const bool hasCharacterTarget =
             request.targetCharacterIndex && party.member(*request.targetCharacterIndex) != nullptr;
 
@@ -1326,12 +1326,7 @@ PartySpellCastResult PartySpellSystem::castSpell(
 
         if (hasActorTarget)
         {
-            const OutdoorWorldRuntime::MapActorState *pActor = worldRuntime.mapActorState(*request.targetActorIndex);
-
-            if (pActor != nullptr)
-            {
-                targetPoint = resolveActorTargetPoint(*pActor);
-            }
+            targetPoint = resolveActorTargetPoint(actor);
         }
     }
     else if (rule->targetKind == PartySpellCastTargetKind::GroundPoint)
@@ -1414,10 +1409,10 @@ PartySpellCastResult PartySpellSystem::castSpell(
     }
 
     bool castSucceeded = false;
-    const OutdoorMoveState &moveState = partyRuntime.movementState();
-    const float sourceX = moveState.x;
-    const float sourceY = moveState.y;
-    const float sourceZ = moveState.footZ + 96.0f;
+    const float sourceX = worldRuntime.partyX();
+    const float sourceY = worldRuntime.partyY();
+    const float footZ = worldRuntime.partyFootZ();
+    const float sourceZ = footZ + 96.0f;
     result.hasSourcePoint = true;
     result.sourceX = sourceX;
     result.sourceY = sourceY;
@@ -1453,7 +1448,7 @@ PartySpellCastResult PartySpellSystem::castSpell(
                 static_cast<uint32_t>(request.casterMemberIndex));
         }
 
-        partyRuntime.syncSpellMovementStatesFromPartyBuffs();
+        worldRuntime.syncSpellMovementStatesFromPartyBuffs();
         castSucceeded = true;
         appendAllPartyMemberIndices(party, result.affectedCharacterIndices);
     }
@@ -1499,7 +1494,7 @@ PartySpellCastResult PartySpellSystem::castSpell(
             }
             else if (request.targetActorIndex)
             {
-                castSucceeded = worldRuntime.applyPartySpellToMapActor(
+                castSucceeded = worldRuntime.applyPartySpellToActor(
                     *request.targetActorIndex,
                     request.spellId,
                     skillLevel,
@@ -1507,7 +1502,7 @@ PartySpellCastResult PartySpellSystem::castSpell(
                     power,
                     sourceX,
                     sourceY,
-                    moveState.footZ,
+                    footZ,
                     static_cast<uint32_t>(request.casterMemberIndex));
             }
         }
@@ -1692,7 +1687,7 @@ PartySpellCastResult PartySpellSystem::castSpell(
     }
     else if (rule->effectKind == PartySpellCastEffectKind::Jump)
     {
-        partyRuntime.requestJump();
+        worldRuntime.requestPartyJump();
         castSucceeded = true;
     }
     else if (rule->effectKind == PartySpellCastEffectKind::UtilityUi)
@@ -1946,9 +1941,9 @@ PartySpellCastResult PartySpellSystem::castSpell(
                     LloydBeacon beacon = {};
                     beacon.mapName = worldRuntime.mapName();
                     beacon.locationName = request.utilityStatusText.empty() ? worldRuntime.mapName() : request.utilityStatusText;
-                    beacon.x = moveState.x;
-                    beacon.y = moveState.y;
-                    beacon.z = moveState.footZ;
+                    beacon.x = sourceX;
+                    beacon.y = sourceY;
+                    beacon.z = footZ;
                     beacon.directionDegrees = request.utilityMapMoveDirectionDegrees.value_or(
                         static_cast<int32_t>(std::round(request.viewYawRadians * 180.0f / Pi)));
                     beacon.remainingSeconds = secondsFromHours(static_cast<float>(24 * 7 * std::max<uint32_t>(1, skillLevel)));
@@ -1996,24 +1991,19 @@ PartySpellCastResult PartySpellSystem::castSpell(
     }
     else if (rule->effectKind == PartySpellCastEffectKind::Projectile)
     {
-        OutdoorWorldRuntime::SpellCastRequest worldRequest = {};
-        worldRequest.sourceKind = OutdoorWorldRuntime::RuntimeSpellSourceKind::Party;
-        worldRequest.sourceId = static_cast<uint32_t>(request.casterMemberIndex + 1);
-        worldRequest.sourcePartyMemberIndex = static_cast<uint32_t>(request.casterMemberIndex);
-        worldRequest.ability = OutdoorWorldRuntime::MonsterAttackAbility::Spell1;
+        GameplayPartySpellProjectileRequest worldRequest = {};
+        worldRequest.casterMemberIndex = static_cast<uint32_t>(request.casterMemberIndex);
         worldRequest.spellId = request.spellId;
         worldRequest.skillLevel = skillLevel;
-        worldRequest.skillMastery = static_cast<uint32_t>(skillMastery);
+        worldRequest.skillMastery = skillMastery;
         worldRequest.damage = rollSpellDamage(*rule, *pSpellEntry, skillLevel);
-        worldRequest.attackBonus = 0;
-        worldRequest.useActorHitChance = false;
         worldRequest.sourceX = sourceX;
         worldRequest.sourceY = sourceY;
         worldRequest.sourceZ = sourceZ;
         worldRequest.targetX = targetPoint.x;
         worldRequest.targetY = targetPoint.y;
         worldRequest.targetZ = targetPoint.z;
-            castSucceeded = worldRuntime.castPartySpell(worldRequest);
+        castSucceeded = worldRuntime.castPartySpellProjectile(worldRequest);
     }
     else if (rule->effectKind == PartySpellCastEffectKind::MultiProjectile)
     {
@@ -2033,24 +2023,19 @@ PartySpellCastResult PartySpellSystem::castSpell(
         {
             const float yawRadians =
                 targetAngleRadians + spreadStartRadians + spreadStepRadians * static_cast<float>(projectileIndex);
-            OutdoorWorldRuntime::SpellCastRequest worldRequest = {};
-            worldRequest.sourceKind = OutdoorWorldRuntime::RuntimeSpellSourceKind::Party;
-            worldRequest.sourceId = static_cast<uint32_t>(request.casterMemberIndex + 1);
-            worldRequest.sourcePartyMemberIndex = static_cast<uint32_t>(request.casterMemberIndex);
-            worldRequest.ability = OutdoorWorldRuntime::MonsterAttackAbility::Spell1;
+            GameplayPartySpellProjectileRequest worldRequest = {};
+            worldRequest.casterMemberIndex = static_cast<uint32_t>(request.casterMemberIndex);
             worldRequest.spellId = request.spellId;
             worldRequest.skillLevel = skillLevel;
-            worldRequest.skillMastery = static_cast<uint32_t>(skillMastery);
+            worldRequest.skillMastery = skillMastery;
             worldRequest.damage = rollSpellDamage(*rule, *pSpellEntry, skillLevel);
-            worldRequest.attackBonus = 0;
-            worldRequest.useActorHitChance = false;
             worldRequest.sourceX = sourceX;
             worldRequest.sourceY = sourceY;
             worldRequest.sourceZ = sourceZ;
             worldRequest.targetX = sourceX + std::cos(yawRadians) * std::max(512.0f, distance);
             worldRequest.targetY = sourceY + std::sin(yawRadians) * std::max(512.0f, distance);
             worldRequest.targetZ = baseTargetZ;
-            castSucceeded = worldRuntime.castPartySpell(worldRequest) || castSucceeded;
+            castSucceeded = worldRuntime.castPartySpellProjectile(worldRequest) || castSucceeded;
         }
     }
     else if (rule->effectKind == PartySpellCastEffectKind::ActorEffect)
@@ -2062,7 +2047,7 @@ PartySpellCastResult PartySpellSystem::castSpell(
 
         if (request.targetActorIndex)
         {
-            castSucceeded = worldRuntime.applyPartySpellToMapActor(
+            castSucceeded = worldRuntime.applyPartySpellToActor(
                 *request.targetActorIndex,
                 request.spellId,
                 skillLevel,
@@ -2070,7 +2055,7 @@ PartySpellCastResult PartySpellSystem::castSpell(
                 rollSpellDamage(*rule, *pSpellEntry, skillLevel),
                 sourceX,
                 sourceY,
-                moveState.footZ,
+                footZ,
                 static_cast<uint32_t>(request.casterMemberIndex));
 
             if (castSucceeded && spellId == SpellId::Lifedrain)
@@ -2104,7 +2089,7 @@ PartySpellCastResult PartySpellSystem::castSpell(
                         continue;
                     }
 
-                    worldRuntime.applyPartySpellToMapActor(
+                    worldRuntime.applyPartySpellToActor(
                         nearbyActorIndex,
                         request.spellId,
                         skillLevel,
@@ -2112,7 +2097,7 @@ PartySpellCastResult PartySpellSystem::castSpell(
                         0,
                         sourceX,
                         sourceY,
-                        moveState.footZ,
+                        footZ,
                         static_cast<uint32_t>(request.casterMemberIndex));
                 }
             }
@@ -2153,7 +2138,7 @@ PartySpellCastResult PartySpellSystem::castSpell(
     {
         const float effectCenterX = request.hasTargetPoint ? targetPoint.x : sourceX;
         const float effectCenterY = request.hasTargetPoint ? targetPoint.y : sourceY;
-        const float effectCenterZ = request.hasTargetPoint ? targetPoint.z : (moveState.footZ + 64.0f);
+        const float effectCenterZ = request.hasTargetPoint ? targetPoint.z : (footZ + 64.0f);
 
         if (spellId == SpellId::FireSpike)
         {
@@ -2194,7 +2179,7 @@ PartySpellCastResult PartySpellSystem::castSpell(
                     durationSeconds,
                     sourceX,
                     sourceY,
-                    moveState.footZ);
+                    footZ);
             }
 
             const bool outdoorsOnly =
@@ -2266,9 +2251,9 @@ PartySpellCastResult PartySpellSystem::castSpell(
 
             for (size_t actorIndex : actorIndices)
             {
-                const OutdoorWorldRuntime::MapActorState *pActor = worldRuntime.mapActorState(actorIndex);
+                GameplayRuntimeActorState actor = {};
 
-                if (pActor == nullptr || !pActor->hostileToParty)
+                if (!worldRuntime.actorRuntimeState(actorIndex, actor) || !actor.hostileToParty)
                 {
                     continue;
                 }
@@ -2276,16 +2261,16 @@ PartySpellCastResult PartySpellSystem::castSpell(
                 if (spellId == SpellId::SoulDrinker)
                 {
                     const float actorTargetZ =
-                        pActor->preciseZ + std::max(48.0f, static_cast<float>(pActor->height) * 0.6f);
+                        actor.preciseZ + std::max(48.0f, static_cast<float>(actor.height) * 0.6f);
 
-                    if (!isActorPointInsideSpellView(request, pActor->preciseX, pActor->preciseY, actorTargetZ))
+                    if (!isActorPointInsideSpellView(request, actor.preciseX, actor.preciseY, actorTargetZ))
                     {
                         continue;
                     }
                 }
 
                 const int spellDamage = rollSpellDamage(*rule, *pSpellEntry, skillLevel);
-                const bool applied = worldRuntime.applyPartySpellToMapActor(
+                const bool applied = worldRuntime.applyPartySpellToActor(
                     actorIndex,
                     request.spellId,
                     skillLevel,
@@ -2293,7 +2278,7 @@ PartySpellCastResult PartySpellSystem::castSpell(
                     spellDamage,
                     sourceX,
                     sourceY,
-                    moveState.footZ,
+                    footZ,
                     static_cast<uint32_t>(request.casterMemberIndex));
                 castSucceeded = applied || castSucceeded;
 

@@ -6,6 +6,7 @@
 #include "game/events/EventRuntime.h"
 #include "game/maps/MapDeltaData.h"
 #include "game/scene/IMapSceneRuntime.h"
+#include "game/tables/ChestTable.h"
 
 #include <cstddef>
 #include <optional>
@@ -20,6 +21,7 @@ public:
     {
         std::optional<MapDeltaData> mapDeltaData;
         std::optional<EventRuntimeState> eventRuntimeState;
+        IndoorWorldRuntime::Snapshot worldRuntime;
         IndoorPartyRuntime::Snapshot partyRuntime;
         float mechanismAccumulatorMilliseconds = 0.0f;
     };
@@ -31,6 +33,7 @@ public:
         const MonsterTable &monsterTable,
         const ObjectTable &objectTable,
         const ItemTable &itemTable,
+        const ChestTable &chestTable,
         Party &party,
         const std::optional<MapDeltaData> &indoorMapDeltaData,
         const std::optional<EventRuntimeState> &eventRuntimeState,

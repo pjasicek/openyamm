@@ -1,5 +1,6 @@
 #pragma once
 
+#include "game/events/EventRuntime.h"
 #include "game/outdoor/OutdoorMovementDriver.h"
 #include "game/party/Party.h"
 
@@ -32,6 +33,9 @@ public:
     const OutdoorPartyMovementState &partyMovementState() const;
     const Party &party() const;
     Party &party();
+    float partyX() const;
+    float partyY() const;
+    float partyFootZ() const;
     void setParty(const Party &party);
     Snapshot snapshot() const;
     void restoreSnapshot(const Snapshot &snapshot);

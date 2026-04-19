@@ -489,6 +489,15 @@ GameApplication::GameApplication(const Engine::ApplicationConfig &config)
         ),
         std::bind(&GameApplication::shutdownApplication, this)
     )
+    , m_gameSession()
+    , m_indoorGameView(
+        m_gameSession.gameplayUiController(),
+        m_gameSession.gameplayDialogController(),
+        m_gameSession.overlayInteractionState())
+    , m_outdoorGameView(
+        m_gameSession.gameplayUiController(),
+        m_gameSession.gameplayDialogController(),
+        m_gameSession.overlayInteractionState())
     , m_pAssetFileSystem(nullptr)
     , m_mapPickerIndex(0)
     , m_showMapPicker(false)
@@ -563,6 +572,7 @@ void GameApplication::applyCurrentSettingsToActiveRuntime()
     m_outdoorGameView.setShowHitStatusMessages(m_settings.showHits);
     m_outdoorGameView.setFlipOnExitEnabled(m_settings.flipOnExit);
     m_outdoorGameView.setSettingsSnapshot(m_settings);
+    m_indoorGameView.setSettingsSnapshot(m_settings);
 
     if (m_pOutdoorPartyRuntime != nullptr)
     {
@@ -763,6 +773,7 @@ bool GameApplication::initializeSelectedMapRuntime(bool initializeView)
             m_gameDataLoader.getSpellTable(),
             m_gameDataLoader.getItemTable(),
             &m_pOutdoorPartyRuntime->party(),
+            m_pOutdoorPartyRuntime.get(),
             m_gameDataLoader.getStandardItemEnchantTable(),
             m_gameDataLoader.getSpecialItemEnchantTable(),
             &m_gameDataLoader.getChestTable(),
@@ -889,6 +900,7 @@ bool GameApplication::initializeSelectedMapRuntime(bool initializeView)
             m_gameDataLoader.getMonsterTable(),
             m_gameDataLoader.getObjectTable(),
             m_gameDataLoader.getItemTable(),
+            m_gameDataLoader.getChestTable(),
             party,
             selectedMap->indoorMapDeltaData,
             selectedMap->eventRuntimeState,
@@ -926,6 +938,62 @@ bool GameApplication::initializeSelectedMapRuntime(bool initializeView)
                 << '\n';
             return false;
         }
+
+        if (initializeView
+            && !m_indoorGameView.initialize(
+                *m_pAssetFileSystem,
+                selectedMap->map,
+                m_gameDataLoader.getMapStats().getEntries(),
+                m_indoorDebugRenderer,
+                *pIndoorSceneRuntime,
+                m_gameDataLoader.getChestTable(),
+                m_gameDataLoader.getHouseTable(),
+                m_gameDataLoader.getClassSkillTable(),
+                m_gameDataLoader.getCharacterDollTable(),
+                m_gameDataLoader.getCharacterInspectTable(),
+                m_gameDataLoader.getNpcDialogTable(),
+                m_gameDataLoader.getRosterTable(),
+                m_gameDataLoader.getArcomageLibrary(),
+                m_gameDataLoader.getJournalQuestTable(),
+                m_gameDataLoader.getJournalHistoryTable(),
+                m_gameDataLoader.getJournalAutonoteTable(),
+                m_gameDataLoader.getItemTable(),
+                m_gameDataLoader.getReadableScrollTable(),
+                m_gameDataLoader.getStandardItemEnchantTable(),
+                m_gameDataLoader.getSpecialItemEnchantTable(),
+                m_gameDataLoader.getItemEquipPosTable(),
+                m_gameDataLoader.getSpellTable(),
+                &m_gameAudioSystem,
+                [this](
+                    const std::filesystem::path &path,
+                    const std::string &saveName,
+                    const std::vector<uint8_t> &previewBmp,
+                    std::string &error) -> bool
+                {
+                    static_cast<void>(error);
+                    return quickSaveToPath(path, saveName, previewBmp);
+                },
+                [this](const GameSettings &settings)
+                {
+                    m_settings = settings;
+                    std::string error;
+
+                    if (!saveGameSettings(settingsFilePath(), m_settings, error))
+                    {
+                        std::cerr << "GameApplication: failed to write settings.ini: " << error << '\n';
+                    }
+
+                    applyCurrentSettingsToActiveRuntime();
+                }))
+        {
+            std::cerr
+                << "GameApplication: indoor gameplay view initialization failed for map "
+                << selectedMap->map.fileName
+                << '\n';
+            return false;
+        }
+
+        m_indoorGameView.setSettingsSnapshot(m_settings);
 
         m_pMapSceneRuntime = std::move(pIndoorSceneRuntime);
         m_gameplayController.bindRuntime(m_pMapSceneRuntime.get());
@@ -1208,6 +1276,7 @@ void GameApplication::restoreSavedOutdoorWorldStateForSelectedMap()
 void GameApplication::shutdownRenderer()
 {
     m_outdoorGameView.shutdown();
+    m_indoorGameView.shutdown();
     m_indoorDebugRenderer.shutdown();
     m_gameplayController.clearRuntime();
     m_pMapSceneRuntime.reset();
@@ -1474,7 +1543,14 @@ void GameApplication::openLoadGameScreen(bool returnToGameplayMenu)
                             : AppMode::GameplayOutdoor);
                 }
 
-                m_outdoorGameView.reopenMenuScreen();
+                if (m_pMapSceneRuntime != nullptr && m_pMapSceneRuntime->kind() == SceneKind::Indoor)
+                {
+                    m_indoorGameView.reopenMenuScreen();
+                }
+                else
+                {
+                    m_outdoorGameView.reopenMenuScreen();
+                }
             }
             else
             {
@@ -1925,7 +2001,20 @@ void GameApplication::renderFrame(int width, int height, float mouseWheelDelta, 
         && selectedMap
         && selectedMap->indoorMapData)
     {
-        m_indoorDebugRenderer.render(width, height, mouseWheelDelta, deltaSeconds);
+        m_indoorGameView.render(width, height, mouseWheelDelta, deltaSeconds);
+
+        if (m_indoorGameView.consumePendingOpenNewGameScreenRequest())
+        {
+            openNewGameScreen();
+            return;
+        }
+
+        if (m_indoorGameView.consumePendingOpenLoadGameScreenRequest())
+        {
+            openLoadGameScreen(true);
+            return;
+        }
+
         const IndoorSceneRuntime *pIndoorRuntime = static_cast<const IndoorSceneRuntime *>(m_pMapSceneRuntime.get());
         const IndoorMoveState &moveState = pIndoorRuntime->partyRuntime().movementState();
         m_gameAudioSystem.update(moveState.x, moveState.y, moveState.eyeZ(), deltaSeconds);

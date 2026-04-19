@@ -28,10 +28,15 @@ public:
     const IndoorMoveState &movementState() const;
     const Party &party() const;
     Party &party();
+    float partyX() const;
+    float partyY() const;
+    float partyFootZ() const;
     void setParty(const Party &party);
     Snapshot snapshot() const;
     void restoreSnapshot(const Snapshot &snapshot);
     void setMovementSpeedMultiplier(float multiplier);
+    void syncSpellMovementStatesFromPartyBuffs();
+    void requestJump();
 
 private:
     IndoorMovementController m_movementController;

@@ -6,6 +6,7 @@
 #include "game/tables/ObjectTable.h"
 #include "game/maps/MapDeltaData.h"
 #include "game/maps/MapAssetLoader.h"
+#include "game/render/TextureFiltering.h"
 #include "game/tables/MapStats.h"
 #include "game/tables/MonsterTable.h"
 #include "game/events/EventRuntime.h"
@@ -48,6 +49,20 @@ public:
     );
     void render(int width, int height, float mouseWheelDelta, float deltaSeconds);
     void setCameraPosition(float x, float y, float z);
+    bool hasHudRenderResources() const;
+    void prepareHudView(int width, int height) const;
+    void submitHudTextureQuad(
+        bgfx::TextureHandle textureHandle,
+        float x,
+        float y,
+        float quadWidth,
+        float quadHeight,
+        float u0,
+        float v0,
+        float u1,
+        float v1,
+        TextureFilterProfile filterProfile = TextureFilterProfile::Ui) const;
+    void setGameplayMouseLookMode(bool enabled, bool cursorMode);
     void shutdown();
 
 private:
@@ -300,6 +315,8 @@ private:
     bool m_showEntities;
     bool m_showSpawns;
     bool m_showDoors;
+    bool m_gameplayMouseLookEnabled = false;
+    bool m_gameplayCursorMode = false;
     bool m_inspectMode;
     bool m_toggleEntitiesLatch;
     bool m_toggleSpawnsLatch;

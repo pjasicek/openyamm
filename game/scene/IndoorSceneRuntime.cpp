@@ -27,6 +27,7 @@ IndoorSceneRuntime::IndoorSceneRuntime(
     const MonsterTable &monsterTable,
     const ObjectTable &objectTable,
     const ItemTable &itemTable,
+    const ChestTable &chestTable,
     Party &party,
     const std::optional<MapDeltaData> &indoorMapDeltaData,
     const std::optional<EventRuntimeState> &eventRuntimeState,
@@ -47,7 +48,9 @@ IndoorSceneRuntime::IndoorSceneRuntime(
         monsterTable,
         objectTable,
         itemTable,
+        chestTable,
         m_pParty,
+        &m_partyRuntime,
         &m_mapDeltaData,
         &m_eventRuntimeState
     );
@@ -172,6 +175,7 @@ IndoorSceneRuntime::Snapshot IndoorSceneRuntime::snapshot() const
     Snapshot snapshot = {};
     snapshot.mapDeltaData = m_mapDeltaData;
     snapshot.eventRuntimeState = m_eventRuntimeState;
+    snapshot.worldRuntime = m_worldRuntime.snapshot();
     snapshot.partyRuntime = m_partyRuntime.snapshot();
     snapshot.mechanismAccumulatorMilliseconds = m_mechanismAccumulatorMilliseconds;
     return snapshot;
@@ -181,6 +185,7 @@ void IndoorSceneRuntime::restoreSnapshot(const Snapshot &snapshot)
 {
     m_mapDeltaData = snapshot.mapDeltaData;
     m_eventRuntimeState = snapshot.eventRuntimeState;
+    m_worldRuntime.restoreSnapshot(snapshot.worldRuntime);
     m_partyRuntime.restoreSnapshot(snapshot.partyRuntime);
     m_partyRuntime.setParty(*m_pParty);
     m_mechanismAccumulatorMilliseconds = snapshot.mechanismAccumulatorMilliseconds;

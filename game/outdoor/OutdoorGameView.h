@@ -36,8 +36,10 @@
 #include "game/tables/SpellTable.h"
 #include "game/tables/SpellFxTable.h"
 #include "game/gameplay/GameplayDialogController.h"
+#include "game/ui/GameplayHudCommon.h"
 #include "game/ui/GameplayUiController.h"
-#include "game/ui/GameplayOverlayContext.h"
+#include "game/ui/GameplayOverlayTypes.h"
+#include "game/ui/IGameplayOverlayView.h"
 #include "game/ui/UiLayoutManager.h"
 #include "engine/AssetFileSystem.h"
 
@@ -82,10 +84,13 @@ class ItemTable;
 struct GameApplicationTestAccess;
 struct ItemDefinition;
 
-class OutdoorGameView
+class OutdoorGameView : public IGameplayOverlayView
 {
 public:
-    OutdoorGameView();
+    OutdoorGameView(
+        GameplayUiController &gameplayUiController,
+        GameplayDialogController &gameplayDialogController,
+        GameplayOverlayInteractionState &overlayInteractionState);
     ~OutdoorGameView();
 
     OutdoorGameView(const OutdoorGameView &) = delete;
@@ -148,7 +153,6 @@ public:
     bool consumePendingOpenLoadGameScreenRequest();
     bool requestQuickSave();
     void setSettingsSnapshot(const GameSettings &settings);
-    const GameSettings &settingsSnapshot() const;
 
 private:
     friend struct GameApplicationTestAccess;
@@ -258,16 +262,7 @@ private:
         bgfx::TextureHandle textureHandle = BGFX_INVALID_HANDLE;
     };
 
-    struct HudTextureHandle
-    {
-        std::string textureName;
-        int width = 0;
-        int height = 0;
-        int physicalWidth = 0;
-        int physicalHeight = 0;
-        std::vector<uint8_t> bgraPixels;
-        bgfx::TextureHandle textureHandle = BGFX_INVALID_HANDLE;
-    };
+    using HudTextureHandle = GameplayHudTextureData;
 
     struct SkyTextureHandle
     {
@@ -291,41 +286,10 @@ private:
         size_t currentFrameIndex = 0;
     };
 
-    struct HudFontGlyphMetrics
-    {
-        int leftSpacing = 0;
-        int width = 0;
-        int rightSpacing = 0;
-    };
-
-    struct HudFontHandle
-    {
-        std::string fontName;
-        int firstChar = 0;
-        int lastChar = 0;
-        int fontHeight = 0;
-        int atlasCellWidth = 0;
-        int atlasWidth = 0;
-        int atlasHeight = 0;
-        std::array<HudFontGlyphMetrics, 256> glyphMetrics = {{}};
-        std::vector<uint8_t> mainAtlasPixels;
-        bgfx::TextureHandle mainTextureHandle = BGFX_INVALID_HANDLE;
-        bgfx::TextureHandle shadowTextureHandle = BGFX_INVALID_HANDLE;
-    };
-
-    struct HudFontColorTextureHandle
-    {
-        std::string fontName;
-        uint32_t colorAbgr = 0xffffffffu;
-        bgfx::TextureHandle textureHandle = BGFX_INVALID_HANDLE;
-    };
-
-    struct HudTextureColorTextureHandle
-    {
-        std::string textureName;
-        uint32_t colorAbgr = 0xffffffffu;
-        bgfx::TextureHandle textureHandle = BGFX_INVALID_HANDLE;
-    };
+    using HudFontGlyphMetrics = GameplayHudFontGlyphMetricsData;
+    using HudFontHandle = GameplayHudFontData;
+    using HudFontColorTextureHandle = GameplayHudFontColorTextureData;
+    using HudTextureColorTextureHandle = GameplayHudTextureColorTextureData;
 
     using HudLayoutAnchor = UiLayoutManager::LayoutAnchor;
     using HudLayoutAttachMode = UiLayoutManager::LayoutAttachMode;
@@ -354,24 +318,7 @@ private:
     using CharacterPage = GameplayUiController::CharacterPage;
     using CharacterScreenSource = GameplayUiController::CharacterScreenSource;
 
-    enum class CharacterPointerTargetType
-    {
-        None,
-        PageButton,
-        ExitButton,
-        DismissButton,
-        MagnifyButton,
-        AdventurersInnHireButton,
-        AdventurersInnScrollUpButton,
-        AdventurersInnScrollDownButton,
-        AdventurersInnPortrait,
-        StatRow,
-        SkillRow,
-        InventoryItem,
-        InventoryCell,
-        EquipmentSlot,
-        DollPanel
-    };
+    using CharacterPointerTargetType = GameplayCharacterPointerTargetType;
 
 public:
     static constexpr float HeldGameplayActionRepeatDebounceSeconds = 0.14f;
@@ -488,138 +435,18 @@ public:
         Interaction,
     };
 
-    enum class SpellbookPointerTargetType
-    {
-        None,
-        SchoolButton,
-        SpellButton,
-        CloseButton,
-        QuickCastButton,
-        AttackCastButton
-    };
-
-    enum class MenuPointerTargetType
-    {
-        None,
-        NewGameButton,
-        SaveGameButton,
-        LoadGameButton,
-        ControlsButton,
-        QuitButton,
-        ReturnButton
-    };
-
-    enum class ControlsPointerTargetType
-    {
-        None,
-        ConfigureKeyboardButton,
-        VideoOptionsButton,
-        TurnRate16Button,
-        TurnRate32Button,
-        TurnRateSmoothButton,
-        WalkSoundButton,
-        ShowHitsButton,
-        AlwaysRunButton,
-        FlipOnExitButton,
-        SoundLeftButton,
-        SoundTrack,
-        SoundRightButton,
-        MusicLeftButton,
-        MusicTrack,
-        MusicRightButton,
-        VoiceLeftButton,
-        VoiceTrack,
-        VoiceRightButton,
-        ReturnButton
-    };
-
-    enum class KeyboardPointerTargetType
-    {
-        None,
-        BindingRow,
-        Page1Button,
-        Page2Button,
-        DefaultButton,
-        BackButton,
-        ReturnButton
-    };
-
-    enum class VideoOptionsPointerTargetType
-    {
-        None,
-        BloodSplatsButton,
-        ColoredLightsButton,
-        TintingButton,
-        ReturnButton
-    };
-
-    enum class SaveLoadPointerTargetType
-    {
-        None,
-        Slot,
-        ScrollUpButton,
-        ScrollDownButton,
-        ConfirmButton,
-        CancelButton
-    };
+    using SpellbookPointerTargetType = GameplaySpellbookPointerTargetType;
 
 private:
-    enum class RestPointerTargetType
-    {
-        None,
-        OpenButton,
-        Rest8HoursButton,
-        WaitUntilDawnButton,
-        Wait1HourButton,
-        Wait5MinutesButton,
-        ExitButton
-    };
-
     enum class InventoryNestedOverlayPointerTargetType
     {
         None,
         CloseButton
     };
 
-    enum class JournalPointerTargetType
-    {
-        None,
-        MainMapView,
-        MainQuestsView,
-        MainStoryView,
-        MainNotesView,
-        PrevPageButton,
-        NextPageButton,
-        NotesPotionButton,
-        NotesFountainButton,
-        NotesObeliskButton,
-        NotesSeerButton,
-        NotesMiscButton,
-        NotesTrainerButton,
-        MapZoomInButton,
-        MapZoomOutButton,
-        MapPanNorthButton,
-        MapPanSouthButton,
-        MapPanEastButton,
-        MapPanWestButton,
-        CloseButton
-    };
-
     using ItemInspectSourceType = GameplayUiController::ItemInspectSourceType;
 
-    struct CharacterPointerTarget
-    {
-        CharacterPointerTargetType type = CharacterPointerTargetType::None;
-        CharacterPage page = CharacterPage::Inventory;
-        std::string statName;
-        std::string skillName;
-        uint8_t gridX = 0;
-        uint8_t gridY = 0;
-        EquipmentSlot equipmentSlot = EquipmentSlot::MainHand;
-        size_t innIndex = 0;
-
-        bool operator==(const CharacterPointerTarget &other) const = default;
-    };
+    using CharacterPointerTarget = GameplayCharacterPointerTarget;
 
     using HeldInventoryItemState = GameplayUiController::HeldInventoryItemState;
     using ItemInspectOverlayState = GameplayUiController::ItemInspectOverlayState;
@@ -664,36 +491,30 @@ private:
         std::vector<TexturedTerrainVertex> vertices;
     };
 
-    struct SpellbookPointerTarget
-    {
-        SpellbookPointerTargetType type = SpellbookPointerTargetType::None;
-        SpellbookSchool school = SpellbookSchool::Fire;
-        uint32_t spellId = 0;
-
-        bool operator==(const SpellbookPointerTarget &other) const = default;
-    };
+    using SpellbookPointerTarget = GameplaySpellbookPointerTarget;
 
     using SpellbookState = GameplayUiController::SpellbookState;
     using UtilitySpellOverlayState = GameplayUiController::UtilitySpellOverlayState;
     using RestScreenState = GameplayUiController::RestScreenState;
     using RestMode = GameplayUiController::RestMode;
+    using RestPointerTargetType = GameplayRestPointerTargetType;
+    using RestPointerTarget = GameplayRestPointerTarget;
     using MenuScreenState = GameplayUiController::MenuScreenState;
     using ControlsScreenState = GameplayUiController::ControlsScreenState;
+    using ControlsPointerTargetType = GameplayControlsPointerTargetType;
+    using ControlsPointerTarget = GameplayControlsPointerTarget;
     using KeyboardScreenState = GameplayUiController::KeyboardScreenState;
+    using KeyboardPointerTargetType = GameplayKeyboardPointerTargetType;
+    using KeyboardPointerTarget = GameplayKeyboardPointerTarget;
     using VideoOptionsScreenState = GameplayUiController::VideoOptionsScreenState;
+    using VideoOptionsPointerTargetType = GameplayVideoOptionsPointerTargetType;
+    using VideoOptionsPointerTarget = GameplayVideoOptionsPointerTarget;
     using SaveSlotSummary = GameplayUiController::SaveSlotSummary;
     using SaveGameScreenState = GameplayUiController::SaveGameScreenState;
     using LoadGameScreenState = GameplayUiController::LoadGameScreenState;
     using JournalScreenState = GameplayUiController::JournalScreenState;
     using JournalView = GameplayUiController::JournalView;
     using JournalNotesCategory = GameplayUiController::JournalNotesCategory;
-
-    struct RestPointerTarget
-    {
-        RestPointerTargetType type = RestPointerTargetType::None;
-
-        bool operator==(const RestPointerTarget &other) const = default;
-    };
 
     struct InventoryNestedOverlayPointerTarget
     {
@@ -702,50 +523,10 @@ private:
         bool operator==(const InventoryNestedOverlayPointerTarget &other) const = default;
     };
 
-    struct JournalPointerTarget
-    {
-        JournalPointerTargetType type = JournalPointerTargetType::None;
-
-        bool operator==(const JournalPointerTarget &other) const = default;
-    };
-
-    struct MenuPointerTarget
-    {
-        MenuPointerTargetType type = MenuPointerTargetType::None;
-
-        bool operator==(const MenuPointerTarget &other) const = default;
-    };
-
-    struct SaveLoadPointerTarget
-    {
-        SaveLoadPointerTargetType type = SaveLoadPointerTargetType::None;
-        size_t slotIndex = 0;
-
-        bool operator==(const SaveLoadPointerTarget &other) const = default;
-    };
-
-    struct ControlsPointerTarget
-    {
-        ControlsPointerTargetType type = ControlsPointerTargetType::None;
-        int sliderValue = 0;
-
-        bool operator==(const ControlsPointerTarget &other) const = default;
-    };
-
-    struct KeyboardPointerTarget
-    {
-        KeyboardPointerTargetType type = KeyboardPointerTargetType::None;
-        KeyboardAction action = KeyboardAction::Forward;
-
-        bool operator==(const KeyboardPointerTarget &other) const = default;
-    };
-
-    struct VideoOptionsPointerTarget
-    {
-        VideoOptionsPointerTargetType type = VideoOptionsPointerTargetType::None;
-
-        bool operator==(const VideoOptionsPointerTarget &other) const = default;
-    };
+    using MenuPointerTargetType = GameplayMenuPointerTargetType;
+    using SaveLoadPointerTargetType = GameplaySaveLoadPointerTargetType;
+    using MenuPointerTarget = GameplayMenuPointerTarget;
+    using SaveLoadPointerTarget = GameplaySaveLoadPointerTarget;
 
     struct PendingSavePreviewCaptureState
     {
@@ -764,14 +545,7 @@ private:
 
     using HudLayoutElement = UiLayoutManager::LayoutElement;
 
-    struct ResolvedHudLayoutElement
-    {
-        float x = 0.0f;
-        float y = 0.0f;
-        float width = 0.0f;
-        float height = 0.0f;
-        float scale = 1.0f;
-    };
+    using ResolvedHudLayoutElement = GameplayResolvedHudLayoutElement;
 
 public:
     using OverlayResolvedHudLayoutElement = ResolvedHudLayoutElement;
@@ -779,13 +553,7 @@ public:
 
 private:
 
-    struct SpriteLoadCache
-    {
-        std::unordered_map<std::string, std::unordered_map<std::string, std::string>> directoryAssetPathsByPath;
-        std::unordered_map<std::string, std::optional<std::string>> assetPathByKey;
-        std::unordered_map<std::string, std::optional<std::vector<uint8_t>>> binaryFilesByPath;
-        std::unordered_map<int16_t, std::optional<std::array<uint8_t, 256 * 3>>> actPalettesById;
-    };
+    using SpriteLoadCache = GameplayAssetLoadCache;
 
 public:
     enum class InteractiveDecorationFamily
@@ -817,6 +585,187 @@ public:
     void setWalkSoundEnabled(bool active);
     void setShowHitStatusMessages(bool active);
     void setFlipOnExitEnabled(bool active);
+    OutdoorPartyRuntime *partyRuntime() const;
+    IGameplayWorldRuntime *worldRuntime() const override;
+    GameAudioSystem *audioSystem() const override;
+    const ItemTable *itemTable() const override;
+    const StandardItemEnchantTable *standardItemEnchantTable() const override;
+    const SpecialItemEnchantTable *specialItemEnchantTable() const override;
+    const ClassSkillTable *classSkillTable() const override;
+    const CharacterDollTable *characterDollTable() const override;
+    const CharacterInspectTable *characterInspectTable() const override;
+    const RosterTable *rosterTable() const override;
+    const ReadableScrollTable *readableScrollTable() const override;
+    const ItemEquipPosTable *itemEquipPosTable() const override;
+    const SpellTable *spellTable() const override;
+    const std::optional<HouseTable> &houseTable() const override;
+    const std::optional<ChestTable> &chestTable() const override;
+    const std::optional<NpcDialogTable> &npcDialogTable() const override;
+    GameplayUiController &uiController() override;
+    const GameplayUiController &uiController() const override;
+    GameplayOverlayInteractionState &overlayInteractionState() override;
+    const GameplayOverlayInteractionState &overlayInteractionState() const override;
+    const JournalQuestTable *journalQuestTable() const override;
+    const JournalHistoryTable *journalHistoryTable() const override;
+    const JournalAutonoteTable *journalAutonoteTable() const override;
+    const std::string &currentMapFileName() const override;
+    float gameplayCameraYawRadians() const override;
+    const std::vector<uint8_t> *journalMapFullyRevealedCells() const override;
+    const std::vector<uint8_t> *journalMapPartiallyRevealedCells() const override;
+    bool trySelectPartyMember(size_t memberIndex, bool requireGameplayReady) override;
+    void setStatusBarEvent(const std::string &text, float durationSeconds = 2.0f) override;
+    void handleDialogueCloseRequest() override;
+    void closeRestOverlay() override;
+    void openMenuOverlay() override;
+    void closeMenuOverlay() override;
+    void openControlsOverlay() override;
+    void closeControlsOverlay() override;
+    void openKeyboardOverlay() override;
+    void closeKeyboardOverlayToControls() override;
+    void closeKeyboardOverlayToMenu() override;
+    void openVideoOptionsOverlay() override;
+    void closeVideoOptionsOverlay() override;
+    void openSaveGameOverlay() override;
+    void closeSaveGameOverlay() override;
+    void requestOpenLoadGameScreen() override;
+    void openJournalOverlay() override;
+    void closeJournalOverlay() override;
+    void executeActiveDialogAction() override;
+    void refreshHouseBankInputDialog() override;
+    void confirmHouseBankInput() override;
+    void closeInventoryNestedOverlay() override;
+    void closeSpellbookOverlay(const std::string &statusText = "") override;
+    bool tryUseHeldItemOnPartyMember(size_t memberIndex, bool keepCharacterScreenOpen) override;
+    void updateReadableScrollOverlayForHeldItem(
+        size_t memberIndex,
+        const CharacterPointerTarget &pointerTarget,
+        bool isLeftMousePressed) override;
+    void closeReadableScrollOverlay() override;
+    void resetInventoryNestedOverlayInteractionState() override;
+    void playSpeechReaction(size_t memberIndex, SpeechId speechId, bool triggerFaceAnimation) override;
+    bool tryCastSpellFromMember(
+        size_t casterMemberIndex,
+        uint32_t spellId,
+        const std::string &spellName) override;
+    GameSettings &mutableSettings() override;
+    const std::array<uint8_t, SDL_SCANCODE_COUNT> &previousKeyboardState() const override;
+    void commitSettingsChange() override;
+    bool trySaveToSelectedGameSlot() override;
+    int restFoodRequired() const override;
+    const GameSettings &settingsSnapshot() const override;
+    bool isControlsRenderButtonPressed(GameplayControlsRenderButton button) const override;
+    bool isVideoOptionsRenderButtonPressed(GameplayVideoOptionsRenderButton button) const override;
+    void clearHudLayoutRuntimeHeightOverrides() override;
+    void setHudLayoutRuntimeHeightOverride(const std::string &layoutId, float height) override;
+    const HouseEntry *findHouseEntry(uint32_t houseId) const override;
+    const UiLayoutManager::LayoutElement *findHudLayoutElement(const std::string &layoutId) const override;
+    int defaultHudLayoutZIndexForScreen(const std::string &screen) const override;
+    GameplayHudScreenState currentGameplayHudScreenState() const override;
+    std::vector<std::string> sortedHudLayoutIdsForScreen(const std::string &screen) const override;
+    std::optional<GameplayResolvedHudLayoutElement> resolveHudLayoutElement(
+        const std::string &layoutId,
+        int screenWidth,
+        int screenHeight,
+        float fallbackWidth,
+        float fallbackHeight) const override;
+    std::optional<GameplayResolvedHudLayoutElement> resolveGameplayChestGridArea(int width, int height) const override;
+    std::optional<GameplayResolvedHudLayoutElement> resolveGameplayInventoryNestedOverlayGridArea(
+        int width,
+        int height) const override;
+    std::optional<GameplayResolvedHudLayoutElement> resolveGameplayHouseShopOverlayFrame(
+        int width,
+        int height) const override;
+    bool isPointerInsideResolvedElement(
+        const GameplayResolvedHudLayoutElement &resolved,
+        float pointerX,
+        float pointerY) const override;
+    std::optional<std::string> resolveInteractiveAssetName(
+        const UiLayoutManager::LayoutElement &layout,
+        const GameplayResolvedHudLayoutElement &resolved,
+        float pointerX,
+        float pointerY,
+        bool isLeftMousePressed) const override;
+    std::optional<GameplayHudTextureHandle> ensureHudTextureLoaded(const std::string &textureName) override;
+    std::optional<GameplayHudTextureHandle> ensureSolidHudTextureLoaded(
+        const std::string &textureName,
+        uint32_t abgrColor) override;
+    std::optional<GameplayHudTextureHandle> ensureDynamicHudTexture(
+        const std::string &textureName,
+        int width,
+        int height,
+        const std::vector<uint8_t> &bgraPixels) override;
+    const std::vector<uint8_t> *hudTexturePixels(
+        const std::string &textureName,
+        int &width,
+        int &height) override;
+    bool ensureHudTextureDimensions(const std::string &textureName, int &width, int &height) override;
+    bool tryGetOpaqueHudTextureBounds(
+        const std::string &textureName,
+        int &width,
+        int &height,
+        int &opaqueMinX,
+        int &opaqueMinY,
+        int &opaqueMaxX,
+        int &opaqueMaxY) override;
+    void submitHudTexturedQuad(
+        const GameplayHudTextureHandle &texture,
+        float x,
+        float y,
+        float quadWidth,
+        float quadHeight) const override;
+    bgfx::TextureHandle ensureHudTextureColor(
+        const GameplayHudTextureHandle &texture,
+        uint32_t colorAbgr) const override;
+    void renderLayoutLabel(
+        const UiLayoutManager::LayoutElement &layout,
+        const GameplayResolvedHudLayoutElement &resolved,
+        const std::string &label) const override;
+    std::optional<GameplayHudFontHandle> findHudFont(const std::string &fontName) const override;
+    float measureHudTextWidth(const GameplayHudFontHandle &font, const std::string &text) const override;
+    std::vector<std::string> wrapHudTextToWidth(
+        const GameplayHudFontHandle &font,
+        const std::string &text,
+        float maxWidth) const override;
+    bgfx::TextureHandle ensureHudFontMainTextureColor(
+        const GameplayHudFontHandle &font,
+        uint32_t colorAbgr) const override;
+    void renderHudFontLayer(
+        const GameplayHudFontHandle &font,
+        bgfx::TextureHandle textureHandle,
+        const std::string &text,
+        float textX,
+        float textY,
+        float fontScale) const override;
+    bool hasHudRenderResources() const override;
+    void prepareHudView(int width, int height) const override;
+    void submitHudQuadBatch(
+        const std::vector<GameplayHudBatchQuad> &quads,
+        int screenWidth,
+        int screenHeight) const override;
+    std::string resolvePortraitTextureName(const Character &character) const override;
+    void consumePendingPortraitEventFxRequests() override;
+    void renderPortraitFx(
+        size_t memberIndex,
+        float portraitX,
+        float portraitY,
+        float portraitWidth,
+        float portraitHeight) const override;
+    bool tryGetGameplayMinimapState(GameplayMinimapState &state) const override;
+    void collectGameplayMinimapMarkers(std::vector<GameplayMinimapMarkerState> &markers) const override;
+    void addRenderedInspectableHudItem(const GameplayRenderedInspectableHudItem &item) override;
+    const std::vector<GameplayRenderedInspectableHudItem> &renderedInspectableHudItems() const override;
+    bool isOpaqueHudPixelAtPoint(const GameplayRenderedInspectableHudItem &item, float x, float y) const override;
+    void submitWorldTextureQuad(
+        bgfx::TextureHandle textureHandle,
+        float x,
+        float y,
+        float quadWidth,
+        float quadHeight,
+        float u0,
+        float v0,
+        float u1,
+        float v1) const override;
+    bool renderHouseVideoFrame(float x, float y, float quadWidth, float quadHeight) const override;
 
 private:
     static ResolvedHudLayoutElement resolveAttachedHudLayoutRect(
@@ -827,7 +776,7 @@ private:
         float gapX,
         float gapY,
         float scale);
-    void updateCameraFromInput(float deltaSeconds);
+    void updateCameraFromInput(float mouseWheelDelta, float deltaSeconds);
     float effectiveCameraYawRadians() const;
     float effectiveCameraPitchRadians() const;
     void renderGameplayHudArt(int width, int height);
@@ -841,7 +790,6 @@ private:
     void preloadSpriteFrameTextures(const SpriteFrameTable &spriteFrameTable, uint16_t spriteFrameIndex);
     void queueSpriteFrameWarmup(uint16_t spriteFrameIndex);
     HudScreenState currentHudScreenState() const;
-    void setStatusBarEvent(const std::string &text, float durationSeconds = 2.0f);
     void updateStatusBarEvent(float deltaSeconds);
     void updateHouseVideoPlayback(float deltaSeconds);
     void renderCharacterOverlay(int width, int height, bool renderAboveHud) const;
@@ -885,11 +833,8 @@ private:
     bool hasActiveEventDialog() const;
     std::optional<size_t> resolvePartyPortraitIndexAtPoint(int width, int height, float x, float y);
     std::optional<ResolvedHudLayoutElement> resolvePartyPortraitRect(int width, int height, size_t memberIndex);
-    bool trySelectPartyMember(size_t memberIndex, bool requireGameplayReady);
     bool tryAutoPlaceHeldItemOnPartyMember(size_t memberIndex, bool showFailureStatus = true);
-    bool tryUseHeldItemOnPartyMember(size_t memberIndex, bool keepCharacterScreenOpen);
     void openInventoryNestedOverlay(InventoryNestedOverlayMode mode, uint32_t houseId = 0);
-    void closeInventoryNestedOverlay();
     void updateItemInspectOverlayState(int width, int height);
     void tryApplyItemInspectSkillInteraction();
     void updateCharacterInspectOverlayState(int width, int height);
@@ -905,25 +850,16 @@ private:
     void triggerPortraitFaceAnimation(size_t memberIndex, FaceAnimationId animationId);
     void triggerPortraitFaceAnimationForAllLivingMembers(FaceAnimationId animationId);
     uint32_t defaultPortraitAnimationLengthTicks(PortraitId portraitId) const;
-    bool isAdventurersInnCharacterSourceActive() const;
-    bool isAdventurersInnScreenActive() const;
-    bool isReadOnlyAdventurersInnCharacterViewActive() const;
-    const Character *selectedCharacterScreenCharacter() const;
-    Character *selectedCharacterScreenCharacter();
     const AdventurersInnMember *selectedAdventurersInnMember() const;
     AdventurersInnMember *selectedAdventurersInnMember();
-    std::string resolvePortraitTextureName(const Character &character) const;
     bool triggerPortraitFxAnimation(const std::string &animationName, const std::vector<size_t> &memberIndices);
     void triggerPortraitSpellFx(const PartySpellCastResult &result);
     void triggerPortraitEventFx(const EventRuntimeState::PortraitFxRequest &request);
-    void consumePendingPortraitEventFxRequests();
     bool canPlaySpeechReaction(size_t memberIndex, SpeechId speechId, uint32_t nowTicks);
-    void playSpeechReaction(size_t memberIndex, SpeechId speechId, bool triggerFaceAnimation);
     void consumePendingPartyAudioRequests();
     void consumePendingEventRuntimeAudioRequests();
     void consumePendingWorldAudioEvents();
     void updateFootstepAudio(float deltaSeconds);
-    void renderPortraitFx(size_t memberIndex, float portraitX, float portraitY, float portraitWidth, float portraitHeight) const;
     QuickSpellCastResult tryBeginQuickSpellCast();
     bool tryCastSpellFromMember(
         size_t casterMemberIndex,
@@ -938,9 +874,8 @@ private:
     std::optional<size_t> resolveClosestQuickCastVisibleActorIndex(float sourceX, float sourceY, float sourceZ) const;
     bool buildQuickCastInspectRayForScreenPoint(float screenX, float screenY, bx::Vec3 &rayOrigin, bx::Vec3 &rayDirection) const;
     std::optional<bx::Vec3> resolveQuickCastCursorTargetPoint(float cursorX, float cursorY) const;
-    void updateReadableScrollOverlayForHeldItem(size_t memberIndex, const CharacterPointerTarget &pointerTarget, bool isLeftMousePressed);
     void triggerPortraitEventFxWithoutSpeech(size_t memberIndex, PortraitFxEventKind kind);
-    bool tryCastSpellRequest(const PartySpellCastRequest &request, const std::string &spellName);
+    bool tryCastSpellRequest(const PartySpellCastRequest &request, const std::string &spellName) override;
     bool loadTownPortalDestinations(const Engine::AssetFileSystem &assetFileSystem);
     void openSpellbook();
     void closeSpellbook(const std::string &statusText = "");
@@ -965,18 +900,14 @@ private:
     void refreshLoadGameSlots();
     std::string resolveSaveLocationName(const std::string &mapFileName) const;
     bool beginSaveWithPreview(const std::filesystem::path &path, const std::string &saveName, bool closeUiOnSuccess);
-    bool trySaveToSelectedGameSlot();
     bool tryLoadFromSelectedGameSlot();
-    void commitSettingsChange();
     void clearWorldInteractionInputLatches();
-    int restFoodRequired() const;
     float innRestDurationMinutes(uint32_t houseId) const;
     void startInnRest(uint32_t houseId);
     void beginRestAction(RestMode mode, float minutes, bool consumeFood);
     void startRestAction(RestMode mode, float minutes);
     void completeRestAction(bool closeRestScreenAfterCompletion);
     void updateRestScreen(float deltaSeconds);
-    void closeReadableScrollOverlay();
     void clearPendingSpellCast(const std::string &statusText = "");
     bool tryResolvePendingSpellCast(
         const InspectHit &actorInspectHit,
@@ -987,20 +918,6 @@ private:
     bool shouldEnableGameplayMouseLook() const;
     void syncGameplayMouseLookMode(SDL_Window *pWindow, bool enabled);
     void renderGameplayMouseLookOverlay(int width, int height) const;
-    bool isOpaqueHudPixelAtPoint(const GameplayRenderedInspectableHudItem &item, float x, float y) const;
-    std::string resolveEquippedItemHudTextureName(
-        const ItemDefinition &itemDefinition,
-        uint32_t dollTypeId,
-        bool hasRightHandWeapon,
-        EquipmentSlot slot) const;
-    std::optional<ResolvedHudLayoutElement> resolveCharacterEquipmentRenderRect(
-        const HudLayoutElement &layout,
-        const ItemDefinition &itemDefinition,
-        const HudTextureHandle &texture,
-        const CharacterDollTypeEntry *pCharacterDollType,
-        EquipmentSlot slot,
-        int screenWidth,
-        int screenHeight) const;
     const BillboardTextureHandle *findBillboardTexture(const std::string &textureName, int16_t paletteId = 0) const;
     bool loadHudFont(const Engine::AssetFileSystem &assetFileSystem, const std::string &fontName);
     bool loadHudTexture(const Engine::AssetFileSystem &assetFileSystem, const std::string &textureName);
@@ -1191,7 +1108,7 @@ private:
     bool m_triggerMeteorLatch;
     bool m_toggleRainLatch;
     bool m_keyboardUseLatch;
-    bool m_activateInspectLatch;
+    bool &m_activateInspectLatch;
     bool m_inspectMouseActivateLatch;
     bool m_attackInspectLatch;
     bool m_attackReadyMemberAvailableWhileHeld;
@@ -1205,31 +1122,32 @@ private:
     bool m_quickSpellReadyMemberAvailableWhileHeld;
     bool m_quickSpellAttackFallbackRequested;
     bool m_spellbookToggleLatch;
-    bool m_spellbookClickLatch;
+    bool &m_spellbookClickLatch;
     bool m_pendingSpellTargetClickLatch;
     bool m_restToggleLatch;
-    bool m_restClickLatch;
+    bool &m_restClickLatch;
     bool m_optionsButtonClickLatch;
     bool m_booksButtonClickLatch;
-    bool m_menuToggleLatch;
-    bool m_menuClickLatch;
-    bool m_controlsToggleLatch;
-    bool m_controlsClickLatch;
-    bool m_keyboardToggleLatch;
-    bool m_keyboardClickLatch;
-    bool m_videoOptionsToggleLatch;
-    bool m_videoOptionsClickLatch;
-    bool m_saveGameToggleLatch;
-    bool m_saveGameClickLatch;
+    bool &m_menuToggleLatch;
+    bool &m_menuClickLatch;
+    bool &m_controlsToggleLatch;
+    bool &m_controlsClickLatch;
+    bool &m_keyboardToggleLatch;
+    bool &m_keyboardClickLatch;
+    bool &m_videoOptionsToggleLatch;
+    bool &m_videoOptionsClickLatch;
+    bool &m_saveGameToggleLatch;
+    bool &m_saveGameClickLatch;
     bool m_loadGameToggleLatch;
     bool m_loadGameClickLatch;
-    bool m_journalToggleLatch;
-    bool m_journalClickLatch;
+    bool &m_journalToggleLatch;
+    bool &m_journalClickLatch;
     bool m_inventoryScreenToggleLatch;
     bool m_adventurersInnToggleLatch;
     std::array<uint8_t, SDL_SCANCODE_COUNT> m_previousKeyboardState = {};
-    GameplayUiController m_gameplayUiController;
-    GameplayDialogController m_gameplayDialogController;
+    GameplayUiController &m_gameplayUiController;
+    GameplayDialogController &m_gameplayDialogController;
+    GameplayOverlayInteractionState &m_overlayInteractionState;
     bool &m_characterScreenOpen;
     bool &m_characterDollJewelryOverlayOpen;
     bool &m_adventurersInnRosterOverlayOpen;
@@ -1237,17 +1155,17 @@ private:
     CharacterScreenSource &m_characterScreenSource;
     size_t &m_characterScreenSourceIndex;
     size_t &m_adventurersInnScrollOffset;
-    bool m_characterClickLatch;
-    bool m_characterMemberCycleLatch;
-    CharacterPointerTarget m_characterPressedTarget;
+    bool &m_characterClickLatch;
+    bool &m_characterMemberCycleLatch;
+    CharacterPointerTarget &m_characterPressedTarget;
     bool m_partyPortraitClickLatch;
     std::optional<size_t> m_partyPortraitPressedIndex;
     uint64_t m_lastPartyPortraitClickTicks;
     std::optional<size_t> m_lastPartyPortraitClickedIndex;
     uint64_t m_lastAdventurersInnPortraitClickTicks;
     std::optional<size_t> m_lastAdventurersInnPortraitClickedIndex;
-    std::optional<size_t> m_pendingCharacterDismissMemberIndex;
-    uint64_t m_pendingCharacterDismissExpiresTicks;
+    std::optional<size_t> &m_pendingCharacterDismissMemberIndex;
+    uint64_t &m_pendingCharacterDismissExpiresTicks;
     HeldInventoryItemState &m_heldInventoryItem;
     ItemInspectOverlayState &m_itemInspectOverlay;
     bool m_itemInspectInteractionLatch;
@@ -1268,12 +1186,6 @@ private:
     SaveGameScreenState &m_saveGameScreen;
     LoadGameScreenState &m_loadGameScreen;
     JournalScreenState &m_journalScreen;
-    bool m_cachedJournalMapValid = false;
-    int m_cachedJournalMapWidth = 0;
-    int m_cachedJournalMapHeight = 0;
-    int m_cachedJournalMapZoomStep = 0;
-    float m_cachedJournalMapCenterX = 0.0f;
-    float m_cachedJournalMapCenterY = 0.0f;
     InventoryNestedOverlayState &m_inventoryNestedOverlay;
     HouseShopOverlayState &m_houseShopOverlay;
     HouseBankState &m_houseBankState;
@@ -1281,28 +1193,28 @@ private:
     UtilitySpellPointerTarget m_utilitySpellPressedTarget = {};
     std::vector<TownPortalDestination> m_townPortalDestinations;
     bool m_townPortalDestinationsLoaded = false;
-    SpellbookPointerTarget m_spellbookPressedTarget;
-    RestPointerTarget m_restPressedTarget;
+    SpellbookPointerTarget &m_spellbookPressedTarget;
+    RestPointerTarget &m_restPressedTarget;
     bool m_optionsButtonPressed = false;
     bool m_booksButtonPressed = false;
-    MenuPointerTarget m_menuPressedTarget;
-    ControlsPointerTarget m_controlsPressedTarget;
-    KeyboardPointerTarget m_keyboardPressedTarget;
-    VideoOptionsPointerTarget m_videoOptionsPressedTarget;
-    bool m_controlsSliderDragActive = false;
-    ControlsPointerTargetType m_controlsDraggedSlider = ControlsPointerTargetType::None;
-    SaveLoadPointerTarget m_saveGamePressedTarget;
+    MenuPointerTarget &m_menuPressedTarget;
+    ControlsPointerTarget &m_controlsPressedTarget;
+    KeyboardPointerTarget &m_keyboardPressedTarget;
+    VideoOptionsPointerTarget &m_videoOptionsPressedTarget;
+    bool &m_controlsSliderDragActive;
+    ControlsPointerTargetType &m_controlsDraggedSlider;
+    SaveLoadPointerTarget &m_saveGamePressedTarget;
     SaveLoadPointerTarget m_loadGamePressedTarget;
-    uint64_t m_lastSaveGameSlotClickTicks = 0;
-    std::optional<size_t> m_lastSaveGameClickedSlotIndex;
+    uint64_t &m_lastSaveGameSlotClickTicks;
+    std::optional<size_t> &m_lastSaveGameClickedSlotIndex;
     uint64_t m_lastLoadGameSlotClickTicks = 0;
     std::optional<size_t> m_lastLoadGameClickedSlotIndex;
-    std::array<bool, 39> m_saveGameEditKeyLatches = {};
-    bool m_saveGameEditBackspaceLatch = false;
-    JournalPointerTarget m_journalPressedTarget;
-    bool m_journalMapKeyZoomLatch = false;
-    uint64_t m_lastSpellbookSpellClickTicks;
-    uint32_t m_lastSpellbookClickedSpellId;
+    std::array<bool, 39> &m_saveGameEditKeyLatches;
+    bool &m_saveGameEditBackspaceLatch;
+    GameplayJournalPointerTarget &m_journalPressedTarget;
+    bool &m_journalMapKeyZoomLatch;
+    uint64_t &m_lastSpellbookSpellClickTicks;
+    uint32_t &m_lastSpellbookClickedSpellId;
     uint64_t m_lastSpellFailSoundTicks;
     uint64_t m_lastMeteorShowerImpactSoundTicks = 0;
     uint64_t m_lastStarburstImpactSoundTicks = 0;
@@ -1313,28 +1225,28 @@ private:
     mutable std::vector<GameplayRenderedInspectableHudItem> m_renderedInspectableHudItems;
     mutable HudScreenState m_renderedInspectableHudState = HudScreenState::Gameplay;
     bool m_heldInventoryDropLatch;
-    bool m_closeOverlayLatch;
-    bool m_dialogueClickLatch;
-    GameplayDialoguePointerTarget m_dialoguePressedTarget;
-    bool m_houseShopClickLatch;
-    size_t m_houseShopPressedSlotIndex;
-    bool m_chestClickLatch;
-    bool m_chestItemClickLatch;
-    GameplayChestPointerTarget m_chestPressedTarget;
+    bool &m_closeOverlayLatch;
+    bool &m_dialogueClickLatch;
+    GameplayDialoguePointerTarget &m_dialoguePressedTarget;
+    bool &m_houseShopClickLatch;
+    size_t &m_houseShopPressedSlotIndex;
+    bool &m_chestClickLatch;
+    bool &m_chestItemClickLatch;
+    GameplayChestPointerTarget &m_chestPressedTarget;
     bool m_inventoryNestedOverlayClickLatch;
-    bool m_inventoryNestedOverlayItemClickLatch;
+    bool &m_inventoryNestedOverlayItemClickLatch;
     InventoryNestedOverlayPointerTarget m_inventoryNestedOverlayPressedTarget;
-    std::array<bool, 10> m_houseBankDigitLatches;
-    bool m_houseBankBackspaceLatch;
-    bool m_houseBankConfirmLatch;
-    bool m_lootChestItemLatch;
-    bool m_chestSelectUpLatch;
-    bool m_chestSelectDownLatch;
-    bool m_eventDialogSelectUpLatch;
-    bool m_eventDialogSelectDownLatch;
-    bool m_eventDialogAcceptLatch;
-    std::array<bool, 5> m_eventDialogPartySelectLatches;
-    size_t m_chestSelectionIndex;
+    std::array<bool, 10> &m_houseBankDigitLatches;
+    bool &m_houseBankBackspaceLatch;
+    bool &m_houseBankConfirmLatch;
+    bool &m_lootChestItemLatch;
+    bool &m_chestSelectUpLatch;
+    bool &m_chestSelectDownLatch;
+    bool &m_eventDialogSelectUpLatch;
+    bool &m_eventDialogSelectDownLatch;
+    bool &m_eventDialogAcceptLatch;
+    std::array<bool, 5> &m_eventDialogPartySelectLatches;
+    size_t &m_chestSelectionIndex;
     size_t &m_eventDialogSelectionIndex;
     std::string &m_statusBarHoverText;
     std::string &m_statusBarEventText;

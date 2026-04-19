@@ -335,7 +335,7 @@ void GameplayDialogueRenderer::updateHouseShopHoverTopicText(
     std::optional<std::string> &hoveredHouseServiceTopicText)
 {
     if (!view.houseShopOverlay().active
-        || view.partyRuntime() == nullptr
+        || view.party() == nullptr
         || view.worldRuntime() == nullptr
         || view.itemTable() == nullptr
         || !view.houseTable().has_value())
@@ -379,7 +379,7 @@ void GameplayDialogueRenderer::updateHouseShopHoverTopicText(
             return;
     }
 
-    Party &party = view.partyRuntime()->party();
+    Party &party = *view.party();
     const std::vector<InventoryItem> &stock = HouseServiceRuntime::ensureStock(
         party,
         *view.itemTable(),
@@ -475,7 +475,7 @@ void GameplayDialogueRenderer::renderHouseShopOverlay(
     bool renderAboveHud)
 {
     if (!view.houseShopOverlay().active
-        || view.partyRuntime() == nullptr
+        || view.party() == nullptr
         || view.worldRuntime() == nullptr
         || view.itemTable() == nullptr
         || !view.houseTable().has_value())
@@ -548,7 +548,7 @@ void GameplayDialogueRenderer::renderHouseShopOverlay(
             return;
     }
 
-    Party &party = view.partyRuntime()->party();
+    Party &party = *view.party();
     const std::vector<InventoryItem> &stock = HouseServiceRuntime::ensureStock(
         party,
         *view.itemTable(),

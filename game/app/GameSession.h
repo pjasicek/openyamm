@@ -1,8 +1,12 @@
 #pragma once
 
 #include "game/events/EventRuntime.h"
+#include "game/gameplay/GameplayDialogController.h"
+#include "game/gameplay/GameplayRuntimeInterfaces.h"
 #include "game/maps/SaveGame.h"
 #include "game/scene/SceneKind.h"
+#include "game/ui/GameplayOverlayTypes.h"
+#include "game/ui/GameplayUiController.h"
 
 #include <filesystem>
 #include <optional>
@@ -33,6 +37,16 @@ public:
     const std::string &currentMapFileName() const;
     void setCurrentMapFileName(const std::string &mapFileName);
     void setCurrentMapFileName(std::string &&mapFileName);
+
+    GameplayUiController &gameplayUiController();
+    const GameplayUiController &gameplayUiController() const;
+    GameplayDialogController &gameplayDialogController();
+    const GameplayDialogController &gameplayDialogController() const;
+    GameplayOverlayInteractionState &overlayInteractionState();
+    const GameplayOverlayInteractionState &overlayInteractionState() const;
+
+    IGameplayWorldRuntime *activeWorldRuntime() const;
+    void bindActiveWorldRuntime(IGameplayWorldRuntime *pWorldRuntime);
 
     const std::optional<OutdoorPartyRuntime::Snapshot> &outdoorPartyState() const;
     void setOutdoorPartyState(const OutdoorPartyRuntime::Snapshot &snapshot);
@@ -96,6 +110,10 @@ private:
     std::optional<Party> m_partyState;
     SceneKind m_currentSceneKind = SceneKind::Outdoor;
     std::string m_currentMapFileName;
+    GameplayUiController m_gameplayUiController;
+    GameplayDialogController m_gameplayDialogController;
+    GameplayOverlayInteractionState m_overlayInteractionState;
+    IGameplayWorldRuntime *m_pActiveWorldRuntime = nullptr;
     std::optional<OutdoorPartyRuntime::Snapshot> m_outdoorPartyState;
     std::optional<OutdoorWorldRuntime::Snapshot> m_currentOutdoorWorldState;
     std::unordered_map<std::string, OutdoorWorldRuntime::Snapshot> m_outdoorWorldStates;

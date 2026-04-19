@@ -1,6 +1,7 @@
 #pragma once
 
 #include "game/events/EventRuntime.h"
+#include "game/gameplay/GameplayRuntimeInterfaces.h"
 #include "game/tables/HouseTable.h"
 
 #include <cstdint>
@@ -10,7 +11,6 @@
 
 namespace OpenYAMM::Game
 {
-class OutdoorWorldRuntime;
 class Party;
 class ClassSkillTable;
 
@@ -112,7 +112,7 @@ std::vector<HouseActionOption> buildHouseActionOptions(
     const HouseEntry &houseEntry,
     const Party *pParty,
     const ClassSkillTable *pClassSkillTable,
-    const OutdoorWorldRuntime *pOutdoorWorldRuntime,
+    const IGameplayWorldRuntime *pWorldRuntime,
     float currentGameMinutes,
     DialogueMenuId menuId
 );
@@ -122,6 +122,6 @@ HouseActionResult performHouseAction(
     const HouseEntry &houseEntry,
     Party &party,
     const ClassSkillTable *pClassSkillTable,
-    OutdoorWorldRuntime *pOutdoorWorldRuntime
+    IGameplayWorldRuntime *pWorldRuntime
 );
 }

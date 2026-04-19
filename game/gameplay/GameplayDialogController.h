@@ -6,6 +6,7 @@
 #include "game/arcomage/ArcomageTypes.h"
 #include "game/audio/SoundIds.h"
 #include "game/gameplay/HouseInteraction.h"
+#include "game/gameplay/GameplayRuntimeInterfaces.h"
 #include "game/party/SpeechIds.h"
 #include "game/ui/GameplayUiController.h"
 
@@ -21,7 +22,6 @@ class ClassSkillTable;
 class HouseTable;
 struct MapStatsEntry;
 class NpcDialogTable;
-class OutdoorWorldRuntime;
 class Party;
 class RosterTable;
 struct HouseEntry;
@@ -47,7 +47,7 @@ public:
         EventDialogContent &activeEventDialog;
         size_t &selectionIndex;
         Party *pParty = nullptr;
-        OutdoorWorldRuntime *pOutdoorWorldRuntime = nullptr;
+        IGameplayWorldRuntime *pWorldRuntime = nullptr;
         const std::optional<ScriptedEventProgram> *pGlobalEventProgram = nullptr;
         const HouseTable *pHouseTable = nullptr;
         const ClassSkillTable *pClassSkillTable = nullptr;

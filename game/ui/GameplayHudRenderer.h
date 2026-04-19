@@ -2,12 +2,12 @@
 
 namespace OpenYAMM::Game
 {
-class OutdoorGameView;
+class GameplayOverlayContext;
 
 class GameplayHudRenderer
 {
 public:
-    static void renderGameplayHudArt(OutdoorGameView &view, int width, int height);
-    static void renderGameplayHud(const OutdoorGameView &view, int width, int height);
+    static void renderGameplayHudArt(GameplayOverlayContext &context, int width, int height);
+    static void renderGameplayHud(GameplayOverlayContext &context, int width, int height);
 };
 } // namespace OpenYAMM::Game

@@ -328,6 +328,12 @@ public:
         float mapDragStartCenterX = 0.0f;
         float mapDragStartCenterY = 0.0f;
         float hoverAnimationElapsedSeconds = 0.0f;
+        bool cachedMapValid = false;
+        int cachedMapWidth = 0;
+        int cachedMapHeight = 0;
+        int cachedMapZoomStep = 0;
+        float cachedMapCenterX = 0.0f;
+        float cachedMapCenterY = 0.0f;
     };
 
     struct CharacterScreenState
@@ -421,6 +427,8 @@ public:
     using LayoutLoader = std::function<bool(const std::string &)>;
 
     bool loadGameplayLayouts(const Engine::AssetFileSystem &assetFileSystem, const LayoutLoader &loader) const;
+    void bindExternalState(State *pState);
+    void clearExternalStateBinding();
     void clearRuntimeState();
 
     State &state();
@@ -517,6 +525,10 @@ public:
     void setEventDialogContent(const EventDialogContent &content);
 
 private:
+    State &resolvedState();
+    const State &resolvedState() const;
+
     State m_state;
+    State *m_pExternalState = nullptr;
 };
 }

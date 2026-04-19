@@ -9,6 +9,7 @@
 #include "game/data/GameDataLoader.h"
 #include "game/audio/GameAudioSystem.h"
 #include "game/indoor/IndoorDebugRenderer.h"
+#include "game/indoor/IndoorGameView.h"
 #include "game/outdoor/OutdoorGameView.h"
 #include "game/outdoor/OutdoorPartyRuntime.h"
 #include "game/outdoor/OutdoorWorldRuntime.h"
@@ -102,11 +103,12 @@ private:
     Engine::EngineApplication m_engineApplication;
     GameDataLoader m_gameDataLoader;
     GameAudioSystem m_gameAudioSystem;
+    GameSession m_gameSession;
     IndoorDebugRenderer m_indoorDebugRenderer;
+    IndoorGameView m_indoorGameView;
     OutdoorGameView m_outdoorGameView;
     ScreenManager m_screenManager;
     GameSettings m_settings = GameSettings::createDefault();
-    GameSession m_gameSession;
     GameplayController m_gameplayController;
     std::unique_ptr<OutdoorPartyRuntime> m_pOutdoorPartyRuntime;
     std::unique_ptr<OutdoorWorldRuntime> m_pOutdoorWorldRuntime;

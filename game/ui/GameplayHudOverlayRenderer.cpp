@@ -4,8 +4,6 @@
 
 #include "game/items/ItemRuntime.h"
 #include "game/tables/ItemTable.h"
-#include "game/outdoor/OutdoorPartyRuntime.h"
-#include "game/outdoor/OutdoorWorldRuntime.h"
 #include "game/StringUtils.h"
 
 #include <SDL3/SDL.h>
@@ -190,7 +188,7 @@ void GameplayHudOverlayRenderer::renderChestPanel(GameplayOverlayContext &view, 
         return;
     }
 
-    const OutdoorWorldRuntime::ChestViewState *pChestView = view.worldRuntime()->activeChestView();
+    const GameplayChestViewState *pChestView = view.worldRuntime()->activeChestView();
 
     if (pChestView == nullptr || view.currentHudScreenState() != GameplayHudScreenState::Chest)
     {
@@ -203,7 +201,7 @@ void GameplayHudOverlayRenderer::renderChestPanel(GameplayOverlayContext &view, 
     const bool isLeftMousePressed = (chestMouseButtons & SDL_BUTTON_LMASK) != 0;
     const ChestEntry *pChestEntry = view.chestTable()->get(pChestView->chestTypeId);
     const std::vector<std::string> orderedChestLayoutIds = view.sortedHudLayoutIdsForScreen("Chest");
-    const Party *pParty = view.partyRuntime() != nullptr ? &view.partyRuntime()->party() : nullptr;
+    const Party *pParty = view.partyReadOnly();
     const int hudZThreshold = view.defaultHudLayoutZIndexForScreen("OutdoorHud");
 
     if (!renderAboveHud)
@@ -340,7 +338,7 @@ void GameplayHudOverlayRenderer::renderChestPanel(GameplayOverlayContext &view, 
 
         for (size_t itemIndex = 0; itemIndex < pChestView->items.size(); ++itemIndex)
         {
-            const OutdoorWorldRuntime::ChestItemState &item = pChestView->items[itemIndex];
+            const GameplayChestItemState &item = pChestView->items[itemIndex];
             InventoryItem renderItem = {};
             renderItem.objectDescriptionId = item.itemId;
             renderItem.quantity = item.quantity;
@@ -442,7 +440,7 @@ void GameplayHudOverlayRenderer::renderInventoryNestedOverlay(
     if (renderAboveHud
         || !view.inventoryNestedOverlay().active
         || (!isChestTransfer && !isInventoryService)
-        || view.partyRuntime() == nullptr
+        || view.party() == nullptr
         || width <= 0
         || height <= 0)
     {
@@ -478,7 +476,7 @@ void GameplayHudOverlayRenderer::renderInventoryNestedOverlay(
         }
     }
 
-    const Character *pCharacter = view.partyRuntime()->party().activeMember();
+    const Character *pCharacter = view.partyReadOnly()->activeMember();
     const std::optional<GameplayOverlayContext::ResolvedHudLayoutElement> resolvedInventoryGrid =
         view.resolveInventoryNestedOverlayGridArea(width, height);
 
@@ -549,7 +547,7 @@ void GameplayHudOverlayRenderer::renderInventoryNestedOverlay(
         inspectableItem.hasItemState = true;
         inspectableItem.itemState = item;
         inspectableItem.sourceType = GameplayUiController::ItemInspectSourceType::Inventory;
-        inspectableItem.sourceMemberIndex = view.partyRuntime()->party().activeMemberIndex();
+        inspectableItem.sourceMemberIndex = view.partyReadOnly()->activeMemberIndex();
         inspectableItem.sourceGridX = item.gridX;
         inspectableItem.sourceGridY = item.gridY;
         inspectableItem.textureName = pItemDefinition->iconName;

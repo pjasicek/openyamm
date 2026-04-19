@@ -18,6 +18,7 @@
 #include "game/gameplay/HouseServiceRuntime.h"
 #include "game/indoor/IndoorGeometryUtils.h"
 #include "game/indoor/IndoorMovementController.h"
+#include "game/indoor/IndoorPartyRuntime.h"
 #include "game/indoor/IndoorWorldRuntime.h"
 #include "game/items/InventoryItemUseRuntime.h"
 #include "game/items/ItemEnchantRuntime.h"
@@ -1997,6 +1998,7 @@ bool initializeRegressionScenario(
         gameDataLoader.getSpellTable(),
         gameDataLoader.getItemTable(),
         &scenario.party,
+        nullptr,
         gameDataLoader.getStandardItemEnchantTable(),
         gameDataLoader.getSpecialItemEnchantTable(),
         &gameDataLoader.getChestTable(),
@@ -2050,7 +2052,9 @@ bool initializeIndoorRegressionScenario(
         gameDataLoader.getMonsterTable(),
         gameDataLoader.getObjectTable(),
         gameDataLoader.getItemTable(),
+        gameDataLoader.getChestTable(),
         &scenario.party,
+        nullptr,
         &scenario.mapDeltaData,
         &scenario.eventRuntimeState
     );
@@ -2207,6 +2211,7 @@ bool initializeRegressionScenarioFromApplication(
         GameApplicationTestAccess::gameDataLoader(application).getSpellTable(),
         GameApplicationTestAccess::gameDataLoader(application).getItemTable(),
         &scenario.party,
+        nullptr,
         GameApplicationTestAccess::gameDataLoader(application).getStandardItemEnchantTable(),
         GameApplicationTestAccess::gameDataLoader(application).getSpecialItemEnchantTable(),
         &GameApplicationTestAccess::gameDataLoader(application).getChestTable(),
@@ -2887,6 +2892,7 @@ int HeadlessGameplayDiagnostics::runSimulateActor(
         gameDataLoader.getSpellTable(),
         gameDataLoader.getItemTable(),
         nullptr,
+        nullptr,
         gameDataLoader.getStandardItemEnchantTable(),
         gameDataLoader.getSpecialItemEnchantTable(),
         &gameDataLoader.getChestTable(),
@@ -3003,6 +3009,7 @@ int HeadlessGameplayDiagnostics::runTraceActorAi(
         gameDataLoader.getObjectTable(),
         gameDataLoader.getSpellTable(),
         gameDataLoader.getItemTable(),
+        nullptr,
         nullptr,
         gameDataLoader.getStandardItemEnchantTable(),
         gameDataLoader.getSpecialItemEnchantTable(),
@@ -3499,6 +3506,7 @@ int HeadlessGameplayDiagnostics::runOpenEvent(
         gameDataLoader.getSpellTable(),
         gameDataLoader.getItemTable(),
         nullptr,
+        nullptr,
         gameDataLoader.getStandardItemEnchantTable(),
         gameDataLoader.getSpecialItemEnchantTable(),
         &gameDataLoader.getChestTable(),
@@ -3724,6 +3732,7 @@ int HeadlessGameplayDiagnostics::runOpenActor(
         gameDataLoader.getSpellTable(),
         gameDataLoader.getItemTable(),
         nullptr,
+        nullptr,
         gameDataLoader.getStandardItemEnchantTable(),
         gameDataLoader.getSpecialItemEnchantTable(),
         &gameDataLoader.getChestTable(),
@@ -3881,6 +3890,7 @@ int HeadlessGameplayDiagnostics::runDialogSequence(
         gameDataLoader.getObjectTable(),
         gameDataLoader.getSpellTable(),
         gameDataLoader.getItemTable(),
+        nullptr,
         nullptr,
         gameDataLoader.getStandardItemEnchantTable(),
         gameDataLoader.getSpecialItemEnchantTable(),
@@ -4340,6 +4350,7 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                     gameDataLoader.getMonsterTable(),
                     gameDataLoader.getObjectTable(),
                     gameDataLoader.getItemTable(),
+                    gameDataLoader.getChestTable(),
                     party,
                     loadedMap->indoorMapDeltaData,
                     loadedMap->eventRuntimeState,
@@ -4361,6 +4372,373 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                 if (!runtimeMapDelta || runtimeMapDelta->actors.size() != initialActorCount + 1)
                 {
                     failure = "event 11 did not summon one indoor actor";
+                    return false;
+                }
+
+                return true;
+            }
+        );
+
+        runCase(
+            "indoor_scene_snapshot_roundtrips_party_and_world_runtime_state",
+            [&](std::string &failure)
+            {
+                if (!gameDataLoader.loadMapByFileNameForHeadlessGameplay(assetFileSystem, "d18.blv"))
+                {
+                    failure = "could not load d18.blv";
+                    return false;
+                }
+
+                const std::optional<MapAssetInfo> &loadedMap = gameDataLoader.getSelectedMap();
+
+                if (!loadedMap || !loadedMap->indoorMapData || !loadedMap->indoorMapDeltaData || !loadedMap->eventRuntimeState)
+                {
+                    failure = "d18.blv missing indoor authored/runtime state";
+                    return false;
+                }
+
+                Party party = {};
+                party.setItemTable(&gameDataLoader.getItemTable());
+                party.setCharacterDollTable(&gameDataLoader.getCharacterDollTable());
+                party.setItemEnchantTables(
+                    &gameDataLoader.getStandardItemEnchantTable(),
+                    &gameDataLoader.getSpecialItemEnchantTable());
+                party.setClassSkillTable(&gameDataLoader.getClassSkillTable());
+                party.seed(createRegressionPartySeed());
+
+                IndoorSceneRuntime runtime(
+                    loadedMap->map.fileName,
+                    loadedMap->map,
+                    *loadedMap->indoorMapData,
+                    gameDataLoader.getMonsterTable(),
+                    gameDataLoader.getObjectTable(),
+                    gameDataLoader.getItemTable(),
+                    gameDataLoader.getChestTable(),
+                    party,
+                    loadedMap->indoorMapDeltaData,
+                    loadedMap->eventRuntimeState,
+                    loadedMap->localEventProgram,
+                    loadedMap->globalEventProgram
+                );
+
+                runtime.worldRuntime().advanceGameMinutes(137.0f);
+                runtime.worldRuntime().setCurrentLocationReputation(-7);
+                runtime.partyRuntime().teleportPartyPosition(-661.0f, -1059.0f, -39.0f);
+
+                const IndoorSceneRuntime::Snapshot snapshot = runtime.snapshot();
+                const std::filesystem::path savePath = "/tmp/openyamm_indoor_runtime_roundtrip.oysav";
+                GameSaveData saveData = {};
+                saveData.currentSceneKind = SceneKind::Indoor;
+                saveData.mapFileName = loadedMap->map.fileName;
+                saveData.party = runtime.party().snapshot();
+                saveData.hasIndoorSceneState = true;
+                saveData.indoorScene = snapshot;
+                saveData.indoorSceneStates[saveData.mapFileName] = snapshot;
+                saveData.savedGameMinutes = runtime.worldRuntime().gameMinutes();
+
+                std::string error;
+
+                if (!saveGameDataToPath(savePath, saveData, error))
+                {
+                    failure = "save failed: " + error;
+                    return false;
+                }
+
+                const std::optional<GameSaveData> loadedSave = loadGameDataFromPath(savePath, error);
+                std::error_code removeError;
+                std::filesystem::remove(savePath, removeError);
+
+                if (!loadedSave)
+                {
+                    failure = "load failed: " + error;
+                    return false;
+                }
+
+                if (!loadedSave->hasIndoorSceneState)
+                {
+                    failure = "indoor scene state flag did not roundtrip";
+                    return false;
+                }
+
+                if (std::abs(loadedSave->indoorScene.worldRuntime.gameMinutes - (9.0f * 60.0f + 137.0f)) > 0.01f)
+                {
+                    failure = "indoor world time did not roundtrip";
+                    return false;
+                }
+
+                if (loadedSave->indoorScene.worldRuntime.currentLocationReputation != -7)
+                {
+                    failure = "indoor location reputation did not roundtrip";
+                    return false;
+                }
+
+                const IndoorMoveState &savedMoveState = snapshot.partyRuntime.movementState;
+                const IndoorMoveState &loadedMoveState = loadedSave->indoorScene.partyRuntime.movementState;
+
+                if (std::abs(loadedMoveState.x - savedMoveState.x) > 0.01f
+                    || std::abs(loadedMoveState.y - savedMoveState.y) > 0.01f
+                    || std::abs(loadedMoveState.footZ - savedMoveState.footZ) > 0.01f
+                    || std::abs(loadedMoveState.eyeHeight - savedMoveState.eyeHeight) > 0.01f
+                    || std::abs(loadedMoveState.verticalVelocity - savedMoveState.verticalVelocity) > 0.01f
+                    || loadedMoveState.sectorId != savedMoveState.sectorId
+                    || loadedMoveState.eyeSectorId != savedMoveState.eyeSectorId
+                    || loadedMoveState.supportFaceIndex != savedMoveState.supportFaceIndex
+                    || loadedMoveState.grounded != savedMoveState.grounded)
+                {
+                    failure = "indoor party movement state did not roundtrip";
+                    return false;
+                }
+
+                return true;
+            }
+        );
+
+        runCase(
+            "party_spell_system_supports_indoor_shared_runtime_for_party_buff_and_beacon",
+            [&](std::string &failure)
+            {
+                if (!gameDataLoader.loadMapByFileNameForHeadlessGameplay(assetFileSystem, "d18.blv"))
+                {
+                    failure = "could not load d18.blv";
+                    return false;
+                }
+
+                const std::optional<MapAssetInfo> &loadedMap = gameDataLoader.getSelectedMap();
+
+                if (!loadedMap || !loadedMap->indoorMapData || !loadedMap->indoorMapDeltaData || !loadedMap->eventRuntimeState)
+                {
+                    failure = "d18.blv missing indoor authored/runtime state";
+                    return false;
+                }
+
+                std::optional<MapDeltaData> indoorMapDeltaData = *loadedMap->indoorMapDeltaData;
+                std::optional<EventRuntimeState> eventRuntimeState = *loadedMap->eventRuntimeState;
+                IndoorPartyRuntime partyRuntime(
+                    IndoorMovementController(
+                        *loadedMap->indoorMapData,
+                        &indoorMapDeltaData,
+                        &eventRuntimeState),
+                    gameDataLoader.getItemTable());
+
+                Party &party = partyRuntime.party();
+                party.setCharacterDollTable(&gameDataLoader.getCharacterDollTable());
+                party.setItemEnchantTables(
+                    &gameDataLoader.getStandardItemEnchantTable(),
+                    &gameDataLoader.getSpecialItemEnchantTable());
+                party.setClassSkillTable(&gameDataLoader.getClassSkillTable());
+                party.seed(createRegressionPartySeed());
+                partyRuntime.initializePartyPosition(-661.0f, -1059.0f, -39.0f, false);
+
+                IndoorWorldRuntime worldRuntime = {};
+                worldRuntime.initialize(
+                    loadedMap->map,
+                    gameDataLoader.getMonsterTable(),
+                    gameDataLoader.getObjectTable(),
+                    gameDataLoader.getItemTable(),
+                    gameDataLoader.getChestTable(),
+                    &party,
+                    &partyRuntime,
+                    &indoorMapDeltaData,
+                    &eventRuntimeState);
+
+                PartySpellCastRequest torchLightRequest = {};
+                torchLightRequest.casterMemberIndex = 0;
+                torchLightRequest.spellId = spellIdValue(SpellId::TorchLight);
+                torchLightRequest.skillLevelOverride = 10;
+                torchLightRequest.skillMasteryOverride = SkillMastery::Grandmaster;
+
+                const PartySpellCastResult torchLightResult = PartySpellSystem::castSpell(
+                    party,
+                    worldRuntime,
+                    gameDataLoader.getSpellTable(),
+                    torchLightRequest);
+
+                if (!torchLightResult.succeeded())
+                {
+                    failure = "Torch Light failed through indoor shared runtime";
+                    return false;
+                }
+
+                if (!party.hasPartyBuff(PartyBuffId::TorchLight))
+                {
+                    failure = "Torch Light did not apply party buff through indoor shared runtime";
+                    return false;
+                }
+
+                PartySpellCastRequest beaconSetRequest = {};
+                beaconSetRequest.casterMemberIndex = 0;
+                beaconSetRequest.spellId = spellIdValue(SpellId::LloydsBeacon);
+                beaconSetRequest.skillLevelOverride = 10;
+                beaconSetRequest.skillMasteryOverride = SkillMastery::Grandmaster;
+                beaconSetRequest.spendMana = false;
+                beaconSetRequest.utilityAction = PartySpellUtilityActionKind::LloydsBeaconSet;
+                beaconSetRequest.utilitySlotIndex = 0;
+                beaconSetRequest.hasViewTransform = true;
+                beaconSetRequest.viewYawRadians = 0.5f;
+
+                const PartySpellCastResult beaconSetResult = PartySpellSystem::castSpell(
+                    party,
+                    worldRuntime,
+                    gameDataLoader.getSpellTable(),
+                    beaconSetRequest);
+
+                if (!beaconSetResult.succeeded())
+                {
+                    failure = "Lloyd's Beacon set failed through indoor shared runtime";
+                    return false;
+                }
+
+                const Character *pCaster = party.member(0);
+
+                if (pCaster == nullptr || !pCaster->lloydsBeacons[0].has_value())
+                {
+                    failure = "Lloyd's Beacon set did not store a beacon";
+                    return false;
+                }
+
+                PartySpellCastRequest beaconRecallRequest = {};
+                beaconRecallRequest.casterMemberIndex = 0;
+                beaconRecallRequest.spellId = spellIdValue(SpellId::LloydsBeacon);
+                beaconRecallRequest.skillLevelOverride = 10;
+                beaconRecallRequest.skillMasteryOverride = SkillMastery::Grandmaster;
+                beaconRecallRequest.spendMana = false;
+                beaconRecallRequest.utilityAction = PartySpellUtilityActionKind::LloydsBeaconRecall;
+                beaconRecallRequest.utilitySlotIndex = 0;
+
+                const PartySpellCastResult beaconRecallResult = PartySpellSystem::castSpell(
+                    party,
+                    worldRuntime,
+                    gameDataLoader.getSpellTable(),
+                    beaconRecallRequest);
+
+                if (!beaconRecallResult.succeeded())
+                {
+                    failure = "Lloyd's Beacon recall failed through indoor shared runtime";
+                    return false;
+                }
+
+                EventRuntimeState *pEventRuntimeState = worldRuntime.eventRuntimeState();
+
+                if (pEventRuntimeState == nullptr || !pEventRuntimeState->pendingMapMove.has_value())
+                {
+                    failure = "Lloyd's Beacon recall did not queue a map move";
+                    return false;
+                }
+
+                return true;
+            }
+        );
+
+        runCase(
+            "house_transport_actions_work_through_indoor_shared_world_runtime_interface",
+            [&](std::string &failure)
+            {
+                if (!gameDataLoader.loadMapByFileNameForHeadlessGameplay(assetFileSystem, "d18.blv"))
+                {
+                    failure = "could not load d18.blv";
+                    return false;
+                }
+
+                const std::optional<MapAssetInfo> &loadedMap = gameDataLoader.getSelectedMap();
+
+                if (!loadedMap || !loadedMap->indoorMapDeltaData || !loadedMap->eventRuntimeState)
+                {
+                    failure = "d18.blv missing indoor authored/runtime state";
+                    return false;
+                }
+
+                Party party = {};
+                party.setItemTable(&gameDataLoader.getItemTable());
+                party.setCharacterDollTable(&gameDataLoader.getCharacterDollTable());
+                party.setItemEnchantTables(
+                    &gameDataLoader.getStandardItemEnchantTable(),
+                    &gameDataLoader.getSpecialItemEnchantTable());
+                party.setClassSkillTable(&gameDataLoader.getClassSkillTable());
+                party.seed(createRegressionPartySeed());
+                party.setQuestBit(42, true);
+
+                std::optional<MapDeltaData> indoorMapDeltaData = *loadedMap->indoorMapDeltaData;
+                std::optional<EventRuntimeState> eventRuntimeState = *loadedMap->eventRuntimeState;
+                IndoorWorldRuntime worldRuntime = {};
+                worldRuntime.initialize(
+                    loadedMap->map,
+                    gameDataLoader.getMonsterTable(),
+                    gameDataLoader.getObjectTable(),
+                    gameDataLoader.getItemTable(),
+                    gameDataLoader.getChestTable(),
+                    &party,
+                    nullptr,
+                    &indoorMapDeltaData,
+                    &eventRuntimeState
+                );
+
+                HouseEntry houseEntry = {};
+                houseEntry.id = 1;
+                houseEntry.type = "Boats";
+                houseEntry.name = "Regression Docks";
+                houseEntry.priceMultiplier = 1.0f;
+                HouseEntry::TransportRoute route = {};
+                route.routeIndex = 7;
+                route.destinationName = "Ravenshore";
+                route.mapFileName = "out02.odm";
+                route.travelDays = 2;
+                route.x = 100;
+                route.y = 200;
+                route.z = 300;
+                route.directionDegrees = 90;
+                route.requiredQBit = 42;
+                houseEntry.transportRoutes.push_back(route);
+
+                const std::vector<HouseActionOption> actions = buildHouseActionOptions(
+                    houseEntry,
+                    &party,
+                    &gameDataLoader.getClassSkillTable(),
+                    &worldRuntime,
+                    worldRuntime.gameMinutes(),
+                    DialogueMenuId::None
+                );
+
+                if (actions.size() != 1 || actions.front().id != HouseActionId::TransportRoute)
+                {
+                    failure = "transport actions were not built through the shared world interface";
+                    return false;
+                }
+
+                const float initialMinutes = worldRuntime.gameMinutes();
+                const HouseActionResult result = performHouseAction(
+                    actions.front(),
+                    houseEntry,
+                    party,
+                    &gameDataLoader.getClassSkillTable(),
+                    &worldRuntime
+                );
+
+                if (!result.succeeded)
+                {
+                    failure = "transport action did not succeed through the shared world interface";
+                    return false;
+                }
+
+                if (std::abs(worldRuntime.gameMinutes() - (initialMinutes + 2.0f * 24.0f * 60.0f)) > 0.01f)
+                {
+                    failure = "transport action did not advance indoor world time";
+                    return false;
+                }
+
+                EventRuntimeState *pEventRuntimeState = worldRuntime.eventRuntimeState();
+
+                if (pEventRuntimeState == nullptr || !pEventRuntimeState->pendingMapMove)
+                {
+                    failure = "transport action did not populate pending map move";
+                    return false;
+                }
+
+                if (pEventRuntimeState->pendingMapMove->mapName != "out02.odm"
+                    || pEventRuntimeState->pendingMapMove->x != 100
+                    || pEventRuntimeState->pendingMapMove->y != 200
+                    || pEventRuntimeState->pendingMapMove->z != 300)
+                {
+                    failure = "transport action populated the wrong pending map move";
                     return false;
                 }
 
@@ -4627,6 +5005,7 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                     gameDataLoader.getMonsterTable(),
                     gameDataLoader.getObjectTable(),
                     gameDataLoader.getItemTable(),
+                    gameDataLoader.getChestTable(),
                     party,
                     loadedMap->indoorMapDeltaData,
                     loadedMap->eventRuntimeState,
@@ -4808,6 +5187,453 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                 if (current.footZ < -128.5f || current.footZ > -127.5f)
                 {
                     failure = "movement did not remain on the raised doorway support after crossing the seam";
+                    return false;
+                }
+
+                return true;
+            }
+        );
+
+        runCase(
+            "indoor_world_runtime_exposes_actor_queries_and_direct_damage",
+            [&](std::string &failure)
+            {
+                if (!gameDataLoader.loadMapByFileNameForHeadlessGameplay(assetFileSystem, "d18.blv"))
+                {
+                    failure = "could not load d18.blv";
+                    return false;
+                }
+
+                const std::optional<MapAssetInfo> &loadedMap = gameDataLoader.getSelectedMap();
+
+                if (!loadedMap || !loadedMap->indoorMapData || !loadedMap->indoorMapDeltaData || !loadedMap->eventRuntimeState)
+                {
+                    failure = "d18.blv missing indoor authored/runtime state";
+                    return false;
+                }
+
+                std::optional<MapDeltaData> indoorMapDeltaData = *loadedMap->indoorMapDeltaData;
+                std::optional<EventRuntimeState> eventRuntimeState = *loadedMap->eventRuntimeState;
+                Party party = {};
+                party.setItemTable(&gameDataLoader.getItemTable());
+                party.setCharacterDollTable(&gameDataLoader.getCharacterDollTable());
+                party.setItemEnchantTables(
+                    &gameDataLoader.getStandardItemEnchantTable(),
+                    &gameDataLoader.getSpecialItemEnchantTable());
+                party.setClassSkillTable(&gameDataLoader.getClassSkillTable());
+                party.seed(createRegressionPartySeed());
+
+                IndoorWorldRuntime worldRuntime = {};
+                worldRuntime.initialize(
+                    loadedMap->map,
+                    gameDataLoader.getMonsterTable(),
+                    gameDataLoader.getObjectTable(),
+                    gameDataLoader.getItemTable(),
+                    gameDataLoader.getChestTable(),
+                    &party,
+                    nullptr,
+                    &indoorMapDeltaData,
+                    &eventRuntimeState);
+
+                if (worldRuntime.mapActorCount() != indoorMapDeltaData->actors.size())
+                {
+                    failure = "indoor actor count does not match delta actor count";
+                    return false;
+                }
+
+                std::optional<size_t> selectedActorIndex;
+
+                for (size_t actorIndex = 0; actorIndex < worldRuntime.mapActorCount(); ++actorIndex)
+                {
+                    const MapDeltaActor &actor = indoorMapDeltaData->actors[actorIndex];
+
+                    if (actor.hp > 20
+                        && (actor.attributes & static_cast<uint32_t>(EvtActorAttribute::Invisible)) == 0)
+                    {
+                        selectedActorIndex = actorIndex;
+                        break;
+                    }
+                }
+
+                if (!selectedActorIndex.has_value())
+                {
+                    failure = "could not find a living visible indoor actor";
+                    return false;
+                }
+
+                const size_t actorIndex = *selectedActorIndex;
+                const MapDeltaActor &initialActor = indoorMapDeltaData->actors[actorIndex];
+                GameplayRuntimeActorState actorState = {};
+
+                if (!worldRuntime.actorRuntimeState(actorIndex, actorState))
+                {
+                    failure = "actorRuntimeState failed for a valid indoor actor";
+                    return false;
+                }
+
+                if (std::abs(actorState.preciseX - static_cast<float>(initialActor.x)) > 0.01f
+                    || std::abs(actorState.preciseY - static_cast<float>(initialActor.y)) > 0.01f
+                    || std::abs(actorState.preciseZ - static_cast<float>(initialActor.z)) > 0.01f
+                    || actorState.height != initialActor.height)
+                {
+                    failure = "indoor actor query did not mirror delta actor geometry";
+                    return false;
+                }
+
+                const float actorCenterZ =
+                    actorState.preciseZ + std::max(24.0f, static_cast<float>(actorState.height) * 0.7f);
+                const std::vector<size_t> nearbyActors = worldRuntime.collectMapActorIndicesWithinRadius(
+                    actorState.preciseX,
+                    actorState.preciseY,
+                    actorCenterZ,
+                    1.0f,
+                    false,
+                    actorState.preciseX,
+                    actorState.preciseY,
+                    actorCenterZ);
+
+                if (std::find(nearbyActors.begin(), nearbyActors.end(), actorIndex) == nearbyActors.end())
+                {
+                    failure = "radius query did not return the actor at the query center";
+                    return false;
+                }
+
+                const int initialHp = indoorMapDeltaData->actors[actorIndex].hp;
+
+                if (!worldRuntime.applyPartySpellToActor(
+                        actorIndex,
+                        spellIdValue(SpellId::Blades),
+                        10,
+                        SkillMastery::Master,
+                        17,
+                        0.0f,
+                        0.0f,
+                        0.0f,
+                        0))
+                {
+                    failure = "direct indoor actor damage failed";
+                    return false;
+                }
+
+                if (indoorMapDeltaData->actors[actorIndex].hp != initialHp - 17)
+                {
+                    failure = "direct indoor actor damage did not update hp";
+                    return false;
+                }
+
+                return true;
+            }
+        );
+
+        runCase(
+            "party_spell_system_supports_indoor_shared_runtime_direct_actor_damage",
+            [&](std::string &failure)
+            {
+                if (!gameDataLoader.loadMapByFileNameForHeadlessGameplay(assetFileSystem, "d18.blv"))
+                {
+                    failure = "could not load d18.blv";
+                    return false;
+                }
+
+                const std::optional<MapAssetInfo> &loadedMap = gameDataLoader.getSelectedMap();
+
+                if (!loadedMap || !loadedMap->indoorMapData || !loadedMap->indoorMapDeltaData || !loadedMap->eventRuntimeState)
+                {
+                    failure = "d18.blv missing indoor authored/runtime state";
+                    return false;
+                }
+
+                std::optional<MapDeltaData> indoorMapDeltaData = *loadedMap->indoorMapDeltaData;
+                std::optional<EventRuntimeState> eventRuntimeState = *loadedMap->eventRuntimeState;
+                IndoorPartyRuntime partyRuntime(
+                    IndoorMovementController(
+                        *loadedMap->indoorMapData,
+                        &indoorMapDeltaData,
+                        &eventRuntimeState),
+                    gameDataLoader.getItemTable());
+
+                Party &party = partyRuntime.party();
+                party.setCharacterDollTable(&gameDataLoader.getCharacterDollTable());
+                party.setItemEnchantTables(
+                    &gameDataLoader.getStandardItemEnchantTable(),
+                    &gameDataLoader.getSpecialItemEnchantTable());
+                party.setClassSkillTable(&gameDataLoader.getClassSkillTable());
+                party.seed(createRegressionPartySeed());
+                partyRuntime.initializePartyPosition(-661.0f, -1059.0f, -39.0f, false);
+
+                IndoorWorldRuntime worldRuntime = {};
+                worldRuntime.initialize(
+                    loadedMap->map,
+                    gameDataLoader.getMonsterTable(),
+                    gameDataLoader.getObjectTable(),
+                    gameDataLoader.getItemTable(),
+                    gameDataLoader.getChestTable(),
+                    &party,
+                    &partyRuntime,
+                    &indoorMapDeltaData,
+                    &eventRuntimeState);
+
+                std::optional<size_t> targetActorIndex;
+
+                for (size_t actorIndex = 0; actorIndex < worldRuntime.mapActorCount(); ++actorIndex)
+                {
+                    const MapDeltaActor &actor = indoorMapDeltaData->actors[actorIndex];
+
+                    if (actor.hp > 20
+                        && (actor.attributes & static_cast<uint32_t>(EvtActorAttribute::Invisible)) == 0)
+                    {
+                        targetActorIndex = actorIndex;
+                        break;
+                    }
+                }
+
+                if (!targetActorIndex.has_value())
+                {
+                    failure = "could not find a living visible indoor actor";
+                    return false;
+                }
+
+                const int initialHp = indoorMapDeltaData->actors[*targetActorIndex].hp;
+                PartySpellCastRequest castRequest = {};
+                castRequest.casterMemberIndex = 0;
+                castRequest.spellId = spellIdValue(SpellId::Blades);
+                castRequest.skillLevelOverride = 10;
+                castRequest.skillMasteryOverride = SkillMastery::Master;
+                castRequest.spendMana = false;
+                castRequest.targetActorIndex = *targetActorIndex;
+
+                const PartySpellCastResult castResult = PartySpellSystem::castSpell(
+                    party,
+                    worldRuntime,
+                    gameDataLoader.getSpellTable(),
+                    castRequest);
+
+                if (!castResult.succeeded())
+                {
+                    failure = "Blades failed through indoor shared runtime";
+                    return false;
+                }
+
+                if (indoorMapDeltaData->actors[*targetActorIndex].hp >= initialHp)
+                {
+                    failure = "Blades did not reduce indoor actor hp";
+                    return false;
+                }
+
+                return true;
+            }
+        );
+
+        runCase(
+            "indoor_world_runtime_lethal_damage_generates_corpse_loot_and_exhausts_corpse",
+            [&](std::string &failure)
+            {
+                if (!gameDataLoader.loadMapByFileNameForHeadlessGameplay(assetFileSystem, "d18.blv"))
+                {
+                    failure = "could not load d18.blv";
+                    return false;
+                }
+
+                const std::optional<MapAssetInfo> &loadedMap = gameDataLoader.getSelectedMap();
+
+                if (!loadedMap)
+                {
+                    failure = "selected map missing";
+                    return false;
+                }
+
+                IndoorRegressionScenario scenario = {};
+
+                if (!initializeIndoorRegressionScenario(gameDataLoader, *loadedMap, scenario))
+                {
+                    failure = "could not initialize indoor scenario";
+                    return false;
+                }
+
+                const MonsterTable &monsterTable = gameDataLoader.getMonsterTable();
+                const MonsterTable::MonsterStatsEntry *pLootStats = nullptr;
+
+                for (int monsterId = 1; monsterId < 2000; ++monsterId)
+                {
+                    const MonsterTable::MonsterStatsEntry *pStats = monsterTable.findStatsById(int16_t(monsterId));
+                    const MonsterEntry *pEntry = monsterTable.findById(int16_t(monsterId));
+
+                    if (pStats == nullptr || pEntry == nullptr)
+                    {
+                        continue;
+                    }
+
+                    const MonsterTable::LootPrototype &loot = pStats->loot;
+
+                    if ((loot.goldDiceRolls > 0 && loot.goldDiceSides > 0)
+                        || (loot.itemChance > 0 && loot.itemLevel > 0))
+                    {
+                        pLootStats = pStats;
+                        break;
+                    }
+                }
+
+                if (pLootStats == nullptr)
+                {
+                    failure = "could not find a loot-bearing monster definition";
+                    return false;
+                }
+
+                MapDeltaActor syntheticActor = {};
+                syntheticActor.name = pLootStats->name;
+                syntheticActor.attributes = static_cast<uint32_t>(EvtActorAttribute::Active);
+                syntheticActor.hp = 25;
+                syntheticActor.monsterInfoId = int16_t(pLootStats->id);
+                syntheticActor.monsterId = int16_t(pLootStats->id);
+                scenario.mapDeltaData->actors.push_back(syntheticActor);
+
+                const size_t actorIndex = scenario.mapDeltaData->actors.size() - 1;
+                const int lethalDamage = scenario.mapDeltaData->actors[actorIndex].hp + 25;
+
+                if (!scenario.world.applyPartySpellToActor(
+                        actorIndex,
+                        spellIdValue(SpellId::Blades),
+                        10,
+                        SkillMastery::Master,
+                        lethalDamage,
+                        0.0f,
+                        0.0f,
+                        0.0f,
+                        0))
+                {
+                    failure = "could not apply lethal indoor damage";
+                    return false;
+                }
+
+                if (scenario.mapDeltaData->actors[actorIndex].hp > 0)
+                {
+                    failure = "indoor lethal damage did not kill the actor";
+                    return false;
+                }
+
+                if (!scenario.world.openMapActorCorpseView(actorIndex))
+                {
+                    failure = "indoor corpse view did not open";
+                    return false;
+                }
+
+                const IndoorWorldRuntime::CorpseViewState *pCorpseView = scenario.world.activeCorpseView();
+
+                if (pCorpseView == nullptr || pCorpseView->items.empty())
+                {
+                    failure = "indoor corpse loot did not materialize";
+                    return false;
+                }
+
+                while (const IndoorWorldRuntime::CorpseViewState *pActiveCorpseView = scenario.world.activeCorpseView())
+                {
+                    if (pActiveCorpseView->items.empty())
+                    {
+                        break;
+                    }
+
+                    IndoorWorldRuntime::ChestItemState lootedItem = {};
+
+                    if (!scenario.world.takeActiveCorpseItem(0, lootedItem))
+                    {
+                        failure = "could not remove indoor corpse loot item";
+                        return false;
+                    }
+                }
+
+                if (scenario.world.activeCorpseView() != nullptr)
+                {
+                    failure = "empty indoor corpse view should close itself";
+                    return false;
+                }
+
+                const MapDeltaActor &actor = scenario.mapDeltaData->actors[actorIndex];
+
+                if ((actor.attributes & static_cast<uint32_t>(EvtActorAttribute::Invisible)) == 0)
+                {
+                    failure = "fully looted indoor corpse actor should become invisible";
+                    return false;
+                }
+
+                if (scenario.world.openMapActorCorpseView(actorIndex))
+                {
+                    failure = "fully looted indoor corpse should not reopen";
+                    return false;
+                }
+
+                return true;
+            }
+        );
+
+        runCase(
+            "indoor_world_runtime_summon_friendly_monster_materializes_non_hostile_actor",
+            [&](std::string &failure)
+            {
+                if (!gameDataLoader.loadMapByFileNameForHeadlessGameplay(assetFileSystem, "d18.blv"))
+                {
+                    failure = "could not load d18.blv";
+                    return false;
+                }
+
+                const std::optional<MapAssetInfo> &loadedMap = gameDataLoader.getSelectedMap();
+
+                if (!loadedMap)
+                {
+                    failure = "selected map missing";
+                    return false;
+                }
+
+                IndoorRegressionScenario scenario = {};
+
+                if (!initializeIndoorRegressionScenario(gameDataLoader, *loadedMap, scenario))
+                {
+                    failure = "could not initialize indoor scenario";
+                    return false;
+                }
+
+                const size_t initialActorCount = scenario.world.mapActorCount();
+
+                int16_t summonMonsterId = 0;
+
+                for (int monsterId = 1; monsterId < 2000; ++monsterId)
+                {
+                    if (gameDataLoader.getMonsterTable().findStatsById(int16_t(monsterId)) != nullptr
+                        && gameDataLoader.getMonsterTable().findById(int16_t(monsterId)) != nullptr)
+                    {
+                        summonMonsterId = int16_t(monsterId);
+                        break;
+                    }
+                }
+
+                if (summonMonsterId == 0)
+                {
+                    failure = "could not find a summonable monster definition";
+                    return false;
+                }
+
+                if (!scenario.world.summonFriendlyMonsterById(summonMonsterId, 1, 60.0f, -661.0f, -1059.0f, -39.0f))
+                {
+                    failure = "indoor friendly summon did not materialize";
+                    return false;
+                }
+
+                if (scenario.world.mapActorCount() != initialActorCount + 1)
+                {
+                    failure = "indoor actor count did not increase after friendly summon";
+                    return false;
+                }
+
+                GameplayRuntimeActorState actorState = {};
+
+                if (!scenario.world.actorRuntimeState(initialActorCount, actorState))
+                {
+                    failure = "could not query summoned indoor actor runtime state";
+                    return false;
+                }
+
+                if (actorState.hostileToParty)
+                {
+                    failure = "summoned indoor actor should not be hostile to the party";
                     return false;
                 }
 
@@ -5046,6 +5872,251 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                 if (rawItemId != 200)
                 {
                     failure = "spawned indoor sprite object carried wrong item payload";
+                    return false;
+                }
+
+                return true;
+            }
+        );
+
+        runCase(
+            "indoor_event_runtime_open_chest_materializes_layout_and_supports_grid_ops",
+            [&](std::string &failure)
+            {
+                if (!gameDataLoader.loadMapByFileNameForHeadlessGameplay(assetFileSystem, "d18.blv"))
+                {
+                    failure = "could not load d18.blv";
+                    return false;
+                }
+
+                const std::optional<MapAssetInfo> &loadedMap = gameDataLoader.getSelectedMap();
+
+                if (!loadedMap)
+                {
+                    failure = "selected map missing";
+                    return false;
+                }
+
+                IndoorRegressionScenario scenario = {};
+
+                if (!initializeIndoorRegressionScenario(gameDataLoader, *loadedMap, scenario))
+                {
+                    failure = "could not initialize indoor scenario";
+                    return false;
+                }
+
+                uint32_t fixedItemId = 0;
+
+                for (const ItemDefinition &entry : gameDataLoader.getItemTable().entries())
+                {
+                    if (entry.itemId != 0 && entry.inventoryWidth == 1 && entry.inventoryHeight == 1)
+                    {
+                        fixedItemId = entry.itemId;
+                        break;
+                    }
+                }
+
+                if (fixedItemId == 0)
+                {
+                    failure = "could not find a 1x1 regression chest item";
+                    return false;
+                }
+
+                const ChestEntry *pChestEntry = gameDataLoader.getChestTable().get(0);
+
+                if (pChestEntry == nullptr)
+                {
+                    failure = "chest type 0 missing";
+                    return false;
+                }
+
+                MapDeltaChest &chest = scenario.mapDeltaData->chests[0];
+                chest.chestTypeId = 0;
+                chest.flags = 0;
+                chest.rawItems.assign(36, 0);
+                std::memcpy(chest.rawItems.data(), &fixedItemId, sizeof(fixedItemId));
+                chest.inventoryMatrix.assign(
+                    static_cast<size_t>(pChestEntry->gridWidth) * pChestEntry->gridHeight,
+                    0);
+                chest.inventoryMatrix[0] = 1;
+
+                std::string error;
+                const std::optional<ScriptedEventProgram> scriptedProgram = loadSyntheticScriptedProgram(
+                    "evt.map[1] = function()\n"
+                    "    evt.OpenChest(0)\n"
+                    "end\n",
+                    "indoor_open_chest.lua",
+                    ScriptedEventScope::Map,
+                    error);
+
+                if (!scriptedProgram)
+                {
+                    failure = "could not build synthetic open-chest script: " + error;
+                    return false;
+                }
+
+                EventRuntimeState *pEventRuntimeState = scenario.world.eventRuntimeState();
+
+                if (pEventRuntimeState == nullptr)
+                {
+                    failure = "event runtime state missing";
+                    return false;
+                }
+
+                if (!scenario.eventRuntime.executeEventById(
+                        scriptedProgram,
+                        loadedMap->globalEventProgram,
+                        1,
+                        *pEventRuntimeState,
+                        &scenario.party,
+                        &scenario.world))
+                {
+                    failure = "synthetic open-chest event did not execute";
+                    return false;
+                }
+
+                scenario.world.applyEventRuntimeState();
+
+                const IndoorWorldRuntime::ChestViewState *pChestView = scenario.world.activeChestView();
+
+                if (pChestView == nullptr)
+                {
+                    failure = "active indoor chest view missing";
+                    return false;
+                }
+
+                if (pChestView->items.size() != 1 || pChestView->items[0].itemId != fixedItemId)
+                {
+                    failure = "indoor chest materialized the wrong items";
+                    return false;
+                }
+
+                IndoorWorldRuntime::ChestItemState removedItem = {};
+
+                if (!scenario.world.takeActiveChestItemAt(0, 0, removedItem))
+                {
+                    failure = "could not remove indoor chest item by grid cell";
+                    return false;
+                }
+
+                if (!scenario.world.tryPlaceActiveChestItemAt(removedItem, 2, 2))
+                {
+                    failure = "could not place indoor chest item back into chest";
+                    return false;
+                }
+
+                pChestView = scenario.world.activeChestView();
+
+                if (pChestView == nullptr
+                    || pChestView->items.size() != 1
+                    || pChestView->items[0].gridX != 2
+                    || pChestView->items[0].gridY != 2)
+                {
+                    failure = "indoor chest grid placement did not persist";
+                    return false;
+                }
+
+                return true;
+            }
+        );
+
+        runCase(
+            "indoor_world_runtime_snapshot_roundtrips_chest_runtime_state",
+            [&](std::string &failure)
+            {
+                if (!gameDataLoader.loadMapByFileNameForHeadlessGameplay(assetFileSystem, "d18.blv"))
+                {
+                    failure = "could not load d18.blv";
+                    return false;
+                }
+
+                const std::optional<MapAssetInfo> &loadedMap = gameDataLoader.getSelectedMap();
+
+                if (!loadedMap)
+                {
+                    failure = "selected map missing";
+                    return false;
+                }
+
+                IndoorRegressionScenario scenario = {};
+
+                if (!initializeIndoorRegressionScenario(gameDataLoader, *loadedMap, scenario))
+                {
+                    failure = "could not initialize indoor scenario";
+                    return false;
+                }
+
+                uint32_t fixedItemId = 0;
+
+                for (const ItemDefinition &entry : gameDataLoader.getItemTable().entries())
+                {
+                    if (entry.itemId != 0 && entry.inventoryWidth == 1 && entry.inventoryHeight == 1)
+                    {
+                        fixedItemId = entry.itemId;
+                        break;
+                    }
+                }
+
+                if (fixedItemId == 0)
+                {
+                    failure = "could not find a 1x1 regression chest item";
+                    return false;
+                }
+
+                const ChestEntry *pChestEntry = gameDataLoader.getChestTable().get(0);
+
+                if (pChestEntry == nullptr)
+                {
+                    failure = "chest type 0 missing";
+                    return false;
+                }
+
+                MapDeltaChest &chest = scenario.mapDeltaData->chests[0];
+                chest.chestTypeId = 0;
+                chest.flags = 0;
+                chest.rawItems.assign(36, 0);
+                std::memcpy(chest.rawItems.data(), &fixedItemId, sizeof(fixedItemId));
+                chest.inventoryMatrix.assign(
+                    static_cast<size_t>(pChestEntry->gridWidth) * pChestEntry->gridHeight,
+                    0);
+                chest.inventoryMatrix[0] = 1;
+                scenario.eventRuntimeState->openedChestIds.push_back(0);
+                scenario.world.applyEventRuntimeState();
+
+                IndoorWorldRuntime::ChestItemState removedItem = {};
+
+                if (!scenario.world.takeActiveChestItemAt(0, 0, removedItem)
+                    || !scenario.world.tryPlaceActiveChestItemAt(removedItem, 3, 1))
+                {
+                    failure = "could not prepare indoor chest state before snapshot";
+                    return false;
+                }
+
+                const IndoorWorldRuntime::Snapshot snapshot = scenario.world.snapshot();
+                std::optional<MapDeltaData> restoredMapDelta = *scenario.mapDeltaData;
+                std::optional<EventRuntimeState> restoredEventRuntimeState = *scenario.eventRuntimeState;
+                IndoorWorldRuntime restoredWorld = {};
+                restoredWorld.initialize(
+                    loadedMap->map,
+                    gameDataLoader.getMonsterTable(),
+                    gameDataLoader.getObjectTable(),
+                    gameDataLoader.getItemTable(),
+                    gameDataLoader.getChestTable(),
+                    &scenario.party,
+                    nullptr,
+                    &restoredMapDelta,
+                    &restoredEventRuntimeState);
+                restoredWorld.restoreSnapshot(snapshot);
+
+                const IndoorWorldRuntime::ChestViewState *pRestoredChestView = restoredWorld.activeChestView();
+
+                if (pRestoredChestView == nullptr
+                    || pRestoredChestView->items.size() != 1
+                    || pRestoredChestView->items[0].itemId != fixedItemId
+                    || pRestoredChestView->items[0].gridX != 3
+                    || pRestoredChestView->items[0].gridY != 1)
+                {
+                    failure = "indoor chest runtime state did not roundtrip through snapshot";
                     return false;
                 }
 
@@ -11092,7 +12163,6 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
             request.targetActorIndex = 53;
             const PartySpellCastResult result = PartySpellSystem::castSpell(
                 partyRuntime.party(),
-                partyRuntime,
                 scenario.world,
                 gameDataLoader.getSpellTable(),
                 request);
@@ -11164,7 +12234,6 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
             request.spellId = spellIdValue(SpellId::Haste);
             const PartySpellCastResult result = PartySpellSystem::castSpell(
                 partyRuntime.party(),
-                partyRuntime,
                 scenario.world,
                 gameDataLoader.getSpellTable(),
                 request);
@@ -11242,7 +12311,6 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
             request.targetActorIndex = 53;
             const PartySpellCastResult result = PartySpellSystem::castSpell(
                 partyRuntime.party(),
-                partyRuntime,
                 scenario.world,
                 gameDataLoader.getSpellTable(),
                 request);
@@ -11307,7 +12375,6 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
             request.targetCharacterIndex = 1;
             const PartySpellCastResult result = PartySpellSystem::castSpell(
                 partyRuntime.party(),
-                partyRuntime,
                 scenario.world,
                 gameDataLoader.getSpellTable(),
                 request);
@@ -11413,7 +12480,6 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
 
                 const PartySpellCastResult result = PartySpellSystem::castSpell(
                     partyRuntime.party(),
-                    partyRuntime,
                     scenario.world,
                     gameDataLoader.getSpellTable(),
                     request);
@@ -11504,7 +12570,6 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
             request.applyRecovery = false;
             const PartySpellCastResult result = PartySpellSystem::castSpell(
                 partyRuntime.party(),
-                partyRuntime,
                 scenario.world,
                 gameDataLoader.getSpellTable(),
                 request);
@@ -17563,6 +18628,7 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                 gameDataLoader.getSpellTable(),
                 gameDataLoader.getItemTable(),
                 &restoredPartyRuntime.party(),
+                &restoredPartyRuntime,
                 gameDataLoader.getStandardItemEnchantTable(),
                 gameDataLoader.getSpecialItemEnchantTable(),
                 &gameDataLoader.getChestTable(),
@@ -19392,7 +20458,10 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
         "damage_minor_speech_ignores_combat_cooldown",
         [&](std::string &failure)
         {
-            OutdoorGameView view = {};
+            GameplayUiController uiController;
+            GameplayDialogController dialogController;
+            GameplayOverlayInteractionState overlayInteractionState = {};
+            OutdoorGameView view(uiController, dialogController, overlayInteractionState);
             GameApplicationTestAccess::setSpeechCooldowns(
                 view,
                 std::vector<uint32_t>{1000u},
@@ -19412,7 +20481,10 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
         "damage_major_speech_bypasses_active_speech_cooldowns",
         [&](std::string &failure)
         {
-            OutdoorGameView view = {};
+            GameplayUiController uiController;
+            GameplayDialogController dialogController;
+            GameplayOverlayInteractionState overlayInteractionState = {};
+            OutdoorGameView view(uiController, dialogController, overlayInteractionState);
             GameApplicationTestAccess::setSpeechCooldowns(
                 view,
                 std::vector<uint32_t>{4000u},

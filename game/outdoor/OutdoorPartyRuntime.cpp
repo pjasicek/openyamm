@@ -82,6 +82,21 @@ Party &OutdoorPartyRuntime::party()
     return m_party;
 }
 
+float OutdoorPartyRuntime::partyX() const
+{
+    return m_movementDriver.state().x;
+}
+
+float OutdoorPartyRuntime::partyY() const
+{
+    return m_movementDriver.state().y;
+}
+
+float OutdoorPartyRuntime::partyFootZ() const
+{
+    return m_movementDriver.state().footZ;
+}
+
 void OutdoorPartyRuntime::setParty(const Party &party)
 {
     m_party = party;

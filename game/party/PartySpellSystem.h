@@ -1,5 +1,6 @@
 #pragma once
 
+#include "game/gameplay/GameplayRuntimeInterfaces.h"
 #include "game/party/Party.h"
 #include "game/party/SkillData.h"
 
@@ -11,8 +12,6 @@
 
 namespace OpenYAMM::Game
 {
-class OutdoorPartyRuntime;
-class OutdoorWorldRuntime;
 class SpellTable;
 
 enum class PartySpellCastTargetKind : uint8_t
@@ -142,8 +141,7 @@ public:
 
     static PartySpellCastResult castSpell(
         Party &party,
-        OutdoorPartyRuntime &partyRuntime,
-        OutdoorWorldRuntime &worldRuntime,
+        IGameplayWorldRuntime &worldRuntime,
         const SpellTable &spellTable,
         const PartySpellCastRequest &request);
 };

@@ -25,9 +25,12 @@ add_executable(openyamm
     fx/ParticleSystem.cpp
     gameplay/GameMechanics.cpp
     gameplay/GameplayController.cpp
+    gameplay/CorpseLootRuntime.cpp
+    gameplay/ChestRuntime.cpp
     gameplay/GameplayDialogController.cpp
     gameplay/GameplayOverlayInputController.cpp
     gameplay/GameplayPartyOverlayInputController.cpp
+    gameplay/GameplaySaveLoadUiSupport.cpp
     gameplay/GenericActorDialog.cpp
     gameplay/HouseInteraction.cpp
     gameplay/HouseServiceRuntime.cpp
@@ -48,6 +51,7 @@ add_executable(openyamm
     items/ItemRuntime.cpp
     tables/ItemTable.cpp
     indoor/IndoorDebugRenderer.cpp
+    indoor/IndoorGameView.cpp
     indoor/IndoorGeometryUtils.cpp
     indoor/IndoorMapData.cpp
     indoor/IndoorMovementController.cpp
@@ -98,7 +102,9 @@ add_executable(openyamm
     outdoor/OutdoorGameView.cpp
     ui/GameplayDialogueRenderer.cpp
     ui/GameplayHudRenderer.cpp
+    ui/GameplayHudCommon.cpp
     ui/GameplayHudOverlayRenderer.cpp
+    ui/GameplayDebugOverlayRenderer.cpp
     ui/GameplayOverlayContext.cpp
     ui/GameplayPartyOverlayRenderer.cpp
     ui/HudUiService.cpp

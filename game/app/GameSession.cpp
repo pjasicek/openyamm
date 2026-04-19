@@ -31,6 +31,9 @@ void GameSession::clear()
     m_partyState.reset();
     m_currentSceneKind = SceneKind::Outdoor;
     m_currentMapFileName.clear();
+    m_gameplayUiController.clearRuntimeState();
+    m_overlayInteractionState = {};
+    m_pActiveWorldRuntime = nullptr;
     m_outdoorPartyState.reset();
     m_currentOutdoorWorldState.reset();
     m_outdoorWorldStates.clear();
@@ -90,6 +93,46 @@ void GameSession::setCurrentMapFileName(const std::string &mapFileName)
 void GameSession::setCurrentMapFileName(std::string &&mapFileName)
 {
     m_currentMapFileName = std::move(mapFileName);
+}
+
+GameplayUiController &GameSession::gameplayUiController()
+{
+    return m_gameplayUiController;
+}
+
+const GameplayUiController &GameSession::gameplayUiController() const
+{
+    return m_gameplayUiController;
+}
+
+GameplayDialogController &GameSession::gameplayDialogController()
+{
+    return m_gameplayDialogController;
+}
+
+const GameplayDialogController &GameSession::gameplayDialogController() const
+{
+    return m_gameplayDialogController;
+}
+
+GameplayOverlayInteractionState &GameSession::overlayInteractionState()
+{
+    return m_overlayInteractionState;
+}
+
+const GameplayOverlayInteractionState &GameSession::overlayInteractionState() const
+{
+    return m_overlayInteractionState;
+}
+
+IGameplayWorldRuntime *GameSession::activeWorldRuntime() const
+{
+    return m_pActiveWorldRuntime;
+}
+
+void GameSession::bindActiveWorldRuntime(IGameplayWorldRuntime *pWorldRuntime)
+{
+    m_pActiveWorldRuntime = pWorldRuntime;
 }
 
 const std::optional<OutdoorPartyRuntime::Snapshot> &GameSession::outdoorPartyState() const
