@@ -2778,7 +2778,7 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
         && charCycleScancode < SDL_SCANCODE_COUNT
         && pKeyboardState[charCycleScancode];
     const bool charCycleNewlyPressed =
-        charCyclePressed && view.m_previousKeyboardState[charCycleScancode] == 0;
+        charCyclePressed && view.previousKeyboardState()[charCycleScancode] == 0;
 
     if (charCycleNewlyPressed)
     {

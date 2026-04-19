@@ -490,14 +490,8 @@ GameApplication::GameApplication(const Engine::ApplicationConfig &config)
         std::bind(&GameApplication::shutdownApplication, this)
     )
     , m_gameSession()
-    , m_indoorGameView(
-        m_gameSession.gameplayUiController(),
-        m_gameSession.gameplayDialogController(),
-        m_gameSession.overlayInteractionState())
-    , m_outdoorGameView(
-        m_gameSession.gameplayUiController(),
-        m_gameSession.gameplayDialogController(),
-        m_gameSession.overlayInteractionState())
+    , m_indoorGameView(m_gameSession)
+    , m_outdoorGameView(m_gameSession)
     , m_pAssetFileSystem(nullptr)
     , m_mapPickerIndex(0)
     , m_showMapPicker(false)

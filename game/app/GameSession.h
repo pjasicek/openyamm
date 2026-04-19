@@ -8,6 +8,9 @@
 #include "game/ui/GameplayOverlayTypes.h"
 #include "game/ui/GameplayUiController.h"
 
+#include <SDL3/SDL.h>
+
+#include <array>
 #include <filesystem>
 #include <optional>
 #include <string>
@@ -44,6 +47,8 @@ public:
     const GameplayDialogController &gameplayDialogController() const;
     GameplayOverlayInteractionState &overlayInteractionState();
     const GameplayOverlayInteractionState &overlayInteractionState() const;
+    std::array<uint8_t, SDL_SCANCODE_COUNT> &previousKeyboardState();
+    const std::array<uint8_t, SDL_SCANCODE_COUNT> &previousKeyboardState() const;
 
     IGameplayWorldRuntime *activeWorldRuntime() const;
     void bindActiveWorldRuntime(IGameplayWorldRuntime *pWorldRuntime);
@@ -113,6 +118,7 @@ private:
     GameplayUiController m_gameplayUiController;
     GameplayDialogController m_gameplayDialogController;
     GameplayOverlayInteractionState m_overlayInteractionState;
+    std::array<uint8_t, SDL_SCANCODE_COUNT> m_previousKeyboardState = {};
     IGameplayWorldRuntime *m_pActiveWorldRuntime = nullptr;
     std::optional<OutdoorPartyRuntime::Snapshot> m_outdoorPartyState;
     std::optional<OutdoorWorldRuntime::Snapshot> m_currentOutdoorWorldState;

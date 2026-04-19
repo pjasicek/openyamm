@@ -1,5 +1,6 @@
 #include "game/outdoor/OutdoorGameView.h"
 
+#include "game/app/GameSession.h"
 #include "engine/BgfxContext.h"
 #include "game/gameplay/GenericActorDialog.h"
 #include "game/fx/ParticleRenderer.h"
@@ -3555,10 +3556,7 @@ bgfx::VertexLayout OutdoorGameView::TexturedTerrainVertex::ms_layout;
 bgfx::VertexLayout OutdoorGameView::LitBillboardVertex::ms_layout;
 bgfx::VertexLayout OutdoorGameView::ForcePerspectiveVertex::ms_layout;
 
-OutdoorGameView::OutdoorGameView(
-    GameplayUiController &gameplayUiController,
-    GameplayDialogController &gameplayDialogController,
-    GameplayOverlayInteractionState &overlayInteractionState)
+OutdoorGameView::OutdoorGameView(GameSession &gameSession)
     : m_isInitialized(false)
     , m_isRenderable(false)
     , m_outdoorMapData(std::nullopt)
@@ -3669,9 +3667,10 @@ OutdoorGameView::OutdoorGameView(
     , m_loadGameClickLatch(false)
     , m_inventoryScreenToggleLatch(false)
     , m_adventurersInnToggleLatch(false)
-    , m_gameplayUiController(gameplayUiController)
-    , m_gameplayDialogController(gameplayDialogController)
-    , m_overlayInteractionState(overlayInteractionState)
+    , m_gameSession(gameSession)
+    , m_gameplayUiController(gameSession.gameplayUiController())
+    , m_gameplayDialogController(gameSession.gameplayDialogController())
+    , m_overlayInteractionState(gameSession.overlayInteractionState())
     , m_characterScreenOpen(m_gameplayUiController.characterScreen().open)
     , m_characterDollJewelryOverlayOpen(m_gameplayUiController.characterScreen().dollJewelryOverlayOpen)
     , m_adventurersInnRosterOverlayOpen(m_gameplayUiController.characterScreen().adventurersInnRosterOverlayOpen)
@@ -11430,7 +11429,7 @@ GameplayOverlaySharedServices OutdoorGameView::buildGameplayOverlaySharedService
     services.pUiController = const_cast<GameplayUiController *>(&m_gameplayUiController);
     services.pInteractionState = const_cast<GameplayOverlayInteractionState *>(&m_overlayInteractionState);
     services.pSettings = const_cast<GameSettings *>(&m_gameSettings);
-    services.pPreviousKeyboardState = &m_previousKeyboardState;
+    services.pPreviousKeyboardState = &m_gameSession.previousKeyboardState();
     return services;
 }
 
@@ -11682,9 +11681,14 @@ GameSettings &OutdoorGameView::mutableSettings()
     return m_gameSettings;
 }
 
+std::array<uint8_t, SDL_SCANCODE_COUNT> &OutdoorGameView::previousKeyboardState()
+{
+    return m_gameSession.previousKeyboardState();
+}
+
 const std::array<uint8_t, SDL_SCANCODE_COUNT> &OutdoorGameView::previousKeyboardState() const
 {
-    return m_previousKeyboardState;
+    return m_gameSession.previousKeyboardState();
 }
 
 const HouseEntry *OutdoorGameView::findHouseEntry(uint32_t houseId) const

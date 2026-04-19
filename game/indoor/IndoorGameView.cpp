@@ -1,5 +1,6 @@
 #include "game/indoor/IndoorGameView.h"
 
+#include "game/app/GameSession.h"
 #include "game/gameplay/GameplayDialogContextBuilder.h"
 #include "game/gameplay/GameMechanics.h"
 #include "game/gameplay/GameplayOverlayInputController.h"
@@ -38,13 +39,11 @@
 
 namespace OpenYAMM::Game
 {
-IndoorGameView::IndoorGameView(
-    GameplayUiController &gameplayUiController,
-    GameplayDialogController &gameplayDialogController,
-    GameplayOverlayInteractionState &overlayInteractionState)
-    : m_gameplayUiController(gameplayUiController)
-    , m_gameplayDialogController(gameplayDialogController)
-    , m_overlayInteractionState(overlayInteractionState)
+IndoorGameView::IndoorGameView(GameSession &gameSession)
+    : m_gameSession(gameSession)
+    , m_gameplayUiController(gameSession.gameplayUiController())
+    , m_gameplayDialogController(gameSession.gameplayDialogController())
+    , m_overlayInteractionState(gameSession.overlayInteractionState())
 {
 }
 
@@ -1235,7 +1234,7 @@ void IndoorGameView::render(int width, int height, float mouseWheelDelta, float 
                 previousKeyboardState[scancode] = pKeyboardState[scancode] ? 1u : 0u;
             }
         }
-    } keyboardStateSnapshotUpdater = {m_previousKeyboardState, pKeyboardState};
+    } keyboardStateSnapshotUpdater = {m_gameSession.previousKeyboardState(), pKeyboardState};
     IGameplayWorldRuntime *pWorldRuntime = worldRuntime();
     const bool hasActiveLootView =
         pWorldRuntime != nullptr
@@ -1263,7 +1262,7 @@ void IndoorGameView::render(int width, int height, float mouseWheelDelta, float 
 
     if (canOpenMenu)
     {
-        if (escapePressed && m_previousKeyboardState[SDL_SCANCODE_ESCAPE] == 0)
+        if (escapePressed && m_gameSession.previousKeyboardState()[SDL_SCANCODE_ESCAPE] == 0)
         {
             openMenuOverlay();
             interactionState().menuToggleLatch = true;
@@ -1927,7 +1926,7 @@ void IndoorGameView::shutdown()
     m_gameplayCursorModeActive = false;
     m_pendingOpenNewGameScreen = false;
     m_pendingOpenLoadGameScreen = false;
-    m_previousKeyboardState.fill(0);
+    m_gameSession.previousKeyboardState().fill(0);
     m_renderedInspectableHudItems.clear();
     m_hudLayoutRuntimeHeightOverrides.clear();
 }
@@ -1985,7 +1984,7 @@ GameplayOverlaySharedServices IndoorGameView::buildGameplayOverlaySharedServices
     services.pUiController = const_cast<GameplayUiController *>(&m_gameplayUiController);
     services.pInteractionState = const_cast<GameplayOverlayInteractionState *>(&m_overlayInteractionState);
     services.pSettings = const_cast<GameSettings *>(&m_settings);
-    services.pPreviousKeyboardState = &m_previousKeyboardState;
+    services.pPreviousKeyboardState = &m_gameSession.previousKeyboardState();
     return services;
 }
 
@@ -2944,9 +2943,14 @@ GameSettings &IndoorGameView::mutableSettings()
     return m_settings;
 }
 
+std::array<uint8_t, SDL_SCANCODE_COUNT> &IndoorGameView::previousKeyboardState()
+{
+    return m_gameSession.previousKeyboardState();
+}
+
 const std::array<uint8_t, SDL_SCANCODE_COUNT> &IndoorGameView::previousKeyboardState() const
 {
-    return m_previousKeyboardState;
+    return m_gameSession.previousKeyboardState();
 }
 
 void IndoorGameView::commitSettingsChange()

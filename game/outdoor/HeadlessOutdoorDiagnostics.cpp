@@ -20458,10 +20458,8 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
         "damage_minor_speech_ignores_combat_cooldown",
         [&](std::string &failure)
         {
-            GameplayUiController uiController;
-            GameplayDialogController dialogController;
-            GameplayOverlayInteractionState overlayInteractionState = {};
-            OutdoorGameView view(uiController, dialogController, overlayInteractionState);
+            GameSession gameSession;
+            OutdoorGameView view(gameSession);
             GameApplicationTestAccess::setSpeechCooldowns(
                 view,
                 std::vector<uint32_t>{1000u},
@@ -20481,10 +20479,8 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
         "damage_major_speech_bypasses_active_speech_cooldowns",
         [&](std::string &failure)
         {
-            GameplayUiController uiController;
-            GameplayDialogController dialogController;
-            GameplayOverlayInteractionState overlayInteractionState = {};
-            OutdoorGameView view(uiController, dialogController, overlayInteractionState);
+            GameSession gameSession;
+            OutdoorGameView view(gameSession);
             GameApplicationTestAccess::setSpeechCooldowns(
                 view,
                 std::vector<uint32_t>{4000u},

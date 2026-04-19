@@ -36,6 +36,7 @@
 
 namespace OpenYAMM::Game
 {
+class GameSession;
 struct ArcomageLibrary;
 class IndoorDebugRenderer;
 class IndoorPartyRuntime;
@@ -53,10 +54,7 @@ class IndoorGameView
     , public IGameplayOverlayHudAdapter
 {
 public:
-    IndoorGameView(
-        GameplayUiController &gameplayUiController,
-        GameplayDialogController &gameplayDialogController,
-        GameplayOverlayInteractionState &overlayInteractionState);
+    explicit IndoorGameView(GameSession &gameSession);
 
     bool initialize(
         const Engine::AssetFileSystem &assetFileSystem,
@@ -164,6 +162,7 @@ public:
         const PartySpellCastRequest &request,
         const std::string &spellName) override;
     GameSettings &mutableSettings();
+    std::array<uint8_t, SDL_SCANCODE_COUNT> &previousKeyboardState();
     const std::array<uint8_t, SDL_SCANCODE_COUNT> &previousKeyboardState() const;
     void commitSettingsChange() override;
     bool trySaveToSelectedGameSlot() override;
@@ -355,6 +354,7 @@ private:
     std::optional<ChestTable> m_chestTable;
     std::optional<NpcDialogTable> m_npcDialogTable;
     UiLayoutManager m_uiLayoutManager;
+    GameSession &m_gameSession;
     GameplayUiController &m_gameplayUiController;
     GameplayDialogController &m_gameplayDialogController;
     GameplayOverlayInteractionState &m_overlayInteractionState;
@@ -364,7 +364,6 @@ private:
         const std::vector<uint8_t> &,
         std::string &)> m_saveGameToPathCallback;
     std::function<void(const GameSettings &)> m_settingsChangedCallback;
-    std::array<uint8_t, SDL_SCANCODE_COUNT> m_previousKeyboardState = {};
     bool m_spellbookToggleLatch = false;
     bool m_inventoryScreenToggleLatch = false;
     bool m_partyPortraitClickLatch = false;

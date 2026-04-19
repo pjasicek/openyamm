@@ -62,6 +62,7 @@ struct SDL_Window;
 
 namespace OpenYAMM::Game
 {
+class GameSession;
 class OutdoorPartyRuntime;
 class OutdoorSceneRuntime;
 class OutdoorWorldRuntime;
@@ -90,10 +91,7 @@ class OutdoorGameView
     , public IGameplayOverlayHudAdapter
 {
 public:
-    OutdoorGameView(
-        GameplayUiController &gameplayUiController,
-        GameplayDialogController &gameplayDialogController,
-        GameplayOverlayInteractionState &overlayInteractionState);
+    explicit OutdoorGameView(GameSession &gameSession);
     ~OutdoorGameView();
 
     OutdoorGameView(const OutdoorGameView &) = delete;
@@ -651,6 +649,7 @@ public:
         uint32_t spellId,
         const std::string &spellName) override;
     GameSettings &mutableSettings();
+    std::array<uint8_t, SDL_SCANCODE_COUNT> &previousKeyboardState();
     const std::array<uint8_t, SDL_SCANCODE_COUNT> &previousKeyboardState() const;
     void commitSettingsChange() override;
     bool trySaveToSelectedGameSlot() override;
@@ -1147,7 +1146,7 @@ private:
     bool m_loadGameClickLatch;
     bool m_inventoryScreenToggleLatch;
     bool m_adventurersInnToggleLatch;
-    std::array<uint8_t, SDL_SCANCODE_COUNT> m_previousKeyboardState = {};
+    GameSession &m_gameSession;
     GameplayUiController &m_gameplayUiController;
     GameplayDialogController &m_gameplayDialogController;
     GameplayOverlayInteractionState &m_overlayInteractionState;

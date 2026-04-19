@@ -120,7 +120,7 @@ void OutdoorGameplayInputController::updateCameraFromInput(
         {
             for (int scancode = 0; scancode < SDL_SCANCODE_COUNT; ++scancode)
             {
-                view.m_previousKeyboardState[scancode] = pKeyboardState[scancode] ? 1 : 0;
+                view.previousKeyboardState()[scancode] = pKeyboardState[scancode] ? 1 : 0;
             }
         };
 
@@ -149,7 +149,7 @@ void OutdoorGameplayInputController::updateCameraFromInput(
                 && scancode > SDL_SCANCODE_UNKNOWN
                 && scancode < SDL_SCANCODE_COUNT
                 && pKeyboardState[scancode]
-                && view.m_previousKeyboardState[scancode] == 0;
+                && view.previousKeyboardState()[scancode] == 0;
         };
 
     const bool hasActiveLootView =
@@ -1577,7 +1577,7 @@ void OutdoorGameplayInputController::updateCameraFromInput(
         if (landPressed
             && landScancode > SDL_SCANCODE_UNKNOWN
             && landScancode < SDL_SCANCODE_COUNT
-            && view.m_previousKeyboardState[landScancode] == 0
+            && view.previousKeyboardState()[landScancode] == 0
             && view.m_pOutdoorPartyRuntime->partyMovementState().flying)
         {
             view.m_pOutdoorPartyRuntime->toggleFlying();

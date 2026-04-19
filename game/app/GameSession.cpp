@@ -33,6 +33,7 @@ void GameSession::clear()
     m_currentMapFileName.clear();
     m_gameplayUiController.clearRuntimeState();
     m_overlayInteractionState = {};
+    m_previousKeyboardState.fill(0);
     m_pActiveWorldRuntime = nullptr;
     m_outdoorPartyState.reset();
     m_currentOutdoorWorldState.reset();
@@ -123,6 +124,16 @@ GameplayOverlayInteractionState &GameSession::overlayInteractionState()
 const GameplayOverlayInteractionState &GameSession::overlayInteractionState() const
 {
     return m_overlayInteractionState;
+}
+
+std::array<uint8_t, SDL_SCANCODE_COUNT> &GameSession::previousKeyboardState()
+{
+    return m_previousKeyboardState;
+}
+
+const std::array<uint8_t, SDL_SCANCODE_COUNT> &GameSession::previousKeyboardState() const
+{
+    return m_previousKeyboardState;
 }
 
 IGameplayWorldRuntime *GameSession::activeWorldRuntime() const
