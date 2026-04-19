@@ -541,12 +541,12 @@ void OutdoorPresentationController::consumePendingPortraitEventFxRequests(Outdoo
                 view.triggerPortraitFxAnimation(pSpellFxEntry->animationName, request.memberIndices);
             }
 
-            if (view.m_pGameAudioSystem == nullptr || view.m_pSpellTable == nullptr)
+            if (view.m_pGameAudioSystem == nullptr || view.spellTable() == nullptr)
             {
                 continue;
             }
 
-            const SpellEntry *pSpellEntry = view.m_pSpellTable->findById(static_cast<int>(request.spellId));
+            const SpellEntry *pSpellEntry = view.spellTable()->findById(static_cast<int>(request.spellId));
 
             if (pSpellEntry != nullptr && pSpellEntry->effectSoundId > 0)
             {

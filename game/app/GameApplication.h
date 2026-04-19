@@ -6,6 +6,7 @@
 #include "engine/ApplicationConfig.h"
 #include "engine/EngineApplication.h"
 #include "game/gameplay/GameplayController.h"
+#include "game/data/GameDataRepository.h"
 #include "game/data/GameDataLoader.h"
 #include "game/audio/GameAudioSystem.h"
 #include "game/indoor/IndoorDebugRenderer.h"
@@ -102,6 +103,7 @@ private:
     Engine::ApplicationConfig m_config;
     Engine::EngineApplication m_engineApplication;
     GameDataLoader m_gameDataLoader;
+    GameDataRepository m_gameDataRepository;
     GameAudioSystem m_gameAudioSystem;
     GameSession m_gameSession;
     IndoorDebugRenderer m_indoorDebugRenderer;

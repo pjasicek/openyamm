@@ -1,10 +1,7 @@
 #pragma once
 
+#include "game/data/GameDataRepository.h"
 #include "game/party/Party.h"
-#include "game/tables/CharacterDollTable.h"
-#include "game/tables/CharacterInspectTable.h"
-#include "game/tables/ClassSkillTable.h"
-#include "game/tables/RaceStartingStatsTable.h"
 #include "game/ui/MenuScreenBase.h"
 #include "game/ui/UiLayoutManager.h"
 
@@ -60,10 +57,7 @@ public:
     NewGameScreen(
         const Engine::AssetFileSystem &assetFileSystem,
         GameAudioSystem *pGameAudioSystem,
-        const CharacterDollTable &characterDollTable,
-        const CharacterInspectTable &characterInspectTable,
-        const ClassSkillTable &classSkillTable,
-        const RaceStartingStatsTable &raceStartingStatsTable,
+        const GameDataRepository &gameData,
         ContinueAction continueAction,
         BackAction backAction);
 
@@ -131,10 +125,7 @@ private:
     void playVoicePreview();
 
     GameAudioSystem *m_pGameAudioSystem = nullptr;
-    const CharacterDollTable *m_pCharacterDollTable = nullptr;
-    const CharacterInspectTable *m_pCharacterInspectTable = nullptr;
-    const ClassSkillTable *m_pClassSkillTable = nullptr;
-    const RaceStartingStatsTable *m_pRaceStartingStatsTable = nullptr;
+    const GameDataRepository *m_pGameData = nullptr;
     ContinueAction m_continueAction;
     BackAction m_backAction;
     UiLayoutManager m_layoutManager;

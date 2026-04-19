@@ -1288,7 +1288,7 @@ void OutdoorBillboardRenderer::queueEventSpellBillboardTextureWarmup(
     OutdoorGameView &view,
     const ScriptedEventProgram &eventProgram)
 {
-    if (view.m_pSpellTable == nullptr || view.m_pObjectTable == nullptr)
+    if (view.spellTable() == nullptr || view.objectTable() == nullptr)
     {
         return;
     }
@@ -1302,14 +1302,14 @@ void OutdoorBillboardRenderer::queueEventSpellBillboardTextureWarmup(
             }
 
             const std::optional<uint16_t> descriptionId =
-                view.m_pObjectTable->findDescriptionIdByObjectId(static_cast<int16_t>(objectId));
+                view.objectTable()->findDescriptionIdByObjectId(static_cast<int16_t>(objectId));
 
             if (!descriptionId)
             {
                 return;
             }
 
-            const ObjectEntry *pObjectEntry = view.m_pObjectTable->get(*descriptionId);
+            const ObjectEntry *pObjectEntry = view.objectTable()->get(*descriptionId);
 
             if (pObjectEntry == nullptr)
             {
@@ -1354,7 +1354,7 @@ void OutdoorBillboardRenderer::queueEventSpellBillboardTextureWarmup(
 
     for (uint32_t spellId : eventProgram.castSpellIds())
     {
-        const SpellEntry *pSpellEntry = view.m_pSpellTable->findById(static_cast<int>(spellId));
+        const SpellEntry *pSpellEntry = view.spellTable()->findById(static_cast<int>(spellId));
 
         if (pSpellEntry == nullptr)
         {

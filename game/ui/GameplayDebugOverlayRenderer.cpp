@@ -90,7 +90,7 @@ void GameplayDebugOverlayRenderer::renderChestPanel(GameplayOverlayContext &cont
         std::ostringstream titleStream;
         titleStream << "Chest #" << pChestView->chestId;
 
-        if (context.chestTable().has_value())
+        if (context.chestTable() != nullptr)
         {
             const ChestEntry *pChestEntry = context.chestTable()->get(pChestView->chestTypeId);
 

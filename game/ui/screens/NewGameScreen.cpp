@@ -644,18 +644,12 @@ std::string characterCreationSkillDisplayName(const std::string &skillName)
 NewGameScreen::NewGameScreen(
     const Engine::AssetFileSystem &assetFileSystem,
     GameAudioSystem *pGameAudioSystem,
-    const CharacterDollTable &characterDollTable,
-    const CharacterInspectTable &characterInspectTable,
-    const ClassSkillTable &classSkillTable,
-    const RaceStartingStatsTable &raceStartingStatsTable,
+    const GameDataRepository &gameData,
     ContinueAction continueAction,
     BackAction backAction)
     : MenuScreenBase(assetFileSystem)
     , m_pGameAudioSystem(pGameAudioSystem)
-    , m_pCharacterDollTable(&characterDollTable)
-    , m_pCharacterInspectTable(&characterInspectTable)
-    , m_pClassSkillTable(&classSkillTable)
-    , m_pRaceStartingStatsTable(&raceStartingStatsTable)
+    , m_pGameData(&gameData)
     , m_continueAction(std::move(continueAction))
     , m_backAction(std::move(backAction))
 {
@@ -756,19 +750,20 @@ std::array<int, static_cast<size_t>(StatId::Count)> NewGameScreen::statsForRace(
         NeutralBaseStatValue
     };
 
-    if (m_pRaceStartingStatsTable == nullptr)
+    if (m_pGameData == nullptr)
     {
         return defaultStats;
     }
 
-    const RaceStartingStatsTable::Entry *pEntry = m_pRaceStartingStatsTable->get(creationRaceName(race));
+    const RaceStartingStatsTable::Entry *pEntry =
+        m_pGameData->raceStartingStatsTable().get(creationRaceName(race));
     return pEntry != nullptr ? pEntry->stats : defaultStats;
 }
 
 const CharacterDollEntry *NewGameScreen::selectedCharacterEntry() const
 {
-    return m_pCharacterDollTable != nullptr
-        ? m_pCharacterDollTable->getCharacter(selectedCandidate().characterDataId)
+    return m_pGameData != nullptr
+        ? m_pGameData->characterDollTable().getCharacter(selectedCandidate().characterDataId)
         : nullptr;
 }
 
@@ -792,12 +787,12 @@ void NewGameScreen::resetCurrentState(bool applyCandidateDefaults)
     m_state.selectedOptionalSkills.clear();
     m_state.statusMessage.clear();
 
-    if (m_pClassSkillTable != nullptr)
+    if (m_pGameData != nullptr)
     {
         for (const char *pSkillName : OrderedSkillNames)
         {
             const StartingSkillAvailability availability =
-                m_pClassSkillTable->getStartingSkillAvailability(candidate.pClassName, pSkillName);
+                m_pGameData->classSkillTable().getStartingSkillAvailability(candidate.pClassName, pSkillName);
 
             if (availability == StartingSkillAvailability::HasByDefault)
             {
@@ -1098,7 +1093,7 @@ std::vector<int> NewGameScreen::availableVoiceIdsForSelectedCandidate() const
     std::vector<int> voiceIds;
     const CharacterDollEntry *pSelectedEntry = selectedCharacterEntry();
 
-    if (pSelectedEntry == nullptr || m_pCharacterDollTable == nullptr)
+    if (pSelectedEntry == nullptr || m_pGameData == nullptr)
     {
         return voiceIds;
     }
@@ -1107,7 +1102,7 @@ std::vector<int> NewGameScreen::availableVoiceIdsForSelectedCandidate() const
 
     for (const CreationCandidate &candidate : CreationCandidates)
     {
-        const CharacterDollEntry *pEntry = m_pCharacterDollTable->getCharacter(candidate.characterDataId);
+        const CharacterDollEntry *pEntry = m_pGameData->characterDollTable().getCharacter(candidate.characterDataId);
 
         if (pEntry == nullptr || pEntry->defaultSex != pSelectedEntry->defaultSex)
         {
@@ -1370,7 +1365,7 @@ void NewGameScreen::renderSkillInspectPopup(
     renderMasteryBlock(
         expertLines,
         inspectAvailabilityColor(skillMasteryAvailabilityForCreation(
-            m_pClassSkillTable,
+            m_pGameData != nullptr ? &m_pGameData->classSkillTable() : nullptr,
             character,
             skillName,
             SkillMastery::Expert)),
@@ -1378,7 +1373,7 @@ void NewGameScreen::renderSkillInspectPopup(
     renderMasteryBlock(
         masterLines,
         inspectAvailabilityColor(skillMasteryAvailabilityForCreation(
-            m_pClassSkillTable,
+            m_pGameData != nullptr ? &m_pGameData->classSkillTable() : nullptr,
             character,
             skillName,
             SkillMastery::Master)),
@@ -1386,7 +1381,7 @@ void NewGameScreen::renderSkillInspectPopup(
     renderMasteryBlock(
         grandmasterLines,
         inspectAvailabilityColor(skillMasteryAvailabilityForCreation(
-            m_pClassSkillTable,
+            m_pGameData != nullptr ? &m_pGameData->classSkillTable() : nullptr,
             character,
             skillName,
             SkillMastery::Grandmaster)),
@@ -1867,7 +1862,7 @@ void NewGameScreen::drawScreen(float deltaSeconds)
         const float valuePixelY = valueRect.y;
         drawText(fontName, statValueText, valuePixelX, valuePixelY, statColor, scale);
 
-        if (rightMouseDown() && m_pCharacterInspectTable != nullptr)
+        if (rightMouseDown() && m_pGameData != nullptr)
         {
             const float labelWidth = measureTextWidth(fontName, StatLabels[statIndex], scale);
             const float valueWidth = measureTextWidth(fontName, statValueText, scale);
@@ -1881,7 +1876,8 @@ void NewGameScreen::drawScreen(float deltaSeconds)
 
             if (hitTest(rowRect))
             {
-                hoveredStatInspect = std::make_pair(rowRect, m_pCharacterInspectTable->getStat(StatLabels[statIndex]));
+                hoveredStatInspect =
+                    std::make_pair(rowRect, m_pGameData->characterInspectTable().getStat(StatLabels[statIndex]));
             }
         }
     }
@@ -1990,9 +1986,12 @@ void NewGameScreen::drawScreen(float deltaSeconds)
         const MenuScreenBase::Rect clickRect =
             drawCenteredSkillText(displayName, skillAnchorRect.x, skillAnchorRect.y, color);
 
-        if (rightMouseDown() && hitTest(clickRect) && m_pCharacterInspectTable != nullptr)
+        if (rightMouseDown() && hitTest(clickRect) && m_pGameData != nullptr)
         {
-            hoveredSkillInspect = HoveredSkillInspect{clickRect, m_pCharacterInspectTable->getSkill(skillName), skillName};
+            hoveredSkillInspect = HoveredSkillInspect{
+                clickRect,
+                m_pGameData->characterInspectTable().getSkill(skillName),
+                skillName};
         }
 
         if (!isDefaultSkill && leftMouseJustReleased() && hitTest(clickRect))
@@ -2019,9 +2018,12 @@ void NewGameScreen::drawScreen(float deltaSeconds)
         const MenuScreenBase::Rect clickRect =
             drawCenteredSkillText(displayName, skillAnchorRect.x, skillAnchorRect.y, isSelected ? BlueColor : WhiteColor);
 
-        if (rightMouseDown() && hitTest(clickRect) && m_pCharacterInspectTable != nullptr)
+        if (rightMouseDown() && hitTest(clickRect) && m_pGameData != nullptr)
         {
-            hoveredSkillInspect = HoveredSkillInspect{clickRect, m_pCharacterInspectTable->getSkill(skillName), skillName};
+            hoveredSkillInspect = HoveredSkillInspect{
+                clickRect,
+                m_pGameData->characterInspectTable().getSkill(skillName),
+                skillName};
         }
 
         if (leftMouseJustReleased() && hitTest(clickRect))
@@ -2035,7 +2037,7 @@ void NewGameScreen::drawScreen(float deltaSeconds)
     if (pEntry != nullptr)
     {
         const CharacterDollTypeEntry *pDollType =
-            m_pCharacterDollTable != nullptr ? m_pCharacterDollTable->getDollType(pEntry->dollTypeId) : nullptr;
+            m_pGameData != nullptr ? m_pGameData->characterDollTable().getDollType(pEntry->dollTypeId) : nullptr;
         const MenuScreenBase::Rect dollAnchorRect =
             resolveRect("CharacterCreationPreviewAnchor", 451.0f, 80.0f, 0.0f, 0.0f);
         const float dollAnchorX = dollAnchorRect.x;

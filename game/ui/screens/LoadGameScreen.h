@@ -1,6 +1,6 @@
 #pragma once
 
-#include "game/tables/MapStats.h"
+#include "game/data/GameDataRepository.h"
 #include "game/ui/MenuScreenBase.h"
 #include "game/ui/UiLayoutManager.h"
 
@@ -20,7 +20,7 @@ public:
 
     LoadGameScreen(
         const Engine::AssetFileSystem &assetFileSystem,
-        const std::vector<MapStatsEntry> &mapEntries,
+        const GameDataRepository &gameData,
         LoadAction loadAction,
         CancelAction cancelAction);
 
@@ -59,7 +59,7 @@ private:
         const std::string &text,
         uint32_t colorAbgrOverride = 0) const;
 
-    const std::vector<MapStatsEntry> *m_pMapEntries = nullptr;
+    const GameDataRepository *m_pGameData = nullptr;
     LoadAction m_loadAction;
     CancelAction m_cancelAction;
     UiLayoutManager m_layoutManager;

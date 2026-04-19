@@ -4549,24 +4549,25 @@ void GameplayPartyOverlayRenderer::renderItemInspectOverlay(GameplayOverlayConte
     }
 }
 
-void GameplayPartyOverlayRenderer::renderCharacterInspectOverlay(const OutdoorGameView &view, int width, int height)
+void GameplayPartyOverlayRenderer::renderCharacterInspectOverlay(GameplayOverlayContext &context, int width, int height)
 {
-    if (!view.m_characterInspectOverlay.active
-        || !bgfx::isValid(view.m_texturedTerrainProgramHandle)
-        || !bgfx::isValid(view.m_terrainTextureSamplerHandle)
+    const GameplayUiController::CharacterInspectOverlayState &overlay = context.characterInspectOverlayReadOnly();
+
+    if (!overlay.active
+        || !context.hasHudRenderResources()
         || width <= 0
         || height <= 0)
     {
         return;
     }
 
-    const OutdoorGameView::HudLayoutElement *pRootLayout = HudUiService::findHudLayoutElement(view, "CharacterInspectRoot");
-    const OutdoorGameView::HudLayoutElement *pTitleLayout = HudUiService::findHudLayoutElement(view, "CharacterInspectTitle");
-    const OutdoorGameView::HudLayoutElement *pBodyLayout = HudUiService::findHudLayoutElement(view, "CharacterInspectBody");
-    const OutdoorGameView::HudLayoutElement *pExpertLayout = HudUiService::findHudLayoutElement(view, "CharacterInspectExpert");
-    const OutdoorGameView::HudLayoutElement *pMasterLayout = HudUiService::findHudLayoutElement(view, "CharacterInspectMaster");
-    const OutdoorGameView::HudLayoutElement *pGrandmasterLayout =
-        HudUiService::findHudLayoutElement(view, "CharacterInspectGrandmaster");
+    const GameplayOverlayContext::HudLayoutElement *pRootLayout = context.findHudLayoutElement("CharacterInspectRoot");
+    const GameplayOverlayContext::HudLayoutElement *pTitleLayout = context.findHudLayoutElement("CharacterInspectTitle");
+    const GameplayOverlayContext::HudLayoutElement *pBodyLayout = context.findHudLayoutElement("CharacterInspectBody");
+    const GameplayOverlayContext::HudLayoutElement *pExpertLayout = context.findHudLayoutElement("CharacterInspectExpert");
+    const GameplayOverlayContext::HudLayoutElement *pMasterLayout = context.findHudLayoutElement("CharacterInspectMaster");
+    const GameplayOverlayContext::HudLayoutElement *pGrandmasterLayout =
+        context.findHudLayoutElement("CharacterInspectGrandmaster");
 
     if (pRootLayout == nullptr
         || pTitleLayout == nullptr
@@ -4581,17 +4582,18 @@ void GameplayPartyOverlayRenderer::renderCharacterInspectOverlay(const OutdoorGa
     const UiViewportRect uiViewport = computeUiViewportRect(width, height);
     const float baseScale = std::min(uiViewport.width / HudReferenceWidth, uiViewport.height / HudReferenceHeight);
     const float popupScale = std::clamp(baseScale, pRootLayout->minScale, pRootLayout->maxScale);
-    const OutdoorGameView::ResolvedHudLayoutElement provisionalRoot = {
+    const GameplayOverlayContext::ResolvedHudLayoutElement provisionalRoot = {
         0.0f,
         0.0f,
         pRootLayout->width * popupScale,
         pRootLayout->height * popupScale,
         popupScale
     };
-    const OutdoorGameView::HudFontHandle *pBodyFont = HudUiService::findHudFont(view, "SMALLNUM");
+    const std::optional<GameplayOverlayContext::HudFontHandle> bodyFont = context.findHudFont("SMALLNUM");
+    const GameplayOverlayContext::HudFontHandle *pBodyFont = bodyFont ? &*bodyFont : nullptr;
     const float bodyLineHeight =
         pBodyFont != nullptr ? static_cast<float>(pBodyFont->fontHeight) * popupScale : 12.0f * popupScale;
-    const OutdoorGameView::ResolvedHudLayoutElement bodyRectForSizing = OutdoorGameView::resolveAttachedHudLayoutRect(
+    const GameplayOverlayContext::ResolvedHudLayoutElement bodyRectForSizing = GameplayHudCommon::resolveAttachedHudLayoutRect(
         pBodyLayout->attachTo,
         provisionalRoot,
         pBodyLayout->width * popupScale,
@@ -4604,23 +4606,21 @@ void GameplayPartyOverlayRenderer::renderCharacterInspectOverlay(const OutdoorGa
     const float bodyWidth = std::max(0.0f, bodyWidthScaled / std::max(1.0f, popupScale));
     const std::vector<std::string> bodyLines =
         pBodyFont != nullptr
-            ? HudUiService::wrapHudTextToWidth(view, *pBodyFont, view.m_characterInspectOverlay.body, bodyWidth)
-            : std::vector<std::string>{view.m_characterInspectOverlay.body};
+            ? context.wrapHudTextToWidth(*pBodyFont, overlay.body, bodyWidth)
+            : std::vector<std::string>{overlay.body};
     const float bodyHeight = bodyLines.empty() ? bodyLineHeight : bodyLineHeight * static_cast<float>(bodyLines.size());
-    const bool showExpert =
-        view.m_characterInspectOverlay.expert.visible && !view.m_characterInspectOverlay.expert.text.empty();
-    const bool showMaster =
-        view.m_characterInspectOverlay.master.visible && !view.m_characterInspectOverlay.master.text.empty();
-    const bool showGrandmaster =
-        view.m_characterInspectOverlay.grandmaster.visible && !view.m_characterInspectOverlay.grandmaster.text.empty();
+    const bool showExpert = overlay.expert.visible && !overlay.expert.text.empty();
+    const bool showMaster = overlay.master.visible && !overlay.master.text.empty();
+    const bool showGrandmaster = overlay.grandmaster.visible && !overlay.grandmaster.text.empty();
     static constexpr float CharacterInspectBodyToRowsGap = 10.0f;
     static constexpr float CharacterInspectRowGap = 2.0f;
     static constexpr float CharacterInspectBottomPadding = 15.0f;
 
     const auto resolveWrappedMasteryLines =
-        [&view, popupScale](const OutdoorGameView::HudLayoutElement &layout, const std::string &text) -> std::vector<std::string>
+        [&context, popupScale](const GameplayOverlayContext::HudLayoutElement &layout, const std::string &text) -> std::vector<std::string>
         {
-            const OutdoorGameView::HudFontHandle *pFont = HudUiService::findHudFont(view, layout.fontName);
+            const std::optional<GameplayOverlayContext::HudFontHandle> font = context.findHudFont(layout.fontName);
+            const GameplayOverlayContext::HudFontHandle *pFont = font ? &*font : nullptr;
 
             if (pFont == nullptr)
             {
@@ -4630,39 +4630,34 @@ void GameplayPartyOverlayRenderer::renderCharacterInspectOverlay(const OutdoorGa
             const float maxWidthScaled =
                 std::max(0.0f, layout.width * popupScale - std::abs(layout.textPadX * popupScale) * 2.0f);
             const float maxWidth = std::max(0.0f, maxWidthScaled / std::max(1.0f, popupScale));
-            return HudUiService::wrapHudTextToWidth(view, *pFont, text, maxWidth);
+            return context.wrapHudTextToWidth(*pFont, text, maxWidth);
         };
 
     const auto masteryRowHeight =
-        [&view, popupScale](const OutdoorGameView::HudLayoutElement &layout, const std::vector<std::string> &lines) -> float
+        [&context, popupScale](const GameplayOverlayContext::HudLayoutElement &layout, const std::vector<std::string> &lines) -> float
         {
-            const OutdoorGameView::HudFontHandle *pFont = HudUiService::findHudFont(view, layout.fontName);
+            const std::optional<GameplayOverlayContext::HudFontHandle> font = context.findHudFont(layout.fontName);
+            const GameplayOverlayContext::HudFontHandle *pFont = font ? &*font : nullptr;
             const float lineHeight =
                 pFont != nullptr ? static_cast<float>(pFont->fontHeight) * popupScale : layout.height * popupScale;
             return std::max(lineHeight, lineHeight * static_cast<float>(std::max<size_t>(1, lines.size())));
         };
 
     const std::vector<std::string> expertLines =
-        showExpert
-            ? resolveWrappedMasteryLines(*pExpertLayout, view.m_characterInspectOverlay.expert.text)
-            : std::vector<std::string>{};
+        showExpert ? resolveWrappedMasteryLines(*pExpertLayout, overlay.expert.text) : std::vector<std::string>{};
     const std::vector<std::string> masterLines =
-        showMaster
-            ? resolveWrappedMasteryLines(*pMasterLayout, view.m_characterInspectOverlay.master.text)
-            : std::vector<std::string>{};
+        showMaster ? resolveWrappedMasteryLines(*pMasterLayout, overlay.master.text) : std::vector<std::string>{};
     const std::vector<std::string> grandmasterLines =
-        showGrandmaster
-            ? resolveWrappedMasteryLines(*pGrandmasterLayout, view.m_characterInspectOverlay.grandmaster.text)
-            : std::vector<std::string>{};
+        showGrandmaster ? resolveWrappedMasteryLines(*pGrandmasterLayout, overlay.grandmaster.text) : std::vector<std::string>{};
     float masteryHeight = 0.0f;
     bool hasAnyMasteryRows = false;
 
     for (const auto &[showRow, pLayout, pLines] : {
-             std::tuple<bool, const OutdoorGameView::HudLayoutElement *, const std::vector<std::string> *>{
+             std::tuple<bool, const GameplayOverlayContext::HudLayoutElement *, const std::vector<std::string> *>{
                  showExpert, pExpertLayout, &expertLines},
-             std::tuple<bool, const OutdoorGameView::HudLayoutElement *, const std::vector<std::string> *>{
+             std::tuple<bool, const GameplayOverlayContext::HudLayoutElement *, const std::vector<std::string> *>{
                  showMaster, pMasterLayout, &masterLines},
-             std::tuple<bool, const OutdoorGameView::HudLayoutElement *, const std::vector<std::string> *>{
+             std::tuple<bool, const GameplayOverlayContext::HudLayoutElement *, const std::vector<std::string> *>{
                  showGrandmaster, pGrandmasterLayout, &grandmasterLines}})
     {
         if (!showRow)
@@ -4686,18 +4681,17 @@ void GameplayPartyOverlayRenderer::renderCharacterInspectOverlay(const OutdoorGa
         + (hasAnyMasteryRows ? CharacterInspectBodyToRowsGap * popupScale + masteryHeight : 0.0f)
         + CharacterInspectBottomPadding * popupScale;
     const float popupGap = 12.0f * popupScale;
-    float rootX = view.m_characterInspectOverlay.sourceX + view.m_characterInspectOverlay.sourceWidth + popupGap;
+    float rootX = overlay.sourceX + overlay.sourceWidth + popupGap;
 
     if (rootX + rootWidth > uiViewport.x + uiViewport.width)
     {
-        rootX = view.m_characterInspectOverlay.sourceX - rootWidth - popupGap;
+        rootX = overlay.sourceX - rootWidth - popupGap;
     }
 
     rootX = std::clamp(rootX, uiViewport.x, uiViewport.x + uiViewport.width - rootWidth);
-    float rootY =
-        view.m_characterInspectOverlay.sourceY + (view.m_characterInspectOverlay.sourceHeight - rootHeight) * 0.5f;
+    float rootY = overlay.sourceY + (overlay.sourceHeight - rootHeight) * 0.5f;
     rootY = std::clamp(rootY, uiViewport.y, uiViewport.y + uiViewport.height - rootHeight);
-    const OutdoorGameView::ResolvedHudLayoutElement rootRect = {
+    const GameplayOverlayContext::ResolvedHudLayoutElement rootRect = {
         std::round(rootX),
         std::round(rootY),
         std::round(rootWidth),
@@ -4707,20 +4701,22 @@ void GameplayPartyOverlayRenderer::renderCharacterInspectOverlay(const OutdoorGa
 
     setupHudProjection(width, height);
 
-    const OutdoorGameView::HudTextureHandle *pBackgroundTexture =
-        HudUiService::ensureHudTextureLoaded(const_cast<OutdoorGameView &>(view), pRootLayout->primaryAsset);
+    const std::optional<GameplayOverlayContext::HudTextureHandle> backgroundTexture =
+        context.ensureHudTextureLoaded(pRootLayout->primaryAsset);
+    const GameplayOverlayContext::HudTextureHandle *pBackgroundTexture =
+        backgroundTexture ? &*backgroundTexture : nullptr;
 
     if (pBackgroundTexture != nullptr)
     {
-        view.submitHudTexturedQuad(*pBackgroundTexture, rootRect.x, rootRect.y, rootRect.width, rootRect.height);
+        context.submitHudTexturedQuad(*pBackgroundTexture, rootRect.x, rootRect.y, rootRect.width, rootRect.height);
     }
 
-    std::function<std::optional<OutdoorGameView::ResolvedHudLayoutElement>(const std::string &)> resolveLayout;
+    std::function<std::optional<GameplayOverlayContext::ResolvedHudLayoutElement>(const std::string &)> resolveLayout;
     resolveLayout =
-        [&view, &rootRect, popupScale, &resolveLayout](
-            const std::string &layoutId) -> std::optional<OutdoorGameView::ResolvedHudLayoutElement>
+        [&context, &rootRect, popupScale, &resolveLayout](
+            const std::string &layoutId) -> std::optional<GameplayOverlayContext::ResolvedHudLayoutElement>
         {
-            const OutdoorGameView::HudLayoutElement *pLayout = HudUiService::findHudLayoutElement(view, layoutId);
+            const GameplayOverlayContext::HudLayoutElement *pLayout = context.findHudLayoutElement(layoutId);
 
             if (pLayout == nullptr)
             {
@@ -4733,8 +4729,9 @@ void GameplayPartyOverlayRenderer::renderCharacterInspectOverlay(const OutdoorGa
 
             if ((pLayout->width <= 0.0f || pLayout->height <= 0.0f) && !pLayout->primaryAsset.empty())
             {
-                const OutdoorGameView::HudTextureHandle *pTexture =
-                    HudUiService::ensureHudTextureLoaded(const_cast<OutdoorGameView &>(view), pLayout->primaryAsset);
+                const std::optional<GameplayOverlayContext::HudTextureHandle> texture =
+                    context.ensureHudTextureLoaded(pLayout->primaryAsset);
+                const GameplayOverlayContext::HudTextureHandle *pTexture = texture ? &*texture : nullptr;
 
                 if (pTexture != nullptr)
                 {
@@ -4762,11 +4759,11 @@ void GameplayPartyOverlayRenderer::renderCharacterInspectOverlay(const OutdoorGa
                 resolvedHeight = rootRect.height;
             }
 
-            OutdoorGameView::ResolvedHudLayoutElement parent = rootRect;
+            GameplayOverlayContext::ResolvedHudLayoutElement parent = rootRect;
 
             if (!pLayout->parentId.empty() && toLowerCopy(pLayout->parentId) != "characterinspectroot")
             {
-                const std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolvedParent =
+                const std::optional<GameplayOverlayContext::ResolvedHudLayoutElement> resolvedParent =
                     resolveLayout(pLayout->parentId);
 
                 if (resolvedParent)
@@ -4775,7 +4772,7 @@ void GameplayPartyOverlayRenderer::renderCharacterInspectOverlay(const OutdoorGa
                 }
             }
 
-            return OutdoorGameView::resolveAttachedHudLayoutRect(
+            return GameplayHudCommon::resolveAttachedHudLayoutRect(
                 pLayout->attachTo,
                 parent,
                 resolvedWidth,
@@ -4785,11 +4782,11 @@ void GameplayPartyOverlayRenderer::renderCharacterInspectOverlay(const OutdoorGa
                 popupScale);
         };
 
-    const std::vector<std::string> orderedLayoutIds = HudUiService::sortedHudLayoutIdsForScreen(view, "CharacterInspect");
+    const std::vector<std::string> orderedLayoutIds = context.sortedHudLayoutIdsForScreen("CharacterInspect");
 
     for (const std::string &layoutId : orderedLayoutIds)
     {
-        const OutdoorGameView::HudLayoutElement *pLayout = HudUiService::findHudLayoutElement(view, layoutId);
+        const GameplayOverlayContext::HudLayoutElement *pLayout = context.findHudLayoutElement(layoutId);
 
         if (pLayout == nullptr
             || !pLayout->visible
@@ -4799,40 +4796,41 @@ void GameplayPartyOverlayRenderer::renderCharacterInspectOverlay(const OutdoorGa
             continue;
         }
 
-        const OutdoorGameView::HudTextureHandle *pTexture =
-            HudUiService::ensureHudTextureLoaded(const_cast<OutdoorGameView &>(view), pLayout->primaryAsset);
-        const std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolved = resolveLayout(layoutId);
+        const std::optional<GameplayOverlayContext::HudTextureHandle> texture =
+            context.ensureHudTextureLoaded(pLayout->primaryAsset);
+        const GameplayOverlayContext::HudTextureHandle *pTexture = texture ? &*texture : nullptr;
+        const std::optional<GameplayOverlayContext::ResolvedHudLayoutElement> resolved = resolveLayout(layoutId);
 
         if (pTexture == nullptr || !resolved)
         {
             continue;
         }
 
-        view.submitHudTexturedQuad(*pTexture, resolved->x, resolved->y, resolved->width, resolved->height);
+        context.submitHudTexturedQuad(*pTexture, resolved->x, resolved->y, resolved->width, resolved->height);
     }
 
     const auto renderSingleLine =
-        [&view, &resolveLayout](const char *pLayoutId, const std::string &text)
+        [&context, &resolveLayout](const char *pLayoutId, const std::string &text)
         {
-            const OutdoorGameView::HudLayoutElement *pLayout = HudUiService::findHudLayoutElement(view, pLayoutId);
-            const std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolved = resolveLayout(pLayoutId);
+            const GameplayOverlayContext::HudLayoutElement *pLayout = context.findHudLayoutElement(pLayoutId);
+            const std::optional<GameplayOverlayContext::ResolvedHudLayoutElement> resolved = resolveLayout(pLayoutId);
 
             if (pLayout == nullptr || !resolved || text.empty())
             {
                 return;
             }
 
-            HudUiService::renderLayoutLabel(view, *pLayout, *resolved, text);
+            context.renderLayoutLabel(*pLayout, *resolved, text);
         };
 
-    renderSingleLine("CharacterInspectTitle", view.m_characterInspectOverlay.title);
+    renderSingleLine("CharacterInspectTitle", overlay.title);
 
-    const std::optional<OutdoorGameView::ResolvedHudLayoutElement> bodyBaseRect = resolveLayout("CharacterInspectBody");
+    const std::optional<GameplayOverlayContext::ResolvedHudLayoutElement> bodyBaseRect = resolveLayout("CharacterInspectBody");
 
     if (bodyBaseRect && pBodyFont != nullptr)
     {
         bgfx::TextureHandle coloredMainTextureHandle =
-            HudUiService::ensureHudFontMainTextureColor(view, *pBodyFont, pBodyLayout->textColorAbgr);
+            context.ensureHudFontMainTextureColor(*pBodyFont, pBodyLayout->textColorAbgr);
 
         if (!bgfx::isValid(coloredMainTextureHandle))
         {
@@ -4844,8 +4842,8 @@ void GameplayPartyOverlayRenderer::renderCharacterInspectOverlay(const OutdoorGa
 
         for (const std::string &line : bodyLines)
         {
-            HudUiService::renderHudFontLayer(view, *pBodyFont, pBodyFont->shadowTextureHandle, line, textX, textY, popupScale);
-            HudUiService::renderHudFontLayer(view, *pBodyFont, coloredMainTextureHandle, line, textX, textY, popupScale);
+            context.renderHudFontLayer(*pBodyFont, pBodyFont->shadowTextureHandle, line, textX, textY, popupScale);
+            context.renderHudFontLayer(*pBodyFont, coloredMainTextureHandle, line, textX, textY, popupScale);
             textY += bodyLineHeight;
         }
 
@@ -4870,11 +4868,11 @@ void GameplayPartyOverlayRenderer::renderCharacterInspectOverlay(const OutdoorGa
 
         float nextRowY = std::round(bodyBaseRect->y + bodyHeight + CharacterInspectBodyToRowsGap * popupScale);
         const auto renderMasteryRow =
-            [&view, popupScale, &masteryColorForAvailability](
-                const OutdoorGameView::HudLayoutElement &baseLayout,
-                const OutdoorGameView::ResolvedHudLayoutElement &baseResolved,
+            [&context, popupScale, &masteryColorForAvailability](
+                const GameplayOverlayContext::HudLayoutElement &baseLayout,
+                const GameplayOverlayContext::ResolvedHudLayoutElement &baseResolved,
                 float rowY,
-                const OutdoorGameView::CharacterInspectMasteryLine &line,
+                const GameplayUiController::CharacterInspectMasteryLine &line,
                 const std::vector<std::string> &wrappedLines) -> float
             {
                 if (!line.visible || line.text.empty())
@@ -4882,7 +4880,8 @@ void GameplayPartyOverlayRenderer::renderCharacterInspectOverlay(const OutdoorGa
                     return rowY;
                 }
 
-                const OutdoorGameView::HudFontHandle *pFont = HudUiService::findHudFont(view, baseLayout.fontName);
+                const std::optional<GameplayOverlayContext::HudFontHandle> font = context.findHudFont(baseLayout.fontName);
+                const GameplayOverlayContext::HudFontHandle *pFont = font ? &*font : nullptr;
 
                 if (pFont == nullptr)
                 {
@@ -4890,9 +4889,7 @@ void GameplayPartyOverlayRenderer::renderCharacterInspectOverlay(const OutdoorGa
                 }
 
                 bgfx::TextureHandle coloredMainTextureHandle =
-                    HudUiService::ensureHudFontMainTextureColor(view, 
-                        *pFont,
-                        masteryColorForAvailability(line.availability));
+                    context.ensureHudFontMainTextureColor(*pFont, masteryColorForAvailability(line.availability));
 
                 if (!bgfx::isValid(coloredMainTextureHandle))
                 {
@@ -4905,17 +4902,17 @@ void GameplayPartyOverlayRenderer::renderCharacterInspectOverlay(const OutdoorGa
 
                 for (const std::string &wrappedLine : wrappedLines)
                 {
-                    HudUiService::renderHudFontLayer(view, *pFont, pFont->shadowTextureHandle, wrappedLine, textX, textY, popupScale);
-                    HudUiService::renderHudFontLayer(view, *pFont, coloredMainTextureHandle, wrappedLine, textX, textY, popupScale);
+                    context.renderHudFontLayer(*pFont, pFont->shadowTextureHandle, wrappedLine, textX, textY, popupScale);
+                    context.renderHudFontLayer(*pFont, coloredMainTextureHandle, wrappedLine, textX, textY, popupScale);
                     textY += lineHeight;
                 }
 
                 return rowY + lineHeight * static_cast<float>(std::max<size_t>(1, wrappedLines.size()));
             };
 
-        const std::optional<OutdoorGameView::ResolvedHudLayoutElement> expertRect = resolveLayout("CharacterInspectExpert");
-        const std::optional<OutdoorGameView::ResolvedHudLayoutElement> masterRect = resolveLayout("CharacterInspectMaster");
-        const std::optional<OutdoorGameView::ResolvedHudLayoutElement> grandmasterRect =
+        const std::optional<GameplayOverlayContext::ResolvedHudLayoutElement> expertRect = resolveLayout("CharacterInspectExpert");
+        const std::optional<GameplayOverlayContext::ResolvedHudLayoutElement> masterRect = resolveLayout("CharacterInspectMaster");
+        const std::optional<GameplayOverlayContext::ResolvedHudLayoutElement> grandmasterRect =
             resolveLayout("CharacterInspectGrandmaster");
 
         if (expertRect)
@@ -4924,7 +4921,7 @@ void GameplayPartyOverlayRenderer::renderCharacterInspectOverlay(const OutdoorGa
                 *pExpertLayout,
                 *expertRect,
                 nextRowY,
-                view.m_characterInspectOverlay.expert,
+                overlay.expert,
                 expertLines);
 
             if (showExpert)
@@ -4939,7 +4936,7 @@ void GameplayPartyOverlayRenderer::renderCharacterInspectOverlay(const OutdoorGa
                 *pMasterLayout,
                 *masterRect,
                 nextRowY,
-                view.m_characterInspectOverlay.master,
+                overlay.master,
                 masterLines);
 
             if (showMaster)
@@ -4954,30 +4951,31 @@ void GameplayPartyOverlayRenderer::renderCharacterInspectOverlay(const OutdoorGa
                 *pGrandmasterLayout,
                 *grandmasterRect,
                 nextRowY,
-                view.m_characterInspectOverlay.grandmaster,
+                overlay.grandmaster,
                 grandmasterLines);
         }
     }
 }
 
-void GameplayPartyOverlayRenderer::renderSpellInspectOverlay(const OutdoorGameView &view, int width, int height)
+void GameplayPartyOverlayRenderer::renderSpellInspectOverlay(GameplayOverlayContext &context, int width, int height)
 {
-    if (!view.m_spellInspectOverlay.active
-        || !bgfx::isValid(view.m_texturedTerrainProgramHandle)
-        || !bgfx::isValid(view.m_terrainTextureSamplerHandle)
+    const GameplayUiController::SpellInspectOverlayState &overlay = context.spellInspectOverlayReadOnly();
+
+    if (!overlay.active
+        || !context.hasHudRenderResources()
         || width <= 0
         || height <= 0)
     {
         return;
     }
 
-    const OutdoorGameView::HudLayoutElement *pRootLayout = HudUiService::findHudLayoutElement(view, "SpellInspectRoot");
-    const OutdoorGameView::HudLayoutElement *pTitleLayout = HudUiService::findHudLayoutElement(view, "SpellInspectTitle");
-    const OutdoorGameView::HudLayoutElement *pBodyLayout = HudUiService::findHudLayoutElement(view, "SpellInspectBody");
-    const OutdoorGameView::HudLayoutElement *pNormalLayout = HudUiService::findHudLayoutElement(view, "SpellInspectNormal");
-    const OutdoorGameView::HudLayoutElement *pExpertLayout = HudUiService::findHudLayoutElement(view, "SpellInspectExpert");
-    const OutdoorGameView::HudLayoutElement *pMasterLayout = HudUiService::findHudLayoutElement(view, "SpellInspectMaster");
-    const OutdoorGameView::HudLayoutElement *pGrandmasterLayout = HudUiService::findHudLayoutElement(view, "SpellInspectGrandmaster");
+    const GameplayOverlayContext::HudLayoutElement *pRootLayout = context.findHudLayoutElement("SpellInspectRoot");
+    const GameplayOverlayContext::HudLayoutElement *pTitleLayout = context.findHudLayoutElement("SpellInspectTitle");
+    const GameplayOverlayContext::HudLayoutElement *pBodyLayout = context.findHudLayoutElement("SpellInspectBody");
+    const GameplayOverlayContext::HudLayoutElement *pNormalLayout = context.findHudLayoutElement("SpellInspectNormal");
+    const GameplayOverlayContext::HudLayoutElement *pExpertLayout = context.findHudLayoutElement("SpellInspectExpert");
+    const GameplayOverlayContext::HudLayoutElement *pMasterLayout = context.findHudLayoutElement("SpellInspectMaster");
+    const GameplayOverlayContext::HudLayoutElement *pGrandmasterLayout = context.findHudLayoutElement("SpellInspectGrandmaster");
 
     if (pRootLayout == nullptr
         || pTitleLayout == nullptr
@@ -4993,17 +4991,18 @@ void GameplayPartyOverlayRenderer::renderSpellInspectOverlay(const OutdoorGameVi
     const UiViewportRect uiViewport = computeUiViewportRect(width, height);
     const float baseScale = std::min(uiViewport.width / HudReferenceWidth, uiViewport.height / HudReferenceHeight);
     const float popupScale = std::clamp(baseScale, pRootLayout->minScale, pRootLayout->maxScale);
-    const OutdoorGameView::ResolvedHudLayoutElement provisionalRoot = {
+    const GameplayOverlayContext::ResolvedHudLayoutElement provisionalRoot = {
         0.0f,
         0.0f,
         pRootLayout->width * popupScale,
         pRootLayout->height * popupScale,
         popupScale
     };
-    const OutdoorGameView::HudFontHandle *pBodyFont = HudUiService::findHudFont(view, "SMALLNUM");
+    const std::optional<GameplayOverlayContext::HudFontHandle> bodyFont = context.findHudFont("SMALLNUM");
+    const GameplayOverlayContext::HudFontHandle *pBodyFont = bodyFont ? &*bodyFont : nullptr;
     const float bodyLineHeight =
         pBodyFont != nullptr ? static_cast<float>(pBodyFont->fontHeight) * popupScale : 12.0f * popupScale;
-    const OutdoorGameView::ResolvedHudLayoutElement bodyRectForSizing = OutdoorGameView::resolveAttachedHudLayoutRect(
+    const GameplayOverlayContext::ResolvedHudLayoutElement bodyRectForSizing = GameplayHudCommon::resolveAttachedHudLayoutRect(
         pBodyLayout->attachTo,
         provisionalRoot,
         pBodyLayout->width * popupScale,
@@ -5016,17 +5015,18 @@ void GameplayPartyOverlayRenderer::renderSpellInspectOverlay(const OutdoorGameVi
     const float bodyWidth = std::max(0.0f, bodyWidthScaled / std::max(1.0f, popupScale));
     const std::vector<std::string> bodyLines =
         pBodyFont != nullptr
-            ? HudUiService::wrapHudTextToWidth(view, *pBodyFont, view.m_spellInspectOverlay.body, bodyWidth)
-            : std::vector<std::string>{view.m_spellInspectOverlay.body};
+            ? context.wrapHudTextToWidth(*pBodyFont, overlay.body, bodyWidth)
+            : std::vector<std::string>{overlay.body};
     const float bodyHeight = bodyLines.empty() ? bodyLineHeight : bodyLineHeight * static_cast<float>(bodyLines.size());
     static constexpr float SpellInspectBodyToRowsGap = 10.0f;
     static constexpr float SpellInspectRowGap = 2.0f;
     static constexpr float SpellInspectBottomPadding = 15.0f;
 
     const auto resolveWrappedLines =
-        [&view, popupScale](const OutdoorGameView::HudLayoutElement &layout, const std::string &text) -> std::vector<std::string>
+        [&context, popupScale](const GameplayOverlayContext::HudLayoutElement &layout, const std::string &text) -> std::vector<std::string>
         {
-            const OutdoorGameView::HudFontHandle *pFont = HudUiService::findHudFont(view, layout.fontName);
+            const std::optional<GameplayOverlayContext::HudFontHandle> font = context.findHudFont(layout.fontName);
+            const GameplayOverlayContext::HudFontHandle *pFont = font ? &*font : nullptr;
 
             if (pFont == nullptr)
             {
@@ -5036,43 +5036,42 @@ void GameplayPartyOverlayRenderer::renderSpellInspectOverlay(const OutdoorGameVi
             const float maxWidthScaled =
                 std::max(0.0f, layout.width * popupScale - std::abs(layout.textPadX * popupScale) * 2.0f);
             const float maxWidth = std::max(0.0f, maxWidthScaled / std::max(1.0f, popupScale));
-            return HudUiService::wrapHudTextToWidth(view, *pFont, text, maxWidth);
+            return context.wrapHudTextToWidth(*pFont, text, maxWidth);
         };
 
     const auto rowHeight =
-        [&view, popupScale](const OutdoorGameView::HudLayoutElement &layout, const std::vector<std::string> &lines) -> float
+        [&context, popupScale](const GameplayOverlayContext::HudLayoutElement &layout, const std::vector<std::string> &lines) -> float
         {
-            const OutdoorGameView::HudFontHandle *pFont = HudUiService::findHudFont(view, layout.fontName);
+            const std::optional<GameplayOverlayContext::HudFontHandle> font = context.findHudFont(layout.fontName);
+            const GameplayOverlayContext::HudFontHandle *pFont = font ? &*font : nullptr;
             const float lineHeight =
                 pFont != nullptr ? static_cast<float>(pFont->fontHeight) * popupScale : layout.height * popupScale;
             return std::max(lineHeight, lineHeight * static_cast<float>(std::max<size_t>(1, lines.size())));
         };
 
-    const bool showNormal = !view.m_spellInspectOverlay.normal.empty();
-    const bool showExpert = !view.m_spellInspectOverlay.expert.empty();
-    const bool showMaster = !view.m_spellInspectOverlay.master.empty();
-    const bool showGrandmaster = !view.m_spellInspectOverlay.grandmaster.empty();
+    const bool showNormal = !overlay.normal.empty();
+    const bool showExpert = !overlay.expert.empty();
+    const bool showMaster = !overlay.master.empty();
+    const bool showGrandmaster = !overlay.grandmaster.empty();
     const std::vector<std::string> normalLines =
-        showNormal ? resolveWrappedLines(*pNormalLayout, view.m_spellInspectOverlay.normal) : std::vector<std::string>{};
+        showNormal ? resolveWrappedLines(*pNormalLayout, overlay.normal) : std::vector<std::string>{};
     const std::vector<std::string> expertLines =
-        showExpert ? resolveWrappedLines(*pExpertLayout, view.m_spellInspectOverlay.expert) : std::vector<std::string>{};
+        showExpert ? resolveWrappedLines(*pExpertLayout, overlay.expert) : std::vector<std::string>{};
     const std::vector<std::string> masterLines =
-        showMaster ? resolveWrappedLines(*pMasterLayout, view.m_spellInspectOverlay.master) : std::vector<std::string>{};
+        showMaster ? resolveWrappedLines(*pMasterLayout, overlay.master) : std::vector<std::string>{};
     const std::vector<std::string> grandmasterLines =
-        showGrandmaster
-            ? resolveWrappedLines(*pGrandmasterLayout, view.m_spellInspectOverlay.grandmaster)
-            : std::vector<std::string>{};
+        showGrandmaster ? resolveWrappedLines(*pGrandmasterLayout, overlay.grandmaster) : std::vector<std::string>{};
     float rowsHeight = 0.0f;
     bool hasRows = false;
 
     for (const auto &[showRow, pLayout, pLines] : {
-             std::tuple<bool, const OutdoorGameView::HudLayoutElement *, const std::vector<std::string> *>{
+             std::tuple<bool, const GameplayOverlayContext::HudLayoutElement *, const std::vector<std::string> *>{
                  showNormal, pNormalLayout, &normalLines},
-             std::tuple<bool, const OutdoorGameView::HudLayoutElement *, const std::vector<std::string> *>{
+             std::tuple<bool, const GameplayOverlayContext::HudLayoutElement *, const std::vector<std::string> *>{
                  showExpert, pExpertLayout, &expertLines},
-             std::tuple<bool, const OutdoorGameView::HudLayoutElement *, const std::vector<std::string> *>{
+             std::tuple<bool, const GameplayOverlayContext::HudLayoutElement *, const std::vector<std::string> *>{
                  showMaster, pMasterLayout, &masterLines},
-             std::tuple<bool, const OutdoorGameView::HudLayoutElement *, const std::vector<std::string> *>{
+             std::tuple<bool, const GameplayOverlayContext::HudLayoutElement *, const std::vector<std::string> *>{
                  showGrandmaster, pGrandmasterLayout, &grandmasterLines}})
     {
         if (!showRow)
@@ -5096,17 +5095,17 @@ void GameplayPartyOverlayRenderer::renderSpellInspectOverlay(const OutdoorGameVi
         + (hasRows ? SpellInspectBodyToRowsGap * popupScale + rowsHeight : 0.0f)
         + SpellInspectBottomPadding * popupScale;
     const float popupGap = 12.0f * popupScale;
-    float rootX = view.m_spellInspectOverlay.sourceX + view.m_spellInspectOverlay.sourceWidth + popupGap;
+    float rootX = overlay.sourceX + overlay.sourceWidth + popupGap;
 
     if (rootX + rootWidth > uiViewport.x + uiViewport.width)
     {
-        rootX = view.m_spellInspectOverlay.sourceX - rootWidth - popupGap;
+        rootX = overlay.sourceX - rootWidth - popupGap;
     }
 
     rootX = std::clamp(rootX, uiViewport.x, uiViewport.x + uiViewport.width - rootWidth);
-    float rootY = view.m_spellInspectOverlay.sourceY + (view.m_spellInspectOverlay.sourceHeight - rootHeight) * 0.5f;
+    float rootY = overlay.sourceY + (overlay.sourceHeight - rootHeight) * 0.5f;
     rootY = std::clamp(rootY, uiViewport.y, uiViewport.y + uiViewport.height - rootHeight);
-    const OutdoorGameView::ResolvedHudLayoutElement rootRect = {
+    const GameplayOverlayContext::ResolvedHudLayoutElement rootRect = {
         std::round(rootX),
         std::round(rootY),
         std::round(rootWidth),
@@ -5116,20 +5115,22 @@ void GameplayPartyOverlayRenderer::renderSpellInspectOverlay(const OutdoorGameVi
 
     setupHudProjection(width, height);
 
-    const OutdoorGameView::HudTextureHandle *pBackgroundTexture =
-        HudUiService::ensureHudTextureLoaded(const_cast<OutdoorGameView &>(view), pRootLayout->primaryAsset);
+    const std::optional<GameplayOverlayContext::HudTextureHandle> backgroundTexture =
+        context.ensureHudTextureLoaded(pRootLayout->primaryAsset);
+    const GameplayOverlayContext::HudTextureHandle *pBackgroundTexture =
+        backgroundTexture ? &*backgroundTexture : nullptr;
 
     if (pBackgroundTexture != nullptr)
     {
-        view.submitHudTexturedQuad(*pBackgroundTexture, rootRect.x, rootRect.y, rootRect.width, rootRect.height);
+        context.submitHudTexturedQuad(*pBackgroundTexture, rootRect.x, rootRect.y, rootRect.width, rootRect.height);
     }
 
-    std::function<std::optional<OutdoorGameView::ResolvedHudLayoutElement>(const std::string &)> resolveLayout;
+    std::function<std::optional<GameplayOverlayContext::ResolvedHudLayoutElement>(const std::string &)> resolveLayout;
     resolveLayout =
-        [&view, &rootRect, popupScale, &resolveLayout](
-            const std::string &layoutId) -> std::optional<OutdoorGameView::ResolvedHudLayoutElement>
+        [&context, &rootRect, popupScale, &resolveLayout](
+            const std::string &layoutId) -> std::optional<GameplayOverlayContext::ResolvedHudLayoutElement>
         {
-            const OutdoorGameView::HudLayoutElement *pLayout = HudUiService::findHudLayoutElement(view, layoutId);
+            const GameplayOverlayContext::HudLayoutElement *pLayout = context.findHudLayoutElement(layoutId);
 
             if (pLayout == nullptr)
             {
@@ -5142,8 +5143,9 @@ void GameplayPartyOverlayRenderer::renderSpellInspectOverlay(const OutdoorGameVi
 
             if ((pLayout->width <= 0.0f || pLayout->height <= 0.0f) && !pLayout->primaryAsset.empty())
             {
-                const OutdoorGameView::HudTextureHandle *pTexture =
-                    HudUiService::ensureHudTextureLoaded(const_cast<OutdoorGameView &>(view), pLayout->primaryAsset);
+                const std::optional<GameplayOverlayContext::HudTextureHandle> texture =
+                    context.ensureHudTextureLoaded(pLayout->primaryAsset);
+                const GameplayOverlayContext::HudTextureHandle *pTexture = texture ? &*texture : nullptr;
 
                 if (pTexture != nullptr)
                 {
@@ -5171,11 +5173,11 @@ void GameplayPartyOverlayRenderer::renderSpellInspectOverlay(const OutdoorGameVi
                 resolvedHeight = rootRect.height;
             }
 
-            OutdoorGameView::ResolvedHudLayoutElement parent = rootRect;
+            GameplayOverlayContext::ResolvedHudLayoutElement parent = rootRect;
 
             if (!pLayout->parentId.empty() && toLowerCopy(pLayout->parentId) != "spellinspectroot")
             {
-                const std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolvedParent =
+                const std::optional<GameplayOverlayContext::ResolvedHudLayoutElement> resolvedParent =
                     resolveLayout(pLayout->parentId);
 
                 if (resolvedParent)
@@ -5184,7 +5186,7 @@ void GameplayPartyOverlayRenderer::renderSpellInspectOverlay(const OutdoorGameVi
                 }
             }
 
-            return OutdoorGameView::resolveAttachedHudLayoutRect(
+            return GameplayHudCommon::resolveAttachedHudLayoutRect(
                 pLayout->attachTo,
                 parent,
                 resolvedWidth,
@@ -5194,11 +5196,11 @@ void GameplayPartyOverlayRenderer::renderSpellInspectOverlay(const OutdoorGameVi
                 popupScale);
         };
 
-    const std::vector<std::string> orderedLayoutIds = HudUiService::sortedHudLayoutIdsForScreen(view, "SpellInspect");
+    const std::vector<std::string> orderedLayoutIds = context.sortedHudLayoutIdsForScreen("SpellInspect");
 
     for (const std::string &layoutId : orderedLayoutIds)
     {
-        const OutdoorGameView::HudLayoutElement *pLayout = HudUiService::findHudLayoutElement(view, layoutId);
+        const GameplayOverlayContext::HudLayoutElement *pLayout = context.findHudLayoutElement(layoutId);
 
         if (pLayout == nullptr
             || !pLayout->visible
@@ -5208,42 +5210,43 @@ void GameplayPartyOverlayRenderer::renderSpellInspectOverlay(const OutdoorGameVi
             continue;
         }
 
-        const OutdoorGameView::HudTextureHandle *pTexture =
-            HudUiService::ensureHudTextureLoaded(const_cast<OutdoorGameView &>(view), pLayout->primaryAsset);
-        const std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolved = resolveLayout(layoutId);
+        const std::optional<GameplayOverlayContext::HudTextureHandle> texture =
+            context.ensureHudTextureLoaded(pLayout->primaryAsset);
+        const GameplayOverlayContext::HudTextureHandle *pTexture = texture ? &*texture : nullptr;
+        const std::optional<GameplayOverlayContext::ResolvedHudLayoutElement> resolved = resolveLayout(layoutId);
 
         if (pTexture == nullptr || !resolved)
         {
             continue;
         }
 
-        view.submitHudTexturedQuad(*pTexture, resolved->x, resolved->y, resolved->width, resolved->height);
+        context.submitHudTexturedQuad(*pTexture, resolved->x, resolved->y, resolved->width, resolved->height);
     }
 
     const auto renderSingleLine =
-        [&view, &resolveLayout](const char *pLayoutId, const std::string &text)
+        [&context, &resolveLayout](const char *pLayoutId, const std::string &text)
         {
-            const OutdoorGameView::HudLayoutElement *pLayout = HudUiService::findHudLayoutElement(view, pLayoutId);
-            const std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolved = resolveLayout(pLayoutId);
+            const GameplayOverlayContext::HudLayoutElement *pLayout = context.findHudLayoutElement(pLayoutId);
+            const std::optional<GameplayOverlayContext::ResolvedHudLayoutElement> resolved = resolveLayout(pLayoutId);
 
             if (pLayout == nullptr || !resolved || text.empty())
             {
                 return;
             }
 
-            HudUiService::renderLayoutLabel(view, *pLayout, *resolved, text);
+            context.renderLayoutLabel(*pLayout, *resolved, text);
         };
 
-    renderSingleLine("SpellInspectTitle", view.m_spellInspectOverlay.title);
+    renderSingleLine("SpellInspectTitle", overlay.title);
 
     if (pBodyFont != nullptr)
     {
-        const std::optional<OutdoorGameView::ResolvedHudLayoutElement> bodyBaseRect = resolveLayout("SpellInspectBody");
+        const std::optional<GameplayOverlayContext::ResolvedHudLayoutElement> bodyBaseRect = resolveLayout("SpellInspectBody");
 
         if (bodyBaseRect)
         {
             bgfx::TextureHandle coloredMainTextureHandle =
-                HudUiService::ensureHudFontMainTextureColor(view, *pBodyFont, pBodyLayout->textColorAbgr);
+                context.ensureHudFontMainTextureColor(*pBodyFont, pBodyLayout->textColorAbgr);
 
             if (!bgfx::isValid(coloredMainTextureHandle))
             {
@@ -5255,15 +5258,15 @@ void GameplayPartyOverlayRenderer::renderSpellInspectOverlay(const OutdoorGameVi
 
             for (const std::string &line : bodyLines)
             {
-                HudUiService::renderHudFontLayer(view, *pBodyFont, pBodyFont->shadowTextureHandle, line, textX, textY, popupScale);
-                HudUiService::renderHudFontLayer(view, *pBodyFont, coloredMainTextureHandle, line, textX, textY, popupScale);
+                context.renderHudFontLayer(*pBodyFont, pBodyFont->shadowTextureHandle, line, textX, textY, popupScale);
+                context.renderHudFontLayer(*pBodyFont, coloredMainTextureHandle, line, textX, textY, popupScale);
                 textY += bodyLineHeight;
             }
 
             const auto renderWrappedRow =
-                [&view, popupScale](
-                    const OutdoorGameView::HudLayoutElement &layout,
-                    const OutdoorGameView::ResolvedHudLayoutElement &baseResolved,
+                [&context, popupScale](
+                    const GameplayOverlayContext::HudLayoutElement &layout,
+                    const GameplayOverlayContext::ResolvedHudLayoutElement &baseResolved,
                     float rowY,
                     const std::vector<std::string> &wrappedLines) -> float
                 {
@@ -5272,7 +5275,8 @@ void GameplayPartyOverlayRenderer::renderSpellInspectOverlay(const OutdoorGameVi
                         return rowY;
                     }
 
-                    const OutdoorGameView::HudFontHandle *pFont = HudUiService::findHudFont(view, layout.fontName);
+                    const std::optional<GameplayOverlayContext::HudFontHandle> font = context.findHudFont(layout.fontName);
+                    const GameplayOverlayContext::HudFontHandle *pFont = font ? &*font : nullptr;
 
                     if (pFont == nullptr)
                     {
@@ -5280,7 +5284,7 @@ void GameplayPartyOverlayRenderer::renderSpellInspectOverlay(const OutdoorGameVi
                     }
 
                     bgfx::TextureHandle coloredMainTextureHandle =
-                        HudUiService::ensureHudFontMainTextureColor(view, *pFont, layout.textColorAbgr);
+                        context.ensureHudFontMainTextureColor(*pFont, layout.textColorAbgr);
 
                     if (!bgfx::isValid(coloredMainTextureHandle))
                     {
@@ -5293,8 +5297,8 @@ void GameplayPartyOverlayRenderer::renderSpellInspectOverlay(const OutdoorGameVi
 
                     for (const std::string &wrappedLine : wrappedLines)
                     {
-                        HudUiService::renderHudFontLayer(view, *pFont, pFont->shadowTextureHandle, wrappedLine, textX, textY, popupScale);
-                        HudUiService::renderHudFontLayer(view, *pFont, coloredMainTextureHandle, wrappedLine, textX, textY, popupScale);
+                        context.renderHudFontLayer(*pFont, pFont->shadowTextureHandle, wrappedLine, textX, textY, popupScale);
+                        context.renderHudFontLayer(*pFont, coloredMainTextureHandle, wrappedLine, textX, textY, popupScale);
                         textY += lineHeight;
                     }
 
@@ -5302,10 +5306,10 @@ void GameplayPartyOverlayRenderer::renderSpellInspectOverlay(const OutdoorGameVi
                 };
 
             float nextRowY = std::round(bodyBaseRect->y + bodyHeight + SpellInspectBodyToRowsGap * popupScale);
-            const std::optional<OutdoorGameView::ResolvedHudLayoutElement> normalRect = resolveLayout("SpellInspectNormal");
-            const std::optional<OutdoorGameView::ResolvedHudLayoutElement> expertRect = resolveLayout("SpellInspectExpert");
-            const std::optional<OutdoorGameView::ResolvedHudLayoutElement> masterRect = resolveLayout("SpellInspectMaster");
-            const std::optional<OutdoorGameView::ResolvedHudLayoutElement> grandmasterRect =
+            const std::optional<GameplayOverlayContext::ResolvedHudLayoutElement> normalRect = resolveLayout("SpellInspectNormal");
+            const std::optional<GameplayOverlayContext::ResolvedHudLayoutElement> expertRect = resolveLayout("SpellInspectExpert");
+            const std::optional<GameplayOverlayContext::ResolvedHudLayoutElement> masterRect = resolveLayout("SpellInspectMaster");
+            const std::optional<GameplayOverlayContext::ResolvedHudLayoutElement> grandmasterRect =
                 resolveLayout("SpellInspectGrandmaster");
 
             if (normalRect)
@@ -7438,19 +7442,19 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
     const OutdoorGameView::HudFontHandle *pSkillRowFont = HudUiService::findHudFont(view, "Lucida");
     const float skillRowHeight =
         pSkillRowFont != nullptr ? static_cast<float>(std::max(1, pSkillRowFont->fontHeight - 3)) : 11.0f;
-    const CharacterDollEntry *pCharacterDollEntry = resolveCharacterDollEntry(view.m_pCharacterDollTable, pCharacter);
+    const CharacterDollEntry *pCharacterDollEntry = resolveCharacterDollEntry(view.characterDollTable(), pCharacter);
     const CharacterDollTypeEntry *pCharacterDollType =
-        pCharacterDollEntry != nullptr && view.m_pCharacterDollTable != nullptr
-            ? view.m_pCharacterDollTable->getDollType(pCharacterDollEntry->dollTypeId)
+        pCharacterDollEntry != nullptr && view.characterDollTable() != nullptr
+            ? view.characterDollTable()->getDollType(pCharacterDollEntry->dollTypeId)
             : nullptr;
 
     if (pCharacter != nullptr)
     {
         summary = GameMechanics::buildCharacterSheetSummary(
             *pCharacter,
-            view.m_pItemTable,
-            view.m_pStandardItemEnchantTable,
-            view.m_pSpecialItemEnchantTable);
+            view.itemTable(),
+            view.standardItemEnchantTable(),
+            view.specialItemEnchantTable());
         mightValue = formatSheetValue(summary.might);
         intellectValue = formatSheetValue(summary.intellect);
         personalityValue = formatSheetValue(summary.personality);
@@ -7481,9 +7485,9 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
         bodyResistanceValue = formatSheetValue(summary.bodyResistance);
         awards = "Awards earned: " + std::to_string(pCharacter->awards.size());
 
-        if (view.m_pRosterTable != nullptr && pCharacter->rosterId != 0)
+        if (view.rosterTable() != nullptr && pCharacter->rosterId != 0)
         {
-            const RosterEntry *pRosterEntry = view.m_pRosterTable->get(pCharacter->rosterId);
+            const RosterEntry *pRosterEntry = view.rosterTable()->get(pCharacter->rosterId);
             adventurersInnBlurb = pRosterEntry != nullptr ? pRosterEntry->blurb : "";
         }
     }
@@ -7757,13 +7761,13 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
     const auto getEquippedItemDefinition =
         [&view, pCharacter](EquipmentSlot slot) -> const ItemDefinition *
         {
-            if (pCharacter == nullptr || view.m_pItemTable == nullptr)
+            if (pCharacter == nullptr || view.itemTable() == nullptr)
             {
                 return nullptr;
             }
 
             const uint32_t itemId = equippedItemId(pCharacter->equipment, slot);
-            return itemId != 0 ? view.m_pItemTable->get(itemId) : nullptr;
+            return itemId != 0 ? view.itemTable()->get(itemId) : nullptr;
         };
     const auto renderSplitCharacterStatLabel =
         [&view](
@@ -8236,7 +8240,7 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
             for (const InventoryItem &item : pCharacter->inventory)
             {
                 const ItemDefinition *pItemDefinition =
-                    view.m_pItemTable != nullptr ? view.m_pItemTable->get(item.objectDescriptionId) : nullptr;
+                    view.itemTable() != nullptr ? view.itemTable()->get(item.objectDescriptionId) : nullptr;
 
                 if (pItemDefinition == nullptr || pItemDefinition->iconName.empty())
                 {
@@ -8756,7 +8760,7 @@ void GameplayPartyOverlayRenderer::renderActorInspectOverlay(OutdoorGameView &vi
 {
     if (!view.m_actorInspectOverlay.active
         || view.m_pOutdoorWorldRuntime == nullptr
-        || !view.m_monsterTable.has_value()
+        || view.monsterTable() == nullptr
         || !bgfx::isValid(view.m_programHandle)
         || !bgfx::isValid(view.m_texturedTerrainProgramHandle)
         || !bgfx::isValid(view.m_terrainTextureSamplerHandle)
@@ -8774,7 +8778,7 @@ void GameplayPartyOverlayRenderer::renderActorInspectOverlay(OutdoorGameView &vi
         return;
     }
 
-    const MonsterTable::MonsterStatsEntry *pStats = view.m_monsterTable->findStatsById(pActorState->monsterId);
+    const MonsterTable::MonsterStatsEntry *pStats = view.monsterTable()->findStatsById(pActorState->monsterId);
 
     if (pStats == nullptr)
     {

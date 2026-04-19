@@ -58,26 +58,8 @@ public:
     bool initialize(
         const Engine::AssetFileSystem &assetFileSystem,
         const MapStatsEntry &map,
-        const std::vector<MapStatsEntry> &mapEntries,
         IndoorDebugRenderer &indoorRenderer,
         IndoorSceneRuntime &sceneRuntime,
-        const ChestTable &chestTable,
-        const HouseTable &houseTable,
-        const ClassSkillTable &classSkillTable,
-        const CharacterDollTable &characterDollTable,
-        const CharacterInspectTable &characterInspectTable,
-        const NpcDialogTable &npcDialogTable,
-        const RosterTable &rosterTable,
-        const ArcomageLibrary &arcomageLibrary,
-        const JournalQuestTable &journalQuestTable,
-        const JournalHistoryTable &journalHistoryTable,
-        const JournalAutonoteTable &journalAutonoteTable,
-        const ItemTable &itemTable,
-        const ReadableScrollTable &readableScrollTable,
-        const StandardItemEnchantTable &standardItemEnchantTable,
-        const SpecialItemEnchantTable &specialItemEnchantTable,
-        const ItemEquipPosTable &itemEquipPosTable,
-        const SpellTable &spellTable,
         GameAudioSystem *pGameAudioSystem,
         std::function<bool(
             const std::filesystem::path &,
@@ -105,9 +87,9 @@ public:
     const ReadableScrollTable *readableScrollTable() const;
     const ItemEquipPosTable *itemEquipPosTable() const;
     const SpellTable *spellTable() const;
-    const std::optional<HouseTable> &houseTable() const;
-    const std::optional<ChestTable> &chestTable() const;
-    const std::optional<NpcDialogTable> &npcDialogTable() const;
+    const HouseTable *houseTable() const;
+    const ChestTable *chestTable() const;
+    const NpcDialogTable *npcDialogTable() const;
     const JournalQuestTable *journalQuestTable() const;
     const JournalHistoryTable *journalHistoryTable() const;
     const JournalAutonoteTable *journalAutonoteTable() const;
@@ -378,26 +360,8 @@ private:
     IndoorDebugRenderer *m_pIndoorRenderer = nullptr;
     IndoorSceneRuntime *m_pIndoorSceneRuntime = nullptr;
     GameAudioSystem *m_pGameAudioSystem = nullptr;
-    const ItemTable *m_pItemTable = nullptr;
-    const StandardItemEnchantTable *m_pStandardItemEnchantTable = nullptr;
-    const SpecialItemEnchantTable *m_pSpecialItemEnchantTable = nullptr;
-    const ClassSkillTable *m_pClassSkillTable = nullptr;
-    const CharacterDollTable *m_pCharacterDollTable = nullptr;
-    const CharacterInspectTable *m_pCharacterInspectTable = nullptr;
-    const RosterTable *m_pRosterTable = nullptr;
-    const ArcomageLibrary *m_pArcomageLibrary = nullptr;
-    const JournalQuestTable *m_pJournalQuestTable = nullptr;
-    const JournalHistoryTable *m_pJournalHistoryTable = nullptr;
-    const JournalAutonoteTable *m_pJournalAutonoteTable = nullptr;
-    const ReadableScrollTable *m_pReadableScrollTable = nullptr;
-    const ItemEquipPosTable *m_pItemEquipPosTable = nullptr;
-    const SpellTable *m_pSpellTable = nullptr;
-    const std::vector<MapStatsEntry> *m_pMapEntries = nullptr;
     std::optional<MapStatsEntry> m_map;
     GameSettings m_settings = GameSettings::createDefault();
-    std::optional<HouseTable> m_houseTable;
-    std::optional<ChestTable> m_chestTable;
-    std::optional<NpcDialogTable> m_npcDialogTable;
     UiLayoutManager m_uiLayoutManager;
     GameSession &m_gameSession;
     GameplayUiController &m_gameplayUiController;

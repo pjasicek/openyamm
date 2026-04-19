@@ -142,19 +142,19 @@ const SpellTable *GameplayOverlayContext::spellTable() const
     return m_sharedServices.pSpellTable;
 }
 
-const std::optional<HouseTable> &GameplayOverlayContext::houseTable() const
+const HouseTable *GameplayOverlayContext::houseTable() const
 {
-    return *m_sharedServices.pHouseTable;
+    return m_sharedServices.pHouseTable;
 }
 
-const std::optional<ChestTable> &GameplayOverlayContext::chestTable() const
+const ChestTable *GameplayOverlayContext::chestTable() const
 {
-    return *m_sharedServices.pChestTable;
+    return m_sharedServices.pChestTable;
 }
 
-const std::optional<NpcDialogTable> &GameplayOverlayContext::npcDialogTable() const
+const NpcDialogTable *GameplayOverlayContext::npcDialogTable() const
 {
-    return *m_sharedServices.pNpcDialogTable;
+    return m_sharedServices.pNpcDialogTable;
 }
 
 GameplayUiController::CharacterScreenState &GameplayOverlayContext::characterScreen() const
@@ -1041,7 +1041,7 @@ void GameplayOverlayContext::setHudLayoutRuntimeHeightOverride(const std::string
 
 const HouseEntry *GameplayOverlayContext::findHouseEntry(uint32_t houseId) const
 {
-    return houseTable().has_value() ? houseTable()->get(houseId) : nullptr;
+    return houseTable() != nullptr ? houseTable()->get(houseId) : nullptr;
 }
 
 const GameplayOverlayContext::HudLayoutElement *GameplayOverlayContext::findHudLayoutElement(

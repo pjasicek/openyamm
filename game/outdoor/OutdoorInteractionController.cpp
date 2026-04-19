@@ -1052,7 +1052,7 @@ std::optional<std::string> OutdoorInteractionController::resolveInteractiveDecor
     const OutdoorGameView &view,
     size_t entityIndex)
 {
-    if (!view.m_npcDialogTable)
+    if (view.npcDialogTable() == nullptr)
     {
         return std::nullopt;
     }
@@ -1064,7 +1064,7 @@ std::optional<std::string> OutdoorInteractionController::resolveInteractiveDecor
         return std::nullopt;
     }
 
-    const std::optional<NpcDialogTable::ResolvedTopic> topic = view.m_npcDialogTable->getTopicById(*eventId);
+    const std::optional<NpcDialogTable::ResolvedTopic> topic = view.npcDialogTable()->getTopicById(*eventId);
 
     if (!topic || topic->topic.empty())
     {
@@ -1181,13 +1181,13 @@ GameplayDialogController::Context OutdoorInteractionController::createGameplayDi
         view.m_pOutdoorPartyRuntime != nullptr ? &view.m_pOutdoorPartyRuntime->party() : nullptr,
         view.m_pOutdoorWorldRuntime,
         view.m_pOutdoorSceneRuntime != nullptr ? &view.m_pOutdoorSceneRuntime->globalEventProgram() : nullptr,
-        view.m_houseTable ? &*view.m_houseTable : nullptr,
-        view.m_classSkillTable ? &*view.m_classSkillTable : nullptr,
-        view.m_npcDialogTable ? &*view.m_npcDialogTable : nullptr,
+        view.houseTable(),
+        view.classSkillTable(),
+        view.npcDialogTable(),
         view.m_map ? &*view.m_map : nullptr,
-        &view.m_mapEntries,
-        view.m_pRosterTable,
-        view.m_pArcomageLibrary,
+        view.mapEntries(),
+        view.rosterTable(),
+        view.arcomageLibrary(),
         view.currentHudScreenState() == OutdoorGameView::OverlayHudScreenState::Dialogue,
         std::move(callbacks));
 }
@@ -1628,7 +1628,7 @@ void OutdoorInteractionController::applyGrantedEventItemsToHeldInventory(Outdoor
     if (pEventRuntimeState == nullptr
         || (pEventRuntimeState->grantedItems.empty() && pEventRuntimeState->grantedItemIds.empty())
         || view.m_pOutdoorPartyRuntime == nullptr
-        || view.m_pItemTable == nullptr)
+        || view.itemTable() == nullptr)
     {
         return;
     }
@@ -1661,7 +1661,7 @@ void OutdoorInteractionController::applyGrantedEventItemsToHeldInventory(Outdoor
         }
 
         const InventoryItem item =
-            ItemGenerator::makeInventoryItem(itemId, *view.m_pItemTable, ItemGenerationMode::Generic);
+            ItemGenerator::makeInventoryItem(itemId, *view.itemTable(), ItemGenerationMode::Generic);
         OutdoorInteractionController::setHeldInventoryItem(view.m_heldInventoryItem, item);
     }
 
@@ -2824,7 +2824,7 @@ OutdoorGameView::InspectHit OutdoorInteractionController::inspectBModelFace(
                     const SpawnPreview preview =
                         SpawnPreviewResolver::describe(
                             *view.m_map,
-                            view.m_monsterTable ? &*view.m_monsterTable : nullptr,
+                            view.monsterTable(),
                             actor.typeId,
                             actor.index,
                             actor.attributes,
@@ -3001,7 +3001,7 @@ OutdoorGameView::InspectHit OutdoorInteractionController::inspectBModelFace(
         {
             const SpriteObjectBillboard &object = view.m_outdoorSpriteObjectBillboardSet->billboards[objectIndex];
             const ObjectEntry *pObjectEntry =
-                view.m_pObjectTable != nullptr ? view.m_pObjectTable->get(object.objectDescriptionId) : nullptr;
+                view.objectTable() != nullptr ? view.objectTable()->get(object.objectDescriptionId) : nullptr;
 
             if (shouldSkipSpriteObjectInspectTarget(object, pObjectEntry))
             {
@@ -3451,7 +3451,7 @@ bool OutdoorInteractionController::tryActivateInspectEvent(OutdoorGameView &view
         }
 
         const ItemDefinition *pItemDefinition =
-            view.m_pItemTable != nullptr ? view.m_pItemTable->get(pWorldItem->item.objectDescriptionId) : nullptr;
+            view.itemTable() != nullptr ? view.itemTable()->get(pWorldItem->item.objectDescriptionId) : nullptr;
         const std::string itemName =
             pItemDefinition != nullptr && !pItemDefinition->name.empty() ? pItemDefinition->name : "item";
 
@@ -3609,7 +3609,7 @@ bool OutdoorInteractionController::tryActivateInspectEvent(OutdoorGameView &view
                     }
 
                     const ItemDefinition *pItemDefinition =
-                        view.m_pItemTable != nullptr ? view.m_pItemTable->get(item.itemId) : nullptr;
+                        view.itemTable() != nullptr ? view.itemTable()->get(item.itemId) : nullptr;
                     const std::string itemName =
                         pItemDefinition != nullptr
                         ? (!pItemDefinition->unidentifiedName.empty()
@@ -3766,19 +3766,19 @@ bool OutdoorInteractionController::tryActivateInspectEvent(OutdoorGameView &view
         return true;
     }
 
-    if (inspectHit.kind == "actor" && view.m_npcDialogTable)
+    if (inspectHit.kind == "actor" && view.npcDialogTable() != nullptr)
     {
         const std::optional<GenericActorDialogResolution> resolution = resolveGenericActorDialog(
             view.m_map ? view.m_map->fileName : std::string(),
             inspectHit.name,
             inspectHit.actorGroup,
             *pEventRuntimeState,
-            *view.m_npcDialogTable
+            *view.npcDialogTable()
         );
 
         if (resolution)
         {
-            const std::optional<std::string> newsText = view.m_npcDialogTable->getNewsText(resolution->newsId);
+            const std::optional<std::string> newsText = view.npcDialogTable()->getNewsText(resolution->newsId);
 
             if (!newsText || newsText->empty())
             {
@@ -3979,14 +3979,14 @@ bool OutdoorInteractionController::canActivateInspectEvent(const OutdoorGameView
             return true;
         }
 
-        if (view.m_npcDialogTable.has_value())
+        if (view.npcDialogTable() != nullptr)
         {
             return resolveGenericActorDialog(
                 view.m_map ? view.m_map->fileName : std::string(),
                 inspectHit.name,
                 inspectHit.actorGroup,
                 *pEventRuntimeState,
-                *view.m_npcDialogTable
+                *view.npcDialogTable()
             ).has_value();
         }
 
@@ -4212,9 +4212,9 @@ void OutdoorInteractionController::applyPendingCombatEvents(OutdoorGameView &vie
             {
                 sourceName = pActor->displayName;
 
-                if (view.m_monsterTable)
+                if (view.monsterTable() != nullptr)
                 {
-                    if (const MonsterTable::MonsterStatsEntry *pStats = view.m_monsterTable->findStatsById(pActor->monsterId))
+                    if (const MonsterTable::MonsterStatsEntry *pStats = view.monsterTable()->findStatsById(pActor->monsterId))
                     {
                         sourceAttackPreferences = pStats->attackPreferences;
                     }

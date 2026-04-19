@@ -51,9 +51,9 @@ struct GameplayOverlaySharedServices
     const ReadableScrollTable *pReadableScrollTable = nullptr;
     const ItemEquipPosTable *pItemEquipPosTable = nullptr;
     const SpellTable *pSpellTable = nullptr;
-    const std::optional<HouseTable> *pHouseTable = nullptr;
-    const std::optional<ChestTable> *pChestTable = nullptr;
-    const std::optional<NpcDialogTable> *pNpcDialogTable = nullptr;
+    const HouseTable *pHouseTable = nullptr;
+    const ChestTable *pChestTable = nullptr;
+    const NpcDialogTable *pNpcDialogTable = nullptr;
     const JournalQuestTable *pJournalQuestTable = nullptr;
     const JournalHistoryTable *pJournalHistoryTable = nullptr;
     const JournalAutonoteTable *pJournalAutonoteTable = nullptr;

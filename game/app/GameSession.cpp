@@ -1,9 +1,6 @@
 #include "game/app/GameSession.h"
 
-#include "game/tables/ClassSkillTable.h"
-#include "game/items/ItemEnchantTables.h"
-#include "game/tables/ItemTable.h"
-
+#include <cassert>
 #include <utility>
 
 namespace OpenYAMM::Game
@@ -12,18 +9,31 @@ namespace
 {
 Party buildConfiguredParty(
     const Party::Snapshot &snapshot,
-    const ItemTable &itemTable,
-    const StandardItemEnchantTable &standardItemEnchantTable,
-    const SpecialItemEnchantTable &specialItemEnchantTable,
-    const ClassSkillTable &classSkillTable)
+    const GameDataRepository &data)
 {
     Party party = {};
-    party.setItemTable(&itemTable);
-    party.setItemEnchantTables(&standardItemEnchantTable, &specialItemEnchantTable);
-    party.setClassSkillTable(&classSkillTable);
+    party.setItemTable(&data.itemTable());
+    party.setItemEnchantTables(&data.standardItemEnchantTable(), &data.specialItemEnchantTable());
+    party.setClassSkillTable(&data.classSkillTable());
     party.restoreSnapshot(snapshot);
     return party;
 }
+}
+
+void GameSession::bindDataRepository(const GameDataRepository *pDataRepository)
+{
+    m_pDataRepository = pDataRepository;
+}
+
+bool GameSession::hasDataRepository() const
+{
+    return m_pDataRepository != nullptr;
+}
+
+const GameDataRepository &GameSession::data() const
+{
+    assert(m_pDataRepository != nullptr);
+    return *m_pDataRepository;
 }
 
 void GameSession::clear()
@@ -353,19 +363,9 @@ std::optional<GameSaveData> GameSession::buildSaveData() const
     return saveData;
 }
 
-void GameSession::restoreFromSaveData(
-    const GameSaveData &saveData,
-    const ItemTable &itemTable,
-    const StandardItemEnchantTable &standardItemEnchantTable,
-    const SpecialItemEnchantTable &specialItemEnchantTable,
-    const ClassSkillTable &classSkillTable)
+void GameSession::restoreFromSaveData(const GameSaveData &saveData)
 {
-    m_partyState = buildConfiguredParty(
-        saveData.party,
-        itemTable,
-        standardItemEnchantTable,
-        specialItemEnchantTable,
-        classSkillTable);
+    m_partyState = buildConfiguredParty(saveData.party, data());
     m_currentSceneKind = saveData.currentSceneKind;
     m_currentMapFileName = saveData.mapFileName;
     m_outdoorPartyState = saveData.hasOutdoorRuntimeState

@@ -2794,7 +2794,7 @@ void GameplayOverlayInputController::handleDialogueOverlayInput(
     const EventRuntimeState *pDialogueEventRuntimeState =
         view.worldRuntime() != nullptr ? view.worldRuntime()->eventRuntimeState() : nullptr;
     const HouseEntry *pDialogueHouseEntry =
-        (currentDialogueHostHouseId(pDialogueEventRuntimeState) != 0 && view.houseTable().has_value())
+        (currentDialogueHostHouseId(pDialogueEventRuntimeState) != 0 && view.houseTable() != nullptr)
         ? view.houseTable()->get(currentDialogueHostHouseId(pDialogueEventRuntimeState))
         : nullptr;
 
@@ -3110,7 +3110,7 @@ void GameplayOverlayInputController::handleDialogueOverlayInput(
             const EventRuntimeState *pEventRuntimeState =
                 view.worldRuntime() != nullptr ? view.worldRuntime()->eventRuntimeState() : nullptr;
             const HouseEntry *pHostHouseEntry =
-                (currentDialogueHostHouseId(pEventRuntimeState) != 0 && view.houseTable().has_value())
+                (currentDialogueHostHouseId(pEventRuntimeState) != 0 && view.houseTable() != nullptr)
                 ? view.houseTable()->get(currentDialogueHostHouseId(pEventRuntimeState))
                 : nullptr;
             const bool showEventDialogPanel =

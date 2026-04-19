@@ -638,13 +638,13 @@ void GameplayPartyOverlayInputController::handleUtilitySpellOverlayInput(
     const auto resolveSpellName =
         [&view]() -> std::string
         {
-            if (view.m_pSpellTable == nullptr)
+            if (view.spellTable() == nullptr)
             {
                 return "Spell";
             }
 
             const SpellEntry *pEntry =
-                view.m_pSpellTable->findById(static_cast<int>(view.m_utilitySpellOverlay.spellId));
+                view.spellTable()->findById(static_cast<int>(view.m_utilitySpellOverlay.spellId));
             return pEntry != nullptr && !pEntry->name.empty() ? pEntry->name : "Spell";
         };
 
@@ -2440,10 +2440,10 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
     }
 
     const CharacterDollEntry *pActiveCharacterDollEntry =
-        resolveCharacterDollEntry(view.m_pCharacterDollTable, pActiveCharacter);
+        resolveCharacterDollEntry(view.characterDollTable(), pActiveCharacter);
     const CharacterDollTypeEntry *pActiveCharacterDollType =
-        pActiveCharacterDollEntry != nullptr && view.m_pCharacterDollTable != nullptr
-            ? view.m_pCharacterDollTable->getDollType(pActiveCharacterDollEntry->dollTypeId)
+        pActiveCharacterDollEntry != nullptr && view.characterDollTable() != nullptr
+            ? view.characterDollTable()->getDollType(pActiveCharacterDollEntry->dollTypeId)
             : nullptr;
     const CharacterSkillUiData skillUiData = buildCharacterSkillUiData(pActiveCharacter, !isReadOnlyAdventurersInnView);
     const OutdoorGameView::HudFontHandle *pSkillRowFont = HudUiService::findHudFont(view, "Lucida");
@@ -2748,10 +2748,10 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
 
                         view.setStatusBarEvent(memberName + " joined the party.");
 
-                        if (view.m_pGameAudioSystem != nullptr && view.m_pSpellTable != nullptr)
+                        if (view.m_pGameAudioSystem != nullptr && view.spellTable() != nullptr)
                         {
                             const SpellEntry *pSpellEntry =
-                                view.m_pSpellTable->findById(spellIdValue(SpellId::Heroism));
+                                view.spellTable()->findById(spellIdValue(SpellId::Heroism));
 
                             if (pSpellEntry != nullptr && pSpellEntry->effectSoundId > 0)
                             {
@@ -3030,7 +3030,7 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                 const uint32_t equippedId =
                     pActiveCharacter != nullptr ? equippedItemId(pActiveCharacter->equipment, target.slot) : 0;
                 const ItemDefinition *pItemDefinition =
-                    equippedId != 0 && view.m_pItemTable != nullptr ? view.m_pItemTable->get(equippedId) : nullptr;
+                    equippedId != 0 && view.itemTable() != nullptr ? view.itemTable()->get(equippedId) : nullptr;
                 std::optional<OutdoorGameView::ResolvedHudLayoutElement> dynamicRect;
                 std::string dynamicTextureName;
 
@@ -3354,7 +3354,7 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                 [&view](uint32_t objectDescriptionId) -> std::string
                 {
                     const ItemDefinition *pItemDefinition =
-                        view.m_pItemTable != nullptr ? view.m_pItemTable->get(objectDescriptionId) : nullptr;
+                        view.itemTable() != nullptr ? view.itemTable()->get(objectDescriptionId) : nullptr;
 
                     if (pItemDefinition == nullptr || pItemDefinition->name.empty())
                     {
@@ -3412,8 +3412,8 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                     request.targetInventoryGridY = target.gridY;
 
                     const SpellEntry *pSpellEntry =
-                        view.m_pSpellTable != nullptr
-                            ? view.m_pSpellTable->findById(static_cast<int>(request.spellId))
+                        view.spellTable() != nullptr
+                            ? view.spellTable()->findById(static_cast<int>(request.spellId))
                             : nullptr;
                     const std::string spellName =
                         pSpellEntry != nullptr && !pSpellEntry->name.empty()
@@ -3435,8 +3435,8 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                     request.targetEquipmentSlot = target.equipmentSlot;
 
                     const SpellEntry *pSpellEntry =
-                        view.m_pSpellTable != nullptr
-                            ? view.m_pSpellTable->findById(static_cast<int>(request.spellId))
+                        view.spellTable() != nullptr
+                            ? view.spellTable()->findById(static_cast<int>(request.spellId))
                             : nullptr;
                     const std::string spellName =
                         pSpellEntry != nullptr && !pSpellEntry->name.empty()
@@ -3588,7 +3588,7 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                         view.m_heldInventoryItem.grabCellOffsetX = hoveredGridX - heldItem.gridX;
                         view.m_heldInventoryItem.grabCellOffsetY = hoveredGridY - heldItem.gridY;
                         const ItemDefinition *pItemDefinition =
-                            view.m_pItemTable != nullptr ? view.m_pItemTable->get(heldItem.objectDescriptionId) : nullptr;
+                            view.itemTable() != nullptr ? view.itemTable()->get(heldItem.objectDescriptionId) : nullptr;
 
                         if (pItemDefinition != nullptr && !pItemDefinition->iconName.empty())
                         {
@@ -3629,10 +3629,10 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                     return;
                 }
 
-                if (view.m_pItemTable != nullptr)
+                if (view.itemTable() != nullptr)
                 {
                     const InventoryItemUseAction useAction =
-                        InventoryItemUseRuntime::classifyItemUse(view.m_heldInventoryItem.item, *view.m_pItemTable);
+                        InventoryItemUseRuntime::classifyItemUse(view.m_heldInventoryItem.item, *view.itemTable());
 
                     if (useAction == InventoryItemUseAction::ReadMessageScroll)
                     {
@@ -3647,8 +3647,8 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                 }
 
                 const ItemDefinition *pItemDefinition =
-                    view.m_pItemTable != nullptr
-                        ? view.m_pItemTable->get(view.m_heldInventoryItem.item.objectDescriptionId)
+                    view.itemTable() != nullptr
+                        ? view.itemTable()->get(view.m_heldInventoryItem.item.objectDescriptionId)
                         : nullptr;
 
                 if (pItemDefinition == nullptr)
@@ -3660,7 +3660,7 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                     GameMechanics::resolveCharacterEquipPlan(
                         *party.activeMember(),
                         *pItemDefinition,
-                        view.m_pItemTable,
+                        view.itemTable(),
                         pActiveCharacterDollType,
                         target.equipmentSlot,
                         false);
@@ -3720,8 +3720,8 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                 }
 
                 const ItemDefinition *pItemDefinition =
-                    view.m_pItemTable != nullptr
-                        ? view.m_pItemTable->get(view.m_heldInventoryItem.item.objectDescriptionId)
+                    view.itemTable() != nullptr
+                        ? view.itemTable()->get(view.m_heldInventoryItem.item.objectDescriptionId)
                         : nullptr;
 
                 if (pItemDefinition == nullptr || pItemDefinition->iconName.empty())
@@ -3806,10 +3806,10 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
 
                 Party &party = view.m_pOutdoorPartyRuntime->party();
 
-                if (view.m_pItemTable != nullptr)
+                if (view.itemTable() != nullptr)
                 {
                     const InventoryItemUseAction useAction =
-                        InventoryItemUseRuntime::classifyItemUse(view.m_heldInventoryItem.item, *view.m_pItemTable);
+                        InventoryItemUseRuntime::classifyItemUse(view.m_heldInventoryItem.item, *view.itemTable());
 
                     if (useAction == InventoryItemUseAction::ReadMessageScroll)
                     {
@@ -3824,8 +3824,8 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                 }
 
                 const ItemDefinition *pItemDefinition =
-                    view.m_pItemTable != nullptr
-                        ? view.m_pItemTable->get(view.m_heldInventoryItem.item.objectDescriptionId)
+                    view.itemTable() != nullptr
+                        ? view.itemTable()->get(view.m_heldInventoryItem.item.objectDescriptionId)
                         : nullptr;
 
                 if (pItemDefinition == nullptr)
@@ -3848,7 +3848,7 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                     GameMechanics::resolveCharacterEquipPlan(
                         *party.activeMember(),
                         *pItemDefinition,
-                        view.m_pItemTable,
+                        view.itemTable(),
                         pActiveCharacterDollType,
                         std::nullopt,
                         preferOffHand);

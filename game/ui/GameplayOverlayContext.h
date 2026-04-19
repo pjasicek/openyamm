@@ -58,9 +58,9 @@ public:
     const ReadableScrollTable *readableScrollTable() const;
     const ItemEquipPosTable *itemEquipPosTable() const;
     const SpellTable *spellTable() const;
-    const std::optional<HouseTable> &houseTable() const;
-    const std::optional<ChestTable> &chestTable() const;
-    const std::optional<NpcDialogTable> &npcDialogTable() const;
+    const HouseTable *houseTable() const;
+    const ChestTable *chestTable() const;
+    const NpcDialogTable *npcDialogTable() const;
 
     GameplayUiController::CharacterScreenState &characterScreen() const;
     GameplayUiController::HeldInventoryItemState &heldInventoryItem() const;

@@ -183,7 +183,7 @@ void renderViewportParchmentSidePanels(GameplayOverlayContext &view, int width, 
 
 void GameplayHudOverlayRenderer::renderChestPanel(GameplayOverlayContext &view, int width, int height, bool renderAboveHud)
 {
-    if (view.worldRuntime() == nullptr || !view.chestTable().has_value() || width <= 0 || height <= 0)
+    if (view.worldRuntime() == nullptr || view.chestTable() == nullptr || width <= 0 || height <= 0)
     {
         return;
     }

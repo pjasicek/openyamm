@@ -7,6 +7,7 @@ add_executable(openyamm
     arcomage/ArcomageLoader.cpp
     arcomage/ArcomageRules.cpp
     data/ActorNameResolver.cpp
+    data/GameDataRepository.cpp
     app/GameSession.cpp
     audio/GameAudioSystem.cpp
     tables/ChestTable.cpp

@@ -5,6 +5,7 @@
 #include "game/gameplay/GameplayRuntimeInterfaces.h"
 #include "game/maps/SaveGame.h"
 #include "game/scene/SceneKind.h"
+#include "game/data/GameDataRepository.h"
 #include "game/ui/GameplayOverlayTypes.h"
 #include "game/ui/GameplayUiController.h"
 
@@ -18,15 +19,13 @@
 
 namespace OpenYAMM::Game
 {
-class ClassSkillTable;
-class ItemTable;
-class SpecialItemEnchantTable;
-class StandardItemEnchantTable;
-
 class GameSession
 {
 public:
     void clear();
+    void bindDataRepository(const GameDataRepository *pDataRepository);
+    bool hasDataRepository() const;
+    const GameDataRepository &data() const;
 
     const std::optional<Party> &partyState() const;
     std::optional<Party> &partyState();
@@ -103,15 +102,10 @@ public:
     );
 
     std::optional<GameSaveData> buildSaveData() const;
-    void restoreFromSaveData(
-        const GameSaveData &saveData,
-        const ItemTable &itemTable,
-        const StandardItemEnchantTable &standardItemEnchantTable,
-        const SpecialItemEnchantTable &specialItemEnchantTable,
-        const ClassSkillTable &classSkillTable
-    );
+    void restoreFromSaveData(const GameSaveData &saveData);
 
 private:
+    const GameDataRepository *m_pDataRepository = nullptr;
     std::optional<Party> m_partyState;
     SceneKind m_currentSceneKind = SceneKind::Outdoor;
     std::string m_currentMapFileName;

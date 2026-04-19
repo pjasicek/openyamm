@@ -338,7 +338,7 @@ void GameplayDialogueRenderer::updateHouseShopHoverTopicText(
         || view.party() == nullptr
         || view.worldRuntime() == nullptr
         || view.itemTable() == nullptr
-        || !view.houseTable().has_value())
+        || view.houseTable() == nullptr)
     {
         return;
     }
@@ -478,7 +478,7 @@ void GameplayDialogueRenderer::renderHouseShopOverlay(
         || view.party() == nullptr
         || view.worldRuntime() == nullptr
         || view.itemTable() == nullptr
-        || !view.houseTable().has_value())
+        || view.houseTable() == nullptr)
     {
         return;
     }

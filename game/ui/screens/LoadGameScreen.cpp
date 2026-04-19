@@ -442,11 +442,11 @@ MenuScreenBase::Rect toRect(const ResolvedLayoutElement &resolved)
 
 LoadGameScreen::LoadGameScreen(
     const Engine::AssetFileSystem &assetFileSystem,
-    const std::vector<MapStatsEntry> &mapEntries,
+    const GameDataRepository &gameData,
     LoadAction loadAction,
     CancelAction cancelAction)
     : MenuScreenBase(assetFileSystem)
-    , m_pMapEntries(&mapEntries)
+    , m_pGameData(&gameData)
     , m_loadAction(std::move(loadAction))
     , m_cancelAction(std::move(cancelAction))
 {
@@ -689,9 +689,9 @@ void LoadGameScreen::refreshSaveSlots()
         slot.weekdayClockText = formatClock(civilTime);
         slot.dateText = formatDate(civilTime);
 
-        if (m_pMapEntries != nullptr)
+        if (m_pGameData != nullptr)
         {
-            for (const MapStatsEntry &entryMap : *m_pMapEntries)
+            for (const MapStatsEntry &entryMap : m_pGameData->mapEntries())
             {
                 if (toLowerCopy(entryMap.fileName) == toLowerCopy(saveData->mapFileName))
                 {

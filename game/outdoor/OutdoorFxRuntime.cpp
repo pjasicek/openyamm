@@ -382,7 +382,7 @@ const std::vector<OutdoorFxRuntime::ContactShadowState> &OutdoorFxRuntime::conta
 
 void OutdoorFxRuntime::syncRuntimeProjectiles(OutdoorGameView &view, bool refreshSpatialFx)
 {
-    if (view.m_pOutdoorWorldRuntime == nullptr || view.m_pObjectTable == nullptr)
+    if (view.m_pOutdoorWorldRuntime == nullptr || view.objectTable() == nullptr)
     {
         return;
     }
@@ -399,7 +399,7 @@ void OutdoorFxRuntime::syncRuntimeProjectiles(OutdoorGameView &view, bool refres
             continue;
         }
 
-        const ObjectEntry *pObjectEntry = view.m_pObjectTable->get(pProjectile->objectDescriptionId);
+        const ObjectEntry *pObjectEntry = view.objectTable()->get(pProjectile->objectDescriptionId);
 
         if (pObjectEntry != nullptr)
         {

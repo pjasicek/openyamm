@@ -99,7 +99,6 @@ public:
     bool initialize(
         const Engine::AssetFileSystem &assetFileSystem,
         const MapStatsEntry &map,
-        const MonsterTable &monsterTable,
         const OutdoorMapData &outdoorMapData,
         const std::optional<std::vector<uint8_t>> &outdoorLandMask,
         const std::optional<std::vector<uint32_t>> &outdoorTileColors,
@@ -112,28 +111,9 @@ public:
         const std::optional<ActorPreviewBillboardSet> &outdoorActorPreviewBillboardSet,
         const std::optional<SpriteObjectBillboardSet> &outdoorSpriteObjectBillboardSet,
         const std::optional<MapDeltaData> &outdoorMapDeltaData,
-        const ChestTable &chestTable,
-        const HouseTable &houseTable,
-        const ClassSkillTable &classSkillTable,
-        const NpcDialogTable &npcDialogTable,
-        const RosterTable &rosterTable,
-        const ArcomageLibrary &arcomageLibrary,
-        const CharacterDollTable &characterDollTable,
-        const CharacterInspectTable &characterInspectTable,
-        const ObjectTable &objectTable,
-        const SpellTable &spellTable,
-        const JournalQuestTable &journalQuestTable,
-        const JournalHistoryTable &journalHistoryTable,
-        const JournalAutonoteTable &journalAutonoteTable,
-        const ItemTable &itemTable,
-        const ReadableScrollTable &readableScrollTable,
-        const StandardItemEnchantTable &standardItemEnchantTable,
-        const SpecialItemEnchantTable &specialItemEnchantTable,
-        const ItemEquipPosTable &itemEquipPosTable,
         GameAudioSystem *pGameAudioSystem,
         OutdoorSceneRuntime &sceneRuntime,
         const GameSettings &settings,
-        const std::vector<MapStatsEntry> &mapEntries,
         std::function<bool(
             const std::filesystem::path &,
             const std::string &,
@@ -598,12 +578,16 @@ public:
     const ReadableScrollTable *readableScrollTable() const;
     const ItemEquipPosTable *itemEquipPosTable() const;
     const SpellTable *spellTable() const;
-    const std::optional<HouseTable> &houseTable() const;
-    const std::optional<ChestTable> &chestTable() const;
-    const std::optional<NpcDialogTable> &npcDialogTable() const;
+    const ObjectTable *objectTable() const;
+    const MonsterTable *monsterTable() const;
+    const HouseTable *houseTable() const;
+    const ChestTable *chestTable() const;
+    const NpcDialogTable *npcDialogTable() const;
     const JournalQuestTable *journalQuestTable() const;
     const JournalHistoryTable *journalHistoryTable() const;
     const JournalAutonoteTable *journalAutonoteTable() const;
+    const std::vector<MapStatsEntry> *mapEntries() const;
+    const ArcomageLibrary *arcomageLibrary() const;
     const std::string &currentMapFileName() const override;
     float gameplayCameraYawRadians() const override;
     const std::vector<uint8_t> *journalMapFullyRevealedCells() const override;
@@ -936,8 +920,6 @@ private:
     bool m_isInitialized;
     bool m_isRenderable;
     std::optional<MapStatsEntry> m_map;
-    std::vector<MapStatsEntry> m_mapEntries;
-    std::optional<MonsterTable> m_monsterTable;
     std::optional<OutdoorMapData> m_outdoorMapData;
     std::optional<DecorationBillboardSet> m_outdoorDecorationBillboardSet;
     std::optional<ActorPreviewBillboardSet> m_outdoorActorPreviewBillboardSet;
@@ -948,24 +930,6 @@ private:
     PortraitFrameTable m_portraitFrameTable;
     SpellFxTable m_spellFxTable;
     PortraitFxEventTable m_portraitFxEventTable;
-    std::optional<HouseTable> m_houseTable;
-    std::optional<ClassSkillTable> m_classSkillTable;
-    std::optional<NpcDialogTable> m_npcDialogTable;
-    std::optional<CharacterInspectTable> m_characterInspectTable;
-    const ReadableScrollTable *m_pReadableScrollTable;
-    const RosterTable *m_pRosterTable;
-    const ArcomageLibrary *m_pArcomageLibrary;
-    const CharacterDollTable *m_pCharacterDollTable;
-    std::optional<ChestTable> m_chestTable;
-    const ItemTable *m_pItemTable;
-    const StandardItemEnchantTable *m_pStandardItemEnchantTable;
-    const SpecialItemEnchantTable *m_pSpecialItemEnchantTable;
-    const ItemEquipPosTable *m_pItemEquipPosTable;
-    const ObjectTable *m_pObjectTable;
-    const SpellTable *m_pSpellTable;
-    const JournalQuestTable *m_pJournalQuestTable;
-    const JournalHistoryTable *m_pJournalHistoryTable;
-    const JournalAutonoteTable *m_pJournalAutonoteTable;
     GameAudioSystem *m_pGameAudioSystem;
     OutdoorSceneRuntime *m_pOutdoorSceneRuntime;
     OutdoorWorldRuntime *m_pOutdoorWorldRuntime;

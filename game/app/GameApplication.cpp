@@ -622,6 +622,8 @@ bool GameApplication::loadGameData(const Engine::AssetFileSystem &assetFileSyste
 {
     m_pAssetFileSystem = &assetFileSystem;
     m_gameSession.clear();
+    m_gameDataRepository.clear();
+    m_gameSession.bindDataRepository(&m_gameDataRepository);
     m_gameplayController.bindSession(m_gameSession);
     m_gameplayController.clearRuntime();
     m_screenManager.setActiveScreen(nullptr);
@@ -630,6 +632,8 @@ bool GameApplication::loadGameData(const Engine::AssetFileSystem &assetFileSyste
     {
         return false;
     }
+
+    m_gameDataRepository.bind(m_gameDataLoader);
 
     loadOrCreateSettings();
 
@@ -805,7 +809,6 @@ bool GameApplication::initializeSelectedMapRuntime(bool initializeView)
         const bool initialized = m_outdoorGameView.initialize(
             *m_pAssetFileSystem,
             selectedMap->map,
-            m_gameDataLoader.getMonsterTable(),
             *selectedMap->outdoorMapData,
             selectedMap->outdoorLandMask,
             selectedMap->outdoorTileColors,
@@ -818,28 +821,9 @@ bool GameApplication::initializeSelectedMapRuntime(bool initializeView)
             selectedMap->outdoorActorPreviewBillboardSet,
             selectedMap->outdoorSpriteObjectBillboardSet,
             selectedMap->outdoorMapDeltaData,
-            m_gameDataLoader.getChestTable(),
-            m_gameDataLoader.getHouseTable(),
-            m_gameDataLoader.getClassSkillTable(),
-            m_gameDataLoader.getNpcDialogTable(),
-            m_gameDataLoader.getRosterTable(),
-            m_gameDataLoader.getArcomageLibrary(),
-            m_gameDataLoader.getCharacterDollTable(),
-            m_gameDataLoader.getCharacterInspectTable(),
-            m_gameDataLoader.getObjectTable(),
-            m_gameDataLoader.getSpellTable(),
-            m_gameDataLoader.getJournalQuestTable(),
-            m_gameDataLoader.getJournalHistoryTable(),
-            m_gameDataLoader.getJournalAutonoteTable(),
-            m_gameDataLoader.getItemTable(),
-            m_gameDataLoader.getReadableScrollTable(),
-            m_gameDataLoader.getStandardItemEnchantTable(),
-            m_gameDataLoader.getSpecialItemEnchantTable(),
-            m_gameDataLoader.getItemEquipPosTable(),
             &m_gameAudioSystem,
             *static_cast<OutdoorSceneRuntime *>(m_pMapSceneRuntime.get()),
             m_settings,
-            m_gameDataLoader.getMapStats().getEntries(),
             [this](
                 const std::filesystem::path &path,
                 const std::string &saveName,
@@ -937,26 +921,8 @@ bool GameApplication::initializeSelectedMapRuntime(bool initializeView)
             && !m_indoorGameView.initialize(
                 *m_pAssetFileSystem,
                 selectedMap->map,
-                m_gameDataLoader.getMapStats().getEntries(),
                 m_indoorDebugRenderer,
                 *pIndoorSceneRuntime,
-                m_gameDataLoader.getChestTable(),
-                m_gameDataLoader.getHouseTable(),
-                m_gameDataLoader.getClassSkillTable(),
-                m_gameDataLoader.getCharacterDollTable(),
-                m_gameDataLoader.getCharacterInspectTable(),
-                m_gameDataLoader.getNpcDialogTable(),
-                m_gameDataLoader.getRosterTable(),
-                m_gameDataLoader.getArcomageLibrary(),
-                m_gameDataLoader.getJournalQuestTable(),
-                m_gameDataLoader.getJournalHistoryTable(),
-                m_gameDataLoader.getJournalAutonoteTable(),
-                m_gameDataLoader.getItemTable(),
-                m_gameDataLoader.getReadableScrollTable(),
-                m_gameDataLoader.getStandardItemEnchantTable(),
-                m_gameDataLoader.getSpecialItemEnchantTable(),
-                m_gameDataLoader.getItemEquipPosTable(),
-                m_gameDataLoader.getSpellTable(),
                 &m_gameAudioSystem,
                 [this](
                     const std::filesystem::path &path,
@@ -1020,12 +986,11 @@ Party &GameApplication::ensureSessionPartyState()
 
 void GameApplication::bindPartyDependencies(Party &party) const
 {
-    party.setItemTable(&m_gameDataLoader.getItemTable());
-    party.setCharacterDollTable(&m_gameDataLoader.getCharacterDollTable());
-    party.setItemEnchantTables(
-        &m_gameDataLoader.getStandardItemEnchantTable(),
-        &m_gameDataLoader.getSpecialItemEnchantTable());
-    party.setClassSkillTable(&m_gameDataLoader.getClassSkillTable());
+    const GameDataRepository &data = m_gameSession.data();
+    party.setItemTable(&data.itemTable());
+    party.setCharacterDollTable(&data.characterDollTable());
+    party.setItemEnchantTables(&data.standardItemEnchantTable(), &data.specialItemEnchantTable());
+    party.setClassSkillTable(&data.classSkillTable());
 }
 
 void GameApplication::synchronizeSessionFromRuntime()
@@ -1446,12 +1411,7 @@ bool GameApplication::quickLoadFromPath(const std::filesystem::path &path, bool 
 
     renderLoadingOverlayProgress(20);
 
-    m_gameSession.restoreFromSaveData(
-        *saveData,
-        m_gameDataLoader.getItemTable(),
-        m_gameDataLoader.getStandardItemEnchantTable(),
-        m_gameDataLoader.getSpecialItemEnchantTable(),
-        m_gameDataLoader.getClassSkillTable());
+    m_gameSession.restoreFromSaveData(*saveData);
     m_gameSession.setCurrentSavePath(path);
 
     renderLoadingOverlayProgress(35);
@@ -1518,7 +1478,7 @@ void GameApplication::openLoadGameScreen(bool returnToGameplayMenu)
 
     m_screenManager.setActiveScreen(std::make_unique<LoadGameScreen>(
         *m_pAssetFileSystem,
-        m_gameDataLoader.getMapStats().getEntries(),
+        m_gameSession.data(),
         [this](const std::filesystem::path &path) -> bool
         {
             return loadSessionFromPath(path);
@@ -1565,10 +1525,7 @@ void GameApplication::openNewGameScreen()
     m_screenManager.setActiveScreen(std::make_unique<NewGameScreen>(
         *m_pAssetFileSystem,
         &m_gameAudioSystem,
-        m_gameDataLoader.getCharacterDollTable(),
-        m_gameDataLoader.getCharacterInspectTable(),
-        m_gameDataLoader.getClassSkillTable(),
-        m_gameDataLoader.getRaceStartingStatsTable(),
+        m_gameSession.data(),
         [this](const Character &character)
         {
             startNewSessionFromCharacterCreation(character);
