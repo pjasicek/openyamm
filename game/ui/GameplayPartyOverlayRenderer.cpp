@@ -7210,7 +7210,7 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
     }
 
     OutdoorGameView &mutableView = const_cast<OutdoorGameView &>(view);
-    GameplayOverlayContext overlayContext(mutableView);
+    GameplayOverlayContext overlayContext = mutableView.createGameplayOverlayContext();
     setupHudProjection(width, height);
     renderViewportParchmentSidePanels(view, width, height);
 

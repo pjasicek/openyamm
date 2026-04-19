@@ -22,7 +22,7 @@
 #include "game/ui/GameplayHudCommon.h"
 #include "game/ui/GameplayOverlayTypes.h"
 #include "game/ui/GameplayUiController.h"
-#include "game/ui/IGameplayOverlayView.h"
+#include "game/ui/GameplayOverlayAdapters.h"
 #include "game/ui/UiLayoutManager.h"
 
 #include <array>
@@ -40,13 +40,17 @@ struct ArcomageLibrary;
 class IndoorDebugRenderer;
 class IndoorPartyRuntime;
 class IndoorSceneRuntime;
+class GameplayOverlayContext;
 
 using IndoorSpellbookPointerTargetType = GameplaySpellbookPointerTargetType;
 using IndoorSpellbookPointerTarget = GameplaySpellbookPointerTarget;
 using IndoorCharacterPointerTargetType = GameplayCharacterPointerTargetType;
 using IndoorCharacterPointerTarget = GameplayCharacterPointerTarget;
 
-class IndoorGameView : public IGameplayOverlayView
+class IndoorGameView
+    : public GameplayOverlayStateAccess
+    , public IGameplayOverlaySceneAdapter
+    , public IGameplayOverlayHudAdapter
 {
 public:
     IndoorGameView(
@@ -92,36 +96,36 @@ public:
     bool consumePendingOpenLoadGameScreenRequest();
 
     IndoorPartyRuntime *partyRuntime() const;
-    IGameplayWorldRuntime *worldRuntime() const override;
-    GameAudioSystem *audioSystem() const override;
-    const ItemTable *itemTable() const override;
-    const StandardItemEnchantTable *standardItemEnchantTable() const override;
-    const SpecialItemEnchantTable *specialItemEnchantTable() const override;
-    const ClassSkillTable *classSkillTable() const override;
-    const CharacterDollTable *characterDollTable() const override;
-    const CharacterInspectTable *characterInspectTable() const override;
-    const RosterTable *rosterTable() const override;
-    const ReadableScrollTable *readableScrollTable() const override;
-    const ItemEquipPosTable *itemEquipPosTable() const override;
-    const SpellTable *spellTable() const override;
-    const std::optional<HouseTable> &houseTable() const override;
-    const std::optional<ChestTable> &chestTable() const override;
-    const std::optional<NpcDialogTable> &npcDialogTable() const override;
+    IGameplayWorldRuntime *worldRuntime() const;
+    GameAudioSystem *audioSystem() const;
+    const ItemTable *itemTable() const;
+    const StandardItemEnchantTable *standardItemEnchantTable() const;
+    const SpecialItemEnchantTable *specialItemEnchantTable() const;
+    const ClassSkillTable *classSkillTable() const;
+    const CharacterDollTable *characterDollTable() const;
+    const CharacterInspectTable *characterInspectTable() const;
+    const RosterTable *rosterTable() const;
+    const ReadableScrollTable *readableScrollTable() const;
+    const ItemEquipPosTable *itemEquipPosTable() const;
+    const SpellTable *spellTable() const;
+    const std::optional<HouseTable> &houseTable() const;
+    const std::optional<ChestTable> &chestTable() const;
+    const std::optional<NpcDialogTable> &npcDialogTable() const;
     GameplayUiController &uiController() override;
     const GameplayUiController &uiController() const override;
     GameplayOverlayInteractionState &overlayInteractionState() override;
     const GameplayOverlayInteractionState &overlayInteractionState() const override;
-    const JournalQuestTable *journalQuestTable() const override;
-    const JournalHistoryTable *journalHistoryTable() const override;
-    const JournalAutonoteTable *journalAutonoteTable() const override;
+    const JournalQuestTable *journalQuestTable() const;
+    const JournalHistoryTable *journalHistoryTable() const;
+    const JournalAutonoteTable *journalAutonoteTable() const;
     const std::string &currentMapFileName() const override;
     float gameplayCameraYawRadians() const override;
     const std::vector<uint8_t> *journalMapFullyRevealedCells() const override;
     const std::vector<uint8_t> *journalMapPartiallyRevealedCells() const override;
     bool trySelectPartyMember(size_t memberIndex, bool requireGameplayReady) override;
-    bool activeMemberKnowsSpell(uint32_t spellId) const override;
-    bool activeMemberHasSpellbookSchool(GameplayUiController::SpellbookSchool school) const override;
-    void setStatusBarEvent(const std::string &text, float durationSeconds = 2.0f) override;
+    bool activeMemberKnowsSpell(uint32_t spellId) const;
+    bool activeMemberHasSpellbookSchool(GameplayUiController::SpellbookSchool school) const;
+    void setStatusBarEvent(const std::string &text, float durationSeconds = 2.0f);
     void handleDialogueCloseRequest() override;
     void closeRestOverlay() override;
     void openMenuOverlay() override;
@@ -148,8 +152,8 @@ public:
     void updateReadableScrollOverlayForHeldItem(
         size_t memberIndex,
         const GameplayCharacterPointerTarget &pointerTarget,
-        bool isLeftMousePressed) override;
-    void closeReadableScrollOverlay() override;
+        bool isLeftMousePressed);
+    void closeReadableScrollOverlay();
     void resetInventoryNestedOverlayInteractionState() override;
     void playSpeechReaction(size_t memberIndex, SpeechId speechId, bool triggerFaceAnimation) override;
     bool tryCastSpellFromMember(
@@ -159,17 +163,17 @@ public:
     bool tryCastSpellRequest(
         const PartySpellCastRequest &request,
         const std::string &spellName) override;
-    GameSettings &mutableSettings() override;
-    const std::array<uint8_t, SDL_SCANCODE_COUNT> &previousKeyboardState() const override;
+    GameSettings &mutableSettings();
+    const std::array<uint8_t, SDL_SCANCODE_COUNT> &previousKeyboardState() const;
     void commitSettingsChange() override;
     bool trySaveToSelectedGameSlot() override;
     int restFoodRequired() const override;
-    const GameSettings &settingsSnapshot() const override;
-    bool isControlsRenderButtonPressed(GameplayControlsRenderButton button) const override;
-    bool isVideoOptionsRenderButtonPressed(GameplayVideoOptionsRenderButton button) const override;
+    const GameSettings &settingsSnapshot() const;
+    bool isControlsRenderButtonPressed(GameplayControlsRenderButton button) const;
+    bool isVideoOptionsRenderButtonPressed(GameplayVideoOptionsRenderButton button) const;
     void clearHudLayoutRuntimeHeightOverrides() override;
     void setHudLayoutRuntimeHeightOverride(const std::string &layoutId, float height) override;
-    const HouseEntry *findHouseEntry(uint32_t houseId) const override;
+    const HouseEntry *findHouseEntry(uint32_t houseId) const;
     const UiLayoutManager::LayoutElement *findHudLayoutElement(const std::string &layoutId) const override;
     int defaultHudLayoutZIndexForScreen(const std::string &screen) const override;
     GameplayHudScreenState currentGameplayHudScreenState() const override;
@@ -279,6 +283,21 @@ public:
     bool renderHouseVideoFrame(float x, float y, float quadWidth, float quadHeight) const override;
 
 private:
+    GameplayOverlaySharedServices buildGameplayOverlaySharedServices();
+    GameplayOverlaySharedServices buildGameplayOverlaySharedServices() const;
+    GameplayOverlayContext createGameplayOverlayContext();
+    GameplayOverlayContext createGameplayOverlayContext() const;
+
+    GameplayOverlayInteractionState &interactionState()
+    {
+        return m_overlayInteractionState;
+    }
+
+    const GameplayOverlayInteractionState &interactionState() const
+    {
+        return m_overlayInteractionState;
+    }
+
     using HudTextureHandleInternal = GameplayHudTextureData;
     using HudFontGlyphMetricsInternal = GameplayHudFontGlyphMetricsData;
     using HudFontHandleInternal = GameplayHudFontData;
@@ -346,69 +365,12 @@ private:
         std::string &)> m_saveGameToPathCallback;
     std::function<void(const GameSettings &)> m_settingsChangedCallback;
     std::array<uint8_t, SDL_SCANCODE_COUNT> m_previousKeyboardState = {};
-    bool &m_closeOverlayLatch;
-    bool &m_restClickLatch;
-    GameplayRestPointerTarget &m_restPressedTarget;
-    bool &m_menuToggleLatch;
-    bool &m_menuClickLatch;
-    GameplayMenuPointerTarget &m_menuPressedTarget;
-    bool &m_controlsToggleLatch;
-    bool &m_controlsClickLatch;
-    GameplayControlsPointerTarget &m_controlsPressedTarget;
-    bool &m_controlsSliderDragActive;
-    GameplayControlsPointerTargetType &m_controlsDraggedSlider;
-    bool &m_keyboardToggleLatch;
-    bool &m_keyboardClickLatch;
-    GameplayKeyboardPointerTarget &m_keyboardPressedTarget;
-    bool &m_videoOptionsToggleLatch;
-    bool &m_videoOptionsClickLatch;
-    GameplayVideoOptionsPointerTarget &m_videoOptionsPressedTarget;
-    bool &m_saveGameToggleLatch;
-    bool &m_saveGameClickLatch;
-    GameplaySaveLoadPointerTarget &m_saveGamePressedTarget;
-    std::array<bool, 39> &m_saveGameEditKeyLatches;
-    bool &m_saveGameEditBackspaceLatch;
-    uint64_t &m_lastSaveGameSlotClickTicks;
-    std::optional<size_t> &m_lastSaveGameClickedSlotIndex;
-    bool &m_journalToggleLatch;
-    bool &m_journalClickLatch;
-    GameplayJournalPointerTarget &m_journalPressedTarget;
-    bool &m_journalMapKeyZoomLatch;
-    bool &m_dialogueClickLatch;
-    GameplayDialoguePointerTarget &m_dialoguePressedTarget;
-    bool &m_houseShopClickLatch;
-    size_t &m_houseShopPressedSlotIndex;
-    bool &m_chestClickLatch;
-    bool &m_chestItemClickLatch;
-    GameplayChestPointerTarget &m_chestPressedTarget;
-    bool &m_inventoryNestedOverlayItemClickLatch;
-    std::array<bool, 10> &m_houseBankDigitLatches;
-    bool &m_houseBankBackspaceLatch;
-    bool &m_houseBankConfirmLatch;
-    bool &m_lootChestItemLatch;
-    bool &m_chestSelectUpLatch;
-    bool &m_chestSelectDownLatch;
-    bool &m_eventDialogSelectUpLatch;
-    bool &m_eventDialogSelectDownLatch;
-    bool &m_eventDialogAcceptLatch;
-    std::array<bool, 5> &m_eventDialogPartySelectLatches;
-    bool &m_activateInspectLatch;
-    size_t &m_chestSelectionIndex;
     bool m_spellbookToggleLatch = false;
-    bool &m_spellbookClickLatch;
-    IndoorSpellbookPointerTarget &m_spellbookPressedTarget;
-    uint64_t &m_lastSpellbookSpellClickTicks;
-    uint32_t &m_lastSpellbookClickedSpellId;
     bool m_inventoryScreenToggleLatch = false;
-    bool &m_characterMemberCycleLatch;
     bool m_partyPortraitClickLatch = false;
     std::optional<size_t> m_partyPortraitPressedIndex;
     uint64_t m_lastPartyPortraitClickTicks = 0;
     std::optional<size_t> m_lastPartyPortraitClickedIndex;
-    std::optional<size_t> &m_pendingCharacterDismissMemberIndex;
-    uint64_t &m_pendingCharacterDismissExpiresTicks;
-    bool &m_characterClickLatch;
-    IndoorCharacterPointerTarget &m_characterPressedTarget;
     bool m_gameplayHudButtonClickLatch = false;
     int m_gameplayHudPressedButton = 0;
     bool m_gameplayMouseLookActive = false;

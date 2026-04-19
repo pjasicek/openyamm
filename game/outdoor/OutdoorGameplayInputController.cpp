@@ -358,19 +358,19 @@ void OutdoorGameplayInputController::updateCameraFromInput(
     if (!isMenuActive && !isControlsActive && !isKeyboardActive && !isSaveGameActive && !isLoadGameActive
         && pKeyboardState[SDL_SCANCODE_ESCAPE])
     {
-        if (!view.m_menuToggleLatch)
+        if (!view.interactionState().menuToggleLatch)
         {
             if (canToggleMenu)
             {
                 view.openMenu();
             }
 
-            view.m_menuToggleLatch = true;
+            view.interactionState().menuToggleLatch = true;
         }
     }
     else if (!isMenuActive && !isControlsActive && !isKeyboardActive && !isSaveGameActive && !isLoadGameActive)
     {
-        view.m_menuToggleLatch = false;
+        view.interactionState().menuToggleLatch = false;
     }
 
     if (canToggleMenu && allowGameplayPointerInput && !blocksUnderlyingMouseInput && screenWidth > 0 && screenHeight > 0)
@@ -473,8 +473,8 @@ void OutdoorGameplayInputController::updateCameraFromInput(
 
         handlePointerClickRelease(
             restButtonPointerState,
-            view.m_restClickLatch,
-            view.m_restPressedTarget,
+            view.interactionState().restClickLatch,
+            view.interactionState().restPressedTarget,
             noneRestTarget,
             [&view, pRestButtonLayoutId, screenWidth, screenHeight](float pointerX, float pointerY)
                 -> OutdoorGameView::RestPointerTarget
@@ -513,8 +513,8 @@ void OutdoorGameplayInputController::updateCameraFromInput(
     }
     else if (!view.m_restScreen.active)
     {
-        view.m_restClickLatch = false;
-        view.m_restPressedTarget = {};
+        view.interactionState().restClickLatch = false;
+        view.interactionState().restPressedTarget = {};
     }
 
     const bool canToggleAdventurersInn =
@@ -600,7 +600,7 @@ void OutdoorGameplayInputController::updateCameraFromInput(
         view.m_booksButtonPressed = false;
     }
 
-    GameplayOverlayContext journalOverlayContext(view);
+    GameplayOverlayContext journalOverlayContext = view.createGameplayOverlayContext();
     const bool journalInputConsumed = GameplayOverlayInputController::handleJournalOverlayInput(
         journalOverlayContext,
         pKeyboardState,
@@ -736,12 +736,12 @@ void OutdoorGameplayInputController::updateCameraFromInput(
                     (void)view.trySelectPartyMember(nextMemberIndex, true);
                 }
 
-                view.m_characterMemberCycleLatch = true;
+                view.interactionState().characterMemberCycleLatch = true;
             }
         }
         else
         {
-            view.m_characterMemberCycleLatch = false;
+            view.interactionState().characterMemberCycleLatch = false;
         }
 
         if (isActionPressed(KeyboardAction::AlwaysRun))
@@ -766,7 +766,7 @@ void OutdoorGameplayInputController::updateCameraFromInput(
     }
     else
     {
-        view.m_characterMemberCycleLatch = false;
+        view.interactionState().characterMemberCycleLatch = false;
         view.m_toggleRunningLatch = false;
     }
 
@@ -836,7 +836,7 @@ void OutdoorGameplayInputController::updateCameraFromInput(
 
     if (isEventDialogActive)
     {
-        GameplayOverlayContext overlayContext(view);
+        GameplayOverlayContext overlayContext = view.createGameplayOverlayContext();
         GameplayOverlayInputController::handleDialogueOverlayInput(
             overlayContext,
             pKeyboardState,
@@ -846,16 +846,16 @@ void OutdoorGameplayInputController::updateCameraFromInput(
         return;
     }
 
-    view.m_eventDialogSelectUpLatch = false;
-    view.m_eventDialogSelectDownLatch = false;
-    view.m_eventDialogAcceptLatch = false;
-    view.m_eventDialogPartySelectLatches.fill(false);
-    view.m_dialogueClickLatch = false;
-    view.m_dialoguePressedTarget = {};
+    view.interactionState().eventDialogSelectUpLatch = false;
+    view.interactionState().eventDialogSelectDownLatch = false;
+    view.interactionState().eventDialogAcceptLatch = false;
+    view.interactionState().eventDialogPartySelectLatches.fill(false);
+    view.interactionState().dialogueClickLatch = false;
+    view.interactionState().dialoguePressedTarget = {};
 
     if (view.m_restScreen.active)
     {
-        GameplayOverlayContext overlayContext(view);
+        GameplayOverlayContext overlayContext = view.createGameplayOverlayContext();
         (void)GameplayOverlayInputController::handleRestOverlayInput(
             overlayContext,
             pKeyboardState,
@@ -883,7 +883,7 @@ void OutdoorGameplayInputController::updateCameraFromInput(
 
     if (view.m_saveGameScreen.active)
     {
-        GameplayOverlayContext overlayContext(view);
+        GameplayOverlayContext overlayContext = view.createGameplayOverlayContext();
         (void)GameplayOverlayInputController::handleSaveGameOverlayInput(
             overlayContext,
             pKeyboardState,
@@ -1074,7 +1074,7 @@ void OutdoorGameplayInputController::updateCameraFromInput(
 
     if (view.m_controlsScreen.active)
     {
-        GameplayOverlayContext overlayContext(view);
+        GameplayOverlayContext overlayContext = view.createGameplayOverlayContext();
         (void)GameplayOverlayInputController::handleControlsOverlayInput(
             overlayContext,
             pKeyboardState,
@@ -1085,7 +1085,7 @@ void OutdoorGameplayInputController::updateCameraFromInput(
 
     if (view.m_keyboardScreen.active)
     {
-        GameplayOverlayContext overlayContext(view);
+        GameplayOverlayContext overlayContext = view.createGameplayOverlayContext();
         (void)GameplayOverlayInputController::handleKeyboardOverlayInput(
             overlayContext,
             pKeyboardState,
@@ -1096,7 +1096,7 @@ void OutdoorGameplayInputController::updateCameraFromInput(
 
     if (view.m_videoOptionsScreen.active)
     {
-        GameplayOverlayContext overlayContext(view);
+        GameplayOverlayContext overlayContext = view.createGameplayOverlayContext();
         (void)GameplayOverlayInputController::handleVideoOptionsOverlayInput(
             overlayContext,
             pKeyboardState,
@@ -1107,7 +1107,7 @@ void OutdoorGameplayInputController::updateCameraFromInput(
 
     if (view.m_menuScreen.active)
     {
-        GameplayOverlayContext overlayContext(view);
+        GameplayOverlayContext overlayContext = view.createGameplayOverlayContext();
         (void)GameplayOverlayInputController::handleMenuOverlayInput(
             overlayContext,
             pKeyboardState,
@@ -1122,12 +1122,12 @@ void OutdoorGameplayInputController::updateCameraFromInput(
         return;
     }
 
-    view.m_characterClickLatch = false;
-    view.m_characterMemberCycleLatch = false;
-    view.m_characterPressedTarget = {};
+    view.interactionState().characterClickLatch = false;
+    view.interactionState().characterMemberCycleLatch = false;
+    view.interactionState().characterPressedTarget = {};
     view.closeReadableScrollOverlay();
 
-    GameplayOverlayContext overlayContext(view);
+    GameplayOverlayContext overlayContext = view.createGameplayOverlayContext();
     GameplayOverlayInputController::handleLootOverlayInput(
         overlayContext,
         pKeyboardState,

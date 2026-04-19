@@ -1,5 +1,9 @@
 #include "game/ui/GameplayOverlayContext.h"
 
+#include "game/items/InventoryItemUseRuntime.h"
+#include "game/party/SpellSchool.h"
+#include "game/ui/SpellbookUiLayout.h"
+
 #include <cmath>
 
 namespace OpenYAMM::Game
@@ -28,14 +32,29 @@ bool usesAlternateCloakBeltEquippedVariant(EquipmentSlot slot)
 }
 } // namespace
 
-GameplayOverlayContext::GameplayOverlayContext(IGameplayOverlayView &view)
-    : m_view(view)
+GameplayOverlayContext::GameplayOverlayContext(
+    const GameplayOverlaySharedServices &sharedServices,
+    IGameplayOverlaySceneAdapter &sceneAdapter,
+    IGameplayOverlayHudAdapter &hudAdapter)
+    : m_sharedServices(sharedServices)
+    , m_sceneAdapter(sceneAdapter)
+    , m_hudAdapter(hudAdapter)
 {
+}
+
+GameplayUiController &GameplayOverlayContext::uiController() const
+{
+    return *m_sharedServices.pUiController;
+}
+
+GameplayOverlayInteractionState &GameplayOverlayContext::interactionState() const
+{
+    return *m_sharedServices.pInteractionState;
 }
 
 IGameplayWorldRuntime *GameplayOverlayContext::worldRuntime() const
 {
-    return m_view.worldRuntime();
+    return m_sharedServices.pWorldRuntime;
 }
 
 Party *GameplayOverlayContext::party() const
@@ -70,587 +89,587 @@ float GameplayOverlayContext::partyFootZ() const
 
 GameAudioSystem *GameplayOverlayContext::audioSystem() const
 {
-    return m_view.audioSystem();
+    return m_sharedServices.pAudioSystem;
 }
 
 const ItemTable *GameplayOverlayContext::itemTable() const
 {
-    return m_view.itemTable();
+    return m_sharedServices.pItemTable;
 }
 
 const StandardItemEnchantTable *GameplayOverlayContext::standardItemEnchantTable() const
 {
-    return m_view.standardItemEnchantTable();
+    return m_sharedServices.pStandardItemEnchantTable;
 }
 
 const SpecialItemEnchantTable *GameplayOverlayContext::specialItemEnchantTable() const
 {
-    return m_view.specialItemEnchantTable();
+    return m_sharedServices.pSpecialItemEnchantTable;
 }
 
 const ClassSkillTable *GameplayOverlayContext::classSkillTable() const
 {
-    return m_view.classSkillTable();
+    return m_sharedServices.pClassSkillTable;
 }
 
 const CharacterDollTable *GameplayOverlayContext::characterDollTable() const
 {
-    return m_view.characterDollTable();
+    return m_sharedServices.pCharacterDollTable;
 }
 
 const CharacterInspectTable *GameplayOverlayContext::characterInspectTable() const
 {
-    return m_view.characterInspectTable();
+    return m_sharedServices.pCharacterInspectTable;
 }
 
 const RosterTable *GameplayOverlayContext::rosterTable() const
 {
-    return m_view.rosterTable();
+    return m_sharedServices.pRosterTable;
 }
 
 const ReadableScrollTable *GameplayOverlayContext::readableScrollTable() const
 {
-    return m_view.readableScrollTable();
+    return m_sharedServices.pReadableScrollTable;
 }
 
 const ItemEquipPosTable *GameplayOverlayContext::itemEquipPosTable() const
 {
-    return m_view.itemEquipPosTable();
+    return m_sharedServices.pItemEquipPosTable;
 }
 
 const SpellTable *GameplayOverlayContext::spellTable() const
 {
-    return m_view.spellTable();
+    return m_sharedServices.pSpellTable;
 }
 
 const std::optional<HouseTable> &GameplayOverlayContext::houseTable() const
 {
-    return m_view.houseTable();
+    return *m_sharedServices.pHouseTable;
 }
 
 const std::optional<ChestTable> &GameplayOverlayContext::chestTable() const
 {
-    return m_view.chestTable();
+    return *m_sharedServices.pChestTable;
 }
 
 const std::optional<NpcDialogTable> &GameplayOverlayContext::npcDialogTable() const
 {
-    return m_view.npcDialogTable();
+    return *m_sharedServices.pNpcDialogTable;
 }
 
 GameplayUiController::CharacterScreenState &GameplayOverlayContext::characterScreen() const
 {
-    return m_view.characterScreen();
+    return uiController().characterScreen();
 }
 
 GameplayUiController::HeldInventoryItemState &GameplayOverlayContext::heldInventoryItem() const
 {
-    return m_view.heldInventoryItem();
+    return uiController().heldInventoryItem();
 }
 
 GameplayUiController::ItemInspectOverlayState &GameplayOverlayContext::itemInspectOverlay() const
 {
-    return m_view.itemInspectOverlay();
+    return uiController().itemInspectOverlay();
 }
 
 GameplayUiController::CharacterInspectOverlayState &GameplayOverlayContext::characterInspectOverlay() const
 {
-    return m_view.characterInspectOverlay();
+    return uiController().characterInspectOverlay();
 }
 
 GameplayUiController::BuffInspectOverlayState &GameplayOverlayContext::buffInspectOverlay() const
 {
-    return m_view.buffInspectOverlay();
+    return uiController().buffInspectOverlay();
 }
 
 GameplayUiController::CharacterDetailOverlayState &GameplayOverlayContext::characterDetailOverlay() const
 {
-    return m_view.characterDetailOverlay();
+    return uiController().characterDetailOverlay();
 }
 
 GameplayUiController::ActorInspectOverlayState &GameplayOverlayContext::actorInspectOverlay() const
 {
-    return m_view.actorInspectOverlay();
+    return uiController().actorInspectOverlay();
 }
 
 GameplayUiController::SpellInspectOverlayState &GameplayOverlayContext::spellInspectOverlay() const
 {
-    return m_view.spellInspectOverlay();
+    return uiController().spellInspectOverlay();
 }
 
 GameplayUiController::ReadableScrollOverlayState &GameplayOverlayContext::readableScrollOverlay() const
 {
-    return m_view.readableScrollOverlay();
+    return uiController().readableScrollOverlay();
 }
 
 GameplayUiController::SpellbookState &GameplayOverlayContext::spellbook() const
 {
-    return m_view.spellbook();
+    return uiController().spellbook();
 }
 
 GameplayUiController::UtilitySpellOverlayState &GameplayOverlayContext::utilitySpellOverlay() const
 {
-    return m_view.utilitySpellOverlay();
+    return uiController().utilitySpellOverlay();
 }
 
 GameplayUiController::InventoryNestedOverlayState &GameplayOverlayContext::inventoryNestedOverlay() const
 {
-    return m_view.inventoryNestedOverlay();
+    return uiController().inventoryNestedOverlay();
 }
 
 GameplayUiController::HouseShopOverlayState &GameplayOverlayContext::houseShopOverlay() const
 {
-    return m_view.houseShopOverlay();
+    return uiController().houseShopOverlay();
 }
 
 GameplayUiController::HouseBankState &GameplayOverlayContext::houseBankState() const
 {
-    return m_view.houseBankState();
+    return uiController().houseBankState();
 }
 
 GameplayUiController::JournalScreenState &GameplayOverlayContext::journalScreenState() const
 {
-    return m_view.journalScreenState();
+    return uiController().journalScreen();
 }
 
 GameplayUiController::RestScreenState &GameplayOverlayContext::restScreenState() const
 {
-    return m_view.restScreenState();
+    return uiController().restScreen();
 }
 
 GameplayUiController::MenuScreenState &GameplayOverlayContext::menuScreenState() const
 {
-    return m_view.menuScreenState();
+    return uiController().menuScreen();
 }
 
 GameplayUiController::ControlsScreenState &GameplayOverlayContext::controlsScreenState() const
 {
-    return m_view.controlsScreenState();
+    return uiController().controlsScreen();
 }
 
 GameplayUiController::KeyboardScreenState &GameplayOverlayContext::keyboardScreenState() const
 {
-    return m_view.keyboardScreenState();
+    return uiController().keyboardScreen();
 }
 
 GameplayUiController::VideoOptionsScreenState &GameplayOverlayContext::videoOptionsScreenState() const
 {
-    return m_view.videoOptionsScreenState();
+    return uiController().videoOptionsScreen();
 }
 
 GameplayUiController::SaveGameScreenState &GameplayOverlayContext::saveGameScreenState() const
 {
-    return m_view.saveGameScreenState();
+    return uiController().saveGameScreen();
 }
 
 GameplayUiController::LoadGameScreenState &GameplayOverlayContext::loadGameScreenState() const
 {
-    return m_view.loadGameScreenState();
+    return uiController().loadGameScreen();
 }
 
 const GameplayUiController::CharacterScreenState &GameplayOverlayContext::characterScreenReadOnly() const
 {
-    return m_view.characterScreen();
+    return uiController().characterScreen();
 }
 
 const GameplayUiController::ItemInspectOverlayState &GameplayOverlayContext::itemInspectOverlayReadOnly() const
 {
-    return m_view.itemInspectOverlay();
+    return uiController().itemInspectOverlay();
 }
 
 const GameplayUiController::CharacterInspectOverlayState &GameplayOverlayContext::characterInspectOverlayReadOnly() const
 {
-    return m_view.characterInspectOverlay();
+    return uiController().characterInspectOverlay();
 }
 
 const GameplayUiController::BuffInspectOverlayState &GameplayOverlayContext::buffInspectOverlayReadOnly() const
 {
-    return m_view.buffInspectOverlay();
+    return uiController().buffInspectOverlay();
 }
 
 const GameplayUiController::CharacterDetailOverlayState &GameplayOverlayContext::characterDetailOverlayReadOnly() const
 {
-    return m_view.characterDetailOverlay();
+    return uiController().characterDetailOverlay();
 }
 
 const GameplayUiController::ActorInspectOverlayState &GameplayOverlayContext::actorInspectOverlayReadOnly() const
 {
-    return m_view.actorInspectOverlay();
+    return uiController().actorInspectOverlay();
 }
 
 const GameplayUiController::SpellInspectOverlayState &GameplayOverlayContext::spellInspectOverlayReadOnly() const
 {
-    return m_view.spellInspectOverlay();
+    return uiController().spellInspectOverlay();
 }
 
 const GameplayUiController::ReadableScrollOverlayState &GameplayOverlayContext::readableScrollOverlayReadOnly() const
 {
-    return m_view.readableScrollOverlay();
+    return uiController().readableScrollOverlay();
 }
 
 const GameplayUiController::SpellbookState &GameplayOverlayContext::spellbookReadOnly() const
 {
-    return m_view.spellbook();
+    return uiController().spellbook();
 }
 
 const GameplayUiController::UtilitySpellOverlayState &GameplayOverlayContext::utilitySpellOverlayReadOnly() const
 {
-    return m_view.utilitySpellOverlay();
+    return uiController().utilitySpellOverlay();
 }
 
 const GameplayUiController::JournalScreenState &GameplayOverlayContext::journalScreenStateReadOnly() const
 {
-    return m_view.journalScreenState();
+    return uiController().journalScreen();
 }
 
 const JournalQuestTable *GameplayOverlayContext::journalQuestTable() const
 {
-    return m_view.journalQuestTable();
+    return m_sharedServices.pJournalQuestTable;
 }
 
 const JournalHistoryTable *GameplayOverlayContext::journalHistoryTable() const
 {
-    return m_view.journalHistoryTable();
+    return m_sharedServices.pJournalHistoryTable;
 }
 
 const JournalAutonoteTable *GameplayOverlayContext::journalAutonoteTable() const
 {
-    return m_view.journalAutonoteTable();
+    return m_sharedServices.pJournalAutonoteTable;
 }
 
 const std::string &GameplayOverlayContext::currentMapFileName() const
 {
-    return m_view.currentMapFileName();
+    return m_sceneAdapter.currentMapFileName();
 }
 
 float GameplayOverlayContext::gameplayCameraYawRadians() const
 {
-    return m_view.gameplayCameraYawRadians();
+    return m_sceneAdapter.gameplayCameraYawRadians();
 }
 
 const std::vector<uint8_t> *GameplayOverlayContext::journalMapFullyRevealedCells() const
 {
-    return m_view.journalMapFullyRevealedCells();
+    return m_sceneAdapter.journalMapFullyRevealedCells();
 }
 
 const std::vector<uint8_t> *GameplayOverlayContext::journalMapPartiallyRevealedCells() const
 {
-    return m_view.journalMapPartiallyRevealedCells();
+    return m_sceneAdapter.journalMapPartiallyRevealedCells();
 }
 
 EventDialogContent &GameplayOverlayContext::activeEventDialog() const
 {
-    return m_view.activeEventDialog();
+    return uiController().eventDialog().content;
 }
 
 std::string &GameplayOverlayContext::statusBarEventText() const
 {
-    return m_view.statusBarEventText();
+    return uiController().statusBar().eventText;
 }
 
 float &GameplayOverlayContext::statusBarEventRemainingSeconds() const
 {
-    return m_view.statusBarEventRemainingSeconds();
+    return uiController().statusBar().eventRemainingSeconds;
 }
 
 const std::string &GameplayOverlayContext::statusBarHoverText() const
 {
-    return m_view.statusBarHoverText();
+    return uiController().statusBar().hoverText;
 }
 
 bool &GameplayOverlayContext::closeOverlayLatch() const
 {
-    return m_view.closeOverlayLatch();
+    return interactionState().closeOverlayLatch;
 }
 
 bool &GameplayOverlayContext::restClickLatch() const
 {
-    return m_view.restClickLatch();
+    return interactionState().restClickLatch;
 }
 
 GameplayRestPointerTarget &GameplayOverlayContext::restPressedTarget() const
 {
-    return m_view.restPressedTarget();
+    return interactionState().restPressedTarget;
 }
 
 bool &GameplayOverlayContext::menuToggleLatch() const
 {
-    return m_view.menuToggleLatch();
+    return interactionState().menuToggleLatch;
 }
 
 bool &GameplayOverlayContext::menuClickLatch() const
 {
-    return m_view.menuClickLatch();
+    return interactionState().menuClickLatch;
 }
 
 GameplayMenuPointerTarget &GameplayOverlayContext::menuPressedTarget() const
 {
-    return m_view.menuPressedTarget();
+    return interactionState().menuPressedTarget;
 }
 
 bool &GameplayOverlayContext::controlsToggleLatch() const
 {
-    return m_view.controlsToggleLatch();
+    return interactionState().controlsToggleLatch;
 }
 
 bool &GameplayOverlayContext::controlsClickLatch() const
 {
-    return m_view.controlsClickLatch();
+    return interactionState().controlsClickLatch;
 }
 
 GameplayControlsPointerTarget &GameplayOverlayContext::controlsPressedTarget() const
 {
-    return m_view.controlsPressedTarget();
+    return interactionState().controlsPressedTarget;
 }
 
 bool &GameplayOverlayContext::controlsSliderDragActive() const
 {
-    return m_view.controlsSliderDragActive();
+    return interactionState().controlsSliderDragActive;
 }
 
 GameplayControlsPointerTargetType &GameplayOverlayContext::controlsDraggedSlider() const
 {
-    return m_view.controlsDraggedSlider();
+    return interactionState().controlsDraggedSlider;
 }
 
 bool &GameplayOverlayContext::keyboardToggleLatch() const
 {
-    return m_view.keyboardToggleLatch();
+    return interactionState().keyboardToggleLatch;
 }
 
 bool &GameplayOverlayContext::keyboardClickLatch() const
 {
-    return m_view.keyboardClickLatch();
+    return interactionState().keyboardClickLatch;
 }
 
 GameplayKeyboardPointerTarget &GameplayOverlayContext::keyboardPressedTarget() const
 {
-    return m_view.keyboardPressedTarget();
+    return interactionState().keyboardPressedTarget;
 }
 
 bool &GameplayOverlayContext::videoOptionsToggleLatch() const
 {
-    return m_view.videoOptionsToggleLatch();
+    return interactionState().videoOptionsToggleLatch;
 }
 
 bool &GameplayOverlayContext::videoOptionsClickLatch() const
 {
-    return m_view.videoOptionsClickLatch();
+    return interactionState().videoOptionsClickLatch;
 }
 
 GameplayVideoOptionsPointerTarget &GameplayOverlayContext::videoOptionsPressedTarget() const
 {
-    return m_view.videoOptionsPressedTarget();
+    return interactionState().videoOptionsPressedTarget;
 }
 
 bool &GameplayOverlayContext::saveGameToggleLatch() const
 {
-    return m_view.saveGameToggleLatch();
+    return interactionState().saveGameToggleLatch;
 }
 
 bool &GameplayOverlayContext::saveGameClickLatch() const
 {
-    return m_view.saveGameClickLatch();
+    return interactionState().saveGameClickLatch;
 }
 
 GameplaySaveLoadPointerTarget &GameplayOverlayContext::saveGamePressedTarget() const
 {
-    return m_view.saveGamePressedTarget();
+    return interactionState().saveGamePressedTarget;
 }
 
 bool &GameplayOverlayContext::characterClickLatch() const
 {
-    return m_view.characterClickLatch();
+    return interactionState().characterClickLatch;
 }
 
 GameplayCharacterPointerTarget &GameplayOverlayContext::characterPressedTarget() const
 {
-    return m_view.characterPressedTarget();
+    return interactionState().characterPressedTarget;
 }
 
 bool &GameplayOverlayContext::characterMemberCycleLatch() const
 {
-    return m_view.characterMemberCycleLatch();
+    return interactionState().characterMemberCycleLatch;
 }
 
 std::optional<size_t> &GameplayOverlayContext::pendingCharacterDismissMemberIndex() const
 {
-    return m_view.pendingCharacterDismissMemberIndex();
+    return interactionState().pendingCharacterDismissMemberIndex;
 }
 
 uint64_t &GameplayOverlayContext::pendingCharacterDismissExpiresTicks() const
 {
-    return m_view.pendingCharacterDismissExpiresTicks();
+    return interactionState().pendingCharacterDismissExpiresTicks;
 }
 
 bool &GameplayOverlayContext::spellbookClickLatch() const
 {
-    return m_view.spellbookClickLatch();
+    return interactionState().spellbookClickLatch;
 }
 
 GameplaySpellbookPointerTarget &GameplayOverlayContext::spellbookPressedTarget() const
 {
-    return m_view.spellbookPressedTarget();
+    return interactionState().spellbookPressedTarget;
 }
 
 uint64_t &GameplayOverlayContext::lastSpellbookSpellClickTicks() const
 {
-    return m_view.lastSpellbookSpellClickTicks();
+    return interactionState().lastSpellbookSpellClickTicks;
 }
 
 uint32_t &GameplayOverlayContext::lastSpellbookClickedSpellId() const
 {
-    return m_view.lastSpellbookClickedSpellId();
+    return interactionState().lastSpellbookClickedSpellId;
 }
 
 std::array<bool, 39> &GameplayOverlayContext::saveGameEditKeyLatches() const
 {
-    return m_view.saveGameEditKeyLatches();
+    return interactionState().saveGameEditKeyLatches;
 }
 
 bool &GameplayOverlayContext::saveGameEditBackspaceLatch() const
 {
-    return m_view.saveGameEditBackspaceLatch();
+    return interactionState().saveGameEditBackspaceLatch;
 }
 
 uint64_t &GameplayOverlayContext::lastSaveGameSlotClickTicks() const
 {
-    return m_view.lastSaveGameSlotClickTicks();
+    return interactionState().lastSaveGameSlotClickTicks;
 }
 
 std::optional<size_t> &GameplayOverlayContext::lastSaveGameClickedSlotIndex() const
 {
-    return m_view.lastSaveGameClickedSlotIndex();
+    return interactionState().lastSaveGameClickedSlotIndex;
 }
 
 bool &GameplayOverlayContext::journalToggleLatch() const
 {
-    return m_view.journalToggleLatch();
+    return interactionState().journalToggleLatch;
 }
 
 bool &GameplayOverlayContext::journalClickLatch() const
 {
-    return m_view.journalClickLatch();
+    return interactionState().journalClickLatch;
 }
 
 GameplayJournalPointerTarget &GameplayOverlayContext::journalPressedTarget() const
 {
-    return m_view.journalPressedTarget();
+    return interactionState().journalPressedTarget;
 }
 
 bool &GameplayOverlayContext::journalMapKeyZoomLatch() const
 {
-    return m_view.journalMapKeyZoomLatch();
+    return interactionState().journalMapKeyZoomLatch;
 }
 
 bool &GameplayOverlayContext::dialogueClickLatch() const
 {
-    return m_view.dialogueClickLatch();
+    return interactionState().dialogueClickLatch;
 }
 
 GameplayDialoguePointerTarget &GameplayOverlayContext::dialoguePressedTarget() const
 {
-    return m_view.dialoguePressedTarget();
+    return interactionState().dialoguePressedTarget;
 }
 
 bool &GameplayOverlayContext::houseShopClickLatch() const
 {
-    return m_view.houseShopClickLatch();
+    return interactionState().houseShopClickLatch;
 }
 
 size_t &GameplayOverlayContext::houseShopPressedSlotIndex() const
 {
-    return m_view.houseShopPressedSlotIndex();
+    return interactionState().houseShopPressedSlotIndex;
 }
 
 bool &GameplayOverlayContext::chestClickLatch() const
 {
-    return m_view.chestClickLatch();
+    return interactionState().chestClickLatch;
 }
 
 bool &GameplayOverlayContext::chestItemClickLatch() const
 {
-    return m_view.chestItemClickLatch();
+    return interactionState().chestItemClickLatch;
 }
 
 GameplayChestPointerTarget &GameplayOverlayContext::chestPressedTarget() const
 {
-    return m_view.chestPressedTarget();
+    return interactionState().chestPressedTarget;
 }
 
 bool &GameplayOverlayContext::inventoryNestedOverlayItemClickLatch() const
 {
-    return m_view.inventoryNestedOverlayItemClickLatch();
+    return interactionState().inventoryNestedOverlayItemClickLatch;
 }
 
 std::array<bool, 10> &GameplayOverlayContext::houseBankDigitLatches() const
 {
-    return m_view.houseBankDigitLatches();
+    return interactionState().houseBankDigitLatches;
 }
 
 bool &GameplayOverlayContext::houseBankBackspaceLatch() const
 {
-    return m_view.houseBankBackspaceLatch();
+    return interactionState().houseBankBackspaceLatch;
 }
 
 bool &GameplayOverlayContext::houseBankConfirmLatch() const
 {
-    return m_view.houseBankConfirmLatch();
+    return interactionState().houseBankConfirmLatch;
 }
 
 bool &GameplayOverlayContext::lootChestItemLatch() const
 {
-    return m_view.lootChestItemLatch();
+    return interactionState().lootChestItemLatch;
 }
 
 bool &GameplayOverlayContext::chestSelectUpLatch() const
 {
-    return m_view.chestSelectUpLatch();
+    return interactionState().chestSelectUpLatch;
 }
 
 bool &GameplayOverlayContext::chestSelectDownLatch() const
 {
-    return m_view.chestSelectDownLatch();
+    return interactionState().chestSelectDownLatch;
 }
 
 bool &GameplayOverlayContext::eventDialogSelectUpLatch() const
 {
-    return m_view.eventDialogSelectUpLatch();
+    return interactionState().eventDialogSelectUpLatch;
 }
 
 bool &GameplayOverlayContext::eventDialogSelectDownLatch() const
 {
-    return m_view.eventDialogSelectDownLatch();
+    return interactionState().eventDialogSelectDownLatch;
 }
 
 bool &GameplayOverlayContext::eventDialogAcceptLatch() const
 {
-    return m_view.eventDialogAcceptLatch();
+    return interactionState().eventDialogAcceptLatch;
 }
 
 std::array<bool, 5> &GameplayOverlayContext::eventDialogPartySelectLatches() const
 {
-    return m_view.eventDialogPartySelectLatches();
+    return interactionState().eventDialogPartySelectLatches;
 }
 
 bool &GameplayOverlayContext::activateInspectLatch() const
 {
-    return m_view.activateInspectLatch();
+    return interactionState().activateInspectLatch;
 }
 
 size_t &GameplayOverlayContext::chestSelectionIndex() const
 {
-    return m_view.chestSelectionIndex();
+    return interactionState().chestSelectionIndex;
 }
 
 size_t &GameplayOverlayContext::eventDialogSelectionIndex() const
 {
-    return m_view.eventDialogSelectionIndex();
+    return uiController().eventDialog().selectionIndex;
 }
 
 bool GameplayOverlayContext::trySelectPartyMember(size_t memberIndex, bool requireGameplayReady)
 {
-    return m_view.trySelectPartyMember(memberIndex, requireGameplayReady);
+    return m_sceneAdapter.trySelectPartyMember(memberIndex, requireGameplayReady);
 }
 
 size_t GameplayOverlayContext::selectedCharacterScreenSourceIndex() const
@@ -702,132 +721,149 @@ bool GameplayOverlayContext::isReadOnlyAdventurersInnCharacterViewActive() const
 
 bool GameplayOverlayContext::activeMemberKnowsSpell(uint32_t spellId) const
 {
-    return m_view.activeMemberKnowsSpell(spellId);
+    const Character *pMember = partyReadOnly() != nullptr ? partyReadOnly()->activeMember() : nullptr;
+    return pMember != nullptr && pMember->knowsSpell(spellId);
 }
 
 bool GameplayOverlayContext::activeMemberHasSpellbookSchool(GameplayUiController::SpellbookSchool school) const
 {
-    return m_view.activeMemberHasSpellbookSchool(school);
+    const SpellbookSchoolUiDefinition *pDefinition = findSpellbookSchoolUiDefinition(school);
+    const Character *pMember = partyReadOnly() != nullptr ? partyReadOnly()->activeMember() : nullptr;
+
+    if (pDefinition == nullptr || pMember == nullptr)
+    {
+        return false;
+    }
+
+    const std::optional<std::string> skillName = resolveMagicSkillName(pDefinition->firstSpellId);
+
+    if (!skillName)
+    {
+        return false;
+    }
+
+    const CharacterSkill *pSkill = pMember->findSkill(*skillName);
+    return pSkill != nullptr && pSkill->level > 0 && pSkill->mastery != SkillMastery::None;
 }
 
 void GameplayOverlayContext::setStatusBarEvent(const std::string &text, float durationSeconds)
 {
-    m_view.setStatusBarEvent(text, durationSeconds);
+    uiController().setStatusBarEvent(text, durationSeconds);
 }
 
 void GameplayOverlayContext::handleDialogueCloseRequest()
 {
-    m_view.handleDialogueCloseRequest();
+    m_sceneAdapter.handleDialogueCloseRequest();
 }
 
 void GameplayOverlayContext::closeRestOverlay()
 {
-    m_view.closeRestOverlay();
+    m_sceneAdapter.closeRestOverlay();
 }
 
 void GameplayOverlayContext::openMenuOverlay()
 {
-    m_view.openMenuOverlay();
+    m_sceneAdapter.openMenuOverlay();
 }
 
 void GameplayOverlayContext::closeMenuOverlay()
 {
-    m_view.closeMenuOverlay();
+    m_sceneAdapter.closeMenuOverlay();
 }
 
 void GameplayOverlayContext::openControlsOverlay()
 {
-    m_view.openControlsOverlay();
+    m_sceneAdapter.openControlsOverlay();
 }
 
 void GameplayOverlayContext::closeControlsOverlay()
 {
-    m_view.closeControlsOverlay();
+    m_sceneAdapter.closeControlsOverlay();
 }
 
 void GameplayOverlayContext::openKeyboardOverlay()
 {
-    m_view.openKeyboardOverlay();
+    m_sceneAdapter.openKeyboardOverlay();
 }
 
 void GameplayOverlayContext::closeKeyboardOverlayToControls()
 {
-    m_view.closeKeyboardOverlayToControls();
+    m_sceneAdapter.closeKeyboardOverlayToControls();
 }
 
 void GameplayOverlayContext::closeKeyboardOverlayToMenu()
 {
-    m_view.closeKeyboardOverlayToMenu();
+    m_sceneAdapter.closeKeyboardOverlayToMenu();
 }
 
 void GameplayOverlayContext::openVideoOptionsOverlay()
 {
-    m_view.openVideoOptionsOverlay();
+    m_sceneAdapter.openVideoOptionsOverlay();
 }
 
 void GameplayOverlayContext::closeVideoOptionsOverlay()
 {
-    m_view.closeVideoOptionsOverlay();
+    m_sceneAdapter.closeVideoOptionsOverlay();
 }
 
 void GameplayOverlayContext::openSaveGameOverlay()
 {
-    m_view.openSaveGameOverlay();
+    m_sceneAdapter.openSaveGameOverlay();
 }
 
 void GameplayOverlayContext::closeSaveGameOverlay()
 {
-    m_view.closeSaveGameOverlay();
+    m_sceneAdapter.closeSaveGameOverlay();
 }
 
 void GameplayOverlayContext::requestOpenNewGameScreen()
 {
-    m_view.requestOpenNewGameScreen();
+    m_sceneAdapter.requestOpenNewGameScreen();
 }
 
 void GameplayOverlayContext::requestOpenLoadGameScreen()
 {
-    m_view.requestOpenLoadGameScreen();
+    m_sceneAdapter.requestOpenLoadGameScreen();
 }
 
 void GameplayOverlayContext::openJournalOverlay()
 {
-    m_view.openJournalOverlay();
+    m_sceneAdapter.openJournalOverlay();
 }
 
 void GameplayOverlayContext::closeJournalOverlay()
 {
-    m_view.closeJournalOverlay();
+    m_sceneAdapter.closeJournalOverlay();
 }
 
 void GameplayOverlayContext::executeActiveDialogAction()
 {
-    m_view.executeActiveDialogAction();
+    m_sceneAdapter.executeActiveDialogAction();
 }
 
 void GameplayOverlayContext::refreshHouseBankInputDialog()
 {
-    m_view.refreshHouseBankInputDialog();
+    m_sceneAdapter.refreshHouseBankInputDialog();
 }
 
 void GameplayOverlayContext::confirmHouseBankInput()
 {
-    m_view.confirmHouseBankInput();
+    m_sceneAdapter.confirmHouseBankInput();
 }
 
 void GameplayOverlayContext::closeInventoryNestedOverlay()
 {
-    m_view.closeInventoryNestedOverlay();
+    m_sceneAdapter.closeInventoryNestedOverlay();
 }
 
 void GameplayOverlayContext::closeSpellbookOverlay(const std::string &statusText)
 {
-    m_view.closeSpellbookOverlay(statusText);
+    m_sceneAdapter.closeSpellbookOverlay(statusText);
 }
 
 bool GameplayOverlayContext::tryUseHeldItemOnPartyMember(size_t memberIndex, bool keepCharacterScreenOpen)
 {
-    return m_view.tryUseHeldItemOnPartyMember(memberIndex, keepCharacterScreenOpen);
+    return m_sceneAdapter.tryUseHeldItemOnPartyMember(memberIndex, keepCharacterScreenOpen);
 }
 
 void GameplayOverlayContext::updateReadableScrollOverlayForHeldItem(
@@ -835,124 +871,198 @@ void GameplayOverlayContext::updateReadableScrollOverlayForHeldItem(
     const GameplayCharacterPointerTarget &pointerTarget,
     bool isLeftMousePressed)
 {
-    m_view.updateReadableScrollOverlayForHeldItem(memberIndex, pointerTarget, isLeftMousePressed);
+    GameplayUiController::ReadableScrollOverlayState &overlay = uiController().readableScrollOverlay();
+    overlay = {};
+
+    if (!isLeftMousePressed
+        || !heldInventoryItem().active
+        || itemTable() == nullptr
+        || party() == nullptr
+        || (pointerTarget.type != GameplayCharacterPointerTargetType::EquipmentSlot
+            && pointerTarget.type != GameplayCharacterPointerTargetType::DollPanel))
+    {
+        return;
+    }
+
+    const InventoryItemUseAction useAction =
+        InventoryItemUseRuntime::classifyItemUse(heldInventoryItem().item, *itemTable());
+
+    if (useAction != InventoryItemUseAction::ReadMessageScroll)
+    {
+        return;
+    }
+
+    const InventoryItemUseResult useResult =
+        InventoryItemUseRuntime::useItemOnMember(
+            *party(),
+            memberIndex,
+            heldInventoryItem().item,
+            *itemTable(),
+            readableScrollTable());
+
+    if (!useResult.handled || useResult.action != InventoryItemUseAction::ReadMessageScroll)
+    {
+        return;
+    }
+
+    overlay.active = true;
+    overlay.title = useResult.readableTitle;
+    overlay.body = useResult.readableBody;
 }
 
 void GameplayOverlayContext::closeReadableScrollOverlay()
 {
-    m_view.closeReadableScrollOverlay();
+    uiController().closeReadableScrollOverlay();
 }
 
 void GameplayOverlayContext::playSpeechReaction(size_t memberIndex, SpeechId speechId, bool triggerFaceAnimation)
 {
-    m_view.playSpeechReaction(memberIndex, speechId, triggerFaceAnimation);
+    m_sceneAdapter.playSpeechReaction(memberIndex, speechId, triggerFaceAnimation);
 }
 
 bool GameplayOverlayContext::tryCastSpellFromMember(size_t casterMemberIndex, uint32_t spellId, const std::string &spellName)
 {
-    return m_view.tryCastSpellFromMember(casterMemberIndex, spellId, spellName);
+    return m_sceneAdapter.tryCastSpellFromMember(casterMemberIndex, spellId, spellName);
 }
 
 bool GameplayOverlayContext::tryCastSpellRequest(
     const PartySpellCastRequest &request,
     const std::string &spellName)
 {
-    return m_view.tryCastSpellRequest(request, spellName);
+    return m_sceneAdapter.tryCastSpellRequest(request, spellName);
 }
 
 void GameplayOverlayContext::resetInventoryNestedOverlayInteractionState()
 {
-    m_view.resetInventoryNestedOverlayInteractionState();
+    m_sceneAdapter.resetInventoryNestedOverlayInteractionState();
 }
 
 void GameplayOverlayContext::resetLootOverlayInteractionState()
 {
-    m_view.closeOverlayLatch() = false;
-    m_view.chestClickLatch() = false;
-    m_view.chestItemClickLatch() = false;
-    m_view.chestPressedTarget() = {};
-    m_view.closeInventoryNestedOverlay();
-    m_view.lootChestItemLatch() = false;
-    m_view.chestSelectUpLatch() = false;
-    m_view.chestSelectDownLatch() = false;
-    m_view.chestSelectionIndex() = 0;
+    closeOverlayLatch() = false;
+    chestClickLatch() = false;
+    chestItemClickLatch() = false;
+    chestPressedTarget() = {};
+    closeInventoryNestedOverlay();
+    lootChestItemLatch() = false;
+    chestSelectUpLatch() = false;
+    chestSelectDownLatch() = false;
+    chestSelectionIndex() = 0;
     resetInventoryNestedOverlayInteractionState();
 }
 
 GameSettings &GameplayOverlayContext::mutableSettings() const
 {
-    return m_view.mutableSettings();
+    return *m_sharedServices.pSettings;
 }
 
 const std::array<uint8_t, SDL_SCANCODE_COUNT> &GameplayOverlayContext::previousKeyboardState() const
 {
-    return m_view.previousKeyboardState();
+    return *m_sharedServices.pPreviousKeyboardState;
 }
 
 void GameplayOverlayContext::commitSettingsChange()
 {
-    m_view.commitSettingsChange();
+    m_sceneAdapter.commitSettingsChange();
 }
 
 bool GameplayOverlayContext::trySaveToSelectedGameSlot()
 {
-    return m_view.trySaveToSelectedGameSlot();
+    return m_sceneAdapter.trySaveToSelectedGameSlot();
 }
 
 int GameplayOverlayContext::restFoodRequired() const
 {
-    return m_view.restFoodRequired();
+    return m_sceneAdapter.restFoodRequired();
 }
 
 const GameSettings &GameplayOverlayContext::settingsSnapshot() const
 {
-    return m_view.settingsSnapshot();
+    return *m_sharedServices.pSettings;
 }
 
 bool GameplayOverlayContext::isControlsRenderButtonPressed(GameplayControlsRenderButton button) const
 {
-    return m_view.isControlsRenderButtonPressed(button);
+    if (!controlsClickLatch())
+    {
+        return false;
+    }
+
+    switch (button)
+    {
+        case GameplayControlsRenderButton::TurnRate16:
+            return controlsPressedTarget().type == GameplayControlsPointerTargetType::TurnRate16Button;
+        case GameplayControlsRenderButton::TurnRate32:
+            return controlsPressedTarget().type == GameplayControlsPointerTargetType::TurnRate32Button;
+        case GameplayControlsRenderButton::TurnRateSmooth:
+            return controlsPressedTarget().type == GameplayControlsPointerTargetType::TurnRateSmoothButton;
+        case GameplayControlsRenderButton::WalkSound:
+            return controlsPressedTarget().type == GameplayControlsPointerTargetType::WalkSoundButton;
+        case GameplayControlsRenderButton::ShowHits:
+            return controlsPressedTarget().type == GameplayControlsPointerTargetType::ShowHitsButton;
+        case GameplayControlsRenderButton::AlwaysRun:
+            return controlsPressedTarget().type == GameplayControlsPointerTargetType::AlwaysRunButton;
+        case GameplayControlsRenderButton::FlipOnExit:
+            return controlsPressedTarget().type == GameplayControlsPointerTargetType::FlipOnExitButton;
+    }
+
+    return false;
 }
 
 bool GameplayOverlayContext::isVideoOptionsRenderButtonPressed(GameplayVideoOptionsRenderButton button) const
 {
-    return m_view.isVideoOptionsRenderButtonPressed(button);
+    if (!videoOptionsClickLatch())
+    {
+        return false;
+    }
+
+    switch (button)
+    {
+        case GameplayVideoOptionsRenderButton::BloodSplats:
+            return videoOptionsPressedTarget().type == GameplayVideoOptionsPointerTargetType::BloodSplatsButton;
+        case GameplayVideoOptionsRenderButton::ColoredLights:
+            return videoOptionsPressedTarget().type == GameplayVideoOptionsPointerTargetType::ColoredLightsButton;
+        case GameplayVideoOptionsRenderButton::Tinting:
+            return videoOptionsPressedTarget().type == GameplayVideoOptionsPointerTargetType::TintingButton;
+    }
+
+    return false;
 }
 
 void GameplayOverlayContext::clearHudLayoutRuntimeHeightOverrides()
 {
-    m_view.clearHudLayoutRuntimeHeightOverrides();
+    m_hudAdapter.clearHudLayoutRuntimeHeightOverrides();
 }
 
 void GameplayOverlayContext::setHudLayoutRuntimeHeightOverride(const std::string &layoutId, float height)
 {
-    m_view.setHudLayoutRuntimeHeightOverride(layoutId, height);
+    m_hudAdapter.setHudLayoutRuntimeHeightOverride(layoutId, height);
 }
 
 const HouseEntry *GameplayOverlayContext::findHouseEntry(uint32_t houseId) const
 {
-    return m_view.findHouseEntry(houseId);
+    return houseTable().has_value() ? houseTable()->get(houseId) : nullptr;
 }
 
 const GameplayOverlayContext::HudLayoutElement *GameplayOverlayContext::findHudLayoutElement(
     const std::string &layoutId) const
 {
-    return m_view.findHudLayoutElement(layoutId);
+    return m_hudAdapter.findHudLayoutElement(layoutId);
 }
 
 int GameplayOverlayContext::defaultHudLayoutZIndexForScreen(const std::string &screen) const
 {
-    return m_view.defaultHudLayoutZIndexForScreen(screen);
+    return m_hudAdapter.defaultHudLayoutZIndexForScreen(screen);
 }
 
 GameplayHudScreenState GameplayOverlayContext::currentHudScreenState() const
 {
-    return m_view.currentGameplayHudScreenState();
+    return m_hudAdapter.currentGameplayHudScreenState();
 }
 
 std::vector<std::string> GameplayOverlayContext::sortedHudLayoutIdsForScreen(const std::string &screen) const
 {
-    return m_view.sortedHudLayoutIdsForScreen(screen);
+    return m_hudAdapter.sortedHudLayoutIdsForScreen(screen);
 }
 
 std::optional<GameplayOverlayContext::ResolvedHudLayoutElement> GameplayOverlayContext::resolveHudLayoutElement(
@@ -962,14 +1072,14 @@ std::optional<GameplayOverlayContext::ResolvedHudLayoutElement> GameplayOverlayC
     float fallbackWidth,
     float fallbackHeight) const
 {
-    return m_view.resolveHudLayoutElement(layoutId, screenWidth, screenHeight, fallbackWidth, fallbackHeight);
+    return m_hudAdapter.resolveHudLayoutElement(layoutId, screenWidth, screenHeight, fallbackWidth, fallbackHeight);
 }
 
 std::optional<GameplayOverlayContext::ResolvedHudLayoutElement> GameplayOverlayContext::resolveChestGridArea(
     int width,
     int height) const
 {
-    return m_view.resolveGameplayChestGridArea(width, height);
+    return m_hudAdapter.resolveGameplayChestGridArea(width, height);
 }
 
 std::optional<GameplayOverlayContext::ResolvedHudLayoutElement>
@@ -977,14 +1087,14 @@ GameplayOverlayContext::resolveInventoryNestedOverlayGridArea(
     int width,
     int height) const
 {
-    return m_view.resolveGameplayInventoryNestedOverlayGridArea(width, height);
+    return m_hudAdapter.resolveGameplayInventoryNestedOverlayGridArea(width, height);
 }
 
 std::optional<GameplayOverlayContext::ResolvedHudLayoutElement> GameplayOverlayContext::resolveHouseShopOverlayFrame(
     int width,
     int height) const
 {
-    return m_view.resolveGameplayHouseShopOverlayFrame(width, height);
+    return m_hudAdapter.resolveGameplayHouseShopOverlayFrame(width, height);
 }
 
 bool GameplayOverlayContext::isPointerInsideResolvedElement(
@@ -992,7 +1102,7 @@ bool GameplayOverlayContext::isPointerInsideResolvedElement(
     float pointerX,
     float pointerY) const
 {
-    return m_view.isPointerInsideResolvedElement(resolved, pointerX, pointerY);
+    return m_hudAdapter.isPointerInsideResolvedElement(resolved, pointerX, pointerY);
 }
 
 const std::string *GameplayOverlayContext::resolveInteractiveAssetName(
@@ -1003,7 +1113,7 @@ const std::string *GameplayOverlayContext::resolveInteractiveAssetName(
     bool isLeftMousePressed) const
 {
     const std::optional<std::string> assetName =
-        m_view.resolveInteractiveAssetName(layout, resolved, pointerX, pointerY, isLeftMousePressed);
+        m_hudAdapter.resolveInteractiveAssetName(layout, resolved, pointerX, pointerY, isLeftMousePressed);
 
     if (!assetName)
     {
@@ -1017,14 +1127,14 @@ const std::string *GameplayOverlayContext::resolveInteractiveAssetName(
 std::optional<GameplayOverlayContext::HudTextureHandle> GameplayOverlayContext::ensureHudTextureLoaded(
     const std::string &textureName)
 {
-    return m_view.ensureHudTextureLoaded(textureName);
+    return m_hudAdapter.ensureHudTextureLoaded(textureName);
 }
 
 std::optional<GameplayOverlayContext::HudTextureHandle> GameplayOverlayContext::ensureSolidHudTextureLoaded(
     const std::string &textureName,
     uint32_t abgrColor)
 {
-    return m_view.ensureSolidHudTextureLoaded(textureName, abgrColor);
+    return m_hudAdapter.ensureSolidHudTextureLoaded(textureName, abgrColor);
 }
 
 std::optional<GameplayOverlayContext::HudTextureHandle> GameplayOverlayContext::ensureDynamicHudTexture(
@@ -1033,7 +1143,7 @@ std::optional<GameplayOverlayContext::HudTextureHandle> GameplayOverlayContext::
     int height,
     const std::vector<uint8_t> &bgraPixels)
 {
-    return m_view.ensureDynamicHudTexture(textureName, width, height, bgraPixels);
+    return m_hudAdapter.ensureDynamicHudTexture(textureName, width, height, bgraPixels);
 }
 
 const std::vector<uint8_t> *GameplayOverlayContext::hudTexturePixels(
@@ -1041,12 +1151,12 @@ const std::vector<uint8_t> *GameplayOverlayContext::hudTexturePixels(
     int &width,
     int &height)
 {
-    return m_view.hudTexturePixels(textureName, width, height);
+    return m_hudAdapter.hudTexturePixels(textureName, width, height);
 }
 
 bool GameplayOverlayContext::ensureHudTextureDimensions(const std::string &textureName, int &width, int &height)
 {
-    return m_view.ensureHudTextureDimensions(textureName, width, height);
+    return m_hudAdapter.ensureHudTextureDimensions(textureName, width, height);
 }
 
 bool GameplayOverlayContext::tryGetOpaqueHudTextureBounds(
@@ -1058,7 +1168,7 @@ bool GameplayOverlayContext::tryGetOpaqueHudTextureBounds(
     int &opaqueMaxX,
     int &opaqueMaxY)
 {
-    return m_view.tryGetOpaqueHudTextureBounds(
+    return m_hudAdapter.tryGetOpaqueHudTextureBounds(
         textureName,
         width,
         height,
@@ -1075,12 +1185,12 @@ void GameplayOverlayContext::submitHudTexturedQuad(
     float quadWidth,
     float quadHeight) const
 {
-    m_view.submitHudTexturedQuad(texture, x, y, quadWidth, quadHeight);
+    m_hudAdapter.submitHudTexturedQuad(texture, x, y, quadWidth, quadHeight);
 }
 
 bgfx::TextureHandle GameplayOverlayContext::ensureHudTextureColor(const HudTextureHandle &texture, uint32_t colorAbgr) const
 {
-    return m_view.ensureHudTextureColor(texture, colorAbgr);
+    return m_hudAdapter.ensureHudTextureColor(texture, colorAbgr);
 }
 
 void GameplayOverlayContext::renderLayoutLabel(
@@ -1088,17 +1198,17 @@ void GameplayOverlayContext::renderLayoutLabel(
     const ResolvedHudLayoutElement &resolved,
     const std::string &label) const
 {
-    m_view.renderLayoutLabel(layout, resolved, label);
+    m_hudAdapter.renderLayoutLabel(layout, resolved, label);
 }
 
 std::optional<GameplayOverlayContext::HudFontHandle> GameplayOverlayContext::findHudFont(const std::string &fontName) const
 {
-    return m_view.findHudFont(fontName);
+    return m_hudAdapter.findHudFont(fontName);
 }
 
 float GameplayOverlayContext::measureHudTextWidth(const HudFontHandle &font, const std::string &text) const
 {
-    return m_view.measureHudTextWidth(font, text);
+    return m_hudAdapter.measureHudTextWidth(font, text);
 }
 
 std::vector<std::string> GameplayOverlayContext::wrapHudTextToWidth(
@@ -1106,14 +1216,14 @@ std::vector<std::string> GameplayOverlayContext::wrapHudTextToWidth(
     const std::string &text,
     float maxWidth) const
 {
-    return m_view.wrapHudTextToWidth(font, text, maxWidth);
+    return m_hudAdapter.wrapHudTextToWidth(font, text, maxWidth);
 }
 
 bgfx::TextureHandle GameplayOverlayContext::ensureHudFontMainTextureColor(
     const HudFontHandle &font,
     uint32_t colorAbgr) const
 {
-    return m_view.ensureHudFontMainTextureColor(font, colorAbgr);
+    return m_hudAdapter.ensureHudFontMainTextureColor(font, colorAbgr);
 }
 
 void GameplayOverlayContext::renderHudFontLayer(
@@ -1124,17 +1234,17 @@ void GameplayOverlayContext::renderHudFontLayer(
     float textY,
     float fontScale) const
 {
-    m_view.renderHudFontLayer(font, textureHandle, text, textX, textY, fontScale);
+    m_hudAdapter.renderHudFontLayer(font, textureHandle, text, textX, textY, fontScale);
 }
 
 bool GameplayOverlayContext::hasHudRenderResources() const
 {
-    return m_view.hasHudRenderResources();
+    return m_hudAdapter.hasHudRenderResources();
 }
 
 void GameplayOverlayContext::prepareHudView(int width, int height) const
 {
-    m_view.prepareHudView(width, height);
+    m_hudAdapter.prepareHudView(width, height);
 }
 
 void GameplayOverlayContext::submitHudQuadBatch(
@@ -1142,17 +1252,17 @@ void GameplayOverlayContext::submitHudQuadBatch(
     int screenWidth,
     int screenHeight) const
 {
-    m_view.submitHudQuadBatch(quads, screenWidth, screenHeight);
+    m_hudAdapter.submitHudQuadBatch(quads, screenWidth, screenHeight);
 }
 
 std::string GameplayOverlayContext::resolvePortraitTextureName(const Character &character) const
 {
-    return m_view.resolvePortraitTextureName(character);
+    return m_hudAdapter.resolvePortraitTextureName(character);
 }
 
 void GameplayOverlayContext::consumePendingPortraitEventFxRequests()
 {
-    m_view.consumePendingPortraitEventFxRequests();
+    m_hudAdapter.consumePendingPortraitEventFxRequests();
 }
 
 void GameplayOverlayContext::renderPortraitFx(
@@ -1162,17 +1272,17 @@ void GameplayOverlayContext::renderPortraitFx(
     float portraitWidth,
     float portraitHeight) const
 {
-    m_view.renderPortraitFx(memberIndex, portraitX, portraitY, portraitWidth, portraitHeight);
+    m_hudAdapter.renderPortraitFx(memberIndex, portraitX, portraitY, portraitWidth, portraitHeight);
 }
 
 bool GameplayOverlayContext::tryGetGameplayMinimapState(GameplayMinimapState &state) const
 {
-    return m_view.tryGetGameplayMinimapState(state);
+    return m_hudAdapter.tryGetGameplayMinimapState(state);
 }
 
 void GameplayOverlayContext::collectGameplayMinimapMarkers(std::vector<GameplayMinimapMarkerState> &markers) const
 {
-    m_view.collectGameplayMinimapMarkers(markers);
+    m_hudAdapter.collectGameplayMinimapMarkers(markers);
 }
 
 float GameplayOverlayContext::measureHudTextWidth(const std::string &fontName, const std::string &text) const
@@ -1224,12 +1334,12 @@ void GameplayOverlayContext::renderHudTextLine(
 
 void GameplayOverlayContext::addRenderedInspectableHudItem(const GameplayRenderedInspectableHudItem &item) const
 {
-    m_view.addRenderedInspectableHudItem(item);
+    m_hudAdapter.addRenderedInspectableHudItem(item);
 }
 
 const std::vector<GameplayRenderedInspectableHudItem> &GameplayOverlayContext::renderedInspectableHudItems() const
 {
-    return m_view.renderedInspectableHudItems();
+    return m_hudAdapter.renderedInspectableHudItems();
 }
 
 bool GameplayOverlayContext::isOpaqueHudPixelAtPoint(
@@ -1237,7 +1347,7 @@ bool GameplayOverlayContext::isOpaqueHudPixelAtPoint(
     float x,
     float y) const
 {
-    return m_view.isOpaqueHudPixelAtPoint(item, x, y);
+    return m_hudAdapter.isOpaqueHudPixelAtPoint(item, x, y);
 }
 
 std::string GameplayOverlayContext::resolveEquippedItemHudTextureName(
@@ -1411,11 +1521,11 @@ void GameplayOverlayContext::submitWorldTextureQuad(
     float u1,
     float v1) const
 {
-    m_view.submitWorldTextureQuad(textureHandle, x, y, quadWidth, quadHeight, u0, v0, u1, v1);
+    m_hudAdapter.submitWorldTextureQuad(textureHandle, x, y, quadWidth, quadHeight, u0, v0, u1, v1);
 }
 
 bool GameplayOverlayContext::renderHouseVideoFrame(float x, float y, float quadWidth, float quadHeight) const
 {
-    return m_view.renderHouseVideoFrame(x, y, quadWidth, quadHeight);
+    return m_hudAdapter.renderHouseVideoFrame(x, y, quadWidth, quadHeight);
 }
 } // namespace OpenYAMM::Game

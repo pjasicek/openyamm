@@ -1331,8 +1331,8 @@ void OutdoorInteractionController::presentPendingEventDialog(OutdoorGameView &vi
     }
 
     view.m_eventDialogSelectionIndex = 0;
-    view.m_eventDialogSelectUpLatch = false;
-    view.m_eventDialogSelectDownLatch = false;
+    view.interactionState().eventDialogSelectUpLatch = false;
+    view.interactionState().eventDialogSelectDownLatch = false;
     const bool suppressInitialAccept =
         ([]() -> bool
         {
@@ -1347,8 +1347,8 @@ void OutdoorInteractionController::presentPendingEventDialog(OutdoorGameView &vi
                 || pKeyboardState[SDL_SCANCODE_RETURN]
                 || pKeyboardState[SDL_SCANCODE_KP_ENTER];
         })();
-    view.m_eventDialogAcceptLatch = suppressInitialAccept;
-    view.m_eventDialogPartySelectLatches.fill(false);
+    view.interactionState().eventDialogAcceptLatch = suppressInitialAccept;
+    view.interactionState().eventDialogPartySelectLatches.fill(false);
 
     std::cout << "Opened "
               << (view.m_activeEventDialog.isHouseDialog ? "house" : "npc")
@@ -1388,12 +1388,12 @@ void OutdoorInteractionController::closeActiveEventDialog(OutdoorGameView &view)
 
     view.m_gameplayUiController.clearEventDialog();
     view.m_eventDialogSelectionIndex = 0;
-    view.m_eventDialogSelectUpLatch = false;
-    view.m_eventDialogSelectDownLatch = false;
-    view.m_eventDialogAcceptLatch = false;
-    view.m_eventDialogPartySelectLatches.fill(false);
-    view.m_dialogueClickLatch = false;
-    view.m_dialoguePressedTarget = {};
+    view.interactionState().eventDialogSelectUpLatch = false;
+    view.interactionState().eventDialogSelectDownLatch = false;
+    view.interactionState().eventDialogAcceptLatch = false;
+    view.interactionState().eventDialogPartySelectLatches.fill(false);
+    view.interactionState().dialogueClickLatch = false;
+    view.interactionState().dialoguePressedTarget = {};
     view.closeHouseShopOverlay();
     view.closeInventoryNestedOverlay();
     view.clearHouseBankState();
@@ -1579,7 +1579,7 @@ void OutdoorInteractionController::handleDialogueCloseRequest(OutdoorGameView &v
     if (pEventRuntimeState == nullptr)
     {
         OutdoorInteractionController::closeActiveEventDialog(view);
-        view.m_activateInspectLatch = true;
+        view.interactionState().activateInspectLatch = true;
         return;
     }
 
@@ -1594,7 +1594,7 @@ void OutdoorInteractionController::handleDialogueCloseRequest(OutdoorGameView &v
     else if (result.shouldCloseActiveDialog)
     {
         OutdoorInteractionController::closeActiveEventDialog(view);
-        view.m_activateInspectLatch = true;
+        view.interactionState().activateInspectLatch = true;
     }
 }
 
@@ -1690,9 +1690,9 @@ void OutdoorInteractionController::refreshHouseBankInputDialog(OutdoorGameView &
 
 void OutdoorInteractionController::returnToHouseBankMainDialog(OutdoorGameView &view)
 {
-    view.m_houseBankDigitLatches.fill(false);
-    view.m_houseBankBackspaceLatch = false;
-    view.m_houseBankConfirmLatch = false;
+    view.interactionState().houseBankDigitLatches.fill(false);
+    view.interactionState().houseBankBackspaceLatch = false;
+    view.interactionState().houseBankConfirmLatch = false;
 
     EventRuntimeState *pEventRuntimeState =
         view.m_pOutdoorWorldRuntime != nullptr ? view.m_pOutdoorWorldRuntime->eventRuntimeState() : nullptr;
@@ -1728,9 +1728,9 @@ void OutdoorInteractionController::confirmHouseBankInput(OutdoorGameView &view)
 
     GameplayDialogController::Context context = createGameplayDialogContext(view, *pEventRuntimeState, "confirm_house_bank_input");
     const GameplayDialogController::Result result = view.m_gameplayDialogController.confirmHouseBankInput(context);
-    view.m_houseBankDigitLatches.fill(false);
-    view.m_houseBankBackspaceLatch = false;
-    view.m_houseBankConfirmLatch = false;
+    view.interactionState().houseBankDigitLatches.fill(false);
+    view.interactionState().houseBankBackspaceLatch = false;
+    view.interactionState().houseBankConfirmLatch = false;
 
     if (result.shouldOpenPendingEventDialog)
     {

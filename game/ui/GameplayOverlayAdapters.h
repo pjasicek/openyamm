@@ -1,15 +1,16 @@
 #pragma once
 
-#include "game/tables/ChestTable.h"
 #include "game/audio/GameAudioSystem.h"
 #include "game/app/GameSettings.h"
+#include "game/items/ItemEnchantTables.h"
 #include "game/items/ItemEquipPosTable.h"
+#include "game/party/SpeechIds.h"
 #include "game/tables/CharacterDollTable.h"
 #include "game/tables/CharacterInspectTable.h"
-#include "game/tables/HouseTable.h"
-#include "game/items/ItemEnchantTables.h"
-#include "game/tables/ItemTable.h"
+#include "game/tables/ChestTable.h"
 #include "game/tables/ClassSkillTable.h"
+#include "game/tables/HouseTable.h"
+#include "game/tables/ItemTable.h"
 #include "game/tables/JournalAutonoteTable.h"
 #include "game/tables/JournalHistoryTable.h"
 #include "game/tables/JournalQuestTable.h"
@@ -17,10 +18,11 @@
 #include "game/tables/ReadableScrollTable.h"
 #include "game/tables/RosterTable.h"
 #include "game/tables/SpellTable.h"
-#include "game/party/SpeechIds.h"
 #include "game/ui/GameplayOverlayTypes.h"
+#include "game/ui/GameplayUiController.h"
 #include "game/ui/UiLayoutManager.h"
 
+#include <SDL3/SDL.h>
 #include <bgfx/bgfx.h>
 
 #include <array>
@@ -32,207 +34,44 @@
 
 namespace OpenYAMM::Game
 {
+class IGameplayWorldRuntime;
 struct HouseEntry;
-struct ItemDefinition;
 
-class IGameplayOverlayView
+struct GameplayOverlaySharedServices
+{
+    IGameplayWorldRuntime *pWorldRuntime = nullptr;
+    GameAudioSystem *pAudioSystem = nullptr;
+    const ItemTable *pItemTable = nullptr;
+    const StandardItemEnchantTable *pStandardItemEnchantTable = nullptr;
+    const SpecialItemEnchantTable *pSpecialItemEnchantTable = nullptr;
+    const ClassSkillTable *pClassSkillTable = nullptr;
+    const CharacterDollTable *pCharacterDollTable = nullptr;
+    const CharacterInspectTable *pCharacterInspectTable = nullptr;
+    const RosterTable *pRosterTable = nullptr;
+    const ReadableScrollTable *pReadableScrollTable = nullptr;
+    const ItemEquipPosTable *pItemEquipPosTable = nullptr;
+    const SpellTable *pSpellTable = nullptr;
+    const std::optional<HouseTable> *pHouseTable = nullptr;
+    const std::optional<ChestTable> *pChestTable = nullptr;
+    const std::optional<NpcDialogTable> *pNpcDialogTable = nullptr;
+    const JournalQuestTable *pJournalQuestTable = nullptr;
+    const JournalHistoryTable *pJournalHistoryTable = nullptr;
+    const JournalAutonoteTable *pJournalAutonoteTable = nullptr;
+    GameplayUiController *pUiController = nullptr;
+    GameplayOverlayInteractionState *pInteractionState = nullptr;
+    GameSettings *pSettings = nullptr;
+    const std::array<uint8_t, SDL_SCANCODE_COUNT> *pPreviousKeyboardState = nullptr;
+};
+
+class GameplayOverlayStateAccess
 {
 public:
-    virtual ~IGameplayOverlayView() = default;
-
-    virtual IGameplayWorldRuntime *worldRuntime() const = 0;
-    virtual GameAudioSystem *audioSystem() const = 0;
-    virtual const ItemTable *itemTable() const = 0;
-    virtual const StandardItemEnchantTable *standardItemEnchantTable() const = 0;
-    virtual const SpecialItemEnchantTable *specialItemEnchantTable() const = 0;
-    virtual const ClassSkillTable *classSkillTable() const = 0;
-    virtual const CharacterDollTable *characterDollTable() const = 0;
-    virtual const CharacterInspectTable *characterInspectTable() const = 0;
-    virtual const RosterTable *rosterTable() const = 0;
-    virtual const ReadableScrollTable *readableScrollTable() const = 0;
-    virtual const ItemEquipPosTable *itemEquipPosTable() const = 0;
-    virtual const SpellTable *spellTable() const = 0;
-    virtual const std::optional<HouseTable> &houseTable() const = 0;
-    virtual const std::optional<ChestTable> &chestTable() const = 0;
-    virtual const std::optional<NpcDialogTable> &npcDialogTable() const = 0;
+    virtual ~GameplayOverlayStateAccess() = default;
 
     virtual GameplayUiController &uiController() = 0;
     virtual const GameplayUiController &uiController() const = 0;
     virtual GameplayOverlayInteractionState &overlayInteractionState() = 0;
     virtual const GameplayOverlayInteractionState &overlayInteractionState() const = 0;
-    virtual const JournalQuestTable *journalQuestTable() const = 0;
-    virtual const JournalHistoryTable *journalHistoryTable() const = 0;
-    virtual const JournalAutonoteTable *journalAutonoteTable() const = 0;
-    virtual const std::string &currentMapFileName() const = 0;
-    virtual float gameplayCameraYawRadians() const = 0;
-    virtual const std::vector<uint8_t> *journalMapFullyRevealedCells() const = 0;
-    virtual const std::vector<uint8_t> *journalMapPartiallyRevealedCells() const = 0;
-    virtual bool trySelectPartyMember(size_t memberIndex, bool requireGameplayReady) = 0;
-    virtual bool activeMemberKnowsSpell(uint32_t spellId) const = 0;
-    virtual bool activeMemberHasSpellbookSchool(GameplayUiController::SpellbookSchool school) const = 0;
-    virtual void setStatusBarEvent(const std::string &text, float durationSeconds) = 0;
-    virtual void handleDialogueCloseRequest() = 0;
-    virtual void closeRestOverlay() = 0;
-    virtual void openMenuOverlay() = 0;
-    virtual void closeMenuOverlay() = 0;
-    virtual void openControlsOverlay() = 0;
-    virtual void closeControlsOverlay() = 0;
-    virtual void openKeyboardOverlay() = 0;
-    virtual void closeKeyboardOverlayToControls() = 0;
-    virtual void closeKeyboardOverlayToMenu() = 0;
-    virtual void openVideoOptionsOverlay() = 0;
-    virtual void closeVideoOptionsOverlay() = 0;
-    virtual void openSaveGameOverlay() = 0;
-    virtual void closeSaveGameOverlay() = 0;
-    virtual void requestOpenNewGameScreen() = 0;
-    virtual void requestOpenLoadGameScreen() = 0;
-    virtual void openJournalOverlay() = 0;
-    virtual void closeJournalOverlay() = 0;
-    virtual void executeActiveDialogAction() = 0;
-    virtual void refreshHouseBankInputDialog() = 0;
-    virtual void confirmHouseBankInput() = 0;
-    virtual void closeInventoryNestedOverlay() = 0;
-    virtual void closeSpellbookOverlay(const std::string &statusText = "") = 0;
-    virtual bool tryUseHeldItemOnPartyMember(size_t memberIndex, bool keepCharacterScreenOpen) = 0;
-    virtual void updateReadableScrollOverlayForHeldItem(
-        size_t memberIndex,
-        const GameplayCharacterPointerTarget &pointerTarget,
-        bool isLeftMousePressed) = 0;
-    virtual void closeReadableScrollOverlay() = 0;
-    virtual void resetInventoryNestedOverlayInteractionState() = 0;
-    virtual void playSpeechReaction(size_t memberIndex, SpeechId speechId, bool triggerFaceAnimation) = 0;
-    virtual bool tryCastSpellFromMember(
-        size_t casterMemberIndex,
-        uint32_t spellId,
-        const std::string &spellName) = 0;
-    virtual bool tryCastSpellRequest(
-        const PartySpellCastRequest &request,
-        const std::string &spellName) = 0;
-    virtual GameSettings &mutableSettings() = 0;
-    virtual const std::array<uint8_t, SDL_SCANCODE_COUNT> &previousKeyboardState() const = 0;
-    virtual void commitSettingsChange() = 0;
-    virtual bool trySaveToSelectedGameSlot() = 0;
-    virtual int restFoodRequired() const = 0;
-    virtual const GameSettings &settingsSnapshot() const = 0;
-    virtual bool isControlsRenderButtonPressed(GameplayControlsRenderButton button) const = 0;
-    virtual bool isVideoOptionsRenderButtonPressed(GameplayVideoOptionsRenderButton button) const = 0;
-    virtual void clearHudLayoutRuntimeHeightOverrides() = 0;
-    virtual void setHudLayoutRuntimeHeightOverride(const std::string &layoutId, float height) = 0;
-
-    virtual const HouseEntry *findHouseEntry(uint32_t houseId) const = 0;
-    virtual const UiLayoutManager::LayoutElement *findHudLayoutElement(const std::string &layoutId) const = 0;
-    virtual int defaultHudLayoutZIndexForScreen(const std::string &screen) const = 0;
-    virtual GameplayHudScreenState currentGameplayHudScreenState() const = 0;
-    virtual std::vector<std::string> sortedHudLayoutIdsForScreen(const std::string &screen) const = 0;
-    virtual std::optional<GameplayResolvedHudLayoutElement> resolveHudLayoutElement(
-        const std::string &layoutId,
-        int screenWidth,
-        int screenHeight,
-        float fallbackWidth,
-        float fallbackHeight) const = 0;
-    virtual std::optional<GameplayResolvedHudLayoutElement> resolveGameplayChestGridArea(int width, int height) const = 0;
-    virtual std::optional<GameplayResolvedHudLayoutElement> resolveGameplayInventoryNestedOverlayGridArea(
-        int width,
-        int height) const = 0;
-    virtual std::optional<GameplayResolvedHudLayoutElement> resolveGameplayHouseShopOverlayFrame(
-        int width,
-        int height) const = 0;
-    virtual bool isPointerInsideResolvedElement(
-        const GameplayResolvedHudLayoutElement &resolved,
-        float pointerX,
-        float pointerY) const = 0;
-    virtual std::optional<std::string> resolveInteractiveAssetName(
-        const UiLayoutManager::LayoutElement &layout,
-        const GameplayResolvedHudLayoutElement &resolved,
-        float pointerX,
-        float pointerY,
-        bool isLeftMousePressed) const = 0;
-
-    virtual std::optional<GameplayHudTextureHandle> ensureHudTextureLoaded(const std::string &textureName) = 0;
-    virtual std::optional<GameplayHudTextureHandle> ensureSolidHudTextureLoaded(
-        const std::string &textureName,
-        uint32_t abgrColor) = 0;
-    virtual std::optional<GameplayHudTextureHandle> ensureDynamicHudTexture(
-        const std::string &textureName,
-        int width,
-        int height,
-        const std::vector<uint8_t> &bgraPixels) = 0;
-    virtual const std::vector<uint8_t> *hudTexturePixels(
-        const std::string &textureName,
-        int &width,
-        int &height) = 0;
-    virtual bool ensureHudTextureDimensions(const std::string &textureName, int &width, int &height) = 0;
-    virtual bool tryGetOpaqueHudTextureBounds(
-        const std::string &textureName,
-        int &width,
-        int &height,
-        int &opaqueMinX,
-        int &opaqueMinY,
-        int &opaqueMaxX,
-        int &opaqueMaxY) = 0;
-    virtual void submitHudTexturedQuad(
-        const GameplayHudTextureHandle &texture,
-        float x,
-        float y,
-        float quadWidth,
-        float quadHeight) const = 0;
-    virtual bgfx::TextureHandle ensureHudTextureColor(
-        const GameplayHudTextureHandle &texture,
-        uint32_t colorAbgr) const = 0;
-    virtual void renderLayoutLabel(
-        const UiLayoutManager::LayoutElement &layout,
-        const GameplayResolvedHudLayoutElement &resolved,
-        const std::string &label) const = 0;
-    virtual std::optional<GameplayHudFontHandle> findHudFont(const std::string &fontName) const = 0;
-    virtual float measureHudTextWidth(const GameplayHudFontHandle &font, const std::string &text) const = 0;
-    virtual std::vector<std::string> wrapHudTextToWidth(
-        const GameplayHudFontHandle &font,
-        const std::string &text,
-        float maxWidth) const = 0;
-    virtual bgfx::TextureHandle ensureHudFontMainTextureColor(
-        const GameplayHudFontHandle &font,
-        uint32_t colorAbgr) const = 0;
-    virtual void renderHudFontLayer(
-        const GameplayHudFontHandle &font,
-        bgfx::TextureHandle textureHandle,
-        const std::string &text,
-        float textX,
-        float textY,
-        float fontScale) const = 0;
-    virtual bool hasHudRenderResources() const = 0;
-    virtual void prepareHudView(int width, int height) const = 0;
-    virtual void submitHudQuadBatch(
-        const std::vector<GameplayHudBatchQuad> &quads,
-        int screenWidth,
-        int screenHeight) const = 0;
-    virtual std::string resolvePortraitTextureName(const Character &character) const = 0;
-    virtual void consumePendingPortraitEventFxRequests() = 0;
-    virtual void renderPortraitFx(
-        size_t memberIndex,
-        float portraitX,
-        float portraitY,
-        float portraitWidth,
-        float portraitHeight) const = 0;
-    virtual bool tryGetGameplayMinimapState(GameplayMinimapState &state) const = 0;
-    virtual void collectGameplayMinimapMarkers(std::vector<GameplayMinimapMarkerState> &markers) const = 0;
-
-    virtual void addRenderedInspectableHudItem(const GameplayRenderedInspectableHudItem &item) = 0;
-    virtual const std::vector<GameplayRenderedInspectableHudItem> &renderedInspectableHudItems() const = 0;
-    virtual bool isOpaqueHudPixelAtPoint(
-        const GameplayRenderedInspectableHudItem &item,
-        float x,
-        float y) const = 0;
-    virtual void submitWorldTextureQuad(
-        bgfx::TextureHandle textureHandle,
-        float x,
-        float y,
-        float quadWidth,
-        float quadHeight,
-        float u0,
-        float v0,
-        float u1,
-        float v1) const = 0;
-    virtual bool renderHouseVideoFrame(float x, float y, float quadWidth, float quadHeight) const = 0;
 
     GameplayUiController::CharacterScreenState &characterScreen()
     {
@@ -744,4 +583,170 @@ public:
         return uiController().eventDialog().selectionIndex;
     }
 };
-} // namespace OpenYAMM::Game
+
+class IGameplayOverlaySceneAdapter
+{
+public:
+    virtual ~IGameplayOverlaySceneAdapter() = default;
+
+    virtual const std::string &currentMapFileName() const = 0;
+    virtual float gameplayCameraYawRadians() const = 0;
+    virtual const std::vector<uint8_t> *journalMapFullyRevealedCells() const = 0;
+    virtual const std::vector<uint8_t> *journalMapPartiallyRevealedCells() const = 0;
+
+    virtual bool trySelectPartyMember(size_t memberIndex, bool requireGameplayReady) = 0;
+    virtual void handleDialogueCloseRequest() = 0;
+    virtual void closeRestOverlay() = 0;
+    virtual void openMenuOverlay() = 0;
+    virtual void closeMenuOverlay() = 0;
+    virtual void openControlsOverlay() = 0;
+    virtual void closeControlsOverlay() = 0;
+    virtual void openKeyboardOverlay() = 0;
+    virtual void closeKeyboardOverlayToControls() = 0;
+    virtual void closeKeyboardOverlayToMenu() = 0;
+    virtual void openVideoOptionsOverlay() = 0;
+    virtual void closeVideoOptionsOverlay() = 0;
+    virtual void openSaveGameOverlay() = 0;
+    virtual void closeSaveGameOverlay() = 0;
+    virtual void requestOpenNewGameScreen() = 0;
+    virtual void requestOpenLoadGameScreen() = 0;
+    virtual void openJournalOverlay() = 0;
+    virtual void closeJournalOverlay() = 0;
+    virtual void executeActiveDialogAction() = 0;
+    virtual void refreshHouseBankInputDialog() = 0;
+    virtual void confirmHouseBankInput() = 0;
+    virtual void closeInventoryNestedOverlay() = 0;
+    virtual void closeSpellbookOverlay(const std::string &statusText) = 0;
+    virtual bool tryUseHeldItemOnPartyMember(size_t memberIndex, bool keepCharacterScreenOpen) = 0;
+    virtual void resetInventoryNestedOverlayInteractionState() = 0;
+    virtual void playSpeechReaction(size_t memberIndex, SpeechId speechId, bool triggerFaceAnimation) = 0;
+    virtual bool tryCastSpellFromMember(
+        size_t casterMemberIndex,
+        uint32_t spellId,
+        const std::string &spellName) = 0;
+    virtual bool tryCastSpellRequest(
+        const PartySpellCastRequest &request,
+        const std::string &spellName) = 0;
+    virtual void commitSettingsChange() = 0;
+    virtual bool trySaveToSelectedGameSlot() = 0;
+    virtual int restFoodRequired() const = 0;
+};
+
+class IGameplayOverlayHudAdapter
+{
+public:
+    virtual ~IGameplayOverlayHudAdapter() = default;
+
+    virtual void clearHudLayoutRuntimeHeightOverrides() = 0;
+    virtual void setHudLayoutRuntimeHeightOverride(const std::string &layoutId, float height) = 0;
+    virtual const UiLayoutManager::LayoutElement *findHudLayoutElement(const std::string &layoutId) const = 0;
+    virtual int defaultHudLayoutZIndexForScreen(const std::string &screen) const = 0;
+    virtual GameplayHudScreenState currentGameplayHudScreenState() const = 0;
+    virtual std::vector<std::string> sortedHudLayoutIdsForScreen(const std::string &screen) const = 0;
+    virtual std::optional<GameplayResolvedHudLayoutElement> resolveHudLayoutElement(
+        const std::string &layoutId,
+        int screenWidth,
+        int screenHeight,
+        float fallbackWidth,
+        float fallbackHeight) const = 0;
+    virtual std::optional<GameplayResolvedHudLayoutElement> resolveGameplayChestGridArea(int width, int height) const = 0;
+    virtual std::optional<GameplayResolvedHudLayoutElement> resolveGameplayInventoryNestedOverlayGridArea(
+        int width,
+        int height) const = 0;
+    virtual std::optional<GameplayResolvedHudLayoutElement> resolveGameplayHouseShopOverlayFrame(
+        int width,
+        int height) const = 0;
+    virtual bool isPointerInsideResolvedElement(
+        const GameplayResolvedHudLayoutElement &resolved,
+        float pointerX,
+        float pointerY) const = 0;
+    virtual std::optional<std::string> resolveInteractiveAssetName(
+        const UiLayoutManager::LayoutElement &layout,
+        const GameplayResolvedHudLayoutElement &resolved,
+        float pointerX,
+        float pointerY,
+        bool isLeftMousePressed) const = 0;
+
+    virtual std::optional<GameplayHudTextureHandle> ensureHudTextureLoaded(const std::string &textureName) = 0;
+    virtual std::optional<GameplayHudTextureHandle> ensureSolidHudTextureLoaded(
+        const std::string &textureName,
+        uint32_t abgrColor) = 0;
+    virtual std::optional<GameplayHudTextureHandle> ensureDynamicHudTexture(
+        const std::string &textureName,
+        int width,
+        int height,
+        const std::vector<uint8_t> &bgraPixels) = 0;
+    virtual const std::vector<uint8_t> *hudTexturePixels(
+        const std::string &textureName,
+        int &width,
+        int &height) = 0;
+    virtual bool ensureHudTextureDimensions(const std::string &textureName, int &width, int &height) = 0;
+    virtual bool tryGetOpaqueHudTextureBounds(
+        const std::string &textureName,
+        int &width,
+        int &height,
+        int &opaqueMinX,
+        int &opaqueMinY,
+        int &opaqueMaxX,
+        int &opaqueMaxY) = 0;
+    virtual void submitHudTexturedQuad(
+        const GameplayHudTextureHandle &texture,
+        float x,
+        float y,
+        float quadWidth,
+        float quadHeight) const = 0;
+    virtual bgfx::TextureHandle ensureHudTextureColor(
+        const GameplayHudTextureHandle &texture,
+        uint32_t colorAbgr) const = 0;
+    virtual void renderLayoutLabel(
+        const UiLayoutManager::LayoutElement &layout,
+        const GameplayResolvedHudLayoutElement &resolved,
+        const std::string &label) const = 0;
+    virtual std::optional<GameplayHudFontHandle> findHudFont(const std::string &fontName) const = 0;
+    virtual float measureHudTextWidth(const GameplayHudFontHandle &font, const std::string &text) const = 0;
+    virtual std::vector<std::string> wrapHudTextToWidth(
+        const GameplayHudFontHandle &font,
+        const std::string &text,
+        float maxWidth) const = 0;
+    virtual bgfx::TextureHandle ensureHudFontMainTextureColor(
+        const GameplayHudFontHandle &font,
+        uint32_t colorAbgr) const = 0;
+    virtual void renderHudFontLayer(
+        const GameplayHudFontHandle &font,
+        bgfx::TextureHandle textureHandle,
+        const std::string &text,
+        float textX,
+        float textY,
+        float fontScale) const = 0;
+    virtual bool hasHudRenderResources() const = 0;
+    virtual void prepareHudView(int width, int height) const = 0;
+    virtual void submitHudQuadBatch(
+        const std::vector<GameplayHudBatchQuad> &quads,
+        int screenWidth,
+        int screenHeight) const = 0;
+    virtual std::string resolvePortraitTextureName(const Character &character) const = 0;
+    virtual void consumePendingPortraitEventFxRequests() = 0;
+    virtual void renderPortraitFx(
+        size_t memberIndex,
+        float portraitX,
+        float portraitY,
+        float portraitWidth,
+        float portraitHeight) const = 0;
+    virtual bool tryGetGameplayMinimapState(GameplayMinimapState &state) const = 0;
+    virtual void collectGameplayMinimapMarkers(std::vector<GameplayMinimapMarkerState> &markers) const = 0;
+    virtual void addRenderedInspectableHudItem(const GameplayRenderedInspectableHudItem &item) = 0;
+    virtual const std::vector<GameplayRenderedInspectableHudItem> &renderedInspectableHudItems() const = 0;
+    virtual bool isOpaqueHudPixelAtPoint(const GameplayRenderedInspectableHudItem &item, float x, float y) const = 0;
+    virtual void submitWorldTextureQuad(
+        bgfx::TextureHandle textureHandle,
+        float x,
+        float y,
+        float quadWidth,
+        float quadHeight,
+        float u0,
+        float v0,
+        float u1,
+        float v1) const = 0;
+    virtual bool renderHouseVideoFrame(float x, float y, float quadWidth, float quadHeight) const = 0;
+};
+}

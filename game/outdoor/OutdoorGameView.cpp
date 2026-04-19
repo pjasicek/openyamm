@@ -3648,7 +3648,6 @@ OutdoorGameView::OutdoorGameView(
     , m_triggerMeteorLatch(false)
     , m_toggleRainLatch(false)
     , m_keyboardUseLatch(false)
-    , m_activateInspectLatch(overlayInteractionState.activateInspectLatch)
     , m_inspectMouseActivateLatch(false)
     , m_attackInspectLatch(false)
     , m_attackReadyMemberAvailableWhileHeld(false)
@@ -3662,26 +3661,12 @@ OutdoorGameView::OutdoorGameView(
     , m_quickSpellReadyMemberAvailableWhileHeld(false)
     , m_quickSpellAttackFallbackRequested(false)
     , m_spellbookToggleLatch(false)
-    , m_spellbookClickLatch(overlayInteractionState.spellbookClickLatch)
     , m_pendingSpellTargetClickLatch(false)
     , m_restToggleLatch(false)
-    , m_restClickLatch(overlayInteractionState.restClickLatch)
     , m_optionsButtonClickLatch(false)
     , m_booksButtonClickLatch(false)
-    , m_menuToggleLatch(overlayInteractionState.menuToggleLatch)
-    , m_menuClickLatch(overlayInteractionState.menuClickLatch)
-    , m_controlsToggleLatch(overlayInteractionState.controlsToggleLatch)
-    , m_controlsClickLatch(overlayInteractionState.controlsClickLatch)
-    , m_keyboardToggleLatch(overlayInteractionState.keyboardToggleLatch)
-    , m_keyboardClickLatch(overlayInteractionState.keyboardClickLatch)
-    , m_videoOptionsToggleLatch(overlayInteractionState.videoOptionsToggleLatch)
-    , m_videoOptionsClickLatch(overlayInteractionState.videoOptionsClickLatch)
-    , m_saveGameToggleLatch(overlayInteractionState.saveGameToggleLatch)
-    , m_saveGameClickLatch(overlayInteractionState.saveGameClickLatch)
     , m_loadGameToggleLatch(false)
     , m_loadGameClickLatch(false)
-    , m_journalToggleLatch(overlayInteractionState.journalToggleLatch)
-    , m_journalClickLatch(overlayInteractionState.journalClickLatch)
     , m_inventoryScreenToggleLatch(false)
     , m_adventurersInnToggleLatch(false)
     , m_gameplayUiController(gameplayUiController)
@@ -3694,17 +3679,12 @@ OutdoorGameView::OutdoorGameView(
     , m_characterScreenSource(m_gameplayUiController.characterScreen().source)
     , m_characterScreenSourceIndex(m_gameplayUiController.characterScreen().sourceIndex)
     , m_adventurersInnScrollOffset(m_gameplayUiController.characterScreen().adventurersInnScrollOffset)
-    , m_characterClickLatch(overlayInteractionState.characterClickLatch)
-    , m_characterMemberCycleLatch(overlayInteractionState.characterMemberCycleLatch)
-    , m_characterPressedTarget(overlayInteractionState.characterPressedTarget)
     , m_partyPortraitClickLatch(false)
     , m_partyPortraitPressedIndex(std::nullopt)
     , m_lastPartyPortraitClickTicks(0)
     , m_lastPartyPortraitClickedIndex(std::nullopt)
     , m_lastAdventurersInnPortraitClickTicks(0)
     , m_lastAdventurersInnPortraitClickedIndex(std::nullopt)
-    , m_pendingCharacterDismissMemberIndex(overlayInteractionState.pendingCharacterDismissMemberIndex)
-    , m_pendingCharacterDismissExpiresTicks(overlayInteractionState.pendingCharacterDismissExpiresTicks)
     , m_heldInventoryItem(m_gameplayUiController.heldInventoryItem())
     , m_itemInspectOverlay(m_gameplayUiController.itemInspectOverlay())
     , m_itemInspectInteractionLatch(false)
@@ -3728,52 +3708,15 @@ OutdoorGameView::OutdoorGameView(
     , m_inventoryNestedOverlay(m_gameplayUiController.inventoryNestedOverlay())
     , m_houseShopOverlay(m_gameplayUiController.houseShopOverlay())
     , m_houseBankState(m_gameplayUiController.houseBankState())
-    , m_spellbookPressedTarget(overlayInteractionState.spellbookPressedTarget)
-    , m_restPressedTarget(overlayInteractionState.restPressedTarget)
     , m_optionsButtonPressed(false)
     , m_booksButtonPressed(false)
-    , m_menuPressedTarget(overlayInteractionState.menuPressedTarget)
-    , m_controlsPressedTarget(overlayInteractionState.controlsPressedTarget)
-    , m_keyboardPressedTarget(overlayInteractionState.keyboardPressedTarget)
-    , m_videoOptionsPressedTarget(overlayInteractionState.videoOptionsPressedTarget)
-    , m_controlsSliderDragActive(overlayInteractionState.controlsSliderDragActive)
-    , m_controlsDraggedSlider(overlayInteractionState.controlsDraggedSlider)
-    , m_saveGamePressedTarget(overlayInteractionState.saveGamePressedTarget)
     , m_loadGamePressedTarget({})
-    , m_lastSaveGameSlotClickTicks(overlayInteractionState.lastSaveGameSlotClickTicks)
-    , m_lastSaveGameClickedSlotIndex(overlayInteractionState.lastSaveGameClickedSlotIndex)
-    , m_saveGameEditKeyLatches(overlayInteractionState.saveGameEditKeyLatches)
-    , m_saveGameEditBackspaceLatch(overlayInteractionState.saveGameEditBackspaceLatch)
-    , m_journalPressedTarget(overlayInteractionState.journalPressedTarget)
-    , m_journalMapKeyZoomLatch(overlayInteractionState.journalMapKeyZoomLatch)
-    , m_lastSpellbookSpellClickTicks(overlayInteractionState.lastSpellbookSpellClickTicks)
-    , m_lastSpellbookClickedSpellId(overlayInteractionState.lastSpellbookClickedSpellId)
     , m_lastSpellFailSoundTicks(0)
     , m_pendingSpellCast({})
     , m_spellAreaPreviewCache({})
     , m_heldInventoryDropLatch(false)
-    , m_closeOverlayLatch(overlayInteractionState.closeOverlayLatch)
-    , m_dialogueClickLatch(overlayInteractionState.dialogueClickLatch)
-    , m_dialoguePressedTarget(overlayInteractionState.dialoguePressedTarget)
-    , m_houseShopClickLatch(overlayInteractionState.houseShopClickLatch)
-    , m_houseShopPressedSlotIndex(overlayInteractionState.houseShopPressedSlotIndex)
-    , m_chestClickLatch(overlayInteractionState.chestClickLatch)
-    , m_chestItemClickLatch(overlayInteractionState.chestItemClickLatch)
-    , m_chestPressedTarget(overlayInteractionState.chestPressedTarget)
     , m_inventoryNestedOverlayClickLatch(false)
-    , m_inventoryNestedOverlayItemClickLatch(overlayInteractionState.inventoryNestedOverlayItemClickLatch)
     , m_inventoryNestedOverlayPressedTarget({})
-    , m_houseBankDigitLatches(overlayInteractionState.houseBankDigitLatches)
-    , m_houseBankBackspaceLatch(overlayInteractionState.houseBankBackspaceLatch)
-    , m_houseBankConfirmLatch(overlayInteractionState.houseBankConfirmLatch)
-    , m_lootChestItemLatch(overlayInteractionState.lootChestItemLatch)
-    , m_chestSelectUpLatch(overlayInteractionState.chestSelectUpLatch)
-    , m_chestSelectDownLatch(overlayInteractionState.chestSelectDownLatch)
-    , m_eventDialogSelectUpLatch(overlayInteractionState.eventDialogSelectUpLatch)
-    , m_eventDialogSelectDownLatch(overlayInteractionState.eventDialogSelectDownLatch)
-    , m_eventDialogAcceptLatch(overlayInteractionState.eventDialogAcceptLatch)
-    , m_eventDialogPartySelectLatches(overlayInteractionState.eventDialogPartySelectLatches)
-    , m_chestSelectionIndex(overlayInteractionState.chestSelectionIndex)
     , m_eventDialogSelectionIndex(m_gameplayUiController.eventDialog().selectionIndex)
     , m_statusBarHoverText(m_gameplayUiController.statusBar().hoverText)
     , m_statusBarEventText(m_gameplayUiController.statusBar().eventText)
@@ -3809,8 +3752,8 @@ OutdoorGameView::OutdoorGameView(
     , m_activeWalkingSoundId(std::nullopt)
     , m_activeHouseAudioHostId(0)
 {
-    m_eventDialogPartySelectLatches.fill(false);
-    m_houseBankDigitLatches.fill(false);
+    interactionState().eventDialogPartySelectLatches.fill(false);
+    interactionState().houseBankDigitLatches.fill(false);
 }
 
 OutdoorGameView::~OutdoorGameView()
@@ -4308,15 +4251,15 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
 
                 if (closePressed)
                 {
-                    if (!m_closeOverlayLatch)
+                    if (!interactionState().closeOverlayLatch)
                     {
                         clearPendingSpellCast("Spell canceled");
-                        m_closeOverlayLatch = true;
+                        interactionState().closeOverlayLatch = true;
                     }
                 }
                 else
                 {
-                    m_closeOverlayLatch = false;
+                    interactionState().closeOverlayLatch = false;
                 }
 
                 SDL_GetMouseState(&mouseX, &mouseY);
@@ -4466,7 +4409,7 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
 
                 m_keyboardUseLatch = false;
                 m_heldInventoryDropLatch = false;
-                m_activateInspectLatch = false;
+                interactionState().activateInspectLatch = false;
                 m_inspectMouseActivateLatch = false;
                 m_attackInspectLatch = false;
                 m_attackInspectRepeatCooldownSeconds = 0.0f;
@@ -4748,7 +4691,7 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
                 refreshInteractionInspectHit();
             }
 
-            if (isActivationPressed && !m_activateInspectLatch)
+            if (isActivationPressed && !interactionState().activateInspectLatch)
             {
                 if (OutdoorInteractionController::canActivateInteractionInspectEvent(
                         *this,
@@ -4760,11 +4703,11 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
                     refreshHoverInspectHit();
                 }
 
-                m_activateInspectLatch = true;
+                interactionState().activateInspectLatch = true;
             }
             else if (!isActivationPressed)
             {
-                m_activateInspectLatch = false;
+                interactionState().activateInspectLatch = false;
             }
 
             if (isLeftMousePressed && !isPointerOverPartyPortrait)
@@ -5996,13 +5939,13 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
 
 void OutdoorGameView::renderGameplayHudArt(int width, int height)
 {
-    GameplayOverlayContext overlayContext(*this);
+    GameplayOverlayContext overlayContext = createGameplayOverlayContext();
     GameplayHudRenderer::renderGameplayHudArt(overlayContext, width, height);
 }
 
 void OutdoorGameView::renderGameplayHud(int width, int height) const
 {
-    GameplayOverlayContext overlayContext(*const_cast<OutdoorGameView *>(this));
+    GameplayOverlayContext overlayContext = createGameplayOverlayContext();
     GameplayHudRenderer::renderGameplayHud(overlayContext, width, height);
 }
 
@@ -6028,7 +5971,7 @@ void OutdoorGameView::renderChestPanel(int width, int height, bool renderAboveHu
 
     if (pChestView != nullptr)
     {
-        GameplayOverlayContext overlayContext(*const_cast<OutdoorGameView *>(this));
+        GameplayOverlayContext overlayContext = createGameplayOverlayContext();
         GameplayHudOverlayRenderer::renderChestPanel(overlayContext, width, height, renderAboveHud);
         return;
     }
@@ -6131,7 +6074,7 @@ void OutdoorGameView::renderChestPanel(int width, int height, bool renderAboveHu
         }
 
         const std::string line = std::to_string(itemIndex + 1) + ". " + itemName;
-        const uint8_t color = itemIndex == m_chestSelectionIndex ? 0x0e : 0x0f;
+        const uint8_t color = itemIndex == interactionState().chestSelectionIndex ? 0x0e : 0x0f;
         const int column = std::max(4, (textColumns / 2) - 20);
         bgfx::dbgTextPrintf(
             static_cast<uint16_t>(column),
@@ -6158,7 +6101,7 @@ void OutdoorGameView::renderChestPanel(int width, int height, bool renderAboveHu
 
 void OutdoorGameView::renderInventoryNestedOverlay(int width, int height, bool renderAboveHud) const
 {
-    GameplayOverlayContext overlayContext(*const_cast<OutdoorGameView *>(this));
+    GameplayOverlayContext overlayContext = createGameplayOverlayContext();
     GameplayHudOverlayRenderer::renderInventoryNestedOverlay(
         overlayContext,
         width,
@@ -6732,13 +6675,13 @@ void OutdoorGameView::shutdown()
     m_toggleInspectLatch = false;
     m_triggerMeteorLatch = false;
     m_keyboardUseLatch = false;
-    m_activateInspectLatch = false;
+    interactionState().activateInspectLatch = false;
     m_inspectMouseActivateLatch = false;
     m_attackInspectLatch = false;
     m_attackInspectRepeatCooldownSeconds = 0.0f;
     m_quickSpellCastLatch = false;
     m_spellbookToggleLatch = false;
-    m_spellbookClickLatch = false;
+    interactionState().spellbookClickLatch = false;
     m_pendingSpellTargetClickLatch = false;
     m_inventoryScreenToggleLatch = false;
     m_adventurersInnToggleLatch = false;
@@ -6749,45 +6692,45 @@ void OutdoorGameView::shutdown()
     m_characterScreenSource = CharacterScreenSource::Party;
     m_characterScreenSourceIndex = 0;
     m_adventurersInnScrollOffset = 0;
-    m_characterClickLatch = false;
-    m_characterMemberCycleLatch = false;
-    m_characterPressedTarget = {};
+    interactionState().characterClickLatch = false;
+    interactionState().characterMemberCycleLatch = false;
+    interactionState().characterPressedTarget = {};
     m_partyPortraitClickLatch = false;
     m_partyPortraitPressedIndex = std::nullopt;
     m_lastPartyPortraitClickTicks = 0;
     m_lastPartyPortraitClickedIndex = std::nullopt;
     m_lastAdventurersInnPortraitClickTicks = 0;
     m_lastAdventurersInnPortraitClickedIndex = std::nullopt;
-    m_pendingCharacterDismissMemberIndex = std::nullopt;
-    m_pendingCharacterDismissExpiresTicks = 0;
+    interactionState().pendingCharacterDismissMemberIndex = std::nullopt;
+    interactionState().pendingCharacterDismissExpiresTicks = 0;
     m_heldInventoryItem = {};
     m_actorInspectOverlay = {};
     m_spellInspectOverlay = {};
     m_readableScrollOverlay = {};
     m_spellbook = {};
     m_utilitySpellOverlay = {};
-    m_spellbookPressedTarget = {};
+    interactionState().spellbookPressedTarget = {};
     m_utilitySpellClickLatch = false;
     m_utilitySpellPressedTarget = {};
-    m_lastSpellbookSpellClickTicks = 0;
-    m_lastSpellbookClickedSpellId = 0;
+    interactionState().lastSpellbookSpellClickTicks = 0;
+    interactionState().lastSpellbookClickedSpellId = 0;
     m_pendingSpellCast = {};
     m_spellAreaPreviewCache = {};
     m_heldInventoryDropLatch = false;
     m_cachedHoverInspectHitValid = false;
     m_lastHoverInspectUpdateNanoseconds = 0;
     m_cachedHoverInspectHit = {};
-    m_closeOverlayLatch = false;
-    m_dialogueClickLatch = false;
-    m_dialoguePressedTarget = {};
-    m_lootChestItemLatch = false;
-    m_chestSelectUpLatch = false;
-    m_chestSelectDownLatch = false;
-    m_eventDialogSelectUpLatch = false;
-    m_eventDialogSelectDownLatch = false;
-    m_eventDialogAcceptLatch = false;
-    m_eventDialogPartySelectLatches.fill(false);
-    m_chestSelectionIndex = 0;
+    interactionState().closeOverlayLatch = false;
+    interactionState().dialogueClickLatch = false;
+    interactionState().dialoguePressedTarget = {};
+    interactionState().lootChestItemLatch = false;
+    interactionState().chestSelectUpLatch = false;
+    interactionState().chestSelectDownLatch = false;
+    interactionState().eventDialogSelectUpLatch = false;
+    interactionState().eventDialogSelectDownLatch = false;
+    interactionState().eventDialogAcceptLatch = false;
+    interactionState().eventDialogPartySelectLatches.fill(false);
+    interactionState().chestSelectionIndex = 0;
     m_eventDialogSelectionIndex = 0;
     m_activeEventDialog = {};
     m_gameplayMouseLookActive = false;
@@ -7346,7 +7289,7 @@ void OutdoorGameView::updateItemInspectOverlayState(int width, int height)
         }
     }
 
-    GameplayOverlayContext overlayContext(*this);
+    GameplayOverlayContext overlayContext = createGameplayOverlayContext();
 
     if (!m_characterScreenOpen
         || m_characterPage != CharacterPage::Inventory
@@ -7777,7 +7720,7 @@ void OutdoorGameView::updateCharacterInspectOverlayState(int width, int height)
             };
         };
 
-    GameplayOverlayContext overlayContext(*this);
+    GameplayOverlayContext overlayContext = createGameplayOverlayContext();
 
     if (width <= 0
         || height <= 0
@@ -8032,7 +7975,7 @@ void OutdoorGameView::updateBuffInspectOverlayState(int width, int height)
         return;
     }
 
-    GameplayOverlayContext overlayContext(*this);
+    GameplayOverlayContext overlayContext = createGameplayOverlayContext();
     const Party &party = m_pOutdoorPartyRuntime->party();
 
     struct PartyBuffInspectTarget
@@ -8239,7 +8182,7 @@ void OutdoorGameView::updateCharacterDetailOverlayState(int width, int height)
         return;
     }
 
-    GameplayOverlayContext overlayContext(*this);
+    GameplayOverlayContext overlayContext = createGameplayOverlayContext();
     const Party &party = m_pOutdoorPartyRuntime->party();
     const Character *pCharacter = nullptr;
     std::optional<ResolvedHudLayoutElement> sourceRect;
@@ -8659,10 +8602,10 @@ void OutdoorGameView::openSpellbook()
     m_gameplayUiController.openSpellbook();
     closeMenu();
     m_spellbookToggleLatch = false;
-    m_spellbookClickLatch = false;
-    m_spellbookPressedTarget = {};
-    m_lastSpellbookSpellClickTicks = 0;
-    m_lastSpellbookClickedSpellId = 0;
+    interactionState().spellbookClickLatch = false;
+    interactionState().spellbookPressedTarget = {};
+    interactionState().lastSpellbookSpellClickTicks = 0;
+    interactionState().lastSpellbookClickedSpellId = 0;
 
     if (m_pGameAudioSystem != nullptr)
     {
@@ -8720,10 +8663,10 @@ void OutdoorGameView::closeSpellbook(const std::string &statusText)
     const bool wasActive = m_spellbook.active;
     m_gameplayUiController.closeSpellbook();
     m_spellbookToggleLatch = false;
-    m_spellbookClickLatch = false;
-    m_spellbookPressedTarget = {};
-    m_lastSpellbookSpellClickTicks = 0;
-    m_lastSpellbookClickedSpellId = 0;
+    interactionState().spellbookClickLatch = false;
+    interactionState().spellbookPressedTarget = {};
+    interactionState().lastSpellbookSpellClickTicks = 0;
+    interactionState().lastSpellbookClickedSpellId = 0;
 
     if (wasActive && m_pGameAudioSystem != nullptr)
     {
@@ -8753,8 +8696,8 @@ void OutdoorGameView::openRestScreen()
     m_restScreen = {};
     m_restScreen.active = true;
     m_restToggleLatch = false;
-    m_restClickLatch = false;
-    m_restPressedTarget = {};
+    interactionState().restClickLatch = false;
+    interactionState().restPressedTarget = {};
     clearWorldInteractionInputLatches();
 }
 
@@ -8762,8 +8705,8 @@ void OutdoorGameView::closeRestScreen()
 {
     m_restScreen = {};
     m_restToggleLatch = false;
-    m_restClickLatch = false;
-    m_restPressedTarget = {};
+    interactionState().restClickLatch = false;
+    interactionState().restPressedTarget = {};
     clearWorldInteractionInputLatches();
 }
 
@@ -8784,21 +8727,21 @@ void OutdoorGameView::openMenu()
     m_menuScreen.active = true;
     m_optionsButtonClickLatch = false;
     m_optionsButtonPressed = false;
-    m_menuToggleLatch = false;
-    m_menuClickLatch = false;
-    m_menuPressedTarget = {};
-    m_controlsToggleLatch = false;
-    m_controlsClickLatch = false;
-    m_controlsPressedTarget = {};
-    m_controlsSliderDragActive = false;
-    m_controlsDraggedSlider = ControlsPointerTargetType::None;
-    m_saveGameToggleLatch = false;
-    m_saveGameClickLatch = false;
-    m_saveGamePressedTarget = {};
+    interactionState().menuToggleLatch = false;
+    interactionState().menuClickLatch = false;
+    interactionState().menuPressedTarget = {};
+    interactionState().controlsToggleLatch = false;
+    interactionState().controlsClickLatch = false;
+    interactionState().controlsPressedTarget = {};
+    interactionState().controlsSliderDragActive = false;
+    interactionState().controlsDraggedSlider = ControlsPointerTargetType::None;
+    interactionState().saveGameToggleLatch = false;
+    interactionState().saveGameClickLatch = false;
+    interactionState().saveGamePressedTarget = {};
     m_loadGameToggleLatch = false;
     m_loadGameClickLatch = false;
     m_loadGamePressedTarget = {};
-    m_closeOverlayLatch = false;
+    interactionState().closeOverlayLatch = false;
     clearWorldInteractionInputLatches();
 }
 
@@ -8807,53 +8750,53 @@ void OutdoorGameView::closeMenu()
     m_menuScreen = {};
     m_optionsButtonClickLatch = false;
     m_optionsButtonPressed = false;
-    m_menuToggleLatch = false;
-    m_menuClickLatch = false;
-    m_menuPressedTarget = {};
-    m_closeOverlayLatch = false;
+    interactionState().menuToggleLatch = false;
+    interactionState().menuClickLatch = false;
+    interactionState().menuPressedTarget = {};
+    interactionState().closeOverlayLatch = false;
     clearWorldInteractionInputLatches();
 }
 
 void OutdoorGameView::openControlsScreen()
 {
     m_menuScreen.active = false;
-    m_menuToggleLatch = false;
-    m_menuClickLatch = false;
-    m_menuPressedTarget = {};
+    interactionState().menuToggleLatch = false;
+    interactionState().menuClickLatch = false;
+    interactionState().menuPressedTarget = {};
     m_controlsScreen = {};
     m_controlsScreen.active = true;
-    m_controlsToggleLatch = false;
-    m_controlsClickLatch = false;
-    m_controlsPressedTarget = {};
+    interactionState().controlsToggleLatch = false;
+    interactionState().controlsClickLatch = false;
+    interactionState().controlsPressedTarget = {};
     m_keyboardScreen = {};
-    m_keyboardToggleLatch = false;
-    m_keyboardClickLatch = false;
-    m_keyboardPressedTarget = {};
-    m_controlsSliderDragActive = false;
-    m_controlsDraggedSlider = ControlsPointerTargetType::None;
+    interactionState().keyboardToggleLatch = false;
+    interactionState().keyboardClickLatch = false;
+    interactionState().keyboardPressedTarget = {};
+    interactionState().controlsSliderDragActive = false;
+    interactionState().controlsDraggedSlider = ControlsPointerTargetType::None;
     m_videoOptionsScreen = {};
-    m_videoOptionsToggleLatch = false;
-    m_videoOptionsClickLatch = false;
-    m_videoOptionsPressedTarget = {};
+    interactionState().videoOptionsToggleLatch = false;
+    interactionState().videoOptionsClickLatch = false;
+    interactionState().videoOptionsPressedTarget = {};
     clearWorldInteractionInputLatches();
 }
 
 void OutdoorGameView::closeControlsScreen()
 {
     m_controlsScreen = {};
-    m_controlsToggleLatch = false;
-    m_controlsClickLatch = false;
-    m_controlsPressedTarget = {};
+    interactionState().controlsToggleLatch = false;
+    interactionState().controlsClickLatch = false;
+    interactionState().controlsPressedTarget = {};
     m_keyboardScreen = {};
-    m_keyboardToggleLatch = false;
-    m_keyboardClickLatch = false;
-    m_keyboardPressedTarget = {};
-    m_controlsSliderDragActive = false;
-    m_controlsDraggedSlider = ControlsPointerTargetType::None;
+    interactionState().keyboardToggleLatch = false;
+    interactionState().keyboardClickLatch = false;
+    interactionState().keyboardPressedTarget = {};
+    interactionState().controlsSliderDragActive = false;
+    interactionState().controlsDraggedSlider = ControlsPointerTargetType::None;
     m_videoOptionsScreen = {};
-    m_videoOptionsToggleLatch = false;
-    m_videoOptionsClickLatch = false;
-    m_videoOptionsPressedTarget = {};
+    interactionState().videoOptionsToggleLatch = false;
+    interactionState().videoOptionsClickLatch = false;
+    interactionState().videoOptionsPressedTarget = {};
     m_menuScreen = {};
     m_menuScreen.active = true;
     clearWorldInteractionInputLatches();
@@ -8862,131 +8805,131 @@ void OutdoorGameView::closeControlsScreen()
 void OutdoorGameView::openKeyboardScreen()
 {
     m_controlsScreen = {};
-    m_controlsToggleLatch = false;
-    m_controlsClickLatch = false;
-    m_controlsPressedTarget = {};
-    m_controlsSliderDragActive = false;
-    m_controlsDraggedSlider = ControlsPointerTargetType::None;
+    interactionState().controlsToggleLatch = false;
+    interactionState().controlsClickLatch = false;
+    interactionState().controlsPressedTarget = {};
+    interactionState().controlsSliderDragActive = false;
+    interactionState().controlsDraggedSlider = ControlsPointerTargetType::None;
     m_keyboardScreen = {};
     m_keyboardScreen.active = true;
-    m_keyboardToggleLatch = false;
-    m_keyboardClickLatch = false;
-    m_keyboardPressedTarget = {};
+    interactionState().keyboardToggleLatch = false;
+    interactionState().keyboardClickLatch = false;
+    interactionState().keyboardPressedTarget = {};
     m_videoOptionsScreen = {};
-    m_videoOptionsToggleLatch = false;
-    m_videoOptionsClickLatch = false;
-    m_videoOptionsPressedTarget = {};
+    interactionState().videoOptionsToggleLatch = false;
+    interactionState().videoOptionsClickLatch = false;
+    interactionState().videoOptionsPressedTarget = {};
     clearWorldInteractionInputLatches();
 }
 
 void OutdoorGameView::closeKeyboardScreenToControls()
 {
     m_keyboardScreen = {};
-    m_keyboardToggleLatch = false;
-    m_keyboardClickLatch = false;
-    m_keyboardPressedTarget = {};
+    interactionState().keyboardToggleLatch = false;
+    interactionState().keyboardClickLatch = false;
+    interactionState().keyboardPressedTarget = {};
     m_controlsScreen = {};
     m_controlsScreen.active = true;
-    m_controlsToggleLatch = false;
-    m_controlsClickLatch = false;
-    m_controlsPressedTarget = {};
-    m_controlsSliderDragActive = false;
-    m_controlsDraggedSlider = ControlsPointerTargetType::None;
+    interactionState().controlsToggleLatch = false;
+    interactionState().controlsClickLatch = false;
+    interactionState().controlsPressedTarget = {};
+    interactionState().controlsSliderDragActive = false;
+    interactionState().controlsDraggedSlider = ControlsPointerTargetType::None;
     clearWorldInteractionInputLatches();
 }
 
 void OutdoorGameView::closeKeyboardScreenToMenu()
 {
     m_keyboardScreen = {};
-    m_keyboardToggleLatch = false;
-    m_keyboardClickLatch = false;
-    m_keyboardPressedTarget = {};
+    interactionState().keyboardToggleLatch = false;
+    interactionState().keyboardClickLatch = false;
+    interactionState().keyboardPressedTarget = {};
     m_controlsScreen = {};
-    m_controlsToggleLatch = false;
-    m_controlsClickLatch = false;
-    m_controlsPressedTarget = {};
-    m_controlsSliderDragActive = false;
-    m_controlsDraggedSlider = ControlsPointerTargetType::None;
+    interactionState().controlsToggleLatch = false;
+    interactionState().controlsClickLatch = false;
+    interactionState().controlsPressedTarget = {};
+    interactionState().controlsSliderDragActive = false;
+    interactionState().controlsDraggedSlider = ControlsPointerTargetType::None;
     m_menuScreen = {};
     m_menuScreen.active = true;
-    m_menuToggleLatch = false;
-    m_menuClickLatch = false;
-    m_menuPressedTarget = {};
+    interactionState().menuToggleLatch = false;
+    interactionState().menuClickLatch = false;
+    interactionState().menuPressedTarget = {};
     clearWorldInteractionInputLatches();
 }
 
 void OutdoorGameView::openVideoOptionsScreen()
 {
     m_controlsScreen.active = false;
-    m_controlsToggleLatch = false;
-    m_controlsClickLatch = false;
-    m_controlsPressedTarget = {};
+    interactionState().controlsToggleLatch = false;
+    interactionState().controlsClickLatch = false;
+    interactionState().controlsPressedTarget = {};
     m_keyboardScreen = {};
-    m_keyboardToggleLatch = false;
-    m_keyboardClickLatch = false;
-    m_keyboardPressedTarget = {};
-    m_controlsSliderDragActive = false;
-    m_controlsDraggedSlider = ControlsPointerTargetType::None;
+    interactionState().keyboardToggleLatch = false;
+    interactionState().keyboardClickLatch = false;
+    interactionState().keyboardPressedTarget = {};
+    interactionState().controlsSliderDragActive = false;
+    interactionState().controlsDraggedSlider = ControlsPointerTargetType::None;
     m_videoOptionsScreen = {};
     m_videoOptionsScreen.active = true;
-    m_videoOptionsToggleLatch = false;
-    m_videoOptionsClickLatch = false;
-    m_videoOptionsPressedTarget = {};
+    interactionState().videoOptionsToggleLatch = false;
+    interactionState().videoOptionsClickLatch = false;
+    interactionState().videoOptionsPressedTarget = {};
     clearWorldInteractionInputLatches();
 }
 
 void OutdoorGameView::closeVideoOptionsScreen()
 {
     m_videoOptionsScreen = {};
-    m_videoOptionsToggleLatch = false;
-    m_videoOptionsClickLatch = false;
-    m_videoOptionsPressedTarget = {};
+    interactionState().videoOptionsToggleLatch = false;
+    interactionState().videoOptionsClickLatch = false;
+    interactionState().videoOptionsPressedTarget = {};
     m_keyboardScreen = {};
-    m_keyboardToggleLatch = false;
-    m_keyboardClickLatch = false;
-    m_keyboardPressedTarget = {};
+    interactionState().keyboardToggleLatch = false;
+    interactionState().keyboardClickLatch = false;
+    interactionState().keyboardPressedTarget = {};
     m_controlsScreen = {};
     m_controlsScreen.active = true;
-    m_controlsToggleLatch = false;
-    m_controlsClickLatch = false;
-    m_controlsPressedTarget = {};
-    m_controlsSliderDragActive = false;
-    m_controlsDraggedSlider = ControlsPointerTargetType::None;
+    interactionState().controlsToggleLatch = false;
+    interactionState().controlsClickLatch = false;
+    interactionState().controlsPressedTarget = {};
+    interactionState().controlsSliderDragActive = false;
+    interactionState().controlsDraggedSlider = ControlsPointerTargetType::None;
     clearWorldInteractionInputLatches();
 }
 
 void OutdoorGameView::openSaveGameScreen()
 {
     m_menuScreen.active = false;
-    m_menuToggleLatch = false;
-    m_menuClickLatch = false;
-    m_menuPressedTarget = {};
+    interactionState().menuToggleLatch = false;
+    interactionState().menuClickLatch = false;
+    interactionState().menuPressedTarget = {};
     m_controlsScreen = {};
-    m_controlsToggleLatch = false;
-    m_controlsClickLatch = false;
-    m_controlsPressedTarget = {};
-    m_controlsSliderDragActive = false;
-    m_controlsDraggedSlider = ControlsPointerTargetType::None;
+    interactionState().controlsToggleLatch = false;
+    interactionState().controlsClickLatch = false;
+    interactionState().controlsPressedTarget = {};
+    interactionState().controlsSliderDragActive = false;
+    interactionState().controlsDraggedSlider = ControlsPointerTargetType::None;
     m_videoOptionsScreen = {};
-    m_videoOptionsToggleLatch = false;
-    m_videoOptionsClickLatch = false;
-    m_videoOptionsPressedTarget = {};
+    interactionState().videoOptionsToggleLatch = false;
+    interactionState().videoOptionsClickLatch = false;
+    interactionState().videoOptionsPressedTarget = {};
     m_loadGameScreen = {};
     m_saveGameScreen = {};
     m_saveGameScreen.active = true;
     refreshSaveGameSlots();
-    m_saveGameToggleLatch = false;
-    m_saveGameClickLatch = false;
-    m_saveGamePressedTarget = {};
+    interactionState().saveGameToggleLatch = false;
+    interactionState().saveGameClickLatch = false;
+    interactionState().saveGamePressedTarget = {};
     clearWorldInteractionInputLatches();
 }
 
 void OutdoorGameView::closeSaveGameScreen()
 {
     m_saveGameScreen = {};
-    m_saveGameToggleLatch = false;
-    m_saveGameClickLatch = false;
-    m_saveGamePressedTarget = {};
+    interactionState().saveGameToggleLatch = false;
+    interactionState().saveGameClickLatch = false;
+    interactionState().saveGamePressedTarget = {};
     m_menuScreen = {};
     m_menuScreen.active = true;
     clearWorldInteractionInputLatches();
@@ -9244,11 +9187,11 @@ void OutdoorGameView::openJournal()
 
     clampJournalMapState(m_journalScreen);
 
-    m_journalToggleLatch = false;
-    m_journalClickLatch = false;
-    m_journalMapKeyZoomLatch = false;
-    m_journalPressedTarget = {};
-    m_closeOverlayLatch = false;
+    interactionState().journalToggleLatch = false;
+    interactionState().journalClickLatch = false;
+    interactionState().journalMapKeyZoomLatch = false;
+    interactionState().journalPressedTarget = {};
+    interactionState().closeOverlayLatch = false;
     clearWorldInteractionInputLatches();
 
     if (m_pGameAudioSystem != nullptr)
@@ -9268,11 +9211,11 @@ void OutdoorGameView::closeJournal()
     m_journalScreen.mapDragStartCenterX = 0.0f;
     m_journalScreen.mapDragStartCenterY = 0.0f;
     m_journalScreen.cachedMapValid = false;
-    m_journalToggleLatch = false;
-    m_journalClickLatch = false;
-    m_journalMapKeyZoomLatch = false;
-    m_journalPressedTarget = {};
-    m_closeOverlayLatch = false;
+    interactionState().journalToggleLatch = false;
+    interactionState().journalClickLatch = false;
+    interactionState().journalMapKeyZoomLatch = false;
+    interactionState().journalPressedTarget = {};
+    interactionState().closeOverlayLatch = false;
     clearWorldInteractionInputLatches();
 
     if (wasActive && m_pGameAudioSystem != nullptr)
@@ -9286,7 +9229,7 @@ void OutdoorGameView::clearWorldInteractionInputLatches()
     m_keyboardUseLatch = false;
     m_pendingSpellTargetClickLatch = false;
     m_heldInventoryDropLatch = false;
-    m_activateInspectLatch = false;
+    interactionState().activateInspectLatch = false;
     m_inspectMouseActivateLatch = false;
     m_pressedInspectHit = {};
     m_attackInspectLatch = false;
@@ -9359,7 +9302,7 @@ int OutdoorGameView::restFoodRequired() const
 
 bool OutdoorGameView::isControlsRenderButtonPressed(GameplayControlsRenderButton button) const
 {
-    if (!m_controlsClickLatch)
+    if (!interactionState().controlsClickLatch)
     {
         return false;
     }
@@ -9367,19 +9310,19 @@ bool OutdoorGameView::isControlsRenderButtonPressed(GameplayControlsRenderButton
     switch (button)
     {
     case GameplayControlsRenderButton::TurnRate16:
-        return m_controlsPressedTarget.type == ControlsPointerTargetType::TurnRate16Button;
+        return interactionState().controlsPressedTarget.type == ControlsPointerTargetType::TurnRate16Button;
     case GameplayControlsRenderButton::TurnRate32:
-        return m_controlsPressedTarget.type == ControlsPointerTargetType::TurnRate32Button;
+        return interactionState().controlsPressedTarget.type == ControlsPointerTargetType::TurnRate32Button;
     case GameplayControlsRenderButton::TurnRateSmooth:
-        return m_controlsPressedTarget.type == ControlsPointerTargetType::TurnRateSmoothButton;
+        return interactionState().controlsPressedTarget.type == ControlsPointerTargetType::TurnRateSmoothButton;
     case GameplayControlsRenderButton::WalkSound:
-        return m_controlsPressedTarget.type == ControlsPointerTargetType::WalkSoundButton;
+        return interactionState().controlsPressedTarget.type == ControlsPointerTargetType::WalkSoundButton;
     case GameplayControlsRenderButton::ShowHits:
-        return m_controlsPressedTarget.type == ControlsPointerTargetType::ShowHitsButton;
+        return interactionState().controlsPressedTarget.type == ControlsPointerTargetType::ShowHitsButton;
     case GameplayControlsRenderButton::AlwaysRun:
-        return m_controlsPressedTarget.type == ControlsPointerTargetType::AlwaysRunButton;
+        return interactionState().controlsPressedTarget.type == ControlsPointerTargetType::AlwaysRunButton;
     case GameplayControlsRenderButton::FlipOnExit:
-        return m_controlsPressedTarget.type == ControlsPointerTargetType::FlipOnExitButton;
+        return interactionState().controlsPressedTarget.type == ControlsPointerTargetType::FlipOnExitButton;
     }
 
     return false;
@@ -9387,7 +9330,7 @@ bool OutdoorGameView::isControlsRenderButtonPressed(GameplayControlsRenderButton
 
 bool OutdoorGameView::isVideoOptionsRenderButtonPressed(GameplayVideoOptionsRenderButton button) const
 {
-    if (!m_videoOptionsClickLatch)
+    if (!interactionState().videoOptionsClickLatch)
     {
         return false;
     }
@@ -9395,11 +9338,11 @@ bool OutdoorGameView::isVideoOptionsRenderButtonPressed(GameplayVideoOptionsRend
     switch (button)
     {
     case GameplayVideoOptionsRenderButton::BloodSplats:
-        return m_videoOptionsPressedTarget.type == VideoOptionsPointerTargetType::BloodSplatsButton;
+        return interactionState().videoOptionsPressedTarget.type == VideoOptionsPointerTargetType::BloodSplatsButton;
     case GameplayVideoOptionsRenderButton::ColoredLights:
-        return m_videoOptionsPressedTarget.type == VideoOptionsPointerTargetType::ColoredLightsButton;
+        return interactionState().videoOptionsPressedTarget.type == VideoOptionsPointerTargetType::ColoredLightsButton;
     case GameplayVideoOptionsRenderButton::Tinting:
-        return m_videoOptionsPressedTarget.type == VideoOptionsPointerTargetType::TintingButton;
+        return interactionState().videoOptionsPressedTarget.type == VideoOptionsPointerTargetType::TintingButton;
     }
 
     return false;
@@ -9591,15 +9534,15 @@ void OutdoorGameView::openHouseShopOverlay(uint32_t houseId, HouseShopMode mode)
 
     closeInventoryNestedOverlay();
     m_gameplayUiController.openHouseShopOverlay(houseId, mode);
-    m_houseShopClickLatch = false;
-    m_houseShopPressedSlotIndex = std::numeric_limits<size_t>::max();
+    interactionState().houseShopClickLatch = false;
+    interactionState().houseShopPressedSlotIndex = std::numeric_limits<size_t>::max();
 }
 
 void OutdoorGameView::closeHouseShopOverlay()
 {
     m_gameplayUiController.closeHouseShopOverlay();
-    m_houseShopClickLatch = false;
-    m_houseShopPressedSlotIndex = std::numeric_limits<size_t>::max();
+    interactionState().houseShopClickLatch = false;
+    interactionState().houseShopPressedSlotIndex = std::numeric_limits<size_t>::max();
 }
 
 void OutdoorGameView::beginHouseBankInput(uint32_t houseId, HouseBankInputMode mode)
@@ -9613,18 +9556,18 @@ void OutdoorGameView::beginHouseBankInput(uint32_t houseId, HouseBankInputMode m
     closeHouseShopOverlay();
     closeInventoryNestedOverlay();
     m_gameplayUiController.beginHouseBankInput(houseId, mode);
-    m_houseBankDigitLatches.fill(false);
-    m_houseBankBackspaceLatch = false;
-    m_houseBankConfirmLatch = false;
+    interactionState().houseBankDigitLatches.fill(false);
+    interactionState().houseBankBackspaceLatch = false;
+    interactionState().houseBankConfirmLatch = false;
     OutdoorInteractionController::refreshHouseBankInputDialog(*this);
 }
 
 void OutdoorGameView::clearHouseBankState()
 {
     m_gameplayUiController.clearHouseBankState();
-    m_houseBankDigitLatches.fill(false);
-    m_houseBankBackspaceLatch = false;
-    m_houseBankConfirmLatch = false;
+    interactionState().houseBankDigitLatches.fill(false);
+    interactionState().houseBankBackspaceLatch = false;
+    interactionState().houseBankConfirmLatch = false;
 }
 
 void OutdoorGameView::openInventoryNestedOverlay(InventoryNestedOverlayMode mode, uint32_t houseId)
@@ -9638,7 +9581,7 @@ void OutdoorGameView::openInventoryNestedOverlay(InventoryNestedOverlayMode mode
     closeHouseShopOverlay();
     m_gameplayUiController.openInventoryNestedOverlay(mode, houseId);
     m_inventoryNestedOverlayClickLatch = false;
-    m_inventoryNestedOverlayItemClickLatch = false;
+    interactionState().inventoryNestedOverlayItemClickLatch = false;
     m_inventoryNestedOverlayPressedTarget = {};
 }
 
@@ -9646,7 +9589,7 @@ void OutdoorGameView::closeInventoryNestedOverlay()
 {
     m_gameplayUiController.closeInventoryNestedOverlay();
     m_inventoryNestedOverlayClickLatch = false;
-    m_inventoryNestedOverlayItemClickLatch = false;
+    interactionState().inventoryNestedOverlayItemClickLatch = false;
     m_inventoryNestedOverlayPressedTarget = {};
 }
 
@@ -11344,7 +11287,7 @@ void OutdoorGameView::renderPendingSpellTargetingOverlay(int width, int height) 
 
 void OutdoorGameView::renderSpellbookOverlay(int width, int height) const
 {
-    GameplayOverlayContext overlayContext(*const_cast<OutdoorGameView *>(this));
+    GameplayOverlayContext overlayContext = createGameplayOverlayContext();
     GameplayPartyOverlayRenderer::renderSpellbookOverlay(overlayContext, width, height);
 }
 
@@ -11355,49 +11298,49 @@ void OutdoorGameView::renderUtilitySpellOverlay(int width, int height) const
 
 void OutdoorGameView::renderRestOverlay(int width, int height) const
 {
-    GameplayOverlayContext overlayContext(*const_cast<OutdoorGameView *>(this));
+    GameplayOverlayContext overlayContext = createGameplayOverlayContext();
     GameplayPartyOverlayRenderer::renderRestOverlay(overlayContext, width, height);
 }
 
 void OutdoorGameView::renderMenuOverlay(int width, int height) const
 {
-    GameplayOverlayContext overlayContext(*const_cast<OutdoorGameView *>(this));
+    GameplayOverlayContext overlayContext = createGameplayOverlayContext();
     GameplayPartyOverlayRenderer::renderMenuOverlay(overlayContext, width, height);
 }
 
 void OutdoorGameView::renderControlsOverlay(int width, int height) const
 {
-    GameplayOverlayContext overlayContext(*const_cast<OutdoorGameView *>(this));
+    GameplayOverlayContext overlayContext = createGameplayOverlayContext();
     GameplayPartyOverlayRenderer::renderControlsOverlay(overlayContext, width, height);
 }
 
 void OutdoorGameView::renderKeyboardOverlay(int width, int height) const
 {
-    GameplayOverlayContext overlayContext(*const_cast<OutdoorGameView *>(this));
+    GameplayOverlayContext overlayContext = createGameplayOverlayContext();
     GameplayPartyOverlayRenderer::renderKeyboardOverlay(overlayContext, width, height);
 }
 
 void OutdoorGameView::renderVideoOptionsOverlay(int width, int height) const
 {
-    GameplayOverlayContext overlayContext(*const_cast<OutdoorGameView *>(this));
+    GameplayOverlayContext overlayContext = createGameplayOverlayContext();
     GameplayPartyOverlayRenderer::renderVideoOptionsOverlay(overlayContext, width, height);
 }
 
 void OutdoorGameView::renderSaveGameOverlay(int width, int height) const
 {
-    GameplayOverlayContext overlayContext(*const_cast<OutdoorGameView *>(this));
+    GameplayOverlayContext overlayContext = createGameplayOverlayContext();
     GameplayPartyOverlayRenderer::renderSaveGameOverlay(overlayContext, width, height);
 }
 
 void OutdoorGameView::renderLoadGameOverlay(int width, int height) const
 {
-    GameplayOverlayContext overlayContext(*const_cast<OutdoorGameView *>(this));
+    GameplayOverlayContext overlayContext = createGameplayOverlayContext();
     GameplayPartyOverlayRenderer::renderLoadGameOverlay(overlayContext, width, height);
 }
 
 void OutdoorGameView::renderJournalOverlay(int width, int height) const
 {
-    GameplayOverlayContext overlayContext(const_cast<OutdoorGameView &>(*this));
+    GameplayOverlayContext overlayContext = createGameplayOverlayContext();
     GameplayPartyOverlayRenderer::renderJournalOverlay(overlayContext, width, height);
 }
 
@@ -11456,6 +11399,49 @@ void OutdoorGameView::setFlipOnExitEnabled(bool active)
 OutdoorPartyRuntime *OutdoorGameView::partyRuntime() const
 {
     return m_pOutdoorPartyRuntime;
+}
+
+GameplayOverlaySharedServices OutdoorGameView::buildGameplayOverlaySharedServices()
+{
+    return const_cast<const OutdoorGameView *>(this)->buildGameplayOverlaySharedServices();
+}
+
+GameplayOverlaySharedServices OutdoorGameView::buildGameplayOverlaySharedServices() const
+{
+    GameplayOverlaySharedServices services = {};
+    services.pWorldRuntime = m_pOutdoorWorldRuntime;
+    services.pAudioSystem = m_pGameAudioSystem;
+    services.pItemTable = m_pItemTable;
+    services.pStandardItemEnchantTable = m_pStandardItemEnchantTable;
+    services.pSpecialItemEnchantTable = m_pSpecialItemEnchantTable;
+    services.pClassSkillTable = m_classSkillTable ? &*m_classSkillTable : nullptr;
+    services.pCharacterDollTable = m_pCharacterDollTable;
+    services.pCharacterInspectTable = m_characterInspectTable ? &*m_characterInspectTable : nullptr;
+    services.pRosterTable = m_pRosterTable;
+    services.pReadableScrollTable = m_pReadableScrollTable;
+    services.pItemEquipPosTable = m_pItemEquipPosTable;
+    services.pSpellTable = m_pSpellTable;
+    services.pHouseTable = &m_houseTable;
+    services.pChestTable = &m_chestTable;
+    services.pNpcDialogTable = &m_npcDialogTable;
+    services.pJournalQuestTable = m_pJournalQuestTable;
+    services.pJournalHistoryTable = m_pJournalHistoryTable;
+    services.pJournalAutonoteTable = m_pJournalAutonoteTable;
+    services.pUiController = const_cast<GameplayUiController *>(&m_gameplayUiController);
+    services.pInteractionState = const_cast<GameplayOverlayInteractionState *>(&m_overlayInteractionState);
+    services.pSettings = const_cast<GameSettings *>(&m_gameSettings);
+    services.pPreviousKeyboardState = &m_previousKeyboardState;
+    return services;
+}
+
+GameplayOverlayContext OutdoorGameView::createGameplayOverlayContext()
+{
+    return GameplayOverlayContext(buildGameplayOverlaySharedServices(), *this, *this);
+}
+
+GameplayOverlayContext OutdoorGameView::createGameplayOverlayContext() const
+{
+    return GameplayOverlayContext(buildGameplayOverlaySharedServices(), const_cast<OutdoorGameView &>(*this), const_cast<OutdoorGameView &>(*this));
 }
 
 IGameplayWorldRuntime *OutdoorGameView::worldRuntime() const
@@ -11687,7 +11673,7 @@ void OutdoorGameView::confirmHouseBankInput()
 void OutdoorGameView::resetInventoryNestedOverlayInteractionState()
 {
     m_inventoryNestedOverlayClickLatch = false;
-    m_inventoryNestedOverlayItemClickLatch = false;
+    interactionState().inventoryNestedOverlayItemClickLatch = false;
     m_inventoryNestedOverlayPressedTarget = {};
 }
 
@@ -12449,7 +12435,7 @@ void OutdoorGameView::updateStatusBarEvent(float deltaSeconds)
 
 void OutdoorGameView::renderCharacterOverlay(int width, int height, bool renderAboveHud) const
 {
-    GameplayOverlayContext overlayContext(const_cast<OutdoorGameView &>(*this));
+    GameplayOverlayContext overlayContext = createGameplayOverlayContext();
 
     if (overlayContext.isAdventurersInnScreenActive())
     {
@@ -12796,13 +12782,13 @@ void OutdoorGameView::updateSpellInspectOverlayState(int width, int height)
 
 void OutdoorGameView::renderHeldInventoryItem(int width, int height) const
 {
-    GameplayOverlayContext overlayContext(*const_cast<OutdoorGameView *>(this));
+    GameplayOverlayContext overlayContext = createGameplayOverlayContext();
     GameplayPartyOverlayRenderer::renderHeldInventoryItem(overlayContext, width, height);
 }
 
 void OutdoorGameView::renderItemInspectOverlay(int width, int height) const
 {
-    GameplayOverlayContext overlayContext(*const_cast<OutdoorGameView *>(this));
+    GameplayOverlayContext overlayContext = createGameplayOverlayContext();
     GameplayPartyOverlayRenderer::renderItemInspectOverlay(overlayContext, width, height);
 }
 
@@ -12853,7 +12839,7 @@ void OutdoorGameView::renderDialogueOverlay(int width, int height, bool renderAb
     float dialogMouseY = 0.0f;
     SDL_GetMouseState(&dialogMouseX, &dialogMouseY);
     const UiViewportRect uiViewport = computeUiViewportRect(width, height);
-    GameplayOverlayContext overlayContext(*this);
+    GameplayOverlayContext overlayContext = createGameplayOverlayContext();
 
     if (!renderAboveHud && uiViewport.x > 0.5f)
     {

@@ -3,8 +3,8 @@
 #include "game/tables/ChestTable.h"
 #include "game/events/EventDialogContent.h"
 #include "game/gameplay/GameplayRuntimeInterfaces.h"
+#include "game/ui/GameplayOverlayAdapters.h"
 #include "game/ui/GameplayOverlayTypes.h"
-#include "game/ui/IGameplayOverlayView.h"
 #include "game/tables/HouseTable.h"
 #include "game/tables/NpcDialogTable.h"
 #include "game/party/Party.h"
@@ -36,7 +36,10 @@ public:
     using HudTextureHandle = GameplayHudTextureHandle;
     using HudFontHandle = GameplayHudFontHandle;
 
-    explicit GameplayOverlayContext(IGameplayOverlayView &view);
+    GameplayOverlayContext(
+        const GameplayOverlaySharedServices &sharedServices,
+        IGameplayOverlaySceneAdapter &sceneAdapter,
+        IGameplayOverlayHudAdapter &hudAdapter);
 
     IGameplayWorldRuntime *worldRuntime() const;
     Party *party() const;
@@ -351,7 +354,12 @@ public:
     bool renderHouseVideoFrame(float x, float y, float quadWidth, float quadHeight) const;
 
 private:
-    IGameplayOverlayView &m_view;
+    GameplayUiController &uiController() const;
+    GameplayOverlayInteractionState &interactionState() const;
+
+    GameplayOverlaySharedServices m_sharedServices;
+    IGameplayOverlaySceneAdapter &m_sceneAdapter;
+    IGameplayOverlayHudAdapter &m_hudAdapter;
     mutable std::optional<std::string> m_resolvedInteractiveAssetName;
 };
 } // namespace OpenYAMM::Game

@@ -614,17 +614,17 @@ void GameplayPartyOverlayInputController::handleUtilitySpellOverlayInput(
 
     if (closePressed)
     {
-        if (!view.m_closeOverlayLatch)
+        if (!view.interactionState().closeOverlayLatch)
         {
             view.m_gameplayUiController.closeUtilitySpellOverlay();
             view.setStatusBarEvent("Spell cancelled", 2.0f);
-            view.m_closeOverlayLatch = true;
+            view.interactionState().closeOverlayLatch = true;
         }
 
         return;
     }
 
-    view.m_closeOverlayLatch = false;
+    view.interactionState().closeOverlayLatch = false;
 
     float mouseX = 0.0f;
     float mouseY = 0.0f;
@@ -1331,7 +1331,7 @@ void GameplayPartyOverlayInputController::handleSpellbookOverlayInput(
     int screenWidth,
     int screenHeight)
 {
-    GameplayOverlayContext context(view);
+    GameplayOverlayContext context = view.createGameplayOverlayContext();
     handleSpellbookOverlayInput(context, pKeyboardState, screenWidth, screenHeight);
 }
 
@@ -2416,7 +2416,7 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
     int screenWidth,
     int screenHeight)
 {
-    GameplayOverlayContext overlayContext(view);
+    GameplayOverlayContext overlayContext = view.createGameplayOverlayContext();
     Character *pActiveCharacter = const_cast<Character *>(overlayContext.selectedCharacterScreenCharacter());
     Party *pParty = view.m_pOutdoorPartyRuntime != nullptr ? &view.m_pOutdoorPartyRuntime->party() : nullptr;
     const bool isAdventurersInnMode = overlayContext.isAdventurersInnScreenActive();
@@ -2424,17 +2424,17 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
     const auto clearPendingCharacterDismiss =
         [&view]()
         {
-            view.m_pendingCharacterDismissMemberIndex = std::nullopt;
-            view.m_pendingCharacterDismissExpiresTicks = 0;
+            view.interactionState().pendingCharacterDismissMemberIndex = std::nullopt;
+            view.interactionState().pendingCharacterDismissExpiresTicks = 0;
         };
     const uint64_t nowTicks = SDL_GetTicks();
 
     if (pParty == nullptr
         || overlayContext.isAdventurersInnCharacterSourceActive()
-        || (view.m_pendingCharacterDismissMemberIndex.has_value()
-            && (nowTicks > view.m_pendingCharacterDismissExpiresTicks
-                || *view.m_pendingCharacterDismissMemberIndex >= pParty->members().size()
-                || *view.m_pendingCharacterDismissMemberIndex != pParty->activeMemberIndex())))
+        || (view.interactionState().pendingCharacterDismissMemberIndex.has_value()
+            && (nowTicks > view.interactionState().pendingCharacterDismissExpiresTicks
+                || *view.interactionState().pendingCharacterDismissMemberIndex >= pParty->members().size()
+                || *view.interactionState().pendingCharacterDismissMemberIndex != pParty->activeMemberIndex())))
     {
         clearPendingCharacterDismiss();
     }
@@ -2478,7 +2478,7 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
 
     if (closePressed)
     {
-        if (!view.m_closeOverlayLatch)
+        if (!view.interactionState().closeOverlayLatch)
         {
             if (isInventorySpellTargetMode)
             {
@@ -2489,12 +2489,12 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
             view.m_characterDollJewelryOverlayOpen = false;
             view.m_adventurersInnRosterOverlayOpen = false;
             clearPendingCharacterDismiss();
-            view.m_closeOverlayLatch = true;
+            view.interactionState().closeOverlayLatch = true;
         }
     }
     else
     {
-        view.m_closeOverlayLatch = false;
+        view.interactionState().closeOverlayLatch = false;
     }
 
     if (isAdventurersInnMode)
@@ -2651,8 +2651,8 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
         const OutdoorGameView::CharacterPointerTarget noneCharacterTarget = {};
         handlePointerClickRelease(
             pointerState,
-            view.m_characterClickLatch,
-            view.m_characterPressedTarget,
+            view.interactionState().characterClickLatch,
+            view.interactionState().characterPressedTarget,
             noneCharacterTarget,
             findInnPointerTarget,
             [&view](const OutdoorGameView::CharacterPointerTarget &target)
@@ -2793,12 +2793,12 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                 view.trySelectPartyMember(nextMemberIndex, false);
             }
 
-            view.m_characterMemberCycleLatch = true;
+            view.interactionState().characterMemberCycleLatch = true;
         }
     }
     else
     {
-        view.m_characterMemberCycleLatch = false;
+        view.interactionState().characterMemberCycleLatch = false;
     }
 
     float mouseX = 0.0f;
@@ -3332,8 +3332,8 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
 
     handlePointerClickRelease(
         pointerState,
-        view.m_characterClickLatch,
-        view.m_characterPressedTarget,
+        view.interactionState().characterClickLatch,
+        view.interactionState().characterPressedTarget,
         noneCharacterTarget,
         findCharacterPointerTarget,
         [&view,
@@ -3498,15 +3498,15 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                 }
 
                 const bool confirmed =
-                    view.m_pendingCharacterDismissMemberIndex.has_value()
-                    && *view.m_pendingCharacterDismissMemberIndex == memberIndex
-                    && SDL_GetTicks() <= view.m_pendingCharacterDismissExpiresTicks;
+                    view.interactionState().pendingCharacterDismissMemberIndex.has_value()
+                    && *view.interactionState().pendingCharacterDismissMemberIndex == memberIndex
+                    && SDL_GetTicks() <= view.interactionState().pendingCharacterDismissExpiresTicks;
 
                 if (!confirmed)
                 {
                     const uint64_t dismissClickTicks = SDL_GetTicks();
-                    view.m_pendingCharacterDismissMemberIndex = memberIndex;
-                    view.m_pendingCharacterDismissExpiresTicks = dismissClickTicks + CharacterDismissConfirmWindowMs;
+                    view.interactionState().pendingCharacterDismissMemberIndex = memberIndex;
+                    view.interactionState().pendingCharacterDismissExpiresTicks = dismissClickTicks + CharacterDismissConfirmWindowMs;
                     view.setStatusBarEvent(
                         "To confirm " + pMember->name + " dismissal press the button again...",
                         2.0f);
