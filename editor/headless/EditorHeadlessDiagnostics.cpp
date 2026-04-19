@@ -728,7 +728,7 @@ bool verifyOutdoorSceneRoundTrip(
     }
 
     const std::filesystem::path tempDirectory =
-        assetFileSystem.getDevelopmentRoot() / "Data" / "games";
+        assetFileSystem.getEditorDevelopmentRoot() / "Data" / "games";
     const std::filesystem::path tempImportPath = tempDirectory / "__editor_headless_import.obj";
     const std::filesystem::path tempGltfPath = tempDirectory / "__editor_headless_import.gltf";
     const std::filesystem::path tempGltfBinPath = tempDirectory / "__editor_headless_import.bin";
@@ -1126,7 +1126,8 @@ bool verifyOutdoorSceneRoundTrip(
     }
 
     const std::filesystem::path importedBitmapPath =
-        assetFileSystem.getDevelopmentRoot() / "Data" / "bitmaps" / (texturedBModel.faces.front().textureName + ".bmp");
+        assetFileSystem.getEditorDevelopmentRoot() / "Data" / "bitmaps"
+        / (texturedBModel.faces.front().textureName + ".bmp");
 
     if (!std::filesystem::exists(importedBitmapPath))
     {
@@ -1167,7 +1168,7 @@ bool verifyOutdoorSceneRoundTrip(
     }
 
     const std::filesystem::path importedGlbBitmapPath =
-        assetFileSystem.getDevelopmentRoot()
+        assetFileSystem.getEditorDevelopmentRoot()
         / "Data"
         / "bitmaps"
         / (texturedGlbBModel.faces.front().textureName + ".bmp");
@@ -1580,18 +1581,18 @@ bool verifyNewOutdoorMapCreation(
         return false;
     }
 
-    const std::filesystem::path gamesPath = assetFileSystem.getDevelopmentRoot() / "Data" / "games";
+    const std::filesystem::path gamesPath = assetFileSystem.getEditorDevelopmentRoot() / "Data" / "games";
     const std::filesystem::path scenePath = gamesPath / "__editor_headless_new_map.scene.yml";
     const std::filesystem::path mapPath = gamesPath / "__editor_headless_new_map.odm";
     const std::filesystem::path packagePath = gamesPath / "__editor_headless_new_map.map.yml";
     const std::filesystem::path geometryMetadataPath = gamesPath / "__editor_headless_new_map.geometry.yml";
     const std::filesystem::path terrainMetadataPath = gamesPath / "__editor_headless_new_map.terrain.yml";
     const std::filesystem::path scriptPath =
-        assetFileSystem.getDevelopmentRoot() / "Data" / "scripts" / "maps" / "__editor_headless_new_map.lua";
+        assetFileSystem.getEditorDevelopmentRoot() / "Data" / "scripts" / "maps" / "__editor_headless_new_map.lua";
     const std::filesystem::path mapStatsPath =
-        assetFileSystem.getDevelopmentRoot() / "Data" / "data_tables" / "map_stats.txt";
+        assetFileSystem.getEditorDevelopmentRoot() / "Data" / "data_tables" / "map_stats.txt";
     const std::filesystem::path mapNavigationPath =
-        assetFileSystem.getDevelopmentRoot() / "Data" / "data_tables" / "map_navigation.txt";
+        assetFileSystem.getEditorDevelopmentRoot() / "Data" / "data_tables" / "map_navigation.txt";
 
     if (!std::filesystem::exists(scenePath)
         || !std::filesystem::exists(mapPath)
@@ -1706,7 +1707,7 @@ bool verifyOutdoorSourceOnlyPackageLoad(
         return false;
     }
 
-    const std::filesystem::path gamesPath = assetFileSystem.getDevelopmentRoot() / "Data" / "games";
+    const std::filesystem::path gamesPath = assetFileSystem.getEditorDevelopmentRoot() / "Data" / "games";
     const std::filesystem::path mapPath = gamesPath / "__editor_headless_source_only.odm";
     std::error_code removeError;
     std::filesystem::remove(mapPath, removeError);
@@ -1779,7 +1780,7 @@ bool verifyOutdoorMapPackageLifecycle(
         return false;
     }
 
-    const std::filesystem::path gamesPath = assetFileSystem.getDevelopmentRoot() / "Data" / "games";
+    const std::filesystem::path gamesPath = assetFileSystem.getEditorDevelopmentRoot() / "Data" / "games";
     const std::filesystem::path scenePath = gamesPath / "__editor_headless_save_as.scene.yml";
     const std::filesystem::path mapPath = gamesPath / "__editor_headless_save_as.odm";
     const std::filesystem::path packagePath = gamesPath / "__editor_headless_save_as.map.yml";

@@ -1566,12 +1566,12 @@ constexpr uint16_t ObjectBitRemoved = 0x0200u;
 constexpr uint16_t ChestBitTrapped = 0x0001u;
 constexpr uint16_t ChestBitItemsPlaced = 0x0002u;
 constexpr uint16_t ChestBitIdentified = 0x0004u;
-constexpr uint32_t FaceAttributeFluid = 0x00000010u;
-constexpr uint32_t FaceAttributeInvisible = static_cast<uint32_t>(Game::EvtFaceAttribute::Invisible);
-constexpr uint32_t FaceAttributeHasHint = static_cast<uint32_t>(Game::EvtFaceAttribute::HasHint);
-constexpr uint32_t FaceAttributeClickable = static_cast<uint32_t>(Game::EvtFaceAttribute::Clickable);
-constexpr uint32_t FaceAttributePressurePlate = static_cast<uint32_t>(Game::EvtFaceAttribute::PressurePlate);
-constexpr uint32_t FaceAttributeUntouchable = static_cast<uint32_t>(Game::EvtFaceAttribute::Untouchable);
+constexpr uint32_t FaceAttributeFluid = Game::faceAttributeBit(Game::FaceAttribute::Fluid);
+constexpr uint32_t FaceAttributeInvisible = Game::faceAttributeBit(Game::FaceAttribute::Invisible);
+constexpr uint32_t FaceAttributeHasHint = Game::faceAttributeBit(Game::FaceAttribute::HasHint);
+constexpr uint32_t FaceAttributeClickable = Game::faceAttributeBit(Game::FaceAttribute::Clickable);
+constexpr uint32_t FaceAttributePressurePlate = Game::faceAttributeBit(Game::FaceAttribute::PressurePlate);
+constexpr uint32_t FaceAttributeUntouchable = Game::faceAttributeBit(Game::FaceAttribute::Untouchable);
 constexpr uint32_t EditableFaceAttributeMask =
     FaceAttributeFluid
     | FaceAttributeInvisible

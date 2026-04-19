@@ -128,6 +128,7 @@ private:
     Kind m_kind = Kind::None;
     bool m_isDirty = false;
     std::filesystem::path m_developmentRoot;
+    std::filesystem::path m_editorDevelopmentRoot;
     std::string m_displayName;
     std::string m_sceneVirtualPath;
     std::string m_geometryVirtualPath;

@@ -225,7 +225,7 @@ bool materializeImportedModelTextures(
     std::string &errorMessage)
 {
     createdTextures = false;
-    const std::filesystem::path bitmapDirectory = assetFileSystem.getDevelopmentRoot() / "Data" / "bitmaps";
+    const std::filesystem::path bitmapDirectory = assetFileSystem.getEditorDevelopmentRoot() / "Data" / "bitmaps";
     std::error_code directoryError;
     std::filesystem::create_directories(bitmapDirectory, directoryError);
 
@@ -2321,7 +2321,7 @@ bool EditorSession::saveActiveDocumentAs(
     const std::string mapFileName = *normalizedMapId + ".odm";
     const std::string resolvedDisplayName = trimCopy(displayName).empty() ? *normalizedMapId : trimCopy(displayName);
     const std::filesystem::path targetScenePath =
-        document().scenePhysicalPath().parent_path() / (*normalizedMapId + ".scene.yml");
+        m_pAssetFileSystem->getEditorDevelopmentRoot() / "Data" / "games" / (*normalizedMapId + ".scene.yml");
     m_document.prepareOutdoorMapPackageIdentityForMapFile(mapFileName, resolvedDisplayName);
     m_document.synchronizeOutdoorGeometryMetadata();
     m_document.synchronizeOutdoorTerrainMetadata();
@@ -2368,6 +2368,8 @@ bool EditorSession::deleteActiveDocumentPackage(std::string &errorMessage)
     }
 
     const std::filesystem::path gamesPath = m_document.scenePhysicalPath().parent_path().lexically_normal();
+    const std::filesystem::path editorGamesPath =
+        m_pAssetFileSystem->getEditorDevelopmentRoot() / "Data" / "games";
     const std::vector<std::filesystem::path> paths = {
         m_document.scenePhysicalPath(),
         m_document.geometryPhysicalPath(),
@@ -2388,6 +2390,12 @@ bool EditorSession::deleteActiveDocumentPackage(std::string &errorMessage)
             errorMessage = "refusing to delete map files outside Data/games";
             return false;
         }
+    }
+
+    if (gamesPath != editorGamesPath.lexically_normal())
+    {
+        errorMessage = "refusing to delete map files outside the editor authored root";
+        return false;
     }
 
     const std::string deletedMapFileName = m_document.displayName();
