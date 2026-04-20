@@ -5057,6 +5057,89 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
         );
 
         runCase(
+            "indoor_scene_party_buff_updates_shared_scene_party_state",
+            [&](std::string &failure)
+            {
+                if (!gameDataLoader.loadMapByFileNameForHeadlessGameplay(assetFileSystem, "d18.blv"))
+                {
+                    failure = "could not load d18.blv";
+                    return false;
+                }
+
+                const std::optional<MapAssetInfo> &loadedMap = gameDataLoader.getSelectedMap();
+
+                if (!loadedMap || !loadedMap->indoorMapData || !loadedMap->indoorMapDeltaData || !loadedMap->eventRuntimeState)
+                {
+                    failure = "d18.blv missing indoor state";
+                    return false;
+                }
+
+                Party party = {};
+                party.setItemTable(&gameDataLoader.getItemTable());
+                party.setCharacterDollTable(&gameDataLoader.getCharacterDollTable());
+                party.setItemEnchantTables(
+                    &gameDataLoader.getStandardItemEnchantTable(),
+                    &gameDataLoader.getSpecialItemEnchantTable());
+                party.setClassSkillTable(&gameDataLoader.getClassSkillTable());
+                party.seed(createRegressionPartySeed());
+
+                IndoorSceneRuntime runtime(
+                    loadedMap->map.fileName,
+                    loadedMap->map,
+                    *loadedMap->indoorMapData,
+                    gameDataLoader.getMonsterTable(),
+                    gameDataLoader.getObjectTable(),
+                    gameDataLoader.getItemTable(),
+                    gameDataLoader.getChestTable(),
+                    party,
+                    loadedMap->indoorMapDeltaData,
+                    loadedMap->eventRuntimeState,
+                    loadedMap->localEventProgram,
+                    loadedMap->globalEventProgram
+                );
+
+                Character *pCaster = runtime.partyRuntime().party().member(0);
+
+                if (pCaster == nullptr)
+                {
+                    failure = "caster missing";
+                    return false;
+                }
+
+                pCaster->skills["SpiritMagic"] = {"SpiritMagic", 8, SkillMastery::Expert};
+
+                PartySpellCastRequest request = {};
+                request.casterMemberIndex = 0;
+                request.spellId = spellIdValue(SpellId::Heroism);
+                const PartySpellCastResult result = PartySpellSystem::castSpell(
+                    runtime.partyRuntime().party(),
+                    runtime.worldRuntime(),
+                    gameDataLoader.getSpellTable(),
+                    request);
+
+                if (!result.succeeded())
+                {
+                    failure = "heroism cast did not succeed";
+                    return false;
+                }
+
+                if (!runtime.partyRuntime().party().hasPartyBuff(PartyBuffId::Heroism))
+                {
+                    failure = "heroism not applied to indoor runtime party";
+                    return false;
+                }
+
+                if (!runtime.party().hasPartyBuff(PartyBuffId::Heroism))
+                {
+                    failure = "indoor scene party did not reflect runtime-applied heroism";
+                    return false;
+                }
+
+                return true;
+            }
+        );
+
+        runCase(
             "indoor_support_sampling_prefers_highest_floor_under_body_footprint",
             [&](std::string &failure)
             {

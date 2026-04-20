@@ -130,11 +130,17 @@ public:
     bool tryGetGameplayMinimapState(GameplayMinimapState &state) const override;
     void collectGameplayMinimapMarkers(std::vector<GameplayMinimapMarkerState> &markers) const override;
     const ChestViewState *activeChestView() const override;
+    bool identifyActiveChestItem(size_t itemIndex, std::string &statusText) override;
+    bool tryIdentifyActiveChestItem(size_t itemIndex, const Character &inspector, std::string &statusText) override;
+    bool tryRepairActiveChestItem(size_t itemIndex, const Character &inspector, std::string &statusText) override;
     bool takeActiveChestItem(size_t itemIndex, ChestItemState &item) override;
     bool takeActiveChestItemAt(uint8_t gridX, uint8_t gridY, ChestItemState &item) override;
     bool tryPlaceActiveChestItemAt(const ChestItemState &item, uint8_t gridX, uint8_t gridY) override;
     void closeActiveChestView() override;
     const CorpseViewState *activeCorpseView() const override;
+    bool identifyActiveCorpseItem(size_t itemIndex, std::string &statusText) override;
+    bool tryIdentifyActiveCorpseItem(size_t itemIndex, const Character &inspector, std::string &statusText) override;
+    bool tryRepairActiveCorpseItem(size_t itemIndex, const Character &inspector, std::string &statusText) override;
     bool openMapActorCorpseView(size_t actorIndex);
     bool takeActiveCorpseItem(size_t itemIndex, ChestItemState &item) override;
     void closeActiveCorpseView() override;

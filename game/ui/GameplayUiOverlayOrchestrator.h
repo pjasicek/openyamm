@@ -1,7 +1,5 @@
 #pragma once
 
-#include <functional>
-
 namespace OpenYAMM::Game
 {
 class GameplayOverlayContext;
@@ -26,13 +24,6 @@ struct GameplayUiOverlayInputConfig
     bool saveGameActive = false;
     bool spellbookActive = false;
     bool characterScreenOpen = false;
-};
-
-struct GameplayUiOverlayInputCallbacks
-{
-    std::function<void()> resetDialogueInteractionState;
-    std::function<void(const bool *pKeyboardState, int width, int height)> handleSpellbookOverlayInput;
-    std::function<void(const bool *pKeyboardState, int width, int height)> handleCharacterOverlayInput;
 };
 
 struct GameplayUiOverlayInputResult
@@ -66,8 +57,7 @@ public:
         const bool *pKeyboardState,
         int width,
         int height,
-        const GameplayUiOverlayInputConfig &config,
-        const GameplayUiOverlayInputCallbacks &callbacks);
+        const GameplayUiOverlayInputConfig &config);
 
     static void renderStandardOverlays(
         GameplayOverlayContext &overlayContext,

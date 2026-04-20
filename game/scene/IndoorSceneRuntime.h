@@ -65,7 +65,7 @@ public:
 
 private:
     std::string m_mapFileName;
-    Party *m_pParty = nullptr;
+    Party *m_pSessionParty = nullptr;
     std::optional<MapDeltaData> m_mapDeltaData;
     std::optional<EventRuntimeState> m_eventRuntimeState;
     std::optional<ScriptedEventProgram> m_localEventProgram;

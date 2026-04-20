@@ -174,6 +174,8 @@ public:
     bool &eventDialogAcceptLatch() const;
     std::array<bool, 5> &eventDialogPartySelectLatches() const;
     bool &activateInspectLatch() const;
+    bool &itemInspectInteractionLatch() const;
+    uint64_t &itemInspectInteractionKey() const;
     size_t &chestSelectionIndex() const;
     size_t &eventDialogSelectionIndex() const;
     bool &partyPortraitClickLatch() const;
@@ -224,6 +226,9 @@ public:
         const GameplayCharacterPointerTarget &pointerTarget,
         bool isLeftMousePressed);
     void closeReadableScrollOverlay();
+    void resetDialogueOverlayInteractionState();
+    void resetSpellbookOverlayInteractionState();
+    void resetCharacterOverlayInteractionState();
     void triggerPortraitFaceAnimation(size_t memberIndex, FaceAnimationId animationId);
     void playSpeechReaction(size_t memberIndex, SpeechId speechId, bool triggerFaceAnimation);
     bool tryCastSpellFromMember(
@@ -331,6 +336,10 @@ public:
         const std::vector<GameplayHudBatchQuad> &quads,
         int screenWidth,
         int screenHeight) const;
+    void renderViewportSidePanels(
+        int screenWidth,
+        int screenHeight,
+        const std::string &textureName);
     std::string resolvePortraitTextureName(const Character &character) const;
     void consumePendingPortraitEventFxRequests();
     void renderPortraitFx(

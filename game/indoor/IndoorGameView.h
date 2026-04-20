@@ -177,8 +177,6 @@ private:
     using HudAssetLoadCache = GameplayAssetLoadCache;
 
     GameplayDialogController::Context buildDialogContext(EventRuntimeState &eventRuntimeState);
-    void handleSpellbookOverlayInput(const bool *pKeyboardState, int width, int height);
-    void handleCharacterOverlayInput(const bool *pKeyboardState, int width, int height);
     void presentPendingEventDialog(size_t previousMessageCount, bool allowNpcFallbackContent);
     void closeActiveEventDialog();
     std::optional<std::string> findCachedAssetPath(const std::string &directoryPath, const std::string &fileName) const;

@@ -566,6 +566,8 @@ struct GameplayOverlayInteractionState
     bool eventDialogAcceptLatch = false;
     std::array<bool, 5> eventDialogPartySelectLatches = {};
     bool activateInspectLatch = false;
+    bool itemInspectInteractionLatch = false;
+    uint64_t itemInspectInteractionKey = 0;
     size_t chestSelectionIndex = 0;
     bool partyPortraitClickLatch = false;
     std::optional<size_t> partyPortraitPressedIndex = std::nullopt;

@@ -25,6 +25,7 @@
 #include "game/maps/SaveGame.h"
 #include "game/scene/OutdoorSceneRuntime.h"
 #include "game/SpawnPreview.h"
+#include "game/gameplay/GameplayScreenController.h"
 #include "game/ui/SpellbookUiLayout.h"
 #include "game/party/SpellSchool.h"
 #include "game/party/SpellIds.h"
@@ -33,16 +34,10 @@
 #include "game/tables/SpriteTables.h"
 #include "game/StringUtils.h"
 #include "game/gameplay/GameplayOverlayInputController.h"
-#include "game/gameplay/GameplayPartyOverlayInputController.h"
 #include "game/ui/GameplayDialogueRenderer.h"
 #include "game/ui/GameplayHudCommon.h"
-#include "game/ui/GameplayHudRenderer.h"
-#include "game/ui/GameplayHudOverlayRenderer.h"
 #include "game/ui/GameplayHudOverlaySupport.h"
 #include "game/ui/GameplayOverlayContext.h"
-#include "game/ui/GameplayPartyOverlayRenderer.h"
-#include "game/ui/GameplayUiOverlayOrchestrator.h"
-#include "game/ui/HudUiService.h"
 #include "engine/TextTable.h"
 
 #include <bx/math.h>
@@ -82,11 +77,6 @@ bool usesBlackTransparencyKey(std::string_view textureName)
     const std::string normalizedName = toLowerCopy(std::string(textureName));
 
     return normalizedName.rfind("mapdir", 0) == 0 || normalizedName.rfind("micon", 0) == 0;
-}
-
-const char *activeBuffLayoutId(const OutdoorGameView &view, const char *pWideId, const char *pStandardId)
-{
-    return view.settingsSnapshot().gameplayUiLayout == GameplayUiLayout::Standard ? pStandardId : pWideId;
 }
 
 using SpellbookSchool = OutdoorGameView::SpellbookSchool;
@@ -930,101 +920,6 @@ uint32_t itemTintColorAbgr(
     return 0xffffffffu;
 }
 
-void appendPopupBodyLine(std::string &body, const std::string &line)
-{
-    if (line.empty())
-    {
-        return;
-    }
-
-    if (!body.empty())
-    {
-        body.push_back('\n');
-    }
-
-    body += line;
-}
-
-std::string formatRemainingDuration(float remainingSeconds)
-{
-    const int totalSeconds = std::max(0, static_cast<int>(std::lround(remainingSeconds)));
-    const int hours = totalSeconds / 3600;
-    const int minutes = (totalSeconds % 3600) / 60;
-    const int seconds = totalSeconds % 60;
-
-    if (hours > 0)
-    {
-        if (minutes > 0)
-        {
-            return std::to_string(hours) + "h " + std::to_string(minutes) + "m";
-        }
-
-        return std::to_string(hours) + "h";
-    }
-
-    if (minutes > 0)
-    {
-        if (seconds > 0 && minutes < 5)
-        {
-            return std::to_string(minutes) + "m " + std::to_string(seconds) + "s";
-        }
-
-        return std::to_string(minutes) + "m";
-    }
-
-    return std::to_string(seconds) + "s";
-}
-
-std::string formatCharacterDetailDuration(float remainingSeconds)
-{
-    const int totalSeconds = std::max(0, static_cast<int>(std::lround(remainingSeconds)));
-    const int hours = totalSeconds / 3600;
-    const int minutes = (totalSeconds % 3600) / 60;
-    const int seconds = totalSeconds % 60;
-    std::vector<std::string> parts;
-
-    if (hours > 0)
-    {
-        parts.push_back(std::to_string(hours) + (hours == 1 ? " Hour" : " Hours"));
-    }
-
-    if (minutes > 0)
-    {
-        parts.push_back(std::to_string(minutes) + (minutes == 1 ? " Minute" : " Minutes"));
-    }
-
-    if (hours == 0 && seconds > 0)
-    {
-        parts.push_back(std::to_string(seconds) + (seconds == 1 ? " Second" : " Seconds"));
-    }
-
-    if (parts.empty())
-    {
-        return "0 Seconds";
-    }
-
-    std::string result;
-
-    for (const std::string &part : parts)
-    {
-        if (!result.empty())
-        {
-            result += ' ';
-        }
-
-        result += part;
-    }
-
-    return result;
-}
-
-std::string defaultCharacterPortraitTextureName(const Character &character)
-{
-    char buffer[16] = {};
-    std::snprintf(buffer, sizeof(buffer), "PC%02u-01", character.portraitPictureId + 1);
-    return buffer;
-}
-
 struct GoldHeapVisual
 {
     const char *pTextureName = "item204";
@@ -1392,58 +1287,6 @@ struct HudPointerState
     float y = 0.0f;
     bool leftButtonPressed = false;
 };
-
-struct CharacterSkillUiRow
-{
-    std::string canonicalName;
-    std::string label;
-    std::string level;
-    bool upgradeable = false;
-};
-
-struct CharacterSkillUiData
-{
-    std::vector<CharacterSkillUiRow> weaponRows;
-    std::vector<CharacterSkillUiRow> magicRows;
-    std::vector<CharacterSkillUiRow> armorRows;
-    std::vector<CharacterSkillUiRow> miscRows;
-};
-
-struct CharacterStatRowDefinition
-{
-    const char *pStatName;
-    const char *pLabelId;
-    const char *pValueId;
-};
-
-constexpr std::array<CharacterStatRowDefinition, 26> CharacterStatRows = {{
-    {"SkillPoints", "CharacterStatsSkillPointsTextLabel", "CharacterStatsSkillPointsValue"},
-    {"Might", "CharacterStatMightLabel", "CharacterStatMightValue"},
-    {"Intellect", "CharacterStatIntellectLabel", "CharacterStatIntellectValue"},
-    {"Personality", "CharacterStatPersonalityLabel", "CharacterStatPersonalityValue"},
-    {"Endurance", "CharacterStatEnduranceLabel", "CharacterStatEnduranceValue"},
-    {"Accuracy", "CharacterStatAccuracyLabel", "CharacterStatAccuracyValue"},
-    {"Speed", "CharacterStatSpeedLabel", "CharacterStatSpeedValue"},
-    {"Luck", "CharacterStatLuckLabel", "CharacterStatLuckValue"},
-    {"HitPoints", "CharacterStatHitPointsLabel", "CharacterStatHitPointsValue"},
-    {"SpellPoints", "CharacterStatSpellPointsLabel", "CharacterStatSpellPointsValue"},
-    {"ArmorClass", "CharacterStatArmorClassLabel", "CharacterStatArmorClassValue"},
-    {"Condition", "CharacterStatConditionLabel", "CharacterStatConditionValue"},
-    {"QuickSpell", "CharacterStatQuickSpellLabel", "CharacterStatQuickSpellValue"},
-    {"Age", "CharacterStatAgeLabel", "CharacterStatAgeValue"},
-    {"Level", "CharacterStatLevelLabel", "CharacterStatLevelValue"},
-    {"Experience", "CharacterStatExperienceLabel", "CharacterStatExperienceValue"},
-    {"Attack", "CharacterStatAttackLabel", "CharacterStatAttackValue"},
-    {"MeleeDamage", "CharacterStatMeleeDamageLabel", "CharacterStatMeleeDamageValue"},
-    {"Shoot", "CharacterStatShootLabel", "CharacterStatShootValue"},
-    {"RangedDamage", "CharacterStatRangedDamageLabel", "CharacterStatRangedDamageValue"},
-    {"FireResistance", "CharacterStatFireResistanceLabel", "CharacterStatFireResistanceValue"},
-    {"AirResistance", "CharacterStatAirResistanceLabel", "CharacterStatAirResistanceValue"},
-    {"WaterResistance", "CharacterStatWaterResistanceLabel", "CharacterStatWaterResistanceValue"},
-    {"EarthResistance", "CharacterStatEarthResistanceLabel", "CharacterStatEarthResistanceValue"},
-    {"MindResistance", "CharacterStatMindResistanceLabel", "CharacterStatMindResistanceValue"},
-    {"BodyResistance", "CharacterStatBodyResistanceLabel", "CharacterStatBodyResistanceValue"},
-}};
 
 struct InventoryGridMetrics
 {
@@ -2167,128 +2010,6 @@ const CharacterDollEntry *resolveCharacterDollEntry(
     }
 
     return pCharacterDollTable->getCharacter(1);
-}
-
-std::string skillPageMasteryDisplayName(SkillMastery mastery)
-{
-    const std::string displayName = masteryDisplayName(mastery);
-
-    if (displayName == "Grandmaster")
-    {
-        return "Grand";
-    }
-
-    return displayName;
-}
-
-void appendCharacterSkillUiRows(
-    const Character &character,
-    std::vector<CharacterSkillUiRow> &rows,
-    std::unordered_set<std::string> &shownSkillNames,
-    const char *const *pSkillNames,
-    size_t skillCount)
-{
-    for (size_t skillIndex = 0; skillIndex < skillCount; ++skillIndex)
-    {
-        const std::string canonicalName = pSkillNames[skillIndex];
-        const CharacterSkill *pSkill = character.findSkillByCanonicalName(canonicalName);
-
-        if (pSkill == nullptr)
-        {
-            continue;
-        }
-
-        CharacterSkillUiRow row = {};
-        row.canonicalName = canonicalName;
-        row.label = displaySkillName(pSkill->name);
-
-        if (pSkill->mastery != SkillMastery::None && pSkill->mastery != SkillMastery::Normal)
-        {
-            row.label += " " + skillPageMasteryDisplayName(pSkill->mastery);
-        }
-
-        row.level = std::to_string(pSkill->level);
-        row.upgradeable = character.skillPoints > pSkill->level;
-        rows.push_back(std::move(row));
-        shownSkillNames.insert(canonicalName);
-    }
-}
-
-CharacterSkillUiData buildCharacterSkillUiData(const Character *pCharacter)
-{
-    CharacterSkillUiData data = {};
-
-    if (pCharacter == nullptr)
-    {
-        return data;
-    }
-
-    std::unordered_set<std::string> shownSkillNames;
-    appendCharacterSkillUiRows(*pCharacter, data.weaponRows, shownSkillNames, WeaponSkillNames, std::size(WeaponSkillNames));
-    appendCharacterSkillUiRows(*pCharacter, data.magicRows, shownSkillNames, MagicSkillNames, std::size(MagicSkillNames));
-    appendCharacterSkillUiRows(*pCharacter, data.armorRows, shownSkillNames, ArmorSkillNames, std::size(ArmorSkillNames));
-    appendCharacterSkillUiRows(*pCharacter, data.miscRows, shownSkillNames, MiscSkillNames, std::size(MiscSkillNames));
-
-    std::vector<CharacterSkillUiRow> extraMiscRows;
-
-    for (const auto &[ignoredSkillName, skill] : pCharacter->skills)
-    {
-        const std::string &canonicalName = ignoredSkillName;
-
-        if (shownSkillNames.contains(canonicalName))
-        {
-            continue;
-        }
-
-        CharacterSkillUiRow row = {};
-        row.canonicalName = canonicalName;
-        row.label = displaySkillName(skill.name);
-
-        if (skill.mastery != SkillMastery::None && skill.mastery != SkillMastery::Normal)
-        {
-            row.label += " " + skillPageMasteryDisplayName(skill.mastery);
-        }
-
-        row.level = std::to_string(skill.level);
-        row.upgradeable = pCharacter->skillPoints > skill.level;
-        extraMiscRows.push_back(std::move(row));
-    }
-
-    std::sort(
-        extraMiscRows.begin(),
-        extraMiscRows.end(),
-        [](const CharacterSkillUiRow &left, const CharacterSkillUiRow &right)
-        {
-            return left.label < right.label;
-        }
-    );
-
-    data.miscRows.insert(data.miscRows.end(), extraMiscRows.begin(), extraMiscRows.end());
-    return data;
-}
-
-int skillMasteryAvailability(
-    const ClassSkillTable *pClassSkillTable,
-    const Character *pCharacter,
-    const std::string &skillName,
-    SkillMastery mastery)
-{
-    if (pClassSkillTable == nullptr || pCharacter == nullptr)
-    {
-        return 0;
-    }
-
-    if (pClassSkillTable->getClassCap(pCharacter->className, skillName) >= mastery)
-    {
-        return 0;
-    }
-
-    if (pClassSkillTable->getHighestPromotionCap(pCharacter->className, skillName) >= mastery)
-    {
-        return 1;
-    }
-
-    return 2;
 }
 
 uint32_t packHudColorAbgr(uint8_t red, uint8_t green, uint8_t blue)
@@ -3679,11 +3400,6 @@ OutdoorGameView::OutdoorGameView(GameSession &gameSession)
     , m_lastAdventurersInnPortraitClickedIndex(std::nullopt)
     , m_heldInventoryItem(m_gameplayUiController.heldInventoryItem())
     , m_itemInspectOverlay(m_gameplayUiController.itemInspectOverlay())
-    , m_itemInspectInteractionLatch(false)
-    , m_itemInspectInteractionKey(0)
-    , m_characterInspectOverlay(m_gameplayUiController.characterInspectOverlay())
-    , m_buffInspectOverlay(m_gameplayUiController.buffInspectOverlay())
-    , m_characterDetailOverlay(m_gameplayUiController.characterDetailOverlay())
     , m_actorInspectOverlay(m_gameplayUiController.actorInspectOverlay())
     , m_spellInspectOverlay(m_gameplayUiController.spellInspectOverlay())
     , m_readableScrollOverlay(m_gameplayUiController.readableScrollOverlay())
@@ -4010,8 +3726,13 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
         return;
     }
 
-    m_gameplayUiController.updateStatusBarEvent(deltaSeconds);
-    updateRestScreen(deltaSeconds);
+    GameplayOverlayContext overlayContext = createGameplayOverlayContext();
+    GameplayScreenController::updateSharedFrameState(
+        overlayContext,
+        width,
+        height,
+        deltaSeconds,
+        GameplayScreenFrameUpdateConfig{.updateBuffInspectOverlay = m_showGameplayHud});
     updatePartyPortraitAnimations(deltaSeconds);
 
     if (m_pOutdoorPartyRuntime != nullptr)
@@ -4028,11 +3749,7 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
 
     updateHouseVideoPlayback(deltaSeconds);
     updateItemInspectOverlayState(width, height);
-    updateCharacterInspectOverlayState(width, height);
-    updateBuffInspectOverlayState(width, height);
-    updateCharacterDetailOverlayState(width, height);
     updateActorInspectOverlayState(width, height);
-    updateSpellInspectOverlayState(width, height);
 
     const bool wasRestScreenActiveBeforeInput = m_restScreen.active;
     const bool wasMenuActiveBeforeInput = m_menuScreen.active;
@@ -5793,37 +5510,26 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
 
         if (m_showGameplayHud)
         {
-            GameplayUiOverlayOrchestrator::renderStandardOverlays(
+            GameplayScreenController::renderSharedOverlays(
                 overlayContext,
                 width,
                 height,
-                GameplayUiOverlayRenderConfig{
-                    .canRenderHudOverlays = true,
-                    .renderGameplayMouseLookOverlay =
-                        m_gameplayMouseLookActive && !m_gameplayCursorModeActive && !m_pendingSpellCast.active,
-                    .renderChestBelowHud = true,
-                    .renderChestAboveHud = true,
-                    .renderInventoryBelowHud = !deferDialogueInventoryServiceOverlay,
-                    .renderDialogueBelowHud = true,
-                    .renderDialogueAboveHud = true,
-                    .renderCharacterBelowHud = true,
-                    .renderCharacterAboveHud = true,
+                GameplayScreenRenderConfig{
+                    .base =
+                        GameplayUiOverlayRenderConfig{
+                            .canRenderHudOverlays = true,
+                            .renderGameplayMouseLookOverlay =
+                                m_gameplayMouseLookActive && !m_gameplayCursorModeActive && !m_pendingSpellCast.active,
+                            .renderChestBelowHud = true,
+                            .renderChestAboveHud = true,
+                            .renderInventoryBelowHud = !deferDialogueInventoryServiceOverlay,
+                            .renderDialogueBelowHud = true,
+                            .renderDialogueAboveHud = true,
+                            .renderCharacterBelowHud = true,
+                            .renderCharacterAboveHud = true,
+                        },
+                    .renderDeferredInventoryOverlay = deferDialogueInventoryServiceOverlay,
                 });
-
-            if (deferDialogueInventoryServiceOverlay)
-            {
-                GameplayHudOverlayRenderer::renderInventoryNestedOverlay(overlayContext, width, height, false);
-            }
-            GameplayPartyOverlayRenderer::renderUtilitySpellOverlay(overlayContext, width, height);
-            GameplayPartyOverlayRenderer::renderCharacterInspectOverlay(overlayContext, width, height);
-            GameplayPartyOverlayRenderer::renderBuffInspectOverlay(overlayContext, width, height);
-            GameplayPartyOverlayRenderer::renderCharacterDetailOverlay(overlayContext, width, height);
-            {
-                GameplayOverlayContext overlayContext = createGameplayOverlayContext();
-                GameplayPartyOverlayRenderer::renderActorInspectOverlay(overlayContext, width, height);
-            }
-            GameplayPartyOverlayRenderer::renderSpellInspectOverlay(overlayContext, width, height);
-            GameplayPartyOverlayRenderer::renderReadableScrollOverlay(overlayContext, width, height);
             renderPendingSpellTargetingOverlay(width, height);
         }
 
@@ -6491,22 +6197,22 @@ void OutdoorGameView::updateItemInspectOverlayState(int width, int height)
     float mouseX = 0.0f;
     float mouseY = 0.0f;
     const SDL_MouseButtonFlags mouseButtons = SDL_GetMouseState(&mouseX, &mouseY);
+    GameplayOverlayContext overlayContext = createGameplayOverlayContext();
 
     if ((mouseButtons & SDL_BUTTON_RMASK) == 0)
     {
-        m_itemInspectInteractionLatch = false;
-        m_itemInspectInteractionKey = 0;
+        overlayContext.itemInspectInteractionLatch() = false;
+        overlayContext.itemInspectInteractionKey() = 0;
         return;
     }
 
-    GameplayOverlayContext overlayContext = createGameplayOverlayContext();
-    if (GameplayHudOverlaySupport::tryPopulateItemInspectOverlayFromRenderedHudItems(
+    if (GameplayScreenController::updateRenderedHudItemInspectOverlay(
             overlayContext,
             width,
             height,
             true))
     {
-        tryApplyItemInspectSkillInteraction();
+        GameplayScreenController::applySharedItemInspectSkillInteraction(overlayContext);
         return;
     }
 
@@ -6608,129 +6314,39 @@ void OutdoorGameView::updateItemInspectOverlayState(int width, int height)
                     m_itemInspectOverlay.sourceY = mouseY;
                     m_itemInspectOverlay.sourceWidth = 1.0f;
                     m_itemInspectOverlay.sourceHeight = 1.0f;
-                    tryApplyItemInspectSkillInteraction();
+                    tryApplyWorldItemInspectSkillInteraction();
                     return;
                 }
             }
         }
     }
-
-    if (!m_characterScreenOpen
-        || m_characterPage != CharacterPage::Inventory
-        || m_pOutdoorPartyRuntime == nullptr
-        || overlayContext.isAdventurersInnScreenActive())
-    {
-        return;
-    }
-
-    const Character *pCharacter = overlayContext.selectedCharacterScreenCharacter();
-    const HudLayoutElement *pInventoryGridLayout = overlayContext.findHudLayoutElement("CharacterInventoryGrid");
-
-    if (pCharacter == nullptr || pInventoryGridLayout == nullptr)
-    {
-        return;
-    }
-
-    const std::optional<ResolvedHudLayoutElement> resolvedInventoryGrid = overlayContext.resolveHudLayoutElement(
-        "CharacterInventoryGrid",
-        width,
-        height,
-        pInventoryGridLayout->width,
-        pInventoryGridLayout->height);
-
-    if (!resolvedInventoryGrid
-        || mouseX < resolvedInventoryGrid->x
-        || mouseX >= resolvedInventoryGrid->x + resolvedInventoryGrid->width
-        || mouseY < resolvedInventoryGrid->y
-        || mouseY >= resolvedInventoryGrid->y + resolvedInventoryGrid->height)
-    {
-        return;
-    }
-
-    const InventoryGridMetrics gridMetrics = computeInventoryGridMetrics(
-        resolvedInventoryGrid->x,
-        resolvedInventoryGrid->y,
-        resolvedInventoryGrid->width,
-        resolvedInventoryGrid->height,
-        resolvedInventoryGrid->scale);
-    const uint8_t gridX = static_cast<uint8_t>(std::clamp(
-        static_cast<int>((mouseX - resolvedInventoryGrid->x) / gridMetrics.cellWidth),
-        0,
-        Character::InventoryWidth - 1));
-    const uint8_t gridY = static_cast<uint8_t>(std::clamp(
-        static_cast<int>((mouseY - resolvedInventoryGrid->y) / gridMetrics.cellHeight),
-        0,
-        Character::InventoryHeight - 1));
-    const InventoryItem *pHoveredItem = pCharacter->inventoryItemAt(gridX, gridY);
-
-    if (pHoveredItem == nullptr)
-    {
-        return;
-    }
-
-    const ItemDefinition *pItemDefinition = itemTable()->get(pHoveredItem->objectDescriptionId);
-
-    if (pItemDefinition == nullptr || pItemDefinition->iconName.empty())
-    {
-        return;
-    }
-
-    const std::optional<GameplayHudTextureHandle> itemTexture =
-        overlayContext.ensureHudTextureLoaded(pItemDefinition->iconName);
-
-    if (!itemTexture)
-    {
-        return;
-    }
-
-    const float itemWidth = static_cast<float>(itemTexture->width) * gridMetrics.scale;
-    const float itemHeight = static_cast<float>(itemTexture->height) * gridMetrics.scale;
-    const InventoryItemScreenRect itemRect =
-        computeInventoryItemScreenRect(gridMetrics, *pHoveredItem, itemWidth, itemHeight);
-
-    m_itemInspectOverlay.active = true;
-    m_itemInspectOverlay.objectDescriptionId = pHoveredItem->objectDescriptionId;
-    m_itemInspectOverlay.hasItemState = true;
-    m_itemInspectOverlay.itemState = *pHoveredItem;
-    m_itemInspectOverlay.sourceType =
-        overlayContext.isAdventurersInnCharacterSourceActive() ? ItemInspectSourceType::None : ItemInspectSourceType::Inventory;
-    m_itemInspectOverlay.sourceMemberIndex = overlayContext.selectedCharacterScreenSourceIndex();
-    m_itemInspectOverlay.sourceGridX = gridX;
-    m_itemInspectOverlay.sourceGridY = gridY;
-    m_itemInspectOverlay.sourceX = itemRect.x;
-    m_itemInspectOverlay.sourceY = itemRect.y;
-    m_itemInspectOverlay.sourceWidth = itemRect.width;
-    m_itemInspectOverlay.sourceHeight = itemRect.height;
-    tryApplyItemInspectSkillInteraction();
 }
 
-void OutdoorGameView::tryApplyItemInspectSkillInteraction()
+void OutdoorGameView::tryApplyWorldItemInspectSkillInteraction()
 {
     if (!m_itemInspectOverlay.active
         || !m_itemInspectOverlay.hasItemState
         || m_pOutdoorPartyRuntime == nullptr
         || itemTable() == nullptr
-        || m_itemInspectOverlay.sourceType == ItemInspectSourceType::None)
+        || m_itemInspectOverlay.sourceType != ItemInspectSourceType::WorldItem)
     {
         return;
     }
 
     uint64_t interactionKey = static_cast<uint64_t>(m_itemInspectOverlay.objectDescriptionId);
     interactionKey ^= static_cast<uint64_t>(m_itemInspectOverlay.sourceMemberIndex + 1) << 16;
-    interactionKey ^= static_cast<uint64_t>(m_itemInspectOverlay.sourceGridX) << 24;
-    interactionKey ^= static_cast<uint64_t>(m_itemInspectOverlay.sourceGridY) << 32;
-    interactionKey ^= static_cast<uint64_t>(m_itemInspectOverlay.sourceEquipmentSlot) << 40;
     interactionKey ^= static_cast<uint64_t>(m_itemInspectOverlay.sourceWorldItemIndex) << 44;
-    interactionKey ^= static_cast<uint64_t>(m_itemInspectOverlay.sourceLootItemIndex) << 48;
     interactionKey ^= static_cast<uint64_t>(m_itemInspectOverlay.sourceType) << 56;
 
-    if (m_itemInspectInteractionLatch && m_itemInspectInteractionKey == interactionKey)
+    GameplayOverlayContext overlayContext = createGameplayOverlayContext();
+
+    if (overlayContext.itemInspectInteractionLatch() && overlayContext.itemInspectInteractionKey() == interactionKey)
     {
         return;
     }
 
-    m_itemInspectInteractionLatch = true;
-    m_itemInspectInteractionKey = interactionKey;
+    overlayContext.itemInspectInteractionLatch() = true;
+    overlayContext.itemInspectInteractionKey() = interactionKey;
 
     Party &party = m_pOutdoorPartyRuntime->party();
     const Character *pActiveMember = party.activeMember();
@@ -6756,36 +6372,9 @@ void OutdoorGameView::tryApplyItemInspectSkillInteraction()
         };
 
     const auto refreshOverlayItemState =
-        [this, &party]()
+        [this]()
         {
-            if (m_itemInspectOverlay.sourceType == ItemInspectSourceType::Inventory)
-            {
-                const Character *pSourceMember = party.member(m_itemInspectOverlay.sourceMemberIndex);
-
-                if (pSourceMember == nullptr)
-                {
-                    return;
-                }
-
-                const InventoryItem *pItem =
-                    pSourceMember->inventoryItemAt(m_itemInspectOverlay.sourceGridX, m_itemInspectOverlay.sourceGridY);
-
-                if (pItem != nullptr)
-                {
-                    m_itemInspectOverlay.itemState = *pItem;
-                }
-            }
-            else if (m_itemInspectOverlay.sourceType == ItemInspectSourceType::Equipment)
-            {
-                const std::optional<InventoryItem> item =
-                    party.equippedItem(m_itemInspectOverlay.sourceMemberIndex, m_itemInspectOverlay.sourceEquipmentSlot);
-
-                if (item.has_value())
-                {
-                    m_itemInspectOverlay.itemState = *item;
-                }
-            }
-            else if (m_itemInspectOverlay.sourceType == ItemInspectSourceType::WorldItem
+            if (m_itemInspectOverlay.sourceType == ItemInspectSourceType::WorldItem
                 && m_pOutdoorWorldRuntime != nullptr)
             {
                 const OutdoorWorldRuntime::WorldItemState *pWorldItem =
@@ -6796,48 +6385,11 @@ void OutdoorGameView::tryApplyItemInspectSkillInteraction()
                     m_itemInspectOverlay.itemState = pWorldItem->item;
                 }
             }
-            else if (m_pOutdoorWorldRuntime != nullptr
-                && m_itemInspectOverlay.sourceType == ItemInspectSourceType::Chest)
-            {
-                const OutdoorWorldRuntime::ChestViewState *pChestView = m_pOutdoorWorldRuntime->activeChestView();
-
-                if (pChestView != nullptr && m_itemInspectOverlay.sourceLootItemIndex < pChestView->items.size())
-                {
-                    m_itemInspectOverlay.itemState = pChestView->items[m_itemInspectOverlay.sourceLootItemIndex].item;
-                }
-            }
-            else if (m_pOutdoorWorldRuntime != nullptr
-                && m_itemInspectOverlay.sourceType == ItemInspectSourceType::Corpse)
-            {
-                const OutdoorWorldRuntime::CorpseViewState *pCorpseView = m_pOutdoorWorldRuntime->activeCorpseView();
-
-                if (pCorpseView != nullptr && m_itemInspectOverlay.sourceLootItemIndex < pCorpseView->items.size())
-                {
-                    m_itemInspectOverlay.itemState = pCorpseView->items[m_itemInspectOverlay.sourceLootItemIndex].item;
-                }
-            }
         };
 
     const auto forceIdentifyWithoutReaction =
-        [this, &party](std::string &statusText) -> bool
+        [this](std::string &statusText) -> bool
         {
-            if (m_itemInspectOverlay.sourceType == ItemInspectSourceType::Inventory)
-            {
-                return party.identifyMemberInventoryItem(
-                    m_itemInspectOverlay.sourceMemberIndex,
-                    m_itemInspectOverlay.sourceGridX,
-                    m_itemInspectOverlay.sourceGridY,
-                    statusText);
-            }
-
-            if (m_itemInspectOverlay.sourceType == ItemInspectSourceType::Equipment)
-            {
-                return party.identifyEquippedItem(
-                    m_itemInspectOverlay.sourceMemberIndex,
-                    m_itemInspectOverlay.sourceEquipmentSlot,
-                    statusText);
-            }
-
             if (m_itemInspectOverlay.sourceType == ItemInspectSourceType::WorldItem
                 && m_pOutdoorWorldRuntime != nullptr)
             {
@@ -6846,47 +6398,12 @@ void OutdoorGameView::tryApplyItemInspectSkillInteraction()
                     statusText);
             }
 
-            if (m_itemInspectOverlay.sourceType == ItemInspectSourceType::Chest
-                && m_pOutdoorWorldRuntime != nullptr)
-            {
-                return m_pOutdoorWorldRuntime->identifyActiveChestItem(
-                    m_itemInspectOverlay.sourceLootItemIndex,
-                    statusText);
-            }
-
-            if (m_itemInspectOverlay.sourceType == ItemInspectSourceType::Corpse
-                && m_pOutdoorWorldRuntime != nullptr)
-            {
-                return m_pOutdoorWorldRuntime->identifyActiveCorpseItem(
-                    m_itemInspectOverlay.sourceLootItemIndex,
-                    statusText);
-            }
-
             return false;
         };
 
     const auto tryIdentifyWithSkill =
-        [this, &party, activeMemberIndex, pActiveMember](std::string &statusText) -> bool
+        [this, pActiveMember](std::string &statusText) -> bool
         {
-            if (m_itemInspectOverlay.sourceType == ItemInspectSourceType::Inventory)
-            {
-                return party.tryIdentifyMemberInventoryItem(
-                    m_itemInspectOverlay.sourceMemberIndex,
-                    m_itemInspectOverlay.sourceGridX,
-                    m_itemInspectOverlay.sourceGridY,
-                    activeMemberIndex,
-                    statusText);
-            }
-
-            if (m_itemInspectOverlay.sourceType == ItemInspectSourceType::Equipment)
-            {
-                return party.tryIdentifyEquippedItem(
-                    m_itemInspectOverlay.sourceMemberIndex,
-                    m_itemInspectOverlay.sourceEquipmentSlot,
-                    activeMemberIndex,
-                    statusText);
-            }
-
             if (m_itemInspectOverlay.sourceType == ItemInspectSourceType::WorldItem
                 && m_pOutdoorWorldRuntime != nullptr)
             {
@@ -6896,72 +6413,17 @@ void OutdoorGameView::tryApplyItemInspectSkillInteraction()
                     statusText);
             }
 
-            if (m_itemInspectOverlay.sourceType == ItemInspectSourceType::Chest
-                && m_pOutdoorWorldRuntime != nullptr)
-            {
-                return m_pOutdoorWorldRuntime->tryIdentifyActiveChestItem(
-                    m_itemInspectOverlay.sourceLootItemIndex,
-                    *pActiveMember,
-                    statusText);
-            }
-
-            if (m_itemInspectOverlay.sourceType == ItemInspectSourceType::Corpse
-                && m_pOutdoorWorldRuntime != nullptr)
-            {
-                return m_pOutdoorWorldRuntime->tryIdentifyActiveCorpseItem(
-                    m_itemInspectOverlay.sourceLootItemIndex,
-                    *pActiveMember,
-                    statusText);
-            }
-
             return false;
         };
 
     const auto tryRepairWithSkill =
-        [this, &party, activeMemberIndex, pActiveMember](std::string &statusText) -> bool
+        [this, pActiveMember](std::string &statusText) -> bool
         {
-            if (m_itemInspectOverlay.sourceType == ItemInspectSourceType::Inventory)
-            {
-                return party.tryRepairMemberInventoryItem(
-                    m_itemInspectOverlay.sourceMemberIndex,
-                    m_itemInspectOverlay.sourceGridX,
-                    m_itemInspectOverlay.sourceGridY,
-                    activeMemberIndex,
-                    statusText);
-            }
-
-            if (m_itemInspectOverlay.sourceType == ItemInspectSourceType::Equipment)
-            {
-                return party.tryRepairEquippedItem(
-                    m_itemInspectOverlay.sourceMemberIndex,
-                    m_itemInspectOverlay.sourceEquipmentSlot,
-                    activeMemberIndex,
-                    statusText);
-            }
-
             if (m_itemInspectOverlay.sourceType == ItemInspectSourceType::WorldItem
                 && m_pOutdoorWorldRuntime != nullptr)
             {
                 return m_pOutdoorWorldRuntime->tryRepairWorldItem(
                     m_itemInspectOverlay.sourceWorldItemIndex,
-                    *pActiveMember,
-                    statusText);
-            }
-
-            if (m_itemInspectOverlay.sourceType == ItemInspectSourceType::Chest
-                && m_pOutdoorWorldRuntime != nullptr)
-            {
-                return m_pOutdoorWorldRuntime->tryRepairActiveChestItem(
-                    m_itemInspectOverlay.sourceLootItemIndex,
-                    *pActiveMember,
-                    statusText);
-            }
-
-            if (m_itemInspectOverlay.sourceType == ItemInspectSourceType::Corpse
-                && m_pOutdoorWorldRuntime != nullptr)
-            {
-                return m_pOutdoorWorldRuntime->tryRepairActiveCorpseItem(
-                    m_itemInspectOverlay.sourceLootItemIndex,
                     *pActiveMember,
                     statusText);
             }
@@ -7011,700 +6473,6 @@ void OutdoorGameView::tryApplyItemInspectSkillInteraction()
             playSingleReaction(SpeechId::RepairFail);
         }
     }
-}
-
-void OutdoorGameView::updateCharacterInspectOverlayState(int width, int height)
-{
-    m_characterInspectOverlay = {};
-    const auto combineResolvedRects =
-        [](const ResolvedHudLayoutElement &left, const ResolvedHudLayoutElement &right) -> ResolvedHudLayoutElement
-        {
-            const float minX = std::min(left.x, right.x);
-            const float minY = std::min(left.y, right.y);
-            const float maxX = std::max(left.x + left.width, right.x + right.width);
-            const float maxY = std::max(left.y + left.height, right.y + right.height);
-
-            return {
-                minX,
-                minY,
-                maxX - minX,
-                maxY - minY,
-                left.scale
-            };
-        };
-    const auto inflateResolvedRect =
-        [](const ResolvedHudLayoutElement &rect, float horizontalPadding, float verticalPadding)
-            -> ResolvedHudLayoutElement
-        {
-            return {
-                rect.x - horizontalPadding,
-                rect.y - verticalPadding,
-                rect.width + horizontalPadding * 2.0f,
-                rect.height + verticalPadding * 2.0f,
-                rect.scale
-            };
-        };
-
-    GameplayOverlayContext overlayContext = createGameplayOverlayContext();
-
-    if (width <= 0
-        || height <= 0
-        || !m_characterScreenOpen
-        || m_pOutdoorPartyRuntime == nullptr
-        || overlayContext.isAdventurersInnScreenActive()
-        || characterInspectTable() == nullptr)
-    {
-        return;
-    }
-
-    float mouseX = 0.0f;
-    float mouseY = 0.0f;
-    const SDL_MouseButtonFlags mouseButtons = SDL_GetMouseState(&mouseX, &mouseY);
-
-    if ((mouseButtons & SDL_BUTTON_RMASK) == 0)
-    {
-        return;
-    }
-
-    const Character *pCharacter = overlayContext.selectedCharacterScreenCharacter();
-
-    if (pCharacter == nullptr)
-    {
-        return;
-    }
-
-    if (m_characterPage == CharacterPage::Stats)
-    {
-        for (const CharacterStatRowDefinition &row : CharacterStatRows)
-        {
-            const HudLayoutElement *pLabelLayout = overlayContext.findHudLayoutElement(row.pLabelId);
-            const HudLayoutElement *pValueLayout = overlayContext.findHudLayoutElement(row.pValueId);
-
-            if (pLabelLayout == nullptr || pValueLayout == nullptr)
-            {
-                continue;
-            }
-
-            const std::optional<ResolvedHudLayoutElement> resolvedLabel = overlayContext.resolveHudLayoutElement(
-                row.pLabelId,
-                width,
-                height,
-                pLabelLayout->width,
-                pLabelLayout->height);
-            const std::optional<ResolvedHudLayoutElement> resolvedValue = overlayContext.resolveHudLayoutElement(
-                row.pValueId,
-                width,
-                height,
-                pValueLayout->width,
-                pValueLayout->height);
-
-            if (!resolvedLabel || !resolvedValue)
-            {
-                continue;
-            }
-
-            const ResolvedHudLayoutElement rowRect =
-                inflateResolvedRect(combineResolvedRects(*resolvedLabel, *resolvedValue), 6.0f, 3.0f);
-
-            if (!GameplayHudCommon::isPointerInsideResolvedElement(rowRect, mouseX, mouseY))
-            {
-                continue;
-            }
-
-            const StatInspectEntry *pEntry = characterInspectTable()->getStat(row.pStatName);
-
-            if (pEntry == nullptr || pEntry->description.empty())
-            {
-                return;
-            }
-
-            m_characterInspectOverlay.active = true;
-            m_characterInspectOverlay.title = pEntry->name;
-            m_characterInspectOverlay.body = pEntry->description;
-
-            if (std::string_view(row.pStatName) == "Experience")
-            {
-                const std::string supplement = GameMechanics::buildExperienceInspectSupplement(*pCharacter);
-
-                if (!supplement.empty())
-                {
-                    m_characterInspectOverlay.body += "\n" + supplement;
-                }
-            }
-
-            m_characterInspectOverlay.sourceX = rowRect.x;
-            m_characterInspectOverlay.sourceY = rowRect.y;
-            m_characterInspectOverlay.sourceWidth = rowRect.width;
-            m_characterInspectOverlay.sourceHeight = rowRect.height;
-            return;
-        }
-
-        return;
-    }
-
-    if (m_characterPage != CharacterPage::Skills)
-    {
-        return;
-    }
-
-    const CharacterSkillUiData skillUiData = buildCharacterSkillUiData(pCharacter);
-    const std::optional<GameplayHudFontHandle> skillRowFont = overlayContext.findHudFont("Lucida");
-    const float skillRowHeight = skillRowFont.has_value()
-        ? static_cast<float>(std::max(1, skillRowFont->fontHeight - 3))
-        : 11.0f;
-
-    const auto tryShowSkillPopup =
-        [this, &overlayContext, width, height, mouseX, mouseY, pCharacter, skillRowHeight](
-            const char *pRegionId,
-            const char *pLevelHeaderId,
-            const std::vector<CharacterSkillUiRow> &rows) -> bool
-        {
-            if (rows.empty())
-            {
-                return false;
-            }
-
-            const HudLayoutElement *pRegionLayout = overlayContext.findHudLayoutElement(pRegionId);
-            const HudLayoutElement *pLevelLayout = overlayContext.findHudLayoutElement(pLevelHeaderId);
-
-            if (pRegionLayout == nullptr || pLevelLayout == nullptr)
-            {
-                return false;
-            }
-
-            const std::optional<ResolvedHudLayoutElement> resolvedRegion = overlayContext.resolveHudLayoutElement(
-                pRegionId,
-                width,
-                height,
-                pRegionLayout->width,
-                pRegionLayout->height);
-            const std::optional<ResolvedHudLayoutElement> resolvedLevelHeader = overlayContext.resolveHudLayoutElement(
-                pLevelHeaderId,
-                width,
-                height,
-                pLevelLayout->width,
-                pLevelLayout->height);
-
-            if (!resolvedRegion || !resolvedLevelHeader)
-            {
-                return false;
-            }
-
-            const float rowHeightPixels = skillRowHeight * resolvedRegion->scale;
-            const float rowWidth = resolvedLevelHeader->x + resolvedLevelHeader->width - resolvedRegion->x;
-
-            for (size_t rowIndex = 0; rowIndex < rows.size(); ++rowIndex)
-            {
-                const CharacterSkillUiRow &row = rows[rowIndex];
-                const float rowY = resolvedRegion->y + static_cast<float>(rowIndex) * rowHeightPixels;
-                const ResolvedHudLayoutElement rowRect = {
-                    resolvedRegion->x,
-                    rowY,
-                    rowWidth,
-                    rowHeightPixels,
-                    resolvedRegion->scale
-                };
-
-                if (!GameplayHudCommon::isPointerInsideResolvedElement(rowRect, mouseX, mouseY))
-                {
-                    continue;
-                }
-
-                const SkillInspectEntry *pEntry =
-                    characterInspectTable() != nullptr ? characterInspectTable()->getSkill(row.canonicalName) : nullptr;
-
-                if (pEntry == nullptr || pEntry->description.empty())
-                {
-                    return false;
-                }
-
-                m_characterInspectOverlay.active = true;
-                m_characterInspectOverlay.title = pEntry->name;
-                m_characterInspectOverlay.body = pEntry->description;
-                m_characterInspectOverlay.expert.text = "Expert: " + pEntry->expertDescription;
-                m_characterInspectOverlay.expert.availability = skillMasteryAvailability(
-                    classSkillTable(),
-                    pCharacter,
-                    row.canonicalName,
-                    SkillMastery::Expert);
-                m_characterInspectOverlay.expert.visible = !pEntry->expertDescription.empty();
-                m_characterInspectOverlay.master.text = "Master: " + pEntry->masterDescription;
-                m_characterInspectOverlay.master.availability = skillMasteryAvailability(
-                    classSkillTable(),
-                    pCharacter,
-                    row.canonicalName,
-                    SkillMastery::Master);
-                m_characterInspectOverlay.master.visible = !pEntry->masterDescription.empty();
-                m_characterInspectOverlay.grandmaster.text = "Grandmaster: " + pEntry->grandmasterDescription;
-                m_characterInspectOverlay.grandmaster.availability = skillMasteryAvailability(
-                    classSkillTable(),
-                    pCharacter,
-                    row.canonicalName,
-                    SkillMastery::Grandmaster);
-                m_characterInspectOverlay.grandmaster.visible = !pEntry->grandmasterDescription.empty();
-                m_characterInspectOverlay.sourceX = rowRect.x;
-                m_characterInspectOverlay.sourceY = rowRect.y;
-                m_characterInspectOverlay.sourceWidth = rowRect.width;
-                m_characterInspectOverlay.sourceHeight = rowRect.height;
-                return true;
-            }
-
-            return false;
-        };
-
-    if (tryShowSkillPopup("CharacterSkillsWeaponsListRegion", "CharacterSkillsWeaponsLevelHeader", skillUiData.weaponRows))
-    {
-        return;
-    }
-
-    if (tryShowSkillPopup("CharacterSkillsMagicListRegion", "CharacterSkillsMagicLevelHeader", skillUiData.magicRows))
-    {
-        return;
-    }
-
-    if (tryShowSkillPopup("CharacterSkillsArmorListRegion", "CharacterSkillsArmorLevelHeader", skillUiData.armorRows))
-    {
-        return;
-    }
-
-    tryShowSkillPopup("CharacterSkillsMiscListRegion", "CharacterSkillsMiscLevelHeader", skillUiData.miscRows);
-}
-
-void OutdoorGameView::updateBuffInspectOverlayState(int width, int height)
-{
-    m_buffInspectOverlay = {};
-
-    if (width <= 0
-        || height <= 0
-        || m_pOutdoorPartyRuntime == nullptr
-        || !m_showGameplayHud
-        || resolveGameplayHudScreenState(m_gameplayUiController, m_activeEventDialog, m_pOutdoorWorldRuntime)
-            != GameplayHudScreenState::Gameplay
-        || m_characterScreenOpen
-        || hasActiveEventDialog()
-        || m_spellbook.active
-        || m_controlsScreen.active
-        || m_keyboardScreen.active
-        || m_menuScreen.active
-        || m_saveGameScreen.active
-        || m_loadGameScreen.active)
-    {
-        return;
-    }
-
-    float mouseX = 0.0f;
-    float mouseY = 0.0f;
-    const SDL_MouseButtonFlags mouseButtons = SDL_GetMouseState(&mouseX, &mouseY);
-
-    if ((mouseButtons & (SDL_BUTTON_RMASK | SDL_BUTTON_LMASK)) == 0 || m_itemInspectOverlay.active)
-    {
-        return;
-    }
-
-    GameplayOverlayContext overlayContext = createGameplayOverlayContext();
-    const Party &party = m_pOutdoorPartyRuntime->party();
-
-    struct PartyBuffInspectTarget
-    {
-        const char *pWideLayoutId;
-        const char *pStandardLayoutId;
-        const char *pLabel;
-        PartyBuffId buffId;
-        bool skullPanel;
-    };
-
-    static constexpr PartyBuffInspectTarget BuffTargets[] = {
-        {"OutdoorBuffSkull_Torchlight", "OutdoorStandardBuffSkull_Torchlight", "Torch Light", PartyBuffId::TorchLight, true},
-        {"OutdoorBuffSkull_WizardEye", "OutdoorStandardBuffSkull_WizardEye", "Wizard Eye", PartyBuffId::WizardEye, true},
-        {"OutdoorBuffSkull_Featherfall", "OutdoorStandardBuffSkull_FeatherFall", "Feather Fall", PartyBuffId::FeatherFall, true},
-        {"OutdoorBuffSkull_Stoneskin", "OutdoorStandardBuffSkull_Stoneskin", "Stoneskin", PartyBuffId::Stoneskin, true},
-        {"OutdoorBuffSkull_DayOfGods", "OutdoorStandardBuffSkull_DayOfGods", "Day of the Gods", PartyBuffId::DayOfGods, true},
-        {
-            "OutdoorBuffSkull_ProtectionFromGods",
-            "OutdoorStandardBuffSkull_ProtectionFromGods",
-            "Protection from Magic",
-            PartyBuffId::ProtectionFromMagic,
-            true
-        },
-        {
-            "OutdoorBuffBody_FireResistance",
-            "OutdoorStandardBuffBody_FireResistance",
-            "Fire Resistance",
-            PartyBuffId::FireResistance,
-            false
-        },
-        {
-            "OutdoorBuffBody_WaterResistance",
-            "OutdoorStandardBuffBody_WaterResistance",
-            "Water Resistance",
-            PartyBuffId::WaterResistance,
-            false
-        },
-        {"OutdoorBuffBody_AirResistance", "OutdoorStandardBuffBody_AirResistance", "Air Resistance", PartyBuffId::AirResistance, false},
-        {
-            "OutdoorBuffBody_EarthResistance",
-            "OutdoorStandardBuffBody_EarthResistance",
-            "Earth Resistance",
-            PartyBuffId::EarthResistance,
-            false
-        },
-        {
-            "OutdoorBuffBody_MindResistance",
-            "OutdoorStandardBuffBody_MindResistance",
-            "Mind Resistance",
-            PartyBuffId::MindResistance,
-            false
-        },
-        {
-            "OutdoorBuffBody_BodyResistance",
-            "OutdoorStandardBuffBody_BodyResistance",
-            "Body Resistance",
-            PartyBuffId::BodyResistance,
-            false
-        },
-        {"OutdoorBuffBody_Shield", "OutdoorStandardBuffBody_Shield", "Shield", PartyBuffId::Shield, false},
-        {"OutdoorBuffBody_Heroism", "OutdoorStandardBuffBody_Heroism", "Heroism", PartyBuffId::Heroism, false},
-        {"OutdoorBuffBody_Haste", "OutdoorStandardBuffBody_Haste", "Haste", PartyBuffId::Haste, false},
-        {"OutdoorBuffBody_Immolation", "OutdoorStandardBuffBody_Immolation", "Immolation", PartyBuffId::Immolation, false},
-    };
-
-    const auto populateBuffPanelOverlay =
-        [this, &party](bool skullPanel, const ResolvedHudLayoutElement &rect)
-        {
-            std::string body;
-
-            for (const PartyBuffInspectTarget &target : BuffTargets)
-            {
-                if (target.skullPanel != skullPanel)
-                {
-                    continue;
-                }
-
-                const PartyBuffState *pBuff = party.partyBuff(target.buffId);
-
-                if (pBuff == nullptr)
-                {
-                    continue;
-                }
-
-                appendPopupBodyLine(
-                    body,
-                    std::string(target.pLabel) + " - " + formatRemainingDuration(pBuff->remainingSeconds));
-            }
-
-            if (body.empty())
-            {
-                body = "No active buffs";
-            }
-
-            m_buffInspectOverlay.active = true;
-            m_buffInspectOverlay.title = "Active Buffs";
-            m_buffInspectOverlay.body = body;
-            m_buffInspectOverlay.sourceX = rect.x;
-            m_buffInspectOverlay.sourceY = rect.y;
-            m_buffInspectOverlay.sourceWidth = rect.width;
-            m_buffInspectOverlay.sourceHeight = rect.height;
-        };
-
-    for (const PartyBuffInspectTarget &target : BuffTargets)
-    {
-        const PartyBuffState *pBuff = party.partyBuff(target.buffId);
-
-        if (pBuff == nullptr)
-        {
-            continue;
-        }
-
-        const char *pLayoutId = activeBuffLayoutId(*this, target.pWideLayoutId, target.pStandardLayoutId);
-        const HudLayoutElement *pLayout = overlayContext.findHudLayoutElement(pLayoutId);
-
-        if (pLayout == nullptr)
-        {
-            continue;
-        }
-
-        const std::optional<ResolvedHudLayoutElement> resolved = overlayContext.resolveHudLayoutElement(
-            pLayoutId,
-            width,
-            height,
-            pLayout->width,
-            pLayout->height);
-
-        if (!resolved || !GameplayHudCommon::isPointerInsideResolvedElement(*resolved, mouseX, mouseY))
-        {
-            continue;
-        }
-
-        populateBuffPanelOverlay(target.skullPanel, *resolved);
-        return;
-    }
-
-    struct BuffPanelTarget
-    {
-        const char *pWideLayoutId;
-        const char *pStandardLayoutId;
-        const char *pTitle;
-        bool skullPanel;
-    };
-
-    static constexpr BuffPanelTarget PanelTargets[] = {
-        {"OutdoorBuffSkullPanel", "OutdoorStandardBuffSkullPanel", "Skull Buffs", true},
-        {"OutdoorBuffBodyPanel", "OutdoorStandardBuffBodyPanel", "Body Buffs", false},
-    };
-
-    for (const BuffPanelTarget &panelTarget : PanelTargets)
-    {
-        const char *pLayoutId = activeBuffLayoutId(*this, panelTarget.pWideLayoutId, panelTarget.pStandardLayoutId);
-        const HudLayoutElement *pPanelLayout = overlayContext.findHudLayoutElement(pLayoutId);
-
-        if (pPanelLayout == nullptr)
-        {
-            continue;
-        }
-
-        const std::optional<ResolvedHudLayoutElement> resolvedPanel = overlayContext.resolveHudLayoutElement(
-            pLayoutId,
-            width,
-            height,
-            pPanelLayout->width,
-            pPanelLayout->height);
-
-        if (!resolvedPanel || !GameplayHudCommon::isPointerInsideResolvedElement(*resolvedPanel, mouseX, mouseY))
-        {
-            continue;
-        }
-
-        populateBuffPanelOverlay(panelTarget.skullPanel, *resolvedPanel);
-        return;
-    }
-}
-
-void OutdoorGameView::updateCharacterDetailOverlayState(int width, int height)
-{
-    m_characterDetailOverlay = {};
-
-    if (width <= 0 || height <= 0 || m_pOutdoorPartyRuntime == nullptr)
-    {
-        return;
-    }
-
-    float mouseX = 0.0f;
-    float mouseY = 0.0f;
-    const SDL_MouseButtonFlags mouseButtons = SDL_GetMouseState(&mouseX, &mouseY);
-
-    if ((mouseButtons & SDL_BUTTON_RMASK) == 0
-        || m_itemInspectOverlay.active
-        || m_characterInspectOverlay.active
-        || m_buffInspectOverlay.active
-        || m_spellInspectOverlay.active
-        || hasActiveEventDialog()
-        || m_spellbook.active
-        || m_controlsScreen.active
-        || m_keyboardScreen.active
-        || m_menuScreen.active
-        || m_saveGameScreen.active
-        || m_loadGameScreen.active)
-    {
-        return;
-    }
-
-    GameplayOverlayContext overlayContext = createGameplayOverlayContext();
-    const Party &party = m_pOutdoorPartyRuntime->party();
-    const Character *pCharacter = nullptr;
-    std::optional<ResolvedHudLayoutElement> sourceRect;
-    std::optional<size_t> memberIndex;
-
-    if (m_characterScreenOpen)
-    {
-        pCharacter = overlayContext.selectedCharacterScreenCharacter();
-        const HudLayoutElement *pDollLayout = overlayContext.findHudLayoutElement("CharacterDollPanel");
-
-        if (!overlayContext.isAdventurersInnCharacterSourceActive())
-        {
-            memberIndex = party.activeMemberIndex();
-        }
-
-        if (pCharacter != nullptr && pDollLayout != nullptr)
-        {
-            sourceRect = overlayContext.resolveHudLayoutElement(
-                "CharacterDollPanel",
-                width,
-                height,
-                pDollLayout->width,
-                pDollLayout->height);
-        }
-    }
-    else if (resolveGameplayHudScreenState(m_gameplayUiController, m_activeEventDialog, m_pOutdoorWorldRuntime)
-             == GameplayHudScreenState::Gameplay)
-    {
-        memberIndex = overlayContext.resolvePartyPortraitIndexAtPoint(width, height, mouseX, mouseY);
-
-        if (memberIndex)
-        {
-            pCharacter = party.member(*memberIndex);
-            sourceRect = overlayContext.resolvePartyPortraitRect(width, height, *memberIndex);
-        }
-    }
-
-    if (pCharacter == nullptr
-        || !sourceRect
-        || !GameplayHudCommon::isPointerInsideResolvedElement(*sourceRect, mouseX, mouseY))
-    {
-        return;
-    }
-
-    const CharacterSheetSummary summary = GameMechanics::buildCharacterSheetSummary(*pCharacter, itemTable());
-
-    m_characterDetailOverlay.active = true;
-    const std::string characterName = pCharacter->name.empty() ? "Member" : pCharacter->name;
-    const std::string characterClass = !pCharacter->className.empty() ? pCharacter->className : pCharacter->role;
-    m_characterDetailOverlay.title =
-        characterClass.empty() ? characterName : characterName + " the " + characterClass;
-    m_characterDetailOverlay.body.clear();
-    m_characterDetailOverlay.portraitTextureName = defaultCharacterPortraitTextureName(*pCharacter);
-    m_characterDetailOverlay.hitPointsText =
-        std::to_string(summary.health.current) + " / " + std::to_string(summary.health.maximum);
-    m_characterDetailOverlay.spellPointsText =
-        std::to_string(summary.spellPoints.current) + " / " + std::to_string(summary.spellPoints.maximum);
-    m_characterDetailOverlay.conditionText = summary.conditionText;
-    m_characterDetailOverlay.quickSpellText = summary.quickSpellText;
-    m_characterDetailOverlay.activeSpells.clear();
-
-    struct CharacterBuffInspectLine
-    {
-        const char *pLabel;
-        CharacterBuffId buffId;
-    };
-
-    static constexpr CharacterBuffInspectLine CharacterBuffLines[] = {
-        {"Bless", CharacterBuffId::Bless},
-        {"Fate", CharacterBuffId::Fate},
-        {"Preservation", CharacterBuffId::Preservation},
-        {"Regeneration", CharacterBuffId::Regeneration},
-        {"Hammerhands", CharacterBuffId::Hammerhands},
-        {"Pain Reflection", CharacterBuffId::PainReflection},
-        {"Fire Aura", CharacterBuffId::FireAura},
-        {"Vampiric Weapon", CharacterBuffId::VampiricWeapon},
-        {"Mistform", CharacterBuffId::Mistform},
-        {"Glamour", CharacterBuffId::Glamour},
-    };
-
-    if (memberIndex)
-    {
-        for (const CharacterBuffInspectLine &buffLine : CharacterBuffLines)
-        {
-            const CharacterBuffState *pBuff = party.characterBuff(*memberIndex, buffLine.buffId);
-
-            if (pBuff == nullptr)
-            {
-                continue;
-            }
-
-            OutdoorGameView::CharacterDetailOverlayState::ActiveSpellLine line = {};
-            line.name = buffLine.pLabel;
-            line.duration = formatCharacterDetailDuration(pBuff->remainingSeconds);
-            m_characterDetailOverlay.activeSpells.push_back(std::move(line));
-        }
-    }
-
-    m_characterDetailOverlay.sourceX = sourceRect->x;
-    m_characterDetailOverlay.sourceY = sourceRect->y;
-    m_characterDetailOverlay.sourceWidth = sourceRect->width;
-    m_characterDetailOverlay.sourceHeight = sourceRect->height;
-}
-
-std::optional<OutdoorGameView::ResolvedHudLayoutElement> OutdoorGameView::resolveChestGridArea(int width, int height) const
-{
-    if (m_pOutdoorWorldRuntime == nullptr || chestTable() == nullptr || width <= 0 || height <= 0)
-    {
-        return std::nullopt;
-    }
-
-    const OutdoorWorldRuntime::ChestViewState *pChestView = m_pOutdoorWorldRuntime->activeChestView();
-
-    if (pChestView == nullptr)
-    {
-        return std::nullopt;
-    }
-
-    const ChestEntry *pChestEntry = chestTable()->get(pChestView->chestTypeId);
-    GameplayOverlayContext overlayContext = createGameplayOverlayContext();
-    const HudLayoutElement *pChestBackgroundLayout = overlayContext.findHudLayoutElement("ChestBackground");
-
-    if (pChestEntry == nullptr || pChestBackgroundLayout == nullptr || pChestView->gridWidth == 0 || pChestView->gridHeight == 0)
-    {
-        return std::nullopt;
-    }
-
-    const std::optional<ResolvedHudLayoutElement> resolvedBackground = overlayContext.resolveHudLayoutElement(
-        "ChestBackground",
-        width,
-        height,
-        pChestBackgroundLayout->width,
-        pChestBackgroundLayout->height);
-
-    if (!resolvedBackground)
-    {
-        return std::nullopt;
-    }
-
-    ResolvedHudLayoutElement resolved = {};
-    resolved.x = std::round(resolvedBackground->x + static_cast<float>(pChestEntry->gridOffsetX) * resolvedBackground->scale);
-    resolved.y = std::round(resolvedBackground->y + static_cast<float>(pChestEntry->gridOffsetY) * resolvedBackground->scale);
-    resolved.width = 32.0f * static_cast<float>(pChestView->gridWidth) * resolvedBackground->scale;
-    resolved.height = 32.0f * static_cast<float>(pChestView->gridHeight) * resolvedBackground->scale;
-    resolved.scale = resolvedBackground->scale;
-    return resolved;
-}
-
-std::optional<OutdoorGameView::ResolvedHudLayoutElement> OutdoorGameView::resolveInventoryNestedOverlayGridArea(
-    int width,
-    int height) const
-{
-    if (!m_inventoryNestedOverlay.active || width <= 0 || height <= 0)
-    {
-        return std::nullopt;
-    }
-
-    GameplayOverlayContext overlayContext = createGameplayOverlayContext();
-    const HudLayoutElement *pGridLayout = overlayContext.findHudLayoutElement("ChestNestedInventoryGrid");
-
-    if (pGridLayout == nullptr)
-    {
-        return std::nullopt;
-    }
-
-    return overlayContext.resolveHudLayoutElement(
-        "ChestNestedInventoryGrid",
-        width,
-        height,
-        pGridLayout->width,
-        pGridLayout->height);
-}
-
-std::optional<OutdoorGameView::ResolvedHudLayoutElement> OutdoorGameView::resolveHouseShopOverlayFrame(
-    int width,
-    int height) const
-{
-    if (!m_houseShopOverlay.active || width <= 0 || height <= 0)
-    {
-        return std::nullopt;
-    }
-
-    GameplayOverlayContext overlayContext = createGameplayOverlayContext();
-    const HudLayoutElement *pFrameLayout = overlayContext.findHudLayoutElement("DialogueShopOverlayFrame");
-
-    if (pFrameLayout == nullptr)
-    {
-        return std::nullopt;
-    }
-
-    return overlayContext.resolveHudLayoutElement(
-        "DialogueShopOverlayFrame",
-        width,
-        height,
-        pFrameLayout->width,
-        pFrameLayout->height);
 }
 
 void OutdoorGameView::closeSpellbook(const std::string &statusText)
@@ -10120,89 +8888,6 @@ void OutdoorGameView::updateActorInspectOverlayState(int width, int height)
     m_actorInspectOverlay.sourceY = rectMinY;
     m_actorInspectOverlay.sourceWidth = std::max(1.0f, rectMaxX - rectMinX);
     m_actorInspectOverlay.sourceHeight = std::max(1.0f, rectMaxY - rectMinY);
-}
-
-void OutdoorGameView::updateSpellInspectOverlayState(int width, int height)
-{
-    m_spellInspectOverlay = {};
-
-    if (width <= 0 || height <= 0 || !m_spellbook.active || spellTable() == nullptr)
-    {
-        return;
-    }
-
-    float mouseX = 0.0f;
-    float mouseY = 0.0f;
-    const SDL_MouseButtonFlags mouseButtons = SDL_GetMouseState(&mouseX, &mouseY);
-
-    if ((mouseButtons & SDL_BUTTON_RMASK) == 0)
-    {
-        return;
-    }
-
-    const SpellbookSchoolUiDefinition *pDefinition = findSpellbookSchoolUiDefinition(m_spellbook.school);
-
-    if (pDefinition == nullptr || !activeMemberHasSpellbookSchool(m_spellbook.school))
-    {
-        return;
-    }
-
-    for (uint32_t spellOffset = 0; spellOffset < pDefinition->spellCount; ++spellOffset)
-    {
-        const uint32_t spellId = pDefinition->firstSpellId + spellOffset;
-
-        if (!activeMemberKnowsSpell(spellId))
-        {
-            continue;
-        }
-
-        const uint32_t spellOrdinal = spellOffset + 1;
-        const std::string layoutId = spellbookSpellLayoutId(m_spellbook.school, spellOrdinal);
-        GameplayOverlayContext overlayContext = createGameplayOverlayContext();
-        const HudLayoutElement *pLayout = overlayContext.findHudLayoutElement(layoutId);
-
-        if (pLayout == nullptr)
-        {
-            continue;
-        }
-
-        const std::optional<ResolvedHudLayoutElement> resolved = overlayContext.resolveHudLayoutElement(
-            layoutId,
-            width,
-            height,
-            pLayout->width,
-            pLayout->height);
-
-        if (!resolved || !GameplayHudCommon::isPointerInsideResolvedElement(*resolved, mouseX, mouseY))
-        {
-            continue;
-        }
-
-        const SpellEntry *pSpellEntry = spellTable()->findById(static_cast<int>(spellId));
-
-        if (pSpellEntry == nullptr)
-        {
-            return;
-        }
-
-        m_spellInspectOverlay.active = true;
-        m_spellInspectOverlay.spellId = spellId;
-        m_spellInspectOverlay.title = pSpellEntry->name;
-        m_spellInspectOverlay.body = pSpellEntry->description;
-        m_spellInspectOverlay.normal =
-            pSpellEntry->normalText.empty() ? "" : "Normal: " + pSpellEntry->normalText;
-        m_spellInspectOverlay.expert =
-            pSpellEntry->expertText.empty() ? "" : "Expert: " + pSpellEntry->expertText;
-        m_spellInspectOverlay.master =
-            pSpellEntry->masterText.empty() ? "" : "Master: " + pSpellEntry->masterText;
-        m_spellInspectOverlay.grandmaster =
-            pSpellEntry->grandmasterText.empty() ? "" : "Grand Master: " + pSpellEntry->grandmasterText;
-        m_spellInspectOverlay.sourceX = resolved->x;
-        m_spellInspectOverlay.sourceY = resolved->y;
-        m_spellInspectOverlay.sourceWidth = std::max(1.0f, resolved->width);
-        m_spellInspectOverlay.sourceHeight = std::max(1.0f, resolved->height);
-        return;
-    }
 }
 
 void OutdoorGameView::TerrainVertex::init()

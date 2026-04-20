@@ -75,7 +75,6 @@ class GameplayHudOverlayRenderer;
 class GameplayPartyOverlayInputController;
 class GameplayOverlayInputController;
 class GameplayOverlayContext;
-class HudUiService;
 struct ArcomageLibrary;
 class ItemTable;
 struct GameApplicationTestAccess;
@@ -124,7 +123,6 @@ private:
     friend class GameplayHudRenderer;
     friend class GameplayPartyOverlayRenderer;
     friend class GameplayPartyOverlayInputController;
-    friend class HudUiService;
     friend class OutdoorBillboardRenderer;
     friend class OutdoorFxRuntime;
     friend class OutdoorGameplayInputController;
@@ -357,10 +355,6 @@ private:
     using HeldInventoryItemState = GameplayUiController::HeldInventoryItemState;
     using ItemInspectOverlayState = GameplayUiController::ItemInspectOverlayState;
 
-    using CharacterInspectMasteryLine = GameplayUiController::CharacterInspectMasteryLine;
-    using CharacterInspectOverlayState = GameplayUiController::CharacterInspectOverlayState;
-    using BuffInspectOverlayState = GameplayUiController::BuffInspectOverlayState;
-    using CharacterDetailOverlayState = GameplayUiController::CharacterDetailOverlayState;
     using ActorInspectOverlayState = GameplayUiController::ActorInspectOverlayState;
     using SpellInspectOverlayState = GameplayUiController::SpellInspectOverlayState;
     using ReadableScrollOverlayState = GameplayUiController::ReadableScrollOverlayState;
@@ -539,9 +533,6 @@ private:
     void updateCameraFromInput(float mouseWheelDelta, float deltaSeconds);
     float effectiveCameraYawRadians() const;
     float effectiveCameraPitchRadians() const;
-    std::optional<ResolvedHudLayoutElement> resolveChestGridArea(int width, int height) const;
-    std::optional<ResolvedHudLayoutElement> resolveInventoryNestedOverlayGridArea(int width, int height) const;
-    std::optional<ResolvedHudLayoutElement> resolveHouseShopOverlayFrame(int width, int height) const;
     void preloadSpriteFrameTextures(const SpriteFrameTable &spriteFrameTable, uint16_t spriteFrameIndex);
     void queueSpriteFrameWarmup(uint16_t spriteFrameIndex);
     void updateHouseVideoPlayback(float deltaSeconds);
@@ -565,12 +556,8 @@ private:
     bool hasActiveEventDialog() const;
     void openInventoryNestedOverlay(InventoryNestedOverlayMode mode, uint32_t houseId = 0);
     void updateItemInspectOverlayState(int width, int height);
-    void tryApplyItemInspectSkillInteraction();
-    void updateCharacterInspectOverlayState(int width, int height);
-    void updateBuffInspectOverlayState(int width, int height);
-    void updateCharacterDetailOverlayState(int width, int height);
+    void tryApplyWorldItemInspectSkillInteraction();
     void updateActorInspectOverlayState(int width, int height);
-    void updateSpellInspectOverlayState(int width, int height);
     bool loadPortraitAnimationData(const Engine::AssetFileSystem &assetFileSystem);
     bool loadPortraitFxData(const Engine::AssetFileSystem &assetFileSystem);
     void updatePartyPortraitAnimations(float deltaSeconds);
@@ -811,11 +798,6 @@ private:
     std::optional<size_t> m_lastAdventurersInnPortraitClickedIndex;
     HeldInventoryItemState &m_heldInventoryItem;
     ItemInspectOverlayState &m_itemInspectOverlay;
-    bool m_itemInspectInteractionLatch;
-    uint64_t m_itemInspectInteractionKey;
-    CharacterInspectOverlayState &m_characterInspectOverlay;
-    BuffInspectOverlayState &m_buffInspectOverlay;
-    CharacterDetailOverlayState &m_characterDetailOverlay;
     ActorInspectOverlayState &m_actorInspectOverlay;
     SpellInspectOverlayState &m_spellInspectOverlay;
     ReadableScrollOverlayState &m_readableScrollOverlay;

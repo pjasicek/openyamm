@@ -1,16 +1,11 @@
 #include "game/outdoor/OutdoorGameplayInputController.h"
 
+#include "game/gameplay/GameplayScreenController.h"
 #include "game/outdoor/OutdoorGameView.h"
 #include "game/outdoor/OutdoorInteractionController.h"
-#include "game/gameplay/GameplayHudInputController.h"
-#include "game/gameplay/GameplayOverlayInputController.h"
-#include "game/gameplay/GameplayPartyOverlayInputController.h"
-#include "game/gameplay/GameplayScreenHotkeyController.h"
 #include "game/render/TextureFiltering.h"
 #include "game/scene/OutdoorSceneRuntime.h"
 #include "game/ui/GameplayOverlayContext.h"
-#include "game/ui/GameplayUiOverlayOrchestrator.h"
-#include "game/ui/HudUiService.h"
 #include "game/ui/KeyboardScreenLayout.h"
 
 #include <SDL3/SDL.h>
@@ -167,7 +162,7 @@ void OutdoorGameplayInputController::updateCameraFromInput(
             && !isJournalActive;
 
         GameplayOverlayContext overlayContext = view.createGameplayOverlayContext();
-        GameplayHudInputController::handlePartyPortraitInput(
+        GameplayScreenController::handlePartyPortraitInput(
             overlayContext,
             GameplayPartyPortraitInputConfig{
                 .screenWidth = screenWidth,
@@ -194,7 +189,7 @@ void OutdoorGameplayInputController::updateCameraFromInput(
     else
     {
         GameplayOverlayContext portraitOverlayContext = view.createGameplayOverlayContext();
-        GameplayHudInputController::handlePartyPortraitInput(
+        GameplayScreenController::handlePartyPortraitInput(
             portraitOverlayContext,
             GameplayPartyPortraitInputConfig{});
     }
@@ -267,7 +262,7 @@ void OutdoorGameplayInputController::updateCameraFromInput(
         && !view.m_restScreen.active
         && !view.m_heldInventoryItem.active;
 
-    GameplayHudInputController::handleGameplayHudButtonInput(
+    GameplayScreenController::handleGameplayHudButtonInput(
         overlayContext,
         GameplayHudButtonInputConfig{
             .screenWidth = screenWidth,
@@ -294,7 +289,7 @@ void OutdoorGameplayInputController::updateCameraFromInput(
                 return action.kind == EventDialogActionKind::HouseResident;
             });
     const GameplayUiOverlayInputResult overlayInputResult =
-        GameplayUiOverlayOrchestrator::handleStandardOverlayInput(
+        GameplayScreenController::handleSharedOverlayInput(
             overlayContext,
             pKeyboardState,
             screenWidth,
@@ -318,36 +313,7 @@ void OutdoorGameplayInputController::updateCameraFromInput(
                 .saveGameActive = view.m_saveGameScreen.active,
                 .spellbookActive = view.m_spellbook.active,
                 .characterScreenOpen = view.m_characterScreenOpen,
-            },
-            GameplayUiOverlayInputCallbacks{
-                .resetDialogueInteractionState =
-                    [&view]()
-                    {
-                        view.m_overlayInteractionState.eventDialogSelectUpLatch = false;
-                        view.m_overlayInteractionState.eventDialogSelectDownLatch = false;
-                        view.m_overlayInteractionState.eventDialogAcceptLatch = false;
-                        view.m_overlayInteractionState.eventDialogPartySelectLatches.fill(false);
-                        view.m_overlayInteractionState.dialogueClickLatch = false;
-                        view.m_overlayInteractionState.dialoguePressedTarget = {};
-                    },
-                .handleSpellbookOverlayInput =
-                    [&overlayContext](const bool *pState, int width, int height)
-                    {
-                        GameplayPartyOverlayInputController::handleSpellbookOverlayInput(
-                            overlayContext,
-                            pState,
-                            width,
-                            height);
-                    },
-                .handleCharacterOverlayInput =
-                    [&overlayContext](const bool *pState, int width, int height)
-                    {
-                        GameplayPartyOverlayInputController::handleCharacterOverlayInput(
-                            overlayContext,
-                            pState,
-                            width,
-                            height);
-                    }});
+            });
 
     if (overlayInputResult.journalInputConsumed)
     {
@@ -412,7 +378,7 @@ void OutdoorGameplayInputController::updateCameraFromInput(
         && !view.m_restScreen.active
         && !view.m_journalScreen.active;
 
-    GameplayScreenHotkeyController::handleGameplayScreenHotkeys(
+    GameplayScreenController::handleSharedHotkeys(
         overlayContext,
         pKeyboardState,
         GameplayScreenHotkeyConfig{
@@ -523,7 +489,7 @@ void OutdoorGameplayInputController::updateCameraFromInput(
     if (view.m_utilitySpellOverlay.active
         && view.m_utilitySpellOverlay.mode != OutdoorGameView::UtilitySpellOverlayMode::InventoryTarget)
     {
-        GameplayPartyOverlayInputController::handleUtilitySpellOverlayInput(
+        GameplayScreenController::handleUtilitySpellOverlayInput(
             overlayContext,
             pKeyboardState,
             screenWidth,
@@ -571,8 +537,8 @@ void OutdoorGameplayInputController::updateCameraFromInput(
     float mouseY = 0.0f;
     const SDL_MouseButtonFlags mouseButtons = SDL_GetMouseState(&mouseX, &mouseY);
     const bool blockCameraRotation =
-        view.m_buffInspectOverlay.active
-        || view.m_characterDetailOverlay.active;
+        view.m_gameplayUiController.buffInspectOverlay().active
+        || view.m_gameplayUiController.characterDetailOverlay().active;
 
     if (view.m_gameplayMouseLookActive && !hasPendingSpellCast && !blockCameraRotation)
     {

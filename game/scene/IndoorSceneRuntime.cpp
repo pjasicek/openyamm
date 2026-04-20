@@ -34,7 +34,7 @@ IndoorSceneRuntime::IndoorSceneRuntime(
     const std::optional<ScriptedEventProgram> &localEventProgram,
     const std::optional<ScriptedEventProgram> &globalEventProgram)
     : m_mapFileName(mapFileName)
-    , m_pParty(&party)
+    , m_pSessionParty(&party)
     , m_mapDeltaData(indoorMapDeltaData)
     , m_eventRuntimeState(eventRuntimeState)
     , m_localEventProgram(localEventProgram)
@@ -43,18 +43,18 @@ IndoorSceneRuntime::IndoorSceneRuntime(
         IndoorMovementController(indoorMapData, &m_mapDeltaData, &m_eventRuntimeState),
         itemTable)
 {
+    m_partyRuntime.setParty(*m_pSessionParty);
     m_worldRuntime.initialize(
         map,
         monsterTable,
         objectTable,
         itemTable,
         chestTable,
-        m_pParty,
+        &m_partyRuntime.party(),
         &m_partyRuntime,
         &m_mapDeltaData,
         &m_eventRuntimeState
     );
-    m_partyRuntime.setParty(*m_pParty);
 
     if (!indoorMapData.vertices.empty())
     {
@@ -95,12 +95,12 @@ const std::string &IndoorSceneRuntime::currentMapFileName() const
 
 Party &IndoorSceneRuntime::party()
 {
-    return *m_pParty;
+    return m_partyRuntime.party();
 }
 
 const Party &IndoorSceneRuntime::party() const
 {
-    return *m_pParty;
+    return m_partyRuntime.party();
 }
 
 EventRuntimeState *IndoorSceneRuntime::eventRuntimeState()
@@ -187,7 +187,7 @@ void IndoorSceneRuntime::restoreSnapshot(const Snapshot &snapshot)
     m_eventRuntimeState = snapshot.eventRuntimeState;
     m_worldRuntime.restoreSnapshot(snapshot.worldRuntime);
     m_partyRuntime.restoreSnapshot(snapshot.partyRuntime);
-    m_partyRuntime.setParty(*m_pParty);
+    m_partyRuntime.setParty(*m_pSessionParty);
     m_mechanismAccumulatorMilliseconds = snapshot.mechanismAccumulatorMilliseconds;
 }
 
@@ -252,7 +252,7 @@ bool IndoorSceneRuntime::activateEvent(uint16_t eventId, const std::string &sour
         m_globalEventProgram,
         eventId,
         *m_eventRuntimeState,
-        m_pParty,
+        &m_partyRuntime.party(),
         &m_worldRuntime
     );
 
@@ -263,7 +263,7 @@ bool IndoorSceneRuntime::activateEvent(uint16_t eventId, const std::string &sour
     }
 
     m_worldRuntime.applyEventRuntimeState();
-    m_pParty->applyEventRuntimeState(*m_eventRuntimeState);
+    m_partyRuntime.party().applyEventRuntimeState(*m_eventRuntimeState);
     m_eventRuntimeState->lastActivationResult = "event " + std::to_string(eventId) + " executed";
     return true;
 }

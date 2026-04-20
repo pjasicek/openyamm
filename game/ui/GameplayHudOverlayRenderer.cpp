@@ -1,6 +1,5 @@
 #include "game/ui/GameplayHudOverlayRenderer.h"
 #include "game/ui/GameplayOverlayContext.h"
-#include "game/ui/HudUiService.h"
 
 #include "game/items/ItemRuntime.h"
 #include "game/tables/ItemTable.h"
@@ -177,7 +176,7 @@ std::string replaceAll(std::string text, const std::string &from, const std::str
 
 void renderViewportParchmentSidePanels(GameplayOverlayContext &view, int width, int height)
 {
-    HudUiService::renderViewportSidePanels(view, width, height, "UI-Parch");
+    view.renderViewportSidePanels(width, height, "UI-Parch");
 }
 } // namespace
 

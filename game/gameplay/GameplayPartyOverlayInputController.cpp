@@ -5,13 +5,11 @@
 #include "game/ui/GameplayOverlayContext.h"
 #include "game/app/KeyboardBindings.h"
 #include "game/items/InventoryItemUseRuntime.h"
-#include "game/outdoor/OutdoorGameView.h"
 #include "game/outdoor/OutdoorPartyRuntime.h"
 #include "game/party/SpellIds.h"
 #include "game/party/SkillData.h"
 #include "game/ui/SpellbookUiLayout.h"
 #include "game/StringUtils.h"
-#include "game/ui/HudUiService.h"
 
 #include <SDL3/SDL.h>
 

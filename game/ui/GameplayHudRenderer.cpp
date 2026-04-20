@@ -530,6 +530,18 @@ void GameplayHudRenderer::renderGameplayHudArt(GameplayOverlayContext &context, 
     const float portraitDeltaX = partyStripWidth * (94.0f / 471.0f);
     std::vector<GameplayHudBatchQuad> queuedHudQuads;
     queuedHudQuads.reserve(256);
+    const auto flushQueuedHudQuads =
+        [&context, &queuedHudQuads, width, height]()
+        {
+            if (queuedHudQuads.empty())
+            {
+                return;
+            }
+
+            context.prepareHudView(width, height);
+            context.submitHudQuadBatch(queuedHudQuads, width, height);
+            queuedHudQuads.clear();
+        };
 
     if (useGameplayWideHud)
     {
@@ -658,6 +670,7 @@ void GameplayHudRenderer::renderGameplayHudArt(GameplayOverlayContext &context, 
                 portraitHeight - portraitInset * 2.0f);
         }
 
+        flushQueuedHudQuads();
         context.renderPortraitFx(memberIndex, portraitX, portraitY, portraitWidth, portraitHeight);
         submitQuad(queuedHudQuads, *faceMask, portraitX, portraitY, portraitWidth, portraitHeight);
 
@@ -1088,8 +1101,7 @@ void GameplayHudRenderer::renderGameplayHudArt(GameplayOverlayContext &context, 
         }
     }
 
-    context.prepareHudView(width, height);
-    context.submitHudQuadBatch(queuedHudQuads, width, height);
+    flushQueuedHudQuads();
 }
 
 void GameplayHudRenderer::renderGameplayHud(GameplayOverlayContext &context, int width, int height)

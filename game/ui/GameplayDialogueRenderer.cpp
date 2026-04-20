@@ -1,7 +1,6 @@
 #include "game/ui/GameplayDialogueRenderer.h"
 #include "game/ui/GameplayHudCommon.h"
 #include "game/ui/GameplayOverlayContext.h"
-#include "game/ui/HudUiService.h"
 
 #include "game/gameplay/HouseServiceRuntime.h"
 #include "game/tables/ItemTable.h"
@@ -689,7 +688,7 @@ void GameplayDialogueRenderer::renderBlackoutBackdrop(
 {
     (void)viewportX;
     (void)viewportWidth;
-    HudUiService::renderViewportSidePanels(view, screenWidth, screenHeight, "UI-Parch");
+    view.renderViewportSidePanels(screenWidth, screenHeight, "UI-Parch");
 }
 
 void GameplayDialogueRenderer::updateHouseShopHoverTopicText(

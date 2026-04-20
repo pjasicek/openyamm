@@ -42,6 +42,44 @@ std::optional<std::string> readFirstExistingText(
     return std::nullopt;
 }
 
+bool readPhysicalTextFile(const std::filesystem::path &path, std::string &text)
+{
+    std::ifstream stream(path, std::ios::binary);
+
+    if (!stream.is_open())
+    {
+        return false;
+    }
+
+    text.assign(std::istreambuf_iterator<char>(stream), std::istreambuf_iterator<char>());
+    return true;
+}
+
+std::optional<std::string> readFirstExistingPhysicalText(
+    const std::vector<std::filesystem::path> &candidates,
+    std::string &resolvedPath)
+{
+    for (const std::filesystem::path &candidate : candidates)
+    {
+        if (candidate.empty() || !std::filesystem::exists(candidate) || !std::filesystem::is_regular_file(candidate))
+        {
+            continue;
+        }
+
+        std::string text;
+
+        if (!readPhysicalTextFile(candidate, text))
+        {
+            continue;
+        }
+
+        resolvedPath = candidate.lexically_normal().generic_string();
+        return text;
+    }
+
+    return std::nullopt;
+}
+
 std::string mapScriptBaseName(const std::string &fileName)
 {
     const std::filesystem::path path(fileName);
@@ -63,6 +101,40 @@ std::vector<std::string> buildLuaScriptPathCandidates(const std::string &baseNam
         "Data/scripts/maps/" + lowerBaseName + ".lua",
         "Data/scripts/maps/" + baseName + ".lua",
     };
+}
+
+std::vector<std::filesystem::path> buildLuaScriptSidecarPathCandidates(
+    const std::string &baseName,
+    const std::optional<std::filesystem::path> &geometryPath,
+    const std::optional<std::filesystem::path> &scenePath)
+{
+    const std::string lowerBaseName = toLowerCopy(baseName);
+    std::vector<std::filesystem::path> candidates;
+
+    const auto appendDirectoryCandidates =
+        [&](const std::optional<std::filesystem::path> &directory)
+    {
+        if (!directory || directory->empty())
+        {
+            return;
+        }
+
+        const std::filesystem::path normalizedDirectory = directory->lexically_normal();
+        const std::filesystem::path lowerCandidate = normalizedDirectory / (lowerBaseName + ".lua");
+        candidates.push_back(lowerCandidate);
+
+        const std::filesystem::path exactCandidate = normalizedDirectory / (baseName + ".lua");
+
+        if (exactCandidate != lowerCandidate)
+        {
+            candidates.push_back(exactCandidate);
+        }
+    };
+
+    appendDirectoryCandidates(geometryPath ? std::optional<std::filesystem::path>(geometryPath->parent_path()) : std::nullopt);
+    appendDirectoryCandidates(scenePath ? std::optional<std::filesystem::path>(scenePath->parent_path()) : std::nullopt);
+    appendDirectoryCandidates(std::filesystem::current_path());
+    return candidates;
 }
 
 std::vector<std::string> buildLuaSupportPathCandidates()
@@ -2035,14 +2107,25 @@ bool GameDataLoader::loadSelectedMap(
         assetFileSystem,
         buildLuaSupportPathCandidates(),
         resolvedSupportLuaPath);
+    const std::vector<std::filesystem::path> localLuaSidecarCandidates =
+        buildLuaScriptSidecarPathCandidates(
+            localScriptBaseName,
+            assetFileSystem.resolvePhysicalPath(m_selectedMap->geometryPath),
+            m_selectedMap->scenePath ? assetFileSystem.resolvePhysicalPath(*m_selectedMap->scenePath) : std::nullopt);
 
     {
         std::string resolvedLuaPath;
-        const std::optional<std::string> luaSource = readFirstExistingText(
-            assetFileSystem,
-            buildLuaScriptPathCandidates(localScriptBaseName, false),
-            resolvedLuaPath
-        );
+        std::optional<std::string> luaSource =
+            readFirstExistingPhysicalText(localLuaSidecarCandidates, resolvedLuaPath);
+
+        if (!luaSource)
+        {
+            luaSource = readFirstExistingText(
+                assetFileSystem,
+                buildLuaScriptPathCandidates(localScriptBaseName, false),
+                resolvedLuaPath
+            );
+        }
 
         if (luaSource)
         {

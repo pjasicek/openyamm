@@ -804,6 +804,16 @@ bool &GameplayOverlayContext::activateInspectLatch() const
     return interactionState().activateInspectLatch;
 }
 
+bool &GameplayOverlayContext::itemInspectInteractionLatch() const
+{
+    return interactionState().itemInspectInteractionLatch;
+}
+
+uint64_t &GameplayOverlayContext::itemInspectInteractionKey() const
+{
+    return interactionState().itemInspectInteractionKey;
+}
+
 size_t &GameplayOverlayContext::chestSelectionIndex() const
 {
     return interactionState().chestSelectionIndex;
@@ -1511,6 +1521,28 @@ void GameplayOverlayContext::closeReadableScrollOverlay()
     uiController().closeReadableScrollOverlay();
 }
 
+void GameplayOverlayContext::resetDialogueOverlayInteractionState()
+{
+    eventDialogSelectUpLatch() = false;
+    eventDialogSelectDownLatch() = false;
+    eventDialogAcceptLatch() = false;
+    eventDialogPartySelectLatches().fill(false);
+    dialogueClickLatch() = false;
+    dialoguePressedTarget() = {};
+}
+
+void GameplayOverlayContext::resetSpellbookOverlayInteractionState()
+{
+    spellbookClickLatch() = false;
+    spellbookPressedTarget() = {};
+}
+
+void GameplayOverlayContext::resetCharacterOverlayInteractionState()
+{
+    characterClickLatch() = false;
+    characterPressedTarget() = {};
+}
+
 void GameplayOverlayContext::triggerPortraitFaceAnimation(size_t memberIndex, FaceAnimationId animationId)
 {
     m_sceneAdapter.triggerPortraitFaceAnimation(memberIndex, animationId);
@@ -2125,6 +2157,41 @@ void GameplayOverlayContext::submitHudQuadBatch(
     int screenHeight) const
 {
     uiRuntime().submitHudQuadBatch(quads, screenWidth, screenHeight);
+}
+
+void GameplayOverlayContext::renderViewportSidePanels(
+    int screenWidth,
+    int screenHeight,
+    const std::string &textureName)
+{
+    if (screenWidth <= 0 || screenHeight <= 0)
+    {
+        return;
+    }
+
+    const GameplayUiViewportRect viewport = GameplayHudCommon::computeUiViewportRect(screenWidth, screenHeight);
+
+    if (viewport.x <= 0.5f)
+    {
+        return;
+    }
+
+    const std::optional<HudTextureHandle> texture = ensureHudTextureLoaded(textureName);
+
+    if (!texture)
+    {
+        return;
+    }
+
+    submitHudTexturedQuad(*texture, 0.0f, 0.0f, viewport.x, static_cast<float>(screenHeight));
+
+    const float rightX = viewport.x + viewport.width;
+    const float rightWidth = static_cast<float>(screenWidth) - rightX;
+
+    if (rightWidth > 0.5f)
+    {
+        submitHudTexturedQuad(*texture, rightX, 0.0f, rightWidth, static_cast<float>(screenHeight));
+    }
 }
 
 std::string GameplayOverlayContext::resolvePortraitTextureName(const Character &character) const

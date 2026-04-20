@@ -5,14 +5,13 @@
 #include "game/events/EvtEnums.h"
 #include "game/items/ItemEnchantRuntime.h"
 #include "game/items/ItemRuntime.h"
-#include "game/outdoor/OutdoorGameView.h"
 #include "game/outdoor/OutdoorPartyRuntime.h"
 #include "game/items/PriceCalculator.h"
+#include "game/ui/GameplayHudCommon.h"
 #include "game/party/SkillData.h"
 #include "game/ui/GameplayOverlayContext.h"
 #include "game/ui/SpellbookUiLayout.h"
 #include "game/StringUtils.h"
-#include "game/ui/HudUiService.h"
 #include "game/ui/KeyboardScreenLayout.h"
 
 #include <SDL3/SDL.h>
@@ -42,7 +41,6 @@ namespace
 constexpr uint16_t HudViewId = 2;
 constexpr float HudReferenceWidth = 640.0f;
 constexpr float HudReferenceHeight = 480.0f;
-constexpr float MaxUiViewportAspect = 4.0f / 3.0f;
 constexpr float HudFontIntegerSnapThreshold = 0.1f;
 constexpr uint32_t BrokenItemTintColorAbgr = 0x800000ffu;
 constexpr uint32_t UnidentifiedItemTintColorAbgr = 0x80ff0000u;
@@ -80,14 +78,6 @@ int outdoorMinimapArrowIndex(float yawRadians)
     return (octant + 7) % 8;
 }
 
-struct UiViewportRect
-{
-    float x = 0.0f;
-    float y = 0.0f;
-    float width = 0.0f;
-    float height = 0.0f;
-};
-
 enum class ItemTintContext
 {
     None,
@@ -97,31 +87,9 @@ enum class ItemTintContext
     ShopRepair,
 };
 
-UiViewportRect computeUiViewportRect(int screenWidth, int screenHeight)
-{
-    UiViewportRect viewport = {};
-    viewport.x = 0.0f;
-    viewport.y = 0.0f;
-    viewport.width = static_cast<float>(screenWidth);
-    viewport.height = static_cast<float>(screenHeight);
-
-    if (screenHeight > 0)
-    {
-        const float maxWidthForHeight = viewport.height * MaxUiViewportAspect;
-
-        if (viewport.width > maxWidthForHeight)
-        {
-            viewport.width = maxWidthForHeight;
-            viewport.x = (static_cast<float>(screenWidth) - viewport.width) * 0.5f;
-        }
-    }
-
-    return viewport;
-}
-
 void renderViewportParchmentSidePanels(GameplayOverlayContext &view, int width, int height)
 {
-    HudUiService::renderViewportSidePanels(view, width, height, "UI-Parch");
+    view.renderViewportSidePanels(width, height, "UI-Parch");
 }
 
 
@@ -559,32 +527,6 @@ std::string formatUtilityDurationText(float remainingSeconds)
     }
 
     return std::to_string(std::max(1, totalHours)) + "h";
-}
-
-void renderHudLines(
-    const OutdoorGameView &view,
-    const auto &font,
-    uint32_t colorAbgr,
-    const std::vector<std::string> &lines,
-    float x,
-    float y,
-    float fontScale)
-{
-    bgfx::TextureHandle coloredMainTextureHandle = HudUiService::ensureHudFontMainTextureColor(view, font, colorAbgr);
-
-    if (!bgfx::isValid(coloredMainTextureHandle))
-    {
-        coloredMainTextureHandle = font.mainTextureHandle;
-    }
-
-    const float lineHeight = static_cast<float>(font.fontHeight) * fontScale;
-
-    for (size_t index = 0; index < lines.size(); ++index)
-    {
-        const float lineY = y + static_cast<float>(index) * lineHeight;
-        HudUiService::renderHudFontLayer(view, font, font.shadowTextureHandle, lines[index], x, lineY, fontScale);
-        HudUiService::renderHudFontLayer(view, font, coloredMainTextureHandle, lines[index], x, lineY, fontScale);
-    }
 }
 
 void renderHudLines(
@@ -1658,7 +1600,7 @@ void GameplayPartyOverlayRenderer::renderRestOverlay(GameplayOverlayContext &con
     }
 
     setupHudProjection(width, height);
-    HudUiService::renderViewportSidePanels(context, width, height, "UI-Parch");
+    context.renderViewportSidePanels(width, height, "UI-Parch");
 
     float mouseX = 0.0f;
     float mouseY = 0.0f;
@@ -1769,7 +1711,7 @@ void GameplayPartyOverlayRenderer::renderMenuOverlay(GameplayOverlayContext &con
     }
 
     setupHudProjection(width, height);
-    HudUiService::renderViewportSidePanels(context, width, height, "UI-Parch");
+    context.renderViewportSidePanels(width, height, "UI-Parch");
 
     float mouseX = 0.0f;
     float mouseY = 0.0f;
@@ -1879,7 +1821,7 @@ void GameplayPartyOverlayRenderer::renderControlsOverlay(GameplayOverlayContext 
     }
 
     setupHudProjection(width, height);
-    HudUiService::renderViewportSidePanels(context, width, height, "UI-Parch");
+    context.renderViewportSidePanels(width, height, "UI-Parch");
 
     float mouseX = 0.0f;
     float mouseY = 0.0f;
@@ -2108,7 +2050,7 @@ void GameplayPartyOverlayRenderer::renderKeyboardOverlay(GameplayOverlayContext 
     }
 
     setupHudProjection(width, height);
-    HudUiService::renderViewportSidePanels(context, width, height, "UI-Parch");
+    context.renderViewportSidePanels(width, height, "UI-Parch");
 
     float mouseX = 0.0f;
     float mouseY = 0.0f;
@@ -2263,7 +2205,7 @@ void GameplayPartyOverlayRenderer::renderVideoOptionsOverlay(GameplayOverlayCont
     }
 
     setupHudProjection(width, height);
-    HudUiService::renderViewportSidePanels(context, width, height, "UI-Parch");
+    context.renderViewportSidePanels(width, height, "UI-Parch");
 
     float mouseX = 0.0f;
     float mouseY = 0.0f;
@@ -2447,7 +2389,7 @@ void GameplayPartyOverlayRenderer::renderSaveLoadOverlay(
     }
 
     setupHudProjection(width, height);
-    HudUiService::renderViewportSidePanels(context, width, height, "UI-Parch");
+    context.renderViewportSidePanels(width, height, "UI-Parch");
 
     float mouseX = 0.0f;
     float mouseY = 0.0f;
@@ -2753,7 +2695,7 @@ void GameplayPartyOverlayRenderer::renderJournalOverlay(GameplayOverlayContext &
     }
 
     setupHudProjection(width, height);
-    HudUiService::renderViewportSidePanels(context, width, height, "UI-Parch");
+    context.renderViewportSidePanels(width, height, "UI-Parch");
 
     float mouseX = 0.0f;
     float mouseY = 0.0f;
@@ -3992,7 +3934,7 @@ void GameplayPartyOverlayRenderer::renderHeldInventoryItem(GameplayOverlayContex
 
     setupHudProjection(width, height);
 
-    const UiViewportRect uiViewport = computeUiViewportRect(width, height);
+    const GameplayUiViewportRect uiViewport = GameplayHudCommon::computeUiViewportRect(width, height);
     const float scale = std::min(uiViewport.width / HudReferenceWidth, uiViewport.height / HudReferenceHeight);
     float mouseX = 0.0f;
     float mouseY = 0.0f;
@@ -4043,7 +3985,7 @@ void GameplayPartyOverlayRenderer::renderItemInspectOverlay(GameplayOverlayConte
         return;
     }
 
-    const UiViewportRect uiViewport = computeUiViewportRect(width, height);
+    const GameplayUiViewportRect uiViewport = GameplayHudCommon::computeUiViewportRect(width, height);
     const float baseScale = std::min(uiViewport.width / HudReferenceWidth, uiViewport.height / HudReferenceHeight);
     const float popupScale = std::clamp(baseScale, pRootLayout->minScale, pRootLayout->maxScale);
     const InventoryItem *pItemState = overlay.hasItemState ? &overlay.itemState : nullptr;
@@ -4571,7 +4513,7 @@ void GameplayPartyOverlayRenderer::renderCharacterInspectOverlay(GameplayOverlay
         return;
     }
 
-    const UiViewportRect uiViewport = computeUiViewportRect(width, height);
+    const GameplayUiViewportRect uiViewport = GameplayHudCommon::computeUiViewportRect(width, height);
     const float baseScale = std::min(uiViewport.width / HudReferenceWidth, uiViewport.height / HudReferenceHeight);
     const float popupScale = std::clamp(baseScale, pRootLayout->minScale, pRootLayout->maxScale);
     const GameplayOverlayContext::ResolvedHudLayoutElement provisionalRoot = {
@@ -4980,7 +4922,7 @@ void GameplayPartyOverlayRenderer::renderSpellInspectOverlay(GameplayOverlayCont
         return;
     }
 
-    const UiViewportRect uiViewport = computeUiViewportRect(width, height);
+    const GameplayUiViewportRect uiViewport = GameplayHudCommon::computeUiViewportRect(width, height);
     const float baseScale = std::min(uiViewport.width / HudReferenceWidth, uiViewport.height / HudReferenceHeight);
     const float popupScale = std::clamp(baseScale, pRootLayout->minScale, pRootLayout->maxScale);
     const GameplayOverlayContext::ResolvedHudLayoutElement provisionalRoot = {
@@ -5363,7 +5305,7 @@ void GameplayPartyOverlayRenderer::renderReadableScrollOverlay(GameplayOverlayCo
         return;
     }
 
-    const UiViewportRect uiViewport = computeUiViewportRect(width, height);
+    const GameplayUiViewportRect uiViewport = GameplayHudCommon::computeUiViewportRect(width, height);
     const float baseScale = std::min(uiViewport.width / HudReferenceWidth, uiViewport.height / HudReferenceHeight);
     const float popupScale = std::clamp(baseScale, pRootLayout->minScale, pRootLayout->maxScale);
     const GameplayOverlayContext::ResolvedHudLayoutElement provisionalRoot = {
@@ -5567,7 +5509,7 @@ void GameplayPartyOverlayRenderer::renderBuffInspectOverlay(GameplayOverlayConte
         return;
     }
 
-    const UiViewportRect uiViewport = computeUiViewportRect(width, height);
+    const GameplayUiViewportRect uiViewport = GameplayHudCommon::computeUiViewportRect(width, height);
     const float baseScale = std::min(uiViewport.width / HudReferenceWidth, uiViewport.height / HudReferenceHeight);
     const float popupScale = std::clamp(baseScale, pRootLayout->minScale, pRootLayout->maxScale);
     const GameplayOverlayContext::ResolvedHudLayoutElement provisionalRoot = {
@@ -5767,7 +5709,7 @@ void GameplayPartyOverlayRenderer::renderCharacterDetailOverlay(GameplayOverlayC
         return;
     }
 
-    const UiViewportRect uiViewport = computeUiViewportRect(width, height);
+    const GameplayUiViewportRect uiViewport = GameplayHudCommon::computeUiViewportRect(width, height);
     const float baseScale = std::min(uiViewport.width / HudReferenceWidth, uiViewport.height / HudReferenceHeight);
     const float popupScale = std::clamp(baseScale, pRootLayout->minScale, pRootLayout->maxScale);
     const std::optional<GameplayOverlayContext::HudFontHandle> titleFont = context.findHudFont("Create");
@@ -6110,7 +6052,7 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
     context.prepareHudView(width, height);
     renderViewportParchmentSidePanels(context, width, height);
 
-    const UiViewportRect uiViewport = computeUiViewportRect(width, height);
+    const GameplayUiViewportRect uiViewport = GameplayHudCommon::computeUiViewportRect(width, height);
     const float baseScale = std::min(uiViewport.width / HudReferenceWidth, uiViewport.height / HudReferenceHeight);
     float characterMouseX = 0.0f;
     float characterMouseY = 0.0f;
@@ -7238,13 +7180,13 @@ void GameplayPartyOverlayRenderer::renderActorInspectOverlay(GameplayOverlayCont
     }
 
     const GameplayOverlayContext::HudLayoutElement *pRootLayout =
-        HudUiService::findHudLayoutElement(context, "ActorInspectRoot");
+        context.findHudLayoutElement("ActorInspectRoot");
     const GameplayOverlayContext::HudLayoutElement *pPreviewLayout =
-        HudUiService::findHudLayoutElement(context, "ActorInspectPreviewFrame");
+        context.findHudLayoutElement("ActorInspectPreviewFrame");
     const GameplayOverlayContext::HudLayoutElement *pHealthBarBackgroundLayout =
-        HudUiService::findHudLayoutElement(context, "ActorInspectHealthBarBackground");
+        context.findHudLayoutElement("ActorInspectHealthBarBackground");
     const GameplayOverlayContext::HudLayoutElement *pHealthBarFillLayout =
-        HudUiService::findHudLayoutElement(context, "ActorInspectHealthBarFill");
+        context.findHudLayoutElement("ActorInspectHealthBarFill");
 
     if (pRootLayout == nullptr
         || pPreviewLayout == nullptr
@@ -7254,7 +7196,7 @@ void GameplayPartyOverlayRenderer::renderActorInspectOverlay(GameplayOverlayCont
         return;
     }
 
-    const UiViewportRect uiViewport = computeUiViewportRect(width, height);
+    const GameplayUiViewportRect uiViewport = GameplayHudCommon::computeUiViewportRect(width, height);
     const float baseScale = std::min(uiViewport.width / HudReferenceWidth, uiViewport.height / HudReferenceHeight);
     const float popupScale = std::clamp(baseScale, pRootLayout->minScale, pRootLayout->maxScale);
     const float rootWidth = pRootLayout->width * popupScale;
@@ -7290,7 +7232,7 @@ void GameplayPartyOverlayRenderer::renderActorInspectOverlay(GameplayOverlayCont
 
             const std::string textureName = "__actor_inspect_solid_" + std::to_string(abgr);
             const std::optional<GameplayOverlayContext::HudTextureHandle> solidTexture =
-                HudUiService::ensureSolidHudTextureLoaded(context, textureName, abgr);
+                context.ensureSolidHudTextureLoaded(textureName, abgr);
 
             if (!solidTexture)
             {
@@ -7306,7 +7248,7 @@ void GameplayPartyOverlayRenderer::renderActorInspectOverlay(GameplayOverlayCont
             const std::string &layoutId) -> std::optional<GameplayResolvedHudLayoutElement>
         {
             const GameplayOverlayContext::HudLayoutElement *pLayout =
-                HudUiService::findHudLayoutElement(context, layoutId);
+                context.findHudLayoutElement(layoutId);
 
             if (pLayout == nullptr)
             {
@@ -7320,7 +7262,7 @@ void GameplayPartyOverlayRenderer::renderActorInspectOverlay(GameplayOverlayCont
             if ((pLayout->width <= 0.0f || pLayout->height <= 0.0f) && !pLayout->primaryAsset.empty())
             {
                 const std::optional<GameplayOverlayContext::HudTextureHandle> texture =
-                    HudUiService::ensureHudTextureLoaded(context, pLayout->primaryAsset);
+                    context.ensureHudTextureLoaded(pLayout->primaryAsset);
 
                 if (texture)
                 {
@@ -7377,18 +7319,18 @@ void GameplayPartyOverlayRenderer::renderActorInspectOverlay(GameplayOverlayCont
     const uint32_t previewBackgroundColor = makeAbgrColor(0, 0, 0, 255);
     const uint32_t previewBorderColor = makeAbgrColor(255, 255, 155, 255);
     const std::optional<GameplayOverlayContext::HudTextureHandle> backgroundTexture =
-        HudUiService::ensureHudTextureLoaded(context, pRootLayout->primaryAsset);
+        context.ensureHudTextureLoaded(pRootLayout->primaryAsset);
 
     if (backgroundTexture)
     {
         context.submitHudTexturedQuad(*backgroundTexture, rootRect.x, rootRect.y, rootRect.width, rootRect.height);
     }
 
-    const std::vector<std::string> orderedLayoutIds = HudUiService::sortedHudLayoutIdsForScreen(context, "ActorInspect");
+    const std::vector<std::string> orderedLayoutIds = context.sortedHudLayoutIdsForScreen("ActorInspect");
 
     for (const std::string &layoutId : orderedLayoutIds)
     {
-        const GameplayOverlayContext::HudLayoutElement *pLayout = HudUiService::findHudLayoutElement(context, layoutId);
+        const GameplayOverlayContext::HudLayoutElement *pLayout = context.findHudLayoutElement(layoutId);
 
         if (pLayout == nullptr
             || !pLayout->visible
@@ -7400,7 +7342,7 @@ void GameplayPartyOverlayRenderer::renderActorInspectOverlay(GameplayOverlayCont
         }
 
         const std::optional<GameplayOverlayContext::HudTextureHandle> texture =
-            HudUiService::ensureHudTextureLoaded(context, pLayout->primaryAsset);
+            context.ensureHudTextureLoaded(pLayout->primaryAsset);
         const std::optional<GameplayResolvedHudLayoutElement> resolved = resolveLayout(layoutId);
 
         if (!texture || !resolved)
@@ -7615,7 +7557,7 @@ void GameplayPartyOverlayRenderer::renderActorInspectOverlay(GameplayOverlayCont
         [&context, &resolveLayout](const char *pLayoutId, const std::string &text)
         {
             const GameplayOverlayContext::HudLayoutElement *pLayout =
-                HudUiService::findHudLayoutElement(context, pLayoutId);
+                context.findHudLayoutElement(pLayoutId);
             const std::optional<GameplayResolvedHudLayoutElement> resolved = resolveLayout(pLayoutId);
 
             if (pLayout == nullptr || !resolved || text.empty())
@@ -7623,7 +7565,7 @@ void GameplayPartyOverlayRenderer::renderActorInspectOverlay(GameplayOverlayCont
                 return;
             }
 
-            HudUiService::renderLayoutLabel(context, *pLayout, *resolved, text);
+            context.renderLayoutLabel(*pLayout, *resolved, text);
         };
 
     for (const char *pLabelId : {
@@ -7646,7 +7588,7 @@ void GameplayPartyOverlayRenderer::renderActorInspectOverlay(GameplayOverlayCont
              "ActorInspectResistancePhysicalLabel"})
     {
         const GameplayOverlayContext::HudLayoutElement *pLayout =
-            HudUiService::findHudLayoutElement(context, pLabelId);
+            context.findHudLayoutElement(pLabelId);
 
         if (pLayout != nullptr)
         {

@@ -1,6 +1,7 @@
 #include "game/ui/GameplayUiOverlayOrchestrator.h"
 
 #include "game/gameplay/GameplayOverlayInputController.h"
+#include "game/gameplay/GameplayPartyOverlayInputController.h"
 #include "game/ui/GameplayDebugOverlayRenderer.h"
 #include "game/ui/GameplayDialogueRenderer.h"
 #include "game/ui/GameplayHudOverlaySupport.h"
@@ -16,8 +17,7 @@ GameplayUiOverlayInputResult GameplayUiOverlayOrchestrator::handleStandardOverla
     const bool *pKeyboardState,
     int width,
     int height,
-    const GameplayUiOverlayInputConfig &config,
-    const GameplayUiOverlayInputCallbacks &callbacks)
+    const GameplayUiOverlayInputConfig &config)
 {
     GameplayOverlayInputController::handleLootOverlayInput(
         overlayContext,
@@ -49,9 +49,9 @@ GameplayUiOverlayInputResult GameplayUiOverlayOrchestrator::handleStandardOverla
             height,
             config.residentSelectionMode);
     }
-    else if (callbacks.resetDialogueInteractionState)
+    else
     {
-        callbacks.resetDialogueInteractionState();
+        overlayContext.resetDialogueOverlayInteractionState();
     }
 
     if (config.restActive)
@@ -83,14 +83,30 @@ GameplayUiOverlayInputResult GameplayUiOverlayOrchestrator::handleStandardOverla
         (void)GameplayOverlayInputController::handleSaveGameOverlayInput(overlayContext, pKeyboardState, width, height);
     }
 
-    if (config.spellbookActive && callbacks.handleSpellbookOverlayInput)
+    if (config.spellbookActive)
     {
-        callbacks.handleSpellbookOverlayInput(pKeyboardState, width, height);
+        GameplayPartyOverlayInputController::handleSpellbookOverlayInput(
+            overlayContext,
+            pKeyboardState,
+            width,
+            height);
+    }
+    else
+    {
+        overlayContext.resetSpellbookOverlayInteractionState();
     }
 
-    if (config.characterScreenOpen && callbacks.handleCharacterOverlayInput)
+    if (config.characterScreenOpen)
     {
-        callbacks.handleCharacterOverlayInput(pKeyboardState, width, height);
+        GameplayPartyOverlayInputController::handleCharacterOverlayInput(
+            overlayContext,
+            pKeyboardState,
+            width,
+            height);
+    }
+    else
+    {
+        overlayContext.resetCharacterOverlayInteractionState();
     }
 
     return result;

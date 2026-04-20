@@ -3,11 +3,8 @@
 #include "game/app/GameSession.h"
 #include "game/gameplay/GameplayDialogContextBuilder.h"
 #include "game/gameplay/GameMechanics.h"
-#include "game/gameplay/GameplayHudInputController.h"
-#include "game/gameplay/GameplayOverlayInputController.h"
-#include "game/gameplay/GameplayPartyOverlayInputController.h"
 #include "game/gameplay/GameplayDialogUiFlow.h"
-#include "game/gameplay/GameplayScreenHotkeyController.h"
+#include "game/gameplay/GameplayScreenController.h"
 #include "game/gameplay/GameplaySaveLoadUiSupport.h"
 #include "game/items/InventoryItemUseRuntime.h"
 #include "game/items/ItemRuntime.h"
@@ -19,13 +16,8 @@
 #include "game/scene/IndoorSceneRuntime.h"
 #include "game/ui/GameplayDebugOverlayRenderer.h"
 #include "game/ui/GameplayDialogueRenderer.h"
-#include "game/ui/GameplayHudRenderer.h"
-#include "game/ui/GameplayHudOverlayRenderer.h"
 #include "game/ui/GameplayHudOverlaySupport.h"
-#include "game/ui/HudUiService.h"
 #include "game/ui/GameplayOverlayContext.h"
-#include "game/ui/GameplayPartyOverlayRenderer.h"
-#include "game/ui/GameplayUiOverlayOrchestrator.h"
 #include "game/ui/SpellbookUiLayout.h"
 #include "game/StringUtils.h"
 
@@ -992,11 +984,17 @@ bool IndoorGameView::initialize(
     m_pGameAudioSystem = pGameAudioSystem;
     m_map = map;
     m_gameplayUiRuntime.bindAssetFileSystem(&assetFileSystem);
+    m_gameplayUiRuntime.resetPortraitFxStates(sceneRuntime.partyRuntime().party().members().size());
     m_gameplayUiController.clearRuntimeState();
 
     if (!m_gameplayUiRuntime.ensureGameplayLayoutsLoaded(m_gameplayUiController))
     {
         return false;
+    }
+
+    if (!m_gameplayUiRuntime.ensurePortraitRuntimeLoaded())
+    {
+        std::cout << "HUD portrait FX load failed\n";
     }
 
     m_gameplayUiRuntime.preloadReferencedAssets();
@@ -1077,58 +1075,14 @@ void IndoorGameView::render(int width, int height, float mouseWheelDelta, float 
         presentPendingEventDialog(pEventRuntimeState->messages.size(), true);
     }
 
-    m_gameplayUiController.updateStatusBarEvent(deltaSeconds);
-    updateItemInspectOverlayState(width, height);
-
-    GameplayUiController::RestScreenState &restScreen = m_gameplayUiController.restScreen();
-
-    if (restScreen.active)
-    {
-        const float safeDeltaSeconds = std::max(0.0f, deltaSeconds);
-        restScreen.hourglassElapsedSeconds += safeDeltaSeconds;
-
-        if (restScreen.mode != GameplayUiController::RestMode::None && worldRuntime() != nullptr)
-        {
-            constexpr float ShortestRestAnimationSeconds = 0.25f;
-            constexpr float LongestRestAnimationSeconds = 2.0f;
-            constexpr float RestMinutesPerAnimationSecond = 360.0f;
-            const float animationDurationSeconds = std::clamp(
-                restScreen.totalMinutes / RestMinutesPerAnimationSecond,
-                ShortestRestAnimationSeconds,
-                LongestRestAnimationSeconds);
-            const float gameMinutesPerSecond = animationDurationSeconds > 0.0f
-                ? restScreen.totalMinutes / animationDurationSeconds
-                : restScreen.totalMinutes;
-            const float advancedMinutes =
-                std::min(restScreen.remainingMinutes, gameMinutesPerSecond * safeDeltaSeconds);
-
-            if (advancedMinutes > 0.0f)
-            {
-                worldRuntime()->advanceGameMinutes(advancedMinutes);
-                restScreen.remainingMinutes = std::max(0.0f, restScreen.remainingMinutes - advancedMinutes);
-            }
-
-            if (restScreen.remainingMinutes <= 0.0f)
-            {
-                if (partyRuntime() != nullptr && restScreen.mode == GameplayUiController::RestMode::Heal)
-                {
-                    partyRuntime()->party().restAndHealAll();
-                }
-
-                const bool closeRestScreenAfterCompletion = restScreen.mode == GameplayUiController::RestMode::Heal;
-                restScreen.mode = GameplayUiController::RestMode::None;
-                restScreen.totalMinutes = 0.0f;
-                restScreen.remainingMinutes = 0.0f;
-
-                if (closeRestScreenAfterCompletion)
-                {
-                    createGameplayOverlayContext().closeRestOverlay();
-                }
-            }
-        }
-    }
-
     GameplayOverlayContext overlayContext = createGameplayOverlayContext();
+    GameplayScreenController::updateSharedFrameState(
+        overlayContext,
+        width,
+        height,
+        deltaSeconds,
+        GameplayScreenFrameUpdateConfig{});
+    updateItemInspectOverlayState(width, height);
     const bool *pKeyboardState = SDL_GetKeyboardState(nullptr);
     struct KeyboardStateSnapshotUpdater
     {
@@ -1208,7 +1162,7 @@ void IndoorGameView::render(int width, int height, float mouseWheelDelta, float 
     if (gameplayReadyForPortraitClicks)
     {
         const bool requireGameplayReady = !hasActiveLootView;
-        GameplayHudInputController::handlePartyPortraitInput(
+        GameplayScreenController::handlePartyPortraitInput(
             overlayContext,
             GameplayPartyPortraitInputConfig{
                 .screenWidth = width,
@@ -1223,7 +1177,7 @@ void IndoorGameView::render(int width, int height, float mouseWheelDelta, float 
     }
     else
     {
-        GameplayHudInputController::handlePartyPortraitInput(
+        GameplayScreenController::handlePartyPortraitInput(
             overlayContext,
             GameplayPartyPortraitInputConfig{});
     }
@@ -1269,7 +1223,7 @@ void IndoorGameView::render(int width, int height, float mouseWheelDelta, float 
         && !m_gameplayUiController.houseShopOverlay().active
         && !m_gameplayUiController.houseBankState().inputActive();
 
-    GameplayScreenHotkeyController::handleGameplayScreenHotkeys(
+    GameplayScreenController::handleSharedHotkeys(
         overlayContext,
         pKeyboardState,
         GameplayScreenHotkeyConfig{
@@ -1300,7 +1254,7 @@ void IndoorGameView::render(int width, int height, float mouseWheelDelta, float 
         && !m_gameplayUiController.houseShopOverlay().active
         && !m_gameplayUiController.houseBankState().inputActive();
 
-    GameplayHudInputController::handleGameplayHudButtonInput(
+    GameplayScreenController::handleGameplayHudButtonInput(
         overlayContext,
         GameplayHudButtonInputConfig{
             .screenWidth = width,
@@ -1325,7 +1279,7 @@ void IndoorGameView::render(int width, int height, float mouseWheelDelta, float 
         && !m_gameplayUiController.houseShopOverlay().active
         && !m_gameplayUiController.houseBankState().inputActive();
 
-    const GameplayUiOverlayInputResult inputResult = GameplayUiOverlayOrchestrator::handleStandardOverlayInput(
+    const GameplayUiOverlayInputResult inputResult = GameplayScreenController::handleSharedOverlayInput(
         overlayContext,
         pKeyboardState,
         width,
@@ -1356,36 +1310,7 @@ void IndoorGameView::render(int width, int height, float mouseWheelDelta, float 
             .saveGameActive = m_gameplayUiController.saveGameScreen().active,
             .spellbookActive = m_gameplayUiController.spellbook().active,
             .characterScreenOpen = m_gameplayUiController.characterScreen().open,
-        },
-        GameplayUiOverlayInputCallbacks{
-            .resetDialogueInteractionState =
-                [this]()
-                {
-                    m_overlayInteractionState.eventDialogSelectUpLatch = false;
-                    m_overlayInteractionState.eventDialogSelectDownLatch = false;
-                    m_overlayInteractionState.eventDialogAcceptLatch = false;
-                    m_overlayInteractionState.eventDialogPartySelectLatches.fill(false);
-                    m_overlayInteractionState.dialogueClickLatch = false;
-                    m_overlayInteractionState.dialoguePressedTarget = {};
-                },
-            .handleSpellbookOverlayInput =
-                [this](const bool *pState, int screenWidth, int screenHeight)
-                {
-                    handleSpellbookOverlayInput(pState, screenWidth, screenHeight);
-                },
-            .handleCharacterOverlayInput =
-                [this](const bool *pState, int screenWidth, int screenHeight)
-                {
-                    handleCharacterOverlayInput(pState, screenWidth, screenHeight);
-                }});
-
-    if (inputResult.journalInputConsumed && !activeEventDialog().isActive)
-    {
-        m_overlayInteractionState.eventDialogSelectUpLatch = false;
-        m_overlayInteractionState.eventDialogSelectDownLatch = false;
-        m_overlayInteractionState.eventDialogAcceptLatch = false;
-        m_overlayInteractionState.eventDialogPartySelectLatches.fill(false);
-    }
+        });
 
     const bool canRenderHudOverlays =
         m_pIndoorRenderer != nullptr
@@ -1395,57 +1320,29 @@ void IndoorGameView::render(int width, int height, float mouseWheelDelta, float 
 
     const bool renderChestUi =
         hasActiveLootView && pWorldRuntime != nullptr && pWorldRuntime->activeChestView() != nullptr;
-    GameplayUiOverlayOrchestrator::renderStandardOverlays(
+    GameplayScreenController::renderSharedOverlays(
         overlayContext,
         width,
         height,
-        GameplayUiOverlayRenderConfig{
-            .canRenderHudOverlays = canRenderHudOverlays,
-            .hasActiveLootView = hasActiveLootView,
-            .activeEventDialog = activeEventDialog().isActive,
-            .renderGameplayMouseLookOverlay = m_gameplayMouseLookActive && !m_gameplayCursorModeActive,
-            .renderChestBelowHud = renderChestUi,
-            .renderChestAboveHud = renderChestUi,
-            .renderInventoryBelowHud = renderChestUi,
-            .renderInventoryAboveHud = renderChestUi,
-            .renderDialogueAboveHud = true,
-            .renderCharacterBelowHud = true,
-            .renderCharacterAboveHud = true,
-            .renderDebugLootFallback = hasActiveLootView,
-            .renderDebugDialogueFallback = true,
+        GameplayScreenRenderConfig{
+            .base =
+                GameplayUiOverlayRenderConfig{
+                    .canRenderHudOverlays = canRenderHudOverlays,
+                    .hasActiveLootView = hasActiveLootView,
+                    .activeEventDialog = activeEventDialog().isActive,
+                    .renderGameplayMouseLookOverlay = m_gameplayMouseLookActive && !m_gameplayCursorModeActive,
+                    .renderChestBelowHud = renderChestUi,
+                    .renderChestAboveHud = renderChestUi,
+                    .renderInventoryBelowHud = renderChestUi,
+                    .renderInventoryAboveHud = renderChestUi,
+                    .renderDialogueAboveHud = true,
+                    .renderCharacterBelowHud = true,
+                    .renderCharacterAboveHud = true,
+                    .renderDebugLootFallback = hasActiveLootView,
+                    .renderDebugDialogueFallback = true,
+                },
+            .renderActorInspectOverlay = false,
         });
-}
-
-void IndoorGameView::handleSpellbookOverlayInput(const bool *pKeyboardState, int width, int height)
-{
-    if (!m_gameplayUiController.spellbook().active || width <= 0 || height <= 0)
-    {
-        m_overlayInteractionState.spellbookClickLatch = false;
-        return;
-    }
-
-    GameplayOverlayContext overlayContext = createGameplayOverlayContext();
-    GameplayPartyOverlayInputController::handleSpellbookOverlayInput(
-        overlayContext,
-        pKeyboardState,
-        width,
-        height);
-}
-
-void IndoorGameView::handleCharacterOverlayInput(const bool *pKeyboardState, int width, int height)
-{
-    if (!m_gameplayUiController.characterScreen().open || width <= 0 || height <= 0)
-    {
-        m_overlayInteractionState.characterClickLatch = false;
-        return;
-    }
-
-    GameplayOverlayContext overlayContext = createGameplayOverlayContext();
-    GameplayPartyOverlayInputController::handleCharacterOverlayInput(
-        overlayContext,
-        pKeyboardState,
-        width,
-        height);
 }
 
 void IndoorGameView::shutdown()
@@ -1981,6 +1878,7 @@ bool IndoorGameView::tryCastSpellFromMember(
         }
     }
 
+    m_gameplayUiRuntime.triggerPortraitSpellFx(result);
     setStatusBarEvent("Cast " + spellName);
     return true;
 }
@@ -2027,6 +1925,8 @@ bool IndoorGameView::tryCastSpellRequest(
                 GameAudioSystem::PlaybackGroup::Ui);
         }
     }
+
+    m_gameplayUiRuntime.triggerPortraitSpellFx(result);
 
     if (!spellName.empty())
     {
@@ -2182,11 +2082,25 @@ void IndoorGameView::updateItemInspectOverlayState(int width, int height)
     }
 
     GameplayOverlayContext overlayContext = createGameplayOverlayContext();
-    (void)GameplayHudOverlaySupport::tryPopulateItemInspectOverlayFromRenderedHudItems(
+    float mouseX = 0.0f;
+    float mouseY = 0.0f;
+    const SDL_MouseButtonFlags mouseButtons = SDL_GetMouseState(&mouseX, &mouseY);
+
+    if ((mouseButtons & SDL_BUTTON_RMASK) == 0)
+    {
+        overlayContext.itemInspectInteractionLatch() = false;
+        overlayContext.itemInspectInteractionKey() = 0;
+        return;
+    }
+
+    if (GameplayScreenController::updateRenderedHudItemInspectOverlay(
         overlayContext,
         width,
         height,
-        false);
+        false))
+    {
+        GameplayScreenController::applySharedItemInspectSkillInteraction(overlayContext);
+    }
 }
 
 std::optional<std::string> IndoorGameView::findCachedAssetPath(

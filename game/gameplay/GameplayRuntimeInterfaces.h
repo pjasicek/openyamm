@@ -187,11 +187,19 @@ public:
     virtual bool tryGetGameplayMinimapState(GameplayMinimapState &state) const = 0;
     virtual void collectGameplayMinimapMarkers(std::vector<GameplayMinimapMarkerState> &markers) const = 0;
     virtual const GameplayChestViewState *activeChestView() const = 0;
+    virtual bool identifyActiveChestItem(size_t itemIndex, std::string &statusText) = 0;
+    virtual bool tryIdentifyActiveChestItem(size_t itemIndex, const Character &inspector, std::string &statusText) = 0;
+    virtual bool tryRepairActiveChestItem(size_t itemIndex, const Character &inspector, std::string &statusText) = 0;
     virtual bool takeActiveChestItem(size_t itemIndex, GameplayChestItemState &item) = 0;
     virtual bool takeActiveChestItemAt(uint8_t gridX, uint8_t gridY, GameplayChestItemState &item) = 0;
     virtual bool tryPlaceActiveChestItemAt(const GameplayChestItemState &item, uint8_t gridX, uint8_t gridY) = 0;
     virtual void closeActiveChestView() = 0;
     virtual const GameplayCorpseViewState *activeCorpseView() const = 0;
+    virtual bool identifyActiveCorpseItem(size_t itemIndex, std::string &statusText) = 0;
+    virtual bool tryIdentifyActiveCorpseItem(size_t itemIndex, const Character &inspector, std::string &statusText)
+        = 0;
+    virtual bool tryRepairActiveCorpseItem(size_t itemIndex, const Character &inspector, std::string &statusText)
+        = 0;
     virtual bool takeActiveCorpseItem(size_t itemIndex, GameplayChestItemState &item) = 0;
     virtual void closeActiveCorpseView() = 0;
 };

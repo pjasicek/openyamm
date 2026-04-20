@@ -33,6 +33,7 @@ add_executable(openyamm
     gameplay/GameplayHudInputController.cpp
     gameplay/GameplayOverlayInputController.cpp
     gameplay/GameplayPartyOverlayInputController.cpp
+    gameplay/GameplayScreenController.cpp
     gameplay/GameplayScreenHotkeyController.cpp
     gameplay/GameplaySaveLoadUiSupport.cpp
     gameplay/GenericActorDialog.cpp
@@ -115,7 +116,6 @@ add_executable(openyamm
     ui/GameplayPartyOverlayRenderer.cpp
     ui/GameplayUiOverlayOrchestrator.cpp
     ui/GameplayUiRuntime.cpp
-    ui/HudUiService.cpp
     ui/KeyboardScreenLayout.cpp
     ui/MenuScreenBase.cpp
     ui/GameplayUiController.cpp

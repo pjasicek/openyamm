@@ -7,7 +7,6 @@
 #include "game/outdoor/OutdoorWorldRuntime.h"
 #include "game/tables/PortraitEnums.h"
 #include "game/StringUtils.h"
-#include "game/ui/HudUiService.h"
 
 #include <SDL3/SDL.h>
 
