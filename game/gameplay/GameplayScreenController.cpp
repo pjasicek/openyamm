@@ -96,8 +96,8 @@ void GameplayScreenController::updateStandardHudItemInspectOverlayFromMouse(
 
     if ((mouseButtons & SDL_BUTTON_RMASK) == 0)
     {
-        context.itemInspectInteractionLatch() = false;
-        context.itemInspectInteractionKey() = 0;
+        context.interactionState().itemInspectInteractionLatch = false;
+        context.interactionState().itemInspectInteractionKey = 0;
         return;
     }
 
@@ -132,13 +132,13 @@ void GameplayScreenController::applySharedItemInspectSkillInteraction(
     interactionKey ^= uint64_t(overlay.sourceLootItemIndex) << 48;
     interactionKey ^= uint64_t(overlay.sourceType) << 56;
 
-    if (context.itemInspectInteractionLatch() && context.itemInspectInteractionKey() == interactionKey)
+    if (context.interactionState().itemInspectInteractionLatch && context.interactionState().itemInspectInteractionKey == interactionKey)
     {
         return;
     }
 
-    context.itemInspectInteractionLatch() = true;
-    context.itemInspectInteractionKey() = interactionKey;
+    context.interactionState().itemInspectInteractionLatch = true;
+    context.interactionState().itemInspectInteractionKey = interactionKey;
 
     const Character *pActiveMember = pParty->activeMember();
     const ItemDefinition *pItemDefinition = pItemTable->get(overlay.objectDescriptionId);
@@ -802,6 +802,62 @@ GameplayStandardWorldInputGateResult GameplayScreenController::gateStandardWorld
     }
 
     return {};
+}
+
+void GameplayScreenController::renderStandardUi(
+    GameplayScreenRuntime &context,
+    int width,
+    int height,
+    const GameplayStandardUiRenderConfig &config)
+{
+    if (!config.renderGameplayHud)
+    {
+        return;
+    }
+
+    IGameplayWorldRuntime *pWorldRuntime = context.worldRuntime();
+    const bool hasActiveLootView =
+        pWorldRuntime != nullptr
+        && (pWorldRuntime->activeChestView() != nullptr || pWorldRuntime->activeCorpseView() != nullptr);
+    const bool renderChestUi =
+        hasActiveLootView && pWorldRuntime != nullptr && pWorldRuntime->activeChestView() != nullptr;
+    const bool deferDialogueInventoryServiceOverlay =
+        context.inventoryNestedOverlay().active
+        && (context.inventoryNestedOverlay().mode == GameplayUiController::InventoryNestedOverlayMode::ShopSell
+            || context.inventoryNestedOverlay().mode == GameplayUiController::InventoryNestedOverlayMode::ShopIdentify
+            || context.inventoryNestedOverlay().mode == GameplayUiController::InventoryNestedOverlayMode::ShopRepair)
+        && context.currentHudScreenState() == GameplayHudScreenState::Dialogue;
+
+    renderSharedOverlays(
+        context,
+        width,
+        height,
+        GameplayScreenRenderConfig{
+            .base =
+                GameplayUiOverlayRenderConfig{
+                    .canRenderHudOverlays = config.canRenderHudOverlays,
+                    .hasActiveLootView = hasActiveLootView,
+                    .activeEventDialog = context.activeEventDialog().isActive,
+                    .renderGameplayMouseLookOverlay = config.renderGameplayMouseLookOverlay,
+                    .renderChestBelowHud = renderChestUi,
+                    .renderChestAboveHud = renderChestUi,
+                    .renderInventoryBelowHud = !deferDialogueInventoryServiceOverlay,
+                    .renderInventoryAboveHud = renderChestUi,
+                    .renderDialogueBelowHud = true,
+                    .renderDialogueAboveHud = true,
+                    .renderCharacterBelowHud = true,
+                    .renderCharacterAboveHud = true,
+                    .renderDebugLootFallback = config.renderDebugFallbacks && hasActiveLootView,
+                    .renderDebugDialogueFallback = config.renderDebugFallbacks,
+                },
+            .renderDeferredInventoryOverlay = deferDialogueInventoryServiceOverlay,
+            .renderActorInspectOverlay = config.renderActorInspectOverlay,
+        });
+
+    if (config.onRenderedHud)
+    {
+        config.onRenderedHud();
+    }
 }
 
 void GameplayScreenController::handleUtilitySpellOverlayInput(

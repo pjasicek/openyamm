@@ -22,7 +22,6 @@
 #include "game/ui/GameplayHudCommon.h"
 #include "game/ui/GameplayOverlayTypes.h"
 #include "game/ui/GameplayUiController.h"
-#include "game/ui/GameplayUiRuntime.h"
 #include "game/ui/GameplayOverlayAdapters.h"
 #include "game/ui/UiLayoutManager.h"
 
@@ -69,11 +68,7 @@ public:
     IndoorPartyRuntime *partyRuntime() const;
     IGameplayWorldRuntime *worldRuntime() const;
     GameAudioSystem *audioSystem() const;
-    const std::string &currentMapFileName() const override;
     float gameplayCameraYawRadians() const override;
-    const std::vector<uint8_t> *journalMapFullyRevealedCells() const override;
-    const std::vector<uint8_t> *journalMapPartiallyRevealedCells() const override;
-    bool trySelectPartyMember(size_t memberIndex, bool requireGameplayReady) override;
     bool activeMemberKnowsSpell(uint32_t spellId) const;
     bool activeMemberHasSpellbookSchool(GameplayUiController::SpellbookSchool school) const;
     void setStatusBarEvent(const std::string &text, float durationSeconds = 2.0f);
@@ -98,7 +93,6 @@ public:
     std::array<uint8_t, SDL_SCANCODE_COUNT> &previousKeyboardState();
     const std::array<uint8_t, SDL_SCANCODE_COUNT> &previousKeyboardState() const;
     bool trySaveToSelectedGameSlot() override;
-    int restFoodRequired() const override;
     const GameSettings &settingsSnapshot() const;
 private:
     EventDialogContent &activeEventDialog()
@@ -151,24 +145,11 @@ private:
         return m_gameplayUiController.houseShopOverlay();
     }
 
-    using HudTextureHandleInternal = GameplayHudTextureData;
-    using HudFontGlyphMetricsInternal = GameplayHudFontGlyphMetricsData;
-    using HudFontHandleInternal = GameplayHudFontData;
-    using HudFontColorTextureHandleInternal = GameplayHudFontColorTextureData;
-    using HudTextureColorTextureHandleInternal = GameplayHudTextureColorTextureData;
-    using HudAssetLoadCache = GameplayAssetLoadCache;
-
     GameplayDialogController::Context buildDialogContext(EventRuntimeState &eventRuntimeState);
     void presentPendingEventDialog(size_t previousMessageCount, bool allowNpcFallbackContent);
     void closeActiveEventDialog();
     std::optional<std::string> findCachedAssetPath(const std::string &directoryPath, const std::string &fileName) const;
     std::optional<std::vector<uint8_t>> readCachedBinaryFile(const std::string &assetPath) const;
-    std::optional<std::vector<uint8_t>> loadHudBitmapPixelsBgraCached(
-        const std::string &textureName,
-        int &width,
-        int &height) const;
-    bool loadHudTexture(const std::string &textureName);
-    bool loadHudFont(const std::string &fontName);
     bool shouldEnableGameplayMouseLook() const;
     void syncGameplayMouseLookMode(SDL_Window *pWindow, bool enabled);
 
@@ -179,7 +160,6 @@ private:
     std::optional<MapStatsEntry> m_map;
     GameSettings m_settings = GameSettings::createDefault();
     GameSession &m_gameSession;
-    GameplayUiRuntime &m_gameplayUiRuntime;
     GameplayUiController &m_gameplayUiController;
     GameplayDialogController &m_gameplayDialogController;
     GameplayOverlayInteractionState &m_overlayInteractionState;

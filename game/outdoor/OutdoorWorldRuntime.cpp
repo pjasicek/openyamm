@@ -4947,6 +4947,72 @@ const std::string &OutdoorWorldRuntime::mapName() const
     return m_mapName;
 }
 
+const std::vector<uint8_t> *OutdoorWorldRuntime::journalMapFullyRevealedCells() const
+{
+    return m_pOutdoorMapDeltaData != nullptr ? &m_pOutdoorMapDeltaData->fullyRevealedCells : nullptr;
+}
+
+const std::vector<uint8_t> *OutdoorWorldRuntime::journalMapPartiallyRevealedCells() const
+{
+    return m_pOutdoorMapDeltaData != nullptr ? &m_pOutdoorMapDeltaData->partiallyRevealedCells : nullptr;
+}
+
+int OutdoorWorldRuntime::restFoodRequired() const
+{
+    int foodRequired = 2;
+
+    if (m_pPartyRuntime != nullptr)
+    {
+        const OutdoorMoveState &moveState = m_pPartyRuntime->movementState();
+
+        if (moveState.supportKind == OutdoorSupportKind::Terrain
+            && !moveState.airborne
+            && !moveState.supportOnWater
+            && m_pOutdoorMapData != nullptr)
+        {
+            const std::string tilesetName = toLowerCopy(m_pOutdoorMapData->groundTilesetName);
+
+            if (tilesetName.find("grass") != std::string::npos || tilesetName.find("gras") != std::string::npos)
+            {
+                foodRequired = 1;
+            }
+            else if (tilesetName.find("desert") != std::string::npos
+                     || tilesetName.find("dsrt") != std::string::npos
+                     || tilesetName.find("sand") != std::string::npos)
+            {
+                foodRequired = 5;
+            }
+            else if (tilesetName.find("snow") != std::string::npos
+                     || tilesetName.find("snw") != std::string::npos
+                     || tilesetName.find("ice") != std::string::npos
+                     || tilesetName.find("swamp") != std::string::npos
+                     || tilesetName.find("swmp") != std::string::npos)
+            {
+                foodRequired = 3;
+            }
+            else if (tilesetName.find("badland") != std::string::npos || tilesetName.find("bad") != std::string::npos)
+            {
+                foodRequired = 4;
+            }
+        }
+
+        const Party &partyState = m_pPartyRuntime->party();
+
+        for (const Character &member : partyState.members())
+        {
+            constexpr uint32_t DragonRaceId = 5;
+
+            if (member.raceId == DragonRaceId)
+            {
+                ++foodRequired;
+                break;
+            }
+        }
+    }
+
+    return std::max(1, foodRequired);
+}
+
 OutdoorWorldRuntime::Snapshot OutdoorWorldRuntime::snapshot() const
 {
     Snapshot snapshot = {};

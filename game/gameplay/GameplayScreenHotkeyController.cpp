@@ -37,15 +37,15 @@ void GameplayScreenHotkeyController::handleGameplayScreenHotkeys(
         {
             if (escapePressed)
             {
-                if (!context.menuToggleLatch())
+                if (!context.interactionState().menuToggleLatch)
                 {
                     context.openMenuOverlay();
-                    context.menuToggleLatch() = true;
+                    context.interactionState().menuToggleLatch = true;
                 }
             }
             else
             {
-                context.menuToggleLatch() = false;
+                context.interactionState().menuToggleLatch = false;
             }
         }
 
@@ -53,26 +53,26 @@ void GameplayScreenHotkeyController::handleGameplayScreenHotkeys(
         {
             if (context.mutableSettings().keyboard.isPressed(KeyboardAction::Rest, pKeyboardState))
             {
-                if (!context.restToggleLatch())
+                if (!context.interactionState().restToggleLatch)
                 {
                     context.openRestOverlay();
-                    context.restToggleLatch() = true;
+                    context.interactionState().restToggleLatch = true;
                 }
             }
             else
             {
-                context.restToggleLatch() = false;
+                context.interactionState().restToggleLatch = false;
             }
         }
         else
         {
-            context.restToggleLatch() = false;
+            context.interactionState().restToggleLatch = false;
         }
     }
     else
     {
-        context.menuToggleLatch() = false;
-        context.restToggleLatch() = false;
+        context.interactionState().menuToggleLatch = false;
+        context.interactionState().restToggleLatch = false;
     }
 
     if (isActionNewlyPressed(context, KeyboardAction::Cast, pKeyboardState))

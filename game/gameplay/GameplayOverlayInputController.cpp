@@ -618,8 +618,8 @@ bool GameplayOverlayInputController::handleRestOverlayInput(
 
     if (!restScreen.active)
     {
-        view.restClickLatch() = false;
-        view.restPressedTarget() = {};
+        view.interactionState().restClickLatch = false;
+        view.interactionState().restPressedTarget = {};
         return false;
     }
 
@@ -657,15 +657,15 @@ bool GameplayOverlayInputController::handleRestOverlayInput(
 
     if (pKeyboardState != nullptr && pKeyboardState[SDL_SCANCODE_ESCAPE])
     {
-        if (!view.closeOverlayLatch())
+        if (!view.interactionState().closeOverlayLatch)
         {
             finishOrCloseRestScreen();
-            view.closeOverlayLatch() = true;
+            view.interactionState().closeOverlayLatch = true;
         }
     }
     else
     {
-        view.closeOverlayLatch() = false;
+        view.interactionState().closeOverlayLatch = false;
     }
 
     if (!restScreen.active)
@@ -675,8 +675,8 @@ bool GameplayOverlayInputController::handleRestOverlayInput(
 
     if (screenWidth <= 0 || screenHeight <= 0)
     {
-        view.restClickLatch() = false;
-        view.restPressedTarget() = {};
+        view.interactionState().restClickLatch = false;
+        view.interactionState().restPressedTarget = {};
         return true;
     }
 
@@ -739,8 +739,8 @@ bool GameplayOverlayInputController::handleRestOverlayInput(
 
     handlePointerClickRelease(
         pointerState,
-        view.restClickLatch(),
-        view.restPressedTarget(),
+        view.interactionState().restClickLatch,
+        view.interactionState().restPressedTarget,
         noneTarget,
         findPointerTarget,
         [&view, &finishOrCloseRestScreen, &waitUntilDawnMinutes](const GameplayRestPointerTarget &target)
@@ -786,9 +786,9 @@ bool GameplayOverlayInputController::handleMenuOverlayInput(
 
     if (!menuScreen.active)
     {
-        view.menuToggleLatch() = false;
-        view.menuClickLatch() = false;
-        view.menuPressedTarget() = {};
+        view.interactionState().menuToggleLatch = false;
+        view.interactionState().menuClickLatch = false;
+        view.interactionState().menuPressedTarget = {};
         return false;
     }
 
@@ -796,15 +796,15 @@ bool GameplayOverlayInputController::handleMenuOverlayInput(
 
     if (closePressed)
     {
-        if (!view.menuToggleLatch())
+        if (!view.interactionState().menuToggleLatch)
         {
             view.closeMenuOverlay();
-            view.menuToggleLatch() = true;
+            view.interactionState().menuToggleLatch = true;
         }
     }
     else
     {
-        view.menuToggleLatch() = false;
+        view.interactionState().menuToggleLatch = false;
     }
 
     if (!menuScreen.active)
@@ -906,8 +906,8 @@ bool GameplayOverlayInputController::handleMenuOverlayInput(
 
     handlePointerClickRelease(
         menuPointerState,
-        view.menuClickLatch(),
-        view.menuPressedTarget(),
+        view.interactionState().menuClickLatch,
+        view.interactionState().menuPressedTarget,
         noneMenuTarget,
         findMenuPointerTarget,
         [&view, &menuScreen](const GameplayMenuPointerTarget &target)
@@ -1034,11 +1034,11 @@ bool GameplayOverlayInputController::handleControlsOverlayInput(
 
     if (!controlsScreen.active)
     {
-        view.controlsToggleLatch() = false;
-        view.controlsClickLatch() = false;
-        view.controlsPressedTarget() = {};
-        view.controlsSliderDragActive() = false;
-        view.controlsDraggedSlider() = GameplayControlsPointerTargetType::None;
+        view.interactionState().controlsToggleLatch = false;
+        view.interactionState().controlsClickLatch = false;
+        view.interactionState().controlsPressedTarget = {};
+        view.interactionState().controlsSliderDragActive = false;
+        view.interactionState().controlsDraggedSlider = GameplayControlsPointerTargetType::None;
         return false;
     }
 
@@ -1047,15 +1047,15 @@ bool GameplayOverlayInputController::handleControlsOverlayInput(
 
     if (closePressed)
     {
-        if (!view.controlsToggleLatch())
+        if (!view.interactionState().controlsToggleLatch)
         {
             view.closeControlsOverlay();
-            view.controlsToggleLatch() = true;
+            view.interactionState().controlsToggleLatch = true;
         }
     }
     else
     {
-        view.controlsToggleLatch() = false;
+        view.interactionState().controlsToggleLatch = false;
     }
 
     if (!controlsScreen.active)
@@ -1253,7 +1253,7 @@ bool GameplayOverlayInputController::handleControlsOverlayInput(
 
     if (pointerState.leftButtonPressed)
     {
-        if (!view.controlsSliderDragActive())
+        if (!view.interactionState().controlsSliderDragActive)
         {
             const GameplayControlsPointerTarget sliderTarget = findSliderPressTarget(pointerState.x, pointerState.y);
 
@@ -1261,33 +1261,33 @@ bool GameplayOverlayInputController::handleControlsOverlayInput(
                 || sliderTarget.type == GameplayControlsPointerTargetType::MusicTrack
                 || sliderTarget.type == GameplayControlsPointerTargetType::VoiceTrack)
             {
-                view.controlsSliderDragActive() = true;
-                view.controlsDraggedSlider() = sliderTarget.type;
-                view.controlsClickLatch() = false;
-                view.controlsPressedTarget() = {};
+                view.interactionState().controlsSliderDragActive = true;
+                view.interactionState().controlsDraggedSlider = sliderTarget.type;
+                view.interactionState().controlsClickLatch = false;
+                view.interactionState().controlsPressedTarget = {};
                 (void)applySliderValue(sliderTarget.type, sliderTarget.sliderValue);
                 return true;
             }
         }
         else
         {
-            updateDraggedSlider(view.controlsDraggedSlider(), pointerState.x);
+            updateDraggedSlider(view.interactionState().controlsDraggedSlider, pointerState.x);
             return true;
         }
     }
-    else if (view.controlsSliderDragActive())
+    else if (view.interactionState().controlsSliderDragActive)
     {
-        view.controlsSliderDragActive() = false;
-        view.controlsDraggedSlider() = GameplayControlsPointerTargetType::None;
-        view.controlsClickLatch() = false;
-        view.controlsPressedTarget() = {};
+        view.interactionState().controlsSliderDragActive = false;
+        view.interactionState().controlsDraggedSlider = GameplayControlsPointerTargetType::None;
+        view.interactionState().controlsClickLatch = false;
+        view.interactionState().controlsPressedTarget = {};
         return true;
     }
 
     handlePointerClickRelease(
         pointerState,
-        view.controlsClickLatch(),
-        view.controlsPressedTarget(),
+        view.interactionState().controlsClickLatch,
+        view.interactionState().controlsPressedTarget,
         noneTarget,
         findPointerTarget,
         [&view, &applySliderValue](const GameplayControlsPointerTarget &target)
@@ -1388,9 +1388,9 @@ bool GameplayOverlayInputController::handleKeyboardOverlayInput(
 
     if (!keyboardScreen.active)
     {
-        view.keyboardToggleLatch() = false;
-        view.keyboardClickLatch() = false;
-        view.keyboardPressedTarget() = {};
+        view.interactionState().keyboardToggleLatch = false;
+        view.interactionState().keyboardClickLatch = false;
+        view.interactionState().keyboardPressedTarget = {};
         return false;
     }
 
@@ -1398,15 +1398,15 @@ bool GameplayOverlayInputController::handleKeyboardOverlayInput(
 
     if (closePressed)
     {
-        if (!view.keyboardToggleLatch())
+        if (!view.interactionState().keyboardToggleLatch)
         {
             view.closeKeyboardOverlayToControls();
-            view.keyboardToggleLatch() = true;
+            view.interactionState().keyboardToggleLatch = true;
         }
     }
     else
     {
-        view.keyboardToggleLatch() = false;
+        view.interactionState().keyboardToggleLatch = false;
     }
 
     if (!keyboardScreen.active)
@@ -1532,8 +1532,8 @@ bool GameplayOverlayInputController::handleKeyboardOverlayInput(
 
     handlePointerClickRelease(
         pointerState,
-        view.keyboardClickLatch(),
-        view.keyboardPressedTarget(),
+        view.interactionState().keyboardClickLatch,
+        view.interactionState().keyboardPressedTarget,
         noneTarget,
         findPointerTarget,
         [&view, &keyboardScreen](const GameplayKeyboardPointerTarget &target)
@@ -1587,9 +1587,9 @@ bool GameplayOverlayInputController::handleVideoOptionsOverlayInput(
 
     if (!videoOptionsScreen.active)
     {
-        view.videoOptionsToggleLatch() = false;
-        view.videoOptionsClickLatch() = false;
-        view.videoOptionsPressedTarget() = {};
+        view.interactionState().videoOptionsToggleLatch = false;
+        view.interactionState().videoOptionsClickLatch = false;
+        view.interactionState().videoOptionsPressedTarget = {};
         return false;
     }
 
@@ -1598,15 +1598,15 @@ bool GameplayOverlayInputController::handleVideoOptionsOverlayInput(
 
     if (closePressed)
     {
-        if (!view.videoOptionsToggleLatch())
+        if (!view.interactionState().videoOptionsToggleLatch)
         {
             view.closeVideoOptionsOverlay();
-            view.videoOptionsToggleLatch() = true;
+            view.interactionState().videoOptionsToggleLatch = true;
         }
     }
     else
     {
-        view.videoOptionsToggleLatch() = false;
+        view.interactionState().videoOptionsToggleLatch = false;
     }
 
     if (!videoOptionsScreen.active)
@@ -1674,8 +1674,8 @@ bool GameplayOverlayInputController::handleVideoOptionsOverlayInput(
 
     handlePointerClickRelease(
         pointerState,
-        view.videoOptionsClickLatch(),
-        view.videoOptionsPressedTarget(),
+        view.interactionState().videoOptionsClickLatch,
+        view.interactionState().videoOptionsPressedTarget,
         noneTarget,
         findPointerTarget,
         [&view](const GameplayVideoOptionsPointerTarget &target)
@@ -1721,11 +1721,11 @@ bool GameplayOverlayInputController::handleSaveGameOverlayInput(
 
     if (!saveGameScreen.active)
     {
-        view.saveGameToggleLatch() = false;
-        view.saveGameClickLatch() = false;
-        view.saveGamePressedTarget() = {};
-        view.saveGameEditKeyLatches().fill(false);
-        view.saveGameEditBackspaceLatch() = false;
+        view.interactionState().saveGameToggleLatch = false;
+        view.interactionState().saveGameClickLatch = false;
+        view.interactionState().saveGamePressedTarget = {};
+        view.interactionState().saveGameEditKeyLatches.fill(false);
+        view.interactionState().saveGameEditBackspaceLatch = false;
         return false;
     }
 
@@ -1735,15 +1735,15 @@ bool GameplayOverlayInputController::handleSaveGameOverlayInput(
 
     if (closePressed)
     {
-        if (!view.saveGameToggleLatch())
+        if (!view.interactionState().saveGameToggleLatch)
         {
             view.closeSaveGameOverlay();
-            view.saveGameToggleLatch() = true;
+            view.interactionState().saveGameToggleLatch = true;
         }
     }
     else
     {
-        view.saveGameToggleLatch() = false;
+        view.interactionState().saveGameToggleLatch = false;
     }
 
     if (!saveGameScreen.active)
@@ -1763,35 +1763,35 @@ bool GameplayOverlayInputController::handleSaveGameOverlayInput(
 
             if (pressed)
             {
-                if (!view.saveGameEditKeyLatches()[bindingIndex] && saveGameScreen.editBuffer.size() < 30)
+                if (!view.interactionState().saveGameEditKeyLatches[bindingIndex] && saveGameScreen.editBuffer.size() < 30)
                 {
                     saveGameScreen.editBuffer.push_back(shiftPressed ? binding.upper : binding.lower);
-                    view.saveGameEditKeyLatches()[bindingIndex] = true;
+                    view.interactionState().saveGameEditKeyLatches[bindingIndex] = true;
                 }
             }
             else
             {
-                view.saveGameEditKeyLatches()[bindingIndex] = false;
+                view.interactionState().saveGameEditKeyLatches[bindingIndex] = false;
             }
         }
 
         if (pKeyboardState[SDL_SCANCODE_BACKSPACE])
         {
-            if (!view.saveGameEditBackspaceLatch() && !saveGameScreen.editBuffer.empty())
+            if (!view.interactionState().saveGameEditBackspaceLatch && !saveGameScreen.editBuffer.empty())
             {
                 saveGameScreen.editBuffer.pop_back();
-                view.saveGameEditBackspaceLatch() = true;
+                view.interactionState().saveGameEditBackspaceLatch = true;
             }
         }
         else
         {
-            view.saveGameEditBackspaceLatch() = false;
+            view.interactionState().saveGameEditBackspaceLatch = false;
         }
     }
     else
     {
-        view.saveGameEditKeyLatches().fill(false);
-        view.saveGameEditBackspaceLatch() = false;
+        view.interactionState().saveGameEditKeyLatches.fill(false);
+        view.interactionState().saveGameEditBackspaceLatch = false;
     }
 
     float saveMouseX = 0.0f;
@@ -1879,8 +1879,8 @@ bool GameplayOverlayInputController::handleSaveGameOverlayInput(
 
     handlePointerClickRelease(
         savePointerState,
-        view.saveGameClickLatch(),
-        view.saveGamePressedTarget(),
+        view.interactionState().saveGameClickLatch,
+        view.interactionState().saveGamePressedTarget,
         noneSaveTarget,
         findSavePointerTarget,
         [&view, &saveGameScreen](const GameplaySaveLoadPointerTarget &target)
@@ -1901,8 +1901,8 @@ bool GameplayOverlayInputController::handleSaveGameOverlayInput(
                     saveGameScreen.selectedIndex = slotIndex;
                     const uint64_t nowTicks = SDL_GetTicks();
 
-                    if (view.lastSaveGameClickedSlotIndex() == slotIndex
-                        && nowTicks - view.lastSaveGameSlotClickTicks() <= SaveGameDoubleClickWindowMs)
+                    if (view.interactionState().lastSaveGameClickedSlotIndex == slotIndex
+                        && nowTicks - view.interactionState().lastSaveGameSlotClickTicks <= SaveGameDoubleClickWindowMs)
                     {
                         saveGameScreen.editActive = true;
                         saveGameScreen.editSlotIndex = slotIndex;
@@ -1912,8 +1912,8 @@ bool GameplayOverlayInputController::handleSaveGameOverlayInput(
                                 : saveGameScreen.slots[slotIndex].fileLabel;
                     }
 
-                    view.lastSaveGameSlotClickTicks() = nowTicks;
-                    view.lastSaveGameClickedSlotIndex() = slotIndex;
+                    view.interactionState().lastSaveGameSlotClickTicks = nowTicks;
+                    view.interactionState().lastSaveGameClickedSlotIndex = slotIndex;
                 }
                 break;
 
@@ -1976,7 +1976,7 @@ bool GameplayOverlayInputController::handleJournalOverlayInput(
 
     if (requestedJournalView != JournalShortcutView::None)
     {
-        if (!view.journalToggleLatch())
+        if (!view.interactionState().journalToggleLatch)
         {
             const auto activateJournalView =
                 [&view, &journalScreen](JournalShortcutView targetView)
@@ -2048,19 +2048,19 @@ bool GameplayOverlayInputController::handleJournalOverlayInput(
                 activateJournalView(requestedJournalView);
             }
 
-            view.journalToggleLatch() = true;
+            view.interactionState().journalToggleLatch = true;
         }
     }
     else
     {
-        view.journalToggleLatch() = false;
+        view.interactionState().journalToggleLatch = false;
     }
 
     if (!journalScreen.active)
     {
-        view.journalClickLatch() = false;
-        view.journalPressedTarget() = {};
-        view.journalMapKeyZoomLatch() = false;
+        view.interactionState().journalClickLatch = false;
+        view.interactionState().journalPressedTarget = {};
+        view.interactionState().journalMapKeyZoomLatch = false;
         return false;
     }
 
@@ -2104,24 +2104,24 @@ bool GameplayOverlayInputController::handleJournalOverlayInput(
 
     if (journalScreen.view == GameplayUiController::JournalView::Map)
     {
-        if (zoomInPressed && !view.journalMapKeyZoomLatch())
+        if (zoomInPressed && !view.interactionState().journalMapKeyZoomLatch)
         {
             journalScreen.mapZoomStep =
                 std::min(journalScreen.mapZoomStep + 1, static_cast<int>(GameplayJournalMapZoomLevels.size()) - 1);
             clampJournalMapState(journalScreen);
             journalScreen.cachedMapValid = false;
-            view.journalMapKeyZoomLatch() = true;
+            view.interactionState().journalMapKeyZoomLatch = true;
         }
-        else if (zoomOutPressed && !view.journalMapKeyZoomLatch())
+        else if (zoomOutPressed && !view.interactionState().journalMapKeyZoomLatch)
         {
             journalScreen.mapZoomStep = std::max(journalScreen.mapZoomStep - 1, 0);
             clampJournalMapState(journalScreen);
             journalScreen.cachedMapValid = false;
-            view.journalMapKeyZoomLatch() = true;
+            view.interactionState().journalMapKeyZoomLatch = true;
         }
         else if (!zoomInPressed && !zoomOutPressed)
         {
-            view.journalMapKeyZoomLatch() = false;
+            view.interactionState().journalMapKeyZoomLatch = false;
         }
 
         if (mouseWheelDelta > 0.0f)
@@ -2140,20 +2140,20 @@ bool GameplayOverlayInputController::handleJournalOverlayInput(
     }
     else
     {
-        view.journalMapKeyZoomLatch() = false;
+        view.interactionState().journalMapKeyZoomLatch = false;
     }
 
     if (pKeyboardState != nullptr && pKeyboardState[SDL_SCANCODE_ESCAPE])
     {
-        if (!view.closeOverlayLatch())
+        if (!view.interactionState().closeOverlayLatch)
         {
             view.closeJournalOverlay();
-            view.closeOverlayLatch() = true;
+            view.interactionState().closeOverlayLatch = true;
         }
     }
     else
     {
-        view.closeOverlayLatch() = false;
+        view.interactionState().closeOverlayLatch = false;
     }
 
     if (!journalScreen.active)
@@ -2163,8 +2163,8 @@ bool GameplayOverlayInputController::handleJournalOverlayInput(
 
     if (screenWidth <= 0 || screenHeight <= 0)
     {
-        view.journalClickLatch() = false;
-        view.journalPressedTarget() = {};
+        view.interactionState().journalClickLatch = false;
+        view.interactionState().journalPressedTarget = {};
         return true;
     }
 
@@ -2474,14 +2474,14 @@ bool GameplayOverlayInputController::handleJournalOverlayInput(
         else
         {
             journalScreen.mapDragActive = false;
-            view.journalClickLatch() = false;
-            view.journalPressedTarget() = noneJournalTarget;
+            view.interactionState().journalClickLatch = false;
+            view.interactionState().journalPressedTarget = noneJournalTarget;
         }
 
         return true;
     }
 
-    if (journalPointerState.leftButtonPressed && !view.journalClickLatch())
+    if (journalPointerState.leftButtonPressed && !view.interactionState().journalClickLatch)
     {
         const GameplayJournalPointerTarget pressedTarget =
             findJournalPointerTarget(journalPointerState.x, journalPointerState.y);
@@ -2489,8 +2489,8 @@ bool GameplayOverlayInputController::handleJournalOverlayInput(
         if (isImmediateJournalMapTarget(pressedTarget))
         {
             activateJournalTarget(pressedTarget);
-            view.journalClickLatch() = true;
-            view.journalPressedTarget() = noneJournalTarget;
+            view.interactionState().journalClickLatch = true;
+            view.interactionState().journalPressedTarget = noneJournalTarget;
             return true;
         }
 
@@ -2506,8 +2506,8 @@ bool GameplayOverlayInputController::handleJournalOverlayInput(
                 journalScreen.mapDragStartMouseY = journalPointerState.y;
                 journalScreen.mapDragStartCenterX = journalScreen.mapCenterX;
                 journalScreen.mapDragStartCenterY = journalScreen.mapCenterY;
-                view.journalClickLatch() = true;
-                view.journalPressedTarget() = noneJournalTarget;
+                view.interactionState().journalClickLatch = true;
+                view.interactionState().journalPressedTarget = noneJournalTarget;
                 return true;
             }
         }
@@ -2515,8 +2515,8 @@ bool GameplayOverlayInputController::handleJournalOverlayInput(
 
     handlePointerClickRelease(
         journalPointerState,
-        view.journalClickLatch(),
-        view.journalPressedTarget(),
+        view.interactionState().journalClickLatch,
+        view.interactionState().journalPressedTarget,
         noneJournalTarget,
         findJournalPointerTarget,
         activateJournalTarget);
@@ -2545,21 +2545,21 @@ void GameplayOverlayInputController::handleDialogueOverlayInput(
         {
             if (pKeyboardState[PartySelectScancodes[memberIndex]])
             {
-                if (!view.eventDialogPartySelectLatches()[memberIndex])
+                if (!view.interactionState().eventDialogPartySelectLatches[memberIndex])
                 {
                     view.trySelectPartyMember(memberIndex, false);
-                    view.eventDialogPartySelectLatches()[memberIndex] = true;
+                    view.interactionState().eventDialogPartySelectLatches[memberIndex] = true;
                 }
             }
             else
             {
-                view.eventDialogPartySelectLatches()[memberIndex] = false;
+                view.interactionState().eventDialogPartySelectLatches[memberIndex] = false;
             }
         }
     }
     else
     {
-        view.eventDialogPartySelectLatches().fill(false);
+        view.interactionState().eventDialogPartySelectLatches.fill(false);
     }
 
     if (view.houseBankState().inputActive())
@@ -2589,23 +2589,23 @@ void GameplayOverlayInputController::handleDialogueOverlayInput(
             SDL_SCANCODE_KP_9,
         };
 
-        for (size_t digit = 0; digit < view.houseBankDigitLatches().size(); ++digit)
+        for (size_t digit = 0; digit < view.interactionState().houseBankDigitLatches.size(); ++digit)
         {
             const bool pressed = pKeyboardState[DigitScancodes[digit]]
                 || pKeyboardState[KeypadDigitScancodes[digit]];
 
             if (pressed)
             {
-                if (!view.houseBankDigitLatches()[digit] && view.houseBankState().inputText.size() < 10)
+                if (!view.interactionState().houseBankDigitLatches[digit] && view.houseBankState().inputText.size() < 10)
                 {
                     view.houseBankState().inputText.push_back(static_cast<char>('0' + digit));
                 }
 
-                view.houseBankDigitLatches()[digit] = true;
+                view.interactionState().houseBankDigitLatches[digit] = true;
             }
             else
             {
-                view.houseBankDigitLatches()[digit] = false;
+                view.interactionState().houseBankDigitLatches[digit] = false;
             }
         }
 
@@ -2613,31 +2613,31 @@ void GameplayOverlayInputController::handleDialogueOverlayInput(
 
         if (backspacePressed)
         {
-            if (!view.houseBankBackspaceLatch() && !view.houseBankState().inputText.empty())
+            if (!view.interactionState().houseBankBackspaceLatch && !view.houseBankState().inputText.empty())
             {
                 view.houseBankState().inputText.pop_back();
             }
 
-            view.houseBankBackspaceLatch() = true;
+            view.interactionState().houseBankBackspaceLatch = true;
         }
         else
         {
-            view.houseBankBackspaceLatch() = false;
+            view.interactionState().houseBankBackspaceLatch = false;
         }
 
         const bool confirmPressed = pKeyboardState[SDL_SCANCODE_RETURN] || pKeyboardState[SDL_SCANCODE_KP_ENTER];
 
         if (confirmPressed)
         {
-            if (!view.houseBankConfirmLatch())
+            if (!view.interactionState().houseBankConfirmLatch)
             {
                 view.confirmHouseBankInput();
-                view.houseBankConfirmLatch() = true;
+                view.interactionState().houseBankConfirmLatch = true;
             }
         }
         else
         {
-            view.houseBankConfirmLatch() = false;
+            view.interactionState().houseBankConfirmLatch = false;
         }
 
         view.refreshHouseBankInputDialog();
@@ -2680,8 +2680,8 @@ void GameplayOverlayInputController::handleDialogueOverlayInput(
 
         handlePointerClickRelease(
             pointerState,
-            view.dialogueClickLatch(),
-            view.dialoguePressedTarget(),
+            view.interactionState().dialogueClickLatch,
+            view.interactionState().dialoguePressedTarget,
             noneDialogueTarget,
             findDialogueCloseTarget,
             [&view](const GameplayDialoguePointerTarget &target)
@@ -2696,15 +2696,15 @@ void GameplayOverlayInputController::handleDialogueOverlayInput(
 
         if (closePressed)
         {
-            if (!view.closeOverlayLatch())
+            if (!view.interactionState().closeOverlayLatch)
             {
                 view.handleDialogueCloseRequest();
-                view.closeOverlayLatch() = true;
+                view.interactionState().closeOverlayLatch = true;
             }
         }
         else
         {
-            view.closeOverlayLatch() = false;
+            view.interactionState().closeOverlayLatch = false;
         }
 
         return;
@@ -2714,44 +2714,44 @@ void GameplayOverlayInputController::handleDialogueOverlayInput(
     {
         if (pKeyboardState[SDL_SCANCODE_UP])
         {
-            if (!view.eventDialogSelectUpLatch())
+            if (!view.interactionState().eventDialogSelectUpLatch)
             {
                 view.eventDialogSelectionIndex() = view.eventDialogSelectionIndex() == 0
                     ? (view.activeEventDialog().actions.size() - 1)
                     : (view.eventDialogSelectionIndex() - 1);
-                view.eventDialogSelectUpLatch() = true;
+                view.interactionState().eventDialogSelectUpLatch = true;
             }
         }
         else
         {
-            view.eventDialogSelectUpLatch() = false;
+            view.interactionState().eventDialogSelectUpLatch = false;
         }
 
         if (pKeyboardState[SDL_SCANCODE_DOWN])
         {
-            if (!view.eventDialogSelectDownLatch())
+            if (!view.interactionState().eventDialogSelectDownLatch)
             {
                 view.eventDialogSelectionIndex() =
                     (view.eventDialogSelectionIndex() + 1) % view.activeEventDialog().actions.size();
-                view.eventDialogSelectDownLatch() = true;
+                view.interactionState().eventDialogSelectDownLatch = true;
             }
         }
         else
         {
-            view.eventDialogSelectDownLatch() = false;
+            view.interactionState().eventDialogSelectDownLatch = false;
         }
     }
     else
     {
-        view.eventDialogSelectUpLatch() = false;
-        view.eventDialogSelectDownLatch() = false;
+        view.interactionState().eventDialogSelectUpLatch = false;
+        view.interactionState().eventDialogSelectDownLatch = false;
     }
 
     const bool acceptPressed = pKeyboardState[SDL_SCANCODE_RETURN] || pKeyboardState[SDL_SCANCODE_SPACE];
 
     if (acceptPressed && !isResidentSelectionMode)
     {
-        if (!view.eventDialogAcceptLatch())
+        if (!view.interactionState().eventDialogAcceptLatch)
         {
             if (view.activeEventDialog().actions.empty())
             {
@@ -2762,12 +2762,12 @@ void GameplayOverlayInputController::handleDialogueOverlayInput(
                 view.executeActiveDialogAction();
             }
 
-            view.eventDialogAcceptLatch() = true;
+            view.interactionState().eventDialogAcceptLatch = true;
         }
     }
     else
     {
-        view.eventDialogAcceptLatch() = false;
+        view.interactionState().eventDialogAcceptLatch = false;
     }
 
     float dialogMouseX = 0.0f;
@@ -2900,8 +2900,8 @@ void GameplayOverlayInputController::handleDialogueOverlayInput(
 
             handlePointerClickRelease(
                 houseShopPointerState,
-                view.houseShopClickLatch(),
-                view.houseShopPressedSlotIndex(),
+                view.interactionState().houseShopClickLatch,
+                view.interactionState().houseShopPressedSlotIndex,
                 std::numeric_limits<size_t>::max(),
                 resolveHoveredSlotIndex,
                 [&view, pDialogueHouseEntry, stockMode](size_t slotIndex)
@@ -2947,7 +2947,7 @@ void GameplayOverlayInputController::handleDialogueOverlayInput(
 
         if (resolvedInventoryGrid
             && isLeftMousePressed
-            && !view.inventoryNestedOverlayItemClickLatch()
+            && !view.interactionState().inventoryNestedOverlayItemClickLatch
             && dialogMouseX >= resolvedInventoryGrid->x
             && dialogMouseX < resolvedInventoryGrid->x + resolvedInventoryGrid->width
             && dialogMouseY >= resolvedInventoryGrid->y
@@ -3072,11 +3072,11 @@ void GameplayOverlayInputController::handleDialogueOverlayInput(
                 view.setStatusBarEvent(statusText);
             }
 
-            view.inventoryNestedOverlayItemClickLatch() = true;
+            view.interactionState().inventoryNestedOverlayItemClickLatch = true;
         }
         else if (!isLeftMousePressed)
         {
-            view.inventoryNestedOverlayItemClickLatch() = false;
+            view.interactionState().inventoryNestedOverlayItemClickLatch = false;
         }
     }
 
@@ -3344,8 +3344,8 @@ void GameplayOverlayInputController::handleDialogueOverlayInput(
     const GameplayDialoguePointerTarget noneDialogueTarget = {};
     handlePointerClickRelease(
         pointerState,
-        view.dialogueClickLatch(),
-        view.dialoguePressedTarget(),
+        view.interactionState().dialogueClickLatch,
+        view.interactionState().dialoguePressedTarget,
         noneDialogueTarget,
         findDialoguePointerTarget,
         [&view](const GameplayDialoguePointerTarget &target)
@@ -3366,15 +3366,15 @@ void GameplayOverlayInputController::handleDialogueOverlayInput(
 
     if (closePressed)
     {
-        if (!view.closeOverlayLatch())
+        if (!view.interactionState().closeOverlayLatch)
         {
             view.handleDialogueCloseRequest();
-            view.closeOverlayLatch() = true;
+            view.interactionState().closeOverlayLatch = true;
         }
     }
     else
     {
-        view.closeOverlayLatch() = false;
+        view.interactionState().closeOverlayLatch = false;
     }
 }
 
@@ -3465,7 +3465,7 @@ void GameplayOverlayInputController::handleLootOverlayInput(
 
             if (resolvedInventoryGrid
                 && isChestLeftMousePressed
-                && !view.inventoryNestedOverlayItemClickLatch()
+                && !view.interactionState().inventoryNestedOverlayItemClickLatch
                 && chestMouseX >= resolvedInventoryGrid->x
                 && chestMouseX < resolvedInventoryGrid->x + resolvedInventoryGrid->width
                 && chestMouseY >= resolvedInventoryGrid->y
@@ -3581,19 +3581,19 @@ void GameplayOverlayInputController::handleLootOverlayInput(
                     }
                 }
 
-                view.inventoryNestedOverlayItemClickLatch() = true;
+                view.interactionState().inventoryNestedOverlayItemClickLatch = true;
             }
             else if (!isChestLeftMousePressed)
             {
-                view.inventoryNestedOverlayItemClickLatch() = false;
+                view.interactionState().inventoryNestedOverlayItemClickLatch = false;
             }
         }
 
         const GameplayChestPointerTarget noneChestTarget = {};
         handlePointerClickRelease(
             chestPointerState,
-            view.chestClickLatch(),
-            view.chestPressedTarget(),
+            view.interactionState().chestClickLatch,
+            view.interactionState().chestPressedTarget,
             noneChestTarget,
             findChestPointerTarget,
             [&view](const GameplayChestPointerTarget &target)
@@ -3621,8 +3621,8 @@ void GameplayOverlayInputController::handleLootOverlayInput(
                     view.worldRuntime()->closeActiveChestView();
                     view.worldRuntime()->closeActiveCorpseView();
                     view.closeInventoryNestedOverlay();
-                    view.activateInspectLatch() = true;
-                    view.chestSelectionIndex() = 0;
+                    view.interactionState().activateInspectLatch = true;
+                    view.interactionState().chestSelectionIndex = 0;
                 }
             });
 
@@ -3634,7 +3634,7 @@ void GameplayOverlayInputController::handleLootOverlayInput(
         if (!inventoryNestedOverlayActive
             && resolvedChestGrid
             && isChestLeftMousePressed
-            && !view.chestItemClickLatch()
+            && !view.interactionState().chestItemClickLatch
             && hoveredChestTarget.type == GameplayChestPointerTargetType::None
             && chestMouseX >= resolvedChestGrid->x
             && chestMouseX < resolvedChestGrid->x + resolvedChestGrid->width
@@ -3757,62 +3757,62 @@ void GameplayOverlayInputController::handleLootOverlayInput(
                 }
             }
 
-            view.chestItemClickLatch() = true;
+            view.interactionState().chestItemClickLatch = true;
         }
         else if (!isChestLeftMousePressed)
         {
-            view.chestItemClickLatch() = false;
+            view.interactionState().chestItemClickLatch = false;
         }
     }
     else
     {
-        view.chestClickLatch() = false;
-        view.chestItemClickLatch() = false;
-        view.chestPressedTarget() = {};
+        view.interactionState().chestClickLatch = false;
+        view.interactionState().chestItemClickLatch = false;
+        view.interactionState().chestPressedTarget = {};
         view.resetInventoryNestedOverlayInteractionState();
     }
 
     if (itemCount == 0)
     {
-        view.chestSelectionIndex() = 0;
+        view.interactionState().chestSelectionIndex = 0;
     }
-    else if (view.chestSelectionIndex() >= itemCount)
+    else if (view.interactionState().chestSelectionIndex >= itemCount)
     {
-        view.chestSelectionIndex() = itemCount - 1;
+        view.interactionState().chestSelectionIndex = itemCount - 1;
     }
 
     if (pKeyboardState[SDL_SCANCODE_UP])
     {
-        if (!view.chestSelectUpLatch() && itemCount > 0)
+        if (!view.interactionState().chestSelectUpLatch && itemCount > 0)
         {
-            view.chestSelectionIndex() =
-                (view.chestSelectionIndex() == 0) ? (itemCount - 1) : (view.chestSelectionIndex() - 1);
-            view.chestSelectUpLatch() = true;
+            view.interactionState().chestSelectionIndex =
+                (view.interactionState().chestSelectionIndex == 0) ? (itemCount - 1) : (view.interactionState().chestSelectionIndex - 1);
+            view.interactionState().chestSelectUpLatch = true;
         }
     }
     else
     {
-        view.chestSelectUpLatch() = false;
+        view.interactionState().chestSelectUpLatch = false;
     }
 
     if (pKeyboardState[SDL_SCANCODE_DOWN])
     {
-        if (!view.chestSelectDownLatch() && itemCount > 0)
+        if (!view.interactionState().chestSelectDownLatch && itemCount > 0)
         {
-            view.chestSelectionIndex() = (view.chestSelectionIndex() + 1) % itemCount;
-            view.chestSelectDownLatch() = true;
+            view.interactionState().chestSelectionIndex = (view.interactionState().chestSelectionIndex + 1) % itemCount;
+            view.interactionState().chestSelectDownLatch = true;
         }
     }
     else
     {
-        view.chestSelectDownLatch() = false;
+        view.interactionState().chestSelectDownLatch = false;
     }
 
     const bool lootPressed = pKeyboardState[SDL_SCANCODE_RETURN] || pKeyboardState[SDL_SCANCODE_SPACE];
 
     if (lootPressed)
     {
-        if (!view.lootChestItemLatch()
+        if (!view.interactionState().lootChestItemLatch
             && !view.inventoryNestedOverlay().active
             && itemCount > 0
             && view.party() != nullptr)
@@ -3832,9 +3832,9 @@ void GameplayOverlayInputController::handleLootOverlayInput(
                 pItems = &pCurrentCorpseView->items;
             }
 
-            if (pItems != nullptr && view.chestSelectionIndex() < pItems->size())
+            if (pItems != nullptr && view.interactionState().chestSelectionIndex < pItems->size())
             {
-                const GameplayChestItemState item = (*pItems)[view.chestSelectionIndex()];
+                const GameplayChestItemState item = (*pItems)[view.interactionState().chestSelectionIndex];
                 bool canLoot = true;
 
                 if (!item.isGold)
@@ -3846,8 +3846,8 @@ void GameplayOverlayInputController::handleLootOverlayInput(
                 {
                     GameplayChestItemState removedItem = {};
                     const bool removed = pCurrentChestView != nullptr
-                        ? view.worldRuntime()->takeActiveChestItem(view.chestSelectionIndex(), removedItem)
-                        : view.worldRuntime()->takeActiveCorpseItem(view.chestSelectionIndex(), removedItem);
+                        ? view.worldRuntime()->takeActiveChestItem(view.interactionState().chestSelectionIndex, removedItem)
+                        : view.worldRuntime()->takeActiveCorpseItem(view.interactionState().chestSelectionIndex, removedItem);
 
                     if (removed)
                     {
@@ -3873,27 +3873,27 @@ void GameplayOverlayInputController::handleLootOverlayInput(
 
                         if (pUpdatedItems != nullptr
                             && !pUpdatedItems->empty()
-                            && view.chestSelectionIndex() >= pUpdatedItems->size())
+                            && view.interactionState().chestSelectionIndex >= pUpdatedItems->size())
                         {
-                            view.chestSelectionIndex() = pUpdatedItems->size() - 1;
+                            view.interactionState().chestSelectionIndex = pUpdatedItems->size() - 1;
                         }
                     }
                 }
             }
 
-            view.lootChestItemLatch() = true;
+            view.interactionState().lootChestItemLatch = true;
         }
     }
     else
     {
-        view.lootChestItemLatch() = false;
+        view.interactionState().lootChestItemLatch = false;
     }
 
     const bool closePressed = pKeyboardState[SDL_SCANCODE_ESCAPE];
 
     if (closePressed)
     {
-        if (!view.closeOverlayLatch())
+        if (!view.interactionState().closeOverlayLatch)
         {
             if (view.inventoryNestedOverlay().active)
             {
@@ -3910,16 +3910,16 @@ void GameplayOverlayInputController::handleLootOverlayInput(
 
                 view.worldRuntime()->closeActiveChestView();
                 view.worldRuntime()->closeActiveCorpseView();
-                view.activateInspectLatch() = true;
-                view.chestSelectionIndex() = 0;
+                view.interactionState().activateInspectLatch = true;
+                view.interactionState().chestSelectionIndex = 0;
             }
 
-            view.closeOverlayLatch() = true;
+            view.interactionState().closeOverlayLatch = true;
         }
     }
     else
     {
-        view.closeOverlayLatch() = false;
+        view.interactionState().closeOverlayLatch = false;
     }
 }
 } // namespace OpenYAMM::Game

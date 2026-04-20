@@ -69,8 +69,8 @@ void GameplayHudInputController::handlePartyPortraitInput(
 {
     if (!config.allowInput || config.screenWidth <= 0 || config.screenHeight <= 0)
     {
-        context.partyPortraitClickLatch() = false;
-        context.partyPortraitPressedIndex() = std::nullopt;
+        context.interactionState().partyPortraitClickLatch = false;
+        context.interactionState().partyPortraitPressedIndex = std::nullopt;
         return;
     }
 
@@ -82,8 +82,8 @@ void GameplayHudInputController::handlePartyPortraitInput(
 
     handlePointerClickRelease(
         pointerState,
-        context.partyPortraitClickLatch(),
-        context.partyPortraitPressedIndex(),
+        context.interactionState().partyPortraitClickLatch,
+        context.interactionState().partyPortraitPressedIndex,
         std::optional<size_t>{},
         [&context, &config](float x, float y) -> std::optional<size_t>
         {
@@ -109,7 +109,7 @@ void GameplayHudInputController::handlePartyPortraitInput(
 
                 if (context.tryAutoPlaceHeldInventoryItemOnPartyMember(*memberIndex, !switchCharacterOnFailedPlacement))
                 {
-                    context.lastPartyPortraitClickedIndex() = std::nullopt;
+                    context.interactionState().lastPartyPortraitClickedIndex = std::nullopt;
                 }
                 else if (switchCharacterOnFailedPlacement)
                 {
@@ -122,16 +122,16 @@ void GameplayHudInputController::handlePartyPortraitInput(
             const uint64_t nowTicks = SDL_GetTicks();
             const bool isGameplayInventoryDoubleClick =
                 config.requireGameplayReady
-                && context.lastPartyPortraitClickedIndex().has_value()
-                && *context.lastPartyPortraitClickedIndex() == *memberIndex
-                && nowTicks >= context.lastPartyPortraitClickTicks()
-                && nowTicks - context.lastPartyPortraitClickTicks() <= PartyPortraitDoubleClickWindowMs;
+                && context.interactionState().lastPartyPortraitClickedIndex.has_value()
+                && *context.interactionState().lastPartyPortraitClickedIndex == *memberIndex
+                && nowTicks >= context.interactionState().lastPartyPortraitClickTicks
+                && nowTicks - context.interactionState().lastPartyPortraitClickTicks <= PartyPortraitDoubleClickWindowMs;
             const bool isChestInventoryDoubleClick =
                 config.hasActiveLootView
-                && context.lastPartyPortraitClickedIndex().has_value()
-                && *context.lastPartyPortraitClickedIndex() == *memberIndex
-                && nowTicks >= context.lastPartyPortraitClickTicks()
-                && nowTicks - context.lastPartyPortraitClickTicks() <= PartyPortraitDoubleClickWindowMs;
+                && context.interactionState().lastPartyPortraitClickedIndex.has_value()
+                && *context.interactionState().lastPartyPortraitClickedIndex == *memberIndex
+                && nowTicks >= context.interactionState().lastPartyPortraitClickTicks
+                && nowTicks - context.interactionState().lastPartyPortraitClickTicks <= PartyPortraitDoubleClickWindowMs;
 
             if (!context.trySelectPartyMember(*memberIndex, config.requireGameplayReady))
             {
@@ -152,8 +152,8 @@ void GameplayHudInputController::handlePartyPortraitInput(
                 context.openChestTransferInventoryOverlay();
             }
 
-            context.lastPartyPortraitClickTicks() = nowTicks;
-            context.lastPartyPortraitClickedIndex() = *memberIndex;
+            context.interactionState().lastPartyPortraitClickTicks = nowTicks;
+            context.interactionState().lastPartyPortraitClickedIndex = *memberIndex;
         });
 }
 
@@ -163,8 +163,8 @@ void GameplayHudInputController::handleGameplayHudButtonInput(
 {
     if (!config.allowInput || config.screenWidth <= 0 || config.screenHeight <= 0)
     {
-        context.gameplayHudClickLatch() = false;
-        context.gameplayHudPressedTarget() = {};
+        context.interactionState().gameplayHudClickLatch = false;
+        context.interactionState().gameplayHudPressedTarget = {};
         return;
     }
 
@@ -176,8 +176,8 @@ void GameplayHudInputController::handleGameplayHudButtonInput(
 
     handlePointerClickRelease(
         pointerState,
-        context.gameplayHudClickLatch(),
-        context.gameplayHudPressedTarget(),
+        context.interactionState().gameplayHudClickLatch,
+        context.interactionState().gameplayHudPressedTarget,
         GameplayHudPointerTarget{},
         [&context, &config](float pointerX, float pointerY) -> GameplayHudPointerTarget
         {

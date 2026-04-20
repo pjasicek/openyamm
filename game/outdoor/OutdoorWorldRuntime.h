@@ -669,6 +669,9 @@ public:
 
     Party *party() override;
     const Party *party() const override;
+    const std::vector<uint8_t> *journalMapFullyRevealedCells() const override;
+    const std::vector<uint8_t> *journalMapPartiallyRevealedCells() const override;
+    int restFoodRequired() const override;
     float partyX() const override;
     float partyY() const override;
     float partyFootZ() const override;

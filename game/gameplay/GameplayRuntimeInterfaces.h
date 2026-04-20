@@ -111,6 +111,9 @@ public:
     virtual const std::string &mapName() const = 0;
     virtual float gameMinutes() const = 0;
     virtual int currentHour() const = 0;
+    virtual const std::vector<uint8_t> *journalMapFullyRevealedCells() const = 0;
+    virtual const std::vector<uint8_t> *journalMapPartiallyRevealedCells() const = 0;
+    virtual int restFoodRequired() const = 0;
     virtual void advanceGameMinutes(float minutes) = 0;
     virtual int currentLocationReputation() const = 0;
     virtual void setCurrentLocationReputation(int reputation) = 0;

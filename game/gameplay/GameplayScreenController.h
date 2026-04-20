@@ -79,6 +79,16 @@ struct GameplayStandardWorldInputGateResult
     bool utilitySpellOverlayHandled = false;
 };
 
+struct GameplayStandardUiRenderConfig
+{
+    bool canRenderHudOverlays = false;
+    bool renderGameplayHud = true;
+    bool renderGameplayMouseLookOverlay = false;
+    bool renderActorInspectOverlay = true;
+    bool renderDebugFallbacks = false;
+    std::function<void()> onRenderedHud;
+};
+
 class GameplayScreenController
 {
 public:
@@ -136,6 +146,12 @@ public:
     static GameplayStandardWorldInputGateResult gateStandardWorldInput(
         GameplayScreenRuntime &context,
         const GameplayStandardWorldInputGateConfig &config);
+
+    static void renderStandardUi(
+        GameplayScreenRuntime &context,
+        int width,
+        int height,
+        const GameplayStandardUiRenderConfig &config);
 
     static void handleUtilitySpellOverlayInput(
         GameplayScreenRuntime &context,

@@ -85,6 +85,40 @@ const std::string &IndoorWorldRuntime::mapName() const
     return m_mapName;
 }
 
+const std::vector<uint8_t> *IndoorWorldRuntime::journalMapFullyRevealedCells() const
+{
+    return nullptr;
+}
+
+const std::vector<uint8_t> *IndoorWorldRuntime::journalMapPartiallyRevealedCells() const
+{
+    return nullptr;
+}
+
+int IndoorWorldRuntime::restFoodRequired() const
+{
+    int foodRequired = 2;
+
+    if (m_pPartyRuntime == nullptr)
+    {
+        return foodRequired;
+    }
+
+    constexpr uint32_t DragonRaceId = 5;
+    const Party &partyState = m_pPartyRuntime->party();
+
+    for (const Character &member : partyState.members())
+    {
+        if (member.raceId == DragonRaceId)
+        {
+            ++foodRequired;
+            break;
+        }
+    }
+
+    return std::max(1, foodRequired);
+}
+
 float IndoorWorldRuntime::currentGameMinutes() const
 {
     return m_gameMinutes;

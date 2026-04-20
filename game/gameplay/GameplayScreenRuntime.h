@@ -116,76 +116,8 @@ public:
     float &statusBarEventRemainingSeconds() const;
     const std::string &statusBarHoverText() const;
     std::string &mutableStatusBarHoverText() const;
-
-    bool &closeOverlayLatch() const;
-    bool &restToggleLatch() const;
-    bool &restClickLatch() const;
-    GameplayRestPointerTarget &restPressedTarget() const;
-    bool &gameplayHudClickLatch() const;
-    GameplayHudPointerTarget &gameplayHudPressedTarget() const;
-    bool &menuToggleLatch() const;
-    bool &menuClickLatch() const;
-    GameplayMenuPointerTarget &menuPressedTarget() const;
-    bool &controlsToggleLatch() const;
-    bool &controlsClickLatch() const;
-    GameplayControlsPointerTarget &controlsPressedTarget() const;
-    bool &controlsSliderDragActive() const;
-    GameplayControlsPointerTargetType &controlsDraggedSlider() const;
-    bool &keyboardToggleLatch() const;
-    bool &keyboardClickLatch() const;
-    GameplayKeyboardPointerTarget &keyboardPressedTarget() const;
-    bool &videoOptionsToggleLatch() const;
-    bool &videoOptionsClickLatch() const;
-    GameplayVideoOptionsPointerTarget &videoOptionsPressedTarget() const;
-    bool &saveGameToggleLatch() const;
-    bool &saveGameClickLatch() const;
-    GameplaySaveLoadPointerTarget &saveGamePressedTarget() const;
-    bool &characterClickLatch() const;
-    GameplayCharacterPointerTarget &characterPressedTarget() const;
-    bool &characterMemberCycleLatch() const;
-    std::optional<size_t> &pendingCharacterDismissMemberIndex() const;
-    uint64_t &pendingCharacterDismissExpiresTicks() const;
-    bool &spellbookClickLatch() const;
-    GameplaySpellbookPointerTarget &spellbookPressedTarget() const;
-    uint64_t &lastSpellbookSpellClickTicks() const;
-    uint32_t &lastSpellbookClickedSpellId() const;
-    bool &utilitySpellClickLatch() const;
-    GameplayUtilitySpellPointerTarget &utilitySpellPressedTarget() const;
-    std::array<bool, 39> &saveGameEditKeyLatches() const;
-    bool &saveGameEditBackspaceLatch() const;
-    uint64_t &lastSaveGameSlotClickTicks() const;
-    std::optional<size_t> &lastSaveGameClickedSlotIndex() const;
-    bool &journalToggleLatch() const;
-    bool &journalClickLatch() const;
-    GameplayJournalPointerTarget &journalPressedTarget() const;
-    bool &journalMapKeyZoomLatch() const;
-    bool &dialogueClickLatch() const;
-    GameplayDialoguePointerTarget &dialoguePressedTarget() const;
-    bool &houseShopClickLatch() const;
-    size_t &houseShopPressedSlotIndex() const;
-    bool &chestClickLatch() const;
-    bool &chestItemClickLatch() const;
-    GameplayChestPointerTarget &chestPressedTarget() const;
-    bool &inventoryNestedOverlayItemClickLatch() const;
-    std::array<bool, 10> &houseBankDigitLatches() const;
-    bool &houseBankBackspaceLatch() const;
-    bool &houseBankConfirmLatch() const;
-    bool &lootChestItemLatch() const;
-    bool &chestSelectUpLatch() const;
-    bool &chestSelectDownLatch() const;
-    bool &eventDialogSelectUpLatch() const;
-    bool &eventDialogSelectDownLatch() const;
-    bool &eventDialogAcceptLatch() const;
-    std::array<bool, 5> &eventDialogPartySelectLatches() const;
-    bool &activateInspectLatch() const;
-    bool &itemInspectInteractionLatch() const;
-    uint64_t &itemInspectInteractionKey() const;
-    size_t &chestSelectionIndex() const;
     size_t &eventDialogSelectionIndex() const;
-    bool &partyPortraitClickLatch() const;
-    std::optional<size_t> &partyPortraitPressedIndex() const;
-    uint64_t &lastPartyPortraitClickTicks() const;
-    std::optional<size_t> &lastPartyPortraitClickedIndex() const;
+    GameplayOverlayInteractionState &interactionState() const;
 
     bool trySelectPartyMember(size_t memberIndex, bool requireGameplayReady);
     size_t selectedCharacterScreenSourceIndex() const;
@@ -251,6 +183,20 @@ public:
     bool trySaveToSelectedGameSlot();
     int restFoodRequired() const;
     const GameSettings &settingsSnapshot() const;
+    void bindAssetFileSystem(const Engine::AssetFileSystem *pAssetFileSystem);
+    void clearUiControllerRuntimeState();
+    bool ensureGameplayLayoutsLoaded();
+    void preloadReferencedAssets();
+    bool ensurePortraitRuntimeLoaded();
+    void resetPortraitFxStates(size_t memberCount);
+    void resetOverlayInteractionState();
+    bool initializeHouseVideoPlayer();
+    void shutdownHouseVideoPlayer();
+    void stopHouseVideoPlayback();
+    bool playHouseVideo(const std::string &videoStem);
+    void queueBackgroundHouseVideoPreload(const std::string &videoStem);
+    void updateHouseVideoBackgroundPreloads();
+    void updateHouseVideoPlayback(float deltaSeconds);
     bool isControlsRenderButtonPressed(GameplayControlsRenderButton button) const;
     bool isVideoOptionsRenderButtonPressed(GameplayVideoOptionsRenderButton button) const;
     void clearHudLayoutRuntimeHeightOverrides();
@@ -334,6 +280,10 @@ public:
         float textX,
         float textY,
         float fontScale) const;
+    void bindHudRenderBackend(const GameplayHudRenderBackend &backend);
+    void clearHudRenderBackend();
+    void releaseHudGpuResources(bool destroyBgfxResources);
+    void clearSharedUiRuntime();
     bool hasHudRenderResources() const;
     void prepareHudView(int width, int height) const;
     void submitHudQuadBatch(
@@ -371,11 +321,16 @@ public:
         float textY,
         float fontScale) const;
 
+    void resetHudTransientState() const;
     void addRenderedInspectableHudItem(const GameplayRenderedInspectableHudItem &item) const;
     const std::vector<GameplayRenderedInspectableHudItem> &renderedInspectableHudItems() const;
     void beginRenderedInspectableHudFrame() const;
     GameplayHudScreenState renderedInspectableHudScreenState() const;
     bool isOpaqueHudPixelAtPoint(const GameplayRenderedInspectableHudItem &item, float x, float y) const;
+    const PortraitFxEventEntry *findPortraitFxEvent(PortraitFxEventKind kind) const;
+    uint32_t defaultPortraitAnimationLengthTicks(PortraitId portraitId) const;
+    bool triggerPortraitFxAnimation(const std::string &animationName, const std::vector<size_t> &memberIndices);
+    void triggerPortraitSpellFx(const PartySpellCastResult &result);
     std::string resolveEquippedItemHudTextureName(
         const ItemDefinition &itemDefinition,
         uint32_t dollTypeId,
@@ -405,7 +360,6 @@ private:
     IGameplayOverlaySceneAdapter &sceneAdapter() const;
     GameplayUiController &uiController() const;
     GameplayUiRuntime &uiRuntime() const;
-    GameplayOverlayInteractionState &interactionState() const;
     GameplayDialogUiFlowState dialogUiFlowState();
     GameplayDialogController::Context buildDialogContext(EventRuntimeState &eventRuntimeState);
     void presentPendingEventDialogShared(size_t previousMessageCount, bool allowNpcFallbackContent);

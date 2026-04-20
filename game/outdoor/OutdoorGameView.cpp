@@ -3385,7 +3385,6 @@ OutdoorGameView::OutdoorGameView(GameSession &gameSession)
     , m_pendingSpellTargetClickLatch(false)
     , m_adventurersInnToggleLatch(false)
     , m_gameSession(gameSession)
-    , m_gameplayUiRuntime(gameSession.gameplayUiRuntime())
     , m_gameplayUiController(gameSession.gameplayUiController())
     , m_gameplayDialogController(gameSession.gameplayDialogController())
     , m_overlayInteractionState(gameSession.overlayInteractionState())
@@ -3490,9 +3489,10 @@ bool OutdoorGameView::initialize(
     m_gameSession.gameplayScreenRuntime().bindSceneAdapter(this);
     m_gameSession.gameplayScreenRuntime().bindAudioSystem(m_pGameAudioSystem);
     m_gameSession.gameplayScreenRuntime().bindSettings(&m_gameSettings);
-    m_gameplayUiRuntime.bindAssetFileSystem(&assetFileSystem);
-    m_gameplayUiRuntime.initializeHouseVideoPlayer();
-    m_gameplayUiRuntime.resetPortraitFxStates(5);
+    GameplayScreenRuntime &screenRuntime = m_gameSession.gameplayScreenRuntime();
+    screenRuntime.bindAssetFileSystem(&assetFileSystem);
+    screenRuntime.initializeHouseVideoPlayer();
+    screenRuntime.resetPortraitFxStates(5);
 
     if (!loadPortraitAnimationData(assetFileSystem))
     {
@@ -3565,13 +3565,13 @@ bool OutdoorGameView::initialize(
     OutdoorBillboardRenderer::initializeBillboardResources(*this);
     ParticleRenderer::initializeResources(*this);
 
-    if (!m_gameplayUiRuntime.ensureGameplayLayoutsLoaded(m_gameplayUiController))
+    if (!screenRuntime.ensureGameplayLayoutsLoaded())
     {
         std::cerr << "OutdoorGameView failed to load HUD layout data from Data/ui/gameplay/*.yml\n";
     }
     else
     {
-        m_gameplayUiRuntime.preloadReferencedAssets();
+        screenRuntime.preloadReferencedAssets();
     }
 
     m_terrainTextureSamplerHandle = bgfx::createUniform("s_texColor", bgfx::UniformType::Sampler);
@@ -3627,7 +3627,7 @@ bool OutdoorGameView::initialize(
 
     for (const std::string &videoStem : relevantHouseVideoStems)
     {
-        m_gameplayUiRuntime.queueBackgroundHouseVideoPreload(videoStem);
+        screenRuntime.queueBackgroundHouseVideoPreload(videoStem);
     }
 
     m_isRenderable = true;
@@ -3652,7 +3652,7 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
     hudRenderBackend.texturedProgramHandle = m_texturedTerrainProgramHandle;
     hudRenderBackend.textureSamplerHandle = m_terrainTextureSamplerHandle;
     hudRenderBackend.viewId = HudViewId;
-    m_gameplayUiRuntime.bindHudRenderBackend(hudRenderBackend);
+    m_gameSession.gameplayScreenRuntime().bindHudRenderBackend(hudRenderBackend);
 
     if (deltaSeconds > 0.0f)
     {
@@ -3752,7 +3752,7 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
         m_journalScreen.hoverAnimationElapsedSeconds += std::max(0.0f, deltaSeconds);
     }
 
-    m_gameplayUiRuntime.updateHouseVideoBackgroundPreloads();
+    m_gameSession.gameplayScreenRuntime().updateHouseVideoBackgroundPreloads();
 
     updateHouseVideoPlayback(deltaSeconds);
     updateItemInspectOverlayState(width, height);
@@ -5506,38 +5506,22 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
     if (!captureSavePreviewThisFrame)
     {
         GameplayScreenRuntime &overlayContext = m_gameSession.gameplayScreenRuntime();
-        const bool deferDialogueInventoryServiceOverlay =
-            m_inventoryNestedOverlay.active
-            && (m_inventoryNestedOverlay.mode == InventoryNestedOverlayMode::ShopSell
-                || m_inventoryNestedOverlay.mode == InventoryNestedOverlayMode::ShopIdentify
-                || m_inventoryNestedOverlay.mode == InventoryNestedOverlayMode::ShopRepair)
-            && overlayContext.currentHudScreenState() == GameplayHudScreenState::Dialogue;
 
-        if (m_showGameplayHud)
-        {
-            GameplayScreenController::renderSharedOverlays(
-                overlayContext,
-                width,
-                height,
-                GameplayScreenRenderConfig{
-                    .base =
-                        GameplayUiOverlayRenderConfig{
-                            .canRenderHudOverlays = true,
-                            .renderGameplayMouseLookOverlay =
-                                m_gameplayMouseLookActive && !m_gameplayCursorModeActive && !m_pendingSpellCast.active,
-                            .renderChestBelowHud = true,
-                            .renderChestAboveHud = true,
-                            .renderInventoryBelowHud = !deferDialogueInventoryServiceOverlay,
-                            .renderDialogueBelowHud = true,
-                            .renderDialogueAboveHud = true,
-                            .renderCharacterBelowHud = true,
-                            .renderCharacterAboveHud = true,
-                        },
-                    .renderDeferredInventoryOverlay = deferDialogueInventoryServiceOverlay,
-                });
-            renderPendingSpellTargetingOverlay(width, height);
-        }
-
+        GameplayScreenController::renderStandardUi(
+            overlayContext,
+            width,
+            height,
+            GameplayStandardUiRenderConfig{
+                .canRenderHudOverlays = true,
+                .renderGameplayHud = m_showGameplayHud,
+                .renderGameplayMouseLookOverlay =
+                    m_gameplayMouseLookActive && !m_gameplayCursorModeActive && !m_pendingSpellCast.active,
+                .onRenderedHud =
+                    [this, width, height]()
+                    {
+                        renderPendingSpellTargetingOverlay(width, height);
+                    },
+            });
     }
 
     updateFootstepAudio(deltaSeconds);
@@ -5550,9 +5534,10 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
 void OutdoorGameView::shutdown()
 {
     syncGameplayMouseLookMode(SDL_GetMouseFocus(), false);
-    m_gameplayUiRuntime.clearHudRenderBackend();
-    m_gameSession.gameplayScreenRuntime().clearSceneAdapter(this);
-    m_gameSession.gameplayScreenRuntime().bindAudioSystem(nullptr);
+    GameplayScreenRuntime &screenRuntime = m_gameSession.gameplayScreenRuntime();
+    screenRuntime.clearHudRenderBackend();
+    screenRuntime.clearSceneAdapter(this);
+    screenRuntime.bindAudioSystem(nullptr);
 
     if (!m_isInitialized)
     {
@@ -5575,8 +5560,8 @@ void OutdoorGameView::shutdown()
         m_pOutdoorWorldRuntime = nullptr;
     };
 
-    m_gameplayUiController.clearRuntimeState();
-    m_gameplayUiRuntime.shutdownHouseVideoPlayer();
+    screenRuntime.clearUiControllerRuntimeState();
+    screenRuntime.shutdownHouseVideoPlayer();
     m_outdoorFxRuntime.reset();
     m_particleSystem.reset();
 
@@ -5626,10 +5611,9 @@ void OutdoorGameView::shutdown()
         m_texturedBModelBatches.clear();
         OutdoorBillboardRenderer::invalidateRenderAssets(*this);
         OutdoorRenderer::invalidateSkyResources(*this);
-        m_gameplayUiRuntime.releaseHudGpuResources(false);
-        m_gameplayUiRuntime.layoutManager().clear();
+        screenRuntime.releaseHudGpuResources(false);
         m_interactiveDecorationBindings.clear();
-        m_gameplayUiRuntime.clear();
+        screenRuntime.clearSharedUiRuntime();
         resetRuntimeState();
         return;
     }
@@ -5829,8 +5813,7 @@ void OutdoorGameView::shutdown()
     OutdoorBillboardRenderer::destroyRenderAssets(*this);
     OutdoorRenderer::destroySkyResources(*this);
 
-    m_gameplayUiRuntime.releaseHudGpuResources(true);
-    m_gameplayUiRuntime.layoutManager().clear();
+    screenRuntime.releaseHudGpuResources(true);
     m_interactiveDecorationBindings.clear();
 
     if (bgfx::isValid(m_skyVertexBufferHandle))
@@ -5915,63 +5898,35 @@ void OutdoorGameView::shutdown()
     m_toggleInspectLatch = false;
     m_triggerMeteorLatch = false;
     m_keyboardUseLatch = false;
-    m_overlayInteractionState.activateInspectLatch = false;
+    screenRuntime.resetOverlayInteractionState();
     m_inspectMouseActivateLatch = false;
     m_attackInspectLatch = false;
     m_attackInspectRepeatCooldownSeconds = 0.0f;
     m_quickSpellCastLatch = false;
-    m_overlayInteractionState.spellbookClickLatch = false;
     m_pendingSpellTargetClickLatch = false;
     m_adventurersInnToggleLatch = false;
     m_characterScreenOpen = false;
     m_characterDollJewelryOverlayOpen = false;
     m_adventurersInnRosterOverlayOpen = false;
     m_characterPage = CharacterPage::Inventory;
-    m_gameplayUiRuntime.clear();
+    screenRuntime.clearSharedUiRuntime();
     m_characterScreenSource = CharacterScreenSource::Party;
     m_characterScreenSourceIndex = 0;
     m_adventurersInnScrollOffset = 0;
-    m_overlayInteractionState.characterClickLatch = false;
-    m_overlayInteractionState.characterMemberCycleLatch = false;
-    m_overlayInteractionState.characterPressedTarget = {};
-    m_overlayInteractionState.partyPortraitClickLatch = false;
-    m_overlayInteractionState.partyPortraitPressedIndex = std::nullopt;
-    m_overlayInteractionState.lastPartyPortraitClickTicks = 0;
-    m_overlayInteractionState.lastPartyPortraitClickedIndex = std::nullopt;
-    m_overlayInteractionState.gameplayHudClickLatch = false;
-    m_overlayInteractionState.gameplayHudPressedTarget = {};
-    m_overlayInteractionState.restToggleLatch = false;
     m_lastAdventurersInnPortraitClickTicks = 0;
     m_lastAdventurersInnPortraitClickedIndex = std::nullopt;
-    m_overlayInteractionState.pendingCharacterDismissMemberIndex = std::nullopt;
-    m_overlayInteractionState.pendingCharacterDismissExpiresTicks = 0;
     m_heldInventoryItem = {};
     m_actorInspectOverlay = {};
     m_spellInspectOverlay = {};
     m_readableScrollOverlay = {};
     m_spellbook = {};
     m_utilitySpellOverlay = {};
-    m_overlayInteractionState.spellbookPressedTarget = {};
-    m_gameSession.gameplayScreenRuntime().resetUtilitySpellOverlayInteractionState();
-    m_overlayInteractionState.lastSpellbookSpellClickTicks = 0;
-    m_overlayInteractionState.lastSpellbookClickedSpellId = 0;
     m_pendingSpellCast = {};
     m_spellAreaPreviewCache = {};
     m_heldInventoryDropLatch = false;
     m_cachedHoverInspectHitValid = false;
     m_lastHoverInspectUpdateNanoseconds = 0;
     m_cachedHoverInspectHit = {};
-    m_overlayInteractionState.closeOverlayLatch = false;
-    m_overlayInteractionState.dialogueClickLatch = false;
-    m_overlayInteractionState.dialoguePressedTarget = {};
-    m_overlayInteractionState.lootChestItemLatch = false;
-    m_overlayInteractionState.chestSelectUpLatch = false;
-    m_overlayInteractionState.chestSelectDownLatch = false;
-    m_overlayInteractionState.eventDialogSelectUpLatch = false;
-    m_overlayInteractionState.eventDialogSelectDownLatch = false;
-    m_overlayInteractionState.eventDialogAcceptLatch = false;
-    m_overlayInteractionState.eventDialogPartySelectLatches.fill(false);
-    m_overlayInteractionState.chestSelectionIndex = 0;
     m_eventDialogSelectionIndex = 0;
     m_activeEventDialog = {};
     m_gameplayMouseLookActive = false;
@@ -6116,7 +6071,7 @@ void OutdoorGameView::updateHouseVideoPlayback(float deltaSeconds)
         }
 
         m_activeHouseAudioHostId = 0;
-        m_gameplayUiRuntime.stopHouseVideoPlayback();
+        m_gameSession.gameplayScreenRuntime().stopHouseVideoPlayback();
         return;
     }
 
@@ -6140,47 +6095,17 @@ void OutdoorGameView::updateHouseVideoPlayback(float deltaSeconds)
         }
     }
 
-    m_gameplayUiRuntime.playHouseVideo(pHostHouseEntry->videoName);
+    m_gameSession.gameplayScreenRuntime().playHouseVideo(pHostHouseEntry->videoName);
 
     if (!m_houseShopOverlay.active)
     {
-        m_gameplayUiRuntime.updateHouseVideoPlayback(deltaSeconds);
+        m_gameSession.gameplayScreenRuntime().updateHouseVideoPlayback(deltaSeconds);
     }
 }
 
 bool OutdoorGameView::hasActiveEventDialog() const
 {
     return m_activeEventDialog.isActive;
-}
-
-bool OutdoorGameView::trySelectPartyMember(size_t memberIndex, bool requireGameplayReady)
-{
-    if (m_pOutdoorPartyRuntime == nullptr)
-    {
-        return false;
-    }
-
-    Party &party = m_pOutdoorPartyRuntime->party();
-
-    if (requireGameplayReady && !party.canSelectMemberInGameplay(memberIndex))
-    {
-        return false;
-    }
-
-    if (!party.setActiveMemberIndex(memberIndex))
-    {
-        return false;
-    }
-
-    EventRuntimeState *pEventRuntimeState =
-        m_pOutdoorWorldRuntime != nullptr ? m_pOutdoorWorldRuntime->eventRuntimeState() : nullptr;
-
-    if (pEventRuntimeState != nullptr && hasActiveEventDialog())
-    {
-        OutdoorInteractionController::presentPendingEventDialog(*this, pEventRuntimeState->messages.size(), true);
-    }
-
-    return true;
 }
 
 void OutdoorGameView::updateItemInspectOverlayState(int width, int height)
@@ -6347,13 +6272,14 @@ void OutdoorGameView::tryApplyWorldItemInspectSkillInteraction()
 
     GameplayScreenRuntime &overlayContext = m_gameSession.gameplayScreenRuntime();
 
-    if (overlayContext.itemInspectInteractionLatch() && overlayContext.itemInspectInteractionKey() == interactionKey)
+    if (overlayContext.interactionState().itemInspectInteractionLatch
+        && overlayContext.interactionState().itemInspectInteractionKey == interactionKey)
     {
         return;
     }
 
-    overlayContext.itemInspectInteractionLatch() = true;
-    overlayContext.itemInspectInteractionKey() = interactionKey;
+    overlayContext.interactionState().itemInspectInteractionLatch = true;
+    overlayContext.interactionState().itemInspectInteractionKey = interactionKey;
 
     Party &party = m_pOutdoorPartyRuntime->party();
     const Character *pActiveMember = party.activeMember();
@@ -6649,62 +6575,6 @@ void OutdoorGameView::clearWorldInteractionInputLatches()
     m_statusBarHoverText.clear();
 }
 
-int OutdoorGameView::restFoodRequired() const
-{
-    int foodRequired = 2;
-
-    if (m_pOutdoorPartyRuntime != nullptr)
-    {
-        const OutdoorMoveState &moveState = m_pOutdoorPartyRuntime->movementState();
-
-        if (moveState.supportKind == OutdoorSupportKind::Terrain
-            && !moveState.airborne
-            && !moveState.supportOnWater
-            && m_outdoorMapData.has_value())
-        {
-            const std::string tilesetName = toLowerCopy(m_outdoorMapData->groundTilesetName);
-
-            if (tilesetName.find("grass") != std::string::npos || tilesetName.find("gras") != std::string::npos)
-            {
-                foodRequired = 1;
-            }
-            else if (tilesetName.find("desert") != std::string::npos
-                     || tilesetName.find("dsrt") != std::string::npos
-                     || tilesetName.find("sand") != std::string::npos)
-            {
-                foodRequired = 5;
-            }
-            else if (tilesetName.find("snow") != std::string::npos
-                     || tilesetName.find("snw") != std::string::npos
-                     || tilesetName.find("ice") != std::string::npos
-                     || tilesetName.find("swamp") != std::string::npos
-                     || tilesetName.find("swmp") != std::string::npos)
-            {
-                foodRequired = 3;
-            }
-            else if (tilesetName.find("badland") != std::string::npos || tilesetName.find("bad") != std::string::npos)
-            {
-                foodRequired = 4;
-            }
-        }
-
-        const Party &party = m_pOutdoorPartyRuntime->party();
-
-        for (const Character &member : party.members())
-        {
-            constexpr uint32_t DragonRaceId = 5;
-
-            if (member.raceId == DragonRaceId)
-            {
-                ++foodRequired;
-                break;
-            }
-        }
-    }
-
-    return std::max(1, foodRequired);
-}
-
 float OutdoorGameView::innRestDurationMinutes(uint32_t houseId) const
 {
     if (m_pOutdoorWorldRuntime == nullptr)
@@ -6766,7 +6636,7 @@ void OutdoorGameView::beginRestAction(RestMode mode, float minutes, bool consume
 
     if (mode == RestMode::Heal && consumeFood)
     {
-        const int foodRequired = restFoodRequired();
+        const int foodRequired = m_pOutdoorWorldRuntime->restFoodRequired();
         Party &party = m_pOutdoorPartyRuntime->party();
 
         if (party.food() < foodRequired)
@@ -7086,7 +6956,7 @@ void OutdoorGameView::updateReadableScrollOverlayForHeldItem(
 
 void OutdoorGameView::triggerPortraitEventFxWithoutSpeech(size_t memberIndex, PortraitFxEventKind kind)
 {
-    const PortraitFxEventEntry *pEntry = m_gameplayUiRuntime.findPortraitFxEvent(kind);
+    const PortraitFxEventEntry *pEntry = m_gameSession.gameplayScreenRuntime().findPortraitFxEvent(kind);
 
     if (pEntry == nullptr)
     {
@@ -7607,7 +7477,8 @@ bool OutdoorGameView::loadPortraitAnimationData(const Engine::AssetFileSystem &a
         rows.push_back(parsedTable->getRow(rowIndex));
     }
 
-    return m_gameplayUiRuntime.ensurePortraitRuntimeLoaded() && m_faceAnimationTable.loadFromRows(rows);
+    return m_gameSession.gameplayScreenRuntime().ensurePortraitRuntimeLoaded()
+        && m_faceAnimationTable.loadFromRows(rows);
 }
 
 void OutdoorGameView::updatePartyPortraitAnimations(float deltaSeconds)
@@ -7640,7 +7511,7 @@ void OutdoorGameView::triggerPortraitFaceAnimationForAllLivingMembers(FaceAnimat
 
 uint32_t OutdoorGameView::defaultPortraitAnimationLengthTicks(PortraitId portraitId) const
 {
-    return m_gameplayUiRuntime.defaultPortraitAnimationLengthTicks(portraitId);
+    return m_gameSession.gameplayScreenRuntime().defaultPortraitAnimationLengthTicks(portraitId);
 }
 
 const AdventurersInnMember *OutdoorGameView::selectedAdventurersInnMember() const
@@ -7666,31 +7537,33 @@ AdventurersInnMember *OutdoorGameView::selectedAdventurersInnMember()
 bool OutdoorGameView::loadPortraitFxData(const Engine::AssetFileSystem &assetFileSystem)
 {
     (void)assetFileSystem;
-    return m_gameplayUiRuntime.ensurePortraitRuntimeLoaded();
+    return m_gameSession.gameplayScreenRuntime().ensurePortraitRuntimeLoaded();
 }
 
 bool OutdoorGameView::triggerPortraitFxAnimation(
     const std::string &animationName,
     const std::vector<size_t> &memberIndices)
 {
-    return m_gameplayUiRuntime.triggerPortraitFxAnimation(animationName, memberIndices);
+    return m_gameSession.gameplayScreenRuntime().triggerPortraitFxAnimation(animationName, memberIndices);
 }
 
 void OutdoorGameView::triggerPortraitSpellFx(const PartySpellCastResult &result)
 {
-    m_gameplayUiRuntime.triggerPortraitSpellFx(result);
+    m_gameSession.gameplayScreenRuntime().triggerPortraitSpellFx(result);
 }
 
 void OutdoorGameView::triggerPortraitEventFx(const EventRuntimeState::PortraitFxRequest &request)
 {
-    const PortraitFxEventEntry *pEntry = m_gameplayUiRuntime.findPortraitFxEvent(request.kind);
+    const PortraitFxEventEntry *pEntry = m_gameSession.gameplayScreenRuntime().findPortraitFxEvent(request.kind);
 
     if (pEntry == nullptr)
     {
         return;
     }
 
-    m_gameplayUiRuntime.triggerPortraitFxAnimation(pEntry->animationName, request.memberIndices);
+    m_gameSession.gameplayScreenRuntime().triggerPortraitFxAnimation(
+        pEntry->animationName,
+        request.memberIndices);
 
     if (pEntry->faceAnimationId.has_value())
     {
@@ -8495,25 +8368,9 @@ const GameDataRepository &OutdoorGameView::data() const
     return m_gameSession.data();
 }
 
-const std::string &OutdoorGameView::currentMapFileName() const
-{
-    static const std::string kEmptyMapFileName;
-    return m_map ? m_map->fileName : kEmptyMapFileName;
-}
-
 float OutdoorGameView::gameplayCameraYawRadians() const
 {
     return effectiveCameraYawRadians();
-}
-
-const std::vector<uint8_t> *OutdoorGameView::journalMapFullyRevealedCells() const
-{
-    return m_outdoorMapDeltaData ? &m_outdoorMapDeltaData->fullyRevealedCells : nullptr;
-}
-
-const std::vector<uint8_t> *OutdoorGameView::journalMapPartiallyRevealedCells() const
-{
-    return m_outdoorMapDeltaData ? &m_outdoorMapDeltaData->partiallyRevealedCells : nullptr;
 }
 
 void OutdoorGameView::executeActiveDialogAction()
@@ -8828,18 +8685,6 @@ void OutdoorGameView::ForcePerspectiveVertex::init()
         .end();
 }
 
-OutdoorGameView::ResolvedHudLayoutElement OutdoorGameView::resolveAttachedHudLayoutRect(
-    HudLayoutAttachMode attachTo,
-    const ResolvedHudLayoutElement &parent,
-    float width,
-    float height,
-    float gapX,
-    float gapY,
-    float scale)
-{
-    return GameplayHudCommon::resolveAttachedHudLayoutRect(attachTo, parent, width, height, gapX, gapY, scale);
-}
-
 
 
 
@@ -8896,20 +8741,6 @@ const OutdoorGameView::BillboardTextureHandle *OutdoorGameView::findBillboardTex
 
     return &m_billboardTextureHandles[normalizedIterator->second];
 }
-
-std::optional<std::vector<uint8_t>> OutdoorGameView::loadHudBitmapPixelsBgraCached(
-    const std::string &textureName,
-    int &width,
-    int &height)
-{
-    return GameplayHudCommon::loadHudBitmapPixelsBgraCached(
-        m_pAssetFileSystem,
-        m_spriteLoadCache,
-        textureName,
-        width,
-        height);
-}
-
 
 void OutdoorGameView::preloadSpriteFrameTextures(const SpriteFrameTable &spriteFrameTable, uint16_t spriteFrameIndex)
 {

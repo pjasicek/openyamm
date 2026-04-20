@@ -33,7 +33,6 @@
 #include "game/gameplay/GameplayDialogController.h"
 #include "game/ui/GameplayHudCommon.h"
 #include "game/ui/GameplayUiController.h"
-#include "game/ui/GameplayUiRuntime.h"
 #include "game/ui/GameplayOverlayTypes.h"
 #include "game/ui/GameplayOverlayAdapters.h"
 #include "game/ui/UiLayoutManager.h"
@@ -476,11 +475,7 @@ public:
     IGameplayWorldRuntime *worldRuntime() const;
     GameAudioSystem *audioSystem() const;
     const GameDataRepository &data() const;
-    const std::string &currentMapFileName() const override;
     float gameplayCameraYawRadians() const override;
-    const std::vector<uint8_t> *journalMapFullyRevealedCells() const override;
-    const std::vector<uint8_t> *journalMapPartiallyRevealedCells() const override;
-    bool trySelectPartyMember(size_t memberIndex, bool requireGameplayReady) override;
     void setStatusBarEvent(const std::string &text, float durationSeconds = 2.0f);
     void executeActiveDialogAction() override;
     bool tryUseHeldItemOnPartyMember(size_t memberIndex, bool keepCharacterScreenOpen) override;
@@ -499,17 +494,8 @@ public:
     std::array<uint8_t, SDL_SCANCODE_COUNT> &previousKeyboardState();
     const std::array<uint8_t, SDL_SCANCODE_COUNT> &previousKeyboardState() const;
     bool trySaveToSelectedGameSlot() override;
-    int restFoodRequired() const override;
     const GameSettings &settingsSnapshot() const;
 private:
-    static ResolvedHudLayoutElement resolveAttachedHudLayoutRect(
-        HudLayoutAttachMode attachTo,
-        const ResolvedHudLayoutElement &parent,
-        float width,
-        float height,
-        float gapX,
-        float gapY,
-        float scale);
     void updateCameraFromInput(float mouseWheelDelta, float deltaSeconds);
     float effectiveCameraYawRadians() const;
     float effectiveCameraPitchRadians() const;
@@ -523,10 +509,6 @@ private:
     std::optional<std::vector<uint8_t>> loadSpriteBitmapPixelsBgraCached(
         const std::string &textureName,
         int16_t paletteId,
-        int &width,
-        int &height);
-    std::optional<std::vector<uint8_t>> loadHudBitmapPixelsBgraCached(
-        const std::string &textureName,
         int &width,
         int &height);
     void openHouseShopOverlay(uint32_t houseId, HouseShopMode mode);
@@ -763,7 +745,6 @@ private:
     bool m_pendingSpellTargetClickLatch;
     bool m_adventurersInnToggleLatch;
     GameSession &m_gameSession;
-    GameplayUiRuntime &m_gameplayUiRuntime;
     GameplayUiController &m_gameplayUiController;
     GameplayDialogController &m_gameplayDialogController;
     GameplayOverlayInteractionState &m_overlayInteractionState;

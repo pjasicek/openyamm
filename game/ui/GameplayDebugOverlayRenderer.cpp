@@ -125,7 +125,7 @@ void GameplayDebugOverlayRenderer::renderChestPanel(GameplayScreenRuntime &conte
 
     for (size_t itemIndex = 0; itemIndex < visibleCount; ++itemIndex)
     {
-        const bool isSelected = itemIndex == context.chestSelectionIndex();
+        const bool isSelected = itemIndex == context.interactionState().chestSelectionIndex;
         const std::string line =
             std::to_string(itemIndex + 1)
             + ". "

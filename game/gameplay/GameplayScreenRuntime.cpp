@@ -487,7 +487,7 @@ const JournalAutonoteTable *GameplayScreenRuntime::journalAutonoteTable() const
 
 const std::string &GameplayScreenRuntime::currentMapFileName() const
 {
-    return sceneAdapter().currentMapFileName();
+    return m_session.currentMapFileName();
 }
 
 float GameplayScreenRuntime::gameplayCameraYawRadians() const
@@ -497,12 +497,14 @@ float GameplayScreenRuntime::gameplayCameraYawRadians() const
 
 const std::vector<uint8_t> *GameplayScreenRuntime::journalMapFullyRevealedCells() const
 {
-    return sceneAdapter().journalMapFullyRevealedCells();
+    const IGameplayWorldRuntime *pWorldRuntime = worldRuntime();
+    return pWorldRuntime != nullptr ? pWorldRuntime->journalMapFullyRevealedCells() : nullptr;
 }
 
 const std::vector<uint8_t> *GameplayScreenRuntime::journalMapPartiallyRevealedCells() const
 {
-    return sceneAdapter().journalMapPartiallyRevealedCells();
+    const IGameplayWorldRuntime *pWorldRuntime = worldRuntime();
+    return pWorldRuntime != nullptr ? pWorldRuntime->journalMapPartiallyRevealedCells() : nullptr;
 }
 
 EventDialogContent &GameplayScreenRuntime::activeEventDialog() const
@@ -530,354 +532,38 @@ std::string &GameplayScreenRuntime::mutableStatusBarHoverText() const
     return uiController().statusBar().hoverText;
 }
 
-bool &GameplayScreenRuntime::closeOverlayLatch() const
-{
-    return interactionState().closeOverlayLatch;
-}
-
-bool &GameplayScreenRuntime::restToggleLatch() const
-{
-    return interactionState().restToggleLatch;
-}
-
-bool &GameplayScreenRuntime::restClickLatch() const
-{
-    return interactionState().restClickLatch;
-}
-
-GameplayRestPointerTarget &GameplayScreenRuntime::restPressedTarget() const
-{
-    return interactionState().restPressedTarget;
-}
-
-bool &GameplayScreenRuntime::gameplayHudClickLatch() const
-{
-    return interactionState().gameplayHudClickLatch;
-}
-
-GameplayHudPointerTarget &GameplayScreenRuntime::gameplayHudPressedTarget() const
-{
-    return interactionState().gameplayHudPressedTarget;
-}
-
-bool &GameplayScreenRuntime::menuToggleLatch() const
-{
-    return interactionState().menuToggleLatch;
-}
-
-bool &GameplayScreenRuntime::menuClickLatch() const
-{
-    return interactionState().menuClickLatch;
-}
-
-GameplayMenuPointerTarget &GameplayScreenRuntime::menuPressedTarget() const
-{
-    return interactionState().menuPressedTarget;
-}
-
-bool &GameplayScreenRuntime::controlsToggleLatch() const
-{
-    return interactionState().controlsToggleLatch;
-}
-
-bool &GameplayScreenRuntime::controlsClickLatch() const
-{
-    return interactionState().controlsClickLatch;
-}
-
-GameplayControlsPointerTarget &GameplayScreenRuntime::controlsPressedTarget() const
-{
-    return interactionState().controlsPressedTarget;
-}
-
-bool &GameplayScreenRuntime::controlsSliderDragActive() const
-{
-    return interactionState().controlsSliderDragActive;
-}
-
-GameplayControlsPointerTargetType &GameplayScreenRuntime::controlsDraggedSlider() const
-{
-    return interactionState().controlsDraggedSlider;
-}
-
-bool &GameplayScreenRuntime::keyboardToggleLatch() const
-{
-    return interactionState().keyboardToggleLatch;
-}
-
-bool &GameplayScreenRuntime::keyboardClickLatch() const
-{
-    return interactionState().keyboardClickLatch;
-}
-
-GameplayKeyboardPointerTarget &GameplayScreenRuntime::keyboardPressedTarget() const
-{
-    return interactionState().keyboardPressedTarget;
-}
-
-bool &GameplayScreenRuntime::videoOptionsToggleLatch() const
-{
-    return interactionState().videoOptionsToggleLatch;
-}
-
-bool &GameplayScreenRuntime::videoOptionsClickLatch() const
-{
-    return interactionState().videoOptionsClickLatch;
-}
-
-GameplayVideoOptionsPointerTarget &GameplayScreenRuntime::videoOptionsPressedTarget() const
-{
-    return interactionState().videoOptionsPressedTarget;
-}
-
-bool &GameplayScreenRuntime::saveGameToggleLatch() const
-{
-    return interactionState().saveGameToggleLatch;
-}
-
-bool &GameplayScreenRuntime::saveGameClickLatch() const
-{
-    return interactionState().saveGameClickLatch;
-}
-
-GameplaySaveLoadPointerTarget &GameplayScreenRuntime::saveGamePressedTarget() const
-{
-    return interactionState().saveGamePressedTarget;
-}
-
-bool &GameplayScreenRuntime::characterClickLatch() const
-{
-    return interactionState().characterClickLatch;
-}
-
-GameplayCharacterPointerTarget &GameplayScreenRuntime::characterPressedTarget() const
-{
-    return interactionState().characterPressedTarget;
-}
-
-bool &GameplayScreenRuntime::characterMemberCycleLatch() const
-{
-    return interactionState().characterMemberCycleLatch;
-}
-
-std::optional<size_t> &GameplayScreenRuntime::pendingCharacterDismissMemberIndex() const
-{
-    return interactionState().pendingCharacterDismissMemberIndex;
-}
-
-uint64_t &GameplayScreenRuntime::pendingCharacterDismissExpiresTicks() const
-{
-    return interactionState().pendingCharacterDismissExpiresTicks;
-}
-
-bool &GameplayScreenRuntime::spellbookClickLatch() const
-{
-    return interactionState().spellbookClickLatch;
-}
-
-GameplaySpellbookPointerTarget &GameplayScreenRuntime::spellbookPressedTarget() const
-{
-    return interactionState().spellbookPressedTarget;
-}
-
-uint64_t &GameplayScreenRuntime::lastSpellbookSpellClickTicks() const
-{
-    return interactionState().lastSpellbookSpellClickTicks;
-}
-
-uint32_t &GameplayScreenRuntime::lastSpellbookClickedSpellId() const
-{
-    return interactionState().lastSpellbookClickedSpellId;
-}
-
-bool &GameplayScreenRuntime::utilitySpellClickLatch() const
-{
-    return interactionState().utilitySpellClickLatch;
-}
-
-GameplayUtilitySpellPointerTarget &GameplayScreenRuntime::utilitySpellPressedTarget() const
-{
-    return interactionState().utilitySpellPressedTarget;
-}
-
-std::array<bool, 39> &GameplayScreenRuntime::saveGameEditKeyLatches() const
-{
-    return interactionState().saveGameEditKeyLatches;
-}
-
-bool &GameplayScreenRuntime::saveGameEditBackspaceLatch() const
-{
-    return interactionState().saveGameEditBackspaceLatch;
-}
-
-uint64_t &GameplayScreenRuntime::lastSaveGameSlotClickTicks() const
-{
-    return interactionState().lastSaveGameSlotClickTicks;
-}
-
-std::optional<size_t> &GameplayScreenRuntime::lastSaveGameClickedSlotIndex() const
-{
-    return interactionState().lastSaveGameClickedSlotIndex;
-}
-
-bool &GameplayScreenRuntime::journalToggleLatch() const
-{
-    return interactionState().journalToggleLatch;
-}
-
-bool &GameplayScreenRuntime::journalClickLatch() const
-{
-    return interactionState().journalClickLatch;
-}
-
-GameplayJournalPointerTarget &GameplayScreenRuntime::journalPressedTarget() const
-{
-    return interactionState().journalPressedTarget;
-}
-
-bool &GameplayScreenRuntime::journalMapKeyZoomLatch() const
-{
-    return interactionState().journalMapKeyZoomLatch;
-}
-
-bool &GameplayScreenRuntime::dialogueClickLatch() const
-{
-    return interactionState().dialogueClickLatch;
-}
-
-GameplayDialoguePointerTarget &GameplayScreenRuntime::dialoguePressedTarget() const
-{
-    return interactionState().dialoguePressedTarget;
-}
-
-bool &GameplayScreenRuntime::houseShopClickLatch() const
-{
-    return interactionState().houseShopClickLatch;
-}
-
-size_t &GameplayScreenRuntime::houseShopPressedSlotIndex() const
-{
-    return interactionState().houseShopPressedSlotIndex;
-}
-
-bool &GameplayScreenRuntime::chestClickLatch() const
-{
-    return interactionState().chestClickLatch;
-}
-
-bool &GameplayScreenRuntime::chestItemClickLatch() const
-{
-    return interactionState().chestItemClickLatch;
-}
-
-GameplayChestPointerTarget &GameplayScreenRuntime::chestPressedTarget() const
-{
-    return interactionState().chestPressedTarget;
-}
-
-bool &GameplayScreenRuntime::inventoryNestedOverlayItemClickLatch() const
-{
-    return interactionState().inventoryNestedOverlayItemClickLatch;
-}
-
-std::array<bool, 10> &GameplayScreenRuntime::houseBankDigitLatches() const
-{
-    return interactionState().houseBankDigitLatches;
-}
-
-bool &GameplayScreenRuntime::houseBankBackspaceLatch() const
-{
-    return interactionState().houseBankBackspaceLatch;
-}
-
-bool &GameplayScreenRuntime::houseBankConfirmLatch() const
-{
-    return interactionState().houseBankConfirmLatch;
-}
-
-bool &GameplayScreenRuntime::lootChestItemLatch() const
-{
-    return interactionState().lootChestItemLatch;
-}
-
-bool &GameplayScreenRuntime::chestSelectUpLatch() const
-{
-    return interactionState().chestSelectUpLatch;
-}
-
-bool &GameplayScreenRuntime::chestSelectDownLatch() const
-{
-    return interactionState().chestSelectDownLatch;
-}
-
-bool &GameplayScreenRuntime::eventDialogSelectUpLatch() const
-{
-    return interactionState().eventDialogSelectUpLatch;
-}
-
-bool &GameplayScreenRuntime::eventDialogSelectDownLatch() const
-{
-    return interactionState().eventDialogSelectDownLatch;
-}
-
-bool &GameplayScreenRuntime::eventDialogAcceptLatch() const
-{
-    return interactionState().eventDialogAcceptLatch;
-}
-
-std::array<bool, 5> &GameplayScreenRuntime::eventDialogPartySelectLatches() const
-{
-    return interactionState().eventDialogPartySelectLatches;
-}
-
-bool &GameplayScreenRuntime::activateInspectLatch() const
-{
-    return interactionState().activateInspectLatch;
-}
-
-bool &GameplayScreenRuntime::itemInspectInteractionLatch() const
-{
-    return interactionState().itemInspectInteractionLatch;
-}
-
-uint64_t &GameplayScreenRuntime::itemInspectInteractionKey() const
-{
-    return interactionState().itemInspectInteractionKey;
-}
-
-size_t &GameplayScreenRuntime::chestSelectionIndex() const
-{
-    return interactionState().chestSelectionIndex;
-}
-
 size_t &GameplayScreenRuntime::eventDialogSelectionIndex() const
 {
     return uiController().eventDialog().selectionIndex;
 }
 
-bool &GameplayScreenRuntime::partyPortraitClickLatch() const
-{
-    return interactionState().partyPortraitClickLatch;
-}
-
-std::optional<size_t> &GameplayScreenRuntime::partyPortraitPressedIndex() const
-{
-    return interactionState().partyPortraitPressedIndex;
-}
-
-uint64_t &GameplayScreenRuntime::lastPartyPortraitClickTicks() const
-{
-    return interactionState().lastPartyPortraitClickTicks;
-}
-
-std::optional<size_t> &GameplayScreenRuntime::lastPartyPortraitClickedIndex() const
-{
-    return interactionState().lastPartyPortraitClickedIndex;
-}
-
 bool GameplayScreenRuntime::trySelectPartyMember(size_t memberIndex, bool requireGameplayReady)
 {
-    return sceneAdapter().trySelectPartyMember(memberIndex, requireGameplayReady);
+    Party *pParty = party();
+
+    if (pParty == nullptr)
+    {
+        return false;
+    }
+
+    if (requireGameplayReady && !pParty->canSelectMemberInGameplay(memberIndex))
+    {
+        return false;
+    }
+
+    if (!pParty->setActiveMemberIndex(memberIndex))
+    {
+        return false;
+    }
+
+    EventRuntimeState *pEventRuntimeState = worldRuntime() != nullptr ? worldRuntime()->eventRuntimeState() : nullptr;
+
+    if (pEventRuntimeState != nullptr && activeEventDialog().isActive)
+    {
+        presentPendingEventDialogShared(pEventRuntimeState->messages.size(), true);
+    }
+
+    return true;
 }
 
 size_t GameplayScreenRuntime::selectedCharacterScreenSourceIndex() const
@@ -1554,25 +1240,25 @@ void GameplayScreenRuntime::closeReadableScrollOverlay()
 
 void GameplayScreenRuntime::resetDialogueOverlayInteractionState()
 {
-    eventDialogSelectUpLatch() = false;
-    eventDialogSelectDownLatch() = false;
-    eventDialogAcceptLatch() = false;
-    eventDialogPartySelectLatches().fill(false);
-    dialogueClickLatch() = false;
-    dialoguePressedTarget() = {};
+    interactionState().eventDialogSelectUpLatch = false;
+    interactionState().eventDialogSelectDownLatch = false;
+    interactionState().eventDialogAcceptLatch = false;
+    interactionState().eventDialogPartySelectLatches.fill(false);
+    interactionState().dialogueClickLatch = false;
+    interactionState().dialoguePressedTarget = {};
 }
 
 void GameplayScreenRuntime::resetSpellbookOverlayInteractionState()
 {
-    spellbookClickLatch() = false;
-    spellbookPressedTarget() = {};
+    interactionState().spellbookClickLatch = false;
+    interactionState().spellbookPressedTarget = {};
 }
 
 void GameplayScreenRuntime::resetCharacterOverlayInteractionState()
 {
-    characterClickLatch() = false;
-    characterMemberCycleLatch() = false;
-    characterPressedTarget() = {};
+    interactionState().characterClickLatch = false;
+    interactionState().characterMemberCycleLatch = false;
+    interactionState().characterPressedTarget = {};
 }
 
 void GameplayScreenRuntime::triggerPortraitFaceAnimation(size_t memberIndex, FaceAnimationId animationId)
@@ -1612,15 +1298,15 @@ void GameplayScreenRuntime::resetInventoryNestedOverlayInteractionState()
 
 void GameplayScreenRuntime::resetLootOverlayInteractionState()
 {
-    closeOverlayLatch() = false;
-    chestClickLatch() = false;
-    chestItemClickLatch() = false;
-    chestPressedTarget() = {};
+    interactionState().closeOverlayLatch = false;
+    interactionState().chestClickLatch = false;
+    interactionState().chestItemClickLatch = false;
+    interactionState().chestPressedTarget = {};
     closeInventoryNestedOverlay();
-    lootChestItemLatch() = false;
-    chestSelectUpLatch() = false;
-    chestSelectDownLatch() = false;
-    chestSelectionIndex() = 0;
+    interactionState().lootChestItemLatch = false;
+    interactionState().chestSelectUpLatch = false;
+    interactionState().chestSelectDownLatch = false;
+    interactionState().chestSelectionIndex = 0;
     resetInventoryNestedOverlayInteractionState();
 }
 
@@ -1649,7 +1335,8 @@ bool GameplayScreenRuntime::trySaveToSelectedGameSlot()
 
 int GameplayScreenRuntime::restFoodRequired() const
 {
-    return sceneAdapter().restFoodRequired();
+    const IGameplayWorldRuntime *pWorldRuntime = worldRuntime();
+    return pWorldRuntime != nullptr ? pWorldRuntime->restFoodRequired() : 2;
 }
 
 const GameSettings &GameplayScreenRuntime::settingsSnapshot() const
@@ -1657,9 +1344,79 @@ const GameSettings &GameplayScreenRuntime::settingsSnapshot() const
     return *m_pSettings;
 }
 
+void GameplayScreenRuntime::bindAssetFileSystem(const Engine::AssetFileSystem *pAssetFileSystem)
+{
+    uiRuntime().bindAssetFileSystem(pAssetFileSystem);
+}
+
+void GameplayScreenRuntime::clearUiControllerRuntimeState()
+{
+    uiController().clearRuntimeState();
+}
+
+bool GameplayScreenRuntime::ensureGameplayLayoutsLoaded()
+{
+    return uiRuntime().ensureGameplayLayoutsLoaded(uiController());
+}
+
+void GameplayScreenRuntime::preloadReferencedAssets()
+{
+    uiRuntime().preloadReferencedAssets();
+}
+
+bool GameplayScreenRuntime::ensurePortraitRuntimeLoaded()
+{
+    return uiRuntime().ensurePortraitRuntimeLoaded();
+}
+
+void GameplayScreenRuntime::resetPortraitFxStates(size_t memberCount)
+{
+    uiRuntime().resetPortraitFxStates(memberCount);
+}
+
+void GameplayScreenRuntime::resetOverlayInteractionState()
+{
+    interactionState() = {};
+}
+
+bool GameplayScreenRuntime::initializeHouseVideoPlayer()
+{
+    return uiRuntime().initializeHouseVideoPlayer();
+}
+
+void GameplayScreenRuntime::shutdownHouseVideoPlayer()
+{
+    uiRuntime().shutdownHouseVideoPlayer();
+}
+
+void GameplayScreenRuntime::stopHouseVideoPlayback()
+{
+    uiRuntime().stopHouseVideoPlayback();
+}
+
+bool GameplayScreenRuntime::playHouseVideo(const std::string &videoStem)
+{
+    return uiRuntime().playHouseVideo(videoStem);
+}
+
+void GameplayScreenRuntime::queueBackgroundHouseVideoPreload(const std::string &videoStem)
+{
+    uiRuntime().queueBackgroundHouseVideoPreload(videoStem);
+}
+
+void GameplayScreenRuntime::updateHouseVideoBackgroundPreloads()
+{
+    uiRuntime().updateHouseVideoBackgroundPreloads();
+}
+
+void GameplayScreenRuntime::updateHouseVideoPlayback(float deltaSeconds)
+{
+    uiRuntime().updateHouseVideoPlayback(deltaSeconds);
+}
+
 bool GameplayScreenRuntime::isControlsRenderButtonPressed(GameplayControlsRenderButton button) const
 {
-    if (!controlsClickLatch())
+    if (!interactionState().controlsClickLatch)
     {
         return false;
     }
@@ -1667,19 +1424,19 @@ bool GameplayScreenRuntime::isControlsRenderButtonPressed(GameplayControlsRender
     switch (button)
     {
         case GameplayControlsRenderButton::TurnRate16:
-            return controlsPressedTarget().type == GameplayControlsPointerTargetType::TurnRate16Button;
+            return interactionState().controlsPressedTarget.type == GameplayControlsPointerTargetType::TurnRate16Button;
         case GameplayControlsRenderButton::TurnRate32:
-            return controlsPressedTarget().type == GameplayControlsPointerTargetType::TurnRate32Button;
+            return interactionState().controlsPressedTarget.type == GameplayControlsPointerTargetType::TurnRate32Button;
         case GameplayControlsRenderButton::TurnRateSmooth:
-            return controlsPressedTarget().type == GameplayControlsPointerTargetType::TurnRateSmoothButton;
+            return interactionState().controlsPressedTarget.type == GameplayControlsPointerTargetType::TurnRateSmoothButton;
         case GameplayControlsRenderButton::WalkSound:
-            return controlsPressedTarget().type == GameplayControlsPointerTargetType::WalkSoundButton;
+            return interactionState().controlsPressedTarget.type == GameplayControlsPointerTargetType::WalkSoundButton;
         case GameplayControlsRenderButton::ShowHits:
-            return controlsPressedTarget().type == GameplayControlsPointerTargetType::ShowHitsButton;
+            return interactionState().controlsPressedTarget.type == GameplayControlsPointerTargetType::ShowHitsButton;
         case GameplayControlsRenderButton::AlwaysRun:
-            return controlsPressedTarget().type == GameplayControlsPointerTargetType::AlwaysRunButton;
+            return interactionState().controlsPressedTarget.type == GameplayControlsPointerTargetType::AlwaysRunButton;
         case GameplayControlsRenderButton::FlipOnExit:
-            return controlsPressedTarget().type == GameplayControlsPointerTargetType::FlipOnExitButton;
+            return interactionState().controlsPressedTarget.type == GameplayControlsPointerTargetType::FlipOnExitButton;
     }
 
     return false;
@@ -1687,7 +1444,7 @@ bool GameplayScreenRuntime::isControlsRenderButtonPressed(GameplayControlsRender
 
 bool GameplayScreenRuntime::isVideoOptionsRenderButtonPressed(GameplayVideoOptionsRenderButton button) const
 {
-    if (!videoOptionsClickLatch())
+    if (!interactionState().videoOptionsClickLatch)
     {
         return false;
     }
@@ -1695,11 +1452,11 @@ bool GameplayScreenRuntime::isVideoOptionsRenderButtonPressed(GameplayVideoOptio
     switch (button)
     {
         case GameplayVideoOptionsRenderButton::BloodSplats:
-            return videoOptionsPressedTarget().type == GameplayVideoOptionsPointerTargetType::BloodSplatsButton;
+            return interactionState().videoOptionsPressedTarget.type == GameplayVideoOptionsPointerTargetType::BloodSplatsButton;
         case GameplayVideoOptionsRenderButton::ColoredLights:
-            return videoOptionsPressedTarget().type == GameplayVideoOptionsPointerTargetType::ColoredLightsButton;
+            return interactionState().videoOptionsPressedTarget.type == GameplayVideoOptionsPointerTargetType::ColoredLightsButton;
         case GameplayVideoOptionsRenderButton::Tinting:
-            return videoOptionsPressedTarget().type == GameplayVideoOptionsPointerTargetType::TintingButton;
+            return interactionState().videoOptionsPressedTarget.type == GameplayVideoOptionsPointerTargetType::TintingButton;
     }
 
     return false;
@@ -2173,6 +1930,26 @@ void GameplayScreenRuntime::renderHudFontLayer(
     uiRuntime().renderHudFontLayer(font, textureHandle, text, textX, textY, fontScale);
 }
 
+void GameplayScreenRuntime::bindHudRenderBackend(const GameplayHudRenderBackend &backend)
+{
+    uiRuntime().bindHudRenderBackend(backend);
+}
+
+void GameplayScreenRuntime::clearHudRenderBackend()
+{
+    uiRuntime().clearHudRenderBackend();
+}
+
+void GameplayScreenRuntime::releaseHudGpuResources(bool destroyBgfxResources)
+{
+    uiRuntime().releaseHudGpuResources(destroyBgfxResources);
+}
+
+void GameplayScreenRuntime::clearSharedUiRuntime()
+{
+    uiRuntime().clear();
+}
+
 bool GameplayScreenRuntime::hasHudRenderResources() const
 {
     return uiRuntime().hasHudRenderResources();
@@ -2439,6 +2216,12 @@ void GameplayScreenRuntime::renderHudTextLine(
     renderHudFontLayer(*font, coloredMainTextureHandle, text, textX, textY, fontScale);
 }
 
+void GameplayScreenRuntime::resetHudTransientState() const
+{
+    uiRuntime().clearRenderedInspectableHudItems();
+    uiRuntime().clearHudLayoutRuntimeHeightOverrides();
+}
+
 void GameplayScreenRuntime::addRenderedInspectableHudItem(const GameplayRenderedInspectableHudItem &item) const
 {
     uiRuntime().addRenderedInspectableHudItem(item);
@@ -2466,6 +2249,28 @@ bool GameplayScreenRuntime::isOpaqueHudPixelAtPoint(
     float y) const
 {
     return uiRuntime().isOpaqueHudPixelAtPoint(item, x, y);
+}
+
+const PortraitFxEventEntry *GameplayScreenRuntime::findPortraitFxEvent(PortraitFxEventKind kind) const
+{
+    return uiRuntime().findPortraitFxEvent(kind);
+}
+
+uint32_t GameplayScreenRuntime::defaultPortraitAnimationLengthTicks(PortraitId portraitId) const
+{
+    return uiRuntime().defaultPortraitAnimationLengthTicks(portraitId);
+}
+
+bool GameplayScreenRuntime::triggerPortraitFxAnimation(
+    const std::string &animationName,
+    const std::vector<size_t> &memberIndices)
+{
+    return uiRuntime().triggerPortraitFxAnimation(animationName, memberIndices);
+}
+
+void GameplayScreenRuntime::triggerPortraitSpellFx(const PartySpellCastResult &result)
+{
+    uiRuntime().triggerPortraitSpellFx(result);
 }
 
 std::string GameplayScreenRuntime::resolveEquippedItemHudTextureName(

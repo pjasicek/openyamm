@@ -42,12 +42,8 @@ class IGameplayOverlaySceneAdapter
 public:
     virtual ~IGameplayOverlaySceneAdapter() = default;
 
-    virtual const std::string &currentMapFileName() const = 0;
     virtual float gameplayCameraYawRadians() const = 0;
-    virtual const std::vector<uint8_t> *journalMapFullyRevealedCells() const = 0;
-    virtual const std::vector<uint8_t> *journalMapPartiallyRevealedCells() const = 0;
 
-    virtual bool trySelectPartyMember(size_t memberIndex, bool requireGameplayReady) = 0;
     virtual void executeActiveDialogAction() = 0;
     virtual bool tryUseHeldItemOnPartyMember(size_t memberIndex, bool keepCharacterScreenOpen) = 0;
     virtual void triggerPortraitFaceAnimation(size_t memberIndex, FaceAnimationId animationId) = 0;
@@ -60,6 +56,5 @@ public:
         const PartySpellCastRequest &request,
         const std::string &spellName) = 0;
     virtual bool trySaveToSelectedGameSlot() = 0;
-    virtual int restFoodRequired() const = 0;
 };
 }

@@ -38,7 +38,6 @@ namespace OpenYAMM::Game
 {
 IndoorGameView::IndoorGameView(GameSession &gameSession)
     : m_gameSession(gameSession)
-    , m_gameplayUiRuntime(gameSession.gameplayUiRuntime())
     , m_gameplayUiController(gameSession.gameplayUiController())
     , m_gameplayDialogController(gameSession.gameplayDialogController())
     , m_overlayInteractionState(gameSession.overlayInteractionState())
@@ -850,106 +849,6 @@ uint32_t packHudColorAbgr(uint8_t red, uint8_t green, uint8_t blue)
         | static_cast<uint32_t>(red);
 }
 
-GameplayResolvedHudLayoutElement resolveAttachedHudLayoutRect(
-    UiLayoutManager::LayoutAttachMode attachTo,
-    const GameplayResolvedHudLayoutElement &parent,
-    float width,
-    float height,
-    float gapX,
-    float gapY,
-    float scale)
-{
-    GameplayResolvedHudLayoutElement resolved = {};
-    resolved.width = width;
-    resolved.height = height;
-    resolved.scale = scale;
-
-    switch (attachTo)
-    {
-    case UiLayoutManager::LayoutAttachMode::None:
-        resolved.x = parent.x + gapX * scale;
-        resolved.y = parent.y + gapY * scale;
-        break;
-
-    case UiLayoutManager::LayoutAttachMode::RightOf:
-        resolved.x = parent.x + parent.width + gapX * scale;
-        resolved.y = parent.y + gapY * scale;
-        break;
-
-    case UiLayoutManager::LayoutAttachMode::LeftOf:
-        resolved.x = parent.x - resolved.width + gapX * scale;
-        resolved.y = parent.y + gapY * scale;
-        break;
-
-    case UiLayoutManager::LayoutAttachMode::Above:
-        resolved.x = parent.x + gapX * scale;
-        resolved.y = parent.y - resolved.height + gapY * scale;
-        break;
-
-    case UiLayoutManager::LayoutAttachMode::Below:
-        resolved.x = parent.x + gapX * scale;
-        resolved.y = parent.y + parent.height + gapY * scale;
-        break;
-
-    case UiLayoutManager::LayoutAttachMode::CenterAbove:
-        resolved.x = parent.x + (parent.width - resolved.width) * 0.5f + gapX * scale;
-        resolved.y = parent.y - resolved.height + gapY * scale;
-        break;
-
-    case UiLayoutManager::LayoutAttachMode::CenterBelow:
-        resolved.x = parent.x + (parent.width - resolved.width) * 0.5f + gapX * scale;
-        resolved.y = parent.y + parent.height + gapY * scale;
-        break;
-
-    case UiLayoutManager::LayoutAttachMode::InsideLeft:
-        resolved.x = parent.x + gapX * scale;
-        resolved.y = parent.y + (parent.height - resolved.height) * 0.5f + gapY * scale;
-        break;
-
-    case UiLayoutManager::LayoutAttachMode::InsideRight:
-        resolved.x = parent.x + parent.width - resolved.width + gapX * scale;
-        resolved.y = parent.y + (parent.height - resolved.height) * 0.5f + gapY * scale;
-        break;
-
-    case UiLayoutManager::LayoutAttachMode::InsideTopCenter:
-        resolved.x = parent.x + (parent.width - resolved.width) * 0.5f + gapX * scale;
-        resolved.y = parent.y + gapY * scale;
-        break;
-
-    case UiLayoutManager::LayoutAttachMode::InsideTopLeft:
-        resolved.x = parent.x + gapX * scale;
-        resolved.y = parent.y + gapY * scale;
-        break;
-
-    case UiLayoutManager::LayoutAttachMode::InsideTopRight:
-        resolved.x = parent.x + parent.width - resolved.width + gapX * scale;
-        resolved.y = parent.y + gapY * scale;
-        break;
-
-    case UiLayoutManager::LayoutAttachMode::InsideBottomLeft:
-        resolved.x = parent.x + gapX * scale;
-        resolved.y = parent.y + parent.height - resolved.height + gapY * scale;
-        break;
-
-    case UiLayoutManager::LayoutAttachMode::InsideBottomCenter:
-        resolved.x = parent.x + (parent.width - resolved.width) * 0.5f + gapX * scale;
-        resolved.y = parent.y + parent.height - resolved.height + gapY * scale;
-        break;
-
-    case UiLayoutManager::LayoutAttachMode::InsideBottomRight:
-        resolved.x = parent.x + parent.width - resolved.width + gapX * scale;
-        resolved.y = parent.y + parent.height - resolved.height + gapY * scale;
-        break;
-
-    case UiLayoutManager::LayoutAttachMode::CenterIn:
-        resolved.x = parent.x + (parent.width - resolved.width) * 0.5f + gapX * scale;
-        resolved.y = parent.y + (parent.height - resolved.height) * 0.5f + gapY * scale;
-        break;
-    }
-
-    return resolved;
-}
-
 bool isResidentSelectionMode(const EventDialogContent &dialog)
 {
     return !dialog.actions.empty()
@@ -986,21 +885,22 @@ bool IndoorGameView::initialize(
     m_gameSession.gameplayScreenRuntime().bindSceneAdapter(this);
     m_gameSession.gameplayScreenRuntime().bindAudioSystem(m_pGameAudioSystem);
     m_gameSession.gameplayScreenRuntime().bindSettings(&m_settings);
-    m_gameplayUiRuntime.bindAssetFileSystem(&assetFileSystem);
-    m_gameplayUiRuntime.resetPortraitFxStates(sceneRuntime.partyRuntime().party().members().size());
-    m_gameplayUiController.clearRuntimeState();
+    GameplayScreenRuntime &screenRuntime = m_gameSession.gameplayScreenRuntime();
+    screenRuntime.bindAssetFileSystem(&assetFileSystem);
+    screenRuntime.resetPortraitFxStates(sceneRuntime.partyRuntime().party().members().size());
+    screenRuntime.clearUiControllerRuntimeState();
 
-    if (!m_gameplayUiRuntime.ensureGameplayLayoutsLoaded(m_gameplayUiController))
+    if (!screenRuntime.ensureGameplayLayoutsLoaded())
     {
         return false;
     }
 
-    if (!m_gameplayUiRuntime.ensurePortraitRuntimeLoaded())
+    if (!screenRuntime.ensurePortraitRuntimeLoaded())
     {
         std::cout << "HUD portrait FX load failed\n";
     }
 
-    m_gameplayUiRuntime.preloadReferencedAssets();
+    screenRuntime.preloadReferencedAssets();
     return true;
 }
 
@@ -1028,7 +928,7 @@ void IndoorGameView::render(int width, int height, float mouseWheelDelta, float 
     hudRenderBackend.textureSamplerHandle =
         m_pIndoorRenderer != nullptr ? m_pIndoorRenderer->hudTextureSamplerHandle() : invalidSamplerHandle;
     hudRenderBackend.viewId = HudViewId;
-    m_gameplayUiRuntime.bindHudRenderBackend(hudRenderBackend);
+    m_gameSession.gameplayScreenRuntime().bindHudRenderBackend(hudRenderBackend);
 
     EventRuntimeState *pEventRuntimeState =
         m_pIndoorSceneRuntime != nullptr ? m_pIndoorSceneRuntime->eventRuntimeState() : nullptr;
@@ -1116,10 +1016,6 @@ void IndoorGameView::render(int width, int height, float mouseWheelDelta, float 
             }
         }
     } keyboardStateSnapshotUpdater = {m_gameSession.previousKeyboardState(), pKeyboardState};
-    IGameplayWorldRuntime *pWorldRuntime = worldRuntime();
-    const bool hasActiveLootView =
-        pWorldRuntime != nullptr
-        && (pWorldRuntime->activeChestView() != nullptr || pWorldRuntime->activeCorpseView() != nullptr);
     const bool allowGameplayPointerInput = !gameplayMouseLookAllowed || gameplayCursorModeActive;
     GameplayScreenController::handleStandardUiInput(
         overlayContext,
@@ -1141,30 +1037,15 @@ void IndoorGameView::render(int width, int height, float mouseWheelDelta, float 
         && width > 0
         && height > 0;
 
-    const bool renderChestUi =
-        hasActiveLootView && pWorldRuntime != nullptr && pWorldRuntime->activeChestView() != nullptr;
-    GameplayScreenController::renderSharedOverlays(
+    GameplayScreenController::renderStandardUi(
         overlayContext,
         width,
         height,
-        GameplayScreenRenderConfig{
-            .base =
-                GameplayUiOverlayRenderConfig{
-                    .canRenderHudOverlays = canRenderHudOverlays,
-                    .hasActiveLootView = hasActiveLootView,
-                    .activeEventDialog = activeEventDialog().isActive,
-                    .renderGameplayMouseLookOverlay = m_gameplayMouseLookActive && !m_gameplayCursorModeActive,
-                    .renderChestBelowHud = renderChestUi,
-                    .renderChestAboveHud = renderChestUi,
-                    .renderInventoryBelowHud = renderChestUi,
-                    .renderInventoryAboveHud = renderChestUi,
-                    .renderDialogueAboveHud = true,
-                    .renderCharacterBelowHud = true,
-                    .renderCharacterAboveHud = true,
-                    .renderDebugLootFallback = hasActiveLootView,
-                    .renderDebugDialogueFallback = true,
-                },
+        GameplayStandardUiRenderConfig{
+            .canRenderHudOverlays = canRenderHudOverlays,
+            .renderGameplayMouseLookOverlay = m_gameplayMouseLookActive && !m_gameplayCursorModeActive,
             .renderActorInspectOverlay = false,
+            .renderDebugFallbacks = true,
         });
 }
 
@@ -1184,73 +1065,14 @@ void IndoorGameView::shutdown()
     m_gameSession.gameplayScreenRuntime().clearSceneAdapter(this);
     m_gameSession.gameplayScreenRuntime().bindAudioSystem(nullptr);
     m_map.reset();
-    m_gameplayUiRuntime.clear();
-    m_gameplayUiController.clearRuntimeState();
-    m_overlayInteractionState.closeOverlayLatch = false;
-    m_overlayInteractionState.restClickLatch = false;
-    m_overlayInteractionState.restPressedTarget = {};
-    m_overlayInteractionState.menuToggleLatch = false;
-    m_overlayInteractionState.menuClickLatch = false;
-    m_overlayInteractionState.menuPressedTarget = {};
-    m_overlayInteractionState.controlsToggleLatch = false;
-    m_overlayInteractionState.controlsClickLatch = false;
-    m_overlayInteractionState.controlsPressedTarget = {};
-    m_overlayInteractionState.controlsSliderDragActive = false;
-    m_overlayInteractionState.controlsDraggedSlider = GameplayControlsPointerTargetType::None;
-    m_overlayInteractionState.keyboardToggleLatch = false;
-    m_overlayInteractionState.keyboardClickLatch = false;
-    m_overlayInteractionState.keyboardPressedTarget = {};
-    m_overlayInteractionState.videoOptionsToggleLatch = false;
-    m_overlayInteractionState.videoOptionsClickLatch = false;
-    m_overlayInteractionState.videoOptionsPressedTarget = {};
-    m_overlayInteractionState.saveGameToggleLatch = false;
-    m_overlayInteractionState.saveGameClickLatch = false;
-    m_overlayInteractionState.saveGamePressedTarget = {};
-    m_overlayInteractionState.saveGameEditKeyLatches.fill(false);
-    m_overlayInteractionState.saveGameEditBackspaceLatch = false;
-    m_overlayInteractionState.lastSaveGameSlotClickTicks = 0;
-    m_overlayInteractionState.lastSaveGameClickedSlotIndex.reset();
-    m_overlayInteractionState.journalToggleLatch = false;
-    m_overlayInteractionState.journalClickLatch = false;
-    m_overlayInteractionState.journalPressedTarget = {};
-    m_overlayInteractionState.journalMapKeyZoomLatch = false;
-    m_overlayInteractionState.dialogueClickLatch = false;
-    m_overlayInteractionState.dialoguePressedTarget = {};
-    m_overlayInteractionState.houseShopClickLatch = false;
-    m_overlayInteractionState.houseShopPressedSlotIndex = 0;
-    m_overlayInteractionState.chestClickLatch = false;
-    m_overlayInteractionState.chestItemClickLatch = false;
-    m_overlayInteractionState.chestPressedTarget = {};
-    m_overlayInteractionState.inventoryNestedOverlayItemClickLatch = false;
-    m_overlayInteractionState.houseBankDigitLatches.fill(false);
-    m_overlayInteractionState.houseBankBackspaceLatch = false;
-    m_overlayInteractionState.houseBankConfirmLatch = false;
-    m_overlayInteractionState.lootChestItemLatch = false;
-    m_overlayInteractionState.chestSelectUpLatch = false;
-    m_overlayInteractionState.chestSelectDownLatch = false;
-    m_overlayInteractionState.eventDialogSelectUpLatch = false;
-    m_overlayInteractionState.eventDialogSelectDownLatch = false;
-    m_overlayInteractionState.eventDialogAcceptLatch = false;
-    m_overlayInteractionState.eventDialogPartySelectLatches.fill(false);
-    m_overlayInteractionState.activateInspectLatch = false;
-    m_overlayInteractionState.chestSelectionIndex = 0;
-    m_overlayInteractionState.spellbookClickLatch = false;
-    m_overlayInteractionState.spellbookPressedTarget = {};
-    m_overlayInteractionState.partyPortraitClickLatch = false;
-    m_overlayInteractionState.partyPortraitPressedIndex = std::nullopt;
-    m_overlayInteractionState.lastPartyPortraitClickTicks = 0;
-    m_overlayInteractionState.lastPartyPortraitClickedIndex = std::nullopt;
-    m_overlayInteractionState.pendingCharacterDismissMemberIndex = std::nullopt;
-    m_overlayInteractionState.pendingCharacterDismissExpiresTicks = 0;
-    m_overlayInteractionState.characterClickLatch = false;
-    m_overlayInteractionState.characterPressedTarget = {};
-    m_overlayInteractionState.gameplayHudClickLatch = false;
-    m_overlayInteractionState.gameplayHudPressedTarget = {};
+    GameplayScreenRuntime &screenRuntime = m_gameSession.gameplayScreenRuntime();
+    screenRuntime.clearSharedUiRuntime();
+    screenRuntime.clearUiControllerRuntimeState();
+    screenRuntime.resetOverlayInteractionState();
     m_gameplayMouseLookActive = false;
     m_gameplayCursorModeActive = false;
     m_gameSession.previousKeyboardState().fill(0);
-    m_gameplayUiRuntime.renderedInspectableHudItems().clear();
-    m_gameplayUiRuntime.hudLayoutRuntimeHeightOverrides().clear();
+    m_gameSession.gameplayScreenRuntime().resetHudTransientState();
 }
 
 void IndoorGameView::reopenMenuScreen()
@@ -1273,32 +1095,9 @@ GameAudioSystem *IndoorGameView::audioSystem() const
     return m_pGameAudioSystem;
 }
 
-const std::string &IndoorGameView::currentMapFileName() const
-{
-    static const std::string kEmptyMapFileName;
-    return m_map ? m_map->fileName : kEmptyMapFileName;
-}
-
 float IndoorGameView::gameplayCameraYawRadians() const
 {
     return 0.0f;
-}
-
-const std::vector<uint8_t> *IndoorGameView::journalMapFullyRevealedCells() const
-{
-    return nullptr;
-}
-
-const std::vector<uint8_t> *IndoorGameView::journalMapPartiallyRevealedCells() const
-{
-    return nullptr;
-}
-
-bool IndoorGameView::trySelectPartyMember(size_t memberIndex, bool requireGameplayReady)
-{
-    (void)requireGameplayReady;
-    IndoorPartyRuntime *pRuntime = partyRuntime();
-    return pRuntime != nullptr && pRuntime->party().setActiveMemberIndex(memberIndex);
 }
 
 bool IndoorGameView::activeMemberKnowsSpell(uint32_t spellId) const
@@ -1612,7 +1411,7 @@ bool IndoorGameView::tryCastSpellFromMember(
         }
     }
 
-    m_gameplayUiRuntime.triggerPortraitSpellFx(result);
+    m_gameSession.gameplayScreenRuntime().triggerPortraitSpellFx(result);
     setStatusBarEvent("Cast " + spellName);
     return true;
 }
@@ -1662,7 +1461,7 @@ bool IndoorGameView::tryCastSpellRequest(
         }
     }
 
-    m_gameplayUiRuntime.triggerPortraitSpellFx(result);
+    m_gameSession.gameplayScreenRuntime().triggerPortraitSpellFx(result);
 
     if (!spellName.empty())
     {
@@ -1731,31 +1530,6 @@ bool IndoorGameView::trySaveToSelectedGameSlot()
     return saved;
 }
 
-int IndoorGameView::restFoodRequired() const
-{
-    int foodRequired = 2;
-    const IndoorPartyRuntime *pRuntime = partyRuntime();
-
-    if (pRuntime == nullptr)
-    {
-        return foodRequired;
-    }
-
-    constexpr uint32_t DragonRaceId = 5;
-    const Party &party = pRuntime->party();
-
-    for (const Character &member : party.members())
-    {
-        if (member.raceId == DragonRaceId)
-        {
-            ++foodRequired;
-            break;
-        }
-    }
-
-    return std::max(1, foodRequired);
-}
-
 const GameSettings &IndoorGameView::settingsSnapshot() const
 {
     return m_settings;
@@ -1805,7 +1579,7 @@ std::optional<std::string> IndoorGameView::findCachedAssetPath(
 {
     return GameplayHudCommon::findCachedAssetPath(
         m_pAssetFileSystem,
-        m_gameplayUiRuntime.assetLoadCache(),
+        m_gameSession.gameplayUiRuntime().assetLoadCache(),
         directoryPath,
         fileName);
 }
@@ -1814,41 +1588,10 @@ std::optional<std::vector<uint8_t>> IndoorGameView::readCachedBinaryFile(const s
 {
     return GameplayHudCommon::readCachedBinaryFile(
         m_pAssetFileSystem,
-        m_gameplayUiRuntime.assetLoadCache(),
+        m_gameSession.gameplayUiRuntime().assetLoadCache(),
         assetPath);
 }
 
-std::optional<std::vector<uint8_t>> IndoorGameView::loadHudBitmapPixelsBgraCached(
-    const std::string &textureName,
-    int &width,
-    int &height) const
-{
-    return GameplayHudCommon::loadHudBitmapPixelsBgraCached(
-        m_pAssetFileSystem,
-        m_gameplayUiRuntime.assetLoadCache(),
-        textureName,
-        width,
-        height);
-}
-
-bool IndoorGameView::loadHudTexture(const std::string &textureName)
-{
-    return GameplayHudCommon::loadHudTexture(
-        m_pAssetFileSystem,
-        m_gameplayUiRuntime.assetLoadCache(),
-        textureName,
-        m_gameplayUiRuntime.hudTextureHandles(),
-        m_gameplayUiRuntime.hudTextureIndexByName());
-}
-
-bool IndoorGameView::loadHudFont(const std::string &fontName)
-{
-    return GameplayHudCommon::loadHudFont(
-        m_pAssetFileSystem,
-        m_gameplayUiRuntime.assetLoadCache(),
-        fontName,
-        m_gameplayUiRuntime.hudFontHandles());
-}
 
 GameplayDialogController::Context IndoorGameView::buildDialogContext(EventRuntimeState &eventRuntimeState)
 {

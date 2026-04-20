@@ -612,18 +612,18 @@ void GameplayPartyOverlayInputController::handleUtilitySpellOverlayInput(
 
     if (closePressed)
     {
-        if (!context.closeOverlayLatch())
+        if (!context.interactionState().closeOverlayLatch)
         {
             context.utilitySpellOverlay() = {};
             context.resetUtilitySpellOverlayInteractionState();
             context.setStatusBarEvent("Spell cancelled", 2.0f);
-            context.closeOverlayLatch() = true;
+            context.interactionState().closeOverlayLatch = true;
         }
 
         return;
     }
 
-    context.closeOverlayLatch() = false;
+    context.interactionState().closeOverlayLatch = false;
 
     float mouseX = 0.0f;
     float mouseY = 0.0f;
@@ -759,8 +759,8 @@ void GameplayPartyOverlayInputController::handleUtilitySpellOverlayInput(
 
         handlePointerClickRelease(
             pointerState,
-            context.utilitySpellClickLatch(),
-            context.utilitySpellPressedTarget(),
+            context.interactionState().utilitySpellClickLatch,
+            context.interactionState().utilitySpellPressedTarget,
             noneTarget,
             findTownPortalTarget,
             [&context, &resolveSpellName](const GameplayUtilitySpellPointerTarget &target)
@@ -849,8 +849,8 @@ void GameplayPartyOverlayInputController::handleUtilitySpellOverlayInput(
 
     handlePointerClickRelease(
         pointerState,
-        context.utilitySpellClickLatch(),
-        context.utilitySpellPressedTarget(),
+        context.interactionState().utilitySpellClickLatch,
+        context.interactionState().utilitySpellPressedTarget,
         noneTarget,
         findPointerTarget,
         [&context, &resolveSpellName](const GameplayUtilitySpellPointerTarget &target)
@@ -950,15 +950,15 @@ void GameplayPartyOverlayInputController::handleSpellbookOverlayInput(
 
     if (closePressed)
     {
-        if (!context.closeOverlayLatch())
+        if (!context.interactionState().closeOverlayLatch)
         {
             context.closeSpellbookOverlay();
-            context.closeOverlayLatch() = true;
+            context.interactionState().closeOverlayLatch = true;
         }
     }
     else
     {
-        context.closeOverlayLatch() = false;
+        context.interactionState().closeOverlayLatch = false;
     }
 
     float mouseX = 0.0f;
@@ -1111,8 +1111,8 @@ void GameplayPartyOverlayInputController::handleSpellbookOverlayInput(
 
     handlePointerClickRelease(
         pointerState,
-        context.spellbookClickLatch(),
-        context.spellbookPressedTarget(),
+        context.interactionState().spellbookClickLatch,
+        context.interactionState().spellbookPressedTarget,
         noneSpellbookTarget,
         findSpellbookPointerTarget,
         [&context](const GameplaySpellbookPointerTarget &target)
@@ -1142,12 +1142,12 @@ void GameplayPartyOverlayInputController::handleSpellbookOverlayInput(
                 const uint64_t nowTicks = SDL_GetTicks();
                 const bool isDoubleClick =
                     target.spellId != 0
-                    && target.spellId == context.lastSpellbookClickedSpellId()
-                    && nowTicks >= context.lastSpellbookSpellClickTicks()
-                    && nowTicks - context.lastSpellbookSpellClickTicks() <= PartyPortraitDoubleClickWindowMs;
+                    && target.spellId == context.interactionState().lastSpellbookClickedSpellId
+                    && nowTicks >= context.interactionState().lastSpellbookSpellClickTicks
+                    && nowTicks - context.interactionState().lastSpellbookSpellClickTicks <= PartyPortraitDoubleClickWindowMs;
                 context.spellbook().selectedSpellId = target.spellId;
-                context.lastSpellbookSpellClickTicks() = nowTicks;
-                context.lastSpellbookClickedSpellId() = target.spellId;
+                context.interactionState().lastSpellbookSpellClickTicks = nowTicks;
+                context.interactionState().lastSpellbookClickedSpellId = target.spellId;
 
                 if (isDoubleClick)
                 {
@@ -1344,17 +1344,17 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
     const auto clearPendingCharacterDismiss =
         [&context]()
         {
-            context.pendingCharacterDismissMemberIndex() = std::nullopt;
-            context.pendingCharacterDismissExpiresTicks() = 0;
+            context.interactionState().pendingCharacterDismissMemberIndex = std::nullopt;
+            context.interactionState().pendingCharacterDismissExpiresTicks = 0;
         };
     const uint64_t nowTicks = SDL_GetTicks();
 
     if (pParty == nullptr
         || context.isAdventurersInnCharacterSourceActive()
-        || (context.pendingCharacterDismissMemberIndex().has_value()
-            && (nowTicks > context.pendingCharacterDismissExpiresTicks()
-                || *context.pendingCharacterDismissMemberIndex() >= pParty->members().size()
-                || *context.pendingCharacterDismissMemberIndex() != pParty->activeMemberIndex())))
+        || (context.interactionState().pendingCharacterDismissMemberIndex.has_value()
+            && (nowTicks > context.interactionState().pendingCharacterDismissExpiresTicks
+                || *context.interactionState().pendingCharacterDismissMemberIndex >= pParty->members().size()
+                || *context.interactionState().pendingCharacterDismissMemberIndex != pParty->activeMemberIndex())))
     {
         clearPendingCharacterDismiss();
     }
@@ -1392,7 +1392,7 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
 
     if (closePressed)
     {
-        if (!context.closeOverlayLatch())
+        if (!context.interactionState().closeOverlayLatch)
         {
             if (isInventorySpellTargetMode)
             {
@@ -1403,12 +1403,12 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
             context.characterScreen().dollJewelryOverlayOpen = false;
             context.characterScreen().adventurersInnRosterOverlayOpen = false;
             clearPendingCharacterDismiss();
-            context.closeOverlayLatch() = true;
+            context.interactionState().closeOverlayLatch = true;
         }
     }
     else
     {
-        context.closeOverlayLatch() = false;
+        context.interactionState().closeOverlayLatch = false;
     }
 
     const SDL_Scancode charCycleScancode = context.mutableSettings().keyboard.binding(KeyboardAction::CharCycle);
@@ -1428,11 +1428,11 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
             context.trySelectPartyMember(nextMemberIndex, false);
         }
 
-        context.characterMemberCycleLatch() = true;
+        context.interactionState().characterMemberCycleLatch = true;
     }
     else
     {
-        context.characterMemberCycleLatch() = false;
+        context.interactionState().characterMemberCycleLatch = false;
     }
 
     float mouseX = 0.0f;
@@ -1935,8 +1935,8 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
 
     handlePointerClickRelease(
         pointerState,
-        context.characterClickLatch(),
-        context.characterPressedTarget(),
+        context.interactionState().characterClickLatch,
+        context.interactionState().characterPressedTarget,
         noneCharacterTarget,
         findCharacterPointerTarget,
         [&context,
@@ -2052,15 +2052,15 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                 }
 
                 const bool confirmed =
-                    context.pendingCharacterDismissMemberIndex().has_value()
-                    && *context.pendingCharacterDismissMemberIndex() == memberIndex
-                    && SDL_GetTicks() <= context.pendingCharacterDismissExpiresTicks();
+                    context.interactionState().pendingCharacterDismissMemberIndex.has_value()
+                    && *context.interactionState().pendingCharacterDismissMemberIndex == memberIndex
+                    && SDL_GetTicks() <= context.interactionState().pendingCharacterDismissExpiresTicks;
 
                 if (!confirmed)
                 {
                     const uint64_t dismissClickTicks = SDL_GetTicks();
-                    context.pendingCharacterDismissMemberIndex() = memberIndex;
-                    context.pendingCharacterDismissExpiresTicks() = dismissClickTicks + CharacterDismissConfirmWindowMs;
+                    context.interactionState().pendingCharacterDismissMemberIndex = memberIndex;
+                    context.interactionState().pendingCharacterDismissExpiresTicks = dismissClickTicks + CharacterDismissConfirmWindowMs;
                     context.setStatusBarEvent(
                         "To confirm " + pMember->name + " dismissal press the button again...",
                         2.0f);
