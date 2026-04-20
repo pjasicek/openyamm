@@ -39,6 +39,7 @@
 #include "game/ui/GameplayHudOverlayRenderer.h"
 #include "game/ui/GameplayOverlayContext.h"
 #include "game/ui/GameplayPartyOverlayRenderer.h"
+#include "game/ui/GameplayUiOverlayOrchestrator.h"
 #include "game/ui/HudUiService.h"
 #include "engine/TextTable.h"
 
@@ -3658,19 +3659,25 @@ OutdoorGameView::OutdoorGameView(GameSession &gameSession)
     , m_quickSpellCastLatch(false)
     , m_quickSpellReadyMemberAvailableWhileHeld(false)
     , m_quickSpellAttackFallbackRequested(false)
-    , m_spellbookToggleLatch(false)
     , m_pendingSpellTargetClickLatch(false)
     , m_restToggleLatch(false)
     , m_optionsButtonClickLatch(false)
     , m_booksButtonClickLatch(false)
     , m_loadGameToggleLatch(false)
     , m_loadGameClickLatch(false)
-    , m_inventoryScreenToggleLatch(false)
     , m_adventurersInnToggleLatch(false)
     , m_gameSession(gameSession)
+    , m_gameplayUiRuntime(gameSession.gameplayUiRuntime())
     , m_gameplayUiController(gameSession.gameplayUiController())
     , m_gameplayDialogController(gameSession.gameplayDialogController())
     , m_overlayInteractionState(gameSession.overlayInteractionState())
+    , m_hudTextureHandles(m_gameplayUiRuntime.hudTextureHandles())
+    , m_hudTextureIndexByName(m_gameplayUiRuntime.hudTextureIndexByName())
+    , m_hudFontHandles(m_gameplayUiRuntime.hudFontHandles())
+    , m_hudFontColorTextureHandles(m_gameplayUiRuntime.hudFontColorTextureHandles())
+    , m_hudTextureColorTextureHandles(m_gameplayUiRuntime.hudTextureColorTextureHandles())
+    , m_uiLayoutManager(m_gameplayUiRuntime.layoutManager())
+    , m_hudLayoutRuntimeHeightOverrides(m_gameplayUiRuntime.hudLayoutRuntimeHeightOverrides())
     , m_characterScreenOpen(m_gameplayUiController.characterScreen().open)
     , m_characterDollJewelryOverlayOpen(m_gameplayUiController.characterScreen().dollJewelryOverlayOpen)
     , m_adventurersInnRosterOverlayOpen(m_gameplayUiController.characterScreen().adventurersInnRosterOverlayOpen)
@@ -3713,6 +3720,7 @@ OutdoorGameView::OutdoorGameView(GameSession &gameSession)
     , m_lastSpellFailSoundTicks(0)
     , m_pendingSpellCast({})
     , m_spellAreaPreviewCache({})
+    , m_renderedInspectableHudItems(m_gameplayUiRuntime.renderedInspectableHudItems())
     , m_heldInventoryDropLatch(false)
     , m_inventoryNestedOverlayClickLatch(false)
     , m_inventoryNestedOverlayPressedTarget({})
@@ -3792,6 +3800,7 @@ bool OutdoorGameView::initialize(
     m_pOutdoorWorldRuntime = &sceneRuntime.worldRuntime();
     m_pOutdoorWorldRuntime->setParticleSystem(&m_particleSystem);
     m_gameSettings = settings;
+    m_gameplayUiRuntime.bindAssetFileSystem(&assetFileSystem);
     m_saveGameToPathCallback = std::move(saveGameToPathCallback);
     m_loadGameFromPathCallback = std::move(loadGameFromPathCallback);
     m_settingsChangedCallback = std::move(settingsChangedCallback);
@@ -3868,39 +3877,13 @@ bool OutdoorGameView::initialize(
     OutdoorBillboardRenderer::initializeBillboardResources(*this);
     ParticleRenderer::initializeResources(*this);
 
-    if (!HudUiService::loadHudLayout(*this, assetFileSystem))
+    if (!m_gameplayUiRuntime.ensureGameplayLayoutsLoaded(m_gameplayUiController))
     {
         std::cerr << "OutdoorGameView failed to load HUD layout data from Data/ui/gameplay/*.yml\n";
     }
     else
     {
-            for (const auto &[id, element] : m_uiLayoutManager.elements())
-            {
-                BX_UNUSED(id);
-                for (const std::string *pAssetName : {
-                     &element.primaryAsset,
-                     &element.hoverAsset,
-                     &element.pressedAsset,
-                     &element.secondaryAsset,
-                     &element.tertiaryAsset,
-                     &element.quaternaryAsset,
-                     &element.quinaryAsset})
-            {
-                if (!pAssetName->empty())
-                {
-                    loadHudTexture(assetFileSystem, *pAssetName);
-                }
-            }
-
-            if (!element.fontName.empty())
-            {
-                if (!loadHudFont(assetFileSystem, element.fontName))
-                {
-                    std::cout << "HUD font preload failed: font=\"" << element.fontName
-                              << "\" element=\"" << element.id << "\"\n";
-                }
-            }
-        }
+        m_gameplayUiRuntime.preloadReferencedAssets();
     }
 
     m_terrainTextureSamplerHandle = bgfx::createUniform("s_texColor", bgfx::UniformType::Sampler);
@@ -5837,34 +5820,48 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
 
         if (m_showGameplayHud)
         {
-            renderChestPanel(width, height, false);
-            if (!deferDialogueInventoryServiceOverlay)
-            {
-                renderInventoryNestedOverlay(width, height, false);
-            }
-            renderEventDialogPanel(width, height, false);
-            renderCharacterOverlay(width, height, false);
-            renderGameplayHudArt(width, height);
-            renderGameplayHud(width, height);
-            renderChestPanel(width, height, true);
-            renderCharacterOverlay(width, height, true);
-            renderEventDialogPanel(width, height, true);
+            GameplayOverlayContext overlayContext = createGameplayOverlayContext();
+            GameplayUiOverlayOrchestrator::renderStandardOverlays(
+                overlayContext,
+                width,
+                height,
+                GameplayUiOverlayRenderConfig{
+                    .canRenderHudOverlays = true,
+                    .renderChestBelowHud = true,
+                    .renderChestAboveHud = true,
+                    .renderInventoryBelowHud = !deferDialogueInventoryServiceOverlay,
+                    .renderDialogueBelowHud = true,
+                    .renderDialogueAboveHud = true,
+                    .renderCharacterBelowHud = true,
+                    .renderCharacterAboveHud = true,
+                },
+                GameplayUiOverlayRenderCallbacks{
+                    .renderCharacterOverlay =
+                        [this, width, height](bool renderAboveHud)
+                        {
+                            renderCharacterOverlay(width, height, renderAboveHud);
+                        },
+                    .renderDialogueOverlay =
+                        [this, width, height](bool renderAboveHud)
+                        {
+                            renderEventDialogPanel(width, height, renderAboveHud);
+                        },
+                    .renderChestOverlay =
+                        [this, width, height](bool renderAboveHud)
+                        {
+                            renderChestPanel(width, height, renderAboveHud);
+                        },
+                    .renderInventoryNestedOverlay =
+                        [this, width, height](bool renderAboveHud)
+                        {
+                            renderInventoryNestedOverlay(width, height, renderAboveHud);
+                        }});
+
             if (deferDialogueInventoryServiceOverlay)
             {
                 renderInventoryNestedOverlay(width, height, false);
             }
             renderUtilitySpellOverlay(width, height);
-            renderSpellbookOverlay(width, height);
-            renderRestOverlay(width, height);
-            renderMenuOverlay(width, height);
-            renderControlsOverlay(width, height);
-            renderKeyboardOverlay(width, height);
-            renderVideoOptionsOverlay(width, height);
-            renderSaveGameOverlay(width, height);
-            renderLoadGameOverlay(width, height);
-            renderJournalOverlay(width, height);
-            renderHeldInventoryItem(width, height);
-            renderItemInspectOverlay(width, height);
             renderCharacterInspectOverlay(width, height);
             renderBuffInspectOverlay(width, height);
             renderCharacterDetailOverlay(width, height);
@@ -5882,18 +5879,6 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
     consumePendingEventRuntimeAudioRequests();
     consumePendingWorldAudioEvents();
 
-}
-
-void OutdoorGameView::renderGameplayHudArt(int width, int height)
-{
-    GameplayOverlayContext overlayContext = createGameplayOverlayContext();
-    GameplayHudRenderer::renderGameplayHudArt(overlayContext, width, height);
-}
-
-void OutdoorGameView::renderGameplayHud(int width, int height) const
-{
-    GameplayOverlayContext overlayContext = createGameplayOverlayContext();
-    GameplayHudRenderer::renderGameplayHud(overlayContext, width, height);
 }
 
 void OutdoorGameView::renderChestPanel(int width, int height, bool renderAboveHud) const
@@ -6270,6 +6255,7 @@ void OutdoorGameView::shutdown()
         m_hudTextureColorTextureHandles.clear();
         m_uiLayoutManager.clear();
         m_interactiveDecorationBindings.clear();
+        m_gameplayUiRuntime.clear();
         resetRuntimeState();
         return;
     }
@@ -6610,15 +6596,14 @@ void OutdoorGameView::shutdown()
     m_attackInspectLatch = false;
     m_attackInspectRepeatCooldownSeconds = 0.0f;
     m_quickSpellCastLatch = false;
-    m_spellbookToggleLatch = false;
     interactionState().spellbookClickLatch = false;
     m_pendingSpellTargetClickLatch = false;
-    m_inventoryScreenToggleLatch = false;
     m_adventurersInnToggleLatch = false;
     m_characterScreenOpen = false;
     m_characterDollJewelryOverlayOpen = false;
     m_adventurersInnRosterOverlayOpen = false;
     m_characterPage = CharacterPage::Inventory;
+    m_gameplayUiRuntime.clear();
     m_characterScreenSource = CharacterScreenSource::Party;
     m_characterScreenSourceIndex = 0;
     m_adventurersInnScrollOffset = 0;
@@ -8527,72 +8512,10 @@ bool OutdoorGameView::loadTownPortalDestinations(const Engine::AssetFileSystem &
     return !m_townPortalDestinations.empty();
 }
 
-void OutdoorGameView::openSpellbook()
-{
-    m_gameplayUiController.openSpellbook();
-    closeMenu();
-    m_spellbookToggleLatch = false;
-    interactionState().spellbookClickLatch = false;
-    interactionState().spellbookPressedTarget = {};
-    interactionState().lastSpellbookSpellClickTicks = 0;
-    interactionState().lastSpellbookClickedSpellId = 0;
-
-    if (m_pGameAudioSystem != nullptr)
-    {
-        m_pGameAudioSystem->playCommonSound(SoundId::OpenBook, GameAudioSystem::PlaybackGroup::Ui);
-    }
-
-    m_spellbook.school = SpellbookSchool::Fire;
-
-    for (const SpellbookSchoolUiDefinition &definition : spellbookSchoolUiDefinitions())
-    {
-        if (activeMemberHasSpellbookSchool(definition.school))
-        {
-            m_spellbook.school = definition.school;
-            break;
-        }
-    }
-
-    if (m_pOutdoorPartyRuntime == nullptr || spellTable() == nullptr)
-    {
-        return;
-    }
-
-    const Character *pCaster = m_pOutdoorPartyRuntime->party().activeMember();
-
-    if (pCaster == nullptr || pCaster->quickSpellName.empty())
-    {
-        return;
-    }
-
-    const SpellEntry *pSpellEntry = spellTable()->findByName(pCaster->quickSpellName);
-
-    if (pSpellEntry == nullptr)
-    {
-        return;
-    }
-
-    const SpellbookSchoolUiDefinition *pDefinition =
-        findSpellbookSchoolUiDefinitionForSpellId(static_cast<uint32_t>(pSpellEntry->id));
-
-    if (pDefinition == nullptr)
-    {
-        return;
-    }
-
-    if (activeMemberHasSpellbookSchool(pDefinition->school))
-    {
-        m_spellbook.school = pDefinition->school;
-    }
-
-    m_spellbook.selectedSpellId = 0;
-}
-
 void OutdoorGameView::closeSpellbook(const std::string &statusText)
 {
     const bool wasActive = m_spellbook.active;
     m_gameplayUiController.closeSpellbook();
-    m_spellbookToggleLatch = false;
     interactionState().spellbookClickLatch = false;
     interactionState().spellbookPressedTarget = {};
     interactionState().lastSpellbookSpellClickTicks = 0;
@@ -9521,11 +9444,6 @@ void OutdoorGameView::closeInventoryNestedOverlay()
     m_inventoryNestedOverlayClickLatch = false;
     interactionState().inventoryNestedOverlayItemClickLatch = false;
     m_inventoryNestedOverlayPressedTarget = {};
-}
-
-void OutdoorGameView::closeSpellbookOverlay(const std::string &statusText)
-{
-    closeSpellbook(statusText);
 }
 
 OutdoorGameView::QuickSpellCastResult OutdoorGameView::tryBeginQuickSpellCast()
@@ -11226,54 +11144,6 @@ void OutdoorGameView::renderUtilitySpellOverlay(int width, int height) const
     GameplayPartyOverlayRenderer::renderUtilitySpellOverlay(*this, width, height);
 }
 
-void OutdoorGameView::renderRestOverlay(int width, int height) const
-{
-    GameplayOverlayContext overlayContext = createGameplayOverlayContext();
-    GameplayPartyOverlayRenderer::renderRestOverlay(overlayContext, width, height);
-}
-
-void OutdoorGameView::renderMenuOverlay(int width, int height) const
-{
-    GameplayOverlayContext overlayContext = createGameplayOverlayContext();
-    GameplayPartyOverlayRenderer::renderMenuOverlay(overlayContext, width, height);
-}
-
-void OutdoorGameView::renderControlsOverlay(int width, int height) const
-{
-    GameplayOverlayContext overlayContext = createGameplayOverlayContext();
-    GameplayPartyOverlayRenderer::renderControlsOverlay(overlayContext, width, height);
-}
-
-void OutdoorGameView::renderKeyboardOverlay(int width, int height) const
-{
-    GameplayOverlayContext overlayContext = createGameplayOverlayContext();
-    GameplayPartyOverlayRenderer::renderKeyboardOverlay(overlayContext, width, height);
-}
-
-void OutdoorGameView::renderVideoOptionsOverlay(int width, int height) const
-{
-    GameplayOverlayContext overlayContext = createGameplayOverlayContext();
-    GameplayPartyOverlayRenderer::renderVideoOptionsOverlay(overlayContext, width, height);
-}
-
-void OutdoorGameView::renderSaveGameOverlay(int width, int height) const
-{
-    GameplayOverlayContext overlayContext = createGameplayOverlayContext();
-    GameplayPartyOverlayRenderer::renderSaveGameOverlay(overlayContext, width, height);
-}
-
-void OutdoorGameView::renderLoadGameOverlay(int width, int height) const
-{
-    GameplayOverlayContext overlayContext = createGameplayOverlayContext();
-    GameplayPartyOverlayRenderer::renderLoadGameOverlay(overlayContext, width, height);
-}
-
-void OutdoorGameView::renderJournalOverlay(int width, int height) const
-{
-    GameplayOverlayContext overlayContext = createGameplayOverlayContext();
-    GameplayPartyOverlayRenderer::renderJournalOverlay(overlayContext, width, height);
-}
-
 void OutdoorGameView::showStatusBarEvent(const std::string &text, float durationSeconds)
 {
     setStatusBarEvent(text, durationSeconds);
@@ -11331,47 +11201,19 @@ OutdoorPartyRuntime *OutdoorGameView::partyRuntime() const
     return m_pOutdoorPartyRuntime;
 }
 
-GameplayOverlaySharedServices OutdoorGameView::buildGameplayOverlaySharedServices()
-{
-    return const_cast<const OutdoorGameView *>(this)->buildGameplayOverlaySharedServices();
-}
-
-GameplayOverlaySharedServices OutdoorGameView::buildGameplayOverlaySharedServices() const
-{
-    GameplayOverlaySharedServices services = {};
-    services.pWorldRuntime = m_pOutdoorWorldRuntime;
-    services.pAudioSystem = m_pGameAudioSystem;
-    services.pItemTable = itemTable();
-    services.pStandardItemEnchantTable = standardItemEnchantTable();
-    services.pSpecialItemEnchantTable = specialItemEnchantTable();
-    services.pClassSkillTable = classSkillTable();
-    services.pCharacterDollTable = characterDollTable();
-    services.pCharacterInspectTable = characterInspectTable();
-    services.pRosterTable = rosterTable();
-    services.pReadableScrollTable = readableScrollTable();
-    services.pItemEquipPosTable = itemEquipPosTable();
-    services.pSpellTable = spellTable();
-    services.pHouseTable = houseTable();
-    services.pChestTable = chestTable();
-    services.pNpcDialogTable = npcDialogTable();
-    services.pJournalQuestTable = journalQuestTable();
-    services.pJournalHistoryTable = journalHistoryTable();
-    services.pJournalAutonoteTable = journalAutonoteTable();
-    services.pUiController = const_cast<GameplayUiController *>(&m_gameplayUiController);
-    services.pInteractionState = const_cast<GameplayOverlayInteractionState *>(&m_overlayInteractionState);
-    services.pSettings = const_cast<GameSettings *>(&m_gameSettings);
-    services.pPreviousKeyboardState = &m_gameSession.previousKeyboardState();
-    return services;
-}
-
 GameplayOverlayContext OutdoorGameView::createGameplayOverlayContext()
 {
-    return GameplayOverlayContext(buildGameplayOverlaySharedServices(), *this, *this);
+    return GameplayOverlayContext(m_gameSession, m_pGameAudioSystem, &m_gameSettings, *this, *this);
 }
 
 GameplayOverlayContext OutdoorGameView::createGameplayOverlayContext() const
 {
-    return GameplayOverlayContext(buildGameplayOverlaySharedServices(), const_cast<OutdoorGameView &>(*this), const_cast<OutdoorGameView &>(*this));
+    return GameplayOverlayContext(
+        const_cast<GameSession &>(m_gameSession),
+        m_pGameAudioSystem,
+        const_cast<GameSettings *>(&m_gameSettings),
+        const_cast<OutdoorGameView &>(*this),
+        const_cast<OutdoorGameView &>(*this));
 }
 
 IGameplayWorldRuntime *OutdoorGameView::worldRuntime() const
@@ -11510,79 +11352,9 @@ void OutdoorGameView::handleDialogueCloseRequest()
     OutdoorInteractionController::handleDialogueCloseRequest(*this);
 }
 
-void OutdoorGameView::closeRestOverlay()
-{
-    closeRestScreen();
-}
-
-void OutdoorGameView::openMenuOverlay()
-{
-    openMenu();
-}
-
-void OutdoorGameView::closeMenuOverlay()
-{
-    closeMenu();
-}
-
-void OutdoorGameView::openControlsOverlay()
-{
-    openControlsScreen();
-}
-
-void OutdoorGameView::closeControlsOverlay()
-{
-    closeControlsScreen();
-}
-
-void OutdoorGameView::openKeyboardOverlay()
-{
-    openKeyboardScreen();
-}
-
-void OutdoorGameView::closeKeyboardOverlayToControls()
-{
-    closeKeyboardScreenToControls();
-}
-
-void OutdoorGameView::closeKeyboardOverlayToMenu()
-{
-    closeKeyboardScreenToMenu();
-}
-
-void OutdoorGameView::openVideoOptionsOverlay()
-{
-    openVideoOptionsScreen();
-}
-
-void OutdoorGameView::closeVideoOptionsOverlay()
-{
-    closeVideoOptionsScreen();
-}
-
-void OutdoorGameView::openSaveGameOverlay()
-{
-    openSaveGameScreen();
-}
-
-void OutdoorGameView::closeSaveGameOverlay()
-{
-    closeSaveGameScreen();
-}
-
 void OutdoorGameView::requestOpenLoadGameScreen()
 {
     openLoadGameScreen();
-}
-
-void OutdoorGameView::openJournalOverlay()
-{
-    openJournal();
-}
-
-void OutdoorGameView::closeJournalOverlay()
-{
-    closeJournal();
 }
 
 void OutdoorGameView::executeActiveDialogAction()
@@ -12713,18 +12485,6 @@ void OutdoorGameView::updateSpellInspectOverlayState(int width, int height)
         m_spellInspectOverlay.sourceHeight = std::max(1.0f, resolved->height);
         return;
     }
-}
-
-void OutdoorGameView::renderHeldInventoryItem(int width, int height) const
-{
-    GameplayOverlayContext overlayContext = createGameplayOverlayContext();
-    GameplayPartyOverlayRenderer::renderHeldInventoryItem(overlayContext, width, height);
-}
-
-void OutdoorGameView::renderItemInspectOverlay(int width, int height) const
-{
-    GameplayOverlayContext overlayContext = createGameplayOverlayContext();
-    GameplayPartyOverlayRenderer::renderItemInspectOverlay(overlayContext, width, height);
 }
 
 void OutdoorGameView::renderCharacterInspectOverlay(int width, int height) const

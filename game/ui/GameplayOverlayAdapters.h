@@ -37,32 +37,6 @@ namespace OpenYAMM::Game
 class IGameplayWorldRuntime;
 struct HouseEntry;
 
-struct GameplayOverlaySharedServices
-{
-    IGameplayWorldRuntime *pWorldRuntime = nullptr;
-    GameAudioSystem *pAudioSystem = nullptr;
-    const ItemTable *pItemTable = nullptr;
-    const StandardItemEnchantTable *pStandardItemEnchantTable = nullptr;
-    const SpecialItemEnchantTable *pSpecialItemEnchantTable = nullptr;
-    const ClassSkillTable *pClassSkillTable = nullptr;
-    const CharacterDollTable *pCharacterDollTable = nullptr;
-    const CharacterInspectTable *pCharacterInspectTable = nullptr;
-    const RosterTable *pRosterTable = nullptr;
-    const ReadableScrollTable *pReadableScrollTable = nullptr;
-    const ItemEquipPosTable *pItemEquipPosTable = nullptr;
-    const SpellTable *pSpellTable = nullptr;
-    const HouseTable *pHouseTable = nullptr;
-    const ChestTable *pChestTable = nullptr;
-    const NpcDialogTable *pNpcDialogTable = nullptr;
-    const JournalQuestTable *pJournalQuestTable = nullptr;
-    const JournalHistoryTable *pJournalHistoryTable = nullptr;
-    const JournalAutonoteTable *pJournalAutonoteTable = nullptr;
-    GameplayUiController *pUiController = nullptr;
-    GameplayOverlayInteractionState *pInteractionState = nullptr;
-    GameSettings *pSettings = nullptr;
-    const std::array<uint8_t, SDL_SCANCODE_COUNT> *pPreviousKeyboardState = nullptr;
-};
-
 class IGameplayOverlaySceneAdapter
 {
 public:
@@ -75,27 +49,11 @@ public:
 
     virtual bool trySelectPartyMember(size_t memberIndex, bool requireGameplayReady) = 0;
     virtual void handleDialogueCloseRequest() = 0;
-    virtual void closeRestOverlay() = 0;
-    virtual void openMenuOverlay() = 0;
-    virtual void closeMenuOverlay() = 0;
-    virtual void openControlsOverlay() = 0;
-    virtual void closeControlsOverlay() = 0;
-    virtual void openKeyboardOverlay() = 0;
-    virtual void closeKeyboardOverlayToControls() = 0;
-    virtual void closeKeyboardOverlayToMenu() = 0;
-    virtual void openVideoOptionsOverlay() = 0;
-    virtual void closeVideoOptionsOverlay() = 0;
-    virtual void openSaveGameOverlay() = 0;
-    virtual void closeSaveGameOverlay() = 0;
     virtual void requestOpenNewGameScreen() = 0;
     virtual void requestOpenLoadGameScreen() = 0;
-    virtual void openJournalOverlay() = 0;
-    virtual void closeJournalOverlay() = 0;
     virtual void executeActiveDialogAction() = 0;
     virtual void refreshHouseBankInputDialog() = 0;
     virtual void confirmHouseBankInput() = 0;
-    virtual void closeInventoryNestedOverlay() = 0;
-    virtual void closeSpellbookOverlay(const std::string &statusText) = 0;
     virtual bool tryUseHeldItemOnPartyMember(size_t memberIndex, bool keepCharacterScreenOpen) = 0;
     virtual void resetInventoryNestedOverlayInteractionState() = 0;
     virtual void playSpeechReaction(size_t memberIndex, SpeechId speechId, bool triggerFaceAnimation) = 0;

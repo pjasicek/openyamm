@@ -18,11 +18,6 @@ public:
         const bool *pKeyboardState,
         int screenWidth,
         int screenHeight);
-    static void handleSpellbookOverlayInput(
-        OutdoorGameView &view,
-        const bool *pKeyboardState,
-        int screenWidth,
-        int screenHeight);
     static void handleCharacterOverlayInput(
         GameplayOverlayContext &context,
         const bool *pKeyboardState,

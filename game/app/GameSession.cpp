@@ -42,6 +42,7 @@ void GameSession::clear()
     m_currentSceneKind = SceneKind::Outdoor;
     m_currentMapFileName.clear();
     m_gameplayUiController.clearRuntimeState();
+    m_gameplayUiRuntime.clear();
     m_overlayInteractionState = {};
     m_previousKeyboardState.fill(0);
     m_pActiveWorldRuntime = nullptr;
@@ -114,6 +115,16 @@ GameplayUiController &GameSession::gameplayUiController()
 const GameplayUiController &GameSession::gameplayUiController() const
 {
     return m_gameplayUiController;
+}
+
+GameplayUiRuntime &GameSession::gameplayUiRuntime()
+{
+    return m_gameplayUiRuntime;
+}
+
+const GameplayUiRuntime &GameSession::gameplayUiRuntime() const
+{
+    return m_gameplayUiRuntime;
 }
 
 GameplayDialogController &GameSession::gameplayDialogController()

@@ -1,5 +1,6 @@
 #include "game/gameplay/GameplayOverlayInputController.h"
 
+#include "game/gameplay/GameplaySaveLoadUiSupport.h"
 #include "game/gameplay/HouseInteraction.h"
 #include "game/gameplay/HouseServiceRuntime.h"
 #include "game/StringUtils.h"
@@ -166,24 +167,6 @@ enum class JournalShortcutView : uint8_t
     Story,
     Notes
 };
-
-constexpr std::array<int, 3> JournalMapZoomLevels = {384, 768, 1536};
-constexpr float JournalMapWorldHalfExtent = 32768.0f;
-
-void clampJournalMapState(GameplayUiController::JournalScreenState &journalScreen)
-{
-    journalScreen.mapZoomStep = std::clamp(
-        journalScreen.mapZoomStep,
-        0,
-        static_cast<int>(JournalMapZoomLevels.size()) - 1);
-
-    const int zoom = JournalMapZoomLevels[journalScreen.mapZoomStep];
-    const float zoomFactor = static_cast<float>(zoom) / 384.0f;
-    const float visibleWorldHalfExtent = JournalMapWorldHalfExtent / zoomFactor;
-    const float maxOffset = std::max(0.0f, JournalMapWorldHalfExtent - visibleWorldHalfExtent);
-    journalScreen.mapCenterX = std::clamp(journalScreen.mapCenterX, -maxOffset, maxOffset);
-    journalScreen.mapCenterY = std::clamp(journalScreen.mapCenterY, -maxOffset, maxOffset);
-}
 
 float snappedHudFontScale(float scale)
 {
@@ -2124,7 +2107,7 @@ bool GameplayOverlayInputController::handleJournalOverlayInput(
         if (zoomInPressed && !view.journalMapKeyZoomLatch())
         {
             journalScreen.mapZoomStep =
-                std::min(journalScreen.mapZoomStep + 1, static_cast<int>(JournalMapZoomLevels.size()) - 1);
+                std::min(journalScreen.mapZoomStep + 1, static_cast<int>(GameplayJournalMapZoomLevels.size()) - 1);
             clampJournalMapState(journalScreen);
             journalScreen.cachedMapValid = false;
             view.journalMapKeyZoomLatch() = true;
@@ -2144,7 +2127,7 @@ bool GameplayOverlayInputController::handleJournalOverlayInput(
         if (mouseWheelDelta > 0.0f)
         {
             journalScreen.mapZoomStep =
-                std::min(journalScreen.mapZoomStep + 1, static_cast<int>(JournalMapZoomLevels.size()) - 1);
+                std::min(journalScreen.mapZoomStep + 1, static_cast<int>(GameplayJournalMapZoomLevels.size()) - 1);
             clampJournalMapState(journalScreen);
             journalScreen.cachedMapValid = false;
         }
@@ -2396,7 +2379,7 @@ bool GameplayOverlayInputController::handleJournalOverlayInput(
             case GameplayJournalPointerTargetType::MapZoomInButton:
                 journalScreen.view = GameplayUiController::JournalView::Map;
                 journalScreen.mapZoomStep =
-                    std::min(journalScreen.mapZoomStep + 1, static_cast<int>(JournalMapZoomLevels.size()) - 1);
+                    std::min(journalScreen.mapZoomStep + 1, static_cast<int>(GameplayJournalMapZoomLevels.size()) - 1);
 
                 if (view.worldRuntime() != nullptr)
                 {
@@ -2464,15 +2447,15 @@ bool GameplayOverlayInputController::handleJournalOverlayInput(
     {
         if (journalPointerState.leftButtonPressed)
         {
-            const int zoom = JournalMapZoomLevels[journalScreen.mapZoomStep];
+            const int zoom = GameplayJournalMapZoomLevels[journalScreen.mapZoomStep];
             const float zoomFactor = static_cast<float>(zoom) / 384.0f;
             const std::optional<GameplayOverlayContext::ResolvedHudLayoutElement> mapViewport = resolveJournalViewport();
             const float viewportWidth = mapViewport.has_value() ? mapViewport->width : 336.0f;
             const float viewportHeight = mapViewport.has_value() ? mapViewport->height : 336.0f;
             const float worldUnitsPerPixelX =
-                (JournalMapWorldHalfExtent * 2.0f) / (zoomFactor * std::max(1.0f, viewportWidth));
+                (GameplayJournalMapWorldHalfExtent * 2.0f) / (zoomFactor * std::max(1.0f, viewportWidth));
             const float worldUnitsPerPixelY =
-                (JournalMapWorldHalfExtent * 2.0f) / (zoomFactor * std::max(1.0f, viewportHeight));
+                (GameplayJournalMapWorldHalfExtent * 2.0f) / (zoomFactor * std::max(1.0f, viewportHeight));
             const float deltaX = journalPointerState.x - journalScreen.mapDragStartMouseX;
             const float deltaY = journalPointerState.y - journalScreen.mapDragStartMouseY;
             const float previousCenterX = journalScreen.mapCenterX;

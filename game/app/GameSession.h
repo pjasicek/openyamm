@@ -8,6 +8,7 @@
 #include "game/data/GameDataRepository.h"
 #include "game/ui/GameplayOverlayTypes.h"
 #include "game/ui/GameplayUiController.h"
+#include "game/ui/GameplayUiRuntime.h"
 
 #include <SDL3/SDL.h>
 
@@ -42,6 +43,8 @@ public:
 
     GameplayUiController &gameplayUiController();
     const GameplayUiController &gameplayUiController() const;
+    GameplayUiRuntime &gameplayUiRuntime();
+    const GameplayUiRuntime &gameplayUiRuntime() const;
     GameplayDialogController &gameplayDialogController();
     const GameplayDialogController &gameplayDialogController() const;
     GameplayOverlayInteractionState &overlayInteractionState();
@@ -110,6 +113,7 @@ private:
     SceneKind m_currentSceneKind = SceneKind::Outdoor;
     std::string m_currentMapFileName;
     GameplayUiController m_gameplayUiController;
+    GameplayUiRuntime m_gameplayUiRuntime;
     GameplayDialogController m_gameplayDialogController;
     GameplayOverlayInteractionState m_overlayInteractionState;
     std::array<uint8_t, SDL_SCANCODE_COUNT> m_previousKeyboardState = {};

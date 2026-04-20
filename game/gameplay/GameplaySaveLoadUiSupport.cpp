@@ -171,6 +171,21 @@ bool decodeBmpBytesToBgra(
 }
 } // namespace
 
+void clampJournalMapState(GameplayUiController::JournalScreenState &journalScreen)
+{
+    journalScreen.mapZoomStep = std::clamp(
+        journalScreen.mapZoomStep,
+        0,
+        static_cast<int>(GameplayJournalMapZoomLevels.size()) - 1);
+
+    const int zoom = GameplayJournalMapZoomLevels[journalScreen.mapZoomStep];
+    const float zoomFactor = static_cast<float>(zoom) / 384.0f;
+    const float visibleWorldHalfExtent = GameplayJournalMapWorldHalfExtent / zoomFactor;
+    const float maxOffset = std::max(0.0f, GameplayJournalMapWorldHalfExtent - visibleWorldHalfExtent);
+    journalScreen.mapCenterX = std::clamp(journalScreen.mapCenterX, -maxOffset, maxOffset);
+    journalScreen.mapCenterY = std::clamp(journalScreen.mapCenterY, -maxOffset, maxOffset);
+}
+
 std::string resolveSaveLocationName(const std::vector<MapStatsEntry> &mapEntries, const std::string &mapFileName)
 {
     for (const MapStatsEntry &entry : mapEntries)

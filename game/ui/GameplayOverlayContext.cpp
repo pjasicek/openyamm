@@ -1,5 +1,6 @@
 #include "game/ui/GameplayOverlayContext.h"
 
+#include "game/gameplay/GameplaySaveLoadUiSupport.h"
 #include "game/items/InventoryItemUseRuntime.h"
 #include "game/party/SpellSchool.h"
 #include "game/ui/SpellbookUiLayout.h"
@@ -33,10 +34,14 @@ bool usesAlternateCloakBeltEquippedVariant(EquipmentSlot slot)
 } // namespace
 
 GameplayOverlayContext::GameplayOverlayContext(
-    const GameplayOverlaySharedServices &sharedServices,
+    GameSession &session,
+    GameAudioSystem *pAudioSystem,
+    GameSettings *pSettings,
     IGameplayOverlaySceneAdapter &sceneAdapter,
     IGameplayOverlayHudAdapter &hudAdapter)
-    : m_sharedServices(sharedServices)
+    : m_session(session)
+    , m_pAudioSystem(pAudioSystem)
+    , m_pSettings(pSettings)
     , m_sceneAdapter(sceneAdapter)
     , m_hudAdapter(hudAdapter)
 {
@@ -44,17 +49,17 @@ GameplayOverlayContext::GameplayOverlayContext(
 
 GameplayUiController &GameplayOverlayContext::uiController() const
 {
-    return *m_sharedServices.pUiController;
+    return m_session.gameplayUiController();
 }
 
 GameplayOverlayInteractionState &GameplayOverlayContext::interactionState() const
 {
-    return *m_sharedServices.pInteractionState;
+    return m_session.overlayInteractionState();
 }
 
 IGameplayWorldRuntime *GameplayOverlayContext::worldRuntime() const
 {
-    return m_sharedServices.pWorldRuntime;
+    return m_session.activeWorldRuntime();
 }
 
 Party *GameplayOverlayContext::party() const
@@ -89,72 +94,72 @@ float GameplayOverlayContext::partyFootZ() const
 
 GameAudioSystem *GameplayOverlayContext::audioSystem() const
 {
-    return m_sharedServices.pAudioSystem;
+    return m_pAudioSystem;
 }
 
 const ItemTable *GameplayOverlayContext::itemTable() const
 {
-    return m_sharedServices.pItemTable;
+    return &m_session.data().itemTable();
 }
 
 const StandardItemEnchantTable *GameplayOverlayContext::standardItemEnchantTable() const
 {
-    return m_sharedServices.pStandardItemEnchantTable;
+    return &m_session.data().standardItemEnchantTable();
 }
 
 const SpecialItemEnchantTable *GameplayOverlayContext::specialItemEnchantTable() const
 {
-    return m_sharedServices.pSpecialItemEnchantTable;
+    return &m_session.data().specialItemEnchantTable();
 }
 
 const ClassSkillTable *GameplayOverlayContext::classSkillTable() const
 {
-    return m_sharedServices.pClassSkillTable;
+    return &m_session.data().classSkillTable();
 }
 
 const CharacterDollTable *GameplayOverlayContext::characterDollTable() const
 {
-    return m_sharedServices.pCharacterDollTable;
+    return &m_session.data().characterDollTable();
 }
 
 const CharacterInspectTable *GameplayOverlayContext::characterInspectTable() const
 {
-    return m_sharedServices.pCharacterInspectTable;
+    return &m_session.data().characterInspectTable();
 }
 
 const RosterTable *GameplayOverlayContext::rosterTable() const
 {
-    return m_sharedServices.pRosterTable;
+    return &m_session.data().rosterTable();
 }
 
 const ReadableScrollTable *GameplayOverlayContext::readableScrollTable() const
 {
-    return m_sharedServices.pReadableScrollTable;
+    return &m_session.data().readableScrollTable();
 }
 
 const ItemEquipPosTable *GameplayOverlayContext::itemEquipPosTable() const
 {
-    return m_sharedServices.pItemEquipPosTable;
+    return &m_session.data().itemEquipPosTable();
 }
 
 const SpellTable *GameplayOverlayContext::spellTable() const
 {
-    return m_sharedServices.pSpellTable;
+    return &m_session.data().spellTable();
 }
 
 const HouseTable *GameplayOverlayContext::houseTable() const
 {
-    return m_sharedServices.pHouseTable;
+    return &m_session.data().houseTable();
 }
 
 const ChestTable *GameplayOverlayContext::chestTable() const
 {
-    return m_sharedServices.pChestTable;
+    return &m_session.data().chestTable();
 }
 
 const NpcDialogTable *GameplayOverlayContext::npcDialogTable() const
 {
-    return m_sharedServices.pNpcDialogTable;
+    return &m_session.data().npcDialogTable();
 }
 
 GameplayUiController::CharacterScreenState &GameplayOverlayContext::characterScreen() const
@@ -324,17 +329,17 @@ const GameplayUiController::JournalScreenState &GameplayOverlayContext::journalS
 
 const JournalQuestTable *GameplayOverlayContext::journalQuestTable() const
 {
-    return m_sharedServices.pJournalQuestTable;
+    return &m_session.data().journalQuestTable();
 }
 
 const JournalHistoryTable *GameplayOverlayContext::journalHistoryTable() const
 {
-    return m_sharedServices.pJournalHistoryTable;
+    return &m_session.data().journalHistoryTable();
 }
 
 const JournalAutonoteTable *GameplayOverlayContext::journalAutonoteTable() const
 {
-    return m_sharedServices.pJournalAutonoteTable;
+    return &m_session.data().journalAutonoteTable();
 }
 
 const std::string &GameplayOverlayContext::currentMapFileName() const
@@ -751,6 +756,77 @@ void GameplayOverlayContext::setStatusBarEvent(const std::string &text, float du
     uiController().setStatusBarEvent(text, durationSeconds);
 }
 
+void GameplayOverlayContext::openSpellbookOverlay()
+{
+    GameplayUiController::SpellbookSchool school = GameplayUiController::SpellbookSchool::Fire;
+
+    for (const SpellbookSchoolUiDefinition &definition : spellbookSchoolUiDefinitions())
+    {
+        if (activeMemberHasSpellbookSchool(definition.school))
+        {
+            school = definition.school;
+            break;
+        }
+    }
+
+    const Character *pCaster = partyReadOnly() != nullptr ? partyReadOnly()->activeMember() : nullptr;
+
+    if (pCaster != nullptr && !pCaster->quickSpellName.empty() && spellTable() != nullptr)
+    {
+        const SpellEntry *pSpellEntry = spellTable()->findByName(pCaster->quickSpellName);
+
+        if (pSpellEntry != nullptr)
+        {
+            const SpellbookSchoolUiDefinition *pDefinition =
+                findSpellbookSchoolUiDefinitionForSpellId(uint32_t(pSpellEntry->id));
+
+            if (pDefinition != nullptr && activeMemberHasSpellbookSchool(pDefinition->school))
+            {
+                school = pDefinition->school;
+            }
+        }
+    }
+
+    uiController().openSpellbook(school);
+    uiController().spellbook().selectedSpellId = 0;
+    interactionState().spellbookClickLatch = false;
+    interactionState().spellbookPressedTarget = {};
+    interactionState().lastSpellbookSpellClickTicks = 0;
+    interactionState().lastSpellbookClickedSpellId = 0;
+
+    if (m_pAudioSystem != nullptr)
+    {
+        m_pAudioSystem->playCommonSound(SoundId::OpenBook, GameAudioSystem::PlaybackGroup::Ui);
+    }
+}
+
+void GameplayOverlayContext::openChestTransferInventoryOverlay()
+{
+    uiController().openInventoryNestedOverlay(GameplayUiController::InventoryNestedOverlayMode::ChestTransfer);
+    interactionState().inventoryNestedOverlayItemClickLatch = false;
+}
+
+void GameplayOverlayContext::toggleCharacterInventoryScreen()
+{
+    GameplayUiController::CharacterScreenState &characterScreen = uiController().characterScreen();
+    characterScreen.open = !characterScreen.open;
+
+    if (characterScreen.open)
+    {
+        characterScreen.page = GameplayUiController::CharacterPage::Inventory;
+        characterScreen.source = GameplayUiController::CharacterScreenSource::Party;
+        characterScreen.sourceIndex = 0;
+        characterScreen.dollJewelryOverlayOpen = false;
+        characterScreen.adventurersInnRosterOverlayOpen = false;
+        closeSpellbookOverlay();
+    }
+    else
+    {
+        characterScreen.dollJewelryOverlayOpen = false;
+        characterScreen.adventurersInnRosterOverlayOpen = false;
+    }
+}
+
 void GameplayOverlayContext::handleDialogueCloseRequest()
 {
     m_sceneAdapter.handleDialogueCloseRequest();
@@ -758,62 +834,232 @@ void GameplayOverlayContext::handleDialogueCloseRequest()
 
 void GameplayOverlayContext::closeRestOverlay()
 {
-    m_sceneAdapter.closeRestOverlay();
+    uiController().restScreen() = {};
+    interactionState().closeOverlayLatch = false;
+    interactionState().restClickLatch = false;
+    interactionState().restPressedTarget = {};
 }
 
 void GameplayOverlayContext::openMenuOverlay()
 {
-    m_sceneAdapter.openMenuOverlay();
+    closeSpellbookOverlay();
+    closeReadableScrollOverlay();
+    closeInventoryNestedOverlay();
+    uiController().characterScreen() = {};
+    uiController().restScreen() = {};
+    uiController().controlsScreen() = {};
+    uiController().keyboardScreen() = {};
+    uiController().videoOptionsScreen() = {};
+    uiController().saveGameScreen() = {};
+    uiController().loadGameScreen() = {};
+    uiController().journalScreen().active = false;
+    uiController().menuScreen() = {};
+    uiController().menuScreen().active = true;
+    interactionState().menuToggleLatch = false;
+    interactionState().menuClickLatch = false;
+    interactionState().menuPressedTarget = {};
+    interactionState().controlsToggleLatch = false;
+    interactionState().controlsClickLatch = false;
+    interactionState().controlsPressedTarget = {};
+    interactionState().controlsSliderDragActive = false;
+    interactionState().controlsDraggedSlider = GameplayControlsPointerTargetType::None;
+    interactionState().keyboardToggleLatch = false;
+    interactionState().keyboardClickLatch = false;
+    interactionState().keyboardPressedTarget = {};
+    interactionState().videoOptionsToggleLatch = false;
+    interactionState().videoOptionsClickLatch = false;
+    interactionState().videoOptionsPressedTarget = {};
+    interactionState().saveGameToggleLatch = false;
+    interactionState().saveGameClickLatch = false;
+    interactionState().saveGamePressedTarget = {};
+    interactionState().closeOverlayLatch = false;
 }
 
 void GameplayOverlayContext::closeMenuOverlay()
 {
-    m_sceneAdapter.closeMenuOverlay();
+    uiController().menuScreen() = {};
+    interactionState().menuToggleLatch = false;
+    interactionState().menuClickLatch = false;
+    interactionState().menuPressedTarget = {};
+    interactionState().closeOverlayLatch = false;
 }
 
 void GameplayOverlayContext::openControlsOverlay()
 {
-    m_sceneAdapter.openControlsOverlay();
+    uiController().menuScreen().active = false;
+    interactionState().menuToggleLatch = false;
+    interactionState().menuClickLatch = false;
+    interactionState().menuPressedTarget = {};
+    uiController().controlsScreen() = {};
+    uiController().controlsScreen().active = true;
+    interactionState().controlsToggleLatch = false;
+    interactionState().controlsClickLatch = false;
+    interactionState().controlsPressedTarget = {};
+    interactionState().controlsSliderDragActive = false;
+    interactionState().controlsDraggedSlider = GameplayControlsPointerTargetType::None;
+    uiController().keyboardScreen() = {};
+    interactionState().keyboardToggleLatch = false;
+    interactionState().keyboardClickLatch = false;
+    interactionState().keyboardPressedTarget = {};
+    uiController().videoOptionsScreen() = {};
+    interactionState().videoOptionsToggleLatch = false;
+    interactionState().videoOptionsClickLatch = false;
+    interactionState().videoOptionsPressedTarget = {};
+    interactionState().closeOverlayLatch = false;
 }
 
 void GameplayOverlayContext::closeControlsOverlay()
 {
-    m_sceneAdapter.closeControlsOverlay();
+    uiController().controlsScreen() = {};
+    interactionState().controlsToggleLatch = false;
+    interactionState().controlsClickLatch = false;
+    interactionState().controlsPressedTarget = {};
+    interactionState().controlsSliderDragActive = false;
+    interactionState().controlsDraggedSlider = GameplayControlsPointerTargetType::None;
+    uiController().keyboardScreen() = {};
+    interactionState().keyboardToggleLatch = false;
+    interactionState().keyboardClickLatch = false;
+    interactionState().keyboardPressedTarget = {};
+    uiController().videoOptionsScreen() = {};
+    interactionState().videoOptionsToggleLatch = false;
+    interactionState().videoOptionsClickLatch = false;
+    interactionState().videoOptionsPressedTarget = {};
+    uiController().menuScreen() = {};
+    uiController().menuScreen().active = true;
+    interactionState().closeOverlayLatch = false;
 }
 
 void GameplayOverlayContext::openKeyboardOverlay()
 {
-    m_sceneAdapter.openKeyboardOverlay();
+    uiController().controlsScreen() = {};
+    interactionState().controlsToggleLatch = false;
+    interactionState().controlsClickLatch = false;
+    interactionState().controlsPressedTarget = {};
+    interactionState().controlsSliderDragActive = false;
+    interactionState().controlsDraggedSlider = GameplayControlsPointerTargetType::None;
+    uiController().keyboardScreen() = {};
+    uiController().keyboardScreen().active = true;
+    interactionState().keyboardToggleLatch = false;
+    interactionState().keyboardClickLatch = false;
+    interactionState().keyboardPressedTarget = {};
+    uiController().videoOptionsScreen() = {};
+    interactionState().videoOptionsToggleLatch = false;
+    interactionState().videoOptionsClickLatch = false;
+    interactionState().videoOptionsPressedTarget = {};
+    interactionState().closeOverlayLatch = false;
 }
 
 void GameplayOverlayContext::closeKeyboardOverlayToControls()
 {
-    m_sceneAdapter.closeKeyboardOverlayToControls();
+    uiController().keyboardScreen() = {};
+    interactionState().keyboardToggleLatch = false;
+    interactionState().keyboardClickLatch = false;
+    interactionState().keyboardPressedTarget = {};
+    uiController().controlsScreen() = {};
+    uiController().controlsScreen().active = true;
+    interactionState().controlsToggleLatch = false;
+    interactionState().controlsClickLatch = false;
+    interactionState().controlsPressedTarget = {};
+    interactionState().controlsSliderDragActive = false;
+    interactionState().controlsDraggedSlider = GameplayControlsPointerTargetType::None;
+    interactionState().closeOverlayLatch = false;
 }
 
 void GameplayOverlayContext::closeKeyboardOverlayToMenu()
 {
-    m_sceneAdapter.closeKeyboardOverlayToMenu();
+    uiController().keyboardScreen() = {};
+    interactionState().keyboardToggleLatch = false;
+    interactionState().keyboardClickLatch = false;
+    interactionState().keyboardPressedTarget = {};
+    uiController().controlsScreen() = {};
+    interactionState().controlsToggleLatch = false;
+    interactionState().controlsClickLatch = false;
+    interactionState().controlsPressedTarget = {};
+    interactionState().controlsSliderDragActive = false;
+    interactionState().controlsDraggedSlider = GameplayControlsPointerTargetType::None;
+    uiController().menuScreen() = {};
+    uiController().menuScreen().active = true;
+    interactionState().menuToggleLatch = false;
+    interactionState().menuClickLatch = false;
+    interactionState().menuPressedTarget = {};
+    interactionState().closeOverlayLatch = false;
 }
 
 void GameplayOverlayContext::openVideoOptionsOverlay()
 {
-    m_sceneAdapter.openVideoOptionsOverlay();
+    uiController().controlsScreen().active = false;
+    interactionState().controlsToggleLatch = false;
+    interactionState().controlsClickLatch = false;
+    interactionState().controlsPressedTarget = {};
+    uiController().keyboardScreen() = {};
+    interactionState().keyboardToggleLatch = false;
+    interactionState().keyboardClickLatch = false;
+    interactionState().keyboardPressedTarget = {};
+    interactionState().controlsSliderDragActive = false;
+    interactionState().controlsDraggedSlider = GameplayControlsPointerTargetType::None;
+    uiController().videoOptionsScreen() = {};
+    uiController().videoOptionsScreen().active = true;
+    interactionState().videoOptionsToggleLatch = false;
+    interactionState().videoOptionsClickLatch = false;
+    interactionState().videoOptionsPressedTarget = {};
+    interactionState().closeOverlayLatch = false;
 }
 
 void GameplayOverlayContext::closeVideoOptionsOverlay()
 {
-    m_sceneAdapter.closeVideoOptionsOverlay();
+    uiController().videoOptionsScreen() = {};
+    interactionState().videoOptionsToggleLatch = false;
+    interactionState().videoOptionsClickLatch = false;
+    interactionState().videoOptionsPressedTarget = {};
+    uiController().keyboardScreen() = {};
+    interactionState().keyboardToggleLatch = false;
+    interactionState().keyboardClickLatch = false;
+    interactionState().keyboardPressedTarget = {};
+    uiController().controlsScreen() = {};
+    uiController().controlsScreen().active = true;
+    interactionState().controlsToggleLatch = false;
+    interactionState().controlsClickLatch = false;
+    interactionState().controlsPressedTarget = {};
+    interactionState().controlsSliderDragActive = false;
+    interactionState().controlsDraggedSlider = GameplayControlsPointerTargetType::None;
+    interactionState().closeOverlayLatch = false;
 }
 
 void GameplayOverlayContext::openSaveGameOverlay()
 {
-    m_sceneAdapter.openSaveGameOverlay();
+    uiController().menuScreen().active = false;
+    interactionState().menuToggleLatch = false;
+    interactionState().menuClickLatch = false;
+    interactionState().menuPressedTarget = {};
+    uiController().controlsScreen() = {};
+    interactionState().controlsToggleLatch = false;
+    interactionState().controlsClickLatch = false;
+    interactionState().controlsPressedTarget = {};
+    interactionState().controlsSliderDragActive = false;
+    interactionState().controlsDraggedSlider = GameplayControlsPointerTargetType::None;
+    uiController().videoOptionsScreen() = {};
+    interactionState().videoOptionsToggleLatch = false;
+    interactionState().videoOptionsClickLatch = false;
+    interactionState().videoOptionsPressedTarget = {};
+    uiController().loadGameScreen() = {};
+    uiController().saveGameScreen() = {};
+    uiController().saveGameScreen().active = true;
+    refreshSaveGameSlots(uiController().saveGameScreen(), m_session.data().mapEntries());
+    interactionState().saveGameToggleLatch = false;
+    interactionState().saveGameClickLatch = false;
+    interactionState().saveGamePressedTarget = {};
+    interactionState().closeOverlayLatch = false;
 }
 
 void GameplayOverlayContext::closeSaveGameOverlay()
 {
-    m_sceneAdapter.closeSaveGameOverlay();
+    uiController().saveGameScreen() = {};
+    interactionState().saveGameToggleLatch = false;
+    interactionState().saveGameClickLatch = false;
+    interactionState().saveGamePressedTarget = {};
+    uiController().menuScreen() = {};
+    uiController().menuScreen().active = true;
+    interactionState().closeOverlayLatch = false;
 }
 
 void GameplayOverlayContext::requestOpenNewGameScreen()
@@ -828,12 +1074,64 @@ void GameplayOverlayContext::requestOpenLoadGameScreen()
 
 void GameplayOverlayContext::openJournalOverlay()
 {
-    m_sceneAdapter.openJournalOverlay();
+    closeSpellbookOverlay();
+    closeMenuOverlay();
+    closeReadableScrollOverlay();
+    closeInventoryNestedOverlay();
+    uiController().characterScreen() = {};
+    uiController().restScreen() = {};
+
+    GameplayUiController::JournalScreenState &journalScreen = uiController().journalScreen();
+    journalScreen.active = true;
+    journalScreen.view = GameplayUiController::JournalView::Map;
+    journalScreen.notesCategory = GameplayUiController::JournalNotesCategory::Potion;
+    journalScreen.questPage = 0;
+    journalScreen.storyPage = 0;
+    journalScreen.notesPage = 0;
+    journalScreen.hoverAnimationElapsedSeconds = 0.0f;
+    journalScreen.mapDragActive = false;
+    journalScreen.mapDragStartMouseX = 0.0f;
+    journalScreen.mapDragStartMouseY = 0.0f;
+    journalScreen.mapDragStartCenterX = 0.0f;
+    journalScreen.mapDragStartCenterY = 0.0f;
+    journalScreen.cachedMapValid = false;
+    journalScreen.mapCenterX = partyX();
+    journalScreen.mapCenterY = partyY();
+    clampJournalMapState(journalScreen);
+    interactionState().journalToggleLatch = false;
+    interactionState().journalClickLatch = false;
+    interactionState().journalPressedTarget = {};
+    interactionState().journalMapKeyZoomLatch = false;
+    interactionState().closeOverlayLatch = false;
+
+    if (m_pAudioSystem != nullptr)
+    {
+        m_pAudioSystem->playCommonSound(SoundId::OpenBook, GameAudioSystem::PlaybackGroup::Ui);
+    }
 }
 
 void GameplayOverlayContext::closeJournalOverlay()
 {
-    m_sceneAdapter.closeJournalOverlay();
+    GameplayUiController::JournalScreenState &journalScreen = uiController().journalScreen();
+    const bool wasActive = journalScreen.active;
+    journalScreen.active = false;
+    journalScreen.hoverAnimationElapsedSeconds = 0.0f;
+    journalScreen.mapDragActive = false;
+    journalScreen.mapDragStartMouseX = 0.0f;
+    journalScreen.mapDragStartMouseY = 0.0f;
+    journalScreen.mapDragStartCenterX = 0.0f;
+    journalScreen.mapDragStartCenterY = 0.0f;
+    journalScreen.cachedMapValid = false;
+    interactionState().journalToggleLatch = false;
+    interactionState().journalClickLatch = false;
+    interactionState().journalPressedTarget = {};
+    interactionState().journalMapKeyZoomLatch = false;
+    interactionState().closeOverlayLatch = false;
+
+    if (wasActive && m_pAudioSystem != nullptr)
+    {
+        m_pAudioSystem->playCommonSound(SoundId::CloseBook, GameAudioSystem::PlaybackGroup::Ui);
+    }
 }
 
 void GameplayOverlayContext::executeActiveDialogAction()
@@ -853,12 +1151,28 @@ void GameplayOverlayContext::confirmHouseBankInput()
 
 void GameplayOverlayContext::closeInventoryNestedOverlay()
 {
-    m_sceneAdapter.closeInventoryNestedOverlay();
+    uiController().closeInventoryNestedOverlay();
+    interactionState().inventoryNestedOverlayItemClickLatch = false;
 }
 
 void GameplayOverlayContext::closeSpellbookOverlay(const std::string &statusText)
 {
-    m_sceneAdapter.closeSpellbookOverlay(statusText);
+    const bool wasActive = uiController().spellbook().active;
+    uiController().closeSpellbook();
+    interactionState().spellbookClickLatch = false;
+    interactionState().spellbookPressedTarget = {};
+    interactionState().lastSpellbookSpellClickTicks = 0;
+    interactionState().lastSpellbookClickedSpellId = 0;
+
+    if (wasActive && m_pAudioSystem != nullptr)
+    {
+        m_pAudioSystem->playCommonSound(SoundId::CloseBook, GameAudioSystem::PlaybackGroup::Ui);
+    }
+
+    if (!statusText.empty())
+    {
+        setStatusBarEvent(statusText);
+    }
 }
 
 bool GameplayOverlayContext::tryUseHeldItemOnPartyMember(size_t memberIndex, bool keepCharacterScreenOpen)
@@ -953,12 +1267,12 @@ void GameplayOverlayContext::resetLootOverlayInteractionState()
 
 GameSettings &GameplayOverlayContext::mutableSettings() const
 {
-    return *m_sharedServices.pSettings;
+    return *m_pSettings;
 }
 
 const std::array<uint8_t, SDL_SCANCODE_COUNT> &GameplayOverlayContext::previousKeyboardState() const
 {
-    return *m_sharedServices.pPreviousKeyboardState;
+    return m_session.previousKeyboardState();
 }
 
 void GameplayOverlayContext::commitSettingsChange()
@@ -978,7 +1292,7 @@ int GameplayOverlayContext::restFoodRequired() const
 
 const GameSettings &GameplayOverlayContext::settingsSnapshot() const
 {
-    return *m_sharedServices.pSettings;
+    return *m_pSettings;
 }
 
 bool GameplayOverlayContext::isControlsRenderButtonPressed(GameplayControlsRenderButton button) const

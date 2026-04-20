@@ -1325,16 +1325,6 @@ void GameplayPartyOverlayInputController::handleSpellbookOverlayInput(
         });
 }
 
-void GameplayPartyOverlayInputController::handleSpellbookOverlayInput(
-    OutdoorGameView &view,
-    const bool *pKeyboardState,
-    int screenWidth,
-    int screenHeight)
-{
-    GameplayOverlayContext context = view.createGameplayOverlayContext();
-    handleSpellbookOverlayInput(context, pKeyboardState, screenWidth, screenHeight);
-}
-
 void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
     GameplayOverlayContext &context,
     const bool *pKeyboardState,

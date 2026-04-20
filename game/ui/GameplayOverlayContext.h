@@ -1,6 +1,7 @@
 #pragma once
 
 #include "game/tables/ChestTable.h"
+#include "game/app/GameSession.h"
 #include "game/events/EventDialogContent.h"
 #include "game/gameplay/GameplayRuntimeInterfaces.h"
 #include "game/ui/GameplayOverlayAdapters.h"
@@ -37,7 +38,9 @@ public:
     using HudFontHandle = GameplayHudFontHandle;
 
     GameplayOverlayContext(
-        const GameplayOverlaySharedServices &sharedServices,
+        GameSession &session,
+        GameAudioSystem *pAudioSystem,
+        GameSettings *pSettings,
         IGameplayOverlaySceneAdapter &sceneAdapter,
         IGameplayOverlayHudAdapter &hudAdapter);
 
@@ -175,6 +178,9 @@ public:
     bool activeMemberKnowsSpell(uint32_t spellId) const;
     bool activeMemberHasSpellbookSchool(GameplayUiController::SpellbookSchool school) const;
     void setStatusBarEvent(const std::string &text, float durationSeconds = 2.0f);
+    void openSpellbookOverlay();
+    void openChestTransferInventoryOverlay();
+    void toggleCharacterInventoryScreen();
     void handleDialogueCloseRequest();
     void closeRestOverlay();
     void openMenuOverlay();
@@ -357,7 +363,9 @@ private:
     GameplayUiController &uiController() const;
     GameplayOverlayInteractionState &interactionState() const;
 
-    GameplayOverlaySharedServices m_sharedServices;
+    GameSession &m_session;
+    GameAudioSystem *m_pAudioSystem = nullptr;
+    GameSettings *m_pSettings = nullptr;
     IGameplayOverlaySceneAdapter &m_sceneAdapter;
     IGameplayOverlayHudAdapter &m_hudAdapter;
     mutable std::optional<std::string> m_resolvedInteractiveAssetName;
